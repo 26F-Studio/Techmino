@@ -44,34 +44,14 @@ PTC.dust0:setColors(1,1,1,.5,1,1,1,0)
 c:release()
 --Dust particles
 
-PTC.attack={}
-PTC.attack[1]=gc.newParticleSystem(N("/image/mess/atk1.png"),200)
-PTC.attack[1]:setParticleLifetime(.25)
-PTC.attack[1]:setEmissionRate(0)
-PTC.attack[1]:setSpin(10)
-PTC.attack[1]:setColors(1,1,1,.7,1,1,1,0)
-
-PTC.attack[2]=gc.newParticleSystem(N("/image/mess/atk2.png"),200)
-PTC.attack[2]:setParticleLifetime(.3)
-PTC.attack[2]:setEmissionRate(0)
-PTC.attack[2]:setSpin(8)
-PTC.attack[2]:setColors(1,1,1,.7,1,1,1,0)
-
-PTC.attack[3]=gc.newParticleSystem(N("/image/mess/atk3.png"),200)
-PTC.attack[3]:setParticleLifetime(.4)
-PTC.attack[3]:setEmissionRate(0)
-PTC.attack[3]:setSpin(6)
-PTC.attack[3]:setColors(1,1,1,.7,1,1,1,0)
---Attack particles
-
 gc.setDefaultFilter("linear","linear")
 titleImage=N("/image/mess/title.png")
 dialCircle=N("/image/mess/dialCircle.png")
 dialNeedle=N("/image/mess/dialNeedle.png")
 badgeIcon=N("/image/mess/badge.png")
 spinCenter=N("/image/mess/spinCenter.png")
-lightBulb=N("/image/mess/lightBulb.png")
-light=N("/image/mess/light.png")
+batteryImage=N("/image/mess/power.png")
+chargeImage=N("/image/mess/charge.png")
 
 background1=N("/image/BG/bg1.jpg")
 background2=N("/image/BG/bg2.png")
@@ -79,13 +59,11 @@ groupCode=N("/image/mess/groupcode.png")
 payCode=N("/image/mess/paycode.png")
 drawableText={
 	question=T(100,"?"),
-	bpm=T(15,"BPM"),
-	kpm=T(15,"KPM"),
+	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
 
 	modeName=T(30),levelName=T(30),
 	next=T(40),hold=T(40),
-	pause=T(120),
-	finish=T(120),
+	pause=T(120),finish=T(120),
 	custom=T(80),
 	keyboard=T(25),joystick=T(25),
 	setting2Help=T(25),

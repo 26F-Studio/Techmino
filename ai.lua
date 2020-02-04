@@ -8,8 +8,10 @@
 	4deepShape
 	BlockedWells;
 ]]
-dirCount={1,1,3,3,3,0,1}
-spinOffset={
+local abs=math.abs
+
+local dirCount={1,1,3,3,3,0,1}
+local spinOffset={
 	{1,0,0},--S
 	{1,0,0},--Z
 	{1,0,0},--L
@@ -24,7 +26,7 @@ spinOffset={
 	6~10:hD,sD,H,A,R,
 	11~13:LL,RR,DD
 ]]
-FCL={
+local FCL={
 	[1]={
 		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12}},
 		{{11,4},{11,3},{11,2,3},{4},{3},{2,3},{2,2,3},{12,4},{12,3}},
@@ -46,15 +48,15 @@ FCL={
 FCL[2]=FCL[1]
 FCL[4]=FCL[3]
 FCL[5]=FCL[3]
-clearScore={[0]=0,0,2,4,12}
-function ifoverlapAI(f,bk,x,y)
+local clearScore={[0]=0,0,2,4,12}
+local function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
 	if y>#f then return end
 	for i=1,#bk do for j=1,#bk[1]do
 		if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
-function resetField(f0,f,start)
+local function resetField(f0,f,start)
 	::L::if f[start]then
 		removeRow(f,start)
 		goto L
@@ -66,7 +68,7 @@ function resetField(f0,f,start)
 		end
 	end
 end
-function getScore(field,bn,cb,cx,cy)
+local function getScore(field,bn,cb,cx,cy)
 	local score=0
 	local highest=0
 	local height=getNewRow(0)
@@ -109,7 +111,8 @@ function getScore(field,bn,cb,cx,cy)
 			h1=0
 		end
 	end
-	ins(freeRow,height)
+	freeRow[#freeRow+1]=height
+	freeRow.L=freeRow.L+1
 	score=
 		#field*20
 		-cy*35
@@ -163,12 +166,15 @@ function AI_getControls(ctrl)
 		removeRow(Tfield,1)
 		goto L
 	end--Release cache
+	local p=#ctrl+1
 	if best.hold then
-		ins(ctrl,8)
+		ctrl[p]=8
+		p=p+1
 	end
 	local l=FCL[best.bn][best.dir+1][best.x]
 	for i=1,#l do
-		ins(ctrl,l[i])
+		ctrl[p]=l[i]
+		p=p+1
 	end
-	ins(ctrl,6)
+	ctrl[p]=6
 end

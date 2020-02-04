@@ -1,18 +1,24 @@
 Task={}
+local rem=table.remove
+
 metatable_task={__index=Task}
 function newTask(code,P,data)
+	local id=#Task+1
 	local obj={
 		code=code,
 		P=P,
 		data=data,
+		id=id,
 	}
 	setmetatable(obj,metatable_task)
-	ins(Task,obj)
+	Task[id]=obj
 end
 function clearTask(opt)
 	if opt=="all"then
-		while Task[1]do
-			rem(Task,i)
+		local i=#Task
+		while i>0 do
+			Task[i]=nil
+			i=i-1
 		end
 	elseif opt=="play"then
 		for i=#Task,1,-1 do
@@ -22,7 +28,7 @@ function clearTask(opt)
 		end
 	else--Player table
 		for i=#Task,1,-1 do
-			if Task[i].P==P then
+			if Task[i].P==opt then
 				rem(Task,i)
 			end
 		end
@@ -30,8 +36,12 @@ function clearTask(opt)
 end
 function Task:update()
 	if(not self.P or self.P and scene=="play")and self:code(self.P,self.data)then
-		for i=#Task,1,-1 do
-			if Task[i]==self then rem(Task,i)return end
-		end--Destroy
+		local e=#Task
+		for i=1,e do
+			if Task[i]==self then
+				Task[e],Task[i]=nil,Task[e]
+				return
+			end
+		end
 	end
 end

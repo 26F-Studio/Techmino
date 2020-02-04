@@ -2,15 +2,20 @@ local tm=love.timer
 local gc=love.graphics
 local kb=love.keyboard
 local setFont=setFont
+local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
+local sub,find=string.sub,string.find
+local ins,rem=table.insert,table.remove
 local toN,toS=tonumber,tostring
+local concat=table.concat
 
 local function splitS(s,sep)
-	local t={}
-	::L::
-		local i=find(s,sep)or #s+1
-		ins(t,sub(s,1,i-1))
-		s=sub(s,i+#sep)
-	if #s~=0 then goto L end
+	local t,n={},1
+	repeat
+		local p=find(s,sep)or #s+1
+		t[n]=sub(s,1,p-1)
+		n=n+1
+		s=sub(s,p+#sep)
+	until #s==0
 	return t
 end
 function mStr(s,x,y)
@@ -25,19 +30,21 @@ function getNewRow(val)
 	for i=1,10 do
 		t[i]=val
 	end
-	--clear a row and move to active list
-	if #freeRow==0 then
+	freeRow.L=freeRow.L-1
+	--get a row from buffer
+	if not freeRow[1]then
 		for i=1,10 do
-			ins(freeRow,{0,0,0,0,0,0,0,0,0,0})
+			freeRow[i]={0,0,0,0,0,0,0,0,0,0}
 		end
+		freeRow.L=freeRow.L+10
 	end
 	--prepare new rows
 	return t
 end
 function removeRow(t,k)
-	ins(freeRow,rem(t,k))
+	freeRow[#freeRow+1]=rem(t,k)
+	freeRow.L=freeRow.L+1
 end
-
 --Single-usage funcs
 langName={"中文","全中文","English"}
 local langID={"chi","chi_full","eng"}
@@ -118,7 +125,7 @@ function SFX(s,v)
 end
 function VOICE(s,n)
 	if setting.voc then
-		ins(voicePlaying,voice[s][n or rnd(#voice[s])])
+		voicePlaying[#voicePlaying+1]=voice[s][n or rnd(#voice[s])]
 		if #voicePlaying==1 then
 			voicePlaying[1]:play()
 		end
@@ -227,6 +234,7 @@ local prevMenu={
 	setting2="setting",
 	setting3="setting",
 	help="main",
+	history="help",
 	stat="main",
 }prevMenu.pause=prevMenu.play
 function back()
@@ -263,51 +271,54 @@ local dataOpt={
 	"atk","send","recv","pend",
 	"clear_1","clear_2","clear_3","clear_4",
 	"spin_0","spin_1","spin_2","spin_3",
-	"b2b","b3b","pc",
+	"b2b","b3b","pc","score",
 }
 function loadData()
 	userData:open("r")
-	--local t=splitS(love.math.decompress(userdata,"zlib"),"\r\n")
-	local t=splitS(userData:read(),"\r\n")
+	local t=userData:read()
+	if not find(t,"spin")then
+		t=love.data.decompress("string","zlib",t)
+	end
+	t=splitS(t,"\r\n")
 	userData:close()
 	for i=1,#t do
-		local i=t[i]
-		if find(i,"=")then
-			local t=sub(i,1,find(i,"=")-1)
-			local v=sub(i,find(i,"=")+1)
+		local p=find(t[i],"=")
+		if p then
+			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
 			if t=="gametime"then t="time"end
 			for i=1,#dataOpt do
-				if t==dataOpt[i]then goto L end
+				if t==dataOpt[i]then
+					v=toN(v)if not v or v<0 then v=0 end
+					stat[t]=v
+					break
+				end
 			end
-			goto E
-			::L::
-				v=toN(v)if not v or v<0 then v=0 end
-				stat[t]=v
-			::E::
 		end
 	end
 end
 function saveData()
 	local t={}
 	for i=1,#dataOpt do
-		ins(t,dataOpt[i].."="..toS(stat[dataOpt[i]]))
+		t[i]=dataOpt[i].."="..toS(stat[dataOpt[i]])
 	end
 	t=concat(t,"\r\n")
-	--t=love.math.compress(t,"zlib"):getString()
+	t=love.data.compress("string","zlib",t)
 	userData:open("w")
 	userData:write(t)
 	userData:close()
 end
 function loadSetting()
 	userSetting:open("r")
-	--local t=splitS(love.math.decompress(userdata,"zlib"),"\r\n")
-	local t=splitS(userSetting:read(),"\r\n")
+	local t=userSetting:read()
+	if not find(t,"virtual")then
+		t=love.data.decompress("string","zlib",t)
+	end
+	t=splitS(t,"\r\n")
 	userSetting:close()
 	for i=1,#t do
-		local i=t[i]
-		if find(i,"=")then
-			local t=sub(i,1,find(i,"=")-1)
-			local v=sub(i,find(i,"=")+1)
+		local p=find(t[i],"=")
+		if p then
+			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
 			if t=="sfx"or t=="bgm"or t=="bgblock"or t=="voc"then
 				setting[t]=v=="true"
 			elseif t=="vib"then
@@ -326,15 +337,15 @@ function loadSetting()
 			elseif t=="virtualkey"then
 				v=splitS(v,"/")
 				for i=1,10 do
-					if not v[i]then goto c end
-					virtualkey[i]=splitS(v[i],",")
-					for j=1,4 do
-						virtualkey[i][j]=toN(virtualkey[i][j])
+					if v[i]then
+						virtualkey[i]=splitS(v[i],",")
+						for j=1,4 do
+							virtualkey[i][j]=toN(virtualkey[i][j])
+						end
 					end
-					::c::
 				end
 			elseif t=="virtualkeyAlpha"then
-				setting.virtualkeyAlpha=int(abs(toN(v)))
+				setting.virtualkeyAlpha=min(int(abs(toN(v))),10)
 			elseif t=="virtualkeyIcon"or t=="virtualkeySwitch"then
 				setting[t]=v=="true"
 			elseif t=="frameMul"then
@@ -342,8 +353,10 @@ function loadSetting()
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
-			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="fxs"or t=="bg"then
+			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="bg"or t=="smo"then
 				setting[t]=v=="true"
+			elseif t=="fxs"then
+				setting[t]=toN(v:match("[0123]"))or 0
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[123]"))or 1
 			elseif t=="skin"then
@@ -364,7 +377,7 @@ local saveOpt={
 	"vib","voc",
 	"fullscreen",
 	"bgblock",
-	"skin",
+	"skin","smo",
 	"virtualkeyAlpha",
 	"virtualkeyIcon",
 	"virtualkeySwitch",
@@ -387,10 +400,11 @@ function saveSetting()
 		"virtualkey="..toS(concat(vk,"/")),
 	}
 	for i=1,#saveOpt do
-		ins(t,saveOpt[i].."="..toS(setting[saveOpt[i]]))
+		t[i+2]=saveOpt[i].."="..toS(setting[saveOpt[i]])
+		--not always i+2!
 	end
 	t=concat(t,"\r\n")
-	--t=love.math.compress(t,"zlib"):getString()
+	t=love.data.compress("string","zlib",t)
 	userSetting:open("w")
 	userSetting:write(t)
 	userSetting:close()

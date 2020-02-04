@@ -2,6 +2,8 @@ local gc=love.graphics
 local tc,kb=love.touch,love.keyboard
 local sys=love.system
 local fs=love.filesystem
+local mobile=mobile
+
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","func","restart","insLeft","insRight","insDown"}
 color={
 	red={1,0,0},
@@ -44,8 +46,8 @@ blockColor={
 	color.yellow,
 	color.cyan,
 	color.darkGreen,
-	color.darkGrey,
 	color.grey,
+	color.lightGrey,
 	color.darkPurple,
 	color.darkRed,
 	color.darkGreen,
@@ -155,7 +157,6 @@ customRange={
 RCPB={10,33,200,33,105,5,105,60}
 snapLevelValue={1,10,20,40,60,80}
 up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
-percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
 
 modeID={
 	[0]="custom",
@@ -173,8 +174,8 @@ modeLevel={
 	tsd={"NORMAL","HARD"},
 	blind={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
 	dig={"NORMAL","LUNATIC"},
-	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
-	tech={"NORMAL","NORMAL+","HARD","LUNATIC","ULTIMATE"},
+	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE","EXTRA"},
+	tech={"NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+",},
 	c4wtrain={"NORMAL","LUNATIC"},
 	pctrain={"NORMAL","EXTRA"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
@@ -260,9 +261,9 @@ local virtualkeySet={
 	},--PC key feedback
 }
 local customSet={
-	{20,20,1,1,7,1,1,1,3,4,1,3,3},
+	{20,20,1,1,7,1,1,1,3,4,1,2,3},
 	{18,20,1,1,7,1,1,1,8,3,8,3,3},
-	{22,22,1,1,7,3,1,3,8,4,1,8,7},
+	{22,22,1,1,7,3,1,1,8,4,1,7,7},
 	{20,20,1,1,7,1,1,3,8,3,1,7,8},
 	{23,11,8,11,4,1,2,1,8,3,1,4,9},
 }
@@ -277,34 +278,49 @@ Buttons={
 	load={},
 	intro={},
 	main={
-		play=	{x=380,y=300,w=240,	h=240,rgb=color.red,		f=70,code=function()gotoScene("mode")end,down="stat",right="setting"},
-		setting={x=640,y=300,w=240,	h=240,rgb=color.lightBlue,	f=55,code=function()gotoScene("setting")end,down="stat",left="play",right="music"},
-		music=	{x=900,y=300,w=240,	h=240,rgb=color.lightCyan,	f=42,code=function()gotoScene("music")end,down="help",left="setting",right="quit"},
-		stat=	{x=640,y=560,w=240,	h=240,rgb=color.cyan,		f=55,code=function()gotoScene("stat")end,up="setting",left="play",right="help"},
-		help=	{x=900,y=560,w=240,	h=240,rgb=color.yellow,		f=55,code=function()gotoScene("help")end,up="music",left="stat",right="quit"},
-		quit=	{x=1180,y=620,w=120,h=120,rgb=color.lightGrey,	f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
+		qplay=	{x=160,y=300,w=150,	h=150,	rgb=color.lightRed,	f=40,code=function()loadGame(modeSel,levelSel)end,down="stat",right="play"},
+		play=	{x=380,y=300,w=240,	h=240,	rgb=color.red,		f=70,code=function()gotoScene("mode")end,down="stat",left="qplay",right="setting"},
+		setting={x=640,y=300,w=240,	h=240,	rgb=color.lightBlue,f=55,code=function()gotoScene("setting")end,down="stat",left="play",right="music"},
+		music=	{x=900,y=300,w=240,	h=240,	rgb=color.lightCyan,f=42,code=function()gotoScene("music")end,down="help",left="setting",right="quit"},
+		stat=	{x=640,y=560,w=240,	h=240,	rgb=color.cyan,		f=55,code=function()gotoScene("stat")end,up="setting",left="play",right="help"},
+		help=	{x=900,y=560,w=240,	h=240,	rgb=color.yellow,	f=55,code=function()gotoScene("help")end,up="music",left="stat",right="quit"},
+		quit=	{x=1180,y=620,w=120,h=120,	rgb=color.lightGrey,f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
 	},
 	mode={
 		up=		{x=1000,y=210,w=200,h=140,	rgb=color.white,	f=80,	code=function()love.keypressed("up")end,	hide=function()return modeSel==1 end,},
 		down=	{x=1000,y=430,w=200,h=140,	rgb=color.white,	f=80,	code=function()love.keypressed("down")end,	hide=function()return modeSel==#modeID end,},
 		left=	{x=190,	y=160,w=100,h=80,	rgb=color.white,			code=function()love.keypressed("left")end,	hide=function()return levelSel==1 end,},
-		right=	{x=350,	y=160,w=100,h=80,	rgb=color.white,			code=function()love.keypressed("right")end,hide=function()return levelSel==#modeLevel[modeID[modeSel]]end,},
-		start=	{x=1000,y=600,w=250,h=100,	rgb=color.green,	f=50,	code=function()
-			loadGame(modeSel,levelSel)end},
+		right=	{x=350,	y=160,w=100,h=80,	rgb=color.white,			code=function()love.keypressed("right")end,	hide=function()return levelSel==#modeLevel[modeID[modeSel]]end,},
+		start=	{x=1000,y=600,w=250,h=100,	rgb=color.green,	f=50,	code=function()loadGame(modeSel,levelSel)end},
 		custom=	{x=275,	y=420,w=200,h=90,	rgb=color.yellow,			code=function()gotoScene("custom")end},
 		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,	f=45,	code=back},
 	},
 	music={
-		up=		{x=1100,y=200,w=120,h=120,	rgb=color.white,f=40,code=function()sel=(sel-2)%#musicID+1 end},
-		play=	{x=1100,y=340,w=120,h=120,	rgb=color.white,f=40,code=function()BGM(musicID[sel])end},
-		down=	{x=1100,y=480,w=120,h=120,	rgb=color.white,f=50,code=function()sel=sel%#musicID+1 end},
-		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,f=45,code=back},
+		bgm=	{x=1100,y=80,	w=160,	h=80,	rgb=color.white,code=function()BGM()setting.bgm=not setting.bgm end},
+		up=		{x=1100,y=200,	w=120,	h=120,	rgb=color.white,f=40,hide=function()return not setting.bgm end,code=function()sel=(sel-2)%#musicID+1 end},
+		play=	{x=1100,y=340,	w=120,	h=120,	rgb=color.white,f=40,hide=function()return not setting.bgm end,code=function()BGM(musicID[sel])end},
+		down=	{x=1100,y=480,	w=120,	h=120,	rgb=color.white,f=50,hide=function()return not setting.bgm end,code=function()sel=sel%#musicID+1 end},
+		back=	{x=640,	y=630,	w=230,	h=90,	rgb=color.white,f=45,code=back},
 	},
 	custom={
-		up=		{x=1000,y=220,	w=100,h=100,	rgb=color.white,f=50,	code=function()optSel=(optSel-2)%#customID+1 end},
-		down=	{x=1000,y=460,	w=100,h=100,	rgb=color.white,f=50,	code=function()optSel=optSel%#customID+1 end},
-		left=	{x=880,	y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()customSel[optSel]=(customSel[optSel]-2)%#customRange[customID[optSel]]+1 end},
-		right=	{x=1120,y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()customSel[optSel]=customSel[optSel]%#customRange[customID[optSel]]+1 end},
+		up=		{x=1000,y=220,	w=100,h=100,	rgb=color.white,f=50,	code=function()sel=(sel-2)%#customID+1 end},
+		down=	{x=1000,y=460,	w=100,h=100,	rgb=color.white,f=50,	code=function()sel=sel%#customID+1 end},
+		left=	{x=880,	y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()
+			customSel[sel]=(customSel[sel]-2)%#customRange[customID[sel]]+1
+			if sel==12 then
+				curBG=customRange.bg[customSel[12]]
+			elseif sel==13 then
+				BGM(customRange.bgm[customSel[13]])
+			end
+			end},
+		right=	{x=1120,y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()
+			customSel[sel]=customSel[sel]%#customRange[customID[sel]]+1
+			if sel==12 then
+				curBG=customRange.bg[customSel[12]]
+			elseif sel==13 then
+				BGM(customRange.bgm[customSel[13]])
+			end
+			end},
 		start1=	{x=880,	y=580,	w=220,h=70,	rgb=color.green,		code=function()loadGame(0,1)end},
 		start2=	{x=1120,y=580,	w=220,h=70,	rgb=color.lightPurple,	code=function()loadGame(0,2)end},
 		draw=	{x=1000,y=90,	w=190,h=85,	rgb=color.cyan,			code=function()gotoScene("draw")end},
@@ -331,8 +347,8 @@ Buttons={
 		gb5=	{x=1120,y=500,w=120,h=120,	f=65,	rgb=color.darkGreen,code=function()pen=13 end},
 		space=	{x=840,	y=640,w=120,h=120,	f=70,	rgb=color.grey,		code=function()pen=0 end},
 		clear=	{x=1120,y=640,w=120,h=120,	f=45,	rgb=color.white,	code=function()
-			if clearSureTime>0 then
-				for y=1,20 do for x=1,10 do preField[y][x]=0 end end
+			if clearSureTime>15 then
+				for y=1,20 do for x=1,10 do preField[y][x]=-1 end end
 				clearSureTime=0
 			else
 				clearSureTime=50
@@ -352,8 +368,8 @@ Buttons={
 		center=	{x=505,	y=90,	w=210,	h=60,		rgb=color.white,code=function()setting.center=not setting.center end,down="swap",left="ghost",right="sfx"},
 		grid=	{x=290,	y=160,	w=210,	h=60,		rgb=color.white,code=function()setting.grid=not setting.grid end,up="ghost",down="fxs",right="swap"},
 		swap=	{x=505,	y=160,	w=210,	h=60,f=28,	rgb=color.white,code=function()setting.swap=not setting.swap end,up="center",down="bg",left="grid",right="vib"},
-		fxs=	{x=290,	y=230,	w=210,	h=60,		rgb=color.white,code=function()setting.fxs=not setting.fxs end,up="grid",down="dasU",right="bg"},
-		bg=		{x=505,	y=230,	w=210,	h=60,		rgb=color.white,code=function()setting.bg=not setting.bg end,up="swap",down="arrD",right="fullscreen"},
+		fxs=	{x=290,	y=230,	w=210,	h=60,		rgb=color.white,code=function()setting.fxs=(setting.fxs+1)%4 end,up="grid",down="dasU",right="bg"},
+		bg=		{x=505,	y=230,	w=210,	h=60,		rgb=color.white,code=function()setting.bg=not setting.bg end,up="swap",down="arrD",left="fxs",right="fullscreen"},
 		dasD=	{x=210,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.das=(setting.das-1)%31 end,up="fxs",down="sddasD",right="dasU"},
 		dasU=	{x=370,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.das=(setting.das+1)%31 end,up="fxs",down="sddasU",left="dasD",right="arrD"},
 		arrD=	{x=425,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.arr=(setting.arr-1)%16 end,up="bg",down="sdarrD",left="dasU",right="arrU"},
@@ -363,51 +379,39 @@ Buttons={
 		sdarrD=	{x=425,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sdarr=(setting.sdarr-1)%4 end,up="arrD",down="ctrl",left="sddasU",right="sdarrU"},
 		sdarrU=	{x=585,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sdarr=(setting.sdarr+1)%4 end,up="arrU",down="ctrl",left="sdarrD",right="frame"},
 
-		ctrl=	{x=340,y=440,	w=310,h=60,rgb=color.green,	code=function()gotoScene("setting2")end,up="sddasU",down="touch",left="lang",right="skin"},
-		touch=	{x=340,y=510,	w=310,h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up="ctrl",down="back",right="lang"},
-		lang=	{x=580,y=510,	w=150,h=60,rgb=color.red,	code=function()
+		ctrl=	{x=340,y=440,	w=310,	h=60,rgb=color.green,	code=function()gotoScene("setting2")end,up="sddasU",down="touch",left="lang",right="skin"},
+		touch=	{x=340,y=510,	w=310,	h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up="ctrl",down="back",right="lang"},
+		lang=	{x=580,y=510,	w=150,	h=60,rgb=color.red,	code=function()
 			setting.lang=setting.lang%#langName+1
 			swapLanguage(setting.lang)
 			end,up="sdarrU",down="back",left="touch",right="skin"},
 
 		sfx=	{x=760,y=90,	w=160,	h=60,		rgb=color.white,code=function()setting.sfx=not setting.sfx end,down="vib",left="center",right="bgm"},
-		bgm=	{x=940,y=90,	w=160,	h=60,		rgb=color.white,code=function()
-			BGM()
-			setting.bgm=not setting.bgm
-			BGM("blank")
-			end,down="voc",left="sfx"},
-		vib=	{x=760,y=160,	w=160,	h=60,rgb=color.white,	code=function()
-			setting.vib=(setting.vib+1)%6
-			VIB(1)
-			end,up="sfx",down="fullscreen",left="swap",right="voc"},
-		voc=	{x=940,y=160,	w=160,	h=60,rgb=color.white,
-			hide=function()return true end,
-			code=function()
-				setting.voc=not setting.voc
-			end,up="sfx",down="fullscreen",left="vib"},
-		fullscreen=	{x=850,y=230,	w=340,h=60,rgb=color.white,	code=function()
+		bgm=	{x=940,y=90,	w=160,	h=60,		rgb=color.white,code=function()BGM()setting.bgm=not setting.bgm BGM("blank")end,down="voc",left="sfx"},
+		vib=	{x=760,y=160,	w=160,	h=60,rgb=color.white,	code=function()setting.vib=(setting.vib+1)%6 VIB(1)end,up="sfx",down="fullscreen",left="swap",right="voc"},
+		voc=	{x=940,y=160,	w=160,	h=60,rgb=color.white,code=function()setting.voc=not setting.voc end,up="sfx",down="fullscreen",left="vib"},
+		fullscreen=	{x=850,y=230,w=340,	h=60,rgb=color.white,	code=function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			if not setting.fullscreen then
 				love.resize(gc.getWidth(),gc.getHeight())
 			end
 			end,up="vib",down="bgblock",left="bg"},
-		bgblock={x=850,y=300,	w=340,h=60,rgb=color.white,	code=function()
+		bgblock={x=850,y=300,	w=340,	h=60,rgb=color.white,	code=function()
 			setting.bgblock=not setting.bgblock
-			if not setting.bgblock then
-				for i=1,16 do
-					BGblockList[i].v=3*BGblockList[i].v
-				end
-			end
+			--if not setting.bgblock then for i=1,16 do BGblockList[i].v=3*BGblockList[i].v end end
 			end,up="fullscreen",down="frame",left="arrU"},
-		frame=	{x=850,y=370,	w=340,h=60,rgb=color.white,	code=function()
+		frame=	{x=850,y=370,	w=340,	h=60,rgb=color.white,	code=function()
 			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
 			if setting.frameMul>100 then setting.frameMul=25 end
 			end,up="bgblock",down="skin",left="sdarrU"},
-		skin=	{x=850,y=440,	w=340,h=60,rgb=color.white,	code=function()
+		skin=	{x=740,y=440,	w=120,	h=60,rgb=color.white,	code=function()
 			setting.skin=setting.skin%6+1
 			changeBlockSkin(setting.skin)
-			end,up="frame",down="back",left="ctrl"},
+			end,up="frame",down="back",left="ctrl",right="smo"},
+		smo=	{x=920,y=440,	w=200,	h=60,f=27,rgb=color.white,	code=function()
+			setting.smo=not setting.smo
+			end,up="frame",down="back",left="skin"},
 		back=	{x=640,y=620,	w=300,h=70,rgb=color.white,	code=back,up="lang"},
 	},
 	setting2={--Control setting
@@ -429,7 +433,7 @@ Buttons={
 			snapLevel=snapLevel%6+1
 			end},
 		alpha={x=830,y=310,w=170,h=80,f=45,code=function()
-			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6
+			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%11
 			--Adjust virtualkey alpha
 			end},
 		icon={x=450,y=410,w=170,h=80,f=45,code=function()
@@ -446,12 +450,18 @@ Buttons={
 			end},
 	},
 	help={
-		back={x=640,y=590,w=180,h=60,rgb=color.white,code=back,right="qq"},
-		qq={x=980,y=590,w=230,h=60,hide=function()return system=="Android"end,rgb=color.white,code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left="back"},
+		his={x=1050,y=520,w=230,h=60,rgb=color.white,code=function()gotoScene("history")end,down="qq",left="back"},
+		qq={x=1050,y=600,w=230,h=60,hide=function()return mobile end,rgb=color.white,code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,up="his",left="back"},
+		back={x=640,y=600,w=180,h=60,rgb=color.white,code=back,up="his",right="qq"},
+	},
+	history={
+		prev=	{x=75,	y=320,w=100,	h=300,	rgb=color.white,hide=function()return sel==1 end,code=function()sel=sel-1 end},
+		next=	{x=1205,y=320,w=100,	h=300,	rgb=color.white,hide=function()return sel==#updateLog end,code=function()sel=sel+1 end},
+		back=	{x=640,	y=640,w=200,h=70,	rgb=color.white,code=back},
 	},
 	stat={
+		path={x=980,y=590,w=250,h=60,f=30,rgb=color.white,hide=function()return mobile end,code=function()sys.openURL(fs.getSaveDirectory())end,left="back"},
 		back={x=640,y=590,w=180,h=60,rgb=color.white,code=back,right="path"},
-		path={x=980,y=590,w=250,h=60,f=30,hide=function()return system=="Android"end,rgb=color.white,code=function()sys.openURL(fs.getSaveDirectory())end,left="back"},
 	},
 	sel=nil,--selected button id(integer)
 }

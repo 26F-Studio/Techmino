@@ -1,8 +1,10 @@
 local wd=love.window
 local Timer=love.timer.getTime
+local int,abs,rnd,max,min,sin=math.floor,math.abs,math.random,math.max,math.min,math.sin
+local ins,rem=table.insert,table.remove
 
-Tmr={}
-function Tmr.load()
+return{
+load=function()
 	local t=Timer()
 	::R::
 	if loading==1 then
@@ -47,26 +49,24 @@ function Tmr.load()
 			gotoScene("intro","none")
 		end
 	end
-end
-function Tmr.intro()
+end,
+intro=function()
 	count=count+1
 	if count==200 then count=80 end
-end
-function Tmr.draw()
+end,
+draw=function()
 	if clearSureTime>0 then clearSureTime=clearSureTime-1 end
-end
-function Tmr.play(dt)
+end,
+play=function(dt)
 	frame=frame+1
 	stat.time=stat.time+dt
-	for i=#FX.beam,1,-1 do
-		local b=FX.beam[i]
+	for i=#FX.attack,1,-1 do
+		local b=FX.attack[i]
 		b.t=b.t+1
 		local t0=b.t*.025--t in [0,1]
 		local t=(sin(1.5*(2*t0-1))+1)*.5
-		PTC.attack[b.lv]:setPosition(b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t)
-		PTC.attack[b.lv]:emit(1)
 		if t0==1 then
-			rem(FX.beam,i)
+			rem(FX.attack,i)
 		end
 	end
 	for i=#FX.badge,1,-1 do
@@ -81,13 +81,23 @@ function Tmr.play(dt)
 			virtualkeyPressTime[i]=virtualkeyPressTime[i]-1
 		end
 	end
-	PTC.attack[1]:update(dt)
-	PTC.attack[2]:update(dt)
-	PTC.attack[3]:update(dt)
+	local E=#FX.attack
+	for i=E,1,-1 do
+		local A=FX.attack[i]
+		A.t=A.t+1
+		if A.t>=100 then
+			for j=i,E do
+				FX.attack[j]=FX.attack[j+1]
+			end--remove [i]
+		elseif A.t>80 then
+			A.rad=A.rad*1.08+.2
+		end
+	end
+
 	if frame<180 then
 		if frame==179 then
 			gameStart()
-		elseif frame%60==0 then
+		elseif frame==60 or frame==120 then
 			SFX("ready")
 		end
 		for p=1,#players do
@@ -106,6 +116,7 @@ function Tmr.play(dt)
 			clearTask("play")
 			updateStat()
 			resetGameData()
+			return
 		end
 	elseif restartCount>0 then
 		restartCount=max(restartCount-2,0)
@@ -133,9 +144,9 @@ function Tmr.play(dt)
 				P.ai.controlDelay=P.ai.controlDelay-1
 				if P.ai.controlDelay==0 then
 					if #P.ai.controls>0 then
-						pressKey(P.ai.controls[1],P)
-						releaseKey(P.ai.controls[1],P)
-						rem(P.ai.controls,1)
+						local C=P.ai.controls
+						pressKey(C[1],P)releaseKey(C[1],P)
+						local k=#C for i=1,k do C[i]=C[i+1]end--table.remove(C,1)
 						P.ai.controlDelay=P.ai.controlDelay0+1
 					else
 						AI_getControls(P.ai.controls)
@@ -143,7 +154,7 @@ function Tmr.play(dt)
 						if Timer()-P.modeData.point>P.modeData.event then
 							P.modeData.point=Timer()
 							P.modeData.event=P.ai.controlDelay0+rnd(2,10)
-							changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.35 and 2 or 3)
+							changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 						end
 					end
 				end
@@ -192,9 +203,9 @@ function Tmr.play(dt)
 					removeRow(P.field,P.clearing[i])
 					removeRow(P.visTime,P.clearing[i])
 				end
-				::L::
-					rem(P.clearing)
-				if P.clearing[1]then goto L end
+				for i=1,#P.clearing do
+					P.clearing[i]=nil
+				end
 			end
 			if P.waiting>=0 then
 				P.waiting=P.waiting-1
@@ -207,7 +218,9 @@ function Tmr.play(dt)
 					if P.dropDelay>=0 then goto stop end
 				end
 				drop()
-				P.dropDelay=P.gameEnv.drop
+				if P.y_img~=P.curY then
+					P.dropDelay=P.gameEnv.drop
+				end
 				if P.freshTime<=P.gameEnv.freshLimit then
 					P.lockDelay=P.gameEnv.lock
 				end
@@ -241,9 +254,9 @@ function Tmr.play(dt)
 					removeRow(P.field,P.clearing[i])
 					removeRow(P.visTime,P.clearing[i])
 				end
-				::L::
-					rem(P.clearing)
-				if P.clearing[1]then goto L end
+				for i=1,#P.clearing do
+					P.clearing[i]=nil
+				end
 			end::stop::
 			if P.endCounter<40 then
 				for j=1,#P.field do for i=1,10 do
@@ -253,10 +266,17 @@ function Tmr.play(dt)
 			if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
 			--Dead
 		end
+		if P.stat.score>P.score1 then
+			if P.stat.score-P.score1<10 then
+				P.score1=P.score1+1
+			else
+				P.score1=int(min(P.score1*.9+P.stat.score*.1+1))
+			end
+		end
 		for i=#P.shade,1,-1 do
 			local S=P.shade[i]
-			S[1]=S[1]-1
-			if S[1]==0 then
+			S[1]=S[1]-1+setting.fxs*.25
+			if S[1]<=0 then
 				rem(P.shade,i)
 			end
 		end
@@ -296,12 +316,13 @@ function Tmr.play(dt)
 		end
 	end
 	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
-end
-function Tmr.pause(dt)
+end,
+pause=function(dt)
 	if not gamefinished then
 		pauseTime=pauseTime+dt
 	end
 	if pauseTimer<50 and not wd.isMinimized()then
 		pauseTimer=pauseTimer+1
 	end
-end
+end,
+}
