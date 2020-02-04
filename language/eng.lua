@@ -139,11 +139,12 @@ return{
 		"Find out what's in the setting!",
 		"Any suggestions to author!",
 		"DO NOT PRESS F8",
-		"Secret code:626",
+		"Secret num:626",
 		"Techmino=Technique+Tetromino",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"Headphones for better experience",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
+		"(first effective)Your luck number today:"..math.random(100,626),
 	},
 	stat={
 		"Games run:",

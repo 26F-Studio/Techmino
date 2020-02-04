@@ -4,7 +4,7 @@ Patron(rmb10+):
 	[D*a]?
 
 Future outlook:
-	Normal Things:
+	Normal:
 		powerinfo switch
 		splashing block
 		ajustable next count
@@ -18,13 +18,15 @@ Future outlook:
 		game recording
 		new AI:task-Z
 		auto GUI in any screen size
-
-	Technical things:
+	Hard:
 		Encrypt source code(compile to byte code)
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
-
+0.7.35:
+	bug fixed
+0.7.34:
+	shaking FX more natural
 0.7.33+:
 	MORE POWERFUL 9-stack AI
 	add stereo-setting slider

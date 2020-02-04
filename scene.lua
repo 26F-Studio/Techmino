@@ -132,8 +132,8 @@ local swap={
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,1280,720)
 	end},
-	slowFade={120,40,function(t)
-		local t=t>40 and 1.5-t/80 or t/40
+	slowFade={180,90,function(t)
+		local t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,1280,720)
 	end},

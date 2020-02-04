@@ -1649,6 +1649,33 @@ function player:drop()--Place piece
 			dospin=dospin+2
 		end--Immobile
 	end
+
+	--极简检测(遮挡)
+	local finesse
+	if self.curY>18 then
+		finesse=true--高处防误判直接最简
+	else
+		local y0=self.curY
+		local x,c=self.curX,self.c
+
+		local B=self.cur.bk
+		for x=1,c do
+			local y
+			for i=#B,1,-1 do
+				if B[i][x]then y=i;goto L2 end
+			end
+			goto L1
+			::L2::
+			if y then
+				x=self.curX+x-1
+				for y=y0+y,#self.field do
+					if solid(self,x,y)then finesse=true;goto L1 end--有遮挡视为最简
+				end
+			end
+		end
+		::L1::
+	end
+	
 	self:lock()
 	local CHN=getFreeVoiceChannel()
 	local cc,send,exblock=checkrow(self,self.curY,self.r),0,0--Currect clear&send&sendTime
@@ -1674,27 +1701,8 @@ function player:drop()--Place piece
 		dospin=false
 	end
 
-	--极简检测
-	if self.curY>18 then goto 通过测试 end--高处易误判
-	do
-		local y0=self.curY
-		local x,c=self.curX,self.c
-		local B=self.cur.bk
-		for x=1,c do
-			local y
-			for i=#B,1,-1 do
-				if B[i][x]then y=i;goto 继续 end
-			end
-			goto 操作判断法
-			::继续::
-			if y then
-				x=self.curX+x-1
-				for y=y0+y,#self.field do
-					if solid(self,x,y)then goto 通过测试 end
-				end
-			end
-		end--遮挡暂时都算最简
-		::操作判断法::
+	--极简检测(操作)
+	if not finesse then
 		if dospin then self.ctrlCount=self.ctrlCount-2 end--对无遮挡spin宽松两步
 		local id=self.cur.id
 		local dir=self.dir+1
@@ -1705,15 +1713,14 @@ function player:drop()--Place piece
 		end--SZI的逆态视为顺态
 		local R,I=self.ctrlCount,finesseCtrlPar[id][dir][self.curX]--Real key/Ideal key
 		local d=R-I
-		if d<=0 then
-			goto 通过测试
+		if d>0 then
+			if I==0 then I=1 end
+			local rate=R/I
+			if rate>2.5 then rate=2.5 end
+			self:fineError(rate)
+			--非最简
 		end
-		if I==0 then I=1 end
-		local rate=R/I
-		if rate>2.5 then rate=2.5 end
-		self:fineError(rate)
 	end
-	::通过测试::
 
 	if cc>0 then
 		self.combo=self.combo+1

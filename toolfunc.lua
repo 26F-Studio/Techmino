@@ -161,6 +161,7 @@ function SFX(s,v,pos)
 			end
 		end
 		S:setVolume((v or 1)*setting.sfx*.1)
+		print((v or 1)*setting.sfx*.1)
 		S:play()
 	end
 end

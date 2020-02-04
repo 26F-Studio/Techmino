@@ -141,10 +141,11 @@ return{
 		"有疑问?先看设置有没有你想要的",
 		"有建议的话可以把信息反馈给作者~",
 		"不要按F8",
-		"秘密代码:626",
+		"秘密数字:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
-		"戴上耳机获得最佳体验",
+		"戴上耳机以获得最佳体验",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
+		"(第一次才准)今日幸运数字:"..math.random(100,626),
 	},
 	stat={
 		"游戏运行次数:",
@@ -298,7 +299,7 @@ return{
 			bgm="音乐",
 			vib="震动",
 			voc="语音",
-			stereo="双声道",
+			stereo="立体声",
 			back=BK,
 		},
 		setting_key={
