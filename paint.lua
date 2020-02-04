@@ -32,6 +32,55 @@ swap={
 	end
 },
 }--Scene swapping animations
+FX={
+	flash=0,--Black screen(frame)
+	shake=0,--Screen shake(frame)
+	beam={},--Attack beam
+	appear=function(t,a)
+		setFont(t.font)
+		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*a)
+		mStr(t.text,150,250-t.font*.5+t.dy)
+	end,
+	fly=function(t,a)
+		setFont(t.font)
+		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*a)
+		mStr(t.text,150+(t.t-15)^3*.005,250-t.font*.5+t.dy)
+	end,
+	stretch=function(t,a)
+		gc.push("transform")
+			setFont(t.font)
+			gc.translate(150,250+t.dy)
+			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*a)
+			if t.t<20 then gc.scale((20-t.t)*.015+1,1)end
+			mStr(t.text,0,-t.font*.5)
+		gc.pop()
+	end,
+	drive=function(t,a)
+		gc.push("transform")
+			setFont(t.font)
+			gc.translate(150,290+t.dy)
+			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*a)
+			if t.t<20 then gc.shear((20-t.t)*.05,0)end
+			mStr(t.text,0,-t.font*.5)
+		gc.pop()
+	end,
+	spin=function(t,a)
+		gc.push("transform")
+			setFont(t.font)
+			gc.translate(150,250+t.dy)
+			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*a)
+			if t.t<20 then
+				gc.rotate((20-t.t)^2*.0015)
+			end
+			mStr(t.text,0,-t.font*.5)
+		gc.pop()
+	end,
+	flicker=function(t,a)
+		setFont(t.font)
+		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*a*(rnd()+.5))
+		mStr(t.text,150,250-t.font*.5+t.dy)
+	end,
+}
 
 function drawButton()
 	for i=1,#Buttons[scene]do
@@ -42,19 +91,24 @@ function drawButton()
 			if B.alpha>t then B.alpha=B.alpha-.02 elseif B.alpha<t then B.alpha=B.alpha+.02 end
 			gc.setColor(B.rgb[1],B.rgb[2],B.rgb[3],B.alpha)
 			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
-			local t=B.t
-			if type(t)=="function"then t=t()end
-
 			gc.setColor(B.rgb[1],B.rgb[2],B.rgb[3],.3)
 			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
-			local y0=B.y-1-currentFont*.5
-			mStr(t,B.x-1,y0)
-			mStr(t,B.x+1,y0)
-			mStr(t,B.x-1,y0+2)
-			mStr(t,B.x+1,y0+2)
+			local t=B.t
+			local y0
+			if t then
+				if type(t)=="function"then t=t()end
+				setFont(B.f or 40)
+				y0=B.y-1-currentFont*.5
+				mStr(t,B.x-1,y0)
+				mStr(t,B.x+1,y0)
+				mStr(t,B.x-1,y0+2)
+				mStr(t,B.x+1,y0+2)
+			end
 			gc.setColor(B.rgb)
+			if t then
+				mStr(t,B.x,y0+1)
+			end
 			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
-			mStr(t,B.x,B.y-currentFont*.5)
 		end
 	end
 end
@@ -130,11 +184,34 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.4",370,150)
-	if system==2 then
-		gc.print("Android",530,110)
-	end
+	gc.print("Alpha V0.5",370,150)
+	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
+end
+function Pnt.mode()
+	if setting.virtualkeySwitch then
+		gc.setColor(.5,.5,.5)
+		gc.draw(charV,1019,249,pi)
+		gc.draw(charV,1021,249,pi)
+		gc.draw(charV,1019,251,pi)
+		gc.draw(charV,1020,251,pi)
+		gc.setColor(1,1,1)
+		gc.draw(charV,1020,250,pi)
+	end
+	gc.setColor(1,1,1)
+	setFont(30)
+	mStr(modeInfo[modeID[modeSel]],270,300)
+	setFont(80)
+	gc.setColor(color.grey)
+	mStr(modeName[modeSel],643,283)
+	for i=modeSel-2,modeSel+2 do
+		if i>=1 and i<=#modeID then
+			local f=80-abs(i-modeSel)*20
+			gc.setColor(i==modeSel and color.white or abs(i-modeSel)==1 and color.grey or color.darkGrey)
+			setFont(f)
+			mStr(modeName[i],640,320+70*(i-modeSel)-f*.5)
+		end
+	end
 end
 function Pnt.play()
 	for p=1,#players do
@@ -314,8 +391,8 @@ function Pnt.play()
 			--B2B bar
 
 			setFont(40)
+			gc.setColor(1,1,1)
 			if gameEnv.hold then
-				gc.setColor(1,1,1)
 				gc.print("Hold",-113,0)
 				for i=1,#hb do
 					for j=1,#hb[1] do
@@ -325,9 +402,8 @@ function Pnt.play()
 					end
 				end
 			end--Hold
+			gc.print("Next",336,0)
 			for N=1,gameEnv.next do
-				gc.setColor(1,1,1)
-				gc.print("Next",336,0)
 				local b=nb[N]
 				for i=1,#b do
 					for j=1,#b[1] do

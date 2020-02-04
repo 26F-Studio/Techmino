@@ -18,7 +18,33 @@ spinOffset={
 	{0,0,0},--O
 	{2,0,1},--I
 }for i=1,7 do spinOffset[i][0]=0 end
-
+--[[controlname:
+	1~5:mL,mR,rR,rL,rF,
+	6~9:hD,sD,H,R,
+	10~12:LL,RR,DD
+]]
+FCL={
+	[1]={
+		{{10},{10,2},{1},{},{2},{2,2},{11,1},{11}},
+		{{10,4},{10,3},{10,2,3},{4},{3},{2,3},{2,2,3},{11,4},{11,3}},
+	},
+	[3]={
+		{{10},{10,2},{1},{},{2},{2,2},{11,1},{11},},
+		{{3,10},{10,3},{10,2,3},{1,3},{3},{2,3},{2,2,3},{11,1,3},{11,3},},
+		{{10,5},{10,2,5},{1,5},{5},{2,5},{2,2,5},{11,1,5},{11,5},},
+		{{10,4},{10,2,4},{1,4},{4},{2,4},{2,2,4},{11,1,4},{11,4},{4,11},},
+	},
+	[6]={
+		{{10},{10,2},{1,1},{1},{},{2},{2,2},{11,1},{11},},
+	},
+	[7]={
+		{{10},{10,2},{1},{},{2},{11,1},{11},},
+		{{4,10},{10,4},{10,3},{1,4},{4},{3},{2,3},{11,4},{11,3},{3,11},},
+	},
+}
+FCL[2]=FCL[1]
+FCL[4]=FCL[3]
+FCL[5]=FCL[3]
 function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
 	if y>#f then return nil end
@@ -83,7 +109,6 @@ function getScore(field,cb,cx,cy)
 	+clear^2*4
 	-hole*15
 end
---controlname:mL,mR,rR,rL,rF,hD,sD,H,LL,RR
 function AI_getControls(ctrl)
 	local Tfield={}--test field
 	local field_org=field
@@ -96,9 +121,9 @@ function AI_getControls(ctrl)
 	local best={x=1,dir=0,hold=false,score=-9e99}
 	for ifhold=0,1 do
 		local bn=ifhold==0 and bn or hn>0 and hn or nxt[1]
-		for dir=0,dirCount[bn] do--for each direction
+		for dir=0,dirCount[bn] do--each dir
 			local cb=blocks[bn][dir]
-			for cx=1,11-#cb[1]do--for each positioon
+			for cx=1,11-#cb[1]do--each pos
 				local cy=#Tfield+1
 				while not ifoverlapAI(Tfield,cb,cx,cy-1)do
 					cy=cy-1
@@ -128,17 +153,11 @@ function AI_getControls(ctrl)
 	if best.hold then
 		ins(ctrl,8)
 	end
-	if best.dir==1 then
-		ins(ctrl,3)
-	elseif best.dir==2 then
-		ins(ctrl,5)
-	elseif best.dir==3 then
-		ins(ctrl,4)
-	end--hold&rotate
-	best.x=best.x-spinOffset[best.bn][best.dir]
-	local n=blockPos[best.bn]<best.x and 2 or 1
-	for i=1,abs(blockPos[best.bn]-best.x)do
-		ins(ctrl,n)
-	end--move
+
+	local l=FCL[best.bn][best.dir+1][best.x]
+	for i=1,#l do
+		ins(ctrl,l[i])
+	end
+
 	ins(ctrl,6)--harddrop
 end

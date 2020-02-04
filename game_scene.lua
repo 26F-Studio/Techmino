@@ -17,8 +17,9 @@ function game.main()
 	collectgarbage()
 end
 function game.mode()
-	savedata()
-	if players then restockRow()end--recycle row used in-game
+	saveData()
+	modeSel=modeSel or 1
+	if players then restockRow()end--collectGarbage
 	scene="mode"
 	curBG="none"
 	BGM("blank")

@@ -33,6 +33,7 @@ function Tmr.load()
 	elseif loading==4 then
 		loadnum=loadnum+1
 		if loadnum==15 then
+			stat.run=stat.run+1
 			gotoScene("main")
 		end
 	end
@@ -169,7 +170,10 @@ function Tmr.play(dt)
 						P.dropDelay=dropDelay-1
 					else
 						drop()
-						P.dropDelay,P.lockDelay=gameEnv.drop,gameEnv.lock
+						P.dropDelay=gameEnv.drop
+						if P.freshTime<=gameEnv.freshLimit then
+							P.lockDelay=gameEnv.lock
+						end
 					end
 				else
 					if lockDelay>0 then P.lockDelay=lockDelay-1
@@ -218,7 +222,7 @@ function Tmr.play(dt)
 			end
 		end
 		if fieldBeneath>0 then P.fieldBeneath=fieldBeneath-3 end
-		P.b2b1=P.b2b1*.95+P.b2b*.05
+		P.b2b1=P.b2b1*.96
 		PTC.dust[p]:update(dt)
 	end
 	setmetatable(_G,nil)

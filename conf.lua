@@ -9,7 +9,7 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep background music playing
 
 	local W=t.window
-	W.title="Techmino V0.4"
+	W.title="Techmino V0.5"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.borderless=X
@@ -20,7 +20,7 @@ function love.conf(t)
 	W.vsync=1
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
 	W.depth=X--The number of bits per sample in the depth buffer
-	W.stencil=1--The number of bits per sample in the stencil buffer
+	W.stencil=8--The number of bits per sample in the stencil buffer
 	W.display=1--Monitor ID
 	W.highdpi=X--Enable high-dpi mode for the window on a Retina display (boolean)
 	W.x,W.y=nil
