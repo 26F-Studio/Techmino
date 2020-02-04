@@ -92,7 +92,7 @@ function love.touchpressed(id,x,y)
 		love.mousemoved(x,y)
 		mouseShow=false
 	end
-	if scene=="play"then
+	if scene=="play"and setting.virtualkeySwitch then
 		local t=onVirtualkey(x,y)
 		if t then
 			pressKey(t)
@@ -111,7 +111,7 @@ function love.touchreleased(id,x,y)
 		Buttons.sel=nil
 		mouseShow=false
 	end
-	if scene=="play"then
+	if scene=="play"and setting.virtualkeySwitch then
 		local t=onVirtualkey(x,y)
 		if t then
 			releaseKey(t)
@@ -124,7 +124,7 @@ function love.touchmoved(id,x,y,dx,dy)
 	if not Buttons.sel then
 		touching=nil
 	end
-	if scene=="play"then
+	if scene=="play"and setting.virtualkeySwitch then
 		local l=tc.getTouches()
 		for n=1,#virtualkey do
 			local b=virtualkey[n]

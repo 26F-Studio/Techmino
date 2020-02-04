@@ -43,14 +43,15 @@ function drawButton()
 			gc.setColor(B.rgb[1],B.rgb[2],B.rgb[3],B.alpha)
 			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
 			local t=B.t
-				if type(t)=="function"then t=t()
-				end
+			if type(t)=="function"then t=t()end
+
 			gc.setColor(B.rgb[1],B.rgb[2],B.rgb[3],.3)
 			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
-			mStr(t,B.x-1,B.y-1-currentFont*.5)
-			mStr(t,B.x-1,B.y+1-currentFont*.5)
-			mStr(t,B.x+1,B.y-1-currentFont*.5)
-			mStr(t,B.x+1,B.y+1-currentFont*.5)
+			local y0=B.y-1-currentFont*.5
+			mStr(t,B.x-1,y0)
+			mStr(t,B.x+1,y0)
+			mStr(t,B.x-1,y0+2)
+			mStr(t,B.x+1,y0+2)
 			gc.setColor(B.rgb)
 			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
 			mStr(t,B.x,B.y-currentFont*.5)
@@ -62,15 +63,9 @@ function drawDial(x,y,speed)
 		gc.translate(x,y)
 		gc.setColor(1,1,1)
 		mStr(int(speed),0,-14)
-		gc.setColor(.6,.6,.6)gc.setLineWidth(5)
-		gc.circle("line",0,0,30)
-		gc.setColor(1,1,1)gc.setLineWidth(2)
-		gc.circle("line",0,0,30)
-		gc.rotate(2.0944+(speed<=175 and .020944*speed or 4.712389-52.35988/(speed-125)))
-		gc.setColor(.4,.4,.4,.5)gc.setLineWidth(5)
-		gc.line(0,0,22,0)
-		gc.setColor(.6,.6,.6,.5)gc.setLineWidth(3)
-		gc.line(0,0,22,0)
+		gc.draw(dialCircle,0,0,nil,nil,nil,32,32)
+		gc.setColor(1,1,1,.6)
+		gc.draw(dialNeedle,0,0,2.0944+(speed<=175 and .020944*speed or 4.712389-52.35988/(speed-125)),nil,nil,5,4)
 	gc.pop()
 end
 function drawPixel(y,x,id,alpha)
@@ -135,7 +130,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.3",370,150)
+	gc.print("Alpha V0.4",370,150)
 	if system==2 then
 		gc.print("Android",530,110)
 	end
@@ -145,28 +140,27 @@ function Pnt.play()
 	for p=1,#players do
 		P=players[p]
 		setmetatable(_G,P.index)
-		gc.push("transform")
-		gc.translate(x,y)gc.scale(size)--Scale
-		gc.setColor(0,0,0,.7)gc.rectangle("fill",0,0,600,690)--Black Background
-		gc.setLineWidth(3)
-		gc.setColor(1,1,1)gc.rectangle("line",0,0,600,690)--Big frame
-		gc.translate(150,70)
-		gc.stencil(stencil_field, "replace", 1)
-		gc.translate(0,fieldBeneath)
-		love.graphics.setStencilTest("equal",1)
-			for j=1,#field do
-				if falling<=0 or without(clearing,j)then
-					for i=1,10 do
-						if field[j][i]>0 then
-							drawPixel(j,i,field[j][i],min(visTime[j][i],20)*.05)
+		if P.small then
+			gc.push("transform")
+			gc.translate(x,y)gc.scale(size)--Scale
+			gc.setColor(0,0,0,.5)gc.rectangle("fill",0,0,300,600)--Black Background
+			gc.setLineWidth(3)
+			gc.translate(10,15)
+			gc.stencil(stencil_field, "replace", 1)
+			gc.translate(0,fieldBeneath)
+			gc.setStencilTest("equal",1)
+				for j=1,#field do
+					if falling<=0 or without(clearing,j)then
+						for i=1,10 do
+							if field[j][i]>0 then
+								drawPixel(j,i,field[j][i],min(visTime[j][i],20)*.05)
+							end
 						end
+					else
+						gc.setColor(1,1,1,falling/gameEnv.fall)
+						gc.rectangle("fill",0,600-30*j,320,30)
 					end
-				else
-					gc.setColor(1,1,1,falling/gameEnv.fall)
-					gc.rectangle("fill",0,600-30*j,320,30)
-				end
-			end--Field
-			if waiting<=0 then
+				end--Field
 				if gameEnv.ghost then
 					for i=1,r do for j=1,c do
 						if cb[i][j]>0 then
@@ -174,106 +168,189 @@ function Pnt.play()
 						end
 					end end
 				end--Ghost
-				gc.setColor(1,1,1,lockDelay/gameEnv.lock)
-				for i=1,r do for j=1,c do
-					if cb[i][j]>0 then
-						gc.rectangle("fill",30*(j+cx-1)-34,596-30*(i+cy-1),38,38)
-					end
-				end end--BlockShade(lockdelay indicator)
-				for i=1,r do for j=1,c do
-					if cb[i][j]>0 then
-						drawPixel(i+cy-1,j+cx-1,bn,1)
-					end
-				end end--Block
-				if gameEnv.center then
-					local x=30*(cx+sc[2]-1)-30+15
-					gc.circle("fill",x,600-30*(cy+sc[1]-1)+15,4)
-					gc.setColor(1,1,1,.5)
-					gc.circle("fill",x,600-30*(y_img+sc[1]-1)+15,4)
-				end--Rotate center
-			end
-			gc.setColor(1,1,1)
-			gc.draw(PTC.dust[p])--Draw game field
-		love.graphics.setStencilTest()--In-playField mask
-		gc.translate(0,-fieldBeneath)
-		gc.setColor(1,1,1)gc.rectangle("line",-2,-12,304,614)--Draw boarder
-
-		local h=0
-		for i=1,#atkBuffer do
-			local a=atkBuffer[i]
-			local bar=a.amount*30
-			if not a.sent then
-				if a.time<20 then
-					bar=bar*(20*a.time)^.5*.05
-					--Appear
+				if waiting<=0 then
+					gc.setColor(2,2,2)
+					for i=1,r do for j=1,c do
+						if cb[i][j]>0 then
+							drawPixel(i+cy-1,j+cx-1,bn,1)
+						end
+					end end--Block
 				end
-				if a.countdown>0 then
-					gc.setColor(attackColor[a.lv][1])
-					gc.rectangle("fill",305,600-h,8,-bar+5)
-					gc.setColor(attackColor[a.lv][2])
-					gc.rectangle("fill",305,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
-					--Timing
-				else
-					attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
-					gc.rectangle("fill",305,600-h,8,-bar+5)
-					--Warning
-				end
-			else
-				gc.setColor(attackColor[a.lv][1])
-				bar=bar*(20-a.time)*.05
-				gc.rectangle("fill",305,600-h,8,-bar+5)
-				--Disappear
-			end
-			h=h+bar
-			if h>600 then break end
-		end--Buffer line
-
-		gc.setColor(1,1,1)
-		gc.rectangle("fill",-15,600,10,-b2b1)
-		gc.setColor(1,.4,.4)
-		gc.rectangle("line",-20,600-100,15,2)
-		gc.setColor(.4,.4,1)
-		gc.rectangle("line",-20,600-480,15,2)
-		--B2B bar
-
-		setFont(40)
-		if gameEnv.hold then
-			gc.setColor(1,1,1)
-			gc.print("Hold",-113,0)
-			for i=1,#hb do
-				for j=1,#hb[1] do
-					if hb[i][j]>0 then
-						drawPixel(i+17.5-#hb*.5,j-2.5-#hb[1]*.5,holded and 13 or hn,1)
-					end
-				end
-			end
-		end--Hold
-		for N=1,gameEnv.next do
-			gc.setColor(1,1,1)
-			gc.print("Next",336,0)
-			local b=nb[N]
-			for i=1,#b do
-				for j=1,#b[1] do
-					if b[i][j]>0 then
-						drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,nxt[N],1)
-					end
-				end
-			end
-		end--Next
-		if count then
-			gc.push("transform")
-				gc.translate(155,220)
 				gc.setColor(1,1,1)
-				setFont(100)
-				if count%60>45 then gc.scale(1+(count%60-45)^2*.01,1)end
-				mStr(int(count/60+1),0,0)
-			gc.pop()
-		end--Draw starting counter
-		for i=1,#bonus do
-			bonus[i]:draw()
-		end--Effects
+				gc.draw(PTC.dust[p])--Draw game field
+			gc.setStencilTest()--In-playField mask
+			gc.translate(0,-fieldBeneath)
+			gc.setColor(1,1,1)gc.rectangle("line",-2,-12,304,614)--Draw boarder
 
-		if P.size>.3 then
+			local h=0
+			for i=1,#atkBuffer do
+				local a=atkBuffer[i]
+				local bar=a.amount*30
+				if not a.sent then
+					if a.time<20 then
+						bar=bar*(20*a.time)^.5*.05
+						--Appear
+					end
+					if a.countdown>0 then
+						gc.setColor(attackColor[a.lv][1])
+						gc.rectangle("fill",305,600-h,8,-bar+5)
+						gc.setColor(attackColor[a.lv][2])
+						gc.rectangle("fill",305,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
+						--Timing
+					else
+						attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
+						gc.rectangle("fill",305,600-h,8,-bar+5)
+						--Warning
+					end
+				else
+					gc.setColor(attackColor[a.lv][1])
+					bar=bar*(20-a.time)*.05
+					gc.rectangle("fill",305,600-h,8,-bar+5)
+					--Disappear
+				end
+				h=h+bar
+				if h>600 then break end
+			end--Buffer line
+
+			gc.setColor(b2b<100 and color.white or b2b<=480 and color.lightRed or color.lightBlue)
+			gc.rectangle("fill",-15,600,10,-b2b1)
+			--B2B bar
+
+			for i=1,#bonus do
+				local a=#field>9-bonus[i].dy*.03333 and .6 or 1
+				bonus[i]:draw(a)
+			end--Effects
+			gc.pop()
+		else
+			gc.push("transform")
+			gc.translate(x,y)gc.scale(size)--Scale
+			gc.setColor(0,0,0,.7)gc.rectangle("fill",0,0,600,690)--Black Background
+			gc.setLineWidth(3)
+			gc.setColor(1,1,1)gc.rectangle("line",0,0,600,690)--Big frame
+			gc.translate(150,70)
+			gc.stencil(stencil_field, "replace", 1)
+			gc.translate(0,fieldBeneath)
+			gc.setStencilTest("equal",1)
+				for j=1,#field do
+					if falling<=0 or without(clearing,j)then
+						for i=1,10 do
+							if field[j][i]>0 then
+								drawPixel(j,i,field[j][i],min(visTime[j][i],20)*.05)
+							end
+						end
+					else
+						gc.setColor(1,1,1,falling/gameEnv.fall)
+						gc.rectangle("fill",0,600-30*j,320,30)
+					end
+				end--Field
+				if waiting<=0 then
+					if gameEnv.ghost then
+						for i=1,r do for j=1,c do
+							if cb[i][j]>0 then
+								drawPixel(i+y_img-1,j+cx-1,bn,.3)
+							end
+						end end
+					end--Ghost
+					gc.setColor(1,1,1,lockDelay/gameEnv.lock)
+					for i=1,r do for j=1,c do
+						if cb[i][j]>0 then
+							gc.rectangle("fill",30*(j+cx-1)-34,596-30*(i+cy-1),38,38)
+						end
+					end end--BlockShade(lockdelay indicator)
+					for i=1,r do for j=1,c do
+						if cb[i][j]>0 then
+							drawPixel(i+cy-1,j+cx-1,bn,1)
+						end
+					end end--Block
+					if gameEnv.center then
+						local x=30*(cx+sc[2]-1)-30+15
+						gc.draw(spinCenter,x,600-30*(cy+sc[1]-1)+15,nil,nil,nil,4,4)
+						gc.setColor(1,1,1,.5)
+						gc.draw(spinCenter,x,600-30*(y_img+sc[1]-1)+15,nil,nil,nil,4,4)
+					end--Rotate center
+				end
+				gc.setColor(1,1,1)
+				gc.draw(PTC.dust[p])--Draw game field
+			gc.setStencilTest()--In-playField mask
+			gc.translate(0,-fieldBeneath)
+			gc.setColor(1,1,1)gc.rectangle("line",-2,-12,304,614)--Draw boarder
+
+			local h=0
+			for i=1,#atkBuffer do
+				local a=atkBuffer[i]
+				local bar=a.amount*30
+				if not a.sent then
+					if a.time<20 then
+						bar=bar*(20*a.time)^.5*.05
+						--Appear
+					end
+					if a.countdown>0 then
+						gc.setColor(attackColor[a.lv][1])
+						gc.rectangle("fill",305,600-h,8,-bar+5)
+						gc.setColor(attackColor[a.lv][2])
+						gc.rectangle("fill",305,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
+						--Timing
+					else
+						attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
+						gc.rectangle("fill",305,600-h,8,-bar+5)
+						--Warning
+					end
+				else
+					gc.setColor(attackColor[a.lv][1])
+					bar=bar*(20-a.time)*.05
+					gc.rectangle("fill",305,600-h,8,-bar+5)
+					--Disappear
+				end
+				h=h+bar
+				if h>600 then break end
+			end--Buffer line
+
+			gc.setColor(b2b<100 and color.white or b2b<=480 and color.lightRed or color.lightBlue)
+			gc.rectangle("fill",-15,600,10,-b2b1)
+			gc.setColor(color.red)
+			gc.rectangle("line",-20,600-100,15,2)
+			gc.setColor(color.blue)
+			gc.rectangle("line",-20,600-480,15,2)
+			--B2B bar
+
+			setFont(40)
+			if gameEnv.hold then
+				gc.setColor(1,1,1)
+				gc.print("Hold",-113,0)
+				for i=1,#hb do
+					for j=1,#hb[1] do
+						if hb[i][j]>0 then
+							drawPixel(i+17.5-#hb*.5,j-2.5-#hb[1]*.5,holded and 13 or hn,1)
+						end
+					end
+				end
+			end--Hold
+			for N=1,gameEnv.next do
+				gc.setColor(1,1,1)
+				gc.print("Next",336,0)
+				local b=nb[N]
+				for i=1,#b do
+					for j=1,#b[1] do
+						if b[i][j]>0 then
+							drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,nxt[N],1)
+						end
+					end
+				end
+			end--Next
+			if count then
+				gc.push("transform")
+					gc.translate(155,220)
+					gc.setColor(1,1,1)
+					setFont(100)
+					if count%60>45 then gc.scale(1+(count%60-45)^2*.01,1)end
+					mStr(int(count/60+1),0,0)
+				gc.pop()
+			end--Draw starting counter
+			for i=1,#bonus do
+				local a=#field>(9-bonus[i].dy*.03333)and .7 or 1
+				bonus[i]:draw(a)
+			end--Effects
+
 			gc.setColor(1,1,1)
 			setFont(40)
 			gc.print(format("%0.2f",time),-125,530)--Draw time
@@ -287,15 +364,15 @@ function Pnt.play()
 			drawDial(350,520,dropSpeed)
 			drawDial(400,570,keySpeed)
 			--Speed dials
+			gc.pop()
 		end
-		gc.pop()
 	end--Draw players
 	gc.setColor(1,1,1)
 	for i=1,3 do
 		gc.draw(PTC.attack[i])
 	end
 	setmetatable(_G,nil)
-	if system==2 then
+	if setting.virtualkeySwitch then
 		drawVirtualkey()
 	end
 end
@@ -307,6 +384,7 @@ function Pnt.setting2()
 	setFont(35)
 	mStr("DAS:"..setting.das,828,73)
 	mStr("ARR:"..setting.arr,1043,73)
+	gc.print("Keyboard                Joystick",223,10)
 	for i=1,9 do
 		gc.printf(actName_show[i]..":",0,60*i-8,180,"right")
 	end

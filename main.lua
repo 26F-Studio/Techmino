@@ -50,7 +50,7 @@ do
 		Windows=1,
 		Android=2,
 	}
-	system=l[love.system.getOS()]
+	system=l[love.system.getOS()]or 0
 	l=nil
 end
 touching=nil--1st touching ID
@@ -155,48 +155,48 @@ FX={
 	flash=0,--Black screen(frame)
 	shake=0,--Screen shake(frame)
 	beam={},--Attack beam
-	appear=function(t)
+	appear=function(t,a)
 		setFont(t.font)
-		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*(#field>9 and .7 or 1))
+		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*a)
 		mStr(t.text,150,250-t.font*.5+t.dy)
 	end,
-	fly=function(t)
+	fly=function(t,a)
 		setFont(t.font)
-		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*(#field>9 and .7 or 1))
+		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*a)
 		mStr(t.text,150+(t.t-15)^3*.005,250-t.font*.5+t.dy)
 	end,
-	stretch=function(t)
+	stretch=function(t,a)
 		gc.push("transform")
 			setFont(t.font)
 			gc.translate(150,250+t.dy)
-			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*(#field>9 and .7 or 1))
+			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*a)
 			if t.t<20 then gc.scale((20-t.t)*.015+1,1)end
 			mStr(t.text,0,-t.font*.5)
 		gc.pop()
 	end,
-	drive=function(t)
+	drive=function(t,a)
 		gc.push("transform")
 			setFont(t.font)
 			gc.translate(150,290+t.dy)
-			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*(#field>9 and .7 or 1))
+			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*a)
 			if t.t<20 then gc.shear((20-t.t)*.05,0)end
 			mStr(t.text,0,-t.font*.5)
 		gc.pop()
 	end,
-	spin=function(t)
+	spin=function(t,a)
 		gc.push("transform")
 			setFont(t.font)
 			gc.translate(150,250+t.dy)
-			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*(#field>9 and .7 or 1))
+			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*a)
 			if t.t<20 then
 				gc.rotate((20-t.t)^2*.0015)
 			end
 			mStr(t.text,0,-t.font*.5)
 		gc.pop()
 	end,
-	flicker=function(t)
+	flicker=function(t,a)
 		setFont(t.font)
-		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*(#field>9 and .8 or 1)*(rnd()+.5))
+		gc.setColor(1,1,1,min((30-abs(t.t-30))*.05,1)*a*(rnd()+.5))
 		mStr(t.text,150,250-t.font*.5+t.dy)
 	end,
 }
@@ -204,35 +204,9 @@ function stencil_field()
 	gc.rectangle("fill",0,-10,300,610)
 end
 --System data
-color={
-	red={1,0,0},
-	green={0,1,0},
-	blue={0,0,1},
-	yellow={1,1,0},
-	purple={1,0,1},
-	cyan={0,1,1},
-	white={1,1,1},
-	grey={.6,.6,.6},
-}
-attackColor={
-	{color.red,color.yellow},
-	{color.red,color.purple},
-	{color.blue,color.white},
-	animate={
-		function(t)
-			gc.setColor(1,t,0)
-		end,
-		function(t)
-			gc.setColor(1,0,t)
-		end,
-		function(t)
-			gc.setColor(t,t,1)
-		end,
-	}--3 animation-colorsets of attack buffer bar
-}
 
 require("TRS")--load block&TRS kick
-require("lists")--load lists
+require("list")--load lists
 
 gameEnv0={
 	das=10,arr=2,
@@ -361,7 +335,7 @@ loadmode={
 		curBG="game2"
 		BGM("push")
 	end,
-	tetris21=function()
+	tetris41=function()
 		modeEnv={
 			wait=1,
 			fall=1,
@@ -369,15 +343,15 @@ loadmode={
 		createPlayer(1,340,15)--Player
 
 		local n=2
-		for i=1,2 do
+		for i=1,4 do
 			for j=1,5 do
-				createPlayer(n,150*i-115,142*j-130,.19,rnd(4)+1)
+				createPlayer(n,75*i-48,142*j-130,.19,rnd(4)+1)
 				n=n+1
 			end
 		end
-		for i=8,9 do
+		for i=9,12 do
 			for j=1,5 do
-				createPlayer(n,150*i-210,142*j-130,.19,rnd(4)+1)
+				createPlayer(n,75*i+292,142*j-130,.19,rnd(4)+1)
 				n=n+1
 			end
 		end--AIs
@@ -531,7 +505,7 @@ mesDisp={
 	death=function()
 		mStr(P.cstat.row.."/"..gameEnv.target,-75,250)
 	end,
-	tetris21=function()
+	tetris41=function()
 		gc.print("Remain",-140,450)
 		gc.print("Attack",-130,305)
 		setFont(80)
@@ -581,6 +555,7 @@ setting={
 	},
 	virtualkeyAlpha=3,
 	virtualkeyIcon=true,
+	virtualkeySwitch=false,
 }
 stat={
 	run=0,
@@ -726,6 +701,10 @@ function loaddata()
 				v=string.splitS(v)
 				for i=#v+1,8 do v[i]="N/A"end
 				setting.key=v
+			elseif t=="gamepadset"then
+				v=string.splitS(v)
+				for i=#v+1,8 do v[i]="N/A"end
+				setting.gamepad=v
 			elseif t=="virtualkey"then
 				v=string.splitS(v,"/")
 				for i=1,9 do
@@ -738,6 +717,8 @@ function loaddata()
 				setting.virtualkeyAlpha=int(abs(toN(v)))
 			elseif t=="virtualkeyIcon"then
 				setting.virtualkeyIcon=v=="true"
+			elseif t=="virtualkeySwitch"then
+				setting.virtualkeySwitch=v=="true"
 			--Settings
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
@@ -781,9 +762,11 @@ function savedata()
 		stringPack("sddas=",setting.sddas),
 		stringPack("sdarr=",setting.sdarr),
 		stringPack("keyset=",table.concat(setting.key,"/")),
+		stringPack("gamepadset=",table.concat(setting.gamepad,"/")),
 		stringPack("virtualkey=",table.concat(vk,"/")),
 		stringPack("virtualkeyAlpha=",setting.virtualkeyAlpha),
 		stringPack("virtualkeyIcon=",setting.virtualkeyIcon),
+		stringPack("virtualkeySwitch=",setting.virtualkeySwitch),
 	},"\r\n")
 	--t=love.math.compress(t,"zlib"):getString()
 	userdata:open("w")
@@ -797,6 +780,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	local P=players[id]
 	P.index={__index=P}
 	P.x,P.y,P.size=x,y,size or 1
+	P.small=P.size<.3
 
 	if AIspeed then
 		P.ai={
@@ -863,16 +847,20 @@ end
 function showText(text,type,font,dy)
 	ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0})
 end
-function createBeam(s,r,level)--Player id
-	s,r=players[s],players[r]
-	ins(FX.beam,{
-		s.x+(30*(cx+sc[2]-1)-30+15+150)*s.size,
-		s.y+(600-30*(cy+sc[1]-1)+15+70)*s.size,
-		r.x+308*r.size,
-		r.y+450*r.size,
-		t=0,
-		lv=level,
-	})
+function createBeam(s,r,lv)--Player id
+	S,R=players[s],players[r]
+	local x1,y1,x2,y2
+	if S.small then
+		x1,y1=S.x+(30*(cx+sc[2]-1)+15)*S.size,S.y+(600-30*(cy+sc[1]-1)+15)*S.size
+	else
+		x1,y1=S.x+(30*(cx+sc[2]-1)-30+15+150)*S.size,S.y+(600-30*(cy+sc[1]-1)+15+70)*S.size
+	end
+	if R.small then
+		x2,y2=R.x+150*R.size,R.y+300*R.size
+	else
+		x2,y2=R.x+308*R.size,R.y+450*R.size
+	end
+	ins(FX.beam,{x1,y1,x2,y2,t=0,lv=lv})
 end
 function freshgho()
 	if not P.gameEnv._20G then
@@ -974,12 +962,12 @@ function spin(d,ifpre)
 	local isc=d==1 and{c-sc[2]+1,sc[1]}or d==-1 and{sc[2],r-sc[1]+1}or{r-sc[1]+1,c-sc[2]+1}
 	local ir,ic=#icb,#icb[1]
 	local ix,iy=cx+sc[2]-isc[2],cy+sc[1]-isc[1]
-	local t=false--if spin available
+	local t--succssful num
 	local iki=TRS[bn][dir*10+(dir+d)%4]
 	for i=1,#iki do
 		if not ifoverlap(icb,ix+iki[i][1],iy+iki[i][2])then
 			ix,iy=ix+iki[i][1],iy+iki[i][2]
-			t=true
+			t=i
 			break
 		end
 	end
@@ -988,11 +976,13 @@ function spin(d,ifpre)
 		P.sc,P.cb=isc,icb
 		P.r,P.c=ir,ic
 		P.dir=(dir+d)%4
-		P.spinLast=true
+		P.spinLast=t
 		freshgho()--May cancel spinLast
 		freshLockDelay()
 		SFX(ifpre and"prerotate"or ifoverlap(cb,cx,cy+1)and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and"rotatekick"or"rotate")
-		stat.rotate=stat.rotate+1
+		if id==1 then
+			stat.rotate=stat.rotate+1
+		end
 	end
 end
 function hold(ifpre)
@@ -1009,15 +999,18 @@ function hold(ifpre)
 		if ifoverlap(cb,cx,cy) then lock()Event.gameover.lose()end
 		P.holded=true
 		SFX(ifpre and"prehold"or"hold")
-		stat.hold=stat.hold+1
+		if id==1 then
+			stat.hold=stat.hold+1
+		end
 	end
 end
 function drop()
 	if cy==y_img then
 		ins(dropTime,1,frame)rem(dropTime,11)--update speed dial
 		P.waiting=gameEnv.wait
-		local dospin=bn~=6 and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and ifoverlap(cb,cx,cy+1)
-		if bn<6 and not dospin and bn<6 and spinLast then
+
+		local dospin=bn~=6 and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and ifoverlap(cb,cx,cy+1)and 1 or 0
+		if bn<6 and spinLast then
 			local x,y=cx+sc[2]-1,cy+sc[1]-1
 			local c=0
 			if solid(x-1,y+1)then c=c+1 end
@@ -1026,13 +1019,14 @@ function drop()
 				if solid(x-1,y-1)then c=c+1 end
 				if solid(x+1,y-1)then c=c+1 end
 				if c>2 then
-					dospin=true
+					dospin=dospin+(spinLast==2 and 1 or 2)
 				end
 			end
-		end--Triangle spin system
+		end--Three point
+		if dospin==0 then dospin=false end
 		lock()
 		local cc,csend,sendTime=checkrow(cy,r),0,0--Currect clear&send&sendTime
-		local mini=dospin and cc<r
+		local mini=dospin==1 and cc<3 and cc<r
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
@@ -1047,7 +1041,7 @@ function drop()
 				csend=4
 			end
 			P.b2b=P.b2b+100
-			sendTime=120
+			sendTime=60
 			P.cstat.tetris=P.cstat.tetris+1
 		elseif cc>0 then
 			if dospin then
@@ -1070,44 +1064,45 @@ function drop()
 					sendTime=sendTime+60
 					P.b2b=P.b2b+90+10*cc
 				else
-					P.b2b=P.b2b+80+20*cc
+					P.b2b=P.b2b+70+30*cc
 				end
 				SFX("spin_"..cc)
-				stat.spin=stat.spin+1
+				if id==1 then
+					stat.spin=stat.spin+1
+				end
 			elseif #clearing<#field then
 				P.b2b=P.b2b-300
 				showText(clearName[cc],"appear",50)
 				csend=cc-1
 				sendTime=20+csend*20
 			end
+			if #clearing==#field then
+				showText("Perfect Clear","flicker",70,-80)
+				csend=csend+6
+				sendTime=sendTime+30
+				SFX("perfectclear")
+				P.b2b=b2b+150
+			end
 		else
 			P.combo=0
 			if dospin then
 				showText(blockName[bn].." spin","appear",50)
 				SFX("spin_0")
-				P.b2b=b2b+30
+				P.b2b=b2b+40
 			end
 		end
 
-		if cc>0 and #clearing==#field then
-			showText("Perfect Clear","flicker",70)
-			csend=csend+6
-			sendTime=sendTime+30
-			SFX("perfectclear")
-			P.b2b=b2b+100
-		end
+
 		csend=csend+(renATK[combo]or 4)
+		if combo>2 then
+			showText(renName[min(combo,20)],combo<10 and"appear"or"flicker",20+combo*3,60)
+		end
 		sendTime=sendTime+20*combo
 		if cc>0 then
 			SFX("clear_"..cc)
 			SFX("ren_"..min(combo,11))
 		end
-
-		if b2b<0 then
-			P.b2b=0
-		elseif b2b>600 then
-			P.b2b=600
-		end
+		P.b2b=max(min(b2b,600),0)
 
 		if csend>0 then
 			if mini then csend=int(csend*.7)end
@@ -1123,12 +1118,18 @@ function drop()
 				if P.atkBuffer[1].amount==0 then
 					rem(P.atkBuffer,1)
 				end
+				if P.atkBuffer[1]and csend==0 then
+					local s=P.atkBuffer[1].amount
+					P.atkBuffer[1].lv=s<4 and 1 or s<7 and 2 or 3
+				end
 			end
 			if csend>0 and #players.alive>1 then garbageSend(P.id,csend,sendTime)end
 		elseif cc==0 then
 			garbageRelease()
 		end--Send attack
-		stat.piece,stat.row=stat.piece+1,stat.row+cc
+		if id==1 then
+			stat.piece,stat.row=stat.piece+1,stat.row+cc
+		end
 		P.cstat.piece,P.cstat.row=P.cstat.piece+1,P.cstat.row+cc
 		if P.cstat.row>=gameEnv.target then
 			gameEnv.reach()
@@ -1180,7 +1181,7 @@ function garbageRelease()
 	end
 end
 
---------------------------------Warning!_G is __indexed to players[n]!
+--------------------------------Warning!_G is __indexed to players[n] when changing any player's data!
 
 require("user_actions")--Game control functions
 
@@ -1252,188 +1253,21 @@ end
 wheelmoved={}
 --Warning,these are not system callbacks!
 
+require("texture")--Texture/Image
+require("particle")--Particle
 require("BGblock")--BG block module
 require("ai")--AI module
 require("timer")--Timer
 require("paint")--Paint
 require("game_scene")--Game scenes swapping
 require("control")--User system control
-
-function love.update(dt)
-	--[[
-	if players then
-		for k,v in pairs(players[1])do
-			if rawget(_G,k)then print(k)end
-		end
-	end--check player data flew(debugging)
-	]]
-	for i=#BGblock,1,-1 do
-		BGblock[i].y=BGblock[i].y+BGblock[i].v
-		if BGblock[i].y>720 then rem(BGblock,i)end
-	end
-	BGblock.ct=BGblock.ct-1
-	if BGblock.ct==0 then
-		ins(BGblock,getNewBlock())
-		BGblock.ct=rnd(20,30)
-	end
-	--Background blocks update
-
-	if sceneSwaping then
-		sceneSwaping.time=sceneSwaping.time-1
-		if sceneSwaping.time==sceneSwaping.mid then
-			for i=1,#Buttons[scene]do
-				Buttons[scene][i].alpha=0
-			end--Reset buttons' state
-			game[sceneSwaping.tar]()
-			Buttons.sel=nil
-		elseif sceneSwaping.time==0 then
-			sceneSwaping=nil
-		end
-	elseif Tmr[scene]then
-		Tmr[scene](dt)
-	end
-	--scene swapping & Timer
-end
-function love.draw()
-	Pnt.BG[curBG]()
-	gc.setColor(1,1,1,.3)
-	for n=1,#BGblock do
-		local b,img=BGblock[n].b,blockSkin[BGblock[n].bn]
-		local size=BGblock[n].size
-		for i=1,#b do for j=1,#b[1]do
-			if b[i][j]>0 then
-				gc.draw(img,BGblock[n].x+(j-1)*30*size,BGblock[n].y+(i-1)*30*size,nil,size)
-			end
-		end end--Block
-	end
-	if Pnt[scene]then Pnt[scene]()end
-	setFont(40)
-	drawButton()
-	if mouseShow and not touching then
-		gc.setColor(1,1,1)
-		gc.draw(mouseIcon,mx,my,nil,nil,nil,10,10)
-	end
-	if sceneSwaping then sceneSwaping.draw()end
-
-	gc.setColor(0,0,0)
-	if screenM>0 then
-		gc.rectangle("fill",0,0,1280,-screenM)
-		gc.rectangle("fill",0,720,1280,screenM)
-	end--Draw black side
-
-	numFont(20)gc.setColor(1,1,1)
-	gc.print(tm.getFPS(),0,700)
-	gc.print(gcinfo(),0,680)
-	--if gcinfo()>500 then collectgarbage()end
-end
-function love.resize(x,y)
-	screenK=1280/gc.getWidth()
-	screenM=(gc.getHeight()*16/9-gc.getWidth())/2
-	gc.origin()
-	gc.scale(1/screenK,1/screenK)
-	gc.translate(0,screenM)
-end 
-function love.run()
-	local frameT=Timer()
-	tm.step()
-	love.resize(nil,gc.getHeight())
-	game.load()--System scene Launch
-	math.randomseed(os.time()*626)--true  A-lthour's  ID!
-	return function()
-		love.event.pump()
-		for name,a,b,c,d,e,f in love.event.poll()do
-			if name=="quit"then return 0 end
-			love.handlers[name](a,b,c,d,e,f)
-		end
-		if focus then
-			tm.step()
-			love.update(tm.getDelta())
-			gc.clear()
-			love.draw()
-			gc.present()
-			if not wd.hasFocus()then
-				focus=false
-				ms.setVisible(true)
-				if bgmPlaying then bgm[bgmPlaying]:pause()end
-				if scene=="play"then
-					for i=1,#players[1].keyPressing do
-						if players[1].keyPressing[i]then
-							releaseKey(i)
-						end
-					end
-				end
-			end
-		else
-			tm.sleep(.1)
-			if wd.hasFocus()then
-				focus=true
-				ms.setVisible(false)
-				if bgmPlaying then bgm[bgmPlaying]:play()end
-			end
-		end
-		while Timer()-frameT<1/60 do end
-		frameT=Timer()
-	end
-end
---System callbacks
-
-do--Texture/Image
-	titleImage=gc.newImage("/image/title.png")
-	mouseIcon=gc.newImage("/image/mouseIcon.png")
-	blockSkin={}
-	for i=1,13 do
-		blockSkin[i]=gc.newImage("/image/block/1/"..i..".png")
-	end
-	background={}
-	gc.setColor(1,1,1)
-	background={}
-	for i=1,2 do
-		background[i]=gc.newImage("/image/BG/"..i..".png")
-	end
-	virtualkeyIcon={}
-	for i=1,9 do
-		virtualkeyIcon[i]=gc.newImage("/image/virtualkey/"..(actName[i])..".png")
-	end
-end
-do--Particle
-	PTC={dust={}}--Particle systems
-	c=gc.newCanvas(6,6)gc.setCanvas(c)
-	gc.clear(1,1,1)
-	PTC.dust[0]=gc.newParticleSystem(c,1000)
-	PTC.dust[0]:setParticleLifetime(.2,.3)
-	PTC.dust[0]:setEmissionRate(0)
-	PTC.dust[0]:setLinearAcceleration(-1500,-200,1500,200)
-	PTC.dust[0]:setColors(1,1,1,.5,1,1,1,0)
-	c:release()
-	--Dust particles
-
-	PTC.attack={}
-	PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/attack/1.png"),200)
-	PTC.attack[1]:setParticleLifetime(.25)
-	PTC.attack[1]:setEmissionRate(0)
-	PTC.attack[1]:setSpin(10)
-	PTC.attack[1]:setColors(1,1,1,.7,1,1,1,0)
-
-	PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/attack/2.png"),200)
-	PTC.attack[2]:setParticleLifetime(.3)
-	PTC.attack[2]:setEmissionRate(0)
-	PTC.attack[2]:setSpin(8)
-	PTC.attack[2]:setColors(1,1,1,.7,1,1,1,0)
-
-	PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/attack/3.png"),200)
-	PTC.attack[3]:setParticleLifetime(.4)
-	PTC.attack[3]:setEmissionRate(0)
-	PTC.attack[3]:setSpin(6)
-	PTC.attack[3]:setColors(1,1,1,.7,1,1,1,0)
-	--Attack particles
-
-	gc.setCanvas()
-end
-c=nil
+require("system")--Love Engine functions
 
 userdata=fs.newFile("userdata")
 if fs.getInfo("userdata")then
 	loaddata()
+elseif system==2 then
+	setting.virtualkeySwitch=true
 end
 
 stat.run=stat.run+1

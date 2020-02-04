@@ -44,10 +44,11 @@ function Tmr.play(dt)
 	for i=#FX.beam,1,-1 do
 		local b=FX.beam[i]
 		b.t=b.t+1
-		local t=b.t*.025
-		PTC.attack[b.lv]:setPosition(b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t-100*(4*t*(1-t)))
+		local t0=b.t*.025--t in [0,1]
+		local t=(sin(1.5*(2*t0-1))+1)*.5
+		PTC.attack[b.lv]:setPosition(b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t)
 		PTC.attack[b.lv]:emit(1)
-		if t==1 then
+		if t0==1 then
 			rem(FX.beam,i)
 		end
 	end

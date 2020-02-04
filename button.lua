@@ -13,7 +13,7 @@ Buttons={
 		{x=640,y=140,w=280,h=70,rgb=color.white,t="Zen",code=function()startGame("zen")end,down=5,left=1,right=3},
 		{x=950,y=140,w=280,h=70,rgb=color.white,t="GM Roll",code=function()startGame("gmroll")end,down=6,left=2},
 		{x=330,y=250,w=280,h=70,rgb=color.white,t="Marathon",code=function()startGame("marathon")end,up=1,down=7,right=5},
-		{x=640,y=250,w=280,h=70,rgb=color.white,t="Tetris 21",code=function()startGame("tetris21")end,up=2,down=8,left=4,right=6},
+		{x=640,y=250,w=280,h=70,rgb=color.white,t="Tetris 41",code=function()startGame("tetris41")end,up=2,down=8,left=4,right=6},
 		{x=950,y=250,w=280,h=70,rgb=color.white,t="Blind",code=function()startGame("blind")end,up=3,down=9,left=5},
 		{x=330,y=360,w=280,h=70,rgb=color.white,t="Death",code=function()startGame("death")end,up=4,down=10,right=8},
 		{x=640,y=360,w=280,h=70,rgb=color.white,t="AI Solo",code=function()startGame("solo")end,up=5,down=10,right=9,left=7},
@@ -22,7 +22,7 @@ Buttons={
 	},
 	play={
 	},
-	setting={
+	setting={--Normal setting
 		{x=330,y=100,w=200,h=60,rgb=color.white,t=function()return setting.ghost and"Ghost ON"or"Ghost OFF"end,code=function()setting.ghost=not setting.ghost end,down=6,right=2},
 		{x=540,y=100,w=200,h=60,rgb=color.white,t=function()return setting.center and"Center ON"or"Center OFF"end,code=function()setting.center=not setting.center end,down=6,left=1,right=3},
 		{x=870,y=100,w=340,h=60,rgb=color.white,t=function()return setting.sfx and"Disable SFX"or"Enable SFX"end,code=function()setting.sfx=not setting.sfx end,down=4,left=2},
@@ -38,7 +38,7 @@ Buttons={
 		{x=435,y=300,w=320,h=60,rgb=color.yellow,t="Touch settings",code=function()gotoScene("setting3")end,up=6,down=8,right=5},
 		{x=640,y=590,w=210,h=60,rgb=color.white,t="Save&Back",code=function()back()end,up=6},
 	},
-	setting2={
+	setting2={--Advanced setting
 		{x=290,y=70 ,w=160,h=45,rgb=color.white,t=function()return setting.key[1]end,code=function()keysetting,gamepadsetting=1 end,up=1,down=2,right=10},
 		{x=290,y=130,w=160,h=45,rgb=color.white,t=function()return setting.key[2]end,code=function()keysetting,gamepadsetting=2 end,up=1,down=3,right=11},
 		{x=290,y=190,w=160,h=45,rgb=color.white,t=function()return setting.key[3]end,code=function()keysetting,gamepadsetting=3 end,up=2,down=4,right=12},
@@ -73,28 +73,31 @@ Buttons={
 		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end,up=24,left=27},
 		--27~28
 	},
-	setting3={
+	setting3={--Touch setting
+		{x=640,y=210,w=400,h=80,rgb=color.white,t=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,code=function()
+			setting.virtualkeySwitch=not setting.virtualkeySwitch
+		end},
 		{x=500,y=310,w=120,h=80,rgb=color.white,t="Reset",code=function()
 			for K=1,#virtualkey do
 				local b,b0=virtualkey[K],gameEnv0.virtualkey[K]
 				b[1],b[2],b[3],b[4]=b0[1],b0[2],b0[3],b0[4]
 			end--Reset virtualkey
-		end,down=4,right=2},
+		end},
 		{x=640,y=310,w=120,h=80,rgb=color.white,t="Snap",code=function()
 			for K=1,#virtualkey do
 				local b=virtualkey[K]
 				b[1],b[2]=int(b[1]*.025+.5)*40,int(b[2]*.025+.5)*40
-			end--Make virtualkey neat
-		end,down=5,left=1,right=3},
+			end--Snap all keys
+		end},
 		{x=780,y=310,w=120,h=80,rgb=color.white,t=function()return percent0to5[setting.virtualkeyAlpha]end,code=function()
 			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6
 			--Adjust virtualkey alpha
-		end,down=6,left=2},
+		end},
 		{x=500,y=410,w=120,h=80,rgb=color.white,t="Icon",code=function()
 			setting.virtualkeyIcon=not setting.virtualkeyIcon
 			--Switch virtualkey icon
-		end,up=1,right=6},
-		{x=640,y=410,w=120,h=80,rgb=color.white,t="Back",code=function()back()end,up=2,left=4,right=3},
+		end},
+		{x=640,y=410,w=120,h=80,rgb=color.white,t="Back",code=function()back()end},
 		{x=780,y=410,w=120,h=80,rgb=color.white,t="Size",code=function()
 			for K=1,#virtualkey do
 				local b=virtualkey[K]
@@ -102,7 +105,7 @@ Buttons={
 				if b[4]==150 then b[4]=40 end
 				b[3]=b[4]^2
 			end
-		end,up=3,left=5},
+		end},
 	},
 	help={
 		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end},
