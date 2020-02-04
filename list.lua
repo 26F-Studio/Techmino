@@ -405,14 +405,12 @@ Widget={
 			resetGameData()
 			scene.swapTo("play","none")
 			end),
-		setting=newButton(1150,80,200,100,C.yellow,40,function()
-			scene.push()
-			scene.swapTo("setting_sound")
-		end),
+		sfx=	newSlider(950,60,280,10,35,function()SFX("blip_1")end,				SETdisp("sfx"),SETsto("sfx")),
+		bgm=	newSlider(950,120,280,10,35,function()BGM(bgmPlaying or"blank")end,	SETdisp("bgm"),SETsto("bgm")),
 		quit=	newButton(640,600,240,100,C.white,45,scene.back),
 	},
 	setting_game={
-		graphic=newButton(200,80,240,80,C.lightCyan,35,function()scene.swapTo("setting_graphic")end,	nil,"sound"),
+		graphic=newButton(200,80,240,80,C.lightCyan,35,function()scene.swapTo("setting_graphic")end,nil,"sound"),
 		sound=	newButton(1080,80,240,80,C.lightCyan,35,function()scene.swapTo("setting_sound")end,	nil,"dasD"),
 		dasD=	newButton(180,230,50,50,C.white,40,function()
 			setting.das=(setting.das-1)%31

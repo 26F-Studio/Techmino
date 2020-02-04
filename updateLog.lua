@@ -8,18 +8,19 @@ Patron(rmb10+):
 	zxc
 	?[D*a]
 Future outlook:
+	New mode system with:
+		ultra mode
+		rythem mode
+		combo mode
+		bigbang mode
+		TTT mode
 	Normal:
-		timing mode
 		powerinfo switch
 		splashing block
 		ajustable next count
 		custom block color/direction
-		new mode system
-		combo mode
-		bigbang mode
-		TTT mode
 		custom block sequence
-		CC smarter(think of gaebage buffer)
+		CC smarter(think of garbage buffer)
 		game recording
 		new AI:task-Z
 		auto GUI in any screen size
@@ -28,6 +29,11 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.8.4:
+	better widget performence
+	vocal more natural(important,may cause new bug)
+	a bit better performence on mobile devices
+	fatal bug fixed
 0.8.3:
 	new widget appearence
 	cuter miya

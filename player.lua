@@ -1803,7 +1803,7 @@ function player.drop(P)--Place piece
 		end
 		send=send+(renATK[P.combo]or 3)
 		if #P.field==0 then
-			P:showText(text.PC,0,-80,60,"flicker")
+			P:showText(text.PC,0,-80,50,"flicker")
 			send=min(send,3)+min(6+P.stat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+60

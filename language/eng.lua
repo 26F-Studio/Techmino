@@ -194,7 +194,7 @@ Lib used:
 	warning="DO NOT DISTRIBUTE",
 	WidgetText={
 		main={
-			lang="Lang",
+			lang="言/A",
 			qplay="Qplay",
 			play="Play",
 			setting="Settings",
@@ -258,7 +258,8 @@ Lib used:
 		pause={
 			resume="Resume",
 			restart="Restart",
-			setting="Setting",
+			sfx="SFX",
+			bgm="BGM",
 			quit="Quit",
 		},
 		setting_game={

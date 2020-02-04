@@ -195,7 +195,7 @@ return{
 	warning="禁 止 私 自 传 播",
 	WidgetText={
 		main={
-			lang="Lang",
+			lang="言/A",
 			qplay="快速开始",
 			play="开始",
 			setting="设置",
@@ -259,7 +259,8 @@ return{
 		pause={
 			resume=	"继续",
 			restart="重新开始",
-			setting="设置",
+			sfx="音效",
+			bgm="音乐",
 			quit=	"退出",
 		},
 

@@ -31,7 +31,10 @@ function clearTask(opt)
 	end
 end
 
-local button={type="button"}
+local button={
+	type="button",
+	ATV=0,--activating time(0~8)
+}
 function newButton(x,y,w,h,color,font,code,hide,N)
 	local _={
 		x=x-w*.5,y=y-h*.5,
@@ -44,11 +47,18 @@ function newButton(x,y,w,h,color,font,code,hide,N)
 	}for k,v in next,button do _[k]=v end return _
 end
 function button:isAbove(x,y)
-	return x>self.x and x<self.x+self.w and y>self.y and y<self.y+self.h
+	return x>self.x-self.ATV and x<self.x+self.w+2*self.ATV and y>self.y-self.ATV and y<self.y+self.h+2*self.ATV
 end
 function button:FX()
-	sysFX[#sysFX+1]={0,0,10,self.x,self.y,self.w,self.h}
-	--[0=ripple],timer,duration,x,y,w,h
+	sysFX[#sysFX+1]={0,0,10,self.x-self.ATV,self.y-self.ATV,self.w+2*self.ATV,self.h+2*self.ATV}
+	--0[ripple],timer,duration,x,y,w,h
+end
+function button:update()
+	if widget_sel==self then
+		if self.ATV<8 then self.ATV=self.ATV+1 end
+	else
+		if self.ATV>0 then self.ATV=self.ATV-1 end
+	end
 end
 function button:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
@@ -57,12 +67,12 @@ function button:draw()
 	local sd=shader_glow
 	sd:send("X",x)sd:send("Y",y)sd:send("W",w)sd:send("H",h)
 	gc.setShader(sd)
-	gc.rectangle("fill",x,y,w,h)
+	gc.rectangle("fill",x-self.ATV,y-self.ATV,w+2*self.ATV,h+2*self.ATV)
 	gc.setShader()
-	if self==widget_sel then
+	if self.ATV>0 then
 		gc.setLineWidth(4)
-		gc.setColor(1,1,1,.8)
-		gc.rectangle("line",x+2,y+2,w-4,h-4)
+		gc.setColor(1,1,1,self.ATV*.125)
+		gc.rectangle("line",x-self.ATV+2,y-self.ATV+2,w+2*self.ATV-4,h+2*self.ATV-4)
 	end
 	local t=self.text
 	if t then
@@ -82,7 +92,10 @@ function button:getInfo()
 	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
-local switch={type="switch"}
+local switch={
+	type="switch",
+	ATV=0,--activating time(0~8)
+}
 function newSwitch(x,y,font,disp,code,hide,N)
 	local _={
 		x=x,y=y,font=font,
@@ -95,21 +108,30 @@ end
 function switch:isAbove(x,y)
 	return x>self.x and x<self.x+50 and y>self.y-25 and y<self.y+25
 end
-function switch:FX()
-	sysFX[#sysFX+1]=self.disp()and
-	{1,0,15,.4,1,.4,self.x,self.y-25,50,50,0}--Switched on
-	or{1,0,15,1,.4,.4,self.x,self.y-25,50,50,0}--Switched off
-	--[1=square fade],timer,duration,r,g,b,x,y,w,h
+function switch:update()
+	if widget_sel==self then
+		if self.ATV<8 then self.ATV=self.ATV+1 end
+	else
+		if self.ATV>0 then self.ATV=self.ATV-1 end
+	end
 end
 function switch:draw()
 	local x,y=self.x,self.y-25
 	if self.disp()then
+		if self.ATV>0 then
+			gc.setColor(1,.3,.3,self.ATV*.06)
+			gc.rectangle("fill",x,y,50,50)
+		end
 		gc.setColor(.9,1,.9)
 		gc.setLineWidth(6)
 		gc.line(x+5,y+25,x+18,y+38,x+45,y+11)
-	end--checked
-	gc.setColor(1,1,1,self==widget_sel and .6 or .3)
-	gc.rectangle("fill",x,y,50,50)
+	else
+		if self.ATV>0 then
+			gc.setColor(.3,1,.3,self.ATV*.06)
+			gc.rectangle("fill",x,y,50,50)
+		end
+	end
+	--checked
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",x,y,50,50)
@@ -125,7 +147,11 @@ function switch:getInfo()
 	print(format("x=%d,y=%d,font=%d",self.x,self.y,self.font))
 end
 
-local slider={type="slider"}
+local slider={
+	type="slider",
+	ATV=0,--activating time(0~8)
+	pos=0,--position shown
+}
 function newSlider(x,y,w,unit,font,change,disp,code,hide,N)
 	local _={
 		x=x,y=y,
@@ -141,13 +167,19 @@ end
 function slider:isAbove(x,y)
 	return x>self.x-10 and x<self.x+self.w+10 and y>self.y-20 and y<self.y+20
 end
-function slider:FX(pos)
-	sysFX[#sysFX+1]={1,0,10,1,1,1,self.x+self.w*pos/self.unit-8,self.y-15,17,30}
-	--[1=square fade],timer,duration,r,g,b,x,y,w,h
+function slider:update()
+	if widget_sel==self then
+		if self.ATV<6 then self.ATV=self.ATV+1 end
+	else
+		if self.ATV>0 then self.ATV=self.ATV-1 end
+	end
+	if not(self.hide and self.hide())then
+		self.pos=self.pos*.8+self.disp()*.2
+	end
 end
 function slider:draw()
 	local x,y=self.x,self.y
-	gc.setColor(1,1,1,self==widget_sel and .7 or .5)
+	gc.setColor(1,1,1,.5+self.ATV*.06)
 	gc.setLineWidth(2)
 	local x1,x2=x,x+self.w
 	for p=0,self.unit do
@@ -165,13 +197,13 @@ function slider:draw()
 		gc.printf(t,x-312,y-self.font*.7,300,"right")
 	end
 	--text
-	local x,y=x1+(x2-x1)*self.disp()/self.unit-9,y-16
+	local x,y,w,h=x1+(x2-x1)*self.pos/self.unit-10-self.ATV,y-16-self.ATV,20+2*self.ATV,32+2*self.ATV
 	gc.setColor(.8,.8,.8)
-	gc.rectangle("fill",x,y,19,32)
-	if self==widget_sel then
+	gc.rectangle("fill",x,y,w,h)
+	if self.ATV>0 then
 		gc.setLineWidth(2)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",x+1,y+1,18,30)
+		gc.setColor(1,1,1,self.ATV*.16)
+		gc.rectangle("line",x+1,y+1,w-2,h-2)
 	end
 	--block
 end

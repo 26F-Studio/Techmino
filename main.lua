@@ -583,7 +583,8 @@ function touchMove.play(id,x,y,dx,dy)
 end
 function keyDown.play(key)
 	if key=="escape"and not scene.swapping then
-		return(frame<180 and back or pauseGame)()
+		(frame<180 and back or pauseGame)()
+		return
 	end
 	local m=setting.keyMap
 	for p=1,players.human do
@@ -651,24 +652,21 @@ local function widgetPress(W,x,y)
 		VOICE("nya")
 	elseif W.type=="switch"then
 		W.code()
-		W:FX()
 		SFX("move",.6)
 	elseif W.type=="slider"then
 		if not x then return end
-		local p=W.disp()
-		W.code(x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5))
-		if p==W.disp()then return end
-		W:FX(p)
+		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
+		if p==P then return end
+		W.code(P)
 		if W.change then W.change()end
 	end
 	if W.hide and W.hide()then widget_sel=nil end
 end
 local function widgetDrag(W,x,y,dx,dy)
 	if W.type=="slider"then
-		local p=W.disp()
-		W.code(x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5))
-		if p==W.disp()then return end
-		W:FX(p)
+		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
+		if p==P then return end
+		W.code(P)
 		if W.change then W.change()end
 	elseif not W:isAbove(x,y)then
 		widget_sel=nil
@@ -685,18 +683,14 @@ local function widgetControl_key(i)
 		if not scene.swapping and widget_sel then
 			widgetPress(widget_sel)
 		end
-	else
+	elseif i=="left"or i=="right"then
 		if widget_sel then
 			local W=widget_sel
 			if W.type=="slider"then
 				local p=W.disp()
-				if i=="left"then
-					if W.disp()>0 then W.code(W.disp()-1)end
-				elseif i=="right"then
-					if W.disp()<W.unit then W.code(W.disp()+1)end
-				end
-				if p==W.disp()then return end
-				W:FX(p)
+				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
+				if p==P or not P then return end
+				W.code(P)
 				if W.change then W.change()end
 			end
 		end
@@ -711,18 +705,19 @@ local function widgetControl_gamepad(i)
 		end
 	elseif i=="start"then
 		if not scene.swapping and widget_sel then
+			if not scene.swapping and widget_sel then
+				widgetPress(widget_sel)
+			end
+		end
+	elseif i=="dpleft"or i=="dpright"then
+		if widget_sel then
 			local W=widget_sel
-			if W.hide and W.hide()then widget_sel=nil end
-			if W.type=="button"then
-				W.code()
-				W:FX()
-				SFX("button")
-				VOICE("nya")
-			elseif W.type=="switch"then
-				W.code()
-				W:FX()
-				SFX("move",.6)
-			-- elseif W.type=="slider"then
+			if W.type=="slider"then
+				local p=W.disp()
+				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
+				if p==P or not P then return end
+				W.code(P)
+				if W.change then W.change()end
 			end
 		end
 	end
@@ -957,44 +952,68 @@ function love.update(dt)
 			scene.swapping=false
 		end
 	end
-	if Tmr[scene.cur]then
-		Tmr[scene.cur](dt)
-	end
+	local i=Tmr[scene.cur]
+	if i then i(dt)end
 	for i=#Task,1,-1 do
 		local T=Task[i]
 		if T.code(T.P,T.data)then
-			rem(Task,i)
-		end
+			for i=i,#Task do
+				Task[i]=Task[i+1]
+			end
+ 		end
 	end
-	for i=1,#voiceQueue do
+	for i=#voiceQueue,1,-1 do
 		local Q=voiceQueue[i]
-		if #Q>0 then
-			if type(Q[1])=="userdata"then
-				if not Q[1]:isPlaying()then
-					for i=1,#Q do
-						Q[i]=Q[i+1]
-					end
-				end--放完了，pop出下一个
-			else
-				local n=1
-				local L=voiceBank[Q[1]]
-				while L[n]:isPlaying()do
-					n=n+1
-					if not L[n]then
-						L[n]=L[n-1]:clone()
-						L[n]:seek(0)
-						break
-					end
+		if Q.s==0 then--闲置轨，自动删除多余
+			if i>3 then
+				local _=voiceQueue
+				for i=i,#_ do
+					_[i]=_[i+1]
 				end
-				Q[1]=L[n]
-				Q[1]:setVolume(setting.voc*.1)
-				Q[1]:play()
-				--load voice with string
+			end
+		elseif Q.s==1 then--等待转换
+			Q[1]=getVoice(Q[1])
+			Q[1]:setVolume(setting.voc*.1)
+			Q[1]:play()
+			Q.s=Q[2]and 2 or 4
+		elseif Q.s==2 then--播放1,等待2
+			if Q[1]:getDuration()-Q[1]:tell()<.08 then
+				Q[2]=getVoice(Q[2])
+				Q[2]:setVolume(setting.voc*.1)
+				Q[2]:play()
+				Q.s=3
+			end
+		elseif Q.s==3 then--12同时播放
+			if not Q[1]:isPlaying()then
+				for i=1,#Q do
+					Q[i]=Q[i+1]
+				end
+				Q.s=Q[2]and 2 or 4
+			end
+		elseif Q.s==4 then--最后播放
+			if not Q[1]:isPlaying()then
+				Q[1]=nil
+				Q.s=0
 			end
 		end
+		if #Q>0 then
+			if Q[1]:isPlaying()then
+				if Q[2]and type(Q[2])=="string"and Q[1]:getDuration()-Q[1]:tell()<.08 then
+					Q[2]=getVoice(Q[2])
+				end
+				--快放完了，播放下一个
+			else
+				for i=1,#Q do
+					Q[i]=Q[i+1]
+				end
+				--放完了，移除
+			end
+		else
+		end
 	end
-	-- for k,W in next,Widget[scene.cur]do
-	-- end--更新控件
+	for k,W in next,Widget[scene.cur]do
+		W:update()
+	end--更新控件
 end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 local FPS=love.timer.getFPS
