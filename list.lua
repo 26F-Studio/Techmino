@@ -1,6 +1,6 @@
 --[["four name"
 	Techrash
-	Zestris
+ x	Zestris
  x	Quadruple
  x	Tequeno
  x	Techzino
@@ -20,7 +20,7 @@ PCbase={
 	{5,5,2,2,0,0,0,6,6,4},
 	{5,2,2,0,0,0,0,4,4,4},
 }
-PClist={--ZSLJTOI
+PClist={
 	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,7,5,6},{7,7,5,2},{7,7,5,4},{7,7,5,3},
 	{7,4,1,2},{7,3,5,7},{7,5,4,3},{7,5,1,2},{7,1,4,2},{7,4,2,5},{7,6,4,5},{7,5,4,2},
 	{7,5,6,4},{7,5,3,6},{7,2,5,6},{7,2,6,4},{7,2,1,3},{7,5,2,7},{7,5,7,2},{7,5,2,3},
@@ -61,14 +61,14 @@ color={
 }
 attackColor={
 	{color.red,color.yellow},
-	{color.red,color.purple},
+	{color.purple,color.white},
 	{color.blue,color.white},
 	animate={
 		function(t)
 			gc.setColor(1,t,0)
 		end,
 		function(t)
-			gc.setColor(1,.5+t*.5,.5+t*.5)
+			gc.setColor(1,.5+t*.5,1)
 		end,
 		function(t)
 			gc.setColor(.2+t*.8,.2+t*.8,1)
@@ -82,7 +82,6 @@ frameColor={
 	color.purple,
 	color.orange,
 }
-blockName={"Z","S","L","J","T","O","I"}
 blockColor={
 	color.red,
 	color.green,
@@ -92,17 +91,6 @@ blockColor={
 	color.yellow,
 	color.cyan,
 }
-clearName={"Single","Double","Triple"}
-spinName={[0]={}}
-for j=1,7 do
-	spinName[0][j]=blockName[j].." spin"
-end
-for i=1,3 do
-	spinName[i]={}
-	for j=1,7 do
-		spinName[i][j]=blockName[j].." spin "..clearName[i]
-	end
-end
 
 miniTitle_rect={
 	{2,0,5,1},{4,1,1,6},
@@ -138,6 +126,8 @@ bgm={
 	"infinite",
 	"cruelty",
 	"final",
+	"secret7th",
+	"secret8th",
 }
 
 prevMenu={
@@ -213,11 +203,11 @@ customRange={
 	opponent={0,60,30,20,15,10,7,5,4,3,2,1},
 }
 
+langName={"中文","English"}
+langID={"chi","eng"}
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","swap","restart","insLeft","insRight","insDown"}
-actName_show={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip","Hard Drop:","Soft Drop:","Hold:","Swap:","Restart:","Instant Left:","Instant Right:","Ins Down:"}
 blockPos={4,4,4,4,4,5,4}
 renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
-renName={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB",}
 b2bPoint={50,90,150}
 b2bATK={3,5,8}
 testScore={[0]=0,[-1]=1,[-2]=0,[-3]=1,2,2,2}
@@ -226,10 +216,6 @@ spin_n={"spin_1","spin_2","spin_3"}
 clear_n={"clear_1","clear_2","clear_3","clear_4"}
 ren_n={"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11"}
 vibrateLevel={0,.02,.03,.04,.06,.08,.1}
-atkModeName={"Random","Badges","K.O.s","Counters"}
-up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
-percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
-snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 snapLevelValue={1,10,20,40,60,80}
 reAtk={0,0,1,1,1,2,2,3,3}
 reDef={0,1,1,2,3,3,4,4,5}
@@ -245,51 +231,64 @@ pc_drop={50,45,40,35,30,26,22,18,15,12}
 pc_lock={55,50,45,40,36,32,30}
 pc_fall={18,16,14,12,10,9,8,7,6}
 
+atkModeName={"Random","Badges","K.O.s","Counters"}
+up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
+percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
+snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
+
 defaultModeEnv={
 	sprint={
 		{
 			drop=60,
 			target=10,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=20,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=40,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=100,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=400,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="push",
 		},
 		{
 			drop=60,
 			target=1000,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="push",
 		},
 	},
 	marathon={
 		{
-			drop=1e99,
-			lock=1e99,
+			drop=60,
+			lock=60,
+			fall=30,
 			target=200,
 			reach=Event.marathon_reach,
+			bg="strap",
 			bgm="way",
 		},
 		{
@@ -297,14 +296,16 @@ defaultModeEnv={
 			fall=20,
 			target=10,
 			reach=Event.marathon_reach,
+			bg="strap",
 			bgm="way",
 		},
 		{
 			_20G=true,
-			fall=20,
+			fall=15,
 			target=200,
 			reach=Event.marathon_reach,
-			bgm="newera",
+			bg="strap",
+			bgm="race",
 		},
 		{
 			_20G=true,
@@ -315,7 +316,8 @@ defaultModeEnv={
 			target=50,
 			reach=Event.marathon_reach_lunatic,
 			arr=2,
-			bgm="race",
+			bg="game2",
+			bgm="secret8th",
 		},
 		{
 			_20G=true,
@@ -324,9 +326,10 @@ defaultModeEnv={
 			wait=death_wait[1],
 			fall=death_fall[1],
 			target=50,
-			reach=Event.marathon_reach_ultimete,
+			reach=Event.marathon_reach_ultimate,
 			arr=1,
-			bgm="push",
+			bg="game2",
+			bgm="secret7th",
 		},
 	},
 	zen={
@@ -335,6 +338,7 @@ defaultModeEnv={
 			lock=1e99,
 			target=200,
 			reach=Event.gameover.win,
+			bg="strap",
 			bgm="infinite",
 		},
 	},
@@ -343,11 +347,13 @@ defaultModeEnv={
 			drop=1e99,
 			lock=1e99,
 			oncehold=false,
+			bg="glow",
 			bgm="infinite",
 		},
 	},
 	solo={
 		{
+			bg="game2",
 			bgm="race",
 		},
 	},
@@ -358,6 +364,8 @@ defaultModeEnv={
 			lock=1e99,
 			target=1,
 			reach=Event.tsd_reach,
+			ospin=false,
+			bg="matrix",
 			bgm="reason",
 		},
 		{
@@ -365,6 +373,8 @@ defaultModeEnv={
 			lock=60,
 			target=1,
 			reach=Event.tsd_reach,
+			ospin=false,
+			bg="matrix",
 			bgm="reason",
 		},
 	},
@@ -373,6 +383,7 @@ defaultModeEnv={
 			drop=30,
 			lock=60,
 			visible=2,
+			bg="glow",
 			bgm="newera",
 		},
 		{
@@ -380,6 +391,7 @@ defaultModeEnv={
 			lock=60,
 			visible=0,
 			freshLimit=10,
+			bg="glow",
 			bgm="reason",
 		},
 		{
@@ -387,6 +399,7 @@ defaultModeEnv={
 			lock=60,
 			visible=0,
 			freshLimit=15,
+			bg="glow",
 			bgm="reason",
 		},
 		{
@@ -397,7 +410,8 @@ defaultModeEnv={
 			fall=15,
 			visible=0,
 			arr=1,
-			bgm="push",
+			bg="game3",
+			bgm="secret8th",
 		},
 	},
 	dig={
@@ -405,12 +419,14 @@ defaultModeEnv={
 			drop=60,
 			lock=120,
 			fall=20,
+			bg="game2",
 			bgm="push",
 		},
 		{
 			drop=10,
 			lock=30,
-			bgm="push",
+			bg="game2",
+			bgm="secret7th",
 		},
 	},
 	survivor={
@@ -418,56 +434,72 @@ defaultModeEnv={
 			drop=60,
 			lock=120,
 			fall=30,
+			bg="game2",
 			bgm="push",
 		},
 		{
 			drop=30,
 			lock=60,
 			fall=20,
+			bg="game2",
 			bgm="newera",
 		},
 		{
 			drop=10,
 			lock=60,
 			fall=15,
-			bgm="race",
+			bg="game2",
+			bgm="secret8th",
 		},
 		{
 			drop=5,
 			lock=60,
 			fall=10,
-			bgm="push",
+			bg="game3",
+			bgm="secret7th",
 		},
 	},
-	sudden={
+	tech={
 		{
 			oncehold=false,
 			drop=1e99,
 			lock=1e99,
 			target=0,
-			reach=Event.sudden_reach,
+			reach=Event.tech_reach,
+			bg="matrix",
 			bgm="way",
 		},
 		{
 			drop=30,
 			lock=60,
 			target=0,
-			reach=Event.sudden_reach,
+			reach=Event.tech_reach,
+			bg="matrix",
 			bgm="way",
 		},
 		{
 			drop=15,
 			lock=60,
 			target=0,
-			reach=Event.sudden_reach_hard,
+			reach=Event.tech_reach_hard,
+			bg="matrix",
 			bgm="way",
 		},
 		{
 			drop=5,
 			lock=40,
 			target=0,
-			reach=Event.sudden_reach_hard,
+			reach=Event.tech_reach_hard,
+			bg="matrix",
 			bgm="way",
+		},
+		{
+			drop=1,
+			lock=40,
+			target=0,
+			reach=Event.tech_reach_hard,
+			bg="matrix",
+			bgm="secret7th",
 		},
 	},
 	pctrain={
@@ -481,6 +513,8 @@ defaultModeEnv={
 			target=0,
 			freshLimit=1e99,
 			reach=Event.newPC,
+			ospin=false,
+			bg="rgb",
 			bgm="newera",
 		},
 		{
@@ -492,6 +526,8 @@ defaultModeEnv={
 			sequence="pc",
 			target=0,
 			reach=Event.newPC,
+			ospin=false,
+			bg="rgb",
 			bgm="newera",
 		},
 	},
@@ -503,6 +539,8 @@ defaultModeEnv={
 			target=100,
 			reach=Event.gameover.win,
 			freshLimit=1e99,
+			ospin=false,
+			bg="rgb",
 			bgm="newera",
 		},
 		{
@@ -511,6 +549,8 @@ defaultModeEnv={
 			fall=10,
 			target=100,
 			reach=Event.gameover.win,
+			ospin=false,
+			bg="rgb",
 			bgm="infinite",
 		},
 		{
@@ -519,6 +559,8 @@ defaultModeEnv={
 			fall=20,
 			target=100,
 			reach=Event.gameover.win,
+			ospin=false,
+			bg="rgb",
 			bgm="infinite",
 		},
 	},
@@ -529,6 +571,7 @@ defaultModeEnv={
 			royalePowerup={2,5,10,20},
 			royaleRemain={30,20,15,10,5},
 			pushSpeed=2,
+			bg="game3",
 			bgm="race",
 		},
 	},
@@ -539,6 +582,7 @@ defaultModeEnv={
 			royalePowerup={2,6,14,30},
 			royaleRemain={75,50,35,20,10},
 			pushSpeed=2,
+			bg="game3",
 			bgm="race",
 		},
 	},
@@ -546,27 +590,33 @@ defaultModeEnv={
 		{
 			drop=20,
 			lock=60,
-			sequence=drought1,
+			sequence="drought1",
 			target=100,
 			reach=Event.gameover.win,
+			ospin=false,
+			bg="glow",
 			bgm="reason",
 		},
 		{
 			drop=20,
 			lock=60,
-			sequence=drought2,
+			sequence="drought2",
 			target=100,
 			reach=Event.gameover.win,
+			ospin=false,
+			bg="glow",
 			bgm="reason",
 		},
 	},
 	hotseat={
 		{
+			bg="none",
 			bgm="way",
 		},
 	},
 	custom={
 		{
+			bg="none",
 			bgm="reason",
 			reach=Event.gameover.win,
 		},
@@ -582,7 +632,7 @@ modeLevel={
 	blind={"EASY","HARD","LUNATIC","GM"},
 	dig={"NORMAL","LUNATIC"},
 	survivor={"EASY","NORMAL","HARD","LUNATIC"},
-	sudden={"EASY","NORMAL","HARD","LUNATIC"},
+	tech={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	pctrain={"NORMAL","LUNATIC"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
 	techmino41={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
@@ -611,31 +661,8 @@ modeLevelColor={
 }
 modeID={
 	[0]="custom",
-	"sprint","marathon","zen","infinite","solo","tsd","blind","dig","survivor","sudden",
+	"sprint","marathon","zen","infinite","solo","tsd","blind","dig","survivor","tech",
 	"pctrain","pcchallenge","techmino41","techmino99","drought","hotseat",
-}
-modeName={
-	[0]="Custom",
-	"Sprint","Marathon","Zen","Infinite","1v1","TSD-only","Blind","Dig","Survivor","Sudden",
-	"PC Train","PC Challenge","Techmino41","Techmino99","Drought","Hotseat",
-}
-modeInfo={
-	sprint="Speed run.",
-	marathon="Survive and reach target",
-	zen="Clear 200 Lines without gravity",
-	infinite="Infinite game,infinite happiness",
-	solo="Beat AI",
-	tsd="Make more T-spin-doubles",
-	blind="Invisible board",
-	dig="Downstack!",
-	survivor="Hand them!",
-	sudden="Techniques practice",
-	pctrain="Let's learn some PCs",
-	pcchallenge="Make PCs in 100 Lines",
-	techmino41="Melee fight with 40 AIs",
-	techmino99="Melee fight with 98 AIs",
-	drought="ERRSEQ flood attack",
-	hotseat="",
 }
 
 freshMethod={
@@ -749,14 +776,14 @@ TRS={
 		[31]={{0,0},{0,-1},{0,1},{-1,0}},
 	},--S/L
 	[5]={
-		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{-1,-1},{0,1}},
+		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{-1,-1}},
 		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1},{1,1}},
 		[12]={{0,0},{1,0},{1,-1},{0,-1},{0,2},{1,2},{-1,-1}},
 		[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{1,1}},
 		[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{-1,1}},
 		[32]={{0,0},{-1,0},{-1,-1},{0,-1},{0,2},{-1,2},{1,-1}},
 		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1}},
-		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{0,1}},
+		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
 		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
 		[13]={{0,0},{0,-1},{0,1},{1,0},{-1,0},{0,2}},
@@ -774,164 +801,10 @@ TRS={
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
 		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
 		[13]={{0,0},{0,-1},{-1,0},{1,0},{0,1}},
-		[31]={{0,0},{0,1},{1,0},{-1,0},{0,1}},
+		[31]={{0,0},{1,0},{-1,0}},
 	}
 }TRS[3],TRS[4]=TRS[2],TRS[1]
 
-Buttons={
-	load={},
-	intro={},
-	main={
-		{x=250,y=250,w=350,h=100,rgb=color.red,f=55,t="Play",code=function()gotoScene("mode")end,down=2},
-		{x=250,y=360,w=350,h=100,rgb=color.blue,f=50,t="Settings",code=function()gotoScene("setting")end,up=1,down=3},
-		{x=160,y=470,w=170,h=100,rgb=color.yellow,f=50,t="Help",code=function()gotoScene("help")end,up=2,down=5,right=4},
-		{x=340,y=470,w=170,h=100,rgb=color.cyan,f=40,t="Statistics",code=function()gotoScene("stat")end,up=2,down=5,left=3},
-		{x=250,y=580,w=350,h=100,rgb=color.grey,f=40,t="Quit",code=function()gotoScene("quit")end,up=3},
-	},
-	mode={
-		{x=1000,y=210,w=200,h=140,rgb=color.white,hide=function()return modeSel==1 end,t="Λ",f=64,code=function()keyDown.mode("up")end},
-		{x=1000,y=430,w=200,h=140,rgb=color.white,hide=function()return modeSel==#modeID end,t="v",f=80,code=function()keyDown.mode("down")end},
-		{x=190,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==1 end,t="<",code=function()keyDown.mode("left")end},
-		{x=350,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==#modeLevel[modeID[modeSel]] end,t=">",code=function()keyDown.mode("right")end},
-		{x=1000,y=600,w=250,h=100,rgb=color.green,f=50,t="Start",code=function()loadGame(modeSel,levelSel)end},
-		{x=270,y=540,w=190,h=85,rgb=color.yellow,t="Custom(c)",code=function()gotoScene("custom")end},
-		{x=640,y=630,w=230,h=90,rgb=color.white,f=45,t="Back",code=back},
-	},
-	custom={
-		{x=1000,y=200,w=100,h=100,rgb=color.white,t="Λ",f=40,code=function()optSel=(optSel-2)%#customID+1 end},
-		{x=1000,y=440,w=100,h=100,rgb=color.white,t="v",f=50,code=function()optSel=optSel%#customID+1 end},
-		{x=880,y=320,w=100,h=100,rgb=color.white,t="<",f=50,code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
-		{x=1120,y=320,w=100,h=100,rgb=color.white,t=">",f=50,code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
-		{x=1000,y=580,w=180,h=80,rgb=color.green,t="Start",code=function()loadGame(0,1)end},
-		{x=640,y=630,w=180,h=60,rgb=color.white,t="Back",code=back},
-	},
-	play={
-	},
-	setting={--Normal setting
-		{x=285,y=90,w=210,h=60,rgb=color.white,t=function()return setting.ghost and"Ghost ON"or"Ghost OFF"end,code=function()setting.ghost=not setting.ghost end,down=3,right=2},
-		{x=505,y=90,w=210,h=60,rgb=color.white,t=function()return setting.center and"Center ON"or"Center OFF"end,code=function()setting.center=not setting.center end,down=5,left=1,right=11},
-		--1,2
-		{x=205,y=180,w=50,h=50,rgb=color.white,t="-",code=function()setting.das=(setting.das-1)%31 end,up=1,down=7,right=4},
-		{x=370,y=180,w=50,h=50,rgb=color.white,t="+",code=function()setting.das=(setting.das+1)%31 end,up=1,down=8,left=3,right=5},
-		{x=420,y=180,w=50,h=50,rgb=color.white,t="-",code=function()setting.arr=(setting.arr-1)%16 end,up=2,down=9,left=4,right=6},
-		{x=585,y=180,w=50,h=50,rgb=color.white,t="+",code=function()setting.arr=(setting.arr+1)%16 end,up=2,down=10,left=5,right=13},
-		--3~6
-		{x=205,y=260,w=50,h=50,rgb=color.white,t="-",code=function()setting.sddas=(setting.sddas-1)%11 end,up=3,down=13,right=8},
-		{x=370,y=260,w=50,h=50,rgb=color.white,t="+",code=function()setting.sddas=(setting.sddas+1)%11 end,up=4,down=13,left=7,right=9},
-		{x=420,y=260,w=50,h=50,rgb=color.white,t="-",code=function()setting.sdarr=(setting.sdarr-1)%4 end,up=5,down=13,left=8,right=10},
-		{x=585,y=260,w=50,h=50,rgb=color.white,t="+",code=function()setting.sdarr=(setting.sdarr+1)%4 end,up=6,down=13,left=9,right=14},
-		--7~10
-		{x=760,y=90,w=160,h=60,rgb=color.white,t=function()return setting.sfx and"SFX:on"or"SFX:off"end,code=function()setting.sfx=not setting.sfx end,down=13,left=2,right=12},
-		{x=940,y=90,w=160,h=60,rgb=color.white,t=function()return setting.bgm and"BGM:on"or"BGM:off"end,code=function()
-			BGM()
-			setting.bgm=not setting.bgm
-			BGM("blank")
-		end,down=13,left=6},
-		{x=850,y=160,w=340,h=60,rgb=color.white,t=function()return "Vibrate level:"..setting.vib end,code=function()
-			setting.vib=(setting.vib+1)%5
-			VIB(2)
-		end,up=11,down=14,left=6},
-		{x=850,y=230,w=340,h=60,rgb=color.white,t=function()return setting.fullscreen and"Fullscreen:on"or"Fullscreen:off"end,
-			code=function()
-				setting.fullscreen=not setting.fullscreen
-				love.window.setFullscreen(setting.fullscreen)
-				if not setting.fullscreen then
-					love.resize(gc.getWidth(),gc.getHeight())
-				end
-			end,
-			up=13,down=15,left=6
-		},
-		{x=850,y=300,w=340,h=60,rgb=color.white,t=function()return setting.bgblock and"BG animation:on"or"BG animation:off"end,
-			code=function()
-				setting.bgblock=not setting.bgblock
-				if not setting.bgblock then
-					for i=1,16 do
-						BGblockList[i].v=3*BGblockList[i].v
-					end
-				end
-			end,
-			up=14,down=16,left=10
-		},
-		{x=850,y=370,w=340,h=60,rgb=color.white,t=function()return"frameDraw:"..setting.frameMul.."%"end,code=function()
-			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
-			if setting.frameMul>100 then setting.frameMul=25 end
-		end,up=15,down=17},
-		--11~16
-		{x=850,y=440,w=340,h=60,rgb=color.green,t="Control settings",code=function()gotoScene("setting2")end,up=16,down=18},
-		{x=850,y=510,w=340,h=60,rgb=color.yellow,t="Touch settings",code=function()gotoScene("setting3")end,up=17,down=19},
-		{x=640,y=620,w=300,h=70,rgb=color.white,t="Save&Back",code=back,up=18},
-		--17~19
-	},
-	setting2={--Control setting
-		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=back},
-	},
-	setting3={--Touch setting
-		{x=640,y=410,w=170,h=80,t="Back",code=back},
-		{x=640,y=210,w=500,h=80,t=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,code=function()
-			setting.virtualkeySwitch=not setting.virtualkeySwitch
-		end},
-		{x=450,y=310,w=170,h=80,t="Defaults",code=function()
-			for K=1,#virtualkey do
-				local b,b0=virtualkey[K],virtualkeySet[defaultSel][K]
-				b[1],b[2],b[3],b[4]=b0[1],b0[2],b0[3],b0[4]
-			end--Default virtualkey
-			defaultSel=defaultSel%5+1
-		end},
-		{x=640,y=310,w=170,h=80,t=function()return snapLevelName[snapLevel]end,code=function()
-			snapLevel=snapLevel%6+1
-		end},
-		{x=830,y=310,w=170,h=80,t=function()return percent0to5[setting.virtualkeyAlpha]end,code=function()
-			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6
-			--Adjust virtualkey alpha
-		end},
-		{x=450,y=410,w=170,h=80,t="Icon",code=function()
-			setting.virtualkeyIcon=not setting.virtualkeyIcon
-			--Switch virtualkey icon
-		end},
-		{x=830,y=410,w=170,h=80,t="Size",code=function()
-			if sel then
-				local b=virtualkey[sel]
-				b[4]=b[4]+10
-				if b[4]==150 then b[4]=40 end
-				b[3]=b[4]^2
-			end
-		end},
-	},
-	help={
-		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=back,right=2},
-		{x=980,y=590,w=230,h=60,rgb=color.white,t="Author's qq",code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left=1},
-	},
-	stat={
-		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=back},
-	},
-	sel=nil,--selected button id(integer)
-}
-for k,v in pairs(Buttons)do
-	for i=1,#v do
-		v[i].alpha=0
-	end
-end
-
-virtualkey={
-	{80,720-80,6400,80},--moveLeft
-	{240,720-80,6400,80},--moveRight
-	{1280-240,720-80,6400,80},--rotRight
-	{1280-400,720-80,6400,80},--rotLeft
-	{1280-240,720-240,6400,80},--rotFlip
-	{1280-80,720-80,6400,80},--hardDrop
-	{1280-80,720-240,6400,80},--softDrop
-	{1280-80,720-400,6400,80},--hold
-	{80,360,6400,80},--swap
-	{80,80,6400,80},--restart
-	--[[
-	{x=0,y=0,r=0},--toLeft
-	{x=0,y=0,r=0},--toRight
-	{x=0,y=0,r=0},--toDown
-	]]
-
-}
-virtualkeyDown={false,false,false,false,false,false,false,false,false,false,false,false,false}
-virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 virtualkeySet={
 	{
 		{80,720-200,6400,80},--moveLeft
@@ -994,39 +867,135 @@ virtualkeySet={
 		{1280-760,40,0,40},--restart
 	},--PC key feedback
 }
-
-Text={
-	load={"Loading textures","Loading BGM","Loading SFX","Finished",},
-	tips={
-		"The whole game is made by MrZ!",
-		"Back to Back 8 combo Techrash PC!",
-		"Techmino has a Nspire-CX edition!",
-		"Is B2B2B2B possible?",
-		"MrZ spin Penta!",
+Buttons={
+	load={},
+	intro={},
+	main={
+		{x=250,y=250,w=350,h=100,rgb=color.red,f=55,code=function()gotoScene("mode")end,down=2},
+		{x=250,y=360,w=350,h=100,rgb=color.blue,f=55,code=function()gotoScene("setting")end,up=1,down=3},
+		{x=160,y=470,w=170,h=100,rgb=color.yellow,f=55,code=function()gotoScene("help")end,up=2,down=5,right=4},
+		{x=340,y=470,w=170,h=100,rgb=color.cyan,f=40,code=function()gotoScene("stat")end,up=2,down=5,left=3},
+		{x=250,y=580,w=350,h=100,rgb=color.grey,f=50,code=function()gotoScene("quit")end,up=3},
 	},
-	stat={
-		"Games run:",
-		"Games played:",
-		"Game time:",
-		"Total block used:",
-		"Total rows cleared:",
-		"Total lines sent:",
-		"Total key pressed:",
-		"Total rotate:",
-		"Total hold:",
-		"Total spin:",
+	mode={
+		{x=1000,y=210,w=200,h=140,rgb=color.white,hide=function()return modeSel==1 end,f=64,code=function()keyDown.mode("up")end},
+		{x=1000,y=430,w=200,h=140,rgb=color.white,hide=function()return modeSel==#modeID end,f=80,code=function()keyDown.mode("down")end},
+		{x=190,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==1 end,code=function()keyDown.mode("left")end},
+		{x=350,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==#modeLevel[modeID[modeSel]] end,code=function()keyDown.mode("right")end},
+		{x=1000,y=600,w=250,h=100,rgb=color.green,f=50,code=function()loadGame(modeSel,levelSel)end},
+		{x=270,y=540,w=190,h=85,rgb=color.yellow,code=function()gotoScene("custom")end},
+		{x=640,y=630,w=230,h=90,rgb=color.white,f=45,code=back},
+	},
+	custom={
+		{x=1000,y=200,w=100,h=100,rgb=color.white,f=40,code=function()optSel=(optSel-2)%#customID+1 end},
+		{x=1000,y=440,w=100,h=100,rgb=color.white,f=50,code=function()optSel=optSel%#customID+1 end},
+		{x=880,y=320,w=100,h=100,rgb=color.white,f=50,code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
+		{x=1120,y=320,w=100,h=100,rgb=color.white,f=50,code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
+		{x=1000,y=580,w=180,h=80,rgb=color.green,code=function()loadGame(0,1)end},
+		{x=640,y=630,w=180,h=60,rgb=color.white,code=back},
+	},
+	play={
+	},
+	setting={--Normal setting
+		{x=285,y=90,w=210,h=60,rgb=color.white,code=function()setting.ghost=not setting.ghost end,down=3,right=2},
+		{x=505,y=90,w=210,h=60,rgb=color.white,code=function()setting.center=not setting.center end,down=5,left=1,right=11},
+		--1,2
+		{x=205,y=180,w=50,h=50,rgb=color.white,code=function()setting.das=(setting.das-1)%31 end,up=1,down=7,right=4},
+		{x=370,y=180,w=50,h=50,rgb=color.white,code=function()setting.das=(setting.das+1)%31 end,up=1,down=8,left=3,right=5},
+		{x=420,y=180,w=50,h=50,rgb=color.white,code=function()setting.arr=(setting.arr-1)%16 end,up=2,down=9,left=4,right=6},
+		{x=585,y=180,w=50,h=50,rgb=color.white,code=function()setting.arr=(setting.arr+1)%16 end,up=2,down=10,left=5,right=13},
+		--3~6
+		{x=205,y=260,w=50,h=50,rgb=color.white,code=function()setting.sddas=(setting.sddas-1)%11 end,up=3,down=19,right=8},
+		{x=370,y=260,w=50,h=50,rgb=color.white,code=function()setting.sddas=(setting.sddas+1)%11 end,up=4,down=19,left=7,right=9},
+		{x=420,y=260,w=50,h=50,rgb=color.white,code=function()setting.sdarr=(setting.sdarr-1)%4 end,up=5,down=19,left=8,right=10},
+		{x=585,y=260,w=50,h=50,rgb=color.white,code=function()setting.sdarr=(setting.sdarr+1)%4 end,up=6,down=19,left=9,right=14},
+		--7~10
+		{x=760,y=90,w=160,h=60,rgb=color.white,code=function()setting.sfx=not setting.sfx end,down=13,left=2,right=12},
+		{x=940,y=90,w=160,h=60,rgb=color.white,code=function()
+			BGM()
+			setting.bgm=not setting.bgm
+			BGM("blank")
+		end,down=13,left=6},
+		{x=850,y=160,w=340,h=60,rgb=color.white,code=function()
+			setting.vib=(setting.vib+1)%5
+			VIB(2)
+		end,up=11,down=14,left=6},
+		{x=850,y=230,w=340,h=60,rgb=color.white,
+			code=function()
+				setting.fullscreen=not setting.fullscreen
+				love.window.setFullscreen(setting.fullscreen)
+				if not setting.fullscreen then
+					love.resize(gc.getWidth(),gc.getHeight())
+				end
+			end,
+			up=13,down=15,left=6
+		},
+		{x=850,y=300,w=340,h=60,rgb=color.white,
+			code=function()
+				setting.bgblock=not setting.bgblock
+				if not setting.bgblock then
+					for i=1,16 do
+						BGblockList[i].v=3*BGblockList[i].v
+					end
+				end
+			end,
+			up=14,down=16,left=10
+		},
+		{x=850,y=370,w=340,h=60,rgb=color.white,code=function()
+			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
+			if setting.frameMul>100 then setting.frameMul=25 end
+		end,up=15,down=17},
+		--11~16
+		{x=850,y=440,w=340,h=60,rgb=color.green,code=function()gotoScene("setting2")end,up=16,down=18},
+		{x=850,y=510,w=340,h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up=17,down=20},
+		{x=280,y=510,w=200,h=60,rgb=color.red,code=function()
+			setting.lang=setting.lang%#langName+1
+			swapLanguage(setting.lang)
+		end,up=10,down=20,right=18},
+		{x=640,y=620,w=300,h=70,rgb=color.white,code=back,up=19},
+		--17~19
+	},
+	setting2={--Control setting
+		{x=840,y=630,w=180,h=60,rgb=color.white,code=back},
+	},
+	setting3={--Touch setting
+		{x=640,y=410,w=170,h=80,code=back},
+		{x=640,y=210,w=500,h=80,code=function()
+			setting.virtualkeySwitch=not setting.virtualkeySwitch
+		end},
+		{x=450,y=310,w=170,h=80,code=function()
+			for K=1,#virtualkey do
+				local b,b0=virtualkey[K],virtualkeySet[defaultSel][K]
+				b[1],b[2],b[3],b[4]=b0[1],b0[2],b0[3],b0[4]
+			end--Default virtualkey
+			defaultSel=defaultSel%5+1
+		end},
+		{x=640,y=310,w=170,h=80,code=function()
+			snapLevel=snapLevel%6+1
+		end},
+		{x=830,y=310,w=170,h=80,code=function()
+			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6
+			--Adjust virtualkey alpha
+		end},
+		{x=450,y=410,w=170,h=80,code=function()
+			setting.virtualkeyIcon=not setting.virtualkeyIcon
+			--Switch virtualkey icon
+		end},
+		{x=830,y=410,w=170,h=80,code=function()
+			if sel then
+				local b=virtualkey[sel]
+				b[4]=b[4]+10
+				if b[4]==150 then b[4]=40 end
+				b[3]=b[4]^2
+			end
+		end},
 	},
 	help={
-		"I think you don't need \"help\".",
-		"THIS IS ONLY A SMALL BLOCK GAME",
-		"But just play like playing TOP/C2/KOS/TGM3",
-		"Game is not public now,so DO NOT DISTIRBUTE",
-		"",
-		"Powered by LOVE2D",
-		"Author:MrZ   E-mail:1046101471@qq.com",
-		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ",
-		"Tool used:VScode,GFIE,Beepbox,Goldwave",
-		"Special thanks:Farter,Teatube,196,Flyz,T830,[all test staff] and YOU!",
-		"Any bugs/suggestions to my E-mail.",
+		{x=640,y=590,w=180,h=60,rgb=color.white,code=back,right=2},
+		{x=980,y=590,w=230,h=60,rgb=color.white,code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left=1},
 	},
+	stat={
+		{x=640,y=590,w=180,h=60,rgb=color.white,code=back},
+	},
+	sel=nil,--selected button id(integer)
 }

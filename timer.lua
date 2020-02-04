@@ -72,7 +72,6 @@ function Tmr.play(dt)
 	for i=1,3 do
 		PTC.attack[i]:update(dt)
 	end
-	-- Update attack beam
 
 	if frame<180 then
 		if frame==179 then
@@ -110,7 +109,7 @@ function Tmr.play(dt)
 						P.ai.controlDelay=P.ai.controlDelay0+1
 					else
 						AI_getControls(P.ai.controls)
-						P.ai.controlDelay=2*P.ai.controlDelay0
+						P.ai.controlDelay=P.ai.controlDelay0+2
 					end
 				end
 			end

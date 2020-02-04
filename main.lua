@@ -39,7 +39,7 @@ function setFont(s)
 		if Fonts[s]then
 			gc.setFont(Fonts[s])
 		else
-			local t=gc.setNewFont("albbph.ttf",s-5)
+			local t=gc.setNewFont("allph.ttf",s-5)
 			Fonts[s]=t
 			gc.setFont(t)
 		end
@@ -57,8 +57,9 @@ gameEnv0={
 	sequence="bag7",visible=1,
 	_20G=false,target=1e99,
 	freshLimit=15,
-	virtualkey={},
+	ospin=true,
 	reach=null,
+	bg="none",
 	bgm="race"
 	--not all is actually used,some only provide a key
 }
@@ -78,37 +79,25 @@ customSel={
 loadmode={
 	sprint=function()
 		createPlayer(1,340,15)
-		curBG="game1"
 	end,
 	marathon=function()
 		createPlayer(1,340,15)
-		curBG="strap"
 	end,
 	zen=function()
 		createPlayer(1,340,15)
-		curBG="strap"
 	end,
 	infinite=function()
 		createPlayer(1,340,15)
-		curBG="glow"
 	end,
 	solo=function()
-		createPlayer(1,20,15)--Player
-		createPlayer(2,660,85,.9,customRange.opponent[3*curMode.lv])--AI
-		curBG="game2"
-	end,
-	death=function()
-		createPlayer(1,340,15)
-		curBG="game2"
-		BGM("push")
+		createPlayer(1,200,15)
+		createPlayer(2,830,220,.7,customRange.opponent[3*curMode.lv])
 	end,
 	tsd=function()
 		createPlayer(1,340,15)
-		curBG="matrix"
 	end,
 	blind=function()
 		createPlayer(1,340,15)
-		curBG="glow"
 	end,
 	dig=function()
 		createPlayer(1,340,15)
@@ -120,29 +109,24 @@ loadmode={
 			ins(players[1].task,Event.task.dig_lunatic)
 			pushSpeed=1
 		end
-		curBG="game2"
 	end,
 	survivor=function()
 		createPlayer(1,340,15)
 		local P=players[1]
 		ins(players[1].task,Event.task[curMode.lv==1 and"survivor_easy"or curMode.lv==2 and"survivor_normal"or curMode.lv==3 and"survivor_hard"or curMode.lv==4 and"survivor_lunatic"])
 		pushSpeed=curMode.lv>2 and 2 or 1
-		curBG="game2"
 	end,
-	sudden=function()
+	tech=function()
 		createPlayer(1,340,15)
-		curBG="matrix"
 	end,
 	pctrain=function()
 		createPlayer(1,340,15)
 		P=players[1]
 		Event.newPC()
 		P.freshNext()
-		curBG="matrix"
 	end,
 	pcchallenge=function()
 		createPlayer(1,340,15)
-		curBG="matrix"
 	end,
 	techmino41=function()
 		createPlayer(1,340,15)--Player
@@ -164,7 +148,6 @@ loadmode={
 		end end
 		--AIs
 
-		curBG="game3"
 	end,
 	techmino99=function()
 		createPlayer(1,340,15)--Player
@@ -186,11 +169,9 @@ loadmode={
 		end end
 		--AIs
 
-		curBG="game3"
 	end,
 	drought=function()
 		createPlayer(1,340,15)
-		curBG="strap"
 	end,
 	hotseat=function()
 		if curMode.lv==1 then
@@ -206,7 +187,6 @@ loadmode={
 			createPlayer(3,645,160,.5)
 			createPlayer(4,955,160,.5)
 		end
-		curBG="game2"
 	end,
 	custom=function()
 		for i=1,#customID do
@@ -221,7 +201,6 @@ loadmode={
 			createPlayer(1,20,15)
 			createPlayer(2,660,85,.9,modeEnv.opponent)
 		end
-		curBG="matrix"
 	end,
 }
 mesDisp={
@@ -239,8 +218,8 @@ mesDisp={
 		mStr(P.cstat.atk,-75,310)
 		mStr(format("%.2f",2.5*P.cstat.atk/P.cstat.piece),-75,420)
 		setFont(20)
-		gc.print("Attack",-98,363)
-		gc.print("Efficiency",-110,475)
+		mStr("Attack",-75,363)
+		mStr("Efficiency",-75,475)
 	end,
 	marathon=function()
 		setFont(50)
@@ -250,14 +229,14 @@ mesDisp={
 	end,
 	tsd=function()
 		setFont(35)
-		gc.print("TSD",-102,405)
+		mStr("TSD",-75,405)
 		setFont(80)
-		mStr((P.gameEnv.target-1)*.5,-75,330)
+		mStr(P.cstat.event,-75,330)
 	end,
 	blind=function()
 		setFont(25)
-		gc.print("Rows",-102,300)
-		gc.print("Techrash",-123,420)
+		mStr("Rows",-75,300)
+		mStr("Techrash",-75,420)
 		setFont(80)
 		mStr(P.cstat.row,-75,220)
 		mStr(P.cstat.techrash,-75,340)
@@ -266,23 +245,23 @@ mesDisp={
 		setFont(70)
 		mStr(P.cstat.event,-75,310)
 		setFont(30)
-		gc.print("Wave",-112,375)
+		mStr("Wave",-75,375)
 	end,
 	survivor=function()
 		setFont(70)
 		mStr(P.cstat.event,-75,310)
 		setFont(30)
-		gc.print("Wave",-112,375)
+		mStr("Wave",-75,375)
 	end,
 	pctrain=function()
 		setFont(25)
-		gc.print("Perfect Clear",-140,410)
+		mStr("Perfect Clear",-75,410)
 		setFont(80)
 		mStr(P.cstat.pc,-75,330)
 	end,
 	pcchallenge=function()
 		setFont(25)
-		gc.print("Perfect Clear",-140,430)
+		mStr("Perfect Clear",-75,430)
 		setFont(80)
 		mStr(P.cstat.pc,-75,350)
 		setFont(50)
@@ -341,6 +320,7 @@ Event={
 			if modeEnv.royaleMode then
 				P.rank=1
 				P.result="WIN"
+				showText(P,1,"appear",60,120,nil,true)
 				changeAtk(P)
 			end
 			::L::if P.task[1]then
@@ -356,7 +336,7 @@ Event={
 					P.visTime[i][j]=min(P.visTime[i][j],20)
 				end
 			end
-			showText(P,"WIN","appear",90,nil,nil,true)
+			showText(P,text.win,"beat",90,nil,nil,true)
 			if P.id==1 and players[2]and players[2].ai then SFX("win")end
 			ins(P.task,Event.task.win)
 		end,
@@ -380,11 +360,12 @@ Event={
 				changeAtk(P)
 				P.result="K.O."
 				P.rank=#players.alive+1
+				showText(P,P.rank,"appear",60,120,nil,true)
 				P.strength=0
 				local A=P
 				::L::
 					A=A.lastRecv
-				if A and not A.alive then goto L end
+				if A and not A.alive and A~=P then goto L end
 				if A and A~=P then
 					if P.id==1 or A.id==1 then
 						throwBadge(P,A,P.badge)
@@ -396,8 +377,28 @@ Event={
 							A.strength=i
 						end
 					end
+					if P==mostBadge then
+						mostBadge,secBadge=secBadge
+					elseif P==secBadge then
+						secBadge=nil
+					end
+					if mostBadge then
+						if A.badge>mostBadge.badge then
+							if A~=mostBadge then
+								mostBadge,secBadge=A,mostBadge
+							end
+						elseif secBadge then
+							if A.badge>secBadge.badge then
+								secBadge=A
+							end
+						else
+							secBadge=A
+						end
+					else
+						mostBadge=A
+					end
 				end
-				freshMostBadge()
+				freshMostDangerous()
 				for i=1,#players.alive do
 					if players.alive[i].atking==P then
 						freshTarget(players.alive[i])
@@ -416,7 +417,7 @@ Event={
 					P.visTime[i][j]=min(P.visTime[i][j],20)
 				end
 			end
-			showText(P,"LOSE","appear",90,nil,nil,true)
+			showText(P,text.lose,"appear",90,nil,nil,true)
 			if P.id==1 and players[2]and players[2].ai then SFX("fail")end
 			ins(P.task,Event.task.lose)
 			if #players.alive==1 then
@@ -449,21 +450,23 @@ Event={
 			P.gameEnv.lock=rush_lock[t]
 			P.gameEnv.wait=rush_wait[t]
 			P.gameEnv.fall=rush_fall[t]
-			showText(P,"STAGE "..t,"fly",80,-120)
+			showText(P,text.stage[t],"fly",80,-120)
 			SFX("reach")
 		end
 	end,
 	marathon_reach_ultimate=function()
-		if P.gameEnv.target==250 then
+		if P.cstat.event==5 then
 			P.cstat.row=250
 			Event.gameover.win()
 		else
-			P.gameEnv.target=P.gameEnv.target+50
-			local t=P.gameEnv.target/50
+			local t=P.cstat.event+1
+			if t==1 then t=2 end
+			P.gameEnv.target=50*t
+			P.cstat.event=t
 			P.gameEnv.lock=death_lock[t]
 			P.gameEnv.wait=death_wait[t]
 			P.gameEnv.fall=death_fall[t]
-			showText(P,"STAGE "..t,"beat",80,-120)
+			showText(P,text.stage[t],"fly",80,-120)
 			SFX("reach")
 		end
 	end,
@@ -472,18 +475,19 @@ Event={
 			Event.gameover.lose()
 		else
 			P.gameEnv.target=P.gameEnv.target+2
-			if P.cstat.row%10~=0 then
+			P.cstat.event=P.cstat.event+1
+			if #P.field>11 and P.cstat.event%5~=1 then
 				ins(P.clearing,1)
 			end
 		end
 	end,
-	sudden_reach=function()
+	tech_reach=function()
 		if #P.clearing>0 and P.lastClear<10 then
 			Event.gameover.lose()
 		end
 	end,
-	sudden_reach_hard=function()
-		if #P.clearing>0 and P.lastClear<10 and P.lastClear~=74 then
+	tech_reach_hard=function()
+		if #P.clearing>0 and P.lastClear<10 or P.lastClear==74 then
 			Event.gameover.lose()
 		end
 	end,
@@ -500,9 +504,9 @@ Event={
 						P.gameEnv.lock=pc_lock[s]or 20
 						P.gameEnv.fall=pc_fall[s]or 5
 						if s==10 then
-							showText(P,"Max speed","appear",80,-120)
+							showText(P,text.maxspeed,"appear",80,-140)
 						else
-							showText(P,"Speed up","appear",30,-130)
+							showText(P,text.speedup,"appear",30,-140)
 						end
 					end
 				end
@@ -590,6 +594,7 @@ Event={
 			if P.counter==max(60,180-2*P.cstat.event)then
 				ins(P.atkBuffer,{rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1})
 				P.counter=0
+				if P.cstat.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
 				P.cstat.event=P.cstat.event+1
 			end
 		end,
@@ -604,19 +609,21 @@ Event={
 				elseif d%4==3 then ins(P.atkBuffer,{rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3})
 				end
 				P.counter=0
+				if P.cstat.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
 				P.cstat.event=P.cstat.event+1
 			end
 		end,
 		survivor_hard=function()
 			local P=players[1]
 			P.counter=P.counter+1
-			if P.counter==max(80,150-2*P.cstat.event)then
-				if rnd()<.33 then
-					ins(P.atkBuffer,{rnd(10),amount=1,countdown=20,cd0=20,time=0,sent=false,lv=1})
+			if P.counter==max(60,180-2*P.cstat.event)then
+				if P.cstat.event%3<2 then
+					ins(P.atkBuffer,{rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
 				else
-					ins(P.atkBuffer,{rnd(10),amount=3,countdown=40,cd0=40,time=0,sent=false,lv=2})
+					ins(P.atkBuffer,{rnd(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2})
 				end
 				P.counter=0
+				if P.cstat.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
 				P.cstat.event=P.cstat.event+1
 			end
 		end,
@@ -624,9 +631,10 @@ Event={
 			local P=players[1]
 			P.counter=P.counter+1
 			if P.counter==max(90,150-P.cstat.event)then
-				local t=max(30,90-2*P.cstat.event)
+				local t=max(60,90-P.cstat.event)
 				ins(P.atkBuffer,{rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
 				P.counter=0
+				if P.cstat.event==30 then showText(P,text.maxspeed,"appear",80,-140)end
 				P.cstat.event=P.cstat.event+1
 			end
 		end,
@@ -654,10 +662,10 @@ Event={
 }
 --Game system Data
 setting={
+	lang=1,
 	sfx=true,bgm=true,vib=3,
 	fullscreen=false,
 	bgblock=true,
-	lang="eng",
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ghost=true,center=true,
@@ -713,17 +721,28 @@ stat={
 	rotate=0,
 	spin=0,
 }
+virtualkey={
+	{80,720-80,6400,80},--moveLeft
+	{240,720-80,6400,80},--moveRight
+	{1280-240,720-80,6400,80},--rotRight
+	{1280-400,720-80,6400,80},--rotLeft
+	{1280-240,720-240,6400,80},--rotFlip
+	{1280-80,720-80,6400,80},--hardDrop
+	{1280-80,720-240,6400,80},--softDrop
+	{1280-80,720-400,6400,80},--hold
+	{80,360,6400,80},--swap
+	{80,80,6400,80},--restart
+	--[[
+	{x=0,y=0,r=0},--toLeft
+	{x=0,y=0,r=0},--toRight
+	{x=0,y=0,r=0},--toDown
+	]]
+
+}
+virtualkeyDown={false,false,false,false,false,false,false,false,false,false,false,false,false}
+virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 --User Data&User Setting
 require("toolfunc")
-require("gamefunc")
-require("list")
-require("texture")
-require("ai")
-require("timer")
-require("paint")
-require("scene")
-require("call&sys")
-
 userData=fs.newFile("userdata")
 userSetting=fs.newFile("usersetting")
 if fs.getInfo("userdata")then
@@ -734,3 +753,12 @@ if fs.getInfo("usersetting")then
 elseif system=="Android" or system=="iOS"then
 	setting.virtualkeySwitch=true
 end
+
+require("gamefunc")
+require("ai")
+require("timer")
+require("paint")
+require("call&sys")
+require("list")
+swapLanguage(setting.lang)
+require("texture")

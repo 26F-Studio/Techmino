@@ -1,6 +1,6 @@
 function loadGame(mode,level)
 	--rec={}
-	curMode={id=modeID[mode],lv=level,modeName=modeName[mode],levelName=modeLevel[modeID[mode]][level]}
+	curMode={id=modeID[mode],lv=level,modeName=text.modeName[mode],levelName=modeLevel[modeID[mode]][level]}
 	gotoScene("play")
 end
 function resetGameData()
@@ -11,6 +11,7 @@ function resetGameData()
 	players={alive={}}
 	modeEnv=defaultModeEnv[curMode.id][curMode.lv]or defaultModeEnv[curMode.id][1]
 	loadmode[curMode.id]()
+	curBG=modeEnv.bg
 	BGM(modeEnv.bgm)
 
 	FX.beam={}
@@ -39,7 +40,7 @@ function resetGameData()
 
 	freeRow={}
 	collectgarbage()
-	for i=1,40*#players do
+	for i=1,30*#players do
 		freeRow[i]={0,0,0,0,0,0,0,0,0,0}
 	end
 end
@@ -105,7 +106,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 		end
 	end--reset current game settings
 
-	P.hn,P.hb,P.holded=0,{{}},false
+	P.hid,P.hc,P.hb,P.holded=0,0,{{}},false
 	P.nxt,P.nb={},{}
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
 	P.freshTime=0
@@ -144,7 +145,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	end
 
 	P.showTime=P.gameEnv.visible==1 and 1e99 or P.gameEnv.visible==2 and 300 or 20
-	P.cb,P.sc,P.bn,P.r,P.c,P.cx,P.cy,P.dir,P.y_img={{}},{0,0},1,0,0,0,0,0,0
+	P.cb,P.sc,P.bid,P.r,P.c,P.cx,P.cy,P.dir,P.y_img={{}},{0,0},1,0,0,0,0,0,0
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.moving,P.downing=0,0
 	P.waiting,P.falling=0,0
@@ -220,7 +221,7 @@ function throwBadge(S,R,amount)--Player id
 	if R.small then
 		x2,y2=R.x+30*R.size,R.y+60*R.size
 	else
-		x2,y2=R.x+73*R.size,R.y+360*R.size
+		x2,y2=R.x+73*R.size,R.y+345*R.size
 	end
 	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(9+min(amount,12))*.1})
 end
@@ -268,16 +269,6 @@ function changeAtk(P,R)
 		P.atking=nil
 	end
 end
-function freshMostBadge()
-	mostBadge,secBadge=nil
-	local m=0
-	for i=1,#players.alive do
-		if players.alive[i].badge>=m then
-			mostBadge,secBadge=players.alive[i],mostBadge
-			m=players.alive[i].badge
-		end
-	end
-end
 function freshMostDangerous()
 	mostDangerous,secDangerous=nil
 	local m=0
@@ -292,7 +283,7 @@ function royaleLevelup()
 	gameStage=gameStage+1
 	local spd
 	if(gameStage==3 or gameStage>4)and players[1].alive then
-		showText(players[1],#players.alive.." Players Remain","beat",50,-100,.3)
+		showText(players[1],text.royale_remain(#players.alive),"beat",50,-100,.3)
 	end
 	if gameStage==2 then
 		spd=30
@@ -339,7 +330,7 @@ function freshgho()
 	end
 end
 function freshLockDelay()
-	if P.lockDelay<P.gameEnv.lock then
+	if P.lockDelay<P.gameEnv.lock or P.cy==P.y_img then
 		if P.freshTime<=P.gameEnv.freshLimit then
 			P.lockDelay=P.gameEnv.lock
 		end
@@ -383,11 +374,12 @@ end
 function resetblock()
 	P.holded=false
 	P.spinLast=false
-	P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+	P.bid,P.cb=rem(P.nxt,1),rem(P.nb,1)--block id/current block
+	P.bc=P.bid--block color
 	P.freshNext()
-	P.sc,P.dir=scs[P.bn][0],0
-	P.r,P.c=#P.cb,#P.cb[1]
-	P.cx,P.cy=blockPos[P.bn],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
+	P.sc,P.dir=scs[P.bid][0],0--spin center/direction
+	P.r,P.c=#P.cb,#P.cb[1]--row/column
+	P.cx,P.cy=blockPos[P.bid],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 	P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
 
 	if P.keyPressing[8]then hold(true)end
@@ -414,7 +406,7 @@ function pressKey(i,p)
 	if i==10 then
 		act.restart()
 	elseif P.alive then
-        if P.control and P.waiting<=0 then
+		if P.control and P.waiting<=0 then
 			act[actName[i]]()
 			if i>2 and i<7 then P.keyPressing[i]=false end
 		elseif P.keyPressing[9]then
@@ -448,20 +440,57 @@ function releaseKey(i,p)
 end
 function spin(d,ifpre)
 	local idir=(P.dir+d)%4
-    if P.bn==6 then
+	if P.bid==6 then
 		freshLockDelay()
 		SFX(ifpre and"prerotate"or"rotate")
-		if P.id==1 then
-			stat.rotate=stat.rotate+1
+		if P.gameEnv.ospin and P.freshTime>10 then
+			if d==1 then
+				if P.cy==P.y_img and solid(P.cx+2,P.cy+1)and solid(P.cx+2,P.cy)and solid(P.cx-1,P.cy+1)and not solid(P.cx-1,P.cy)then
+					if solid(P.cx-2,P.cy)then
+						P.cx=P.cx-1
+						goto T
+					else
+						P.cx=P.cx-2
+						goto I
+					end
+				end
+			elseif d==-1 then
+				if P.cy==P.y_img and solid(P.cx-1,P.cy+1)and solid(P.cx-1,P.cy)and solid(P.cx+2,P.cy+1)and not solid(P.cx+2,P.cy)then
+					if solid(P.cx+3,P.cy)then
+						goto T
+					else
+						goto I
+					end
+				end
+			elseif d==2 and P.cy==P.y_img and solid(P.cx-1,P.cy+1)and solid(P.cx+2,P.cy+1)and not solid(P.cx-1,P.cy)and not solid(P.cx+2,P.cy)then
+				P.cx=P.cx-1
+				goto I
+			end
+			goto E
+			::T::
+				P.bid=5
+				P.cb=blocks[5][0]
+				P.sc=scs[5][0]
+				P.r,P.c,P.dir=2,3,0
+				P.spinLast=3
+				if P.id==1 then stat.rotate=stat.rotate+1 end
+				goto E
+			::I::
+				P.bid=7
+				P.cb=blocks[7][2]
+				P.sc=scs[7][2]
+				P.r,P.c,P.dir=1,4,2
+				P.spinLast=3
+				if P.id==1 then stat.rotate=stat.rotate+1 end
 		end
-        return
-    end
-	local icb=blocks[P.bn][idir]
-	local isc=scs[P.bn][idir]
+		::E::return
+	end
+	local icb=blocks[P.bid][idir]
+	local isc=scs[P.bid][idir]
 	local ir,ic=#icb,#icb[1]
 	local ix,iy=P.cx+P.sc[2]-isc[2],P.cy+P.sc[1]-isc[1]
 	local t--succssful test
-	local iki=TRS[P.bn][P.dir*10+idir]
+	local iki=TRS[P.bid][P.dir*10+idir]
 	for i=1,P.freshTime<=1.2*P.gameEnv.freshLimit and #iki or 1 do
 		if not ifoverlap(icb,ix+iki[i][1],iy+iki[i][2])then
 			ix,iy=ix+iki[i][1],iy+iki[i][2]
@@ -471,7 +500,7 @@ function spin(d,ifpre)
 	end
 	if t then
 		P.cx,P.cy,P.dir=ix,iy,idir
-		P.sc,P.cb=scs[P.bn][idir],icb
+		P.sc,P.cb=scs[P.bid][idir],icb
 		P.r,P.c=ir,ic
 		P.spinLast=testScore[t==2 and -d or d]
 		freshgho()
@@ -484,13 +513,17 @@ function spin(d,ifpre)
 end
 function hold(ifpre)
 	if not P.holded and P.waiting<=0 and P.gameEnv.hold then
-		P.hn,P.bn=P.bn,P.hn
-		P.hb,P.cb=blocks[P.hn][0],P.hb
+		P.hid,P.bid,P.bc=P.bid,P.hid,P.hid
+		P.hb,P.cb=blocks[P.hid][0],P.hb
 
-		if P.bn==0 then P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)P.freshNext()end
-		P.sc,P.dir=scs[P.bn][0],0
+		if P.bid==0 then
+			P.bid,P.cb=rem(P.nxt,1),rem(P.nb,1)
+			P.bc=P.bid
+			P.freshNext()
+		end
+		P.sc,P.dir=scs[P.bid][0],0
 		P.r,P.c=#P.cb,#P.cb[1]
-		P.cx,P.cy=blockPos[P.bn],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
+		P.cx,P.cy=blockPos[P.bid],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
 		if abs(P.moving)-P.gameEnv.das>1 then
 			if not ifoverlap(P.cb,P.cx+sgn(P.moving),P.cy)then
@@ -514,7 +547,7 @@ function drop()
 		P.waiting=P.gameEnv.wait
 		local dospin=0
 		if P.spinLast then
-			if P.bn<6 then
+			if P.bid<6 then
 				local x,y=P.cx+P.sc[2]-1,P.cy+P.sc[1]-1
 				local c=0
 				if solid(x-1,y+1)then c=c+1 end
@@ -527,7 +560,7 @@ function drop()
 					end
 				end
 			end--Three point
-			if P.bn~=6 and ifoverlap(P.cb,P.cx-1,P.cy)and ifoverlap(P.cb,P.cx+1,P.cy)and ifoverlap(P.cb,P.cx,P.cy+1)then
+			if P.bid~=6 and ifoverlap(P.cb,P.cx-1,P.cy)and ifoverlap(P.cb,P.cx+1,P.cy)and ifoverlap(P.cb,P.cx,P.cy+1)then
 				dospin=dospin+2
 			end--Immobile
 		end
@@ -546,22 +579,22 @@ function drop()
 		elseif dospin<2 then
 			dospin=false
 		elseif dospin==2 then
-			mini=P.bn<6 and cc<3 and cc<P.r
+			mini=P.bid<6 and cc<3 and cc<P.r
 		end
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
 			if P.b2b>480 then
-				showText(P,"Techrash B2B2B","fly",70)
+				showText(P,text.techrashB3B,"fly",70)
 				csend=6
 				sendTime=100
 				exblock=exblock+1
 			elseif P.b2b>=30 then
-				showText(P,"Techrash B2B","drive",70)
+				showText(P,text.techrashB2B,"drive",70)
 				sendTime=80
 				csend=5
 			else
-				showText(P,"Techrash","stretch",80)
+				showText(P,text.techrash,"stretch",80)
 				sendTime=60
 				csend=4
 			end
@@ -571,39 +604,39 @@ function drop()
 		elseif cc>0 then
 			if dospin then
 				if P.b2b>480 then
-					showText(P,spinName[cc][P.bn].." B2B2B","spin",40)
+					showText(P,text.spin[P.bc]..text.clear[cc]..text.b3b,"spin",40)
 					csend=b2bATK[cc]+1
 					exblock=exblock+1
 				elseif P.b2b>=30 then
-					showText(P,spinName[cc][P.bn].." B2B","spin",40)
+					showText(P,text.spin[P.bc]..text.clear[cc]..text.b2b,"spin",40)
 					csend=b2bATK[cc]
 				else
-					showText(P,spinName[cc][P.bn],"spin",50)
+					showText(P,text.spin[P.bc]..text.clear[cc],"spin",50)
 					csend=2*cc
 				end
 				sendTime=20+csend*20
 				if mini then
-					showText(P,"Mini","drive",40,10)
+					showText(P,text.mini,"drive",40,10)
 					csend=ceil(csend*.5)
 					sendTime=sendTime+60
 					P.b2b=P.b2b+b2bPoint[cc]*.8
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
-				P.lastClear=P.bn*10+cc
+				P.lastClear=P.bid*10+cc
 				if P.id==1 then
 					stat.spin=stat.spin+1
 				end
 				SFX(spin_n[cc])
 			elseif #P.clearing<#P.field then
 				P.b2b=P.b2b-150-cc*50
-				showText(P,clearName[cc],"appear",50)
+				showText(P,text.clear[cc],"appear",25+cc*5)
 				csend=cc-1
 				sendTime=20+csend*20
 				P.lastClear=cc
 			end
 			if #P.clearing==#P.field then
-				showText(P,"Perfect Clear","flicker",70,-80)
+				showText(P,text.PC,"flicker",70,-80)
 				csend=csend+min(6+P.cstat.pc,10)
 				exblock=exblock+2
 				sendTime=sendTime+30
@@ -611,13 +644,13 @@ function drop()
 					P.b2b=600
 				end
 				P.cstat.pc=P.cstat.pc+1
-				P.lastClear=P.bn*10+5
+				P.lastClear=P.bid*10+5
 				SFX("perfectclear")
 			end
 		else
 			P.combo=0
 			if dospin then
-				showText(P,spinName[0][P.bn],"appear",50)
+				showText(P,text.spin[P.bc],"appear",50)
 				SFX("spin_0")
 				P.b2b=P.b2b+15
 			end
@@ -625,7 +658,7 @@ function drop()
 
 		csend=csend+(renATK[P.combo]or 4)
 		if P.combo>2 then
-			showText(P,renName[min(P.combo,20)],P.combo<10 and"appear"or"flicker",20+P.combo*3,60)
+			showText(P,text.cmb[min(P.combo,20)],P.combo<10 and"appear"or"flicker",20+P.combo*3,60)
 		end
 		sendTime=sendTime+20*P.combo
 		if cc>0 then
@@ -657,7 +690,7 @@ function drop()
 			if csend>0 then
 				showText(P,csend,"zoomout",25,70)
 				if exblock>0 then
-					showText(P,exblock,"zoomout",10,70)
+					showText(P,exblock,"zoomout",10,90)
 				end
 			end
 			::L::
@@ -718,7 +751,7 @@ function lock()
 		if not P.field[y]then P.field[y],P.visTime[y]=getNewRow(),getNewRow()end
 		for j=1,P.c do
 			if P.cb[i][j]~=0 then
-				P.field[y][P.cx+j-1]=P.bn
+				P.field[y][P.cx+j-1]=P.bc
 				P.visTime[y][P.cx+j-1]=P.showTime
 			end
 		end
@@ -818,18 +851,22 @@ act={
 	end,
 	insDown=function()if P.cy~=P.y_img then P.cy,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false end end,
 	insLeft=function()
+		local x0=cx
 		::L::if not ifoverlap(P.cb,P.cx-1,P.cy)then
-			P.cx,P.lockDelay=P.cx-1,P.gameEnv.lock
+			P.cx=P.cx-1
 			freshgho()
 			goto L
 		end
+		if x0~=cx then freshLockDelay()end
 	end,
 	insRight=function()
+		local x0=cx
 		::L::if not ifoverlap(P.cb,P.cx+1,P.cy)then
-			P.cx,P.lockDelay=P.cx+1,P.gameEnv.lock
+			P.cx=P.cx+1
 			freshgho()
 			goto L
 		end
+		if x0~=cx then freshLockDelay()end
 	end,
 	down1=function()
 		if P.cy~=P.y_img then

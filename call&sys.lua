@@ -364,7 +364,7 @@ function love.touchmoved(id,x,y,dx,dy)
 				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
 				if(x-b[1])^2+(y-b[2])^2<=b[3]then return end
 			end
-			if players[1].isKeyDown[n]then
+			if P.keyPressing[n]then
 				releaseKey(n,players[1])
 			end
 		end
@@ -381,7 +381,10 @@ end
 function love.keypressed(i)
 	if i=="f12"then devMode=not devMode end
 	if devMode then
-		if i=="q"then
+		if i=="k"then
+			P=players.alive[rnd(#players.alive)]
+			Event.gameover.lose()
+		elseif i=="q"then
 			for i=1,#Buttons[scene]do
 				local B=Buttons[scene][i]
 				print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))
@@ -459,7 +462,9 @@ function love.update(dt)
 			for i=1,#Buttons[scene]do
 				Buttons[scene][i].alpha=0
 			end--Reset buttons' state
-			game[sceneSwaping.tar]()
+			scene=sceneSwaping.tar
+			BGM("blank")
+			sceneInit[scene]()
 			Buttons.sel=nil
 		elseif sceneSwaping.time==0 then
 			sceneSwaping=nil
@@ -528,7 +533,7 @@ function love.run()
 	local frameT=Timer()
 	local readyDrawFrame=0
 	love.resize(gc.getWidth(),gc.getHeight())
-	game.load()--System scene Launch
+	scene="load"sceneInit.load()--System Launch
 	math.randomseed(os.time()*626)
 	return function()
 		love.event.pump()

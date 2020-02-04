@@ -69,7 +69,16 @@ function stencil_field_small()
 	gc.rectangle("fill",0,0,60,120)
 end
 --Single-usage funcs
-
+function swapLanguage(l)
+	text=require("language/"..langID[l])
+	Buttons.sel=nil
+	for scene,list in pairs(Buttons)do
+		for num=1,#list do
+			list[num].alpha=0
+			list[num].t=text.ButtonText[scene][num]
+		end
+	end
+end
 function VIB(t)
 	if setting.vib>0 then
 		love.system.vibrate(vibrateLevel[setting.vib+t])
@@ -135,7 +144,7 @@ function back()
 end
 function loadData()
 	userData:open("r")
-    --local t=string.splitS(love.math.decompress(userdata,"zlib"),"\r\n")
+	--local t=string.splitS(love.math.decompress(userdata,"zlib"),"\r\n")
 	local t=string.splitS(userData:read(),"\r\n")
 	userData:close()
 	for i=1,#t do
@@ -170,7 +179,7 @@ function saveData()
 end
 function loadSetting()
 	userSetting:open("r")
-    --local t=string.splitS(love.math.decompress(userdata,"zlib"),"\r\n")
+	--local t=string.splitS(love.math.decompress(userdata,"zlib"),"\r\n")
 	local t=string.splitS(userSetting:read(),"\r\n")
 	userSetting:close()
 	for i=1,#t do
@@ -181,7 +190,7 @@ function loadSetting()
 			if t=="sfx"or t=="bgm"or t=="bgblock"then
 				setting[t]=v=="true"
 			elseif t=="vib"then
-				setting.vib=toN(v:match("[0123]"))or 0
+				setting.vib=toN(v:match("[01234]"))or 0
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
@@ -229,6 +238,8 @@ function loadSetting()
 				setting[t]=int(v)
 			elseif t=="ghost"or t=="center"then
 				setting[t]=v=="true"
+			elseif t=="lang"then
+				setting[t]=toN(v:match("[12]"))or 1
 			end
 		end
 	end
@@ -250,6 +261,7 @@ function saveSetting()
 		lib[i]=table.concat(setting.keyLib[i],",")
 	end
 	local t=table.concat({
+		stringPack("lang=",setting.lang),
 		stringPack("sfx=",setting.sfx),
 		stringPack("bgm=",setting.bgm),
 		stringPack("vib=",setting.vib),

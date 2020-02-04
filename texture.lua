@@ -62,19 +62,19 @@ c:release()
 --Dust particles
 
 PTC.attack={}
-PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/mess/atk1.png"),200)
+PTC.attack[1]=gc.newParticleSystem(N("/image/mess/atk1.png"),200)
 PTC.attack[1]:setParticleLifetime(.25)
 PTC.attack[1]:setEmissionRate(0)
 PTC.attack[1]:setSpin(10)
 PTC.attack[1]:setColors(1,1,1,.7,1,1,1,0)
 
-PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/mess/atk2.png"),200)
+PTC.attack[2]=gc.newParticleSystem(N("/image/mess/atk2.png"),200)
 PTC.attack[2]:setParticleLifetime(.3)
 PTC.attack[2]:setEmissionRate(0)
 PTC.attack[2]:setSpin(8)
 PTC.attack[2]:setColors(1,1,1,.7,1,1,1,0)
 
-PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/mess/atk3.png"),200)
+PTC.attack[3]=gc.newParticleSystem(N("/image/mess/atk3.png"),200)
 PTC.attack[3]:setParticleLifetime(.4)
 PTC.attack[3]:setEmissionRate(0)
 PTC.attack[3]:setSpin(6)
@@ -83,14 +83,81 @@ PTC.attack[3]:setColors(1,1,1,.7,1,1,1,0)
 
 gc.setDefaultFilter("linear","linear")
 titleImage=N("/image/mess/title.png")
-spinCenter=N("/image/mess/spinCenter.png")
 dialCircle=N("/image/mess/dialCircle.png")
 dialNeedle=N("/image/mess/dialNeedle.png")
 badgeIcon=N("/image/mess/badge.png")
+spinCenter=N("/image/mess/spinCenter.png")
+background1=N("/image/BG/bg1.jpg")
+background2=N("/image/BG/bg2.png")
 
-background={
-	N("/image/BG/bg1.jpg"),
-	N("/image/BG/bg2.png"),
-}
 c=nil
 gc.setCanvas()
+
+sceneInit={
+	load=function()
+		curBG="none"
+		keeprun=true
+		loading=1--Loading mode
+		loadnum=1--Loading counter
+		loadprogress=0--Loading bar(0~1)
+	end,
+	intro=function()
+		curBG="none"
+		count=0
+		keeprun=true
+	end,
+	main=function()
+		curBG="none"
+		keeprun=true
+		collectgarbage()
+	end,
+	mode=function()
+		saveData()
+		modeSel=modeSel or 1
+		levelSel=levelSel or 3
+		curBG="none"
+		keeprun=true
+	end,
+	custom=function()
+		optSel=optSel or 1
+		curBG="matrix"
+		keeprun=true
+	end,
+	play=function()
+		keeprun=false
+		resetGameData()
+		sysSFX("ready")
+		mouseShow=false
+	end,
+	setting=function()
+		curBG="none"
+		keeprun=true
+	end,
+	setting2=function()
+		curBG="none"
+		keeprun=true
+			curBoard=1
+			keyboardSet=1
+			joystickSet=1
+			keyboardSetting=false
+			joystickSetting=false
+	end,--Control settings
+	setting3=function()
+		curBG="game1"
+		keeprun=true
+		defaultSel=1
+		sel=nil
+		snapLevel=1
+	end,--Touch setting
+	help=function()
+		curBG="none"
+		keeprun=true
+	end,
+	stat=function()
+		curBG="none"
+		keeprun=true
+	end,
+	quit=function()
+		love.event.quit()
+	end,
+}

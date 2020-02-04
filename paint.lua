@@ -155,9 +155,14 @@ function drawPixel(y,x,id,alpha)
 	gc.setColor(1,1,1,alpha)
 	gc.draw(blockSkin[id],30*x-30,600-30*y)
 end
-function drawPixelmini(y,x,id)
-	
+function drawAtkPointer(x,y)
+	gc.setColor(0,.6,1,.35+sin(Timer()*20)*.2)
+	gc.circle("fill",x,y,25,6)
+	local a=Timer()*3%1*.8
+	gc.setColor(0,.6,1,.8-a)
+	gc.circle("line",x,y,25*(1+a),6)
 end
+
 function VirtualkeyPreview()
 	for i=1,#virtualkey do
 		gc.setColor(1,sel==i and .5 or 1,sel==i and .5 or 1,setting.virtualkeyAlpha*.2)
@@ -196,15 +201,15 @@ Pnt.BG={
 	end,
 	game1=function()
 		gc.setColor(1,1,1)
-		gc.draw(background[1],640,360,Timer()*.15,12,nil,64,64)
+		gc.draw(background1,640,360,Timer()*.15,12,nil,64,64)
 	end,
 	game2=function()
 		gc.setColor(1,.5,.5)
-		gc.draw(background[1],640,360,Timer()*.2,12,nil,64,64)
+		gc.draw(background1,640,360,Timer()*.2,12,nil,64,64)
 	end,
 	game3=function()
 		gc.setColor(.6,.6,1)
-		gc.draw(background[1],640,360,Timer()*.25,12,nil,64,64)
+		gc.draw(background1,640,360,Timer()*.25,12,nil,64,64)
 	end,
 	rgb=function()
 		gc.clear(
@@ -216,8 +221,8 @@ Pnt.BG={
 	strap=function()
 		gc.setColor(1,1,1)
 		local x=Timer()%32*40
-		gc.draw(background[2],x,0,nil,10)
-		gc.draw(background[2],x-1280,0,nil,10)
+		gc.draw(background2,x,0,nil,10)
+		gc.draw(background2,x-1280,0,nil,10)
 	end,
 	matrix=function()
 		for i=0,15 do
@@ -238,9 +243,9 @@ function Pnt.load()
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60)
 	setFont(40)
-	mStr(Text.load[loading],640,335)
+	mStr(text.load[loading],640,335)
 	setFont(25)
-	mStr("not animation,real loading!",640,400)
+	mStr(text.loadTip,640,400)
 end
 function Pnt.intro()
 	gc.push()
@@ -262,7 +267,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.8",370,140)
+	gc.print("Alpha V0.7.9",370,140)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -272,25 +277,25 @@ function Pnt.mode()
 	mStr(modeLevel[modeID[modeSel]][levelSel],270,215)
 	setFont(30)
 	gc.setColor(color.white)
-	mStr(modeInfo[modeID[modeSel]],270,255)
+	mStr(text.modeInfo[modeID[modeSel]],270,255)
 	setFont(80)
 	gc.setColor(color.grey)
-	mStr(modeName[modeSel],643,273)
+	mStr(text.modeName[modeSel],643,273)
 	for i=modeSel-2,modeSel+2 do
 		if i>=1 and i<=#modeID then
 			local f=80-abs(i-modeSel)*20
 			gc.setColor(i==modeSel and color.white or abs(i-modeSel)==1 and color.grey or color.darkGrey)
 			setFont(f)
-			mStr(modeName[i],640,310+70*(i-modeSel)-f*.5)
+			mStr(text.modeName[i],640,310+70*(i-modeSel)-f*.5)
 		end
 	end
 end
 function Pnt.custom()
 	setFont(80)
 	gc.setColor(color.lightGrey)
-	gc.print("Custom Game",20,20)
+	gc.print(text.custom,20,20)
 	gc.setColor(color.white)
-	gc.print("Custom Game",22,23)
+	gc.print(text.custom,22,23)
 	setFont(40)
 	for i=1,#customID do
 		local k=customID[i]
@@ -347,7 +352,7 @@ function Pnt.play()
 			gc.pop()
 		else
 			gc.push("transform")
-			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
+			gc.translate(P.x,P.y)gc.scale(P.size)
 			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Black Background
 			gc.setLineWidth(7)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)--Big frame
@@ -370,7 +375,7 @@ function Pnt.play()
 					if P.gameEnv.ghost then
 						for i=1,P.r do for j=1,P.c do
 							if P.cb[i][j]>0 then
-								drawPixel(i+P.y_img-1,j+P.cx-1,P.bn,.3)
+								drawPixel(i+P.y_img-1,j+P.cx-1,P.bc,.3)
 							end
 						end end
 					end--Ghost
@@ -382,7 +387,7 @@ function Pnt.play()
 					end end--BlockShade(lockdelay indicator)
 					for i=1,P.r do for j=1,P.c do
 						if P.cb[i][j]>0 then
-							drawPixel(i+P.cy-1,j+P.cx-1,P.bn,1)
+							drawPixel(i+P.cy-1,j+P.cx-1,P.bc,1)
 						end
 					end end--Block
 					if P.gameEnv.center then
@@ -444,7 +449,7 @@ function Pnt.play()
 				for i=1,#P.hb do
 					for j=1,#P.hb[1] do
 						if P.hb[i][j]>0 then
-							drawPixel(i+17.5-#P.hb*.5,j-2.5-#P.hb[1]*.5,P.holded and 13 or P.hn,1)
+							drawPixel(i+17.5-#P.hb*.5,j-2.5-#P.hb[1]*.5,P.holded and 13 or P.hid,1)
 						end
 					end
 				end
@@ -517,21 +522,18 @@ function Pnt.play()
 			gc.draw(badgeIcon,b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t,nil,b.size,nil,14,14)
 		end
 		P=players[1]
-		if P.atkMode~=4 then
-			gc.setLineWidth(5)
-			gc.setColor(.8,1,0,.2)
-		else
-			gc.setLineWidth(9)
-			gc.setColor(1,.6,.2,.4)
-		end
+		gc.setLineWidth(5)
+		gc.setColor(.8,1,0,.2)
 		for i=1,#players[1].atker do
 			local p=players[1].atker[i]
 			gc.line(p.centerX,p.centerY,P.centerX,P.centerY)
 		end
 		if P.atkMode~=4 then
-			if P.atking then
-				gc.setColor(0,.5,1,.2+(sin(Timer()*10)+1)*.1)
-				gc.line(P.centerX,P.centerY,P.atking.centerX,P.atking.centerY)
+			if P.atking then drawAtkPointer(P.atking.centerX,P.atking.centerY)end
+		else
+			for i=1,#players[1].atker do
+				local p=players[1].atker[i]
+				drawAtkPointer(p.centerX,p.centerY)
 			end
 		end
 	end
@@ -542,8 +544,8 @@ function Pnt.setting()
 	mStr("DAS:"..setting.das,288,158)
 	mStr("ARR:"..setting.arr,503,158)
 	setFont(18)
-	mStr("softdropDAS:"..setting.sddas,288,249)
-	mStr("softdropARR:"..setting.sdarr,503,249)
+	mStr(text.softdropdas..setting.sddas,288,249)
+	mStr(text.softdroparr..setting.sdarr,503,249)
 end
 function Pnt.setting2()
 	if keyboardSetting then
@@ -562,7 +564,7 @@ function Pnt.setting2()
 	gc.setColor(1,1,1)
 	setFont(25)
 	for y=1,13 do
-		mStr(actName_show[y],150,40*y)
+		mStr(text.actName[y],150,40*y)
 		for x=1,2 do
 			mStr(setting.keyMap[curBoard+x*8-8][y],200*x+140,40*y-3)
 		end
@@ -572,8 +574,9 @@ function Pnt.setting2()
 		gc.line(200*x-160,30,200*x-160,550)
 	end
 	gc.line(40,550,640,550)
-	gc.print("Keyboard | Joystick",335,1)
-	gc.print("Arrowkey to select/change slot,Enter to change,Esc back",50,620)
+	gc.print(text.keyboard,335,1)
+	gc.print(text.joystick,420,1)
+	gc.print(text.setting2Help,50,620)
 	setFont(40)
 	gc.print("< P"..curBoard.."/P8 >",430,570)
 end
@@ -595,7 +598,7 @@ function Pnt.help()
 	setFont(32)
 	gc.setColor(1,1,1)
 	for i=1,11 do
-		gc.printf(Text.help[i],140,15+43*i,1000,"center")
+		gc.printf(text.help[i],140,15+43*i,1000,"center")
 	end
 	gc.draw(titleImage,180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
 end
@@ -603,7 +606,7 @@ function Pnt.stat()
 	setFont(35)
 	gc.setColor(1,1,1)
 	for i=1,10 do
-		gc.print(Text.stat[i],350,20+40*i)
+		gc.print(text.stat[i],350,20+40*i)
 	end
 
 	gc.print(stat.run,650,60)

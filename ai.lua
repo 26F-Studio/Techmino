@@ -125,7 +125,7 @@ end
 function AI_getControls(ctrl)
 	local Tfield={}--test field
 	local field_org=P.field
-    for i=1,#field_org do
+	for i=1,#field_org do
 		Tfield[i]=getNewRow()
 		for j=1,10 do
 			Tfield[i][j]=field_org[i][j]
@@ -133,7 +133,7 @@ function AI_getControls(ctrl)
 	end
 	local best={x=1,dir=0,hold=false,score=-9e99}
 	for ifhold=0,P.gameEnv.hold and 1 or 0 do
-		local bn=ifhold==0 and P.bn or P.hn>0 and P.hn or P.nxt[1]
+		local bn=ifhold==0 and P.bid or P.hid>0 and P.hid or P.nxt[1]
 		for dir=0,dirCount[bn] do--each dir
 			local cb=blocks[bn][dir]
 			for cx=1,11-#cb[1]do--each pos
