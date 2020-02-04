@@ -1,11 +1,6 @@
-local gc=love.graphics
-local setFont=setFont
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local format=string.format
 local ins,rem=table.insert,table.remove
-local function newNext(n)
-	P.next[#P.next+1]={bk=blocks[n][0],id=n,color=P.gameEnv.bone and 8 or n,name=n}
-end
 local PCbase={
 	{3,3,3,0,0,0,0,0,2,2},
 	{3,6,6,0,0,0,0,2,2,5},
@@ -16,7 +11,7 @@ local PCbase={
 	{5,5,2,2,0,0,0,6,6,4},
 	{5,2,2,0,0,0,0,4,4,4},
 }
-PClist={
+local PClist={
 	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,7,5,6},{7,7,5,2},{7,7,5,4},{7,7,5,3},
 	{7,4,1,2},{7,3,5,7},{7,5,4,3},{7,5,1,2},{7,1,4,2},{7,4,2,5},{7,6,4,5},{7,5,4,2},
 	{7,5,6,4},{7,5,3,6},{7,2,5,6},{7,2,6,4},{7,2,1,3},{7,5,2,7},{7,5,7,2},{7,5,2,3},
@@ -37,7 +32,6 @@ local death_fall={10,9,8,7,6}
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,45,40,36,32,30}
 local pc_fall={18,16,14,12,10,9,8,7,6}
-local blockColor=blockColor
 local function throwBadge(S,R)--Sender/Receiver
 	local x1,y1,x2,y2
 	if S.small then
@@ -58,7 +52,7 @@ local function AITemplate(type,speedLV,next,hold,node)
 		return{
 			type="CC",
 			next=next,
-			hold=true,--hold,-------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			hold=hold,--hold,-------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			delta=AISpeed[speedLV],
 			node=node,
 		}
@@ -90,7 +84,7 @@ loadmode={
 		if curMode.lv==2 then
 			pushSpeed=1
 			for i=1,5 do
-				garbageRise(10,1,rnd(10))
+				players[1]:garbageRise(10,1,rnd(10))
 			end
 		end
 	end,
@@ -99,35 +93,35 @@ loadmode={
 		if curMode.lv==1 then
 			newPlayer(2,965,360,.5,AITemplate("9S",3))
 		elseif curMode.lv==2 then
-			newPlayer(2,965,360,.5,AITemplate("CC",2,2,false,25000))
+			newPlayer(2,965,360,.5,AITemplate("CC",2,2,false,10000))
 		elseif curMode.lv==3 then
 			newPlayer(2,965,360,.5,AITemplate("9S",6))
 		elseif curMode.lv==4 then
-			newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,35000))
+			newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,20000))
 		elseif curMode.lv==5 then
 			newPlayer(2,965,360,.5,AITemplate("9S",9))
 		elseif curMode.lv==6 then
-			newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,50000))
+			newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,30000))
 		elseif curMode.lv==7 then
 			newPlayer(2,965,360,.5,AITemplate("9S",10))
 		elseif curMode.lv==8 then
-			newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,100000))
+			newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,40000))
 		elseif curMode.lv==9 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,200000))
+			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
 		end
 	end,
 	round=function()
 		newPlayer(1,340,15)
 		if curMode.lv==1 then
-			newPlayer(2,965,360,.5,AITemplate("9S",nil,10))
+			newPlayer(2,965,360,.5,AITemplate("9S",10))
 		elseif curMode.lv==2 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,2,false,20000))
+			newPlayer(2,965,360,.5,AITemplate("CC",10,2,false,10000))
 		elseif curMode.lv==3 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,3,true,50000))
+			newPlayer(2,965,360,.5,AITemplate("CC",10,3,true,30000))
 		elseif curMode.lv==4 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,100000))
+			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,60000))
 		elseif curMode.lv==5 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,6,true,1000000))
+			newPlayer(2,965,360,.5,AITemplate("CC",10,6,true,100000))
 		end
 		garbageSpeed=1e4
 	end,
@@ -198,7 +192,7 @@ loadmode={
 			if L[r]then L[r],t=false,t-1 end
 		end
 		local min,max
-		if LV==1 then		min,max=3,5
+		if LV==1 then		min,max=4,6
 		elseif LV==2 then	min,max=4,8
 		elseif LV==3 then	min,max=8,10
 		end
@@ -207,7 +201,7 @@ loadmode={
 			if L[n]then
 				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(min,max)))
 			else
-				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3500))
+				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 			end
 			n=n+1
 		end end
@@ -215,7 +209,7 @@ loadmode={
 			if L[n]then
 				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(min,max)))
 			else
-				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3500))
+				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 			end
 			n=n+1
 		end end
@@ -231,16 +225,16 @@ loadmode={
 			if L[r]then L[r],t=false,t-1 end
 		end
 		local min,max
-		if LV==1 then		min,max=3,5
-		elseif LV==2 then	min,max=4,9
-		elseif LV==3 then	min,max=7,10
+		if LV==1 then		min,max=4,6
+		elseif LV==2 then	min,max=4,8
+		elseif LV==3 then	min,max=8,10
 		end
 		local n=2
 		for i=1,7 do for j=1,7 do
 			if L[n]then
 				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(min,max)))
 			else
-				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3000))
+				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 			end
 			n=n+1
 		end end
@@ -248,7 +242,7 @@ loadmode={
 			if L[n]then
 				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(min,max)))
 			else
-				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3000))
+				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 			end
 			n=n+1
 		end end
@@ -288,7 +282,7 @@ loadmode={
 			if L<10 then
 				newPlayer(2,965,360,.5,AITemplate("9S",2*L))
 			else
-				newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),true,15000+5000*(L-10)))
+				newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
 			end
 		end
 		preField.h=20
@@ -315,199 +309,8 @@ loadmode={
 		modeEnv.bgm=customRange.bgm[customSel[13]]
 	end,
 }
-mesDisp={
-	--Default:font=35,white
-	sprint=function(P)
-		setFont(60)
-		local r=max(P.gameEnv.target-P.stat.row,0)
-		mStr(r,-82,265)
-		if r<21 and r>0 then
-			gc.setLineWidth(4)
-			gc.setColor(1,r>10 and 0 or rnd(),.5)
-			gc.line(0,600-30*r,300,600-30*r)
-		end
-	end,
-	marathon=function(P)
-		setFont(50)
-		mStr(P.stat.row,-82,320)
-		mStr(P.gameEnv.target,-82,370)
-		gc.rectangle("fill",-125,375,90,4)
-	end,
-	master=function(P)
-		setFont(50)
-		mStr(P.modeData.point,-82,320)
-		mStr((P.modeData.event+1)*100,-82,370)
-		gc.rectangle("fill",-125,375,90,4)
-	end,
-	classic=function(P)
-		setFont(80)
-		local r=P.gameEnv.target*.1
-		mStr(r<11 and 19+r or r==11 and"00"or r==12 and"0a"or format("%x",r*10-110),-82,210)
-		setFont(20)
-		mStr("speed level",-82,290)
-		setFont(50)
-		mStr(P.stat.row,-82,320)
-		mStr(P.gameEnv.target,-82,370)
-		gc.rectangle("fill",-125,375,90,4)
-	end,
-	zen=function(P)
-		setFont(75)
-		mStr(max(200-P.stat.row,0),-82,280)
-	end,
-	infinite=function(P)
-		setFont(50)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		setFont(20)
-		mStr("Attack",-82,363)
-		mStr("Efficiency",-82,475)
-	end,
-	tsd=function(P)
-		setFont(35)
-		mStr("TSD",-82,407)
-		setFont(80)
-		mStr(P.modeData.event,-82,330)
-	end,
-	blind=function(P)
-		setFont(25)
-		mStr("Rows",-82,300)
-		mStr("Techrash",-82,420)
-		if curMode.lv==6 then
-			mStr("Point",-82,180)
-			setFont(60)
-			mStr(P.modeData.point*.1,-82,110)
-		end
-		setFont(80)
-		mStr(P.stat.row,-82,220)
-		mStr(P.stat.clear_4,-82,340)
-	end,
-	dig=function(P)
-		setFont(70)
-		mStr(P.modeData.event,-82,310)
-		setFont(30)
-		mStr("Wave",-82,375)
-	end,
-	survivor=function(P)
-		setFont(70)
-		mStr(P.modeData.event,-82,310)
-		setFont(30)
-		mStr("Wave",-82,375)
-	end,
-	defender=function(P)
-		setFont(60)
-		mStr(P.modeData.point,-82,315)
-		setFont(30)
-		mStr("RPM",-82,375)
-	end,
-	attacker=function(P)
-		setFont(60)
-		mStr(P.modeData.point,-82,315)
-		setFont(30)
-		mStr("RPM",-82,375)
-	end,
-	tech=function(P)
-		setFont(50)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		setFont(20)
-		mStr("Attack",-82,363)
-		mStr("Efficiency",-82,475)
-	end,
-	c4wtrain=function(P)
-		setFont(50)
-		mStr(max(100-P.stat.row,0),-82,220)
-		mStr(P.combo,-82,310)
-		mStr(P.modeData.point,-82,400)
-		setFont(20)
-		mStr("combo",-82,358)
-		mStr("max combo",-82,450)
-	end,
-	pctrain=function(P)
-		setFont(22)
-		mStr("Perfect Clear",-82,412)
-		setFont(80)
-		mStr(P.stat.pc,-82,330)
-	end,
-	pcchallenge=function(P)
-		setFont(22)
-		mStr("Perfect Clear",-82,432)
-		setFont(80)
-		mStr(P.stat.pc,-82,350)
-		setFont(50)
-		mStr(max(100-P.stat.row,0),-82,250)
-		gc.setColor(.5,.5,.5)
-		if frame>179 then
-			local y=72*(7-(P.stat.piece+(P.hold.id>0 and 2 or 1))%7)-36
-			gc.line(320,y,442,y)
-		end
-	end,
-	techmino49=function(P)
-		setFont(40)
-		mStr(#players.alive.."/49",-82,175)
-		mStr(P.ko,-70,215)
-		setFont(25)
-		gc.print("KO",-127,225)
-		gc.setColor(1,.5,0,.6)
-		gc.print(P.badge,-47,227)
-		gc.setColor(1,1,1)
-		setFont(30)
-		gc.print(up0to4[P.strength],-132,290)
-		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-138,260)
-		end
-	end,
-	techmino99=function(P)
-		setFont(40)
-		mStr(#players.alive.."/99",-82,175)
-		mStr(P.ko,-70,215)
-		setFont(25)
-		gc.print("KO",-127,225)
-		gc.setColor(1,.5,0,.6)
-		gc.print(P.badge,-47,227)
-		gc.setColor(1,1,1)
-		setFont(30)
-		gc.print(up0to4[P.strength],-132,290)
-		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-138,260)
-		end
-	end,
-	drought=function(P)
-		setFont(75)
-		mStr(max(100-P.stat.row,0),-82,280)
-	end,
-	custom=function(P)
-		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
-			setFont(25)
-			mStr("Rows",-82,290)
-			setFont(60)
-			mStr(P.stat.row,-82,225)
-		else
-			setFont(60)
-			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
-		end
-		if P.gameEnv.puzzle and P.modeData.event==0 then
-			gc.setLineWidth(3)
-			for y=1,preField.h do for x=1,10 do
-				local B=preField[y][x]
-				if B>7 then
-					gc.setColor(blockColor[B])
-					gc.rectangle("line",30*x-23,607-30*y,16,16)
-				elseif B>0 then
-					local c=blockColor[B]
-					gc.setColor(c[1],c[2],c[3],.6)
-					gc.rectangle("line",30*x-25,605-30*y,20,20)
-					gc.rectangle("line",30*x-20,610-30*y,10,10)
-				elseif B==-1 then
-					gc.setColor(1,1,1,.4)
-					gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
-					gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
-				end
-			end end
-		end
-	end
-}
 -------------------------<Events>-------------------------
-Event={null=null}
+Event={null=NULL}
 function Event.reach_winCheck(P)
 	if P.stat.row>=P.gameEnv.target then
 		Event.win(P)
@@ -806,8 +609,13 @@ function Event.c4w_reach(P)
 	end
 end
 function Event.newPC(P)
-	if P.curY+P.r>5-P.stat.row%4+#P.clearing then
-		Event.lose(P)
+	local r=P.field;r=r[#r]
+	if r then
+		local c=0
+		for i=1,10 do if r[i]>0 then c=c+1 end end
+		if c<5 then
+			Event.lose(P)
+		end
 	end
 	if P.stat.piece%4==0 and #P.field==0 then
 		P.modeData.event=P.modeData.event==0 and 1 or 0
@@ -820,7 +628,7 @@ function Event.newPC(P)
 				elseif b<5 then b=7-b
 				end
 			end
-			P:newNext(b)
+			P.next[#P.next+1]={bk=blocks[b][0],id=b,color=b,name=b}--P:newNext(b)'s simple version!
 		end
 		P.counter=P.stat.piece==0 and 20 or 0
 		newTask(Event_task.PC,P)
@@ -906,7 +714,7 @@ function Event_task.dig_normal(P)
 	P.counter=P.counter+1
 	if P.counter>=max(90,180-P.modeData.event)then
 		P.counter=0
-		garbageRise(10,1,rnd(10))
+		P:garbageRise(10,1,rnd(10))
 		P.modeData.event=P.modeData.event+1
 	end
 end
@@ -915,7 +723,7 @@ function Event_task.dig_lunatic(P)
 	P.counter=P.counter+1
 	if P.counter>=max(45,80-.3*P.modeData.event)then
 		P.counter=0
-		garbageRise(11+P.modeData.event%3,1,rnd(10))
+		P:garbageRise(11+P.modeData.event%3,1,rnd(10))
 		P.modeData.event=P.modeData.event+1
 	end
 end
@@ -926,7 +734,7 @@ function Event_task.survivor_easy(P)
 		P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1}
 		P.atkBuffer.sum=P.atkBuffer.sum+1
 		P.stat.recv=P.stat.recv+1
-		if P.modeData.event==45 then showText(P,text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==45 then P:showText(text.maxspeed,"appear",100,-140,.6)end
 		P.counter=0
 		P.modeData.event=P.modeData.event+1
 	end
@@ -943,7 +751,7 @@ function Event_task.survivor_normal(P)
 			d%4==3 and{pos=rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3}
 		P.atkBuffer.sum=P.atkBuffer.sum+d%4+1
 		P.stat.recv=P.stat.recv+d%4+1
-		if P.modeData.event==45 then showText(P,text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==45 then P:showText(text.maxspeed,"appear",100,-140,.6)end
 		P.counter=0
 		P.modeData.event=d
 	end
@@ -960,7 +768,7 @@ function Event_task.survivor_hard(P)
 		local R=(P.modeData.event%3<2 and 1 or 3)
 		P.atkBuffer.sum=P.atkBuffer.sum+R
 		P.stat.recv=P.stat.recv+R
-		if P.modeData.event==60 then showText(P,text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==60 then P:showText(text.maxspeed,"appear",100,-140,.6)end
 		P.counter=0
 		P.modeData.event=P.modeData.event+1
 	end
@@ -973,7 +781,7 @@ function Event_task.survivor_lunatic(P)
 		P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3}
 		P.atkBuffer.sum=P.atkBuffer.sum+4
 		P.stat.recv=P.stat.recv+4
-		if P.modeData.event==60 then showText(P,text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==60 then P:showText(text.maxspeed,"appear",100,-140,.6)end
 		P.counter=0
 		P.modeData.event=P.modeData.event+1
 	end
@@ -991,7 +799,7 @@ function Event_task.survivor_ultimate(P)
 		P.atkBuffer.sum=P.atkBuffer.sum+20
 		P.stat.recv=P.stat.recv+20
 		P.counter=0
-		if P.modeData.event==31 then showText(P,text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==31 then P:showText(text.maxspeed,"appear",100,-140,.6)end
 		P.modeData.event=P.modeData.event+1
 	end
 end
@@ -1011,16 +819,16 @@ function Event_task.defender_normal(P)
 			D.event=D.event+1
 			D.point=int(108e3/(360-D.event*2))*.1
 			if D.event==25 then
-				showText(P,text.great,"appear",100,-140,.6)
+				P:showText(text.great,"appear",100,-140,.6)
 				pushSpeed=2
 				P.dropDelay,P.gameEnv.drop=20,20
 			elseif D.event==50 then
-				showText(P,text.awesome,"appear",100,-140,.6)
+				P:showText(text.awesome,"appear",100,-140,.6)
 				pushSpeed=3
 				P.dropDelay,P.gameEnv.drop=10,10
 			elseif D.event==90 then
 				P.dropDelay,P.gameEnv.drop=5,5
-				showText(P,text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,"appear",100,-140,.6)
 			end
 		end
 	end
@@ -1041,15 +849,15 @@ function Event_task.defender_lunatic(P)
 			D.event=D.event+1
 			D.point=int(144e3/(240-2*D.event))*.1
 			if D.event==25 then
-				showText(P,text.great,"appear",100,-140,.6)
+				P:showText(text.great,"appear",100,-140,.6)
 				pushSpeed=3
 				P.dropDelay,P.gameEnv.drop=4,4
 			elseif D.event==50 then
-				showText(P,text.awesome,"appear",100,-140,.6)
+				P:showText(text.awesome,"appear",100,-140,.6)
 				pushSpeed=4
 				P.dropDelay,P.gameEnv.drop=3,3
 			elseif D.event==75 then
-				showText(P,text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,"appear",100,-140,.6)
 				P.dropDelay,P.gameEnv.drop=2,2
 			end
 		end
@@ -1076,10 +884,10 @@ function Event_task.attacker_hard(P)
 			D.event=D.event+1
 			D.point=int(72e4/t)*.1
 			if D.event==20 then
-				showText(P,text.great,"appear",100,-140,.6)
+				P:showText(text.great,"appear",100,-140,.6)
 				pushSpeed=3
 			elseif D.event==50 then
-				showText(P,text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,"appear",100,-140,.6)
 			end
 		end
 	end
@@ -1112,13 +920,13 @@ function Event_task.attacker_ultimate(P)
 			D.event=D.event+1
 			D.point=int(s*36e3/t)*.1
 			if D.event==10 then
-				showText(P,text.great,"appear",100,-140,.6)
+				P:showText(text.great,"appear",100,-140,.6)
 				pushSpeed=4
 			elseif D.event==20 then
-				showText(P,text.awesome,"appear",100,-140,.6)
+				P:showText(text.awesome,"appear",100,-140,.6)
 				pushSpeed=5
 			elseif D.event==30 then
-				showText(P,text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,"appear",100,-140,.6)
 			end
 		end
 	end
@@ -1168,7 +976,7 @@ local Fkey_func={
 			end
 			P.keyPressing[9]=true
 		else
-			changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
+			P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
 			P.swappingAtkMode=30
 		end
 	end,

@@ -1,25 +1,22 @@
 --[[
 第一次搞这么大的工程~参考价值不是很大
 如果你有时间并且也热爱俄罗斯方块的话，来看代码或者帮助优化的话当然欢迎！
-（顺便，不经允许直接盗用代码的先死个妈）
+(顺便，无授权直接盗用代码的先死个妈)
 ]]
 local love=love
-local gc,tm=love.graphics,love.timer
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
-local fs,sys,wd=love.filesystem,love.system,love.window
-local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
-local find=string.find
-local ins,rem=table.insert,table.remove
-local Timer=tm.getTime
-local F=false
-null=function()end
+local gc,sys=love.graphics,love.system
+local Timer=love.timer.getTime
+local int,rnd,max,min=math.floor,math.random,math.max,math.min
+local rem=table.remove
+NULL=function()end
 -------------------------------------------------------------
 system=sys.getOS()
-local mobile=system=="Android"or system=="iOS"
 local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
 local touching--1st touching ID
 
+modeSel,levelSel=1,3--Initialize mode selection
 players={alive={},human=0}
 scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}
 local scr=scr
@@ -58,22 +55,25 @@ setting={
 	sddas=0,sdarr=2,
 	quickR=true,swap=true,
 	--game
+
 	ghost=true,center=true,
 	smo=true,grid=false,
 	dropFX=3,
 	shakeFX=3,
 	atkFX=3,
 	frameMul=100,
-
+	--
 	fullscreen=false,
 	bg=true,
 	bgblock=true,
 	lang=1,
 	skin=1,
 	--graphic
+
 	sfx=8,bgm=6,
 	vib=3,voc=0,
 	--sound
+
 	keyMap={
 		{"left","right","x","z","c","up","down","space","tab","r","","",""},
 		{"","","","","","","","","","","","",""},
@@ -82,7 +82,7 @@ setting={
 		{"","","","","","","","","","","","",""},
 		{"","","","","","","","","","","","",""},
 		{"","","","","","","","","","","","",""},
-		{"","","","","","","","","","","","",""},
+		{"","","","","","","","","","","","",""},--keyboard
 		{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder","","",""},
 		{"","","","","","","","","","","","",""},
 		{"","","","","","","","","","","","",""},
@@ -90,18 +90,18 @@ setting={
 		{"","","","","","","","","","","","",""},
 		{"","","","","","","","","","","","",""},
 		{"","","","","","","","","","","","",""},
-		{"","","","","","","","","","","","",""},
-	},--keyboard & joystick
+		{"","","","","","","","","","","","",""},--joystick
+	},
 	virtualkey={
-		{80,720-80,6400,80},--moveLeft
-		{240,720-80,6400,80},--moveRight
-		{1280-240,720-80,6400,80},--rotRight
-		{1280-400,720-80,6400,80},--rotLeft
-		{1280-240,720-240,6400,80},--rotFlip
-		{1280-80,720-80,6400,80},--hardDrop
-		{1280-80,720-240,6400,80},--softDrop
-		{1280-80,720-400,6400,80},--hold
-		{80,80,6400,80},--restart
+		{80,720-80,6400,80},		--moveLeft
+		{240,720-80,6400,80},		--moveRight
+		{1280-240,720-80,6400,80},	--rotRight
+		{1280-400,720-80,6400,80},	--rotLeft
+		{1280-240,720-240,6400,80},	--rotFlip
+		{1280-80,720-80,6400,80},	--hardDrop
+		{1280-80,720-240,6400,80},	--softDrop
+		{1280-80,720-400,6400,80},	--hold
+		{80,80,6400,80},			--restart
 	},
 	virtualkeyAlpha=3,
 	virtualkeyIcon=true,
@@ -134,17 +134,17 @@ virtualkey={
 	]]
 
 }
-virtualkeyDown={F,F,F,F,F,F,F,F,F,F,F,F,F}
+virtualkeyDown={X,X,X,X,X,X,X,X,X,X}
 virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 --User datas&settings
 -------------------------------------------------------------
 require("class")
-require("toolfunc")
 require("ai")
-require("gamefunc")
+require("toolfunc")
 require("list")
 require("dataList")
 require("texture")
+require("light")
 local Tmr=require("timer")
 local Pnt=require("paint")
 require("player")
@@ -168,7 +168,6 @@ if sys.getPowerInfo()~="unknown"then
 					gc.line(61.5,.5,83.5,22.5)
 				elseif state=="charging"or state=="charged"then
 					gc.draw(chargeImage,84,3)
-					F=true
 				end
 			end
 			if pow then
@@ -214,7 +213,6 @@ local sceneInit={
 		updatePowerInfo()
 	end,
 	main=function()
-		modeSel,levelSel=modeSel or 1,levelSel or 3--Initialize mode selection
 		modeEnv={}
 		if not players[1]then
 			newDemoPlayer(1,900,35,1.1)
@@ -284,6 +282,7 @@ local sceneInit={
 		sel=1
 	end,
 	quit=function()
+		love.timer.sleep(.3)
 		love.event.quit()
 	end,
 }
@@ -489,7 +488,7 @@ function keyDown.draw(key)
 	elseif key=="escape"then
 		back()
 	else
-		pen=find("123qwea#sdzxc",key)or pen
+		pen=string.find("123qwea#sdzxc",key)or pen
 	end
 end
 
@@ -609,7 +608,7 @@ function keyDown.pause(key)
 		updateStat()
 		resetGameData()
 		gotoScene("play","none")
-	end--Restart
+	end--Restart with ctrl+R
 end
 
 function touchDown.play(id,x,y)
@@ -880,8 +879,10 @@ function love.touchreleased(id,x,y)
 end
 function love.keypressed(i)
 	mouseShow=false
-	if i=="f8"then devMode=(devMode+1)%3 end
-	if devMode==2 then
+	if i=="f8"then devMode=0
+	elseif i=="f9"then devMode=1
+	elseif i=="f10"then devMode=2
+	elseif devMode==2 then
 		if i=="k"then
 			for i=1,8 do
 				local P=players.alive[rnd(#players.alive)]
@@ -1045,6 +1046,7 @@ function love.update(dt)
 	-- end--update Widgets
 end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
+local FPS=love.timer.getFPS
 function love.draw()
 	gc.discard()--SPEED UPUPUP!
 	Pnt.BG[setting.bg and curBG or"grey"]()
@@ -1066,14 +1068,14 @@ function love.draw()
 	end--Draw widgets
 	if mouseShow and not touching then
 		local r=Timer()*.5
-		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
+		gc.setColor(1,1,1,min(1-math.abs(1-r%1*2),.3))
 		r=int(r)%7+1
 		gc.draw(mouseBlock[r],mx,my,Timer()%3.1416*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 		gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 		gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 	end--Awesome mouse!
 	gc.setColor(1,1,1)
-	if powerInfoCanvas and scene~="draw"then
+	if powerInfoCanvas then
 		gc.draw(powerInfoCanvas)
 	end--Power Info
 	gc.setLineWidth(6)
@@ -1107,7 +1109,7 @@ function love.draw()
 	end--Black side
 	setFont(20)
 	gc.setColor(1,1,1)
-	gc.print(tm.getFPS(),5,700)
+	gc.print(FPS(),5,700)
 	if devMode>0 then
 		gc.setColor(1,devMode==2 and .5 or 1,1)
 		gc.print("Tasks:"..#Task,5,600)
@@ -1118,9 +1120,10 @@ function love.draw()
 	end
 end
 function love.run()
-	local lastFrame,lastUpdatePowerInfo=Timer(),Timer()
-	local readyDrawFrame=0
 	local T=love.timer
+	local lastFrame,lastUpdatePowerInfo=T.getTime(),T.getTime()
+	local readyDrawFrame=0
+	local mini=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 	love.resize(gc.getWidth(),gc.getHeight())
 	scene="load"sceneInit.load()--System Launch
@@ -1138,7 +1141,7 @@ function love.run()
 		end
 		T.step()
 		love.update(T.getDelta())
-		if not wd.isMinimized()then
+		if not mini()then
 			readyDrawFrame=readyDrawFrame+setting.frameMul
 			if readyDrawFrame>=100 then
 				readyDrawFrame=readyDrawFrame-100
@@ -1157,13 +1160,14 @@ function love.run()
 	end
 end
 
+local fs=love.filesystem
 userData,userSetting=fs.newFile("userdata"),fs.newFile("usersetting")
 if fs.getInfo("userdata")then
 	loadData()
 end
 if fs.getInfo("usersetting")then
 	loadSetting()
-elseif mobile then
+elseif system=="Android"or system=="iOS" then
 	setting.virtualkeySwitch=true
 	setting.swap=false
 end

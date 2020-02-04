@@ -103,17 +103,15 @@ return{
 	load={"Loading VOICE","Loading BGM","Loading SFX","Finished",},
 	tips={
 		"Not animation,real loading!",
-		"The WHOLE game is made by MrZ!",
 		"Back to Back 10 combo Techrash PC!",
 		"Techmino has a Nspire-CX edition!",
 		"B2B2B???",
 		"Is B2B2B2B possible?",
 		"MEGACMB!",
 		"ALLSPIN!",
-		"O spin triple?",
-		"You can play with any input device!",
+		"O spin triple!",
 		"Miya:Nya!",
-		"225238922,Bilibili cheers!",
+		"225238922  Bilibili cheers!",
 		"Playing too much = taking drugs",
 		"Disappearing doesn't mean useless",
 		"Try to use two rotate button,three better",
@@ -129,8 +127,10 @@ return{
 		"Let-The-Bass-Kick!",
 		"Powered by love2d",
 		"Find out what's in the setting!",
-		"Any suggestions to author!~",
+		"Any suggestions to author!",
 		"Techmino=Technique+tetromino",
+		"CLASSIC SEXY RUSSIAN BLOCKS",
+		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 	},
 	stat={
 		"Games run:",
@@ -140,7 +140,7 @@ return{
 		"Rotate:",
 		"Hold:",
 		"Block used:",
-		"Rows cleared:",
+		"Lines cleared:",
 		"Attack:",
 		"Sent:",
 		"Receive:",
@@ -159,11 +159,19 @@ return{
 		"",
 		"Powered by LOVE2D",
 		"Author:MrZ   E-mail:1046101471@qq.com",
-		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ VOICE:Miya",
-		"Tool used:VScode,GFIE,Beepbox,Goldwave,Cold_Clear",
+		"Program:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ VOICE:Miya",
 		"Special thanks:Farter,Flyz,196,Teatube,T830,[all test staff] and YOU!",
 		"Any bugs/suggestions to my E-mail.",
 	},
+	used=[[
+Tool used:
+	Beepbox
+	GFIE
+	Goldwave
+Lib used:
+	Cold_Clear[MinusKelvin]
+	simple-love-lights[dylhunn]
+]],
 	support="Support Author",
 	group="Official QQ Group",
 	warning="DO NOT DISTRIBUTE",
@@ -262,7 +270,7 @@ return{
 			shakeFX="Shake FX level",
 			atkFX="ATK FX level",
 			fullscreen="Fullscreen",
-			frame="drawFPS",
+			frame="draw FPS",
 			back=BK,
 		},
 		setting_sound={

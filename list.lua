@@ -1,7 +1,3 @@
-local gc=love.graphics
-local tc,kb=love.touch,love.keyboard
-local sys=love.system
-local fs=love.filesystem
 local mobile=system=="Android"or system=="iOS"
 
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","func","restart","insLeft","insRight","insDown"}
@@ -53,6 +49,7 @@ blockColor={
 	color.darkGreen,
 }
 sfx={
+	"welcome",
 	"button","swipe",
 	"ready","start","win","fail","collect",
 	"move","rotate","rotatekick","hold",
@@ -178,7 +175,7 @@ modeLevel={
 	tsd={"NORMAL","HARD"},
 	blind={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
 	dig={"NORMAL","LUNATIC"},
-	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE","EXTRA"},
+	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	defender={"NORMAL","LUNATIC"},
 	attacker={"HARD","ULTIMATE"},
 	tech={"NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+",},
@@ -283,7 +280,7 @@ end
 Widget={
 	load={},intro={},quit={},
 	main={
-		play=	newButton(150,280,200,160,color.red,		70,function()gotoScene("mode")end,			nil,"setting"),
+		play=	newButton(150,280,200,160,color.red,		60,function()gotoScene("mode")end,			nil,"setting"),
 		setting=newButton(370,280,200,160,color.lightBlue,	50,function()gotoScene("setting_game")end,	nil,"music"),
 		music=	newButton(590,280,200,160,color.lightPurple,37,function()gotoScene("music")end,			nil,"help"),
 		help=	newButton(150,460,200,160,color.yellow,		55,function()gotoScene("help")end,			nil,"stat"),
@@ -403,7 +400,7 @@ Widget={
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			if not setting.fullscreen then
-			love.resize(gc.getWidth(),gc.getHeight())
+			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end
 			end,nil,"bg"),
 		bg=		newSwitch(990,250,40,function()return setting.bg end,function()setting.bg=not setting.bg end,	nil,"bgblock"),
@@ -411,7 +408,7 @@ Widget={
 			setting.bgblock=not setting.bgblock--if not setting.bgblock then for i=1,16 do FX_BGblock.list[i].v=3*FX_BGblock.list[i].v end end
 			end,nil,"skin"),
 		skin=	newButton(860,470,120,60,color.white,40,function()
-			setting.skin=setting.skin%6+1
+			setting.skin=setting.skin%8+1
 			changeBlockSkin(setting.skin)
 			end,nil,"back"),
 		back=	newButton(1160,600,160,160,color.white,55,back,nil,"sound"),
@@ -462,7 +459,7 @@ Widget={
 	},
 	help={
 		his=	newButton(1050,520,230,60,color.white,40,function()gotoScene("history")end,nil,"back"),
-		qq=		newButton(1050,600,230,60,color.white,40,function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,	function()return mobile end,"his"),
+		qq=		newButton(1050,600,230,60,color.white,40,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,	function()return mobile end,"his"),
 		back=	newButton(640,	600,180,60,color.white,40,back,nil,"qq"),
 	},
 	history={
@@ -471,7 +468,7 @@ Widget={
 		back=	newButton(1155,600,180,90,color.white,40,back),
 	},
 	stat={
-		path=	newButton(980,590,250,60,color.white,30,function()sys.openURL(fs.getSaveDirectory())end,function()return mobile end,"back"),
+		path=	newButton(980,590,250,60,color.white,30,function()love.system.openURL(love.filesystem.getSaveDirectory())end,function()return mobile end,"back"),
 		back=	newButton(640,590,180,60,color.white,40,back,nil,"path"),
 	},
 }

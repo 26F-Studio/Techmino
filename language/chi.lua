@@ -103,17 +103,15 @@ return{
 	load={"加载语音ing","加载音乐ing","加载音效ing","加载完成",},
 	tips={
 		"不是动画,真的在加载!",
-		"整个游戏都是MrZ完成的!",
 		"大满贯10连击消四全清!",
 		"<方块研究所>有一个Nspire-CX版本!",
 		"B2B2B???",
 		"B2B2B2B存在吗?",
 		"MEGACMB!",
 		"ALLSPIN!",
-		"O型回旋三清?",
-		"只用一个输入设备就可以游玩了",
+		"O spin triple!",
 		"Miya:喵!",
-		"225238922,哔哩哔哩 干杯~",
+		"225238922  哔哩哔哩 干杯~",
 		"适度游戏益脑,沉迷游戏伤身,合理安排时间,享受健康生活",
 		"合群了就会消失,但是消失不代表没有意义",
 		"学会使用两个旋转键,三个更好",
@@ -128,9 +126,10 @@ return{
 		"2.7182818284590452353",
 		"Let-The-Bass-Kick!",
 		"使用love2d引擎制作",
-		"哪里不舒服的话先看看设置有没有你想要改的",
+		"有疑问?先看设置有没有你想要的",
 		"有建议的话可以把信息反馈给作者~",
-		"本游戏不叫铁壳米诺",
+		"CLASSIC SEXY RUSSIAN BLOCKS",
+		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 	},
 	stat={
 		"游戏运行次数:",
@@ -160,10 +159,18 @@ return{
 		"使用LOVE2D引擎",
 		"作者:MrZ   邮箱:1046101471@qq.com",
 		"程序:MrZ  美术:MrZ  音乐:MrZ  音效:MrZ 语音:Miya",
-		"使用工具:VScode,GFIE,Beepbox,Goldwave,Cold_Clear",
 		"特别感谢:Farter,Flyz,196,Teatube,T830,[所有测试人员]和 你!",
 		"错误或者建议请附带相关信息发送到作者邮箱~",
 	},
+	used=[[
+使用工具:
+	Beepbox
+	GFIE
+	Goldwave
+使用库:
+	Cold_Clear[MinusKelvin]
+	simple-love-lights[dylhunn]
+]],
 	support="支持作者",
 	group="官方QQ群",
 	warning="禁 止 私 自 传 播",
@@ -244,6 +251,8 @@ return{
 			sdarrD="-",sdarrU="+",
 			quickR="快速重新开始",
 			swap="组合键切换攻击模式",
+			ctrl="控制设置",
+			touch="触屏设置",
 			back=BK,
 		},
 		setting_graphic={

@@ -1,23 +1,32 @@
 local S=[=[
 Future outlook:
-	GUI:
+	Normal Things:
+		force fineese mode
 		highscore of most modes
 		custom block color/direction
 		custom sequence
 		virtual key switch(all keys)
-	Normal Things:
 		combo mode
+		infinite c4w mode
 		any screen size
 		CC smarter(think of gaebage buffer)
 		fineese/bigbang mode & easier CTWC
 		new AI:task-Z
 		game recording
 		TTT mode
-	Hard Things:
-		Encrypt source code(JIT to byte code)
+	Technical things:
+		Encrypt source code(compile to byte code)
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.7.27:
+	super O transform system
+	optimized light system(no used)
+	bug fixed
+0.7.26:
+	new skin
+	import light lib
+	many bug fixed
 0.7.25:
 	demo play at main menu
 	ALMOST reconstructed WHOLE PLAYER SYSTEM,NEED TEST

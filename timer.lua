@@ -41,10 +41,11 @@ function Tmr.load()
 			for i=1,#sfx do sfx[i]=nil end
 			loading=4
 			loadnum=1
+			SFX("welcome",.2)
 		end
 	elseif loading==4 then
 		loadnum=loadnum+1
-		if loadnum==15 then
+		if loadnum==48 then
 			stat.run=stat.run+1
 			gotoScene("intro","none")
 		end

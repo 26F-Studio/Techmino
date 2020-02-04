@@ -72,7 +72,7 @@ function CC_switch20G(P)
 	P.r,P.c=#P.cur.bk,#P.cur.bk[1]
 	P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
-	P.freshNext()
+	P:freshNext()
 	BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])
 	collectgarbage()
 end

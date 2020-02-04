@@ -1,6 +1,4 @@
 local gc=love.graphics
-local mt=love.math
-local gmatch=string.gmatch
 local setFont=setFont
 local int,abs,rnd,max,min,sin=math.floor,math.abs,math.random,math.max,math.min,math.sin
 local format=string.format
@@ -88,7 +86,8 @@ local miniTitle_rect={
 }
 local function stencil_miniTitle()
 	for i=1,#miniTitle_rect do
-		gc.rectangle("fill",unpack(miniTitle_rect[i]))
+		local a,b,c,d=unpack(miniTitle_rect[i])
+		gc.rectangle("fill",250+a*30,150+b*30,c*30,d*30)
 	end
 end
 
@@ -165,7 +164,6 @@ textFX={
 		gc.pop()
 	end,
 }
-
 local function drawAtkPointer(x,y)
 	local t=sin(Timer()*20)
 	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
@@ -174,7 +172,6 @@ local function drawAtkPointer(x,y)
 	gc.setColor(0,.6,1,.8-a)
 	gc.circle("line",x,y,30*(1+a),6)
 end
-
 local function VirtualkeyPreview()
 	for i=1,#virtualkey do
 		local c=sel==i and .8 or 1
@@ -204,8 +201,6 @@ local function drawVirtualkey()
 	end
 end
 
-local scs={{1,2},nil,nil,nil,nil,{1.5,1.5},{0.5,2.5}}for i=2,5 do scs[i]=scs[1]end
-local matrixT={}for i=0,15 do matrixT[i]={}for j=0,8 do matrixT[i][j]=mt.noise(i,j)+2 end end
 local Pnt={BG={}}
 function Pnt.BG.none()
 	gc.clear(.15,.15,.15)
@@ -244,6 +239,7 @@ function Pnt.BG.game5()
 	else gc.clear(0,0,0)
 	end
 end--Lightning
+local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 function Pnt.BG.game6()
 	local t=1.2-Timer()%10%3%1.2
 	if t<.5 then gc.clear(t,t,t)
@@ -251,7 +247,7 @@ function Pnt.BG.game6()
 	end
 	gc.setColor(.3,.3,.3)
 	local r=7-int(Timer()*.5)%7
-	gc.draw(mouseBlock[r],640,360,Timer()%3.1416*6,400,400,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
+	gc.draw(mouseBlock[r],640,360,Timer()%3.1416*6,400,400,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 end--Fast lightning&spining tetromino
 function Pnt.BG.rgb()
 	gc.clear(
@@ -266,6 +262,7 @@ function Pnt.BG.strap()
 	gc.draw(background2,x,0,nil,10)
 	gc.draw(background2,x-1280,0,nil,10)
 end
+local matrixT={}for i=0,15 do matrixT[i]={}for j=0,8 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 function Pnt.BG.matrix()
 	gc.clear(.15,.15,.15)
 	for i=0,15 do
@@ -289,14 +286,14 @@ function Pnt.load()
 	mStr(loadTip,640,400)
 end
 function Pnt.intro()
-	gc.push()
-		gc.translate(250,150)
-		gc.scale(30)
-		gc.stencil(stencil_miniTitle,"replace",1)
+	gc.stencil(stencil_miniTitle,"replace",1)
 	gc.setStencilTest("equal",1)
 		gc.setColor(1,1,1,min(count,80)*.005)
-		gc.rectangle("fill",0,0,26,14)
-	gc.pop()
+		gc.push("transform")
+			gc.translate(250,150)
+			gc.scale(30)
+			gc.rectangle("fill",0,0,26,14)
+		gc.pop()
 		gc.setColor(1,1,1,.06)
 		for i=41,5,-2 do
 			gc.setLineWidth(i)
@@ -573,12 +570,14 @@ function Pnt.setting_touch()
 	end
 end
 function Pnt.help()
-	setFont(32)
+	setFont(30)
 	gc.setColor(1,1,1)
-	for i=1,11 do
-		gc.printf(text.help[i],140,15+43*i,1000,"center")
+	for i=1,#text.help do
+		gc.printf(text.help[i],140,10+40*i,1000,"center")
 	end
-	gc.draw(titleImage,250,600,.2,1+.05*sin(Timer()*2),nil,206,35)
+	setFont(24)
+	gc.print(text.used,30,330)
+	gc.draw(titleImage,280,620,.1,1+.05*sin(Timer()*2),nil,206,35)
 	gc.setLineWidth(5)
 	gc.rectangle("line",17,17,260,260)
 	gc.rectangle("line",1077,17,186,186)
