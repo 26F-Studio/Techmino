@@ -452,6 +452,9 @@ end
 Event_task={}
 function Event_task.finish(P)
 	P.endCounter=P.endCounter+1
+	if scene.cur~="play"then
+		return true
+	end
 	if P.endCounter>120 then
 		pauseGame()
 		return true
@@ -472,7 +475,7 @@ function Event_task.lose(P)
 				removeRow(P.field)
 				removeRow(P.visTime)
 			end
-			if #players==1 then
+			if #players==1 and scene=="play"then
 				pauseGame()
 			end
 			return true
@@ -796,14 +799,14 @@ modes.sprint={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(55)
 		local r=max(P.gameEnv.target-P.stat.row,0)
 		mStr(r,-82,265)
 		if r<21 and r>0 then
 			gc.setLineWidth(4)
 			gc.setColor(1,r>10 and 0 or rnd(),.5)
-			gc.line(0,600-30*r,300,600-30*r)
+			gc.line(dx,600-30*r+dy,300+dx,600-30*r+dy)
 		end
 	end,
 }
@@ -829,7 +832,7 @@ modes.marathon={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(P.stat.row,-82,320)
 		mStr(P.gameEnv.target,-82,370)
@@ -870,7 +873,7 @@ modes.master={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(P.modeData.point,-82,320)
 		mStr((P.modeData.event+1)*100,-82,370)
@@ -894,7 +897,7 @@ modes.classic={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(75)
 		local r=P.gameEnv.target*.1
 		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-82,210)
@@ -918,7 +921,7 @@ modes.zen={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(70)
 		mStr(max(200-P.stat.row,0),-82,280)
 	end,
@@ -947,7 +950,7 @@ modes.infinite={
 			end
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(P.stat.atk,-82,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
@@ -988,7 +991,7 @@ modes.solo={
 			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 
 	end,
 }
@@ -1017,7 +1020,7 @@ modes.round={
 		end
 		garbageSpeed=1e4
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 
 	end,
 }
@@ -1042,7 +1045,7 @@ modes.tsd={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(75)
 		mStr(P.modeData.event,-82,330)
 		mDraw(drawableText.tsd,-82,407)
@@ -1093,6 +1096,7 @@ modes.blind={
 			_20G=true,
 			drop=0,lock=15,
 			wait=10,fall=15,
+			next=3,
 			visible="fast",
 			freshLimit=15,
 			dropPiece="GM_score",
@@ -1106,7 +1110,7 @@ modes.blind={
 			players[1].modeData.event="M7"
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		mDraw(drawableText.line,-82,300)
 		mDraw(drawableText.techrash,-82,420)
 		if curMode.lv==6 then
@@ -1140,7 +1144,7 @@ modes.dig={
 		newPlayer(1,340,15)
 		pushSpeed=1
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(65)
 		mStr(P.modeData.event,-82,310)
 		mDraw(drawableText.wave,-82,375)
@@ -1189,7 +1193,7 @@ modes.survivor={
 		newPlayer(1,340,15)
 		pushSpeed=curMode.lv>2 and 2 or 1
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(65)
 		mStr(P.modeData.event,-82,310)
 		mDraw(drawableText.wave,-82,375)
@@ -1221,7 +1225,7 @@ modes.defender={
 			pushSpeed=2
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(55)
 		mStr(P.modeData.event,-82,200)
 		mStr(P.modeData.point,-82,320)
@@ -1253,7 +1257,7 @@ modes.attacker={
 			pushSpeed=2
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(55)
 		mStr(P.modeData.event,-82,200)
 		mStr(
@@ -1322,7 +1326,7 @@ modes.tech={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(P.stat.atk,-82,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
@@ -1367,7 +1371,7 @@ modes.c4wtrain={
 		elseif r==6 then F[1][7],F[1][6],F[1][5]=10,10,10
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(max(100-P.stat.row,0),-82,220)
 		mStr(P.combo,-82,310)
@@ -1405,7 +1409,7 @@ modes.pctrain={
 		newPlayer(1,340,15)
 		Event.newPC(players[1])
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(75)
 		mStr(P.stat.pc,-82,330)
 		mDraw(drawableText.pc,-82,412)
@@ -1441,10 +1445,10 @@ modes.pcchallenge={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(max(100-P.stat.row,0),-82,250)
-		
+
 		setFont(75)
 		mStr(P.stat.pc,-82,350)
 		mDraw(drawableText.pc,-82,432)
@@ -1504,7 +1508,7 @@ modes.techmino49={
 			n=n+1
 		end end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(35)
 		mStr(#players.alive.."/49",-82,175)
 		mStr(P.ko,-70,215)
@@ -1568,7 +1572,7 @@ modes.techmino99={
 			n=n+1
 		end end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(35)
 		mStr(#players.alive.."/99",-82,175)
 		mStr(P.ko,-70,215)
@@ -1607,7 +1611,7 @@ modes.drought={
 	load=function()
 		newPlayer(1,340,15)
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(70)
 		mStr(max(100-P.stat.row,0),-82,280)
 	end,
@@ -1636,7 +1640,7 @@ modes.hotseat={
 			newPlayer(4,955,160,.5)
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 
 	end,
 }
@@ -1694,7 +1698,7 @@ modes.custom={
 		modeEnv.bg=customRange.bg[customSel[12]]
 		modeEnv.bgm=customRange.bgm[customSel[13]]
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,dx,dy)
 		setFont(55)
 		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
 			mStr(P.stat.row,-82,225)
@@ -1703,21 +1707,11 @@ modes.custom={
 			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
 		end
 		if P.gameEnv.puzzle and P.modeData.event==0 then
-			gc.setLineWidth(3)
+			local m=puzzleMark
 			for y=1,preField.h do for x=1,10 do
-				local B=preField[y][x]
-				if B>7 then
-					gc.setColor(blockColor[B])
-					gc.rectangle("line",30*x-23,607-30*y,16,16)
-				elseif B>0 then
-					local c=blockColor[B]
-					gc.setColor(c[1],c[2],c[3],.6)
-					gc.rectangle("line",30*x-25,605-30*y,20,20)
-					gc.rectangle("line",30*x-20,610-30*y,10,10)
-				elseif B==-1 then
-					gc.setColor(1,1,1,.4)
-					gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
-					gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
+				local T=preField[y][x]
+				if T~=0 then
+					gc.draw(m[T],30*x-30+dx,600-30*y+dy)
 				end
 			end end
 		end

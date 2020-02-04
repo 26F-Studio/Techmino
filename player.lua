@@ -306,7 +306,7 @@ function newDemoPlayer(id,x,y,size)
 		wait=10,fall=20,
 		next=6,hold=true,oncehold=true,
 		sequence="bag7",
-	
+
 		block=true,
 		visible="show",
 		Fkey=NULL,puzzle=false,ospin=true,
@@ -576,7 +576,7 @@ function player.update(P,dt)
 					if x~=P.curX then
 						P.moving=P.moving+P.gameEnv.arr-1
 					elseif not P.small then
-						P.fieldOff.vx=-setting.shakeFX*.8
+						P.fieldOff.vx=-setting.shakeFX*.5
 					end
 				end
 			else
@@ -596,7 +596,7 @@ function player.update(P,dt)
 					if x~=P.curX then
 						P.moving=P.moving-P.gameEnv.arr+1
 					elseif not P.small then
-						P.fieldOff.vx=setting.shakeFX*.8
+						P.fieldOff.vx=setting.shakeFX*.5
 					end
 				end
 			else
@@ -615,7 +615,7 @@ function player.update(P,dt)
 					P.act.insDown(P)
 				end
 				if not P.small then
-					P.fieldOff.vy=setting.shakeFX*.5
+					P.fieldOff.vy=setting.shakeFX*.3
 				end			
 			end
 		else
@@ -707,31 +707,20 @@ function player.update(P,dt)
 	end
 	for i=#P.shade,1,-1 do
 		local S=P.shade[i]
-		S[1]=S[1]-1+setting.dropFX*.25
+		S[1]=S[1]-1+setting.dropFX*.15
 		if S[1]<=0 then
 			rem(P.shade,i)
 		end
 	end
-	
+
 	if setting.shakeFX>0 then
 		local O=P.fieldOff
-		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .08 or -.08),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .08 or -.08)
+		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .1 or -.1),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
 		O.x,O.y=O.x+O.vx,O.y+O.vy
+		if abs(O.x)<1 then O.x=0 end
+		if abs(O.y)<1 then O.y=0 end
 	end--field shaking
-
-	for i=#P.bonus,1,-1 do
-		local t=P.bonus[i]
-		t.c=t.c+t.spd
-		if t.stop then
-			if t.c>t.stop then
-				t.c=t.stop
-			end
-		end
-		if t.c>60 then
-			rem(P.bonus,i)
-		end
-	end
-
+	updateText(P.bonus)
 	for i=#P.atkBuffer,1,-1 do
 		local A=P.atkBuffer[i]
 		A.time=A.time+1
@@ -954,13 +943,7 @@ function player.draw_norm(P)
 			mStr(int(count/60+1),0,0)
 		gc.pop()
 	end--Draw starting counter
-	for i=1,#P.bonus do
-		local t=P.bonus[i]
-		local p=t.c
-		gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
-		setFont(t.font)
-		t:draw()
-	end--Bonus texts
+	drawTexts(P.bonus)--Bonus texts
 	setFont(25)
 	gc.setColor(1,1,1)
 	mStr(format("%.2f",P.stat.time),-82,518)--Time
@@ -972,7 +955,7 @@ function player.draw_norm(P)
 	drawDial(405,575,P.keySpeed)
 	--Speed dials
 	gc.setColor(1,1,1)
-	modes[curMode.id].mesDisp(P)--Other messages
+	modes[curMode.id].mesDisp(P,P.fieldOff.x,P.fieldOff.y)--Other messages
 	if modeEnv.royaleMode then
 		if P.atkMode then
 			gc.setColor(1,.8,0,P.swappingAtkMode*.02)
@@ -1104,13 +1087,7 @@ function player.draw_demo(P)
 	gc.setColor(1,1,1)
 	gc.draw(PTC.dust[P.id])
 	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
-	for i=1,#P.bonus do
-		local t=P.bonus[i]
-		local p=t.c
-		gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
-		setFont(t.font)
-		t:draw()
-	end
+	drawTexts(P.bonus)
 	gc.pop()
 end
 -------------------------<FX>-------------------------
@@ -1155,10 +1132,10 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,mini,combo)
 			g=.6+g*.4
 			b=.6+b*.4
 		else
+			corner=20
 			r=.8+r*.2
 			g=.8+g*.2
 			b=.8+b*.2
-			corner=20
 		end
 	else
 		if combo>3 then
@@ -1180,10 +1157,10 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,mini,combo)
 		x=x1,y=y1,--current pos
 		x1=x1,y1=y1,--start pos
 		x2=x2,y2=y2,--end pos
-		rad=radius*(setting.atkFX+2)*.2,
+		rad=radius*(setting.atkFX+3)*.12,
 		corner=corner,
 		type=type==1 and"fill"or"line",
-		r=r,g=g,b=b,a=a*(setting.atkFX+1)*.25,
+		r=r,g=g,b=b,a=a*(setting.atkFX+5)*.1,
 		t=0,
 		drag={},--Afterimage coordinate list
 	}
@@ -1388,7 +1365,7 @@ function player.freshgho(P)
 				if setting.dropFX>0 then
 					P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 				end
-				P.fieldOff.vy=setting.shakeFX*.8
+				P.fieldOff.vy=setting.shakeFX*.5
 			end
 			P.curY=P.y_img
 		end
@@ -1687,7 +1664,7 @@ function player.drop(P)--Place piece
 		end
 		::L1::
 	end
-	
+
 	P:lock()
 	local CHN=getFreeVoiceChannel()
 	local cc,send,exblock=checkrow(P,P.curY,P.r),0,0--Currect clear&send&sendTime
@@ -1739,7 +1716,7 @@ function player.drop(P)--Place piece
 		if cc==4 then
 			cscore=1000
 			if P.b2b>1000 then
-				P:showText(text.techrashB3B,0,-30,70,"fly")
+				P:showText(text.techrashB3B,0,-30,50,"fly")
 				send=6
 				sendTime=100
 				exblock=exblock+1
@@ -1749,7 +1726,7 @@ function player.drop(P)--Place piece
 					VOICE("b3b",CHN)
 				end
 			elseif P.b2b>=50 then
-				P:showText(text.techrashB2B,0,-30,70,"drive")
+				P:showText(text.techrashB2B,0,-30,50,"drive")
 				sendTime=80
 				send=5
 				cscore=cscore*1.3
@@ -1796,7 +1773,7 @@ function player.drop(P)--Place piece
 				sendTime=20+send*20
 				if mini then
 					P:showText(text.mini,0,-80,35,"appear")
-					send=ceil(send*.5)
+					send=send*.5
 					sendTime=sendTime+60
 					cscore=cscore*.5
 					P.b2b=P.b2b+b2bPoint[cc]*.5
@@ -1870,7 +1847,6 @@ function player.drop(P)--Place piece
 			--ATK statistics
 			if exblock then exblock=int(exblock*(1+P.strength*.25))end
 			send=send*(1+P.strength*.25)
-			if mini then send=send*.8 end
 			send=int(send)
 			--Badge Buff
 			if send==0 then goto L end
@@ -2078,7 +2054,7 @@ function player.act.hardDrop(P)
 			P.curY=P.y_img
 			P.spinLast=false
 			if not P.small then
-				P.fieldOff.vy=setting.shakeFX
+				P.fieldOff.vy=setting.shakeFX*.6
 			end
 			if P.human then
 				SFX("drop",nil,getBlockDirection(P))
@@ -2132,7 +2108,7 @@ function player.act.insLeft(P,auto)
 		if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
 	end
 	if not P.small then
-		P.fieldOff.vx=-setting.shakeFX*.8
+		P.fieldOff.vx=-setting.shakeFX*.5
 	end
 	if auto then
 		if P.ctrlCount==0 then P.ctrlCount=1 end
@@ -2153,7 +2129,7 @@ function player.act.insRight(P,auto)
 		if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
 	end
 	if not P.small then
-		P.fieldOff.vx=setting.shakeFX*.8
+		P.fieldOff.vx=setting.shakeFX*.5
 	end
 	if auto then
 		if P.ctrlCount==0 then P.ctrlCount=1 end
@@ -2167,6 +2143,7 @@ function player.act.insDown(P)
 			if setting.dropFX>0 then
 				P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 			end
+			P.fieldOff.vy=setting.shakeFX*.5
 		end
 		P.curY,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false
 	end

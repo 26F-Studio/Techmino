@@ -228,15 +228,16 @@ function Pnt.BG.matrix()
 end
 
 function Pnt.load()
+	local L=loading
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.5)
-	gc.rectangle("fill",300,330,loadprogress*680,60,5)
+	gc.rectangle("fill",300,330,L[2]/L[3]*680,60,5)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60,5)
 	setFont(35)
-	mStr(text.load[loading],640,335)
+	mStr(text.load[L[1]],640,335)
 	setFont(25)
-	mStr(loadTip,640,400)
+	mStr(L[4],640,400)
 end
 function Pnt.intro()
 	gc.stencil(stencil_miniTitle,"replace",1)
@@ -339,13 +340,13 @@ function Pnt.draw()
 	gc.setLineWidth(3)
 	gc.rectangle("line",-2,-2,304,604)
 	gc.setLineWidth(2)
+	local cross=puzzleMark[-1]
 	for y=1,20 do for x=1,10 do
 		local B=preField[y][x]
 		if B>0 then
 			gc.draw(blockSkin[B],30*x-30,600-30*y)
 		elseif B==-1 then
-			gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
-			gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
+			gc.draw(cross,30*x-30,600-30*y)
 		end
 	end end
 	if sx and sy then
@@ -360,12 +361,12 @@ function Pnt.draw()
 	if pen>0 then
 		gc.setLineWidth(13)
 		gc.setColor(blockColor[pen])
-		gc.rectangle("line",746,460,70,70)
+		gc.rectangle("line",745,460,70,70)
 	elseif pen==-1 then
 		gc.setLineWidth(5)
 		gc.setColor(.9,.9,.9)
-		gc.line(960,620,1000,660)
-		gc.line(960,660,1000,620)
+		gc.line(755,470,805,520)
+		gc.line(755,520,805,470)
 	end
 end
 function Pnt.play()
@@ -376,12 +377,13 @@ function Pnt.play()
 	for i=1,#FX_attack do
 		local A=FX_attack[i]
 		gc.push("transform")
-			local a=A.t<10 and A.a*A.t*.05 or A.t>50 and A.a*(6-A.t*.1)or A.a
+			local a=(A.t<10 and A.t*.05 or A.t>50 and 6-A.t*.1 or 1)*A.a
 			gc.setColor(A.r,A.g,A.b,a*.5)
 			gc.circle("line",0,0,A.rad,A.corner)
 			local L=A.drag
-			for i=1,#L,2 do
-				gc.setColor(A.r,A.g,A.b,a*i*.05)
+			local len=#L
+			for i=1,len,2 do
+				gc.setColor(A.r,A.g,A.b,.4*a*i/len)
 				gc.translate(L[i],L[i+1])
 				gc.rotate(A.t*.1)
 				gc.circle("fill",0,0,A.rad,A.corner)
@@ -489,7 +491,7 @@ function Pnt.setting_key()
 		200,45
 	)
 	--Selection rect
-	
+
 	gc.setColor(1,.3,.3)
 	mDraw(drawableText.keyboard,340,35)
 	mDraw(drawableText.keyboard,940,35)

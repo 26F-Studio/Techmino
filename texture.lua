@@ -1,12 +1,13 @@
 local gc=love.graphics
-local N,c=gc.newImage
+local N=gc.newImage
 local int=math.floor
 local function T(s,t)return gc.newText(setFont(s),t)end
 local function C(x,y)
-	c=gc.newCanvas(x,y)
+	local c=gc.newCanvas(x,y)
 	gc.setCanvas(c)
 	return c
 end
+local c
 
 gc.setDefaultFilter("nearest","nearest")
 blockImg=N("/image/block.png")
@@ -36,15 +37,38 @@ for i=1,7 do
 	end end
 end
 
+puzzleMark={}
+gc.setLineWidth(3)
+for i=1,13 do
+	puzzleMark[i]=C(30,30)
+	if i>7 then
+		gc.setColor(blockColor[i])
+		gc.rectangle("line",7,7,16,16)
+	else
+		local c=blockColor[i]
+		gc.setColor(c[1],c[2],c[3],.6)
+		gc.rectangle("line",5,5,20,20)
+		gc.rectangle("line",10,10,10,10)
+	end
+end
+c=C(30,30)
+gc.setColor(1,1,1)
+gc.line(5,5,25,25)
+gc.line(5,25,25,5)
+puzzleMark[-1]=C(30,30)
+gc.setColor(1,1,1,.9)
+gc.draw(c)
+c:release()
+
 PTC={dust={}}--Particle systems
-C(6,6)
+c=C(6,6)
 gc.clear(1,1,1)
 PTC.dust0=gc.newParticleSystem(c,1000)
+c:release()
 PTC.dust0:setParticleLifetime(.2,.3)
 PTC.dust0:setEmissionRate(0)
 PTC.dust0:setLinearAcceleration(-1500,-200,1500,200)
 PTC.dust0:setColors(1,1,1,.5,1,1,1,0)
-c:release()
 --Dust particles
 
 gc.setDefaultFilter("linear","linear")
@@ -55,7 +79,6 @@ dialNeedle=N("/image/mess/dialNeedle.png")
 badgeIcon=N("/image/mess/badge.png")
 spinCenter=N("/image/mess/spinCenter.png")
 batteryImage=N("/image/mess/power.png")
-chargeImage=N("/image/mess/charge.png")
 
 background1=N("/image/BG/bg1.jpg")
 background2=N("/image/BG/bg2.png")
@@ -76,7 +99,7 @@ drawableText={
 	nextWave=T(30,"Next"),
 	combo=T(20,"Combo"),
 	mxcmb=T(20,"Max Combo"),
-	pc=T(22,"Perfect Clear"),
+	pc=T(20,"Perfect Clear"),
 	ko=T(25,"KO"),
 
 	modeName=T(30),levelName=T(30),
@@ -84,7 +107,7 @@ drawableText={
 
 	win=T(120),finish=T(120),
 	lose=T(120),pause=T(120),
-	
+
 	custom=T(80),
 	setting_game=T(80),setting_graphic=T(80),setting_sound=T(80),
 	keyboard=T(25),joystick=T(25),

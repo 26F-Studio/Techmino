@@ -211,7 +211,6 @@ local virtualkeySet={
 		{8,	320,		720-200,	80},--hold
 		{9,	80,			280,		80},--func
 		{10,1280-80,	280,		80},--restart
-		
 	},--Mirrored farter's set,sknaht
 	{
 		{1,	80,			720-80,		80},--moveLeft
@@ -454,13 +453,13 @@ Widget={
 	setting_graphic={
 		sound=	newButton(200,80,240,80,C.lightGreen,35,function()scene.swapTo("setting_sound")end,	nil,"game"),
 		game=	newButton(1080,80,240,80,C.lightGreen,35,function()scene.swapTo("setting_game")end,	nil,"ghost"),
-		ghost=	newSwitch(310,180,35,SETdisp("ghost"),						SETdisp("ghost"),			nil,"center"),
-		center=	newSwitch(580,180,35,SETdisp("center"),						SETdisp("center"),			nil,"smo"),
-		smo=	newSwitch(310,260,25,SETdisp("smo"),						SETdisp("smo"),				nil,"grid"),
-		grid=	newSwitch(580,260,30,SETdisp("grid"),						SETdisp("grid"),			nil,"dropFX"),
-		dropFX=	newSlider(310,350,373,3,35,nil,SETdisp("dropFX"),			SETsto("dropFX"),			nil,"shakeFX"),
-		shakeFX=newSlider(310,430,373,3,35,nil,SETdisp("shakeFX"),			SETsto("shakeFX"),			nil,"atkFX"),
-		atkFX=	newSlider(310,510,373,3,35,nil,SETdisp("atkFX"),			SETsto("atkFX"),			nil,"frame"),
+		ghost=	newSwitch(310,180,35,SETdisp("ghost"),						SETrev("ghost"),		nil,"center"),
+		center=	newSwitch(580,180,35,SETdisp("center"),						SETrev("center"),		nil,"smo"),
+		smo=	newSwitch(310,260,25,SETdisp("smo"),						SETrev("smo"),			nil,"grid"),
+		grid=	newSwitch(580,260,30,SETdisp("grid"),						SETrev("grid"),			nil,"dropFX"),
+		dropFX=	newSlider(310,350,373,5,35,nil,SETdisp("dropFX"),			SETsto("dropFX"),		nil,"shakeFX"),
+		shakeFX=newSlider(310,430,373,5,35,nil,SETdisp("shakeFX"),			SETsto("shakeFX"),		nil,"atkFX"),
+		atkFX=	newSlider(310,510,373,5,35,nil,SETdisp("atkFX"),			SETsto("atkFX"),		nil,"frame"),
 		frame=	newSlider(310,590,373,10,35,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
 		fullscreen=newSwitch(990,180,40,SETdisp("fullscreen"),function()
 			setting.fullscreen=not setting.fullscreen
@@ -486,7 +485,7 @@ Widget={
 		bgm=	newSlider(750,250,400,10,35,function()BGM(bgmPlaying or"blank")end,			SETdisp("bgm"),		SETsto("bgm"),	nil,"vib"),
 		vib=	newSlider(180,440,400,5	,35,function()VIB(1)end,							SETdisp("vib"),		SETsto("vib"),	nil,"voc"),
 		voc=	newSlider(750,440,400,10,35,function()VOICE("nya")end,						SETdisp("voc"),		SETsto("voc"),	nil,"stereo"),
-		stereo=	newSlider(180,630,400,10,35,function()SFX("move",1,-1)SFX("lock",1,1)end,	SETdisp("stereo"),	SETsto("stereo"),nil,"back"),
+		stereo=	newSlider(180,630,400,10,35,function()SFX("move",1,-1)SFX("lock",1,1)end,	SETdisp("stereo"),	SETsto("stereo"),function()return setting.sfx==0 end,"back"),
 		back=newButton(1160,600,160,160,C.white,50,scene.back,nil,"game"),
 	},
 	setting_key={

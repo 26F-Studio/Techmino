@@ -17,7 +17,7 @@ local mx,my,mouseShow=-20,-20,false
 local touching--第一触摸ID
 
 local devMode=0
-modeSel,levelSel=1,3--初始模式选择
+modeSel,levelSel=1,3--初始模式选择(saved in setting)
 players={alive={},human=0}
 scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}
 local scr=scr
@@ -75,38 +75,39 @@ require("player")
 -------------------------------------------------------------
 local powerInfoCanvas,updatePowerInfo
 if sys.getPowerInfo()~="unknown"then
-	powerInfoCanvas=gc.newCanvas(147,22)
-	updatePowerInfo=function()
+	powerInfoCanvas=gc.newCanvas(108,27)
+	function updatePowerInfo()
 		local state,pow=sys.getPowerInfo()
 		if state~="unknown"then
 			gc.setCanvas(powerInfoCanvas)gc.push("transform")gc.origin()
-			gc.clear(0,0,0,.3)
+			gc.clear(0,0,0,.25)
 			gc.setLineWidth(4)
-			setFont(20)
-			local charging
-			if state~="battery"then
-				gc.setColor(1,1,1)
-				if state=="nobattery"then
-					gc.setLineWidth(2)
-					gc.line(61.5,.5,83.5,22.5)
-				elseif state=="charging"or state=="charged"then
-					gc.draw(chargeImage,84,3)
-				end
+			local charging=state=="charging"
+			gc.setColor(1,1,1)
+			if state=="nobattery"then
+				gc.setLineWidth(2)
+				gc.line(74,5,99,22)
 			end
-			if pow then
+			if pow<100 then
 				if charging then	gc.setColor(0,1,0)
 				elseif pow>50 then	gc.setColor(1,1,1)
 				elseif pow>26 then	gc.setColor(1,1,0)
 				elseif pow<26 then	gc.setColor(1,0,0)
-				else				gc.setColor(.5,0,1)--special~
+				else				gc.setColor(.5,0,1)
 				end
-				::L::
-				gc.rectangle("fill",61,6,pow*.15,10)
+				gc.rectangle("fill",76,6,pow*.22,14)
+				setFont(14)
+				gc.setColor(0,0,0)
+				gc.print(pow,77,2)
+				gc.print(pow,77,4)
+				gc.print(pow,79,2)
+				gc.print(pow,79,4)
 				gc.setColor(1,1,1)
-				gc.draw(batteryImage,58,3)
-				gc.print(pow.."%",94,-3)
+				gc.draw(batteryImage,73,3)
+				gc.print(pow,78,3)
 			end
-			gc.print(os.date("%H:%M",os.time()),2,-3)
+			setFont(25)
+			gc.print(os.date("%H:%M",os.time()),3,-5)
 			gc.pop()gc.setCanvas()
 		end
 	end
@@ -314,6 +315,14 @@ function touchMove.draw(id,x,y,dx,dy)
 		preField[sy][sx]=pen
 	end
 end
+local penKey={
+	["1"]=1,["2"]=2,["3"]=3,
+	q=4,	w=5,	e=6,
+	a=7,	s=9,	d=10,
+	z=11,	x=12,	c=13,
+	tab=0,		backspace=0,
+	lshift=-1,	lalt=-1,
+}
 function keyDown.draw(key)
 	if key=="delete"then
 		if clearSureTime>15 then
@@ -337,14 +346,10 @@ function keyDown.draw(key)
 		if sx and sy then
 			preField[sy][sx]=pen
 		end
-	elseif key=="tab"then
-		pen=-1
-	elseif key=="backspace"or key=="lalt"then
-		pen=0
 	elseif key=="escape"then
 		scene.back()
 	else
-		pen=string.find("123qwea#sdzxc",key)or pen
+		pen=penKey[key]or pen
 	end
 end
 
@@ -857,6 +862,7 @@ function love.lowmemory()
 	collectgarbage()
 end
 function love.resize(w,h)
+	love.timer.sleep(.26)
 	scr.w,scr.h,scr.r=w,h,h/w
 	if scr.r>=.5625 then
 		scr.k=w/1280
@@ -1035,6 +1041,7 @@ function love.draw()
 	gc.setColor(1,1,1)
 	gc.print(FPS(),5,700)
 	if devMode>0 then
+		love.timer.sleep(.2)
 		gc.setColor(1,devMode==2 and .5 or 1,1)
 		gc.print("Tasks:"..#Task,5,600)
 		gc.print("Voices:"..#voiceQueue,5,620)
@@ -1077,7 +1084,7 @@ function love.run()
 			T.sleep(.001)
 		end
 		lastFrame=Timer()
-		if Timer()-lastFreshPow>5 then
+		if Timer()-lastFreshPow>1 then
 			updatePowerInfo()
 			lastFreshPow=Timer()
 		end
@@ -1085,12 +1092,11 @@ function love.run()
 	::END::
 end
 
-local fs=love.filesystem
-userData,userSetting=fs.newFile("userdata"),fs.newFile("usersetting")
-if fs.getInfo("userdata")then
+userData,userSetting=love.filesystem.newFile("userdata"),love.filesystem.newFile("usersetting")
+if love.filesystem.getInfo("userdata")then
 	loadData()
 end
-if fs.getInfo("usersetting")then
+if love.filesystem.getInfo("usersetting")then
 	loadSetting()
 elseif system=="Android"or system=="iOS" then
 	setting.swap=false

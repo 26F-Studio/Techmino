@@ -8,10 +8,10 @@ setting={
 	ghost=true,center=true,
 	smo=true,grid=false,
 	dropFX=3,
-	shakeFX=1,
+	shakeFX=2,
 	atkFX=3,
 	frameMul=100,
-	--
+
 	fullscreen=false,
 	bg=true,
 	bgblock=true,

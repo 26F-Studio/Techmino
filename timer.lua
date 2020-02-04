@@ -6,46 +6,41 @@ local ins,rem=table.insert,table.remove
 local Tmr={}
 function Tmr.load()
 	local t=Timer()
+	local L=loading
 	::R::
-	if loading==1 then
-		if loadnum<=#voiceName then
-			local N=voiceName[loadnum]
-			for i=1,#voiceList[N]do
-				voiceBank[voiceList[N][i]]={love.audio.newSource("VOICE/"..voiceList[N][i]..".ogg","static")}
-			end
-			loadprogress=loadnum/#voiceName
-			loadnum=loadnum+1
-		else
-			loading=2
-			loadnum=1
+	if L[1]==1 then
+		local N=voiceName[L[2]]
+		for i=1,#voiceList[N]do
+			local V=voiceList[N][i]
+			voiceBank[V]={love.audio.newSource("VOICE/"..V..".ogg","static")}
 		end
-	elseif loading==2 then
-		if loadnum<=#bgm then
-			local N=bgm[loadnum]
-			bgm[N]=love.audio.newSource("/BGM/"..N..".ogg","stream")
-			bgm[N]:setLooping(true)
-			bgm[N]:setVolume(0)
-			loadprogress=loadnum/#bgm
-			loadnum=loadnum+1
-		else
+		L[2]=L[2]+1
+		if L[2]>L[3]then
+			L[1],L[2],L[3]=2,1,#bgm
+		end
+	elseif L[1]==2 then
+		local N=bgm[L[2]]
+		bgm[N]=love.audio.newSource("/BGM/"..N..".ogg","stream")
+		bgm[N]:setLooping(true)
+		bgm[N]:setVolume(0)
+		L[2]=L[2]+1
+		if L[2]>L[3]then
 			for i=1,#bgm do bgm[i]=nil end
-			loading=3
-			loadnum=1
+			L[1],L[2],L[3]=3,1,#sfx
 		end
-	elseif loading==3 then
-		if loadnum<=#sfx then
-			sfx[sfx[loadnum]]={love.audio.newSource("/SFX/"..sfx[loadnum]..".ogg","static")}
-			loadprogress=loadnum/#sfx
-			loadnum=loadnum+1
-		else
-			for i=1,#sfx do sfx[i]=nil end
-			loading=4
-			loadnum=1
+	elseif L[1]==3 then
+		local S=sfx[L[2]]
+		sfx[S]={love.audio.newSource("/SFX/"..S..".ogg","static")}
+		L[2]=L[2]+1
+		if L[2]>L[3]then
+			for i=1,L[2]do sfx[i]=nil end
+			L[1],L[2],L[3]=4,1,1
 			SFX("welcome",.2)
 		end
-	elseif loading==4 then
-		loadnum=loadnum+1
-		if loadnum==48 then
+	else
+		L[2]=L[2]+1
+		L[3]=L[2]
+		if L[2]>50 then
 			stat.run=stat.run+1
 			scene.swapTo("intro","none")
 		end
@@ -68,7 +63,7 @@ function Tmr.play(dt)
 		local b=FX_attack[i]
 		b.t=b.t+1
 		if b.t>50 then
-			b.rad=b.rad*1.08+.2
+			b.rad=b.rad*1.05+.1
 			b.x,b.y=b.x2,b.y2
 		elseif b.t>10 then
 			local t=((b.t-10)*.025)t=(3-2*t)*t*t
@@ -76,12 +71,12 @@ function Tmr.play(dt)
 		end
 		if b.t<60 then
 			local L=FX_attack[i].drag
-			if #L==6*setting.atkFX then
+			if #L==4*setting.atkFX then
 				rem(L,1)rem(L,1)
 			end
 			ins(L,b.x)ins(L,b.y)
 		else
-			for i=1,#FX_attack do
+			for i=i,#FX_attack do
 				FX_attack[i]=FX_attack[i+1]
 			end
 		end

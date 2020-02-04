@@ -27,6 +27,11 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.8.1:
+	more FX level
+	better battery info displaying
+	3 next in GMroll
+	bug fixed
 0.8.0:
 	remake text system
 	more details

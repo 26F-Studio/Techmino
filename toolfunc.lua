@@ -326,7 +326,6 @@ function gameStart()
 end
 
 
-
 local dataOpt={
 	"run","game","time",
 	"extraPiece","extraRate",
@@ -406,11 +405,19 @@ function loadSetting()
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
 			elseif t=="dropFX"or t=="shakeFX"or t=="atkFX"then
-				setting[t]=toN(v:match("[0123]"))or 0
+				setting[t]=toN(v:match("[012345]"))or 0
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[123]"))or 1
 			elseif t=="skin"then
 				setting[t]=toN(v:match("[12345678]"))or 1
+			elseif t=="modesel"then
+				local t=toN(v)
+				if not(t or modes[modeID[t]])then
+					t=1
+				end
+				modeSel=t
+			elseif t=="levelsel"then
+				levelSel=toN(v)
 			elseif t=="keymap"then
 				v=splitS(v,"/")
 				for i=1,16 do
@@ -432,6 +439,9 @@ function loadSetting()
 				end
 			end
 		end
+	end
+	if not modes[modeID[modeSel]].level[levelSel]then
+		levelSel=1
 	end
 end
 local saveOpt={
@@ -457,7 +467,7 @@ local saveOpt={
 	"sfx","bgm",
 	"vib","voc",
 	"stereo",
-	
+
 	"VKSwitch",
 	"VKTrack",
 	"VKDodge",
@@ -482,6 +492,8 @@ function saveSetting()
 		map[i]=concat(setting.keyMap[i],",")
 	end
 	local t={
+		"modesel="..modeSel,
+		"levelsel="..levelSel,
 		"keymap="..toS(concat(map,"/")),
 		"VK="..toS(concat(vk,"/")),
 	}

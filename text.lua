@@ -1,6 +1,8 @@
 local gc=love.graphics
 local rnd=math.random
 local mStr=mStr
+local rem=table.remove
+
 local textFX={}
 function textFX.appear(t)
 	mStr(t.text,t.x,t.y-t.font*.7)
@@ -56,22 +58,20 @@ function textFX.beat(t)
 end
 function getTEXT(text,x,y,font,style,spd,stop)
 	return{
-		c=0,				--counter
-
-		text=text,			--string
-		x=x or 0,			--x
-		y=y or 0,			--y
-		font=font or 40,	--font
-		spd=(spd or 1)/60,	--timing speed
-		stop=stop,			--timing stop
-
-		draw=textFX[style]or error("unavailable type:"..style),	--draw method
+		c=0,
+		text=text,
+		x=x or 0,
+		y=y or 0,
+		font=font or 40,
+		spd=(spd or 1)/60,
+		stop=stop,
+		draw=textFX[style]or error("unavailable type:"..style),
 	}
-end
+end--another version of TEXT()
 function TEXT(text,x,y,font,style,spd,stop)
 	texts[#texts+1]={
 		c=0,				--timer
-		text=text or"NaN",	--string
+		text=text,			--string
 		x=x or 0,			--x
 		y=y or 0,			--y
 		font=font or 40,	--font
@@ -79,4 +79,27 @@ function TEXT(text,x,y,font,style,spd,stop)
 		stop=stop,			--stop time(sustained text)
 		draw=textFX[style]or error("unavailable type:"..style),	--draw method
 	}
+end
+function updateText(list)
+	for i=#list,1,-1 do
+		local t=list[i]
+		t.c=t.c+t.spd
+		if t.stop then
+			if t.c>t.stop then
+				t.c=t.stop
+			end
+		end
+		if t.c>60 then
+			rem(list,i)
+		end
+	end
+end
+function drawTexts(list)
+	for i=1,#list do
+		local t=list[i]
+		local p=t.c
+		gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
+		setFont(t.font)
+		t:draw()
+	end
 end

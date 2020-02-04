@@ -13,10 +13,12 @@ local scene={
 local sceneInit={
 	quit=love.event.quit,
 	load=function()
-		loading=1--Loading mode
-		loadnum=1--Loading counter
-		loadprogress=0--Loading bar(0~1)
-		loadTip=text.tips[math.random(#text.tips)]
+		loading={
+			1,--Loading mode
+			1,--Loading counter
+			#voiceName,--Loading bar lenth(current)
+			text.tips[math.random(#text.tips)],--tip
+		}
 	end,
 	intro=function()
 		count=0
@@ -124,19 +126,19 @@ local swapDeck_data={
 }--Block id [ZSLJTOI] ,dir,x,y
 local gc=love.graphics
 local swap={
-	none={1,0,NULL},
-	flash={8,1,function()gc.clear(1,1,1)end},
-	fade={30,15,function(t)
+	none={1,0,nil,NULL},
+	flash={8,1,nil,function()gc.clear(1,1,1)end},
+	fade={30,15,"swipe",function(t)
 		local t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,1280,720)
 	end},
-	slowFade={180,90,function(t)
+	slowFade={180,90,nil,function(t)
 		local t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,1280,720)
 	end},
-	deck={50,8,function(t)
+	deck={50,8,nil,function(t)
 		gc.setColor(1,1,1)
 		if t>8 then
 			local t=t<15 and 15 or t
@@ -189,11 +191,12 @@ function scene.swapTo(tar,style)
 		if not style then style="fade"end
 		S.tar=tar
 		S.style=style
-		S.time=swap[style][1]
-		S.mid=swap[style][2]
-		S.draw=swap[style][3]
+		local swap=swap[style]
+		S.time=swap[1]
+		S.mid=swap[2]
+		if swap[3]then SFX(swap[3])end
+		S.draw=swap[4]
 		widget_sel=nil
-		if style~="none"then SFX("swipe")end
 	end
 end
 function scene.back()
