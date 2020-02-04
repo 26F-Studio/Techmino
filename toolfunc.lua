@@ -24,7 +24,6 @@ end
 function mDraw(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)
 end
-
 function destroyPlayers()
 	if players then
 		for _,P in next,players do if P.id then
@@ -75,16 +74,13 @@ local drawableTextLoad={
 	"setting2Help",
 	"musicRoom",
 	"nowPlaying",
+	"warning",
 }
 function swapLanguage(l)
 	text=require("language/"..langID[l])
-	Widget.sel=nil
 	for S,L in next,Widget do
 		for N,W in next,L do
-			if W.type=="button"then
-				W.alpha=0
-				W.text=text.ButtonText[S][N]
-			end
+			W.text=text.WidgetText[S][N]
 		end
 	end
 	gc.push("transform")
@@ -109,6 +105,7 @@ function changeBlockSkin(n)
 	n=n-1
 	gc.push("transform")
 	gc.origin()
+	gc.setColor(1,1,1)
 	for i=1,13 do
 		gc.setCanvas(blockSkin[i])
 		gc.draw(blockImg,30-30*i,-30*n)
@@ -126,7 +123,7 @@ function VIB(t)
 	end
 end
 function SFX(s,v)
-	if setting.sfx then
+	if setting.sfx>0 then
 		local n=1
 		::L::if sfx[s][n]:isPlaying()then
 			n=n+1
@@ -137,20 +134,32 @@ function SFX(s,v)
 			end
 			goto L
 		end::quit::
-		sfx[s][n]:setVolume(v or 1)
+		sfx[s][n]:setVolume((v or 1)*setting.sfx*.125)
 		sfx[s][n]:play()
 	end
 end
-function VOICE(s,n)
-	if setting.voc then
-		voicePlaying[#voicePlaying+1]=voice[s][n or rnd(#voice[s])]
-		if #voicePlaying==1 then
-			voicePlaying[1]:play()
+function getFreeVoiceChannel()
+	local i=#voiceQueue
+	for i=1,i do
+		if #voiceQueue[i]==0 then return i end
+	end
+	voiceQueue[i+1]={}
+	return i+1
+end
+function VOICE(s,chn)
+	if setting.voc>0 then
+		if chn then
+			voiceQueue[chn][#voiceQueue[chn]+1]=voiceList[s][rnd(#voiceList[s])]
+			--添加到[chn]
+		else
+			local P=#voiceQueue
+			voiceQueue[P+1]={voiceList[s][rnd(#voiceList[s])]}
+			--新建[chn]
 		end
 	end
 end
 function BGM(s)
-	if setting.bgm then
+	if setting.bgm>0 then
 		if bgmPlaying~=s then
 			if bgmPlaying then newTask(Event_task.bgmFadeOut,nil,bgmPlaying)end
 			for i=#Task,1,-1 do
@@ -167,8 +176,19 @@ function BGM(s)
 			end
 			bgmPlaying=s
 		else
-			if bgmPlaying then bgm[bgmPlaying]:play()end
+			if bgmPlaying then
+				local v=setting.bgm*.125
+				bgm[bgmPlaying]:setVolume(v)
+				if v>0 then
+					bgm[bgmPlaying]:play()
+				else
+					bgm[bgmPlaying]:pause()
+				end
+			end
 		end
+	elseif bgmPlaying then
+		bgm[bgmPlaying]:pause()
+		bgmPlaying=nil
 	end
 end
 
@@ -221,7 +241,7 @@ function gotoScene(s,style)
 			time=swap[style][1],mid=swap[style][2],
 			draw=swap[style].d
 		}
-		Widget.sel=nil
+		widget_sel=nil
 		if style~="none"then
 			SFX("swipe")
 		end
@@ -253,8 +273,11 @@ local prevMenu={
 		saveSetting()
 		gotoScene("main")
 	end,
-	setting2="setting",
-	setting3="setting",
+	setting_game=	"setting",
+	setting_graphic="setting",
+	setting_sound=	"setting",
+	setting_control="setting",
+	setting_touch=	"setting",
 	help="main",
 	history="help",
 	stat="main",
@@ -339,8 +362,8 @@ function loadSetting()
 		local p=find(t[i],"=")
 		if p then
 			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
-			if t=="sfx"or t=="bgm"or t=="bgblock"or t=="voc"then
-				setting[t]=v=="true"
+			if t=="sfx"or t=="bgm"or t=="voc"then
+				setting[t]=toN(v:match("[012345678]"))or setting[t]
 			elseif t=="vib"then
 				setting.vib=toN(v:match("[012345]"))or 0
 			elseif t=="fullscreen"then
@@ -366,6 +389,8 @@ function loadSetting()
 				end
 			elseif t=="virtualkeyAlpha"then
 				setting.virtualkeyAlpha=min(int(abs(toN(v))),10)
+			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="bg"or t=="bgblock"or t=="smo"then
+				setting[t]=v=="true"
 			elseif t=="virtualkeyIcon"or t=="virtualkeySwitch"then
 				setting[t]=v=="true"
 			elseif t=="frameMul"then
@@ -373,9 +398,7 @@ function loadSetting()
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
-			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="bg"or t=="smo"then
-				setting[t]=v=="true"
-			elseif t=="fxs"then
+			elseif t=="dropFX"or t=="shakeFX"or t=="atkFX"then
 				setting[t]=toN(v:match("[0123]"))or 0
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[123]"))or 1
@@ -386,22 +409,30 @@ function loadSetting()
 	end
 end
 local saveOpt={
-	"ghost","center",
-	"grid","swap",
-	"fxs","bg",
 	"das","arr",
 	"sddas","sdarr",
+	"holdR",
+	"swap",
+
+	"ghost","center",
+	"smo","grid",
+	"dropFX",
+	"shakeFX",
+	"atkFX",
+	"frameMul",
+
+	"fullscreen",
+	"bg",
+	"bgblock",
 	"lang",
+	"skin",
 
 	"sfx","bgm",
 	"vib","voc",
-	"fullscreen",
-	"bgblock",
-	"skin","smo",
+	
 	"virtualkeyAlpha",
 	"virtualkeyIcon",
 	"virtualkeySwitch",
-	"frameMul",
 }
 function saveSetting()
 	local vk={}

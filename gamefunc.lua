@@ -53,83 +53,113 @@ local scs={
 	{[0]={1.5,1.5},{1.5,1.5},{1.5,1.5},{1.5,1.5},},
 	{[0]={0.5,2.5},{2.5,0.5},{1.5,2.5},{2.5,1.5}},
 }
+local ORG={0,0}
 local TRS={
 	[1]={
-		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{0,1}},
-		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1}},
-		[12]={{0,0},{1,0},{1,-1},{0,1},{-1,0},{0,2},{1,2}},
-		[21]={{0,0},{-1,0},{-1,1},{1,0},{0,-2},{-1,-2}},
-		[23]={{0,0},{1,0},{1,1},{1,-1},{0,-2},{1,-2}},
-		[32]={{0,0},{-1,0},{-1,-1},{-1,1},{0,2},{-1,2}},
-		[30]={{0,0},{-1,0},{-1,-1},{0,-1},{0,2},{-1,2}},
-		[03]={{0,0},{1,0},{1,1},{1,-1},{0,-2},{1,-2},{0,1}},
-		[02]={{0,0},{1,0},{-1,0},{0,-1},{0,1}},
-		[20]={{0,0},{-1,0},{1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,-1},{0,1},{-1,0}},
-		[31]={{0,0},{0,1},{0,-1},{1,0}},
-	},--Z/J
+		[01]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{0,1}	},
+		[10]={ORG,{1,0},	{1,-1},	{0,2},	{1,2},	{0,-1}	},
+		[03]={ORG,{1,0},	{1,1},	{0,-2},	{1,-1},	{1,-2}	},
+		[30]={ORG,{-1,0},	{-1,-1},{0,2},			{-1,2},	{0,-1}},
+		[12]={ORG,{1,0},	{1,-1},	{0,2},	{1,2}	},
+		[21]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2}	},
+		[32]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
+		[23]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2}	},
+		[02]={ORG,{1,0},	{-1,0},	{0,-1},	{0,1}	},
+		[20]={ORG,{-1,0},	{1,0},	{0,1},	{0,-1}	},
+		[13]={ORG,{0,-1},	{0,1},	{-1,0},	{0,-2}	},
+		[31]={ORG,{0,1},	{0,-1},	{1,0},	{0,2}	},
+	},--Z
 	[2]={
-		[01]={{0,0},{-1,0},{-1,1},{-1,-1},{0,-2},{-1,-2}},
-		[10]={{0,0},{1,0},{1,-1},{0,-1},{0,2},{1,2}},
-		[12]={{0,0},{1,0},{1,-1},{1,1},{0,2},{1,2}},
-		[21]={{0,0},{-1,0},{-1,1},{-1,-1},{0,-2},{-1,-2}},
-		[23]={{0,0},{1,0},{1,1},{-1,0},{0,-2},{1,-2}},
-		[32]={{0,0},{-1,0},{-1,-1},{0,1},{1,0},{0,2},{-1,2}},
-		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1},{-1,1}},
-		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{1,-1},{0,1}},
-		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
-		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,1},{0,-1},{1,0}},
-		[31]={{0,0},{0,-1},{0,1},{-1,0}},
-	},--S/L
+		[01]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-1},{-1,-2}	},
+		[10]={ORG,{1,0},	{1,-1},	{0,2},			{1,2},	{0,-1}},
+		[03]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2},	{0,1}	},
+		[30]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2},	{0,-1}	},
+		[12]={ORG,{1,0},	{1,-1},	{0,2},	{1,2}	},
+		[21]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2}	},
+		[32]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
+		[23]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2}	},
+		[02]={ORG,{-1,0},	{1,0},	{0,-1},	{0,1}	},
+		[20]={ORG,{1,0},	{-1,0},	{0,1},	{0,-1}	},
+		[13]={ORG,{0,1},	{0,-1},	{-1,0},	{0,2}	},
+		[31]={ORG,{0,-1},	{0,1},	{1,0},	{0,-2}	},
+	},--S
+	[3]={
+		[01]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{0,1},	{-1,-1}	},
+		[10]={ORG,{1,0},	{1,-1},	{0,2},	{1,2},	{0,-1},	{1,1}	},
+		[03]={ORG,{1,0},	{1,1},	{0,-2},	{-1,1}	},
+		[30]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
+		[12]={ORG,{1,0},	{1,-1},	{0,2},	{1,2},	{1,1}	},
+		[21]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{-1,-1}	},
+		[32]={ORG,{-1,0},	{-1,-1},{1,0},	{0,2},	{-1,2}	},
+		[23]={ORG,{1,0},	{1,1},	{-1,0},	{0,-2},	{1,-2}	},
+		[02]={ORG,{1,0},	{-1,0},	{0,-1},	{0,1}	},
+		[20]={ORG,{-1,0},	{1,0},	{0,1},	{0,-1}	},
+		[13]={ORG,{0,1},	{1,0},	{0,-1}	},
+		[31]={ORG,{0,-1},	{-1,0},	{0,1}	},
+	},--L
+	[4]={
+		[01]={ORG,{-1,0},	{-1,1},	{0,-2},	{1,1}	},
+		[10]={ORG,{1,0},	{1,-1},	{0,2},	{1,2}	},
+		[03]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2},	{0,1},	{1,-1}	},
+		[30]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2},	{0,-1},	{-1,1}	},
+		[12]={ORG,{1,0},	{1,-1},	{-1,0},	{0,2},	{1,2}	},
+		[21]={ORG,{-1,0},	{-1,1},	{1,0},	{0,-2},	{-1,-2}	},
+		[32]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2},	{-1,1}	},
+		[23]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2},	{1,-1}	},
+		[02]={ORG,{-1,0},	{1,0},	{0,-1},	{0,1}	},
+		[20]={ORG,{1,0},	{-1,0},	{0,1},	{0,-1}	},
+		[13]={ORG,{0,-1},	{1,0},	{0,1}	},
+		[31]={ORG,{0,1},	{-1,0},	{0,-1}	},
+	},--J
 	[5]={
-		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{-1,-1}},
-		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1},{1,1}},
-		[12]={{0,0},{1,0},{1,-1},{0,-1},{0,2},{1,2},{-1,-1}},
-		[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{1,1}},
-		[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{-1,1}},
-		[32]={{0,0},{-1,0},{-1,-1},{0,-1},{0,2},{-1,2},{1,-1}},
-		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1}},
-		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
-		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
-		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,-1},{0,1},{1,0},{-1,0},{0,2}},
-		[31]={{0,0},{0,-1},{0,1},{-1,0},{1,0},{0,2}},
-	},
+		[01]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{-1,-1}	},
+		[10]={ORG,{1,0},	{1,-1},	{0,2},	{1,2},	{0,-1},	{1,1}},
+		[03]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2}	},
+		[30]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2},	{0,-1}	},
+		[12]={ORG,{1,0},	{1,-1},	{0,-1},	{0,2},	{1,2},	{-1,-1}},
+		[21]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{1,1}	},
+		[32]={ORG,{-1,0},	{-1,-1},{0,-1},	{0,2},	{-1,2},	{1,-1}},
+		[23]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2},	{-1,1}	},
+		[02]={ORG,{-1,0},	{1,0},	{0,1}	},
+		[20]={ORG,{1,0},	{-1,0},	{0,-1}	},
+		[13]={ORG,{0,-1},	{0,1},	{1,0},	{0,-2},	{0,2}},
+		[31]={ORG,{0,-1},	{0,1},	{-1,0},	{0,-2},	{0,2}},
+	},--T
+	[6]={},--O(special)
 	[7]={
-		[01]={{0,0},{0,1},{1,0},{-2,0},{-2,-1},{1,2}},
-		[03]={{0,0},{0,1},{-1,0},{2,0},{2,-1},{-1,2}},
-		[10]={{0,0},{2,0},{-1,0},{-1,-2},{2,1},{0,2}},
-		[30]={{0,0},{-2,0},{1,0},{1,-2},{-2,1},{0,2}},
-		[12]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
-		[32]={{0,0},{1,0},{-2,0},{1,-2},{-2,-1}},
-		[21]={{0,0},{-2,0},{1,0},{1,-2},{-2,1}},
-		[23]={{0,0},{2,0},{-1,0},{-1,-2},{2,1}},
-		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
-		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,-1},{-1,0},{1,0},{0,1}},
-		[31]={{0,0},{1,0},{-1,0}},
+		[01]={ORG,{0,1},	{1,0},	{-2,0},	{-2,-1},{1,2}	},
+		[03]={ORG,{0,1},	{-1,0},	{2,0},	{2,-1},	{-1,2}	},
+		[10]={ORG,{2,0},	{-1,0},	{-1,-2},{2,1},	{0,2}	},
+		[30]={ORG,{-2,0},	{1,0},	{1,-2},	{-2,1},	{0,2}	},
+		[12]={ORG,{-1,0},	{2,0},	{-1,2},	{2,-1}	},
+		[32]={ORG,{1,0},	{-2,0},	{1,-2},	{-2,-1}	},
+		[21]={ORG,{-2,0},	{1,0},	{1,-2},	{-2,1}	},
+		[23]={ORG,{2,0},	{-1,0},	{-1,-2},{2,1}	},
+		[02]={ORG,{-1,0},	{1,0},	{0,-1},	{0,1}	},
+		[20]={ORG,{1,0},	{-1,0},	{0,1},	{0,-1}	},
+		[13]={ORG,{0,-1},	{-1,0},	{1,0},	{0,1}	},
+		[31]={ORG,{1,0},	{-1,0}},
 	}
-}TRS[3],TRS[4]=TRS[2],TRS[1]
+}
 local AIRS={{
-	[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
-	[10]={{0,0},{1,0},{1,-1},{0,2},{1,2}},
-	[12]={{0,0},{1,0},{1,-1},{0,2},{1,2}},
-	[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
-	[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
-	[32]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
-	[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
-	[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
+	[01]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2}	},
+	[10]={ORG,{1,0},	{1,-1},	{0,2},	{1,2}	},
+	[03]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2}	},
+	[30]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
+	[12]={ORG,{1,0},	{1,-1},	{0,2},	{1,2}	},
+	[21]={ORG,{-1,0},	{-1,1},	{0,-2},	{-1,-2}	},
+	[32]={ORG,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
+	[23]={ORG,{1,0},	{1,1},	{0,-2},	{1,-2}	},
 }}for i=2,6 do AIRS[i]=AIRS[1]end
 AIRS[7]={
-	[01]={{0,0},{-2,0},{1,0},{-2,-1},{1,2}},
-	[10]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
-	[12]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
-	[21]={{0,0},{1,0},{-2,0},{1,-2},{-2,1}},
-	[23]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
-	[32]={{0,0},{-2,0},{1,0},{-2,-1},{1,2}},
-	[30]={{0,0},{1,0},{-2,0},{1,-2},{-2,1}},
-	[03]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
+	[01]={ORG,{-2,0},	{1,0},	{-2,-1},{1,2}	},
+	[10]={ORG,{2,0},	{-1,0},	{2,1},	{-1,-2}	},
+	[12]={ORG,{-1,0},	{2,0},	{-1,2},	{2,-1}	},
+	[21]={ORG,{1,0},	{-2,0},	{1,-2},	{-2,1}	},
+	[23]={ORG,{2,0},	{-1,0},	{2,1},	{-1,-2}	},
+	[32]={ORG,{-2,0},	{1,0},	{-2,-1},{1,2}	},
+	[30]={ORG,{1,0},	{-2,0},	{1,-2},	{-2,1}	},
+	[03]={ORG,{-1,0},	{2,0},	{-1,2},	{2,-1}	},
 }
 local CCblockID={4,3,5,6,1,2,0}
 local function newNext(n)
@@ -367,8 +397,8 @@ function resetGameData()
 	curBG=modeEnv.bg
 	BGM(modeEnv.bgm)
 
-	FX.badge={}
-	FX.attack={}
+	FX_badge={}
+	FX_attack={}
 	for _,v in next,PTC.dust do
 		v:release()
 	end
@@ -463,7 +493,7 @@ function createPlayer(id,x,y,size,AIdata)
 		end
 	end--reset current game settings
 	P.cur={bk={{}},id=0,color=0,name=0}
-		P.sc,P.dir,P.r,P.c={0,0},0,0,0
+		P.sc,P.dir,P.r,P.c=ORG,0,0,0
 		P.curX,P.curY,P.y_img=0,0,0
 	P.hold={bk={{}},id=0,color=0,name=0}
 		P.holded=false
@@ -491,7 +521,7 @@ function createPlayer(id,x,y,size,AIdata)
 			newNext(rem(bag1,rnd(#bag1)))
 		end
 	elseif s=="drought2"then
-		local bag1={1,2,3,4,6}
+		local bag1={1,2,3,4,6,6}
 		for i=1,6 do
 			newNext(rem(bag1,rnd(#bag1)))
 		end
@@ -562,7 +592,7 @@ function createPlayer(id,x,y,size,AIdata)
 end
 function showText(P,text,type,font,dy,spd,inf)
 	if not P.small then
-		P.bonus[#P.bonus+1]={t=0,text=text,draw=FX[type],font=font,dy=dy or 0,speed=spd or 1,inf=inf}
+		P.bonus[#P.bonus+1]={t=0,text=text,draw=textFX[type],font=font,dy=dy or 0,speed=spd or 1,inf=inf}
 	end
 end
 local function createBeam(S,R,send,time,target,color,clear,spin,mini,combo)
@@ -616,18 +646,22 @@ local function createBeam(S,R,send,time,target,color,clear,spin,mini,combo)
 		radius=radius*.4
 		a=.35
 	end
-	FX.attack[#FX.attack+1]={
-		x1=x1,y1=y1,
-		x2=x2,y2=y2,
-		rad=radius,
+	FX_attack[#FX_attack+1]={
+		x=x1,y=y1,--current pos
+		x1=x1,y1=y1,--start pos
+		x2=x2,y2=y2,--end pos
+		rad=radius*(setting.atkFX+2)*.2,
 		corner=corner,
 		type=type==1 and"fill"or"line",
-		r=r,g=g,b=b,a=a*(setting.fxs+1)*.25,
+		r=r,g=g,b=b,a=a*(setting.atkFX+1)*.25,
 		t=0,
+		drag={},--Afterimage coordinate list
 	}
 end
 local function garbageSend(S,R,send,time,...)
-	createBeam(S,R,send,time,...)
+	if setting.atkFX>0 then
+		createBeam(S,R,send,time,...)
+	end
 	R.lastRecv=S
 	if R.atkBuffer.sum<20 then
 		local B=R.atkBuffer
@@ -645,7 +679,7 @@ local function garbageSend(S,R,send,time,...)
 			time=0,
 			sent=false,
 			lv=min(int(send^.69),5),
-		}--Sorted insert
+		}--Sorted insert(by time)
 		B.sum=B.sum+send
 		R.stat.recv=R.stat.recv+send
 		if R.human then
@@ -655,21 +689,19 @@ local function garbageSend(S,R,send,time,...)
 end
 local function garbageRelease()
 	local flag
-	while true do
+	::L::
 		local A=P.atkBuffer[1]
 		if A and A.countdown<=0 and not A.sent then
 			garbageRise(8+A.lv,A.amount,A.pos)
 			P.atkBuffer.sum=P.atkBuffer.sum-A.amount
 			A.sent,A.time=true,0
 			P.stat.pend=P.stat.pend+A.amount
-			for i=1,#P.atkBuffer do
-				P.atkBuffer[i]=P.atkBuffer[i+1]
-			end
 			flag=true
 		else
-			break
+			goto E
 		end
-	end
+	goto L
+	::E::
 	if flag and P.AI_mode=="CC"then CC_updateField(P)end
 end
 function garbageRise(color,amount,pos)
@@ -699,7 +731,7 @@ local function ifoverlap(bk,x,y)
 	end end
 end
 local function ckfull(i)
-	for j=1,10 do if P.field[i][j]==0 then return end end
+	for j=1,10 do if P.field[i][j]<=0 then return end end
 	return true
 end
 local function checkrow(start,height)--(cy,r)
@@ -738,9 +770,13 @@ function freshgho()
 			goto L
 		end
 		if P.curY>P.y_img then
-			if P.human and setting.fxs>0 then
-				createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
-				P.fieldOffY=2*setting.fxs
+			if P.human then
+				if setting.dropFX>0 then
+					createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+				end
+				if setting.shakeFX>0 then
+					P.fieldOffY=2*setting.shakeFX+1
+				end
 			end
 			P.curY=P.y_img
 		end
@@ -752,7 +788,8 @@ function freshgho()
 	end
 end
 local function freshLockDelay()
-	if P.lockDelay<P.gameEnv.lock or P.curY==P.y_img then
+	if P.lockDelay<P.gameEnv.lock then
+		P.dropDelay=P.gameEnv.drop
 		if P.freshTime<=P.gameEnv.freshLimit then
 			P.lockDelay=P.gameEnv.lock
 		end
@@ -809,7 +846,7 @@ local function spin(d,ifpre)
 				P.cur.bk=blocks[5][0]
 				P.sc=scs[5][0]
 				P.r,P.c,P.dir=2,3,0
-				P.spinLast=3
+				P.spinLast=2
 				P.stat.rotate=P.stat.rotate+1
 			do return end
 			::I::
@@ -817,7 +854,7 @@ local function spin(d,ifpre)
 				P.cur.bk=blocks[7][2]
 				P.sc=scs[7][2]
 				P.r,P.c,P.dir=1,4,2
-				P.spinLast=3
+				P.spinLast=2
 				P.stat.rotate=P.stat.rotate+1
 			end
 		return
@@ -837,14 +874,14 @@ local function spin(d,ifpre)
 	end
 	do return end
 	::spin::
-	if P.human and setting.fxs>0 then
+	if P.human and setting.dropFX>0 then
 		createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 	end
 	local y0=P.curY
 	P.curX,P.curY,P.dir=ix,iy,idir
 	P.sc,P.cur.bk=scs[P.cur.id][idir],icb
 	P.r,P.c=ir,ic
-	P.spinLast=t==2 and d==2 and 0 or 1
+	P.spinLast=t==2 and 0 or 1
 	if not ifpre then freshgho()end
 	if P.gameEnv.easyFresh or y0>P.curY then freshLockDelay()end
 	if P.human then
@@ -903,7 +940,7 @@ function resetblock()
 	freshgho()
 	if P.keyPressing[6]then act.hardDrop()P.keyPressing[6]=false end
 end
-function drop()
+function drop()--Place piece
 	P.dropTime[11]=ins(P.dropTime,1,frame)--update speed dial
 	P.waiting=P.gameEnv.wait
 	local dospin=0
@@ -924,23 +961,28 @@ function drop()
 		end--Immobile
 	end
 	lock()
+	local CHN=getFreeVoiceChannel()
 	local cc,send,exblock=checkrow(P.curY,P.r),0,0--Currect clear&send&sendTime
 	if cc>0 then P.falling=P.gameEnv.fall end
 	local cscore,sendTime=0,0
 	local mini
-	if P.spinLast and cc>0 and dospin>0 then
-		dospin=dospin+P.spinLast
-	end
-	if not P.spinLast then
-		dospin=false
-	elseif cc==0 then
-		if dospin==0 then
-			dospin=false
+	if P.spinLast then
+		if cc>0 then
+			if dospin>0 then
+				dospin=dospin+P.spinLast
+				if dospin<2 then
+					mini=P.cur.id<6 and cc<3 and cc<P.r
+				end
+			else
+				dospin=false
+			end
+		elseif cc==0 then
+			if dospin==0 then
+				dospin=false
+			end
 		end
-	elseif dospin<2 then
+	else
 		dospin=false
-	elseif dospin==2 then
-		mini=P.cur.id<6 and cc<3 and cc<P.r
 	end
 
 	if cc>0 then
@@ -955,16 +997,16 @@ function drop()
 				cscore=cscore*1.8
 				P.stat.b3b=P.stat.b3b+1
 				if P.human then
-					VOICE("b3b")
+					VOICE("b3b",CHN)
 				end
-			elseif P.b2b>=40 then
+			elseif P.b2b>=50 then
 				showText(P,text.techrashB2B,"drive",80,-30)
 				sendTime=80
 				send=5
 				cscore=cscore*1.3
 				P.stat.b2b=P.stat.b2b+1
 				if P.human then
-					VOICE("b2b")
+					VOICE("b2b",CHN)
 				end
 			else
 				showText(P,text.techrash,"stretch",80,-30)
@@ -975,7 +1017,7 @@ function drop()
 			P.lastClear=74
 			P.stat.clear_4=P.stat.clear_4+1
 			if P.human then
-				VOICE("tts")
+				VOICE("tts",CHN)
 			end
 		elseif cc>0 then
 			local clearKey=clear_n
@@ -988,15 +1030,15 @@ function drop()
 					cscore=cscore*2
 					P.stat.b3b=P.stat.b3b+1
 					if P.human then
-						VOICE("b3b")
+						VOICE("b3b",CHN)
 					end
-				elseif P.b2b>=40 then
+				elseif P.b2b>=50 then
 					showText(P,text.b2b..text.spin[P.cur.name]..text.clear[cc],"spin",40,-30)
 					send=b2bATK[cc]
 					cscore=cscore*1.2
 					P.stat.b2b=P.stat.b2b+1
 					if P.human then
-						VOICE("b2b")
+						VOICE("b2b",CHN)
 					end
 				else
 					showText(P,text.spin[P.cur.name]..text.clear[cc],"spin",50,-30)
@@ -1008,9 +1050,9 @@ function drop()
 					send=ceil(send*.5)
 					sendTime=sendTime+60
 					cscore=cscore*.5
-					P.b2b=P.b2b+b2bPoint[cc]*.8
+					P.b2b=P.b2b+b2bPoint[cc]*.5
 					if P.human then
-						VOICE("mini")
+						VOICE("mini",CHN)
 					end
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
@@ -1019,8 +1061,8 @@ function drop()
 				clearKey=spin_n
 				if P.human then
 					SFX(spin_n[cc])
-					VOICE(blockName[P.cur.name])
-					VOICE("spin_")
+					VOICE(blockName[P.cur.name],CHN)
+					VOICE("spin_",CHN)
 				end
 			elseif #P.field>0 then
 				P.b2b=max(P.b2b-250,0)
@@ -1032,7 +1074,7 @@ function drop()
 			end
 			P.stat[clearKey[cc]]=P.stat[clearKey[cc]]+1
 			if P.human then
-				VOICE(clearName[cc])
+				VOICE(clearName[cc],CHN)
 			end
 		end
 		send=send+(renATK[P.combo]or 3)
@@ -1051,7 +1093,7 @@ function drop()
 			P.lastClear=P.cur.id*10+5
 			if P.human then
 				SFX("perfectclear")
-				VOICE("pc")
+				VOICE("pc",CHN)
 			end
 		end
 		if P.combo>2 then
@@ -1144,8 +1186,8 @@ function drop()
 			P.stat.spin_0=P.stat.spin_0+1
 			if P.human then
 				SFX("spin_0")
-				VOICE(blockName[P.cur.name])
-				VOICE("spin")
+				VOICE(blockName[P.cur.name],CHN)
+				VOICE("spin",CHN)
 			end
 			cscore=cscore+30
 		end
@@ -1247,9 +1289,13 @@ act={
 			P.keyPressing[6]=false
 		elseif P.control and P.waiting==-1 then
 			if P.curY~=P.y_img then
-				if P.human and setting.fxs>0 then
-					createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
-					P.fieldOffY=2*setting.fxs+1
+				if P.human then
+					if setting.dropFX>0 then
+						createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+					end
+					if setting.shakeFX>0 then
+						P.fieldOffY=2*setting.shakeFX+1
+					end
 				end
 				P.curY=P.y_img
 				P.spinLast=false
@@ -1285,7 +1331,7 @@ act={
 		P.gameEnv.Fkey()
 	end,
 	restart=function()
-		if frame<180 then
+		if not setting.holdR or frame<180 then
 			clearTask("play")
 			resetPartGameData()
 		end
@@ -1293,28 +1339,30 @@ act={
 
 	insDown=function()
 		if P.curY~=P.y_img then
-			if P.human and setting.fxs>0 then
-				createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+			if P.human then
+				if setting.dropFX>0 then
+					createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+				end
+				if setting.shakeFX>0 then
+					P.fieldOffY=2*setting.shakeFX
+				end
 			end
 			P.curY,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false
-			if P.human and setting.fxs>0 then
-				P.fieldOffY=2*setting.fxs
-			end
 		end
 	end,
 	insLeft=function()
 		local x0,y0=P.curX,P.curY
 		::L::if not ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
-			if P.human and setting.fxs>0 then
+			if P.human and setting.dropFX>0 then
 				createShade(P.curX+1,P.curY+P.r-1,P.curX+1,P.curY)
 			end
 			freshgho()
 			goto L
 		end
 		if x0~=P.curX then
-			if P.human and setting.fxs>0 then
-				P.fieldOffX=-2*setting.fxs
+			if P.human and setting.shakeFX>0 then
+				P.fieldOffX=-2*setting.shakeFX
 			end
 			if P.gameEnv.easyFresh or y0~=P.curY then freshLockDelay()end
 		end
@@ -1323,15 +1371,15 @@ act={
 		local x0,y0=P.curX,P.curY
 		::L::if not ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
-			if P.human and setting.fxs>0 then
+			if P.human and setting.dropFX>0 then
 				createShade(P.curX+P.c-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 			end
 			freshgho()
 			goto L
 		end
 		if x0~=P.curX then
-			if P.human and setting.fxs>0 then
-				P.fieldOffX=2*setting.fxs
+			if P.human and setting.shakeFX>0 then
+				P.fieldOffX=2*setting.shakeFX
 			end
 			if P.gameEnv.easyFresh or y0~=P.curY then freshLockDelay()end
 		end

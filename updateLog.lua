@@ -1,11 +1,13 @@
-return{
-[=[Future outlook:
-	Brand New GUI:
-		custom restart method
+local S=[=[
+Future outlook:
+	GUI:
+		highscore of most modes
 		custom block color/direction
 		custom sequence
 		virtual key switch(all keys)
 	Normal Things:
+		new cooler attack FX
+		combo mode
 		demo play at main menu
 		any screen size
 		CC smarter(think of gaebage buffer)
@@ -17,9 +19,10 @@ return{
 		Encrypt source code(JIT to byte code)
 		infinite 1v1
 		square mode
-		more FXs & 3d features & animations]=],[=[
-0.7.23:
-	remake all BGM!
+		more FXs & 3d features & animations
+0.7.24(0.7.23):
+	REMAKE ALL BGM!
+	more settings with brand new GUI!
 	new mode:Master-Final
 	new modes:attacker & defender(not survivor!)
 	add restart button when pause
@@ -27,7 +30,8 @@ return{
 	change falling animation
 	new GUI details
 	louder sound
-	code optimized & many bugs fixed]=],[=[
+	code optimized
+	many bugs fixed
 0.7.22:
 	scoring system
 	smooth dropping
@@ -46,7 +50,7 @@ return{
 0.7.21:
 	new title image
 	more GUI details
-	many bugs fixed]=],[=[
+	many bugs fixed
 0.7.20:
 	add music room
 	change block/space apperance in draw mode
@@ -63,7 +67,7 @@ return{
 	add 2 new block skins
 	new difficulty in infinite mode
 	new background/sound effect in master mode
-	bug fixed]=],[=[
+	bug fixed
 0.7.18:
 	3 new block skins!(one skin origional by Miya(nya~))
 	better restarting(to prevent mistakenly touching)
@@ -79,7 +83,7 @@ return{
 	adjust difficulty of PC train mode
 	adjust vibrate level for mobile devices
 	little optimized
-	bugs fixed]=],[=[
+	bugs fixed
 0.7.16:
 	bugs fixed
 	change rules of custom puzzle mode
@@ -92,7 +96,7 @@ return{
 	can pause game with animation
 	change icon of "Functional key"
 	speed optimized
-	bugs fixed]=],[=[
+	bugs fixed
 0.7.14:
 	drawing mode in custom game
 	can adjust virtual keys with mouse
@@ -103,7 +107,7 @@ return{
 	little game rule change
 	bugs fixed(AI control error)
 0.7.13:
-	Chniese game name:方块研究所
+	Chinese game name:方块研究所
 	SUPER COOL instant moving effect
 	new b2b bar style & animation
 	new transition animation
@@ -111,7 +115,7 @@ return{
 	adjust delay algorithm(probably cause controlfeel changing,please reset your DAS setting)
 	code reconstructed
 	bugs fixed(error when seq=his,size of custom oppo)
-	debug key change to F8]=],[=[
+	debug key change to F8
 0.7.12:
 	AI learned to switch attack mode
 	seperate master mode from marathon mode
@@ -124,7 +128,7 @@ return{
 	grid switch
 	swap target by combo key/press
 	some Chinese translaton editted
-	[reconstruct event system]]=],[=[
+	[reconstruct event system]
 0.7.11:
 	some Chinese translaton editted
 	add bone block in 2 hardest marathon(new block-fresh system)
@@ -135,7 +139,7 @@ return{
 	clearer attacking pointer
 	fix 6 next in classic mode
 	add QR code in help page
-	change some detials]=],[=[
+	change some detials
 0.7.10:
 	更完全的中文翻译
 	add Classic mode
@@ -148,7 +152,7 @@ return{
 	change rotate system
 	change BGM&BG set
 	code optimized
-	fix bugs]=],[=[
+	fix bugs
 0.7.8:
 	GPU usage decreased much more than before
 	add virtual key animation
@@ -163,7 +167,7 @@ return{
 	combine some modes
 	change some GUI
 	more SFXs
-	fix bugs]=],[=[
+	fix bugs
 0.7.6:
 	new font
 	add DIFFICULTY selection
@@ -175,7 +179,7 @@ return{
 	better GUI&change speed&BGM in royale mode
 	more FXs in royale mode
 	fix all attacking bug of royale mode
-	change sequence of TSD-only mode to bag7]=],[=[
+	change sequence of TSD-only mode to bag7
 0.7.5:
 	reduce difficuly of PC training mode,and add more patterns
 	reduce difficuly of death mode
@@ -189,7 +193,7 @@ return{
 	change game icon
 	adjust GUI of royale mode
 	change sequence of TSD-only mode
-	royale mode use LESS GPU]=],[=[
+	royale mode use LESS GPU
 0.7.4:
 	add a lot of bugs
 0.7.3:
@@ -205,5 +209,15 @@ return{
 	remove non-sense s/z spin double
 	GUI position editted
 	grid BG changed
-	smarter AI]=]
-}
+	smarter AI
+]=]
+local find,sub=string.find,string.sub
+local L,n,p={},1,1
+local eof=#S
+repeat
+	p1=find(S,"\n",p)
+	L[n]=sub(S,p,p1-1)
+	n=n+1
+	p=p1+1
+until p1==eof
+return L

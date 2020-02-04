@@ -1,4 +1,3 @@
-local SWC={[true]="ON",[false]="OFF"}
 local BK="Back"
 return{
 	atkModeName={"Random","Badges","K.O.s","Counters"},
@@ -26,7 +25,7 @@ return{
 	lose="LOSE",
 	pause="PAUSE",
 	finish="FINISH",
-	pauseTime="Pause time",
+	pauseCount="Pause Count",
 
 	custom="Custom Game",
 	customOption={
@@ -115,14 +114,20 @@ return{
 		"Playing too much = taking drugs",
 		"Disappearing doesn't mean useless",
 		"Try to use two rotate button,three better",
-		"Small DAS&ARR can make you faster,if you can adapt to it",
+		"Small DAS&ARR can make you faster,if you can control block correctly",
 		"Have you noticed what does \"rotating\" do to block?",
-		"20G is a brand new game rule",
+		"20G actually is a brand new game rule",
 		"Do not play game in class!",
 		"This game can be very hard,be mentally perpared",
 		"This in not a casual game",
 		"Nothing will happen when some special day come",
 		"3.1415926535897932384",
+		"2.7182818284590452353",
+		"Let-The-Bass-Kick!",
+		"Powered by love2d",
+		"Find out what's in the setting!",
+		"Any suggestions to author!~",
+		"Techmino=Technique+tetromino",
 	},
 	stat={
 		"Games run:",
@@ -158,7 +163,8 @@ return{
 	},
 	support="Support Author",
 	group="Official QQ Group",
-	ButtonText={
+	warning="DO NOT DISTRIBUTE",
+	WidgetText={
 		main={
 			qplay="Qplay",
 			play="Play",
@@ -178,7 +184,7 @@ return{
 			back=BK,
 		},
 		music={
-			bgm=function()return"BGM:"..SWC[setting.bgm]end,
+			bgm="BGM",
 			up="↑",
 			play="Play",
 			down="↓",
@@ -226,34 +232,49 @@ return{
 			quit="Quit",
 		},
 		setting={
-			ghost=function()return"Ghost:"..SWC[setting.ghost]end,
-			center=function()return"Center:"..SWC[setting.center]end,
-			grid=function()return"Grid:"..SWC[setting.grid]end,
-			swap=function()return setting.swap and"Swap:comboKey"or"Swap:loop"end,
-			fxs=function()return setting.fxs>0 and"FX level:"..setting.fxs or"NO FX"end,
-			bg=function()return"BG:"..SWC[setting.bg]end,
+			game=	"Game Settings",
+			graphic="Graphic Settings",
+			sound=	"Sound Settings",
+			ctrl=	"Control Settings",
+			touch=	"Touch Settings",
+			lang=	function()return langName[setting.lang]end,
+			back=	"Save&Back",
+		},
+		setting_game={
 			dasD="-",dasU="+",
 			arrD="-",arrU="+",
 			sddasD="-",sddasU="+",
 			sdarrD="-",sdarrU="+",
-			ctrl="Control settings",
-			touch="Touch settings",
-			lang=function()return langName[setting.lang]end,
-			sfx=function()return"SFX:"..SWC[setting.sfx]end,
-			bgm=function()return"BGM:"..SWC[setting.bgm]end,
-			voc=function()return"VOC:"..SWC[setting.voc]end,
-			vib=function()return "VIB:"..setting.vib end,
-			fullscreen=function()return"Fullscreen:"..SWC[setting.fullscreen]end,
-			bgblock=function()return"BG animation:"..SWC[setting.bgblock]end,
-			frame=function()return"FrameDraw:"..setting.frameMul.."%"end,
-			skin="Skin",
-			smo=function()return"SmoothDrop:"..SWC[setting.smo]end,
-			back="Save&Back",
-		},
-		setting2={
+			holdR="Hold R to restart",
+			swap="Combo key to change ATK mode",
 			back=BK,
 		},
-		setting3={
+		setting_graphic={
+			ghost="Ghost",
+			grid="Grid",
+			center="Center",
+			skin="Skin",
+			bg="Background",
+			bgblock="BG animation",
+			smo="Smoooth drop",
+			dropFX="Drop FX level",
+			shakeFX="Shake FX level",
+			atkFX="ATK FX level",
+			fullscreen="Fullscreen",
+			frame="drawFPS",
+			back=BK,
+		},
+		setting_sound={
+			sfx="SFX",
+			bgm="BGM",
+			vib="VIB",
+			voc="VOC",
+			back=BK,
+		},
+		setting_control={
+			back=BK,
+		},
+		setting_touch={
 			hide=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,
 			default="Defaults",
 			snap=function()return text.snapLevelName[snapLevel]end,
@@ -268,8 +289,8 @@ return{
 			back=BK,
 		},
 		history={
-			prev="←",
-			next="→",
+			prev="↑",
+			next="↓",
 			back=BK,
 		},
 		stat={

@@ -106,12 +106,12 @@ local function stencil_miniTitle()
 	end
 end
 
-FX={
-	flash=0,--Black screen(frame)
-	shake=0,--Screen shake(frame)
-	attack={},--Attack beam
-	badge={},--badge thrown
-
+FX_BGblock={tm=150,next=7,ct=0,list={{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},}}--Falling tetrominos on background
+FX_attack={}--Attack beam
+FX_badge={}--Badge thrown
+sysFX={}
+FX_ripple={}--Ripple&SqrShade
+textFX={
 	appear=function(t,a)
 		setFont(t.font)
 		gc.setColor(1,1,1,a)
@@ -332,17 +332,17 @@ function Pnt.intro()
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
-	gc.draw(titleImage,280,30,nil,1.3)
-	setFont(30)
-	gc.print(gameVersion,290,125)
-	gc.print(system,845,95)
+	gc.draw(coloredTitleImage,280,30,nil,1.3)
+	gc.draw(drawableText.warning,570,128)
 	setFont(35)
+	gc.print(gameVersion,290,125)
+	gc.print(system,840,95)
 	mStr(modeLevel[modeID[modeSel]][levelSel],160,180)
 	mStr(text.modeName[modeSel],160,380)
 end
 function Pnt.mode()
 	gc.setColor(1,1,1)
-	gc.draw(titleImage,810,30)
+	gc.draw(titleImage,830,30)
 	setFont(40)
 	gc.setColor(modeLevelColor[modeLevel[modeID[modeSel]][levelSel]]or color.white)
 	mStr(modeLevel[modeID[modeSel]][levelSel],270,215)
@@ -368,29 +368,37 @@ function Pnt.music()
 	gc.draw(drawableText.musicRoom,20,20)
 	gc.setColor(1,1,1)
 	gc.draw(drawableText.musicRoom,22,23)
-	gc.draw(drawableText.nowPlaying,490,110)
+	gc.draw(drawableText.nowPlaying,490,390)
 	setFont(35)
 	for i=1,#musicID do
 		gc.print(musicID[i],50,90+30*i)
 	end
-	setFont(50)
-	gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-	mStr(bgmPlaying or"",630,180)
+	gc.draw(titleImage,640,310,nil,1.5,nil,206,35)
+	if bgmPlaying then
+		setFont(50)
+		gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
+		mStr(bgmPlaying or"",630,460)
+		local t=-Timer()%2.3/2
+		if t<1 then
+			gc.setColor(1,1,1,t)
+			gc.draw(coloredTitleImage,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+		end
+	end
 end
 function Pnt.custom()
 	gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
-	gc.rectangle("fill",25,95+40*sel,465,40)
+	gc.rectangle("fill",25,95+40*sel,480,40)
 	gc.setColor(.8,.8,.8)gc.draw(drawableText.custom,20,20)
 	gc.setColor(1,1,1)gc.draw(drawableText.custom,22,23)
 	setFont(40)
 	for i=1,#customID do
 		local k=customID[i]
 		local y=90+40*i
-		gc.printf(text.customOption[k],30,y,320,"right")
+		gc.printf(text.customOption[k],15,y,320,"right")
 		if text.customVal[k]then
-			gc.print(text.customVal[k][customSel[i]],350,y)
+			gc.print(text.customVal[k][customSel[i]],335,y)
 		else
-			gc.print(customRange[k][customSel[i]],350,y)
+			gc.print(customRange[k][customSel[i]],335,y)
 		end
 	end
 end
@@ -698,32 +706,32 @@ function Pnt.play()
 		end
 	end--Draw players
 	gc.setLineWidth(5)
-	for i=1,#FX.attack do
-		local A=FX.attack[i]
+	for i=1,#FX_attack do
+		local A=FX_attack[i]
 		gc.push("transform")
-			local a=A.a
-			if A.t<20 then
-				gc.translate(A.x1,A.y1)
-				a=a*A.t*.05
-			elseif A.t<80 then
-				local t=((A.t-20)*.016667)t=(3-2*t)*t*t
-				gc.translate(A.x1*(1-t)+A.x2*t,A.y1*(1-t)+A.y2*t)
-			else
-				gc.translate(A.x2,A.y2)
-				a=a*(5-A.t*.05)
-			end
-			gc.rotate(A.t*.1)
+			local a=A.t<10 and A.a*A.t*.05 or A.t>50 and A.a*(6-A.t*.1)or A.a
 			gc.setColor(A.r,A.g,A.b,a*.5)
 			gc.circle("line",0,0,A.rad,A.corner)
+			local L=A.drag
+			for i=1,#L,2 do
+				gc.setColor(A.r,A.g,A.b,a*i*.05)
+				gc.translate(L[i],L[i+1])
+				gc.rotate(A.t*.1)
+				gc.circle("fill",0,0,A.rad,A.corner)
+				gc.rotate(-A.t*.1)
+				gc.translate(-L[i],-L[i+1])
+			end
 			gc.setColor(A.r,A.g,A.b,a)
+			gc.translate(A.x,A.y)
+			gc.rotate(A.t*.1)
 			gc.circle("fill",0,0,A.rad,A.corner)
 		gc.pop()
 	end
 	gc.setColor(1,1,1)
 	if setting.virtualkeySwitch then drawVirtualkey()end
 	if modeEnv.royaleMode then
-		for i=1,#FX.badge do
-			local b=FX.badge[i]
+		for i=1,#FX_badge do
+			local b=FX_badge[i]
 			gc.setColor(1,1,1,b.t<10 and b.t*.1 or b.t<50 and 1 or(60-b.t)*.1)
 			if b.t<10 then
 				gc.draw(badgeIcon,b[1]-14,b[2]-14)
@@ -751,9 +759,9 @@ function Pnt.play()
 		end
 	end
 	if restartCount>0 then
-		gc.setColor(1,.7,.7,.5+restartCount*.02)
-		gc.arc("fill",640,360,735,-1.5708,restartCount*0.3696-1.5708)
-		gc.setColor(0,0,0,restartCount/17)
+		-- gc.setColor(1,.7,.7,.5+restartCount*.02)
+		-- gc.arc("fill",640,360,735,-1.5708,restartCount*0.3696-1.5708)
+		gc.setColor(0,0,0,restartCount/20)
 		gc.rectangle("fill",0,0,1280,720)
 	end
 end
@@ -764,7 +772,7 @@ function Pnt.pause()
 	gc.setColor(1,1,1,pauseTimer*.02)
 	setFont(30)
 	if pauseCount>0 then
-		gc.print(text.pauseTime..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
+		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
 	end
 	for i=1,7 do
 		gc.print(text.stat[i+3],110,30*i+270)
@@ -777,21 +785,24 @@ function Pnt.pause()
 	setFont(40)
 	if system~="Android"then
 		mStr(text.space.."/"..text.enter,640,335)
-		gc.print("ESC",610,509)
+		gc.print("ESC",610,506)
 	end
 	mDraw(gamefinished and drawableText.finish or drawableText.pause,640,60-10*(5-pauseTimer*.1)^1.5)
 end
-function Pnt.setting()
+function Pnt.setting_game()
 	gc.setColor(1,1,1)
-	setFont(35)
-	mStr("DAS:"..setting.das,290,278)
-	mStr("ARR:"..setting.arr,506,278)
-	setFont(21)
-	mStr(text.softdropdas..setting.sddas,290,357)
-	mStr(text.softdroparr..setting.sdarr,506,357)
-	gc.draw(blockSkin[7-int(Timer()*2)%7],820,480,nil,2)
+	setFont(40)
+	mStr("DAS:"..setting.das,260,95)
+	mStr("ARR:"..setting.arr,560,95)
+	setFont(28)
+	mStr(text.softdropdas..setting.sddas,260,213)
+	mStr(text.softdroparr..setting.sdarr,560,213)
 end
-function Pnt.setting2()
+function Pnt.setting_graphic()
+	gc.setColor(1,1,1)
+	gc.draw(blockSkin[7-int(Timer()*2)%7],1020,420,nil,2)
+end
+function Pnt.setting_control()
 	local a=.3+sin(Timer()*15)*.1
 	if keyboardSetting then
 		gc.setColor(1,.5,.5,a)
@@ -826,7 +837,7 @@ function Pnt.setting2()
 	gc.print("P"..int(curBoard*.5+.5).."/P4",420,560)
 	gc.print(curBoard.."/8",580,560)
 end
-function Pnt.setting3()
+function Pnt.setting_touch()
 	VirtualkeyPreview()
 	local d=snapLevelValue[snapLevel]
 	if d>=10 then
@@ -846,7 +857,7 @@ function Pnt.help()
 	for i=1,11 do
 		gc.printf(text.help[i],140,15+43*i,1000,"center")
 	end
-	gc.draw(titleImage,250,600,.2,1+.05*sin(Timer()*2),nil,212,35)
+	gc.draw(titleImage,250,600,.2,1+.05*sin(Timer()*2),nil,206,35)
 	gc.setLineWidth(5)
 	gc.rectangle("line",17,17,260,260)
 	gc.rectangle("line",1077,17,186,186)
@@ -865,15 +876,17 @@ function Pnt.stat()
 		gc.print(text.stat[i],400,30*i-5)
 		gc.print(statOpt(i),720,30*i-5)
 	end
-	gc.draw(titleImage,260,600,.2+.07*sin(Timer()*3),nil,nil,212,35)
+	gc.draw(titleImage,260,600,.2+.07*sin(Timer()*3),nil,nil,206,35)
 end
 function Pnt.history()
 	gc.setColor(.2,.2,.2,.7)
-	gc.rectangle("fill",150,35,980,530)
+	gc.rectangle("fill",30,45,1000,632)
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
-	gc.rectangle("line",150,35,980,530)
+	gc.rectangle("line",30,45,1000,632)
 	setFont(25)
-	gc.print(updateLog[sel],160,40)
+	for i=0,min(22,#updateLog-sel)do
+		gc.print(updateLog[sel+i],40,50+27*(i))
+	end
 end
 return Pnt

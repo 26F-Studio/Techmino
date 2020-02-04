@@ -46,6 +46,7 @@ c:release()
 
 gc.setDefaultFilter("linear","linear")
 titleImage=N("/image/mess/title.png")
+coloredTitleImage=N("/image/mess/title_colored.png")
 dialCircle=N("/image/mess/dialCircle.png")
 dialNeedle=N("/image/mess/dialNeedle.png")
 badgeIcon=N("/image/mess/badge.png")
@@ -69,5 +70,6 @@ drawableText={
 	setting2Help=T(25),
 	musicRoom=T(80),
 	nowPlaying=T(50),
+	warning=T(30),
 }
 c=gc.setCanvas()

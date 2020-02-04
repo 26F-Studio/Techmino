@@ -50,7 +50,7 @@ local function throwBadge(S,R)--Sender/Receiver
 	else
 		x2,y2=R.x+66*R.size,R.y+344*R.size
 	end
-	FX.badge[#FX.badge+1]={x1,y1,x2,y2,t=0}
+	FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
 end
 local AISpeed={60,50,45,35,25,15,9,7,5,3}
 local function AITemplate(type,speedLV,next,hold,node)
@@ -192,11 +192,11 @@ loadmode={
 		local LV=curMode.lv
 		if LV==3 then players[1].gameEnv.drop=15 end
 		local L={}for i=1,49 do L[i]=true end
-		local t=int(LV^2.5)
-		repeat
+		local t=system~="Windows"and 0 or 2*LV
+		while t>0 do
 			local r=rnd(2,49)
 			if L[r]then L[r],t=false,t-1 end
-		until t==0
+		end
 		local min,max
 		if LV==1 then		min,max=3,5
 		elseif LV==2 then	min,max=4,8
@@ -225,11 +225,11 @@ loadmode={
 		local LV=curMode.lv
 		if LV==3 then players[1].gameEnv.drop=15 end
 		local L={}for i=1,100 do L[i]=true end
-		local t=2*int(LV^2.5)
-		repeat
+		local t=system~="Windows"and 0 or 1+3*LV
+		while t>0 do
 			local r=rnd(2,99)
 			if L[r]then L[r],t=false,t-1 end
-		until t==0
+		end
 		local min,max
 		if LV==1 then		min,max=3,5
 		elseif LV==2 then	min,max=4,9
@@ -318,7 +318,7 @@ loadmode={
 mesDisp={
 	--Default:font=35,white
 	sprint=function()
-		setFont(65)
+		setFont(60)
 		local r=max(P.gameEnv.target-P.stat.row,0)
 		mStr(r,-82,265)
 		if r<21 and r>0 then
@@ -415,7 +415,7 @@ mesDisp={
 	end,
 	c4wtrain=function()
 		setFont(50)
-		mStr(max(200-P.stat.row,0),-82,220)
+		mStr(max(100-P.stat.row,0),-82,220)
 		mStr(P.combo,-82,310)
 		mStr(P.modeData.point,-82,400)
 		setFont(20)
@@ -479,7 +479,7 @@ mesDisp={
 		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
 			setFont(25)
 			mStr("Rows",-82,290)
-			setFont(65)
+			setFont(60)
 			mStr(P.stat.row,-82,225)
 		else
 			setFont(60)
@@ -497,7 +497,7 @@ mesDisp={
 					gc.setColor(c[1],c[2],c[3],.6)
 					gc.rectangle("line",30*x-25,605-30*y,20,20)
 					gc.rectangle("line",30*x-20,610-30*y,10,10)
-				elseif B==0 then
+				elseif B==-1 then
 					gc.setColor(1,1,1,.4)
 					gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
 					gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
@@ -653,50 +653,49 @@ Event={
 		P.modeData.point=P.modeData.point+s
 		if P.modeData.point%100==99 then
 			SFX("blip_1")
-		elseif P.modeData.point>100*P.modeData.event+100 then
+		elseif P.modeData.point>=100*(P.modeData.event+1)then
 			local s=P.modeData.event+1;P.modeData.event=s--level up!
-			showText(P,text.stage(s),"fly",80,-120)
 			local E=P.gameEnv
 			local mode=curMode.lv
 			if mode==1 then
-				curBG=s==2 and"game1"or s==3 and"game2"or s==4 and"game3"or s==5 and"game4"
+				curBG=s==1 and"game1"or s==2 and"game2"or s==3 and"game3"or s==4 and"game4"
 				E.lock=rush_lock[s]
 				E.wait=rush_wait[s]
 				E.fall=rush_fall[s]
 				E.das=10-s
-				if s==3 then P.gameEnv.arr=2 end
-				if s==5 then P.gameEnv.bone=true end
+				if s==2 then P.gameEnv.arr=2 end
+				if s==4 then P.gameEnv.bone=true end
 			elseif mode==2 then
-				curBG=s==2 and"game3"or s==3 and"game4"or s==4 and"game5"or s==5 and"game6"
+				curBG=s==1 and"game3"or s==2 and"game4"or s==3 and"game5"or s==4 and"game6"
 				E.lock=death_lock[s]
 				E.wait=death_wait[s]
 				E.fall=death_fall[s]
-				E.das=int(7.3-s*.4)
-				if s==4 then P.gameEnv.bone=true end
+				E.das=int(6.9-s*.4)
+				if s==3 then P.gameEnv.bone=true end
+			end
+			if s==5 then
+				P.modeData.point,P.modeData.event=500,4
+				Event.win()
+			else
+				showText(P,text.stage(s),"fly",80,-120)
 			end
 			SFX("reach")
 		end
 	end,
 	master_score_hard=function()
 		local c=#P.clearing
-		if P.modeData.point%100<60 then
-			P.modeData.point=P.modeData.point+(c<3 and c+1 or c==3 and 5 or 7)--[1]2 3 5 7
-			if P.modeData.point%100>59 then SFX("blip_1")end
-			return
+		if c==0 then return end
+		local s
+		if P.lastClear<10 then
+			s=c
 		else
-			if c==0 then return end
-			local s
-			if P.lastClear<10 then
-				s=c-1--0,1,2,X
-			else
-				s=int(c^1.45)--1,2,4,7
-			end
-			if P.combo>9 then s=s+3
-			elseif P.combo>4 then s=s+2
-			elseif P.combo>2 then s=s+1
-			end
-			P.modeData.point=P.modeData.point+s
+			s=c<3 and c+1 or c<5 and 6 or 10
 		end
+		if P.combo>9 then s=s+2
+		elseif P.combo>4 then s=s+1
+		end
+		P.modeData.point=P.modeData.point+s
+		if P.modeData.point%100==99 then SFX("blip_1")end
 		if int(P.modeData.point*.01)>P.modeData.event then
 			local s=P.modeData.event+1;P.modeData.event=s--level up!
 			showText(P,text.stage(s),"fly",80,-120)
@@ -794,7 +793,7 @@ Event={
 			if P.combo>P.modeData.point then
 				P.modeData.point=P.combo
 			end
-			if P.stat.row>=200 then
+			if P.stat.row>=100 then
 				Event.win()
 			end
 		end
@@ -803,7 +802,7 @@ Event={
 		if P.curY+P.r>5-P.stat.row%4+#P.clearing then
 			Event.lose()
 		end
-		if P.stat.piece%4==0 and #P.field==#P.clearing then
+		if P.stat.piece%4==0 and #P.field==0 then
 			P.modeData.event=P.modeData.event==0 and 1 or 0
 			local r=rnd(#PClist)
 			local f=P.modeData.event==0
@@ -838,7 +837,15 @@ Event={
 			local L=P.field[y]
 			for x=1,10 do
 				local a,b=preField[y][x],L and L[x]or 0
-				if a~=0 and(a==0 and b>0 or a<8 and a~=b or a>7 and b==0)then return end
+				if a~=0 then
+					if a==-1 then
+						if b>0 then return end
+					elseif a<8 then
+						if a~=b then return end
+					elseif a>7 then
+						if b==0 then return end
+					end
+				end
 			end
 		end
 		P.modeData.event=1
@@ -945,7 +952,7 @@ Event_task={
 			local R=(P.modeData.event%3<2 and 1 or 3)
 			P.atkBuffer.sum=P.atkBuffer.sum+R
 			P.stat.recv=P.stat.recv+R
-			if P.modeData.event==45 then showText(P,text.maxspeed,"appear",100,-140,.6)end
+			if P.modeData.event==60 then showText(P,text.maxspeed,"appear",100,-140,.6)end
 			P.counter=0
 			P.modeData.event=P.modeData.event+1
 		end
@@ -1130,27 +1137,18 @@ Event_task={
 	end,
 
 	bgmFadeOut=function(self,_,id)
-		bgm[id]:setVolume(max(bgm[id]:getVolume()-.03,0))
-		if bgm[id]:getVolume()==0 then
+		local v=bgm[id]:getVolume()-.025*setting.bgm*.125
+		bgm[id]:setVolume(v>0 and v or 0)
+		if v<=0 then
 			bgm[id]:stop()
 			return true
 		end
 	end,
 	bgmFadeIn=function(self,_,id)
-		bgm[id]:setVolume(min(bgm[id]:getVolume()+.03,1))
-		if bgm[id]:getVolume()==1 then return true end
+		local v=min(bgm[id]:getVolume()+.025*setting.bgm*.125,setting.bgm*.125)
+		bgm[id]:setVolume(v)
+		if v>=setting.bgm*.125 then return true end
 	end,
-	bgmWarp=function(self)
-		if bgmPlaying then
-			self.data=self.data-1
-			if self.data==0 then
-				self.data=rnd(120,180)
-				bgm[bgmPlaying]:seek(max(bgm[bgmPlaying]:tell()-1,0))
-			end
-		else
-			return true
-		end
-	end
 }
 local Fkey_func={
 	royale=function()
@@ -1301,7 +1299,6 @@ defaultModeEnv={
 		{
 			oncehold=false,
 			drop=1e99,lock=1e99,
-			freshLimit=15,
 			dropPiece=Event.tsd_reach,
 			ospin=false,
 			bg="matrix",bgm="reason",

@@ -1,3 +1,8 @@
+--[[
+第一次搞这么大的工程~参考价值不是很大
+如果你有时间并且也热爱俄罗斯方块的话，来看代码或者帮助优化的话当然欢迎！
+（顺便，不经允许直接盗用代码的先死个妈）
+]]
 local love=love
 local gc,tm=love.graphics,love.timer
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
@@ -6,21 +11,21 @@ local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
 local find,format=string.find,string.format
 local ins,rem=table.insert,table.remove
 local Timer=tm.getTime
--- sort=table.sort
-
 local F=false
 null=function()end
 -------------------------------------------------------------
 system=sys.getOS()
+local mobile=system=="Android"or system=="iOS"
 local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
 local touching--1st touching ID
 
-scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}local scr=scr
+scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}
+local scr=scr
 scene=""
-bgmPlaying=nil
 curBG="none"
-voicePlaying={}
+bgmPlaying=nil
+voiceQueue={free=0}
 local devMode=0
 
 kb.setKeyRepeat(true)
@@ -48,18 +53,27 @@ for i=11,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 freeRow={L=40}for i=1,40 do freeRow[i]={0,0,0,0,0,0,0,0,0,0}end
 --Game system Vars
 setting={
-	ghost=true,center=true,
-	grid=false,swap=true,
-	fxs=3,bg=true,
 	das=10,arr=2,
 	sddas=0,sdarr=2,
-	lang=1,
+	holdR=true,
+	swap=true,
+	--game
+	ghost=true,center=true,
+	smo=true,grid=false,
+	dropFX=3,
+	shakeFX=3,
+	atkFX=3,
+	frameMul=100,
 
-	sfx=true,bgm=true,
-	vib=3,voc=false,
 	fullscreen=false,
+	bg=true,
 	bgblock=true,
-	skin=1,smo=true,
+	lang=1,
+	skin=1,
+	--graphic
+	sfx=8,bgm=6,
+	vib=3,voc=0,
+	--sound
 	keyMap={
 		{"left","right","x","z","c","up","down","space","tab","r","","",""},
 		{"","","","","","","","","","","","",""},
@@ -92,7 +106,7 @@ setting={
 	virtualkeyAlpha=3,
 	virtualkeyIcon=true,
 	virtualkeySwitch=false,
-	frameMul=100,
+	--control
 }
 stat={
 	run=0,game=0,time=0,
@@ -133,10 +147,8 @@ require("dataList")
 require("texture")
 local Tmr=require("timer")
 local Pnt=require("paint")
---Requires
+--Modules
 -------------------------------------------------------------
-local BGblockList={}for i=1,16 do BGblockList[i]={v=0}end
-local BGblock={tm=150,next=7,ct=0}
 local powerInfoCanvas,updatePowerInfo
 if sys.getPowerInfo()~="unknown"then
 	powerInfoCanvas=gc.newCanvas(147,22)
@@ -177,15 +189,15 @@ if sys.getPowerInfo()~="unknown"then
 	end
 end
 local function getNewBlock()
-	BGblock.ct=BGblock.ct+1
-	if BGblock.ct==17 then BGblock.ct=1 end
-	local t=BGblockList[BGblock.ct]
-	t.bn,t.size=BGblock.next,2+3*rnd()
+	FX_BGblock.ct=FX_BGblock.ct+1
+	if FX_BGblock.ct==17 then FX_BGblock.ct=1 end
+	local t=FX_BGblock.list[FX_BGblock.ct]
+	t.bn,t.size=FX_BGblock.next,2+3*rnd()
 	t.b=blocks[t.bn][rnd(0,3)]
 	t.x=rnd(-#t.b[1]*t.size*30+100,1180)
 	t.y=-#t.b*30*t.size
 	t.v=t.size*(1+rnd())
-	BGblock.next=BGblock.next%7+1
+	FX_BGblock.next=FX_BGblock.next%7+1
 	return t
 end
 local sceneInit={
@@ -202,12 +214,19 @@ local sceneInit={
 	end,
 	main=function()
 		modeSel,levelSel=modeSel or 1,levelSel or 3
-		BGM("blank")
 		collectgarbage()
 	end,
 	music=function()
-		sel=1
-		BGM()
+		if bgmPlaying then
+			for i=1,#musicID do
+				if musicID[i]==bgmPlaying then
+					sel=i
+					return
+				end
+			end
+		else
+			sel=1
+		end
 	end,
 	mode=function()
 		curBG="none"
@@ -239,14 +258,17 @@ local sceneInit={
 	setting=function()
 		curBG="none"
 	end,
-	setting2=function()
+	setting_game=null,
+	setting_graphic=null,
+	setting_sound=null,
+	setting_control=function()
 		curBoard=1
 		keyboardSet=1
 		joystickSet=1
 		keyboardSetting=false
 		joystickSetting=false
 	end,--Control settings
-	setting3=function()
+	setting_touch=function()
 		curBG="game1"
 		defaultSel=1
 		sel=nil
@@ -260,7 +282,7 @@ local sceneInit={
 	history=function()
 		updateLog=require"updateLog"
 		curBG="lightGrey"
-		sel=2
+		sel=1
 	end,
 	quit=function()
 		love.event.quit()
@@ -279,47 +301,25 @@ local function onVirtualkey(x,y)
 	end
 	return nearest
 end
-local function buttonControl_key(i)
-	if i=="up"or i=="down"or i=="left"or i=="right"then
-		if Widget.sel then
-			Widget.sel=Widget[scene][Widget.sel[i]]or Widget.sel
-		else
-			Widget.sel=select(2,next(Widget[scene]))
-		end
-	elseif i=="space"or i=="return"then
-		if not sceneSwaping and Widget.sel then
-			local W=Widget.sel
-			if W.type=="button"then
-				W.alpha=1
-				W.code()
-				if W.hide and W.hide()then Widget.sel=nil end
-				SFX("button")
-				VOICE("nya")
-			end
-		end
-	end
-end
-local function buttonControl_gamepad(i)
-	if i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
-		if Widget.sel then
-			Widget.sel=Widget[scene][Widget.sel[i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]]or Widget.sel
-		else
-			Widget.sel=select(2,next(Widget[scene]))
-		end
-	elseif i=="start"then
-		if not sceneSwaping and Widget.sel then
-			local W=Widget.sel
-			if W.type=="button"then
-				W.alpha=1
-				W.code()
-				if W.hide and W.hide()then Widget.sel=nil end
-				SFX("button")
-				VOICE("nya")
-			end
-		end
-	end
-end
 -------------------------------------------------------------
+local floatWheel=0
+local function wheelScroll(y)
+	if y>0 then
+		if floatWheel<0 then floatWheel=0 end
+		floatWheel=floatWheel+y^1.2
+	elseif y<0 then
+		if floatWheel>0 then floatWheel=0 end
+		floatWheel=floatWheel-(-y)^1.2
+	end
+	while floatWheel>=1 do
+		love.keypressed("up")
+		floatWheel=floatWheel-1
+	end
+	while floatWheel<=-1 do
+		love.keypressed("down")
+		floatWheel=floatWheel+1
+	end
+end
 local mouseDown,mouseMove,mouseUp,wheelmoved={},{},{},{}
 local touchDown,touchUp,touchMove={},{},{}
 local keyDown,keyUp={},{}
@@ -343,9 +343,8 @@ function keyDown.intro(key)
 end
 
 function wheelmoved.mode(x,y)
-	if y>0 then keyDown.mode("up")
-	elseif y<0 then keyDown.mode("down")
-	end
+	wheelScroll(y)
+
 end
 function keyDown.mode(key)
 	if key=="down"then
@@ -495,7 +494,7 @@ function keyDown.draw(key)
 	end
 end
 
-function keyDown.setting2(key)
+function keyDown.setting_control(key)
 	if key=="escape"then
 		if keyboardSetting then
 			keyboardSetting=false
@@ -524,7 +523,7 @@ function keyDown.setting2(key)
 		curBoard=min(curBoard+1,8)
 	end
 end
-function gamepadDown.setting2(key)
+function gamepadDown.setting_control(key)
 	if key=="back"then
 		if joystickSetting then
 			joystickSetting=false
@@ -554,7 +553,7 @@ function gamepadDown.setting2(key)
 	end
 end
 
-function mouseDown.setting3(x,y,k)
+function mouseDown.setting_touch(x,y,k)
 	if k==2 then back()end
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
@@ -563,20 +562,20 @@ function mouseDown.setting3(x,y,k)
 		end
 	end
 end
-function mouseMove.setting3(x,y,dx,dy)
+function mouseMove.setting_touch(x,y,dx,dy)
 	if sel and ms.isDown(1)then
 		local b=virtualkey[sel]
 		b[1],b[2]=b[1]+dx,b[2]+dy
 	end
 end
-function mouseUp.setting3(x,y,k)
+function mouseUp.setting_touch(x,y,k)
 	if sel then
 		local b=virtualkey[sel]
 		local k=snapLevelValue[snapLevel]
 		b[1],b[2]=int(b[1]/k+.5)*k,int(b[2]/k+.5)*k
 	end
 end
-function touchDown.setting3(id,x,y)
+function touchDown.setting_touch(id,x,y)
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
 		if (x-b[1])^2+(y-b[2])^2<b[3]then
@@ -584,7 +583,7 @@ function touchDown.setting3(id,x,y)
 		end
 	end
 end
-function touchUp.setting3(id,x,y)
+function touchUp.setting_touch(id,x,y)
 	if sel then
 		x,y=xOy:inverseTransformPoint(x,y)
 		if sel then
@@ -594,7 +593,7 @@ function touchUp.setting3(id,x,y)
 		end
 	end
 end
-function touchMove.setting3(id,x,y,dx,dy)
+function touchMove.setting_touch(id,x,y,dx,dy)
 	if sel then
 		local b=virtualkey[sel]
 		b[1],b[2]=b[1]+dx,b[2]+dy
@@ -699,18 +698,99 @@ function gamepadUp.play(key)
 	end
 end
 
+function wheelmoved.history(x,y)
+	wheelScroll(y)
+end
 function keyDown.history(key)
-	if key=="left"then
-		if sel>1 then sel=sel-1 end
-	elseif key=="right"then
-		if sel<#updateLog then sel=sel+1 end
+	if key=="up"then
+		sel=max(sel-5,1)
+	elseif key=="down"then
+		sel=min(sel+5,#updateLog-22)
 	elseif key=="escape"then
 		back()
 	end
 end
-
 -------------------------------------------------------------
-
+local function widgetPress(W,x,y)
+	if W.hide and W.hide()then widget_sel=nil end
+	if W.type=="button"then
+		W.code()
+		W:FX()
+		SFX("button")
+		VOICE("nya")
+	elseif W.type=="switch"then
+		W.code()
+		W:FX()
+		SFX("move",.6)
+	elseif W.type=="slider"then
+		if not x then return end
+		local p=W.disp()
+		W.code(x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5))
+		if p==W.disp()then return end
+		W:FX(p)
+		if W.change then W.change()end
+	end
+end
+local function widgetDrag(W,x,y,dx,dy)
+	if W.type=="slider"then
+		local p=W.disp()
+		W.code(x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5))
+		if p==W.disp()then return end
+		W:FX(p)
+		if W.change then W.change()end
+	elseif not W:ifAbove(x,y)then
+		widget_sel=nil
+	end
+end
+local function widgetControl_key(i)
+	if i=="tab"then
+		if widget_sel then
+			widget_sel=kb.isDown("lshift")and widget_sel.prev or widget_sel.next or widget_sel
+		else
+			widget_sel=select(2,next(Widget[scene]))
+		end
+	elseif i=="space"or i=="return"then
+		if not sceneSwaping and widget_sel then
+			widgetPress(widget_sel)
+		end
+	else
+		if widget_sel then
+			local W=widget_sel
+			if W.type=="slider"then
+				if i=="left"then
+					if W.disp()>0 then W.code(W.disp()-1)end
+				elseif i=="right"then
+					if W.disp()<W.unit then W.code(W.disp()+1)end
+				end
+			end
+		end
+	end
+end
+local function widgetControl_gamepad(i)
+	if i=="dpup"or i=="dpdown"then
+		if widget_sel then
+			widget_sel=i=="dpup"and widget_sel.prev or widget_sel.next or widget_sel
+		else
+			widget_sel=select(2,next(Widget[scene]))
+		end
+	elseif i=="start"then
+		if not sceneSwaping and widget_sel then
+			local W=widget_sel
+			if W.hide and W.hide()then widget_sel=nil end
+			if W.type=="button"then
+				W.code()
+				W:FX()
+				SFX("button")
+				VOICE("nya")
+			elseif W.type=="switch"then
+				W.code()
+				W:FX()
+				SFX("move",.6)
+			-- elseif W.type=="slider"then
+			end
+		end
+	end
+end
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
 	mouseShow=true
@@ -721,17 +801,8 @@ function love.mousepressed(x,y,k,t,num)
 		back()
 	end
 	if k==1 then
-		if not sceneSwaping and Widget.sel then
-			local W=Widget.sel
-			if W.type=="button"then
-				W.code()
-				W.alpha=1
-				Widget.sel=nil
-				love.mousemoved(x,y,0,0)
-				SFX("button")
-				VOICE("nya")
-				VIB(1)
-			end
+		if widget_sel and not sceneSwaping then
+			widgetPress(widget_sel,mx,my)
 		end
 	end
 end
@@ -739,17 +810,18 @@ function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
-	Widget.sel=nil
+	dx,dy=dx/scr.k,dy/scr.k
 	if mouseMove[scene]then
-		mouseMove[scene](mx,my,dx/scr.k,dy/scr.k)
+		mouseMove[scene](mx,my,dx,dy)
 	end
-	for _,W in next,Widget[scene]do
-		if not(W.hide and W.hide())then
-			if W.type=="button"then
-				if mx>W.x and mx<W.x+W.w and my>W.y and my<W.y+W.h then
-					Widget.sel=W
-					return
-				end
+	if ms.isDown(1)and widget_sel then
+		widgetDrag(widget_sel,mx,my,dx,dy)
+	else
+		widget_sel=nil
+		for _,W in next,Widget[scene]do
+			if not(W.hide and W.hide())and W:ifAbove(mx,my)then
+				widget_sel=W
+				return
 			end
 		end
 	end
@@ -775,43 +847,37 @@ function love.touchpressed(id,x,y)
 		touchDown[scene](id,xOy:inverseTransformPoint(x,y))
 	end
 end
-function love.touchreleased(id,x,y)
-	if id==touching then
-		touching=nil
-		if Widget.sel then
-			local W=Widget.sel
-			if W.type=="button"then
-				W.code()
-				W.alpha=1
-				SFX("button")
-				VOICE("nya")
-				VIB(1)
-			end
-		end
-		Widget.sel=nil
-	end
-	if touchUp[scene]then
-		touchUp[scene](id,xOy:inverseTransformPoint(x,y))
-	end
-end
 function love.touchmoved(id,x,y,dx,dy)
 	x,y=xOy:inverseTransformPoint(x,y)
 	if touchMove[scene]then
 		touchMove[scene](id,x,y,dx/scr.k,dy/scr.k)
 	end
-	Widget.sel=nil
-	for _,W in next,Widget[scene]do
-		if not(W.hide and W.hide())then
-			if W.type=="button"then
-				if x>W.x and x<W.x+W.w and y>W.y and y<W.y+W.h then
-					Widget.sel=W
-					return
-				end
+	if widget_sel then
+		widgetDrag(widget_sel,x,y,dx,dy)
+	else
+		widget_sel=nil
+		for _,W in next,Widget[scene]do
+			if not(W.hide and W.hide())and W:ifAbove(x,y)then
+				widget_sel=W
+				return
 			end
 		end
 	end
-	if not Widget.sel then
+	if not widget_sel then
 		touching=nil
+	end
+end
+function love.touchreleased(id,x,y)
+	x,y=xOy:inverseTransformPoint(x,y)
+	if id==touching then
+		touching=nil
+		if widget_sel and not sceneSwaping then
+			widgetPress(widget_sel,x,y)
+		end
+		widget_sel=nil
+	end
+	if touchUp[scene]then
+		touchUp[scene](id,x,y)
 	end
 end
 function love.keypressed(i)
@@ -819,18 +885,12 @@ function love.keypressed(i)
 	if i=="f8"then devMode=(devMode+1)%3 end
 	if devMode==2 then
 		if i=="k"then
-			for i=1,8 do
-				P=players.alive[rnd(#players.alive)]
-				if P.id~=1 then
-					P.lastRecv=players[1]
-					Event.lose()
-				end
-			end
 			--Test code here
 		elseif i=="q"then
-			local W=Widget.sel if W then print(format("x=%d,y=%d,w=%d,h=%d",W.x,W.y,W.w,W.h))end
-		elseif Widget.sel then
-			local W=Widget.sel
+			local W=widget_sel
+			if W then W:getInfo()end
+		elseif widget_sel then
+			local W=widget_sel
 			if i=="left"then W.x=W.x-10
 			elseif i=="right"then W.x=W.x+10
 			elseif i=="up"then W.y=W.y-10
@@ -839,18 +899,19 @@ function love.keypressed(i)
 			elseif i=="."then W.w=W.w+10
 			elseif i=="/"then W.h=W.h-10
 			elseif i=="'"then W.h=W.h+10
+			elseif i=="["then W.font=W.font-1
+			elseif i=="]"then W.font=W.font+1
 			end
 		end
 	else
 		if keyDown[scene]then keyDown[scene](i)
 		elseif i=="escape"or i=="back"then back()
-		else buttonControl_key(i)
+		else widgetControl_key(i)
 		end
 	end
 end
 function love.keyreleased(i)
-	if keyUp[scene]then keyUp[scene](i)
-	end
+	if keyUp[scene]then keyUp[scene](i)end
 end
 
 local keyMirror={
@@ -866,7 +927,7 @@ function love.gamepadpressed(joystick,i)
 	if gamepadDown[scene]then gamepadDown[scene](i)
 	elseif keyDown[scene]then keyDown[scene](keyMirror[i]or i)
 	elseif i=="back"then back()
-	else buttonControl_gamepad(i)
+	else widgetControl_gamepad(i)
 	end
 end
 function love.gamepadreleased(joystick,i)
@@ -903,16 +964,25 @@ end
 function love.update(dt)
 	-- if players then for k,v in pairs(players[1])do
 	-- 	if rawget(_G,k)and k~="next"and k~="hold"and k~="stat"then print(k,_G[v])end
-	-- end end--check player data flew(debugging)
-	for i=#BGblock,1,-1 do
-		BGblock[i].y=BGblock[i].y+BGblock[i].v
-		if BGblock[i].y>720 then rem(BGblock,i)end
+	-- end end--check player data flew
+	for i=#sysFX,1,-1 do
+		local S=sysFX[i]
+		S[2]=S[2]+1
+		if S[2]==S[3]then
+			for i=i,#sysFX do
+				sysFX[i]=sysFX[i+1]
+			end
+		end
+	end
+	for i=#FX_BGblock,1,-1 do
+		FX_BGblock[i].y=FX_BGblock[i].y+FX_BGblock[i].v
+		if FX_BGblock[i].y>720 then rem(FX_BGblock,i)end
 	end
 	if setting.bgblock then
-		BGblock.tm=BGblock.tm-1
-		if BGblock.tm==0 then
-			BGblock[#BGblock+1]=getNewBlock()
-			BGblock.tm=rnd(20,30)
+		FX_BGblock.tm=FX_BGblock.tm-1
+		if FX_BGblock.tm==0 then
+			FX_BGblock[#FX_BGblock+1]=getNewBlock()
+			FX_BGblock.tm=rnd(20,30)
 		end
 	end
 	if sceneSwaping then
@@ -923,7 +993,7 @@ function love.update(dt)
 					W.alpha=0
 				end--Reset widgets' alpha
 			end
-			Widget.sel=nil
+			widget_sel=nil
 			scene=sceneSwaping.tar
 			sceneInit[scene]()
 			--scene swapped!
@@ -937,59 +1007,55 @@ function love.update(dt)
 	for i=#Task,1,-1 do
 		Task[i]:update()
 	end
-	if voicePlaying[1]then
-		if not voicePlaying[1]:isPlaying()then
-			rem(voicePlaying,1)
+	for i=1,#voiceQueue do
+		local Q=voiceQueue[i]
+		if #Q>0 then
+			if type(Q[1])=="userdata"then
+				if not Q[1]:isPlaying()then
+					for i=1,#Q do
+						Q[i]=Q[i+1]
+					end
+				end--play next when stop
+			else
+				local n=1
+				local L=voiceBank[Q[1]]
+				::L::if L[n]:isPlaying()then
+					n=n+1
+					if not L[n]then
+						L[n]=L[n-1]:clone()
+						L[n]:seek(0)
+						goto quit
+					end
+					goto L
+				end::quit::
+				Q[1]=L[n]
+				Q[1]:setVolume(setting.voc*.125)
+				Q[1]:play()
+				--load voice with string
+			end
 		end
-		if voicePlaying[1] and not voicePlaying[1]:isPlaying()then voicePlaying[1]:play()end
 	end
-	for k,W in next,Widget[scene]do
-		if W.type=="button"then
-			local t=W==Widget.sel and .4 or 0
-			W.alpha=abs(W.alpha-t)>.02 and(W.alpha+(W.alpha<t and .02 or -.02))or t
-			if W.alpha>t then W.alpha=W.alpha-.02 elseif W.alpha<t then W.alpha=W.alpha+.02 end
-		end
-	end--update Widgets
+	-- for k,W in next,Widget[scene]do
+	-- end--update Widgets
 end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 function love.draw()
 	gc.discard()--SPEED UPUPUP!
 	Pnt.BG[setting.bg and curBG or"grey"]()
 	gc.setColor(1,1,1,.2)
-	for n=1,#BGblock do
-		local b,img=BGblock[n].b,blockSkin[BGblock[n].bn]
-		local size=BGblock[n].size
+	for n=1,#FX_BGblock do
+		local b,img=FX_BGblock[n].b,blockSkin[FX_BGblock[n].bn]
+		local size=FX_BGblock[n].size
 		for i=1,#b do for j=1,#b[1]do
 			if b[i][j]then
-				gc.draw(img,BGblock[n].x+(j-1)*30*size,BGblock[n].y+(i-1)*30*size,nil,size)
+				gc.draw(img,FX_BGblock[n].x+(j-1)*30*size,FX_BGblock[n].y+(i-1)*30*size,nil,size)
 			end
 		end end
 	end
 	if Pnt[scene]then Pnt[scene]()end
 	for k,W in next,Widget[scene]do
 		if not(W.hide and W.hide())then
-			if W.type=="button"then
-				local C=W.color
-				gc.setColor(C[1],C[2],C[3],W.alpha)
-				gc.rectangle("fill",W.x,W.y,W.w,W.h)
-				gc.setColor(C)
-				gc.setLineWidth(3)gc.rectangle("line",W.x,W.y,W.w,W.h,4)
-				gc.setColor(C[1],C[2],C[3],.3)
-				gc.setLineWidth(5)gc.rectangle("line",W.x,W.y,W.w,W.h,4)
-				local t=W.text
-				if t then
-					if type(t)=="function"then t=t()end
-					setFont(W.font)
-					local x=W.x+W.w*.5
-					local y0=W.y+W.h*.5-currentFont*.64
-					gc.printf(t,x-201,y0+2,400,"center")
-					gc.printf(t,x-199,y0+2,400,"center")
-					gc.printf(t,x-201,y0,400,"center")
-					gc.printf(t,x-199,y0,400,"center")
-					gc.setColor(C)
-					mStr(t,x,y0+1)
-				end
-			end
+			W:draw()
 		end
 	end--Draw widgets
 	if mouseShow and not touching then
@@ -1000,7 +1066,27 @@ function love.draw()
 		gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 		gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 	end--Awesome mouse!
-	if sceneSwaping then sceneSwaping.draw()end--Swaping animation
+	gc.setColor(1,1,1)
+	if powerInfoCanvas and scene~="draw"then
+		gc.draw(powerInfoCanvas)
+	end--Power Info
+	gc.setLineWidth(6)
+	for i=1,#sysFX do
+		local S=sysFX[i]
+		if S[1]==0 then
+			gc.setColor(1,1,1,1-S[2]/S[3])
+			local r=(10*S[2]/S[3])^1.2
+			gc.rectangle("line",S[4]-r,S[5]-r,S[6]+2*r,S[7]+2*r)
+			--Ripple
+		elseif S[1]==1 then
+			gc.setColor(S[4],S[5],S[6],1-S[2]/S[3])
+			gc.rectangle("fill",S[7],S[8],S[9],S[10],2)
+			--Shade
+		end
+	end--sysFXs
+	if sceneSwaping then
+		sceneSwaping.draw()
+	end--Swaping animation
 	if scr.r~=.5625 then
 		gc.setColor(0,0,0)
 		if scr.r>.5625 then
@@ -1013,24 +1099,21 @@ function love.draw()
 			gc.rectangle("fill",1280,0,d,720)
 		end--wide
 	end--Black side
-	gc.setColor(1,1,1)
-	if powerInfoCanvas and scene~="draw"then
-		gc.draw(powerInfoCanvas)
-	end
 	setFont(20)
 	gc.print(tm.getFPS(),5,700)
 	if devMode>0 then
-		if devMode==2 then
-			gc.setColor(1,1,0)
-		end
-		gc.print(mx.." "..my,5,640)
-		gc.print(#freeRow.."/"..freeRow.L,5,660)
-		gc.print(gcinfo(),5,680)
+		gc.setColor(1,1,devMode==2 and 0 or 1)
+		gc.print("Tasks:"..#Task,5,600)
+		gc.print("Voices:"..#voiceQueue,5,620)
+		gc.print("Mouse:"..mx.." "..my,5,640)
+		gc.print("Free Row:"..#freeRow.."/"..freeRow.L,5,660)
+		gc.print("Cache used:"..gcinfo(),5,680)
 	end
 end
 function love.run()
 	local lastFrame,lastUpdatePowerInfo=Timer(),Timer()
 	local readyDrawFrame=0
+	local T=love.timer
 	local PUMP,POLL=love.event.pump,love.event.poll
 	love.resize(gc.getWidth(),gc.getHeight())
 	scene="load"sceneInit.load()--System Launch
@@ -1040,8 +1123,8 @@ function love.run()
 			if N=="quit"then destroyPlayers()return 0
 			elseif love[N]then love[N](a,b,c,d,e)end
 		end
-		tm.step()
-		love.update(tm.getDelta())
+		T.step()
+		love.update(T.getDelta())
 		if not wd.isMinimized()then
 			readyDrawFrame=readyDrawFrame+setting.frameMul
 			if readyDrawFrame>=100 then
@@ -1056,7 +1139,7 @@ function love.run()
 				lastUpdatePowerInfo=Timer()
 			end
 		until Timer()-lastFrame>.0133
-		tm.sleep(.003)
+		T.sleep(.003)
 		lastFrame=Timer()
 	end
 end
@@ -1067,7 +1150,7 @@ if fs.getInfo("userdata")then
 end
 if fs.getInfo("usersetting")then
 	loadSetting()
-elseif system=="Android" or system=="iOS"then
+elseif mobile then
 	setting.virtualkeySwitch=true
 	setting.swap=false
 end
