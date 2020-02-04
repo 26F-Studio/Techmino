@@ -95,8 +95,11 @@ bgm={
 prevMenu={
 	load=love.event.quit,
 	ready="mode",
-	play="mode",
+	play=function()
+		gotoScene(gamemode~="custom"and"mode"or"custom")
+	end,
 	mode="main",
+	custom="mode",
 	help="main",
 	stat="main",
 	setting=function()
@@ -109,8 +112,8 @@ prevMenu={
 	main="quit",
 }
 
-modeID={"sprint","marathon","zen","infinite","solo","death","blind","puzzle","tetris41","asymsolo","gmroll","p2","p3","p4"}
-modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","Blind","Puzzle","Tetris 41","Asymmetry solo","GM roll","2P","3P","4P"}
+modeID={"sprint","marathon","zen","infinite","solo","death","blind","puzzle","techmino41","asymsolo","gmroll","p2","p3","p4"}
+modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","Blind","Puzzle","Techmino 41","Asymmetry solo","GM roll","2P","3P","4P"}
 modeInfo={
 	sprint="Clear 40 Lines",
 	marathon="Clear 200 Lines",
@@ -120,12 +123,65 @@ modeInfo={
 	death="Survive under terrible speed",
 	blind="Invisible board!",
 	puzzle="Your keyboard broke",
-	tetris41="Melee fight with 40 AIs",
+	techmino41="Melee fight with 40 AIs",
 	asymsolo="             See-->",
 	gmroll="Who want to be the grand master?",
 	p2="2 players game",
 	p3="3 players game",
 	p4="4 players game",
+}
+
+customID={
+	"drop",
+	"lock",
+	"wait",
+	"fall",
+	"next",
+	"hold",
+	"sequence",
+	"visible",
+	"target",
+	"freshLimit",
+	"opponent",
+}--Order
+customOption={
+	drop="Drop delay:",
+	lock="Lock delay:",
+	wait="Next piece delay:",
+	fall="Clear row delay:",
+	next="Next count:",
+	hold="Hold:",
+	sequence="Sequence:",
+	visible="Visible:",
+	target="Line limit:",
+	freshLimit="Lock fresh limit:",
+	opponent="Opponent speed:",
+}--Key str
+customVal={
+	drop={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞","[20G]"},
+	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞"},
+	wait=nil,
+	fall=nil,
+	next=nil,
+	hold={"on","off"},
+	sequence={"bag","his4","random"},
+	visible={"Show","half","hide"},
+	target=nil,
+	freshLimit=nil,
+	opponent={"No CPU",1,2,3,4,5,6,7,8,9,10,11},
+}--number-Val str
+customRange={
+	drop={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99,-1},
+	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
+	wait={1,3,5,7,10,15,20,30,60},
+	fall={1,3,5,7,10,15,20,30,60},
+	next={0,1,2,3,4,5,6},
+	hold={true,false},
+	sequence={1,2,3},
+	visible={1,2,3},
+	target={10,20,40,100,200,500,1000},
+	freshLimit={0,5,15,1e99},
+	opponent={0,60,30,20,15,10,7,5,4,3,2,1},
 }
 
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","insLeft","insRight","insDown"}
@@ -144,8 +200,8 @@ marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
 death_lock={10,9,9,8,8}
 death_wait={6,6,5,5,4}
 death_fall={10,9,8,7,6}
-snapLevelValue={1,10,20,40,60,80}
 snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
+snapLevelValue={1,10,20,40,60,80}
 
 act={
 	moveLeft=function(auto)
@@ -180,7 +236,10 @@ act={
 		end
 	end,
 	softDrop=function()
-		if cy~=y_img then P.cy=cy-1 end
+		if cy~=y_img then
+			P.cy=cy-1
+			P.spinLast=false
+		end
 		P.downing=1
 	end,
 	rotRight=function()spin(1)end,
@@ -205,8 +264,22 @@ act={
 			freshgho()
 		end
 	end,
-	down1=function()if cy~=y_img then P.cy=cy-1 end end,
-	down4=function()for i=1,4 do if cy~=y_img then P.cy=cy-1 else break end end end,
+	down1=function()
+		if cy~=y_img then
+			P.cy=cy-1
+			P.spinLast=false
+		end
+	end,
+	down4=function()
+		for i=1,4 do
+			if cy~=y_img then
+				P.cy=cy-1
+				P.spinLast=false
+			else
+				break
+			end
+		end
+	end,
 	quit=function()Event.gameover.lose()end,
 	--System movements
 }
@@ -232,38 +305,38 @@ TRS={
 	[1]={
 		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{0,1}},
 		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1}},
-		[12]={{0,0},{1,0},{1,-1},{0,2},{1,2}},
-		[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
-		[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
-		[32]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
+		[12]={{0,0},{1,0},{1,-1},{-1,0},{0,2},{1,2}},
+		[21]={{0,0},{-1,0},{-1,1},{1,0},{0,-2},{-1,-2}},
+		[23]={{0,0},{1,0},{1,1},{1,-1},{0,-2},{1,-2}},
+		[32]={{0,0},{-1,0},{-1,-1},{-1,1},{0,2},{-1,2}},
 		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
 		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
 		[02]={{0,0},{1,0},{-1,0},{0,-1},{0,1}},
 		[20]={{0,0},{-1,0},{1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,-1},{0,1},{-1,0},{1,0},{0,2}},
-		[31]={{0,0},{0,1},{0,-1},{1,0},{-1,0},{0,2}},
-	},
+		[13]={{0,0},{0,-1},{0,1},{-1,0}},
+		[31]={{0,0},{0,1},{0,-1},{1,0}},
+	},--Z/J
 	[2]={
 		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
 		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2}},
-		[12]={{0,0},{1,0},{1,-1},{0,2},{1,2}},
-		[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
-		[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
-		[32]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
-		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1}},
-		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{0,1}},
+		[12]={{0,0},{1,0},{1,-1},{1,1},{0,2},{1,2}},
+		[21]={{0,0},{-1,0},{-1,1},{-1,-1},{0,-2},{-1,-2}},
+		[23]={{0,0},{1,0},{1,1},{-1,0},{0,-2},{1,-2}},
+		[32]={{0,0},{-1,0},{-1,-1},{1,0},{0,2},{-1,2}},
+		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1},{-1,1}},
+		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{1,-1},{0,1}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
 		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,1},{0,-1},{1,0},{-1,0},{0,2}},
-		[31]={{0,0},{0,-1},{0,1},{-1,0},{1,0},{0,2}},
-	},
+		[13]={{0,0},{0,1},{0,-1},{1,0}},
+		[31]={{0,0},{0,-1},{0,1},{-1,0}},
+	},--S/L
 	[5]={
-		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
-		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1}},
-		[12]={{0,0},{1,0},{1,-1},{0,2},{1,2}},
-		[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
-		[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
-		[32]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
+		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{-1,-1},{0,1}},
+		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1},{1,1}},
+		[12]={{0,0},{1,0},{1,-1},{0,-1},{-1,-1},{0,2},{1,2}},
+		[21]={{0,0},{-1,0},{-1,1},{1,1},{0,-2},{-1,-2}},
+		[23]={{0,0},{1,0},{1,1},{-1,1},{0,-2},{1,-2}},
+		[32]={{0,0},{-1,0},{-1,-1},{0,-1},{1,-1},{0,2},{-1,2}},
 		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1}},
 		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{0,1}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
@@ -295,13 +368,22 @@ Buttons={
 		{x=250,y=380,w=330,h=60,rgb=color.blue,t="Settings",code=function()gotoScene("setting")end,up=1,down=3},
 		{x=165,y=460,w=160,h=60,rgb=color.yellow,t="Help",code=function()gotoScene("help")end,up=2,down=5,right=4},
 		{x=335,y=460,w=160,h=60,rgb=color.cyan,t="Statistics",code=function()gotoScene("stat")end,up=2,down=5,left=3},
-		{x=250,y=540,w=330,h=60,rgb=color.grey,t="Quit",code=function()gotoScene("quit")end,up=3},
+		{x=250,y=540,w=330,h=60,rgb=color.grey,t="Quit",code=back,up=3},
 	},
 	mode={
-		{x=1000,y=210,w=200,h=140,rgb=color.white,hide=function()return not setting.virtualkeySwitch end,code=function()if modeSel>1 then modeSel=modeSel-1 end end},
-		{x=1000,y=430,w=200,h=140,rgb=color.white,t="v",f=80,hide=function()return not setting.virtualkeySwitch end,code=function()if modeSel<#modeID then modeSel=modeSel+1 end end},
+		{x=1000,y=210,w=200,h=140,rgb=color.white,t="Λ",f=64,code=function()if modeSel>1 then modeSel=modeSel-1 end end},
+		{x=1000,y=430,w=200,h=140,rgb=color.white,t="v",f=80,code=function()if modeSel<#modeID then modeSel=modeSel+1 end end},
 		{x=1000,y=600,w=180,h=80,rgb=color.green,t="Start",code=function()startGame(modeID[modeSel])end},
-		{x=640,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()gotoScene("main")end},
+		{x=400,y=150,w=180,h=80,rgb=color.yellow,t="Custom(c)",code=function()gotoScene("custom")end},
+		{x=640,y=630,w=180,h=60,rgb=color.white,t="Back",code=back},
+	},
+	custom={
+		{x=1000,y=200,w=100,h=100,rgb=color.white,t="Λ",f=40,code=function()optSel=(optSel-2)%#customID+1 end},
+		{x=1000,y=440,w=100,h=100,rgb=color.white,t="v",f=50,code=function()optSel=optSel%#customID+1 end},
+		{x=880,y=320,w=100,h=100,rgb=color.white,t="<",f=50,code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
+		{x=1120,y=320,w=100,h=100,rgb=color.white,t=">",f=50,code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
+		{x=1000,y=580,w=180,h=80,rgb=color.green,t="Start",code=function()startGame("custom")end},
+		{x=640,y=630,w=180,h=60,rgb=color.white,t="Back",code=back},
 	},
 	play={
 	},
@@ -350,14 +432,14 @@ Buttons={
 		end,up=14,down=16},
 		{x=870,y=420,w=340,h=60,rgb=color.green,t="Control settings",code=function()gotoScene("setting2")end,up=15,down=17},
 		{x=870,y=500,w=340,h=60,rgb=color.yellow,t="Touch settings",code=function()gotoScene("setting3")end,up=16,down=18},
-		{x=640,y=640,w=210,h=60,rgb=color.white,t="Save&Back",code=function()back()end,up=17},
+		{x=640,y=640,w=210,h=60,rgb=color.white,t="Save&Back",code=back,up=17},
 		--15~18
 	},
 	setting2={--Control setting
-		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end},
+		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=back},
 	},
 	setting3={--Touch setting
-		{x=640,y=410,w=170,h=80,t="Back",code=function()back()end},
+		{x=640,y=410,w=170,h=80,t="Back",code=back},
 		{x=640,y=210,w=500,h=80,t=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,code=function()
 			setting.virtualkeySwitch=not setting.virtualkeySwitch
 		end},
@@ -388,11 +470,11 @@ Buttons={
 		end},
 	},
 	help={
-		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end,right=2},
+		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=back,right=2},
 		{x=980,y=590,w=230,h=60,rgb=color.white,t="Author's qq",code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left=1},
 	},
 	stat={
-		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end},
+		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=back},
 	},
 	sel=nil,--selected button id(integer)
 }
@@ -435,7 +517,7 @@ Text={
 	},
 	help={
 		"I think you don't need \"help\".",
-		"THIS IS NOT TETRIS,and SRS NOT USED.",
+		"THIS IS ONLY A SMALL BLOCK GAME",
 		"But just play like playing TOP/C2/KOS/TGM3",
 		"Game is not public now,so DO NOT DISTIRBUTE",
 		"",

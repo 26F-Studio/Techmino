@@ -5,7 +5,7 @@ VerticalTransitions
 BlockedCells
 Wells
 FilledLines
-TetrisShape
+TechrashShape
 BlockedWells;
 ]]
 dirCount={1,1,3,3,3,0,1}
@@ -97,17 +97,17 @@ function getScore(field,cb,cx,cy)
 	for x=1,9 do
 		local dh=abs(height[x]-height[x])
 		if dh>1 then
-			rough=rough+min(dh^2,10)
+			rough=rough+min(dh^1.5,10)
 		end
 	end
 	ins(freeRow,height)
 	return 
 	-highest*5
-	-rough*15
+	-rough*20
 	-cy*20
 	-#cb*10
 	+clear^2*4
-	-hole*15
+	-hole*25
 end
 function AI_getControls(ctrl)
 	local Tfield={}--test field
@@ -119,7 +119,7 @@ function AI_getControls(ctrl)
 		end
 	end
 	local best={x=1,dir=0,hold=false,score=-9e99}
-	for ifhold=0,1 do
+	for ifhold=0,gameEnv.hold and 1 or 0 do
 		local bn=ifhold==0 and bn or hn>0 and hn or nxt[1]
 		for dir=0,dirCount[bn] do--each dir
 			local cb=blocks[bn][dir]

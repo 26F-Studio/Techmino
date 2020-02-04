@@ -23,6 +23,12 @@ function game.mode()
 	curBG="none"
 	BGM("blank")
 end
+function game.custom()
+	optSel=optSel or 1
+	scene="custom"
+	curBG="matrix"
+	BGM("blank")
+end
 function game.play()
 	scene="play"
 	--curBG="game1"

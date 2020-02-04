@@ -5,11 +5,11 @@ function love.conf(t)
 	t.version="11.1"
 	t.console=X
 	t.accelerometerjoystick=X--Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
-	t.gammacorrect=true
+	t.gammacorrect=X
 	t.audio.mixwithsystem=true--Switch on to keep background music playing
 
 	local W=t.window
-	W.title="Techmino V0.68"
+	W.title="Techmino V0.7.1"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.borderless=X

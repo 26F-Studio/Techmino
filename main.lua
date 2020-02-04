@@ -3,6 +3,7 @@ toN,toS=tonumber,tostring
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
 ins,rem,sort=table.insert,table.remove,table.sort
+null=function()end
 
 ww,wh=gc.getWidth(),gc.getHeight()
 Timer=tm.getTime--Easy&Quick to get time!
@@ -28,7 +29,7 @@ function setFont(s)
 		if Fonts[s]then
 			gc.setFont(Fonts[s])
 		else
-			local t=gc.setNewFont("cb.ttf",s)
+			local t=gc.setNewFont("siyuanhei.otf",s-5)
 			Fonts[s]=t
 			gc.setFont(t)
 		end
@@ -41,11 +42,11 @@ gameEnv0={
 	sddas=0,sdarr=2,
 	ghost=true,center=true,
 	drop=30,lock=45,
-	wait=0,fall=20,
+	wait=1,fall=1,
 	next=6,hold=true,
 	sequence=1,visible=1,
-	_20G=false,target=9e99,
-	freshLimit=9e99,
+	_20G=false,target=1e99,
+	freshLimit=1e99,
 	virtualkey={
 		{80,720-80,6400,80},--moveLeft
 		{240,720-80,6400,80},--moveRight
@@ -57,8 +58,21 @@ gameEnv0={
 		{1280-80,720-400,6400,80},--hold
 		{80,80,6400,80},--restart
 	},
-	reach=function()end,
+	reach=null,
 	--not all is actually used,some only provide a key
+}
+customSel={
+	drop=20,
+	lock=20,
+	wait=1,
+	fall=1,
+	next=7,
+	hold=1,
+	sequence=1,
+	visible=1,
+	target=4,
+	freshLimit=3,
+	opponent=1,
 }
 randomMethod={
 	function()
@@ -75,13 +89,10 @@ randomMethod={
 	end,
 	function()
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		for j=1,4 do
-			local i,f=rnd(7)
-			for k=1,4 do
-				if i==P.his[k]then f=true end
-			end
-			if not f then break end
-		end
+		local i,j=nil,0
+		::r::
+		i,j=rnd(7),j+1
+		if(i==P.his[1]or i==P.his[2]or i==P.his[3]or i==P.his[4])and j<6 then goto r end
 		P.nxt[6],P.nb[6]=i,blocks[i][0]
 		rem(P.his,1)ins(P.his,i)
 	end,
@@ -94,8 +105,7 @@ randomMethod={
 loadmode={
 	sprint=function()
 		modeEnv={
-			wait=1,
-			fall=1,
+			drop=60,
 			target=40,
 			reach=Event.gameover.win,
 		}
@@ -107,8 +117,6 @@ loadmode={
 		modeEnv={
 			drop=1e99,
 			lock=1e99,
-			wait=1,
-			fall=1,
 			target=200,
 			reach=Event.gameover.win,
 		}
@@ -120,8 +128,6 @@ loadmode={
 		modeEnv={
 			drop=1e99,
 			lock=1e99,
-			wait=1,
-			fall=1,
 		}
 		createPlayer(1,340,15)
 		curBG="glow"
@@ -145,7 +151,6 @@ loadmode={
 	marathon=function()
 		modeEnv={
 			drop=60,
-			wait=1,
 			fall=20,
 			target=10,
 			reach=Event.marathon_reach,
@@ -179,7 +184,6 @@ loadmode={
 			_20G=true,
 			drop=0,
 			lock=1e99,
-			wait=1,
 			fall=10,
 			target=40,
 			reach=Event.gameover.win,
@@ -188,10 +192,8 @@ loadmode={
 		curBG="glow"
 		BGM("way")
 	end,
-	tetris41=function()
+	techmino41=function()
 		modeEnv={
-			wait=1,
-			fall=1,
 			freshLimit=15,
 		}
 		royaleMode=true
@@ -216,8 +218,6 @@ loadmode={
 	end,
 	solo=function()
 		modeEnv={
-			wait=1,
-			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,20,15)--Player
@@ -230,8 +230,6 @@ loadmode={
 		modeEnv={
 			drop=15,
 			lock=30,
-			wait=1,
-			fall=1,
 			visible=0,
 			freshLimit=10,
 		}
@@ -242,8 +240,6 @@ loadmode={
 	end,
 	asymsolo=function()
 		modeEnv={
-			wait=1,
-			fall=1,
 			visible=2,
 			freshLimit=15,
 		}
@@ -255,8 +251,6 @@ loadmode={
 	end,
 	p2=function()
 		modeEnv={
-			wait=1,
-			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,20,15)
@@ -267,8 +261,6 @@ loadmode={
 	end,
 	p3=function()
 		modeEnv={
-			wait=1,
-			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,20,100,.65)
@@ -280,8 +272,6 @@ loadmode={
 	end,
 	p4=function()
 		modeEnv={
-			wait=1,
-			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,25,150,.5)
@@ -291,6 +281,23 @@ loadmode={
 
 		curBG="game2"
 		BGM("way")
+	end,
+	custom=function()
+		modeEnv={reach=Event.gameover.win}
+		for i=1,#customID do
+			local k=customID[i]
+			modeEnv[k]=customRange[k][customSel[k]]
+		end
+		modeEnv._20G=modeEnv.drop==-1
+		if modeEnv.opponent==0 then
+			createPlayer(1,340,15)
+		else
+			modeEnv.target=nil
+			createPlayer(1,20,15)
+			createPlayer(2,660,85,.9,modeEnv.opponent)
+		end
+		curBG="matrix"
+		BGM("reason")
 	end,
 }
 Event={
@@ -429,59 +436,65 @@ mesDisp={
 		mStr(cstat.atk,-75,320)
 		mStr(format("%.2f",2.5*cstat.atk/cstat.piece),-75,430)
 		setFont(20)
-		gc.print("Attack",-103,360)
-		gc.print("Efficiency",-114,472)
+		gc.print("Attack",-100,360)
+		gc.print("Efficiency",-108,472)
 	end,
 	gmroll=function()
-		setFont(35)
-		gc.print("Tetris",-120,390)
+		setFont(30)
+		gc.print("Techrash",-130,390)
 		setFont(80)
-		mStr(cstat.tetris,-75,420)
+		mStr(cstat.techrash,-75,420)
 	end,
 	marathon=function()
 		setFont(50)
 		mStr(P.cstat.row,-75,330)
 		mStr(gameEnv.target,-75,380)
-		gc.line(-120,377,-30,377)
+		gc.rectangle("fill",-120,376,90,4)
 	end,
 	death=function()
 		setFont(50)
 		mStr(P.cstat.row,-75,330)
 		mStr(gameEnv.target,-75,380)
-		gc.line(-120,377,-30,377)
+		gc.rectangle("fill",-120,376,90,4)
 	end,
 	puzzle=function()
 		setFont(75)
 		mStr(max(40-P.cstat.row,0),-75,280)
 	end,
-	tetris41=function()
+	techmino41=function()
 		gc.draw(badgeIcon,-120,150,nil,1.5)
 		setFont(50)
 		gc.print(badge,-65,150)
 		mStr(cstat.atk,-75,320)
 		mStr(#players.alive,-75,430)
 		setFont(20)
-		gc.print("Attack",-103,360)
+		gc.print("Attack",-100,360)
 		gc.print("Remain",-105,472)
 	end,
 	blind=function()
-		setFont(35)
-		gc.print("Rows",-115,220)
-		gc.print("Tetris",-120,390)
+		setFont(30)
+		gc.print("Rows",-110,220)
+		gc.print("Techrash",-130,390)
 		setFont(80)
 		mStr(P.cstat.row,-75,250)
-		mStr(cstat.tetris,-75,420)
+		mStr(cstat.techrash,-75,420)
 	end,
 	solo=function()
-		gc.print("Attack",-130,365)
+		gc.print("Attack",-128,365)
 		setFont(80)
 		mStr(cstat.atk,-75,300)
 	end,
 	asymsolo=function()
-		gc.print("Attack",-132,365)
+		gc.print("Attack",-128,365)
 		setFont(80)
 		mStr(cstat.atk,-75,300)
 	end,
+	custom=function()
+		if gameEnv.target<1e4 then
+			setFont(75)
+			mStr(max(gameEnv.target-P.cstat.row,0),-75,280)
+		end
+	end
 }
 --Game system Data
 
@@ -547,12 +560,12 @@ stat={
 }
 --User Data&User Setting
 --------------------------------Wrning!_G __index Ply[n] when chng any playr's elments!
-require("list")
-require("texture")
-require("ai")
 require("toolfunc")
 require("sysfunc")
 require("gamefunc")
+require("list")
+require("texture")
+require("ai")
 require("timer")
 require("paint")
 require("scene")

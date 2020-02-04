@@ -190,6 +190,15 @@ function Pnt.BG.strap()
 	gc.draw(background[2],x,0,nil,10)
 	gc.draw(background[2],x-1280,0,nil,10)
 end
+function Pnt.BG.matrix()
+	for i=0,15 do
+		for j=0,8 do
+			local t=sin(Timer()*((2.468*i-1.357*j)%3))*.3
+			gc.setColor(t,t,t)
+			gc.rectangle("fill",80*i,80*j,80,80)
+		end
+	end
+end
 
 function Pnt.load()
 	gc.setLineWidth(4)
@@ -198,28 +207,18 @@ function Pnt.load()
 	gc.setColor(1,1,1)
 	gc.rectangle("line",340,340,640,40)
 	setFont(30)
-	mStr(Text.load[loading],640,345)
+	mStr(Text.load[loading],640,346)
 	setFont(20)
 	mStr("not animation,real loading!",640,392)
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.68",370,150)
+	gc.print("Alpha V0.7.1",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
 function Pnt.mode()
-	if setting.virtualkeySwitch then
-		gc.setColor(.5,.5,.5)
-		gc.draw(charV,1019,249,pi)
-		gc.draw(charV,1021,249,pi)
-		gc.draw(charV,1019,251,pi)
-		gc.draw(charV,1020,251,pi)
-		gc.setColor(1,1,1)
-		gc.draw(charV,1020,250,pi)
-	end
-	gc.setColor(1,1,1)
 	setFont(30)
 	mStr(modeInfo[modeID[modeSel]],270,300)
 	setFont(80)
@@ -233,6 +232,25 @@ function Pnt.mode()
 			mStr(modeName[i],640,320+70*(i-modeSel)-f*.5)
 		end
 	end
+end
+function Pnt.custom()
+	setFont(80)
+	gc.setColor(color.lightGrey)
+	gc.print("Custom Game",20,20)
+	gc.setColor(color.white)
+	gc.print("Custom Game",22,23)
+	setFont(35)
+	for i=1,#customID do
+		local k=customID[i]
+		local y=90+35*i
+		gc.print(customOption[k],50,y)
+		if customVal[k]then
+			gc.print(customVal[k][customSel[k]],350,y)
+		else
+			gc.print(customRange[k][customSel[k]],350,y)
+		end
+	end
+	gc.print("→",10,88+35*optSel)
 end
 function Pnt.play()
 	for p=1,#players do

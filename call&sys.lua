@@ -58,6 +58,25 @@ function keyDown.mode(key)
 		if modeSel>1 then modeSel=modeSel-1 end
 	elseif key=="return"then
 		startGame(modeID[modeSel])
+	elseif key=="c"then
+		gotoScene("custom")
+	elseif key=="escape"then
+		back()
+	end
+end
+function keyDown.custom(key)
+	if key=="left"then
+		local k=customID[optSel]
+		customSel[k]=(customSel[k]-2)%#customRange[k]+1
+	elseif key=="right"then
+		local k=customID[optSel]
+		customSel[k]=customSel[k]%#customRange[k]+1
+	elseif key=="down"then
+		optSel=optSel%#customID+1
+	elseif key=="up"then
+		optSel=(optSel-2)%#customID+1
+	elseif key=="return"then
+		startGame("custom")
 	elseif key=="escape"then
 		back()
 	end
@@ -219,7 +238,7 @@ function love.mousepressed(x,y,k,t,num)
 	if not t then
 		mouseShow=true
 		mx,my=convert(x,y)
-		if mouseDown[scene]then mouseDown[scene](mx,my,k)end
+		--if mouseDown[scene]then mouseDown[scene](mx,my,k)end
 		if k==1 then
 			if not sceneSwaping and Buttons.sel then
 				local B=Buttons[scene][Buttons.sel]
@@ -229,7 +248,7 @@ function love.mousepressed(x,y,k,t,num)
 				love.mousemoved(x,y)
 				sysSFX("button")
 			end
-		elseif k==3 then
+		elseif k==2 then
 			back()
 		end
 	end

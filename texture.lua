@@ -1,16 +1,24 @@
-setFont(80)
-charV=gc.newText(Fonts[80],"v")
 local N=gc.newImage
+function C(x,y)
+	c=gc.newCanvas(x,y)
+	gc.setCanvas(c)
+end
 titleImage=N("/image/mess/title.png")
 mouseIcon=N("/image/mess/mouseIcon.png")
 spinCenter=N("/image/mess/spinCenter.png")
 dialCircle=N("/image/mess/dialCircle.png")
 dialNeedle=N("/image/mess/dialNeedle.png")
 badgeIcon=N("/image/mess/badge.png")
+
 blockSkin={}
+local img=N("/image/block/1.png")
 for i=1,13 do
-	blockSkin[i]=N("/image/block/1/"..i..".png")
+	C(30,30)
+	gc.draw(img,30-30*i,0)
+	blockSkin[i]=c
 end
+img:release()
+
 background={}
 gc.setColor(1,1,1)
 background={
@@ -24,7 +32,7 @@ end
 
 
 PTC={dust={}}--Particle systems
-c=gc.newCanvas(6,6)gc.setCanvas(c)
+C(6,6)
 gc.clear(1,1,1)
 PTC.dust[0]=gc.newParticleSystem(c,1000)
 PTC.dust[0]:setParticleLifetime(.2,.3)

@@ -42,7 +42,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.control=false
 	P.timing=false
 	P.time=0
-	P.cstat={key=0,piece=0,row=0,atk=0,tetris=0}--Current gamestat
+	P.cstat={key=0,piece=0,row=0,atk=0,techrash=0}--Current gamestat
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
@@ -74,12 +74,13 @@ function createPlayer(id,x,y,size,AIspeed,data)
 		P.nb[i]=blocks[P.nxt[i]][0]
 	end--First bag
 
+	P.freshNext=randomMethod[P.gameEnv.sequence]
 	if P.gameEnv.sequence==1 then P.bag={}--Bag7
 	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.nxt[i+3]end--History4
 	elseif P.gameEnv.sequence==3 then--Pure random
 	end
+
 	P.showTime=P.gameEnv.visible==1 and 1e99 or P.gameEnv.visible==2 and 300 or 20
-	P.freshNext=randomMethod[P.gameEnv.sequence]
 	P.cb,P.sc,P.bn,P.r,P.c,P.cx,P.cy,P.dir,P.y_img={{}},{0,0},1,0,0,0,0,0,0
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.moving,P.downing=0,0
@@ -221,7 +222,7 @@ function pressKey(i,player)
 
 		ins(keyTime,1,frame)rem(keyTime,11)
 		cstat.key=cstat.key+1
-		if player.id==1 then stat.key=stat.key+1 end
+		if P.id==1 then stat.key=stat.key+1 end
 		--Key count
 	end
 	-- if playmode=="recording"then ins(rec,{i,frame})end
@@ -322,21 +323,21 @@ function drop()
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
 			if b2b>500 then
-				showText("Tetris B2B2B","fly",70)
+				showText("Techrash B2B2B","fly",70)
 				csend=6
 				sendTime=80
 				exblock=exblock+1
 			elseif b2b>=100 then
-				showText("Tetris B2B","drive",70)
+				showText("Techrash B2B","drive",70)
 				sendTime=70
 				csend=5
 			else
-				showText("Tetris","stretch",80)
+				showText("Techrash","stretch",80)
 				sendTime=60
 				csend=4
 			end
 			P.b2b=P.b2b+100
-			P.cstat.tetris=P.cstat.tetris+1
+			P.cstat.techrash=P.cstat.techrash+1
 		elseif cc>0 then
 			if dospin then
 				if b2b>500 then
@@ -433,9 +434,9 @@ function drop()
 			end
 		elseif cc==0 then
 			if P.b2b>450 then
-				P.b2b=max(b2b-2,450)
+				P.b2b=b2b-10
 			elseif P.b2b>100 then
-				P.b2b=max(b2b-5,100)
+				P.b2b=max(b2b-6,100)
 			end
 			garbageRelease()
 		end

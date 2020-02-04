@@ -163,7 +163,9 @@ function Tmr.play(dt)
 						removeRow(field,clearing[i])
 						removeRow(visTime,clearing[i])
 					end
-					P.clearing={}
+					while #clearing>0 do
+						rem(clearing)
+					end
 				end
 				--Rows cleared drop
 			elseif waiting>0 then
@@ -190,9 +192,7 @@ function Tmr.play(dt)
 			end
 			P.b2b1=P.b2b1*.93+P.b2b*.07
 			if P.b2b>500 then
-				P.b2b=P.b2b-.2
-			elseif P.b2b>100 then
-				P.b2b=P.b2b-.15
+				P.b2b=P.b2b-.06
 			end
 			--Alive
 		else
