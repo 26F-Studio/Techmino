@@ -160,7 +160,6 @@ function mouseDown.draw(x,y,k)
 end
 function mouseDown.setting3(x,y,k)
 	if k==2 then back()end
-	sel=nil
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
 		if (x-b[1])^2+(y-b[2])^2<b[3]then
@@ -672,7 +671,7 @@ function love.resize(w,h)
 	collectgarbage()
 end
 function love.focus(f)
-	if not f and scene=="play"then pauseGame()end
+	if not f and wd.isMinimized()and scene=="play"then pauseGame()end
 end
 function love.update(dt)
 	--[[
@@ -776,11 +775,11 @@ function love.run()
 		readyDrawFrame=readyDrawFrame+setting.frameMul
 		if readyDrawFrame>=100 then
 			readyDrawFrame=readyDrawFrame-100
-			gc.clear()
 			love.draw()
 			gc.present()
 		end
 		::L::if Timer()-frameT<1/60 then goto L end
 		frameT=Timer()
+		tm.sleep(.001)
 	end
 end

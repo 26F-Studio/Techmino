@@ -1054,7 +1054,8 @@ act={
 			if curMode.id=="custom"and curMode.lv==2 and#P.field>0 then
 				for y=1,#P.field do
 					for x=1,10 do
-						if P.field[y][x]~=preField[y][x]then return end
+						local a,b=preField[y][x],P.field[y][x]
+						if a==0 and b>0 or a<8 and a~=b or a>7 and b==0 then return end
 					end
 				end
 				Event_gameover.win()

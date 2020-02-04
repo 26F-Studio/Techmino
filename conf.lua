@@ -9,7 +9,7 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep sysBGM
 
 	local W=t.window
-	W.title="Techmino V0.7.15"
+	W.title="Techmino V0.7.16"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360

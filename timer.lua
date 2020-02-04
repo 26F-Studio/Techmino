@@ -1,3 +1,4 @@
+local wd=love.window
 local Timer=love.timer.getTime
 
 Tmr={}
@@ -276,7 +277,7 @@ function Tmr.play(dt)
 	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
 end
 function Tmr.pause(dt)
-	if pauseTime<50 then
+	if not wd.isMinimized()and pauseTime<50 then
 		pauseTime=pauseTime+1
 	end
 end

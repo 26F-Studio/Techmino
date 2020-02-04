@@ -288,7 +288,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.15",290,140)
+	gc.print("Alpha V0.7.16",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -620,6 +620,7 @@ function Pnt.play()
 	end
 end
 function Pnt.pause()
+	Pnt.play()
 	gc.setColor(0,0,0,pauseTime*.015)
 	gc.rectangle("fill",0,0,1280,720)
 	if system~="Android"then

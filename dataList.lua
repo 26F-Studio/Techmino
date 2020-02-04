@@ -149,6 +149,7 @@ loadmode={
 			modeEnv[k]=customRange[k][customSel[k]]
 		end
 		modeEnv._20G=modeEnv.drop==-1
+		modeEnv.oncehold=customSel.hold==1
 		createPlayer(1,340,15)
 		if modeEnv.opponent==0 then
 		else
@@ -392,9 +393,6 @@ Event={
 			Event_gameover.lose()
 		elseif #P.clearing>0 then
 			P.cstat.event=P.cstat.event+1
-			if #P.field>11 and P.cstat.event%5~=1 then
-				ins(P.clearing,1)
-			end
 		end
 	end,
 	tech_reach=function()
@@ -444,7 +442,6 @@ Event_gameover={
 		if modeEnv.royaleMode then
 			P.rank=1
 			P.result="WIN"
-			showText(P,1,"appear",60,120,nil,true)
 			changeAtk(P)
 			BGM("end")
 		end
@@ -457,7 +454,7 @@ Event_gameover={
 				P.visTime[i][j]=min(P.visTime[i][j],20)
 			end
 		end
-		showText(P,text.win,"beat",90,nil,nil,true)
+		showText(P,text.win,"beat",90,nil,.4,curMode.id~="custom")
 		SFX("win")
 	end,
 	lose=function()
@@ -574,7 +571,7 @@ Event_task={
 	dig_normal=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(90,180-2*P.cstat.event)then
+		if P.counter>=max(90,180-P.cstat.event)then
 			garbageRise(10,1,rnd(10))
 			P.counter=0
 			P.cstat.event=P.cstat.event+1
@@ -583,7 +580,7 @@ Event_task={
 	dig_lunatic=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(45,80-.4*P.cstat.event)then
+		if P.counter>=max(45,80-.3*P.cstat.event)then
 			garbageRise(11+P.cstat.event%3,1,rnd(10))
 			P.counter=0
 			P.cstat.event=P.cstat.event+1
@@ -671,11 +668,12 @@ Event_task={
 					r[j]=PCbase[4*t+i][j]
 				end
 				ins(P.field,1,r)
-				ins(P.visTime,1,getNewRow(P.showTime))
+				ins(P.visTime,1,getNewRow(20))
 			end
 			P.fieldBeneath=P.fieldBeneath+120
-			-- P.curY=P.curY+4
-			P.y_img=P.y_img+4
+			for i=1,#P.clearing do
+				P.clearing[i]=P.clearing[i]+4
+			end
 			freshgho()
 			return true
 		end
