@@ -15,9 +15,16 @@ color={
 	lightCyan={.5,1,1},
 	lightGrey={.8,.8,.8},
 
+	darkRed={.6,0,0},
+	darkGreen={0,.6,0},
+	darkBlue={0,0,.6},
+	darkYellow={.6,.6,0},
+	darkPurple={.6,0,.6},
+	darkCyan={0,.6,.6},
 	darkGrey={.3,.3,.3},
+
 	white={1,1,1},
-	orange={1,.6,0}
+	orange={1,.6,0},
 }
 attackColor={
 	{color.red,color.yellow},
@@ -34,6 +41,13 @@ attackColor={
 			gc.setColor(t,t,1)
 		end,
 	}--3 animation-colorsets of attack buffer bar
+}
+frameColor={
+	[0]=color.white,
+	color.green,
+	color.blue,
+	color.purple,
+	color.orange,
 }
 blockName={"Z","S","L","J","T","O","I"}
 blockColor={
@@ -57,6 +71,26 @@ for j=1,7 do
 	spinName[0][j]=blockName[j].." spin"
 end
 
+sfx={
+	"button",
+	"ready","start",
+	"move","rotate","rotatekick","hold",
+	"prerotate","prehold",
+	"drop","fall",
+	"reach",
+	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11",
+	"clear_1","clear_2","clear_3","clear_4",
+	"spin_0","spin_1","spin_2","spin_3",
+	"perfectclear",
+}
+bgm={
+	"blank",
+	"way",
+	"race",
+	"push",
+	"reason",
+}
+
 prevMenu={
 	load=love.event.quit,
 	ready="mode",
@@ -64,15 +98,18 @@ prevMenu={
 	mode="main",
 	help="main",
 	stat="main",
-	setting="main",
+	setting=function()
+		saveSetting()
+		gotoScene("main")
+	end,
 	setting2="setting",
 	setting3="setting",
 	intro="quit",
 	main="quit",
 }
 
-modeID={"sprint","marathon","zen","solo","death","blind","tetris41","asymsolo","gmroll",}
-modeName={"Sprint","Marathon","Zen","Solo","Death","Blind","Tetris 41","Asymmetry solo","GM roll",}
+modeID={"sprint","marathon","zen","solo","death","blind","tetris41","asymsolo","gmroll","p2","p3","p4"}
+modeName={"Sprint","Marathon","Zen","1v1","Death","Blind","Tetris 41","Asymmetry solo","GM roll","2P","3P","4P"}
 modeInfo={
 	sprint="Clear 40 Lines",
 	marathon="Clear 200 Lines",
@@ -83,10 +120,13 @@ modeInfo={
 	tetris41="Melee fight with 40 AIs",
 	asymsolo="             See-->",
 	gmroll="Who want to be the grand master?",
+	p2="2 players game",
+	p3="3 players game",
+	p4="4 players game",
 }
 
-actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","toLeft","toRight","toDown"}
-actName_show={"move left","move right","rotate right","rotate left","rotate flip","hard drop","soft drop","hold","restart","toLeft","toRight","toDown"}
+actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","insLeft","insRight","insDown"}
+actName_show={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip","Hard Drop:","Soft Drop:","Hold:","Restart:","Instant Left:","Instant Right:","Ins Down:"}
 blockPos={4,4,4,4,4,5,4}
 renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
 renName={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB",}
@@ -101,6 +141,8 @@ marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
 death_lock={10,9,8,7,6}
 death_wait={6,5,4,3,2}
 death_fall={10,8,7,6,5}
+snapLevelValue={1,10,20,40,80}
+snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 
 act={
 	moveLeft=function(auto)
@@ -147,11 +189,11 @@ act={
 		resetGameData()
 		count=60+26--Althour'z neim
 	end,
+	insDown=function()if cy~= y_img then P.cy,P.lockDelay,P.spinLast=y_img,gameEnv.lock,false end end,
+	insLeft=function()while not ifoverlap(cb,cx-1,cy)do P.cx,P.lockDelay=cx-1,gameEnv.lock;freshgho()end end,
+	insRight=function()while not ifoverlap(cb,cx+1,cy)do P.cx,P.lockDelay=cx+1,gameEnv.lock;freshgho()end end,
 	down1=function()if cy~=y_img then P.cy=cy-1 end end,
 	down4=function()for i=1,4 do if cy~=y_img then P.cy=cy-1 else break end end end,
-	toDown=function()if cy~= y_img then P.cy,P.lockDelay,P.spinLast=y_img,gameEnv.lock,false end end,
-	toLeft=function()while not ifoverlap(cb,cx-1,cy)do P.cx,P.lockDelay=cx-1,gameEnv.lock;freshgho()end end,
-	toRight=function()while not ifoverlap(cb,cx+1,cy)do P.cx,P.lockDelay=cx+1,gameEnv.lock;freshgho()end end,
 	quit=function()Event.gameover.lose()end,
 	--System movements
 }
@@ -217,14 +259,14 @@ TRS={
 		[31]={{0,0},{0,-1},{0,1},{-1,0},{1,0},{0,2}},
 	},
 	[7]={
-		[01]={{0,0},{-2,0},{1,0},{-2,-1},{1,2}},
+		[01]={{0,0},{1,0},{-2,0},{-2,-1},{1,2}},
 		[10]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
 		[12]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
-		[21]={{0,0},{1,0},{-2,0},{1,-2},{-2,1}},
+		[21]={{0,0},{-2,0},{1,0},{-2,1},{1,-2}},
 		[23]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
 		[32]={{0,0},{-2,0},{1,0},{-2,-1},{1,2}},
 		[30]={{0,0},{1,0},{-2,0},{1,-2},{-2,1}},
-		[03]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
+		[03]={{0,0},{-1,0},{2,0},{2,-1},{-1,2}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
 		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
 		[13]={{0,0},{0,-1},{-1,0},{1,0},{0,1}},
@@ -245,17 +287,28 @@ Buttons={
 	mode={
 		{x=1000,y=210,w=200,h=140,rgb=color.white,hide=function()return not setting.virtualkeySwitch end,code=function()if modeSel>1 then modeSel=modeSel-1 end end},
 		{x=1000,y=430,w=200,h=140,rgb=color.white,t="v",f=80,hide=function()return not setting.virtualkeySwitch end,code=function()if modeSel<#modeID then modeSel=modeSel+1 end end},
-		{x=1000,y=600,w=180,h=80,rgb=color.green,t="Start",hide=function()return not setting.virtualkeySwitch end,code=function()startGame(modeID[modeSel])end},
+		{x=1000,y=600,w=180,h=80,rgb=color.green,t="Start",code=function()startGame(modeID[modeSel])end},
 		{x=640,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()gotoScene("main")end},
 	},
 	play={
 	},
 	setting={--Normal setting
-		{x=330,y=100,w=200,h=60,rgb=color.white,t=function()return setting.ghost and"Ghost ON"or"Ghost OFF"end,code=function()setting.ghost=not setting.ghost end,down=6,right=2},
-		{x=540,y=100,w=200,h=60,rgb=color.white,t=function()return setting.center and"Center ON"or"Center OFF"end,code=function()setting.center=not setting.center end,down=6,left=1,right=3},
-		{x=870,y=100,w=340,h=60,rgb=color.white,t=function()return setting.sfx and"Disable SFX"or"Enable SFX"end,code=function()setting.sfx=not setting.sfx end,down=4,left=2},
-		{x=870,y=180,w=340,h=60,rgb=color.white,t=function()return setting.bgm and"Disable BGM"or"Enable BGM"end,code=function()BGM()setting.bgm=not setting.bgm;BGM("blank")end,up=3,down=5,left=2},
-		{x=870,y=260,w=340,h=60,rgb=color.white,t=function()return setting.fullscreen and"Disable fullscreen"or"Enable fullscreen"end,
+		{x=330,y=100,w=200,h=60,rgb=color.white,t=function()return setting.ghost and"Ghost ON"or"Ghost OFF"end,code=function()setting.ghost=not setting.ghost end,down=3,right=2},
+		{x=540,y=100,w=200,h=60,rgb=color.white,t=function()return setting.center and"Center ON"or"Center OFF"end,code=function()setting.center=not setting.center end,down=5,left=1,right=11},
+		--1,2
+		{x=245,y=180,w=40,h=40,rgb=color.white,t="-",code=function()setting.das=(setting.das-1)%31 end,up=1,down=7,right=4},
+		{x=410,y=180,w=40,h=40,rgb=color.white,t="+",code=function()setting.das=(setting.das+1)%31 end,up=1,down=8,left=3,right=5},
+		{x=460,y=180,w=40,h=40,rgb=color.white,t="-",code=function()setting.arr=(setting.arr-1)%16 end,up=2,down=9,left=4,right=6},
+		{x=625,y=180,w=40,h=40,rgb=color.white,t="+",code=function()setting.arr=(setting.arr+1)%16 end,up=2,down=10,left=5,right=13},
+		--3~6
+		{x=245,y=260,w=40,h=40,rgb=color.white,t="-",code=function()setting.sddas=(setting.sddas-1)%11 end,up=3,down=17,right=8},
+		{x=410,y=260,w=40,h=40,rgb=color.white,t="+",code=function()setting.sddas=(setting.sddas+1)%11 end,up=4,down=17,left=7,right=9},
+		{x=460,y=260,w=40,h=40,rgb=color.white,t="-",code=function()setting.sdarr=(setting.sdarr-1)%6 end,up=5,down=17,left=8,right=10},
+		{x=625,y=260,w=40,h=40,rgb=color.white,t="+",code=function()setting.sdarr=(setting.sdarr+1)%4 end,up=6,down=17,left=9,right=14},
+		--7~10
+		{x=870-90,y=100,w=160,h=60,rgb=color.white,t=function()return setting.sfx and"SFX:on"or"SFX:off"end,code=function()setting.sfx=not setting.sfx end,down=13,left=2,right=12},
+		{x=870+90,y=100,w=160,h=60,rgb=color.white,t=function()return setting.bgm and"BGM:on"or"BGM:off"end,code=function()BGM()setting.bgm=not setting.bgm;BGM("blank")end,down=13,left=11},
+		{x=870,y=180,w=340,h=60,rgb=color.white,t=function()return setting.fullscreen and"Fullscreen:on"or"Fullscreen:off"end,
 			code=function()
 				setting.fullscreen=not setting.fullscreen
 				love.window.setFullscreen(setting.fullscreen)
@@ -263,79 +316,58 @@ Buttons={
 					love.resize(gc.getWidth(),gc.getHeight())
 				end
 			end,
-			up=4,down=7,left=6
+			up=11,down=14,left=6
 		},
-		{x=435,y=220,w=320,h=60,rgb=color.green,t="Advanced settings",code=function()gotoScene("setting2")end,up=1,down=7,right=5},
-		{x=435,y=300,w=320,h=60,rgb=color.yellow,t="Touch settings",code=function()gotoScene("setting3")end,up=6,down=8,right=5},
-		{x=640,y=590,w=210,h=60,rgb=color.white,t="Save&Back",code=function()saveSetting()back()end,up=6},
-	},
-	setting2={--Advanced setting
-		{x=290,y=70 ,w=160,h=45,rgb=color.white,t=function()return setting.key[1]end,code=function()keysetting,gamepadsetting=1 end,up=1,down=2,right=10},
-		{x=290,y=130,w=160,h=45,rgb=color.white,t=function()return setting.key[2]end,code=function()keysetting,gamepadsetting=2 end,up=1,down=3,right=11},
-		{x=290,y=190,w=160,h=45,rgb=color.white,t=function()return setting.key[3]end,code=function()keysetting,gamepadsetting=3 end,up=2,down=4,right=12},
-		{x=290,y=250,w=160,h=45,rgb=color.white,t=function()return setting.key[4]end,code=function()keysetting,gamepadsetting=4 end,up=3,down=5,right=13},
-		{x=290,y=310,w=160,h=45,rgb=color.white,t=function()return setting.key[5]end,code=function()keysetting,gamepadsetting=5 end,up=4,down=6,right=14},
-		{x=290,y=370,w=160,h=45,rgb=color.white,t=function()return setting.key[6]end,code=function()keysetting,gamepadsetting=6 end,up=5,down=7,right=15},
-		{x=290,y=430,w=160,h=45,rgb=color.white,t=function()return setting.key[7]end,code=function()keysetting,gamepadsetting=7 end,up=6,down=8,right=16},
-		{x=290,y=490,w=160,h=45,rgb=color.white,t=function()return setting.key[8]end,code=function()keysetting,gamepadsetting=8 end,up=7,down=9,right=17},
-		{x=290,y=550,w=160,h=45,rgb=color.white,t=function()return setting.key[9]end,code=function()keysetting,gamepadsetting=9 end,up=8,down=28,right=18},
-		--1~9
-		{x=540,y=70 ,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[1]end,code=function()gamepadsetting,keysetting=1 end,up=10,down=11,left=1,right=19},
-		{x=540,y=130,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[2]end,code=function()gamepadsetting,keysetting=2 end,up=10,down=12,left=2,right=23},
-		{x=540,y=190,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[3]end,code=function()gamepadsetting,keysetting=3 end,up=11,down=13,left=3,right=27},
-		{x=540,y=250,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[4]end,code=function()gamepadsetting,keysetting=4 end,up=12,down=14,left=4,right=27},
-		{x=540,y=310,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[5]end,code=function()gamepadsetting,keysetting=5 end,up=13,down=15,left=5,right=27},
-		{x=540,y=370,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[6]end,code=function()gamepadsetting,keysetting=6 end,up=14,down=16,left=6,right=29},
-		{x=540,y=430,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[7]end,code=function()gamepadsetting,keysetting=7 end,up=15,down=17,left=7,right=29},
-		{x=540,y=490,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[8]end,code=function()gamepadsetting,keysetting=8 end,up=16,down=18,left=8,right=29},
-		{x=540,y=550,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[9]end,code=function()gamepadsetting,keysetting=9 end,up=17,down=28,left=9,right=29},
-		--10~18
-		{x=745,y=90,w=40,h=40,rgb=color.white,t="-",code=function()setting.das=(setting.das-1)%31 end,left=10,right=20,down=23},
-		{x=910,y=90,w=40,h=40,rgb=color.white,t="+",code=function()setting.das=(setting.das+1)%31 end,left=19,right=21,down=24},
-		{x=960,y=90,w=40,h=40,rgb=color.white,t="-",code=function()setting.arr=(setting.arr-1)%16 end,left=20,right=22,down=25},
-		{x=1125,y=90,w=40,h=40,rgb=color.white,t="+",code=function()setting.arr=(setting.arr+1)%16 end,left=21,down=26},
-		--19~22
-		{x=745,y=150,w=40,h=40,rgb=color.white,t="-",code=function()setting.sddas=(setting.sddas-1)%11 end,up=19,down=27,left=10,right=24},
-		{x=910,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sddas=(setting.sddas+1)%11 end,up=20,down=27,left=23,right=25},
-		{x=960,y=150,w=40,h=40,rgb=color.white,t="-",code=function()setting.sdarr=(setting.sdarr-1)%6 end,up=21,down=27,left=24,right=26},
-		{x=1125,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sdarr=(setting.sdarr+1)%4 end,up=22,down=27,left=25},
-		--23~26
-		{x=935,y=220,w=320,h=65,rgb=color.white,t=function()return "frameDraw:"..setting.frameMul.."%"end,code=function()
+		{x=870,y=260,w=340,h=60,rgb=color.white,t=function()return setting.bgblock and"BG animation:on"or"BG animation:off"end,
+			code=function()
+				setting.bgblock=not setting.bgblock
+				if not setting.bgblock then
+					for i=1,116 do
+						BGblockList[i].v=3*BGblockList[i].v
+					end
+				end
+			end,
+			up=12,down=15,left=10
+		},
+
+		--11~14
+		{x=870,y=340,w=340,h=60,rgb=color.white,t=function()return"frameDraw:"..setting.frameMul.."%"end,code=function()
 			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
 			if setting.frameMul>100 then setting.frameMul=25 end
-		end,up=24,down=29,left=11},
-		{x=405,y=630,w=130,h=60,rgb=color.white,t="Reset",code=function()for i=1,#setting.key do setting.key[i]=gameEnv0.key[i] end end,up=9,right=29},
-		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end,up=24,left=28},
-		--27~29
+		end,up=14,down=16},
+		{x=870,y=420,w=340,h=60,rgb=color.green,t="Control settings",code=function()gotoScene("setting2")end,up=15,down=17},
+		{x=870,y=500,w=340,h=60,rgb=color.yellow,t="Touch settings",code=function()gotoScene("setting3")end,up=16,down=18},
+		{x=640,y=640,w=210,h=60,rgb=color.white,t="Save&Back",code=function()back()end,up=17},
+		--15~18
+	},
+	setting2={--Control setting
+		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end},
 	},
 	setting3={--Touch setting
-		{x=640,y=210,w=400,h=80,rgb=color.white,t=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,code=function()
+		{x=640,y=410,w=170,h=80,t="Back",code=function()back()end},
+		{x=640,y=210,w=500,h=80,t=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,code=function()
 			setting.virtualkeySwitch=not setting.virtualkeySwitch
 		end},
-		{x=500,y=310,w=120,h=80,rgb=color.white,t="Reset",code=function()
+		{x=450,y=310,w=170,h=80,t="Reset",code=function()
 			for K=1,#virtualkey do
 				local b,b0=virtualkey[K],gameEnv0.virtualkey[K]
 				b[1],b[2],b[3],b[4]=b0[1],b0[2],b0[3],b0[4]
 			end--Reset virtualkey
 		end},
-		{x=640,y=310,w=120,h=80,rgb=color.white,t="Snap",code=function()
-			for K=1,#virtualkey do
-				local b=virtualkey[K]
-				b[1],b[2]=int(b[1]*.025+.5)*40,int(b[2]*.025+.5)*40
-			end--Snap all keys
+		{x=640,y=310,w=170,h=80,t=function()return snapLevelName[snapLevel]end,code=function()
+			snapLevel=snapLevel%5+1
 		end},
-		{x=780,y=310,w=120,h=80,rgb=color.white,t=function()return percent0to5[setting.virtualkeyAlpha]end,code=function()
+		{x=830,y=310,w=170,h=80,t=function()return percent0to5[setting.virtualkeyAlpha]end,code=function()
 			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6
 			--Adjust virtualkey alpha
 		end},
-		{x=500,y=410,w=120,h=80,rgb=color.white,t="Icon",code=function()
+		{x=450,y=410,w=170,h=80,t="Icon",code=function()
 			setting.virtualkeyIcon=not setting.virtualkeyIcon
 			--Switch virtualkey icon
 		end},
-		{x=640,y=410,w=120,h=80,rgb=color.white,t="Back",code=function()back()end},
-		{x=780,y=410,w=120,h=80,rgb=color.white,t="Size",code=function()
-			for K=1,#virtualkey do
-				local b=virtualkey[K]
+		{x=830,y=410,w=170,h=80,t="Size",code=function()
+			if sel then
+				local b=virtualkey[sel]
 				b[4]=b[4]+10
 				if b[4]==150 then b[4]=40 end
 				b[3]=b[4]^2
@@ -343,7 +375,8 @@ Buttons={
 		end},
 	},
 	help={
-		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end},
+		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end,right=2},
+		{x=980,y=590,w=230,h=60,rgb=color.white,t="Author's qq",code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left=1},
 	},
 	stat={
 		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end},
@@ -355,6 +388,7 @@ for k,v in pairs(Buttons)do
 		v[i].alpha=0
 	end
 end
+
 virtualkey={
 	{80,720-80,6400,80},--moveLeft
 	{240,720-80,6400,80},--moveRight

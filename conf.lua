@@ -17,7 +17,7 @@ function love.conf(t)
 	W.minwidth,W.minheight=640,360
 	W.fullscreentype="desktop"--Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
 	W.fullscreen=X
-	W.vsync=1
+	W.vsync=X--0 to set ∞fps
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
 	W.depth=X--The number of bits per sample in the depth buffer
 	W.stencil=8--The number of bits per sample in the stencil buffer

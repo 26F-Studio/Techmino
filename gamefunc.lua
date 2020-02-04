@@ -1,12 +1,12 @@
 function resetGameData()
-	if players then restockRow()end--Avoid first start game error
 	players={alive={}}
+	royaleMode=false
 	loadmode[gamemode]()
 
 	frame=0
 	count=179
 	FX.beam={}
-	for i=1,#PTC.dust do PTC.dust[i]=nil end
+	for i=1,#PTC.dust do PTC.dust[i]:release()end
 	for i=1,#players do
 		PTC.dust[i]=PTC.dust[0]:clone()
 		PTC.dust[i]:start()
@@ -46,6 +46,9 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
+	P.field,P.visTime,P.atkBuffer={},{},{}
+	P.badge,P.strength,P.lastRecv=0,0,nil
+	
 	P.gameEnv={}--Game setting vars,like dropDelay setting
 	for k,v in pairs(gameEnv0)do
 		if data and data[k]~=nil then
@@ -59,7 +62,6 @@ function createPlayer(id,x,y,size,AIspeed,data)
 		end
 	end--reset current game settings
 
-	P.field,P.visTime,P.atkBuffer={},{},{}
 	P.hn,P.hb,P.holded=0,{{}},false
 	P.nxt,P.nb={},{}
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
@@ -89,11 +91,15 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.b2b=0
 	P.b2b1=0
 
+	P.counter=0
+	P.result=nil--string,"win"/"lose"
 	P.task={}
 	P.bonus={}
 end
-function showText(text,type,font,dy)
-	ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0})
+function showText(text,type,font,dy,inf)
+	if not P.small then
+		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,inf=inf,solid=inf})
+	end
 end
 function createBeam(s,r,lv)--Player id
 	S,R=players[s],players[r]
@@ -109,6 +115,21 @@ function createBeam(s,r,lv)--Player id
 		x2,y2=R.x+308*R.size,R.y+450*R.size
 	end
 	ins(FX.beam,{x1,y1,x2,y2,t=0,lv=lv})
+end
+function throwBadge(s,r,amount)--Player id
+	s,r=players[s],players[r]
+	local x1,y1,x2,y2
+	if s.small then
+		x1,y1=s.x+150*s.size,s.y+300*s.size
+	else
+		x1,y1=s.x+308*s.size,s.y+450*s.size
+	end
+	if r.small then
+		x2,y2=r.x+150*r.size,r.y+300*r.size
+	else
+		x2,y2=r.x+308*r.size,r.y+450*r.size
+	end
+	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(10+min(amount,10))*.1})
 end
 function freshgho()
 	if not P.gameEnv._20G then
@@ -296,17 +317,18 @@ function drop()
 		if dospin==0 then dospin=false end
 		lock()
 		local cc,csend,exblock,sendTime=checkrow(cy,r),0,0,0--Currect clear&send&sendTime
-		local mini=dospin==1 and cc<3 and cc<r
+		local mini=bn~=7 and dospin==1 and cc<3 and cc<r
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
 			if b2b>480 then
 				showText("Tetris B2B2B","fly",70)
 				csend=6
-				exblock=exblock+1
+				exblock=exblock+2
 			elseif b2b>=100 then
 				showText("Tetris B2B","drive",70)
 				csend=5
+				exblock=exblock+1
 			else
 				showText("Tetris","stretch",80)
 				csend=4
@@ -375,8 +397,11 @@ function drop()
 		P.b2b=max(min(b2b,600),0)
 
 		if csend>0 then
-			if mini then csend=int(csend*.7)end
-			--mini attack decrease
+			if exblock then exblock=int(exblock*(1+P.strength*.25))end
+			csend=csend*(1+P.strength*.25)
+			if mini then csend=csend end
+			csend=int(csend)
+			--Buffs
 
 			stat.atk=stat.atk+csend
 			P.cstat.atk=P.cstat.atk+csend
@@ -397,7 +422,12 @@ function drop()
 					P.atkBuffer[1].lv=s<4 and 1 or s<7 and 2 or 3
 				end
 			end
-			if csend>0 and #players.alive>1 then garbageSend(P.id,csend,sendTime)end
+			if csend>0 then
+				showText(csend,"appear",30,50)
+				if #players.alive>1 then
+					garbageSend(P.id,csend,sendTime)
+				end
+			end
 		elseif cc==0 then
 			garbageRelease()
 		end--Send attack
@@ -434,6 +464,7 @@ function garbageSend(sender,send,time)
 	until r~=P.id
 	createBeam(sender,r,level)
 	ins(players[r].atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
+	players[r].lastRecv=sender
 	sort(players[r].atkBuffer,timeSort)
 end
 function garbageRelease()

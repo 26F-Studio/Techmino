@@ -112,14 +112,31 @@ function loadSetting()
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
-			elseif t=="keyset"then
-				v=string.splitS(v)
-				for i=#v+1,8 do v[i]="N/A"end
-				setting.key=v
-			elseif t=="gamepadset"then
-				v=string.splitS(v)
-				for i=#v+1,8 do v[i]="N/A"end
-				setting.gamepad=v
+			elseif t=="bgblock"then
+				setting.bgblock=v=="true"
+			elseif t=="keymap"then
+				v=string.splitS(v,"/")
+				for i=1,16 do
+					local v1=string.splitS(v[i],",")
+					for j=1,#v1 do
+						setting.keyMap[i][j]=v1[j]
+					end
+				end
+			elseif t=="keylib"then
+				v=string.splitS(v,"/")
+				for i=1,4 do
+					local v1=string.splitS(v[i],",")
+					for j=1,#v1 do
+						setting.keyLib[i][j]=toN(v1[j])
+					end
+					for j=1,#setting.keyLib[i]do
+						local v=setting.keyLib[i][j]
+						if int(v)~=v or v>=9 or v<=0 then
+							setting.keyLib[i]={i}
+							break
+						end
+					end
+				end
 			elseif t=="virtualkey"then
 				v=string.splitS(v,"/")
 				for i=1,9 do
@@ -154,17 +171,25 @@ function saveSetting()
 		end--Saving a integer is better?
 		vk[i]=table.concat(virtualkey[i],",")
 	end--pre-pack virtualkey setting
-
+	local map={}
+	for i=1,16 do
+		map[i]=table.concat(setting.keyMap[i],",")
+	end
+	local lib={}
+	for i=1,4 do
+		lib[i]=table.concat(setting.keyLib[i],",")
+	end
 	local t=table.concat({
 		stringPack("sfx=",setting.sfx),
 		stringPack("bgm=",setting.bgm),
 		stringPack("fullscreen=",setting.fullscreen),
+		stringPack("bgblock=",setting.bgblock),
 		stringPack("das=",setting.das),
 		stringPack("arr=",setting.arr),
 		stringPack("sddas=",setting.sddas),
 		stringPack("sdarr=",setting.sdarr),
-		stringPack("keyset=",table.concat(setting.key,"/")),
-		stringPack("gamepadset=",table.concat(setting.gamepad,"/")),
+		stringPack("keymap=",table.concat(map,"/")),
+		stringPack("keylib=",table.concat(lib,"/")),
 		stringPack("virtualkey=",table.concat(vk,"/")),
 		stringPack("virtualkeyAlpha=",setting.virtualkeyAlpha),
 		stringPack("virtualkeyIcon=",setting.virtualkeyIcon),

@@ -53,6 +53,13 @@ function Tmr.play(dt)
 			rem(FX.beam,i)
 		end
 	end
+	for i=#FX.badge,1,-1 do
+		local b=FX.badge[i]
+		b.t=b.t+1
+		if b.t==60 then
+			rem(FX.badge,i)
+		end
+	end
 	for i=1,3 do
 		PTC.attack[i]:update(dt)
 	end
@@ -127,7 +134,7 @@ function Tmr.play(dt)
 							act[moving>0 and"moveRight"or"moveLeft"](true)
 						end
 					else
-						act[moving>0 and"toRight"or"toLeft"]()
+						act[moving>0 and"insRight"or"insLeft"]()
 					end
 				end
 			else
@@ -142,7 +149,7 @@ function Tmr.play(dt)
 							act.down1()
 						end
 					else
-						act.toDown()
+						act.insDown()
 					end
 				end
 			else
@@ -166,7 +173,7 @@ function Tmr.play(dt)
 				end
 			else
 				if cy~=y_img then
-					if dropDelay>1 then
+					if dropDelay>0 then
 						P.dropDelay=dropDelay-1
 					else
 						drop()
@@ -181,8 +188,10 @@ function Tmr.play(dt)
 					end
 				end
 			end
+			P.b2b1=P.b2b1*.93+P.b2b*.07
 			if P.b2b>480 then P.b2b=P.b2b-1 end
-		else--Alive
+			--ALive
+		else
 			P.keySpeed=keySpeed*.96+cstat.key/time*60*.04
 			P.dropSpeed=dropSpeed*.96+cstat.piece/time*60*.04
 			--Final average speeds
@@ -197,13 +206,23 @@ function Tmr.play(dt)
 					P.clearing={}
 				end
 			end--Rows cleared drop
-			for j=1,#field do for i=1,10 do
-				if visTime[j][i]<20 then P.visTime[j][i]=visTime[j][i]+.5 end
-			end end--Make field visible
-		end--Dead
+			if P.counter<40 then
+				for j=1,#field do for i=1,10 do
+					if visTime[j][i]<20 then P.visTime[j][i]=visTime[j][i]+.5 end
+				end end--Make field visible
+			end
+			if P.b2b1>0 then P.b2b1=max(P.b2b1-3,0)end
+			--Dead
+		end
 		for i=#bonus,1,-1 do
-			bonus[i].t=bonus[i].t+1
-			if bonus[i].t>60 then rem(bonus,i)end
+			if bonus[i].inf then
+				if bonus[i].t<30 then
+					bonus[i].t=bonus[i].t+1
+				end
+			else
+				bonus[i].t=bonus[i].t+1
+				if bonus[i].t==60 then rem(bonus,i)end
+			end
 		end
 		for i=#task,1,-1 do
 			if task[i]()then rem(task,i)end
@@ -222,7 +241,6 @@ function Tmr.play(dt)
 			end
 		end
 		if fieldBeneath>0 then P.fieldBeneath=fieldBeneath-3 end
-		P.b2b1=P.b2b1*.96
 		PTC.dust[p]:update(dt)
 	end
 	setmetatable(_G,nil)

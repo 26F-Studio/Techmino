@@ -64,32 +64,60 @@ function keyDown.mode(key)
 end
 function keyDown.setting2(key)
 	if key=="escape"then
-		back()
-		keysetting,gamepadsetting=nil
-	elseif keysetting then
-		setting.key[keysetting]=key
-		keysetting,gamepadsetting=nil
-	else
-		buttonControl_key(key)
+		if keyboardSetting then
+			keyboardSetting=false
+		else
+			back()
+		end
+	elseif keyboardSetting then
+		for l=1,8 do
+			for y=1,12 do
+				if setting.keyMap[l][y]==key then
+					setting.keyMap[l][y]=""
+				end
+			end
+		end
+		setting.keyMap[curBoard][keyboardSet]=key
+		keyboardSetting=false
+	elseif key=="return"then
+		keyboardSetting=true
+	elseif key=="up"then
+		keyboardSet=max(keyboardSet-1,1)
+	elseif key=="down"then
+		keyboardSet=min(keyboardSet+1,12)
+	elseif key=="left"then
+		curBoard=max(curBoard-1,1)
+	elseif key=="right"then
+		curBoard=min(curBoard+1,8)
 	end
 end
 function keyDown.play(key)
-	local k=players[1].gameEnv.key
-	for i=1,11 do
-		if key==k[i]then
-			pressKey(i)
-			break
+	if key=="escape"then back()return nil end
+	local m=setting.keyMap
+	for p=1,4 do
+		local lib=setting.keyLib[p]
+		for s=1,#lib do
+			for k=1,12 do
+				if key==m[lib[s]][k]then
+					pressKey(k,players[p])
+					return nil
+				end
+			end
 		end
 	end
-	if key=="escape"then back()end
 end
 keyUp={}
 function keyUp.play(key)
-	local k=players[1].gameEnv.key
-	for i=1,10 do
-		if key==k[i]then
-			releaseKey(i,players[1])
-			break
+	local m=setting.keyMap
+	for p=1,4 do
+		local lib=setting.keyLib[p]
+		for s=1,#lib do
+			for k=1,12 do
+				if key==m[lib[s]][k]then
+					releaseKey(k,players[p])
+					return nil
+				end
+			end
 		end
 	end
 end
@@ -107,32 +135,60 @@ function gamepadDown.mode(key)
 end
 function gamepadDown.setting2(key)
 	if key=="back"then
-		back()
-		keysetting,gamepadsetting=nil
-	elseif gamepadsetting then
-		setting.gamepad[gamepadsetting]=key
-		keysetting,gamepadsetting=nil
-	else
-		buttonControl_gamepad(key)
+		if joystickSetting then
+			joystickSetting=false
+		else
+			back()
+		end
+	elseif joystickSetting then
+		for l=9,16 do
+			for y=1,12 do
+				if setting.keyMap[l][y]==key then
+					setting.keyMap[l][y]=""
+				end
+			end
+		end
+		setting.keyMap[8+curBoard][joystickSet]=key
+		joystickSetting=false
+	elseif key=="start"then
+		joystickSetting=true
+	elseif key=="up"then
+		joystickSet=max(joystickSet-1,1)
+	elseif key=="down"then
+		joystickSet=min(joystickSet+1,12)
+	elseif key=="left"then
+		curBoard=max(curBoard-1,1)
+	elseif key=="right"then
+		curBoard=min(curBoard+1,8)
 	end
 end
 function gamepadDown.play(key)
-	local k=players[1].gameEnv.gamepad
-	for i=1,11 do
-		if key==k[i]then
-			pressKey(i)
-			break
+	if key=="back"then back()return nil end
+	local m=setting.keyMap
+	for p=1,4 do
+		local lib=setting.keyLib[p]
+		for s=1,#l[p]do
+			for k=1,12 do
+				if key==m[8+lib[s]][k]then
+					pressKey(k)
+					return nil
+				end
+			end
 		end
 	end
-	if key=="escape"then back()end
 end
 gamepadUp={}
 function gamepadUp.play(key)
-	local k=players[1].gameEnv.gamepad
-	for i=1,10 do
-		if key==k[i]then
-			releaseKey(i,players[1])
-			break
+	local m=setting.keyMap
+	for p=1,4 do
+		local lib=setting.keyLib[p]
+		for s=1,#l[p]do
+			for k=1,12 do
+				if key==m[8+lib[s]][k]then
+					pressKey(k)
+					return nil
+				end
+			end
 		end
 	end
 end
@@ -191,6 +247,14 @@ function love.touchpressed(id,x,y)
 		if t then
 			pressKey(t)
 		end
+	elseif scene=="setting3"then
+		sel=nil
+		for K=1,#virtualkey do
+			local b=virtualkey[K]
+			if (x-b[1])^2+(y-b[2])^2<b[3]then
+				sel=K
+			end
+		end
 	end
 end
 function love.touchreleased(id,x,y)
@@ -209,6 +273,13 @@ function love.touchreleased(id,x,y)
 		local t=onVirtualkey(x,y)
 		if t then
 			releaseKey(t)
+		end
+	elseif scene=="setting3"and sel then
+		x,y=convert(x,y)
+		dx,dy=dx*screenK,dy*screenK
+		if sel then
+			local b=virtualkey[sel]
+			b[1],b[2]=int(b[1]/snapLevelValue[snapLevel]+.5)*40,int(b[2]/snapLevelValue[snapLevel]+.5)*snapLevelValue[snapLevel]
 		end
 	end
 end
@@ -237,11 +308,9 @@ function love.touchmoved(id,x,y,dx,dy)
 	elseif scene=="setting3"then
 		x,y=convert(x,y)
 		dx,dy=dx*screenK,dy*screenK
-		for K=1,#virtualkey do
-			local b=virtualkey[K]
-			if (x-b[1])^2+(y-b[2])^2<b[3]then
-				b[1],b[2]=b[1]+dx,b[2]+dy
-			end
+		if sel then
+			local b=virtualkey[sel]
+			b[1],b[2]=b[1]+dx,b[2]+dy
 		end
 	end
 end
@@ -251,6 +320,8 @@ function love.keypressed(i)
 	elseif i=="escape"or i=="back"then back()
 	else buttonControl_key(i)
 	end
+
+	if i=="f12"then devMode=true end
 end
 function love.keyreleased(i)
 	if keyUp[scene]then keyUp[scene](i)
@@ -258,23 +329,6 @@ function love.keyreleased(i)
 end
 
 function love.gamepadpressed(joystick,i)
-	if scene~="play"or scene=="setting2"and not gamepadsetting then
-		if i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
-			if not Buttons.sel then
-				Buttons.sel=1
-				mouseShow=false
-			else
-				Buttons.sel=Buttons[scene][Buttons.sel][i]or Buttons.sel
-			end
-		elseif i=="start"then
-			if not sceneSwaping and Buttons.sel then
-				local B=Buttons[scene][Buttons.sel]
-				B.code()
-				B.alpha=1
-				sysSFX("button")
-			end
-		end
-	end
 	if gamepadDown[scene]then return gamepadDown[scene](i)
 	elseif i=="back"then return back()
 	else buttonControl_gamepad(i)
@@ -284,7 +338,17 @@ function love.gamepadreleased(joystick,i)
 	if gamepadUp[scene]then gamepadUp[scene](i)
 	end
 end
+--[[
+function love.joystickpressed(js,k)
+	
+end
+function love.joystickaxis(js,axis,val)
 
+end
+function love.joystickhat(js,hat,dir)
+
+end
+]]
 function love.wheelmoved(x,y)
 	if wheelmoved[scene]then wheelmoved[scene](x,y)end
 end
@@ -301,10 +365,12 @@ function love.update(dt)
 		BGblock[i].y=BGblock[i].y+BGblock[i].v
 		if BGblock[i].y>720 then rem(BGblock,i)end
 	end
-	BGblock.ct=BGblock.ct-1
-	if BGblock.ct==0 then
-		ins(BGblock,getNewBlock())
-		BGblock.ct=rnd(20,30)
+	if setting.bgblock then
+		BGblock.ct=BGblock.ct-1
+		if BGblock.ct==0 then
+			ins(BGblock,getNewBlock())
+			BGblock.ct=rnd(20,30)
+		end
 	end
 	--Background blocks update
 
@@ -323,6 +389,9 @@ function love.update(dt)
 		Tmr[scene](dt)
 	end
 	--scene swapping & Timer
+end
+function love.sendData(data)
+	return nil
 end
 function love.receiveData(id,data)
 	return nil
@@ -355,7 +424,10 @@ function love.draw()
 
 	setFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),0,700)
-	gc.print(gcinfo(),0,680)
+	if devMode then
+		gc.print(gcinfo(),0,680)
+		gc.print(freeRow and #freeRow or 0,0,660)
+	end
 	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(x,y)
@@ -371,7 +443,7 @@ function love.run()
 	tm.step()
 	love.resize(nil,gc.getHeight())
 	game.load()--System scene Launch
-	math.randomseed(os.time()*626)--true  A-lthour's  ID!
+	math.randomseed(os.time()*626)
 	return function()
 		love.event.pump()
 		for name,a,b,c,d,e,f in love.event.poll()do
@@ -402,7 +474,7 @@ function love.run()
 				end
 			end
 		else
-			tm.sleep(.1)
+			tm.sleep(.2)
 			if wd.hasFocus()then
 				focus=true
 				ms.setVisible(false)

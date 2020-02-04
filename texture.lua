@@ -6,6 +6,7 @@ mouseIcon=N("/image/mess/mouseIcon.png")
 spinCenter=N("/image/mess/spinCenter.png")
 dialCircle=N("/image/mess/dialCircle.png")
 dialNeedle=N("/image/mess/dialNeedle.png")
+badgeIcon=N("/image/mess/badge.png")
 blockSkin={}
 for i=1,13 do
 	blockSkin[i]=N("/image/block/1/"..i..".png")
@@ -34,19 +35,19 @@ c:release()
 --Dust particles
 
 PTC.attack={}
-PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/attack/1.png"),200)
+PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/mess/atk1.png"),200)
 PTC.attack[1]:setParticleLifetime(.25)
 PTC.attack[1]:setEmissionRate(0)
 PTC.attack[1]:setSpin(10)
 PTC.attack[1]:setColors(1,1,1,.7,1,1,1,0)
 
-PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/attack/2.png"),200)
+PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/mess/atk2.png"),200)
 PTC.attack[2]:setParticleLifetime(.3)
 PTC.attack[2]:setEmissionRate(0)
 PTC.attack[2]:setSpin(8)
 PTC.attack[2]:setColors(1,1,1,.7,1,1,1,0)
 
-PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/attack/3.png"),200)
+PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/mess/atk3.png"),200)
 PTC.attack[3]:setParticleLifetime(.4)
 PTC.attack[3]:setEmissionRate(0)
 PTC.attack[3]:setSpin(6)

@@ -1,4 +1,4 @@
-gc,kb,ms,tc,tm,fs,wd=love.graphics,love.keyboard,love.mouse,love.touch,love.timer,love.filesystem,love.window
+gc,kb,ms,tc,tm,fs,wd,sys=love.graphics,love.keyboard,love.mouse,love.touch,love.timer,love.filesystem,love.window,love.system
 toN,toS=tonumber,tostring
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
@@ -9,14 +9,14 @@ Timer=tm.getTime--Easy&Quick to get time!
 mx,my,mouseShow=-20,-20,false
 focus=true
 
-system=love.system.getOS()
+system=sys.getOS()
 touching=nil--1st touching ID
 
 scene=""
 gamemode=""
 bgmPlaying=nil
 curBG="none"
-BGblock={ct=140}
+BGblock={ct=140,next=7}
 
 kb.setKeyRepeat(false)
 kb.setTextInput(false)
@@ -36,27 +36,6 @@ function setFont(s)
 	end
 end
 
-sfx={
-	"button",
-	"ready","start",
-	"move","rotate","rotatekick","hold",
-	"prerotate","prehold",
-	"drop","fall",
-	"reach",
-	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11",
-	"clear_1","clear_2","clear_3","clear_4",
-	"spin_0","spin_1","spin_2","spin_3",
-	"perfectclear",
-}
-bgm={
-	"blank",
-	"way",
-	"race",
-	"push",
-	"reason",
-}
---System data
-
 gameEnv0={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
@@ -67,9 +46,6 @@ gameEnv0={
 	sequence=1,visible=1,
 	_20G=false,target=9e99,
 	freshLimit=9e99,
-
-	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT","DOWN"},
-	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT","DOWN"},
 	virtualkey={
 		{80,720-80,6400,80},--moveLeft
 		{240,720-80,6400,80},--moveRight
@@ -82,36 +58,36 @@ gameEnv0={
 		{80,80,6400,80},--restart
 	},
 	reach=function()end,
-	--these three is actually no use,only provide a key
+	--not all is actually used,some only provide a key
 }
 randomMethod={
 	function()
-		P.bn,P.cb=rem(nxt,1),rem(nb,1)
-		if #nxt<6 then
+		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+		if #P.nxt<6 then
 			local bag={1,2,3,4,5,6,7}
 			for i=1,7 do
-				ins(nxt,rem(bag,rnd(8-i)))
+				ins(P.nxt,rem(bag,rnd(8-i)))
 			end
 		end
-		for i=6,#nxt do
-			nb[i]=blocks[nxt[i]][0]
+		for i=6,#P.nxt do
+			P.nb[i]=blocks[P.nxt[i]][0]
 		end
 	end,
 	function()
-		P.bn,P.cb=rem(nxt,1),rem(nb,1)
+		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
 		for j=1,4 do
 			local i,f=rnd(7)
 			for k=1,4 do
-				if i==his[k]then f=true end
+				if i==P.his[k]then f=true end
 			end
 			if not f then break end
 		end
 		P.nxt[6],P.nb[6]=i,blocks[i][0]
-		rem(his,1)ins(his,i)
+		rem(P.his,1)ins(P.his,i)
 	end,
 	function()
-		P.bn,P.cb=rem(nxt,1),rem(nb,1)
-		repeat i=rnd(7)until i~=nxt[5]
+		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+		repeat i=rnd(7)until i~=P.nxt[5]
 		P.nxt[6],P.nb[6]=i,blocks[i][0]
 	end,
 }
@@ -189,18 +165,19 @@ loadmode={
 			wait=1,
 			fall=1,
 		}
+		royaleMode=true
 		createPlayer(1,340,15)--Player
 
 		local n=2
 		for i=1,4 do
 			for j=1,5 do
-				createPlayer(n,75*i-48,142*j-130,.19,rnd(10))
+				createPlayer(n,75*i-48,142*j-130,.19,1+rnd(14))
 				n=n+1
 			end
 		end
 		for i=9,12 do
 			for j=1,5 do
-				createPlayer(n,75*i+292,142*j-130,.19,rnd(10))
+				createPlayer(n,75*i+292,142*j-130,.19,1+rnd(14))
 				n=n+1
 			end
 		end--AIs
@@ -247,6 +224,45 @@ loadmode={
 		curBG="game2"
 		BGM("race")
 	end,
+	p2=function()
+		modeEnv={
+			wait=1,
+			fall=30,
+			freshLimit=15,
+		}
+		createPlayer(1,20,15)
+		createPlayer(2,650,15)
+
+		curBG="game2"
+		BGM("way")
+	end,
+	p3=function()
+		modeEnv={
+			wait=1,
+			fall=30,
+			freshLimit=15,
+		}
+		createPlayer(1,20,100,.65)
+		createPlayer(2,435,100,.65)
+		createPlayer(3,850,100,.65)
+
+		curBG="game2"
+		BGM("way")
+	end,
+	p4=function()
+		modeEnv={
+			wait=1,
+			fall=30,
+			freshLimit=15,
+		}
+		createPlayer(1,25,150,.5)
+		createPlayer(2,335,150,.5)
+		createPlayer(3,645,150,.5)
+		createPlayer(4,955,150,.5)
+
+		curBG="game2"
+		BGM("way")
+	end,
 }
 Event={
 	gameover={
@@ -255,27 +271,46 @@ Event={
 			P.control=false
 			P.timing=false
 			P.waiting=1e99
-			P.control=false
-			gameover=0
+			P.result="WIN"
 			P.b2b=0
+			for i=1,#field do
+				for j=1,10 do
+					visTime[i][j]=min(visTime[i][j],20)
+				end
+			end
+			showText("WIN","appear",100,nil,true)
 			ins(task,Event.task.win)
 		end,
 		lose=function()
 			P.alive=false
 			P.control=false
 			P.timing=false
+			P.result=" K.O."
 			P.waiting=1e99
 			P.b2b=0
-			gameover=0
+			showText("LOSE","appear",100,nil,true)
+			if royaleMode and P.lastRecv then
+				throwBadge(P.id,P.lastRecv,P.badge)
+				players[P.lastRecv].badge=players[P.lastRecv].badge+P.badge+1
+				players[P.lastRecv].strength=min(int(players[P.lastRecv].badge*.2),4)
+			end
 			for i=1,#players.alive do
 				if players.alive[i]==P.id then
 					rem(players.alive,i)
+					if #players.alive==1 then
+						ins(players[players.alive[1]].task,Event.task.winTrigger)
+					end
 					break
 				end
 			end
 			for i=1,#P.atkBuffer do
 				P.atkBuffer[i].sent=true
 				P.atkBuffer[i].time=0
+			end
+			for i=1,#field do
+				for j=1,10 do
+					visTime[i][j]=min(visTime[i][j],20)
+				end
 			end
 			ins(task,Event.task.lose)
 		end,
@@ -304,30 +339,44 @@ Event={
 		end
 	end,
 	task={
+		winTrigger=function()
+			Event.gameover.win()
+			return true
+		end,
 		win=function()
-			gameover=gameover+1
-			if gameover%3==0 then
-				local j=gameover/3
-				if j<=#field then
-					for i=1,10 do
-						if field[j][i]>0 then field[j][i]=13 end
+			P.counter=P.counter+1
+			if P.counter>60 then
+				for i=1,#field do
+					for j=1,10 do
+						if visTime[i][j]>0 then
+							visTime[i][j]=visTime[i][j]-1
+						end
 					end
-					if j==#field then gameover=50 end
 				end
-			end
-			if gameover>80 then
-				return true
+				if P.counter==100 then
+					for i=1,#field do
+						removeRow(field)
+						removeRow(visTime)
+					end
+					return true
+				end
 			end
 		end,
 		lose=function()
-			gameover=gameover+1
-			if gameover%3==0 then
-				local j=gameover/3
-				if field[j]then
-					for i=1,10 do
-						if field[j][i]>0 then field[j][i]=13 end
+			P.counter=P.counter+1
+			if P.counter>60 then
+				for i=1,#P.field do
+					for j=1,10 do
+						if P.visTime[i][j]>0 then
+							P.visTime[i][j]=P.visTime[i][j]-1
+						end
 					end
-				else
+				end
+				if P.counter==100 then
+					for i=1,#P.field do
+						removeRow(P.field)
+						removeRow(P.visTime)
+					end
 					return true
 				end
 			end
@@ -363,11 +412,14 @@ mesDisp={
 		gc.line(-120,377,-30,377)
 	end,
 	tetris41=function()
-		gc.print("Remain",-140,450)
-		gc.print("Attack",-130,305)
-		setFont(80)
-		mStr(#players.alive,-75,380)
-		mStr(cstat.atk,-75,240)
+		gc.draw(badgeIcon,-120,150,nil,1.5)
+		setFont(50)
+		gc.print(badge,-65,150)
+		mStr(cstat.atk,-75,320)
+		mStr(#players.alive,-75,430)
+		setFont(20)
+		gc.print("Attack",-103,360)
+		gc.print("Remain",-105,472)
 	end,
 	blind=function()
 		setFont(35)
@@ -393,12 +445,35 @@ mesDisp={
 setting={
 	sfx=true,bgm=true,
 	fullscreen=false,
+	bgblock=true,
 	lang="eng",
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ghost=true,center=true,
-	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT","DOWN"},
-	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","RB","LB","LEFT","RIGHT","DOWN"},
+	keyMap={
+		{"left","right","x","z","c","up","down","space","r","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+		{"","","","","","","","","","","",""},
+	},--keyboard & joystick
+	keyLib={
+		{1},
+		{2},
+		{3},
+		{4},
+	},--Players' key setting(s)
 	virtualkey={
 		{80,720-80,6400,80},--moveLeft
 		{240,720-80,6400,80},--moveRight
@@ -431,7 +506,6 @@ stat={
 --------------------------------Warning!_G is __indexed to players[n] when changing any player's data!
 require("list")
 require("texture")
-require("BGblock")
 require("ai")
 require("toolfunc")
 require("sysfunc")
@@ -441,8 +515,8 @@ require("paint")
 require("game_scene")
 require("call&sys")
 
-userData=fs.newFile("userData")
-userSetting=fs.newFile("userSetting")
+userData=fs.newFile("userdata")
+userSetting=fs.newFile("usersetting")
 if fs.getInfo("userdata")then
 	loadData()
 end

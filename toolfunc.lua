@@ -1,5 +1,4 @@
 function string.splitS(s,sep)
-	sep=sep or"/"
 	local t={}
 	repeat
 		local i=find(s,sep)or #s+1
@@ -39,14 +38,20 @@ end
 function removeRow(t,k)
 	ins(freeRow,rem(t,k))
 end
-function restockRow()
-	for p=1,#players do
-		local f,f2=players[p].field,players[p].visTime
-		while #f>0 do
-			removeRow(f,1)
-			removeRow(f2,1)
-		end
-	end
+
+local count=0
+BGblockList={}for i=1,16 do BGblockList[i]={v=0}end
+function getNewBlock()
+	count=count+1
+	if count==17 then count=1 end
+	local t=BGblockList[count]
+	t.bn,t.size=BGblock.next,2+3*rnd()
+	t.b=blocks[t.bn][rnd(0,3)]
+	t.x=rnd(-#t.b[1]*t.size*30+100,1180)
+	t.y=-#t.b*30*t.size
+	t.v=t.size*(1+rnd())
+	BGblock.next=BGblock.next%7+1
+	return t
 end
 
 function timeSort(a,b)
@@ -54,5 +59,8 @@ function timeSort(a,b)
 end
 function stencil_field()
 	gc.rectangle("fill",0,-10,300,610)
+end
+function stencil_field_small()
+	gc.rectangle("fill",0,0,300,600)
 end
 --Single use

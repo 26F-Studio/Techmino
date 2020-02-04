@@ -19,7 +19,6 @@ end
 function game.mode()
 	saveData()
 	modeSel=modeSel or 1
-	if players then restockRow()end--collectGarbage
 	scene="mode"
 	curBG="none"
 	BGM("blank")
@@ -35,17 +34,23 @@ function game.setting()
 	scene="setting"
 	curBG="none"
 	BGM("blank")
-end--Normal setting
+end
 function game.setting2()
 	scene="setting2"
 	curBG="none"
-	keyssetting=nil
+	curBoard=1
+	keyboardSet=1
+	joystickSet=1
+	keyboardSetting=false
+	joystickSetting=false
 	BGM("blank")
-end--Advanced setting and keyboard&joystick setting
+end--Control settings
 function game.setting3()
 	scene="setting3"
 	curBG="game1"
+	sel=nil
 	keyssetting=nil
+	snapLevel=1
 	BGM("blank")
 end--Touch setting
 function game.help()
