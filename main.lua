@@ -1,7 +1,7 @@
 --[[
 第一次搞这么大的工程~参考价值不是很大
 如果你有时间并且也热爱俄罗斯方块的话，来看代码或者帮助优化的话当然欢迎！
-(顺便，无授权直接盗用代码的先死个妈)
+(顺便，无授权直接盗代码的先死个妈)
 ]]
 local love=love
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
@@ -54,6 +54,7 @@ setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	quickR=true,swap=true,
+	fine=false,
 	--game
 
 	ghost=true,center=true,
@@ -110,6 +111,7 @@ setting={
 }
 stat={
 	run=0,game=0,time=0,
+	extraPiece=0,extraRate=0,
 	key=0,rotate=0,hold=0,piece=0,row=0,
 	atk=0,send=0,recv=0,pend=0,
 	clear_1=0,clear_2=0,clear_3=0,clear_4=0,
@@ -960,7 +962,6 @@ function love.resize(w,h)
 	gc.origin()
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
 	gc.replaceTransform(xOy)
-	collectgarbage()
 end
 function love.focus(f)
 	if system~="Android" and not f and scene=="play"then pauseGame()end
@@ -1022,19 +1023,18 @@ function love.update(dt)
 					for i=1,#Q do
 						Q[i]=Q[i+1]
 					end
-				end--play next when stop
+				end--放完后放下一个
 			else
 				local n=1
 				local L=voiceBank[Q[1]]
-				::L::if L[n]:isPlaying()then
+				while L[n]:isPlaying()do
 					n=n+1
 					if not L[n]then
 						L[n]=L[n-1]:clone()
 						L[n]:seek(0)
-						goto quit
+						break
 					end
-					goto L
-				end::quit::
+				end
 				Q[1]=L[n]
 				Q[1]:setVolume(setting.voc*.125)
 				Q[1]:play()

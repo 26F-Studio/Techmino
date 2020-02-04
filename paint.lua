@@ -50,6 +50,8 @@ local function dataOpt(i)
 		return stat.pc
 	elseif i==14 then
 		return format("%0.2f",stat.atk/stat.row)
+	elseif i==15 then
+		return stat.extraPiece.."["..(int(stat.extraRate/stat.piece*10000)*.01).."%]"
 	end
 end
 local statOptL={
@@ -72,6 +74,8 @@ local function statOpt(i)
 		return stat.pc
 	elseif i==17 then
 		return format("%0.2f",stat.atk/stat.row)
+	elseif i==18 then
+		return stat.extraPiece.."["..(int(stat.extraRate/stat.piece*10000)*.01).."%]"
 	end
 end
 local miniTitle_rect={
@@ -215,6 +219,27 @@ function Pnt.BG.glow()
 	local t=((sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+3))+5)*.05
 	gc.clear(t,t,t)
 end
+function Pnt.BG.rgb()
+	gc.clear(
+		sin(Timer()*1.2)*.15+.5,
+		sin(Timer()*1.5)*.15+.5,
+		sin(Timer()*1.9)*.15+.5
+	)
+end
+function Pnt.BG.strap()
+	gc.setColor(1,1,1)
+	local x=Timer()%32*40
+	gc.draw(background2,x,0,nil,10)
+	gc.draw(background2,x-1280,0,nil,10)
+end
+function Pnt.BG.flink()
+	local t=.13-Timer()%3%1.7
+	if t<.25 then
+		gc.clear(t,t,t)
+	else
+		gc.clear(0,0,0)
+	end
+end
 function Pnt.BG.game1()
 	gc.setColor(1,1,1)
 	gc.draw(background1,640,360,Timer()*.15,12,nil,64,64)
@@ -249,19 +274,6 @@ function Pnt.BG.game6()
 	local r=7-int(Timer()*.5)%7
 	gc.draw(mouseBlock[r],640,360,Timer()%3.1416*6,400,400,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 end--Fast lightning&spining tetromino
-function Pnt.BG.rgb()
-	gc.clear(
-		sin(Timer()*1.2)*.15+.5,
-		sin(Timer()*1.5)*.15+.5,
-		sin(Timer()*1.9)*.15+.5
-	)
-end
-function Pnt.BG.strap()
-	gc.setColor(1,1,1)
-	local x=Timer()%32*40
-	gc.draw(background2,x,0,nil,10)
-	gc.draw(background2,x-1280,0,nil,10)
-end
 local matrixT={}for i=0,15 do matrixT[i]={}for j=0,8 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 function Pnt.BG.matrix()
 	gc.clear(.15,.15,.15)
@@ -485,13 +497,13 @@ function Pnt.pause()
 	if pauseCount>0 then
 		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
 	end
-	for i=1,7 do
+	for i=1,8 do
 		gc.print(text.stat[i+3],110,30*i+270)
 		gc.print(dataOpt(i),305,30*i+270)
 	end
-	for i=8,14 do
-		gc.print(text.stat[i+3],860,30*i+60)
-		gc.print(dataOpt(i),1000,30*i+60)
+	for i=9,15 do
+		gc.print(text.stat[i+3],860,30*i+30)
+		gc.print(dataOpt(i),1000,30*i+30)
 	end
 	setFont(40)
 	if system~="Android"then
@@ -592,7 +604,7 @@ end
 function Pnt.stat()
 	setFont(28)
 	gc.setColor(1,1,1)
-	for i=1,17 do
+	for i=1,18 do
 		gc.print(text.stat[i],400,30*i-5)
 		gc.print(statOpt(i),720,30*i-5)
 	end

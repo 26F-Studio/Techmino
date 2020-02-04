@@ -44,6 +44,7 @@ function destroyPlayers()
 		players.alive[i]=nil
 	end
 	players.human=0
+	collectgarbage()
 end
 function getNewRow(val)
 	local t=rem(freeRow)
@@ -128,15 +129,14 @@ end
 function SFX(s,v)
 	if setting.sfx>0 then
 		local n=1
-		::L::if sfx[s][n]:isPlaying()then
+		while sfx[s][n]:isPlaying()do
 			n=n+1
 			if not sfx[s][n]then
 				sfx[s][n]=sfx[s][n-1]:clone()
 				sfx[s][n]:seek(0)
-				goto quit
+				break
 			end
-			goto L
-		end::quit::
+		end
 		sfx[s][n]:setVolume((v or 1)*setting.sfx*.125)
 		sfx[s][n]:play()
 	end
@@ -250,8 +250,9 @@ function gotoScene(s,style)
 	end
 end
 function updateStat()
-	for k,v in next,players[1].stat do
-		stat[k]=stat[k]+v
+	local S=players[1].stat
+	for k,v in next,S do
+		stat[k]=stat[k]+S[k]
 	end
 end
 local prevMenu={
@@ -474,6 +475,7 @@ end
 
 local dataOpt={
 	"run","game","time",
+	"extraPiece","extraRate",
 	"key","rotate","hold","piece","row",
 	"atk","send","recv","pend",
 	"clear_1","clear_2","clear_3","clear_4",
@@ -536,7 +538,7 @@ function loadSetting()
 				setting.virtualkeyAlpha=min(int(abs(toN(v))),10)
 			elseif
 				t=="ghost"or t=="center"or t=="grid"or t=="swap"or
-				t=="quickR"or t=="bgblock"or t=="smo"or
+				t=="quickR"or t=="fine"or t=="bgblock"or t=="smo"or
 				t=="virtualkeyIcon"or t=="virtualkeySwitch"
 			then
 				setting[t]=v=="true"
@@ -578,6 +580,7 @@ local saveOpt={
 	"sddas","sdarr",
 	"quickR",
 	"swap",
+	"fine",
 
 	"ghost","center",
 	"smo","grid",

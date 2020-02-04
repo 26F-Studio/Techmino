@@ -1298,6 +1298,20 @@ defaultModeEnv={
 			dropPiece="tech_reach_ultimate",
 			bg="matrix",bgm="secret7th",
 		},
+		{
+			drop=1e99,lock=60,
+			freshLimit=15,
+			fine=true,fineKill=true,
+			dropPiece="tech_reach_hard",
+			bg="flink",bgm="infinite",
+		},
+		{
+			drop=1e99,lock=60,
+			freshLimit=15,
+			fine=true,fineKill=true,
+			dropPiece="tech_reach_ultimate",
+			bg="flink",bgm="infinite",
+		},
 	},
 	c4wtrain={
 		{

@@ -1,6 +1,11 @@
 local S=[=[
+Patron(rmb10+):
+	gggf/T080/Ykzl/zxc
+	[D*a]?
 Future outlook:
 	Normal Things:
+		ajustable next count
+		bag line in all mode
 		force fineese mode
 		highscore of most modes
 		custom block color/direction
@@ -19,6 +24,9 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.7.28:
+	add fineese check
+	code optimized
 0.7.27:
 	super O transform system
 	optimized light system(no used)

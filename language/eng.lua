@@ -128,7 +128,7 @@ return{
 		"Powered by love2d",
 		"Find out what's in the setting!",
 		"Any suggestions to author!",
-		"Techmino=Technique+tetromino",
+		"Techmino=Technique+Tetromino",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 	},
@@ -150,6 +150,7 @@ return{
 		"B2B:",
 		"PC:",
 		"Efficiency:",
+		"Fineese:"
 	},
 	help={
 		"I don't think you need \"help\".",
@@ -252,7 +253,8 @@ Lib used:
 			sdarrD="-",sdarrU="+",
 			quickR="Quick restart",
 			swap="Combo key to change ATK mode",
-			ctrl="Control Setting",
+			fine="Fineese error SFX",
+			ctrl="Key Setting",
 			touch="Touch Setting",
 			back=BK,
 		},

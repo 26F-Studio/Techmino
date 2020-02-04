@@ -119,9 +119,8 @@ local function ifoverlapAI(f,bk,x,y)
 	end end
 end
 local function resetField(f0,f,start)
-	::L::if f[start]then
+	while f[start]do
 		removeRow(f,start)
-		goto L
 	end
 	for i=start,#f0 do
 		f[i]=getNewRow(0)
@@ -148,9 +147,8 @@ local function getScore(field,cb,cy)
 	if #field==0 then return 1e99 end--PC best
 	for x=1,10 do
 		local h=#field
-		::L::if field[h][x]==0 and h>1 then
+		while field[h][x]==0 and h>1 do
 			h=h-1
-			goto L
 		end
 		height[x]=h
 		if x>3 and x<8 and h>highest then highest=h end
@@ -204,9 +202,8 @@ AI_think={
 					local cb=blocks[bn][dir]
 					for cx=1,11-#cb[1]do--each pos
 						local cy=#Tfield+1
-						::L::if not ifoverlapAI(Tfield,cb,cx,cy-1)then
+						while not ifoverlapAI(Tfield,cb,cx,cy-1)do
 							cy=cy-1
-							goto L
 						end--move to bottom
 						for i=1,#cb do
 							local y=cy+i-1
