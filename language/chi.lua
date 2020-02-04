@@ -192,7 +192,7 @@ return{
 	warning="禁 止 私 自 传 播",
 	WidgetText={
 		main={
-			lang="中文",
+			lang="文-Lang",
 			qplay="快速开始",
 			play="开始",
 			setting="设置",
@@ -256,6 +256,7 @@ return{
 		pause={
 			resume=	"继续",
 			restart="重新开始",
+			setting="设置",
 			quit=	"退出",
 		},
 		setting_game={

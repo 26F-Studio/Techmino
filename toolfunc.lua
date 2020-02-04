@@ -129,19 +129,29 @@ function VIB(t)
 		love.system.vibrate(vibrateLevel[setting.vib+t])
 	end
 end
-function SFX(s,v)
+function SFX(s,v,pos)
 	if setting.sfx>0 then
+		local S=sfx[s]--AU_Queue
 		local n=1
-		while sfx[s][n]:isPlaying()do
+		while S[n]:isPlaying()do
 			n=n+1
-			if not sfx[s][n]then
-				sfx[s][n]=sfx[s][n-1]:clone()
-				sfx[s][n]:seek(0)
+			if not S[n]then
+				S[n]=S[n-1]:clone()
+				S[n]:seek(0)
 				break
 			end
 		end
-		sfx[s][n]:setVolume((v or 1)*setting.sfx*.125)
-		sfx[s][n]:play()
+		S=S[n]--AU_SRC
+		if S:getChannelCount()==1 then
+			if pos then
+				pos=pos*setting.stereo*.1
+				S:setPosition(pos,1-pos^2,0)
+			else
+				S:setPosition(0,0,0)
+			end
+		end
+		S:setVolume((v or 1)*setting.sfx*.1)
+		S:play()
 	end
 end
 function getFreeVoiceChannel()
@@ -182,7 +192,7 @@ function BGM(s)
 			bgmPlaying=s
 		else
 			if bgmPlaying then
-				local v=setting.bgm*.125
+				local v=setting.bgm*.1
 				bgm[bgmPlaying]:setVolume(v)
 				if v>0 then
 					bgm[bgmPlaying]:play()
@@ -330,7 +340,7 @@ function resetGameData()
 	pauseTime=0--Time paused
 	pauseCount=0--Times paused
 	destroyPlayers()
-	local E=defaultModeEnv[curMode.id]
+	local E=defModeEnv[curMode.id]
 	modeEnv=E[curMode.lv]or E[1]
 	loadmode[curMode.id]()--bg/bgm need redefine in custom,so up here
 	if modeEnv.task then
@@ -436,20 +446,24 @@ function loadSetting()
 		local p=find(t[i],"=")
 		if p then
 			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
-			if t=="sfx"or t=="bgm"or t=="voc"then
-				setting[t]=toN(v:match("[012345678]"))or setting[t]
+			if
+				--声音
+				t=="sfx"or t=="bgm"or t=="voc"or t=="stereo"or
+				--三个触摸设置项
+				t=="VKTchW"or t=="VKCurW"or t=="VKAlpha"
+			then
+				v=toN(v)
+				if v==int(v)and v>=0 and v<=10 then
+					setting[t]=v
+				end
 			elseif t=="vib"then
 				setting.vib=toN(v:match("[012345]"))or 0
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
 			elseif
-				--三个触摸设置项
-				t=="VKTchW"or t=="VKCurW"or t=="VKAlpha"
-			then
-				setting.VKTchW=min(int(abs(toN(v))),10)
-			elseif
 				--开关设置们
+				t=="bg"or
 				t=="ghost"or t=="center"or t=="grid"or t=="swap"or
 				t=="quickR"or t=="fine"or t=="bgblock"or t=="smo"or
 				t=="VKSwitch"or t=="VKTrack"or t=="VKIcon"
@@ -511,6 +525,7 @@ local saveOpt={
 
 	"sfx","bgm",
 	"vib","voc",
+	"stereo",
 	
 	"VKSwitch",
 	"VKTrack",

@@ -1,5 +1,5 @@
 math.randomseed(os.time())
-gameVersion="Alpha V0.7.30"
+gameVersion="Alpha V0.7.31+"
 function love.conf(t)
 	t.identity="Techmino"--Save directory name
 	t.version="11.1"
@@ -23,7 +23,7 @@ function love.conf(t)
 	W.resizable=1
 	W.fullscreentype="desktop"--"exclusive"
 	W.fullscreen=X
-	W.vsync=X--0→∞fps
+	W.vsync=0--0→∞fps
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
 	W.depth=X--Bits per sample in the depth buffer
 	W.stencil=1--The number of bits per sample in the stencil buffer

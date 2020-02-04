@@ -108,7 +108,6 @@ function switch:draw()
 	--frame
 	local t=self.text
 	if t then
-		if type(t)=="function"then t=t()end
 		gc.setColor(1,1,1)
 		setFont(self.font)
 		gc.printf(t,x-412,y+20-self.font*.7,400,"right")

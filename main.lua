@@ -121,13 +121,15 @@ local function getNewBlock()
 	return t
 end
 local function onVirtualkey(x,y)
-	local d1,nearest,distance
+	local dist,nearest=1e15
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
-		d1=(x-b.x)^2+(y-b.y)^2
-		if d1<b.r^2 then
-			if not nearest or d1<distance then
-				nearest,distance=K,d1
+		if b.ava then
+			local d1=(x-b.x)^2+(y-b.y)^2
+			if d1<b.r^2 then
+				if d1<dist then
+					nearest,dist=K,d1
+				end
 			end
 		end
 	end
@@ -930,7 +932,7 @@ function love.update(dt)
 					end
 				end
 				Q[1]=L[n]
-				Q[1]:setVolume(setting.voc*.125)
+				Q[1]:setVolume(setting.voc*.1)
 				Q[1]:play()
 				--load voice with string
 			end

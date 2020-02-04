@@ -66,11 +66,21 @@ local sceneInit={
 		if needResetGameData then
 			resetGameData()
 			needResetGameData=nil
+		else
+			BGM(modeEnv.bgm)
 		end
+		curBG=modeEnv.bg
 	end,
 	pause=function()
+		curBG=modeEnv.bg
 	end,
 	setting_game=function()
+		curBG="none"
+	end,
+	setting_graphic=function()
+		curBG="none"
+	end,
+	setting_sound=function()
 		curBG="none"
 	end,
 	setting_key=function()
@@ -169,6 +179,9 @@ function scene.push(tar,style)
 		scene.seq[m+1]=tar or scene.cur
 		scene.seq[m+2]=style or"fade"
 	end
+end
+function scene.pop()
+	scene.seq={}
 end
 function scene.swapTo(tar,style)
 	local S=scene.swap

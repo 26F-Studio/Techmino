@@ -19,8 +19,9 @@ setting={
 	skin=1,
 	--graphic
 
-	sfx=8,bgm=6,
+	sfx=10,bgm=7,
 	vib=3,voc=0,
+	stereo=6,
 	--sound
 
 	keyMap={

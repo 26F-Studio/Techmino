@@ -57,17 +57,20 @@ blockColor={
 }
 sfx={
 	"welcome",
+	"error","error_long",
+	--Stereo sfxs
 	"button","swipe",
 	"ready","start","win","fail","collect",
 	"move","rotate","rotatekick","hold",
 	"prerotate","prehold",
 	"lock","drop","fall",
-	"error","error_long","reach",
+	"reach",
 	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11","ren_mega",
 	"clear_1","clear_2","clear_3","clear_4",
 	"spin_0","spin_1","spin_2","spin_3",
 	"emit","blip_1","blip_2",
 	"perfectclear",
+	--mono sfxs
 }
 bgm={
 	"blank",
@@ -330,7 +333,7 @@ Widget={
 		back=	newButton(640,	630,230,90,	color.white,	45,scene.back),
 	},
 	music={
-		bgm=	newSlider(760,	80,400,8,40,nil,function()return setting.bgm end,function(i)setting.bgm=i;BGM(bgmPlaying)end),
+		bgm=	newSlider(760,	80,400,10,40,nil,function()return setting.bgm end,function(i)setting.bgm=i;BGM(bgmPlaying)end),
 		up=		newButton(1100,	200,120,120,color.white,60,function()love.keypressed("up")end),
 		play=	newButton(1100,	340,120,120,color.white,40,function()love.keypressed("space")end,function()return setting.bgm==0 end),
 		down=	newButton(1100,	480,120,120,color.white,60,function()love.keypressed("down")end),
@@ -380,6 +383,10 @@ Widget={
 			resetGameData()
 			scene.swapTo("play","none")
 			end),
+		setting=newButton(1150,80,200,100,color.yellow,45,function()
+			scene.push()
+			scene.swapTo("setting_sound")
+		end),
 		quit=	newButton(640,600,240,100,color.white,50,scene.back),
 	},
 	setting_game={
@@ -445,10 +452,10 @@ Widget={
 	setting_sound={
 		game=	newButton(200,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_game")end,	nil,"graphic"),
 		graphic=newButton(1080,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_graphic")end,	nil,"sfx"),
-		sfx=newSlider(180,250,400,8,40,function()SFX("blip_1")end,				function()return setting.sfx end,function(i)setting.sfx=i end,nil,"bgm"),
-		bgm=newSlider(750,250,400,8,40,function()BGM(bgmPlaying or"blank")end,	function()return setting.bgm end,function(i)setting.bgm=i end,nil,"vib"),
+		sfx=newSlider(180,250,400,10,40,function()SFX("blip_1")end,				function()return setting.sfx end,function(i)setting.sfx=i end,nil,"bgm"),
+		bgm=newSlider(750,250,400,10,40,function()BGM(bgmPlaying or"blank")end,	function()return setting.bgm end,function(i)setting.bgm=i end,nil,"vib"),
 		vib=newSlider(180,440,400,5,40,function()VIB(1)end,						function()return setting.vib end,function(i)setting.vib=i end,nil,"voc"),
-		voc=newSlider(750,440,400,8,40,function()VOICE("nya")end,				function()return setting.voc end,function(i)setting.voc=i end,nil,"back"),
+		voc=newSlider(750,440,400,10,40,function()VOICE("nya")end,				function()return setting.voc end,function(i)setting.voc=i end,nil,"back"),
 		back=newButton(1160,600,160,160,color.white,55,scene.back,nil,"game"),
 	},
 	setting_key={

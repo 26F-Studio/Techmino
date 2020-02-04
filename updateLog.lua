@@ -4,7 +4,6 @@ Patron(rmb10+):
 	[D*a]?
 Future outlook:
 	Normal Things:
-		in-game setting(scene-sequence system)
 		powerinfo switch
 		splashing block
 		ajustable next count
@@ -24,7 +23,13 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
-0.7.29:
+0.7.31+:
+	in-game setting
+	little changes
+0.7.31:
+	stereo system
+	fixed a problem in finesse calculating
+0.7.30:
 	auto-tracking virtual key,adjustable parameters!
 	can switch on/off virtuakeys
 	add 7 more key

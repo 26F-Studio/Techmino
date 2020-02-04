@@ -532,7 +532,9 @@ end
 function Event.classic_reach(P)
 	if P.stat.row>=P.gameEnv.target then
 		P.gameEnv.target=P.gameEnv.target+10
-		if P.gameEnv.target==100 then
+		if P.gameEnv.target==110 then
+			P.gameEnv.drop,P.gameEnv.lock=2,2
+		elseif P.gameEnv.target==210 then
 			P.gameEnv.drop,P.gameEnv.lock=1,1
 		end
 		SFX("reach")
@@ -561,6 +563,7 @@ function Event.GM_reach(P)
 	if R==4 then R=10 end
 	P.modeData.point=P.modeData.point+R
 	if P.stat.time>=53.5 then
+		P.modeData.point=P.modeData.point+15
 		Event.win(P)
 	end
 end
@@ -949,7 +952,7 @@ function Event_task.PC(P)
 	end
 end
 function Event_task.bgmFadeOut(_,id)
-	local v=bgm[id]:getVolume()-.025*setting.bgm*.125
+	local v=bgm[id]:getVolume()-.025*setting.bgm*.1
 	bgm[id]:setVolume(v>0 and v or 0)
 	if v<=0 then
 		bgm[id]:stop()
@@ -957,9 +960,9 @@ function Event_task.bgmFadeOut(_,id)
 	end
 end
 function Event_task.bgmFadeIn(_,id)
-	local v=min(bgm[id]:getVolume()+.025*setting.bgm*.125,setting.bgm*.125)
+	local v=min(bgm[id]:getVolume()+.025*setting.bgm*.1,setting.bgm*.1)
 	bgm[id]:setVolume(v)
-	if v>=setting.bgm*.125 then return true end
+	if v>=setting.bgm*.1 then return true end
 end
 -------------------------</Tasks>-------------------------
 
@@ -981,458 +984,457 @@ local Fkey_func={
 		P.modeData.event=1-P.modeData.event
 	end,
 }
-defaultModeEnv={
-	sprint={
-		{
-			drop=60,lock=60,
-			target=10,dropPiece="reach_winCheck",
-			bg="strap",bgm="race",
-		},
-		{
-			drop=60,lock=60,
-			target=20,dropPiece="reach_winCheck",
-			bg="strap",bgm="race",
-		},
-		{
-			drop=60,lock=60,
-			target=40,dropPiece="reach_winCheck",
-			bg="strap",bgm="race",
-		},
-		{
-			drop=60,lock=60,
-			target=100,dropPiece="reach_winCheck",
-			bg="strap",bgm="race",
-		},
-		{
-			drop=60,lock=60,
-			target=400,dropPiece="reach_winCheck",
-			bg="strap",bgm="push",
-		},
-		{
-			drop=60,lock=60,
-			target=1000,dropPiece="reach_winCheck",
-			bg="strap",bgm="push",
-		},
+defModeEnv={}
+defModeEnv.sprint={
+	{
+		drop=60,lock=60,
+		target=10,dropPiece="reach_winCheck",
+		bg="strap",bgm="race",
 	},
-	marathon={
-		{
-			drop=60,lock=60,fall=30,
-			target=200,dropPiece="reach_winCheck",
-			bg="strap",bgm="way",
-		},
-		{
-			drop=60,fall=20,
-			target=10,dropPiece="marathon_update",
-			bg="strap",bgm="way",
-		},
-		{
-			_20G=true,fall=15,
-			target=200,dropPiece="reach_winCheck",
-			bg="strap",bgm="race",
-		},
+	{
+		drop=60,lock=60,
+		target=20,dropPiece="reach_winCheck",
+		bg="strap",bgm="race",
 	},
-	master={
-		{
-			_20G=true,lock=rush_lock[1],
-			wait=rush_wait[1],
-			fall=rush_fall[1],
-			dropPiece="master_score",
-			das=9,arr=3,
-			freshLimit=15,
-			bg="strap",bgm="secret8th",
-		},
-		{
-			_20G=true,lock=death_lock[1],
-			wait=death_wait[1],
-			fall=death_fall[1],
-			dropPiece="master_score",
-			das=6,arr=1,
-			freshLimit=15,
-			bg="game2",bgm="secret7th",
-		},
-		{
-			_20G=true,lock=12,
-			wait=10,fall=10,
-			dropPiece="master_score_hard",
-			das=5,arr=1,
-			freshLimit=15,
-			easyFresh=false,bone=true,
-			bg="none",bgm="shining terminal",
-		},
+	{
+		drop=60,lock=60,
+		target=40,dropPiece="reach_winCheck",
+		bg="strap",bgm="race",
 	},
-	classic={
-		{
-			das=15,arr=3,sddas=2,sdarr=2,
-			ghost=false,center=false,
-			drop=2,lock=2,wait=10,fall=25,
-			next=1,hold=false,
-			sequence="rnd",
-			freshLimit=0,
-			target=10,dropPiece="classic_reach",
-			bg="rgb",bgm="rockblock",
-		},
+	{
+		drop=60,lock=60,
+		target=100,dropPiece="reach_winCheck",
+		bg="strap",bgm="race",
 	},
-	zen={
-		{
-			drop=1e99,lock=1e99,
-			oncehold=false,
-			dropPiece="reach_winCheck",
-			bg="strap",bgm="infinite",
-		},
+	{
+		drop=60,lock=60,
+		target=400,dropPiece="reach_winCheck",
+		bg="strap",bgm="push",
 	},
-	infinite={
-		{
-			drop=1e99,lock=1e99,
-			oncehold=false,
-			bg="glow",bgm="infinite",
-		},
-		{
-			drop=1e99,lock=1e99,
-			oncehold=false,
-			dropPiece="infinite_check",
-			bg="glow",bgm="infinite",
-		},
+	{
+		drop=60,lock=60,
+		target=1000,dropPiece="reach_winCheck",
+		bg="strap",bgm="push",
 	},
-	solo={
-		{
-			drop=60,lock=60,
-			freshLimit=15,
-			bg="game2",bgm="race",
-		},
+}
+defModeEnv.marathon={
+	{
+		drop=60,lock=60,fall=30,
+		target=200,dropPiece="reach_winCheck",
+		bg="strap",bgm="way",
 	},
-	round={
-		{
-			drop=1e99,lock=1e99,
-			oncehold=false,
-			dropPiece="round_check",
-			bg="game2",bgm="push",
-		},
+	{
+		drop=60,fall=20,
+		target=10,dropPiece="marathon_update",
+		bg="strap",bgm="way",
 	},
-	tsd={
-		{
-			oncehold=false,
-			drop=1e99,lock=1e99,
-			dropPiece="tsd_reach",
-			ospin=false,
-			bg="matrix",bgm="reason",
-		},
-		{
-			drop=60,lock=60,
-			freshLimit=15,
-			dropPiece="tsd_reach",
-			ospin=false,
-			bg="matrix",bgm="reason",
-		},
+	{
+		_20G=true,fall=15,
+		target=200,dropPiece="reach_winCheck",
+		bg="strap",bgm="race",
 	},
-	blind={
-		{
-			drop=30,lock=45,
-			freshLimit=10,
-			visible="time",
-			bg="glow",bgm="newera",
-		},
-		{
-			drop=15,lock=45,
-			freshLimit=10,
-			visible="fast",
-			freshLimit=10,
-			bg="glow",bgm="reason",
-		},
-		{
-			drop=15,lock=45,
-			fall=10,lock=60,
-			center=false,
-			visible="none",
-			freshLimit=15,
-			bg="rgb",bgm="secret7th",
-		},
-		{
-			drop=10,lock=45,
-			fall=5,lock=60,
-			center=false,ghost=false,
-			visible="none",
-			freshLimit=15,
-			bg="rgb",bgm="secret8th",
-		},
-		{
-			drop=30,lock=60,
-			fall=5,
-			block=false,
-			center=false,ghost=false,
-			visible="none",
-			freshLimit=15,
-			bg="rgb",bgm="secret7th",
-		},
-		{
-			_20G=true,
-			drop=0,lock=15,
-			wait=10,fall=15,
-			visible="fast",
-			freshLimit=15,
-			dropPiece="GM_reach",
-			arr=1,
-			bg="game3",bgm="shining terminal",
-		},
+}
+defModeEnv.master={
+	{
+		_20G=true,lock=rush_lock[1],
+		wait=rush_wait[1],
+		fall=rush_fall[1],
+		dropPiece="master_score",
+		das=9,arr=3,
+		freshLimit=15,
+		bg="strap",bgm="secret8th",
 	},
-	dig={
-		{
-			drop=60,lock=120,
-			fall=20,
-			freshLimit=15,
-			task="dig_normal",
-			bg="game2",bgm="push",
-		},
-		{
-			drop=10,lock=30,
-			freshLimit=15,
-			task="dig_lunatic",
-			bg="game2",bgm="secret7th",
-		},
+	{
+		_20G=true,lock=death_lock[1],
+		wait=death_wait[1],
+		fall=death_fall[1],
+		dropPiece="master_score",
+		das=6,arr=1,
+		freshLimit=15,
+		bg="game2",bgm="secret7th",
 	},
-	survivor={
-		{
-			drop=60,lock=120,
-			fall=30,
-			freshLimit=15,
-			task="survivor_easy",
-			bg="game2",bgm="push",
-		},
-		{
-			drop=30,lock=60,
-			fall=20,
-			freshLimit=15,
-			task="survivor_normal",
-			bg="game2",bgm="newera",
-		},
-		{
-			drop=10,lock=60,
-			fall=15,
-			freshLimit=15,
-			task="survivor_hard",
-			bg="game2",bgm="secret8th",
-		},
-		{
-			drop=6,lock=60,
-			fall=10,
-			freshLimit=15,
-			task="survivor_lunatic",
-			bg="game3",bgm="secret7th",
-		},
-		{
-			drop=5,lock=60,
-			fall=10,
-			freshLimit=15,
-			task="survivor_ultimate",
-			bg="rgb",bgm="secret7th",
-		},
+	{
+		_20G=true,lock=12,
+		wait=10,fall=10,
+		dropPiece="master_score_hard",
+		das=5,arr=1,
+		freshLimit=15,
+		easyFresh=false,bone=true,
+		bg="none",bgm="shining terminal",
 	},
-	defender={
-		{
-			drop=30,lock=60,
-			fall=10,
-			freshLimit=15,
-			task="defender_normal",
-			bg="game3",bgm="way",
-		},
-		{
-			drop=5,lock=60,
-			fall=6,
-			freshLimit=15,
-			task="defender_lunatic",
-			bg="game4",bgm="way",
-		},
+}
+defModeEnv.classic={
+	{
+		das=16,arr=6,sddas=2,sdarr=2,
+		ghost=false,center=false,
+		drop=3,lock=3,wait=10,fall=25,
+		next=1,hold=false,
+		sequence="rnd",
+		freshLimit=0,
+		target=10,dropPiece="classic_reach",
+		bg="rgb",bgm="rockblock",
 	},
-	attacker={
-		{
-			drop=30,lock=60,
-			fall=12,
-			freshLimit=15,
-			task="attacker_hard",
-			bg="game3",bgm="push",
-		},
-		{
-			drop=5,lock=60,
-			fall=8,
-			freshLimit=15,
-			task="attacker_ultimate",
-			bg="game4",bgm="shining terminal",
-		},
+}
+defModeEnv.zen={
+	{
+		drop=1e99,lock=1e99,
+		oncehold=false,
+		dropPiece="reach_winCheck",
+		bg="strap",bgm="infinite",
 	},
-	tech={
-		{
-			oncehold=false,
-			drop=1e99,lock=1e99,
-			dropPiece="tech_reach_easy",
-			bg="matrix",bgm="newera",
-		},
-		{
-			oncehold=false,
-			drop=1e99,lock=1e99,
-			dropPiece="tech_reach_ultimate",
-			bg="matrix",bgm="newera",
-		},
-		{
-			drop=10,lock=60,
-			freshLimit=15,
-			dropPiece="tech_reach_easy",
-			bg="matrix",bgm="secret8th",
-		},
-		{
-			drop=30,lock=60,
-			freshLimit=15,
-			dropPiece="tech_reach_ultimate",
-			bg="matrix",bgm="secret8th",
-		},
-		{
-			_20G=true,lock=60,
-			freshLimit=15,
-			dropPiece="tech_reach_hard",
-			bg="matrix",bgm="secret7th",
-		},
-		{
-			_20G=true,lock=60,
-			freshLimit=15,
-			dropPiece="tech_reach_ultimate",
-			bg="matrix",bgm="secret7th",
-		},
-		{
-			drop=1e99,lock=60,
-			freshLimit=15,
-			fine=true,fineKill=true,
-			dropPiece="tech_reach_hard",
-			bg="flink",bgm="infinite",
-		},
-		{
-			drop=1e99,lock=60,
-			freshLimit=15,
-			fine=true,fineKill=true,
-			dropPiece="tech_reach_ultimate",
-			bg="flink",bgm="infinite",
-		},
+}
+defModeEnv.infinite={
+	{
+		drop=1e99,lock=1e99,
+		oncehold=false,
+		bg="glow",bgm="infinite",
 	},
-	c4wtrain={
-		{
-			drop=30,lock=60,
-			oncehold=false,
-			freshLimit=15,
-			dropPiece="c4w_reach",
-			ospin=false,
-			bg="rgb",bgm="newera",
-		},
-		{
-			drop=5,lock=30,
-			freshLimit=15,
-			dropPiece="c4w_reach",
-			ospin=false,
-			bg="rgb",bgm="newera",
-		},
+	{
+		drop=1e99,lock=1e99,
+		oncehold=false,
+		dropPiece="infinite_check",
+		bg="glow",bgm="infinite",
 	},
-	pctrain={
-		{
-			next=4,
-			hold=false,
-			drop=150,lock=150,
-			fall=20,
-			sequence="none",
-			dropPiece="newPC",
-			ospin=false,
-			bg="rgb",bgm="newera",
-		},
-		{
-			next=4,
-			hold=false,
-			drop=60,lock=60,
-			fall=20,
-			sequence="none",
-			freshLimit=15,
-			dropPiece="newPC",
-			ospin=false,
-			bg="rgb",bgm="newera",
-		},
+}
+defModeEnv.solo={
+	{
+		drop=60,lock=60,
+		freshLimit=15,
+		bg="game2",bgm="race",
 	},
-	pcchallenge={
-		{
-			oncehold=false,
-			drop=300,lock=1e99,
-			target=100,dropPiece="reach_winCheck",
-			ospin=false,
-			bg="rgb",bgm="newera",
-		},
-		{
-			drop=60,lock=120,
-			fall=10,
-			target=100,dropPiece="reach_winCheck",
-			freshLimit=15,
-			ospin=false,
-			bg="rgb",bgm="infinite",
-		},
-		{
-			drop=20,lock=60,
-			fall=20,
-			target=100,dropPiece="reach_winCheck",
-			freshLimit=15,
-			ospin=false,
-			bg="rgb",bgm="infinite",
-		},
+}
+defModeEnv.round={
+	{
+		drop=1e99,lock=1e99,
+		oncehold=false,
+		dropPiece="round_check",
+		bg="game2",bgm="push",
 	},
-	techmino49={
-		{
-			drop=60,lock=60,
-			fall=20,
-			royaleMode=true,
-			Fkey=Fkey_func.royale,
-			royalePowerup={2,5,10,20},
-			royaleRemain={30,20,15,10,5},
-			pushSpeed=2,
-			freshLimit=15,
-			bg="game3",bgm="rockblock",
-		},
+}
+defModeEnv.tsd={
+	{
+		oncehold=false,
+		drop=1e99,lock=1e99,
+		dropPiece="tsd_reach",
+		ospin=false,
+		bg="matrix",bgm="reason",
 	},
-	techmino99={
-		{
-			drop=60,lock=60,
-			fall=20,
-			royaleMode=true,
-			Fkey=Fkey_func.royale,
-			royalePowerup={2,6,14,30},
-			royaleRemain={75,50,35,20,10},
-			pushSpeed=2,
-			freshLimit=15,
-			bg="game3",bgm="rockblock",
-		},
+	{
+		drop=60,lock=60,
+		freshLimit=15,
+		dropPiece="tsd_reach",
+		ospin=false,
+		bg="matrix",bgm="reason",
 	},
-	drought={
-		{
-			drop=20,lock=60,
-			sequence="drought1",
-			target=100,dropPiece="reach_winCheck",
-			ospin=false,
-			freshLimit=15,
-			bg="glow",bgm="reason",
-		},
-		{
-			drop=20,lock=60,
-			sequence="drought2",
-			target=100,dropPiece="reach_winCheck",
-			ospin=false,
-			freshLimit=15,
-			bg="glow",bgm="reason",
-		},
+}
+defModeEnv.blind={
+	{
+		drop=30,lock=45,
+		freshLimit=10,
+		visible="time",
+		bg="glow",bgm="newera",
 	},
-	hotseat={
-		{
-			drop=60,lock=60,
-			freshLimit=15,
-			bg="none",bgm="way",
-		},
+	{
+		drop=15,lock=45,
+		freshLimit=10,
+		visible="fast",
+		freshLimit=10,
+		bg="glow",bgm="reason",
 	},
-	custom={
-		{
-			dropPiece="reach_winCheck",
-		},
-		{
-			Fkey=Fkey_func.puzzle,puzzle=true,
-			dropPiece="puzzleCheck",
-		},
+	{
+		drop=15,lock=45,
+		fall=10,lock=60,
+		center=false,
+		visible="none",
+		freshLimit=15,
+		bg="rgb",bgm="secret7th",
+	},
+	{
+		drop=10,lock=45,
+		fall=5,lock=60,
+		center=false,ghost=false,
+		visible="none",
+		freshLimit=15,
+		bg="rgb",bgm="secret8th",
+	},
+	{
+		drop=30,lock=60,
+		fall=5,
+		block=false,
+		center=false,ghost=false,
+		visible="none",
+		freshLimit=15,
+		bg="rgb",bgm="secret7th",
+	},
+	{
+		_20G=true,
+		drop=0,lock=15,
+		wait=10,fall=15,
+		visible="fast",
+		freshLimit=15,
+		dropPiece="GM_reach",
+		arr=1,
+		bg="game3",bgm="shining terminal",
+	},
+}
+defModeEnv.dig={
+	{
+		drop=60,lock=120,
+		fall=20,
+		freshLimit=15,
+		task="dig_normal",
+		bg="game2",bgm="push",
+	},
+	{
+		drop=10,lock=30,
+		freshLimit=15,
+		task="dig_lunatic",
+		bg="game2",bgm="secret7th",
+	},
+}
+defModeEnv.survivor={
+	{
+		drop=60,lock=120,
+		fall=30,
+		freshLimit=15,
+		task="survivor_easy",
+		bg="game2",bgm="push",
+	},
+	{
+		drop=30,lock=60,
+		fall=20,
+		freshLimit=15,
+		task="survivor_normal",
+		bg="game2",bgm="newera",
+	},
+	{
+		drop=10,lock=60,
+		fall=15,
+		freshLimit=15,
+		task="survivor_hard",
+		bg="game2",bgm="secret8th",
+	},
+	{
+		drop=6,lock=60,
+		fall=10,
+		freshLimit=15,
+		task="survivor_lunatic",
+		bg="game3",bgm="secret7th",
+	},
+	{
+		drop=5,lock=60,
+		fall=10,
+		freshLimit=15,
+		task="survivor_ultimate",
+		bg="rgb",bgm="secret7th",
+	},
+}
+defModeEnv.defender={
+	{
+		drop=30,lock=60,
+		fall=10,
+		freshLimit=15,
+		task="defender_normal",
+		bg="game3",bgm="way",
+	},
+	{
+		drop=5,lock=60,
+		fall=6,
+		freshLimit=15,
+		task="defender_lunatic",
+		bg="game4",bgm="way",
+	},
+}
+defModeEnv.attacker={
+	{
+		drop=30,lock=60,
+		fall=12,
+		freshLimit=15,
+		task="attacker_hard",
+		bg="game3",bgm="push",
+	},
+	{
+		drop=5,lock=60,
+		fall=8,
+		freshLimit=15,
+		task="attacker_ultimate",
+		bg="game4",bgm="shining terminal",
+	},
+}
+defModeEnv.tech={
+	{
+		oncehold=false,
+		drop=1e99,lock=1e99,
+		dropPiece="tech_reach_easy",
+		bg="matrix",bgm="newera",
+	},
+	{
+		oncehold=false,
+		drop=1e99,lock=1e99,
+		dropPiece="tech_reach_ultimate",
+		bg="matrix",bgm="newera",
+	},
+	{
+		drop=10,lock=60,
+		freshLimit=15,
+		dropPiece="tech_reach_easy",
+		bg="matrix",bgm="secret8th",
+	},
+	{
+		drop=30,lock=60,
+		freshLimit=15,
+		dropPiece="tech_reach_ultimate",
+		bg="matrix",bgm="secret8th",
+	},
+	{
+		_20G=true,lock=60,
+		freshLimit=15,
+		dropPiece="tech_reach_hard",
+		bg="matrix",bgm="secret7th",
+	},
+	{
+		_20G=true,lock=60,
+		freshLimit=15,
+		dropPiece="tech_reach_ultimate",
+		bg="matrix",bgm="secret7th",
+	},
+	{
+		drop=1e99,lock=60,
+		freshLimit=15,
+		fine=true,fineKill=true,
+		dropPiece="tech_reach_hard",
+		bg="flink",bgm="infinite",
+	},
+	{
+		drop=1e99,lock=60,
+		freshLimit=15,
+		fine=true,fineKill=true,
+		dropPiece="tech_reach_ultimate",
+		bg="flink",bgm="infinite",
+	},
+}
+defModeEnv.c4wtrain={
+	{
+		drop=30,lock=60,
+		oncehold=false,
+		freshLimit=15,
+		dropPiece="c4w_reach",
+		ospin=false,
+		bg="rgb",bgm="newera",
+	},
+	{
+		drop=5,lock=30,
+		freshLimit=15,
+		dropPiece="c4w_reach",
+		ospin=false,
+		bg="rgb",bgm="newera",
+	},
+}
+defModeEnv.pctrain={
+	{
+		next=4,
+		hold=false,
+		drop=150,lock=150,
+		fall=20,
+		sequence="none",
+		dropPiece="newPC",
+		ospin=false,
+		bg="rgb",bgm="newera",
+	},
+	{
+		next=4,
+		hold=false,
+		drop=60,lock=60,
+		fall=20,
+		sequence="none",
+		freshLimit=15,
+		dropPiece="newPC",
+		ospin=false,
+		bg="rgb",bgm="newera",
+	},
+}
+defModeEnv.pcchallenge={
+	{
+		oncehold=false,
+		drop=300,lock=1e99,
+		target=100,dropPiece="reach_winCheck",
+		ospin=false,
+		bg="rgb",bgm="newera",
+	},
+	{
+		drop=60,lock=120,
+		fall=10,
+		target=100,dropPiece="reach_winCheck",
+		freshLimit=15,
+		ospin=false,
+		bg="rgb",bgm="infinite",
+	},
+	{
+		drop=20,lock=60,
+		fall=20,
+		target=100,dropPiece="reach_winCheck",
+		freshLimit=15,
+		ospin=false,
+		bg="rgb",bgm="infinite",
+	},
+}
+defModeEnv.techmino49={
+	{
+		drop=60,lock=60,
+		fall=20,
+		royaleMode=true,
+		Fkey=Fkey_func.royale,
+		royalePowerup={2,5,10,20},
+		royaleRemain={30,20,15,10,5},
+		pushSpeed=2,
+		freshLimit=15,
+		bg="game3",bgm="rockblock",
+	},
+}
+defModeEnv.techmino99={
+	{
+		drop=60,lock=60,
+		fall=20,
+		royaleMode=true,
+		Fkey=Fkey_func.royale,
+		royalePowerup={2,6,14,30},
+		royaleRemain={75,50,35,20,10},
+		pushSpeed=2,
+		freshLimit=15,
+		bg="game3",bgm="rockblock",
+	},
+}
+defModeEnv.drought={
+	{
+		drop=20,lock=60,
+		sequence="drought1",
+		target=100,dropPiece="reach_winCheck",
+		ospin=false,
+		freshLimit=15,
+		bg="glow",bgm="reason",
+	},
+	{
+		drop=20,lock=60,
+		sequence="drought2",
+		target=100,dropPiece="reach_winCheck",
+		ospin=false,
+		freshLimit=15,
+		bg="glow",bgm="reason",
+	},
+}
+defModeEnv.hotseat={
+	{
+		drop=60,lock=60,
+		freshLimit=15,
+		bg="none",bgm="way",
+	},
+}
+defModeEnv.custom={
+	{
+		dropPiece="reach_winCheck",
+	},
+	{
+		Fkey=Fkey_func.puzzle,puzzle=true,
+		dropPiece="puzzleCheck",
 	},
 }

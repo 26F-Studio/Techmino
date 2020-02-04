@@ -11,6 +11,7 @@ local scr=scr--screen camera
 local gameEnv0={
 	das=10,arr=2,
 	sddas=2,sdarr=2,
+	quickR=true,swap=true,
 	ghost=true,center=true,
 	grid=false,swap=true,
 	_20G=false,bone=false,
@@ -317,7 +318,7 @@ local mesDisp={
 		mStr("Lines",-82,300)
 		mStr("Techrash",-82,420)
 		if curMode.lv==6 then
-			mStr("Point",-82,170)
+			mStr("Grade",-82,170)
 			setFont(60)
 			mStr(P.modeData.point*.1,-82,110)
 		end
@@ -1410,6 +1411,9 @@ local function solid(P,x,y)
 	if y>#P.field then return false end
 	return P.field[y][x]>0
 end
+local function getBlockDirection(P)
+	return(P.curX+P.sc[2]-6.5)*.15
+end
 
 function player:fineError(rate)
 	self.stat.extraPiece=self.stat.extraPiece+1
@@ -1697,7 +1701,7 @@ function player:spin(d,ifpre)
 					self.spinLast=2
 					self.stat.rotate=self.stat.rotate+1
 					self:freshgho()
-					SFX("rotatekick")
+					SFX("rotatekick",nil,getBlockDirection(self))
 					return
 				end
 			else
@@ -1705,7 +1709,7 @@ function player:spin(d,ifpre)
 			end
 		end
 		if self.human then
-			SFX(ifpre and"prerotate"or"rotate")
+			SFX(ifpre and"prerotate"or"rotate",nil,getBlockDirection(self))
 		end
 		return
 	end
@@ -1736,9 +1740,8 @@ function player:spin(d,ifpre)
 	if not ifpre then self:freshgho()end
 	if self.gameEnv.easyFresh or y0>self.curY then self:freshLockDelay()end
 	if self.human then
-		SFX(ifpre and"prerotate"or ifoverlap(self,self.cur.bk,self.curX,self.curY+1)and ifoverlap(self,self.cur.bk,self.curX-1,self.curY)and ifoverlap(self,self.cur.bk,self.curX+1,self.curY)and"rotatekick"or"rotate")
+		SFX(ifpre and"prerotate"or ifoverlap(self,self.cur.bk,self.curX,self.curY+1)and ifoverlap(self,self.cur.bk,self.curX-1,self.curY)and ifoverlap(self,self.cur.bk,self.curX+1,self.curY)and"rotatekick"or"rotate",nil,getBlockDirection(self))
 	end
-	self.ctrlCount=self.ctrlCount+(d==2 and 2 or 1)
 	self.stat.rotate=self.stat.rotate+1
 end
 function player:hold(ifpre)
@@ -1810,7 +1813,7 @@ function player:resetblock()
 	self:freshgho()
 	if self.keyPressing[6]then self.act.hardDrop(self)self.keyPressing[6]=false end
 end
-function player:drop()--(Place piece)
+function player:drop()--Place piece
 	self.dropTime[11]=ins(self.dropTime,1,frame)--update speed dial
 	self.waiting=self.gameEnv.wait
 	local dospin=0
@@ -2086,7 +2089,7 @@ function player:drop()--(Place piece)
 					self:garbageSend(T,send,sendTime,1,self.cur.color,self.lastClear,dospin,mini,self.combo)
 				end
 				self.stat.send=self.stat.send+send
-				if self.human and send>3 then SFX("emit",min(send,8)*.125)end
+				if self.human and send>3 then SFX("emit",min(send,8)*.1)end
 			end
 		end
 	else
@@ -2111,7 +2114,7 @@ function player:drop()--(Place piece)
 	self.stat.score=self.stat.score+cscore
 	self.stat.piece,self.stat.row=self.stat.piece+1,self.stat.row+cc
 	Event[self.gameEnv.dropPiece](self)
-	if self.human then SFX("lock")end
+	if self.human then SFX("lock",nil,getBlockDirection(self))end
 end
 function player:pressKey(i)
 	self.keyPressing[i]=true
@@ -2136,8 +2139,11 @@ end
 -------------------------<Controls>-------------------------
 player.act={}
 function player.act.moveLeft(P,auto)
+	if not auto then
+		P.ctrlCount=P.ctrlCount+1
+	end
 	if P.keyPressing[9]then
-		if setting.swap then
+		if P.gameEnv.swap then
 			P:changeAtkMode(1)
 		end
 	elseif P.control and P.waiting==-1 then
@@ -2150,7 +2156,6 @@ function player.act.moveLeft(P,auto)
 			P.spinLast=false
 			if not auto then
 				P.moving=-1
-				P.ctrlCount=P.ctrlCount+1
 			end
 		else
 			P.moving=-P.gameEnv.das-1
@@ -2160,8 +2165,11 @@ function player.act.moveLeft(P,auto)
 	end
 end
 function player.act.moveRight(P,auto)
+	if not auto then
+		P.ctrlCount=P.ctrlCount+1
+	end
 	if P.keyPressing[9]then
-		if setting.swap then
+		if P.gameEnv.swap then
 			P:changeAtkMode(2)
 		end
 	elseif P.control and P.waiting==-1 then
@@ -2174,7 +2182,6 @@ function player.act.moveRight(P,auto)
 			P.spinLast=false
 			if not auto then
 				P.moving=1
-				P.ctrlCount=P.ctrlCount+1
 			end
 		else
 			P.moving=P.gameEnv.das+1
@@ -2185,25 +2192,28 @@ function player.act.moveRight(P,auto)
 end
 function player.act.rotRight(P)
 	if P.control and P.waiting==-1 then
+		P.ctrlCount=P.ctrlCount+1
 		P:spin(1)
 		P.keyPressing[3]=false
 	end
 end
 function player.act.rotLeft(P)
 	if P.control and P.waiting==-1 then
+		P.ctrlCount=P.ctrlCount+1
 		P:spin(3)
 		P.keyPressing[4]=false
 	end
 end
 function player.act.rotFlip(P)
 	if P.control and P.waiting==-1 then
+		P.ctrlCount=P.ctrlCount+2
 		P:spin(2)
 		P.keyPressing[5]=false
 	end
 end
 function player.act.hardDrop(P)
 	if P.keyPressing[9]then
-		if setting.swap then
+		if P.gameEnv.swap then
 			P:changeAtkMode(3)
 		end
 		P.keyPressing[6]=false
@@ -2220,7 +2230,7 @@ function player.act.hardDrop(P)
 			P.curY=P.y_img
 			P.spinLast=false
 			if P.human then
-				SFX("drop")
+				SFX("drop",nil,getBlockDirection(P))
 				VIB(1)
 			end
 		end
@@ -2231,7 +2241,7 @@ function player.act.hardDrop(P)
 end
 function player.act.softDrop(P)
 	if P.keyPressing[9]then
-		if setting.swap then
+		if P.gameEnv.swap then
 			P:changeAtkMode(4)
 		end
 	else
@@ -2253,7 +2263,7 @@ function player.act.func(P)
 	P.gameEnv.Fkey(P)
 end
 function player.act.restart(P)
-	if setting.quickR or frame<180 then
+	if P.gameEnv.quickR or frame<180 then
 		clearTask("play")
 		resetPartGameData()
 	end
@@ -2359,5 +2369,4 @@ function player.act.addRight(P)
 	P.act.insLeft(P)
 	P.act.hardDrop(P)
 end
-
 -------------------------</Controls>-------------------------
