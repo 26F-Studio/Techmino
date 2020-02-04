@@ -97,7 +97,6 @@ voiceName={
 	"win","lose",
 	"bye",
 	"nya","voc_nya",
-	"egg",
 }
 voiceList={
 	zspin={"zspin_1","zspin_2","zspin_3"},
@@ -122,7 +121,6 @@ voiceList={
 	bye={"bye_1","bye_2"},
 	nya={"nya_1","nya_2","nya_3","nya_4"},
 	voc_nya={"nya_11","nya_12","nya_13","nya_21","nya_22"},
-	egg={"egg_1","egg_2"},
 }
 
 musicID={
@@ -343,10 +341,10 @@ Widget={
 	mode={
 		up=		newButton(1000,	210,200,140,C.white,		75,pressKey("up"),		function()return modeSel==1 end),
 		down=	newButton(1000,	430,200,140,C.white,		75,pressKey("down"),	function()return modeSel==#modeID end),
-		left=	newButton(190,	150,100,80,	C.white,		35,pressKey("left"),	function()return levelSel==1 end),
-		right=	newButton(350,	150,100,80,	C.white,		35,pressKey("right"),	function()return levelSel==#modes[modeID[modeSel]].level end),
+		left=	newButton(190,	160,100,80,	C.white,		35,pressKey("left"),	function()return levelSel==1 end),
+		right=	newButton(350,	160,100,80,	C.white,		35,pressKey("right"),	function()return levelSel==#modes[modeID[modeSel]].level end),
 		start=	newButton(1000,	600,250,100,C.lightGreen,	45,function()scene.push()loadGame(modeSel,levelSel)end),
-		custom=	newButton(275,	460,200,90,	C.lightYellow,	35,function()scene.push()scene.swapTo("custom")end),
+		custom=	newButton(275,	420,200,90,	C.lightYellow,	35,function()scene.push()scene.swapTo("custom")end),
 		back=	newButton(640,	630,230,90,	C.white,		40,scene.back),
 	},
 	music={

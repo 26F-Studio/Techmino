@@ -945,9 +945,9 @@ function player.draw_norm(P)
 	end--Draw starting counter
 	drawTexts(P.bonus)--Bonus texts
 	setFont(25)
+	gc.setColor(1,1,1)
 	drawDial(360,520,P.dropSpeed)
 	drawDial(405,575,P.keySpeed)
-	gc.setColor(1,1,1)
 	mStr(format("%.2f",P.stat.time),-82,518)--Time
 	mStr(P.score1,-82,560)--Score
 	gc.draw(drawableText.bpm,390,490)

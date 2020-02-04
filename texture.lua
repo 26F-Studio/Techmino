@@ -84,12 +84,6 @@ background1=N("/image/BG/bg1.jpg")
 background2=N("/image/BG/bg2.png")
 groupCode=N("/image/mess/groupcode.png")
 payCode=N("/image/mess/paycode.png")
-
-miya_ch=N("/image/miya/ch.png")
-miya_f1=N("/image/miya/f1.png")
-miya_f2=N("/image/miya/f2.png")
-miya_f3=N("/image/miya/f3.png")
-miya_f4=N("/image/miya/f4.png")
 drawableText={
 	question=T(100,"?"),
 	bpm=T(15,"BPM"),kpm=T(15,"KPM"),

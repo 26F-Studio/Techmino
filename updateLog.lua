@@ -27,12 +27,9 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
-0.8.2+:
-	GUI adjusted
-	added a cute cat
 0.8.2:
 	new widget appearence
-	GUI adjusted
+	gui adjusted
 	bug fixed
 0.8.1:
 	more FX level

@@ -86,8 +86,8 @@ if sys.getPowerInfo()~="unknown"then
 			if state=="nobattery"then
 				gc.setColor(1,1,1)
 				gc.setLineWidth(2)
-				gc.line(74,5,100,22)
-			else
+				gc.line(74,5,99,22)
+			elseif pow<100 then
 				if charging then	gc.setColor(0,1,0)
 				elseif pow>50 then	gc.setColor(1,1,1)
 				elseif pow>26 then	gc.setColor(1,1,0)
@@ -95,16 +95,14 @@ if sys.getPowerInfo()~="unknown"then
 				else				gc.setColor(.5,0,1)
 				end
 				gc.rectangle("fill",76,6,pow*.22,14)
-				if pow<100 then
-					setFont(14)
-					gc.setColor(0,0,0)
-					gc.print(pow,77,2)
-					gc.print(pow,77,4)
-					gc.print(pow,79,2)
-					gc.print(pow,79,4)
-					gc.setColor(1,1,1)
-					gc.print(pow,78,3)
-				end
+				setFont(14)
+				gc.setColor(0,0,0)
+				gc.print(pow,77,2)
+				gc.print(pow,77,4)
+				gc.print(pow,79,2)
+				gc.print(pow,79,4)
+				gc.setColor(1,1,1)
+				gc.print(pow,78,3)
 			end
 			gc.draw(batteryImage,73,3)
 			setFont(25)
@@ -367,19 +365,6 @@ function keyDown.draw(key)
 		scene.back()
 	else
 		pen=penKey[key]or pen
-	end
-end
-
-function mouseDown.setting_sound(x,y,k)
-	if Timer()-sel>5 and x>780 and x<980 and y>470 then
-		VOICE("egg")
-		sel=Timer()
-	end
-end
-function touchDown.setting_sound(id,x,y)
-	if Timer()-sel>5 and x>780 and x<980 and y>470 then
-		VOICE("egg")
-		sel=Timer()
 	end
 end
 

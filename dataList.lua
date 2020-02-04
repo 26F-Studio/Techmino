@@ -1373,6 +1373,7 @@ modes.c4wtrain={
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
+		mStr(max(100-P.stat.row,0),-82,220)
 		mStr(P.combo,-82,310)
 		mStr(P.modeData.point,-82,400)
 		mDraw(drawableText.combo,-82,358)
