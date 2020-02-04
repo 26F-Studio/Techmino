@@ -1,8 +1,15 @@
+function loadGame(mode,level)
+	--rec={}
+	gameMode,gameLevel=mode,level
+	gotoScene("play")
+end
 function resetGameData()
 	frame=0
+	pushSpeed,garbageSpeed=3,1
 
 	players={alive={}}
-	loadmode[gamemode]()
+	modeEnv=defaultModeEnv[gameMode][gameLevel]or defaultModeEnv[gameMode][1]
+	loadmode[gameMode]()
 
 	FX.beam={}
 	for k,v in pairs(PTC.dust)do
@@ -16,14 +23,12 @@ function resetGameData()
 	end
 	if modeEnv.royaleMode then
 		for i=1,#players do
-			local P=players[i]
-			if not P.atking then
-				repeat
-					P.atking=players.alive[rnd(#players.alive)]
-				until P.atking~=P
-			end
+			changeAtk(players[i],randomTarget(players[i]))
 		end
 		mostBadge,mostDangerous,secBadge,secDangerous=nil
+		gameStage=1
+		pushSpeed=2
+		garbageSpeed=.3
 	end
 	for i=1,#virtualkey do
 		virtualkey[i].press=false
@@ -63,7 +68,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	if AIspeed then
 		P.ai={
 			controls={},
-			controlDelay=60,
+			controlDelay=30,
 			controlDelay0=AIspeed,
 		}
 	end
@@ -80,7 +85,8 @@ function createPlayer(id,x,y,size,AIspeed,data)
 
 
 	P.ko,P.badge,P.strength=0,0,0
-	P.atkMode,P.swappingAtkMode,P.atking,P.lastRecv=1,20
+	P.atkMode,P.swappingAtkMode=1,20
+	P.atker,P.atking,P.lastRecv={}
 	--Royale-related
 	
 	P.gameEnv={}--Game setting vars,like dropDelay setting
@@ -100,16 +106,28 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.nxt,P.nb={},{}
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
 	P.freshTime=0
-	P.lastSpin=false
-	if P.gameEnv.sequence==3 then
+	P.spinLast,P.lastClear=nil
+	if P.gameEnv.sequence<3 then
+		local bag1={1,2,3,4,5,6,7}
+		for i=1,7 do
+			P.nxt[i]=rem(bag1,rnd(#bag1))
+			P.nb[i]=blocks[P.nxt[i]][0]
+		end
+	elseif P.gameEnv.sequence==3 then
 		for i=1,6 do
 			local r=rnd(7)
 			P.nxt[i]=r
 			P.nb[i]=blocks[r][0]
 		end
-	elseif P.gameEnv.sequence<5 then
-		local bag1={1,2,3,4,5,6,7}
-		for i=1,7 do
+	elseif P.gameEnv.sequence==5 then
+		local bag1={1,2,3,4,5,6}
+		for i=1,6 do
+			P.nxt[i]=rem(bag1,rnd(#bag1))
+			P.nb[i]=blocks[P.nxt[i]][0]
+		end--First bag
+	elseif P.gameEnv.sequence==6 then
+		local bag1={1,2,3,4,6,7}
+		for i=1,6 do
 			P.nxt[i]=rem(bag1,rnd(#bag1))
 			P.nb[i]=blocks[P.nxt[i]][0]
 		end--First bag
@@ -123,7 +141,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 
 	P.showTime=P.gameEnv.visible==1 and 1e99 or P.gameEnv.visible==2 and 300 or 20
 	P.cb,P.sc,P.bn,P.r,P.c,P.cx,P.cy,P.dir,P.y_img={{}},{0,0},1,0,0,0,0,0,0
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
+	P.keyPressing,P.isKeyDown={},{}for i=1,12 do P.keyPressing[i],P.isKeyDown[i]=false,false end
 	P.moving,P.downing=0,0
 	P.waiting,P.falling=0,0
 	P.clearing={}
@@ -138,9 +156,9 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.task={}
 	P.bonus={}
 end
-function showText(text,type,font,dy,inf)
+function showText(P,text,type,font,dy,spd,inf)
 	if not P.small then
-		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,inf=inf,solid=inf})
+		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,speed=spd or 1,inf=inf})
 	end
 end
 function createBeam(S,R,lv)--Player id
@@ -167,9 +185,9 @@ function throwBadge(S,R,amount)--Player id
 	if R.small then
 		x2,y2=R.x+150*R.size,R.y+300*R.size
 	else
-		x2,y2=R.x+308*R.size,R.y+450*R.size
+		x2,y2=R.x+73*R.size,R.y+360*R.size
 	end
-	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(10+min(amount,10))*.1})
+	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(9+min(amount,12))*.1})
 end
 function randomTarget(p)
 	if #players.alive>1 then
@@ -178,6 +196,41 @@ function randomTarget(p)
 			r=players.alive[rnd(#players.alive)]
 		until r~=p
 		return r
+	end
+end
+function freshTarget(P)
+	if P.atkMode==1 then
+		if not P.atking.alive or rnd()<.1 then
+			changeAtk(P,randomTarget(P))
+		end
+	elseif P.atkMode==2 then
+		changeAtk(P,P~=mostBadge and mostBadge or secBadge or randomTarget(P))
+	elseif P.atkMode==3 then
+		changeAtk(P,P~=mostDangerous and mostDangerous or secDangerous or randomTarget(P))
+	elseif P.atkMode==4 then
+		for i=1,#P.atker do
+			if not P.atker[i].alive then
+				rem(P.atker,i)
+				break
+			end
+		end
+	end
+end
+function changeAtk(P,R)
+	if P.atking then
+		local K=P.atking.atker
+		for i=1,#K do
+			if K[i]==P then
+				rem(K,i)
+				break
+			end
+		end
+	end
+	if R then
+		P.atking=R
+		ins(R.atker,P)
+	else
+		P.atking=nil
 	end
 end
 function freshRoyaleTarget()
@@ -190,19 +243,41 @@ function freshRoyaleTarget()
 		end
 		if #players.alive[i].field>=b then
 			mostDangerous,secDangerous=players.alive[i],mostDangerous
-			b=#players[i].field
+			b=#players.alive[i].field
 		end
+	end
+end
+function royaleLevelup()
+	gameStage=gameStage+1
+	local s
+	if(gameStage==3 or gameStage>4)and players[1].alive then
+		showText(players[1],#players.alive.." Players Remain","beat",50,-100,.3)
+	end
+	if gameStage==2 then
+		s=30
+	elseif gameStage==3 then
+		s=15
+		garbageSpeed=.6
+		BGM("cruelty")
+	elseif gameStage==4 then
+		s=10
+		pushSpeed=3
+	elseif gameStage==5 then
+		s=5
+		garbageSpeed=1
+	elseif gameStage==6 then
+		s=3
+		BGM("final")
 	end
 	for i=1,#players.alive do
 		local P=players.alive[i]
-		if P.atkMode==1 then
-			if not P.atking then
-				P.atking=randomTarget(P)
-			end
-		elseif P.atkMode==2 then
-			P.atking=P~=mostBadge and mostBadge or secBadge
-		elseif P.atkMode==3 then
-			P.atking=P~=mostDangerous and mostDangerous or secDangerous
+		P.gameEnv.drop=s
+	end
+	if gameLevel==5 and players[1].alive then
+		local P=players[1]
+		P.gameEnv.drop=int(P.gameEnv.drop*.3)
+		if P.gameEnv.drop==0 then
+			P.gameEnv._20G=true
 		end
 	end
 end
@@ -285,6 +360,7 @@ end
 function pressKey(i,p)
 	P=p
 	P.keyPressing[i]=true
+	P.isKeyDown[i]=true
 	if i==10 then
 		act.restart()
 	elseif P.alive then
@@ -294,7 +370,7 @@ function pressKey(i,p)
 		elseif P.keyPressing[9]then
 			if i==1 then
 				P.atkMode=1
-				P.atking=randomTarget(P)
+				changeAtk(P,randomTarget(P))
 			elseif i==2 then
 				P.atkMode=2
 			elseif i==6 then
@@ -317,6 +393,7 @@ function pressKey(i,p)
 end
 function releaseKey(i,p)
 	p.keyPressing[i]=false
+	P.isKeyDown[i]=false
 	-- if playmode=="recording"then ins(rec,{-i,frame})end
 end
 function spin(d,ifpre)
@@ -373,7 +450,7 @@ function hold(ifpre)
 
 		freshgho()
 		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
-		if ifoverlap(P.cb,P.cx,P.cy) then lock()Event.gameover.lose()end
+		if ifoverlap(P.cb,P.cx,P.cy)then lock()Event.gameover.lose()end
 		P.holded=P.gameEnv.oncehold
 		SFX(ifpre and"prehold"or"hold")
 		if P.id==1 then
@@ -425,98 +502,94 @@ function drop()
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
 			if P.b2b>480 then
-				showText("Techrash B2B2B","fly",70)
+				showText(P,"Techrash B2B2B","fly",70)
 				csend=6
 				sendTime=80
 				exblock=exblock+1
 			elseif P.b2b>=30 then
-				showText("Techrash B2B","drive",70)
+				showText(P,"Techrash B2B","drive",70)
 				sendTime=70
 				csend=5
 			else
-				showText("Techrash","stretch",80)
+				showText(P,"Techrash","stretch",80)
 				sendTime=60
 				csend=4
 			end
 			P.b2b=P.b2b+100
+			P.lastClear=74
 			P.cstat.techrash=P.cstat.techrash+1
 		elseif cc>0 then
 			if dospin then
 				if P.b2b>480 then
-					showText(spinName[cc][P.bn].." B2B2B","spin",40)
+					showText(P,spinName[cc][P.bn].." B2B2B","spin",40)
 					csend=b2bATK[cc]+1
 					exblock=exblock+1
 				elseif P.b2b>=30 then
-					showText(spinName[cc][P.bn].." B2B","spin",40)
+					showText(P,spinName[cc][P.bn].." B2B","spin",40)
 					csend=b2bATK[cc]
 				else
-					showText(spinName[cc][P.bn],"spin",50)
+					showText(P,spinName[cc][P.bn],"spin",50)
 					csend=2*cc
 				end
 				sendTime=20+csend*20
 				if mini then
-					showText("Mini","drive",40,10)
+					showText(P,"Mini","drive",40,10)
 					csend=ceil(csend*.5)
 					sendTime=sendTime+60
 					P.b2b=P.b2b+b2bPoint[cc]*.8
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
-				SFX(spin_n[cc])
+				P.lastClear=P.bn*10+cc
 				if P.id==1 then
 					stat.spin=stat.spin+1
 				end
+				SFX(spin_n[cc])
 			elseif #P.clearing<#P.field then
 				P.b2b=P.b2b-150-cc*50
-				showText(clearName[cc],"appear",50)
+				showText(P,clearName[cc],"appear",50)
 				csend=cc-1
 				sendTime=20+csend*20
+				P.lastClear=cc
+			end
+			if #P.clearing==#P.field then
+				showText(P,"Perfect Clear","flicker",70,-80)
+				csend=csend+min(6+P.cstat.pc,10)
+				exblock=exblock+2
+				sendTime=sendTime+30
+				if P.cstat.row>4 then
+					P.b2b=600
+				end
+				P.cstat.pc=P.cstat.pc+1
+				P.lastClear=P.bn*10+5
+				SFX("perfectclear")
 			end
 		else
 			P.combo=0
 			if dospin then
-				showText(spinName[0][P.bn],"appear",50)
+				showText(P,spinName[0][P.bn],"appear",50)
 				SFX("spin_0")
 				P.b2b=P.b2b+15
 			end
 		end
 
-		if cc>0 and #P.clearing==#P.field then
-			showText("Perfect Clear","flicker",70,-80)
-			csend=csend+min(6+P.cstat.pc,10)
-			exblock=exblock+2
-			sendTime=sendTime+30
-			if P.cstat.row>10 then
-				P.b2b=600
-			end
-			SFX("perfectclear")
-			P.cstat.pc=P.cstat.pc+1
-		end
-
 		csend=csend+(renATK[P.combo]or 4)
 		if P.combo>2 then
-			showText(renName[min(P.combo,20)],P.combo<10 and"appear"or"flicker",20+P.combo*3,60)
+			showText(P,renName[min(P.combo,20)],P.combo<10 and"appear"or"flicker",20+P.combo*3,60)
 		end
 		sendTime=sendTime+20*P.combo
 		if cc>0 then
 			SFX(clear_n[cc])
 			SFX(ren_n[min(P.combo,11)])
+			VIB(cc<3 and 1 or cc-1)
 		end
 		P.b2b=max(min(P.b2b,600),0)
 
 		if cc>0 and modeEnv.royaleMode then
-			local atker=0
-			for i=1,#players.alive do
-				if players.alive[i].atking==P then
-					atker=atker+1
-					if atker==9 then
-						break
-					end
-				end
-			end
-			if atker>1 then
-				csend=csend+reAtk[atker]
-				exblock=exblock+reDef[atker]
+			local i=min(#P.atker,9)
+			if i>1 then
+				csend=csend+reAtk[i]
+				exblock=exblock+reDef[i]
 			end
 		end
 
@@ -532,9 +605,9 @@ function drop()
 			--ATK statistics
 
 			if csend>0 then
-				showText(csend,"zoomout",25,70)
+				showText(P,csend,"zoomout",25,70)
 				if exblock>0 then
-					showText(exblock,"zoomout",10,70)
+					showText(P,exblock,"zoomout",10,70)
 				end
 			end
 			while csend>0 and P.atkBuffer[1]do
@@ -555,18 +628,16 @@ function drop()
 			if csend>0 then
 				if modeEnv.royaleMode then
 					if P.atkMode==4 then
-						local f
-						for i=1,#players.alive do
-							if players.alive[i].atking==P then
-								garbageSend(P,players.alive[i],csend,sendTime)
-								f=true
+						if #P.atker>0 then
+							for i=1,#P.atker do
+								garbageSend(P,P.atker[i],csend,sendTime)
 							end
-						end
-						if not f then
-							garbageSend(P,P.atking or randomTarget(P),csend,sendTime)
+						else
+							garbageSend(P,randomTarget(P),csend,sendTime)
 						end
 					else
-						garbageSend(P,P.atking or randomTarget(P),csend,sendTime)
+						freshTarget(P)
+						garbageSend(P,P.atking,csend,sendTime)
 					end
 				elseif #players.alive>1 then
 					garbageSend(P,randomTarget(P),csend,sendTime)
@@ -616,7 +687,7 @@ function garbageRelease()
 	local t=P.showTime*2
 	for i=1,#P.atkBuffer do
 		local atk=P.atkBuffer[i]
-		if not atk.sent and atk.countdown==0 then
+		if not atk.sent and atk.countdown<=0 then
 			for j=1,atk.amount do
 				ins(P.field,1,getNewRow(13))
 				ins(P.visTime,1,getNewRow(t))
@@ -635,6 +706,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=1 then
 				P.atkMode=1
+				changeAtk(P,randomTarget(P))
 			end
 		else
 			if not auto then
@@ -653,7 +725,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=2 then
 				P.atkMode=2
-				P.atking=P~=mostBadge and mostBadge or secBadge
+				changeAtk(P,P~=mostBadge and mostBadge or secBadge or randomTarget(P))
 			end
 		else
 			if not auto then
@@ -675,7 +747,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=3 then
 				P.atkMode=3
-				P.atking=P~=mostDangerous and mostDangerous or secDangerous
+				changeAtk(P,P~=mostDangerous and mostDangerous or secDangerous or randomTarget(P))
 			end
 		else
 			if P.waiting<=0 then
@@ -683,6 +755,7 @@ act={
 					P.cy=P.y_img
 					P.spinLast=false
 					SFX("drop")
+					VIB(0)
 				end
 				drop()
 			end
@@ -692,7 +765,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=4 then
 				P.atkMode=4
-				P.atking=nil
+				changeAtk(P)
 			end
 		else
 			if P.cy~=P.y_img then
@@ -718,7 +791,7 @@ act={
 	end,
 	restart=function()
 		resetGameData()
-		frame=90
+		frame=30
 	end,
 	insDown=function()if P.cy~=P.y_img then P.cy,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false end end,
 	insLeft=function()

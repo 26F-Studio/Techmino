@@ -28,7 +28,7 @@ do royaleCtrlPad=C(300,100)
 	gc.setLineWidth(2)
 	for i=1,4 do
 		gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-		mStr(atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+6)
+		mStr(atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
 	end
 end
 

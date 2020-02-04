@@ -23,6 +23,7 @@ end
 function game.mode()
 	saveData()
 	modeSel=modeSel or 1
+	levelSel=levelSel or 3
 	scene="mode"
 	curBG="none"
 	keeprun=true
@@ -64,8 +65,8 @@ function game.setting3()
 	scene="setting3"
 	curBG="game1"
 	keeprun=true
+	defaultSel=1
 	sel=nil
-	keyssetting=nil
 	snapLevel=1
 	BGM("blank")
 end--Touch setting

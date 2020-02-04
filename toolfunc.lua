@@ -70,6 +70,11 @@ function stencil_field_small()
 end
 --Single-usage funcs
 
+function VIB(t)
+	if setting.vib>0 then
+		love.system.vibrate(setting.vib+t)
+	end
+end
 function sysSFX(s,v)
 	if setting.sfx then
 		local n=1
@@ -116,11 +121,6 @@ function gotoScene(s,style)
 		}
 		Buttons.sel=nil
 	end
-end
-function startGame(mode)
-	--rec=""
-	gamemode=mode
-	gotoScene("play")
 end
 function back()
 	local t=prevMenu[scene]
@@ -175,13 +175,13 @@ function loadSetting()
 		if find(i,"=")then
 			local t=sub(i,1,find(i,"=")-1)
 			local v=sub(i,find(i,"=")+1)
-			if t=="sfx"or t=="bgm"then
+			if t=="sfx"or t=="bgm"or t=="bgblock"then
 				setting[t]=v=="true"
+			elseif t=="vib"then
+				setting.vib=toN(v:match("[0123]"))or 0
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
-			elseif t=="bgblock"then
-				setting.bgblock=v=="true"
 			elseif t=="keymap"then
 				v=string.splitS(v,"/")
 				for i=1,16 do
@@ -208,22 +208,19 @@ function loadSetting()
 			elseif t=="virtualkey"then
 				v=string.splitS(v,"/")
 				for i=1,10 do
-					if not v[i]then goto continue end
+					if not v[i]then goto c end
 					virtualkey[i]=string.splitS(v[i],",")
 					for j=1,4 do
 						virtualkey[i][j]=toN(virtualkey[i][j])
 					end
-					::continue::
+					::c::
 				end
 			elseif t=="virtualkeyAlpha"then
 				setting.virtualkeyAlpha=int(abs(toN(v)))
-			elseif t=="virtualkeyIcon"then
-				setting.virtualkeyIcon=v=="true"
-			elseif t=="virtualkeySwitch"then
-				setting.virtualkeySwitch=v=="true"
+			elseif t=="virtualkeyIcon"or t=="virtualkeySwitch"then
+				setting[t]=v=="true"
 			elseif t=="frameMul"then
-				v=min(max(toN(v)or 100,0),100)
-				setting.frameMul=v
+				setting.frameMul=min(max(toN(v)or 100,0),100)
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
@@ -252,6 +249,7 @@ function saveSetting()
 	local t=table.concat({
 		stringPack("sfx=",setting.sfx),
 		stringPack("bgm=",setting.bgm),
+		stringPack("vib=",setting.vib),
 		stringPack("fullscreen=",setting.fullscreen),
 		stringPack("bgblock=",setting.bgblock),
 		stringPack("das=",setting.das),

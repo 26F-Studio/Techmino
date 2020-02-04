@@ -102,10 +102,10 @@ function Tmr.play(dt)
 						pressKey(P.ai.controls[1],P)
 						releaseKey(P.ai.controls[1],P)
 						rem(P.ai.controls,1)
-						P.ai.controlDelay=P.ai.controlDelay0+2
+						P.ai.controlDelay=P.ai.controlDelay0+1
 					else
 						AI_getControls(P.ai.controls)
-						P.ai.controlDelay=rnd(3)*P.ai.controlDelay0
+						P.ai.controlDelay=2*P.ai.controlDelay0
 					end
 				end
 			end
@@ -159,11 +159,10 @@ function Tmr.play(dt)
 						removeRow(P.field,P.clearing[i])
 						removeRow(P.visTime,P.clearing[i])
 					end
-					while #P.clearing>0 do
+					while P.clearing[1]do
 						rem(P.clearing)
 					end
 				end
-				--Rows cleared drop
 			elseif P.waiting>0 then
 				P.waiting=P.waiting-1
 				if P.waiting<=0 then
@@ -195,7 +194,10 @@ function Tmr.play(dt)
 			if P.falling>0 then
 				P.falling=P.falling-1
 				if P.falling<=0 then
-					if #P.field>P.clearing[1]then SFX("fall")end
+					if #P.field>P.clearing[1]then
+						SFX("fall")
+						VIB(1)
+					end
 					for i=1,#P.clearing do
 						removeRow(P.field,P.clearing[i])
 						removeRow(P.visTime,P.clearing[i])
@@ -215,11 +217,11 @@ function Tmr.play(dt)
 			local b=P.bonus[i]
 			if b.inf then
 				if b.t<30 then
-					b.t=b.t+1
+					b.t=b.t+.5
 				end
 			else
-				b.t=b.t+1
-				if b.t==60 then rem(P.bonus,i)end
+				b.t=b.t+b.speed
+				if b.t>=60 then rem(P.bonus,i)end
 			end
 		end
 		for i=#P.task,1,-1 do
@@ -230,7 +232,7 @@ function Tmr.play(dt)
 			atk.time=atk.time+1
 			if not atk.sent then
 				if atk.countdown>0 then
-					atk.countdown=atk.countdown-1
+					atk.countdown=atk.countdown-garbageSpeed
 				end
 			else
 				if atk.time>20 then
@@ -238,12 +240,12 @@ function Tmr.play(dt)
 				end
 			end
 		end
-		if P.fieldBeneath>0 then P.fieldBeneath=P.fieldBeneath-3 end
+		if P.fieldBeneath>0 then P.fieldBeneath=max(P.fieldBeneath-pushSpeed,0)end
 		if not P.small then
 			PTC.dust[p]:update(dt)
 		end
 	end
-	if modeEnv.royale and frame%75==0 then
+	if modeEnv.royaleMode and frame%60==0 then
 		freshRoyaleTarget()
 	end
 	setmetatable(_G,nil)

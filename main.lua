@@ -25,7 +25,7 @@ system=sys.getOS()
 touching=nil--1st touching ID
 
 scene=""
-gamemode=""
+gameMode=""
 bgmPlaying=nil
 curBG="none"
 BGblock={ct=150,next=7}
@@ -40,7 +40,7 @@ function setFont(s)
 		if Fonts[s]then
 			gc.setFont(Fonts[s])
 		else
-			local t=gc.setNewFont("siyuanhei.otf",s-5)
+			local t=gc.setNewFont("albbph.ttf",s-5)
 			Fonts[s]=t
 			gc.setFont(t)
 		end
@@ -57,19 +57,8 @@ gameEnv0={
 	next=6,hold=true,oncehold=true,
 	sequence=1,visible=1,
 	_20G=false,target=1e99,
-	freshLimit=1e99,
-	virtualkey={
-		{80,720-80,6400,80},--moveLeft
-		{240,720-80,6400,80},--moveRight
-		{1280-240,720-80,6400,80},--rotRight
-		{1280-400,720-80,6400,80},--rotLeft
-		{1280-240,720-240,6400,80},--rotFlip
-		{1280-80,720-80,6400,80},--hardDrop
-		{1280-80,720-240,6400,80},--softDrop
-		{1280-80,720-400,6400,80},--hold
-		{80,360,6400,80},--swap
-		{80,80,6400,80},--restart
-	},
+	freshLimit=15,
+	virtualkey={},
 	reach=null,
 	--not all is actually used,some only provide a key
 }
@@ -86,160 +75,54 @@ customSel={
 	freshLimit=3,
 	opponent=1,
 }
-freshMethod={
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		if #P.nxt<6 then
-			local bag={1,2,3,4,5,6,7}
-			for i=1,7 do
-				ins(P.nxt,rem(bag,rnd(8-i)))
-				ins(P.nb,blocks[P.nxt[#P.nxt]][0])
-			end
-		end
-	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		local i,j=nil,0
-		repeat
-			i,j=rnd(7),j+1
-		until not(i==P.his[1]or i==P.his[2]or i==P.his[3]or i==P.his[4])
-		P.nxt[6],P.nb[6]=i,blocks[i][0]
-		rem(P.his,1)ins(P.his,i)
-	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		repeat i=rnd(7)until i~=P.nxt[5]
-		P.nxt[6],P.nb[6]=i,blocks[i][0]
-	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		if #P.nxt<6 then
-			local bag={1,1,2,2,3,3,4,4,5,5,5,6,6,7,7}
-			repeat
-				local i=rem(bag,rnd(#bag))
-				ins(P.nxt,i)
-				ins(P.nb,blocks[i][0])
-			until #bag==0
-		end
-	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		if P.cstat.piece%4==0 then
-			local r=rnd(#PClist)
-			local P=players[1]
-			local f=P.cstat.pc%2==0
-			for i=1,4 do
-				local b=PClist[r][i]
-				if f then
-					if b<3 then b=3-b
-					elseif b<5 then b=7-b
-					end
-				end
-				ins(P.nxt,b)
-				ins(P.nb,blocks[b][0])
-			end
-		end
-	end,
-}
 loadmode={
 	sprint=function()
-		modeEnv={
-			drop=60,
-			target=40,
-			reach=Event.gameover.win,
-		}
 		createPlayer(1,340,15)
 		curBG="game1"
 		BGM("race")
 	end,
+	marathon=function()
+		createPlayer(1,340,15)
+		curBG="strap"
+		BGM("way")
+	end,
 	zen=function()
-		modeEnv={
-			drop=1e99,
-			lock=1e99,
-			target=200,
-			reach=Event.gameover.win,
-		}
 		createPlayer(1,340,15)
 		curBG="strap"
 		BGM("infinite")
 	end,
 	infinite=function()
-		modeEnv={
-			drop=1e99,
-			lock=1e99,
-		}
 		createPlayer(1,340,15)
 		curBG="glow"
 		BGM("infinite")
 	end,
-	gmroll=function()
-		modeEnv={
-			drop=0,
-			lock=15,
-			wait=10,
-			fall=15,
-			_20G=true,
-			visible=0,
-			freshLimit=15,
-			arr=1,
-		}
-		createPlayer(1,340,15)
-		curBG="glow"
-		BGM("push")
-	end,
-	marathon=function()
-		modeEnv={
-			drop=60,
-			fall=20,
-			target=10,
-			reach=Event.marathon_reach,
-			freshLimit=15,
-		}
-		createPlayer(1,340,15)
-		curBG="strap"
-		BGM("way")
+	solo=function()
+		createPlayer(1,20,15)--Player
+		createPlayer(2,660,85,.9,customRange.opponent[3*gameLevel])--AI
+		curBG="game2"
+		BGM("race")
 	end,
 	death=function()
-		modeEnv={
-			_20G=true,
-			drop=0,
-			lock=death_lock[1],
-			wait=death_wait[1],
-			fall=death_fall[1],
-			target=50,
-			reach=Event.death_reach,
-			freshLimit=15,
-			arr=1,
-		}
 		createPlayer(1,340,15)
 		curBG="game2"
 		BGM("push")
 	end,
 	tsd=function()
-		modeEnv={
-			drop=60,
-			lock=60,
-			sequence=4,
-			target=1,
-			reach=Event.tsd_reach,
-			freshLimit=15,
-		}
 		createPlayer(1,340,15)
 		curBG="matrix"
 		BGM("infinite")
 	end,
+	blind=function()
+		createPlayer(1,340,15)
+		curBG="glow"
+		BGM("push")
+	end,
+	sudden=function()
+		createPlayer(1,340,15)
+		curBG="matrix"
+		BGM("way")
+	end,
 	pctrain=function()
-		modeEnv={
-			next=4,
-			hold=false,
-			drop=60,
-			lock=60,
-			fall=20,
-			sequence=5,
-			target=0,
-			reach=Event.newPC,
-			freshLimit=15,
-		}
 		createPlayer(1,340,15)
 		local r=rnd(#PClist)
 		local P=players[1]
@@ -253,39 +136,34 @@ loadmode={
 		BGM("infinite")
 	end,
 	pcchallenge=function()
-		modeEnv={
-			oncehold=false,
-			drop=300,
-			lock=1e99,
-			fall=20,
-			sequence=1,
-			target=100,
-			reach=Event.gameover.win,
-			freshLimit=1e99,
-		}
 		createPlayer(1,340,15)
 		curBG="matrix"
 		BGM("infinite")
 	end,
 	techmino41=function()
-		modeEnv={
-			freshLimit=15,
-			fall=20,
-			royaleMode=true,
-			royale={2,5,10,20},
-		}
 		createPlayer(1,340,15)--Player
-
-		local n=2
+		if gameLevel==5 then players[1].gameEnv.drop=15 end
+		local n,min,max=2
+		if gameLevel==1 then
+			min,max=5,30
+		elseif gameLevel==2 then
+			min,max=3,25
+		elseif gameLevel==3 then
+			min,max=2,20
+		elseif gameLevel==4 then
+			min,max=2,10
+		elseif gameLevel==5 then
+			min,max=1,6
+		end
 		for i=1,4 do
 			for j=1,5 do
-				createPlayer(n,77*i-55,140*j-125,.2,rnd(15))
+				createPlayer(n,77*i-55,140*j-125,.2,rnd(min,max))
 				n=n+1
 			end
 		end
 		for i=9,12 do
 			for j=1,5 do
-				createPlayer(n,77*i+275,140*j-125,.2,rnd(15))
+				createPlayer(n,77*i+275,140*j-125,.2,rnd(min,max))
 				n=n+1
 			end
 		end--AIs
@@ -294,24 +172,29 @@ loadmode={
 		BGM("race")
 	end,
 	techmino99=function()
-		modeEnv={
-			freshLimit=15,
-			fall=20,
-			royaleMode=true,
-			royale={2,6,14,30},
-		}
 		createPlayer(1,340,15)--Player
-
-		local n=2
+		if gameLevel==5 then players[1].gameEnv.drop=15 end
+		local n,min,max=2
+		if gameLevel==1 then
+			min,max=5,32
+		elseif gameLevel==2 then
+			min,max=3,25
+		elseif gameLevel==3 then
+			min,max=2,18
+		elseif gameLevel==4 then
+			min,max=2,12
+		elseif gameLevel==5 then
+			min,max=1,12
+		end
 		for i=1,7 do
 			for j=1,7 do
-				createPlayer(n,46*i-36,97*j-72,.135,rnd()<.1 and rnd(6)or rnd(10,30))
+				createPlayer(n,46*i-36,97*j-72,.135,rnd(min,max))
 				n=n+1
 			end
 		end
 		for i=15,21 do
 			for j=1,7 do
-				createPlayer(n,46*i+264,97*j-72,.135,rnd()<.1 and rnd(6)or rnd(10,30))
+				createPlayer(n,46*i+264,97*j-72,.135,rnd(min,max))
 				n=n+1
 			end
 		end--AIs
@@ -319,32 +202,17 @@ loadmode={
 		curBG="game3"
 		BGM("race")
 	end,
-	solo=function()
-		modeEnv={
-			freshLimit=15,
-		}
-		createPlayer(1,20,15)--Player
-		createPlayer(2,660,85,.9,1)--AI
-
-		curBG="game2"
-		BGM("race")
-	end,
-	blind=function()
-		modeEnv={
-			drop=15,
-			lock=30,
-			visible=0,
-			freshLimit=10,
-		}
+	drought=function()
 		createPlayer(1,340,15)
-
+		curBG="strap"
+		BGM("reason")
+	end,
+	gmroll=function()
+		createPlayer(1,340,15)
 		curBG="glow"
 		BGM("push")
 	end,
 	p2=function()
-		modeEnv={
-			freshLimit=15,
-		}
 		createPlayer(1,20,15)
 		createPlayer(2,650,15)
 
@@ -352,9 +220,6 @@ loadmode={
 		BGM("way")
 	end,
 	p3=function()
-		modeEnv={
-			freshLimit=15,
-		}
 		createPlayer(1,20,100,.65)
 		createPlayer(2,435,100,.65)
 		createPlayer(3,850,100,.65)
@@ -363,9 +228,6 @@ loadmode={
 		BGM("way")
 	end,
 	p4=function()
-		modeEnv={
-			freshLimit=15,
-		}
 		createPlayer(1,25,150,.5)
 		createPlayer(2,335,150,.5)
 		createPlayer(3,645,150,.5)
@@ -375,7 +237,7 @@ loadmode={
 		BGM("way")
 	end,
 	custom=function()
-		modeEnv={reach=Event.gameover.win}
+		modeEnv={}
 		for i=1,#customID do
 			local k=customID[i]
 			modeEnv[k]=customRange[k][customSel[k]]
@@ -393,10 +255,10 @@ loadmode={
 	end,
 }
 mesDisp={
-	--Default:font=40,white
+	--Default:font=35,white
 	sprint=function()
-		setFont(75)
-		mStr(max(40-P.cstat.row,0),-75,280)
+		setFont(70)
+		mStr(max(P.gameEnv.target-P.cstat.row,0),-75,260)
 	end,
 	zen=function()
 		setFont(75)
@@ -404,51 +266,47 @@ mesDisp={
 	end,
 	infinite=function()
 		setFont(50)
-		mStr(P.cstat.atk,-75,320)
-		mStr(format("%.2f",2.5*P.cstat.atk/P.cstat.piece),-75,430)
+		mStr(P.cstat.atk,-75,310)
+		mStr(format("%.2f",2.5*P.cstat.atk/P.cstat.piece),-75,420)
 		setFont(20)
-		gc.print("Attack",-100,360)
-		gc.print("Efficiency",-108,472)
-	end,
-	solo=function()
-		setFont(50)
-		mStr(P.cstat.atk,-75,320)
-		setFont(20)
-		gc.print("Attack",-100,360)
-	end,
-	gmroll=function()
-		setFont(25)
-		gc.print("Techrash",-120,420)
-		setFont(80)
-		mStr(P.cstat.techrash,-75,350)
+		gc.print("Attack",-98,363)
+		gc.print("Efficiency",-110,475)
 	end,
 	marathon=function()
 		setFont(50)
-		mStr(P.cstat.row,-75,330)
-		mStr(P.gameEnv.target,-75,380)
+		mStr(P.cstat.row,-75,320)
+		mStr(P.gameEnv.target,-75,370)
 		gc.rectangle("fill",-120,376,90,4)
 	end,
 	death=function()
 		setFont(50)
-		mStr(P.cstat.row,-75,330)
-		mStr(P.gameEnv.target,-75,380)
+		mStr(P.cstat.row,-75,320)
+		mStr(P.gameEnv.target,-75,370)
 		gc.rectangle("fill",-120,376,90,4)
 	end,
 	tsd=function()
 		setFont(35)
-		gc.print("TSD",-105,405)
+		gc.print("TSD",-102,405)
 		setFont(80)
 		mStr((P.gameEnv.target-1)*.5,-75,330)
 	end,
+	blind=function()
+		setFont(25)
+		gc.print("Rows",-102,300)
+		gc.print("Techrash",-123,420)
+		setFont(80)
+		mStr(P.cstat.row,-75,220)
+		mStr(P.cstat.techrash,-75,340)
+	end,
 	pctrain=function()
 		setFont(25)
-		gc.print("Perfect Clear",-138,400)
+		gc.print("Perfect Clear",-140,410)
 		setFont(80)
 		mStr(P.cstat.pc,-75,330)
 	end,
 	pcchallenge=function()
 		setFont(25)
-		gc.print("Perfect Clear",-138,420)
+		gc.print("Perfect Clear",-140,430)
 		setFont(80)
 		mStr(P.cstat.pc,-75,350)
 		setFont(50)
@@ -456,37 +314,43 @@ mesDisp={
 	end,
 	techmino41=function()
 		setFont(40)
-		mStr(#players.alive.."/41",-80,180)
-		mStr(P.ko,-65,220)
+		mStr(#players.alive.."/41",-75,175)
+		mStr(P.ko,-60,215)
 		setFont(25)
-		gc.print("KO",-120,229)
-		gc.print(P.badge,-40,233)
+		gc.print("KO",-115,225)
+		gc.setColor(1,.5,0,.6)
+		gc.print(P.badge,-35,227)
+		gc.setColor(1,1,1)
 		setFont(30)
-		gc.print(up0to4[P.strength],-125,295)
+		gc.print(up0to4[P.strength],-125,290)
 		for i=1,P.strength do
 			gc.draw(badgeIcon,16*i-130,260)
 		end
 	end,
 	techmino99=function()
 		setFont(40)
-		mStr(#players.alive.."/99",-80,180)
-		mStr(P.ko,-65,220)
+		mStr(#players.alive.."/99",-75,175)
+		mStr(P.ko,-60,215)
 		setFont(25)
-		gc.print("KO",-120,229)
-		gc.print(P.badge,-40,233)
+		gc.print("KO",-115,225)
+		gc.setColor(1,.5,0,.6)
+		gc.print(P.badge,-35,227)
+		gc.setColor(1,1,1)
 		setFont(30)
-		gc.print(up0to4[P.strength],-125,295)
+		gc.print(up0to4[P.strength],-125,290)
 		for i=1,P.strength do
 			gc.draw(badgeIcon,16*i-130,260)
 		end
 	end,
-	blind=function()
+	drought=function()
+		setFont(75)
+		mStr(max(100-P.cstat.row,0),-75,280)
+	end,
+	gmroll=function()
 		setFont(25)
-		gc.print("Rows",-100,300)
-		gc.print("Techrash",-120,420)
+		gc.print("Techrash",-123,420)
 		setFont(80)
-		mStr(P.cstat.row,-75,230)
-		mStr(P.cstat.techrash,-75,350)
+		mStr(P.cstat.techrash,-75,340)
 	end,
 	custom=function()
 		if P.gameEnv.target<1e4 then
@@ -502,15 +366,19 @@ Event={
 			P.control=false
 			P.timing=false
 			P.waiting=1e99
-			P.atking=nil
 			P.b2b=0
 			P.result="WIN"
+			changeAtk(P)
+			for i=1,#P.atkBuffer do
+				P.atkBuffer[i].sent=true
+				P.atkBuffer[i].time=0
+			end
 			for i=1,#P.field do
 				for j=1,10 do
 					P.visTime[i][j]=min(P.visTime[i][j],20)
 				end
 			end
-			showText("WIN","appear",100,nil,true)
+			showText(P,"WIN","appear",90,nil,nil,true)
 			if P.id==1 and players[2]and players[2].ai then SFX("win")end
 			ins(P.task,Event.task.win)
 		end,
@@ -519,35 +387,40 @@ Event={
 			P.control=false
 			P.timing=false
 			P.waiting=1e99
-			P.atking=nil
 			P.b2b=0
-			P.result=" K.O."
-			showText("LOSE","appear",100,nil,true)
+			P.result="K.O."
+			showText(P,"LOSE","appear",90,nil,nil,true)
 			for i=1,#players.alive do
 				if players.alive[i]==P then
 					rem(players.alive,i)
 					break
 				end
 			end
+			changeAtk(P)
 			if modeEnv.royaleMode then
+				P.strength=0
 				if P.lastRecv and P.lastRecv.alive then
-					if P.lastRecv.id==1 then
-						throwBadge(P,P.lastRecv,P.badge)
-					end
 					local A=P.lastRecv
+					if P.id==1 or A.id==1 then
+						throwBadge(P,A,P.badge)
+						P.killMark=A.id==1
+					end
 					A.ko,A.badge=A.ko+1,A.badge+P.badge+1
 					for i=A.strength+1,4 do
-						if A.badge>=modeEnv.royale[i]then
+						if A.badge>=modeEnv.royalePowerup[i]then
 							A.strength=i
 						end
 					end
 				end
+				freshRoyaleTarget()
 				for i=1,#players.alive do
 					if players.alive[i].atking==P then
-						players.alive[i].atking=nil
+						freshTarget(players.alive[i])
 					end
 				end
-				freshRoyaleTarget()
+				if #players.alive==modeEnv.royaleRemain[gameStage]then
+					royaleLevelup()
+				end
 			end
 			for i=1,#P.atkBuffer do
 				P.atkBuffer[i].sent=true
@@ -585,15 +458,28 @@ Event={
 			P.gameEnv.lock=death_lock[t]
 			P.gameEnv.wait=death_wait[t]
 			P.gameEnv.fall=death_fall[t]
-			showText("STAGE "..t,"fly",80,-120)
+			showText(P,"STAGE "..t,"fly",80,-120)
 			SFX("reach")
 		end
 	end,
 	tsd_reach=function()
-		if not(#P.clearing==2 and P.bn==5 and P.spinLast)then
+		if P.lastClear~=52 then
 			Event.gameover.lose()
 		else
 			P.gameEnv.target=P.gameEnv.target+2
+			if #P.field>10 and P.gameEnv.target%10~=0 then
+				ins(P.clearing,1)
+			end
+		end
+	end,
+	sudden_reach=function()
+		if #P.clearing>0 and P.lastClear<10 then
+			Event.gameover.lose()
+		end
+	end,
+	sudden_reach_HARD=function()
+		if #P.clearing>0 and P.lastClear<10 and P.lastClear~=74 then
+			Event.gameover.lose()
 		end
 	end,
 	newPC=function()
@@ -601,15 +487,17 @@ Event={
 		if #P.field==#P.clearing then
 			P.counter=P.cstat.piece==0 and 19 or 0
 			ins(P.task,Event.task.PC)
-			local s=P.cstat.pc*.5
-			if int(s)==s and s>0 then
-				P.gameEnv.drop=pc_drop[s]or 10
-				P.gameEnv.lock=pc_lock[s]or 20
-				P.gameEnv.fall=pc_fall[s]or 5
-				if s==10 then
-					showText("Max speed","appear",80,-120)
-				else
-					showText("Speed up","appear",30,-130)
+			if gameLevel==2 then
+				local s=P.cstat.pc*.5
+				if int(s)==s and s>0 then
+					P.gameEnv.drop=pc_drop[s]or 10
+					P.gameEnv.lock=pc_lock[s]or 20
+					P.gameEnv.fall=pc_fall[s]or 5
+					if s==10 then
+						showText(P,"Max speed","appear",80,-120)
+					else
+						showText(P,"Speed up","appear",30,-130)
+					end
 				end
 			end
 		else
@@ -624,18 +512,22 @@ Event={
 		win=function()
 			P.counter=P.counter+1
 			if P.counter>80 then
-				for i=1,#P.field do
-					for j=1,10 do
-						if P.visTime[i][j]>0 then
-							P.visTime[i][j]=P.visTime[i][j]-1
+				if P.gameEnv.visible==1 then
+					for i=1,#P.field do
+						for j=1,10 do
+							if P.visTime[i][j]>0 then
+								P.visTime[i][j]=P.visTime[i][j]-1
+							end
 						end
 					end
-				end
-				if P.counter==100 then
-					for i=1,#P.field do
-						removeRow(P.field)
-						removeRow(P.visTime)
+					if P.counter==100 then
+						for i=1,#P.field do
+							removeRow(P.field)
+							removeRow(P.visTime)
+						end
+						return true
 					end
+				elseif P.counter==100 then
 					return true
 				end
 			end
@@ -643,18 +535,22 @@ Event={
 		lose=function()
 			P.counter=P.counter+1
 			if P.counter>80 then
-				for i=1,#P.field do
-					for j=1,10 do
-						if P.visTime[i][j]>0 then
-							P.visTime[i][j]=P.visTime[i][j]-1
+				if P.gameEnv.visible==1 then
+					for i=1,#P.field do
+						for j=1,10 do
+							if P.visTime[i][j]>0 then
+								P.visTime[i][j]=P.visTime[i][j]-1
+							end
 						end
 					end
-				end
-				if P.counter==100 then
-					for i=1,#P.field do
-						removeRow(P.field)
-						removeRow(P.visTime)
+					if P.counter==100 then
+						for i=1,#P.field do
+							removeRow(P.field)
+							removeRow(P.visTime)
+						end
+						return true
 					end
+				elseif P.counter==100 then
 					return true
 				end
 			end
@@ -686,9 +582,8 @@ Event={
 	},
 }
 --Game system Data
-
 setting={
-	sfx=true,bgm=true,
+	sfx=true,bgm=true,vib=3,
 	fullscreen=false,
 	bgblock=true,
 	lang="eng",
@@ -748,7 +643,6 @@ stat={
 	spin=0,
 }
 --User Data&User Setting
---------------------------------Wrning!_G __index Plyr[n] when chng any playr's val!
 require("toolfunc")
 require("gamefunc")
 require("list")

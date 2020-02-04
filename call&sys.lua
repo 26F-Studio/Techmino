@@ -16,7 +16,9 @@ end
 function buttonControl_key(i)
 	if i=="up"or i=="down"or i=="left"or i=="right"then
 		if not Buttons.sel then
-			Buttons.sel=1
+			if Buttons[scene][1]then
+				Buttons.sel=1
+			end
 		else
 			Buttons.sel=Buttons[scene][Buttons.sel][i]or Buttons.sel
 		end
@@ -32,7 +34,9 @@ end
 function buttonControl_gamepad(i)
 	if i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
 		if not Buttons.sel then
-			Buttons.sel=1
+			if Buttons[scene][1]then
+				Buttons.sel=1
+			end
 			mouseShow=false
 		else
 			Buttons.sel=Buttons[scene][Buttons.sel][i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]or Buttons.sel
@@ -66,11 +70,25 @@ function keyDown.intro(key)
 end
 function keyDown.mode(key)
 	if key=="down"then
-		if modeSel<#modeID then modeSel=modeSel+1 end
+		if modeSel<#modeID then
+			modeSel=modeSel+1
+			levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
+		end
 	elseif key=="up"then
-		if modeSel>1 then modeSel=modeSel-1 end
+		if modeSel>1 then
+			modeSel=modeSel-1
+			levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
+		end
+	elseif key=="left"then
+		if levelSel>1 then
+			levelSel=levelSel-1
+		end
+	elseif key=="right"then
+		if levelSel<#modeLevel[modeID[modeSel]]then
+			levelSel=levelSel+1
+		end
 	elseif key=="return"then
-		startGame(modeID[modeSel])
+		loadGame(modeID[modeSel],levelSel)
 	elseif key=="c"then
 		gotoScene("custom")
 	elseif key=="escape"then
@@ -89,7 +107,7 @@ function keyDown.custom(key)
 	elseif key=="up"then
 		optSel=(optSel-2)%#customID+1
 	elseif key=="return"then
-		startGame("custom")
+		loadGame("custom",1)
 	elseif key=="escape"then
 		back()
 	end
@@ -167,7 +185,7 @@ function gamepadDown.mode(key)
 	elseif key=="dpup"then
 		if modeSel>1 then modeSel=modeSel-1 end
 	elseif key=="start"then
-		startGame(modeID[modeSel])
+		loadGame(modeID[modeSel],levelSel)
 	elseif key=="back"then
 		back()
 	end
@@ -234,6 +252,7 @@ end
 wheelmoved={}
 function wheelmoved.mode(x,y)
 	modeSel=min(max(modeSel-sgn(y),1),#modeID)
+	levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
 end
 --Warning,these are not system callbacks!
 
@@ -347,7 +366,7 @@ function love.touchmoved(id,x,y,dx,dy)
 					break
 				end
 			end
-			if not p and players[1].keyPressing then
+			if not p and players[1].isKeyDown then
 				releaseKey(n,players[1])
 			end
 		end
@@ -362,10 +381,39 @@ function love.touchmoved(id,x,y,dx,dy)
 end
 
 function love.keypressed(i)
-	if i=="f12"then devMode=true end
-	if keyDown[scene]then keyDown[scene](i)
-	elseif i=="escape"or i=="back"then back()
-	else buttonControl_key(i)
+	if i=="f12"then devMode=not devMode end
+	if devMode then
+		if Buttons.sel then
+			local B=Buttons[scene][Buttons.sel]
+			if i=="left"then
+				B.x=B.x-10
+			elseif i=="right"then
+				B.x=B.x+10
+			elseif i=="up"then
+				B.y=B.y-10
+			elseif i=="down"then
+				B.y=B.y+10
+			elseif i==","then
+				B.w=B.w-10
+			elseif i=="."then
+				B.w=B.w+10
+			elseif i=="/"then
+				B.h=B.h-10
+			elseif i=="'"then
+				B.h=B.h+10
+			end
+		end
+		if i=="q"then
+			for i=1,#Buttons[scene]do
+				local B=Buttons[scene][i]
+				print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))
+			end
+		end
+	else
+		if keyDown[scene]then keyDown[scene](i)
+		elseif i=="escape"or i=="back"then back()
+		else buttonControl_key(i)
+		end
 	end
 	mouseShow=false
 end
@@ -376,9 +424,10 @@ end
 
 function love.gamepadpressed(joystick,i)
 	if gamepadDown[scene]then return gamepadDown[scene](i)
-	elseif i=="back"then return back()
+	elseif i=="back"then back()
 	else buttonControl_gamepad(i)
 	end
+	mouseShow=false
 end
 function love.gamepadreleased(joystick,i)
 	if gamepadUp[scene]then gamepadUp[scene](i)
@@ -418,8 +467,6 @@ function love.update(dt)
 			BGblock.ct=rnd(20,30)
 		end
 	end
-	--Background blocks update
-
 	if sceneSwaping then
 		sceneSwaping.time=sceneSwaping.time-1
 		if sceneSwaping.time==sceneSwaping.mid then
@@ -434,7 +481,7 @@ function love.update(dt)
 	elseif Tmr[scene]then
 		Tmr[scene](dt)
 	end
-	--scene swapping & Timer
+	updateButton()
 end
 function love.sendData(data)
 	return nil
@@ -453,7 +500,7 @@ function love.draw()
 			if b[i][j]>0 then
 				gc.draw(img,BGblock[n].x+(j-1)*30*size,BGblock[n].y+(i-1)*30*size,nil,size)
 			end
-		end end--Block
+		end end
 	end
 	if Pnt[scene]then Pnt[scene]()end
 	drawButton()
@@ -520,7 +567,7 @@ function love.run()
 				if bgmPlaying then bgm[bgmPlaying]:pause()end
 				if scene=="play"then
 					for i=1,#players.alive do
-						local l=players.alive[i].keyPressing
+						local l=players.alive[i].isKeyDown
 						for j=1,#l do
 							if l[j]then
 								releaseKey(j,players.alive[i])
