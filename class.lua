@@ -2,21 +2,8 @@ local gc=love.graphics
 local rem=table.remove
 local format=string.format
 Task={}
-function Task:update()
-	if(not self.P or self.P and scene=="play")and self:code(self.P,self.data)then
-		local e=#Task
-		for i=1,e do
-			if Task[i]==self then
-				Task[e],Task[i]=nil,Task[e]
-				return
-			end
-		end
-	end
-end
 function newTask(code,P,data)
 	Task[#Task+1]={
-		update=Task.update,
-
 		code=code,
 		P=P,
 		data=data,
@@ -44,12 +31,7 @@ function clearTask(opt)
 	end
 end
 
-local a={a=1,b=2}
-local x,y=pairs(a)
-assert(x==next)
-assert(y==a)
---java王宇翔
-local button,switch,slider={type="button"},{type="switch"},{type="slider"}--WIDGET OBJECT LIB
+local button={type="button"}
 function newButton(x,y,w,h,color,font,code,hide,N)
 	local _={
 		x=x-w*.5,y=y-h*.5,
@@ -61,7 +43,7 @@ function newButton(x,y,w,h,color,font,code,hide,N)
 		next=N,
 	}for k,v in next,button do _[k]=v end return _
 end
-function button:ifAbove(x,y)
+function button:isAbove(x,y)
 	return x>self.x and x<self.x+self.w and y>self.y and y<self.y+self.h
 end
 function button:FX()
@@ -91,6 +73,7 @@ function button:getInfo()
 	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x,self.y,self.w,self.h,self.font))
 end
 
+local switch={type="switch"}
 function newSwitch(x,y,font,disp,code,hide,N)
 	local _={
 		x=x,y=y,font=font,
@@ -100,7 +83,7 @@ function newSwitch(x,y,font,disp,code,hide,N)
 		next=N,
 	}for k,v in next,switch do _[k]=v end return _
 end
-function switch:ifAbove(x,y)
+function switch:isAbove(x,y)
 	return x>self.x and x<self.x+100 and y>self.y-20 and y<self.y+20
 end
 function switch:FX()
@@ -135,6 +118,7 @@ function switch:getInfo()
 	print(format("x=%d,y=%d,font=%d",self.x,self.y,self.font))
 end
 
+local slider={type="slider"}
 function newSlider(x,y,w,unit,font,change,disp,code,hide,N)
 	local _={
 		x=x,y=y,
@@ -147,7 +131,7 @@ function newSlider(x,y,w,unit,font,change,disp,code,hide,N)
 		next=N,
 	}for k,v in next,slider do _[k]=v end return _
 end
-function slider:ifAbove(x,y)
+function slider:isAbove(x,y)
 	return x>self.x-10 and x<self.x+self.w+10 and y>self.y-20 and y<self.y+20
 end
 function slider:FX(pos)

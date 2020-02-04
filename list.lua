@@ -281,25 +281,28 @@ local function useDefaultSet(n)
 	BGM(customRange.bgm[customSel[13]])
 end
 Widget={
-	load={},
-	intro={},
+	load={},intro={},quit={},
 	main={
-		qplay=	newButton(160,	300,150,150,color.lightRed,	40,function()loadGame(modeSel,levelSel)end,	nil,"play"),
-		play=	newButton(380,	300,240,240,color.red,		70,function()gotoScene("mode")end,			nil,"setting"),
-		setting=newButton(640,	300,240,240,color.lightBlue,55,function()gotoScene("setting")end,		nil,"music"),
-		music=	newButton(900,	300,240,240,color.lightCyan,42,function()gotoScene("music")end,			nil,"stat"),
-		stat=	newButton(640,	560,240,240,color.cyan,		55,function()gotoScene("stat")end,			nil,"help"),
-		help=	newButton(900,	560,240,240,color.yellow,	55,function()gotoScene("help")end,			nil,"quit"),
-		quit=	newButton(1180,620,120,120,color.lightGrey,50,function()gotoScene("quit")end,			nil,"qplay"),
+		play=	newButton(150,280,200,160,color.red,		70,function()gotoScene("mode")end,			nil,"setting"),
+		setting=newButton(370,280,200,160,color.lightBlue,	50,function()gotoScene("setting_game")end,	nil,"music"),
+		music=	newButton(590,280,200,160,color.lightPurple,37,function()gotoScene("music")end,			nil,"help"),
+		help=	newButton(150,460,200,160,color.yellow,		55,function()gotoScene("help")end,			nil,"stat"),
+		stat=	newButton(370,460,200,160,color.cyan,		48,function()gotoScene("stat")end,			nil,"qplay"),
+		qplay=	newButton(540,415,100,70,color.lightGreen,	28,function()loadGame(modeSel,levelSel)end,	nil,"lang"),
+		lang=	newButton(590,505,200,70,color.lightRed,	50,function()
+			setting.lang=setting.lang%#langName+1
+			swapLanguage(setting.lang)
+			end,nil,"quit"),
+		quit=	newButton(370,620,280,100,color.lightGrey,	60,function()gotoScene("quit")end,			nil,"play"),
 	},
 	mode={
 		up=		newButton(1000,210,200,140,color.white,	80,function()love.keypressed("up")end,function()return modeSel==1 end),
 		down=	newButton(1000,430,200,140,color.white,	80,function()love.keypressed("down")end,function()return modeSel==#modeID end),
-		left=	newButton(190,	160,100,80,	color.white,	40,function()love.keypressed("left")end,function()return levelSel==1 end),
-		right=	newButton(350,	160,100,80,	color.white,	40,function()love.keypressed("right")end,function()return levelSel==#modeLevel[modeID[modeSel]]end),
+		left=	newButton(190,	160,100,80,	color.white,40,function()love.keypressed("left")end,function()return levelSel==1 end),
+		right=	newButton(350,	160,100,80,	color.white,40,function()love.keypressed("right")end,function()return levelSel==#modeLevel[modeID[modeSel]]end),
 		start=	newButton(1000,600,250,100,color.green,	50,function()loadGame(modeSel,levelSel)end),
-		custom=	newButton(275,	420,200,90,	color.yellow,	40,function()gotoScene("custom")end),
-		back=	newButton(640,	630,230,90,	color.white,	45,back),
+		custom=	newButton(275,	420,200,90,	color.yellow,40,function()gotoScene("custom")end),
+		back=	newButton(640,	630,230,90,	color.white,45,back),
 	},
 	music={
 		bgm=	newSlider(760,80,400,8,40,nil,function()return setting.bgm end,function(i)setting.bgm=i;BGM(bgmPlaying)end),
@@ -309,10 +312,10 @@ Widget={
 		back=	newButton(640,	630,230,90,	color.white,45,back),
 	},
 	custom={
-		up=		newButton(1000,220,100,100,color.white,		50,function()sel=(sel-2)%#customID+1 end),
-		down=	newButton(1000,460,100,100,color.white,		50,function()sel=sel%#customID+1 end),
+		up=		newButton(1000,220,100,100,color.white,			50,function()sel=(sel-2)%#customID+1 end),
+		down=	newButton(1000,460,100,100,color.white,			50,function()sel=sel%#customID+1 end),
 		left=	newButton(880,	340,100,100,color.white,		50,function()love.keypressed("left")end),
-		right=	newButton(1120,340,100,100,color.white,		50,function()love.keypressed("right")end),
+		right=	newButton(1120,340,100,100,color.white,			50,function()love.keypressed("right")end),
 		start1=	newButton(880,	580,220,70,	color.green,		40,function()loadGame(0,1)end),
 		start2=	newButton(1120,580,220,70,	color.lightPurple,	40,function()loadGame(0,2)end),
 		draw=	newButton(1000,90,	190,85,	color.cyan,			40,function()gotoScene("draw")end),
@@ -336,9 +339,9 @@ Widget={
 		gb2=	newButton(1120,360,120,120,color.grey,			65,function()pen=10 end),
 		gb3=	newButton(840,	500,120,120,color.darkPurple,	65,function()pen=11 end),
 		gb4=	newButton(980,	500,120,120,color.darkRed,		65,function()pen=12 end),
-		gb5=	newButton(1120,500,120,120,color.darkGreen,	65,function()pen=13 end),
+		gb5=	newButton(1120,500,120,120,color.darkGreen,		65,function()pen=13 end),
 		space=	newButton(840,	640,120,120,color.grey,			70,function()pen=-1 end),
-		clear=	newButton(1120,640,120,120,color.white,		45,function()love.keypressed("delete")end),
+		clear=	newButton(1120,640,120,120,color.white,			45,function()love.keypressed("delete")end),
 		back=	newButton(1235,45,	80,	80,	color.white,		35,back),
 	},
 	play={
@@ -354,22 +357,12 @@ Widget={
 			end),
 		quit=	newButton(640,600,240,100,color.white,50,back),
 	},
-	setting={
-		game=	newButton(640,100,320,70,color.white,40,function()gotoScene("setting_game")	end,nil,"graphic"),
-		graphic=newButton(640,180,320,70,color.white,40,function()gotoScene("setting_graphic")	end,nil,"sound"),
-		sound=	newButton(640,260,320,70,color.white,40,function()gotoScene("setting_sound")	end,nil,"ctrl"),
-		ctrl=	newButton(640,340,320,70,color.white,40,function()gotoScene("setting_control")	end,nil,"touch"),
-		touch=	newButton(640,420,320,70,color.white,40,function()gotoScene("setting_touch")	end,nil,"lang"),
-		lang=	newButton(640,500,320,70,color.red,40,function()
-			setting.lang=setting.lang%#langName+1
-			swapLanguage(setting.lang)
-			end,nil,"back"),
-		back=	newButton(640,620,300,70,color.white,40,back,										nil,"game"),
-	},
 	setting_game={
-		dasD=	newButton(150,120,50,50,color.white,40,function()setting.das=(setting.das-1)%31 end,		nil,"dasU"),
-		dasU=	newButton(370,120,50,50,color.white,40,function()setting.das=(setting.das+1)%31 end,		nil,"arrD"),
-		arrD=	newButton(450,120,50,50,color.white,40,function()
+		graphic=newButton(200,80,240,80,color.lightGreen,40,function()gotoScene("setting_graphic")end,	nil,"sound"),
+		sound=	newButton(1080,80,240,80,color.lightGreen,40,function()gotoScene("setting_sound")end,	nil,"dasD"),
+		dasD=	newButton(180,230,50,50,color.white,40,function()setting.das=(setting.das-1)%31 end,nil,"dasU"),
+		dasU=	newButton(400,230,50,50,color.white,40,function()setting.das=(setting.das+1)%31 end,nil,"arrD"),
+		arrD=	newButton(500,230,50,50,color.white,40,function()
 			setting.arr=(setting.arr-1)%16
 			if setting.arr>setting.das then
 				setting.das=setting.arr
@@ -377,7 +370,7 @@ Widget={
 				SFX("blip_1",.4)
 			end
 			end,nil,"arrU"),
-		arrU=	newButton(670,120,50,50,color.white,40,function()
+		arrU=	newButton(720,230,50,50,color.white,40,function()
 			setting.arr=(setting.arr+1)%16
 			if setting.arr>setting.das then
 				setting.das=setting.arr
@@ -385,46 +378,52 @@ Widget={
 				SFX("blip_1",.4)
 			end
 			end,nil,"sddasD"),
-		sddasD=	newButton(150,230,50,50,color.white,40,function()setting.sddas=(setting.sddas-1)%11 end,				nil,"sddasU"),
-		sddasU=	newButton(370,230,50,50,color.white,40,function()setting.sddas=(setting.sddas+1)%11 end,				nil,"sdarrD"),
-		sdarrD=	newButton(450,230,50,50,color.white,40,function()setting.sdarr=(setting.sdarr-1)%4 end,				nil,"sdarrU"),
-		sdarrU=	newButton(670,230,50,50,color.white,40,function()setting.sdarr=(setting.sdarr+1)%4 end,				nil,"holdR"),
-		holdR=	newSwitch(510,330,40,function()return setting.holdR end,function()setting.holdR=not setting.holdR end,	nil,"swap"),
-		swap=	newSwitch(510,420,25,function()return setting.swap end,function()setting.swap=not setting.swap end,	nil,"back"),
-		back=	newButton(640,620,300,70,color.white,40,back,nil,"dasD"),
+		sddasD=	newButton(180,340,50,50,color.white,40,function()setting.sddas=(setting.sddas-1)%11 end,	nil,"sddasU"),
+		sddasU=	newButton(400,340,50,50,color.white,40,function()setting.sddas=(setting.sddas+1)%11 end,	nil,"sdarrD"),
+		sdarrD=	newButton(500,340,50,50,color.white,40,function()setting.sdarr=(setting.sdarr-1)%4 end,		nil,"sdarrU"),
+		sdarrU=	newButton(720,340,50,50,color.white,40,function()setting.sdarr=(setting.sdarr+1)%4 end,		nil,"quickR"),
+		quickR=	newSwitch(560,440,40,function()return setting.quickR end,function()setting.quickR=not setting.quickR end,	nil,"swap"),
+		swap=	newSwitch(560,530,25,function()return setting.swap end,function()setting.swap=not setting.swap end,			nil,"ctrl"),
+		ctrl=	newButton(1020,230,320,80,color.white,40,function()gotoScene("setting_control")end,			nil,"touch"),
+		touch=	newButton(1020,340,320,80,color.white,40,function()gotoScene("setting_touch")end,			nil,"back"),
+		back=	newButton(1160,600,160,160,color.white,55,back,nil,"graphic"),
 	},
 	setting_graphic={
-		ghost=	newSwitch(310,90,40,			function()return setting.ghost end,		function()setting.ghost=	not setting.ghost end,	nil,"center"),
-		center=	newSwitch(580,90,40,			function()return setting.center end,	function()setting.center=	not setting.center end,	nil,"smo"),
-		smo=	newSwitch(310,170,25,			function()return setting.smo end,		function()setting.smo=		not setting.smo end,	nil,"grid"),
-		grid=	newSwitch(580,170,40,			function()return setting.grid end,		function()setting.grid=		not setting.grid end,	nil,"dropFX"),
-		dropFX=	newSlider(310,260,373,3,40,nil,function()return setting.dropFX end,	function(i)setting.dropFX=i end,					nil,"shakeFX"),
-		shakeFX=newSlider(310,340,373,3,40,nil,function()return setting.shakeFX end,	function(i)setting.shakeFX=i end,					nil,"atkFX"),
-		atkFX=	newSlider(310,420,373,3,40,nil,function()return setting.atkFX end,		function(i)setting.atkFX=i end,						nil,"frame"),
-		frame=	newSlider(310,500,373,10,40,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
-		fullscreen=newSwitch(990,90,40,function()return setting.fullscreen end,function()
+		sound=	newButton(200,80,240,80,color.lightGreen,40,function()gotoScene("setting_sound")end,	nil,"game"),
+		game=	newButton(1080,80,240,80,color.lightGreen,40,function()gotoScene("setting_game")end,	nil,"ghost"),
+		ghost=	newSwitch(310,180,40,function()return setting.ghost end,	function()setting.ghost=	not setting.ghost end,	nil,"center"),
+		center=	newSwitch(580,180,40,function()return setting.center end,	function()setting.center=	not setting.center end,	nil,"smo"),
+		smo=	newSwitch(310,260,25,function()return setting.smo end,		function()setting.smo=		not setting.smo end,	nil,"grid"),
+		grid=	newSwitch(580,260,40,function()return setting.grid end,		function()setting.grid=		not setting.grid end,	nil,"dropFX"),
+		dropFX=	newSlider(310,350,373,3,40,nil,function()return setting.dropFX end,		function(i)setting.dropFX=i end,		nil,"shakeFX"),
+		shakeFX=newSlider(310,430,373,3,40,nil,function()return setting.shakeFX end,	function(i)setting.shakeFX=i end,		nil,"atkFX"),
+		atkFX=	newSlider(310,510,373,3,40,nil,function()return setting.atkFX end,		function(i)setting.atkFX=i end,			nil,"frame"),
+		frame=	newSlider(310,590,373,10,40,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
+		fullscreen=newSwitch(990,180,40,function()return setting.fullscreen end,function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			if not setting.fullscreen then
 			love.resize(gc.getWidth(),gc.getHeight())
 			end
 			end,nil,"bg"),
-		bg=		newSwitch(990,170,40,function()return setting.bg end,function()setting.bg=not setting.bg end,	nil,"bgblock"),
-		bgblock=newSwitch(990,250,40,function()return setting.bgblock end,function()
+		bg=		newSwitch(990,250,40,function()return setting.bg end,function()setting.bg=not setting.bg end,	nil,"bgblock"),
+		bgblock=newSwitch(990,330,40,function()return setting.bgblock end,function()
 			setting.bgblock=not setting.bgblock--if not setting.bgblock then for i=1,16 do FX_BGblock.list[i].v=3*FX_BGblock.list[i].v end end
 			end,nil,"skin"),
-		skin=	newButton(950,450,120,60,color.white,40,function()
+		skin=	newButton(860,470,120,60,color.white,40,function()
 			setting.skin=setting.skin%6+1
 			changeBlockSkin(setting.skin)
 			end,nil,"back"),
-		back=	newButton(600,620,300,70,color.white,40,back,nil,"ghost"),
-	},
+		back=	newButton(1160,600,160,160,color.white,55,back,nil,"sound"),
+		},
 	setting_sound={
-		sfx=newSlider(180,150,400,8,40,function()SFX("blip_1")end,				function()return setting.sfx end,function(i)setting.sfx=i end,nil,"bgm"),
-		bgm=newSlider(750,150,400,8,40,function()BGM(bgmPlaying or"blank")end,	function()return setting.bgm end,function(i)setting.bgm=i end,nil,"vib"),
-		vib=newSlider(180,340,400,5,40,function()VIB(1)end,						function()return setting.vib end,function(i)setting.vib=i end,nil,"voc"),
-		voc=newSlider(750,340,400,8,40,function()VOICE("nya")end,				function()return setting.voc end,function(i)setting.voc=i end,nil,"back"),
-		back=newButton(640,620,300,70,color.white,40,back,nil,"sfx"),
+		game=	newButton(200,80,240,80,color.lightGreen,40,function()gotoScene("setting_game")end,	nil,"graphic"),
+		graphic=newButton(1080,80,240,80,color.lightGreen,40,function()gotoScene("setting_graphic")end,	nil,"sfx"),
+		sfx=newSlider(180,250,400,8,40,function()SFX("blip_1")end,				function()return setting.sfx end,function(i)setting.sfx=i end,nil,"bgm"),
+		bgm=newSlider(750,250,400,8,40,function()BGM(bgmPlaying or"blank")end,	function()return setting.bgm end,function(i)setting.bgm=i end,nil,"vib"),
+		vib=newSlider(180,440,400,5,40,function()VIB(1)end,						function()return setting.vib end,function(i)setting.vib=i end,nil,"voc"),
+		voc=newSlider(750,440,400,8,40,function()VOICE("nya")end,				function()return setting.voc end,function(i)setting.voc=i end,nil,"back"),
+		back=newButton(1160,600,160,160,color.white,55,back,nil,"game"),
 	},
 	setting_control={
 		back=newButton(840,630,180,60,color.white,40,back),

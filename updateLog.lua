@@ -6,9 +6,7 @@ Future outlook:
 		custom sequence
 		virtual key switch(all keys)
 	Normal Things:
-		new cooler attack FX
 		combo mode
-		demo play at main menu
 		any screen size
 		CC smarter(think of gaebage buffer)
 		fineese/bigbang mode & easier CTWC
@@ -20,6 +18,10 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.7.25:
+	demo play at main menu
+	ALMOST reconstructed WHOLE PLAYER SYSTEM,NEED TEST
+	many bug fixed
 0.7.24(0.7.23):
 	REMAKE ALL BGM!
 	more settings with brand new GUI!

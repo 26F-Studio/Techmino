@@ -8,7 +8,7 @@ local gc,tm=love.graphics,love.timer
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 local fs,sys,wd=love.filesystem,love.system,love.window
 local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
-local find,format=string.find,string.format
+local find=string.find
 local ins,rem=table.insert,table.remove
 local Timer=tm.getTime
 local F=false
@@ -20,6 +20,7 @@ local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
 local touching--1st touching ID
 
+players={alive={},human=0}
 scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}
 local scr=scr
 scene=""
@@ -55,8 +56,7 @@ freeRow={L=40}for i=1,40 do freeRow[i]={0,0,0,0,0,0,0,0,0,0}end
 setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
-	holdR=true,
-	swap=true,
+	quickR=true,swap=true,
 	--game
 	ghost=true,center=true,
 	smo=true,grid=false,
@@ -147,6 +147,7 @@ require("dataList")
 require("texture")
 local Tmr=require("timer")
 local Pnt=require("paint")
+require("player")
 --Modules
 -------------------------------------------------------------
 local powerInfoCanvas,updatePowerInfo
@@ -213,7 +214,11 @@ local sceneInit={
 		updatePowerInfo()
 	end,
 	main=function()
-		modeSel,levelSel=modeSel or 1,levelSel or 3
+		modeSel,levelSel=modeSel or 1,levelSel or 3--Initialize mode selection
+		modeEnv={}
+		if not players[1]then
+			newDemoPlayer(1,900,35,1.1)
+		end--create demo player
 		collectgarbage()
 	end,
 	music=function()
@@ -230,7 +235,6 @@ local sceneInit={
 	end,
 	mode=function()
 		curBG="none"
-		saveData()
 		destroyPlayers()
 		BGM("blank")
 	end,
@@ -255,29 +259,24 @@ local sceneInit={
 	end,
 	pause=function()
 	end,
-	setting=function()
+	setting_game=function()
 		curBG="none"
 	end,
-	setting_game=null,
-	setting_graphic=null,
-	setting_sound=null,
 	setting_control=function()
 		curBoard=1
 		keyboardSet=1
 		joystickSet=1
 		keyboardSetting=false
 		joystickSetting=false
-	end,--Control settings
+	end,
 	setting_touch=function()
 		curBG="game1"
 		defaultSel=1
 		sel=nil
 		snapLevel=1
-	end,--Touch setting
+	end,
 	help=function()
 		curBG="none"
-	end,
-	stat=function()
 	end,
 	history=function()
 		updateLog=require"updateLog"
@@ -605,24 +604,19 @@ function keyDown.pause(key)
 		back()
 	elseif key=="return"or key=="space"then
 		resumeGame()
-	else
-		local m=setting.keyMap
-		for p=1,human do
-			if key==m[2*p-1][10]or key==m[2*p][10]then
-				clearTask("play")
-				updateStat()
-				resetGameData()
-				gotoScene("play","none")
-			end
-		end--Restart
-	end
+	elseif key=="r"and kb.isDown("lctrl","rctrl")then
+		clearTask("play")
+		updateStat()
+		resetGameData()
+		gotoScene("play","none")
+	end--Restart
 end
 
 function touchDown.play(id,x,y)
 	if setting.virtualkeySwitch then
 		local t=onVirtualkey(x,y)
 		if t then
-			pressKey(t,players[1])
+			players[1]:pressKey(t)
 			VIB(0)
 		end
 	end
@@ -631,7 +625,7 @@ function touchUp.play(id,x,y)
 	if setting.virtualkeySwitch then
 		local t=onVirtualkey(x,y)
 		if t then
-			releaseKey(t,players[1])
+			players[1]:releaseKey(t)
 		end
 	end
 end
@@ -644,7 +638,7 @@ function touchMove.play(id,x,y,dx,dy)
 				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
 				if(x-b[1])^2+(y-b[2])^2<=b[3]then goto L end
 			end
-			releaseKey(n,players[1])
+			players[1]:releaseKey(n)
 			::L::
 		end
 	end
@@ -654,10 +648,10 @@ function keyDown.play(key)
 		return(frame<180 and back or pauseGame)()
 	end
 	local m=setting.keyMap
-	for p=1,human do
+	for p=1,players.human do
 		for k=1,12 do
 			if key==m[2*p-1][k]or key==m[2*p][k]then
-				pressKey(k,players[p])
+				players[p]:pressKey(k)
 				return
 			end
 		end
@@ -665,10 +659,10 @@ function keyDown.play(key)
 end
 function keyUp.play(key)
 	local m=setting.keyMap
-	for p=1,human do
+	for p=1,players.human do
 		for k=1,12 do
 			if key==m[2*p-1][k]or key==m[2*p][k]then
-				releaseKey(k,players[p])
+				players[p]:releaseKey(k)
 				return
 			end
 		end
@@ -677,10 +671,10 @@ end
 function gamepadDown.play(key)
 	if key=="back"then back()return end
 	local m=setting.keyMap
-	for p=1,human do
+	for p=1,players.human do
 		for k=1,12 do
 			if key==m[2*p+7][k]or key==m[2*p+8][k]then
-				pressKey(k,players[p])
+				players[p]:pressKey(k)
 				return
 			end
 		end
@@ -688,10 +682,10 @@ function gamepadDown.play(key)
 end
 function gamepadUp.play(key)
 	local m=setting.keyMap
-	for p=1,human do
+	for p=1,players.human do
 		for k=1,12 do
 			if key==m[2*p+7][k]or key==m[2*p+8][k]then
-				releaseKey(k,players[p])
+				players[p]:releaseKey(k)
 				return
 			end
 		end
@@ -712,7 +706,6 @@ function keyDown.history(key)
 end
 -------------------------------------------------------------
 local function widgetPress(W,x,y)
-	if W.hide and W.hide()then widget_sel=nil end
 	if W.type=="button"then
 		W.code()
 		W:FX()
@@ -730,6 +723,7 @@ local function widgetPress(W,x,y)
 		W:FX(p)
 		if W.change then W.change()end
 	end
+	if W.hide and W.hide()then widget_sel=nil end
 end
 local function widgetDrag(W,x,y,dx,dy)
 	if W.type=="slider"then
@@ -738,7 +732,7 @@ local function widgetDrag(W,x,y,dx,dy)
 		if p==W.disp()then return end
 		W:FX(p)
 		if W.change then W.change()end
-	elseif not W:ifAbove(x,y)then
+	elseif not W:isAbove(x,y)then
 		widget_sel=nil
 	end
 end
@@ -757,11 +751,15 @@ local function widgetControl_key(i)
 		if widget_sel then
 			local W=widget_sel
 			if W.type=="slider"then
+				local p=W.disp()
 				if i=="left"then
 					if W.disp()>0 then W.code(W.disp()-1)end
 				elseif i=="right"then
 					if W.disp()<W.unit then W.code(W.disp()+1)end
 				end
+				if p==W.disp()then return end
+				W:FX(p)
+				if W.change then W.change()end
 			end
 		end
 	end
@@ -793,7 +791,6 @@ local function widgetControl_gamepad(i)
 end
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
-	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if mouseDown[scene]then
 		mouseDown[scene](mx,my,k)
@@ -805,10 +802,10 @@ function love.mousepressed(x,y,k,t,num)
 			widgetPress(widget_sel,mx,my)
 		end
 	end
+	mouseShow=true
 end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
-	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	dx,dy=dx/scr.k,dy/scr.k
 	if mouseMove[scene]then
@@ -819,12 +816,13 @@ function love.mousemoved(x,y,dx,dy,t)
 	else
 		widget_sel=nil
 		for _,W in next,Widget[scene]do
-			if not(W.hide and W.hide())and W:ifAbove(mx,my)then
+			if not(W.hide and W.hide())and W:isAbove(mx,my)then
 				widget_sel=W
 				return
 			end
 		end
 	end
+	mouseShow=true
 end
 function love.mousereleased(x,y,k,t,num)
 	if t then return end
@@ -857,7 +855,7 @@ function love.touchmoved(id,x,y,dx,dy)
 	else
 		widget_sel=nil
 		for _,W in next,Widget[scene]do
-			if not(W.hide and W.hide())and W:ifAbove(x,y)then
+			if not(W.hide and W.hide())and W:isAbove(x,y)then
 				widget_sel=W
 				return
 			end
@@ -885,6 +883,11 @@ function love.keypressed(i)
 	if i=="f8"then devMode=(devMode+1)%3 end
 	if devMode==2 then
 		if i=="k"then
+			for i=1,8 do
+				local P=players.alive[rnd(#players.alive)]
+				P.lastRecv=players[1]
+				Event.lose(P)
+			end
 			--Test code here
 		elseif i=="q"then
 			local W=widget_sel
@@ -995,7 +998,7 @@ function love.update(dt)
 			end
 			widget_sel=nil
 			scene=sceneSwaping.tar
-			sceneInit[scene]()
+			if sceneInit[scene] then sceneInit[scene]()end
 			--scene swapped!
 		elseif sceneSwaping.time==0 then
 			sceneSwaping=nil
@@ -1005,7 +1008,10 @@ function love.update(dt)
 		Tmr[scene](dt)
 	end
 	for i=#Task,1,-1 do
-		Task[i]:update()
+		local T=Task[i]
+		if(not T.P or T.P and scene=="play")and T.code(T.P,T.data)then
+			rem(Task,i)
+		end
 	end
 	for i=1,#voiceQueue do
 		local Q=voiceQueue[i]
@@ -1100,9 +1106,10 @@ function love.draw()
 		end--wide
 	end--Black side
 	setFont(20)
+	gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),5,700)
 	if devMode>0 then
-		gc.setColor(1,1,devMode==2 and 0 or 1)
+		gc.setColor(1,devMode==2 and .5 or 1,1)
 		gc.print("Tasks:"..#Task,5,600)
 		gc.print("Voices:"..#voiceQueue,5,620)
 		gc.print("Mouse:"..mx.." "..my,5,640)
@@ -1120,8 +1127,14 @@ function love.run()
 	return function()
 		PUMP()
 		for N,a,b,c,d,e in POLL()do
-			if N=="quit"then destroyPlayers()return 0
-			elseif love[N]then love[N](a,b,c,d,e)end
+			if N=="quit"then
+				destroyPlayers()
+				saveData()
+				saveSetting()
+				return 0
+			elseif love[N]then
+				love[N](a,b,c,d,e)
+			end
 		end
 		T.step()
 		love.update(T.getDelta())
@@ -1138,8 +1151,8 @@ function love.run()
 				updatePowerInfo()
 				lastUpdatePowerInfo=Timer()
 			end
-		until Timer()-lastFrame>.0133
-		T.sleep(.003)
+		until Timer()-lastFrame>.013
+		T.sleep(.002)
 		lastFrame=Timer()
 	end
 end

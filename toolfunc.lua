@@ -25,20 +25,25 @@ function mDraw(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)
 end
 function destroyPlayers()
-	if players then
-		for _,P in next,players do if P.id then
-			while P.field[1]do
-				removeRow(P.field)
-				removeRow(P.visTime)
-			end
-			if P.AI_mode=="CC"then
-				BOT.free(P.bot_opt)
-				BOT.free(P.bot_wei)
-				BOT.destroy(P.AI_bot)
-				P.AI_mode=nil
-			end
-		end end
+	for i=#players,1,-1 do
+		local P=players[i]
+		if P.canvas then P.canvas:release()end
+		while P.field[1]do
+			removeRow(P.field)
+			removeRow(P.visTime)
+		end
+		if P.AI_mode=="CC"then
+			BOT.free(P.bot_opt)
+			BOT.free(P.bot_wei)
+			BOT.destroy(P.AI_bot)
+			P.AI_mode=nil
+		end
+		players[i]=nil
 	end
+	for i=#players.alive,1,-1 do
+		players.alive[i]=nil
+	end
+	players.human=0
 end
 function getNewRow(val)
 	local t=rem(freeRow)
@@ -64,14 +69,12 @@ end
 langName={"中文","全中文","English"}
 local langID={"chi","chi_full","eng"}
 local drawableTextLoad={
-	"next",
-	"hold",
-	"pause",
-	"finish",
+	"next","hold",
+	"pause","finish",
 	"custom",
-	"keyboard",
-	"joystick",
-	"setting2Help",
+	"setting_game","setting_graphic","setting_sound",
+	"keyboard","joystick",
+	"ctrlSetHelp",
 	"musicRoom",
 	"nowPlaying",
 	"warning",
@@ -152,9 +155,8 @@ function VOICE(s,chn)
 			voiceQueue[chn][#voiceQueue[chn]+1]=voiceList[s][rnd(#voiceList[s])]
 			--添加到[chn]
 		else
-			local P=#voiceQueue
-			voiceQueue[P+1]={voiceList[s][rnd(#voiceList[s])]}
-			--新建[chn]
+			voiceQueue[getFreeVoiceChannel()]={voiceList[s][rnd(#voiceList[s])]}
+			--自动查找/创建空轨
 		end
 	end
 end
@@ -204,7 +206,7 @@ local swapDeck_data={
 	{7,0,8,9},{1,0,2,8},{5,2,4,8},{6,0,15,8},
 }--Block id [ZSLJTOI] ,dir,x,y
 local swap={
-	none={2,1,d=function()end},
+	none={2,1,d=null},
 	flash={8,1,d=function()gc.clear(1,1,1)end},
 	fade={30,15,d=function()
 		local t=1-abs(sceneSwaping.time*.06667-1)
@@ -259,29 +261,26 @@ local prevMenu={
 	music="main",
 	mode="main",
 	custom="mode",
-	draw=function()
-		gotoScene("custom")
-	end,
+	draw="custom",
 	play=function()
 		kb.setKeyRepeat(true)
 		updateStat()
 		clearTask("play")
 		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
 	end,
-	pause=nil,
-	setting=function()
+	setting_game=function()
 		saveSetting()
 		gotoScene("main")
 	end,
-	setting_game=	"setting",
-	setting_graphic="setting",
-	setting_sound=	"setting",
-	setting_control="setting",
-	setting_touch=	"setting",
+	setting_control="setting_game",
+	setting_touch=	"setting_game",
 	help="main",
 	history="help",
 	stat="main",
-}prevMenu.pause=prevMenu.play
+}
+prevMenu.pause=prevMenu.play
+prevMenu.setting_graphic=prevMenu.setting_game
+prevMenu.setting_sound=prevMenu.setting_game
 function back()
 	local t=prevMenu[scene]
 	if type(t)=="string"then
@@ -299,7 +298,7 @@ function pauseGame()
 		local l=players.alive[i].keyPressing
 		for j=1,#l do
 			if l[j]then
-				releaseKey(j,players.alive[i])
+				players.alive[i]:releaseKey(j)
 			end
 		end
 	end
@@ -369,6 +368,25 @@ function loadSetting()
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
+			elseif t=="virtualkeyAlpha"then
+				setting.virtualkeyAlpha=min(int(abs(toN(v))),10)
+			elseif
+				t=="ghost"or t=="center"or t=="grid"or t=="swap"or
+				t=="quickR"or t=="bgblock"or t=="smo"or
+				t=="virtualkeyIcon"or t=="virtualkeySwitch"
+			then
+				setting[t]=v=="true"
+			elseif t=="frameMul"then
+				setting.frameMul=min(max(toN(v)or 100,0),100)
+			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
+				v=toN(v)if not v or v<0 then v=0 end
+				setting[t]=int(v)
+			elseif t=="dropFX"or t=="shakeFX"or t=="atkFX"then
+				setting[t]=toN(v:match("[0123]"))or 0
+			elseif t=="lang"then
+				setting[t]=toN(v:match("[123]"))or 1
+			elseif t=="skin"then
+				setting[t]=toN(v:match("[123456]"))or 1
 			elseif t=="keymap"then
 				v=splitS(v,"/")
 				for i=1,16 do
@@ -387,23 +405,6 @@ function loadSetting()
 						end
 					end
 				end
-			elseif t=="virtualkeyAlpha"then
-				setting.virtualkeyAlpha=min(int(abs(toN(v))),10)
-			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="bg"or t=="bgblock"or t=="smo"then
-				setting[t]=v=="true"
-			elseif t=="virtualkeyIcon"or t=="virtualkeySwitch"then
-				setting[t]=v=="true"
-			elseif t=="frameMul"then
-				setting.frameMul=min(max(toN(v)or 100,0),100)
-			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
-				v=toN(v)if not v or v<0 then v=0 end
-				setting[t]=int(v)
-			elseif t=="dropFX"or t=="shakeFX"or t=="atkFX"then
-				setting[t]=toN(v:match("[0123]"))or 0
-			elseif t=="lang"then
-				setting[t]=toN(v:match("[123]"))or 1
-			elseif t=="skin"then
-				setting[t]=toN(v:match("[123456]"))or 1
 			end
 		end
 	end
@@ -411,7 +412,7 @@ end
 local saveOpt={
 	"das","arr",
 	"sddas","sdarr",
-	"holdR",
+	"quickR",
 	"swap",
 
 	"ghost","center",

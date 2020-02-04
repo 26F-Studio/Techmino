@@ -66,7 +66,7 @@ function CC_switch20G(P)
 		BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
 	end
 	CC_updateField(P)
-	P.hold={bk={{}},id=0,color=0,name=0}P.holded=false
+	P.hd={bk={{}},id=0,color=0,name=0}P.holded=false
 	P.cur=rem(P.next,1)
 	P.sc,P.dir=scs[P.cur.id],0
 	P.r,P.c=#P.cur.bk,#P.cur.bk[1]
@@ -145,7 +145,7 @@ local function getScore(field,cb,cy)
 		clear=clear+1
 		::L::
 	end
-	if #field==0 then return 9e99 end--PC best
+	if #field==0 then return 1e99 end--PC best
 	for x=1,10 do
 		local h=#field
 		::L::if field[h][x]==0 and h>1 then
@@ -188,7 +188,7 @@ end
 -------------------------------------------------
 AI_think={
 	["9S"]={
-		function(ctrl)
+		function(P,ctrl)
 			local Tfield={}--test field
 			local field_org=P.field
 			for i=1,#field_org do
@@ -197,9 +197,9 @@ AI_think={
 					Tfield[i][j]=field_org[i][j]
 				end
 			end
-			local best={x=1,dir=0,hold=false,score=-9e99}
+			local best={x=1,dir=0,hold=false,score=-1e99}
 			for ifhold=0,P.gameEnv.hold and 1 or 0 do
-				local bn=ifhold==0 and P.cur.id or P.hold.id>0 and P.hold.id or P.next[1].id
+				local bn=ifhold==0 and P.cur.id or P.hd.id>0 and P.hd.id or P.next[1].id
 				for dir=0,dirCount[bn] do--each dir
 					local cb=blocks[bn][dir]
 					for cx=1,11-#cb[1]do--each pos
@@ -244,26 +244,26 @@ AI_think={
 			ctrl[p]=6
 			return 2
 		end,
-		function()
+		function(P)
 			P.AI_delay=P.AI_delay0
 			if Timer()-P.modeData.point>P.modeData.event then
 				P.modeData.point=Timer()
 				P.modeData.event=P.AI_delay0+rnd(2,10)
-				changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
+				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
 		end,
 	},
 	["CC"]={
-		function()
+		function(P)
 			if P.AI_needFresh then
 				CC_updateField(P)
 				P.AI_needFresh=false
 			end
 			BOT.think(P.AI_bot)
 			return 2
-		end,
-		function(ctrl)
+		end,--start thinking
+		function(P,ctrl)
 			if BOT.ifDead(P.AI_bot)then ins(ctrl,6)return 3 end
 			local success,hold,move=BOT.getMove(P.AI_bot)
 			if success then
@@ -281,15 +281,15 @@ AI_think={
 			else
 				return 2--stay this stage
 			end
-	end,
-		function()
+		end,--poll keys
+		function(P)
 			P.AI_delay=P.AI_delay0
 			if Timer()-P.modeData.point>P.modeData.event then
 				P.modeData.point=Timer()
 				P.modeData.event=P.AI_delay0+rnd(2,10)
-				changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
+				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
-		end,
+		end,--check if time to change target
 	},
 }--AI think stage

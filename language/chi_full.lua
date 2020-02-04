@@ -61,7 +61,10 @@ return{
 	snapLevelName={"任意摆放","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
 	keyboard="键盘",joystick="手柄",
 	space="空格",enter="回车",
-	setting2Help="方向键选择/翻页,回车修改,esc返回",
+	ctrlSetHelp="方向键选择/翻页,回车修改,esc返回",
+	setting_game="游戏设置",
+	setting_graphic="画面设置",
+	setting_sound="声音设置",
 	musicRoom="音乐室",
 	nowPlaying="正在播放:",
 
@@ -166,6 +169,7 @@ return{
 	warning="禁 止 私 自 传 播",
 	WidgetText={
 		main={
+			lang="全中文",
 			qplay="快速开始",
 			play="开始",
 			setting="设置",
@@ -231,25 +235,21 @@ return{
 			restart="重新开始",
 			quit=	"退出",
 		},
-		setting={
-			game=	"游戏设置",
-			graphic="画面设置",
-			sound=	"声音设置",
-			ctrl=	"控制设置",
-			touch=	"触屏设置",
-			lang=	function()return langName[setting.lang]end,
-			back=	"保存&返回",
-		},
+
 		setting_game={
+			graphic="←画面设置",
+			sound="声音设置→",
 			dasD="-",dasU="+",
 			arrD="-",arrU="+",
 			sddasD="-",sddasU="+",
 			sdarrD="-",sdarrU="+",
-			holdR="长按重新开始",
+			quickR="快速重新开始",
 			swap="组合键切换攻击模式",
 			back=BK,
 		},
 		setting_graphic={
+			sound="←声音设置",
+			game="游戏设置→",
 			ghost="阴影",
 			grid="网格",
 			center="旋转中心",
@@ -265,6 +265,8 @@ return{
 			back=BK,
 		},
 		setting_sound={
+			game="←游戏设置",
+			graphic="画面设置→",
 			sfx="音效",
 			bgm="音乐",
 			vib="震动",
