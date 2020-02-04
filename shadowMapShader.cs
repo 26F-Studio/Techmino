@@ -12,5 +12,5 @@ vec4 effect(vec4 color,Image texture,vec2 texture_coords,vec2 screen_coords){
 		vec4 data=Texel(texture,(vec2(-r*sin(theta),-r*cos(theta))*.5+.5));//vec2()..是遮光物采样的coord
 		if(data.a>.1)return vec4(vec3(y/yresolution),1.);//碰撞检测，像素透明度>.1即透光
 	}
-	return vec4(vec3(1),1.);//返回最远距离1
+	return vec4(1,1,1,1);//返回最远距离1
 }

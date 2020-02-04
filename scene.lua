@@ -21,7 +21,7 @@ local sceneInit={
 		}
 	end,
 	intro=function()
-		count=0
+		sceneTemp=0--animation timer
 		BGM("blank")
 	end,
 	main=function()
@@ -37,12 +37,12 @@ local sceneInit={
 		if bgmPlaying then
 			for i=1,#musicID do
 				if musicID[i]==bgmPlaying then
-					sel=i
+					sceneTemp=i--music select
 					return
 				end
 			end
 		else
-			sel=1
+			sceneTemp=1
 		end
 	end,
 	mode=function()
@@ -51,15 +51,14 @@ local sceneInit={
 		destroyPlayers()
 	end,
 	custom=function()
-		sel=sel or 1
+		sceneTemp=1--option select
 		destroyPlayers()
 		curBG=customRange.bg[customSel[12]]
 		BGM(customRange.bgm[customSel[13]])
 	end,
 	draw=function()
 		curBG="none"
-		clearSureTime=0
-		pen,sx,sy=1,1,1
+		sceneTemp={sure=0,pen=1,x=1,y=1}
 	end,
 	play=function()
 		love.keyboard.setKeyRepeat(false)
@@ -82,21 +81,23 @@ local sceneInit={
 		curBG="none"
 	end,
 	setting_sound=function()
-		sel=0--last sound time
+		sceneTemp={last=0,jump=0}--last sound time,animation count(10→0)
 		curBG="none"
 	end,
 	setting_key=function()
-		curBoard=1
-		keyboardSet=1
-		joystickSet=1
-		keyboardSetting=false
-		joystickSetting=false
+		sceneTemp={
+			board=1,
+			kb=1,js=1,
+			kS=false,jS=false,
+		}
 	end,
 	setting_touch=function()
 		curBG="game2"
-		defaultSel=1
-		sel=nil
-		snapLevel=1
+		sceneTemp={
+			default=1,
+			snap=1,
+			sel=nil,
+		}
 	end,
 	setting_touchSwitch=function()
 		curBG="matrix"
@@ -107,7 +108,7 @@ local sceneInit={
 	history=function()
 		updateLog=require"updateLog"
 		curBG="lightGrey"
-		sel=1
+		sceneTemp=1--scroll pos
 	end,
 	quit=function()
 		love.timer.sleep(.3)

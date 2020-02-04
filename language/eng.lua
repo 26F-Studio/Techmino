@@ -307,8 +307,8 @@ Lib used:
 		},
 		setting_touch={
 			default="Defaults",
-			snap=function()return text.snapLevelName[snapLevel]end,
-			more="More",
+			snap=function()return text.snapLevelName[sceneTemp.snap]end,
+			option="Option",
 			back=BK,
 			size="Size",
 		},

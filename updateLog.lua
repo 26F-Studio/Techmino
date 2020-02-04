@@ -9,11 +9,12 @@ Patron(rmb10+):
 	?[D*a]
 Future outlook:
 	Normal:
+		timing mode
 		powerinfo switch
 		splashing block
 		ajustable next count
-		new mode system
 		custom block color/direction
+		new mode system
 		combo mode
 		bigbang mode
 		TTT mode
@@ -27,9 +28,12 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.8.3:
+	new widget appearence
+	cuter miya
 0.8.2+:
 	GUI adjusted
-	added a cute cat
+	miya figure added
 0.8.2:
 	new widget appearence
 	GUI adjusted

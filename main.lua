@@ -1,7 +1,6 @@
 --[[
-第一次搞这么大的工程~参考价值不是很大
-如果你有时间并且也热爱俄罗斯方块的话，来看代码或者帮助优化的话当然欢迎！
-(顺便，无授权直接盗代码的先死个妈)
+第一次搞这么大的工程,参考价值不是很大
+如果你有时间并且也热爱俄罗斯方块的话,来看代码或者帮助优化的话欢迎!
 ]]
 local love=love
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
@@ -71,6 +70,7 @@ require("light")
 local Tmr=require("timer")
 local Pnt=require("paint")
 require("player")
+require("shader")
 --Modules
 -------------------------------------------------------------
 local powerInfoCanvas,updatePowerInfo
@@ -246,12 +246,12 @@ function wheelmoved.music(x,y)
 end
 function keyDown.music(key)
 	if key=="down"then
-		sel=sel%#musicID+1
+		sceneTemp=sceneTemp%#musicID+1
 	elseif key=="up"then
-		sel=(sel-2)%#musicID+1
+		sceneTemp=(sceneTemp-2)%#musicID+1
 	elseif key=="return"or key=="space"then
-		if bgmPlaying~=musicID[sel]then
-			BGM(musicID[sel])
+		if bgmPlaying~=musicID[sceneTemp]then
+			BGM(musicID[sceneTemp])
 		else
 			BGM()
 		end
@@ -261,6 +261,7 @@ function keyDown.music(key)
 end
 
 function keyDown.custom(key)
+	local sel=sceneTemp
 	if key=="left"then
 		customSel[sel]=(customSel[sel]-2)%#customRange[customID[sel]]+1
 		if sel==12 then
@@ -276,9 +277,9 @@ function keyDown.custom(key)
 			BGM(customRange.bgm[customSel[sel]])
 		end
 	elseif key=="down"then
-		sel=sel%#customID+1
+		sceneTemp=sel%#customID+1
 	elseif key=="up"then
-		sel=(sel-2)%#customID+1
+		sceneTemp=(sel-2)%#customID+1
 	elseif key=="d"then
 		scene.push()
 		scene.swapTo("draw")
@@ -305,14 +306,16 @@ function mouseDown.draw(x,y,k)
 	mouseMove.draw(x,y)
 end
 function mouseMove.draw(x,y,dx,dy)
-	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
+	sceneTemp.x,sceneTemp.y=sx,sy
 	if sx and sy and ms.isDown(1,2,3)then
-		preField[sy][sx]=ms.isDown(1)and pen or ms.isDown(2)and -1 or 0
+		preField[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
 	end
 end
 function wheelmoved.draw(x,y)
+	local pen=sceneTemp.pen
 	if y<0 then
 		pen=pen+1
 		if pen==8 then pen=9 elseif pen==14 then pen=0 end
@@ -320,16 +323,18 @@ function wheelmoved.draw(x,y)
 		pen=pen-1
 		if pen==8 then pen=7 elseif pen==-1 then pen=13 end
 	end
+	sceneTemp.pen=pen
 end
 function touchDown.draw(id,x,y)
 	mouseMove.draw(x,y)
 end
 function touchMove.draw(id,x,y,dx,dy)
-	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
+	sceneTemp.x,sceneTemp.y=sx,sy
 	if sx and sy then
-		preField[sy][sx]=pen
+		preField[sy][sx]=sceneTemp.pen
 	end
 end
 local penKey={
@@ -341,12 +346,13 @@ local penKey={
 	lshift=-1,	lalt=-1,
 }
 function keyDown.draw(key)
+	local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
 	if key=="delete"then
-		if clearSureTime>15 then
+		if sceneTemp.sure>15 then
 			for y=1,20 do for x=1,10 do preField[y][x]=0 end end
-			clearSureTime=0
+			sceneTemp.sure=0
 		else
-			clearSureTime=50
+			sceneTemp.sure=50
 		end
 	elseif key=="up"or key=="down"or key=="left"or key=="right"then
 		if not sx then sx=1 end
@@ -368,30 +374,33 @@ function keyDown.draw(key)
 	else
 		pen=penKey[key]or pen
 	end
+	sceneTemp.x,sceneTemp.y,sceneTemp.pen=sx,sy,pen
 end
 
 function mouseDown.setting_sound(x,y,k)
-	if Timer()-sel>5 and x>780 and x<980 and y>470 then
-		VOICE("egg")
-		sel=Timer()
+	if x>780 and x<980 and y>470 and sceneTemp.jump==0 then
+		sceneTemp.jump=10
+		local t=Timer()-sceneTemp.last
+		if t>1 then
+			VOICE((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
+			sceneTemp.last=Timer()
+		end
 	end
 end
 function touchDown.setting_sound(id,x,y)
-	if Timer()-sel>5 and x>780 and x<980 and y>470 then
-		VOICE("egg")
-		sel=Timer()
-	end
+	mouseDown.setting_sound(x,y)
 end
 
 function keyDown.setting_key(key)
+	local s=sceneTemp
 	if key=="escape"then
-		if keyboardSetting then
-			keyboardSetting=false
+		if s.kS then
+			s.kS=false
 			SFX("error",.5)
 		else
 			scene.back()
 		end
-	elseif keyboardSetting then
+	elseif s.kS then
 		for l=1,8 do
 			for y=1,20 do
 				if setting.keyMap[l][y]==key then
@@ -399,43 +408,44 @@ function keyDown.setting_key(key)
 				end
 			end
 		end
-		setting.keyMap[curBoard][keyboardSet]=key
+		setting.keyMap[s.board][s.kb]=key
 		SFX("reach",.5)
-		keyboardSetting=false
+		s.kS=false
 	elseif key=="return"then
-		keyboardSetting=true
+		s.kS=true
 		SFX("lock",.5)
 	elseif key=="up"then
-		if keyboardSet>1 then
-			keyboardSet=keyboardSet-1
+		if s.kb>1 then
+			s.kb=s.kb-1
 			SFX("move",.5)
 		end
 	elseif key=="down"then
-		if keyboardSet<20 then
-			keyboardSet=keyboardSet+1
+		if s.kb<20 then
+			s.kb=s.kb+1
 			SFX("move",.5)
 		end
 	elseif key=="left"then
-		if curBoard>1 then
-			curBoard=curBoard-1
+		if s.board>1 then
+			s.board=s.board-1
 			SFX("rotate",.5)
 		end
 	elseif key=="right"then
-		if curBoard<8 then
-			curBoard=curBoard+1
+		if s.board<8 then
+			s.board=s.board+1
 			SFX("rotate",.5)
 		end
 	end
 end
 function gamepadDown.setting_key(key)
+	local s=sceneTemp
 	if key=="back"then
-		if joystickSetting then
-			joystickSetting=false
+		if s.jS then
+			s.jS=false
 			SFX("error",.5)
 		else
 			scene.back()
 		end
-	elseif joystickSetting then
+	elseif s.jS then
 		for l=9,16 do
 			for y=1,20 do
 				if setting.keyMap[l][y]==key then
@@ -443,30 +453,30 @@ function gamepadDown.setting_key(key)
 				end
 			end
 		end
-		setting.keyMap[8+curBoard][joystickSet]=key
+		setting.keyMap[8+s.board][s.js]=key
 		SFX("reach",.5)
-		joystickSetting=false
+		s.jS=false
 	elseif key=="start"then
-		joystickSetting=true
+		s.jS=true
 		SFX("lock",.5)
 	elseif key=="up"then
-		if joystickSet>1 then
-			joystickSet=joystickSet-1
+		if s.js>1 then
+			s.js=s.js-1
 			SFX("move",.5)
 		end
 	elseif key=="down"then
-		if joystickSet<20 then
-			joystickSet=joystickSet+1
+		if s.js<20 then
+			s.js=s.js+1
 			SFX("move",.5)
 		end
 	elseif key=="left"then
-		if curBoard>1 then
-			curBoard=curBoard-1
+		if s.board>1 then
+			s.board=s.board-1
 			SFX("rotate",.5)
 		end
 	elseif key=="right"then
-		if curBoard<8 then
-			curBoard=curBoard+1
+		if s.board<8 then
+			s.board=s.board+1
 			SFX("rotate",.5)
 		end
 	end
@@ -474,37 +484,34 @@ end
 
 function mouseDown.setting_touch(x,y,k)
 	if k==2 then scene.back()end
-	sel=onVK_org(x,y)or sel
+	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 end
 function mouseMove.setting_touch(x,y,dx,dy)
-	if sel and ms.isDown(1)and not widget_sel then
-		local B=VK_org[sel]
+	if sceneTemp.sel and ms.isDown(1)and not widget_sel then
+		local B=VK_org[sceneTemp.sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
 function mouseUp.setting_touch(x,y,k)
-	if sel then
-		local B=VK_org[sel]
-		local k=snapLevelValue[snapLevel]
+	if sceneTemp.sel then
+		local B=VK_org[sceneTemp.sel]
+		local k=snapLevelValue[sceneTemp.snap]
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
 function touchDown.setting_touch(id,x,y)
-	sel=onVK_org(x,y)or sel
+	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 end
 function touchUp.setting_touch(id,x,y)
-	if sel then
-		x,y=xOy:inverseTransformPoint(x,y)
-		if sel then
-			local B=VK_org[sel]
-			local k=snapLevelValue[snapLevel]
-			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
-		end
+	if sceneTemp.sel then
+		local B=VK_org[sceneTemp.sel]
+		local k=snapLevelValue[sceneTemp.snap]
+		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
 function touchMove.setting_touch(id,x,y,dx,dy)
-	if sel and not widget_sel then
-		local B=VK_org[sel]
+	if sceneTemp.sel and not widget_sel then
+		local B=VK_org[sceneTemp.sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
@@ -628,9 +635,9 @@ function wheelmoved.history(x,y)
 end
 function keyDown.history(key)
 	if key=="up"then
-		sel=max(sel-5,1)
+		sceneTemp=max(sceneTemp-10,1)
 	elseif key=="down"then
-		sel=min(sel+5,#updateLog-22)
+		sceneTemp=min(sceneTemp+10,#updateLog-22)
 	elseif key=="escape"then
 		scene.back()
 	end
@@ -1099,6 +1106,9 @@ function love.run()
 				love.draw()
 				gc.present()
 			end
+		end
+		if Timer()-lastFrame<.058 then
+			T.sleep(.01)
 		end
 		while Timer()-lastFrame<.0158 do
 			T.sleep(.001)

@@ -47,14 +47,14 @@ function Tmr.load()
 	end
 end
 function Tmr.intro()
-	count=count+1
-	if count==200 then count=80 end
+	sceneTemp=sceneTemp+1
+	if sceneTemp==200 then sceneTemp=80 end
 end
 function Tmr.main(dt)
 	players[1]:update(dt)
 end
 function Tmr.draw()
-	if clearSureTime>0 then clearSureTime=clearSureTime-1 end
+	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 function Tmr.play(dt)
 	frame=frame+1
@@ -138,6 +138,12 @@ function Tmr.pause(dt)
 	end
 	if pauseTimer<50 and not wd.isMinimized()then
 		pauseTimer=pauseTimer+1
+	end
+end
+function Tmr.setting_sound()
+	local t=sceneTemp.jump
+	if t>0 then
+		sceneTemp.jump=t-1
 	end
 end
 return Tmr

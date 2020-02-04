@@ -53,37 +53,29 @@ end
 function button:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local r,g,b=unpack(self.color)
+	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+	local sd=shader_glow
+	sd:send("X",x)sd:send("Y",y)sd:send("W",w)sd:send("H",h)
+	gc.setShader(sd)
+	gc.rectangle("fill",x,y,w,h)
+	gc.setShader()
 	if self==widget_sel then
-		gc.setColor(r*.7,g*.7,b*.7)
-		gc.rectangle("fill",x,y,w,h)
-		x,y,w,h=x+w,y+h,-w,-h
-	else
-		gc.setColor(r*.9,g*.9,b*.9)
-		gc.rectangle("fill",x,y,w,h)
-	end
-	gc.setLineWidth(3)
-	gc.setColor(.4+r*.6,.4+g*.6,.4+b*.6)
-	gc.line(x,y+h,x,y,x+w,y)
-	gc.setColor(r*.6,g*.6,b*.6)
-	gc.line(x,y+h,x+w,y+h,x+w,y)
-	if self==widget_sel then
-		x,y,w,h=x+w,y+h,-w,-h
+		gc.setLineWidth(4)
+		gc.setColor(1,1,1,.8)
+		gc.rectangle("line",x+2,y+2,w-4,h-4)
 	end
 	local t=self.text
 	if t then
 		if type(t)=="function"then t=t()end
 		setFont(self.font)
 		local y0=y+h*.5-self.font*.7
-		gc.setColor(1,1,1,.5)
-		if self==widget_sel then
-			gc.printf(t,x+2,y0+1,w,"center")
-			gc.setColor(r*.5,g*.5,b*.5)
-			gc.printf(t,x,y0,w,"center")
-		else
-			gc.printf(t,x,y0-1,w,"center")
-			gc.setColor(r*.6,g*.6,b*.6)
-			gc.printf(t,x-2,y0-2,w,"center")
-		end
+		gc.setColor(1,1,1,.3)
+		gc.printf(t,x-2,y0-2,w,"center")
+		gc.printf(t,x-2,y0+2,w,"center")
+		gc.printf(t,x+2,y0-2,w,"center")
+		gc.printf(t,x+2,y0+2,w,"center")
+		gc.setColor(r*.5,g*.5,b*.5)
+		gc.printf(t,x,y0,w,"center")
 	end
 end
 function button:getInfo()
@@ -116,17 +108,11 @@ function switch:draw()
 		gc.setLineWidth(6)
 		gc.line(x+5,y+25,x+18,y+38,x+45,y+11)
 	end--checked
-	if self==widget_sel then
-		gc.setColor(1,1,1,.4)
-	else
-		gc.setColor(1,1,1,.2)
-	end
+	gc.setColor(1,1,1,self==widget_sel and .6 or .3)
 	gc.rectangle("fill",x,y,50,50)
-	gc.setLineWidth(3)
+	gc.setLineWidth(4)
 	gc.setColor(1,1,1)
-	gc.line(x,y+50,x,y,x+50,y)
-	gc.setColor(1,1,1,.7)
-	gc.line(x,y+50,x+50,y+50,x+50,y)
+	gc.rectangle("line",x,y,50,50)
 	--frame
 	local t=self.text
 	if t then
@@ -161,7 +147,7 @@ function slider:FX(pos)
 end
 function slider:draw()
 	local x,y=self.x,self.y
-	gc.setColor(1,1,1,self==widget_sel and 1 or .5)
+	gc.setColor(1,1,1,self==widget_sel and .7 or .5)
 	gc.setLineWidth(2)
 	local x1,x2=x,x+self.w
 	for p=0,self.unit do
@@ -169,7 +155,7 @@ function slider:draw()
 		gc.line(x,y+7,x,y-7)
 	end
 	--units
-	gc.setLineWidth(5)
+	gc.setLineWidth(4)
 	gc.line(x1,y,x2,y)
 	--axis
 	local t=self.text
@@ -179,14 +165,14 @@ function slider:draw()
 		gc.printf(t,x-312,y-self.font*.7,300,"right")
 	end
 	--text
-	local x,y=x1+(x2-x1)*self.disp()/self.unit-8,y-15
+	local x,y=x1+(x2-x1)*self.disp()/self.unit-9,y-16
 	gc.setColor(.8,.8,.8)
-	gc.rectangle("fill",x,y,17,30)
-	gc.setLineWidth(2)
-	gc.setColor(.5,.5,.5)
-	gc.line(x,y+30,x+17,y+30,x+17,y)
-	gc.setColor(1,1,1)
-	gc.line(x,y+30,x,y,x+17,y)
+	gc.rectangle("fill",x,y,19,32)
+	if self==widget_sel then
+		gc.setLineWidth(2)
+		gc.setColor(1,1,1)
+		gc.rectangle("line",x+1,y+1,18,30)
+	end
 	--block
 end
 function slider:getInfo()

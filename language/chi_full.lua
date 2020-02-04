@@ -309,8 +309,8 @@ return{
 		},
 		setting_touch={
 			default="默认组合",
-			snap=function()return text.snapLevelName[snapLevel]end,
-			more="更多",
+			snap=function()return text.snapLevelName[sceneTemp.snap]end,
+			option="选项",
 			back=BK,
 			size="大小",
 		},

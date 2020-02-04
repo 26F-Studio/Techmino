@@ -115,7 +115,7 @@ local function VirtualkeyPreview()
 		for i=1,#VK_org do
 			local B=VK_org[i]
 			if B.ava then
-				local c=sel==i and .6 or 1
+				local c=sceneTemp.sel==i and .6 or 1
 				gc.setColor(c,1,c,setting.VKAlpha*.1)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r)
@@ -245,7 +245,7 @@ end
 function Pnt.intro()
 	gc.stencil(stencil_miniTitle,"replace",1)
 	gc.setStencilTest("equal",1)
-		gc.setColor(1,1,1,min(count,80)*.005)
+		gc.setColor(1,1,1,min(sceneTemp,80)*.005)
 		gc.push("transform")
 			gc.translate(250,150)
 			gc.scale(30)
@@ -254,7 +254,7 @@ function Pnt.intro()
 		gc.setColor(1,1,1,.06)
 		for i=41,5,-2 do
 			gc.setLineWidth(i)
-			gc.line(200+(count-80)*25,130,(count-80)*25,590)
+			gc.line(200+(sceneTemp-80)*25,130,(sceneTemp-80)*25,590)
 		end
 	gc.setStencilTest()
 end
@@ -295,7 +295,7 @@ function Pnt.mode()
 end
 function Pnt.music()
 	gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
-	gc.rectangle("fill",45,98+30*sel,250,30)
+	gc.rectangle("fill",45,98+30*sceneTemp,250,30)
 	gc.setColor(.8,.8,.8)
 	gc.draw(drawableText.musicRoom,20,20)
 	gc.setColor(1,1,1)
@@ -319,7 +319,7 @@ function Pnt.music()
 end
 function Pnt.custom()
 	gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
-	gc.rectangle("fill",25,95+40*sel,480,40)
+	gc.rectangle("fill",25,95+40*sceneTemp,480,40)
 	gc.setColor(.8,.8,.8)gc.draw(drawableText.custom,20,20)
 	gc.setColor(1,1,1)gc.draw(drawableText.custom,22,23)
 	setFont(35)
@@ -335,6 +335,7 @@ function Pnt.custom()
 	end
 end
 function Pnt.draw()
+	local sx,sy=sceneTemp.x,sceneTemp.y
 	gc.translate(200,60)
 	gc.setColor(1,1,1,.2)
 	gc.setLineWidth(1)
@@ -358,10 +359,11 @@ function Pnt.draw()
 		gc.rectangle("line",30*sx-30,600-30*sy,30,30)
 	end
 	gc.translate(-200,-60)
-	if clearSureTime>0 then
-		gc.setColor(1,1,1,clearSureTime*.02)
+	if sceneTemp.sure>0 then
+		gc.setColor(1,1,1,sceneTemp.sure*.02)
 		gc.draw(drawableText.question,660,11)
 	end
+	local pen=sceneTemp.pen
 	if pen>0 then
 		gc.setLineWidth(13)
 		gc.setColor(blockColor[pen])
@@ -480,7 +482,8 @@ function Pnt.setting_sound()
 	gc.setColor(1,1,1,.8)
 	mDraw(drawableText.setting_sound,640,15)
 	local t=Timer()
-	local x,y=790,370+10*sin(t*.4)
+	local _=sceneTemp.jump
+	local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
 	gc.translate(x,y)
 	gc.draw(miya_ch,0,0)
 	gc.setColor(1,1,1,.7)
@@ -491,17 +494,18 @@ function Pnt.setting_sound()
 	gc.translate(-x,-y)
 end
 function Pnt.setting_key()
+	local s=sceneTemp
 	local a=.3+sin(Timer()*15)*.1
-	if keyboardSetting then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
+	if s.kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
 	gc.rectangle("fill",
-		keyboardSet<11 and 240 or 840,
-		45*keyboardSet+20-450*int(keyboardSet/11),
+		s.kb<11 and 240 or 840,
+		45*s.kb+20-450*int(s.kb/11),
 		200,45
 	)
-	if joystickSetting then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
+	if s.jS then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
 	gc.rectangle("fill",
-		joystickSet<11 and 440 or 1040,
-		45*joystickSet+20-450*int(joystickSet/11),
+		s.js<11 and 440 or 1040,
+		45*s.js+20-450*int(s.js/11),
 		200,45
 	)
 	--Selection rect
@@ -515,15 +519,16 @@ function Pnt.setting_key()
 
 	gc.setColor(1,1,1)
 	setFont(26)
+	local board=s.board
 	for N=1,20 do
 		if N<11 then
 			gc.printf(text.actName[N],47,45*N+22,180,"right")
-			mStr(setting.keyMap[curBoard][N],340,45*N+22)
-			mStr(setting.keyMap[curBoard+8][N],540,45*N+22)
+			mStr(setting.keyMap[board][N],340,45*N+22)
+			mStr(setting.keyMap[board+8][N],540,45*N+22)
 		else
 			gc.printf(text.actName[N],647,45*N-428,180,"right")
-			mStr(setting.keyMap[curBoard][N],940,45*N-428)
-			mStr(setting.keyMap[curBoard+8][N],1040,45*N-428)
+			mStr(setting.keyMap[board][N],940,45*N-428)
+			mStr(setting.keyMap[board+8][N],1040,45*N-428)
 		end
 	end
 	gc.setLineWidth(2)
@@ -535,8 +540,8 @@ function Pnt.setting_key()
 	end
 	setFont(35)
 	gc.print("Player:",170,590)
-	gc.print(int(curBoard*.5+.5),300,590)
-	gc.print(curBoard.."/8",580,590)
+	gc.print(int(board*.5+.5),300,590)
+	gc.print(board.."/8",580,590)
 	gc.draw(drawableText.ctrlSetHelp,50,650)
 end
 function Pnt.setting_touch()
@@ -544,7 +549,7 @@ function Pnt.setting_touch()
 	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
 	VirtualkeyPreview()
-	local d=snapLevelValue[snapLevel]
+	local d=snapLevelValue[sceneTemp.snap]
 	if d>=10 then
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1,sin(Timer()*4)*.1+.1)
@@ -598,8 +603,8 @@ function Pnt.history()
 	gc.setLineWidth(4)
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
-	for i=0,min(22,#updateLog-sel)do
-		gc.print(updateLog[sel+i],40,50+27*(i))
+	for i=0,min(22,#updateLog-sceneTemp)do
+		gc.print(updateLog[sceneTemp+i],40,50+27*(i))
 	end
 end
 return Pnt

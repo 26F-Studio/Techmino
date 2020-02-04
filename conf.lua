@@ -1,13 +1,12 @@
-math.randomseed(os.time())
-gameVersion="Alpha V0.8.2+"
+gameVersion="Alpha V0.8.3"
 function love.conf(t)
 	t.identity="Techmino"--Save directory name
 	t.version="11.1"
 	t.console=X
 	t.gammacorrect=X
-	t.appendidentity=X--If search files in source before save directory
-	t.accelerometerjoystick=X--If exposing accelerometer on iOS and Android as a Joystick
-	t.audio.mixwithsystem=true--Switch on to keep sysBGM
+	t.appendidentity=X--Search files in source before save directory
+	t.accelerometerjoystick=false--ios/android加速度计=摇杆
+	t.audio.mixwithsystem=true
 
 	local W=t.window
 	W.title="Techmino "..gameVersion
@@ -21,7 +20,7 @@ function love.conf(t)
 	W.vsync=0--0→∞fps
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
 	W.depth=X--Bits per sample in the depth buffer
-	W.stencil=1--The number of bits per sample in the stencil buffer
+	W.stencil=1--Bits per sample in the stencil buffer
 	W.display=1--Monitor ID
 	W.highdpi=X--Enable high-dpi mode for the window on a Retina display (boolean)
 	W.x,W.y=nil

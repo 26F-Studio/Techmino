@@ -96,7 +96,10 @@ voiceName={
 	"mini","b2b","b3b","pc",
 	"win","lose",
 	"bye",
-	"nya","voc_nya",
+	"nya",
+	"happy",
+	"doubt",
+	"sad",
 	"egg",
 }
 voiceList={
@@ -121,7 +124,9 @@ voiceList={
 	lose={"lose_1","lose_2","lose_3"},
 	bye={"bye_1","bye_2"},
 	nya={"nya_1","nya_2","nya_3","nya_4"},
-	voc_nya={"nya_11","nya_12","nya_13","nya_21","nya_22"},
+	happy={"nya_happy_1","nya_happy_2","nya_happy_3","nya_happy_4"},
+	doubt={"nya_doubt_1","nya_doubt_2"},
+	sad={"nya_sad_1"},
 	egg={"egg_1","egg_2"},
 }
 
@@ -239,26 +244,26 @@ local virtualkeySet={
 		{10,80,			320,		80},--restart
 	},--Keyboard set
 	{
-		{10,70,		50,27},--restart
-		{9,	130,	50,27},--func
-		{4,	190,	50,27},--rotLeft
-		{3,	250,	50,27},--rotRight
-		{5,	310,	50,27},--rotFlip
-		{1,	370,	50,27},--moveLeft
-		{2,	430,	50,27},--moveRight
-		{8,	490,	50,27},--hold
-		{7,	550,	50,27},--softDrop1
-		{6,	610,	50,27},--hardDrop
-		{11,670,	50,27},--insLeft
-		{12,730,	50,27},--insRight
-		{13,790,	50,27},--insDown
-		{14,850,	50,27},--down1
-		{15,910,	50,27},--down4
-		{16,970,	50,27},--down10
-		{17,1030,	50,27},--dropLeft
-		{18,1090,	50,27},--dropRight
-		{19,1150,	50,27},--addLeft
-		{20,1210,	50,27},--addRight
+		{10,70,		50,30},--restart
+		{9,	130,	50,30},--func
+		{4,	190,	50,30},--rotLeft
+		{3,	250,	50,30},--rotRight
+		{5,	310,	50,30},--rotFlip
+		{1,	370,	50,30},--moveLeft
+		{2,	430,	50,30},--moveRight
+		{8,	490,	50,30},--hold
+		{7,	550,	50,30},--softDrop1
+		{6,	610,	50,30},--hardDrop
+		{11,670,	50,30},--insLeft
+		{12,730,	50,30},--insRight
+		{13,790,	50,30},--insDown
+		{14,850,	50,30},--down1
+		{15,910,	50,30},--down4
+		{16,970,	50,30},--down10
+		{17,1030,	50,30},--dropLeft
+		{18,1090,	50,30},--dropRight
+		{19,1150,	50,30},--addLeft
+		{20,1210,	50,30},--addRight
 	},--PC key feedback(top&in a row)
 }
 local customSet={
@@ -297,7 +302,7 @@ local function pressKey(k)
 end
 local function setPen(i)
 	return function()
-		pen=i
+		sceneTemp.pen=i
 	end
 end
 local function VKAdisp(n)
@@ -357,8 +362,8 @@ Widget={
 		back=	newButton(640,	630,230,90,	C.white,40,scene.back),
 	},
 	custom={
-		up=		newButton(1000,	220,100,100,C.white,		45,function()sel=(sel-2)%#customID+1 end),
-		down=	newButton(1000,	460,100,100,C.white,		45,function()sel=sel%#customID+1 end),
+		up=		newButton(1000,	220,100,100,C.white,		45,function()sceneTemp=(sceneTemp-2)%#customID+1 end),
+		down=	newButton(1000,	460,100,100,C.white,		45,function()sceneTemp=sceneTemp%#customID+1 end),
 		left=	newButton(880,	340,100,100,C.white,		45,pressKey("left")),
 		right=	newButton(1120,	340,100,100,C.white,		45,pressKey("right")),
 		start1=	newButton(880,	580,220,70,	C.lightGreen,	35,function()scene.push()loadGame(0,1)end),
@@ -495,37 +500,38 @@ Widget={
 	},
 	setting_touch={
 		default=newButton(520,80,170,80,C.white,35,function()
-				local D=virtualkeySet[defaultSel]
-				for i=1,#VK_org do
-					VK_org[i].ava=false
+			local D=virtualkeySet[sceneTemp.default]
+			for i=1,#VK_org do
+				VK_org[i].ava=false
+			end
+			for n=1,#D do
+				local T=D[n]
+				if T[1]then
+					local B=VK_org[n]
+					B.ava=true
+					B.x,B.y,B.r=T[2],T[3],T[4]
 				end
-				for n=1,#D do
-					local T=D[n]
-					if T[1]then
-						local B=VK_org[n]
-						B.ava=true
-						B.x,B.y,B.r=T[2],T[3],T[4]
-					end
-				end--Replace keys
-			defaultSel=defaultSel%5+1
+			end--Replace keys
+			sceneTemp.default=sceneTemp.default%5+1
+			sceneTemp.sel=nil
 			end),
 		snap=	newButton(760,80,170,80,C.white,35,function()
-			snapLevel=snapLevel%6+1
+			sceneTemp.snap=sceneTemp.snap%6+1
 			end),
-		more=	newButton(520,180,170,80,C.white,40,function()
+		option=	newButton(520,180,170,80,C.white,40,function()
 			scene.push()
 			scene.swapTo("setting_touchSwitch")
 			end),
 		back=	newButton(760,180,170,80,C.white,40,scene.back),
-		size=	newSlider(360,120,560,14,40,nil,function()
-			return VK_org[sel].r/10-1
+		size=	newSlider(450,265,460,14,40,nil,function()
+			return VK_org[sceneTemp.sel].r/10-1
 		end,
 		function(v)
-			if sel then
-				VK_org[sel].r=10+v*10
+			if sceneTemp.sel then
+				VK_org[sceneTemp.sel].r=10+v*10
 			end
 			end,
-		function()return not sel end),
+		function()return not sceneTemp.sel end),
 	},
 	setting_touchSwitch={
 		b1=		newSwitch(280,80,	35,VKAdisp(1),VKAcode(1)),
@@ -572,8 +578,8 @@ Widget={
 		back=	newButton(640,	600,180,60,C.white,35,scene.back,nil,"qq"),
 	},
 	history={
-		prev=	newButton(1155,170,180,180,C.white,65,pressKey("up"),function()return sel==1 end),
-		next=	newButton(1155,400,180,180,C.white,65,pressKey("down"),function()return sel==#updateLog-22 end),
+		prev=	newButton(1155,170,180,180,C.white,65,pressKey("up"),function()return sceneTemp==1 end),
+		next=	newButton(1155,400,180,180,C.white,65,pressKey("down"),function()return sceneTemp==#updateLog-22 end),
 		back=	newButton(1155,600,180,90,C.white,35,scene.back),
 	},
 	stat={
