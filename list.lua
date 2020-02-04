@@ -19,13 +19,15 @@ PCbase={
 	{5,2,2,0,0,0,0,4,4,4},
 }
 PClist={--ZSLJTOI
-	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,4,1,2},{7,3,5,7},{7,7,5,6},{7,7,5,2},
-	{7,5,4,3},{7,5,1,2},{7,1,4,2},{7,4,2,5},{7,6,4,5},{7,5,4,2},{7,5,6,4},{7,5,3,6},
-	{7,2,5,6},{7,2,1,3},{7,2,6,4},{7,5,2,7},{7,3,1,5},{7,3,2,5},{7,4,1,5},{7,4,2,5},
-	{7,7,3,6},{7,3,7,6},{7,3,6,2},{7,3,7,1},{7,6,4,2},{3,2,7,6},{7,5,3,4},{7,3,6,5},
-	{7,3,2,5},{7,4,6,5},{7,6,4,5},{7,5,2,3},{7,3,5,7},{7,3,2,5},{7,3,5,1},{7,5,2,3},
-	{3,6,2,5},{3,1,2,5},{3,5,1,2},{4,5,3,2},{4,2,6,5},{6,5,3,2},{1,4,2,5},{1,5,3,6},
-	{5,2,6,3},{5,2,1,3},{2,4,1,5},{2,4,5,1},{2,1,4,5},{2,5,4,3},{2,5,6,7},{7,5,4,2},
+	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,7,5,6},{7,7,5,2},{7,7,5,4},{7,7,5,3},
+	{7,4,1,2},{7,3,5,7},{7,5,4,3},{7,5,1,2},{7,1,4,2},{7,4,2,5},{7,6,4,5},{7,5,4,2},
+	{7,5,6,4},{7,5,3,6},{7,2,5,6},{7,2,6,4},{7,2,1,3},{7,5,2,7},{7,5,7,2},{7,5,2,3},
+	{7,5,3,2},{7,6,4,5},{7,6,5,4},{7,3,1,5},{7,3,2,5},{7,4,1,5},{7,4,5,2},{7,7,3,6},
+	{7,3,7,6},{7,3,6,2},{7,3,7,1},{7,6,4,2},{3,2,7,6},{3,2,6,7},{7,7,4,5},{7,5,3,4},
+	{7,3,6,5},{7,3,2,5},{7,4,6,5},{7,6,4,5},{7,5,2,3},{7,3,5,7},{7,3,2,5},{7,3,5,1},
+	{7,5,2,3},{3,6,2,5},{3,1,2,5},{3,1,1,5},{3,1,5,2},{3,1,5,1},{3,5,1,2},{4,5,3,2},
+	{4,2,6,5},{6,5,3,2},{1,4,2,5},{1,5,3,6},{5,2,6,3},{5,2,1,3},{5,2,7,4},{2,4,1,5},
+	{2,4,5,1},{2,1,4,5},{2,5,4,3},{2,5,6,7},{7,5,4,2},
 }
 color={
 	red={1,0,0},
@@ -100,6 +102,17 @@ for j=1,7 do
 	spinName[0][j]=blockName[j].." spin"
 end
 
+miniTitle_pixel={
+	{2,0,5,1},{4,1,1,6},
+	{9,0,4,1},{9,3,4,1},{9,6,4,1},{8,0,1,7},
+	{15,0,3,1},{15,6,3,1},{14,0,1,7},
+	{19,0,1,7},{23,0,1,7},{20,3,3,1},
+	{0,8,1,6},{6,8,1,6},{1,9,1,1},{2,10,1,1},{3,11,1,1},{4,10,1,1},{5,9,1,1},
+	{8,8,5,1},{8,13,5,1},{10,9,1,4},
+	{14,8,1,6},{19,8,1,6},{15,9,1,1},{16,10,1,1},{17,11,1,1},{18,12,1,1},
+	{21,8,5,1},{21,13,5,1},{21,9,1,4},{25,9,1,4},
+}
+
 sfx={
 	"button",
 	"ready","start","win","fail",
@@ -123,12 +136,14 @@ bgm={
 
 prevMenu={
 	load=love.event.quit,
+	intro="quit",
+	main="intro",
+	mode="main",
+	custom="mode",
 	ready="mode",
 	play=function()
 		gotoScene(gamemode~="custom"and"mode"or"custom")
 	end,
-	mode="main",
-	custom="mode",
 	help="main",
 	stat="main",
 	setting=function()
@@ -137,12 +152,16 @@ prevMenu={
 	end,
 	setting2="setting",
 	setting3="setting",
-	intro="quit",
-	main="quit",
 }
 
-modeID={"sprint","marathon","zen","infinite","solo","death","tsd","blind","pc","techmino41","techmino99","gmroll","p2","p3","p4"}
-modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","TSD-only","Blind","PC Puzzle","Techmino41","Techmino99","GM roll","2P","3P","4P"}
+modeID={
+	"sprint","marathon","zen","infinite","solo","death","tsd","blind",
+	"pctrain","pcchallenge","techmino41","techmino99","gmroll","p2","p3","p4"
+}
+modeName={
+	"Sprint","Marathon","Zen","Infinite","1v1","Death","TSD-only","Blind",
+	"PC Train","PC Challenge","Techmino41","Techmino99","GM roll","2P","3P","4P"
+}
 modeInfo={
 	sprint="Clear 40 Lines",
 	marathon="Clear 200 Lines",
@@ -152,7 +171,8 @@ modeInfo={
 	death="Survive under terrible speed",
 	tsd="T-spin-double Only!",
 	blind="Invisible board!",
-	pc="Make as much PCs as you can",
+	pctrain="Let's learn some PCs",
+	pcchallenge="Make PCs in 100 Lines",
 	techmino41="Melee fight with 40 AIs",
 	techmino99="Melee fight with 98 AIs",
 	gmroll="Who want to be the grand master?",
@@ -195,9 +215,9 @@ customVal={
 	next=nil,
 	hold={"on","off"},
 	sequence={"bag","his4","random"},
-	visible={"Show","half","hide"},
+	visible={"normal","time","invisible"},
 	target={10,20,40,100,200,500,1000,"∞"},
-	freshLimit=nil,
+	freshLimit={0,8,15,"∞"},
 	opponent={"No CPU",1,2,3,4,5,6,7,8,9,10,11},
 }--number-Val str
 customRange={
@@ -210,113 +230,36 @@ customRange={
 	sequence={1,2,3},
 	visible={1,2,3},
 	target={10,20,40,100,200,500,1000,1e99},
-	freshLimit={0,5,15,1e99},
+	freshLimit={0,8,15,1e99},
 	opponent={0,60,30,20,15,10,7,5,4,3,2,1},
 }
 
-actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","insLeft","insRight","insDown"}
-actName_show={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip","Hard Drop:","Soft Drop:","Hold:","Restart:","Instant Left:","Instant Right:","Ins Down:"}
+actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","swap","restart","insLeft","insRight","insDown"}
+actName_show={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip","Hard Drop:","Soft Drop:","Hold:","Swap:","Restart:","Instant Left:","Instant Right:","Ins Down:"}
 blockPos={4,4,4,4,4,5,4}
 renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
 renName={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB",}
 b2bPoint={50,90,150}
 b2bATK={3,5,8}
+testScore={[0]=0,[-1]=1,[-2]=0,[-3]=1,2,2,2}
 
 spin_n={"spin_1","spin_2","spin_3"}
 clear_n={"clear_1","clear_2","clear_3","clear_4"}
 ren_n={"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11"}
+atkModeName={"Random","Badges","K.O.s","Attackers"}
+up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
 
 marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
-death_lock={10,9,9,8,8}
-death_wait={6,6,5,5,4}
+death_lock={12,11,10,9,8}
+death_wait={9,8,7,6,5}
 death_fall={10,9,8,7,6}
-pc_drop={50,40,30,22,16,12,10,8,6,5,4,3,2,1}
-pc_lock={50,40,32,25,20,17,15,12,10}
-pc_fall={18,16,14,12,10,9,8,7,6,5}
+pc_drop={50,45,40,35,30,26,22,18,15,12}
+pc_lock={55,50,45,40,36,32,30}
+pc_fall={18,16,14,12,10,9,8,7,6}
 snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 snapLevelValue={1,10,20,40,60,80}
 
-act={
-	moveLeft=function(auto)
-		if not auto then P.moving=-1 end
-		if not ifoverlap(cb,cx-1,cy)then
-			P.cx=cx-1
-			freshgho()
-			freshLockDelay()
-			if cy==y_img then SFX("move")end
-			P.spinLast=false
-		end
-	end,
-	moveRight=function(auto)
-		if not auto then P.moving=1 end
-		if not ifoverlap(cb,cx+1,cy)then
-			P.cx=cx+1
-			freshgho()
-			freshLockDelay()
-			if cy==y_img then SFX("move")end
-			P.spinLast=false
-		end
-	end,
-	hardDrop=function()
-		if P.waiting<=0 then
-			if cy~=y_img then
-				P.cy=y_img
-				P.spinLast=false
-				SFX("drop")
-			end
-			drop()
-			P.keyPressing[6]=false
-		end
-	end,
-	softDrop=function()
-		if cy~=y_img then
-			P.cy=cy-1
-			P.spinLast=false
-		end
-		P.downing=1
-	end,
-	rotRight=function()spin(1)end,
-	rotLeft=function()spin(-1)end,
-	rotFlip=function()spin(2)end,
-	hold=function()hold()end,
-	--Player movements
-	restart=function()
-		resetGameData()
-		count=60+26--Althour'z neim
-	end,
-	insDown=function()if cy~= y_img then P.cy,P.lockDelay,P.spinLast=y_img,gameEnv.lock,false end end,
-	insLeft=function()
-		while not ifoverlap(cb,cx-1,cy)do
-			P.cx,P.lockDelay=cx-1,gameEnv.lock
-			freshgho()
-		end
-	end,
-	insRight=function()
-		while not ifoverlap(cb,cx+1,cy)do
-			P.cx,P.lockDelay=cx+1,gameEnv.lock
-			freshgho()
-		end
-	end,
-	down1=function()
-		if cy~=y_img then
-			P.cy=cy-1
-			P.spinLast=false
-		end
-	end,
-	down4=function()
-		for i=1,4 do
-			if cy~=y_img then
-				P.cy=cy-1
-				P.spinLast=false
-			else
-				break
-			end
-		end
-	end,
-	quit=function()Event.gameover.lose()end,
-	--System movements
-}
 blocks={
 	{[0]={{0,1,1},{1,1,0}},{{1,0},{1,1},{0,1}},{{0,1,1},{1,1,0}},{{1,0},{1,1},{0,1}}},
 	{[0]={{1,1,0},{0,1,1}},{{0,1},{1,1},{1,0}},{{1,1,0},{0,1,1}},{{0,1},{1,1},{1,0}}},
@@ -343,8 +286,8 @@ TRS={
 		[21]={{0,0},{-1,0},{-1,1},{1,0},{0,-2},{-1,-2}},
 		[23]={{0,0},{1,0},{1,1},{1,-1},{0,-2},{1,-2}},
 		[32]={{0,0},{-1,0},{-1,-1},{-1,1},{0,2},{-1,2}},
-		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2}},
-		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
+		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1}},
+		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{0,1}},
 		[02]={{0,0},{1,0},{-1,0},{0,-1},{0,1}},
 		[20]={{0,0},{-1,0},{1,0},{0,1},{0,-1}},
 		[13]={{0,0},{0,-1},{0,1},{-1,0}},
@@ -527,6 +470,7 @@ virtualkey={
 	{1280-80,720-80,6400,80},--hardDrop
 	{1280-80,720-240,6400,80},--softDrop
 	{1280-80,720-400,6400,80},--hold
+	{80,360,6400,80},--swap
 	{80,80,6400,80},--restart
 	--[[
 	{x=0,y=0,r=0},--toLeft

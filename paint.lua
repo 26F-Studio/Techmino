@@ -12,11 +12,12 @@ swapDeck_data={
 swap={
 	none={2,1,d=function()end},
 	flash={8,1,d=function()gc.clear(1,1,1)end},
-	deck={42,1,d=function()
+	deck={50,8,d=function()
 		local t=sceneSwaping.time
 		gc.setColor(1,1,1)
-		if t>6 then
-			for i=1,43-t do
+		if t>8 then
+			local t=max(t,15)
+			for i=1,51-t do
 				local bn=swapDeck_data[i][1]
 				local b=blocks[bn][swapDeck_data[i][2]]
 				local cx,cy=swapDeck_data[i][3],swapDeck_data[i][4]
@@ -26,8 +27,10 @@ swap={
 					end
 				end end
 			end
-		else
-			gc.clear(1,1,1)
+		end
+		if t<17 then
+			gc.setColor(1,1,1,(8-abs(t-8))*.125)
+			gc.rectangle("fill",0,0,1280,720)
 		end
 	end
 },
@@ -138,6 +141,10 @@ function drawPixel(y,x,id,alpha)
 	gc.setColor(1,1,1,alpha)
 	gc.draw(blockSkin[id],30*x-30,600-30*y)
 end
+function drawPixelmini(y,x,id,alpha)
+	gc.setColor(1,1,1,alpha)
+	gc.draw(blockSkinmini[id],30*x-30,600-30*y,nil,2.5)
+end
 function drawVirtualkey(s)
 	gc.setLineWidth(10)
 	if s then
@@ -214,10 +221,27 @@ function Pnt.load()
 	setFont(20)
 	mStr("not animation,real loading!",640,392)
 end
+function Pnt.intro()
+	gc.push()
+	gc.translate(250,150)
+	gc.scale(30)
+	gc.setColor(1,1,1,min(count,80)*.005)
+	gc.draw(miniTitle)
+	gc.setColor(1,1,1)
+	gc.stencil(stencil_miniTitle,"replace",1)
+	gc.setStencilTest("equal",1)
+	gc.pop()
+	gc.setColor(1,1,1,.125)
+	for i=19,5,-2 do
+		gc.setLineWidth(i)
+		gc.line(250+(count-80)*25,150,(count-80)*25-150,570)
+	end
+	gc.setStencilTest()
+end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.3",370,150)
+	gc.print("Alpha V0.7.4",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -259,26 +283,37 @@ end
 function Pnt.play()
 	for p=1,#players do
 		P=players[p]
-		setmetatable(_G,P.index)
 		if P.small then
 			gc.push("transform")
-			gc.translate(x,y)gc.scale(size)--Scale
+			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
 			gc.setColor(0,0,0,.5)gc.rectangle("fill",0,0,300,600)--Black Background
 			gc.setLineWidth(13)
-			gc.stencil(stencil_field_small, "replace",1)
-			gc.translate(0,fieldBeneath)
+			gc.stencil(stencil_field_small,"replace",1)
+			gc.translate(0,P.fieldBeneath)
 			gc.setStencilTest("equal",1)
-				for j=int(fieldBeneath/30+1),#field do
-					if falling<=0 or without(clearing,j)then
+			if P.result then
+				for j=int(P.fieldBeneath/30+1),#P.field do
+					if P.falling<=0 or without(P.clearing,j)then
 						for i=1,10 do
-							if field[j][i]>0 then
-								drawPixel(j,i,field[j][i],min(visTime[j][i],20)*.05)
+							if P.field[j][i]>0 then
+								drawPixelmini(j,i,P.field[j][i],min(P.visTime[j][i],20)*.05)
 							end
 						end
 					end
-				end--Field
+				end
+			else
+				for j=int(P.fieldBeneath/30+1),#P.field do
+					if P.falling<=0 or without(P.clearing,j)then
+						for i=1,10 do
+							if P.field[j][i]>0 then
+								drawPixelmini(j,i,P.field[j][i],1)
+							end
+						end
+					end
+				end
+			end
 			gc.setStencilTest()--In-playField mask
-			gc.translate(0,-fieldBeneath)
+			gc.translate(0,-P.fieldBeneath)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",-7,-7,314,614)--Draw boarder
 
 			if P.result then
@@ -289,61 +324,70 @@ function Pnt.play()
 			gc.pop()
 		else
 			gc.push("transform")
-			gc.translate(x,y)gc.scale(size)--Scale
+			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
 			gc.setColor(0,0,0,.7)gc.rectangle("fill",0,0,600,690)--Black Background
 			gc.setLineWidth(7)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)--Big frame
-			gc.translate(150,70)
-			gc.stencil(stencil_field, "replace", 1)
-			gc.translate(0,fieldBeneath)
+			gc.stencil(stencil_field,"replace", 1)
+			gc.translate(150,70+P.fieldBeneath)
 			gc.setStencilTest("equal",1)
-				for j=int(fieldBeneath/30+1),#field do
-					if falling<=0 or without(clearing,j)then
+				for j=int(P.fieldBeneath/30+1),#P.field do
+					if P.falling<=0 or without(P.clearing,j)then
 						for i=1,10 do
-							if field[j][i]>0 then
-								drawPixel(j,i,field[j][i],min(visTime[j][i],20)*.05)
+							if P.field[j][i]>0 then
+								drawPixel(j,i,P.field[j][i],min(P.visTime[j][i],20)*.05)
 							end
 						end
 					else
-						gc.setColor(1,1,1,falling/gameEnv.fall)
+						gc.setColor(1,1,1,P.falling/P.gameEnv.fall)
 						gc.rectangle("fill",0,600-30*j,320,30)
 					end
 				end--Field
-				if waiting<=0 then
-					if gameEnv.ghost then
-						for i=1,r do for j=1,c do
-							if cb[i][j]>0 then
-								drawPixel(i+y_img-1,j+cx-1,bn,.3)
+				if P.waiting<=0 then
+					if P.gameEnv.ghost then
+						for i=1,P.r do for j=1,P.c do
+							if P.cb[i][j]>0 then
+								drawPixel(i+P.y_img-1,j+P.cx-1,P.bn,.3)
 							end
 						end end
 					end--Ghost
-					gc.setColor(1,1,1,lockDelay/gameEnv.lock)
-					for i=1,r do for j=1,c do
-						if cb[i][j]>0 then
-							gc.rectangle("fill",30*(j+cx-1)-34,596-30*(i+cy-1),38,38)
+					gc.setColor(1,1,1,P.lockDelay/P.gameEnv.lock)
+					for i=1,P.r do for j=1,P.c do
+						if P.cb[i][j]>0 then
+							gc.rectangle("fill",30*(j+P.cx-1)-34,596-30*(i+P.cy-1),38,38)
 						end
 					end end--BlockShade(lockdelay indicator)
-					for i=1,r do for j=1,c do
-						if cb[i][j]>0 then
-							drawPixel(i+cy-1,j+cx-1,bn,1)
+					for i=1,P.r do for j=1,P.c do
+						if P.cb[i][j]>0 then
+							drawPixel(i+P.cy-1,j+P.cx-1,P.bn,1)
 						end
 					end end--Block
-					if gameEnv.center then
-						local x=30*(cx+sc[2]-1)-30+15
-						gc.draw(spinCenter,x,600-30*(cy+sc[1]-1)+15,nil,nil,nil,4,4)
+					if P.gameEnv.center then
+						local x=30*(P.cx+P.sc[2]-1)-30+15
+						gc.draw(spinCenter,x,600-30*(P.cy+P.sc[1]-1)+15,nil,nil,nil,4,4)
 						gc.setColor(1,1,1,.5)
-						gc.draw(spinCenter,x,600-30*(y_img+sc[1]-1)+15,nil,nil,nil,4,4)
+						gc.draw(spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
 					end--Rotate center
 				end
 				gc.setColor(1,1,1)
 				gc.draw(PTC.dust[p])--Draw game field
 			gc.setStencilTest()--In-playField mask
-			gc.translate(0,-fieldBeneath)
+			gc.translate(0,-P.fieldBeneath)
 			gc.setColor(1,1,1)gc.rectangle("line",-3,-13,306,616)--Draw boarder
 
+			if modeEnv.royale then
+				if P.atkMode then
+					gc.setColor(1,.8,0,P.swappingAtkMode*.02)
+					gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
+				end
+				gc.setColor(1,1,1,P.swappingAtkMode*.025)
+				gc.draw(royaleCtrlPad)
+				--Draw selector
+			end
+
 			local h=0
-			for i=1,#atkBuffer do
-				local a=atkBuffer[i]
+			for i=1,#P.atkBuffer do
+				local a=P.atkBuffer[i]
 				local bar=a.amount*30
 				if h+bar>600 then bar=600-h end
 				if not a.sent then
@@ -372,8 +416,8 @@ function Pnt.play()
 				if h>=600 then break end
 			end--Buffer line
 
-			gc.setColor(b2b<40 and color.white or b2b<=480 and color.lightRed or color.lightBlue)
-			gc.rectangle("fill",-17,600,10,-b2b1)
+			gc.setColor(P.b2b<40 and color.white or P.b2b<=480 and color.lightRed or color.lightBlue)
+			gc.rectangle("fill",-17,600,10,-P.b2b1)
 			gc.setColor(color.red)
 			gc.rectangle("fill",-23,600-40,16,5)
 			gc.setColor(color.blue)
@@ -382,28 +426,29 @@ function Pnt.play()
 
 			setFont(40)
 			gc.setColor(1,1,1)
-			if gameEnv.hold then
+			if P.gameEnv.hold then
 				gc.print("Hold",-113,0)
-				for i=1,#hb do
-					for j=1,#hb[1] do
-						if hb[i][j]>0 then
-							drawPixel(i+17.5-#hb*.5,j-2.5-#hb[1]*.5,holded and 13 or hn,1)
+				for i=1,#P.hb do
+					for j=1,#P.hb[1] do
+						if P.hb[i][j]>0 then
+							drawPixel(i+17.5-#P.hb*.5,j-2.5-#P.hb[1]*.5,P.holded and 13 or P.hn,1)
 						end
 					end
 				end
 			end--Hold
 			gc.print("Next",336,0)
-			for N=1,min(gameEnv.next,#nxt)do
-				local b=nb[N]
+			for N=1,P.gameEnv.next do
+				local b=P.nb[N]
 				for i=1,#b do
 					for j=1,#b[1] do
 						if b[i][j]>0 then
-							drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,nxt[N],1)
+							drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,P.nxt[N],1)
 						end
 					end
 				end
 			end--Next
-			if count then
+			if frame<180 then
+				local count=180-frame
 				gc.push("transform")
 					gc.translate(155,220)
 					gc.setColor(1,1,1)
@@ -412,13 +457,13 @@ function Pnt.play()
 					mStr(int(count/60+1),0,0)
 				gc.pop()
 			end--Draw starting counter
-			for i=1,#bonus do
-				bonus[i]:draw(min((30-abs(bonus[i].t-30))*.05,1)*(not bonus[i].solid and #field>(9-bonus[i].dy*.03333)and .7 or 1))
+			for i=1,#P.bonus do
+				P.bonus[i]:draw(min((30-abs(P.bonus[i].t-30))*.05,1)*(not P.bonus[i].solid and #P.field>(9-P.bonus[i].dy*.03333)and .7 or 1))
 			end--Effects
 
 			gc.setColor(1,1,1)
 			setFont(40)
-			gc.print(format("%.2f",time),-130,530)--Draw time
+			gc.print(format("%.2f",P.time),-130,530)--Draw time
 			if mesDisp[gamemode]then mesDisp[gamemode]()end--Draw other message
 
 			setFont(15)
@@ -426,8 +471,8 @@ function Pnt.play()
 			gc.print("BPM",380,490)
 			gc.print("KPM",335,580)
 			setFont(30)
-			drawDial(350,520,dropSpeed)
-			drawDial(400,570,keySpeed)
+			drawDial(350,520,P.dropSpeed)
+			drawDial(400,570,P.keySpeed)
 			--Speed dials
 			gc.pop()
 		end
@@ -442,9 +487,23 @@ function Pnt.play()
 		gc.setColor(1,1,1,b.t<10 and b.t*.1 or b.t<50 and 1 or(60-b.t)*.1)
 		gc.draw(badgeIcon,b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t,nil,b.size,nil,14,14)
 	end
-	setmetatable(_G,nil)
 	if setting.virtualkeySwitch then
 		drawVirtualkey()
+	end
+	if modeEnv.royaleMode then
+		gc.setLineWidth(5)
+		gc.setColor(1,1,0,.2)
+		P=players[1]
+		for i=1,#players.alive do
+			local p=players.alive[i]
+			if p.atking==players[1]then
+				gc.line(p.centerX,p.centerY,P.centerX,P.centerY)
+			end
+		end
+		if P.atking then
+			gc.setColor(0,.5,1,.2+(sin(Timer()*7)+1)*.1)
+			gc.line(P.centerX,P.centerY,P.atking.centerX,P.atking.centerY)
+		end
 	end
 end
 function Pnt.setting()
@@ -471,10 +530,8 @@ function Pnt.setting2()
 	gc.rectangle("fill",440,40*joystickSet-10,200,40)
 
 	gc.setColor(1,1,1)
-	setFont(40)
-	gc.print("< P"..curBoard.."/P8 >",430,530)
 	setFont(25)
-	for y=1,12 do
+	for y=1,13 do
 		mStr(actName_show[y],150,40*y)
 		for x=1,2 do
 			mStr(setting.keyMap[curBoard+x*8-8][y],200*x+140,40*y)
@@ -482,11 +539,13 @@ function Pnt.setting2()
 		gc.line(40,40*y-10,640,40*y-10)
 	end
 	for x=1,4 do
-		gc.line(200*x-160,30,200*x-160,510)
+		gc.line(200*x-160,30,200*x-160,550)
 	end
-	gc.line(40,510,640,510)
+	gc.line(40,550,640,550)
 	gc.print("Keyboard | Joystick",330,3)
-	gc.print("Arrowkey to select/change slot,Enter to change,Esc back",50,580)
+	gc.print("Arrowkey to select/change slot,Enter to change,Esc back",50,620)
+	setFont(40)
+	gc.print("< P"..curBoard.."/P8 >",430,570)
 end
 function Pnt.setting3()
 	drawVirtualkey(sel)

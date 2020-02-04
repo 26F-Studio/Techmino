@@ -18,9 +18,6 @@ end
 function mStr(s,x,y)
 	gc.printf(s,x-500,y,1000,"center")
 end
-function convert(x,y)
-	return xOy:inverseTransformPoint(x,y)
-end
 
 function getNewRow(val)
 	if not val then val=0 end
@@ -55,17 +52,23 @@ function getNewBlock()
 	BGblock.next=BGblock.next%7+1
 	return t
 end
+--Background animation
 
 function timeSort(a,b)
 	return a.time>b.time
 end
+function stencil_miniTitle()
+	for i=1,#miniTitle_pixel do
+		gc.rectangle("fill",unpack(miniTitle_pixel[i]))
+	end
+end
 function stencil_field()
-	gc.rectangle("fill",0,-10,300,610)
+	gc.rectangle("fill",150,60,300,610)
 end
 function stencil_field_small()
 	gc.rectangle("fill",0,0,300,600)
 end
---Single use
+--Single-usage funcs
 
 function sysSFX(s,v)
 	if setting.sfx then
@@ -204,11 +207,13 @@ function loadSetting()
 				end
 			elseif t=="virtualkey"then
 				v=string.splitS(v,"/")
-				for i=1,9 do
+				for i=1,10 do
+					if not v[i]then goto continue end
 					virtualkey[i]=string.splitS(v[i],",")
 					for j=1,4 do
 						virtualkey[i][j]=toN(virtualkey[i][j])
 					end
+					::continue::
 				end
 			elseif t=="virtualkeyAlpha"then
 				setting.virtualkeyAlpha=int(abs(toN(v)))
@@ -230,7 +235,7 @@ function loadSetting()
 end
 function saveSetting()
 	local vk={}
-	for i=1,9 do
+	for i=1,10 do
 		for j=1,4 do
 			virtualkey[i][j]=int(virtualkey[i][j]+.5)
 		end--Saving a integer is better?

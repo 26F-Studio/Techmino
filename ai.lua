@@ -21,26 +21,26 @@ spinOffset={
 --[[
 	controlname:
 	1~5:mL,mR,rR,rL,rF,
-	6~9:hD,sD,H,R,
-	10~12:LL,RR,DD
+	6~10:hD,sD,H,A,R,
+	11~13:LL,RR,DD
 ]]
 FCL={
 	[1]={
-		{{10},{10,2},{1},{},{2},{2,2},{11,1},{11}},
-		{{10,4},{10,3},{10,2,3},{4},{3},{2,3},{2,2,3},{11,4},{11,3}},
+		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12}},
+		{{11,4},{11,3},{11,2,3},{4},{3},{2,3},{2,2,3},{12,4},{12,3}},
 	},
 	[3]={
-		{{10},{10,2},{1},{},{2},{2,2},{11,1},{11},},
-		{{3,10},{10,3},{10,2,3},{1,3},{3},{2,3},{2,2,3},{11,1,3},{11,3},},
-		{{10,5},{10,2,5},{1,5},{5},{2,5},{2,2,5},{11,1,5},{11,5},},
-		{{10,4},{10,2,4},{1,4},{4},{2,4},{2,2,4},{11,1,4},{11,4},{4,11},},
+		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12},},
+		{{3,11},{11,3},{11,2,3},{1,3},{3},{2,3},{2,2,3},{12,1,3},{12,3},},
+		{{11,5},{11,2,5},{1,5},{5},{2,5},{2,2,5},{12,1,5},{12,5},},
+		{{11,4},{11,2,4},{1,4},{4},{2,4},{2,2,4},{12,1,4},{12,4},{4,12},},
 	},
 	[6]={
-		{{10},{10,2},{1,1},{1},{},{2},{2,2},{11,1},{11},},
+		{{11},{11,2},{1,1},{1},{},{2},{2,2},{12,1},{12},},
 	},
 	[7]={
-		{{10},{10,2},{1},{},{2},{11,1},{11},},
-		{{4,10},{10,4},{10,3},{1,4},{4},{3},{2,3},{11,4},{11,3},{3,11},},
+		{{11},{11,2},{1},{},{2},{12,1},{12},},
+		{{4,11},{11,4},{11,3},{1,4},{4},{3},{2,3},{12,4},{12,3},{3,12},},
 	},
 }
 FCL[2]=FCL[1]
@@ -115,14 +115,14 @@ function getScore(field,bn,cb,cx,cy)
 		-cy*40
 		-#cb*25
 		+clearScore[clear]*(8+#field)
-		-hole*40
+		-hole*50
 	if #field>6 then score=score-highest*5 end
 	if mh1>3 then score=score-50-mh1*40 end
 	return score
 end
 function AI_getControls(ctrl)
 	local Tfield={}--test field
-	local field_org=field
+	local field_org=P.field
     for i=1,#field_org do
 		Tfield[i]=getNewRow()
 		for j=1,10 do
@@ -130,8 +130,8 @@ function AI_getControls(ctrl)
 		end
 	end
 	local best={x=1,dir=0,hold=false,score=-9e99}
-	for ifhold=0,gameEnv.hold and 1 or 0 do
-		local bn=ifhold==0 and bn or hn>0 and hn or nxt[1]
+	for ifhold=0,P.gameEnv.hold and 1 or 0 do
+		local bn=ifhold==0 and P.bn or P.hn>0 and P.hn or P.nxt[1]
 		for dir=0,dirCount[bn] do--each dir
 			local cb=blocks[bn][dir]
 			for cx=1,11-#cb[1]do--each pos
@@ -155,20 +155,16 @@ function AI_getControls(ctrl)
 				resetField(field_org,Tfield,cy)
 			end
 		end
-	end--ifHold loop
-
+	end
 	while #Tfield>0 do
 		removeRow(Tfield,1)
 	end--Release cache
-
 	if best.hold then
 		ins(ctrl,8)
 	end
-
 	local l=FCL[best.bn][best.dir+1][best.x]
 	for i=1,#l do
 		ins(ctrl,l[i])
 	end
-
-	ins(ctrl,6)--harddrop
+	ins(ctrl,6)
 end

@@ -1,5 +1,5 @@
 function onVirtualkey(x,y)
-	local x,y=convert(x,y)
+	local x,y=xOy:inverseTransformPoint(x,y)
 	local d2,nearest,distance
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
@@ -28,7 +28,6 @@ function buttonControl_key(i)
 			sysSFX("button")
 		end
 	end
-	mouseShow=false
 end
 function buttonControl_gamepad(i)
 	if i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
@@ -50,7 +49,21 @@ function buttonControl_gamepad(i)
 end
 
 mouseDown={}
+function mouseDown.intro(x,y,k)
+	if k==2 then
+		back()
+	else
+		gotoScene("main")
+	end
+end
 keyDown={}
+function keyDown.intro(key)
+	if key=="escape"then
+		back()
+	else
+		gotoScene("main")
+	end
+end
 function keyDown.mode(key)
 	if key=="down"then
 		if modeSel<#modeID then modeSel=modeSel+1 end
@@ -90,7 +103,7 @@ function keyDown.setting2(key)
 		end
 	elseif keyboardSetting then
 		for l=1,8 do
-			for y=1,12 do
+			for y=1,13 do
 				if setting.keyMap[l][y]==key then
 					setting.keyMap[l][y]=""
 				end
@@ -103,7 +116,7 @@ function keyDown.setting2(key)
 	elseif key=="up"then
 		keyboardSet=max(keyboardSet-1,1)
 	elseif key=="down"then
-		keyboardSet=min(keyboardSet+1,12)
+		keyboardSet=min(keyboardSet+1,13)
 	elseif key=="left"then
 		curBoard=max(curBoard-1,1)
 	elseif key=="right"then
@@ -141,6 +154,13 @@ function keyUp.play(key)
 	end
 end
 gamepadDown={}
+function gamepadDown.intro(key)
+	if key=="back"then
+		back()
+	else
+		gotoScene("main")
+	end
+end
 function gamepadDown.mode(key)
 	if key=="dpdown"then
 		if modeSel<#modeID then modeSel=modeSel+1 end
@@ -186,10 +206,10 @@ function gamepadDown.play(key)
 	local m=setting.keyMap
 	for p=1,4 do
 		local lib=setting.keyLib[p]
-		for s=1,#l[p]do
+		for s=1,#lib do
 			for k=1,12 do
 				if key==m[8+lib[s]][k]then
-					pressKey(k)
+					pressKey(k,players[p])
 					return nil
 				end
 			end
@@ -201,10 +221,10 @@ function gamepadUp.play(key)
 	local m=setting.keyMap
 	for p=1,4 do
 		local lib=setting.keyLib[p]
-		for s=1,#l[p]do
+		for s=1,#lib do
 			for k=1,12 do
 				if key==m[8+lib[s]][k]then
-					pressKey(k)
+					releaseKey(k,players[p])
 					return nil
 				end
 			end
@@ -221,7 +241,7 @@ end
 function love.mousemoved(x,y,dx,dy,t)
 	if not t then
 		mouseShow=true
-		mx,my=convert(x,y)
+		mx,my=xOy:inverseTransformPoint(x,y)
 		Buttons.sel=nil
 		for i=1,#Buttons[scene]do
 			local B=Buttons[scene][i]
@@ -237,19 +257,22 @@ end
 function love.mousepressed(x,y,k,t,num)
 	if not t then
 		mouseShow=true
-		mx,my=convert(x,y)
-		--if mouseDown[scene]then mouseDown[scene](mx,my,k)end
-		if k==1 then
-			if not sceneSwaping and Buttons.sel then
-				local B=Buttons[scene][Buttons.sel]
-				B.code()
-				B.alpha=1
-				Buttons.sel=nil
-				love.mousemoved(x,y)
-				sysSFX("button")
+		mx,my=xOy:inverseTransformPoint(x,y)
+		if mouseDown[scene]then
+			mouseDown[scene](mx,my,k)
+		else
+			if k==1 then
+				if not sceneSwaping and Buttons.sel then
+					local B=Buttons[scene][Buttons.sel]
+					B.code()
+					B.alpha=1
+					Buttons.sel=nil
+					love.mousemoved(x,y)
+					sysSFX("button")
+				end
+			elseif k==2 then
+				back()
 			end
-		elseif k==2 then
-			back()
 		end
 	end
 end
@@ -261,19 +284,23 @@ function love.touchpressed(id,x,y)
 		love.mousemoved(x,y)
 		mouseShow=false
 	end
-	if scene=="play"and setting.virtualkeySwitch then
-		local t=onVirtualkey(x,y)
-		if t then
-			pressKey(t,players[1])
+	if scene=="play"then
+		if setting.virtualkeySwitch then
+			local t=onVirtualkey(x,y)
+			if t then
+				pressKey(t,players[1])
+			end
 		end
 	elseif scene=="setting3"then
-		x,y=convert(x,y)
+		x,y=xOy:inverseTransformPoint(x,y)
 		for K=1,#virtualkey do
 			local b=virtualkey[K]
 			if (x-b[1])^2+(y-b[2])^2<b[3]then
 				sel=K
 			end
 		end
+	elseif scene=="intro"then
+		gotoScene("main")
 	end
 end
 function love.touchreleased(id,x,y)
@@ -291,10 +318,10 @@ function love.touchreleased(id,x,y)
 	if scene=="play"and setting.virtualkeySwitch then
 		local t=onVirtualkey(x,y)
 		if t then
-			releaseKey(t)
+			releaseKey(t,players[1])
 		end
 	elseif scene=="setting3"and sel then
-		x,y=convert(x,y)
+		x,y=xOy:inverseTransformPoint(x,y)
 		if sel then
 			local b=virtualkey[sel]
 			local k=snapLevelValue[snapLevel]
@@ -314,18 +341,18 @@ function love.touchmoved(id,x,y,dx,dy)
 			local b=virtualkey[n]
 			local p=false
 			for i=1,#l do
-				local x,y=convert(tc.getPosition(l[i]))
+				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
 				if(x-b[1])^2+(y-b[2])^2<=b[3]then
 					p=true
 					break
 				end
 			end
 			if not p and players[1].keyPressing then
-				releaseKey(n)
+				releaseKey(n,players[1])
 			end
 		end
 	elseif scene=="setting3"then
-		x,y=convert(x,y)
+		x,y=xOy:inverseTransformPoint(x,y)
 		dx,dy=dx*screenK,dy*screenK
 		if sel then
 			local b=virtualkey[sel]
@@ -335,11 +362,12 @@ function love.touchmoved(id,x,y,dx,dy)
 end
 
 function love.keypressed(i)
+	if i=="f12"then devMode=true end
 	if keyDown[scene]then keyDown[scene](i)
 	elseif i=="escape"or i=="back"then back()
 	else buttonControl_key(i)
 	end
-	if i=="f12"then devMode=true end
+	mouseShow=false
 end
 function love.keyreleased(i)
 	if keyUp[scene]then keyUp[scene](i)
@@ -430,25 +458,31 @@ function love.draw()
 	if Pnt[scene]then Pnt[scene]()end
 	drawButton()
 	if mouseShow and not touching then
+		local r=Timer()*.5
+		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
+		r=int(r)%7+1
+		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[r][0][2]-.5,#blocks[r][0]-scs[r][0][1]+.5)
+		gc.setColor(1,1,1,.5)
+		gc.circle("fill",mx,my,5)
 		gc.setColor(1,1,1)
-		gc.draw(mouseIcon,mx,my,nil,nil,nil,10,10)
+		gc.circle("fill",mx,my,3)
 	end
 	if sceneSwaping then sceneSwaping.draw()end
 
 	if wh/ww>.5625 then
 		gc.setColor(0,0,0)
-		gc.rectangle("fill",0,0,1280,ww*.5625-wh)
-		gc.rectangle("fill",0,720,1280,wh-ww*.5625)
+		gc.rectangle("fill",0,0,1280,ww*9/16-wh)
+		gc.rectangle("fill",0,720,1280,wh-ww*9/16)
 	elseif wh/ww<.5625 then
 		gc.setColor(0,0,0)
 		gc.rectangle("fill",0,0,wh*16/9-ww,720)
 		gc.rectangle("fill",1280,0,ww-wh*16/9,720)
 	end
 	setFont(20)gc.setColor(1,1,1)
-	gc.print(tm.getFPS(),0,700)
+	gc.print(tm.getFPS(),5,700)
 	if devMode then
-		gc.print(gcinfo(),0,680)
-		gc.print(freeRow and #freeRow or 0,0,660)
+		gc.print(gcinfo(),5,680)
+		gc.print(freeRow and #freeRow or 0,5,660)
 	end
 end
 function love.resize(w,h)
@@ -485,9 +519,12 @@ function love.run()
 				ms.setVisible(true)
 				if bgmPlaying then bgm[bgmPlaying]:pause()end
 				if scene=="play"then
-					for i=1,#players[1].keyPressing do
-						if players[1].keyPressing[i]then
-							releaseKey(i)
+					for i=1,#players.alive do
+						local l=players.alive[i].keyPressing
+						for j=1,#l do
+							if l[j]then
+								releaseKey(j,players.alive[i])
+							end
 						end
 					end
 				end

@@ -1,18 +1,30 @@
 function resetGameData()
+	frame=0
+
 	players={alive={}}
 	loadmode[gamemode]()
 
-	frame=0
-	count=179
 	FX.beam={}
 	for k,v in pairs(PTC.dust)do
-		if k~=0 then v:release()end
+		v:release()
 	end
 	for i=1,#players do
 		if not players[i].small then
-			PTC.dust[i]=PTC.dust[0]:clone()
+			PTC.dust[i]=PTC.dust0:clone()
 			PTC.dust[i]:start()
 		end
+	end
+	if modeEnv.royaleMode then
+		for i=1,#players do
+			local P=players[i]
+			if not P.atking then
+				repeat
+					P.atking=players.alive[rnd(#players.alive)]
+				until P.atking~=P
+			end
+		end
+		mostBadge=nil
+		mostDangerous=nil
 	end
 	for i=1,#virtualkey do
 		virtualkey[i].press=false
@@ -25,13 +37,29 @@ function resetGameData()
 		freeRow[i]={0,0,0,0,0,0,0,0,0,0}
 	end
 end
+function gameStart()
+	sysSFX("start")
+	for P=1,#players do
+		P=players[P]
+		_G.P=P
+		P.control=true
+		P.timing=true
+		resetblock()
+	end
+	setmetatable(_G,nil)
+end
 function createPlayer(id,x,y,size,AIspeed,data)
 	players[id]={id=id}
-	ins(players.alive,id)
 	local P=players[id]
+	ins(players.alive,P)
 	P.index={__index=P}
 	P.x,P.y,P.size=x,y,size or 1
 	P.small=P.size<.3
+	if P.small then
+		P.centerX,P.centerY=P.x+150*P.size,P.y+300*P.size
+	else
+		P.centerX,P.centerY=P.x+300*P.size,P.y+670*P.size
+	end
 
 	if AIspeed then
 		P.ai={
@@ -50,7 +78,11 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
 	P.field,P.visTime,P.atkBuffer={},{},{}
-	P.badge,P.strength,P.lastRecv=0,0,nil
+
+
+	P.ko,P.badge,P.strength=0,0,0
+	P.atkMode,P.swappingAtkMode,P.atking,P.lastRecv=1,20
+	--Royale-related
 	
 	P.gameEnv={}--Game setting vars,like dropDelay setting
 	for k,v in pairs(gameEnv0)do
@@ -106,13 +138,12 @@ function showText(text,type,font,dy,inf)
 		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,inf=inf,solid=inf})
 	end
 end
-function createBeam(s,r,lv)--Player id
-	S,R=players[s],players[r]
+function createBeam(S,R,lv)--Player id
 	local x1,y1,x2,y2
 	if S.small then
-		x1,y1=S.x+(30*(cx+sc[2]-1)+15)*S.size,S.y+(600-30*(cy+sc[1]-1)+15)*S.size
+		x1,y1=S.x+(30*(P.cx+P.sc[2]-1)+15)*S.size,S.y+(600-30*(P.cy+P.sc[1]-1)+15)*S.size
 	else
-		x1,y1=S.x+(30*(cx+sc[2]-1)-30+15+150)*S.size,S.y+(600-30*(cy+sc[1]-1)+15+70)*S.size
+		x1,y1=S.x+(30*(P.cx+P.sc[2]-1)-30+15+150)*S.size,S.y+(600-30*(P.cy+P.sc[1]-1)+15+70)*S.size
 	end
 	if R.small then
 		x2,y2=R.x+150*R.size,R.y+300*R.size
@@ -121,141 +152,162 @@ function createBeam(s,r,lv)--Player id
 	end
 	ins(FX.beam,{x1,y1,x2,y2,t=0,lv=lv})
 end
-function throwBadge(s,r,amount)--Player id
-	s,r=players[s],players[r]
+function throwBadge(S,R,amount)--Player id
 	local x1,y1,x2,y2
-	if s.small then
-		x1,y1=s.x+150*s.size,s.y+300*s.size
+	if S.small then
+		x1,y1=S.x+150*S.size,S.y+300*S.size
 	else
-		x1,y1=s.x+308*s.size,s.y+450*s.size
+		x1,y1=S.x+308*S.size,S.y+450*S.size
 	end
-	if r.small then
-		x2,y2=r.x+150*r.size,r.y+300*r.size
+	if R.small then
+		x2,y2=R.x+150*R.size,R.y+300*R.size
 	else
-		x2,y2=r.x+308*r.size,r.y+450*r.size
+		x2,y2=R.x+308*R.size,R.y+450*R.size
 	end
 	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(10+min(amount,10))*.1})
 end
+function freshRoyaleTarget()
+	local b,sec=0
+	for i=1,#players.alive do
+		if players.alive[i].badge>b then
+			mostBadge,secBadge=players.alive[i],mostBadge
+			b=players[i].badge
+		end
+	end
+	for i=1,#players.alive do
+		if P.atkMode==2 then
+			P.atking=P~=mostBadge and mostBadge or secBadge
+		end
+	end
+	h,sec=0
+	for i=1,#players.alive do
+		if #players.alive[i].field>h then
+			mostDangerous,secDangerous=players.alive[i],mostBadge
+			h=#players[i].field
+		end
+	end
+	for i=1,#players.alive do
+		if P.atkMode==3 then
+			P.atking=P~=mostDangerous and mostDangerous or secDangerous
+		end
+	end
+end
 function freshgho()
-	if P.gameEnv._20G or keyPressing[7]and gameEnv.sdarr==0 then
-		while not ifoverlap(cb,cx,cy-1)do
+	if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
+		while not ifoverlap(P.cb,P.cx,P.cy-1)do
 			P.cy=P.cy-1
 			P.spinLast=false
 		end
 		P.y_img=P.cy
 	else
-		P.y_img=P.cy>#field+1 and #field+1 or P.cy
-		while not ifoverlap(cb,cx,y_img-1)do
+		P.y_img=P.cy>#P.field+1 and #P.field+1 or P.cy
+		while not ifoverlap(P.cb,P.cx,P.y_img-1)do
 			P.y_img=P.y_img-1
 		end
 	end
 end
 function freshLockDelay()
-	if P.lockDelay<gameEnv.lock and P.freshTime<=gameEnv.freshLimit then
-		P.lockDelay=gameEnv.lock
+	if P.lockDelay<P.gameEnv.lock and P.freshTime<=P.gameEnv.freshLimit then
+		P.lockDelay=P.gameEnv.lock
 		P.freshTime=P.freshTime+1
 	end
 end
 function ifoverlap(bk,x,y)
 	if x<1 or x+#bk[1]>11 or y<1 then return true end
-	if y>#field then return nil end
+	if y>#P.field then return nil end
 	for i=1,#bk do for j=1,#bk[1]do
-		if field[y+i-1]and bk[i][j]>0 and field[y+i-1][x+j-1]>0 then return true end
+		if P.field[y+i-1]and bk[i][j]>0 and P.field[y+i-1][x+j-1]>0 then return true end
 	end end
 end
 function ckfull(i)
-	for j=1,10 do if field[i][j]==0 then return nil end end
+	for j=1,10 do if P.field[i][j]==0 then return nil end end
 	return true
 end
 function checkrow(s,num)--(cy,r)
 	local c=0--rows cleared
-	for i=s,s+num-1 do if ckfull(i)then
-		ins(clearing,1,i)
-		P.falling=gameEnv.fall
-		c=c+1--row cleared+1
-		if not P.small then
-			for k=1,250 do
-				PTC.dust[P.id]:setPosition(rnd(300),600-30*i+rnd(30))
-				PTC.dust[P.id]:emit(1)
+	for i=s,s+num-1 do
+		if ckfull(i)then
+			ins(P.clearing,1,i)
+			P.falling=P.gameEnv.fall
+			c=c+1--row cleared+1
+			if not P.small then
+				for k=1,250 do
+					PTC.dust[P.id]:setPosition(rnd(300),600-30*i+rnd(30))
+					PTC.dust[P.id]:emit(1)
+				end
 			end
 		end
-	end end
+	end
 	return c
 end
 function solid(x,y)
 	if x<1 or x>10 or y<1 then return true end
-	if y>#field then return false end
-	return field[y][x]>0
+	if y>#P.field then return false end
+	return P.field[y][x]>0
 end
 function resetblock()
 	P.holded=false
 	P.spinLast=false
 	P.freshNext()
-	P.sc,P.dir=scs[bn][0],0
-	P.r,P.c=#cb,#cb[1]
-	P.cx,P.cy=blockPos[bn],21+ceil(fieldBeneath/30)
-	P.dropDelay,P.lockDelay,P.freshTime=gameEnv.drop,gameEnv.lock,0
+	P.sc,P.dir=scs[P.bn][0],0
+	P.r,P.c=#P.cb,#P.cb[1]
+	P.cx,P.cy=blockPos[P.bn],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
+	P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
 
-	if keyPressing[8]then hold(true)end
-	if abs(moving)-gameEnv.das>1 then
-		if not ifoverlap(cb,cx+sgn(moving),cy)then
-			P.cx=cx+sgn(moving)
+	if P.keyPressing[8]then hold(true)end
+	if abs(P.moving)-P.gameEnv.das>1 then
+		if not ifoverlap(P.cb,P.cx+sgn(P.moving),P.cy)then
+			P.cx=P.cx+sgn(P.moving)
 		end
 	end
-	if keyPressing[3]then spin(1,true)end
-	if keyPressing[4]then spin(-1,true)end
-	if keyPressing[5]then spin(2,true)end
+	if P.keyPressing[3]then spin(1,true)end
+	if P.keyPressing[4]then spin(-1,true)end
+	if P.keyPressing[5]then spin(2,true)end
 
-	if ifoverlap(cb,cx,cy)then lock()Event.gameover.lose()end
+	if ifoverlap(P.cb,P.cx,P.cy)then lock()Event.gameover.lose()end
 	freshgho()
-	if keyPressing[6]then act.hardDrop()P.keyPressing[6]=false end
+	if P.keyPressing[6]then act.hardDrop()P.keyPressing[6]=false end
 end
-function pressKey(i,player)
-	P=player or players[1]
-	setmetatable(_G,P.index)
+function pressKey(i,P)
 	P.keyPressing[i]=true
-	if i==9 then
+	if i==10 then
 		act.restart()
-	elseif alive then
-        if control and waiting<=0 then
+	elseif P.alive then
+        if P.control and P.waiting<=0 then
 			act[actName[i]]()
-			if i>2 and i<6 then keyPressing[i]=false end
+			if i>2 and i<7 then P.keyPressing[i]=false end
 		elseif i==1 then
 			P.moving=-1
 		elseif i==2 then
 			P.moving=1
 		end
-
-		ins(keyTime,1,frame)rem(keyTime,11)
-		cstat.key=cstat.key+1
+		ins(P.keyTime,1,frame)rem(P.keyTime,11)
+		P.cstat.key=P.cstat.key+1
 		if P.id==1 then stat.key=stat.key+1 end
-		--Key count
 	end
-	-- if playmode=="recording"then ins(rec,{i,frame})end
+	--ins(rec,{i,frame})
 end
 function releaseKey(i,player)
-	P=player or players[1]
-	setmetatable(_G,P.index)
-	P.keyPressing[i]=false
+	(player or players[1]).keyPressing[i]=false
 	-- if playmode=="recording"then ins(rec,{-i,frame})end
 end
 function spin(d,ifpre)
-    if bn==6 then
-		freshgho()--May cancel spinLast
+	local idir=(P.dir+d)%4
+    if P.bn==6 then
 		freshLockDelay()
 		SFX(ifpre and"prerotate"or"rotate")
-		if id==1 then
+		if P.id==1 then
 			stat.rotate=stat.rotate+1
 		end
         return nil
     end
-	local icb=blocks[bn][(dir+d)%4]
-	local isc=d==1 and{c-sc[2]+1,sc[1]}or d==-1 and{sc[2],r-sc[1]+1}or{r-sc[1]+1,c-sc[2]+1}
+	local icb=blocks[P.bn][idir]
+	local isc=scs[P.bn][idir]
 	local ir,ic=#icb,#icb[1]
-	local ix,iy=cx+sc[2]-isc[2],cy+sc[1]-isc[1]
-	local t--succssful num
-	local iki=TRS[bn][dir*10+(dir+d)%4]
-	for i=1,#iki do
+	local ix,iy=P.cx+P.sc[2]-isc[2],P.cy+P.sc[1]-isc[1]
+	local t--succssful test
+	local iki=TRS[P.bn][P.dir*10+idir]
+	for i=1,P.freshTime<=1.2*P.gameEnv.freshLimit and #iki or 1 do
 		if not ifoverlap(icb,ix+iki[i][1],iy+iki[i][2])then
 			ix,iy=ix+iki[i][1],iy+iki[i][2]
 			t=i
@@ -263,41 +315,40 @@ function spin(d,ifpre)
 		end
 	end
 	if t then
-		P.cx,P.cy=ix,iy
-		P.sc,P.cb=isc,icb
+		P.cx,P.cy,P.dir=ix,iy,idir
+		P.sc,P.cb=scs[P.bn][idir],icb
 		P.r,P.c=ir,ic
-		P.dir=(dir+d)%4
-		P.spinLast=t
-		freshgho()--May cancel spinLast
+		P.spinLast=testScore[t==2 and -d or d]
+		freshgho()
 		freshLockDelay()
-		SFX(ifpre and"prerotate"or ifoverlap(cb,cx,cy+1)and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and"rotatekick"or"rotate")
+		SFX(ifpre and"prerotate"or ifoverlap(P.cb,P.cx,P.cy+1)and ifoverlap(P.cb,P.cx-1,P.cy)and ifoverlap(P.cb,P.cx+1,P.cy)and"rotatekick"or"rotate")
 		if id==1 then
 			stat.rotate=stat.rotate+1
 		end
 	end
 end
 function hold(ifpre)
-	if not holded and waiting<=0 and gameEnv.hold then
-		P.hn,P.bn=bn,hn
-		P.hb,P.cb=blocks[hn][0],hb
+	if not P.holded and P.waiting<=0 and P.gameEnv.hold then
+		P.hn,P.bn=P.bn,P.hn
+		P.hb,P.cb=blocks[P.hn][0],P.hb
 
-		if bn==0 then freshNext()end
-		P.sc,P.dir=scs[bn][0],0
-		P.r,P.c=#cb,#cb[1]
-		P.cx,P.cy=blockPos[bn],21+ceil(fieldBeneath/30)
+		if P.bn==0 then P.freshNext()end
+		P.sc,P.dir=scs[P.bn][0],0
+		P.r,P.c=#P.cb,#P.cb[1]
+		P.cx,P.cy=blockPos[P.bn],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
-		if abs(moving)-gameEnv.das>1 then
-			if not ifoverlap(cb,cx+sgn(moving),cy)then
-				P.cx=cx+sgn(moving)
+		if abs(P.moving)-P.gameEnv.das>1 then
+			if not ifoverlap(P.cb,P.cx+sgn(P.moving),P.cy)then
+				P.cx=P.cx+sgn(P.moving)
 			end
 		end
 
 		freshgho()
-		P.dropDelay,P.lockDelay,P.freshTime=gameEnv.drop,gameEnv.lock,0
-		if ifoverlap(cb,cx,cy) then lock()Event.gameover.lose()end
-		P.holded=true
+		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
+		if ifoverlap(P.cb,P.cx,P.cy) then lock()Event.gameover.lose()end
+		P.holded=P.gameEnv.oncehold
 		SFX(ifpre and"prehold"or"hold")
-		if id==1 then
+		if P.id==1 then
 			stat.hold=stat.hold+1
 		end
 	end
@@ -306,34 +357,51 @@ function drop()
 	if P.cy==P.y_img then
 		ins(P.dropTime,1,frame)rem(P.dropTime,11)--update speed dial
 		P.waiting=P.gameEnv.wait
-
-		local dospin=bn~=6 and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and ifoverlap(cb,cx,cy+1)and 1 or 0
-		if bn<6 and spinLast then
-			local x,y=cx+sc[2]-1,cy+sc[1]-1
-			local c=0
-			if solid(x-1,y+1)then c=c+1 end
-			if solid(x+1,y+1)then c=c+1 end
-			if c>0 then
-				if solid(x-1,y-1)then c=c+1 end
-				if solid(x+1,y-1)then c=c+1 end
-				if c>2 then
-					dospin=dospin+(spinLast==2 and 1 or 2)
+		local dospin=0
+		if P.spinLast then
+			if P.bn<6 then
+				local x,y=P.cx+P.sc[2]-1,P.cy+P.sc[1]-1
+				local c=0
+				if solid(x-1,y+1)then c=c+1 end
+				if solid(x+1,y+1)then c=c+1 end
+				if c>0 then
+					if solid(x-1,y-1)then c=c+1 end
+					if solid(x+1,y-1)then c=c+1 end
+					if c>2 then
+						dospin=dospin+1
+					end
 				end
-			end
-		end--Three point
-		if dospin==0 then dospin=false end
+			end--Three point
+			if P.bn~=6 and ifoverlap(P.cb,P.cx-1,P.cy)and ifoverlap(P.cb,P.cx+1,P.cy)and ifoverlap(P.cb,P.cx,P.cy+1)then
+				dospin=dospin+2
+			end--Immobile
+		end
 		lock()
-		local cc,csend,exblock,sendTime=checkrow(cy,r),0,0,0--Currect clear&send&sendTime
-		local mini=bn<6 and dospin==1 and cc<3 and cc<r
+		local cc,csend,exblock,sendTime=checkrow(P.cy,P.r),0,0,0--Currect clear&send&sendTime
+		local mini
+		if P.spinLast and cc>0 and dospin>0 then
+			dospin=dospin+P.spinLast
+		end
+		if not P.spinLast then
+			dospin=false
+		elseif cc==0 then
+			if dospin==0 then
+				dospin=false
+			end
+		elseif dospin<2 then
+			dospin=false
+		elseif dospin==2 then
+			mini=P.bn<6 and cc<3 and cc<P.r
+		end
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
-			if b2b>480 then
+			if P.b2b>480 then
 				showText("Techrash B2B2B","fly",70)
 				csend=6
 				sendTime=80
 				exblock=exblock+1
-			elseif b2b>=30 then
+			elseif P.b2b>=30 then
 				showText("Techrash B2B","drive",70)
 				sendTime=70
 				csend=5
@@ -346,15 +414,15 @@ function drop()
 			P.cstat.techrash=P.cstat.techrash+1
 		elseif cc>0 then
 			if dospin then
-				if b2b>480 then
-					showText(spinName[cc][bn].." B2B2B","spin",40)
+				if P.b2b>480 then
+					showText(spinName[cc][P.bn].." B2B2B","spin",40)
 					csend=b2bATK[cc]+1
 					exblock=exblock+1
-				elseif b2b>=30 then
-					showText(spinName[cc][bn].." B2B","spin",40)
+				elseif P.b2b>=30 then
+					showText(spinName[cc][P.bn].." B2B","spin",40)
 					csend=b2bATK[cc]
 				else
-					showText(spinName[cc][bn],"spin",50)
+					showText(spinName[cc][P.bn],"spin",50)
 					csend=2*cc
 				end
 				sendTime=20+csend*20
@@ -367,10 +435,10 @@ function drop()
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
 				SFX(spin_n[cc])
-				if id==1 then
+				if P.id==1 then
 					stat.spin=stat.spin+1
 				end
-			elseif #clearing<#field then
+			elseif #P.clearing<#P.field then
 				P.b2b=P.b2b-150-cc*50
 				showText(clearName[cc],"appear",50)
 				csend=cc-1
@@ -379,41 +447,57 @@ function drop()
 		else
 			P.combo=0
 			if dospin then
-				showText(spinName[0][bn],"appear",50)
+				showText(spinName[0][P.bn],"appear",50)
 				SFX("spin_0")
 				P.b2b=P.b2b+15
 			end
 		end
 
-		if cc>0 and #clearing==#field then
+		if cc>0 and #P.clearing==#P.field then
 			showText("Perfect Clear","flicker",70,-80)
 			csend=csend+min(6+P.cstat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+30
-			SFX("perfectclear")
-			if cstat.piece>10 then
+			if P.cstat.row>10 then
 				P.b2b=600
 			end
+			SFX("perfectclear")
 			P.cstat.pc=P.cstat.pc+1
 		end
 
-		csend=csend+(renATK[combo]or 4)
-		if combo>2 then
-			showText(renName[min(combo,20)],combo<10 and"appear"or"flicker",20+combo*3,60)
+		csend=csend+(renATK[P.combo]or 4)
+		if P.combo>2 then
+			showText(renName[min(P.combo,20)],P.combo<10 and"appear"or"flicker",20+P.combo*3,60)
 		end
-		sendTime=sendTime+20*combo
+		sendTime=sendTime+20*P.combo
 		if cc>0 then
 			SFX(clear_n[cc])
-			SFX(ren_n[min(combo,11)])
+			SFX(ren_n[min(P.combo,11)])
 		end
-		P.b2b=max(min(b2b,600),0)
+		P.b2b=max(min(P.b2b,600),0)
+
+		if cc>0 and modeEnv.royaleMode then
+			local atker=0
+			for i=1,#players.alive do
+				if players.alive[i].atking==P then
+					atker=atker+1
+					if atker==9 then
+						break
+					end
+				end
+			end
+			if atker>1 then
+				csend=csend+ceil(atker*.5)
+				exblock=exblock+int(atker*.5)
+			end
+		end
 
 		if csend>0 then
 			if exblock then exblock=int(exblock*(1+P.strength*.25))end
 			csend=csend*(1+P.strength*.25)
 			if mini then csend=csend end
 			csend=int(csend)
-			--Buffs
+			--Badge Buff
 
 			P.cstat.atk=P.cstat.atk+csend
 			if P.id==1 then stat.atk=stat.atk+csend end
@@ -436,8 +520,33 @@ function drop()
 			end
 			if csend>0 then
 				showText(csend,"zoomout",25,70)
-				if #players.alive>1 then
-					garbageSend(P.id,csend,sendTime)
+				if modeEnv.royaleMode then
+					if #players.alive>1 then
+						if P.atkMode==4 then
+							for i=1,#players.alive do
+								if players.alive[i].atking==P then
+									garbageSend(P,players.alive[i],csend,sendTime)
+								end
+							end
+						else
+							if P.atkMode==1 and rnd()<.2 or not P.atking then
+								local r
+								repeat
+									r=players.alive[rnd(#players.alive)]
+								until r~=P
+								P.atking=r
+							end
+							if P.atking then
+								garbageSend(P,P.atking,csend,sendTime)
+							end
+						end
+					end
+				elseif #players.alive>1 then
+					local r
+					repeat
+						r=players.alive[rnd(#players.alive)]
+					until r~=P
+					garbageSend(P,r,csend,sendTime)
 				end
 			end
 		elseif cc==0 then
@@ -450,38 +559,34 @@ function drop()
 			stat.piece,stat.row=stat.piece+1,stat.row+cc
 		end
 		P.cstat.piece,P.cstat.row=P.cstat.piece+1,P.cstat.row+cc
-		if P.cstat.row>=gameEnv.target then
-			gameEnv.reach()
+		if P.cstat.row>=P.gameEnv.target then
+			P.gameEnv.reach()
 		end
 		P.spinLast=dospin and cc>0
 	else
-		P.cy=cy-1
+		P.cy=P.cy-1
 		P.spinLast=false
 	end
 end
 function lock()
-	for i=1,r do
-		local y=cy+i-1
+	for i=1,P.r do
+		local y=P.cy+i-1
 		if not P.field[y]then P.field[y],P.visTime[y]=getNewRow(),getNewRow()end
-		for j=1,c do
-			if cb[i][j]~=0 then
-				P.field[y][cx+j-1]=P.bn
-				P.visTime[y][cx+j-1]=P.showTime
+		for j=1,P.c do
+			if P.cb[i][j]~=0 then
+				P.field[y][P.cx+j-1]=P.bn
+				P.visTime[y][P.cx+j-1]=P.showTime
 			end
 		end
 	end
 end
-function garbageSend(sender,send,time)
-	local pos,r=rnd(10)
+function garbageSend(S,R,send,time)
+	local pos=rnd(10)
 	local level=send<4 and 1 or send<7 and 2 or 3
-	repeat
-		r=players.alive[rnd(#players.alive)]
-	until r~=P.id
-	createBeam(sender,r,level)
-	players[r].lastRecv=sender
-	if #players[r].atkBuffer<20 then
-		ins(players[r].atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
-		sort(players[r].atkBuffer,timeSort)
+	createBeam(S,R,level)
+	R.lastRecv=S
+	if #R.atkBuffer<15 then
+		ins(R.atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
 	end
 end
 function garbageRelease()
@@ -502,3 +607,124 @@ function garbageRelease()
 		end
 	end
 end
+act={
+	moveLeft=function(auto)
+		if P.keyPressing[9]then
+			if P.atkMode~=1 then
+				P.atkMode=1
+			end
+		else
+			if not auto then
+				P.moving=-1
+			end
+			if not ifoverlap(P.cb,P.cx-1,P.cy)then
+				P.cx=P.cx-1
+				freshgho()
+				freshLockDelay()
+				if P.cy==P.y_img then SFX("move")end
+				P.spinLast=false
+			end
+		end
+	end,
+	moveRight=function(auto)
+		if P.keyPressing[9]then
+			if P.atkMode~=2 then
+				P.atkMode=2
+				P.atking=mostBadge
+			end
+		else
+			if not auto then
+				P.moving=1
+			end
+			if not ifoverlap(P.cb,P.cx+1,P.cy)then
+				P.cx=P.cx+1
+				freshgho()
+				freshLockDelay()
+				if P.cy==P.y_img then SFX("move")end
+				P.spinLast=false
+			end
+		end
+	end,
+	rotRight=function()spin(1)end,
+	rotLeft=function()spin(-1)end,
+	rotFlip=function()spin(2)end,
+	hardDrop=function()
+		if P.keyPressing[9]then
+			if P.atkMode~=3 then
+				P.atkMode=3
+				P.atking=mostDangerous
+			end
+		else
+			if P.waiting<=0 then
+				if P.cy~=P.y_img then
+					P.cy=P.y_img
+					P.spinLast=false
+					SFX("drop")
+				end
+				drop()
+			end
+		end
+	end,
+	softDrop=function()
+		if P.keyPressing[9]then
+			if P.atkMode~=4 then
+				P.atkMode=4
+				P.atking=nil
+			end
+		else
+			if P.cy~=P.y_img then
+				P.cy=P.cy-1
+				P.spinLast=false
+			end
+			P.downing=1
+		end
+	end,
+	hold=function()hold()end,
+	--Player movements
+	swap=function()
+		if modeEnv.royaleMode then
+			for i=1,#P.keyPressing do
+				if P.keyPressing[i]then
+					P.keyPressing[i]=false
+				end
+			end
+			P.keyPressing[9]=true
+		else
+			P.keyPressing[9]=false
+		end
+	end,
+	restart=function()
+		resetGameData()
+	end,
+	insDown=function()if P.cy~=P.y_img then P.cy,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false end end,
+	insLeft=function()
+		while not ifoverlap(P.cb,P.cx-1,P.cy)do
+			P.cx,P.lockDelay=P.cx-1,P.gameEnv.lock
+			freshgho()
+		end
+	end,
+	insRight=function()
+		while not ifoverlap(P.cb,P.cx+1,P.cy)do
+			P.cx,P.lockDelay=P.cx+1,P.gameEnv.lock
+			freshgho()
+		end
+	end,
+	down1=function()
+		if P.cy~=P.y_img then
+			P.cy=P.cy-1
+			P.spinLast=false
+		end
+	end,
+	down4=function()
+		for i=1,4 do
+			if P.cy~=P.y_img then
+				P.cy=P.cy-1
+				P.spinLast=false
+			else
+				break
+			end
+		end
+	end,
+	quit=function()Event.gameover.lose()end,
+	--System movements
+}
