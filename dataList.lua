@@ -149,12 +149,27 @@ loadmode={
 			modeEnv[k]=customRange[k][customSel[k]]
 		end
 		modeEnv._20G=modeEnv.drop==-1
+		createPlayer(1,340,15)
 		if modeEnv.opponent==0 then
-			createPlayer(1,340,15)
 		else
 			modeEnv.target=nil
-			createPlayer(1,340,15)
 			createPlayer(2,965,360,.5,modeEnv.opponent)
+		end
+		local h=20
+		::R::
+			for i=1,10 do
+				if preField[h][i]>0 then modeEnv.Fkey=true goto L end
+			end
+			h=h-1
+		if h>0 then goto R end
+		::L::
+		for _,P in next,players.alive do
+			local t=P.showTime*3
+			for y=1,h do
+				P.field[y]=getNewRow(0)
+				P.visTime[y]=getNewRow(t)
+				for x=1,10 do P.field[y][x]=preField[y][x]end
+			end
 		end
 	end,
 }
@@ -527,7 +542,7 @@ Event_task={
 					end
 				end
 				if P.endCounter==100 then
-					for i=1,#P.field do
+					while P.field[1]do
 						removeRow(P.field)
 						removeRow(P.visTime)
 					end
@@ -550,7 +565,7 @@ Event_task={
 					end
 				end
 				if P.endCounter==100 then
-					for i=1,#P.field do
+					while P.field[1]do
 						removeRow(P.field)
 						removeRow(P.visTime)
 					end
@@ -666,7 +681,7 @@ Event_task={
 		if P.counter==21 then
 			local t=P.cstat.pc%2
 			for i=1,4 do
-				local r=getNewRow()
+				local r=getNewRow(0)
 				for j=1,10 do
 					r[j]=PCbase[4*t+i][j]
 				end
@@ -1092,6 +1107,7 @@ defaultModeEnv={
 		{
 			fall=20,
 			royaleMode=true,
+			Fkey=true,
 			royalePowerup={2,5,10,20},
 			royaleRemain={30,20,15,10,5},
 			pushSpeed=2,
@@ -1104,6 +1120,7 @@ defaultModeEnv={
 		{
 			fall=20,
 			royaleMode=true,
+			Fkey=true,
 			royalePowerup={2,6,14,30},
 			royaleRemain={75,50,35,20,10},
 			pushSpeed=2,

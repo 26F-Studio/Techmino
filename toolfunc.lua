@@ -1,4 +1,5 @@
 local gc=love.graphics
+local kb=love.keyboard
 local setFont=setFont
 local toN,toS=tonumber,tostring
 
@@ -11,25 +12,18 @@ local function splitS(s,sep)
 	if #s~=0 then goto L end
 	return t
 end
-function without(t,v)
-	for i=1,#t do
-		if t[i]==v then return end
-	end
-	return true
-end
 function mStr(s,x,y)
 	gc.printf(s,x-300,y,600,"center")
 end
 
 function getNewRow(val)
-	if not val then val=0 end
 	local t=rem(freeRow)
 	for i=1,10 do
-		t[i]=val or 0
+		t[i]=val
 	end
 	--clear a row and move to active list
 	if #freeRow==0 then
-		for i=1,20 do
+		for i=1,10 do
 			ins(freeRow,{0,0,0,0,0,0,0,0,0,0})
 		end
 	end
@@ -177,13 +171,16 @@ function gotoScene(s,style)
 		Buttons.sel=nil
 	end
 end
-
 local prevMenu={
 	load=love.event.quit,
 	intro="quit",
 	main="intro",
 	mode="main",
 	custom="mode",
+	draw=function()
+		kb.setKeyRepeat(false)
+		gotoScene("custom")
+	end,
 	ready="mode",
 	play=function()
 		clearTask("play")

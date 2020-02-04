@@ -53,12 +53,6 @@ local function stencil_miniTitle()
 		gc.rectangle("fill",unpack(miniTitle_rect[i]))
 	end
 end
-local function stencil_field()
-	gc.rectangle("fill",0,-10,300,610)
-end
-local function stencil_field_small()
-	gc.rectangle("fill",0,0,60,120)
-end
 
 FX={
 	flash=0,--Black screen(frame)
@@ -187,7 +181,8 @@ end
 
 function VirtualkeyPreview()
 	for i=1,#virtualkey do
-		gc.setColor(1,sel==i and .5 or 1,sel==i and .5 or 1,setting.virtualkeyAlpha*.2)
+		local c=sel==i and .8 or 1
+		gc.setColor(c,c,c,setting.virtualkeyAlpha*.2)
 		local b=virtualkey[i]
 		gc.setLineWidth(b[4]*.07)
 		gc.circle("line",b[1],b[2],b[4]-5)
@@ -198,16 +193,18 @@ function drawVirtualkey()
 	local a=setting.virtualkeyAlpha*.2
 	local P=players[1]
 	for i=1,#virtualkey do
-		local p,b=virtualkeyDown[i],virtualkey[i]
-		if p then gc.setColor(.7,.7,.7,a)
-		else gc.setColor(1,1,1,a)
-		end
-		gc.setLineWidth(b[4]*.07)
-		gc.circle("line",b[1],b[2]+virtualkeyPressTime[i],b[4]-5)
-		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2]+virtualkeyPressTime[i],nil,b[4]*.025,nil,18,18)end
-		if virtualkeyPressTime[i]>0 then
-			gc.setColor(1,1,1,a*virtualkeyPressTime[i]*.1)
-			gc.circle("line",b[1],b[2],b[4]*(1.4-virtualkeyPressTime[i]*.04))
+		if i~=9 or modeEnv.Fkey then
+			local p,b=virtualkeyDown[i],virtualkey[i]
+			if p then gc.setColor(.7,.7,.7,a)
+			else gc.setColor(1,1,1,a)
+			end
+			gc.setLineWidth(b[4]*.07)
+			gc.circle("line",b[1],b[2]+virtualkeyPressTime[i],b[4]-5)
+			if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2]+virtualkeyPressTime[i],nil,b[4]*.025,nil,18,18)end
+			if virtualkeyPressTime[i]>0 then
+				gc.setColor(1,1,1,a*virtualkeyPressTime[i]*.1)
+				gc.circle("line",b[1],b[2],b[4]*(1.4-virtualkeyPressTime[i]*.04))
+			end
 		end
 	end
 end
@@ -247,6 +244,7 @@ function Pnt.BG.strap()
 end
 local matrixT={}for i=0,15 do matrixT[i]={}for j=0,8 do matrixT[i][j]=mt.noise(i,j)+2 end end
 function Pnt.BG.matrix()
+	gc.clear(.15,.15,.15)
 	for i=0,15 do
 		for j=0,8 do
 			local t=sin(matrixT[i][j]*Timer())*.2+.2
@@ -287,7 +285,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.13+",290,140)
+	gc.print("Alpha V0.7.14",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -327,6 +325,38 @@ function Pnt.custom()
 		end
 	end
 end
+function Pnt.draw()
+	gc.translate(200,60)
+	gc.setColor(1,1,1,.2)
+	gc.setLineWidth(1)
+	for x=1,9 do gc.line(30*x,0,30*x,600)end
+	for y=0,19 do gc.line(0,30*y,300,30*y)end
+	gc.setColor(1,1,1)
+	gc.setLineWidth(3)
+	gc.rectangle("line",-2,-2,304,604)
+	for y=1,20 do for x=1,10 do
+		if preField[y][x]>0 then
+			drawPixel(y,x,preField[y][x])
+		end
+	end end
+	if sx and sy then
+		gc.setLineWidth(2)
+		gc.rectangle("line",30*sx-30,600-30*sy,30,30)
+	end
+	gc.translate(-200,-60)
+	if clearSureTime>0 then
+		gc.setColor(1,1,1,clearSureTime*.02)
+		gc.draw(drawableText.question,1100,570)
+	end
+	if pen>0 then
+		gc.setLineWidth(13)
+		gc.setColor(blockColor[pen])
+		gc.rectangle("line",945,605,70,70)
+	else
+		gc.setColor(.8,.8,.8)
+		gc.draw(drawableText.x,950,560)
+	end
+end
 function Pnt.play()
 	for p=1,#players do
 		P=players[p]
@@ -334,20 +364,22 @@ function Pnt.play()
 			gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
 			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,60,120)--Black Background
-			gc.stencil(stencil_field_small,"replace",1)
 			gc.translate(0,P.fieldBeneath*.2)
-			gc.setStencilTest("equal",1)
+			gc.setScissor(scr.x+P.x*scr.k,scr.y+P.y*scr.k,60*P.size*scr.k,120*P.size*scr.k)
 			gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
+			local h=#P.clearing
 			for j=int(P.fieldBeneath/30+1),#P.field do
-				if P.falling<=0 or without(P.clearing,j)then
+				if j==P.clearing[h]and P.falling>-1 then
+					h=h-1
+				else
 					for i=1,10 do
 						if P.field[j][i]>0 then
 							gc.draw(blockSkinmini[P.field[j][i]],6*i-6,120-6*j)
 						end
 					end
 				end
-			end
-			gc.setStencilTest()--In-playField mask
+			end--Field
+			gc.setScissor()
 			gc.translate(0,-P.fieldBeneath*.2)
 			gc.setLineWidth(2)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",-1,-1,62,122)--Draw boarder
@@ -380,10 +412,9 @@ function Pnt.play()
 				gc.setColor(1,1,1,.2)
 				for x=1,9 do gc.line(30*x,-10,30*x,600)end
 				for y=0,19 do gc.line(0,30*y,300,30*y)end
-			end
-			gc.stencil(stencil_field,"replace", 1)
+			end--Grid lines
 			gc.translate(0,P.fieldBeneath)
-			gc.setStencilTest("equal",1)
+			gc.setScissor(scr.x+P.absFieldPos[1]*scr.k,scr.y+P.absFieldPos[2]*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 				local h=#P.clearing
 				for j=int(P.fieldBeneath/30+1),#P.field do
 					if j==P.clearing[h]and P.falling>-1 then
@@ -393,7 +424,7 @@ function Pnt.play()
 					else
 						for i=1,10 do
 							if P.field[j][i]>0 then
-								gc.setColor(1,1,1,min(P.visTime[j][i],20)*.05)
+								gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
 								drawPixel(j,i,P.field[j][i])
 							end
 						end
@@ -401,13 +432,13 @@ function Pnt.play()
 				end--Field
 				for i=1,#P.shade do
 					local S=P.shade[i]
-					gc.setColor(1,1,1,.15+S[1]*.08)
+					gc.setColor(1,1,1,S[1]*.12)
 					for x=S[3],S[5]do
 						for y=S[6],S[4]do
 							drawPixel(y,x,S[2])
 						end
 					end
-				end
+				end--shade FX
 				if P.waiting==-1 then
 					if P.gameEnv.ghost then
 						gc.setColor(1,1,1,.3)
@@ -442,7 +473,7 @@ function Pnt.play()
 				gc.setColor(1,1,1)
 				gc.draw(PTC.dust[p])
 				--Draw game field
-			gc.setStencilTest()--In-playField mask
+			gc.setScissor()--In-playField mask
 			gc.translate(0,-P.fieldBeneath)
 			gc.setLineWidth(3)
 			gc.setColor(1,1,1)

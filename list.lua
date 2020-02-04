@@ -1,6 +1,6 @@
 local gc=love.graphics
 local sys=love.system
-
+local fs=love.filesystem
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","swap","restart","insLeft","insRight","insDown"}
 color={
 	red={1,0,0},
@@ -31,9 +31,24 @@ color={
 	orange={1,.6,0},
 	lightOrange={1,.7,.3},
 	purple={.5,0,1},
-	lightPurple={.7,.3,1},
+	lightPurple={.8,.4,1},
+	darkPurple={.3,0,.6},
 }
-
+blockColor={
+	color.red,
+	color.green,
+	color.orange,
+	color.blue,
+	color.magenta,
+	color.yellow,
+	color.cyan,
+	color.darkGreen,
+	color.darkGrey,
+	color.grey,
+	color.darkPurple,
+	color.darkRed,
+	color.darkGreen,
+}
 sfx={
 	"button",
 	"ready","start","win","fail","collect",
@@ -208,59 +223,84 @@ Buttons={
 		quit={x=1180,y=620,w=120,h=120,rgb=color.lightGrey,f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
 	},
 	mode={
-		up={x=1000,y=210,w=200,h=140,rgb=color.white,hide=function()return modeSel==1 end,f=64,code=function()keyDown.mode("up")end},
-		down={x=1000,y=430,w=200,h=140,rgb=color.white,hide=function()return modeSel==#modeID end,f=80,code=function()keyDown.mode("down")end},
-		left={x=190,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==1 end,code=function()keyDown.mode("left")end},
-		right={x=350,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==#modeLevel[modeID[modeSel]] end,code=function()keyDown.mode("right")end},
-		start={x=1000,y=600,w=250,h=100,rgb=color.green,f=50,code=function()loadGame(modeSel,levelSel)end},
-		custom={x=270,y=540,w=190,h=85,rgb=color.yellow,code=function()gotoScene("custom")end},
-		back={x=640,y=630,w=230,h=90,rgb=color.white,f=45,code=back},
+		up=	{x=1000,	y=210,w=200,h=140,rgb=color.white,	f=64,	code=function()keyDown.mode("up")end,	hide=function()return modeSel==1 end,},
+		down=	{x=1000,	y=430,w=200,h=140,rgb=color.white,	f=80,	code=function()keyDown.mode("down")end,	hide=function()return modeSel==#modeID end,},
+		left=	{x=190,	y=160,w=100,h=80,	rgb=color.white,		code=function()keyDown.mode("left")end,	hide=function()return levelSel==1 end,},
+		right={x=350,	y=160,w=100,h=80,	rgb=color.white,		code=function()keyDown.mode("right")end,hide=function()return levelSel==#modeLevel[modeID[modeSel]]end,},
+		start={x=1000,	y=600,w=250,h=100,rgb=color.green,	f=50,	code=function()
+			loadGame(modeSel,levelSel)end},
+		custom={x=275,	y=420,w=200,h=90,	rgb=color.yellow,		code=function()gotoScene("custom")end},
+		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,	f=45,	code=back},
 	},
 	custom={
-		up={x=1000,y=200,w=100,h=100,rgb=color.white,code=function()optSel=(optSel-2)%#customID+1 end},
-		down={x=1000,y=440,w=100,h=100,rgb=color.white,f=50,code=function()optSel=optSel%#customID+1 end},
-		left={x=880,y=320,w=100,h=100,rgb=color.white,f=50,code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
-		right={x=1120,y=320,w=100,h=100,rgb=color.white,f=50,code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
-		start={x=1000,y=580,w=180,h=80,rgb=color.green,code=function()loadGame(0,1)end},
-		back={x=640,y=630,w=180,h=60,rgb=color.white,code=back},
+		up=	{x=1000,	y=220,w=100,h=100,rgb=color.white,		code=function()optSel=(optSel-2)%#customID+1 end},
+		down=	{x=1000,	y=460,w=100,h=100,rgb=color.white,f=50,	code=function()optSel=optSel%#customID+1 end},
+		left=	{x=880,	y=340,w=100,h=100,rgb=color.white,f=50,	code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
+		right={x=1120,	y=340,w=100,h=100,rgb=color.white,f=50,	code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
+		start={x=1000,	y=580,w=180,h=80,	rgb=color.green,		code=function()loadGame(0,1)end},
+		draw=	{x=1000,	y=90,	w=190,h=85,	rgb=color.cyan,		code=function()gotoScene("draw")end},
+		back=	{x=640,	y=630,w=180,h=60,	rgb=color.white,		code=back},
+	},
+	draw={
+		block1=	{x=840,	y=80,w=120,h=120,	f=65,	rgb=color.red,		code=function()pen=1 end},
+		block2=	{x=980,	y=80,w=120,h=120,	f=65,	rgb=color.green,		code=function()pen=2 end},
+		block3=	{x=1120,	y=80,w=120,h=120,	f=65,	rgb=color.orange,		code=function()pen=3 end},
+		block4=	{x=840,	y=220,w=120,h=120,f=65,	rgb=color.blue,		code=function()pen=4 end},
+		block5=	{x=980,	y=220,w=120,h=120,f=65,	rgb=color.magenta,	code=function()pen=5 end},
+		block6=	{x=1120,	y=220,w=120,h=120,f=65,	rgb=color.yellow,		code=function()pen=6 end},
+		block7=	{x=840,	y=360,w=120,h=120,f=65,	rgb=color.cyan,		code=function()pen=7 end},
+		gb1=		{x=980,	y=360,w=120,h=120,f=65,	rgb=color.darkGrey,	code=function()pen=9 end},
+		gb2=		{x=1120,	y=360,w=120,h=120,f=65,	rgb=color.grey,		code=function()pen=10 end},
+		gb3=		{x=840,	y=500,w=120,h=120,f=65,	rgb=color.darkPurple,	code=function()pen=11 end},
+		gb4=		{x=980,	y=500,w=120,h=120,f=65,	rgb=color.darkRed,	code=function()pen=12 end},
+		gb5=		{x=1120,	y=500,w=120,h=120,f=65,	rgb=color.darkGreen,	code=function()pen=13 end},
+		erase=	{x=840,	y=640,w=120,h=120,f=70,	rgb=color.grey,		code=function()pen=0 end},
+		clear=	{x=1120,	y=640,w=120,h=120,	rgb=color.white,		code=function()
+			if clearSureTime>0 then
+				for y=1,20 do for x=1,10 do preField[y][x]=0 end end
+				clearSureTime=0
+			else
+				clearSureTime=50
+			end
+			end},
+		back=		{x=1235,	y=45,	w=80,	h=80,	f=35,	rgb=color.white,		code=back},
 	},
 	play={
 		back={x=1235,y=45,w=80,h=80,rgb=color.white,code=back,f=35},
 	},
 	setting={--Normal setting
-		ghost=		{x=290,	y=90,	w=210,	h=60,		rgb=color.white,	code=function()setting.ghost=not setting.ghost end,down="grid",right="center"},
-		center=		{x=505,	y=90,	w=210,	h=60,		rgb=color.white,	code=function()setting.center=not setting.center end,down="swap",left="ghost",right="sfx"},
-		grid=		{x=290,	y=160,	w=210,	h=60,		rgb=color.white,	code=function()setting.grid=not setting.grid end,up="ghost",down="fxs",right="swap"},
-		swap=		{x=505,	y=160,	w=210,	h=60,f=28,	rgb=color.white,	code=function()setting.swap=not setting.swap end,up="center",down="arrD",left="grid",right="vib"},
-		fxs=		{x=290,	y=230,	w=210,	h=60,		rgb=color.white,	code=function()setting.fxs=not setting.fxs end,up="grid",down="dasU",right="fullscreen"},
+		ghost=	{x=290,	y=90,	w=210,h=60,		rgb=color.white,	code=function()setting.ghost=not setting.ghost end,down="grid",right="center"},
+		center=	{x=505,	y=90,	w=210,h=60,		rgb=color.white,	code=function()setting.center=not setting.center end,down="swap",left="ghost",right="sfx"},
+		grid=		{x=290,	y=160,w=210,h=60,		rgb=color.white,	code=function()setting.grid=not setting.grid end,up="ghost",down="fxs",right="swap"},
+		swap=		{x=505,	y=160,w=210,h=60,f=28,	rgb=color.white,	code=function()setting.swap=not setting.swap end,up="center",down="arrD",left="grid",right="vib"},
+		fxs=		{x=290,	y=230,w=210,h=60,		rgb=color.white,	code=function()setting.fxs=not setting.fxs end,up="grid",down="dasU",right="fullscreen"},
+		dasD=		{x=210,	y=300,w=50,	h=50,		rgb=color.white,	code=function()setting.das=(setting.das-1)%31 end,up="fxs",down="sddasD",right="dasU"},
+		dasU=		{x=370,	y=300,w=50,	h=50,		rgb=color.white,	code=function()setting.das=(setting.das+1)%31 end,up="fxs",down="sddasU",left="dasD",right="arrD"},
+		arrD=		{x=425,	y=300,w=50,	h=50,		rgb=color.white,	code=function()setting.arr=(setting.arr-1)%16 end,up="swap",down="sdarrD",left="dasU",right="arrU"},
+		arrU=		{x=585,	y=300,w=50,	h=50,		rgb=color.white,	code=function()setting.arr=(setting.arr+1)%16 end,up="swap",down="sdarrU",left="arrD",right="bgblock"},--3~6
+		sddasD=	{x=210,	y=370,w=50,	h=50,		rgb=color.white,	code=function()setting.sddas=(setting.sddas-1)%11 end,up="dasD",down="lang",right="sddasU"},
+		sddasU=	{x=370,	y=370,w=50,	h=50,		rgb=color.white,	code=function()setting.sddas=(setting.sddas+1)%11 end,up="dasU",down="lang",left="sddasD",right="sdarrD"},
+		sdarrD=	{x=425,	y=370,w=50,	h=50,		rgb=color.white,	code=function()setting.sdarr=(setting.sdarr-1)%4 end,up="arrD",down="lang",left="sddasU",right="sdarrU"},
+		sdarrU=	{x=585,	y=370,w=50,	h=50,		rgb=color.white,	code=function()setting.sdarr=(setting.sdarr+1)%4 end,up="arrU",down="lang",left="sdarrD",right="frame"},
 
-		dasD=		{x=210,	y=300,	w=50,	h=50,		rgb=color.white,	code=function()setting.das=(setting.das-1)%31 end,up="fxs",down="sddasD",right="dasU"},
-		dasU=		{x=370,	y=300,	w=50,	h=50,		rgb=color.white,	code=function()setting.das=(setting.das+1)%31 end,up="fxs",down="sddasU",left="dasD",right="arrD"},
-		arrD=		{x=425,	y=300,	w=50,	h=50,		rgb=color.white,	code=function()setting.arr=(setting.arr-1)%16 end,up="swap",down="sdarrD",left="dasU",right="arrU"},
-		arrU=		{x=585,	y=300,	w=50,	h=50,		rgb=color.white,	code=function()setting.arr=(setting.arr+1)%16 end,up="swap",down="sdarrU",left="arrD",right="bgblock"},--3~6
-		sddasD=		{x=210,	y=370,	w=50,	h=50,		rgb=color.white,	code=function()setting.sddas=(setting.sddas-1)%11 end,up="dasD",down="lang",right="sddasU"},
-		sddasU=		{x=370,	y=370,	w=50,	h=50,		rgb=color.white,	code=function()setting.sddas=(setting.sddas+1)%11 end,up="dasU",down="lang",left="sddasD",right="sdarrD"},
-		sdarrD=		{x=425,	y=370,	w=50,	h=50,		rgb=color.white,	code=function()setting.sdarr=(setting.sdarr-1)%4 end,up="arrD",down="lang",left="sddasU",right="sdarrU"},
-		sdarrU=		{x=585,	y=370,	w=50,	h=50,		rgb=color.white,	code=function()setting.sdarr=(setting.sdarr+1)%4 end,up="arrU",down="lang",left="sdarrD",right="frame"},
-
-		sfx=		{x=760,	y=90,	w=160,	h=60,		rgb=color.white,	code=function()setting.sfx=not setting.sfx end,down="vib",left="center",right="bgm"},
-		bgm=		{x=940,	y=90,	w=160,	h=60,		rgb=color.white,	code=function()
+		sfx=		{x=760,y=90,	w=160,h=60,rgb=color.white,	code=function()setting.sfx=not setting.sfx end,down="vib",left="center",right="bgm"},
+		bgm=		{x=940,y=90,	w=160,h=60,rgb=color.white,	code=function()
 			BGM()
 			setting.bgm=not setting.bgm
 			BGM("blank")
 			end,down="vib",left="sfx"},
-		vib=		{x=850,	y=160,	w=340,	h=60,		rgb=color.white,	code=function()
+		vib=		{x=850,y=160,	w=340,h=60,rgb=color.white,	code=function()
 			setting.vib=(setting.vib+1)%5
 			VIB(2)
 			end,up="sfx",down="fullscreen",left="swap"},
-		fullscreen=	{x=850,	y=230,	w=340,	h=60,		rgb=color.white,	code=function()
+		fullscreen=	{x=850,y=230,	w=340,h=60,rgb=color.white,	code=function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			if not setting.fullscreen then
 				love.resize(gc.getWidth(),gc.getHeight())
 			end
 			end,up="vib",down="bgblock",left="arrU"},
-		bgblock=	{x=850,	y=300,	w=340,	h=60,		rgb=color.white,	code=function()
+		bgblock=	{x=850,y=300,	w=340,h=60,rgb=color.white,	code=function()
 			setting.bgblock=not setting.bgblock
 			if not setting.bgblock then
 				for i=1,16 do
@@ -268,17 +308,17 @@ Buttons={
 				end
 			end
 			end,up="fullscreen",down="frame",left="sdarrU"},
-		frame=		{x=850,	y=370,	w=340,	h=60,		rgb=color.white,	code=function()
+		frame=	{x=850,y=370,	w=340,h=60,rgb=color.white,	code=function()
 			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
 			if setting.frameMul>100 then setting.frameMul=25 end
 			end,up="bgblock",down="control",left="sdarrU"},
-		control=	{x=850,	y=440,	w=340,	h=60,		rgb=color.green,	code=function()gotoScene("setting2")end,up="frame",down="touch",left="lang"},
-		touch=		{x=850,	y=510,	w=340,	h=60,		rgb=color.yellow,	code=function()gotoScene("setting3")end,up="control",down="back",left="lang"},
-		lang=		{x=280,	y=510,	w=200,	h=60,		rgb=color.red,		code=function()
+		control=	{x=850,y=440,	w=340,h=60,rgb=color.green,	code=function()gotoScene("setting2")end,up="frame",down="touch",left="lang"},
+		touch=	{x=850,y=510,	w=340,h=60,rgb=color.yellow,	code=function()gotoScene("setting3")end,up="control",down="back",left="lang"},
+		lang=		{x=280,y=510,	w=200,h=60,rgb=color.red,	code=function()
 			setting.lang=setting.lang%#langName+1
 			swapLanguage(setting.lang)
 			end,up="sddasD",down="back",right="touch"},
-		back=		{x=640,	y=620,	w=300,	h=70,		rgb=color.white,	code=back,up="touch"},
+		back=		{x=640,y=620,	w=300,h=70,rgb=color.white,	code=back,up="touch"},
 	},
 	setting2={--Control setting
 		back={x=840,y=630,w=180,h=60,rgb=color.white,code=back},
@@ -317,11 +357,11 @@ Buttons={
 	},
 	help={
 		back={x=640,y=590,w=180,h=60,rgb=color.white,code=back,right="qq"},
-		qq={x=980,y=590,w=230,h=60,rgb=color.white,code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left="back"},
+		qq={x=980,y=590,w=230,h=60,hide=function()return system=="Android"end,rgb=color.white,code=function()sys.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,left="back"},
 	},
 	stat={
 		back={x=640,y=590,w=180,h=60,rgb=color.white,code=back,right="path"},
-		path={x=980,y=590,w=250,h=60,f=30,rgb=color.white,code=function()sys.openURL("C:/Users/MrZ/AppData/Roaming/LOVE/Techmino")end,left="back"},
+		path={x=980,y=590,w=250,h=60,f=30,hide=function()return system=="Android"end,rgb=color.white,code=function()sys.openURL(fs.getSaveDirectory())end,left="back"},
 	},
 	sel=nil,--selected button id(integer)
 }

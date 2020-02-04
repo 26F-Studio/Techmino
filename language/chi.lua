@@ -146,6 +146,24 @@ return{
 			left="<",
 			right=">",
 			start="开始",
+			draw="画图(D)",
+			back="返回",
+		},
+		draw={
+			block1="■",
+			block2="■",
+			block3="■",
+			block4="■",
+			block5="■",
+			block6="■",
+			block7="■",
+			gb1="■",
+			gb2="■",
+			gb3="■",
+			gb4="■",
+			gb5="■",
+			erase="×",
+			clear="清空",
 			back="返回",
 		},
 		play={
@@ -193,4 +211,4 @@ return{
 			path="打开存储目录",
 		},
 	},
-}--中文
+}--中文■

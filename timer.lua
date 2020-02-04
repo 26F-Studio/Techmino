@@ -45,6 +45,9 @@ function Tmr.intro()
 	count=count+1
 	if count==200 then count=80 end
 end
+function Tmr.draw()
+	if clearSureTime>0 then clearSureTime=clearSureTime-1 end
+end
 function Tmr.play(dt)
 	frame=frame+1
 	stat.gametime=stat.gametime+dt

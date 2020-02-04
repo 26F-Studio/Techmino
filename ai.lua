@@ -60,7 +60,7 @@ function resetField(f0,f,start)
 		goto L
 	end
 	for i=start,#f0 do
-		f[i]=getNewRow()
+		f[i]=getNewRow(0)
 		for j=1,10 do
 			f[i][j]=f0[i][j]
 		end
@@ -69,7 +69,7 @@ end
 function getScore(field,bn,cb,cx,cy)
 	local score=0
 	local highest=0
-	local height=getNewRow()
+	local height=getNewRow(0)
 	local clear=0
 	local hole=0
 
@@ -124,7 +124,7 @@ function AI_getControls(ctrl)
 	local Tfield={}--test field
 	local field_org=P.field
 	for i=1,#field_org do
-		Tfield[i]=getNewRow()
+		Tfield[i]=getNewRow(0)
 		for j=1,10 do
 			Tfield[i][j]=field_org[i][j]
 		end
@@ -142,7 +142,7 @@ function AI_getControls(ctrl)
 				end--move to bottom
 				for i=1,#cb do
 					local y=cy+i-1
-					if not Tfield[y]then Tfield[y]=getNewRow()end
+					if not Tfield[y]then Tfield[y]=getNewRow(0)end
 					for j=1,#cb[1]do
 						if cb[i][j]then
 							Tfield[y][cx+j-1]=1

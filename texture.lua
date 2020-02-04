@@ -8,7 +8,6 @@ local function C(x,y)
 end
 
 gc.setDefaultFilter("nearest","nearest")
-
 local blockImg=N("/image/block/1.png")
 blockSkin,blockSkinmini={},{}
 for i=1,13 do
@@ -26,15 +25,6 @@ for i=1,10 do
 	virtualkeyIcon[i]=N("/image/virtualkey/"..actName[i]..".png")
 end
 
-local blockColor={
-	color.red,
-	color.green,
-	color.orange,
-	color.blue,
-	color.magenta,
-	color.yellow,
-	color.cyan,
-}
 gc.setColor(1,1,1)
 mouseBlock={}
 for i=1,7 do
@@ -92,8 +82,9 @@ background1=N("/image/BG/bg1.jpg")
 background2=N("/image/BG/bg2.png")
 groupCode=N("/image/mess/groupcode.png")
 payCode=N("/image/mess/paycode.png")
-
 drawableText={
+	question=T(100,"?"),
+	x=T(110,"×"),
 	bpm=T(15,"BPM"),
 	kpm=T(15,"KPM"),
 	modeName=T(30),
@@ -101,5 +92,4 @@ drawableText={
 	next=T(40),
 	hold=T(40),
 }
-
 c=gc.setCanvas()

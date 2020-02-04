@@ -1,5 +1,4 @@
-local gc=love.graphics
-local tm=love.timer
+local gc,tm=love.graphics,love.timer
 local ms,kb=love.mouse,love.keyboard
 local fs,sys=love.filesystem,love.system
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
@@ -8,6 +7,7 @@ ins,rem,sort=table.insert,table.remove,table.sort
 null=function()end
 
 system=sys.getOS()
+scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}
 scene=""
 bgmPlaying=nil
 curBG="none"
@@ -44,6 +44,7 @@ gameEnv0={
 	keepVisible=true,visible="show",
 	sequence="bag7",
 	block=true,
+	Fkey=false,
 	ospin=true,
 	freshLimit=1e99,
 	target=1e99,
@@ -64,6 +65,11 @@ customSel={
 	freshLimit=3,
 	opponent=1,
 }
+preField={}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
+freeRow={}
+for i=1,40 do
+	freeRow[i]={0,0,0,0,0,0,0,0,0,0}
+end
 --Game system Data
 setting={
 	ghost=true,center=true,

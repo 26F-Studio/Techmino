@@ -163,7 +163,14 @@ function resetGameData()
 	frame=0
 	garbageSpeed=1
 	pushSpeed=3
-
+	if players then
+		for _,P in next,players do if P.id then
+			while P.field[1]do
+				removeRow(P.field)
+				removeRow(P.visTime)
+			end
+		end end
+	end
 	players={alive={}}human=0
 	modeEnv=defaultModeEnv[curMode.id][curMode.lv]or defaultModeEnv[curMode.id][1]
 	loadmode[curMode.id]()
@@ -193,12 +200,11 @@ function resetGameData()
 		virtualkey[i].press=false
 	end
 	stat.game=stat.game+1
-
-	freeRow={}
-	collectgarbage()
-	for i=1,30*#players do
-		freeRow[i]={0,0,0,0,0,0,0,0,0,0}
+	local p=60*#players
+	while freeRow[p]do
+		rem(freeRow)
 	end
+	collectgarbage()
 end
 function gameStart()
 	sysSFX("start")
@@ -224,6 +230,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 		P.size=P.size*5
 	else
 		P.centerX,P.centerY=P.x+300*P.size,P.y+670*P.size
+		P.absFieldPos={P.x+150*P.size,P.y+60*P.size}
 	end
 
 	if AIspeed then
@@ -666,6 +673,7 @@ function spin(d,ifpre)
 	end
 	goto fail
 	::spin::
+	createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 	P.curX,P.curY,P.dir=ix,iy,idir
 	P.sc,P.cur.bk=scs[P.cur.id][idir],icb
 	P.r,P.c=ir,ic
@@ -673,7 +681,7 @@ function spin(d,ifpre)
 	freshgho()
 	freshLockDelay()
 	SFX(ifpre and"prerotate"or ifoverlap(P.cur.bk,P.curX,P.curY+1)and ifoverlap(P.cur.bk,P.curX-1,P.curY)and ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate")
-	if id==1 then
+	if P.id==1 then
 		stat.rotate=stat.rotate+1
 	end
 	::fail::
@@ -907,7 +915,7 @@ end
 function lock()
 	for i=1,P.r do
 		local y=P.curY+i-1
-		if not P.field[y]then P.field[y],P.visTime[y]=getNewRow(),getNewRow()end
+		if not P.field[y]then P.field[y],P.visTime[y]=getNewRow(0),getNewRow(0)end
 		for j=1,P.c do
 			if P.cur.bk[i][j]then
 				P.field[y][P.curX+j-1]=P.cur.color
@@ -994,7 +1002,7 @@ act={
 		end
 	end,
 	rotRight=function()spin(1)end,
-	rotLeft=function()spin(3)end,
+	rotLeft=function()spin(-1)end,
 	rotFlip=function()spin(2)end,
 	hardDrop=function()
 		if P.keyPressing[9]and setting.swap then
@@ -1057,7 +1065,7 @@ act={
 		local x0=cx
 		::L::if not ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
-			createShade(P.curX-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			createShade(P.curX+1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 			freshgho()
 			goto L
 		end
@@ -1067,7 +1075,7 @@ act={
 		local x0=cx
 		::L::if not ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
-			createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			createShade(P.curX-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 			freshgho()
 			goto L
 		end
