@@ -28,17 +28,18 @@ function Tmr.load()
 		else
 			for i=1,#sfx do sfx[i]=nil end
 			loading=4
-			loadnum=1
+			loadnum=0
 		end
 	elseif loading==4 then
 		loadnum=loadnum+1
-		if loadnum==20 then
+		if loadnum==15 then
 			gotoScene("main")
 		end
 	end
 end
 function Tmr.play(dt)
 	frame=frame+1
+	stat.gametime=stat.gametime+dt
 	if count then
 		count=count-1
 		if count==0 then
@@ -49,6 +50,7 @@ function Tmr.play(dt)
 				_G.P=P
 				setmetatable(_G,P.index)
 				P.control=true
+				P.timing=true
 				resetblock()
 			end
 			setmetatable(_G,nil)
@@ -56,13 +58,12 @@ function Tmr.play(dt)
 			SFX("ready")
 		end
 		return nil
-	end
+	end--Start counting
 	for p=1,#players do
 		P=players[p]
 		setmetatable(_G,P.index)
+		if timing then P.time=time+dt end
 		if alive then
-			if control then P.time=time+dt end
-
 			local v=0
 			for i=2,10 do v=v+i*(i-1)*7.2/(frame-keyTime[i])end P.keySpeed=keySpeed*.99+v*.1
 			v=0 for i=2,10 do v=v+i*(i-1)*7.2/(frame-dropTime[i])end P.dropSpeed=dropSpeed*.99+v*.1
@@ -118,6 +119,7 @@ function Tmr.play(dt)
 					end
 					P.clearing={}
 				end
+				--Rows cleared drop
 			elseif waiting>0 then
 				P.waiting=waiting-1
 				if waiting<=0 then
@@ -137,7 +139,26 @@ function Tmr.play(dt)
 					end
 				end
 			end
-		end--If alive
+		else--Alive
+			P.keySpeed=keySpeed*.96+cstat.key/time*60*.04
+			P.dropSpeed=dropSpeed*.96+cstat.piece/time*60*.04
+			--Final average speeds
+			if falling>0 then
+				P.falling=falling-1
+				if falling<=0 then
+					if #field>clearing[1]then SFX("fall")end
+					for i=1,#clearing do
+						rem(field,clearing[i])
+						rem(visTime,clearing[i])
+					end
+					P.clearing={}
+				end
+			end--Rows cleared drop
+			for j=1,#field do for i=1,10 do
+				if visTime[j][i]<20 then P.visTime[j][i]=visTime[j][i]+.5 end
+			end end
+			--Make field visible
+		end--Dead
 		for i=#bonus,1,-1 do
 			bonus[i].t=bonus[i].t+1
 			if bonus[i].t>60 then rem(bonus,i)end

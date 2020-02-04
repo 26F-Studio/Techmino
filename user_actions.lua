@@ -40,7 +40,7 @@ act={
 	hold=hold,
 	--Player movements
 	restart=function()
-		startGame(gamemode)
+		resetGameData()
 		count=60+26--Althour'z neim
 	end,
 	down1=function()drop()end,

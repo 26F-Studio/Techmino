@@ -27,6 +27,8 @@ end
 function game.play()
 	scene="play"
 	--curBG="game1"
+	resetGameData()
+	collectgarbage()
 	SFX("ready")
 end
 function game.setting()
