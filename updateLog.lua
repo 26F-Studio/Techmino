@@ -1,8 +1,12 @@
 local S=[=[
 Patron(rmb10+):
-	gggf/T080/Ykzl/zxc
-	[D*a]?
-
+	Fireboos
+	gggf
+	Sasoric
+	T080
+	Ykzl
+	zxc
+	?[D*a]
 Future outlook:
 	Normal:
 		powerinfo switch
@@ -23,6 +27,10 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.8.0:
+	remake text system
+	more details
+	bug fixed
 0.7.35:
 	bug fixed
 0.7.34:

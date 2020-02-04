@@ -30,7 +30,6 @@ local sceneInit={
 		if not players[1]then
 			newDemoPlayer(1,900,35,1.1)
 		end--create demo player
-		collectgarbage()
 	end,
 	music=function()
 		if bgmPlaying then

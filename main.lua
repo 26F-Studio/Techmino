@@ -24,6 +24,7 @@ local scr=scr
 curBG="none"
 bgmPlaying=nil
 voiceQueue={free=0}
+texts={}
 virtualkeyDown,virtualkeyPressTime={},{}
 for i=1,20 do
 	virtualkeyDown[i]=X
@@ -41,7 +42,7 @@ function setFont(s)
 		if Fonts[s]then
 			gc.setFont(Fonts[s])
 		else
-			local t=gc.setNewFont("font.ttf",s-5)
+			local t=gc.setNewFont("font.ttf",s)
 			Fonts[s]=t
 			gc.setFont(t)
 		end
@@ -61,6 +62,8 @@ require("default_data")
 require("class")
 require("ai")
 require("toolfunc")
+require("sound")
+require("text")
 require("list")
 require("dataList")
 require("texture")
@@ -79,7 +82,7 @@ if sys.getPowerInfo()~="unknown"then
 			gc.setCanvas(powerInfoCanvas)gc.push("transform")gc.origin()
 			gc.clear(0,0,0,.3)
 			gc.setLineWidth(4)
-			setFont(25)
+			setFont(20)
 			local charging
 			if state~="battery"then
 				gc.setColor(1,1,1)
@@ -893,6 +896,18 @@ function love.update(dt)
 			FX_BGblock.tm=rnd(20,30)
 		end
 	end
+	for i=#texts,1,-1 do
+		local t=texts[i]
+		t.c=t.c+t.spd
+		if t.stop then
+			if t.c>t.stop then
+				t.c=t.stop
+			end
+		end
+		if t.c>60 then
+			rem(texts,i)
+		end
+	end
 	if scene.swapping then
 		local S=scene.swap
 		S.time=S.time-1
@@ -900,6 +915,8 @@ function love.update(dt)
 			scene.cur=S.tar
 			scene.init(S.tar)
 			widget_sel=nil
+			texts={}
+			collectgarbage()
 			--此时场景切换
 		end
 		if S.time==0 then
@@ -923,7 +940,7 @@ function love.update(dt)
 					for i=1,#Q do
 						Q[i]=Q[i+1]
 					end
-				end--放完后放下一个
+				end--放完了，pop出下一个
 			else
 				local n=1
 				local L=voiceBank[Q[1]]
@@ -991,7 +1008,14 @@ function love.draw()
 			gc.rectangle("fill",S[7],S[8],S[9],S[10],2)
 			--开关/滑条残影
 		end
-	end--sysFXs
+	end--guiFXs
+	for i=1,#texts do
+		local t=texts[i]
+		local p=t.c
+		gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
+		setFont(t.font)
+		t:draw()
+	end--Floating Texts
 	if scene.swapping then
 		scene.swap.draw(scene.swap.time)
 	end--Swapping animation
@@ -1007,7 +1031,7 @@ function love.draw()
 			gc.rectangle("fill",1280,0,d,720)
 		end--扁窗口
 	end--Black side
-	setFont(20)
+	setFont(15)
 	gc.setColor(1,1,1)
 	gc.print(FPS(),5,700)
 	if devMode>0 then
@@ -1027,14 +1051,14 @@ function love.run()
 	local PUMP,POLL=love.event.pump,love.event.poll
 	love.resize(gc.getWidth(),gc.getHeight())
 	scene.init("load")--Scene Launch
-	return function()
+	while true do
 		PUMP()
 		for N,a,b,c,d,e in POLL()do
 			if N=="quit"then
 				destroyPlayers()
 				saveData()
 				saveSetting()
-				return 0
+				goto END
 			elseif love[N]then
 				love[N](a,b,c,d,e)
 			end
@@ -1058,6 +1082,7 @@ function love.run()
 			lastFreshPow=Timer()
 		end
 	end
+	::END::
 end
 
 local fs=love.filesystem

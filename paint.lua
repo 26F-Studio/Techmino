@@ -102,75 +102,6 @@ FX_BGblock={tm=150,next=7,ct=0,list={{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{
 FX_attack={}--Attack beam
 FX_badge={}--Badge thrown
 sysFX={}
-FX_ripple={}--Ripple&SqrShade
-textFX={
-	appear=function(t,a)
-		setFont(t.font)
-		gc.setColor(1,1,1,a)
-		mStr(t.text,150,250-t.font*.5+t.dy)
-	end,
-	fly=function(t,a)
-		setFont(t.font)
-		gc.setColor(1,1,1,a)
-		mStr(t.text,150+(t.t-15)^3*.005,250-t.font*.5+t.dy)
-	end,
-	stretch=function(t,a)
-		gc.push("transform")
-			setFont(t.font)
-			gc.translate(150,250+t.dy)
-			if t.t<20 then gc.scale((20-t.t)*.015+1,1)end
-			gc.setColor(1,1,1,a)
-			mStr(t.text,0,-t.font*.5)
-		gc.pop()
-	end,
-	drive=function(t,a)
-		gc.push("transform")
-			setFont(t.font)
-			gc.translate(150,290+t.dy)
-			if t.t<20 then gc.shear((20-t.t)*.05,0)end
-			gc.setColor(1,1,1,a)
-			mStr(t.text,0,-t.font*.5-15)
-		gc.pop()
-	end,
-	spin=function(t,a)
-		gc.push("transform")
-			setFont(t.font)
-			gc.translate(150,250+t.dy)
-			if t.t<20 then
-				gc.rotate((20-t.t)^2*.0015)
-			end
-			gc.setColor(1,1,1,a)
-			mStr(t.text,0,-t.font*.5-8)
-		gc.pop()
-	end,
-	flicker=function(t,a)
-		setFont(t.font)
-		gc.setColor(1,1,1,a*(rnd()+.5))
-		mStr(t.text,150,225-t.font*.5+t.dy)
-	end,
-	zoomout=function(t,a)
-		gc.push("transform")
-			setFont(t.font)
-			local k=t.t^.5*.1+1
-			gc.translate(150,290+t.dy)
-			gc.scale(k,k)
-			gc.setColor(1,1,1,a)
-			mStr(t.text,0,-t.font*.5-5)
-		gc.pop()
-	end,
-	beat=function(t,a)
-		gc.push("transform")
-			setFont(t.font)
-			gc.translate(150,290+t.dy)
-			if t.t<20 then
-				local k=.2*(5+(25-t.t)^.5)-.45
-				gc.scale(k,k)
-			end
-			gc.setColor(1,1,1,a)
-			mStr(t.text,0,-t.font*.5-5)
-		gc.pop()
-	end,
-}
 local function drawAtkPointer(x,y)
 	local t=sin(Timer()*20)
 	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
@@ -302,9 +233,9 @@ function Pnt.load()
 	gc.rectangle("fill",300,330,loadprogress*680,60,5)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60,5)
-	setFont(40)
+	setFont(35)
 	mStr(text.load[loading],640,335)
-	setFont(30)
+	setFont(25)
 	mStr(loadTip,640,400)
 end
 function Pnt.intro()
@@ -327,30 +258,30 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(coloredTitleImage,60,30,nil,1.3)
 	gc.draw(drawableText.warning,595-drawableText.warning:getWidth(),128)
-	setFont(35)
+	setFont(30)
 	gc.print(gameVersion,70,125)
 	gc.print(system,610,100)
 	gc.print(modes[modeID[modeSel]].level[levelSel],600,373)
-	setFont(30)
+	setFont(25)
 	gc.print(text.modeName[modeSel],600,414)
-	players[1]:demoDraw()
+	players[1]:draw()
 end
 function Pnt.mode()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,830,30)
-	setFont(40)
+	setFont(35)
 	local lv=modes[modeID[modeSel]].level[levelSel]
 	gc.setColor(modeLevelColor[lv]or color.white)
 	mStr(lv,270,215)
-	setFont(30)
+	setFont(25)
 	gc.setColor(color.white)
 	mStr(text.modeInfo[modeID[modeSel]],270,255)
-	setFont(80)
+	setFont(75)
 	gc.setColor(color.grey)
 	mStr(text.modeName[modeSel],643,273)
 	for i=modeSel-2,modeSel+2 do
 		if i>=1 and i<=#modeID then
-			local f=80-abs(i-modeSel)*20
+			local f=75-abs(i-modeSel)*20
 			gc.setColor(i==modeSel and color.white or abs(i-modeSel)==1 and color.grey or color.darkGrey)
 			setFont(f)
 			mStr(text.modeName[i],640,310+70*(i-modeSel)-f*.5)
@@ -365,13 +296,13 @@ function Pnt.music()
 	gc.setColor(1,1,1)
 	gc.draw(drawableText.musicRoom,22,23)
 	gc.draw(drawableText.nowPlaying,490,390)
-	setFont(35)
+	setFont(30)
 	for i=1,#musicID do
 		gc.print(musicID[i],50,90+30*i)
 	end
 	gc.draw(titleImage,640,310,nil,1.5,nil,206,35)
 	if bgmPlaying then
-		setFont(50)
+		setFont(45)
 		gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
 		mStr(bgmPlaying or"",630,460)
 		local t=-Timer()%2.3/2
@@ -386,7 +317,7 @@ function Pnt.custom()
 	gc.rectangle("fill",25,95+40*sel,480,40)
 	gc.setColor(.8,.8,.8)gc.draw(drawableText.custom,20,20)
 	gc.setColor(1,1,1)gc.draw(drawableText.custom,22,23)
-	setFont(40)
+	setFont(35)
 	for i=1,#customID do
 		local k=customID[i]
 		local y=90+40*i
@@ -483,7 +414,7 @@ function Pnt.play()
 		gc.setColor(.8,1,0,.2)
 		for i=1,#P.atker do
 			local p=P.atker[i]
-			gc.line(p.centerX,p.centerY,P.centerX,P.centerY)
+			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+670*P.size)
 		end
 		if P.atkMode~=4 then
 			if P.atking then drawAtkPointer(P.atking.centerX,P.atking.centerY)end
@@ -495,7 +426,7 @@ function Pnt.play()
 		end
 	end
 	if restartCount>0 then
-		gc.setColor(0,0,0,restartCount/20)
+		gc.setColor(0,0,0,restartCount*.05)
 		gc.rectangle("fill",0,0,1280,720)
 	end
 end
@@ -504,7 +435,7 @@ function Pnt.pause()
 	gc.setColor(0,0,0,pauseTimer*.015)
 	gc.rectangle("fill",0,0,1280,720)
 	gc.setColor(1,1,1,pauseTimer*.02)
-	setFont(30)
+	setFont(25)
 	if pauseCount>0 then
 		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
 	end
@@ -516,28 +447,28 @@ function Pnt.pause()
 		gc.print(text.stat[i+3],860,30*i+30)
 		gc.print(dataOpt(i),1050,30*i+30)
 	end
-	setFont(40)
+	setFont(35)
 	if system~="Android"then
 		mStr(text.space.."/"..text.enter,640,190)
 		mStr("Ctrl+R",640,351)
 		gc.print("ESC",610,506)
 	end
-	mDraw(gamefinished and drawableText.finish or drawableText.pause,640,60-10*(5-pauseTimer*.1)^1.5)
+	mDraw(gameResult and drawableText[gameResult]or drawableText.pause,640,60-10*(5-pauseTimer*.1)^1.5)
 end
 function Pnt.setting_game()
 	gc.setColor(1,1,1)
 	mDraw(drawableText.setting_game,640,15)
-	setFont(40)
+	setFont(35)
 	mStr("DAS:"..setting.das,290,205)
 	mStr("ARR:"..setting.arr,610,205)
-	setFont(28)
+	setFont(23)
 	mStr(text.softdropdas..setting.sddas,290,323)
 	mStr(text.softdroparr..setting.sdarr,610,323)
 end
 function Pnt.setting_graphic()
 	gc.setColor(1,1,1)
 	mDraw(drawableText.setting_graphic,640,15)
-	gc.draw(blockSkin[7-int(Timer()*2)%7],940,440,nil,2)
+	gc.draw(blockSkin[7-int(Timer()*2)%7],890,390,nil,2)
 end
 function Pnt.setting_sound()
 	gc.setColor(1,1,1)
@@ -567,7 +498,7 @@ function Pnt.setting_key()
 	mDraw(drawableText.joystick,1140,35)
 
 	gc.setColor(1,1,1)
-	setFont(31)
+	setFont(26)
 	for N=1,20 do
 		if N<11 then
 			gc.printf(text.actName[N],47,45*N+22,180,"right")
@@ -586,7 +517,7 @@ function Pnt.setting_key()
 	for y=65,515,45 do
 		gc.line(40,y,1240,y)
 	end
-	setFont(40)
+	setFont(35)
 	gc.print("Player:",170,590)
 	gc.print(int(curBoard*.5+.5),300,590)
 	gc.print(curBoard.."/8",580,590)
@@ -613,12 +544,12 @@ function Pnt.setting_trackSetting()
 	mDraw(drawableText.VKCurW,640+50*setting.VKCurW,380)
 end
 function Pnt.help()
-	setFont(30)
+	setFont(25)
 	gc.setColor(1,1,1)
 	for i=1,#text.help do
 		gc.printf(text.help[i],140,10+40*i,1000,"center")
 	end
-	setFont(24)
+	setFont(19)
 	gc.print(text.used,30,330)
 	gc.draw(titleImage,280,620,.1,1+.05*sin(Timer()*2),nil,206,35)
 	gc.setLineWidth(5)
@@ -627,13 +558,13 @@ function Pnt.help()
 	gc.draw(payCode,20,20)
 	gc.draw(groupCode,1080,20)
 	gc.setColor(1,1,1,sin(Timer()*10)*.5+.5)
-	setFont(35)
+	setFont(30)
 	mStr(text.support,150,283)
-	setFont(25)
+	setFont(20)
 	mStr(text.group,1170,210)
 end
 function Pnt.stat()
-	setFont(28)
+	setFont(23)
 	gc.setColor(1,1,1)
 	for i=1,18 do
 		gc.print(text.stat[i],400,30*i-5)
@@ -647,7 +578,7 @@ function Pnt.history()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
 	gc.rectangle("line",30,45,1000,632)
-	setFont(25)
+	setFont(20)
 	for i=0,min(22,#updateLog-sel)do
 		gc.print(updateLog[sel+i],40,50+27*(i))
 	end

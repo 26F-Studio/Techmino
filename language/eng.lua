@@ -7,6 +7,7 @@ local actName={
 	"Left Drop:","Right Drop:","Left INS:","Right INS:",
 }
 return{
+	lang="English",
 	atkModeName={"Random","Badges","K.O.s","Counters"},
 	royale_remain=function(n)return n.." Players Remain"end,
 	cmb={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB"},
@@ -29,9 +30,9 @@ return{
 	speedup="Speed up",
 
 	win="WIN",
+	finish="FINISH",
 	lose="LOSE",
 	pause="PAUSE",
-	finish="FINISH",
 	pauseCount="Pause Count",
 
 	custom="Custom Game",
@@ -193,7 +194,7 @@ Lib used:
 	warning="DO NOT DISTRIBUTE",
 	WidgetText={
 		main={
-			lang="文-Lang",
+			lang="Lang",
 			qplay="Qplay",
 			play="Play",
 			setting="Settings",

@@ -34,6 +34,7 @@ local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,45,40,36,32,30}
 local pc_fall={18,16,14,12,10,9,8,7,6}
 local sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
+local powerUp={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 
 local Fkey_func={
 	royale=function(P)
@@ -75,10 +76,10 @@ end
 Event={null=NULL}
 function Event.reach_winCheck(P)
 	if P.stat.row>=P.gameEnv.target then
-		Event.win(P)
+		Event.win(P,"finish")
 	end
 end
-function Event.win(P)
+function Event.win(P,result)
 	P.alive=false
 	P.control=false
 	P.timing=false
@@ -100,7 +101,7 @@ function Event.win(P)
 		end
 	end
 	if P.human then
-		gamefinished=true
+		gameResult=result or"win"
 		SFX("win")
 		VOICE("win")
 		if modeEnv.royaleMode then
@@ -108,7 +109,11 @@ function Event.win(P)
 		end
 	end
 	newTask(Event_task.finish,P)
-	P:showText(text.win,"beat",90,nil,.4,curMode.id~="custom")
+	if curMode.id=="custom"then
+		P:showText(text.win,0,0,90,"beat",.4)
+	else
+		P:showText(text.win,0,0,90,"beat",.5,.2)
+	end
 end
 function Event.lose(P)
 	if P.invincible then
@@ -139,7 +144,7 @@ function Event.lose(P)
 		P:changeAtk()
 		P.result="K.O."
 		P.rank=#players.alive+1
-		P:showText(P.rank,"appear",60,120,nil,true)
+		P:showText(P.rank,0,-120,60,"appear",1,12)
 		P.strength=0
 		if P.lastRecv then
 			local A,i=P,0
@@ -185,9 +190,9 @@ function Event.lose(P)
 		end
 	end
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
-	P:showText(text.lose,"appear",90,nil,nil,true)
+	P:showText(text.lose,0,0,90,"appear",.5,.2)
 	if P.human then
-		gamefinished=true
+		gameResult="lose"
 		SFX("fail")
 		VOICE("lose")
 		if modeEnv.royaleMode then BGM("end")end
@@ -249,7 +254,7 @@ function Event.master_score(P)
 			P.modeData.point,P.modeData.event=500,4
 			Event.win(P)
 		else
-			P:showText(text.stage(s),"fly",80,-120)
+			P:showText(text.stage(s),0,-120,80,"fly")
 		end
 		SFX("reach")
 	end
@@ -270,7 +275,7 @@ function Event.master_score_hard(P)
 	if P.modeData.point%100==99 then SFX("blip_1")end
 	if int(P.modeData.point*.01)>P.modeData.event then
 		local s=P.modeData.event+1;P.modeData.event=s--level up!
-		P:showText(text.stage(s),"fly",80,-120)
+		P:showText(text.stage(s),0,-120,80,"fly")
 		if s<4 then--first 300
 			if s~=1 then P.gameEnv.lock=P.gameEnv.lock-1 end
 			if s~=2 then P.gameEnv.wait=P.gameEnv.wait-1 end
@@ -414,9 +419,9 @@ function Event.newPC(P)
 				P.gameEnv.lock=pc_lock[s]or 20
 				P.gameEnv.fall=pc_fall[s]or 5
 				if s==10 then
-					P:showText(text.maxspeed,"appear",100,-140,.6)
+					P:showText(text.maxspeed,0,-140,100,"appear",.6)
 				else
-					P:showText(text.speedup,"appear",40,-140)
+					P:showText(text.speedup,0,-140,40,"appear",.8)
 				end
 			end
 		end
@@ -462,7 +467,7 @@ function Event_task.lose(P)
 				end
 			end
 		end
-		if P.endCounter==100 then
+		if P.endCounter==120 then
 			while P.field[1]do
 				removeRow(P.field)
 				removeRow(P.visTime)
@@ -523,7 +528,7 @@ function Event_task.survivor_easy(P)
 		P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1}
 		P.atkBuffer.sum=P.atkBuffer.sum+1
 		P.stat.recv=P.stat.recv+1
-		if P.modeData.event==45 then P:showText(text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==45 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
 		P.counter=0
 		P.modeData.event=P.modeData.event+1
 	end
@@ -540,7 +545,7 @@ function Event_task.survivor_normal(P)
 			d%4==3 and{pos=rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3}
 		P.atkBuffer.sum=P.atkBuffer.sum+d%4+1
 		P.stat.recv=P.stat.recv+d%4+1
-		if P.modeData.event==45 then P:showText(text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==45 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
 		P.counter=0
 		P.modeData.event=d
 	end
@@ -557,7 +562,7 @@ function Event_task.survivor_hard(P)
 		local R=(P.modeData.event%3<2 and 1 or 3)
 		P.atkBuffer.sum=P.atkBuffer.sum+R
 		P.stat.recv=P.stat.recv+R
-		if P.modeData.event==60 then P:showText(text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==60 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
 		P.counter=0
 		P.modeData.event=P.modeData.event+1
 	end
@@ -570,7 +575,7 @@ function Event_task.survivor_lunatic(P)
 		P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3}
 		P.atkBuffer.sum=P.atkBuffer.sum+4
 		P.stat.recv=P.stat.recv+4
-		if P.modeData.event==60 then P:showText(text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==60 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
 		P.counter=0
 		P.modeData.event=P.modeData.event+1
 	end
@@ -588,7 +593,7 @@ function Event_task.survivor_ultimate(P)
 		P.atkBuffer.sum=P.atkBuffer.sum+20
 		P.stat.recv=P.stat.recv+20
 		P.counter=0
-		if P.modeData.event==31 then P:showText(text.maxspeed,"appear",100,-140,.6)end
+		if P.modeData.event==31 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
 		P.modeData.event=P.modeData.event+1
 	end
 end
@@ -608,16 +613,16 @@ function Event_task.defender_normal(P)
 			D.event=D.event+1
 			D.point=int(108e3/(360-D.event*2))*.1
 			if D.event==25 then
-				P:showText(text.great,"appear",100,-140,.6)
+				P:showText(text.great,0,-140,100,"appear",.6)
 				pushSpeed=2
 				P.dropDelay,P.gameEnv.drop=20,20
 			elseif D.event==50 then
-				P:showText(text.awesome,"appear",100,-140,.6)
+				P:showText(text.awesome,0,-140,100,"appear",.6)
 				pushSpeed=3
 				P.dropDelay,P.gameEnv.drop=10,10
 			elseif D.event==90 then
 				P.dropDelay,P.gameEnv.drop=5,5
-				P:showText(text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,0,-140,100,"appear",.6)
 			end
 		end
 	end
@@ -638,15 +643,15 @@ function Event_task.defender_lunatic(P)
 			D.event=D.event+1
 			D.point=int(144e3/(240-2*D.event))*.1
 			if D.event==25 then
-				P:showText(text.great,"appear",100,-140,.6)
+				P:showText(text.great,0,-140,100,"appear",.6)
 				pushSpeed=3
 				P.dropDelay,P.gameEnv.drop=4,4
 			elseif D.event==50 then
-				P:showText(text.awesome,"appear",100,-140,.6)
+				P:showText(text.awesome,0,-140,100,"appear",.6)
 				pushSpeed=4
 				P.dropDelay,P.gameEnv.drop=3,3
 			elseif D.event==75 then
-				P:showText(text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,0,-140,100,"appear",.6)
 				P.dropDelay,P.gameEnv.drop=2,2
 			end
 		end
@@ -673,10 +678,10 @@ function Event_task.attacker_hard(P)
 			D.event=D.event+1
 			D.point=int(72e4/t)*.1
 			if D.event==20 then
-				P:showText(text.great,"appear",100,-140,.6)
+				P:showText(text.great,0,-140,100,"appear",.6)
 				pushSpeed=3
 			elseif D.event==50 then
-				P:showText(text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,0,-140,100,"appear",.6)
 			end
 		end
 	end
@@ -709,13 +714,13 @@ function Event_task.attacker_ultimate(P)
 			D.event=D.event+1
 			D.point=int(s*36e3/t)*.1
 			if 	D.event==10 then
-				P:showText(text.great,"appear",100,-140,.6)
+				P:showText(text.great,0,-140,100,"appear",.6)
 				pushSpeed=4
 			elseif D.event==20 then
-				P:showText(text.awesome,"appear",100,-140,.6)
+				P:showText(text.awesome,0,-140,100,"appear",.6)
 				pushSpeed=5
 			elseif D.event==30 then
-				P:showText(text.maxspeed,"appear",100,-140,.6)
+				P:showText(text.maxspeed,0,-140,100,"appear",.6)
 			end
 		end
 	end
@@ -792,7 +797,7 @@ modes.sprint={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(60)
+		setFont(55)
 		local r=max(P.gameEnv.target-P.stat.row,0)
 		mStr(r,-82,265)
 		if r<21 and r>0 then
@@ -825,7 +830,7 @@ modes.marathon={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(50)
+		setFont(45)
 		mStr(P.stat.row,-82,320)
 		mStr(P.gameEnv.target,-82,370)
 		gc.rectangle("fill",-125,375,90,4)
@@ -866,7 +871,7 @@ modes.master={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(50)
+		setFont(45)
 		mStr(P.modeData.point,-82,320)
 		mStr((P.modeData.event+1)*100,-82,370)
 		gc.rectangle("fill",-125,375,90,4)
@@ -890,11 +895,11 @@ modes.classic={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(80)
+		setFont(75)
 		local r=P.gameEnv.target*.1
 		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-82,210)
 		mDraw(drawableText.speedLV,-82,290)
-		setFont(50)
+		setFont(45)
 		mStr(P.stat.row,-82,320)
 		mStr(P.gameEnv.target,-82,370)
 		gc.rectangle("fill",-125,375,90,4)
@@ -914,7 +919,7 @@ modes.zen={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(75)
+		setFont(70)
 		mStr(max(200-P.stat.row,0),-82,280)
 	end,
 }
@@ -943,7 +948,7 @@ modes.infinite={
 		end
 	end,
 	mesDisp=function(P)
-		setFont(50)
+		setFont(45)
 		mStr(P.stat.atk,-82,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
 		mDraw(drawableText.atk,-82,363)
@@ -1038,7 +1043,7 @@ modes.tsd={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(80)
+		setFont(75)
 		mStr(P.modeData.event,-82,330)
 		mDraw(drawableText.tsd,-82,407)
 	end,
@@ -1106,10 +1111,10 @@ modes.blind={
 		mDraw(drawableText.techrash,-82,420)
 		if curMode.lv==6 then
 			mDraw(drawableText.grade,-82,170)
-			setFont(60)
+			setFont(55)
 			mStr(P.modeData.event,-82,110)
 		end
-		setFont(80)
+		setFont(75)
 		mStr(P.stat.row,-82,220)
 		mStr(P.stat.clear_4,-82,340)
 	end,
@@ -1136,7 +1141,7 @@ modes.dig={
 		pushSpeed=1
 	end,
 	mesDisp=function(P)
-		setFont(70)
+		setFont(65)
 		mStr(P.modeData.event,-82,310)
 		mDraw(drawableText.wave,-82,375)
 	end,
@@ -1185,7 +1190,7 @@ modes.survivor={
 		pushSpeed=curMode.lv>2 and 2 or 1
 	end,
 	mesDisp=function(P)
-		setFont(70)
+		setFont(65)
 		mStr(P.modeData.event,-82,310)
 		mDraw(drawableText.wave,-82,375)
 	end,
@@ -1217,7 +1222,7 @@ modes.defender={
 		end
 	end,
 	mesDisp=function(P)
-		setFont(60)
+		setFont(55)
 		mStr(P.modeData.event,-82,200)
 		mStr(P.modeData.point,-82,320)
 		mDraw(drawableText.wave,-82,260)
@@ -1249,7 +1254,7 @@ modes.attacker={
 		end
 	end,
 	mesDisp=function(P)
-		setFont(60)
+		setFont(55)
 		mStr(P.modeData.event,-82,200)
 		mStr(
 			curMode.lv==1 and 24
@@ -1318,7 +1323,7 @@ modes.tech={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(50)
+		setFont(45)
 		mStr(P.stat.atk,-82,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
 		mDraw(drawableText.atk,-82,363)
@@ -1363,7 +1368,7 @@ modes.c4wtrain={
 		end
 	end,
 	mesDisp=function(P)
-		setFont(50)
+		setFont(45)
 		mStr(max(100-P.stat.row,0),-82,220)
 		mStr(P.combo,-82,310)
 		mStr(P.modeData.point,-82,400)
@@ -1401,7 +1406,7 @@ modes.pctrain={
 		Event.newPC(players[1])
 	end,
 	mesDisp=function(P)
-		setFont(80)
+		setFont(75)
 		mStr(P.stat.pc,-82,330)
 		mDraw(drawableText.pc,-82,412)
 	end,
@@ -1437,10 +1442,10 @@ modes.pcchallenge={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(50)
+		setFont(45)
 		mStr(max(100-P.stat.row,0),-82,250)
 		
-		setFont(80)
+		setFont(75)
 		mStr(P.stat.pc,-82,350)
 		mDraw(drawableText.pc,-82,432)
 
@@ -1500,16 +1505,16 @@ modes.techmino49={
 		end end
 	end,
 	mesDisp=function(P)
-		setFont(40)
+		setFont(35)
 		mStr(#players.alive.."/49",-82,175)
 		mStr(P.ko,-70,215)
 		gc.draw(drawableText.ko,-127,225)
-		setFont(25)
+		setFont(20)
 		gc.setColor(1,.5,0,.6)
 		gc.print(P.badge,-47,227)
 		gc.setColor(1,1,1)
-		setFont(30)
-		gc.print(up0to4[P.strength],-132,290)
+		setFont(25)
+		gc.print(powerUp[P.strength],-132,290)
 		for i=1,P.strength do
 			gc.draw(badgeIcon,16*i-138,260)
 		end
@@ -1564,16 +1569,16 @@ modes.techmino99={
 		end end
 	end,
 	mesDisp=function(P)
-		setFont(40)
+		setFont(35)
 		mStr(#players.alive.."/99",-82,175)
 		mStr(P.ko,-70,215)
 		gc.draw(drawableText.ko,-127,225)
-		setFont(25)
+		setFont(20)
 		gc.setColor(1,.5,0,.6)
 		gc.print(P.badge,-47,227)
 		gc.setColor(1,1,1)
-		setFont(30)
-		gc.print(up0to4[P.strength],-132,290)
+		setFont(25)
+		gc.print(powerUp[P.strength],-132,290)
 		for i=1,P.strength do
 			gc.draw(badgeIcon,16*i-138,260)
 		end
@@ -1603,7 +1608,7 @@ modes.drought={
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		setFont(75)
+		setFont(70)
 		mStr(max(100-P.stat.row,0),-82,280)
 	end,
 }
@@ -1690,12 +1695,11 @@ modes.custom={
 		modeEnv.bgm=customRange.bgm[customSel[13]]
 	end,
 	mesDisp=function(P)
+		setFont(55)
 		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
-			setFont(60)
 			mStr(P.stat.row,-82,225)
 			mDraw(drawableText.line,-82,290)
 		else
-			setFont(60)
 			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
 		end
 		if P.gameEnv.puzzle and P.modeData.event==0 then

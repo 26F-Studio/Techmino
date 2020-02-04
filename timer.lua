@@ -129,7 +129,7 @@ function Tmr.play(dt)
 			return
 		end
 	elseif restartCount>0 then
-		restartCount=max(restartCount-2,0)
+		restartCount=restartCount>2 and restartCount-2 or 0
 	end--Counting,include pre-das,directy RETURN,or restart counting
 	for p=1,#players do
 		local P=players[p]
@@ -138,7 +138,7 @@ function Tmr.play(dt)
 	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
 end
 function Tmr.pause(dt)
-	if not gamefinished then
+	if not gameResult then
 		pauseTime=pauseTime+dt
 	end
 	if pauseTimer<50 and not wd.isMinimized()then

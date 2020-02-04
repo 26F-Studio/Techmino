@@ -1,7 +1,6 @@
 local tm=love.timer
 local gc=love.graphics
 local kb=love.keyboard
-local setFont=setFont
 local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
 local sub,find=string.sub,string.find
 local ins,rem=table.insert,table.remove
@@ -71,7 +70,7 @@ langName={"中文","全中文","English"}
 local langID={"chi","chi_full","eng"}
 local drawableTextLoad={
 	"next","hold",
-	"pause","finish",
+	"win","finish","lose","pause",
 	"custom",
 	"setting_game",
 	"setting_graphic",
@@ -95,7 +94,7 @@ function swapLanguage(l)
 		royaleCtrlPad=gc.newCanvas(300,100)
 		gc.setCanvas(royaleCtrlPad)
 		gc.setColor(1,1,1)
-		setFont(25)
+		setFont(20)
 		gc.setLineWidth(2)
 		for i=1,4 do
 			gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
@@ -132,91 +131,6 @@ function restoreVirtualKey()
 	end
 end
 
-
-local vibrateLevel={0,.015,.02,.03,.04,.05,.06,.07,.08,.09}
-function VIB(t)
-	if setting.vib>0 then
-		love.system.vibrate(vibrateLevel[setting.vib+t])
-	end
-end
-function SFX(s,v,pos)
-	if setting.sfx>0 then
-		local S=sfx[s]--AU_Queue
-		local n=1
-		while S[n]:isPlaying()do
-			n=n+1
-			if not S[n]then
-				S[n]=S[n-1]:clone()
-				S[n]:seek(0)
-				break
-			end
-		end
-		S=S[n]--AU_SRC
-		if S:getChannelCount()==1 then
-			if pos then
-				pos=pos*setting.stereo*.1
-				S:setPosition(pos,1-pos^2,0)
-			else
-				S:setPosition(0,0,0)
-			end
-		end
-		S:setVolume((v or 1)*setting.sfx*.1)
-		print((v or 1)*setting.sfx*.1)
-		S:play()
-	end
-end
-function getFreeVoiceChannel()
-	local i=#voiceQueue
-	for i=1,i do
-		if #voiceQueue[i]==0 then return i end
-	end
-	voiceQueue[i+1]={}
-	return i+1
-end
-function VOICE(s,chn)
-	if setting.voc>0 then
-		if chn then
-			voiceQueue[chn][#voiceQueue[chn]+1]=voiceList[s][rnd(#voiceList[s])]
-			--添加到[chn]
-		else
-			voiceQueue[getFreeVoiceChannel()]={voiceList[s][rnd(#voiceList[s])]}
-			--自动查找/创建空轨
-		end
-	end
-end
-function BGM(s)
-	if setting.bgm>0 then
-		if bgmPlaying~=s then
-			if bgmPlaying then newTask(Event_task.bgmFadeOut,nil,bgmPlaying)end
-			for i=#Task,1,-1 do
-				local T=Task[i]
-				if T.code==Event_task.bgmFadeIn then
-					T.code=Event_task.bgmFadeOut
-				elseif T.code==Event_task.bgmFadeOut and T.data==s then
-					rem(Task,i)
-				end
-			end
-			if s then
-				newTask(Event_task.bgmFadeIn,nil,s)
-				bgm[s]:play()
-			end
-			bgmPlaying=s
-		else
-			if bgmPlaying then
-				local v=setting.bgm*.1
-				bgm[bgmPlaying]:setVolume(v)
-				if v>0 then
-					bgm[bgmPlaying]:play()
-				else
-					bgm[bgmPlaying]:pause()
-				end
-			end
-		end
-	elseif bgmPlaying then
-		bgm[bgmPlaying]:pause()
-		bgmPlaying=nil
-	end
-end
 
 function updateStat()
 	local S=players[1].stat
@@ -265,9 +179,7 @@ end
 function royaleLevelup()
 	gameStage=gameStage+1
 	local spd
-	if(gameStage==3 or gameStage>4)and players[1].alive then
-		players[1]:showText(text.royale_remain(#players.alive),"beat",50,-100,.3)
-	end
+	TEXT(text.royale_remain(#players.alive),640,200,40,"beat",.3)
 	if gameStage==2 then
 		spd=30
 	elseif gameStage==3 then
@@ -301,15 +213,16 @@ function royaleLevelup()
 end
 
 function pauseGame()
+	restartCount=0--Avoid strange darkness
 	pauseTimer=0--Pause timer for animation
-	if not gamefinished then
+	if not gameResult then
 		pauseCount=pauseCount+1
 	end
-	for i=1,#players.alive do
-		local l=players.alive[i].keyPressing
+	for i=1,#players do
+		local l=players[i].keyPressing
 		for j=1,#l do
 			if l[j]then
-				players.alive[i]:releaseKey(j)
+				players[i]:releaseKey(j)
 			end
 		end
 	end
@@ -325,14 +238,16 @@ function loadGame(mode,level)
 		lv=level,
 	}
 	drawableText.modeName:set(text.modeName[mode])
-	drawableText.levelName:set(modes[modeID[modeSel]].level[levelSel])
+	drawableText.levelName:set(modes[modeID[mode]].level[level])
 	needResetGameData=true
 	scene.swapTo("play","deck")
 end
 function resetPartGameData()
+	gameResult=false
 	frame=30
 	destroyPlayers()
 	modes[curMode.id].load()
+	texts={}
 	if modeEnv.task then
 		for i=1,#players do
 			newTask(Event_task[modeEnv.task],players[i])
@@ -347,7 +262,7 @@ function resetPartGameData()
 	collectgarbage()
 end
 function resetGameData()
-	gamefinished=false
+	gameResult=false
 	frame=0
 	garbageSpeed=1
 	pushSpeed=3
@@ -365,6 +280,7 @@ function resetGameData()
 	curBG=modeEnv.bg
 	BGM(modeEnv.bgm)
 
+	texts={}
 	FX_badge={}
 	FX_attack={}
 	for _,v in next,PTC.dust do
@@ -448,6 +364,7 @@ function saveData()
 	t=concat(t,"\r\n")
 	userData:open("w")
 	userData:write(t)
+	userData:flush()
 	userData:close()
 end
 
@@ -574,5 +491,6 @@ function saveSetting()
 	t=concat(t,"\r\n")
 	userSetting:open("w")
 	userSetting:write(t)
+	userSetting:flush(t)
 	userSetting:close()
 end

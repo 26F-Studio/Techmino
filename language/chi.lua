@@ -9,6 +9,7 @@ local actName={
 	"落在最左:","落在最右:","列在最左:","列在最右:",
 }
 return{
+	lang="中文",
 	atkModeName={"随机","徽章","击杀","反击"},
 	royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
 	cmb={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB"},
@@ -31,9 +32,9 @@ return{
 	speedup="速度加快",
 
 	win="胜利",
+	finish="结束",
 	lose="失败",
 	pause="暂停",
-	finish="结束",
 	pauseCount="暂停统计",
 
 	custom="自定义游戏",
@@ -194,7 +195,7 @@ return{
 	warning="禁 止 私 自 传 播",
 	WidgetText={
 		main={
-			lang="文-Lang",
+			lang="Lang",
 			qplay="快速开始",
 			play="开始",
 			setting="设置",

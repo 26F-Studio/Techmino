@@ -81,7 +81,10 @@ drawableText={
 
 	modeName=T(30),levelName=T(30),
 	next=T(40),hold=T(40),
-	pause=T(120),finish=T(120),
+
+	win=T(120),finish=T(120),
+	lose=T(120),pause=T(120),
+	
 	custom=T(80),
 	setting_game=T(80),setting_graphic=T(80),setting_sound=T(80),
 	keyboard=T(25),joystick=T(25),
