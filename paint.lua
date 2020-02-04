@@ -320,12 +320,14 @@ function Pnt.intro()
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
-	gc.draw(titleImage,300,30)
+	gc.draw(titleImage,280,30,nil,1.3)
 	setFont(30)
-	gc.print("Alpha V0.7.20",290,140)
-	gc.print(system,800,110)
+	gc.print("Alpha V0.7.21",290,125)
+	gc.print(system,845,95)
 end
 function Pnt.mode()
+	gc.setColor(1,1,1)
+	gc.draw(titleImage,830,30)
 	setFont(40)
 	gc.setColor(modeLevelColor[modeLevel[modeID[modeSel]][levelSel]]or color.white)
 	mStr(modeLevel[modeID[modeSel]][levelSel],270,215)
@@ -477,7 +479,13 @@ function Pnt.play()
 				gc.setLineWidth(1)
 				gc.setColor(1,1,1,.2)
 				for x=1,9 do gc.line(30*x,-10,30*x,600)end
-				for y=0,19 do gc.line(0,30*y,300,30*y)end
+				for y=0,19 do
+					y=30*y+P.fieldBeneath
+					gc.line(0,y,300,y)
+				end
+				if P.fieldBeneath>20 then
+					gc.line(0,P.fieldBeneath-30,300,P.fieldBeneath-30)
+				end
 			end--Grid lines
 			gc.translate(0,P.fieldBeneath)
 			gc.setScissor(scr.x+P.absFieldX*scr.k,scr.y+P.absFieldY*scr.k,300*P.size*scr.k,610*P.size*scr.k)
@@ -538,9 +546,9 @@ function Pnt.play()
 				end
 				--Draw game field
 			gc.setScissor()--In-playField mask
-			gc.translate(0,-P.fieldBeneath)
 			gc.setColor(1,1,1)
 			gc.draw(PTC.dust[p])
+			gc.translate(0,-P.fieldBeneath)
 			gc.setLineWidth(3)
 			gc.rectangle("line",-1,-11,302,612)--Draw boarder
 
@@ -775,7 +783,7 @@ function Pnt.help()
 	for i=1,11 do
 		gc.printf(text.help[i],140,15+43*i,1000,"center")
 	end
-	gc.draw(titleImage,180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
+	gc.draw(titleImage,250,600,.2,1+.05*sin(Timer()*2),nil,212,35)
 	gc.setLineWidth(5)
 	gc.rectangle("line",17,17,260,260)
 	gc.rectangle("line",1077,17,186,186)
@@ -794,5 +802,5 @@ function Pnt.stat()
 		gc.print(text.stat[i],400,30*i-5)
 		gc.print(statOpt(i),720,30*i-5)
 	end
-	gc.draw(titleImage,260,570,.2+.07*sin(Timer()*3),.8,nil,250,60)
+	gc.draw(titleImage,260,600,.2+.07*sin(Timer()*3),nil,nil,212,35)
 end

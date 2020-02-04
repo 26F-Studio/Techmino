@@ -38,8 +38,8 @@ local sceneInit={
 	end,
 	custom=function()
 		optSel=optSel or 1
-		curBG="matrix"
-		BGM("blank")
+		curBG=customRange.bg[customSel[12]]
+		BGM(customRange.bgm[customSel[13]])
 	end,
 	draw=function()
 		curBG="none"
@@ -142,10 +142,10 @@ function buttonControl_gamepad(i)
 	end
 end
 
-mouseDown,mouseMove,mouseUp,wheelmoved={},{},{},{}
-touchDown,touchUp,touchMove={},{},{}
-keyDown,keyUp={},{}
-gamepadDown,gamepadUp={},{}
+local mouseDown,mouseMove,mouseUp,wheelmoved={},{},{},{}
+local touchDown,touchUp,touchMove={},{},{}
+local keyDown,keyUp={},{}
+local gamepadDown,gamepadUp={},{}
 function mouseDown.intro(x,y,k)
 	if k==2 then
 		back()
@@ -229,8 +229,18 @@ end
 function keyDown.custom(key)
 	if key=="left"then
 		customSel[optSel]=(customSel[optSel]-2)%#customRange[customID[optSel]]+1
+		if optSel==12 then
+			curBG=customRange.bg[customSel[12]]
+		elseif optSel==13 then
+			BGM(customRange.bgm[customSel[13]])
+		end
 	elseif key=="right"then
 		customSel[optSel]=customSel[optSel]%#customRange[customID[optSel]]+1
+		if optSel==12 then
+			curBG=customRange.bg[customSel[optSel]]
+		elseif optSel==13 then
+			BGM(customRange.bgm[customSel[optSel]])
+		end
 	elseif key=="down"then
 		optSel=optSel%#customID+1
 	elseif key=="up"then

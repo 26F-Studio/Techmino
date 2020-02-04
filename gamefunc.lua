@@ -1015,7 +1015,7 @@ end
 function pressKey(i,p)
 	P=p
 	P.keyPressing[i]=true
-	if P.id==1 then
+	if P.human then
 		virtualkeyDown[i]=true
 		virtualkeyPressTime[i]=10
 	end

@@ -83,7 +83,7 @@ loadmode={
 	c4wtrain=function()
 		createPlayer(1,340,15)
 		local F=P.field
-		for i=1,22 do
+		for i=1,24 do
 			F[i]=getNewRow(10)
 			P.visTime[i]=getNewRow(20)
 			for x=4,7 do F[i][x]=0 end
@@ -368,7 +368,6 @@ Event={
 			P.rank=1
 			P.result="WIN"
 			changeAtk(P)
-			BGM("8-bit happiness")
 		end
 		for i=1,#P.atkBuffer do
 			P.atkBuffer[i].sent=true
@@ -379,11 +378,14 @@ Event={
 				P.visTime[i][j]=min(P.visTime[i][j],20)
 			end
 		end
-		if P.id==1 then
+		if P.human then
 			gamefinished=true
 			newTask(Event_task.finish,P)
 			SFX("win")
 			VOICE("win")
+			if modeEnv.royaleMode then
+				BGM("8-bit happiness")
+			end
 		end
 		showText(P,text.win,"beat",90,nil,.4,curMode.id~="custom")
 	end,
@@ -451,11 +453,11 @@ Event={
 		end
 		P.gameEnv.keepVisible=P.gameEnv.visible~="show"
 		showText(P,text.lose,"appear",90,nil,nil,true)
-		if P.id==1 then
+		if P.human then
 			gamefinished=true
-			if modeEnv.royaleMode then BGM("end")end
 			SFX("fail")
 			VOICE("lose")
+			if modeEnv.royaleMode then BGM("end")end
 		end
 		if #players.alive==1 then
 			local t=P
@@ -530,10 +532,7 @@ Event={
 				P.gameEnv.wait=death_wait[s]
 				P.gameEnv.fall=death_fall[s]
 				P.gameEnv.das=int(7.3-s*.4)
-				if s==4 then
-					P.gameEnv.bone=true
-					newTask(Event_task.bgmWarp,P,120)
-				end
+				if s==4 then P.gameEnv.bone=true end
 				showText(P,text.stage[s],"fly",80,-120)
 				SFX("reach")
 			end
@@ -640,7 +639,7 @@ Event_task={
 					removeRow(P.field)
 					removeRow(P.visTime)
 				end
-				if P.id==1 then
+				if #players==1 then
 					pauseGame()
 				end
 				return true
@@ -678,17 +677,19 @@ Event_task={
 	survivor_easy=function(self,P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(60,150-2*P.modeData.event)then
+		if P.counter>=max(60,150-2*P.modeData.event)and P.atkBuffer.sum<4 then
 			ins(P.atkBuffer,{pos=rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1})
-			P.counter=0
+			P.atkBuffer.sum=P.atkBuffer.sum+1
+			P.stat.recv=P.stat.recv+1
 			if P.modeData.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.counter=0
 			P.modeData.event=P.modeData.event+1
 		end
 	end,
 	survivor_normal=function(self,P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(90,180-2*P.modeData.event)then
+		if P.counter>=max(90,180-2*P.modeData.event)and P.atkBuffer.sum<8 then
 			local d=P.modeData.event+1
 			if d%4==0 then		ins(P.atkBuffer,{pos=rnd(10),amount=1,countdown=60,cd0=60,time=0,sent=false,lv=1})
 			elseif d%4==1 then	ins(P.atkBuffer,{pos=rnd(10),amount=2,countdown=70,cd0=70,time=0,sent=false,lv=1})
@@ -697,52 +698,52 @@ Event_task={
 			end
 			P.atkBuffer.sum=P.atkBuffer.sum+d%4+1
 			P.stat.recv=P.stat.recv+d%4+1
-			if P.atkBuffer.sum>20 then garbageRelease()end
-			P.counter=0
 			if P.modeData.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
-			P.modeData.event=P.modeData.event+1
+			P.counter=0
+			P.modeData.event=d
 		end
 	end,
 	survivor_hard=function(self,P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(60,180-2*P.modeData.event)then
+		if P.counter>=max(60,180-2*P.modeData.event)and P.atkBuffer.sum<15 then
 			if P.modeData.event%3<2 then
 				ins(P.atkBuffer,{pos=rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
 			else
 				ins(P.atkBuffer,{pos=rnd(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2})
 			end
-			P.atkBuffer.sum=P.atkBuffer.sum+(P.modeData.event%3<2 and 1 or 3)
-			if P.atkBuffer.sum>20 then garbageRelease()end
-			P.counter=0
+			local R=(P.modeData.event%3<2 and 1 or 3)
+			P.atkBuffer.sum=P.atkBuffer.sum+R
+			P.stat.recv=P.stat.recv+R
 			if P.modeData.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.counter=0
 			P.modeData.event=P.modeData.event+1
 		end
 	end,
 	survivor_lunatic=function(self,P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(60,150-P.modeData.event)then
+		if P.counter>=max(60,150-P.modeData.event)and P.atkBuffer.sum<20 then
 			local t=max(60,90-P.modeData.event)
 			ins(P.atkBuffer,{pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
 			P.atkBuffer.sum=P.atkBuffer.sum+4
-			if P.atkBuffer.sum>15 then garbageRelease()end
-			P.counter=0
+			P.stat.recv=P.stat.recv+4
 			if P.modeData.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.counter=0
 			P.modeData.event=P.modeData.event+1
 		end
 	end,
 	survivor_ultimate=function(self,P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter>=max(300,600-10*P.modeData.event)then
+		if P.counter>=max(300,600-10*P.modeData.event)and P.atkBuffer.sum<20 then
 			local t=max(300,480-12*P.modeData.event)
 			ins(P.atkBuffer,{pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=2})
 			ins(P.atkBuffer,{pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
 			ins(P.atkBuffer,{pos=rnd(10),amount=6,countdown=1.2*t,cd0=1.2*t,time=0,sent=false,lv=4})
 			ins(P.atkBuffer,{pos=rnd(10),amount=6,countdown=1.5*t,cd0=1.5*t,time=0,sent=false,lv=5})
 			P.atkBuffer.sum=P.atkBuffer.sum+20
-			if P.atkBuffer.sum>32 then garbageRelease()end
+			P.stat.recv=P.stat.recv+4
 			P.counter=0
 			if P.modeData.event==31 then showText(P,text.maxspeed,"appear",80,-140)end
 			P.modeData.event=P.modeData.event+1

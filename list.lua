@@ -148,7 +148,7 @@ customRange={
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={0,60,30,20,15,10,7,5,4,3,2,1},
-	bg={"none","game1","game2","game3","strap","rgb","grid","glow","matrix"},
+	bg={"none","game1","game2","game3","strap","rgb","glow","matrix"},
 	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
 
@@ -260,16 +260,18 @@ local virtualkeySet={
 	},--PC key feedback
 }
 local customSet={
-	{20,20,1,1,7,1,1,1,3,4,1,1,1},
-	{18,20,1,1,7,1,1,1,8,3,8,1,1},
-	{22,22,1,1,7,3,1,3,8,4,1,1,1},
-	{20,20,1,1,7,1,1,3,8,3,1,1,1},
-	{23,11,8,11,4,1,2,1,8,3,1,1,1},
+	{20,20,1,1,7,1,1,1,3,4,1,3,3},
+	{18,20,1,1,7,1,1,1,8,3,8,3,3},
+	{22,22,1,1,7,3,1,3,8,4,1,8,7},
+	{20,20,1,1,7,1,1,3,8,3,1,7,8},
+	{23,11,8,11,4,1,2,1,8,3,1,4,9},
 }
 local function useDefaultSet(n)
 	for i=1,#customSet[n]do
 		customSel[i]=customSet[n][i]
 	end
+	curBG=customRange.bg[customSel[12]]
+	BGM(customRange.bgm[customSel[13]])
 end
 Buttons={
 	load={},
@@ -283,23 +285,23 @@ Buttons={
 		quit=	{x=1180,y=620,w=120,h=120,rgb=color.lightGrey,	f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
 	},
 	mode={
-		up=		{x=1000,y=210,w=200,h=140,	rgb=color.white,	f=64,	code=function()keyDown.mode("up")end,	hide=function()return modeSel==1 end,},
-		down=	{x=1000,y=430,w=200,h=140,	rgb=color.white,	f=80,	code=function()keyDown.mode("down")end,	hide=function()return modeSel==#modeID end,},
-		left=	{x=190,	y=160,w=100,h=80,	rgb=color.white,			code=function()keyDown.mode("left")end,	hide=function()return levelSel==1 end,},
-		right=	{x=350,	y=160,w=100,h=80,	rgb=color.white,			code=function()keyDown.mode("right")end,hide=function()return levelSel==#modeLevel[modeID[modeSel]]end,},
+		up=		{x=1000,y=210,w=200,h=140,	rgb=color.white,	f=80,	code=function()love.keypressed("up")end,	hide=function()return modeSel==1 end,},
+		down=	{x=1000,y=430,w=200,h=140,	rgb=color.white,	f=80,	code=function()love.keypressed("down")end,	hide=function()return modeSel==#modeID end,},
+		left=	{x=190,	y=160,w=100,h=80,	rgb=color.white,			code=function()love.keypressed("left")end,	hide=function()return levelSel==1 end,},
+		right=	{x=350,	y=160,w=100,h=80,	rgb=color.white,			code=function()love.keypressed("right")end,hide=function()return levelSel==#modeLevel[modeID[modeSel]]end,},
 		start=	{x=1000,y=600,w=250,h=100,	rgb=color.green,	f=50,	code=function()
 			loadGame(modeSel,levelSel)end},
 		custom=	{x=275,	y=420,w=200,h=90,	rgb=color.yellow,			code=function()gotoScene("custom")end},
 		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,	f=45,	code=back},
 	},
 	music={
-		up=		{x=1100,y=200,w=120,h=120,	rgb=color.white,f=50,code=function()sel=(sel-2)%#musicID+1 end},
+		up=		{x=1100,y=200,w=120,h=120,	rgb=color.white,f=40,code=function()sel=(sel-2)%#musicID+1 end},
 		play=	{x=1100,y=340,w=120,h=120,	rgb=color.white,f=40,code=function()BGM(musicID[sel])end},
 		down=	{x=1100,y=480,w=120,h=120,	rgb=color.white,f=50,code=function()sel=sel%#musicID+1 end},
 		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,f=45,code=back},
 	},
 	custom={
-		up=		{x=1000,y=220,	w=100,h=100,	rgb=color.white,		code=function()optSel=(optSel-2)%#customID+1 end},
+		up=		{x=1000,y=220,	w=100,h=100,	rgb=color.white,f=50,	code=function()optSel=(optSel-2)%#customID+1 end},
 		down=	{x=1000,y=460,	w=100,h=100,	rgb=color.white,f=50,	code=function()optSel=optSel%#customID+1 end},
 		left=	{x=880,	y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()customSel[optSel]=(customSel[optSel]-2)%#customRange[customID[optSel]]+1 end},
 		right=	{x=1120,y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()customSel[optSel]=customSel[optSel]%#customRange[customID[optSel]]+1 end},
@@ -379,9 +381,7 @@ Buttons={
 			VIB(1)
 			end,up="sfx",down="fullscreen",left="swap",right="voc"},
 		voc=	{x=940,y=160,	w=160,	h=60,rgb=color.white,
-			hide=function()
-				return not(kb.isDown("m")or false)
-			end,
+			hide=function()return true end,
 			code=function()
 				setting.voc=not setting.voc
 			end,up="sfx",down="fullscreen",left="vib"},

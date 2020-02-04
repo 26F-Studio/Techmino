@@ -127,9 +127,12 @@ end
 function BGM(s)
 	if setting.bgm and bgmPlaying~=s then
 		if bgmPlaying then newTask(Event_task.bgmFadeOut,nil,bgmPlaying)end
-		for i=1,#Task do
-			if Task[i].code==Event_task.bgmFadeIn then
-				Task[i].code=Event_task.bgmFadeOut
+		for i=#Task,1,-1 do
+			local T=Task[i]
+			if T.code==Event_task.bgmFadeIn then
+				T.code=Event_task.bgmFadeOut
+			elseif T.code==Event_task.bgmFadeOut and T.data==s then
+				rem(Task,i)
 			end
 		end
 		if s then
