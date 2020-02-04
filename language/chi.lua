@@ -62,7 +62,7 @@ return{
 	modeName={
 		[0]="自定义",
 		"竞速","马拉松","大师","经典","禅","无尽","单挑","仅TSD","隐形","挖掘","生存","科研",
-		"全清训练","全清挑战","49人混战","99人混战","干旱","多人",
+		"C4W练习","全清训练","全清挑战","49人混战","99人混战","干旱","多人",
 	},
 	modeInfo={
 		sprint="挑战世界纪录",
@@ -77,6 +77,7 @@ return{
 		dig="核能挖掘机",
 		survivor="防守练习",
 		tech="尽可能不要普通消除",
+		c4wtrain="无 限 连 击",
 		pctrain="熟悉全清定式的组合",
 		pcchallenge="100行内尽可能多PC",
 		techmino49="49人混战",
@@ -85,7 +86,7 @@ return{
 		hotseat="友尽模式",
 	},
 
-	load={"加载材质ing","加载音乐ing","加载音效ing","加载完成",},
+	load={"加载语音ing","加载音乐ing","加载音效ing","加载完成",},
 	tips={
 		"不是动画，真的在加载!",
 		"整个游戏都是MrZ完成的!",
@@ -107,6 +108,8 @@ return{
 		"不要在上课时玩游戏!",
 		"本游戏难度上限很高,做好心理准备",
 		"方块可以不是个休闲游戏",
+		"调到特殊的日期也不会发生什么的",
+		"[随机文本]",
 	},
 	stat={
 		"游戏运行次数:",
@@ -135,9 +138,9 @@ return{
 		"",
 		"使用LOVE2D引擎",
 		"作者:MrZ   邮箱:1046101471@qq.com",
-		"程序:MrZ  美术:MrZ  音乐:MrZ  音效:MrZ",
+		"程序:MrZ  美术:MrZ  音乐:MrZ  音效:MrZ 语音:Miya",
 		"使用工具:VScode,GFIE,Beepbox,Goldwave",
-		"特别感谢:Farter,Teatube,196,Flyz,T830,[所有测试人员]和 你!",
+		"特别感谢:Farter,196,Teatube,Flyz,T830,[所有测试人员]和 你!",
 		"错误或者建议请附带相关信息发送到作者邮箱~",
 	},
 	support="支持作者",
@@ -170,6 +173,7 @@ return{
 			back="返回",
 		},
 		draw={
+			free="不定",
 			block1="■",
 			block2="■",
 			block3="■",
@@ -209,7 +213,8 @@ return{
 			lang=function()return langName[setting.lang]end,
 			sfx=function()return setting.sfx and"音效:开"or"音效:关"end,
 			bgm=function()return setting.bgm and"音乐:开"or"音乐:关"end,
-			vib=function()return "震动强度:"..setting.vib end,
+			vib=function()return "震动:"..setting.vib end,
+			voc=function()return setting.voc and"语音:开"or"语音:关"end,
 			fullscreen=function()return setting.fullscreen and"全屏:开"or"全屏:关"end,
 			bgblock=function()return setting.bgblock and"背景动画:开"or"背景动画:关"end,
 			frame=function()return"绘制帧:"..setting.frameMul.."%"end,

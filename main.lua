@@ -13,6 +13,7 @@ scr={x=0,y=0,w=gc.getWidth(),h=gc.getHeight(),k=1}
 scene=""
 bgmPlaying=nil
 curBG="none"
+voicePlaying={}
 
 local F=false
 kb.setKeyRepeat(F)
@@ -61,7 +62,9 @@ customSel={
 	freshLimit=4,
 	opponent=1,
 }
-preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
+preField={h=20}
+for i=1,18 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
+for i=19,20 do preField[i]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}end
 freeRow={}
 for i=1,40 do
 	freeRow[i]={0,0,0,0,0,0,0,0,0,0}
@@ -75,7 +78,8 @@ setting={
 	sddas=0,sdarr=2,
 	lang=1,
 	
-	sfx=true,bgm=true,vib=3,
+	sfx=true,bgm=true,
+	vib=3,voc=false,
 	fullscreen=F,
 	bgblock=true,
 	skin=1,

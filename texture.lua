@@ -86,6 +86,7 @@ drawableText={
 	modeName=T(30),levelName=T(30),
 	next=T(40),hold=T(40),
 	pause=T(120),
+	finish=T(120),
 	custom=T(80),
 	keyboard=T(25),joystick=T(25),
 	setting2Help=T(25),

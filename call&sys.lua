@@ -115,7 +115,8 @@ function buttonControl_key(i)
 		if not sceneSwaping and Buttons.sel then
 			Buttons.sel.alpha=1
 			Buttons.sel.code()
-			sysSFX("button")
+			SFX("button")
+			VOICE("nya")
 		end
 	end
 end
@@ -130,7 +131,8 @@ function buttonControl_gamepad(i)
 		if not sceneSwaping and Buttons.sel then
 			Buttons.sel.alpha=1
 			Buttons.sel.code()
-			sysSFX("button")
+			SFX("button")
+			VOICE("nya")
 		end
 	end
 end
@@ -160,8 +162,8 @@ function mouseMove.draw(x,y,dx,dy)
 	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
-	if sx and sy and ms.isDown(1,2)then
-		preField[sy][sx]=ms.isDown(1)and pen or 0
+	if sx and sy and ms.isDown(1,2,3)then
+		preField[sy][sx]=ms.isDown(1)and pen or ms.isDown(2)and 0 or -1
 	end
 end
 function mouseMove.setting3(x,y,dx,dy)
@@ -336,6 +338,8 @@ function keyDown.draw(key)
 		if sx and sy then
 			preField[sy][sx]=pen
 		end
+	elseif key=="tab"then
+		pen=-1
 	elseif key=="backspace"then
 		pen=0
 	elseif key=="escape"then
@@ -479,7 +483,6 @@ function gamepadUp.play(key)
 	end
 end
 
-
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
 	mouseShow=true
@@ -496,7 +499,8 @@ function love.mousepressed(x,y,k,t,num)
 			B.alpha=1
 			Buttons.sel=nil
 			love.mousemoved(x,y,0,0)
-			sysSFX("button")
+			SFX("button")
+			VOICE("nya")
 			VIB(1)
 		end
 	end
@@ -547,7 +551,8 @@ function love.touchreleased(id,x,y)
 			B.code()
 			B.alpha=1
 			Buttons.sel=nil
-			sysSFX("button")
+			SFX("button")
+			VOICE("nya")
 			VIB(1)
 		end
 		Buttons.sel=nil
@@ -581,7 +586,8 @@ function love.keypressed(i)
 	if devMode then
 		if i=="k"then
 			P=players.alive[rnd(#players.alive)]
-			Event_gameover.lose()
+			P.lastRecv=players[1]
+			Event.lose()
 			--Test code here
 		elseif i=="q"then
 			local B=Buttons.sel if B then print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))end
@@ -639,6 +645,7 @@ function love.resize(w,h)
 		scr.k=h/720
 		scr.x,scr.y=(w-h*16/9)*.5,0
 	end
+	gc.origin()
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
 	gc.replaceTransform(xOy)
 	collectgarbage()
@@ -679,6 +686,12 @@ function love.update(dt)
 	end
 	for i=#Task,1,-1 do
 		Task[i]:update()
+	end
+	if voicePlaying[1]then
+		if not voicePlaying[1]:isPlaying()then
+			rem(voicePlaying,1)
+		end
+		if voicePlaying[1] and not voicePlaying[1]:isPlaying()then voicePlaying[1]:play()end
 	end
 	for k,B in next,Buttons[scene]do
 		local t=B==Buttons.sel and .4 or 0

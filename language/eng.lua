@@ -62,7 +62,7 @@ return{
 	modeName={
 		[0]="Custom",
 		"Sprint","Marathon","Master","Classic","Zen","Infinite","1v1","TSD-only","Blind","Dig","Survivor","Tech",
-		"PC Train","PC Challenge","Techmino49","Techmino99","Drought","Hotseat",
+		"C4W Train","PC Train","PC Challenge","Techmino49","Techmino99","Drought","Hotseat",
 	},
 	modeInfo={
 		sprint="Speed run",
@@ -77,6 +77,7 @@ return{
 		dig="Downstack!",
 		survivor="Hand them!",
 		tech="Don't do normal clear",
+		c4wtrain="Infinite combo",
 		pctrain="Let's learn some PCs",
 		pcchallenge="Make PCs in 100 Lines",
 		techmino49="Melee fight with 48 AIs",
@@ -85,7 +86,7 @@ return{
 		hotseat="",
 	},
 
-	load={"Loading textures","Loading BGM","Loading SFX","Finished",},
+	load={"Loading VOICE","Loading BGM","Loading SFX","Finished",},
 	tips={
 		"Not animation,real loading!",
 		"The WHOLE game is made by MrZ!",
@@ -107,6 +108,8 @@ return{
 		"Do not play game in class!",
 		"This game can be very hard,be mentally perpared",
 		"This in not a casual game",
+		"Nothing will happen when some special day come",
+		"[random text]",
 	},
 	stat={
 		"Games run:",
@@ -135,7 +138,7 @@ return{
 		"",
 		"Powered by LOVE2D",
 		"Author:MrZ   E-mail:1046101471@qq.com",
-		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ",
+		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ VOICE:Miya",
 		"Tool used:VScode,GFIE,Beepbox,Goldwave",
 		"Special thanks:Farter,Teatube,196,Flyz,T830,[all test staff] and YOU!",
 		"Any bugs/suggestions to my E-mail.",
@@ -170,6 +173,7 @@ return{
 			back="Back",
 		},
 		draw={
+			free="FREE",
 			block1="■",
 			block2="■",
 			block3="■",
@@ -183,7 +187,7 @@ return{
 			gb4="■",
 			gb5="■",
 			erase="×",
-			clear="Clear",
+			clear="CLEAR",
 			back="Back",
 		},
 		play={
@@ -209,7 +213,8 @@ return{
 			lang=function()return langName[setting.lang]end,
 			sfx=function()return setting.sfx and"SFX:ON"or"SFX:OFF"end,
 			bgm=function()return setting.bgm and"BGM:ON"or"BGM:OFF"end,
-			vib=function()return "Vibrate level:"..setting.vib end,
+			voc=function()return setting.voc and"VOC:ON"or"VOC:OFF"end,
+			vib=function()return "VIB:"..setting.vib end,
 			fullscreen=function()return setting.fullscreen and"Fullscreen:ON"or"Fullscreen:OFF"end,
 			bgblock=function()return setting.bgblock and"BG animation:ON"or"BG animation:OFF"end,
 			frame=function()return"FrameDraw:"..setting.frameMul.."%"end,

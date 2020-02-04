@@ -321,7 +321,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.18",290,140)
+	gc.print("Alpha V0.7.19",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -369,9 +369,14 @@ function Pnt.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(3)
 	gc.rectangle("line",-2,-2,304,604)
+	gc.setLineWidth(2)
 	for y=1,20 do for x=1,10 do
-		if preField[y][x]>0 then
-			drawPixel(y,x,preField[y][x])
+		local B=preField[y][x]
+		if B>0 then
+			drawPixel(y,x,B)
+		elseif B==-1 then
+			gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
+			gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
 		end
 	end end
 	if sx and sy then
@@ -387,56 +392,65 @@ function Pnt.draw()
 		gc.setLineWidth(13)
 		gc.setColor(blockColor[pen])
 		gc.rectangle("line",945,605,70,70)
-	else
+	elseif pen==0 then
 		gc.setColor(.8,.8,.8)
 		gc.draw(drawableText.x,950,560)
+	else
+		gc.setLineWidth(5)
+		gc.setColor(.9,.9,.9)
+		gc.line(960,620,1000,660)
+		gc.line(960,660,1000,620)
 	end
 end
 function Pnt.play()
 	for p=1,#players do
 		P=players[p]
 		if P.small then
-			gc.push("transform")
-			gc.translate(P.x,P.y)gc.scale(P.size)--Position
-			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,60,120)--Background
-			gc.translate(0,P.fieldBeneath*.2)
-			gc.setScissor(scr.x+P.x*scr.k,scr.y+P.y*scr.k,60*P.size*scr.k,120*P.size*scr.k)
-			gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
-			local h=#P.clearing
-			for j=int(P.fieldBeneath/30+1),#P.field do
-				if j==P.clearing[h]and P.falling>-1 then
-					h=h-1
-				else
-					for i=1,10 do
-						if P.field[j][i]>0 then
-							gc.draw(blockSkinmini[P.field[j][i]],6*i-6,120-6*j)
+			P.frameWait=P.frameWait-1
+			if P.frameWait==0 then
+				P.frameWait=8
+				gc.setCanvas(P.canvas)
+				gc.clear(0,0,0,.4)
+				gc.push("transform")
+				gc.origin()
+				gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
+				local h=#P.clearing
+				for j=1,#P.field do
+					if j==P.clearing[h]and P.falling>-1 then
+						h=h-1
+					else
+						for i=1,10 do
+							if P.field[j][i]>0 then
+								gc.draw(blockSkinmini[P.field[j][i]],6*i-6,120-6*j)
+							end
 						end
 					end
+				end--Field
+				if P.alive then
+					gc.setLineWidth(2)
+					gc.setColor(frameColor[P.strength])gc.rectangle("line",1,1,58,118)
+				end--Draw boarder
+				if modeEnv.royaleMode then
+					gc.setColor(1,1,1)
+					for i=1,P.strength do
+						gc.draw(badgeIcon,12*i-7,4,nil,.5)
+					end
 				end
-			end--Field
-			gc.setScissor()
-			gc.translate(0,-P.fieldBeneath*.2)
-			if P.alive then
-				gc.setLineWidth(2)
-				gc.setColor(frameColor[P.strength])gc.rectangle("line",-1,-1,62,122)
-			end--Draw boarder
-			if modeEnv.royaleMode then
-				gc.setColor(1,1,1)
-				for i=1,P.strength do
-					gc.draw(badgeIcon,12*i-7,4,nil,.5)
+				if P.result then
+					gc.setColor(1,1,1,min(P.endCounter,60)*.01)
+					setFont(22)mStr(P.result,32,47)
+					setFont(20)mStr(P.rank,30,82)
 				end
+				gc.pop()
+				gc.setCanvas()
 			end
-			if P.result then
-				gc.setColor(1,1,1,min(P.endCounter,60)*.01)
-				setFont(22)mStr(P.result,32,47)
-				setFont(20)mStr(P.rank,30,82)
-				if P.killMark then
-					gc.setLineWidth(4)
-					gc.setColor(1,0,0,min(P.endCounter,25)*.04)
-					gc.circle("line",31,60,84-2*min(P.endCounter,30))
-				end
+			gc.setColor(1,1,1)
+			gc.draw(P.canvas,P.x,P.y,nil,P.size*10)
+			if P.killMark then
+				gc.setLineWidth(3)
+				gc.setColor(1,0,0,min(P.endCounter,25)*.04)
+				gc.circle("line",P.centerX,P.centerY,(840-20*min(P.endCounter,30))*P.size)
 			end
-			gc.pop()
 		else
 			gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)--Position
@@ -451,7 +465,7 @@ function Pnt.play()
 				for y=0,19 do gc.line(0,30*y,300,30*y)end
 			end--Grid lines
 			gc.translate(0,P.fieldBeneath)
-			gc.setScissor(scr.x+P.absFieldPos[1]*scr.k,scr.y+P.absFieldPos[2]*scr.k,300*P.size*scr.k,610*P.size*scr.k)
+			gc.setScissor(scr.x+P.absFieldX*scr.k,scr.y+P.absFieldY*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 				local h=#P.clearing
 				for j=int(P.fieldBeneath/30+1),#P.field do
 					if j==P.clearing[h]and P.falling>-1 then
@@ -507,13 +521,12 @@ function Pnt.play()
 						gc.draw(spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
 					end--Rotate center
 				end
-				gc.setColor(1,1,1)
-				gc.draw(PTC.dust[p])
 				--Draw game field
 			gc.setScissor()--In-playField mask
 			gc.translate(0,-P.fieldBeneath)
-			gc.setLineWidth(3)
 			gc.setColor(1,1,1)
+			gc.draw(PTC.dust[p])
+			gc.setLineWidth(3)
 			gc.rectangle("line",-1,-11,302,612)--Draw boarder
 
 			gc.setLineWidth(2)

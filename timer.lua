@@ -4,19 +4,23 @@ local Timer=love.timer.getTime
 Tmr={}
 function Tmr.load()
 	if loading==1 then
-		loadnum=loadnum+1
-		loadprogress=loadnum/10
-		if loadnum==5 then
-			--require("texture")
-		elseif loadnum==10 then
-			loadnum=1
+		if loadnum<=#voiceList then
+			local N=voiceList[loadnum]
+			for i=1,#voice[N]do
+				voice[N][i]=love.audio.newSource("VOICE/"..voice[N][i]..".ogg","static")
+			end
+			loadprogress=loadnum/#voiceList
+			loadnum=loadnum+1
+		else
 			loading=2
+			loadnum=1
 		end
 	elseif loading==2 then
 		if loadnum<=#bgm then
-			bgm[bgm[loadnum]]=love.audio.newSource("/BGM/"..bgm[loadnum]..".ogg","stream")
-			bgm[bgm[loadnum]]:setLooping(true)
-			bgm[bgm[loadnum]]:setVolume(0)
+			local N=bgm[loadnum]
+			bgm[N]=love.audio.newSource("/BGM/"..N..".ogg","stream")
+			bgm[N]:setLooping(true)
+			bgm[N]:setVolume(0)
 			loadprogress=loadnum/#bgm
 			loadnum=loadnum+1
 		else
@@ -32,7 +36,7 @@ function Tmr.load()
 		else
 			for i=1,#sfx do sfx[i]=nil end
 			loading=4
-			loadnum=0
+			loadnum=1
 		end
 	elseif loading==4 then
 		loadnum=loadnum+1
@@ -82,7 +86,7 @@ function Tmr.play(dt)
 		if frame==179 then
 			gameStart()
 		elseif frame%60==0 then
-			sysSFX("ready")
+			SFX("ready")
 		end
 		for p=1,#players do
 			P=players[p]
@@ -181,7 +185,7 @@ function Tmr.play(dt)
 			if P.falling>=0 then
 				P.falling=P.falling-1
 				if P.falling>=0 then goto stop end
-				if P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
+				if P.human and P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
 				for i=1,#P.clearing do
 					removeRow(P.field,P.clearing[i])
 					removeRow(P.visTime,P.clearing[i])
@@ -230,7 +234,7 @@ function Tmr.play(dt)
 			if P.falling>=0 then
 				P.falling=P.falling-1
 				if P.falling>=0 then goto stop end
-				if P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
+				if P.human and P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
 				for i=1,#P.clearing do
 					removeRow(P.field,P.clearing[i])
 					removeRow(P.visTime,P.clearing[i])

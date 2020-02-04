@@ -1,4 +1,5 @@
 local gc=love.graphics
+local tc,kb=love.touch,love.keyboard
 local sys=love.system
 local fs=love.filesystem
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","func","restart","insLeft","insRight","insDown"}
@@ -57,7 +58,7 @@ sfx={
 	"prerotate","prehold",
 	"lock","drop","fall",
 	"reach",
-	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11",
+	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11","ren_mega",
 	"clear_1","clear_2","clear_3","clear_4",
 	"spin_0","spin_1","spin_2","spin_3",
 	"emit","blip_1","blip_2",
@@ -76,7 +77,37 @@ bgm={
 	"secret7th",
 	"secret8th",
 	"rockblock",
+	"8-bit happiness",
 	"end",
+}
+voiceList={
+	"Z","S","L","J","T","O","I",
+	"single","double","triple","tts",
+	"spin","spin_","mini","b2b","b3b","pc",
+	"win","lose","voc_nya","nya",
+}
+voice={
+	Z={"Z_1","Z_2"},
+	S={"S_1","S_2"},
+	J={"J_1","J_2"},
+	L={"L_1","L_2"},
+	T={"T_1","T_2"},
+	O={"O_1","O_2"},
+	I={"I_1","I_2"},
+	single={"single_1","single_2","single_3"},
+	double={"double_1","double_2","double_3"},
+	triple={"triple_1","triple_2"},
+	tts={"tts_1"},
+	spin={"spin_1","spin_2","spin_3","spin_4","spin_5"},
+	spin_={"spin-_1","spin-_2"},
+	mini={"mini_1"},
+	b2b={"b2b_1","b2b_2"},
+	b3b={"b3b_1"},
+	pc={"PC_1"},
+	win={"win_1","win_2"},
+	lose={"lose_1","lose_2","lose_3"},
+	voc_nya={"nya_11","nya_12","nya_13","nya_21","nya_22"},
+	nya={"nya_1","nya_2","nya_3","nya_4"},
 }
 
 customID={
@@ -114,7 +145,7 @@ percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
 modeID={
 	[0]="custom",
 	"sprint","marathon","master","classic","zen","infinite","solo","tsd","blind","dig","survivor","tech",
-	"pctrain","pcchallenge","techmino49","techmino99","drought","hotseat",
+	"c4wtrain","pctrain","pcchallenge","techmino49","techmino99","drought","hotseat",
 }
 modeLevel={
 	sprint={"10L","20L","40L","100L","400L","1000L"},
@@ -122,13 +153,14 @@ modeLevel={
 	master={"LUNATIC","ULTIMATE"},
 	classic={"CTWC"},
 	zen={"NORMAL"},
-	infinite={"NORMAL"},
+	infinite={"NORMAL","EXTRA"},
 	solo={"EASY","NORMAL","HARD","LUNATIC"},
 	tsd={"NORMAL","HARD"},
 	blind={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
 	dig={"NORMAL","LUNATIC"},
 	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	tech={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	c4wtrain={"NORMAL","LUNATIC"},
 	pctrain={"NORMAL","EXTRA"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
 	techmino49={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
@@ -243,6 +275,7 @@ Buttons={
 		back=	{x=640,	y=630	,w=180,	h=60,	rgb=color.white,		code=back},
 	},
 	draw={
+		free=	{x=700,	y=80,w=120,h=120,	f=45,	rgb=color.lightGrey,code=function()pen=-1 end},
 		block1=	{x=840,	y=80,w=120,h=120,	f=65,	rgb=color.red,		code=function()pen=1 end},
 		block2=	{x=980,	y=80,w=120,h=120,	f=65,	rgb=color.green,	code=function()pen=2 end},
 		block3=	{x=1120,y=80,w=120,h=120,	f=65,	rgb=color.orange,	code=function()pen=3 end},
@@ -256,7 +289,7 @@ Buttons={
 		gb4=	{x=980,	y=500,w=120,h=120,	f=65,	rgb=color.darkRed,	code=function()pen=12 end},
 		gb5=	{x=1120,y=500,w=120,h=120,	f=65,	rgb=color.darkGreen,code=function()pen=13 end},
 		erase=	{x=840,	y=640,w=120,h=120,	f=70,	rgb=color.grey,		code=function()pen=0 end},
-		clear=	{x=1120,y=640,w=120,h=120,			rgb=color.white,	code=function()
+		clear=	{x=1120,y=640,w=120,h=120,	f=45,	rgb=color.white,	code=function()
 			if clearSureTime>0 then
 				for y=1,20 do for x=1,10 do preField[y][x]=0 end end
 				clearSureTime=0
@@ -302,10 +335,18 @@ Buttons={
 			setting.bgm=not setting.bgm
 			BGM("blank")
 			end,down="vib",left="sfx"},
-		vib=	{x=850,y=160,	w=340,h=60,rgb=color.white,	code=function()
+		vib=	{x=760,y=160,	w=160,	h=60,rgb=color.white,	code=function()
 			setting.vib=(setting.vib+1)%6
 			VIB(1)
 			end,up="sfx",down="fullscreen",left="swap"},
+		voc=	{x=940,y=160,	w=160,	h=60,rgb=color.white,
+			hide=function()
+				return not(kb.isDown("m")or false)
+			end,
+			code=function()
+				setting.voc=not setting.voc
+				if setting.voc then VOICE("voc_nya")end
+			end,up="sfx",down="fullscreen",left="vib"},
 		fullscreen=	{x=850,y=230,	w=340,h=60,rgb=color.white,	code=function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
@@ -326,7 +367,7 @@ Buttons={
 			if setting.frameMul>100 then setting.frameMul=25 end
 			end,up="bgblock",down="skin",left="sdarrU"},
 		skin=	{x=850,y=440,	w=340,h=60,rgb=color.white,	code=function()
-			setting.skin=setting.skin%4+1
+			setting.skin=setting.skin%6+1
 			changeBlockSkin(setting.skin)
 			end,up="frame",down="back",left="ctrl"},
 		back=	{x=640,y=620,	w=300,h=70,rgb=color.white,	code=back,up="lang"},

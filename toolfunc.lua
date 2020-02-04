@@ -45,6 +45,7 @@ local drawableTextLoad={
 	"next",
 	"hold",
 	"pause",
+	"finish",
 	"custom",
 	"keyboard",
 	"joystick",
@@ -59,7 +60,6 @@ function swapLanguage(l)
 			B.t=text.ButtonText[S][N]
 		end
 	end
-	if royaleCtrlPad then royaleCtrlPad:release()end
 	gc.push("transform")
 	gc.origin()
 		royaleCtrlPad=gc.newCanvas(300,100)
@@ -71,8 +71,8 @@ function swapLanguage(l)
 			gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
 			mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
 		end
-		gc.setCanvas()
 	gc.pop()
+	gc.setCanvas()
 	for _,s in next,drawableTextLoad do
 		drawableText[s]:set(text[s])
 	end
@@ -80,12 +80,15 @@ function swapLanguage(l)
 end
 function changeBlockSkin(n)
 	n=n-1
+	gc.push("transform")
+	gc.origin()
 	for i=1,13 do
 		gc.setCanvas(blockSkin[i])
 		gc.draw(blockImg,30-30*i,-30*n)
 		gc.setCanvas(blockSkinmini[i])
 		gc.draw(blockImg,6-6*i,-6*n,nil,.2)
 	end
+	gc.pop()
 	gc.setCanvas()
 end
 
@@ -95,7 +98,7 @@ function VIB(t)
 		love.system.vibrate(vibrateLevel[setting.vib+t])
 	end
 end
-function sysSFX(s,v)
+function SFX(s,v)
 	if setting.sfx then
 		local n=1
 		::L::if sfx[s][n]:isPlaying()then
@@ -111,20 +114,12 @@ function sysSFX(s,v)
 		sfx[s][n]:play()
 	end
 end
-function SFX(s,v)
-	if setting.sfx and not P.ai then
-		local n=1
-		::L::if sfx[s][n]:isPlaying()then
-			n=n+1
-			if not sfx[s][n]then
-				sfx[s][n]=sfx[s][n-1]:clone()
-				sfx[s][n]:seek(0)
-				goto quit
-			end
-			goto L
-		end::quit::
-		sfx[s][n]:setVolume(v or 1)
-		sfx[s][n]:play()
+function VOICE(s,n)
+	if setting.voc then
+		ins(voicePlaying,voice[s][n or rnd(#voice[s])])
+		if #voicePlaying==1 then
+			voicePlaying[1]:play()
+		end
 	end
 end
 function BGM(s)
@@ -194,13 +189,12 @@ function gotoScene(s,style)
 		}
 		Buttons.sel=nil
 		if style~="none"then
-			sysSFX("swipe")
+			SFX("swipe")
 		end
 	end
 end
 function updateStat()
 	for k,v in next,players[1].stat do
-		print(k)
 		stat[k]=stat[k]+v
 	end
 end
@@ -309,7 +303,7 @@ function loadSetting()
 		if find(i,"=")then
 			local t=sub(i,1,find(i,"=")-1)
 			local v=sub(i,find(i,"=")+1)
-			if t=="sfx"or t=="bgm"or t=="bgblock"then
+			if t=="sfx"or t=="bgm"or t=="bgblock"or t=="voc"then
 				setting[t]=v=="true"
 			elseif t=="vib"then
 				setting.vib=toN(v:match("[012345]"))or 0
@@ -348,7 +342,7 @@ function loadSetting()
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[123]"))or 1
 			elseif t=="skin"then
-				setting[t]=toN(v:match("[1234]"))or 1
+				setting[t]=toN(v:match("[123456]"))or 1
 			end
 		end
 	end
@@ -362,7 +356,7 @@ local saveOpt={
 	"lang",
 
 	"sfx","bgm",
-	"vib",
+	"vib","voc",
 	"fullscreen",
 	"bgblock",
 	"skin",
