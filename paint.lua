@@ -145,14 +145,11 @@ function drawButton()
 	end
 end
 function drawDial(x,y,speed)
-	gc.push("transform")
-		gc.translate(x,y)
-		gc.setColor(1,1,1)
-		mStr(int(speed),0,-20)
-		gc.draw(dialCircle,0,0,nil,nil,nil,32,32)
-		gc.setColor(1,1,1,.6)
-		gc.draw(dialNeedle,0,0,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
-	gc.pop()
+	gc.setColor(1,1,1)
+	mStr(int(speed),x,y-18)
+	gc.draw(dialCircle,x,y,nil,nil,nil,32,32)
+	gc.setColor(1,1,1,.6)
+	gc.draw(dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 end
 function drawPixel(y,x,id,alpha)
 	gc.setColor(1,1,1,alpha)
@@ -264,7 +261,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.6",370,140)
+	gc.print("Alpha V0.7.7",370,140)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -312,12 +309,12 @@ function Pnt.play()
 		if P.small then
 			gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
-			gc.setColor(0,0,0,.5)gc.rectangle("fill",0,0,300,600)--Black Background
+			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,300,600)--Black Background
 			gc.setLineWidth(13)
 			gc.stencil(stencil_field_small,"replace",1)
 			gc.translate(0,P.fieldBeneath)
 			gc.setStencilTest("equal",1)
-			gc.setColor(1,1,1,P.result and max(20-P.counter,0)*.05 or 1)
+			gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
 			for j=int(P.fieldBeneath/30+1),#P.field do
 				if P.falling<=0 or without(P.clearing,j)then
 					for i=1,10 do
@@ -337,20 +334,20 @@ function Pnt.play()
 				end
 			end
 			if P.result then
-				gc.setColor(1,1,1,min(P.counter,60)*.01)
+				gc.setColor(1,1,1,min(P.endCounter,60)*.01)
 				setFont(100)
 				mStr(P.result,150,235)
 				if P.killMark then
 					gc.setLineWidth(20)
-					gc.setColor(1,0,0,min(P.counter,25)*.04)
-					gc.circle("line",150,300,420-10*min(P.counter,30))
+					gc.setColor(1,0,0,min(P.endCounter,25)*.04)
+					gc.circle("line",150,300,420-10*min(P.endCounter,30))
 				end
 			end
 			gc.pop()
 		else
 			gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
-			gc.setColor(0,0,0,.7)gc.rectangle("fill",0,0,600,690)--Black Background
+			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Black Background
 			gc.setLineWidth(7)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)--Big frame
 			gc.stencil(stencil_field,"replace", 1)
@@ -398,7 +395,8 @@ function Pnt.play()
 				gc.draw(PTC.dust[p])--Draw game field
 			gc.setStencilTest()--In-playField mask
 			gc.translate(0,-P.fieldBeneath)
-			gc.setColor(1,1,1)gc.rectangle("line",-3,-13,306,616)--Draw boarder
+			gc.setLineWidth(5)
+			gc.setColor(1,1,1)gc.rectangle("line",-2,-12,304,614)--Draw boarder
 
 			local h=0
 			for i=1,#P.atkBuffer do
@@ -412,23 +410,22 @@ function Pnt.play()
 					end
 					if a.countdown>0 then
 						gc.setColor(attackColor[a.lv][1])
-						gc.rectangle("fill",308,600-h,10,-bar+5)
+						gc.rectangle("fill",307,600-h,12,-bar+5)
 						gc.setColor(attackColor[a.lv][2])
-						gc.rectangle("fill",308,600-h+(-bar+5),10,-(-bar+5)*(1-a.countdown/a.cd0))
+						gc.rectangle("fill",307,600-h+(-bar+5),12,-(-bar+5)*(1-a.countdown/a.cd0))
 						--Timing
 					else
 						attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
-						gc.rectangle("fill",308,600-h,10,-bar+5)
+						gc.rectangle("fill",307,600-h,12,-bar+5)
 						--Warning
 					end
 				else
 					gc.setColor(attackColor[a.lv][1])
 					bar=bar*(20-a.time)*.05
-					gc.rectangle("fill",308,600-h,10,-bar+3)
+					gc.rectangle("fill",307,600-h,12,-bar+3)
 					--Disappear
 				end
 				h=h+bar
-				if h>=600 then break end
 			end--Buffer line
 
 			gc.setColor(P.b2b<40 and color.white or P.b2b<=480 and color.lightRed or color.lightBlue)
@@ -462,6 +459,10 @@ function Pnt.play()
 					end
 				end
 			end--Next
+			setFont(30)
+			gc.setColor(.8,.8,.8)
+			gc.print(curMode.modeName,-135,-65)
+			gc.printf(curMode.levelName,240,-65,200,"right")
 			if frame<180 then
 				local count=179-frame
 				gc.push("transform")
@@ -479,7 +480,7 @@ function Pnt.play()
 			gc.setColor(1,1,1)
 			setFont(35)
 			mStr(format("%.2f",P.time),-75,520)--Draw time
-			if mesDisp[gameMode]then mesDisp[gameMode]()end--Draw other message
+			if mesDisp[curMode.id]then mesDisp[curMode.id]()end--Draw other message
 
 			gc.setColor(1,1,1)
 			setFont(15)
@@ -528,7 +529,7 @@ function Pnt.play()
 		end
 		if P.atkMode~=4 then
 			if P.atking then
-				gc.setColor(0,.5,1,.2+(sin(Timer()*7)+1)*.1)
+				gc.setColor(0,.5,1,.2+(sin(Timer()*10)+1)*.1)
 				gc.line(P.centerX,P.centerY,P.atking.centerX,P.atking.centerY)
 			end
 		end
@@ -593,7 +594,7 @@ function Pnt.help()
 	setFont(32)
 	gc.setColor(1,1,1)
 	for i=1,11 do
-		mStr(Text.help[i],640,15+43*i)
+		gc.printf(Text.help[i],140,15+43*i,1000,"center")
 	end
 	gc.draw(titleImage,180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
 end

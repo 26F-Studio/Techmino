@@ -24,12 +24,12 @@ PClist={--ZSLJTOI
 	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,7,5,6},{7,7,5,2},{7,7,5,4},{7,7,5,3},
 	{7,4,1,2},{7,3,5,7},{7,5,4,3},{7,5,1,2},{7,1,4,2},{7,4,2,5},{7,6,4,5},{7,5,4,2},
 	{7,5,6,4},{7,5,3,6},{7,2,5,6},{7,2,6,4},{7,2,1,3},{7,5,2,7},{7,5,7,2},{7,5,2,3},
-	{7,5,3,2},{7,6,4,5},{7,6,5,4},{7,3,1,5},{7,3,2,5},{7,4,1,5},{7,4,5,2},{7,7,3,6},
-	{7,3,7,6},{7,3,6,2},{7,3,7,1},{7,6,4,2},{3,2,7,6},{3,2,6,7},{7,7,4,5},{7,5,3,4},
-	{7,3,6,5},{7,3,2,5},{7,4,6,5},{7,6,4,5},{7,5,2,3},{7,3,5,7},{7,3,2,5},{7,3,5,1},
-	{7,5,2,3},{3,6,2,5},{3,1,2,5},{3,1,1,5},{3,1,5,2},{3,1,5,1},{3,5,1,2},{4,5,3,2},
-	{4,2,6,5},{6,5,3,2},{1,4,2,5},{1,5,3,6},{5,2,6,3},{5,2,1,3},{5,2,7,4},{2,4,1,5},
-	{2,4,5,1},{2,1,4,5},{2,5,4,3},{2,5,6,7},{7,5,4,2},
+	{7,5,3,2},{7,6,5,4},{7,3,1,5},{7,3,2,5},{7,4,1,5},{7,4,5,2},{7,7,3,6},{7,3,7,6},
+	{7,3,6,2},{7,3,7,1},{7,6,4,2},{3,2,7,6},{3,2,6,7},{7,7,4,5},{7,5,3,4},{7,3,6,5},
+	{7,3,2,5},{7,4,6,5},{7,5,2,3},{7,3,5,7},{7,3,2,5},{7,3,5,1},{7,5,2,3},{3,6,2,5},
+	{3,1,2,5},{3,1,1,5},{3,1,5,2},{3,1,5,1},{3,5,1,2},{4,5,3,2},{4,2,6,5},{6,5,3,2},
+	{1,4,2,5},{1,5,3,6},{5,2,6,3},{5,2,1,3},{5,2,7,4},{2,4,1,5},{2,4,5,1},{2,1,4,5},
+	{2,5,4,3},{2,5,6,7},{7,5,4,2},
 }
 color={
 	red={1,0,0},
@@ -68,7 +68,7 @@ attackColor={
 			gc.setColor(1,t,0)
 		end,
 		function(t)
-			gc.setColor(1,.3,.2+t*.8)
+			gc.setColor(1,.4,.3+t*.7)
 		end,
 		function(t)
 			gc.setColor(.2+t*.8,.2+t*.8,1)
@@ -104,7 +104,7 @@ for j=1,7 do
 	spinName[0][j]=blockName[j].." spin"
 end
 
-miniTitle_pixel={
+miniTitle_rect={
 	{2,0,5,1},{4,1,1,6},
 	{9,0,4,1},{9,3,4,1},{9,6,4,1},{8,0,1,7},
 	{15,0,3,1},{15,6,3,1},{14,0,1,7},
@@ -125,6 +125,7 @@ sfx={
 	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11",
 	"clear_1","clear_2","clear_3","clear_4",
 	"spin_0","spin_1","spin_2","spin_3",
+	"emit","blip_1","blip_2",
 	"perfectclear",
 }
 bgm={
@@ -146,7 +147,7 @@ prevMenu={
 	custom="mode",
 	ready="mode",
 	play=function()
-		gotoScene(gameMode~="custom"and"mode"or"custom")
+		gotoScene(curMode.id~="custom"and"mode"or"custom")
 	end,
 	help="main",
 	stat="main",
@@ -275,6 +276,12 @@ defaultModeEnv={
 	},
 	marathon={
 		{
+			drop=1e99,
+			lock=1e99,
+			target=200,
+			reach=Event.marathon_reach,
+		},
+		{
 			drop=60,
 			fall=20,
 			target=10,
@@ -285,6 +292,16 @@ defaultModeEnv={
 			fall=20,
 			target=200,
 			reach=Event.marathon_reach,
+		},
+		{
+			_20G=true,
+			drop=0,
+			lock=death_lock[1],
+			wait=death_wait[1],
+			fall=death_fall[1],
+			target=50,
+			reach=Event.marathon_reach_lunatic,
+			arr=1,
 		},
 	},
 	zen={
@@ -305,18 +322,6 @@ defaultModeEnv={
 	solo={
 		{},
 	},
-	death={
-		{
-			_20G=true,
-			drop=0,
-			lock=death_lock[1],
-			wait=death_wait[1],
-			fall=death_fall[1],
-			target=50,
-			reach=Event.death_reach,
-			arr=1,
-		},	
-	},
 	tsd={
 		{
 			oncehold=false,
@@ -334,9 +339,9 @@ defaultModeEnv={
 	},
 	blind={
 		{
-			drop=1e99,
-			lock=1e99,
-			visible=0,
+			drop=30,
+			lock=60,
+			visible=2,
 		},
 		{
 			drop=15,
@@ -349,6 +354,48 @@ defaultModeEnv={
 			lock=60,
 			visible=0,
 			freshLimit=15,
+		},
+		{
+			_20G=true,
+			drop=0,
+			lock=15,
+			wait=10,
+			fall=15,
+			visible=0,
+			arr=1,
+		},
+	},
+	dig={
+		{
+			drop=60,
+			lock=120,
+			fall=20,
+		},
+		{
+			drop=10,
+			lock=30,
+		},
+	},
+	survivor={
+		{
+			drop=60,
+			lock=120,
+			fall=30,
+		},
+		{
+			drop=30,
+			lock=60,
+			fall=20,
+		},
+		{
+			drop=10,
+			lock=20,
+			fall=15,
+		},
+		{
+			drop=5,
+			lock=15,
+			fall=10,
 		},
 	},
 	sudden={
@@ -369,13 +416,13 @@ defaultModeEnv={
 			drop=15,
 			lock=60,
 			target=0,
-			reach=Event.sudden_reach_HARD,
+			reach=Event.sudden_reach_hard,
 		},
 		{
 			drop=5,
 			lock=20,
 			target=0,
-			reach=Event.sudden_reach_HARD,
+			reach=Event.sudden_reach_hard,
 		},
 	},
 	pctrain={
@@ -434,6 +481,7 @@ defaultModeEnv={
 			royaleMode=true,
 			royalePowerup={2,5,10,20},
 			royaleRemain={30,20,15,10,5},
+			pushSpeed=2,
 		},
 	},
 	techmino99={
@@ -442,6 +490,7 @@ defaultModeEnv={
 			royaleMode=true,
 			royalePowerup={2,6,14,30},
 			royaleRemain={75,50,35,20,10},
+			pushSpeed=2,
 		},
 	},
 	drought={
@@ -460,24 +509,7 @@ defaultModeEnv={
 			reach=Event.gameover.win,
 		},
 	},
-	gmroll={
-		{
-			drop=0,
-			lock=15,
-			wait=10,
-			fall=15,
-			_20G=true,
-			visible=0,
-			arr=1,
-		},
-	},
-	p2={
-		{},
-	},
-	p3={
-		{},
-	},
-	p4={
+	hotseat={
 		{},
 	},
 	custom={
@@ -488,23 +520,22 @@ defaultModeEnv={
 }
 modeLevel={
 	sprint={"10L","20L","40L","100L","400L","1000L"},
-	marathon={"NORMAL","LUNATIC"},
+	marathon={"EASY","NORMAL","EXTRA","DEATH"},
 	zen={"NORMAL"},
 	infinite={"NORMAL"},
 	solo={"EASY","NORMAL","HARD","LUNATIC"},
-	death={"LUNATIC"},
 	tsd={"NORMAL","HARD"},
-	blind={"EASY","HARD","LUNATIC"},
+	blind={"EASY","HARD","LUNATIC","GM"},
+	dig={"NORMAL","LUNATIC"},
+	survivor={"EASY","NORMAL","HARD","LUNATIC"},
 	sudden={"EASY","NORMAL","HARD","LUNATIC"},
 	pctrain={"HARD","LUNATIC"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
-	techmino41={"EASY","NORMAL","HARD","LUNATIC","HELL"},
-	techmino99={"EASY","NORMAL","HARD","LUNATIC","HELL"},
+	techmino41={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	techmino99={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	drought={"NORMAL","MESS"},
-	gmroll={"GM"},
-	p2={"NORMAL"},
-	p3={"NORMAL"},
-	p4={"NORMAL"},
+	hotseat={"2P","3P","4P",},
+	custom={""},
 }
 modeLevelColor={
 	EASY=color.cyan,
@@ -515,7 +546,8 @@ modeLevelColor={
 
 	MESS=color.lightGrey,
 	GM=color.blue,
-	HELL=color.grey,
+	ULTIMATE=color.lightYellow,
+	DEATH=color.lightRed,
 	["10L"]=color.cyan,
 	["20L"]=color.lightBlue,
 	["40L"]=color.green,
@@ -524,32 +556,32 @@ modeLevelColor={
 	["1000L"]=color.darkRed,
 }
 modeID={
-	"sprint","marathon","zen","infinite","solo","death","tsd","blind","sudden",
-	"pctrain","pcchallenge","techmino41","techmino99","drought","gmroll","p2","p3","p4"
+	[0]="custom",
+	"sprint","marathon","zen","infinite","solo","tsd","blind","dig","survivor","sudden",
+	"pctrain","pcchallenge","techmino41","techmino99","drought","hotseat",
 }
 modeName={
-	"Sprint","Marathon","Zen","Infinite","1v1","Death","TSD-only","Blind","Sudden",
-	"PC Train","PC Challenge","Techmino41","Techmino99","Drought","GM roll","2P","3P","4P"
+	[0]="Custom",
+	"Sprint","Marathon","Zen","Infinite","1v1","TSD-only","Blind","Dig","Survivor","Sudden",
+	"PC Train","PC Challenge","Techmino41","Techmino99","Drought","Hotseat",
 }
 modeInfo={
 	sprint="Speed run.",
-	marathon="Clear 200 Lines",
+	marathon="Survive and reach target",
 	zen="Clear 200 Lines without gravity",
 	infinite="Infinite game,infinite happiness",
 	solo="Beat AI",
-	death="Survive under terrible speed",
-	tsd="try to make 20 T-spin-double",
+	tsd="Make more T-spin-doubles",
 	blind="Invisible board",
-	sudden="Try to survive",
+	dig="Downstack!",
+	survivor="Hand them!",
+	sudden="Techniques practice",
 	pctrain="Let's learn some PCs",
 	pcchallenge="Make PCs in 100 Lines",
 	techmino41="Melee fight with 40 AIs",
 	techmino99="Melee fight with 98 AIs",
 	drought="ERRSEQ flood attack",
-	gmroll="Who want to be the grand master?",
-	p2="2 players game",
-	p3="3 players game",
-	p4="4 players game",
+	hotseat="",
 }
 
 freshMethod={
@@ -579,21 +611,7 @@ freshMethod={
 	end,
 	function()
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		if P.cstat.piece%4==0 then
-			local r=rnd(#PClist)
-			local P=players[1]
-			local f=P.cstat.pc%2==0
-			for i=1,4 do
-				local b=PClist[r][i]
-				if f then
-					if b<3 then b=3-b
-					elseif b<5 then b=7-b
-					end
-				end
-				ins(P.nxt,b)
-				ins(P.nb,blocks[b][0])
-			end
-		end
+		--generate in newPC
 	end,
 	function()
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
@@ -701,14 +719,14 @@ Buttons={
 		{x=250,y=360,w=350,h=100,rgb=color.blue,f=50,t="Settings",code=function()gotoScene("setting")end,up=1,down=3},
 		{x=160,y=470,w=170,h=100,rgb=color.yellow,f=50,t="Help",code=function()gotoScene("help")end,up=2,down=5,right=4},
 		{x=340,y=470,w=170,h=100,rgb=color.cyan,f=40,t="Statistics",code=function()gotoScene("stat")end,up=2,down=5,left=3},
-		{x=250,y=580,w=350,h=100,rgb=color.grey,f=40,t="Quit",code=back,up=3},
+		{x=250,y=580,w=350,h=100,rgb=color.grey,f=40,t="Quit",code=function()gotoScene("quit")end,up=3},
 	},
 	mode={
 		{x=1000,y=210,w=200,h=140,rgb=color.white,hide=function()return modeSel==1 end,t="Λ",f=64,code=function()keyDown.mode("up")end},
 		{x=1000,y=430,w=200,h=140,rgb=color.white,hide=function()return modeSel==#modeID end,t="v",f=80,code=function()keyDown.mode("down")end},
 		{x=190,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==1 end,t="<",code=function()keyDown.mode("left")end},
 		{x=350,y=160,w=100,h=80,rgb=color.white,hide=function()return levelSel==#modeLevel[modeID[modeSel]] end,t=">",code=function()keyDown.mode("right")end},
-		{x=1000,y=600,w=250,h=100,rgb=color.green,f=50,t="Start",code=function()loadGame(modeID[modeSel],levelSel)end},
+		{x=1000,y=600,w=250,h=100,rgb=color.green,f=50,t="Start",code=function()loadGame(modeSel,levelSel)end},
 		{x=270,y=540,w=190,h=85,rgb=color.yellow,t="Custom(c)",code=function()gotoScene("custom")end},
 		{x=640,y=630,w=230,h=90,rgb=color.white,f=45,t="Back",code=back},
 	},
@@ -717,7 +735,7 @@ Buttons={
 		{x=1000,y=440,w=100,h=100,rgb=color.white,t="v",f=50,code=function()optSel=optSel%#customID+1 end},
 		{x=880,y=320,w=100,h=100,rgb=color.white,t="<",f=50,code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
 		{x=1120,y=320,w=100,h=100,rgb=color.white,t=">",f=50,code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
-		{x=1000,y=580,w=180,h=80,rgb=color.green,t="Start",code=function()loadGame("custom",levelSel)end},
+		{x=1000,y=580,w=180,h=80,rgb=color.green,t="Start",code=function()loadGame(0,1)end},
 		{x=640,y=630,w=180,h=60,rgb=color.white,t="Back",code=back},
 	},
 	play={
@@ -938,7 +956,7 @@ Text={
 		"Author:MrZ   E-mail:1046101471@qq.com",
 		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ",
 		"Tool used:VScode,GFIE,Beepbox,Goldwave",
-		"Special thanks:farter,teatube,flyz,t830,[all test staff] and YOU!!",
+		"Special thanks:Farter,Teatube,196,Flyz,T830,[all test staff] and YOU!",
 		"Any bugs/suggestions to my E-mail.",
 	},
 }

@@ -196,7 +196,7 @@ function Tmr.play(dt)
 				if P.falling<=0 then
 					if #P.field>P.clearing[1]then
 						SFX("fall")
-						VIB(1)
+						if P.id==1 then VIB(1)end
 					end
 					for i=1,#P.clearing do
 						removeRow(P.field,P.clearing[i])
@@ -205,7 +205,7 @@ function Tmr.play(dt)
 					P.clearing={}
 				end
 			end--Rows cleared drop
-			if P.counter<40 then
+			if P.endCounter<40 then
 				for j=1,#P.field do for i=1,10 do
 					if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
 				end end--Make field visible
@@ -246,7 +246,6 @@ function Tmr.play(dt)
 		end
 	end
 	if modeEnv.royaleMode and frame%60==0 then
-		freshRoyaleTarget()
+		freshMostDangerous()
 	end
-	setmetatable(_G,nil)
 end

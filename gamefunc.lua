@@ -1,15 +1,17 @@
 function loadGame(mode,level)
 	--rec={}
-	gameMode,gameLevel=mode,level
+	print(mode)
+	curMode={id=modeID[mode],lv=level,modeName=modeName[mode],levelName=modeLevel[modeID[mode]][level]}
 	gotoScene("play")
 end
 function resetGameData()
 	frame=0
-	pushSpeed,garbageSpeed=3,1
+	garbageSpeed=1
+	pushSpeed=3
 
 	players={alive={}}
-	modeEnv=defaultModeEnv[gameMode][gameLevel]or defaultModeEnv[gameMode][1]
-	loadmode[gameMode]()
+	modeEnv=defaultModeEnv[curMode.id][curMode.lv]or defaultModeEnv[curMode.id][1]
+	loadmode[curMode.id]()
 
 	FX.beam={}
 	for k,v in pairs(PTC.dust)do
@@ -27,8 +29,8 @@ function resetGameData()
 		end
 		mostBadge,mostDangerous,secBadge,secDangerous=nil
 		gameStage=1
-		pushSpeed=2
 		garbageSpeed=.3
+		pushSpeed=2
 	end
 	for i=1,#virtualkey do
 		virtualkey[i].press=false
@@ -77,12 +79,12 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.control=false
 	P.timing=false
 	P.time=0
-	P.cstat={key=0,piece=0,row=0,atk=0,techrash=0,pc=0}--Current gamestat
+	P.cstat={key=0,piece=0,row=0,atk=0,techrash=0,pc=0,event=0}--Current gamestat
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
-	P.field,P.visTime,P.atkBuffer={},{},{}
-
+	P.field,P.visTime={},{}
+	P.atkBuffer={sum=0}
 
 	P.ko,P.badge,P.strength=0,0,0
 	P.atkMode,P.swappingAtkMode=1,20
@@ -151,11 +153,12 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.b2b=0
 	P.b2b1=0
 
+	P.endCounter=0
 	P.counter=0
 	P.result=nil--string,"win"/"lose"
 	P.task={}
 	P.bonus={}
-end
+end 
 function showText(P,text,type,font,dy,spd,inf)
 	if not P.small then
 		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,speed=spd or 1,inf=inf})
@@ -233,47 +236,53 @@ function changeAtk(P,R)
 		P.atking=nil
 	end
 end
-function freshRoyaleTarget()
-	mostBadge,secBadge,mostDangerous,secDangerous=nil
-	local h,b=0,0
+function freshMostBadge()
+	mostBadge,secBadge=nil
+	local m=0
 	for i=1,#players.alive do
-		if players.alive[i].badge>=h then
+		if players.alive[i].badge>=m then
 			mostBadge,secBadge=players.alive[i],mostBadge
-			h=players[i].badge
+			m=players.alive[i].badge
 		end
-		if #players.alive[i].field>=b then
+	end
+end
+function freshMostDangerous()
+	mostDangerous,secDangerous=nil
+	local m=0
+	for i=1,#players.alive do
+		if #players.alive[i].field>=m then
 			mostDangerous,secDangerous=players.alive[i],mostDangerous
-			b=#players.alive[i].field
+			m=#players.alive[i].field
 		end
 	end
 end
 function royaleLevelup()
 	gameStage=gameStage+1
-	local s
+	local spd
 	if(gameStage==3 or gameStage>4)and players[1].alive then
 		showText(players[1],#players.alive.." Players Remain","beat",50,-100,.3)
 	end
 	if gameStage==2 then
-		s=30
+		spd=30
 	elseif gameStage==3 then
-		s=15
+		spd=15
 		garbageSpeed=.6
 		BGM("cruelty")
 	elseif gameStage==4 then
-		s=10
+		spd=10
 		pushSpeed=3
 	elseif gameStage==5 then
-		s=5
+		spd=5
 		garbageSpeed=1
 	elseif gameStage==6 then
-		s=3
+		spd=3
 		BGM("final")
 	end
 	for i=1,#players.alive do
 		local P=players.alive[i]
-		P.gameEnv.drop=s
+		P.gameEnv.drop=spd
 	end
-	if gameLevel==5 and players[1].alive then
+	if curMode.lv==5 and players[1].alive then
 		local P=players[1]
 		P.gameEnv.drop=int(P.gameEnv.drop*.3)
 		if P.gameEnv.drop==0 then
@@ -393,7 +402,7 @@ function pressKey(i,p)
 end
 function releaseKey(i,p)
 	p.keyPressing[i]=false
-	P.isKeyDown[i]=false
+	p.isKeyDown[i]=false
 	-- if playmode=="recording"then ins(rec,{-i,frame})end
 end
 function spin(d,ifpre)
@@ -581,7 +590,7 @@ function drop()
 		if cc>0 then
 			SFX(clear_n[cc])
 			SFX(ren_n[min(P.combo,11)])
-			VIB(cc<3 and 1 or cc-1)
+			if P.id==1 then VIB(cc<3 and 1 or cc-1)end
 		end
 		P.b2b=max(min(P.b2b,600),0)
 
@@ -617,12 +626,9 @@ function drop()
 					csend=csend-1
 				end
 				P.atkBuffer[1].amount=P.atkBuffer[1].amount-1
+				P.atkBuffer.sum=P.atkBuffer.sum-1
 				if P.atkBuffer[1].amount==0 then
 					rem(P.atkBuffer,1)
-				end
-				if P.atkBuffer[1]and csend==0 then
-					local s=P.atkBuffer[1].amount
-					P.atkBuffer[1].lv=s<4 and 1 or s<7 and 2 or 3
 				end
 			end
 			if csend>0 then
@@ -642,6 +648,7 @@ function drop()
 				elseif #players.alive>1 then
 					garbageSend(P,randomTarget(P),csend,sendTime)
 				end
+				if P.id==1 and csend>3 then sysSFX("emit",min(csend,8)*.125)end
 			end
 		elseif cc==0 then
 			if P.b2b>480 then
@@ -676,11 +683,13 @@ function lock()
 end
 function garbageSend(S,R,send,time)
 	local pos=rnd(10)
-	local level=send<4 and 1 or send<7 and 2 or 3
-	createBeam(S,R,level)
+	createBeam(S,R,send<4 and 1 or send<7 and 2 or 3)
 	R.lastRecv=S
-	if #R.atkBuffer<15 then
-		ins(R.atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
+	if R.atkBuffer.sum<20 then
+		send=min(send,20-R.atkBuffer.sum)
+		R.atkBuffer.sum=R.atkBuffer.sum+send
+		ins(R.atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=send<4 and 1 or send<7 and 2 or 3})
+		if R.id==1 then sysSFX(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)end
 	end
 end
 function garbageRelease()
@@ -695,6 +704,7 @@ function garbageRelease()
 					P.field[1][atk[k]]=0
 				end
 			end
+			P.atkBuffer.sum=P.atkBuffer.sum-atk.amount
 			atk.sent=true
 			atk.time=0
 			P.fieldBeneath=P.fieldBeneath+atk.amount*30
@@ -755,7 +765,7 @@ act={
 					P.cy=P.y_img
 					P.spinLast=false
 					SFX("drop")
-					VIB(0)
+					if P.id==1 then VIB(0)end
 				end
 				drop()
 			end

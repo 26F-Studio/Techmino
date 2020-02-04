@@ -16,7 +16,7 @@ function without(t,v)
 	return true
 end
 function mStr(s,x,y)
-	gc.printf(s,x-500,y,1000,"center")
+	gc.printf(s,x-250,y,500,"center")
 end
 
 function getNewRow(val)
@@ -58,8 +58,8 @@ function timeSort(a,b)
 	return a.time>b.time
 end
 function stencil_miniTitle()
-	for i=1,#miniTitle_pixel do
-		gc.rectangle("fill",unpack(miniTitle_pixel[i]))
+	for i=1,#miniTitle_rect do
+		gc.rectangle("fill",unpack(miniTitle_rect[i]))
 	end
 end
 function stencil_field()
@@ -72,7 +72,7 @@ end
 
 function VIB(t)
 	if setting.vib>0 then
-		love.system.vibrate(setting.vib+t)
+		love.system.vibrate(vibrateLevel[setting.vib+t])
 	end
 end
 function sysSFX(s,v)
@@ -83,6 +83,7 @@ function sysSFX(s,v)
 			if not sfx[s][n]then
 				sfx[s][n]=sfx[s][n-1]:clone()
 				sfx[s][n]:seek(0)
+				break
 			end
 		end
 		sfx[s][n]:setVolume(v or 1)

@@ -88,7 +88,7 @@ function keyDown.mode(key)
 			levelSel=levelSel+1
 		end
 	elseif key=="return"then
-		loadGame(modeID[modeSel],levelSel)
+		loadGame(modeSel,levelSel)
 	elseif key=="c"then
 		gotoScene("custom")
 	elseif key=="escape"then
@@ -107,7 +107,7 @@ function keyDown.custom(key)
 	elseif key=="up"then
 		optSel=(optSel-2)%#customID+1
 	elseif key=="return"then
-		loadGame("custom",1)
+		loadGame(0,1)
 	elseif key=="escape"then
 		back()
 	end
@@ -185,7 +185,7 @@ function gamepadDown.mode(key)
 	elseif key=="dpup"then
 		if modeSel>1 then modeSel=modeSel-1 end
 	elseif key=="start"then
-		loadGame(modeID[modeSel],levelSel)
+		loadGame(modeSel,levelSel)
 	elseif key=="back"then
 		back()
 	end
