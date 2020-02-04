@@ -11,6 +11,7 @@ Buttons={
 	mode={
 		{x=200,y=150,w=250,h=70,rgb={1,1,1},alpha=0,t="40 Lines",code=function()startGame("sprint")end},
 		{x=500,y=150,w=250,h=70,rgb={1,1,1},alpha=0,t="Zen",code=function()startGame("zen")end},
+		{x=800,y=150,w=250,h=70,rgb={1,1,1},alpha=0,t="GM Roll",code=function()startGame("gmroll")end},
 		{x=200,y=250,w=250,h=70,rgb={1,1,1},alpha=0,t="Marathon",code=function()startGame("marathon")end},
 		{x=200,y=350,w=250,h=70,rgb={1,1,1},alpha=0,t="Death",code=function()startGame("death")end},
 		{x=500,y=250,w=250,h=70,rgb={1,1,1},alpha=0,t="Tetris 25",code=function()startGame("tetris25")end},

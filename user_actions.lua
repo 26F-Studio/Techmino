@@ -4,11 +4,9 @@ act={
 		if not ifoverlap(cb,cx-1,cy)then
 			P.cx=cx-1
 			freshgho()
-			P.freshTime=P.freshTime+1
-			if P.freshTime<=gameEnv.freshLimit then
-				P.lockDelay=gameEnv.lock
-			end
+			freshLockDelay()
 			if cy==y_img then SFX("move")end
+			P.spinLast=false
 		end
 	end,
 	moveRight=function(auto)
@@ -16,17 +14,16 @@ act={
 		if not ifoverlap(cb,cx+1,cy)then
 			P.cx=cx+1
 			freshgho()
-			P.freshTime=P.freshTime+1
-			if P.freshTime<=gameEnv.freshLimit then
-				P.lockDelay=gameEnv.lock
-			end
+			freshLockDelay()
 			if cy==y_img then SFX("move")end
+			P.spinLast=false
 		end
 	end,
 	hardDrop=function()
 		if P.waiting<=0 then
 			if cy~=y_img then
 				P.cy=y_img
+				P.spinLast=false
 				SFX("drop")
 			end
 			drop()
@@ -44,10 +41,11 @@ act={
 	--Player movements
 	restart=function()
 		startGame(gamemode)
+		count=60+26--Althour'z neim
 	end,
 	down1=function()drop()end,
 	down4=function()for i=1,4 do if cy~=y_img then drop()else break end end end,
-	toDown=function()P.cy,P.lockDelay=y_img,gameEnv.lock end,
+	toDown=function()if cy~= y_img then P.cy,P.lockDelay,P.spinLast=y_img,gameEnv.lock,false end end,
 	toLeft=function()while not ifoverlap(cb,cx-1,cy)do P.cx,P.lockDelay=cx-1,gameEnv.lock;freshgho()end end,
 	toRight=function()while not ifoverlap(cb,cx+1,cy)do P.cx,P.lockDelay=cx+1,gameEnv.lock;freshgho()end end,
 	quit=function()Event.gameover.lose()end,

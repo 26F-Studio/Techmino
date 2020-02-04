@@ -20,18 +20,8 @@ function Pnt.BG.game2()
 	gc.draw(background[1],500,300,Timer()*.15,nil,nil,600,600)
 end
 function Pnt.BG.game3()
-	gc.push("transform")
-	gc.translate(500,300)
-	gc.scale(1,.6)
-	gc.setColor(1,.9,.9)
-	gc.setLineWidth(30)
-	local t=(Timer()%1)*60
-	for x=0,8 do
-		local d=60*x+t
-		gc.rectangle("line",-d,-d,2*d,2*d)
-	end
-	gc.setLineWidth(2)
-	gc.pop()
+	gc.setColor(.5,.7,1)
+	gc.draw(background[1],500,300,Timer()*.15,nil,nil,600,600)
 end
 function Pnt.BG.game4()
 	local t=215+sin(Timer()*6)*40
@@ -98,7 +88,7 @@ function Pnt.play()
 				if gameEnv.ghost then
 					for i=1,r do for j=1,c do
 						if cb[i][j]>0 then
-							drawPixel(i+y_img-1,j+cx-1,gameEnv.color[bn],.4)
+							drawPixel(i+y_img-1,j+cx-1,gameEnv.color[bn],.3)
 						end
 					end end
 				end--Ghost
@@ -113,6 +103,11 @@ function Pnt.play()
 						drawPixel(i+cy-1,j+cx-1,gameEnv.color[bn],1)
 					end
 				end end--Block
+				if gameEnv.center then
+					local x=30*(cx+sc[2]-1)-30+15
+					gc.circle("fill",x,600-30*(cy+sc[1]-1)+15,4)
+					gc.circle("fill",x,600-30*(y_img+sc[1]-1)+15,4)
+				end
 			end
 			gc.draw(PTC.dust[p])--Draw game field
 		love.graphics.setStencilTest()--In-field mask
