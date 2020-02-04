@@ -25,6 +25,22 @@ function mDraw(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)
 end
 
+function destroyPlayers()
+	if players then
+		for _,P in next,players do if P.id then
+			while P.field[1]do
+				removeRow(P.field)
+				removeRow(P.visTime)
+			end
+			if P.AI_mode=="CC"then
+				BOT.free(P.bot_opt)
+				BOT.free(P.bot_wei)
+				BOT.destroy(P.AI_bot)
+				P.AI_mode=nil
+			end
+		end end
+	end
+end
 function getNewRow(val)
 	local t=rem(freeRow)
 	for i=1,10 do
@@ -62,11 +78,13 @@ local drawableTextLoad={
 }
 function swapLanguage(l)
 	text=require("language/"..langID[l])
-	Buttons.sel=nil
-	for S,L in next,Buttons do
-		for N,B in next,L do
-			B.alpha=0
-			B.t=text.ButtonText[S][N]
+	Widget.sel=nil
+	for S,L in next,Widget do
+		for N,W in next,L do
+			if W.type=="button"then
+				W.alpha=0
+				W.text=text.ButtonText[S][N]
+			end
 		end
 	end
 	gc.push("transform")
@@ -101,7 +119,7 @@ function changeBlockSkin(n)
 	gc.setCanvas()
 end
 
-local vibrateLevel={0,.02,.03,.04,.05,.06,.07,.08}
+local vibrateLevel={0,.015,.02,.03,.04,.05,.06,.07,.08,.09}
 function VIB(t)
 	if setting.vib>0 then
 		love.system.vibrate(vibrateLevel[setting.vib+t])
@@ -132,21 +150,25 @@ function VOICE(s,n)
 	end
 end
 function BGM(s)
-	if setting.bgm and bgmPlaying~=s then
-		if bgmPlaying then newTask(Event_task.bgmFadeOut,nil,bgmPlaying)end
-		for i=#Task,1,-1 do
-			local T=Task[i]
-			if T.code==Event_task.bgmFadeIn then
-				T.code=Event_task.bgmFadeOut
-			elseif T.code==Event_task.bgmFadeOut and T.data==s then
-				rem(Task,i)
+	if setting.bgm then
+		if bgmPlaying~=s then
+			if bgmPlaying then newTask(Event_task.bgmFadeOut,nil,bgmPlaying)end
+			for i=#Task,1,-1 do
+				local T=Task[i]
+				if T.code==Event_task.bgmFadeIn then
+					T.code=Event_task.bgmFadeOut
+				elseif T.code==Event_task.bgmFadeOut and T.data==s then
+					rem(Task,i)
+				end
 			end
+			if s then
+				newTask(Event_task.bgmFadeIn,nil,s)
+				bgm[s]:play()
+			end
+			bgmPlaying=s
+		else
+			if bgmPlaying then bgm[bgmPlaying]:play()end
 		end
-		if s then
-			newTask(Event_task.bgmFadeIn,nil,s)
-			bgm[s]:play()
-		end
-		bgmPlaying=s
 	end
 end
 
@@ -199,7 +221,7 @@ function gotoScene(s,style)
 			time=swap[style][1],mid=swap[style][2],
 			draw=swap[style].d
 		}
-		Buttons.sel=nil
+		Widget.sel=nil
 		if style~="none"then
 			SFX("swipe")
 		end
@@ -218,10 +240,10 @@ local prevMenu={
 	mode="main",
 	custom="mode",
 	draw=function()
-		kb.setKeyRepeat(false)
 		gotoScene("custom")
 	end,
 	play=function()
+		kb.setKeyRepeat(true)
 		updateStat()
 		clearTask("play")
 		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
@@ -249,7 +271,6 @@ function pauseGame()
 	pauseTimer=0--Pause timer for animation
 	if not gamefinished then
 		pauseCount=pauseCount+1
-		if bgmPlaying then bgm[bgmPlaying]:pause()end
 	end
 	for i=1,#players.alive do
 		local l=players.alive[i].keyPressing
@@ -262,7 +283,6 @@ function pauseGame()
 	gotoScene("pause","none")
 end
 function resumeGame()
-	if bgmPlaying then bgm[bgmPlaying]:play()end
 	gotoScene("play","fade")
 end
 local dataOpt={

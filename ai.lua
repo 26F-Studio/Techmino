@@ -8,8 +8,76 @@
 	4deepShape
 	BlockedWells;
 ]]
-local abs=math.abs
+local int,ceil,min,abs,rnd=math.floor,math.ceil,math.min,math.abs,math.random
+local ins,rem=table.insert,table.remove
+local Timer=love.timer.getTime
+-- controlname:
+-- 1~5:mL,mR,rR,rL,rF,
+-- 6~10:hD,sD,H,A,R,
+-- 11~13:LL,RR,DD
+local blockPos={4,4,4,4,4,5,4}
+local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
+-------------------------------------------------Cold clear
+local CCblockID={4,3,5,6,1,2,0}
+if system~="Windows"then goto SKIP end
+require("CCloader")
+BOT={
+	getConf=	cc.get_default_config	,--()options,weights
+	--setConf=	cc.set_options			,--(options,hold,20g,bag7)
 
+	new=		cc.launch_async			,--(options,weights)bot
+	addNext=	cc.add_next_piece_async	,--(bot,piece)
+	update=		cc.reset_async			,--(bot,field,b2b,combo)
+	think=		cc.request_next_move	,--(bot)
+	getMove=	cc.poll_next_move		,--(bot)success,hold,move
+	ifDead=		cc.is_dead_async		,--(bot)dead
+	destroy=	cc.destroy_async		,--(bot)
+
+	setHold=	cc.set_hold				,--(opt,bool)
+	set20G=		cc.set_20g				,--(opt,bool)
+	setBag=		cc.set_bag7				,--(opt,bool)
+	setNode=	cc.set_max_nodes		,--(opt,bool)
+	free=		cc.free					,--(opt/wei)
+}
+function CC_updateField(P)
+	local F,i={},1
+	for y=1,#P.field do
+		for x=1,10 do
+			F[i],i=P.field[y][x]>0,i+1
+		end
+	end
+	while i<400 do
+		F[i],i=false,i+1
+	end
+	BOT.update(P.AI_bot,F,P.b2b>=100,P.combo)
+end
+function CC_switch20G(P)
+	P.AIdata._20G=true
+	P.AI_keys={}
+	BOT.destroy(P.AI_bot)
+	local opt,wei=BOT.getConf()
+		BOT.setHold(opt,P.AIdata.hold)
+		BOT.set20G(opt,P.AIdata._20G)
+		BOT.setBag(opt,P.AIdata.bag7)
+		BOT.setNode(opt,P.AIdata.node)
+	P.AI_bot=BOT.new(opt,wei)
+	BOT.free(opt)BOT.free(wei)
+	for i=1,P.AIdata.next do
+		BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+	end
+	CC_updateField(P)
+	P.hold={bk={{}},id=0,color=0,name=0}P.holded=false
+	P.cur=rem(P.next,1)
+	P.sc,P.dir=scs[P.cur.id],0
+	P.r,P.c=#P.cur.bk,#P.cur.bk[1]
+	P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
+
+	P.freshNext()
+	BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])
+	collectgarbage()
+end
+::SKIP::
+-------------------------------------------------⑨Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
 	{1,0,0},--S
@@ -20,12 +88,6 @@ local spinOffset={
 	{0,0,0},--O
 	{2,0,1},--I
 }for i=1,7 do spinOffset[i][0]=0 end
---[[
-	controlname:
-	1~5:mL,mR,rR,rL,rF,
-	6~10:hD,sD,H,A,R,
-	11~13:LL,RR,DD
-]]
 local FCL={
 	[1]={
 		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12}},
@@ -68,7 +130,7 @@ local function resetField(f0,f,start)
 		end
 	end
 end
-local function getScore(field,bn,cb,cx,cy)
+local function getScore(field,cb,cy)
 	local score=0
 	local highest=0
 	local height=getNewRow(0)
@@ -123,58 +185,111 @@ local function getScore(field,bn,cb,cx,cy)
 	if mh1>3 then score=score-40-mh1*30 end
 	return score
 end
-function AI_getControls(ctrl)
-	local Tfield={}--test field
-	local field_org=P.field
-	for i=1,#field_org do
-		Tfield[i]=getNewRow(0)
-		for j=1,10 do
-			Tfield[i][j]=field_org[i][j]
-		end
-	end
-	local best={x=1,dir=0,hold=false,score=-9e99}
-	for ifhold=0,P.gameEnv.hold and 1 or 0 do
-		local bn=ifhold==0 and P.cur.id or P.hold.id>0 and P.hold.id or P.next[1].id
-		for dir=0,dirCount[bn] do--each dir
-			local cb=blocks[bn][dir]
-			for cx=1,11-#cb[1]do--each pos
-				local cy=#Tfield+1
-				::L::if not ifoverlapAI(Tfield,cb,cx,cy-1)then
-					cy=cy-1
-					goto L
-				end--move to bottom
-				for i=1,#cb do
-					local y=cy+i-1
-					if not Tfield[y]then Tfield[y]=getNewRow(0)end
-					for j=1,#cb[1]do
-						if cb[i][j]then
-							Tfield[y][cx+j-1]=1
-						end
-					end
-				end--simulate lock
-				local score=getScore(Tfield,bn,cb,cx,cy)
-				if score>best.score then
-					best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
+-------------------------------------------------
+AI_think={
+	["9S"]={
+		function(ctrl)
+			local Tfield={}--test field
+			local field_org=P.field
+			for i=1,#field_org do
+				Tfield[i]=getNewRow(0)
+				for j=1,10 do
+					Tfield[i][j]=field_org[i][j]
 				end
-				resetField(field_org,Tfield,cy)
 			end
-		end
-	end
+			local best={x=1,dir=0,hold=false,score=-9e99}
+			for ifhold=0,P.gameEnv.hold and 1 or 0 do
+				local bn=ifhold==0 and P.cur.id or P.hold.id>0 and P.hold.id or P.next[1].id
+				for dir=0,dirCount[bn] do--each dir
+					local cb=blocks[bn][dir]
+					for cx=1,11-#cb[1]do--each pos
+						local cy=#Tfield+1
+						::L::if not ifoverlapAI(Tfield,cb,cx,cy-1)then
+							cy=cy-1
+							goto L
+						end--move to bottom
+						for i=1,#cb do
+							local y=cy+i-1
+							if not Tfield[y]then Tfield[y]=getNewRow(0)end
+							for j=1,#cb[1]do
+								if cb[i][j]then
+									Tfield[y][cx+j-1]=1
+								end
+							end
+						end--simulate lock
+						local score=getScore(Tfield,cb,cy)
+						if score>best.score then
+							best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
+						end
+						resetField(field_org,Tfield,cy)
+					end
+				end
+			end
 
-	::L::
-	if #Tfield>0 then
-		removeRow(Tfield,1)
-		goto L
-	end--Release cache
-	local p=#ctrl+1
-	if best.hold then
-		ctrl[p]=8
-		p=p+1
-	end
-	local l=FCL[best.bn][best.dir+1][best.x]
-	for i=1,#l do
-		ctrl[p]=l[i]
-		p=p+1
-	end
-	ctrl[p]=6
-end
+			::L::
+			if #Tfield>0 then
+				removeRow(Tfield,1)
+				goto L
+			end--Release cache
+			local p=#ctrl+1
+			if best.hold then
+				ctrl[p]=8
+				p=p+1
+			end
+			local l=FCL[best.bn][best.dir+1][best.x]
+			for i=1,#l do
+				ctrl[p]=l[i]
+				p=p+1
+			end
+			ctrl[p]=6
+			return 2
+		end,
+		function()
+			P.AI_delay=P.AI_delay0
+			if Timer()-P.modeData.point>P.modeData.event then
+				P.modeData.point=Timer()
+				P.modeData.event=P.AI_delay0+rnd(2,10)
+				changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
+			end
+			return 1
+		end,
+	},
+	["CC"]={
+		function()
+			if P.AI_needFresh then
+				CC_updateField(P)
+				P.AI_needFresh=false
+			end
+			BOT.think(P.AI_bot)
+			return 2
+		end,
+		function(ctrl)
+			if BOT.ifDead(P.AI_bot)then ins(ctrl,6)return 3 end
+			local success,hold,move=BOT.getMove(P.AI_bot)
+			if success then
+				if hold then ctrl[1]=8 end--Hold
+				while move[1]do
+					local m=rem(move,1)
+					if m<4 then
+						ins(ctrl,m+1)
+					elseif not P.AIdata._20G then
+						ins(ctrl,13)
+					end
+				end
+				ins(ctrl,6)
+				return 3
+			else
+				return 2--stay this stage
+			end
+	end,
+		function()
+			P.AI_delay=P.AI_delay0
+			if Timer()-P.modeData.point>P.modeData.event then
+				P.modeData.point=Timer()
+				P.modeData.event=P.AI_delay0+rnd(2,10)
+				changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
+			end
+			return 1
+		end,
+	},
+}--AI think stage

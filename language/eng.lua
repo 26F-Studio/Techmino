@@ -15,7 +15,8 @@ return{
 	PC="Perfect Clear",
 	hold="Hold",next="Next",
 
-	stage={"STAGE 1","STAGE 2","STAGE 3","STAGE 4","STAGE 5",},
+	stage=function(n)return"STAGE "..n end,
+	great="Great!",
 	awesome="Awesome.",
 	continue="Continue.",
 	maxspeed="Max speed",
@@ -26,7 +27,7 @@ return{
 	pause="PAUSE",
 	finish="FINISH",
 	pauseTime="Pause time",
-	
+
 	custom="Custom Game",
 	customOption={
 		drop="Drop delay:",
@@ -44,7 +45,7 @@ return{
 		bgm="BGM:",
 	},
 	customVal={
-		drop={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞","[20G]"},
+		drop={"[20G]",1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞"},
 		lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞"},
 		wait=nil,
 		fall=nil,
@@ -54,7 +55,7 @@ return{
 		visible={"normal","time","invisible","sudden"},
 		target={10,20,40,100,200,500,1000,"∞"},
 		freshLimit={0,8,15,"∞"},
-		opponent={"No CPU",1,2,3,4,5,6,7,8,9,10,11},
+		opponent={"No CPU","9S Lv1","9S Lv2","9S Lv3","9S Lv4","9S Lv5","CC Lv1","CC Lv2","CC Lv3","CC Lv4","CC Lv5","CC Lv6"},
 	},
 	softdropdas="Down DAS:",
 	softdroparr="Down ARR:",
@@ -68,7 +69,8 @@ return{
 	actName={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip:","Hard Drop:","Soft Drop:","Hold:","Function:","Restart:","Instant Left:","Instant Right:","Ins Down:"},
 	modeName={
 		[0]="Custom",
-		"Sprint","Marathon","Master","Classic","Zen","Infinite","1v1","TSD-only","Blind","Dig","Survivor","Tech",
+		"Sprint","Marathon","Master","Classic","Zen","Infinite","1v1","Round","TSD-only","Blind",
+		"Dig","Survivor","Defender","Attacker","Tech",
 		"C4W Train","PC Train","PC Challenge","Techmino49","Techmino99","Drought","Hotseat",
 	},
 	modeInfo={
@@ -79,10 +81,13 @@ return{
 		zen="Clear 200 Lines without gravity",
 		infinite="Infinite game,infinite happiness",
 		solo="Beat AI",
+		round="Chess?",
 		tsd="Make more T-spin-doubles",
 		blind="Invisible board",
 		dig="Downstack!",
-		survivor="Hand them!",
+		survivor="Survive Longer!",
+		defender="Hand them!",
+		attacker="Attacking better then defending",
 		tech="Don't do normal clear",
 		c4wtrain="Infinite combo",
 		pctrain="Let's learn some PCs",
@@ -147,8 +152,8 @@ return{
 		"Powered by LOVE2D",
 		"Author:MrZ   E-mail:1046101471@qq.com",
 		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ VOICE:Miya",
-		"Tool used:VScode,GFIE,Beepbox,Goldwave",
-		"Special thanks:Farter,Teatube,196,Flyz,T830,[all test staff] and YOU!",
+		"Tool used:VScode,GFIE,Beepbox,Goldwave,Cold_Clear",
+		"Special thanks:Farter,Flyz,196,Teatube,T830,[all test staff] and YOU!",
 		"Any bugs/suggestions to my E-mail.",
 	},
 	support="Support Author",
@@ -217,6 +222,7 @@ return{
 		},
 		pause={
 			resume="Resume",
+			restart="Restart",
 			quit="Quit",
 		},
 		setting={
@@ -248,13 +254,13 @@ return{
 			back=BK,
 		},
 		setting3={
-			back=BK,
 			hide=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,
 			default="Defaults",
 			snap=function()return text.snapLevelName[snapLevel]end,
 			alpha=function()return setting.virtualkeyAlpha.."0%"end,
 			icon="Icon",
 			size="Size",
+			back=BK,
 		},
 		help={
 			his="History",

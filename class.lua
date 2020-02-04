@@ -1,17 +1,24 @@
-Task={}
 local rem=table.remove
-
-metatable_task={__index=Task}
+Task={}
+function Task:update()
+	if(not self.P or self.P and scene=="play")and self:code(self.P,self.data)then
+		local e=#Task
+		for i=1,e do
+			if Task[i]==self then
+				Task[e],Task[i]=nil,Task[e]
+				return
+			end
+		end
+	end
+end
 function newTask(code,P,data)
-	local id=#Task+1
-	local obj={
+	Task[#Task+1]={
+		update=Task.update,
+
 		code=code,
 		P=P,
 		data=data,
-		id=id,
 	}
-	setmetatable(obj,metatable_task)
-	Task[id]=obj
 end
 function clearTask(opt)
 	if opt=="all"then
@@ -34,14 +41,22 @@ function clearTask(opt)
 		end
 	end
 end
-function Task:update()
-	if(not self.P or self.P and scene=="play")and self:code(self.P,self.data)then
-		local e=#Task
-		for i=1,e do
-			if Task[i]==self then
-				Task[e],Task[i]=nil,Task[e]
-				return
-			end
-		end
-	end
+
+function newButton(x,y,w,h,color,font,code,hide,up,down,left,right)
+	return{
+		type="button",
+		x=x-w*.5,y=y-h*.5,w=w,h=h,
+		color=color,font=font,
+		code=code,hide=hide,
+		up=up,down=down,left=left,right=right,
+	}
+end
+function newSlider(x,y,w,unit,color,font,code,hide,up,down,left,right)
+	return{
+		type="slider",
+		x=x,y=y,w=w,unit=unit,
+		color=color,font=font,
+		code=code,hide=hide,
+		up=up,down=down,left=left,right=right,
+	}
 end

@@ -1,27 +1,40 @@
 return{
 [=[Future outlook:
-	"classic" rule
-	backfire mode
-	Encrypt source code(JIT to byte code)
-	game recording
-	virtual key switch(all keys)
-	easier CTWC
-	fineese/bigbang mode
-	more FXs
-	TTT mode
-	smarter AI
+	Brand New GUI:
+		custom restart method
+		custom block color/direction
+		custom sequence
+		virtual key switch(all keys)
+	Normal Things:
+		demo play at main menu
+		any screen size
+		CC smarter(think of gaebage buffer)
+		fineese/bigbang mode & easier CTWC
+		new AI:task-Z
+		game recording
+		TTT mode
+	Hard Things:
+		Encrypt source code(JIT to byte code)
 		infinite 1v1
 		square mode
-		3d features
-		layer-feeling
-		more animation]=],[=[
+		more FXs & 3d features & animations]=],[=[
+0.7.23:
+	remake all BGM!
+	new mode:Master-Final
+	new modes:attacker & defender(not survivor!)
+	add restart button when pause
+	Code Clear added,face it bravely!(Windows only)
+	change falling animation
+	new GUI details
+	louder sound
+	code optimized & many bugs fixed]=],[=[
 0.7.22:
 	scoring system
 	smooth dropping
 	can change FX level
 	new attaking FX
 	new bone skin
-	baattery info/time display
+	battery info/time display
 	in-game update log(this page)
 	fast game
 	much many more better GUI details

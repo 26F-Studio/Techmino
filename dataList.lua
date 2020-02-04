@@ -52,6 +52,23 @@ local function throwBadge(S,R)--Sender/Receiver
 	end
 	FX.badge[#FX.badge+1]={x1,y1,x2,y2,t=0}
 end
+local AISpeed={60,50,45,35,25,15,9,7,5,3}
+local function AITemplate(type,speedLV,next,hold,node)
+	if type=="CC"then
+		return{
+			type=type,
+			delta=AISpeed[speedLV],
+			next=next,
+			hold=true,--hold,-------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			node=node,
+		}
+	elseif type=="9S"then
+		return{
+			type=type,
+			delta=int(AISpeed[speedLV]*.5),
+		}
+	end
+end
 loadmode={
 	sprint=function()
 		createPlayer(1,340,15)
@@ -79,7 +96,40 @@ loadmode={
 	end,
 	solo=function()
 		createPlayer(1,340,15)
-		createPlayer(2,965,360,.5,customRange.opponent[3*curMode.lv])
+		if curMode.lv==1 then
+			createPlayer(2,965,360,.5,AITemplate("9S",3))
+		elseif curMode.lv==2 then
+			createPlayer(2,965,360,.5,AITemplate("CC",2,2,false,25000))
+		elseif curMode.lv==3 then
+			createPlayer(2,965,360,.5,AITemplate("9S",6))
+		elseif curMode.lv==4 then
+			createPlayer(2,965,360,.5,AITemplate("CC",5,2,true,35000))
+		elseif curMode.lv==5 then
+			createPlayer(2,965,360,.5,AITemplate("9S",9))
+		elseif curMode.lv==6 then
+			createPlayer(2,965,360,.5,AITemplate("CC",8,3,true,50000))
+		elseif curMode.lv==7 then
+			createPlayer(2,965,360,.5,AITemplate("9S",10))
+		elseif curMode.lv==8 then
+			createPlayer(2,965,360,.5,AITemplate("CC",9,3,true,100000))
+		elseif curMode.lv==9 then
+			createPlayer(2,965,360,.5,AITemplate("CC",10,4,true,200000))
+		end
+	end,
+	round=function()
+		createPlayer(1,340,15)
+		if curMode.lv==1 then
+			createPlayer(2,965,360,.5,AITemplate("9S",nil,10))
+		elseif curMode.lv==2 then
+			createPlayer(2,965,360,.5,AITemplate("CC",10,2,false,20000))
+		elseif curMode.lv==3 then
+			createPlayer(2,965,360,.5,AITemplate("CC",10,3,true,50000))
+		elseif curMode.lv==4 then
+			createPlayer(2,965,360,.5,AITemplate("CC",10,4,true,100000))
+		elseif curMode.lv==5 then
+			createPlayer(2,965,360,.5,AITemplate("CC",10,6,true,1000000))
+		end
+		garbageSpeed=1e4
 	end,
 	tsd=function()
 		createPlayer(1,340,15)
@@ -89,13 +139,25 @@ loadmode={
 	end,
 	dig=function()
 		createPlayer(1,340,15)
-		newTask(Event_task[curMode.lv==1 and"dig_normal"or curMode.lv==2 and"dig_lunatic"],P)
 		pushSpeed=1
 	end,
 	survivor=function()
 		createPlayer(1,340,15)
-		newTask(Event_task[curMode.lv==1 and"survivor_easy"or curMode.lv==2 and"survivor_normal"or curMode.lv==3 and"survivor_hard"or curMode.lv==4 and"survivor_lunatic"or curMode.lv==5 and"survivor_ultimate"or curMode.lv==6 and"survivor_extra"],P)
 		pushSpeed=curMode.lv>2 and 2 or 1
+	end,
+	defender=function()
+		createPlayer(1,340,15)
+		if curMode.lv==1 then
+			pushSpeed=1
+		elseif curMode.lv==2 then
+			pushSpeed=2
+		end
+	end,
+	attacker=function()
+		createPlayer(1,340,15)
+		if curMode.lv==1 then
+			pushSpeed=2
+		end
 	end,
 	tech=function()
 		createPlayer(1,340,15)
@@ -127,33 +189,67 @@ loadmode={
 	end,
 	techmino49=function()
 		createPlayer(1,340,15)
-		if curMode.lv==5 then players[1].gameEnv.drop=15 end
-		local n,min,max=2,curMode.lv,35-6*curMode.lv
+		local LV=curMode.lv
+		if LV==3 then players[1].gameEnv.drop=15 end
+		local L={}for i=1,49 do L[i]=true end
+		local t=int(LV^2.5)
+		repeat
+			local r=rnd(2,49)
+			if L[r]then L[r],t=false,t-1 end
+		until t==0
+		local min,max
+		if LV==1 then		min,max=3,5
+		elseif LV==2 then	min,max=4,8
+		elseif LV==3 then	min,max=8,10
+		end
+		local n=2
 		for i=1,4 do for j=1,6 do
-			createPlayer(n,78*i-54,115*j-98,.09,rnd(min,max))
+			if L[n]then
+				createPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(min,max)))
+			else
+				createPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3500))
+			end
 			n=n+1
 		end end
 		for i=9,12 do for j=1,6 do
-			createPlayer(n,78*i+267,115*j-98,.09,rnd(min,max))
+			if L[n]then
+				createPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(min,max)))
+			else
+				createPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3500))
+			end
 			n=n+1
 		end end
 	end,
 	techmino99=function()
 		createPlayer(1,340,15)
-		if curMode.lv==5 then players[1].gameEnv.drop=15 end
-		local n,min,max=2
-		if curMode.lv==1 then min,max=5,32
-		elseif curMode.lv==2 then min,max=3,25
-		elseif curMode.lv==3 then min,max=2,18
-		elseif curMode.lv==4 then min,max=2,12
-		elseif curMode.lv==5 then min,max=1,12
+		local LV=curMode.lv
+		if LV==3 then players[1].gameEnv.drop=15 end
+		local L={}for i=1,100 do L[i]=true end
+		local t=2*int(LV^2.5)
+		repeat
+			local r=rnd(2,99)
+			if L[r]then L[r],t=false,t-1 end
+		until t==0
+		local min,max
+		if LV==1 then		min,max=3,5
+		elseif LV==2 then	min,max=4,9
+		elseif LV==3 then	min,max=7,10
 		end
+		local n=2
 		for i=1,7 do for j=1,7 do
-			createPlayer(n,46*i-36,97*j-72,.068,rnd(min,max))
+			if L[n]then
+				createPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(min,max)))
+			else
+				createPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3000))
+			end
 			n=n+1
 		end end
 		for i=15,21 do for j=1,7 do
-			createPlayer(n,46*i+264,97*j-72,.068,rnd(min,max))
+			if L[n]then
+				createPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(min,max)))
+			else
+				createPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max),LV+1,true,LV^2*3000))
+			end
 			n=n+1
 		end end
 	end,
@@ -180,13 +276,20 @@ loadmode={
 			local k=customID[i]
 			modeEnv[k]=customRange[k][customSel[i]]
 		end
-		modeEnv._20G=modeEnv.drop==-1
+		modeEnv._20G=modeEnv.drop==0
 		modeEnv.oncehold=customSel[6]==1
+		if curMode.lv==2 then
+			modeEnv.target=0
+		end
 		createPlayer(1,340,15)
-		if modeEnv.opponent==0 then
-		else
+		local L=modeEnv.opponent
+		if L~=0 then
 			modeEnv.target=nil
-			createPlayer(2,965,360,.5,modeEnv.opponent)
+			if L<10 then
+				createPlayer(2,965,360,.5,AITemplate("9S",2*L))
+			else
+				createPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),true,15000+5000*(L-10)))
+			end
 		end
 		preField.h=20
 		repeat
@@ -228,13 +331,13 @@ mesDisp={
 		setFont(50)
 		mStr(P.stat.row,-82,320)
 		mStr(P.gameEnv.target,-82,370)
-		gc.rectangle("fill",-128,376,90,4)
+		gc.rectangle("fill",-125,375,90,4)
 	end,
 	master=function()
 		setFont(50)
 		mStr(P.modeData.point,-82,320)
 		mStr((P.modeData.event+1)*100,-82,370)
-		gc.rectangle("fill",-128,376,90,4)
+		gc.rectangle("fill",-125,375,90,4)
 	end,
 	classic=function()
 		setFont(80)
@@ -245,7 +348,7 @@ mesDisp={
 		setFont(50)
 		mStr(P.stat.row,-82,320)
 		mStr(P.gameEnv.target,-82,370)
-		gc.rectangle("fill",-128,376,90,4)
+		gc.rectangle("fill",-125,375,90,4)
 	end,
 	zen=function()
 		setFont(75)
@@ -280,7 +383,7 @@ mesDisp={
 	end,
 	dig=function()
 		setFont(70)
-		mStr(P.modeData.event-20,-82,310)
+		mStr(P.modeData.event,-82,310)
 		setFont(30)
 		mStr("Wave",-82,375)
 	end,
@@ -289,6 +392,18 @@ mesDisp={
 		mStr(P.modeData.event,-82,310)
 		setFont(30)
 		mStr("Wave",-82,375)
+	end,
+	defender=function()
+		setFont(60)
+		mStr(P.modeData.point,-82,315)
+		setFont(30)
+		mStr("RPM",-82,375)
+	end,
+	attacker=function()
+		setFont(60)
+		mStr(P.modeData.point,-82,315)
+		setFont(30)
+		mStr("RPM",-82,375)
 	end,
 	tech=function()
 		setFont(50)
@@ -321,8 +436,10 @@ mesDisp={
 		setFont(50)
 		mStr(max(100-P.stat.row,0),-82,250)
 		gc.setColor(.5,.5,.5)
-		local y=72*(7-(P.stat.piece+1)%7)-36
-		gc.line(320,y,442,y)
+		if frame>179 then
+			local y=72*(7-(P.stat.piece+(P.hold.id>0 and 2 or 1))%7)-36
+			gc.line(320,y,442,y)
+		end
 	end,
 	techmino49=function()
 		setFont(40)
@@ -359,13 +476,14 @@ mesDisp={
 		mStr(max(100-P.stat.row,0),-82,280)
 	end,
 	custom=function()
-		setFont(25)
-		mStr("Rows",-82,300)
-		setFont(65)
-		mStr(P.stat.row,-82,225)
-		if P.gameEnv.target<1e4 then
-			setFont(75)
-			mStr(max(P.gameEnv.target-P.stat.row,0),-82,280)
+		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
+			setFont(25)
+			mStr("Rows",-82,290)
+			setFont(65)
+			mStr(P.stat.row,-82,225)
+		else
+			setFont(60)
+			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
 		end
 		if P.gameEnv.puzzle and P.modeData.event==0 then
 			gc.setLineWidth(3)
@@ -389,6 +507,11 @@ mesDisp={
 	end
 }
 Event={
+	reach_winCheck=function()
+		if P.stat.row>=P.gameEnv.target then
+			Event.win()
+		end
+	end,
 	win=function()
 		P.alive=false
 		P.control=false
@@ -505,86 +628,124 @@ Event={
 			newTask(Event_task.finish,P)
 		end
 	end,
-	marathon_reach=function()
-		local s=int(P.stat.row*.1)
-		if s>=20 then
-			P.stat.row=200
-			Event.win()
-		else
-			P.gameEnv.drop=marathon_drop[s]
-			if s==18 then P.gameEnv._20G=true end
-			P.gameEnv.target=s*10+10
+
+	marathon_update=function()
+		if P.stat.row>=P.gameEnv.target then
+			local s=int(P.stat.row*.1)
+			if s>=20 then
+				P.stat.row=200
+				Event.win()
+			else
+				P.gameEnv.drop=marathon_drop[s]
+				if s==18 then P.gameEnv._20G=true end
+				P.gameEnv.target=s*10+10
+				SFX("reach")
+			end
+		end
+	end,
+	master_score=function()
+		local c=#P.clearing
+		if c==0 and P.modeData.point%100==99 then return end
+		local s=c<3 and c+1 or c==3 and 5 or 7
+		if P.combo>7 then s=s+2
+		elseif P.combo>3 then s=s+1
+		end
+		P.modeData.point=P.modeData.point+s
+		if P.modeData.point%100==99 then
+			SFX("blip_1")
+		elseif P.modeData.point>100*P.modeData.event+100 then
+			local s=P.modeData.event+1;P.modeData.event=s--level up!
+			showText(P,text.stage(s),"fly",80,-120)
+			local E=P.gameEnv
+			local mode=curMode.lv
+			if mode==1 then
+				curBG=s==2 and"game1"or s==3 and"game2"or s==4 and"game3"or s==5 and"game4"
+				E.lock=rush_lock[s]
+				E.wait=rush_wait[s]
+				E.fall=rush_fall[s]
+				E.das=10-s
+				if s==3 then P.gameEnv.arr=2 end
+				if s==5 then P.gameEnv.bone=true end
+			elseif mode==2 then
+				curBG=s==2 and"game3"or s==3 and"game4"or s==4 and"game5"or s==5 and"game6"
+				E.lock=death_lock[s]
+				E.wait=death_wait[s]
+				E.fall=death_fall[s]
+				E.das=int(7.3-s*.4)
+				if s==4 then P.gameEnv.bone=true end
+			end
 			SFX("reach")
 		end
 	end,
-	master_reach_lunatic=function()
-		local t=P.modeData.point
+	master_score_hard=function()
 		local c=#P.clearing
-		if t%100==99 and c==0 then return end
-		t=t+(c<3 and c+1 or c==3 and 5 or 7)
-		if int(t*.01)>P.modeData.event then
-			P.modeData.event=P.modeData.event+1
-			if P.modeData.event==5 then
-				P.modeData.event=4
-				P.modeData.point=500
-				Event.win()
-				return
+		if P.modeData.point%100<60 then
+			P.modeData.point=P.modeData.point+(c<3 and c+1 or c==3 and 5 or 7)--[1]2 3 5 7
+			if P.modeData.point%100>59 then SFX("blip_1")end
+			return
+		else
+			if c==0 then return end
+			local s
+			if P.lastClear<10 then
+				s=c-1--0,1,2,X
 			else
-				local s=P.modeData.event+1
-				curBG=s==2 and"game1"or s==3 and"game2"or s==4 and"game3"or s==5 and"game4"
-				P.gameEnv.lock=rush_lock[s]
-				P.gameEnv.wait=rush_wait[s]
-				P.gameEnv.fall=rush_fall[s]
-				P.gameEnv.das=10-s
-				if s==3 then P.gameEnv.arr=2 end
-				if s==5 then P.gameEnv.bone=true end
-				showText(P,text.stage[s],"fly",80,-120)
-				SFX("reach")
+				s=int(c^1.45)--1,2,4,7
 			end
+			if P.combo>9 then s=s+3
+			elseif P.combo>4 then s=s+2
+			elseif P.combo>2 then s=s+1
+			end
+			P.modeData.point=P.modeData.point+s
 		end
-		P.modeData.point=t
-		if t%100==99 then SFX("blip_1")end
-	end,
-	master_reach_ultimate=function()
-		local t=P.modeData.point
-		local c=#P.clearing
-		if t%100==99 and c==0 then return end
-		t=t+(c<3 and c+1 or c==3 and 5 or 7)
-		if int(t*.01)>P.modeData.event then
-			P.modeData.event=P.modeData.event+1
-			if P.modeData.event==5 then
-				curBG="game5"
-				P.modeData.event=4
-				P.modeData.point=500
-				Event.win()
-				return
+		if int(P.modeData.point*.01)>P.modeData.event then
+			local s=P.modeData.event+1;P.modeData.event=s--level up!
+			showText(P,text.stage(s),"fly",80,-120)
+			if s<4 then--first 300
+				if s~=1 then P.gameEnv.lock=P.gameEnv.lock-1 end
+				if s~=2 then P.gameEnv.wait=P.gameEnv.wait-1 end
+				if s~=3 then P.gameEnv.fall=P.gameEnv.fall-1 end
+			elseif s<10 then
+				if s==4 or s==7 then P.gameEnv.das=P.gameEnv.das-1 end
+				s=s%3
+				if s==0 then
+					P.gameEnv.lock=P.gameEnv.lock-1
+				elseif s==1 then
+					P.gameEnv.wait=P.gameEnv.wait-1
+				elseif s==2 then
+					P.gameEnv.fall=P.gameEnv.fall-1
+				end
 			else
-				local s=P.modeData.event+1
-				curBG=s==2 and"game3"or s==3 and"game4"or s==4 and"game5"or s==5 and"game6"
-				P.gameEnv.lock=death_lock[s]
-				P.gameEnv.wait=death_wait[s]
-				P.gameEnv.fall=death_fall[s]
-				P.gameEnv.das=int(7.3-s*.4)
-				if s==4 then P.gameEnv.bone=true end
-				showText(P,text.stage[s],"fly",80,-120)
-				SFX("reach")
+				P.modeData.point,P.modeData.event=1000,9
+				Event.win()
 			end
+			SFX("reach")
 		end
-		P.modeData.point=t
-		if t%100==99 then SFX("blip_1")end
 	end,
 	classic_reach=function()
-		P.gameEnv.target=P.gameEnv.target+10
-		if P.gameEnv.target==100 then
-			P.gameEnv.drop,P.gameEnv.lock=0,0
+		if P.stat.row>=P.gameEnv.target then
+			P.gameEnv.target=P.gameEnv.target+10
+			if P.gameEnv.target==100 then
+				P.gameEnv.drop,P.gameEnv.lock=1,1
+			end
+			SFX("reach")
 		end
-		SFX("reach")
 	end,
 	infinite_check=function()
 		for i=1,#P.clearing do
 			if P.clearing[i]<6 then
 				garbageRise(10,1,rnd(10))
 			end
+		end
+	end,
+	round_check=function()
+		if #players.alive>1 then
+			P.control=false
+			local ID=P.id
+			repeat
+				ID=ID+1
+				if not players[ID]then ID=1 end
+			until players[ID].alive or ID==P.id
+			players[ID].control=true
 		end
 	end,
 	GM_reach=function()
@@ -596,17 +757,17 @@ Event={
 		end
 	end,
 	tsd_reach=function()
-		if P.lastClear~=52 then
-			Event.lose()
-		elseif #P.clearing>0 then
-			P.modeData.event=P.modeData.event+1
+		if #P.clearing>0 then
+			if P.lastClear~=52 then
+				Event.lose()
+			elseif #P.clearing>0 then
+				P.modeData.event=P.modeData.event+1
+			end
 		end
 	end,
 	tech_reach_easy=function()
-		if P.b2b<40 then
+		if #P.clearing>0 and P.b2b<40 then
 			Event.lose()
-		elseif P.stat.row==3 then
-			Event.win()
 		end
 	end,
 	tech_reach_hard=function()
@@ -639,40 +800,37 @@ Event={
 		end
 	end,
 	newPC=function()
-		if P.stat.piece%4==0 then
-			if #P.field==#P.clearing then
-				P.modeData.event=P.modeData.event==0 and 1 or 0
-				local r=rnd(#PClist)
-				local f=P.modeData.event==0
-				for i=1,4 do
-					local b=PClist[r][i]
-					if f then
-						if b<3 then b=3-b
-						elseif b<5 then b=7-b
-						end
-					end
-					newNext(b)
-				end
-				P.counter=P.stat.piece==0 and 20 or 0
-				newTask(Event_task.PC,P)
-				if curMode.lv==2 then
-					local s=P.stat.pc*.5
-					if int(s)==s and s>0 then
-						P.gameEnv.drop=pc_drop[s]or 10
-						P.gameEnv.lock=pc_lock[s]or 20
-						P.gameEnv.fall=pc_fall[s]or 5
-						if s==10 then
-							showText(P,text.maxspeed,"appear",100,-140,.6)
-						else
-							showText(P,text.speedup,"appear",40,-140)
-						end
-					end
-				end
-			else
-				Event.lose()
-			end
-		elseif P.curY+P.r>5-P.stat.row%4+#P.clearing then
+		if P.curY+P.r>5-P.stat.row%4+#P.clearing then
 			Event.lose()
+		end
+		if P.stat.piece%4==0 and #P.field==#P.clearing then
+			P.modeData.event=P.modeData.event==0 and 1 or 0
+			local r=rnd(#PClist)
+			local f=P.modeData.event==0
+			for i=1,4 do
+				local b=PClist[r][i]
+				if f then
+					if b<3 then b=3-b
+					elseif b<5 then b=7-b
+					end
+				end
+				newNext(b)
+			end
+			P.counter=P.stat.piece==0 and 20 or 0
+			newTask(Event_task.PC,P)
+			if curMode.lv==2 then
+				local s=P.stat.pc*.5
+				if int(s)==s and s>0 then
+					P.gameEnv.drop=pc_drop[s]or 10
+					P.gameEnv.lock=pc_lock[s]or 20
+					P.gameEnv.fall=pc_fall[s]or 5
+					if s==10 then
+						showText(P,text.maxspeed,"appear",100,-140,.6)
+					else
+						showText(P,text.speedup,"appear",40,-140)
+					end
+				end
+			end
 		end
 	end,
 	puzzleCheck=function()
@@ -680,12 +838,12 @@ Event={
 			local L=P.field[y]
 			for x=1,10 do
 				local a,b=preField[y][x],L and L[x]or 0
-				if a~=-1 and(a==0 and b>0 or a<8 and a~=b or a>7 and b==0)then return end
+				if a~=0 and(a==0 and b>0 or a<8 and a~=b or a>7 and b==0)then return end
 			end
 		end
 		P.modeData.event=1
 		Event.win()
-	end
+	end,
 }
 Event_task={
 	finish=function(self,P)
@@ -727,6 +885,7 @@ Event_task={
 		end
 		if data[2]<=0 then return true end
 	end,
+
 	dig_normal=function(self,P)
 		if not P.control then return end
 		P.counter=P.counter+1
@@ -821,37 +980,131 @@ Event_task={
 			P.modeData.event=P.modeData.event+1
 		end
 	end,
-	survivor_extra=function(self,P)
+	defender_normal=function(self,P)
 		if not P.control then return end
-		if P.atkBuffer.sum<3 then
-			local p=#P.atkBuffer+1
-			local T=P.modeData.event
-			if T<15 then
-				local t=1200-20*T--1200~900
-				P.atkBuffer[p]	={pos=rnd(5,6),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=3}
-				P.atkBuffer[p+1]={pos=rnd(4,7),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
-			elseif T<30 then
-				local t=900-20*(T-15)--900~600
-				P.atkBuffer[p]	={pos=rnd(3,8),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
-				P.atkBuffer[p+1]={pos=rnd(4,7),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=5}
-			else
-				local t=max(480,720-16*(T-30))--720~480
-				P.atkBuffer[p]	={pos=rnd(2)*9-8,amount=12,countdown=t,cd0=t,time=0,sent=false,lv=5}
-				P.atkBuffer[p+1]={pos=rnd(3,8),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=5}
+		P.counter=P.counter+1
+		local t=360-P.modeData.event*2
+		if P.counter>=t then
+			P.counter=0
+			for i=1,3 do
+				P.atkBuffer[#P.atkBuffer+1]={pos=rnd(2,9),amount=1,countdown=2*t,cd0=2*t,time=0,sent=false,lv=1}
 			end
-			P.atkBuffer.sum=P.atkBuffer.sum+20
-			P.stat.recv=P.stat.recv+20
-			P.modeData.event=P.modeData.event+1
-			if P.modeData.event==15 then
-				showText(P,text.awesome,"appear",100,-140,.6)
-			elseif P.modeData.event==16 then
-				pushSpeed=4
-			elseif P.modeData.event==30 then
-				showText(P,text.continue,"appear",100,-140,.6)
-			elseif P.modeData.event==31 then
-				pushSpeed=6
-			elseif P.modeData.event==45 then
-				showText(P,text.maxspeed,"appear",100,-140,.6)
+			P.atkBuffer.sum=P.atkBuffer.sum+3
+			P.stat.recv=P.stat.recv+3
+			local D=P.modeData
+			if D.event<90 then
+				D.event=D.event+1
+				D.point=int(108e3/(360-D.event*2))*.1
+				if D.event==25 then
+					showText(P,text.great,"appear",100,-140,.6)
+					pushSpeed=2
+					P.dropDelay,P.gameEnv.drop=20,20
+				elseif D.event==50 then
+					showText(P,text.awesome,"appear",100,-140,.6)
+					pushSpeed=3
+					P.dropDelay,P.gameEnv.drop=10,10
+				elseif D.event==90 then
+					P.dropDelay,P.gameEnv.drop=5,5
+					showText(P,text.maxspeed,"appear",100,-140,.6)
+				end
+			end
+		end
+	end,
+	defender_lunatic=function(self,P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		local t=240-2*P.modeData.event
+		if P.counter>=t then
+			P.counter=0
+			for i=1,4 do
+				P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
+			end
+			P.atkBuffer.sum=P.atkBuffer.sum+4
+			P.stat.recv=P.stat.recv+4
+			local D=P.modeData
+			if D.event<75 then
+				D.event=D.event+1
+				D.point=int(144e3/(240-2*D.event))*.1
+				if D.event==25 then
+					showText(P,text.great,"appear",100,-140,.6)
+					pushSpeed=3
+					P.dropDelay,P.gameEnv.drop=4,4
+				elseif D.event==50 then
+					showText(P,text.awesome,"appear",100,-140,.6)
+					pushSpeed=4
+					P.dropDelay,P.gameEnv.drop=3,3
+				elseif D.event==75 then
+					showText(P,text.maxspeed,"appear",100,-140,.6)
+					P.dropDelay,P.gameEnv.drop=2,2
+				end
+			end
+		end
+	end,
+	attacker_hard=function(self,P)
+		if not P.control then return end
+		if P.atkBuffer.sum==0 then
+			local p=#P.atkBuffer+1
+			local B,D=P.atkBuffer,P.modeData
+			local t
+			if D.event<20 then
+				t=1500-30*D.event--1500~900
+				B[p]=	{pos=rnd(4,7),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=3}
+				B[p+1]=	{pos=rnd(3,8),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
+			else
+				t=900-10*(D.event-20)--900~600
+				B[p]=	{pos=rnd(10),amount=6,countdown=t,cd0=t,time=0,sent=false,lv=4}
+				B[p+1]=	{pos=rnd(4,7),amount=16,countdown=t,cd0=t,time=0,sent=false,lv=5}
+			end
+			B.sum=B.sum+22
+			P.stat.recv=P.stat.recv+22
+			if D.event<50 then
+				D.event=D.event+1
+				D.point=int(72e4/t)*.1
+				if D.event==20 then
+					showText(P,text.great,"appear",100,-140,.6)
+					pushSpeed=3
+				elseif D.event==50 then
+					showText(P,text.maxspeed,"appear",100,-140,.6)
+				end
+			end
+		end
+	end,
+	attacker_ultimate=function(self,P)
+		if not P.control then return end
+		if P.atkBuffer.sum<2 then
+			local p=#P.atkBuffer+1
+			local B,D=P.atkBuffer,P.modeData
+			local s,t
+			if D.event<10 then
+				t=1000-20*D.event--1000~800
+				B[p]=	{pos=rnd(5,6),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=3}
+				B[p+1]=	{pos=rnd(4,7),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=4}
+				s=22
+			elseif D.event<20 then
+				t=800-20*(D.event-15)--800~600
+				B[p]=	{pos=rnd(3,8),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
+				B[p+1]=	{pos=rnd(4,7),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
+				s=25
+			else
+				t=600-15*(D.event-30)--600~450
+				B[p]=	{pos=rnd(2)*9-8,amount=12,countdown=t,cd0=t,time=0,sent=false,lv=5}
+				B[p+1]=	{pos=rnd(3,8),amount=16,countdown=t,cd0=t,time=0,sent=false,lv=5}
+				s=28
+			end
+			B.sum=B.sum+s
+			P.stat.recv=P.stat.recv+s
+			if D.event<45 then
+				D.event=D.event+1
+				D.point=int(s*36e3/t)*.1
+				if D.event==10 then
+					showText(P,text.great,"appear",100,-140,.6)
+					pushSpeed=4
+				elseif D.event==20 then
+					showText(P,text.awesome,"appear",100,-140,.6)
+					pushSpeed=5
+				elseif D.event==30 then
+					showText(P,text.maxspeed,"appear",100,-140,.6)
+				end
 			end
 		end
 	end,
@@ -899,85 +1152,112 @@ Event_task={
 		end
 	end
 }
+local Fkey_func={
+	royale=function()
+		if setting.swap then
+			for i=1,#P.keyPressing do
+				if P.keyPressing[i]then
+					P.keyPressing[i]=false
+				end
+			end
+			P.keyPressing[9]=true
+		else
+			changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
+			P.swappingAtkMode=30
+		end
+	end,
+	puzzle=function()
+		P.modeData.event=1-P.modeData.event
+	end,
+}
 defaultModeEnv={
 	sprint={
 		{
 			drop=60,lock=60,
-			target=10,reach=Event.win,
+			target=10,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="race",
 		},
 		{
 			drop=60,lock=60,
-			target=20,reach=Event.win,
+			target=20,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="race",
 		},
 		{
 			drop=60,lock=60,
-			target=40,reach=Event.win,
+			target=40,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="race",
 		},
 		{
 			drop=60,lock=60,
-			target=100,reach=Event.win,
+			target=100,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="race",
 		},
 		{
 			drop=60,lock=60,
-			target=400,reach=Event.win,
+			target=400,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="push",
 		},
 		{
 			drop=60,lock=60,
-			target=1000,reach=Event.win,
+			target=1000,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="push",
 		},
 	},
 	marathon={
 		{
 			drop=60,lock=60,fall=30,
-			target=200,reach=Event.marathon_reach,
+			target=200,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="way",
 		},
 		{
 			drop=60,fall=20,
-			target=10,reach=Event.marathon_reach,
+			target=10,dropPiece=Event.marathon_update,
 			bg="strap",bgm="way",
 		},
 		{
 			_20G=true,fall=15,
-			target=200,reach=Event.marathon_reach,
+			target=200,dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="race",
 		},
 	},
 	master={
 		{
-			_20G=true,drop=0,lock=rush_lock[1],
+			_20G=true,lock=rush_lock[1],
 			wait=rush_wait[1],
 			fall=rush_fall[1],
-			target=0,reach=Event.master_reach_lunatic,
+			dropPiece=Event.master_score,
 			das=9,arr=3,
 			freshLimit=15,
 			bg="strap",bgm="secret8th",
 		},
 		{
-			_20G=true,drop=0,lock=death_lock[1],
+			_20G=true,lock=death_lock[1],
 			wait=death_wait[1],
 			fall=death_fall[1],
-			target=0,reach=Event.master_reach_ultimate,
+			dropPiece=Event.master_score,
 			das=6,arr=1,
 			freshLimit=15,
 			bg="game2",bgm="secret7th",
+		},
+		{
+			_20G=true,lock=12,
+			wait=10,fall=10,
+			dropPiece=Event.master_score_hard,
+			das=5,arr=1,
+			freshLimit=15,
+			easyFresh=false,bone=true,
+			bg="none",bgm="shining terminal",
 		},
 	},
 	classic={
 		{
 			das=15,arr=3,sddas=2,sdarr=2,
 			ghost=false,center=false,
-			drop=1,lock=1,wait=10,fall=25,
+			drop=2,lock=2,wait=10,fall=25,
 			next=1,hold=false,
 			sequence="rnd",
 			freshLimit=0,
-			target=10,reach=Event.classic_reach,
+			target=10,dropPiece=Event.classic_reach,
 			bg="rgb",bgm="rockblock",
 		},
 	},
@@ -985,7 +1265,7 @@ defaultModeEnv={
 		{
 			drop=1e99,lock=1e99,
 			oncehold=false,
-			target=200,reach=Event.win,
+			dropPiece=Event.reach_winCheck,
 			bg="strap",bgm="infinite",
 		},
 	},
@@ -998,14 +1278,23 @@ defaultModeEnv={
 		{
 			drop=1e99,lock=1e99,
 			oncehold=false,
-			target=1,reach=Event.infinite_check,
+			dropPiece=Event.infinite_check,
 			bg="glow",bgm="infinite",
 		},
 	},
 	solo={
 		{
+			drop=60,lock=60,
 			freshLimit=15,
 			bg="game2",bgm="race",
+		},
+	},
+	round={
+		{
+			drop=1e99,lock=1e99,
+			oncehold=false,
+			dropPiece=Event.round_check,
+			bg="game2",bgm="push",
 		},
 	},
 	tsd={
@@ -1013,33 +1302,34 @@ defaultModeEnv={
 			oncehold=false,
 			drop=1e99,lock=1e99,
 			freshLimit=15,
-			target=1,reach=Event.tsd_reach,
+			dropPiece=Event.tsd_reach,
 			ospin=false,
 			bg="matrix",bgm="reason",
 		},
 		{
 			drop=60,lock=60,
 			freshLimit=15,
-			target=1,reach=Event.tsd_reach,
+			dropPiece=Event.tsd_reach,
 			ospin=false,
 			bg="matrix",bgm="reason",
 		},
 	},
 	blind={
 		{
-			drop=30,lock=60,
-			freshLimit=15,
+			drop=30,lock=45,
+			freshLimit=10,
 			visible="time",
 			bg="glow",bgm="newera",
 		},
 		{
-			drop=15,lock=60,
-			freshLimit=15,
+			drop=15,lock=45,
+			freshLimit=10,
 			visible="fast",
 			freshLimit=10,
 			bg="glow",bgm="reason",
 		},
 		{
+			drop=15,lock=45,
 			fall=10,lock=60,
 			center=false,
 			visible="none",
@@ -1047,18 +1337,18 @@ defaultModeEnv={
 			bg="rgb",bgm="secret7th",
 		},
 		{
+			drop=10,lock=45,
 			fall=5,lock=60,
-			center=false,
-			ghost=false,
+			center=false,ghost=false,
 			visible="none",
 			freshLimit=15,
 			bg="rgb",bgm="secret8th",
 		},
 		{
-			fall=5,lock=60,
+			drop=30,lock=60,
+			fall=5,
 			block=false,
-			center=false,
-			ghost=false,
+			center=false,ghost=false,
 			visible="none",
 			freshLimit=15,
 			bg="rgb",bgm="secret7th",
@@ -1069,9 +1359,9 @@ defaultModeEnv={
 			wait=10,fall=15,
 			visible="fast",
 			freshLimit=15,
-			target=1,reach=Event.GM_reach,
+			dropPiece=Event.GM_reach,
 			arr=1,
-			bg="game3",bgm="secret8th",
+			bg="game3",bgm="shining terminal",
 		},
 	},
 	dig={
@@ -1079,11 +1369,13 @@ defaultModeEnv={
 			drop=60,lock=120,
 			fall=20,
 			freshLimit=15,
+			task="dig_normal",
 			bg="game2",bgm="push",
 		},
 		{
 			drop=10,lock=30,
 			freshLimit=15,
+			task="dig_lunatic",
 			bg="game2",bgm="secret7th",
 		},
 	},
@@ -1092,87 +1384,122 @@ defaultModeEnv={
 			drop=60,lock=120,
 			fall=30,
 			freshLimit=15,
+			task="survivor_easy",
 			bg="game2",bgm="push",
 		},
 		{
 			drop=30,lock=60,
 			fall=20,
 			freshLimit=15,
+			task="survivor_normal",
 			bg="game2",bgm="newera",
 		},
 		{
 			drop=10,lock=60,
 			fall=15,
 			freshLimit=15,
+			task="survivor_hard",
 			bg="game2",bgm="secret8th",
 		},
 		{
 			drop=6,lock=60,
 			fall=10,
 			freshLimit=15,
+			task="survivor_lunatic",
 			bg="game3",bgm="secret7th",
 		},
 		{
 			drop=5,lock=60,
 			fall=10,
 			freshLimit=15,
+			task="survivor_ultimate",
 			bg="rgb",bgm="secret7th",
 		},
+	},
+	defender={
 		{
-			drop=3,lock=60,
+			drop=30,lock=60,
+			fall=10,
+			freshLimit=15,
+			task="defender_normal",
+			bg="game3",bgm="way",
+		},
+		{
+			drop=5,lock=60,
+			fall=6,
+			freshLimit=15,
+			task="defender_lunatic",
+			bg="game4",bgm="way",
+		},
+	},
+	attacker={
+		{
+			drop=30,lock=60,
+			fall=12,
+			freshLimit=15,
+			task="attacker_hard",
+			bg="game3",bgm="push",
+		},
+		{
+			drop=5,lock=60,
 			fall=8,
 			freshLimit=15,
-			bg="game4",bgm="push",
+			task="attacker_ultimate",
+			bg="game4",bgm="shining terminal",
 		},
 	},
 	tech={
 		{
 			oncehold=false,
 			drop=1e99,lock=1e99,
-			target=1,reach=Event.tech_reach_easy,
+			dropPiece=Event.tech_reach_easy,
 			bg="matrix",bgm="newera",
 		},
 		{
 			oncehold=false,
 			drop=1e99,lock=1e99,
-			target=1,reach=Event.tech_reach_ultimate,
+			dropPiece=Event.tech_reach_ultimate,
 			bg="matrix",bgm="newera",
 		},
 		{
 			drop=10,lock=60,
 			freshLimit=15,
-			target=1,reach=Event.tech_reach_easy,
+			dropPiece=Event.tech_reach_easy,
 			bg="matrix",bgm="secret8th",
 		},
 		{
 			drop=30,lock=60,
 			freshLimit=15,
-			target=1,reach=Event.tech_reach_ultimate,
+			dropPiece=Event.tech_reach_ultimate,
 			bg="matrix",bgm="secret8th",
 		},
 		{
 			_20G=true,lock=60,
 			freshLimit=15,
-			target=1,reach=Event.tech_reach_hard,
+			dropPiece=Event.tech_reach_hard,
 			bg="matrix",bgm="secret7th",
 		},
 		{
 			_20G=true,lock=60,
 			freshLimit=15,
-			target=1,reach=Event.tech_reach_ultimate,
+			dropPiece=Event.tech_reach_ultimate,
 			bg="matrix",bgm="secret7th",
 		},
 	},
 	c4wtrain={
 		{
+			drop=30,lock=60,
+			oncehold=false,
 			freshLimit=15,
-			target=0,reach=Event.c4w_reach,
+			dropPiece=Event.c4w_reach,
+			ospin=false,
 			bg="rgb",bgm="newera",
 		},
 		{
 			drop=5,lock=30,
 			freshLimit=15,
-			target=0,reach=Event.c4w_reach,
+			dropPiece=Event.c4w_reach,
+			ospin=false,
 			bg="rgb",bgm="newera",
 		},
 	},
@@ -1183,7 +1510,7 @@ defaultModeEnv={
 			drop=150,lock=150,
 			fall=20,
 			sequence="none",
-			target=0,reach=Event.newPC,
+			dropPiece=Event.newPC,
 			ospin=false,
 			bg="rgb",bgm="newera",
 		},
@@ -1194,7 +1521,7 @@ defaultModeEnv={
 			fall=20,
 			sequence="none",
 			freshLimit=15,
-			target=0,reach=Event.newPC,
+			dropPiece=Event.newPC,
 			ospin=false,
 			bg="rgb",bgm="newera",
 		},
@@ -1203,20 +1530,22 @@ defaultModeEnv={
 		{
 			oncehold=false,
 			drop=300,lock=1e99,
-			target=100,reach=Event.win,
+			target=100,dropPiece=Event.reach_winCheck,
 			ospin=false,
 			bg="rgb",bgm="newera",
 		},
 		{
-			drop=60,lock=120,fall=10,
-			target=100,reach=Event.win,
+			drop=60,lock=120,
+			fall=10,
+			target=100,dropPiece=Event.reach_winCheck,
 			freshLimit=15,
 			ospin=false,
 			bg="rgb",bgm="infinite",
 		},
 		{
-			drop=20,lock=60,fall=20,
-			target=100,reach=Event.win,
+			drop=20,lock=60,
+			fall=20,
+			target=100,dropPiece=Event.reach_winCheck,
 			freshLimit=15,
 			ospin=false,
 			bg="rgb",bgm="infinite",
@@ -1224,9 +1553,10 @@ defaultModeEnv={
 	},
 	techmino49={
 		{
+			drop=60,lock=60,
 			fall=20,
 			royaleMode=true,
-			Fkey=true,
+			Fkey=Fkey_func.royale,
 			royalePowerup={2,5,10,20},
 			royaleRemain={30,20,15,10,5},
 			pushSpeed=2,
@@ -1236,9 +1566,10 @@ defaultModeEnv={
 	},
 	techmino99={
 		{
+			drop=60,lock=60,
 			fall=20,
 			royaleMode=true,
-			Fkey=true,
+			Fkey=Fkey_func.royale,
 			royalePowerup={2,6,14,30},
 			royaleRemain={75,50,35,20,10},
 			pushSpeed=2,
@@ -1250,8 +1581,7 @@ defaultModeEnv={
 		{
 			drop=20,lock=60,
 			sequence="drought1",
-			target=100,
-			reach=Event.win,
+			target=100,dropPiece=Event.reach_winCheck,
 			ospin=false,
 			freshLimit=15,
 			bg="glow",bgm="reason",
@@ -1259,8 +1589,7 @@ defaultModeEnv={
 		{
 			drop=20,lock=60,
 			sequence="drought2",
-			target=100,
-			reach=Event.win,
+			target=100,dropPiece=Event.reach_winCheck,
 			ospin=false,
 			freshLimit=15,
 			bg="glow",bgm="reason",
@@ -1268,17 +1597,18 @@ defaultModeEnv={
 	},
 	hotseat={
 		{
+			drop=60,lock=60,
 			freshLimit=15,
 			bg="none",bgm="way",
 		},
 	},
 	custom={
 		{
-			reach=Event.win,
+			dropPiece=Event.reach_winCheck,
 		},
 		{
-			Fkey=true,puzzle=true,
-			target=0,reach=Event.puzzleCheck,
+			Fkey=Fkey_func.puzzle,puzzle=true,
+			dropPiece=Event.puzzleCheck,
 		},
 	},
 }

@@ -26,11 +26,13 @@ local modeLevelColor={
 	NORMAL=color.green,
 	HARD=color.magenta,
 	LUNATIC=color.red,
+	EXTRA=color.lightMagenta,
+	ULTIMATE=color.lightYellow,
+	FINAL=color.lightGrey,
+	["EASY+"]=color.darkCyan,
 	["NORMAL+"]=color.darkGreen,
 	["HARD+"]=color.darkMagenta,
 	["LUNATIC+"]=color.darkRed,
-	EXTRA=color.lightMagenta,
-	ULTIMATE=color.lightYellow,
 
 	MESS=color.lightGrey,
 	GM=color.blue,
@@ -109,7 +111,7 @@ FX={
 	shake=0,--Screen shake(frame)
 	attack={},--Attack beam
 	badge={},--badge thrown
-	
+
 	appear=function(t,a)
 		setFont(t.font)
 		gc.setColor(1,1,1,a)
@@ -246,27 +248,27 @@ end,
 game1=function()
 	gc.setColor(1,1,1)
 	gc.draw(background1,640,360,Timer()*.15,12,nil,64,64)
-end,
+end,--Rainbow
 game2=function()
 	gc.setColor(1,.5,.5)
 	gc.draw(background1,640,360,Timer()*.2,12,nil,64,64)
-end,
+end,--Red rainbow
 game3=function()
 	gc.setColor(.6,.6,1)
 	gc.draw(background1,640,360,Timer()*.25,12,nil,64,64)
-end,
+end,--Blue rainbow
 game4=function()
 	gc.setColor(.1,.5,.5)
 	local x=Timer()%4*320
 	gc.draw(background2,x,0,nil,10)
 	gc.draw(background2,x-1280,0,nil,10)
-end,
+end,--Fast strap
 game5=function()
 	local t=2.5-Timer()%20%6%2.5
 	if t<.5 then gc.clear(t,t,t)
 	else gc.clear(0,0,0)
 	end
-end,
+end,--Lightning
 game6=function()
 	local t=1.2-Timer()%10%3%1.2
 	if t<.5 then gc.clear(t,t,t)
@@ -275,7 +277,7 @@ game6=function()
 	gc.setColor(.3,.3,.3)
 	local r=7-int(Timer()*.5)%7
 	gc.draw(mouseBlock[r],640,360,Timer()%3.1416*6,400,400,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
-end,
+end,--Fast lightning&spining tetromino
 rgb=function()
 	gc.clear(
 		sin(Timer()*1.2)*.15+.5,
@@ -361,19 +363,19 @@ function Pnt.mode()
 end
 function Pnt.music()
 	gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
-	gc.rectangle("fill",45,98+30*sel,237,30)
+	gc.rectangle("fill",45,98+30*sel,250,30)
 	gc.setColor(.8,.8,.8)
 	gc.draw(drawableText.musicRoom,20,20)
 	gc.setColor(1,1,1)
 	gc.draw(drawableText.musicRoom,22,23)
-	gc.draw(drawableText.nowPlaying,520,83)
+	gc.draw(drawableText.nowPlaying,490,110)
 	setFont(35)
 	for i=1,#musicID do
 		gc.print(musicID[i],50,90+30*i)
 	end
 	setFont(50)
 	gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-	gc.print(bgmPlaying or"",600,140)
+	mStr(bgmPlaying or"",630,180)
 end
 function Pnt.custom()
 	gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
@@ -406,7 +408,7 @@ function Pnt.draw()
 		local B=preField[y][x]
 		if B>0 then
 			drawPixel(y,x,B)
-		elseif B==0 then
+		elseif B==-1 then
 			gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
 			gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
 		end
@@ -424,7 +426,7 @@ function Pnt.draw()
 		gc.setLineWidth(13)
 		gc.setColor(blockColor[pen])
 		gc.rectangle("line",945,605,70,70)
-	elseif pen==0 then
+	elseif pen==-1 then
 		gc.setLineWidth(5)
 		gc.setColor(.9,.9,.9)
 		gc.line(960,620,1000,660)
@@ -443,16 +445,11 @@ function Pnt.play()
 				gc.push("transform")
 				gc.origin()
 				gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
-				local h=#P.clearing
 				local F=P.field
 				for j=1,#F do
-					if j==P.clearing[h]and P.falling>-1 then
-						h=h-1
-					else
-						for i=1,10 do if F[j][i]>0 then
-							gc.draw(blockSkinmini[F[j][i]],6*i-6,120-6*j)
-						end end
-					end
+					for i=1,10 do if F[j][i]>0 then
+						gc.draw(blockSkinmini[F[j][i]],6*i-6,120-6*j)
+					end end
 				end--Field
 				if P.alive then
 					gc.setLineWidth(2)
@@ -471,6 +468,7 @@ function Pnt.play()
 				end
 				gc.pop()
 				gc.setCanvas()
+				--draw content
 			end
 			gc.setColor(1,1,1)
 			gc.draw(P.canvas,P.x,P.y,nil,P.size*10)
@@ -479,6 +477,7 @@ function Pnt.play()
 				gc.setColor(1,0,0,min(P.endCounter,25)*.04)
 				gc.circle("line",P.centerX,P.centerY,(840-20*min(P.endCounter,30))*P.size)
 			end
+			--draw Canvas
 		else
 			gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)--Position
@@ -497,26 +496,24 @@ function Pnt.play()
 			end--Grid lines
 			gc.translate(0,P.fieldBeneath)
 			gc.setScissor(scr.x+P.absFieldX*scr.k,scr.y+P.absFieldY*scr.k,300*P.size*scr.k,610*P.size*scr.k)
-			-- local dy=setting.smo and(P.y_img~=P.curY and min(P.dropDelay,8e98)/P.gameEnv.drop or min(P.lockDelay,8e98)/P.gameEnv.lock)^4*30 or 0
-				local dy,stepY=0,setting.smo and (1-(P.falling/P.gameEnv.fall)^3)*30 or 0
-				local h=#P.clearing
+				local dy,stepY=0,setting.smo and(P.falling/(P.gameEnv.fall+1))^2.5*30 or 30
+				local h=1
 				for j=int(P.fieldBeneath/30+1),#P.field do
-					if j==P.clearing[h]and P.falling>-1 then
-						h=h-1
+					while j==P.clearing[h]and P.falling>-1 do
+						h=h+1
 						dy=dy+stepY
-						gc.translate(0,stepY)
+						gc.translate(0,-stepY)
 						gc.setColor(1,1,1,P.falling/P.gameEnv.fall)
-						gc.rectangle("fill",0,600-30*j,320,30-stepY)
-					else
-						for i=1,10 do
-							if P.field[j][i]>0 then
-								gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-								drawPixel(j,i,P.field[j][i])
-							end
+						gc.rectangle("fill",0,630-30*j,320,stepY)
+					end
+					for i=1,10 do
+						if P.field[j][i]>0 then
+							gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
+							drawPixel(j,i,P.field[j][i])
 						end
 					end
 				end--Field
-				gc.translate(0,-dy)
+				gc.translate(0,dy)
 				for i=1,#P.shade do
 					local S=P.shade[i]
 					gc.setColor(1,1,1,S[1]*.12)
@@ -535,10 +532,28 @@ function Pnt.play()
 							end
 						end end
 					end--Ghost
-					local dy=setting.smo and(P.y_img~=P.curY and min(P.dropDelay,8e98)/P.gameEnv.drop or min(P.lockDelay,8e98)/P.gameEnv.lock)^4*30 or 0
+					-- local dy=setting.smo and(P.y_img~=P.curY and  or 1)^4*30 or 0
+					local dy
+					if setting.smo then
+						if P.y_img~=P.curY then
+							dy=(min(P.dropDelay,1e99)/P.gameEnv.drop-1)*30
+						else
+							dy=0
+						end
+						--[[
+						if P.y_img~=P.curY then
+							dy=(min(P.dropDelay,8e98)/P.gameEnv.drop)^4*30
+						else
+							dy=(min(P.lockDelay,8e98)/P.gameEnv.lock)^(P.gameEnv._20G and 3 or 7)*30
+						end
+						]]
+					else
+						dy=0
+					end
 					gc.translate(0,-dy)
+					local trans=P.lockDelay/P.gameEnv.lock
 					if P.gameEnv.block then
-						gc.setColor(1,1,1,P.lockDelay/P.gameEnv.lock)
+						gc.setColor(1,1,1,trans)
 						for i=1,P.r do for j=1,P.c do
 							if P.cur.bk[i][j]then
 								gc.rectangle("fill",30*(j+P.curX-1)-33,597-30*(i+P.curY-1),36,36)
@@ -552,7 +567,7 @@ function Pnt.play()
 						end end--Block
 					end
 					if P.gameEnv.center then
-						gc.setColor(1,1,1)
+						gc.setColor(1,1,1,trans)
 						local x=30*(P.curX+P.sc[2]-1)-30+15
 						gc.draw(spinCenter,x,600-30*(P.curY+P.sc[1]-1)+15,nil,nil,nil,4,4)
 						gc.translate(0,dy)
@@ -761,10 +776,10 @@ function Pnt.pause()
 	end
 	setFont(40)
 	if system~="Android"then
-		mStr(text.space.."/"..text.enter,640,300)
-		gc.print("ESC",610,598)
+		mStr(text.space.."/"..text.enter,640,335)
+		gc.print("ESC",610,509)
 	end
-	mDraw(gamefinished and drawableText.finish or drawableText.pause,640,140-12*(5-pauseTimer*.1)^2)
+	mDraw(gamefinished and drawableText.finish or drawableText.pause,640,60-10*(5-pauseTimer*.1)^1.5)
 end
 function Pnt.setting()
 	gc.setColor(1,1,1)

@@ -7,10 +7,11 @@ local find,format=string.find,string.format
 local ins,rem=table.insert,table.remove
 local Timer=tm.getTime
 -- sort=table.sort
--------------------------------------------------------------
+
+local F=false
 null=function()end
+-------------------------------------------------------------
 system=sys.getOS()
-local mobile=system=="Android"or system=="iOS"
 local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
 local touching--1st touching ID
@@ -22,10 +23,9 @@ curBG="none"
 voicePlaying={}
 local devMode=0
 
-local F=false
-kb.setKeyRepeat(F)
-kb.setTextInput(F)
-ms.setVisible(F)
+kb.setKeyRepeat(true)
+kb.setTextInput(false)
+ms.setVisible(false)
 -------------------------------------------------------------
 local Fonts={}
 function setFont(s)
@@ -43,21 +43,21 @@ function setFont(s)
 end
 customSel={22,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}
-for i=1,18 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
-for i=19,20 do preField[i]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}end
+for i=1,10 do preField[i]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}end
+for i=11,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 freeRow={L=40}for i=1,40 do freeRow[i]={0,0,0,0,0,0,0,0,0,0}end
 --Game system Vars
 setting={
 	ghost=true,center=true,
-	grid=F,swap=true,
+	grid=false,swap=true,
 	fxs=3,bg=true,
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	lang=1,
-	
+
 	sfx=true,bgm=true,
-	vib=3,voc=F,
-	fullscreen=F,
+	vib=3,voc=false,
+	fullscreen=false,
 	bgblock=true,
 	skin=1,smo=true,
 	keyMap={
@@ -91,7 +91,7 @@ setting={
 	},
 	virtualkeyAlpha=3,
 	virtualkeyIcon=true,
-	virtualkeySwitch=F,
+	virtualkeySwitch=false,
 	frameMul=100,
 }
 stat={
@@ -126,9 +126,9 @@ virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 -------------------------------------------------------------
 require("class")
 require("toolfunc")
+require("ai")
 require("gamefunc")
 require("list")
-require("ai")
 require("dataList")
 require("texture")
 local Tmr=require("timer")
@@ -147,18 +147,7 @@ if sys.getPowerInfo()~="unknown"then
 			gc.clear(0,0,0,.3)
 			gc.setLineWidth(4)
 			setFont(25)
-			if pow then
-				gc.setColor(1,1,1)
-				gc.draw(batteryImage,58,3)
-				if pow>90 then gc.setColor(color.lightGreen)
-				elseif pow<60 then gc.setColor(color.lightRed)
-				elseif pow<20 then gc.setColor(color.red)
-				elseif pow==26 then gc.setColor(color.purple)
-				end
-				gc.rectangle("fill",61,6,pow*.15,10)
-				gc.setColor(1,1,1)
-				gc.print(pow.."%",94,-3)
-			end
+			local charging
 			if state~="battery"then
 				gc.setColor(1,1,1)
 				if state=="nobattery"then
@@ -166,7 +155,21 @@ if sys.getPowerInfo()~="unknown"then
 					gc.line(61.5,.5,83.5,22.5)
 				elseif state=="charging"or state=="charged"then
 					gc.draw(chargeImage,84,3)
+					F=true
 				end
+			end
+			if pow then
+				if charging then	gc.setColor(0,1,0)
+				elseif pow>50 then	gc.setColor(1,1,1)
+				elseif pow>26 then	gc.setColor(1,1,0)
+				elseif pow<26 then	gc.setColor(1,0,0)
+				else				gc.setColor(.5,0,1)--special~
+				end
+				::L::
+				gc.rectangle("fill",61,6,pow*.15,10)
+				gc.setColor(1,1,1)
+				gc.draw(batteryImage,58,3)
+				gc.print(pow.."%",94,-3)
 			end
 			gc.print(os.date("%H:%M",os.time()),2,-3)
 			gc.pop()gc.setCanvas()
@@ -209,20 +212,22 @@ local sceneInit={
 	mode=function()
 		curBG="none"
 		saveData()
+		destroyPlayers()
 		BGM("blank")
 	end,
 	custom=function()
 		sel=sel or 1
+		destroyPlayers()
 		curBG=customRange.bg[customSel[12]]
 		BGM(customRange.bgm[customSel[13]])
 	end,
 	draw=function()
 		curBG="none"
-		kb.setKeyRepeat(true)
 		clearSureTime=0
 		pen,sx,sy=1,1,1
 	end,
 	play=function()
+		kb.setKeyRepeat(false)
 		restartCount=0
 		if needResetGameData then
 			resetGameData()
@@ -276,37 +281,41 @@ local function onVirtualkey(x,y)
 end
 local function buttonControl_key(i)
 	if i=="up"or i=="down"or i=="left"or i=="right"then
-		if Buttons.sel then
-			Buttons.sel=Buttons[scene][Buttons.sel[i]]or Buttons.sel
+		if Widget.sel then
+			Widget.sel=Widget[scene][Widget.sel[i]]or Widget.sel
 		else
-			Buttons.sel=select(2,next(Buttons[scene]))
+			Widget.sel=select(2,next(Widget[scene]))
 		end
 	elseif i=="space"or i=="return"then
-		if not sceneSwaping and Buttons.sel then
-			local B=Buttons.sel
-			B.alpha=1
-			B.code()
-			if B.hide and B.hide()then Buttons.sel=nil end
-			SFX("button")
-			VOICE("nya")
+		if not sceneSwaping and Widget.sel then
+			local W=Widget.sel
+			if W.type=="button"then
+				W.alpha=1
+				W.code()
+				if W.hide and W.hide()then Widget.sel=nil end
+				SFX("button")
+				VOICE("nya")
+			end
 		end
 	end
 end
 local function buttonControl_gamepad(i)
 	if i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
-		if Buttons.sel then
-			Buttons.sel=Buttons[scene][Buttons.sel[i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]]or Buttons.sel
+		if Widget.sel then
+			Widget.sel=Widget[scene][Widget.sel[i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]]or Widget.sel
 		else
-			Buttons.sel=select(2,next(Buttons[scene]))
+			Widget.sel=select(2,next(Widget[scene]))
 		end
 	elseif i=="start"then
-		if not sceneSwaping and Buttons.sel then
-			local B=Buttons.sel
-			B.alpha=1
-			B.code()
-			if B.hide and B.hide()then Buttons.sel=nil end
-			SFX("button")
-			VOICE("nya")
+		if not sceneSwaping and Widget.sel then
+			local W=Widget.sel
+			if W.type=="button"then
+				W.alpha=1
+				W.code()
+				if W.hide and W.hide()then Widget.sel=nil end
+				SFX("button")
+				VOICE("nya")
+			end
 		end
 	end
 end
@@ -381,7 +390,11 @@ function keyDown.music(key)
 	elseif key=="up"then
 		sel=(sel-2)%#musicID+1
 	elseif key=="return"or key=="space"then
-		BGM(musicID[sel])
+		if bgmPlaying~=musicID[sel]then
+			BGM(musicID[sel])
+		else
+			BGM()
+		end
 	elseif key=="escape"then
 		back()
 	end
@@ -450,7 +463,12 @@ function touchMove.draw(id,x,y,dx,dy)
 end
 function keyDown.draw(key)
 	if key=="delete"then
-		Buttons.draw.clear.code()
+		if clearSureTime>15 then
+			for y=1,20 do for x=1,10 do preField[y][x]=0 end end
+			clearSureTime=0
+		else
+			clearSureTime=50
+		end
 	elseif key=="up"or key=="down"or key=="left"or key=="right"then
 		if not sx then sx=1 end
 		if not sy then sy=1 end
@@ -606,6 +624,7 @@ function touchDown.play(id,x,y)
 		local t=onVirtualkey(x,y)
 		if t then
 			pressKey(t,players[1])
+			VIB(0)
 		end
 	end
 end
@@ -702,15 +721,17 @@ function love.mousepressed(x,y,k,t,num)
 		back()
 	end
 	if k==1 then
-		if not sceneSwaping and Buttons.sel then
-			local B=Buttons.sel
-			B.code()
-			B.alpha=1
-			Buttons.sel=nil
-			love.mousemoved(x,y,0,0)
-			SFX("button")
-			VOICE("nya")
-			VIB(1)
+		if not sceneSwaping and Widget.sel then
+			local W=Widget.sel
+			if W.type=="button"then
+				W.code()
+				W.alpha=1
+				Widget.sel=nil
+				love.mousemoved(x,y,0,0)
+				SFX("button")
+				VOICE("nya")
+				VIB(1)
+			end
 		end
 	end
 end
@@ -718,15 +739,17 @@ function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
-	Buttons.sel=nil
+	Widget.sel=nil
 	if mouseMove[scene]then
 		mouseMove[scene](mx,my,dx/scr.k,dy/scr.k)
 	end
-	for _,B in next,Buttons[scene]do
-		if not(B.hide and B.hide())then
-			if abs(mx-B.x)<B.w*.5 and abs(my-B.y)<B.h*.5 then
-				Buttons.sel=B
-				return
+	for _,W in next,Widget[scene]do
+		if not(W.hide and W.hide())then
+			if W.type=="button"then
+				if mx>W.x and mx<W.x+W.w and my>W.y and my<W.y+W.h then
+					Widget.sel=W
+					return
+				end
 			end
 		end
 	end
@@ -755,16 +778,17 @@ end
 function love.touchreleased(id,x,y)
 	if id==touching then
 		touching=nil
-		if Buttons.sel then
-			local B=Buttons.sel
-			B.code()
-			B.alpha=1
-			Buttons.sel=nil
-			SFX("button")
-			VOICE("nya")
-			VIB(1)
+		if Widget.sel then
+			local W=Widget.sel
+			if W.type=="button"then
+				W.code()
+				W.alpha=1
+				SFX("button")
+				VOICE("nya")
+				VIB(1)
+			end
 		end
-		Buttons.sel=nil
+		Widget.sel=nil
 	end
 	if touchUp[scene]then
 		touchUp[scene](id,xOy:inverseTransformPoint(x,y))
@@ -775,16 +799,18 @@ function love.touchmoved(id,x,y,dx,dy)
 	if touchMove[scene]then
 		touchMove[scene](id,x,y,dx/scr.k,dy/scr.k)
 	end
-	Buttons.sel=nil
-	for _,B in next,Buttons[scene]do
-		if not(B.hide and B.hide())then
-			if abs(x-B.x)<B.w*.5 and abs(y-B.y)<B.h*.5 then
-				Buttons.sel=B
-				return
+	Widget.sel=nil
+	for _,W in next,Widget[scene]do
+		if not(W.hide and W.hide())then
+			if W.type=="button"then
+				if x>W.x and x<W.x+W.w and y>W.y and y<W.y+W.h then
+					Widget.sel=W
+					return
+				end
 			end
 		end
 	end
-	if not Buttons.sel then
+	if not Widget.sel then
 		touching=nil
 	end
 end
@@ -793,24 +819,26 @@ function love.keypressed(i)
 	if i=="f8"then devMode=(devMode+1)%3 end
 	if devMode==2 then
 		if i=="k"then
-			P=players.alive[rnd(#players.alive)]
-			if P.id~=1 then
-				P.lastRecv=players[1]
-				Event.lose()
+			for i=1,8 do
+				P=players.alive[rnd(#players.alive)]
+				if P.id~=1 then
+					P.lastRecv=players[1]
+					Event.lose()
+				end
 			end
-		--Test code here
+			--Test code here
 		elseif i=="q"then
-			local B=Buttons.sel if B then print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))end
-		elseif Buttons.sel then
-			local B=Buttons.sel
-			if i=="left"then B.x=B.x-10
-			elseif i=="right"then B.x=B.x+10
-			elseif i=="up"then B.y=B.y-10
-			elseif i=="down"then B.y=B.y+10
-			elseif i==","then B.w=B.w-10
-			elseif i=="."then B.w=B.w+10
-			elseif i=="/"then B.h=B.h-10
-			elseif i=="'"then B.h=B.h+10
+			local W=Widget.sel if W then print(format("x=%d,y=%d,w=%d,h=%d",W.x,W.y,W.w,W.h))end
+		elseif Widget.sel then
+			local W=Widget.sel
+			if i=="left"then W.x=W.x-10
+			elseif i=="right"then W.x=W.x+10
+			elseif i=="up"then W.y=W.y-10
+			elseif i=="down"then W.y=W.y+10
+			elseif i==","then W.w=W.w-10
+			elseif i=="."then W.w=W.w+10
+			elseif i=="/"then W.h=W.h-10
+			elseif i=="'"then W.h=W.h+10
 			end
 		end
 	else
@@ -890,12 +918,15 @@ function love.update(dt)
 	if sceneSwaping then
 		sceneSwaping.time=sceneSwaping.time-1
 		if sceneSwaping.time==sceneSwaping.mid then
-			for k,B in next,Buttons[scene]do
-				B.alpha=0
-			end--Reset buttons' alpha
-			Buttons.sel=nil
+			for k,W in next,Widget[scene]do
+				if W.type=="button"then
+					W.alpha=0
+				end--Reset widgets' alpha
+			end
+			Widget.sel=nil
 			scene=sceneSwaping.tar
 			sceneInit[scene]()
+			--scene swapped!
 		elseif sceneSwaping.time==0 then
 			sceneSwaping=nil
 		end
@@ -912,11 +943,13 @@ function love.update(dt)
 		end
 		if voicePlaying[1] and not voicePlaying[1]:isPlaying()then voicePlaying[1]:play()end
 	end
-	for k,B in next,Buttons[scene]do
-		local t=B==Buttons.sel and .4 or 0
-		B.alpha=abs(B.alpha-t)>.02 and(B.alpha+(B.alpha<t and .02 or -.02))or t
-		if B.alpha>t then B.alpha=B.alpha-.02 elseif B.alpha<t then B.alpha=B.alpha+.02 end
-	end--update Buttons
+	for k,W in next,Widget[scene]do
+		if W.type=="button"then
+			local t=W==Widget.sel and .4 or 0
+			W.alpha=abs(W.alpha-t)>.02 and(W.alpha+(W.alpha<t and .02 or -.02))or t
+			if W.alpha>t then W.alpha=W.alpha-.02 elseif W.alpha<t then W.alpha=W.alpha+.02 end
+		end
+	end--update Widgets
 end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 function love.draw()
@@ -933,30 +966,32 @@ function love.draw()
 		end end
 	end
 	if Pnt[scene]then Pnt[scene]()end
-	for k,B in next,Buttons[scene]do
-		if not(B.hide and B.hide())then
-			local C=B.rgb or color.white
-			gc.setColor(C[1],C[2],C[3],B.alpha)
-			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
-			gc.setColor(C)
-			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
-			gc.setColor(C[1],C[2],C[3],.3)
-			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
-			local t=B.t
-			local y0
-			if t then
-				if type(t)=="function"then t=t()end
-				setFont(B.f or 40)
-				y0=B.y-currentFont*.64
-				gc.printf(t,B.x-201,y0+2,400,"center")
-				gc.printf(t,B.x-199,y0+2,400,"center")
-				gc.printf(t,B.x-201,y0,400,"center")
-				gc.printf(t,B.x-199,y0,400,"center")
+	for k,W in next,Widget[scene]do
+		if not(W.hide and W.hide())then
+			if W.type=="button"then
+				local C=W.color
+				gc.setColor(C[1],C[2],C[3],W.alpha)
+				gc.rectangle("fill",W.x,W.y,W.w,W.h)
 				gc.setColor(C)
-				mStr(t,B.x,y0+1)
+				gc.setLineWidth(3)gc.rectangle("line",W.x,W.y,W.w,W.h,4)
+				gc.setColor(C[1],C[2],C[3],.3)
+				gc.setLineWidth(5)gc.rectangle("line",W.x,W.y,W.w,W.h,4)
+				local t=W.text
+				if t then
+					if type(t)=="function"then t=t()end
+					setFont(W.font)
+					local x=W.x+W.w*.5
+					local y0=W.y+W.h*.5-currentFont*.64
+					gc.printf(t,x-201,y0+2,400,"center")
+					gc.printf(t,x-199,y0+2,400,"center")
+					gc.printf(t,x-201,y0,400,"center")
+					gc.printf(t,x-199,y0,400,"center")
+					gc.setColor(C)
+					mStr(t,x,y0+1)
+				end
 			end
 		end
-	end--Draw buttons
+	end--Draw widgets
 	if mouseShow and not touching then
 		local r=Timer()*.5
 		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
@@ -985,6 +1020,9 @@ function love.draw()
 	setFont(20)
 	gc.print(tm.getFPS(),5,700)
 	if devMode>0 then
+		if devMode==2 then
+			gc.setColor(1,1,0)
+		end
 		gc.print(mx.." "..my,5,640)
 		gc.print(#freeRow.."/"..freeRow.L,5,660)
 		gc.print(gcinfo(),5,680)
@@ -999,7 +1037,7 @@ function love.run()
 	return function()
 		PUMP()
 		for N,a,b,c,d,e in POLL()do
-			if N=="quit"then return 0
+			if N=="quit"then destroyPlayers()return 0
 			elseif love[N]then love[N](a,b,c,d,e)end
 		end
 		tm.step()
@@ -1031,7 +1069,7 @@ if fs.getInfo("usersetting")then
 	loadSetting()
 elseif system=="Android" or system=="iOS"then
 	setting.virtualkeySwitch=true
-	setting.swap=F
+	setting.swap=false
 end
 math.randomseed(os.time()*626)
 swapLanguage(setting.lang)

@@ -102,8 +102,12 @@ play=function(dt)
 		end
 		for p=1,#players do
 			P=players[p]
-			if P.keyPressing[1]or P.keyPressing[2]then
-				P.moving=P.moving+(P.moving>0 and 1 or -1)
+			if P.keyPressing[1]then
+				if P.moving>0 then P.moving=0 end
+				P.moving=P.moving-1
+			elseif P.keyPressing[2]then
+				if P.moving<0 then P.moving=0 end
+				P.moving=P.moving+1
 			else
 				P.moving=0
 			end
@@ -140,23 +144,15 @@ play=function(dt)
 				end
 			end
 
-			if P.ai and P.waiting==-1 then
-				P.ai.controlDelay=P.ai.controlDelay-1
-				if P.ai.controlDelay==0 then
-					if #P.ai.controls>0 then
-						local C=P.ai.controls
-						pressKey(C[1],P)releaseKey(C[1],P)
-						local k=#C for i=1,k do C[i]=C[i+1]end--table.remove(C,1)
-						P.ai.controlDelay=P.ai.controlDelay0+1
-					else
-						AI_getControls(P.ai.controls)
-						P.ai.controlDelay=P.ai.controlDelay0+2
-						if Timer()-P.modeData.point>P.modeData.event then
-							P.modeData.point=Timer()
-							P.modeData.event=P.ai.controlDelay0+rnd(2,10)
-							changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
-						end
-					end
+			if not P.human and P.control and P.waiting==-1 then
+				local C=P.AI_keys
+				P.AI_delay=P.AI_delay-1
+				if not C[1]then
+					P.AI_stage=AI_think[P.AI_mode][P.AI_stage](C)
+				elseif P.AI_delay<=0 then
+					pressKey(C[1],P)releaseKey(C[1],P)
+					local k=#C for i=1,k do C[i]=C[i+1]end--table.remove(C,1)
+					P.AI_delay=P.AI_delay0*2
 				end
 			end
 			if not P.keepVisible then
@@ -164,21 +160,38 @@ play=function(dt)
 					if P.visTime[j][i]>0 then P.visTime[j][i]=P.visTime[j][i]-1 end
 				end end
 			end--Fresh visible time
-
-			if P.keyPressing[1]or P.keyPressing[2]then
-				P.moving=P.moving+(P.moving>0 and 1 or -1)
-				local d=abs(P.moving)-P.gameEnv.das
-				if d>1 then
-					if P.gameEnv.arr>0 then
-						if d%P.gameEnv.arr==0 then
-							act[P.moving>0 and"moveRight"or"moveLeft"](true)
+			if P.moving<0 then
+				if P.keyPressing[1]then
+					if -P.moving<=P.gameEnv.das then
+						P.moving=P.moving-1
+					elseif P.waiting==-1 then
+						local x=P.curX
+						if P.gameEnv.arr>0 then
+							act.moveLeft(true)
+						else
+							act.insLeft()
 						end
-					else
-						act[P.moving>0 and"insRight"or"insLeft"]()
+						if x~=P.curX then P.moving=P.moving+P.gameEnv.arr-1 end
 					end
+				else
+					P.moving=0
 				end
-			else
-				P.moving=0
+			elseif P.moving>0 then
+				if P.keyPressing[2]then
+					if P.moving<=P.gameEnv.das then
+						P.moving=P.moving+1
+					elseif P.waiting==-1 then
+						local x=P.curX
+						if P.gameEnv.arr>0 then
+							act.moveRight(true)
+						else
+							act.insRight()
+						end
+						if x~=P.curX then P.moving=P.moving-P.gameEnv.arr+1 end
+					end
+				else
+					P.moving=0
+				end
 			end
 			if P.keyPressing[7]and not P.keyPressing[9]then
 				local d=abs(P.downing)-P.gameEnv.sddas
@@ -197,16 +210,17 @@ play=function(dt)
 			end
 			if P.falling>=0 then
 				P.falling=P.falling-1
-				if P.falling>=0 then goto stop end
-				if P.human and P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
-				for i=1,#P.clearing do
-					removeRow(P.field,P.clearing[i])
-					removeRow(P.visTime,P.clearing[i])
-				end
-				for i=1,#P.clearing do
-					P.clearing[i]=nil
+				if P.falling>=0 then
+					goto stop
+				else
+					local L=#P.clearing
+					if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
+					for i=1,L do
+						P.clearing[i]=nil
+					end
 				end
 			end
+			if not P.control then goto stop end
 			if P.waiting>=0 then
 				P.waiting=P.waiting-1
 				if P.waiting==-1 then resetblock()end
@@ -215,11 +229,17 @@ play=function(dt)
 			if P.curY~=P.y_img then
 				if P.dropDelay>=0 then
 					P.dropDelay=P.dropDelay-1
-					if P.dropDelay>=0 then goto stop end
+					if P.dropDelay>0 then goto stop end
 				end
-				drop()
+				P.curY=P.curY-1
+				P.spinLast=false
 				if P.y_img~=P.curY then
 					P.dropDelay=P.gameEnv.drop
+				elseif P.AI_mode=="CC"then
+					P.AI_needFresh=true
+					if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
+						CC_switch20G(P)
+					end
 				end
 				if P.freshTime<=P.gameEnv.freshLimit then
 					P.lockDelay=P.gameEnv.lock
@@ -228,6 +248,9 @@ play=function(dt)
 				P.lockDelay=P.lockDelay-1
 				if P.lockDelay>=0 then goto stop end
 				drop()
+				if P.AI_mode=="CC"then
+					P.AI_needFresh=true
+				end
 			end
 			::stop::
 			if P.b2b1==P.b2b then
@@ -248,14 +271,14 @@ play=function(dt)
 			end
 			if P.falling>=0 then
 				P.falling=P.falling-1
-				if P.falling>=0 then goto stop end
-				if P.human and P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
-				for i=1,#P.clearing do
-					removeRow(P.field,P.clearing[i])
-					removeRow(P.visTime,P.clearing[i])
-				end
-				for i=1,#P.clearing do
-					P.clearing[i]=nil
+				if P.falling>=0 then
+					goto stop
+				else
+					local L=#P.clearing
+					if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
+					for i=1,L do
+						P.clearing[i]=nil
+					end
 				end
 			end::stop::
 			if P.endCounter<40 then
@@ -297,6 +320,7 @@ play=function(dt)
 				if b.t>=60 then rem(P.bonus,i)end
 			end
 		end
+
 		for i=#P.atkBuffer,1,-1 do
 			local atk=P.atkBuffer[i]
 			atk.time=atk.time+1
