@@ -3,12 +3,8 @@ toN,toS=tonumber,tostring
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
 ins,rem,sort=table.insert,table.remove,table.sort
---[[
-freeRow={}
-for i=1,50 do
-	freeRow[i]={0,0,0,0,0,0,0,0,0,0}
-end
-]]--Reset freeRow,in resetGameData
+
+--{0,0,0,0,0,0,0,0,0,0}s in freeRow are reset in resetGameData()
 function getNewRow(val)
 	if not val then val=0 end
 	local t=rem(freeRow)
@@ -45,10 +41,18 @@ end
 ww,wh=gc.getWidth(),gc.getHeight()
 
 Timer=tm.getTime--Easy get time
-mx,my,mouseShow=-10,-10,true
-pause=0--pause countdown(frame)
+mx,my,mouseShow=-20,-20,false
 focus=true
-touches={}--touch ids
+
+do
+	local l={
+		Windows=1,
+		Android=2,
+	}
+	system=l[love.system.getOS()]
+	touching=nil--touching ID
+	l=nil
+end
 
 scene=""
 gamemode=""
@@ -165,12 +169,6 @@ bgm={
 	"push",
 	"reason",
 }
-img={
-	title={
-		eng=gc.newImage("/image/title/eng.png"),
-		chi=gc.newImage("/image/title/chi.png"),
-	}
-}
 FX={
 	flash=0,--Black screen(frame)
 	shake=0,--Screen shake(frame)
@@ -267,8 +265,8 @@ gameEnv0={
 	sequence=1,visible=1,
 	_20G=false,target=9e99,
 	freshLimit=9e99,
-	key={"left","right","x","z","c","up","down","space","LEFT","RIGHT"},
-	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT"},
+	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT","DOWN"},
+	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT","DOWN"},
 	reach=function()end,--Called when reach row target
 }
 randomMethod={
@@ -574,8 +572,8 @@ setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ghost=true,center=true,
-	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT"},
-	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT"},
+	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT","DOWN"},
+	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT","DOWN"},
 }
 stat={
 	run=0,
@@ -624,12 +622,8 @@ function nextLanguage()
 	end
 end
 function mStr(s,x,y)gc.printf(s,x-500,y,1000,"center")end
-function mouseConvert(x,y)
-	if wh/ww<=720/1280 then
-		return 640+(x-ww*.5)*720/wh,y*720/wh
-	else
-		return x*1280/ww,360+(y-wh*.5)*1280/ww
-	end
+function convert(x,y)
+	return x*screenK,(y-screenM)*screenK
 end
 function sysSFX(s,v)
 	if setting.sfx then
@@ -1268,28 +1262,6 @@ function love.update(dt)
 	end
 	--Background blocks update
 
-	for i=1,#touches do
-		local x,y=tc.getPosition(touches[i])
-		for K=1,#gamePad do
-			local b=gamePad[K]
-			local press=false
-			if (x-b.x)^2+(y-b.y)^2<b.r then--Radios already squared
-				press=true
-			end
-			if b.press~=press then
-				(press and pressKey or releaseKey)(K)
-				b.press=press
-			end
-		end
-	end
-	--Touch system
-
-	if Buttons.pressing>0 then
-		Buttons.pressing=Buttons.pressing+1
-		if Buttons.pressing>35 and Buttons.pressing%6==0 then love.mousepressed(ms.getX(),ms.getY(),1)end
-	end
-	--DAP button
-
 	if sceneSwaping then
 		sceneSwaping.time=sceneSwaping.time-1
 		if sceneSwaping.time==sceneSwaping.mid then
@@ -1298,7 +1270,6 @@ function love.update(dt)
 			end--Reset buttons' state
 			game[sceneSwaping.tar]()
 			Buttons.sel=nil
-			love.mousemoved(ms.getX(),ms.getY())
 		elseif sceneSwaping.time==0 then
 			sceneSwaping=nil
 		end
@@ -1307,7 +1278,7 @@ function love.update(dt)
 	end
 	--scene swapping & Timer
 end
-function love.draw()
+function love.draw()print(mouseShow)
 	Pnt.BG[curBG]()
 	gc.setColor(1,1,1,.3)
 	for n=1,#BGblock do
@@ -1322,19 +1293,16 @@ function love.draw()
 	if Pnt[scene]then Pnt[scene]()end
 	setFont(40)
 	drawButton()
-	if mouseShow then
-		gc.setColor(1,.5,0,.7)
-		gc.circle("fill",mx,my,6)
+	if mouseShow and not touching then
+		gc.setColor(1,1,1)
+		gc.draw(mouseIcon,mx,my,nil,nil,nil,10,10)
 	end
 	if sceneSwaping then sceneSwaping.draw()end
 
 	gc.setColor(0,0,0)
-	if wh/ww>=720/1280 then
-		gc.rectangle("fill",0,0,1280,-(wh*1280/ww-720)*.5)
-		gc.rectangle("fill",0,720,1280,(wh*1280/ww-720)*.5)
-	else
-		gc.rectangle("fill",0,0,-(ww*720/wh-1280)*.5,720)
-		gc.rectangle("fill",1280,0,(ww*720/wh-1280)*.5,720)
+	if screenM>0 then
+		gc.rectangle("fill",0,0,1280,-screenM)
+		gc.rectangle("fill",0,720,1280,screenM)
 	end--Draw black side
 
 	numFont(20)gc.setColor(1,1,1)
@@ -1346,35 +1314,29 @@ function love.draw()
 	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(x,y)
-	ww,wh=x,y
+	screenK=1280/gc.getWidth()
+	screenM=(gc.getHeight()*16/9-gc.getWidth())/2
 	gc.origin()
-	gc.translate(ww*.5,wh*.5)
-	if wh/ww>=.6 then
-		gc.scale(ww/1280)
-	else
-		gc.scale(wh/720)
-	end
-	gc.translate(-640,-360)
+	gc.scale(1/screenK,1/screenK)
+	gc.translate(0,screenM)
 end
 function love.focus(f)
+	focus=f
 	if f then
-		focus=true
 		ms.setVisible(false)
 		if bgmPlaying then bgm[bgmPlaying]:play()end
 	else
-		if scene=="play"then pause=20 end
-		focus=false
 		ms.setVisible(true)
 		if bgmPlaying then bgm[bgmPlaying]:pause()end
 	end
 end
 function love.run()
-	local frameT,dt=Timer()
+	love.focus(true)
+	local frameT=Timer()
 	tm.step()
-	love.resize(1280,720)
-	game.load()--Launch
-	math.randomseed(os.time()*626)--true ultheur's  I D!
-	-- while true do
+	love.resize(nil,gc.getHeight())
+	game.load()--System scene Launch
+	math.randomseed(os.time()*626)--true  A-lthour's  ID!
 	return function()
 		love.event.pump()
 		for name,a,b,c,d,e,f in love.event.poll()do
@@ -1384,15 +1346,13 @@ function love.run()
 			end
 			love.handlers[name](a,b,c,d,e,f)
 		end
-		if focus or pause==20 then
+		-- if focus then
 			tm.step()
 			love.update(tm.getDelta())
-			if gc.isActive()then
-				gc.clear(1,1,1)
-				love.draw()--Draw all things
-				gc.present()
-			end
-		end
+			gc.clear(1,1,1)
+			love.draw()
+			gc.present()
+		-- end
 		while Timer()-frameT<1/60 do end
 		frameT=Timer()
 	end
@@ -1400,6 +1360,7 @@ end
 --System callbacks
 
 do--Texture/Image
+	mouseIcon=gc.newImage("/image/mouseIcon.png")
 	local p=gc.newImage("/image/block.png")
 	local l={}
 	gc.setColor(1,1,1)
@@ -1417,6 +1378,11 @@ do--Texture/Image
 		gc.draw(p,nil,nil,nil,12,12)
 	end
 	background=l
+	gamepadIcon={}
+	for i=1,9 do
+		gamepadIcon[i]=gc.newImage("/image/gamepadIcon/"..(actName[i])..".png")
+	end
+	titleImage=gc.newImage("/image/title.png")
 	gc.setCanvas()
 end
 do--Particle
@@ -1432,19 +1398,19 @@ do--Particle
 	--Dust particles
 
 	PTC.attack={}
-	PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/attack_1.png"),200)
+	PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/attack/1.png"),200)
 	PTC.attack[1]:setParticleLifetime(.25)
 	PTC.attack[1]:setEmissionRate(0)
 	PTC.attack[1]:setSpin(10)
 	PTC.attack[1]:setColors(1,1,1,.7,1,1,1,0)
 
-	PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/attack_2.png"),200)
+	PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/attack/2.png"),200)
 	PTC.attack[2]:setParticleLifetime(.3)
 	PTC.attack[2]:setEmissionRate(0)
 	PTC.attack[2]:setSpin(8)
 	PTC.attack[2]:setColors(1,1,1,.7,1,1,1,0)
 
-	PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/attack_3.png"),200)
+	PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/attack/3.png"),200)
 	PTC.attack[3]:setParticleLifetime(.4)
 	PTC.attack[3]:setEmissionRate(0)
 	PTC.attack[3]:setSpin(6)

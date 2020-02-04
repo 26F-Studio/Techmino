@@ -55,6 +55,24 @@ function Tmr.play(dt)
 		PTC.attack[i]:update(dt)
 	end
 	-- Update attack beam
+
+	local list=tc.getTouches()
+	for K=1,#gamepad do
+		local b=gamepad[K]
+		local press=false
+		for k,v in ipairs(list)do
+			local x,y=convert(tc.getPosition(v))
+			if (x-b.x)^2+(y-b.y)^2<b.r then
+				press=true
+			end
+		end
+		if b.press~=press then
+			(press and pressKey or releaseKey)(K)
+			b.press=press
+		end
+	end
+	--Touch system
+
 	if count then
 		count=count-1
 		if count==0 then
@@ -116,6 +134,7 @@ function Tmr.play(dt)
 			end end
 			--Fresh visible time
 			if keyPressing[1]or keyPressing[2]then
+				P.moving=moving+sgn(moving)
 				local d=abs(moving)-gameEnv.das
 				if d>1 then
 					if gameEnv.arr>0 then
@@ -126,11 +145,11 @@ function Tmr.play(dt)
 						act[moving>0 and"toRight"or"toLeft"]()
 					end
 				end
-				P.moving=moving+sgn(moving)
 			else
 				P.moving=0
 			end
 			if keyPressing[7]then
+				P.downing=downing+1
 				local d=abs(downing)-gameEnv.sddas
 				if d>1 then
 					if gameEnv.sdarr>0 then
@@ -141,7 +160,6 @@ function Tmr.play(dt)
 						act.toDown()
 					end
 				end
-				P.downing=downing+1
 			else
 				P.downing=0
 			end

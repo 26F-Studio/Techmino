@@ -9,7 +9,7 @@ function love.conf(t)
     t.gammacorrect=true
     -- t.audio.mixwithsystem=true--Keep background music playing when opening LOVE (boolean, iOS and Android only)
 
-    t.window.title="Techmino Alpha"
+    t.window.title="Techmino V0.2"
     t.window.icon="/image/icon.png"
     t.window.width=1280
     t.window.height=720

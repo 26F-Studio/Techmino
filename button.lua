@@ -58,15 +58,15 @@ Buttons={
 		{x=540,y=490,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[8]end,code=function()gamepadsetting,keysetting=8 end,up=16,down=18,left=8,right=28},
 		{x=540,y=550,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[9]end,code=function()gamepadsetting,keysetting=9 end,up=17,down=27,left=9,right=28},
 		--10~18
-		{x=745,y=90,w=40,h=40,rgb=color.white,t="-",code=function()setting.das=(setting.das-1)%31 end,hold=true,left=10,right=20,down=23},
-		{x=910,y=90,w=40,h=40,rgb=color.white,t="+",code=function()setting.das=(setting.das+1)%31 end,hold=true,left=19,right=21,down=24},
-		{x=960,y=90,w=40,h=40,rgb=color.white,t="-",code=function()setting.arr=(setting.arr-1)%16 end,hold=true,left=20,right=22,down=25},
-		{x=1125,y=90,w=40,h=40,rgb=color.white,t="+",code=function()setting.arr=(setting.arr+1)%16 end,hold=true,left=21,down=26},
+		{x=745,y=90,w=40,h=40,rgb=color.white,t="-",code=function()setting.das=(setting.das-1)%31 end,left=10,right=20,down=23},
+		{x=910,y=90,w=40,h=40,rgb=color.white,t="+",code=function()setting.das=(setting.das+1)%31 end,left=19,right=21,down=24},
+		{x=960,y=90,w=40,h=40,rgb=color.white,t="-",code=function()setting.arr=(setting.arr-1)%16 end,left=20,right=22,down=25},
+		{x=1125,y=90,w=40,h=40,rgb=color.white,t="+",code=function()setting.arr=(setting.arr+1)%16 end,left=21,down=26},
 		--19~22
-		{x=745,y=150,w=40,h=40,rgb=color.white,t="-",code=function()setting.sddas=(setting.sddas-1)%11 end,hold=true,up=19,down=28,left=10,right=24},
-		{x=910,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sddas=(setting.sddas+1)%11 end,hold=true,up=20,down=28,left=23,right=25},
-		{x=960,y=150,w=40,h=40,rgb=color.white,t="-",code=function()setting.sdarr=(setting.sdarr-1)%6 end,hold=true,up=21,down=28,left=24,right=26},
-		{x=1125,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sdarr=(setting.sdarr+1)%4 end,hold=true,up=22,down=28,left=25},
+		{x=745,y=150,w=40,h=40,rgb=color.white,t="-",code=function()setting.sddas=(setting.sddas-1)%11 end,up=19,down=28,left=10,right=24},
+		{x=910,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sddas=(setting.sddas+1)%11 end,up=20,down=28,left=23,right=25},
+		{x=960,y=150,w=40,h=40,rgb=color.white,t="-",code=function()setting.sdarr=(setting.sdarr-1)%6 end,up=21,down=28,left=24,right=26},
+		{x=1125,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sdarr=(setting.sdarr+1)%4 end,up=22,down=28,left=25},
 		--23~26
 		{x=405,y=630,w=130,h=60,rgb=color.white,t="Reset",code=function()for i=1,#setting.key do setting.key[i]=gameEnv0.key[i] end end,up=9,right=28},
 		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end,up=9,left=27},
@@ -78,32 +78,34 @@ Buttons={
 	stat={
 		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end},
 	},
-	sel=nil,--selected button Obj
-	pressing=0,--pressing time
+	sel=nil,--selected button id(integer)
 }
 for k,v in pairs(Buttons)do
-	if type(v)=="table"then
-		for i=1,#v do
-			v[i].alpha=0
-		end
+	for i=1,#v do
+		v[i].alpha=0
 	end
 end
 
-gamePad={
-	{x=0,y=0,r=60},--moveLeft
-	{x=0,y=0,r=60},--moveRight
-	{x=0,y=0,r=60},--rotLeft
-	{x=0,y=0,r=60},--rotRight
-	{x=0,y=0,r=60},--rotFlip
-	{x=0,y=0,r=60},--hardDrop
-	{x=0,y=0,r=60},--softDrop
-	{x=0,y=0,r=60},--hold
-	{x=0,y=0,r=60},--restart
-	{x=0,y=0,r=60},--toLeft
-	{x=0,y=0,r=60},--toRight
-	{x=0,y=0,r=60},--toDown
+gamepad={
+	{x=80,y=-80,r=80},--moveLeft
+	{x=240,y=-80,r=80},--moveRight
+	{x=-240,y=-80,r=80},--rotRight
+	{x=-400,y=-80,r=80},--rotLeft
+	{x=-240,y=-240,r=80},--rotFlip
+	{x=-80,y=-80,r=80},--hardDrop
+	{x=-80,y=-240,r=80},--softDrop
+	{x=-80,y=-400,r=80},--hold
+	{x=80,y=80,r=80},--restart
 }
-for i=1,#gamePad do
-	gamePad[i].press=false
-	gamePad[i].r=gamePad[i].r^2
+--[[
+	{x=0,y=0,r=0},--toLeft
+	{x=0,y=0,r=0},--toRight
+	{x=0,y=0,r=0},--toDown
+]]
+for i=1,#gamepad do
+	gamepad[i].press=false
+	if gamepad[i].x<0 then gamepad[i].x=1280+gamepad[i].x end
+	if gamepad[i].y<0 then gamepad[i].y=720+gamepad[i].y end
+	gamepad[i].r0=gamepad[i].r
+	gamepad[i].r=gamepad[i].r0^2
 end

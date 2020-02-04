@@ -10,26 +10,26 @@ swapDeck_data={
 	{7,0,8,9},{1,0,2,8},{5,2,4,8},{6,0,15,8},
 }--Block id [ZSLJTOI] ,dir,x,y
 swap={
-none={2,1,d=function()end},
-flash={8,1,d=function()gc.clear(1,1,1)end},
-deck={42,1,d=function()
-	local t=sceneSwaping.time
-	gc.setColor(1,1,1)
-	if t>6 then
-		for i=1,43-t do
-			local bn=swapDeck_data[i][1]
-			local b=blocks[bn][swapDeck_data[i][2]]
-			local cx,cy=swapDeck_data[i][3],swapDeck_data[i][4]
-			for y=1,#b do for x=1,#b[1]do
-				if b[y][x]>0 then
-					 gc.draw(blockSkin[bn],80*(cx+x-2),80*(10-cy-y),nil,8/3)
-				end
-			end end
+	none={2,1,d=function()end},
+	flash={8,1,d=function()gc.clear(1,1,1)end},
+	deck={42,1,d=function()
+		local t=sceneSwaping.time
+		gc.setColor(1,1,1)
+		if t>6 then
+			for i=1,43-t do
+				local bn=swapDeck_data[i][1]
+				local b=blocks[bn][swapDeck_data[i][2]]
+				local cx,cy=swapDeck_data[i][3],swapDeck_data[i][4]
+				for y=1,#b do for x=1,#b[1]do
+					if b[y][x]>0 then
+						gc.draw(blockSkin[bn],80*(cx+x-2),80*(10-cy-y),nil,8/3)
+					end
+				end end
+			end
+		else
+			gc.clear(1,1,1)
 		end
-	else
-		gc.clear(1,1,1)
 	end
-end
 },
 }--Scene swapping animations
 
@@ -109,8 +109,11 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha 0.1+",370,150)
-	gc.draw(img.title[setting.lang],30,30)
+	gc.print("Alpha V0.2",370,150)
+	if system==2 then
+		gc.print("Android",530,110)
+	end
+	gc.draw(titleImage,30,30)
 end
 function Pnt.play()
 	for p=1,#players do
@@ -264,12 +267,21 @@ function Pnt.play()
 		gc.draw(PTC.attack[i])
 	end
 	setmetatable(_G,nil)
+	if system==2 then
+		gc.setColor(1,1,1,.8)
+		gc.setLineWidth(5)
+		for i=1,#gamepad do
+			local k=gamepad[i]
+			gc.circle("line",k.x,k.y,k.r0)
+			gc.draw(gamepadIcon[i],k.x,k.y,nil,3,nil,18,18)
+		end
+	end
 end
 function Pnt.setting2()
 	gc.setColor(1,1,1)
 	setFont(18)
-	mStr("softdropDAS:"..setting.sddas,828,138)
-	mStr("softdropARR:"..setting.sdarr,1043,138)
+	mStr("softdropDAS:"..setting.sddas,828,140)
+	mStr("softdropARR:"..setting.sdarr,1043,140)
 	setFont(35)
 	mStr("DAS:"..setting.das,828,73)
 	mStr("ARR:"..setting.arr,1043,73)
@@ -306,5 +318,5 @@ function Pnt.stat()
 	gc.print(stat.hold,600,380)
 	gc.print(stat.spin,600,420)
 
-	gc.draw(img.title[setting.lang],180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
+	gc.draw(img.title[setting.lang],260,570,.2+.07*sin(Timer()*3),.8,nil,250,60)
 end
