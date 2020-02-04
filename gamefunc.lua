@@ -5,10 +5,14 @@ function resetGameData()
 	frame=0
 	count=179
 	FX.beam={}
-	for i=1,#PTC.dust do PTC.dust[i]:release()end
+	for k,v in pairs(PTC.dust)do
+		if k~=0 then v:release()end
+	end
 	for i=1,#players do
-		PTC.dust[i]=PTC.dust[0]:clone()
-		PTC.dust[i]:start()
+		if not players[i].small then
+			PTC.dust[i]=PTC.dust[0]:clone()
+			PTC.dust[i]:start()
+		end
 	end
 	for i=1,#virtualkey do
 		virtualkey[i].press=false
@@ -169,9 +173,11 @@ function checkrow(s,num)--(cy,r)
 		ins(clearing,1,i)
 		P.falling=gameEnv.fall
 		c=c+1--row cleared+1
-		for k=1,250 do
-			PTC.dust[P.id]:setPosition(rnd(300),600-30*i+rnd(30))
-			PTC.dust[P.id]:emit(1)
+		if not P.small then
+			for k=1,250 do
+				PTC.dust[P.id]:setPosition(rnd(300),600-30*i+rnd(30))
+				PTC.dust[P.id]:emit(1)
+			end
 		end
 	end end
 	return c
@@ -386,7 +392,7 @@ function drop()
 			sendTime=sendTime+30
 			SFX("perfectclear")
 			if cstat.piece>10 then
-				P.b2b=300
+				P.b2b=600
 			end
 			P.cstat.pc=P.cstat.pc+1
 		end
@@ -472,9 +478,11 @@ function garbageSend(sender,send,time)
 		r=players.alive[rnd(#players.alive)]
 	until r~=P.id
 	createBeam(sender,r,level)
-	ins(players[r].atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
 	players[r].lastRecv=sender
-	sort(players[r].atkBuffer,timeSort)
+	if #players[r].atkBuffer<20 then
+		ins(players[r].atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
+		sort(players[r].atkBuffer,timeSort)
+	end
 end
 function garbageRelease()
 	local t=P.showTime*2

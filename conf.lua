@@ -9,7 +9,7 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep background music playing
 
 	local W=t.window
-	W.title="Techmino V0.7.2"
+	W.title="Techmino V0.7.3"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.borderless=X

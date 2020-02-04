@@ -435,25 +435,26 @@ function love.draw()
 	end
 	if sceneSwaping then sceneSwaping.draw()end
 
+	if wh/ww>.5625 then
+		gc.setColor(0,0,0)
+		gc.rectangle("fill",0,0,1280,ww*.5625-wh)
+		gc.rectangle("fill",0,720,1280,wh-ww*.5625)
+	elseif wh/ww<.5625 then
+		gc.setColor(0,0,0)
+		gc.rectangle("fill",0,0,wh*16/9-ww,720)
+		gc.rectangle("fill",1280,0,ww-wh*16/9,720)
+	end
 	setFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),0,700)
 	if devMode then
 		gc.print(gcinfo(),0,680)
 		gc.print(freeRow and #freeRow or 0,0,660)
 	end
-	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(w,h)
 	ww,wh=w,h
-	xOy:release()
-	ScreenK=h/w>=.5625 and w/1280 or h/720
-	xOy=love.math.newTransform(0,0,nil,ScreenK,nil,640,360,nil,nil)
-	xOy:translate(640,360)
-	if h/w>=.5625 then
-		xOy:translate(0,h-w*.5625)
-	else
-		xOy:translate(w-h*16/9,0)
-	end
+	screenK=h/w>=.5625 and w/1280 or h/720
+	xOy=xOy:setTransformation(w*.5,h*.5,nil,screenK,nil,640,360)
 	gc.replaceTransform(xOy)
 end
 function love.run()

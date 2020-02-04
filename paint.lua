@@ -157,49 +157,51 @@ function drawVirtualkey(s)
 	end
 end
 
-Pnt={BG={}}
-function Pnt.BG.none()
-	gc.clear(.2,.2,.2)
-end
-function Pnt.BG.glow()
-	local t=((sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+3))+5)*.05
-	gc.clear(t,t,t)
-end
-function Pnt.BG.game1()
-	gc.setColor(1,1,1)
-	gc.draw(background[1],640,360,Timer()*.15,12,nil,64,64)
-end
-function Pnt.BG.game2()
-	gc.setColor(1,.5,.5)
-	gc.draw(background[1],640,360,Timer()*.2,12,nil,64,64)
-end
-function Pnt.BG.game3()
-	gc.setColor(.6,.6,1)
-	gc.draw(background[1],640,360,Timer()*.25,12,nil,64,64)
-end
-function Pnt.BG.rgb()
-	gc.clear(
-		sin(Timer()*1.2)*.15+.5,
-		sin(Timer()*1.5)*.15+.5,
-		sin(Timer()*1.9)*.15+.5
-	)
-end
-function Pnt.BG.strap()
-	gc.setColor(1,1,1)
-	local x=Timer()%32*40
-	gc.draw(background[2],x,0,nil,10)
-	gc.draw(background[2],x-1280,0,nil,10)
-end
-function Pnt.BG.matrix()
-	for i=0,15 do
-		for j=0,8 do
-			-- local t=sin(Timer()*((2.468*i-1.357*j)%3))*.3
-			local t=(sin((mt.noise(i,j)+2)*Timer())+1)*.2
-			gc.setColor(t,t,t)
-			gc.rectangle("fill",80*i,80*j,80,80)
+Pnt={}
+Pnt.BG={
+	none=function()
+		gc.clear(.2,.2,.2)
+	end,
+	glow=function()
+		local t=((sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+3))+5)*.05
+		gc.clear(t,t,t)
+	end,
+	game1=function()
+		gc.setColor(1,1,1)
+		gc.draw(background[1],640,360,Timer()*.15,12,nil,64,64)
+	end,
+	game2=function()
+		gc.setColor(1,.5,.5)
+		gc.draw(background[1],640,360,Timer()*.2,12,nil,64,64)
+	end,
+	game3=function()
+		gc.setColor(.6,.6,1)
+		gc.draw(background[1],640,360,Timer()*.25,12,nil,64,64)
+	end,
+	rgb=function()
+		gc.clear(
+			sin(Timer()*1.2)*.15+.5,
+			sin(Timer()*1.5)*.15+.5,
+			sin(Timer()*1.9)*.15+.5
+		)
+	end,
+	strap=function()
+		gc.setColor(1,1,1)
+		local x=Timer()%32*40
+		gc.draw(background[2],x,0,nil,10)
+		gc.draw(background[2],x-1280,0,nil,10)
+	end,
+	matrix=function()
+		for i=0,15 do
+			for j=0,8 do
+				-- local t=sin(Timer()*((2.468*i-1.357*j)%3))*.3
+				local t=(sin((mt.noise(i,j)+2)*Timer())+1)*.2
+				gc.setColor(t,t,t)
+				gc.rectangle("fill",80*i,80*j,80,80)
+			end
 		end
-	end
-end
+	end,
+}
 
 function Pnt.load()
 	gc.setLineWidth(4)
@@ -215,7 +217,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.2",370,150)
+	gc.print("Alpha V0.7.3",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -241,10 +243,10 @@ function Pnt.custom()
 	gc.print("Custom Game",20,20)
 	gc.setColor(color.white)
 	gc.print("Custom Game",22,23)
-	setFont(35)
+	setFont(40)
 	for i=1,#customID do
 		local k=customID[i]
-		local y=90+35*i
+		local y=90+40*i
 		gc.print(customOption[k],50,y)
 		if customVal[k]then
 			gc.print(customVal[k][customSel[k]],350,y)
@@ -252,7 +254,7 @@ function Pnt.custom()
 			gc.print(customRange[k][customSel[k]],350,y)
 		end
 	end
-	gc.print("→",10,88+35*optSel)
+	gc.print("→",10,90+40*optSel)
 end
 function Pnt.play()
 	for p=1,#players do
@@ -266,7 +268,7 @@ function Pnt.play()
 			gc.stencil(stencil_field_small, "replace",1)
 			gc.translate(0,fieldBeneath)
 			gc.setStencilTest("equal",1)
-				for j=1,#field do
+				for j=int(fieldBeneath/30+1),#field do
 					if falling<=0 or without(clearing,j)then
 						for i=1,10 do
 							if field[j][i]>0 then
@@ -275,8 +277,6 @@ function Pnt.play()
 						end
 					end
 				end--Field
-				gc.setColor(1,1,1)
-				gc.draw(PTC.dust[p])--Draw game field
 			gc.setStencilTest()--In-playField mask
 			gc.translate(0,-fieldBeneath)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",-7,-7,314,614)--Draw boarder
@@ -297,7 +297,7 @@ function Pnt.play()
 			gc.stencil(stencil_field, "replace", 1)
 			gc.translate(0,fieldBeneath)
 			gc.setStencilTest("equal",1)
-				for j=1,#field do
+				for j=int(fieldBeneath/30+1),#field do
 					if falling<=0 or without(clearing,j)then
 						for i=1,10 do
 							if field[j][i]>0 then
@@ -345,6 +345,7 @@ function Pnt.play()
 			for i=1,#atkBuffer do
 				local a=atkBuffer[i]
 				local bar=a.amount*30
+				if h+bar>600 then bar=600-h end
 				if not a.sent then
 					if a.time<20 then
 						bar=bar*(20*a.time)^.5*.05
@@ -364,11 +365,11 @@ function Pnt.play()
 				else
 					gc.setColor(attackColor[a.lv][1])
 					bar=bar*(20-a.time)*.05
-					gc.rectangle("fill",308,600-h,8,-bar+5)
+					gc.rectangle("fill",308,600-h,8,-bar+3)
 					--Disappear
 				end
 				h=h+bar
-				if h>600 then break end
+				if h>=600 then break end
 			end--Buffer line
 
 			gc.setColor(b2b<40 and color.white or b2b<=480 and color.lightRed or color.lightBlue)

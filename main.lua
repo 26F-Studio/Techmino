@@ -99,9 +99,9 @@ freshMethod={
 	function()
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
 		local i,j=nil,0
-		::r::
-		i,j=rnd(7),j+1
-		if(i==P.his[1]or i==P.his[2]or i==P.his[3]or i==P.his[4])and j<6 then goto r end
+		repeat
+			i,j=rnd(7),j+1
+		until not(i==P.his[1]or i==P.his[2]or i==P.his[3]or i==P.his[4])
 		P.nxt[6],P.nb[6]=i,blocks[i][0]
 		rem(P.his,1)ins(P.his,i)
 	end,
@@ -114,14 +114,17 @@ freshMethod={
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
 		if #P.nxt<6 then
 			local bag={1,2,3,4,5,6,7}
-			for i=1,7 do
-				ins(P.nxt,rem(bag,rnd(8-i)))
-				ins(P.nb,blocks[P.nxt[#P.nxt]][0])
-			end
-			if rnd()>.4 then
-				ins(P.nxt,5)
-				ins(P.nb,blocks[5][0])
-			end
+			repeat
+				local i=rem(bag,rnd(#bag))
+				ins(P.nxt,i)
+				ins(P.nb,blocks[i][0])
+			until #bag==0
+			bag={1,2,3,4,5,6,7,5}
+			repeat
+				local i=rem(bag,rnd(#bag))
+				ins(P.nxt,i)
+				ins(P.nb,blocks[i][0])
+			until #bag==0
 		end
 	end,
 	function()
@@ -458,9 +461,10 @@ Event={
 		end
 	end,
 	tsd_reach=function()
-		P.gameEnv.target=P.gameEnv.target+2
 		if not(#clearing==2 and bn==5 and P.spinLast)then
 			Event.gameover.lose()
+		else
+			P.gameEnv.target=P.gameEnv.target+2
 		end
 	end,
 	newPC=function()

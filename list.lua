@@ -196,7 +196,7 @@ customVal={
 	hold={"on","off"},
 	sequence={"bag","his4","random"},
 	visible={"Show","half","hide"},
-	target=nil,
+	target={10,20,40,100,200,500,1000,"∞"},
 	freshLimit=nil,
 	opponent={"No CPU",1,2,3,4,5,6,7,8,9,10,11},
 }--number-Val str
@@ -209,7 +209,7 @@ customRange={
 	hold={true,false},
 	sequence={1,2,3},
 	visible={1,2,3},
-	target={10,20,40,100,200,500,1000},
+	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,5,15,1e99},
 	opponent={0,60,30,20,15,10,7,5,4,3,2,1},
 }

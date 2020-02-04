@@ -46,7 +46,7 @@ FCL={
 FCL[2]=FCL[1]
 FCL[4]=FCL[3]
 FCL[5]=FCL[3]
-clearScore={[0]=0,0,10,30,100}
+clearScore={[0]=0,0,2,4,12}
 function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
 	if y>#f then return nil end
@@ -69,7 +69,6 @@ function getScore(field,bn,cb,cx,cy)
 	local score=0
 	local highest=0
 	local height=getNewRow()
-	local rough=0
 	local clear=0
 	local hole=0
 
@@ -93,16 +92,17 @@ function getScore(field,bn,cb,cx,cy)
 		if x>3 and x<8 and h>highest then highest=h end
 		if h>1 then
 			for h=h-1,1,-1 do
-				if field[h][x]==0 then hole=hole+1 if hole>5 then break end end
+				if field[h][x]==0 then
+					hole=hole+1
+					if hole==5 then break end
+				end
 			end
 		end
 	end
 	local h1,mh1=0,0
 	for x=1,9 do
-		local dh=abs(height[x]-height[x])
-		if dh>1 then
-			rough=rough+min(dh^1.5,10)
-		elseif dh==1 then
+		local dh=abs(height[x]-height[x+1])
+		if dh==1 then
 			h1=h1+1
 			if h1>mh1 then mh1=h1 end
 		else
@@ -111,11 +111,11 @@ function getScore(field,bn,cb,cx,cy)
 	end
 	ins(freeRow,height)
 	score=
-		-cy*20
-		-rough*20
-		-#cb*10
-		+clearScore[clear]
-		-hole*30
+		#field*20
+		-cy*40
+		-#cb*25
+		+clearScore[clear]*(8+#field)
+		-hole*40
 	if #field>6 then score=score-highest*5 end
 	if mh1>3 then score=score-50-mh1*40 end
 	return score

@@ -242,7 +242,9 @@ function Tmr.play(dt)
 			end
 		end
 		if fieldBeneath>0 then P.fieldBeneath=fieldBeneath-3 end
-		PTC.dust[p]:update(dt)
+		if not P.small then
+			PTC.dust[p]:update(dt)
+		end
 	end
 	setmetatable(_G,nil)
 end
