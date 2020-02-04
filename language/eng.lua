@@ -21,6 +21,7 @@ return{
 
 	win="WIN",
 	lose="LOSE",
+	pause="PAUSE",
 
 	custom="Custom Game",
 	customOption={
@@ -52,12 +53,12 @@ return{
 	softdropdas="softdropDAS:",
 	softdroparr="softdropARR:",
 	snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"},
-	keyboard="Keyboard",
-	joystick="Joystick",
+	keyboard="Keyboard",joystick="Joystick",
+	space="Space",enter="Enter",
 	setting2Help="Arrowkey to select/change slot,Enter to change,Esc back",
 
 
-	actName={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip:","Hard Drop:","Soft Drop:","Hold:","Swap:","Restart:","Instant Left:","Instant Right:","Ins Down:"},
+	actName={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip:","Hard Drop:","Soft Drop:","Hold:","Function:","Restart:","Instant Left:","Instant Right:","Ins Down:"},
 	modeName={
 		[0]="Custom",
 		"Sprint","Marathon","Master","Classic","Zen","Infinite","1v1","TSD-only","Blind","Dig","Survivor","Tech",
@@ -84,17 +85,20 @@ return{
 		hotseat="",
 	},
 
-	loadTip="not animation,real loading!",
 	load={"Loading textures","Loading BGM","Loading SFX","Finished",},
 	tips={
-		"The whole game is made by MrZ!",
+		"Not animation,real loading!",
+		"The WHOLE game is made by MrZ!",
 		"Back to Back 10 combo Techrash PC!",
 		"Techmino has a Nspire-CX edition!",
 		"Is B2B2B2B possible?",
 		"MrZ spin Penta!",
 		"MEGACMB!",
 		"ALLSPIN!",
-		"O spin Techrash?"
+		"O spin triple?",
+		"You can play with any input device!",
+		"Miya:Nya!",
+		"225238922,Bilibili cheers!",
 	},
 	stat={
 		"Games run:",
@@ -145,7 +149,8 @@ return{
 			down="v",
 			left="<",
 			right=">",
-			start="Start",
+			start1="Clear Start",
+			start2="Puzzle Start",
 			draw="Draw(D)",
 			back="Back",
 		},
@@ -163,11 +168,15 @@ return{
 			gb4="■",
 			gb5="■",
 			erase="×",
-			clear="clear",
-			back="back",
+			clear="Clear",
+			back="Back",
 		},
 		play={
-			back="Back",
+			pause="Pause",
+		},
+		pause={
+			resume="Resume",
+			quit="Quit",
 		},
 		setting={
 			ghost=function()return setting.ghost and"Ghost:ON"or"Ghost:OFF"end,
@@ -175,14 +184,11 @@ return{
 			grid=function()return setting.grid and"Grid:ON"or"Grid:OFF"end,
 			swap=function()return setting.swap and"Swap:comboKey"or"Swap:loop"end,
 			fxs=function()return setting.fxs and"FXs:ON"or"FXs:OFF"end,
-			dasD="-",
-			dasU="+",
-			arrD="-",
-			arrU="+",
-			sddasD="-",
-			sddasU="+",
-			sdarrD="-",
-			sdarrU="+",
+			bg=function()return setting.bg and"BG:ON"or"BG:OFF"end,
+			dasD="-",dasU="+",
+			arrD="-",arrU="+",
+			sddasD="-",sddasU="+",
+			sdarrD="-",sdarrU="+",
 			sfx=function()return setting.sfx and"SFX:ON"or"SFX:OFF"end,
 			bgm=function()return setting.bgm and"BGM:ON"or"BGM:OFF"end,
 			vib=function()return "Vibrate level:"..setting.vib end,

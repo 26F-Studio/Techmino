@@ -213,6 +213,9 @@ Pnt={BG={}}
 function Pnt.BG.none()
 	gc.clear(.15,.15,.15)
 end
+function Pnt.BG.grey()
+	gc.clear(.3,.3,.3)
+end
 function Pnt.BG.glow()
 	local t=((sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+3))+5)*.05
 	gc.clear(t,t,t)
@@ -262,8 +265,8 @@ function Pnt.load()
 	gc.rectangle("line",300,330,680,60,5)
 	setFont(40)
 	mStr(text.load[loading],640,335)
-	setFont(25)
-	mStr(text.loadTip,640,400)
+	setFont(30)
+	mStr(loadTip,640,400)
 end
 function Pnt.intro()
 	gc.push()
@@ -285,7 +288,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.14",290,140)
+	gc.print("Alpha V0.7.15",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -362,8 +365,8 @@ function Pnt.play()
 		P=players[p]
 		if P.small then
 			gc.push("transform")
-			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
-			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,60,120)--Black Background
+			gc.translate(P.x,P.y)gc.scale(P.size)--Position
+			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,60,120)--Background
 			gc.translate(0,P.fieldBeneath*.2)
 			gc.setScissor(scr.x+P.x*scr.k,scr.y+P.y*scr.k,60*P.size*scr.k,120*P.size*scr.k)
 			gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
@@ -402,8 +405,8 @@ function Pnt.play()
 			gc.pop()
 		else
 			gc.push("transform")
-			gc.translate(P.x,P.y)gc.scale(P.size)
-			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Black Background
+			gc.translate(P.x,P.y)gc.scale(P.size)--Position
+			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Background
 			gc.setLineWidth(7)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)--Big frame
 			gc.translate(150,70)
@@ -524,17 +527,17 @@ function Pnt.play()
 			--B2B indictator
 
 			if P.gameEnv.hold then
-				gc.draw(drawableText.hold,-75-drawableText.hold:getWidth()*.5,-10)
 				gc.setColor(1,1,1)
+				gc.draw(drawableText.hold,-124,-10)
 				for i=1,#P.hold.bk do
 					for j=1,#P.hold.bk[1] do
 						if P.hold.bk[i][j]then
-							drawPixel(i+17.5-#P.hold.bk*.5,j-2.5-#P.hold.bk[1]*.5,P.holded and 9 or P.hold.color)
+							drawPixel(i+17.5-#P.hold.bk*.5,j-2.7-#P.hold.bk[1]*.5,P.holded and 9 or P.hold.color)
 						end
 					end
 				end
 			end--Hold
-			gc.draw(drawableText.next,382-drawableText.next:getWidth()*.5,-10)
+			gc.draw(drawableText.next,340,-10)
 			local N=1
 			::L::
 				local b,c=P.next[N].bk,P.next[N].color
@@ -566,7 +569,7 @@ function Pnt.play()
 
 			gc.setColor(1,1,1)
 			setFont(35)
-			mStr(format("%.2f",P.time),-75,520)--Draw time
+			mStr(format("%.2f",P.time),-82,520)--Draw time
 			if mesDisp[curMode.id]then mesDisp[curMode.id]()end--Draw other message
 
 			gc.setColor(1,1,1)
@@ -615,6 +618,19 @@ function Pnt.play()
 			end
 		end
 	end
+end
+function Pnt.pause()
+	gc.setColor(0,0,0,pauseTime*.015)
+	gc.rectangle("fill",0,0,1280,720)
+	if system~="Android"then
+		setFont(40)
+		gc.setColor(1,1,1,pauseTime*.02)
+		mStr(text.space.."/"..text.enter,640,300)
+		gc.print("ESC",610,598)
+	end
+	setFont(120)
+	gc.setColor(1,1,1)
+	mStr(text.pause,640,140-12*(5-pauseTime*.1)^2)
 end
 function Pnt.setting()
 	gc.setColor(1,1,1)

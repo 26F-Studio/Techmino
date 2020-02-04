@@ -157,6 +157,7 @@ function loadGame(mode,level)
 	PTC.attack[1]:reset()PTC.attack[2]:reset()PTC.attack[3]:reset()
 	drawableText.modeName:set(text.modeName[mode])
 	drawableText.levelName:set(modeLevel[modeID[mode]][level])
+	needResetGameData=true
 	gotoScene("play","deck")
 end
 function resetGameData()
@@ -375,6 +376,9 @@ function garbageRise(color,amount,pos)
 	end
 	P.fieldBeneath=P.fieldBeneath+amount*30
 	P.curY,P.y_img=P.curY+amount,P.y_img+amount
+	for i=1,#P.clearing do
+		P.clearing[i]=P.clearing[i]+amount
+	end
 	if #P.field>40 then Event_gameover.lose()end
 end
 function createBeam(S,R,lv)--Player id
@@ -813,18 +817,17 @@ function drop()
 				P.b2b=P.b2b+20
 			end
 		end
+		csend=csend+(renATK[P.combo]or 4)
 		if #P.clearing==#P.field then
 			showText(P,text.PC,"flicker",70,-80)
-			csend=csend+min(6+P.cstat.pc,10)
+			csend=min(csend,4)+min(6+P.cstat.pc,10)
 			exblock=exblock+2
-			sendTime=sendTime+30
+			sendTime=sendTime+60
 			if P.cstat.row>4 then P.b2b=1200 end
 			P.cstat.pc=P.cstat.pc+1
 			P.lastClear=P.cur.id*10+5
 			SFX("perfectclear")
 		end
-
-		csend=csend+(renATK[P.combo]or 4)
 		if P.combo>2 then
 			showText(P,text.cmb[min(P.combo,20)],P.combo<10 and"appear"or"flicker",20+P.combo*3,60)
 		end
@@ -1033,21 +1036,29 @@ act={
 		end
 	end,
 	hold=function()hold()end,
-	swap=function()
-		if modeEnv.royaleMode then
-			for i=1,#P.keyPressing do
-				if P.keyPressing[i]then
-					P.keyPressing[i]=false
+	func=function()
+		if modeEnv.Fkey then
+			if modeEnv.royaleMode then
+				for i=1,#P.keyPressing do
+					if P.keyPressing[i]then
+						P.keyPressing[i]=false
+					end
+				end
+				if setting.swap then
+					P.keyPressing[9]=true
+				else
+					changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
+					P.swappingAtkMode=30
 				end
 			end
-			if setting.swap then
-				P.keyPressing[9]=true
-			else
-				changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
-				P.swappingAtkMode=30
+			if curMode.id=="custom"and curMode.lv==2 and#P.field>0 then
+				for y=1,#P.field do
+					for x=1,10 do
+						if P.field[y][x]~=preField[y][x]then return end
+					end
+				end
+				Event_gameover.win()
 			end
-		else
-			P.keyPressing[9]=false
 		end
 	end,
 	restart=function()

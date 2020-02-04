@@ -13,19 +13,18 @@ local touching=nil--1st touching ID
 local sceneInit={
 	load=function()
 		curBG="none"
-		keeprun=true
 		loading=1--Loading mode
 		loadnum=1--Loading counter
 		loadprogress=0--Loading bar(0~1)
+		loadTip=text.tips[rnd(#text.tips)]
 	end,
 	intro=function()
 		curBG="none"
 		count=0
-		keeprun=true
+		BGM("blank")
 	end,
 	main=function()
 		curBG="none"
-		keeprun=true
 		collectgarbage()
 	end,
 	mode=function()
@@ -33,12 +32,12 @@ local sceneInit={
 		modeSel=modeSel or 1
 		levelSel=levelSel or 3
 		curBG="none"
-		keeprun=true
+		BGM("blank")
 	end,
 	custom=function()
 		optSel=optSel or 1
 		curBG="matrix"
-		keeprun=true
+		BGM("blank")
 	end,
 	draw=function()
 		kb.setKeyRepeat(true)
@@ -46,40 +45,39 @@ local sceneInit={
 		pen=1
 		sx,sy=1,1
 		curBG="none"
-		keeprun=true
 	end,
 	play=function()
-		keeprun=false
-		resetGameData()
+		if needResetGameData then
+			resetGameData()
+			needResetGameData=nil
+		end
 		sysSFX("ready")
+	end,
+	pause=function()
+		pauseTime=0
 	end,
 	setting=function()
 		curBG="none"
-		keeprun=true
 	end,
 	setting2=function()
 		curBG="none"
-		keeprun=true
-			curBoard=1
-			keyboardSet=1
-			joystickSet=1
-			keyboardSetting=false
-			joystickSetting=false
+		curBoard=1
+		keyboardSet=1
+		joystickSet=1
+		keyboardSetting=false
+		joystickSetting=false
 	end,--Control settings
 	setting3=function()
 		curBG="game1"
-		keeprun=true
 		defaultSel=1
 		sel=nil
 		snapLevel=1
 	end,--Touch setting
 	help=function()
 		curBG="none"
-		keeprun=true
 	end,
 	stat=function()
 		curBG="none"
-		keeprun=true
 	end,
 	quit=function()
 		love.event.quit()
@@ -159,11 +157,10 @@ function mouseDown.intro(x,y,k)
 end
 function mouseDown.draw(x,y,k)
 	mouseMove.draw(x,y)
-	return sx and sy
 end
 function mouseDown.setting3(x,y,k)
 	if k==2 then back()end
-	x,y=xOy:inverseTransformPoint(x,y)
+	sel=nil
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
 		if (x-b[1])^2+(y-b[2])^2<b[3]then
@@ -181,8 +178,6 @@ function mouseMove.draw(x,y,dx,dy)
 	end
 end
 function mouseMove.setting3(x,y,dx,dy)
-	x,y=xOy:inverseTransformPoint(x,y)
-	dx,dy=dx*scr.k,dy*scr.k
 	if sel and ms.isDown(1)then
 		local b=virtualkey[sel]
 		b[1],b[2]=b[1]+dx,b[2]+dy
@@ -252,14 +247,21 @@ function touchUp.play(id,x,y)
 	end
 end
 touchMove={}
-function touchMove.setting3(id,x,y)
-	dx,dy=dx*scr.k,dy*scr.k
+function touchMove.setting3(id,x,y,dx,dy)
 	if sel then
 		local b=virtualkey[sel]
 		b[1],b[2]=b[1]+dx,b[2]+dy
 	end
 end
-function touchMove.play(id,x,y)
+function touchMove.draw(id,x,y,dx,dy)
+	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+	if sx<1 or sx>10 then sx=nil end
+	if sy<1 or sy>20 then sy=nil end
+	if sx and sy then
+		preField[sy][sx]=pen
+	end
+end
+function touchMove.play(id,x,y,dx,dy)
 	if setting.virtualkeySwitch then
 		local l=tc.getTouches()
 		for n=1,#virtualkey do
@@ -323,6 +325,8 @@ function keyDown.custom(key)
 		gotoScene("draw")
 	elseif key=="return"then
 		loadGame(0,1)
+	elseif key=="space"then
+		loadGame(0,2)
 	elseif key=="escape"then
 		back()
 	end
@@ -383,7 +387,7 @@ function keyDown.setting2(key)
 	end
 end
 function keyDown.play(key)
-	if key=="escape"then back()end
+	if key=="escape"then pauseGame()end
 	local m=setting.keyMap
 	for p=1,human do
 		local lib=setting.keyLib[p]
@@ -395,6 +399,13 @@ function keyDown.play(key)
 				end
 			end
 		end
+	end
+end
+function keyDown.pause(key)
+	if key=="escape"then
+		back()
+	elseif key=="return"or key=="space"then
+		resumeGame()
 	end
 end
 keyUp={}
@@ -518,9 +529,9 @@ function love.mousemoved(x,y,dx,dy,t)
 	mx,my=xOy:inverseTransformPoint(x,y)
 	Buttons.sel=nil
 	if mouseMove[scene]then
-		mouseMove[scene](mx,my,dx,dy)
+		mouseMove[scene](mx,my,dx/scr.k,dy/scr.k)
 	end
-	for N,B in next,Buttons[scene]do
+	for _,B in next,Buttons[scene]do
 		if not(B.hide and B.hide())then
 			if abs(mx-B.x)<B.w*.5 and abs(my-B.y)<B.h*.5 then
 				Buttons.sel=B
@@ -543,7 +554,7 @@ end
 function love.touchpressed(id,x,y)
 	if not touching then
 		touching=id
-		love.mousemoved(x,y)
+		love.mousemoved(x,y,0,0)
 		mouseShow=false
 	end
 	if touchDown[scene]then
@@ -564,18 +575,24 @@ function love.touchreleased(id,x,y)
 		mouseShow=false
 	end
 	if touchUp[scene]then
-		x,y=
 		touchUp[scene](id,xOy:inverseTransformPoint(x,y))
 	end
 end
 function love.touchmoved(id,x,y,dx,dy)
-	love.mousemoved(x,y)
-	mouseShow=false
 	if not Buttons.sel then
 		touching=nil
 	end
+	x,y=xOy:inverseTransformPoint(x,y)
 	if touchMove[scene]then
-		touchMove[scene](id,xOy:inverseTransformPoint(x,y))
+		touchMove[scene](id,x,y,dx/scr.k,dy/scr.k)
+	end
+	for _,B in next,Buttons[scene]do
+		if not(B.hide and B.hide())then
+			if abs(x-B.x)<B.w*.5 and abs(y-B.y)<B.h*.5 then
+				Buttons.sel=B
+				return
+			end
+		end
 	end
 end
 
@@ -629,24 +646,12 @@ function love.gamepadreleased(joystick,i)
 	end
 end
 --[[
-function love.joystickpressed(js,k)
-	
-end
-function love.joystickaxis(js,axis,val)
-
-end
-function love.joystickhat(js,hat,dir)
-
-end
-
-function love.sendData(data)
-	return
-end
-function love.receiveData(id,data)
-	return
-end
+function love.joystickpressed(js,k)end
+function love.joystickaxis(js,axis,valend
+function love.joystickhat(js,hat,dirend
+function love.sendData(data)end
+function love.receiveData(id,data)end
 ]]
-
 function love.lowmemory()
 	collectgarbage()
 end
@@ -665,6 +670,9 @@ function love.resize(w,h)
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
 	gc.replaceTransform(xOy)
 	collectgarbage()
+end
+function love.focus(f)
+	if not f and scene=="play"then pauseGame()end
 end
 function love.update(dt)
 	--[[
@@ -692,7 +700,6 @@ function love.update(dt)
 				B.alpha=0
 			end--Reset buttons' alpha
 			scene=sceneSwaping.tar
-			BGM("blank")
 			sceneInit[scene]()
 			Buttons.sel=nil
 		elseif sceneSwaping.time==0 then
@@ -708,9 +715,9 @@ function love.update(dt)
 	updateButton()
 end
 function love.draw()
-	gc.discard()
-	Pnt.BG[curBG]()
-	gc.setColor(1,1,1,.22)
+	gc.discard()--SPEED UPUPUP!
+	Pnt.BG[setting.bg and curBG or"grey"]()
+	gc.setColor(1,1,1,.2)
 	for n=1,#BGblock do
 		local b,img=BGblock[n].b,blockSkin[BGblock[n].bn]
 		local size=BGblock[n].size
@@ -757,47 +764,21 @@ function love.run()
 	local readyDrawFrame=0
 	love.resize(gc.getWidth(),gc.getHeight())
 	scene="load"sceneInit.load()--System Launch
-	math.randomseed(os.time()*626)
 	return function()
 		love.event.pump()
 		for name,a,b,c,d,e,f in love.event.poll()do
 			if name=="quit"then return 0 end
-			love.handlers[name](a,b,c,d,e,f)
+			if love[name]then love[name](a,b,c,d,e,f)end
 		end
-		if focus then
-			tm.step()
-			-- love.receiveData(id,data)
-			love.update(tm.getDelta())
-			readyDrawFrame=readyDrawFrame+setting.frameMul
-			if readyDrawFrame>=100 then
-				readyDrawFrame=readyDrawFrame-100
-				gc.clear()
-				love.draw()
-				gc.present()
-			end
-			if not(wd.hasFocus()or keeprun)then
-				focus=false
-				ms.setVisible(true)
-				if bgmPlaying then bgm[bgmPlaying]:pause()end
-				if scene=="play"then
-					for i=1,#players.alive do
-						local l=players.alive[i].keyPressing
-						for j=1,#l do
-							if l[j]then
-								releaseKey(j,players.alive[i])
-							end
-						end
-					end
-				end
-			end
-		else
-			tm.sleep(.5)
-			if wd.hasFocus()then
-				tm.step()
-				focus=true
-				ms.setVisible(false)
-				if bgmPlaying then bgm[bgmPlaying]:play()end
-			end
+		tm.step()
+		-- love.receiveData(id,data)
+		love.update(tm.getDelta())
+		readyDrawFrame=readyDrawFrame+setting.frameMul
+		if readyDrawFrame>=100 then
+			readyDrawFrame=readyDrawFrame-100
+			gc.clear()
+			love.draw()
+			gc.present()
 		end
 		::L::if Timer()-frameT<1/60 then goto L end
 		frameT=Timer()

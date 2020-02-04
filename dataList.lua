@@ -155,20 +155,22 @@ loadmode={
 			modeEnv.target=nil
 			createPlayer(2,965,360,.5,modeEnv.opponent)
 		end
-		local h=20
-		::R::
-			for i=1,10 do
-				if preField[h][i]>0 then modeEnv.Fkey=true goto L end
-			end
-			h=h-1
-		if h>0 then goto R end
-		::L::
-		for _,P in next,players.alive do
-			local t=P.showTime*3
-			for y=1,h do
-				P.field[y]=getNewRow(0)
-				P.visTime[y]=getNewRow(t)
-				for x=1,10 do P.field[y][x]=preField[y][x]end
+		if curMode.lv==1 then
+			local h=20
+			::R::
+				for i=1,10 do
+					if preField[h][i]>0 then goto L end
+				end
+				h=h-1
+			if h>0 then goto R end
+			::L::
+			for _,P in next,players.alive do
+				local t=P.showTime*3
+				for y=1,h do
+					P.field[y]=getNewRow(0)
+					P.visTime[y]=getNewRow(t)
+					for x=1,10 do P.field[y][x]=preField[y][x]end
+				end
 			end
 		end
 	end,
@@ -236,7 +238,7 @@ mesDisp={
 	end,
 	dig=function()
 		setFont(70)
-		mStr(P.cstat.event,-82,310)
+		mStr(P.cstat.event-20,-82,310)
 		setFont(30)
 		mStr("Wave",-82,375)
 	end,
@@ -272,7 +274,7 @@ mesDisp={
 		setFont(30)
 		gc.print(up0to4[P.strength],-132,290)
 		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-142,260)
+			gc.draw(badgeIcon,16*i-138,260)
 		end
 	end,
 	techmino99=function()
@@ -287,7 +289,7 @@ mesDisp={
 		setFont(30)
 		gc.print(up0to4[P.strength],-132,290)
 		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-142,260)
+			gc.draw(badgeIcon,16*i-138,260)
 		end
 	end,
 	drought=function()
@@ -298,6 +300,15 @@ mesDisp={
 		if P.gameEnv.target<1e4 then
 			setFont(75)
 			mStr(max(P.gameEnv.target-P.cstat.row,0),-82,280)
+		end
+		if curMode.lv==2 and(P.keyPressing[9]or frame<180)then
+			gc.setLineWidth(3)
+			for y=1,20 do for x=1,10 do
+				if preField[y][x]>0 then
+					gc.setColor(blockColor[preField[y][x]])
+					gc.rectangle("line",30*x-25,605-30*y,20,20)
+				end
+			end end
 		end
 	end
 }
@@ -447,8 +458,7 @@ Event_gameover={
 			end
 		end
 		showText(P,text.win,"beat",90,nil,nil,true)
-		if P.id==1 and players[2]and players[2].ai then SFX("win")BGM()end
-		newTask(Event_task.win,P)
+		SFX("win")
 	end,
 	lose=function()
 		P.alive=false
@@ -520,58 +530,33 @@ Event_gameover={
 				BGM("end")
 			end
 		end
-		newTask(Event_task.lose,P)
 		if #players.alive==1 then
 			local t=P
 			P=players.alive[1]
 			Event_gameover.win()
 			P=t
 		end
+		if #players>1 then
+			newTask(Event_task.lose,P)
+		end
 	end,
 }
 Event_task={
-	win=function(P)
-		P.endCounter=P.endCounter+1
-		if P.endCounter>80 then
-			if P.gameEnv.visible=="show"then
-				for i=1,#P.field do
-					for j=1,10 do
-						if P.visTime[i][j]>0 then
-							P.visTime[i][j]=P.visTime[i][j]-1
-						end
-					end
-				end
-				if P.endCounter==100 then
-					while P.field[1]do
-						removeRow(P.field)
-						removeRow(P.visTime)
-					end
-					return true
-				end
-			elseif P.endCounter==100 then
-				return true
-			end
-		end
-	end,
 	lose=function(P)
 		P.endCounter=P.endCounter+1
 		if P.endCounter>80 then
-			if P.gameEnv.visible=="show"then
-				for i=1,#P.field do
-					for j=1,10 do
-						if P.visTime[i][j]>0 then
-							P.visTime[i][j]=P.visTime[i][j]-1
-						end
+			for i=1,#P.field do
+				for j=1,10 do
+					if P.visTime[i][j]>0 then
+						P.visTime[i][j]=P.visTime[i][j]-1
 					end
 				end
-				if P.endCounter==100 then
-					while P.field[1]do
-						removeRow(P.field)
-						removeRow(P.visTime)
-					end
-					return true
+			end
+			if P.endCounter==100 then
+				while P.field[1]do
+					removeRow(P.field)
+					removeRow(P.visTime)
 				end
-			elseif P.endCounter==100 then
 				return true
 			end
 		end
@@ -589,7 +574,7 @@ Event_task={
 	dig_normal=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if #P.clearing==0 and P.counter>=max(90,180-2*P.cstat.event)then
+		if P.counter>=max(90,180-2*P.cstat.event)then
 			garbageRise(10,1,rnd(10))
 			P.counter=0
 			P.cstat.event=P.cstat.event+1
@@ -598,7 +583,7 @@ Event_task={
 	dig_lunatic=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if #P.clearing==0 and P.counter>=max(45,80-.4*P.cstat.event)then
+		if P.counter>=max(45,80-.4*P.cstat.event)then
 			garbageRise(11+P.cstat.event%3,1,rnd(10))
 			P.counter=0
 			P.cstat.event=P.cstat.event+1
@@ -607,7 +592,7 @@ Event_task={
 	survivor_easy=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter==max(60,150-2*P.cstat.event)then
+		if P.counter>=max(60,150-2*P.cstat.event)then
 			ins(P.atkBuffer,{pos=rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1})
 			P.counter=0
 			if P.cstat.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
@@ -617,7 +602,7 @@ Event_task={
 	survivor_normal=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter==max(90,180-2*P.cstat.event)then
+		if P.counter>=max(90,180-2*P.cstat.event)then
 			local d=P.cstat.event+1
 			if d%4==0 then		ins(P.atkBuffer,{pos=rnd(10),amount=1,countdown=60,cd0=60,time=0,sent=false,lv=1})
 			elseif d%4==1 then	ins(P.atkBuffer,{pos=rnd(10),amount=2,countdown=70,cd0=70,time=0,sent=false,lv=1})
@@ -634,7 +619,7 @@ Event_task={
 	survivor_hard=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter==max(60,180-2*P.cstat.event)then
+		if P.counter>=max(60,180-2*P.cstat.event)then
 			if P.cstat.event%3<2 then
 				ins(P.atkBuffer,{pos=rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
 			else
@@ -650,7 +635,7 @@ Event_task={
 	survivor_lunatic=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter==max(60,150-P.cstat.event)then
+		if P.counter>=max(60,150-P.cstat.event)then
 			local t=max(60,90-P.cstat.event)
 			ins(P.atkBuffer,{pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
 			P.atkBuffer.sum=P.atkBuffer.sum+4
@@ -663,7 +648,7 @@ Event_task={
 	survivor_ultimate=function(P)
 		if not P.control then return end
 		P.counter=P.counter+1
-		if P.counter==max(300,600-10*P.cstat.event)then
+		if P.counter>=max(300,600-10*P.cstat.event)then
 			local t=max(300,480-12*P.cstat.event)
 			ins(P.atkBuffer,{pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=2})
 			ins(P.atkBuffer,{pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
@@ -714,98 +699,84 @@ defaultModeEnv={
 			drop=60,
 			target=10,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="race",
+			bg="strap",bgm="race",
 		},
 		{
 			drop=60,
 			target=20,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="race",
+			bg="strap",bgm="race",
 		},
 		{
 			drop=60,
 			target=40,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="race",
+			bg="strap",bgm="race",
 		},
 		{
 			drop=60,
 			target=100,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="race",
+			bg="strap",bgm="race",
 		},
 		{
 			drop=60,
 			target=400,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="push",
+			bg="strap",bgm="push",
 		},
 		{
 			drop=60,
 			target=1000,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="push",
+			bg="strap",bgm="push",
 		},
 	},
 	marathon={
 		{
-			drop=60,
-			lock=60,
+			drop=60,lock=60,
 			fall=30,
 			target=200,
 			reach=Event.marathon_reach,
-			bg="strap",
-			bgm="way",
+			bg="strap",bgm="way",
 		},
 		{
 			drop=60,
 			fall=20,
 			target=10,
 			reach=Event.marathon_reach,
-			bg="strap",
-			bgm="way",
+			bg="strap",bgm="way",
 		},
 		{
 			_20G=true,
 			fall=15,
 			target=200,
 			reach=Event.marathon_reach,
-			bg="strap",
-			bgm="race",
+			bg="strap",bgm="race",
 		},
 	},
 	master={
 		{
 			_20G=true,
-			drop=0,
-			lock=rush_lock[1],
+			drop=0,lock=rush_lock[1],
 			wait=rush_wait[1],
 			fall=rush_fall[1],
 			target=0,
 			reach=Event.master_reach_lunatic,
 			das=9,arr=3,
 			freshLimit=15,
-			bg="game2",
-			bgm="secret8th",
+			bg="game2",bgm="secret8th",
 		},
 		{
 			_20G=true,
-			drop=0,
-			lock=death_lock[1],
+			drop=0,lock=death_lock[1],
 			wait=death_wait[1],
 			fall=death_fall[1],
 			target=0,
 			reach=Event.master_reach_ultimate,
 			das=6,arr=1,
 			freshLimit=15,
-			bg="game2",
-			bgm="secret7th",
+			bg="game2",bgm="secret7th",
 		},
 	},
 	classic={
@@ -820,287 +791,231 @@ defaultModeEnv={
 			freshLimit=0,
 			target=10,
 			reach=Event.classic_reach,
-			bg="rgb",
-			bgm="rockblock",
+			bg="rgb",bgm="rockblock",
 		},
 	},
 	zen={
 		{
-			drop=1e99,
-			lock=1e99,
+			drop=1e99,lock=1e99,
 			oncehold=false,
 			target=200,
 			reach=Event_gameover.win,
-			bg="strap",
-			bgm="infinite",
+			bg="strap",bgm="infinite",
 		},
 	},
 	infinite={
 		{
-			drop=1e99,
-			lock=1e99,
+			drop=1e99,lock=1e99,
 			oncehold=false,
-			bg="glow",
-			bgm="infinite",
+			bg="glow",bgm="infinite",
 		},
 	},
 	solo={
 		{
 			freshLimit=15,
-			bg="game2",
-			bgm="race",
+			bg="game2",bgm="race",
 		},
 	},
 	tsd={
 		{
 			oncehold=false,
-			drop=1e99,
-			lock=1e99,
+			drop=1e99,lock=1e99,
 			freshLimit=15,
 			target=1,
 			reach=Event.tsd_reach,
 			ospin=false,
-			bg="matrix",
-			bgm="reason",
+			bg="matrix",bgm="reason",
 		},
 		{
-			drop=60,
-			lock=60,
+			drop=60,lock=60,
 			freshLimit=15,
 			target=1,
 			reach=Event.tsd_reach,
 			ospin=false,
-			bg="matrix",
-			bgm="reason",
+			bg="matrix",bgm="reason",
 		},
 	},
 	blind={
 		{
-			drop=30,
-			lock=60,
+			drop=30,lock=60,
 			freshLimit=15,
 			visible="time",
-			bg="glow",
-			bgm="newera",
+			bg="glow",bgm="newera",
 		},
 		{
-			drop=15,
-			lock=60,
+			drop=15,lock=60,
 			freshLimit=15,
 			visible="fast",
 			freshLimit=10,
-			bg="glow",
-			bgm="reason",
+			bg="glow",bgm="reason",
 		},
 		{
-			fall=10,
-			lock=60,
+			fall=10,lock=60,
 			center=false,
 			ghost=false,
 			visible="none",
 			freshLimit=15,
-			bg="rgb",
-			bgm="secret7th",
+			bg="rgb",bgm="secret7th",
 		},
 		{
-			fall=5,
-			lock=60,
+			fall=5,lock=60,
 			center=false,
 			visible="none",
 			freshLimit=15,
-			bg="rgb",
-			bgm="secret8th",
+			bg="rgb",bgm="secret8th",
 		},
 		{
-			fall=5,
-			lock=60,
+			fall=5,lock=60,
 			block=false,
 			center=false,
 			ghost=false,
 			visible="none",
 			freshLimit=15,
-			bg="rgb",
-			bgm="secret7th",
+			bg="rgb",bgm="secret7th",
 		},
 		{
 			_20G=true,
-			drop=0,
-			lock=15,
+			drop=0,lock=15,
 			wait=10,
 			fall=15,
 			visible="fast",
 			freshLimit=15,
 			arr=1,
-			bg="game3",
-			bgm="secret8th",
+			bg="game3",bgm="secret8th",
 		},
 	},
 	dig={
 		{
-			drop=60,
-			lock=120,
+			drop=60,lock=120,
 			fall=20,
 			freshLimit=15,
-			bg="game2",
-			bgm="push",
+			bg="game2",bgm="push",
 		},
 		{
-			drop=10,
-			lock=30,
+			drop=10,lock=30,
 			freshLimit=15,
-			bg="game2",
-			bgm="secret7th",
+			bg="game2",bgm="secret7th",
 		},
 	},
 	survivor={
 		{
-			drop=60,
-			lock=120,
+			drop=60,lock=120,
 			fall=30,
 			freshLimit=15,
-			bg="game2",
-			bgm="push",
+			bg="game2",bgm="push",
 		},
 		{
-			drop=30,
-			lock=60,
+			drop=30,lock=60,
 			fall=20,
 			freshLimit=15,
-			bg="game2",
-			bgm="newera",
+			bg="game2",bgm="newera",
 		},
 		{
-			drop=10,
-			lock=60,
+			drop=10,lock=60,
 			fall=15,
 			freshLimit=15,
-			bg="game2",
-			bgm="secret8th",
+			bg="game2",bgm="secret8th",
 		},
 		{
-			drop=5,
-			lock=60,
+			drop=5,lock=60,
 			fall=10,
 			freshLimit=15,
-			bg="game3",
-			bgm="secret7th",
+			bg="game3",bgm="secret7th",
 		},
 		{
-			drop=5,
-			lock=60,
+			drop=5,lock=60,
 			fall=10,
 			freshLimit=15,
-			bg="rgb",
-			bgm="secret7th",
+			bg="rgb",bgm="secret7th",
 		},
 	},
 	tech={
 		{
 			oncehold=false,
-			drop=1e99,
-			lock=1e99,
+			drop=1e99,lock=1e99,
 			target=0,
 			reach=Event.tech_reach,
-			bg="matrix",
-			bgm="way",
+			bg="matrix",bgm="way",
 		},
 		{
-			drop=30,
-			lock=60,
+			drop=30,lock=60,
 			target=0,
 			reach=Event.tech_reach,
-			bg="matrix",
-			bgm="way",
+			bg="matrix",bgm="way",
 		},
 		{
-			drop=15,
-			lock=60,
+			drop=15,lock=60,
 			target=0,
 			reach=Event.tech_reach_hard,
 			freshLimit=15,
-			bg="matrix",
-			bgm="way",
+			bg="matrix",bgm="way",
 		},
 		{
-			drop=5,
-			lock=40,
+			drop=5,lock=40,
 			target=0,
 			freshLimit=15,
 			reach=Event.tech_reach_hard,
-			bg="matrix",
-			bgm="way",
+			bg="matrix",bgm="way",
 		},
 		{
-			drop=1,
-			lock=40,
+			drop=1,lock=40,
 			target=0,
 			freshLimit=15,
 			reach=Event.tech_reach_hard,
-			bg="matrix",
-			bgm="secret7th",
+			bg="matrix",bgm="secret7th",
 		},
 	},
 	pctrain={
 		{
 			next=4,
 			hold=false,
-			drop=120,
-			lock=120,
+			drop=120,lock=120,
 			fall=20,
 			sequence="pc",
 			target=0,
 			reach=Event.newPC,
 			ospin=false,
-			bg="rgb",
-			bgm="newera",
+			bg="rgb",bgm="newera",
 		},
 		{
 			next=4,
 			hold=false,
-			drop=60,
-			lock=60,
+			drop=60,lock=60,
 			fall=20,
 			sequence="pc",
 			target=0,
 			freshLimit=15,
 			reach=Event.newPC,
 			ospin=false,
-			bg="rgb",
-			bgm="newera",
+			bg="rgb",bgm="newera",
 		},
 	},
 	pcchallenge={
 		{
 			oncehold=false,
-			drop=300,
-			lock=1e99,
+			drop=300,lock=1e99,
 			target=100,
 			reach=Event_gameover.win,
 			ospin=false,
-			bg="rgb",
-			bgm="newera",
+			bg="rgb",bgm="newera",
 		},
 		{
-			drop=60,
-			lock=120,
+			drop=60,lock=120,
 			fall=10,
 			target=100,
 			reach=Event_gameover.win,
 			freshLimit=15,
 			ospin=false,
-			bg="rgb",
-			bgm="infinite",
+			bg="rgb",bgm="infinite",
 		},
 		{
-			drop=20,
-			lock=60,
+			drop=20,lock=60,
 			fall=20,
 			target=100,
 			reach=Event_gameover.win,
 			freshLimit=15,
 			ospin=false,
-			bg="rgb",
-			bgm="infinite",
+			bg="rgb",bgm="infinite",
 		},
 	},
 	techmino41={
@@ -1112,8 +1027,7 @@ defaultModeEnv={
 			royaleRemain={30,20,15,10,5},
 			pushSpeed=2,
 			freshLimit=15,
-			bg="game3",
-			bgm="rockblock",
+			bg="game3",bgm="rockblock",
 		},
 	},
 	techmino99={
@@ -1125,46 +1039,44 @@ defaultModeEnv={
 			royaleRemain={75,50,35,20,10},
 			pushSpeed=2,
 			freshLimit=15,
-			bg="game3",
-			bgm="rockblock",
+			bg="game3",bgm="rockblock",
 		},
 	},
 	drought={
 		{
-			drop=20,
-			lock=60,
+			drop=20,lock=60,
 			sequence="drought1",
 			target=100,
 			reach=Event_gameover.win,
 			ospin=false,
 			freshLimit=15,
-			bg="glow",
-			bgm="reason",
+			bg="glow",bgm="reason",
 		},
 		{
-			drop=20,
-			lock=60,
+			drop=20,lock=60,
 			sequence="drought2",
 			target=100,
 			reach=Event_gameover.win,
 			ospin=false,
 			freshLimit=15,
-			bg="glow",
-			bgm="reason",
+			bg="glow",bgm="reason",
 		},
 	},
 	hotseat={
 		{
 			freshLimit=15,
-			bg="none",
-			bgm="way",
+			bg="none",bgm="way",
 		},
 	},
 	custom={
 		{
-			bg="none",
-			bgm="reason",
 			reach=Event_gameover.win,
+			bg="none",bgm="reason",
+		},
+		{
+			Fkey=true,
+			reach=Event_gameover.win,
+			bg="none",bgm="reason",
 		},
 	},
 }

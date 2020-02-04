@@ -275,3 +275,8 @@ function Tmr.play(dt)
 	end
 	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
 end
+function Tmr.pause(dt)
+	if pauseTime<50 then
+		pauseTime=pauseTime+1
+	end
+end

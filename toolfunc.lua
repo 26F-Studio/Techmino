@@ -1,3 +1,4 @@
+local tm=love.timer
 local gc=love.graphics
 local kb=love.keyboard
 local setFont=setFont
@@ -169,6 +170,9 @@ function gotoScene(s,style)
 			draw=swap[style].d
 		}
 		Buttons.sel=nil
+		if style~="none"then
+			sysSFX("swipe")
+		end
 	end
 end
 local prevMenu={
@@ -183,6 +187,10 @@ local prevMenu={
 	end,
 	ready="mode",
 	play=function()
+		clearTask("play")
+		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
+	end,
+	pause=function()
 		clearTask("play")
 		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
 	end,
@@ -203,7 +211,22 @@ function back()
 		t()
 	end
 end
-
+function pauseGame()
+	if bgmPlaying then bgm[bgmPlaying]:pause()end
+	for i=1,#players.alive do
+		local l=players.alive[i].keyPressing
+		for j=1,#l do
+			if l[j]then
+				releaseKey(j,players.alive[i])
+			end
+		end
+	end
+	gotoScene("pause","none")
+end
+function resumeGame()
+	if bgmPlaying then bgm[bgmPlaying]:play()end
+	gotoScene("play","fade")
+end
 local dataOpt={
 	"run",
 	"game",
@@ -217,21 +240,17 @@ local dataOpt={
 	"spin",
 }
 local saveOpt={
+	"ghost","center",
+	"grid","swap",
+	"fxs","bg",
+
+	"das","arr",
+	"sddas","sdarr",
+
 	"lang",
-	"ghost",
-	"center",
-	"grid",
-	"swap",
-	"sfx",
-	"bgm",
+
+	"sfx","bgm",
 	"vib",
-	"fxs",
-
-	"das",
-	"arr",
-	"sddas",
-	"sdarr",
-
 	"fullscreen",
 	"bgblock",
 	"virtualkeyAlpha",
@@ -326,7 +345,7 @@ function loadSetting()
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
-			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="fxs"then
+			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="fxs"or t=="bg"then
 				setting[t]=v=="true"
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[12]"))or 1

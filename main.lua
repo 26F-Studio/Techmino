@@ -4,6 +4,7 @@ local fs,sys=love.filesystem,love.system
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
 ins,rem,sort=table.insert,table.remove,table.sort
+math.randomseed(os.time()*626)
 null=function()end
 
 system=sys.getOS()
@@ -40,17 +41,13 @@ gameEnv0={
 	drop=30,lock=45,
 	wait=0,fall=0,
 	next=6,hold=true,oncehold=true,
-
-	keepVisible=true,visible="show",
 	sequence="bag7",
+
 	block=true,
-	Fkey=false,
-	ospin=true,
-	freshLimit=1e99,
-	target=1e99,
-	reach=null,
-	bg="none",
-	bgm="race"
+	keepVisible=true,visible="show",
+	Fkey=false,puzzle=false,ospin=true,
+	freshLimit=1e99,target=1e99,reach=null,
+	bg="none",bgm="race"
 }
 customSel={
 	drop=20,
@@ -74,7 +71,7 @@ end
 setting={
 	ghost=true,center=true,
 	grid=false,swap=true,
-	fxs=true,
+	fxs=true,bg=true,
 
 	das=10,arr=2,
 	sddas=0,sdarr=2,
@@ -144,7 +141,7 @@ virtualkey={
 	{1280-80,720-80,6400,80},--hardDrop
 	{1280-80,720-240,6400,80},--softDrop
 	{1280-80,720-400,6400,80},--hold
-	{80,360,6400,80},--swap
+	{80,360,6400,80},--func
 	{80,80,6400,80},--restart
 	--[[
 	{x=0,y=0,r=0},--toLeft

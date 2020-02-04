@@ -21,6 +21,7 @@ return{
 
 	win="胜利",
 	lose="失败",
+	pause="暂停",
 
 	custom="自定义游戏",
 	customOption={
@@ -52,12 +53,12 @@ return{
 	softdropdas="软降DAS:",
 	softdroparr="软降ARR:",
 	snapLevelName={"任意摆放","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
-	keyboard="键盘",
-	joystick="手柄",
+	keyboard="键盘",joystick="手柄",
+	space="空格",enter="回车",
 	setting2Help="方向键选择/翻页,回车修改,esc返回",
 
 
-	actName={"左移:","右移:","顺时针旋转:","逆时针旋转:","180°旋转","硬降:","软降:","暂存:","切换攻击:","重新开始:","左瞬移:","右瞬移:","软降到底:"},
+	actName={"左移:","右移:","顺时针旋转:","逆时针旋转:","180°旋转","硬降:","软降:","暂存:","功能键:","重新开始:","左瞬移:","右瞬移:","软降到底:"},
 	modeName={
 		[0]="自定义",
 		"竞速","马拉松","大师","经典","禅","无尽","单挑","仅TSD","隐形","挖掘","生存","科研",
@@ -84,17 +85,20 @@ return{
 		hotseat="友尽模式",
 	},
 
-	loadTip="真在加载,不只是动画!",
 	load={"加载材质ing","加载音乐ing","加载音效ing","加载完成",},
 	tips={
-		"The whole game is made by MrZ!",
-		"Back to Back 10 combo Techrash PC!",
-		"Techmino has a Nspire-CX edition!",
-		"Is B2B2B2B possible?",
-		"MrZ spin Penta!",
+		"不是动画，真的在加载!",
+		"整个游戏都是MrZ完成的!",
+		"大满贯10连击消四全清!",
+		"方块研究所有一个Nspire-CX版本!",
+		"B2B2B2B存在吗?",
+		"MrZ旋转消5!",
 		"MEGACMB!",
 		"ALLSPIN!",
-		"O spin Techrash?"
+		"O型回旋三清?",
+		"只用一个输入设备就可以玩游戏啦~",
+		"Miya:喵!",
+		"225238922,哔哩哔哩 干杯~",
 	},
 	stat={
 		"游戏运行次数:",
@@ -145,7 +149,8 @@ return{
 			down="v",
 			left="<",
 			right=">",
-			start="开始",
+			start1="消除开始",
+			start2="拼图开始",
 			draw="画图(D)",
 			back="返回",
 		},
@@ -167,7 +172,11 @@ return{
 			back="返回",
 		},
 		play={
-			back="返回",
+			pause="暂停",
+		},
+		pause={
+			resume="继续",
+			quit="退出",
 		},
 		setting={
 			ghost=function()return setting.ghost and"阴影:开"or"阴影:关"end,
@@ -175,6 +184,7 @@ return{
 			grid=function()return setting.grid and"网格:开"or"网格:关"end,
 			swap=function()return setting.swap and"目标选择:组合键"or"目标选择:循环"end,
 			fxs=function()return setting.fxs and"特效:开"or"特效:关"end,
+			bg=function()return setting.bg and"背景:开"or"背景:关"end,
 			dasD="-",dasU="+",
 			arrD="-",arrU="+",
 			sddasD="-",sddasU="+",
@@ -211,4 +221,4 @@ return{
 			path="打开存储目录",
 		},
 	},
-}--中文■
+}--中文
