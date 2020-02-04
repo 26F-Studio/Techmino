@@ -83,12 +83,11 @@ if sys.getPowerInfo()~="unknown"then
 			gc.clear(0,0,0,.25)
 			gc.setLineWidth(4)
 			local charging=state=="charging"
-			gc.setColor(1,1,1)
 			if state=="nobattery"then
+				gc.setColor(1,1,1)
 				gc.setLineWidth(2)
-				gc.line(74,5,99,22)
-			end
-			if pow<100 then
+				gc.line(74,5,100,22)
+			else
 				if charging then	gc.setColor(0,1,0)
 				elseif pow>50 then	gc.setColor(1,1,1)
 				elseif pow>26 then	gc.setColor(1,1,0)
@@ -96,16 +95,18 @@ if sys.getPowerInfo()~="unknown"then
 				else				gc.setColor(.5,0,1)
 				end
 				gc.rectangle("fill",76,6,pow*.22,14)
-				setFont(14)
-				gc.setColor(0,0,0)
-				gc.print(pow,77,2)
-				gc.print(pow,77,4)
-				gc.print(pow,79,2)
-				gc.print(pow,79,4)
-				gc.setColor(1,1,1)
-				gc.draw(batteryImage,73,3)
-				gc.print(pow,78,3)
+				if pow<100 then
+					setFont(14)
+					gc.setColor(0,0,0)
+					gc.print(pow,77,2)
+					gc.print(pow,77,4)
+					gc.print(pow,79,2)
+					gc.print(pow,79,4)
+					gc.setColor(1,1,1)
+					gc.print(pow,78,3)
+				end
 			end
+			gc.draw(batteryImage,73,3)
 			setFont(25)
 			gc.print(os.date("%H:%M",os.time()),3,-5)
 			gc.pop()gc.setCanvas()
@@ -119,15 +120,31 @@ local function getNewBlock()
 	t.bn,t.size=FX_BGblock.next,2+3*rnd()
 	t.b=blocks[t.bn][rnd(0,3)]
 	t.x=rnd(-#t.b[1]*t.size*30+100,1180)
-	t.y=-#t.b*30*t.size
+	t.y=0
+	t.ty=720+#t.b*30*t.size
 	t.v=t.size*(1+rnd())
 	FX_BGblock.next=FX_BGblock.next%7+1
 	return t
 end
 local function onVirtualkey(x,y)
-	local dist,nearest=1e15
+	local dist,nearest=1e10
 	for K=1,#virtualkey do
 		local b=virtualkey[K]
+		if b.ava then
+			local d1=(x-b.x)^2+(y-b.y)^2
+			if d1<b.r^2 then
+				if d1<dist then
+					nearest,dist=K,d1
+				end
+			end
+		end
+	end
+	return nearest
+end
+local function onVK_org(x,y)
+	local dist,nearest=1e10
+	for K=1,#VK_org do
+		local b=VK_org[K]
 		if b.ava then
 			local d1=(x-b.x)^2+(y-b.y)^2
 			if d1<b.r^2 then
@@ -353,6 +370,19 @@ function keyDown.draw(key)
 	end
 end
 
+function mouseDown.setting_sound(x,y,k)
+	if Timer()-sel>5 and x>780 and x<980 and y>470 then
+		VOICE("egg")
+		sel=Timer()
+	end
+end
+function touchDown.setting_sound(id,x,y)
+	if Timer()-sel>5 and x>780 and x<980 and y>470 then
+		VOICE("egg")
+		sel=Timer()
+	end
+end
+
 function keyDown.setting_key(key)
 	if key=="escape"then
 		if keyboardSetting then
@@ -444,15 +474,10 @@ end
 
 function mouseDown.setting_touch(x,y,k)
 	if k==2 then scene.back()end
-	for K=1,#VK_org do
-		local B=VK_org[K]
-		if (x-B.x)^2+(y-B.y)^2<B.r^2 then
-			sel=K
-		end
-	end
+	sel=onVK_org(x,y)or sel
 end
 function mouseMove.setting_touch(x,y,dx,dy)
-	if sel and ms.isDown(1)then
+	if sel and ms.isDown(1)and not widget_sel then
 		local B=VK_org[sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
@@ -465,12 +490,7 @@ function mouseUp.setting_touch(x,y,k)
 	end
 end
 function touchDown.setting_touch(id,x,y)
-	for K=1,#VK_org do
-		local B=VK_org[K]
-		if (x-B.x)^2+(y-B.y)^2<B.r^2 then
-			sel=K
-		end
-	end
+	sel=onVK_org(x,y)or sel
 end
 function touchUp.setting_touch(id,x,y)
 	if sel then
@@ -483,7 +503,7 @@ function touchUp.setting_touch(id,x,y)
 	end
 end
 function touchMove.setting_touch(id,x,y,dx,dy)
-	if sel then
+	if sel and not widget_sel then
 		local B=VK_org[sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
@@ -892,8 +912,9 @@ function love.update(dt)
 		end
 	end
 	for i=#FX_BGblock,1,-1 do
-		FX_BGblock[i].y=FX_BGblock[i].y+FX_BGblock[i].v
-		if FX_BGblock[i].y>720 then rem(FX_BGblock,i)end
+		local B=FX_BGblock[i]
+		B.y=B.y+B.v
+		if B.y>B.ty then rem(FX_BGblock,i)end
 	end
 	if setting.bgblock then
 		FX_BGblock.tm=FX_BGblock.tm-1
@@ -979,7 +1000,7 @@ function love.draw()
 		local size=FX_BGblock[n].size
 		for i=1,#b do for j=1,#b[1]do
 			if b[i][j]then
-				gc.draw(img,FX_BGblock[n].x+(j-1)*30*size,FX_BGblock[n].y+(i-1)*30*size,nil,size)
+				gc.draw(img,FX_BGblock[n].x+(j-1)*30*size,FX_BGblock[n].y-i*30*size,nil,size)
 			end
 		end end
 	end--Draw BG falling blocks
@@ -1041,7 +1062,6 @@ function love.draw()
 	gc.setColor(1,1,1)
 	gc.print(FPS(),5,700)
 	if devMode>0 then
-		love.timer.sleep(.2)
 		gc.setColor(1,devMode==2 and .5 or 1,1)
 		gc.print("Tasks:"..#Task,5,600)
 		gc.print("Voices:"..#voiceQueue,5,620)

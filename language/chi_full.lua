@@ -113,7 +113,7 @@ return{
 		hotseat="友尽模式",
 	},
 
-	load={"加载语音ing","加载音乐ing","加载音效ing","加载完成",},
+	load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing",},
 	tips={
 		"不是动画,真的在加载!",
 		"大满贯10连击消四全清!",
@@ -308,16 +308,11 @@ return{
 			back=BK,
 		},
 		setting_touch={
-			hide="显示虚拟按键",
-			track="按键自动跟踪",
-			tkset="跟踪设置",
 			default="默认组合",
 			snap=function()return text.snapLevelName[snapLevel]end,
-			alpha=function()return setting.VKAlpha.."0%"end,
-			icon="图标",
-			size="大小",
-			toggle="开关",
+			more="更多",
 			back=BK,
+			size="大小",
 		},
 		setting_touchSwitch={
 			b1=	actName[1],b2=actName[2],b3=actName[3],b4=actName[4],
@@ -327,6 +322,11 @@ return{
 			b17=actName[17],b18=actName[18],b19=actName[19],b20=actName[20],
 			norm="标准",
 			pro="专业",
+			hide="显示虚拟按键",
+			track="按键自动跟踪",
+			icon="图标",
+			tkset="跟踪设置",
+			alpha="透明度",
 			back=BK,
 		},
 		setting_trackSetting={
@@ -348,4 +348,4 @@ return{
 			back=BK,
 		},
 	},
-}
+}--译

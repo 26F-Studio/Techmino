@@ -235,7 +235,10 @@ function Pnt.load()
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60,5)
 	setFont(35)
-	mStr(text.load[L[1]],640,335)
+	gc.print(text.load[L[1]],340,335)
+	if loading[1]~=0 then
+		gc.printf(loading[2].."/"..loading[3],795,335,150,"right")
+	end
 	setFont(25)
 	mStr(L[4],640,400)
 end
@@ -273,10 +276,11 @@ function Pnt.mode()
 	setFont(35)
 	local lv=modes[modeID[modeSel]].level[levelSel]
 	gc.setColor(modeLevelColor[lv]or color.white)
-	mStr(lv,270,215)
+	mStr(lv,270,200)
 	setFont(25)
 	gc.setColor(color.white)
-	mStr(text.modeInfo[modeID[modeSel]],270,255)
+	mStr(text.modeInfo[modeID[modeSel]],270,240)
+	
 	setFont(75)
 	gc.setColor(color.grey)
 	mStr(text.modeName[modeSel],643,273)
@@ -356,7 +360,7 @@ function Pnt.draw()
 	gc.translate(-200,-60)
 	if clearSureTime>0 then
 		gc.setColor(1,1,1,clearSureTime*.02)
-		gc.draw(drawableText.question,760,11)
+		gc.draw(drawableText.question,660,11)
 	end
 	if pen>0 then
 		gc.setLineWidth(13)
@@ -473,8 +477,18 @@ function Pnt.setting_graphic()
 	gc.draw(blockSkin[7-int(Timer()*2)%7],890,390,nil,2)
 end
 function Pnt.setting_sound()
-	gc.setColor(1,1,1)
+	gc.setColor(1,1,1,.8)
 	mDraw(drawableText.setting_sound,640,15)
+	local t=Timer()
+	local x,y=790,370+10*sin(t*.4)
+	gc.translate(x,y)
+	gc.draw(miya_ch,0,0)
+	gc.setColor(1,1,1,.7)
+	gc.draw(miya_f1,4,47+4*sin(t*.9))
+	gc.draw(miya_f2,42,107+5*sin(t))
+	gc.draw(miya_f3,93,126+3*sin(t*.7))
+	gc.draw(miya_f4,129,98+3*sin(t*.7))
+	gc.translate(-x,-y)
 end
 function Pnt.setting_key()
 	local a=.3+sin(Timer()*15)*.1
@@ -526,6 +540,9 @@ function Pnt.setting_key()
 	gc.draw(drawableText.ctrlSetHelp,50,650)
 end
 function Pnt.setting_touch()
+	gc.setColor(1,1,1)
+	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
+	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
 	VirtualkeyPreview()
 	local d=snapLevelValue[snapLevel]
 	if d>=10 then

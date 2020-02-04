@@ -94,7 +94,7 @@ local TRS={
 		[31]={TMP1,{0,-1},	{0,1},	{1,0},	{0,-2}	},
 	},--S
 	[3]={
-		[01]={TMP1,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{0,1},	{-1,-1}	},
+		[01]={TMP1,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{-1,-1},{0,1}	},
 		[10]={TMP1,{1,0},	{1,-1},	{0,2},	{1,2},	{0,-1},	{1,1}	},
 		[03]={TMP1,{1,0},	{1,1},	{0,-2},	{-1,1}	},
 		[30]={TMP1,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
@@ -110,7 +110,7 @@ local TRS={
 	[4]={
 		[01]={TMP1,{-1,0},	{-1,1},	{0,-2},	{1,1}	},
 		[10]={TMP1,{1,0},	{1,-1},	{0,2},	{1,2}	},
-		[03]={TMP1,{1,0},	{1,1},	{0,-2},	{1,-2},	{0,1},	{1,-1}	},
+		[03]={TMP1,{1,0},	{1,1},	{0,-2},	{1,-2},	{1,-1},	{0,1}	},
 		[30]={TMP1,{-1,0},	{-1,-1},{0,2},	{-1,2},	{0,-1},	{-1,1}	},
 		[12]={TMP1,{1,0},	{1,-1},	{-1,0},	{0,2},	{1,2}	},
 		[21]={TMP1,{-1,0},	{-1,1},	{1,0},	{0,-2},	{-1,-2}	},
@@ -126,9 +126,9 @@ local TRS={
 		[10]={TMP1,{1,0},	{1,-1},	{0,2},	{1,2},	{0,-1},	{1,1}},
 		[03]={TMP1,{1,0},	{1,1},	{0,-2},	{1,-2}	},
 		[30]={TMP1,{-1,0},	{-1,-1},{0,2},	{-1,2},	{0,-1}	},
-		[12]={TMP1,{1,0},	{1,-1},	{0,-1},	{0,2},	{1,2},	{-1,-1}},
+		[12]={TMP1,{1,0},	{1,-1},	{0,-1},	{-1,-1},{0,2},	{1,2}},
 		[21]={TMP1,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{1,1}	},
-		[32]={TMP1,{-1,0},	{-1,-1},{0,-1},	{0,2},	{-1,2},	{1,-1}},
+		[32]={TMP1,{-1,0},	{-1,-1},{0,-1},	{1,-1},	{0,2},	{-1,2}},
 		[23]={TMP1,{1,0},	{1,1},	{0,-2},	{1,-2},	{-1,1}	},
 		[02]={TMP1,{-1,0},	{1,0},	{0,1}	},
 		[20]={TMP1,{1,0},	{-1,0},	{0,-1}	},
@@ -744,8 +744,8 @@ function player.draw_norm(P)
 	gc.translate(P.x,P.y)gc.scale(P.size)
 	--Camera
 	gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)
-	gc.setLineWidth(7)gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690,3)
-	--Frame
+	gc.setLineWidth(7)gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)
+	--Boarder
 	gc.translate(150+P.fieldOff.x,70+P.fieldOff.y)
 	if P.gameEnv.grid then
 		gc.setLineWidth(1)
@@ -945,14 +945,13 @@ function player.draw_norm(P)
 	end--Draw starting counter
 	drawTexts(P.bonus)--Bonus texts
 	setFont(25)
+	drawDial(360,520,P.dropSpeed)
+	drawDial(405,575,P.keySpeed)
 	gc.setColor(1,1,1)
 	mStr(format("%.2f",P.stat.time),-82,518)--Time
 	mStr(P.score1,-82,560)--Score
 	gc.draw(drawableText.bpm,390,490)
-	gc.draw(drawableText.kpm,350,583)
-	setFont(25)
-	drawDial(360,520,P.dropSpeed)
-	drawDial(405,575,P.keySpeed)
+	gc.draw(drawableText.kpm,344,583)
 	--Speed dials
 	gc.setColor(1,1,1)
 	modes[curMode.id].mesDisp(P,P.fieldOff.x,P.fieldOff.y)--Other messages

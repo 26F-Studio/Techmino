@@ -82,6 +82,7 @@ local sceneInit={
 		curBG="none"
 	end,
 	setting_sound=function()
+		sel=0--last sound time
 		curBG="none"
 	end,
 	setting_key=function()

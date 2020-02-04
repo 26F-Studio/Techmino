@@ -34,7 +34,7 @@ function Tmr.load()
 		L[2]=L[2]+1
 		if L[2]>L[3]then
 			for i=1,L[2]do sfx[i]=nil end
-			L[1],L[2],L[3]=4,1,1
+			L[1],L[2],L[3]=0,1,1
 			SFX("welcome",.2)
 		end
 	else

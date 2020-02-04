@@ -111,7 +111,7 @@ return{
 		hotseat="",
 	},
 
-	load={"Loading VOICE","Loading BGM","Loading SFX","Finished",},
+	load={[0]="Finished","Loading VOICE","Loading BGM","Loading SFX",},
 	tips={
 		"Not animation,real loading!",
 		"Back to Back 10 combo Techrash PC!",
@@ -306,16 +306,11 @@ Lib used:
 			back=BK,
 		},
 		setting_touch={
-			hide="Show Virtual Key",
-			track="Auto track",
-			tkset="Track setting",
 			default="Defaults",
 			snap=function()return text.snapLevelName[snapLevel]end,
-			alpha=function()return setting.VKAlpha.."0%"end,
-			icon="Icon",
-			size="Size",
-			toggle="Toggle",
+			more="More",
 			back=BK,
+			size="Size",
 		},
 		setting_touchSwitch={
 			b1=	actName[1],b2=actName[2],b3=actName[3],b4=actName[4],
@@ -325,6 +320,11 @@ Lib used:
 			b17=actName[17],b18=actName[18],b19=actName[19],b20=actName[20],
 			norm="Normal",
 			pro="Professioanl",
+			hide="Show Virtual Key",
+			track="Auto track",
+			icon="Icon",
+			tkset="Track setting",
+			alpha="Alpha",
 			back=BK,
 		},
 		setting_trackSetting={

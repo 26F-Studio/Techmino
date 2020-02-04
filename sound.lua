@@ -1,4 +1,5 @@
 local rnd=math.random
+local rem=table.remove
 local vibrateLevel={0,.015,.02,.03,.04,.05,.06,.07,.08,.09}
 function VIB(t)
 	if setting.vib>0 then

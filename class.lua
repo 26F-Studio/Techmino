@@ -51,22 +51,39 @@ function button:FX()
 	--[0=ripple],timer,duration,x,y,w,h
 end
 function button:draw()
-	local C=self.color
-	gc.setColor(C)
-	gc.setLineWidth(3)gc.rectangle("line",self.x,self.y,self.w,self.h,4)
-	gc.setColor(C[1],C[2],C[3],.4)
-	gc.setLineWidth(5)gc.rectangle("line",self.x,self.y,self.w,self.h,4)
+	local x,y,w,h=self.x,self.y,self.w,self.h
+	local r,g,b=unpack(self.color)
 	if self==widget_sel then
-		gc.rectangle("fill",self.x,self.y,self.w,self.h,4)
-	end--Highlight when Selected
+		gc.setColor(r*.7,g*.7,b*.7)
+		gc.rectangle("fill",x,y,w,h)
+		x,y,w,h=x+w,y+h,-w,-h
+	else
+		gc.setColor(r*.9,g*.9,b*.9)
+		gc.rectangle("fill",x,y,w,h)
+	end
+	gc.setLineWidth(3)
+	gc.setColor(.4+r*.6,.4+g*.6,.4+b*.6)
+	gc.line(x,y+h,x,y,x+w,y)
+	gc.setColor(r*.6,g*.6,b*.6)
+	gc.line(x,y+h,x+w,y+h,x+w,y)
+	if self==widget_sel then
+		x,y,w,h=x+w,y+h,-w,-h
+	end
 	local t=self.text
 	if t then
 		if type(t)=="function"then t=t()end
 		setFont(self.font)
-		local y0=self.y+self.h*.5-self.font*.7
-		gc.printf(t,self.x-2,y0-1,self.w,"center")
-		gc.setColor(C)
-		gc.printf(t,self.x,y0,self.w,"center")
+		local y0=y+h*.5-self.font*.7
+		gc.setColor(1,1,1,.5)
+		if self==widget_sel then
+			gc.printf(t,x+2,y0+1,w,"center")
+			gc.setColor(r*.5,g*.5,b*.5)
+			gc.printf(t,x,y0,w,"center")
+		else
+			gc.printf(t,x,y0-1,w,"center")
+			gc.setColor(r*.6,g*.6,b*.6)
+			gc.printf(t,x-2,y0-2,w,"center")
+		end
 	end
 end
 function button:getInfo()
@@ -84,27 +101,32 @@ function newSwitch(x,y,font,disp,code,hide,N)
 	}for k,v in next,switch do _[k]=v end return _
 end
 function switch:isAbove(x,y)
-	return x>self.x and x<self.x+100 and y>self.y-20 and y<self.y+20
+	return x>self.x and x<self.x+50 and y>self.y-25 and y<self.y+25
 end
 function switch:FX()
 	sysFX[#sysFX+1]=self.disp()and
-	{1,0,15,1,.4,.4,self.x,self.y-20,50,40,0}--Switched on
-	or{1,0,15,.4,1,.4,self.x+50,self.y-20,50,40,0}--Switched off
+	{1,0,15,.4,1,.4,self.x,self.y-25,50,50,0}--Switched on
+	or{1,0,15,1,.4,.4,self.x,self.y-25,50,50,0}--Switched off
 	--[1=square fade],timer,duration,r,g,b,x,y,w,h
 end
 function switch:draw()
-	local x,y=self.x,self.y-20
+	local x,y=self.x,self.y-25
 	if self.disp()then
-		gc.setColor(.6,1,.6)
-		gc.rectangle("fill",x+50,y,50,40,3)
-		--ON
+		gc.setColor(.9,1,.9)
+		gc.setLineWidth(6)
+		gc.line(x+5,y+25,x+18,y+38,x+45,y+11)
+	end--checked
+	if self==widget_sel then
+		gc.setColor(1,1,1,.4)
 	else
-		gc.setColor(1,.6,.6)
-		gc.rectangle("fill",x,y,50,40,3)
-		--OFF
-	end--switch
-	gc.setColor(1,1,1,self==widget_sel and 1 or .6)
-	gc.setLineWidth(3)gc.rectangle("line",x-3,y-3,106,46,5)
+		gc.setColor(1,1,1,.2)
+	end
+	gc.rectangle("fill",x,y,50,50)
+	gc.setLineWidth(3)
+	gc.setColor(1,1,1)
+	gc.line(x,y+50,x,y,x+50,y)
+	gc.setColor(1,1,1,.7)
+	gc.line(x,y+50,x+50,y+50,x+50,y)
 	--frame
 	local t=self.text
 	if t then
@@ -138,27 +160,34 @@ function slider:FX(pos)
 	--[1=square fade],timer,duration,r,g,b,x,y,w,h
 end
 function slider:draw()
-	local S=self==widget_sel
-	gc.setColor(1,1,1,S and 1 or .5)
+	local x,y=self.x,self.y
+	gc.setColor(1,1,1,self==widget_sel and 1 or .5)
 	gc.setLineWidth(2)
-	local x1,x2=self.x,self.x+self.w
+	local x1,x2=x,x+self.w
 	for p=0,self.unit do
 		local x=x1+(x2-x1)*p/self.unit
-		gc.line(x,self.y+7,x,self.y-7)
+		gc.line(x,y+7,x,y-7)
 	end
 	--units
 	gc.setLineWidth(5)
-	gc.line(x1,self.y,x2,self.y)
+	gc.line(x1,y,x2,y)
 	--axis
-	gc.setColor(1,1,1)
-	gc.rectangle("fill",x1+(x2-x1)*self.disp()/self.unit-8,self.y-15,17,30)
-	--block
 	local t=self.text
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
-		gc.printf(t,self.x-312,self.y-self.font*.7,300,"right")
+		gc.printf(t,x-312,y-self.font*.7,300,"right")
 	end
+	--text
+	local x,y=x1+(x2-x1)*self.disp()/self.unit-8,y-15
+	gc.setColor(.8,.8,.8)
+	gc.rectangle("fill",x,y,17,30)
+	gc.setLineWidth(2)
+	gc.setColor(.5,.5,.5)
+	gc.line(x,y+30,x+17,y+30,x+17,y)
+	gc.setColor(1,1,1)
+	gc.line(x,y+30,x,y,x+17,y)
+	--block
 end
 function slider:getInfo()
 	print(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
