@@ -9,12 +9,12 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep sysBGM
 
 	local W=t.window
-	W.title="Techmino V0.7.7"
+	W.title="Techmino V0.7.8"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
+	W.minwidth,W.minheight=640,360
 	W.borderless=X
 	W.resizable=true
-	W.minwidth,W.minheight=640,360
 	W.fullscreentype="desktop"--Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
 	W.fullscreen=X
 	W.vsync=X--0 to set ∞fps

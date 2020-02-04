@@ -1,6 +1,5 @@
 function loadGame(mode,level)
 	--rec={}
-	print(mode)
 	curMode={id=modeID[mode],lv=level,modeName=modeName[mode],levelName=modeLevel[modeID[mode]][level]}
 	gotoScene("play")
 end
@@ -12,6 +11,7 @@ function resetGameData()
 	players={alive={}}
 	modeEnv=defaultModeEnv[curMode.id][curMode.lv]or defaultModeEnv[curMode.id][1]
 	loadmode[curMode.id]()
+	BGM(modeEnv.bgm)
 
 	FX.beam={}
 	for k,v in pairs(PTC.dust)do
@@ -63,6 +63,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.small=P.size<.3
 	if P.small then
 		P.centerX,P.centerY=P.x+150*P.size,P.y+300*P.size
+		P.size=P.size*5
 	else
 		P.centerX,P.centerY=P.x+300*P.size,P.y+670*P.size
 	end
@@ -109,30 +110,31 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
 	P.freshTime=0
 	P.spinLast,P.lastClear=nil
-	if P.gameEnv.sequence<3 then
+	local s=P.gameEnv.sequence
+	if s=="bag7"or s=="his4"then
 		local bag1={1,2,3,4,5,6,7}
 		for i=1,7 do
 			P.nxt[i]=rem(bag1,rnd(#bag1))
 			P.nb[i]=blocks[P.nxt[i]][0]
 		end
-	elseif P.gameEnv.sequence==3 then
+	elseif s=="rnd"then
 		for i=1,6 do
 			local r=rnd(7)
 			P.nxt[i]=r
 			P.nb[i]=blocks[r][0]
 		end
-	elseif P.gameEnv.sequence==5 then
+	elseif s=="drought1"then
 		local bag1={1,2,3,4,5,6}
 		for i=1,6 do
 			P.nxt[i]=rem(bag1,rnd(#bag1))
 			P.nb[i]=blocks[P.nxt[i]][0]
-		end--First bag
-	elseif P.gameEnv.sequence==6 then
+		end
+	elseif s=="drought2"then
 		local bag1={1,2,3,4,6,7}
 		for i=1,6 do
 			P.nxt[i]=rem(bag1,rnd(#bag1))
 			P.nb[i]=blocks[P.nxt[i]][0]
-		end--First bag
+		end
 	end
 
 	P.freshNext=freshMethod[P.gameEnv.sequence]
@@ -143,7 +145,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 
 	P.showTime=P.gameEnv.visible==1 and 1e99 or P.gameEnv.visible==2 and 300 or 20
 	P.cb,P.sc,P.bn,P.r,P.c,P.cx,P.cy,P.dir,P.y_img={{}},{0,0},1,0,0,0,0,0,0
-	P.keyPressing,P.isKeyDown={},{}for i=1,12 do P.keyPressing[i],P.isKeyDown[i]=false,false end
+	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.moving,P.downing=0,0
 	P.waiting,P.falling=0,0
 	P.clearing={}
@@ -164,15 +166,45 @@ function showText(P,text,type,font,dy,spd,inf)
 		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,speed=spd or 1,inf=inf})
 	end
 end
+function garbageSend(S,R,send,time)
+	local pos=rnd(10)
+	createBeam(S,R,send<4 and 1 or send<7 and 2 or 3)
+	R.lastRecv=S
+	if R.atkBuffer.sum<20 then
+		send=min(send,20-R.atkBuffer.sum)
+		R.atkBuffer.sum=R.atkBuffer.sum+send
+		ins(R.atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=send<4 and 1 or send<7 and 2 or 3})
+		if R.id==1 then sysSFX(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)end
+	end
+end
+function garbageRelease()
+	local t=P.showTime*2
+	for i=1,#P.atkBuffer do
+		local atk=P.atkBuffer[i]
+		if not atk.sent and atk.countdown<=0 then
+			for j=1,atk.amount do
+				ins(P.field,1,getNewRow(13))
+				ins(P.visTime,1,getNewRow(t))
+				for k=1,#atk do
+					P.field[1][atk[k]]=0
+				end
+			end
+			P.atkBuffer.sum=P.atkBuffer.sum-atk.amount
+			atk.sent=true
+			atk.time=0
+			P.fieldBeneath=P.fieldBeneath+atk.amount*30
+		end
+	end
+end
 function createBeam(S,R,lv)--Player id
 	local x1,y1,x2,y2
 	if S.small then
-		x1,y1=S.x+(30*(P.cx+P.sc[2]-1)+15)*S.size,S.y+(600-30*(P.cy+P.sc[1]-1)+15)*S.size
+		x1,y1=S.centerX,S.centerY
 	else
 		x1,y1=S.x+(30*(P.cx+P.sc[2]-1)-30+15+150)*S.size,S.y+(600-30*(P.cy+P.sc[1]-1)+15+70)*S.size
 	end
 	if R.small then
-		x2,y2=R.x+150*R.size,R.y+300*R.size
+		x2,y2=R.x+150*R.size*.2,R.y+300*R.size*.2
 	else
 		x2,y2=R.x+308*R.size,R.y+450*R.size
 	end
@@ -181,12 +213,12 @@ end
 function throwBadge(S,R,amount)--Player id
 	local x1,y1,x2,y2
 	if S.small then
-		x1,y1=S.x+150*S.size,S.y+300*S.size
+		x1,y1=S.x+30*S.size,S.y+60*S.size
 	else
 		x1,y1=S.x+308*S.size,S.y+450*S.size
 	end
 	if R.small then
-		x2,y2=R.x+150*R.size,R.y+300*R.size
+		x2,y2=R.x+30*R.size,R.y+60*R.size
 	else
 		x2,y2=R.x+73*R.size,R.y+360*R.size
 	end
@@ -195,9 +227,9 @@ end
 function randomTarget(p)
 	if #players.alive>1 then
 		local r
-		repeat
+		::L::
 			r=players.alive[rnd(#players.alive)]
-		until r~=p
+		if r==p then goto L end
 		return r
 	end
 end
@@ -214,7 +246,7 @@ function freshTarget(P)
 		for i=1,#P.atker do
 			if not P.atker[i].alive then
 				rem(P.atker,i)
-				break
+				return
 			end
 		end
 	end
@@ -292,50 +324,55 @@ function royaleLevelup()
 end
 function freshgho()
 	if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
-		while not ifoverlap(P.cb,P.cx,P.cy-1)do
+		::L::if not ifoverlap(P.cb,P.cx,P.cy-1)then
 			P.cy=P.cy-1
 			P.spinLast=false
+			goto L
 		end
 		P.y_img=P.cy
 	else
 		P.y_img=P.cy>#P.field+1 and #P.field+1 or P.cy
-		while not ifoverlap(P.cb,P.cx,P.y_img-1)do
+		::L::if not ifoverlap(P.cb,P.cx,P.y_img-1)then
 			P.y_img=P.y_img-1
+			goto L
 		end
 	end
 end
 function freshLockDelay()
-	if P.lockDelay<P.gameEnv.lock and P.freshTime<=P.gameEnv.freshLimit then
-		P.lockDelay=P.gameEnv.lock
+	if P.lockDelay<P.gameEnv.lock then
+		if P.freshTime<=P.gameEnv.freshLimit then
+			P.lockDelay=P.gameEnv.lock
+		end
 		P.freshTime=P.freshTime+1
 	end
 end
 function ifoverlap(bk,x,y)
 	if x<1 or x+#bk[1]>11 or y<1 then return true end
-	if y>#P.field then return nil end
+	if y>#P.field then return end
 	for i=1,#bk do for j=1,#bk[1]do
 		if P.field[y+i-1]and bk[i][j]>0 and P.field[y+i-1][x+j-1]>0 then return true end
 	end end
 end
 function ckfull(i)
-	for j=1,10 do if P.field[i][j]==0 then return nil end end
+	for j=1,10 do if P.field[i][j]==0 then return end end
 	return true
 end
-function checkrow(s,num)--(cy,r)
-	local c=0--rows cleared
-	for i=s,s+num-1 do
+function checkrow(start,height)--(cy,r)
+	local c=0
+	for i=start,start+height-1 do
 		if ckfull(i)then
 			ins(P.clearing,1,i)
-			P.falling=P.gameEnv.fall
-			c=c+1--row cleared+1
+			c=c+1
 			if not P.small then
-				for k=1,250 do
-					PTC.dust[P.id]:setPosition(rnd(300),600-30*i+rnd(30))
-					PTC.dust[P.id]:emit(1)
+				local S=PTC.dust[P.id]
+				for k=1,100 do
+					S:setPosition(rnd(300),600-30*i+rnd(30))
+					S:emit(3)
 				end
 			end
 		end
 	end
+	if c>0 then P.falling=P.gameEnv.fall end
 	return c
 end
 function solid(x,y)
@@ -346,6 +383,7 @@ end
 function resetblock()
 	P.holded=false
 	P.spinLast=false
+	P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
 	P.freshNext()
 	P.sc,P.dir=scs[P.bn][0],0
 	P.r,P.c=#P.cb,#P.cb[1]
@@ -369,7 +407,10 @@ end
 function pressKey(i,p)
 	P=p
 	P.keyPressing[i]=true
-	P.isKeyDown[i]=true
+	if P.id==1 then
+		virtualkeyDown[i]=true
+		virtualkeyPressTime[i]=10
+	end
 	if i==10 then
 		act.restart()
 	elseif P.alive then
@@ -402,8 +443,8 @@ function pressKey(i,p)
 end
 function releaseKey(i,p)
 	p.keyPressing[i]=false
-	p.isKeyDown[i]=false
-	-- if playmode=="recording"then ins(rec,{-i,frame})end
+	if p.id==1 then virtualkeyDown[i]=false end
+	-- if recording then ins(rec,{-i,frame})end
 end
 function spin(d,ifpre)
 	local idir=(P.dir+d)%4
@@ -413,7 +454,7 @@ function spin(d,ifpre)
 		if P.id==1 then
 			stat.rotate=stat.rotate+1
 		end
-        return nil
+        return
     end
 	local icb=blocks[P.bn][idir]
 	local isc=scs[P.bn][idir]
@@ -446,7 +487,7 @@ function hold(ifpre)
 		P.hn,P.bn=P.bn,P.hn
 		P.hb,P.cb=blocks[P.hn][0],P.hb
 
-		if P.bn==0 then P.freshNext()end
+		if P.bn==0 then P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)P.freshNext()end
 		P.sc,P.dir=scs[P.bn][0],0
 		P.r,P.c=#P.cb,#P.cb[1]
 		P.cx,P.cy=blockPos[P.bn],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
@@ -513,11 +554,11 @@ function drop()
 			if P.b2b>480 then
 				showText(P,"Techrash B2B2B","fly",70)
 				csend=6
-				sendTime=80
+				sendTime=100
 				exblock=exblock+1
 			elseif P.b2b>=30 then
 				showText(P,"Techrash B2B","drive",70)
-				sendTime=70
+				sendTime=80
 				csend=5
 			else
 				showText(P,"Techrash","stretch",80)
@@ -619,7 +660,8 @@ function drop()
 					showText(P,exblock,"zoomout",10,70)
 				end
 			end
-			while csend>0 and P.atkBuffer[1]do
+			::L::
+			if csend>0 and P.atkBuffer[1]then
 				if exblock>0 then
 					exblock=exblock-1
 				else
@@ -630,6 +672,7 @@ function drop()
 				if P.atkBuffer[1].amount==0 then
 					rem(P.atkBuffer,1)
 				end
+				goto L
 			end
 			if csend>0 then
 				if modeEnv.royaleMode then
@@ -681,36 +724,6 @@ function lock()
 		end
 	end
 end
-function garbageSend(S,R,send,time)
-	local pos=rnd(10)
-	createBeam(S,R,send<4 and 1 or send<7 and 2 or 3)
-	R.lastRecv=S
-	if R.atkBuffer.sum<20 then
-		send=min(send,20-R.atkBuffer.sum)
-		R.atkBuffer.sum=R.atkBuffer.sum+send
-		ins(R.atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=send<4 and 1 or send<7 and 2 or 3})
-		if R.id==1 then sysSFX(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)end
-	end
-end
-function garbageRelease()
-	local t=P.showTime*2
-	for i=1,#P.atkBuffer do
-		local atk=P.atkBuffer[i]
-		if not atk.sent and atk.countdown<=0 then
-			for j=1,atk.amount do
-				ins(P.field,1,getNewRow(13))
-				ins(P.visTime,1,getNewRow(t))
-				for k=1,#atk do
-					P.field[1][atk[k]]=0
-				end
-			end
-			P.atkBuffer.sum=P.atkBuffer.sum-atk.amount
-			atk.sent=true
-			atk.time=0
-			P.fieldBeneath=P.fieldBeneath+atk.amount*30
-		end
-	end
-end
 act={
 	moveLeft=function(auto)
 		if P.keyPressing[9]then
@@ -735,7 +748,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=2 then
 				P.atkMode=2
-				changeAtk(P,P~=mostBadge and mostBadge or secBadge or randomTarget(P))
+				freshTarget(P)
 			end
 		else
 			if not auto then
@@ -757,7 +770,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=3 then
 				P.atkMode=3
-				changeAtk(P,P~=mostDangerous and mostDangerous or secDangerous or randomTarget(P))
+				freshTarget(P)
 			end
 		else
 			if P.waiting<=0 then
@@ -805,15 +818,17 @@ act={
 	end,
 	insDown=function()if P.cy~=P.y_img then P.cy,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false end end,
 	insLeft=function()
-		while not ifoverlap(P.cb,P.cx-1,P.cy)do
+		::L::if not ifoverlap(P.cb,P.cx-1,P.cy)then
 			P.cx,P.lockDelay=P.cx-1,P.gameEnv.lock
 			freshgho()
+			goto L
 		end
 	end,
 	insRight=function()
-		while not ifoverlap(P.cb,P.cx+1,P.cy)do
+		::L::if not ifoverlap(P.cb,P.cx+1,P.cy)then
 			P.cx,P.lockDelay=P.cx+1,P.gameEnv.lock
 			freshgho()
+			goto L
 		end
 	end,
 	down1=function()

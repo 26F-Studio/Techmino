@@ -1,22 +1,22 @@
 function string.splitS(s,sep)
 	local t={}
-	repeat
+	::L::
 		local i=find(s,sep)or #s+1
 		ins(t,sub(s,1,i-1))
 		s=sub(s,i+#sep)
-	until #s==0
+	if #s~=0 then goto L end
 	return t
 end
 function sgn(i)return i>0 and 1 or i<0 and -1 or 0 end--Row numbe is A-uth-or's id!
 function stringPack(s,v)return s..toS(v)end
 function without(t,v)
 	for i=1,#t do
-		if t[i]==v then return nil end
+		if t[i]==v then return end
 	end
 	return true
 end
 function mStr(s,x,y)
-	gc.printf(s,x-250,y,500,"center")
+	gc.printf(s,x-300,y,600,"center")
 end
 
 function getNewRow(val)
@@ -66,7 +66,7 @@ function stencil_field()
 	gc.rectangle("fill",150,60,300,610)
 end
 function stencil_field_small()
-	gc.rectangle("fill",0,0,300,600)
+	gc.rectangle("fill",0,0,60,120)
 end
 --Single-usage funcs
 
@@ -78,14 +78,15 @@ end
 function sysSFX(s,v)
 	if setting.sfx then
 		local n=1
-		while sfx[s][n]:isPlaying()do
+		::L::if sfx[s][n]:isPlaying()then
 			n=n+1
 			if not sfx[s][n]then
 				sfx[s][n]=sfx[s][n-1]:clone()
 				sfx[s][n]:seek(0)
-				break
+				goto quit
 			end
-		end
+			goto L
+		end::quit::
 		sfx[s][n]:setVolume(v or 1)
 		sfx[s][n]:play()
 	end
@@ -93,14 +94,15 @@ end
 function SFX(s,v)
 	if setting.sfx and not P.ai then
 		local n=1
-		while sfx[s][n]:isPlaying()do
+		::L::if sfx[s][n]:isPlaying()then
 			n=n+1
 			if not sfx[s][n]then
 				sfx[s][n]=sfx[s][n-1]:clone()
 				sfx[s][n]:seek(0)
-				break
+				goto quit
 			end
-		end
+			goto L
+		end::quit::
 		sfx[s][n]:setVolume(v or 1)
 		sfx[s][n]:play()
 	end

@@ -49,14 +49,15 @@ FCL[5]=FCL[3]
 clearScore={[0]=0,0,2,4,12}
 function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
-	if y>#f then return nil end
+	if y>#f then return end
 	for i=1,#bk do for j=1,#bk[1]do
 		if f[y+i-1]and bk[i][j]>0 and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
 function resetField(f0,f,start)
-	while f[start]do
+	::L::if f[start]then
 		removeRow(f,start)
+		goto L
 	end
 	for i=start,#f0 do
 		f[i]=getNewRow()
@@ -85,8 +86,9 @@ function getScore(field,bn,cb,cx,cy)
 	if #field==0 then return 9e99 end--PC best
 	for x=1,10 do
 		local h=#field
-		while field[h][x]==0 and h>1 do
+		::L::if field[h][x]==0 and h>1 then
 			h=h-1
+			goto L
 		end
 		height[x]=h
 		if x>3 and x<8 and h>highest then highest=h end
@@ -136,8 +138,9 @@ function AI_getControls(ctrl)
 			local cb=blocks[bn][dir]
 			for cx=1,11-#cb[1]do--each pos
 				local cy=#Tfield+1
-				while not ifoverlapAI(Tfield,cb,cx,cy-1)do
+				::L::if not ifoverlapAI(Tfield,cb,cx,cy-1)then
 					cy=cy-1
+					goto L
 				end--move to bottom
 				for i=1,#cb do
 					local y=cy+i-1
@@ -156,8 +159,11 @@ function AI_getControls(ctrl)
 			end
 		end
 	end
-	while #Tfield>0 do
+
+	::L::
+	if #Tfield>0 then
 		removeRow(Tfield,1)
+		goto L
 	end--Release cache
 	if best.hold then
 		ins(ctrl,8)

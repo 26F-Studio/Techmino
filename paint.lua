@@ -99,7 +99,7 @@ FX={
 			setFont(t.font)
 			gc.translate(150,290+t.dy)
 			if t.t<20 then
-				local k=.2*(5+(25-t.t)^.5)-.5
+				local k=.2*(5+(25-t.t)^.5)-.45
 				gc.scale(k,k)
 			end
 			gc.setColor(1,1,1,a)
@@ -156,31 +156,32 @@ function drawPixel(y,x,id,alpha)
 	gc.draw(blockSkin[id],30*x-30,600-30*y)
 end
 function drawPixelmini(y,x,id)
-	gc.draw(blockSkinmini[id],30*x-30,600-30*y,nil,5)
+	
 end
 function VirtualkeyPreview()
 	for i=1,#virtualkey do
 		gc.setColor(1,sel==i and .5 or 1,sel==i and .5 or 1,setting.virtualkeyAlpha*.2)
 		local b=virtualkey[i]
-		gc.setLineWidth(b[4]*.08)
+		gc.setLineWidth(b[4]*.07)
 		gc.circle("line",b[1],b[2],b[4]-5)
-		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2],nil,2*b[4]*.0125,nil,18,18)end
+		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2],nil,b[4]*.025,nil,18,18)end
 	end
 end
 function drawVirtualkey()
 	local a=setting.virtualkeyAlpha*.2
 	local P=players[1]
 	for i=1,#virtualkey do
-		local p=P.isKeyDown[i]
-		local b=virtualkey[i]
-		if p then
-			gc.setColor(.75,.75,1,a)
-		else
-			gc.setColor(1,1,1,a)
+		local p,b=virtualkeyDown[i],virtualkey[i]
+		if p then gc.setColor(.75,.75,.75,a)
+		else gc.setColor(1,1,1,a)
 		end
-		gc.setLineWidth(b[4]*.08)
-		gc.circle("line",b[1],p and b[2]+15 or b[2],b[4]-5)
-		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],p and b[2]+15 or b[2],nil,b[4]*.025,nil,18,18)end
+		gc.setLineWidth(b[4]*.07)
+		gc.circle("line",b[1],b[2]+virtualkeyPressTime[i],b[4]-5)
+		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2]+virtualkeyPressTime[i],nil,b[4]*.025,nil,18,18)end
+		if virtualkeyPressTime[i]>0 then
+			gc.setColor(1,1,1,a*virtualkeyPressTime[i]*.1)
+			gc.circle("line",b[1],b[2],b[4]*(1.4-virtualkeyPressTime[i]*.04))
+		end
 	end
 end
 
@@ -261,7 +262,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.7",370,140)
+	gc.print("Alpha V0.7.8",370,140)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -309,38 +310,38 @@ function Pnt.play()
 		if P.small then
 			gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)--Scale
-			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,300,600)--Black Background
-			gc.setLineWidth(13)
+			gc.setColor(0,0,0,.4)gc.rectangle("fill",0,0,60,120)--Black Background
 			gc.stencil(stencil_field_small,"replace",1)
-			gc.translate(0,P.fieldBeneath)
+			gc.translate(0,P.fieldBeneath*.2)
 			gc.setStencilTest("equal",1)
 			gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
 			for j=int(P.fieldBeneath/30+1),#P.field do
 				if P.falling<=0 or without(P.clearing,j)then
 					for i=1,10 do
 						if P.field[j][i]>0 then
-							drawPixelmini(j,i,P.field[j][i])
+							gc.draw(blockSkinmini[P.field[j][i]],6*i-6,120-6*j)
 						end
 					end
 				end
 			end
 			gc.setStencilTest()--In-playField mask
-			gc.translate(0,-P.fieldBeneath)
-			gc.setColor(frameColor[P.strength])gc.rectangle("line",-7,-7,314,614)--Draw boarder
+			gc.translate(0,-P.fieldBeneath*.2)
+			gc.setLineWidth(2)
+			gc.setColor(frameColor[P.strength])gc.rectangle("line",-1,-1,62,122)--Draw boarder
 			if modeEnv.royaleMode then
 				gc.setColor(1,1,1)
 				for i=1,P.strength do
-					gc.draw(badgeIcon,61*i-47,15,nil,3)
+					gc.draw(badgeIcon,12*i-7,4,nil,.5)
 				end
 			end
 			if P.result then
 				gc.setColor(1,1,1,min(P.endCounter,60)*.01)
-				setFont(100)
-				mStr(P.result,150,235)
+				setFont(22)mStr(P.result,32,47)
+				setFont(20)mStr(P.rank,30,82)
 				if P.killMark then
-					gc.setLineWidth(20)
+					gc.setLineWidth(4)
 					gc.setColor(1,0,0,min(P.endCounter,25)*.04)
-					gc.circle("line",150,300,420-10*min(P.endCounter,30))
+					gc.circle("line",31,60,84-2*min(P.endCounter,30))
 				end
 			end
 			gc.pop()
@@ -395,8 +396,8 @@ function Pnt.play()
 				gc.draw(PTC.dust[p])--Draw game field
 			gc.setStencilTest()--In-playField mask
 			gc.translate(0,-P.fieldBeneath)
-			gc.setLineWidth(5)
-			gc.setColor(1,1,1)gc.rectangle("line",-2,-12,304,614)--Draw boarder
+			gc.setLineWidth(3)
+			gc.setColor(1,1,1)gc.rectangle("line",-1,-11,302,612)--Draw boarder
 
 			local h=0
 			for i=1,#P.atkBuffer do
@@ -410,30 +411,30 @@ function Pnt.play()
 					end
 					if a.countdown>0 then
 						gc.setColor(attackColor[a.lv][1])
-						gc.rectangle("fill",307,600-h,12,-bar+5)
+						gc.rectangle("fill",304,600-h,12,-bar+3)
 						gc.setColor(attackColor[a.lv][2])
-						gc.rectangle("fill",307,600-h+(-bar+5),12,-(-bar+5)*(1-a.countdown/a.cd0))
+						gc.rectangle("fill",304,600-h+(-bar+3),12,-(-bar+3)*(1-a.countdown/a.cd0))
 						--Timing
 					else
 						attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
-						gc.rectangle("fill",307,600-h,12,-bar+5)
+						gc.rectangle("fill",304,600-h,12,-bar+3)
 						--Warning
 					end
 				else
 					gc.setColor(attackColor[a.lv][1])
 					bar=bar*(20-a.time)*.05
-					gc.rectangle("fill",307,600-h,12,-bar+3)
+					gc.rectangle("fill",304,600-h,12,-bar+2)
 					--Disappear
 				end
 				h=h+bar
 			end--Buffer line
 
 			gc.setColor(P.b2b<40 and color.white or P.b2b<=480 and color.lightRed or color.lightBlue)
-			gc.rectangle("fill",-17,600,10,-P.b2b1)
+			gc.rectangle("fill",-13,600,10,-P.b2b1)
 			gc.setColor(color.red)
-			gc.rectangle("fill",-23,600-40,16,5)
+			gc.rectangle("fill",-19,600-40,16,5)
 			gc.setColor(color.blue)
-			gc.rectangle("fill",-23,600-480,16,5)
+			gc.rectangle("fill",-19,600-480,16,5)
 			--B2B bar
 
 			setFont(40)

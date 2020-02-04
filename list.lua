@@ -29,7 +29,7 @@ PClist={--ZSLJTOI
 	{7,3,2,5},{7,4,6,5},{7,5,2,3},{7,3,5,7},{7,3,2,5},{7,3,5,1},{7,5,2,3},{3,6,2,5},
 	{3,1,2,5},{3,1,1,5},{3,1,5,2},{3,1,5,1},{3,5,1,2},{4,5,3,2},{4,2,6,5},{6,5,3,2},
 	{1,4,2,5},{1,5,3,6},{5,2,6,3},{5,2,1,3},{5,2,7,4},{2,4,1,5},{2,4,5,1},{2,1,4,5},
-	{2,5,4,3},{2,5,6,7},{7,5,4,2},
+	{2,5,4,3},{2,5,6,7},{7,5,4,2},{4,5,3,5},
 }
 color={
 	red={1,0,0},
@@ -68,7 +68,7 @@ attackColor={
 			gc.setColor(1,t,0)
 		end,
 		function(t)
-			gc.setColor(1,.4,.3+t*.7)
+			gc.setColor(1,.5+t*.5,.5+t*.5)
 		end,
 		function(t)
 			gc.setColor(.2+t*.8,.2+t*.8,1)
@@ -94,14 +94,14 @@ blockColor={
 }
 clearName={"Single","Double","Triple"}
 spinName={[0]={}}
+for j=1,7 do
+	spinName[0][j]=blockName[j].." spin"
+end
 for i=1,3 do
 	spinName[i]={}
 	for j=1,7 do
 		spinName[i][j]=blockName[j].." spin "..clearName[i]
 	end
-end
-for j=1,7 do
-	spinName[0][j]=blockName[j].." spin"
 end
 
 miniTitle_rect={
@@ -132,6 +132,7 @@ bgm={
 	"blank",
 	"way",
 	"race",
+	"newera",
 	"push",
 	"reason",
 	"infinite",
@@ -205,7 +206,7 @@ customRange={
 	fall={1,3,5,7,10,15,20,30,60},
 	next={0,1,2,3,4,5,6},
 	hold={true,false},
-	sequence={1,2,3},
+	sequence={"bag7","his4","rnd"},
 	visible={1,2,3},
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
@@ -234,6 +235,9 @@ reAtk={0,0,1,1,1,2,2,3,3}
 reDef={0,1,1,2,3,3,4,4,5}
 
 marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
+rush_lock={20,18,16,14,12}
+rush_wait={12,10,9,8,7}
+rush_fall={12,11,10,9,8}
 death_lock={12,11,10,9,8}
 death_wait={9,8,7,6,5}
 death_fall={10,9,8,7,6}
@@ -247,31 +251,37 @@ defaultModeEnv={
 			drop=60,
 			target=10,
 			reach=Event.gameover.win,
+			bgm="race",
 		},
 		{
 			drop=60,
 			target=20,
 			reach=Event.gameover.win,
+			bgm="race",
 		},
 		{
 			drop=60,
 			target=40,
 			reach=Event.gameover.win,
+			bgm="race",
 		},
 		{
 			drop=60,
 			target=100,
 			reach=Event.gameover.win,
+			bgm="race",
 		},
 		{
 			drop=60,
 			target=400,
 			reach=Event.gameover.win,
+			bgm="push",
 		},
 		{
 			drop=60,
 			target=1000,
 			reach=Event.gameover.win,
+			bgm="push",
 		},
 	},
 	marathon={
@@ -280,18 +290,32 @@ defaultModeEnv={
 			lock=1e99,
 			target=200,
 			reach=Event.marathon_reach,
+			bgm="way",
 		},
 		{
 			drop=60,
 			fall=20,
 			target=10,
 			reach=Event.marathon_reach,
+			bgm="way",
 		},
 		{
 			_20G=true,
 			fall=20,
 			target=200,
 			reach=Event.marathon_reach,
+			bgm="newera",
+		},
+		{
+			_20G=true,
+			drop=0,
+			lock=rush_lock[1],
+			wait=rush_wait[1],
+			fall=rush_fall[1],
+			target=50,
+			reach=Event.marathon_reach_lunatic,
+			arr=2,
+			bgm="race",
 		},
 		{
 			_20G=true,
@@ -300,8 +324,9 @@ defaultModeEnv={
 			wait=death_wait[1],
 			fall=death_fall[1],
 			target=50,
-			reach=Event.marathon_reach_lunatic,
+			reach=Event.marathon_reach_ultimete,
 			arr=1,
+			bgm="push",
 		},
 	},
 	zen={
@@ -310,6 +335,7 @@ defaultModeEnv={
 			lock=1e99,
 			target=200,
 			reach=Event.gameover.win,
+			bgm="infinite",
 		},
 	},
 	infinite={
@@ -317,10 +343,13 @@ defaultModeEnv={
 			drop=1e99,
 			lock=1e99,
 			oncehold=false,
+			bgm="infinite",
 		},
 	},
 	solo={
-		{},
+		{
+			bgm="race",
+		},
 	},
 	tsd={
 		{
@@ -329,12 +358,14 @@ defaultModeEnv={
 			lock=1e99,
 			target=1,
 			reach=Event.tsd_reach,
+			bgm="reason",
 		},
 		{
 			drop=60,
 			lock=60,
 			target=1,
 			reach=Event.tsd_reach,
+			bgm="reason",
 		},
 	},
 	blind={
@@ -342,18 +373,21 @@ defaultModeEnv={
 			drop=30,
 			lock=60,
 			visible=2,
+			bgm="newera",
 		},
 		{
 			drop=15,
-			lock=30,
+			lock=60,
 			visible=0,
 			freshLimit=10,
+			bgm="reason",
 		},
 		{
 			_20G=true,
 			lock=60,
 			visible=0,
 			freshLimit=15,
+			bgm="reason",
 		},
 		{
 			_20G=true,
@@ -363,6 +397,7 @@ defaultModeEnv={
 			fall=15,
 			visible=0,
 			arr=1,
+			bgm="push",
 		},
 	},
 	dig={
@@ -370,10 +405,12 @@ defaultModeEnv={
 			drop=60,
 			lock=120,
 			fall=20,
+			bgm="push",
 		},
 		{
 			drop=10,
 			lock=30,
+			bgm="push",
 		},
 	},
 	survivor={
@@ -381,21 +418,25 @@ defaultModeEnv={
 			drop=60,
 			lock=120,
 			fall=30,
+			bgm="push",
 		},
 		{
 			drop=30,
 			lock=60,
 			fall=20,
+			bgm="newera",
 		},
 		{
 			drop=10,
-			lock=20,
+			lock=60,
 			fall=15,
+			bgm="race",
 		},
 		{
 			drop=5,
-			lock=15,
+			lock=60,
 			fall=10,
+			bgm="push",
 		},
 	},
 	sudden={
@@ -405,24 +446,28 @@ defaultModeEnv={
 			lock=1e99,
 			target=0,
 			reach=Event.sudden_reach,
+			bgm="way",
 		},
 		{
 			drop=30,
 			lock=60,
 			target=0,
 			reach=Event.sudden_reach,
+			bgm="way",
 		},
 		{
 			drop=15,
 			lock=60,
 			target=0,
 			reach=Event.sudden_reach_hard,
+			bgm="way",
 		},
 		{
 			drop=5,
-			lock=20,
+			lock=40,
 			target=0,
 			reach=Event.sudden_reach_hard,
+			bgm="way",
 		},
 	},
 	pctrain={
@@ -432,20 +477,22 @@ defaultModeEnv={
 			drop=120,
 			lock=120,
 			fall=20,
-			sequence=4,
+			sequence="pc",
 			target=0,
 			freshLimit=1e99,
 			reach=Event.newPC,
+			bgm="newera",
 		},
 		{
 			next=4,
 			hold=false,
 			drop=60,
 			lock=60,
-			fall=15,
-			sequence=4,
+			fall=20,
+			sequence="pc",
 			target=0,
 			reach=Event.newPC,
+			bgm="newera",
 		},
 	},
 	pcchallenge={
@@ -453,26 +500,26 @@ defaultModeEnv={
 			oncehold=false,
 			drop=300,
 			lock=1e99,
-			sequence=1,
 			target=100,
 			reach=Event.gameover.win,
 			freshLimit=1e99,
+			bgm="newera",
 		},
 		{
 			drop=60,
 			lock=120,
 			fall=10,
-			sequence=1,
 			target=100,
 			reach=Event.gameover.win,
+			bgm="infinite",
 		},
 		{
 			drop=20,
 			lock=60,
 			fall=20,
-			sequence=1,
 			target=100,
 			reach=Event.gameover.win,
+			bgm="infinite",
 		},
 	},
 	techmino41={
@@ -482,6 +529,7 @@ defaultModeEnv={
 			royalePowerup={2,5,10,20},
 			royaleRemain={30,20,15,10,5},
 			pushSpeed=2,
+			bgm="race",
 		},
 	},
 	techmino99={
@@ -491,36 +539,42 @@ defaultModeEnv={
 			royalePowerup={2,6,14,30},
 			royaleRemain={75,50,35,20,10},
 			pushSpeed=2,
+			bgm="race",
 		},
 	},
 	drought={
 		{
 			drop=20,
-			lock=30,
-			sequence=5,
+			lock=60,
+			sequence=drought1,
 			target=100,
 			reach=Event.gameover.win,
+			bgm="reason",
 		},
 		{
 			drop=20,
-			lock=30,
-			sequence=6,
+			lock=60,
+			sequence=drought2,
 			target=100,
 			reach=Event.gameover.win,
+			bgm="reason",
 		},
 	},
 	hotseat={
-		{},
+		{
+			bgm="way",
+		},
 	},
 	custom={
 		{
-			reach=Event.gameover.win
+			bgm="reason",
+			reach=Event.gameover.win,
 		},
 	},
 }
 modeLevel={
 	sprint={"10L","20L","40L","100L","400L","1000L"},
-	marathon={"EASY","NORMAL","EXTRA","DEATH"},
+	marathon={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	zen={"NORMAL"},
 	infinite={"NORMAL"},
 	solo={"EASY","NORMAL","HARD","LUNATIC"},
@@ -529,7 +583,7 @@ modeLevel={
 	dig={"NORMAL","LUNATIC"},
 	survivor={"EASY","NORMAL","HARD","LUNATIC"},
 	sudden={"EASY","NORMAL","HARD","LUNATIC"},
-	pctrain={"HARD","LUNATIC"},
+	pctrain={"NORMAL","LUNATIC"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
 	techmino41={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	techmino99={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
@@ -585,8 +639,7 @@ modeInfo={
 }
 
 freshMethod={
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+	bag7=function()
 		if #P.nxt<6 then
 			local bag={1,2,3,4,5,6,7}
 			for i=1,7 do
@@ -595,26 +648,41 @@ freshMethod={
 			end
 		end
 	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		local i,j=nil,0
-		repeat
-			i,j=rnd(7),j+1
-		until not(i==P.his[1]or i==P.his[2]or i==P.his[3]or i==P.his[4])
+	his4=function()
+		if #P.nxt<6 then
+			local j,i=0
+			::L::
+				i,j=rnd(7),j+1
+			if(i==P.his[1]or i==P.his[2]or i==P.his[3]or i==P.his[4])then goto L end
+			P.nxt[6],P.nb[6]=i,blocks[i][0]
+			rem(P.his,1)ins(P.his,i)
+		end
+	end,
+	rnd=function()
+		local i
+		::L::
+			i=rnd(7)
+		if i==P.nxt[5]then goto L end
 		P.nxt[6],P.nb[6]=i,blocks[i][0]
-		rem(P.his,1)ins(P.his,i)
+	end,--random
+	pc=function()
+		if P.cstat.piece%4==0 then
+			local r=rnd(#PClist)
+			local f=P.cstat.event==1
+			for i=1,4 do
+				local b=PClist[r][i]
+				if f then
+					if b<3 then b=3-b
+					elseif b<5 then b=7-b
+					end
+				end
+				ins(P.nxt,b)
+				ins(P.nb,blocks[b][0])
+			end
+			P.cstat.event=(P.cstat.event+1)%2
+		end
 	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		repeat i=rnd(7)until i~=P.nxt[5]
-		P.nxt[6],P.nb[6]=i,blocks[i][0]
-	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
-		--generate in newPC
-	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+	drought1=function()
 		if #P.nxt<6 then
 			local bag={1,2,3,4,5,6}
 			for i=1,6 do
@@ -623,14 +691,13 @@ freshMethod={
 			end
 		end
 	end,
-	function()
-		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+	drought2=function()
 		if #P.nxt<6 then
 			local bag={1,1,1,2,2,2,3,3,3,4,4,4,6,6,6,5,7}
-			repeat
+			::L::
 				ins(P.nxt,rem(bag,rnd(#bag)))
 				ins(P.nb,blocks[P.nxt[#P.nxt]][0])
-			until not bag[1]
+			if bag[1]then goto L end
 		end
 	end,
 }
@@ -697,17 +764,17 @@ TRS={
 	},
 	[7]={
 		[01]={{0,0},{1,0},{-2,0},{-2,-1},{1,2}},
-		[10]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
+		[03]={{0,0},{-1,0},{2,0},{2,-1},{-1,2}},
+		[10]={{0,0},{2,0},{-1,0},{-1,-2},{2,1},{0,2}},
+		[30]={{0,0},{-2,0},{1,0},{1,-2},{-2,1},{0,2}},
 		[12]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
+		[32]={{0,0},{1,0},{-2,0},{1,-2},{-2,-1}},
 		[21]={{0,0},{-2,0},{1,0},{1,-2},{-2,1}},
 		[23]={{0,0},{2,0},{-1,0},{-1,-2},{2,1}},
-		[32]={{0,0},{-2,0},{1,0},{-2,-1},{1,2}},
-		[30]={{0,0},{1,0},{-2,0},{1,-2},{-2,1}},
-		[03]={{0,0},{-1,0},{2,0},{2,-1},{-1,2}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
 		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
 		[13]={{0,0},{0,-1},{-1,0},{1,0},{0,1}},
-		[31]={{0,0},{0,-1},{1,0},{-1,0},{0,1}},
+		[31]={{0,0},{0,1},{1,0},{-1,0},{0,1}},
 	}
 }TRS[3],TRS[4]=TRS[2],TRS[1]
 
@@ -861,7 +928,10 @@ virtualkey={
 	{x=0,y=0,r=0},--toRight
 	{x=0,y=0,r=0},--toDown
 	]]
+
 }
+virtualkeyDown={false,false,false,false,false,false,false,false,false,false,false,false,false}
+virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 virtualkeySet={
 	{
 		{80,720-200,6400,80},--moveLeft
@@ -912,16 +982,16 @@ virtualkeySet={
 		{80,320,6400,80},--restart
 	},--Keyboard set
 	{
-		{1280-360,40,1600,40},--moveLeft
-		{1280-280,40,1600,40},--moveRight
-		{1280-520,40,1600,40},--rotRight
-		{1280-600,40,1600,40},--rotLeft
-		{1280-440,40,1600,40},--rotFlip
-		{1280-40,40,1600,40},--hardDrop
-		{1280-120,40,1600,40},--softDrop
-		{1280-200,40,1600,40},--hold
-		{1280-680,40,1600,40},--swap
-		{-10,-10,0,0},--restart
+		{1280-360,40,0,40},--moveLeft
+		{1280-280,40,0,40},--moveRight
+		{1280-520,40,0,40},--rotRight
+		{1280-600,40,0,40},--rotLeft
+		{1280-440,40,0,40},--rotFlip
+		{1280-40,40,0,40},--hardDrop
+		{1280-120,40,0,40},--softDrop
+		{1280-200,40,0,40},--hold
+		{1280-680,40,0,40},--swap
+		{1280-760,40,0,40},--restart
 	},--PC key feedback
 }
 

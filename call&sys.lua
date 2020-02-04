@@ -12,7 +12,6 @@ function onVirtualkey(x,y)
 	end
 	return nearest
 end
-
 function buttonControl_key(i)
 	if i=="up"or i=="down"or i=="left"or i=="right"then
 		if not Buttons.sel then
@@ -142,7 +141,7 @@ function keyDown.setting2(key)
 	end
 end
 function keyDown.play(key)
-	if key=="escape"then back()return nil end
+	if key=="escape"then back()return end
 	local m=setting.keyMap
 	for p=1,4 do
 		local lib=setting.keyLib[p]
@@ -150,7 +149,7 @@ function keyDown.play(key)
 			for k=1,12 do
 				if key==m[lib[s]][k]then
 					pressKey(k,players[p])
-					return nil
+					return
 				end
 			end
 		end
@@ -165,7 +164,7 @@ function keyUp.play(key)
 			for k=1,12 do
 				if key==m[lib[s]][k]then
 					releaseKey(k,players[p])
-					return nil
+					return
 				end
 			end
 		end
@@ -220,7 +219,7 @@ function gamepadDown.setting2(key)
 	end
 end
 function gamepadDown.play(key)
-	if key=="back"then back()return nil end
+	if key=="back"then back()return end
 	local m=setting.keyMap
 	for p=1,4 do
 		local lib=setting.keyLib[p]
@@ -228,7 +227,7 @@ function gamepadDown.play(key)
 			for k=1,12 do
 				if key==m[8+lib[s]][k]then
 					pressKey(k,players[p])
-					return nil
+					return
 				end
 			end
 		end
@@ -243,7 +242,7 @@ function gamepadUp.play(key)
 			for k=1,12 do
 				if key==m[8+lib[s]][k]then
 					releaseKey(k,players[p])
-					return nil
+					return
 				end
 			end
 		end
@@ -254,7 +253,7 @@ function wheelmoved.mode(x,y)
 	modeSel=min(max(modeSel-sgn(y),1),#modeID)
 	levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
 end
---Warning,these are not system callbacks!
+
 
 
 function love.mousemoved(x,y,dx,dy,t)
@@ -267,7 +266,7 @@ function love.mousemoved(x,y,dx,dy,t)
 			if not(B.hide and B.hide())then
 				if abs(mx-B.x)<B.w*.5 and abs(my-B.y)<B.h*.5 then
 					Buttons.sel=i
-					return nil
+					return
 				end
 			end
 		end
@@ -296,6 +295,9 @@ function love.mousepressed(x,y,k,t,num)
 	end
 end
 function love.mousereleased(x,y,k,t,num)
+end
+function love.wheelmoved(x,y)
+	if wheelmoved[scene]then wheelmoved[scene](x,y)end
 end
 function love.touchpressed(id,x,y)
 	if not touching then
@@ -358,15 +360,11 @@ function love.touchmoved(id,x,y,dx,dy)
 		local l=tc.getTouches()
 		for n=1,#virtualkey do
 			local b=virtualkey[n]
-			local p=false
 			for i=1,#l do
 				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
-				if(x-b[1])^2+(y-b[2])^2<=b[3]then
-					p=true
-					break
-				end
+				if(x-b[1])^2+(y-b[2])^2<=b[3]then return end
 			end
-			if not p and players[1].isKeyDown then
+			if players[1].isKeyDown[n]then
 				releaseKey(n,players[1])
 			end
 		end
@@ -383,30 +381,21 @@ end
 function love.keypressed(i)
 	if i=="f12"then devMode=not devMode end
 	if devMode then
-		if Buttons.sel then
-			local B=Buttons[scene][Buttons.sel]
-			if i=="left"then
-				B.x=B.x-10
-			elseif i=="right"then
-				B.x=B.x+10
-			elseif i=="up"then
-				B.y=B.y-10
-			elseif i=="down"then
-				B.y=B.y+10
-			elseif i==","then
-				B.w=B.w-10
-			elseif i=="."then
-				B.w=B.w+10
-			elseif i=="/"then
-				B.h=B.h-10
-			elseif i=="'"then
-				B.h=B.h+10
-			end
-		end
 		if i=="q"then
 			for i=1,#Buttons[scene]do
 				local B=Buttons[scene][i]
 				print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))
+			end
+		elseif Buttons.sel then
+			local B=Buttons[scene][Buttons.sel]
+			if i=="left"then B.x=B.x-10
+			elseif i=="right"then B.x=B.x+10
+			elseif i=="up"then B.y=B.y-10
+			elseif i=="down"then B.y=B.y+10
+			elseif i==","then B.w=B.w-10
+			elseif i=="."then B.w=B.w+10
+			elseif i=="/"then B.h=B.h-10
+			elseif i=="'"then B.h=B.h+10
 			end
 		end
 	else
@@ -444,9 +433,6 @@ function love.joystickhat(js,hat,dir)
 
 end
 ]]
-function love.wheelmoved(x,y)
-	if wheelmoved[scene]then wheelmoved[scene](x,y)end
-end
 
 function love.update(dt)
 	--[[
@@ -484,10 +470,10 @@ function love.update(dt)
 	updateButton()
 end
 function love.sendData(data)
-	return nil
+	return
 end
 function love.receiveData(id,data)
-	return nil
+	return
 end
 function love.draw()
 	gc.clear()
@@ -567,7 +553,7 @@ function love.run()
 				if bgmPlaying then bgm[bgmPlaying]:pause()end
 				if scene=="play"then
 					for i=1,#players.alive do
-						local l=players.alive[i].isKeyDown
+						local l=players.alive[i].keyPressing
 						for j=1,#l do
 							if l[j]then
 								releaseKey(j,players.alive[i])
@@ -585,7 +571,7 @@ function love.run()
 				if bgmPlaying then bgm[bgmPlaying]:play()end
 			end
 		end
-		while Timer()-frameT<1/60 do end
+		::L::if Timer()-frameT<1/60 then goto L end
 		frameT=Timer()
 	end
 end

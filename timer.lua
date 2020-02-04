@@ -64,6 +64,11 @@ function Tmr.play(dt)
 			rem(FX.badge,i)
 		end
 	end
+	for i=1,#virtualkey do
+		if virtualkeyPressTime[i]>0 then
+			virtualkeyPressTime[i]=virtualkeyPressTime[i]-1
+		end
+	end
 	for i=1,3 do
 		PTC.attack[i]:update(dt)
 	end
@@ -83,7 +88,7 @@ function Tmr.play(dt)
 				P.moving=0
 			end
 		end
-		return nil
+		return
 	end--Counting,include pre-das
 	for p=1,#players do
 		P=players[p]
@@ -159,8 +164,9 @@ function Tmr.play(dt)
 						removeRow(P.field,P.clearing[i])
 						removeRow(P.visTime,P.clearing[i])
 					end
-					while P.clearing[1]do
+					::L::if P.clearing[1]then
 						rem(P.clearing)
+						goto L
 					end
 				end
 			elseif P.waiting>0 then
@@ -245,7 +251,5 @@ function Tmr.play(dt)
 			PTC.dust[p]:update(dt)
 		end
 	end
-	if modeEnv.royaleMode and frame%60==0 then
-		freshMostDangerous()
-	end
+	if modeEnv.royaleMode and frame%60==0 then freshMostDangerous()end
 end

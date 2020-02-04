@@ -54,11 +54,12 @@ gameEnv0={
 	drop=30,lock=45,
 	wait=1,fall=1,
 	next=6,hold=true,oncehold=true,
-	sequence=1,visible=1,
+	sequence="bag7",visible=1,
 	_20G=false,target=1e99,
 	freshLimit=15,
 	virtualkey={},
 	reach=null,
+	bgm="race"
 	--not all is actually used,some only provide a key
 }
 customSel={
@@ -78,28 +79,23 @@ loadmode={
 	sprint=function()
 		createPlayer(1,340,15)
 		curBG="game1"
-		BGM("race")
 	end,
 	marathon=function()
 		createPlayer(1,340,15)
 		curBG="strap"
-		BGM("way")
 	end,
 	zen=function()
 		createPlayer(1,340,15)
 		curBG="strap"
-		BGM("infinite")
 	end,
 	infinite=function()
 		createPlayer(1,340,15)
 		curBG="glow"
-		BGM("infinite")
 	end,
 	solo=function()
 		createPlayer(1,20,15)--Player
 		createPlayer(2,660,85,.9,customRange.opponent[3*curMode.lv])--AI
 		curBG="game2"
-		BGM("race")
 	end,
 	death=function()
 		createPlayer(1,340,15)
@@ -109,12 +105,10 @@ loadmode={
 	tsd=function()
 		createPlayer(1,340,15)
 		curBG="matrix"
-		BGM("reason")
 	end,
 	blind=function()
 		createPlayer(1,340,15)
 		curBG="glow"
-		BGM("push")
 	end,
 	dig=function()
 		createPlayer(1,340,15)
@@ -127,121 +121,76 @@ loadmode={
 			pushSpeed=1
 		end
 		curBG="game2"
-		BGM("push")
 	end,
 	survivor=function()
 		createPlayer(1,340,15)
 		local P=players[1]
-		if curMode.lv==1 then
-			ins(players[1].task,Event.task.survivor_easy)
-			pushSpeed=1
-		elseif curMode.lv==2 then
-			ins(players[1].task,Event.task.survivor_normal)
-			pushSpeed=1
-		elseif curMode.lv==3 then
-			ins(players[1].task,Event.task.survivor_hard)
-			pushSpeed=2
-		elseif curMode.lv==4 then
-			ins(players[1].task,Event.task.survivor_lunatic)
-			pushSpeed=2
-		end
+		ins(players[1].task,Event.task[curMode.lv==1 and"survivor_easy"or curMode.lv==2 and"survivor_normal"or curMode.lv==3 and"survivor_hard"or curMode.lv==4 and"survivor_lunatic"])
+		pushSpeed=curMode.lv>2 and 2 or 1
 		curBG="game2"
-		BGM("push")
 	end,
 	sudden=function()
 		createPlayer(1,340,15)
 		curBG="matrix"
-		BGM("way")
 	end,
 	pctrain=function()
 		createPlayer(1,340,15)
-		local r=rnd(#PClist)
-		local P=players[1]
-		for i=1,4 do
-			local b=PClist[r][i]
-			ins(P.nxt,b)
-			ins(P.nb,blocks[b][0])
-		end
+		P=players[1]
 		Event.newPC()
+		P.freshNext()
 		curBG="matrix"
-		BGM("infinite")
 	end,
 	pcchallenge=function()
 		createPlayer(1,340,15)
 		curBG="matrix"
-		BGM("infinite")
 	end,
 	techmino41=function()
 		createPlayer(1,340,15)--Player
 		if curMode.lv==5 then players[1].gameEnv.drop=15 end
 		local n,min,max=2
-		if curMode.lv==1 then
-			min,max=5,30
-		elseif curMode.lv==2 then
-			min,max=3,25
-		elseif curMode.lv==3 then
-			min,max=2,20
-		elseif curMode.lv==4 then
-			min,max=2,10
-		elseif curMode.lv==5 then
-			min,max=1,6
+		if curMode.lv==1 then min,max=5,30
+		elseif curMode.lv==2 then min,max=3,25
+		elseif curMode.lv==3 then min,max=2,20
+		elseif curMode.lv==4 then min,max=2,10
+		elseif curMode.lv==5 then min,max=1,6
 		end
-		for i=1,4 do
-			for j=1,5 do
-				createPlayer(n,77*i-55,140*j-125,.2,rnd(min,max))
-				n=n+1
-			end
-		end
-		for i=9,12 do
-			for j=1,5 do
-				createPlayer(n,77*i+275,140*j-125,.2,rnd(min,max))
-				n=n+1
-			end
-		end--AIs
+		for i=1,4 do for j=1,5 do
+			createPlayer(n,77*i-55,140*j-125,.2,rnd(min,max))
+			n=n+1
+		end end
+		for i=9,12 do for j=1,5 do
+			createPlayer(n,77*i+275,140*j-125,.2,rnd(min,max))
+			n=n+1
+		end end
+		--AIs
 
 		curBG="game3"
-		BGM("race")
 	end,
 	techmino99=function()
 		createPlayer(1,340,15)--Player
 		if curMode.lv==5 then players[1].gameEnv.drop=15 end
 		local n,min,max=2
-		if curMode.lv==1 then
-			min,max=5,32
-		elseif curMode.lv==2 then
-			min,max=3,25
-		elseif curMode.lv==3 then
-			min,max=2,18
-		elseif curMode.lv==4 then
-			min,max=2,12
-		elseif curMode.lv==5 then
-			min,max=1,12
+		if curMode.lv==1 then min,max=5,32
+		elseif curMode.lv==2 then min,max=3,25
+		elseif curMode.lv==3 then min,max=2,18
+		elseif curMode.lv==4 then min,max=2,12
+		elseif curMode.lv==5 then min,max=1,12
 		end
-		for i=1,7 do
-			for j=1,7 do
-				createPlayer(n,46*i-36,97*j-72,.135,rnd(min,max))
-				n=n+1
-			end
-		end
-		for i=15,21 do
-			for j=1,7 do
-				createPlayer(n,46*i+264,97*j-72,.135,rnd(min,max))
-				n=n+1
-			end
-		end--AIs
+		for i=1,7 do for j=1,7 do
+			createPlayer(n,46*i-36,97*j-72,.135,rnd(min,max))
+			n=n+1
+		end end
+		for i=15,21 do for j=1,7 do
+			createPlayer(n,46*i+264,97*j-72,.135,rnd(min,max))
+			n=n+1
+		end end
+		--AIs
 
 		curBG="game3"
-		BGM("race")
 	end,
 	drought=function()
 		createPlayer(1,340,15)
 		curBG="strap"
-		BGM("reason")
-	end,
-	gmroll=function()
-		createPlayer(1,340,15)
-		curBG="glow"
-		BGM("push")
 	end,
 	hotseat=function()
 		if curMode.lv==1 then
@@ -258,10 +207,8 @@ loadmode={
 			createPlayer(4,955,160,.5)
 		end
 		curBG="game2"
-		BGM("way")
 	end,
 	custom=function()
-		modeEnv={}
 		for i=1,#customID do
 			local k=customID[i]
 			modeEnv[k]=customRange[k][customSel[k]]
@@ -275,7 +222,6 @@ loadmode={
 			createPlayer(2,660,85,.9,modeEnv.opponent)
 		end
 		curBG="matrix"
-		BGM("reason")
 	end,
 }
 mesDisp={
@@ -386,18 +332,20 @@ mesDisp={
 Event={
 	gameover={
 		win=function()
+			local P=players.alive[1]
 			P.alive=false
 			P.control=false
 			P.timing=false
 			P.waiting=1e99
 			P.b2b=0
 			if modeEnv.royaleMode then
-				P.rank=#players.alive
+				P.rank=1
 				P.result="WIN"
 				changeAtk(P)
 			end
-			while P.task[1]do
+			::L::if P.task[1]then
 				rem(P.task)
+				goto L
 			end
 			for i=1,#P.atkBuffer do
 				P.atkBuffer[i].sent=true
@@ -418,8 +366,9 @@ Event={
 			P.timing=false
 			P.waiting=1e99
 			P.b2b=0
-			while P.task[1]do
+			::L::if P.task[1]then
 				rem(P.task)
+				goto L
 			end
 			for i=1,#players.alive do
 				if players.alive[i]==P then
@@ -430,10 +379,13 @@ Event={
 			if modeEnv.royaleMode then
 				changeAtk(P)
 				P.result="K.O."
-				P.rank=#players.alive
+				P.rank=#players.alive+1
 				P.strength=0
-				if P.lastRecv and P.lastRecv.alive then
-					local A=P.lastRecv
+				local A=P
+				::L::
+					A=A.lastRecv
+				if A and not A.alive then goto L end
+				if A and A~=P then
 					if P.id==1 or A.id==1 then
 						throwBadge(P,A,P.badge)
 						P.killMark=A.id==1
@@ -468,13 +420,17 @@ Event={
 			if P.id==1 and players[2]and players[2].ai then SFX("fail")end
 			ins(P.task,Event.task.lose)
 			if #players.alive==1 then
-				ins(players.alive[1].task,Event.task.winTrigger)
+				local t=P
+				P=players.alive[1]
+				Event.gameover.win()
+				P=t
 			end
 		end,
 	},
 	marathon_reach=function()
 		local s=int(P.cstat.row*.1)
 		if s>=20 then
+			P.cstat.row=200
 			Event.gameover.win()
 		else
 			P.gameEnv.drop=marathon_drop[s]
@@ -485,6 +441,21 @@ Event={
 	end,
 	marathon_reach_lunatic=function()
 		if P.gameEnv.target==250 then
+			P.cstat.row=250
+			Event.gameover.win()
+		else
+			P.gameEnv.target=P.gameEnv.target+50
+			local t=P.gameEnv.target/50
+			P.gameEnv.lock=rush_lock[t]
+			P.gameEnv.wait=rush_wait[t]
+			P.gameEnv.fall=rush_fall[t]
+			showText(P,"STAGE "..t,"fly",80,-120)
+			SFX("reach")
+		end
+	end,
+	marathon_reach_ultimate=function()
+		if P.gameEnv.target==250 then
+			P.cstat.row=250
 			Event.gameover.win()
 		else
 			P.gameEnv.target=P.gameEnv.target+50
@@ -492,7 +463,7 @@ Event={
 			P.gameEnv.lock=death_lock[t]
 			P.gameEnv.wait=death_wait[t]
 			P.gameEnv.fall=death_fall[t]
-			showText(P,"STAGE "..t,"fly",80,-120)
+			showText(P,"STAGE "..t,"beat",80,-120)
 			SFX("reach")
 		end
 	end,
@@ -520,7 +491,7 @@ Event={
 		local P=players[1]
 		if P.cstat.piece%4==0 then
 			if #P.field==#P.clearing then
-				P.counter=P.cstat.piece==0 and 19 or 0
+				P.counter=P.cstat.piece==0 and 20 or 0
 				ins(P.task,Event.task.PC)
 				if curMode.lv==2 then
 					local s=P.cstat.pc*.5
@@ -535,28 +506,12 @@ Event={
 						end
 					end
 				end
-				local r=rnd(#PClist)
-				local f=P.cstat.pc%2==0
-				for i=1,4 do
-					local b=PClist[r][i]
-					if f then
-						if b<3 then b=3-b
-						elseif b<5 then b=7-b
-						end
-					end
-					ins(P.nxt,b)
-					ins(P.nb,blocks[b][0])
-				end
 			else
 				Event.gameover.lose()
 			end
 		end
 	end,
 	task={
-		winTrigger=function()
-			Event.gameover.win()
-			return true
-		end,
 		win=function()
 			P.endCounter=P.endCounter+1
 			if P.endCounter>80 then
@@ -633,7 +588,7 @@ Event={
 			local P=players[1]
 			P.counter=P.counter+1
 			if P.counter==max(60,180-2*P.cstat.event)then
-				ins(P.atkBuffer,{rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
+				ins(P.atkBuffer,{rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1})
 				P.counter=0
 				P.cstat.event=P.cstat.event+1
 			end
@@ -642,15 +597,11 @@ Event={
 			local P=players[1]
 			P.counter=P.counter+1
 			if P.counter==max(60,180-2*P.cstat.event)then
-				local d=P.cstat.event
-				if rnd()<.33 then
-					ins(P.atkBuffer,{rnd(10),amount=1,countdown=20,cd0=20,time=0,sent=false,lv=1})
-				elseif rnd()<.33 then
-					ins(P.atkBuffer,{rnd(10),amount=2,countdown=40,cd0=40,time=0,sent=false,lv=1})
-				elseif rnd()<.5 then
-					ins(P.atkBuffer,{rnd(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2})
-				else
-					ins(P.atkBuffer,{rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3})
+				local d=P.cstat.event+1
+				if d%4==0 then ins	(P.atkBuffer,{rnd(10),amount=1,countdown=60,cd0=60,time=0,sent=false,lv=1})
+				elseif d%4==1 then ins(P.atkBuffer,{rnd(10),amount=2,countdown=70,cd0=70,time=0,sent=false,lv=1})
+				elseif d%4==2 then ins(P.atkBuffer,{rnd(10),amount=3,countdown=80,cd0=80,time=0,sent=false,lv=2})
+				elseif d%4==3 then ins(P.atkBuffer,{rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3})
 				end
 				P.counter=0
 				P.cstat.event=P.cstat.event+1
@@ -661,9 +612,9 @@ Event={
 			P.counter=P.counter+1
 			if P.counter==max(80,150-2*P.cstat.event)then
 				if rnd()<.33 then
-					ins(P.atkBuffer,{rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
+					ins(P.atkBuffer,{rnd(10),amount=1,countdown=20,cd0=20,time=0,sent=false,lv=1})
 				else
-					ins(P.atkBuffer,{rnd(10),amount=3,countdown=0,cd0=0,time=0,sent=false,lv=1})
+					ins(P.atkBuffer,{rnd(10),amount=3,countdown=40,cd0=40,time=0,sent=false,lv=2})
 				end
 				P.counter=0
 				P.cstat.event=P.cstat.event+1
