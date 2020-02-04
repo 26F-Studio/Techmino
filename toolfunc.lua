@@ -122,6 +122,16 @@ function changeBlockSkin(n)
 	gc.pop()
 	gc.setCanvas()
 end
+function restoreVirtualKey()
+	for i=1,#VK_org do
+		local B,O=virtualkey[i],VK_org[i]
+		B.ava=O.ava
+		B.x=O.x
+		B.y=O.y
+		B.r=O.r
+	end
+end
+
 
 local vibrateLevel={0,.015,.02,.03,.04,.05,.06,.07,.08,.09}
 function VIB(t)
@@ -309,16 +319,19 @@ function resumeGame()
 end
 function loadGame(mode,level)
 	--rec={}
-	curMode={id=modeID[mode],lv=level}
+	curMode={
+		id=modeID[mode],
+		lv=level,
+	}
 	drawableText.modeName:set(text.modeName[mode])
-	drawableText.levelName:set(modeLevel[modeID[mode]][level])
+	drawableText.levelName:set(modes[modeID[modeSel]].level[levelSel])
 	needResetGameData=true
 	scene.swapTo("play","deck")
 end
 function resetPartGameData()
 	frame=30
 	destroyPlayers()
-	loadmode[curMode.id]()
+	modes[curMode.id].load()
 	if modeEnv.task then
 		for i=1,#players do
 			newTask(Event_task[modeEnv.task],players[i])
@@ -340,9 +353,9 @@ function resetGameData()
 	pauseTime=0--Time paused
 	pauseCount=0--Times paused
 	destroyPlayers()
-	local E=defModeEnv[curMode.id]
+	local E=modes[curMode.id].env
 	modeEnv=E[curMode.lv]or E[1]
-	loadmode[curMode.id]()--bg/bgm need redefine in custom,so up here
+	modes[curMode.id].load()--bg/bgm need redefine in custom,so up here
 	if modeEnv.task then
 		for i=1,#players do
 			newTask(Event_task[modeEnv.task],players[i])

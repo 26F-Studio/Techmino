@@ -73,6 +73,7 @@ drawableText={
 	grade=T(25,"Grade"),
 	wave=T(30,"Wave"),
 	rpm=T(35,"RPM"),
+	nextWave=T(30,"Next"),
 	combo=T(20,"Combo"),
 	mxcmb=T(20,"Max Combo"),
 	pc=T(22,"Perfect Clear"),

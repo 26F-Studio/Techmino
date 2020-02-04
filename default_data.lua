@@ -8,7 +8,7 @@ setting={
 	ghost=true,center=true,
 	smo=true,grid=false,
 	dropFX=3,
-	shakeFX=3,
+	shakeFX=1,
 	atkFX=3,
 	frameMul=100,
 	--
@@ -59,15 +59,6 @@ stat={
 	b2b=0,b3b=0,pc=0,score=0,
 }
 --Things related to virtualkey
-function restoreVirtualKey()
-	for i=1,#VK_org do
-		local B,O=virtualkey[i],VK_org[i]
-		B.ava=O.ava
-		B.x=O.x
-		B.y=O.y
-		B.r=O.r
-	end
-end
 local O,_=true,false
 VK_org={--Original set,for restore VK' position
 	{ava=O,x=80,		y=720-200,	r=80},--moveLeft

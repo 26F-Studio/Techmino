@@ -110,8 +110,8 @@ local FCL={
 FCL[2]=FCL[1]
 FCL[4]=FCL[3]
 FCL[5]=FCL[3]
-local LclearScore={[0]=0,-200,-140,-100,200}
-local HclearScore={[0]=0,50,80,100,500}
+local LclearScore={[0]=0,-200,-120,-80,200}
+local HclearScore={[0]=0,100,140,200,500}
 local function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
 	if y>#f then return end
@@ -145,7 +145,7 @@ local function getScore(field,cb,cy)
 		clear=clear+1
 		::L::
 	end
-	if #field==0 then return 1e99 end--PC best
+	if #field==0 then return 1e99 end--PC
 	for x=1,10 do
 		local h=#field
 		while field[h][x]==0 and h>1 do
@@ -177,16 +177,17 @@ local function getScore(field,cb,cy)
 	freeRow[#freeRow+1]=height
 	freeRow.L=freeRow.L+1
 	score=
-		-#field*10
-		-cy*35
-		-#cb*25
+		-#field*30
+		-#cb*15
 		+(#field>10 and
-			HclearScore[clear]
-			-hole*70
-			-sdh
+			HclearScore[clear]--Clearing
+			-hole*70--Hole
+			-cy*50--Height
+			-sdh--∫Δh
 		or
 			LclearScore[clear]
 			-hole*100
+			-cy*40
 			-sdh*3
 		)
 	if #field>6 then score=score-highest*5+20 end

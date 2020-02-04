@@ -91,33 +91,36 @@ bgm={
 }
 voiceBank={}
 voiceName={
-	"Z","S","L","J","T","O","I",
-	"single","double","triple","tts",
-	"spin","spin_","mini","b2b","b3b","pc",
-	"win","lose","voc_nya","nya",
+	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
+	"single","double","triple","techrash",
+	"mini","b2b","b3b","pc",
+	"win","lose",
+	"bye",
+	"nya","voc_nya",
 }
 voiceList={
-	Z={"Z_1","Z_2"},
-	S={"S_1","S_2"},
-	J={"J_1","J_2"},
-	L={"L_1","L_2"},
-	T={"T_1","T_2"},
-	O={"O_1","O_2"},
-	I={"I_1","I_2"},
-	single={"single_1","single_2","single_3"},
-	double={"double_1","double_2","double_3"},
-	triple={"triple_1","triple_2"},
-	tts={"tts_1"},
-	spin={"spin_1","spin_2","spin_3","spin_4","spin_5"},
-	spin_={"spin-_1","spin-_2"},
-	mini={"mini_1"},
-	b2b={"b2b_1","b2b_2"},
-	b3b={"b3b_1"},
-	pc={"PC_1"},
-	win={"win_1","win_2"},
+	zspin={"zspin_1","zspin_2","zspin_3"},
+	sspin={"sspin_1","sspin_2","sspin_3","sspin_4","sspin_5","sspin_6"},
+	lspin={"lspin_1","lspin_2"},
+	jspin={"jspin_1","jspin_2","jspin_3","jspin_4"},
+	tspin={"tspin_1","tspin_2","tspin_3","tspin_4","tspin_5","tspin_6"},
+	ospin={"ospin_1","ospin_2","ospin_3"},
+	ispin={"ispin_1","ispin_2","ispin_3"},
+
+	single={"single_1","single_2","single_3","single_4","single_5","single_6","single_7"},
+	double={"double_1","double_2","double_3","double_4","double_5"},
+	triple={"triple_1","triple_2","triple_3","triple_4","triple_5","triple_6","triple_7"},
+	techrash={"techrash_1","techrash_2","techrash_3","techrash_4"},
+
+	mini={"mini_1","mini_2","mini_3"},
+	b2b={"b2b_1","b2b_2","b2b_3"},
+	b3b={"b3b_1","b3b_2"},
+	pc={"pc_1","pc_2"},
+	win={"win_1","win_2","win_3","win_4","win_5","win_6","win_6","win_7"},
 	lose={"lose_1","lose_2","lose_3"},
-	voc_nya={"nya_11","nya_12","nya_13","nya_21","nya_22"},
+	bye={"bye_1","bye_2"},
 	nya={"nya_1","nya_2","nya_3","nya_4"},
+	voc_nya={"nya_11","nya_12","nya_13","nya_21","nya_22"},
 }
 
 musicID={
@@ -166,37 +169,11 @@ customRange={
 RCPB={10,33,200,33,105,5,105,60}
 snapLevelValue={1,10,20,40,60,80}
 up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
-sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
 modeID={
 	[0]="custom",
 	"sprint","marathon","master","classic","zen","infinite","solo","round","tsd","blind",
 	"dig","survivor","defender","attacker","tech",
 	"c4wtrain","pctrain","pcchallenge","techmino49","techmino99","drought","hotseat",
-}
-modeLevel={
-	sprint={"10L","20L","40L","100L","400L","1000L"},
-	marathon={"EASY","NORMAL","HARD"},
-	master={"LUNATIC","ULTIMATE","FINAL"},
-	classic={"CTWC"},
-	zen={"NORMAL"},
-	infinite={"NORMAL","EXTRA"},
-	solo={"EASY","EASY+","NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+","ULTIMATE","ULTIMATE+"},
-	round={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
-	tsd={"NORMAL","HARD"},
-	blind={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
-	dig={"NORMAL","LUNATIC"},
-	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
-	defender={"NORMAL","LUNATIC"},
-	attacker={"HARD","ULTIMATE"},
-	tech={"NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+","ULTIMATE","ULTIMATE+",},
-	c4wtrain={"NORMAL","LUNATIC"},
-	pctrain={"NORMAL","EXTRA"},
-	pcchallenge={"NORMAL","HARD","LUNATIC"},
-	techmino49={"EASY","HARD","ULTIMATE"},
-	techmino99={"EASY","HARD","ULTIMATE"},
-	drought={"NORMAL","MESS"},
-	hotseat={"2P","3P","4P",},
-	custom={"Normal","Puzzle"},
 }
 local O,_=true,false
 blocks={
@@ -334,6 +311,7 @@ local function VKAcode(n)
 	end
 end
 local C=color
+-- T1,T2=0,0
 Widget={
 	load={},intro={},quit={},
 	main={
@@ -347,13 +325,15 @@ Widget={
 			setting.lang=setting.lang%#langName+1
 			swapLanguage(setting.lang)
 			end,nil,"quit"),
-		quit=	newButton(370,620,280,100,C.lightGrey,	60,function()scene.swapTo("quit")end,						nil,"play"),
+		-- S1= newSlider(520,550,380,10,10,nil,function()return T1 end,function(i)T1=i end),
+		-- S2= newSlider(520,590,380,10,10,nil,function()return T2 end,function(i)T2=i end),
+		quit=	newButton(370,620,280,100,C.lightGrey,	60,function()VOICE("bye")scene.swapTo("quit","slowFade")end,nil,"play"),
 	},
 	mode={
 		up=		newButton(1000,	210,200,140,C.white,	80,pressKey("up"),		function()return modeSel==1 end),
 		down=	newButton(1000,	430,200,140,C.white,	80,pressKey("down"),	function()return modeSel==#modeID end),
 		left=	newButton(190,	160,100,80,	C.white,	40,pressKey("left"),	function()return levelSel==1 end),
-		right=	newButton(350,	160,100,80,	C.white,	40,pressKey("right"),	function()return levelSel==#modeLevel[modeID[modeSel]]end),
+		right=	newButton(350,	160,100,80,	C.white,	40,pressKey("right"),	function()return levelSel==#modes[modeID[modeSel]].level end),
 		start=	newButton(1000,	600,250,100,C.green,	50,function()scene.push()loadGame(modeSel,levelSel)end),
 		custom=	newButton(275,	420,200,90,	C.yellow,	40,function()scene.push()scene.swapTo("custom")end),
 		back=	newButton(640,	630,230,90,	C.white,	45,scene.back),
@@ -418,8 +398,22 @@ Widget={
 	setting_game={
 		graphic=newButton(200,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_graphic")end,	nil,"sound"),
 		sound=	newButton(1080,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_sound")end,	nil,"dasD"),
-		dasD=	newButton(180,230,50,50,C.white,40,function()setting.das=(setting.das-1)%31 end,	nil,"dasU"),
-		dasU=	newButton(400,230,50,50,C.white,40,function()setting.das=(setting.das+1)%31 end,	nil,"arrD"),
+		dasD=	newButton(180,230,50,50,C.white,40,function()
+			setting.das=(setting.das-1)%31
+			if setting.arr>setting.das then
+				setting.arr=setting.das
+				Widget.setting_game.arrD:FX()
+				SFX("blip_1",.4)
+			end
+			end,nil,"dasU"),
+		dasU=	newButton(400,230,50,50,C.white,40,function()
+			setting.das=(setting.das+1)%31
+			if setting.arr>setting.das then
+				setting.das=setting.arr
+				Widget.setting_game.arrD:FX()
+				SFX("blip_1",.4)
+			end
+			end,nil,"arrD"),
 		arrD=	newButton(500,230,50,50,C.white,40,function()
 			setting.arr=(setting.arr-1)%16
 			if setting.arr>setting.das then

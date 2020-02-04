@@ -1,6 +1,7 @@
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local format=string.format
 local ins,rem=table.insert,table.remove
+local gc=love.graphics
 local PCbase={
 	{3,3,3,0,0,0,0,0,2,2},
 	{3,6,6,0,0,0,0,2,2,5},
@@ -32,20 +33,27 @@ local death_fall={10,9,8,7,6}
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,45,40,36,32,30}
 local pc_fall={18,16,14,12,10,9,8,7,6}
-local function throwBadge(S,R)--Sender/Receiver
-	local x1,y1,x2,y2
-	if S.small then
-		x1,y1=S.centerX,S.centerY
-	else
-		x1,y1=S.x+308*S.size,S.y+450*S.size
-	end
-	if R.small then
-		x2,y2=R.centerX,R.centerY
-	else
-		x2,y2=R.x+66*R.size,R.y+344*R.size
-	end
-	FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
-end
+local sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
+
+local Fkey_func={
+	royale=function(P)
+		if setting.swap then
+			for i=1,#P.keyPressing do
+				if P.keyPressing[i]then
+					P.keyPressing[i]=false
+				end
+			end
+			P.keyPressing[9]=true
+		else
+			P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
+			P.swappingAtkMode=30
+		end
+	end,
+	puzzle=function(P)
+		P.modeData.event=1-P.modeData.event
+	end,
+}
+
 local AISpeed={60,50,45,35,25,15,9,6,4,2}
 local function AITemplate(type,speedLV,next,hold,node)
 	if type=="CC"then
@@ -62,253 +70,6 @@ local function AITemplate(type,speedLV,next,hold,node)
 			delta=int(AISpeed[speedLV]*.5),
 		}
 	end
-end
-loadmode={}
-function loadmode.sprint()
-	newPlayer(1,340,15)
-end
-function loadmode.marathon()
-	newPlayer(1,340,15)
-end
-function loadmode.master()
-	newPlayer(1,340,15)
-end
-function loadmode.classic()
-	newPlayer(1,340,15)
-end
-function loadmode.zen()
-	newPlayer(1,340,15)
-end
-function loadmode.infinite()
-	newPlayer(1,340,15)
-	if curMode.lv==2 then
-		pushSpeed=1
-		for _=1,5 do
-			players[1]:garbageRise(10,1,rnd(10))
-		end
-	end
-end
-function loadmode.solo()
-	newPlayer(1,340,15)
-	if curMode.lv==1 then
-		newPlayer(2,965,360,.5,AITemplate("9S",3))
-	elseif curMode.lv==2 then
-		newPlayer(2,965,360,.5,AITemplate("CC",3,2,false,10000))
-	elseif curMode.lv==3 then
-		newPlayer(2,965,360,.5,AITemplate("9S",5))
-	elseif curMode.lv==4 then
-		newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,20000))
-	elseif curMode.lv==5 then
-		newPlayer(2,965,360,.5,AITemplate("9S",7))
-	elseif curMode.lv==6 then
-		newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,30000))
-	elseif curMode.lv==7 then
-		newPlayer(2,965,360,.5,AITemplate("9S",8))
-	elseif curMode.lv==8 then
-		newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,40000))
-	elseif curMode.lv==9 then
-		newPlayer(2,965,360,.5,AITemplate("9S",9))
-	elseif curMode.lv==10 then
-		newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
-	end
-end
-function loadmode.round()
-	newPlayer(1,340,15)
-	if curMode.lv==1 then
-		newPlayer(2,965,360,.5,AITemplate("9S",10))
-	elseif curMode.lv==2 then
-		newPlayer(2,965,360,.5,AITemplate("CC",10,2,false,10000))
-	elseif curMode.lv==3 then
-		newPlayer(2,965,360,.5,AITemplate("CC",10,3,true,30000))
-	elseif curMode.lv==4 then
-		newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,60000))
-	elseif curMode.lv==5 then
-		newPlayer(2,965,360,.5,AITemplate("CC",10,6,true,100000))
-	end
-	garbageSpeed=1e4
-end
-function loadmode.tsd()
-	newPlayer(1,340,15)
-end
-function loadmode.blind()
-	newPlayer(1,340,15)
-end
-function loadmode.dig()
-	newPlayer(1,340,15)
-	pushSpeed=1
-end
-function loadmode.survivor()
-	newPlayer(1,340,15)
-	pushSpeed=curMode.lv>2 and 2 or 1
-end
-function loadmode.defender()
-	newPlayer(1,340,15)
-	if curMode.lv==1 then
-		pushSpeed=1
-	elseif curMode.lv==2 then
-		pushSpeed=2
-	end
-end
-function loadmode.attacker()
-	newPlayer(1,340,15)
-	if curMode.lv==1 then
-		pushSpeed=2
-	end
-end
-function loadmode.tech()
-	newPlayer(1,340,15)
-end
-function loadmode.c4wtrain()
-	newPlayer(1,340,15)
-	local P=players[1]
-	local F=P.field
-	for i=1,24 do
-		F[i]=getNewRow(10)
-		P.visTime[i]=getNewRow(20)
-		for x=4,7 do F[i][x]=0 end
-	end
-	local r=rnd(6)
-	if r==1 then	 F[1][5],F[1][4],F[2][4]=10,10,10
-	elseif r==2 then F[1][6],F[1][7],F[2][7]=10,10,10
-	elseif r==3 then F[1][4],F[2][4],F[2][5]=10,10,10
-	elseif r==4 then F[1][7],F[2][7],F[2][6]=10,10,10
-	elseif r==5 then F[1][4],F[1][5],F[1][6]=10,10,10
-	elseif r==6 then F[1][7],F[1][6],F[1][5]=10,10,10
-	end
-end
-function loadmode.pctrain()
-	newPlayer(1,340,15)
-	Event.newPC(players[1])
-end
-function loadmode.pcchallenge()
-	newPlayer(1,340,15)
-end
-function loadmode.techmino49()
-	newPlayer(1,340,15)
-	local LV=curMode.lv
-	if LV==3 then players[1].gameEnv.drop=15 end
-	local L={}for i=1,49 do L[i]=true end
-	local t=system~="Windows"and 0 or 2*LV
-	while t>0 do
-		local r=rnd(2,49)
-		if L[r]then L[r],t=false,t-1 end
-	end
-	local min,max
-	if LV==1 then		min,max=4,6
-	elseif LV==2 then	min,max=4,8
-	elseif LV==3 then	min,max=8,10
-	end
-	local n=2
-	for i=1,4 do for j=1,6 do
-		if L[n]then
-			newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(min,max)))
-		else
-			newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-		end
-		n=n+1
-	end end
-	for i=9,12 do for j=1,6 do
-		if L[n]then
-			newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(min,max)))
-		else
-			newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-		end
-		n=n+1
-	end end
-end
-function loadmode.techmino99()
-	newPlayer(1,340,15)
-	local LV=curMode.lv
-	if LV==3 then players[1].gameEnv.drop=15 end
-	local L={}for i=1,100 do L[i]=true end
-	local t=system~="Windows"and 0 or 1+3*LV
-	while t>0 do
-		local r=rnd(2,99)
-		if L[r]then L[r],t=false,t-1 end
-	end
-	local min,max
-	if LV==1 then		min,max=4,6
-	elseif LV==2 then	min,max=4,8
-	elseif LV==3 then	min,max=8,10
-	end
-	local n=2
-	for i=1,7 do for j=1,7 do
-		if L[n]then
-			newPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(min,max)))
-		else
-			newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-		end
-		n=n+1
-	end end
-	for i=15,21 do for j=1,7 do
-		if L[n]then
-			newPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(min,max)))
-		else
-			newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-		end
-		n=n+1
-	end end
-end
-function loadmode.drought()
-	newPlayer(1,340,15)
-end
-function loadmode.hotseat()
-	if curMode.lv==1 then
-		newPlayer(1,20,15)
-		newPlayer(2,650,15)
-	elseif curMode.lv==2 then
-		newPlayer(1,20,100,.65)
-		newPlayer(2,435,100,.65)
-		newPlayer(3,850,100,.65)
-	elseif curMode.lv==3 then
-		newPlayer(1,25,160,.5)
-		newPlayer(2,335,160,.5)
-		newPlayer(3,645,160,.5)
-		newPlayer(4,955,160,.5)
-	end
-end
-function loadmode.custom()
-	for i=1,#customID do
-		local k=customID[i]
-		modeEnv[k]=customRange[k][customSel[i]]
-	end
-	modeEnv._20G=modeEnv.drop==0
-	modeEnv.oncehold=customSel[6]==1
-	if curMode.lv==2 then
-		modeEnv.target=0
-	end
-	newPlayer(1,340,15)
-	local L=modeEnv.opponent
-	if L~=0 then
-		modeEnv.target=nil
-		if L<10 then
-			newPlayer(2,965,360,.5,AITemplate("9S",2*L))
-		else
-			newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
-		end
-	end
-	preField.h=20
-	repeat
-		for i=1,10 do
-			if preField[preField.h][i]>0 or curMode.lv==2 and preField[preField.h][i]==-1 then
-				goto L
-			end
-		end
-		preField.h=preField.h-1
-	until preField.h==0
-	::L::
-	if curMode.lv==1 then
-		for _,P in next,players.alive do
-			local t=P.showTime*3
-			for y=1,preField.h do
-				P.field[y]=getNewRow(0)
-				P.visTime[y]=getNewRow(t)
-				for x=1,10 do P.field[y][x]=preField[y][x]end
-			end
-		end
-	end
-	modeEnv.bg=customRange.bg[customSel[12]]
-	modeEnv.bgm=customRange.bgm[customSel[13]]
 end
 -------------------------<Events>-------------------------
 Event={null=NULL}
@@ -469,7 +230,7 @@ function Event.master_score(P)
 		local E=P.gameEnv
 		local mode=curMode.lv
 		if mode==1 then
-			curBG=s==1 and"game1"or s==2 and"game2"or s==3 and"game3"or s==4 and"game4"
+			curBG=s==1 and"game1"or s==2 and"game2"or s==3 and"game3"or "game4"
 			E.lock=rush_lock[s]
 			E.wait=rush_wait[s]
 			E.fall=rush_fall[s]
@@ -477,7 +238,7 @@ function Event.master_score(P)
 			if s==2 then P.gameEnv.arr=2 end
 			if s==4 then P.gameEnv.bone=true end
 		elseif mode==2 then
-			curBG=s==1 and"game3"or s==2 and"game4"or s==3 and"game5"or s==4 and"game6"
+			curBG=s==1 and"game3"or s==2 and"game4"or s==3 and"game5"or s==4 and"game6"or"game5"
 			E.lock=death_lock[s]
 			E.wait=death_wait[s]
 			E.fall=death_fall[s]
@@ -716,7 +477,21 @@ end
 function Event_task.throwBadge(A,data)
 	data[2]=data[2]-1
 	if data[2]%4==0 then
-		throwBadge(data[1],data[1].lastRecv)
+		local S,R=data[1],data[1].lastRecv
+		local x1,y1,x2,y2
+		if S.small then
+			x1,y1=S.centerX,S.centerY
+		else
+			x1,y1=S.x+308*S.size,S.y+450*S.size
+		end
+		if R.small then
+			x2,y2=R.centerX,R.centerY
+		else
+			x2,y2=R.x+66*R.size,R.y+344*R.size
+		end
+		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
+		--generate badge object
+
 		if not A.ai and data[2]%8==0 then
 			SFX("collect")
 		end
@@ -889,8 +664,8 @@ function Event_task.attacker_hard(P)
 			B[p+1]=	{pos=rnd(3,8),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
 		else
 			t=900-10*(D.event-20)--900~600
-			B[p]=	{pos=rnd(10),amount=6,countdown=t,cd0=t,time=0,sent=false,lv=4}
-			B[p+1]=	{pos=rnd(4,7),amount=16,countdown=t,cd0=t,time=0,sent=false,lv=5}
+			B[p]=	{pos=rnd(10),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=4}
+			B[p+1]=	{pos=rnd(4,7),amount=8,countdown=t,cd0=t,time=0,sent=false,lv=5}
 		end
 		B.sum=B.sum+22
 		P.stat.recv=P.stat.recv+22
@@ -933,7 +708,7 @@ function Event_task.attacker_ultimate(P)
 		if D.event<45 then
 			D.event=D.event+1
 			D.point=int(s*36e3/t)*.1
-			if D.event==10 then
+			if 	D.event==10 then
 				P:showText(text.great,"appear",100,-140,.6)
 				pushSpeed=4
 			elseif D.event==20 then
@@ -977,476 +752,971 @@ function Event_task.bgmFadeIn(_,id)
 	if v>=setting.bgm*.1 then return true end
 end
 -------------------------</Tasks>-------------------------
-
-local Fkey_func={
-	royale=function(P)
-		if setting.swap then
-			for i=1,#P.keyPressing do
-				if P.keyPressing[i]then
-					P.keyPressing[i]=false
-				end
-			end
-			P.keyPressing[9]=true
-		else
-			P:changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
-			P.swappingAtkMode=30
+-------------------------<Modes>--------------------------
+modes={}
+modes.sprint={
+	level={"10L","20L","40L","100L","400L","1000L"},
+	env={
+		{
+			drop=60,lock=60,
+			target=10,dropPiece="reach_winCheck",
+			bg="strap",bgm="race",
+		},
+		{
+			drop=60,lock=60,
+			target=20,dropPiece="reach_winCheck",
+			bg="strap",bgm="race",
+		},
+		{
+			drop=60,lock=60,
+			target=40,dropPiece="reach_winCheck",
+			bg="strap",bgm="race",
+		},
+		{
+			drop=60,lock=60,
+			target=100,dropPiece="reach_winCheck",
+			bg="strap",bgm="race",
+		},
+		{
+			drop=60,lock=60,
+			target=400,dropPiece="reach_winCheck",
+			bg="strap",bgm="push",
+		},
+		{
+			drop=60,lock=60,
+			target=1000,dropPiece="reach_winCheck",
+			bg="strap",bgm="push",
+		},
+	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(60)
+		local r=max(P.gameEnv.target-P.stat.row,0)
+		mStr(r,-82,265)
+		if r<21 and r>0 then
+			gc.setLineWidth(4)
+			gc.setColor(1,r>10 and 0 or rnd(),.5)
+			gc.line(0,600-30*r,300,600-30*r)
 		end
 	end,
-	puzzle=function(P)
-		P.modeData.event=1-P.modeData.event
+}
+modes.marathon={
+	level={"EASY","NORMAL","HARD"},
+	env={
+		{
+			drop=60,lock=60,fall=30,
+			target=200,dropPiece="reach_winCheck",
+			bg="strap",bgm="way",
+		},
+		{
+			drop=60,fall=20,
+			target=10,dropPiece="marathon_update",
+			bg="strap",bgm="way",
+		},
+		{
+			_20G=true,fall=15,
+			target=200,dropPiece="reach_winCheck",
+			bg="strap",bgm="race",
+		},
+	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(50)
+		mStr(P.stat.row,-82,320)
+		mStr(P.gameEnv.target,-82,370)
+		gc.rectangle("fill",-125,375,90,4)
 	end,
 }
-defModeEnv={}
-defModeEnv.sprint={
-	{
-		drop=60,lock=60,
-		target=10,dropPiece="reach_winCheck",
-		bg="strap",bgm="race",
+modes.master={
+	level={"LUNATIC","ULTIMATE","FINAL"},
+	env={
+		{
+			_20G=true,lock=rush_lock[1],
+			wait=rush_wait[1],
+			fall=rush_fall[1],
+			dropPiece="master_score",
+			das=9,arr=3,
+			freshLimit=15,
+			bg="strap",bgm="secret8th",
+		},
+		{
+			_20G=true,lock=death_lock[1],
+			wait=death_wait[1],
+			fall=death_fall[1],
+			dropPiece="master_score",
+			das=6,arr=1,
+			freshLimit=15,
+			bg="game2",bgm="secret7th",
+		},
+		{
+			_20G=true,lock=12,
+			wait=10,fall=10,
+			dropPiece="master_score_hard",
+			das=5,arr=1,
+			freshLimit=15,
+			easyFresh=false,bone=true,
+			bg="none",bgm="shining terminal",
+		},
 	},
-	{
-		drop=60,lock=60,
-		target=20,dropPiece="reach_winCheck",
-		bg="strap",bgm="race",
-	},
-	{
-		drop=60,lock=60,
-		target=40,dropPiece="reach_winCheck",
-		bg="strap",bgm="race",
-	},
-	{
-		drop=60,lock=60,
-		target=100,dropPiece="reach_winCheck",
-		bg="strap",bgm="race",
-	},
-	{
-		drop=60,lock=60,
-		target=400,dropPiece="reach_winCheck",
-		bg="strap",bgm="push",
-	},
-	{
-		drop=60,lock=60,
-		target=1000,dropPiece="reach_winCheck",
-		bg="strap",bgm="push",
-	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(50)
+		mStr(P.modeData.point,-82,320)
+		mStr((P.modeData.event+1)*100,-82,370)
+		gc.rectangle("fill",-125,375,90,4)
+	end,
 }
-defModeEnv.marathon={
-	{
-		drop=60,lock=60,fall=30,
-		target=200,dropPiece="reach_winCheck",
-		bg="strap",bgm="way",
+modes.classic={
+	level={"CTWC"},
+	env={
+		{
+			das=16,arr=6,sddas=2,sdarr=2,
+			ghost=false,center=false,
+			drop=3,lock=3,wait=10,fall=25,
+			next=1,hold=false,
+			sequence="rnd",
+			freshLimit=0,
+			target=10,dropPiece="classic_reach",
+			bg="rgb",bgm="rockblock",
+		},
 	},
-	{
-		drop=60,fall=20,
-		target=10,dropPiece="marathon_update",
-		bg="strap",bgm="way",
-	},
-	{
-		_20G=true,fall=15,
-		target=200,dropPiece="reach_winCheck",
-		bg="strap",bgm="race",
-	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(80)
+		local r=P.gameEnv.target*.1
+		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-82,210)
+		mDraw(drawableText.speedLV,-82,290)
+		setFont(50)
+		mStr(P.stat.row,-82,320)
+		mStr(P.gameEnv.target,-82,370)
+		gc.rectangle("fill",-125,375,90,4)
+	end,
 }
-defModeEnv.master={
-	{
-		_20G=true,lock=rush_lock[1],
-		wait=rush_wait[1],
-		fall=rush_fall[1],
-		dropPiece="master_score",
-		das=9,arr=3,
-		freshLimit=15,
-		bg="strap",bgm="secret8th",
+modes.zen={
+	level={"NORMAL"},
+	env={
+		{
+			drop=1e99,lock=1e99,
+			oncehold=false,
+			dropPiece="reach_winCheck",
+			bg="strap",bgm="infinite",
+		},
 	},
-	{
-		_20G=true,lock=death_lock[1],
-		wait=death_wait[1],
-		fall=death_fall[1],
-		dropPiece="master_score",
-		das=6,arr=1,
-		freshLimit=15,
-		bg="game2",bgm="secret7th",
-	},
-	{
-		_20G=true,lock=12,
-		wait=10,fall=10,
-		dropPiece="master_score_hard",
-		das=5,arr=1,
-		freshLimit=15,
-		easyFresh=false,bone=true,
-		bg="none",bgm="shining terminal",
-	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(75)
+		mStr(max(200-P.stat.row,0),-82,280)
+	end,
 }
-defModeEnv.classic={
-	{
-		das=16,arr=6,sddas=2,sdarr=2,
-		ghost=false,center=false,
-		drop=3,lock=3,wait=10,fall=25,
-		next=1,hold=false,
-		sequence="rnd",
-		freshLimit=0,
-		target=10,dropPiece="classic_reach",
-		bg="rgb",bgm="rockblock",
+modes.infinite={
+	level={"NORMAL","EXTRA"},
+	env={
+		{
+			drop=1e99,lock=1e99,
+			oncehold=false,
+			bg="glow",bgm="infinite",
+		},
+		{
+			drop=1e99,lock=1e99,
+			oncehold=false,
+			dropPiece="infinite_check",
+			bg="glow",bgm="infinite",
+		},
 	},
+	load=function()
+		newPlayer(1,340,15)
+		if curMode.lv==2 then
+			pushSpeed=1
+			for _=1,5 do
+				players[1]:garbageRise(10,1,rnd(10))
+			end
+		end
+	end,
+	mesDisp=function(P)
+		setFont(50)
+		mStr(P.stat.atk,-82,310)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
+		mDraw(drawableText.atk,-82,363)
+		mDraw(drawableText.eff,-82,475)
+	end,
 }
-defModeEnv.zen={
-	{
-		drop=1e99,lock=1e99,
-		oncehold=false,
-		dropPiece="reach_winCheck",
-		bg="strap",bgm="infinite",
+modes.solo={
+	level={"EASY","EASY+","NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+","ULTIMATE","ULTIMATE+"},
+	env={
+		{
+			drop=60,lock=60,
+			freshLimit=15,
+			bg="game2",bgm="race",
+		},
 	},
+	load=function()
+		newPlayer(1,340,15)
+		if curMode.lv==1 then
+			newPlayer(2,965,360,.5,AITemplate("9S",3))
+		elseif curMode.lv==2 then
+			newPlayer(2,965,360,.5,AITemplate("CC",3,2,false,10000))
+		elseif curMode.lv==3 then
+			newPlayer(2,965,360,.5,AITemplate("9S",5))
+		elseif curMode.lv==4 then
+			newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,20000))
+		elseif curMode.lv==5 then
+			newPlayer(2,965,360,.5,AITemplate("9S",7))
+		elseif curMode.lv==6 then
+			newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,30000))
+		elseif curMode.lv==7 then
+			newPlayer(2,965,360,.5,AITemplate("9S",8))
+		elseif curMode.lv==8 then
+			newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,40000))
+		elseif curMode.lv==9 then
+			newPlayer(2,965,360,.5,AITemplate("9S",9))
+		elseif curMode.lv==10 then
+			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
+		end
+	end,
+	mesDisp=function(P)
+
+	end,
 }
-defModeEnv.infinite={
-	{
-		drop=1e99,lock=1e99,
-		oncehold=false,
-		bg="glow",bgm="infinite",
+modes.round={
+	level={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	env={
+		{
+			drop=1e99,lock=1e99,
+			oncehold=false,
+			dropPiece="round_check",
+			bg="game2",bgm="push",
+		},
 	},
-	{
-		drop=1e99,lock=1e99,
-		oncehold=false,
-		dropPiece="infinite_check",
-		bg="glow",bgm="infinite",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		if curMode.lv==1 then
+			newPlayer(2,965,360,.5,AITemplate("9S",10))
+		elseif curMode.lv==2 then
+			newPlayer(2,965,360,.5,AITemplate("CC",10,2,false,10000))
+		elseif curMode.lv==3 then
+			newPlayer(2,965,360,.5,AITemplate("CC",10,3,true,30000))
+		elseif curMode.lv==4 then
+			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,60000))
+		elseif curMode.lv==5 then
+			newPlayer(2,965,360,.5,AITemplate("CC",10,6,true,100000))
+		end
+		garbageSpeed=1e4
+	end,
+	mesDisp=function(P)
+
+	end,
 }
-defModeEnv.solo={
-	{
-		drop=60,lock=60,
-		freshLimit=15,
-		bg="game2",bgm="race",
+modes.tsd={
+	level={"NORMAL","HARD"},
+	env={
+		{
+			oncehold=false,
+			drop=1e99,lock=1e99,
+			dropPiece="tsd_reach",
+			ospin=false,
+			bg="matrix",bgm="reason",
+		},
+		{
+			drop=60,lock=60,
+			freshLimit=15,
+			dropPiece="tsd_reach",
+			ospin=false,
+			bg="matrix",bgm="reason",
+		},
 	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(80)
+		mStr(P.modeData.event,-82,330)
+		mDraw(drawableText.tsd,-82,407)
+	end,
 }
-defModeEnv.round={
-	{
-		drop=1e99,lock=1e99,
-		oncehold=false,
-		dropPiece="round_check",
-		bg="game2",bgm="push",
+modes.blind={
+	level={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
+	env={
+		{
+			drop=30,lock=45,
+			freshLimit=10,
+			visible="time",
+			bg="glow",bgm="newera",
+		},
+		{
+			drop=15,lock=45,
+			freshLimit=10,
+			visible="fast",
+			freshLimit=10,
+			bg="glow",bgm="reason",
+		},
+		{
+			drop=15,lock=45,
+			fall=10,lock=60,
+			center=false,
+			visible="none",
+			freshLimit=15,
+			bg="rgb",bgm="secret7th",
+		},
+		{
+			drop=10,lock=45,
+			fall=5,lock=60,
+			center=false,ghost=false,
+			visible="none",
+			freshLimit=15,
+			bg="rgb",bgm="secret8th",
+		},
+		{
+			drop=30,lock=60,
+			fall=5,
+			block=false,
+			center=false,ghost=false,
+			visible="none",
+			freshLimit=15,
+			bg="rgb",bgm="secret7th",
+		},
+		{
+			_20G=true,
+			drop=0,lock=15,
+			wait=10,fall=15,
+			visible="fast",
+			freshLimit=15,
+			dropPiece="GM_score",
+			arr=1,
+			bg="game3",bgm="shining terminal",
+		},
 	},
+	load=function()
+		newPlayer(1,340,15)
+		if curMode.lv==6 then
+			players[1].modeData.event="M7"
+		end
+	end,
+	mesDisp=function(P)
+		mDraw(drawableText.line,-82,300)
+		mDraw(drawableText.techrash,-82,420)
+		if curMode.lv==6 then
+			mDraw(drawableText.grade,-82,170)
+			setFont(60)
+			mStr(P.modeData.event,-82,110)
+		end
+		setFont(80)
+		mStr(P.stat.row,-82,220)
+		mStr(P.stat.clear_4,-82,340)
+	end,
 }
-defModeEnv.tsd={
-	{
-		oncehold=false,
-		drop=1e99,lock=1e99,
-		dropPiece="tsd_reach",
-		ospin=false,
-		bg="matrix",bgm="reason",
+modes.dig={
+	level={"NORMAL","LUNATIC"},
+	env={
+		{
+			drop=60,lock=120,
+			fall=20,
+			freshLimit=15,
+			task="dig_normal",
+			bg="game2",bgm="push",
+		},
+		{
+			drop=10,lock=30,
+			freshLimit=15,
+			task="dig_lunatic",
+			bg="game2",bgm="secret7th",
+		},
 	},
-	{
-		drop=60,lock=60,
-		freshLimit=15,
-		dropPiece="tsd_reach",
-		ospin=false,
-		bg="matrix",bgm="reason",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		pushSpeed=1
+	end,
+	mesDisp=function(P)
+		setFont(70)
+		mStr(P.modeData.event,-82,310)
+		mDraw(drawableText.wave,-82,375)
+	end,
 }
-defModeEnv.blind={
-	{
-		drop=30,lock=45,
-		freshLimit=10,
-		visible="time",
-		bg="glow",bgm="newera",
+modes.survivor={
+	level={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	env={
+		{
+			drop=60,lock=120,
+			fall=30,
+			freshLimit=15,
+			task="survivor_easy",
+			bg="game2",bgm="push",
+		},
+		{
+			drop=30,lock=60,
+			fall=20,
+			freshLimit=15,
+			task="survivor_normal",
+			bg="game2",bgm="newera",
+		},
+		{
+			drop=10,lock=60,
+			fall=15,
+			freshLimit=15,
+			task="survivor_hard",
+			bg="game2",bgm="secret8th",
+		},
+		{
+			drop=6,lock=60,
+			fall=10,
+			freshLimit=15,
+			task="survivor_lunatic",
+			bg="game3",bgm="secret7th",
+		},
+		{
+			drop=5,lock=60,
+			fall=10,
+			freshLimit=15,
+			task="survivor_ultimate",
+			bg="rgb",bgm="secret7th",
+		},
 	},
-	{
-		drop=15,lock=45,
-		freshLimit=10,
-		visible="fast",
-		freshLimit=10,
-		bg="glow",bgm="reason",
-	},
-	{
-		drop=15,lock=45,
-		fall=10,lock=60,
-		center=false,
-		visible="none",
-		freshLimit=15,
-		bg="rgb",bgm="secret7th",
-	},
-	{
-		drop=10,lock=45,
-		fall=5,lock=60,
-		center=false,ghost=false,
-		visible="none",
-		freshLimit=15,
-		bg="rgb",bgm="secret8th",
-	},
-	{
-		drop=30,lock=60,
-		fall=5,
-		block=false,
-		center=false,ghost=false,
-		visible="none",
-		freshLimit=15,
-		bg="rgb",bgm="secret7th",
-	},
-	{
-		_20G=true,
-		drop=0,lock=15,
-		wait=10,fall=15,
-		visible="fast",
-		freshLimit=15,
-		dropPiece="GM_score",
-		arr=1,
-		bg="game3",bgm="shining terminal",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		pushSpeed=curMode.lv>2 and 2 or 1
+	end,
+	mesDisp=function(P)
+		setFont(70)
+		mStr(P.modeData.event,-82,310)
+		mDraw(drawableText.wave,-82,375)
+	end,
 }
-defModeEnv.dig={
-	{
-		drop=60,lock=120,
-		fall=20,
-		freshLimit=15,
-		task="dig_normal",
-		bg="game2",bgm="push",
+modes.defender={
+	level={"NORMAL","LUNATIC"},
+	env={
+		{
+			drop=30,lock=60,
+			fall=10,
+			freshLimit=15,
+			task="defender_normal",
+			bg="game3",bgm="way",
+		},
+		{
+			drop=5,lock=60,
+			fall=6,
+			freshLimit=15,
+			task="defender_lunatic",
+			bg="game4",bgm="way",
+		},
 	},
-	{
-		drop=10,lock=30,
-		freshLimit=15,
-		task="dig_lunatic",
-		bg="game2",bgm="secret7th",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		if curMode.lv==1 then
+			pushSpeed=1
+		elseif curMode.lv==2 then
+			pushSpeed=2
+		end
+	end,
+	mesDisp=function(P)
+		setFont(60)
+		mStr(P.modeData.event,-82,200)
+		mStr(P.modeData.point,-82,320)
+		mDraw(drawableText.wave,-82,260)
+		mDraw(drawableText.rpm,-82,380)
+	end,
 }
-defModeEnv.survivor={
-	{
-		drop=60,lock=120,
-		fall=30,
-		freshLimit=15,
-		task="survivor_easy",
-		bg="game2",bgm="push",
+modes.attacker={
+	level={"HARD","ULTIMATE"},
+	env={
+		{
+			drop=30,lock=60,
+			fall=12,
+			freshLimit=15,
+			task="attacker_hard",
+			bg="game3",bgm="push",
+		},
+		{
+			drop=5,lock=60,
+			fall=8,
+			freshLimit=15,
+			task="attacker_ultimate",
+			bg="game4",bgm="shining terminal",
+		},
 	},
-	{
-		drop=30,lock=60,
-		fall=20,
-		freshLimit=15,
-		task="survivor_normal",
-		bg="game2",bgm="newera",
-	},
-	{
-		drop=10,lock=60,
-		fall=15,
-		freshLimit=15,
-		task="survivor_hard",
-		bg="game2",bgm="secret8th",
-	},
-	{
-		drop=6,lock=60,
-		fall=10,
-		freshLimit=15,
-		task="survivor_lunatic",
-		bg="game3",bgm="secret7th",
-	},
-	{
-		drop=5,lock=60,
-		fall=10,
-		freshLimit=15,
-		task="survivor_ultimate",
-		bg="rgb",bgm="secret7th",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		if curMode.lv==1 then
+			pushSpeed=2
+		end
+	end,
+	mesDisp=function(P)
+		setFont(60)
+		mStr(P.modeData.event,-82,200)
+		mStr(
+			curMode.lv==1 and 24
+			or P.modeData.event<10 and 22
+			or P.modeData.event<20 and 25
+		or 28,-82,320)
+		mDraw(drawableText.wave,-82,260)
+		mDraw(drawableText.nextWave,-82,380)
+		end,
 }
-defModeEnv.defender={
-	{
-		drop=30,lock=60,
-		fall=10,
-		freshLimit=15,
-		task="defender_normal",
-		bg="game3",bgm="way",
+modes.tech={
+	level={"NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+","ULTIMATE","ULTIMATE+"},
+	env={
+		{
+			oncehold=false,
+			drop=1e99,lock=1e99,
+			dropPiece="tech_reach_easy",
+			bg="matrix",bgm="newera",
+		},
+		{
+			oncehold=false,
+			drop=1e99,lock=1e99,
+			dropPiece="tech_reach_ultimate",
+			bg="matrix",bgm="newera",
+		},
+		{
+			drop=10,lock=60,
+			freshLimit=15,
+			dropPiece="tech_reach_easy",
+			bg="matrix",bgm="secret8th",
+		},
+		{
+			drop=30,lock=60,
+			freshLimit=15,
+			dropPiece="tech_reach_ultimate",
+			bg="matrix",bgm="secret8th",
+		},
+		{
+			_20G=true,lock=60,
+			freshLimit=15,
+			dropPiece="tech_reach_hard",
+			bg="matrix",bgm="secret7th",
+		},
+		{
+			_20G=true,lock=60,
+			freshLimit=15,
+			dropPiece="tech_reach_ultimate",
+			bg="matrix",bgm="secret7th",
+		},
+		{
+			drop=1e99,lock=60,
+			freshLimit=15,
+			fine=true,fineKill=true,
+			dropPiece="tech_reach_hard",
+			bg="flink",bgm="infinite",
+		},
+		{
+			drop=1e99,lock=60,
+			freshLimit=15,
+			fine=true,fineKill=true,
+			dropPiece="tech_reach_ultimate",
+			bg="flink",bgm="infinite",
+		},
 	},
-	{
-		drop=5,lock=60,
-		fall=6,
-		freshLimit=15,
-		task="defender_lunatic",
-		bg="game4",bgm="way",
-	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(50)
+		mStr(P.stat.atk,-82,310)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
+		mDraw(drawableText.atk,-82,363)
+		mDraw(drawableText.eff,-82,475)
+	end,
 }
-defModeEnv.attacker={
-	{
-		drop=30,lock=60,
-		fall=12,
-		freshLimit=15,
-		task="attacker_hard",
-		bg="game3",bgm="push",
+modes.c4wtrain={
+	level={"NORMAL","LUNATIC"},
+	env={
+		{
+			drop=30,lock=60,
+			oncehold=false,
+			freshLimit=15,
+			dropPiece="c4w_reach",
+			ospin=false,
+			bg="rgb",bgm="newera",
+		},
+		{
+			drop=5,lock=30,
+			freshLimit=15,
+			dropPiece="c4w_reach",
+			ospin=false,
+			bg="rgb",bgm="newera",
+		},
 	},
-	{
-		drop=5,lock=60,
-		fall=8,
-		freshLimit=15,
-		task="attacker_ultimate",
-		bg="game4",bgm="shining terminal",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		local P=players[1]
+		local F=P.field
+		for i=1,24 do
+			F[i]=getNewRow(10)
+			P.visTime[i]=getNewRow(20)
+			for x=4,7 do F[i][x]=0 end
+		end
+		local r=rnd(6)
+		if r==1 then	 F[1][5],F[1][4],F[2][4]=10,10,10
+		elseif r==2 then F[1][6],F[1][7],F[2][7]=10,10,10
+		elseif r==3 then F[1][4],F[2][4],F[2][5]=10,10,10
+		elseif r==4 then F[1][7],F[2][7],F[2][6]=10,10,10
+		elseif r==5 then F[1][4],F[1][5],F[1][6]=10,10,10
+		elseif r==6 then F[1][7],F[1][6],F[1][5]=10,10,10
+		end
+	end,
+	mesDisp=function(P)
+		setFont(50)
+		mStr(max(100-P.stat.row,0),-82,220)
+		mStr(P.combo,-82,310)
+		mStr(P.modeData.point,-82,400)
+		mDraw(drawableText.combo,-82,358)
+		mDraw(drawableText.mxcmb,-82,450)
+	end,
 }
-defModeEnv.tech={
-	{
-		oncehold=false,
-		drop=1e99,lock=1e99,
-		dropPiece="tech_reach_easy",
-		bg="matrix",bgm="newera",
+modes.pctrain={
+	level={"NORMAL","EXTRA"},
+	env={
+		{
+			next=4,
+			hold=false,
+			drop=150,lock=150,
+			fall=20,
+			sequence="none",
+			dropPiece="newPC",
+			ospin=false,
+			bg="rgb",bgm="newera",
+		},
+		{
+			next=4,
+			hold=false,
+			drop=60,lock=60,
+			fall=20,
+			sequence="none",
+			freshLimit=15,
+			dropPiece="newPC",
+			ospin=false,
+			bg="rgb",bgm="newera",
+		},
 	},
-	{
-		oncehold=false,
-		drop=1e99,lock=1e99,
-		dropPiece="tech_reach_ultimate",
-		bg="matrix",bgm="newera",
-	},
-	{
-		drop=10,lock=60,
-		freshLimit=15,
-		dropPiece="tech_reach_easy",
-		bg="matrix",bgm="secret8th",
-	},
-	{
-		drop=30,lock=60,
-		freshLimit=15,
-		dropPiece="tech_reach_ultimate",
-		bg="matrix",bgm="secret8th",
-	},
-	{
-		_20G=true,lock=60,
-		freshLimit=15,
-		dropPiece="tech_reach_hard",
-		bg="matrix",bgm="secret7th",
-	},
-	{
-		_20G=true,lock=60,
-		freshLimit=15,
-		dropPiece="tech_reach_ultimate",
-		bg="matrix",bgm="secret7th",
-	},
-	{
-		drop=1e99,lock=60,
-		freshLimit=15,
-		fine=true,fineKill=true,
-		dropPiece="tech_reach_hard",
-		bg="flink",bgm="infinite",
-	},
-	{
-		drop=1e99,lock=60,
-		freshLimit=15,
-		fine=true,fineKill=true,
-		dropPiece="tech_reach_ultimate",
-		bg="flink",bgm="infinite",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		Event.newPC(players[1])
+	end,
+	mesDisp=function(P)
+		setFont(80)
+		mStr(P.stat.pc,-82,330)
+		mDraw(drawableText.pc,-82,412)
+	end,
 }
-defModeEnv.c4wtrain={
-	{
-		drop=30,lock=60,
-		oncehold=false,
-		freshLimit=15,
-		dropPiece="c4w_reach",
-		ospin=false,
-		bg="rgb",bgm="newera",
+modes.pcchallenge={
+	level={"NORMAL","HARD","LUNATIC"},
+	env={
+		{
+			oncehold=false,
+			drop=300,lock=1e99,
+			target=100,dropPiece="reach_winCheck",
+			ospin=false,
+			bg="rgb",bgm="newera",
+		},
+		{
+			drop=60,lock=120,
+			fall=10,
+			target=100,dropPiece="reach_winCheck",
+			freshLimit=15,
+			ospin=false,
+			bg="rgb",bgm="infinite",
+		},
+		{
+			drop=20,lock=60,
+			fall=20,
+			target=100,dropPiece="reach_winCheck",
+			freshLimit=15,
+			ospin=false,
+			bg="rgb",bgm="infinite",
+		},
 	},
-	{
-		drop=5,lock=30,
-		freshLimit=15,
-		dropPiece="c4w_reach",
-		ospin=false,
-		bg="rgb",bgm="newera",
-	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(50)
+		mStr(max(100-P.stat.row,0),-82,250)
+		
+		setFont(80)
+		mStr(P.stat.pc,-82,350)
+		mDraw(drawableText.pc,-82,432)
+
+		gc.setColor(.5,.5,.5)
+		if frame>179 then
+			local y=72*(7-(P.stat.piece+(P.hd.id>0 and 2 or 1))%7)-36
+			gc.line(320,y,442,y)
+		end
+	end,
 }
-defModeEnv.pctrain={
-	{
-		next=4,
-		hold=false,
-		drop=150,lock=150,
-		fall=20,
-		sequence="none",
-		dropPiece="newPC",
-		ospin=false,
-		bg="rgb",bgm="newera",
+modes.techmino49={
+	level={"EASY","HARD","ULTIMATE"},
+	env={
+		{
+			drop=60,lock=60,
+			fall=20,
+			royaleMode=true,
+			Fkey=Fkey_func.royale,
+			royalePowerup={2,5,10,20},
+			royaleRemain={30,20,15,10,5},
+			pushSpeed=2,
+			freshLimit=15,
+			bg="game3",bgm="rockblock",
+		},
 	},
-	{
-		next=4,
-		hold=false,
-		drop=60,lock=60,
-		fall=20,
-		sequence="none",
-		freshLimit=15,
-		dropPiece="newPC",
-		ospin=false,
-		bg="rgb",bgm="newera",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		local LV=curMode.lv
+		if LV==3 then players[1].gameEnv.drop=15 end
+		local L={}for i=1,49 do L[i]=true end
+		local t=system~="Windows"and 0 or 2*LV
+		while t>0 do
+			local r=rnd(2,49)
+			if L[r]then L[r],t=false,t-1 end
+		end
+		local min,max
+		if LV==1 then		min,max=4,6
+		elseif LV==2 then	min,max=4,8
+		elseif LV==3 then	min,max=8,10
+		end
+		local n=2
+		for i=1,4 do for j=1,6 do
+			if L[n]then
+				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(min,max)))
+			else
+				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
+			end
+			n=n+1
+		end end
+		for i=9,12 do for j=1,6 do
+			if L[n]then
+				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(min,max)))
+			else
+				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
+			end
+			n=n+1
+		end end
+	end,
+	mesDisp=function(P)
+		setFont(40)
+		mStr(#players.alive.."/49",-82,175)
+		mStr(P.ko,-70,215)
+		gc.draw(drawableText.ko,-127,225)
+		setFont(25)
+		gc.setColor(1,.5,0,.6)
+		gc.print(P.badge,-47,227)
+		gc.setColor(1,1,1)
+		setFont(30)
+		gc.print(up0to4[P.strength],-132,290)
+		for i=1,P.strength do
+			gc.draw(badgeIcon,16*i-138,260)
+		end
+	end,
 }
-defModeEnv.pcchallenge={
-	{
-		oncehold=false,
-		drop=300,lock=1e99,
-		target=100,dropPiece="reach_winCheck",
-		ospin=false,
-		bg="rgb",bgm="newera",
+modes.techmino99={
+	level={"EASY","HARD","ULTIMATE"},
+	env={
+		{
+			drop=60,lock=60,
+			fall=20,
+			royaleMode=true,
+			Fkey=Fkey_func.royale,
+			royalePowerup={2,6,14,30},
+			royaleRemain={75,50,35,20,10},
+			pushSpeed=2,
+			freshLimit=15,
+			bg="game3",bgm="rockblock",
+		},
 	},
-	{
-		drop=60,lock=120,
-		fall=10,
-		target=100,dropPiece="reach_winCheck",
-		freshLimit=15,
-		ospin=false,
-		bg="rgb",bgm="infinite",
-	},
-	{
-		drop=20,lock=60,
-		fall=20,
-		target=100,dropPiece="reach_winCheck",
-		freshLimit=15,
-		ospin=false,
-		bg="rgb",bgm="infinite",
-	},
+	load=function()
+		newPlayer(1,340,15)
+		local LV=curMode.lv
+		if LV==3 then players[1].gameEnv.drop=15 end
+		local L={}for i=1,100 do L[i]=true end
+		local t=system~="Windows"and 0 or 1+3*LV
+		while t>0 do
+			local r=rnd(2,99)
+			if L[r]then L[r],t=false,t-1 end
+		end
+		local min,max
+		if LV==1 then		min,max=4,6
+		elseif LV==2 then	min,max=4,8
+		elseif LV==3 then	min,max=8,10
+		end
+		local n=2
+		for i=1,7 do for j=1,7 do
+			if L[n]then
+				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(min,max)))
+			else
+				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
+			end
+			n=n+1
+		end end
+		for i=15,21 do for j=1,7 do
+			if L[n]then
+				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(min,max)))
+			else
+				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
+			end
+			n=n+1
+		end end
+	end,
+	mesDisp=function(P)
+		setFont(40)
+		mStr(#players.alive.."/99",-82,175)
+		mStr(P.ko,-70,215)
+		gc.draw(drawableText.ko,-127,225)
+		setFont(25)
+		gc.setColor(1,.5,0,.6)
+		gc.print(P.badge,-47,227)
+		gc.setColor(1,1,1)
+		setFont(30)
+		gc.print(up0to4[P.strength],-132,290)
+		for i=1,P.strength do
+			gc.draw(badgeIcon,16*i-138,260)
+		end
+	end,
 }
-defModeEnv.techmino49={
-	{
-		drop=60,lock=60,
-		fall=20,
-		royaleMode=true,
-		Fkey=Fkey_func.royale,
-		royalePowerup={2,5,10,20},
-		royaleRemain={30,20,15,10,5},
-		pushSpeed=2,
-		freshLimit=15,
-		bg="game3",bgm="rockblock",
+modes.drought={
+	level={"NORMAL","MESS"},
+	env={
+		{
+			drop=20,lock=60,
+			sequence="drought1",
+			target=100,dropPiece="reach_winCheck",
+			ospin=false,
+			freshLimit=15,
+			bg="glow",bgm="reason",
+		},
+		{
+			drop=20,lock=60,
+			sequence="drought2",
+			target=100,dropPiece="reach_winCheck",
+			ospin=false,
+			freshLimit=15,
+			bg="glow",bgm="reason",
+		},
 	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)
+		setFont(75)
+		mStr(max(100-P.stat.row,0),-82,280)
+	end,
 }
-defModeEnv.techmino99={
-	{
-		drop=60,lock=60,
-		fall=20,
-		royaleMode=true,
-		Fkey=Fkey_func.royale,
-		royalePowerup={2,6,14,30},
-		royaleRemain={75,50,35,20,10},
-		pushSpeed=2,
-		freshLimit=15,
-		bg="game3",bgm="rockblock",
+modes.hotseat={
+	level={"2P","3P","4P",},
+	env={
+		{
+			drop=60,lock=60,
+			freshLimit=15,
+			bg="none",bgm="way",
+		},
 	},
+	load=function()
+		if curMode.lv==1 then
+			newPlayer(1,20,15)
+			newPlayer(2,650,15)
+		elseif curMode.lv==2 then
+			newPlayer(1,20,100,.65)
+			newPlayer(2,435,100,.65)
+			newPlayer(3,850,100,.65)
+		elseif curMode.lv==3 then
+			newPlayer(1,25,160,.5)
+			newPlayer(2,335,160,.5)
+			newPlayer(3,645,160,.5)
+			newPlayer(4,955,160,.5)
+		end
+	end,
+	mesDisp=function(P)
+
+	end,
 }
-defModeEnv.drought={
-	{
-		drop=20,lock=60,
-		sequence="drought1",
-		target=100,dropPiece="reach_winCheck",
-		ospin=false,
-		freshLimit=15,
-		bg="glow",bgm="reason",
+modes.custom={
+	level={"Normal","Puzzle"},
+	env={
+		{
+			dropPiece="reach_winCheck",
+		},
+		{
+			Fkey=Fkey_func.puzzle,puzzle=true,
+			dropPiece="puzzleCheck",
+		},
 	},
-	{
-		drop=20,lock=60,
-		sequence="drought2",
-		target=100,dropPiece="reach_winCheck",
-		ospin=false,
-		freshLimit=15,
-		bg="glow",bgm="reason",
-	},
+	load=function()
+		for i=1,#customID do
+			local k=customID[i]
+			modeEnv[k]=customRange[k][customSel[i]]
+		end
+		modeEnv._20G=modeEnv.drop==0
+		modeEnv.oncehold=customSel[6]==1
+		if curMode.lv==2 then
+			modeEnv.target=0
+		end
+		newPlayer(1,340,15)
+		local L=modeEnv.opponent
+		if L~=0 then
+			modeEnv.target=nil
+			if L<10 then
+				newPlayer(2,965,360,.5,AITemplate("9S",2*L))
+			else
+				newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
+			end
+		end
+		preField.h=20
+		repeat
+			for i=1,10 do
+				if preField[preField.h][i]>0 or curMode.lv==2 and preField[preField.h][i]==-1 then
+					goto L
+				end
+			end
+			preField.h=preField.h-1
+		until preField.h==0
+		::L::
+		if curMode.lv==1 then
+			for _,P in next,players.alive do
+				local t=P.showTime*3
+				for y=1,preField.h do
+					P.field[y]=getNewRow(0)
+					P.visTime[y]=getNewRow(t)
+					for x=1,10 do P.field[y][x]=preField[y][x]end
+				end
+			end
+		end
+		modeEnv.bg=customRange.bg[customSel[12]]
+		modeEnv.bgm=customRange.bgm[customSel[13]]
+	end,
+	mesDisp=function(P)
+		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
+			setFont(60)
+			mStr(P.stat.row,-82,225)
+			mDraw(drawableText.line,-82,290)
+		else
+			setFont(60)
+			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
+		end
+		if P.gameEnv.puzzle and P.modeData.event==0 then
+			gc.setLineWidth(3)
+			for y=1,preField.h do for x=1,10 do
+				local B=preField[y][x]
+				if B>7 then
+					gc.setColor(blockColor[B])
+					gc.rectangle("line",30*x-23,607-30*y,16,16)
+				elseif B>0 then
+					local c=blockColor[B]
+					gc.setColor(c[1],c[2],c[3],.6)
+					gc.rectangle("line",30*x-25,605-30*y,20,20)
+					gc.rectangle("line",30*x-20,610-30*y,10,10)
+				elseif B==-1 then
+					gc.setColor(1,1,1,.4)
+					gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
+					gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
+				end
+			end end
+		end
+	end,
 }
-defModeEnv.hotseat={
-	{
-		drop=60,lock=60,
-		freshLimit=15,
-		bg="none",bgm="way",
-	},
-}
-defModeEnv.custom={
-	{
-		dropPiece="reach_winCheck",
-	},
-	{
-		Fkey=Fkey_func.puzzle,puzzle=true,
-		dropPiece="puzzleCheck",
-	},
-}
+-------------------------</Modes>-------------------------

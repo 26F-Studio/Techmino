@@ -160,6 +160,7 @@ local keyDown,keyUp={},{}
 local gamepadDown,gamepadUp={},{}
 function mouseDown.intro(x,y,k)
 	if k==2 then
+		VOICE("bye")
 		scene.back()
 	else
 		scene.push()
@@ -172,6 +173,7 @@ function touchDown.intro(id,x,y)
 end
 function keyDown.intro(key)
 	if key=="escape"then
+		VOICE("bye")
 		scene.back()
 	else
 		scene.push()
@@ -187,13 +189,13 @@ function keyDown.mode(key)
 	if key=="down"then
 		if modeSel<#modeID then
 			modeSel=modeSel+1
-			levelSel=int(#modeLevel[modeID[modeSel]]*.4)+1
+			levelSel=1
 			SFX("move",.4)
 		end
 	elseif key=="up"then
 		if modeSel>1 then
 			modeSel=modeSel-1
-			levelSel=int(#modeLevel[modeID[modeSel]]*.4)+1
+			levelSel=1
 			SFX("move",.4)
 		end
 	elseif key=="left"then
@@ -201,7 +203,7 @@ function keyDown.mode(key)
 			levelSel=levelSel-1
 		end
 	elseif key=="right"then
-		if levelSel<#modeLevel[modeID[modeSel]]then
+		if levelSel<#modes[modeID[modeSel]].level then
 			levelSel=levelSel+1
 		end
 	elseif key=="return"then

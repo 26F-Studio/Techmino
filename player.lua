@@ -46,7 +46,7 @@ local spinSCR={--[blockName][row]
 local visible_opt={show=1e99,time=300,fast=20,none=5}
 local reAtk={0,0,1,1,1,2,2,3,3}
 local reDef={0,1,1,2,3,3,4,4,5}
-local blockName={"Z","S","L","J","T","O","I"}
+local spinName={"zspin","sspin","lspin","jspin","tspin","ospin","ispin"}
 local clearName={"single","double","triple"}
 local spin_n={[0]="spin_0","spin_1","spin_2","spin_3"}
 local clear_n={"clear_1","clear_2","clear_3","clear_4"}
@@ -260,186 +260,6 @@ local function drawDial(x,y,speed)
 	gc.setColor(1,1,1,.6)
 	gc.draw(dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 end
-local mesDisp={
-	--Default:font=35,white
-	sprint=function(P)
-		setFont(60)
-		local r=max(P.gameEnv.target-P.stat.row,0)
-		mStr(r,-82,265)
-		if r<21 and r>0 then
-			gc.setLineWidth(4)
-			gc.setColor(1,r>10 and 0 or rnd(),.5)
-			gc.line(0,600-30*r,300,600-30*r)
-		end
-	end,
-	marathon=function(P)
-		setFont(50)
-		mStr(P.stat.row,-82,320)
-		mStr(P.gameEnv.target,-82,370)
-		gc.rectangle("fill",-125,375,90,4)
-	end,
-	master=function(P)
-		setFont(50)
-		mStr(P.modeData.point,-82,320)
-		mStr((P.modeData.event+1)*100,-82,370)
-		gc.rectangle("fill",-125,375,90,4)
-	end,
-	classic=function(P)
-		setFont(80)
-		local r=P.gameEnv.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-82,210)
-		mDraw(drawableText.speedLV,-82,290)
-		setFont(50)
-		mStr(P.stat.row,-82,320)
-		mStr(P.gameEnv.target,-82,370)
-		gc.rectangle("fill",-125,375,90,4)
-	end,
-	zen=function(P)
-		setFont(75)
-		mStr(max(200-P.stat.row,0),-82,280)
-	end,
-	infinite=function(P)
-		setFont(50)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		mDraw(drawableText.atk,-82,363)
-		mDraw(drawableText.eff,-82,475)
-	end,
-	tsd=function(P)
-		setFont(80)
-		mStr(P.modeData.event,-82,330)
-		mDraw(drawableText.tsd,-82,407)
-	end,
-	blind=function(P)
-		mDraw(drawableText.line,-82,300)
-		mDraw(drawableText.techrash,-82,420)
-		if curMode.lv==6 then
-			mDraw(drawableText.grade,-82,170)
-			setFont(60)
-			mStr(P.modeData.event,-82,110)
-		end
-		setFont(80)
-		mStr(P.stat.row,-82,220)
-		mStr(P.stat.clear_4,-82,340)
-	end,
-	dig=function(P)
-		setFont(70)
-		mStr(P.modeData.event,-82,310)
-		mDraw(drawableText.wave,-82,375)
-	end,
-	survivor=function(P)
-		setFont(70)
-		mStr(P.modeData.event,-82,310)
-		mDraw(drawableText.wave,-82,375)
-	end,
-	defender=function(P)
-		setFont(60)
-		mStr(P.modeData.point,-82,315)
-		mDraw(drawableText.rpm,-82,375)
-	end,
-	attacker=function(P)
-		setFont(60)
-		mStr(P.modeData.point,-82,315)
-		mDraw(drawableText.rpm,-82,375)
-	end,
-	tech=function(P)
-		setFont(50)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		mDraw(drawableText.atk,-82,363)
-		mDraw(drawableText.eff,-82,475)
-	end,
-	c4wtrain=function(P)
-		setFont(50)
-		mStr(max(100-P.stat.row,0),-82,220)
-		mStr(P.combo,-82,310)
-		mStr(P.modeData.point,-82,400)
-		mDraw(drawableText.combo,-82,358)
-		mDraw(drawableText.mxcmb,-82,450)
-	end,
-	pctrain=function(P)
-		setFont(80)
-		mStr(P.stat.pc,-82,330)
-		mDraw(drawableText.pc,-82,412)
-	end,
-	pcchallenge=function(P)
-		setFont(50)
-		mStr(max(100-P.stat.row,0),-82,250)
-		
-		setFont(80)
-		mStr(P.stat.pc,-82,350)
-		mDraw(drawableText.pc,-82,432)
-
-		gc.setColor(.5,.5,.5)
-		if frame>179 then
-			local y=72*(7-(P.stat.piece+(P.hd.id>0 and 2 or 1))%7)-36
-			gc.line(320,y,442,y)
-		end
-	end,
-	techmino49=function(P)
-		setFont(40)
-		mStr(#players.alive.."/49",-82,175)
-		mStr(P.ko,-70,215)
-		gc.draw(drawableText.ko,-127,225)
-		setFont(25)
-		gc.setColor(1,.5,0,.6)
-		gc.print(P.badge,-47,227)
-		gc.setColor(1,1,1)
-		setFont(30)
-		gc.print(up0to4[P.strength],-132,290)
-		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-138,260)
-		end
-	end,
-	techmino99=function(P)
-		setFont(40)
-		mStr(#players.alive.."/99",-82,175)
-		mStr(P.ko,-70,215)
-		gc.draw(drawableText.ko,-127,225)
-		setFont(25)
-		gc.setColor(1,.5,0,.6)
-		gc.print(P.badge,-47,227)
-		gc.setColor(1,1,1)
-		setFont(30)
-		gc.print(up0to4[P.strength],-132,290)
-		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-138,260)
-		end
-	end,
-	drought=function(P)
-		setFont(75)
-		mStr(max(100-P.stat.row,0),-82,280)
-	end,
-	custom=function(P)
-		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
-			setFont(60)
-			mStr(P.stat.row,-82,225)
-			mDraw(drawableText.line,-82,290)
-		else
-			setFont(60)
-			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
-		end
-		if P.gameEnv.puzzle and P.modeData.event==0 then
-			gc.setLineWidth(3)
-			for y=1,preField.h do for x=1,10 do
-				local B=preField[y][x]
-				if B>7 then
-					gc.setColor(blockColor[B])
-					gc.rectangle("line",30*x-23,607-30*y,16,16)
-				elseif B>0 then
-					local c=blockColor[B]
-					gc.setColor(c[1],c[2],c[3],.6)
-					gc.rectangle("line",30*x-25,605-30*y,20,20)
-					gc.rectangle("line",30*x-20,610-30*y,10,10)
-				elseif B==-1 then
-					gc.setColor(1,1,1,.4)
-					gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
-					gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
-				end
-			end end
-		end
-	end
-}
 --------------Used in draw player↑
 
 player={}local player=player
@@ -449,7 +269,7 @@ function newDemoPlayer(id,x,y,size)
 	for k,v in next,player do P[k]=v end
 	players.alive[#players.alive+1]=P
 	P.x,P.y,P.size=x,y,size
-	P.fieldOffX,P.fieldOffY=0,0
+	P.fieldOff={x=0,y=0,vx=0,vy=0}
 	P.small,P.keyRec=false,false
 
 	P.centerX,P.centerY=P.x+300*P.size,P.y+670*P.size
@@ -560,7 +380,7 @@ function newPlayer(id,x,y,size,AIdata)
     for k,v in next,player do P[k]=v end--Class function
 	players.alive[#players.alive+1]=P
 	P.x,P.y,P.size=x,y,size or 1
-	P.fieldOffX,P.fieldOffY=0,0--for Shake fx
+	P.fieldOff={x=0,y=0,vx=0,vy=0}--for shake FX
 	P.small=P.size<.1--if draw in small mode
 	P.keyRec=not P.small--if calculate keySpeed
 	if P.small then
@@ -750,7 +570,11 @@ function player.update(P,dt)
 					else
 						P.act.insLeft(P,true)
 					end
-					if x~=P.curX then P.moving=P.moving+P.gameEnv.arr-1 end
+					if x~=P.curX then
+						P.moving=P.moving+P.gameEnv.arr-1
+					elseif not P.small then
+						P.fieldOff.vx=-setting.shakeFX*.8
+					end
 				end
 			else
 				P.moving=0
@@ -766,14 +590,18 @@ function player.update(P,dt)
 					else
 						P.act.insRight(P,true)
 					end
-					if x~=P.curX then P.moving=P.moving-P.gameEnv.arr+1 end
+					if x~=P.curX then
+						P.moving=P.moving-P.gameEnv.arr+1
+					elseif not P.small then
+						P.fieldOff.vx=setting.shakeFX*.8
+					end
 				end
 			else
 				P.moving=0
 			end
 		end
 		if P.keyPressing[7]and not P.keyPressing[9]then
-			local d=abs(P.downing)-P.gameEnv.sddas
+			local d=P.downing-P.gameEnv.sddas
 			P.downing=P.downing+1
 			if d>1 then
 				if P.gameEnv.sdarr>0 then
@@ -783,6 +611,9 @@ function player.update(P,dt)
 				else
 					P.act.insDown(P)
 				end
+				if not P.small then
+					P.fieldOff.vy=setting.shakeFX*.5
+				end			
 			end
 		else
 			P.downing=0
@@ -878,12 +709,13 @@ function player.update(P,dt)
 			rem(P.shade,i)
 		end
 	end
-	if P.fieldOffY>0 then
-		P.fieldOffY=P.fieldOffY-(P.fieldOffY>3 and 2 or 1)
-	end
-	if P.fieldOffX~=0 then
-		P.fieldOffX=P.fieldOffX-(P.fieldOffX>0 and 1 or -1)
-	end
+	
+	if setting.shakeFX>0 then
+		local O=P.fieldOff
+		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .08 or -.08),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .08 or -.08)
+		O.x,O.y=O.x+O.vx,O.y+O.vy
+	end--field shaking
+
 	for i=#P.bonus,1,-1 do
 		local b=P.bonus[i]
 		if b.inf then
@@ -964,7 +796,7 @@ function player.draw(P)
 		gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)
 		gc.setLineWidth(7)gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690,3)
 		--Frame
-		gc.translate(150+P.fieldOffX,70+P.fieldOffY)
+		gc.translate(150+P.fieldOff.x,70+P.fieldOff.y)
 		if P.gameEnv.grid then
 			gc.setLineWidth(1)
 			gc.setColor(1,1,1,.2)
@@ -975,7 +807,7 @@ function player.draw(P)
 			end
 		end--Grid
 		gc.translate(0,P.fieldBeneath)
-		gc.setScissor(scr.x+P.absFieldX*scr.k,scr.y+P.absFieldY*scr.k,300*P.size*scr.k,610*P.size*scr.k)
+		gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 			if P.falling==-1 then
 				for j=int(P.fieldBeneath/30+1),#P.field do
 					for i=1,10 do
@@ -1120,7 +952,7 @@ function player.draw(P)
 			end
 			gc.rectangle("line",-16,-3,15,604)--Draw b2b bar boarder
 			--B2B indictator
-			gc.translate(-P.fieldOffX,-P.fieldOffY)
+			gc.translate(-P.fieldOff.x,-P.fieldOff.y)
 		gc.setBlendMode("alpha")
 
 		if P.gameEnv.hold then
@@ -1175,7 +1007,7 @@ function player.draw(P)
 		drawDial(405,575,P.keySpeed)
 		--Speed dials
 		gc.setColor(1,1,1)
-		if mesDisp[curMode.id]then mesDisp[curMode.id](P)end--Other messages
+		modes[curMode.id].mesDisp(P)--Other messages
 		if modeEnv.royaleMode then
 			if P.atkMode then
 				gc.setColor(1,.8,0,P.swappingAtkMode*.02)
@@ -1189,7 +1021,7 @@ function player.draw(P)
 end
 function player.demoDraw(P)
 	gc.push("transform")
-	gc.translate(P.x,P.y)gc.scale(P.size)gc.translate(P.fieldOffX,P.fieldOffY)
+	gc.translate(P.x,P.y)gc.scale(P.size)gc.translate(P.fieldOff.x,P.fieldOff.y)
 	--Camera
 	gc.setColor(.1,.1,.1,.8)gc.rectangle("fill",0,0,300,600)
 	gc.setLineWidth(2)gc.setColor(1,1,1)gc.rectangle("line",-1,-1,302,602)
@@ -1264,7 +1096,7 @@ function player.demoDraw(P)
 	--Next
 	gc.setColor(1,1,1)
 	gc.draw(PTC.dust[P.id])
-	gc.translate(-P.fieldOffX,-P.fieldOffY)
+	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
 	for i=1,#P.bonus do
 		P.bonus[i]:draw(min((30-abs(P.bonus[i].t-30))*.05,1)*(not P.bonus[i].inf and #P.field>(9-P.bonus[i].dy*.0333)and .7 or 1))
 	end--Effects
@@ -1544,9 +1376,7 @@ function player:freshgho()
 				if setting.dropFX>0 then
 					self:createShade(self.curX,self.curY+1,self.curX+self.c-1,self.y_img+self.r-1)
 				end
-				if setting.shakeFX>0 then
-					self.fieldOffY=2*setting.shakeFX+1
-				end
+				self.fieldOff.vy=setting.shakeFX*.8
 			end
 			self.curY=self.y_img
 		end
@@ -1917,7 +1747,7 @@ function player:drop()--Place piece
 			self.lastClear=74
 			self.stat.clear_4=self.stat.clear_4+1
 			if self.human then
-				VOICE("tts",CHN)
+				VOICE("techrash",CHN)
 			end
 		elseif cc>0 then
 			local clearKey=clear_n
@@ -1961,8 +1791,7 @@ function player:drop()--Place piece
 				clearKey=spin_n
 				if self.human then
 					SFX(spin_n[cc])
-					VOICE(blockName[self.cur.name],CHN)
-					VOICE("spin_",CHN)
+					VOICE(spinName[self.cur.name],CHN)
 				end
 			elseif #self.field>0 then
 				self.b2b=max(self.b2b-250,0)
@@ -2080,18 +1909,33 @@ function player:drop()--Place piece
 		end
 	else
 		self.combo=0
+		local dropScore=10
 		if dospin then
 			self:showText(text.spin[self.cur.name],"appear",50,-30)
 			self.b2b=self.b2b+20
 			self.stat.spin_0=self.stat.spin_0+1
 			if self.human then
 				SFX("spin_0")
-				VOICE(blockName[self.cur.name],CHN)
-				VOICE("spin",CHN)
+				VOICE(spinName[self.cur.name],CHN)
 			end
-			cscore=cscore+30
+			dropScore=25--spin bonus
 		end
-		cscore=cscore+10
+
+		if self.gameEnv._20G then
+			dropScore=dropScore*2
+		elseif self.gameEnv.drop<3 then
+			dropScore=dropScore*1.5
+		end--dropSpeed bonus
+
+		if self.dropSpeed>60 then
+			dropScore=dropScore*self.dropSpeed/60
+		elseif self.dropSpeed>120 then
+			dropScore=dropScore*1,2*self.dropSpeed/120
+		elseif self.dropSpeed>180 then
+			dropScore=dropScore*1.5*self.dropSpeed/180
+		end--speed bonus
+
+		cscore=cscore+int(dropScore)
 		if self.b2b>1000 then
 			self.b2b=max(self.b2b-40,1000)
 		end
@@ -2209,19 +2053,19 @@ function player.act.hardDrop(P)
 				if setting.dropFX>0 then
 					P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 				end
-				if setting.shakeFX>0 then
-					P.fieldOffY=2*setting.shakeFX+1
-				end
 			end
 			P.curY=P.y_img
 			P.spinLast=false
+			if not P.small then
+				P.fieldOff.vy=setting.shakeFX
+			end
 			if P.human then
 				SFX("drop",nil,getBlockDirection(P))
 				VIB(1)
 			end
 		end
 		P.lockDelay=-1
-		P:drop()------------------------------------BUG:drop==number?
+		P:drop()
 		P.keyPressing[6]=false
 	end
 end
@@ -2264,10 +2108,10 @@ function player.act.insLeft(P,auto)
 		P:freshgho()
 	end
 	if x0~=P.curX then
-		if P.human and setting.shakeFX>0 then
-			P.fieldOffX=-2*setting.shakeFX
-		end
 		if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
+	end
+	if not P.small then
+		P.fieldOff.vx=-setting.shakeFX*.8
 	end
 	if auto then
 		if P.ctrlCount==0 then P.ctrlCount=1 end
@@ -2285,10 +2129,10 @@ function player.act.insRight(P,auto)
 		P:freshgho()
 	end
 	if x0~=P.curX then
-		if P.human and setting.shakeFX>0 then
-			P.fieldOffX=2*setting.shakeFX
-		end
 		if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
+	end
+	if not P.small then
+		P.fieldOff.vx=setting.shakeFX*.8
 	end
 	if auto then
 		if P.ctrlCount==0 then P.ctrlCount=1 end
@@ -2301,9 +2145,6 @@ function player.act.insDown(P)
 		if not P.small then
 			if setting.dropFX>0 then
 				P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
-			end
-			if setting.shakeFX>0 then
-				P.fieldOffY=2*setting.shakeFX
 			end
 		end
 		P.curY,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false
