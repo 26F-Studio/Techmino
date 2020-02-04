@@ -81,6 +81,16 @@ FX={
 		gc.setColor(1,1,1,a*(rnd()+.5))
 		mStr(t.text,150,250-t.font*.5+t.dy)
 	end,
+	zoomout=function(t,a)
+		gc.push("transform")
+			setFont(t.font)
+			gc.translate(150,290+t.dy)
+			gc.setColor(1,1,1,a)
+			local k=t.t^.5*.2+1
+			gc.scale(k,k)
+			mStr(t.text,0,-t.font*.5)
+		gc.pop()
+	end
 }
 
 function drawButton()
@@ -195,7 +205,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.6",370,150)
+	gc.print("Alpha V0.65",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -386,12 +396,12 @@ function Pnt.play()
 				if h>600 then break end
 			end--Buffer line
 
-			gc.setColor(b2b<100 and color.white or b2b<=480 and color.lightRed or color.lightBlue)
-			gc.rectangle("fill",-15,600,10,-b2b1)
+			gc.setColor(b2b<100 and color.white or b2b<=500 and color.lightRed or color.lightBlue)
+			gc.rectangle("fill",-17,600,10,-b2b1)
 			gc.setColor(color.red)
-			gc.rectangle("fill",-20,600-100,16,5)
+			gc.rectangle("fill",-23,600-100,16,5)
 			gc.setColor(color.blue)
-			gc.rectangle("fill",-20,600-480,16,5)
+			gc.rectangle("fill",-23,600-500,16,5)
 			--B2B bar
 
 			setFont(40)
@@ -432,7 +442,7 @@ function Pnt.play()
 
 			gc.setColor(1,1,1)
 			setFont(40)
-			gc.print(format("%0.2f",time),-125,530)--Draw time
+			gc.print(format("%0.2f",time),-130,530)--Draw time
 			if mesDisp[gamemode]then mesDisp[gamemode]()end--Draw other message
 
 			setFont(15)

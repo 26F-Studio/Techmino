@@ -248,7 +248,7 @@ function love.touchpressed(id,x,y)
 			pressKey(t)
 		end
 	elseif scene=="setting3"then
-		sel=nil
+		x,y=convert(x,y)
 		for K=1,#virtualkey do
 			local b=virtualkey[K]
 			if (x-b[1])^2+(y-b[2])^2<b[3]then
@@ -276,10 +276,10 @@ function love.touchreleased(id,x,y)
 		end
 	elseif scene=="setting3"and sel then
 		x,y=convert(x,y)
-		dx,dy=dx*screenK,dy*screenK
 		if sel then
 			local b=virtualkey[sel]
-			b[1],b[2]=int(b[1]/snapLevelValue[snapLevel]+.5)*40,int(b[2]/snapLevelValue[snapLevel]+.5)*snapLevelValue[snapLevel]
+			local k=snapLevelValue[snapLevel]
+			b[1],b[2]=int(b[1]/k+.5)*k,int(b[2]/k+.5)*k
 		end
 	end
 end

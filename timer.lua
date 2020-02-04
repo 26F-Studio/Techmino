@@ -189,7 +189,7 @@ function Tmr.play(dt)
 				end
 			end
 			P.b2b1=P.b2b1*.93+P.b2b*.07
-			if P.b2b>480 then P.b2b=P.b2b-1 end
+			if P.b2b>500 then P.b2b=P.b2b-.1 end
 			--ALive
 		else
 			P.keySpeed=keySpeed*.96+cstat.key/time*60*.04

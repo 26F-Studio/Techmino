@@ -89,6 +89,7 @@ bgm={
 	"race",
 	"push",
 	"reason",
+	"hide",
 }
 
 prevMenu={
@@ -108,12 +109,13 @@ prevMenu={
 	main="quit",
 }
 
-modeID={"sprint","marathon","zen","solo","death","blind","tetris41","asymsolo","gmroll","p2","p3","p4"}
-modeName={"Sprint","Marathon","Zen","1v1","Death","Blind","Tetris 41","Asymmetry solo","GM roll","2P","3P","4P"}
+modeID={"sprint","marathon","zen","infinite","solo","death","blind","tetris41","asymsolo","gmroll","p2","p3","p4"}
+modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","Blind","Tetris 41","Asymmetry solo","GM roll","2P","3P","4P"}
 modeInfo={
 	sprint="Clear 40 Lines",
 	marathon="Clear 200 Lines",
 	zen="Clear 200 Lines without gravity",
+	infinite="Infinite game,infinite happy",
 	solo="Beat AI",
 	death="Survive under terrible speed",
 	blind="Invisible board!",
@@ -141,7 +143,7 @@ marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
 death_lock={10,9,8,7,6}
 death_wait={6,5,4,3,2}
 death_fall={10,8,7,6,5}
-snapLevelValue={1,10,20,40,80}
+snapLevelValue={1,10,20,40,60,80}
 snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 
 act={
@@ -322,7 +324,7 @@ Buttons={
 			code=function()
 				setting.bgblock=not setting.bgblock
 				if not setting.bgblock then
-					for i=1,116 do
+					for i=1,16 do
 						BGblockList[i].v=3*BGblockList[i].v
 					end
 				end
@@ -355,7 +357,7 @@ Buttons={
 			end--Reset virtualkey
 		end},
 		{x=640,y=310,w=170,h=80,t=function()return snapLevelName[snapLevel]end,code=function()
-			snapLevel=snapLevel%5+1
+			snapLevel=snapLevel%6+1
 		end},
 		{x=830,y=310,w=170,h=80,t=function()return percent0to5[setting.virtualkeyAlpha]end,code=function()
 			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6

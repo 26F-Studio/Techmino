@@ -221,7 +221,7 @@ function pressKey(i,player)
 
 		ins(keyTime,1,frame)rem(keyTime,11)
 		cstat.key=cstat.key+1
-		if not player then stat.key=stat.key+1 end
+		if player.id==1 then stat.key=stat.key+1 end
 		--Key count
 	end
 	-- if playmode=="recording"then ins(rec,{i,frame})end
@@ -321,7 +321,7 @@ function drop()
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
-			if b2b>480 then
+			if b2b>500 then
 				showText("Tetris B2B2B","fly",70)
 				csend=6
 				exblock=exblock+2
@@ -338,7 +338,7 @@ function drop()
 			P.cstat.tetris=P.cstat.tetris+1
 		elseif cc>0 then
 			if dospin then
-				if b2b>480 then
+				if b2b>500 then
 					showText(spinName[cc][bn].." B2B2B","spin",40)
 					csend=b2bATK[cc]+1
 					exblock=exblock+1
@@ -382,7 +382,9 @@ function drop()
 			exblock=exblock+2
 			sendTime=sendTime+30
 			SFX("perfectclear")
-			P.b2b=b2b+150
+			if cstat.piece>10 then
+				P.b2b=600
+			end
 		end
 
 		csend=csend+(renATK[combo]or 4)
@@ -403,8 +405,8 @@ function drop()
 			csend=int(csend)
 			--Buffs
 
-			stat.atk=stat.atk+csend
 			P.cstat.atk=P.cstat.atk+csend
+			if P.id==1 then stat.atk=stat.atk+csend end
 			--ATK statistics
 
 			while csend>0 and P.atkBuffer[1]do
@@ -423,14 +425,19 @@ function drop()
 				end
 			end
 			if csend>0 then
-				showText(csend,"appear",30,50)
+				showText(csend,"zoomout",25,70)
 				if #players.alive>1 then
 					garbageSend(P.id,csend,sendTime)
 				end
 			end
 		elseif cc==0 then
+			if P.b2b>450 then
+				P.b2b=max(b2b-2,450)
+			elseif P.b2b>100 then
+				P.b2b=max(b2b-5,100)
+			end
 			garbageRelease()
-		end--Send attack
+		end
 		if id==1 then
 			stat.piece,stat.row=stat.piece+1,stat.row+cc
 		end

@@ -116,6 +116,17 @@ loadmode={
 		curBG="strap"
 		BGM("reason")
 	end,
+	infinite=function()
+		modeEnv={
+			drop=1e99,
+			lock=1e99,
+			wait=1,
+			fall=1,
+		}
+		createPlayer(1,340,15)
+		curBG="glow"
+		BGM("hide")
+	end,
 	gmroll=function()
 		modeEnv={
 			drop=0,
@@ -227,7 +238,7 @@ loadmode={
 	p2=function()
 		modeEnv={
 			wait=1,
-			fall=30,
+			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,20,15)
@@ -239,7 +250,7 @@ loadmode={
 	p3=function()
 		modeEnv={
 			wait=1,
-			fall=30,
+			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,20,100,.65)
@@ -252,7 +263,7 @@ loadmode={
 	p4=function()
 		modeEnv={
 			wait=1,
-			fall=30,
+			fall=1,
 			freshLimit=15,
 		}
 		createPlayer(1,25,150,.5)
@@ -393,6 +404,14 @@ mesDisp={
 		setFont(75)
 		mStr(max(200-P.cstat.row,0),-75,280)
 	end,
+	infinite=function()
+		setFont(50)
+		mStr(cstat.atk,-75,320)
+		mStr(format("%.2f",2.5*cstat.atk/cstat.piece),-75,430)
+		setFont(20)
+		gc.print("Attack",-103,360)
+		gc.print("Efficiency",-114,472)
+	end,
 	gmroll=function()
 		setFont(35)
 		gc.print("Tetris",-120,390)
@@ -503,7 +522,7 @@ stat={
 	spin=0,
 }
 --User Data&User Setting
---------------------------------Warning!_G is __indexed to players[n] when changing any player's data!
+--------------------------------Wrning!_G __index Ply[n] when chng any playr's elments!
 require("list")
 require("texture")
 require("ai")

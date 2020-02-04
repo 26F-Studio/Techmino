@@ -13,7 +13,7 @@ function sysSFX(s,v)
 	end
 end
 function SFX(s,v)
-	if setting.sfx then
+	if setting.sfx and not P.ai then
 		local n=1
 		while sfx[s][n]:isPlaying()do
 			n=n+1
@@ -22,10 +22,6 @@ function SFX(s,v)
 				sfx[s][n]:seek(0)
 				break
 			end
-		end
-		if P.id>1 then
-			v=1/(#players.alive-1)
-			-- if v<.02 then return nil end
 		end
 		sfx[s][n]:setVolume(v or 1)
 		sfx[s][n]:play()
