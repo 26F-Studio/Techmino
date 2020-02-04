@@ -3,7 +3,8 @@ local ms,kb=love.mouse,love.keyboard
 local fs,sys=love.filesystem,love.system
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
-ins,rem,sort=table.insert,table.remove,table.sort
+ins,rem,concat=table.insert,table.remove,table.concat
+-- sort=table.sort
 math.randomseed(os.time()*626)
 null=function()end
 
@@ -13,9 +14,10 @@ scene=""
 bgmPlaying=nil
 curBG="none"
 
-kb.setKeyRepeat(false)
-kb.setTextInput(false)
-ms.setVisible(false)
+local F=false
+kb.setKeyRepeat(F)
+kb.setTextInput(F)
+ms.setVisible(F)
 
 local Fonts={}
 function setFont(s)
@@ -36,8 +38,8 @@ gameEnv0={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ghost=true,center=true,
-	grid=false,swap=true,
-	_20G=false,bone=false,
+	grid=F,swap=true,
+	_20G=F,bone=F,
 	drop=30,lock=45,
 	wait=0,fall=0,
 	next=6,hold=true,oncehold=true,
@@ -45,7 +47,7 @@ gameEnv0={
 
 	block=true,
 	keepVisible=true,visible="show",
-	Fkey=false,puzzle=false,ospin=true,
+	Fkey=F,puzzle=F,ospin=true,
 	freshLimit=1e99,target=1e99,reach=null,
 	bg="none",bgm="race"
 }
@@ -70,14 +72,14 @@ end
 --Game system Data
 setting={
 	ghost=true,center=true,
-	grid=false,swap=true,
+	grid=F,swap=true,
 	fxs=true,bg=true,
 
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	
 	sfx=true,bgm=true,vib=3,
-	fullscreen=false,
+	fullscreen=F,
 	bgblock=true,
 	lang=1,
 	keyMap={
@@ -117,20 +119,16 @@ setting={
 	},
 	virtualkeyAlpha=3,
 	virtualkeyIcon=true,
-	virtualkeySwitch=false,
+	virtualkeySwitch=F,
 	frameMul=100,
 }
 stat={
-	run=0,
-	game=0,
-	gametime=0,
-	piece=0,
-	row=0,
-	atk=0,
-	key=0,
-	hold=0,
-	rotate=0,
-	spin=0,
+	run=0,game=0,time=0,
+	key=0,rotate=0,hold=0,piece=0,row=0,
+	atk=0,send=0,recv=0,pend=0,
+	clear_1=0,clear_2=0,clear_3=0,clear_4=0,
+	spin_0=0,spin_1=0,spin_2=0,spin_3=0,
+	b2b=0,b3b=0,pc=0,
 }
 virtualkey={
 	{80,720-80,6400,80},--moveLeft
@@ -150,7 +148,7 @@ virtualkey={
 	]]
 
 }
-virtualkeyDown={false,false,false,false,false,false,false,false,false,false,false,false,false}
+virtualkeyDown={F,F,F,F,F,F,F,F,F,F,F,F,F}
 virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 --User Data&User Setting
 require"toolfunc"
@@ -172,6 +170,6 @@ if fs.getInfo("usersetting")then
 	loadSetting()
 elseif system=="Android" or system=="iOS"then
 	setting.virtualkeySwitch=true
-	setting.swap=false
+	setting.swap=F
 end
 swapLanguage(setting.lang)

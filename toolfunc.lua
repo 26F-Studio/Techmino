@@ -14,7 +14,7 @@ local function splitS(s,sep)
 	return t
 end
 function mStr(s,x,y)
-	gc.printf(s,x-300,y,600,"center")
+	gc.printf(s,x-320,y,640,"center")
 end
 
 function getNewRow(val)
@@ -36,8 +36,8 @@ function removeRow(t,k)
 end
 
 --Single-usage funcs
-langName={"中文","English"}
-local langID={"chi","eng"}
+langName={"中文","全中文","English"}
+local langID={"chi","chi_full","eng"}
 function swapLanguage(l)
 	text=require("language/"..langID[l])
 	Buttons.sel=nil
@@ -66,7 +66,7 @@ function swapLanguage(l)
 	collectgarbage()
 end
 
-local vibrateLevel={0,0,.03,.04,.05,.07,.9}
+local vibrateLevel={0,.02,.03,.04,.05,.06,.07,.08}
 function VIB(t)
 	if setting.vib>0 then
 		love.system.vibrate(vibrateLevel[setting.vib+t])
@@ -175,6 +175,12 @@ function gotoScene(s,style)
 		end
 	end
 end
+function updateStat()
+	for k,v in next,players[1].stat do
+		print(k)
+		stat[k]=stat[k]+v
+	end
+end
 local prevMenu={
 	load=love.event.quit,
 	intro="quit",
@@ -187,13 +193,11 @@ local prevMenu={
 	end,
 	ready="mode",
 	play=function()
+		updateStat()
 		clearTask("play")
 		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
 	end,
-	pause=function()
-		clearTask("play")
-		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
-	end,
+	pause=null,
 	help="main",
 	stat="main",
 	setting=function()
@@ -202,7 +206,7 @@ local prevMenu={
 	end,
 	setting2="setting",
 	setting3="setting",
-}
+}prevMenu.pause=prevMenu.play
 function back()
 	local t=prevMenu[scene]
 	if type(t)=="string"then
@@ -212,7 +216,11 @@ function back()
 	end
 end
 function pauseGame()
-	if bgmPlaying then bgm[bgmPlaying]:pause()end
+	pauseTimer=0--Pause timer for animation
+	if not gamefinished then
+		pauseCount=pauseCount+1
+		if bgmPlaying then bgm[bgmPlaying]:pause()end
+	end
 	for i=1,#players.alive do
 		local l=players.alive[i].keyPressing
 		for j=1,#l do
@@ -228,16 +236,12 @@ function resumeGame()
 	gotoScene("play","fade")
 end
 local dataOpt={
-	"run",
-	"game",
-	"gametime",
-	"piece",
-	"row",
-	"atk",
-	"key",
-	"rotate",
-	"hold",
-	"spin",
+	"run","game","time",
+	"key","rotate","hold","piece","row",
+	"atk","send","recv","pend",
+	"clear_1","clear_2","clear_3","clear_4",
+	"spin_0","spin_1","spin_2","spin_3",
+	"b2b","b3b","pc",
 }
 local saveOpt={
 	"ghost","center",
@@ -268,10 +272,15 @@ function loadData()
 		if find(i,"=")then
 			local t=sub(i,1,find(i,"=")-1)
 			local v=sub(i,find(i,"=")+1)
-			if t=="run"or t=="game"or t=="gametime"or t=="piece"or t=="row"or t=="atk"or t=="key"or t=="rotate"or t=="hold"or t=="spin"then
+			if t=="gametime"then t="time"end
+			for i=1,#dataOpt do
+				if t==dataOpt[i]then goto L end
+			end
+			goto E
+			::L::
 				v=toN(v)if not v or v<0 then v=0 end
 				stat[t]=v
-			end
+			::E::
 		end
 	end
 end
@@ -280,7 +289,7 @@ function saveData()
 	for i=1,#dataOpt do
 		ins(t,dataOpt[i].."="..toS(stat[dataOpt[i]]))
 	end
-	t=table.concat(t,"\r\n")
+	t=concat(t,"\r\n")
 	--t=love.math.compress(t,"zlib"):getString()
 	userData:open("w")
 	userData:write(t)
@@ -299,7 +308,7 @@ function loadSetting()
 			if t=="sfx"or t=="bgm"or t=="bgblock"then
 				setting[t]=v=="true"
 			elseif t=="vib"then
-				setting.vib=toN(v:match("[01234]"))or 0
+				setting.vib=toN(v:match("[012345]"))or 0
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
@@ -348,7 +357,7 @@ function loadSetting()
 			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="fxs"or t=="bg"then
 				setting[t]=v=="true"
 			elseif t=="lang"then
-				setting[t]=toN(v:match("[12]"))or 1
+				setting[t]=toN(v:match("[123]"))or 1
 			end
 		end
 	end
@@ -359,25 +368,25 @@ function saveSetting()
 		for j=1,4 do
 			virtualkey[i][j]=int(virtualkey[i][j]+.5)
 		end--Saving a integer is better?
-		vk[i]=table.concat(virtualkey[i],",")
+		vk[i]=concat(virtualkey[i],",")
 	end--pre-pack virtualkey setting
 	local map={}
 	for i=1,16 do
-		map[i]=table.concat(setting.keyMap[i],",")
+		map[i]=concat(setting.keyMap[i],",")
 	end
 	local lib={}
 	for i=1,4 do
-		lib[i]=table.concat(setting.keyLib[i],",")
+		lib[i]=concat(setting.keyLib[i],",")
 	end
 	local t={
-		"keymap="..toS(table.concat(map,"/")),
-		"keylib="..toS(table.concat(lib,"/")),
-		"virtualkey="..toS(table.concat(vk,"/")),
+		"keymap="..toS(concat(map,"/")),
+		"keylib="..toS(concat(lib,"/")),
+		"virtualkey="..toS(concat(vk,"/")),
 	}
 	for i=1,#saveOpt do
 		ins(t,saveOpt[i].."="..toS(setting[saveOpt[i]]))
 	end
-	t=table.concat(t,"\r\n")
+	t=concat(t,"\r\n")
 	--t=love.math.compress(t,"zlib"):getString()
 	userSetting:open("w")
 	userSetting:write(t)

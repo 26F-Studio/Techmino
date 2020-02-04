@@ -6,7 +6,7 @@ local testScore={[-1]=1,[-2]=0,[-3]=1,2,2,2}
 local visible_opt={show=1e99,time=300,fast=20,none=5}
 local reAtk={0,0,1,1,1,2,2,3,3}
 local reDef={0,1,1,2,3,3,4,4,5}
-local spin_n={"spin_1","spin_2","spin_3"}
+local spin_n={[0]="spin_0","spin_1","spin_2","spin_3"}
 local clear_n={"clear_1","clear_2","clear_3","clear_4"}
 local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
 
@@ -105,9 +105,9 @@ local freshMethod={
 		newNext(i)
 	end,--random
 	pc=function()
-		if P.cstat.piece%4==0 then
+		if P.stat.piece%4==0 then
 			local r=rnd(#PClist)
-			local f=P.cstat.event==1
+			local f=P.modeData.event==1
 			for i=1,4 do
 				local b=PClist[r][i]
 				if f then
@@ -117,7 +117,7 @@ local freshMethod={
 				end
 				newNext(b)
 			end
-			P.cstat.event=(P.cstat.event+1)%2
+			P.modeData.event=(P.modeData.event+1)%2
 		end
 	end,
 	drought1=function()
@@ -160,10 +160,35 @@ function loadGame(mode,level)
 	needResetGameData=true
 	gotoScene("play","deck")
 end
+function resetPartGameData()
+	frame=30
+	if players then
+		for _,P in next,players do if P.id then
+			while P.field[1]do
+				removeRow(P.field)
+				removeRow(P.visTime)
+			end
+		end end
+	end
+	players={alive={}}human=0
+	loadmode[curMode.id]()
+	if modeEnv.royaleMode then
+		for i=1,#players do
+			changeAtk(players[i],randomTarget(players[i]))
+		end
+	end
+	for i=1,#virtualkey do
+		virtualkey[i].press=false
+	end
+	collectgarbage()
+end
 function resetGameData()
+	gamefinished=false
 	frame=0
 	garbageSpeed=1
 	pushSpeed=3
+	pauseTime=0--Time paused
+	pauseCount=0--Times paused
 	if players then
 		for _,P in next,players do if P.id then
 			while P.field[1]do
@@ -179,7 +204,7 @@ function resetGameData()
 	BGM(modeEnv.bgm)
 
 	FX.beam={}
-	for k,v in pairs(PTC.dust)do
+	for _,v in next,PTC.dust do
 		v:release()
 	end
 	for i=1,#players do
@@ -205,6 +230,7 @@ function resetGameData()
 	while freeRow[p]do
 		rem(freeRow)
 	end
+	sysSFX("ready")
 	collectgarbage()
 end
 function gameStart()
@@ -247,12 +273,15 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.alive=true
 	P.control=false
 	P.timing=false
-	P.time=0
-	P.cstat={
-		key=0,piece=0,row=0,atk=0,
-		techrash=0,pc=0,
-		point=0,event=0
+	P.stat={
+		time=0,
+		key=0,rotate=0,hold=0,piece=0,row=0,
+		atk=0,send=0,recv=0,pend=0,
+		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
+		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
+		pc=0,b2b=0,b3b=0,
 	}--Current gamestat
+	P.modeData={point=0,event=0}--data use by mode
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
@@ -353,6 +382,7 @@ function garbageSend(S,R,send,time)
 			sent=false,
 			lv=min(int(send^.69),5),
 		})
+		R.stat.recv=R.stat.recv+send
 		if R.id==1 then sysSFX(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)end
 	end
 end
@@ -362,6 +392,7 @@ function garbageRelease()
 		if not A.sent and A.countdown<=0 then
 			garbageRise(8+A.lv,A.amount,A.pos)
 			P.atkBuffer.sum=P.atkBuffer.sum-A.amount
+			P.stat.pend=P.stat.pend+A.amount
 			A.sent=true
 			A.time=0
 		end
@@ -643,24 +674,24 @@ function spin(d,ifpre)
 				P.curX=P.curX-1
 				goto I
 			end
-			goto E
+			goto quit
 			::T::
 				P.cur.id=5
 				P.cur.bk=blocks[5][0]
 				P.sc=scs[5][0]
 				P.r,P.c,P.dir=2,3,0
 				P.spinLast=3
-				if P.id==1 then stat.rotate=stat.rotate+1 end
-				goto E
+				P.stat.rotate=P.stat.rotate+1
+			goto quit
 			::I::
 				P.cur.id=7
 				P.cur.bk=blocks[7][2]
 				P.sc=scs[7][2]
 				P.r,P.c,P.dir=1,4,2
 				P.spinLast=3
-				if P.id==1 then stat.rotate=stat.rotate+1 end
-		end
-		::E::return
+				P.stat.rotate=P.stat.rotate+1
+			end
+		goto quit
 	end
 	local icb=blocks[P.cur.id][idir]
 	local isc=scs[P.cur.id][idir]
@@ -675,7 +706,7 @@ function spin(d,ifpre)
 			goto spin
 		end
 	end
-	goto fail
+	goto quit
 	::spin::
 	createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 	P.curX,P.curY,P.dir=ix,iy,idir
@@ -685,10 +716,8 @@ function spin(d,ifpre)
 	freshgho()
 	freshLockDelay()
 	SFX(ifpre and"prerotate"or ifoverlap(P.cur.bk,P.curX,P.curY+1)and ifoverlap(P.cur.bk,P.curX-1,P.curY)and ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate")
-	if P.id==1 then
-		stat.rotate=stat.rotate+1
-	end
-	::fail::
+	P.stat.rotate=P.stat.rotate+1
+	::quit::
 end
 function hold(ifpre)
 	if not P.holded and P.waiting==-1 and P.gameEnv.hold then
@@ -712,9 +741,7 @@ function hold(ifpre)
 		if ifoverlap(P.cur.bk,P.curX,P.curY)then lock()Event_gameover.lose()end
 
 		SFX(ifpre and"prehold"or"hold")
-		if P.id==1 then
-			stat.hold=stat.hold+1
-		end
+		P.stat.hold=P.stat.hold+1
 	end
 end
 function drop()
@@ -739,7 +766,7 @@ function drop()
 			end--Immobile
 		end
 		lock()
-		local cc,csend,exblock,sendTime=checkrow(P.curY,P.r),0,0,0--Currect clear&send&sendTime
+		local cc,send,exblock,sendTime=checkrow(P.curY,P.r),0,0,0--Currect clear&send&sendTime
 		local mini
 		if P.spinLast and cc>0 and dospin>0 then
 			dospin=dospin+P.spinLast
@@ -760,71 +787,76 @@ function drop()
 		if cc==4 then
 			if P.b2b>1000 then
 				showText(P,text.techrashB3B,"fly",80,-30)
-				csend=6
+				send=6
 				sendTime=100
 				exblock=exblock+1
+				P.stat.b3b=P.stat.b3b+1
 			elseif P.b2b>=40 then
 				showText(P,text.techrashB2B,"drive",80,-30)
 				sendTime=80
-				csend=5
+				send=5
+				P.stat.b2b=P.stat.b2b+1
 			else
 				showText(P,text.techrash,"stretch",80,-30)
 				sendTime=60
-				csend=4
+				send=4
 			end
 			P.b2b=P.b2b+120
 			P.lastClear=74
-			P.cstat.techrash=P.cstat.techrash+1
+			P.stat.clear_4=P.stat.clear_4+1
 		elseif cc>0 then
+			local clearKey=clear_n
 			if dospin then
 				if P.b2b>1000 then
 					showText(P,text.b3b..text.spin[P.cur.name]..text.clear[cc],"spin",40,-30)
-					csend=b2bATK[cc]+1
+					send=b2bATK[cc]+1
 					exblock=exblock+1
+					P.stat.b3b=P.stat.b3b+1
 				elseif P.b2b>=40 then
 					showText(P,text.b2b..text.spin[P.cur.name]..text.clear[cc],"spin",40,-30)
-					csend=b2bATK[cc]
+					send=b2bATK[cc]
+					P.stat.b2b=P.stat.b2b+1
 				else
 					showText(P,text.spin[P.cur.name]..text.clear[cc],"spin",50,-30)
-					csend=2*cc
+					send=2*cc
 				end
-				sendTime=20+csend*20
+				sendTime=20+send*20
 				if mini then
 					showText(P,text.mini,"appear",40,-80)
-					csend=ceil(csend*.5)
+					send=ceil(send*.5)
 					sendTime=sendTime+60
 					P.b2b=P.b2b+b2bPoint[cc]*.8
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
 				P.lastClear=P.cur.id*10+cc
-				if P.id==1 then
-					stat.spin=stat.spin+1
-				end
+				clearKey=spin_n
 				SFX(spin_n[cc])
 			elseif #P.clearing<#P.field then
 				P.b2b=max(P.b2b-250,0)
 				showText(P,text.clear[cc],"appear",32+cc*3,-30,(8-cc)*.3)
-				csend=cc-1
-				sendTime=20+csend*20
+				send=cc-1
+				sendTime=20+send*20
 				P.lastClear=cc
 			end
+			P.stat[clearKey[cc]]=P.stat[clearKey[cc]]+1
 		else
 			P.combo=0
 			if dospin then
 				showText(P,text.spin[P.cur.name],"appear",50,-30)
 				SFX("spin_0")
 				P.b2b=P.b2b+20
+				P.stat.spin_0=P.stat.spin_0+1
 			end
 		end
-		csend=csend+(renATK[P.combo]or 4)
+		send=send+(renATK[P.combo]or 4)
 		if #P.clearing==#P.field then
 			showText(P,text.PC,"flicker",70,-80)
-			csend=min(csend,4)+min(6+P.cstat.pc,10)
+			send=min(send,4)+min(6+P.stat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+60
-			if P.cstat.row>4 then P.b2b=1200 end
-			P.cstat.pc=P.cstat.pc+1
+			if P.stat.row>4 then P.b2b=1200 end
+			P.stat.pc=P.stat.pc+1
 			P.lastClear=P.cur.id*10+5
 			SFX("perfectclear")
 		end
@@ -835,39 +867,38 @@ function drop()
 		if cc>0 then
 			SFX(clear_n[cc])
 			SFX(ren_n[min(P.combo,11)])
-			if P.id==1 then VIB(cc<3 and 1 or cc-1)end
+			if P.id==1 then VIB(cc)end
 		end
 		if P.b2b>1200 then P.b2b=1200 end
 
 		if cc>0 and modeEnv.royaleMode then
 			local i=min(#P.atker,9)
 			if i>1 then
-				csend=csend+reAtk[i]
+				send=send+reAtk[i]
 				exblock=exblock+reDef[i]
 			end
 		end
 
-		if csend>0 then
+		if send>0 then
 			if exblock then exblock=int(exblock*(1+P.strength*.25))end
-			csend=csend*(1+P.strength*.25)
-			if mini then csend=csend end
-			csend=int(csend)
+			send=send*(1+P.strength*.25)
+			if mini then send=send end
+			send=int(send)
 			--Badge Buff
 
-			P.cstat.atk=P.cstat.atk+csend
-			if P.id==1 then stat.atk=stat.atk+csend end
+			P.stat.atk=P.stat.atk+send
 			--ATK statistics
 
-			if csend==0 then goto L end
-				showText(P,csend,"zoomout",40,70)
+			if send==0 then goto L end
+				showText(P,send,"zoomout",40,70)
 			if exblock==0 then goto L end
 				showText(P,exblock,"zoomout",20,115)
 			::L::
-			if csend>0 and P.atkBuffer[1]then
+			if send>0 and P.atkBuffer[1]then
 				if exblock>0 then
 					exblock=exblock-1
 				else
-					csend=csend-1
+					send=send-1
 				end
 				P.atkBuffer[1].amount=P.atkBuffer[1].amount-1
 				P.atkBuffer.sum=P.atkBuffer.sum-1
@@ -876,24 +907,25 @@ function drop()
 				end
 				goto L
 			end
-			if csend>0 then
+			if send>0 then
 				if modeEnv.royaleMode then
 					if P.atkMode==4 then
 						if #P.atker>0 then
 							for i=1,#P.atker do
-								garbageSend(P,P.atker[i],csend,sendTime)
+								garbageSend(P,P.atker[i],send,sendTime)
 							end
 						else
-							garbageSend(P,randomTarget(P),csend,sendTime)
+							garbageSend(P,randomTarget(P),send,sendTime)
 						end
 					else
 						freshTarget(P)
-						garbageSend(P,P.atking,csend,sendTime)
+						garbageSend(P,P.atking,send,sendTime)
 					end
 				elseif #players.alive>1 then
-					garbageSend(P,randomTarget(P),csend,sendTime)
+					garbageSend(P,randomTarget(P),send,sendTime)
 				end
-				if P.id==1 and csend>3 then sysSFX("emit",min(csend,8)*.125)end
+				P.stat.send=P.stat.send+send
+				if P.id==1 and send>3 then sysSFX("emit",min(send,8)*.125)end
 			end
 		elseif cc==0 then
 			if P.b2b>1000 then
@@ -901,11 +933,8 @@ function drop()
 			end
 			garbageRelease()
 		end
-		if P.id==1 then
-			stat.piece,stat.row=stat.piece+1,stat.row+cc
-		end
-		P.cstat.piece,P.cstat.row=P.cstat.piece+1,P.cstat.row+cc
-		if P.cstat.row>=P.gameEnv.target then
+		P.stat.piece,P.stat.row=P.stat.piece+1,P.stat.row+cc
+		if P.stat.row>=P.gameEnv.target then
 			P.gameEnv.reach()
 		end
 		P.spinLast=dospin and cc>0
@@ -961,8 +990,7 @@ function pressKey(i,p)
 			end
 		end
 		ins(P.keyTime,1,frame)rem(P.keyTime,11)
-		P.cstat.key=P.cstat.key+1
-		if P.id==1 then stat.key=stat.key+1 end
+		P.stat.key=P.stat.key+1
 	end
 	--ins(rec,{i,frame})
 end
@@ -1017,7 +1045,7 @@ act={
 					P.curY=P.y_img
 					P.spinLast=false
 					SFX("drop")
-					if P.id==1 then VIB(1)end
+					if P.id==1 then VIB(0)end
 				end
 				P.lockDelay=-1
 				drop()
@@ -1064,8 +1092,12 @@ act={
 	end,
 	restart=function()
 		clearTask("play")
-		resetGameData()
-		frame=30
+		if frame>=180 then
+			updateStat()
+			resetGameData()
+		else
+			resetPartGameData()
+		end
 	end,
 	insDown=function()
 		if P.curY~=P.y_img then

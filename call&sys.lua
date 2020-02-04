@@ -12,26 +12,23 @@ local touching=nil--1st touching ID
 
 local sceneInit={
 	load=function()
-		curBG="none"
 		loading=1--Loading mode
 		loadnum=1--Loading counter
 		loadprogress=0--Loading bar(0~1)
 		loadTip=text.tips[rnd(#text.tips)]
 	end,
 	intro=function()
-		curBG="none"
 		count=0
 		BGM("blank")
 	end,
 	main=function()
-		curBG="none"
 		collectgarbage()
 	end,
 	mode=function()
+		curBG="none"
 		saveData()
 		modeSel=modeSel or 1
 		levelSel=levelSel or 3
-		curBG="none"
 		BGM("blank")
 	end,
 	custom=function()
@@ -44,23 +41,19 @@ local sceneInit={
 		clearSureTime=0
 		pen=1
 		sx,sy=1,1
-		curBG="none"
 	end,
 	play=function()
 		if needResetGameData then
 			resetGameData()
 			needResetGameData=nil
 		end
-		sysSFX("ready")
 	end,
 	pause=function()
-		pauseTime=0
 	end,
 	setting=function()
 		curBG="none"
 	end,
 	setting2=function()
-		curBG="none"
 		curBoard=1
 		keyboardSet=1
 		joystickSet=1
@@ -74,10 +67,8 @@ local sceneInit={
 		snapLevel=1
 	end,--Touch setting
 	help=function()
-		curBG="none"
 	end,
 	stat=function()
-		curBG="none"
 	end,
 	quit=function()
 		love.event.quit()
@@ -386,7 +377,9 @@ function keyDown.setting2(key)
 	end
 end
 function keyDown.play(key)
-	if key=="escape"then pauseGame()end
+	if key=="escape"and not sceneSwaping then
+		return(frame<180 and back or pauseGame)()
+	end
 	local m=setting.keyMap
 	for p=1,human do
 		local lib=setting.keyLib[p]
@@ -519,6 +512,7 @@ function love.mousepressed(x,y,k,t,num)
 			Buttons.sel=nil
 			love.mousemoved(x,y,0,0)
 			sysSFX("button")
+			VIB(1)
 		end
 	end
 end
@@ -553,7 +547,7 @@ end
 function love.touchpressed(id,x,y)
 	if not touching then
 		touching=id
-		love.mousemoved(x,y,0,0)
+		love.touchmoved(id,x,y,0,0)
 		mouseShow=false
 	end
 	if touchDown[scene]then
@@ -569,6 +563,7 @@ function love.touchreleased(id,x,y)
 			B.alpha=1
 			Buttons.sel=nil
 			sysSFX("button")
+			VIB(1)
 		end
 		Buttons.sel=nil
 		mouseShow=false
@@ -578,13 +573,11 @@ function love.touchreleased(id,x,y)
 	end
 end
 function love.touchmoved(id,x,y,dx,dy)
-	if not Buttons.sel then
-		touching=nil
-	end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if touchMove[scene]then
 		touchMove[scene](id,x,y,dx/scr.k,dy/scr.k)
 	end
+	Buttons.sel=nil
 	for _,B in next,Buttons[scene]do
 		if not(B.hide and B.hide())then
 			if abs(x-B.x)<B.w*.5 and abs(y-B.y)<B.h*.5 then
@@ -592,6 +585,9 @@ function love.touchmoved(id,x,y,dx,dy)
 				return
 			end
 		end
+	end
+	if not Buttons.sel then
+		touching=nil
 	end
 end
 
@@ -655,11 +651,8 @@ function love.lowmemory()
 	collectgarbage()
 end
 function love.resize(w,h)
-	if w>=h then scr.w,scr.h=w,h
-	else scr.w,scr.h=h,w
-	end
-	scr.r=h/w
-	if h/w>=.5625 then
+	scr.w,scr.h,scr.r=w,h,h/w
+	if scr.r>=.5625 then
 		scr.k=w/1280
 		scr.x,scr.y=0,(h-w*9/16)*.5
 	else
@@ -677,7 +670,7 @@ function love.update(dt)
 	--[[
 	if players then
 		for k,v in pairs(players[1])do
-			if rawget(_G,k)then print(k)end
+			if rawget(_G,k)and k~="next"and k~="hold"and k~="stat"then print(k,_G[v])end
 		end
 	end--check player data flew(debugging)
 	]]
@@ -733,24 +726,23 @@ function love.draw()
 		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
 		r=int(r)%7+1
 		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
-		gc.setColor(1,1,1,.5)
-		gc.circle("fill",mx,my,5)
-		gc.setColor(1,1,1)
-		gc.circle("fill",mx,my,3)
+		gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
+		gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 	end
 	if sceneSwaping then sceneSwaping.draw()end
 
-	if scr.r==.5625 then goto L end
+	if scr.r~=.5625 then
+		gc.setColor(0,0,0)
 		if scr.r>.5625 then
-			gc.setColor(0,0,0)
-			gc.rectangle("fill",0,0,1280,scr.w*9/16-scr.h)
-			gc.rectangle("fill",0,720,1280,scr.h-scr.w*9/16)
-		else
-			gc.setColor(0,0,0)
-			gc.rectangle("fill",0,0,scr.h*16/9-scr.w,720)
-			gc.rectangle("fill",1280,0,scr.w-scr.h*16/9,720)
-		end
-	::L::
+			local d=(scr.h-scr.w*9/16)*.5/scr.k
+			gc.rectangle("fill",0,0,1280,-d)
+			gc.rectangle("fill",0,720,1280,d)
+		else--high
+			local d=(scr.w-scr.h*16/9)*.5/scr.k
+			gc.rectangle("fill",0,0,-d,720)
+			gc.rectangle("fill",1280,0,d,720)
+		end--wide
+	end
 	setFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),5,700)
 	if devMode then

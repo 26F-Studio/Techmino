@@ -200,16 +200,16 @@ local virtualkeySet={
 		{80,320,6400,80},--restart
 	},--Keyboard set
 	{
-		{1200-360,40,1600,40},--moveLeft
+		{1200-370,40,1600,40},--moveLeft
 		{1200-280,40,1600,40},--moveRight
-		{1200-520,40,1600,40},--rotRight
-		{1200-600,40,1600,40},--rotLeft
-		{1200-440,40,1600,40},--rotFlip
-		{1200-40,40,1600,40},--hardDrop
-		{1200-120,40,1600,40},--softDrop
-		{1200-200,40,1600,40},--hold
-		{1200-680,40,1600,40},--func
-		{1200-760,40,1600,40},--restart
+		{1200-530,40,1600,40},--rotRight
+		{1200-610,40,1600,40},--rotLeft
+		{1200-450,40,1600,40},--rotFlip
+		{1200-50,40,1600,40},--hardDrop
+		{1200-130,40,1600,40},--softDrop
+		{1200-210,40,1600,40},--hold
+		{1200-690,40,1600,40},--func
+		{1200-770,40,1600,40},--restart
 	},--PC key feedback
 }
 Buttons={
@@ -297,8 +297,8 @@ Buttons={
 			BGM("blank")
 			end,down="vib",left="sfx"},
 		vib=	{x=850,y=160,	w=340,h=60,rgb=color.white,	code=function()
-			setting.vib=(setting.vib+1)%5
-			VIB(2)
+			setting.vib=(setting.vib+1)%6
+			VIB(1)
 			end,up="sfx",down="fullscreen",left="swap"},
 		fullscreen=	{x=850,y=230,	w=340,h=60,rgb=color.white,	code=function()
 			setting.fullscreen=not setting.fullscreen

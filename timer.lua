@@ -51,7 +51,7 @@ function Tmr.draw()
 end
 function Tmr.play(dt)
 	frame=frame+1
-	stat.gametime=stat.gametime+dt
+	stat.time=stat.time+dt
 
 	for i=#FX.beam,1,-1 do
 		local b=FX.beam[i]
@@ -97,7 +97,7 @@ function Tmr.play(dt)
 	end--Counting,include pre-das,directy RETURN
 	for p=1,#players do
 		P=players[p]
-		if P.timing then P.time=P.time+dt end
+		if P.timing then P.stat.time=P.stat.time+dt end
 		if P.alive then
 			if not P.small then
 				local v=0
@@ -125,9 +125,9 @@ function Tmr.play(dt)
 					else
 						AI_getControls(P.ai.controls)
 						P.ai.controlDelay=P.ai.controlDelay0+2
-						if Timer()-P.cstat.point>P.cstat.event then
-							P.cstat.point=Timer()
-							P.cstat.event=P.ai.controlDelay0+rnd(2,10)
+						if Timer()-P.modeData.point>P.modeData.event then
+							P.modeData.point=Timer()
+							P.modeData.event=P.ai.controlDelay0+rnd(2,10)
 							changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.35 and 2 or 3)
 						end
 					end
@@ -211,8 +211,8 @@ function Tmr.play(dt)
 			--Alive
 		else
 			if not P.small then
-				P.keySpeed=P.keySpeed*.96+P.cstat.key/P.time*60*.04
-				P.dropSpeed=P.dropSpeed*.96+P.cstat.piece/P.time*60*.04
+				P.keySpeed=P.keySpeed*.96+P.stat.key/P.stat.time*60*.04
+				P.dropSpeed=P.dropSpeed*.96+P.stat.piece/P.stat.time*60*.04
 				--Final average speeds
 				if modeEnv.royaleMode then
 					P.swappingAtkMode=min(P.swappingAtkMode+2,30)
@@ -277,7 +277,10 @@ function Tmr.play(dt)
 	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
 end
 function Tmr.pause(dt)
-	if not wd.isMinimized()and pauseTime<50 then
-		pauseTime=pauseTime+1
+	if not gamefinished then
+		pauseTime=pauseTime+dt
+	end
+	if pauseTimer<50 and not wd.isMinimized()then
+		pauseTimer=pauseTimer+1
 	end
 end

@@ -29,7 +29,7 @@ function clearTask(opt)
 	end
 end
 function Task:update()
-	if self.code(self.P,self.data)then
+	if(not self.P or self.P and scene=="play")and self.code(self.P,self.data)then
 		self:destroy()
 		return nil
 	end

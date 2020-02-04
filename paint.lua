@@ -37,7 +37,48 @@ local modeLevelColor={
 	["400L"]=color.red,
 	["1000L"]=color.darkRed,
 }
-
+local dataOptL={
+	"key","rotate","hold","piece","row",
+	"atk","send","recv","pend",
+}
+local function dataOpt(i)
+	local stat=players[1].stat
+	if i<10 then
+		return stat[dataOptL[i]]
+	elseif i==10 then
+		return stat.clear_1.."/"..stat.clear_2.."/"..stat.clear_3.."/"..stat.clear_4
+	elseif i==11 then
+		return "["..stat.spin_0.."]/"..stat.spin_1.."/"..stat.spin_2.."/"..stat.spin_3
+	elseif i==12 then
+		return stat.b2b.."[+"..stat.b3b.."]"
+	elseif i==13 then
+		return stat.pc
+	elseif i==14 then
+		return format("%0.2f",stat.atk/stat.row)
+	end
+end
+local statOptL={
+	"run","game",nil,
+	"key","rotate","hold","piece","row",
+	"atk","send","recv","pend",
+}
+local function statOpt(i)
+	if i<13 and i~=3 then
+		return stat[statOptL[i]]
+	elseif i==3 then
+		return format("%0.1fHr",stat.time*2.78e-4)
+	elseif i==13 then
+		return stat.clear_1.."/"..stat.clear_2.."/"..stat.clear_3.."/"..stat.clear_4
+	elseif i==14 then
+		return "["..stat.spin_0.."]/"..stat.spin_1.."/"..stat.spin_2.."/"..stat.spin_3
+	elseif i==15 then
+		return stat.b2b.."[+"..stat.b3b.."]"
+	elseif i==16 then
+		return stat.pc
+	elseif i==17 then
+		return format("%0.2f",stat.atk/stat.row)
+	end
+end
 local miniTitle_rect={
 	{2,0,5,1},{4,1,1,6},
 	{9,0,4,1},{9,3,4,1},{9,6,4,1},{8,0,1,7},
@@ -232,6 +273,22 @@ function Pnt.BG.game3()
 	gc.setColor(.6,.6,1)
 	gc.draw(background1,640,360,Timer()*.25,12,nil,64,64)
 end
+function Pnt.BG.game4()
+	gc.setColor(.1,.5,.5)
+	local x=Timer()%4*320
+	gc.draw(background2,x,0,nil,10)
+	gc.draw(background2,x-1280,0,nil,10)
+end
+function Pnt.BG.game5()
+	local t=2.5-Timer()%20%6%2.5
+	if t<.5 then
+		gc.clear(t,t,t)
+	else
+		gc.clear(0,0,0)
+	end
+end
+function Pnt.BG.game6()
+end
 function Pnt.BG.rgb()
 	gc.clear(
 		sin(Timer()*1.2)*.15+.5,
@@ -288,7 +345,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.16",290,140)
+	gc.print("Alpha V0.7.17",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -408,7 +465,7 @@ function Pnt.play()
 			gc.translate(P.x,P.y)gc.scale(P.size)--Position
 			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Background
 			gc.setLineWidth(7)
-			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)--Big frame
+			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690,5)--Big frame
 			gc.translate(150,70)
 			if P.gameEnv.grid then
 				gc.setLineWidth(1)
@@ -569,7 +626,7 @@ function Pnt.play()
 
 			gc.setColor(1,1,1)
 			setFont(35)
-			mStr(format("%.2f",P.time),-82,520)--Draw time
+			mStr(format("%.2f",P.stat.time),-82,520)--Draw time
 			if mesDisp[curMode.id]then mesDisp[curMode.id]()end--Draw other message
 
 			gc.setColor(1,1,1)
@@ -621,17 +678,27 @@ function Pnt.play()
 end
 function Pnt.pause()
 	Pnt.play()
-	gc.setColor(0,0,0,pauseTime*.015)
+	gc.setColor(0,0,0,pauseTimer*.015)
 	gc.rectangle("fill",0,0,1280,720)
+	gc.setColor(1,1,1,pauseTimer*.02)
+	setFont(30)
+	gc.print(text.pauseTime..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",40,280)
+	setFont(40)
+	for i=1,7 do
+		gc.print(text.stat[i+3],40,40*i+285)
+		gc.print(dataOpt(i),400,40*i+285)
+	end
+	for i=8,14 do
+		gc.print(text.stat[i+3],810,40*i+5)
+		gc.print(dataOpt(i),1060,40*i+5)
+	end
 	if system~="Android"then
-		setFont(40)
-		gc.setColor(1,1,1,pauseTime*.02)
 		mStr(text.space.."/"..text.enter,640,300)
 		gc.print("ESC",610,598)
 	end
-	setFont(120)
 	gc.setColor(1,1,1)
-	mStr(text.pause,640,140-12*(5-pauseTime*.1)^2)
+	setFont(120)
+	mStr(gamefinished and text.finish or text.pause,640,140-12*(5-pauseTimer*.1)^2)
 end
 function Pnt.setting()
 	gc.setColor(1,1,1)
@@ -706,18 +773,11 @@ function Pnt.help()
 	mStr(text.group,1170,210)
 end
 function Pnt.stat()
-	setFont(35)
+	setFont(28)
 	gc.setColor(1,1,1)
-	for i=1,10 do gc.print(text.stat[i],350,20+40*i)end
-	gc.print(stat.run,650,60)
-	gc.print(stat.game,650,100)
-	gc.print(format("%0.1fhr",stat.gametime*2.78e-4),650,140)
-	gc.print(stat.piece,650,180)
-	gc.print(stat.row,650,220)
-	gc.print(stat.atk,650,260)
-	gc.print(stat.key,650,300)
-	gc.print(stat.rotate,650,340)
-	gc.print(stat.hold,650,380)
-	gc.print(stat.spin,650,420)
+	for i=1,17 do
+		gc.print(text.stat[i],400,30*i-5)
+		gc.print(statOpt(i),720,30*i-5)
+	end
 	gc.draw(titleImage,260,570,.2+.07*sin(Timer()*3),.8,nil,250,60)
 end
