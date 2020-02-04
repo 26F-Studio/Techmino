@@ -4,7 +4,10 @@ act={
 		if not ifoverlap(cb,cx-1,cy)then
 			P.cx=cx-1
 			freshgho()
-			P.lockDelay=gameEnv.lock
+			P.freshTime=P.freshTime+1
+			if P.freshTime<=gameEnv.freshLimit then
+				P.lockDelay=gameEnv.lock
+			end
 			if cy==y_img then SFX("move")end
 		end
 	end,
@@ -13,7 +16,10 @@ act={
 		if not ifoverlap(cb,cx+1,cy)then
 			P.cx=cx+1
 			freshgho()
-			P.lockDelay=gameEnv.lock
+			P.freshTime=P.freshTime+1
+			if P.freshTime<=gameEnv.freshLimit then
+				P.lockDelay=gameEnv.lock
+			end
 			if cy==y_img then SFX("move")end
 		end
 	end,
@@ -36,7 +42,9 @@ act={
 	rotFlip=function()spin(2)end,
 	hold=hold,
 	--Player movements
-	
+	restart=function()
+		startGame(gamemode)
+	end,
 	down1=function()drop()end,
 	down4=function()for i=1,4 do if cy~=y_img then drop()else break end end end,
 	toDown=function()P.cy,P.lockDelay=y_img,gameEnv.lock end,

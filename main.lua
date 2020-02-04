@@ -135,30 +135,30 @@ FX={
 	stretch=function(t)
 		gc.push("transform")
 			setFont(t.font)
-			gc.translate(150,250)
+			gc.translate(150,250+t.dy)
 			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*(#field>9 and .7 or 1))
 			if t.t<20 then gc.scale((20-t.t)*.015+1,1)end
-			mStr(t.text,0,-t.font*.5+t.dy)
+			mStr(t.text,0,-t.font*.5)
 		gc.pop()
 	end,
 	drive=function(t)
 		gc.push("transform")
 			setFont(t.font)
-			gc.translate(150,290)
+			gc.translate(150,290+t.dy)
 			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*(#field>9 and .7 or 1))
-			if t.t<20 then gc.shear((20-t.t)*.03,0)end
-			mStr(t.text,0,-t.font*.5+t.dy)
+			if t.t<20 then gc.shear((20-t.t)*.05,0)end
+			mStr(t.text,0,-t.font*.5)
 		gc.pop()
 	end,
 	spin=function(t)
 		gc.push("transform")
 			setFont(t.font)
-			gc.translate(150,250)
+			gc.translate(150,250+t.dy)
 			gc.setColor(1,1,1,min((30-abs(t.t-30))*.1,1)*(#field>9 and .7 or 1))
 			if t.t<20 then
-				gc.scale((20-t.t)*.01+1,(20-t.t)*.015+1)
+				gc.rotate((20-t.t)^2*.0015)
 			end
-			mStr(t.text,0,-t.font*.5+t.dy)
+			mStr(t.text,0,-t.font*.5)
 		gc.pop()
 	end,
 	flicker=function(t)
@@ -176,8 +176,8 @@ list={
 	reason={[0]="Escape","Block out","Lock out","Finished","Top out"},
 	method={"Bag7","His4","Rnd"},
 }
-actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","toLeft","toRight"}
-actName_={"move left","move right","rotate right","rotate left","rotate flip","hard drop","soft drop","hold","toLeft","toRight"}
+actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","toLeft","toRight"}
+actName_={"move left","move right","rotate right","rotate left","rotate flip","hard drop","soft drop","hold","restart","toLeft","toRight"}
 name={"Z","S","L","J","T","O","I"}
 blockPos={4,4,4,4,4,5,4}
 renATK={[0]=0,0,0,1,1,1,2,2,2,3,3,3}
@@ -190,6 +190,7 @@ gameEnv0={
 	next=6,hold=true,
 	sequence=1,visible=1,
 	_20G=false,target=9e99,
+	freshLimit=9e99,
 	color={1,5,2,8,10,3,7,13},
 	key={"left","right","x","z","c","up","down","space","LEFT","RIGHT"},
 	reach=function()end
@@ -226,18 +227,6 @@ randomMethod={
 	end,
 }
 loadmode={
-	marathon=function()
-		modeEnv={
-			drop=60,
-			wait=1,
-			fall=20,
-			target=10,
-			reach=Event.marathon_reach,
-		}
-		createPlayer(1,190,20,.8)
-		curBG="game1"
-		BGM("way")
-	end,
 	sprint=function()
 		modeEnv={
 			wait=1,
@@ -262,51 +251,165 @@ loadmode={
 		curBG="game1"
 		BGM("reason")
 	end,
-	gm=function()
+	marathon=function()
 		modeEnv={
 			drop=60,
-			wait=10,
-			fall=5,
-			target=100,
-			reach=Event.gm_reach,
+			wait=1,
+			fall=20,
+			target=10,
+			reach=Event.marathon_reach,
+			freshLimit=20,
+		}
+		createPlayer(1,190,20,.8)
+		curBG="game1"
+		BGM("way")
+	end,
+	death=function()
+		modeEnv={
+			_20G=true,
+			drop=0,
+			lock=10,
+			wait=6,
+			fall=10,
+			target=50,
+			reach=Event.death_reach,
+			freshLimit=13,
+			arr=1,
 		}
 		createPlayer(1,190,20,.8)
 		curBG="game2"
 		BGM("push")
 	end,
-	battle=function()
+	tetris25=function()
 		modeEnv={
 			wait=1,
 			fall=1,
 		}
 		createPlayer(1,240,30,.8)--Player
 
-		-- createPlayer(2,580,25,.38,true)
-		-- createPlayer(3,580,315,.38,true)
-		--Triple
-
-		-- createPlayer(2,580,140,.6,true)
-		--Solo
-
 		local n=2
-		for i=1,3 do
-			for j=1,7 do
-				createPlayer(n,75*i-65,80*j-55,.1,true)
+		for i=1,2 do
+			for j=1,5 do
+				createPlayer(n,100*i-65,110*j-75,.15,rnd(4)+1)
 				n=n+1
 			end
 		end
-		for i=11,13 do
-			for j=1,7 do
-				createPlayer(n,75*i-65,80*j-55,.1,true)
+		for i=9,10 do
+			for j=1,5 do
+				createPlayer(n,100*i-130,110*j-75,.14,rnd(4)+1)
 				n=n+1
 			end
-		end
+		end--AIs
+
+		curBG="game2"
+		BGM("race")
+	end,
+	solo=function()
+		modeEnv={
+			wait=1,
+			fall=1,
+		}
+		createPlayer(1,40,30,.8)--Player
+		createPlayer(2,560,100,.7,2)--AI
+
+		curBG="game2"
+		BGM("race")
+	end,
+	blind=function()
+		modeEnv={
+			drop=15,
+			lock=30,
+			wait=1,
+			fall=1,
+			visible=0,
+			freshLimit=5,
+		}
+		createPlayer(1,190,20,.8)
+
+		curBG="game1"
+		BGM("push")
+	end,
+	asymsolo=function()
+		modeEnv={
+			wait=1,
+			fall=1,
+			visible=2,
+		}
+		createPlayer(1,40,30,.8)--Player
+		createPlayer(2,560,100,.7,2)--AI
 
 		curBG="game2"
 		BGM("race")
 	end,
 }
 Event={
+	gameover={
+		win=function()
+			P.alive=false
+			P.control=false
+			P.waiting=1e99
+			gameover=0
+			for i=1,#visTime do for j=1,10 do
+				P.visTime[i][j]=1e99
+			end end--Make all visible
+			P.control=false
+			ins(task,Event.task.win)
+		end,
+		lose=function()
+			P.alive=false
+			P.control=false
+			P.waiting=1e99
+			gameover=0
+			for i=1,#visTime do for j=1,10 do
+				P.visTime[i][j]=1e99
+			end end--Make all visible
+			for i=1,#players.alive do
+				if players.alive[i]==P.id then
+					rem(players.alive,i)
+					break
+				end
+			end
+			for i=1,#P.atkBuffer do
+				P.atkBuffer[i].sent=true
+				P.atkBuffer[i].time=0
+			end
+			ins(task,Event.task.lose)
+		end,
+	},
+	marathon_reach=function()
+		local s=int(P.cstat.row*.1)
+		if s>=20 then
+			Event.gameover.win()
+		else
+			gameEnv.drop=Data.marathon_drop[s]
+			gameEnv.target=s*10+10
+		end
+	end,
+	death_reach=function()
+		if gameEnv.target==50 then
+			gameEnv.lock=9
+			gameEnv.wait=4
+			gameEnv.fall=8
+			showText("STAGE 2","drive",80,-80)
+		elseif gameEnv.target==100 then
+			gameEnv.lock=8
+			gameEnv.wait=3
+			gameEnv.fall=6
+			showText("STAGE 3","drive",80,-80)
+		elseif gameEnv.target==150 then
+			gameEnv.lock=7
+			gameEnv.wait=3
+			gameEnv.fall=5
+			showText("STAGE 4","drive",80,-80)
+		elseif gameEnv.target==200 then
+			gameEnv.lock=6
+			gameEnv.wait=2
+			gameEnv.fall=4
+			showText("STAGE 5","drive",80,-80)
+			gameEnv.target=250
+		end
+		gameEnv.target=gameEnv.target+50
+	end,
 	task={
 		win=function()
 			gameover=gameover+1
@@ -338,50 +441,6 @@ Event={
 			end
 		end,
 	},
-	gameover={
-		win=function()
-			P.control=false
-			P.waiting=1e99
-			gameover=0
-			for i=1,#visTime do for j=1,10 do
-				P.visTime[i][j]=1e99
-			end end--Make all visible
-			P.control=false
-			ins(task,Event.task.win)
-		end,
-		lose=function()
-			P.control=false
-			P.waiting=1e99
-			gameover=0
-			for i=1,#visTime do for j=1,10 do
-				P.visTime[i][j]=1e99
-			end end--Make all visible
-			P.control=false
-			for i=1,#players.alive do
-				if players.alive[i]==P.id then
-					rem(players.alive,i)
-					break
-				end
-			end
-			for i=1,#P.atkBuffer do
-				P.atkBuffer[i].sent=true
-				P.atkBuffer[i].time=0
-			end
-			ins(task,Event.task.lose)
-		end,
-	},
-	marathon_reach=function()
-		local s=int(P.cstat.row*.1)
-		if s>=20 then
-			Event.gameover.win()
-		else
-			gameEnv.drop=Data.marathon_drop[s]
-			gameEnv.target=s*10+10
-		end
-	end,
-	gm_reach=function()
-
-	end
 }
 Data={
 	marathon_drop={[0]=60,50,40,30,25,20,18,16,14,12,10,8,7,6,5,4,3,2,1,1},
@@ -391,12 +450,6 @@ Data={
 	shirase_lare={[0]=0},
 }
 mesDisp={
-	marathon=function()
-		gc.setColor(1,1,1)
-		setFont(40)
-		gc.print(format("%0.2f",time),-130,530)
-		mStr(P.cstat.row.."/"..gameEnv.target,-80,250)
-	end,
 	sprint=function()
 		gc.setColor(1,1,1)
 		setFont(40)
@@ -411,8 +464,30 @@ mesDisp={
 		setFont(75)
 		mStr(max(200-P.cstat.row,0),-80,280)
 	end,
-	gm=function()end,
-	battle=function()end,
+	marathon=function()
+		gc.setColor(1,1,1)
+		setFont(40)
+		gc.print(format("%0.2f",time),-130,530)
+		mStr(P.cstat.row.."/"..gameEnv.target,-80,250)
+	end,
+	death=function()
+		gc.setColor(1,1,1)
+		setFont(40)
+		gc.print(format("%0.2f",time),-130,530)
+		mStr(P.cstat.row.."/"..gameEnv.target,-80,250)
+	end,
+	tetris25=function()
+		gc.setColor(1,1,1)
+		setFont(80)
+		mStr(#players.alive,-80,440)
+		setFont(40)
+		gc.print("Remain",-142,510)
+	end,
+	blind=function()
+		gc.setColor(1,1,1)
+		setFont(40)
+		gc.print(P.cstat.row,-80,250)
+	end,
 }
 --Game system Data
 
@@ -422,7 +497,7 @@ setting={
 	lang="eng",
 	das=5,arr=0,
 	ghost=true,center=true,
-	key={"left","right","x","z","c","up","down","space","LEFT","RIGHT"},
+	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT"},
 	color={1,5,2,8,10,3,7,13},
 }
 stat={
@@ -526,21 +601,22 @@ function gotoScene(s,style)
 		}
 	end
 end
-function createPlayer(id,x,y,size,ifAI,data)
+function createPlayer(id,x,y,size,AIspeed,data)
 	players[id]={id=id}
 	ins(players.alive,id)
 	local P=players[id]
 	P.index={__index=P}
 	P.x,P.y,P.size=x,y,size
 
-	if ifAI then
+	if AIspeed then
 		P.ai={
 			controls={},
-			controlDelay=2,
-			controlDelay0=2,
+			controlDelay=60,
+			controlDelay0=AIspeed,
 		}
 	end
 
+	P.alive=true
 	P.control=false
 	P.time=0
 	P.cstat={piece=0,row=0,atk=0}--Current gamestat
@@ -564,6 +640,7 @@ function createPlayer(id,x,y,size,ifAI,data)
 	P.hn,P.hb,P.holded=0,{{}},false
 	P.nxt,P.nb={},{}
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
+	P.freshTime=0
 
 	local bag1={1,2,3,4,5,6,7}
 	for i=1,7 do
@@ -598,6 +675,7 @@ function startGame(mode)
 
 	frame=0
 	count=179
+	FX.beam={}
 	for i=1,#PTC.dust do PTC.dust[i]:release()end
 	for i=1,#players do
 		PTC.dust[i]=PTC.dust[0]:clone()
@@ -707,7 +785,7 @@ function resetblock()
 	P.r,P.c=#cb,#cb[1]
 	P.cx,P.cy=blockPos[bn],21+ceil(fieldBeneath/30)
 	freshgho()
-	P.dropDelay,P.lockDelay=gameEnv.drop,gameEnv.lock
+	P.dropDelay,P.lockDelay,P.freshTime=gameEnv.drop,gameEnv.lock,0
 	if keyPressing[8]then hold(true)end
 	if keyPressing[3]then spin(1,true)end
 	if keyPressing[4]then spin(-1,true)end
@@ -718,9 +796,9 @@ end
 function pressKey(i,player)
 	P=player or players[1]
 	setmetatable(_G,P.index)
-	if control then
-		P.keyPressing[i]=true
-		if waiting<=0 then
+	P.keyPressing[i]=true
+	if alive then
+		if control and waiting<=0 then
 			act[actName[i]]()
 			if i>2 and i<6 then keyPressing[i]=false end
 		elseif i==1 then
@@ -729,9 +807,11 @@ function pressKey(i,player)
 			P.moving=1
 		end
 		P.cstat.key=stat.key+1;ins(keyTime,1,frame)rem(keyTime,11)
-		-- if playmode=="recording"then ins(rec,{i,frame})end
 		stat.key=stat.key+1
+	elseif i==9 then
+		act[actName[i]]()
 	end
+	-- if playmode=="recording"then ins(rec,{i,frame})end
 end
 function releaseKey(i,player)
 	P=player or players[1]
@@ -760,7 +840,10 @@ function spin(d,ifpre)
 		P.r,P.c=ir,ic
 		P.dir=(dir+d)%4
 		freshgho()
-		P.lockDelay=gameEnv.lock
+		P.freshTime=P.freshTime+1
+		if P.freshTime<=gameEnv.freshLimit then
+			P.lockDelay=gameEnv.lock
+		end
 		SFX(ifpre and"prerotate"or ifoverlap(cb,cx,cy+1)and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and"rotatekick"or"rotate")
 		stat.rotate=stat.rotate+1
 	end
@@ -775,7 +858,7 @@ function hold(ifpre)
 		P.r,P.c=#cb,#cb[1]
 		P.cx,P.cy=blockPos[bn],21
 		freshgho()
-		P.dropDelay,P.lockDelay=gameEnv.drop,gameEnv.lock
+		P.dropDelay,P.lockDelay,P.freshTime=gameEnv.drop,gameEnv.lock,0
 		if ifoverlap(cb,cx,cy) then Event.gameover.lose()end
 		P.holded=true
 		SFX(ifpre and"prehold"or"hold")
@@ -924,7 +1007,7 @@ mouseDown={}
 keyDown={}
 function keyDown.play(key)
 	local k=players[1].gameEnv.key
-	for i=1,10 do
+	for i=1,11 do
 		if key==k[i]then
 			pressKey(i,players[1])
 			break
@@ -992,8 +1075,8 @@ function love.draw()
 	setFont(35)
 	drawButton()
 	if mouseShow then
-		gc.setColor(1,0,0,.6)
-		gc.circle("fill",mx,my,4)
+		gc.setColor(1,.5,0,.7)
+		gc.circle("fill",mx,my,6)
 	end
 	if sceneSwaping then sceneSwaping.draw()end
 
@@ -1006,8 +1089,8 @@ function love.draw()
 		gc.rectangle("fill",1000,0,(ww*600/wh-1000)*.5,600)
 	end--Draw black side
 
-	--numFont(10)gc.setColor(1,1,1)
-	--gc.print(tm.getFPS(),0,590)
+	numFont(10)gc.setColor(1,1,1)
+	gc.print(tm.getFPS(),0,590)
 	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(x,y)
@@ -1034,6 +1117,7 @@ function love.focus(f)
 	end
 end
 function love.run()
+	local frameT=Timer()
 	tm.step()
 	love.resize(1000,600)
 	game.load()--Launch
@@ -1055,6 +1139,8 @@ function love.run()
 				gc.present()
 			end
 		end
+		while Timer()-frameT<1/60 do end
+		frameT=Timer()
 	end
 end
 --System callbacks

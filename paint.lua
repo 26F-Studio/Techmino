@@ -75,7 +75,7 @@ function Pnt.play()
 		setmetatable(_G,P.index)
 		gc.push("transform")
 		gc.translate(x,y)gc.scale(size)--Scale
-		gc.setColor(0,0,0,.7)gc.rectangle("fill",0,0,620,690)--Back
+		gc.setColor(0,0,0,.8)gc.rectangle("fill",0,0,620,690)--Black Background
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1)gc.rectangle("line",0,0,620,690)--Big frame
 		gc.translate(160,70)
@@ -102,6 +102,12 @@ function Pnt.play()
 						end
 					end end
 				end--Ghost
+				gc.setColor(1,1,1,lockDelay/gameEnv.lock)
+				for i=1,r do for j=1,c do
+					if cb[i][j]>0 then
+						gc.rectangle("fill",30*(j+cx-1)-35,595-30*(i+cy-1),40,40)
+					end
+				end end--BlockShade(lockdelay indicator)
 				for i=1,r do for j=1,c do
 					if cb[i][j]>0 then
 						drawPixel(i+cy-1,j+cx-1,gameEnv.color[bn],1)
@@ -142,7 +148,7 @@ function Pnt.play()
 			h=h+bar
 			if h>600 then break end
 		end--Buffer line
-		
+
 		setFont(40)
 		if gameEnv.hold then
 			gc.setColor(1,1,1)
@@ -179,7 +185,7 @@ function Pnt.play()
 		for i=1,#bonus do
 			bonus[i]:draw()
 		end--Effects
-		mesDisp[gamemode]()--Draw message
+		if mesDisp[gamemode]then mesDisp[gamemode]()end--Draw message
 		setFont(45)
 		gc.translate(380,550)
 			gc.setColor(1,1,1)
@@ -200,7 +206,7 @@ function Pnt.play()
 	gc.setLineWidth(3)
 	for i=1,#FX.beam do
 		local b=FX.beam[i]
-		local t=b.t/45
+		local t=b.t/30
 		if t<.25 then
 			t=t*4
 			gc.setColor(1,1,1,4*t)
@@ -225,7 +231,7 @@ end
 function Pnt.setting2()
 	setFont(30)
 	gc.setColor(1,1,1)
-	for i=1,8 do
+	for i=1,9 do
 		gc.printf(actName_[i]..":",80,5+50*i,150,"right")
 	end
 	if keysetting then

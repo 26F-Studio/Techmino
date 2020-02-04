@@ -74,10 +74,10 @@ function getScore(field,cb,cx,cy)
 		end
 	end
 	return 
-	-highest*10
-	-rough*10
+	-highest*5
+	-rough*15
 	-cy*15
-	+clear^1.5*15
+	+clear^2*3
 	-hole*20
 end
 --controlname:mL,mR,rR,rL,rF,hD,sD,H,LL,RR
