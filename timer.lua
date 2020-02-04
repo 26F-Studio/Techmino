@@ -1,3 +1,5 @@
+local Timer=love.timer.getTime
+
 Tmr={}
 function Tmr.load()
 	if loading==1 then
@@ -70,10 +72,9 @@ function Tmr.play(dt)
 			virtualkeyPressTime[i]=virtualkeyPressTime[i]-1
 		end
 	end
-	for i=1,3 do
-		PTC.attack[i]:update(dt)
-	end
-
+	PTC.attack[1]:update(dt)
+	PTC.attack[2]:update(dt)
+	PTC.attack[3]:update(dt)
 	if frame<180 then
 		if frame==179 then
 			gameStart()
@@ -83,13 +84,13 @@ function Tmr.play(dt)
 		for p=1,#players do
 			P=players[p]
 			if P.keyPressing[1]or P.keyPressing[2]then
-				P.moving=P.moving+sgn(P.moving)
+				P.moving=P.moving+(P.moving>0 and 1 or -1)
 			else
 				P.moving=0
 			end
 		end
 		return
-	end--Counting,include pre-das
+	end--Counting,include pre-das,directy RETURN
 	for p=1,#players do
 		P=players[p]
 		if P.timing then P.time=P.time+dt end
@@ -109,7 +110,7 @@ function Tmr.play(dt)
 				end
 			end
 
-			if P.ai and P.waiting<=0 then
+			if P.ai and P.waiting==-1 then
 				P.ai.controlDelay=P.ai.controlDelay-1
 				if P.ai.controlDelay==0 then
 					if #P.ai.controls>0 then
@@ -128,13 +129,14 @@ function Tmr.play(dt)
 					end
 				end
 			end
+			if not P.keepVisible then
+				for j=1,#P.field do for i=1,10 do
+					if P.visTime[j][i]>0 then P.visTime[j][i]=P.visTime[j][i]-1 end
+				end end
+			end--Fresh visible time
 
-			for j=1,#P.field do for i=1,10 do
-				if P.visTime[j][i]>0 then P.visTime[j][i]=P.visTime[j][i]-1 end
-			end end
-			--Fresh visible time
 			if P.keyPressing[1]or P.keyPressing[2]then
-				P.moving=P.moving+sgn(P.moving)
+				P.moving=P.moving+(P.moving>0 and 1 or -1)
 				local d=abs(P.moving)-P.gameEnv.das
 				if d>1 then
 					if P.gameEnv.arr>0 then
@@ -149,8 +151,8 @@ function Tmr.play(dt)
 				P.moving=0
 			end
 			if P.keyPressing[7]and not P.keyPressing[9]then
-				P.downing=P.downing+1
 				local d=abs(P.downing)-P.gameEnv.sddas
+				P.downing=P.downing+1
 				if d>1 then
 					if P.gameEnv.sdarr>0 then
 						if d%P.gameEnv.sdarr==0 then
@@ -163,40 +165,44 @@ function Tmr.play(dt)
 			else
 				P.downing=0
 			end
-			if P.falling>0 then
+			if P.falling>=0 then
 				P.falling=P.falling-1
-				if P.falling<=0 then
-					if #P.field>P.clearing[1]then SFX("fall")end
-					for i=1,#P.clearing do
-						removeRow(P.field,P.clearing[i])
-						removeRow(P.visTime,P.clearing[i])
-					end
-					::L::if P.clearing[1]then
-						rem(P.clearing)
-						goto L
-					end
+				if P.falling>=0 then goto stop end
+				if P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
+				for i=1,#P.clearing do
+					removeRow(P.field,P.clearing[i])
+					removeRow(P.visTime,P.clearing[i])
 				end
-			elseif P.waiting>0 then
+				::L::
+					rem(P.clearing)
+				if P.clearing[1]then goto L end
+			end
+			if P.waiting>=0 then
 				P.waiting=P.waiting-1
-				if P.waiting<=0 then
-					resetblock()
+				if P.waiting==-1 then resetblock()end
+				goto stop
+			end
+			if P.curY~=P.y_img then
+				if P.dropDelay>=0 then
+					P.dropDelay=P.dropDelay-1
+					if P.dropDelay>=0 then goto stop end
+				end
+				drop()
+				P.dropDelay=P.gameEnv.drop
+				if P.freshTime<=P.gameEnv.freshLimit then
+					P.lockDelay=P.gameEnv.lock
 				end
 			else
-				if P.curY~=P.y_img then
-					if P.dropDelay>0 then
-						P.dropDelay=P.dropDelay-1
-					else
-						drop()
-						P.dropDelay=P.gameEnv.drop
-						if P.freshTime<=P.gameEnv.freshLimit then
-							P.lockDelay=P.gameEnv.lock
-						end
-					end
-				else
-					if P.lockDelay>0 then P.lockDelay=P.lockDelay-1
-					else drop()
-					end
-				end
+				P.lockDelay=P.lockDelay-1
+				if P.lockDelay>=0 then goto stop end
+				drop()
+			end
+			::stop::
+			if P.b2b1==P.b2b then
+			elseif P.b2b1<P.b2b then
+				P.b2b1=min(P.b2b1*.98+P.b2b*.02+.4,P.b2b)
+			else
+				P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
 			end
 			--Alive
 		else
@@ -208,26 +214,32 @@ function Tmr.play(dt)
 					P.swappingAtkMode=min(P.swappingAtkMode+2,30)
 				end
 			end
-			if P.falling>0 then
+			if P.falling>=0 then
 				P.falling=P.falling-1
-				if P.falling<=0 then
-					if #P.field>P.clearing[1]then
-						SFX("fall")
-						if P.id==1 then VIB(1)end
-					end
-					for i=1,#P.clearing do
-						removeRow(P.field,P.clearing[i])
-						removeRow(P.visTime,P.clearing[i])
-					end
-					P.clearing={}
+				if P.falling>=0 then goto stop end
+				if P.gameEnv.fall>0 and #P.field>P.clearing[1]then SFX("fall")end
+				for i=1,#P.clearing do
+					removeRow(P.field,P.clearing[i])
+					removeRow(P.visTime,P.clearing[i])
 				end
-			end--Rows cleared drop
+				::L::
+					rem(P.clearing)
+				if P.clearing[1]then goto L end
+			end::stop::
 			if P.endCounter<40 then
 				for j=1,#P.field do for i=1,10 do
 					if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
 				end end--Make field visible
 			end
+			if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
 			--Dead
+		end
+		for i=#P.shade,1,-1 do
+			local S=P.shade[i]
+			S[1]=S[1]-1
+			if S[1]==0 then
+				rem(P.shade,i)
+			end
 		end
 		for i=#P.bonus,1,-1 do
 			local b=P.bonus[i]

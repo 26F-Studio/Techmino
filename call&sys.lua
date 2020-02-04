@@ -1,3 +1,99 @@
+local gc=love.graphics
+local tm=love.timer
+local ms=love.mouse
+local tc=love.touch
+local wd=love.window
+local setFont=setFont
+local Timer=tm.getTime
+
+local ww,wh=gc.getWidth(),gc.getHeight()
+local xOy=love.math.newTransform()
+local focus=true
+local mx,my,mouseShow=-20,-20,false
+local touching=nil--1st touching ID
+local sceneInit={
+	load=function()
+		curBG="none"
+		keeprun=true
+		loading=1--Loading mode
+		loadnum=1--Loading counter
+		loadprogress=0--Loading bar(0~1)
+	end,
+	intro=function()
+		curBG="none"
+		count=0
+		keeprun=true
+	end,
+	main=function()
+		curBG="none"
+		keeprun=true
+		collectgarbage()
+	end,
+	mode=function()
+		saveData()
+		modeSel=modeSel or 1
+		levelSel=levelSel or 3
+		curBG="none"
+		keeprun=true
+	end,
+	custom=function()
+		optSel=optSel or 1
+		curBG="matrix"
+		keeprun=true
+	end,
+	play=function()
+		keeprun=false
+		resetGameData()
+		sysSFX("ready")
+	end,
+	setting=function()
+		curBG="none"
+		keeprun=true
+	end,
+	setting2=function()
+		curBG="none"
+		keeprun=true
+			curBoard=1
+			keyboardSet=1
+			joystickSet=1
+			keyboardSetting=false
+			joystickSetting=false
+	end,--Control settings
+	setting3=function()
+		curBG="game1"
+		keeprun=true
+		defaultSel=1
+		sel=nil
+		snapLevel=1
+	end,--Touch setting
+	help=function()
+		curBG="none"
+		keeprun=true
+	end,
+	stat=function()
+		curBG="none"
+		keeprun=true
+	end,
+	quit=function()
+		love.event.quit()
+	end,
+}
+BGblockList={}for i=1,16 do BGblockList[i]={v=0}end
+local BGblock={tm=150,next=7,ct=0}
+local function getNewBlock()
+	BGblock.ct=BGblock.ct+1
+	if BGblock.ct==17 then BGblock.ct=1 end
+	local t=BGblockList[BGblock.ct]
+	t.bn,t.size=BGblock.next,2+3*rnd()
+	t.b=blocks[t.bn][rnd(0,3)]
+	t.x=rnd(-#t.b[1]*t.size*30+100,1180)
+	t.y=-#t.b*30*t.size
+	t.v=t.size*(1+rnd())
+	BGblock.next=BGblock.next%7+1
+	return t
+end
+local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
+
 function onVirtualkey(x,y)
 	local x,y=xOy:inverseTransformPoint(x,y)
 	local d2,nearest,distance
@@ -53,6 +149,11 @@ function mouseDown.intro(x,y,k)
 	else
 		gotoScene("main")
 	end
+end
+wheelmoved={}
+function wheelmoved.mode(x,y)
+	modeSel=min(max(modeSel+(y>0 and -1 or 1),1),#modeID)
+	levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
 end
 keyDown={}
 function keyDown.intro(key)
@@ -243,11 +344,6 @@ function gamepadUp.play(key)
 		end
 	end
 end
-wheelmoved={}
-function wheelmoved.mode(x,y)
-	modeSel=min(max(modeSel-sgn(y),1),#modeID)
-	levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
-end
 
 
 
@@ -321,7 +417,7 @@ function love.touchreleased(id,x,y)
 	if id==touching then
 		touching=nil
 		if Buttons.sel then
-			local B=Buttons[scene][Buttons.sel]
+			local B=Buttons.sel
 			B.code()
 			B.alpha=1
 			Buttons.sel=nil
@@ -372,15 +468,14 @@ function love.touchmoved(id,x,y,dx,dy)
 end
 
 function love.keypressed(i)
-	if i=="f12"then devMode=not devMode end
+	if i=="f8"then devMode=not devMode end
 	if devMode then
 		if i=="k"then
 			P=players.alive[rnd(#players.alive)]
 			Event_gameover.lose()
 			--Test code here
 		elseif i=="q"then
-			for i=1,#Buttons[scene]do
-				local B=Buttons[scene][i]
+			for k,B in next,Buttons[scene]do
 				print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))
 			end
 		elseif Buttons.sel then
@@ -429,6 +524,13 @@ end
 function love.joystickhat(js,hat,dir)
 
 end
+
+function love.sendData(data)
+	return
+end
+function love.receiveData(id,data)
+	return
+end
 ]]
 
 function love.update(dt)
@@ -444,10 +546,10 @@ function love.update(dt)
 		if BGblock[i].y>720 then rem(BGblock,i)end
 	end
 	if setting.bgblock then
-		BGblock.ct=BGblock.ct-1
-		if BGblock.ct==0 then
+		BGblock.tm=BGblock.tm-1
+		if BGblock.tm==0 then
 			ins(BGblock,getNewBlock())
-			BGblock.ct=rnd(20,30)
+			BGblock.tm=rnd(20,30)
 		end
 	end
 	if sceneSwaping then
@@ -472,21 +574,14 @@ function love.update(dt)
 	end
 	updateButton()
 end
-function love.sendData(data)
-	return
-end
-function love.receiveData(id,data)
-	return
-end
 function love.draw()
-	gc.clear()
 	Pnt.BG[curBG]()
-	gc.setColor(1,1,1,.3)
+	gc.setColor(1,1,1,.22)
 	for n=1,#BGblock do
 		local b,img=BGblock[n].b,blockSkin[BGblock[n].bn]
 		local size=BGblock[n].size
 		for i=1,#b do for j=1,#b[1]do
-			if b[i][j]>0 then
+			if b[i][j]then
 				gc.draw(img,BGblock[n].x+(j-1)*30*size,BGblock[n].y+(i-1)*30*size,nil,size)
 			end
 		end end
@@ -497,7 +592,7 @@ function love.draw()
 		local r=Timer()*.5
 		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
 		r=int(r)%7+1
-		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[r][0][2]-.5,#blocks[r][0]-scs[r][0][1]+.5)
+		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
 		gc.setColor(1,1,1,.5)
 		gc.circle("fill",mx,my,5)
 		gc.setColor(1,1,1)

@@ -51,7 +51,7 @@ function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
 	if y>#f then return end
 	for i=1,#bk do for j=1,#bk[1]do
-		if f[y+i-1]and bk[i][j]>0 and f[y+i-1][x+j-1]>0 then return true end
+		if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
 function resetField(f0,f,start)
@@ -117,7 +117,7 @@ function getScore(field,bn,cb,cx,cy)
 		+clearScore[clear]*(8+#field)
 		-hole*50
 	if #field>6 then score=score-highest*5 end
-	if mh1>3 then score=score-50-mh1*40 end
+	if mh1>3 then score=score-40-mh1*30 end
 	return score
 end
 function AI_getControls(ctrl)
@@ -131,7 +131,7 @@ function AI_getControls(ctrl)
 	end
 	local best={x=1,dir=0,hold=false,score=-9e99}
 	for ifhold=0,P.gameEnv.hold and 1 or 0 do
-		local bn=ifhold==0 and P.curID or P.holdID>0 and P.holdID or P.nextID[1]
+		local bn=ifhold==0 and P.cur.id or P.hold.id>0 and P.hold.id or P.next[1].id
 		for dir=0,dirCount[bn] do--each dir
 			local cb=blocks[bn][dir]
 			for cx=1,11-#cb[1]do--each pos
@@ -144,7 +144,7 @@ function AI_getControls(ctrl)
 					local y=cy+i-1
 					if not Tfield[y]then Tfield[y]=getNewRow()end
 					for j=1,#cb[1]do
-						if cb[i][j]~=0 then
+						if cb[i][j]then
 							Tfield[y][cx+j-1]=1
 						end
 					end

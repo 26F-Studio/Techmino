@@ -1,4 +1,8 @@
-function string.splitS(s,sep)
+local gc=love.graphics
+local setFont=setFont
+local toN,toS=tonumber,tostring
+
+local function splitS(s,sep)
 	local t={}
 	::L::
 		local i=find(s,sep)or #s+1
@@ -7,7 +11,6 @@ function string.splitS(s,sep)
 	if #s~=0 then goto L end
 	return t
 end
-function sgn(i)return i>0 and 1 or i<0 and -1 or 0 end--Row numbe is A-uth-or's id!
 function without(t,v)
 	for i=1,#t do
 		if t[i]==v then return end
@@ -37,40 +40,9 @@ function removeRow(t,k)
 	ins(freeRow,rem(t,k))
 end
 
-local count=0
-BGblockList={}for i=1,16 do BGblockList[i]={v=0}end
-function getNewBlock()
-	count=count+1
-	if count==17 then count=1 end
-	local t=BGblockList[count]
-	t.bn,t.size=BGblock.next,2+3*rnd()
-	t.b=blocks[t.bn][rnd(0,3)]
-	t.x=rnd(-#t.b[1]*t.size*30+100,1180)
-	t.y=-#t.b*30*t.size
-	t.v=t.size*(1+rnd())
-	BGblock.next=BGblock.next%7+1
-	return t
-end
---Background animation
-
-function timeSort(a,b)
-	return a.time>b.time
-end
-function badgeSort(a,b)
-	return a.badge>b.badge
-end
-function stencil_miniTitle()
-	for i=1,#miniTitle_rect do
-		gc.rectangle("fill",unpack(miniTitle_rect[i]))
-	end
-end
-function stencil_field()
-	gc.rectangle("fill",0,-10,300,610)
-end
-function stencil_field_small()
-	gc.rectangle("fill",0,0,60,120)
-end
 --Single-usage funcs
+langName={"中文","English"}
+local langID={"chi","eng"}
 function swapLanguage(l)
 	text=require("language/"..langID[l])
 	Buttons.sel=nil
@@ -80,19 +52,26 @@ function swapLanguage(l)
 			B.t=text.ButtonText[S][N]
 		end
 	end
+	drawableText.next:set(text.next)
+	drawableText.hold:set(text.hold)
 	if royaleCtrlPad then royaleCtrlPad:release()end
-	royaleCtrlPad=gc.newCanvas(300,100)
-	gc.setCanvas(royaleCtrlPad)
-	gc.setColor(1,1,1)
-	setFont(25)
-	gc.setLineWidth(2)
-	for i=1,4 do
-		gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-		mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
-	end
-	gc.setCanvas()
+	gc.push("transform")
+	gc.origin()
+		royaleCtrlPad=gc.newCanvas(300,100)
+		gc.setCanvas(royaleCtrlPad)
+		gc.setColor(1,1,1)
+		setFont(25)
+		gc.setLineWidth(2)
+		for i=1,4 do
+			gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
+			mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
+		end
+		gc.setCanvas()
+	gc.pop()
 	collectgarbage()
 end
+
+local vibrateLevel={0,0,.03,.04,.05,.07,.9}
 function VIB(t)
 	if setting.vib>0 then
 		love.system.vibrate(vibrateLevel[setting.vib+t])
@@ -145,9 +124,51 @@ function BGM(s)
 		bgmPlaying=s
 	end
 end
+
+local swapDeck_data={
+	{4,0,1,1},{6,0,15,1},{5,0,9,1},{6,0,6,1},
+	{1,0,3,1},{3,0,12,1},{1,1,8,1},{2,1,4,2},
+	{3,2,13,2},{4,1,12,2},{5,2,1,2},{7,1,11,2},
+	{2,1,9,3},{3,0,6,3},{4,2,14,3},{1,0,4,4},
+	{7,1,1,4},{6,0,2,4},{5,2,6,4},{6,0,14,5},
+	{3,3,15,5},{4,0,7,6},{7,1,10,5},{5,0,2,6},
+	{2,1,1,7},{1,0,4,6},{4,1,13,5},{1,1,6,7},
+	{5,3,11,5},{3,2,11,7},{6,0,8,7},{4,2,12,8},
+	{7,0,8,9},{1,0,2,8},{5,2,4,8},{6,0,15,8},
+}--Block id [ZSLJTOI] ,dir,x,y
+local swap={
+	none={2,1,d=function()end},
+	flash={8,1,d=function()gc.clear(1,1,1)end},
+	fade={30,15,d=function()
+		local t=1-abs(sceneSwaping.time*.06667-1)
+		gc.setColor(0,0,0,t)
+		gc.rectangle("fill",0,0,1280,720)
+	end},
+	deck={50,8,d=function()
+		local t=sceneSwaping.time
+		gc.setColor(1,1,1)
+		if t>8 then
+			local t=max(t,15)
+			for i=1,51-t do
+				local bn=swapDeck_data[i][1]
+				local b=blocks[bn][swapDeck_data[i][2]]
+				local cx,cy=swapDeck_data[i][3],swapDeck_data[i][4]
+				for y=1,#b do for x=1,#b[1]do
+					if b[y][x]then
+						gc.draw(blockSkin[bn],80*(cx+x-2),80*(10-cy-y),nil,8/3)
+					end
+				end end
+			end
+		end
+		if t<17 then
+			gc.setColor(1,1,1,(8-abs(t-8))*.125)
+			gc.rectangle("fill",0,0,1280,720)
+		end
+	end},
+}--Scene swapping animations
 function gotoScene(s,style)
 	if not sceneSwaping and s~=scene then
-		style=style or"deck"
+		style=style or"fade"
 		sceneSwaping={
 			tar=s,style=style,
 			time=swap[style][1],mid=swap[style][2],
@@ -156,6 +177,27 @@ function gotoScene(s,style)
 		Buttons.sel=nil
 	end
 end
+
+local prevMenu={
+	load=love.event.quit,
+	intro="quit",
+	main="intro",
+	mode="main",
+	custom="mode",
+	ready="mode",
+	play=function()
+		clearTask("play")
+		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
+	end,
+	help="main",
+	stat="main",
+	setting=function()
+		saveSetting()
+		gotoScene("main")
+	end,
+	setting2="setting",
+	setting3="setting",
+}
 function back()
 	local t=prevMenu[scene]
 	if type(t)=="string"then
@@ -164,10 +206,46 @@ function back()
 		t()
 	end
 end
+
+local dataOpt={
+	"run",
+	"game",
+	"gametime",
+	"piece",
+	"row",
+	"atk",
+	"key",
+	"rotate",
+	"hold",
+	"spin",
+}
+local saveOpt={
+	"lang",
+	"ghost",
+	"center",
+	"grid",
+	"swap",
+	"sfx",
+	"bgm",
+	"vib",
+	"fxs",
+
+	"das",
+	"arr",
+	"sddas",
+	"sdarr",
+
+	"fullscreen",
+	"bgblock",
+	"virtualkeyAlpha",
+	"virtualkeyIcon",
+	"virtualkeySwitch",
+	"frameMul",
+}
 function loadData()
 	userData:open("r")
-	--local t=string.splitS(love.math.decompress(userdata,"zlib"),"\r\n")
-	local t=string.splitS(userData:read(),"\r\n")
+	--local t=splitS(love.math.decompress(userdata,"zlib"),"\r\n")
+	local t=splitS(userData:read(),"\r\n")
 	userData:close()
 	for i=1,#t do
 		local i=t[i]
@@ -194,8 +272,8 @@ function saveData()
 end
 function loadSetting()
 	userSetting:open("r")
-	--local t=string.splitS(love.math.decompress(userdata,"zlib"),"\r\n")
-	local t=string.splitS(userSetting:read(),"\r\n")
+	--local t=splitS(love.math.decompress(userdata,"zlib"),"\r\n")
+	local t=splitS(userSetting:read(),"\r\n")
 	userSetting:close()
 	for i=1,#t do
 		local i=t[i]
@@ -210,17 +288,17 @@ function loadSetting()
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
 			elseif t=="keymap"then
-				v=string.splitS(v,"/")
+				v=splitS(v,"/")
 				for i=1,16 do
-					local v1=string.splitS(v[i],",")
+					local v1=splitS(v[i],",")
 					for j=1,#v1 do
 						setting.keyMap[i][j]=v1[j]
 					end
 				end
 			elseif t=="keylib"then
-				v=string.splitS(v,"/")
+				v=splitS(v,"/")
 				for i=1,4 do
-					local v1=string.splitS(v[i],",")
+					local v1=splitS(v[i],",")
 					for j=1,#v1 do
 						setting.keyLib[i][j]=toN(v1[j])
 					end
@@ -233,10 +311,10 @@ function loadSetting()
 					end
 				end
 			elseif t=="virtualkey"then
-				v=string.splitS(v,"/")
+				v=splitS(v,"/")
 				for i=1,10 do
 					if not v[i]then goto c end
-					virtualkey[i]=string.splitS(v[i],",")
+					virtualkey[i]=splitS(v[i],",")
 					for j=1,4 do
 						virtualkey[i][j]=toN(virtualkey[i][j])
 					end
@@ -251,7 +329,7 @@ function loadSetting()
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
-			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"then
+			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"or t=="fxs"then
 				setting[t]=v=="true"
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[12]"))or 1

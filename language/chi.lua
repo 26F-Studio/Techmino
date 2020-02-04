@@ -156,6 +156,7 @@ return{
 			center=function()return setting.center and"旋转中心:开"or"旋转中心:关"end,
 			grid=function()return setting.grid and"网格:开"or"网格:关"end,
 			swap=function()return setting.swap and"目标选择:组合键"or"目标选择:循环"end,
+			fxs=function()return setting.fxs and"特效:开"or"特效:关"end,
 			dasD="-",dasU="+",
 			arrD="-",arrU="+",
 			sddasD="-",sddasU="+",
@@ -192,4 +193,4 @@ return{
 			path="打开存储目录",
 		},
 	},
-}--中文→
+}--中文

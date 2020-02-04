@@ -9,7 +9,6 @@ function newTask(code,P,data)
 	setmetatable(obj,metatable_task)
 	ins(Task,obj)
 end
-
 function clearTask(opt)
 	if opt=="all"then
 		while Task[1]do

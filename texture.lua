@@ -1,6 +1,7 @@
-local c
-local N=gc.newImage
-local C=function(x,y)
+local gc=love.graphics
+local N,c=gc.newImage
+local function T(s,t)return gc.newText(setFont(s),t)end
+local function C(x,y)
 	c=gc.newCanvas(x,y)
 	gc.setCanvas(c)
 	return c
@@ -25,6 +26,15 @@ for i=1,10 do
 	virtualkeyIcon[i]=N("/image/virtualkey/"..actName[i]..".png")
 end
 
+local blockColor={
+	color.red,
+	color.green,
+	color.orange,
+	color.blue,
+	color.magenta,
+	color.yellow,
+	color.cyan,
+}
 gc.setColor(1,1,1)
 mouseBlock={}
 for i=1,7 do
@@ -32,7 +42,7 @@ for i=1,7 do
 	mouseBlock[i]=C(#b[1],#b)
 	gc.setColor(blockColor[i])
 	for y=1,#b do for x=1,#b[1]do
-		if b[y][x]~=0 then
+		if b[y][x]then
 			gc.rectangle("fill",x-1,#b-y,1,1)
 		end
 	end end
@@ -83,5 +93,13 @@ background2=N("/image/BG/bg2.png")
 groupCode=N("/image/mess/groupcode.png")
 payCode=N("/image/mess/paycode.png")
 
-c=nil
-gc.setCanvas()
+drawableText={
+	bpm=T(15,"BPM"),
+	kpm=T(15,"KPM"),
+	modeName=T(30),
+	levelName=T(30),
+	next=T(40),
+	hold=T(40),
+}
+
+c=gc.setCanvas()
