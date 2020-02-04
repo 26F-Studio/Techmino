@@ -43,8 +43,8 @@ for i=1,7 do
 	local b=blocks[i][0]
 	mouseBlock[i]=C(#b[1],#b)
 	gc.setColor(blockColor[i])
-	for x=1,#b[1]do for y=1,#b do
-		if b[y][x]==1 then
+	for y=1,#b do for x=1,#b[1]do
+		if b[y][x]~=0 then
 			gc.rectangle("fill",x-1,#b-y,1,1)
 		end
 	end end
@@ -87,8 +87,13 @@ dialCircle=N("/image/mess/dialCircle.png")
 dialNeedle=N("/image/mess/dialNeedle.png")
 badgeIcon=N("/image/mess/badge.png")
 spinCenter=N("/image/mess/spinCenter.png")
+lightBulb=N("/image/mess/lightBulb.png")
+light=N("/image/mess/light.png")
+
 background1=N("/image/BG/bg1.jpg")
 background2=N("/image/BG/bg2.png")
+groupCode=N("/image/mess/groupcode.png")
+payCode=N("/image/mess/paycode.png")
 
 c=nil
 gc.setCanvas()

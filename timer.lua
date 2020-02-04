@@ -93,11 +93,20 @@ function Tmr.play(dt)
 		P=players[p]
 		if P.timing then P.time=P.time+dt end
 		if P.alive then
-			local v=0
-			for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
-			v=0
-			for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
-			--Update speeds
+			if not P.small then
+				local v=0
+				for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
+				v=0
+				for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
+				--Update speeds
+				if modeEnv.royaleMode then
+					if P.keyPressing[9]then
+						P.swappingAtkMode=min(P.swappingAtkMode+2,30)
+					else
+						P.swappingAtkMode=P.swappingAtkMode+((#P.field>15 and P.swappingAtkMode>4 or P.swappingAtkMode>8)and -1 or 1)
+					end
+				end
+			end
 
 			if P.ai and P.waiting<=0 then
 				P.ai.controlDelay=P.ai.controlDelay-1
@@ -148,13 +157,6 @@ function Tmr.play(dt)
 			else
 				P.downing=0
 			end
-			if modeEnv.royaleMode then
-				if P.keyPressing[9]then
-					P.swappingAtkMode=min(P.swappingAtkMode+2,30)
-				else
-					P.swappingAtkMode=P.swappingAtkMode+((#P.field>15 and P.swappingAtkMode>4 or P.swappingAtkMode>8)and -1 or 1)
-				end
-			end
 			if P.falling>0 then
 				P.falling=P.falling-1
 				if P.falling<=0 then
@@ -174,7 +176,7 @@ function Tmr.play(dt)
 					resetblock()
 				end
 			else
-				if P.cy~=P.y_img then
+				if P.curY~=P.y_img then
 					if P.dropDelay>0 then
 						P.dropDelay=P.dropDelay-1
 					else
@@ -190,12 +192,16 @@ function Tmr.play(dt)
 					end
 				end
 			end
-			P.b2b1=P.b2b1*.92+P.b2b*.08
 			--Alive
 		else
-			P.keySpeed=P.keySpeed*.96+P.cstat.key/P.time*60*.04
-			P.dropSpeed=P.dropSpeed*.96+P.cstat.piece/P.time*60*.04
-			--Final average speeds
+			if not P.small then
+				P.keySpeed=P.keySpeed*.96+P.cstat.key/P.time*60*.04
+				P.dropSpeed=P.dropSpeed*.96+P.cstat.piece/P.time*60*.04
+				--Final average speeds
+				if modeEnv.royaleMode then
+					P.swappingAtkMode=min(P.swappingAtkMode+2,30)
+				end
+			end
 			if P.falling>0 then
 				P.falling=P.falling-1
 				if P.falling<=0 then
@@ -215,7 +221,6 @@ function Tmr.play(dt)
 					if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
 				end end--Make field visible
 			end
-			if P.b2b1>0 then P.b2b1=max(P.b2b1-3,0)end
 			--Dead
 		end
 		for i=#P.bonus,1,-1 do

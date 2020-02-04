@@ -143,7 +143,7 @@ end
 function keyDown.play(key)
 	if key=="escape"then back()return end
 	local m=setting.keyMap
-	for p=1,4 do
+	for p=1,human do
 		local lib=setting.keyLib[p]
 		for s=1,#lib do
 			for k=1,12 do
@@ -158,7 +158,7 @@ end
 keyUp={}
 function keyUp.play(key)
 	local m=setting.keyMap
-	for p=1,4 do
+	for p=1,human do
 		local lib=setting.keyLib[p]
 		for s=1,#lib do
 			for k=1,12 do
@@ -299,6 +299,7 @@ end
 function love.wheelmoved(x,y)
 	if wheelmoved[scene]then wheelmoved[scene](x,y)end
 end
+
 function love.touchpressed(id,x,y)
 	if not touching then
 		touching=id
@@ -362,11 +363,10 @@ function love.touchmoved(id,x,y,dx,dy)
 			local b=virtualkey[n]
 			for i=1,#l do
 				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
-				if(x-b[1])^2+(y-b[2])^2<=b[3]then return end
+				if(x-b[1])^2+(y-b[2])^2<=b[3]then goto L end
 			end
-			if P.keyPressing[n]then
-				releaseKey(n,players[1])
-			end
+			releaseKey(n,players[1])
+			::L::
 		end
 	elseif scene=="setting3"then
 		x,y=xOy:inverseTransformPoint(x,y)
@@ -382,8 +382,7 @@ function love.keypressed(i)
 	if i=="f12"then devMode=not devMode end
 	if devMode then
 		if i=="k"then
-			P=players.alive[rnd(#players.alive)]
-			Event.gameover.lose()
+			--Test code here
 		elseif i=="q"then
 			for i=1,#Buttons[scene]do
 				local B=Buttons[scene][i]
@@ -528,6 +527,7 @@ function love.resize(w,h)
 	screenK=h/w>=.5625 and w/1280 or h/720
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,screenK,nil,640,360)
 	gc.replaceTransform(xOy)
+	collectgarbage()
 end
 function love.run()
 	local frameT=Timer()

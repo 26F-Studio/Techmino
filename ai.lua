@@ -74,14 +74,12 @@ function getScore(field,bn,cb,cx,cy)
 	local hole=0
 
 	for i=cy+#cb-1,cy,-1 do
-		local f=true
 		for j=1,10 do
-			if field[i][j]==0 then f=false;break end
+			if field[i][j]==0 then goto L end
 		end
-		if f then
-			removeRow(field,i)
-			clear=clear+1
-		end
+		removeRow(field,i)
+		clear=clear+1
+		::L::
 	end
 	if #field==0 then return 9e99 end--PC best
 	for x=1,10 do
@@ -133,7 +131,7 @@ function AI_getControls(ctrl)
 	end
 	local best={x=1,dir=0,hold=false,score=-9e99}
 	for ifhold=0,P.gameEnv.hold and 1 or 0 do
-		local bn=ifhold==0 and P.bid or P.hid>0 and P.hid or P.nxt[1]
+		local bn=ifhold==0 and P.curID or P.holdID>0 and P.holdID or P.nextID[1]
 		for dir=0,dirCount[bn] do--each dir
 			local cb=blocks[bn][dir]
 			for cx=1,11-#cb[1]do--each pos

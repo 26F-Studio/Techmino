@@ -87,7 +87,7 @@ FX={
 	zoomout=function(t,a)
 		gc.push("transform")
 			setFont(t.font)
-			local k=t.t^.5*.2+1
+			local k=t.t^.5*.1+1
 			gc.translate(150,290+t.dy)
 			gc.scale(k,k)
 			gc.setColor(1,1,1,a)
@@ -124,7 +124,7 @@ function drawButton()
 			gc.setColor(C[1],C[2],C[3],B.alpha)
 			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
 			gc.setColor(C[1],C[2],C[3],.3)
-			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
+			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
 			local t=B.t
 			local y0
 			if t then
@@ -156,11 +156,12 @@ function drawPixel(y,x,id,alpha)
 	gc.draw(blockSkin[id],30*x-30,600-30*y)
 end
 function drawAtkPointer(x,y)
-	gc.setColor(0,.6,1,.35+sin(Timer()*20)*.2)
+	local t=sin(Timer()*20)
+	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
 	gc.circle("fill",x,y,25,6)
 	local a=Timer()*3%1*.8
 	gc.setColor(0,.6,1,.8-a)
-	gc.circle("line",x,y,25*(1+a),6)
+	gc.circle("line",x,y,30*(1+a),6)
 end
 
 function VirtualkeyPreview()
@@ -239,9 +240,9 @@ Pnt.BG={
 function Pnt.load()
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.5)
-	gc.rectangle("fill",300,330,loadprogress*680,60)
+	gc.rectangle("fill",300,330,loadprogress*680,60,5)
 	gc.setColor(1,1,1)
-	gc.rectangle("line",300,330,680,60)
+	gc.rectangle("line",300,330,680,60,5)
 	setFont(40)
 	mStr(text.load[loading],640,335)
 	setFont(25)
@@ -256,20 +257,19 @@ function Pnt.intro()
 		gc.setColor(1,1,1,min(count,80)*.005)
 		gc.rectangle("fill",0,0,26,14)
 	gc.pop()
-		gc.setColor(1,1,1)
-		gc.setColor(1,1,1,.125)
-		for i=19,5,-2 do
+		gc.setColor(1,1,1,.06)
+		for i=41,5,-2 do
 			gc.setLineWidth(i)
-			gc.line(250+(count-80)*25,150,(count-80)*25-150,570)
+			gc.line(200+(count-80)*25,130,(count-80)*25,590)
 		end
 	gc.setStencilTest()
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
+	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.10",370,140)
-	gc.print(system,530,110)
-	gc.draw(titleImage,30,30)
+	gc.print("Alpha V0.7.11",290,140)
+	gc.print(system,800,110)
 end
 function Pnt.mode()
 	setFont(40)
@@ -300,7 +300,7 @@ function Pnt.custom()
 	for i=1,#customID do
 		local k=customID[i]
 		local y=90+40*i
-		gc.printf(text.customOption[k],50,y,300,"right")
+		gc.printf(text.customOption[k],30,y,320,"right")
 		if text.customVal[k]then
 			gc.print(text.customVal[k][customSel[k]],350,y)
 		else
@@ -374,25 +374,28 @@ function Pnt.play()
 				if P.waiting<=0 then
 					if P.gameEnv.ghost then
 						for i=1,P.r do for j=1,P.c do
-							if P.cb[i][j]>0 then
-								drawPixel(i+P.y_img-1,j+P.cx-1,P.bc,.3)
+							if P.curBlock[i][j]>0 then
+								drawPixel(i+P.y_img-1,j+P.curX-1,P.curColor,.3)
 							end
 						end end
 					end--Ghost
-					gc.setColor(1,1,1,P.lockDelay/P.gameEnv.lock)
-					for i=1,P.r do for j=1,P.c do
-						if P.cb[i][j]>0 then
-							gc.rectangle("fill",30*(j+P.cx-1)-34,596-30*(i+P.cy-1),38,38)
-						end
-					end end--BlockShade(lockdelay indicator)
-					for i=1,P.r do for j=1,P.c do
-						if P.cb[i][j]>0 then
-							drawPixel(i+P.cy-1,j+P.cx-1,P.bc,1)
-						end
-					end end--Block
+					if P.gameEnv.block then
+						gc.setColor(1,1,1,P.lockDelay/P.gameEnv.lock)
+						for i=1,P.r do for j=1,P.c do
+							if P.curBlock[i][j]>0 then
+								gc.rectangle("fill",30*(j+P.curX-1)-34,596-30*(i+P.curY-1),38,38)
+							end
+						end end--BlockShade(lockdelay indicator)
+						for i=1,P.r do for j=1,P.c do
+							if P.curBlock[i][j]>0 then
+								drawPixel(i+P.curY-1,j+P.curX-1,P.curColor,1)
+							end
+						end end--Block
+					end
 					if P.gameEnv.center then
-						local x=30*(P.cx+P.sc[2]-1)-30+15
-						gc.draw(spinCenter,x,600-30*(P.cy+P.sc[1]-1)+15,nil,nil,nil,4,4)
+						gc.setColor(1,1,1)
+						local x=30*(P.curX+P.sc[2]-1)-30+15
+						gc.draw(spinCenter,x,600-30*(P.curY+P.sc[1]-1)+15,nil,nil,nil,4,4)
 						gc.setColor(1,1,1,.5)
 						gc.draw(spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
 					end--Rotate center
@@ -421,7 +424,9 @@ function Pnt.play()
 						gc.rectangle("fill",304,600-h+(-bar+3),12,-(-bar+3)*(1-a.countdown/a.cd0))
 						--Timing
 					else
-						attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
+						local t=sin((Timer()-i)*20)*.5+.5
+						local c1,c2=attackColor[a.lv][1],attackColor[a.lv][2]
+						gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
 						gc.rectangle("fill",304,600-h,12,-bar+3)
 						--Warning
 					end
@@ -433,34 +438,32 @@ function Pnt.play()
 				end
 				h=h+bar
 			end--Buffer line
-
-			gc.setColor(P.b2b<40 and color.white or P.b2b<=480 and color.lightRed or color.lightBlue)
-			gc.rectangle("fill",-13,600,10,-P.b2b1)
-			gc.setColor(color.red)
-			gc.rectangle("fill",-19,600-40,16,5)
-			gc.setColor(color.blue)
-			gc.rectangle("fill",-19,600-480,16,5)
-			--B2B bar
-
+			gc.setColor(1,1,1)
+			gc.draw(lightBulb,-35,573)
+			if P.b2b>0 then
+				gc.setColor(P.b2b<50 and color.white or P.b2b<=1000 and color.lightRed or color.lightBlue)
+				gc.draw(light,-35,573)
+			end
+			--B2B indictator
 			setFont(40)
 			gc.setColor(1,1,1)
 			if P.gameEnv.hold then
 				mStr(text.hold,-75,-10)
-				for i=1,#P.hb do
-					for j=1,#P.hb[1] do
-						if P.hb[i][j]>0 then
-							drawPixel(i+17.5-#P.hb*.5,j-2.5-#P.hb[1]*.5,P.holded and 13 or P.hc,1)
+				for i=1,#P.holdBlock do
+					for j=1,#P.holdBlock[1] do
+						if P.holdBlock[i][j]>0 then
+							drawPixel(i+17.5-#P.holdBlock*.5,j-2.5-#P.holdBlock[1]*.5,P.holded and 9 or P.holdColor,1)
 						end
 					end
 				end
 			end--Hold
-			gc.print(text.next,325,-10)
+			mStr(text.next,375,-10)
 			for N=1,P.gameEnv.next do
-				local b=P.nb[N]
+				local b=P.nextBlock[N]
 				for i=1,#b do
 					for j=1,#b[1] do
 						if b[i][j]>0 then
-							drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,P.nxt[N],1)
+							drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,P.nextColor[N],1)
 						end
 					end
 				end
@@ -519,7 +522,7 @@ function Pnt.play()
 			local b=FX.badge[i]
 			local t=b.t<10 and 0 or b.t<50 and(sin(1.5*(b.t/20-1.5))+1)*.5 or 1
 			gc.setColor(1,1,1,b.t<10 and b.t*.1 or b.t<50 and 1 or(60-b.t)*.1)
-			gc.draw(badgeIcon,b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t,nil,b.size,nil,14,14)
+			gc.draw(badgeIcon,b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t,nil,nil,nil,14,14)
 		end
 		P=players[1]
 		gc.setLineWidth(5)
@@ -601,6 +604,13 @@ function Pnt.help()
 		gc.printf(text.help[i],140,15+43*i,1000,"center")
 	end
 	gc.draw(titleImage,180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
+	gc.draw(payCode,20,20)
+	gc.draw(groupCode,1080,20)
+	gc.setColor(1,1,1,sin(Timer()*10)*.5+.5)
+	setFont(35)
+	mStr(text.support,150,283)
+	setFont(25)
+	mStr(text.group,1170,210)
 end
 function Pnt.stat()
 	setFont(35)

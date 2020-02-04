@@ -2,17 +2,17 @@ return{
 	royale_remain=function(n)
 		return "剩余 "..n.." 名玩家"
 	end,
-	cmb={nil,nil,"3连击","4连击","5连击","6连击","7连击","8连击","9连击","10连击!","11连击!","12连击!","13连击!","14连击!","15连击!","16连击!","17连击!","18连击!","19连击!","巨型连击"},
-	techrash="四清",
-	techrashB2B="满贯 四清",
-	techrashB3B="大满贯 四清",
+	cmb={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB"},
+	techrash="Techrash",
+	techrashB2B="Techrash B2B",
+	techrashB3B="Techrash B2B2B",
 	block={"Z","S","L","J","T","O","I"},
-	spin={"Z型回旋","S型回旋","L型回旋","J型回旋","T型回旋","O型回旋","I型回旋"},
-	clear={"单清","双清","三清"},
-	b2b="满贯 ",
-	b3b="大满贯 ",
-	mini="次级",
-	PC="场地全清",
+	spin={"Z-spin","S-spin","L-spin","J-spin","T-spin","O-spin","I-spin"},
+	clear={" single"," double"," triple"},
+	b2b="B2B ",
+	b3b="B2B2B ",
+	mini="Mini",
+	PC="Perfect Clear",
 	hold="暂存",
 	next="下一个",
 
@@ -121,12 +121,14 @@ return{
 		"特别感谢:Farter,Teatube,196,Flyz,T830,[所有测试人员]和 你!",
 		"错误或者建议请附带相关信息发送到作者邮箱~",
 	},
+	support="支持作者",
+	group="官方QQ群",
 	ButtonText={
 		main={
 			"开始",
 			"设置",
-			"帮助",
 			"统计信息",
+			"帮助",
 			"退出",
 		},
 		mode={

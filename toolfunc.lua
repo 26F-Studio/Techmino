@@ -57,6 +57,9 @@ end
 function timeSort(a,b)
 	return a.time>b.time
 end
+function badgeSort(a,b)
+	return a.badge>b.badge
+end
 function stencil_miniTitle()
 	for i=1,#miniTitle_rect do
 		gc.rectangle("fill",unpack(miniTitle_rect[i]))
