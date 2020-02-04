@@ -499,15 +499,17 @@ function touchDown.play(id,x,y)
 			players[1]:pressKey(t)
 			if setting.VKTrack then
 				local B=virtualkey[t]
-				for i=1,#virtualkey do
-					local b=virtualkey[i]
-					local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--碰撞深度(负数=间隔距离)
-					if d>0 then
-						b.x=b.x+(b.x-B.x)*d*b.r*.00005
-						b.y=b.y+(b.y-B.y)*d*b.r*.00005
+				--按钮软碰撞(做不来hhh随便做一个,效果还行!)
+				if setting.VKDodge then
+					for i=1,#virtualkey do
+						local b=virtualkey[i]
+						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--碰撞深度(负数=间隔距离)
+						if d>0 then
+							b.x=b.x+(b.x-B.x)*d*b.r*.00005
+							b.y=b.y+(b.y-B.y)*d*b.r*.00005
+						end
 					end
 				end
-				--按钮软碰撞(做不来hhh随便做一个,效果还行!)
 				local O=VK_org[t]
 				local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
 				local _OW=1-_FW-_CW

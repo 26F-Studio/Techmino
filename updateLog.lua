@@ -23,9 +23,13 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
-0.7.31+:
+0.7.32:
+	Blind-GM now show section directly
+	easier&more standard classic mode
+	can switch Virtualkey's auto dodging
 	in-game setting
-	little changes
+	code optimized
+	bug fixed
 0.7.31:
 	stereo system
 	fixed a problem in finesse calculating

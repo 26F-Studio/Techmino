@@ -166,7 +166,7 @@ customRange={
 RCPB={10,33,200,33,105,5,105,60}
 snapLevelValue={1,10,20,40,60,80}
 up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
-
+sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
 modeID={
 	[0]="custom",
 	"sprint","marathon","master","classic","zen","infinite","solo","round","tsd","blind",
@@ -534,6 +534,7 @@ Widget={
 		back=	newButton(1080,600,240,80,color.white,50,scene.back),
 	},
 	setting_trackSetting={
+		VKDodge=	newSwitch(400,200,	40,function()return setting.VKDodge end,function()setting.VKDodge=not setting.VKDodge end),
 		VKTchW=	newSlider(140,310,1000,10,40,nil,function()return setting.VKTchW end,function(i)setting.VKTchW=i;setting.VKCurW=math.max(setting.VKCurW,i)end),
 		VKCurW=	newSlider(140,370,1000,10,40,nil,function()return setting.VKCurW end,function(i)setting.VKCurW=i;setting.VKTchW=math.min(setting.VKTchW,i)end),
 		back=	newButton(1080,600,240,80,color.white,50,scene.back),

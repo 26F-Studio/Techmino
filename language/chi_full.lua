@@ -326,6 +326,7 @@ return{
 			back=BK,
 		},
 		setting_trackSetting={
+			VKDodge="自动避让",
 			back=BK,
 		},
 		help={

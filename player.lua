@@ -287,9 +287,8 @@ local mesDisp={
 	classic=function(P)
 		setFont(80)
 		local r=P.gameEnv.target*.1
-		mStr(r<11 and 19+r or r==11 and"00"or r==12 and"0a"or format("%x",r*10-110),-82,210)
-		setFont(20)
-		mStr("speed level",-82,290)
+		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-82,210)
+		mDraw(drawableText.speedLV,-82,290)
 		setFont(50)
 		mStr(P.stat.row,-82,320)
 		mStr(P.gameEnv.target,-82,370)
@@ -303,24 +302,21 @@ local mesDisp={
 		setFont(50)
 		mStr(P.stat.atk,-82,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		setFont(20)
-		mStr("Attack",-82,363)
-		mStr("Efficiency",-82,475)
+		mDraw(drawableText.atk,-82,363)
+		mDraw(drawableText.eff,-82,475)
 	end,
 	tsd=function(P)
-		setFont(35)
-		mStr("TSD",-82,407)
 		setFont(80)
 		mStr(P.modeData.event,-82,330)
+		mDraw(drawableText.tsd,-82,407)
 	end,
 	blind=function(P)
-		setFont(25)
-		mStr("Lines",-82,300)
-		mStr("Techrash",-82,420)
+		mDraw(drawableText.line,-82,300)
+		mDraw(drawableText.techrash,-82,420)
 		if curMode.lv==6 then
-			mStr("Grade",-82,170)
+			mDraw(drawableText.grade,-82,170)
 			setFont(60)
-			mStr(P.modeData.point*.1,-82,110)
+			mStr(P.modeData.event,-82,110)
 		end
 		setFont(80)
 		mStr(P.stat.row,-82,220)
@@ -329,57 +325,51 @@ local mesDisp={
 	dig=function(P)
 		setFont(70)
 		mStr(P.modeData.event,-82,310)
-		setFont(30)
-		mStr("Wave",-82,375)
+		mDraw(drawableText.wave,-82,375)
 	end,
 	survivor=function(P)
 		setFont(70)
 		mStr(P.modeData.event,-82,310)
-		setFont(30)
-		mStr("Wave",-82,375)
+		mDraw(drawableText.wave,-82,375)
 	end,
 	defender=function(P)
 		setFont(60)
 		mStr(P.modeData.point,-82,315)
-		setFont(30)
-		mStr("RPM",-82,375)
+		mDraw(drawableText.rpm,-82,375)
 	end,
 	attacker=function(P)
 		setFont(60)
 		mStr(P.modeData.point,-82,315)
-		setFont(30)
-		mStr("RPM",-82,375)
+		mDraw(drawableText.rpm,-82,375)
 	end,
 	tech=function(P)
 		setFont(50)
 		mStr(P.stat.atk,-82,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		setFont(20)
-		mStr("Attack",-82,363)
-		mStr("Efficiency",-82,475)
+		mDraw(drawableText.atk,-82,363)
+		mDraw(drawableText.eff,-82,475)
 	end,
 	c4wtrain=function(P)
 		setFont(50)
 		mStr(max(100-P.stat.row,0),-82,220)
 		mStr(P.combo,-82,310)
 		mStr(P.modeData.point,-82,400)
-		setFont(20)
-		mStr("combo",-82,358)
-		mStr("max combo",-82,450)
+		mDraw(drawableText.combo,-82,358)
+		mDraw(drawableText.mxcmb,-82,450)
 	end,
 	pctrain=function(P)
-		setFont(22)
-		mStr("Perfect Clear",-82,412)
 		setFont(80)
 		mStr(P.stat.pc,-82,330)
+		mDraw(drawableText.pc,-82,412)
 	end,
 	pcchallenge=function(P)
-		setFont(22)
-		mStr("Perfect Clear",-82,432)
-		setFont(80)
-		mStr(P.stat.pc,-82,350)
 		setFont(50)
 		mStr(max(100-P.stat.row,0),-82,250)
+		
+		setFont(80)
+		mStr(P.stat.pc,-82,350)
+		mDraw(drawableText.pc,-82,432)
+
 		gc.setColor(.5,.5,.5)
 		if frame>179 then
 			local y=72*(7-(P.stat.piece+(P.hd.id>0 and 2 or 1))%7)-36
@@ -390,8 +380,8 @@ local mesDisp={
 		setFont(40)
 		mStr(#players.alive.."/49",-82,175)
 		mStr(P.ko,-70,215)
+		gc.draw(drawableText.ko,-127,225)
 		setFont(25)
-		gc.print("KO",-127,225)
 		gc.setColor(1,.5,0,.6)
 		gc.print(P.badge,-47,227)
 		gc.setColor(1,1,1)
@@ -405,8 +395,8 @@ local mesDisp={
 		setFont(40)
 		mStr(#players.alive.."/99",-82,175)
 		mStr(P.ko,-70,215)
+		gc.draw(drawableText.ko,-127,225)
 		setFont(25)
-		gc.print("KO",-127,225)
 		gc.setColor(1,.5,0,.6)
 		gc.print(P.badge,-47,227)
 		gc.setColor(1,1,1)
@@ -422,10 +412,9 @@ local mesDisp={
 	end,
 	custom=function(P)
 		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
-			setFont(25)
-			mStr("Lines",-82,290)
 			setFont(60)
 			mStr(P.stat.row,-82,225)
+			mDraw(drawableText.line,-82,290)
 		else
 			setFont(60)
 			mStr(max(P.gameEnv.target-P.stat.row,0),-82,240)
@@ -555,7 +544,7 @@ function newDemoPlayer(id,x,y,size)
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.moving,P.downing=0,0
 	P.waiting,P.falling=-1,-1
-	P.clearing={}
+	P.clearing,P.cleared={},{}
 	P.combo,P.b2b=0,0
 	P.fieldBeneath=0
 	P.shade={}
@@ -704,7 +693,7 @@ function newPlayer(id,x,y,size,AIdata)
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.moving,P.downing=0,0
 	P.waiting,P.falling=-1,-1
-	P.clearing={}
+	P.clearing,P.cleared={},{}
 	P.combo,P.b2b=0,0
 	P.fieldBeneath=0
 
@@ -805,9 +794,7 @@ function player.update(P,dt)
 			else
 				local L=#P.clearing
 				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
-				for i=1,L do
-					P.clearing[i]=nil
-				end
+				P.clearing,P.cleared={},{}
 			end
 		end
 		if not P.control then goto stop end
@@ -866,9 +853,7 @@ function player.update(P,dt)
 			else
 				local L=#P.clearing
 				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
-				for i=1,L do
-					P.clearing[i]=nil
-				end
+				P.clearing,P.cleared={},{}
 			end
 		end::stop::
 		if P.endCounter<40 then
@@ -1384,6 +1369,7 @@ local function checkrow(P,start,height)--(cy,r)
 	for i=1,height do
 		if ckfull(P,h)then
 			ins(P.clearing,h)
+			ins(P.cleared,h+c)
 			removeRow(P.field,h)
 			removeRow(P.visTime,h)
 			c=c+1

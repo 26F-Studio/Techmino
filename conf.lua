@@ -1,5 +1,5 @@
 math.randomseed(os.time())
-gameVersion="Alpha V0.7.31+"
+gameVersion="Alpha V0.7.32"
 function love.conf(t)
 	t.identity="Techmino"--Save directory name
 	t.version="11.1"

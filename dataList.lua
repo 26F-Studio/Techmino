@@ -453,7 +453,7 @@ function Event.marathon_update(P)
 	end
 end
 function Event.master_score(P)
-	local c=#P.clearing
+	local c=#P.cleared
 	if c==0 and P.modeData.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
@@ -492,7 +492,7 @@ function Event.master_score(P)
 	end
 end
 function Event.master_score_hard(P)
-	local c=#P.clearing
+	local c=#P.cleared
 	if c==0 then return end
 	local s
 	if P.lastClear<10 then
@@ -534,15 +534,17 @@ function Event.classic_reach(P)
 		P.gameEnv.target=P.gameEnv.target+10
 		if P.gameEnv.target==110 then
 			P.gameEnv.drop,P.gameEnv.lock=2,2
-		elseif P.gameEnv.target==210 then
+		elseif P.gameEnv.target==200 then
 			P.gameEnv.drop,P.gameEnv.lock=1,1
 		end
-		SFX("reach")
+		if P.gameEnv.target>100 then
+			SFX("reach")
+		end
 	end
 end
 function Event.infinite_check(P)
-	for i=1,#P.clearing do
-		if P.clearing[i]<6 then
+	for i=1,#P.cleared do
+		if P.cleared[i]<6 then
 			P:garbageRise(10,1,rnd(10))
 		end
 	end
@@ -558,46 +560,54 @@ function Event.round_check(P)
 		players[ID].control=true
 	end
 end
-function Event.GM_reach(P)
-	local R=#P.clearing
-	if R==4 then R=10 end
-	P.modeData.point=P.modeData.point+R
+function Event.GM_score(P)
+	local F=false
+	if P.modeData.point<70 then--if Less then MM
+		local R=#P.cleared
+		if R==4 then R=10 end
+		P.modeData.point=P.modeData.point+R
+		F=true
+	end
 	if P.stat.time>=53.5 then
-		P.modeData.point=P.modeData.point+15
+		P.modeData.point=min(P.modeData.point+15,80)
+		F=true
 		Event.win(P)
+	end
+	if F then
+		P.modeData.event=sectionName[int(P.modeData.point*.1)+1]
 	end
 end
 function Event.tsd_reach(P)
-	if #P.clearing>0 then
+	if #P.cleared>0 then
 		if P.lastClear~=52 then
 			Event.lose(P)
-		elseif #P.clearing>0 then
+		elseif #P.cleared>0 then
 			P.modeData.event=P.modeData.event+1
 		end
 	end
 end
 function Event.tech_reach_easy(P)
-	if #P.clearing>0 and P.b2b<40 then
+	if #P.cleared>0 and P.b2b<40 then
 		Event.lose(P)
 	end
 end
 function Event.tech_reach_hard(P)
-	if #P.clearing>0 and P.lastClear<10 then
+	if #P.cleared>0 and P.lastClear<10 then
 		Event.lose(P)
 	end
 end
 function Event.tech_reach_ultimate(P)
-	if #P.clearing>0 and P.lastClear<10 or P.lastClear==74 then
+	if #P.cleared>0 and P.lastClear<10 or P.lastClear==74 then
 		Event.lose(P)
 	end
 end
 function Event.c4w_reach(P)
-	for i=1,#P.clearing do
+	for i=1,#P.cleared do
 		P.field[#P.field+1]=getNewRow(10)
 		P.visTime[#P.visTime+1]=getNewRow(20)
 		for i=4,7 do P.field[#P.field][i]=0 end
 	end
-	if #P.clearing==0 then
+	if #P.cleared==0 then
 		if curMode.lv==2 then
 			Event.lose(P)
 		end
@@ -1172,7 +1182,7 @@ defModeEnv.blind={
 		wait=10,fall=15,
 		visible="fast",
 		freshLimit=15,
-		dropPiece="GM_reach",
+		dropPiece="GM_score",
 		arr=1,
 		bg="game3",bgm="shining terminal",
 	},

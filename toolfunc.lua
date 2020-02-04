@@ -466,7 +466,7 @@ function loadSetting()
 				t=="bg"or
 				t=="ghost"or t=="center"or t=="grid"or t=="swap"or
 				t=="quickR"or t=="fine"or t=="bgblock"or t=="smo"or
-				t=="VKSwitch"or t=="VKTrack"or t=="VKIcon"
+				t=="VKSwitch"or t=="VKTrack"or t=="VKDodge"or t=="VKIcon"
 			then
 				setting[t]=v=="true"
 			elseif t=="frameMul"then
@@ -529,6 +529,7 @@ local saveOpt={
 	
 	"VKSwitch",
 	"VKTrack",
+	"VKDodge",
 	"VKIcon",
 	"VKAlpha",
 }

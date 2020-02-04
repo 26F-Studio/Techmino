@@ -34,6 +34,7 @@ setting={
 	},
 	VKSwitch=true,
 	VKTrack=true,--If tracked
+	VKDodge=false,--If repel
 	VKTchW=3,--Touch Weight
 	VKCurW=4,--CurPos Weight
 	VKIcon=true,

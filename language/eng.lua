@@ -324,6 +324,7 @@ Lib used:
 			back=BK,
 		},
 		setting_trackSetting={
+			VKDodge="Auto Dodge",
 			back=BK,
 		},
 		help={
