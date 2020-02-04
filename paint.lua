@@ -267,7 +267,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.9",370,140)
+	gc.print("Alpha V0.7.10",370,140)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -300,9 +300,9 @@ function Pnt.custom()
 	for i=1,#customID do
 		local k=customID[i]
 		local y=90+40*i
-		gc.print(customOption[k],50,y)
-		if customVal[k]then
-			gc.print(customVal[k][customSel[k]],350,y)
+		gc.printf(text.customOption[k],50,y,300,"right")
+		if text.customVal[k]then
+			gc.print(text.customVal[k][customSel[k]],350,y)
 		else
 			gc.print(customRange[k][customSel[k]],350,y)
 		end
@@ -445,16 +445,16 @@ function Pnt.play()
 			setFont(40)
 			gc.setColor(1,1,1)
 			if P.gameEnv.hold then
-				gc.print("Hold",-115,-10)
+				mStr(text.hold,-75,-10)
 				for i=1,#P.hb do
 					for j=1,#P.hb[1] do
 						if P.hb[i][j]>0 then
-							drawPixel(i+17.5-#P.hb*.5,j-2.5-#P.hb[1]*.5,P.holded and 13 or P.hid,1)
+							drawPixel(i+17.5-#P.hb*.5,j-2.5-#P.hb[1]*.5,P.holded and 13 or P.hc,1)
 						end
 					end
 				end
 			end--Hold
-			gc.print("Next",336,-10)
+			gc.print(text.next,325,-10)
 			for N=1,P.gameEnv.next do
 				local b=P.nb[N]
 				for i=1,#b do

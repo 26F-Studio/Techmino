@@ -39,7 +39,7 @@ function setFont(s)
 		if Fonts[s]then
 			gc.setFont(Fonts[s])
 		else
-			local t=gc.setNewFont("allph.ttf",s-5)
+			local t=gc.setNewFont("font.ttf",s-5)
 			Fonts[s]=t
 			gc.setFont(t)
 		end
@@ -81,6 +81,9 @@ loadmode={
 		createPlayer(1,340,15)
 	end,
 	marathon=function()
+		createPlayer(1,340,15)
+	end,
+	classic=function()
 		createPlayer(1,340,15)
 	end,
 	zen=function()
@@ -209,6 +212,23 @@ mesDisp={
 		setFont(70)
 		mStr(max(P.gameEnv.target-P.cstat.row,0),-75,260)
 	end,
+	marathon=function()
+		setFont(50)
+		mStr(P.cstat.row,-75,320)
+		mStr(P.gameEnv.target,-75,370)
+		gc.rectangle("fill",-120,376,90,4)
+	end,
+	classic=function()
+		setFont(80)
+		local r=P.gameEnv.target*.1
+		mStr(r<11 and 19+r or r==11 and"00"or r==12 and"0a"or format("%x",r*10-110),-75,210)
+		setFont(20)
+		mStr("speed level",-75,290)
+		setFont(50)
+		mStr(P.cstat.row,-75,320)
+		mStr(P.gameEnv.target,-75,370)
+		gc.rectangle("fill",-120,376,90,4)
+	end,
 	zen=function()
 		setFont(75)
 		mStr(max(200-P.cstat.row,0),-75,280)
@@ -220,12 +240,6 @@ mesDisp={
 		setFont(20)
 		mStr("Attack",-75,363)
 		mStr("Efficiency",-75,475)
-	end,
-	marathon=function()
-		setFont(50)
-		mStr(P.cstat.row,-75,320)
-		mStr(P.gameEnv.target,-75,370)
-		gc.rectangle("fill",-120,376,90,4)
 	end,
 	tsd=function()
 		setFont(35)
@@ -470,11 +484,18 @@ Event={
 			SFX("reach")
 		end
 	end,
+	classic_reach=function()
+		P.gameEnv.target=P.gameEnv.target+10
+		if P.gameEnv.target==100 then
+			P.gameEnv.drop,P.gameEnv.lock=0,0
+		end
+		SFX("reach")
+	end,
 	tsd_reach=function()
 		if P.lastClear~=52 then
 			Event.gameover.lose()
 		else
-			P.gameEnv.target=P.gameEnv.target+2
+			P.gameEnv.target=P.gameEnv.target+20
 			P.cstat.event=P.cstat.event+1
 			if #P.field>11 and P.cstat.event%5~=1 then
 				ins(P.clearing,1)

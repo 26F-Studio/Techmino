@@ -92,7 +92,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.atkMode,P.swappingAtkMode=1,20
 	P.atker,P.atking,P.lastRecv={}
 	--Royale-related
-	
+
 	P.gameEnv={}--Game setting vars,like dropDelay setting
 	for k,v in pairs(gameEnv0)do
 		if data and data[k]~=nil then
@@ -161,7 +161,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.result=nil--string,"win"/"lose"
 	P.task={}
 	P.bonus={}
-end 
+end
 function showText(P,text,type,font,dy,spd,inf)
 	if not P.small then
 		ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0,speed=spd or 1,inf=inf})
@@ -513,7 +513,7 @@ function spin(d,ifpre)
 end
 function hold(ifpre)
 	if not P.holded and P.waiting<=0 and P.gameEnv.hold then
-		P.hid,P.bid,P.bc=P.bid,P.hid,P.hid
+		P.hid,P.bid,P.bc,P.hc=P.bid,P.hid,P.hc,P.bc
 		P.hb,P.cb=blocks[P.hid][0],P.hb
 
 		if P.bid==0 then
@@ -604,11 +604,11 @@ function drop()
 		elseif cc>0 then
 			if dospin then
 				if P.b2b>480 then
-					showText(P,text.spin[P.bc]..text.clear[cc]..text.b3b,"spin",40)
+					showText(P,text.b3b..text.spin[P.bc]..text.clear[cc],"spin",40)
 					csend=b2bATK[cc]+1
 					exblock=exblock+1
 				elseif P.b2b>=30 then
-					showText(P,text.spin[P.bc]..text.clear[cc]..text.b2b,"spin",40)
+					showText(P,text.b2b..text.spin[P.bc]..text.clear[cc],"spin",40)
 					csend=b2bATK[cc]
 				else
 					showText(P,text.spin[P.bc]..text.clear[cc],"spin",50)
@@ -616,7 +616,7 @@ function drop()
 				end
 				sendTime=20+csend*20
 				if mini then
-					showText(P,text.mini,"drive",40,10)
+					showText(P,text.mini,"appear",40,-60)
 					csend=ceil(csend*.5)
 					sendTime=sendTime+60
 					P.b2b=P.b2b+b2bPoint[cc]*.8
@@ -630,7 +630,7 @@ function drop()
 				SFX(spin_n[cc])
 			elseif #P.clearing<#P.field then
 				P.b2b=P.b2b-150-cc*50
-				showText(P,text.clear[cc],"appear",25+cc*5)
+				showText(P,text.clear[cc],"appear",32+cc*3,0,(8-cc)*.3)
 				csend=cc-1
 				sendTime=20+csend*20
 				P.lastClear=cc

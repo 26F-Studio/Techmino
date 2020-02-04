@@ -128,6 +128,7 @@ bgm={
 	"final",
 	"secret7th",
 	"secret8th",
+	"rockblock",
 }
 
 prevMenu={
@@ -162,33 +163,7 @@ customID={
 	"target",
 	"freshLimit",
 	"opponent",
-}--Order
-customOption={
-	drop="Drop delay:",
-	lock="Lock delay:",
-	wait="Next piece delay:",
-	fall="Clear row delay:",
-	next="Next count:",
-	hold="Hold:",
-	sequence="Sequence:",
-	visible="Visible:",
-	target="Line limit:",
-	freshLimit="Lock fresh limit:",
-	opponent="Opponent speed:",
-}--Key str
-customVal={
-	drop={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞","[20G]"},
-	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞"},
-	wait=nil,
-	fall=nil,
-	next=nil,
-	hold={"on","off"},
-	sequence={"bag7","his4","random"},
-	visible={"normal","time","invisible"},
-	target={10,20,40,100,200,500,1000,"∞"},
-	freshLimit={0,8,15,"∞"},
-	opponent={"No CPU",1,2,3,4,5,6,7,8,9,10,11},
-}--number-Val str
+}
 customRange={
 	drop={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99,-1},
 	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
@@ -234,7 +209,6 @@ pc_fall={18,16,14,12,10,9,8,7,6}
 atkModeName={"Random","Badges","K.O.s","Counters"}
 up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
-snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 
 defaultModeEnv={
 	sprint={
@@ -330,6 +304,22 @@ defaultModeEnv={
 			arr=1,
 			bg="game2",
 			bgm="secret7th",
+		},
+	},
+	classic={
+		{
+			das=15,arr=3,
+			sddas=2,sdarr=2,
+			ghost=false,center=false,
+			drop=1,lock=1,
+			wait=10,fall=25,
+			next=6,hold=false,
+			sequence="rnd",
+			freshLimit=0,
+			target=10,
+			reach=Event.classic_reach,
+			bg="rgb",
+			bgm="rockblock",
 		},
 	},
 	zen={
@@ -622,9 +612,15 @@ defaultModeEnv={
 		},
 	},
 }
+modeID={
+	[0]="custom",
+	"sprint","marathon","classic","zen","infinite","solo","tsd","blind","dig","survivor","tech",
+	"pctrain","pcchallenge","techmino41","techmino99","drought","hotseat",
+}
 modeLevel={
 	sprint={"10L","20L","40L","100L","400L","1000L"},
 	marathon={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	classic={"CTWC"},
 	zen={"NORMAL"},
 	infinite={"NORMAL"},
 	solo={"EASY","NORMAL","HARD","LUNATIC"},
@@ -633,7 +629,7 @@ modeLevel={
 	dig={"NORMAL","LUNATIC"},
 	survivor={"EASY","NORMAL","HARD","LUNATIC"},
 	tech={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
-	pctrain={"NORMAL","LUNATIC"},
+	pctrain={"NORMAL","EXTRA"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
 	techmino41={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	techmino99={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
@@ -647,22 +643,18 @@ modeLevelColor={
 	HARD=color.purple,
 	LUNATIC=color.red,
 	EXTRA=color.lightPurple,
+	ULTIMATE=color.lightYellow,
 
 	MESS=color.lightGrey,
 	GM=color.blue,
-	ULTIMATE=color.lightYellow,
 	DEATH=color.lightRed,
+	CTWC=color.lightBlue,
 	["10L"]=color.cyan,
 	["20L"]=color.lightBlue,
 	["40L"]=color.green,
 	["100L"]=color.orange,
 	["400L"]=color.red,
 	["1000L"]=color.darkRed,
-}
-modeID={
-	[0]="custom",
-	"sprint","marathon","zen","infinite","solo","tsd","blind","dig","survivor","tech",
-	"pctrain","pcchallenge","techmino41","techmino99","drought","hotseat",
 }
 
 freshMethod={
@@ -944,16 +936,16 @@ Buttons={
 		{x=850,y=370,w=340,h=60,rgb=color.white,code=function()
 			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
 			if setting.frameMul>100 then setting.frameMul=25 end
-		end,up=15,down=17},
+		end,up=15,down=17,left=19},
 		--11~16
-		{x=850,y=440,w=340,h=60,rgb=color.green,code=function()gotoScene("setting2")end,up=16,down=18},
-		{x=850,y=510,w=340,h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up=17,down=20},
+		{x=850,y=440,w=340,h=60,rgb=color.green,code=function()gotoScene("setting2")end,up=16,down=18,left=19},
+		{x=850,y=510,w=340,h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up=17,down=20,left=19},
 		{x=280,y=510,w=200,h=60,rgb=color.red,code=function()
 			setting.lang=setting.lang%#langName+1
 			swapLanguage(setting.lang)
-		end,up=10,down=20,right=18},
+		end,up=7,down=20,right=18},
 		{x=640,y=620,w=300,h=70,rgb=color.white,code=back,up=19},
-		--17~19
+		--17~20
 	},
 	setting2={--Control setting
 		{x=840,y=630,w=180,h=60,rgb=color.white,code=back},
