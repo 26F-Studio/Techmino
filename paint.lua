@@ -109,7 +109,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha 0.1.19727",370,150)
+	gc.print("Alpha 0.1+",370,150)
 	gc.draw(img.title[setting.lang],30,30)
 end
 function Pnt.play()
@@ -266,17 +266,18 @@ function Pnt.play()
 	setmetatable(_G,nil)
 end
 function Pnt.setting2()
+	gc.setColor(1,1,1)
+	setFont(18)
+	mStr("softdropDAS:"..setting.sddas,828,138)
+	mStr("softdropARR:"..setting.sdarr,1043,138)
 	setFont(35)
-	gc.setColor(1,1,1)
-	mStr("DAS:"..setting.das,830,72)
-	mStr("ARR:"..setting.arr,1045,72)
-	gc.setColor(1,1,1)
+	mStr("DAS:"..setting.das,828,73)
+	mStr("ARR:"..setting.arr,1043,73)
 	for i=1,9 do
-		gc.printf(actName_show[i]..":",100,60*i-8,200,"right")
+		gc.printf(actName_show[i]..":",0,60*i-8,180,"right")
 	end
-	if keysetting then
-		setFont(35)
-		gc.print("<<",550,60*keysetting-10)
+	if keysetting or gamepadsetting then
+		gc.print("<<",keysetting and 380 or 670,60*(keysetting or gamepadsetting)-10)
 	end
 end
 function Pnt.help()

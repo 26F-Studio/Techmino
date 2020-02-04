@@ -31,7 +31,7 @@ act={
 		end
 	end,
 	softDrop=function()
-		act.toDown()
+		if cy~=y_img then P.cy=cy-1 end
 		P.downing=1
 	end,
 	rotRight=function()spin(1)end,
@@ -43,8 +43,8 @@ act={
 		resetGameData()
 		count=60+26--Althour'z neim
 	end,
-	down1=function()drop()end,
-	down4=function()for i=1,4 do if cy~=y_img then drop()else break end end end,
+	down1=function()if cy~=y_img then P.cy=cy-1 end end,
+	down4=function()for i=1,4 do if cy~=y_img then P.cy=cy-1 else break end end end,
 	toDown=function()if cy~= y_img then P.cy,P.lockDelay,P.spinLast=y_img,gameEnv.lock,false end end,
 	toLeft=function()while not ifoverlap(cb,cx-1,cy)do P.cx,P.lockDelay=cx-1,gameEnv.lock;freshgho()end end,
 	toRight=function()while not ifoverlap(cb,cx+1,cy)do P.cx,P.lockDelay=cx+1,gameEnv.lock;freshgho()end end,

@@ -3,6 +3,40 @@ toN,toS=tonumber,tostring
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
 ins,rem,sort=table.insert,table.remove,table.sort
+--[[
+freeRow={}
+for i=1,50 do
+	freeRow[i]={0,0,0,0,0,0,0,0,0,0}
+end
+]]--Reset freeRow,in resetGameData
+function getNewRow(val)
+	if not val then val=0 end
+	local t=rem(freeRow)
+	for i=1,10 do
+		t[i]=val or 0
+	end
+	--clear a row and move to active list
+	if #freeRow==0 then
+		for i=1,20 do
+			ins(freeRow,{0,0,0,0,0,0,0,0,0,0})
+		end
+	end
+	--prepare new rows
+	return t
+end
+function removeRow(t,k)
+	ins(freeRow,rem(t,k))
+end
+function restockRow()
+	for p=1,#players do
+		local f,f2=players[p].field,players[p].visTime
+		while #f>0 do
+			removeRow(f,1)
+			removeRow(f2,1)
+		end
+	end
+end
+--to save cache,all rows pruduced and removed here!
 
 function sortByTime(a,b)
 	return a.time>b.time
@@ -10,7 +44,7 @@ end
 
 ww,wh=gc.getWidth(),gc.getHeight()
 
-Timer=tm.getTime
+Timer=tm.getTime--Easy get time
 mx,my,mouseShow=-10,-10,true
 pause=0--pause countdown(frame)
 focus=true
@@ -26,7 +60,10 @@ languages={"eng"}
 prevMenu={
 	load=love.event.quit,
 	ready="mode",
-	play="mode",
+	play=function()
+		restockRow()
+		gotoScene("mode")
+	end,
 	mode="main",
 	help="main",
 	stat="main",
@@ -199,38 +236,30 @@ color={
 }
 attackColor={
 	{color.red,color.yellow},
-	{color.red,color.cyan},
+	{color.red,color.purple},
 	{color.blue,color.white},
 	animate={
 		function(t)
 			gc.setColor(1,t,0)
 		end,
 		function(t)
-			gc.setColor(1-t,t,t)
+			gc.setColor(1,0,t)
 		end,
 		function(t)
 			gc.setColor(t,t,1)
 		end,
-	}
+	}--3 animation-colorsets of attack buffer bar
 }
 -- for k,v in pairs(color) do
 -- 	v[1],v[2],v[3]=255*v[1],255*v[2],255*v[3]
 -- end
 
-loseReason={"Finished","Block out"}
-blockName={"Z","S","L","J","T","O","I"}
-clearName={"Single","Double","Triple"}
-actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","toLeft","toRight"}
-actName_show={"move left","move right","rotate right","rotate left","rotate flip","hard drop","soft drop","hold","restart","toLeft","toRight"}
-blockPos={4,4,4,4,4,5,4}
-renATK={[0]=0,0,0,1,1,2,2,3,3,3}--4 else
-b2bATK={3,5,8}
 require("TRS")--load block&TRS kick
-
-marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
+require("lists")
 
 gameEnv0={
-	das=6,arr=1,
+	das=10,arr=2,
+	sddas=0,sdarr=2,
 	ghost=true,center=true,
 	drop=30,lock=45,
 	wait=0,fall=20,
@@ -239,6 +268,7 @@ gameEnv0={
 	_20G=false,target=9e99,
 	freshLimit=9e99,
 	key={"left","right","x","z","c","up","down","space","LEFT","RIGHT"},
+	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT"},
 	reach=function()end,--Called when reach row target
 }
 randomMethod={
@@ -341,7 +371,7 @@ loadmode={
 		curBG="game2"
 		BGM("push")
 	end,
-	tetris25=function()
+	tetris21=function()
 		modeEnv={
 			wait=1,
 			fall=1,
@@ -444,30 +474,17 @@ Event={
 		end
 	end,
 	death_reach=function()
-		if gameEnv.target==50 then
-			gameEnv.lock=9
-		gameEnv.wait=5
-			gameEnv.fall=8
-			showText("STAGE 2","fly",80,-100)
-		elseif gameEnv.target==100 then
-			gameEnv.lock=8
-			gameEnv.wait=4
-			gameEnv.fall=6
-			showText("STAGE 3","fly",80,-100)
-		elseif gameEnv.target==150 then
-			gameEnv.lock=7
-			gameEnv.wait=3
-			gameEnv.fall=5
-			showText("STAGE 4","fly",80,-100)
-		elseif gameEnv.target==200 then
-			gameEnv.lock=6
-			gameEnv.wait=2
-			gameEnv.fall=4
-			showText("STAGE 5","fly",80,-100)
-			gameEnv.target=250
+		if gameEnv.target==250 then
+			Event.gameover.win()
+		else
+			gameEnv.target=gameEnv.target+50
+			local t=gameEnv.target/50
+			gameEnv.lock=death_lock[t]
+			gameEnv.wait=death_wait[t]
+			gameEnv.fall=death_fall[t]
+			showText("STAGE "..t,"fly",80,-120)
+			SFX("reach")
 		end
-		gameEnv.target=gameEnv.target+50
-		SFX("reach")
 	end,
 	task={
 		win=function()
@@ -522,7 +539,7 @@ mesDisp={
 	death=function()
 		mStr(P.cstat.row.."/"..gameEnv.target,-75,250)
 	end,
-	tetris25=function()
+	tetris21=function()
 		gc.print("Remain",-140,450)
 		gc.print("Attack",-130,305)
 		setFont(80)
@@ -554,9 +571,11 @@ setting={
 	sfx=true,bgm=true,
 	fullscreen=false,
 	lang="eng",
-	das=5,arr=0,
+	das=10,arr=2,
+	sddas=0,sdarr=2,
 	ghost=true,center=true,
 	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT"},
+	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT"},
 }
 stat={
 	run=0,
@@ -612,11 +631,35 @@ function mouseConvert(x,y)
 		return x*1280/ww,360+(y-wh*.5)*1280/ww
 	end
 end
+function sysSFX(s,v)
+	if setting.sfx then
+		local n=1
+		while sfx[s][n]:isPlaying()do
+			n=n+1
+			if not sfx[s][n]then
+				sfx[s][n]=sfx[s][n-1]:clone()
+				sfx[s][n]:seek(0)
+			end
+		end
+		sfx[s][n]:setVolume(v or 1)
+		sfx[s][n]:play()
+	end
+end
 function SFX(s,v)
 	if setting.sfx then
-		sfx[s]:stop()
-		sfx[s]:setVolume(v or 1)
-		sfx[s]:play()
+		local n=1
+		while sfx[s][n]:isPlaying()do
+			n=n+1
+			if not sfx[s][n]then
+				sfx[s][n]=sfx[s][n-1]:clone()
+				sfx[s][n]:seek(0)
+			end
+		end
+		if P.id>1 then
+			v=1/(#players.alive-1)
+		end
+		sfx[s][n]:setVolume(v or 1)
+		sfx[s][n]:play()
 	end
 end
 function BGM(s)
@@ -640,6 +683,7 @@ function gotoScene(s,style)
 	end
 end
 function resetGameData()
+	if players then restockRow()end--Avoid first start game error
 	players={alive={}}
 	loadmode[gamemode]()
 
@@ -652,6 +696,11 @@ function resetGameData()
 		PTC.dust[i]:start()
 	end
 	stat.game=stat.game+1
+
+	freeRow={}
+	for i=1,50*#players do
+		freeRow[i]={0,0,0,0,0,0,0,0,0,0}
+	end
 	collectgarbage()
 end
 function startGame(mode)
@@ -691,9 +740,9 @@ function loaddata()
 				for i=#v+1,8 do v[i]="N/A"end
 				setting.key=v
 			--Settings
-			elseif t=="das"or t=="arr"then
+			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
-				setting[t]=v
+				setting[t]=int(v)
 			elseif t=="ghost"or t=="center"then
 				setting[t]=v=="true"
 			elseif t=="run"or t=="game"or t=="gametime"or t=="piece"or t=="row"or t=="atk"or t=="key"or t=="rotate"or t=="hold"or t=="spin"then
@@ -723,6 +772,8 @@ function savedata()
 	t=t..stringPack("spin=",stat.spin)
 	t=t..stringPack("das=",setting.das)
 	t=t..stringPack("arr=",setting.arr)
+	t=t..stringPack("sddas=",setting.sddas)
+	t=t..stringPack("sdarr=",setting.sdarr)
 	t=t..stringPack("keyset=",string.concat(setting.key))
 	--t=love.math.compress(t,"zlib"):getString()
 	userdata:open("w")
@@ -1081,7 +1132,7 @@ end
 function lock()
 	for i=1,r do
 		local y=cy+i-1
-		if not P.field[y]then P.field[y],P.visTime[y]={0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0}end
+		if not P.field[y]then P.field[y],P.visTime[y]=getNewRow(),getNewRow()end
 		for j=1,c do
 			if cb[i][j]~=0 then
 				P.field[y][cx+j-1]=P.bn
@@ -1106,8 +1157,8 @@ function garbageRelease()
 		local atk=P.atkBuffer[i]
 		if not atk.sent and atk.countdown==0 then
 			for j=1,atk.amount do
-				ins(P.field,1,{13,13,13,13,13,13,13,13,13,13})
-				ins(P.visTime,1,{t,t,t,t,t,t,t,t,t,t})
+				ins(P.field,1,getNewRow(13))
+				ins(P.visTime,1,getNewRow(t))
 				for k=1,#atk do
 					P.field[1][atk[k]]=0
 				end
@@ -1138,10 +1189,13 @@ end
 function keyDown.setting2(key)
 	if key=="escape"then
 		back()
+		keysetting,gamepadsetting=nil
 	elseif keysetting then
 		setting.key[keysetting]=key
+		keysetting,gamepadsetting=nil
+	else
+		buttonControl_key(key)
 	end
-	keysetting=nil
 end
 keyUp={}
 function keyUp.play(key)
@@ -1153,7 +1207,40 @@ function keyUp.play(key)
 		end
 	end
 end
+gamepadDown={}
+function gamepadDown.play(key)
+	local k=players[1].gameEnv.gamepad
+	for i=1,11 do
+		if key==k[i]then
+			pressKey(i,players[1])
+			break
+		end
+	end
+	if key=="escape"then back()end
+end
+function gamepadDown.setting2(key)
+	if key=="back"then
+		back()
+		keysetting,gamepadsetting=nil
+	elseif gamepadsetting then
+		setting.gamepad[gamepadsetting]=key
+		keysetting,gamepadsetting=nil
+	else
+		buttonControl_gamepad(key)
+	end
+end
+gamepadUp={}
+function gamepadUp.play(key)
+	local k=players[1].gameEnv.gamepad
+	for i=1,10 do
+		if key==k[i]then
+			releaseKey(i,players[1])
+			break
+		end
+	end
+end
 wheelmoved={}
+--Warning,these are not system callbacks!
 
 require("BGblock")--BG block module
 require("ai")--AI module
@@ -1252,7 +1339,10 @@ function love.draw()
 
 	numFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),0,700)
-	gc.print(gcinfo(),0,670)
+	gc.print(gcinfo(),0,680)
+	-- numFont(80)
+	-- gc.print(gcinfo(),400,370)
+
 	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(x,y)
@@ -1283,7 +1373,7 @@ function love.run()
 	tm.step()
 	love.resize(1280,720)
 	game.load()--Launch
-	math.randomseed(os.time()*626)--true ultheur's naim!
+	math.randomseed(os.time()*626)--true ultheur's  I D!
 	-- while true do
 	return function()
 		love.event.pump()

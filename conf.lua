@@ -7,7 +7,7 @@ function love.conf(t)
     t.accelerometerjoystick=X--Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
     t.externalstorage=X
     t.gammacorrect=true
---	t.audio.mixwithsystem=true--Keep background music playing when opening LOVE (boolean, iOS and Android only)
+    -- t.audio.mixwithsystem=true--Keep background music playing when opening LOVE (boolean, iOS and Android only)
 
     t.window.title="Techmino Alpha"
     t.window.icon="/image/icon.png"
@@ -23,27 +23,27 @@ function love.conf(t)
     t.window.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
     t.window.depth=X--The number of bits per sample in the depth buffer
     t.window.stencil=1--The number of bits per sample in the stencil buffer
-    t.window.display=1--Index of the monitor to show the window in (number)
+    t.window.display=1--Monitor ID
     t.window.highdpi=X--Enable high-dpi mode for the window on a Retina display (boolean)
     t.window.x=nil
     t.window.y=nil
 	
+    t.modules.window=true
+    t.modules.system=true
     t.modules.audio=true
     t.modules.data=true
     t.modules.event=true
     t.modules.font=true
     t.modules.graphics=true
     t.modules.image=true
-    t.modules.joystick=X
+    t.modules.joystick=true
     t.modules.keyboard=true
     t.modules.math=true
     t.modules.mouse=true
-    t.modules.physics=X
     t.modules.sound=true
-    t.modules.system=true
-    t.modules.thread=X
     t.modules.timer=true
-    t.modules.touch=X
+    t.modules.touch=true
+    t.modules.physics=X
+    t.modules.thread=X
     t.modules.video=X
-    t.modules.window=true
 end

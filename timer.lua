@@ -22,7 +22,7 @@ function Tmr.load()
 		end
 	elseif loading==3 then
 		if loadnum<=#sfx then
-			sfx[sfx[loadnum]]=love.audio.newSource("/SFX/"..sfx[loadnum]..".ogg","static")
+			sfx[sfx[loadnum]]={love.audio.newSource("/SFX/"..sfx[loadnum]..".ogg","static")}
 			loadprogress=loadnum/#sfx
 			loadnum=loadnum+1
 		else
@@ -59,7 +59,7 @@ function Tmr.play(dt)
 		count=count-1
 		if count==0 then
 			count=nil
-			SFX("start")
+			sysSFX("start")
 			for P=1,#players do
 				P=players[P]
 				_G.P=P
@@ -70,7 +70,7 @@ function Tmr.play(dt)
 			end
 			setmetatable(_G,nil)
 		elseif count%60==0 then
-			SFX("ready")
+			sysSFX("ready")
 		end
 
 		if count then
@@ -116,7 +116,6 @@ function Tmr.play(dt)
 			end end
 			--Fresh visible time
 			if keyPressing[1]or keyPressing[2]then
-				P.moving=moving+sgn(moving)
 				local d=abs(moving)-gameEnv.das
 				if d>1 then
 					if gameEnv.arr>0 then
@@ -127,11 +126,21 @@ function Tmr.play(dt)
 						act[moving>0 and"toRight"or"toLeft"]()
 					end
 				end
+				P.moving=moving+sgn(moving)
 			else
 				P.moving=0
 			end
 			if keyPressing[7]then
-				act.softDrop()
+				local d=abs(downing)-gameEnv.sddas
+				if d>1 then
+					if gameEnv.sdarr>0 then
+						if d%gameEnv.sdarr==0 then
+							act.down1()
+						end
+					else
+						act.toDown()
+					end
+				end
 				P.downing=downing+1
 			else
 				P.downing=0
@@ -141,8 +150,8 @@ function Tmr.play(dt)
 				if falling<=0 then
 					if #field>clearing[1]then SFX("fall")end
 					for i=1,#clearing do
-						rem(field,clearing[i])
-						rem(visTime,clearing[i])
+						removeRow(field,clearing[i])
+						removeRow(visTime,clearing[i])
 					end
 					P.clearing={}
 				end
@@ -176,8 +185,8 @@ function Tmr.play(dt)
 				if falling<=0 then
 					if #field>clearing[1]then SFX("fall")end
 					for i=1,#clearing do
-						rem(field,clearing[i])
-						rem(visTime,clearing[i])
+						removeRow(field,clearing[i])
+						removeRow(visTime,clearing[i])
 					end
 					P.clearing={}
 				end
@@ -206,7 +215,7 @@ function Tmr.play(dt)
 				end
 			end
 		end
-		if fieldBeneath>0 then P.fieldBeneath=fieldBeneath-2 end
+		if fieldBeneath>0 then P.fieldBeneath=fieldBeneath-3 end
 		P.b2b1=P.b2b1*.95+P.b2b*.05
 		PTC.dust[p]:update(dt)
 	end
