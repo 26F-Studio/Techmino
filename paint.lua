@@ -37,7 +37,7 @@ function drawButton()
 	for i=1,#Buttons[scene]do
 		local B=Buttons[scene][i]
 		if not(B.hide and B.hide())then
-			local t=B==Buttons.sel and .3 or 0
+			local t=i==Buttons.sel and .3 or 0
 			B.alpha=abs(B.alpha-t)>.02 and(B.alpha+(B.alpha<t and .02 or -.02))or t
 			if B.alpha>t then B.alpha=B.alpha-.02 elseif B.alpha<t then B.alpha=B.alpha+.02 end
 			gc.setColor(B.rgb[1],B.rgb[2],B.rgb[3],B.alpha)
@@ -88,28 +88,28 @@ function Pnt.BG.game1()
 end
 function Pnt.BG.game2()
 	gc.setColor(1,.5,.5)
-	gc.draw(background[1],640,360,Timer()*.15,nil,nil,768,768)
+	gc.draw(background[1],640,360,Timer()*.2,nil,nil,768,768)
 end
 function Pnt.BG.game3()
 	gc.setColor(.6,.6,1)
-	gc.draw(background[1],640,360,Timer()*.15,nil,nil,768,768)
+	gc.draw(background[1],640,360,Timer()*.25,nil,nil,768,768)
 end
 
 function Pnt.load()
-	if loadprogress then
-		gc.setLineWidth(4)
-		gc.setColor(.8,.8,.8)
-		gc.rectangle("fill",340,340,loadprogress*640,40)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",340,340,640,40)
-		setFont(30)
-		mStr("Loading...",640,345)
-	end
+	gc.setLineWidth(4)
+	gc.setColor(1,1,1,.5)
+	gc.rectangle("fill",340,340,loadprogress*640,40)
+	gc.setColor(1,1,1)
+	gc.rectangle("line",340,340,640,40)
+	setFont(30)
+	mStr(Text.load[loading],640,345)
+	setFont(20)
+	mStr("not animation,real loading!",640,392)
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha 0.0.19726",370,150)
+	gc.print("Alpha 0.1.19727",370,150)
 	gc.draw(img.title[setting.lang],30,30)
 end
 function Pnt.play()
@@ -167,7 +167,7 @@ function Pnt.play()
 			gc.draw(PTC.dust[p])--Draw game field
 		love.graphics.setStencilTest()--In-playField mask
 		gc.translate(0,-fieldBeneath)
-		gc.setColor(1,1,1)gc.rectangle("line",-1,-1,300,600)--Draw boarder
+		gc.setColor(1,1,1)gc.rectangle("line",-2,-12,304,614)--Draw boarder
 
 		local h=0
 		for i=1,#atkBuffer do
@@ -179,25 +179,33 @@ function Pnt.play()
 					--Appear
 				end
 				if a.countdown>0 then
-					gc.setColor(1,0,0)
-					gc.rectangle("fill",302,600-h,8,-bar+5)
-					gc.setColor(1,1,0)
-					gc.rectangle("fill",302,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
+					gc.setColor(attackColor[a.lv][1])
+					gc.rectangle("fill",305,600-h,8,-bar+5)
+					gc.setColor(attackColor[a.lv][2])
+					gc.rectangle("fill",305,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
 					--Timing
 				else
-					gc.setColor(1,(sin((Timer()-i)*20)+1)*.5,0)
-					gc.rectangle("fill",302,600-h,8,-bar+5)
+					attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
+					gc.rectangle("fill",305,600-h,8,-bar+5)
 					--Warning
 				end
 			else
-				gc.setColor(1,0,0)
+				gc.setColor(attackColor[a.lv][1])
 				bar=bar*(20-a.time)*.05
-				gc.rectangle("fill",302,600-h,8,-bar+5)
+				gc.rectangle("fill",305,600-h,8,-bar+5)
 				--Disappear
 			end
 			h=h+bar
 			if h>600 then break end
 		end--Buffer line
+
+		gc.setColor(1,1,1)
+		gc.rectangle("fill",-15,600,10,-b2b1)
+		gc.setColor(1,.4,.4)
+		gc.rectangle("line",-20,600-100,15,2)
+		gc.setColor(.4,.4,1)
+		gc.rectangle("line",-20,600-480,15,2)
+		--B2B bar
 
 		setFont(40)
 		if gameEnv.hold then
@@ -251,30 +259,17 @@ function Pnt.play()
 		--Speed dials
 		gc.pop()
 	end--Draw players
-	gc.setLineWidth(3)
-	for i=1,#FX.beam do
-		local b=FX.beam[i]
-		local t=b.t/30
-		if t<.25 then
-			t=t*4
-			gc.setColor(1,1,1,4*t)
-			gc.line(b[1],b[2],b[1]+t*(b[3]-b[1]),b[2]+t*(b[4]-b[2]))
-		elseif t<.75 then
-			gc.setColor(1,1,1)
-			gc.line(b[1],b[2],b[3],b[4])
-		else
-			t=4*t-3
-			gc.setColor(1,1,1,4-4*t)
-			gc.line(b[1]+t*(b[3]-b[1]),b[2]+t*(b[4]-b[2]),b[3],b[4])
-		end
+	gc.setColor(1,1,1)
+	for i=1,3 do
+		gc.draw(PTC.attack[i])
 	end
 	setmetatable(_G,nil)
 end
 function Pnt.setting2()
 	setFont(35)
 	gc.setColor(1,1,1)
-	mStr("DAS:"..setting.das,330,72)
-	mStr("ARR:"..setting.arr,545,72)
+	mStr("DAS:"..setting.das,830,72)
+	mStr("ARR:"..setting.arr,1045,72)
 	gc.setColor(1,1,1)
 	for i=1,9 do
 		gc.printf(actName_show[i]..":",100,60*i-8,200,"right")
@@ -295,7 +290,7 @@ end
 function Pnt.stat()
 	setFont(30)
 	gc.setColor(1,1,1)
-	for i=1,6 do
+	for i=1,10 do
 		gc.print(Text.stat[i],250,20+40*i)
 	end
 
@@ -305,5 +300,10 @@ function Pnt.stat()
 	gc.print(stat.piece,600,180)
 	gc.print(stat.row,600,220)
 	gc.print(stat.atk,600,260)
+	gc.print(stat.key,600,300)
+	gc.print(stat.rotate,600,340)
+	gc.print(stat.hold,600,380)
+	gc.print(stat.spin,600,420)
+
 	gc.draw(img.title[setting.lang],180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
 end

@@ -40,6 +40,21 @@ end
 function Tmr.play(dt)
 	frame=frame+1
 	stat.gametime=stat.gametime+dt
+
+	for i=#FX.beam,1,-1 do
+		local b=FX.beam[i]
+		b.t=b.t+1
+		local t=b.t*.025
+		PTC.attack[b.lv]:setPosition(b[1]+(b[3]-b[1])*t,b[2]+(b[4]-b[2])*t-100*(4*t*(1-t)))
+		PTC.attack[b.lv]:emit(1)
+		if t==1 then
+			rem(FX.beam,i)
+		end
+	end
+	for i=1,3 do
+		PTC.attack[i]:update(dt)
+	end
+	-- Update attack beam
 	if count then
 		count=count-1
 		if count==0 then
@@ -57,8 +72,20 @@ function Tmr.play(dt)
 		elseif count%60==0 then
 			SFX("ready")
 		end
-		return nil
-	end--Start counting
+
+		if count then
+			for p=1,#players do
+				P=players[p]
+				setmetatable(_G,P.index)
+				if keyPressing[1]or keyPressing[2]then
+					P.moving=moving+sgn(moving)
+				else
+					P.moving=0
+				end
+			end
+			return nil
+		end
+	end--Start counting,include pre-das
 	for p=1,#players do
 		P=players[p]
 		setmetatable(_G,P.index)
@@ -139,6 +166,7 @@ function Tmr.play(dt)
 					end
 				end
 			end
+			if P.b2b>480 then P.b2b=P.b2b-1 end
 		else--Alive
 			P.keySpeed=keySpeed*.96+cstat.key/time*60*.04
 			P.dropSpeed=dropSpeed*.96+cstat.piece/time*60*.04
@@ -156,8 +184,7 @@ function Tmr.play(dt)
 			end--Rows cleared drop
 			for j=1,#field do for i=1,10 do
 				if visTime[j][i]<20 then P.visTime[j][i]=visTime[j][i]+.5 end
-			end end
-			--Make field visible
+			end end--Make field visible
 		end--Dead
 		for i=#bonus,1,-1 do
 			bonus[i].t=bonus[i].t+1
@@ -180,13 +207,8 @@ function Tmr.play(dt)
 			end
 		end
 		if fieldBeneath>0 then P.fieldBeneath=fieldBeneath-2 end
+		P.b2b1=P.b2b1*.95+P.b2b*.05
 		PTC.dust[p]:update(dt)
-	end
-	for i=#FX.beam,1,-1 do
-		FX.beam[i].t=FX.beam[i].t+1
-		if FX.beam[i].t>30 then
-			rem(FX.beam,i)
-		end
 	end
 	setmetatable(_G,nil)
 end

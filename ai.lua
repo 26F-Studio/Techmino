@@ -18,6 +18,20 @@ spinOffset={
 	{0,0,0},--O
 	{2,0,1},--I
 }for i=1,7 do spinOffset[i][0]=0 end
+
+
+local count=0
+RowFree={}for i=1,16 do RowFree[i]={}end
+function getNewRow(len)
+	count=count+1
+	if count==17 then count=1 end
+	for i=1,len do
+		RowFree[count][i]=0
+	end
+	return RowFree[count]
+end
+--Cache manage
+
 function ifoverlapAI(field,bk,x,y)
 	if x<1 or x+#bk[1]>11 or y<1 then return true end
 	if y>#field then return nil end
@@ -25,20 +39,24 @@ function ifoverlapAI(field,bk,x,y)
 		if field[y+i-1]and bk[i][j]>0 and field[y+i-1][x+j-1]>0 then return true end
 	end end
 end
-function resetField(f0,start)
+function resetField(f0,start,ifOrigion)
 	while field[start]do
 		rem(field,start)
 	end
 	for i=start,#f0 do
-		field[i]={}
-		for j=1,10 do
-			field[i][j]=f0[i][j]
+		if ifOrigion then
+			field[i]=f0[i]
+		else
+			field[i]={}
+			for j=1,10 do
+				field[i][j]=f0[i][j]
+			end
 		end
 	end
 end
 function getScore(field,cb,cx,cy)
 	local highest=0
-	local height={}
+	local height=getNewRow(0)
 	local rough=0
 	local clear=0
 	local hole=0
@@ -101,7 +119,7 @@ function AI_getControls(ctrl)
 				end--move to bottom
 				for i=1,#cb do
 					local y=cy+i-1
-					if not field[y]then field[y]={0,0,0,0,0,0,0,0,0,0}end
+					if not field[y]then field[y]=getNewRow(10)end
 					for j=1,#cb[1]do
 						if cb[i][j]~=0 then
 							field[y][cx+j-1]=1
@@ -116,6 +134,7 @@ function AI_getControls(ctrl)
 			end
 		end
 	end--ifHold
+	resetField(field_org,cy,true)--True reset,no temp pointer
 
 	cb,cx,cy=cb_org,cx_org,cy_org
 	if best.hold then

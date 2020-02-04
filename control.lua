@@ -5,7 +5,7 @@ function love.mousemoved(x,y)
 		local B=Buttons[scene][i]
 		if not(B.hide and B.hide())then
 			if abs(mx-B.x)<B.w*.5 and abs(my-B.y)<B.h*.5 then
-				Buttons.sel=B
+				Buttons.sel=i
 				return nil
 			end
 		end
@@ -17,7 +17,7 @@ function love.mousepressed(x,y,k)
 	if mouseDown[scene]then mouseDown[scene](mx,my,k)end
 	if k==1 then
 		if not sceneSwaping and Buttons.sel then
-			local B=Buttons.sel
+			local B=Buttons[scene][Buttons.sel]
 			if B.hold then Buttons.pressing=max(Buttons.pressing,1)end
 			B.code()
 			B.alpha=1
@@ -45,27 +45,25 @@ function love.touchmoved(id,x,y,dx,dy)
 end
 
 function love.keypressed(i)
-	--[[
-	if Buttons.sel then
-		local b=Buttons.sel
-		if i=="up"then b.y=b.y-10
-		elseif i=="down"then b.y=b.y+10
-		elseif i=="left"then b.x=b.x-10
-		elseif i=="right"then b.x=b.x+10
-		elseif i=="k"then b.w=b.w-10
-		elseif i=="l"then b.w=b.w+10
-		elseif i==","then b.h=b.h-10
-		elseif i=="."then b.h=b.h+10
-		elseif i=="s"then
-			print("")
-			for i=1,#Buttons[scene]do
-				local b=Buttons[scene][i]
-				print(b.t,b.x,b.y,b.w,b.h)
+	if scene~="play"or scene=="setting2"and not keysetting then
+		if i=="up"or i=="down"or i=="left"or i=="right"then
+			if not Buttons.sel then
+				Buttons.sel=1
+			else
+				Buttons.sel=Buttons[scene][Buttons.sel][i]or Buttons.sel
+			end
+		elseif i=="space"or i=="return"then
+			if not sceneSwaping and Buttons.sel then
+				local B=Buttons[scene][Buttons.sel]
+				if B.hold then Buttons.pressing=max(Buttons.pressing,1)end
+				B.code()
+				B.alpha=1
+				SFX("button")
 			end
 		end
-	end]]
-	if keyDown[scene]then keyDown[scene](i)
-	elseif i=="escape"then back()
+	end
+	if keyDown[scene]then return keyDown[scene](i)
+	elseif i=="escape"then return back()
 	end
 end
 function love.keyreleased(i)

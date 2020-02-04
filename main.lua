@@ -50,6 +50,10 @@ Texts={
 			"Total block used:",
 			"Total rows cleared:",
 			"Total lines sent:",
+			"Total key pressed:",
+			"Total rotate:",
+			"Total hold:",
+			"Total spin:",
 		},
 		help={
 			"I think you don't need \"help\".",
@@ -193,6 +197,22 @@ color={
 	white={1,1,1},
 	grey={.6,.6,.6},
 }
+attackColor={
+	{color.red,color.yellow},
+	{color.red,color.cyan},
+	{color.blue,color.white},
+	animate={
+		function(t)
+			gc.setColor(1,t,0)
+		end,
+		function(t)
+			gc.setColor(1-t,t,t)
+		end,
+		function(t)
+			gc.setColor(t,t,1)
+		end,
+	}
+}
 -- for k,v in pairs(color) do
 -- 	v[1],v[2],v[3]=255*v[1],255*v[2],255*v[3]
 -- end
@@ -203,9 +223,12 @@ clearName={"Single","Double","Triple"}
 actName={"moveLeft","moveRight","rotRight","rotLeft","rotFlip","hardDrop","softDrop","hold","restart","toLeft","toRight"}
 actName_show={"move left","move right","rotate right","rotate left","rotate flip","hard drop","soft drop","hold","restart","toLeft","toRight"}
 blockPos={4,4,4,4,4,5,4}
-renATK={[0]=0,0,0,1,1,1,2,2,2,3,3,3}--4 else
+renATK={[0]=0,0,0,1,1,2,2,3,3,3}--4 else
 b2bATK={3,5,8}
 require("TRS")--load block&TRS kick
+
+marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
+
 gameEnv0={
 	das=6,arr=1,
 	ghost=true,center=true,
@@ -415,7 +438,7 @@ Event={
 		if s>=20 then
 			Event.gameover.win()
 		else
-			gameEnv.drop=Data.marathon_drop[s]
+			gameEnv.drop=marathon_drop[s]
 			if s==18 then gameEnv._20G=true end
 			gameEnv.target=s*10+10
 		end
@@ -466,71 +489,63 @@ Event={
 			gameover=gameover+1
 			if gameover%3==0 then
 				local j=gameover/3
-				if j<=#field then
+				if field[j]then
 					for i=1,10 do
 						if field[j][i]>0 then field[j][i]=13 end
 					end
+				else
+					return true
 				end
-			end
-			if gameover>80 then
-				return true
 			end
 		end,
 	},
-}
-Data={
-	marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0},
-	shirase_drop={[0]=0},
-	shirase_lock={[0]=0},
-	shirase_are={[0]=0},
-	shirase_lare={[0]=0},
 }
 mesDisp={
 	--Default:font=40,white
 	sprint=function()
 		setFont(75)
-		mStr(max(40-P.cstat.row,0),-76,280)
+		mStr(max(40-P.cstat.row,0),-75,280)
 	end,
 	zen=function()
 		setFont(75)
-		mStr(max(200-P.cstat.row,0),-76,280)
+		mStr(max(200-P.cstat.row,0),-75,280)
 	end,
 	gmroll=function()
 		setFont(35)
 		gc.print("Tetris",-120,390)
 		setFont(80)
-		mStr(cstat.tetris,-77,420)
+		mStr(cstat.tetris,-75,420)
 	end,
 	marathon=function()
-		mStr(P.cstat.row.."/"..gameEnv.target,-76,250)
+		mStr(P.cstat.row.."/"..gameEnv.target,-75,250)
 	end,
 	death=function()
-		mStr(P.cstat.row.."/"..gameEnv.target,-76,250)
+		mStr(P.cstat.row.."/"..gameEnv.target,-75,250)
 	end,
 	tetris25=function()
-		gc.print("Remain",-142,510)
-		gc.print("Attack",-132,365)
+		gc.print("Remain",-140,450)
+		gc.print("Attack",-130,305)
 		setFont(80)
-		mStr(#players.alive,-77,440)
-		mStr(cstat.atk,-77,300)
+		mStr(#players.alive,-75,380)
+		mStr(cstat.atk,-75,240)
 	end,
 	blind=function()
 		setFont(35)
 		gc.print("Rows",-115,220)
 		gc.print("Tetris",-120,390)
 		setFont(80)
-		mStr(P.cstat.row,-77,250)
-		mStr(cstat.tetris,-77,420)
+		mStr(P.cstat.row,-75,250)
+		mStr(cstat.tetris,-75,420)
 	end,
 	solo=function()
-		gc.print("Attack",-132,365)
+		gc.print("Attack",-130,365)
 		setFont(80)
-		mStr(cstat.atk,-77,300)
+		mStr(cstat.atk,-75,300)
 	end,
 	asymsolo=function()
 		gc.print("Attack",-132,365)
 		setFont(80)
-		mStr(cstat.atk,-77,300)
+		mStr(cstat.atk,-75,300)
 	end,
 }
 --Game system Data
@@ -621,6 +636,7 @@ function gotoScene(s,style)
 			time=swap[style][1],mid=swap[style][2],
 			draw=swap[style].d
 		}
+		Buttons.sel=nil
 	end
 end
 function resetGameData()
@@ -636,6 +652,7 @@ function resetGameData()
 		PTC.dust[i]:start()
 	end
 	stat.game=stat.game+1
+	collectgarbage()
 end
 function startGame(mode)
 	--rec=""
@@ -679,7 +696,7 @@ function loaddata()
 				setting[t]=v
 			elseif t=="ghost"or t=="center"then
 				setting[t]=v=="true"
-			elseif t=="run"or t=="game"or t=="gametime"or t=="piece"or t=="row"or t=="atk"or t=="key"then
+			elseif t=="run"or t=="game"or t=="gametime"or t=="piece"or t=="row"or t=="atk"or t=="key"or t=="rotate"or t=="hold"or t=="spin"then
 				v=toN(v)if not v or v<0 then v=0 end
 				stat[t]=v
 			--Statistics
@@ -701,6 +718,9 @@ function savedata()
 	t=t..stringPack("row=",stat.row)
 	t=t..stringPack("atk=",stat.atk)
 	t=t..stringPack("key=",stat.key)
+	t=t..stringPack("rotate=",stat.rotate)
+	t=t..stringPack("hold=",stat.hold)
+	t=t..stringPack("spin=",stat.spin)
 	t=t..stringPack("das=",setting.das)
 	t=t..stringPack("arr=",setting.arr)
 	t=t..stringPack("keyset=",string.concat(setting.key))
@@ -773,7 +793,8 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.fieldBeneath=0
 
 	P.combo=0
-	P.b2b=false
+	P.b2b=0
+	P.b2b1=0
 
 	P.task={}
 	P.bonus={}
@@ -781,9 +802,16 @@ end
 function showText(text,type,font,dy)
 	ins(P.bonus,{t=0,text=text,draw=FX[type],font=font,dy=dy or 0})
 end
-function createBeam(s,r)--Player id
+function createBeam(s,r,level)--Player id
 	s,r=players[s],players[r]
-	ins(FX.beam,{s.x+308*s.size,s.y+680*s.size,r.x+308*r.size,r.y+680*r.size,t=0})
+	ins(FX.beam,{
+		s.x+(30*(cx+sc[2]-1)-30+15+150)*s.size,
+		s.y+(600-30*(cy+sc[1]-1)+15+70)*s.size,
+		r.x+308*r.size,
+		r.y+450*r.size,
+		t=0,
+		lv=level,
+	})
 end
 function freshgho()
 	if not P.gameEnv._20G then
@@ -822,8 +850,8 @@ function checkrow(s,num)--(cy,r)
 		ins(clearing,1,i)
 		P.falling=gameEnv.fall
 		c=c+1--row cleared+1
-		for k=1,1000 do
-			PTC.dust[P.id]:setPosition(rnd(0,300),600-30*i+rnd(30))
+		for k=1,250 do
+			PTC.dust[P.id]:setPosition(rnd(300),600-30*i+rnd(30))
 			PTC.dust[P.id]:emit(1)
 		end
 	end end
@@ -838,7 +866,7 @@ function resetblock()
 	P.holded=false
 	P.spinLast=false
 	P.freshNext()
-	P.sc={scs[bn][1],scs[bn][2]}P.dir=0
+	P.sc,P.dir=scs[bn][0],0
 	P.r,P.c=#cb,#cb[1]
 	P.cx,P.cy=blockPos[bn],21+ceil(fieldBeneath/30)
 	P.dropDelay,P.lockDelay,P.freshTime=gameEnv.drop,gameEnv.lock,0
@@ -846,7 +874,7 @@ function resetblock()
 	if keyPressing[3]then spin(1,true)end
 	if keyPressing[4]then spin(-1,true)end
 	if keyPressing[5]then spin(2,true)end
-	if ifoverlap(cb,cx,cy)then Event.gameover.lose()end
+	if ifoverlap(cb,cx,cy)then lock()Event.gameover.lose()end
 	freshgho()
 	if keyPressing[6]then act.hardDrop()P.keyPressing[6]=false end
 end
@@ -865,8 +893,11 @@ function pressKey(i,player)
 		elseif i==2 then
 			P.moving=1
 		end
-		P.cstat.key=P.cstat.key+1;ins(keyTime,1,frame)rem(keyTime,11)
-		stat.key=stat.key+1
+
+		ins(keyTime,1,frame)rem(keyTime,11)
+		cstat.key=cstat.key+1
+		if not player then stat.key=stat.key+1 end
+		--Key count
 	end
 	-- if playmode=="recording"then ins(rec,{i,frame})end
 end
@@ -909,12 +940,12 @@ function hold(ifpre)
 		P.hb,P.cb=blocks[hn][0],hb
 
 		if bn==0 then freshNext()end
-		P.sc={scs[bn][1],scs[bn][2]}P.dir=0
+		P.sc,P.dir=scs[bn][0],0
 		P.r,P.c=#cb,#cb[1]
 		P.cx,P.cy=blockPos[bn],21+ceil(fieldBeneath/30)
 		freshgho()
 		P.dropDelay,P.lockDelay,P.freshTime=gameEnv.drop,gameEnv.lock,0
-		if ifoverlap(cb,cx,cy) then Event.gameover.lose()end
+		if ifoverlap(cb,cx,cy) then lock()Event.gameover.lose()end
 		P.holded=true
 		SFX(ifpre and"prehold"or"hold")
 		stat.hold=stat.hold+1
@@ -944,35 +975,46 @@ function drop()
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
-			if b2b then
+			if b2b>480 then
+				showText("Tetris B2B2B","fly",70)
+				csend=7
+			elseif b2b>=100 then
 				showText("Tetris B2B","drive",70)
 				csend=5
 			else
 				showText("Tetris","stretch",80)
 				csend=4
-				P.b2b=true
 			end
+			P.b2b=P.b2b+100
 			sendTime=120
 			P.cstat.tetris=P.cstat.tetris+1
 		elseif cc>0 then
 			if dospin then
 				local t=blockName[bn].." spin "..clearName[cc]
-				if b2b then
+				if b2b>480 then
+					t=t.." B2B2B"
+					showText(t,"spin",40)
+					csend=b2bATK[cc]+1
+				elseif b2b>=100 then
 					t=t.." B2B"
 					showText(t,"spin",40)
 					csend=b2bATK[cc]
-					sendTime=csend*40
 				else
 					showText(t,"spin",50)
 					csend=2*cc
-					sendTime=csend*30
-					P.b2b=true
 				end
-				if mini then showText("Mini","drive",40,10)sendTime=sendTime+30 end
+				sendTime=csend*35
+				if mini then
+					showText("Mini","drive",40,10)
+					sendTime=sendTime+60
+					P.b2b=P.b2b+90+10*cc
+				else
+					P.b2b=P.b2b+80+20*cc
+				end
 				SFX("spin_"..cc)
 				stat.spin=stat.spin+1
-			else
-				P.b2b=false
+			elseif #clearing<#field then
+				P.b2b=P.b2b-400
 				showText(clearName[cc],"appear",50)
 				csend=cc-1
 				sendTime=20+csend*20
@@ -982,13 +1024,16 @@ function drop()
 			if dospin then
 				showText(blockName[bn].." spin","appear",50)
 				SFX("spin_0")
+				P.b2b=b2b+30
 			end
 		end
+
 		if cc>0 and #clearing==#field then
-			showText("Perfect Clear","flicker",70,-60)
+			showText("Perfect Clear","flicker",70)
 			csend=csend+6
-			sendTime=sendTime+90
+			sendTime=sendTime+30
 			SFX("perfectclear")
+			P.b2b=b2b+100
 		end
 		csend=csend+(renATK[combo]or 4)
 		sendTime=sendTime+20*combo
@@ -996,6 +1041,13 @@ function drop()
 			SFX("clear_"..cc)
 			SFX("ren_"..min(combo,11))
 		end
+
+		if b2b<0 then
+			P.b2b=0
+		elseif b2b>600 then
+			P.b2b=600
+		end
+
 		if csend>0 then
 			if mini then csend=int(csend*.7)end
 			--mini attack decrease
@@ -1040,11 +1092,12 @@ function lock()
 end
 function garbageSend(sender,send,time)
 	local pos,r=rnd(10)
+	local level=send<4 and 1 or send<7 and 2 or 3
 	repeat
 		r=players.alive[rnd(#players.alive)]
 	until r~=P.id
-	createBeam(sender,r)
-	ins(players[r].atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false})
+	createBeam(sender,r,level)
+	ins(players[r].atkBuffer,{pos,amount=send,countdown=time,cd0=time,time=0,sent=false,lv=level})
 	sort(players[r].atkBuffer,sortByTime)
 end
 function garbageRelease()
@@ -1102,6 +1155,7 @@ function keyUp.play(key)
 end
 wheelmoved={}
 
+require("BGblock")--BG block module
 require("ai")--AI module
 require("timer")--Timer
 require("paint")--Paint
@@ -1114,20 +1168,16 @@ function love.update(dt)
 		for k,v in pairs(players[1])do
 			if rawget(_G,k)then print(k)end
 		end
-	end--variables flew debugging]]
+	end--check player data flew(debugging)
+	]]
 	for i=#BGblock,1,-1 do
 		BGblock[i].y=BGblock[i].y+BGblock[i].v
-		if BGblock[i].y>720 then rem(BGblock[i])end
+		if BGblock[i].y>720 then rem(BGblock,i)end
 	end
 	BGblock.ct=BGblock.ct-1
 	if BGblock.ct==0 then
-		local t={bn=rnd(7),size=2+3*rnd()}
-		t.b=blocks[t.bn][rnd(0,3)]
-		t.x=rnd(-#t.b[1]*t.size*30+100,1180)
-		t.y=-#t.b*30*t.size
-		t.v=t.size*(1+rnd())
-		ins(BGblock,t)
-		BGblock.ct=rnd(20,40)
+		ins(BGblock,getNewBlock())
+		BGblock.ct=rnd(20,30)
 	end
 	--Background blocks update
 
@@ -1202,6 +1252,7 @@ function love.draw()
 
 	numFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),0,700)
+	gc.print(gcinfo(),0,670)
 	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(x,y)
@@ -1282,12 +1333,34 @@ do--Particle
 	PTC={dust={}}--Particle systems
 	c=gc.newCanvas(6,6)gc.setCanvas(c)
 	gc.clear(1,1,1)
-	PTC.dust[0]=gc.newParticleSystem(c,10000)
+	PTC.dust[0]=gc.newParticleSystem(c,1000)
 	PTC.dust[0]:setParticleLifetime(.2,.3)
 	PTC.dust[0]:setEmissionRate(0)
 	PTC.dust[0]:setLinearAcceleration(-1500,-200,1500,200)
-	PTC.dust[0]:setColors(1,1,1,.4,1,1,1,0)
+	PTC.dust[0]:setColors(1,1,1,.5,1,1,1,0)
+	c:release()
 	--Dust particles
+
+	PTC.attack={}
+	PTC.attack[1]=gc.newParticleSystem(gc.newImage("/image/attack_1.png"),200)
+	PTC.attack[1]:setParticleLifetime(.25)
+	PTC.attack[1]:setEmissionRate(0)
+	PTC.attack[1]:setSpin(10)
+	PTC.attack[1]:setColors(1,1,1,.7,1,1,1,0)
+
+	PTC.attack[2]=gc.newParticleSystem(gc.newImage("/image/attack_2.png"),200)
+	PTC.attack[2]:setParticleLifetime(.3)
+	PTC.attack[2]:setEmissionRate(0)
+	PTC.attack[2]:setSpin(8)
+	PTC.attack[2]:setColors(1,1,1,.7,1,1,1,0)
+
+	PTC.attack[3]=gc.newParticleSystem(gc.newImage("/image/attack_3.png"),200)
+	PTC.attack[3]:setParticleLifetime(.4)
+	PTC.attack[3]:setEmissionRate(0)
+	PTC.attack[3]:setSpin(6)
+	PTC.attack[3]:setColors(1,1,1,.7,1,1,1,0)
+	--Attack particles
+
 	gc.setCanvas()
 end
 c=nil
