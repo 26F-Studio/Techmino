@@ -1,4 +1,4 @@
-gc,kb,ms,tc,tm,fs=love.graphics,love.keyboard,love.mouse,love.touch,love.timer,love.filesystem
+gc,kb,ms,tc,tm,fs,wd=love.graphics,love.keyboard,love.mouse,love.touch,love.timer,love.filesystem,love.window
 toN,toS=tonumber,tostring
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
@@ -40,8 +40,9 @@ end
 
 ww,wh=gc.getWidth(),gc.getHeight()
 
-Timer=tm.getTime--Easy get time
+Timer=tm.getTime--Easy&Quick to get time!
 mx,my,mouseShow=-20,-20,false
+ms.setVisible(false)
 focus=true
 
 do
@@ -50,9 +51,9 @@ do
 		Android=2,
 	}
 	system=l[love.system.getOS()]
-	touching=nil--touching ID
 	l=nil
 end
+touching=nil--1st touching ID
 
 scene=""
 gamemode=""
@@ -60,19 +61,16 @@ bgmPlaying=nil
 curBG="none"
 BGblock={ct=140}
 
-languages={"eng"}
 prevMenu={
 	load=love.event.quit,
 	ready="mode",
-	play=function()
-		restockRow()
-		gotoScene("mode")
-	end,
+	play="mode",
 	mode="main",
 	help="main",
 	stat="main",
 	setting="main",
 	setting2="setting",
+	setting3="setting",
 	intro="quit",
 	main="quit",
 }
@@ -81,37 +79,36 @@ kb.setKeyRepeat(false)
 kb.setTextInput(false)
 --Disable system key repeat
 
-Texts={
-	eng={
-		load={"Loading textures","Loading BGM","Loading SFX","Finished",},
-		stat={
-			"Games run:",
-			"Games played:",
-			"Game time:",
-			"Total block used:",
-			"Total rows cleared:",
-			"Total lines sent:",
-			"Total key pressed:",
-			"Total rotate:",
-			"Total hold:",
-			"Total spin:",
-		},
-		help={
-			"I think you don't need \"help\".",
-			"THIS IS NOT TETRIS,and doesn't use SRS.",
-			"But just play like playing TOP/C2/KOS/TGM3",
-			"Game is not public now,DO NOT DISTIRBUTE",
-			"",
-			"Powered by LOVE2D",
-			"Author:MrZ   E-mail:1046101471@qq.com",
-			"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ",
-			"Tool used:VScode,GFIE,Beepbox,Goldwave",
-			"Special thanks:TOP,C2,KOS,TGM3,GFIE,and YOU!!",
-			"Any bugs/suggestions to me.",
-		},
+Text={
+	load={"Loading textures","Loading BGM","Loading SFX","Finished",},
+	stat={
+		"Games run:",
+		"Games played:",
+		"Game time:",
+		"Total block used:",
+		"Total rows cleared:",
+		"Total lines sent:",
+		"Total key pressed:",
+		"Total rotate:",
+		"Total hold:",
+		"Total spin:",
+	},
+	help={
+		"I think you don't need \"help\".",
+		"THIS IS NOT TETRIS,and doesn't use SRS.",
+		"But just play like playing TOP/C2/KOS/TGM3",
+		"Game is not public now,DO NOT DISTIRBUTE",
+		"",
+		"Powered by LOVE2D",
+		"Author:MrZ   E-mail:1046101471@qq.com",
+		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ",
+		"Tool used:VScode,GFIE,Beepbox,Goldwave",
+		"Special thanks:TOP,C2,KOS,TGM3,GFIE,and YOU!!",
+		"Any bugs/suggestions to me.",
 	},
 }
 numFonts={}
+Fonts={}
 function numFont(s)
 	if numFonts[s]then
 		gc.setFont(numFonts[s])
@@ -122,9 +119,7 @@ function numFont(s)
 	end
 	currentFont=s
 end
-Fonts={}for i=1,#languages do Fonts[languages[i]]={}end
-fontLib={
-eng=function(s)
+function setFont(s)
 	if s~=currentFont then
 		if Fonts[s]then
 			gc.setFont(Fonts[s])
@@ -135,20 +130,7 @@ eng=function(s)
 		end
 		currentFont=s
 	end
-end,
-chi=function(s)
-	if s~=currentFont then
-		if Fonts[setting.lang][s]then
-			gc.setFont(Fonts[setting.lang][s])
-		else
-			local t=gc.newFont("hei.ttf",s-5,"normal")
-			Fonts[setting.lang][s]=t
-			gc.setFont(t)
-		end
-		currentFont=s
-	end
-end,
-}
+end
 
 sfx={
 	"button",
@@ -248,12 +230,9 @@ attackColor={
 		end,
 	}--3 animation-colorsets of attack buffer bar
 }
--- for k,v in pairs(color) do
--- 	v[1],v[2],v[3]=255*v[1],255*v[2],255*v[3]
--- end
 
 require("TRS")--load block&TRS kick
-require("lists")
+require("lists")--load lists
 
 gameEnv0={
 	das=10,arr=2,
@@ -265,9 +244,22 @@ gameEnv0={
 	sequence=1,visible=1,
 	_20G=false,target=9e99,
 	freshLimit=9e99,
+
 	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT","DOWN"},
 	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT","DOWN"},
-	reach=function()end,--Called when reach row target
+	virtualkey={
+		{80,720-80,6400,80},--moveLeft
+		{240,720-80,6400,80},--moveRight
+		{1280-240,720-80,6400,80},--rotRight
+		{1280-400,720-80,6400,80},--rotLeft
+		{1280-240,720-240,6400,80},--rotFlip
+		{1280-80,720-80,6400,80},--hardDrop
+		{1280-80,720-240,6400,80},--softDrop
+		{1280-80,720-400,6400,80},--hold
+		{80,80,6400,80},--restart
+	},
+	reach=function()end,
+	--these three is actually no use,only provide a key
 }
 randomMethod={
 	function()
@@ -322,7 +314,7 @@ loadmode={
 			reach=Event.gameover.win,
 		}
 		createPlayer(1,340,15)
-		curBG="game1"
+		curBG="strap"
 		BGM("reason")
 	end,
 	gmroll=function()
@@ -337,7 +329,7 @@ loadmode={
 			arr=1,
 		}
 		createPlayer(1,340,15)
-		curBG="game3"
+		curBG="glow"
 		BGM("push")
 	end,
 	marathon=function()
@@ -350,7 +342,7 @@ loadmode={
 			freshLimit=15,
 		}
 		createPlayer(1,340,15)
-		curBG="game1"
+		curBG="strap"
 		BGM("way")
 	end,
 	death=function()
@@ -390,13 +382,14 @@ loadmode={
 			end
 		end--AIs
 
-		curBG="game2"
+		curBG="game3"
 		BGM("race")
 	end,
 	solo=function()
 		modeEnv={
 			wait=1,
 			fall=1,
+			freshLimit=15,
 		}
 		createPlayer(1,20,15)--Player
 		createPlayer(2,660,85,.9,2)--AI
@@ -411,11 +404,11 @@ loadmode={
 			wait=1,
 			fall=1,
 			visible=0,
-			freshLimit=8,
+			freshLimit=10,
 		}
 		createPlayer(1,340,15)
 
-		curBG="game1"
+		curBG="glow"
 		BGM("push")
 	end,
 	asymsolo=function()
@@ -423,6 +416,7 @@ loadmode={
 			wait=1,
 			fall=1,
 			visible=2,
+			freshLimit=15,
 		}
 		createPlayer(1,20,15)--Player
 		createPlayer(2,660,85,.9,2)--AI
@@ -574,6 +568,19 @@ setting={
 	ghost=true,center=true,
 	key={"left","right","x","z","c","up","down","space","r","LEFT","RIGHT","DOWN"},
 	gamepad={"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","leftshoulder","LEFT","RIGHT","DOWN"},
+	virtualkey={
+		{80,720-80,6400,80},--moveLeft
+		{240,720-80,6400,80},--moveRight
+		{1280-240,720-80,6400,80},--rotRight
+		{1280-400,720-80,6400,80},--rotLeft
+		{1280-240,720-240,6400,80},--rotFlip
+		{1280-80,720-80,6400,80},--hardDrop
+		{1280-80,720-240,6400,80},--softDrop
+		{1280-80,720-400,6400,80},--hold
+		{80,80,6400,80},--restart
+	},
+	virtualkeyAlpha=3,
+	virtualkeyIcon=true,
 }
 stat={
 	run=0,
@@ -594,32 +601,19 @@ function string.splitS(s,sep)
 	sep=sep or"/"
 	local t={}
 	repeat
-		local i=find(s,sep)
+		local i=find(s,sep)or #s+1
 		ins(t,sub(s,1,i-1))
 		s=sub(s,i+#sep)
 	until #s==0
 	return t
 end
-function string.concat(t,sep)
-	sep=sep or"/"
-	local s=""
-	for i=1,#t do
-		s=s..t[i]..sep
-	end
-	return s
-end
-function sgn(i)return i>0 and 1 or i<0 and -1 or 0 end
-function stringPack(s,v)return s..toS(v).."\r\n"end
+function sgn(i)return i>0 and 1 or i<0 and -1 or 0 end--Row numbe is A-uth-or's id!
+function stringPack(s,v)return s..toS(v)end
 function without(t,v)
 	for i=1,#t do
 		if t[i]==v then return nil end
 	end
 	return true
-end
-function nextLanguage()
-	for i=1,#languages do
-		if setting.lang==languages[i]then return languages[i+1]or"eng"end
-	end
 end
 function mStr(s,x,y)gc.printf(s,x-500,y,1000,"center")end
 function convert(x,y)
@@ -689,13 +683,16 @@ function resetGameData()
 		PTC.dust[i]=PTC.dust[0]:clone()
 		PTC.dust[i]:start()
 	end
+	for i=1,#virtualkey do
+		virtualkey[i].press=false
+	end
 	stat.game=stat.game+1
 
 	freeRow={}
+	collectgarbage()
 	for i=1,50*#players do
 		freeRow[i]={0,0,0,0,0,0,0,0,0,0}
 	end
-	collectgarbage()
 end
 function startGame(mode)
 	--rec=""
@@ -725,14 +722,22 @@ function loaddata()
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
-			elseif t=="lang"then
-				if not Fonts[v]then v="eng"end
-				setting.lang=v
-				setFont=fontLib[v]
 			elseif t=="keyset"then
 				v=string.splitS(v)
 				for i=#v+1,8 do v[i]="N/A"end
 				setting.key=v
+			elseif t=="virtualkey"then
+				v=string.splitS(v,"/")
+				for i=1,9 do
+					virtualkey[i]=string.splitS(v[i],",")
+					for j=1,4 do
+						virtualkey[i][j]=toN(virtualkey[i][j])
+					end
+				end
+			elseif t=="virtualkeyAlpha"then
+				setting.virtualkeyAlpha=int(abs(toN(v)))
+			elseif t=="virtualkeyIcon"then
+				setting.virtualkeyIcon=v=="true"
 			--Settings
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
@@ -748,27 +753,38 @@ function loaddata()
 	end
 end
 function savedata()
-	local t=""
-	t=t..stringPack("sfx=",setting.sfx)
-	t=t..stringPack("bgm=",setting.bgm)
-	t=t..stringPack("fullscreen=",setting.fullscreen)
-	t=t..stringPack("lang=",setting.lang)
+	local vk={}
+	for i=1,9 do
+		for j=1,4 do
+			virtualkey[i][j]=int(virtualkey[i][j]+.5)
+		end--Saving a integer is better?
+		vk[i]=table.concat(virtualkey[i],",")
+	end--pre-pack virtualkey setting
 
-	t=t..stringPack("run=",stat.run)
-	t=t..stringPack("game=",stat.game)
-	t=t..stringPack("gametime=",stat.gametime)
-	t=t..stringPack("piece=",stat.piece)
-	t=t..stringPack("row=",stat.row)
-	t=t..stringPack("atk=",stat.atk)
-	t=t..stringPack("key=",stat.key)
-	t=t..stringPack("rotate=",stat.rotate)
-	t=t..stringPack("hold=",stat.hold)
-	t=t..stringPack("spin=",stat.spin)
-	t=t..stringPack("das=",setting.das)
-	t=t..stringPack("arr=",setting.arr)
-	t=t..stringPack("sddas=",setting.sddas)
-	t=t..stringPack("sdarr=",setting.sdarr)
-	t=t..stringPack("keyset=",string.concat(setting.key))
+	local t=table.concat({
+		stringPack("sfx=",setting.sfx),
+		stringPack("bgm=",setting.bgm),
+		stringPack("fullscreen=",setting.fullscreen),
+
+		stringPack("run=",stat.run),
+		stringPack("game=",stat.game),
+		stringPack("gametime=",stat.gametime),
+		stringPack("piece=",stat.piece),
+		stringPack("row=",stat.row),
+		stringPack("atk=",stat.atk),
+		stringPack("key=",stat.key),
+		stringPack("rotate=",stat.rotate),
+		stringPack("hold=",stat.hold),
+		stringPack("spin=",stat.spin),
+		stringPack("das=",setting.das),
+		stringPack("arr=",setting.arr),
+		stringPack("sddas=",setting.sddas),
+		stringPack("sdarr=",setting.sdarr),
+		stringPack("keyset=",table.concat(setting.key,"/")),
+		stringPack("virtualkey=",table.concat(vk,"/")),
+		stringPack("virtualkeyAlpha=",setting.virtualkeyAlpha),
+		stringPack("virtualkeyIcon=",setting.virtualkeyIcon),
+	},"\r\n")
 	--t=love.math.compress(t,"zlib"):getString()
 	userdata:open("w")
 	userdata:write(t)
@@ -1059,7 +1075,7 @@ function drop()
 				SFX("spin_"..cc)
 				stat.spin=stat.spin+1
 			elseif #clearing<#field then
-				P.b2b=P.b2b-400
+				P.b2b=P.b2b-300
 				showText(clearName[cc],"appear",50)
 				csend=cc-1
 				sendTime=20+csend*20
@@ -1174,7 +1190,7 @@ function keyDown.play(key)
 	local k=players[1].gameEnv.key
 	for i=1,11 do
 		if key==k[i]then
-			pressKey(i,players[1])
+			pressKey(i)
 			break
 		end
 	end
@@ -1206,7 +1222,7 @@ function gamepadDown.play(key)
 	local k=players[1].gameEnv.gamepad
 	for i=1,11 do
 		if key==k[i]then
-			pressKey(i,players[1])
+			pressKey(i)
 			break
 		end
 	end
@@ -1278,7 +1294,7 @@ function love.update(dt)
 	end
 	--scene swapping & Timer
 end
-function love.draw()print(mouseShow)
+function love.draw()
 	Pnt.BG[curBG]()
 	gc.setColor(1,1,1,.3)
 	for n=1,#BGblock do
@@ -1308,9 +1324,6 @@ function love.draw()print(mouseShow)
 	numFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),0,700)
 	gc.print(gcinfo(),0,680)
-	-- numFont(80)
-	-- gc.print(gcinfo(),400,370)
-
 	--if gcinfo()>500 then collectgarbage()end
 end
 function love.resize(x,y)
@@ -1319,19 +1332,8 @@ function love.resize(x,y)
 	gc.origin()
 	gc.scale(1/screenK,1/screenK)
 	gc.translate(0,screenM)
-end
-function love.focus(f)
-	focus=f
-	if f then
-		ms.setVisible(false)
-		if bgmPlaying then bgm[bgmPlaying]:play()end
-	else
-		ms.setVisible(true)
-		if bgmPlaying then bgm[bgmPlaying]:pause()end
-	end
-end
+end 
 function love.run()
-	love.focus(true)
 	local frameT=Timer()
 	tm.step()
 	love.resize(nil,gc.getHeight())
@@ -1340,19 +1342,35 @@ function love.run()
 	return function()
 		love.event.pump()
 		for name,a,b,c,d,e,f in love.event.poll()do
-			if name=="quit"then
-				savedata()
-				return 0
-			end
+			if name=="quit"then return 0 end
 			love.handlers[name](a,b,c,d,e,f)
 		end
-		-- if focus then
+		if focus then
 			tm.step()
 			love.update(tm.getDelta())
-			gc.clear(1,1,1)
+			gc.clear()
 			love.draw()
 			gc.present()
-		-- end
+			if not wd.hasFocus()then
+				focus=false
+				ms.setVisible(true)
+				if bgmPlaying then bgm[bgmPlaying]:pause()end
+				if scene=="play"then
+					for i=1,#players[1].keyPressing do
+						if players[1].keyPressing[i]then
+							releaseKey(i)
+						end
+					end
+				end
+			end
+		else
+			tm.sleep(.1)
+			if wd.hasFocus()then
+				focus=true
+				ms.setVisible(false)
+				if bgmPlaying then bgm[bgmPlaying]:play()end
+			end
+		end
 		while Timer()-frameT<1/60 do end
 		frameT=Timer()
 	end
@@ -1360,30 +1378,22 @@ end
 --System callbacks
 
 do--Texture/Image
-	mouseIcon=gc.newImage("/image/mouseIcon.png")
-	local p=gc.newImage("/image/block.png")
-	local l={}
-	gc.setColor(1,1,1)
-	for i=1,13 do
-		l[i]=gc.newCanvas(30,30)
-		gc.setCanvas(l[i])
-		gc.draw(p,30-30*i)
-	end
-	blockSkin=l
-	l={}
-	for i=1,1 do
-		local p=gc.newImage("/image/BG/"..i..".png")
-		l[i]=gc.newCanvas(1536,1536)
-		gc.setCanvas(l[i])
-		gc.draw(p,nil,nil,nil,12,12)
-	end
-	background=l
-	gamepadIcon={}
-	for i=1,9 do
-		gamepadIcon[i]=gc.newImage("/image/gamepadIcon/"..(actName[i])..".png")
-	end
 	titleImage=gc.newImage("/image/title.png")
-	gc.setCanvas()
+	mouseIcon=gc.newImage("/image/mouseIcon.png")
+	blockSkin={}
+	for i=1,13 do
+		blockSkin[i]=gc.newImage("/image/block/1/"..i..".png")
+	end
+	background={}
+	gc.setColor(1,1,1)
+	background={}
+	for i=1,2 do
+		background[i]=gc.newImage("/image/BG/"..i..".png")
+	end
+	virtualkeyIcon={}
+	for i=1,9 do
+		virtualkeyIcon[i]=gc.newImage("/image/virtualkey/"..(actName[i])..".png")
+	end
 end
 do--Particle
 	PTC={dust={}}--Particle systems
@@ -1420,11 +1430,10 @@ do--Particle
 	gc.setCanvas()
 end
 c=nil
+
 userdata=fs.newFile("userdata")
 if fs.getInfo("userdata")then
 	loaddata()
 end
 
 stat.run=stat.run+1
-setFont=fontLib[setting.lang]
-Text=Texts[setting.lang]

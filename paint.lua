@@ -77,22 +77,48 @@ function drawPixel(y,x,id,alpha)
 	gc.setColor(1,1,1,alpha)
 	gc.draw(blockSkin[id],30*x-30,600-30*y)
 end
+function drawVirtualkey()
+	gc.setLineWidth(10)
+	gc.setColor(1,1,1,setting.virtualkeyAlpha*.2)
+	for i=1,#virtualkey do
+		local b=virtualkey[i]
+		gc.circle("line",b[1],b[2],b[4]-5)
+		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2],nil,2*b[4]*.0125,nil,18,18)end
+	end
+end
 
 Pnt={BG={}}
 function Pnt.BG.none()
-	gc.clear(.1,.1,.1)
+	gc.clear(.2,.2,.2)
+end
+function Pnt.BG.glow()
+	local t=((sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+3))+5)*.05
+	gc.clear(t,t,t)
 end
 function Pnt.BG.game1()
 	gc.setColor(1,1,1)
-	gc.draw(background[1],640,360,Timer()*.15,nil,nil,768,768)
+	gc.draw(background[1],640,360,Timer()*.15,12,nil,64,64)
 end
 function Pnt.BG.game2()
 	gc.setColor(1,.5,.5)
-	gc.draw(background[1],640,360,Timer()*.2,nil,nil,768,768)
+	gc.draw(background[1],640,360,Timer()*.2,12,nil,64,64)
 end
 function Pnt.BG.game3()
 	gc.setColor(.6,.6,1)
-	gc.draw(background[1],640,360,Timer()*.25,nil,nil,768,768)
+	gc.draw(background[1],640,360,Timer()*.25,12,nil,64,64)
+end
+function Pnt.BG.rgb()
+	gc.clear(
+		sin(Timer()*1.2)*.15+.5,
+		sin(Timer()*1.5)*.15+.5,
+		sin(Timer()*1.9)*.15+.5
+	)
+end
+function Pnt.BG.strap()
+	gc.setColor(1,1,1)
+	local x=Timer()%32*40
+	gc.draw(background[2],x,0,nil,10)
+	gc.draw(background[2],x-1280,0,nil,10)
 end
 
 function Pnt.load()
@@ -109,7 +135,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.2",370,150)
+	gc.print("Alpha V0.3",370,150)
 	if system==2 then
 		gc.print("Android",530,110)
 	end
@@ -121,7 +147,7 @@ function Pnt.play()
 		setmetatable(_G,P.index)
 		gc.push("transform")
 		gc.translate(x,y)gc.scale(size)--Scale
-		gc.setColor(0,0,0,.8)gc.rectangle("fill",0,0,600,690)--Black Background
+		gc.setColor(0,0,0,.7)gc.rectangle("fill",0,0,600,690)--Black Background
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1)gc.rectangle("line",0,0,600,690)--Big frame
 		gc.translate(150,70)
@@ -247,19 +273,21 @@ function Pnt.play()
 			bonus[i]:draw()
 		end--Effects
 
-		gc.setColor(1,1,1)
-		setFont(40)
-		gc.print(format("%0.2f",time),-125,530)--Draw time
-		if mesDisp[gamemode]then mesDisp[gamemode]()end--Draw other message
+		if P.size>.3 then
+			gc.setColor(1,1,1)
+			setFont(40)
+			gc.print(format("%0.2f",time),-125,530)--Draw time
+			if mesDisp[gamemode]then mesDisp[gamemode]()end--Draw other message
 
-		setFont(15)
-		gc.setColor(1,1,1)
-		gc.print("BPM",380,490)
-		gc.print("KPM",335,580)
-		setFont(30)
-		drawDial(350,520,dropSpeed)
-		drawDial(400,570,keySpeed)
-		--Speed dials
+			setFont(15)
+			gc.setColor(1,1,1)
+			gc.print("BPM",380,490)
+			gc.print("KPM",335,580)
+			setFont(30)
+			drawDial(350,520,dropSpeed)
+			drawDial(400,570,keySpeed)
+			--Speed dials
+		end
 		gc.pop()
 	end--Draw players
 	gc.setColor(1,1,1)
@@ -268,13 +296,7 @@ function Pnt.play()
 	end
 	setmetatable(_G,nil)
 	if system==2 then
-		gc.setColor(1,1,1,.8)
-		gc.setLineWidth(5)
-		for i=1,#gamepad do
-			local k=gamepad[i]
-			gc.circle("line",k.x,k.y,k.r0)
-			gc.draw(gamepadIcon[i],k.x,k.y,nil,3,nil,18,18)
-		end
+		drawVirtualkey()
 	end
 end
 function Pnt.setting2()
@@ -292,31 +314,42 @@ function Pnt.setting2()
 		gc.print("<<",keysetting and 380 or 670,60*(keysetting or gamepadsetting)-10)
 	end
 end
+function Pnt.setting3()
+	drawVirtualkey()
+	gc.setLineWidth(3)
+	gc.setColor(1,1,1,sin(Timer()*4)*.1+.1)
+	for i=1,31 do
+		gc.line(40*i,0,40*i,720)
+	end
+	for i=1,17 do
+		gc.line(0,40*i,1280,40*i)
+	end
+end
 function Pnt.help()
 	setFont(32)
 	gc.setColor(1,1,1)
 	for i=1,11 do
 		mStr(Text.help[i],640,15+43*i)
 	end
-	gc.draw(img.title[setting.lang],180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
+	gc.draw(titleImage,180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
 end
 function Pnt.stat()
 	setFont(30)
 	gc.setColor(1,1,1)
 	for i=1,10 do
-		gc.print(Text.stat[i],250,20+40*i)
+		gc.print(Text.stat[i],350,20+40*i)
 	end
 
-	gc.print(stat.run,600,60)
-	gc.print(stat.game,600,100)
-	gc.print(format("%0.2f",stat.gametime).."s",600,140)
-	gc.print(stat.piece,600,180)
-	gc.print(stat.row,600,220)
-	gc.print(stat.atk,600,260)
-	gc.print(stat.key,600,300)
-	gc.print(stat.rotate,600,340)
-	gc.print(stat.hold,600,380)
-	gc.print(stat.spin,600,420)
+	gc.print(stat.run,650,60)
+	gc.print(stat.game,650,100)
+	gc.print(format("%0.2f",stat.gametime).."s",650,140)
+	gc.print(stat.piece,650,180)
+	gc.print(stat.row,650,220)
+	gc.print(stat.atk,650,260)
+	gc.print(stat.key,650,300)
+	gc.print(stat.rotate,650,340)
+	gc.print(stat.hold,650,380)
+	gc.print(stat.spin,650,420)
 
-	gc.draw(img.title[setting.lang],260,570,.2+.07*sin(Timer()*3),.8,nil,250,60)
+	gc.draw(titleImage,260,570,.2+.07*sin(Timer()*3),.8,nil,250,60)
 end

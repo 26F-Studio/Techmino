@@ -1,3 +1,18 @@
+function onVirtualkey(x,y)
+	local x,y=convert(x,y)
+	local d2,nearest,distance
+	for K=1,#virtualkey do
+		local b=virtualkey[K]
+		d2=(x-b[1])^2+(y-b[2])^2
+		if d2<b[3]then
+			if not nearest or d2<distance then
+				nearest,distance=K,d2
+			end
+		end
+	end
+	return nearest
+end
+
 function buttonControl_key(i)
 	if i=="up"or i=="down"or i=="left"or i=="right"then
 		if not Buttons.sel then
@@ -71,13 +86,18 @@ function love.mousepressed(x,y,k,t,num)
 end
 function love.mousereleased(x,y,k,t,num)
 end
-
 function love.touchpressed(id,x,y)
 	if not touching then
 		touching=id
 		love.mousemoved(x,y)
+		mouseShow=false
 	end
-	mouseShow=false
+	if scene=="play"then
+		local t=onVirtualkey(x,y)
+		if t then
+			pressKey(t)
+		end
+	end
 end
 function love.touchreleased(id,x,y)
 	if id==touching then
@@ -91,12 +111,10 @@ function love.touchreleased(id,x,y)
 		Buttons.sel=nil
 		mouseShow=false
 	end
-	if scene=="play"and #tc.getTouches()==0 then
-		for K=1,#gamepad do
-			if gamepad[K].press then
-				releaseKey(K)
-				break
-			end
+	if scene=="play"then
+		local t=onVirtualkey(x,y)
+		if t then
+			releaseKey(t)
 		end
 	end
 end
@@ -105,6 +123,32 @@ function love.touchmoved(id,x,y,dx,dy)
 	mouseShow=false
 	if not Buttons.sel then
 		touching=nil
+	end
+	if scene=="play"then
+		local l=tc.getTouches()
+		for n=1,#virtualkey do
+			local b=virtualkey[n]
+			local p=false
+			for i=1,#l do
+				local x,y=convert(tc.getPosition(l[i]))
+				if(x-b[1])^2+(y-b[2])^2<=b[3]then
+					p=true
+					break
+				end
+			end
+			if not p and players[1].keyPressing then
+				releaseKey(n)
+			end
+		end
+	elseif scene=="setting3"then
+		x,y=convert(x,y)
+		dx,dy=dx*screenK,dy*screenK
+		for K=1,#virtualkey do
+			local b=virtualkey[K]
+			if (x-b[1])^2+(y-b[2])^2<b[3]then
+				b[1],b[2]=b[1]+dx,b[2]+dy
+			end
+		end
 	end
 end
 

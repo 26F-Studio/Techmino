@@ -5,11 +5,10 @@ function love.conf(t)
     t.version="11.1"
     t.console=X
     t.accelerometerjoystick=X--Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
-    t.externalstorage=X
     t.gammacorrect=true
-    -- t.audio.mixwithsystem=true--Keep background music playing when opening LOVE (boolean, iOS and Android only)
+    t.audio.mixwithsystem=true--Switch on to keep background music playing
 
-    t.window.title="Techmino V0.2"
+    t.window.title="Techmino V0.3"
     t.window.icon="/image/icon.png"
     t.window.width=1280
     t.window.height=720
@@ -27,7 +26,7 @@ function love.conf(t)
     t.window.highdpi=X--Enable high-dpi mode for the window on a Retina display (boolean)
     t.window.x=nil
     t.window.y=nil
-	
+
     t.modules.window=true
     t.modules.system=true
     t.modules.audio=true
@@ -43,6 +42,7 @@ function love.conf(t)
     t.modules.sound=true
     t.modules.timer=true
     t.modules.touch=true
+
     t.modules.physics=X
     t.modules.thread=X
     t.modules.video=X

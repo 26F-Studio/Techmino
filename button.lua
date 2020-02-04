@@ -34,8 +34,9 @@ Buttons={
 			end,
 			up=4,down=7,left=6
 		},
-		{x=435,y=250,w=320,h=60,rgb=color.white,t="Advanced settings",code=function()gotoScene("setting2")end,up=1,down=7,right=5},
-		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end,up=6},
+		{x=435,y=220,w=320,h=60,rgb=color.green,t="Advanced settings",code=function()gotoScene("setting2")end,up=1,down=7,right=5},
+		{x=435,y=300,w=320,h=60,rgb=color.yellow,t="Touch settings",code=function()gotoScene("setting3")end,up=6,down=8,right=5},
+		{x=640,y=590,w=210,h=60,rgb=color.white,t="Save&Back",code=function()back()end,up=6},
 	},
 	setting2={
 		{x=290,y=70 ,w=160,h=45,rgb=color.white,t=function()return setting.key[1]end,code=function()keysetting,gamepadsetting=1 end,up=1,down=2,right=10},
@@ -52,7 +53,7 @@ Buttons={
 		{x=540,y=130,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[2]end,code=function()gamepadsetting,keysetting=2 end,up=10,down=12,left=2,right=19},
 		{x=540,y=190,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[3]end,code=function()gamepadsetting,keysetting=3 end,up=11,down=13,left=3,right=23},
 		{x=540,y=250,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[4]end,code=function()gamepadsetting,keysetting=4 end,up=12,down=14,left=4,right=23},
-		{x=540,y=310,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[5]end,code=function()gamepadsetting,keysetting=5 end,up=13,down=15,left=5,right=28},
+		{x=540,y=310,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[5]end,code=function()gamepadsetting,keysetting=5 end,up=13,down=15,left=5,right=23},
 		{x=540,y=370,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[6]end,code=function()gamepadsetting,keysetting=6 end,up=14,down=16,left=6,right=28},
 		{x=540,y=430,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[7]end,code=function()gamepadsetting,keysetting=7 end,up=15,down=17,left=7,right=28},
 		{x=540,y=490,w=230,h=45,rgb=color.white,t=function()return setting.gamepad[8]end,code=function()gamepadsetting,keysetting=8 end,up=16,down=18,left=8,right=28},
@@ -69,8 +70,39 @@ Buttons={
 		{x=1125,y=150,w=40,h=40,rgb=color.white,t="+",code=function()setting.sdarr=(setting.sdarr+1)%4 end,up=22,down=28,left=25},
 		--23~26
 		{x=405,y=630,w=130,h=60,rgb=color.white,t="Reset",code=function()for i=1,#setting.key do setting.key[i]=gameEnv0.key[i] end end,up=9,right=28},
-		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end,up=9,left=27},
+		{x=840,y=630,w=180,h=60,rgb=color.white,t="Back",code=function()keysetting=nil;back()end,up=24,left=27},
 		--27~28
+	},
+	setting3={
+		{x=500,y=310,w=120,h=80,rgb=color.white,t="Reset",code=function()
+			for K=1,#virtualkey do
+				local b,b0=virtualkey[K],gameEnv0.virtualkey[K]
+				b[1],b[2],b[3],b[4]=b0[1],b0[2],b0[3],b0[4]
+			end--Reset virtualkey
+		end,down=4,right=2},
+		{x=640,y=310,w=120,h=80,rgb=color.white,t="Snap",code=function()
+			for K=1,#virtualkey do
+				local b=virtualkey[K]
+				b[1],b[2]=int(b[1]*.025+.5)*40,int(b[2]*.025+.5)*40
+			end--Make virtualkey neat
+		end,down=5,left=1,right=3},
+		{x=780,y=310,w=120,h=80,rgb=color.white,t=function()return percent0to5[setting.virtualkeyAlpha]end,code=function()
+			setting.virtualkeyAlpha=(setting.virtualkeyAlpha+1)%6
+			--Adjust virtualkey alpha
+		end,down=6,left=2},
+		{x=500,y=410,w=120,h=80,rgb=color.white,t="Icon",code=function()
+			setting.virtualkeyIcon=not setting.virtualkeyIcon
+			--Switch virtualkey icon
+		end,up=1,right=6},
+		{x=640,y=410,w=120,h=80,rgb=color.white,t="Back",code=function()back()end,up=2,left=4,right=3},
+		{x=780,y=410,w=120,h=80,rgb=color.white,t="Size",code=function()
+			for K=1,#virtualkey do
+				local b=virtualkey[K]
+				b[4]=b[4]+10
+				if b[4]==150 then b[4]=40 end
+				b[3]=b[4]^2
+			end
+		end,up=3,left=5},
 	},
 	help={
 		{x=640,y=590,w=180,h=60,rgb=color.white,t="Back",code=function()back()end},
@@ -86,26 +118,19 @@ for k,v in pairs(Buttons)do
 	end
 end
 
-gamepad={
-	{x=80,y=-80,r=80},--moveLeft
-	{x=240,y=-80,r=80},--moveRight
-	{x=-240,y=-80,r=80},--rotRight
-	{x=-400,y=-80,r=80},--rotLeft
-	{x=-240,y=-240,r=80},--rotFlip
-	{x=-80,y=-80,r=80},--hardDrop
-	{x=-80,y=-240,r=80},--softDrop
-	{x=-80,y=-400,r=80},--hold
-	{x=80,y=80,r=80},--restart
-}
---[[
+virtualkey={
+	{80,720-80,6400,80},--moveLeft
+	{240,720-80,6400,80},--moveRight
+	{1280-240,720-80,6400,80},--rotRight
+	{1280-400,720-80,6400,80},--rotLeft
+	{1280-240,720-240,6400,80},--rotFlip
+	{1280-80,720-80,6400,80},--hardDrop
+	{1280-80,720-240,6400,80},--softDrop
+	{1280-80,720-400,6400,80},--hold
+	{80,80,6400,80},--restart
+	--[[
 	{x=0,y=0,r=0},--toLeft
 	{x=0,y=0,r=0},--toRight
 	{x=0,y=0,r=0},--toDown
-]]
-for i=1,#gamepad do
-	gamepad[i].press=false
-	if gamepad[i].x<0 then gamepad[i].x=1280+gamepad[i].x end
-	if gamepad[i].y<0 then gamepad[i].y=720+gamepad[i].y end
-	gamepad[i].r0=gamepad[i].r
-	gamepad[i].r=gamepad[i].r0^2
-end
+	]]
+}

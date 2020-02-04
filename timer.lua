@@ -56,23 +56,6 @@ function Tmr.play(dt)
 	end
 	-- Update attack beam
 
-	local list=tc.getTouches()
-	for K=1,#gamepad do
-		local b=gamepad[K]
-		local press=false
-		for k,v in ipairs(list)do
-			local x,y=convert(tc.getPosition(v))
-			if (x-b.x)^2+(y-b.y)^2<b.r then
-				press=true
-			end
-		end
-		if b.press~=press then
-			(press and pressKey or releaseKey)(K)
-			b.press=press
-		end
-	end
-	--Touch system
-
 	if count then
 		count=count-1
 		if count==0 then
