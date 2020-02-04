@@ -6,18 +6,20 @@ function C(x,y)
 end
 
 gc.setDefaultFilter("nearest","nearest")
-	miniTitle=C(26,14)
-	gc.setColor(1,1,1)
-	for i=1,#miniTitle_pixel do
-		gc.rectangle("fill",unpack(miniTitle_pixel[i]))
-	end
-gc.setDefaultFilter("linear","linear")
-	titleImage=N("/image/mess/title.png")
-	spinCenter=N("/image/mess/spinCenter.png")
-	dialCircle=N("/image/mess/dialCircle.png")
-	dialNeedle=N("/image/mess/dialNeedle.png")
-	badgeIcon=N("/image/mess/badge.png")
 
+local blockImg=N("/image/block/1.png")
+blockSkin,blockSkinmini={},{}
+for i=1,13 do
+	C(30,30)
+	gc.draw(blockImg,30-30*i,0)
+	blockSkin[i]=c
+	C(6,6)
+	gc.draw(blockImg,6-6*i,0,nil,.2)
+	blockSkinmini[i]=c
+end
+for i=1,13 do
+end
+blockImg:release()
 
 RCPB={10,33,200,33,105,5,105,60}
 do royaleCtrlPad=C(300,100)
@@ -29,25 +31,6 @@ do royaleCtrlPad=C(300,100)
 		mStr(atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+6)
 	end
 end
-
-do local img=N("/image/block/1.png")
-	blockSkin,blockSkinmini={},{}
-	for i=1,13 do
-		C(30,30)
-		gc.draw(img,30-30*i,0)
-		blockSkin[i]=c
-		C(12,12)
-		gc.draw(img,12-12*i,0,nil,.4)
-		blockSkinmini[i]=c
-	end
-	img:release()
-end
-
-background={
-	N("/image/BG/bg1.jpg"),
-	N("/image/BG/bg2.png"),
-}
-gc.setDefaultFilter("nearest","nearest")
 
 virtualkeyIcon={}
 for i=1,10 do
@@ -98,6 +81,16 @@ PTC.attack[3]:setSpin(6)
 PTC.attack[3]:setColors(1,1,1,.7,1,1,1,0)
 --Attack particles
 
+gc.setDefaultFilter("linear","linear")
+titleImage=N("/image/mess/title.png")
+spinCenter=N("/image/mess/spinCenter.png")
+dialCircle=N("/image/mess/dialCircle.png")
+dialNeedle=N("/image/mess/dialNeedle.png")
+badgeIcon=N("/image/mess/badge.png")
+
+background={
+	N("/image/BG/bg1.jpg"),
+	N("/image/BG/bg2.png"),
+}
 c=nil
 gc.setCanvas()
-gc.setDefaultFilter("linear","linear")

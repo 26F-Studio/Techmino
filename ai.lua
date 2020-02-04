@@ -112,7 +112,7 @@ function getScore(field,bn,cb,cx,cy)
 	ins(freeRow,height)
 	score=
 		#field*20
-		-cy*40
+		-cy*35
 		-#cb*25
 		+clearScore[clear]*(8+#field)
 		-hole*50
@@ -167,4 +167,11 @@ function AI_getControls(ctrl)
 		ins(ctrl,l[i])
 	end
 	ins(ctrl,6)
+
+	if rnd()<.1 then
+		if P.atkMode~=4 and P==mostDangerous then
+			ins(P.ai.controls,9)
+			--Smarter AI???
+		end
+	end
 end

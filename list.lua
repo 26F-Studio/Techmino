@@ -246,10 +246,11 @@ testScore={[0]=0,[-1]=1,[-2]=0,[-3]=1,2,2,2}
 spin_n={"spin_1","spin_2","spin_3"}
 clear_n={"clear_1","clear_2","clear_3","clear_4"}
 ren_n={"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11"}
-atkModeName={"Random","Badges","K.O.s","Attackers"}
+atkModeName={"Random","Badges","K.O.s","Counters"}
 up0to4={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
-
+reAtk={0,0,1,1,1,2,2,3,3}
+reDef={0,1,1,2,3,3,4,4,5}
 marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
 death_lock={12,11,10,9,8}
 death_wait={9,8,7,6,5}

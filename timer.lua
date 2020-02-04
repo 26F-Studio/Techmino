@@ -105,7 +105,7 @@ function Tmr.play(dt)
 						P.ai.controlDelay=P.ai.controlDelay0+2
 					else
 						AI_getControls(P.ai.controls)
-						P.ai.controlDelay=2*P.ai.controlDelay0
+						P.ai.controlDelay=rnd(3)*P.ai.controlDelay0
 					end
 				end
 			end
@@ -243,7 +243,7 @@ function Tmr.play(dt)
 			PTC.dust[p]:update(dt)
 		end
 	end
-	if modeEnv.royale and frame%120==0 then
+	if modeEnv.royale and frame%75==0 then
 		freshRoyaleTarget()
 	end
 	setmetatable(_G,nil)

@@ -23,8 +23,7 @@ function resetGameData()
 				until P.atking~=P
 			end
 		end
-		mostBadge=nil
-		mostDangerous=nil
+		mostBadge,mostDangerous,secBadge,secDangerous=nil
 	end
 	for i=1,#virtualkey do
 		virtualkey[i].press=false
@@ -102,7 +101,13 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
 	P.freshTime=0
 	P.lastSpin=false
-	if P.gameEnv.sequence<5 then
+	if P.gameEnv.sequence==3 then
+		for i=1,6 do
+			local r=rnd(7)
+			P.nxt[i]=r
+			P.nb[i]=blocks[r][0]
+		end
+	elseif P.gameEnv.sequence<5 then
 		local bag1={1,2,3,4,5,6,7}
 		for i=1,7 do
 			P.nxt[i]=rem(bag1,rnd(#bag1))
@@ -166,28 +171,37 @@ function throwBadge(S,R,amount)--Player id
 	end
 	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(10+min(amount,10))*.1})
 end
+function randomTarget(p)
+	if #players.alive>1 then
+		local r
+		repeat
+			r=players.alive[rnd(#players.alive)]
+		until r~=p
+		return r
+	end
+end
 function freshRoyaleTarget()
-	local b,sec=0
+	mostBadge,secBadge,mostDangerous,secDangerous=nil
+	local h,b=0,0
 	for i=1,#players.alive do
-		if players.alive[i].badge>b then
+		if players.alive[i].badge>=h then
 			mostBadge,secBadge=players.alive[i],mostBadge
-			b=players[i].badge
+			h=players[i].badge
+		end
+		if #players.alive[i].field>=b then
+			mostDangerous,secDangerous=players.alive[i],mostDangerous
+			b=#players[i].field
 		end
 	end
 	for i=1,#players.alive do
-		if P.atkMode==2 then
+		local P=players.alive[i]
+		if P.atkMode==1 then
+			if not P.atking then
+				P.atking=randomTarget(P)
+			end
+		elseif P.atkMode==2 then
 			P.atking=P~=mostBadge and mostBadge or secBadge
-		end
-	end
-	h,sec=0
-	for i=1,#players.alive do
-		if #players.alive[i].field>h then
-			mostDangerous,secDangerous=players.alive[i],mostBadge
-			h=#players[i].field
-		end
-	end
-	for i=1,#players.alive do
-		if P.atkMode==3 then
+		elseif P.atkMode==3 then
 			P.atking=P~=mostDangerous and mostDangerous or secDangerous
 		end
 	end
@@ -268,7 +282,8 @@ function resetblock()
 	freshgho()
 	if P.keyPressing[6]then act.hardDrop()P.keyPressing[6]=false end
 end
-function pressKey(i,P)
+function pressKey(i,p)
+	P=p
 	P.keyPressing[i]=true
 	if i==10 then
 		act.restart()
@@ -276,10 +291,23 @@ function pressKey(i,P)
         if P.control and P.waiting<=0 then
 			act[actName[i]]()
 			if i>2 and i<7 then P.keyPressing[i]=false end
-		elseif i==1 then
-			P.moving=-1
-		elseif i==2 then
-			P.moving=1
+		elseif P.keyPressing[9]then
+			if i==1 then
+				P.atkMode=1
+				P.atking=randomTarget(P)
+			elseif i==2 then
+				P.atkMode=2
+			elseif i==6 then
+				P.atkMode=3
+			elseif i==7 then
+				P.atkMode=4
+			end
+		else
+			if i==1 then
+				P.moving=-1
+			elseif i==2 then
+				P.moving=1
+			end
 		end
 		ins(P.keyTime,1,frame)rem(P.keyTime,11)
 		P.cstat.key=P.cstat.key+1
@@ -287,8 +315,8 @@ function pressKey(i,P)
 	end
 	--ins(rec,{i,frame})
 end
-function releaseKey(i,player)
-	(player or players[1]).keyPressing[i]=false
+function releaseKey(i,p)
+	p.keyPressing[i]=false
 	-- if playmode=="recording"then ins(rec,{-i,frame})end
 end
 function spin(d,ifpre)
@@ -487,8 +515,8 @@ function drop()
 				end
 			end
 			if atker>1 then
-				csend=csend+ceil(atker*.5)
-				exblock=exblock+int(atker*.5)
+				csend=csend+reAtk[atker]
+				exblock=exblock+reDef[atker]
 			end
 		end
 
@@ -503,6 +531,12 @@ function drop()
 			if P.id==1 then stat.atk=stat.atk+csend end
 			--ATK statistics
 
+			if csend>0 then
+				showText(csend,"zoomout",25,70)
+				if exblock>0 then
+					showText(exblock,"zoomout",10,70)
+				end
+			end
 			while csend>0 and P.atkBuffer[1]do
 				if exblock>0 then
 					exblock=exblock-1
@@ -519,34 +553,23 @@ function drop()
 				end
 			end
 			if csend>0 then
-				showText(csend,"zoomout",25,70)
 				if modeEnv.royaleMode then
-					if #players.alive>1 then
-						if P.atkMode==4 then
-							for i=1,#players.alive do
-								if players.alive[i].atking==P then
-									garbageSend(P,players.alive[i],csend,sendTime)
-								end
-							end
-						else
-							if P.atkMode==1 and rnd()<.2 or not P.atking then
-								local r
-								repeat
-									r=players.alive[rnd(#players.alive)]
-								until r~=P
-								P.atking=r
-							end
-							if P.atking then
-								garbageSend(P,P.atking,csend,sendTime)
+					if P.atkMode==4 then
+						local f
+						for i=1,#players.alive do
+							if players.alive[i].atking==P then
+								garbageSend(P,players.alive[i],csend,sendTime)
+								f=true
 							end
 						end
+						if not f then
+							garbageSend(P,P.atking or randomTarget(P),csend,sendTime)
+						end
+					else
+						garbageSend(P,P.atking or randomTarget(P),csend,sendTime)
 					end
 				elseif #players.alive>1 then
-					local r
-					repeat
-						r=players.alive[rnd(#players.alive)]
-					until r~=P
-					garbageSend(P,r,csend,sendTime)
+					garbageSend(P,randomTarget(P),csend,sendTime)
 				end
 			end
 		elseif cc==0 then
@@ -630,7 +653,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=2 then
 				P.atkMode=2
-				P.atking=mostBadge
+				P.atking=P~=mostBadge and mostBadge or secBadge
 			end
 		else
 			if not auto then
@@ -652,7 +675,7 @@ act={
 		if P.keyPressing[9]then
 			if P.atkMode~=3 then
 				P.atkMode=3
-				P.atking=mostDangerous
+				P.atking=P~=mostDangerous and mostDangerous or secDangerous
 			end
 		else
 			if P.waiting<=0 then
@@ -695,6 +718,7 @@ act={
 	end,
 	restart=function()
 		resetGameData()
+		frame=90
 	end,
 	insDown=function()if P.cy~=P.y_img then P.cy,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false end end,
 	insLeft=function()

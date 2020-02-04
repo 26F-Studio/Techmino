@@ -270,6 +270,7 @@ loadmode={
 	techmino41=function()
 		modeEnv={
 			freshLimit=15,
+			fall=20,
 			royaleMode=true,
 			royale={2,5,10,20},
 		}
@@ -278,13 +279,13 @@ loadmode={
 		local n=2
 		for i=1,4 do
 			for j=1,5 do
-				createPlayer(n,75*i-48,142*j-130,.19,rnd(15))
+				createPlayer(n,77*i-55,140*j-125,.2,rnd(15))
 				n=n+1
 			end
 		end
 		for i=9,12 do
 			for j=1,5 do
-				createPlayer(n,75*i+292,142*j-130,.19,rnd(15))
+				createPlayer(n,77*i+275,140*j-125,.2,rnd(15))
 				n=n+1
 			end
 		end--AIs
@@ -295,6 +296,7 @@ loadmode={
 	techmino99=function()
 		modeEnv={
 			freshLimit=15,
+			fall=20,
 			royaleMode=true,
 			royale={2,6,14,30},
 		}
@@ -455,26 +457,28 @@ mesDisp={
 	techmino41=function()
 		setFont(40)
 		mStr(#players.alive.."/41",-80,180)
-		mStr(P.ko,-55,220)
+		mStr(P.ko,-65,220)
 		setFont(25)
-		gc.print("KO",-105,229)
+		gc.print("KO",-120,229)
+		gc.print(P.badge,-40,233)
+		setFont(30)
+		gc.print(up0to4[P.strength],-125,295)
 		for i=1,P.strength do
 			gc.draw(badgeIcon,16*i-130,260)
 		end
-		setFont(30)
-		gc.print(up0to4[P.strength],-125,295)
 	end,
 	techmino99=function()
 		setFont(40)
 		mStr(#players.alive.."/99",-80,180)
-		mStr(P.ko,-55,220)
+		mStr(P.ko,-65,220)
 		setFont(25)
-		gc.print("KO",-105,229)
+		gc.print("KO",-120,229)
+		gc.print(P.badge,-40,233)
+		setFont(30)
+		gc.print(up0to4[P.strength],-125,295)
 		for i=1,P.strength do
 			gc.draw(badgeIcon,16*i-130,260)
 		end
-		setFont(30)
-		gc.print(up0to4[P.strength],-125,295)
 	end,
 	blind=function()
 		setFont(25)
@@ -498,8 +502,9 @@ Event={
 			P.control=false
 			P.timing=false
 			P.waiting=1e99
-			P.result="WIN"
+			P.atking=nil
 			P.b2b=0
+			P.result="WIN"
 			for i=1,#P.field do
 				for j=1,10 do
 					P.visTime[i][j]=min(P.visTime[i][j],20)
@@ -513,17 +518,14 @@ Event={
 			P.alive=false
 			P.control=false
 			P.timing=false
-			P.result=" K.O."
 			P.waiting=1e99
 			P.atking=nil
 			P.b2b=0
+			P.result=" K.O."
 			showText("LOSE","appear",100,nil,true)
 			for i=1,#players.alive do
 				if players.alive[i]==P then
 					rem(players.alive,i)
-					if #players.alive==1 then
-						ins(players.alive[1].task,Event.task.winTrigger)
-					end
 					break
 				end
 			end
@@ -558,6 +560,9 @@ Event={
 			end
 			if P.id==1 and players[2]and players[2].ai then SFX("fail")end
 			ins(P.task,Event.task.lose)
+			if #players.alive==1 then
+				ins(players.alive[1].task,Event.task.winTrigger)
+			end
 		end,
 	},
 	marathon_reach=function()
@@ -618,7 +623,7 @@ Event={
 		end,
 		win=function()
 			P.counter=P.counter+1
-			if P.counter>60 then
+			if P.counter>80 then
 				for i=1,#P.field do
 					for j=1,10 do
 						if P.visTime[i][j]>0 then
@@ -637,7 +642,7 @@ Event={
 		end,
 		lose=function()
 			P.counter=P.counter+1
-			if P.counter>60 then
+			if P.counter>80 then
 				for i=1,#P.field do
 					for j=1,10 do
 						if P.visTime[i][j]>0 then

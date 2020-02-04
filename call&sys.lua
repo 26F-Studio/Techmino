@@ -530,7 +530,7 @@ function love.run()
 				end
 			end
 		else
-			tm.sleep(.2)
+			tm.sleep(.5)
 			if wd.hasFocus()then
 				tm.step()
 				focus=true

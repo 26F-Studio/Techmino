@@ -1,7 +1,7 @@
 function love.conf(t)
 	local X=nil
-	t.identity="Techmino"--The name of the save directory (string)
-	t.appendidentity=X--Search files in source directory before save directory (boolean)
+	t.identity="Techmino"--Save directory name
+	t.appendidentity=X--If search files in source before save directory
 	t.version="11.1"
 	t.console=X
 	t.accelerometerjoystick=X--If exposing accelerometer on iOS and Android as a Joystick
@@ -9,7 +9,7 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep sysBGM
 
 	local W=t.window
-	W.title="Techmino V0.7.4"
+	W.title="Techmino V0.7.5"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.borderless=X
@@ -20,7 +20,7 @@ function love.conf(t)
 	W.vsync=X--0 to set ∞fps
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
 	W.depth=X--Bits per sample in the depth buffer
-	W.stencil=8--The number of bits per sample in the stencil buffer
+	W.stencil=1--The number of bits per sample in the stencil buffer
 	W.display=1--Monitor ID
 	W.highdpi=X--Enable high-dpi mode for the window on a Retina display (boolean)
 	W.x,W.y=nil

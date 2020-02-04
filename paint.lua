@@ -134,16 +134,15 @@ function drawDial(x,y,speed)
 		mStr(int(speed),0,-14)
 		gc.draw(dialCircle,0,0,nil,nil,nil,32,32)
 		gc.setColor(1,1,1,.6)
-		gc.draw(dialNeedle,0,0,2.0944+(speed<=175 and .020944*speed or 4.712389-52.35988/(speed-125)),nil,nil,5,4)
+		gc.draw(dialNeedle,0,0,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 	gc.pop()
 end
 function drawPixel(y,x,id,alpha)
 	gc.setColor(1,1,1,alpha)
 	gc.draw(blockSkin[id],30*x-30,600-30*y)
 end
-function drawPixelmini(y,x,id,alpha)
-	gc.setColor(1,1,1,alpha)
-	gc.draw(blockSkinmini[id],30*x-30,600-30*y,nil,2.5)
+function drawPixelmini(y,x,id)
+	gc.draw(blockSkinmini[id],30*x-30,600-30*y,nil,5)
 end
 function drawVirtualkey(s)
 	gc.setLineWidth(10)
@@ -223,25 +222,25 @@ function Pnt.load()
 end
 function Pnt.intro()
 	gc.push()
-	gc.translate(250,150)
-	gc.scale(30)
-	gc.setColor(1,1,1,min(count,80)*.005)
-	gc.draw(miniTitle)
-	gc.setColor(1,1,1)
-	gc.stencil(stencil_miniTitle,"replace",1)
+		gc.translate(250,150)
+		gc.scale(30)
+		gc.stencil(stencil_miniTitle,"replace",1)
 	gc.setStencilTest("equal",1)
+		gc.setColor(1,1,1,min(count,80)*.005)
+		gc.rectangle("fill",0,0,26,14)
 	gc.pop()
-	gc.setColor(1,1,1,.125)
-	for i=19,5,-2 do
-		gc.setLineWidth(i)
-		gc.line(250+(count-80)*25,150,(count-80)*25-150,570)
-	end
+		gc.setColor(1,1,1)
+		gc.setColor(1,1,1,.125)
+		for i=19,5,-2 do
+			gc.setLineWidth(i)
+			gc.line(250+(count-80)*25,150,(count-80)*25-150,570)
+		end
 	gc.setStencilTest()
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.4",370,150)
+	gc.print("Alpha V0.7.5",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -291,23 +290,12 @@ function Pnt.play()
 			gc.stencil(stencil_field_small,"replace",1)
 			gc.translate(0,P.fieldBeneath)
 			gc.setStencilTest("equal",1)
-			if P.result then
-				for j=int(P.fieldBeneath/30+1),#P.field do
-					if P.falling<=0 or without(P.clearing,j)then
-						for i=1,10 do
-							if P.field[j][i]>0 then
-								drawPixelmini(j,i,P.field[j][i],min(P.visTime[j][i],20)*.05)
-							end
-						end
-					end
-				end
-			else
-				for j=int(P.fieldBeneath/30+1),#P.field do
-					if P.falling<=0 or without(P.clearing,j)then
-						for i=1,10 do
-							if P.field[j][i]>0 then
-								drawPixelmini(j,i,P.field[j][i],1)
-							end
+			gc.setColor(1,1,1,P.result and max(20-P.counter,0)*.05 or 1)
+			for j=int(P.fieldBeneath/30+1),#P.field do
+				if P.falling<=0 or without(P.clearing,j)then
+					for i=1,10 do
+						if P.field[j][i]>0 then
+							drawPixelmini(j,i,P.field[j][i])
 						end
 					end
 				end
@@ -448,7 +436,7 @@ function Pnt.play()
 				end
 			end--Next
 			if frame<180 then
-				local count=180-frame
+				local count=179-frame
 				gc.push("transform")
 					gc.translate(155,220)
 					gc.setColor(1,1,1)
@@ -491,18 +479,25 @@ function Pnt.play()
 		drawVirtualkey()
 	end
 	if modeEnv.royaleMode then
-		gc.setLineWidth(5)
-		gc.setColor(1,1,0,.2)
 		P=players[1]
+		if P.atkMode~=4 then
+			gc.setLineWidth(5)
+			gc.setColor(.8,1,0,.2)
+		else
+			gc.setLineWidth(9)
+			gc.setColor(1,.6,.2,.4)
+		end
 		for i=1,#players.alive do
 			local p=players.alive[i]
 			if p.atking==players[1]then
 				gc.line(p.centerX,p.centerY,P.centerX,P.centerY)
 			end
 		end
-		if P.atking then
-			gc.setColor(0,.5,1,.2+(sin(Timer()*7)+1)*.1)
-			gc.line(P.centerX,P.centerY,P.atking.centerX,P.atking.centerY)
+		if P.atkMode~=4 then
+			if P.atking then
+				gc.setColor(0,.5,1,.2+(sin(Timer()*7)+1)*.1)
+				gc.line(P.centerX,P.centerY,P.atking.centerX,P.atking.centerY)
+			end
 		end
 	end
 end
