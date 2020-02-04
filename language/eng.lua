@@ -142,6 +142,7 @@ return{
 		"Secret code:626",
 		"Techmino=Technique+Tetromino",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
+		"Headphones for better experience",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 	},
 	stat={
@@ -296,6 +297,7 @@ Lib used:
 			bgm="BGM",
 			vib="VIB",
 			voc="VOC",
+			stereo="Stereo",
 			back=BK,
 		},
 		setting_key={

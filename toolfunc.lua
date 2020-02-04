@@ -453,7 +453,7 @@ function loadSetting()
 				t=="VKTchW"or t=="VKCurW"or t=="VKAlpha"
 			then
 				v=toN(v)
-				if v==int(v)and v>=0 and v<=10 then
+				if v and v==int(v)and v>=0 and v<=10 then
 					setting[t]=v
 				end
 			elseif t=="vib"then
@@ -530,6 +530,8 @@ local saveOpt={
 	"VKSwitch",
 	"VKTrack",
 	"VKDodge",
+	"VKTchW",
+	"VKCurW",
 	"VKIcon",
 	"VKAlpha",
 }

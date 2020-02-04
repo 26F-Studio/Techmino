@@ -143,6 +143,7 @@ return{
 		"不要按F8",
 		"秘密代码:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
+		"戴上耳机获得最佳体验",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 	},
 	stat={
@@ -297,6 +298,7 @@ return{
 			bgm="音乐",
 			vib="震动",
 			voc="语音",
+			stereo="双声道",
 			back=BK,
 		},
 		setting_key={

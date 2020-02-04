@@ -17,6 +17,7 @@ local modeLevelColor={
 	["NORMAL+"]=color.darkGreen,
 	["HARD+"]=color.darkMagenta,
 	["LUNATIC+"]=color.darkRed,
+	["ULTIMATE+"]=color.grey,
 
 	MESS=color.lightGrey,
 	GM=color.blue,

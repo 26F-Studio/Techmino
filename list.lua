@@ -58,7 +58,7 @@ blockColor={
 sfx={
 	"welcome",
 	"error","error_long",
-	--Stereo sfxs
+	--Stereo sfxs(cannot set position)
 	"button","swipe",
 	"ready","start","win","fail","collect",
 	"move","rotate","rotatekick","hold",
@@ -70,7 +70,7 @@ sfx={
 	"spin_0","spin_1","spin_2","spin_3",
 	"emit","blip_1","blip_2",
 	"perfectclear",
-	--mono sfxs
+	--Mono sfxs
 }
 bgm={
 	"blank",
@@ -180,7 +180,7 @@ modeLevel={
 	classic={"CTWC"},
 	zen={"NORMAL"},
 	infinite={"NORMAL","EXTRA"},
-	solo={"EASY","EASY+","NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+","ULTIMATE"},
+	solo={"EASY","EASY+","NORMAL","NORMAL+","HARD","HARD+","LUNATIC","LUNATIC+","ULTIMATE","ULTIMATE+"},
 	round={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	tsd={"NORMAL","HARD"},
 	blind={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
@@ -298,6 +298,31 @@ local function useDefaultSet(n)
 	curBG=customRange.bg[customSel[12]]
 	BGM(customRange.bgm[customSel[13]])
 end
+
+--λFuncs for widgets
+local function SETdisp(k)
+	return function()
+		return setting[k]
+	end
+end
+local function SETsto(k)
+	return function(i)setting[k]=i end
+end
+local function SETrev(k)
+	return function()
+		setting[k]=not setting[k]
+	end
+end
+local function pressKey(k)
+	return function()
+		love.keypressed(k)
+	end
+end
+local function setPen(i)
+	return function()
+		pen=i
+	end
+end
 local function VKAdisp(n)
 	return function()
 		return VK_org[n].ava
@@ -308,93 +333,94 @@ local function VKAcode(n)
 		VK_org[n].ava=not VK_org[n].ava
 	end
 end
+local C=color
 Widget={
 	load={},intro={},quit={},
 	main={
-		play=	newButton(150,280,200,160,color.red,		60,function()scene.push()scene.swapTo("mode")end,			nil,"setting"),
-		setting=newButton(370,280,200,160,color.lightBlue,	50,function()scene.push()scene.swapTo("setting_game")end,	nil,"music"),
-		music=	newButton(590,280,200,160,color.lightPurple,37,function()scene.push()scene.swapTo("music")end,			nil,"help"),
-		help=	newButton(150,460,200,160,color.yellow,		55,function()scene.push()scene.swapTo("help")end,			nil,"stat"),
-		stat=	newButton(370,460,200,160,color.cyan,		48,function()scene.push()scene.swapTo("stat")end,			nil,"qplay"),
-		qplay=	newButton(540,415,100,70,color.lightGreen,	28,function()scene.push()loadGame(modeSel,levelSel)end,	nil,"lang"),
-		lang=	newButton(590,505,200,70,color.lightRed,	50,function()
+		play=	newButton(150,280,200,160,C.red,		60,function()scene.push()scene.swapTo("mode")end,			nil,"setting"),
+		setting=newButton(370,280,200,160,C.lightBlue,	50,function()scene.push()scene.swapTo("setting_game")end,	nil,"music"),
+		music=	newButton(590,280,200,160,C.lightPurple,37,function()scene.push()scene.swapTo("music")end,			nil,"help"),
+		help=	newButton(150,460,200,160,C.yellow,		55,function()scene.push()scene.swapTo("help")end,			nil,"stat"),
+		stat=	newButton(370,460,200,160,C.cyan,		48,function()scene.push()scene.swapTo("stat")end,			nil,"qplay"),
+		qplay=	newButton(540,415,100,70,C.lightGreen,	28,function()scene.push()loadGame(modeSel,levelSel)end,	nil,"lang"),
+		lang=	newButton(590,505,200,70,C.lightRed,	50,function()
 			setting.lang=setting.lang%#langName+1
 			swapLanguage(setting.lang)
 			end,nil,"quit"),
-		quit=	newButton(370,620,280,100,color.lightGrey,	60,function()scene.swapTo("quit")end,						nil,"play"),
+		quit=	newButton(370,620,280,100,C.lightGrey,	60,function()scene.swapTo("quit")end,						nil,"play"),
 	},
 	mode={
-		up=		newButton(1000,	210,200,140,color.white,	80,function()love.keypressed("up")end,function()return modeSel==1 end),
-		down=	newButton(1000,	430,200,140,color.white,	80,function()love.keypressed("down")end,function()return modeSel==#modeID end),
-		left=	newButton(190,	160,100,80,	color.white,	40,function()love.keypressed("left")end,function()return levelSel==1 end),
-		right=	newButton(350,	160,100,80,	color.white,	40,function()love.keypressed("right")end,function()return levelSel==#modeLevel[modeID[modeSel]]end),
-		start=	newButton(1000,	600,250,100,color.green,	50,function()scene.push()loadGame(modeSel,levelSel)end),
-		custom=	newButton(275,	420,200,90,	color.yellow,	40,function()scene.push()scene.swapTo("custom")end),
-		back=	newButton(640,	630,230,90,	color.white,	45,scene.back),
+		up=		newButton(1000,	210,200,140,C.white,	80,pressKey("up"),		function()return modeSel==1 end),
+		down=	newButton(1000,	430,200,140,C.white,	80,pressKey("down"),	function()return modeSel==#modeID end),
+		left=	newButton(190,	160,100,80,	C.white,	40,pressKey("left"),	function()return levelSel==1 end),
+		right=	newButton(350,	160,100,80,	C.white,	40,pressKey("right"),	function()return levelSel==#modeLevel[modeID[modeSel]]end),
+		start=	newButton(1000,	600,250,100,C.green,	50,function()scene.push()loadGame(modeSel,levelSel)end),
+		custom=	newButton(275,	420,200,90,	C.yellow,	40,function()scene.push()scene.swapTo("custom")end),
+		back=	newButton(640,	630,230,90,	C.white,	45,scene.back),
 	},
 	music={
-		bgm=	newSlider(760,	80,400,10,40,nil,function()return setting.bgm end,function(i)setting.bgm=i;BGM(bgmPlaying)end),
-		up=		newButton(1100,	200,120,120,color.white,60,function()love.keypressed("up")end),
-		play=	newButton(1100,	340,120,120,color.white,40,function()love.keypressed("space")end,function()return setting.bgm==0 end),
-		down=	newButton(1100,	480,120,120,color.white,60,function()love.keypressed("down")end),
-		back=	newButton(640,	630,230,90,	color.white,45,scene.back),
+		bgm=	newSlider(760,	80,400,10,40,nil,SETdisp("bgm"),function(i)setting.bgm=i;BGM(bgmPlaying)end),
+		up=		newButton(1100,	200,120,120,C.white,60,pressKey("up")),
+		play=	newButton(1100,	340,120,120,C.white,40,pressKey("space"),function()return setting.bgm==0 end),
+		down=	newButton(1100,	480,120,120,C.white,60,pressKey("down")),
+		back=	newButton(640,	630,230,90,	C.white,45,scene.back),
 	},
 	custom={
-		up=		newButton(1000,	220,100,100,color.white,		50,function()sel=(sel-2)%#customID+1 end),
-		down=	newButton(1000,	460,100,100,color.white,		50,function()sel=sel%#customID+1 end),
-		left=	newButton(880,	340,100,100,color.white,		50,function()love.keypressed("left")end),
-		right=	newButton(1120,	340,100,100,color.white,		50,function()love.keypressed("right")end),
-		start1=	newButton(880,	580,220,70,	color.green,		40,function()scene.push()loadGame(0,1)end),
-		start2=	newButton(1120,	580,220,70,	color.lightPurple,	40,function()scene.push()loadGame(0,2)end),
-		draw=	newButton(1000,	90,	190,85,	color.cyan,			40,function()scene.push()scene.swapTo("draw")end),
-		set1=	newButton(640,	160,240,75,	color.lightRed,		40,function()useDefaultSet(1)end),
-		set2=	newButton(640,	250,240,75,	color.lightRed,		40,function()useDefaultSet(2)end),
-		set3=	newButton(640,	340,240,75,	color.lightRed,		40,function()useDefaultSet(3)end),
-		set4=	newButton(640,	430,240,75,	color.lightRed,		40,function()useDefaultSet(4)end),
-		set5=	newButton(640,	520,240,75,	color.lightRed,		40,function()useDefaultSet(5)end),
-		back=	newButton(640,	630,180,60,	color.white,		40,scene.back),
+		up=		newButton(1000,	220,100,100,C.white,		50,function()sel=(sel-2)%#customID+1 end),
+		down=	newButton(1000,	460,100,100,C.white,		50,function()sel=sel%#customID+1 end),
+		left=	newButton(880,	340,100,100,C.white,		50,pressKey("left")),
+		right=	newButton(1120,	340,100,100,C.white,		50,pressKey("right")),
+		start1=	newButton(880,	580,220,70,	C.green,		40,function()scene.push()loadGame(0,1)end),
+		start2=	newButton(1120,	580,220,70,	C.lightPurple,	40,function()scene.push()loadGame(0,2)end),
+		draw=	newButton(1000,	90,	190,85,	C.cyan,			40,function()scene.push()scene.swapTo("draw")end),
+		set1=	newButton(640,	160,240,75,	C.lightRed,		40,function()useDefaultSet(1)end),
+		set2=	newButton(640,	250,240,75,	C.lightRed,		40,function()useDefaultSet(2)end),
+		set3=	newButton(640,	340,240,75,	C.lightRed,		40,function()useDefaultSet(3)end),
+		set4=	newButton(640,	430,240,75,	C.lightRed,		40,function()useDefaultSet(4)end),
+		set5=	newButton(640,	520,240,75,	C.lightRed,		40,function()useDefaultSet(5)end),
+		back=	newButton(640,	630,180,60,	C.white,		40,scene.back),
 	},
 	draw={
-		block1=	newButton(920,	80,	120,120,color.red,			65,function()pen=1 end),
-		block2=	newButton(1060,	80,	120,120,color.green,		65,function()pen=2 end),
-		block3=	newButton(1200,	80,	120,120,color.orange,		65,function()pen=3 end),
-		block4=	newButton(920,	220,120,120,color.blue,			65,function()pen=4 end),
-		block5=	newButton(1060,	220,120,120,color.magenta,		65,function()pen=5 end),
-		block6=	newButton(1200,	220,120,120,color.yellow,		65,function()pen=6 end),
-		block7=	newButton(920,	360,120,120,color.cyan,			65,function()pen=7 end),
-		gb1=	newButton(1060,	360,120,120,color.darkGrey,		65,function()pen=9 end),
-		gb2=	newButton(1200,	360,120,120,color.grey,			65,function()pen=10 end),
-		gb3=	newButton(920,	500,120,120,color.darkPurple,	65,function()pen=11 end),
-		gb4=	newButton(1060,	500,120,120,color.darkRed,		65,function()pen=12 end),
-		gb5=	newButton(1200,	500,120,120,color.darkGreen,	65,function()pen=13 end),
-		clear=	newButton(780,	80,	120,120,color.white,		45,function()love.keypressed("delete")end),
-		any=	newButton(780,	220,120,120,color.lightGrey,	45,function()pen=0 end),
-		space=	newButton(780,	360,120,120,color.grey,			70,function()pen=-1 end),
-		back=	newButton(1200,	640,120,120,color.white,		40,scene.back),
+		block1=	newButton(920,	80,	120,120,C.red,			65,setPen(1)),
+		block2=	newButton(1060,	80,	120,120,C.green,		65,setPen(2)),
+		block3=	newButton(1200,	80,	120,120,C.orange,		65,setPen(3)),
+		block4=	newButton(920,	220,120,120,C.blue,			65,setPen(4)),
+		block5=	newButton(1060,	220,120,120,C.magenta,		65,setPen(5)),
+		block6=	newButton(1200,	220,120,120,C.yellow,		65,setPen(6)),
+		block7=	newButton(920,	360,120,120,C.cyan,			65,setPen(7)),
+		gb1=	newButton(1060,	360,120,120,C.darkGrey,		65,setPen(9)),
+		gb2=	newButton(1200,	360,120,120,C.grey,			65,setPen(10)),
+		gb3=	newButton(920,	500,120,120,C.darkPurple,	65,setPen(11)),
+		gb4=	newButton(1060,	500,120,120,C.darkRed,		65,setPen(12)),
+		gb5=	newButton(1200,	500,120,120,C.darkGreen,	65,setPen(13)),
+		clear=	newButton(780,	80,	120,120,C.white,		45,pressKey("delete")),
+		any=	newButton(780,	220,120,120,C.lightGrey,	45,setPen(0)),
+		space=	newButton(780,	360,120,120,C.grey,			70,setPen(-1)),
+		back=	newButton(1200,	640,120,120,C.white,		40,scene.back),
 	},
 	play={
-		pause=	newButton(1235,45,80,80,color.white,30,pauseGame),
+		pause=	newButton(1235,45,80,80,C.white,30,pauseGame),
 	},
 	pause={
-		resume=	newButton(640,290,240,100,color.white,50,resumeGame),
-		restart=newButton(640,445,240,100,color.white,50,function()
+		resume=	newButton(640,290,240,100,C.white,50,resumeGame),
+		restart=newButton(640,445,240,100,C.white,50,function()
 			clearTask("play")
 			updateStat()
 			resetGameData()
 			scene.swapTo("play","none")
 			end),
-		setting=newButton(1150,80,200,100,color.yellow,45,function()
+		setting=newButton(1150,80,200,100,C.yellow,45,function()
 			scene.push()
 			scene.swapTo("setting_sound")
 		end),
-		quit=	newButton(640,600,240,100,color.white,50,scene.back),
+		quit=	newButton(640,600,240,100,C.white,50,scene.back),
 	},
 	setting_game={
-		graphic=newButton(200,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_graphic")end,	nil,"sound"),
-		sound=	newButton(1080,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_sound")end,	nil,"dasD"),
-		dasD=	newButton(180,230,50,50,color.white,40,function()setting.das=(setting.das-1)%31 end,	nil,"dasU"),
-		dasU=	newButton(400,230,50,50,color.white,40,function()setting.das=(setting.das+1)%31 end,	nil,"arrD"),
-		arrD=	newButton(500,230,50,50,color.white,40,function()
+		graphic=newButton(200,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_graphic")end,	nil,"sound"),
+		sound=	newButton(1080,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_sound")end,	nil,"dasD"),
+		dasD=	newButton(180,230,50,50,C.white,40,function()setting.das=(setting.das-1)%31 end,	nil,"dasU"),
+		dasU=	newButton(400,230,50,50,C.white,40,function()setting.das=(setting.das+1)%31 end,	nil,"arrD"),
+		arrD=	newButton(500,230,50,50,C.white,40,function()
 			setting.arr=(setting.arr-1)%16
 			if setting.arr>setting.das then
 				setting.das=setting.arr
@@ -402,7 +428,7 @@ Widget={
 				SFX("blip_1",.4)
 			end
 			end,nil,"arrU"),
-		arrU=	newButton(720,230,50,50,color.white,40,function()
+		arrU=	newButton(720,230,50,50,C.white,40,function()
 			setting.arr=(setting.arr+1)%16
 			if setting.arr>setting.das then
 				setting.das=setting.arr
@@ -410,65 +436,64 @@ Widget={
 				SFX("blip_1",.4)
 			end
 			end,nil,"sddasD"),
-		sddasD=	newButton(180,340,50,50,color.white,40,function()setting.sddas=(setting.sddas-1)%11 end,	nil,"sddasU"),
-		sddasU=	newButton(400,340,50,50,color.white,40,function()setting.sddas=(setting.sddas+1)%11 end,	nil,"sdarrD"),
-		sdarrD=	newButton(500,340,50,50,color.white,40,function()setting.sdarr=(setting.sdarr-1)%4 end,		nil,"sdarrU"),
-		sdarrU=	newButton(720,340,50,50,color.white,40,function()setting.sdarr=(setting.sdarr+1)%4 end,		nil,"quickR"),
-		quickR=	newSwitch(560,430,40,function()return setting.quickR end,function()setting.quickR=not setting.quickR end,	nil,"swap"),
-		swap=	newSwitch(560,510,25,function()return setting.swap end,function()setting.swap=not setting.swap end,			nil,"fine"),
-		fine=	newSwitch(560,590,25,function()return setting.fine end,function()setting.fine=not setting.fine end,			nil,"ctrl"),
-		ctrl=	newButton(1020,230,320,80,color.white,40,function()scene.push()scene.swapTo("setting_key")end,			nil,"touch"),
-		touch=	newButton(1020,340,320,80,color.white,40,function()scene.push()scene.swapTo("setting_touch")end,			nil,"back"),
-		back=	newButton(1160,600,160,160,color.white,55,scene.back,nil,"graphic"),
+		sddasD=	newButton(180,340,50,50,C.white,40,	function()setting.sddas=(setting.sddas-1)%11 end,	nil,"sddasU"),
+		sddasU=	newButton(400,340,50,50,C.white,40,	function()setting.sddas=(setting.sddas+1)%11 end,	nil,"sdarrD"),
+		sdarrD=	newButton(500,340,50,50,C.white,40,	function()setting.sdarr=(setting.sdarr-1)%4 end,	nil,"sdarrU"),
+		sdarrU=	newButton(720,340,50,50,C.white,40,	function()setting.sdarr=(setting.sdarr+1)%4 end,	nil,"quickR"),
+		quickR=	newSwitch(560,430,40,SETdisp("quickR"),	SETrev("quickR"),									nil,"swap"),
+		swap=	newSwitch(560,510,25,SETdisp("swap"),	SETrev("swap"),										nil,"fine"),
+		fine=	newSwitch(560,590,25,SETdisp("fine"),	SETrev("fine"),										nil,"ctrl"),
+		ctrl=	newButton(1020,230,320,80,C.white,40,function()scene.push()scene.swapTo("setting_key")end,	nil,"touch"),
+		touch=	newButton(1020,340,320,80,C.white,40,function()scene.push()scene.swapTo("setting_touch")end,nil,"back"),
+		back=	newButton(1160,600,160,160,C.white,55,scene.back,nil,"graphic"),
 	},
 	setting_graphic={
-		sound=	newButton(200,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_sound")end,	nil,"game"),
-		game=	newButton(1080,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_game")end,	nil,"ghost"),
-		ghost=	newSwitch(310,180,40,function()return setting.ghost end,	function()setting.ghost=	not setting.ghost end,	nil,"center"),
-		center=	newSwitch(580,180,40,function()return setting.center end,	function()setting.center=	not setting.center end,	nil,"smo"),
-		smo=	newSwitch(310,260,25,function()return setting.smo end,		function()setting.smo=		not setting.smo end,	nil,"grid"),
-		grid=	newSwitch(580,260,40,function()return setting.grid end,		function()setting.grid=		not setting.grid end,	nil,"dropFX"),
-		dropFX=	newSlider(310,350,373,3,40,nil,function()return setting.dropFX end,		function(i)setting.dropFX=i end,		nil,"shakeFX"),
-		shakeFX=newSlider(310,430,373,3,40,nil,function()return setting.shakeFX end,	function(i)setting.shakeFX=i end,		nil,"atkFX"),
-		atkFX=	newSlider(310,510,373,3,40,nil,function()return setting.atkFX end,		function(i)setting.atkFX=i end,			nil,"frame"),
+		sound=	newButton(200,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_sound")end,	nil,"game"),
+		game=	newButton(1080,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_game")end,	nil,"ghost"),
+		ghost=	newSwitch(310,180,40,SETdisp("ghost"),						SETdisp("ghost"),			nil,"center"),
+		center=	newSwitch(580,180,40,SETdisp("center"),						SETdisp("center"),			nil,"smo"),
+		smo=	newSwitch(310,260,25,SETdisp("smo"),						SETdisp("smo"),				nil,"grid"),
+		grid=	newSwitch(580,260,40,SETdisp("grid"),						SETdisp("grid"),			nil,"dropFX"),
+		dropFX=	newSlider(310,350,373,3,40,nil,SETdisp("dropFX"),			SETsto("dropFX"),			nil,"shakeFX"),
+		shakeFX=newSlider(310,430,373,3,40,nil,SETdisp("shakeFX"),			SETsto("shakeFX"),			nil,"atkFX"),
+		atkFX=	newSlider(310,510,373,3,40,nil,SETdisp("atkFX"),			SETsto("atkFX"),			nil,"frame"),
 		frame=	newSlider(310,590,373,10,40,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
-		fullscreen=newSwitch(990,180,40,function()return setting.fullscreen end,function()
+		fullscreen=newSwitch(990,180,40,SETdisp("fullscreen"),function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			if not setting.fullscreen then
 			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end
 			end,nil,"bg"),
-		bg=		newSwitch(990,250,40,function()return setting.bg end,function()setting.bg=not setting.bg end,	nil,"bgblock"),
-		bgblock=newSwitch(990,330,40,function()return setting.bgblock end,function()
-			setting.bgblock=not setting.bgblock--if not setting.bgblock then for i=1,16 do FX_BGblock.list[i].v=3*FX_BGblock.list[i].v end end
-			end,nil,"skin"),
-		skin=	newButton(860,470,120,60,color.white,40,function()
+		bg=		newSwitch(990,250,40,SETdisp("bg"),SETrev("bg"),nil,"bgblock"),
+		bgblock=newSwitch(990,330,40,SETdisp("bgblock"),SETrev("bgblock"),nil,"skin"),--if not setting.bgblock then for i=1,16 do FX_BGblock.list[i].v=3*FX_BGblock.list[i].v end end
+		skin=	newButton(860,470,120,60,C.white,40,function()
 			setting.skin=setting.skin%8+1
 			changeBlockSkin(setting.skin)
 			end,nil,"back"),
-		back=	newButton(1160,600,160,160,color.white,55,scene.back,nil,"sound"),
+		back=	newButton(1160,600,160,160,C.white,55,scene.back,nil,"sound"),
 		},
 	setting_sound={
-		game=	newButton(200,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_game")end,	nil,"graphic"),
-		graphic=newButton(1080,80,240,80,color.lightGreen,40,function()scene.swapTo("setting_graphic")end,	nil,"sfx"),
-		sfx=newSlider(180,250,400,10,40,function()SFX("blip_1")end,				function()return setting.sfx end,function(i)setting.sfx=i end,nil,"bgm"),
-		bgm=newSlider(750,250,400,10,40,function()BGM(bgmPlaying or"blank")end,	function()return setting.bgm end,function(i)setting.bgm=i end,nil,"vib"),
-		vib=newSlider(180,440,400,5,40,function()VIB(1)end,						function()return setting.vib end,function(i)setting.vib=i end,nil,"voc"),
-		voc=newSlider(750,440,400,10,40,function()VOICE("nya")end,				function()return setting.voc end,function(i)setting.voc=i end,nil,"back"),
-		back=newButton(1160,600,160,160,color.white,55,scene.back,nil,"game"),
+		game=	newButton(200,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_game")end,							nil,"graphic"),
+		graphic=newButton(1080,80,240,80,C.lightGreen,40,function()scene.swapTo("setting_graphic")end,						nil,"sfx"),
+		sfx=	newSlider(180,250,400,10,40,function()SFX("blip_1")end,						SETdisp("sfx"),		SETsto("sfx"),	nil,"bgm"),
+		bgm=	newSlider(750,250,400,10,40,function()BGM(bgmPlaying or"blank")end,			SETdisp("bgm"),		SETsto("bgm"),	nil,"vib"),
+		vib=	newSlider(180,440,400,5,40,	function()VIB(1)end,							SETdisp("vib"),		SETsto("vib"),	nil,"voc"),
+		voc=	newSlider(750,440,400,10,40,function()VOICE("nya")end,						SETdisp("voc"),		SETsto("voc"),	nil,"stereo"),
+		stereo=	newSlider(180,630,400,10,40,function()SFX("move",1,-1)SFX("lock",1,1)end,	SETdisp("stereo"),	SETsto("stereo"),nil,"back"),
+		back=newButton(1160,600,160,160,C.white,55,scene.back,nil,"game"),
 	},
 	setting_key={
-		back=newButton(1140,650,200,80,color.white,50,scene.back),
+		back=newButton(1140,650,200,80,C.white,50,scene.back),
 	},
 	setting_touch={
-		hide=	newSwitch(810,140,45,function()return setting.VKSwitch end,function()setting.VKSwitch=not setting.VKSwitch end),
-		track=	newSwitch(810,220,45,function()return setting.VKTrack end,function()setting.VKTrack=not setting.VKTrack end),
-		tkset=	newButton(450,220,170,80,color.white,30,function()
+		hide=	newSwitch(810,140,45,SETdisp("VKSwitch"),SETrev("VKSwitch")),
+		track=	newSwitch(810,220,45,SETdisp("VKTrack"),SETrev("VKTrack")),
+		tkset=	newButton(450,220,170,80,C.white,30,function()
 			scene.push()
 			scene.swapTo("setting_trackSetting")
 			end,function()return not setting.VKTrack end),
-		default=newButton(450,320,170,80,color.white,40,function()
+		default=newButton(450,320,170,80,C.white,40,function()
 				local D=virtualkeySet[defaultSel]
 				for i=1,#VK_org do
 					VK_org[i].ava=false
@@ -483,30 +508,28 @@ Widget={
 				end--Replace keys
 			defaultSel=defaultSel%5+1
 			end),
-		snap=	newButton(640,320,170,80,color.white,40,function()
+		snap=	newButton(640,320,170,80,C.white,40,function()
 			snapLevel=snapLevel%6+1
 			end),
 			--VK=T,70,50,27/T,130,50,27/T,190,50,27/T,250,50,27/T,310,50,27/T,370,50,27/T,430,50,27/T,490,50,27/T,550,50,27/T,610,50,27/T,670,50,27/T,730,50,27/T,790,50,27/T,850,50,27/T,910,50,27/T,970,50,27/T,739,789,897/T,1090,50,27/T,1150,50,27/T,1210,50,27
-		alpha=	newButton(830,320,170,80,color.white,45,function()
+		alpha=	newButton(830,320,170,80,C.white,45,function()
 			setting.VKAlpha=(setting.VKAlpha+1)%11
 			--Adjust virtualkey alpha
 			end),
-		icon=	newButton(495,420,260,80,color.white,45,function()
-			setting.VKIcon=not setting.VKIcon
+		icon=	newButton(495,420,260,80,C.white,45,SETrev("VKIcon")),
 			--Switch virtualkey icon
-			end),
-		size=	newButton(785,420,260,80,color.white,45,function()
+		size=	newButton(785,420,260,80,C.white,45,function()
 			if sel then
 				local B=VK_org[sel]
 				B.r=B.r+10
 				if B.r>=150 then B.r=B.r-110 end
 			end
 			end),
-		toggle=	newButton(495,520,260,80,color.white,45,function()
+		toggle=	newButton(495,520,260,80,C.white,45,function()
 			scene.push()
 			scene.swapTo("setting_touchSwitch")
 			end),
-		back=	newButton(785,520,260,80,color.white,45,scene.back),
+		back=	newButton(785,520,260,80,C.white,45,scene.back),
 	},
 	setting_touchSwitch={
 		b1=		newSwitch(300,80,	40,VKAdisp(1),VKAcode(1)),
@@ -529,33 +552,33 @@ Widget={
 		b18=	newSwitch(760,500,	40,VKAdisp(18),VKAcode(18)),
 		b19=	newSwitch(760,560,	40,VKAdisp(19),VKAcode(19)),
 		b20=	newSwitch(760,620,	40,VKAdisp(20),VKAcode(20)),
-		norm=	newButton(1080,150,240,80,color.white,50,function()for i=1,20 do VK_org[i].ava=i<11 end end),
-		pro=	newButton(1080,300,240,80,color.white,40,function()for i=1,20 do VK_org[i].ava=true end end),
-		back=	newButton(1080,600,240,80,color.white,50,scene.back),
+		norm=	newButton(1080,150,240,80,C.white,50,function()for i=1,20 do VK_org[i].ava=i<11 end end),
+		pro=	newButton(1080,300,240,80,C.white,40,function()for i=1,20 do VK_org[i].ava=true end end),
+		back=	newButton(1080,600,240,80,C.white,50,scene.back),
 	},
 	setting_trackSetting={
-		VKDodge=	newSwitch(400,200,	40,function()return setting.VKDodge end,function()setting.VKDodge=not setting.VKDodge end),
-		VKTchW=	newSlider(140,310,1000,10,40,nil,function()return setting.VKTchW end,function(i)setting.VKTchW=i;setting.VKCurW=math.max(setting.VKCurW,i)end),
-		VKCurW=	newSlider(140,370,1000,10,40,nil,function()return setting.VKCurW end,function(i)setting.VKCurW=i;setting.VKTchW=math.min(setting.VKTchW,i)end),
-		back=	newButton(1080,600,240,80,color.white,50,scene.back),
+		VKDodge=	newSwitch(400,200,	40,SETdisp("VKDodge"),SETrev("VKDodge")),
+		VKTchW=	newSlider(140,310,1000,10,40,nil,SETdisp("VKTchW"),function(i)setting.VKTchW=i;setting.VKCurW=math.max(setting.VKCurW,i)end),
+		VKCurW=	newSlider(140,370,1000,10,40,nil,SETdisp("VKCurW"),function(i)setting.VKCurW=i;setting.VKTchW=math.min(setting.VKTchW,i)end),
+		back=	newButton(1080,600,240,80,C.white,50,scene.back),
 	},
 	help={
-		his=	newButton(1050,520,230,60,color.white,40,function()scene.push()scene.swapTo("history")end,nil,"back"),
-		qq=		newButton(1050,600,230,60,color.white,40,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,	function()return mobile end,"his"),
-		back=	newButton(640,	600,180,60,color.white,40,scene.back,nil,"qq"),
+		his=	newButton(1050,520,230,60,C.white,40,function()scene.push()scene.swapTo("history")end,nil,"back"),
+		qq=		newButton(1050,600,230,60,C.white,40,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,	function()return mobile end,"his"),
+		back=	newButton(640,	600,180,60,C.white,40,scene.back,nil,"qq"),
 	},
 	history={
-		prev=	newButton(1155,170,180,180,color.white,70,function()love.keypressed("up")end,function()return sel==1 end),
-		next=	newButton(1155,400,180,180,color.white,70,function()love.keypressed("down")end,function()return sel==#updateLog-22 end),
-		back=	newButton(1155,600,180,90,color.white,40,scene.back),
+		prev=	newButton(1155,170,180,180,C.white,70,pressKey("up"),function()return sel==1 end),
+		next=	newButton(1155,400,180,180,C.white,70,pressKey("down"),function()return sel==#updateLog-22 end),
+		back=	newButton(1155,600,180,90,C.white,40,scene.back),
 	},
 	stat={
-		path=	newButton(980,620,250,60,color.white,30,function()love.system.openURL(love.filesystem.getSaveDirectory())end,function()return mobile end,"back"),
-		back=	newButton(640,620,180,60,color.white,40,scene.back,nil,"path"),
+		path=	newButton(980,620,250,60,C.white,30,function()love.system.openURL(love.filesystem.getSaveDirectory())end,function()return mobile end,"back"),
+		back=	newButton(640,620,180,60,C.white,40,scene.back,nil,"path"),
 	},
 }
-for S,L in next,Widget do
-	for N,W in next,L do
+for _,L in next,Widget do
+	for _,W in next,L do
 		if W.next then
 			W.next,L[W.next].prev=L[W.next],W
 		end

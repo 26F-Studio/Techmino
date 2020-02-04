@@ -6,10 +6,10 @@ local PCbase={
 	{3,6,6,0,0,0,0,2,2,5},
 	{4,6,6,0,0,0,1,1,5,5},
 	{4,4,4,0,0,0,0,1,1,5},
-	{1,1,0,0,0,0,0,3,3,3},
-	{5,1,1,0,0,0,0,6,6,3},
-	{5,5,2,2,0,0,0,6,6,4},
-	{5,2,2,0,0,0,0,4,4,4},
+	{1,1,0,0,0,0,0,4,4,4},
+	{5,1,1,0,0,0,0,6,6,4},
+	{5,5,2,2,0,0,0,6,6,3},
+	{5,2,2,0,0,0,0,3,3,3},
 }
 local PClist={
 	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,7,5,6},{7,7,5,2},{7,7,5,4},{7,7,5,3},
@@ -46,7 +46,7 @@ local function throwBadge(S,R)--Sender/Receiver
 	end
 	FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
 end
-local AISpeed={60,50,45,35,25,15,9,7,5,3}
+local AISpeed={60,50,45,35,25,15,9,6,4,2}
 local function AITemplate(type,speedLV,next,hold,node)
 	if type=="CC"then
 		return{
@@ -93,20 +93,22 @@ function loadmode.solo()
 	if curMode.lv==1 then
 		newPlayer(2,965,360,.5,AITemplate("9S",3))
 	elseif curMode.lv==2 then
-		newPlayer(2,965,360,.5,AITemplate("CC",2,2,false,10000))
+		newPlayer(2,965,360,.5,AITemplate("CC",3,2,false,10000))
 	elseif curMode.lv==3 then
-		newPlayer(2,965,360,.5,AITemplate("9S",6))
+		newPlayer(2,965,360,.5,AITemplate("9S",5))
 	elseif curMode.lv==4 then
 		newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,20000))
 	elseif curMode.lv==5 then
-		newPlayer(2,965,360,.5,AITemplate("9S",9))
+		newPlayer(2,965,360,.5,AITemplate("9S",7))
 	elseif curMode.lv==6 then
 		newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,30000))
 	elseif curMode.lv==7 then
-		newPlayer(2,965,360,.5,AITemplate("9S",10))
+		newPlayer(2,965,360,.5,AITemplate("9S",8))
 	elseif curMode.lv==8 then
 		newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,40000))
 	elseif curMode.lv==9 then
+		newPlayer(2,965,360,.5,AITemplate("9S",9))
+	elseif curMode.lv==10 then
 		newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
 	end
 end

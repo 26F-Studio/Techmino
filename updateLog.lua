@@ -2,27 +2,34 @@ local S=[=[
 Patron(rmb10+):
 	gggf/T080/Ykzl/zxc
 	[D*a]?
+
 Future outlook:
 	Normal Things:
 		powerinfo switch
 		splashing block
 		ajustable next count
-		bag line in all mode
-		highscore of most modes
+		new mode system
 		custom block color/direction
-		custom block sequence
 		combo mode
-		auto GUI in any screen size
-		CC smarter(think of gaebage buffer)
-		fineese/bigbang mode & easier CTWC
-		new AI:task-Z
-		game recording
+		bigbang mode
 		TTT mode
+		custom block sequence
+		CC smarter(think of gaebage buffer)
+		game recording
+		new AI:task-Z
+		auto GUI in any screen size
+
 	Technical things:
 		Encrypt source code(compile to byte code)
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+
+0.7.33+:
+	MORE POWERFUL 9-stack AI
+	add stereo-setting slider
+	code optimized
+	bug fixed
 0.7.32:
 	Blind-GM now show section directly
 	easier&more standard classic mode
@@ -251,11 +258,10 @@ Future outlook:
 ]=]
 local find,sub=string.find,string.sub
 local L,n,p={},1,1
-local eof=#S
+local EOF=#S
 repeat
 	p1=find(S,"\n",p)
 	L[n]=sub(S,p,p1-1)
-	n=n+1
-	p=p1+1
-until p1==eof
+	n,p=n+1,p1+1
+until p1==EOF
 return L
