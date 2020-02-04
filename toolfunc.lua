@@ -50,6 +50,8 @@ local drawableTextLoad={
 	"keyboard",
 	"joystick",
 	"setting2Help",
+	"musicRoom",
+	"nowPlaying",
 }
 function swapLanguage(l)
 	text=require("language/"..langID[l])
@@ -202,27 +204,27 @@ local prevMenu={
 	load=love.event.quit,
 	intro="quit",
 	main="intro",
+	music="main",
 	mode="main",
 	custom="mode",
 	draw=function()
 		kb.setKeyRepeat(false)
 		gotoScene("custom")
 	end,
-	ready="mode",
 	play=function()
 		updateStat()
 		clearTask("play")
 		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
 	end,
-	pause=null,
-	help="main",
-	stat="main",
+	pause=nil,
 	setting=function()
 		saveSetting()
 		gotoScene("main")
 	end,
 	setting2="setting",
 	setting3="setting",
+	help="main",
+	stat="main",
 }prevMenu.pause=prevMenu.play
 function back()
 	local t=prevMenu[scene]

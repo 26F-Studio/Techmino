@@ -52,7 +52,6 @@ blockColor={
 }
 sfx={
 	"button","swipe",
-
 	"ready","start","win","fail","collect",
 	"move","rotate","rotatekick","hold",
 	"prerotate","prehold",
@@ -86,6 +85,7 @@ voiceList={
 	"spin","spin_","mini","b2b","b3b","pc",
 	"win","lose","voc_nya","nya",
 }
+voiceBank={}
 voice={
 	Z={"Z_1","Z_2"},
 	S={"S_1","S_2"},
@@ -110,18 +110,31 @@ voice={
 	nya={"nya_1","nya_2","nya_3","nya_4"},
 }
 
+musicID={
+	"blank",
+	"way",
+	"race",
+	"newera",
+	"push",
+	"reason",
+	"infinite",
+	"cruelty",
+	"final",
+	"secret7th",
+	"secret8th",
+	"rockblock",
+	"8-bit happiness",
+	"end",
+}
 customID={
-	"drop",
-	"lock",
-	"wait",
-	"fall",
-	"next",
-	"hold",
-	"sequence",
-	"visible",
+	"drop","lock",
+	"wait","fall",
+	"next","hold",
+	"sequence","visible",
 	"target",
 	"freshLimit",
 	"opponent",
+	"bg","bgm",
 }
 customRange={
 	drop={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99,-1},
@@ -135,6 +148,8 @@ customRange={
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={0,60,30,20,15,10,7,5,4,3,2,1},
+	bg={"none","game1","game2","game3","strap","rgb","grid","glow","matrix"},
+	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
 
 RCPB={10,33,200,33,105,5,105,60}
@@ -159,7 +174,7 @@ modeLevel={
 	blind={"EASY","HARD","HARD+","LUNATIC","ULTIMATE","GM"},
 	dig={"NORMAL","LUNATIC"},
 	survivor={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
-	tech={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	tech={"NORMAL","NORMAL+","HARD","LUNATIC","ULTIMATE"},
 	c4wtrain={"NORMAL","LUNATIC"},
 	pctrain={"NORMAL","EXTRA"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
@@ -169,15 +184,15 @@ modeLevel={
 	hotseat={"2P","3P","4P",},
 	custom={"Normal","Puzzle"},
 }
-local t,f=true,false
+local O,_=true,false
 blocks={
-	{[0]={{f,t,t},{t,t,f}},{{t,f},{t,t},{f,t}}},
-	{[0]={{t,t,f},{f,t,t}},{{f,t},{t,t},{t,f}}},
-	{[0]={{t,t,t},{f,f,t}},{{t,t},{t,f},{t,f}},{{t,f,f},{t,t,t}},{{f,t},{f,t},{t,t}}},
-	{[0]={{t,t,t},{t,f,f}},{{t,f},{t,f},{t,t}},{{f,f,t},{t,t,t}},{{t,t},{f,t},{f,t}}},
-	{[0]={{t,t,t},{f,t,f}},{{t,f},{t,t},{t,f}},{{f,t,f},{t,t,t}},{{f,t},{t,t},{f,t}}},
-	{[0]={{t,t},{t,t}},{{t,t},{t,t}}},
-	{[0]={{t,t,t,t}},{{t},{t},{t},{t}}},
+	{[0]={{_,O,O},{O,O,_}},{{O,_},{O,O},{_,O}}},
+	{[0]={{O,O,_},{_,O,O}},{{_,O},{O,O},{O,_}}},
+	{[0]={{O,O,O},{_,_,O}},{{O,O},{O,_},{O,_}},{{O,_,_},{O,O,O}},{{_,O},{_,O},{O,O}}},
+	{[0]={{O,O,O},{O,_,_}},{{O,_},{O,_},{O,O}},{{_,_,O},{O,O,O}},{{O,O},{_,O},{_,O}}},
+	{[0]={{O,O,O},{_,O,_}},{{O,_},{O,O},{O,_}},{{_,O,_},{O,O,O}},{{_,O},{O,O},{_,O}}},
+	{[0]={{O,O},{O,O}},{{O,O},{O,O}}},
+	{[0]={{O,O,O,O}},{{O},{O},{O},{O}}},
 }
 local l={1,2,6,7}for i=1,4 do blocks[l[i]][2],blocks[l[i]][3]=blocks[l[i]][0],blocks[l[i]][1]end
 for i=1,7 do blocks[i+7]=blocks[i]end
@@ -244,14 +259,27 @@ local virtualkeySet={
 		{1200-770,40,1600,40},--restart
 	},--PC key feedback
 }
+local customSet={
+	{20,20,1,1,7,1,1,1,3,4,1,1,1},
+	{18,20,1,1,7,1,1,1,8,3,8,1,1},
+	{22,22,1,1,7,3,1,3,8,4,1,1,1},
+	{20,20,1,1,7,1,1,3,8,3,1,1,1},
+	{23,11,8,11,4,1,2,1,8,3,1,1,1},
+}
+local function useDefaultSet(n)
+	for i=1,#customSet[n]do
+		customSel[i]=customSet[n][i]
+	end
+end
 Buttons={
 	load={},
 	intro={},
 	main={
-		play=	{x=380,y=300,w=240,h=240,rgb=color.red,			f=70,code=function()gotoScene("mode")end,down="stat",right="setting"},
-		setting={x=640,y=300,w=240,h=240,rgb=color.lightBlue,	f=55,code=function()gotoScene("setting")end,down="stat",left="play",right="help"},
-		stat=	{x=640,y=560,w=240,h=240,rgb=color.cyan,		f=55,code=function()gotoScene("stat")end,up="setting",left="play",right="help"},
-		help=	{x=900,y=560,w=240,h=240,rgb=color.yellow,		f=55,code=function()gotoScene("help")end,up="setting",left="stat",right="quit"},
+		play=	{x=380,y=300,w=240,	h=240,rgb=color.red,		f=70,code=function()gotoScene("mode")end,down="stat",right="setting"},
+		setting={x=640,y=300,w=240,	h=240,rgb=color.lightBlue,	f=55,code=function()gotoScene("setting")end,down="stat",left="play",right="music"},
+		music=	{x=900,y=300,w=240,	h=240,rgb=color.lightCyan,	f=42,code=function()gotoScene("music")end,down="help",left="setting",right="quit"},
+		stat=	{x=640,y=560,w=240,	h=240,rgb=color.cyan,		f=55,code=function()gotoScene("stat")end,up="setting",left="play",right="help"},
+		help=	{x=900,y=560,w=240,	h=240,rgb=color.yellow,		f=55,code=function()gotoScene("help")end,up="music",left="stat",right="quit"},
 		quit=	{x=1180,y=620,w=120,h=120,rgb=color.lightGrey,	f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
 	},
 	mode={
@@ -259,23 +287,34 @@ Buttons={
 		down=	{x=1000,y=430,w=200,h=140,	rgb=color.white,	f=80,	code=function()keyDown.mode("down")end,	hide=function()return modeSel==#modeID end,},
 		left=	{x=190,	y=160,w=100,h=80,	rgb=color.white,			code=function()keyDown.mode("left")end,	hide=function()return levelSel==1 end,},
 		right=	{x=350,	y=160,w=100,h=80,	rgb=color.white,			code=function()keyDown.mode("right")end,hide=function()return levelSel==#modeLevel[modeID[modeSel]]end,},
-		start={	x=1000,	y=600,w=250,h=100,	rgb=color.green,	f=50,	code=function()
+		start=	{x=1000,y=600,w=250,h=100,	rgb=color.green,	f=50,	code=function()
 			loadGame(modeSel,levelSel)end},
 		custom=	{x=275,	y=420,w=200,h=90,	rgb=color.yellow,			code=function()gotoScene("custom")end},
 		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,	f=45,	code=back},
 	},
+	music={
+		up=		{x=1100,y=200,w=120,h=120,	rgb=color.white,f=50,code=function()sel=(sel-2)%#musicID+1 end},
+		play=	{x=1100,y=340,w=120,h=120,	rgb=color.white,f=40,code=function()BGM(musicID[sel])end},
+		down=	{x=1100,y=480,w=120,h=120,	rgb=color.white,f=50,code=function()sel=sel%#musicID+1 end},
+		back=	{x=640,	y=630,w=230,h=90,	rgb=color.white,f=45,code=back},
+	},
 	custom={
-		up=		{x=1000,y=220,	w=100,	h=100,	rgb=color.white,		code=function()optSel=(optSel-2)%#customID+1 end},
-		down=	{x=1000,y=460,	w=100,	h=100,	rgb=color.white,f=50,	code=function()optSel=optSel%#customID+1 end},
-		left=	{x=880,	y=340,	w=100,	h=100,	rgb=color.white,f=50,	code=function()local k=customID[optSel]customSel[k]=(customSel[k]-2)%#customRange[k]+1 end},
-		right=	{x=1120,y=340,	w=100,	h=100,	rgb=color.white,f=50,	code=function()local k=customID[optSel]customSel[k]=customSel[k]%#customRange[k]+1 end},
-		start1=	{x=880,	y=580,	w=220,	h=70,	rgb=color.green,		code=function()loadGame(0,1)end},
-		start2=	{x=1120,y=580,	w=220,	h=70,	rgb=color.lightPurple,	code=function()loadGame(0,2)end},
-		draw=	{x=1000,y=90,	w=190,	h=85,	rgb=color.cyan,			code=function()gotoScene("draw")end},
-		back=	{x=640,	y=630	,w=180,	h=60,	rgb=color.white,		code=back},
+		up=		{x=1000,y=220,	w=100,h=100,	rgb=color.white,		code=function()optSel=(optSel-2)%#customID+1 end},
+		down=	{x=1000,y=460,	w=100,h=100,	rgb=color.white,f=50,	code=function()optSel=optSel%#customID+1 end},
+		left=	{x=880,	y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()customSel[optSel]=(customSel[optSel]-2)%#customRange[customID[optSel]]+1 end},
+		right=	{x=1120,y=340,	w=100,h=100,	rgb=color.white,f=50,	code=function()customSel[optSel]=customSel[optSel]%#customRange[customID[optSel]]+1 end},
+		start1=	{x=880,	y=580,	w=220,h=70,	rgb=color.green,		code=function()loadGame(0,1)end},
+		start2=	{x=1120,y=580,	w=220,h=70,	rgb=color.lightPurple,	code=function()loadGame(0,2)end},
+		draw=	{x=1000,y=90,	w=190,h=85,	rgb=color.cyan,			code=function()gotoScene("draw")end},
+		set1=	{x=640,	y=160,	w=240,h=75,	rgb=color.lightRed,		code=function()useDefaultSet(1)end},
+		set2=	{x=640,	y=250,	w=240,h=75,	rgb=color.lightRed,		code=function()useDefaultSet(2)end},
+		set3=	{x=640,	y=340,	w=240,h=75,	rgb=color.lightRed,		code=function()useDefaultSet(3)end},
+		set4=	{x=640,	y=430,	w=240,h=75,	rgb=color.lightRed,		code=function()useDefaultSet(4)end},
+		set5=	{x=640,	y=520,	w=240,h=75,	rgb=color.lightRed,		code=function()useDefaultSet(5)end},
+		back=	{x=640,	y=630,	w=180,h=60,	rgb=color.white,		code=back},
 	},
 	draw={
-		free=	{x=700,	y=80,w=120,h=120,	f=45,	rgb=color.lightGrey,code=function()pen=-1 end},
+		any=	{x=700,	y=80,w=120,h=120,	f=45,	rgb=color.lightGrey,code=function()pen=-1 end},
 		block1=	{x=840,	y=80,w=120,h=120,	f=65,	rgb=color.red,		code=function()pen=1 end},
 		block2=	{x=980,	y=80,w=120,h=120,	f=65,	rgb=color.green,	code=function()pen=2 end},
 		block3=	{x=1120,y=80,w=120,h=120,	f=65,	rgb=color.orange,	code=function()pen=3 end},
@@ -288,7 +327,7 @@ Buttons={
 		gb3=	{x=840,	y=500,w=120,h=120,	f=65,	rgb=color.darkPurple,code=function()pen=11 end},
 		gb4=	{x=980,	y=500,w=120,h=120,	f=65,	rgb=color.darkRed,	code=function()pen=12 end},
 		gb5=	{x=1120,y=500,w=120,h=120,	f=65,	rgb=color.darkGreen,code=function()pen=13 end},
-		erase=	{x=840,	y=640,w=120,h=120,	f=70,	rgb=color.grey,		code=function()pen=0 end},
+		space=	{x=840,	y=640,w=120,h=120,	f=70,	rgb=color.grey,		code=function()pen=0 end},
 		clear=	{x=1120,y=640,w=120,h=120,	f=45,	rgb=color.white,	code=function()
 			if clearSureTime>0 then
 				for y=1,20 do for x=1,10 do preField[y][x]=0 end end
@@ -334,18 +373,17 @@ Buttons={
 			BGM()
 			setting.bgm=not setting.bgm
 			BGM("blank")
-			end,down="vib",left="sfx"},
+			end,down="voc",left="sfx"},
 		vib=	{x=760,y=160,	w=160,	h=60,rgb=color.white,	code=function()
 			setting.vib=(setting.vib+1)%6
 			VIB(1)
-			end,up="sfx",down="fullscreen",left="swap"},
+			end,up="sfx",down="fullscreen",left="swap",right="voc"},
 		voc=	{x=940,y=160,	w=160,	h=60,rgb=color.white,
 			hide=function()
 				return not(kb.isDown("m")or false)
 			end,
 			code=function()
 				setting.voc=not setting.voc
-				if setting.voc then VOICE("voc_nya")end
 			end,up="sfx",down="fullscreen",left="vib"},
 		fullscreen=	{x=850,y=230,	w=340,h=60,rgb=color.white,	code=function()
 			setting.fullscreen=not setting.fullscreen

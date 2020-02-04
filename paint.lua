@@ -20,6 +20,7 @@ local frameColor={
 local modeLevelColor={
 	EASY=color.cyan,
 	NORMAL=color.green,
+	["NORMAL+"]=color.darkGreen,
 	HARD=color.magenta,
 	["HARD+"]=color.darkMagenta,
 	LUNATIC=color.red,
@@ -263,7 +264,7 @@ function Pnt.BG.game6()
 	end
 	gc.setColor(.3,.3,.3)
 	local r=7-int(Timer()*.5)%7
-	gc.draw(mouseBlock[r],640,360,Timer()%pi*6,400,400,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
+	gc.draw(mouseBlock[r],640,360,Timer()%3.1416*6,400,400,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
 end
 function Pnt.BG.rgb()
 	gc.clear(
@@ -321,7 +322,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.19",290,140)
+	gc.print("Alpha V0.7.20",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -343,6 +344,22 @@ function Pnt.mode()
 		end
 	end
 end
+function Pnt.music()
+	gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
+	gc.rectangle("fill",45,98+30*sel,237,30)
+	gc.setColor(.8,.8,.8)
+	gc.draw(drawableText.musicRoom,20,20)
+	gc.setColor(1,1,1)
+	gc.draw(drawableText.musicRoom,22,23)
+	gc.draw(drawableText.nowPlaying,520,83)
+	setFont(35)
+	for i=1,#musicID do
+		gc.print(musicID[i],50,90+30*i)
+	end
+	setFont(50)
+	gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
+	gc.print(bgmPlaying or"",600,140)
+end
 function Pnt.custom()
 	gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
 	gc.rectangle("fill",25,95+40*optSel,465,40)
@@ -354,9 +371,9 @@ function Pnt.custom()
 		local y=90+40*i
 		gc.printf(text.customOption[k],30,y,320,"right")
 		if text.customVal[k]then
-			gc.print(text.customVal[k][customSel[k]],350,y)
+			gc.print(text.customVal[k][customSel[i]],350,y)
 		else
-			gc.print(customRange[k][customSel[k]],350,y)
+			gc.print(customRange[k][customSel[i]],350,y)
 		end
 	end
 end
@@ -374,7 +391,7 @@ function Pnt.draw()
 		local B=preField[y][x]
 		if B>0 then
 			drawPixel(y,x,B)
-		elseif B==-1 then
+		elseif B==0 then
 			gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
 			gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
 		end
@@ -393,9 +410,6 @@ function Pnt.draw()
 		gc.setColor(blockColor[pen])
 		gc.rectangle("line",945,605,70,70)
 	elseif pen==0 then
-		gc.setColor(.8,.8,.8)
-		gc.draw(drawableText.x,950,560)
-	else
 		gc.setLineWidth(5)
 		gc.setColor(.9,.9,.9)
 		gc.line(960,620,1000,660)
@@ -415,13 +429,14 @@ function Pnt.play()
 				gc.origin()
 				gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
 				local h=#P.clearing
-				for j=1,#P.field do
+				local F=P.field
+				for j=1,#F do
 					if j==P.clearing[h]and P.falling>-1 then
 						h=h-1
 					else
 						for i=1,10 do
-							if P.field[j][i]>0 then
-								gc.draw(blockSkinmini[P.field[j][i]],6*i-6,120-6*j)
+							if F[j][i]>0 then
+								gc.draw(blockSkinmini[F[j][i]],6*i-6,120-6*j)
 							end
 						end
 					end
@@ -457,7 +472,7 @@ function Pnt.play()
 			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Background
 			gc.setLineWidth(7)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690,3)--Big frame
-			gc.translate(150,70)
+			gc.translate(150+P.fieldOffX,70+P.fieldOffY)
 			if P.gameEnv.grid then
 				gc.setLineWidth(1)
 				gc.setColor(1,1,1,.2)
@@ -572,6 +587,7 @@ function Pnt.play()
 			gc.setColor(1,1,1)
 			gc.rectangle("line",-17,-3,16,604.5)--Draw b2b bar boarder
 			--B2B indictator
+			gc.translate(-P.fieldOffX,-P.fieldOffY)
 
 			if P.gameEnv.hold then
 				gc.setColor(1,1,1)
@@ -699,9 +715,9 @@ function Pnt.setting()
 	setFont(35)
 	mStr("DAS:"..setting.das,290,278)
 	mStr("ARR:"..setting.arr,506,278)
-	setFont(18)
-	mStr(text.softdropdas..setting.sddas,290,361)
-	mStr(text.softdroparr..setting.sdarr,506,361)
+	setFont(21)
+	mStr(text.softdropdas..setting.sddas,290,357)
+	mStr(text.softdroparr..setting.sdarr,506,357)
 	gc.draw(blockSkin[7-int(Timer()*2)%7],820,480,nil,2)
 end
 function Pnt.setting2()

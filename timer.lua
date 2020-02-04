@@ -3,6 +3,8 @@ local Timer=love.timer.getTime
 
 Tmr={}
 function Tmr.load()
+	local t=Timer()
+	::R::
 	if loading==1 then
 		if loadnum<=#voiceList then
 			local N=voiceList[loadnum]
@@ -257,6 +259,12 @@ function Tmr.play(dt)
 			if S[1]==0 then
 				rem(P.shade,i)
 			end
+		end
+		if P.fieldOffY>0 then
+			P.fieldOffY=P.fieldOffY-(P.fieldOffY>3 and 2 or 1)
+		end
+		if P.fieldOffX~=0 then
+			P.fieldOffX=P.fieldOffX-(P.fieldOffX>0 and 1 or -1)
 		end
 		for i=#P.bonus,1,-1 do
 			local b=P.bonus[i]

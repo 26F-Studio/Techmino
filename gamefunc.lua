@@ -133,7 +133,7 @@ local freshMethod={
 	end,
 	drought2=function()
 		if #P.next<6 then
-			local bag={1,1,1,2,2,2,3,3,3,4,4,4,6,6,6,5,7}
+			local bag={1,1,1,1,2,2,2,2,6,6,6,6,3,3,4,4,5,7}
 			::L::
 				newNext(rem(bag,rnd(#bag)))
 			if bag[1]then goto L end
@@ -150,7 +150,7 @@ local shadeColor={
 	{0,1,1,.3},
 }
 local function createShade(x1,y1,x2,y2)--x1<x2,y1>y2
-	if not P.small and P.showTime>=20 and setting.fxs and y1>=y2 then
+	if P.gameEnv.block and y1>=y2 then
 		ins(P.shade,{5,P.cur.color,x1,y1,x2,y2})
 	end
 end
@@ -254,6 +254,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	ins(players.alive,P)
 	P.index={__index=P}
 	P.x,P.y,P.size=x,y,size or 1
+	P.fieldOffX,P.fieldOffY=0,0
 	P.small=P.size<.1
 	if P.small then
 		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
@@ -435,7 +436,7 @@ function createBeam(S,R,lv)--Player id
 	end
 	ins(FX.beam,{x1,y1,x2,y2,t=0,lv=lv})
 end
-function throwBadge(S,R)--Player id
+function throwBadge(S,R)--Sender/Receiver
 	local x1,y1,x2,y2
 	if S.small then
 		x1,y1=S.centerX,S.centerY
@@ -443,9 +444,9 @@ function throwBadge(S,R)--Player id
 		x1,y1=S.x+308*S.size,S.y+450*S.size
 	end
 	if R.small then
-		x1,y1=R.centerX,R.centerY
+		x2,y2=R.centerX,R.centerY
 	else
-		x2,y2=R.x+73*R.size,R.y+345*R.size
+		x2,y2=R.x+70*R.size,R.y+344*R.size
 	end
 	ins(FX.badge,{x1,y1,x2,y2,t=0})
 end
@@ -579,7 +580,10 @@ function freshgho()
 			goto L
 		end
 		if P.curY>P.y_img then
-			createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+			if P.human and setting.fxs then
+				createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+				P.fieldOffY=4
+			end
 			P.curY=P.y_img
 		end
 	else
@@ -719,7 +723,9 @@ function spin(d,ifpre)
 	end
 	goto quit
 	::spin::
-	createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+	if P.human and setting.fxs then
+		createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+	end
 	P.curX,P.curY,P.dir=ix,iy,idir
 	P.sc,P.cur.bk=scs[P.cur.id][idir],icb
 	P.r,P.c=ir,ic
@@ -1090,8 +1096,11 @@ act={
 			changeAtkMode(3)
 		else
 			if P.waiting==-1 then
-				if P.curY-P.y_img>0 then
-					createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+				if P.curY~=P.y_img then
+					if P.human and setting.fxs then
+						createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+						P.fieldOffY=5
+					end
 					P.curY=P.y_img
 					P.spinLast=false
 					if P.human then
@@ -1131,7 +1140,7 @@ act={
 					P.swappingAtkMode=30
 				end
 			end
-			if curMode.id=="custom"and curMode.lv==2 then
+			if curMode.id=="custom"and curMode.lv==2 and P.stat.row>0 then
 				for y=1,20 do
 					local L=P.field[y]
 					for x=1,10 do
@@ -1154,29 +1163,48 @@ act={
 	end,
 	insDown=function()
 		if P.curY~=P.y_img then
-			createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+			if P.human and setting.fxs then
+				createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+			end
 			P.curY,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false
+			if P.human and setting.fxs then
+				P.fieldOffY=4
+			end
 		end
 	end,
 	insLeft=function()
-		local x0=cx
+		local x0=P.curX
 		::L::if not ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
-			createShade(P.curX+1,P.curY+P.r-1,P.curX+1,P.curY)
+			if P.human and setting.fxs then
+				createShade(P.curX+1,P.curY+P.r-1,P.curX+1,P.curY)
+			end
 			freshgho()
 			goto L
 		end
-		if x0~=cx then freshLockDelay()end
+		if x0~=P.curX then
+			if P.human and setting.fxs and P.curX==1 then
+				P.fieldOffX=-4
+			end
+			freshLockDelay()
+		end
 	end,
 	insRight=function()
-		local x0=cx
+		local x0=P.curX
 		::L::if not ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
-			createShade(P.curX+P.c-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			if P.human and setting.fxs then
+				createShade(P.curX+P.c-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			end
 			freshgho()
 			goto L
 		end
-		if x0~=cx then freshLockDelay()end
+		if x0~=P.curX then
+			if P.human and setting.fxs and P.curX+P.c==11 then
+				P.fieldOffX=4
+			end
+			freshLockDelay()
+		end
 	end,
 	down1=function()
 		if P.curY~=P.y_img then

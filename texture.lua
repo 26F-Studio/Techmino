@@ -79,7 +79,6 @@ groupCode=N("/image/mess/groupcode.png")
 payCode=N("/image/mess/paycode.png")
 drawableText={
 	question=T(100,"?"),
-	x=T(110,"×"),
 	bpm=T(15,"BPM"),
 	kpm=T(15,"KPM"),
 
@@ -90,5 +89,7 @@ drawableText={
 	custom=T(80),
 	keyboard=T(25),joystick=T(25),
 	setting2Help=T(25),
+	musicRoom=T(80),
+	nowPlaying=T(50),
 }
 c=gc.setCanvas()

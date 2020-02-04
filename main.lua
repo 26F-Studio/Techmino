@@ -1,7 +1,7 @@
 local gc,tm=love.graphics,love.timer
 local ms,kb=love.mouse,love.keyboard
 local fs,sys=love.filesystem,love.system
-int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
+int,ceil,abs,rnd,max,min,sin,cos,atan=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
 ins,rem,concat=table.insert,table.remove,table.concat
 -- sort=table.sort
@@ -52,16 +52,7 @@ gameEnv0={
 	freshLimit=1e99,target=1e99,reach=null,
 	bg="none",bgm="race"
 }
-customSel={
-	drop=22,lock=22,
-	wait=1,fall=1,
-	next=7,hold=3,
-	sequence=1,
-	visible=1,
-	target=8,
-	freshLimit=4,
-	opponent=1,
-}
+customSel={22,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}
 for i=1,18 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 for i=19,20 do preField[i]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}end
@@ -146,16 +137,16 @@ virtualkey={
 virtualkeyDown={F,F,F,F,F,F,F,F,F,F,F,F,F}
 virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 --User Data&User Setting
-require"toolfunc"
-require"list"
-require"class"
-require"gamefunc"
-require"ai"
-require"timer"
-require"paint"
-require"call&sys"
-require"dataList"
-require"texture"
+require("toolfunc")
+require("list")
+require("class")
+require("gamefunc")
+require("ai")
+require("timer")
+require("paint")
+require("call&sys")
+require("dataList")
+require("texture")
 
 userData,userSetting=fs.newFile("userdata"),fs.newFile("usersetting")
 if fs.getInfo("userdata")then

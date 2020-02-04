@@ -52,6 +52,9 @@ loadmode={
 		createPlayer(1,340,15)
 		if curMode.lv==2 then
 			pushSpeed=1
+			for i=1,5 do
+				garbageRise(10,1,rnd(10))
+			end
 		end
 	end,
 	solo=function()
@@ -156,10 +159,10 @@ loadmode={
 	custom=function()
 		for i=1,#customID do
 			local k=customID[i]
-			modeEnv[k]=customRange[k][customSel[k]]
+			modeEnv[k]=customRange[k][customSel[i]]
 		end
 		modeEnv._20G=modeEnv.drop==-1
-		modeEnv.oncehold=customSel.hold==1
+		modeEnv.oncehold=customSel[6]==1
 		createPlayer(1,340,15)
 		if modeEnv.opponent==0 then
 		else
@@ -186,6 +189,8 @@ loadmode={
 				end
 			end
 		end
+		modeEnv.bg=customRange.bg[customSel[12]]
+		modeEnv.bgm=customRange.bgm[customSel[13]]
 	end,
 }
 mesDisp={
@@ -326,6 +331,10 @@ mesDisp={
 		mStr(max(100-P.stat.row,0),-82,280)
 	end,
 	custom=function()
+		setFont(25)
+		mStr("Rows",-82,300)
+		setFont(80)
+		mStr(P.stat.row,-82,220)
 		if P.gameEnv.target<1e4 then
 			setFont(75)
 			mStr(max(P.gameEnv.target-P.stat.row,0),-82,280)
@@ -338,7 +347,7 @@ mesDisp={
 				if B>0 then
 					gc.setColor(blockColor[B])
 					gc.rectangle("line",30*x-25,605-30*y,20,20)
-				elseif B==-1 then
+				elseif B==0 then
 					gc.setColor(.8,.8,.8,.6)
 					gc.line(30*x-25,605-30*y,30*x-5,625-30*y)
 					gc.line(30*x-25,625-30*y,30*x-5,605-30*y)
@@ -414,7 +423,7 @@ Event={
 					end
 					P.lastRecv=A
 					if P.id==1 or A.id==1 then
-						newTask(Event_task.throwBadge,nil,{P,max(3,P.badge)*4})
+						newTask(Event_task.throwBadge,A,{P,max(3,P.badge)*4})
 					end
 					freshMostBadge()
 				end
@@ -492,10 +501,7 @@ Event={
 				P.gameEnv.fall=rush_fall[s]
 				P.gameEnv.das=10-s
 				if s==3 then P.gameEnv.arr=2 end
-				if s==5 then
-					P.gameEnv.bone=true
-					newTask(Event_task.bgmWarp,P,120)
-				end
+				if s==5 then P.gameEnv.bone=true end
 				showText(P,text.stage[s],"fly",80,-120)
 				SFX("reach")
 			end
@@ -509,7 +515,6 @@ Event={
 		local c=#P.clearing
 		if t%100==99 and c==0 then goto L end
 		t=t+(c<3 and c+1 or c==3 and 5 or 7)
-		if P.modeData.event<3 then t=t+50 end
 		if int(t*.01)>P.modeData.event then
 			P.modeData.event=P.modeData.event+1
 			if P.modeData.event==5 then
@@ -642,11 +647,11 @@ Event_task={
 			end
 		end
 	end,
-	throwBadge=function(self,P,data)
+	throwBadge=function(self,A,data)
 		data[2]=data[2]-1
 		if data[2]%4==0 then
 			throwBadge(data[1],data[1].lastRecv)
-			if not data[1].ai and data[2]%8==0 then
+			if not A.ai and data[2]%8==0 then
 				SFX("collect")
 			end
 		end
@@ -790,33 +795,33 @@ Event_task={
 defaultModeEnv={
 	sprint={
 		{
-			drop=60,target=10,
-			reach=Event.win,
+			drop=60,lock=60,
+			target=10,reach=Event.win,
 			bg="strap",bgm="race",
 		},
 		{
-			drop=60,target=20,
-			reach=Event.win,
+			drop=60,lock=60,
+			target=20,reach=Event.win,
 			bg="strap",bgm="race",
 		},
 		{
-			drop=60,target=40,
-			reach=Event.win,
+			drop=60,lock=60,
+			target=40,reach=Event.win,
 			bg="strap",bgm="race",
 		},
 		{
-			drop=60,target=100,
-			reach=Event.win,
+			drop=60,lock=60,
+			target=100,reach=Event.win,
 			bg="strap",bgm="race",
 		},
 		{
-			drop=60,target=400,
-			reach=Event.win,
+			drop=60,lock=60,
+			target=400,reach=Event.win,
 			bg="strap",bgm="push",
 		},
 		{
-			drop=60,target=1000,
-			reach=Event.win,
+			drop=60,lock=60,
+			target=1000,reach=Event.win,
 			bg="strap",bgm="push",
 		},
 	},
@@ -1016,18 +1021,18 @@ defaultModeEnv={
 		},
 		{
 			oncehold=false,
-			drop=30,lock=60,
-			target=1,reach=Event.tech_reach_easy,
+			drop=1e99,lock=1e99,
+			target=1,reach=Event.tech_reach_ultimate,
+			bg="matrix",bgm="newera",
+		},
+		{
+			drop=10,lock=60,
+			freshLimit=15,
+			target=1,reach=Event.tech_reach_hard,
 			bg="matrix",bgm="way",
 		},
 		{
-			drop=8,lock=60,
-			freshLimit=15,
-			target=1,reach=Event.tech_reach_hard,
-			bg="matrix",bgm="secret8th",
-		},
-		{
-			drop=4,lock=40,
+			drop=3,lock=40,
 			target=1,
 			freshLimit=15,
 			reach=Event.tech_reach_hard,
@@ -1152,12 +1157,10 @@ defaultModeEnv={
 	custom={
 		{
 			reach=Event.win,
-			bg="none",bgm="reason",
 		},
 		{
 			Fkey=true,
 			reach=Event.win,
-			bg="none",bgm="reason",
 		},
 	},
 }

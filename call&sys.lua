@@ -22,7 +22,12 @@ local sceneInit={
 		BGM("blank")
 	end,
 	main=function()
+		BGM("blank")
 		collectgarbage()
+	end,
+	music=function()
+		sel=1
+		BGM()
 	end,
 	mode=function()
 		curBG="none"
@@ -137,7 +142,10 @@ function buttonControl_gamepad(i)
 	end
 end
 
-mouseDown={}
+mouseDown,mouseMove,mouseUp,wheelmoved={},{},{},{}
+touchDown,touchUp,touchMove={},{},{}
+keyDown,keyUp={},{}
+gamepadDown,gamepadUp={},{}
 function mouseDown.intro(x,y,k)
 	if k==2 then
 		back()
@@ -145,132 +153,27 @@ function mouseDown.intro(x,y,k)
 		gotoScene("main")
 	end
 end
-function mouseDown.draw(x,y,k)
-	mouseMove.draw(x,y)
-end
-function mouseDown.setting3(x,y,k)
-	if k==2 then back()end
-	for K=1,#virtualkey do
-		local b=virtualkey[K]
-		if (x-b[1])^2+(y-b[2])^2<b[3]then
-			sel=K
-		end
-	end
-end
-mouseMove={}
-function mouseMove.draw(x,y,dx,dy)
-	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
-	if sx<1 or sx>10 then sx=nil end
-	if sy<1 or sy>20 then sy=nil end
-	if sx and sy and ms.isDown(1,2,3)then
-		preField[sy][sx]=ms.isDown(1)and pen or ms.isDown(2)and 0 or -1
-	end
-end
-function mouseMove.setting3(x,y,dx,dy)
-	if sel and ms.isDown(1)then
-		local b=virtualkey[sel]
-		b[1],b[2]=b[1]+dx,b[2]+dy
-	end
-end
-mouseUp={}
-function mouseUp.setting3(x,y,k)
-	if sel then
-		local b=virtualkey[sel]
-		local k=snapLevelValue[snapLevel]
-		b[1],b[2]=int(b[1]/k+.5)*k,int(b[2]/k+.5)*k
-	end
-end
-wheelmoved={}
-function wheelmoved.draw(x,y)
-	if y<0 then
-		pen=pen+1
-		if pen==8 then pen=9 elseif pen==14 then pen=0 end
-	else
-		pen=pen-1
-		if pen==8 then pen=7 elseif pen==-1 then pen=13 end
-	end
-end
-function wheelmoved.mode(x,y)
-	modeSel=min(max(modeSel+(y>0 and -1 or 1),1),#modeID)
-	levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
-end
-touchDown={}
 function touchDown.intro(id,x,y)
 	gotoScene("main")
 end
-function touchDown.draw(id,x,y)
-end
-function touchDown.setting3(id,x,y)
-	for K=1,#virtualkey do
-		local b=virtualkey[K]
-		if (x-b[1])^2+(y-b[2])^2<b[3]then
-			sel=K
-		end
-	end
-end
-function touchDown.play(id,x,y)
-	if setting.virtualkeySwitch then
-		local t=onVirtualkey(x,y)
-		if t then
-			pressKey(t,players[1])
-		end
-	end
-end
-touchUp={}
-function touchUp.setting3(id,x,y)
-	if sel then
-		x,y=xOy:inverseTransformPoint(x,y)
-		if sel then
-			local b=virtualkey[sel]
-			local k=snapLevelValue[snapLevel]
-			b[1],b[2]=int(b[1]/k+.5)*k,int(b[2]/k+.5)*k
-		end
-	end
-end
-function touchUp.play(id,x,y)
-	if setting.virtualkeySwitch then
-		local t=onVirtualkey(x,y)
-		if t then
-			releaseKey(t,players[1])
-		end
-	end
-end
-touchMove={}
-function touchMove.setting3(id,x,y,dx,dy)
-	if sel then
-		local b=virtualkey[sel]
-		b[1],b[2]=b[1]+dx,b[2]+dy
-	end
-end
-function touchMove.draw(id,x,y,dx,dy)
-	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
-	if sx<1 or sx>10 then sx=nil end
-	if sy<1 or sy>20 then sy=nil end
-	if sx and sy then
-		preField[sy][sx]=pen
-	end
-end
-function touchMove.play(id,x,y,dx,dy)
-	if setting.virtualkeySwitch then
-		local l=tc.getTouches()
-		for n=1,#virtualkey do
-			local b=virtualkey[n]
-			for i=1,#l do
-				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
-				if(x-b[1])^2+(y-b[2])^2<=b[3]then goto L end
-			end
-			releaseKey(n,players[1])
-			::L::
-		end
-	end
-end
-keyDown={}
 function keyDown.intro(key)
 	if key=="escape"then
 		back()
 	else
 		gotoScene("main")
 	end
+end
+function gamepadDown.intro(key)
+	if key=="back"then
+		back()
+	else
+		gotoScene("main")
+	end
+end
+
+function wheelmoved.mode(x,y)
+	modeSel=min(max(modeSel+(y>0 and -1 or 1),1),#modeID)
+	levelSel=ceil(#modeLevel[modeID[modeSel]]*.5)
 end
 function keyDown.mode(key)
 	if key=="down"then
@@ -299,13 +202,35 @@ function keyDown.mode(key)
 		back()
 	end
 end
+function gamepadDown.mode(key)
+	if key=="dpdown"then
+		if modeSel<#modeID then modeSel=modeSel+1 end
+	elseif key=="dpup"then
+		if modeSel>1 then modeSel=modeSel-1 end
+	elseif key=="start"then
+		loadGame(modeSel,levelSel)
+	elseif key=="back"then
+		back()
+	end
+end
+
+function keyDown.music(key)
+	if key=="down"then
+		sel=sel%#musicID+1
+	elseif key=="up"then
+		sel=(sel-2)%#musicID+1
+	elseif key=="return"or key=="space"then
+		BGM(musicID[sel])
+	elseif key=="escape"then
+		back()
+	end
+end
+
 function keyDown.custom(key)
 	if key=="left"then
-		local k=customID[optSel]
-		customSel[k]=(customSel[k]-2)%#customRange[k]+1
+		customSel[optSel]=(customSel[optSel]-2)%#customRange[customID[optSel]]+1
 	elseif key=="right"then
-		local k=customID[optSel]
-		customSel[k]=customSel[k]%#customRange[k]+1
+		customSel[optSel]=customSel[optSel]%#customRange[customID[optSel]]+1
 	elseif key=="down"then
 		optSel=optSel%#customID+1
 	elseif key=="up"then
@@ -318,6 +243,37 @@ function keyDown.custom(key)
 		loadGame(0,2)
 	elseif key=="escape"then
 		back()
+	end
+end
+
+function mouseDown.draw(x,y,k)
+	mouseMove.draw(x,y)
+end
+function mouseMove.draw(x,y,dx,dy)
+	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+	if sx<1 or sx>10 then sx=nil end
+	if sy<1 or sy>20 then sy=nil end
+	if sx and sy and ms.isDown(1,2,3)then
+		preField[sy][sx]=ms.isDown(1)and pen or ms.isDown(2)and 0 or -1
+	end
+end
+function wheelmoved.draw(x,y)
+	if y<0 then
+		pen=pen+1
+		if pen==8 then pen=9 elseif pen==14 then pen=0 end
+	else
+		pen=pen-1
+		if pen==8 then pen=7 elseif pen==-1 then pen=13 end
+	end
+end
+function touchDown.draw(id,x,y)
+end
+function touchMove.draw(id,x,y,dx,dy)
+	sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+	if sx<1 or sx>10 then sx=nil end
+	if sy<1 or sy>20 then sy=nil end
+	if sx and sy then
+		preField[sy][sx]=pen
 	end
 end
 function keyDown.draw(key)
@@ -348,6 +304,7 @@ function keyDown.draw(key)
 		pen=find("123qwea#sdzxc",key)or pen
 	end
 end
+
 function keyDown.setting2(key)
 	if key=="escape"then
 		if keyboardSetting then
@@ -375,58 +332,6 @@ function keyDown.setting2(key)
 		curBoard=max(curBoard-1,1)
 	elseif key=="right"then
 		curBoard=min(curBoard+1,8)
-	end
-end
-function keyDown.play(key)
-	if key=="escape"and not sceneSwaping then
-		return(frame<180 and back or pauseGame)()
-	end
-	local m=setting.keyMap
-	for p=1,human do
-		for k=1,12 do
-			if key==m[2*p-1][k]or key==m[2*p][k]then
-				pressKey(k,players[p])
-				return
-			end
-		end
-	end
-end
-function keyDown.pause(key)
-	if key=="escape"then
-		back()
-	elseif key=="return"or key=="space"then
-		resumeGame()
-	end
-end
-keyUp={}
-function keyUp.play(key)
-	local m=setting.keyMap
-	for p=1,human do
-		for k=1,12 do
-			if key==m[2*p-1][k]or key==m[2*p][k]then
-				releaseKey(k,players[p])
-				return
-			end
-		end
-	end
-end
-gamepadDown={}
-function gamepadDown.intro(key)
-	if key=="back"then
-		back()
-	else
-		gotoScene("main")
-	end
-end
-function gamepadDown.mode(key)
-	if key=="dpdown"then
-		if modeSel<#modeID then modeSel=modeSel+1 end
-	elseif key=="dpup"then
-		if modeSel>1 then modeSel=modeSel-1 end
-	elseif key=="start"then
-		loadGame(modeSel,levelSel)
-	elseif key=="back"then
-		back()
 	end
 end
 function gamepadDown.setting2(key)
@@ -458,6 +363,117 @@ function gamepadDown.setting2(key)
 		curBoard=min(curBoard+1,8)
 	end
 end
+
+function mouseDown.setting3(x,y,k)
+	if k==2 then back()end
+	for K=1,#virtualkey do
+		local b=virtualkey[K]
+		if (x-b[1])^2+(y-b[2])^2<b[3]then
+			sel=K
+		end
+	end
+end
+function mouseMove.setting3(x,y,dx,dy)
+	if sel and ms.isDown(1)then
+		local b=virtualkey[sel]
+		b[1],b[2]=b[1]+dx,b[2]+dy
+	end
+end
+function mouseUp.setting3(x,y,k)
+	if sel then
+		local b=virtualkey[sel]
+		local k=snapLevelValue[snapLevel]
+		b[1],b[2]=int(b[1]/k+.5)*k,int(b[2]/k+.5)*k
+	end
+end
+function touchDown.setting3(id,x,y)
+	for K=1,#virtualkey do
+		local b=virtualkey[K]
+		if (x-b[1])^2+(y-b[2])^2<b[3]then
+			sel=K
+		end
+	end
+end
+function touchUp.setting3(id,x,y)
+	if sel then
+		x,y=xOy:inverseTransformPoint(x,y)
+		if sel then
+			local b=virtualkey[sel]
+			local k=snapLevelValue[snapLevel]
+			b[1],b[2]=int(b[1]/k+.5)*k,int(b[2]/k+.5)*k
+		end
+	end
+end
+function touchMove.setting3(id,x,y,dx,dy)
+	if sel then
+		local b=virtualkey[sel]
+		b[1],b[2]=b[1]+dx,b[2]+dy
+	end
+end
+
+function keyDown.pause(key)
+	if key=="escape"then
+		back()
+	elseif key=="return"or key=="space"then
+		resumeGame()
+	end
+end
+
+function touchDown.play(id,x,y)
+	if setting.virtualkeySwitch then
+		local t=onVirtualkey(x,y)
+		if t then
+			pressKey(t,players[1])
+		end
+	end
+end
+function touchUp.play(id,x,y)
+	if setting.virtualkeySwitch then
+		local t=onVirtualkey(x,y)
+		if t then
+			releaseKey(t,players[1])
+		end
+	end
+end
+function touchMove.play(id,x,y,dx,dy)
+	if setting.virtualkeySwitch then
+		local l=tc.getTouches()
+		for n=1,#virtualkey do
+			local b=virtualkey[n]
+			for i=1,#l do
+				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
+				if(x-b[1])^2+(y-b[2])^2<=b[3]then goto L end
+			end
+			releaseKey(n,players[1])
+			::L::
+		end
+	end
+end
+function keyDown.play(key)
+	if key=="escape"and not sceneSwaping then
+		return(frame<180 and back or pauseGame)()
+	end
+	local m=setting.keyMap
+	for p=1,human do
+		for k=1,12 do
+			if key==m[2*p-1][k]or key==m[2*p][k]then
+				pressKey(k,players[p])
+				return
+			end
+		end
+	end
+end
+function keyUp.play(key)
+	local m=setting.keyMap
+	for p=1,human do
+		for k=1,12 do
+			if key==m[2*p-1][k]or key==m[2*p][k]then
+				releaseKey(k,players[p])
+				return
+			end
+		end
+	end
+end
 function gamepadDown.play(key)
 	if key=="back"then back()return end
 	local m=setting.keyMap
@@ -470,7 +486,6 @@ function gamepadDown.play(key)
 		end
 	end
 end
-gamepadUp={}
 function gamepadUp.play(key)
 	local m=setting.keyMap
 	for p=1,human do
@@ -482,6 +497,9 @@ function gamepadUp.play(key)
 		end
 	end
 end
+
+
+
 
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
@@ -651,7 +669,7 @@ function love.resize(w,h)
 	collectgarbage()
 end
 function love.focus(f)
-	if not f and wd.isMinimized()and scene=="play"then pauseGame()end
+	if system~="Android" and not f and scene=="play"then pauseGame()end
 end
 function love.update(dt)
 	-- if players then for k,v in pairs(players[1])do
@@ -742,7 +760,7 @@ function love.draw()
 		local r=Timer()*.5
 		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
 		r=int(r)%7+1
-		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
+		gc.draw(mouseBlock[r],mx,my,Timer()%3.1416*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 		gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 		gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 	end--Awesome mouse!
@@ -781,11 +799,13 @@ function love.run()
 		end
 		tm.step()
 		love.update(tm.getDelta())
-		readyDrawFrame=readyDrawFrame+setting.frameMul
-		if readyDrawFrame>=100 then
-			readyDrawFrame=readyDrawFrame-100
-			love.draw()
-			gc.present()
+		if not wd.isMinimized()then
+			readyDrawFrame=readyDrawFrame+setting.frameMul
+			if readyDrawFrame>=100 then
+				readyDrawFrame=readyDrawFrame-100
+				love.draw()
+				gc.present()
+			end
 		end
 		::L::if Timer()-frameT<1/60 then goto L end
 		frameT=Timer()
