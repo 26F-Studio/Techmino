@@ -106,7 +106,7 @@ function Tmr.play(dt)
 			v=0 for i=2,10 do v=v+i*(i-1)*7.2/(frame-dropTime[i])end P.dropSpeed=dropSpeed*.99+v*.1
 			--Update speeds
 
-			if P.ai then
+			if P.ai and waiting<=0 then
 				P.ai.controlDelay=P.ai.controlDelay-1
 				if P.ai.controlDelay==0 then
 					if #P.ai.controls>0 then
@@ -189,8 +189,12 @@ function Tmr.play(dt)
 				end
 			end
 			P.b2b1=P.b2b1*.93+P.b2b*.07
-			if P.b2b>500 then P.b2b=P.b2b-.1 end
-			--ALive
+			if P.b2b>500 then
+				P.b2b=P.b2b-.2
+			elseif P.b2b>100 then
+				P.b2b=P.b2b-.15
+			end
+			--Alive
 		else
 			P.keySpeed=keySpeed*.96+cstat.key/time*60*.04
 			P.dropSpeed=dropSpeed*.96+cstat.piece/time*60*.04

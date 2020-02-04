@@ -205,7 +205,7 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.65",370,150)
+	gc.print("Alpha V0.68",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
@@ -253,28 +253,8 @@ function Pnt.play()
 								drawPixel(j,i,field[j][i],min(visTime[j][i],20)*.05)
 							end
 						end
-					else
-						gc.setColor(1,1,1,falling/gameEnv.fall)
-						gc.rectangle("fill",0,600-30*j,320,30)
 					end
 				end--Field
-				if not P.result then
-					if gameEnv.ghost then
-						for i=1,r do for j=1,c do
-							if cb[i][j]>0 then
-								drawPixel(i+y_img-1,j+cx-1,bn,.3)
-							end
-						end end
-					end--Ghost
-					if waiting<=0 then
-						gc.setColor(1,1,1)
-						for i=1,r do for j=1,c do
-							if cb[i][j]>0 then
-								drawPixel(i+cy-1,j+cx-1,bn,1)
-							end
-						end end--Block
-					end
-				end
 				gc.setColor(1,1,1)
 				gc.draw(PTC.dust[p])--Draw game field
 			gc.setStencilTest()--In-playField mask
@@ -293,13 +273,13 @@ function Pnt.play()
 					if not a.sent then
 						if a.countdown>0 then
 							gc.setColor(attackColor[a.lv][1])
-							gc.rectangle("fill",305,600-h,8,-bar+5)
+							gc.rectangle("fill",315,600-h,8,-bar+5)
 							gc.setColor(attackColor[a.lv][2])
-							gc.rectangle("fill",305,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
+							gc.rectangle("fill",315,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
 							--Timing
 						else
 							attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
-							gc.rectangle("fill",305,600-h,8,-bar+5)
+							gc.rectangle("fill",315,600-h,8,-bar+5)
 							--Warning
 						end
 					end
@@ -377,19 +357,19 @@ function Pnt.play()
 					end
 					if a.countdown>0 then
 						gc.setColor(attackColor[a.lv][1])
-						gc.rectangle("fill",305,600-h,8,-bar+5)
+						gc.rectangle("fill",308,600-h,8,-bar+5)
 						gc.setColor(attackColor[a.lv][2])
-						gc.rectangle("fill",305,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
+						gc.rectangle("fill",308,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
 						--Timing
 					else
 						attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
-						gc.rectangle("fill",305,600-h,8,-bar+5)
+						gc.rectangle("fill",308,600-h,8,-bar+5)
 						--Warning
 					end
 				else
 					gc.setColor(attackColor[a.lv][1])
 					bar=bar*(20-a.time)*.05
-					gc.rectangle("fill",305,600-h,8,-bar+5)
+					gc.rectangle("fill",308,600-h,8,-bar+5)
 					--Disappear
 				end
 				h=h+bar
@@ -442,7 +422,7 @@ function Pnt.play()
 
 			gc.setColor(1,1,1)
 			setFont(40)
-			gc.print(format("%0.2f",time),-130,530)--Draw time
+			gc.print(format("%.2f",time),-130,530)--Draw time
 			if mesDisp[gamemode]then mesDisp[gamemode]()end--Draw other message
 
 			setFont(15)

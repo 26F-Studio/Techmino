@@ -114,7 +114,7 @@ loadmode={
 		}
 		createPlayer(1,340,15)
 		curBG="strap"
-		BGM("reason")
+		BGM("infinite")
 	end,
 	infinite=function()
 		modeEnv={
@@ -125,7 +125,7 @@ loadmode={
 		}
 		createPlayer(1,340,15)
 		curBG="glow"
-		BGM("hide")
+		BGM("infinite")
 	end,
 	gmroll=function()
 		modeEnv={
@@ -171,10 +171,28 @@ loadmode={
 		curBG="game2"
 		BGM("push")
 	end,
+	puzzle=function()
+		modeEnv={
+			hold=false,
+			das=0,
+			arr=0,
+			_20G=true,
+			drop=0,
+			lock=1e99,
+			wait=1,
+			fall=10,
+			target=40,
+			reach=Event.gameover.win,
+		}
+		createPlayer(1,340,15)
+		curBG="glow"
+		BGM("way")
+	end,
 	tetris41=function()
 		modeEnv={
 			wait=1,
 			fall=1,
+			freshLimit=15,
 		}
 		royaleMode=true
 		createPlayer(1,340,15)--Player
@@ -290,6 +308,7 @@ Event={
 				end
 			end
 			showText("WIN","appear",100,nil,true)
+			if P.id==1 and players[2]and players[2].ai then SFX("win")end
 			ins(task,Event.task.win)
 		end,
 		lose=function()
@@ -323,6 +342,7 @@ Event={
 					visTime[i][j]=min(visTime[i][j],20)
 				end
 			end
+			if P.id==1 and players[2]and players[2].ai then SFX("fail")end
 			ins(task,Event.task.lose)
 		end,
 	},
@@ -430,6 +450,10 @@ mesDisp={
 		mStr(gameEnv.target,-75,380)
 		gc.line(-120,377,-30,377)
 	end,
+	puzzle=function()
+		setFont(75)
+		mStr(max(40-P.cstat.row,0),-75,280)
+	end,
 	tetris41=function()
 		gc.draw(badgeIcon,-120,150,nil,1.5)
 		setFont(50)
@@ -531,7 +555,7 @@ require("sysfunc")
 require("gamefunc")
 require("timer")
 require("paint")
-require("game_scene")
+require("scene")
 require("call&sys")
 
 userData=fs.newFile("userdata")

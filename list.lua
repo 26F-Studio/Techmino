@@ -73,7 +73,7 @@ end
 
 sfx={
 	"button",
-	"ready","start",
+	"ready","start","win","fail",
 	"move","rotate","rotatekick","hold",
 	"prerotate","prehold",
 	"drop","fall",
@@ -89,7 +89,7 @@ bgm={
 	"race",
 	"push",
 	"reason",
-	"hide",
+	"infinite",
 }
 
 prevMenu={
@@ -109,16 +109,17 @@ prevMenu={
 	main="quit",
 }
 
-modeID={"sprint","marathon","zen","infinite","solo","death","blind","tetris41","asymsolo","gmroll","p2","p3","p4"}
-modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","Blind","Tetris 41","Asymmetry solo","GM roll","2P","3P","4P"}
+modeID={"sprint","marathon","zen","infinite","solo","death","blind","puzzle","tetris41","asymsolo","gmroll","p2","p3","p4"}
+modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","Blind","Puzzle","Tetris 41","Asymmetry solo","GM roll","2P","3P","4P"}
 modeInfo={
 	sprint="Clear 40 Lines",
 	marathon="Clear 200 Lines",
 	zen="Clear 200 Lines without gravity",
-	infinite="Infinite game,infinite happy",
+	infinite="Infinite game,infinite happiness",
 	solo="Beat AI",
 	death="Survive under terrible speed",
 	blind="Invisible board!",
+	puzzle="Your keyboard broke",
 	tetris41="Melee fight with 40 AIs",
 	asymsolo="             See-->",
 	gmroll="Who want to be the grand master?",
@@ -140,9 +141,9 @@ ren_n={"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","
 percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
 
 marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
-death_lock={10,9,8,7,6}
-death_wait={6,5,4,3,2}
-death_fall={10,8,7,6,5}
+death_lock={10,9,9,8,8}
+death_wait={6,6,5,5,4}
+death_fall={10,9,8,7,6}
 snapLevelValue={1,10,20,40,60,80}
 snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 
@@ -192,8 +193,18 @@ act={
 		count=60+26--Althour'z neim
 	end,
 	insDown=function()if cy~= y_img then P.cy,P.lockDelay,P.spinLast=y_img,gameEnv.lock,false end end,
-	insLeft=function()while not ifoverlap(cb,cx-1,cy)do P.cx,P.lockDelay=cx-1,gameEnv.lock;freshgho()end end,
-	insRight=function()while not ifoverlap(cb,cx+1,cy)do P.cx,P.lockDelay=cx+1,gameEnv.lock;freshgho()end end,
+	insLeft=function()
+		while not ifoverlap(cb,cx-1,cy)do
+			P.cx,P.lockDelay=cx-1,gameEnv.lock
+			freshgho()
+		end
+	end,
+	insRight=function()
+		while not ifoverlap(cb,cx+1,cy)do
+			P.cx,P.lockDelay=cx+1,gameEnv.lock
+			freshgho()
+		end
+	end,
 	down1=function()if cy~=y_img then P.cy=cy-1 end end,
 	down4=function()for i=1,4 do if cy~=y_img then P.cy=cy-1 else break end end end,
 	quit=function()Event.gameover.lose()end,
@@ -229,8 +240,8 @@ TRS={
 		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2}},
 		[02]={{0,0},{1,0},{-1,0},{0,-1},{0,1}},
 		[20]={{0,0},{-1,0},{1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,1},{0,-1},{-1,0},{1,0},{0,2}},
-		[31]={{0,0},{0,-1},{0,1},{1,0},{-1,0},{0,2}},
+		[13]={{0,0},{0,-1},{0,1},{-1,0},{1,0},{0,2}},
+		[31]={{0,0},{0,1},{0,-1},{1,0},{-1,0},{0,2}},
 	},
 	[2]={
 		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
@@ -243,8 +254,8 @@ TRS={
 		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{0,1}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
 		[20]={{0,0},{1,0},{-1,0},{0,1},{0,-1}},
-		[13]={{0,0},{0,-1},{0,1},{1,0},{-1,0},{0,2}},
-		[31]={{0,0},{0,1},{0,-1},{-1,0},{1,0},{0,2}},
+		[13]={{0,0},{0,1},{0,-1},{1,0},{-1,0},{0,2}},
+		[31]={{0,0},{0,-1},{0,1},{-1,0},{1,0},{0,2}},
 	},
 	[5]={
 		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2}},
@@ -264,8 +275,8 @@ TRS={
 		[01]={{0,0},{1,0},{-2,0},{-2,-1},{1,2}},
 		[10]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
 		[12]={{0,0},{-1,0},{2,0},{-1,2},{2,-1}},
-		[21]={{0,0},{-2,0},{1,0},{-2,1},{1,-2}},
-		[23]={{0,0},{2,0},{-1,0},{2,1},{-1,-2}},
+		[21]={{0,0},{-2,0},{1,0},{1,-2},{-2,1}},
+		[23]={{0,0},{2,0},{-1,0},{-1,-2},{2,1}},
 		[32]={{0,0},{-2,0},{1,0},{-2,-1},{1,2}},
 		[30]={{0,0},{1,0},{-2,0},{1,-2},{-2,1}},
 		[03]={{0,0},{-1,0},{2,0},{2,-1},{-1,2}},

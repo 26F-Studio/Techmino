@@ -245,7 +245,7 @@ function love.touchpressed(id,x,y)
 	if scene=="play"and setting.virtualkeySwitch then
 		local t=onVirtualkey(x,y)
 		if t then
-			pressKey(t)
+			pressKey(t,players[1])
 		end
 	elseif scene=="setting3"then
 		x,y=convert(x,y)

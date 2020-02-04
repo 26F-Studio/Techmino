@@ -132,17 +132,17 @@ function throwBadge(s,r,amount)--Player id
 	ins(FX.badge,{x1,y1,x2,y2,t=0,size=(10+min(amount,10))*.1})
 end
 function freshgho()
-	if not P.gameEnv._20G then
-		P.y_img=P.cy>#field+1 and #field+1 or P.cy
-		while not ifoverlap(cb,cx,y_img-1)do
-			P.y_img=P.y_img-1
-		end
-	else
+	if P.gameEnv._20G or keyPressing[7]and gameEnv.sdarr==0 then
 		while not ifoverlap(cb,cx,cy-1)do
 			P.cy=P.cy-1
 			P.spinLast=false
 		end
 		P.y_img=P.cy
+	else
+		P.y_img=P.cy>#field+1 and #field+1 or P.cy
+		while not ifoverlap(cb,cx,y_img-1)do
+			P.y_img=P.y_img-1
+		end
 	end
 end
 function freshLockDelay()
@@ -324,17 +324,18 @@ function drop()
 			if b2b>500 then
 				showText("Tetris B2B2B","fly",70)
 				csend=6
-				exblock=exblock+2
+				sendTime=80
+				exblock=exblock+1
 			elseif b2b>=100 then
 				showText("Tetris B2B","drive",70)
+				sendTime=70
 				csend=5
-				exblock=exblock+1
 			else
 				showText("Tetris","stretch",80)
+				sendTime=60
 				csend=4
 			end
 			P.b2b=P.b2b+100
-			sendTime=60
 			P.cstat.tetris=P.cstat.tetris+1
 		elseif cc>0 then
 			if dospin then
@@ -372,7 +373,7 @@ function drop()
 			if dospin then
 				showText(spinName[0][bn],"appear",50)
 				SFX("spin_0")
-				P.b2b=b2b+40
+				P.b2b=b2b+30
 			end
 		end
 
