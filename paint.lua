@@ -51,7 +51,9 @@ local function dataOpt(i)
 	elseif i==14 then
 		return format("%0.2f",stat.atk/stat.row)
 	elseif i==15 then
-		return stat.extraPiece.."["..(int(stat.extraRate/stat.piece*10000)*.01).."%]"
+		return stat.extraPiece
+	elseif i==16 then
+		return max(100-int(stat.extraRate/stat.piece*10000)*.01,0).."%"
 	end
 end
 local statOptL={
@@ -177,29 +179,36 @@ local function drawAtkPointer(x,y)
 	gc.circle("line",x,y,30*(1+a),6)
 end
 local function VirtualkeyPreview()
-	for i=1,#virtualkey do
-		local c=sel==i and .8 or 1
-		gc.setColor(c,c,c,setting.virtualkeyAlpha*.1)
-		local b=virtualkey[i]
-		gc.setLineWidth(b[4]*.07)
-		gc.circle("line",b[1],b[2],b[4]-5)
-		if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2],nil,b[4]*.025,nil,18,18)end
+	if setting.VKSwitch then
+		for i=1,#VK_org do
+			local B=VK_org[i]
+			if B.ava then
+				local c=sel==i and .6 or 1
+				gc.setColor(c,1,c,setting.VKAlpha*.1)
+				gc.setLineWidth(B.r*.07)
+				gc.circle("line",B.x,B.y,B.r)
+				if setting.VKIcon then gc.draw(VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
+			end
+		end
 	end
 end
 local function drawVirtualkey()
-	local a=setting.virtualkeyAlpha*.1
+	local a=setting.VKAlpha*.1
 	for i=1,#virtualkey do
 		if i~=9 or modeEnv.Fkey then
-			local p,b=virtualkeyDown[i],virtualkey[i]
-			if p then gc.setColor(.7,.7,.7,a)
-			else gc.setColor(1,1,1,a)
-			end
-			gc.setLineWidth(b[4]*.07)
-			gc.circle("line",b[1],b[2]+virtualkeyPressTime[i],b[4]-5)
-			if setting.virtualkeyIcon then gc.draw(virtualkeyIcon[i],b[1],b[2]+virtualkeyPressTime[i],nil,b[4]*.025,nil,18,18)end
-			if virtualkeyPressTime[i]>0 then
-				gc.setColor(1,1,1,a*virtualkeyPressTime[i]*.1)
-				gc.circle("line",b[1],b[2],b[4]*(1.4-virtualkeyPressTime[i]*.04))
+			local B=virtualkey[i]
+			if B.ava then
+				local _=virtualkeyDown[i]and gc.setColor(.7,.7,.7,a)or gc.setColor(1,1,1,a)--Dark magic
+				gc.setLineWidth(B.r*.07)
+				local ΔY=virtualkeyPressTime[i]
+				gc.circle("line",B.x,B.y+ΔY,B.r)--Outline circle
+				if setting.VKIcon then
+					gc.draw(VKIcon[i],B.x,B.y+ΔY,nil,B.r*.025,nil,18,18)
+				end--Icon
+				if ΔY>0 then
+					gc.setColor(1,1,1,a*ΔY*.1)
+					gc.circle("line",B.x,B.y,B.r*(1.4-ΔY*.04))
+				end--Ripple
 			end
 		end
 	end
@@ -272,7 +281,7 @@ function Pnt.BG.game6()
 	end
 	gc.setColor(.3,.3,.3)
 	local r=7-int(Timer()*.5)%7
-	gc.draw(mouseBlock[r],640,360,Timer()%3.1416*6,400,400,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
+	gc.draw(miniBlock[r],640,360,Timer()%3.1416*6,400,400,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 end--Fast lightning&spining tetromino
 local matrixT={}for i=0,15 do matrixT[i]={}for j=0,8 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 function Pnt.BG.matrix()
@@ -413,12 +422,12 @@ function Pnt.draw()
 	gc.translate(-200,-60)
 	if clearSureTime>0 then
 		gc.setColor(1,1,1,clearSureTime*.02)
-		gc.draw(drawableText.question,1100,570)
+		gc.draw(drawableText.question,760,11)
 	end
 	if pen>0 then
 		gc.setLineWidth(13)
 		gc.setColor(blockColor[pen])
-		gc.rectangle("line",945,605,70,70)
+		gc.rectangle("line",746,460,70,70)
 	elseif pen==-1 then
 		gc.setLineWidth(5)
 		gc.setColor(.9,.9,.9)
@@ -453,7 +462,7 @@ function Pnt.play()
 		gc.pop()
 	end--FX animation
 	gc.setColor(1,1,1)
-	if setting.virtualkeySwitch then drawVirtualkey()end
+	if setting.VKSwitch then drawVirtualkey()end
 	if modeEnv.royaleMode then
 		for i=1,#FX_badge do
 			local b=FX_badge[i]
@@ -501,9 +510,9 @@ function Pnt.pause()
 		gc.print(text.stat[i+3],110,30*i+270)
 		gc.print(dataOpt(i),305,30*i+270)
 	end
-	for i=9,15 do
+	for i=9,16 do
 		gc.print(text.stat[i+3],860,30*i+30)
-		gc.print(dataOpt(i),1000,30*i+30)
+		gc.print(dataOpt(i),1050,30*i+30)
 	end
 	setFont(40)
 	if system~="Android"then
@@ -532,40 +541,54 @@ function Pnt.setting_sound()
 	gc.setColor(1,1,1)
 	mDraw(drawableText.setting_sound,640,15)
 end
-function Pnt.setting_control()
+function Pnt.setting_key()
 	local a=.3+sin(Timer()*15)*.1
-	if keyboardSetting then
-		gc.setColor(1,.5,.5,a)
-	else
-		gc.setColor(.9,.9,.9,a)
-	end
-	gc.rectangle("fill",240,40*keyboardSet-10,200,40)
-	if joystickSetting then
-		gc.setColor(1,.5,.5,a)
-	else
-		gc.setColor(.9,.9,.9,a)
-	end
-	gc.rectangle("fill",440,40*joystickSet-10,200,40)
+	if keyboardSetting then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
+	gc.rectangle("fill",
+		keyboardSet<11 and 240 or 840,
+		45*keyboardSet+20-450*int(keyboardSet/11),
+		200,45
+	)
+	if joystickSetting then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
+	gc.rectangle("fill",
+		joystickSet<11 and 440 or 1040,
+		45*joystickSet+20-450*int(joystickSet/11),
+		200,45
+	)
+	--Selection rect
+	
+	gc.setColor(1,.3,.3)
+	mDraw(drawableText.keyboard,340,35)
+	mDraw(drawableText.keyboard,940,35)
+	gc.setColor(.3,.3,1)
+	mDraw(drawableText.joystick,540,35)
+	mDraw(drawableText.joystick,1140,35)
 
 	gc.setColor(1,1,1)
-	setFont(25)
-	for y=1,13 do
-		mStr(text.actName[y],150,40*y-5)
-		for x=1,2 do
-			mStr(setting.keyMap[curBoard+x*8-8][y],200*x+140,40*y-3)
+	setFont(31)
+	for N=1,20 do
+		if N<11 then
+			gc.printf(text.actName[N],47,45*N+22,180,"right")
+			mStr(setting.keyMap[curBoard][N],340,45*N+22)
+			mStr(setting.keyMap[curBoard+8][N],540,45*N+22)
+		else
+			gc.printf(text.actName[N],647,45*N-428,180,"right")
+			mStr(setting.keyMap[curBoard][N],940,45*N-428)
+			mStr(setting.keyMap[curBoard+8][N],1040,45*N-428)
 		end
-		gc.line(40,40*y-10,640,40*y-10)
 	end
-	for x=1,4 do
-		gc.line(200*x-160,30,200*x-160,550)
+	gc.setLineWidth(2)
+	for x=40,1240,200 do
+		gc.line(x,65,x,515)
 	end
-	gc.line(40,550,640,550)
-	mDraw(drawableText.keyboard,340,0)
-	mDraw(drawableText.joystick,540,0)
-	gc.draw(drawableText.ctrlSetHelp,50,620)
+	for y=65,515,45 do
+		gc.line(40,y,1240,y)
+	end
 	setFont(40)
-	gc.print("P"..int(curBoard*.5+.5).."/P4",420,560)
-	gc.print(curBoard.."/8",580,560)
+	gc.print("Player:",170,590)
+	gc.print(int(curBoard*.5+.5),300,590)
+	gc.print(curBoard.."/8",580,590)
+	gc.draw(drawableText.ctrlSetHelp,50,650)
 end
 function Pnt.setting_touch()
 	VirtualkeyPreview()
@@ -580,6 +603,12 @@ function Pnt.setting_touch()
 			gc.line(0,d*i,1280,d*i)
 		end
 	end
+end
+function Pnt.setting_trackSetting()
+	gc.setColor(1,1,1)
+	mDraw(drawableText.VKTchW,140+50*setting.VKTchW,260)
+	mDraw(drawableText.VKOrgW,140+50*setting.VKTchW+50*setting.VKCurW,320)
+	mDraw(drawableText.VKCurW,640+50*setting.VKCurW,380)
 end
 function Pnt.help()
 	setFont(30)

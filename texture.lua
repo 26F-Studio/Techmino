@@ -1,5 +1,6 @@
 local gc=love.graphics
 local N,c=gc.newImage
+local int=math.floor
 local function T(s,t)return gc.newText(setFont(s),t)end
 local function C(x,y)
 	c=gc.newCanvas(x,y)
@@ -15,16 +16,18 @@ for i=1,13 do
 	blockSkinmini[i]=C(6,6)
 end
 
-virtualkeyIcon={}
-for i=1,10 do
-	virtualkeyIcon[i]=N("/image/virtualkey/"..actName[i]..".png")
+local VKI=N("/image/virtualkey.png")
+VKIcon={}
+for i=1,#actName do
+	VKIcon[i]=C(36,36)
+	gc.draw(VKI,(i-1)%5*-36,int((i-1)*.2)*-36)
 end
 
 gc.setColor(1,1,1)
-mouseBlock={}
+miniBlock={}
 for i=1,7 do
 	local b=blocks[i][0]
-	mouseBlock[i]=C(#b[1],#b)
+	miniBlock[i]=C(#b[1],#b)
 	gc.setColor(blockColor[i])
 	for y=1,#b do for x=1,#b[1]do
 		if b[y][x]then
@@ -68,9 +71,12 @@ drawableText={
 	custom=T(80),
 	setting_game=T(80),setting_graphic=T(80),setting_sound=T(80),
 	keyboard=T(25),joystick=T(25),
-	ctrlSetHelp=T(25),
+	ctrlSetHelp=T(30),
 	musicRoom=T(80),
 	nowPlaying=T(50),
 	warning=T(30),
+	VKTchW=T(30),
+	VKOrgW=T(30),
+	VKCurW=T(30),
 }
-c=gc.setCanvas()
+gc.setCanvas()

@@ -1,4 +1,13 @@
 local BK="返回"
+local actName={
+	"左移:","右移:",
+	"顺时针旋转:","逆时针旋转:","180°旋转:",
+	"硬降:","软降:",
+	"暂存:","功能键:",
+	"重新开始:",
+	"左瞬移:","右瞬移:","软降到底:","软降一格:","软降四格:","软降十格:",
+	"落在最左:","落在最右:","列在最左:","列在最右:",
+}
 return{
 	atkModeName={"随机","徽章","击杀","反击"},
 	royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
@@ -67,8 +76,11 @@ return{
 	setting_sound="声音设置",
 	musicRoom="音乐室",
 	nowPlaying="正在播放:",
+	VKTchW="触摸点权重",
+	VKOrgW="原始点权重",
+	VKCurW="当前点权重",
 
-	actName={"左移:","右移:","顺时针旋转:","逆时针旋转:","180°旋转","硬降:","软降:","暂存:","功能键:","重新开始:","左瞬移:","右瞬移:","软降到底:"},
+	actName=actName,
 	modeName={
 		[0]="自定义",
 		"竞速","马拉松","大师","经典","禅","无尽","单挑","回合制","仅TSD","隐形",
@@ -128,6 +140,8 @@ return{
 		"使用love2d引擎制作",
 		"有疑问?先看设置有没有你想要的",
 		"有建议的话可以把信息反馈给作者~",
+		"不要按F8",
+		"秘密代码:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 	},
@@ -149,7 +163,8 @@ return{
 		"B2B数:",
 		"PC数:",
 		"效率:",
-		"多余操作:"
+		"多余操作:",
+		"最简操作率:",
 	},
 	help={
 		"好像也没啥好帮助的吧?就当是关于了",
@@ -210,11 +225,11 @@ return{
 			start1="消除开始",
 			start2="拼图开始",
 			draw="画图(D)",
-			set1="40行",
-			set2="1v1",
-			set3="无尽",
-			set4="隐形",
-			set5="极限",
+			set1="40行(1)",
+			set2="1v1(2)",
+			set3="无尽(3)",
+			set4="隐形(4)",
+			set5="极限(5)",
 			back=BK,
 		},
 		draw={
@@ -283,16 +298,32 @@ return{
 			voc="语音",
 			back=BK,
 		},
-		setting_control={
+		setting_key={
 			back=BK,
 		},
 		setting_touch={
-			hide=function()return setting.virtualkeySwitch and"隐藏虚拟按键"or"显示虚拟按键"end,
+			hide="显示虚拟按键",
+			track="按键自动跟踪",
+			tkset="跟踪设置",
 			default="默认组合",
 			snap=function()return text.snapLevelName[snapLevel]end,
-			alpha=function()return setting.virtualkeyAlpha.."0%"end,
+			alpha=function()return setting.VKAlpha.."0%"end,
 			icon="图标",
 			size="大小",
+			toggle="开关",
+			back=BK,
+		},
+		setting_touchSwitch={
+			b1=	actName[1],b2=actName[2],b3=actName[3],b4=actName[4],
+			b5=	actName[5],b6=actName[6],b7=actName[7],b8=actName[8],
+			b9=	actName[9],b10=actName[10],b11=actName[11],b12=actName[12],
+			b13=actName[13],b14=actName[14],b15=actName[15],b16=actName[16],
+			b17=actName[17],b18=actName[18],b19=actName[19],b20=actName[20],
+			norm="标准",
+			pro="专业",
+			back=BK,
+		},
+		setting_trackSetting={
 			back=BK,
 		},
 		help={

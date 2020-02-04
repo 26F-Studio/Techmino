@@ -47,7 +47,7 @@ function Tmr.load()
 		loadnum=loadnum+1
 		if loadnum==48 then
 			stat.run=stat.run+1
-			gotoScene("intro","none")
+			scene.swapTo("intro","none")
 		end
 	end
 end

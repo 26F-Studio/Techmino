@@ -4,16 +4,16 @@ Patron(rmb10+):
 	[D*a]?
 Future outlook:
 	Normal Things:
+		in-game setting(scene-sequence system)
+		powerinfo switch
+		splashing block
 		ajustable next count
 		bag line in all mode
-		force fineese mode
 		highscore of most modes
 		custom block color/direction
-		custom sequence
-		virtual key switch(all keys)
+		custom block sequence
 		combo mode
-		infinite c4w mode
-		any screen size
+		auto GUI in any screen size
 		CC smarter(think of gaebage buffer)
 		fineese/bigbang mode & easier CTWC
 		new AI:task-Z
@@ -24,8 +24,18 @@ Future outlook:
 		infinite 1v1
 		square mode
 		more FXs & 3d features & animations
+0.7.29:
+	auto-tracking virtual key,adjustable parameters!
+	can switch on/off virtuakeys
+	add 7 more key
+	better finesse rate calculating
+	block generating position on Y-axis changed
+	new icon for android
+	can use preset in custom mode with keyboard
+	adjusted GUI
+	many bug fixed
 0.7.28:
-	add fineese check
+	add fineese check(almost useful)
 	code optimized
 0.7.27:
 	super O transform system

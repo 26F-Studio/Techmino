@@ -1,4 +1,11 @@
 local BK="Back"
+local actName={
+	"Move Left:","Move Right:",
+	"Rotate Right:","Rotate Left:","Rotate Flip:",
+	"Hard Drop:","Soft Drop:","Hold:","Function:","Restart:",
+	"Instant Left:","Instant Right:","Ins Down:","Down 1:","Down 4:","Down 10:",
+	"Left Drop:","Right Drop:","Left INS:","Right INS:",
+}
 return{
 	atkModeName={"Random","Badges","K.O.s","Counters"},
 	royale_remain=function(n)return n.." Players Remain"end,
@@ -67,8 +74,11 @@ return{
 	setting_sound="Sound setting",
 	musicRoom="Music Room",
 	nowPlaying="Now Playing:",
+	VKTchW="Touch weight",
+	VKOrgW="Origion weight",
+	VKCurW="CurPos weight",
 
-	actName={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate Flip:","Hard Drop:","Soft Drop:","Hold:","Function:","Restart:","Instant Left:","Instant Right:","Ins Down:"},
+	actName=actName,
 	modeName={
 		[0]="Custom",
 		"Sprint","Marathon","Master","Classic","Zen","Infinite","1v1","Round","TSD-only","Blind",
@@ -128,6 +138,8 @@ return{
 		"Powered by love2d",
 		"Find out what's in the setting!",
 		"Any suggestions to author!",
+		"DO NOT PRESS F8",
+		"Secret code:626",
 		"Techmino=Technique+Tetromino",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
@@ -150,7 +162,8 @@ return{
 		"B2B:",
 		"PC:",
 		"Efficiency:",
-		"Fineese:"
+		"Finesse error:",
+		"Finesse rate:",
 	},
 	help={
 		"I don't think you need \"help\".",
@@ -211,11 +224,11 @@ Lib used:
 			start1="Clear Start",
 			start2="Puzzle Start",
 			draw="Draw(D)",
-			set1="40L",
-			set2="1v1",
-			set3="infinite",
-			set4="blind",
-			set5="master",
+			set1="40L(1)",
+			set2="1v1(2)",
+			set3="infinite(3)",
+			set4="blind(4)",
+			set5="master(5)",
 			back=BK,
 		},
 		draw={
@@ -253,7 +266,7 @@ Lib used:
 			sdarrD="-",sdarrU="+",
 			quickR="Quick restart",
 			swap="Combo key to change ATK mode",
-			fine="Fineese error SFX",
+			fine="Finesse error SFX",
 			ctrl="Key Setting",
 			touch="Touch Setting",
 			back=BK,
@@ -284,16 +297,32 @@ Lib used:
 			voc="VOC",
 			back=BK,
 		},
-		setting_control={
+		setting_key={
 			back=BK,
 		},
 		setting_touch={
-			hide=function()return setting.virtualkeySwitch and"Hide Virtual Key"or"Show Virtual Key"end,
+			hide="Show Virtual Key",
+			track="Auto track",
+			tkset="Track setting",
 			default="Defaults",
 			snap=function()return text.snapLevelName[snapLevel]end,
-			alpha=function()return setting.virtualkeyAlpha.."0%"end,
+			alpha=function()return setting.VKAlpha.."0%"end,
 			icon="Icon",
 			size="Size",
+			toggle="Toggle",
+			back=BK,
+		},
+		setting_touchSwitch={
+			b1=	actName[1],b2=actName[2],b3=actName[3],b4=actName[4],
+			b5=	actName[5],b6=actName[6],b7=actName[7],b8=actName[8],
+			b9=	actName[9],b10=actName[10],b11=actName[11],b12=actName[12],
+			b13=actName[13],b14=actName[14],b15=actName[15],b16=actName[16],
+			b17=actName[17],b18=actName[18],b19=actName[19],b20=actName[20],
+			norm="Normal",
+			pro="Professioanl",
+			back=BK,
+		},
+		setting_trackSetting={
 			back=BK,
 		},
 		help={

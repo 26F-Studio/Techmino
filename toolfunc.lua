@@ -73,12 +73,15 @@ local drawableTextLoad={
 	"next","hold",
 	"pause","finish",
 	"custom",
-	"setting_game","setting_graphic","setting_sound",
+	"setting_game",
+	"setting_graphic",
+	"setting_sound",
 	"keyboard","joystick",
 	"ctrlSetHelp",
 	"musicRoom",
 	"nowPlaying",
 	"warning",
+	"VKTchW","VKOrgW","VKCurW",
 }
 function swapLanguage(l)
 	text=require("language/"..langID[l])
@@ -194,101 +197,10 @@ function BGM(s)
 	end
 end
 
-local swapDeck_data={
-	{4,0,1,1},{6,0,15,1},{5,0,9,1},{6,0,6,1},
-	{1,0,3,1},{3,0,12,1},{1,1,8,1},{2,1,4,2},
-	{3,2,13,2},{4,1,12,2},{5,2,1,2},{7,1,11,2},
-	{2,1,9,3},{3,0,6,3},{4,2,14,3},{1,0,4,4},
-	{7,1,1,4},{6,0,2,4},{5,2,6,4},{6,0,14,5},
-	{3,3,15,5},{4,0,7,6},{7,1,10,5},{5,0,2,6},
-	{2,1,1,7},{1,0,4,6},{4,1,13,5},{1,1,6,7},
-	{5,3,11,5},{3,2,11,7},{6,0,8,7},{4,2,12,8},
-	{7,0,8,9},{1,0,2,8},{5,2,4,8},{6,0,15,8},
-}--Block id [ZSLJTOI] ,dir,x,y
-local swap={
-	none={2,1,d=NULL},
-	flash={8,1,d=function()gc.clear(1,1,1)end},
-	fade={30,15,d=function()
-		local t=1-abs(sceneSwaping.time*.06667-1)
-		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,1280,720)
-	end},
-	deck={50,8,d=function()
-		local t=sceneSwaping.time
-		gc.setColor(1,1,1)
-		if t>8 then
-			local t=max(t,15)
-			for i=1,51-t do
-				local bn=swapDeck_data[i][1]
-				local b=blocks[bn][swapDeck_data[i][2]]
-				local cx,cy=swapDeck_data[i][3],swapDeck_data[i][4]
-				for y=1,#b do for x=1,#b[1]do
-					if b[y][x]then
-						gc.draw(blockSkin[bn],80*(cx+x-2),80*(10-cy-y),nil,8/3)
-					end
-				end end
-			end
-		end
-		if t<17 then
-			gc.setColor(1,1,1,(8-abs(t-8))*.125)
-			gc.rectangle("fill",0,0,1280,720)
-		end
-	end},
-}--Scene swapping animations
-function gotoScene(s,style)
-	if not sceneSwaping and s~=scene then
-		style=style or"fade"
-		sceneSwaping={
-			tar=s,style=style,
-			time=swap[style][1],mid=swap[style][2],
-			draw=swap[style].d
-		}
-		widget_sel=nil
-		if style~="none"then
-			SFX("swipe")
-		end
-	end
-end
 function updateStat()
 	local S=players[1].stat
 	for k,v in next,S do
 		stat[k]=stat[k]+S[k]
-	end
-end
-local prevMenu={
-	load=love.event.quit,
-	intro="quit",
-	main="intro",
-	music="main",
-	mode="main",
-	custom="mode",
-	draw="custom",
-	play=function()
-		kb.setKeyRepeat(true)
-		updateStat()
-		saveData()
-		clearTask("play")
-		gotoScene(curMode.id~="custom"and"mode"or"custom","deck")
-	end,
-	setting_game=function()
-		saveSetting()
-		gotoScene("main")
-	end,
-	setting_control="setting_game",
-	setting_touch=	"setting_game",
-	help="main",
-	history="help",
-	stat="main",
-}
-prevMenu.pause=prevMenu.play
-prevMenu.setting_graphic=prevMenu.setting_game
-prevMenu.setting_sound=prevMenu.setting_game
-function back()
-	local t=prevMenu[scene]
-	if type(t)=="string"then
-		gotoScene(t)
-	else
-		t()
 	end
 end
 
@@ -380,10 +292,10 @@ function pauseGame()
 			end
 		end
 	end
-	gotoScene("pause","none")
+	scene.swapTo("pause","none")
 end
 function resumeGame()
-	gotoScene("play","fade")
+	scene.swapTo("play","fade")
 end
 function loadGame(mode,level)
 	--rec={}
@@ -391,7 +303,7 @@ function loadGame(mode,level)
 	drawableText.modeName:set(text.modeName[mode])
 	drawableText.levelName:set(modeLevel[modeID[mode]][level])
 	needResetGameData=true
-	gotoScene("play","deck")
+	scene.swapTo("play","deck")
 end
 function resetPartGameData()
 	frame=30
@@ -407,9 +319,7 @@ function resetPartGameData()
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
 	end
-	for i=1,#virtualkey do
-		virtualkey[i].press=false
-	end
+	restoreVirtualKey()
 	collectgarbage()
 end
 function resetGameData()
@@ -451,13 +361,15 @@ function resetGameData()
 		garbageSpeed=.3
 		pushSpeed=2
 	end
-	for i=1,#virtualkey do
-		virtualkey[i].press=false
-	end
+	restoreVirtualKey()
 	stat.game=stat.game+1
 	local m,p=#freeRow,40*#players+1
 	while freeRow[p]do
 		m,freeRow[m]=m-1
+	end
+	for i=1,20 do
+		virtualkeyDown[i]=X
+		virtualkeyPressTime[i]=0
 	end
 	freeRow.L=#freeRow
 	SFX("ready")
@@ -473,6 +385,8 @@ function gameStart()
 	end
 end
 
+
+
 local dataOpt={
 	"run","game","time",
 	"extraPiece","extraRate",
@@ -485,9 +399,6 @@ local dataOpt={
 function loadData()
 	userData:open("r")
 	local t=userData:read()
-	if not find(t,"spin")then
-		t=love.data.decompress("string","zlib",t)
-	end
 	t=splitS(t,"\r\n")
 	userData:close()
 	for i=1,#t do
@@ -515,12 +426,10 @@ function saveData()
 	userData:write(t)
 	userData:close()
 end
+
 function loadSetting()
 	userSetting:open("r")
 	local t=userSetting:read()
-	if not find(t,"virtual")then
-		t=love.data.decompress("string","zlib",t)
-	end
 	t=splitS(t,"\r\n")
 	userSetting:close()
 	for i=1,#t do
@@ -534,12 +443,16 @@ function loadSetting()
 			elseif t=="fullscreen"then
 				setting.fullscreen=v=="true"
 				love.window.setFullscreen(setting.fullscreen)
-			elseif t=="virtualkeyAlpha"then
-				setting.virtualkeyAlpha=min(int(abs(toN(v))),10)
 			elseif
+				--三个触摸设置项
+				t=="VKTchW"or t=="VKCurW"or t=="VKAlpha"
+			then
+				setting.VKTchW=min(int(abs(toN(v))),10)
+			elseif
+				--开关设置们
 				t=="ghost"or t=="center"or t=="grid"or t=="swap"or
 				t=="quickR"or t=="fine"or t=="bgblock"or t=="smo"or
-				t=="virtualkeyIcon"or t=="virtualkeySwitch"
+				t=="VKSwitch"or t=="VKTrack"or t=="VKIcon"
 			then
 				setting[t]=v=="true"
 			elseif t=="frameMul"then
@@ -561,14 +474,15 @@ function loadSetting()
 						setting.keyMap[i][j]=v1[j]
 					end
 				end
-			elseif t=="virtualkey"then
+			elseif t=="VK"then
 				v=splitS(v,"/")
-				for i=1,10 do
+				local SK
+				for i=1,#v do
 					if v[i]then
-						virtualkey[i]=splitS(v[i],",")
-						for j=1,4 do
-							virtualkey[i][j]=toN(virtualkey[i][j])
-						end
+						SK=splitS(v[i],",")
+						local K=VK_org[i]
+						K.ava=SK[1]=="T"
+						K.x,K.y,K.r=toN(SK[2]),toN(SK[3]),toN(SK[4])
 					end
 				end
 			end
@@ -598,17 +512,21 @@ local saveOpt={
 	"sfx","bgm",
 	"vib","voc",
 	
-	"virtualkeyAlpha",
-	"virtualkeyIcon",
-	"virtualkeySwitch",
+	"VKSwitch",
+	"VKTrack",
+	"VKIcon",
+	"VKAlpha",
 }
 function saveSetting()
-	local vk={}
-	for i=1,10 do
-		for j=1,4 do
-			virtualkey[i][j]=int(virtualkey[i][j]+.5)
-		end--Saving a integer is better?
-		vk[i]=concat(virtualkey[i],",")
+	local vk={}--virtualkey table
+	for i=1,#VK_org do
+		local V=VK_org[i]
+		vk[i]=concat({
+			V.ava and"T"or"F",
+			int(V.x+.5),
+			int(V.y+.5),
+			V.r,
+		},",")
 	end--pre-pack virtualkey setting
 	local map={}
 	for i=1,16 do
@@ -616,11 +534,10 @@ function saveSetting()
 	end
 	local t={
 		"keymap="..toS(concat(map,"/")),
-		"virtualkey="..toS(concat(vk,"/")),
+		"VK="..toS(concat(vk,"/")),
 	}
 	for i=1,#saveOpt do
-		t[i+2]=saveOpt[i].."="..toS(setting[saveOpt[i]])
-		--not always i+2!
+		t[#t+1]=saveOpt[i].."="..toS(setting[saveOpt[i]])
 	end
 	t=concat(t,"\r\n")
 	userSetting:open("w")

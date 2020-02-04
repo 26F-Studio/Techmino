@@ -63,252 +63,251 @@ local function AITemplate(type,speedLV,next,hold,node)
 		}
 	end
 end
-loadmode={
-	sprint=function()
-		newPlayer(1,340,15)
-	end,
-	marathon=function()
-		newPlayer(1,340,15)
-	end,
-	master=function()
-		newPlayer(1,340,15)
-	end,
-	classic=function()
-		newPlayer(1,340,15)
-	end,
-	zen=function()
-		newPlayer(1,340,15)
-	end,
-	infinite=function()
-		newPlayer(1,340,15)
-		if curMode.lv==2 then
-			pushSpeed=1
-			for i=1,5 do
-				players[1]:garbageRise(10,1,rnd(10))
-			end
-		end
-	end,
-	solo=function()
-		newPlayer(1,340,15)
-		if curMode.lv==1 then
-			newPlayer(2,965,360,.5,AITemplate("9S",3))
-		elseif curMode.lv==2 then
-			newPlayer(2,965,360,.5,AITemplate("CC",2,2,false,10000))
-		elseif curMode.lv==3 then
-			newPlayer(2,965,360,.5,AITemplate("9S",6))
-		elseif curMode.lv==4 then
-			newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,20000))
-		elseif curMode.lv==5 then
-			newPlayer(2,965,360,.5,AITemplate("9S",9))
-		elseif curMode.lv==6 then
-			newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,30000))
-		elseif curMode.lv==7 then
-			newPlayer(2,965,360,.5,AITemplate("9S",10))
-		elseif curMode.lv==8 then
-			newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,40000))
-		elseif curMode.lv==9 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
-		end
-	end,
-	round=function()
-		newPlayer(1,340,15)
-		if curMode.lv==1 then
-			newPlayer(2,965,360,.5,AITemplate("9S",10))
-		elseif curMode.lv==2 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,2,false,10000))
-		elseif curMode.lv==3 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,3,true,30000))
-		elseif curMode.lv==4 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,60000))
-		elseif curMode.lv==5 then
-			newPlayer(2,965,360,.5,AITemplate("CC",10,6,true,100000))
-		end
-		garbageSpeed=1e4
-	end,
-	tsd=function()
-		newPlayer(1,340,15)
-	end,
-	blind=function()
-		newPlayer(1,340,15)
-	end,
-	dig=function()
-		newPlayer(1,340,15)
+loadmode={}
+function loadmode.sprint()
+	newPlayer(1,340,15)
+end
+function loadmode.marathon()
+	newPlayer(1,340,15)
+end
+function loadmode.master()
+	newPlayer(1,340,15)
+end
+function loadmode.classic()
+	newPlayer(1,340,15)
+end
+function loadmode.zen()
+	newPlayer(1,340,15)
+end
+function loadmode.infinite()
+	newPlayer(1,340,15)
+	if curMode.lv==2 then
 		pushSpeed=1
-	end,
-	survivor=function()
-		newPlayer(1,340,15)
-		pushSpeed=curMode.lv>2 and 2 or 1
-	end,
-	defender=function()
-		newPlayer(1,340,15)
-		if curMode.lv==1 then
-			pushSpeed=1
-		elseif curMode.lv==2 then
-			pushSpeed=2
+		for _=1,5 do
+			players[1]:garbageRise(10,1,rnd(10))
 		end
-	end,
-	attacker=function()
-		newPlayer(1,340,15)
-		if curMode.lv==1 then
-			pushSpeed=2
+	end
+end
+function loadmode.solo()
+	newPlayer(1,340,15)
+	if curMode.lv==1 then
+		newPlayer(2,965,360,.5,AITemplate("9S",3))
+	elseif curMode.lv==2 then
+		newPlayer(2,965,360,.5,AITemplate("CC",2,2,false,10000))
+	elseif curMode.lv==3 then
+		newPlayer(2,965,360,.5,AITemplate("9S",6))
+	elseif curMode.lv==4 then
+		newPlayer(2,965,360,.5,AITemplate("CC",5,2,true,20000))
+	elseif curMode.lv==5 then
+		newPlayer(2,965,360,.5,AITemplate("9S",9))
+	elseif curMode.lv==6 then
+		newPlayer(2,965,360,.5,AITemplate("CC",8,3,true,30000))
+	elseif curMode.lv==7 then
+		newPlayer(2,965,360,.5,AITemplate("9S",10))
+	elseif curMode.lv==8 then
+		newPlayer(2,965,360,.5,AITemplate("CC",9,3,true,40000))
+	elseif curMode.lv==9 then
+		newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,80000))
+	end
+end
+function loadmode.round()
+	newPlayer(1,340,15)
+	if curMode.lv==1 then
+		newPlayer(2,965,360,.5,AITemplate("9S",10))
+	elseif curMode.lv==2 then
+		newPlayer(2,965,360,.5,AITemplate("CC",10,2,false,10000))
+	elseif curMode.lv==3 then
+		newPlayer(2,965,360,.5,AITemplate("CC",10,3,true,30000))
+	elseif curMode.lv==4 then
+		newPlayer(2,965,360,.5,AITemplate("CC",10,4,true,60000))
+	elseif curMode.lv==5 then
+		newPlayer(2,965,360,.5,AITemplate("CC",10,6,true,100000))
+	end
+	garbageSpeed=1e4
+end
+function loadmode.tsd()
+	newPlayer(1,340,15)
+end
+function loadmode.blind()
+	newPlayer(1,340,15)
+end
+function loadmode.dig()
+	newPlayer(1,340,15)
+	pushSpeed=1
+end
+function loadmode.survivor()
+	newPlayer(1,340,15)
+	pushSpeed=curMode.lv>2 and 2 or 1
+end
+function loadmode.defender()
+	newPlayer(1,340,15)
+	if curMode.lv==1 then
+		pushSpeed=1
+	elseif curMode.lv==2 then
+		pushSpeed=2
+	end
+end
+function loadmode.attacker()
+	newPlayer(1,340,15)
+	if curMode.lv==1 then
+		pushSpeed=2
+	end
+end
+function loadmode.tech()
+	newPlayer(1,340,15)
+end
+function loadmode.c4wtrain()
+	newPlayer(1,340,15)
+	local P=players[1]
+	local F=P.field
+	for i=1,24 do
+		F[i]=getNewRow(10)
+		P.visTime[i]=getNewRow(20)
+		for x=4,7 do F[i][x]=0 end
+	end
+	local r=rnd(6)
+	if r==1 then	 F[1][5],F[1][4],F[2][4]=10,10,10
+	elseif r==2 then F[1][6],F[1][7],F[2][7]=10,10,10
+	elseif r==3 then F[1][4],F[2][4],F[2][5]=10,10,10
+	elseif r==4 then F[1][7],F[2][7],F[2][6]=10,10,10
+	elseif r==5 then F[1][4],F[1][5],F[1][6]=10,10,10
+	elseif r==6 then F[1][7],F[1][6],F[1][5]=10,10,10
+	end
+end
+function loadmode.pctrain()
+	newPlayer(1,340,15)
+	Event.newPC(players[1])
+end
+function loadmode.pcchallenge()
+	newPlayer(1,340,15)
+end
+function loadmode.techmino49()
+	newPlayer(1,340,15)
+	local LV=curMode.lv
+	if LV==3 then players[1].gameEnv.drop=15 end
+	local L={}for i=1,49 do L[i]=true end
+	local t=system~="Windows"and 0 or 2*LV
+	while t>0 do
+		local r=rnd(2,49)
+		if L[r]then L[r],t=false,t-1 end
+	end
+	local min,max
+	if LV==1 then		min,max=4,6
+	elseif LV==2 then	min,max=4,8
+	elseif LV==3 then	min,max=8,10
+	end
+	local n=2
+	for i=1,4 do for j=1,6 do
+		if L[n]then
+			newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(min,max)))
+		else
+			newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 		end
-	end,
-	tech=function()
-		newPlayer(1,340,15)
-	end,
-	c4wtrain=function()
-		newPlayer(1,340,15)
-		local P=players[1]
-		local F=P.field
-		for i=1,24 do
-			F[i]=getNewRow(10)
-			P.visTime[i]=getNewRow(20)
-			for x=4,7 do F[i][x]=0 end
+		n=n+1
+	end end
+	for i=9,12 do for j=1,6 do
+		if L[n]then
+			newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(min,max)))
+		else
+			newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 		end
-		local r=rnd(6)
-		if r==1 then	 F[1][5],F[1][4],F[2][4]=10,10,10
-		elseif r==2 then F[1][6],F[1][7],F[2][7]=10,10,10
-		elseif r==3 then F[1][4],F[2][4],F[2][5]=10,10,10
-		elseif r==4 then F[1][7],F[2][7],F[2][6]=10,10,10
-		elseif r==5 then F[1][4],F[1][5],F[1][6]=10,10,10
-		elseif r==6 then F[1][7],F[1][6],F[1][5]=10,10,10
+		n=n+1
+	end end
+end
+function loadmode.techmino99()
+	newPlayer(1,340,15)
+	local LV=curMode.lv
+	if LV==3 then players[1].gameEnv.drop=15 end
+	local L={}for i=1,100 do L[i]=true end
+	local t=system~="Windows"and 0 or 1+3*LV
+	while t>0 do
+		local r=rnd(2,99)
+		if L[r]then L[r],t=false,t-1 end
+	end
+	local min,max
+	if LV==1 then		min,max=4,6
+	elseif LV==2 then	min,max=4,8
+	elseif LV==3 then	min,max=8,10
+	end
+	local n=2
+	for i=1,7 do for j=1,7 do
+		if L[n]then
+			newPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(min,max)))
+		else
+			newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 		end
-	end,
-	pctrain=function()
-		newPlayer(1,340,15)
-		Event.newPC(players[1])
-	end,
-	pcchallenge=function()
-		newPlayer(1,340,15)
-	end,
-	techmino49=function()
-		newPlayer(1,340,15)
-		local LV=curMode.lv
-		if LV==3 then players[1].gameEnv.drop=15 end
-		local L={}for i=1,49 do L[i]=true end
-		local t=system~="Windows"and 0 or 2*LV
-		while t>0 do
-			local r=rnd(2,49)
-			if L[r]then L[r],t=false,t-1 end
+		n=n+1
+	end end
+	for i=15,21 do for j=1,7 do
+		if L[n]then
+			newPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(min,max)))
+		else
+			newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
 		end
-		local min,max
-		if LV==1 then		min,max=4,6
-		elseif LV==2 then	min,max=4,8
-		elseif LV==3 then	min,max=8,10
+		n=n+1
+	end end
+end
+function loadmode.drought()
+	newPlayer(1,340,15)
+end
+function loadmode.hotseat()
+	if curMode.lv==1 then
+		newPlayer(1,20,15)
+		newPlayer(2,650,15)
+	elseif curMode.lv==2 then
+		newPlayer(1,20,100,.65)
+		newPlayer(2,435,100,.65)
+		newPlayer(3,850,100,.65)
+	elseif curMode.lv==3 then
+		newPlayer(1,25,160,.5)
+		newPlayer(2,335,160,.5)
+		newPlayer(3,645,160,.5)
+		newPlayer(4,955,160,.5)
+	end
+end
+function loadmode.custom()
+	for i=1,#customID do
+		local k=customID[i]
+		modeEnv[k]=customRange[k][customSel[i]]
+	end
+	modeEnv._20G=modeEnv.drop==0
+	modeEnv.oncehold=customSel[6]==1
+	if curMode.lv==2 then
+		modeEnv.target=0
+	end
+	newPlayer(1,340,15)
+	local L=modeEnv.opponent
+	if L~=0 then
+		modeEnv.target=nil
+		if L<10 then
+			newPlayer(2,965,360,.5,AITemplate("9S",2*L))
+		else
+			newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
 		end
-		local n=2
-		for i=1,4 do for j=1,6 do
-			if L[n]then
-				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(min,max)))
-			else
-				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
+	end
+	preField.h=20
+	repeat
+		for i=1,10 do
+			if preField[preField.h][i]>0 or curMode.lv==2 and preField[preField.h][i]==-1 then
+				goto L
 			end
-			n=n+1
-		end end
-		for i=9,12 do for j=1,6 do
-			if L[n]then
-				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(min,max)))
-			else
-				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-			end
-			n=n+1
-		end end
-	end,
-	techmino99=function()
-		newPlayer(1,340,15)
-		local LV=curMode.lv
-		if LV==3 then players[1].gameEnv.drop=15 end
-		local L={}for i=1,100 do L[i]=true end
-		local t=system~="Windows"and 0 or 1+3*LV
-		while t>0 do
-			local r=rnd(2,99)
-			if L[r]then L[r],t=false,t-1 end
 		end
-		local min,max
-		if LV==1 then		min,max=4,6
-		elseif LV==2 then	min,max=4,8
-		elseif LV==3 then	min,max=8,10
-		end
-		local n=2
-		for i=1,7 do for j=1,7 do
-			if L[n]then
-				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(min,max)))
-			else
-				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-			end
-			n=n+1
-		end end
-		for i=15,21 do for j=1,7 do
-			if L[n]then
-				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(min,max)))
-			else
-				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(min,max)-1,LV+1,true,LV*10000))
-			end
-			n=n+1
-		end end
-	end,
-	drought=function()
-		newPlayer(1,340,15)
-	end,
-	hotseat=function()
-		if curMode.lv==1 then
-			newPlayer(1,20,15)
-			newPlayer(2,650,15)
-		elseif curMode.lv==2 then
-			newPlayer(1,20,100,.65)
-			newPlayer(2,435,100,.65)
-			newPlayer(3,850,100,.65)
-		elseif curMode.lv==3 then
-			newPlayer(1,25,160,.5)
-			newPlayer(2,335,160,.5)
-			newPlayer(3,645,160,.5)
-			newPlayer(4,955,160,.5)
-		end
-	end,
-	custom=function()
-		for i=1,#customID do
-			local k=customID[i]
-			modeEnv[k]=customRange[k][customSel[i]]
-		end
-		modeEnv._20G=modeEnv.drop==0
-		modeEnv.oncehold=customSel[6]==1
-		if curMode.lv==2 then
-			modeEnv.target=0
-		end
-		newPlayer(1,340,15)
-		local L=modeEnv.opponent
-		if L~=0 then
-			modeEnv.target=nil
-			if L<10 then
-				newPlayer(2,965,360,.5,AITemplate("9S",2*L))
-			else
-				newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
+		preField.h=preField.h-1
+	until preField.h==0
+	::L::
+	if curMode.lv==1 then
+		for _,P in next,players.alive do
+			local t=P.showTime*3
+			for y=1,preField.h do
+				P.field[y]=getNewRow(0)
+				P.visTime[y]=getNewRow(t)
+				for x=1,10 do P.field[y][x]=preField[y][x]end
 			end
 		end
-		preField.h=20
-		repeat
-			for i=1,10 do
-				if preField[preField.h][i]>0 or curMode.lv==2 and preField[preField.h][i]==-1 then
-					goto L
-				end
-			end
-			preField.h=preField.h-1
-		until preField.h==0
-		::L::
-		if curMode.lv==1 then
-			for _,P in next,players.alive do
-				local t=P.showTime*3
-				for y=1,preField.h do
-					P.field[y]=getNewRow(0)
-					P.visTime[y]=getNewRow(t)
-					for x=1,10 do P.field[y][x]=preField[y][x]end
-				end
-			end
-		end
-		modeEnv.bg=customRange.bg[customSel[12]]
-		modeEnv.bgm=customRange.bgm[customSel[13]]
-	end,
-}
+	end
+	modeEnv.bg=customRange.bg[customSel[12]]
+	modeEnv.bgm=customRange.bgm[customSel[13]]
+end
 -------------------------<Events>-------------------------
 Event={null=NULL}
 function Event.reach_winCheck(P)
@@ -809,7 +808,7 @@ function Event_task.defender_normal(P)
 	local t=360-P.modeData.event*2
 	if P.counter>=t then
 		P.counter=0
-		for i=1,3 do
+		for _=1,3 do
 			P.atkBuffer[#P.atkBuffer+1]={pos=rnd(2,9),amount=1,countdown=2*t,cd0=2*t,time=0,sent=false,lv=1}
 		end
 		P.atkBuffer.sum=P.atkBuffer.sum+3
@@ -839,7 +838,7 @@ function Event_task.defender_lunatic(P)
 	local t=240-2*P.modeData.event
 	if P.counter>=t then
 		P.counter=0
-		for i=1,4 do
+		for _=1,4 do
 			P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
 		end
 		P.atkBuffer.sum=P.atkBuffer.sum+4
@@ -944,9 +943,7 @@ function Event_task.PC(P)
 			ins(P.visTime,1,getNewRow(20))
 		end
 		P.fieldBeneath=P.fieldBeneath+120
-		for i=1,#P.clearing do
-			P.clearing[i]=P.clearing[i]+4
-		end
+		P.curY=P.curY+4
 		P:freshgho()
 		return true
 	end

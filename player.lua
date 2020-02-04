@@ -192,7 +192,7 @@ local TMP1={
 TMP1[2]=TMP1[1]
 TMP1[4]=TMP1[3]
 TMP1[5]=TMP1[3]
-local fineeseCtrlPar=TMP1
+local finesseCtrlPar=TMP1
 TMP1,TMP2,TMP3,TMP4=nil----------release
 local CCblockID={4,3,5,6,1,2,0}
 local freshMethod={
@@ -516,7 +516,7 @@ function newDemoPlayer(id,x,y,size)
 	P.ctrlCount=0
 
 	local bag1={1,2,3,4,5,6,7}
-	for i=1,7 do
+	for _=1,7 do
 		P:newNext(rem(bag1,rnd(#bag1)))
 	end
 	P.freshNext=freshMethod.bag7
@@ -628,28 +628,28 @@ function newPlayer(id,x,y,size,AIdata)
 	P.freshTime=0
 	P.spinLast,P.lastClear=false,nil
 	P.spinSeq=0--for Ospin,each digit mean a spin
-	P.ctrlCount=0--key press time,for fineese check
+	P.ctrlCount=0--key press time,for finesse check
 
 	P.his={rnd(7),rnd(7),rnd(7),rnd(7)}
 	local s=P.gameEnv.sequence
 	if s=="bag7"or s=="his4"then
 		local bag1={1,2,3,4,5,6,7}
-		for i=1,7 do
+		for _=1,7 do
 			P:newNext(rem(bag1,rnd(#bag1)))
 		end
 	elseif s=="rnd"then
-		for i=1,6 do
+		for _=1,6 do
 			local r=rnd(7)
 			P:newNext(r)
 		end
 	elseif s=="drought1"then
 		local bag1={1,2,3,4,5,6}
-		for i=1,6 do
+		for _=1,6 do
 			P:newNext(rem(bag1,rnd(#bag1)))
 		end
 	elseif s=="drought2"then
 		local bag1={1,2,3,4,6,6}
-		for i=1,6 do
+		for _=1,6 do
 			P:newNext(rem(bag1,rnd(#bag1)))
 		end
 	end
@@ -1139,15 +1139,13 @@ function player.draw(P)
 
 		if P.gameEnv.hold then
 			mDraw(drawableText.hold,-82,-10)
-			if P.holded then gc.setColor(.6,.6,.6)end
-			for i=1,#P.hd.bk do
-				local B=P.hd.bk
-				for j=1,#B[1]do
-					if B[i][j]then
-						drawPixel(i+17.5-#B*.5,j-2.7-#B[1]*.5,P.hd.color)
-					end
+			if P.holded then gc.setColor(.6,.5,.5)end
+			local B=P.hd.bk
+			for i=1,#B do for j=1,#B[1]do
+				if B[i][j]then
+					drawPixel(i+17.5-#B*.5,j-2.7-#B[1]*.5,P.hd.color)
 				end
-			end
+			end end
 		end--Hold
 		gc.setColor(1,1,1)
 		mDraw(drawableText.next,381,-10)
@@ -1264,7 +1262,20 @@ function player.demoDraw(P)
 			end
 		end end--Block
 	end
-	::E::
+	gc.setColor(1,1,1,.3)
+	local N=miniBlock[P.hd.id]
+	if N then
+		gc.draw(N,15,30,nil,16,nil,0,N:getHeight()*.5)
+	end
+	local N=1
+	::L::
+	if N<=P.gameEnv.next and P.next[N]then
+		local p=miniBlock[P.next[N].id]
+		gc.draw(p,285,40*N-10,nil,16,nil,p:getWidth(),p:getHeight()*.5)
+		N=N+1
+		goto L
+	end
+	--Next
 	gc.setColor(1,1,1)
 	gc.draw(PTC.dust[P.id])
 	gc.translate(-P.fieldOffX,-P.fieldOffY)
@@ -1377,8 +1388,8 @@ local function checkrow(P,start,height)--(cy,r)
 			c=c+1
 			if not P.small then
 				local S=PTC.dust[P.id]
-				for k=1,120 do
-					S:setPosition(rnd(300),600-30*h+rnd(30))
+				for _=1,100 do
+					S:setPosition(rnd(300),630-30*(h+c)+rnd(30))
 					S:emit(2)
 				end
 			end
@@ -1403,11 +1414,15 @@ end
 function player:fineError(rate)
 	self.stat.extraPiece=self.stat.extraPiece+1
 	self.stat.extraRate=self.stat.extraRate+rate
-	if self.gameEnv.fineKill then
-		SFX("error_long")
+	if self.human then
+		if self.gameEnv.fineKill then
+			SFX("error_long")
+			Event.lose(self)
+		elseif setting.fine then
+			SFX("error")
+		end
+	elseif self.gameEnv.fineKill then
 		Event.lose(self)
-	else
-		SFX("error")
 	end
 end
 function player:garbageSend(R,send,time,...)
@@ -1482,9 +1497,9 @@ function player:freshTarget()
 			self:changeAtk(randomTarget(self))
 		end
 	elseif self.atkMode==2 then
-		self:changeAtk(P~=mostBadge and mostBadge or secBadge or randomTarget(self))
+		self:changeAtk(self~=mostBadge and mostBadge or secBadge or randomTarget(self))
 	elseif self.atkMode==3 then
-		self:changeAtk(P~=mostDangerous and mostDangerous or secDangerous or randomTarget(self))
+		self:changeAtk(self~=mostDangerous and mostDangerous or secDangerous or randomTarget(self))
 	elseif self.atkMode==4 then
 		for i=1,#self.atker do
 			if not self.atker[i].alive then
@@ -1728,7 +1743,7 @@ function player:spin(d,ifpre)
 end
 function player:hold(ifpre)
 	if not self.holded and self.waiting==-1 and self.gameEnv.hold then
-		--Fineese check
+		--Finesse check
 		local H,B=self.hd,self.cur
 		if H and H.id==B.id and H.name==B.name then
 			self:fineError(1.5)
@@ -1780,7 +1795,7 @@ function player:resetblock()
 	if self.AI_mode=="CC"then BOT.addNext(self.AI_bot,CCblockID[self.next[self.AIdata.next].id])end
 	self.sc,self.dir=scs[self.cur.id][0],0--spin center/direction
 	self.r,self.c=#self.cur.bk,#self.cur.bk[1]--row/column
-	self.curX,self.curY=blockPos[self.cur.id],21+ceil(self.fieldBeneath/30)-self.r+min(int(#self.field*.2),2)
+	self.curX,self.curY=blockPos[self.cur.id],21+ceil(self.fieldBeneath/30)+min(int(#self.field*.15)-self.r,0)--初始高度：7格+1,14格+2(非I)
 	self.dropDelay,self.lockDelay,self.freshTime=self.gameEnv.drop,self.gameEnv.lock,0
 
 	if self.keyPressing[8]then self:hold(true)end
@@ -1840,8 +1855,9 @@ function player:drop()--(Place piece)
 		dospin=false
 	end
 
-	if self.gameEnv.fine then
-		if self.curY>18 then goto 通过测试 end
+	--极简检测
+	if self.curY>18 then goto 通过测试 end--高处易误判
+	do
 		local y0=self.curY
 		local x,c=self.curX,self.c
 		local B=self.cur.bk
@@ -1868,14 +1884,16 @@ function player:drop()--(Place piece)
 				dir=dir-2
 			end
 		end--SZI的逆态视为顺态
-		local R,I=self.ctrlCount,fineeseCtrlPar[id][dir][self.curX]--Real key/Ideal key
+		local R,I=self.ctrlCount,finesseCtrlPar[id][dir][self.curX]--Real key/Ideal key
 		local d=R-I
 		if d<=0 then
 			goto 通过测试
 		end
-		if I==0 then I=.67 end
-		self:fineError(R/I)
-	end--极简检测
+		if I==0 then I=1 end
+		local rate=R/I
+		if rate>2.5 then rate=2.5 end
+		self:fineError(rate)
+	end
 	::通过测试::
 
 	if cc>0 then
@@ -2240,19 +2258,6 @@ function player.act.restart(P)
 		resetPartGameData()
 	end
 end
-function player.act.insDown(P)
-	if P.curY~=P.y_img then
-		if not P.small then
-			if setting.dropFX>0 then
-				P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
-			end
-			if setting.shakeFX>0 then
-				P.fieldOffY=2*setting.shakeFX
-			end
-		end
-		P.curY,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false
-	end
-end
 function player.act.insLeft(P,auto)
 	local x0,y0=P.curX,P.curY
 	while not ifoverlap(P,P.cur.bk,P.curX-1,P.curY)do
@@ -2295,6 +2300,19 @@ function player.act.insRight(P,auto)
 		P.ctrlCount=P.ctrlCount+1
 	end
 end
+function player.act.insDown(P)
+	if P.curY~=P.y_img then
+		if not P.small then
+			if setting.dropFX>0 then
+				P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+			end
+			if setting.shakeFX>0 then
+				P.fieldOffY=2*setting.shakeFX
+			end
+		end
+		P.curY,P.lockDelay,P.spinLast=P.y_img,P.gameEnv.lock,false
+	end
+end
 function player.act.down1(P)
 	if P.curY~=P.y_img then
 		P.curY=P.curY-1
@@ -2302,7 +2320,7 @@ function player.act.down1(P)
 	end
 end
 function player.act.down4(P)
-	for i=1,4 do
+	for _=1,4 do
 		if P.curY~=P.y_img then
 			P.curY=P.curY-1
 			P.spinLast=false
@@ -2311,5 +2329,35 @@ function player.act.down4(P)
 		end
 	end
 end
-function player.act.quit(P)P:lose()end
+function player.act.down10(P)
+	for _=1,10 do
+		if P.curY~=P.y_img then
+			P.curY=P.curY-1
+			P.spinLast=false
+		else
+			break
+		end
+	end
+end
+function player.act.dropLeft(P)
+	P.act.insLeft(P)
+	P.act.hardDrop(P)
+end
+function player.act.dropRight(P)
+	P.act.insRight(P)
+	P.act.hardDrop(P)
+end
+function player.act.addLeft(P)
+	P.act.insLeft(P)
+	P.act.insDown(P)
+	P.act.insRight(P)
+	P.act.hardDrop(P)
+end
+function player.act.addRight(P)
+	P.act.insRight(P)
+	P.act.insDown(P)
+	P.act.insLeft(P)
+	P.act.hardDrop(P)
+end
+
 -------------------------</Controls>-------------------------

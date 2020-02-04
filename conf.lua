@@ -1,4 +1,5 @@
-gameVersion="Alpha V0.7.28"
+math.randomseed(os.time())
+gameVersion="Alpha V0.7.30"
 function love.conf(t)
 	t.identity="Techmino"--Save directory name
 	t.version="11.1"
@@ -9,7 +10,12 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep sysBGM
 
 	local W=t.window
-	W.title=math.random()>.01 and "Techmino "..gameVersion or"MrZ NB!"
+	if math.random()>.26 then
+		W.title="Techmino "..gameVersion
+	else
+		math.randomseed(tonumber(os.date("%Y%j")))
+		W.title="Your lucky number today:"..math.random(100,626)
+	end
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360

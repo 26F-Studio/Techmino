@@ -70,7 +70,7 @@ function button:draw()
 	end
 end
 function button:getInfo()
-	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x,self.y,self.w,self.h,self.font))
+	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
 local switch={type="switch"}
