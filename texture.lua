@@ -8,17 +8,12 @@ local function C(x,y)
 end
 
 gc.setDefaultFilter("nearest","nearest")
-local blockImg=N("/image/block/1.png")
+blockImg=N("/image/block.png")
 blockSkin,blockSkinmini={},{}
 for i=1,13 do
-	C(30,30)
-	gc.draw(blockImg,30-30*i,0)
-	blockSkin[i]=c
-	C(6,6)
-	gc.draw(blockImg,6-6*i,0,nil,.2)
-	blockSkinmini[i]=c
+	blockSkin[i]=C(30,30)
+	blockSkinmini[i]=C(6,6)
 end
-blockImg:release()
 
 virtualkeyIcon={}
 for i=1,10 do
@@ -87,9 +82,12 @@ drawableText={
 	x=T(110,"×"),
 	bpm=T(15,"BPM"),
 	kpm=T(15,"KPM"),
-	modeName=T(30),
-	levelName=T(30),
-	next=T(40),
-	hold=T(40),
+
+	modeName=T(30),levelName=T(30),
+	next=T(40),hold=T(40),
+	pause=T(120),
+	custom=T(80),
+	keyboard=T(25),joystick=T(25),
+	setting2Help=T(25),
 }
 c=gc.setCanvas()

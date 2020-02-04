@@ -52,19 +52,16 @@ gameEnv0={
 	bg="none",bgm="race"
 }
 customSel={
-	drop=20,
-	lock=20,
-	wait=1,
-	fall=1,
-	next=7,
-	hold=1,
+	drop=22,lock=22,
+	wait=1,fall=1,
+	next=7,hold=3,
 	sequence=1,
 	visible=1,
-	target=4,
-	freshLimit=3,
+	target=8,
+	freshLimit=4,
 	opponent=1,
 }
-preField={}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
+preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 freeRow={}
 for i=1,40 do
 	freeRow[i]={0,0,0,0,0,0,0,0,0,0}
@@ -74,14 +71,14 @@ setting={
 	ghost=true,center=true,
 	grid=F,swap=true,
 	fxs=true,bg=true,
-
 	das=10,arr=2,
 	sddas=0,sdarr=2,
+	lang=1,
 	
 	sfx=true,bgm=true,vib=3,
 	fullscreen=F,
 	bgblock=true,
-	lang=1,
+	skin=1,
 	keyMap={
 		{"left","right","x","z","c","up","down","space","tab","r","","",""},
 		{"","","","","","","","","","","","",""},
@@ -100,12 +97,6 @@ setting={
 		{"","","","","","","","","","","","",""},
 		{"","","","","","","","","","","","",""},
 	},--keyboard & joystick
-	keyLib={
-		{1},
-		{2},
-		{3},
-		{4},
-	},--Players' key setting(s)
 	virtualkey={
 		{80,720-80,6400,80},--moveLeft
 		{240,720-80,6400,80},--moveRight
@@ -172,4 +163,6 @@ elseif system=="Android" or system=="iOS"then
 	setting.virtualkeySwitch=true
 	setting.swap=F
 end
+
 swapLanguage(setting.lang)
+changeBlockSkin(setting.skin)

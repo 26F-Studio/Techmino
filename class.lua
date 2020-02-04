@@ -30,15 +30,8 @@ function clearTask(opt)
 end
 function Task:update()
 	if(not self.P or self.P and scene=="play")and self.code(self.P,self.data)then
-		self:destroy()
-		return nil
-	end
-end
-function Task:destroy()
-	for i=#Task,1,-1 do
-		if Task[i]==self then
-			rem(Task,i)
-			return nil
-		end
+		for i=#Task,1,-1 do
+			if Task[i]==self then rem(Task,i)return end
+		end--Destroy
 	end
 end

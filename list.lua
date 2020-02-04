@@ -114,7 +114,7 @@ percent0to5={[0]="0%","20%","40%","60%","80%","100%",}
 modeID={
 	[0]="custom",
 	"sprint","marathon","master","classic","zen","infinite","solo","tsd","blind","dig","survivor","tech",
-	"pctrain","pcchallenge","techmino41","techmino99","drought","hotseat",
+	"pctrain","pcchallenge","techmino49","techmino99","drought","hotseat",
 }
 modeLevel={
 	sprint={"10L","20L","40L","100L","400L","1000L"},
@@ -131,7 +131,7 @@ modeLevel={
 	tech={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	pctrain={"NORMAL","EXTRA"},
 	pcchallenge={"NORMAL","HARD","LUNATIC"},
-	techmino41={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
+	techmino49={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	techmino99={"EASY","NORMAL","HARD","LUNATIC","ULTIMATE"},
 	drought={"NORMAL","MESS"},
 	hotseat={"2P","3P","4P",},
@@ -216,11 +216,11 @@ Buttons={
 	load={},
 	intro={},
 	main={
-		play=	{x=380,y=300,w=240,h=240,rgb=color.red,f=70,code=function()gotoScene("mode")end,down="stat",right="setting"},
-		setting={x=640,y=300,w=240,h=240,rgb=color.lightBlue,f=55,code=function()gotoScene("setting")end,down="stat",left="play",right="help"},
-		stat=	{x=640,y=560,w=240,h=240,rgb=color.cyan,f=55,code=function()gotoScene("stat")end,up="setting",left="play",right="help"},
-		help=	{x=900,y=560,w=240,h=240,rgb=color.yellow,f=55,code=function()gotoScene("help")end,up="setting",left="stat",right="quit"},
-		quit=	{x=1180,y=620,w=120,h=120,rgb=color.lightGrey,f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
+		play=	{x=380,y=300,w=240,h=240,rgb=color.red,			f=70,code=function()gotoScene("mode")end,down="stat",right="setting"},
+		setting={x=640,y=300,w=240,h=240,rgb=color.lightBlue,	f=55,code=function()gotoScene("setting")end,down="stat",left="play",right="help"},
+		stat=	{x=640,y=560,w=240,h=240,rgb=color.cyan,		f=55,code=function()gotoScene("stat")end,up="setting",left="play",right="help"},
+		help=	{x=900,y=560,w=240,h=240,rgb=color.yellow,		f=55,code=function()gotoScene("help")end,up="setting",left="stat",right="quit"},
+		quit=	{x=1180,y=620,w=120,h=120,rgb=color.lightGrey,	f=50,code=function()gotoScene("quit")end,up="setting",left="help"},
 	},
 	mode={
 		up=		{x=1000,y=210,w=200,h=140,	rgb=color.white,	f=64,	code=function()keyDown.mode("up")end,	hide=function()return modeSel==1 end,},
@@ -280,15 +280,21 @@ Buttons={
 		swap=	{x=505,	y=160,	w=210,	h=60,f=28,	rgb=color.white,code=function()setting.swap=not setting.swap end,up="center",down="bg",left="grid",right="vib"},
 		fxs=	{x=290,	y=230,	w=210,	h=60,		rgb=color.white,code=function()setting.fxs=not setting.fxs end,up="grid",down="dasU",right="bg"},
 		bg=		{x=505,	y=230,	w=210,	h=60,		rgb=color.white,code=function()setting.bg=not setting.bg end,up="swap",down="arrD",right="fullscreen"},
-
 		dasD=	{x=210,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.das=(setting.das-1)%31 end,up="fxs",down="sddasD",right="dasU"},
 		dasU=	{x=370,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.das=(setting.das+1)%31 end,up="fxs",down="sddasU",left="dasD",right="arrD"},
 		arrD=	{x=425,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.arr=(setting.arr-1)%16 end,up="bg",down="sdarrD",left="dasU",right="arrU"},
 		arrU=	{x=585,	y=300,	w=50,	h=50,		rgb=color.white,code=function()setting.arr=(setting.arr+1)%16 end,up="bg",down="sdarrU",left="arrD",right="bgblock"},--3~6
-		sddasD=	{x=210,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sddas=(setting.sddas-1)%11 end,up="dasD",down="lang",right="sddasU"},
-		sddasU=	{x=370,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sddas=(setting.sddas+1)%11 end,up="dasU",down="lang",left="sddasD",right="sdarrD"},
-		sdarrD=	{x=425,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sdarr=(setting.sdarr-1)%4 end,up="arrD",down="lang",left="sddasU",right="sdarrU"},
-		sdarrU=	{x=585,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sdarr=(setting.sdarr+1)%4 end,up="arrU",down="lang",left="sdarrD",right="frame"},
+		sddasD=	{x=210,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sddas=(setting.sddas-1)%11 end,up="dasD",down="ctrl",right="sddasU"},
+		sddasU=	{x=370,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sddas=(setting.sddas+1)%11 end,up="dasU",down="ctrl",left="sddasD",right="sdarrD"},
+		sdarrD=	{x=425,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sdarr=(setting.sdarr-1)%4 end,up="arrD",down="ctrl",left="sddasU",right="sdarrU"},
+		sdarrU=	{x=585,	y=370,	w=50,	h=50,		rgb=color.white,code=function()setting.sdarr=(setting.sdarr+1)%4 end,up="arrU",down="ctrl",left="sdarrD",right="frame"},
+
+		ctrl=	{x=340,y=440,	w=310,h=60,rgb=color.green,	code=function()gotoScene("setting2")end,up="sddasU",down="touch",left="lang",right="skin"},
+		touch=	{x=340,y=510,	w=310,h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up="ctrl",down="back",right="lang"},
+		lang=	{x=580,y=510,	w=150,h=60,rgb=color.red,	code=function()
+			setting.lang=setting.lang%#langName+1
+			swapLanguage(setting.lang)
+			end,up="sdarrU",down="back",left="touch",right="skin"},
 
 		sfx=	{x=760,y=90,	w=160,	h=60,		rgb=color.white,code=function()setting.sfx=not setting.sfx end,down="vib",left="center",right="bgm"},
 		bgm=	{x=940,y=90,	w=160,	h=60,		rgb=color.white,code=function()
@@ -318,14 +324,12 @@ Buttons={
 		frame=	{x=850,y=370,	w=340,h=60,rgb=color.white,	code=function()
 			setting.frameMul=setting.frameMul+(setting.frameMul<50 and 5 or 10)
 			if setting.frameMul>100 then setting.frameMul=25 end
-			end,up="bgblock",down="control",left="sdarrU"},
-		control={x=850,y=440,	w=340,h=60,rgb=color.green,	code=function()gotoScene("setting2")end,up="frame",down="touch",left="lang"},
-		touch=	{x=850,y=510,	w=340,h=60,rgb=color.yellow,code=function()gotoScene("setting3")end,up="control",down="back",left="lang"},
-		lang=	{x=280,y=510,	w=200,h=60,rgb=color.red,	code=function()
-			setting.lang=setting.lang%#langName+1
-			swapLanguage(setting.lang)
-			end,up="sddasD",down="back",right="touch"},
-		back=	{x=640,y=620,	w=300,h=70,rgb=color.white,	code=back,up="touch"},
+			end,up="bgblock",down="skin",left="sdarrU"},
+		skin=	{x=850,y=440,	w=340,h=60,rgb=color.white,	code=function()
+			setting.skin=setting.skin%4+1
+			changeBlockSkin(setting.skin)
+			end,up="frame",down="back",left="ctrl"},
+		back=	{x=640,y=620,	w=300,h=70,rgb=color.white,	code=back,up="lang"},
 	},
 	setting2={--Control setting
 		back={x=840,y=630,w=180,h=60,rgb=color.white,code=back},

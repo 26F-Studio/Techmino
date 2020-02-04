@@ -37,12 +37,13 @@ local sceneInit={
 		BGM("blank")
 	end,
 	draw=function()
+		curBG="none"
 		kb.setKeyRepeat(true)
 		clearSureTime=0
-		pen=1
-		sx,sy=1,1
+		pen,sx,sy=1,1,1
 	end,
 	play=function()
+		restartCount=0
 		if needResetGameData then
 			resetGameData()
 			needResetGameData=nil
@@ -89,7 +90,6 @@ local function getNewBlock()
 	BGblock.next=BGblock.next%7+1
 	return t
 end
-local scs={{1,2},nil,nil,nil,nil,{1.5,1.5},{0.5,2.5}}for i=2,5 do scs[i]=scs[1]end
 
 function onVirtualkey(x,y)
 	local d2,nearest,distance
@@ -110,7 +110,6 @@ function buttonControl_key(i)
 			Buttons.sel=Buttons[scene][Buttons.sel[i]]or Buttons.sel
 		else
 			Buttons.sel=select(2,next(Buttons[scene]))
-			mouseShow=false
 		end
 	elseif i=="space"or i=="return"then
 		if not sceneSwaping and Buttons.sel then
@@ -126,7 +125,6 @@ function buttonControl_gamepad(i)
 			Buttons.sel=Buttons[scene][Buttons.sel[i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]]or Buttons.sel
 		else
 			Buttons.sel=select(2,next(Buttons[scene]))
-			mouseShow=false
 		end
 	elseif i=="start"then
 		if not sceneSwaping and Buttons.sel then
@@ -135,7 +133,6 @@ function buttonControl_gamepad(i)
 			sysSFX("button")
 		end
 	end
-	mouseShow=false
 end
 
 mouseDown={}
@@ -382,13 +379,10 @@ function keyDown.play(key)
 	end
 	local m=setting.keyMap
 	for p=1,human do
-		local lib=setting.keyLib[p]
-		for s=1,#lib do
-			for k=1,12 do
-				if key==m[lib[s]][k]then
-					pressKey(k,players[p])
-					return
-				end
+		for k=1,12 do
+			if key==m[2*p-1][k]or key==m[2*p][k]then
+				pressKey(k,players[p])
+				return
 			end
 		end
 	end
@@ -404,13 +398,10 @@ keyUp={}
 function keyUp.play(key)
 	local m=setting.keyMap
 	for p=1,human do
-		local lib=setting.keyLib[p]
-		for s=1,#lib do
-			for k=1,12 do
-				if key==m[lib[s]][k]then
-					releaseKey(k,players[p])
-					return
-				end
+		for k=1,12 do
+			if key==m[2*p-1][k]or key==m[2*p][k]then
+				releaseKey(k,players[p])
+				return
 			end
 		end
 	end
@@ -466,14 +457,11 @@ end
 function gamepadDown.play(key)
 	if key=="back"then back()return end
 	local m=setting.keyMap
-	for p=1,4 do
-		local lib=setting.keyLib[p]
-		for s=1,#lib do
-			for k=1,12 do
-				if key==m[8+lib[s]][k]then
-					pressKey(k,players[p])
-					return
-				end
+	for p=1,human do
+		for k=1,12 do
+			if key==m[2*p+7][k]or key==m[2*p+8][k]then
+				pressKey(k,players[p])
+				return
 			end
 		end
 	end
@@ -481,14 +469,11 @@ end
 gamepadUp={}
 function gamepadUp.play(key)
 	local m=setting.keyMap
-	for p=1,4 do
-		local lib=setting.keyLib[p]
-		for s=1,#lib do
-			for k=1,12 do
-				if key==m[8+lib[s]][k]then
-					releaseKey(k,players[p])
-					return
-				end
+	for p=1,human do
+		for k=1,12 do
+			if key==m[2*p+7][k]or key==m[2*p+8][k]then
+				releaseKey(k,players[p])
+				return
 			end
 		end
 	end
@@ -545,10 +530,10 @@ function love.wheelmoved(x,y)
 end
 
 function love.touchpressed(id,x,y)
+	mouseShow=false
 	if not touching then
 		touching=id
 		love.touchmoved(id,x,y,0,0)
-		mouseShow=false
 	end
 	if touchDown[scene]then
 		touchDown[scene](id,xOy:inverseTransformPoint(x,y))
@@ -566,7 +551,6 @@ function love.touchreleased(id,x,y)
 			VIB(1)
 		end
 		Buttons.sel=nil
-		mouseShow=false
 	end
 	if touchUp[scene]then
 		touchUp[scene](id,xOy:inverseTransformPoint(x,y))
@@ -592,6 +576,7 @@ function love.touchmoved(id,x,y,dx,dy)
 end
 
 function love.keypressed(i)
+	mouseShow=false
 	if i=="f8"then devMode=not devMode end
 	if devMode then
 		if i=="k"then
@@ -599,11 +584,7 @@ function love.keypressed(i)
 			Event_gameover.lose()
 			--Test code here
 		elseif i=="q"then
-			for k,B in next,Buttons[scene]do
-				print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))
-			end
-		elseif i=="s"then
-			print(scr.x,scr.y,scr.w,scr.h,scr.k)
+			local B=Buttons.sel if B then print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))end
 		elseif Buttons.sel then
 			local B=Buttons.sel
 			if i=="left"then B.x=B.x-10
@@ -622,7 +603,6 @@ function love.keypressed(i)
 		else buttonControl_key(i)
 		end
 	end
-	mouseShow=false
 end
 function love.keyreleased(i)
 	if keyUp[scene]then keyUp[scene](i)
@@ -630,11 +610,11 @@ function love.keyreleased(i)
 end
 
 function love.gamepadpressed(joystick,i)
+	mouseShow=false
 	if gamepadDown[scene]then return gamepadDown[scene](i)
 	elseif i=="back"then back()
 	else buttonControl_gamepad(i)
 	end
-	mouseShow=false
 end
 function love.gamepadreleased(joystick,i)
 	if gamepadUp[scene]then gamepadUp[scene](i)
@@ -667,13 +647,9 @@ function love.focus(f)
 	if not f and wd.isMinimized()and scene=="play"then pauseGame()end
 end
 function love.update(dt)
-	--[[
-	if players then
-		for k,v in pairs(players[1])do
-			if rawget(_G,k)and k~="next"and k~="hold"and k~="stat"then print(k,_G[v])end
-		end
-	end--check player data flew(debugging)
-	]]
+	-- if players then for k,v in pairs(players[1])do
+	-- 	if rawget(_G,k)and k~="next"and k~="hold"and k~="stat"then print(k,_G[v])end
+	-- end end--check player data flew(debugging)
 	for i=#BGblock,1,-1 do
 		BGblock[i].y=BGblock[i].y+BGblock[i].v
 		if BGblock[i].y>720 then rem(BGblock,i)end
@@ -691,9 +667,9 @@ function love.update(dt)
 			for k,B in next,Buttons[scene]do
 				B.alpha=0
 			end--Reset buttons' alpha
+			Buttons.sel=nil
 			scene=sceneSwaping.tar
 			sceneInit[scene]()
-			Buttons.sel=nil
 		elseif sceneSwaping.time==0 then
 			sceneSwaping=nil
 		end
@@ -704,8 +680,13 @@ function love.update(dt)
 	for i=#Task,1,-1 do
 		Task[i]:update()
 	end
-	updateButton()
+	for k,B in next,Buttons[scene]do
+		local t=B==Buttons.sel and .4 or 0
+		B.alpha=abs(B.alpha-t)>.02 and(B.alpha+(B.alpha<t and .02 or -.02))or t
+		if B.alpha>t then B.alpha=B.alpha-.02 elseif B.alpha<t then B.alpha=B.alpha+.02 end
+	end--update Buttons
 end
+local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 function love.draw()
 	gc.discard()--SPEED UPUPUP!
 	Pnt.BG[setting.bg and curBG or"grey"]()
@@ -720,17 +701,39 @@ function love.draw()
 		end end
 	end
 	if Pnt[scene]then Pnt[scene]()end
-	drawButton()
+	for k,B in next,Buttons[scene]do
+		if not(B.hide and B.hide())then
+			local C=B.rgb or color.white
+			gc.setColor(C[1],C[2],C[3],B.alpha)
+			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
+			gc.setColor(C)
+			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
+			gc.setColor(C[1],C[2],C[3],.3)
+			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
+			local t=B.t
+			local y0
+			if t then
+				if type(t)=="function"then t=t()end
+				setFont(B.f or 40)
+				y0=B.y-currentFont*.64
+				gc.printf(t,B.x-201,y0+2,400,"center")
+				gc.printf(t,B.x-199,y0+2,400,"center")
+				gc.printf(t,B.x-201,y0,400,"center")
+				gc.printf(t,B.x-199,y0,400,"center")
+				gc.setColor(C)
+				mStr(t,B.x,y0+1)
+			end
+		end
+	end--Draw buttons
 	if mouseShow and not touching then
 		local r=Timer()*.5
 		gc.setColor(1,1,1,min(1-abs(1-r%1*2),.3))
 		r=int(r)%7+1
-		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
+		gc.draw(mouseBlock[r],mx,my,Timer()%pi*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 		gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 		gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
-	end
-	if sceneSwaping then sceneSwaping.draw()end
-
+	end--Awesome mouse!
+	if sceneSwaping then sceneSwaping.draw()end--Swaping animation
 	if scr.r~=.5625 then
 		gc.setColor(0,0,0)
 		if scr.r>.5625 then
@@ -742,27 +745,28 @@ function love.draw()
 			gc.rectangle("fill",0,0,-d,720)
 			gc.rectangle("fill",1280,0,d,720)
 		end--wide
-	end
+	end--Black side
 	setFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),5,700)
 	if devMode then
-		gc.print(gcinfo(),5,680)
+		gc.print(mx.." "..my,5,640)
 		gc.print(#freeRow or 0,5,660)
+		gc.print(gcinfo(),5,680)
 	end
 end
 function love.run()
 	local frameT=Timer()
 	local readyDrawFrame=0
+	local PUMP,POLL=love.event.pump,love.event.poll
 	love.resize(gc.getWidth(),gc.getHeight())
 	scene="load"sceneInit.load()--System Launch
 	return function()
-		love.event.pump()
-		for name,a,b,c,d,e,f in love.event.poll()do
-			if name=="quit"then return 0 end
-			if love[name]then love[name](a,b,c,d,e,f)end
+		PUMP()
+		for N,a,b,c,d,e in POLL()do
+			if N=="quit"then return 0
+			elseif love[N]then love[N](a,b,c,d,e)end
 		end
 		tm.step()
-		-- love.receiveData(id,data)
 		love.update(tm.getDelta())
 		readyDrawFrame=readyDrawFrame+setting.frameMul
 		if readyDrawFrame>=100 then

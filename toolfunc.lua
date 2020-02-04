@@ -16,6 +16,9 @@ end
 function mStr(s,x,y)
 	gc.printf(s,x-320,y,640,"center")
 end
+function mDraw(s,x,y)
+	gc.draw(s,x-s:getWidth()*.5,y)
+end
 
 function getNewRow(val)
 	local t=rem(freeRow)
@@ -38,6 +41,15 @@ end
 --Single-usage funcs
 langName={"中文","全中文","English"}
 local langID={"chi","chi_full","eng"}
+local drawableTextLoad={
+	"next",
+	"hold",
+	"pause",
+	"custom",
+	"keyboard",
+	"joystick",
+	"setting2Help",
+}
 function swapLanguage(l)
 	text=require("language/"..langID[l])
 	Buttons.sel=nil
@@ -47,8 +59,6 @@ function swapLanguage(l)
 			B.t=text.ButtonText[S][N]
 		end
 	end
-	drawableText.next:set(text.next)
-	drawableText.hold:set(text.hold)
 	if royaleCtrlPad then royaleCtrlPad:release()end
 	gc.push("transform")
 	gc.origin()
@@ -63,7 +73,20 @@ function swapLanguage(l)
 		end
 		gc.setCanvas()
 	gc.pop()
+	for _,s in next,drawableTextLoad do
+		drawableText[s]:set(text[s])
+	end
 	collectgarbage()
+end
+function changeBlockSkin(n)
+	n=n-1
+	for i=1,13 do
+		gc.setCanvas(blockSkin[i])
+		gc.draw(blockImg,30-30*i,-30*n)
+		gc.setCanvas(blockSkinmini[i])
+		gc.draw(blockImg,6-6*i,-6*n,nil,.2)
+	end
+	gc.setCanvas()
 end
 
 local vibrateLevel={0,.02,.03,.04,.05,.06,.07,.08}
@@ -243,25 +266,6 @@ local dataOpt={
 	"spin_0","spin_1","spin_2","spin_3",
 	"b2b","b3b","pc",
 }
-local saveOpt={
-	"ghost","center",
-	"grid","swap",
-	"fxs","bg",
-
-	"das","arr",
-	"sddas","sdarr",
-
-	"lang",
-
-	"sfx","bgm",
-	"vib",
-	"fullscreen",
-	"bgblock",
-	"virtualkeyAlpha",
-	"virtualkeyIcon",
-	"virtualkeySwitch",
-	"frameMul",
-}
 function loadData()
 	userData:open("r")
 	--local t=splitS(love.math.decompress(userdata,"zlib"),"\r\n")
@@ -320,21 +324,6 @@ function loadSetting()
 						setting.keyMap[i][j]=v1[j]
 					end
 				end
-			elseif t=="keylib"then
-				v=splitS(v,"/")
-				for i=1,4 do
-					local v1=splitS(v[i],",")
-					for j=1,#v1 do
-						setting.keyLib[i][j]=toN(v1[j])
-					end
-					for j=1,#setting.keyLib[i]do
-						local v=setting.keyLib[i][j]
-						if int(v)~=v or v>=9 or v<=0 then
-							setting.keyLib[i]={i}
-							break
-						end
-					end
-				end
 			elseif t=="virtualkey"then
 				v=splitS(v,"/")
 				for i=1,10 do
@@ -358,10 +347,30 @@ function loadSetting()
 				setting[t]=v=="true"
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[123]"))or 1
+			elseif t=="skin"then
+				setting[t]=toN(v:match("[1234]"))or 1
 			end
 		end
 	end
 end
+local saveOpt={
+	"ghost","center",
+	"grid","swap",
+	"fxs","bg",
+	"das","arr",
+	"sddas","sdarr",
+	"lang",
+
+	"sfx","bgm",
+	"vib",
+	"fullscreen",
+	"bgblock",
+	"skin",
+	"virtualkeyAlpha",
+	"virtualkeyIcon",
+	"virtualkeySwitch",
+	"frameMul",
+}
 function saveSetting()
 	local vk={}
 	for i=1,10 do
@@ -374,13 +383,8 @@ function saveSetting()
 	for i=1,16 do
 		map[i]=concat(setting.keyMap[i],",")
 	end
-	local lib={}
-	for i=1,4 do
-		lib[i]=concat(setting.keyLib[i],",")
-	end
 	local t={
 		"keymap="..toS(concat(map,"/")),
-		"keylib="..toS(concat(lib,"/")),
 		"virtualkey="..toS(concat(vk,"/")),
 	}
 	for i=1,#saveOpt do

@@ -52,7 +52,6 @@ end
 function Tmr.play(dt)
 	frame=frame+1
 	stat.time=stat.time+dt
-
 	for i=#FX.beam,1,-1 do
 		local b=FX.beam[i]
 		b.t=b.t+1
@@ -93,8 +92,18 @@ function Tmr.play(dt)
 				P.moving=0
 			end
 		end
+		if restartCount>0 then restartCount=restartCount-1 end
 		return
-	end--Counting,include pre-das,directy RETURN
+	elseif players[1].keyPressing[10]then
+		restartCount=restartCount+1
+		if restartCount>17 then
+			clearTask("play")
+			updateStat()
+			resetGameData()
+		end
+	elseif restartCount>0 then
+		restartCount=max(restartCount-2,0)
+	end--Counting,include pre-das,directy RETURN,or restart counting
 	for p=1,#players do
 		P=players[p]
 		if P.timing then P.stat.time=P.stat.time+dt end

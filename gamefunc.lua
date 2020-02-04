@@ -1079,23 +1079,28 @@ act={
 					P.swappingAtkMode=30
 				end
 			end
-			if curMode.id=="custom"and curMode.lv==2 and#P.field>0 then
-				for y=1,#P.field do
-					for x=1,10 do
-						local a,b=preField[y][x],P.field[y][x]
-						if a==0 and b>0 or a<8 and a~=b or a>7 and b==0 then return end
+			if curMode.id=="custom"and curMode.lv==2 then
+				if #P.field>=preField.h then
+					for y=1,preField.h do
+						for x=1,10 do
+							local a,b=preField[y][x],P.field[y][x]
+							if a==0 and b>0 or a<8 and a~=b or a>7 and b==0 then
+								P.modeData.event=1-P.modeData.event
+								return
+							end
+						end
 					end
+					P.modeData.event=1
+					Event_gameover.win()
+				else
+					P.modeData.event=1-P.modeData.event
 				end
-				Event_gameover.win()
 			end
 		end
 	end,
 	restart=function()
-		clearTask("play")
-		if frame>=180 then
-			updateStat()
-			resetGameData()
-		else
+		if frame<180 then
+			clearTask("play")
 			resetPartGameData()
 		end
 	end,
@@ -1109,7 +1114,7 @@ act={
 		local x0=cx
 		::L::if not ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
-			createShade(P.curX+1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			createShade(P.curX+1,P.curY+P.r-1,P.curX+1,P.curY)
 			freshgho()
 			goto L
 		end
@@ -1119,7 +1124,7 @@ act={
 		local x0=cx
 		::L::if not ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
-			createShade(P.curX-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			createShade(P.curX+P.c-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 			freshgho()
 			goto L
 		end

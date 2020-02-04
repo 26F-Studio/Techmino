@@ -37,13 +37,16 @@ local modeLevelColor={
 	["400L"]=color.red,
 	["1000L"]=color.darkRed,
 }
-local dataOptL={
-	"key","rotate","hold","piece","row",
-	"atk","send","recv","pend",
-}
+local dataOptL={"key","rotate","hold",nil,nil,nil,"send","recv","pend"}
 local function dataOpt(i)
 	local stat=players[1].stat
-	if i<10 then
+	if i==4 then
+		return stat.piece.."  "..(int(stat.piece/stat.time*100)*.01).."PPS"
+	elseif i==5 then
+		return stat.row.."  "..(int(stat.row/stat.time*600)*.1).."LPM"
+	elseif i==6 then
+		return stat.atk.."  "..(int(stat.atk/stat.time*600)*.1).."APM"
+	elseif i<10 then
 		return stat[dataOptL[i]]
 	elseif i==10 then
 		return stat.clear_1.."/"..stat.clear_2.."/"..stat.clear_3.."/"..stat.clear_4
@@ -168,39 +171,6 @@ FX={
 	end,
 }
 
-function updateButton()
-	for k,B in next,Buttons[scene]do
-		local t=B==Buttons.sel and .4 or 0
-		B.alpha=abs(B.alpha-t)>.02 and(B.alpha+(B.alpha<t and .02 or -.02))or t
-		if B.alpha>t then B.alpha=B.alpha-.02 elseif B.alpha<t then B.alpha=B.alpha+.02 end
-	end
-end
-function drawButton()
-	for k,B in next,Buttons[scene]do
-		if not(B.hide and B.hide())then
-			local C=B.rgb or color.white
-			gc.setColor(C[1],C[2],C[3],B.alpha)
-			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
-			gc.setColor(C)
-			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
-			gc.setColor(C[1],C[2],C[3],.3)
-			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
-			local t=B.t
-			local y0
-			if t then
-				if type(t)=="function"then t=t()end
-				setFont(B.f or 40)
-				y0=B.y-currentFont*.64
-				gc.printf(t,B.x-201,y0+2,400,"center")
-				gc.printf(t,B.x-199,y0+2,400,"center")
-				gc.printf(t,B.x-201,y0,400,"center")
-				gc.printf(t,B.x-199,y0,400,"center")
-				gc.setColor(C)
-				mStr(t,B.x,y0+1)
-			end
-		end
-	end
-end
 function drawDial(x,y,speed)
 	gc.setColor(1,1,1)
 	mStr(int(speed),x,y-18)
@@ -281,13 +251,19 @@ function Pnt.BG.game4()
 end
 function Pnt.BG.game5()
 	local t=2.5-Timer()%20%6%2.5
-	if t<.5 then
-		gc.clear(t,t,t)
-	else
-		gc.clear(0,0,0)
+	if t<.5 then gc.clear(t,t,t)
+	else gc.clear(0,0,0)
 	end
 end
+local scs={{1,2},nil,nil,nil,nil,{1.5,1.5},{0.5,2.5}}for i=2,5 do scs[i]=scs[1]end
 function Pnt.BG.game6()
+	local t=1.2-Timer()%10%3%1.2
+	if t<.5 then gc.clear(t,t,t)
+	else gc.clear(0,0,0)
+	end
+	gc.setColor(.3,.3,.3)
+	local r=7-int(Timer()*.5)%7
+	gc.draw(mouseBlock[r],640,360,Timer()%pi*6,400,400,scs[r][2]-.5,#blocks[r][0]-scs[r][1]+.5)
 end
 function Pnt.BG.rgb()
 	gc.clear(
@@ -345,7 +321,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.17",290,140)
+	gc.print("Alpha V0.7.18",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -370,9 +346,8 @@ end
 function Pnt.custom()
 	gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
 	gc.rectangle("fill",25,95+40*optSel,465,40)
-	setFont(80)
-	gc.setColor(.8,.8,.8)gc.print(text.custom,20,20)
-	gc.setColor(1,1,1)gc.print(text.custom,22,23)
+	gc.setColor(.8,.8,.8)gc.draw(drawableText.custom,20,20)
+	gc.setColor(1,1,1)gc.draw(drawableText.custom,22,23)
 	setFont(40)
 	for i=1,#customID do
 		local k=customID[i]
@@ -441,8 +416,10 @@ function Pnt.play()
 			end--Field
 			gc.setScissor()
 			gc.translate(0,-P.fieldBeneath*.2)
-			gc.setLineWidth(2)
-			gc.setColor(frameColor[P.strength])gc.rectangle("line",-1,-1,62,122)--Draw boarder
+			if P.alive then
+				gc.setLineWidth(2)
+				gc.setColor(frameColor[P.strength])gc.rectangle("line",-1,-1,62,122)
+			end--Draw boarder
 			if modeEnv.royaleMode then
 				gc.setColor(1,1,1)
 				for i=1,P.strength do
@@ -465,7 +442,7 @@ function Pnt.play()
 			gc.translate(P.x,P.y)gc.scale(P.size)--Position
 			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Background
 			gc.setLineWidth(7)
-			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690,5)--Big frame
+			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690,3)--Big frame
 			gc.translate(150,70)
 			if P.gameEnv.grid then
 				gc.setLineWidth(1)
@@ -585,7 +562,7 @@ function Pnt.play()
 
 			if P.gameEnv.hold then
 				gc.setColor(1,1,1)
-				gc.draw(drawableText.hold,-124,-10)
+				mDraw(drawableText.hold,-82,-10)
 				for i=1,#P.hold.bk do
 					for j=1,#P.hold.bk[1] do
 						if P.hold.bk[i][j]then
@@ -594,7 +571,7 @@ function Pnt.play()
 					end
 				end
 			end--Hold
-			gc.draw(drawableText.next,340,-10)
+			mDraw(drawableText.next,381,-10)
 			local N=1
 			::L::
 				local b,c=P.next[N].bk,P.next[N].color
@@ -675,6 +652,10 @@ function Pnt.play()
 			end
 		end
 	end
+	if restartCount>0 then
+		gc.setColor(0,0,0,restartCount/17)
+		gc.rectangle("fill",0,0,1280,720)
+	end
 end
 function Pnt.pause()
 	Pnt.play()
@@ -682,23 +663,23 @@ function Pnt.pause()
 	gc.rectangle("fill",0,0,1280,720)
 	gc.setColor(1,1,1,pauseTimer*.02)
 	setFont(30)
-	gc.print(text.pauseTime..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",40,280)
-	setFont(40)
+	if pauseCount>0 then
+		gc.print(text.pauseTime..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
+	end
 	for i=1,7 do
-		gc.print(text.stat[i+3],40,40*i+285)
-		gc.print(dataOpt(i),400,40*i+285)
+		gc.print(text.stat[i+3],110,30*i+270)
+		gc.print(dataOpt(i),305,30*i+270)
 	end
 	for i=8,14 do
-		gc.print(text.stat[i+3],810,40*i+5)
-		gc.print(dataOpt(i),1060,40*i+5)
+		gc.print(text.stat[i+3],860,30*i+60)
+		gc.print(dataOpt(i),1000,30*i+60)
 	end
+	setFont(40)
 	if system~="Android"then
 		mStr(text.space.."/"..text.enter,640,300)
 		gc.print("ESC",610,598)
 	end
-	gc.setColor(1,1,1)
-	setFont(120)
-	mStr(gamefinished and text.finish or text.pause,640,140-12*(5-pauseTimer*.1)^2)
+	mDraw(gamefinished and drawableText.finish or drawableText.pause,640,140-12*(5-pauseTimer*.1)^2)
 end
 function Pnt.setting()
 	gc.setColor(1,1,1)
@@ -708,6 +689,7 @@ function Pnt.setting()
 	setFont(18)
 	mStr(text.softdropdas..setting.sddas,290,361)
 	mStr(text.softdroparr..setting.sdarr,506,361)
+	gc.draw(blockSkin[7-int(Timer()*2)%7],820,480,nil,2)
 end
 function Pnt.setting2()
 	local a=.3+sin(Timer()*15)*.1
@@ -737,11 +719,12 @@ function Pnt.setting2()
 		gc.line(200*x-160,30,200*x-160,550)
 	end
 	gc.line(40,550,640,550)
-	mStr(text.keyboard,340,0)
-	mStr(text.joystick,540,0)
-	gc.print(text.setting2Help,50,620)
+	mDraw(drawableText.keyboard,340,0)
+	mDraw(drawableText.joystick,540,0)
+	gc.draw(drawableText.setting2Help,50,620)
 	setFont(40)
-	gc.print("< P"..curBoard.."/P8 >",430,570)
+	gc.print("P"..int(curBoard*.5+.5).."/P4",420,560)
+	gc.print(curBoard.."/8",580,560)
 end
 function Pnt.setting3()
 	VirtualkeyPreview()
@@ -764,6 +747,9 @@ function Pnt.help()
 		gc.printf(text.help[i],140,15+43*i,1000,"center")
 	end
 	gc.draw(titleImage,180,600,.2,.7+.05*sin(Timer()*2),nil,140,100)
+	gc.setLineWidth(5)
+	gc.rectangle("line",17,17,260,260)
+	gc.rectangle("line",1077,17,186,186)
 	gc.draw(payCode,20,20)
 	gc.draw(groupCode,1080,20)
 	gc.setColor(1,1,1,sin(Timer()*10)*.5+.5)

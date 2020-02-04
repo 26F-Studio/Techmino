@@ -83,22 +83,16 @@ loadmode={
 	pcchallenge=function()
 		createPlayer(1,340,15)
 	end,
-	techmino41=function()
-		createPlayer(1,340,15)--Player
+	techmino49=function()
+		createPlayer(1,340,15)
 		if curMode.lv==5 then players[1].gameEnv.drop=15 end
-		local n,min,max=2
-		if curMode.lv==1 then min,max=5,30
-		elseif curMode.lv==2 then min,max=3,25
-		elseif curMode.lv==3 then min,max=2,20
-		elseif curMode.lv==4 then min,max=2,10
-		elseif curMode.lv==5 then min,max=1,6
-		end
-		for i=1,4 do for j=1,5 do
-			createPlayer(n,77*i-55,140*j-125,.2,rnd(min,max))
+		local n,min,max=2,curMode.lv,35-6*curMode.lv
+		for i=1,4 do for j=1,6 do
+			createPlayer(n,78*i-54,115*j-98,.18,rnd(min,max))
 			n=n+1
 		end end
-		for i=9,12 do for j=1,5 do
-			createPlayer(n,77*i+275,140*j-125,.2,rnd(min,max))
+		for i=9,12 do for j=1,6 do
+			createPlayer(n,78*i+267,115*j-98,.18,rnd(min,max))
 			n=n+1
 		end end
 		--AIs
@@ -156,22 +150,26 @@ loadmode={
 			modeEnv.target=nil
 			createPlayer(2,965,360,.5,modeEnv.opponent)
 		end
-		if curMode.lv==1 then
-			local h=20
-			::R::
-				for i=1,10 do
-					if preField[h][i]>0 then goto L end
+		preField.h=20
+		::R::
+			for i=1,10 do
+				if preField[preField.h][i]>0 then
+					if curMode.lv==1 then
+						goto L
+					elseif curMode.lv==2 then
+						return
+					end
 				end
-				h=h-1
-			if h>0 then goto R end
-			::L::
-			for _,P in next,players.alive do
-				local t=P.showTime*3
-				for y=1,h do
-					P.field[y]=getNewRow(0)
-					P.visTime[y]=getNewRow(t)
-					for x=1,10 do P.field[y][x]=preField[y][x]end
-				end
+			end
+			preField.h=preField.h-1
+		if preField.h>0 then goto R end
+		::L::
+		for _,P in next,players.alive do
+			local t=P.showTime*3
+			for y=1,preField.h do
+				P.field[y]=getNewRow(0)
+				P.visTime[y]=getNewRow(t)
+				for x=1,10 do P.field[y][x]=preField[y][x]end
 			end
 		end
 	end,
@@ -249,6 +247,14 @@ mesDisp={
 		setFont(30)
 		mStr("Wave",-82,375)
 	end,
+	tech=function()
+		setFont(50)
+		mStr(P.stat.atk,-82,310)
+		mStr(format("%.2f",2.5*P.stat.atk/P.stat.piece),-82,420)
+		setFont(20)
+		mStr("Attack",-82,363)
+		mStr("Efficiency",-82,475)
+	end,
 	pctrain=function()
 		setFont(22)
 		mStr("Perfect Clear",-82,412)
@@ -263,9 +269,9 @@ mesDisp={
 		setFont(50)
 		mStr(max(100-P.stat.row,0),-82,250)
 	end,
-	techmino41=function()
+	techmino49=function()
 		setFont(40)
-		mStr(#players.alive.."/41",-82,175)
+		mStr(#players.alive.."/49",-82,175)
 		mStr(P.ko,-70,215)
 		setFont(25)
 		gc.print("KO",-127,225)
@@ -302,9 +308,10 @@ mesDisp={
 			setFont(75)
 			mStr(max(P.gameEnv.target-P.stat.row,0),-82,280)
 		end
-		if curMode.lv==2 and(P.keyPressing[9]or frame<180)then
+		if curMode.lv==2 and P.modeData.event==0 then
+			gc.setColor(1,1,1,.6)
 			gc.setLineWidth(3)
-			for y=1,20 do for x=1,10 do
+			for y=1,preField.h do for x=1,10 do
 				if preField[y][x]>0 then
 					gc.setColor(blockColor[preField[y][x]])
 					gc.rectangle("line",30*x-25,605-30*y,20,20)
@@ -363,6 +370,7 @@ Event={
 		if int(t*.01)>P.modeData.event then
 			P.modeData.event=P.modeData.event+1
 			if P.modeData.event==5 then
+				curBG="game5"
 				P.modeData.event=4
 				P.modeData.point=500
 				Event_gameover.win()
@@ -1008,7 +1016,7 @@ defaultModeEnv={
 			bg="rgb",bgm="infinite",
 		},
 	},
-	techmino41={
+	techmino49={
 		{
 			fall=20,
 			royaleMode=true,
