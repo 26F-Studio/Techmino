@@ -1,4 +1,14 @@
-gc,kb,ms,tc,tm,fs,wd,sys=love.graphics,love.keyboard,love.mouse,love.touch,love.timer,love.filesystem,love.window,love.system
+lib={
+	gc=love.graphics,
+	kb=love.keyboard,
+	ms=love.mouse,
+	tc=love.touch,
+	tm=love.timer,
+	fs=love.filesystem,
+	wd=love.window,
+	mt=love.math,
+	sys=love.system,
+}for k,v in pairs(lib)do _G[k]=v end lib=nil
 toN,toS=tonumber,tostring
 int,ceil,abs,rnd,max,min,sin,cos,atan,pi=math.floor,math.ceil,math.abs,math.random,math.max,math.min,math.sin,math.cos,math.atan,math.pi
 sub,gsub,find,format,byte,char=string.sub,string.gsub,string.find,string.format,string.byte,string.char
@@ -8,6 +18,7 @@ null=function()end
 ww,wh=gc.getWidth(),gc.getHeight()
 Timer=tm.getTime--Easy&Quick to get time!
 mx,my,mouseShow=-20,-20,false
+xOy=love.math.newTransform()
 focus=true
 
 system=sys.getOS()
@@ -74,17 +85,15 @@ customSel={
 	freshLimit=3,
 	opponent=1,
 }
-randomMethod={
+freshMethod={
 	function()
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
 		if #P.nxt<6 then
 			local bag={1,2,3,4,5,6,7}
 			for i=1,7 do
 				ins(P.nxt,rem(bag,rnd(8-i)))
+				ins(P.nb,blocks[P.nxt[#P.nxt]][0])
 			end
-		end
-		for i=6,#P.nxt do
-			P.nb[i]=blocks[P.nxt[i]][0]
 		end
 	end,
 	function()
@@ -100,6 +109,38 @@ randomMethod={
 		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
 		repeat i=rnd(7)until i~=P.nxt[5]
 		P.nxt[6],P.nb[6]=i,blocks[i][0]
+	end,
+	function()
+		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+		if #P.nxt<6 then
+			local bag={1,2,3,4,5,6,7}
+			for i=1,7 do
+				ins(P.nxt,rem(bag,rnd(8-i)))
+				ins(P.nb,blocks[P.nxt[#P.nxt]][0])
+			end
+			if rnd()>.4 then
+				ins(P.nxt,5)
+				ins(P.nb,blocks[5][0])
+			end
+		end
+	end,
+	function()
+		P.bn,P.cb=rem(P.nxt,1),rem(P.nb,1)
+		if P.cstat.piece%4==0 then
+			local r=rnd(#PClist)
+			local P=players[1]
+			local f=P.cstat.pc%2==0
+			for i=1,4 do
+				local b=PClist[r][i]
+				if f then
+					if b<3 then b=3-b
+					elseif b<5 then b=7-b
+					end
+				end
+				ins(P.nxt,b)
+				ins(P.nb,blocks[b][0])
+			end
+		end
 	end,
 }
 loadmode={
@@ -176,39 +217,86 @@ loadmode={
 		curBG="game2"
 		BGM("push")
 	end,
-	puzzle=function()
+	tsd=function()
 		modeEnv={
-			hold=false,
-			das=0,
-			arr=0,
-			_20G=true,
-			drop=0,
-			lock=1e99,
-			fall=10,
-			target=40,
-			reach=Event.gameover.win,
+			drop=60,
+			lock=60,
+			sequence=4,
+			target=1,
+			reach=Event.tsd_reach,
+			freshLimit=10,
 		}
 		createPlayer(1,340,15)
-		curBG="glow"
-		BGM("way")
+		curBG="matrix"
+		BGM("infinite")
+	end,
+	pc=function()
+		modeEnv={
+			next=4,
+			hold=false,
+			drop=60,
+			lock=60,
+			fall=20,
+			sequence=5,
+			target=0,
+			reach=Event.newPC,
+			freshLimit=5,
+		}
+		createPlayer(1,340,15)
+		local r=rnd(#PClist)
+		local P=players[1]
+		for i=1,4 do
+			local b=PClist[r][i]
+			ins(P.nxt,b)
+			ins(P.nb,blocks[b][0])
+		end
+		Event.newPC()
+		curBG="matrix"
+		BGM("infinite")
 	end,
 	techmino41=function()
 		modeEnv={
 			freshLimit=15,
+			royaleMode=true,
+			royale={2,5,10,20},
 		}
-		royaleMode=true
 		createPlayer(1,340,15)--Player
 
 		local n=2
 		for i=1,4 do
 			for j=1,5 do
-				createPlayer(n,75*i-48,142*j-130,.19,1+rnd(14))
+				createPlayer(n,75*i-48,142*j-130,.19,rnd(15))
 				n=n+1
 			end
 		end
 		for i=9,12 do
 			for j=1,5 do
-				createPlayer(n,75*i+292,142*j-130,.19,1+rnd(14))
+				createPlayer(n,75*i+292,142*j-130,.19,rnd(15))
+				n=n+1
+			end
+		end--AIs
+
+		curBG="game3"
+		BGM("race")
+	end,
+	techmino99=function()
+		modeEnv={
+			freshLimit=15,
+			royaleMode=true,
+			royale={2,6,14,30},
+		}
+		createPlayer(1,340,15)--Player
+
+		local n=2
+		for i=1,7 do
+			for j=1,7 do
+				createPlayer(n,46*i-36,97*j-72,.135,rnd()<.1 and rnd(4)or rnd(10,20))
+				n=n+1
+			end
+		end
+		for i=15,21 do
+			for j=1,7 do
+				createPlayer(n,46*i+264,97*j-72,.135,rnd()<.1 and rnd(4)or rnd(10,20))
 				n=n+1
 			end
 		end--AIs
@@ -237,17 +325,6 @@ loadmode={
 
 		curBG="glow"
 		BGM("push")
-	end,
-	asymsolo=function()
-		modeEnv={
-			visible=2,
-			freshLimit=15,
-		}
-		createPlayer(1,20,15)--Player
-		createPlayer(2,660,85,.9,2)--AI
-
-		curBG="game2"
-		BGM("race")
 	end,
 	p2=function()
 		modeEnv={
@@ -326,10 +403,13 @@ Event={
 			P.waiting=1e99
 			P.b2b=0
 			showText("LOSE","appear",100,nil,true)
-			if royaleMode and P.lastRecv then
+			if modeEnv.royaleMode and P.lastRecv then
 				throwBadge(P.id,P.lastRecv,P.badge)
 				players[P.lastRecv].badge=players[P.lastRecv].badge+P.badge+1
-				players[P.lastRecv].strength=min(int(players[P.lastRecv].badge*.2),4)
+				local atker=players[P.lastRecv]
+				while atker.strength<4 and atker.badge>modeEnv.royale[atker.strength+1]do
+					atker.strength=atker.strength+1
+				end
 			end
 			for i=1,#players.alive do
 				if players.alive[i]==P.id then
@@ -354,13 +434,14 @@ Event={
 		end,
 	},
 	marathon_reach=function()
-		local s=int(P.cstat.row*.1)
+		local s=int(cstat.row*.1)
 		if s>=20 then
 			Event.gameover.win()
 		else
 			gameEnv.drop=marathon_drop[s]
 			if s==18 then gameEnv._20G=true end
 			gameEnv.target=s*10+10
+			SFX("reach")
 		end
 	end,
 	death_reach=function()
@@ -374,6 +455,32 @@ Event={
 			gameEnv.fall=death_fall[t]
 			showText("STAGE "..t,"fly",80,-120)
 			SFX("reach")
+		end
+	end,
+	tsd_reach=function()
+		P.gameEnv.target=P.gameEnv.target+2
+		if not(#clearing==2 and bn==5 and P.spinLast)then
+			Event.gameover.lose()
+		end
+	end,
+	newPC=function()
+		local P=players[1]
+		if #P.field==#P.clearing then
+			P.counter=P.cstat.piece==0 and 19 or 0
+			ins(P.task,Event.task.PC)
+			local s=P.cstat.pc*.5
+			if int(s)==s and s>0 then
+				P.gameEnv.drop=pc_drop[s]or 0
+				P.gameEnv.lock=pc_lock[s]or 10
+				P.gameEnv.fall=pc_fall[s]or 5
+				if s==15 then
+					showText("Max speed","appear",80,-120)
+				else
+					showText("Speed up","appear",30,-130)
+				end
+			end
+		else
+			Event.gameover.lose()
 		end
 	end,
 	task={
@@ -419,6 +526,30 @@ Event={
 				end
 			end
 		end,
+		garbagepush=function()
+			
+		end,
+		PC=function()
+			local P=players[1]
+			P.counter=P.counter+1
+			if P.counter==21 then
+				gameEnv.target=gameEnv.target+4
+				local t=P.cstat.pc%2
+				for i=1,4 do
+					local r=getNewRow()
+					for j=1,10 do
+						r[j]=PCbase[4*t+i][j]
+					end
+					ins(P.field,1,r)
+					ins(P.visTime,1,getNewRow(P.showTime))
+				end
+				P.fieldBeneath=P.fieldBeneath+120
+				-- P.cy=P.cy+4
+				P.y_img=P.y_img+4
+				freshgho()
+				return true
+			end
+		end,
 	},
 }
 mesDisp={
@@ -439,11 +570,17 @@ mesDisp={
 		gc.print("Attack",-100,360)
 		gc.print("Efficiency",-108,472)
 	end,
+	solo=function()
+		setFont(50)
+		mStr(cstat.atk,-75,320)
+		setFont(20)
+		gc.print("Attack",-100,360)
+	end,
 	gmroll=function()
-		setFont(30)
-		gc.print("Techrash",-130,390)
+		setFont(25)
+		gc.print("Techrash",-120,420)
 		setFont(80)
-		mStr(cstat.techrash,-75,420)
+		mStr(cstat.techrash,-75,350)
 	end,
 	marathon=function()
 		setFont(50)
@@ -457,9 +594,17 @@ mesDisp={
 		mStr(gameEnv.target,-75,380)
 		gc.rectangle("fill",-120,376,90,4)
 	end,
-	puzzle=function()
-		setFont(75)
-		mStr(max(40-P.cstat.row,0),-75,280)
+	tsd=function()
+		setFont(35)
+		gc.print("TSD",-105,405)
+		setFont(80)
+		mStr((P.gameEnv.target-1)*.5,-75,330)
+	end,
+	pc=function()
+		setFont(25)
+		gc.print("Perfect Clear",-138,400)
+		setFont(80)
+		mStr(cstat.pc,-75,330)
 	end,
 	techmino41=function()
 		gc.draw(badgeIcon,-120,150,nil,1.5)
@@ -471,23 +616,23 @@ mesDisp={
 		gc.print("Attack",-100,360)
 		gc.print("Remain",-105,472)
 	end,
+	techmino99=function()
+		gc.draw(badgeIcon,-120,150,nil,1.5)
+		setFont(50)
+		gc.print(badge,-65,150)
+		mStr(cstat.atk,-75,320)
+		mStr(#players.alive,-75,430)
+		setFont(20)
+		gc.print("Attack",-100,360)
+		gc.print("Remain",-105,472)
+	end,
 	blind=function()
-		setFont(30)
-		gc.print("Rows",-110,220)
-		gc.print("Techrash",-130,390)
+		setFont(25)
+		gc.print("Rows",-100,300)
+		gc.print("Techrash",-120,420)
 		setFont(80)
-		mStr(P.cstat.row,-75,250)
-		mStr(cstat.techrash,-75,420)
-	end,
-	solo=function()
-		gc.print("Attack",-128,365)
-		setFont(80)
-		mStr(cstat.atk,-75,300)
-	end,
-	asymsolo=function()
-		gc.print("Attack",-128,365)
-		setFont(80)
-		mStr(cstat.atk,-75,300)
+		mStr(P.cstat.row,-75,230)
+		mStr(cstat.techrash,-75,350)
 	end,
 	custom=function()
 		if gameEnv.target<1e4 then
@@ -559,9 +704,8 @@ stat={
 	spin=0,
 }
 --User Data&User Setting
---------------------------------Wrning!_G __index Ply[n] when chng any playr's elments!
+--------------------------------Wrning!_G __index Plyr[n] when chng any playr's val!
 require("toolfunc")
-require("sysfunc")
 require("gamefunc")
 require("list")
 require("texture")

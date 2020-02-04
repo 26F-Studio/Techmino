@@ -1,12 +1,12 @@
 --[[
-HighestBlock
-HorizontalTransitions
-VerticalTransitions
-BlockedCells
-Wells
-FilledLines
-TechrashShape
-BlockedWells;
+	HighestBlock
+	HorizontalTransitions
+	VerticalTransitions
+	BlockedCells
+	Wells
+	FilledLines
+	4deepShape
+	BlockedWells;
 ]]
 dirCount={1,1,3,3,3,0,1}
 spinOffset={
@@ -18,7 +18,8 @@ spinOffset={
 	{0,0,0},--O
 	{2,0,1},--I
 }for i=1,7 do spinOffset[i][0]=0 end
---[[controlname:
+--[[
+	controlname:
 	1~5:mL,mR,rR,rL,rF,
 	6~9:hD,sD,H,R,
 	10~12:LL,RR,DD
@@ -45,6 +46,7 @@ FCL={
 FCL[2]=FCL[1]
 FCL[4]=FCL[3]
 FCL[5]=FCL[3]
+clearScore={[0]=0,0,10,30,100}
 function ifoverlapAI(f,bk,x,y)
 	if y<1 then return true end
 	if y>#f then return nil end
@@ -63,7 +65,8 @@ function resetField(f0,f,start)
 		end
 	end
 end
-function getScore(field,cb,cx,cy)
+function getScore(field,bn,cb,cx,cy)
+	local score=0
 	local highest=0
 	local height=getNewRow()
 	local rough=0
@@ -94,20 +97,28 @@ function getScore(field,cb,cx,cy)
 			end
 		end
 	end
+	local h1,mh1=0,0
 	for x=1,9 do
 		local dh=abs(height[x]-height[x])
 		if dh>1 then
 			rough=rough+min(dh^1.5,10)
+		elseif dh==1 then
+			h1=h1+1
+			if h1>mh1 then mh1=h1 end
+		else
+			h1=0
 		end
 	end
 	ins(freeRow,height)
-	return 
-	-highest*5
-	-rough*20
-	-cy*20
-	-#cb*10
-	+clear^2*4
-	-hole*25
+	score=
+		-cy*20
+		-rough*20
+		-#cb*10
+		+clearScore[clear]
+		-hole*30
+	if #field>6 then score=score-highest*5 end
+	if mh1>3 then score=score-50-mh1*40 end
+	return score
 end
 function AI_getControls(ctrl)
 	local Tfield={}--test field
@@ -137,7 +148,7 @@ function AI_getControls(ctrl)
 						end
 					end
 				end--simulate lock
-				local score=getScore(Tfield,cb,cx,cy)
+				local score=getScore(Tfield,bn,cb,cx,cy)
 				if score>best.score then
 					best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
 				end

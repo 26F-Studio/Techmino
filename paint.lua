@@ -193,7 +193,8 @@ end
 function Pnt.BG.matrix()
 	for i=0,15 do
 		for j=0,8 do
-			local t=sin(Timer()*((2.468*i-1.357*j)%3))*.3
+			-- local t=sin(Timer()*((2.468*i-1.357*j)%3))*.3
+			local t=(sin((mt.noise(i,j)+2)*Timer())+1)*.2
 			gc.setColor(t,t,t)
 			gc.rectangle("fill",80*i,80*j,80,80)
 		end
@@ -214,13 +215,14 @@ end
 function Pnt.main()
 	gc.setColor(1,1,1)
 	setFont(30)
-	gc.print("Alpha V0.7.1",370,150)
+	gc.print("Alpha V0.7.2",370,150)
 	gc.print(system,530,110)
 	gc.draw(titleImage,30,30)
 end
 function Pnt.mode()
 	setFont(30)
-	mStr(modeInfo[modeID[modeSel]],270,300)
+	gc.setColor(color.white)
+	mStr(modeInfo[modeID[modeSel]],270,305)
 	setFont(80)
 	gc.setColor(color.grey)
 	mStr(modeName[modeSel],643,283)
@@ -283,31 +285,6 @@ function Pnt.play()
 				gc.setColor(1,1,1,min(P.counter,60)*.01)
 				setFont(100)
 				mStr(P.result,150,250)
-			else
-				local h=0
-				for i=1,#atkBuffer do
-					local a=atkBuffer[i]
-					local bar=a.amount*30
-					if not a.sent then
-						if a.countdown>0 then
-							gc.setColor(attackColor[a.lv][1])
-							gc.rectangle("fill",315,600-h,8,-bar+5)
-							gc.setColor(attackColor[a.lv][2])
-							gc.rectangle("fill",315,600-h+(-bar+5),8,-(-bar+5)*(1-a.countdown/a.cd0))
-							--Timing
-						else
-							attackColor.animate[a.lv]((sin((Timer()-i)*20)+1)*.5)
-							gc.rectangle("fill",315,600-h,8,-bar+5)
-							--Warning
-						end
-					end
-					h=h+bar
-					if h>600 then break end
-				end--Buffer line
-
-				gc.setColor(b2b<100 and color.white or b2b<=480 and color.lightRed or color.lightBlue)
-				gc.rectangle("fill",-15,600,10,-b2b)
-				--B2B bar
 			end
 			gc.pop()
 		else
@@ -394,12 +371,12 @@ function Pnt.play()
 				if h>600 then break end
 			end--Buffer line
 
-			gc.setColor(b2b<100 and color.white or b2b<=500 and color.lightRed or color.lightBlue)
+			gc.setColor(b2b<40 and color.white or b2b<=480 and color.lightRed or color.lightBlue)
 			gc.rectangle("fill",-17,600,10,-b2b1)
 			gc.setColor(color.red)
-			gc.rectangle("fill",-23,600-100,16,5)
+			gc.rectangle("fill",-23,600-40,16,5)
 			gc.setColor(color.blue)
-			gc.rectangle("fill",-23,600-500,16,5)
+			gc.rectangle("fill",-23,600-480,16,5)
 			--B2B bar
 
 			setFont(40)
@@ -415,7 +392,7 @@ function Pnt.play()
 				end
 			end--Hold
 			gc.print("Next",336,0)
-			for N=1,gameEnv.next do
+			for N=1,min(gameEnv.next,#nxt)do
 				local b=nb[N]
 				for i=1,#b do
 					for j=1,#b[1] do

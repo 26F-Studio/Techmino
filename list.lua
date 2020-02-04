@@ -1,3 +1,32 @@
+--[["four name"
+	Techrash
+	Techmino
+	Tequéno
+	Zestris
+	Quadruple
+	Tequeno
+	Techzino
+	Tectris
+]]
+PCbase={
+	{3,3,3,0,0,0,0,0,2,2},
+	{3,6,6,0,0,0,0,2,2,5},
+	{4,6,6,0,0,0,1,1,5,5},
+	{4,4,4,0,0,0,0,1,1,5},
+	{1,1,0,0,0,0,0,3,3,3},
+	{5,1,1,0,0,0,0,6,6,3},
+	{5,5,2,2,0,0,0,6,6,4},
+	{5,2,2,0,0,0,0,4,4,4},
+}
+PClist={--ZSLJTOI
+	{7,7,4,5},{7,7,6,4},{7,7,2,4},{7,7,1,3},{7,4,1,2},{7,3,5,7},{7,7,5,6},{7,7,5,2},
+	{7,5,4,3},{7,5,1,2},{7,1,4,2},{7,4,2,5},{7,6,4,5},{7,5,4,2},{7,5,6,4},{7,5,3,6},
+	{7,2,5,6},{7,2,1,3},{7,2,6,4},{7,5,2,7},{7,3,1,5},{7,3,2,5},{7,4,1,5},{7,4,2,5},
+	{7,7,3,6},{7,3,7,6},{7,3,6,2},{7,3,7,1},{7,6,4,2},{3,2,7,6},{7,5,3,4},{7,3,6,5},
+	{7,3,2,5},{7,4,6,5},{7,6,4,5},{7,5,2,3},{7,3,5,7},{7,3,2,5},{7,3,5,1},{7,5,2,3},
+	{3,6,2,5},{3,1,2,5},{3,5,1,2},{4,5,3,2},{4,2,6,5},{6,5,3,2},{1,4,2,5},{1,5,3,6},
+	{5,2,6,3},{5,2,1,3},{2,4,1,5},{2,4,5,1},{2,1,4,5},{2,5,4,3},{2,5,6,7},{7,5,4,2},
+}
 color={
 	red={1,0,0},
 	green={0,1,0},
@@ -112,8 +141,8 @@ prevMenu={
 	main="quit",
 }
 
-modeID={"sprint","marathon","zen","infinite","solo","death","blind","puzzle","techmino41","asymsolo","gmroll","p2","p3","p4"}
-modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","Blind","Puzzle","Techmino 41","Asymmetry solo","GM roll","2P","3P","4P"}
+modeID={"sprint","marathon","zen","infinite","solo","death","tsd","blind","pc","techmino41","techmino99","gmroll","p2","p3","p4"}
+modeName={"Sprint","Marathon","Zen","Infinite","1v1","Death","TSD-only","Blind","PC Puzzle","Techmino41","Techmino99","GM roll","2P","3P","4P"}
 modeInfo={
 	sprint="Clear 40 Lines",
 	marathon="Clear 200 Lines",
@@ -121,10 +150,11 @@ modeInfo={
 	infinite="Infinite game,infinite happiness",
 	solo="Beat AI",
 	death="Survive under terrible speed",
+	tsd="T-spin-double Only!",
 	blind="Invisible board!",
-	puzzle="Your keyboard broke",
+	pc="Make as much PCs as you can",
 	techmino41="Melee fight with 40 AIs",
-	asymsolo="             See-->",
+	techmino99="Melee fight with 98 AIs",
 	gmroll="Who want to be the grand master?",
 	p2="2 players game",
 	p3="3 players game",
@@ -189,6 +219,7 @@ actName_show={"Move Left:","Move Right:","Rotate Right:","Rotate Left:","Rotate 
 blockPos={4,4,4,4,4,5,4}
 renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
 renName={nil,nil,"3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB",}
+b2bPoint={50,90,150}
 b2bATK={3,5,8}
 
 spin_n={"spin_1","spin_2","spin_3"}
@@ -200,6 +231,9 @@ marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
 death_lock={10,9,9,8,8}
 death_wait={6,6,5,5,4}
 death_fall={10,9,8,7,6}
+pc_drop={50,40,30,22,16,12,10,8,6,5,4,3,2,1}
+pc_lock={50,40,32,25,20,17,15,12,10}
+pc_fall={18,16,14,12,10,9,8,7,6,5}
 snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"}
 snapLevelValue={1,10,20,40,60,80}
 
@@ -333,10 +367,10 @@ TRS={
 	[5]={
 		[01]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{-1,-1},{0,1}},
 		[10]={{0,0},{1,0},{1,-1},{0,2},{1,2},{0,-1},{1,1}},
-		[12]={{0,0},{1,0},{1,-1},{0,-1},{-1,-1},{0,2},{1,2}},
-		[21]={{0,0},{-1,0},{-1,1},{1,1},{0,-2},{-1,-2}},
-		[23]={{0,0},{1,0},{1,1},{-1,1},{0,-2},{1,-2}},
-		[32]={{0,0},{-1,0},{-1,-1},{0,-1},{1,-1},{0,2},{-1,2}},
+		[12]={{0,0},{1,0},{1,-1},{0,-1},{0,2},{1,2},{-1,-1}},
+		[21]={{0,0},{-1,0},{-1,1},{0,-2},{-1,-2},{1,1}},
+		[23]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{-1,1}},
+		[32]={{0,0},{-1,0},{-1,-1},{0,-1},{0,2},{-1,2},{1,-1}},
 		[30]={{0,0},{-1,0},{-1,-1},{0,2},{-1,2},{0,-1}},
 		[03]={{0,0},{1,0},{1,1},{0,-2},{1,-2},{0,1}},
 		[02]={{0,0},{-1,0},{1,0},{0,-1},{0,1}},
@@ -525,7 +559,7 @@ Text={
 		"Author:MrZ   E-mail:1046101471@qq.com",
 		"Programe:MrZ  Art:MrZ  Music:MrZ  SFX:MrZ",
 		"Tool used:VScode,GFIE,Beepbox,Goldwave",
-		"Special thanks:farter,teatube,flyz,and YOU!!",
+		"Special thanks:farter,teatube,flyz,t830,[all test staff] and YOU!!",
 		"Any bugs/suggestions to my E-mail.",
 	},
 }

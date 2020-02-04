@@ -1,6 +1,5 @@
 function resetGameData()
 	players={alive={}}
-	royaleMode=false
 	loadmode[gamemode]()
 
 	frame=0
@@ -18,7 +17,7 @@ function resetGameData()
 
 	freeRow={}
 	collectgarbage()
-	for i=1,50*#players do
+	for i=1,40*#players do
 		freeRow[i]={0,0,0,0,0,0,0,0,0,0}
 	end
 end
@@ -42,7 +41,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.control=false
 	P.timing=false
 	P.time=0
-	P.cstat={key=0,piece=0,row=0,atk=0,techrash=0}--Current gamestat
+	P.cstat={key=0,piece=0,row=0,atk=0,techrash=0,pc=0}--Current gamestat
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
@@ -67,14 +66,15 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
 	P.freshTime=0
 	P.lastSpin=false
+	if P.gameEnv.sequence<5 then
+		local bag1={1,2,3,4,5,6,7}
+		for i=1,7 do
+			P.nxt[i]=rem(bag1,rnd(#bag1))
+			P.nb[i]=blocks[P.nxt[i]][0]
+		end--First bag
+	end
 
-	local bag1={1,2,3,4,5,6,7}
-	for i=1,7 do
-		P.nxt[i]=rem(bag1,rnd(#bag1))
-		P.nb[i]=blocks[P.nxt[i]][0]
-	end--First bag
-
-	P.freshNext=randomMethod[P.gameEnv.sequence]
+	P.freshNext=freshMethod[P.gameEnv.sequence]
 	if P.gameEnv.sequence==1 then P.bag={}--Bag7
 	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.nxt[i+3]end--History4
 	elseif P.gameEnv.sequence==3 then--Pure random
@@ -237,7 +237,7 @@ function spin(d,ifpre)
     if bn==6 then
 		freshgho()--May cancel spinLast
 		freshLockDelay()
-		SFX(ifpre and"prerotate"or ifoverlap(cb,cx,cy+1)and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and"rotatekick"or"rotate")
+		SFX(ifpre and"prerotate"or"rotate")
 		if id==1 then
 			stat.rotate=stat.rotate+1
 		end
@@ -297,9 +297,9 @@ function hold(ifpre)
 	end
 end
 function drop()
-	if cy==y_img then
-		ins(dropTime,1,frame)rem(dropTime,11)--update speed dial
-		P.waiting=gameEnv.wait
+	if P.cy==P.y_img then
+		ins(P.dropTime,1,frame)rem(P.dropTime,11)--update speed dial
+		P.waiting=P.gameEnv.wait
 
 		local dospin=bn~=6 and ifoverlap(cb,cx-1,cy)and ifoverlap(cb,cx+1,cy)and ifoverlap(cb,cx,cy+1)and 1 or 0
 		if bn<6 and spinLast then
@@ -318,16 +318,16 @@ function drop()
 		if dospin==0 then dospin=false end
 		lock()
 		local cc,csend,exblock,sendTime=checkrow(cy,r),0,0,0--Currect clear&send&sendTime
-		local mini=bn~=7 and dospin==1 and cc<3 and cc<r
+		local mini=bn<6 and dospin==1 and cc<3 and cc<r
 
 		P.combo=P.combo+1--combo=0 is under
 		if cc==4 then
-			if b2b>500 then
+			if b2b>480 then
 				showText("Techrash B2B2B","fly",70)
 				csend=6
 				sendTime=80
 				exblock=exblock+1
-			elseif b2b>=100 then
+			elseif b2b>=30 then
 				showText("Techrash B2B","drive",70)
 				sendTime=70
 				csend=5
@@ -340,11 +340,11 @@ function drop()
 			P.cstat.techrash=P.cstat.techrash+1
 		elseif cc>0 then
 			if dospin then
-				if b2b>500 then
+				if b2b>480 then
 					showText(spinName[cc][bn].." B2B2B","spin",40)
 					csend=b2bATK[cc]+1
 					exblock=exblock+1
-				elseif b2b>=100 then
+				elseif b2b>=30 then
 					showText(spinName[cc][bn].." B2B","spin",40)
 					csend=b2bATK[cc]
 				else
@@ -354,17 +354,18 @@ function drop()
 				sendTime=20+csend*20
 				if mini then
 					showText("Mini","drive",40,10)
+					csend=ceil(csend*.5)
 					sendTime=sendTime+60
-					P.b2b=P.b2b+90+10*cc
+					P.b2b=P.b2b+b2bPoint[cc]*.8
 				else
-					P.b2b=P.b2b+70+30*cc
+					P.b2b=P.b2b+b2bPoint[cc]
 				end
 				SFX(spin_n[cc])
 				if id==1 then
 					stat.spin=stat.spin+1
 				end
 			elseif #clearing<#field then
-				P.b2b=P.b2b-300
+				P.b2b=P.b2b-150-cc*50
 				showText(clearName[cc],"appear",50)
 				csend=cc-1
 				sendTime=20+csend*20
@@ -374,19 +375,20 @@ function drop()
 			if dospin then
 				showText(spinName[0][bn],"appear",50)
 				SFX("spin_0")
-				P.b2b=b2b+30
+				P.b2b=P.b2b+15
 			end
 		end
 
 		if cc>0 and #clearing==#field then
 			showText("Perfect Clear","flicker",70,-80)
-			csend=csend+5
+			csend=csend+min(6+P.cstat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+30
 			SFX("perfectclear")
 			if cstat.piece>10 then
-				P.b2b=600
+				P.b2b=300
 			end
+			P.cstat.pc=P.cstat.pc+1
 		end
 
 		csend=csend+(renATK[combo]or 4)
@@ -433,10 +435,8 @@ function drop()
 				end
 			end
 		elseif cc==0 then
-			if P.b2b>450 then
-				P.b2b=b2b-10
-			elseif P.b2b>100 then
-				P.b2b=max(b2b-6,100)
+			if P.b2b>480 then
+				P.b2b=max(P.b2b-40,480)
 			end
 			garbageRelease()
 		end
@@ -446,8 +446,8 @@ function drop()
 		P.cstat.piece,P.cstat.row=P.cstat.piece+1,P.cstat.row+cc
 		if P.cstat.row>=gameEnv.target then
 			gameEnv.reach()
-			if control then SFX("reach")end
 		end
+		P.spinLast=dospin and cc>0
 	else
 		P.cy=cy-1
 		P.spinLast=false

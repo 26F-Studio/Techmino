@@ -339,7 +339,6 @@ function love.keypressed(i)
 	elseif i=="escape"or i=="back"then back()
 	else buttonControl_key(i)
 	end
-
 	if i=="f12"then devMode=true end
 end
 function love.keyreleased(i)
@@ -416,6 +415,7 @@ function love.receiveData(id,data)
 	return nil
 end
 function love.draw()
+	gc.clear()
 	Pnt.BG[curBG]()
 	gc.setColor(1,1,1,.3)
 	for n=1,#BGblock do
@@ -435,12 +435,6 @@ function love.draw()
 	end
 	if sceneSwaping then sceneSwaping.draw()end
 
-	gc.setColor(0,0,0)
-	if screenM>0 then
-		gc.rectangle("fill",0,0,1280,-screenM)
-		gc.rectangle("fill",0,720,1280,screenM)
-	end--Draw black side
-
 	setFont(20)gc.setColor(1,1,1)
 	gc.print(tm.getFPS(),0,700)
 	if devMode then
@@ -449,18 +443,23 @@ function love.draw()
 	end
 	--if gcinfo()>500 then collectgarbage()end
 end
-function love.resize(x,y)
-	screenK=1280/gc.getWidth()
-	screenM=(gc.getHeight()*16/9-gc.getWidth())/2
-	gc.origin()
-	gc.scale(1/screenK,1/screenK)
-	gc.translate(0,screenM)
+function love.resize(w,h)
+	ww,wh=w,h
+	xOy:release()
+	ScreenK=h/w>=.5625 and w/1280 or h/720
+	xOy=love.math.newTransform(0,0,nil,ScreenK,nil,640,360,nil,nil)
+	xOy:translate(640,360)
+	if h/w>=.5625 then
+		xOy:translate(0,h-w*.5625)
+	else
+		xOy:translate(w-h*16/9,0)
+	end
+	gc.replaceTransform(xOy)
 end
 function love.run()
 	local frameT=Timer()
 	local readyDrawFrame=0
-	tm.step()
-	love.resize(nil,gc.getHeight())
+	love.resize(gc.getWidth(),gc.getHeight())
 	game.load()--System scene Launch
 	math.randomseed(os.time()*626)
 	return function()
@@ -480,7 +479,7 @@ function love.run()
 				love.draw()
 				gc.present()
 			end
-			if not wd.hasFocus()then
+			if not(wd.hasFocus()or keeprun)then
 				focus=false
 				ms.setVisible(true)
 				if bgmPlaying then bgm[bgmPlaying]:pause()end
@@ -495,6 +494,7 @@ function love.run()
 		else
 			tm.sleep(.2)
 			if wd.hasFocus()then
+				tm.step()
 				focus=true
 				ms.setVisible(false)
 				if bgmPlaying then bgm[bgmPlaying]:play()end
