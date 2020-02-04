@@ -109,20 +109,20 @@ FX={
 }
 
 function updateButton()
-	for i=1,#Buttons[scene]do
-		local B=Buttons[scene][i]
-		local t=i==Buttons.sel and .4 or 0
+	for k,B in next,Buttons[scene]do
+		local t=B==Buttons.sel and .4 or 0
 		B.alpha=abs(B.alpha-t)>.02 and(B.alpha+(B.alpha<t and .02 or -.02))or t
 		if B.alpha>t then B.alpha=B.alpha-.02 elseif B.alpha<t then B.alpha=B.alpha+.02 end
 	end
 end
 function drawButton()
-	for i=1,#Buttons[scene]do
-		local B=Buttons[scene][i]
+	for k,B in next,Buttons[scene]do
 		if not(B.hide and B.hide())then
 			local C=B.rgb or color.white
 			gc.setColor(C[1],C[2],C[3],B.alpha)
 			gc.rectangle("fill",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h)
+			gc.setColor(C)
+			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
 			gc.setColor(C[1],C[2],C[3],.3)
 			gc.setLineWidth(5)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
 			local t=B.t
@@ -130,17 +130,14 @@ function drawButton()
 			if t then
 				if type(t)=="function"then t=t()end
 				setFont(B.f or 40)
-				y0=B.y-7-currentFont*.5
-				mStr(t,B.x-1,y0)
-				mStr(t,B.x+1,y0)
-				mStr(t,B.x-1,y0+2)
-				mStr(t,B.x+1,y0+2)
-			end
-			gc.setColor(C)
-			if t then
+				y0=B.y-currentFont*.64
+				gc.printf(t,B.x-201,y0+2,400,"center")
+				gc.printf(t,B.x-199,y0+2,400,"center")
+				gc.printf(t,B.x-201,y0,400,"center")
+				gc.printf(t,B.x-199,y0,400,"center")
+				gc.setColor(C)
 				mStr(t,B.x,y0+1)
 			end
-			gc.setLineWidth(3)gc.rectangle("line",B.x-B.w*.5,B.y-B.h*.5,B.w,B.h,4)
 		end
 	end
 end
@@ -178,7 +175,7 @@ function drawVirtualkey()
 	local P=players[1]
 	for i=1,#virtualkey do
 		local p,b=virtualkeyDown[i],virtualkey[i]
-		if p then gc.setColor(.75,.75,.75,a)
+		if p then gc.setColor(.7,.7,.7,a)
 		else gc.setColor(1,1,1,a)
 		end
 		gc.setLineWidth(b[4]*.07)
@@ -268,7 +265,7 @@ function Pnt.main()
 	gc.setColor(1,1,1)
 	gc.draw(titleImage,300,30)
 	setFont(30)
-	gc.print("Alpha V0.7.11",290,140)
+	gc.print("Alpha V0.7.12",290,140)
 	gc.print(system,800,110)
 end
 function Pnt.mode()
@@ -356,8 +353,15 @@ function Pnt.play()
 			gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)--Black Background
 			gc.setLineWidth(7)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)--Big frame
+			gc.translate(150,70)
+			if P.gameEnv.grid then
+				gc.setLineWidth(1)
+				gc.setColor(1,1,1,.2)
+				for x=1,9 do gc.line(30*x,-10,30*x,600)end
+				for y=0,19 do gc.line(0,30*y,300,30*y)end
+			end
 			gc.stencil(stencil_field,"replace", 1)
-			gc.translate(150,70+P.fieldBeneath)
+			gc.translate(0,P.fieldBeneath)
 			gc.setStencilTest("equal",1)
 				for j=int(P.fieldBeneath/30+1),#P.field do
 					if P.falling<=0 or without(P.clearing,j)then
@@ -405,7 +409,10 @@ function Pnt.play()
 			gc.setStencilTest()--In-playField mask
 			gc.translate(0,-P.fieldBeneath)
 			gc.setLineWidth(3)
-			gc.setColor(1,1,1)gc.rectangle("line",-1,-11,302,612)--Draw boarder
+			gc.setColor(1,1,1)
+			gc.rectangle("line",-1,-11,302,612)--Draw boarder
+			gc.setLineWidth(2)
+			gc.rectangle("line",301,0,16,601.5)--Draw atkBuffer boarder
 
 			local h=0
 			for i=1,#P.atkBuffer do
@@ -419,21 +426,21 @@ function Pnt.play()
 					end
 					if a.countdown>0 then
 						gc.setColor(attackColor[a.lv][1])
-						gc.rectangle("fill",304,600-h,12,-bar+3)
+						gc.rectangle("fill",304,599-h,11,-bar+3)
 						gc.setColor(attackColor[a.lv][2])
-						gc.rectangle("fill",304,600-h+(-bar+3),12,-(-bar+3)*(1-a.countdown/a.cd0))
+						gc.rectangle("fill",304,599-h+(-bar+3),11,-(-bar+3)*(1-a.countdown/a.cd0))
 						--Timing
 					else
-						local t=sin((Timer()-i)*20)*.5+.5
+						local t=sin((Timer()-i)*30)*.5+.5
 						local c1,c2=attackColor[a.lv][1],attackColor[a.lv][2]
 						gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
-						gc.rectangle("fill",304,600-h,12,-bar+3)
+						gc.rectangle("fill",304,599-h,11,-bar+3)
 						--Warning
 					end
 				else
 					gc.setColor(attackColor[a.lv][1])
 					bar=bar*(20-a.time)*.05
-					gc.rectangle("fill",304,600-h,12,-bar+2)
+					gc.rectangle("fill",304,599-h,11,-bar+2)
 					--Disappear
 				end
 				h=h+bar
@@ -463,7 +470,7 @@ function Pnt.play()
 				for i=1,#b do
 					for j=1,#b[1] do
 						if b[i][j]>0 then
-							drawPixel(i+20-2.4*N-#b*.5,j+12.5-#b[1]*.5,P.nextColor[N],1)
+							drawPixel(i+20-2.4*N-#b*.5,j+12.7-#b[1]*.5,P.nextColor[N],1)
 						end
 					end
 				end
@@ -544,30 +551,31 @@ end
 function Pnt.setting()
 	gc.setColor(1,1,1)
 	setFont(35)
-	mStr("DAS:"..setting.das,288,158)
-	mStr("ARR:"..setting.arr,503,158)
+	mStr("DAS:"..setting.das,290,208)
+	mStr("ARR:"..setting.arr,506,208)
 	setFont(18)
-	mStr(text.softdropdas..setting.sddas,288,249)
-	mStr(text.softdroparr..setting.sdarr,503,249)
+	mStr(text.softdropdas..setting.sddas,290,291)
+	mStr(text.softdroparr..setting.sdarr,506,291)
 end
 function Pnt.setting2()
+	local a=.2+(sin(Timer()*15)+1)*.1
 	if keyboardSetting then
-		gc.setColor(1,.5,.5,.2+(sin(Timer()*15)+1)*.1)
+		gc.setColor(1,.5,.5,a)
 	else
-		gc.setColor(.9,.9,.9,.2+(sin(Timer()*15)+1)*.1)
+		gc.setColor(.9,.9,.9,a)
 	end
 	gc.rectangle("fill",240,40*keyboardSet-10,200,40)
 	if joystickSetting then
-		gc.setColor(1,.5,.5,.2+(sin(Timer()*15)+1)*.1)
+		gc.setColor(1,.5,.5,a)
 	else
-		gc.setColor(.9,.9,.9,.2+(sin(Timer()*15)+1)*.1)
+		gc.setColor(.9,.9,.9,a)
 	end
 	gc.rectangle("fill",440,40*joystickSet-10,200,40)
 
 	gc.setColor(1,1,1)
 	setFont(25)
 	for y=1,13 do
-		mStr(text.actName[y],150,40*y)
+		mStr(text.actName[y],150,40*y-5)
 		for x=1,2 do
 			mStr(setting.keyMap[curBoard+x*8-8][y],200*x+140,40*y-3)
 		end
@@ -615,13 +623,10 @@ end
 function Pnt.stat()
 	setFont(35)
 	gc.setColor(1,1,1)
-	for i=1,10 do
-		gc.print(text.stat[i],350,20+40*i)
-	end
-
+	for i=1,10 do gc.print(text.stat[i],350,20+40*i)end
 	gc.print(stat.run,650,60)
 	gc.print(stat.game,650,100)
-	gc.print(format("%0.2f",stat.gametime).."s",650,140)
+	gc.print(format("%0.1fhr",stat.gametime*2.78e-4),650,140)
 	gc.print(stat.piece,650,180)
 	gc.print(stat.row,650,220)
 	gc.print(stat.atk,650,260)
@@ -629,6 +634,5 @@ function Pnt.stat()
 	gc.print(stat.rotate,650,340)
 	gc.print(stat.hold,650,380)
 	gc.print(stat.spin,650,420)
-
 	gc.draw(titleImage,260,570,.2+.07*sin(Timer()*3),.8,nil,250,60)
 end

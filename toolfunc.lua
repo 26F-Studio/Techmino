@@ -8,7 +8,6 @@ function string.splitS(s,sep)
 	return t
 end
 function sgn(i)return i>0 and 1 or i<0 and -1 or 0 end--Row numbe is A-uth-or's id!
-function stringPack(s,v)return s..toS(v)end
 function without(t,v)
 	for i=1,#t do
 		if t[i]==v then return end
@@ -66,7 +65,7 @@ function stencil_miniTitle()
 	end
 end
 function stencil_field()
-	gc.rectangle("fill",150,60,300,610)
+	gc.rectangle("fill",0,-10,300,610)
 end
 function stencil_field_small()
 	gc.rectangle("fill",0,0,60,120)
@@ -75,12 +74,24 @@ end
 function swapLanguage(l)
 	text=require("language/"..langID[l])
 	Buttons.sel=nil
-	for scene,list in pairs(Buttons)do
-		for num=1,#list do
-			list[num].alpha=0
-			list[num].t=text.ButtonText[scene][num]
+	for S,L in next,Buttons do
+		for N,B in next,L do
+			B.alpha=0
+			B.t=text.ButtonText[S][N]
 		end
 	end
+	if royaleCtrlPad then royaleCtrlPad:release()end
+	royaleCtrlPad=gc.newCanvas(300,100)
+	gc.setCanvas(royaleCtrlPad)
+	gc.setColor(1,1,1)
+	setFont(25)
+	gc.setLineWidth(2)
+	for i=1,4 do
+		gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
+		mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
+	end
+	gc.setCanvas()
+	collectgarbage()
 end
 function VIB(t)
 	if setting.vib>0 then
@@ -121,8 +132,16 @@ function SFX(s,v)
 end
 function BGM(s)
 	if setting.bgm and bgmPlaying~=s then
-		for k,v in pairs(bgm)do v:stop()end
-		if s then bgm[s]:play()end
+		if bgmPlaying then newTask(Event_task.bgmFadeOut,nil,bgmPlaying)end
+		for i=1,#Task do
+			if Task[i].code==Event_task.bgmFadeIn then
+				Task[i].code=Event_task.bgmFadeOut
+			end
+		end
+		if s then
+			newTask(Event_task.bgmFadeIn,nil,s)
+			bgm[s]:play()
+		end
 		bgmPlaying=s
 	end
 end
@@ -163,18 +182,11 @@ function loadData()
 	end
 end
 function saveData()
-	local t=table.concat({
-		stringPack("run=",stat.run),
-		stringPack("game=",stat.game),
-		stringPack("gametime=",stat.gametime),
-		stringPack("piece=",stat.piece),
-		stringPack("row=",stat.row),
-		stringPack("atk=",stat.atk),
-		stringPack("key=",stat.key),
-		stringPack("rotate=",stat.rotate),
-		stringPack("hold=",stat.hold),
-		stringPack("spin=",stat.spin),
-	},"\r\n")
+	local t={}
+	for i=1,#dataOpt do
+		ins(t,dataOpt[i].."="..toS(stat[dataOpt[i]]))
+	end
+	t=table.concat(t,"\r\n")
 	--t=love.math.compress(t,"zlib"):getString()
 	userData:open("w")
 	userData:write(t)
@@ -239,7 +251,7 @@ function loadSetting()
 			elseif t=="das"or t=="arr"or t=="sddas"or t=="sdarr"then
 				v=toN(v)if not v or v<0 then v=0 end
 				setting[t]=int(v)
-			elseif t=="ghost"or t=="center"then
+			elseif t=="ghost"or t=="center"or t=="grid"or t=="swap"then
 				setting[t]=v=="true"
 			elseif t=="lang"then
 				setting[t]=toN(v:match("[12]"))or 1
@@ -263,25 +275,15 @@ function saveSetting()
 	for i=1,4 do
 		lib[i]=table.concat(setting.keyLib[i],",")
 	end
-	local t=table.concat({
-		stringPack("lang=",setting.lang),
-		stringPack("sfx=",setting.sfx),
-		stringPack("bgm=",setting.bgm),
-		stringPack("vib=",setting.vib),
-		stringPack("fullscreen=",setting.fullscreen),
-		stringPack("bgblock=",setting.bgblock),
-		stringPack("das=",setting.das),
-		stringPack("arr=",setting.arr),
-		stringPack("sddas=",setting.sddas),
-		stringPack("sdarr=",setting.sdarr),
-		stringPack("keymap=",table.concat(map,"/")),
-		stringPack("keylib=",table.concat(lib,"/")),
-		stringPack("virtualkey=",table.concat(vk,"/")),
-		stringPack("virtualkeyAlpha=",setting.virtualkeyAlpha),
-		stringPack("virtualkeyIcon=",setting.virtualkeyIcon),
-		stringPack("virtualkeySwitch=",setting.virtualkeySwitch),
-		stringPack("frameMul=",setting.frameMul),
-	},"\r\n")
+	local t={
+		"keymap="..toS(table.concat(map,"/")),
+		"keylib="..toS(table.concat(lib,"/")),
+		"virtualkey="..toS(table.concat(vk,"/")),
+	}
+	for i=1,#saveOpt do
+		ins(t,saveOpt[i].."="..toS(setting[saveOpt[i]]))
+	end
+	t=table.concat(t,"\r\n")
 	--t=love.math.compress(t,"zlib"):getString()
 	userSetting:open("w")
 	userSetting:write(t)

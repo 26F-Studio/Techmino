@@ -50,13 +50,15 @@ end
 gameEnv0={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
-	ghost=true,center=true,bone=false,
+	ghost=true,center=true,
+	grid=false,swap=true,
+	_20G=false,bone=false,
 	drop=30,lock=45,
 	wait=1,fall=1,
 	next=6,hold=true,oncehold=true,
 	sequence="bag7",
 	block=true,visible="show",
-	_20G=false,target=1e99,
+	target=1e99,
 	freshLimit=1e99,
 	ospin=true,
 	reach=null,
@@ -83,6 +85,9 @@ loadmode={
 	marathon=function()
 		createPlayer(1,340,15)
 	end,
+	master=function()
+		createPlayer(1,340,15)
+	end,
 	classic=function()
 		createPlayer(1,340,15)
 	end,
@@ -106,17 +111,16 @@ loadmode={
 		createPlayer(1,340,15)
 		local P=players[1]
 		if curMode.lv==1 then
-			ins(players[1].task,Event.task.dig_normal)
+			newTask(Event_task.dig_normal,P)
 			pushSpeed=1
 		elseif curMode.lv==2 then
-			ins(players[1].task,Event.task.dig_lunatic)
+			newTask(Event_task.dig_lunatic,P)
 			pushSpeed=1
 		end
 	end,
 	survivor=function()
 		createPlayer(1,340,15)
-		local P=players[1]
-		ins(players[1].task,Event.task[curMode.lv==1 and"survivor_easy"or curMode.lv==2 and"survivor_normal"or curMode.lv==3 and"survivor_hard"or curMode.lv==4 and"survivor_lunatic"])
+		newTask(Event_task[curMode.lv==1 and"survivor_easy"or curMode.lv==2 and"survivor_normal"or curMode.lv==3 and"survivor_hard"or curMode.lv==4 and"survivor_lunatic"],P)
 		pushSpeed=curMode.lv>2 and 2 or 1
 	end,
 	tech=function()
@@ -201,8 +205,8 @@ loadmode={
 			createPlayer(1,340,15)
 		else
 			modeEnv.target=nil
-			createPlayer(1,20,15)
-			createPlayer(2,660,85,.9,modeEnv.opponent)
+			createPlayer(1,340,15)
+			createPlayer(2,965,360,.9,modeEnv.opponent)
 		end
 	end,
 }
@@ -210,12 +214,24 @@ mesDisp={
 	--Default:font=35,white
 	sprint=function()
 		setFont(70)
-		mStr(max(P.gameEnv.target-P.cstat.row,0),-75,260)
+		local r=max(P.gameEnv.target-P.cstat.row,0)
+		mStr(r,-75,260)
+		if r<21 and r>0 then
+			gc.setLineWidth(3)
+			gc.setColor(color.lightRed)
+			gc.line(0,600-30*r,300,600-30*r)
+		end
 	end,
 	marathon=function()
 		setFont(50)
 		mStr(P.cstat.row,-75,320)
 		mStr(P.gameEnv.target,-75,370)
+		gc.rectangle("fill",-120,376,90,4)
+	end,
+	master=function()
+		setFont(50)
+		mStr(P.cstat.point,-75,320)
+		mStr((P.cstat.event+1)*100,-75,370)
 		gc.rectangle("fill",-120,376,90,4)
 	end,
 	classic=function()
@@ -331,6 +347,7 @@ setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ghost=true,center=true,
+	grid=false,swap=true,
 	keyMap={
 		{"left","right","x","z","c","up","down","space","tab","r","","",""},
 		{"","","","","","","","","","","","",""},
@@ -404,9 +421,18 @@ virtualkey={
 virtualkeyDown={false,false,false,false,false,false,false,false,false,false,false,false,false}
 virtualkeyPressTime={0,0,0,0,0,0,0,0,0,0,0,0,0}
 --User Data&User Setting
-require("toolfunc")
-userData=fs.newFile("userdata")
-userSetting=fs.newFile("usersetting")
+require"toolfunc"
+require"class"
+require"gamefunc"
+require"ai"
+require"timer"
+require"paint"
+require"call&sys"
+require"dataList"
+require"list"
+require"texture"
+
+userData,userSetting=fs.newFile("userdata"),fs.newFile("usersetting")
 if fs.getInfo("userdata")then
 	loadData()
 end
@@ -414,14 +440,6 @@ if fs.getInfo("usersetting")then
 	loadSetting()
 elseif system=="Android" or system=="iOS"then
 	setting.virtualkeySwitch=true
+	setting.swap=false
 end
-
-require("gamefunc")
-require("ai")
-require("timer")
-require("paint")
-require("call&sys")
-require("largeList")
-require("list")
 swapLanguage(setting.lang)
-require("texture")

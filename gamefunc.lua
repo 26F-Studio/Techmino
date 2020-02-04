@@ -84,7 +84,11 @@ function createPlayer(id,x,y,size,AIspeed,data)
 	P.control=false
 	P.timing=false
 	P.time=0
-	P.cstat={key=0,piece=0,row=0,atk=0,techrash=0,pc=0,event=0}--Current gamestat
+	P.cstat={
+		key=0,piece=0,row=0,atk=0,
+		techrash=0,pc=0,
+		point=0,event=0
+	}--Current gamestat
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
 
@@ -160,8 +164,7 @@ function createPlayer(id,x,y,size,AIspeed,data)
 
 	P.endCounter=0
 	P.counter=0
-	P.result=nil--string,"win"/"lose"
-	P.task={}
+	P.result=nil--string:win/lose
 	P.bonus={}
 end
 function showText(P,text,type,font,dy,spd,inf)
@@ -254,6 +257,20 @@ function freshTarget(P)
 		end
 	end
 end
+function changeAtkMode(m)
+	if P.atkMode==m then goto L end
+	P.atkMode=m
+	if m==1 then
+		changeAtk(P,randomTarget(P))
+	elseif m==2 then
+		freshTarget(P)
+	elseif m==3 then
+		freshTarget(P)
+	elseif m==4 then
+		changeAtk(P)
+	end
+	::L::
+end
 function changeAtk(P,R)
 	if P.atking then
 		local K=P.atking.atker
@@ -311,7 +328,7 @@ function royaleLevelup()
 	elseif gameStage==3 then
 		spd=15
 		garbageSpeed=.6
-		BGM("cruelty")
+		if players[1].alive then BGM("cruelty")end
 	elseif gameStage==4 then
 		spd=10
 		pushSpeed=3
@@ -320,7 +337,7 @@ function royaleLevelup()
 		garbageSpeed=1
 	elseif gameStage==6 then
 		spd=3
-		BGM("final")
+		if players[1].alive then BGM("final")end
 	end
 	for i=1,#players.alive do
 		local P=players.alive[i]
@@ -415,7 +432,7 @@ function resetblock()
 		P.curX=P.curX+sgn(P.moving)
 	end
 
-	if ifoverlap(P.curBlock,P.curX,P.curY)then lock()Event.gameover.lose()end
+	if ifoverlap(P.curBlock,P.curX,P.curY)then lock()Event_gameover.lose()end
 	freshgho()	
 	if P.keyPressing[6]then act.hardDrop()P.keyPressing[6]=false end
 end
@@ -432,7 +449,9 @@ function pressKey(i,p)
 		if P.control and P.waiting<=0 then
 			act[actName[i]]()
 			if i>2 and i<7 then P.keyPressing[i]=false end
-		elseif P.keyPressing[9]then
+		elseif i==9 and not setting.swap then
+			P.atkMode=P.atkMode<3 and P.atkMode+2 or 5-P.atkMode
+		elseif P.keyPressing[9]and setting.swap then
 			if i==1 then
 				P.atkMode=1
 				changeAtk(P,randomTarget(P))
@@ -556,7 +575,7 @@ function hold(ifpre)
 	
 		freshgho()
 		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
-		if ifoverlap(P.curBlock,P.curX,P.curY)then lock()Event.gameover.lose()end
+		if ifoverlap(P.curBlock,P.curX,P.curY)then lock()Event_gameover.lose()end
 
 		SFX(ifpre and"prehold"or"hold")
 		if P.id==1 then
@@ -612,7 +631,6 @@ function drop()
 				csend=6
 				sendTime=100
 				exblock=exblock+1
-				P.b2b=P.b2b-20
 			elseif P.b2b>=40 then
 				showText(P,text.techrashB2B,"drive",80,-30)
 				sendTime=80
@@ -653,7 +671,7 @@ function drop()
 				end
 				SFX(spin_n[cc])
 			elseif #P.clearing<#P.field then
-				P.b2b=max(P.b2b-280-cc*40,0)
+				P.b2b=max(P.b2b-250,0)
 				showText(P,text.clear[cc],"appear",32+cc*3,-30,(8-cc)*.3)
 				csend=cc-1
 				sendTime=20+csend*20
@@ -752,7 +770,7 @@ function drop()
 			end
 			garbageRelease()
 		end
-		if id==1 then
+		if P.id==1 then
 			stat.piece,stat.row=stat.piece+1,stat.row+cc
 		end
 		P.cstat.piece,P.cstat.row=P.cstat.piece+1,P.cstat.row+cc
@@ -760,6 +778,7 @@ function drop()
 			P.gameEnv.reach()
 		end
 		P.spinLast=dospin and cc>0
+		SFX("lock")
 	else
 		P.curY=P.curY-1
 		P.spinLast=false
@@ -779,11 +798,8 @@ function lock()
 end
 act={
 	moveLeft=function(auto)
-		if P.keyPressing[9]then
-			if P.atkMode~=1 then
-				P.atkMode=1
-				changeAtk(P,randomTarget(P))
-			end
+		if P.keyPressing[9]and setting.swap then
+			changeAtkMode(1)
 		else
 			if not auto then
 				P.moving=-1
@@ -798,11 +814,8 @@ act={
 		end
 	end,
 	moveRight=function(auto)
-		if P.keyPressing[9]then
-			if P.atkMode~=2 then
-				P.atkMode=2
-				freshTarget(P)
-			end
+		if P.keyPressing[9]and setting.swap then
+			changeAtkMode(2)
 		else
 			if not auto then
 				P.moving=1
@@ -820,11 +833,8 @@ act={
 	rotLeft=function()spin(3)end,
 	rotFlip=function()spin(2)end,
 	hardDrop=function()
-		if P.keyPressing[9]then
-			if P.atkMode~=3 then
-				P.atkMode=3
-				freshTarget(P)
-			end
+		if P.keyPressing[9]and setting.swap then
+			changeAtkMode(3)
 		else
 			if P.waiting<=0 then
 				if P.curY~=P.y_img then
@@ -838,11 +848,8 @@ act={
 		end
 	end,
 	softDrop=function()
-		if P.keyPressing[9]then
-			if P.atkMode~=4 then
-				P.atkMode=4
-				changeAtk(P)
-			end
+		if P.keyPressing[9]and setting.swap then
+			changeAtkMode(4)
 		else
 			if P.curY~=P.y_img then
 				P.curY=P.curY-1
@@ -852,7 +859,6 @@ act={
 		end
 	end,
 	hold=function()hold()end,
-	--Player movements
 	swap=function()
 		if modeEnv.royaleMode then
 			for i=1,#P.keyPressing do
@@ -860,7 +866,12 @@ act={
 					P.keyPressing[i]=false
 				end
 			end
-			P.keyPressing[9]=true
+			if setting.swap then
+				P.keyPressing[9]=true
+			else
+				changeAtkMode(P.atkMode<3 and P.atkMode+2 or 5-P.atkMode)
+				P.swappingAtkMode=30
+			end
 		else
 			P.keyPressing[9]=false
 		end
@@ -904,6 +915,6 @@ act={
 			end
 		end
 	end,
-	quit=function()Event.gameover.lose()end,
+	quit=function()Event_gameover.lose()end,
 	--System movements
 }

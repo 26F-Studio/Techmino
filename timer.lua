@@ -4,7 +4,7 @@ function Tmr.load()
 		loadnum=loadnum+1
 		loadprogress=loadnum/10
 		if loadnum==5 then
-			--require("load_texture")
+			--require("texture")
 		elseif loadnum==10 then
 			loadnum=1
 			loading=2
@@ -13,6 +13,7 @@ function Tmr.load()
 		if loadnum<=#bgm then
 			bgm[bgm[loadnum]]=love.audio.newSource("/BGM/"..bgm[loadnum]..".ogg","stream")
 			bgm[bgm[loadnum]]:setLooping(true)
+			bgm[bgm[loadnum]]:setVolume(0)
 			loadprogress=loadnum/#bgm
 			loadnum=loadnum+1
 		else
@@ -119,6 +120,11 @@ function Tmr.play(dt)
 					else
 						AI_getControls(P.ai.controls)
 						P.ai.controlDelay=P.ai.controlDelay0+2
+						if Timer()-P.cstat.point>P.cstat.event then
+							P.cstat.point=Timer()
+							P.cstat.event=P.ai.controlDelay0+rnd(2,10)
+							changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.35 and 2 or 3)
+						end
 					end
 				end
 			end
@@ -234,9 +240,6 @@ function Tmr.play(dt)
 				if b.t>=60 then rem(P.bonus,i)end
 			end
 		end
-		for i=#P.task,1,-1 do
-			if P.task[i]()then rem(P.task,i)end
-		end
 		for i=#P.atkBuffer,1,-1 do
 			local atk=P.atkBuffer[i]
 			atk.time=atk.time+1
@@ -255,5 +258,5 @@ function Tmr.play(dt)
 			PTC.dust[p]:update(dt)
 		end
 	end
-	if modeEnv.royaleMode and frame%60==0 then freshMostDangerous()end
+	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
 end

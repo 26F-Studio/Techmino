@@ -1,5 +1,6 @@
+local c
 local N=gc.newImage
-function C(x,y)
+local C=function(x,y)
 	c=gc.newCanvas(x,y)
 	gc.setCanvas(c)
 	return c
@@ -17,20 +18,7 @@ for i=1,13 do
 	gc.draw(blockImg,6-6*i,0,nil,.2)
 	blockSkinmini[i]=c
 end
-for i=1,13 do
-end
 blockImg:release()
-
-RCPB={10,33,200,33,105,5,105,60}
-do royaleCtrlPad=C(300,100)
-	gc.setColor(1,1,1)
-	setFont(25)
-	gc.setLineWidth(2)
-	for i=1,4 do
-		gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-		mStr(atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
-	end
-end
 
 virtualkeyIcon={}
 for i=1,10 do
@@ -97,72 +85,3 @@ payCode=N("/image/mess/paycode.png")
 
 c=nil
 gc.setCanvas()
-
-sceneInit={
-	load=function()
-		curBG="none"
-		keeprun=true
-		loading=1--Loading mode
-		loadnum=1--Loading counter
-		loadprogress=0--Loading bar(0~1)
-	end,
-	intro=function()
-		curBG="none"
-		count=0
-		keeprun=true
-	end,
-	main=function()
-		curBG="none"
-		keeprun=true
-		collectgarbage()
-	end,
-	mode=function()
-		saveData()
-		modeSel=modeSel or 1
-		levelSel=levelSel or 3
-		curBG="none"
-		keeprun=true
-	end,
-	custom=function()
-		optSel=optSel or 1
-		curBG="matrix"
-		keeprun=true
-	end,
-	play=function()
-		keeprun=false
-		resetGameData()
-		sysSFX("ready")
-		mouseShow=false
-	end,
-	setting=function()
-		curBG="none"
-		keeprun=true
-	end,
-	setting2=function()
-		curBG="none"
-		keeprun=true
-			curBoard=1
-			keyboardSet=1
-			joystickSet=1
-			keyboardSetting=false
-			joystickSetting=false
-	end,--Control settings
-	setting3=function()
-		curBG="game1"
-		keeprun=true
-		defaultSel=1
-		sel=nil
-		snapLevel=1
-	end,--Touch setting
-	help=function()
-		curBG="none"
-		keeprun=true
-	end,
-	stat=function()
-		curBG="none"
-		keeprun=true
-	end,
-	quit=function()
-		love.event.quit()
-	end,
-}

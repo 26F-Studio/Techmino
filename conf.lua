@@ -9,7 +9,7 @@ function love.conf(t)
 	t.audio.mixwithsystem=true--Switch on to keep sysBGM
 
 	local W=t.window
-	W.title="Techmino V0.7.11"
+	W.title="Techmino V0.7.12"
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360
@@ -17,7 +17,7 @@ function love.conf(t)
 	W.resizable=true
 	W.fullscreentype="desktop"--Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
 	W.fullscreen=X
-	W.vsync=X--0 to set ∞fps
+	W.vsync=0--0 to set ∞fps
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
 	W.depth=X--Bits per sample in the depth buffer
 	W.stencil=1--The number of bits per sample in the stencil buffer

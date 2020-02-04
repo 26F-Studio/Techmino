@@ -20,11 +20,11 @@ local PClist={
 	{2,5,4,3},{2,5,6,7},{7,5,4,2},{4,5,3,5},
 }
 local marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
-local rush_lock={20,18,16,14,12}
+local rush_lock={20,18,16,15,14}
 local rush_wait={12,10,9,8,7}
-local rush_fall={12,11,10,9,8}
-local death_lock={12,11,10,9,8}
-local death_wait={9,8,7,6,5}
+local rush_fall={18,16,14,13,12}
+local death_lock={12,10,9,8,7}
+local death_wait={10,9,8,7,6}
 local death_fall={10,9,8,7,6}
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,45,40,36,32,30}
@@ -89,114 +89,11 @@ freshMethod={
 	end,
 }
 Event={
-	gameover={
-		win=function()
-			local P=players.alive[1]
-			P.alive=false
-			P.control=false
-			P.timing=false
-			P.waiting=1e99
-			P.b2b=0
-			if modeEnv.royaleMode then
-				P.rank=1
-				P.result="WIN"
-				showText(P,1,"appear",60,120,nil,true)
-				changeAtk(P)
-			end
-			::L::if P.task[1]then
-				rem(P.task)
-				goto L
-			end
-			for i=1,#P.atkBuffer do
-				P.atkBuffer[i].sent=true
-				P.atkBuffer[i].time=0
-			end
-			for i=1,#P.field do
-				for j=1,10 do
-					P.visTime[i][j]=min(P.visTime[i][j],20)
-				end
-			end
-			showText(P,text.win,"beat",90,nil,nil,true)
-			if P.id==1 and players[2]and players[2].ai then SFX("win")end
-			ins(P.task,Event.task.win)
-		end,
-		lose=function()
-			P.alive=false
-			P.control=false
-			P.timing=false
-			P.waiting=1e99
-			P.b2b=0
-			::L::if P.task[1]then
-				rem(P.task)
-				goto L
-			end
-			for i=1,#players.alive do
-				if players.alive[i]==P then
-					rem(players.alive,i)
-					break
-				end
-			end
-			if modeEnv.royaleMode then
-				changeAtk(P)
-				P.result="K.O."
-				P.rank=#players.alive+1
-				showText(P,P.rank,"appear",60,120,nil,true)
-				P.strength=0
-				local A=P
-				::L::
-					A=A.lastRecv
-				if A and not A.alive and A~=P then goto L end
-				if A and A~=P then
-					if P.id==1 or A.id==1 then
-						P.killMark=A.id==1
-					end
-					A.ko,A.badge=A.ko+1,A.badge+P.badge+1
-					for i=A.strength+1,4 do
-						if A.badge>=modeEnv.royalePowerup[i]then
-							A.strength=i
-						end
-					end
-					P.lastRecv=A
-					if P.id==1 or A.id==1 then
-						ins(P.task,Event.task.throwBadge)
-					end
-					freshMostBadge()
-				end
-				freshMostDangerous()
-				for i=1,#players.alive do
-					if players.alive[i].atking==P then
-						freshTarget(players.alive[i])
-					end
-				end
-				if #players.alive==modeEnv.royaleRemain[gameStage]then
-					royaleLevelup()
-				end
-			end
-			for i=1,#P.atkBuffer do
-				P.atkBuffer[i].sent=true
-				P.atkBuffer[i].time=0
-			end
-			for i=1,#P.field do
-				for j=1,10 do
-					P.visTime[i][j]=min(P.visTime[i][j],20)
-				end
-			end
-			showText(P,text.lose,"appear",90,nil,nil,true)
-			if P.id==1 and players[2]and players[2].ai then SFX("fail")end
-			ins(P.task,Event.task.lose)
-			if #players.alive==1 then
-				local t=P
-				P=players.alive[1]
-				Event.gameover.win()
-				P=t
-			end
-		end,
-	},
 	marathon_reach=function()
 		local s=int(P.cstat.row*.1)
 		if s>=20 then
 			P.cstat.row=200
-			Event.gameover.win()
+			Event_gameover.win()
 		else
 			P.gameEnv.drop=marathon_drop[s]
 			if s==18 then P.gameEnv._20G=true end
@@ -204,37 +101,58 @@ Event={
 			SFX("reach")
 		end
 	end,
-	marathon_reach_lunatic=function()
-		if P.gameEnv.target==250 then
-			P.cstat.row=250
-			Event.gameover.win()
-		else
-			P.gameEnv.target=P.gameEnv.target+50
-			local t=P.gameEnv.target/50
-			P.gameEnv.lock=rush_lock[t]
-			P.gameEnv.wait=rush_wait[t]
-			P.gameEnv.fall=rush_fall[t]
-			if t==4 then P.gameEnv.bone=true end
-			showText(P,text.stage[t],"fly",80,-120)
-			SFX("reach")
+	master_reach_lunatic=function()
+		local t=P.cstat.point
+		if t%100==99 and #P.clearing==0 then goto L end
+		t=t+clearPoint[#P.clearing]
+		if int(t*.01)>P.cstat.event then
+			P.cstat.event=P.cstat.event+1
+			if P.cstat.event==5 then
+				P.cstat.event=4
+				P.cstat.point=500
+				Event_gameover.win()
+				goto L
+			else
+				local s=P.cstat.event+1
+				P.gameEnv.lock=rush_lock[s]
+				P.gameEnv.wait=rush_wait[s]
+				P.gameEnv.fall=rush_fall[s]
+				P.gameEnv.das=10-s
+				if s==3 then P.gameEnv.arr=2 end
+				if s==5 then P.gameEnv.bone=true end
+				showText(P,text.stage[s],"fly",80,-120)
+				SFX("reach")
+			end
 		end
+		P.cstat.point=t
+		if t%100==99 then SFX("blip_1")end
+		::L::
 	end,
-	marathon_reach_ultimate=function()
-		if P.cstat.event==5 then
-			P.cstat.row=250
-			Event.gameover.win()
-		else
-			local t=P.cstat.event+1
-			if t==1 then t=2 end
-			P.gameEnv.target=50*t
-			P.cstat.event=t
-			P.gameEnv.lock=death_lock[t]
-			P.gameEnv.wait=death_wait[t]
-			P.gameEnv.fall=death_fall[t]
-			if t==4 then P.gameEnv.bone=true end
-			showText(P,text.stage[t],"fly",80,-120)
-			SFX("reach")
+	master_reach_ultimate=function()
+		local t=P.cstat.point
+		if t%100==99 and #P.clearing==0 then goto L end
+		t=t+clearPoint[#P.clearing]
+		if int(t*.01)>P.cstat.event then
+			P.cstat.event=P.cstat.event+1
+			if P.cstat.event==5 then
+				P.cstat.event=4
+				P.cstat.point=500
+				Event_gameover.win()
+				goto L
+			else
+				local s=P.cstat.event+1
+				P.gameEnv.lock=death_lock[s]
+				P.gameEnv.wait=death_wait[s]
+				P.gameEnv.fall=death_fall[s]
+				P.gameEnv.das=int(7.3-s*.4)
+				if s==4 then P.gameEnv.bone=true end
+					showText(P,text.stage[s],"fly",80,-120)
+				SFX("reach")
+			end
 		end
+		P.cstat.point=t
+		if t%100==99 then SFX("blip_1")end
+		::L::
 	end,
 	classic_reach=function()
 		P.gameEnv.target=P.gameEnv.target+10
@@ -245,7 +163,7 @@ Event={
 	end,
 	tsd_reach=function()
 		if P.lastClear~=52 then
-			Event.gameover.lose()
+			Event_gameover.lose()
 		elseif #P.clearing>0 then
 			P.cstat.event=P.cstat.event+1
 			if #P.field>11 and P.cstat.event%5~=1 then
@@ -255,12 +173,12 @@ Event={
 	end,
 	tech_reach=function()
 		if #P.clearing>0 and P.lastClear<10 then
-			Event.gameover.lose()
+			Event_gameover.lose()
 		end
 	end,
 	tech_reach_hard=function()
 		if #P.clearing>0 and P.lastClear<10 or P.lastClear==74 then
-			Event.gameover.lose()
+			Event_gameover.lose()
 		end
 	end,
 	newPC=function()
@@ -268,7 +186,7 @@ Event={
 		if P.cstat.piece%4==0 then
 			if #P.field==#P.clearing then
 				P.counter=P.cstat.piece==0 and 20 or 0
-				ins(P.task,Event.task.PC)
+				newTask(Event_task.PC,P)
 				if curMode.lv==2 then
 					local s=P.cstat.pc*.5
 					if int(s)==s and s>0 then
@@ -283,206 +201,321 @@ Event={
 					end
 				end
 			else
-				Event.gameover.lose()
+				Event_gameover.lose()
 			end
 		end
 	end,
-	task={
-		win=function()
-			P.endCounter=P.endCounter+1
-			if P.endCounter>80 then
-				if P.gameEnv.visible=="show"then
-					for i=1,#P.field do
-						for j=1,10 do
-							if P.visTime[i][j]>0 then
-								P.visTime[i][j]=P.visTime[i][j]-1
-							end
-						end
+}
+Event_gameover={
+	win=function()
+		local P=players.alive[1]
+		P.alive=false
+		P.control=false
+		P.timing=false
+		P.waiting=1e99
+		P.b2b=0
+		clearTask(P)
+		if modeEnv.royaleMode then
+			P.rank=1
+			P.result="WIN"
+			showText(P,1,"appear",60,120,nil,true)
+			changeAtk(P)
+		end
+		for i=1,#P.atkBuffer do
+			P.atkBuffer[i].sent=true
+			P.atkBuffer[i].time=0
+		end
+		for i=1,#P.field do
+			for j=1,10 do
+				P.visTime[i][j]=min(P.visTime[i][j],20)
+			end
+		end
+		showText(P,text.win,"beat",90,nil,nil,true)
+		if P.id==1 and players[2]and players[2].ai then SFX("win")BGM()end
+		newTask(Event_task.win,P)
+	end,
+	lose=function()
+		P.alive=false
+		P.control=false
+		P.timing=false
+		P.waiting=1e99
+		P.b2b=0
+		clearTask(P)
+		for i=1,#players.alive do
+			if players.alive[i]==P then
+				rem(players.alive,i)
+				break
+			end
+		end
+		if modeEnv.royaleMode then
+			changeAtk(P)
+			P.result="K.O."
+			P.rank=#players.alive+1
+			showText(P,P.rank,"appear",60,120,nil,true)
+			P.strength=0
+			local A,i=P,0
+			::L::
+				A,i=A.lastRecv,i+1
+			if A and not A.alive and A~=P and i<3 then goto L end
+			if A and A~=P then
+				if P.id==1 or A.id==1 then
+					P.killMark=A.id==1
+				end
+				A.ko,A.badge=A.ko+1,A.badge+P.badge+1
+				for i=A.strength+1,4 do
+					if A.badge>=modeEnv.royalePowerup[i]then
+						A.strength=i
 					end
-					if P.endCounter==100 then
-						for i=1,#P.field do
-							removeRow(P.field)
-							removeRow(P.visTime)
-						end
-						return true
-					end
-				elseif P.endCounter==100 then
-					return true
+				end
+				P.lastRecv=A
+				if P.id==1 or A.id==1 then
+					newTask(Event_task.throwBadge,nil,{P,max(3,P.badge)*4})
+				end
+				freshMostBadge()
+			else
+				P.badge=-1
+			end
+			freshMostDangerous()
+			for i=1,#players.alive do
+				if players.alive[i].atking==P then
+					freshTarget(players.alive[i])
 				end
 			end
-		end,
-		lose=function()
-			P.endCounter=P.endCounter+1
-			if P.endCounter>80 then
-				if P.gameEnv.visible=="show"then
-					for i=1,#P.field do
-						for j=1,10 do
-							if P.visTime[i][j]>0 then
-								P.visTime[i][j]=P.visTime[i][j]-1
-							end
-						end
-					end
-					if P.endCounter==100 then
-						for i=1,#P.field do
-							removeRow(P.field)
-							removeRow(P.visTime)
-						end
-						return true
-					end
-				elseif P.endCounter==100 then
-					return true
-				end
+			if #players.alive==modeEnv.royaleRemain[gameStage]then
+				royaleLevelup()
 			end
-		end,
-		throwBadge=function()
-			if P.badge%2==0 then
-				throwBadge(P,P.lastRecv)
-				if P.badge%16==0 then
-					sysSFX("collect")
-				end
+		end
+		for i=1,#P.atkBuffer do
+			P.atkBuffer[i].sent=true
+			P.atkBuffer[i].time=0
+		end
+		for i=1,#P.field do
+			for j=1,10 do
+				P.visTime[i][j]=min(P.visTime[i][j],20)
 			end
-			P.badge=P.badge-1
-			if P.badge<=0 then return true end
-		end,
-		dig_normal=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if #P.clearing==0 and P.counter>=max(90,180-2*P.cstat.event)then
-				ins(P.field,1,getNewRow(10))
-				ins(P.visTime,1,getNewRow(1e99))
-				P.field[1][rnd(10)]=0
-				P.fieldBeneath=P.fieldBeneath+30
-				P.curY,P.y_img=P.curY+1,P.y_img+1
-				P.counter=0
-				P.cstat.event=P.cstat.event+1
+		end
+		showText(P,text.lose,"appear",90,nil,nil,true)
+		if P.id==1 then
+			SFX("fail")
+			if modeEnv.royaleMode then
+				BGM("sores")
 			end
-		end,
-		dig_lunatic=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if #P.clearing==0 and P.counter>=max(45,80-.4*P.cstat.event)then
-				ins(P.field,1,getNewRow(11+P.cstat.event%3))
-				ins(P.visTime,1,getNewRow(1e99))
-				P.field[1][rnd(10)]=0
-				P.fieldBeneath=P.fieldBeneath+30
-				P.curY,P.y_img=P.curY+1,P.y_img+1
-				P.counter=0
-				P.cstat.event=P.cstat.event+1
-			end
-		end,
-		survivor_easy=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if P.counter==max(60,180-2*P.cstat.event)then
-				ins(P.atkBuffer,{rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1})
-				P.counter=0
-				if P.cstat.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
-				P.cstat.event=P.cstat.event+1
-			end
-		end,
-		survivor_normal=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if P.counter==max(60,180-2*P.cstat.event)then
-				local d=P.cstat.event+1
-				if d%4==0 then ins	(P.atkBuffer,{rnd(10),amount=1,countdown=60,cd0=60,time=0,sent=false,lv=1})
-				elseif d%4==1 then ins(P.atkBuffer,{rnd(10),amount=2,countdown=70,cd0=70,time=0,sent=false,lv=1})
-				elseif d%4==2 then ins(P.atkBuffer,{rnd(10),amount=3,countdown=80,cd0=80,time=0,sent=false,lv=2})
-				elseif d%4==3 then ins(P.atkBuffer,{rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3})
-				end
-				P.counter=0
-				if P.cstat.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
-				P.cstat.event=P.cstat.event+1
-			end
-		end,
-		survivor_hard=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if P.counter==max(60,180-2*P.cstat.event)then
-				if P.cstat.event%3<2 then
-					ins(P.atkBuffer,{rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
-				else
-					ins(P.atkBuffer,{rnd(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2})
-				end
-				P.counter=0
-				if P.cstat.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
-				P.cstat.event=P.cstat.event+1
-			end
-		end,
-		survivor_lunatic=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if P.counter==max(90,150-P.cstat.event)then
-				local t=max(60,90-P.cstat.event)
-				ins(P.atkBuffer,{rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
-				P.counter=0
-				if P.cstat.event==30 then showText(P,text.maxspeed,"appear",80,-140)end
-				P.cstat.event=P.cstat.event+1
-			end
-		end,
-		PC=function()
-			local P=players[1]
-			P.counter=P.counter+1
-			if P.counter==21 then
-				local t=P.cstat.pc%2
-				for i=1,4 do
-					local r=getNewRow()
+		end
+		newTask(Event_task.lose,P)
+		if #players.alive==1 then
+			local t=P
+			P=players.alive[1]
+			Event_gameover.win()
+			P=t
+		end
+	end,
+}
+Event_task={
+	win=function(P)
+		P.endCounter=P.endCounter+1
+		if P.endCounter>80 then
+			if P.gameEnv.visible=="show"then
+				for i=1,#P.field do
 					for j=1,10 do
-						r[j]=PCbase[4*t+i][j]
+						if P.visTime[i][j]>0 then
+							P.visTime[i][j]=P.visTime[i][j]-1
+						end
 					end
-					ins(P.field,1,r)
-					ins(P.visTime,1,getNewRow(P.showTime))
 				end
-				P.fieldBeneath=P.fieldBeneath+120
-				-- P.curY=P.curY+4
-				P.y_img=P.y_img+4
-				freshgho()
+				if P.endCounter==100 then
+					for i=1,#P.field do
+						removeRow(P.field)
+						removeRow(P.visTime)
+					end
+					return true
+				end
+			elseif P.endCounter==100 then
 				return true
 			end
-		end,
-	},
+		end
+	end,
+	lose=function(P)
+		P.endCounter=P.endCounter+1
+		if P.endCounter>80 then
+			if P.gameEnv.visible=="show"then
+				for i=1,#P.field do
+					for j=1,10 do
+						if P.visTime[i][j]>0 then
+							P.visTime[i][j]=P.visTime[i][j]-1
+						end
+					end
+				end
+				if P.endCounter==100 then
+					for i=1,#P.field do
+						removeRow(P.field)
+						removeRow(P.visTime)
+					end
+					return true
+				end
+			elseif P.endCounter==100 then
+				return true
+			end
+		end
+	end,
+	throwBadge=function(P,data)
+		data[2]=data[2]-1
+		if data[2]%4==0 then
+			throwBadge(data[1],data[1].lastRecv)
+			if data[2]%8==0 then
+				sysSFX("collect")
+			end
+		end
+		if data[2]<=0 then return true end
+	end,
+	dig_normal=function(P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		if #P.clearing==0 and P.counter>=max(90,180-2*P.cstat.event)then
+			ins(P.field,1,getNewRow(10))
+			ins(P.visTime,1,getNewRow(1e99))
+			P.field[1][rnd(10)]=0
+			P.fieldBeneath=P.fieldBeneath+30
+			P.curY,P.y_img=P.curY+1,P.y_img+1
+			P.counter=0
+			P.cstat.event=P.cstat.event+1
+		end
+	end,
+	dig_lunatic=function(P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		if #P.clearing==0 and P.counter>=max(45,80-.4*P.cstat.event)then
+			ins(P.field,1,getNewRow(11+P.cstat.event%3))
+			ins(P.visTime,1,getNewRow(1e99))
+			P.field[1][rnd(10)]=0
+			P.fieldBeneath=P.fieldBeneath+30
+			P.curY,P.y_img=P.curY+1,P.y_img+1
+			P.counter=0
+			P.cstat.event=P.cstat.event+1
+		end
+	end,
+	survivor_easy=function(P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		if P.counter==max(60,180-2*P.cstat.event)then
+			ins(P.atkBuffer,{rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1})
+			P.counter=0
+			if P.cstat.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.cstat.event=P.cstat.event+1
+		end
+	end,
+	survivor_normal=function(P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		if P.counter==max(60,180-2*P.cstat.event)then
+			local d=P.cstat.event+1
+			if d%4==0 then ins	(P.atkBuffer,{rnd(10),amount=1,countdown=60,cd0=60,time=0,sent=false,lv=1})
+			elseif d%4==1 then ins(P.atkBuffer,{rnd(10),amount=2,countdown=70,cd0=70,time=0,sent=false,lv=1})
+			elseif d%4==2 then ins(P.atkBuffer,{rnd(10),amount=3,countdown=80,cd0=80,time=0,sent=false,lv=2})
+			elseif d%4==3 then ins(P.atkBuffer,{rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3})
+			end
+			P.counter=0
+			if P.cstat.event==60 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.cstat.event=P.cstat.event+1
+		end
+	end,
+	survivor_hard=function(P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		if P.counter==max(60,180-2*P.cstat.event)then
+			if P.cstat.event%3<2 then
+				ins(P.atkBuffer,{rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
+			else
+				ins(P.atkBuffer,{rnd(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2})
+			end
+			P.counter=0
+			if P.cstat.event==45 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.cstat.event=P.cstat.event+1
+		end
+	end,
+	survivor_lunatic=function(P)
+		if not P.control then return end
+		P.counter=P.counter+1
+		if P.counter==max(90,150-P.cstat.event)then
+			local t=max(60,90-P.cstat.event)
+			ins(P.atkBuffer,{rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3})
+			P.counter=0
+			if P.cstat.event==30 then showText(P,text.maxspeed,"appear",80,-140)end
+			P.cstat.event=P.cstat.event+1
+		end
+	end,
+	PC=function(P)
+		P.counter=P.counter+1
+		if P.counter==21 then
+			local t=P.cstat.pc%2
+			for i=1,4 do
+				local r=getNewRow()
+				for j=1,10 do
+					r[j]=PCbase[4*t+i][j]
+				end
+				ins(P.field,1,r)
+				ins(P.visTime,1,getNewRow(P.showTime))
+			end
+			P.fieldBeneath=P.fieldBeneath+120
+			-- P.curY=P.curY+4
+			P.y_img=P.y_img+4
+			freshgho()
+			return true
+		end
+	end,
+
+	bgmFadeOut=function(_,id)
+		bgm[id]:setVolume(max(bgm[id]:getVolume()-.03,0))
+		if bgm[id]:getVolume()==0 then
+			bgm[id]:stop()
+			return true
+		end
+	end,
+	bgmFadeIn=function(_,id)
+		bgm[id]:setVolume(min(bgm[id]:getVolume()+.03,1))
+		if bgm[id]:getVolume()==1 then return true end
+	end,
 }
 defaultModeEnv={
 	sprint={
 		{
 			drop=60,
 			target=10,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=20,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=40,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=100,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="race",
 		},
 		{
 			drop=60,
 			target=400,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="push",
 		},
 		{
 			drop=60,
 			target=1000,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="push",
 		},
@@ -513,28 +546,30 @@ defaultModeEnv={
 			bg="strap",
 			bgm="race",
 		},
+	},
+	master={
 		{
 			_20G=true,
 			drop=0,
 			lock=rush_lock[1],
 			wait=rush_wait[1],
 			fall=rush_fall[1],
-			target=50,
-			reach=Event.marathon_reach_lunatic,
-			arr=2,
+			target=0,
+			reach=Event.master_reach_lunatic,
+			das=9,arr=3,
 			freshLimit=15,
 			bg="game2",
 			bgm="secret8th",
 		},
-		{
+		{ 
 			_20G=true,
 			drop=0,
 			lock=death_lock[1],
 			wait=death_wait[1],
 			fall=death_fall[1],
-			target=50,
-			reach=Event.marathon_reach_ultimate,
-			arr=1,
+			target=0,
+			reach=Event.master_reach_ultimate,
+			das=6,arr=1,
 			freshLimit=15,
 			bg="game2",
 			bgm="secret7th",
@@ -562,7 +597,7 @@ defaultModeEnv={
 			lock=1e99,
 			oncehold=false,
 			target=200,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			bg="strap",
 			bgm="infinite",
 		},
@@ -791,7 +826,7 @@ defaultModeEnv={
 			drop=300,
 			lock=1e99,
 			target=100,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			ospin=false,
 			bg="rgb",
 			bgm="newera",
@@ -801,7 +836,7 @@ defaultModeEnv={
 			lock=120,
 			fall=10,
 			target=100,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			freshLimit=15,
 			ospin=false,
 			bg="rgb",
@@ -812,7 +847,7 @@ defaultModeEnv={
 			lock=60,
 			fall=20,
 			target=100,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			freshLimit=15,
 			ospin=false,
 			bg="rgb",
@@ -828,7 +863,7 @@ defaultModeEnv={
 			pushSpeed=2,
 			freshLimit=15,
 			bg="game3",
-			bgm="race",
+			bgm="rockblock",
 		},
 	},
 	techmino99={
@@ -840,7 +875,7 @@ defaultModeEnv={
 			pushSpeed=2,
 			freshLimit=15,
 			bg="game3",
-			bgm="race",
+			bgm="rockblock",
 		},
 	},
 	drought={
@@ -849,7 +884,7 @@ defaultModeEnv={
 			lock=60,
 			sequence="drought1",
 			target=100,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			ospin=false,
 			freshLimit=15,
 			bg="glow",
@@ -860,7 +895,7 @@ defaultModeEnv={
 			lock=60,
 			sequence="drought2",
 			target=100,
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 			ospin=false,
 			freshLimit=15,
 			bg="glow",
@@ -878,7 +913,7 @@ defaultModeEnv={
 		{
 			bg="none",
 			bgm="reason",
-			reach=Event.gameover.win,
+			reach=Event_gameover.win,
 		},
 	},
 }

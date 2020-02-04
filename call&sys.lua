@@ -14,37 +14,32 @@ function onVirtualkey(x,y)
 end
 function buttonControl_key(i)
 	if i=="up"or i=="down"or i=="left"or i=="right"then
-		if not Buttons.sel then
-			if Buttons[scene][1]then
-				Buttons.sel=1
-			end
+		if Buttons.sel then
+			Buttons.sel=Buttons[scene][Buttons.sel[i]]or Buttons.sel
 		else
-			Buttons.sel=Buttons[scene][Buttons.sel][i]or Buttons.sel
+			Buttons.sel=select(2,next(Buttons[scene]))
+			mouseShow=false
 		end
 	elseif i=="space"or i=="return"then
 		if not sceneSwaping and Buttons.sel then
-			local B=Buttons[scene][Buttons.sel]
-			B.code()
-			B.alpha=1
+			Buttons.sel.alpha=1
+			Buttons.sel.code()
 			sysSFX("button")
 		end
 	end
 end
 function buttonControl_gamepad(i)
 	if i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
-		if not Buttons.sel then
-			if Buttons[scene][1]then
-				Buttons.sel=1
-			end
-			mouseShow=false
+		if Buttons.sel then
+			Buttons.sel=Buttons[scene][Buttons.sel[i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]]or Buttons.sel
 		else
-			Buttons.sel=Buttons[scene][Buttons.sel][i=="dpup"and"up"or i=="dpdown"and"down"or i=="dpleft"and"left"or"right"]or Buttons.sel
+			Buttons.sel=select(2,next(Buttons[scene]))
+			mouseShow=false
 		end
 	elseif i=="start"then
 		if not sceneSwaping and Buttons.sel then
-			local B=Buttons[scene][Buttons.sel]
-			B.code()
-			B.alpha=1
+			Buttons.sel.alpha=1
+			Buttons.sel.code()
 			sysSFX("button")
 		end
 	end
@@ -257,40 +252,37 @@ end
 
 
 function love.mousemoved(x,y,dx,dy,t)
-	if not t then
-		mouseShow=true
-		mx,my=xOy:inverseTransformPoint(x,y)
-		Buttons.sel=nil
-		for i=1,#Buttons[scene]do
-			local B=Buttons[scene][i]
-			if not(B.hide and B.hide())then
-				if abs(mx-B.x)<B.w*.5 and abs(my-B.y)<B.h*.5 then
-					Buttons.sel=i
-					return
-				end
+	if t then return end
+	mouseShow=true
+	mx,my=xOy:inverseTransformPoint(x,y)
+	Buttons.sel=nil
+	for N,B in next,Buttons[scene]do
+		if not(B.hide and B.hide())then
+			if abs(mx-B.x)<B.w*.5 and abs(my-B.y)<B.h*.5 then
+				Buttons.sel=B
+				return
 			end
 		end
 	end
 end
 function love.mousepressed(x,y,k,t,num)
-	if not t then
-		mouseShow=true
-		mx,my=xOy:inverseTransformPoint(x,y)
-		if mouseDown[scene]then
-			mouseDown[scene](mx,my,k)
-		else
-			if k==1 then
-				if not sceneSwaping and Buttons.sel then
-					local B=Buttons[scene][Buttons.sel]
-					B.code()
-					B.alpha=1
-					Buttons.sel=nil
-					love.mousemoved(x,y)
-					sysSFX("button")
-				end
-			elseif k==2 then
-				back()
+	if t then return end
+	mouseShow=true
+	mx,my=xOy:inverseTransformPoint(x,y)
+	if mouseDown[scene]then
+		mouseDown[scene](mx,my,k)
+	else
+		if k==1 then
+			if not sceneSwaping and Buttons.sel then
+				local B=Buttons.sel
+				B.code()
+				B.alpha=1
+				Buttons.sel=nil
+				love.mousemoved(x,y)
+				sysSFX("button")
 			end
+		elseif k==2 then
+			back()
 		end
 	end
 end
@@ -333,6 +325,7 @@ function love.touchreleased(id,x,y)
 			B.code()
 			B.alpha=1
 			Buttons.sel=nil
+			sysSFX("button")
 		end
 		Buttons.sel=nil
 		mouseShow=false
@@ -382,6 +375,8 @@ function love.keypressed(i)
 	if i=="f12"then devMode=not devMode end
 	if devMode then
 		if i=="k"then
+			P=players.alive[rnd(#players.alive)]
+			Event_gameover.lose()
 			--Test code here
 		elseif i=="q"then
 			for i=1,#Buttons[scene]do
@@ -389,7 +384,7 @@ function love.keypressed(i)
 				print(format("x=%d,y=%d,w=%d,h=%d",B.x,B.y,B.w,B.h))
 			end
 		elseif Buttons.sel then
-			local B=Buttons[scene][Buttons.sel]
+			local B=Buttons.sel
 			if i=="left"then B.x=B.x-10
 			elseif i=="right"then B.x=B.x+10
 			elseif i=="up"then B.y=B.y-10
@@ -458,9 +453,9 @@ function love.update(dt)
 	if sceneSwaping then
 		sceneSwaping.time=sceneSwaping.time-1
 		if sceneSwaping.time==sceneSwaping.mid then
-			for i=1,#Buttons[scene]do
-				Buttons[scene][i].alpha=0
-			end--Reset buttons' state
+			for k,B in next,Buttons[scene]do
+				B.alpha=0
+			end--Reset buttons' alpha
 			scene=sceneSwaping.tar
 			BGM("blank")
 			sceneInit[scene]()
@@ -468,8 +463,12 @@ function love.update(dt)
 		elseif sceneSwaping.time==0 then
 			sceneSwaping=nil
 		end
-	elseif Tmr[scene]then
+	end
+	if Tmr[scene]then
 		Tmr[scene](dt)
+	end
+	for i=#Task,1,-1 do
+		Task[i]:update()
 	end
 	updateButton()
 end
@@ -523,7 +522,9 @@ function love.draw()
 	end
 end
 function love.resize(w,h)
-	ww,wh=w,h
+	if w>=h then ww,wh=w,h
+	else ww,wh=h,w
+	end
 	screenK=h/w>=.5625 and w/1280 or h/720
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,screenK,nil,640,360)
 	gc.replaceTransform(xOy)
