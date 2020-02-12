@@ -1,8 +1,8 @@
 -------------------------<Head>-------------------------
-local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.max,math.min
-local ins,rem=table.insert,table.remove
 local gc=love.graphics
 local Timer=love.timer.getTime
+local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.max,math.min
+local ins,rem=table.insert,table.remove
 local format=string.format
 local scr=scr--screen camera
 -------------------------</Head>-------------------------
@@ -20,12 +20,13 @@ local gameEnv0={
 	next=6,hold=true,oncehold=true,
 	sequence="bag7",
 
+	pushSpeed=3,
 	block=true,
 	visible="show",--keepVisible=visile~="show"
 	Fkey=NULL,puzzle=false,ospin=true,
 	freshLimit=1e99,easyFresh=true,
 	fine=false,fineKill=false,
-	target=1e99,dropPiece="null",
+	target=1e99,dropPiece=NULL,
 	bg="none",bgm="race"
 }
 local renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
@@ -260,486 +261,7 @@ local function drawDial(x,y,speed)
 	gc.setColor(1,1,1,.6)
 	gc.draw(dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 end
---------------Used in draw player↑
-
-player={}local player=player
-function newDemoPlayer(id,x,y,size)
-	local P={id=id}players[id]=P
-	P.invincible=true
-	for k,v in next,player do P[k]=v end
-	players.alive[#players.alive+1]=P
-	P.x,P.y,P.size=x,y,size
-	P.fieldOff={x=0,y=0,vx=0,vy=0}
-	P.small,P.keyRec=false,false
-	P.draw=P.draw_demo
-
-	P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
-	P.absFieldX=P.x+150*P.size
-	P.absFieldY=P.y+60*P.size
-
-	P.alive=true
-	P.control=true
-	P.timing=false
-	P.stat={
-		time=0,score=0,
-		key=0,extraPiece=0,extraRate=0,
-		rotate=0,hold=0,piece=0,row=0,
-		atk=0,send=0,recv=0,pend=0,
-		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
-		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
-		pc=0,b2b=0,b3b=0,
-	}
-	P.modeData={point=0,event=0}
-	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
-	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
-
-	P.atker={}
-	P.strength=0
-
-	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
-	P.gameEnv={
-		das=5,arr=2,
-		sddas=2,sdarr=2,
-		_20G=false,bone=false,
-		drop=1e99,lock=1e99,
-		wait=10,fall=20,
-		next=6,hold=true,oncehold=true,
-		sequence="bag7",
-
-		block=true,
-		visible="show",
-		Fkey=NULL,puzzle=false,ospin=true,
-		freshLimit=1e99,easyFresh=true,
-		target=1e99,dropPiece="null",
-	}
-	P.cur={bk={{}},id=0,color=0,name=0}
-		P.sc,P.dir,P.r,P.c={0,0},0,0,0
-		P.curX,P.curY,P.y_img=0,0,0
-	P.hd={bk={{}},id=0,color=0,name=0}
-		P.holded=false
-	P.next={}
-
-	P.dropDelay,P.lockDelay=1e99,1e99
-	P.freshTime=0
-	P.spinLast,P.lastClear=false,nil
-	P.spinSeq=0
-	P.ctrlCount=0
-
-	local bag1={1,2,3,4,5,6,7}
-	for _=1,7 do
-		P:newNext(rem(bag1,rnd(#bag1)))
-	end
-	P.freshNext=freshMethod.bag7
-	if P.gameEnv.sequence==1 then P.bag={}--Bag7
-	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end--History4
-	elseif P.gameEnv.sequence==3 then--Pure random
-	end
-
-	P.human=false
-	P.AI_mode="CC"
-	P.AI_stage=1
-	P.AI_needFresh=false
-	P.AI_keys={}
-	P.AI_delay,P.AI_delay0=3,3
-	P.AIdata={next=5,hold=true,_20G=false,bag7=true,node=80000}
-	if not BOT then P.AI_mode="9S"end
-	if P.AI_mode=="CC"then
-		P.RS=AIRS
-		local opt,wei=BOT.getConf()
-			BOT.setHold(opt,P.AIdata.hold)
-			BOT.set20G(opt,P.AIdata._20G)
-			BOT.setBag(opt,P.AIdata.bag7)
-			BOT.setNode(opt,P.AIdata.node)
-		P.AI_bot=BOT.new(opt,wei)
-		BOT.free(opt)BOT.free(wei)
-		local CCBID={4,3,5,6,1,2,0}
-		for i=1,5 do
-			BOT.addNext(P.AI_bot,CCBID[P.next[i].id])
-		end
-	elseif P.AI_mode=="9S"then
-		P.RS=TRS
-	end
-	P.showTime=1e99
-	P.keepVisible=true
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-	P.moving,P.downing=0,0
-	P.waiting,P.falling=-1,-1
-	P.clearing,P.cleared={},{}
-	P.combo,P.b2b=0,0
-	P.fieldBeneath=0
-	P.shade={}
-	P.score1,P.b2b1=0,0
-	P.bonus={}--texts
-
-	P:resetblock()
-	PTC.dust[1]=PTC.dust0:clone()
-end
-function newPlayer(id,x,y,size,AIdata)
-	players[id]={id=id}
-    local P=players[id]
-    for k,v in next,player do P[k]=v end--Class function
-	players.alive[#players.alive+1]=P
-	P.x,P.y,P.size=x,y,size or 1
-	P.fieldOff={x=0,y=0,vx=0,vy=0}--for shake FX
-	P.small=P.size<.1--if draw in small mode
-	P.keyRec=not P.small--if calculate keySpeed
-	if P.small then
-		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
-		P.canvas=love.graphics.newCanvas(60,120)
-		P.frameWait=rnd(30,120)
-		P.draw=P.draw_small
-	else
-		P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
-		P.absFieldX=P.x+150*P.size
-		P.absFieldY=P.y+60*P.size
-		P.draw=P.draw_norm
-	end
-
-	P.alive=true
-	P.control=false
-	P.timing=false
-	P.stat={
-		time=0,score=0,
-		key=0,extraPiece=0,extraRate=0,
-		rotate=0,hold=0,piece=0,row=0,
-		atk=0,send=0,recv=0,pend=0,
-		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
-		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
-		pc=0,b2b=0,b3b=0,
-	}--Current gamestat
-	P.modeData={point=0,event=0}--data use by mode
-	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
-	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
-
-	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
-
-	P.ko,P.badge,P.strength=0,0,0
-	P.atkMode,P.swappingAtkMode=1,20
-	P.atker,P.atking,P.lastRecv={}
-	--Royale-related
-
-	P.gameEnv={}--Current game setting environment
-	for k,v in next,gameEnv0 do
-		if modeEnv[k]~=nil then
-			P.gameEnv[k]=modeEnv[k]
-		elseif setting[k]~=nil then
-			P.gameEnv[k]=setting[k]
-		else
-			P.gameEnv[k]=v
-		end
-	end--reset current game settings
-	P.cur={bk={{}},id=0,color=0,name=0}
-		P.sc,P.dir,P.r,P.c={0,0},0,0,0
-		P.curX,P.curY,P.y_img=0,0,0
-	P.hd={bk={{}},id=0,color=0,name=0}
-		P.holded=false
-	P.next={}
-
-	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
-	P.freshTime=0
-	P.spinLast,P.lastClear=false,nil
-	P.spinSeq=0--for Ospin,each digit mean a spin
-	P.ctrlCount=0--key press time,for finesse check
-
-	P.his={rnd(7),rnd(7),rnd(7),rnd(7)}
-	local s=P.gameEnv.sequence
-	if s=="bag7"or s=="his4"then
-		local bag1={1,2,3,4,5,6,7}
-		for _=1,7 do
-			P:newNext(rem(bag1,rnd(#bag1)))
-		end
-	elseif s=="rnd"then
-		for _=1,6 do
-			local r=rnd(7)
-			P:newNext(r)
-		end
-	elseif s=="drought1"then
-		local bag1={1,2,3,4,5,6}
-		for _=1,6 do
-			P:newNext(rem(bag1,rnd(#bag1)))
-		end
-	elseif s=="drought2"then
-		local bag1={1,2,3,4,6,6}
-		for _=1,6 do
-			P:newNext(rem(bag1,rnd(#bag1)))
-		end
-	end
-
-	P.freshNext=freshMethod[P.gameEnv.sequence]
-	if P.gameEnv.sequence==1 then P.bag={}--Bag7
-	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end--History4
-	elseif P.gameEnv.sequence==3 then--Pure random
-	end
-
-	if AIdata then
-		P.human=false
-		P.AI_mode=AIdata.type
-		P.AI_stage=1
-		P.AI_needFresh=false
-		P.AI_keys={}
-		P.AI_delay=min(int(P.gameEnv.drop*.8),2*AIdata.delta)
-		P.AI_delay0=AIdata.delta
-		P.AIdata={
-			next=AIdata.next,
-			hold=AIdata.hold,
-			_20G=P.gameEnv._20G,
-			bag7=AIdata.bag7=="bag7",
-			node=AIdata.node,
-		}
-		if not BOT then P.AI_mode="9S"end
-		if P.AI_mode=="CC"then
-			P.RS=AIRS
-			local opt,wei=BOT.getConf()
-				BOT.setHold(opt,P.AIdata.hold)
-				BOT.set20G(opt,P.AIdata._20G)
-				BOT.setBag(opt,P.AIdata.bag7)
-				BOT.setNode(opt,P.AIdata.node)
-			P.AI_bot=BOT.new(opt,wei)
-			BOT.free(opt)BOT.free(wei)
-			for i=1,AIdata.next do
-				BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
-			end
-		elseif P.AI_mode=="9S"then
-			P.RS=TRS
-			P.AI_keys={}
-		end
-	else
-		P.human=true
-		P.RS=TRS
-		players.human=players.human+1
-	end
-
-	P.showTime=visible_opt[P.gameEnv.visible]
-	P.keepVisible=P.gameEnv.visible=="show"
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-	P.moving,P.downing=0,0
-	P.waiting,P.falling=-1,-1
-	P.clearing,P.cleared={},{}
-	P.combo,P.b2b=0,0
-	P.fieldBeneath=0
-
-	P.shade={}
-	P.score1,P.b2b1=0,0
-	P.bonus={}--texts
-
-	P.endCounter=0--used after gameover
-	P.counter=0--many usage
-	P.result=nil--string:win/lose
-end
-function player.update(P,dt)
-	if P.timing then P.stat.time=P.stat.time+dt end
-	if P.alive then
-		if P.keyRec then
-			local v=0
-			for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
-			v=0
-			for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
-			--Update speeds
-			if modeEnv.royaleMode then
-				if P.keyPressing[9]then
-					P.swappingAtkMode=min(P.swappingAtkMode+2,30)
-				else
-					P.swappingAtkMode=P.swappingAtkMode+((#P.field>15 and P.swappingAtkMode>4 or P.swappingAtkMode>8)and -1 or 1)
-				end
-			end
-		end
-
-		if not P.human and P.control and P.waiting==-1 then
-			local C=P.AI_keys
-			P.AI_delay=P.AI_delay-1
-			if not C[1]then
-				P.AI_stage=AI_think[P.AI_mode][P.AI_stage](P,C)
-			elseif P.AI_delay<=0 then
-				P:pressKey(C[1])P:releaseKey(C[1])
-				local k=#C for i=1,k do C[i]=C[i+1]end--table.remove(C,1)
-				P.AI_delay=P.AI_delay0*2
-			end
-		end
-		if not P.keepVisible then
-			for j=1,#P.field do for i=1,10 do
-				if P.visTime[j][i]>0 then P.visTime[j][i]=P.visTime[j][i]-1 end
-			end end
-		end--Fresh visible time
-		if P.moving<0 then
-			if P.keyPressing[1]then
-				if -P.moving<=P.gameEnv.das then
-					P.moving=P.moving-1
-				elseif P.waiting==-1 then
-					local x=P.curX
-					if P.gameEnv.arr>0 then
-						P.act.moveLeft(P,true)
-					else
-						P.act.insLeft(P,true)
-					end
-					if x~=P.curX then
-						P.moving=P.moving+P.gameEnv.arr-1
-					elseif not P.small then
-						P.fieldOff.vx=-setting.shakeFX*.5
-					end
-				end
-			else
-				P.moving=0
-			end
-		elseif P.moving>0 then
-			if P.keyPressing[2]then
-				if P.moving<=P.gameEnv.das then
-					P.moving=P.moving+1
-				elseif P.waiting==-1 then
-					local x=P.curX
-					if P.gameEnv.arr>0 then
-						P.act.moveRight(P,true)
-					else
-						P.act.insRight(P,true)
-					end
-					if x~=P.curX then
-						P.moving=P.moving-P.gameEnv.arr+1
-					elseif not P.small then
-						P.fieldOff.vx=setting.shakeFX*.5
-					end
-				end
-			else
-				P.moving=0
-			end
-		end
-		if P.keyPressing[7]and not P.keyPressing[9]then
-			local d=P.downing-P.gameEnv.sddas
-			P.downing=P.downing+1
-			if d>1 then
-				if P.gameEnv.sdarr>0 then
-					if d%P.gameEnv.sdarr==0 then
-						P.act.down1(P)
-					end
-				else
-					P.act.insDown(P)
-				end
-				if not P.small then
-					P.fieldOff.vy=setting.shakeFX*.3
-				end			
-			end
-		else
-			P.downing=0
-		end
-		if P.falling>=0 then
-			P.falling=P.falling-1
-			if P.falling>=0 then
-				goto stop
-			else
-				local L=#P.clearing
-				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
-				P.clearing,P.cleared={},{}
-			end
-		end
-		if not P.control then goto stop end
-		if P.waiting>=0 then
-			P.waiting=P.waiting-1
-			if P.waiting==-1 then P:resetblock()end
-			goto stop
-		end
-		if P.curY~=P.y_img then
-			if P.dropDelay>=0 then
-				P.dropDelay=P.dropDelay-1
-				if P.dropDelay>0 then goto stop end
-			end
-			P.curY=P.curY-1
-			P.spinLast=false
-			if P.y_img~=P.curY then
-				P.dropDelay=P.gameEnv.drop
-			elseif P.AI_mode=="CC"then
-				P.AI_needFresh=true
-				if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
-					CC_switch20G(P)
-				end
-			end
-			if P.freshTime<=P.gameEnv.freshLimit then
-				P.lockDelay=P.gameEnv.lock
-			end
-		else
-			P.lockDelay=P.lockDelay-1
-			if P.lockDelay>=0 then goto stop end
-			P:drop()
-			if P.AI_mode=="CC"then
-				P.AI_needFresh=true
-			end
-		end
-		::stop::
-		if P.b2b1==P.b2b then
-		elseif P.b2b1<P.b2b then
-			P.b2b1=min(P.b2b1*.98+P.b2b*.02+.4,P.b2b)
-		else
-			P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
-		end
-		--Alive
-	else
-		if not P.small then
-			P.keySpeed=P.keySpeed*.96+P.stat.key/P.stat.time*60*.04
-			P.dropSpeed=P.dropSpeed*.96+P.stat.piece/P.stat.time*60*.04
-			--Final average speeds
-			if modeEnv.royaleMode then
-				P.swappingAtkMode=min(P.swappingAtkMode+2,30)
-			end
-		end
-		if P.falling>=0 then
-			P.falling=P.falling-1
-			if P.falling>=0 then
-				goto stop
-			else
-				local L=#P.clearing
-				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
-				P.clearing,P.cleared={},{}
-			end
-		end::stop::
-		if P.endCounter<40 then
-			for j=1,#P.field do for i=1,10 do
-				if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
-			end end--Make field visible
-		end
-		if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
-		--Dead
-	end
-	if P.stat.score>P.score1 then
-		if P.stat.score-P.score1<10 then
-			P.score1=P.score1+1
-		else
-			P.score1=int(min(P.score1*.9+P.stat.score*.1+1))
-		end
-	end
-	for i=#P.shade,1,-1 do
-		local S=P.shade[i]
-		S[1]=S[1]-1+setting.dropFX*.15
-		if S[1]<=0 then
-			rem(P.shade,i)
-		end
-	end
-
-	if setting.shakeFX>0 then
-		local O=P.fieldOff
-		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .1 or -.1),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
-		O.x,O.y=O.x+O.vx,O.y+O.vy
-		if abs(O.x)<1 then O.x=0 end
-		if abs(O.y)<1 then O.y=0 end
-	end--field shaking
-	updateText(P.bonus)
-	for i=#P.atkBuffer,1,-1 do
-		local A=P.atkBuffer[i]
-		A.time=A.time+1
-		if not A.sent then
-			if A.countdown>0 then
-				A.countdown=max(A.countdown-garbageSpeed,0)
-			end
-		else
-			if A.time>20 then
-				rem(P.atkBuffer,i)
-			end
-		end
-	end
-	if P.fieldBeneath>0 then P.fieldBeneath=max(P.fieldBeneath-pushSpeed,0)end
-	if not P.small then
-		PTC.dust[P.id]:update(dt)
-	end
-end
-function player.draw_norm(P)
+function Pdraw_norm(P)
 	gc.push("transform")
 	gc.translate(P.x,P.y)gc.scale(P.size)
 	--Camera
@@ -832,7 +354,7 @@ function player.draw_norm(P)
 					if P.cur.bk[i][j]then
 						gc.rectangle("fill",30*(j+P.curX-1)-33,597-30*(i+P.curY-1),36,36)
 					end
-				end end--BlockShade(lockdelay indicator)
+				end end--White Boarder(indicate lockdelay)
 				gc.setColor(1,1,1)
 				for i=1,P.r do for j=1,P.c do
 					if P.cur.bk[i][j]then
@@ -854,7 +376,7 @@ function player.draw_norm(P)
 	::E::
 	gc.setScissor()--In-playField things
 	gc.setColor(1,1,1)
-	gc.draw(PTC.dust[P.id])
+	gc.draw(P.dust)
 	gc.translate(0,-P.fieldBeneath)
 	gc.setBlendMode("replace","alphamultiply")--SPEED UPUP(?)
 		gc.setLineWidth(2)
@@ -954,7 +476,7 @@ function player.draw_norm(P)
 	gc.draw(drawableText.kpm,344,583)
 	--Speed dials
 	gc.setColor(1,1,1)
-	modes[curMode.id].mesDisp(P,P.fieldOff.x,P.fieldOff.y)--Other messages
+	curMode.mesDisp(P)--Other messages
 	if modeEnv.royaleMode then
 		if P.atkMode then
 			gc.setColor(1,.8,0,P.swappingAtkMode*.02)
@@ -965,7 +487,7 @@ function player.draw_norm(P)
 	end
 	gc.pop()
 end
-function player.draw_small(P)
+function Pdraw_small(P)
 	P.frameWait=P.frameWait-1
 	if P.frameWait==0 then
 		P.frameWait=8
@@ -1007,8 +529,9 @@ function player.draw_small(P)
 		gc.setColor(1,0,0,min(P.endCounter,25)*.04)
 		gc.circle("line",P.centerX,P.centerY,(840-20*min(P.endCounter,30))*P.size)
 	end
+	setFont(30)
 end
-function player.draw_demo(P)
+function Pdraw_demo(P)
 	gc.push("transform")
 	gc.translate(P.x,P.y)gc.scale(P.size)gc.translate(P.fieldOff.x,P.fieldOff.y)
 	--Camera
@@ -1084,10 +607,223 @@ function player.draw_demo(P)
 	end
 	--Next
 	gc.setColor(1,1,1)
-	gc.draw(PTC.dust[P.id])
+	gc.draw(P.dust)
 	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
 	drawTexts(P.bonus)
 	gc.pop()
+end
+--------------Used in draw player↑
+player={}local player=player
+function player.update(P,dt)
+	if P.timing then P.stat.time=P.stat.time+dt end
+	if P.alive then
+		if P.keyRec then
+			local v=0
+			for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
+			v=0
+			for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
+			--Update speeds
+			if modeEnv.royaleMode then
+				if P.keyPressing[9]then
+					P.swappingAtkMode=min(P.swappingAtkMode+2,30)
+				else
+					P.swappingAtkMode=P.swappingAtkMode+((#P.field>15 and P.swappingAtkMode>4 or P.swappingAtkMode>8)and -1 or 1)
+				end
+			end
+		end
+
+		if not P.human and P.control and P.waiting==-1 then
+			local C=P.AI_keys
+			P.AI_delay=P.AI_delay-1
+			if not C[1]then
+				P.AI_stage=AI_think[P.AI_mode][P.AI_stage](P,C)
+			elseif P.AI_delay<=0 then
+				P:pressKey(C[1])P:releaseKey(C[1])
+				local k=#C for i=1,k do C[i]=C[i+1]end--table.remove(C,1)
+				P.AI_delay=P.AI_delay0*2
+			end
+		end
+		if not P.keepVisible then
+			for j=1,#P.field do for i=1,10 do
+				if P.visTime[j][i]>0 then P.visTime[j][i]=P.visTime[j][i]-1 end
+			end end
+		end--Fresh visible time
+		if P.moving<0 then
+			if P.keyPressing[1]then
+				if -P.moving<=P.gameEnv.das then
+					P.moving=P.moving-1
+				elseif P.waiting==-1 then
+					local x=P.curX
+					if P.gameEnv.arr>0 then
+						P.act.moveLeft(P,true)
+					else
+						P.act.insLeft(P,true)
+					end
+					if x~=P.curX then
+						P.moving=P.moving+P.gameEnv.arr-1
+					elseif not P.small then
+						P.fieldOff.vx=-setting.shakeFX*.5
+					end
+				end
+			else
+				P.moving=0
+			end
+		elseif P.moving>0 then
+			if P.keyPressing[2]then
+				if P.moving<=P.gameEnv.das then
+					P.moving=P.moving+1
+				elseif P.waiting==-1 then
+					local x=P.curX
+					if P.gameEnv.arr>0 then
+						P.act.moveRight(P,true)
+					else
+						P.act.insRight(P,true)
+					end
+					if x~=P.curX then
+						P.moving=P.moving-P.gameEnv.arr+1
+					elseif not P.small then
+						P.fieldOff.vx=setting.shakeFX*.5
+					end
+				end
+			else
+				P.moving=0
+			end
+		end
+		if P.keyPressing[7]and not P.keyPressing[9]then
+			local d=P.downing-P.gameEnv.sddas
+			P.downing=P.downing+1
+			if d>1 then
+				if P.gameEnv.sdarr>0 then
+					if d%P.gameEnv.sdarr==0 then
+						P.act.down1(P)
+					end
+				else
+					P.act.insDown(P)
+				end
+				if not P.small then
+					P.fieldOff.vy=setting.shakeFX*.3
+				end
+			end
+		else
+			P.downing=0
+		end
+		if P.falling>=0 then
+			P.falling=P.falling-1
+			if P.falling>=0 then
+				goto stop
+			else
+				local L=#P.clearing
+				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
+				P.clearing={}
+			end
+		end
+		if not P.control then goto stop end
+		if P.waiting>=0 then
+			P.waiting=P.waiting-1
+			if P.waiting==-1 then P:resetblock()end
+			goto stop
+		end
+		if P.curY~=P.y_img then
+			if P.dropDelay>=0 then
+				P.dropDelay=P.dropDelay-1
+				if P.dropDelay>0 then goto stop end
+			end
+			P.curY=P.curY-1
+			P.spinLast=false
+			if P.y_img~=P.curY then
+				P.dropDelay=P.gameEnv.drop
+			elseif P.AI_mode=="CC"then
+				P.AI_needFresh=true
+				if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
+					CC_switch20G(P)
+				end
+			end
+			if P.freshTime<=P.gameEnv.freshLimit then
+				P.lockDelay=P.gameEnv.lock
+			end
+		else
+			P.lockDelay=P.lockDelay-1
+			if P.lockDelay>=0 then goto stop end
+			P:drop()
+			if P.AI_mode=="CC"then
+				P.AI_needFresh=true
+			end
+		end
+		::stop::
+		if P.b2b1==P.b2b then
+		elseif P.b2b1<P.b2b then
+			P.b2b1=min(P.b2b1*.98+P.b2b*.02+.4,P.b2b)
+		else
+			P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
+		end
+		--Alive
+	else
+		if not P.small then
+			P.keySpeed=P.keySpeed*.96+P.stat.key/P.stat.time*60*.04
+			P.dropSpeed=P.dropSpeed*.96+P.stat.piece/P.stat.time*60*.04
+			--Final average speeds
+			if modeEnv.royaleMode then
+				P.swappingAtkMode=min(P.swappingAtkMode+2,30)
+			end
+		end
+		if P.falling>=0 then
+			P.falling=P.falling-1
+			if P.falling>=0 then
+				goto stop
+			else
+				local L=#P.clearing
+				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
+				P.clearing={}
+			end
+		end::stop::
+		if P.endCounter<40 then
+			for j=1,#P.field do for i=1,10 do
+				if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
+			end end--Make field visible
+		end
+		if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
+		--Dead
+	end
+	if P.stat.score>P.score1 then
+		if P.stat.score-P.score1<10 then
+			P.score1=P.score1+1
+		else
+			P.score1=int(min(P.score1*.9+P.stat.score*.1+1))
+		end
+	end
+	for i=#P.shade,1,-1 do
+		local S=P.shade[i]
+		S[1]=S[1]-1+setting.dropFX*.15
+		if S[1]<=0 then
+			rem(P.shade,i)
+		end
+	end
+
+	if setting.shakeFX>0 then
+		local O=P.fieldOff
+		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .1 or -.1),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
+		O.x,O.y=O.x+O.vx,O.y+O.vy
+		if abs(O.x)<1 then O.x=0 end
+		if abs(O.y)<1 then O.y=0 end
+	end--field shaking
+	updateText(P.bonus)
+	for i=#P.atkBuffer,1,-1 do
+		local A=P.atkBuffer[i]
+		A.time=A.time+1
+		if not A.sent then
+			if A.countdown>0 then
+				A.countdown=max(A.countdown-garbageSpeed,0)
+			end
+		else
+			if A.time>20 then
+				rem(P.atkBuffer,i)
+			end
+		end
+	end
+	if P.fieldBeneath>0 then P.fieldBeneath=max(P.fieldBeneath-P.gameEnv.pushSpeed,0)end
+	if not P.small then
+		P.dust:update(dt)
+	end
 end
 -------------------------<FX>-------------------------
 local textFX=textFX
@@ -1194,7 +930,7 @@ local function checkrow(P,start,height)--(cy,r)
 			removeRow(P.visTime,h)
 			c=c+1
 			if not P.small then
-				local S=PTC.dust[P.id]
+				local S=P.dust
 				for _=1,100 do
 					S:setPosition(rnd(300),630-30*(h+c)+rnd(30))
 					S:emit(2)
@@ -1324,14 +1060,11 @@ function player.changeAtkMode(P,m)
 	P.atkMode=m
 	if m==1 then
 		P:changeAtk(randomTarget(P))
-	elseif m==2 then
-		P:freshTarget()
-	elseif m==3 then
+	elseif m==2 or m==3 then
 		P:freshTarget()
 	elseif m==4 then
 		P:changeAtk()
 	end
-	::L::
 end
 function player.changeAtk(P,R)
 	-- if not P.human then R=players[1]end--Delete first "--" to enable 1vALL mode
@@ -1340,11 +1073,10 @@ function player.changeAtk(P,R)
 		for i=1,#K do
 			if K[i]==P then
 				rem(K,i)
-				goto L
+				break
 			end
 		end
 	end
-	::L::
 	if R then
 		P.atking=R
 		R.atker[#R.atker+1]=P
@@ -1619,6 +1351,7 @@ function player.resetblock(P)
 end
 function player.drop(P)--Place piece
 	P.dropTime[11]=ins(P.dropTime,1,frame)--update speed dial
+	if P.cleared[1]then P.cleared={}end
 	P.waiting=P.gameEnv.wait
 	local dospin=0
 	if P.spinLast then
@@ -1802,9 +1535,14 @@ function player.drop(P)--Place piece
 			end
 		end
 		send=send+(renATK[P.combo]or 3)
+		sendTime=sendTime+25*P.combo
+		if P.combo>2 then
+			P:showText(text.cmb[min(P.combo,20)],0,25,15+min(P.combo,25)*3,P.combo<10 and"appear"or"flicker")
+			cscore=cscore+min(20*P.combo,300)*cc
+		end
 		if #P.field==0 then
 			P:showText(text.PC,0,-80,50,"flicker")
-			send=min(send,3)+min(6+P.stat.pc,10)
+			send=ceil(send^.5)+min(6+P.stat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+60
 			if P.stat.row>4 then
@@ -1820,11 +1558,6 @@ function player.drop(P)--Place piece
 				VOICE("pc",CHN)
 			end
 		end
-		if P.combo>2 then
-			P:showText(text.cmb[min(P.combo,20)],0,25,15+min(P.combo,25)*3,P.combo<10 and"appear"or"flicker")
-			cscore=cscore+min(20*P.combo,300)*cc
-		end
-		sendTime=sendTime+25*P.combo
 		if P.human then
 			SFX(clear_n[cc])
 			SFX(ren_n[min(P.combo,11)])
@@ -1839,14 +1572,13 @@ function player.drop(P)--Place piece
 				send=send+reAtk[i]
 				exblock=exblock+reDef[i]
 			end
-		end--Counter attack
+		end--Bonus atk/def when focused
 
 		if send>0 then
-			P.stat.atk=P.stat.atk+send
+			P.stat.atk=P.stat.atk+int(send)
 			--ATK statistics
 			if exblock then exblock=int(exblock*(1+P.strength*.25))end
-			send=send*(1+P.strength*.25)
-			send=int(send)
+			send=int(send*(1+P.strength*.25))
 			--Badge Buff
 			if send==0 then goto L end
 				P:showText(send,0,80,35,"zoomout")
@@ -1937,7 +1669,10 @@ function player.drop(P)--Place piece
 	end
 	P.stat.score=P.stat.score+cscore
 	P.stat.piece,P.stat.row=P.stat.piece+1,P.stat.row+cc
-	Event[P.gameEnv.dropPiece](P)
+	local _=P.gameEnv.dropPiece
+	if _ then
+		_(P)
+	end
 	if P.human then SFX("lock",nil,getBlockDirection(P))end
 end
 function player.pressKey(P,i)
@@ -2194,3 +1929,271 @@ function player.act.addRight(P)
 	P.act.hardDrop(P)
 end
 -------------------------</Controls>-------------------------
+function newDemoPlayer(id,x,y,size)
+	local P={id=id}players[id]=P
+	P.invincible=true
+	for k,v in next,player do P[k]=v end
+	players.alive[#players.alive+1]=P
+	P.x,P.y,P.size=x,y,size
+	P.fieldOff={x=0,y=0,vx=0,vy=0}
+	P.small,P.keyRec=false,false
+	P.draw=Pdraw_demo
+
+	P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
+	P.absFieldX=P.x+150*P.size
+	P.absFieldY=P.y+60*P.size
+
+	P.alive=true
+	P.control=true
+	P.timing=false
+	P.stat={
+		time=0,score=0,
+		key=0,extraPiece=0,extraRate=0,
+		rotate=0,hold=0,piece=0,row=0,
+		atk=0,send=0,recv=0,pend=0,
+		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
+		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
+		pc=0,b2b=0,b3b=0,
+	}
+	P.modeData={point=0,event=0,counter=0}
+	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
+	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
+
+	P.atker={}
+	P.strength=0
+
+	P.field,P.visTime={},{}
+	P.atkBuffer={sum=0}
+	P.gameEnv={
+		das=5,arr=2,
+		sddas=2,sdarr=2,
+		_20G=false,bone=false,
+		drop=1e99,lock=1e99,
+		wait=10,fall=20,
+		next=6,hold=true,oncehold=true,
+		sequence="bag7",
+
+		block=true,
+		visible="show",
+		Fkey=NULL,puzzle=false,ospin=true,
+		freshLimit=1e99,easyFresh=true,
+		target=1e99,dropPiece=NULL,
+	}
+	P.cur={bk={{}},id=0,color=0,name=0}
+		P.sc,P.dir,P.r,P.c={0,0},0,0,0
+		P.curX,P.curY,P.y_img=0,0,0
+	P.hd={bk={{}},id=0,color=0,name=0}
+		P.holded=false
+	P.next={}
+
+	P.dropDelay,P.lockDelay=1e99,1e99
+	P.freshTime=0
+	P.spinLast,P.lastClear=false,nil
+	P.spinSeq=0
+	P.ctrlCount=0
+
+	local bag1={1,2,3,4,5,6,7}
+	for _=1,7 do
+		P:newNext(rem(bag1,rnd(#bag1)))
+	end
+	P.freshNext=freshMethod.bag7
+	if P.gameEnv.sequence==1 then P.bag={}--Bag7
+	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end--History4
+	elseif P.gameEnv.sequence==3 then--Pure random
+	end
+
+	P.human=false
+	P.AI_mode="CC"
+	P.AI_stage=1
+	P.AI_needFresh=false
+	P.AI_keys={}
+	P.AI_delay,P.AI_delay0=3,3
+	P.AIdata={next=5,hold=true,_20G=false,bag7=true,node=80000}
+	if not BOT then P.AI_mode="9S"end
+	if P.AI_mode=="CC"then
+		P.RS=AIRS
+		local opt,wei=BOT.getConf()
+			BOT.setHold(opt,P.AIdata.hold)
+			BOT.set20G(opt,P.AIdata._20G)
+			BOT.setBag(opt,P.AIdata.bag7)
+			BOT.setNode(opt,P.AIdata.node)
+		P.AI_bot=BOT.new(opt,wei)
+		BOT.free(opt)BOT.free(wei)
+		local CCBID={4,3,5,6,1,2,0}
+		for i=1,5 do
+			BOT.addNext(P.AI_bot,CCBID[P.next[i].id])
+		end
+	elseif P.AI_mode=="9S"then
+		P.RS=TRS
+	end
+	P.showTime=1e99
+	P.keepVisible=true
+	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
+	P.moving,P.downing=0,0
+	P.waiting,P.falling=-1,-1
+	P.clearing,P.cleared={},{}
+	P.combo,P.b2b=0,0
+	P.fieldBeneath=0
+	P.score1,P.b2b1=0,0
+	P.shade={}
+	P.bonus={}--texts
+	P.dust=clearDust:clone()
+	P.dust:start()
+
+	P:resetblock()
+end
+function newPlayer(id,x,y,size,AIdata)
+	players[id]={id=id}
+	local P=players[id]
+	for k,v in next,player do P[k]=v end--Class function
+	players.alive[#players.alive+1]=P
+	P.x,P.y,P.size=x,y,size or 1
+	P.fieldOff={x=0,y=0,vx=0,vy=0}--for shake FX
+	P.small=P.size<.1--if draw in small mode
+	P.keyRec=not P.small--if calculate keySpeed
+	if P.small then
+		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
+		P.canvas=love.graphics.newCanvas(60,120)
+		P.frameWait=rnd(30,120)
+		P.draw=Pdraw_small
+	else
+		P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
+		P.absFieldX=P.x+150*P.size
+		P.absFieldY=P.y+60*P.size
+		P.draw=Pdraw_norm
+		P.dust=clearDust:clone()
+		P.dust:start()
+	end
+
+	P.alive=true
+	P.control=false
+	P.timing=false
+	P.stat={
+		time=0,score=0,
+		key=0,extraPiece=0,extraRate=0,
+		rotate=0,hold=0,piece=0,row=0,
+		atk=0,send=0,recv=0,pend=0,
+		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
+		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
+		pc=0,b2b=0,b3b=0,
+	}--Current gamestat
+	P.modeData={point=0,event=0,counter=0}--data use by mode
+	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
+	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
+
+	P.field,P.visTime={},{}
+	P.atkBuffer={sum=0}
+
+	P.ko,P.badge,P.strength=0,0,0
+	P.atkMode,P.swappingAtkMode=1,20
+	P.atker,P.atking,P.lastRecv={}
+	P.rank=nil
+	--Royale-related
+
+	P.gameEnv={}--Current game setting environment
+	for k,v in next,gameEnv0 do
+		if modeEnv[k]~=nil then
+			P.gameEnv[k]=modeEnv[k]
+		elseif setting[k]~=nil then
+			P.gameEnv[k]=setting[k]
+		else
+			P.gameEnv[k]=v
+		end
+	end--reset current game settings
+	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
+		P.sc,P.dir,P.r,P.c={0,0},0,0,0--spinCenter,direction,row,col
+		P.curX,P.curY,P.y_img=0,0,0--x,y,ghostY
+	P.hd={bk={{}},id=0,color=0,name=0}
+		P.holded=false
+	P.next={}
+
+	P.dropDelay,P.lockDelay=P.gameEnv.drop,P.gameEnv.lock
+	P.freshTime=0
+	P.spinLast,P.lastClear=false,nil
+	P.spinSeq=0--for Ospin,each digit mean a spin
+	P.ctrlCount=0--key press time,for finesse check
+
+	P.his={rnd(7),rnd(7),rnd(7),rnd(7)}
+	local s=P.gameEnv.sequence
+	if s=="bag7"or s=="his4"then
+		local bag1={1,2,3,4,5,6,7}
+		for _=1,7 do
+			P:newNext(rem(bag1,rnd(#bag1)))
+		end
+	elseif s=="rnd"then
+		for _=1,6 do
+			local r=rnd(7)
+			P:newNext(r)
+		end
+	elseif s=="drought1"then
+		local bag1={1,2,3,4,5,6}
+		for _=1,6 do
+			P:newNext(rem(bag1,rnd(#bag1)))
+		end
+	elseif s=="drought2"then
+		local bag1={1,2,3,4,6,6}
+		for _=1,6 do
+			P:newNext(rem(bag1,rnd(#bag1)))
+		end
+	end
+
+	P.freshNext=freshMethod[P.gameEnv.sequence]
+	if P.gameEnv.sequence==1 then P.bag={}--Bag7
+	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end--History4
+	elseif P.gameEnv.sequence==3 then--Pure random
+	end
+
+	if AIdata then
+		P.human=false
+		P.AI_mode=AIdata.type
+		P.AI_stage=1
+		P.AI_needFresh=false
+		P.AI_keys={}
+		P.AI_delay=min(int(P.gameEnv.drop*.8),2*AIdata.delta)
+		P.AI_delay0=AIdata.delta
+		P.AIdata={
+			next=AIdata.next,
+			hold=AIdata.hold,
+			_20G=P.gameEnv._20G,
+			bag7=AIdata.bag7=="bag7",
+			node=AIdata.node,
+		}
+		if not BOT then P.AI_mode="9S"end
+		if P.AI_mode=="CC"then
+			P.RS=AIRS
+			local opt,wei=BOT.getConf()
+				BOT.setHold(opt,P.AIdata.hold)
+				BOT.set20G(opt,P.AIdata._20G)
+				BOT.setBag(opt,P.AIdata.bag7)
+				BOT.setNode(opt,P.AIdata.node)
+			P.AI_bot=BOT.new(opt,wei)
+			BOT.free(opt)BOT.free(wei)
+			for i=1,AIdata.next do
+				BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+			end
+		elseif P.AI_mode=="9S"then
+			P.RS=TRS
+			P.AI_keys={}
+		end
+	else
+		P.human=true
+		P.RS=TRS
+		players.human=players.human+1
+	end
+
+	P.showTime=visible_opt[P.gameEnv.visible]
+	P.keepVisible=P.gameEnv.visible=="show"
+	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
+	P.moving,P.downing=0,0
+	P.waiting,P.falling=-1,-1
+	P.clearing,P.cleared={},{}
+	P.combo,P.b2b=0,0
+	P.fieldBeneath=0
+
+	P.score1,P.b2b1=0,0
+	P.shade={}
+	P.bonus={}--texts
+
+	P.endCounter=0--used after gameover
+	P.result=nil--string:"WIN"/"K.O."
+end

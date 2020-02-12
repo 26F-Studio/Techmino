@@ -39,17 +39,17 @@ end
 
 puzzleMark={}
 gc.setLineWidth(3)
-for i=1,13 do
+for i=1,7 do
 	puzzleMark[i]=C(30,30)
-	if i>7 then
-		gc.setColor(blockColor[i])
-		gc.rectangle("line",7,7,16,16)
-	else
-		local c=blockColor[i]
-		gc.setColor(c[1],c[2],c[3],.6)
-		gc.rectangle("line",5,5,20,20)
-		gc.rectangle("line",10,10,10,10)
-	end
+	local c=blockColor[i]
+	gc.setColor(c[1],c[2],c[3],.6)
+	gc.rectangle("line",5,5,20,20)
+	gc.rectangle("line",10,10,10,10)
+end
+for i=8,13 do
+	puzzleMark[i]=C(30,30)
+	gc.setColor(blockColor[i])
+	gc.rectangle("line",7,7,16,16)
 end
 c=C(30,30)
 gc.setColor(1,1,1)
@@ -60,15 +60,20 @@ gc.setColor(1,1,1,.9)
 gc.draw(c)
 c:release()
 
-PTC={dust={}}--Particle systems
+mapCross=C(40,40)
+gc.setColor(1,1,1)
+gc.setLineWidth(4)
+gc.line(0,20,40,20)
+gc.line(20,0,20,40)
+
 c=C(6,6)
 gc.clear(1,1,1)
-PTC.dust0=gc.newParticleSystem(c,1000)
+clearDust=gc.newParticleSystem(c,1000)
 c:release()
-PTC.dust0:setParticleLifetime(.2,.3)
-PTC.dust0:setEmissionRate(0)
-PTC.dust0:setLinearAcceleration(-1500,-200,1500,200)
-PTC.dust0:setColors(1,1,1,.5,1,1,1,0)
+clearDust:setParticleLifetime(.2,.3)
+clearDust:setEmissionRate(0)
+clearDust:setLinearAcceleration(-1500,-200,1500,200)
+clearDust:setColors(1,1,1,.5,1,1,1,0)
 --Dust particles
 
 gc.setDefaultFilter("linear","linear")
@@ -85,11 +90,13 @@ background2=N("/image/BG/bg2.png")
 groupCode=N("/image/mess/groupcode.png")
 payCode=N("/image/mess/paycode.png")
 
-miya_ch=N("/image/miya/ch.png")
-miya_f1=N("/image/miya/f1.png")
-miya_f2=N("/image/miya/f2.png")
-miya_f3=N("/image/miya/f3.png")
-miya_f4=N("/image/miya/f4.png")
+miya={
+	ch=N("/image/miya/ch.png"),
+	f1=N("/image/miya/f1.png"),
+	f2=N("/image/miya/f2.png"),
+	f3=N("/image/miya/f3.png"),
+	f4=N("/image/miya/f4.png"),
+}
 drawableText={
 	question=T(100,"?"),
 	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
@@ -121,8 +128,8 @@ drawableText={
 	musicRoom=T(80),
 	nowPlaying=T(50),
 	warning=T(30),
-	VKTchW=T(30),
-	VKOrgW=T(30),
-	VKCurW=T(30),
+	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
+	noScore=T(50),
+	highScore=T(30),
 }
 gc.setCanvas()

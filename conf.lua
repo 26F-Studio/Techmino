@@ -1,4 +1,4 @@
-gameVersion="Alpha V0.8.4"
+gameVersion="Alpha V0.8.5-"
 function love.conf(t)
 	t.identity="Techmino"--Save directory name
 	t.version="11.1"
@@ -17,9 +17,9 @@ function love.conf(t)
 	W.resizable=1
 	W.fullscreentype="desktop"--"exclusive"
 	W.fullscreen=X
-	W.vsync=0--0→∞fps
+	W.vsync=0--0:∞fps
 	W.msaa=X--The number of samples to use with multi-sampled antialiasing (number)
-	W.depth=X--Bits per sample in the depth buffer
+	W.depth=0--Bits per sample in the depth buffer
 	W.stencil=1--Bits per sample in the stencil buffer
 	W.display=1--Monitor ID
 	W.highdpi=X--Enable high-dpi mode for the window on a Retina display (boolean)

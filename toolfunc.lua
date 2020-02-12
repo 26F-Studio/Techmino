@@ -2,7 +2,7 @@ local tm=love.timer
 local gc=love.graphics
 local kb=love.keyboard
 local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
-local sub,find=string.sub,string.find
+local sub,find,format,char,byte=string.sub,string.find,string.format,string.char,string.byte
 local ins,rem=table.insert,table.remove
 local toN,toS=tonumber,tostring
 local concat=table.concat
@@ -17,6 +17,17 @@ local function splitS(s,sep)
 	until #s==0
 	return t
 end
+
+function toTime(s)
+	if s<60 then
+		return format("%.2fs",s)
+	elseif s<3600 then
+		return format("%dm%.2fs",int(s/60),s%60)
+	else
+		local h=int(s/3600)
+		return format("%dh%dm%.2fs",h,int(s-h/60),s%60)
+	end
+end
 function mStr(s,x,y)
 	gc.printf(s,x-320,y,640,"center")
 end
@@ -27,6 +38,7 @@ function destroyPlayers()
 	for i=#players,1,-1 do
 		local P=players[i]
 		if P.canvas then P.canvas:release()end
+		if P.dust then P.dust:release()end
 		while P.field[1]do
 			removeRow(P.field)
 			removeRow(P.visTime)
@@ -66,7 +78,6 @@ function removeRow(t,k)
 	freeRow.L=freeRow.L+1
 end
 --Single-usage funcs
-langName={"中文","全中文","English"}
 local langID={"chi","chi_full","eng"}
 local drawableTextLoad={
 	"next","hold",
@@ -81,6 +92,8 @@ local drawableTextLoad={
 	"nowPlaying",
 	"warning",
 	"VKTchW","VKOrgW","VKCurW",
+	"noScore",
+	"highScore",
 }
 function swapLanguage(l)
 	text=require("language/"..langID[l])
@@ -130,7 +143,58 @@ function restoreVirtualKey()
 		B.r=O.r
 	end
 end
-
+function copyBoard()
+	local str=""
+	for y=1,20 do
+		local L=""
+		for x=1,10 do
+			local s=preField[y][x]
+			if s>7 then s=s-1 end
+			L=L..char(66+s)
+		end
+		str=str..L.."\n"
+	end
+	love.system.setClipboardText("Techmino sketchpad:\n"..str)
+	TEXT(text.copySuccess,350,360,40,"appear",.5)
+end
+function pasteBoard()
+	local str=love.system.getClipboardText()
+	local len=#str
+	local s,p,P,_=0,1,10--sum,pStr,pField
+	if sub(str,1,20)=="Techmino sketchpad:\n"then
+		p=21
+	else
+		p=find(str,":")
+		if p then
+			p=p+1
+		else
+			p=find(str,"[A-N]")
+		end
+	end
+	::L1::
+	_=byte(str,p)
+	if _<65 or _>78 then
+		p=p+1
+		goto L1
+	end
+	::L2::
+	if s==200 then return end
+	if p>len then
+		if s~=200 then
+			goto E
+		end
+	end
+	_=byte(sub(str,p))-66
+	if _>-2 and _<13 then
+		if _>7 then _=_+1 end
+		preField[int(P/10)][P%10+1]=_
+		s,P=s+1,P+1
+	end
+	p=p+1
+	goto L2
+	::E::
+	TEXT(text.dataCorrupted,350,360,35,"flicker",.5)
+end
 
 function updateStat()
 	local S=players[1].stat
@@ -138,7 +202,6 @@ function updateStat()
 		stat[k]=stat[k]+S[k]
 	end
 end
-
 function randomTarget(P)
 	if #players.alive>1 then
 		local R
@@ -188,7 +251,10 @@ function royaleLevelup()
 		if players[1].alive then BGM("cruelty")end
 	elseif gameStage==4 then
 		spd=10
-		pushSpeed=3
+		local _=players.alive
+		for i=1,#_ do
+			_[i].gameEnv.pushSpeed=3
+		end
 	elseif gameStage==5 then
 		spd=5
 		garbageSpeed=1
@@ -211,7 +277,6 @@ function royaleLevelup()
 		end
 	end
 end
-
 function pauseGame()
 	restartCount=0--Avoid strange darkness
 	pauseTimer=0--Pause timer for animation
@@ -231,26 +296,30 @@ end
 function resumeGame()
 	scene.swapTo("play","fade")
 end
-function loadGame(mode,level)
+function loadGame(M)
 	--rec={}
-	curMode={
-		id=modeID[mode],
-		lv=level,
-	}
-	drawableText.modeName:set(text.modeName[mode])
-	drawableText.levelName:set(modes[modeID[mode]].level[level])
+	M=modes[M]
+	curMode=M
+	local lang=setting.lang
+	drawableText.modeName:set(M.name[lang])
+	drawableText.levelName:set(M.level[lang])
 	needResetGameData=true
-	scene.swapTo("play","deck")
+	scene.swapTo("play","fade_togame")
 end
 function resetPartGameData()
 	gameResult=false
 	frame=30
 	destroyPlayers()
-	modes[curMode.id].load()
+	curMode.load()
 	texts={}
+	for i=1,#players do
+		if players.dust then
+			players.dust:reset()
+		end
+	end
 	if modeEnv.task then
 		for i=1,#players do
-			newTask(Event_task[modeEnv.task],players[i])
+			newTask(modeEnv.task,players[i])
 		end
 	end
 	if modeEnv.royaleMode then
@@ -265,16 +334,14 @@ function resetGameData()
 	gameResult=false
 	frame=0
 	garbageSpeed=1
-	pushSpeed=3
 	pauseTime=0--Time paused
 	pauseCount=0--Times paused
 	destroyPlayers()
-	local E=modes[curMode.id].env
-	modeEnv=E[curMode.lv]or E[1]
-	modes[curMode.id].load()--bg/bgm need redefine in custom,so up here
+	modeEnv=curMode.env
+	curMode.load()--bg/bgm need redefine in custom,so up here
 	if modeEnv.task then
 		for i=1,#players do
-			newTask(Event_task[modeEnv.task],players[i])
+			newTask(modeEnv.task,players[i])
 		end
 	end
 	curBG=modeEnv.bg
@@ -283,15 +350,6 @@ function resetGameData()
 	texts={}
 	FX_badge={}
 	FX_attack={}
-	for _,v in next,PTC.dust do
-		v:release()
-	end
-	for i=1,#players do
-		if not players[i].small then
-			PTC.dust[i]=PTC.dust0:clone()
-			PTC.dust[i]:start()
-		end
-	end
 	if modeEnv.royaleMode then
 		for i=1,#players do
 			players[i]:changeAtk(randomTarget(players[i]))
@@ -299,7 +357,6 @@ function resetGameData()
 		mostBadge,mostDangerous,secBadge,secDangerous=nil
 		gameStage=1
 		garbageSpeed=.3
-		pushSpeed=2
 	end
 	restoreVirtualKey()
 	stat.game=stat.game+1
@@ -324,9 +381,48 @@ function gameStart()
 		P.control=true
 	end
 end
+local fs=love.filesystem
+function loadRecord(N)
+	local F=fs.newFile(N..".dat")
+	if F:open("r")then
+		local s=loadstring(F:read())
+		local T={}
+		setfenv(s,T)
+		T[1]=s()
+		return T[1]
+	else
+		return{}
+	end
+end
+local function dumpTable(L)
+	local s="{\n"
+	for k,v in next,L do
+		local T
+		T=type(v)
+			if T=="number"then v=tostring(v)
+			elseif T=="string"then v="\""..v.."\""
+			elseif T=="table"then v=dumpTable(v)
+			else error("Error data type!")
+			end
+		s=s.."["..k.."]="..v..",\n"
+	end
+	return s.."}"
+end
+function saveRecord(N,L)
+	local F=fs.newFile(N..".dat")
+	F:open("w")
+	local _=F:write("return"..dumpTable(L))
+	F:flush()
+	F:close()
+	if not _ then
+		TEXT(text.recSavingError..mes,640,480,40,"appear",.4)
+	end
+end
+function delRecord(N)
+	fs.remove(N..".dat")
+end
 
-
-local dataOpt={
+local statOpy={
 	"run","game","time",
 	"extraPiece","extraRate",
 	"key","rotate","hold","piece","row",
@@ -335,43 +431,67 @@ local dataOpt={
 	"spin_0","spin_1","spin_2","spin_3",
 	"b2b","b3b","pc","score",
 }
-function loadData()
-	userData:open("r")
-	local t=userData:read()
+function loadStat()
+	local F=FILE.data
+	F:open("r")
+	local t=F:read()
 	t=splitS(t,"\r\n")
-	userData:close()
+	F:close()
 	for i=1,#t do
 		local p=find(t[i],"=")
 		if p then
 			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
-			if t=="gametime"then t="time"end
-			for i=1,#dataOpt do
-				if t==dataOpt[i]then
-					v=toN(v)if not v or v<0 then v=0 end
-					stat[t]=v
-					break
+			if t=="rank"then
+				v=splitS(v,",")
+				for i=1,#modeRanks do
+					local v=toN(v[i])
+					if not v or v<0 or v>6 or v~=int(v)then v=false end
+					modeRanks[i]=v
+				end
+			else
+				if t=="gametime"then t="time"end
+				for i=1,#statOpy do
+					if t==statOpy[i]then
+						v=toN(v)if not v or v<0 then v=0 end
+						stat[t]=v
+						break
+					end
 				end
 			end
 		end
 	end
 end
-function saveData()
+function saveStat()
 	local t={}
-	for i=1,#dataOpt do
-		t[i]=dataOpt[i].."="..toS(stat[dataOpt[i]])
+	for i=1,#statOpy do
+		t[i]=statOpy[i].."="..toS(stat[statOpy[i]])
 	end
+
+	local R={}
+	local RR=modeRanks
+	for i=1,#RR do
+		R[i]=RR[i]or"X"
+	end
+	t[#t+1]="rank="..concat(R,",")
+	--Save unlock infos
+
 	t=concat(t,"\r\n")
-	userData:open("w")
-	userData:write(t)
-	userData:flush()
-	userData:close()
+	local F=FILE.data
+	F:open("w")
+	local _=F:write(t)
+	F:flush()
+	F:close()
+	if not _ then
+		TEXT(text.statSavingError..mes,640,480,40,"appear",.4)
+	end
 end
 
 function loadSetting()
-	userSetting:open("r")
-	local t=userSetting:read()
+	local F=FILE.setting
+	F:open("r")
+	local t=F:read()
 	t=splitS(t,"\r\n")
-	userSetting:close()
+	F:close()
 	for i=1,#t do
 		local p=find(t[i],"=")
 		if p then
@@ -410,14 +530,6 @@ function loadSetting()
 				setting[t]=toN(v:match("[123]"))or 1
 			elseif t=="skin"then
 				setting[t]=toN(v:match("[12345678]"))or 1
-			elseif t=="modesel"then
-				local t=toN(v)
-				if not(t or modes[modeID[t]])then
-					t=1
-				end
-				modeSel=t
-			elseif t=="levelsel"then
-				levelSel=toN(v)
 			elseif t=="keymap"then
 				v=splitS(v,"/")
 				for i=1,16 do
@@ -439,9 +551,6 @@ function loadSetting()
 				end
 			end
 		end
-	end
-	if not modes[modeID[modeSel]].level[levelSel]then
-		levelSel=1
 	end
 end
 local saveOpt={
@@ -492,8 +601,6 @@ function saveSetting()
 		map[i]=concat(setting.keyMap[i],",")
 	end
 	local t={
-		"modesel="..modeSel,
-		"levelsel="..levelSel,
 		"keymap="..toS(concat(map,"/")),
 		"VK="..toS(concat(vk,"/")),
 	}
@@ -501,8 +608,14 @@ function saveSetting()
 		t[#t+1]=saveOpt[i].."="..toS(setting[saveOpt[i]])
 	end
 	t=concat(t,"\r\n")
-	userSetting:open("w")
-	userSetting:write(t)
-	userSetting:flush(t)
-	userSetting:close()
+	local F=FILE.setting
+	F:open("w")
+	local _,mes=F:write(t)
+	F:flush()
+	F:close()
+	if _ then
+		TEXT(text.settingSaved,640,360,80,"appear")
+	else
+		TEXT(text.settingSavingError..mes,640,360,40,"appear",.4)
+	end
 end

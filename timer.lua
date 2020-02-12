@@ -1,4 +1,5 @@
 local wd=love.window
+local kb=love.keyboard
 local Timer=love.timer.getTime
 local int,abs,rnd,max,min,sin=math.floor,math.abs,math.random,math.max,math.min,math.sin
 local ins,rem=table.insert,table.remove
@@ -8,6 +9,7 @@ function Tmr.load()
 	local t=Timer()
 	local L=loading
 	::R::
+	--L={stage,curPos,curLen}
 	if L[1]==1 then
 		local N=voiceName[L[2]]
 		for i=1,#voiceList[N]do
@@ -25,7 +27,7 @@ function Tmr.load()
 		bgm[N]:setVolume(0)
 		L[2]=L[2]+1
 		if L[2]>L[3]then
-			for i=1,#bgm do bgm[i]=nil end
+			for i=1,L[3]do bgm[i]=nil end
 			L[1],L[2],L[3]=3,1,#sfx
 		end
 	elseif L[1]==3 then
@@ -33,10 +35,25 @@ function Tmr.load()
 		sfx[S]={love.audio.newSource("/SFX/"..S..".ogg","static")}
 		L[2]=L[2]+1
 		if L[2]>L[3]then
-			for i=1,L[2]do sfx[i]=nil end
-			L[1],L[2],L[3]=0,1,1
-			SFX("welcome",.2)
+			for i=1,L[3]do sfx[i]=nil end
+			L[1],L[2],L[3]=4,1,#modes
 		end
+	elseif L[1]==4 then
+		local m=modes[L[2]]
+		modes[L[2]]=require("modes/"..m[1])
+		local M=modes[L[2]]
+		M.saveFileName,M.x,M.y,M.shape,M.size,M.id,M.unlock=m[1],m.x,m.y,m.shape,m.size,m.id,m.unlock
+		M.records=loadRecord(m[1])
+		L[2]=L[2]+1
+		if L[2]>L[3]then
+			L[1],L[2],L[3]=5,1,1
+		end
+	elseif L[1]==5 then
+		--------------------------Loading some other things here?
+		
+		--------------------------
+		L[1],L[2],L[3]=0,1,1
+		SFX("welcome",.2)
 	else
 		L[2]=L[2]+1
 		L[3]=L[2]
@@ -52,6 +69,67 @@ function Tmr.intro()
 end
 function Tmr.main(dt)
 	players[1]:update(dt)
+end
+function Tmr.mode(dt)
+	local cam=mapCam
+	local F
+	local x,y,k=cam.x,cam.y,cam.k
+	if kb.isDown("up",	"w")	then y=y-10*k;F=true end
+	if kb.isDown("down","s")	then y=y+10*k;F=true end
+	if kb.isDown("left","a")	then x=x-10*k;F=true end
+	if kb.isDown("right","d")	then x=x+10*k;F=true end
+	if F or cam.keyCtrl and(x-cam.x1)^2+(y-cam.y1)^2>2.6 then
+		if F then
+			cam.keyCtrl=true
+		end
+		local x,y=(cam.x1-180)/cam.k1,cam.y1/cam.k1
+		local MM,R=modes,modeRanks
+		for _=1,#MM do
+			if R[_]then
+				local M=MM[_]
+				local s=M.size
+				local __
+				if M.shape==1 then
+					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then __=_ end
+				elseif M.shape==2 then
+					if(x-M.x)^2+(y-M.y)^2<s^2 then __=_ end
+				end
+				if __ and cam.sel~=__ then
+					cam.sel=__
+					SFX("click")
+				end
+			end
+		end
+	end
+
+	if x>1400*k then x=1400*k
+	elseif x<-1300*k then x=-1300*k
+	end
+	if y>500*k then y=500*k
+	elseif y<-1900*k then y=-1900*k
+	end
+	cam.x,cam.y=x,y
+	--keyboard controlling
+
+	cam.x1=cam.x1*.85+x*.15
+	cam.y1=cam.y1*.85+y*.15
+	cam.k1=cam.k1*.85+k*.15
+	local _=scene.swap.tar
+	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
+	if cam.zoomMethod==1 then
+		if cam.zoomK<60 then
+			if cam.sel then
+				local M=modes[cam.sel]
+				cam.x=cam.x*.8+M.x*cam.k*.2
+				cam.y=cam.y*.8+M.y*cam.k*.2
+			end
+			_=cam.zoomK
+			if _<1 then _=_*1.1 end
+			cam.zoomK=_*1.06
+		end
+	elseif cam.zoomMethod==2 then
+		cam.zoomK=cam.zoomK^.9
+	end
 end
 function Tmr.draw()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end

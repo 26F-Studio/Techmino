@@ -1,0 +1,31 @@
+return{
+	name={
+		"本地多人",
+		"本地多人",
+		"Hotseat",
+	},
+	level={
+		"4P",
+		"4P",
+		"4P",
+	},
+	info={
+		"友尽模式",
+		"友尽模式",
+		"End of friendship",
+	},
+	color=color.white,
+	env={
+		drop=60,lock=60,
+		freshLimit=15,
+		bg="none",bgm="way",
+	},
+	load=function()
+		newPlayer(1,25,160,.5)
+		newPlayer(2,335,160,.5)
+		newPlayer(3,645,160,.5)
+		newPlayer(4,955,160,.5)
+	end,
+	mesDisp=function(P,dx,dy)
+	end,
+}

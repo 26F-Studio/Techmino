@@ -10,7 +10,7 @@ vec4 effect(vec4 color,Image texture,vec2 texture_coords,vec2 screen_coords){
 	float r=length(norm);
 	vec2 tc=vec2((atan(norm.y,norm.x)+PI)/(2.*PI),0.);
 	//根据离光源距离放大模糊系数，模拟影子淡出
-	float blur=(1./xresolution)*smoothstep(0.,1.,r); 
+	float blur=(1./xresolution)*smoothstep(0.,1.,r);
 
 	//简易高斯模糊
 	float sum=

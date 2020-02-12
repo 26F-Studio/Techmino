@@ -5,7 +5,7 @@ vec4 effect(vec4 color,Image texture,vec2 texture_coords,vec2 screen_coords){
 	for(float y=0.;y<yresolution;y++){
 		//直角转极坐标
 		vec2 norm=vec2(texture_coords.s,y/yresolution)*2.-1.;
-		float theta=PI*1.5+norm.x*PI; 
+		float theta=PI*1.5+norm.x*PI;
 		float r=(1.+norm.y)*.5;
 		//y/yresolution为到光源的距离(0~1)
 		//遮光物采样

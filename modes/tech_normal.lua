@@ -1,0 +1,53 @@
+local function tech_check_easy(P)
+	if #P.cleared>0 and P.b2b<40 then
+		Event.lose(P)
+	end
+end
+
+return{
+	name={
+		"科研",
+		"科研",
+		"Tech",
+	},
+	level={
+		"普通",
+		"普通",
+		"NORMAL",
+	},
+	info={
+		"禁止断B2B",
+		"禁止断B2B",
+		"Keep B2B",
+	},
+	color=color.green,
+	env={
+		oncehold=false,
+		drop=1e99,lock=1e99,
+		target=200,
+		dropPiece=tech_check_easy,
+		bg="matrix",bgm="newera",
+	},
+	load=function()
+		newPlayer(1,340,15)
+	end,
+	mesDisp=function(P,dx,dy)
+		setFont(45)
+		mStr(P.stat.atk,-82,310)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
+		mDraw(drawableText.atk,-82,363)
+		mDraw(drawableText.eff,-82,475)
+	end,
+	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
+	scoreDisp=function(D)return D[1].." Rows  "..toTime(D[2])end,
+	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
+	getRank=function(P)
+		local L=P.stat.row
+		return
+		L==200 and 5 or
+		L==126 and 4 or
+		L==80 and 3 or
+		L==50 and 2 or
+		L==20 and 1
+	end,
+}

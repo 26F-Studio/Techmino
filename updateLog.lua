@@ -1,3 +1,6 @@
+--[[
+big bang未完成
+]]
 local S=[=[
 Patron(rmb10+):
 	Fireboos
@@ -9,13 +12,18 @@ Patron(rmb10+):
 	?[D*a]
 Future outlook:
 	New mode system with:
-		ultra mode
 		rythem mode
 		combo mode
 		bigbang mode
-		TTT mode
-	Normal:
-		powerinfo switch
+		puzzle mode(ttt)
+		square mode
+		finesse practice mode
+		infinite 1v1
+	Other:
+		puzzle import/output(ttt)
+		classic face direction
+		(powerinfo switch)
+		virtualWidgets like joysticks
 		splashing block
 		ajustable next count
 		custom block color/direction
@@ -23,14 +31,19 @@ Future outlook:
 		CC smarter(think of garbage buffer)
 		game recording
 		new AI:task-Z
-		auto GUI in any screen size
-	Hard:
-		Encrypt source code(compile to byte code)
-		infinite 1v1
-		square mode
+		auto GUI position in any screen size
 		more FXs & 3d features & animations
-0.8.4:
+		Encrypt source code(compile to byte code)
+0.8.6:
+	mode map!Brandly new GUI for mode selecting
+	mode unlock system,not that scary for noob
+	every mode has rank calculating method(may some mistakes/inappropriate number)
+	save 10 best recoreds for each mode
+	can save/share custom map now
+	new mode:Big Bang
 	better widget performence
+	many bug fixed
+0.8.4:
 	vocal more natural(important,may cause new bug)
 	a bit better performence on mobile devices
 	fatal bug fixed
@@ -136,9 +149,9 @@ Future outlook:
 	can set BG/BGM in custom mode
 	bug fixed
 0.7.19:
-	Secret option!
+	secret option!
 	macOS version!
-	add C4W train mode
+	new mode:C4W train
 	rendering of royale mode optimized again
 	add "free cell" in draw mode
 	add 2 new block skins

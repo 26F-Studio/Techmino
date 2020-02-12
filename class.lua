@@ -46,6 +46,9 @@ function newButton(x,y,w,h,color,font,code,hide,N)
 		next=N,
 	}for k,v in next,button do _[k]=v end return _
 end
+function button:reset()
+	self.ATV=0
+end
 function button:isAbove(x,y)
 	return x>self.x-self.ATV and x<self.x+self.w+2*self.ATV and y>self.y-self.ATV and y<self.y+self.h+2*self.ATV
 end
@@ -64,11 +67,7 @@ function button:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local r,g,b=unpack(self.color)
 	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	local sd=shader_glow
-	sd:send("X",x)sd:send("Y",y)sd:send("W",w)sd:send("H",h)
-	gc.setShader(sd)
 	gc.rectangle("fill",x-self.ATV,y-self.ATV,w+2*self.ATV,h+2*self.ATV)
-	gc.setShader()
 	if self.ATV>0 then
 		gc.setLineWidth(4)
 		gc.setColor(1,1,1,self.ATV*.125)
@@ -95,6 +94,7 @@ end
 local switch={
 	type="switch",
 	ATV=0,--activating time(0~8)
+	CHK=0,--check alpha(0~6)
 }
 function newSwitch(x,y,font,disp,code,hide,N)
 	local _={
@@ -105,35 +105,37 @@ function newSwitch(x,y,font,disp,code,hide,N)
 		next=N,
 	}for k,v in next,switch do _[k]=v end return _
 end
+function switch:reset()
+	self.ATV=0
+	self.CHK=0
+end
 function switch:isAbove(x,y)
 	return x>self.x and x<self.x+50 and y>self.y-25 and y<self.y+25
 end
 function switch:update()
-	if widget_sel==self then
-		if self.ATV<8 then self.ATV=self.ATV+1 end
-	else
-		if self.ATV>0 then self.ATV=self.ATV-1 end
+	local _=self.ATV
+	if widget_sel==self then if _<8 then self.ATV=_+1 end
+	else if _>0 then self.ATV=_-1 end
+	end
+	_=self.CHK
+	if self:disp()then if _<6 then self.CHK=_+1 end
+	else if _>0 then self.CHK=_-1 end
 	end
 end
 function switch:draw()
 	local x,y=self.x,self.y-25
-	if self.disp()then
-		if self.ATV>0 then
-			gc.setColor(1,.3,.3,self.ATV*.06)
-			gc.rectangle("fill",x,y,50,50)
-		end
-		gc.setColor(.9,1,.9)
+	if self.ATV>0 then
+		gc.setColor(1,1,1,self.ATV*.08)
+		gc.rectangle("fill",x,y,50,50)
+	end
+	if self.CHK>0 then
+		gc.setColor(.9,1,.9,self.CHK/6)
 		gc.setLineWidth(6)
 		gc.line(x+5,y+25,x+18,y+38,x+45,y+11)
-	else
-		if self.ATV>0 then
-			gc.setColor(.3,1,.3,self.ATV*.06)
-			gc.rectangle("fill",x,y,50,50)
-		end
 	end
 	--checked
 	gc.setLineWidth(4)
-	gc.setColor(1,1,1)
+	gc.setColor(1,1,1,.6+self.ATV*.05)
 	gc.rectangle("line",x,y,50,50)
 	--frame
 	local t=self.text
@@ -164,6 +166,10 @@ function newSlider(x,y,w,unit,font,change,disp,code,hide,N)
 		next=N,
 	}for k,v in next,slider do _[k]=v end return _
 end
+function slider:reset()
+	self.ATV=0
+	self.pos=0
+end
 function slider:isAbove(x,y)
 	return x>self.x-10 and x<self.x+self.w+10 and y>self.y-20 and y<self.y+20
 end
@@ -174,7 +180,7 @@ function slider:update()
 		if self.ATV>0 then self.ATV=self.ATV-1 end
 	end
 	if not(self.hide and self.hide())then
-		self.pos=self.pos*.8+self.disp()*.2
+		self.pos=self.pos*.7+self.disp()*.3
 	end
 end
 function slider:draw()
@@ -197,7 +203,7 @@ function slider:draw()
 		gc.printf(t,x-312,y-self.font*.7,300,"right")
 	end
 	--text
-	local x,y,w,h=x1+(x2-x1)*self.pos/self.unit-10-self.ATV,y-16-self.ATV,20+2*self.ATV,32+2*self.ATV
+	local x,y,w,h=x1+(x2-x1)*self.pos/self.unit-10-self.ATV*.5,y-16-self.ATV,20+self.ATV,32+2*self.ATV
 	gc.setColor(.8,.8,.8)
 	gc.rectangle("fill",x,y,w,h)
 	if self.ATV>0 then

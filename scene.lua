@@ -1,3 +1,4 @@
+local int,max,format=math.floor,math.max,string.format
 local scene={
 	cur="load",--Current scene
 	swapping=false,--ifSwapping
@@ -9,7 +10,7 @@ local scene={
 		draw=nil,	--Swap draw
 	},
 	seq={"quit","slowFade"},--Back sequence
-}
+}--scene datas,returned
 local sceneInit={
 	quit=love.event.quit,
 	load=function()
@@ -49,6 +50,7 @@ local sceneInit={
 		curBG="none"
 		BGM("blank")
 		destroyPlayers()
+		mapCam.zoomK=scene.swap.tar=="mode"and 5 or 1
 	end,
 	custom=function()
 		sceneTemp=1--option select
@@ -58,7 +60,12 @@ local sceneInit={
 	end,
 	draw=function()
 		curBG="none"
-		sceneTemp={sure=0,pen=1,x=1,y=1}
+		sceneTemp={
+			sure=0,
+			pen=1,
+			x=1,y=1,
+			demo=false,
+		}
 	end,
 	play=function()
 		love.keyboard.setKeyRepeat(false)
@@ -72,7 +79,25 @@ local sceneInit={
 		curBG=modeEnv.bg
 	end,
 	pause=function()
-		curBG=modeEnv.bg
+		local S=players[1].stat
+		sceneTemp={
+			S.key,
+			S.rotate,
+			S.hold,
+			S.piece.."  "..(int(S.piece/S.time*100)*.01).."PPS",
+			S.row.."  "..(int(S.row/S.time*600)*.1).."LPM",
+			S.atk.."  "..(int(S.atk/S.time*600)*.1).."APM",
+			S.send,
+			S.recv,
+			S.pend,
+			S.clear_1.."/"..S.clear_2.."/"..S.clear_3.."/"..S.clear_4,
+			"["..S.spin_0.."]/"..S.spin_1.."/"..S.spin_2.."/"..S.spin_3,
+			S.b2b.."[+"..S.b3b.."]",
+			S.pc,
+			format("%0.2f",S.atk/S.row),
+			S.extraPiece,
+			max(100-int(S.extraRate/S.piece*10000)*.01,0).."%",
+		}
 	end,
 	setting_game=function()
 		curBG="none"
@@ -105,10 +130,32 @@ local sceneInit={
 	help=function()
 		curBG="none"
 	end,
+	stat=function()
+		local S=stat
+		sceneTemp={
+			S.run,
+			S.game,
+			format("%0.1fHr",S.time*2.78e-4),
+			S.key,
+			S.rotate,
+			S.hold,
+			S.piece,
+			S.row,
+			S.atk,
+			S.send,
+			S.recv,
+			S.pend,
+			S.clear_1.."/"..S.clear_2.."/"..S.clear_3.."/"..S.clear_4,
+			"["..S.spin_0.."]/"..S.spin_1.."/"..S.spin_2.."/"..S.spin_3,
+			S.b2b.."[+"..S.b3b.."]",
+			S.pc,
+			format("%0.2f",S.atk/S.row),
+			S.extraPiece.."["..(int(S.extraRate/S.piece*10000)*.01).."%]",
+		}
+	end,
 	history=function()
-		updateLog=require"updateLog"
 		curBG="lightGrey"
-		sceneTemp=1--scroll pos
+		sceneTemp={require("updateLog"),1}--scroll pos
 	end,
 	quit=function()
 		love.timer.sleep(.3)
@@ -128,19 +175,24 @@ local swapDeck_data={
 }--Block id [ZSLJTOI] ,dir,x,y
 local gc=love.graphics
 local swap={
-	none={1,0,nil,NULL},
-	flash={8,1,nil,function()gc.clear(1,1,1)end},
-	fade={30,15,"swipe",function(t)
+	none={1,0,NULL},
+	flash={8,1,function()gc.clear(1,1,1)end},
+	fade={30,15,function(t)
 		local t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,1280,720)
 	end},
-	slowFade={180,90,nil,function(t)
+	fade_togame={120,20,function(t)
+		local t=t>20 and (120-t)/100 or t/20
+		gc.setColor(0,0,0,t)
+		gc.rectangle("fill",0,0,1280,720)
+	end},
+	slowFade={180,90,function(t)
 		local t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,1280,720)
 	end},
-	deck={50,8,nil,function(t)
+	deck={50,8,function(t)
 		gc.setColor(1,1,1)
 		if t>8 then
 			local t=t<15 and 15 or t
@@ -166,12 +218,12 @@ local backFunc={
 	pause=function()
 		love.keyboard.setKeyRepeat(true)
 		updateStat()
-		saveData()
+		saveStat()
 		clearTask("play")
 	end,
-	setting_game=function()
-		saveSetting()
-	end,
+	setting_game=	function()saveSetting()end,
+	setting_graphic=function()saveSetting()end,
+	setting_sound=	function()saveSetting()end,
 }
 function scene.init(s)
 	if sceneInit[s]then sceneInit[s]()end
@@ -196,8 +248,7 @@ function scene.swapTo(tar,style)
 		local swap=swap[style]
 		S.time=swap[1]
 		S.mid=swap[2]
-		if swap[3]then SFX(swap[3])end
-		S.draw=swap[4]
+		S.draw=swap[3]
 		widget_sel=nil
 	end
 end

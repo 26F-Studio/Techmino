@@ -32,8 +32,8 @@ function SFX(s,v,pos)
 	end
 end
 function getVoice(str)
-	local n=1
 	local L=voiceBank[str]
+	local n=1
 	while L[n]:isPlaying()do
 		n=n+1
 		if not L[n]then

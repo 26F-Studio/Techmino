@@ -5,82 +5,15 @@ local format=string.format
 
 local Timer=love.timer.getTime
 local scr=scr
-local modeLevelColor={
-	EASY=color.cyan,
-	NORMAL=color.green,
-	HARD=color.magenta,
-	LUNATIC=color.red,
-	EXTRA=color.lightMagenta,
-	ULTIMATE=color.lightYellow,
-	FINAL=color.lightGrey,
-	["EASY+"]=color.darkCyan,
-	["NORMAL+"]=color.darkGreen,
-	["HARD+"]=color.darkMagenta,
-	["LUNATIC+"]=color.darkRed,
-	["ULTIMATE+"]=color.grey,
-
-	MESS=color.lightGrey,
-	GM=color.blue,
-	DEATH=color.lightRed,
-	CTWC=color.lightBlue,
-	["10L"]=color.cyan,
-	["20L"]=color.lightBlue,
-	["40L"]=color.green,
-	["100L"]=color.orange,
-	["400L"]=color.red,
-	["1000L"]=color.lightGrey,
+local modeRankColor={
+	[0]=color.darkGrey,	--Not pass
+	color.bronze,		--Rank1
+	color.lightGrey,	--Rank2
+	color.lightYellow,	--Rank3
+	color.lightMagenta,	--Rank4
+	color.lightCyan,	--Rank5
+	color.purple,		--Special
 }
-local dataOptL={"key","rotate","hold",nil,nil,nil,"send","recv","pend"}
-local function dataOpt(i)
-	local stat=players[1].stat
-	if i==4 then
-		return stat.piece.."  "..(int(stat.piece/stat.time*100)*.01).."PPS"
-	elseif i==5 then
-		return stat.row.."  "..(int(stat.row/stat.time*600)*.1).."LPM"
-	elseif i==6 then
-		return stat.atk.."  "..(int(stat.atk/stat.time*600)*.1).."APM"
-	elseif i<10 then
-		return stat[dataOptL[i]]
-	elseif i==10 then
-		return stat.clear_1.."/"..stat.clear_2.."/"..stat.clear_3.."/"..stat.clear_4
-	elseif i==11 then
-		return "["..stat.spin_0.."]/"..stat.spin_1.."/"..stat.spin_2.."/"..stat.spin_3
-	elseif i==12 then
-		return stat.b2b.."[+"..stat.b3b.."]"
-	elseif i==13 then
-		return stat.pc
-	elseif i==14 then
-		return format("%0.2f",stat.atk/stat.row)
-	elseif i==15 then
-		return stat.extraPiece
-	elseif i==16 then
-		return max(100-int(stat.extraRate/stat.piece*10000)*.01,0).."%"
-	end
-end
-local statOptL={
-	"run","game",nil,
-	"key","rotate","hold","piece","row",
-	"atk","send","recv","pend",
-}
-local function statOpt(i)
-	if i<13 and i~=3 then
-		return stat[statOptL[i]]
-	elseif i==3 then
-		return format("%0.1fHr",stat.time*2.78e-4)
-	elseif i==13 then
-		return stat.clear_1.."/"..stat.clear_2.."/"..stat.clear_3.."/"..stat.clear_4
-	elseif i==14 then
-		return "["..stat.spin_0.."]/"..stat.spin_1.."/"..stat.spin_2.."/"..stat.spin_3
-	elseif i==15 then
-		return stat.b2b.."[+"..stat.b3b.."]"
-	elseif i==16 then
-		return stat.pc
-	elseif i==17 then
-		return format("%0.2f",stat.atk/stat.row)
-	elseif i==18 then
-		return stat.extraPiece.."["..(int(stat.extraRate/stat.piece*10000)*.01).."%]"
-	end
-end
 local miniTitle_rect={
 	{2,0,5,1},{4,1,1,6},
 	{9,0,4,1},{9,3,4,1},{9,6,4,1},{8,0,1,7},
@@ -98,7 +31,8 @@ local function stencil_miniTitle()
 	end
 end
 
-FX_BGblock={tm=150,next=7,ct=0,list={{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},{v=0},}}--Falling tetrominos on background
+FX_BGblock={tm=150,next=7,ct=0,list={}}--Falling tetrominos on background
+for _=1,16 do FX_BGblock.list[_]={v=0}end
 FX_attack={}--Attack beam
 FX_badge={}--Badge thrown
 sysFX={}
@@ -265,32 +199,81 @@ function Pnt.main()
 	setFont(30)
 	gc.print(gameVersion,70,125)
 	gc.print(system,610,100)
-	gc.print(modes[modeID[modeSel]].level[levelSel],600,373)
-	setFont(25)
-	gc.print(text.modeName[modeSel],600,414)
 	players[1]:draw()
 end
 function Pnt.mode()
-	gc.setColor(1,1,1)
-	gc.draw(titleImage,830,30)
-	setFont(35)
-	local lv=modes[modeID[modeSel]].level[levelSel]
-	gc.setColor(modeLevelColor[lv]or color.white)
-	mStr(lv,270,200)
-	setFont(25)
-	gc.setColor(color.white)
-	mStr(text.modeInfo[modeID[modeSel]],270,240)
-	
-	setFont(75)
-	gc.setColor(color.grey)
-	mStr(text.modeName[modeSel],643,273)
-	for i=modeSel-2,modeSel+2 do
-		if i>=1 and i<=#modeID then
-			local f=75-abs(i-modeSel)*20
-			gc.setColor(i==modeSel and color.white or abs(i-modeSel)==1 and color.grey or color.darkGrey)
-			setFont(f)
-			mStr(text.modeName[i],640,310+70*(i-modeSel)-f*.5)
+	local cam=mapCam
+	gc.push("transform")
+	gc.translate(640,360)
+	gc.scale(cam.zoomK)
+	gc.translate(-cam.x1,-cam.y1)
+	gc.scale(cam.k1)
+	local MM,R=modes,modeRanks
+	for _=1,#MM do
+		local M=MM[_]
+		if R[_]then
+			gc.setLineWidth(8)
+			gc.setColor(1,1,1,.15)
+			for _=1,#M.unlock do
+				local m=M.unlock[_]
+				if R[m]then
+					m=MM[m]
+					gc.line(M.x,M.y,m.x,m.y)
+				end
+			end
+
+			local S=M.size
+			local d=((M.x-(cam.x1-180)/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.5
+			if d<600 then S=S*(1.3-d*0.0005) end
+			gc.setColor(modeRankColor[modeRanks[M.id]])
+			if M.shape==1 then--Rectangle
+				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)
+				if cam.sel==_ then
+					gc.setColor(1,1,1)
+					gc.setLineWidth(10)
+					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
+				end
+			elseif M.shape==2 then--Octagon
+				gc.circle("fill",M.x,M.y,S,8)
+				if cam.sel==_ then
+					gc.setColor(1,1,1)
+					gc.setLineWidth(10)
+					gc.circle("line",M.x,M.y,S-5,8)
+				end
+			end
 		end
+	end
+	gc.pop()
+	if cam.sel then
+		local M=MM[cam.sel]
+		local lang=setting.lang
+		gc.setColor(.6,.6,.6,.5)
+		gc.rectangle("fill",920,0,360,720)--Info board
+		gc.setColor(M.color)
+		setFont(40)
+		mStr(M.name[lang],1030,5)
+		setFont(30)
+		mStr(M.level[lang],1030,50)
+		gc.setColor(1,1,1)
+		setFont(30)
+		gc.printf(M.info[lang],1100-180,130,360,"center")
+		local L=M.records
+		if L[1]then
+			mDraw(drawableText.highScore,1100,240)
+			gc.setColor(.3,.3,.3,.8)
+			gc.rectangle("fill",940,290,320,280)--Highscore board
+			gc.setColor(1,1,1)
+			setFont(23)
+			for i=1,#L do
+				gc.print(M.scoreDisp(L[i]),955,275+25*i)
+			end
+		elseif M.score then
+			mDraw(drawableText.noScore,1100,370)
+		end
+	end
+	if cam.keyCtrl then
+		gc.setColor(1,1,1)
+		gc.draw(mapCross,460-20,360-20)
 	end
 end
 function Pnt.music()
@@ -350,7 +333,7 @@ function Pnt.draw()
 		local B=preField[y][x]
 		if B>0 then
 			gc.draw(blockSkin[B],30*x-30,600-30*y)
-		elseif B==-1 then
+		elseif B==-1 and not sceneTemp.demo then
 			gc.draw(cross,30*x-30,600-30*y)
 		end
 	end end
@@ -449,11 +432,11 @@ function Pnt.pause()
 	end
 	for i=1,8 do
 		gc.print(text.stat[i+3],110,30*i+270)
-		gc.print(dataOpt(i),305,30*i+270)
+		gc.print(sceneTemp[i],305,30*i+270)
 	end
 	for i=9,16 do
 		gc.print(text.stat[i+3],860,30*i+30)
-		gc.print(dataOpt(i),1050,30*i+30)
+		gc.print(sceneTemp[i],1050,30*i+30)
 	end
 	setFont(35)
 	if system~="Android"then
@@ -485,12 +468,12 @@ function Pnt.setting_sound()
 	local _=sceneTemp.jump
 	local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
 	gc.translate(x,y)
-	gc.draw(miya_ch,0,0)
+	gc.draw(miya.ch,0,0)
 	gc.setColor(1,1,1,.7)
-	gc.draw(miya_f1,4,47+4*sin(t*.9))
-	gc.draw(miya_f2,42,107+5*sin(t))
-	gc.draw(miya_f3,93,126+3*sin(t*.7))
-	gc.draw(miya_f4,129,98+3*sin(t*.7))
+	gc.draw(miya.f1,4,47+4*sin(t*.9))
+	gc.draw(miya.f2,42,107+5*sin(t))
+	gc.draw(miya.f3,93,126+3*sin(t*.7))
+	gc.draw(miya.f4,129,98+3*sin(t*.7))
 	gc.translate(-x,-y)
 end
 function Pnt.setting_key()
@@ -592,7 +575,7 @@ function Pnt.stat()
 	gc.setColor(1,1,1)
 	for i=1,18 do
 		gc.print(text.stat[i],400,30*i-5)
-		gc.print(statOpt(i),720,30*i-5)
+		gc.print(sceneTemp[i],720,30*i-5)
 	end
 	gc.draw(titleImage,260,600,.2+.07*sin(Timer()*3),nil,nil,206,35)
 end
@@ -603,8 +586,9 @@ function Pnt.history()
 	gc.setLineWidth(4)
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
-	for i=0,min(22,#updateLog-sceneTemp)do
-		gc.print(updateLog[sceneTemp+i],40,50+27*(i))
+	local _=sceneTemp
+	for i=0,min(22,#_[1]-_[2])do
+		gc.print(_[1][_[2]+i],40,50+27*(i))
 	end
 end
 return Pnt
