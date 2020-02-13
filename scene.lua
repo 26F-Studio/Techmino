@@ -47,7 +47,7 @@ local sceneInit={
 		end
 	end,
 	mode=function()
-		curBG="none"
+		curBG="glow"
 		BGM("blank")
 		destroyPlayers()
 		mapCam.zoomK=scene.swap.tar=="mode"and 5 or 1
@@ -236,7 +236,8 @@ function scene.push(tar,style)
 	end
 end
 function scene.pop()
-	scene.seq={}
+	local _=scene.seq
+	_[#_-1]=nil
 end
 function scene.swapTo(tar,style)
 	local S=scene.swap
@@ -253,15 +254,13 @@ function scene.swapTo(tar,style)
 	end
 end
 function scene.back()
-	if not scene.swapping then
-		if backFunc[scene.cur] then backFunc[scene.cur]()end
-		--func when scene end
-		local m=#scene.seq
-		if m>0 then
-			scene.swapTo(scene.seq[m-1],scene.seq[m])
-			scene.seq[m],scene.seq[m-1]=nil
-			--Poll&Back to preScene
-		end
+	if backFunc[scene.cur] then backFunc[scene.cur]()end
+	--func when scene end
+	local m=#scene.seq
+	if m>0 then
+		scene.swapTo(scene.seq[m-1],scene.seq[m])
+		scene.seq[m],scene.seq[m-1]=nil
+		--Poll&Back to preScene
 	end
 end
 return scene

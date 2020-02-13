@@ -19,7 +19,6 @@ return{
 	env={
 		drop=30,lock=45,
 		freshLimit=10,
-		visible="time",
 		task=function(P)
 			if not P.control then return end
 			P.modeData.counter=P.modeData.counter+1

@@ -253,13 +253,19 @@ function mouseClick.mode(x,y,k)
 	local _=cam.sel
 	if not cam.sel or x<920 then
 		local __=onMode(x,y)
-		if __ and _~=__ then
-			SFX("click")
-			cam.moving=true
-			_=modes[__]
-			cam.x,cam.y=_.x*cam.k+180,_.y*cam.k
+		if _~=__ then
+			if __ then
+				SFX("click")
+				cam.moving=true
+				_=modes[__]
+				cam.x=_.x*cam.k+180
+				cam.y=_.y*cam.k
+				cam.sel=__
+			else
+				cam.sel=nil
+				cam.x=cam.x-180
+			end
 		end
-		cam.sel=__
 	end
 	cam.keyCtrl=false
 end
@@ -470,9 +476,11 @@ function keyDown.setting_key(key)
 			for y=1,20 do
 				if setting.keyMap[l][y]==key then
 					setting.keyMap[l][y]=""
+					goto L
 				end
 			end
 		end
+		::L::
 		setting.keyMap[s.board][s.kb]=key
 		SFX("reach",.5)
 		s.kS=false
@@ -515,31 +523,33 @@ function gamepadDown.setting_key(key)
 			for y=1,20 do
 				if setting.keyMap[l][y]==key then
 					setting.keyMap[l][y]=""
+					goto L
 				end
 			end
 		end
+		::L::
 		setting.keyMap[8+s.board][s.js]=key
 		SFX("reach",.5)
 		s.jS=false
 	elseif key=="start"then
 		s.jS=true
 		SFX("lock",.5)
-	elseif key=="up"then
+	elseif key=="dpup"then
 		if s.js>1 then
 			s.js=s.js-1
 			SFX("move",.5)
 		end
-	elseif key=="down"then
+	elseif key=="dpdown"then
 		if s.js<20 then
 			s.js=s.js+1
 			SFX("move",.5)
 		end
-	elseif key=="left"then
+	elseif key=="dpleft"then
 		if s.board>1 then
 			s.board=s.board-1
 			SFX("rotate",.5)
 		end
-	elseif key=="right"then
+	elseif key=="dpright"then
 		if s.board<8 then
 			s.board=s.board+1
 			SFX("rotate",.5)
@@ -647,7 +657,7 @@ function touchMove.play(id,x,y,dx,dy)
 	end
 end
 function keyDown.play(key)
-	if key=="escape"and not scene.swapping then
+	if key=="escape"then
 		(frame<180 and back or pauseGame)()
 		return
 	end
@@ -745,7 +755,7 @@ local function widgetControl_key(i)
 			widget_sel=select(2,next(Widget[scene.cur]))
 		end
 	elseif i=="space"or i=="return"then
-		if not scene.swapping and widget_sel then
+		if widget_sel then
 			widgetPress(widget_sel)
 		end
 	elseif i=="left"or i=="right"then
@@ -769,10 +779,8 @@ local function widgetControl_gamepad(i)
 			widget_sel=select(2,next(Widget[scene.cur]))
 		end
 	elseif i=="start"then
-		if not scene.swapping and widget_sel then
-			if not scene.swapping and widget_sel then
-				widgetPress(widget_sel)
-			end
+		if widget_sel then
+			widgetPress(widget_sel)
 		end
 	elseif i=="dpleft"or i=="dpright"then
 		if widget_sel then
@@ -789,8 +797,9 @@ local function widgetControl_gamepad(i)
 end
 local lastX,lastY--last clickDown pos
 function love.mousepressed(x,y,k,t,num)
+	mouseShow=true
 	if devMode>0 then print(x,y)end
-	if t then return end
+	if t or scene.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if mouseDown[scene.cur]then
 		mouseDown[scene.cur](mx,my,k)
@@ -798,16 +807,16 @@ function love.mousepressed(x,y,k,t,num)
 		scene.back()
 	end
 	if k==1 then
-		if widget_sel and not scene.swapping then
+		if widget_sel then
 			widgetPress(widget_sel,mx,my)
 		end
 	end
 	lastX=mx
 	lastY=my
-	mouseShow=true
 end
 function love.mousemoved(x,y,dx,dy,t)
-	if t then return end
+	mouseShow=true
+	if t or scene.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	dx,dy=dx/scr.k,dy/scr.k
 	if mouseMove[scene.cur]then
@@ -824,10 +833,9 @@ function love.mousemoved(x,y,dx,dy,t)
 			end
 		end
 	end
-	mouseShow=true
 end
 function love.mousereleased(x,y,k,t,num)
-	if t then return end
+	if t or scene.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if mouseUp[scene.cur]then
 		mouseUp[scene.cur](mx,my,k)
@@ -837,11 +845,13 @@ function love.mousereleased(x,y,k,t,num)
 	end
 end
 function love.wheelmoved(x,y)
+	if scene.swapping then return end
 	if wheelMoved[scene.cur]then wheelMoved[scene.cur](x,y)end
 end
 
 function love.touchpressed(id,x,y)
 	mouseShow=false
+	if scene.swapping then return end
 	if not touching then
 		touching=id
 		love.touchmoved(id,x,y,0,0)
@@ -853,6 +863,7 @@ function love.touchpressed(id,x,y)
 	end
 end
 function love.touchmoved(id,x,y,dx,dy)
+	if scene.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if touchMove[scene.cur]then
 		touchMove[scene.cur](id,x,y,dx/scr.k,dy/scr.k)
@@ -873,10 +884,11 @@ function love.touchmoved(id,x,y,dx,dy)
 	end
 end
 function love.touchreleased(id,x,y)
+	if scene.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if id==touching then
 		touching=nil
-		if widget_sel and not scene.swapping then
+		if widget_sel then
 			widgetPress(widget_sel,x,y)
 		end
 		widget_sel=nil
@@ -890,6 +902,7 @@ function love.touchreleased(id,x,y)
 end
 function love.keypressed(i)
 	mouseShow=false
+	if scene.swapping then return end
 	if i=="f8"then devMode=0
 	elseif i=="f9"then devMode=1
 	elseif i=="f10"then devMode=2
@@ -926,6 +939,7 @@ function love.keypressed(i)
 	end
 end
 function love.keyreleased(i)
+	if scene.swapping then return end
 	if keyUp[scene.cur]then keyUp[scene.cur](i)end
 end
 
@@ -939,6 +953,7 @@ local keyMirror={
 }
 function love.gamepadpressed(joystick,i)
 	mouseShow=false
+	if scene.swapping then return end
 	if gamepadDown[scene.cur]then gamepadDown[scene.cur](i)
 	elseif keyDown[scene.cur]then keyDown[scene.cur](keyMirror[i]or i)
 	elseif i=="back"then scene.back()
@@ -946,6 +961,7 @@ function love.gamepadpressed(joystick,i)
 	end
 end
 function love.gamepadreleased(joystick,i)
+	if scene.swapping then return end
 	if gamepadUp[scene.cur]then gamepadUp[scene.cur](i)
 	end
 end
@@ -1170,8 +1186,6 @@ function love.run()
 		for N,a,b,c,d,e in POLL()do
 			if N=="quit"then
 				destroyPlayers()
-				saveStat()
-				saveSetting()
 				goto END
 			elseif love[N]then
 				love[N](a,b,c,d,e)
@@ -1206,7 +1220,7 @@ local F=love.filesystem
 if F.getInfo("data")then
 	F.write("data.dat",F.read("data"))
 	F.remove("data")
-end
+end	
 if F.getInfo("userdata")then
 	F.write("data.dat",F.read("userdata"))
 	F.remove("userdata")
@@ -1223,7 +1237,6 @@ end
 FILE={
 	data=F.newFile("data.dat"),
 	setting=F.newFile("setting.dat"),
-	vk=F.newFile("vk"),
 }
 if F.getInfo("data.dat")then loadStat()end
 if F.getInfo("setting.dat")then
@@ -1234,5 +1247,5 @@ else
 	setting.VKSwitch=false
 end
 math.randomseed(os.time()*626)
-swapLanguage(setting.lang)
+changeLanguage(setting.lang)
 changeBlockSkin(setting.skin)

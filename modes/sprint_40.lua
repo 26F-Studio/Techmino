@@ -48,6 +48,6 @@ return{
 		T<=32 and 4 or
 		T<=40 and 3 or
 		T<=60 and 2 or
-		T<=100 and 1
+		T<=120 and 1
 	end,
 }

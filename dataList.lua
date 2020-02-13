@@ -23,8 +23,22 @@ end
 -------------------------<Events>-------------------------
 local function gameOver()
 	local M=curMode
-	if M.score then
+	local R=M.getRank
+	if R then
 		local P=players[1]
+		R=R(P)--new rank
+		if R then
+			local r=modeRanks[M.id]--old rank
+			if R>r then
+				modeRanks[M.id]=R
+				if r==0 then
+					for i=1,#M.unlock do
+						local m=M.unlock[i]
+						modeRanks[m]=modes[m].score and 0 or 6
+					end
+				end
+			end
+		end
 		local D=M.score(P)
 		local L=M.records
 		local p=#L--排名数-1
@@ -45,22 +59,9 @@ local function gameOver()
 			if L[11]then L[11]=nil end
 			saveRecord(M.saveFileName,L)
 		end
-		local R=M.getRank(P)--new rank
-		if R then
-			local r=modeRanks[M.id]--old rank
-			if R>r then
-				modeRanks[M.id]=R
-				if r==0 then
-					for i=1,#M.unlock do
-						local m=M.unlock[i]
-						modeRanks[m]=modes[m].score and 0 or 6
-					end
-				end
-			end
-		end
 	end
 end--Save record
-local function die(P)
+local function die(P)--Same thing when win/lose,not really die!
 	P.alive=false
 	P.control=false
 	P.timing=false
@@ -76,7 +77,7 @@ local function die(P)
 			P.visTime[i][j]=min(P.visTime[i][j],20)
 		end
 	end
-end--Same thing when win/lose/finish
+end
 Event={}
 function Event.reach_winCheck(P)
 	if P.stat.row>=P.gameEnv.target then

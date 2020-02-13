@@ -213,7 +213,7 @@ function Pnt.mode()
 		local M=MM[_]
 		if R[_]then
 			gc.setLineWidth(8)
-			gc.setColor(1,1,1,.15)
+			gc.setColor(1,1,1,.2)
 			for _=1,#M.unlock do
 				local m=M.unlock[_]
 				if R[m]then
@@ -223,8 +223,8 @@ function Pnt.mode()
 			end
 
 			local S=M.size
-			local d=((M.x-(cam.x1-180)/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.5
-			if d<600 then S=S*(1.3-d*0.0005) end
+			local d=((M.x-(cam.x1+(cam.sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
+			if d<500 then S=S*(1.25-d*0.0005) end
 			gc.setColor(modeRankColor[modeRanks[M.id]])
 			if M.shape==1 then--Rectangle
 				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)

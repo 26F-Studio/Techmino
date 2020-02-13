@@ -142,7 +142,7 @@ local Widget={
 		stat=	newButton(370,460,200,160,C.lightCyan,		43,function()scene.push()scene.swapTo("stat")end,			nil,"lang"),
 		lang=	newButton(150,610,160,100,C.lightGreen,		45,function()
 			setting.lang=setting.lang%#langName+1
-			swapLanguage(setting.lang)
+			changeLanguage(setting.lang)
 			TEXT(text.lang,370,610,50,"appear",1.6)
 			end,nil,"quit"),
 		quit=	newButton(590,460,200,160,C.lightGrey,		55,function()VOICE("bye")scene.swapTo("quit","slowFade")end,nil,"play"),

@@ -50,4 +50,4 @@ return{
 		T<=2200 and 2 or
 		T<=3000 and 1
 	end,
-}
+}	

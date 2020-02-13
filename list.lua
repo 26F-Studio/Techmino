@@ -58,7 +58,7 @@ blockColor={
 }
 sfx={
 	"welcome",
-	"click",
+	"click","enter",
 	"error","error_long",
 	--Stereo sfxs(cannot set position)
 	"button","swipe",

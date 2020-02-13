@@ -35,12 +35,19 @@ Future outlook:
 		more FXs & 3d features & animations
 		Encrypt source code(compile to byte code)
 0.8.6:
+	gamepad can adjust key
+	add SFX when enter game
+	map GUI little adjusted
+	event system little changed(no ctrl when scene swapping)
+	bug fixed(rank system,some mode error when enter)
+0.8.5-:
 	mode map!Brandly new GUI for mode selecting
 	mode unlock system,not that scary for noob
 	every mode has rank calculating method(may some mistakes/inappropriate number)
 	save 10 best recoreds for each mode
 	can save/share custom map now
 	new mode:Big Bang
+	button appearance changed
 	better widget performence
 	many bug fixed
 0.8.4:

@@ -20,7 +20,7 @@ end
 
 function toTime(s)
 	if s<60 then
-		return format("%.2fs",s)
+		return format("%.3fs",s)
 	elseif s<3600 then
 		return format("%dm%.2fs",int(s/60),s%60)
 	else
@@ -95,7 +95,7 @@ local drawableTextLoad={
 	"noScore",
 	"highScore",
 }
-function swapLanguage(l)
+function changeLanguage(l)
 	text=require("language/"..langID[l])
 	for S,L in next,Widget do
 		for N,W in next,L do
@@ -305,6 +305,7 @@ function loadGame(M)
 	drawableText.levelName:set(M.level[lang])
 	needResetGameData=true
 	scene.swapTo("play","fade_togame")
+	SFX("enter")
 end
 function resetPartGameData()
 	gameResult=false
@@ -614,8 +615,8 @@ function saveSetting()
 	F:flush()
 	F:close()
 	if _ then
-		TEXT(text.settingSaved,640,360,80,"appear")
+		TEXT(text.settingSaved,370,330,30,"appear")
 	else
-		TEXT(text.settingSavingError..mes,640,360,40,"appear",.4)
+		TEXT(text.settingSavingError.."123",370,350,20,"appear",.3)
 	end
 end

@@ -49,7 +49,7 @@ return{
 		mDraw(drawableText.eff,-82,475)
 	end,
 	score=function(P)return{P.modeData.point}end,
-	scoreDisp=function(D)return D[1].." Rows"end,
+	scoreDisp=function(D)return D[1].." Lines"end,
 	comp=function(a,b)return a[1]>b[1]end,
 	getRank=function(P)
 		local L=P.modeData.point

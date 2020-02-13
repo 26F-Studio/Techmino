@@ -34,11 +34,11 @@ return{
 		mStr(P.stat.clear_4,-82,340)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Rows   "..toTime(D[2])end,
+	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row
-		if L==200 then
+		if L>=200 then
 			local T=P.stat.time
 			return
 			T<=140 and 5 or
