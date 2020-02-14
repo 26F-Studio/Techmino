@@ -54,7 +54,7 @@ return{
 		_20G=true,lock=12,
 		wait=10,fall=10,
 		dropPiece=score,
-		das=5,arr=1,
+		mindas=5,minarr=1,
 		freshLimit=15,
 		easyFresh=false,bone=true,
 		bg="none",bgm="shining terminal",
@@ -79,6 +79,7 @@ return{
 		S>=800 and 4 or
 		S>=600 and 3 or
 		S>=400 and 2 or
-		S>=200 and 1
+		S>=200 and 1 or
+		L>=50 and 0
 	end,
 }

@@ -1,7 +1,16 @@
 local gc=love.graphics
 local function check(P)
-	if P.stat.row>=200 then
-		Event.win(P,"finish")
+	if P.stat.row>=P.gameEnv.target then
+		local T=P.gameEnv.target
+		if T==50 then
+			P.gameEnv.drop=.25
+			P.gameEnv.target=100
+		elseif T==100 then
+			P.gameEnv._20G=true
+			P.gameEnv.target=200
+		else
+			Event.win(P,"finish")
+		end
 	end
 end
 
@@ -23,8 +32,9 @@ return{
 	},
 	color=color.magenta,
 	env={
-		_20G=true,fall=15,
-		dropPiece=check,
+		drop=.5,fall=30,
+		target=50,dropPiece=check,
+		mindas=7,minarr=1,
 		bg="strap",bgm="race",
 	},
 	load=function()
@@ -33,7 +43,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(P.stat.row,-82,320)
-		mStr(200,-82,370)
+		mStr(P.gameEnv.target,-82,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
@@ -45,12 +55,13 @@ return{
 			local T=P.stat.time
 			return
 			T<=200 and 5 or
-			T<=260 and 4 or
+			T<=270 and 4 or
 			3
 		else
 			return
 			L>=100 and 2 or
-			L>=50 and 1
+			L>=50 and 1 or
+			L>=10 and 0
 		end
 	end,
 }

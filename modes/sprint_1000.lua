@@ -48,6 +48,7 @@ return{
 		T<=1000 and 4 or
 		T<=1400 and 3 or
 		T<=2200 and 2 or
-		T<=3000 and 1
+		T<=3000 and 1 or
+		0
 	end,
 }	

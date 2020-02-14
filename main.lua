@@ -9,8 +9,8 @@ local Timer=love.timer.getTime
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local rem=table.remove
 
-package.path="?.lua"
-NULL=function()end
+package.path="?.lua"--boost
+function NULL()end
 --Libs
 -------------------------------------------------------------
 system=sys.getOS()
@@ -51,7 +51,7 @@ kb.setTextInput(false)
 ms.setVisible(false)
 --Application Vars
 -------------------------------------------------------------
-customSel={22,22,1,1,7,3,1,1,8,4,1,1,1}
+customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}
 for i=1,10 do preField[i]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}end
 for i=11,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
@@ -798,9 +798,9 @@ end
 local lastX,lastY--last clickDown pos
 function love.mousepressed(x,y,k,t,num)
 	mouseShow=true
-	if devMode>0 then print(x,y)end
-	if t or scene.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
+	if devMode>0 then print(mx,my)end
+	if t or scene.swapping then return end
 	if mouseDown[scene.cur]then
 		mouseDown[scene.cur](mx,my,k)
 	elseif k==2 then
@@ -816,8 +816,8 @@ function love.mousepressed(x,y,k,t,num)
 end
 function love.mousemoved(x,y,dx,dy,t)
 	mouseShow=true
-	if t or scene.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
+	if t or scene.swapping then return end
 	dx,dy=dx/scr.k,dy/scr.k
 	if mouseMove[scene.cur]then
 		mouseMove[scene.cur](mx,my,dx,dy)
@@ -835,8 +835,8 @@ function love.mousemoved(x,y,dx,dy,t)
 	end
 end
 function love.mousereleased(x,y,k,t,num)
-	if t or scene.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
+	if t or scene.swapping then return end
 	if mouseUp[scene.cur]then
 		mouseUp[scene.cur](mx,my,k)
 	end

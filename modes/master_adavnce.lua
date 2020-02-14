@@ -55,7 +55,7 @@ return{
 		wait=death_wait[1],
 		fall=death_fall[1],
 		dropPiece=score,
-		das=6,arr=1,
+		mindas=6,minarr=1,
 		freshLimit=15,
 		bg="game2",bgm="secret7th",
 	},
@@ -85,7 +85,8 @@ return{
 			return
 			S>=426 and 3 or
 			S>=326 and 2 or
-			S>=226 and 1
+			S>=226 and 1 or
+			S>=50 and 0
 		end
 	end,
 }

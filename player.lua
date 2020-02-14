@@ -27,6 +27,7 @@ local gameEnv0={
 	freshLimit=1e99,easyFresh=true,
 	fine=false,fineKill=false,
 	target=1e99,dropPiece=NULL,
+	mindas=0,minarr=0,
 	bg="none",bgm="race"
 }
 local renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
@@ -41,9 +42,10 @@ local spinSCR={--[blockName][row]
 	{250,800,1500},--T
 	{300,1000,2200},--O
 	{300,1000,1800},--I
-}--MUL:1.2,2.0
---Techrash:1K;MUL:1.3,1.8
---Mini*=.5
+}
+--B2BMUL:1.2/2.0
+--Techrash:1K;MUL:1.3/1.8
+--Mini*=.6
 local visible_opt={show=1e99,time=300,fast=20,none=5}
 local reAtk={0,0,1,1,1,2,2,3,3}
 local reDef={0,1,1,2,3,3,4,4,5}
@@ -724,11 +726,23 @@ function player.update(P,dt)
 			goto stop
 		end
 		if P.curY~=P.y_img then
-			if P.dropDelay>=0 then
-				P.dropDelay=P.dropDelay-1
-				if P.dropDelay>0 then goto stop end
+			local D=P.dropDelay
+			if D>1 then
+				P.dropDelay=D-1
+				goto stop
 			end
-			P.curY=P.curY-1
+			if D==1 then
+				P.curY=P.curY-1
+			else
+				local _=P.curY-P.y_img--max fall dist
+				D=1/D--fall dist
+				if D<_ then
+					P.curY=P.curY-D
+					assert(P.curY==int(P.curY),"y:"..P.curY.." fall:"..D.." D_env:"..P.gameEnv.drop)
+				else
+					P.curY=P.y_img
+				end
+			end
 			P.spinLast=false
 			if P.y_img~=P.curY then
 				P.dropDelay=P.gameEnv.drop
@@ -1507,7 +1521,7 @@ function player.drop(P)--Place piece
 					P:showText(text.mini,0,-80,35,"appear")
 					send=send*.5
 					sendTime=sendTime+60
-					cscore=cscore*.5
+					cscore=cscore*.6
 					P.b2b=P.b2b+b2bPoint[cc]*.5
 					if P.human then
 						VOICE("mini",CHN)
@@ -1524,7 +1538,7 @@ function player.drop(P)--Place piece
 			elseif #P.field>0 then
 				P.b2b=max(P.b2b-250,0)
 				P:showText(text.clear[cc],0,-30,27+cc*3,"appear",(8-cc)*.3)
-				send=cc-1
+				send=cc-.75
 				sendTime=20+send*20
 				cscore=cscore+clearSCR[cc]
 				P.lastClear=cc
@@ -1542,7 +1556,7 @@ function player.drop(P)--Place piece
 		end
 		if #P.field==0 then
 			P:showText(text.PC,0,-80,50,"flicker")
-			send=ceil(send^.5)+min(6+P.stat.pc,10)
+			send=send^.5+min(6+P.stat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+60
 			if P.stat.row>4 then
@@ -2100,6 +2114,9 @@ function newPlayer(id,x,y,size,AIdata)
 			P.gameEnv[k]=v
 		end
 	end--reset current game settings
+	P.gameEnv.das=max(P.gameEnv.das,P.gameEnv.mindas)
+	P.gameEnv.arr=max(P.gameEnv.arr,P.gameEnv.minarr)
+	
 	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
 		P.sc,P.dir,P.r,P.c={0,0},0,0,0--spinCenter,direction,row,col
 		P.curX,P.curY,P.y_img=0,0,0--x,y,ghostY

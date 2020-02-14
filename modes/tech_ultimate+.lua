@@ -50,6 +50,7 @@ return{
 		L>=150 and 4 or
 		L>=100 and 3 or
 		L>=70 and 2 or
-		L>=40 and 1
+		L>=40 and 1 or
+		L>=10 and 0
 	end,
 }

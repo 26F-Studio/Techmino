@@ -35,13 +35,19 @@ return{
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		if P.stat.row<100 then return end
-		local T=P.stat.time
-		return 
-		T<=65 and 5 or
-		T<=100 and 4 or
-		T<=145 and 3 or
-		T<=220 and 2 or
-		1
+		local L=P.stat.row
+		if L>=100 then
+			local T=P.stat.time
+			return 
+			T<=65 and 5 or
+			T<=100 and 4 or
+			T<=145 and 3 or
+			T<=220 and 2 or
+			1
+		else
+			return
+			L>=50 and 1 or
+			L>=10 and 0
+		end
 	end,
 }

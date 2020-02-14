@@ -38,26 +38,26 @@ local function gameOver()
 					end
 				end
 			end
-		end
-		local D=M.score(P)
-		local L=M.records
-		local p=#L--排名数-1
-		if p>0 then
-			::L::
-			if M.comp(D,L[p])then--是否靠前
-				p=p-1
-				if p>0 then
-					goto L
+			local D=M.score(P)
+			local L=M.records
+			local p=#L--排名数-1
+			if p>0 then
+				::L::
+				if M.comp(D,L[p])then--是否靠前
+					p=p-1
+					if p>0 then
+						goto L
+					end
 				end
 			end
-		end
-		if p<10 then
-			if p==0 then
-				P:showText(text.newRecord,0,-100,100,"beat",.5)
+			if p<10 then
+				if p==0 then
+					P:showText(text.newRecord,0,-100,100,"beat",.5)
+				end
+				ins(L,p+1,D)
+				if L[11]then L[11]=nil end
+				saveRecord(M.saveFileName,L)
 			end
-			ins(L,p+1,D)
-			if L[11]then L[11]=nil end
-			saveRecord(M.saveFileName,L)
 		end
 	end
 end--Save record

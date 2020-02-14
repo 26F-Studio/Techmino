@@ -51,6 +51,7 @@ return{
 		L>=20 and 4 or
 		L>=16 and 3 or
 		L>=13 and 2 or
-		L>=10 and 1
+		L>=10 and 1 or
+		L>=1 and 0
 	end,
 }

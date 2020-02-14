@@ -89,7 +89,8 @@ return{
 			return
 			S>=420 and 3 or
 			S>=250 and 2 or
-			S>=120 and 1
+			S>=120 and 1 or
+			L>=30 and 0
 		end
 	end,
 }

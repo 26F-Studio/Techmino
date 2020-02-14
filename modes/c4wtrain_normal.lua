@@ -78,7 +78,8 @@ return{
 		else
 			return
 			L>=60 and 2 or
-			L>=30 and 1
+			L>=30 and 1 or
+			L>=10 and 0
 		end
 	end,
 }

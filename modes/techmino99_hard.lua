@@ -96,6 +96,7 @@ return{
 		R<=3 and 4 or
 		R<=6 and 3 or
 		R<=8 and 2 or
-		R<=10 and 1
+		R<=10 and 1 or
+		R<=90 and 0
 	end,
 }

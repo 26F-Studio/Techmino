@@ -80,7 +80,8 @@ return{
 			return
 			L>=70 and 3 or
 			L>=40 and 2 or
-			L>=20 and 1
+			L>=20 and 1 or
+			L>=5 and 0
 		end
 	end,
 }

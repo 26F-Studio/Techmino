@@ -50,7 +50,13 @@ local sceneInit={
 		curBG="glow"
 		BGM("blank")
 		destroyPlayers()
-		mapCam.zoomK=scene.swap.tar=="mode"and 5 or 1
+		local cam=mapCam
+		cam.zoomK=scene.swap.tar=="mode"and 5 or 1
+		if cam.sel then
+			local M=modes[cam.sel]
+			cam.x,cam.y=M.x*cam.k+180,M.y*cam.k
+			cam.x1,cam.y1=cam.x,cam.y
+		end
 	end,
 	custom=function()
 		sceneTemp=1--option select

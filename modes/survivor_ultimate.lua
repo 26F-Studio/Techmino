@@ -58,6 +58,7 @@ return{
 		W>=26 and 4 or
 		W>=20 and 3 or
 		W>=10 and 2 or
-		W>=5 and 1
+		W>=5 and 1 or
+		W>=1 and 0
 	end,
 }

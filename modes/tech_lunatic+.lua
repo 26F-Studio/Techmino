@@ -49,6 +49,7 @@ return{
 		L>=140 and 4 or
 		L>=90 and 3 or
 		L>=60 and 2 or
-		L>=30 and 1
+		L>=30 and 1 or
+		L>=5 and 0
 	end,
 }

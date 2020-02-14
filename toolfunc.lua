@@ -20,12 +20,12 @@ end
 
 function toTime(s)
 	if s<60 then
-		return format("%.3fs",s)
+		return format("%.3f",s)
 	elseif s<3600 then
-		return format("%dm%.2fs",int(s/60),s%60)
+		return format("%d:%.2f",int(s/60),s%60)
 	else
 		local h=int(s/3600)
-		return format("%dh%dm%.2fs",h,int(s-h/60),s%60)
+		return format("%d:%d:%.2f",h,int(s-h/60),s%60)
 	end
 end
 function mStr(s,x,y)
@@ -145,53 +145,65 @@ function restoreVirtualKey()
 end
 function copyBoard()
 	local str=""
-	for y=1,20 do
+	local H=20
+	for y=20,1,-1 do
+		for x=1,10 do
+			if preField[y][x]~=0 then
+				H=y
+				goto L
+			end
+		end
+	end
+	::L::
+	for y=1,H do
 		local L=""
 		for x=1,10 do
 			local s=preField[y][x]
 			if s>7 then s=s-1 end
 			L=L..char(66+s)
 		end
-		str=str..L.."\n"
+		-- str=str..L.."\n"
 	end
-	love.system.setClipboardText("Techmino sketchpad:\n"..str)
+	love.system.setClipboardText("Techmino sketchpad:"..str)
 	TEXT(text.copySuccess,350,360,40,"appear",.5)
 end
 function pasteBoard()
 	local str=love.system.getClipboardText()
 	local len=#str
-	local s,p,P,_=0,1,10--sum,pStr,pField
-	if sub(str,1,20)=="Techmino sketchpad:\n"then
-		p=21
-	else
-		p=find(str,":")
-		if p then
-			p=p+1
-		else
-			p=find(str,"[A-N]")
-		end
-	end
-	::L1::
-	_=byte(str,p)
-	if _<65 or _>78 then
+	local _
+	local p,P=1,10--sum,pStr,pField(r*10+(c-1))
+	p=find(str,":")
+	if p then
 		p=p+1
-		goto L1
-	end
-	::L2::
-	if s==200 then return end
-	if p>len then
-		if s~=200 then
+	else
+		p=find(str,"[A-N]")
+		if not p then
 			goto E
 		end
-	end
-	_=byte(sub(str,p))-66
+	end--int p*//head
+	::L::
+	_=byte(str,p)
+	if P==210 then
+		return
+	elseif not _ then
+		if P%10~=0 then
+			goto E
+		else
+			return
+		end
+	end--end check
+	_=_-66
+	if _<-1 or _>12 then
+		p=p+1
+		goto L
+	end--skip illegal char
 	if _>-2 and _<13 then
 		if _>7 then _=_+1 end
 		preField[int(P/10)][P%10+1]=_
-		s,P=s+1,P+1
+		P=P+1
 	end
 	p=p+1
-	goto L2
+	goto L
 	::E::
 	TEXT(text.dataCorrupted,350,360,35,"flicker",.5)
 end

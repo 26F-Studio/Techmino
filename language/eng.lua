@@ -52,7 +52,7 @@ return{
 		bgm="BGM:",
 	},
 	customVal={
-		drop={"[20G]",1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞"},
+		drop={"0G","1/180G","1/60G","1/40G","1/30G","1/25G","1/20G","1/18G","1/16G","1/14G","1/12G","1/10G","1/9G","1/8G","1/7G","1/6G","1/5G","1/4G","1/3G","1/2G","1G","2G","4G","8G","20G"},
 		lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,"∞"},
 		wait=nil,
 		fall=nil,
@@ -170,7 +170,7 @@ Lib used:
 ]],
 	support="Support Author",
 	group="Official QQ Group",
-	warning="DO NOT DISTRIBUTE",
+	warning="DO NOT SHARE APP",
 	WidgetText={
 		main={
 			lang="言/A",

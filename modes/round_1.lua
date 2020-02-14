@@ -28,7 +28,7 @@ return{
 	},
 	color=color.cyan,
 	env={
-		drop=60,lock=60,
+		drop=1e99,lock=1e99,
 		oncehold=false,
 		dropPiece=update_round,
 		bg="game2",bgm="push",

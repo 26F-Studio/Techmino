@@ -35,10 +35,10 @@ return{
 	getRank=function(P)
 		local T=P.stat.score
 		return
-		T>=1e5 and 5 or
-		T>=8e4 and 4 or
-		T>=5e4 and 3 or
-		T>=2e4 and 2 or
+		T>=12e4 and 5 or
+		T>=10e4 and 4 or
+		T>=6e4 and 3 or
+		T>=3e4 and 2 or
 		T>=1e4 and 1
 	end,
 }

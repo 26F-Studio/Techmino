@@ -1,15 +1,14 @@
 local gc=love.graphics
-local marathon_drop={[0]=60,48,40,30,24,18,15,12,10,8,7,6,5,4,3,2,1,1,0,0}
+local dropSpeed={[0]=60,50,40,30,25,20,15,12,9,7,5,4,3,2,1,1,.5,.5,.25,.25}
 local function check_LVup(P)
 	local T=P.modeData.point+10
 	if P.stat.row>=T then
 		if T==200 then
 			Event.win(P,"finish")
 		else
-			P.gameEnv.drop=marathon_drop[T/10]
-			if T==180 then P.gameEnv._20G=true end
-			SFX("reach")
+			P.gameEnv.drop=dropSpeed[T/10]
 			P.modeData.point=T
+			SFX("reach")
 		end
 	end
 end
@@ -32,8 +31,9 @@ return{
 	},
 	color=color.green,
 	env={
-		drop=60,fall=20,
+		fall=30,
 		target=10,dropPiece=check_LVup,
+		mindas=7,minarr=1,
 		bg="strap",bgm="way",
 	},
 	load=function()
@@ -53,13 +53,14 @@ return{
 		if L>=200 then
 			local T=P.stat.time
 			return
-			T<=180 and 5 or
-			T<=240 and 4 or
+			T<=185 and 5 or
+			T<=250 and 4 or
 			3
 		else
 			return
 			L>=150 and 2 or
-			L>=100 and 1
+			L>=100 and 1 or
+			L>=20 and 0
 		end
 	end,
 }

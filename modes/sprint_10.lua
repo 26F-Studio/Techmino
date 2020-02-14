@@ -48,6 +48,7 @@ return{
 		T<=10 and 4 or
 		T<=25 and 3 or
 		T<=40 and 2 or
-		T<=60 and 1
+		T<=60 and 1 or
+		0
 	end,
 }

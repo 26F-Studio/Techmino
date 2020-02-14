@@ -41,7 +41,7 @@ return{
 		mDraw(drawableText.tsd,-82,407)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
-	scoreDisp=function(D)return"NO."..D[1]"   KO:"..D[2]end,
+	scoreDisp=function(D)return"NO."..D[1].."   KO:"..D[2]end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local T=P.modeData.event
@@ -50,6 +50,7 @@ return{
 		T>=18 and 4 or
 		T>=16 and 3 or
 		T>=14 and 2 or
-		T>=12 and 1
+		T>=12 and 1 or
+		T>=1 and 0
 	end,
 }

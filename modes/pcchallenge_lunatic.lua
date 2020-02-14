@@ -52,6 +52,7 @@ return{
 		L>=12 and 4 or
 		L>=9 and 3 or
 		L>=6 and 2 or
-		L>=3 and 1
+		L>=3 and 1 or
+		L>=1 and 0
 	end,
 }

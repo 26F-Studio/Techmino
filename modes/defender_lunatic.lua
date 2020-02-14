@@ -73,6 +73,7 @@ return{
 		W>=80 and 4 or
 		W>=55 and 3 or
 		W>=30 and 2 or
-		W>=20 and 1
+		W>=20 and 1 or
+		L>=5 and 0
 	end,
 }
