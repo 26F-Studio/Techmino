@@ -4,6 +4,7 @@ local function score(P)
 	local F=false
 	if P.modeData.point<70 then--if Less then MM
 		local R=#P.cleared
+		if R==0 then return end
 		if R==4 then R=10 end
 		P.modeData.point=P.modeData.point+R
 		P.modeData.event=sectionName[int(P.modeData.point*.1)+1]
@@ -12,14 +13,14 @@ end
 
 return{
 	name={
-		"大师",
-		"大师",
-		"GM",
+		"宗师",
+		"宗师",
+		"GrandMaster",
 	},
 	level={
-		"",
-		"",
-		"",
+		"GM",
+		"GM",
+		"GM",
 	},
 	info={
 		"成为方块大师",
@@ -47,6 +48,7 @@ return{
 },
 	load=function()
 		newPlayer(1,340,15)
+		players[1].modeData.event="M7"
 	end,
 	mesDisp=function(P,dx,dy)
 		mDraw(drawableText.line,-82,300)

@@ -1,4 +1,4 @@
-local rnd=math.random
+local rnd,min=math.random,math.min
 local function check_c4w(P)
 	for i=1,#P.cleared do
 		P.field[#P.field+1]=getNewRow(10)
@@ -63,7 +63,7 @@ return{
 		mDraw(drawableText.combo,-82,358)
 		mDraw(drawableText.mxcmb,-82,450)
 	end,
-	score=function(P)return{P.modeData.point<=100 and P.modeData.point or 100,P.stat.time}end,
+	score=function(P)return{min(P.modeData.point,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Combo   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

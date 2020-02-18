@@ -1,4 +1,5 @@
 local wd=love.window
+local gc=love.graphics
 local kb=love.keyboard
 local Timer=love.timer.getTime
 local int,abs,rnd,max,min,sin=math.floor,math.abs,math.random,math.max,math.min,math.sin
@@ -42,15 +43,40 @@ function Tmr.load()
 		local m=modes[L[2]]
 		modes[L[2]]=require("modes/"..m[1])
 		local M=modes[L[2]]
-		M.saveFileName,M.x,M.y,M.shape,M.size,M.id,M.unlock=m[1],m.x,m.y,m.shape,m.size,m.id,m.unlock
-		M.records=loadRecord(m[1])
+		M.saveFileName,M.id=m[1],m.id
+		M.x,M.y,M.size,M.shape=m.x,m.y,m.size,m.shape
+		M.unlock=m.unlock
+		M.records=loadRecord(m[1])or M.score and{}
+		-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
+		-- M.icon=gc.newImage("image/modeIcon/custom.png")
 		L[2]=L[2]+1
 		if L[2]>L[3]then
 			L[1],L[2],L[3]=5,1,1
 		end
 	elseif L[1]==5 then
 		--------------------------Loading some other things here?
-		
+		local N=gc.newImage
+		titleImage=N("/image/mess/title.png")
+		coloredTitleImage=N("/image/mess/title_colored.png")
+		dialCircle=N("/image/mess/dialCircle.png")
+		dialNeedle=N("/image/mess/dialNeedle.png")
+		badgeIcon=N("/image/mess/badge.png")
+		spinCenter=N("/image/mess/spinCenter.png")
+		ctrlSpeedLimit=N("/image/mess/ctrlSpeedLimit.png")
+		speedLimit=N("/image/mess/speedLimit.png")
+
+		background1=N("/image/BG/bg1.png")
+		background2=N("/image/BG/bg2.png")
+		groupCode=N("/image/mess/groupcode.png")
+		payCode=N("/image/mess/paycode.png")
+
+		miya={
+			ch=N("/image/miya/ch.png"),
+			f1=N("/image/miya/f1.png"),
+			f2=N("/image/miya/f2.png"),
+			f3=N("/image/miya/f3.png"),
+			f4=N("/image/miya/f4.png"),
+		}
 		--------------------------
 		L[1],L[2],L[3]=0,1,1
 		SFX("welcome",.2)
@@ -74,10 +100,17 @@ function Tmr.mode(dt)
 	local cam=mapCam
 	local F
 	local x,y,k=cam.x,cam.y,cam.k
-	if kb.isDown("up",	"w")	then y=y-10*k;F=true end
-	if kb.isDown("down","s")	then y=y+10*k;F=true end
-	if kb.isDown("left","a")	then x=x-10*k;F=true end
-	if kb.isDown("right","d")	then x=x+10*k;F=true end
+	if kb.isDown("up",	"w")then y=y-10*k;F=true end
+	if kb.isDown("down","s")then y=y+10*k;F=true end
+	if kb.isDown("left","a")then x=x-10*k;F=true end
+	if kb.isDown("right","d")then x=x+10*k;F=true end
+	local js1=joysticks[1]
+	if js1 then
+		if js1:isDown("dpup")then y=y-10*k;F=true end
+		if js1:isDown("dpdown")then y=y+10*k;F=true end
+		if js1:isDown("dpleft")then x=x-10*k;F=true end
+		if js1:isDown("dpright")then x=x+10*k;F=true end
+	end
 	if F or cam.keyCtrl and(x-cam.x1)^2+(y-cam.y1)^2>2.6 then
 		if F then
 			cam.keyCtrl=true
@@ -86,12 +119,14 @@ function Tmr.mode(dt)
 		local MM,R=modes,modeRanks
 		for _=1,#MM do
 			if R[_]then
+				local __
 				local M=MM[_]
 				local s=M.size
-				local __
 				if M.shape==1 then
 					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then __=_ end
 				elseif M.shape==2 then
+					if abs(x-M.x)+abs(y-M.y)<s then __=_ end
+				elseif M.shape==3 then
 					if(x-M.x)^2+(y-M.y)^2<s^2 then __=_ end
 				end
 				if __ and cam.sel~=__ then
@@ -110,23 +145,24 @@ function Tmr.mode(dt)
 	end
 	cam.x,cam.y=x,y
 	--keyboard controlling
-
+	
+	space.scale(.85+k/cam.k1*.15)
+	space.translate((cam.x1/cam.k1-cam.x/k)*.03*k,(cam.y1/cam.k1-cam.y/k)*.03*k)
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
 	cam.k1=cam.k1*.85+k*.15
 	local _=scene.swap.tar
 	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
 	if cam.zoomMethod==1 then
-		if cam.zoomK<60 then
-			if cam.sel then
-				local M=modes[cam.sel]
-				cam.x=cam.x*.8+M.x*cam.k*.2
-				cam.y=cam.y*.8+M.y*cam.k*.2
-			end
-			_=cam.zoomK
-			if _<1 then _=_*1.1 end
-			cam.zoomK=_*1.06
+		if cam.sel then
+			local M=modes[cam.sel]
+			cam.x=cam.x*.8+M.x*cam.k*.2
+			cam.y=cam.y*.8+M.y*cam.k*.2
 		end
+		_=cam.zoomK
+		if _<.8 then _=_*1.05 end
+		if _<1.1 then _=_*1.05 end
+		cam.zoomK=_*1.05
 	elseif cam.zoomMethod==2 then
 		cam.zoomK=cam.zoomK^.9
 	end

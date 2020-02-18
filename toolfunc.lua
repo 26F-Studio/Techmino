@@ -1,6 +1,7 @@
 local tm=love.timer
 local gc=love.graphics
 local kb=love.keyboard
+local data=love.data
 local int,abs,rnd,max,min=math.floor,math.abs,math.random,math.max,math.min
 local sub,find,format,char,byte=string.sub,string.find,string.format,string.char,string.byte
 local ins,rem=table.insert,table.remove
@@ -20,7 +21,7 @@ end
 
 function toTime(s)
 	if s<60 then
-		return format("%.3f",s)
+		return format("%.3fs",s)
 	elseif s<3600 then
 		return format("%d:%.2f",int(s/60),s%60)
 	else
@@ -142,10 +143,13 @@ function restoreVirtualKey()
 		B.y=O.y
 		B.r=O.r
 	end
+	if not modeEnv.Fkey then
+		virtualkey[9].ava=false
+	end
 end
 function copyBoard()
 	local str=""
-	local H=20
+	local H=0
 	for y=20,1,-1 do
 		for x=1,10 do
 			if preField[y][x]~=0 then
@@ -156,56 +160,59 @@ function copyBoard()
 	end
 	::L::
 	for y=1,H do
-		local L=""
-		for x=1,10 do
-			local s=preField[y][x]
-			if s>7 then s=s-1 end
-			L=L..char(66+s)
+		local S=""
+		local L=preField[y]
+		for x=1,10,2 do
+			local H=L[x]
+			local L=L[x+1]
+			if H<8 then H=H+1 end
+			if L<8 then L=L+1 end
+			S=S..char(H*16+L)
 		end
-		-- str=str..L.."\n"
+		str=str..S
 	end
-	love.system.setClipboardText("Techmino sketchpad:"..str)
+	love.system.setClipboardText("Techmino sketchpad:"..data.encode("string","base64",data.compress("string","deflate",str)))
 	TEXT(text.copySuccess,350,360,40,"appear",.5)
 end
 function pasteBoard()
 	local str=love.system.getClipboardText()
-	local len=#str
-	local _
-	local p,P=1,10--sum,pStr,pField(r*10+(c-1))
-	p=find(str,":")
-	if p then
-		p=p+1
-	else
-		p=find(str,"[A-N]")
-		if not p then
-			goto E
-		end
-	end--int p*//head
-	::L::
-	_=byte(str,p)
-	if P==210 then
-		return
-	elseif not _ then
-		if P%10~=0 then
-			goto E
+	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
+	local _,__
+	local p=find(str,":")--ptr*
+	if p then str=sub(str,p+1)end
+	str=data.decompress("string","deflate",data.decode("string","base64",str))
+	p=1
+	::LOOP::
+		_=byte(str,p)--1byte
+		if not _ then
+			if fX~=1 then goto ERROR
+			else goto FINISH
+			end
+		end--str end
+		__=_%16--low4b
+		_=(_-__)/16--high4b
+		if _>12 or __>12 then goto ERROR end--illegal blockid
+		if _<9 then _=_-1 end if __<9 then __=__-1 end
+		preField[fY][fX]=_;preField[fY][fX+1]=__
+		if fX<9 then
+			fX=fX+2
 		else
-			return
+			if fY==20 then goto FINISH end
+			fX=1;fY=fY+1
 		end
-	end--end check
-	_=_-66
-	if _<-1 or _>12 then
 		p=p+1
-		goto L
-	end--skip illegal char
-	if _>-2 and _<13 then
-		if _>7 then _=_+1 end
-		preField[int(P/10)][P%10+1]=_
-		P=P+1
-	end
-	p=p+1
-	goto L
-	::E::
-	TEXT(text.dataCorrupted,350,360,35,"flicker",.5)
+	goto LOOP
+
+	::FINISH::
+		for y=fY+1,20 do
+			for x=1,10 do
+				preField[y][x]=0
+			end
+		end
+	goto END
+	::ERROR::
+		TEXT(text.dataCorrupted,350,360,35,"flicker",.5)
+	::END::
 end
 
 function updateStat()
@@ -321,7 +328,7 @@ function loadGame(M)
 end
 function resetPartGameData()
 	gameResult=false
-	frame=30
+	frame=150-setting.reTime*15
 	destroyPlayers()
 	curMode.load()
 	texts={}
@@ -345,7 +352,7 @@ function resetPartGameData()
 end
 function resetGameData()
 	gameResult=false
-	frame=0
+	frame=150-setting.reTime*15
 	garbageSpeed=1
 	pauseTime=0--Time paused
 	pauseCount=0--Times paused
@@ -403,22 +410,27 @@ function loadRecord(N)
 		setfenv(s,T)
 		T[1]=s()
 		return T[1]
-	else
-		return{}
 	end
 end
 local function dumpTable(L)
 	local s="{\n"
 	for k,v in next,L do
 		local T
+		T=type(k)
+			if T=="number"then k="["..k.."]="
+			elseif T=="string"then k=k.."="
+			else error("Error data type!")
+			end
 		T=type(v)
 			if T=="number"then v=tostring(v)
 			elseif T=="string"then v="\""..v.."\""
 			elseif T=="table"then v=dumpTable(v)
 			else error("Error data type!")
 			end
-		s=s.."["..k.."]="..v..",\n"
+		s=s..k..v..",\n"
 	end
+	print(s)
+	print("---")
 	return s.."}"
 end
 function saveRecord(N,L)
@@ -435,6 +447,35 @@ function delRecord(N)
 	fs.remove(N..".dat")
 end
 
+function saveUnlock()
+	local t={}
+	local RR=modeRanks
+	for i=1,#RR do
+		t[i]=RR[i]or"X"
+	end
+	t=concat(t,",")
+	local F=FILE.unlock
+	F:open("w")
+	local _=F:write(t)
+	F:flush()
+	F:close()
+	if not _ then
+		TEXT(text.unlockSavingError..mes,640,480,40,"appear",.4)
+	end
+end
+function loadUnlock()
+	local F=FILE.unlock
+	F:open("r")
+	local t=F:read()
+	F:close()
+	t=splitS(t,",")
+	for i=1,#modeRanks do
+		local v=toN(t[i])
+		if not v or v<0 or v>6 or v~=int(v)then v=false end
+		modeRanks[i]=v
+	end
+end
+
 local statOpy={
 	"run","game","time",
 	"extraPiece","extraRate",
@@ -448,27 +489,17 @@ function loadStat()
 	local F=FILE.data
 	F:open("r")
 	local t=F:read()
-	t=splitS(t,"\r\n")
 	F:close()
+	t=splitS(t,"\r\n")
 	for i=1,#t do
 		local p=find(t[i],"=")
 		if p then
 			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
-			if t=="rank"then
-				v=splitS(v,",")
-				for i=1,#modeRanks do
-					local v=toN(v[i])
-					if not v or v<0 or v>6 or v~=int(v)then v=false end
-					modeRanks[i]=v
-				end
-			else
-				if t=="gametime"then t="time"end
-				for i=1,#statOpy do
-					if t==statOpy[i]then
-						v=toN(v)if not v or v<0 then v=0 end
-						stat[t]=v
-						break
-					end
+			for i=1,#statOpy do
+				if t==statOpy[i]then
+					v=toN(v)if not v or v<0 then v=0 end
+					stat[t]=v
+					break
 				end
 			end
 		end
@@ -503,17 +534,19 @@ function loadSetting()
 	local F=FILE.setting
 	F:open("r")
 	local t=F:read()
-	t=splitS(t,"\r\n")
 	F:close()
+	t=splitS(t,"\r\n")
 	for i=1,#t do
 		local p=find(t[i],"=")
 		if p then
 			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
-			if
+			if--10档的设置
 				--声音
 				t=="sfx"or t=="bgm"or t=="voc"or t=="stereo"or
 				--三个触摸设置项
-				t=="VKTchW"or t=="VKCurW"or t=="VKAlpha"
+				t=="VKTchW"or t=="VKCurW"or t=="VKAlpha"or
+				--重开时间
+				t=="reTime"
 			then
 				v=toN(v)
 				if v and v==int(v)and v>=0 and v<=10 then
@@ -528,7 +561,7 @@ function loadSetting()
 				--开关设置们
 				t=="bg"or
 				t=="ghost"or t=="center"or t=="grid"or t=="swap"or
-				t=="quickR"or t=="fine"or t=="bgblock"or t=="smo"or
+				t=="quickR"or t=="fine"or t=="bgspace"or t=="smo"or
 				t=="VKSwitch"or t=="VKTrack"or t=="VKDodge"or t=="VKIcon"
 			then
 				setting[t]=v=="true"
@@ -569,6 +602,7 @@ end
 local saveOpt={
 	"das","arr",
 	"sddas","sdarr",
+	"reTime",
 	"quickR",
 	"swap",
 	"fine",
@@ -582,7 +616,7 @@ local saveOpt={
 
 	"fullscreen",
 	"bg",
-	"bgblock",
+	"bgspace",
 	"lang",
 	"skin",
 

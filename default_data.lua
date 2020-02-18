@@ -1,7 +1,10 @@
 setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
-	quickR=true,swap=true,
+	reTime=10,
+	maxNext=6,
+	quickR=true,
+	swap=true,
 	fine=false,
 	--game
 
@@ -14,13 +17,13 @@ setting={
 
 	fullscreen=false,
 	bg=true,
-	bgblock=true,
+	bgspace=true,
 	lang=1,
 	skin=1,
 	--graphic
 
 	sfx=10,bgm=7,
-	vib=3,voc=0,
+	vib=0,voc=0,
 	stereo=6,
 	--sound
 
@@ -32,12 +35,12 @@ setting={
 		{},{},{},{},{},{},{},
 		--joystick
 	},
-	VKSwitch=true,
-	VKTrack=true,--If tracked
-	VKDodge=false,--If repel
-	VKTchW=3,--Touch Weight
-	VKCurW=4,--CurPos Weight
-	VKIcon=true,
+	VKSwitch=false,--if disp
+	VKTrack=false,--if tracked
+	VKDodge=false,--if dodge
+	VKTchW=3,--Touch-Pos Weight
+	VKCurW=4,--Cur-Pos Weight
+	VKIcon=true,--if disp icon
 	VKAlpha=3,
 	--control
 }

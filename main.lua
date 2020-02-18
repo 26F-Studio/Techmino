@@ -2,11 +2,13 @@
 第一次搞这么大的工程,参考价值不是很大
 如果你有时间并且也热爱俄罗斯方块的话,来看代码或者帮助优化的话欢迎!
 ]]
+math.randomseed(os.time()*626)
 local love=love
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 local gc,sys=love.graphics,love.system
 local Timer=love.timer.getTime
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
+local abs=math.abs
 local rem=table.remove
 
 package.path="?.lua"--boost
@@ -18,10 +20,11 @@ local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
 local touching=nil--第一触摸ID
 local touchDist=nil
+joysticks={}
 
 local devMode=0
 players={alive={},human=0}
-scr={x=0,y=0,w=nil,h=nil,k=1}
+scr={x=0,y=0,w=0,h=0,rad=0,k=1}--x,y,wid,hei,radius,scale K
 local scr=scr
 mapCam={
 	sel=nil,--selected mode ID
@@ -58,6 +61,7 @@ for i=11,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 freeRow={L=40}for i=1,40 do freeRow[i]={0,0,0,0,0,0,0,0,0,0}end
 --Game system Vars
 -------------------------------------------------------------
+space=require("parts/space")local space=space
 setFont=require("parts/font")
 blocks=require("parts/mino")
 -- require("parts/light")
@@ -117,19 +121,6 @@ if sys.getPowerInfo()~="unknown"then
 			gc.pop()gc.setCanvas()
 		end
 	end
-end
-local function getNewBlock()
-	FX_BGblock.ct=FX_BGblock.ct+1
-	if FX_BGblock.ct==17 then FX_BGblock.ct=1 end
-	local t=FX_BGblock.list[FX_BGblock.ct]
-	t.bn,t.size=FX_BGblock.next,2+3*rnd()
-	t.b=blocks[t.bn][rnd(0,3)]
-	t.x=rnd(-#t.b[1]*t.size*30+100,1180)
-	t.y=0
-	t.ty=720+#t.b*30*t.size
-	t.v=t.size*(1+rnd())
-	FX_BGblock.next=FX_BGblock.next%7+1
-	return t
 end
 local function onVirtualkey(x,y)
 	local dist,nearest=1e10
@@ -221,6 +212,8 @@ local function onMode(x,y)
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return _ end
 			elseif M.shape==2 then
+				if abs(x-M.x)+abs(y-M.y)<s then return _ end
+			elseif M.shape==3 then
 				if(x-M.x)^2+(y-M.y)^2<s^2 then return _ end
 			end
 		end
@@ -438,10 +431,10 @@ function keyDown.draw(key)
 		end
 	elseif key=="escape"then
 		scene.back()
-	elseif key=="c"then
-		if kb.isDown("lctrl","rctrl")then copyBoard()end
-	elseif key=="v"then
-		if kb.isDown("lctrl","rctrl")then pasteBoard()end
+	elseif key=="c"and kb.isDown("lctrl","rctrl")then
+		copyBoard()
+	elseif key=="v"and kb.isDown("lctrl","rctrl")then
+		pasteBoard()
 	else
 		pen=penKey[key]or pen
 	end
@@ -455,6 +448,17 @@ function mouseDown.setting_sound(x,y,k)
 		if t>1 then
 			VOICE((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
 			sceneTemp.last=Timer()
+			if rnd()<.26 then
+				for i=1,#modes do
+					local M=modes[i]
+					for i=1,#M.unlock do
+						local m=M.unlock[i]
+						modeRanks[m]=modes[m].score and(modeRanks[m]and max(modeRanks[m],0)or 0)or 6
+					end
+				end
+				saveUnlock()
+				TEXT("DEVMODE:UNLOCKALL",640,360,50,"stretch",.6)
+			end
 		end
 	end
 end
@@ -467,7 +471,7 @@ function keyDown.setting_key(key)
 	if key=="escape"then
 		if s.kS then
 			s.kS=false
-			SFX("error",.5)
+			SFX("finesseError",.5)
 		else
 			scene.back()
 		end
@@ -514,7 +518,7 @@ function gamepadDown.setting_key(key)
 	if key=="back"then
 		if s.jS then
 			s.jS=false
-			SFX("error",.5)
+			SFX("finesseError",.5)
 		else
 			scene.back()
 		end
@@ -797,10 +801,11 @@ local function widgetControl_gamepad(i)
 end
 local lastX,lastY--last clickDown pos
 function love.mousepressed(x,y,k,t,num)
+	if t then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if devMode>0 then print(mx,my)end
-	if t or scene.swapping then return end
+	if scene.swapping then return end
 	if mouseDown[scene.cur]then
 		mouseDown[scene.cur](mx,my,k)
 	elseif k==2 then
@@ -815,9 +820,10 @@ function love.mousepressed(x,y,k,t,num)
 	lastY=my
 end
 function love.mousemoved(x,y,dx,dy,t)
+	if t then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
-	if t or scene.swapping then return end
+	if scene.swapping then return end
 	dx,dy=dx/scr.k,dy/scr.k
 	if mouseMove[scene.cur]then
 		mouseMove[scene.cur](mx,my,dx,dy)
@@ -835,6 +841,7 @@ function love.mousemoved(x,y,dx,dy,t)
 	end
 end
 function love.mousereleased(x,y,k,t,num)
+	if t then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if t or scene.swapping then return end
 	if mouseUp[scene.cur]then
@@ -917,6 +924,8 @@ function love.keypressed(i)
 		elseif i=="q"then
 			local W=widget_sel
 			if W then W:getInfo()end
+		elseif i=="e"then
+			error("Error Test")
 		elseif widget_sel then
 			local W=widget_sel
 			if i=="left"then W.x=W.x-10
@@ -943,6 +952,17 @@ function love.keyreleased(i)
 	if keyUp[scene.cur]then keyUp[scene.cur](i)end
 end
 
+function love.joystickadded(JS)
+	joysticks[#joysticks+1]=JS
+end
+function love.joystickremoved(JS)
+	for i=1,#joysticks do
+		if joysticks[i]==JS then
+			rem(joysticks,i)
+			return
+		end
+	end
+end
 local keyMirror={
 	dpup="up",
 	dpdown="down",
@@ -966,9 +986,26 @@ function love.gamepadreleased(joystick,i)
 	end
 end
 --[[
-function love.joystickpressed(js,k)end
-function love.joystickaxis(js,axis,val)end
-function love.joystickhat(js,hat,dir)end
+function love.joystickpressed(JS,k)
+	mouseShow=false
+	if scene.swapping then return end
+	if gamepadDown[scene.cur]then gamepadDown[scene.cur](i)
+	elseif keyDown[scene.cur]then keyDown[scene.cur](keyMirror[i]or i)
+	elseif i=="back"then scene.back()
+	else widgetControl_gamepad(i)
+	end
+end
+function love.joystickreleased(JS,k)
+	if scene.swapping then return end
+	if gamepadUp[scene.cur]then gamepadUp[scene.cur](i)
+	end
+end
+function love.joystickaxis(JS,axis,val)
+	
+end
+function love.joystickhat(JS,hat,dir)
+
+end
 function love.sendData(data)end
 function love.receiveData(id,data)end
 ]]
@@ -978,6 +1015,7 @@ end
 function love.resize(w,h)
 	love.timer.sleep(.26)
 	scr.w,scr.h,scr.r=w,h,h/w
+	scr.rad=(w^2+h^2)^.5
 	if scr.r>=.5625 then
 		scr.k=w/1280
 		scr.x,scr.y=0,(h-w*9/16)*.5
@@ -985,14 +1023,19 @@ function love.resize(w,h)
 		scr.k=h/720
 		scr.x,scr.y=(w-h*16/9)*.5,0
 	end
-	gc.origin()
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
-	gc.replaceTransform(xOy)
+	if setting.bgspace then
+		space.resize(w,h)
+		space.new()
+	end
 end
 function love.focus(f)
 	if system~="Android" and not f and scene.cur=="play"then pauseGame()end
 end
 function love.update(dt)
+	if setting.bgspace then
+		space.update()
+	end
 	for i=#sysFX,1,-1 do
 		local S=sysFX[i]
 		S[2]=S[2]+1
@@ -1000,18 +1043,6 @@ function love.update(dt)
 			for i=i,#sysFX do
 				sysFX[i]=sysFX[i+1]
 			end
-		end
-	end
-	for i=#FX_BGblock,1,-1 do
-		local B=FX_BGblock[i]
-		B.y=B.y+B.v
-		if B.y>B.ty then rem(FX_BGblock,i)end
-	end
-	if setting.bgblock then
-		FX_BGblock.tm=FX_BGblock.tm-1
-		if FX_BGblock.tm==0 then
-			FX_BGblock[#FX_BGblock+1]=getNewBlock()
-			FX_BGblock.tm=rnd(20,30)
 		end
 	end
 	for i=#texts,1,-1 do
@@ -1092,103 +1123,162 @@ function love.update(dt)
 		W:update()
 	end--更新控件
 end
+function love.errorhandler(msg)
+	local PUMP,POLL=love.event.pump,love.event.poll
+	love.mouse.setVisible(true)
+	love.audio.stop()
+	local err={"Error:"..msg}
+	local trace=debug.traceback("",2)
+	local c=2
+	for l in string.gmatch(trace,"(.-)\n")do
+		if c>2 then
+			if not string.find(l,"boot")then
+				err[c]=string.gsub(l,"^\t*","")
+				c=c+1
+			end
+		else
+			err[2]="Traceback"
+			c=3
+		end
+	end
+	print(table.concat(err,"\n"),1,c-2)
+	-- err=err:gsub("%[string \"(.-)\"%]","%1")
+	local CAP
+	local function _(_)CAP=gc.newImage(_)end
+	gc.captureScreenshot(_)
+	local T=0
+	return function()
+		PUMP()
+		for e,a,b in POLL()do
+			if e=="quit"or a=="escape"then
+				destroyPlayers()
+				return 1
+			elseif a=="return"or a=="start"then
+				destroyPlayers()
+				return"restart"
+			elseif e=="resize"then
+				T=2
+				love.resize(a,b)
+			end
+		end
+		T=T+1
+		if T==1 then
+			if sfx.error then
+				SFX("error",.8)
+			end
+		elseif T==2 then
+			gc.clear(.3,.5,.9)
+		elseif T==3 then
+			gc.setColor(1,1,1)
+			gc.push("transform")
+			gc.replaceTransform(xOy)
+			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
+			gc.pop()
+		elseif T==4 then
+			gc.push("transform")
+			gc.replaceTransform(xOy)
+			setFont(120)
+			gc.print(":(",100,40)
+			setFont(38)
+			gc.printf(text.errorMsg,100,200,1280-100)
+			setFont(20)
+			gc.print(err[1],626,360)
+			gc.print("TRACEBACK",626,410)
+			for i=4,#err-2 do
+				gc.print(err[i],626,355+20*i)
+			end
+			gc.pop()
+		end
+		gc.present()
+		love.timer.sleep(.1)
+	end
+end
+
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 local FPS=love.timer.getFPS
 function love.draw()
 	gc.discard()--SPEED UPUPUP!
 	Pnt.BG[setting.bg and curBG or"grey"]()
-	gc.setColor(1,1,1,.2)
-	for n=1,#FX_BGblock do
-		local b,img=FX_BGblock[n].b,blockSkin[FX_BGblock[n].bn]
-		local size=FX_BGblock[n].size
-		for i=1,#b do for j=1,#b[1]do
-			if b[i][j]then
-				gc.draw(img,FX_BGblock[n].x+(j-1)*30*size,FX_BGblock[n].y-i*30*size,nil,size)
+	if setting.bgspace then
+		space.draw()
+	end
+	gc.push("transform")
+		gc.replaceTransform(xOy)
+		if Pnt[scene.cur]then Pnt[scene.cur]()end
+		for k,W in next,Widget[scene.cur]do
+			if not(W.hide and W.hide())then
+				W:draw()
 			end
-		end end
-	end--Draw BG falling blocks
-	if Pnt[scene.cur]then Pnt[scene.cur]()end
-	for k,W in next,Widget[scene.cur]do
-		if not(W.hide and W.hide())then
-			W:draw()
-		end
-	end--Draw widgets
-	if mouseShow then
-		local r=Timer()*.5
-		gc.setColor(1,1,1,min(1-math.abs(1-r%1*2),.3))
-		r=int(r)%7+1
-		gc.draw(miniBlock[r],mx,my,Timer()%3.1416*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
-		gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
-		gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
-	end--Awesome mouse!
+		end--Draw widgets
+		if mouseShow then
+			local r=Timer()*.5
+			gc.setColor(1,1,1,min(1-math.abs(1-r%1*2),.3))
+			r=int(r)%7+1
+			gc.draw(miniBlock[r],mx,my,Timer()%3.1416*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
+			gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
+			gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
+		end--Awesome mouse!
+		gc.setLineWidth(6)
+		for i=1,#sysFX do
+			local S=sysFX[i]
+			if S[1]==0 then
+				gc.setColor(1,1,1,1-S[2]/S[3])
+				local r=(10*S[2]/S[3])^1.2
+				gc.rectangle("line",S[4]-r,S[5]-r,S[6]+2*r,S[7]+2*r)
+				--按钮波纹
+			elseif S[1]==1 then
+				gc.setColor(S[4],S[5],S[6],1-S[2]/S[3])
+				gc.rectangle("fill",S[7],S[8],S[9],S[10],2)
+				--开关/滑条残影
+			end
+		end--guiFXs
+		for i=1,#texts do
+			local t=texts[i]
+			local p=t.c
+			gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
+			setFont(t.font)
+			t:draw()
+		end--Floating Texts
+	gc.pop()
 	gc.setColor(1,1,1)
 	if powerInfoCanvas then
 		gc.draw(powerInfoCanvas)
 	end--Power Info
-	gc.setLineWidth(6)
-	for i=1,#sysFX do
-		local S=sysFX[i]
-		if S[1]==0 then
-			gc.setColor(1,1,1,1-S[2]/S[3])
-			local r=(10*S[2]/S[3])^1.2
-			gc.rectangle("line",S[4]-r,S[5]-r,S[6]+2*r,S[7]+2*r)
-			--按钮波纹
-		elseif S[1]==1 then
-			gc.setColor(S[4],S[5],S[6],1-S[2]/S[3])
-			gc.rectangle("fill",S[7],S[8],S[9],S[10],2)
-			--开关/滑条残影
-		end
-	end--guiFXs
-	for i=1,#texts do
-		local t=texts[i]
-		local p=t.c
-		gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
-		setFont(t.font)
-		t:draw()
-	end--Floating Texts
 	if scene.swapping then
-		scene.swap.draw(scene.swap.time)
-	end--Swapping animation
-	if scr.r~=.5625 then
-		gc.setColor(0,0,0)
-		if scr.r>.5625 then
-			local d=(scr.h-scr.w*9/16)*.5/scr.k
-			gc.rectangle("fill",0,0,1280,-d)
-			gc.rectangle("fill",0,720,1280,d)
-		else--高窗口
-			local d=(scr.w-scr.h*16/9)*.5/scr.k
-			gc.rectangle("fill",0,0,-d,720)
-			gc.rectangle("fill",1280,0,d,720)
-		end--扁窗口
-	end--Black side
+		local _=scene.swap
+		_.draw(_.time)
+	end--Scene swapping animation
 	setFont(15)
 	gc.setColor(1,1,1)
-	gc.print(FPS(),5,700)
+	local _=scr.h-20
+	gc.print(FPS(),5,_)
 	if devMode>0 then
-		gc.setColor(1,devMode==2 and .5 or 1,1)
-		gc.print("Tasks:"..#Task,5,600)
-		gc.print("Voices:"..#voiceQueue,5,620)
-		gc.print("Mouse:"..mx.." "..my,5,640)
-		gc.print("Free Row:"..#freeRow.."/"..freeRow.L,5,660)
-		gc.print("Cache used:"..gcinfo(),5,680)
-	end
+		gc.setColor(1,1,devMode==2 and .6 or 1)
+		gc.print("Cache used:"..gcinfo(),5,_-20)
+		gc.print("Free Row:"..#freeRow.."/"..freeRow.L,5,_-40)
+		gc.print("Mouse:"..mx.." "..my,5,_-60)
+		gc.print("Voices:"..#voiceQueue,5,_-80)
+		gc.print("Tasks:"..#Task,5,_-100)
+	end--DEV info
 end
 function love.run()
 	local T=love.timer
-	local lastFrame,lastFreshPow=T.getTime(),T.getTime()
+	local sleep=T.sleep
+	local lastFrame,lastFreshPow=T.getTime()
+	local lastFreshPow=lastFrame
 	local readyDrawFrame=0
 	local mini=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 	love.resize(gc.getWidth(),gc.getHeight())
 	scene.init("load")--Scene Launch
-	while true do
+	return function()
 		PUMP()
 		for N,a,b,c,d,e in POLL()do
-			if N=="quit"then
-				destroyPlayers()
-				goto END
-			elseif love[N]then
+			if love[N]then
 				love[N](a,b,c,d,e)
+			elseif N=="quit"then
+				destroyPlayers()
+				return 1
 			end
 		end
 		T.step()
@@ -1202,18 +1292,17 @@ function love.run()
 			end
 		end
 		if Timer()-lastFrame<.058 then
-			T.sleep(.01)
+			sleep(.01)
 		end
 		while Timer()-lastFrame<.0158 do
-			T.sleep(.001)
-		end
+			sleep(.001)
+		end--try easily control 60FPS
 		lastFrame=Timer()
 		if Timer()-lastFreshPow>1 then
 			updatePowerInfo()
 			lastFreshPow=Timer()
 		end
 	end
-	::END::
 end
 -------------------------------------------------------------
 local F=love.filesystem
@@ -1237,15 +1326,16 @@ end
 FILE={
 	data=F.newFile("data.dat"),
 	setting=F.newFile("setting.dat"),
+	unlock=F.newFile("unlock.dat"),
 }
+if F.getInfo("unlock.dat")then loadUnlock()end
 if F.getInfo("data.dat")then loadStat()end
 if F.getInfo("setting.dat")then
 	loadSetting()
 elseif system=="Android"or system=="iOS" then
 	setting.swap=false
-else
-	setting.VKSwitch=false
+	setting.VKSwitch=true
+	setting.vib=3
 end
-math.randomseed(os.time()*626)
 changeLanguage(setting.lang)
 changeBlockSkin(setting.skin)

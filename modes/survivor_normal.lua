@@ -42,11 +42,9 @@ return{
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		mDraw(drawableText.line,-82,300)
-		mDraw(drawableText.techrash,-82,420)
-		setFont(75)
-		mStr(P.stat.row,-82,220)
-		mStr(P.stat.clear_4,-82,340)
+		setFont(65)
+		mStr(P.modeData.event,-82,310)
+		mDraw(drawableText.wave,-82,375)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,

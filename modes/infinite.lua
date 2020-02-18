@@ -32,7 +32,7 @@ return{
 		mDraw(drawableText.eff,-82,425)
 	end,
 	score=function(P)return{P.stat.score}end,
-	scoreDisp=function(D)return D[1]end,
+	scoreDisp=function(D)return tostring(D[1])end,
 	comp=function(a,b)return a[1]>b[1]end,
 	getRank=function(P)
 		local L=P.stat.row

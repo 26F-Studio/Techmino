@@ -1,3 +1,4 @@
+local gc=love.graphics
 return{
 	name={
 		"限时打分",
@@ -33,7 +34,7 @@ return{
 		gc.arc("fill",-40,100,50,0,1)
 	end,
 	score=function(P)return{P.score}end,
-	scoreDisp=function(D)return D[1]end,
+	scoreDisp=function(D)return tostring(D[1])end,
 	comp=function(a,b)return a[1]>b[1]end,
 	getRank=function(P)
 		local T=P.stat.score

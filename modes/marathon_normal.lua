@@ -33,9 +33,11 @@ return{
 	env={
 		fall=30,
 		target=10,dropPiece=check_LVup,
-		mindas=7,minarr=1,
+		mindas=7,minarr=1,minsdarr=1,
+		minsdarr=1,
 		bg="strap",bgm="way",
 	},
+	slowmark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

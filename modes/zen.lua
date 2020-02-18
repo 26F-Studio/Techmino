@@ -30,7 +30,7 @@ return{
 		mStr(R>=0 and R or 0,-82,280)
 	end,
 	score=function(P)return{P.stat.score}end,
-	scoreDisp=function(D)return D[1]end,
+	scoreDisp=function(D)return tostring(D[1])end,
 	comp=function(a,b)return a[1]>b[1]end,
 	getRank=function(P)
 		local T=P.stat.score

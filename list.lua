@@ -59,7 +59,7 @@ blockColor={
 sfx={
 	"welcome",
 	"click","enter",
-	"error","error_long",
+	"finesseError","finesseError_long",
 	--Stereo sfxs(cannot set position)
 	"button","swipe",
 	"ready","start","win","fail","collect",
@@ -72,6 +72,8 @@ sfx={
 	"spin_0","spin_1","spin_2","spin_3",
 	"emit","blip_1","blip_2",
 	"perfectclear",
+
+	"error",
 	--Mono sfxs
 }
 bgm={

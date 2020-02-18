@@ -37,7 +37,7 @@ return{
 
 	custom="Custom Game",
 	customOption={
-		drop="Drop delay:",
+		drop="Drop speed:",
 		lock="Lock delay:",
 		wait="Next piece delay:",
 		fall="Clear row delay:",
@@ -79,6 +79,7 @@ return{
 	settingSaved="Setting saved",
 	settingSavingError="Failed to save setting:",
 	statSavingError="Failed to save stat:",
+	unlockSavingError="Failed to save unlock:",
 	copySuccess="Copy Success",
 	dataCorrupted="Data Corrupted",
 	VKTchW="Touch weight",
@@ -87,6 +88,7 @@ return{
 	noScore="No Score Yet",
 	highScore="Highscore",
 	newRecord="New Rocord",
+	errorMsg="Techmino ran into a problem and needs to restart.\nWe collected some error info,and you can send them to author.",
 
 	actName=actName,
 	
@@ -244,6 +246,8 @@ Lib used:
 			arrD="-",arrU="+",
 			sddasD="-",sddasU="+",
 			sdarrD="-",sdarrU="+",
+			reTime="Delay before game",
+			maxNext="Max next count",
 			quickR="Quick restart",
 			swap="Combo key to change ATK mode",
 			fine="Finesse error SFX",
@@ -259,7 +263,7 @@ Lib used:
 			center="Center",
 			skin="Skin",
 			bg="Background",
-			bgblock="BG animation",
+			bgspace="BG space",
 			smo="Smoooth drop",
 			dropFX="Drop FX level",
 			shakeFX="Shake FX level",

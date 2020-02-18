@@ -4,6 +4,7 @@ local Timer=love.timer.getTime
 local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.max,math.min
 local ins,rem=table.insert,table.remove
 local format=string.format
+local actName=actName--controllings' id
 local scr=scr--screen camera
 -------------------------</Head>-------------------------
 
@@ -27,7 +28,7 @@ local gameEnv0={
 	freshLimit=1e99,easyFresh=true,
 	fine=false,fineKill=false,
 	target=1e99,dropPiece=NULL,
-	mindas=0,minarr=0,
+	mindas=0,minarr=0,minsdarr=0,
 	bg="none",bgm="race"
 }
 local renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
@@ -102,8 +103,8 @@ local TRS={
 		[03]={TMP1,{1,0},	{1,1},	{0,-2},	{-1,1}	},
 		[30]={TMP1,{-1,0},	{-1,-1},{0,2},	{-1,2}	},
 		[12]={TMP1,{1,0},	{1,-1},	{0,2},	{1,2},	{1,1}	},
-		[21]={TMP1,{-1,0},	{-1,1},	{0,-2},	{-1,-2},{-1,-1}	},
-		[32]={TMP1,{-1,0},	{-1,-1},{1,0},	{0,2},	{-1,2}	},
+		[21]={TMP1,{-1,0},	{-1,-1},{-1,1},	{0,-2},	{-1,-2},{-1,-1}	},
+		[32]={TMP1,{-1,0},	{-1,-1},{-1,1},	{1,0},	{0,2},	{-1,2}	},
 		[23]={TMP1,{1,0},	{1,1},	{-1,0},	{0,-2},	{1,-2}	},
 		[02]={TMP1,{1,0},	{-1,0},	{0,-1},	{0,1}	},
 		[20]={TMP1,{-1,0},	{1,0},	{0,1},	{0,-1}	},
@@ -115,10 +116,10 @@ local TRS={
 		[10]={TMP1,{1,0},	{1,-1},	{0,2},	{1,2}	},
 		[03]={TMP1,{1,0},	{1,1},	{0,-2},	{1,-2},	{1,-1},	{0,1}	},
 		[30]={TMP1,{-1,0},	{-1,-1},{0,2},	{-1,2},	{0,-1},	{-1,1}	},
-		[12]={TMP1,{1,0},	{1,-1},	{-1,0},	{0,2},	{1,2}	},
+		[12]={TMP1,{1,0},	{1,-1},	{1,1},	{-1,0},	{0,2},	{1,2}	},
 		[21]={TMP1,{-1,0},	{-1,1},	{1,0},	{0,-2},	{-1,-2}	},
 		[32]={TMP1,{-1,0},	{-1,-1},{0,2},	{-1,2},	{-1,1}	},
-		[23]={TMP1,{1,0},	{1,1},	{0,-2},	{1,-2},	{1,-1}	},
+		[23]={TMP1,{1,0},	{1,-1},	{1,1},	{0,-2},	{1,-2},	{1,-1}	},
 		[02]={TMP1,{-1,0},	{1,0},	{0,-1},	{0,1}	},
 		[20]={TMP1,{1,0},	{-1,0},	{0,1},	{0,-1}	},
 		[13]={TMP1,{0,-1},	{1,0},	{0,1}	},
@@ -517,7 +518,7 @@ function Pdraw_small(P)
 		if P.result then
 			gc.setColor(1,1,1,min(P.endCounter,60)*.01)
 			setFont(17)mStr(P.result,32,47)
-			setFont(15)mStr(P.rank,30,82)
+			setFont(15)mStr(P.modeData.event,30,82)
 		end
 		gc.pop()
 		gc.setCanvas()
@@ -976,10 +977,10 @@ function player.fineError(P,rate)
 	P.stat.extraRate=P.stat.extraRate+rate
 	if P.human then
 		if P.gameEnv.fineKill then
-			SFX("error_long")
+			SFX("finesseError_long")
 			Event.lose(P)
 		elseif setting.fine then
-			SFX("error")
+			SFX("finesseError")
 		end
 	elseif P.gameEnv.fineKill then
 		Event.lose(P)
@@ -2098,10 +2099,9 @@ function newPlayer(id,x,y,size,AIdata)
 	P.field,P.visTime={},{}
 	P.atkBuffer={sum=0}
 
-	P.ko,P.badge,P.strength=0,0,0
+	P.badge,P.strength=0,0
 	P.atkMode,P.swappingAtkMode=1,20
 	P.atker,P.atking,P.lastRecv={}
-	P.rank=nil
 	--Royale-related
 
 	P.gameEnv={}--Current game setting environment
@@ -2113,9 +2113,11 @@ function newPlayer(id,x,y,size,AIdata)
 		else
 			P.gameEnv[k]=v
 		end
-	end--reset current game settings
+	end--load game settings
 	P.gameEnv.das=max(P.gameEnv.das,P.gameEnv.mindas)
 	P.gameEnv.arr=max(P.gameEnv.arr,P.gameEnv.minarr)
+	P.gameEnv.sdarr=max(P.gameEnv.sdarr,P.gameEnv.minsdarr)
+	if not AIdata then P.gameEnv.next=min(P.gameEnv.next,setting.maxNext)end--AIdata is not human
 	
 	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
 		P.sc,P.dir,P.r,P.c={0,0},0,0,0--spinCenter,direction,row,col

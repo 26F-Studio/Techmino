@@ -63,6 +63,7 @@ return{
 		freshLimit=15,
 		bg="strap",bgm="secret8th",
 	},
+	slowmark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,
@@ -78,19 +79,19 @@ return{
 		return a[1]>b[1]or(a[1]==b[1]and(a[2]<b[2]or a[2]==b[2]and a[3]<b[3]))
 	end,
 	getRank=function(P)
-		local L=P.stat.row
+		local L=P.stat.techrash
 		local S=P.modeData.point
 		if S==500 then
 			return
-			L<=250 and 5 or
-			L<=300 and 4 or
+			L>=30 and 5 or
+			L>=25 and 4 or
 			3
 		else
 			return
 			S>=420 and 3 or
 			S>=250 and 2 or
 			S>=120 and 1 or
-			L>=30 and 0
+			S>=30 and 0
 		end
 	end,
 }

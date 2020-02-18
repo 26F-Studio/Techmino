@@ -34,8 +34,10 @@ return{
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		setFont(50)
-		mStr("UNFINISHED",150,100)
+		setFont(60)
+		for i=1,5 do
+			mStr("UNFINISHED",120+10*i,100+50*i)
+		end
 	end,
 	score=function(P)return{P.modeData.event,P.stat.extraRate}end,
 	scoreDisp=function(D)return D[1].."Stage "..format("%.2f",D[2]).."%"end,

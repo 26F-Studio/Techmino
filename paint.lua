@@ -1,12 +1,11 @@
 local gc=love.graphics
 local setFont=setFont
-local int,abs,rnd,max,min,sin=math.floor,math.abs,math.random,math.max,math.min,math.sin
+local int,ceil,rnd,max,min,sin=math.floor,math.ceil,math.random,math.max,math.min,math.sin
 local format=string.format
 
 local Timer=love.timer.getTime
 local scr=scr
 local modeRankColor={
-	[0]=color.darkGrey,	--Not pass
 	color.bronze,		--Rank1
 	color.lightGrey,	--Rank2
 	color.lightYellow,	--Rank3
@@ -31,8 +30,6 @@ local function stencil_miniTitle()
 	end
 end
 
-FX_BGblock={tm=150,next=7,ct=0,list={}}--Falling tetrominos on background
-for _=1,16 do FX_BGblock.list[_]={v=0}end
 FX_attack={}--Attack beam
 FX_badge={}--Badge thrown
 sysFX={}
@@ -61,21 +58,19 @@ end
 local function drawVirtualkey()
 	local a=setting.VKAlpha*.1
 	for i=1,#virtualkey do
-		if i~=9 or modeEnv.Fkey then
-			local B=virtualkey[i]
-			if B.ava then
-				local _=virtualkeyDown[i]and gc.setColor(.7,.7,.7,a)or gc.setColor(1,1,1,a)--Dark magic
-				gc.setLineWidth(B.r*.07)
-				local ΔY=virtualkeyPressTime[i]
-				gc.circle("line",B.x,B.y+ΔY,B.r)--Outline circle
-				if setting.VKIcon then
-					gc.draw(VKIcon[i],B.x,B.y+ΔY,nil,B.r*.025,nil,18,18)
-				end--Icon
-				if ΔY>0 then
-					gc.setColor(1,1,1,a*ΔY*.1)
-					gc.circle("line",B.x,B.y,B.r*(1.4-ΔY*.04))
-				end--Ripple
-			end
+		local B=virtualkey[i]
+		if B.ava then
+			local _=virtualkeyDown[i]and gc.setColor(.7,.7,.7,a)or gc.setColor(1,1,1,a)--Dark magic
+			gc.setLineWidth(B.r*.07)
+			local ΔY=virtualkeyPressTime[i]
+			gc.circle("line",B.x,B.y+ΔY,B.r)--Outline circle
+			if setting.VKIcon then
+				gc.draw(VKIcon[i],B.x,B.y+ΔY,nil,B.r*.025,nil,18,18)
+			end--Icon
+			if ΔY>0 then
+				gc.setColor(1,1,1,a*ΔY*.1)
+				gc.circle("line",B.x,B.y,B.r*(1.4-ΔY*.04))
+			end--Ripple
 		end
 	end
 end
@@ -83,6 +78,9 @@ end
 local Pnt={BG={}}
 function Pnt.BG.none()
 	gc.clear(.15,.15,.15)
+end
+function Pnt.BG.black()
+	gc.clear()
 end
 function Pnt.BG.grey()
 	gc.clear(.3,.3,.3)
@@ -103,35 +101,37 @@ function Pnt.BG.rgb()
 end
 function Pnt.BG.strap()
 	gc.setColor(1,1,1)
-	local x=Timer()%32*40
-	gc.draw(background2,x,0,nil,10)
-	gc.draw(background2,x-1280,0,nil,10)
+	local x=Timer()%16*-64
+	::L::
+	gc.draw(background2,x,0,nil,8,scr.h)
+	x=x+1024--image width*8
+	if x<scr.w then goto L end
 end
 function Pnt.BG.flink()
 	local t=.13-Timer()%3%1.7
-	if t<.25 then
-		gc.clear(t,t,t)
-	else
-		gc.clear(0,0,0)
+	if t<.25 then gc.clear(t,t,t)
+	else gc.clear(0,0,0)
 	end
 end
 function Pnt.BG.game1()
 	gc.setColor(1,1,1)
-	gc.draw(background1,640,360,Timer()*.15,12,nil,64,64)
+	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
 end--Rainbow
 function Pnt.BG.game2()
 	gc.setColor(1,.5,.5)
-	gc.draw(background1,640,360,Timer()*.2,12,nil,64,64)
+	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
 end--Red rainbow
 function Pnt.BG.game3()
 	gc.setColor(.6,.6,1)
-	gc.draw(background1,640,360,Timer()*.25,12,nil,64,64)
+	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
 end--Blue rainbow
 function Pnt.BG.game4()
 	gc.setColor(.1,.5,.5)
-	local x=Timer()%4*320
-	gc.draw(background2,x,0,nil,10)
-	gc.draw(background2,x-1280,0,nil,10)
+	local x=Timer()%8*-128
+	::L::
+	gc.draw(background2,x,0,nil,8,scr.h)
+	x=x+1024--image width*8
+	if x<scr.w then goto L end
 end--Fast strap
 function Pnt.BG.game5()
 	local t=2.5-Timer()%20%6%2.5
@@ -149,16 +149,19 @@ function Pnt.BG.game6()
 	local r=7-int(Timer()*.5)%7
 	gc.draw(miniBlock[r],640,360,Timer()%3.1416*6,400,400,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 end--Fast lightning&spining tetromino
-local matrixT={}for i=0,15 do matrixT[i]={}for j=0,8 do matrixT[i][j]=love.math.noise(i,j)+2 end end
+local matrixT={}for i=1,20 do matrixT[i]={}for j=1,20 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 function Pnt.BG.matrix()
+	gc.scale(scr.k)
 	gc.clear(.15,.15,.15)
-	for i=0,15 do
-		for j=0,8 do
+	local _=ceil(scr.y/80)
+	for i=1,ceil(scr.x/80)do
+		for j=1,_ do
 			local t=sin(matrixT[i][j]*Timer())*.2+.2
 			gc.setColor(1,1,1,t)
-			gc.rectangle("fill",80*i,80*j,80,80)
+			gc.rectangle("fill",80*i,80*j,-80,-80)
 		end
 	end
+	gc.scale(1/scr.k)
 end
 
 function Pnt.load()
@@ -208,7 +211,9 @@ function Pnt.mode()
 	gc.scale(cam.zoomK)
 	gc.translate(-cam.x1,-cam.y1)
 	gc.scale(cam.k1)
-	local MM,R=modes,modeRanks
+	local MM=modes
+	local R=modeRanks
+	setFont(30)
 	for _=1,#MM do
 		local M=MM[_]
 		if R[_]then
@@ -225,7 +230,14 @@ function Pnt.mode()
 			local S=M.size
 			local d=((M.x-(cam.x1+(cam.sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
 			if d<500 then S=S*(1.25-d*0.0005) end
-			gc.setColor(modeRankColor[modeRanks[M.id]])
+			local c=modeRankColor[modeRanks[M.id]]
+			if c then
+				gc.setColor(c)
+			else
+				c=.5+sin(Timer()*6+_)*.2
+				S=S*(.8+c*.5)
+				gc.setColor(c,c,c)
+			end
 			if M.shape==1 then--Rectangle
 				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)
 				if cam.sel==_ then
@@ -233,13 +245,32 @@ function Pnt.mode()
 					gc.setLineWidth(10)
 					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
 				end
-			elseif M.shape==2 then--Octagon
+			elseif M.shape==2 then--diamond
+				gc.circle("fill",M.x,M.y,S+5,4)
+				if cam.sel==_ then
+					gc.setColor(1,1,1)
+					gc.setLineWidth(10)
+					gc.circle("line",M.x,M.y,S+5,4)
+				end
+			elseif M.shape==3 then--Octagon
 				gc.circle("fill",M.x,M.y,S,8)
 				if cam.sel==_ then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
-					gc.circle("line",M.x,M.y,S-5,8)
+					gc.circle("line",M.x,M.y,S,8)
 				end
+			end
+			if M.icon then
+				local i=M.icon
+				local l=i:getWidth()*.5
+				local k=S/l*.8
+				gc.setColor(0,0,0,2)
+				gc.draw(i,M.x-1,M.y-1,nil,k,nil,l,l)
+				gc.draw(i,M.x-1,M.y+1,nil,k,nil,l,l)
+				gc.draw(i,M.x+1,M.y-1,nil,k,nil,l,l)
+				gc.draw(i,M.x+1,M.y+1,nil,k,nil,l,l)
+				gc.setColor(1,1,1)
+				gc.draw(i,M.x,M.y,nil,k,nil,l,l)
 			end
 		end
 	end
@@ -247,28 +278,40 @@ function Pnt.mode()
 	if cam.sel then
 		local M=MM[cam.sel]
 		local lang=setting.lang
-		gc.setColor(.6,.6,.6,.5)
+		gc.setColor(.7,.7,.7,.5)
 		gc.rectangle("fill",920,0,360,720)--Info board
 		gc.setColor(M.color)
-		setFont(40)
-		mStr(M.name[lang],1030,5)
-		setFont(30)
-		mStr(M.level[lang],1030,50)
+		setFont(40)mStr(M.name[lang],1100,5)
+		setFont(30)mStr(M.level[lang],1100,50)
 		gc.setColor(1,1,1)
-		setFont(30)
-		gc.printf(M.info[lang],1100-180,130,360,"center")
-		local L=M.records
-		if L[1]then
+		setFont(28)gc.printf(M.info[lang],920,110,360,"center")
+		if M.slowmark then
+			gc.draw(ctrlSpeedLimit,1230,50,nil,.4)
+		end
+		if M.score then
 			mDraw(drawableText.highScore,1100,240)
-			gc.setColor(.3,.3,.3,.8)
+			gc.setColor(.4,.4,.4,.8)
 			gc.rectangle("fill",940,290,320,280)--Highscore board
+			local L=M.records
 			gc.setColor(1,1,1)
-			setFont(23)
-			for i=1,#L do
-				gc.print(M.scoreDisp(L[i]),955,275+25*i)
+			if L[1]then
+				for i=1,#L do
+					local t=M.scoreDisp(L[i])
+					local s=#t
+					local dy
+					if s<15 then		dy=0
+					elseif s<25 then	dy=2
+					else				dy=4
+					end
+					setFont(int(26-s*.4))
+					gc.print(t,955,275+dy+25*i)
+					setFont(10)
+					local _=L[i].date
+					if _ then gc.print(_,1155,284+25*i)end
+				end
+			else
+				mDraw(drawableText.noScore,1100,370)
 			end
-		elseif M.score then
-			mDraw(drawableText.noScore,1100,370)
 		end
 	end
 	if cam.keyCtrl then
@@ -424,7 +467,10 @@ end
 function Pnt.pause()
 	Pnt.play()
 	gc.setColor(0,0,0,pauseTimer*.015)
-	gc.rectangle("fill",0,0,1280,720)
+	gc.push("transform")
+		gc.origin()
+		gc.rectangle("fill",0,0,scr.w,scr.h)
+	gc.pop()
 	gc.setColor(1,1,1,pauseTimer*.02)
 	setFont(25)
 	if pauseCount>0 then
@@ -449,12 +495,12 @@ end
 function Pnt.setting_game()
 	gc.setColor(1,1,1)
 	mDraw(drawableText.setting_game,640,15)
-	setFont(35)
-	mStr("DAS:"..setting.das,290,205)
-	mStr("ARR:"..setting.arr,610,205)
-	setFont(23)
-	mStr(text.softdropdas..setting.sddas,290,323)
-	mStr(text.softdroparr..setting.sdarr,610,323)
+	setFont(33)
+	mStr("DAS:"..setting.das.."F",290,205)
+	mStr("ARR:"..setting.arr.."F",610,205)
+	setFont(22)
+	mStr(text.softdropdas..setting.sddas.."F",290,323)
+	mStr(text.softdroparr..setting.sdarr.."F",610,323)
 end
 function Pnt.setting_graphic()
 	gc.setColor(1,1,1)
