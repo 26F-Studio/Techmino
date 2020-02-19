@@ -40,7 +40,8 @@ return{
 		target=10,dropPiece=check_LVup,
 		bg="rgb",bgm="rockblock",
 	},
-	slowmark=true,
+	pauseLimit=true,
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

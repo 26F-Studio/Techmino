@@ -59,7 +59,7 @@ return{
 		easyFresh=false,bone=true,
 		bg="none",bgm="shining terminal",
 	},
-	slowmark=true,
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

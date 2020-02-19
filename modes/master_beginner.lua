@@ -63,7 +63,7 @@ return{
 		freshLimit=15,
 		bg="strap",bgm="secret8th",
 	},
-	slowmark=true,
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

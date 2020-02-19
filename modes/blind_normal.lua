@@ -25,6 +25,7 @@ return{
 		target=200,
 		bg="glow",bgm="reason",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

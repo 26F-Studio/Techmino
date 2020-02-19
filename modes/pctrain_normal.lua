@@ -71,8 +71,9 @@ return{
 		sequence="none",
 		dropPiece=newPC,
 		ospin=false,
-		bg="rgb",bgm="newera",
+		bg="rgb",bgm="chlorine",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 		newPC(players[1])

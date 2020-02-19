@@ -24,6 +24,7 @@ return{
 		freshLimit=15,
 		bg="glow",bgm="reason",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

@@ -96,6 +96,25 @@ end
 function Tmr.main(dt)
 	players[1]:update(dt)
 end
+local function dumpTable(L)
+	local s="{\n"
+	for k,v in next,L do
+		local T
+		T=type(k)
+			if T=="number"then k="["..k.."]="
+			elseif T=="string"then k=k.."="
+			else error("Error data type!")
+			end
+		T=type(v)
+			if T=="number"then v=tostring(v)
+			elseif T=="string"then v="\""..v.."\""
+			elseif T=="table"then v=dumpTable(v)
+			else error("Error data type!")
+			end
+		s=s..k..v..",\n"
+	end
+	return s.."}"
+end
 function Tmr.mode(dt)
 	local cam=mapCam
 	local F
@@ -106,10 +125,13 @@ function Tmr.mode(dt)
 	if kb.isDown("right","d")then x=x+10*k;F=true end
 	local js1=joysticks[1]
 	if js1 then
-		if js1:isDown("dpup")then y=y-10*k;F=true end
-		if js1:isDown("dpdown")then y=y+10*k;F=true end
-		if js1:isDown("dpleft")then x=x-10*k;F=true end
-		if js1:isDown("dpright")then x=x+10*k;F=true end
+		local k=js1:getAxis(1)
+		if k~="c"then
+			if k=="u"or k=="ul"or k=="ur"then y=y-10*k;F=true end
+			if k=="d"or k=="dl"or k=="dl"then y=y+10*k;F=true end
+			if k=="l"or k=="ul"or k=="dl"then x=x-10*k;F=true end
+			if k=="r"or k=="ur"or k=="dr"then x=x+10*k;F=true end
+		end
 	end
 	if F or cam.keyCtrl and(x-cam.x1)^2+(y-cam.y1)^2>2.6 then
 		if F then
@@ -145,9 +167,11 @@ function Tmr.mode(dt)
 	end
 	cam.x,cam.y=x,y
 	--keyboard controlling
-	
-	space.scale(.85+k/cam.k1*.15)
-	space.translate((cam.x1/cam.k1-cam.x/k)*.03*k,(cam.y1/cam.k1-cam.y/k)*.03*k)
+
+	if setting.bgspace then
+		space.scale(.85+k/cam.k1*.15)
+		space.translate((cam.x1/cam.k1-cam.x/k)*.03*k,(cam.y1/cam.k1-cam.y/k)*.03*k)
+	end
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
 	cam.k1=cam.k1*.85+k*.15

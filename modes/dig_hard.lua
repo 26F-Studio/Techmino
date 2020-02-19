@@ -31,6 +31,7 @@ return{
 		end,
 		bg="game2",bgm="push",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

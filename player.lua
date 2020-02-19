@@ -1990,7 +1990,7 @@ function newDemoPlayer(id,x,y,size)
 
 		block=true,
 		visible="show",
-		Fkey=NULL,puzzle=false,ospin=true,
+		Fkey=nil,puzzle=false,ospin=true,
 		freshLimit=1e99,easyFresh=true,
 		target=1e99,dropPiece=NULL,
 	}

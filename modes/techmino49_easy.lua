@@ -56,17 +56,17 @@ return{
 		local n=2
 		for i=1,4 do for j=1,6 do
 			if L[n]then
-				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(4,6)))
+				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(2,5)))
 			else
-				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(4,6)-1,2,true,10000))
+				newPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(2,5)-1,2,true,10000))
 			end
 			n=n+1
 		end end
 		for i=9,12 do for j=1,6 do
 			if L[n]then
-				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(4,6)))
+				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(2,5)))
 			else
-				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(4,6)-1,2,true,10000))
+				newPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(2,5)-1,2,true,10000))
 			end
 			n=n+1
 		end end

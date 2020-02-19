@@ -59,7 +59,7 @@ return{
 		freshLimit=15,
 		bg="game2",bgm="secret7th",
 	},
-	slowmark=true,
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

@@ -28,6 +28,8 @@ scr={x=0,y=0,w=0,h=0,rad=0,k=1}--x,y,wid,hei,radius,scale K
 local scr=scr
 mapCam={
 	sel=nil,--selected mode ID
+	lastPlay=1,--last played mode ID
+
 	x=0,y=0,k=1,--camera pos/k
 	x1=0,y1=0,k1=1,--camera pos/k shown
 	--basic paras
@@ -71,6 +73,7 @@ require("default_data")
 require("class")
 require("ai")
 require("toolfunc")
+require("file")
 require("sound")
 require("text")
 require("list")
@@ -847,7 +850,7 @@ function love.mousereleased(x,y,k,t,num)
 	if mouseUp[scene.cur]then
 		mouseUp[scene.cur](mx,my,k)
 	end
-	if(mx-lastX)^2+(my-lastY)^2<26 and mouseClick[scene.cur]then
+	if lastX and(mx-lastX)^2+(my-lastY)^2<26 and mouseClick[scene.cur]then
 		mouseClick[scene.cur](mx,my,k)
 	end
 end
@@ -864,9 +867,10 @@ function love.touchpressed(id,x,y)
 		love.touchmoved(id,x,y,0,0)
 	end
 	touchDist=nil--reset distance
-	lastX,lastY=xOy:inverseTransformPoint(x,y)
+	x,y=xOy:inverseTransformPoint(x,y)
+	lastX,lastY=x,y
 	if touchDown[scene.cur]then
-		touchDown[scene.cur](id,lastX,lastY)
+		touchDown[scene.cur](id,x,y)
 	end
 end
 function love.touchmoved(id,x,y,dx,dy)
@@ -924,8 +928,8 @@ function love.keypressed(i)
 		elseif i=="q"then
 			local W=widget_sel
 			if W then W:getInfo()end
-		elseif i=="e"then
-			error("Error Test")
+		elseif i=="f3"then
+			error("Techmino:挂了")
 		elseif widget_sel then
 			local W=widget_sel
 			if i=="left"then W.x=W.x-10
@@ -1024,18 +1028,13 @@ function love.resize(w,h)
 		scr.x,scr.y=(w-h*16/9)*.5,0
 	end
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
-	if setting.bgspace then
-		space.resize(w,h)
-		space.new()
-	end
+	if setting.bgspace then space.new()end
 end
 function love.focus(f)
 	if system~="Android" and not f and scene.cur=="play"then pauseGame()end
 end
 function love.update(dt)
-	if setting.bgspace then
-		space.update()
-	end
+	if setting.bgspace then space.update()end
 	for i=#sysFX,1,-1 do
 		local S=sysFX[i]
 		S[2]=S[2]+1
@@ -1100,7 +1099,7 @@ function love.update(dt)
 			Q.s=Q[2]and 2 or 4
 		elseif Q.s==2 then--播放1,准备2
 			if Q[1]:getDuration()-Q[1]:tell()<.08 then
-				Q[2]=getVoice(Q[2])--Bug:no voice called Q[2](may fixed)
+				Q[2]=getVoice(Q[2])
 				Q[2]:setVolume(setting.voc*.1)
 				Q[2]:play()
 				Q.s=3
@@ -1113,7 +1112,7 @@ function love.update(dt)
 				Q.s=Q[2]and 2 or 4
 			end
 		elseif Q.s==4 then--最后播放
-			if not Q[1].isPlaying(Q[1])then--Bug:Q[1] is nil
+			if not Q[1].isPlaying(Q[1])then
 				Q[1]=nil
 				Q.s=0
 			end
@@ -1146,7 +1145,7 @@ function love.errorhandler(msg)
 	local CAP
 	local function _(_)CAP=gc.newImage(_)end
 	gc.captureScreenshot(_)
-	local T=0
+	local T=true
 	return function()
 		PUMP()
 		for e,a,b in POLL()do
@@ -1157,26 +1156,21 @@ function love.errorhandler(msg)
 				destroyPlayers()
 				return"restart"
 			elseif e=="resize"then
-				T=2
 				love.resize(a,b)
 			end
 		end
-		T=T+1
-		if T==1 then
+		if T then
 			if sfx.error then
 				SFX("error",.8)
 			end
-		elseif T==2 then
+			T=false
+		else
+			gc.discard()
 			gc.clear(.3,.5,.9)
-		elseif T==3 then
 			gc.setColor(1,1,1)
 			gc.push("transform")
 			gc.replaceTransform(xOy)
 			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
-			gc.pop()
-		elseif T==4 then
-			gc.push("transform")
-			gc.replaceTransform(xOy)
 			setFont(120)
 			gc.print(":(",100,40)
 			setFont(38)
@@ -1242,7 +1236,7 @@ function love.draw()
 	gc.pop()
 	gc.setColor(1,1,1)
 	if powerInfoCanvas then
-		gc.draw(powerInfoCanvas)
+		gc.draw(powerInfoCanvas,0,0,0,scr.k)
 	end--Power Info
 	if scene.swapping then
 		local _=scene.swap

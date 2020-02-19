@@ -37,7 +37,8 @@ return{
 		minsdarr=1,
 		bg="strap",bgm="way",
 	},
-	slowmark=true,
+	pauseLimit=true,
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

@@ -34,6 +34,7 @@ return{
 		end,
 		bg="glow",bgm="newera",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

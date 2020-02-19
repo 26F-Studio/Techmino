@@ -53,6 +53,7 @@ return{
 		end,
 		bg="game4",bgm="way",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

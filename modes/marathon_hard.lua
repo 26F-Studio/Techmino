@@ -37,7 +37,8 @@ return{
 		mindas=7,minarr=1,minsdarr=1,
 		bg="strap",bgm="race",
 	},
-	slowmark=true,
+	pauseLimit=true,
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

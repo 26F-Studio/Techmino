@@ -139,13 +139,14 @@ local Widget={
 		setting=newButton(370,280,200,160,C.lightBlue,		45,function()scene.push()scene.swapTo("setting_game")end,	nil,"music"),
 		music=	newButton(590,280,200,160,C.lightPurple,	32,function()scene.push()scene.swapTo("music")end,			nil,"help"),
 		help=	newButton(150,460,200,160,C.lightYellow,	50,function()scene.push()scene.swapTo("help")end,			nil,"stat"),
-		stat=	newButton(370,460,200,160,C.lightCyan,		43,function()scene.push()scene.swapTo("stat")end,			nil,"quit"),
-		quit=	newButton(590,460,200,160,C.lightGrey,		55,function()VOICE("bye")scene.swapTo("quit","slowFade")end,nil,"lang"),
+		stat=	newButton(370,460,200,160,C.lightCyan,		43,function()scene.push()scene.swapTo("stat")end,			nil,"qplay"),
+		qplay=	newButton(590,460,200,160,C.lightOrange,	43,function()scene.push()loadGame(mapCam.lastPlay)end,		nil,"lang"),
 		lang=	newButton(150,610,160,100,C.lightGreen,		45,function()
 			setting.lang=setting.lang%#langName+1
 			changeLanguage(setting.lang)
 			TEXT(text.lang,370,610,50,"appear",1.6)
-			end,nil,"play"),
+			end,nil,"quit"),
+		quit=	newButton(590,610,160,100,C.lightGrey,		45,function()VOICE("bye")scene.swapTo("quit","slowFade")end,nil,"play"),
 	},
 	mode={
 		draw=	newButton(1100,	440,220,90,C.lightYellow,	40,function()scene.push()scene.swapTo("draw")end,function()return mapCam.sel~=71 and mapCam.sel~=72 end),

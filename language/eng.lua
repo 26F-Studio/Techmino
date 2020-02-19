@@ -75,11 +75,11 @@ return{
 	setting_sound="Sound setting",
 	musicRoom="Music Room",
 	nowPlaying="Now Playing:",
-	recSavingError="Failed to save record:",
-	settingSaved="Setting saved",
-	settingSavingError="Failed to save setting:",
-	statSavingError="Failed to save stat:",
 	unlockSavingError="Failed to save unlock:",
+	recSavingError="Failed to save record:",
+	statSavingError="Failed to save stat:",
+	settingSaved="Setting Saved",
+	settingSavingError="Failed to save setting:",
 	copySuccess="Copy Success",
 	dataCorrupted="Data Corrupted",
 	VKTchW="Touch weight",
@@ -88,6 +88,7 @@ return{
 	noScore="No Score Yet",
 	highScore="Highscore",
 	newRecord="New Rocord",
+	invalidGame="Invalid Game",
 	errorMsg="Techmino ran into a problem and needs to restart.\nWe collected some error info,and you can send them to author.",
 
 	actName=actName,
@@ -125,6 +126,8 @@ return{
 		"Techmino=Technique+Tetromino",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"Headphones for better experience",
+		"少女祈禱中",
+		"少女折壽中",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 		"(first effective)Your luck number today:"..math.random(100,626),
 	},
@@ -175,12 +178,13 @@ Lib used:
 	warning="DO NOT SHARE APP",
 	WidgetText={
 		main={
-			lang="言/A",
 			play="Play",
 			setting="Settings",
 			music="Music room",
 			stat="Statistics",
 			help="Help",
+			qplay="qPlay",
+			lang="言/A",
 			quit="Quit",
 		},
 		mode={

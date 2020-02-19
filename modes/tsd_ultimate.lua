@@ -32,6 +32,7 @@ return{
 		ospin=false,
 		bg="matrix",bgm="reason",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

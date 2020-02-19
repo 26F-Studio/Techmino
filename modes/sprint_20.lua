@@ -47,8 +47,8 @@ return{
 		T<=13 and 5 or
 		T<=18 and 4 or
 		T<=45 and 3 or
-		T<=70 and 2 or
-		T<=100 and 1 or
+		T<=80 and 2 or
+		T<=126 and 1 or
 		0
 	end,
 }

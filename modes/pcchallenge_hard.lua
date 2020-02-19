@@ -24,6 +24,7 @@ return{
 		ospin=false,
 		bg="rgb",bgm="infinite",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

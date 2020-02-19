@@ -45,7 +45,8 @@ return{
 		end,
 		minarr=1,
 		bg="game3",bgm="shining terminal",
-},
+	},
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 		players[1].modeData.event="M7"

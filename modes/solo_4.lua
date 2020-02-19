@@ -20,6 +20,7 @@ return{
 		freshLimit=15,
 		bg="game2",bgm="race",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 		newPlayer(2,965,360,.5,AITemplate("9S",8))

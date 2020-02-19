@@ -44,11 +44,11 @@ return{
 		if P.stat.row<40 then return end
 		local T=P.stat.time
 		return 
-		T<=25 and 5 or
-		T<=32 and 4 or
+		T<=26 and 5 or
+		T<=32.6 and 4 or
 		T<=40 and 3 or
 		T<=62 and 2 or
-		T<=126 and 1 or
+		T<=183 and 1 or
 		0
 	end,
 }

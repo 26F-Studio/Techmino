@@ -77,11 +77,11 @@ return{
 	setting_sound="声音设置",
 	musicRoom="音乐室",
 	nowPlaying="正在播放:",
+	unlockSavingError="解锁保存失败:",
 	recSavingError="纪录保存失败:",
+	statSavingError="数据保存失败:",
 	settingSaved="设置已保存",
 	settingSavingError="设置保存失败:",
-	statSavingError="数据保存失败:",
-	unlockSavingError="解锁保存失败",
 	copySuccess="已复制到剪切板",
 	dataCorrupted="数据损坏",
 	VKTchW="触摸点权重",
@@ -90,6 +90,7 @@ return{
 	noScore="暂无成绩",
 	highScore="最佳成绩",
 	newRecord="打破纪录",
+	invalidGame="成绩无效",
 	errorMsg="Techmino遇到了问题,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 	actName=actName,
@@ -126,6 +127,8 @@ return{
 		"秘密数字:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
+		"少女祈祷中",
+		"少女折寿中",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 		"(第一次才准)今日幸运数字:"..math.random(100,626),
 	},
@@ -176,12 +179,13 @@ return{
 	warning="禁止直接传播游戏本体",
 	WidgetText={
 		main={
-			lang="言/A",
 			play="开始",
 			setting="设置",
 			music="音乐室",
 			stat="统计信息",
 			help="帮助",
+			qplay="快速开始",
+			lang="言/A",
 			quit="退出",
 		},
 		mode={

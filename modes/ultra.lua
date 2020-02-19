@@ -25,6 +25,7 @@ return{
 		end,
 		bg="matrix",bgm="infinite",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

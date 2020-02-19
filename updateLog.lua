@@ -27,9 +27,15 @@ Future outlook:
 		CC smarter(think of garbage buffer)
 		game recording
 		new AI:task-Z
-		auto GUI position in any screen size
 		more FXs & 3d features & animations
 		Encrypt source code(compile to byte code)
+0.8.9:
+	invalid game when pause too much
+	quick play re-added
+	space background little changed
+	bugs fixed
+0.8.8+:
+	fixed many fatal bugs
 0.8.8:
 	background now is cool space with planets and stars,not boring falling tetrominos!
 	records with date
@@ -38,8 +44,12 @@ Future outlook:
 	new error page and a new voice
 	tiny change in rotate system(JL pistol-spin)
 	marked the modes with limited das/arr
+	better board copy/paste
+	no black side in any screen size
 	an unlock-all easter egg
+	cannot press invisible func key
 	bugs fixed(some mode error)
+	add many fatal bugs
 0.8.7:
 	better user experience in mode selecting
 	support 2^n G falling speed
@@ -62,6 +72,7 @@ Future outlook:
 	new mode:Big Bang
 	button appearance changed
 	better widget performence
+	remove Qplay
 	many bug fixed
 0.8.4:
 	vocal more natural(important,may cause new bug)

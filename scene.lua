@@ -47,7 +47,7 @@ local sceneInit={
 		end
 	end,
 	mode=function()
-		curBG="black"
+		curBG="grey"
 		BGM("blank")
 		destroyPlayers()
 		local cam=mapCam
@@ -193,7 +193,6 @@ local backFunc={
 	pause=function()
 		love.keyboard.setKeyRepeat(true)
 		updateStat()
-		saveStat()
 		clearTask("play")
 	end,
 	setting_game=	function()saveSetting()end,

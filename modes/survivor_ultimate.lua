@@ -40,6 +40,7 @@ return{
 		end,
 		bg="rgb",bgm="secret7th",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

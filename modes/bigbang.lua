@@ -22,7 +22,7 @@ return{
 		"All-spin 入门教程",
 		"All-spin Tutorial!",
 	},
-	color=color.grey,
+	color=color.lightGrey,
 	env={
 		drop=1e99,lock=1e99,
 		hold=false,
@@ -30,13 +30,15 @@ return{
 		task=nil,
 		bg="game1",bgm="newera",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		setFont(60)
-		for i=1,5 do
-			mStr("UNFINISHED",120+10*i,100+50*i)
+		setFont(50)
+		for i=1,10 do
+			mStr("UNFINISHED",-126+35*i,60*i-110)
+			mStr("UNFINISHED",626-60*i,60*i-90)
 		end
 	end,
 	score=function(P)return{P.modeData.event,P.stat.extraRate}end,

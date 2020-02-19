@@ -38,8 +38,9 @@ return{
 		drop=5,lock=30,
 		dropPiece=check_c4w,
 		freshLimit=15,ospin=false,
-		bg="rgb",bgm="newera",
+		bg="rgb",bgm="chlorine",
 	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 		local P=players[1]

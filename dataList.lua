@@ -22,7 +22,12 @@ function AITemplate(type,speedLV,next,hold,node)
 end
 -------------------------<Events>-------------------------
 local function gameOver()
+	saveStat()
 	local M=curMode
+	if M.pauseLimit and(pauseCount==1 and pauseTime>2.6 or pauseTime>6.26)then
+		TEXT(text.invalidGame,640,260,80,"flicker",.5)
+		return
+	end
 	local R=M.getRank
 	if R then
 		local P=players[1]
@@ -36,8 +41,8 @@ local function gameOver()
 						local m=M.unlock[i]
 						modeRanks[m]=modes[m].score and 0 or 6
 					end
-					saveUnlock()
 				end
+				saveUnlock()
 			end
 			local D=M.score(P)
 			local L=M.records

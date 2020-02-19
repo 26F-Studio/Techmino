@@ -91,6 +91,7 @@ bgm={
 	"rockblock",
 	"8-bit happiness",
 	"shining terminal",
+	"chlorine",
 	"end",
 }
 voiceBank={}--{{srcs1},{srcs2},...}

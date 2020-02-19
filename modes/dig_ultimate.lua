@@ -29,7 +29,8 @@ return{
 			end
 		end,
 		bg="game2",bgm="secret7th",
-},
+	},
+	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,

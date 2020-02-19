@@ -79,9 +79,6 @@ local Pnt={BG={}}
 function Pnt.BG.none()
 	gc.clear(.15,.15,.15)
 end
-function Pnt.BG.black()
-	gc.clear()
-end
 function Pnt.BG.grey()
 	gc.clear(.3,.3,.3)
 end
@@ -285,7 +282,7 @@ function Pnt.mode()
 		setFont(30)mStr(M.level[lang],1100,50)
 		gc.setColor(1,1,1)
 		setFont(28)gc.printf(M.info[lang],920,110,360,"center")
-		if M.slowmark then
+		if M.slowMark then
 			gc.draw(ctrlSpeedLimit,1230,50,nil,.4)
 		end
 		if M.score then
@@ -471,10 +468,13 @@ function Pnt.pause()
 		gc.origin()
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 	gc.pop()
-	gc.setColor(1,1,1,pauseTimer*.02)
 	setFont(25)
+	gc.setColor(1,1,1,pauseTimer*.02)
 	if pauseCount>0 then
+		local _=curMode.pauseLimit and(pauseCount==1 and pauseTime>2.6 or pauseTime>6.26)
+		if _ then gc.setColor(1,.4,.4,pauseTimer*.02)end
 		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
+		if _ then gc.setColor(1,1,1,pauseTimer*.02)end
 	end
 	for i=1,8 do
 		gc.print(text.stat[i+3],110,30*i+270)

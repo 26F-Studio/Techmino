@@ -11,8 +11,8 @@ local function newPlanet()
 	planet.r=r
 	planet.x=W*.5+cos(a)*(R+r)
 	planet.y=H*.5+sin(a)*(R+r)
-	planet.vx=-cos(a+rnd()-.5)*.2
-	planet.vy=-sin(a+rnd()-.5)*.2
+	planet.vx=-cos(a+rnd()-.5)*.126
+	planet.vy=-sin(a+rnd()-.5)*.126
 	planet.R=.7+rnd()*.2
 	planet.G=.7+rnd()*.1
 end
@@ -23,6 +23,7 @@ function space.resize(w,h)
 	W,H=w+100,h+100
 end
 function space.new()
+	if not W then space.resize(scr.w,scr.h)end
 	newPlanet()
 	for i=1,2600,5 do
 		local s=0.75*2^(rnd()*1.5)
@@ -97,7 +98,7 @@ function space.draw()
 	gc.circle("line",planet.x,planet.y,planet.r+1)
 	gc.setColor(planet.R,planet.G,.6,.5)
 	gc.circle("fill",planet.x,planet.y,planet.r)
-	gc.setColor(1,1,1)
+	gc.setColor(.9,.9,.9)
 	for i=1,2600,5 do
 		local x,y=stars[i+1],stars[i+2]
 		gc.circle("fill",x,y,stars[i])
