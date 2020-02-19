@@ -1145,14 +1145,19 @@ function love.errorhandler(msg)
 	local CAP
 	local function _(_)CAP=gc.newImage(_)end
 	gc.captureScreenshot(_)
+	local egg=rnd()>.026
 	local T=true
 	return function()
 		PUMP()
-		for e,a,b in POLL()do
+		for e,a,_,_,_,b in POLL()do
 			if e=="quit"or a=="escape"then
 				destroyPlayers()
 				return 1
-			elseif a=="return"or a=="start"then
+			elseif
+				a=="return"or
+				a=="start"or
+				e=="mousepressed"and b==2
+			then
 				destroyPlayers()
 				return"restart"
 			elseif e=="resize"then
@@ -1166,7 +1171,11 @@ function love.errorhandler(msg)
 			T=false
 		else
 			gc.discard()
-			gc.clear(.3,.5,.9)
+			if egg then
+				gc.clear(.3,.5,.9)
+			else
+				gc.clear(.62,.3,.926)
+			end
 			gc.setColor(1,1,1)
 			gc.push("transform")
 			gc.replaceTransform(xOy)
@@ -1176,10 +1185,10 @@ function love.errorhandler(msg)
 			setFont(38)
 			gc.printf(text.errorMsg,100,200,1280-100)
 			setFont(20)
-			gc.print(err[1],626,360)
-			gc.print("TRACEBACK",626,410)
+			gc.printf(err[1],626,360,1260-626)
+			gc.print("TRACEBACK",626,426)
 			for i=4,#err-2 do
-				gc.print(err[i],626,355+20*i)
+				gc.print(err[i],626,370+20*i)
 			end
 			gc.pop()
 		end

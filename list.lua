@@ -91,7 +91,8 @@ bgm={
 	"rockblock",
 	"8-bit happiness",
 	"shining terminal",
-	"chlorine",
+	"oxygen",
+	"distortion",
 	"end",
 }
 voiceBank={}--{{srcs1},{srcs2},...}
@@ -146,10 +147,12 @@ musicID={
 	"secret7th",
 	"secret8th",
 	"shining terminal",
+	"oxygen",
+	"distortion",
 	"rockblock",
-	"8-bit happiness",
 	"cruelty",
 	"final",
+	"8-bit happiness",
 	"end",
 }
 customID={

@@ -47,7 +47,7 @@ local sceneInit={
 		end
 	end,
 	mode=function()
-		curBG="grey"
+		curBG="none"
 		BGM("blank")
 		destroyPlayers()
 		local cam=mapCam
@@ -160,7 +160,7 @@ local sceneInit={
 		}
 	end,
 	history=function()
-		curBG="lightGrey"
+		curBG="strap"
 		sceneTemp={require("updateLog"),1}--scroll pos
 	end,
 	quit=function()

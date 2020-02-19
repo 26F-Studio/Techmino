@@ -82,22 +82,19 @@ end
 function Pnt.BG.grey()
 	gc.clear(.3,.3,.3)
 end
-function Pnt.BG.lightGrey()
-	gc.clear(.5,.5,.5)
-end
 function Pnt.BG.glow()
-	local t=((sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+3))+5)*.05
+	local t=(sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+10))*.1
 	gc.clear(t,t,t)
 end
 function Pnt.BG.rgb()
 	gc.clear(
-		sin(Timer()*1.2)*.15+.5,
-		sin(Timer()*1.5)*.15+.5,
-		sin(Timer()*1.9)*.15+.5
+		sin(Timer()*1.2)*.15+.2,
+		sin(Timer()*1.5)*.15+.2,
+		sin(Timer()*1.9)*.15+.2
 	)
 end
 function Pnt.BG.strap()
-	gc.setColor(1,1,1)
+	gc.setColor(.5,.5,.5)
 	local x=Timer()%16*-64
 	::L::
 	gc.draw(background2,x,0,nil,8,scr.h)
@@ -106,24 +103,24 @@ function Pnt.BG.strap()
 end
 function Pnt.BG.flink()
 	local t=.13-Timer()%3%1.7
-	if t<.25 then gc.clear(t,t,t)
+	if t<.2 then gc.clear(t,t,t)
 	else gc.clear(0,0,0)
 	end
 end
 function Pnt.BG.game1()
-	gc.setColor(1,1,1)
+	gc.setColor(.5,.5,.5)
 	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
 end--Rainbow
 function Pnt.BG.game2()
-	gc.setColor(1,.5,.5)
+	gc.setColor(.5,.26,.26)
 	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
 end--Red rainbow
 function Pnt.BG.game3()
-	gc.setColor(.6,.6,1)
+	gc.setColor(.4,.4,.8)
 	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
 end--Blue rainbow
 function Pnt.BG.game4()
-	gc.setColor(.1,.5,.5)
+	gc.setColor(.05,.4,.4)
 	local x=Timer()%8*-128
 	::L::
 	gc.draw(background2,x,0,nil,8,scr.h)
@@ -132,17 +129,17 @@ function Pnt.BG.game4()
 end--Fast strap
 function Pnt.BG.game5()
 	local t=2.5-Timer()%20%6%2.5
-	if t<.5 then gc.clear(t,t,t)
+	if t<.3 then gc.clear(t,t,t)
 	else gc.clear(0,0,0)
 	end
 end--Lightning
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 function Pnt.BG.game6()
 	local t=1.2-Timer()%10%3%1.2
-	if t<.5 then gc.clear(t,t,t)
+	if t<.3 then gc.clear(t,t,t)
 	else gc.clear(0,0,0)
 	end
-	gc.setColor(.3,.3,.3)
+	gc.setColor(.1,.1,.1)
 	local r=7-int(Timer()*.5)%7
 	gc.draw(miniBlock[r],640,360,Timer()%3.1416*6,400,400,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
 end--Fast lightning&spining tetromino
@@ -150,11 +147,10 @@ local matrixT={}for i=1,20 do matrixT[i]={}for j=1,20 do matrixT[i][j]=love.math
 function Pnt.BG.matrix()
 	gc.scale(scr.k)
 	gc.clear(.15,.15,.15)
-	local _=ceil(scr.y/80)
-	for i=1,ceil(scr.x/80)do
+	local _=ceil(scr.h/80)
+	for i=1,ceil(scr.w/80)do
 		for j=1,_ do
-			local t=sin(matrixT[i][j]*Timer())*.2+.2
-			gc.setColor(1,1,1,t)
+			gc.setColor(1,1,1,sin(matrixT[i][j]*Timer())*.1+.1)
 			gc.rectangle("fill",80*i,80*j,-80,-80)
 		end
 	end

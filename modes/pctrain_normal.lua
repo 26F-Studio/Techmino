@@ -71,7 +71,7 @@ return{
 		sequence="none",
 		dropPiece=newPC,
 		ospin=false,
-		bg="rgb",bgm="chlorine",
+		bg="rgb",bgm="oxygen",
 	},
 	pauseLimit=true,
 	load=function()

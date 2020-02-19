@@ -818,8 +818,8 @@ function player.update(P,dt)
 		local O=P.fieldOff
 		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .1 or -.1),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
 		O.x,O.y=O.x+O.vx,O.y+O.vy
-		if abs(O.x)<1 then O.x=0 end
-		if abs(O.y)<1 then O.y=0 end
+		if abs(O.x)<.3 then O.x=0 end
+		if abs(O.y)<.3 then O.y=0 end
 	end--field shaking
 	updateText(P.bonus)
 	for i=#P.atkBuffer,1,-1 do

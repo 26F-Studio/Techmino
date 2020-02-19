@@ -15,7 +15,7 @@ return{
 		"在两分钟内尽可能拿到最多的分数",
 		"Score attack in 120s",
 	},
-	color=color.grey,
+	color=color.lightGrey,
 	env={
 		drop=1e99,lock=1e99,
 		task=function(P)
@@ -34,7 +34,7 @@ return{
 		gc.setColor(1,0,0)
 		gc.arc("fill",-40,100,50,0,1)
 	end,
-	score=function(P)return{P.score}end,
+	score=function(P)return{P.stat.score}end,
 	scoreDisp=function(D)return tostring(D[1])end,
 	comp=function(a,b)return a[1]>b[1]end,
 	getRank=function(P)

@@ -91,7 +91,7 @@ return{
 	highScore="最佳成绩",
 	newRecord="打破纪录",
 	invalidGame="成绩无效",
-	errorMsg="Techmino遇到了问题,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
+	errorMsg="Techmino遇到了问题,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.(回车/双击重启)",
 
 	actName=actName,
 

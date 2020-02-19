@@ -89,7 +89,7 @@ return{
 	highScore="Highscore",
 	newRecord="New Rocord",
 	invalidGame="Invalid Game",
-	errorMsg="Techmino ran into a problem and needs to restart.\nWe collected some error info,and you can send them to author.",
+	errorMsg="Techmino ran into a problem and needs to restart.\nWe collected some error info,and you can send them to author.(enter/DblClick to restart)",
 
 	actName=actName,
 	

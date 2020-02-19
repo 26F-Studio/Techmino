@@ -29,11 +29,18 @@ Future outlook:
 		new AI:task-Z
 		more FXs & 3d features & animations
 		Encrypt source code(compile to byte code)
+0.8.10:
+	new BGM:Distortion
+	all background darker
+	better error page
+	bug fixed:error when finish master/ultra mode
+	bug fixed:shakeFX no effect when below 3
 0.8.9:
 	invalid game when pause too much
 	quick play re-added
+	new BGM:Oxygen
 	space background little changed
-	bugs fixed
+	bug fixed:touch/press release with no press(don't know why)
 0.8.8+:
 	fixed many fatal bugs
 0.8.8:

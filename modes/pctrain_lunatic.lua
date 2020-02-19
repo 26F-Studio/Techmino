@@ -88,7 +88,7 @@ return{
 		freshLimit=15,
 		dropPiece=newPC,
 		ospin=false,
-		bg="rgb",bgm="chlorine",
+		bg="rgb",bgm="oxygen",
 	},
 	pauseLimit=true,
 	load=function()

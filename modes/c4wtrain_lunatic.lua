@@ -38,7 +38,7 @@ return{
 		drop=5,lock=30,
 		dropPiece=check_c4w,
 		freshLimit=15,ospin=false,
-		bg="rgb",bgm="chlorine",
+		bg="rgb",bgm="oxygen",
 	},
 	pauseLimit=true,
 	load=function()

@@ -57,7 +57,7 @@ return{
 		mindas=5,minarr=1,
 		freshLimit=15,
 		easyFresh=false,bone=true,
-		bg="none",bgm="shining terminal",
+		bg="none",bgm="distortion",
 	},
 	slowMark=true,
 	load=function()
