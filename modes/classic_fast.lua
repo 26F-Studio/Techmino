@@ -8,7 +8,7 @@ local function check_LVup(P)
 			P.gameEnv.drop,P.gameEnv.lock=1,1
 		end
 		if P.gameEnv.target>100 then
-			SFX("reach")
+			SFX.play("reach")
 		end
 	end
 end
@@ -54,9 +54,9 @@ return{
 		mStr(P.gameEnv.target,-82,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
-	score=function(P)return{P.stat.row,P.stat.score}end,
-	scoreDisp=function(D)return D[1].." Lines   "..D[2]end,
-	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]>b[2]end,
+	score=function(P)return{P.stat.score,P.stat.row}end,
+	scoreDisp=function(D)return D[1].."   "..D[2].." Lines"end,
+	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row
 		return

@@ -158,7 +158,7 @@ function Pnt.BG.matrix()
 end
 
 function Pnt.load()
-	local L=loading
+	local L=sceneTemp
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.5)
 	gc.rectangle("fill",300,330,L[2]/L[3]*680,60,5)
@@ -166,8 +166,8 @@ function Pnt.load()
 	gc.rectangle("line",300,330,680,60,5)
 	setFont(35)
 	gc.print(text.load[L[1]],340,335)
-	if loading[1]~=0 then
-		gc.printf(loading[2].."/"..loading[3],795,335,150,"right")
+	if sceneTemp[1]~=0 then
+		gc.printf(sceneTemp[2].."/"..sceneTemp[3],795,335,150,"right")
 	end
 	setFont(25)
 	mStr(L[4],640,400)
@@ -325,10 +325,10 @@ function Pnt.music()
 		gc.print(musicID[i],50,90+30*i)
 	end
 	gc.draw(titleImage,640,310,nil,1.5,nil,206,35)
-	if bgmPlaying then
+	if BGM.nowPlay then
 		setFont(45)
 		gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-		mStr(bgmPlaying or"",630,460)
+		mStr(BGM.nowPlay,630,460)
 		local t=-Timer()%2.3/2
 		if t<1 then
 			gc.setColor(1,1,1,t)
@@ -454,12 +454,15 @@ function Pnt.play()
 	end
 	if restartCount>0 then
 		gc.setColor(0,0,0,restartCount*.05)
-		gc.rectangle("fill",0,0,1280,720)
+		gc.push("transform")
+			gc.origin()
+			gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.pop()
 	end
 end
 function Pnt.pause()
 	Pnt.play()
-	gc.setColor(0,0,0,pauseTimer*.015)
+	gc.setColor(.15,.15,.15,pauseTimer*.02)
 	gc.push("transform")
 		gc.origin()
 		gc.rectangle("fill",0,0,scr.w,scr.h)
@@ -467,7 +470,7 @@ function Pnt.pause()
 	setFont(25)
 	gc.setColor(1,1,1,pauseTimer*.02)
 	if pauseCount>0 then
-		local _=curMode.pauseLimit and(pauseCount==1 and pauseTime>2.6 or pauseTime>6.26)
+		local _=curMode.pauseLimit and(pauseCount>4 and pauseTime>30)
 		if _ then gc.setColor(1,.4,.4,pauseTimer*.02)end
 		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%0.2f",pauseTime).."s",110,150)
 		if _ then gc.setColor(1,1,1,pauseTimer*.02)end
@@ -486,7 +489,7 @@ function Pnt.pause()
 		mStr("Ctrl+R",640,351)
 		gc.print("ESC",610,506)
 	end
-	mDraw(gameResult and drawableText[gameResult]or drawableText.pause,640,60-10*(5-pauseTimer*.1)^1.5)
+	mDraw(gameResult and drawableText[gameResult]or drawableText.pause,640,50-10*(5-pauseTimer*.1)^1.5)
 end
 function Pnt.setting_game()
 	gc.setColor(1,1,1)

@@ -6,6 +6,7 @@ setting={
 	quickR=true,
 	swap=true,
 	fine=false,
+	autoPause=true,
 	--game
 
 	ghost=true,center=true,

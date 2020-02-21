@@ -31,7 +31,7 @@ return{
 	env={
 		_20G=true,
 		drop=0,lock=15,
-		wait=10,fall=15,
+		wait=15,fall=6,
 		next=3,
 		visible="fast",
 		freshLimit=15,

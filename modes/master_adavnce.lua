@@ -12,7 +12,7 @@ local function score(P)
 	end
 	P.modeData.point=P.modeData.point+s
 	if P.modeData.point%100==99 then
-		SFX("blip_1")
+		SFX.play("blip_1")
 	elseif P.modeData.point>=100*(P.modeData.event+1)then
 		local s=P.modeData.event+1;P.modeData.event=s--level up!
 		local E=P.gameEnv
@@ -28,7 +28,7 @@ local function score(P)
 		else
 			P:showText(text.stage(s),0,-120,80,"fly")
 		end
-		SFX("reach")
+		SFX.play("reach")
 	end
 end
 
@@ -44,9 +44,9 @@ return{
 		"ULTIMATE",
 	},
 	info={
-		"进阶20G",
-		"进阶20G",
-		"Advanced 20G",
+		"20G:上级者的挑战",
+		"20G:上级者的挑战",
+		"20G:For Pro",
 	},
 	color=color.red,
 	env={
@@ -75,9 +75,9 @@ return{
 		return a[1]>b[1]or(a[1]==b[1]and(a[2]<b[2]or a[2]==b[2]and a[3]<b[3]))
 	end,
 	getRank=function(P)
-		local L=P.stat.clear_4
 		local S=P.modeData.point
 		if S==500 then
+			local L=P.stat.clear_4
 			return
 			L>=30 and 5 or
 			L>=25 and 4 or

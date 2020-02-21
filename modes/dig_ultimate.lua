@@ -20,12 +20,13 @@ return{
 		drop=10,lock=30,
 		freshLimit=15,
 		task=function(P)
-			if not P.control then return end
-			P.modeData.counter=P.modeData.counter+1
-			if P.modeData.counter>=max(45,80-.3*P.modeData.event)then
-				P.modeData.counter=0
-				P:garbageRise(11+P.modeData.event%3,1,rnd(10))
-				P.modeData.event=P.modeData.event+1
+			if not(P.control and scene.cur=="play")then return end
+			local D=P.modeData
+			D.counter=D.counter+1
+			if D.counter>=max(30,80-.3*D.event)then
+				P:garbageRise(11+D.event%3,1,rnd(10))
+				D.counter=0
+				D.event=D.event+1
 			end
 		end,
 		bg="game2",bgm="secret7th",
@@ -45,8 +46,8 @@ return{
 	getRank=function(P)
 		local W=P.modeData.event
 		return
-		W>=120 and 5 or
-		W>=100 and 4 or
+		W>=150 and 5 or
+		W>=110 and 4 or
 		W>=80 and 3 or
 		W>=50 and 2 or
 		W>=20 and 1 or

@@ -18,9 +18,9 @@ return{
 		"EASY",
 	},
 	info={
-		"All-spin 入门教程",
-		"All-spin 入门教程",
-		"All-spin Tutorial!",
+		"All-spin 入门教程\n未制作完成,下块即通",
+		"All-spin 入门教程\n未制作完成,下块即通",
+		"All-spin Tutorial!\nUNFINISHED drop to win",
 	},
 	color=color.lightGrey,
 	env={
@@ -35,11 +35,6 @@ return{
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		setFont(50)
-		for i=1,10 do
-			mStr("UNFINISHED",-126+35*i,60*i-110)
-			mStr("UNFINISHED",626-60*i,60*i-90)
-		end
 	end,
 	score=function(P)return{P.modeData.event,P.stat.extraRate}end,
 	scoreDisp=function(D)return D[1].."Stage "..format("%.2f",D[2]).."%"end,

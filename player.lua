@@ -716,7 +716,7 @@ function player.update(P,dt)
 				goto stop
 			else
 				local L=#P.clearing
-				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
+				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX.play("fall")end
 				P.clearing={}
 			end
 		end
@@ -787,7 +787,7 @@ function player.update(P,dt)
 				goto stop
 			else
 				local L=#P.clearing
-				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX("fall")end
+				if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearing[L]then SFX.play("fall")end
 				P.clearing={}
 			end
 		end::stop::
@@ -968,19 +968,40 @@ local function solid(P,x,y)
 	if y>#P.field then return false end
 	return P.field[y][x]>0
 end
-local function getBlockDirection(P)
+local function getBlockPosition(P)--for stereo sfx
 	return(P.curX+P.sc[2]-6.5)*.15
 end
+local OspinList={
+	{111,5,2, 0,-1,false},--T
+	{111,5,2,-1,-1,false},--T
+	{111,5,0,-1, 0,false},--T
+	{333,5,2, -1,-1,false},--T
+	{333,5,2, 0,-1,false},--T
+	{333,5,0, 0, 0,false},--T
+	{313,1,2,-1, 0,false},--Z
+	{313,1,2, 0,-1,false},--Z
+	{313,1,2, 0, 0,false},--Z
+	{131,2,2, 0, 0,false},--S
+	{131,2,2,-1,-1,false},--S
+	{131,2,2,-1, 0,false},--S
+	{113,3,2,-1,-1,false},--L
+	{331,3,0,-1, 0,false},--L
+	{331,4,2, 0,-1,false},--J
+	{113,4,0, 0, 0,false},--J
+	{222,7,2,-1, 0,true},--I
+	{222,7,2,-2, 0,true},--I
+	{222,7,2, 0, 0,true},--I
+}
 
 function player.fineError(P,rate)
 	P.stat.extraPiece=P.stat.extraPiece+1
 	P.stat.extraRate=P.stat.extraRate+rate
 	if P.human then
 		if P.gameEnv.fineKill then
-			SFX("finesseError_long")
+			SFX.play("finesseError_long")
 			Event.lose(P)
 		elseif setting.fine then
-			SFX("finesseError")
+			SFX.play("finesseError")
 		end
 	elseif P.gameEnv.fineKill then
 		Event.lose(P)
@@ -1011,7 +1032,7 @@ function player.garbageSend(P,R,send,time,...)
 		B.sum=B.sum+send
 		R.stat.recv=R.stat.recv+send
 		if R.human then
-			SFX(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)
+			SFX.play(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)
 		end
 	end
 end
@@ -1151,116 +1172,38 @@ function player.spin(P,d,ifpre)
 		end
 		if P.gameEnv.ospin then
 			if P.curY==P.y_img then
-				P.spinSeq=P.spinSeq%100*10+d
+				local D=P.spinSeq%100*10+d
+				P.spinSeq=D
+				local id,dir--id is also success flag!
 				local x,y=P.curX,P.curY
-				local id
-				if P.spinSeq==313 then--Z
-					if solid(P,x-1,y)and solid(P,x+2,y)then
-						if solid(P,x-1,y+2)and not solid(P,x-1,y+1)then--嵌
-							P.curX=x-1
-							P.dir=2
-							id=1
-						elseif not solid(P,x+1,y-1)and not solid(P,x+2,y-1)then--压
-							P.curY=y-1
-							P.dir=2
-							id=1
-						end
-					end
-				elseif P.spinSeq==131 then--S
-					if solid(P,x-1,y)and solid(P,x+2,y)then
-						if solid(P,x+2,y+2)and not solid(P,x+2,y+1)then--嵌
-							P.dir=2
-							id=2
-						elseif not solid(P,x,y-1)and not solid(P,x-1,y-1)then--压
-							P.curY=y-1
-							P.curX=x-1
-							P.dir=2
-							id=2
-						end
-					end
-				elseif P.spinSeq==331 then--L
-					if solid(P,x-1,y+1)and solid(P,x+2,y+1)then
-						if solid(P,x+2,y)and not solid(P,x-1,y)then--钩
-							P.curX=x-1
-							P.dir=0
-							id=3
-						elseif not solid(P,x,y-1)and not solid(P,x+2,y)then--扣
-							P.curY=y-1
-							P.dir=2
-							id=3
-						end
-					end
-				elseif P.spinSeq==113 then--J
-					if solid(P,x+2,y+1)and solid(P,x-2,y+1)then
-						if solid(P,x-2,y)and not solid(P,x+2,y)then--钩
-							P.dir=0
-							id=4
-						elseif not solid(P,x+1,y-1)and not solid(P,x-1,y)then--扣
-							P.curX=x-1
-							P.curY=y-1
-							P.dir=2
-							id=4
-						end
-					end
-				elseif P.spinSeq==111 then--T-R
-					if solid(P,x+2,y+1)and solid(P,x-1,y+1)and solid(P,x+2,y)and not solid(P,x-1,y)then
-						if solid(P,x,y-1)then--钩
-							P.curX=x-1
-							P.dir=0
-							id=5
-						else--转
-							P.curY=y-1
-							P.dir=1
-							id=5
-						end
-					end
-				elseif P.spinSeq==333 then--T-L
-					if solid(P,x-1,y+1)and solid(P,x-1,y)and solid(P,x+2,y+1)and not solid(P,x+2,y)then
-						if solid(P,x+1,y-1)then--钩
-							P.dir=0
-							id=5
-						else--转
-							P.curY=y-1
-							P.dir=3
-							id=5
-						end
-					end
-				elseif P.spinSeq==222 then--I
-					if solid(P,x+2,y+1)and solid(P,x-1,y+1)then
-						if not solid(P,x-1,y)then
-							if not solid(P,x+2,y)then
-								P.curX=x-1
-								P.dir=2
-								id=7
-							elseif not solid(P,x-2,y)then
-								P.curX=x-2
-								P.dir=2
-								id=7
-							end
-						elseif not solid(P,x+2,y)and not solid(P,x+3,y)then
-							P.dir=2
-							id=7
+				for i=1,#OspinList do
+					local L=OspinList[i]
+					if D==L[1]then
+						local id,dir=L[2],L[3]
+						local bk=blocks[id][dir]
+						local x,y=P.curX+L[4],P.curY+L[5]
+						if not ifoverlap(P,bk,x,y)and ifoverlap(P,bk,x,y+1)and(L[6]or ifoverlap(P,bk,x-1,y)and ifoverlap(P,bk,x+1,y))then
+							local C=P.cur
+							C.id=id
+							C.bk=blocks[id][dir]
+							P.curX,P.curY=x,y
+							P.r,P.c=#C.bk,#C.bk[1]
+							P.dir,P.sc=dir,scs[id][dir]
+							P.spinLast=2
+							P.stat.rotate=P.stat.rotate+1
+							P:freshgho()
+							SFX.play("rotatekick",nil,getBlockPosition(P))
+							break
 						end
 					end
 				end
-				if id then--Transform successed
-					local C=P.cur
-					C.id=id
-					C.bk=blocks[id][P.dir]
-					P.r,P.c=#C.bk,#C.bk[1]
-					P.sc=scs[id][P.dir]
-					P.spinLast=2
-					P.stat.rotate=P.stat.rotate+1
-					P:freshgho()
-					SFX("rotatekick",nil,getBlockDirection(P))
-					return
-				end
+				return
 			else
 				P.spinSeq=0
 			end
 		end
 		if P.human then
-			SFX(ifpre and"prerotate"or"rotate",nil,getBlockDirection(P))
+			SFX.play(ifpre and"prerotate"or"rotate",nil,getBlockPosition(P))
 		end
 		return
 	end
@@ -1291,7 +1234,7 @@ function player.spin(P,d,ifpre)
 	if not ifpre then P:freshgho()end
 	if P.gameEnv.easyFresh or y0>P.curY then P:freshLockDelay()end
 	if P.human then
-		SFX(ifpre and"prerotate"or ifoverlap(P,P.cur.bk,P.curX,P.curY+1)and ifoverlap(P,P.cur.bk,P.curX-1,P.curY)and ifoverlap(P,P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,getBlockDirection(P))
+		SFX.play(ifpre and"prerotate"or ifoverlap(P,P.cur.bk,P.curX,P.curY+1)and ifoverlap(P,P.cur.bk,P.curX-1,P.curY)and ifoverlap(P,P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,getBlockPosition(P))
 	end
 	P.stat.rotate=P.stat.rotate+1
 end
@@ -1330,7 +1273,7 @@ function player.hold(P,ifpre)
 		if ifoverlap(P,P.cur.bk,P.curX,P.curY)then P:lock()Event.lose(P)end
 
 		if P.human then
-			SFX(ifpre and"prehold"or"hold")
+			SFX.play(ifpre and"prehold"or"hold")
 		end
 		P.stat.hold=P.stat.hold+1
 	end
@@ -1533,7 +1476,7 @@ function player.drop(P)--Place piece
 				P.lastClear=P.cur.id*10+cc
 				clearKey=spin_n
 				if P.human then
-					SFX(spin_n[cc])
+					SFX.play(spin_n[cc])
 					VOICE(spinName[P.cur.name],CHN)
 				end
 			elseif #P.field>0 then
@@ -1560,23 +1503,23 @@ function player.drop(P)--Place piece
 			send=send^.5+min(6+P.stat.pc,10)
 			exblock=exblock+2
 			sendTime=sendTime+60
-			if P.stat.row>4 then
+			if P.stat.row+cc>4 then
 				P.b2b=1200
-				cscore=cscore+500*min(6+P.stat.pc,10)
+				cscore=cscore+300*min(6+P.stat.pc,10)
 			else
-				cscore=cscore+500
+				cscore=cscore+626
 			end
 			P.stat.pc=P.stat.pc+1
 			P.lastClear=P.cur.id*10+5
 			if P.human then
-				SFX("perfectclear")
+				SFX.play("perfectclear")
 				VOICE("pc",CHN)
 			end
 		end
 		if P.human then
-			SFX(clear_n[cc])
-			SFX(ren_n[min(P.combo,11)])
-			if P.combo>14 then SFX("ren_mega",(P.combo-10)*.1)end
+			SFX.play(clear_n[cc])
+			SFX.play(ren_n[min(P.combo,11)])
+			if P.combo>14 then SFX.play("ren_mega",(P.combo-10)*.1)end
 			VIB(cc+1)
 		end
 		if P.b2b>1200 then P.b2b=1200 end
@@ -1645,7 +1588,7 @@ function player.drop(P)--Place piece
 					P:garbageSend(T,send,sendTime,1,P.cur.color,P.lastClear,dospin,mini,P.combo)
 				end
 				P.stat.send=P.stat.send+send
-				if P.human and send>3 then SFX("emit",min(send,8)*.1)end
+				if P.human and send>3 then SFX.play("emit",min(send,8)*.1)end
 			end
 		end
 	else
@@ -1656,7 +1599,7 @@ function player.drop(P)--Place piece
 			P.b2b=P.b2b+20
 			P.stat.spin_0=P.stat.spin_0+1
 			if P.human then
-				SFX("spin_0")
+				SFX.play("spin_0")
 				VOICE(spinName[P.cur.name],CHN)
 			end
 			dropScore=25--spin bonus
@@ -1688,7 +1631,7 @@ function player.drop(P)--Place piece
 	if _ then
 		_(P)
 	end
-	if P.human then SFX("lock",nil,getBlockDirection(P))end
+	if P.human then SFX.play("lock",nil,getBlockPosition(P))end
 end
 function player.pressKey(P,i)
 	P.keyPressing[i]=true
@@ -1696,8 +1639,8 @@ function player.pressKey(P,i)
 		virtualkeyDown[i]=true
 		virtualkeyPressTime[i]=10
 	end
+	P.act[actName[i]](P)
 	if P.alive then
-		P.act[actName[i]](P)
 		P.keyTime[11]=ins(P.keyTime,1,frame)
 		P.stat.key=P.stat.key+1
 	end
@@ -1728,7 +1671,7 @@ function player.act.moveLeft(P,auto)
 			local y0=P.curY
 			P:freshgho()
 			if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
-			if P.human and P.curY==P.y_img then SFX("move")end
+			if P.human and P.curY==P.y_img then SFX.play("move")end
 			P.spinLast=false
 			if not auto then
 				P.moving=-1
@@ -1754,7 +1697,7 @@ function player.act.moveRight(P,auto)
 			local y0=P.curY
 			P:freshgho()
 			if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
-			if P.human and P.curY==P.y_img then SFX("move")end
+			if P.human and P.curY==P.y_img then SFX.play("move")end
 			P.spinLast=false
 			if not auto then
 				P.moving=1
@@ -1806,7 +1749,7 @@ function player.act.hardDrop(P)
 				P.fieldOff.vy=setting.shakeFX*.6
 			end
 			if P.human then
-				SFX("drop",nil,getBlockDirection(P))
+				SFX.play("drop",nil,getBlockPosition(P))
 				VIB(1)
 			end
 		end

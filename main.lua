@@ -10,10 +10,8 @@ local Timer=love.timer.getTime
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local abs=math.abs
 local rem=table.remove
-
-package.path="?.lua"--boost
 function NULL()end
---Libs
+--LIBs
 -------------------------------------------------------------
 system=sys.getOS()
 local xOy=love.math.newTransform()
@@ -41,7 +39,6 @@ mapCam={
 	--for auto zooming when enter/leave scene
 }
 curBG="none"
-bgmPlaying=nil
 voiceQueue={free=0}
 texts={}
 widget_sel=nil--selected widget object
@@ -58,14 +55,22 @@ ms.setVisible(false)
 -------------------------------------------------------------
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}
-for i=1,10 do preField[i]={-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}end
-for i=11,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
+for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 freeRow={L=40}for i=1,40 do freeRow[i]={0,0,0,0,0,0,0,0,0,0}end
 --Game system Vars
 -------------------------------------------------------------
 space=require("parts/space")local space=space
-setFont=require("parts/font")
+setFont=require("parts/setfont")
 blocks=require("parts/mino")
+VIB=require("parts/vib")
+SFX=require("parts/sfx")
+BGM=require("parts/bgm")
+require("parts/voice")
+
+Event=require("parts/event")
+Event_task=require("parts/task")
+AITemplate=require("parts/AITemplate")
+require("parts/modes")
 -- require("parts/light")
 -- require("parts/shader")
 scene=require("scene")
@@ -74,12 +79,11 @@ require("class")
 require("ai")
 require("toolfunc")
 require("file")
-require("sound")
 require("text")
 require("list")
 require("player")
 Widget=require("widgetList")
-require("dataList")
+-- require("dataList")
 require("texture")
 local Tmr=require("timer")
 local Pnt=require("paint")
@@ -251,7 +255,7 @@ function mouseClick.mode(x,y,k)
 		local __=onMode(x,y)
 		if _~=__ then
 			if __ then
-				SFX("click")
+				SFX.play("click")
 				cam.moving=true
 				_=modes[__]
 				cam.x=_.x*cam.k+180
@@ -320,10 +324,10 @@ function keyDown.music(key)
 	elseif key=="up"then
 		sceneTemp=(sceneTemp-2)%#musicID+1
 	elseif key=="return"or key=="space"then
-		if bgmPlaying~=musicID[sceneTemp]then
-			BGM(musicID[sceneTemp])
+		if BGM.nowPlay~=musicID[sceneTemp]then
+			BGM.play(musicID[sceneTemp])
 		else
-			BGM()
+			BGM.stop()
 		end
 	elseif key=="escape"then
 		scene.back()
@@ -337,14 +341,14 @@ function keyDown.custom(key)
 		if sel==12 then
 			curBG=customRange.bg[customSel[12]]
 		elseif sel==13 then
-			BGM(customRange.bgm[customSel[13]])
+			BGM.play(customRange.bgm[customSel[13]])
 		end
 	elseif key=="right"then
 		customSel[sel]=customSel[sel]%#customRange[customID[sel]]+1
 		if sel==12 then
 			curBG=customRange.bg[customSel[sel]]
 		elseif sel==13 then
-			BGM(customRange.bgm[customSel[sel]])
+			BGM.play(customRange.bgm[customSel[sel]])
 		end
 	elseif key=="down"then
 		sceneTemp=sel%#customID+1
@@ -474,7 +478,7 @@ function keyDown.setting_key(key)
 	if key=="escape"then
 		if s.kS then
 			s.kS=false
-			SFX("finesseError",.5)
+			SFX.play("finesseError",.5)
 		else
 			scene.back()
 		end
@@ -489,30 +493,30 @@ function keyDown.setting_key(key)
 		end
 		::L::
 		setting.keyMap[s.board][s.kb]=key
-		SFX("reach",.5)
+		SFX.play("reach",.5)
 		s.kS=false
 	elseif key=="return"then
 		s.kS=true
-		SFX("lock",.5)
+		SFX.play("lock",.5)
 	elseif key=="up"then
 		if s.kb>1 then
 			s.kb=s.kb-1
-			SFX("move",.5)
+			SFX.play("move",.5)
 		end
 	elseif key=="down"then
 		if s.kb<20 then
 			s.kb=s.kb+1
-			SFX("move",.5)
+			SFX.play("move",.5)
 		end
 	elseif key=="left"then
 		if s.board>1 then
 			s.board=s.board-1
-			SFX("rotate",.5)
+			SFX.play("rotate",.5)
 		end
 	elseif key=="right"then
 		if s.board<8 then
 			s.board=s.board+1
-			SFX("rotate",.5)
+			SFX.play("rotate",.5)
 		end
 	end
 end
@@ -521,7 +525,7 @@ function gamepadDown.setting_key(key)
 	if key=="back"then
 		if s.jS then
 			s.jS=false
-			SFX("finesseError",.5)
+			SFX.play("finesseError",.5)
 		else
 			scene.back()
 		end
@@ -536,30 +540,30 @@ function gamepadDown.setting_key(key)
 		end
 		::L::
 		setting.keyMap[8+s.board][s.js]=key
-		SFX("reach",.5)
+		SFX.play("reach",.5)
 		s.jS=false
 	elseif key=="start"then
 		s.jS=true
-		SFX("lock",.5)
+		SFX.play("lock",.5)
 	elseif key=="dpup"then
 		if s.js>1 then
 			s.js=s.js-1
-			SFX("move",.5)
+			SFX.play("move",.5)
 		end
 	elseif key=="dpdown"then
 		if s.js<20 then
 			s.js=s.js+1
-			SFX("move",.5)
+			SFX.play("move",.5)
 		end
 	elseif key=="dpleft"then
 		if s.board>1 then
 			s.board=s.board-1
-			SFX("rotate",.5)
+			SFX.play("rotate",.5)
 		end
 	elseif key=="dpright"then
 		if s.board<8 then
 			s.board=s.board+1
-			SFX("rotate",.5)
+			SFX.play("rotate",.5)
 		end
 	end
 end
@@ -730,11 +734,11 @@ local function widgetPress(W,x,y)
 	if W.type=="button"then
 		W.code()
 		W:FX()
-		SFX("button")
+		SFX.play("button")
 		VOICE("nya")
 	elseif W.type=="switch"then
 		W.code()
-		SFX("move",.6)
+		SFX.play("move",.6)
 	elseif W.type=="slider"then
 		if not x then return end
 		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
@@ -1031,9 +1035,9 @@ function love.resize(w,h)
 	if setting.bgspace then space.new()end
 end
 function love.focus(f)
-	if system~="Android" and not f and scene.cur=="play"then pauseGame()end
+	if scene.cur=="play"and not f and setting.autoPause then pauseGame()end
 end
-function love.update(dt)
+local function love_update(dt)
 	if setting.bgspace then space.update()end
 	for i=#sysFX,1,-1 do
 		local S=sysFX[i]
@@ -1122,84 +1126,9 @@ function love.update(dt)
 		W:update()
 	end--更新控件
 end
-function love.errorhandler(msg)
-	local PUMP,POLL=love.event.pump,love.event.poll
-	love.mouse.setVisible(true)
-	love.audio.stop()
-	local err={"Error:"..msg}
-	local trace=debug.traceback("",2)
-	local c=2
-	for l in string.gmatch(trace,"(.-)\n")do
-		if c>2 then
-			if not string.find(l,"boot")then
-				err[c]=string.gsub(l,"^\t*","")
-				c=c+1
-			end
-		else
-			err[2]="Traceback"
-			c=3
-		end
-	end
-	print(table.concat(err,"\n"),1,c-2)
-	-- err=err:gsub("%[string \"(.-)\"%]","%1")
-	local CAP
-	local function _(_)CAP=gc.newImage(_)end
-	gc.captureScreenshot(_)
-	local egg=rnd()>.026
-	local T=true
-	return function()
-		PUMP()
-		for e,a,_,_,_,b in POLL()do
-			if e=="quit"or a=="escape"then
-				destroyPlayers()
-				return 1
-			elseif
-				a=="return"or
-				a=="start"or
-				e=="mousepressed"and b==2
-			then
-				destroyPlayers()
-				return"restart"
-			elseif e=="resize"then
-				love.resize(a,b)
-			end
-		end
-		if T then
-			if sfx.error then
-				SFX("error",.8)
-			end
-			T=false
-		else
-			gc.discard()
-			if egg then
-				gc.clear(.3,.5,.9)
-			else
-				gc.clear(.62,.3,.926)
-			end
-			gc.setColor(1,1,1)
-			gc.push("transform")
-			gc.replaceTransform(xOy)
-			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
-			setFont(120)
-			gc.print(":(",100,40)
-			setFont(38)
-			gc.printf(text.errorMsg,100,200,1280-100)
-			setFont(20)
-			gc.printf(err[1],626,360,1260-626)
-			gc.print("TRACEBACK",626,426)
-			for i=4,#err-2 do
-				gc.print(err[i],626,370+20*i)
-			end
-			gc.pop()
-		end
-		gc.present()
-		love.timer.sleep(.1)
-	end
-end
-
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 local FPS=love.timer.getFPS
-function love.draw()
+local function love_draw()
 	gc.discard()--SPEED UPUPUP!
 	Pnt.BG[setting.bg and curBG or"grey"]()
 	if setting.bgspace then
@@ -1264,6 +1193,8 @@ function love.draw()
 		gc.print("Tasks:"..#Task,5,_-100)
 	end--DEV info
 end
+love.draw,love.update=NULL,NULL
+
 function love.run()
 	local T=love.timer
 	local sleep=T.sleep
@@ -1285,12 +1216,12 @@ function love.run()
 			end
 		end
 		T.step()
-		love.update(T.getDelta())
+		love_update(T.getDelta())
 		if not mini()then
 			readyDrawFrame=readyDrawFrame+setting.frameMul
 			if readyDrawFrame>=100 then
 				readyDrawFrame=readyDrawFrame-100
-				love.draw()
+				love_draw()
 				gc.present()
 			end
 		end
@@ -1305,6 +1236,77 @@ function love.run()
 			updatePowerInfo()
 			lastFreshPow=Timer()
 		end
+	end
+end
+function love.errorhandler(msg)
+	local PUMP,POLL=love.event.pump,love.event.poll
+	love.mouse.setVisible(true)
+	love.audio.stop()
+	local err={"Error:"..msg}
+	local trace=debug.traceback("",2)
+	local c=2
+	for l in string.gmatch(trace,"(.-)\n")do
+		if c>2 then
+			if not string.find(l,"boot")then
+				err[c]=string.gsub(l,"^\t*","")
+				c=c+1
+			end
+		else
+			err[2]="Traceback"
+			c=3
+		end
+	end
+	print(table.concat(err,"\n"),1,c-2)
+	local CAP
+	local function _(_)CAP=gc.newImage(_)end
+	gc.captureScreenshot(_)
+	gc.present()
+	if SFX.list.error then SFX.play("error",.8)end
+	local egg=rnd()>.026
+	local needDraw
+	return function()
+		PUMP()
+		for E,a,b,c,d,e in POLL()do
+			if E=="quit"or a=="escape"then
+				destroyPlayers()
+				return 1
+			elseif
+				a=="return"or
+				a=="start"or
+				E=="mousepressed"and e==2
+			then
+				destroyPlayers()
+				return"restart"
+			elseif E=="resize"then
+				love.resize(a,b)
+			end
+			needDraw=true
+		end
+		if needDraw then
+			gc.discard()
+			if egg then
+				gc.clear(.3,.5,.9)
+			else
+				gc.clear(.62,.3,.926)
+			end
+			gc.setColor(1,1,1)
+			gc.push("transform")
+			gc.replaceTransform(xOy)
+			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
+			setFont(120)gc.print(":(",100,40)
+			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
+			setFont(20)
+			gc.print(system.."-"..gameVersion,100,660)
+			gc.printf(err[1],626,360,1260-626)
+			gc.print("TRACEBACK",626,426)
+			for i=4,#err-2 do
+				gc.print(err[i],626,370+20*i)
+			end
+			gc.pop()
+			gc.present()
+			needDraw=false
+		end
+		love.timer.sleep(.2)
 	end
 end
 -------------------------------------------------------------

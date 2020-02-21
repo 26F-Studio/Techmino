@@ -21,7 +21,7 @@ return{
 		fall=8,
 		freshLimit=15,
 		task=function(P)
-			if not P.control then return end
+			if not(P.control and scene.cur=="play")then return end
 			if P.atkBuffer.sum<2 then
 				local p=#P.atkBuffer+1
 				local B,D=P.atkBuffer,P.modeData

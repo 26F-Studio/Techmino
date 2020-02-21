@@ -127,7 +127,6 @@ return{
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"Headphones for better experience",
 		"少女祈禱中",
-		"少女折壽中",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
 		"(first effective)Your luck number today:"..math.random(100,626),
 	},
@@ -239,8 +238,7 @@ Lib used:
 		pause={
 			resume="Resume",
 			restart="Restart",
-			sfx="SFX",
-			bgm="BGM",
+			setting="Setting",
 			quit="Quit",
 		},
 		setting_game={
@@ -253,6 +251,7 @@ Lib used:
 			reTime="Delay before game",
 			maxNext="Max next count",
 			quickR="Quick restart",
+			autoPause="Auto pause",
 			swap="Combo key to change ATK mode",
 			fine="Finesse error SFX",
 			ctrl="Key Setting",

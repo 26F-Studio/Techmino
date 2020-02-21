@@ -1,4 +1,3 @@
-local wd=love.window
 local gc=love.graphics
 local kb=love.keyboard
 local Timer=love.timer.getTime
@@ -8,7 +7,7 @@ local ins,rem=table.insert,table.remove
 local Tmr={}
 function Tmr.load()
 	local t=Timer()
-	local L=loading
+	local L=sceneTemp
 	::R::
 	--L={stage,curPos,curLen}
 	if L[1]==1 then
@@ -19,24 +18,18 @@ function Tmr.load()
 		end
 		L[2]=L[2]+1
 		if L[2]>L[3]then
-			L[1],L[2],L[3]=2,1,#bgm
+			L[1],L[2],L[3]=2,1,#BGM.list
 		end
 	elseif L[1]==2 then
-		local N=bgm[L[2]]
-		bgm[N]=love.audio.newSource("/BGM/"..N..".ogg","stream")
-		bgm[N]:setLooping(true)
-		bgm[N]:setVolume(0)
+		BGM.loadOne(L[2])
 		L[2]=L[2]+1
 		if L[2]>L[3]then
-			for i=1,L[3]do bgm[i]=nil end
-			L[1],L[2],L[3]=3,1,#sfx
+			L[1],L[2],L[3]=3,1,#SFX.list
 		end
 	elseif L[1]==3 then
-		local S=sfx[L[2]]
-		sfx[S]={love.audio.newSource("/SFX/"..S..".ogg","static")}
+		SFX.loadOne(L[2])
 		L[2]=L[2]+1
 		if L[2]>L[3]then
-			for i=1,L[3]do sfx[i]=nil end
 			L[1],L[2],L[3]=4,1,#modes
 		end
 	elseif L[1]==4 then
@@ -79,7 +72,7 @@ function Tmr.load()
 		}
 		--------------------------
 		L[1],L[2],L[3]=0,1,1
-		SFX("welcome",.2)
+		SFX.play("welcome",.2)
 	else
 		L[2]=L[2]+1
 		L[3]=L[2]
@@ -117,20 +110,22 @@ local function dumpTable(L)
 end
 function Tmr.mode(dt)
 	local cam=mapCam
-	local F
 	local x,y,k=cam.x,cam.y,cam.k
-	if kb.isDown("up",	"w")then y=y-10*k;F=true end
-	if kb.isDown("down","s")then y=y+10*k;F=true end
-	if kb.isDown("left","a")then x=x-10*k;F=true end
-	if kb.isDown("right","d")then x=x+10*k;F=true end
-	local js1=joysticks[1]
-	if js1 then
-		local k=js1:getAxis(1)
-		if k~="c"then
-			if k=="u"or k=="ul"or k=="ur"then y=y-10*k;F=true end
-			if k=="d"or k=="dl"or k=="dl"then y=y+10*k;F=true end
-			if k=="l"or k=="ul"or k=="dl"then x=x-10*k;F=true end
-			if k=="r"or k=="ur"or k=="dr"then x=x+10*k;F=true end
+	local F
+	if not scene.swapping then
+		if kb.isDown("up",	"w")then y=y-10*k;F=true end
+		if kb.isDown("down","s")then y=y+10*k;F=true end
+		if kb.isDown("left","a")then x=x-10*k;F=true end
+		if kb.isDown("right","d")then x=x+10*k;F=true end
+		local js1=joysticks[1]
+		if js1 then
+			local k=js1:getAxis(1)
+			if k~="c"then
+				if k=="u"or k=="ul"or k=="ur"then y=y-10*k;F=true end
+				if k=="d"or k=="dl"or k=="dl"then y=y+10*k;F=true end
+				if k=="l"or k=="ul"or k=="dl"then x=x-10*k;F=true end
+				if k=="r"or k=="ur"or k=="dr"then x=x+10*k;F=true end
+			end
 		end
 	end
 	if F or cam.keyCtrl and(x-cam.x1)^2+(y-cam.y1)^2>2.6 then
@@ -153,7 +148,7 @@ function Tmr.mode(dt)
 				end
 				if __ and cam.sel~=__ then
 					cam.sel=__
-					SFX("click")
+					SFX.play("click")
 				end
 			end
 		end
@@ -237,7 +232,7 @@ function Tmr.play(dt)
 		if frame==179 then
 			gameStart()
 		elseif frame==60 or frame==120 then
-			SFX("ready")
+			SFX.play("ready")
 		end
 		for p=1,#players do
 			local P=players[p]
@@ -273,9 +268,6 @@ end
 function Tmr.pause(dt)
 	if not gameResult then
 		pauseTime=pauseTime+dt
-	end
-	if pauseTimer<50 and not wd.isMinimized()then
-		pauseTimer=pauseTimer+1
 	end
 end
 function Tmr.setting_sound()

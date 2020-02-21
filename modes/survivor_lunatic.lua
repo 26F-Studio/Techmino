@@ -20,7 +20,7 @@ return{
 		drop=30,lock=45,
 		freshLimit=10,
 		task=function(P)
-			if not P.control then return end
+			if not(P.control and scene.cur=="play")then return end
 			P.modeData.counter=P.modeData.counter+1
 			if P.modeData.counter>=max(60,150-P.modeData.event)and P.atkBuffer.sum<20 then
 				local t=max(60,90-P.modeData.event)

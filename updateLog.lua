@@ -11,13 +11,13 @@ local S=[=[
 	?[D*a]
 Future outlook:
 	New mode system with:
-		rythem mode
-		combo mode
-		puzzle mode(ttt)
-		square mode
-		infinite 1v1
+		Bigbang
+		Rythem
+		Combo
+		Square
+		Infinite battle
 	Other:
-		puzzle import/output(ttt)
+		game recording
 		classic face direction
 		(powerinfo switch)
 		virtualWidgets like joysticks
@@ -25,22 +25,32 @@ Future outlook:
 		custom block color/direction
 		custom block sequence
 		CC smarter(think of garbage buffer)
-		game recording
 		new AI:task-Z
 		more FXs & 3d features & animations
 		Encrypt source code(compile to byte code)
+0.8.11:
+	better rule of checking invalid game
+	can setting when pause
+	opaque background when pause
+	many code optimized(moduled)
+	fixed:receive attack when paused in survivor mode
+	fixed:error when pasteboard has block_13
+	fixed:must hold R to restart when finished the game
+	fixed:sth about screen size
+	fixed:some O-spin error
+	fixed:line counting when pc(full b2b)
 0.8.10:
-	new BGM:Distortion
+	new BGM:Distortion(master-final)
 	all background darker
 	better error page
-	bug fixed:error when finish master/ultra mode
-	bug fixed:shakeFX no effect when below 3
+	fixed:error when finish master/ultra mode
+	fixed:shakeFX no effect when below 3
 0.8.9:
 	invalid game when pause too much
 	quick play re-added
-	new BGM:Oxygen
+	new BGM:Oxygen(c4w&pc train)
 	space background little changed
-	bug fixed:touch/press release with no press(don't know why)
+	fixed:touch/press release with no press(don't know why)
 0.8.8+:
 	fixed many fatal bugs
 0.8.8:
@@ -55,7 +65,7 @@ Future outlook:
 	no black side in any screen size
 	an unlock-all easter egg
 	cannot press invisible func key
-	bugs fixed(some mode error)
+	bugs fixed:some mode error
 	add many fatal bugs
 0.8.7:
 	better user experience in mode selecting
@@ -63,13 +73,13 @@ Future outlook:
 	speed of marathon mode changed
 	shorter clipboard string(when air above)
 	attack system/score system little changed
-	bugs fixed(rank system,some mode error when enter)(again!)
+	bugs fixed:rank system,some mode error when enter(again!)
 0.8.6:
 	gamepad can adjust key
 	add SFX when enter game
 	map GUI little adjusted
 	event system little changed(no ctrl when scene swapping)
-	bugs fixed(rank system,some mode error when enter)
+	bugs fixed:rank system,some mode error when enter
 0.8.5-:
 	mode map!Brandly new GUI for mode selecting
 	mode unlock system,not that scary for noob

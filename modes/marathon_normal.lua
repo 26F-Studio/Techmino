@@ -8,7 +8,7 @@ local function check_LVup(P)
 		else
 			P.gameEnv.drop=dropSpeed[T/10]
 			P.modeData.point=T
-			SFX("reach")
+			SFX.play("reach")
 		end
 	end
 end

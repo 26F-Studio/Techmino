@@ -178,7 +178,7 @@ function pasteBoard()
 		end--str end
 		__=_%16--low4b
 		_=(_-__)/16--high4b
-		if _>12 or __>12 then goto ERROR end--illegal blockid
+		if _>13 or __>13 then goto ERROR end--illegal blockid
 		if _<9 then _=_-1 end if __<9 then __=__-1 end
 		preField[fY][fX]=_;preField[fY][fX+1]=__
 		if fX<9 then
@@ -254,7 +254,7 @@ function royaleLevelup()
 	elseif gameStage==3 then
 		spd=15
 		garbageSpeed=.6
-		if players[1].alive then BGM("cruelty")end
+		if players[1].alive then BGM.play("cruelty")end
 	elseif gameStage==4 then
 		spd=10
 		local _=players.alive
@@ -266,7 +266,7 @@ function royaleLevelup()
 		garbageSpeed=1
 	elseif gameStage==6 then
 		spd=3
-		if players[1].alive then BGM("final")end
+		if players[1].alive then BGM.play("final")end
 	end
 	for i=1,#players.alive do
 		players.alive[i].gameEnv.drop=spd
@@ -284,23 +284,27 @@ function royaleLevelup()
 	end
 end
 function pauseGame()
-	restartCount=0--Avoid strange darkness
-	pauseTimer=0--Pause timer for animation
-	if not gameResult then
-		pauseCount=pauseCount+1
-	end
-	for i=1,#players do
-		local l=players[i].keyPressing
-		for j=1,#l do
-			if l[j]then
-				players[i]:releaseKey(j)
+	if pauseTimer==0 then
+		restartCount=0--Avoid strange darkness
+		newTask(Event_task.pauseGame)
+		if not gameResult then
+			pauseCount=pauseCount+1
+		end
+		for i=1,#players do
+			local l=players[i].keyPressing
+			for j=1,#l do
+				if l[j]then
+					players[i]:releaseKey(j)
+				end
 			end
 		end
+		scene.swapTo("pause","none")
 	end
-	scene.swapTo("pause","none")
 end
 function resumeGame()
-	scene.swapTo("play","fade")
+	if pauseTimer==50 then
+		newTask(Event_task.resumeGame)
+	end
 end
 function loadGame(M)
 	--rec={}
@@ -312,10 +316,11 @@ function loadGame(M)
 	drawableText.levelName:set(M.level[lang])
 	needResetGameData=true
 	scene.swapTo("play","fade_togame")
-	SFX("enter")
+	SFX.play("enter")
 end
 function resetPartGameData()
 	gameResult=false
+	pauseTimer=0
 	frame=150-setting.reTime*15
 	destroyPlayers()
 	curMode.load()
@@ -335,11 +340,13 @@ function resetPartGameData()
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
 	end
+	BGM.play(modeEnv.bgm)
 	restoreVirtualKey()
 	collectgarbage()
 end
 function resetGameData()
 	gameResult=false
+	pauseTimer=0--Pause timer for animation
 	frame=150-setting.reTime*15
 	garbageSpeed=1
 	pauseTime=0--Time paused
@@ -353,7 +360,7 @@ function resetGameData()
 		end
 	end
 	curBG=modeEnv.bg
-	BGM(modeEnv.bgm)
+	BGM.play(modeEnv.bgm)
 
 	texts={}
 	FX_badge={}
@@ -377,11 +384,11 @@ function resetGameData()
 		virtualkeyPressTime[i]=0
 	end
 	freeRow.L=#freeRow
-	SFX("ready")
+	SFX.play("ready")
 	collectgarbage()
 end
 function gameStart()
-	SFX("start")
+	SFX.play("start")
 	for P=1,#players do
 		P=players[P]
 		P:resetblock()

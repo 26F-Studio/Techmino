@@ -21,12 +21,13 @@ return{
 		fall=20,
 		freshLimit=15,
 		task=function(P)
-			if not P.control then return end
-			P.modeData.counter=P.modeData.counter+1
-			if P.modeData.counter>=max(90,180-P.modeData.event)then
-				P.modeData.counter=0
+			if not(P.control and scene.cur=="play")then return end
+			local D=P.modeData
+			D.counter=D.counter+1
+			if D.counter>=max(90,180-D.event)then
 				P:garbageRise(10,1,rnd(10))
-				P.modeData.event=P.modeData.event+1
+				D.counter=0
+				D.event=D.event+1
 			end
 		end,
 		bg="game2",bgm="push",

@@ -22,7 +22,7 @@ return{
 		freshLimit=15,
 		pushSpeed=2,
 		task=function(P)
-			if not P.control then return end
+			if not(P.control and scene.cur=="play")then return end
 			if P.atkBuffer.sum==0 then
 				local p=#P.atkBuffer+1
 				local B,D=P.atkBuffer,P.modeData

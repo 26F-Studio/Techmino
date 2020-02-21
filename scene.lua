@@ -4,17 +4,17 @@ local scene={
 	swapping=false,--ifSwapping
 	swap={
 		tar=nil,	--Swapping target
-		style=nil,	--Swapping target
+		style=nil,	--Swapping style
 		mid=nil,	--Loading point
 		time=nil,	--Full swap time
-		draw=nil,	--Swap draw
+		draw=nil,	--Swap draw  func
 	},
 	seq={"quit","slowFade"},--Back sequence
 }--scene datas,returned
 local sceneInit={
 	quit=love.event.quit,
 	load=function()
-		loading={
+		sceneTemp={
 			1,--Loading mode
 			1,--Loading counter
 			#voiceName,--Loading bar lenth(current)
@@ -23,11 +23,11 @@ local sceneInit={
 	end,
 	intro=function()
 		sceneTemp=0--animation timer
-		BGM("blank")
+		BGM.play("blank")
 	end,
 	main=function()
 		curBG="none"
-		BGM("blank")
+		BGM.play("blank")
 		destroyPlayers()
 		modeEnv={}
 		if not players[1]then
@@ -35,9 +35,9 @@ local sceneInit={
 		end--create demo player
 	end,
 	music=function()
-		if bgmPlaying then
+		if BGM.nowPlay then
 			for i=1,#musicID do
-				if musicID[i]==bgmPlaying then
+				if musicID[i]==BGM.nowPlay then
 					sceneTemp=i--music select
 					return
 				end
@@ -48,7 +48,7 @@ local sceneInit={
 	end,
 	mode=function()
 		curBG="none"
-		BGM("blank")
+		BGM.play("blank")
 		destroyPlayers()
 		local cam=mapCam
 		cam.zoomK=scene.swap.tar=="mode"and 5 or 1
@@ -62,7 +62,7 @@ local sceneInit={
 		sceneTemp=1--option select
 		destroyPlayers()
 		curBG=customRange.bg[customSel[12]]
-		BGM(customRange.bgm[customSel[13]])
+		BGM.play(customRange.bgm[customSel[13]])
 	end,
 	draw=function()
 		curBG="none"
@@ -79,8 +79,6 @@ local sceneInit={
 		if needResetGameData then
 			resetGameData()
 			needResetGameData=nil
-		else
-			BGM(modeEnv.bgm)
 		end
 		curBG=modeEnv.bg
 	end,

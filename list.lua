@@ -56,45 +56,6 @@ blockColor={
 	color.darkRed,
 	color.darkGreen,
 }
-sfx={
-	"welcome",
-	"click","enter",
-	"finesseError","finesseError_long",
-	--Stereo sfxs(cannot set position)
-	"button","swipe",
-	"ready","start","win","fail","collect",
-	"move","rotate","rotatekick","hold",
-	"prerotate","prehold",
-	"lock","drop","fall",
-	"reach",
-	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11","ren_mega",
-	"clear_1","clear_2","clear_3","clear_4",
-	"spin_0","spin_1","spin_2","spin_3",
-	"emit","blip_1","blip_2",
-	"perfectclear",
-
-	"error",
-	--Mono sfxs
-}
-bgm={
-	"blank",
-	"way",
-	"race",
-	"newera",
-	"push",
-	"reason",
-	"infinite",
-	"cruelty",
-	"final",
-	"secret7th",
-	"secret8th",
-	"rockblock",
-	"8-bit happiness",
-	"shining terminal",
-	"oxygen",
-	"distortion",
-	"end",
-}
 voiceBank={}--{{srcs1},{srcs2},...}
 voiceName={
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",

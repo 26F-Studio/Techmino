@@ -9,7 +9,7 @@ local function score(P)
 	end
 	local MD=P.modeData
 	MD.point=MD.point+s
-	if MD.point%100==99 then SFX("blip_1")end
+	if MD.point%100==99 then SFX.play("blip_1")end
 	if int(MD.point*.01)>MD.event then
 		local s=MD.event+1;MD.event=s--level up!
 		P:showText(text.stage(s),0,-120,80,"fly")
@@ -29,7 +29,7 @@ local function score(P)
 			MD.point,MD.event=1000,9
 			Event.win(P,"finish")
 		end
-		SFX("reach")
+		SFX.play("reach")
 	end
 end
 
@@ -45,8 +45,8 @@ return{
 		"FINAL",
 	},
 	info={
-		"究极20G:无法到达的终点",
-		"究极20G:无法到达的终点",
+		"究极20G:无法触及的终点",
+		"究极20G:无法触及的终点",
 		"Extreme 20G:Unreachable destination",
 	},
 	color=color.lightGrey,
@@ -81,6 +81,6 @@ return{
 		S>=600 and 3 or
 		S>=400 and 2 or
 		S>=200 and 1 or
-		L>=50 and 0
+		S>=50 and 0
 	end,
 }

@@ -16,7 +16,7 @@ return{
 	},
 	color=color.lightGrey,
 	env={
-		drop=1e99,lock=1e99,
+		drop=120,lock=120,
 		oncehold=false,target=200,
 		dropPiece=Event.reach_winCheck,
 		bg="strap",bgm="infinite",
@@ -35,10 +35,10 @@ return{
 	getRank=function(P)
 		local T=P.stat.score
 		return
-		T>=12e4 and 5 or
-		T>=10e4 and 4 or
-		T>=6e4 and 3 or
-		T>=3e4 and 2 or
-		T>=1e4 and 1
+		T>=126000 and 5 or
+		T>=100000 and 4 or
+		T>=60000 and 3 or
+		T>=30000 and 2 or
+		T>=10000 and 1
 	end,
 }

@@ -22,7 +22,7 @@ return{
 		freshLimit=15,
 		pushSpeed=2,
 		task=function(P)
-			if not P.control then return end
+			if not(P.control and scene.cur=="play")then return end
 			P.modeData.counter=P.modeData.counter+1
 			local t=240-2*P.modeData.event
 			if P.modeData.counter>=t then

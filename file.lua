@@ -87,7 +87,7 @@ function loadUnlock()
 	end
 end
 
-local statOpy={
+local statOpt={
 	"run","game","time",
 	"extraPiece","extraRate",
 	"key","rotate","hold","piece","row",
@@ -106,21 +106,27 @@ function loadStat()
 		local p=find(t[i],"=")
 		if p then
 			local t,v=sub(t[i],1,p-1),sub(t[i],p+1)
-			for i=1,#statOpy do
-				if t==statOpy[i]then
+			for i=1,#statOpt do
+				if t==statOpt[i]then
 					v=toN(v)if not v or v<0 then v=0 end
 					stat[t]=v
-					break
+					goto L
 				end
 			end
+			if t=="lastPlay"then
+				v=toN(v)
+				mapCam.lastPlay=v and modeRanks[v]and v or 1
+			end
 		end
+		::L::
 	end
 end
 function saveStat()
 	local t={}
-	for i=1,#statOpy do
-		t[i]=statOpy[i].."="..toS(stat[statOpy[i]])
+	for i=1,#statOpt do
+		t[i]=statOpt[i].."="..toS(stat[statOpt[i]])
 	end
+	t[#t+1]="lastPlay="..mapCam.lastPlay
 
 	t=concat(t,"\r\n")
 	local F=FILE.data
@@ -198,9 +204,6 @@ function loadSetting()
 						K.x,K.y,K.r=toN(SK[2]),toN(SK[3]),toN(SK[4])
 					end
 				end
-			elseif t=="lastPlay"then
-				v=toN(v)
-				mapCam.lastPlay=v and modeRanks[v]and v or 1
 			end
 		end
 	end
@@ -212,6 +215,7 @@ local saveOpt={
 	"quickR",
 	"swap",
 	"fine",
+	"autoPause",
 
 	"ghost","center",
 	"smo","grid",
@@ -256,7 +260,6 @@ function saveSetting()
 	local t={
 		"keymap="..toS(concat(map,"/")),
 		"VK="..toS(concat(vk,"/")),
-		"lastPlay="..mapCam.lastPlay,
 	}
 	for i=1,#saveOpt do
 		t[#t+1]=saveOpt[i].."="..toS(setting[saveOpt[i]])
@@ -268,7 +271,7 @@ function saveSetting()
 	F:flush()
 	F:close()
 	if _ then
-		TEXT(text.settingSaved,370,330,30,"appear")
+		newTask(Event_task.settingSaved,nil,{15})
 	else
 		TEXT(text.settingSavingError.."123",370,350,20,"appear",.3)
 	end

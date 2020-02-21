@@ -240,8 +240,7 @@ return{
 		pause={
 			resume=	"继续",
 			restart="重新开始",
-			sfx="音效",
-			bgm="音乐",
+			setting="设置",
 			quit=	"退出",
 		},
 
@@ -254,6 +253,7 @@ return{
 			sdarrD="-",sdarrU="+",
 			reTime="开局等待时间",
 			maxNext="最大预览数量",
+			autoPause="自动暂停",
 			quickR="快速重新开始",
 			swap="组合键切换攻击模式",
 			fine="极简操作提示音",

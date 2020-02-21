@@ -7,12 +7,12 @@ local planet={}
 
 local function newPlanet()
 	local a=rnd()*3.142
-	local r=(H+W)*(rnd()*2+1)*.06
+	local r=(H+W)*(2+rnd())*.05
 	planet.r=r
 	planet.x=W*.5+cos(a)*(R+r)
 	planet.y=H*.5+sin(a)*(R+r)
-	planet.vx=-cos(a+rnd()-.5)*.126
-	planet.vy=-sin(a+rnd()-.5)*.126
+	planet.vx=-cos(a+rnd()-.5)*.0626
+	planet.vy=-sin(a+rnd()-.5)*.0626
 	planet.R=.7+rnd()*.2
 	planet.G=.7+rnd()*.1
 end
