@@ -5,9 +5,9 @@ return{
 		"Zen",
 	},
 	level={
-		"时间杀手 I",
-		"时间杀手 I",
-		"Time Killer I",
+		"",
+		"",
+		"",
 	},
 	info={
 		"不限时200行",
@@ -18,7 +18,7 @@ return{
 	env={
 		drop=120,lock=120,
 		oncehold=false,target=200,
-		dropPiece=Event.reach_winCheck,
+		dropPiece=player.reach_winCheck,
 		bg="strap",bgm="infinite",
 	},
 	load=function()
@@ -27,7 +27,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(70)
 		local R=200-P.stat.row
-		mStr(R>=0 and R or 0,-82,280)
+		mStr(R>=0 and R or 0,-81,280)
 	end,
 	score=function(P)return{P.stat.score}end,
 	scoreDisp=function(D)return tostring(D[1])end,

@@ -1,6 +1,6 @@
 local format,rnd=string.format,math.random
 local function check_rise(P)
-	local L=P.cleared
+	local L=P.clearedRow
 	for i=1,#L do
 		if L[i]<6 then
 			P:garbageRise(10,1,rnd(10))
@@ -16,9 +16,9 @@ return{
 		"Infinite:dig",
 	},
 	level={
-		"时间杀手 III",
-		"时间杀手 III",
-		"Time Killer III",
+		"",
+		"",
+		"",
 	},
 	info={
 		"挖呀挖呀挖",
@@ -41,12 +41,12 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.modeData.point,-82,190)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		mDraw(drawableText.line,-82,243)
-		mDraw(drawableText.atk,-82,363)
-		mDraw(drawableText.eff,-82,475)
+		mStr(P.modeData.point,-81,190)
+		mStr(P.stat.atk,-81,310)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,420)
+		mDraw(drawableText.line,-81,243)
+		mDraw(drawableText.atk,-81,363)
+		mDraw(drawableText.eff,-81,475)
 	end,
 	score=function(P)return{P.modeData.point}end,
 	scoreDisp=function(D)return D[1].." Lines"end,

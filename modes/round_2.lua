@@ -14,7 +14,7 @@ return{
 	name={
 		"回合制",
 		"回合制",
-		"Turn-Base",
+		"Turn-Based",
 	},
 	level={
 		"普通",

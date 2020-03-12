@@ -31,6 +31,7 @@ return{
 	},
 	color=color.lightBlue,
 	env={
+		noFly=true,
 		das=16,arr=6,sddas=2,sdarr=2,
 		ghost=false,center=false,
 		drop=3,lock=3,wait=10,fall=25,
@@ -47,11 +48,11 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(75)
 		local r=P.gameEnv.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-82,210)
-		mDraw(drawableText.speedLV,-82,290)
+		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-81,210)
+		mDraw(drawableText.speedLV,-81,290)
 		setFont(45)
-		mStr(P.stat.row,-82,320)
-		mStr(P.gameEnv.target,-82,370)
+		mStr(P.stat.row,-81,320)
+		mStr(P.gameEnv.target,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,

@@ -4,7 +4,7 @@ local death_lock={12,11,10,9,8}
 local death_wait={10,9,8,7,6}
 local death_fall={10,9,8,7,6}
 local function score(P)
-	local c=#P.cleared
+	local c=#P.clearedRow
 	if c==0 and P.modeData.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
@@ -24,7 +24,7 @@ local function score(P)
 		if s==3 then P.gameEnv.bone=true end
 		if s==5 then
 			P.modeData.point,P.modeData.event=500,4
-			Event.win(P,"finish")
+			P:win("finish")
 		else
 			P:showText(text.stage(s),0,-120,80,"fly")
 		end
@@ -50,12 +50,13 @@ return{
 	},
 	color=color.red,
 	env={
+		noFly=true,
+		mindas=6,minarr=1,
 		_20G=true,
 		lock=death_lock[1],
 		wait=death_wait[1],
 		fall=death_fall[1],
 		dropPiece=score,
-		mindas=6,minarr=1,
 		freshLimit=15,
 		bg="game2",bgm="secret7th",
 	},
@@ -65,8 +66,8 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.modeData.point,-82,320)
-		mStr((P.modeData.event+1)*100,-82,370)
+		mStr(P.modeData.point,-81,320)
+		mStr((P.modeData.event+1)*100,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.modeData.point,P.stat.row,P.stat.time}end,

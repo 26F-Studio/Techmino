@@ -4,7 +4,7 @@ local function check_LVup(P)
 	local T=P.modeData.point+10
 	if P.stat.row>=T then
 		if T==200 then
-			Event.win(P,"finish")
+			P:win("finish")
 		else
 			P.gameEnv.drop=dropSpeed[T/10]
 			P.modeData.point=T
@@ -25,16 +25,17 @@ return{
 		"NORMAL",
 	},
 	info={
-		"200行变速马拉松",
-		"200行变速马拉松",
+		"200行加速马拉松",
+		"200行加速马拉松",
 		"200L marathon with acceleration",
 	},
 	color=color.green,
 	env={
+		noFly=true,
+		minsdarr=1,
 		fall=30,
 		target=10,dropPiece=check_LVup,
 		mindas=7,minarr=1,minsdarr=1,
-		minsdarr=1,
 		bg="strap",bgm="way",
 	},
 	pauseLimit=true,
@@ -44,8 +45,8 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.row,-82,320)
-		mStr(P.modeData.point+10,-82,370)
+		mStr(P.stat.row,-81,320)
+		mStr(P.modeData.point+10,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,

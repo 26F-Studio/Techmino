@@ -60,8 +60,8 @@ function Tmr.load()
 
 		background1=N("/image/BG/bg1.png")
 		background2=N("/image/BG/bg2.png")
-		groupCode=N("/image/mess/groupcode.png")
-		payCode=N("/image/mess/paycode.png")
+		groupCode=N("/image/mess/groupCode.png")
+		payCode=N("/image/mess/payCode.png")
 
 		miya={
 			ch=N("/image/miya/ch.png"),
@@ -70,6 +70,7 @@ function Tmr.load()
 			f3=N("/image/miya/f3.png"),
 			f4=N("/image/miya/f4.png"),
 		}
+		skin.load()
 		--------------------------
 		L[1],L[2],L[3]=0,1,1
 		SFX.play("welcome",.2)
@@ -154,19 +155,15 @@ function Tmr.mode(dt)
 		end
 	end
 
-	if x>1400*k then x=1400*k
-	elseif x<-1300*k then x=-1300*k
+	if x>1850*k then x=1850*k
+	elseif x<-1000*k then x=-1000*k
 	end
 	if y>500*k then y=500*k
 	elseif y<-1900*k then y=-1900*k
 	end
 	cam.x,cam.y=x,y
 	--keyboard controlling
-
-	if setting.bgspace then
-		space.scale(.85+k/cam.k1*.15)
-		space.translate((cam.x1/cam.k1-cam.x/k)*.03*k,(cam.y1/cam.k1-cam.y/k)*.03*k)
-	end
+	
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
 	cam.k1=cam.k1*.85+k*.15

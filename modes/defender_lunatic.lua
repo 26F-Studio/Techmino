@@ -59,10 +59,10 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(55)
-		mStr(P.modeData.event,-82,200)
-		mStr(P.modeData.point,-82,320)
-		mDraw(drawableText.wave,-82,260)
-		mDraw(drawableText.rpm,-82,380)
+		mStr(P.modeData.event,-81,200)
+		mStr(P.modeData.point,-81,320)
+		mDraw(drawableText.wave,-81,260)
+		mDraw(drawableText.rpm,-81,380)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,
@@ -75,6 +75,6 @@ return{
 		W>=55 and 3 or
 		W>=30 and 2 or
 		W>=20 and 1 or
-		L>=5 and 0
+		W>=5 and 0
 	end,
 }

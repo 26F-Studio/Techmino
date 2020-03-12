@@ -13,7 +13,7 @@ function toTime(s)
 		return format("%d:%.2f",int(s/60),s%60)
 	else
 		local h=int(s/3600)
-		return format("%d:%d:%.2f",h,int(s-h/60),s%60)
+		return format("%d:%d:%.2f",h,int(s/60%60),s%60)
 	end
 end
 function mStr(s,x,y)
@@ -28,8 +28,8 @@ function destroyPlayers()
 		if P.canvas then P.canvas:release()end
 		if P.dust then P.dust:release()end
 		while P.field[1]do
-			removeRow(P.field)
-			removeRow(P.visTime)
+			freeRow.discard(rem(P.field))
+			freeRow.discard(rem(P.visTime))
 		end
 		if P.AI_mode=="CC"then
 			BOT.free(P.bot_opt)
@@ -45,26 +45,6 @@ function destroyPlayers()
 	players.human=0
 	collectgarbage()
 end
-function getNewRow(val)
-	local t=rem(freeRow)
-	for i=1,10 do
-		t[i]=val
-	end
-	freeRow.L=freeRow.L-1
-	--get a row from buffer
-	if not freeRow[1]then
-		for i=1,10 do
-			freeRow[i]={0,0,0,0,0,0,0,0,0,0}
-		end
-		freeRow.L=freeRow.L+10
-	end
-	--prepare new rows
-	return t
-end
-function removeRow(t,k)
-	freeRow[#freeRow+1]=rem(t,k)
-	freeRow.L=freeRow.L+1
-end
 --Single-usage funcs
 local langID={"chi","chi_full","eng"}
 local drawableTextLoad={
@@ -74,11 +54,12 @@ local drawableTextLoad={
 	"setting_game",
 	"setting_graphic",
 	"setting_sound",
+	"setting_sound",
 	"keyboard","joystick",
 	"ctrlSetHelp",
+	"blockLayout",
 	"musicRoom",
 	"nowPlaying",
-	"warning",
 	"VKTchW","VKOrgW","VKCurW",
 	"noScore",
 	"highScore",
@@ -108,20 +89,7 @@ function changeLanguage(l)
 	end
 	collectgarbage()
 end
-function changeBlockSkin(n)
-	n=n-1
-	gc.push("transform")
-	gc.origin()
-	gc.setColor(1,1,1)
-	for i=1,13 do
-		gc.setCanvas(blockSkin[i])
-		gc.draw(blockImg,30-30*i,-30*n)
-		gc.setCanvas(blockSkinmini[i])
-		gc.draw(blockImg,6-6*i,-6*n,nil,.2)
-	end
-	gc.pop()
-	gc.setCanvas()
-end
+
 function restoreVirtualKey()
 	for i=1,#VK_org do
 		local B,O=virtualkey[i],VK_org[i]
@@ -167,7 +135,10 @@ function pasteBoard()
 	local _,__
 	local p=find(str,":")--ptr*
 	if p then str=sub(str,p+1)end
-	str=data.decompress("string","deflate",data.decode("string","base64",str))
+	_,str=pcall(data.decode,"string","base64",str)
+	if not _ then goto ERROR end
+	_,str=pcall(data.decompress,"string","deflate",str)
+	if not _ then goto ERROR end
 	p=1
 	::LOOP::
 		_=byte(str,p)--1byte
@@ -308,7 +279,7 @@ function resumeGame()
 end
 function loadGame(M)
 	--rec={}
-	mapCam.lastPlay=M
+	stat.lastPlay=M
 	M=modes[M]
 	curMode=M
 	local lang=setting.lang
@@ -340,7 +311,16 @@ function resetPartGameData()
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
 	end
+	curBG=modeEnv.bg
 	BGM.play(modeEnv.bgm)
+	if modeEnv.royaleMode then
+		for i=1,#players do
+			players[i]:changeAtk(randomTarget(players[i]))
+		end
+		mostBadge,mostDangerous,secBadge,secDangerous=nil
+		gameStage=1
+		garbageSpeed=.3
+	end
 	restoreVirtualKey()
 	collectgarbage()
 end
@@ -375,15 +355,11 @@ function resetGameData()
 	end
 	restoreVirtualKey()
 	stat.game=stat.game+1
-	local m,p=#freeRow,40*#players+1
-	while freeRow[p]do
-		m,freeRow[m]=m-1
-	end
+	freeRow.reset(30*#players)
 	for i=1,20 do
 		virtualkeyDown[i]=X
 		virtualkeyPressTime[i]=0
 	end
-	freeRow.L=#freeRow
 	SFX.play("ready")
 	collectgarbage()
 end
@@ -391,7 +367,7 @@ function gameStart()
 	SFX.play("start")
 	for P=1,#players do
 		P=players[P]
-		P:resetblock()
+		P:freshNext()
 		P.timing=true
 		P.control=true
 	end

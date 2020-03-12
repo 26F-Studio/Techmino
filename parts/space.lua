@@ -30,53 +30,9 @@ function space.new()
 		stars[i]=s					--size
 		stars[i+1]=rnd(W)			--x
 		stars[i+2]=rnd(H)			--y
-		stars[i+3]=(rnd()-.5)*.05*s	--vx
-		stars[i+4]=(rnd()-.5)*.05*s	--vy
+		stars[i+3]=(rnd()-.5)*.01*s	--vx
+		stars[i+4]=(rnd()-.5)*.01*s	--vy
 	end--800 stars
-end
-function space.translate(dx,dy)
-	planet.x=planet.x+dx*.26
-	planet.y=planet.y+dy*.26
-	for i=1,2600,5 do
-		local s=stars[i]
-		stars[i+1]=stars[i+1]+dx*s
-		stars[i+2]=stars[i+2]+dy*s
-	end
-end
-function space.scale(k)
-	planet.r=planet.r*k^.15
-	for i=1,2600,5 do
-		local s=stars[i]
-		local x=stars[i+1]
-		local y=stars[i+2]
-		s=s*k
-		x=W*.5+(x-W*.5)*k
-		y=H*.5+(y-H*.5)*k
-		if k>1 then
-			if x%W~=x or y%H~=y then
-				s=.75
-				x=W*.5+(rnd()-.5)*W*.5
-				y=H*.5+(rnd()-.5)*H*.5
-			end
-			--out,new small one
-		elseif s<.75 then
-			local vx,vy
-			repeat
-				s=rnd()*.75+2.25
-				stars[i]=s			--size
-				x=rnd(W)			--x
-				y=rnd(H)			--y
-				vx=(rnd()-.5)*.15	--vx
-				vy=(rnd()-.5)*.15	--vy
-			until x<100 or x>W-100 or y<100 or y>H-100
-			stars[i+3]=vx
-			stars[i+4]=vy
-			--disappear,new big one
-		end
-		stars[i]=s
-		stars[i+1]=x
-		stars[i+2]=y
-	end
 end
 function space.update(dt)
 	local x,y=planet.x,planet.y
@@ -94,9 +50,9 @@ function space.draw()
 	if not stars[1]then return end
 	gc.translate(-50,-50)
 	gc.setLineWidth(7)
-	gc.setColor(planet.R,planet.G,.6,.2)
+	gc.setColor(planet.R,planet.G,.6,.1626)
 	gc.circle("line",planet.x,planet.y,planet.r+1)
-	gc.setColor(planet.R,planet.G,.6,.5)
+	gc.setColor(planet.R,planet.G,.6,.26)
 	gc.circle("fill",planet.x,planet.y,planet.r)
 	gc.setColor(.9,.9,.9)
 	for i=1,2600,5 do

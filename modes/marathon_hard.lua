@@ -9,7 +9,7 @@ local function check(P)
 			P.gameEnv._20G=true
 			P.gameEnv.target=200
 		else
-			Event.win(P,"finish")
+			P:win("finish")
 		end
 	end
 end
@@ -26,15 +26,16 @@ return{
 		"HARD",
 	},
 	info={
-		"200行20G马拉松",
-		"200行20G马拉松",
-		"200L marathon in 20G",
+		"200行高速马拉松",
+		"200行高速马拉松",
+		"200L marathon in high speed",
 	},
 	color=color.magenta,
 	env={
+		noFly=true,
+		mindas=7,minarr=1,minsdarr=1,
 		drop=.5,fall=30,
 		target=50,dropPiece=check,
-		mindas=7,minarr=1,minsdarr=1,
 		bg="strap",bgm="race",
 	},
 	pauseLimit=true,
@@ -44,8 +45,8 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.row,-82,320)
-		mStr(P.gameEnv.target,-82,370)
+		mStr(P.stat.row,-81,320)
+		mStr(P.gameEnv.target,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,

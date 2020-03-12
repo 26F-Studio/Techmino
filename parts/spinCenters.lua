@@ -1,0 +1,12 @@
+local TMP1,TMP2,TMP3,TMP4={1,2},{2,1},{2,2},{1.5,1.5}
+local scs={
+	{[0]=TMP1,TMP2,TMP3,TMP3},
+	{[0]=TMP1,TMP2,TMP3,TMP3},
+	{[0]=TMP1,TMP2,TMP3,TMP3},
+	{[0]=TMP1,TMP2,TMP3,TMP3},
+	{[0]=TMP1,TMP2,TMP3,TMP3},
+	{[0]=TMP4,TMP4,TMP4,TMP4},
+	{[0]={0.5,2.5},{2.5,0.5},{1.5,2.5},{2.5,1.5}},
+}
+TMP1,TMP2,TMP3,TMP4=nil
+return scs

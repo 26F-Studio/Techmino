@@ -18,7 +18,7 @@ local sceneInit={
 			1,--Loading mode
 			1,--Loading counter
 			#voiceName,--Loading bar lenth(current)
-			text.tips[math.random(#text.tips)],--tip
+			require("parts/getTip"),--tip
 		}
 	end,
 	intro=function()
@@ -85,22 +85,20 @@ local sceneInit={
 	pause=function()
 		local S=players[1].stat
 		sceneTemp={
-			S.key,
-			S.rotate,
-			S.hold,
+			toTime(S.time),
+			S.key.."/"..S.rotate.."/"..S.hold,
 			S.piece.."  "..(int(S.piece/S.time*100)*.01).."PPS",
-			S.row.."  "..(int(S.row/S.time*600)*.1).."LPM",
-			S.atk.."  "..(int(S.atk/S.time*600)*.1).."APM",
-			S.send,
-			S.recv,
-			S.pend,
+			format("%d %.2fLPM",S.row,S.row/S.time*60),
+			format("%d %.2fAPM",S.atk,S.atk/S.time*60),
+			format("%d %.2fSPM",S.send,S.send/S.time*60),
+			format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
 			S.clear_1.."/"..S.clear_2.."/"..S.clear_3.."/"..S.clear_4,
 			"["..S.spin_0.."]/"..S.spin_1.."/"..S.spin_2.."/"..S.spin_3,
 			S.b2b.."[+"..S.b3b.."]",
 			S.pc,
-			format("%0.2f",S.atk/S.row),
+			format("%.3f",S.atk/S.row),
 			S.extraPiece,
-			max(100-int(S.extraRate/S.piece*10000)*.01,0).."%",
+			format("%.2f",100*max(1-S.extraRate/S.piece,0)),
 		}
 	end,
 	setting_game=function()
@@ -139,22 +137,20 @@ local sceneInit={
 		sceneTemp={
 			S.run,
 			S.game,
-			format("%.1fHr",S.time*2.78e-4),
+			toTime(S.time),
 			S.key,
 			S.rotate,
 			S.hold,
 			S.piece,
 			S.row,
-			S.atk,
-			S.send,
-			S.recv,
-			S.pend,
-			S.clear_1.."/"..S.clear_2.."/"..S.clear_3.."/"..S.clear_4,
-			"["..S.spin_0.."]/"..S.spin_1.."/"..S.spin_2.."/"..S.spin_3,
+			S.atk.."("..S.send..")",
+			format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
+			format("%d/%d/%d/%d",S.clear_1,S.clear_2,S.clear_3,S.clear_4),
+			format("[%d]/%d/%d/%d",S.spin_0,S.spin_1,S.spin_2,S.spin_3),
 			S.b2b.."[+"..S.b3b.."]",
 			S.pc,
 			format("%.2f",S.atk/S.row),
-			format("%d[%.2f%%]",S.extraPiece,max(100-S.extraRate/S.piece*100,0)),
+			format("%d[%.3f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 		}
 	end,
 	history=function()
@@ -193,6 +189,8 @@ local backFunc={
 		updateStat()
 		clearTask("play")
 	end,
+	setting_touch=	function()saveVK()end,
+	setting_key=	function()saveKeyMap()end,
 	setting_game=	function()saveSetting()end,
 	setting_graphic=function()saveSetting()end,
 	setting_sound=	function()saveSetting()end,

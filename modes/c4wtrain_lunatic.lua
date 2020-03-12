@@ -1,18 +1,18 @@
 local rnd,min=math.random,math.min
 local function check_c4w(P)
-	for i=1,#P.cleared do
-		P.field[#P.field+1]=getNewRow(10)
-		P.visTime[#P.visTime+1]=getNewRow(20)
+	for i=1,#P.clearedRow do
+		P.field[#P.field+1]=freeRow.get(10)
+		P.visTime[#P.visTime+1]=freeRow.get(20)
 		for i=4,7 do P.field[#P.field][i]=0 end
 	end
-	if #P.cleared==0 then
-		Event.lose(P)
+	if #P.clearedRow==0 then
+		P:lose()
 	else
 		if P.combo>P.modeData.point then
 			P.modeData.point=P.combo
 		end
 		if P.stat.row>=100 then
-			Event.win(P,"finish")
+			P:win("finish")
 		end
 	end
 end
@@ -21,7 +21,7 @@ return{
 	name={
 		"C4W练习",
 		"中四宽练习",
-		"C4W Train",
+		"C4W Training",
 	},
 	level={
 		"疯狂",
@@ -46,8 +46,8 @@ return{
 		local P=players[1]
 		local F=P.field
 		for i=1,24 do
-			F[i]=getNewRow(10)
-			P.visTime[i]=getNewRow(20)
+			F[i]=freeRow.get(10)
+			P.visTime[i]=freeRow.get(20)
 			for x=4,7 do F[i][x]=0 end
 		end
 		local r=rnd(6)
@@ -61,10 +61,10 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.combo,-82,310)
-		mStr(P.modeData.point,-82,400)
-		mDraw(drawableText.combo,-82,358)
-		mDraw(drawableText.mxcmb,-82,450)
+		mStr(P.combo,-81,310)
+		mStr(P.modeData.point,-81,400)
+		mDraw(drawableText.combo,-81,358)
+		mDraw(drawableText.mxcmb,-81,450)
 	end,
 	score=function(P)return{min(P.modeData.point,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Combo   "..toTime(D[2])end,

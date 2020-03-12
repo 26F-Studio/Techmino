@@ -21,7 +21,7 @@ return{
 		fall=10,lock=60,
 		center=false,
 		visible="none",
-		dropPiece=Event.reach_winCheck,
+		dropPiece=player.reach_winCheck,
 		freshLimit=15,
 		target=200,
 		bg="rgb",bgm="secret7th",
@@ -31,11 +31,11 @@ return{
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		mDraw(drawableText.line,-82,300)
-		mDraw(drawableText.techrash,-82,420)
+		mDraw(drawableText.line,-81,300)
+		mDraw(drawableText.techrash,-81,420)
 		setFont(75)
-		mStr(P.stat.row,-82,220)
-		mStr(P.stat.clear_4,-82,340)
+		mStr(P.stat.row,-81,220)
+		mStr(P.stat.clear_4,-81,340)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

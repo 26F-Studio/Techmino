@@ -3,7 +3,7 @@ local rush_lock={20,18,16,15,14}
 local rush_wait={12,10,9,8,7}
 local rush_fall={18,16,14,13,12}
 local function score(P)
-	local c=#P.cleared
+	local c=#P.clearedRow
 	if c==0 and P.modeData.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
@@ -28,7 +28,7 @@ local function score(P)
 
 		if s==5 then
 			P.modeData.point,P.modeData.event=500,4
-			Event.win(P,"finish")
+			P:win("finish")
 		else
 			P:showText(text.stage(s),0,-120,80,"fly")
 		end
@@ -50,16 +50,17 @@ return{
 	info={
 		"20G:初心者适用",
 		"20G:初心者适用",
-		"20G:Proper to beginner",
+		"20G:Back to beginner",
 	},
 	color=color.red,
 	env={
+		noFly=true,
+		das=9,arr=3,
 		_20G=true,
 		lock=rush_lock[1],
 		wait=rush_wait[1],
 		fall=rush_fall[1],
 		dropPiece=score,
-		das=9,arr=3,
 		freshLimit=15,
 		bg="strap",bgm="secret8th",
 	},
@@ -69,8 +70,8 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.modeData.point,-82,320)
-		mStr((P.modeData.event+1)*100,-82,370)
+		mStr(P.modeData.point,-81,320)
+		mStr((P.modeData.event+1)*100,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.modeData.point,P.stat.row,P.stat.time}end,

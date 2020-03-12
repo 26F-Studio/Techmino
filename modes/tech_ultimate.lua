@@ -1,7 +1,7 @@
 local format=string.format
 local function tech_check_hard(P)
-	if #P.cleared>0 and P.lastClear<10 then
-		Event.lose(P)
+	if #P.clearedRow>0 and P.lastClear<10 then
+		P:lose()
 	end
 end
 
@@ -17,28 +17,30 @@ return{
 		"ULTIMATE",
 	},
 	info={
-		"仅允许spin与PC,强制最简操作",
-		"仅允许spin与全清,强制最简操作",
-		"Don't do normal clear,no finesse error",
+		"禁止普通消除,强制最简操作",
+		"禁止普通消除,强制最简操作",
+		"No normal clear,no finesse error",
 	},
 	color=color.lightYellow,
 	env={
+		arr=0,
 		drop=1e99,lock=60,
 		freshLimit=15,
 		target=200,
 		fineKill=true,
-		dropPiece=tech_reach_hard,
+		dropPiece=tech_check_hard,
 		bg="flink",bgm="infinite",
 	},
+	slowMark=true,
 	load=function()
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		mDraw(drawableText.atk,-82,363)
-		mDraw(drawableText.eff,-82,475)
+		mStr(P.stat.atk,-81,310)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,420)
+		mDraw(drawableText.atk,-81,363)
+		mDraw(drawableText.eff,-81,475)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines  "..toTime(D[2])end,

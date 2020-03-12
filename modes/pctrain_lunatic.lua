@@ -10,12 +10,12 @@ local function task_PC(P)
 	if P.modeData.counter==21 then
 		local t=P.stat.pc%2
 		for i=1,4 do
-			local r=getNewRow(0)
+			local r=freeRow.get(0)
 			for j=1,10 do
 				r[j]=PCbase[4*t+i][j]
 			end
 			ins(P.field,1,r)
-			ins(P.visTime,1,getNewRow(20))
+			ins(P.visTime,1,freeRow.get(20))
 		end
 		P.fieldBeneath=P.fieldBeneath+120
 		P.curY=P.curY+4
@@ -30,7 +30,7 @@ local function newPC(P)
 		local c=0
 		for i=1,10 do if r[i]>0 then c=c+1 end end
 		if c<5 then
-			Event.lose(P)
+			P:lose()
 		end
 	end
 	if P.stat.piece%4==0 and #P.field==0 then
@@ -66,7 +66,7 @@ return{
 	name={
 		"全清训练",
 		"全清训练",
-		"PC Train",
+		"PC Training",
 	},
 	level={
 		"疯狂",
@@ -97,8 +97,8 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(75)
-		mStr(P.stat.pc,-82,330)
-		mDraw(drawableText.pc,-82,412)
+		mStr(P.stat.pc,-81,330)
+		mDraw(drawableText.pc,-81,412)
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..toTime(D[2])end,

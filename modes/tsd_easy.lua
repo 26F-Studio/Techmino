@@ -1,8 +1,8 @@
 local function check_tsd(P)
-	if #P.cleared>0 then
+	if #P.clearedRow>0 then
 		if P.lastClear~=52 then
-			Event.lose(P)
-		elseif #P.cleared>0 then
+			P:lose()
+		elseif #P.clearedRow>0 then
 			P.modeData.event=P.modeData.event+1
 		end
 	end
@@ -37,8 +37,8 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(75)
-		mStr(P.modeData.event,-82,330)
-		mDraw(drawableText.tsd,-82,407)
+		mStr(P.modeData.event,-81,330)
+		mDraw(drawableText.tsd,-81,407)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."TSD   "..toTime(D[2])end,

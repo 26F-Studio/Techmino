@@ -73,7 +73,7 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(35)
-		mStr(#players.alive.."/99",-82,175)
+		mStr(#players.alive.."/99",-81,175)
 		mStr(P.modeData.point,-70,215)
 		gc.draw(drawableText.ko,-127,225)
 		setFont(20)

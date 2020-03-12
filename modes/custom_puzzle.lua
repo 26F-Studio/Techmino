@@ -14,7 +14,7 @@ local function puzzleCheck(P)
 		end
 	end
 	P.modeData.event=1
-	Event.win(P,"finish")
+	P:win("finish")
 end
 
 return{
@@ -73,8 +73,8 @@ return{
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y
 		setFont(55)
-		mStr(P.stat.row,-82,225)
-		mDraw(drawableText.line,-82,290)
+		mStr(P.stat.row,-81,225)
+		mDraw(drawableText.line,-81,290)
 		if P.gameEnv.puzzle and P.modeData.event==0 then
 			local m=puzzleMark
 			for y=1,preField.h do for x=1,10 do

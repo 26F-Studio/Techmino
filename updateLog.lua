@@ -1,60 +1,100 @@
 local S=[=[
-"Patron"(rmb10+):
-	"Fireboos"
-	"gggf"
-	"Sasoric"
-	sfqr
-	T080
-	"Ykzl"
-	"zxc"
+"Patron"(rmb10+)(ordered by first char):
 	10元
+	Fireboos
+	gggf127
+	乐↗乐↘
+	立斐
+	仁参
+	Sasoric"
+	sfqr
+	时雪
+	T080
+	ThTsOd"
+	夏小亚
+	xin心痕
+	蕴空之灵
+	yyangdid
 	?[D*a]
 Future outlook:
-	New mode system with:
+	New mode:
+		round-based dig
+		Infinite battle
 		Bigbang
-		Rythem
+		Rhythm
 		Combo
 		Square
-		Infinite battle
+		Shifting field
 	Other:
+		bag sep-line switch
+		more drop fx,like light on locked block
 		game recording
-		classic face direction
 		(powerinfo switch)
-		virtualWidgets like joysticks
+		new virtualWidgets like joysticks
 		splashing block
-		custom block color/direction
-		custom block sequence
-		CC smarter(think of garbage buffer)
-		new AI:task-Z
+		custom sequence
 		more FXs & 3d features & animations
 		Encrypt source code(compile to byte code)
+		new AI:task-Z
+		CC smarter(think of garbage buffer)
+0.8.12:
+	new:
+		layout setting:skin system with customizable block color/direction
+		more information in pause page
+		block has more color(7→11)
+		skin:smooth(MrZ),contrast(MrZ),steel(kulumi),ball(shaw)
+	changed:
+		BGM secret7's Inst. changed
+		more stable space background
+		stat format changed when pause/stat menu
+		opaque background in pause when playing,transparent after game
+		canceled invalid game
+		easier to unlock custom mode
+		some text changed
+		//better line-clear process
+		//merge event.lua to player.lua
+		//new skin image format
+		//same format for all file
+		//better virtualkey-scanning opportunity,bit faster when many AI
+		//some player-method name changed
+	fixed:
+		an error of pause button
+		score may be float number
+		many syntax errors of texts
+		crash when paste illegal data to drawing mode
+		stage reset problem in t49/t99 mode
+		wrong info in tech-L/U/U+ mode
 0.8.11:
-	better rule of checking invalid game
-	can setting when pause
-	opaque background when pause
-	many code optimized(moduled)
-	fixed:receive attack when paused in survivor mode
-	fixed:error when pasteboard has block_13
-	fixed:must hold R to restart when finished the game
-	fixed:sth about screen size
-	fixed:some O-spin error
-	fixed:line counting when pc(full b2b)
+	changed:
+		better rule of checking invalid game
+		can setting when pause
+		opaque background when pause
+		//many code optimized(moduled)
+	fixed:
+		receive attack when paused in survivor mode
+		error when pasteboard has block_13
+		must hold R to restart when finished the game
+		sth about screen size
+		some O-spin error
+		line counting when pc(full b2b)
 0.8.10:
 	new BGM:Distortion(master-final)
 	all background darker
 	better error page
-	fixed:error when finish master/ultra mode
-	fixed:shakeFX no effect when below 3
+	fixed:
+		error when finish master/ultra mode
+		shakeFX no effect when below 3
 0.8.9:
 	invalid game when pause too much
 	quick play re-added
-	new BGM:Oxygen(c4w&pc train)
+	new BGM:Oxygen(c4w&pc training)
 	space background little changed
-	fixed:touch/press release with no press(don't know why)
+	fixed:
+		touch/press release with no press(don't know why)
 0.8.8+:
 	fixed many fatal bugs
 0.8.8:
-	background now is cool space with planets and stars,not boring falling tetrominos!
+	background now is cool space with "planets" and "stars",not boring falling tetrominos!
 	records with date
 	adjustable waiting time before start
 	ajustable maxnext count
@@ -65,7 +105,7 @@ Future outlook:
 	no black side in any screen size
 	an unlock-all easter egg
 	cannot press invisible func key
-	bugs fixed:some mode error
+	fixed:some mode error
 	add many fatal bugs
 0.8.7:
 	better user experience in mode selecting
@@ -73,13 +113,13 @@ Future outlook:
 	speed of marathon mode changed
 	shorter clipboard string(when air above)
 	attack system/score system little changed
-	bugs fixed:rank system,some mode error when enter(again!)
+	fixed:rank system,some mode error when enter(again!)
 0.8.6:
 	gamepad can adjust key
 	add SFX when enter game
 	map GUI little adjusted
 	event system little changed(no ctrl when scene swapping)
-	bugs fixed:rank system,some mode error when enter
+	fixed:rank system,some mode error when enter
 0.8.5-:
 	mode map!Brandly new GUI for mode selecting
 	mode unlock system,not that scary for noob
@@ -199,7 +239,7 @@ Future outlook:
 0.7.19:
 	secret option!
 	macOS version!
-	new mode:C4W train
+	new mode:C4W training
 	rendering of royale mode optimized again
 	add "free cell" in draw mode
 	add 2 new block skins
@@ -218,7 +258,7 @@ Future outlook:
 	more options in statistics
 	better pausing
 	adjust difficulty of Tech mode
-	adjust difficulty of PC train mode
+	adjust difficulty of PC training mode
 	adjust vibrate level for mobile devices
 	little optimized
 	bugs fixed
@@ -265,10 +305,10 @@ Future outlook:
 	a bit change of rotate system
 	grid switch
 	swap target by combo key/press
-	some Chinese translaton editted
+	some Chinese translaton edited
 	[reconstruct event system]
 0.7.11:
-	some Chinese translaton editted
+	some Chinese translaton edited
 	add bone block in 2 hardest marathon(new block-fresh system)
 	play sound when get badges in royale mode
 	change b2b indicator display method
@@ -295,7 +335,7 @@ Future outlook:
 	GPU usage decreased much more than before
 	add virtual key animation
 	display player's rank after death in royale mode
-	fix sequence error of PC train mode
+	fix sequence error of PC training mode
 	adjust difficulty of suvivor mode
 	code optimized
 	fix bugs
@@ -338,14 +378,14 @@ Future outlook:
 	add infinite target in custom
 	fix TSD-only mode result+1 when finishing with a wrong clear
 	change sequence generator of TSD-only mode
-	GUI position editted
+	GUI position edited
 	Fix Screen flow
 	smarter AI
 0.7.2:
 	add PC training mode
 	add TSD-only mode
 	remove non-sense s/z spin double
-	GUI position editted
+	GUI position edited
 	grid BG changed
 	smarter AI
 ]=]

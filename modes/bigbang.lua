@@ -20,13 +20,13 @@ return{
 	info={
 		"All-spin 入门教程\n未制作完成,下块即通",
 		"All-spin 入门教程\n未制作完成,下块即通",
-		"All-spin Tutorial!\nUNFINISHED drop to win",
+		"All-spin Tutorial!\nUNFINISHED,drop to win",
 	},
 	color=color.lightGrey,
 	env={
 		drop=1e99,lock=1e99,
 		hold=false,
-		dropPiece=Event.lose,
+		dropPiece=player.lose,
 		task=nil,
 		bg="game1",bgm="newera",
 	},

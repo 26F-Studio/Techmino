@@ -19,7 +19,7 @@ return{
 	env={
 		drop=20,lock=60,
 		sequence="drought2",
-		target=100,dropPiece=Event.reach_winCheck,
+		target=100,dropPiece=player.reach_winCheck,
 		ospin=false,
 		freshLimit=15,
 		bg="glow",bgm="reason",
@@ -31,7 +31,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(70)
 		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,-82,280)
+		mStr(R>=0 and R or 0,-81,280)
 	end,
 	score=function(P)return{min(P.stat.row,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

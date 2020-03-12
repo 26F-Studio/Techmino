@@ -1,6 +1,6 @@
 actName={
 	"moveLeft","moveRight",
-	"rotRight","rotLeft","rotFlip",
+	"rotRight","rotLeft","rot180",
 	"hardDrop","softDrop",
 	"hold","func",
 	"restart",
@@ -32,31 +32,19 @@ color={
 	darkCyan={0,.6,.6},
 	darkGrey={.3,.3,.3},
 
-	white={1,1,1},
-	bronze={.7,.4,0},
 	orange={1,.6,0},
+	pink={1,0,.6},
+	grass={.6,1,0},
+	water={0,1,.6},
+	bronze={.7,.4,0},
+	white={1,1,1},
 	lightOrange={1,.7,.3},
 	darkOrange={.6,.4,0},
 	purple={.5,0,1},
 	lightPurple={.8,.4,1},
 	darkPurple={.3,0,.6},
 }
-blockColor={
-	color.red,
-	color.green,
-	color.orange,
-	color.blue,
-	color.magenta,
-	color.yellow,
-	color.cyan,
-	color.darkGreen,
-	color.grey,
-	color.lightGrey,
-	color.darkPurple,
-	color.darkRed,
-	color.darkGreen,
-}
-voiceBank={}--{{srcs1},{srcs2},...}
+voiceBank={}--{{SRC1s},{SRC2s},...}
 voiceName={
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
 	"single","double","triple","techrash",
@@ -86,7 +74,7 @@ voiceList={
 	mini={"mini_1","mini_2","mini_3"},
 	b2b={"b2b_1","b2b_2","b2b_3"},
 	b3b={"b3b_1","b3b_2"},
-	pc={"pc_1","pc_2"},
+	pc={"perfectclear_1","perfectclear_2"},
 	win={"win_1","win_2","win_3","win_4","win_5","win_6","win_6","win_7"},
 	lose={"lose_1","lose_2","lose_3"},
 	bye={"bye_1","bye_2"},

@@ -72,7 +72,7 @@ function CC_switch20G(P)
 	P.r,P.c=#P.cur.bk,#P.cur.bk[1]
 	P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
-	P:freshNext()
+	P:newNext()
 	BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])
 	collectgarbage()
 end
@@ -120,11 +120,12 @@ local function ifoverlapAI(f,bk,x,y)
 	end end
 end
 local function resetField(f0,f,start)
-	while f[start]do
-		removeRow(f,start)
+	for _=#f,start,-1 do
+		freeRow.discard(f[_])
+		f[_]=nil
 	end
 	for i=start,#f0 do
-		f[i]=getNewRow(0)
+		f[i]=freeRow.get(0)
 		for j=1,10 do
 			f[i][j]=f0[i][j]
 		end
@@ -133,7 +134,7 @@ end
 local function getScore(field,cb,cy)
 	local score=0
 	local highest=0
-	local height=getNewRow(0)
+	local height=freeRow.get(0)
 	local clear=0
 	local hole=0
 
@@ -141,7 +142,7 @@ local function getScore(field,cb,cy)
 		for j=1,10 do
 			if field[i][j]==0 then goto L end
 		end
-		removeRow(field,i)
+		freeRow.discard(rem(field,i))
 		clear=clear+1
 		::L::
 	end
@@ -174,8 +175,7 @@ local function getScore(field,cb,cy)
 		end
 		sdh=sdh+min(dh^1.6,20)
 	end
-	freeRow[#freeRow+1]=height
-	freeRow.L=freeRow.L+1
+	freeRow.discard(height)
 	score=
 		-#field*30
 		-#cb*15
@@ -201,7 +201,7 @@ AI_think={
 			local Tfield={}--test field
 			local field_org=P.field
 			for i=1,#field_org do
-				Tfield[i]=getNewRow(0)
+				Tfield[i]=freeRow.get(0)
 				for j=1,10 do
 					Tfield[i][j]=field_org[i][j]
 				end
@@ -218,7 +218,7 @@ AI_think={
 						end--move to bottom
 						for i=1,#cb do
 							local y=cy+i-1
-							if not Tfield[y]then Tfield[y]=getNewRow(0)end
+							if not Tfield[y]then Tfield[y]=freeRow.get(0)end
 							for j=1,#cb[1]do
 								if cb[i][j]then
 									Tfield[y][cx+j-1]=1
@@ -236,7 +236,7 @@ AI_think={
 
 			::L::
 			if #Tfield>0 then
-				removeRow(Tfield,1)
+				freeRow.discard(rem(Tfield,1))
 				goto L
 			end--Release cache
 			local p=#ctrl+1

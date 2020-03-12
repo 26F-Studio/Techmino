@@ -7,6 +7,10 @@ local textFX={}
 function textFX.appear(t)
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
+function textFX.sudden(t)
+	gc.setColor(1,1,1,1-t.c)
+	mStr(t.text,t.x,t.y-t.font*.7)
+end
 function textFX.fly(t)
 	mStr(t.text,t.x+(t.c-.5)^3*300,t.y-t.font*.7)
 end
@@ -34,8 +38,8 @@ function textFX.spin(t)
 	gc.pop()
 end
 function textFX.flicker(t)
-	local _,τ,T,Τ=gc.getColor()
-	gc.setColor(_,τ,T,Τ*(rnd()+.5))
+	local _,_,_,T=gc.getColor()
+	gc.setColor(1,1,1,T*(rnd()+.5))
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
 function textFX.zoomout(t)
@@ -89,7 +93,7 @@ function updateText(list)
 				t.c=t.stop
 			end
 		end
-		if t.c>60 then
+		if t.c>1 then
 			rem(list,i)
 		end
 	end

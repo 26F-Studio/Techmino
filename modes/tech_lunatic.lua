@@ -1,7 +1,7 @@
 local format=string.format
 local function tech_check_hard(P)
-	if #P.cleared>0 and P.lastClear<10 then
-		Event.lose(P)
+	if #P.clearedRow>0 and P.lastClear<10 then
+		P:lose()
 	end
 end
 
@@ -17,16 +17,16 @@ return{
 		"LUNATIC",
 	},
 	info={
-		"禁止断B2B",
-		"禁止断满贯",
-		"Keep B2B",
+		"禁止普通消除",
+		"禁止普通消除",
+		"No normal clear",
 	},
 	color=color.red,
 	env={
 		_20G=true,lock=60,
 		freshLimit=15,
 		target=200,
-		dropPiece=tech_reach_hard,
+		dropPiece=tech_check_hard,
 		bg="matrix",bgm="secret7th",
 	},
 	load=function()
@@ -34,10 +34,10 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.atk,-82,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,420)
-		mDraw(drawableText.atk,-82,363)
-		mDraw(drawableText.eff,-82,475)
+		mStr(P.stat.atk,-81,310)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,420)
+		mDraw(drawableText.atk,-81,363)
+		mDraw(drawableText.eff,-81,475)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines  "..toTime(D[2])end,

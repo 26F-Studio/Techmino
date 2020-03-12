@@ -19,7 +19,7 @@ return{
 	color=color.lightBlue,
 	env={
 		drop=60,lock=60,
-		target=20,dropPiece=Event.reach_winCheck,
+		target=20,dropPiece=player.reach_winCheck,
 		bg="strap",bgm="race",
 	},
 	load=function()
@@ -30,7 +30,7 @@ return{
 		setFont(55)
 		local r=20-P.stat.row
 		if r<0 then r=0 end
-		mStr(r,-82,265)
+		mStr(r,-81,265)
 		if r<21 and r>0 then
 			gc.setLineWidth(4)
 			gc.setColor(1,r>10 and 0 or rnd(),.5)

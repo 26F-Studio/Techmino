@@ -30,9 +30,10 @@ function task.lose(P)
 			end
 		end
 		if P.endCounter==120 then
-			while P.field[1]do
-				removeRow(P.field)
-				removeRow(P.visTime)
+			for _=#P.field,1,-1 do
+				freeRow.discard(P.field[_])
+				freeRow.discard(P.visTime[_])
+				P.field[_],P.visTime[_]=nil
 			end
 			if #players==1 and scene=="play"then
 				pauseGame()
@@ -84,7 +85,9 @@ function task.settingSaved(_,T)
 	T[1]=T[1]-1
 	if T[1]==0 then
 		if scene.cur=="main"then
-			TEXT(text.settingSaved,370,330,30,"appear")
+			TEXT(text.settingSaved,370,330,28,"appear")
+		else
+			TEXT(text.needRestart,1130,130,28,"appear")
 		end
 		return true
 	end

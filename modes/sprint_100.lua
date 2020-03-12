@@ -19,7 +19,7 @@ return{
 	color=color.orange,
 	env={
 		drop=60,lock=60,
-		target=100,dropPiece=Event.reach_winCheck,
+		target=100,dropPiece=player.reach_winCheck,
 		bg="strap",bgm="race",
 	},
 	load=function()
@@ -30,7 +30,7 @@ return{
 		setFont(55)
 		local r=100-P.stat.row
 		if r<0 then r=0 end
-		mStr(r,-82,265)
+		mStr(r,-81,265)
 		if r<21 and r>0 then
 			gc.setLineWidth(4)
 			gc.setColor(1,r>10 and 0 or rnd(),.5)
@@ -44,7 +44,7 @@ return{
 		if P.stat.row<100 then return end
 		local T=P.stat.time
 		return 
-		T<=60 and 5 or
+		T<=62 and 5 or
 		T<=90 and 4 or
 		T<=130 and 3 or
 		T<=200 and 2 or

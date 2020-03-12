@@ -18,7 +18,7 @@ return{
 	},
 	color=color.white,
 	env={
-		dropPiece=Event.reach_winCheck,
+		dropPiece=player.reach_winCheck,
 	},
 	load=function()
 		for i=1,#customID do
@@ -50,8 +50,8 @@ return{
 		for _,P in next,players.alive do
 			local t=P.showTime*3
 			for y=1,preField.h do
-				P.field[y]=getNewRow(0)
-				P.visTime[y]=getNewRow(t)
+				P.field[y]=freeRow.get(0)
+				P.visTime[y]=freeRow.get(t)
 				for x=1,10 do P.field[y][x]=preField[y][x]end
 			end
 		end
@@ -61,11 +61,11 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(55)
 		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
-			mStr(P.stat.row,-82,225)
-			mDraw(drawableText.line,-82,290)
+			mStr(P.stat.row,-81,225)
+			mDraw(drawableText.line,-81,290)
 		else
 			local R=P.gameEnv.target-P.stat.row
-			mStr(R>=0 and R or 0,-82,240)
+			mStr(R>=0 and R or 0,-81,240)
 		end
 		if P.gameEnv.puzzle and P.modeData.event==0 then
 			local m=puzzleMark

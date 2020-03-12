@@ -6,9 +6,9 @@ return{
 		"Infinite",
 	},
 	level={
-		"时间杀手 II",
-		"时间杀手 II",
-		"Time Killer II",
+		"",
+		"",
+		"",
 	},
 	info={
 		"沙盒",
@@ -26,10 +26,10 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.atk,-82,260)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-82,370)
-		mDraw(drawableText.atk,-82,313)
-		mDraw(drawableText.eff,-82,425)
+		mStr(P.stat.atk,-81,260)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,370)
+		mDraw(drawableText.atk,-81,313)
+		mDraw(drawableText.eff,-81,425)
 	end,
 	score=function(P)return{P.stat.score}end,
 	scoreDisp=function(D)return tostring(D[1])end,

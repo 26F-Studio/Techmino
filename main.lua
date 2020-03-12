@@ -26,7 +26,6 @@ scr={x=0,y=0,w=0,h=0,rad=0,k=1}--x,y,wid,hei,radius,scale K
 local scr=scr
 mapCam={
 	sel=nil,--selected mode ID
-	lastPlay=1,--last played mode ID
 
 	x=0,y=0,k=1,--camera pos/k
 	x1=0,y1=0,k1=1,--camera pos/k shown
@@ -38,6 +37,7 @@ mapCam={
 	zoomK=nil,
 	--for auto zooming when enter/leave scene
 }
+blockColor={}
 curBG="none"
 voiceQueue={free=0}
 texts={}
@@ -56,21 +56,23 @@ ms.setVisible(false)
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}
 for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
-freeRow={L=40}for i=1,40 do freeRow[i]={0,0,0,0,0,0,0,0,0,0}end
+blockSkin,blockSkinMini={},{}
 --Game system Vars
 -------------------------------------------------------------
+require("parts/list")
 space=require("parts/space")local space=space
 setFont=require("parts/setfont")
+freeRow=require("parts/freeRow")
 blocks=require("parts/mino")
 VIB=require("parts/vib")
 SFX=require("parts/sfx")
 BGM=require("parts/bgm")
 require("parts/voice")
 
-Event=require("parts/event")
 Event_task=require("parts/task")
 AITemplate=require("parts/AITemplate")
 require("parts/modes")
+skin=require("parts/skin")
 -- require("parts/light")
 -- require("parts/shader")
 scene=require("scene")
@@ -80,10 +82,8 @@ require("ai")
 require("toolfunc")
 require("file")
 require("text")
-require("list")
 require("player")
 Widget=require("widgetList")
--- require("dataList")
 require("texture")
 local Tmr=require("timer")
 local Pnt=require("paint")
@@ -325,6 +325,7 @@ function keyDown.music(key)
 		sceneTemp=(sceneTemp-2)%#musicID+1
 	elseif key=="return"or key=="space"then
 		if BGM.nowPlay~=musicID[sceneTemp]then
+			SFX.play("click")
 			BGM.play(musicID[sceneTemp])
 		else
 			BGM.stop()
@@ -455,12 +456,14 @@ function mouseDown.setting_sound(x,y,k)
 		if t>1 then
 			VOICE((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
 			sceneTemp.last=Timer()
-			if rnd()<.26 then
+			if rnd()<.0626 then
 				for i=1,#modes do
 					local M=modes[i]
 					for i=1,#M.unlock do
 						local m=M.unlock[i]
-						modeRanks[m]=modes[m].score and(modeRanks[m]and max(modeRanks[m],0)or 0)or 6
+						if not modeRanks[m]then
+							modeRanks[m]=modes[m].score and 0 or 6
+						end
 					end
 				end
 				saveUnlock()
@@ -485,14 +488,14 @@ function keyDown.setting_key(key)
 	elseif s.kS then
 		for l=1,8 do
 			for y=1,20 do
-				if setting.keyMap[l][y]==key then
-					setting.keyMap[l][y]=""
+				if keyMap[l][y]==key then
+					keyMap[l][y]=""
 					goto L
 				end
 			end
 		end
 		::L::
-		setting.keyMap[s.board][s.kb]=key
+		keyMap[s.board][s.kb]=key
 		SFX.play("reach",.5)
 		s.kS=false
 	elseif key=="return"then
@@ -532,14 +535,14 @@ function gamepadDown.setting_key(key)
 	elseif s.jS then
 		for l=9,16 do
 			for y=1,20 do
-				if setting.keyMap[l][y]==key then
-					setting.keyMap[l][y]=""
+				if keyMap[l][y]==key then
+					keyMap[l][y]=""
 					goto L
 				end
 			end
 		end
 		::L::
-		setting.keyMap[8+s.board][s.js]=key
+		keyMap[8+s.board][s.js]=key
 		SFX.play("reach",.5)
 		s.jS=false
 	elseif key=="start"then
@@ -605,14 +608,17 @@ end
 function keyDown.pause(key)
 	if key=="escape"then
 		scene.back()
-	elseif key=="return"or key=="space"then
+	elseif key=="space"then
 		resumeGame()
-	elseif key=="r"and kb.isDown("lctrl","rctrl")then
+	elseif key=="s"then
+		scene.push()
+		scene.swapTo("setting_sound")
+	elseif key=="r"then
 		clearTask("play")
 		updateStat()
 		resetGameData()
 		scene.swapTo("play","none")
-	end--Ctrl+R重开
+	end
 end
 
 function touchDown.play(id,x,y)
@@ -620,6 +626,8 @@ function touchDown.play(id,x,y)
 		local t=onVirtualkey(x,y)
 		if t then
 			players[1]:pressKey(t)
+			virtualkeyDown[t]=true
+			virtualkeyPressTime[t]=10
 			if setting.VKTrack then
 				local B=virtualkey[t]
 				--按钮软碰撞(做不来hhh随便做一个,效果还行!)
@@ -672,18 +680,22 @@ function keyDown.play(key)
 		(frame<180 and back or pauseGame)()
 		return
 	end
-	local m=setting.keyMap
+	local m=keyMap
 	for p=1,players.human do
 		for k=1,20 do
 			if key==m[2*p-1][k]or key==m[2*p][k]then
 				players[p]:pressKey(k)
+				if p==1 then
+					virtualkeyDown[k]=true
+					virtualkeyPressTime[k]=10
+				end
 				return
 			end
 		end
 	end
 end
 function keyUp.play(key)
-	local m=setting.keyMap
+	local m=keyMap
 	for p=1,players.human do
 		for k=1,20 do
 			if key==m[2*p-1][k]or key==m[2*p][k]then
@@ -695,18 +707,22 @@ function keyUp.play(key)
 end
 function gamepadDown.play(key)
 	if key=="back"then scene.back()return end
-	local m=setting.keyMap
+	local m=keyMap
 	for p=1,players.human do
 		for k=1,20 do
 			if key==m[2*p+7][k]or key==m[2*p+8][k]then
 				players[p]:pressKey(k)
+				if p==1 then
+					virtualkeyDown[k]=true
+					virtualkeyPressTime[k]=10
+				end
 				return
 			end
 		end
 	end
 end
 function gamepadUp.play(key)
-	local m=setting.keyMap
+	local m=keyMap
 	for p=1,players.human do
 		for k=1,20 do
 			if key==m[2*p+7][k]or key==m[2*p+8][k]then
@@ -925,8 +941,10 @@ function love.keypressed(i)
 		if i=="k"then
 			for i=1,8 do
 				local P=players.alive[rnd(#players.alive)]
-				P.lastRecv=players[1]
-				Event.lose(P)
+				if P~=players[1]then
+					P.lastRecv=players[1]
+					P:lose()
+				end
 			end
 			--Test code here
 		elseif i=="q"then
@@ -934,6 +952,10 @@ function love.keypressed(i)
 			if W then W:getInfo()end
 		elseif i=="f3"then
 			error("Techmino:挂了")
+		elseif i=="e"then
+			for k,v in next,_G do
+				print(k,v)
+			end
 		elseif widget_sel then
 			local W=widget_sel
 			if i=="left"then W.x=W.x-10
@@ -1144,9 +1166,10 @@ local function love_draw()
 		end--Draw widgets
 		if mouseShow then
 			local r=Timer()*.5
-			gc.setColor(1,1,1,min(1-math.abs(1-r%1*2),.3))
-			r=int(r)%7+1
-			gc.draw(miniBlock[r],mx,my,Timer()%3.1416*4,20,20,scs[2*r]-.5,#blocks[r][0]-scs[2*r-1]+.5)
+			local R=int(r)%7+1
+			local _=blockColor[R]
+			gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
+			gc.draw(miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R]-.5,#blocks[R][0]-scs[2*R-1]+.5)
 			gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 			gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 		end--Awesome mouse!
@@ -1187,7 +1210,7 @@ local function love_draw()
 	if devMode>0 then
 		gc.setColor(1,1,devMode==2 and .6 or 1)
 		gc.print("Cache used:"..gcinfo(),5,_-20)
-		gc.print("Free Row:"..#freeRow.."/"..freeRow.L,5,_-40)
+		gc.print("Free Row:"..freeRow.getCount(),5,_-40)
 		gc.print("Mouse:"..mx.." "..my,5,_-60)
 		gc.print("Voices:"..#voiceQueue,5,_-80)
 		gc.print("Tasks:"..#Task,5,_-100)
@@ -1228,7 +1251,7 @@ function love.run()
 		if Timer()-lastFrame<.058 then
 			sleep(.01)
 		end
-		while Timer()-lastFrame<.0158 do
+		while Timer()-lastFrame<.0159 do
 			sleep(.001)
 		end--try easily control 60FPS
 		lastFrame=Timer()
@@ -1257,38 +1280,30 @@ function love.errorhandler(msg)
 		end
 	end
 	print(table.concat(err,"\n"),1,c-2)
+	gc.reset()
 	local CAP
 	local function _(_)CAP=gc.newImage(_)end
 	gc.captureScreenshot(_)
 	gc.present()
 	if SFX.list.error then SFX.play("error",.8)end
-	local egg=rnd()>.026
-	local needDraw
+	local BGcolor=rnd()>.026 and{.3,.5,.9},{.62,.3,.926}
+	local needDraw=true
 	return function()
 		PUMP()
 		for E,a,b,c,d,e in POLL()do
 			if E=="quit"or a=="escape"then
 				destroyPlayers()
 				return 1
-			elseif
-				a=="return"or
-				a=="start"or
-				E=="mousepressed"and e==2
-			then
-				destroyPlayers()
-				return"restart"
 			elseif E=="resize"then
 				love.resize(a,b)
+				needDraw=true
+			elseif E=="focus"then
+				needDraw=true
 			end
-			needDraw=true
 		end
 		if needDraw then
 			gc.discard()
-			if egg then
-				gc.clear(.3,.5,.9)
-			else
-				gc.clear(.62,.3,.926)
-			end
+			gc.clear(BGcolor)
 			gc.setColor(1,1,1)
 			gc.push("transform")
 			gc.replaceTransform(xOy)
@@ -1309,38 +1324,11 @@ function love.errorhandler(msg)
 		love.timer.sleep(.2)
 	end
 end
--------------------------------------------------------------
-local F=love.filesystem
-if F.getInfo("data")then
-	F.write("data.dat",F.read("data"))
-	F.remove("data")
-end	
-if F.getInfo("userdata")then
-	F.write("data.dat",F.read("userdata"))
-	F.remove("userdata")
+-------------------------------------------------------------Reset data relied on setting
+for _=1,7 do
+	blockColor[_]=skin.libColor[setting.skin[_]]
 end
-if F.getInfo("setting")then
-	F.write("setting.dat",F.read("setting"))
-	F.remove("setting")
-end
-if F.getInfo("usersetting")then
-	F.write("setting.dat",F.read("usersetting"))
-	F.remove("usersetting")
-end
---NEW FILENAME!!!
-FILE={
-	data=F.newFile("data.dat"),
-	setting=F.newFile("setting.dat"),
-	unlock=F.newFile("unlock.dat"),
-}
-if F.getInfo("unlock.dat")then loadUnlock()end
-if F.getInfo("data.dat")then loadStat()end
-if F.getInfo("setting.dat")then
-	loadSetting()
-elseif system=="Android"or system=="iOS" then
-	setting.swap=false
-	setting.VKSwitch=true
-	setting.vib=3
+for _=8,17 do
+	blockColor[_]=skin.libColor[_]
 end
 changeLanguage(setting.lang)
-changeBlockSkin(setting.skin)

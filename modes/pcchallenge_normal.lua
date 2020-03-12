@@ -19,7 +19,7 @@ return{
 	env={
 		oncehold=false,
 		drop=300,lock=1e99,
-		target=100,dropPiece=Event.reach_winCheck,
+		target=100,dropPiece=player.reach_winCheck,
 		ospin=false,
 		bg="rgb",bgm="newera",
 	},
@@ -30,11 +30,11 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(45)
 		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,-82,250)
+		mStr(R>=0 and R or 0,-81,250)
 
 		setFont(75)
-		mStr(P.stat.pc,-82,350)
-		mDraw(drawableText.pc,-82,432)
+		mStr(P.stat.pc,-81,350)
+		mDraw(drawableText.pc,-81,432)
 
 		gc.setColor(.5,.5,.5)
 		if frame>179 then

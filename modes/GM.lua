@@ -3,7 +3,7 @@ local sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
 local function score(P)
 	local F=false
 	if P.modeData.point<70 then--if Less then MM
-		local R=#P.cleared
+		local R=#P.clearedRow
 		if R==0 then return end
 		if R==4 then R=10 end
 		P.modeData.point=P.modeData.point+R
@@ -29,6 +29,8 @@ return{
 	},
 	color=color.lightBlue,
 	env={
+		noFly=true,
+		minarr=1,
 		_20G=true,
 		drop=0,lock=15,
 		wait=15,fall=6,
@@ -40,10 +42,9 @@ return{
 			if P.stat.time>=53.5 then
 				P.modeData.point=min(P.modeData.point+16,80)
 				P.modeData.event=sectionName[int(P.modeData.point*.1)+1]
-				Event.win(P,"finish")
+				P:win("finish")
 			end
 		end,
-		minarr=1,
 		bg="game3",bgm="shining terminal",
 	},
 	slowMark=true,
@@ -52,14 +53,14 @@ return{
 		players[1].modeData.event="M7"
 	end,
 	mesDisp=function(P,dx,dy)
-		mDraw(drawableText.line,-82,300)
-		mDraw(drawableText.techrash,-82,420)
-		mDraw(drawableText.grade,-82,170)
+		mDraw(drawableText.line,-81,300)
+		mDraw(drawableText.techrash,-81,420)
+		mDraw(drawableText.grade,-81,170)
 		setFont(55)
-		mStr(P.modeData.event,-82,110)
+		mStr(P.modeData.event,-81,110)
 		setFont(75)
-		mStr(P.stat.row,-82,220)
-		mStr(P.stat.clear_4,-82,340)
+		mStr(P.stat.row,-81,220)
+		mStr(P.stat.clear_4,-81,340)
 	end,
 	score=function(P)return{P.modeData.point,P.stat.score}end,
 	scoreDisp=function(D)return sectionName[int(D[1]*.1)+1].."   "..D[2]end,

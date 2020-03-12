@@ -1,7 +1,7 @@
 local gc=love.graphics
 local int=math.floor
 local function score(P)
-	local c=#P.cleared
+	local c=#P.clearedRow
 	if c==0 and P.modeData.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
@@ -27,7 +27,7 @@ local function score(P)
 			end
 		else
 			MD.point,MD.event=1000,9
-			Event.win(P,"finish")
+			P:win("finish")
 		end
 		SFX.play("reach")
 	end
@@ -51,10 +51,11 @@ return{
 	},
 	color=color.lightGrey,
 	env={
+		noFly=true,
+		mindas=5,minarr=1,
 		_20G=true,lock=12,
 		wait=10,fall=10,
 		dropPiece=score,
-		mindas=5,minarr=1,
 		freshLimit=15,
 		easyFresh=false,bone=true,
 		bg="none",bgm="distortion",
@@ -66,8 +67,8 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(45)
 		local MD=P.modeData
-		mStr(MD.point,-82,320)
-		mStr((MD.event+1)*100,-82,370)
+		mStr(MD.point,-81,320)
+		mStr((MD.event+1)*100,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
 	score=function(P)return{P.modeData.point,P.stat.time}end,

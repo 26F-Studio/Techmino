@@ -18,9 +18,10 @@ return{
 	},
 	color=color.lightGrey,
 	env={
+		noFly=true,
+		minarr=1,minsdarr=1,
 		drop=60,lock=60,
 		fall=20,
-		minarr=1,minsdarr=1,
 		task=function(P)
 			local _=P.modeData.counter+1
 			if P.stat.time>=warnTime[_]then
@@ -29,7 +30,7 @@ return{
 					SFX.play("ready",.7+_*.03)
 				else
 					SFX.play("start")
-					Event.win(P,"finish")
+					P:win("finish")
 					return true
 				end
 			end
