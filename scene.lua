@@ -46,12 +46,12 @@ local sceneInit={
 			sceneTemp=1
 		end
 	end,
-	mode=function()
+	mode=function(org)
 		curBG="none"
 		BGM.play("blank")
 		destroyPlayers()
 		local cam=mapCam
-		cam.zoomK=scene.swap.tar=="mode"and 5 or 1
+		cam.zoomK=org=="main"and 5 or 1
 		if cam.sel then
 			local M=modes[cam.sel]
 			cam.x,cam.y=M.x*cam.k+180,M.y*cam.k
@@ -82,9 +82,10 @@ local sceneInit={
 		end
 		curBG=modeEnv.bg
 	end,
-	pause=function()
+	pause=function(org)
 		local S=players[1].stat
 		sceneTemp={
+			timer=org=="play"and 0 or 50,
 			toTime(S.time),
 			S.key.."/"..S.rotate.."/"..S.hold,
 			S.piece.."  "..(int(S.piece/S.time*100)*.01).."PPS",
@@ -98,7 +99,7 @@ local sceneInit={
 			S.pc,
 			format("%.3f",S.atk/S.row),
 			S.extraPiece,
-			format("%.2f",100*max(1-S.extraRate/S.piece,0)),
+			format("%.2f%%",100*max(1-S.extraRate/S.piece,0)),
 		}
 	end,
 	setting_game=function()
@@ -110,6 +111,16 @@ local sceneInit={
 	setting_sound=function()
 		sceneTemp={last=0,jump=0}--last sound time,animation count(10→0)
 		curBG="none"
+	end,
+	setting_control=function()
+		sceneTemp={
+			das=setting.das,
+			arr=setting.arr,
+			pos=0,
+			dir=1,
+			wait=30,
+		}
+		curBG="strap"
 	end,
 	setting_key=function()
 		sceneTemp={
@@ -195,8 +206,8 @@ local backFunc={
 	setting_graphic=function()saveSetting()end,
 	setting_sound=	function()saveSetting()end,
 }
-function scene.init(s)
-	if sceneInit[s]then sceneInit[s]()end
+function scene.init(s,org)
+	if sceneInit[s]then sceneInit[s](org)end
 end
 function scene.push(tar,style)
 	if not scene.swapping then

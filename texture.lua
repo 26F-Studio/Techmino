@@ -10,6 +10,7 @@ end
 local c
 
 gc.setDefaultFilter("nearest","nearest")
+gc.setColor(1,1,1)
 local VKI=N("/image/virtualkey.png")
 VKIcon={}
 for i=1,#actName do
@@ -18,7 +19,6 @@ for i=1,#actName do
 end
 
 miniBlock={}
-gc.setColor(1,1,1)
 for i=1,7 do
 	local b=blocks[i][0]
 	miniBlock[i]=C(#b[1],#b)
@@ -74,9 +74,10 @@ drawableText={
 
 	custom=T(80),
 	setting_game=T(80),setting_graphic=T(80),setting_sound=T(80),
+	setting_control=T(70),setting_skin=T(70),
+	preview=T(40),
 	keyboard=T(25),joystick=T(25),
 	ctrlSetHelp=T(30),
-	blockLayout=T(70),
 	musicRoom=T(80),
 	nowPlaying=T(50),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),

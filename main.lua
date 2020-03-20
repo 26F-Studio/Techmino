@@ -37,16 +37,10 @@ mapCam={
 	zoomK=nil,
 	--for auto zooming when enter/leave scene
 }
-blockColor={}
 curBG="none"
 voiceQueue={free=0}
 texts={}
 widget_sel=nil--selected widget object
-virtualkeyDown,virtualkeyPressTime={},{}
-for i=1,20 do
-	virtualkeyDown[i]=X
-	virtualkeyPressTime[i]=0
-end
 
 kb.setKeyRepeat(true)
 kb.setTextInput(false)
@@ -56,7 +50,7 @@ ms.setVisible(false)
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}
 for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
-blockSkin,blockSkinMini={},{}
+-- blockSkin,blockSkinMini={},{}--redefined in skin.change
 --Game system Vars
 -------------------------------------------------------------
 require("parts/list")
@@ -406,23 +400,13 @@ function touchMove.draw(id,x,y,dx,dy)
 	end
 end
 local penKey={
-	["1"]=1,["2"]=2,["3"]=3,
-	q=4,	w=5,	e=6,
-	a=7,	s=9,	d=10,
-	z=11,	x=12,	c=13,
-	tab=0,		backspace=0,
-	lshift=-1,	lalt=-1,
+	q=1,w=2,e=3,r=4,t=5,y=6,u=7,i=8,o=9,p=10,["["]=11,
+	a=12,s=13,d=14,f=15,g=16,h=17,
+	z=0,x=-1,
 }
 function keyDown.draw(key)
 	local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
-	if key=="delete"then
-		if sceneTemp.sure>15 then
-			for y=1,20 do for x=1,10 do preField[y][x]=0 end end
-			sceneTemp.sure=0
-		else
-			sceneTemp.sure=50
-		end
-	elseif key=="up"or key=="down"or key=="left"or key=="right"then
+	if key=="up"or key=="down"or key=="left"or key=="right"then
 		if not sx then sx=1 end
 		if not sy then sy=1 end
 		if key=="up"and sy<20 then sy=sy+1
@@ -432,6 +416,13 @@ function keyDown.draw(key)
 		end
 		if kb.isDown("space")then
 			preField[sy][sx]=pen
+		end
+	elseif key=="delete"then
+		if sceneTemp.sure>20 then
+			for y=1,20 do for x=1,10 do preField[y][x]=0 end end
+			sceneTemp.sure=0
+		else
+			sceneTemp.sure=50
 		end
 	elseif key=="space"then
 		if sx and sy then
@@ -626,13 +617,12 @@ function touchDown.play(id,x,y)
 		local t=onVirtualkey(x,y)
 		if t then
 			players[1]:pressKey(t)
-			virtualkeyDown[t]=true
-			virtualkeyPressTime[t]=10
+			virtualkey[t].isDown=true
+			virtualkey[t].pressTime=10
 			if setting.VKTrack then
 				local B=virtualkey[t]
-				--按钮软碰撞(做不来hhh随便做一个,效果还行!)
-				if setting.VKDodge then
-					for i=1,#virtualkey do
+				if setting.VKDodge then--按钮软碰撞(做不来hhh随便做一个,效果还行!)
+				for i=1,#virtualkey do
 						local b=virtualkey[i]
 						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--碰撞深度(负数=间隔距离)
 						if d>0 then
@@ -644,8 +634,8 @@ function touchDown.play(id,x,y)
 				local O=VK_org[t]
 				local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
 				local _OW=1-_FW-_CW
-				B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
 				--按钮自动跟随:手指位置,当前位置,原始位置,权重取决于设置
+				B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
 			end
 			VIB(0)
 		end
@@ -677,7 +667,7 @@ function touchMove.play(id,x,y,dx,dy)
 end
 function keyDown.play(key)
 	if key=="escape"then
-		(frame<180 and back or pauseGame)()
+		(frame<180 and scene.back or pauseGame)()
 		return
 	end
 	local m=keyMap
@@ -686,8 +676,8 @@ function keyDown.play(key)
 			if key==m[2*p-1][k]or key==m[2*p][k]then
 				players[p]:pressKey(k)
 				if p==1 then
-					virtualkeyDown[k]=true
-					virtualkeyPressTime[k]=10
+					virtualkey[k].isDown=true
+					virtualkey[k].pressTime=10
 				end
 				return
 			end
@@ -700,6 +690,7 @@ function keyUp.play(key)
 		for k=1,20 do
 			if key==m[2*p-1][k]or key==m[2*p][k]then
 				players[p]:releaseKey(k)
+				if p==1 then virtualkey[k].isDown=false end
 				return
 			end
 		end
@@ -713,8 +704,8 @@ function gamepadDown.play(key)
 			if key==m[2*p+7][k]or key==m[2*p+8][k]then
 				players[p]:pressKey(k)
 				if p==1 then
-					virtualkeyDown[k]=true
-					virtualkeyPressTime[k]=10
+					virtualkey[k].isDown=true
+					virtualkey[k].pressTime=10
 				end
 				return
 			end
@@ -727,12 +718,12 @@ function gamepadUp.play(key)
 		for k=1,20 do
 			if key==m[2*p+7][k]or key==m[2*p+8][k]then
 				players[p]:releaseKey(k)
+				if p==1 then virtualkey[k].isDown=false end
 				return
 			end
 		end
 	end
 end
-
 function wheelMoved.history(x,y)
 	wheelScroll(y)
 end
@@ -851,8 +842,10 @@ function love.mousemoved(x,y,dx,dy,t)
 	if mouseMove[scene.cur]then
 		mouseMove[scene.cur](mx,my,dx,dy)
 	end
-	if ms.isDown(1)and widget_sel then
-		widgetDrag(widget_sel,mx,my,dx,dy)
+	if ms.isDown(1) then
+		if widget_sel then
+			widgetDrag(widget_sel,mx,my,dx,dy)
+		end
 	else
 		widget_sel=nil
 		for _,W in next,Widget[scene.cur]do
@@ -900,18 +893,19 @@ function love.touchmoved(id,x,y,dx,dy)
 		touchMove[scene.cur](id,x,y,dx/scr.k,dy/scr.k)
 	end
 	if widget_sel then
-		widgetDrag(widget_sel,x,y,dx,dy)
+		if touching then
+			widgetDrag(widget_sel,x,y,dx,dy)
+		end
 	else
-		widget_sel=nil
 		for _,W in next,Widget[scene.cur]do
 			if not(W.hide and W.hide())and W:isAbove(x,y)then
 				widget_sel=W
 				return
 			end
 		end
-	end
-	if not widget_sel then
-		touching=nil
+		if not widget_sel then
+			touching=nil
+		end
 	end
 end
 function love.touchreleased(id,x,y)
@@ -937,6 +931,7 @@ function love.keypressed(i)
 	if i=="f8"then devMode=0
 	elseif i=="f9"then devMode=1
 	elseif i=="f10"then devMode=2
+	elseif i=="f11"then devMode=3
 	elseif devMode==2 then
 		if i=="k"then
 			for i=1,8 do
@@ -1086,8 +1081,8 @@ local function love_update(dt)
 		local S=scene.swap
 		S.time=S.time-1
 		if S.time==S.mid then
+			scene.init(S.tar,scene.cur)
 			scene.cur=S.tar
-			scene.init(S.tar)
 			for _,W in next,Widget[S.tar]do
 				W:reset()
 			end--重置控件
@@ -1099,8 +1094,8 @@ local function love_update(dt)
 			scene.swapping=false
 		end
 	end
-	local i=Tmr[scene.cur]
-	if i then i(dt)end
+	local _=Tmr[scene.cur]
+	if _ then _(dt)end
 	for i=#Task,1,-1 do
 		local T=Task[i]
 		if T.code(T.P,T.data)then
@@ -1144,9 +1139,10 @@ local function love_update(dt)
 			end
 		end
 	end
+	--更新控件
 	for _,W in next,Widget[scene.cur]do
 		W:update()
-	end--更新控件
+	end
 end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 local FPS=love.timer.getFPS
@@ -1167,7 +1163,7 @@ local function love_draw()
 		if mouseShow then
 			local r=Timer()*.5
 			local R=int(r)%7+1
-			local _=blockColor[R]
+			local _=skin.libColor[setting.skin[R]]
 			gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
 			gc.draw(miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R]-.5,#blocks[R][0]-scs[2*R-1]+.5)
 			gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
@@ -1214,6 +1210,9 @@ local function love_draw()
 		gc.print("Mouse:"..mx.." "..my,5,_-60)
 		gc.print("Voices:"..#voiceQueue,5,_-80)
 		gc.print("Tasks:"..#Task,5,_-100)
+		if devMode==3 then
+			love.timer.sleep(.5)
+		end
 	end--DEV info
 end
 love.draw,love.update=NULL,NULL
@@ -1325,10 +1324,4 @@ function love.errorhandler(msg)
 	end
 end
 -------------------------------------------------------------Reset data relied on setting
-for _=1,7 do
-	blockColor[_]=skin.libColor[setting.skin[_]]
-end
-for _=8,17 do
-	blockColor[_]=skin.libColor[_]
-end
 changeLanguage(setting.lang)

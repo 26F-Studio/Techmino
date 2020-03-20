@@ -1,23 +1,28 @@
 local S=[=[
 "Patron"(rmb10+)(ordered by first char):
 	10元
+	八零哥
 	Fireboos
 	gggf127
+	金巧
 	乐↗乐↘
 	立斐
 	仁参
-	Sasoric"
+	Sasoric
 	sfqr
 	时雪
-	T080
-	ThTsOd"
+	ThTsOd
 	夏小亚
-	xin心痕
+	心痕
 	蕴空之灵
 	yyangdid
 	?[D*a]
+
+	Thanks!
+
 Future outlook:
 	New mode:
+		finesse
 		round-based dig
 		Infinite battle
 		Bigbang
@@ -31,16 +36,29 @@ Future outlook:
 		game recording
 		(powerinfo switch)
 		new virtualWidgets like joysticks
-		splashing block
 		custom sequence
+		splashing block
 		more FXs & 3d features & animations
 		Encrypt source code(compile to byte code)
 		new AI:task-Z
 		CC smarter(think of garbage buffer)
+0.8.13:
+	new:
+		a independent page to set DAS/ARR,with an animation for preview
+	changed:
+		new virtualkey animation
+		freer drawing mode(Incompatible with old ver.)
+		score of spins little changed
+		combo&b3b attack changed
+	fixed:
+		wrong behavior in pause scene
+		ospin error in 0.8.12
+		memory leakage in t49/t99
+		new behavior of widgets
 0.8.12:
 	new:
 		layout setting:skin system with customizable block color/direction
-		more information in pause page
+		more information when pause
 		block has more color(7→11)
 		skin:smooth(MrZ),contrast(MrZ),steel(kulumi),ball(shaw)
 	changed:

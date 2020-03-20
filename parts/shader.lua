@@ -1,2 +1,2 @@
 gc=love.graphics
-shader_glow=gc.newShader("parts/shader/glow.cs")
+shader_glow=gc.newShader("shader/glow.cs")

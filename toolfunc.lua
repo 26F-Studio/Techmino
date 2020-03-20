@@ -55,9 +55,10 @@ local drawableTextLoad={
 	"setting_graphic",
 	"setting_sound",
 	"setting_sound",
+	"setting_control",
+	"setting_skin",
 	"keyboard","joystick",
 	"ctrlSetHelp",
-	"blockLayout",
 	"musicRoom",
 	"nowPlaying",
 	"VKTchW","VKOrgW","VKCurW",
@@ -97,6 +98,8 @@ function restoreVirtualKey()
 		B.x=O.x
 		B.y=O.y
 		B.r=O.r
+		B.isDown=false
+		B.pressTime=0
 	end
 	if not modeEnv.Fkey then
 		virtualkey[9].ava=false
@@ -117,12 +120,9 @@ function copyBoard()
 	for y=1,H do
 		local S=""
 		local L=preField[y]
-		for x=1,10,2 do
-			local H=L[x]
-			local L=L[x+1]
-			if H<8 then H=H+1 end
-			if L<8 then L=L+1 end
-			S=S..char(H*16+L)
+		for x=1,10 do
+			local _=L[x]+1
+			S=S..char(_)
 		end
 		str=str..S
 	end
@@ -132,7 +132,7 @@ end
 function pasteBoard()
 	local str=love.system.getClipboardText()
 	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
-	local _,__
+	local _,Bid
 	local p=find(str,":")--ptr*
 	if p then str=sub(str,p+1)end
 	_,str=pcall(data.decode,"string","base64",str)
@@ -147,13 +147,12 @@ function pasteBoard()
 			else goto FINISH
 			end
 		end--str end
-		__=_%16--low4b
-		_=(_-__)/16--high4b
-		if _>13 or __>13 then goto ERROR end--illegal blockid
-		if _<9 then _=_-1 end if __<9 then __=__-1 end
-		preField[fY][fX]=_;preField[fY][fX+1]=__
-		if fX<9 then
-			fX=fX+2
+		__=_%32-1--block id
+		if __>16 then goto ERROR end--illegal blockid
+		_=int(_/32)--mode id
+		preField[fY][fX]=__
+		if fX<10 then
+			fX=fX+1
 		else
 			if fY==20 then goto FINISH end
 			fX=1;fY=fY+1
@@ -255,9 +254,8 @@ function royaleLevelup()
 	end
 end
 function pauseGame()
-	if pauseTimer==0 then
+	if not scene.swapping then
 		restartCount=0--Avoid strange darkness
-		newTask(Event_task.pauseGame)
 		if not gameResult then
 			pauseCount=pauseCount+1
 		end
@@ -273,9 +271,7 @@ function pauseGame()
 	end
 end
 function resumeGame()
-	if pauseTimer==50 then
-		newTask(Event_task.resumeGame)
-	end
+	scene.swapTo("play","none")
 end
 function loadGame(M)
 	--rec={}
@@ -291,7 +287,6 @@ function loadGame(M)
 end
 function resetPartGameData()
 	gameResult=false
-	pauseTimer=0
 	frame=150-setting.reTime*15
 	destroyPlayers()
 	curMode.load()
@@ -326,7 +321,6 @@ function resetPartGameData()
 end
 function resetGameData()
 	gameResult=false
-	pauseTimer=0--Pause timer for animation
 	frame=150-setting.reTime*15
 	garbageSpeed=1
 	pauseTime=0--Time paused
@@ -356,10 +350,6 @@ function resetGameData()
 	restoreVirtualKey()
 	stat.game=stat.game+1
 	freeRow.reset(30*#players)
-	for i=1,20 do
-		virtualkeyDown[i]=X
-		virtualkeyPressTime[i]=0
-	end
 	SFX.play("ready")
 	collectgarbage()
 end

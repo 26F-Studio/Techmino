@@ -34,7 +34,7 @@ skin.libColor={
 	color.purple,
 	color.magenta,
 	color.pink,
-	color.darkGreen,
+	color.darkGrey,
 	color.grey,
 	color.lightGrey,
 	color.darkPurple,
@@ -70,14 +70,14 @@ function skin.load()
 	gc.setLineWidth(3)
 	for i=1,11 do
 		puzzleMark[i]=C(30,30)
-		local _=blockColor[i]
+		local _=skin.libColor[i]
 		gc.setColor(_[1],_[2],_[3],.6)
 		gc.rectangle("line",5,5,20,20)
 		gc.rectangle("line",10,10,10,10)
 	end
 	for i=12,17 do
 		puzzleMark[i]=C(30,30)
-		gc.setColor(blockColor[i])
+		gc.setColor(skin.libColor[i])
 		gc.rectangle("line",7,7,16,16)
 	end
 	local _=C(30,30)
@@ -109,30 +109,17 @@ end
 function skin.prev(i)--prev skin for [i]
 	local _=setting.skin
 	_[i]=(_[i]-2)%11+1
-	skin.adjust(i,_[i])
 end
 function skin.next(i)--next skin for [i]
 	local _=setting.skin
 	_[i]=_[i]%11+1
-	skin.adjust(i,_[i])
 end
 function skin.rotate(i)--change direction of [i]
 	setting.face[i]=(setting.face[i]+1)%4
 	SFX.play("rotate")
 end
 function skin.change(i)--change to skin_set[i]
-	for _=1,7 do
-		skin.adjust(_,setting.skin[_])
-	end
-	for _=8,13 do
-		blockSkin[_]=skin.lib[i][_+4]
-		blockSkinMini[_]=skin.libMini[i][_+4]
-	end
-end
-function skin.adjust(i,id)--load color/image/image_mini of [i] from lib
-	local S=setting.skinSet
-	blockSkin[i]=skin.lib[S][id]
-	blockSkinMini[i]=skin.libMini[S][id]
-	blockColor[i]=skin.libColor[id]
+	blockSkin=skin.lib[i]
+	blockSkinMini=skin.libMini[i]
 end
 return skin

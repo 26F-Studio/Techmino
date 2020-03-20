@@ -38,6 +38,7 @@ return{
 		next=1,hold=false,
 		sequence="rnd",
 		freshLimit=0,
+		face={0,0,2,2,2,0,0},
 		target=10,dropPiece=check_LVup,
 		bg="rgb",bgm="rockblock",
 	},

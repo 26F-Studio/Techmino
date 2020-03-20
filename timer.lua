@@ -220,8 +220,9 @@ function Tmr.play(dt)
 		end
 	end
 	for i=1,#virtualkey do
-		if virtualkeyPressTime[i]>0 then
-			virtualkeyPressTime[i]=virtualkeyPressTime[i]-1
+		local _=virtualkey[i]
+		if _.pressTime>0 then
+			_.pressTime=_.pressTime-1
 		end
 	end
 
@@ -235,10 +236,14 @@ function Tmr.play(dt)
 			local P=players[p]
 			if P.keyPressing[1]then
 				if P.moving>0 then P.moving=0 end
-				P.moving=P.moving-1
+				if -P.moving<=P.gameEnv.das then
+					P.moving=P.moving-1
+				end
 			elseif P.keyPressing[2]then
 				if P.moving<0 then P.moving=0 end
-				P.moving=P.moving+1
+				if P.moving<=P.gameEnv.das then
+					P.moving=P.moving+1
+				end
 			else
 				P.moving=0
 			end
@@ -266,11 +271,42 @@ function Tmr.pause(dt)
 	if not gameResult then
 		pauseTime=pauseTime+dt
 	end
+	if sceneTemp.timer<50 then
+		sceneTemp.timer=sceneTemp.timer+1
+	end
 end
 function Tmr.setting_sound()
 	local t=sceneTemp.jump
 	if t>0 then
 		sceneTemp.jump=t-1
+	end
+end
+function Tmr.setting_control()
+	local T=sceneTemp
+	if T.wait>0 then
+		T.wait=T.wait-1
+		if T.wait==0 then
+			T.pos=T.pos+T.dir
+		else
+			return
+		end
+	end
+	if T.das>0 then
+		T.das=T.das-1
+	else
+		T.arr=T.arr-1
+		if T.arr==0 then
+			T.pos=T.pos+T.dir
+			T.arr=setting.arr
+		elseif T.arr==-1 then
+			T.pos=T.dir>0 and 8 or 0
+			T.arr=setting.arr
+		end
+		if T.pos%8==0 then
+			T.dir=-T.dir
+			T.wait=20
+			T.das=setting.das
+		end
 	end
 end
 return Tmr

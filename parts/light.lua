@@ -3,8 +3,8 @@
 --https://github.com/mattdesl/lwjgl-basics/wiki/2D-Pixel-Perfect-Shadows
 local gc=love.graphics
 local C=gc.clear
-local shadowMapShader=gc.newShader("parts/shader/shadowMap.cs")--Shader for caculating the 1D shadow map.
-local lightRenderShader=gc.newShader("parts/shader/lightRender.cs")--Shader for rendering blurred lights and shadows.
+local shadowMapShader=gc.newShader("shader/shadowMap.cs")--Shader for caculating the 1D shadow map.
+local lightRenderShader=gc.newShader("shader/lightRender.cs")--Shader for rendering blurred lights and shadows.
 Lights={}--Lightsource objects
 local Lights=Lights
 --Private--

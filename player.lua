@@ -5,7 +5,6 @@ local ins,rem=table.insert,table.remove
 local format=string.format
 local actName=actName--controllings' id
 local scr=scr--screen camera
-local blockSkin,blockSkinMini=blockSkin,blockSkinMini--skinTable
 -------------------------<GameData>-------------------------
 local gameEnv0={
 	noFly=false,
@@ -22,10 +21,11 @@ local gameEnv0={
 	ospin=true,
 	sequence="bag7",
 	face=NULL,
+	skin=NULL,
 
 	pushSpeed=3,
 	block=true,
-	visible="show",--keepVisible=visile~="show"
+	visible="show",
 	Fkey=NULL,puzzle=false,
 	freshLimit=1e99,easyFresh=true,
 	fine=false,fineKill=false,
@@ -33,7 +33,7 @@ local gameEnv0={
 	mindas=0,minarr=0,minsdarr=0,
 	bg="none",bgm="race"
 }
-local renATK={[0]=0,0,0,1,1,2,2,3,3,4,4}--3 else
+local comboAtk={0,0,1,1,2,2,2,3,3,4,3}--2 else
 local b2bPoint={50,100,180}
 local b2bATK={3,5,8}
 local clearSCR={80,200,400}
@@ -43,8 +43,8 @@ local spinSCR={--[blockName][row]
 	{220,700,1600},--L
 	{220,700,1600},--J
 	{250,800,1500},--T
-	{300,1000,2200},--O
-	{300,1000,1800},--I
+	{260,900,1800},--O
+	{300,1200,1700},--I
 }
 --B2BMUL:1.2/2.0
 --Techrash:1K;MUL:1.3/1.8
@@ -482,23 +482,21 @@ local function Pdraw_demo(P)
 			end
 		end end--Block
 	end
-	local N=P.hd.color
-	local _=blockColor[N]
-	if _ then
+	local id=P.hd.id
+	if id>0 then
+		local _=P.color[id]
 		gc.setColor(_[1],_[2],_[3],.3)
-		N=miniBlock[N]
-		gc.draw(N,15,30,nil,16,nil,0,N:getHeight()*.5)
+		_=miniBlock[P.hd.id]
+		gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
 	end
-	N=1
+	local N=1
 	::L::
 	if N<=P.gameEnv.next and P.next[N]then
-		local n=P.next[N].color
-		local _=blockColor[n]
-		if _ then
-			gc.setColor(_[1],_[2],_[3],.3)
-			_=miniBlock[n]
-			gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
-		end
+		local id=P.next[N].id
+		local _=P.color[id]
+		gc.setColor(_[1],_[2],_[3],.3)
+		_=miniBlock[id]
+		gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 		N=N+1
 		goto L
 	end
@@ -554,10 +552,11 @@ end
 local function Pupdate_alive(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
 	if P.keyRec then
+		local _=frame
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
+		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
 		v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
+		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
 		--Update speeds
 		if modeEnv.royaleMode then
 			if P.keyPressing[9]then
@@ -586,41 +585,67 @@ local function Pupdate_alive(P,dt)
 	end--Fresh visible time
 	if P.moving<0 then
 		if P.keyPressing[1]then
-			if -P.moving<=P.gameEnv.das then
-				P.moving=P.moving-1
-			elseif P.waiting==-1 then
-				local x=P.curX
-				if P.gameEnv.arr>0 then
-					P.act.moveLeft(P,true)
-				else
-					P.act.insLeft(P,true)
+			local flag=false
+			local moving=-P.moving-1--remove sign mark
+			if moving<P.gameEnv.das then
+				moving=moving+1
+				if moving==P.gameEnv.das then
+					if P.waiting==-1 then
+						flag=true
+					end
 				end
-				if x~=P.curX then
-					P.moving=P.moving+P.gameEnv.arr-1
-				elseif not P.small then
-					P.fieldOff.vx=-setting.shakeFX*.5
+			else
+				moving=moving+1
+				if moving>P.gameEnv.das+P.gameEnv.arr then
+					moving=P.gameEnv.das
+					flag=true
 				end
 			end
+			if flag then
+				local x=P.curX
+				if P.gameEnv.arr==0 then
+					P.act.insLeft(P,true)
+				else
+					P.act.moveLeft(P,true)
+				end
+			end
+			if P:ifoverlap(P.cur.bk,P.curX-1,P.curY) and not P.small then
+				P.fieldOff.vx=-setting.shakeFX*.5
+			end
+			P.moving=-moving-1
 		else
 			P.moving=0
 		end
 	elseif P.moving>0 then
 		if P.keyPressing[2]then
-			if P.moving<=P.gameEnv.das then
-				P.moving=P.moving+1
-			elseif P.waiting==-1 then
-				local x=P.curX
-				if P.gameEnv.arr>0 then
-					P.act.moveRight(P,true)
-				else
-					P.act.insRight(P,true)
+			local flag=false
+			local moving=P.moving-1--remove sign mark
+			if moving<P.gameEnv.das then
+				moving=moving+1
+				if moving==P.gameEnv.das then
+					if P.waiting==-1 then
+						flag=true
+					end
 				end
-				if x~=P.curX then
-					P.moving=P.moving-P.gameEnv.arr+1
-				elseif not P.small then
-					P.fieldOff.vx=setting.shakeFX*.5
+			else
+				moving=moving+1
+				if moving>P.gameEnv.das+P.gameEnv.arr then
+					moving=P.gameEnv.das
+					flag=true
 				end
 			end
+			if flag then
+				local x=P.curX
+				if P.gameEnv.arr==0 then
+					P.act.insRight(P,true)
+				else
+					P.act.moveRight(P,true)
+				end
+			end
+			if P:ifoverlap(P.cur.bk,P.curX+1,P.curY) and not P.small then
+				P.fieldOff.vx=setting.shakeFX*.5
+			end
+			P.moving=moving+1
 		else
 			P.moving=0
 		end
@@ -654,9 +679,9 @@ local function Pupdate_alive(P,dt)
 		end
 	end
 	if not P.control then goto stop end
+	if P.waiting==0 then P:freshNext()end
 	if P.waiting>=0 then
 		P.waiting=P.waiting-1
-		if P.waiting==-1 then P:freshNext()end
 		goto stop
 	end
 	if P.curY~=P.y_img then
@@ -758,7 +783,7 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,mini,combo)
 	end
 
 	local radius,corner
-	local a,r,g,b=1,unpack(blockColor[color])
+	local a,r,g,b=1,unpack(P.color[color])
 	if clear>10 then
 		radius=10+3*send+100/(target+4)
 		local t=clear%10
@@ -814,18 +839,6 @@ end
 -------------------------</FX>-------------------------
 
 -------------------------<Method>-------------------------
-local function ifoverlap(P,bk,x,y)
-	local C=#bk[1]
-	if x<1 or x+C>11 or y<1 then return true end
-	if y>#P.field then return end
-	for i=1,#bk do
-		if P.field[y+i-1]then
-			for j=1,C do
-				if bk[i][j]and P.field[y+i-1][x+j-1]>0 then return true end
-			end
-		end
-	end
-end
 local function solid(P,x,y)
 	if x<1 or x>10 or y<1 then return true end
 	if y>#P.field then return false end
@@ -855,6 +868,18 @@ local OspinList={
 	{222,7,2,-2, 0, true},--I
 	{222,7,2, 0, 0, true},--I
 }--key,type,dir,dx,dy,ifFix
+function player.ifoverlap(P,bk,x,y)
+	local C=#bk[1]
+	if x<1 or x+C>11 or y<1 then return true end
+	if y>#P.field then return end
+	for i=1,#bk do
+		if P.field[y+i-1]then
+			for j=1,C do
+				if bk[i][j]and P.field[y+i-1][x+j-1]>0 then return true end
+			end
+		end
+	end
+end
 function player.ckfull(P,i)
 	for j=1,10 do if P.field[i][j]<=0 then return end end
 	return true
@@ -989,7 +1014,7 @@ end
 function player.freshgho(P)
 	P.y_img=min(#P.field+1,P.curY)
 	if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
-		while not ifoverlap(P,P.cur.bk,P.curX,P.y_img-1)do
+		while not P:ifoverlap(P.cur.bk,P.curX,P.y_img-1)do
 			P.y_img=P.y_img-1
 			P.spinLast=false
 		end
@@ -1003,7 +1028,7 @@ function player.freshgho(P)
 			P.curY=P.y_img
 		end
 	else
-		while not ifoverlap(P,P.cur.bk,P.curX,P.y_img-1)do
+		while not P:ifoverlap(P.cur.bk,P.curX,P.y_img-1)do
 			P.y_img=P.y_img-1
 		end
 	end
@@ -1039,7 +1064,7 @@ function player.spin(P,d,ifpre)
 		end
 		if P.gameEnv.ospin then
 			local x,y=P.curX,P.curY
-			if y==P.y_img and(solid(P,x-1,y+1)or solid(P,x+2,y+1))and(solid(P,x-1,y)or solid(P,x+2,y))then
+			if y==P.y_img and((solid(P,x-1,y)or solid(P,x-1,y+1)))and(solid(P,x+2,y)or solid(P,x+2,y+1))then
 				local D=P.spinSeq%100*10+d
 				P.spinSeq=D
 				if D>100 then
@@ -1049,7 +1074,7 @@ function player.spin(P,d,ifpre)
 							local id,dir=L[2],L[3]
 							local bk=blocks[id][dir]
 							local x,y=P.curX+L[4],P.curY+L[5]
-							if not ifoverlap(P,bk,x,y)and ifoverlap(P,bk,x,y+1)and(L[6]or ifoverlap(P,bk,x-1,y)and ifoverlap(P,bk,x+1,y))then
+							if not P:ifoverlap(bk,x,y)and P:ifoverlap(bk,x,y+1)and(L[6]or P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))then
 								local C=P.cur
 								C.id=id
 								C.bk=bk
@@ -1080,7 +1105,7 @@ function player.spin(P,d,ifpre)
 	local iki=P.RS[P.cur.id][P.dir*10+idir]
 	for i=1,P.freshTime<=1.2*P.gameEnv.freshLimit and #iki or 1 do
 		local x,y=ix+iki[i][1],iy+iki[i][2]
-		if not ifoverlap(P,icb,x,y)then
+		if not P:ifoverlap(icb,x,y)then
 			ix=x;iy=y;t=i
 			goto spin
 		end
@@ -1098,7 +1123,7 @@ function player.spin(P,d,ifpre)
 	if not ifpre then P:freshgho()end
 	if P.gameEnv.easyFresh or y0>P.curY then P:freshLockDelay()end
 	if P.human then
-		SFX.play(ifpre and"prerotate"or ifoverlap(P,P.cur.bk,P.curX,P.curY+1)and ifoverlap(P,P.cur.bk,P.curX-1,P.curY)and ifoverlap(P,P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,getBlockPosition(P))
+		SFX.play(ifpre and"prerotate"or P:ifoverlap(P.cur.bk,P.curX,P.curY+1)and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,getBlockPosition(P))
 	end
 	P.stat.rotate=P.stat.rotate+1
 end
@@ -1111,13 +1136,13 @@ function player.resetBlock(P)
 	P.r,P.c=#P.cur.bk,#P.cur.bk[1]	--row/column
 	P.curX=initCenterX[id]-sc[2]
 	P.curY=initCenterY[id]-sc[1]+ceil(P.fieldBeneath/30)
-	if abs(P.moving)>P.gameEnv.das and not ifoverlap(P,P.cur.bk,P.curX+(P.moving>0 and 1 or -1),P.curY)then
+	if abs(P.moving)>P.gameEnv.das and not P:ifoverlap(P.cur.bk,P.curX+(P.moving>0 and 1 or -1),P.curY)then
 		P.curX=P.curX+(P.moving>0 and 1 or -1)
 	end
 	--IMS
 end
 function player.hold(P,ifpre)
-	if not P.holded and P.waiting==-1 and P.gameEnv.hold then
+	if not P.holded and (ifpre or P.waiting==-1) and P.gameEnv.hold then
 		--Finesse check
 		local H,B=P.hd,P.cur
 		if H and H.id==B.id and H.name==B.name then
@@ -1142,7 +1167,7 @@ function player.hold(P,ifpre)
 
 		P:freshgho()
 		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,max(P.freshTime-5,0)
-		if ifoverlap(P,P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+		if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 
 		if P.human then
 			SFX.play(ifpre and"prehold"or"hold")
@@ -1151,7 +1176,7 @@ function player.hold(P,ifpre)
 	end
 end
 function player.getNext(P,n)
-	P.next[#P.next+1]={bk=blocks[n][P.gameEnv.face[n]],id=n,color=P.gameEnv.bone and 8 or n,name=n}
+	P.next[#P.next+1]={bk=blocks[n][P.gameEnv.face[n]],id=n,color=P.gameEnv.bone and 12 or P.gameEnv.skin[n],name=n}
 end
 --function player.newNext()--check/add new next to next queue,defined when create player
 function player.freshNext(P)
@@ -1163,15 +1188,14 @@ function player.freshNext(P)
 	P.cur=rem(P.next,1)
 	P:newNext()
 	if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
-
-	P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
 	local _=P.keyPressing
-	if _[8]then
+	if P.gameEnv.hold and _[8]then
 		P:hold(true)
 	else
 		P:resetBlock()
 	end
 	--IHS
+	P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
 	if _[5]then
 		P:spin(2,true)
 	else
@@ -1186,7 +1210,7 @@ function player.freshNext(P)
 		end
 	end
 	--IRS
-	if ifoverlap(P,P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+	if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 	P:freshgho()
 	if _[6]then P.act.hardDrop(P)_[6]=false end
 	--IHdS
@@ -1214,7 +1238,7 @@ function player.drop(P)--Place piece
 			if c>2 then dospin=dospin+1 end
 		end--三角
 		::NTC::
-		if P.cur.id~=6 and ifoverlap(P,P.cur.bk,P.curX-1,P.curY)and ifoverlap(P,P.cur.bk,P.curX+1,P.curY)and ifoverlap(P,P.cur.bk,P.curX,P.curY+1)then
+		if P.cur.id~=6 and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and P:ifoverlap(P.cur.bk,P.curX,P.curY+1)then
 			dospin=dospin+2
 		end--卡块
 	end
@@ -1357,7 +1381,7 @@ function player.drop(P)--Place piece
 				cscore=spinSCR[P.cur.name][cc]
 				if P.b2b>1000 then
 					P:showText(text.b3b..text.spin[P.cur.name]..text.clear[cc],0,-30,35,"spin")
-					send=b2bATK[cc]+1
+					send=b2bATK[cc]+.5*cc
 					exblock=exblock+1
 					cscore=cscore*2
 					P.stat.b3b=P.stat.b3b+1
@@ -1410,7 +1434,7 @@ function player.drop(P)--Place piece
 		end
 		sendTime=sendTime+25*cmb
 		if cmb>2 then
-			send=send+(renATK[cmb]or 3)
+			send=send+(comboAtk[cmb]or 2)
 			P:showText(text.cmb[min(cmb,20)],0,25,15+min(cmb,25)*3,cmb<10 and"appear"or"flicker")
 			cscore=cscore+min(20*cmb,300)*cc
 		end
@@ -1551,8 +1575,11 @@ end
 function player.pressKey(P,i)
 	P.keyPressing[i]=true
 	P.act[actName[i]](P)
-	if P.alive then
-		P.keyTime[11]=ins(P.keyTime,1,frame)
+	if P.control then
+		if P.keyRec then
+			ins(P.keyTime,1,frame)
+			P.keyTime[11]=nil
+		end
 		P.stat.key=P.stat.key+1
 	end
 	--ins(rec,{i,frame})
@@ -1560,7 +1587,6 @@ end
 function player.releaseKey(P,i)
 	if P.keyPressing[i]then
 		P.keyPressing[i]=false
-		if P.id==1 then virtualkeyDown[i]=false end
 		-- if recording then ins(rec,{-i,frame})end
 	end
 end
@@ -1748,7 +1774,7 @@ function player.act.moveLeft(P,auto)
 			P:changeAtkMode(1)
 		end
 	elseif P.control and P.waiting==-1 then
-		if not ifoverlap(P,P.cur.bk,P.curX-1,P.curY)then
+		if not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
 			local y0=P.curY
 			P:freshgho()
@@ -1774,7 +1800,7 @@ function player.act.moveRight(P,auto)
 			P:changeAtkMode(2)
 		end
 	elseif P.control and P.waiting==-1 then
-		if not ifoverlap(P,P.cur.bk,P.curX+1,P.curY)then
+		if not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
 			local y0=P.curY
 			P:freshgho()
@@ -1872,10 +1898,10 @@ end
 function player.act.insLeft(P,auto)
 	if P.gameEnv.nofly then return end
 	local x0,y0=P.curX,P.curY
-	while not ifoverlap(P,P.cur.bk,P.curX-1,P.curY)do
+	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
 		P.curX=P.curX-1
 		if not P.small and setting.dropFX>0 then
-			P:createShade(P.curX+1,P.curY+P.r-1,P.curX+1,P.curY)
+			P:createShade(P.curX+P.c,P.curY+P.r-1,P.curX+P.c,P.curY)
 		end
 		P:freshgho()
 	end
@@ -1894,10 +1920,10 @@ end
 function player.act.insRight(P,auto)
 	if P.gameEnv.nofly then return end
 	local x0,y0=P.curX,P.curY
-	while not ifoverlap(P,P.cur.bk,P.curX+1,P.curY)do
+	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
 		P.curX=P.curX+1
 		if not P.small and setting.dropFX>0 then
-			P:createShade(P.curX+P.c-1,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+			P:createShade(P.curX-1,P.curY+P.r-1,P.curX-1,P.curY)
 		end
 		P:freshgho()
 	end
@@ -2003,11 +2029,10 @@ function newDemoPlayer(id,x,y,size)
 		pc=0,b2b=0,b3b=0,
 	}
 	P.modeData={point=0,event=0,counter=0}
-	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
-	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
+	P.keyTime={}P.keySpeed=0
+	P.dropTime={}P.dropSpeed=0
 
-	P.atker={}
-	P.strength=0
+	P.atker={}P.strength=0
 
 	P.field,P.visTime={},{}
 	P.atkBuffer={sum=0}
@@ -2026,16 +2051,21 @@ function newDemoPlayer(id,x,y,size)
 		ospin=true,
 		sequence="bag7",
 		face={0,0,0,0,0,0,0},
+		skin={1,5,2,8,10,3,7},
 
 		pushSpeed=3,
 		block=true,
-		visible="show",--keepVisible=visile~="show"
+		visible="show",
 		Fkey=nil,puzzle=false,
 		freshLimit=1e99,easyFresh=true,
 		fine=false,fineKill=false,
 		target=1e99,dropPiece=NULL,
 		mindas=0,minarr=0,minsdarr=0,
 	}
+	P.color={}
+	for _=1,7 do
+		P.color[_]=skin.libColor[P.gameEnv.skin[_]]
+	end
 	P.cur={bk={{}},id=0,color=0,name=0}
 		P.sc,P.dir,P.r,P.c={0,0},0,0,0
 		P.curX,P.curY,P.y_img=0,0,0
@@ -2054,9 +2084,9 @@ function newDemoPlayer(id,x,y,size)
 		P:getNext(rem(bag1,rnd(#bag1)))
 	end
 	P.newNext=freshMethod.bag7
-	if P.gameEnv.sequence==1 then P.bag={}--Bag7
-	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end--History4
-	elseif P.gameEnv.sequence==3 then--Pure random
+	if P.gameEnv.sequence==1 then P.bag={}
+	elseif P.gameEnv.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end
+	elseif P.gameEnv.sequence==3 then
 	end
 
 	P.human=false
@@ -2093,7 +2123,7 @@ function newDemoPlayer(id,x,y,size)
 	P.fieldBeneath=0
 	P.score1,P.b2b1=0,0
 	P.shade={}
-	P.bonus={}--texts
+	P.bonus={}
 	P.dust=clearDust:clone()
 	P.dust:start()
 
@@ -2236,14 +2266,23 @@ function newPlayer(id,x,y,size,AIdata)
 			P.RS=kickList.TRS
 			P.AI_keys={}
 		end
+		P.gameEnv.face={0,0,0,0,0,0,0}
+		P.gameEnv.skin={1,5,2,8,10,3,7}
 	else
 		P.human=true
 		P.RS=kickList.TRS
 		players.human=players.human+1
 	end
 
+	P.color={}
+	for _=1,7 do
+		P.color[_]=skin.libColor[P.gameEnv.skin[_]]
+	end
+
 	P.showTime=visible_opt[P.gameEnv.visible]
 	P.keepVisible=P.gameEnv.visible=="show"
+
+
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.moving,P.downing=0,0
 	P.waiting,P.falling=-1,-1

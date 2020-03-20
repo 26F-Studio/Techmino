@@ -32,6 +32,7 @@ color={
 	darkCyan={0,.6,.6},
 	darkGrey={.3,.3,.3},
 
+	black={0,0,0},
 	orange={1,.6,0},
 	pink={1,0,.6},
 	grass={.6,1,0},

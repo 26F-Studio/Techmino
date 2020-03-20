@@ -13,8 +13,9 @@ local function newPlanet()
 	planet.y=H*.5+sin(a)*(R+r)
 	planet.vx=-cos(a+rnd()-.5)*.0626
 	planet.vy=-sin(a+rnd()-.5)*.0626
-	planet.R=.7+rnd()*.2
-	planet.G=.7+rnd()*.1
+	planet.R=.7+rnd()*.22
+	planet.G=planet.R+rnd()*.16-.1
+	planet.B=.7+rnd()*.2
 end
 
 local space={}--LIB
@@ -50,9 +51,9 @@ function space.draw()
 	if not stars[1]then return end
 	gc.translate(-50,-50)
 	gc.setLineWidth(7)
-	gc.setColor(planet.R,planet.G,.6,.1626)
+	gc.setColor(planet.R,planet.G,planet.B,.1626)
 	gc.circle("line",planet.x,planet.y,planet.r+1)
-	gc.setColor(planet.R,planet.G,.6,.26)
+	gc.setColor(planet.R,.6,planet.B,.26)
 	gc.circle("fill",planet.x,planet.y,planet.r)
 	gc.setColor(.9,.9,.9)
 	for i=1,2600,5 do

@@ -1,19 +1,6 @@
 local min=math.min
 local mini=love.window.isMinimized
 local task={}
-function task.pauseGame()
-	if not mini()then
-		pauseTimer=pauseTimer+1
-	end
-	return pauseTimer==50
-end
-function task.resumeGame()
-	pauseTimer=pauseTimer-1
-	if pauseTimer==0 then
-		scene.swapTo("play","none")
-		return true
-	end
-end
 function task.finish(P)
 	if scene.cur~="play"then return true end
 	P.endCounter=P.endCounter+1
@@ -80,16 +67,5 @@ function task.bgmFadeIn(_,id)
 	local v=min(src:getVolume()+.025*setting.bgm*.1,setting.bgm*.1)
 	src:setVolume(v)
 	if v>=setting.bgm*.1 then return true end
-end
-function task.settingSaved(_,T)
-	T[1]=T[1]-1
-	if T[1]==0 then
-		if scene.cur=="main"then
-			TEXT(text.settingSaved,370,330,28,"appear")
-		else
-			TEXT(text.needRestart,1130,130,28,"appear")
-		end
-		return true
-	end
 end
 return task

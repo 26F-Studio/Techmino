@@ -148,7 +148,9 @@ function loadSetting()
 	local F=FILE.setting
 	if F:open("r")then
 		local s=F:read()
-		if s:sub(1,6)~="return"then s="return{"..s.."}"end
+		if s:sub(1,6)~="return"then
+			s="return{"..s:gsub("\n",",").."}"
+		end
 		s=loadstring(s)
 		F:close()
 		if s then

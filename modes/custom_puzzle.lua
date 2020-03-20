@@ -7,7 +7,7 @@ local function puzzleCheck(P)
 			local a,b=preField[y][x],L and L[x]or 0
 			if a~=0 then
 				if a==-1 then if b>0 then return end
-				elseif a<8 then if a~=b then return end
+				elseif a<12 then if a~=b then return end
 				elseif a>7 then if b==0 then return end
 				end
 			end
