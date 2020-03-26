@@ -11,7 +11,8 @@ setting={
 	--game
 
 	ghost=true,center=true,
-	smo=true,grid=false,
+	smooth=true,grid=false,
+	lockFX=2,
 	dropFX=3,
 	shakeFX=2,
 	atkFX=3,

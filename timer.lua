@@ -82,6 +82,7 @@ function Tmr.load()
 			scene.swapTo("intro","none")
 		end
 	end
+	if L.skip and not scene.swapping then goto R end
 end
 function Tmr.intro()
 	sceneTemp=sceneTemp+1

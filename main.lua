@@ -178,6 +178,16 @@ local touchDown,touchUp,touchMove={},{},{}
 local keyDown,keyUp={},{}
 local gamepadDown,gamepadUp={},{}
 
+function mouseDown.load()
+	sceneTemp.skip=true
+end
+function keyDown.load()
+	sceneTemp.skip=true
+end
+function touchDown.load()
+	sceneTemp.skip=true
+end
+
 function mouseDown.intro(x,y,k)
 	if k==2 then
 		VOICE("bye")
@@ -729,9 +739,9 @@ function wheelMoved.history(x,y)
 end
 function keyDown.history(key)
 	if key=="up"then
-		sceneTemp[2]=max(sceneTemp[2]-10,1)
+		sceneTemp[2]=max(sceneTemp[2]-3,1)
 	elseif key=="down"then
-		sceneTemp[2]=min(sceneTemp[2]+10,#sceneTemp[1]-22)
+		sceneTemp[2]=min(sceneTemp[2]+3,#sceneTemp[1]-22)
 	elseif key=="escape"then
 		scene.back()
 	end
@@ -813,7 +823,7 @@ local function widgetControl_gamepad(i)
 		end
 	end
 end
-local lastX,lastY--last clickDown pos
+local lastX,lastY=0,0--last clickDown pos
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
 	mouseShow=true
@@ -830,8 +840,7 @@ function love.mousepressed(x,y,k,t,num)
 			widgetPress(widget_sel,mx,my)
 		end
 	end
-	lastX=mx
-	lastY=my
+	lastX,lastY=mx,my
 end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
@@ -1284,6 +1293,7 @@ function love.errorhandler(msg)
 	local function _(_)CAP=gc.newImage(_)end
 	gc.captureScreenshot(_)
 	gc.present()
+	setting.sfx=setting.voc--only for error "voice" played with voice volume,not saved
 	if SFX.list.error then SFX.play("error",.8)end
 	local BGcolor=rnd()>.026 and{.3,.5,.9},{.62,.3,.926}
 	local needDraw=true
@@ -1311,6 +1321,7 @@ function love.errorhandler(msg)
 			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
 			setFont(20)
 			gc.print(system.."-"..gameVersion,100,660)
+			gc.print("scene:"..scene.cur,400,660)
 			gc.printf(err[1],626,360,1260-626)
 			gc.print("TRACEBACK",626,426)
 			for i=4,#err-2 do

@@ -28,13 +28,15 @@ if setting.lang==1 then
 		"使用love2d引擎制作",
 		"有疑问?先看设置有没有你想要的",
 		"有建议的话可以把信息反馈给作者~",
-		"不要按F8",
+		"不要按F10",
 		"秘密数字:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
 		"少女祈祷中",
+		"按键/点击以全力加载,跳过动画",
 		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
-		"(第一次才准)今日幸运数字:"..math.random(100,626),
+		"RUR'U'R'FR2U'R'U'RUR'F'",
+		"Am G F G",
 	}
 elseif setting.lang==2 then
 	L={
@@ -65,13 +67,15 @@ elseif setting.lang==2 then
 		"使用love2d引擎制作",
 		"有疑问?先看设置有没有你想要的",
 		"有建议的话可以把信息反馈给作者~",
-		"不要按F8",
+		"不要按F10",
 		"秘密数字:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
 		"少女祈祷中",
-		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
-		"(第一次才准)今日幸运数字:"..math.random(100,626),
+		"按键/点击以全力加载,跳过动画",
+		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",
+		"RUR'U'R'FR2U'R'U'RUR'F'",
+		"Am G F G",
 	}
 elseif setting.lang==3 then
 	L={
@@ -102,13 +106,16 @@ elseif setting.lang==3 then
 		"Powered by love2d",
 		"Find out what's in the setting!",
 		"Any suggestions to author!",
-		"DO NOT PRESS F8",
+		"DO NOT PRESS F10",
 		"Secret num:626",
 		"Techmino=Technique+Tetromino",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"Headphones for better experience",
 		"少女祈禱中",
-		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
+		"any-key/click to skip loading animation",
+		"RUR'U'R'FR2U'R'U'RUR'F'",
+		"Am G F G",
+		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",
 	}
 end
 return L[math.random(#L)]

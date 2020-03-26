@@ -255,18 +255,19 @@ local Widget={
 		sound=	newButton(200,80,240,80,C.lightCyan,35,function()scene.swapTo("setting_sound")end,	nil,"game"),
 		game=	newButton(1080,80,240,80,C.lightCyan,35,function()scene.swapTo("setting_game")end,	nil,"ghost"),
 		ghost=	newSwitch(310,180,35,				SETval("ghost"),		SETrev("ghost"),		nil,"center"),
-		center=	newSwitch(580,180,35,				SETval("center"),		SETrev("center"),		nil,"smo"),
-		smo=	newSwitch(310,260,25,				SETval("smo"),			SETrev("smo"),			nil,"grid"),
-		grid=	newSwitch(580,260,30,				SETval("grid"),			SETrev("grid"),			nil,"dropFX"),
-		dropFX=	newSlider(310,350,373,5,35,nil,		SETval("dropFX"),		SETsto("dropFX"),		nil,"shakeFX"),
-		shakeFX=newSlider(310,430,373,5,35,nil,		SETval("shakeFX"),		SETsto("shakeFX"),		nil,"atkFX"),
-		atkFX=	newSlider(310,510,373,5,35,nil,		SETval("atkFX"),		SETsto("atkFX"),		nil,"frame"),
-		frame=	newSlider(310,590,373,10,35,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
+		center=	newSwitch(580,180,35,				SETval("center"),		SETrev("center"),		nil,"smooth"),
+		smooth=	newSwitch(310,260,25,				SETval("smooth"),			SETrev("smooth"),			nil,"grid"),
+		grid=	newSwitch(580,260,30,				SETval("grid"),			SETrev("grid"),			nil,"lockFX"),
+		lockFX=	newSlider(310,340,373,3,35,nil,		SETval("lockFX"),		SETsto("lockFX"),		nil,"dropFX"),
+		dropFX=	newSlider(310,410,373,5,35,nil,		SETval("dropFX"),		SETsto("dropFX"),		nil,"shakeFX"),
+		shakeFX=newSlider(310,480,373,5,35,nil,		SETval("shakeFX"),		SETsto("shakeFX"),		nil,"atkFX"),
+		atkFX=	newSlider(310,550,373,5,35,nil,		SETval("atkFX"),		SETsto("atkFX"),		nil,"frame"),
+		frame=	newSlider(310,620,373,10,35,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
 		fullscreen=newSwitch(990,180,40,SETval("fullscreen"),function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			if not setting.fullscreen then
-			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end
 			end,nil,"bg"),
 		bg=		newSwitch(990,250,35,SETval("bg"),SETrev("bg"),nil,"bgspace"),
@@ -331,7 +332,8 @@ local Widget={
 		--spin6=newButton(825,550,90,65,C.white,30,nextDir(6)),--O cannot rotate
 		spin7=	newButton(965,550,90,65,C.white,30,nextDir(7)),
 
-		reset=	newButton(200,650,180,80,C.lightRed,35,function()for i=1,7 do setting.face[i]=0 end SFX.play("rotate")end),
+		skinR=	newButton(200,650,180,80,C.lightPurple,35,function()setting.skin={1,5,2,8,10,3,7}SFX.play("hold")end),
+		faceR=	newButton(480,650,180,80,C.lightRed,35,function()setting.face={0,0,0,0,0,0,0}SFX.play("rotate")end),
 		back=	newButton(1140,650,200,80,C.white,40,scene.back),
 	},
 	setting_touch={

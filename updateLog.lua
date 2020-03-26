@@ -1,6 +1,5 @@
 local S=[=[
 "Patron"(rmb10+)(ordered by first char):
-	10元
 	八零哥
 	Fireboos
 	gggf127
@@ -16,6 +15,7 @@ local S=[=[
 	心痕
 	蕴空之灵
 	yyangdid
+	10元
 	?[D*a]
 
 	Thanks!
@@ -32,7 +32,6 @@ Future outlook:
 		Shifting field
 	Other:
 		bag sep-line switch
-		more drop fx,like light on locked block
 		game recording
 		(powerinfo switch)
 		new virtualWidgets like joysticks
@@ -42,14 +41,26 @@ Future outlook:
 		Encrypt source code(compile to byte code)
 		new AI:task-Z
 		CC smarter(think of garbage buffer)
+0.8.14:
+	new:
+		click/tap/any-key to skip loading animation
+		lock animation
+	changed:
+		display scene info when error
+		//many optimization
+	fixed:
+		error when attack
+		error garbage line color
+		error in finesse checking
+		some times error when touch screen
 0.8.13:
 	new:
 		a independent page to set DAS/ARR,with an animation for preview
 	changed:
 		new virtualkey animation
 		freer drawing mode(Incompatible with old ver.)
-		score of spins little changed
 		combo&b3b attack changed
+		score of spins little changed
 	fixed:
 		wrong behavior in pause scene
 		ospin error in 0.8.12

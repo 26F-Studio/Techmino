@@ -51,7 +51,7 @@ return{
 				end
 			end
 		end,
-		bg="game4",bgm="way",
+		bg="game4",bgm="shining terminal",
 	},
 	pauseLimit=true,
 	load=function()

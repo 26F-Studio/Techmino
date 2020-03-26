@@ -19,6 +19,7 @@ local sceneInit={
 			1,--Loading counter
 			#voiceName,--Loading bar lenth(current)
 			require("parts/getTip"),--tip
+			skip=false,--if skipping
 		}
 	end,
 	intro=function()

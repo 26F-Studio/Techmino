@@ -1,13 +1,3 @@
-local O,_=true,false
-local L={
-	{{_,O,O},{O,O,_}},	--Z
-	{{O,O,_},{_,O,O}},	--S
-	{{O,O,O},{_,_,O}},	--L
-	{{O,O,O},{O,_,_}},	--J
-	{{O,O,O},{_,O,_}},	--T
-	{{O,O},{O,O}},		--O
-	{{O,O,O,O}},		--I
-}
 local function RotCW(B)
 	local N={}
 	local r,c=#B,#B[1]--row,col
@@ -19,14 +9,16 @@ local function RotCW(B)
 	end
 	return N
 end
-
--- [1,1,1]
--- [0,0,1]--r=2,c=3
---    ↓ (Y inv)
---  [1,1]
---  [1,0]
---  [1,0]
-
+local O,_=true,false
+local L={
+	{{_,O,O},{O,O,_}},	--Z
+	{{O,O,_},{_,O,O}},	--S
+	{{O,O,O},{_,_,O}},	--L
+	{{O,O,O},{O,_,_}},	--J
+	{{O,O,O},{_,O,_}},	--T
+	{{O,O},{O,O}},		--O
+	{{O,O,O,O}},		--I
+}
 for i=1,#L do
 	local B=L[i]
 	L[i]={[0]=B}
