@@ -89,7 +89,7 @@ function saveRecord(N,L)
 	local _,mes=F:write(dumpTable(L))
 	F:flush()F:close()
 	if not _ then
-		TEXT(text.recSavingError..mes,1140,650,20,"sudden",.5)
+		TEXT(text.recSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 function delRecord(N)
@@ -115,7 +115,7 @@ function saveUnlock()
 	local _,mes=F:write(dumpTable(modeRanks))
 	F:flush()F:close()
 	if not _ then
-		TEXT(text.unlockSavingError..mes,1140,650,20,"sudden",.5)
+		TEXT(text.unlockSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
@@ -140,7 +140,7 @@ function saveData()
 	local _,mes=F:write(dumpTable(stat))
 	F:flush()F:close()
 	if not _ then
-		TEXT(text.statSavingError..mes,1140,650,20,"sudden",.5)
+		TEXT(text.statSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
@@ -165,7 +165,7 @@ function saveSetting()
 	local _,mes=F:write(dumpTable(setting))
 	F:flush()F:close()
 	if _ then TEXT(text.settingSaved,1140,650,40,"sudden",.5)
-	else TEXT(text.settingSavingError..mes,1140,650,20,"sudden",.5)
+	else TEXT(text.settingSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
@@ -186,7 +186,7 @@ function saveKeyMap()
 	local _,mes=F:write(dumpTable(keyMap))
 	F:flush()F:close()
 	if _ then TEXT(text.keyMapSaved,1140,650,26,"sudden",.5)
-	else TEXT(text.keyMapSavingError..mes,1140,650,20,"sudden",.5)
+	else TEXT(text.keyMapSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
@@ -207,7 +207,7 @@ function saveVK()
 	local _,mes=F:write(dumpTable(VK_org))
 	F:flush()F:close()
 	if _ then TEXT(text.VKSaved,1140,650,26,"sudden",.5)
-	else TEXT(text.VKSavingError..mes,1140,650,20,"sudden",.5)
+	else TEXT(text.VKSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 

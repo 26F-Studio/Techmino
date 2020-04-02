@@ -2,7 +2,7 @@ return{
 	name={
 		"本地多人",
 		"本地多人",
-		"Hotseat",
+		"Multiplayer",
 	},
 	level={
 		"3P",
@@ -10,8 +10,8 @@ return{
 		"3P",
 	},
 	info={
-		"友尽模式",
-		"友尽模式",
+		"友尽模式(非联网/局域网)",
+		"友尽模式(非联网/局域网)",
 		"End of friendship",
 	},
 	color=color.white,

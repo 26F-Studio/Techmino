@@ -677,7 +677,7 @@ function touchMove.play(id,x,y,dx,dy)
 end
 function keyDown.play(key)
 	if key=="escape"then
-		(frame<180 and scene.back or pauseGame)()
+		pauseGame()
 		return
 	end
 	local m=keyMap

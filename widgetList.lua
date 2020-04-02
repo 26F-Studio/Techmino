@@ -262,16 +262,15 @@ local Widget={
 		dropFX=	newSlider(310,410,373,5,35,nil,		SETval("dropFX"),		SETsto("dropFX"),		nil,"shakeFX"),
 		shakeFX=newSlider(310,480,373,5,35,nil,		SETval("shakeFX"),		SETsto("shakeFX"),		nil,"atkFX"),
 		atkFX=	newSlider(310,550,373,5,35,nil,		SETval("atkFX"),		SETsto("atkFX"),		nil,"frame"),
-		frame=	newSlider(310,620,373,10,35,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"fullscreen"),
-		fullscreen=newSwitch(990,180,40,SETval("fullscreen"),function()
+		frame=	newSlider(310,620,373,10,35,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"text"),
+		text=	newSwitch(990,180,35,SETval("text"),SETrev("text"),nil,"fullscreen"),
+		fullscreen=newSwitch(990,260,35,SETval("fullscreen"),function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
-			if not setting.fullscreen then
-				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-			end
+			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end,nil,"bg"),
-		bg=		newSwitch(990,250,35,SETval("bg"),SETrev("bg"),nil,"bgspace"),
-		bgspace=newSwitch(990,330,35,SETval("bgspace"),function()
+		bg=		newSwitch(990,330,35,SETval("bg"),SETrev("bg"),nil,"bgspace"),
+		bgspace=newSwitch(990,410,35,SETval("bgspace"),function()
 			setting.bgspace=not setting.bgspace
 			if setting.bgspace then
 				space.new()
@@ -308,32 +307,32 @@ local Widget={
 	setting_skin={
 		prev=	newButton(700,100,140,100,C.white,50,function()skin.prevSet()end),
 		next=	newButton(860,100,140,100,C.white,50,function()skin.nextSet()end),
-		prev1=	newButton(125,240,90,65,C.white,30,prevSkin(1)),
-		prev2=	newButton(265,240,90,65,C.white,30,prevSkin(2)),
-		prev3=	newButton(405,240,90,65,C.white,30,prevSkin(3)),
-		prev4=	newButton(545,240,90,65,C.white,30,prevSkin(4)),
-		prev5=	newButton(685,240,90,65,C.white,30,prevSkin(5)),
-		prev6=	newButton(825,240,90,65,C.white,30,prevSkin(6)),
-		prev7=	newButton(965,240,90,65,C.white,30,prevSkin(7)),
+		prev1=	newButton(130,230,90,65,C.white,30,prevSkin(1)),
+		prev2=	newButton(270,230,90,65,C.white,30,prevSkin(2)),
+		prev3=	newButton(410,230,90,65,C.white,30,prevSkin(3)),
+		prev4=	newButton(550,230,90,65,C.white,30,prevSkin(4)),
+		prev5=	newButton(690,230,90,65,C.white,30,prevSkin(5)),
+		prev6=	newButton(830,230,90,65,C.white,30,prevSkin(6)),
+		prev7=	newButton(970,230,90,65,C.white,30,prevSkin(7)),
 
-		next1=	newButton(125,460,90,65,C.white,30,nextSkin(1)),
-		next2=	newButton(265,460,90,65,C.white,30,nextSkin(2)),
-		next3=	newButton(405,460,90,65,C.white,30,nextSkin(3)),
-		next4=	newButton(545,460,90,65,C.white,30,nextSkin(4)),
-		next5=	newButton(685,460,90,65,C.white,30,nextSkin(5)),
-		next6=	newButton(825,460,90,65,C.white,30,nextSkin(6)),
-		next7=	newButton(965,460,90,65,C.white,30,nextSkin(7)),
+		next1=	newButton(130,450,90,65,C.white,30,nextSkin(1)),
+		next2=	newButton(270,450,90,65,C.white,30,nextSkin(2)),
+		next3=	newButton(410,450,90,65,C.white,30,nextSkin(3)),
+		next4=	newButton(550,450,90,65,C.white,30,nextSkin(4)),
+		next5=	newButton(690,450,90,65,C.white,30,nextSkin(5)),
+		next6=	newButton(830,450,90,65,C.white,30,nextSkin(6)),
+		next7=	newButton(970,450,90,65,C.white,30,nextSkin(7)),
 
-		spin1=	newButton(125,550,90,65,C.white,30,nextDir(1)),
-		spin2=	newButton(265,550,90,65,C.white,30,nextDir(2)),
-		spin3=	newButton(405,550,90,65,C.white,30,nextDir(3)),
-		spin4=	newButton(545,550,90,65,C.white,30,nextDir(4)),
-		spin5=	newButton(685,550,90,65,C.white,30,nextDir(5)),
-		--spin6=newButton(825,550,90,65,C.white,30,nextDir(6)),--O cannot rotate
-		spin7=	newButton(965,550,90,65,C.white,30,nextDir(7)),
+		spin1=	newButton(130,540,90,65,C.white,30,nextDir(1)),
+		spin2=	newButton(270,540,90,65,C.white,30,nextDir(2)),
+		spin3=	newButton(410,540,90,65,C.white,30,nextDir(3)),
+		spin4=	newButton(550,540,90,65,C.white,30,nextDir(4)),
+		spin5=	newButton(690,540,90,65,C.white,30,nextDir(5)),
+		--spin6=newButton(825,540,90,65,C.white,30,nextDir(6)),--cannot rotate O
+		spin7=	newButton(970,540,90,65,C.white,30,nextDir(7)),
 
-		skinR=	newButton(200,650,180,80,C.lightPurple,35,function()setting.skin={1,5,2,8,10,3,7}SFX.play("hold")end),
-		faceR=	newButton(480,650,180,80,C.lightRed,35,function()setting.face={0,0,0,0,0,0,0}SFX.play("rotate")end),
+		skinR=	newButton(200,640,220,80,C.lightPurple,35,function()setting.skin={1,5,2,8,10,3,7}SFX.play("rotate")end),
+		faceR=	newButton(480,640,220,80,C.lightRed,35,function()setting.face={0,0,0,0,0,0,0}SFX.play("hold")end),
 		back=	newButton(1140,650,200,80,C.white,40,scene.back),
 	},
 	setting_touch={

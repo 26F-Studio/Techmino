@@ -22,6 +22,7 @@ return{
 	b2b="满贯",b3b="大满贯",
 	mini="迷你",
 	PC="场地全清",
+	C="场地半清",
 	hold="暂存",next="下一个",
 
 	stage=function(n)return"关卡 "..n end,
@@ -176,7 +177,7 @@ return{
 		},
 		mode={
 			draw="画图(Q)",
-			custon="参数(E)",
+			custom="参数(E)",
 			start="开始",
 			back=BK,
 		},
@@ -245,6 +246,7 @@ return{
 			dropFX="下落特效等级",
 			shakeFX="晃动特效等级",
 			atkFX="攻击特效等级",
+			text="消行文本",
 			fullscreen="全屏",
 			frame="绘制帧率",
 			back=BK,

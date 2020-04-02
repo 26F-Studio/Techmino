@@ -12,7 +12,7 @@ local function score(P)
 	if MD.point%100==99 then SFX.play("blip_1")end
 	if int(MD.point*.01)>MD.event then
 		local s=MD.event+1;MD.event=s--level up!
-		P:showText(text.stage(s),0,-120,80,"fly")
+		P:showTextF(text.stage(s),0,-120,80,"fly")
 		local E=P.gameEnv
 		if s<4 then--first 300
 			if s~=1 then E.lock=E.lock-1 end

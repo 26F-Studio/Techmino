@@ -1,4 +1,4 @@
-gameVersion="Alpha V0.8.14"
+gameVersion="Alpha V0.8.15"
 function love.conf(t)
 	t.identity="Techmino"--SaveDir name
 	t.version="11.1"
@@ -17,7 +17,7 @@ function love.conf(t)
 	W.resizable=true
 	W.fullscreentype="desktop"--"exclusive"
 	W.fullscreen=false
-	W.vsync=0--0:∞fps
+	W.vsync=0--∞fps
 	W.msaa=false--num of samples to use with multi-sampled antialiasing
 	W.depth=0--bits/samp of depth buffer
 	W.stencil=1--bits/samp of stencil buffer

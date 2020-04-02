@@ -20,6 +20,7 @@ return{
 	b2b="B2B ",b3b="B2B2B ",
 	mini="Mini",
 	PC="Perfect Clear",
+	C="Clear",
 	hold="Hold",next="Next",
 
 	stage=function(n)return"STAGE "..n end,
@@ -244,6 +245,7 @@ Lib used:
 			dropFX="Drop FX level",
 			shakeFX="Shake FX level",
 			atkFX="ATK FX level",
+			text="Line-clear text",
 			fullscreen="Fullscreen",
 			frame="draw FPS",
 			back=BK,
@@ -276,8 +278,8 @@ Lib used:
 			prev5="↑",next5="↓",spin5="R",
 			prev6="↑",next6="↓",spin6="R",
 			prev7="↑",next7="↓",spin7="R",
-			skinR="reset Color",
-			faceR="reset Dir",
+			skinR="Reset Color",
+			faceR="Reset Dir.",
 			back=BK,
 		},
 		setting_touch={

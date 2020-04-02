@@ -31,7 +31,7 @@ return{
 				local R=(P.modeData.event%3<2 and 1 or 3)
 				P.atkBuffer.sum=P.atkBuffer.sum+R
 				P.stat.recv=P.stat.recv+R
-				if P.modeData.event==60 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
+				if P.modeData.event==60 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end
 				P.modeData.counter=0
 				P.modeData.event=P.modeData.event+1
 			end

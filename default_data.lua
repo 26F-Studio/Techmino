@@ -7,6 +7,10 @@ setting={
 	swap=true,
 	fine=false,
 	autoPause=true,
+
+	lang=1,
+	skinSet=1,
+	skin={1,5,2,8,10,3,7},
 	face={0,0,0,0,0,0,0},
 	--game
 
@@ -18,12 +22,10 @@ setting={
 	atkFX=3,
 	frameMul=100,
 
+	text=true,
 	fullscreen=false,
 	bg=true,
 	bgspace=true,
-	lang=1,
-	skinSet=1,
-	skin={1,5,2,8,10,3,7},
 	--graphic
 
 	sfx=10,bgm=7,
@@ -47,7 +49,7 @@ stat={
 	atk=0,send=0,recv=0,pend=0,
 	clear_1=0,clear_2=0,clear_3=0,clear_4=0,
 	spin_0=0,spin_1=0,spin_2=0,spin_3=0,
-	b2b=0,b3b=0,pc=0,score=0,
+	pc=0,c=0,b2b=0,b3b=0,score=0,
 	lastPlay=1,--last played mode ID
 }
 keyMap={

@@ -153,14 +153,13 @@ function Pnt.BG.game5()
 	else gc.clear(0,0,0)
 	end
 end--Lightning
-local miniBlockColor={}
 function Pnt.BG.game6()
 	local t=1.2-Timer()%10%3%1.2
 	if t<.3 then gc.clear(t,t,t)
 	else gc.clear(0,0,0)
 	end
 	local R=7-int(Timer()*.5)%7
-	local _=miniBlockColor[R]
+	local _=skin.libColor[setting.skin[R]]
 	gc.setColor(_[1],_[2],_[3],.1)
 	gc.draw(miniBlock[R],640,360,Timer()%3.1416*6,400,400,scs[R][0][2]-.5,#blocks[R][0]-scs[R][0][1]+.5)
 end--Fast lightning&spining tetromino
@@ -497,13 +496,11 @@ function Pnt.pause()
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 	gc.pop()
 	setFont(25)
-	gc.setColor(1,1,1,T)
 	if pauseCount>0 then
-		t=curMode.pauseLimit and pauseTime>30
-		if t then gc.setColor(1,.4,.4,T)end
+		gc.setColor(1,.4,.4,T)
 		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%.2f",pauseTime).."s",110,150)
-		if t then gc.setColor(1,1,1,T)end
 	end
+	gc.setColor(1,1,1,T)
 	for i=1,7 do
 		gc.print(text.pauseStat[i],95,30*i+310)
 		gc.print(sceneTemp[i],305,30*i+310)
@@ -564,10 +561,10 @@ function Pnt.setting_control()
 	--Floating number
 	setFont(30)
 	local _=setting
-	mStr(_.das,226+35*_.das,150)
-	mStr(_.arr,226+35*_.arr,240)
-	mStr(_.sddas,226+35*_.sddas,330)
-	mStr(_.sdarr,226+35*_.sdarr,420)
+	mStr(_.das,226+35*_.das,145)
+	mStr(_.arr,226+35*_.arr,235)
+	mStr(_.sddas,226+35*_.sddas,325)
+	mStr(_.sdarr,226+35*_.sdarr,415)
 
 	--Testing O mino
 	_=blockSkin[setting.skin[6]]
@@ -633,17 +630,17 @@ function Pnt.setting_skin()
 	for N=1,7 do
 		local face=setting.face[N]
 		local B=blocks[N][face]
-		local x,y=-30+140*N-scs[N][face][2]*30,335+scs[N][face][1]*30
+		local x,y=-25+140*N-scs[N][face][2]*30,325+scs[N][face][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then
 				gc.draw(blockSkin[setting.skin[N]],x+30*j,y-30*i)
 			end
 		end end
-		gc.circle("fill",-15+140*N,350,sin(Timer()*10)+5)
+		gc.circle("fill",-10+140*N,340,sin(Timer()*10)+5)
 	end
-	for i=1,5 do
-		gc.draw(blockSkin[12+i],1110,140+60*i,nil,2)
+	for i=1,6 do
+		gc.draw(blockSkin[11+i],1110,100+60*i,nil,2)
 	end
 	gc.draw(drawableText.setting_skin,80,50)
 end

@@ -48,13 +48,13 @@ return{
 					D.event=D.event+1
 					D.point=int(s*36e3/t)*.1
 					if 	D.event==10 then
-						P:showText(text.great,0,-140,100,"appear",.6)
+						P:showTextF(text.great,0,-140,100,"appear",.6)
 						P.gameEnv.pushSpeed=4
 					elseif D.event==20 then
-						P:showText(text.awesome,0,-140,100,"appear",.6)
+						P:showTextF(text.awesome,0,-140,100,"appear",.6)
 						P.gameEnv.pushSpeed=5
 					elseif D.event==30 then
-						P:showText(text.maxspeed,0,-140,100,"appear",.6)
+						P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
 					end
 				end
 			end

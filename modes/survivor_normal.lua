@@ -31,7 +31,7 @@ return{
 					d%4==3 and{pos=rnd(10),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3}
 				P.atkBuffer.sum=P.atkBuffer.sum+d%4+1
 				P.stat.recv=P.stat.recv+d%4+1
-				if P.modeData.event==45 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
+				if P.modeData.event==45 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end
 				P.modeData.counter=0
 				P.modeData.event=d
 			end

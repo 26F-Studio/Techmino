@@ -17,7 +17,7 @@ SFX.list={
 	"clear_1","clear_2","clear_3","clear_4",
 	"spin_0","spin_1","spin_2","spin_3",
 	"emit","blip_1","blip_2",
-	"perfectclear",
+	"clear",
 
 	"error",
 	--Mono sfxs

@@ -97,7 +97,7 @@ local sceneInit={
 			S.clear_1.."/"..S.clear_2.."/"..S.clear_3.."/"..S.clear_4,
 			"["..S.spin_0.."]/"..S.spin_1.."/"..S.spin_2.."/"..S.spin_3,
 			S.b2b.."[+"..S.b3b.."]",
-			S.pc,
+			S.pc.."["..S.c.."]",
 			format("%.3f",S.atk/S.row),
 			S.extraPiece,
 			format("%.2f%%",100*max(1-S.extraRate/S.piece,0)),
@@ -160,7 +160,7 @@ local sceneInit={
 			format("%d/%d/%d/%d",S.clear_1,S.clear_2,S.clear_3,S.clear_4),
 			format("[%d]/%d/%d/%d",S.spin_0,S.spin_1,S.spin_2,S.spin_3),
 			S.b2b.."[+"..S.b3b.."]",
-			S.pc,
+			S.pc.."["..S.c.."]",
 			format("%.2f",S.atk/S.row),
 			format("%d[%.3f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 		}

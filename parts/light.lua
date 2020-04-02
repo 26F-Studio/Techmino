@@ -1,13 +1,12 @@
 --LIGHT MODULE(Optimized by MrZ,Original on github/love2d community/simple-love-lights)
 --Heavily based on mattdesl's libGDX implementation:
 --https://github.com/mattdesl/lwjgl-basics/wiki/2D-Pixel-Perfect-Shadows
+--Private--
 local gc=love.graphics
 local C=gc.clear
 local shadowMapShader=gc.newShader("shader/shadowMap.cs")--Shader for caculating the 1D shadow map.
 local lightRenderShader=gc.newShader("shader/lightRender.cs")--Shader for rendering blurred lights and shadows.
-Lights={}--Lightsource objects
-local Lights=Lights
---Private--
+local Lights={}--Lightsource objects
 local function move(L,x,y)
 	L.x,L.y=x,y
 end
@@ -51,18 +50,18 @@ local function draw(L)
 	--复位
 end
 --Public--
-function drawLight()
+function Lights.draw()
 	for i=1,#Lights do
 		Lights[i]:draw()
 	end
 end
-function clearLight(L)
-	for i=1,#Lights do
+function Lights.clear(L)
+	for i=#Lights,1,-1 do
 		Lights[i]:destroy()
 		Lights[i]=nil
 	end
 end
-function addLight(x,y,R,F)
+function Lights.add(x,y,R,F)
 	local id=#Lights+1
 	Lights[id]={
 		id=id,
@@ -78,3 +77,4 @@ function addLight(x,y,R,F)
 		destroy=destroy,
 	}
 end
+return Lights

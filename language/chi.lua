@@ -22,6 +22,7 @@ return{
 	b2b="B2B ",b3b="B2B2B ",
 	mini="Mini",
 	PC="Perfect Clear",
+	C="Clear",
 	hold="暂存",next="下一个",
 
 	stage=function(n)return"关卡 "..n end,
@@ -248,6 +249,7 @@ return{
 			dropFX="下落特效等级",
 			shakeFX="晃动特效等级",
 			atkFX="攻击特效等级",
+			text="消行文本",
 			fullscreen="全屏",
 			frame="绘制帧率",
 			back=BK,

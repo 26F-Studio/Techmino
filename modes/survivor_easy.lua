@@ -26,7 +26,7 @@ return{
 				P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=1,countdown=30,cd0=30,time=0,sent=false,lv=1}
 				P.atkBuffer.sum=P.atkBuffer.sum+1
 				P.stat.recv=P.stat.recv+1
-				if P.modeData.event==45 then P:showText(text.maxspeed,0,-140,100,"appear",.6)end
+				if P.modeData.event==45 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end
 				P.modeData.counter=0
 				P.modeData.event=P.modeData.event+1
 			end

@@ -13,6 +13,7 @@ local gameEnv0={
 	quickR=true,swap=true,
 	ghost=true,center=true,
 	smooth=false,grid=false,
+	text=true,
 	lockFX=3,dropFX=3,
 	shakeFX=3,
 
@@ -53,14 +54,9 @@ local spinSCR={--[blockName][row]
 --B2BMUL:1.2/2.0
 --Techrash:1K;MUL:1.3/1.8
 --Mini*=.6
-local visible_opt={show=1e99,time=300,fast=20,none=5}
+local visible_opt={show=1e99,time=300,fast=20,none=0}
 local reAtk={0,0,1,1,1,2,2,3,3}
 local reDef={0,1,1,2,3,3,4,4,5}
-local spinName={"zspin","sspin","lspin","jspin","tspin","ospin","ispin"}
-local clearName={"single","double","triple"}
-local spin_n={[0]="spin_0","spin_1","spin_2","spin_3"}
-local clear_n={"clear_1","clear_2","clear_3","clear_4"}
-local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
 local initCenterX={6,6,6,6,6,6.5,6.5}--1 added
 local initCenterY={22,22,22,22,22,22.5,21.5}--1 added
 local CCblockID={4,3,5,6,1,2,0}
@@ -69,7 +65,7 @@ local kickList=require("parts/kickList")
 local finesseCtrlPar={
 	[1]={
 		{1,2,1,0,1,2,2,1},
-		{2,2,3,1,1,2,3,2,2},
+		{2,2,2,1,1,2,3,2,2},
 	},--Z
 	[3]={
 		{1,2,1,0,1,2,2,1},
@@ -92,42 +88,42 @@ local CCblockID={4,3,5,6,1,2,0}
 local freshMethod={
 	none=NULL,
 	bag7=function(P)
-		if #P.next<6 then
-			local bag={1,2,3,4,5,6,7}
-			::L::P:getNext(rem(bag,rnd(#bag)))
-			if bag[1]then goto L end
-		end
+		local bag={1,2,3,4,5,6,7}
+		::L::P:getNext(rem(bag,rnd(#bag)))
+		if bag[1]then goto L end
 	end,
 	his4=function(P)
-		if #P.next<6 then
-			local j,i=0
-			repeat
-				i,j=rnd(7),j+1
-			until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]
-			P:getNext(i)
-			rem(P.his,1)P.his[4]=i
-		end
+		local i
+		local j=0
+		repeat
+			i=rnd(7)
+			j=j+1
+		until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]and j<6
+		P:getNext(i)
+		rem(P.his,1)P.his[4]=i
 	end,
 	rnd=function(P)
-		::L::local i=rnd(7)
-		if i==P.next[5].id then goto L end
+		local i
+		::L::i=rnd(7)
+		if P.next[1]and i==P.next[#P.next].id then goto L end
 		P:getNext(i)
-	end,--random
+	end,
 	drought1=function(P)
-		if #P.next<6 then
-			local bag={1,2,3,4,5,6}
-			::L::P:getNext(rem(bag,rnd(#bag)))
-			if bag[1]then goto L end
-		end
+		local bag={1,2,3,4,5,6}
+		::L::P:getNext(rem(bag,rnd(#bag)))
+		if bag[1]then goto L end
 	end,
 	drought2=function(P)
-		if #P.next<6 then
-			local bag={1,1,1,1,2,2,2,2,6,6,6,6,3,3,4,4,5,7}
-			::L::P:getNext(rem(bag,rnd(#bag)))
-			if bag[1]then goto L end
-		end
+		local bag={1,1,1,1,2,2,2,2,6,6,6,6,3,3,4,4,5,7}
+		::L::P:getNext(rem(bag,rnd(#bag)))
+		if bag[1]then goto L end
 	end,
 }
+local spinName={"zspin","sspin","lspin","jspin","tspin","ospin","ispin"}
+local clearName={"single","double","triple"}
+local spin_n={[0]="spin_0","spin_1","spin_2","spin_3"}
+local clear_n={"clear_1","clear_2","clear_3","clear_4"}
+local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
 -------------------------</GameData>------------------------
 
 --------------------------<Pnt/Upd>-------------------------
@@ -394,7 +390,7 @@ end
 local function Pdraw_small(P)
 	P.frameWait=P.frameWait-1
 	if P.frameWait==0 then
-		P.frameWait=8
+		P.frameWait=10
 		gc.setCanvas(P.canvas)
 		gc.clear(0,0,0,.4)
 		gc.push("transform")
@@ -607,7 +603,7 @@ local function Pupdate_alive(P,dt)
 			P.AI_stage=AI_think[P.AI_mode][P.AI_stage](P,C)
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])
-			local k=#C for i=1,k do C[i]=C[i+1]end--table.remove(C,1)
+			rem(C,1)
 			P.AI_delay=P.AI_delay0*2
 		end
 	end
@@ -712,7 +708,7 @@ local function Pupdate_alive(P,dt)
 		end
 	end
 	if not P.control then goto stop end
-	if P.waiting==0 then P:freshNext()end
+	if P.waiting==0 then P:popNext()end
 	if P.waiting>=0 then
 		P.waiting=P.waiting-1
 		goto stop
@@ -797,9 +793,12 @@ player={}local player=player
 ----------------------------<FX>----------------------------
 local textFX=textFX
 function player.showText(P,text,dx,dy,font,style,spd,stop)
-	if P.bonus then
+	if P.gameEnv.text then
 		P.bonus[#P.bonus+1]=getTEXT(text,150+dx,300+dy,font*P.size,style,spd,stop)
 	end
+end
+function player.showTextF(P,text,dx,dy,font,style,spd,stop)
+	P.bonus[#P.bonus+1]=getTEXT(text,150+dx,300+dy,font*P.size,style,spd,stop)
 end
 local function without(L,e)
 	for i=1,#L do
@@ -809,7 +808,7 @@ local function without(L,e)
 end
 function player.createLockFX(P)
 	local BK=P.cur.bk
-	local t=.1-P.gameEnv.lockFX*.02
+	local t=.3-P.gameEnv.lockFX*.06
 	for i=1,P.r do
 		local y=P.curY+i-1
 		if without(P.clearedRow,y)then
@@ -821,7 +820,7 @@ function player.createLockFX(P)
 		end
 	end
 end
-function player.createShade(P,x1,y1,x2,y2)--x1<x2,y1>y2!
+function player.createDropFX(P,x1,y1,x2,y2)--x1<x2,y1>y2!
 	if P.gameEnv.block and y1>=y2 then
 		P.dropFX[#P.dropFX+1]={5,P.cur.color,x1,y1,x2,y2}
 	end
@@ -1077,7 +1076,7 @@ function player.freshgho(P)
 		end
 		if P.curY>P.y_img then
 			if P.gameEnv.dropFX then
-				P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 			end
 			if P.gameEnv.shakeFX then
 				P.fieldOff.vy=P.gameEnv.shakeFX*.5
@@ -1170,7 +1169,7 @@ function player.spin(P,d,ifpre)
 	do return end
 	::spin::
 	if P.gameEnv.dropFX then
-		P:createShade(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+		P:createDropFX(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
 	end
 	local y0=P.curY
 	P.curX,P.curY,P.dir=ix,iy,idir
@@ -1217,7 +1216,9 @@ function player.hold(P,ifpre)
 		P.hd.bk=blocks[hid][P.gameEnv.face[hid]]
 		if P.cur.id==0 then
 			P.cur=rem(P.next,1)
-			P:newNext()
+			if #P.next<P.gameEnv.next then
+				P:newNext()
+			end
 			if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
 		end
 		P:resetBlock()
@@ -1233,17 +1234,19 @@ function player.hold(P,ifpre)
 	end
 end
 function player.getNext(P,n)
-	P.next[#P.next+1]={bk=blocks[n][P.gameEnv.face[n]],id=n,color=P.gameEnv.bone and 12 or P.gameEnv.skin[n],name=n}
+	local E=P.gameEnv
+	P.next[#P.next+1]={bk=blocks[n][E.face[n]],id=n,color=E.bone and 12 or E.skin[n],name=n}
 end
---function player.newNext()--check/add new next to next queue,defined when create player
-function player.freshNext(P)
+function player.popNext(P)--pop next queue to hand
 	P.holded=false
 	P.spinLast=false
 	P.spinSeq=0
 	P.ctrlCount=0
 
 	P.cur=rem(P.next,1)
-	P:newNext()
+	if #P.next<P.gameEnv.next then
+		P:newNext()
+	end
 	if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
 	local _=P.keyPressing
 	if P.gameEnv.hold and _[8]then
@@ -1278,6 +1281,8 @@ function player.drop(P)--Place piece
 	P.dropTime[11]=ins(P.dropTime,1,frame)--update speed dial
 	local cmb=P.combo
 	P.waiting=P.gameEnv.wait
+	local clear--if (perfect)clear
+	local cc=0--cleared row
 	local send,exblock=0,0--Send&Send Time
 	local cscore,sendTime=0,0
 	local dospin=0
@@ -1305,7 +1310,6 @@ function player.drop(P)--Place piece
 	--清空消行列表
 	if P.clearedRow[1]then P.clearedRow={}end
 	--消行
-	local cc=0
 	for i=0,P.r-1 do
 		local h=P.curY+i
 		if P:ckfull(h)then
@@ -1321,13 +1325,15 @@ function player.drop(P)--Place piece
 			end
 		end
 	end
-	_=#P.clearingRow
-	::L::if _>0 and P.clearingRow[_]>#P.field then
-		P.clearingRow[_]=nil
-		_=_-1
-		goto L
+
+	--处理锁定特效
+	if P.gameEnv.lockFX then
+		if cc==0 then
+			P:createLockFX()
+		elseif P.lockFX[1]then
+			P.lockFX={}
+		end
 	end
-	if P.clearingRow[1]then P.falling=P.gameEnv.fall end
 
 	--处理锁定特效
 	if P.gameEnv.lockFX then
@@ -1381,14 +1387,32 @@ function player.drop(P)--Place piece
 				end
 			end
 		end
+	else
+		finesse=true
 	end
 	::L2::
 
 	--移除消去的行
-	for i=cc,1,-1 do
-		_=P.clearedRow[i]
-		freeRow.discard(rem(P.field,_))
-		freeRow.discard(rem(P.visTime,_))
+	if cc>0 then
+		for i=cc,1,-1 do
+			_=P.clearedRow[i]
+			freeRow.discard(rem(P.field,_))
+			freeRow.discard(rem(P.visTime,_))
+		end
+	end
+	--清除超高特效
+	_=#P.clearingRow
+	::L::if _>0 then
+		if P.clearingRow[_]>#P.field then
+			P.clearingRow[_]=nil
+			_=_-1
+			goto L
+		end
+	end
+	if P.clearingRow[1]then
+		P.falling=P.gameEnv.fall
+	elseif cc==P.r then
+		clear=true
 	end
 
 	if not finesse then--极简判定:操作判断法
@@ -1489,7 +1513,7 @@ function player.drop(P)--Place piece
 					SFX.play(spin_n[cc])
 					VOICE(spinName[P.cur.name],CHN)
 				end
-			elseif #P.field>0 then
+			elseif not clear then
 				P.b2b=max(P.b2b-250,0)
 				P:showText(text.clear[cc],0,-30,27+cc*3,"appear",(8-cc)*.3)
 				send=cc-.75
@@ -1508,21 +1532,31 @@ function player.drop(P)--Place piece
 			P:showText(text.cmb[min(cmb,20)],0,25,15+min(cmb,25)*3,cmb<10 and"appear"or"flicker")
 			cscore=cscore+min(20*cmb,300)*cc
 		end
-		if #P.field==0 then
-			P:showText(text.PC,0,-80,50,"flicker")
-			send=send^.5+min(6+P.stat.pc,10)
-			exblock=exblock+2
-			sendTime=sendTime+60
-			if P.stat.row+cc>4 then
-				P.b2b=1200
-				cscore=cscore+300*min(6+P.stat.pc,10)
+		if clear then
+			if #P.field==0 then
+				P:showText(text.PC,0,-80,50,"flicker")
+				send=send^.5+min(6+P.stat.pc,10)
+				exblock=exblock+2
+				sendTime=sendTime+120
+				if P.stat.row+cc>4 then
+					P.b2b=1200
+					cscore=cscore+300*min(6+P.stat.pc,10)
+				else
+					cscore=cscore+626
+				end
+				P.stat.pc=P.stat.pc+1
+				P.lastClear=P.cur.id*10+5
 			else
+				P:showText(text.C,0,-80,50,"fly")
+				send=send+2
+				exblock=exblock+2
+				sendTime=sendTime+60
 				cscore=cscore+626
+				P.stat.c=P.stat.c+1
+				P.lastClear=cc
 			end
-			P.stat.pc=P.stat.pc+1
-			P.lastClear=P.cur.id*10+5
 			if P.human then
-				SFX.play("perfectclear")
+				SFX.play("clear")
 				VOICE("pc",CHN)
 			end
 		end
@@ -1698,7 +1732,7 @@ local function gameOver()
 			end
 			if p<10 then
 				if p==0 then
-					P:showText(text.newRecord,0,-100,100,"beat",.5)
+					P:showTextF(text.newRecord,0,-100,100,"beat",.5)
 				end
 				D.date=os.date("%Y/%m/%d %H:%M")
 				ins(L,p+1,D)
@@ -1748,9 +1782,9 @@ function player.win(P,result)
 	end
 	newTask(Event_task.finish,P)
 	if curMode.id=="custom_puzzle"then
-		P:showText(text.win,0,0,90,"beat",.4)
+		P:showTextF(text.win,0,0,90,"beat",.4)
 	else
-		P:showText(text.win,0,0,90,"beat",.5,.2)
+		P:showTextF(text.win,0,0,90,"beat",.5,.2)
 	end
 	if P.human then
 		gameOver()
@@ -1779,7 +1813,7 @@ function player.lose(P)
 	if modeEnv.royaleMode then
 		P:changeAtk()
 		P.modeData.event=#players.alive+1
-		P:showText(P.modeData.event,0,-120,60,"appear",1,12)
+		P:showTextF(P.modeData.event,0,-120,60,"appear",1,12)
 		P.strength=0
 		if P.lastRecv then
 			local A,i=P,0
@@ -1816,7 +1850,7 @@ function player.lose(P)
 		end
 	end
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
-	P:showText(text.lose,0,0,90,"appear",.5,.2)
+	P:showTextF(text.lose,0,0,90,"appear",.5,.2)
 	if P.human then
 		gameResult="lose"
 		SFX.play("fail")
@@ -1917,7 +1951,7 @@ function player.act.hardDrop(P)
 	elseif P.control and P.waiting==-1 then
 		if P.curY~=P.y_img then
 			if P.gameEnv.dropFX then
-				P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 			end
 			P.curY=P.y_img
 			P.spinLast=false
@@ -1969,7 +2003,7 @@ function player.act.insLeft(P,auto)
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
 		P.curX=P.curX-1
 		if P.gameEnv.dropFX then
-			P:createShade(P.curX+P.c,P.curY+P.r-1,P.curX+P.c,P.curY)
+			P:createDropFX(P.curX+P.c,P.curY+P.r-1,P.curX+P.c,P.curY)
 		end
 		P:freshgho()
 	end
@@ -1991,7 +2025,7 @@ function player.act.insRight(P,auto)
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
 		P.curX=P.curX+1
 		if P.gameEnv.dropFX then
-			P:createShade(P.curX-1,P.curY+P.r-1,P.curX-1,P.curY)
+			P:createDropFX(P.curX-1,P.curY+P.r-1,P.curX-1,P.curY)
 		end
 		P:freshgho()
 	end
@@ -2010,7 +2044,7 @@ end
 function player.act.insDown(P)
 	if P.curY~=P.y_img then
 		if P.gameEnv.dropFX then
-			P:createShade(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
+			P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 		end
 		if P.gameEnv.shakeFX then
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
@@ -2094,7 +2128,7 @@ function newDemoPlayer(id,x,y,size)
 		atk=0,send=0,recv=0,pend=0,
 		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
 		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
-		pc=0,b2b=0,b3b=0,
+		pc=0,c=0,b2b=0,b3b=0,
 	}
 	P.modeData={point=0,event=0,counter=0}
 	P.keyTime={}P.keySpeed=0
@@ -2111,6 +2145,7 @@ function newDemoPlayer(id,x,y,size)
 		quickR=true,swap=true,
 		ghost=setting.ghost,center=setting.center,
 		smooth=setting.smooth,grid=setting.grid,
+		text=setting.text,
 		lockFX=setting.lockFX,dropFX=setting.dropFX,
 		shakeFX=setting.shakeFX,
 
@@ -2122,7 +2157,7 @@ function newDemoPlayer(id,x,y,size)
 		ospin=true,
 		sequence="bag7",
 		face={0,0,0,0,0,0,0},
-		skin={1,5,2,8,10,3,7},
+		skin=setting.skin,
 
 		pushSpeed=3,
 		block=true,
@@ -2154,15 +2189,8 @@ function newDemoPlayer(id,x,y,size)
 	P.spinSeq=0
 	P.ctrlCount=0
 
-	local bag1={1,2,3,4,5,6,7}
-	for _=1,7 do
-		P:getNext(rem(bag1,rnd(#bag1)))
-	end
 	P.newNext=freshMethod.bag7
-	if ENV.sequence==1 then P.bag={}
-	elseif ENV.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end
-	elseif ENV.sequence==3 then
-	end
+	P:newNext()
 
 	P.human=false
 	P.AI_mode="CC"
@@ -2202,7 +2230,7 @@ function newDemoPlayer(id,x,y,size)
 	P.dust=clearDust:clone()
 	P.dust:start()
 
-	P:freshNext()
+	P:popNext()
 end
 function newPlayer(id,x,y,size,AIdata)
 	players[id]={id=id}
@@ -2239,7 +2267,7 @@ function newPlayer(id,x,y,size,AIdata)
 		atk=0,send=0,recv=0,pend=0,
 		clear_1=0,clear_2=0,clear_3=0,clear_4=0,
 		spin_0=0,spin_1=0,spin_2=0,spin_3=0,
-		pc=0,b2b=0,b3b=0,
+		pc=0,c=0,b2b=0,b3b=0,
 	}--Current gamestat
 	P.modeData={point=0,event=0,counter=0}--data use by mode
 	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
@@ -2281,33 +2309,11 @@ function newPlayer(id,x,y,size,AIdata)
 	P.ctrlCount=0--key press time,for finesse check
 
 	P.his={rnd(7),rnd(7),rnd(7),rnd(7)}
-	local s=ENV.sequence
-	if s=="bag7"or s=="his4"then
-		local bag1={1,2,3,4,5,6,7}
-		for _=1,7 do
-			P:getNext(rem(bag1,rnd(#bag1)))
-		end
-	elseif s=="rnd"then
-		for _=1,6 do
-			local r=rnd(7)
-			P:getNext(r)
-		end
-	elseif s=="drought1"then
-		local bag1={1,2,3,4,5,6}
-		for _=1,6 do
-			P:getNext(rem(bag1,rnd(#bag1)))
-		end
-	elseif s=="drought2"then
-		local bag1={1,2,3,4,6,6}
-		for _=1,6 do
-			P:getNext(rem(bag1,rnd(#bag1)))
-		end
-	end
-
 	P.newNext=freshMethod[ENV.sequence]
-	if ENV.sequence==1 then P.bag={}--Bag7
-	elseif ENV.sequence==2 then P.his={}for i=1,4 do P.his[i]=P.next.id[i+3]end--History4
-	elseif ENV.sequence==3 then--Pure random
+	if ENV.sequence~="none"then
+		while #P.next<P.gameEnv.next do
+			P:newNext()
+		end
 	end
 
 	if AIdata then
@@ -2351,6 +2357,7 @@ function newPlayer(id,x,y,size,AIdata)
 		ENV.next=min(ENV.next,setting.maxNext)
 	end
 	if P.small then
+		ENV.text=false
 		ENV.lockFX=nil
 		ENV.dropFX=nil
 		ENV.shakeFX=nil
@@ -2378,6 +2385,7 @@ function newPlayer(id,x,y,size,AIdata)
 
 	P.score1,P.b2b1=0,0
 	P.dropFX,P.lockFX={},{}
+	P.bonus={}--texts
 
 	P.endCounter=0--used after gameover
 	P.result=nil--string:"WIN"/"K.O."

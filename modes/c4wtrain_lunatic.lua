@@ -1,7 +1,7 @@
 local rnd,min=math.random,math.min
 local function check_c4w(P)
 	for i=1,#P.clearedRow do
-		P.field[#P.field+1]=freeRow.get(10)
+		P.field[#P.field+1]=freeRow.get(13)
 		P.visTime[#P.visTime+1]=freeRow.get(20)
 		for i=4,7 do P.field[#P.field][i]=0 end
 	end
@@ -46,17 +46,17 @@ return{
 		local P=players[1]
 		local F=P.field
 		for i=1,24 do
-			F[i]=freeRow.get(10)
+			F[i]=freeRow.get(13)
 			P.visTime[i]=freeRow.get(20)
 			for x=4,7 do F[i][x]=0 end
 		end
 		local r=rnd(6)
-		if r==1 then	 F[1][5],F[1][4],F[2][4]=10,10,10
-		elseif r==2 then F[1][6],F[1][7],F[2][7]=10,10,10
-		elseif r==3 then F[1][4],F[2][4],F[2][5]=10,10,10
-		elseif r==4 then F[1][7],F[2][7],F[2][6]=10,10,10
-		elseif r==5 then F[1][4],F[1][5],F[1][6]=10,10,10
-		elseif r==6 then F[1][7],F[1][6],F[1][5]=10,10,10
+		if r==1 then	 F[1][5],F[1][4],F[2][4]=13,13,13
+		elseif r==2 then F[1][6],F[1][7],F[2][7]=13,13,13
+		elseif r==3 then F[1][4],F[2][4],F[2][5]=13,13,13
+		elseif r==4 then F[1][7],F[2][7],F[2][6]=13,13,13
+		elseif r==5 then F[1][4],F[1][5],F[1][6]=13,13,13
+		elseif r==6 then F[1][7],F[1][6],F[1][5]=13,13,13
 		end
 	end,
 	mesDisp=function(P,dx,dy)

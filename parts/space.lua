@@ -51,9 +51,9 @@ function space.draw()
 	if not stars[1]then return end
 	gc.translate(-50,-50)
 	gc.setLineWidth(7)
-	gc.setColor(planet.R,planet.G,planet.B,.1626)
+	gc.setColor(planet.R,planet.G,planet.B,.026)
 	gc.circle("line",planet.x,planet.y,planet.r+1)
-	gc.setColor(planet.R,.6,planet.B,.26)
+	gc.setColor(planet.R,.6,planet.B,.0626)
 	gc.circle("fill",planet.x,planet.y,planet.r)
 	gc.setColor(.9,.9,.9)
 	for i=1,2600,5 do

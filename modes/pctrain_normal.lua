@@ -6,10 +6,12 @@ local function task_PC(P)
 	P.modeData.counter=P.modeData.counter+1
 	if P.modeData.counter==21 then
 		local t=P.stat.pc%2
+		local S=P.gameEnv.skin
 		for i=1,4 do
 			local r=freeRow.get(0)
 			for j=1,10 do
-				r[j]=PCbase[4*t+i][j]
+				local _=PCbase[4*t+i][j]
+				r[j]=S[_]or 0
 			end
 			ins(P.field,1,r)
 			ins(P.visTime,1,freeRow.get(20))
@@ -40,7 +42,7 @@ local function newPC(P)
 				elseif b<5 then b=7-b
 				end
 			end
-			P.next[#P.next+1]={bk=blocks[b][0],id=b,color=b,name=b}--P:newNext(b)'s simple version!
+			P:getNext(b)
 		end
 		P.modeData.counter=P.stat.piece==0 and 20 or 0
 		newTask(task_PC,P)

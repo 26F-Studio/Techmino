@@ -80,14 +80,14 @@ end
 -------------------------------------------------⑨Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
-	{1,0,0},--S
-	{1,0,0},--Z
-	{1,0,0},--L
-	{1,0,0},--J
-	{1,0,0},--T
-	{0,0,0},--O
-	{2,0,1},--I
-}for i=1,7 do spinOffset[i][0]=0 end
+	{[0]=0,1,0,0},--Z
+	{[0]=0,1,0,0},--L
+	{[0]=0,1,0,0},--J
+	{[0]=0,1,0,0},--T
+	{[0]=0,1,0,0},--S
+	{[0]=0,0,0,0},--O
+	{[0]=0,2,0,1},--I
+}
 local FCL={
 	[1]={
 		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12}},
@@ -106,10 +106,7 @@ local FCL={
 		{{11},{11,2},{1},{},{2},{12,1},{12},},
 		{{4,11},{11,4},{11,3},{1,4},{4},{3},{2,3},{12,4},{12,3},{3,12},},
 	},
-}
-FCL[2]=FCL[1]
-FCL[4]=FCL[3]
-FCL[5]=FCL[3]
+}FCL[2],FCL[4],FCL[5]=FCL[1],FCL[3],FCL[3]
 local LclearScore={[0]=0,-200,-120,-80,200}
 local HclearScore={[0]=0,100,140,200,500}
 local function ifoverlapAI(f,bk,x,y)
@@ -256,7 +253,7 @@ AI_think={
 			P.AI_delay=P.AI_delay0
 			if Timer()-P.modeData.point>P.modeData.event then
 				P.modeData.point=Timer()
-				P.modeData.event=P.AI_delay0+rnd(2,10)
+				P.modeData.event=P.AI_delay0+rnd(5,15)
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
@@ -294,7 +291,7 @@ AI_think={
 			P.AI_delay=P.AI_delay0
 			if Timer()-P.modeData.point>P.modeData.event then
 				P.modeData.point=Timer()
-				P.modeData.event=P.AI_delay0+rnd(2,10)
+				P.modeData.event=P.AI_delay0+rnd(5,15)
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
