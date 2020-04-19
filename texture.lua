@@ -65,10 +65,18 @@ drawableText={
 	mxcmb=T(20,"Max Combo"),
 	pc=T(20,"Perfect Clear"),
 	ko=T(25,"KO"),
+	C=T(100,"C"),
+	B=T(100,"B"),
+	A=T(100,"A"),
+	S=T(100,"S"),
+	SS=T(80,"SS"),
+
 
 	modeName=T(30),levelName=T(30),
-	next=T(40),hold=T(40),
 
+
+	anykey=T(40),
+	next=T(40),hold=T(40),
 	win=T(120),finish=T(120),
 	lose=T(120),pause=T(120),
 

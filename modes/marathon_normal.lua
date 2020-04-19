@@ -33,7 +33,7 @@ return{
 	env={
 		noFly=true,
 		minsdarr=1,
-		fall=30,
+		wait=8,fall=20,
 		target=10,dropPiece=check_LVup,
 		mindas=7,minarr=1,minsdarr=1,
 		bg="strap",bgm="way",

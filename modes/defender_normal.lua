@@ -19,10 +19,11 @@ return{
 	env={
 		drop=30,lock=60,
 		fall=10,
+		next=3,
 		freshLimit=15,
 		pushSpeed=1,
 		task=function(P)
-			if not(P.control and scene.cur=="play")then return end
+			if not(P.control and SCN.cur=="play")then return end
 			P.modeData.counter=P.modeData.counter+1
 			local t=360-P.modeData.event*2
 			if P.modeData.counter>=t then
@@ -61,8 +62,8 @@ return{
 		setFont(55)
 		mStr(P.modeData.event,-81,200)
 		mStr(P.modeData.point,-81,320)
-		mDraw(drawableText.wave,-81,260)
-		mDraw(drawableText.rpm,-81,380)
+		mText(drawableText.wave,-81,260)
+		mText(drawableText.rpm,-81,380)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,

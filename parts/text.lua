@@ -33,6 +33,8 @@ function textFX.spin(t)
 		gc.translate(t.x,t.y)
 		if t.c<.3 then
 			gc.rotate((.3-t.c)^2*4)
+		elseif t.c>.8 then
+			gc.rotate((t.c-.8)^2*-4)
 		end
 		mStr(t.text,0,-t.font*.7)
 	gc.pop()
@@ -60,7 +62,14 @@ function textFX.beat(t)
 		mStr(t.text,0,-t.font*.7)
 	gc.pop()
 end
-function getTEXT(text,x,y,font,style,spd,stop)
+function textFX.mark(t)
+	local _,_,_,T=gc.getColor()
+	gc.setColor(1,1,1,T*.06626)
+	mStr(t.text,t.x,t.y-t.font*.7)
+end
+
+local TEXT={}
+function TEXT.getText(text,x,y,font,style,spd,stop)
 	return{
 		c=0,
 		text=text,
@@ -72,7 +81,7 @@ function getTEXT(text,x,y,font,style,spd,stop)
 		draw=textFX[style]or error("unavailable type:"..style),
 	}
 end--another version of TEXT()
-function TEXT(text,x,y,font,style,spd,stop)
+function TEXT.show(text,x,y,font,style,spd,stop)
 	texts[#texts+1]={
 		c=0,				--timer
 		text=text,			--string
@@ -84,7 +93,7 @@ function TEXT(text,x,y,font,style,spd,stop)
 		draw=textFX[style]or error("unavailable type:"..style),	--draw method
 	}
 end
-function updateText(list)
+function TEXT.update(list)
 	for i=#list,1,-1 do
 		local t=list[i]
 		t.c=t.c+t.spd
@@ -98,7 +107,7 @@ function updateText(list)
 		end
 	end
 end
-function drawTexts(list)
+function TEXT.draw(list)
 	for i=1,#list do
 		local t=list[i]
 		local p=t.c
@@ -107,3 +116,4 @@ function drawTexts(list)
 		t:draw()
 	end
 end
+return TEXT

@@ -39,7 +39,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(75)
 		mStr(P.modeData.event,-81,330)
-		mDraw(drawableText.tsd,-81,407)
+		mText(drawableText.tsd,-81,407)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."TSD   "..toTime(D[2])end,

@@ -12,7 +12,7 @@ local function check_LVup(P)
 		end
 	end
 end
-	
+
 return{
 	name={
 		"高速经典",
@@ -50,7 +50,7 @@ return{
 		setFont(75)
 		local r=P.gameEnv.target*.1
 		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),-81,210)
-		mDraw(drawableText.speedLV,-81,290)
+		mText(drawableText.speedLV,-81,290)
 		setFont(45)
 		mStr(P.stat.row,-81,320)
 		mStr(P.gameEnv.target,-81,370)

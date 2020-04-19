@@ -1,11 +1,8 @@
 local format,rnd=string.format,math.random
 local function check_rise(P)
-	local L=P.clearedRow
-	for i=1,#L do
-		if L[i]<6 then
-			P:garbageRise(10,1,rnd(10))
-			P.modeData.point=P.modeData.point+1
-		end
+	while P.garbageBeneath<6 do
+		P:garbageRise(10,1,rnd(10))
+		P.modeData.point=P.modeData.point+1
 	end
 end
 
@@ -44,9 +41,9 @@ return{
 		mStr(P.modeData.point,-81,190)
 		mStr(P.stat.atk,-81,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,420)
-		mDraw(drawableText.line,-81,243)
-		mDraw(drawableText.atk,-81,363)
-		mDraw(drawableText.eff,-81,475)
+		mText(drawableText.line,-81,243)
+		mText(drawableText.atk,-81,363)
+		mText(drawableText.eff,-81,475)
 	end,
 	score=function(P)return{P.modeData.point}end,
 	scoreDisp=function(D)return D[1].." Lines"end,

@@ -16,6 +16,9 @@ local modeRankColor={
 	color.lightCyan,	--Rank5
 	color.purple,		--Special
 }
+local rankString={
+	"C","B","A","S","SS",
+}
 local miniTitle_rect={
 	{2,0,5,1},{4,1,1,6},
 	{9,0,4,1},{9,3,4,1},{9,6,4,1},{8,0,1,7},
@@ -35,7 +38,6 @@ end
 
 FX_attack={}--Attack beam
 FX_badge={}--Badge thrown
-sysFX={}
 local function drawAtkPointer(x,y)
 	local t=sin(Timer()*20)
 	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
@@ -61,6 +63,7 @@ end
 local function drawVirtualkey()
 	local V=virtualkey
 	local a=setting.VKAlpha*.1
+	local _
 	if setting.VKIcon then
 		for i=1,#V do
 			if V[i].ava then
@@ -68,7 +71,7 @@ local function drawVirtualkey()
 				gc.setColor(1,1,1,a)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r)--Button outline
-				local _=V[i].pressTime
+				_=V[i].pressTime
 				gc.draw(VKIcon[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--icon
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
@@ -84,7 +87,7 @@ local function drawVirtualkey()
 				gc.setColor(1,1,1,a)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r)
-				local _=V[i].pressTime
+				_=V[i].pressTime
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
 					gc.circle("fill",B.x,B.y,B.r*.94)
@@ -95,107 +98,28 @@ local function drawVirtualkey()
 	end
 end
 
-local Pnt={BG={}}
-function Pnt.BG.none()
-	gc.clear(.15,.15,.15)
-end
-function Pnt.BG.grey()
-	gc.clear(.3,.3,.3)
-end
-function Pnt.BG.glow()
-	local t=(sin(Timer()*.5)+sin(Timer()*.7)+sin(Timer()*.9+1)+sin(Timer()*1.5)+sin(Timer()*2+10))*.1
-	gc.clear(t,t,t)
-end
-function Pnt.BG.rgb()
-	gc.clear(
-		sin(Timer()*1.2)*.15+.2,
-		sin(Timer()*1.5)*.15+.2,
-		sin(Timer()*1.9)*.15+.2
-	)
-end
-function Pnt.BG.strap()
-	gc.setColor(.5,.5,.5)
-	local x=Timer()%16*-64
-	::L::
-	gc.draw(background2,x,0,nil,8,scr.h)
-	x=x+1024--image width*8
-	if x<scr.w then goto L end
-end
-function Pnt.BG.flink()
-	local t=.13-Timer()%3%1.7
-	if t<.2 then gc.clear(t,t,t)
-	else gc.clear(0,0,0)
-	end
-end
-function Pnt.BG.game1()
-	gc.setColor(.5,.5,.5)
-	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
-end--Rainbow
-function Pnt.BG.game2()
-	gc.setColor(.5,.26,.26)
-	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
-end--Red rainbow
-function Pnt.BG.game3()
-	gc.setColor(.4,.4,.8)
-	gc.draw(background1,scr.w*.5,scr.h*.5,Timer()*.15,scr.rad*.0625,nil,16,16)
-end--Blue rainbow
-function Pnt.BG.game4()
-	gc.setColor(.05,.4,.4)
-	local x=Timer()%8*-128
-	::L::
-	gc.draw(background2,x,0,nil,8,scr.h)
-	x=x+1024--image width*8
-	if x<scr.w then goto L end
-end--Fast strap
-function Pnt.BG.game5()
-	local t=2.5-Timer()%20%6%2.5
-	if t<.3 then gc.clear(t,t,t)
-	else gc.clear(0,0,0)
-	end
-end--Lightning
-function Pnt.BG.game6()
-	local t=1.2-Timer()%10%3%1.2
-	if t<.3 then gc.clear(t,t,t)
-	else gc.clear(0,0,0)
-	end
-	local R=7-int(Timer()*.5)%7
-	local _=skin.libColor[setting.skin[R]]
-	gc.setColor(_[1],_[2],_[3],.1)
-	gc.draw(miniBlock[R],640,360,Timer()%3.1416*6,400,400,scs[R][0][2]-.5,#blocks[R][0]-scs[R][0][1]+.5)
-end--Fast lightning&spining tetromino
-local matrixT={}for i=1,50 do matrixT[i]={}for j=1,50 do matrixT[i][j]=love.math.noise(i,j)+2 end end
-function Pnt.BG.matrix()
-	gc.scale(scr.k)
-	gc.clear(.15,.15,.15)
-	local _=ceil(scr.h/80)
-	for i=1,ceil(scr.w/80)do
-		for j=1,_ do
-			gc.setColor(1,1,1,sin(matrixT[i][j]*Timer())*.1+.1)
-			gc.rectangle("fill",80*i,80*j,-80,-80)
-		end
-	end
-	gc.scale(1/scr.k)
-end
+local Pnt={}
 
 function Pnt.load()
-	local L=sceneTemp
+	local S=sceneTemp
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.5)
-	gc.rectangle("fill",300,330,L[2]/L[3]*680,60,5)
+	gc.rectangle("fill",300,330,S.cur/S.tar*680,60,5)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60,5)
 	setFont(35)
-	gc.print(text.load[L[1]],340,335)
-	if sceneTemp[1]~=0 then
-		gc.printf(sceneTemp[2].."/"..sceneTemp[3],795,335,150,"right")
+	gc.print(text.load[S.phase],340,335)
+	if S.phase~=0 then
+		gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
 	end
 	setFont(25)
-	mStr(L[4],640,400)
+	mStr(S.tip,640,400)
 end
 function Pnt.intro()
+	local T=sceneTemp
 	gc.stencil(stencil_miniTitle,"replace",1)
 	gc.setStencilTest("equal",1)
-		gc.setColor(1,1,1,min(sceneTemp,80)*.005)
+		gc.setColor(1,1,1,min(T,80)*.005)
 		gc.push("transform")
 			gc.translate(250,150)
 			gc.scale(30)
@@ -204,19 +128,24 @@ function Pnt.intro()
 		gc.setColor(1,1,1,.06)
 		for i=41,5,-2 do
 			gc.setLineWidth(i)
-			gc.line(200+(sceneTemp-80)*25,130,(sceneTemp-80)*25,590)
+			gc.line(200+(T-80)*25,130,(T-80)*25,590)
 		end
 	gc.setStencilTest()
+	if T>=80 then
+		gc.setColor(1,1,1,.5+sin((T-95)/30*3.142)*.5)
+		mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
+	end
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
-	gc.draw(coloredTitleImage,60,30,nil,1.3)
+	gc.draw(IMG.coloredTitleImage,60,30,nil,1.3)
 	setFont(30)
 	gc.print(gameVersion,70,125)
 	gc.print(system,610,100)
 	players[1]:draw()
 end
 function Pnt.mode()
+	local _
 	local cam=mapCam
 	gc.push("transform")
 	gc.translate(640,360)
@@ -233,10 +162,8 @@ function Pnt.mode()
 			gc.setColor(1,1,1,.2)
 			for _=1,#M.unlock do
 				local m=M.unlock[_]
-				if R[m]then
-					m=MM[m]
-					gc.line(M.x,M.y,m.x,m.y)
-				end
+				m=MM[m]
+				gc.line(M.x,M.y,m.x,m.y)
 			end
 
 			local S=M.size
@@ -272,6 +199,15 @@ function Pnt.mode()
 					gc.circle("line",M.x,M.y,S,8)
 				end
 			end
+			_=drawableText[rankString[modeRanks[M.id]]]
+			if _ then
+				local dx,dy=6.26*sin(Timer()*1.26+M.id),12.6*sin(Timer()+M.id)
+				gc.setColor(0,0,0,.5)
+				mDraw(_,M.x+dx*1.5,M.y+dy*1.5)
+				gc.setColor(1,1,1,.8)
+				mDraw(_,M.x+dx,M.y+dy)
+			end
+			--[[
 			if M.icon then
 				local i=M.icon
 				local l=i:getWidth()*.5
@@ -284,6 +220,7 @@ function Pnt.mode()
 				gc.setColor(1,1,1)
 				gc.draw(i,M.x,M.y,nil,k,nil,l,l)
 			end
+			]]
 		end
 	end
 	gc.pop()
@@ -298,10 +235,10 @@ function Pnt.mode()
 		gc.setColor(1,1,1)
 		setFont(28)gc.printf(M.info[lang],920,110,360,"center")
 		if M.slowMark then
-			gc.draw(ctrlSpeedLimit,1230,50,nil,.4)
+			gc.draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
 		end
 		if M.score then
-			mDraw(drawableText.highScore,1100,240)
+			mText(drawableText.highScore,1100,240)
 			gc.setColor(.4,.4,.4,.8)
 			gc.rectangle("fill",940,290,320,280)--Highscore board
 			local L=M.records
@@ -318,11 +255,11 @@ function Pnt.mode()
 					setFont(int(26-s*.4))
 					gc.print(t,955,275+dy+25*i)
 					setFont(10)
-					local _=L[i].date
+					_=L[i].date
 					if _ then gc.print(_,1155,284+25*i)end
 				end
 			else
-				mDraw(drawableText.noScore,1100,370)
+				mText(drawableText.noScore,1100,370)
 			end
 		end
 	end
@@ -343,7 +280,7 @@ function Pnt.music()
 	for i=1,#musicID do
 		gc.print(musicID[i],50,90+30*i)
 	end
-	gc.draw(titleImage,640,310,nil,1.5,nil,206,35)
+	gc.draw(IMG.titleImage,640,310,nil,1.5,nil,206,35)
 	if BGM.nowPlay then
 		setFont(45)
 		gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
@@ -351,7 +288,7 @@ function Pnt.music()
 		local t=-Timer()%2.3/2
 		if t<1 then
 			gc.setColor(1,1,1,t)
-			gc.draw(coloredTitleImage,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+			gc.draw(IMG.coloredTitleImage,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
 		end
 	end
 end
@@ -413,8 +350,9 @@ function Pnt.draw()
 		gc.draw(drawableText.question,1040,430)
 	end
 	setFont(40)
+	local _
 	for i=1,7 do
-		local _=setting.skin[i]
+		_=setting.skin[i]
 		gc.setColor(skin.libColor[_])
 		mStr(text.block[i],500+65*_,65)
 	end
@@ -453,12 +391,12 @@ function Pnt.play()
 			local b=FX_badge[i]
 			gc.setColor(1,1,1,b.t<10 and b.t*.1 or b.t<50 and 1 or(60-b.t)*.1)
 			if b.t<10 then
-				gc.draw(badgeIcon,b[1]-14,b[2]-14)
+				gc.draw(IMG.badgeIcon,b[1]-14,b[2]-14)
 			elseif b.t<50 then
 				local t=((b.t-10)*.025)t=(3-2*t)*t*t
-				gc.draw(badgeIcon,b[1]*(1-t)+b[3]*t-14,b[2]*(1-t)+b[4]*t-14)
+				gc.draw(IMG.badgeIcon,b[1]*(1-t)+b[3]*t-14,b[2]*(1-t)+b[4]*t-14)
 			else
-				gc.draw(badgeIcon,b[3]-14,b[4]-14)
+				gc.draw(IMG.badgeIcon,b[3]-14,b[4]-14)
 			end
 		end
 		local P=players[1]
@@ -487,57 +425,110 @@ function Pnt.play()
 end
 function Pnt.pause()
 	Pnt.play()
-	local T=sceneTemp.timer*.02
-	local t=T
-	if gameResult then t=t*.6 end
-	gc.setColor(.15,.15,.15,t)
+	local S=sceneTemp
+	local T=S.timer*.02
+
+	--Dark BG
+	local _=T
+	if gameResult then _=_*.6 end
+	gc.setColor(.15,.15,.15,_)
 	gc.push("transform")
 		gc.origin()
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 	gc.pop()
+
+	--Pause Info
 	setFont(25)
 	if pauseCount>0 then
 		gc.setColor(1,.4,.4,T)
-		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%.2f",pauseTime).."s",110,150)
+		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%.2f",pauseTime).."s",70,100)
 	end
+
 	gc.setColor(1,1,1,T)
-	for i=1,7 do
-		gc.print(text.pauseStat[i],95,30*i+310)
-		gc.print(sceneTemp[i],305,30*i+310)
-	end
-	for i=8,14 do
-		gc.print(text.pauseStat[i],845,30*i+100)
-		gc.print(sceneTemp[i],1050,30*i+100)
-	end
+
+	--Mode Info
 	_=drawableText.modeName
-	gc.draw(_,100,230)
-	gc.draw(drawableText.levelName,135+_:getWidth(),230)
+	gc.draw(_,70,180)
+	gc.draw(drawableText.levelName,90+_:getWidth(),180)
+
+	--Result Text
 	setFont(35)
-	mDraw(gameResult and drawableText[gameResult]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
+	mText(gameResult and drawableText[gameResult]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
+
+	--Infos
+	if frame>180 then
+		_=S.list
+		setFont(26)
+		for i=1,8 do
+			gc.print(text.pauseStat[i],70,210+40*i)
+			gc.printf(_[i],245,210+40*i,250,"right")
+		end
+	end
+
+	--Radar Chart
+	if T>.5 and frame>180 then
+		T=T*2-1
+		gc.setLineWidth(2)
+		gc.push("transform")
+			gc.translate(1026,400)
+			gc.scale((3-2*T)*T)
+			local C=S.color1;C[4]=T;gc.setColor(C)gc.polygon("fill",S.V1)
+			C=S.color2;C[4]=T;gc.setColor(C)gc.polygon("fill",S.V2)
+			gc.setColor(1,1,1,T*(.5+.5*sin(Timer()*12.626)))
+			gc.polygon("line",S.standard)
+			gc.setColor(1,1,1,T)
+			gc.line(S.V1)gc.line(S.V2)
+		gc.pop()
+
+		gc.line(1026,400-160,1026,400+160)
+		gc.line(1026-160,400,1026+160,400)
+
+		_=Timer()%6.2832
+		if _>3.1416 then
+			_=_-3.1416
+			setFont(35)
+			gc.setColor(1,1,1,T*sin(_))
+			mStr(text.atk,1026,420-230)
+			mStr(text.spd,1026+180,340)
+			mStr(text.recv,1026,420+140)
+			mStr(text.eff,1026-180,340)
+		else
+			gc.setColor(1,1,1,T*sin(_))
+			_=S.radar1
+			setFont(23)
+			mStr(_[1],1026,420-215)
+			mStr(_[2],1026+180,340)
+			mStr(_[3],1026,420+140)
+			mStr(_[4],1026-180,340)
+		end
+	end
 end
 function Pnt.setting_game()
 	gc.setColor(1,1,1)
-	mDraw(drawableText.setting_game,640,15)
+	mText(drawableText.setting_game,640,15)
 	gc.draw(blockSkin[int(Timer()*2)%11+1],720,540,Timer()%6.28319,2,nil,15,15)
 end
 function Pnt.setting_graphic()
 	gc.setColor(1,1,1)
-	mDraw(drawableText.setting_graphic,640,15)
+	mText(drawableText.setting_graphic,640,15)
 end
 function Pnt.setting_sound()
 	gc.setColor(1,1,1,.8)
-	mDraw(drawableText.setting_sound,640,15)
+	mText(drawableText.setting_sound,640,15)
 	local t=Timer()
 	local _=sceneTemp.jump
 	local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
 	gc.translate(x,y)
-	gc.draw(miya.ch,0,0)
+	gc.draw(IMG.miyaCH,0,0)
 	gc.setColor(1,1,1,.7)
-	gc.draw(miya.f1,4,47+4*sin(t*.9))
-	gc.draw(miya.f2,42,107+5*sin(t))
-	gc.draw(miya.f3,93,126+3*sin(t*.7))
-	gc.draw(miya.f4,129,98+3*sin(t*.7))
+	gc.draw(IMG.miyaF1,4,47+4*sin(t*.9))
+	gc.draw(IMG.miyaF2,42,107+5*sin(t))
+	gc.draw(IMG.miyaF3,93,126+3*sin(t*.7))
+	gc.draw(IMG.miyaF4,129,98+3*sin(t*.7))
 	gc.translate(-x,-y)
+end
+local function timeConv(t)
+	return t.."F "..int(t*16.67).."ms"
 end
 function Pnt.setting_control()
 	--Testing grid line
@@ -557,14 +548,14 @@ function Pnt.setting_control()
 	gc.draw(drawableText.setting_control,80,50)
 	setFont(50)
 	gc.printf(text.preview,320,540,200,"right")
-	
+
 	--Floating number
 	setFont(30)
 	local _=setting
-	mStr(_.das,226+35*_.das,145)
-	mStr(_.arr,226+35*_.arr,235)
-	mStr(_.sddas,226+35*_.sddas,325)
-	mStr(_.sdarr,226+35*_.sdarr,415)
+	mStr(timeConv(_.das),226+35*_.das,145)
+	mStr(timeConv(_.arr),226+35*_.arr,235)
+	mStr(timeConv(_.sddas),226+35*_.sddas,325)
+	mStr(timeConv(_.sdarr),226+35*_.sdarr,415)
 
 	--Testing O mino
 	_=blockSkin[setting.skin[6]]
@@ -592,11 +583,11 @@ function Pnt.setting_key()
 	--Selection rect
 
 	gc.setColor(1,.3,.3)
-	mDraw(drawableText.keyboard,340,30)
-	mDraw(drawableText.keyboard,940,30)
+	mText(drawableText.keyboard,340,30)
+	mText(drawableText.keyboard,940,30)
 	gc.setColor(.3,.3,1)
-	mDraw(drawableText.joystick,540,30)
-	mDraw(drawableText.joystick,1140,30)
+	mText(drawableText.joystick,540,30)
+	mText(drawableText.joystick,1140,30)
 
 	gc.setColor(1,1,1)
 	setFont(26)
@@ -663,38 +654,73 @@ function Pnt.setting_touch()
 end
 function Pnt.setting_trackSetting()
 	gc.setColor(1,1,1)
-	mDraw(drawableText.VKTchW,140+50*setting.VKTchW,260)
-	mDraw(drawableText.VKOrgW,140+50*setting.VKTchW+50*setting.VKCurW,320)
-	mDraw(drawableText.VKCurW,640+50*setting.VKCurW,380)
+	mText(drawableText.VKTchW,140+50*setting.VKTchW,260)
+	mText(drawableText.VKOrgW,140+50*setting.VKTchW+50*setting.VKCurW,320)
+	mText(drawableText.VKCurW,640+50*setting.VKCurW,380)
 end
 function Pnt.help()
-	setFont(22)
+	setFont(20)
 	gc.setColor(1,1,1)
 	for i=1,#text.help do
-		gc.printf(text.help[i],200,30*i-10,1000,"center")
+		gc.printf(text.help[i],150,30*i-10,1000,"center")
 	end
 	setFont(19)
 	gc.print(text.used,30,330)
-	gc.draw(titleImage,280,610,.1,1+.05*sin(Timer()*2),nil,206,35)
-	gc.setLineWidth(5)
-	gc.rectangle("line",17,17,260,260)
-	gc.rectangle("line",1077,17,186,186)
-	gc.draw(payCode,20,20)
-	gc.draw(groupCode,1080,20)
-	gc.setColor(1,1,1,sin(Timer()*10)*.5+.5)
-	setFont(30)
-	mStr(text.support,150,283)
+	gc.draw(IMG.titleImage,280,610,.1,1+.05*sin(Timer()*2),nil,206,35)
+	gc.setLineWidth(3)
+	gc.rectangle("line",18,18,263,263)
+	gc.rectangle("line",1012,18,250,250)
+	gc.draw(IMG.pay1,20,20)
+	gc.draw(IMG.pay2,1014,20)
 	setFont(20)
-	mStr(text.group,1170,210)
+	mStr(text.group,640,490)
+	gc.setColor(1,1,1,sin(Timer()*10)*.4+.6)
+	setFont(30)
+	gc.print(text.support,150,283+20,sin(Timer()*2.6)*.02,nil,nil,115,20)
+	gc.print(text.support,1138,270+20,sin(Timer()*2.83)*.02,nil,nil,115,20)
 end
 function Pnt.stat()
-	setFont(23)
-	gc.setColor(1,1,1)
-	for i=1,16 do
-		gc.print(text.stat[i],400,30*i+10)
-		gc.print(sceneTemp[i],720,30*i+10)
+	local chart=sceneTemp.chart
+	setFont(24)
+	local _,__=skin.libColor,setting.skin
+	local A,B=chart.A1,chart.A2
+	for x=1,7 do
+		gc.setColor(_[__[x]])
+		mStr(text.block[x],80*x,40)
+		mStr(text.block[x],80*x,280)
+		for y=1,4 do
+			mStr(A[x][y],80*x,40+40*y)
+			mStr(B[x][y],80*x,280+40*y)
+		end
+		mStr(chart.Y1[x],80*x,240)
+		mStr(chart.Y2[x],80*x,480)
 	end
-	gc.draw(titleImage,260,570,.2+.07*sin(Timer()*3),nil,nil,206,35)
+	gc.setColor(1,1,1)
+	A,B=chart.X1,chart.X2
+	mStr(text.stat.spin,650,45)
+	mStr(text.stat.clear,650,285)
+	for y=1,4 do
+		mStr(A[y],650,40+40*y)
+		mStr(B[y],650,280+40*y)
+	end
+
+	setFont(22)
+	for i=1,11 do
+		gc.print(sceneTemp.item[i],740,40*i+10)
+	end
+
+	gc.setLineWidth(4)
+	for x=1,8 do
+		x=80*x-40
+		gc.line(x,80,x,240)
+		gc.line(x,320,x,480)
+	end
+	for y=2,6 do
+		gc.line(40,40*y,600,40*y)
+		gc.line(40,240+40*y,600,240+40*y)
+	end
+
+	gc.draw(IMG.titleImage,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
 end
 function Pnt.history()
 	gc.setColor(.2,.2,.2,.7)

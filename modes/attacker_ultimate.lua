@@ -21,7 +21,7 @@ return{
 		fall=8,
 		freshLimit=15,
 		task=function(P)
-			if not(P.control and scene.cur=="play")then return end
+			if not(P.control and SCN.cur=="play")then return end
 			if P.atkBuffer.sum<2 then
 				local p=#P.atkBuffer+1
 				local B,D=P.atkBuffer,P.modeData
@@ -73,8 +73,8 @@ return{
 			or P.modeData.event<20 and 25
 			or 28
 		,-81,320)
-		mDraw(drawableText.wave,-81,260)
-		mDraw(drawableText.nextWave,-81,380)
+		mText(drawableText.wave,-81,260)
+		mText(drawableText.nextWave,-81,380)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,

@@ -22,7 +22,7 @@ return{
 		freshLimit=15,
 		pushSpeed=2,
 		task=function(P)
-			if not(P.control and scene.cur=="play")then return end
+			if not(P.control and SCN.cur=="play")then return end
 			P.modeData.counter=P.modeData.counter+1
 			if P.modeData.counter>=max(300,600-10*P.modeData.event)and P.atkBuffer.sum<20 then
 				local t=max(300,480-12*P.modeData.event)
@@ -47,7 +47,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(65)
 		mStr(P.modeData.event,-81,310)
-		mDraw(drawableText.wave,-81,375)
+		mText(drawableText.wave,-81,375)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,

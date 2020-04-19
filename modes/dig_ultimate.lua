@@ -20,11 +20,12 @@ return{
 		drop=10,lock=30,
 		freshLimit=15,
 		task=function(P)
-			if not(P.control and scene.cur=="play")then return end
+			if not(P.control and SCN.cur=="play")then return end
 			local D=P.modeData
 			D.counter=D.counter+1
 			if D.counter>=max(30,80-.3*D.event)then
 				P:garbageRise(11+D.event%3,1,rnd(10))
+				P.stat.recv=P.stat.recv+1
 				D.counter=0
 				D.event=D.event+1
 			end
@@ -38,7 +39,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(65)
 		mStr(P.modeData.event,-81,310)
-		mDraw(drawableText.wave,-81,375)
+		mText(drawableText.wave,-81,375)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.row}end,
 	scoreDisp=function(D)return D[1].." Waves   "..D[2].." Lines"end,

@@ -32,11 +32,11 @@ return{
 		newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		mDraw(drawableText.line,-81,300)
-		mDraw(drawableText.techrash,-81,420)
+		mText(drawableText.line,-81,300)
+		mText(drawableText.techrash,-81,420)
 		setFont(75)
 		mStr(P.stat.row,-81,220)
-		mStr(P.stat.clear_4,-81,340)
+		mStr(P.stat.clear_S[4],-81,340)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

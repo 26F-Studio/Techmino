@@ -15,7 +15,7 @@ local function score(P)
 	elseif P.modeData.point>=100*(P.modeData.event+1)then
 		local s=P.modeData.event+1;P.modeData.event=s--level up!
 		local E=P.gameEnv
-		curBG=s==1 and"game1"or s==2 and"game2"or s==3 and"game3"or "game4"
+		BG.set(s==1 and"game1"or s==2 and"game2"or s==3 and"game3"or "game4")
 		E.lock=rush_lock[s]
 		E.wait=rush_wait[s]
 		E.fall=rush_fall[s]
@@ -82,7 +82,7 @@ return{
 	getRank=function(P)
 		local S=P.modeData.point
 		if S==500 then
-			local L=P.stat.clear_4
+			local L=P.stat.clear_S[4]
 			return
 			L>=30 and 5 or
 			L>=25 and 4 or

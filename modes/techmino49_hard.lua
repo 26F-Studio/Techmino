@@ -83,7 +83,7 @@ return{
 		setFont(25)
 		gc.print(powerUp[P.strength],-132,290)
 		for i=1,P.strength do
-			gc.draw(badgeIcon,16*i-138,260)
+			gc.draw(IMG.badgeIcon,16*i-138,260)
 		end
 	end,
 	score=function(P)return{P.modeData.event,P.modeData.point}end,

@@ -1,6 +1,7 @@
 setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
+	ihs=true,irs=true,ims=true,
 	reTime=10,
 	maxNext=6,
 	quickR=true,
@@ -25,7 +26,6 @@ setting={
 	text=true,
 	fullscreen=false,
 	bg=true,
-	bgspace=true,
 	--graphic
 
 	sfx=10,bgm=7,
@@ -43,13 +43,17 @@ setting={
 	--control
 }
 stat={
+	version=gameVersion,
 	run=0,game=0,time=0,
+	key=0,rotate=0,hold=0,
 	extraPiece=0,extraRate=0,
-	key=0,rotate=0,hold=0,piece=0,row=0,
-	atk=0,send=0,recv=0,pend=0,
-	clear_1=0,clear_2=0,clear_3=0,clear_4=0,
-	spin_0=0,spin_1=0,spin_2=0,spin_3=0,
-	pc=0,c=0,b2b=0,b3b=0,score=0,
+	piece=0,row=0,dig=0,
+	atk=0,digatk=0,send=0,recv=0,pend=0,
+	clear_S={0,0,0,0},clear_B={0,0,0,0,0,0,0},
+	spin_S={0,0,0,0},spin_B={0,0,0,0,0,0,0},
+	clear={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+	spin={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+	pc=0,hpc=0,b2b=0,b3b=0,score=0,
 	lastPlay=1,--last played mode ID
 }
 keyMap={
@@ -63,8 +67,8 @@ keyMap={
 for i=1,#keyMap do for j=1,20 do
 	if not keyMap[i][j]then keyMap[i][j]=""end
 end end
---Things related to virtualkey
-VK_org={--Original set,for restore VK' position
+
+VK_org={--Original virtualkey set,for restore VKs' position before each game
 	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight

@@ -34,7 +34,7 @@ return{
 	env={
 		noFly=true,
 		mindas=7,minarr=1,minsdarr=1,
-		drop=.5,fall=30,
+		drop=.5,wait=8,fall=20,
 		target=50,dropPiece=check,
 		bg="strap",bgm="race",
 	},

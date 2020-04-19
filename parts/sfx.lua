@@ -38,7 +38,7 @@ function SFX.play(s,v,pos)
 	while S[n]:isPlaying()do
 		n=n+1
 		if not S[n]then
-			S[n]=S[n-1]:clone()
+			S[n]=S[1]:clone()
 			S[n]:seek(0)
 			break
 		end

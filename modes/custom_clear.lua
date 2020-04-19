@@ -54,6 +54,7 @@ return{
 				P.visTime[y]=freeRow.get(t)
 				for x=1,10 do P.field[y][x]=preField[y][x]end
 			end
+			P.garbageBeneath=preField.h
 		end
 		modeEnv.bg=customRange.bg[customSel[12]]
 		modeEnv.bgm=customRange.bgm[customSel[13]]
@@ -62,7 +63,7 @@ return{
 		setFont(55)
 		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
 			mStr(P.stat.row,-81,225)
-			mDraw(drawableText.line,-81,290)
+			mText(drawableText.line,-81,290)
 		else
 			local R=P.gameEnv.target-P.stat.row
 			mStr(R>=0 and R or 0,-81,240)

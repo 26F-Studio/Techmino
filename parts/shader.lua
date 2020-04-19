@@ -1,2 +1,5 @@
-gc=love.graphics
-shader_glow=gc.newShader("shader/glow.cs")
+local gc=love.graphics
+return{
+	-- glow=gc.newShader("shader/glow.cs"),
+	alpha=gc.newShader("shader/alpha.cs"),
+}

@@ -1,27 +1,13 @@
 local rem=table.remove
 
 local BGM={}
-BGM.nowPlay=nil
-BGM.playing=nil--last loaded source
-BGM.playingID=nil--last loaded ID
+-- BGM.nowPlay=[str:playing ID]
+-- BGM.playing=[src:playing SRC]
 BGM.list={
-	"blank",
-	"way",
-	"race",
-	"newera",
-	"push",
-	"reason",
-	"infinite",
-	"cruelty",
-	"final",
-	"secret7th",
-	"secret8th",
-	"rockblock",
-	"8-bit happiness",
-	"shining terminal",
-	"oxygen",
-	"distortion",
-	"end",
+	"blank","way","newera","infinite","reason",
+	"race","push","secret7th","secret8th",
+	"rockblock","cruelty","final","8-bit happiness","end",
+	"shining terminal","oxygen","distortion",
 }
 function BGM.loadOne(_)
 	_,BGM.list[_]=BGM.list[_]
@@ -37,20 +23,12 @@ end
 function BGM.play(s)
 	if setting.bgm==0 or not s then return end
 	if BGM.nowPlay~=s then
-		if BGM.nowPlay then newTask(Event_task.bgmFadeOut,nil,BGM.nowPlay)end
-		for i=#Task,1,-1 do
-			local T=Task[i]
-			if T.code==Event_task.bgmFadeIn then
-				T.code=Event_task.bgmFadeOut
-			elseif T.code==Event_task.bgmFadeOut and T.data==s then
-				rem(Task,i)
-			end
-		end
-		if s then
-			BGM.playingID=s
-		end
-		BGM.nowPlay=s
-		newTask(Event_task.bgmFadeIn,nil,s)
+		if BGM.nowPlay then TASK.new(tickEvent.bgmFadeOut,nil,BGM.nowPlay)end
+		TASK.changeCode(tickEvent.bgmFadeIn,tickEvent.bgmFadeOut)
+		TASK.removeTask_data(s)
+
+		BGM.nowPlay,BGM.suspend=s
+		TASK.new(tickEvent.bgmFadeIn,nil,s)
 		BGM.playing=BGM.list[s]
 		BGM.playing:play()
 	end
@@ -60,29 +38,22 @@ function BGM.freshVolume()
 		local v=setting.bgm*.1
 		if v>0 then
 			BGM.playing:setVolume(v)
-			if not BGM.nowPlay then
+			if BGM.suspend then
 				BGM.playing:play()
-				BGM.nowPlay=BGM.playingID
+				BGM.nowPlay,BGM.suspend=BGM.suspend
 			end
 		else
-			BGM.playing:pause()
 			BGM.playing:setVolume(0)
-			BGM.nowPlay=nil
+			BGM.playing:pause()
+			BGM.suspend,BGM.nowPlay=BGM.nowPlay
 		end
 	end
 end
 function BGM.stop()
 	if BGM.nowPlay then
-		for i=1,#Task do
-			local T=Task[i]
-			if T.code==Event_task.bgmFadeIn and T.data==BGM.nowPlay then
-				T.code=Event_task.bgmFadeOut
-				goto L
-			end
-		end
-		BGM.list[BGM.nowPlay]:stop()
-		::L::
-		BGM.nowPlay=nil
+		TASK.new(tickEvent.bgmFadeOut,nil,BGM.nowPlay)
 	end
+	TASK.changeCode(tickEvent.bgmFadeIn,tickEvent.bgmFadeOut)
+	BGM.playing,BGM.nowPlay=nil
 end
 return BGM

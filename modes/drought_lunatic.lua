@@ -40,7 +40,7 @@ return{
 		local L=P.stat.row
 		if L>=100 then
 			local T=P.stat.time
-			return 
+			return
 			T<=70 and 5 or
 			T<=110 and 4 or
 			T<=160 and 3 or

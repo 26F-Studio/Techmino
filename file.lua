@@ -3,13 +3,7 @@ local int,max,min=math.floor,math.max,math.min
 local sub,find=string.sub,string.find
 local toN,toS=tonumber,tostring
 local concat=table.concat
-local FILE={
-	data=	fs.newFile("data.dat"),
-	setting=fs.newFile("setting.dat"),
-	VK=		fs.newFile("virtualkey.dat"),
-	keyMap=	fs.newFile("key.dat"),
-	unlock=	fs.newFile("unlock.dat"),
-}
+
 local function splitS(s,sep)
 	local t,n={},1
 	repeat
@@ -20,7 +14,6 @@ local function splitS(s,sep)
 	until #s==0
 	return t
 end
-
 local tabs={
     [0]="",
 	"\t",
@@ -61,16 +54,28 @@ local function dumpTable(L,t)
 	end
 	return s..tabs[t-1].."}"
 end
-local function addToTable(G,base)--push all values to base
+local function addToTable(G,base)--refresh default base with G-values
 	for k,v in next,G do
-		if type(v)=="table"and type(base[k])=="table"then
-			addToTable(v,base[k])
-		else
-			base[k]=v
+		if type(v)==type(base[k])then
+			if type(v)=="table"then
+				addToTable(v,base[k])
+			else
+				base[k]=v
+			end
 		end
 	end
 end
-function loadRecord(N)
+
+local files={
+	data=	fs.newFile("data.dat"),
+	setting=fs.newFile("setting.dat"),
+	VK=		fs.newFile("virtualkey.dat"),
+	keyMap=	fs.newFile("key.dat"),
+	unlock=	fs.newFile("unlock.dat"),
+}
+
+local File={}
+function File.loadRecord(N)
 	local F=fs.newFile(N..".dat")
 	if F:open("r")then
 		local s=loadstring(F:read())
@@ -83,21 +88,21 @@ function loadRecord(N)
 		end
 	end
 end
-function saveRecord(N,L)
+function File.saveRecord(N,L)
 	local F=fs.newFile(N..".dat")
 	F:open("w")
 	local _,mes=F:write(dumpTable(L))
 	F:flush()F:close()
 	if not _ then
-		TEXT(text.recSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+		TEXT.show(text.recSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
-function delRecord(N)
+function File.delRecord(N)
 	fs.remove(N..".dat")
 end
 
-function loadUnlock()
-	local F=FILE.unlock
+function File.loadUnlock()
+	local F=files.unlock
 	if F:open("r")then
 		local s=F:read()
 		if s:sub(1,6)~="return"then s="return{"..s.."}"end
@@ -109,18 +114,18 @@ function loadUnlock()
 		end
 	end
 end
-function saveUnlock()
-	local F=FILE.unlock
+function File.saveUnlock()
+	local F=files.unlock
 	F:open("w")
 	local _,mes=F:write(dumpTable(modeRanks))
 	F:flush()F:close()
 	if not _ then
-		TEXT(text.unlockSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+		TEXT.show(text.unlockSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
-function loadData()
-	local F=FILE.data
+function File.loadData()
+	local F=files.data
 	if F:open("r")then
 		local s=F:read()
 		if s:sub(1,6)~="return"then
@@ -130,22 +135,64 @@ function loadData()
 		F:close()
 		if s then
 			setfenv(s,{})
-			addToTable(s(),stat)
+			local S=s()
+			if S.version~=gameVersion then
+				S.version=gameVersion
+				S.clear_S={S.clear_1,S.clear_2,S.clear_3,S.clear_4}
+				S.clear={{},{},{},{},{},{},{}}
+				local A,B,C,D=int(S.clear_1/7),int(S.clear_2/7),int(S.clear_3/7),int(S.clear_4/7)
+				for i=1,7 do
+					S.clear[i][1]=A
+					S.clear[i][2]=B
+					S.clear[i][3]=C
+					S.clear[i][4]=D
+				end
+				for i=1,S.clear_1%7 do S.clear[i][1]=S.clear[i][1]+1 end
+				for i=1,S.clear_2%7 do S.clear[i][2]=S.clear[i][2]+1 end
+				for i=1,S.clear_3%7 do S.clear[i][3]=S.clear[i][3]+1 end
+				for i=1,S.clear_4%7 do S.clear[i][4]=S.clear[i][4]+1 end
+				S.clear_B={}
+				for i=1,7 do
+					S.clear_B[i]=S.clear[i][1]+S.clear[i][2]+S.clear[i][3]+S.clear[i][4]
+				end
+
+				S.spin_S={S.spin_0,S.spin_1,S.spin_2,S.spin_3}
+				S.spin={{},{},{},{},{},{},{}}
+				A,B,C,D=int(S.spin_0/7),int(S.spin_1/7),int(S.spin_2/7),int(S.spin_3/7)
+				for i=1,7 do
+					S.spin[i][1]=A
+					S.spin[i][2]=B
+					S.spin[i][3]=C
+					S.spin[i][4]=D
+				end
+				for i=1,S.spin_0%7 do S.spin[i][1]=S.spin[i][1]+1 end
+				for i=1,S.spin_1%7 do S.spin[i][2]=S.spin[i][2]+1 end
+				for i=1,S.spin_2%7 do S.spin[i][3]=S.spin[i][3]+1 end
+				for i=1,S.spin_3%7 do S.spin[i][4]=S.spin[i][4]+1 end
+				S.spin_B={}
+				for i=1,7 do
+					S.spin_B[i]=S.spin[i][1]+S.spin[i][2]+S.spin[i][3]+S.spin[i][4]
+				end
+
+				S.hpc=S.c
+				TEXT.show(text.newVersion,640,200,30,"fly",.3)
+			end
+			addToTable(S,stat)
 		end
 	end
 end
-function saveData()
-	local F=FILE.data
+function File.saveData()
+	local F=files.data
 	F:open("w")
 	local _,mes=F:write(dumpTable(stat))
 	F:flush()F:close()
 	if not _ then
-		TEXT(text.statSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+		TEXT.show(text.statSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
-function loadSetting()
-	local F=FILE.setting
+function File.loadSetting()
+	local F=files.setting
 	if F:open("r")then
 		local s=F:read()
 		if s:sub(1,6)~="return"then
@@ -159,18 +206,18 @@ function loadSetting()
 		end
 	end
 end
-function saveSetting()
-	local F=FILE.setting
+function File.saveSetting()
+	local F=files.setting
 	F:open("w")
 	local _,mes=F:write(dumpTable(setting))
 	F:flush()F:close()
-	if _ then TEXT(text.settingSaved,1140,650,40,"sudden",.5)
-	else TEXT(text.settingSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+	if _ then TEXT.show(text.settingSaved,1140,650,40,"sudden",.5)
+	else TEXT.show(text.settingSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
-function loadKeyMap()
-	local F=FILE.keyMap
+function File.loadKeyMap()
+	local F=files.keyMap
 	if F:open("r")then
 		local s=loadstring(F:read())
 		F:close()
@@ -180,18 +227,18 @@ function loadKeyMap()
 		end
 	end
 end
-function saveKeyMap()
-	local F=FILE.keyMap
+function File.saveKeyMap()
+	local F=files.keyMap
 	F:open("w")
 	local _,mes=F:write(dumpTable(keyMap))
 	F:flush()F:close()
-	if _ then TEXT(text.keyMapSaved,1140,650,26,"sudden",.5)
-	else TEXT(text.keyMapSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+	if _ then TEXT.show(text.keyMapSaved,1140,650,26,"sudden",.5)
+	else TEXT.show(text.keyMapSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
 
-function loadVK()
-	local F=FILE.VK
+function File.loadVK()
+	local F=files.VK
 	if F:open("r")then
 		local s=loadstring(F:read())
 		F:close()
@@ -201,23 +248,13 @@ function loadVK()
 		end
 	end
 end
-function saveVK()
-	local F=FILE.VK
+function File.saveVK()
+	local F=files.VK
 	F:open("w")
 	local _,mes=F:write(dumpTable(VK_org))
 	F:flush()F:close()
-	if _ then TEXT(text.VKSaved,1140,650,26,"sudden",.5)
-	else TEXT(text.VKSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+	if _ then TEXT.show(text.VKSaved,1140,650,26,"sudden",.5)
+	else TEXT.show(text.VKSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
-
-if fs.getInfo("unlock.dat")then loadUnlock()end
-if fs.getInfo("data.dat")then loadData()end
-if fs.getInfo("key.dat")then loadKeyMap()end
-if fs.getInfo("virtualkey.dat")then loadVK()end
-if fs.getInfo("setting.dat")then loadSetting()
-elseif system=="Android"or system=="iOS" then
-	setting.VKSwitch=true
-	setting.swap=false
-	setting.vib=2
-end
+return File

@@ -19,8 +19,11 @@ end
 function mStr(s,x,y)
 	gc.printf(s,x-320,y,640,"center")
 end
-function mDraw(s,x,y)
+function mText(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)
+end
+function mDraw(s,x,y)
+	gc.draw(s,x-s:getWidth()*.5,y-s:getHeight()*.5)
 end
 function destroyPlayers()
 	for i=#players,1,-1 do
@@ -48,6 +51,7 @@ end
 --Single-usage funcs
 local langID={"chi","chi_full","eng"}
 local drawableTextLoad={
+	"anykey",
 	"next","hold",
 	"win","finish","lose","pause",
 	"custom",
@@ -108,6 +112,7 @@ end
 function copyBoard()
 	local str=""
 	local H=0
+	local _
 	for y=20,1,-1 do
 		for x=1,10 do
 			if preField[y][x]~=0 then
@@ -121,13 +126,13 @@ function copyBoard()
 		local S=""
 		local L=preField[y]
 		for x=1,10 do
-			local _=L[x]+1
+			_=L[x]+1
 			S=S..char(_)
 		end
 		str=str..S
 	end
 	love.system.setClipboardText("Techmino sketchpad:"..data.encode("string","base64",data.compress("string","deflate",str)))
-	TEXT(text.copySuccess,350,360,40,"appear",.5)
+	TEXT.show(text.copySuccess,350,360,40,"appear",.5)
 end
 function pasteBoard()
 	local str=love.system.getClipboardText()
@@ -168,14 +173,17 @@ function pasteBoard()
 		end
 	goto END
 	::ERROR::
-		TEXT(text.dataCorrupted,350,360,35,"flicker",.5)
+		TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
 	::END::
 end
 
-function updateStat()
-	local S=players[1].stat
-	for k,v in next,S do
-		stat[k]=stat[k]+S[k]
+function mergeStat(stat,Δ)
+	for k,v in next,Δ do
+		if type(v)=="table"then
+			mergeStat(stat[k],v)
+		else
+			stat[k]=stat[k]+v
+		end
 	end
 end
 function randomTarget(P)
@@ -218,7 +226,7 @@ end
 function royaleLevelup()
 	gameStage=gameStage+1
 	local spd
-	TEXT(text.royale_remain(#players.alive),640,200,40,"beat",.3)
+	TEXT.show(text.royale_remain(#players.alive),640,200,40,"beat",.3)
 	if gameStage==2 then
 		spd=30
 	elseif gameStage==3 then
@@ -254,7 +262,7 @@ function royaleLevelup()
 	end
 end
 function pauseGame()
-	if not scene.swapping then
+	if not SCN.swapping then
 		restartCount=0--Avoid strange darkness
 		if not gameResult then
 			pauseCount=pauseCount+1
@@ -267,11 +275,11 @@ function pauseGame()
 				end
 			end
 		end
-		scene.swapTo("pause","none")
+		SCN.swapTo("pause","none")
 	end
 end
 function resumeGame()
-	scene.swapTo("play","none")
+	SCN.swapTo("play","none")
 end
 function loadGame(M)
 	--rec={}
@@ -282,7 +290,7 @@ function loadGame(M)
 	drawableText.modeName:set(M.name[lang])
 	drawableText.levelName:set(M.level[lang])
 	needResetGameData=true
-	scene.swapTo("play","fade_togame")
+	SCN.swapTo("play","fade_togame")
 	SFX.play("enter")
 end
 function resetPartGameData()
@@ -298,7 +306,7 @@ function resetPartGameData()
 	end
 	if modeEnv.task then
 		for i=1,#players do
-			newTask(modeEnv.task,players[i])
+			TASK.new(modeEnv.task,players[i])
 		end
 	end
 	if modeEnv.royaleMode then
@@ -306,7 +314,7 @@ function resetPartGameData()
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
 	end
-	curBG=modeEnv.bg
+	BG.set(modeEnv.bg)
 	BGM.play(modeEnv.bgm)
 	if modeEnv.royaleMode then
 		for i=1,#players do
@@ -330,10 +338,10 @@ function resetGameData()
 	curMode.load()--bg/bgm need redefine in custom,so up here
 	if modeEnv.task then
 		for i=1,#players do
-			newTask(modeEnv.task,players[i])
+			TASK.new(modeEnv.task,players[i])
 		end
 	end
-	curBG=modeEnv.bg
+	BG.set(modeEnv.bg)
 	BGM.play(modeEnv.bgm)
 
 	texts={}

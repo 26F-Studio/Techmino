@@ -1,35 +1,5 @@
 local gc=love.graphics
-local rem=table.remove
 local format=string.format
-Task={}
-function newTask(code,P,data)
-	Task[#Task+1]={
-		code=code,
-		P=P,
-		data=data,
-	}
-end
-function clearTask(opt)
-	if opt=="all"then
-		local i=#Task
-		while i>0 do
-			Task[i]=nil
-			i=i-1
-		end
-	elseif opt=="play"then
-		for i=#Task,1,-1 do
-			if Task[i].P then
-				rem(Task,i)
-			end
-		end
-	else--Player table
-		for i=#Task,1,-1 do
-			if Task[i].P==opt then
-				rem(Task,i)
-			end
-		end
-	end
-end
 
 local button={
 	type="button",
@@ -53,8 +23,7 @@ function button:isAbove(x,y)
 	return x>self.x-self.ATV and x<self.x+self.w+2*self.ATV and y>self.y-self.ATV and y<self.y+self.h+2*self.ATV
 end
 function button:FX()
-	sysFX[#sysFX+1]={0,0,10,self.x-self.ATV,self.y-self.ATV,self.w+2*self.ATV,self.h+2*self.ATV}
-	--0[ripple],timer,duration,x,y,w,h
+	sysFX.new("ripple",.16,self.x-self.ATV,self.y-self.ATV,self.w+2*self.ATV,self.h+2*self.ATV)
 end
 function button:update()
 	if widget_sel==self then

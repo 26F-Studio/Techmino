@@ -10,9 +10,9 @@ return{
 		"2P",
 	},
 	info={
-		"友尽模式(非联网/局域网)",
-		"友尽模式(非联网/局域网)",
-		"End of friendship",
+		"不是联网也不是局域网",
+		"不是联网也不是局域网",
+		"No network\nlocal game only",
 	},
 	color=color.white,
 	env={

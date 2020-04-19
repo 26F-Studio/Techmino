@@ -43,7 +43,7 @@ return{
 	getRank=function(P)
 		if P.stat.row<10 then return end
 		local T=P.stat.time
-		return 
+		return
 		T<=7 and 5 or
 		T<=10 and 4 or
 		T<=25 and 3 or

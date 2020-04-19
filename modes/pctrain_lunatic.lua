@@ -6,6 +6,7 @@ local pc_fall={18,16,14,12,10,9,8,7,6}
 local PCbase=require("parts/PCbase")
 local PClist=require("parts/PClist")
 local function task_PC(P)
+	local _
 	P.modeData.counter=P.modeData.counter+1
 	if P.modeData.counter==21 then
 		local t=P.stat.pc%2
@@ -13,7 +14,7 @@ local function task_PC(P)
 		for i=1,4 do
 			local r=freeRow.get(0)
 			for j=1,10 do
-				local _=PCbase[4*t+i][j]
+				_=PCbase[4*t+i][j]
 				r[j]=S[_]or 0
 			end
 			ins(P.field,1,r)
@@ -49,7 +50,7 @@ local function newPC(P)
 			P:getNext(b)
 		end
 		P.modeData.counter=P.stat.piece==0 and 20 or 0
-		newTask(task_PC,P)
+		TASK.new(task_PC,P)
 		local s=P.stat.pc*.5
 		if int(s)==s and s>0 then
 			P.gameEnv.drop=pc_drop[s]or 10
@@ -100,7 +101,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(75)
 		mStr(P.stat.pc,-81,330)
-		mDraw(drawableText.pc,-81,412)
+		mText(drawableText.pc,-81,412)
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..toTime(D[2])end,

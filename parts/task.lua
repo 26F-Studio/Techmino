@@ -1,71 +1,68 @@
-local min=math.min
-local mini=love.window.isMinimized
-local task={}
-function task.finish(P)
-	if scene.cur~="play"then return true end
-	P.endCounter=P.endCounter+1
-	if P.endCounter>120 then pauseGame()end
-end
-function task.lose(P)
-	P.endCounter=P.endCounter+1
-	if P.endCounter>80 then
-		for i=1,#P.field do
-			for j=1,10 do
-				if P.visTime[i][j]>0 then
-					P.visTime[i][j]=P.visTime[i][j]-1
-				end
-			end
-		end
-		if P.endCounter==120 then
-			for _=#P.field,1,-1 do
-				freeRow.discard(P.field[_])
-				freeRow.discard(P.visTime[_])
-				P.field[_],P.visTime[_]=nil
-			end
-			if #players==1 and scene=="play"then
-				pauseGame()
-			end
-			return true
-		end
-	end
-end
-function task.throwBadge(A,data)
-	data[2]=data[2]-1
-	if data[2]%4==0 then
-		local S,R=data[1],data[1].lastRecv
-		local x1,y1,x2,y2
-		if S.small then
-			x1,y1=S.centerX,S.centerY
-		else
-			x1,y1=S.x+308*S.size,S.y+450*S.size
-		end
-		if R.small then
-			x2,y2=R.centerX,R.centerY
-		else
-			x2,y2=R.x+66*R.size,R.y+344*R.size
-		end
-		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
-		--generate badge object
+local rem=table.remove
 
-		if not A.ai and data[2]%8==0 then
-			SFX.play("collect")
+local tasks={}
+
+local TASK={}
+function TASK.getCount()
+	return #tasks
+end
+function TASK.update()
+	for i=#tasks,1,-1 do
+		local T=tasks[i]
+		if T.code(T.P,T.data)then
+			for i=i,#tasks do
+				tasks[i]=tasks[i+1]
+			end
+ 		end
+	end
+end
+function TASK.new(code,P,data)
+	tasks[#tasks+1]={
+		code=code,
+		P=P,
+		data=data,
+	}
+end
+function TASK.changeCode(c1,c2)
+	for i=#tasks,1,-1 do
+		if tasks[i].code==c1 then
+			tasks[i].code=c2
 		end
 	end
-	if data[2]<=0 then return true end
 end
-function task.bgmFadeOut(_,id)
-	local src=BGM.list[id]
-	local v=src:getVolume()-.025*setting.bgm*.1
-	src:setVolume(v>0 and v or 0)
-	if v<=0 then
-		src:stop()
-		return true
+function TASK.removeTask_code(code)
+	for i=#tasks,1,-1 do
+		if tasks[i].code==code then
+			rem(tasks,i)
+		end
 	end
 end
-function task.bgmFadeIn(_,id)
-	local src=BGM.list[id]
-	local v=min(src:getVolume()+.025*setting.bgm*.1,setting.bgm*.1)
-	src:setVolume(v)
-	if v>=setting.bgm*.1 then return true end
+function TASK.removeTask_data(data)
+	for i=#tasks,1,-1 do
+		if tasks[i].data==data then
+			rem(tasks,i)
+		end
+	end
 end
-return task
+function TASK.clear(opt)
+	if opt=="all"then
+		local i=#tasks
+		while i>0 do
+			tasks[i]=nil
+			i=i-1
+		end
+	elseif opt=="play"then
+		for i=#tasks,1,-1 do
+			if tasks[i].P then
+				rem(tasks,i)
+			end
+		end
+	else--Player table
+		for i=#tasks,1,-1 do
+			if tasks[i].P==opt then
+				rem(tasks,i)
+			end
+		end
+	end
+end
+return TASK

@@ -7,82 +7,56 @@ local ins,rem=table.insert,table.remove
 local Tmr={}
 function Tmr.load()
 	local t=Timer()
-	local L=sceneTemp
+	local S=sceneTemp
 	::R::
 	--L={stage,curPos,curLen}
-	if L[1]==1 then
-		local N=voiceName[L[2]]
+	if S.phase==1 then
+		local N=voiceName[S.cur]
 		for i=1,#voiceList[N]do
 			local V=voiceList[N][i]
 			voiceBank[V]={love.audio.newSource("VOICE/"..V..".ogg","static")}
 		end
-		L[2]=L[2]+1
-		if L[2]>L[3]then
-			L[1],L[2],L[3]=2,1,#BGM.list
-		end
-	elseif L[1]==2 then
-		BGM.loadOne(L[2])
-		L[2]=L[2]+1
-		if L[2]>L[3]then
-			L[1],L[2],L[3]=3,1,#SFX.list
-		end
-	elseif L[1]==3 then
-		SFX.loadOne(L[2])
-		L[2]=L[2]+1
-		if L[2]>L[3]then
-			L[1],L[2],L[3]=4,1,#modes
-		end
-	elseif L[1]==4 then
-		local m=modes[L[2]]
-		modes[L[2]]=require("modes/"..m[1])
-		local M=modes[L[2]]
+	elseif S.phase==2 then
+		BGM.loadOne(S.cur)
+	elseif S.phase==3 then
+		SFX.loadOne(S.cur)
+	elseif S.phase==4 then
+		IMG.loadOne(S.cur)
+	elseif S.phase==5 then
+		local m=modes[S.cur]
+		modes[S.cur]=require("modes/"..m[1])
+		local M=modes[S.cur]
 		M.saveFileName,M.id=m[1],m.id
 		M.x,M.y,M.size,M.shape=m.x,m.y,m.size,m.shape
 		M.unlock=m.unlock
-		M.records=loadRecord(m[1])or M.score and{}
+		M.records=FILE.loadRecord(m[1])or M.score and{}
 		-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 		-- M.icon=gc.newImage("image/modeIcon/custom.png")
-		L[2]=L[2]+1
-		if L[2]>L[3]then
-			L[1],L[2],L[3]=5,1,1
-		end
-	elseif L[1]==5 then
+	elseif S.phase==6 then
 		--------------------------Loading some other things here?
-		local N=gc.newImage
-		titleImage=N("/image/mess/title.png")
-		coloredTitleImage=N("/image/mess/title_colored.png")
-		dialCircle=N("/image/mess/dialCircle.png")
-		dialNeedle=N("/image/mess/dialNeedle.png")
-		badgeIcon=N("/image/mess/badge.png")
-		spinCenter=N("/image/mess/spinCenter.png")
-		ctrlSpeedLimit=N("/image/mess/ctrlSpeedLimit.png")
-		speedLimit=N("/image/mess/speedLimit.png")
-
-		background1=N("/image/BG/bg1.png")
-		background2=N("/image/BG/bg2.png")
-		groupCode=N("/image/mess/groupCode.png")
-		payCode=N("/image/mess/payCode.png")
-
-		miya={
-			ch=N("/image/miya/ch.png"),
-			f1=N("/image/miya/f1.png"),
-			f2=N("/image/miya/f2.png"),
-			f3=N("/image/miya/f3.png"),
-			f4=N("/image/miya/f4.png"),
-		}
 		skin.load()
+		stat.run=stat.run+1
 		--------------------------
-		L[1],L[2],L[3]=0,1,1
 		SFX.play("welcome",.2)
 	else
-		L[2]=L[2]+1
-		L[3]=L[2]
-		if L[2]>50 then
-			stat.run=stat.run+1
-			scene.swapTo("intro","none")
+		S.cur=S.cur+1
+		S.tar=S.cur
+		if S.cur>62.6 then
+			SCN.swapTo("intro","none")
+		end
+		return
+	end
+	S.cur=S.cur+1
+	if S.cur>S.tar then
+		S.phase=S.phase+1
+		S.cur=1
+		S.tar=S.list[S.phase]
+		if not S.tar then
+			S.phase=0
+			S.tar=1
 		end
 	end
-	if L.skip and not scene.swapping then goto R end
+	if S.skip and not SCN.swapping then goto R end
 end
 function Tmr.intro()
 	sceneTemp=sceneTemp+1
@@ -114,7 +88,7 @@ function Tmr.mode(dt)
 	local cam=mapCam
 	local x,y,k=cam.x,cam.y,cam.k
 	local F
-	if not scene.swapping then
+	if not SCN.swapping then
 		if kb.isDown("up",	"w")then y=y-10*k;F=true end
 		if kb.isDown("down","s")then y=y+10*k;F=true end
 		if kb.isDown("left","a")then x=x-10*k;F=true end
@@ -164,11 +138,11 @@ function Tmr.mode(dt)
 	end
 	cam.x,cam.y=x,y
 	--keyboard controlling
-	
+
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
 	cam.k1=cam.k1*.85+k*.15
-	local _=scene.swap.tar
+	local _=SCN.swap.tar
 	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
 	if cam.zoomMethod==1 then
 		if cam.sel then
@@ -220,8 +194,9 @@ function Tmr.play(dt)
 			rem(FX_badge,i)
 		end
 	end
+	local _
 	for i=1,#virtualkey do
-		local _=virtualkey[i]
+		_=virtualkey[i]
 		if _.pressTime>0 then
 			_.pressTime=_.pressTime-1
 		end
@@ -235,14 +210,8 @@ function Tmr.play(dt)
 		end
 		for p=1,#players do
 			local P=players[p]
-			if P.keyPressing[1]then
-				if P.moving>0 then P.moving=0 end
-				if -P.moving<=P.gameEnv.das then
-					P.moving=P.moving-1
-				end
-			elseif P.keyPressing[2]then
-				if P.moving<0 then P.moving=0 end
-				if P.moving<=P.gameEnv.das then
+			if P.movDir~=0 then
+				if P.moving<P.gameEnv.das then
 					P.moving=P.moving+1
 				end
 			else
@@ -254,8 +223,8 @@ function Tmr.play(dt)
 	elseif players[1].keyPressing[10]then
 		restartCount=restartCount+1
 		if restartCount>20 then
-			clearTask("play")
-			updateStat()
+			TASK.clear("play")
+			mergeStat(stat,players[1].stat)
 			resetGameData()
 			return
 		end
@@ -266,7 +235,12 @@ function Tmr.play(dt)
 		local P=players[p]
 		P:update(dt)
 	end
-	if modeEnv.royaleMode and frame%120==0 then freshMostDangerous()end
+	if frame%120==0 then
+		if modeEnv.royaleMode then freshMostDangerous()end
+		if marking and rnd()<.2 then
+			TEXT.show("游戏作者:MrZ_26\n出现此水印则为非法录屏上传",rnd(162,scr.w-162),rnd(126,scr.h-200),40,"mark",.626)
+		end--mark 2s each 10s
+	end
 end
 function Tmr.pause(dt)
 	if not gameResult then

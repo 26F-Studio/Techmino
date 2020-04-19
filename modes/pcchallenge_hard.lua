@@ -35,7 +35,7 @@ return{
 
 		setFont(75)
 		mStr(P.stat.pc,-81,350)
-		mDraw(drawableText.pc,-81,432)
+		mText(drawableText.pc,-81,432)
 
 		gc.setColor(.5,.5,.5)
 		if frame>179 then

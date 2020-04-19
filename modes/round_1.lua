@@ -46,7 +46,7 @@ return{
 		if P.result=="WIN"then
 			local T=P.stat.piece
 			return
-			T<=20 and 5 or
+			T<=23 and 5 or
 			T<=26 and 4 or
 			T<=40 and 3 or
 			T<=60 and 2 or

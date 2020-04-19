@@ -33,10 +33,12 @@ if setting.lang==1 then
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
 		"少女祈祷中",
-		"按键/点击以全力加载,跳过动画",
-		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",--ZSLJTTI
+		"按键/点击以强制满速加载",
+		"LrL,RlR LLr,RRl RRR,LLL RfR,RRf,rFF FFF",--ZSLJTOI
 		"RUR'U'R'FR2U'R'U'RUR'F'",
 		"Am G F G",
+		"Techmino 好玩!",
+		"Techminohaowan",
 	}
 elseif setting.lang==2 then
 	L={
@@ -72,10 +74,12 @@ elseif setting.lang==2 then
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
 		"少女祈祷中",
-		"按键/点击以全力加载,跳过动画",
-		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",
+		"按键/点击以强制满速加载",
+		"LrL,RlR LLr,RRl RRR,LLL RfR,RRf,rFF FFF",--ZSLJTOI
 		"RUR'U'R'FR2U'R'U'RUR'F'",
 		"Am G F G",
+		"Techmino 好玩!",
+		"Techminohaowan",
 	}
 elseif setting.lang==3 then
 	L={
@@ -112,10 +116,11 @@ elseif setting.lang==3 then
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"Headphones for better experience",
 		"少女祈禱中",
-		"any-key/click to skip loading animation",
+		"any-key/click to load at fastest speed",
 		"RUR'U'R'FR2U'R'U'RUR'F'",
 		"Am G F G",
-		"LrL,RlR  LLr,RRl  RRR/LLL  F!!",
+		"LrL,RlR LLr,RRl RRR,LLL RfR,RRf,rFF FFF",--ZSLJTOI
+		"Techmino is so fun!",
 	}
 end
 return L[math.random(#L)]

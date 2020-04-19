@@ -39,8 +39,8 @@ return{
 		setFont(45)
 		mStr(P.stat.atk,-81,310)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,420)
-		mDraw(drawableText.atk,-81,363)
-		mDraw(drawableText.eff,-81,475)
+		mText(drawableText.atk,-81,363)
+		mText(drawableText.eff,-81,475)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines  "..toTime(D[2])end,
