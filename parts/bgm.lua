@@ -2,6 +2,7 @@ local rem=table.remove
 
 local BGM={}
 -- BGM.nowPlay=[str:playing ID]
+-- BGM.suspend=[str:pausing ID]
 -- BGM.playing=[src:playing SRC]
 BGM.list={
 	"blank","way","newera","infinite","reason",
@@ -21,7 +22,12 @@ function BGM.loadAll()
 	end
 end
 function BGM.play(s)
-	if setting.bgm==0 or not s then return end
+	if setting.bgm==0 then
+		BGM.suspend,BGM.nowPlay=s
+		return
+	elseif not s then
+		return
+	end
 	if BGM.nowPlay~=s then
 		if BGM.nowPlay then TASK.new(tickEvent.bgmFadeOut,nil,BGM.nowPlay)end
 		TASK.changeCode(tickEvent.bgmFadeIn,tickEvent.bgmFadeOut)

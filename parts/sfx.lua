@@ -2,11 +2,12 @@ local rem=table.remove
 
 local SFX={}
 SFX.list={
-	"welcome",
+	"welcome_sfx",
 	"click","enter",
 	"finesseError","finesseError_long",
 	--Stereo sfxs(cannot set position)
 
+	"virtualKey",
 	"button","swipe",
 	"ready","start","win","fail","collect",
 	"move","rotate","rotatekick","hold",

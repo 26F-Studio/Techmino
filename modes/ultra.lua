@@ -1,21 +1,6 @@
 local gc=love.graphics
 local warnTime={60,90,105,115,116,117,118,119,120}
 return{
-	name={
-		"限时打分",
-		"限时打分",
-		"Ultra",
-	},
-	level={
-		"挑战",
-		"挑战",
-		"EXTRA",
-	},
-	info={
-		"在两分钟内尽可能拿到最多的分数",
-		"在两分钟内尽可能拿到最多的分数",
-		"Score attack in 120s",
-	},
 	color=color.lightGrey,
 	env={
 		noFly=true,

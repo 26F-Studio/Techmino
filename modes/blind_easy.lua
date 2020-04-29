@@ -1,20 +1,5 @@
 local min=math.min
 return{
-	name={
-		"隐形",
-		"隐形",
-		"Blind",
-	},
-	level={
-		"半隐",
-		"半隐",
-		"HALF",
-	},
-	info={
-		"最强大脑",
-		"最强大脑",
-		"Invisible board",
-	},
 	color=color.cyan,
 	env={
 		drop=30,lock=45,

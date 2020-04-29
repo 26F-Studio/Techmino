@@ -1,20 +1,5 @@
 local gc=love.graphics
 return{
-	name={
-		"全清挑战",
-		"全清挑战",
-		"PC Challenge",
-	},
-	level={
-		"困难",
-		"困难",
-		"HARD",
-	},
-	info={
-		"100行内刷PC",
-		"100行内刷全清",
-		"More PCs in 100L",
-	},
 	color=color.magenta,
 	env={
 		drop=60,lock=120,
@@ -36,12 +21,6 @@ return{
 		setFont(75)
 		mStr(P.stat.pc,-81,350)
 		mText(drawableText.pc,-81,432)
-
-		gc.setColor(.5,.5,.5)
-		if frame>179 then
-			local y=72*(7-(P.stat.piece+(P.hd.id>0 and 2 or 1))%7)-36
-			gc.line(320,y,442,y)
-		end
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..toTime(D[2])end,

@@ -33,21 +33,6 @@ local function score(P)
 end
 
 return{
-	name={
-		"大师",
-		"大师",
-		"Master",
-	},
-	level={
-		"极限",
-		"极限",
-		"ULTIMATE",
-	},
-	info={
-		"20G:上级者的挑战",
-		"20G:上级者的挑战",
-		"20G:For Pro",
-	},
 	color=color.red,
 	env={
 		noFly=true,

@@ -49,51 +49,6 @@ function destroyPlayers()
 	collectgarbage()
 end
 --Single-usage funcs
-local langID={"chi","chi_full","eng"}
-local drawableTextLoad={
-	"anykey",
-	"next","hold",
-	"win","finish","lose","pause",
-	"custom",
-	"setting_game",
-	"setting_graphic",
-	"setting_sound",
-	"setting_sound",
-	"setting_control",
-	"setting_skin",
-	"keyboard","joystick",
-	"ctrlSetHelp",
-	"musicRoom",
-	"nowPlaying",
-	"VKTchW","VKOrgW","VKCurW",
-	"noScore",
-	"highScore",
-}
-function changeLanguage(l)
-	text=require("language/"..langID[l])
-	for S,L in next,Widget do
-		for N,W in next,L do
-			W.text=text.WidgetText[S][N]
-		end
-	end
-	gc.push("transform")
-	gc.origin()
-		royaleCtrlPad=gc.newCanvas(300,100)
-		gc.setCanvas(royaleCtrlPad)
-		gc.setColor(1,1,1)
-		setFont(20)
-		gc.setLineWidth(2)
-		for i=1,4 do
-			gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-			mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
-		end
-	gc.pop()
-	gc.setCanvas()
-	for _,s in next,drawableTextLoad do
-		drawableText[s]:set(text[s])
-	end
-	collectgarbage()
-end
 
 function restoreVirtualKey()
 	for i=1,#VK_org do
@@ -112,7 +67,6 @@ end
 function copyBoard()
 	local str=""
 	local H=0
-	local _
 	for y=20,1,-1 do
 		for x=1,10 do
 			if preField[y][x]~=0 then
@@ -126,8 +80,7 @@ function copyBoard()
 		local S=""
 		local L=preField[y]
 		for x=1,10 do
-			_=L[x]+1
-			S=S..char(_)
+			S=S..char(L[x]+1)
 		end
 		str=str..S
 	end
@@ -153,7 +106,7 @@ function pasteBoard()
 			end
 		end--str end
 		__=_%32-1--block id
-		if __>16 then goto ERROR end--illegal blockid
+		if __>17 then goto ERROR end--illegal blockid
 		_=int(_/32)--mode id
 		preField[fY][fX]=__
 		if fX<10 then
@@ -284,11 +237,10 @@ end
 function loadGame(M)
 	--rec={}
 	stat.lastPlay=M
-	M=modes[M]
-	curMode=M
+	curMode=modes[M]
 	local lang=setting.lang
-	drawableText.modeName:set(M.name[lang])
-	drawableText.levelName:set(M.level[lang])
+	drawableText.modeName:set(text.modes[M][1])
+	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
 	SCN.swapTo("play","fade_togame")
 	SFX.play("enter")
@@ -296,6 +248,8 @@ end
 function resetPartGameData()
 	gameResult=false
 	frame=150-setting.reTime*15
+	pauseTime=0
+	pauseCount=0
 	destroyPlayers()
 	curMode.load()
 	texts={}
@@ -332,7 +286,7 @@ function resetGameData()
 	frame=150-setting.reTime*15
 	garbageSpeed=1
 	pauseTime=0--Time paused
-	pauseCount=0--Times paused
+	pauseCount=0--Pausing count
 	destroyPlayers()
 	modeEnv=curMode.env
 	curMode.load()--bg/bgm need redefine in custom,so up here

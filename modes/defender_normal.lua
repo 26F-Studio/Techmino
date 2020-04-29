@@ -1,20 +1,5 @@
 local int,rnd=math.floor,math.random
 return{
-	name={
-		"防守",
-		"防守",
-		"Defender",
-	},
-	level={
-		"普通",
-		"普通",
-		"NORMAL",
-	},
-	info={
-		"防守练习",
-		"防守练习",
-		"Hand them!",
-	},
 	color=color.green,
 	env={
 		drop=30,lock=60,

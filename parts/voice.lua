@@ -1,10 +1,52 @@
 local rnd=math.random
 local rem=table.remove
 local voiceQueue={free=0}
+local bank={}--{{SRC1s},{SRC2s},...}
 local VOC={}
+VOC.name={
+	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
+	"single","double","triple","techrash",
+	"mini","b2b","b3b","pc",
+	"win","lose",
+	"bye",
+	"nya",
+	"happy",
+	"doubt",
+	"sad",
+	"egg",
+	"welcome"
+}
+VOC.list={
+	zspin={"zspin_1","zspin_2","zspin_3"},
+	sspin={"sspin_1","sspin_2","sspin_3","sspin_4","sspin_5","sspin_6"},
+	lspin={"lspin_1","lspin_2"},
+	jspin={"jspin_1","jspin_2","jspin_3","jspin_4"},
+	tspin={"tspin_1","tspin_2","tspin_3","tspin_4","tspin_5","tspin_6"},
+	ospin={"ospin_1","ospin_2","ospin_3"},
+	ispin={"ispin_1","ispin_2","ispin_3"},
+
+	single={"single_1","single_2","single_3","single_4","single_5","single_6","single_7"},
+	double={"double_1","double_2","double_3","double_4","double_5"},
+	triple={"triple_1","triple_2","triple_3","triple_4","triple_5","triple_6","triple_7"},
+	techrash={"techrash_1","techrash_2","techrash_3","techrash_4"},
+
+	mini={"mini_1","mini_2","mini_3"},
+	b2b={"b2b_1","b2b_2","b2b_3"},
+	b3b={"b3b_1","b3b_2"},
+	pc={"clear_1","clear_2"},
+	win={"win_1","win_2","win_3","win_4","win_5","win_6","win_6","win_7"},
+	lose={"lose_1","lose_2","lose_3"},
+	bye={"bye_1","bye_2"},
+	nya={"nya_1","nya_2","nya_3","nya_4"},
+	happy={"nya_happy_1","nya_happy_2","nya_happy_3","nya_happy_4"},
+	doubt={"nya_doubt_1","nya_doubt_2"},
+	sad={"nya_sad_1"},
+	egg={"egg_1","egg_2"},
+	welcome={"welcome_voc"},
+}
 
 local function getVoice(str)
-	local L=voiceBank[str]
+	local L=bank[str]
 	local n=1
 	while L[n]:isPlaying()do
 		n=n+1
@@ -16,6 +58,18 @@ local function getVoice(str)
 	end
 	return L[n]
 	--load voice with string
+end
+function VOC.loadOne(_)
+	local N=VOC.name[_]
+	for i=1,#VOC.list[N]do
+		local V=VOC.list[N][i]
+		bank[V]={love.audio.newSource("VOICE/"..V..".ogg","static")}
+	end
+end
+function VOC.loadAll()
+	for i=1,#VOC.list do
+		VOC.loadOne(i)
+	end
 end
 function VOC.getFreeChannel()
 	local i=#voiceQueue
@@ -66,12 +120,12 @@ function VOC.play(s,chn)
 	if setting.voc>0 then
 		if chn then
 			local L=voiceQueue[chn]
-			local _=voiceList[s]
+			local _=VOC.list[s]
 			L[#L+1]=_[rnd(#_)]
 			L.s=1
 			--添加到queue[chn]
 		else
-			voiceQueue[VOC.getFreeChannel()]={s=1,voiceList[s][rnd(#voiceList[s])]}
+			voiceQueue[VOC.getFreeChannel()]={s=1,VOC.list[s][rnd(#VOC.list[s])]}
 			--自动创建空轨/播放
 		end
 	end

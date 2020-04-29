@@ -1,25 +1,89 @@
-local min=math.min
+local rnd,min,rem=math.random,math.min,table.remove
 return{
-	name={
-		"干旱",
-		"干旱",
-		"Drought",
-	},
-	level={
-		"100L",
-		"100行",
-		"100L",
-	},
-	info={
-		"后 妈 发 牌",
-		"后 妈 发 牌",
-		"ERRSEQ flood attack",
-	},
 	color=color.red,
 	env={
 		drop=20,lock=60,
-		sequence="drought2",
+		sequence=function(P)
+			for i=1,3 do P:getNext(7)end
+		end,
+		freshMethod=function(P)
+			if not P.next[1] then
+				local height=freeRow.get(0)
+				local max=#P.field
+				for x=1,10 do
+					local h=max
+					while P.field[h][x]==0 and h>1 do
+						h=h-1
+					end
+					height[x]=h
+				end--get heights
+				height[11]=999
+
+				local res={1,1,2,2,3,4}
+				local d=0
+				local A
+				for i=1,10 do
+					d=d+height[i]
+				end
+				if d<40 or P.stat.row>2*42 then
+					A=#res+1
+					for i=A,A+5 do
+						res[i]=1
+						res[i+6]=2
+					end
+					goto END
+				end
+
+				--give I when no hole
+				d=-999--height difference
+				--A=hole mark
+				for x=2,11 do
+					local _=height[x]-height[x-1]
+					if d<-2 and _>2 then
+						A=true
+					end
+					d=_
+				end
+				if not A then
+					A=#res+1
+					res[A]=7
+					res[A+1]=7
+					res[A+2]=7
+				end
+
+				--give O when no Δ=0/give T when no Δ=1
+				d=0--Δ=0
+				A=0--Δ=1
+				for x=2,10 do
+					local _=height[x]-height[x-1]
+					if _==0 then
+						d=d+1
+					elseif _==1 or _==-1 then
+						A=A+1
+					end
+				end
+				if d<3 then
+					A=#res+1
+					res[A]=6
+					res[A+1]=6
+					res[A+2]=6
+				end
+				if A<3 then
+					A=#res+1
+					res[A]=5
+					res[A+1]=5
+					res[A+2]=5
+					res[A+3]=5
+					res[A+4]=5
+				end
+
+				::END::
+				freeRow.discard(height)
+				P:getNext(res[rnd(#res)])
+			end
+		end,
 		target=100,dropPiece=player.reach_winCheck,
+		next=1,hold=false,
 		ospin=false,
 		freshLimit=15,
 		bg="glow",bgm="reason",

@@ -1,19 +1,4 @@
 return{
-	name={
-		"禅",
-		"禅",
-		"Zen",
-	},
-	level={
-		"",
-		"",
-		"",
-	},
-	info={
-		"不限时200行",
-		"不限时200行",
-		"200 lines without any limits",
-	},
 	color=color.lightGrey,
 	env={
 		drop=120,lock=120,

@@ -1,25 +1,12 @@
 local min=math.min
 return{
-	name={
-		"干旱",
-		"干旱",
-		"Drought",
-	},
-	level={
-		"100L",
-		"100行",
-		"100L",
-	},
-	info={
-		"你I没了",
-		"你I没了",
-		"B a g 6",
-	},
 	color=color.green,
 	env={
 		drop=20,lock=60,
-		sequence="drought1",
+		sequence="bag",
+		bag={1,1,2,2,3,3,4,4,5,5,6,6},
 		target=100,dropPiece=player.reach_winCheck,
+		next=3,
 		ospin=false,
 		freshLimit=15,
 		bg="glow",bgm="reason",

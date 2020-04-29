@@ -18,21 +18,6 @@ local function puzzleCheck(P)
 end
 
 return{
-	name={
-		"自定义",
-		"自定义",
-		"Custom",
-	},
-	level={
-		"拼图",
-		"拼图",
-		"PUZZLE",
-	},
-	info={
-		"画点什么然后把它拼出来吧!",
-		"画点什么然后把它拼出来吧!",
-		"Draw something then stack it!",
-	},
 	color=color.white,
 	env={
 		puzzle=true,
@@ -52,9 +37,9 @@ return{
 		if L~=0 then
 			modeEnv.target=nil
 			if L<10 then
-				newPlayer(2,965,360,.5,AITemplate("9S",2*L))
+				newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
 			else
-				newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
+				newAIPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
 			end
 		end
 		preField.h=20

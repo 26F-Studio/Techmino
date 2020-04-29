@@ -1,4 +1,6 @@
-local int,log,max,format=math.floor,math.log,math.max,string.format
+local int,log=math.floor,math.log
+local sin,cos=math.sin,math.cos
+local max,format=math.max,string.format
 local SCN={
 	cur="load",--Current scene
 	swapping=false,--ifSwapping
@@ -17,10 +19,10 @@ local sceneInit={
 		sceneTemp={
 			phase=1,--Loading stage
 			cur=1,--Counter
-			tar=#voiceName,--Loading bar lenth(current)
+			tar=#VOC.name,--Loading bar lenth(current)
 			tip=require("parts/getTip"),
 			list={
-				#voiceName,
+				#VOC.name,
 				#BGM.list,
 				#SFX.list,
 				IMG.getCount(),
@@ -103,79 +105,56 @@ local sceneInit={
 				format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
 				format("%d(%d)",S.atk,S.digatk),
 				format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
+				format("%d/%d/%d/%d",S.clear_S[1],S.clear_S[2],S.clear_S[3],S.clear_S[4]),
+				format("(%d)/%d/%d/%d",S.spin_S[1],S.spin_S[2],S.spin_S[3],S.spin_S[4]),
 				format("%d(+%d)/%d(%d)",S.b2b,S.b3b,S.pc,S.hpc),
 				format("%d[%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 			},
 
 			--从上开始,顺时针90°
-			radar1={
-				S.piece/2.5/S.time*60,		--L'PM
-				S.atk/S.time*60,			--APM
-				S.recv/S.time*60,			--RPM
-				S.atk/S.row,				--APL
-			},--外层表观数据
-			radar2={
-				S.dig/S.time*60,			--DigPM
-				S.digatk/S.time*60,			--APM(dig)
-				S.pend/S.time*60,			--PendPM
-				S.digatk/S.dig,				--APL(dig)
-			},--内层挖掘相关数据
-			V1={1/100,1/60,1/70,1/2},
-			V2={1/100,1/60,1/70,1/2},
+			radar={
+				(S.recv-S.pend+S.dig)/S.time*60,--DefPM
+				(S.recv-S.pend)/S.time*60,		--OffPM
+				S.atk/S.time*60,				--AtkPM
+				S.send/S.time*60,				--SendPM
+				S.piece/S.time*24,				--LinePM
+				S.dig/S.time*60,				--DigPM
+			},
+			val={1/80,1/40,1/60,1/60,1/100,1/40},
 			timing=org=="play",
 		}
 		local _=sceneTemp
-		local A,B=_.radar1,_.radar2
-		local C,D=_.V1,_.V2
-		for i=1,4 do
-			if A[i]~=A[i]then A[i]=0 end
-			if B[i]~=B[i]then B[i]=0 end
-			C[i]=C[i]*A[i]if C[i]>1.26 then C[i]=1.26+((C[i]-1.26)+1)^.5-1 end
-			D[i]=D[i]*B[i]if D[i]>1.26 then D[i]=1.26+((D[i]-1.26)+1)^.5-1 end
-		end--normalize V1/V2
-		A[1]=format("%.1fAPM",A[1])
-		A[2]=format("%.1fL'PM",A[2])
-		A[3]=format("%.1fRPM",A[3])
-		A[4]=format("%.1fAPL",A[4])
-		local s
-		if C[1]<.5 and C[2]<.5 and C[3]<.5 and C[4]<.5 and D[1]<.5 and D[2]<.5 and D[3]<.5 and D[4]<.5 then
-			_.color1={.4,.9,.5}
-			_.color2={.7,.5,.3}
-			s=1.26
-			--Vegetable
-		elseif C[1]>1 or C[2]>1 or C[3]>1 or C[4]>1 or D[1]>1 or D[2]>1 or D[3]>1 or D[4]>1 then
-			_.color1={1,.3,.3}
-			_.color2={.4,.2,0}
-			s=.8
-			--Diao
-		else
-			_.color1={.4,.7,.9}
-			_.color2={.6,.3,.26}
-			s=1
-			--NORMAL
+		local A,B=_.radar,_.val
+		for i=1,6 do
+			B[i]=B[i]*A[i]if B[i]>1.26 then B[i]=1.26+(B[i]-1.26)*.26 end
+		end--normalize vals
+		for i=1,6 do
+			A[i]=format("%.2f",A[i])..text.radarData[i]
 		end
-		sceneTemp.scale=s
-		s=s*126
-		_.standard={
-			0,-s,
-			s,0,
-			0,s,
-			-s,0,
+		local f=1
+		for i=1,6 do
+			if B[i]>.5 then f=2 end
+			if B[i]>1 then f=3 break end
+		end
+		if f==1 then	 _.color,f={.4,.9,.5},1.25	--Vegetable
+		elseif f==2 then _.color,f={.4,.7,.9},1		--Normal
+		elseif f==3 then _.color,f={1,.3,.3},.626	--Diao
+		end
+		A={
+			120*.5*f,	120*3^.5*.5*f,
+			120*-.5*f,	120*3^.5*.5*f,
+			120*-1*f,	120*0*f,
+			120*-.5*f,	120*-3^.5*.5*f,
+			120*.5*f,	120*-3^.5*.5*f,
+			120*1*f,	120*0*f,
 		}
-		sceneTemp.V1={
-			0,		-C[1]*s,
-			C[2]*s,0,
-			0,		C[3]*s,
-			-C[4]*s,0,
-			0,		-C[1]*s
-		}
-		sceneTemp.V2={
-			0,		-D[1]*s,
-			D[2]*s,0,
-			0,		D[3]*s,
-			-D[4]*s,0,
-			0,		-D[1]*s
-		}
+		_.scale=f
+		_.standard=A
+
+		for i=6,1,-1 do
+			B[2*i-1],B[2*i]=B[i]*A[2*i-1],B[i]*A[2*i]
+		end
+		_.val=B
 	end,
 	setting_game=function()
 		BG.set("space")

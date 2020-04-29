@@ -6,21 +6,6 @@ local function tech_check_ultimate(P)
 end
 
 return{
-	name={
-		"科研",
-		"科研",
-		"Tech",
-	},
-	level={
-		"困难+",
-		"困难+",
-		"HARD+",
-	},
-	info={
-		"仅允许spin与PC",
-		"仅允许spin与全清",
-		"Spin&PC only",
-	},
 	color=color.darkMagenta,
 	env={
 		drop=30,lock=60,

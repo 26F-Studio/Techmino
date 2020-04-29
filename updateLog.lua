@@ -35,15 +35,14 @@ local S=[=[
 	e m*12
 	我永远爱白银诺艾尔(鹏
 	PCX
-	
-
-	D*a(don't know name)
+	(D*a)
 
 	Thanks!
 
 Future outlook:
 	New mode:
 		game Abbr. test
+		backfire
 		finesse exam(3next,1pt/mino,drop to score)
 		round-based dig
 		Infinite battle
@@ -53,10 +52,16 @@ Future outlook:
 		Square
 		Shifting field(left/right)
 	Other:
-		no recording-upload
-		warning FX
-		key pressing SFX
-		bag sep-line switch
+		mod system with:
+			block hidden
+			field hidden
+			up-hidden
+			low-hidden
+			next hidden
+			field flip(LR/UD)
+			no fail(infinite revive)
+		防沉迷系统
+		warning FX(Graphic)
 		game recording
 		powerinfo switch
 		new virtualWidgets like joysticks
@@ -67,6 +72,30 @@ Future outlook:
 		new AI: task-Z
 		CC smarter(think of garbage buffer)
 
+0.8.17:Details Update
+	new:
+		bag seperating line switch
+		better radar chart & statistics on pause page
+		new generator method for drought mode, more difficult to finish
+		virtualkey pressing SFX
+	changed:
+		combo counter changed
+		rule of infinite dig changed
+		no drop/lock FX in two hardest hidden modes, make them harder
+		TSD-easy will auto finish when reach 20TSDs
+		solo/round AI setting changed
+		debug mode text&SFX when enter recording mode
+		launching sound is divided to SFX&VOC two parts
+		delete many "goto"s
+		vocal system moduled
+		language system moduled
+	fixed:
+		forgot to load language
+		error animation in control setting
+		error when paste map containing darkgreen block
+		moving block when changing target in t49/t99
+		font error in patron list
+		do not reset pause count when restart
 0.8.16:Fantastic Global Update
 	new:
 		new statistic page with:
@@ -171,7 +200,7 @@ Future outlook:
 		score may be float number
 		many syntax errors of texts
 		crash when paste illegal data to drawing mode
-		stage reset problem in t49/t99 mode
+		stage reset problem in t49/t99
 		wrong info in tech-L/U/U+ mode
 
 0.8.11:Total Update
@@ -270,7 +299,7 @@ Future outlook:
 	bug fixed
 
 0.8.0:Small Update
-	remake text system
+	remade text system
 	more details
 	bug fixed
 
@@ -330,7 +359,7 @@ Future outlook:
 	many bug fixed
 
 0.7.23/24:Feast of Hearing
-	REMAKE ALL BGM!
+	all bgm remade
 	more settings with brand new GUI!
 	new mode: Master-Final
 	new modes: attacker & defender(not survivor!)

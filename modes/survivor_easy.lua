@@ -1,20 +1,5 @@
 local max,rnd=math.max,math.random
 return{
-	name={
-		"生存",
-		"生存",
-		"Survivor",
-	},
-	level={
-		"简单",
-		"简单",
-		"EASY",
-	},
-	info={
-		"你能存活多久?",
-		"你能存活多久?",
-		"Survive Longer!",
-	},
 	color=color.cyan,
 	env={
 		drop=30,lock=45,

@@ -1,20 +1,5 @@
 local max,rnd=math.max,math.random
 return{
-	name={
-		"挖掘",
-		"挖掘",
-		"Dig",
-	},
-	level={
-		"困难",
-		"困难",
-		"HARD",
-	},
-	info={
-		"挖掘练习",
-		"挖掘练习",
-		"Downstack!",
-	},
 	color=color.magenta,
 	env={
 		drop=60,lock=120,

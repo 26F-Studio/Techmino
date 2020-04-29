@@ -138,19 +138,22 @@ function File.loadData()
 			local S=s()
 			if S.version~=gameVersion then
 				S.version=gameVersion
+				TEXT.show(text.newVersion,640,200,30,"fly",.3)
+			end
+			if not S.version or S.version=="Alpha V0.8.15"then
 				S.clear_S={S.clear_1,S.clear_2,S.clear_3,S.clear_4}
 				S.clear={{},{},{},{},{},{},{}}
-				local A,B,C,D=int(S.clear_1/7),int(S.clear_2/7),int(S.clear_3/7),int(S.clear_4/7)
+				local A,B,C,D=int(S.clear_1/7),int(S.clear_2/7),int(S.clear_3/7),S.clear_4
 				for i=1,7 do
 					S.clear[i][1]=A
 					S.clear[i][2]=B
 					S.clear[i][3]=C
-					S.clear[i][4]=D
+					S.clear[i][4]=0
 				end
+				S.clear[7][4]=D
 				for i=1,S.clear_1%7 do S.clear[i][1]=S.clear[i][1]+1 end
 				for i=1,S.clear_2%7 do S.clear[i][2]=S.clear[i][2]+1 end
 				for i=1,S.clear_3%7 do S.clear[i][3]=S.clear[i][3]+1 end
-				for i=1,S.clear_4%7 do S.clear[i][4]=S.clear[i][4]+1 end
 				S.clear_B={}
 				for i=1,7 do
 					S.clear_B[i]=S.clear[i][1]+S.clear[i][2]+S.clear[i][3]+S.clear[i][4]
@@ -175,7 +178,11 @@ function File.loadData()
 				end
 
 				S.hpc=S.c
-				TEXT.show(text.newVersion,640,200,30,"fly",.3)
+			elseif S.version=="Alpha V0.8.16"then
+				for i=1,6 do
+					S.clear[7][4]=S.clear[7][4]+S.clear[i][4]
+					S.clear[i][4]=0
+				end
 			end
 			addToTable(S,stat)
 		end

@@ -11,21 +11,6 @@ local function update_round(P)
 end
 
 return{
-	name={
-		"回合制",
-		"回合制",
-		"Turn-Based",
-	},
-	level={
-		"简单",
-		"简单",
-		"EASY",
-	},
-	info={
-		"下棋模式",
-		"下棋模式",
-		"Chess?",
-	},
 	color=color.cyan,
 	env={
 		drop=1e99,lock=1e99,
@@ -35,7 +20,8 @@ return{
 	},
 	load=function()
 		newPlayer(1,340,15)
-		newPlayer(2,965,360,.5,AITemplate("9S",10))
+		newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,5000))
+		garbageSpeed=1e99
 	end,
 	mesDisp=function(P,dx,dy)
 	end,

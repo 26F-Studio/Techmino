@@ -9,21 +9,6 @@ local function check_tsd(P)
 end
 
 return{
-	name={
-		"TSD挑战",
-		"T旋双清挑战",
-		"TSD Challenge",
-	},
-	level={
-		"困难",
-		"困难",
-		"HARD",
-	},
-	info={
-		"你能连续做几个TSD?",
-		"你能连续做几个T旋双清?",
-		"T-spin-doubles only",
-	},
 	color=color.magenta,
 	env={
 		drop=60,lock=60,

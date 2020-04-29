@@ -16,21 +16,6 @@ local function selectTarget(P)
 end
 
 return{
-	name={
-		"99人混战",
-		"99人混战",
-		"Techmino99",
-	},
-	level={
-		"简单",
-		"简单",
-		"EASY",
-	},
-	info={
-		"99人混战,活到最后",
-		"99人混战,活到最后",
-		"99P melee fight",
-	},
 	color=color.cyan,
 	env={
 		drop=60,lock=60,
@@ -56,17 +41,17 @@ return{
 		local n=2
 		for i=1,7 do for j=1,7 do
 			if L[n]then
-				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(2,5)))
+				newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(2,5)))
 			else
-				newPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(2,5)-1,2,true,10000))
+				newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(2,5)-1,2,true,10000))
 			end
 			n=n+1
 		end end
 		for i=15,21 do for j=1,7 do
 			if L[n]then
-				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(2,5)))
+				newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(2,5)))
 			else
-				newPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(2,5)-1,2,true,10000))
+				newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(2,5)-1,2,true,10000))
 			end
 			n=n+1
 		end end

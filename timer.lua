@@ -11,11 +11,7 @@ function Tmr.load()
 	::R::
 	--L={stage,curPos,curLen}
 	if S.phase==1 then
-		local N=voiceName[S.cur]
-		for i=1,#voiceList[N]do
-			local V=voiceList[N][i]
-			voiceBank[V]={love.audio.newSource("VOICE/"..V..".ogg","static")}
-		end
+		VOC.loadOne(S.cur)
 	elseif S.phase==2 then
 		BGM.loadOne(S.cur)
 	elseif S.phase==3 then
@@ -37,7 +33,8 @@ function Tmr.load()
 		skin.load()
 		stat.run=stat.run+1
 		--------------------------
-		SFX.play("welcome",.2)
+		SFX.play("welcome_sfx")
+		VOC.play("welcome")
 	else
 		S.cur=S.cur+1
 		S.tar=S.cur
@@ -268,6 +265,9 @@ function Tmr.setting_control()
 	end
 	if T.das>0 then
 		T.das=T.das-1
+		if T.das==0 then
+			T.pos=T.pos+T.dir
+		end
 	else
 		T.arr=T.arr-1
 		if T.arr==0 then
@@ -279,7 +279,7 @@ function Tmr.setting_control()
 		end
 		if T.pos%8==0 then
 			T.dir=-T.dir
-			T.wait=20
+			T.wait=26
 			T.das=setting.das
 		end
 	end

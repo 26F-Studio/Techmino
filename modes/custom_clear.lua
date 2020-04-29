@@ -1,21 +1,6 @@
 local gc=love.graphics
 local int=math.floor
 return{
-	name={
-		"自定义",
-		"自定义",
-		"Custom",
-	},
-	level={
-		"普通",
-		"普通",
-		"NORMAL",
-	},
-	info={
-		"画点什么然后把它消除!",
-		"画点什么然后把它消除!",
-		"Draw something then clear it!",
-	},
 	color=color.white,
 	env={
 		dropPiece=player.reach_winCheck,
@@ -32,9 +17,9 @@ return{
 		if L~=0 then
 			modeEnv.target=nil
 			if L<10 then
-				newPlayer(2,965,360,.5,AITemplate("9S",2*L))
+				newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
 			else
-				newPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
+				newAIPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
 			end
 		end
 		preField.h=20

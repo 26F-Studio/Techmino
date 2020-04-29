@@ -37,21 +37,6 @@ local function score(P)
 end
 
 return{
-	name={
-		"大师",
-		"大师",
-		"Master",
-	},
-	level={
-		"疯狂",
-		"疯狂",
-		"LUNATIC",
-	},
-	info={
-		"20G:初心者适用",
-		"20G:初心者适用",
-		"20G:Back to beginner",
-	},
 	color=color.red,
 	env={
 		noFly=true,

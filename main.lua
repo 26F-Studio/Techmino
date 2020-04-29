@@ -51,6 +51,7 @@ for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 -- blockSkin,blockSkinMini={},{}--redefined in skin.change
 --Game system Vars
 -------------------------------------------------------------
+color=require("parts/color")
 require("parts/list")
 require("toolfunc")
 
@@ -61,9 +62,10 @@ require("texture")
 FILE=require("file")
 VIB=require("parts/vib")
 SFX=require("parts/sfx")
+sysFX=require("parts/sysFX")
 BGM=require("parts/bgm")
 VOC=require("parts/voice")
-sysFX=require("parts/sysFX")
+LANG=require("parts/languages")
 TEXT=require("parts/text")
 TASK=require("parts/task")
 tickEvent=require("parts/tickEvent")
@@ -85,45 +87,42 @@ local Tmr=require("timer")
 local Pnt=require("paint")
 --Modules
 -------------------------------------------------------------
-local powerInfoCanvas,updatePowerInfo
-if sys.getPowerInfo()~="unknown"then
-	powerInfoCanvas=gc.newCanvas(108,27)
-	function updatePowerInfo()
-		local state,pow=sys.getPowerInfo()
-		if state~="unknown"then
-			gc.setCanvas(powerInfoCanvas)gc.push("transform")gc.origin()
-			gc.clear(0,0,0,.25)
-			gc.setLineWidth(4)
-			local charging=state=="charging"
-			if state=="nobattery"then
-				gc.setColor(1,1,1)
-				gc.setLineWidth(2)
-				gc.line(74,5,100,22)
-			elseif pow then
-				if charging then	gc.setColor(0,1,0)
-				elseif pow>50 then	gc.setColor(1,1,1)
-				elseif pow>26 then	gc.setColor(1,1,0)
-				elseif pow<26 then	gc.setColor(1,0,0)
-				else				gc.setColor(.5,0,1)
-				end
-				gc.rectangle("fill",76,6,pow*.22,14)
-				if pow<100 then
-					setFont(14)
-					gc.setColor(0,0,0)
-					gc.print(pow,77,2)
-					gc.print(pow,77,4)
-					gc.print(pow,79,2)
-					gc.print(pow,79,4)
-					gc.setColor(1,1,1)
-					gc.print(pow,78,3)
-				end
+local infoCanvas=gc.newCanvas(108,27)
+local function updatePowerInfo()
+	local state,pow=sys.getPowerInfo()
+	gc.setCanvas(infoCanvas)gc.push("transform")gc.origin()
+	gc.clear(0,0,0,.25)
+	if state~="unknown"then
+		gc.setLineWidth(4)
+		local charging=state=="charging"
+		if state=="nobattery"then
+			gc.setColor(1,1,1)
+			gc.setLineWidth(2)
+			gc.line(74,5,100,22)
+		elseif pow then
+			if charging then	gc.setColor(0,1,0)
+			elseif pow>50 then	gc.setColor(1,1,1)
+			elseif pow>26 then	gc.setColor(1,1,0)
+			elseif pow<26 then	gc.setColor(1,0,0)
+			else				gc.setColor(.5,0,1)
 			end
-			gc.draw(batteryImage,73,3)
-			setFont(25)
-			gc.print(os.date("%H:%M",os.time()),3,-5)
-			gc.pop()gc.setCanvas()
+			gc.rectangle("fill",76,6,pow*.22,14)
+			if pow<100 then
+				setFont(14)
+				gc.setColor(0,0,0)
+				gc.print(pow,77,2)
+				gc.print(pow,77,4)
+				gc.print(pow,79,2)
+				gc.print(pow,79,4)
+				gc.setColor(1,1,1)
+				gc.print(pow,78,3)
+			end
 		end
+		gc.draw(batteryImage,73,3)
 	end
+	setFont(25)
+	gc.print(os.date("%H:%M",os.time()),3,-5)
+	gc.pop()gc.setCanvas()
 end
 local function onVirtualkey(x,y)
 	local dist,nearest=1e10
@@ -180,18 +179,16 @@ local touchDown,touchUp,touchMove={},{},{}
 local keyDown,keyUp={},{}
 local gamepadDown,gamepadUp={},{}
 
-function mouseDown.load(x,y,k)
-	if k==1 then
-		sceneTemp.skip=true
-	end
-end
 function keyDown.load(k)
-	if k=="space"or k=="return"then
+	if k=="s"then
+		marking=nil
 		sceneTemp.skip=true
 	end
 end
 function touchDown.load()
-	sceneTemp.skip=true
+	if #tc.getTouches()>2 then
+		sceneTemp.skip=true
+	end
 end
 
 function mouseDown.intro(x,y,k)
@@ -633,6 +630,9 @@ function touchDown.play(id,x,y)
 		local t=onVirtualkey(x,y)
 		if t then
 			players[1]:pressKey(t)
+			if setting.VKSound then
+				SFX.play("virtualKey")
+			end
 			virtualkey[t].isDown=true
 			virtualkey[t].pressTime=10
 			if setting.VKTrack then
@@ -742,25 +742,23 @@ function gamepadUp.play(key)
 end
 
 function touchDown.help(id,x,y)
-	local S=sceneTemp
-	if S.pw==0 then
-		S.pw=1
+	local pw=sceneTemp.pw
+	local t=pw%4
+	if
+		t==0 and x<640 and y<360 or
+		t==1 and x>640 and y<360 or
+		t==2 and x<640 and y>360 or
+		t==3 and x>640 and y>360
+	then
+		pw=pw+1
+		if pw==8 then
+			marking=nil
+			SFX.play("reach")
+		end
 	else
-		if y<S.y then
-			S.pw=0
-			return
-		end
-		if S.pw%2==1 and x>S.x or S.pw%2==0 and x<S.x then
-			S.pw=S.pw+1
-			if S.pw==26 then
-				marking=nil
-				return
-			end
-		else
-			S.pw=0
-		end
+		pw=x<640 and y<360==1 and 1 or 0
 	end
-	S.x,S.y=x,y
+	sceneTemp.pw=pw
 end
 
 function wheelMoved.history(x,y)
@@ -970,11 +968,21 @@ function love.keypressed(i)
 		if i=="f5"then
 			print("DEBUG:")
 			
-		elseif i=="f8"then devMode=nil
-		elseif i=="f9"then devMode=1
-		elseif i=="f10"then devMode=2
-		elseif i=="f11"then devMode=3
-		elseif i=="f12"then devMode=4
+		elseif i=="f8"then
+			devMode=nil
+			TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
+		elseif i=="f9"then
+			devMode=1
+			TEXT.show("DEBUG 1",640,360,80,"fly",.8)
+		elseif i=="f10"then
+			devMode=2
+			TEXT.show("DEBUG 2",640,360,80,"fly",.8)
+		elseif i=="f11"then
+			devMode=3
+			TEXT.show("DEBUG 3",640,360,80,"fly",8)
+		elseif i=="f12"then
+			devMode=4
+			TEXT.show("DEBUG 4",640,360,80,"fly",12)
 		elseif devMode==2 then
 			if i=="k"then
 				for i=1,8 do
@@ -994,9 +1002,10 @@ function love.keypressed(i)
 				for k,v in next,_G do
 					print(k,v)
 				end
-			elseif i=="6"then
-				if kb.isDown("z")and kb.isDown("2")then
+			elseif i=="z"then
+				if kb.isDown("m")and kb.isDown("r")then
 					marking=nil
+					SFX.play("reach")
 				end
 			elseif widget_sel then
 				local W=widget_sel
@@ -1155,8 +1164,8 @@ function love.run()
 			FCT=FCT+setting.frameMul
 			if FCT>=100 then
 				FCT=FCT-100
-				
 				gc.discard()--SPEED UPUPUP!
+
 				BG.draw()
 				gc.push("transform")
 					gc.replaceTransform(xOy)
@@ -1184,14 +1193,16 @@ function love.run()
 						t:draw()
 					end--Floating Texts
 				gc.pop()
+
 				gc.setColor(1,1,1)
-				if powerInfoCanvas then
-					gc.draw(powerInfoCanvas,0,0,0,scr.k)
-				end--Power Info
+				gc.draw(infoCanvas,0,0,0,scr.k)
+				--Power Info
+
 				if SCN.swapping then
 					_=SCN.swap
 					_.draw(_.time)
 				end--Scene swapping animation
+				
 				setFont(15)
 				gc.setColor(1,1,1)
 				_=scr.h-20
@@ -1290,13 +1301,8 @@ function love.errorhandler(msg)
 	end
 end
 -------------------------------------------------------------Reset data relied on setting
-changeLanguage(setting.lang)
 if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
 
-if fs.getInfo("unlock.dat")then FILE.loadUnlock()end
-if fs.getInfo("data.dat")then FILE.loadData()end
-if fs.getInfo("key.dat")then FILE.loadKeyMap()end
-if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 if fs.getInfo("setting.dat")then FILE.loadSetting()
 else
 	-- firstRun=true
@@ -1306,3 +1312,10 @@ else
 		setting.vib=2
 	end
 end
+LANG.set(setting.lang)
+if setting.fullscreen then love.window.setFullscreen(true)end
+
+if fs.getInfo("unlock.dat")then FILE.loadUnlock()end
+if fs.getInfo("data.dat")then FILE.loadData()end
+if fs.getInfo("key.dat")then FILE.loadKeyMap()end
+if fs.getInfo("virtualkey.dat")then FILE.loadVK()end

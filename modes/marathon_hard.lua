@@ -15,28 +15,13 @@ local function check(P)
 end
 
 return{
-	name={
-		"马拉松",
-		"马拉松",
-		"Marathon",
-	},
-	level={
-		"困难",
-		"困难",
-		"HARD",
-	},
-	info={
-		"200行高速马拉松",
-		"200行高速马拉松",
-		"200L marathon in high speed",
-	},
 	color=color.magenta,
 	env={
 		noFly=true,
 		mindas=7,minarr=1,minsdarr=1,
 		drop=.5,wait=8,fall=20,
 		target=50,dropPiece=check,
-		bg="strap",bgm="race",
+		bg="strap",bgm="push",
 	},
 	pauseLimit=true,
 	slowMark=true,

@@ -16,21 +16,6 @@ local function check_c4w(P)
 end
 
 return{
-	name={
-		"C4W练习",
-		"中四宽练习",
-		"C4W Training",
-	},
-	level={
-		"普通",
-		"普通",
-		"NORMAL",
-	},
-	info={
-		"无 限 连 击",
-		"无 限 连 击",
-		"Infinite combo",
-	},
 	color=color.green,
 	env={
 		drop=30,lock=60,oncehold=false,

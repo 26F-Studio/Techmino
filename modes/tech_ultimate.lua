@@ -6,21 +6,6 @@ local function tech_check_hard(P)
 end
 
 return{
-	name={
-		"科研",
-		"科研",
-		"Tech",
-	},
-	level={
-		"极限",
-		"极限",
-		"ULTIMATE",
-	},
-	info={
-		"禁止普通消除,强制最简操作",
-		"禁止普通消除,强制最简操作",
-		"No normal clear,no finesse error",
-	},
 	color=color.lightYellow,
 	env={
 		arr=0,

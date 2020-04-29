@@ -1,26 +1,12 @@
 local min=math.min
 return{
-	name={
-		"隐形",
-		"隐形",
-		"Blind",
-	},
-	level={
-		"啥都不剩隐",
-		"啥都不剩隐",
-		"NOTHING",
-	},
-	info={
-		"最强大脑",
-		"最强大脑",
-		"Invisible board",
-	},
 	color=color.red,
 	env={
 		drop=30,lock=60,
 		fall=5,
 		block=false,
 		center=false,ghost=false,
+		dropFX=0,lockFX=0,
 		visible="none",
 		dropPiece=player.reach_winCheck,
 		freshLimit=15,

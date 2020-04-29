@@ -1,21 +1,6 @@
 local gc=love.graphics
 local rnd=math.random
 return{
-	name={
-		"竞速",
-		"竞速",
-		"Sprint",
-	},
-	level={
-		"100L",
-		"100行",
-		"100L",
-	},
-	info={
-		"消除100行",
-		"消除100行",
-		"Clear 100 lines",
-	},
 	color=color.orange,
 	env={
 		drop=60,lock=60,

@@ -1,5 +1,4 @@
 local mobile=system=="Android"or system=="iOS"
-local langName={"中文","全中文","English"}
 local virtualkeySet={
 	{
 		{1,	80,			720-200,	80},--moveLeft
@@ -111,8 +110,8 @@ local Widget={
 		stat=	newButton(370,460,200,160,C.lightCyan,		43,function()SCN.push()SCN.swapTo("stat")end,			nil,"qplay"),
 		qplay=	newButton(590,460,200,160,C.lightOrange,	43,function()SCN.push()loadGame(stat.lastPlay)end,		nil,"lang"),
 		lang=	newButton(150,610,160,100,C.lightGreen,		45,function()
-			setting.lang=setting.lang%#langName+1
-			changeLanguage(setting.lang)
+			setting.lang=setting.lang%LANG.getLen()+1
+			LANG.set(setting.lang)
 			TEXT.show(text.lang,370,610,50,"appear",1.6)
 			end,nil,"quit"),
 		quit=	newButton(590,610,160,100,C.lightGrey,		45,function()VOC.play("bye")SCN.swapTo("quit","slowFade")end,nil,"play"),
@@ -208,10 +207,11 @@ local Widget={
 	setting_graphic={
 		sound=	newButton(200,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_sound")end,	nil,"game"),
 		game=	newButton(1080,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_game")end,	nil,"ghost"),
-		ghost=	newSwitch(310,180,35,				SETval("ghost"),		SETrev("ghost"),		nil,"center"),
-		center=	newSwitch(580,180,35,				SETval("center"),		SETrev("center"),		nil,"smooth"),
-		smooth=	newSwitch(310,260,25,				SETval("smooth"),		SETrev("smooth"),			nil,"grid"),
-		grid=	newSwitch(580,260,30,				SETval("grid"),			SETrev("grid"),			nil,"lockFX"),
+		ghost=	newSwitch(230,180,35,				SETval("ghost"),		SETrev("ghost"),		nil,"smooth"),
+		smooth=	newSwitch(230,260,25,				SETval("smooth"),		SETrev("smooth"),		nil,"center"),
+		center=	newSwitch(480,180,35,				SETval("center"),		SETrev("center"),		nil,"grid"),
+		grid=	newSwitch(480,260,30,				SETval("grid"),			SETrev("grid"),			nil,"bagLine"),
+		bagLine=newSwitch(730,180,30,				SETval("bagLine"),		SETrev("bagLine"),		nil,"lockFX"),
 		lockFX=	newSlider(310,340,373,3,35,nil,		SETval("lockFX"),		SETsto("lockFX"),		nil,"dropFX"),
 		dropFX=	newSlider(310,410,373,5,35,nil,		SETval("dropFX"),		SETsto("dropFX"),		nil,"shakeFX"),
 		shakeFX=newSlider(310,480,373,5,35,nil,		SETval("shakeFX"),		SETsto("shakeFX"),		nil,"atkFX"),
@@ -346,11 +346,12 @@ local Widget={
 		b18=	newSwitch(620,500,	35,VKAdisp(18),VKAcode(18)),
 		b19=	newSwitch(620,560,	35,VKAdisp(19),VKAcode(19)),
 		b20=	newSwitch(620,620,	35,VKAdisp(20),VKAcode(20)),
-		norm=	newButton(840,100,240,80,C.white,45,function()for i=1,20 do VK_org[i].ava=i<11 end end),
-		pro=	newButton(1120,100,240,80,C.white,35,function()for i=1,20 do VK_org[i].ava=true end end),
-		hide=	newSwitch(1170,200,40,SETval("VKSwitch"),SETrev("VKSwitch")),
-		track=	newSwitch(1170,300,35,SETval("VKTrack"),SETrev("VKTrack")),
-		icon=	newSwitch(850,300,40,SETval("VKIcon"),SETrev("VKIcon")),
+		norm=	newButton(840,100,	240,80,C.white,35,function()for i=1,20 do VK_org[i].ava=i<11 end end),
+		pro=	newButton(1120,100,	240,80,C.white,35,function()for i=1,20 do VK_org[i].ava=true end end),
+		hide=	newSwitch(1170,200,	40,SETval("VKSwitch"),SETrev("VKSwitch")),
+		track=	newSwitch(1170,300,	35,SETval("VKTrack"),SETrev("VKTrack")),
+		sound=	newSwitch(850,400,	35,SETval("VKSound"),SETrev("VKSound")),
+		icon=	newSwitch(850,300,	40,SETval("VKIcon"),SETrev("VKIcon")),
 		tkset=	newButton(1120,400,240,80,C.white,32,function()
 			SCN.push()
 			SCN.swapTo("setting_trackSetting")

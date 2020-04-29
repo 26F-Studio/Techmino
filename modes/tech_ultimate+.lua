@@ -6,21 +6,6 @@ local function tech_check_ultimate(P)
 end
 
 return{
-	name={
-		"科研",
-		"科研",
-		"Tech",
-	},
-	level={
-		"极限+",
-		"极限+",
-		"ULTIMATE+",
-	},
-	info={
-		"仅允许spin与PC,强制最简操作",
-		"仅允许spin与全清,强制最简操作",
-		"Spin&PC only,no finesse error",
-	},
 	color=color.grey,
 	env={
 		arr=0,

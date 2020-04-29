@@ -1,19 +1,4 @@
 return{
-	name={
-		"本地多人",
-		"本地多人",
-		"Multiplayer",
-	},
-	level={
-		"2P",
-		"2P",
-		"2P",
-	},
-	info={
-		"不是联网也不是局域网",
-		"不是联网也不是局域网",
-		"No network\nlocal game only",
-	},
 	color=color.white,
 	env={
 		drop=60,lock=60,

@@ -1,7 +1,7 @@
 local gc=love.graphics
 local setFont=setFont
 local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
-local max,min,sin=math.max,math.min,math.sin
+local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local format=string.format
 
 local Timer=love.timer.getTime
@@ -12,7 +12,7 @@ local modeRankColor={
 	color.bronze,		--Rank1
 	color.lightGrey,	--Rank2
 	color.lightYellow,	--Rank3
-	color.lightMagenta,	--Rank4
+	color.lightPurple,	--Rank4
 	color.lightCyan,	--Rank5
 	color.purple,		--Special
 }
@@ -154,6 +154,7 @@ function Pnt.mode()
 	gc.scale(cam.k1)
 	local MM=modes
 	local R=modeRanks
+	local sel=cam.sel
 	setFont(30)
 	for _=1,#MM do
 		local M=MM[_]
@@ -167,7 +168,7 @@ function Pnt.mode()
 			end
 
 			local S=M.size
-			local d=((M.x-(cam.x1+(cam.sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
+			local d=((M.x-(cam.x1+(sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
 			if d<500 then S=S*(1.25-d*0.0005) end
 			local c=modeRankColor[modeRanks[M.id]]
 			if c then
@@ -179,21 +180,21 @@ function Pnt.mode()
 			end
 			if M.shape==1 then--Rectangle
 				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)
-				if cam.sel==_ then
+				if sel==_ then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
 					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
 				end
 			elseif M.shape==2 then--diamond
 				gc.circle("fill",M.x,M.y,S+5,4)
-				if cam.sel==_ then
+				if sel==_ then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
 					gc.circle("line",M.x,M.y,S+5,4)
 				end
 			elseif M.shape==3 then--Octagon
 				gc.circle("fill",M.x,M.y,S,8)
-				if cam.sel==_ then
+				if sel==_ then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
 					gc.circle("line",M.x,M.y,S,8)
@@ -224,16 +225,16 @@ function Pnt.mode()
 		end
 	end
 	gc.pop()
-	if cam.sel then
-		local M=MM[cam.sel]
+	if sel then
+		local M=MM[sel]
 		local lang=setting.lang
 		gc.setColor(.7,.7,.7,.5)
 		gc.rectangle("fill",920,0,360,720)--Info board
 		gc.setColor(M.color)
-		setFont(40)mStr(M.name[lang],1100,5)
-		setFont(30)mStr(M.level[lang],1100,50)
+		setFont(40)mStr(text.modes[sel][1],1100,5)
+		setFont(30)mStr(text.modes[sel][2],1100,50)
 		gc.setColor(1,1,1)
-		setFont(28)gc.printf(M.info[lang],920,110,360,"center")
+		setFont(28)gc.printf(text.modes[sel][3],920,110,360,"center")
 		if M.slowMark then
 			gc.draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
 		end
@@ -423,11 +424,14 @@ function Pnt.play()
 		gc.pop()
 	end
 end
+local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}for i=1,6 do hexList[i]=hexList[i]*150 end
+local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
+local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
+
 function Pnt.pause()
-	Pnt.play()
 	local S=sceneTemp
 	local T=S.timer*.02
-
+	if T<1 or gameResult then Pnt.play()end
 	--Dark BG
 	local _=T
 	if gameResult then _=_*.6 end
@@ -448,8 +452,8 @@ function Pnt.pause()
 
 	--Mode Info
 	_=drawableText.modeName
-	gc.draw(_,70,180)
-	gc.draw(drawableText.levelName,90+_:getWidth(),180)
+	gc.draw(_,40,180)
+	gc.draw(drawableText.levelName,60+_:getWidth(),180)
 
 	--Result Text
 	setFont(35)
@@ -459,8 +463,8 @@ function Pnt.pause()
 	if frame>180 then
 		_=S.list
 		setFont(26)
-		for i=1,8 do
-			gc.print(text.pauseStat[i],70,210+40*i)
+		for i=1,10 do
+			gc.print(text.pauseStat[i],40,210+40*i)
 			gc.printf(_[i],245,210+40*i,250,"right")
 		end
 	end
@@ -471,36 +475,39 @@ function Pnt.pause()
 		gc.setLineWidth(2)
 		gc.push("transform")
 			gc.translate(1026,400)
-			gc.scale((3-2*T)*T)
-			local C=S.color1;C[4]=T;gc.setColor(C)gc.polygon("fill",S.V1)
-			C=S.color2;C[4]=T;gc.setColor(C)gc.polygon("fill",S.V2)
-			gc.setColor(1,1,1,T*(.5+.5*sin(Timer()*12.626)))
-			gc.polygon("line",S.standard)
+
+			--axes
 			gc.setColor(1,1,1,T)
-			gc.line(S.V1)gc.line(S.V2)
+			for i=1,3 do
+				local x,y=hexList[2*i-1],hexList[2*i]
+				gc.line(-x,-y,x,y)
+			end
+
+			local C
+			_=Timer()%6.2832
+			if _>3.1416 then
+				gc.setColor(1,1,1,-T*sin(_))
+				setFont(35)
+				C,_=text.radar,textPos
+			else
+				gc.setColor(1,1,1,T*sin(_))
+				setFont(18)
+				C,_=S.radar,dataPos
+			end
+			for i=1,6 do
+				mStr(C[i],_[2*i-1],_[2*i])
+			end
+			gc.scale((3-2*T)*T)
+			gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",S.standard)
+			_=S.color
+			gc.setColor(_[1],_[2],_[3],T)
+			_=S.val
+			for i=1,9,2 do
+				gc.polygon("fill",0,0,_[i],_[i+1],_[i+2],_[i+3])
+			end
+			gc.polygon("fill",0,0,_[11],_[12],_[1],_[2])
+			gc.setColor(1,1,1,T)gc.polygon("line",S.val)
 		gc.pop()
-
-		gc.line(1026,400-160,1026,400+160)
-		gc.line(1026-160,400,1026+160,400)
-
-		_=Timer()%6.2832
-		if _>3.1416 then
-			_=_-3.1416
-			setFont(35)
-			gc.setColor(1,1,1,T*sin(_))
-			mStr(text.atk,1026,420-230)
-			mStr(text.spd,1026+180,340)
-			mStr(text.recv,1026,420+140)
-			mStr(text.eff,1026-180,340)
-		else
-			gc.setColor(1,1,1,T*sin(_))
-			_=S.radar1
-			setFont(23)
-			mStr(_[1],1026,420-215)
-			mStr(_[2],1026+180,340)
-			mStr(_[3],1026,420+140)
-			mStr(_[4],1026-180,340)
-		end
 	end
 end
 function Pnt.setting_game()
@@ -594,11 +601,11 @@ function Pnt.setting_key()
 	local board=s.board
 	for N=1,20 do
 		if N<11 then
-			gc.printf(text.actName[N],47,45*N+22,180,"right")
+			gc.printf(text.acts[N],47,45*N+22,180,"right")
 			mStr(keyMap[board][N],340,45*N+22)
 			mStr(keyMap[board+8][N],540,45*N+22)
 		else
-			gc.printf(text.actName[N],647,45*N-428,180,"right")
+			gc.printf(text.acts[N],647,45*N-428,180,"right")
 			mStr(keyMap[board][N],940,45*N-428)
 			mStr(keyMap[board+8][N],1040,45*N-428)
 		end

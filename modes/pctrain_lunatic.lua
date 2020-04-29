@@ -66,21 +66,6 @@ local function newPC(P)
 end
 
 return{
-	name={
-		"全清训练",
-		"全清训练",
-		"PC Training",
-	},
-	level={
-		"疯狂",
-		"疯狂",
-		"LUNATIC",
-	},
-	info={
-		"简易PC题库,熟悉全清定式的组合",
-		"简易全清题库,熟悉全清定式的组合",
-		"Let's learn some PCs",
-	},
 	color=color.red,
 	env={
 		next=4,

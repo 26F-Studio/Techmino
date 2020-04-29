@@ -34,21 +34,6 @@ local function score(P)
 end
 
 return{
-	name={
-		"大师",
-		"大师",
-		"Master",
-	},
-	level={
-		"终点",
-		"终点",
-		"FINAL",
-	},
-	info={
-		"究极20G:无法触及的终点",
-		"究极20G:无法触及的终点",
-		"Extreme 20G:Unreachable destination",
-	},
 	color=color.lightGrey,
 	env={
 		noFly=true,

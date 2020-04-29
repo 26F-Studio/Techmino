@@ -14,21 +14,6 @@ local function check_LVup(P)
 end
 
 return{
-	name={
-		"高速经典",
-		"高速经典",
-		"Classic",
-	},
-	level={
-		"CTWC",
-		"锦标赛",
-		"CTWC",
-	},
-	info={
-		"高速经典",
-		"高速经典",
-		"Vintage car drag racing",
-	},
 	color=color.lightBlue,
 	env={
 		noFly=true,

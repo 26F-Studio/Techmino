@@ -1,20 +1,5 @@
 local format=string.format
 return{
-	name={
-		"无尽",
-		"无尽",
-		"Infinite",
-	},
-	level={
-		"",
-		"",
-		"",
-	},
-	info={
-		"沙盒",
-		"沙盒",
-		"Sandbox",
-	},
 	color=color.lightGrey,
 	env={
 		drop=1e99,lock=1e99,

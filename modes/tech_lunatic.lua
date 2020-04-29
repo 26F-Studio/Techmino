@@ -6,21 +6,6 @@ local function tech_check_hard(P)
 end
 
 return{
-	name={
-		"科研",
-		"科研",
-		"Tech",
-	},
-	level={
-		"疯狂",
-		"疯狂",
-		"LUNATIC",
-	},
-	info={
-		"禁止普通消除",
-		"禁止普通消除",
-		"No normal clear",
-	},
 	color=color.red,
 	env={
 		_20G=true,lock=60,

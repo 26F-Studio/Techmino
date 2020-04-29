@@ -50,10 +50,10 @@ end
 function BGdraw.strap()
 	gc.setColor(.5,.5,.5)
 	local x=t%16*-64
-	::L::
-	gc.draw(img,x,0,nil,8,scr.h)
-	x=x+1024--image width*8
-	if x<scr.w then goto L end
+	repeat
+		gc.draw(img,x,0,nil,8,scr.h)
+		x=x+1024--image width*8
+	until x>=scr.w
 end
 
 function BGinit.flink()
@@ -115,10 +115,10 @@ end
 function BGdraw.game4()
 	gc.setColor(.05,.4,.4)
 	local x=t%8*-128
-	::L::
-	gc.draw(img,x,0,nil,8,scr.h)
-	x=x+1024--image width*8
-	if x<scr.w then goto L end
+	repeat
+		gc.draw(img,x,0,nil,8,scr.h)
+		x=x+1024--image width*8
+	until x>=scr.w
 end--Fast strap
 
 function BGinit.game5()

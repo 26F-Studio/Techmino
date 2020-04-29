@@ -6,21 +6,6 @@ local function tech_check_easy(P)
 end
 
 return{
-	name={
-		"科研",
-		"科研",
-		"Tech",
-	},
-	level={
-		"普通",
-		"普通",
-		"NORMAL",
-	},
-	info={
-		"禁止断B2B",
-		"禁止断B2B",
-		"Keep B2B",
-	},
 	color=color.green,
 	env={
 		oncehold=false,

@@ -1,19 +1,4 @@
 return{
-	name={
-		"单挑",
-		"单挑",
-		"Battle",
-	},
-	level={
-		"简单",
-		"简单",
-		"EASY",
-	},
-	info={
-		"打败AI",
-		"打败电脑",
-		"Beat AI",
-	},
 	color=color.cyan,
 	env={
 		drop=60,lock=60,
@@ -23,7 +8,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		newPlayer(1,340,15)
-		newPlayer(2,965,360,.5,AITemplate("9S",3))
+		newAIPlayer(2,965,360,.5,AITemplate("9S",3))
 	end,
 	mesDisp=function(P,dx,dy)
 	end,

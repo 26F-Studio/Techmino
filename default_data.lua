@@ -17,6 +17,7 @@ setting={
 
 	ghost=true,center=true,
 	smooth=true,grid=false,
+	bagLine=false,
 	lockFX=2,
 	dropFX=3,
 	shakeFX=2,
@@ -33,6 +34,7 @@ setting={
 	stereo=6,
 	--sound
 
+	VKSound=true,--if SFX
 	VKSwitch=false,--if disp
 	VKTrack=false,--if tracked
 	VKDodge=false,--if dodge

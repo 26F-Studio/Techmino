@@ -14,21 +14,6 @@ local function check_LVup(P)
 end
 
 return{
-	name={
-		"马拉松",
-		"马拉松",
-		"Marathon",
-	},
-	level={
-		"普通",
-		"普通",
-		"NORMAL",
-	},
-	info={
-		"200行加速马拉松",
-		"200行加速马拉松",
-		"200L marathon with acceleration",
-	},
 	color=color.green,
 	env={
 		noFly=true,
@@ -36,7 +21,7 @@ return{
 		wait=8,fall=20,
 		target=10,dropPiece=check_LVup,
 		mindas=7,minarr=1,minsdarr=1,
-		bg="strap",bgm="way",
+		bg="strap",bgm="push",
 	},
 	pauseLimit=true,
 	slowMark=true,

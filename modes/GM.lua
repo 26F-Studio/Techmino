@@ -12,21 +12,6 @@ local function score(P)
 end
 
 return{
-	name={
-		"宗师",
-		"宗师",
-		"GrandMaster",
-	},
-	level={
-		"GM",
-		"GM",
-		"GM",
-	},
-	info={
-		"成为方块大师",
-		"成为方块大师",
-		"To be Grand Master",
-	},
 	color=color.lightBlue,
 	env={
 		noFly=true,

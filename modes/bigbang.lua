@@ -7,21 +7,6 @@ local function newField(P)
 
 end
 return{
-	name={
-		"大爆炸",
-		"大爆炸",
-		"Big Bang",
-	},
-	level={
-		"简单",
-		"简单",
-		"EASY",
-	},
-	info={
-		"All-spin 入门教程\n未制作完成,下块即通",
-		"All-spin 入门教程\n未制作完成,下块即通",
-		"All-spin Tutorial!\nUNFINISHED,drop to win",
-	},
 	color=color.lightGrey,
 	env={
 		drop=1e99,lock=1e99,
