@@ -43,14 +43,14 @@ Future outlook:
 	New mode:
 		game Abbr. test
 		backfire
-		finesse exam(3next,1pt/mino,drop to score)
+		finesse exam(3next, 1pt/mino, drop to score)
 		round-based dig
-		Infinite battle
-		Bigbang
-		Rhythm
-		Combo
-		Square
-		Shifting field(left/right)
+		bigbang
+		rhythm
+		combo
+		aquare
+		field shifting(left/right)
+		task-based survival
 	Other:
 		mod system with:
 			block hidden
@@ -59,18 +59,33 @@ Future outlook:
 			low-hidden
 			next hidden
 			field flip(LR/UD)
-			no fail(infinite revive)
+			no fail(∞ lives)
 		防沉迷系统
+		lang setting page
 		warning FX(Graphic)
 		game recording
 		powerinfo switch
 		new virtualWidgets like joysticks
 		custom sequence
 		splashing block
-		more FXs & 3d features & animations
+		cool backgrounds
+		more graphic FXs & 3D features & animations
 		Encrypt source code(compile to byte code)
 		new AI: task-Z
-		CC smarter(think of garbage buffer)
+		smarter CC(think of garbage buffer)
+
+0.8.18:Details Update II
+	new:
+		adjustable virtualkey SFX & VIB
+	changed:
+		add discord link in ENG mode
+		change par time/piece of sprint/battle/round mode
+		info on pause page more clearly
+		faster spaceBG rendering
+		updateLog editted
+	code:
+		delete all removable "goto"s!
+		callback system moduled, main.lua easy to read
 
 0.8.17:Details Update
 	new:
@@ -84,11 +99,14 @@ Future outlook:
 		no drop/lock FX in two hardest hidden modes, make them harder
 		TSD-easy will auto finish when reach 20TSDs
 		solo/round AI setting changed
-		debug mode text&SFX when enter recording mode
-		launching sound is divided to SFX&VOC two parts
+		show text when entering debug mode
+		SFX when enter recording mode
+		remove full speed loading
+	code:
+		launching sound divided to SFX&VOC two parts
 		delete many "goto"s
 		vocal system moduled
-		language system moduled
+		language system moduled, easier to add new languages
 	fixed:
 		forgot to load language
 		error animation in control setting
@@ -117,9 +135,9 @@ Future outlook:
 		new randomizer for drought2
 		half-clear judging method changed
 		new background system(well, it doesn't look much different but space BG)
-		better sequence randomizer
 		now can loading at full speed with Dblclick/space/enter
 		add alipay paycode to help page
+		better sequence randomizer
 	code:
 		first shader applied for white frame of falling block
 		many many module packed, easy to manage
@@ -136,7 +154,7 @@ Future outlook:
 		give every update a name!
 	changed:
 		animation time of lock effect little changed
-		bone block of skin: ball changed
+		bone block of ball-skin changed
 		AI change target more slowly
 		Author.dignity-=1
 	fixed:
@@ -218,10 +236,11 @@ Future outlook:
 		some O-spin error
 		error line counting when pc(full b2b)
 
-0.8.10:
-	new BGM:Distortion(master-final)
-	all background darker
-	better error page
+0.8.10:Cool Update
+	new:
+		new BGM:Distortion(master-final)
+		all background darker
+		cooler error page
 	fixed:
 		error when finish master/ultra mode
 		shakeFX no effect when below 3
@@ -456,15 +475,19 @@ Future outlook:
 	bugs fixed(AI control error)
 
 0.7.13:
-	Chinese game name: 方块研究所
-	SUPER COOL instant moving effect
-	new b2b bar style & animation
-	new transition animation
-	change difficulty of master mode
-	adjust delay algorithm(probably cause controlfeel changing, please reset your DAS setting)
-	code reconstructed
-	bugs fixed(error when seq=his, size of custom oppo)
-	debug key change to F8
+	new:
+		Chinese game name: 方块研究所
+		SUPER COOL instant moving effect
+		new b2b bar style & animation
+		new transition animation
+	change:
+		change difficulty of master mode
+		adjust delay algorithm(probably cause controlfeel changing, please reset your DAS setting)
+		code reconstructed
+		debug key change to F8
+	fixed:
+		error when seq=his
+		error game area size of custom opponent
 
 0.7.12:Total Update
 	AI learned to switch attack mode

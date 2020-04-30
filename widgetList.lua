@@ -93,9 +93,9 @@ function SETsto(k)	return function(i)setting[k]=i						end end
 function SETrev(k)	return function()setting[k]=not setting[k]			end end
 function pressKey(k)return function()love.keypressed(k)					end end
 function setPen(i)	return function()sceneTemp.pen=i					end end
-function prevSkin(n)return function()skin.prev(n)						end end
-function nextSkin(n)return function()skin.next(n)						end end
-function nextDir(n)	return function()skin.rotate(n)						end end
+function prevSkin(n)return function()SKIN.prev(n)						end end
+function nextSkin(n)return function()SKIN.next(n)						end end
+function nextDir(n)	return function()SKIN.rotate(n)						end end
 function VKAdisp(n)	return function()return VK_org[n].ava				end end
 function VKAcode(n)	return function()VK_org[n].ava=not VK_org[n].ava 	end end
 
@@ -235,7 +235,7 @@ local Widget={
 		graphic=newButton(1080,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_graphic")end,					nil,"sfx"),
 		sfx=	newSlider(180,250,400,10,35,function()SFX.play("blip_1")end,	SETval("sfx"),		SETsto("sfx"),		nil,"bgm"),
 		bgm=	newSlider(750,250,400,10,35,function()BGM.freshVolume()end,		SETval("bgm"),		SETsto("bgm"),		nil,"vib"),
-		vib=	newSlider(180,440,400,5	,28,function()VIB(1)end,				SETval("vib"),		SETsto("vib"),		nil,"voc"),
+		vib=	newSlider(180,440,400,5	,28,function()VIB(2)end,				SETval("vib"),		SETsto("vib"),		nil,"voc"),
 		voc=	newSlider(750,440,400,10,32,function()VOC.play("nya")end,		SETval("voc"),		SETsto("voc"),		nil,"stereo"),
 		stereo=	newSlider(180,630,400,10,35,function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,	SETval("stereo"),	SETsto("stereo"),function()return setting.sfx==0 end,"back"),
 		back=	newButton(1140,650,200,80,C.white,40,SCN.back,nil,"game"),
@@ -260,8 +260,8 @@ local Widget={
 		back=newButton(1140,650,200,80,C.white,45,SCN.back),
 	},
 	setting_skin={
-		prev=	newButton(700,100,140,100,C.white,50,function()skin.prevSet()end),
-		next=	newButton(860,100,140,100,C.white,50,function()skin.nextSet()end),
+		prev=	newButton(700,100,140,100,C.white,50,function()SKIN.prevSet()end),
+		next=	newButton(860,100,140,100,C.white,50,function()SKIN.nextSet()end),
 		prev1=	newButton(130,230,90,65,C.white,30,prevSkin(1)),
 		prev2=	newButton(270,230,90,65,C.white,30,prevSkin(2)),
 		prev3=	newButton(410,230,90,65,C.white,30,prevSkin(3)),
@@ -350,14 +350,15 @@ local Widget={
 		pro=	newButton(1120,100,	240,80,C.white,35,function()for i=1,20 do VK_org[i].ava=true end end),
 		hide=	newSwitch(1170,200,	40,SETval("VKSwitch"),SETrev("VKSwitch")),
 		track=	newSwitch(1170,300,	35,SETval("VKTrack"),SETrev("VKTrack")),
-		sound=	newSwitch(850,400,	35,SETval("VKSound"),SETrev("VKSound")),
+		sfx=	newSlider(800,380,180,4,40,function()SFX.play("virtualKey",setting.VKSFX*.25)end,SETval("VKSFX"),SETsto("VKSFX")),
+		vib=	newSlider(800,460,180,2,40,function()VIB(setting.VKVIB)end,SETval("VKVIB"),SETsto("VKVIB")),
 		icon=	newSwitch(850,300,	40,SETval("VKIcon"),SETrev("VKIcon")),
-		tkset=	newButton(1120,400,240,80,C.white,32,function()
+		tkset=	newButton(1120,420,240,80,C.white,32,function()
 			SCN.push()
 			SCN.swapTo("setting_trackSetting")
 			end,function()return not setting.VKTrack end),
-		alpha=	newSlider(840,490,400,10,40,nil,SETval("VKAlpha"),SETsto("VKAlpha")),
-		back=	newButton(1100,600,240,80,C.white,45,SCN.back),
+		alpha=	newSlider(840,540,400,10,40,nil,SETval("VKAlpha"),SETsto("VKAlpha")),
+		back=	newButton(1120,620,200,80,C.white,45,SCN.back),
 	},
 	setting_trackSetting={
 		VKDodge=newSwitch(400,200,	35,SETval("VKDodge"),SETrev("VKDodge")),

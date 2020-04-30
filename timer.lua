@@ -8,52 +8,51 @@ local Tmr={}
 function Tmr.load()
 	local t=Timer()
 	local S=sceneTemp
-	::R::
-	--L={stage,curPos,curLen}
-	if S.phase==1 then
-		VOC.loadOne(S.cur)
-	elseif S.phase==2 then
-		BGM.loadOne(S.cur)
-	elseif S.phase==3 then
-		SFX.loadOne(S.cur)
-	elseif S.phase==4 then
-		IMG.loadOne(S.cur)
-	elseif S.phase==5 then
-		local m=modes[S.cur]
-		modes[S.cur]=require("modes/"..m[1])
-		local M=modes[S.cur]
-		M.saveFileName,M.id=m[1],m.id
-		M.x,M.y,M.size,M.shape=m.x,m.y,m.size,m.shape
-		M.unlock=m.unlock
-		M.records=FILE.loadRecord(m[1])or M.score and{}
-		-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
-		-- M.icon=gc.newImage("image/modeIcon/custom.png")
-	elseif S.phase==6 then
-		--------------------------Loading some other things here?
-		skin.load()
-		stat.run=stat.run+1
-		--------------------------
-		SFX.play("welcome_sfx")
-		VOC.play("welcome")
-	else
+	repeat
+		if S.phase==1 then
+			VOC.loadOne(S.cur)
+		elseif S.phase==2 then
+			BGM.loadOne(S.cur)
+		elseif S.phase==3 then
+			SFX.loadOne(S.cur)
+		elseif S.phase==4 then
+			IMG.loadOne(S.cur)
+		elseif S.phase==5 then
+			local m=modes[S.cur]
+			modes[S.cur]=require("modes/"..m[1])
+			local M=modes[S.cur]
+			M.saveFileName,M.id=m[1],m.id
+			M.x,M.y,M.size,M.shape=m.x,m.y,m.size,m.shape
+			M.unlock=m.unlock
+			M.records=FILE.loadRecord(m[1])or M.score and{}
+			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
+			-- M.icon=gc.newImage("image/modeIcon/custom.png")
+		elseif S.phase==6 then
+			--------------------------Loading some other things here?
+			SKIN.load()
+			stat.run=stat.run+1
+			--------------------------
+			SFX.play("welcome_sfx")
+			VOC.play("welcome")
+		else
+			S.cur=S.cur+1
+			S.tar=S.cur
+			if S.cur>62.6 then
+				SCN.swapTo("intro","none")
+			end
+			return
+		end
 		S.cur=S.cur+1
-		S.tar=S.cur
-		if S.cur>62.6 then
-			SCN.swapTo("intro","none")
+		if S.cur>S.tar then
+			S.phase=S.phase+1
+			S.cur=1
+			S.tar=S.list[S.phase]
+			if not S.tar then
+				S.phase=0
+				S.tar=1
+			end
 		end
-		return
-	end
-	S.cur=S.cur+1
-	if S.cur>S.tar then
-		S.phase=S.phase+1
-		S.cur=1
-		S.tar=S.list[S.phase]
-		if not S.tar then
-			S.phase=0
-			S.tar=1
-		end
-	end
-	if S.skip and not SCN.swapping then goto R end
+	until not S.skip or SCN.swapping
 end
 function Tmr.intro()
 	sceneTemp=sceneTemp+1
@@ -235,7 +234,7 @@ function Tmr.play(dt)
 	if frame%120==0 then
 		if modeEnv.royaleMode then freshMostDangerous()end
 		if marking and rnd()<.2 then
-			TEXT.show("游戏作者:MrZ_26\n出现此水印则为非法录屏上传",rnd(162,scr.w-162),rnd(126,scr.h-200),40,"mark",.626)
+			TEXT.show(text.marking,rnd(162,scr.w-162),rnd(126,scr.h-200),40,"mark",.626)
 		end--mark 2s each 10s
 	end
 end

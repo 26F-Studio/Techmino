@@ -23,6 +23,7 @@ function BGM.loadAll()
 end
 function BGM.play(s)
 	if setting.bgm==0 then
+		BGM.playing=BGM.list[s]
 		BGM.suspend,BGM.nowPlay=s
 		return
 	elseif not s then

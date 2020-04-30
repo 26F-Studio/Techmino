@@ -547,15 +547,13 @@ local function Pdraw_demo(P)
 		gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
 	end
 	local N=1
-	::L::
-	if N<=P.gameEnv.next and P.next[N]then
+	while N<=P.gameEnv.next and P.next[N]do
 		local id=P.next[N].id
 		_=P.color[id]
 		gc.setColor(_[1],_[2],_[3],.3)
 		_=miniBlock[id]
 		gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 		N=N+1
-		goto L
 	end
 	--Next
 	gc.setColor(1,1,1)
@@ -811,7 +809,8 @@ local function Pupdate_dead(P,dt)
 			if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
 			P.clearingRow={}
 		end
-	end::stop::
+	end
+	::stop::
 	if P.endCounter<40 then
 		for j=1,#P.field do for i=1,10 do
 			if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
@@ -867,7 +866,7 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,mini,combo)
 	end
 
 	local radius,corner
-	local a,r,g,b=1,unpack(skin.libColor[color])
+	local a,r,g,b=1,unpack(SKIN.libColor[color])
 	if clear>10 then
 		radius=10+3*send+100/(target+4)
 		local t=clear%10
@@ -992,7 +991,7 @@ function player.garbageSend(P,R,send,time,...)
 end
 function player.garbageRelease(P)
 	local n,flag=1
-	::L::
+	while true do
 		local A=P.atkBuffer[n]
 		if A and A.countdown<=0 and not A.sent then
 			P:garbageRise(12+A.lv,A.amount,A.pos)
@@ -1002,10 +1001,9 @@ function player.garbageRelease(P)
 			n=n+1
 			flag=true
 		else
-			goto E
+			break
 		end
-	goto L
-	::E::
+	end
 	if flag and P.AI_mode=="CC"then CC_updateField(P)end
 end
 function player.garbageRise(P,color,amount,pos)
@@ -1435,12 +1433,9 @@ function player.drop(P)--Place piece
 	end
 	--清除超高特效
 	_=#P.clearingRow
-	::L::if _>0 then
-		if P.clearingRow[_]>#P.field then
-			P.clearingRow[_]=nil
-			_=_-1
-			goto L
-		end
+	while _>0 and P.clearingRow[_]>#P.field do
+		P.clearingRow[_]=nil
+		_=_-1
 	end
 	if P.clearingRow[1]then
 		P.falling=P.gameEnv.fall
@@ -1595,20 +1590,22 @@ function player.drop(P)--Place piece
 			if exblock then exblock=int(exblock*(1+P.strength*.25))end
 			send=int(send*(1+P.strength*.25))
 			--Badge Buff
-			if send==0 then goto L end
+			if send>0 then
 				P:showText(send,0,80,35,"zoomout")
-			if exblock==0 then goto L end
-				P:showText(exblock,0,120,20,"zoomout")
-			::L::
+				if exblock>0 then
+					P:showText(exblock,0,120,20,"zoomout")
+				end
+			end
 			send=send+exblock
 			local k=0
 			::R::
-			if P.atkBuffer.sum>0 and send>0 then
-				::F::
+			if send>0 and P.atkBuffer.sum>0 then
+				local A
+				repeat
 					k=k+1
-					local A=P.atkBuffer[k]
+					A=P.atkBuffer[k]
 					if not A then goto E end
-				if A.sent then goto F end
+				until not A.sent
 				if send>=A.amount then
 					send=send-A.amount
 					P.atkBuffer.sum=P.atkBuffer.sum-A.amount
@@ -1771,12 +1768,9 @@ local function gameOver()
 			local L=M.records
 			local p=#L--排名数-1
 			if p>0 then
-				::L::
-				if M.comp(D,L[p])then--是否靠前
+				while M.comp(D,L[p])do--是否靠前
 					p=p-1
-					if p>0 then
-						goto L
-					end
+					if p==0 then break end
 				end
 			end
 			if p<10 then
@@ -1791,6 +1785,7 @@ local function gameOver()
 		end
 	end
 end--Save record
+
 function player.die(P)--Same thing when win/lose,not really die!
 	P.alive=false
 	P.timing=false
@@ -2228,7 +2223,7 @@ function newDemoPlayer(id,x,y,size)
 	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
 	P.color={}
 	for _=1,7 do
-		P.color[_]=skin.libColor[ENV.skin[_]]
+		P.color[_]=SKIN.libColor[ENV.skin[_]]
 	end
 	P.cur={bk={{}},id=0,color=0,name=0}
 		P.sc,P.dir,P.r,P.c={0,0},0,0,0
@@ -2430,7 +2425,7 @@ function newAIPlayer(id,x,y,size,AIdata)
 
 	P.color={}
 	for _=1,7 do
-		P.color[_]=skin.libColor[ENV.skin[_]]
+		P.color[_]=SKIN.libColor[ENV.skin[_]]
 	end
 
 	P.showTime=visible_opt[ENV.visible]
@@ -2550,7 +2545,7 @@ function newPlayer(id,x,y,size)
 
 	P.color={}
 	for _=1,7 do
-		P.color[_]=skin.libColor[ENV.skin[_]]
+		P.color[_]=SKIN.libColor[ENV.skin[_]]
 	end
 
 	P.showTime=visible_opt[ENV.visible]

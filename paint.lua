@@ -338,7 +338,7 @@ function Pnt.draw()
 	local pen=sceneTemp.pen
 	if pen>0 then
 		gc.setLineWidth(13)
-		gc.setColor(skin.libColor[pen])
+		gc.setColor(SKIN.libColor[pen])
 		gc.rectangle("line",565,460,70,70)
 	elseif pen==-1 then
 		gc.setLineWidth(5)
@@ -354,7 +354,7 @@ function Pnt.draw()
 	local _
 	for i=1,7 do
 		_=setting.skin[i]
-		gc.setColor(skin.libColor[_])
+		gc.setColor(SKIN.libColor[_])
 		mStr(text.block[i],500+65*_,65)
 	end
 end
@@ -434,7 +434,7 @@ function Pnt.pause()
 	if T<1 or gameResult then Pnt.play()end
 	--Dark BG
 	local _=T
-	if gameResult then _=_*.6 end
+	if gameResult then _=_*.7 end
 	gc.setColor(.15,.15,.15,_)
 	gc.push("transform")
 		gc.origin()
@@ -689,7 +689,7 @@ end
 function Pnt.stat()
 	local chart=sceneTemp.chart
 	setFont(24)
-	local _,__=skin.libColor,setting.skin
+	local _,__=SKIN.libColor,setting.skin
 	local A,B=chart.A1,chart.A2
 	for x=1,7 do
 		gc.setColor(_[__[x]])

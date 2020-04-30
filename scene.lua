@@ -1,6 +1,8 @@
+local gc=love.graphics
 local int,log=math.floor,math.log
 local sin,cos=math.sin,math.cos
 local max,format=math.max,string.format
+local scr=scr
 local SCN={
 	cur="load",--Current scene
 	swapping=false,--ifSwapping
@@ -235,7 +237,6 @@ local sceneInit={
 		love.event.quit()
 	end,
 }
-local gc=love.graphics
 local swap={
 	none={1,0,NULL},
 	flash={8,1,function()gc.clear(1,1,1)end},

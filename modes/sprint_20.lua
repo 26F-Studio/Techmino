@@ -31,8 +31,8 @@ return{
 		return
 		T<=13 and 5 or
 		T<=18 and 4 or
-		T<=45 and 3 or
-		T<=80 and 2 or
+		T<=32.6 and 3 or
+		T<=62.6 and 2 or
 		T<=126 and 1 or
 		0
 	end,

@@ -19,10 +19,10 @@ return{
 		if P.result=="WIN"then
 			local T=P.stat.time
 			return
-			T<=16 and 5 or
-			T<=28 and 4 or
-			T<=45 and 3 or
-			T<=90 and 2 or
+			T<=20 and 5 or
+			T<=25 and 4 or
+			T<=40 and 3 or
+			T<=62 and 2 or
 			1
 		end
 	end,

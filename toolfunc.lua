@@ -98,11 +98,11 @@ function pasteBoard()
 	_,str=pcall(data.decompress,"string","deflate",str)
 	if not _ then goto ERROR end
 	p=1
-	::LOOP::
+	while true do
 		_=byte(str,p)--1byte
 		if not _ then
 			if fX~=1 then goto ERROR
-			else goto FINISH
+			else break
 			end
 		end--str end
 		__=_%32-1--block id
@@ -112,22 +112,19 @@ function pasteBoard()
 		if fX<10 then
 			fX=fX+1
 		else
-			if fY==20 then goto FINISH end
+			if fY==20 then break end
 			fX=1;fY=fY+1
 		end
 		p=p+1
-	goto LOOP
+	end
 
-	::FINISH::
-		for y=fY+1,20 do
-			for x=1,10 do
-				preField[y][x]=0
-			end
+	for y=fY+1,20 do
+		for x=1,10 do
+			preField[y][x]=0
 		end
-	goto END
-	::ERROR::
-		TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
-	::END::
+	end
+	do return end
+	::ERROR::TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
 end
 
 function mergeStat(stat,Δ)
@@ -252,7 +249,7 @@ function resetPartGameData()
 	pauseCount=0
 	destroyPlayers()
 	curMode.load()
-	texts={}
+	TEXT.clear()
 	for i=1,#players do
 		if players.dust then
 			players.dust:reset()
@@ -298,7 +295,7 @@ function resetGameData()
 	BG.set(modeEnv.bg)
 	BGM.play(modeEnv.bgm)
 
-	texts={}
+	TEXT.clear()
 	FX_badge={}
 	FX_attack={}
 	if modeEnv.royaleMode then

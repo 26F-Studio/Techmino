@@ -29,11 +29,11 @@ return{
 		if P.stat.row<400 then return end
 		local T=P.stat.time
 		return
-		T<=255 and 5 or
-		T<=330 and 4 or
-		T<=420 and 3 or
-		T<=626 and 2 or
-		T<=1000 and 1 or
+		T<=62,255 and 5 or
+		T<=90,326 and 4 or
+		T<=130,462 and 3 or
+		T<=200,626 and 2 or
+		T<=360,1260 and 1 or
 		0
 	end,
 }

@@ -1,3 +1,4 @@
+do return end
 --LIGHT MODULE(Optimized by MrZ,Original on github/love2d community/simple-love-lights)
 --Heavily based on mattdesl's libGDX implementation:
 --https://github.com/mattdesl/lwjgl-basics/wiki/2D-Pixel-Perfect-Shadows

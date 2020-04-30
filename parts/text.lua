@@ -3,6 +3,8 @@ local rnd=math.random
 local mStr=mStr
 local rem=table.remove
 
+local texts={}
+
 local textFX={}
 function textFX.appear(t)
 	mStr(t.text,t.x,t.y-t.font*.7)
@@ -64,11 +66,14 @@ function textFX.beat(t)
 end
 function textFX.mark(t)
 	local _,_,_,T=gc.getColor()
-	gc.setColor(1,1,1,T*.06626)
+	gc.setColor(1,1,1,T*.08)
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
 
 local TEXT={}
+function TEXT.clear()
+	texts={}
+end
 function TEXT.getText(text,x,y,font,style,spd,stop)
 	return{
 		c=0,
@@ -94,6 +99,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 	}
 end
 function TEXT.update(list)
+	if not list then list=texts end
 	for i=#list,1,-1 do
 		local t=list[i]
 		t.c=t.c+t.spd
@@ -108,6 +114,7 @@ function TEXT.update(list)
 	end
 end
 function TEXT.draw(list)
+	if not list then list=texts end
 	for i=1,#list do
 		local t=list[i]
 		local p=t.c

@@ -19,64 +19,64 @@ local blockPos={4,4,4,4,4,5,4}
 local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
 -------------------------------------------------Cold clear
 local CCblockID={4,3,5,6,1,2,0}
-if system~="Windows"then goto SKIP end
-require("CCloader")
-BOT={
-	getConf=	cc.get_default_config	,--()options,weights
-	--setConf=	cc.set_options			,--(options,hold,20g,bag7)
+if system=="Windows"then
+	require("CCloader")
+	BOT={
+		getConf=	cc.get_default_config	,--()options,weights
+		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
 
-	new=		cc.launch_async			,--(options,weights)bot
-	addNext=	cc.add_next_piece_async	,--(bot,piece)
-	update=		cc.reset_async			,--(bot,field,b2b,combo)
-	think=		cc.request_next_move	,--(bot)
-	getMove=	cc.poll_next_move		,--(bot)success,hold,move
-	ifDead=		cc.is_dead_async		,--(bot)dead
-	destroy=	cc.destroy_async		,--(bot)
+		new=		cc.launch_async			,--(options,weights)bot
+		addNext=	cc.add_next_piece_async	,--(bot,piece)
+		update=		cc.reset_async			,--(bot,field,b2b,combo)
+		think=		cc.request_next_move	,--(bot)
+		getMove=	cc.poll_next_move		,--(bot)success,hold,move
+		ifDead=		cc.is_dead_async		,--(bot)dead
+		destroy=	cc.destroy_async		,--(bot)
 
-	setHold=	cc.set_hold				,--(opt,bool)
-	set20G=		cc.set_20g				,--(opt,bool)
-	setBag=		cc.set_bag7				,--(opt,bool)
-	setNode=	cc.set_max_nodes		,--(opt,bool)
-	free=		cc.free					,--(opt/wei)
-}
-function CC_updateField(P)
-	local F,i={},1
-	for y=1,#P.field do
-		for x=1,10 do
-			F[i],i=P.field[y][x]>0,i+1
+		setHold=	cc.set_hold				,--(opt,bool)
+		set20G=		cc.set_20g				,--(opt,bool)
+		setBag=		cc.set_bag7				,--(opt,bool)
+		setNode=	cc.set_max_nodes		,--(opt,bool)
+		free=		cc.free					,--(opt/wei)
+	}
+	function CC_updateField(P)
+		local F,i={},1
+		for y=1,#P.field do
+			for x=1,10 do
+				F[i],i=P.field[y][x]>0,i+1
+			end
 		end
+		while i<400 do
+			F[i],i=false,i+1
+		end
+		BOT.update(P.AI_bot,F,P.b2b>=100,P.combo)
 	end
-	while i<400 do
-		F[i],i=false,i+1
-	end
-	BOT.update(P.AI_bot,F,P.b2b>=100,P.combo)
-end
-function CC_switch20G(P)
-	P.AIdata._20G=true
-	P.AI_keys={}
-	BOT.destroy(P.AI_bot)
-	local opt,wei=BOT.getConf()
-		BOT.setHold(opt,P.AIdata.hold)
-		BOT.set20G(opt,P.AIdata._20G)
-		BOT.setBag(opt,P.AIdata.bag7)
-		BOT.setNode(opt,P.AIdata.node)
-	P.AI_bot=BOT.new(opt,wei)
-	BOT.free(opt)BOT.free(wei)
-	for i=1,P.AIdata.next do
-		BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
-	end
-	CC_updateField(P)
-	P.hd={bk={{}},id=0,color=0,name=0}P.holded=false
-	P.cur=rem(P.next,1)
-	P.sc,P.dir=scs[P.cur.id],0
-	P.r,P.c=#P.cur.bk,#P.cur.bk[1]
-	P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
+	function CC_switch20G(P)
+		P.AIdata._20G=true
+		P.AI_keys={}
+		BOT.destroy(P.AI_bot)
+		local opt,wei=BOT.getConf()
+			BOT.setHold(opt,P.AIdata.hold)
+			BOT.set20G(opt,P.AIdata._20G)
+			BOT.setBag(opt,P.AIdata.bag7)
+			BOT.setNode(opt,P.AIdata.node)
+		P.AI_bot=BOT.new(opt,wei)
+		BOT.free(opt)BOT.free(wei)
+		for i=1,P.AIdata.next do
+			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+		end
+		CC_updateField(P)
+		P.hd={bk={{}},id=0,color=0,name=0}P.holded=false
+		P.cur=rem(P.next,1)
+		P.sc,P.dir=scs[P.cur.id],0
+		P.r,P.c=#P.cur.bk,#P.cur.bk[1]
+		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
-	P:newNext()
-	BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])
-	collectgarbage()
+		P:newNext()
+		BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])
+		collectgarbage()
+	end
 end
-::SKIP::
 -------------------------------------------------⑨Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
@@ -231,10 +231,8 @@ AI_think={
 				end
 			end
 
-			::L::
-			if #Tfield>0 then
+			while #Tfield>0 do
 				freeRow.discard(rem(Tfield,1))
-				goto L
 			end--Release cache
 			local p=#ctrl+1
 			if best.hold then

@@ -2,7 +2,7 @@ setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,
-	reTime=10,
+	reTime=4,
 	maxNext=6,
 	quickR=true,
 	swap=true,
@@ -34,7 +34,8 @@ setting={
 	stereo=6,
 	--sound
 
-	VKSound=true,--if SFX
+	VKSFX=3,--SFX volume
+	VKVIB=0,--VIB
 	VKSwitch=false,--if disp
 	VKTrack=false,--if tracked
 	VKDodge=false,--if dodge

@@ -3,7 +3,6 @@ local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 
 local scr=scr
-
 local BGinit,BGresize,BGupdate,BGdraw,BGdiscard={},{},{},{},{}
 local BGvars={_G=_G}
 
@@ -136,7 +135,7 @@ end--Lightning
 
 function BGinit.game6()
 	t=0
-	colorLib=_G.skin.libColor
+	colorLib=_G.SKIN.libColor
 	colorSet=_G.setting.skin
 	miniBlock=_G.miniBlock
 end
@@ -180,34 +179,37 @@ end
 function BGinit.space()
 	stars={}
 	for i=1,2600,5 do
-		local s=0.75*2^(rnd()*1.5)
+		local s=rnd(4)
 		stars[i]=s					--size
-		stars[i+1]=rnd(W)			--x
-		stars[i+2]=rnd(H)			--y
+		stars[i+1]=rnd(W)-10		--x
+		stars[i+2]=rnd(H)-10		--y
 		stars[i+3]=(rnd()-.5)*.01*s	--vx
 		stars[i+4]=(rnd()-.5)*.01*s	--vy
 	end--800 var
 end
 function BGresize.space(w,h)
-	W,H=w+100,h+100
+	W,H=w+20,h+20
+	BGinit.space()
 end
 function BGupdate.space(dt)
+	local s=stars
 	for i=1,2600,5 do
-		stars[i+1]=(stars[i+1]+stars[i+3])%W
-		stars[i+2]=(stars[i+2]+stars[i+4])%H
+		s[i+1]=(s[i+1]+s[i+3])%W
+		s[i+2]=(s[i+2]+s[i+4])%H
 	end--star moving
 end
-
 function BGdraw.space()
 	gc.clear(.2,.2,.2)
 	if not stars[1]then return end
-	gc.translate(-50,-50)
+	gc.translate(-10,-10)
 	gc.setColor(.8,.8,.8)
 	for i=1,2600,5 do
-		local x,y=stars[i+1],stars[i+2]
-		gc.circle("fill",x,y,stars[i])
+		local s=stars
+		local x,y=s[i+1],s[i+2]
+		s=s[i]
+		gc.rectangle("fill",x,y,s,s)
 	end
-	gc.translate(50,50)
+	gc.translate(10,10)
 end
 function BGdiscard.space()
 	stars={}
