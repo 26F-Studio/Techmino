@@ -1,4 +1,5 @@
 local IMG={
+	batteryImage="/mess/power.png",
 	titleImage="mess/title.png",
 	coloredTitleImage="mess/title_colored.png",
 	dialCircle="mess/dialCircle.png",

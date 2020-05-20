@@ -13,7 +13,7 @@ gc.setDefaultFilter("nearest","nearest")
 gc.setColor(1,1,1)
 local VKI=N("/image/virtualkey.png")
 VKIcon={}
-for i=1,#actName do
+for i=1,20 do
 	VKIcon[i]=C(36,36)
 	gc.draw(VKI,(i-1)%5*-36,int((i-1)*.2)*-36)
 end
@@ -35,18 +35,7 @@ gc.setLineWidth(4)
 gc.line(0,20,40,20)
 gc.line(20,0,20,40)
 
-c=C(6,6)
-gc.clear(1,1,1)
-clearDust=gc.newParticleSystem(c,1000)
-c:release()
-clearDust:setParticleLifetime(.2,.3)
-clearDust:setEmissionRate(0)
-clearDust:setLinearAcceleration(-1500,-200,1500,200)
-clearDust:setColors(1,1,1,.5,1,1,1,0)
---Dust particles
-
 gc.setDefaultFilter("linear","linear")
-batteryImage=N("/image/mess/power.png")
 
 drawableText={
 	question=T(100,"?"),
@@ -65,11 +54,11 @@ drawableText={
 	mxcmb=T(20,"Max Combo"),
 	pc=T(20,"Perfect Clear"),
 	ko=T(25,"KO"),
+	D=T(100,"D"),
 	C=T(100,"C"),
 	B=T(100,"B"),
 	A=T(100,"A"),
 	S=T(100,"S"),
-	SS=T(80,"SS"),
 
 
 	modeName=T(30),levelName=T(30),
@@ -81,7 +70,7 @@ drawableText={
 	lose=T(120),pause=T(120),
 
 	custom=T(80),
-	setting_game=T(80),setting_graphic=T(80),setting_sound=T(80),
+	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
 	setting_control=T(70),setting_skin=T(70),
 	preview=T(40),
 	keyboard=T(25),joystick=T(25),
@@ -89,7 +78,7 @@ drawableText={
 	musicRoom=T(80),
 	nowPlaying=T(50),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
-	noScore=T(50),
+	noScore=T(45),
 	highScore=T(30),
 }
 gc.setCanvas()

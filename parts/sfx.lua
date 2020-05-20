@@ -32,6 +32,9 @@ function SFX.loadAll()
 		SFX.loadOne(i)
 	end
 end
+function SFX.fieldPlay(s,v,P)
+	SFX.play(s,v,(P.curX+P.sc[2]-6.5)*.15)
+end
 function SFX.play(s,v,pos)
 	if setting.sfx==0 then return end
 	local S=SFX.list[s]--source list

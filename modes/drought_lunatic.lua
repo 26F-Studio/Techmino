@@ -51,9 +51,9 @@ return{
 					res[A+2]=7
 				end
 
-				--give O when no Δ=0/give T when no Δ=1
-				d=0--Δ=0
-				A=0--Δ=1
+				--give O when no d=0/give T when no d=1
+				d=0--d=0 count
+				A=0--d=1 count
 				for x=2,10 do
 					local _=height[x]-height[x-1]
 					if _==0 then

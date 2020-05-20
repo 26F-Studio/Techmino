@@ -1,50 +1,41 @@
 local rnd=math.random
-local ins=table.insert
 local PCbase=require("parts/PCbase")
 local PClist=require("parts/PClist")
+local PCtype={
+[0]=1,1,1,1,2,
+	1,1,1,1,3,
+	1,1,1,2,
+	1,1,1,3,
+	1,1,2,
+	1,1,3,
+	1,2,
+	1,3,
+	2,
+	3,
+}
 local function task_PC(P)
-	local _
 	P.modeData.counter=P.modeData.counter+1
-	if P.modeData.counter==21 then
-		local t=P.stat.pc%2
-		local S=P.gameEnv.skin
-		for i=1,4 do
-			local r=freeRow.get(0)
-			for j=1,10 do
-				_=PCbase[4*t+i][j]
-				r[j]=S[_]or 0
-			end
-			ins(P.field,1,r)
-			ins(P.visTime,1,freeRow.get(20))
-		end
-		P.fieldBeneath=P.fieldBeneath+120
-		P.curY=P.curY+4
-		P:freshgho()
+	if P.modeData.counter==26 then
+		local base=PCbase[P.modeData.type]
+		P:pushLine(base[rnd(#base)],P.modeData.symmetry)
 		return true
 	end
 end
 local function newPC(P)
-	local r=P.field;r=r[#r]
-	if r then
+	local r=P.field
+	if r[1]then
+		r=r[#r]
 		local c=0
 		for i=1,10 do if r[i]>0 then c=c+1 end end
-		if c<5 then
-			P:lose()
-		end
+		if c<5 then P:lose()end
 	end
-	if P.stat.piece%4==0 and #P.field==0 then
-		P.modeData.event=P.modeData.event==0 and 1 or 0
-		local r=rnd(#PClist)
-		local f=P.modeData.event==0
-		for i=1,4 do
-			local b=PClist[r][i]
-			if f then
-				if b<3 then b=3-b
-				elseif b<5 then b=7-b
-				end
-			end
-			P:getNext(b)
-		end
+	if #P.field==0 then
+		local type=PCtype[P.stat.pc]or rnd(2,3)
+		local L=PClist[type][rnd(#PClist[1])]
+		local symmetry=rnd()>.5
+		P.modeData.type=type
+		P.modeData.symmetry=symmetry
+		P:pushNext(L,symmetry)
 		P.modeData.counter=P.stat.piece==0 and 20 or 0
 		TASK.new(task_PC,P)
 	end
@@ -54,7 +45,7 @@ return{
 	env={
 		next=4,
 		hold=false,
-		drop=150,lock=150,
+		drop=120,lock=180,
 		fall=20,
 		sequence="none",
 		dropPiece=newPC,
@@ -77,11 +68,11 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=100 and 5 or
-		L>=60 and 4 or
-		L>=40 and 3 or
-		L>=25 and 2 or
-		L>=15 and 1 or
-		L>=1 and 0
+		L>=260 and 5 or
+		L>=126 and 4 or
+		L>=62 and 3 or
+		L>=26 and 2 or
+		L>=12 and 1 or
+		L>=2 and 0
 	end,
 }

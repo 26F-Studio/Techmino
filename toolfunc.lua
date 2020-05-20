@@ -29,7 +29,6 @@ function destroyPlayers()
 	for i=#players,1,-1 do
 		local P=players[i]
 		if P.canvas then P.canvas:release()end
-		if P.dust then P.dust:release()end
 		while P.field[1]do
 			freeRow.discard(rem(P.field))
 			freeRow.discard(rem(P.visTime))
@@ -127,8 +126,8 @@ function pasteBoard()
 	::ERROR::TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
 end
 
-function mergeStat(stat,Δ)
-	for k,v in next,Δ do
+function mergeStat(stat,delta)
+	for k,v in next,delta do
 		if type(v)=="table"then
 			mergeStat(stat[k],v)
 		else
@@ -146,53 +145,53 @@ function randomTarget(P)
 	end
 end--return a random opponent for P
 function freshMostDangerous()
-	mostDangerous,secDangerous=nil
+	game.mostDangerous,game.secDangerous=nil
 	local m,m2=0,0
 	for i=1,#players.alive do
 		local h=#players.alive[i].field
 		if h>=m then
-			mostDangerous,secDangerous=players.alive[i],mostDangerous
+			game.mostDangerous,game.secDangerous=players.alive[i],game.mostDangerous
 			m,m2=h,m
 		elseif h>=m2 then
-			secDangerous=players.alive[i]
+			game.secDangerous=players.alive[i]
 			m2=h
 		end
 	end
 end
 function freshMostBadge()
-	mostBadge,secBadge=nil
+	game.mostBadge,game.secBadge=nil
 	local m,m2=0,0
 	for i=1,#players.alive do
 		local h=players.alive[i].badge
 		if h>=m then
-			mostBadge,secBadge=players.alive[i],mostBadge
+			game.mostBadge,game.secBadge=players.alive[i],game.mostBadge
 			m,m2=h,m
 		elseif h>=m2 then
-			secBadge=players.alive[i]
+			game.secBadge=players.alive[i]
 			m2=h
 		end
 	end
 end
 function royaleLevelup()
-	gameStage=gameStage+1
+	game.stage=game.stage+1
 	local spd
 	TEXT.show(text.royale_remain(#players.alive),640,200,40,"beat",.3)
-	if gameStage==2 then
+	if game.stage==2 then
 		spd=30
-	elseif gameStage==3 then
+	elseif game.stage==3 then
 		spd=15
-		garbageSpeed=.6
+		game.garbageSpeed=.6
 		if players[1].alive then BGM.play("cruelty")end
-	elseif gameStage==4 then
+	elseif game.stage==4 then
 		spd=10
 		local _=players.alive
 		for i=1,#_ do
 			_[i].gameEnv.pushSpeed=3
 		end
-	elseif gameStage==5 then
+	elseif game.stage==5 then
 		spd=5
-		garbageSpeed=1
-	elseif gameStage==6 then
+		game.garbageSpeed=1
+	elseif game.stage==6 then
 		spd=3
 		if players[1].alive then BGM.play("final")end
 	end
@@ -214,8 +213,8 @@ end
 function pauseGame()
 	if not SCN.swapping then
 		restartCount=0--Avoid strange darkness
-		if not gameResult then
-			pauseCount=pauseCount+1
+		if not game.result then
+			game.pauseCount=game.pauseCount+1
 		end
 		for i=1,#players do
 			local l=players[i].keyPressing
@@ -243,18 +242,16 @@ function loadGame(M)
 	SFX.play("enter")
 end
 function resetPartGameData()
-	gameResult=false
+	game={
+		result=false,
+		pauseTime=0,
+		pauseCount=0,
+		garbageSpeed=1,
+	}
 	frame=150-setting.reTime*15
-	pauseTime=0
-	pauseCount=0
 	destroyPlayers()
 	curMode.load()
 	TEXT.clear()
-	for i=1,#players do
-		if players.dust then
-			players.dust:reset()
-		end
-	end
 	if modeEnv.task then
 		for i=1,#players do
 			TASK.new(modeEnv.task,players[i])
@@ -271,19 +268,20 @@ function resetPartGameData()
 		for i=1,#players do
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
-		mostBadge,mostDangerous,secBadge,secDangerous=nil
-		gameStage=1
-		garbageSpeed=.3
+		game.stage=1
+		game.garbageSpeed=.3
 	end
 	restoreVirtualKey()
 	collectgarbage()
 end
 function resetGameData()
-	gameResult=false
+	game={
+		result=false,
+		pauseTime=0,--Time paused
+		pauseCount=0,--Pausing count
+		garbageSpeed=1,--garbage timing speed
+	}
 	frame=150-setting.reTime*15
-	garbageSpeed=1
-	pauseTime=0--Time paused
-	pauseCount=0--Pausing count
 	destroyPlayers()
 	modeEnv=curMode.env
 	curMode.load()--bg/bgm need redefine in custom,so up here
@@ -302,9 +300,8 @@ function resetGameData()
 		for i=1,#players do
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
-		mostBadge,mostDangerous,secBadge,secDangerous=nil
-		gameStage=1
-		garbageSpeed=.3
+		game.stage=1
+		game.garbageSpeed=.3
 	end
 	restoreVirtualKey()
 	stat.game=stat.game+1

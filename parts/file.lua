@@ -136,10 +136,6 @@ function File.loadData()
 		if s then
 			setfenv(s,{})
 			local S=s()
-			if S.version~=gameVersion then
-				S.version=gameVersion
-				TEXT.show(text.newVersion,640,200,30,"fly",.3)
-			end
 			if not S.version or S.version=="Alpha V0.8.15"then
 				S.clear_S={S.clear_1,S.clear_2,S.clear_3,S.clear_4}
 				S.clear={{},{},{},{},{},{},{}}
@@ -183,6 +179,35 @@ function File.loadData()
 					S.clear[7][4]=S.clear[7][4]+S.clear[i][4]
 					S.clear[i][4]=0
 				end
+			end
+			if not S.clear_B[8]then
+				for i=1,7 do
+					S.clear[i][5]=0
+					S.spin[i][5]=0
+				end
+				for i=8,25 do
+					S.clear[i]={0,0,0,0,0}
+					S.spin[i]={0,0,0,0,0}
+					S.spin_B[i]=0
+					S.clear_B[i]=0
+				end
+				S.spin_S[5]=0
+				S.clear_S[5]=0
+			end
+			if S.version=="Alpha V0.8.18"or S.version=="Alpha V0.8.19"then
+				S.clear[3],S.clear[4]=S.clear[4],S.clear[3]
+				S.spin[3],S.spin[4]=S.spin[4],S.spin[3]
+				S.clear_B[3],S.clear_B[4]=S.clear_B[4],S.clear_B[3]
+				S.spin_B[3],S.spin_B[4]=S.spin_B[4],S.spin_B[3]
+			end
+			if #modeRanks==76 then
+				for i=1,4 do
+					table.remove(modeRanks)
+				end
+			end
+			if S.version~=gameVersion then
+				S.version=gameVersion
+				TEXT.show(text.newVersion,640,200,30,"fly",.3)
 			end
 			addToTable(S,stat)
 		end

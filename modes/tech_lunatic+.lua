@@ -1,5 +1,5 @@
 local format=string.format
-local function tech_check_ultimate(P)
+local function tech_check_hard(P)
 	if #P.clearedRow>0 and P.lastClear<10 or P.lastClear==74 then
 		P:lose()
 	end
@@ -11,7 +11,7 @@ return{
 		_20G=true,lock=60,
 		freshLimit=15,
 		target=200,
-		dropPiece=tech_check_ultimate,
+		dropPiece=tech_check_hard,
 		bg="matrix",bgm="secret7th",
 	},
 	load=function()

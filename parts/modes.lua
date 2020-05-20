@@ -1,10 +1,10 @@
 modes={
-	{"sprint_10",						id=1,	x=0,		y=0,		size=35,shape=1,icon="timer",	unlock={2,3}},
-	{"sprint_20",						id=2,	x=-300,		y=0,		size=45,shape=1,icon="timer",	unlock={73,74,75}},
-	{"sprint_40",						id=3,	x=0,		y=-400,		size=55,shape=1,icon="timer",	unlock={4,9,71,72}},
-	{"sprint_100",						id=4,	x=-200,		y=-400,		size=45,shape=1,icon="timer",	unlock={5,7}},
-	{"sprint_400",						id=5,	x=-400,		y=-400,		size=35,shape=1,icon="timer",	unlock={6}},
-	{"sprint_1000",						id=6,	x=-600,		y=-400,		size=35,shape=1,icon="timer",	unlock={}},
+	{"sprint_10",						id=1,	x=0,		y=0,		size=35,shape=1,icon="sprint",	unlock={2,3}},
+	{"sprint_20",						id=2,	x=-300,		y=0,		size=45,shape=1,icon="sprint",	unlock={}},
+	{"sprint_40",						id=3,	x=0,		y=-400,		size=55,shape=1,icon="sprint",	unlock={4,9,71,72,73}},
+	{"sprint_100",						id=4,	x=-200,		y=-400,		size=45,shape=1,icon="sprint",	unlock={5,7}},
+	{"sprint_400",						id=5,	x=-400,		y=-400,		size=35,shape=1,icon="sprint",	unlock={6}},
+	{"sprint_1000",						id=6,	x=-600,		y=-400,		size=35,shape=1,icon="sprint",	unlock={}},
 		{"drought_normal",				id=7,	x=-400,		y=-200,		size=35,shape=1,icon="noI",		unlock={8}},
 		{"drought_lunatic",				id=8,	x=-600,		y=-200,		size=35,shape=1,icon="mess",	unlock={}},
 	{"marathon_normal",					id=9,	x=0,		y=-600,		size=55,shape=1,icon="flag",	unlock={10,11,22,31,36,37,48,67}},
@@ -39,7 +39,7 @@ modes={
 		{"blind_ultimate",				id=35,	x=150,		y=-1100,	size=35,shape=1,icon="blind",	unlock={}},
 
 		{"classic_fast",				id=36,	x=-300,		y=-1200,	size=40,shape=2,icon="classic",	unlock={}},
-       
+
 		{"survivor_easy",				id=37,	x=300,		y=-600,		size=35,shape=1,icon="survivor",unlock={38}},
 		{"survivor_normal",				id=38,	x=500,		y=-600,		size=35,shape=1,icon="survivor",unlock={39,42,44,46}},
 		{"survivor_hard",				id=39,	x=700,		y=-600,		size=35,shape=1,icon="survivor",unlock={40}},
@@ -81,9 +81,7 @@ modes={
 		{"infinite_dig",				id=70,	x=-1100,	y=-600,		size=35,shape=1,icon="infinite_dig",unlock={}},
 		{"custom_clear",				id=71,	x=200,		y=-350,		size=45,shape=3,icon="custom",	unlock={}},
 		{"custom_puzzle",				id=72,	x=200,		y=-200,		size=45,shape=3,icon="puzzle",	unlock={}},
-	{"hotseat_2P",						id=73,	x=-300,		y=200,		size=45,shape=3,icon="hotseat",	unlock={}},
-	{"hotseat_3P",						id=74,	x=-450,		y=200,		size=45,shape=3,icon="hotseat",	unlock={}},
-	{"hotseat_4P",						id=75,	x=-600,		y=200,		size=45,shape=3,icon="hotseat",	unlock={}},
+	{"sprintPenta",						id=73,	x=-200,		y=-200,		size=45,shape=3,icon="sprint",	unlock={}},
 }
 modeRanks={}
 for i=1,#modes do

@@ -21,7 +21,7 @@ return{
 	load=function()
 		newPlayer(1,340,15)
 		newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,10000))
-		garbageSpeed=1e99
+		game.garbageSpeed=1e99
 	end,
 	mesDisp=function(P,dx,dy)
 	end,

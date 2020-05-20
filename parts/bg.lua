@@ -168,7 +168,7 @@ function BGdraw.matrix()
 	local _=ceil(scr.h/80)
 	for i=1,ceil(scr.w/80)do
 		for j=1,_ do
-			gc.setColor(1,1,1,sin(matrixT[i][j]*t)*.1+.1)
+			gc.setColor(1,1,1,sin(i+matrixT[i][j]*t)*.1+.1)
 			gc.rectangle("fill",80*i,80*j,-80,-80)
 		end
 	end
