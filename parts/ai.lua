@@ -77,7 +77,7 @@ if system=="Windows"then
 		collectgarbage()
 	end
 end
--------------------------------------------------⑨Stack setup
+-------------------------------------------------9 Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
 	{[0]=0,1,0,0},--Z
@@ -180,7 +180,7 @@ local function getScore(field,cb,cy)
 			HclearScore[clear]--Clearing
 			-hole*70--Hole
 			-cy*50--Height
-			-sdh--∫Δh
+			-sdh--Sum of DeltaH
 		or
 			LclearScore[clear]
 			-hole*100

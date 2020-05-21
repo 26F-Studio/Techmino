@@ -1,31 +1,3 @@
-actName={
-	"moveLeft","moveRight",
-	"rotRight","rotLeft","rot180",
-	"hardDrop","softDrop",
-	"hold","func",
-	"restart",
-	"insLeft","insRight","insDown","down1","down4","down10",
-	"dropLeft","dropRight","addLeft","addRight",--Super contorl system
-}
-musicID={
-	"blank",
-	"way",
-	"race",
-	"newera",
-	"push",
-	"reason",
-	"infinite",
-	"secret7th",
-	"secret8th",
-	"shining terminal",
-	"oxygen",
-	"distortion",
-	"rockblock",
-	"cruelty",
-	"final",
-	"8-bit happiness",
-	"end",
-}
 customID={
 	"drop","lock",
 	"wait","fall",
@@ -51,5 +23,4 @@ customRange={
 	bg={"none","game1","game2","game3","strap","rgb","glow","matrix"},
 	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
-RCPB={10,33,200,33,105,5,105,60}
 snapLevelValue={1,10,20,40,60,80}

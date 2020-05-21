@@ -12,7 +12,7 @@ ms.setVisible(false)
 local scr=scr
 local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
-local touching=nil--第一触摸ID
+local touching=nil--first touching ID(userdata)
 local touchDist=nil
 joysticks={}
 
@@ -53,7 +53,7 @@ local function updatePowerInfo()
 				gc.print(pow,78,3)
 			end
 		end
-		gc.draw(batteryImage,73,3)
+		gc.draw(IMG.batteryImage,73,3)
 	end
 	setFont(25)
 	gc.print(os.date("%H:%M",os.time()),3,-5)
@@ -217,7 +217,7 @@ function touchMove.mode(id,x,y,dx,dy)
 		mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
 	elseif not L[3]then
 		x,y=xOy:inverseTransformPoint(tc.getPosition(L[1]))
-		dx,dy=xOy:inverseTransformPoint(tc.getPosition(L[2]))--dx,dy not Δ!
+		dx,dy=xOy:inverseTransformPoint(tc.getPosition(L[2]))--not delta!!!
 		local d=(x-dx)^2+(y-dy)^2
 		if d>100 then
 			d=d^.5
@@ -262,13 +262,13 @@ function wheelMoved.music(x,y)
 end
 function keyDown.music(key)
 	if key=="down"then
-		sceneTemp=sceneTemp%#musicID+1
+		sceneTemp=sceneTemp%BGM.len+1
 	elseif key=="up"then
-		sceneTemp=(sceneTemp-2)%#musicID+1
+		sceneTemp=(sceneTemp-2)%BGM.len+1
 	elseif key=="return"or key=="space"then
-		if BGM.nowPlay~=musicID[sceneTemp]then
+		if BGM.nowPlay~=BGM.list[sceneTemp]then
 			SFX.play("click")
-			BGM.play(musicID[sceneTemp])
+			BGM.play(BGM.list[sceneTemp])
 		else
 			BGM.stop()
 		end
@@ -277,36 +277,42 @@ function keyDown.music(key)
 	end
 end
 
+local customSet={
+	{3,20,1,1,7,1,1,1,3,4,1,2,3},
+	{5,20,1,1,7,1,1,1,8,3,8,3,3},
+	{1,22,1,1,7,3,1,1,8,4,1,7,7},
+	{3,20,1,1,7,1,1,3,8,3,1,7,8},
+	{25,11,8,11,4,1,2,1,8,3,1,4,9},
+}
 function keyDown.custom(key)
 	local sel=sceneTemp
-	if key=="left"then
+	if key=="up"or key=="w"then
+		sceneTemp=(sel-2)%#customID+1
+	elseif key=="down"or key=="s"then
+		sceneTemp=sel%#customID+1
+	elseif key=="left"or key=="a"then
 		customSel[sel]=(customSel[sel]-2)%#customRange[customID[sel]]+1
 		if sel==12 then
 			BG.set(customRange.bg[customSel[12]])
 		elseif sel==13 then
 			BGM.play(customRange.bgm[customSel[13]])
 		end
-	elseif key=="right"then
+	elseif key=="right"or key=="d"then
 		customSel[sel]=customSel[sel]%#customRange[customID[sel]]+1
 		if sel==12 then
 			BG.set(customRange.bg[customSel[sel]])
 		elseif sel==13 then
 			BGM.play(customRange.bgm[customSel[sel]])
 		end
-	elseif key=="down"then
-		sceneTemp=sel%#customID+1
-	elseif key=="up"then
-		sceneTemp=(sel-2)%#customID+1
-	elseif key=="1"then
-		Widget.custom.set1.code()
-	elseif key=="2"then
-		Widget.custom.set2.code()
-	elseif key=="3"then
-		Widget.custom.set3.code()
-	elseif key=="4"then
-		Widget.custom.set4.code()
-	elseif key=="5"then
-		Widget.custom.set5.code()
+	elseif #key==1 then
+		local T=tonumber(key)
+		if T and T>=1 and T<=5 then
+			for i=1,#customSet[T]do
+				customSel[i]=customSet[T][i]
+			end
+			BG.set(customRange.bg[customSel[12]])
+			BGM.play(customRange.bgm[customSel[13]])
+		end
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -425,41 +431,29 @@ function keyDown.setting_key(key)
 			SCN.back()
 		end
 	elseif s.kS then
-		for l=1,8 do
-			for y=1,20 do
-				if keyMap[l][y]==key then
-					keyMap[l][y]=""
-					goto L
-				end
-			end
+		for y=1,20 do
+			if keyMap[1][y]==key then keyMap[1][y]=""break end
+			if keyMap[2][y]==key then keyMap[2][y]=""break end
 		end
-		::L::
 		keyMap[s.board][s.kb]=key
 		SFX.play("reach",.5)
 		s.kS=false
-	elseif key=="return"then
+	elseif key=="return"or key=="space"then
 		s.kS=true
 		SFX.play("lock",.5)
-	elseif key=="up"then
+	elseif key=="up"or key=="w"then
 		if s.kb>1 then
 			s.kb=s.kb-1
 			SFX.play("move",.5)
 		end
-	elseif key=="down"then
+	elseif key=="down"or key=="s"then
 		if s.kb<20 then
 			s.kb=s.kb+1
 			SFX.play("move",.5)
 		end
-	elseif key=="left"then
-		if s.board>1 then
-			s.board=s.board-1
-			SFX.play("rotate",.5)
-		end
-	elseif key=="right"then
-		if s.board<8 then
-			s.board=s.board+1
-			SFX.play("rotate",.5)
-		end
+	elseif key=="left"or key=="a"or key=="right"or key=="d"then
+		s.board=3-s.board
+		SFX.play("rotate",.5)
 	end
 end
 function gamepadDown.setting_key(key)
@@ -472,16 +466,11 @@ function gamepadDown.setting_key(key)
 			SCN.back()
 		end
 	elseif s.jS then
-		for l=9,16 do
-			for y=1,20 do
-				if keyMap[l][y]==key then
-					keyMap[l][y]=""
-					goto L
-				end
-			end
+		for y=1,20 do
+			if keyMap[3][y]==key then keyMap[3][y]=""break end
+			if keyMap[4][y]==key then keyMap[4][y]=""break end
 		end
-		::L::
-		keyMap[8+s.board][s.js]=key
+		keyMap[2+s.board][s.js]=key
 		SFX.play("reach",.5)
 		s.jS=false
 	elseif key=="start"then
@@ -497,16 +486,9 @@ function gamepadDown.setting_key(key)
 			s.js=s.js+1
 			SFX.play("move",.5)
 		end
-	elseif key=="dpleft"then
-		if s.board>1 then
-			s.board=s.board-1
-			SFX.play("rotate",.5)
-		end
-	elseif key=="dpright"then
-		if s.board<8 then
-			s.board=s.board+1
-			SFX.play("rotate",.5)
-		end
+	elseif key=="dpleft"or key=="dpright"then
+		s.board=3-s.board
+		SFX.play("rotate",.5)
 	end
 end
 
@@ -515,7 +497,7 @@ function mouseDown.setting_touch(x,y,k)
 	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 end
 function mouseMove.setting_touch(x,y,dx,dy)
-	if sceneTemp.sel and ms.isDown(1)and not widget_sel then
+	if sceneTemp.sel and ms.isDown(1)and not WIDGET.sel then
 		local B=VK_org[sceneTemp.sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
@@ -538,16 +520,16 @@ function touchUp.setting_touch(id,x,y)
 	end
 end
 function touchMove.setting_touch(id,x,y,dx,dy)
-	if sceneTemp.sel and not widget_sel then
+	if sceneTemp.sel and not WIDGET.sel then
 		local B=VK_org[sceneTemp.sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
 
 function keyDown.pause(key)
-	if key=="escape"then
+	if key=="q"then
 		SCN.back()
-	elseif key=="space"then
+	elseif key=="escape"then
 		resumeGame()
 	elseif key=="s"then
 		SCN.push()
@@ -572,20 +554,21 @@ function touchDown.play(id,x,y)
 			virtualkey[t].pressTime=10
 			if setting.VKTrack then
 				local B=virtualkey[t]
-				if setting.VKDodge then--按钮软碰撞(做不来hhh随便做一个,效果还行!)
+				if setting.VKDodge then--button collision (not accurate)
 				for i=1,#virtualkey do
 						local b=virtualkey[i]
-						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--碰撞深度(负数=间隔距离)
+						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--hit depth(Neg means distance)
 						if d>0 then
-							b.x=b.x+(b.x-B.x)*d*b.r*.00005
-							b.y=b.y+(b.y-B.y)*d*b.r*.00005
+							b.x=b.x+(b.x-B.x)*d*b.r*5e-4
+							b.y=b.y+(b.y-B.y)*d*b.r*5e-4
 						end
 					end
 				end
 				local O=VK_org[t]
 				local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
 				local _OW=1-_FW-_CW
-				--按钮自动跟随:手指位置,当前位置,原始位置,权重取决于设置
+
+				--Auto follow: finger, current, origin (weight from setting)
 				B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
 			end
 			VIB(setting.VKVIB)
@@ -622,44 +605,34 @@ function keyDown.play(key)
 		return
 	end
 	local m=keyMap
-	for p=1,players.human do
-		for k=1,20 do
-			if key==m[2*p-1][k]or key==m[2*p][k]then
-				players[p]:pressKey(k)
-				if p==1 then
-					virtualkey[k].isDown=true
-					virtualkey[k].pressTime=10
-				end
-				return
-			end
+	for k=1,20 do
+		if key==m[1][k]or key==m[2][k]then
+			players[1]:pressKey(k)
+			virtualkey[k].isDown=true
+			virtualkey[k].pressTime=10
+			return
 		end
 	end
 end
 function keyUp.play(key)
 	local m=keyMap
-	for p=1,players.human do
-		for k=1,20 do
-			if key==m[2*p-1][k]or key==m[2*p][k]then
-				players[p]:releaseKey(k)
-				if p==1 then virtualkey[k].isDown=false end
-				return
-			end
+	for k=1,20 do
+		if key==m[1][k]or key==m[2][k]then
+			players[1]:releaseKey(k)
+			virtualkey[k].isDown=false
+			return
 		end
 	end
 end
 function gamepadDown.play(key)
 	if key=="back"then SCN.back()return end
 	local m=keyMap
-	for p=1,players.human do
-		for k=1,20 do
-			if key==m[2*p+7][k]or key==m[2*p+8][k]then
-				players[p]:pressKey(k)
-				if p==1 then
-					virtualkey[k].isDown=true
-					virtualkey[k].pressTime=10
-				end
-				return
-			end
+	for k=1,20 do
+		if key==m[3][k]or key==m[4][k]then
+			players[1]:pressKey(k)
+			virtualkey[k].isDown=true
+			virtualkey[k].pressTime=10
+			return
 		end
 	end
 end
@@ -667,9 +640,9 @@ function gamepadUp.play(key)
 	local m=keyMap
 	for p=1,players.human do
 		for k=1,20 do
-			if key==m[2*p+7][k]or key==m[2*p+8][k]then
-				players[p]:releaseKey(k)
-				if p==1 then virtualkey[k].isDown=false end
+			if key==m[3][k]or key==m[4][k]then
+				players[1]:releaseKey(k)
+				virtualkey[k].isDown=false
 				return
 			end
 		end
@@ -701,90 +674,14 @@ function wheelMoved.history(x,y)
 end
 function keyDown.history(key)
 	if key=="up"then
-		sceneTemp[2]=max(sceneTemp[2]-3,1)
+		sceneTemp[2]=max(sceneTemp[2]-1,1)
 	elseif key=="down"then
-		sceneTemp[2]=min(sceneTemp[2]+3,#sceneTemp[1]-22)
+		sceneTemp[2]=min(sceneTemp[2]+1,#sceneTemp[1])
 	elseif key=="escape"then
 		SCN.back()
 	end
 end
 -------------------------------------------------------------
-local function widgetPress(W,x,y)
-	if W.type=="button"then
-		W.code()
-		W:FX()
-		SFX.play("button")
-		VOC.play("nya")
-	elseif W.type=="switch"then
-		W.code()
-		SFX.play("move",.6)
-	elseif W.type=="slider"then
-		if not x then return end
-		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
-		if p==P then return end
-		W.code(P)
-		if W.change then W.change()end
-	end
-	if W.hide and W.hide()then widget_sel=nil end
-end
-local function widgetDrag(W,x,y,dx,dy)
-	if W.type=="slider"then
-		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
-		if p==P then return end
-		W.code(P)
-		if W.change then W.change()end
-	elseif not W:isAbove(x,y)then
-		widget_sel=nil
-	end
-end
-local function widgetControl_key(i)
-	if i=="tab"then
-		if widget_sel then
-			widget_sel=kb.isDown("lshift")and widget_sel.prev or widget_sel.next or widget_sel
-		else
-			widget_sel=select(2,next(Widget[SCN.cur]))
-		end
-	elseif i=="space"or i=="return"then
-		if widget_sel then
-			widgetPress(widget_sel)
-		end
-	elseif i=="left"or i=="right"then
-		if widget_sel then
-			local W=widget_sel
-			if W.type=="slider"then
-				local p=W.disp()
-				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
-				if p==P or not P then return end
-				W.code(P)
-				if W.change then W.change()end
-			end
-		end
-	end
-end
-local function widgetControl_gamepad(i)
-	if i=="dpup"or i=="dpdown"then
-		if widget_sel then
-			widget_sel=i=="dpup"and widget_sel.prev or widget_sel.next or widget_sel
-		else
-			widget_sel=select(2,next(Widget[SCN.cur]))
-		end
-	elseif i=="start"then
-		if widget_sel then
-			widgetPress(widget_sel)
-		end
-	elseif i=="dpleft"or i=="dpright"then
-		if widget_sel then
-			local W=widget_sel
-			if W.type=="slider"then
-				local p=W.disp()
-				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
-				if p==P or not P then return end
-				W.code(P)
-				if W.change then W.change()end
-			end
-		end
-	end
-end
 local lastX,lastY=0,0--last clickDown pos
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
@@ -798,9 +695,7 @@ function love.mousepressed(x,y,k,t,num)
 		SCN.back()
 	end
 	if k==1 then
-		if widget_sel then
-			widgetPress(widget_sel,mx,my)
-		end
+		WIDGET.press(mx,my)
 	end
 	lastX,lastY=mx,my
 end
@@ -814,17 +709,9 @@ function love.mousemoved(x,y,dx,dy,t)
 		mouseMove[SCN.cur](mx,my,dx,dy)
 	end
 	if ms.isDown(1) then
-		if widget_sel then
-			widgetDrag(widget_sel,mx,my,dx,dy)
-		end
+		WIDGET.drag(mx,my,dx,dy)
 	else
-		widget_sel=nil
-		for _,W in next,Widget[SCN.cur]do
-			if not(W.hide and W.hide())and W:isAbove(mx,my)then
-				widget_sel=W
-				return
-			end
-		end
+		WIDGET.moveCursor(mx,my)
 	end
 end
 function love.mousereleased(x,y,k,t,num)
@@ -863,18 +750,13 @@ function love.touchmoved(id,x,y,dx,dy)
 	if touchMove[SCN.cur]then
 		touchMove[SCN.cur](id,x,y,dx/scr.k,dy/scr.k)
 	end
-	if widget_sel then
+	if WIDGET.sel then
 		if touching then
-			widgetDrag(widget_sel,x,y,dx,dy)
+			WIDGET.drag(x,y,dx,dy)
 		end
 	else
-		for _,W in next,Widget[SCN.cur]do
-			if not(W.hide and W.hide())and W:isAbove(x,y)then
-				widget_sel=W
-				return
-			end
-		end
-		if not widget_sel then
+		WIDGET.moveCursor(x,y)
+		if not WIDGET.sel then
 			touching=nil
 		end
 	end
@@ -883,11 +765,9 @@ function love.touchreleased(id,x,y)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if id==touching then
+		WIDGET.press(x,y)
 		touching=nil
-		if widget_sel then
-			widgetPress(widget_sel,x,y)
-		end
-		widget_sel=nil
+		WIDGET.sel=nil
 	end
 	if touchUp[SCN.cur]then
 		touchUp[SCN.cur](id,x,y)
@@ -902,34 +782,22 @@ function love.keypressed(i)
 	if devMode then
 		if i=="f5"then
 			print("DEBUG:")
-			
-		elseif i=="f8"then
-			devMode=nil
-			TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
-		elseif i=="f9"then
-			devMode=1
-			TEXT.show("DEBUG 1",640,360,80,"fly",.8)
-		elseif i=="f10"then
-			devMode=2
-			TEXT.show("DEBUG 2",640,360,80,"fly",.8)
-		elseif i=="f11"then
-			devMode=3
-			TEXT.show("DEBUG 3",640,360,80,"fly",8)
-		elseif i=="f12"then
-			devMode=4
-			TEXT.show("DEBUG 4",640,360,80,"fly",12)
+		elseif i=="f8"then	devMode=nil	TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
+		elseif i=="f9"then	devMode=1	TEXT.show("DEBUG 1",640,360,80,"fly",.8)
+		elseif i=="f10"then	devMode=2	TEXT.show("DEBUG 2",640,360,80,"fly",.8)
+		elseif i=="f11"then	devMode=3	TEXT.show("DEBUG 3",640,360,80,"fly",8)
+		elseif i=="f12"then	devMode=4	TEXT.show("DEBUG 4",640,360,80,"fly",12)
 		elseif devMode==2 then
 			if i=="k"then
 				for i=1,8 do
 					local P=players.alive[rnd(#players.alive)]
 					if P~=players[1]then
-						-- P.lastRecv=players[1]
+						P.lastRecv=players[1]
 						P:lose()
 					end
 				end
-				--Test code here
 			elseif i=="q"then
-				local W=widget_sel
+				local W=WIDGET.sel
 				if W then W:getInfo()end
 			elseif i=="f3"then
 				error("Techmino:挂了")
@@ -937,13 +805,13 @@ function love.keypressed(i)
 				for k,v in next,_G do
 					print(k,v)
 				end
-			elseif i=="z"then
-				if kb.isDown("m")and kb.isDown("r")then
+			elseif i=="\122"then
+				if kb.isDown("\109")and kb.isDown("\114")then
 					marking=nil
 					SFX.play("reach")
 				end
-			elseif widget_sel then
-				local W=widget_sel
+			elseif WIDGET.sel then
+				local W=WIDGET.sel
 				if i=="left"then W.x=W.x-10
 				elseif i=="right"then W.x=W.x+10
 				elseif i=="up"then W.y=W.y-10
@@ -963,7 +831,7 @@ function love.keypressed(i)
 	else
 		if keyDown[SCN.cur]then keyDown[SCN.cur](i)
 		elseif i=="escape"then SCN.back()
-		else widgetControl_key(i)
+		else WIDGET.keyPressed(i)
 		end
 	end
 end
@@ -997,7 +865,7 @@ function love.gamepadpressed(joystick,i)
 	if gamepadDown[SCN.cur]then gamepadDown[SCN.cur](i)
 	elseif keyDown[SCN.cur]then keyDown[SCN.cur](keyMirror[i]or i)
 	elseif i=="back"then SCN.back()
-	else widgetControl_gamepad(i)
+	else WIDGET.gamepadPressed(i)
 	end
 end
 function love.gamepadreleased(joystick,i)
@@ -1012,7 +880,7 @@ function love.joystickpressed(JS,k)
 	if gamepadDown[SCN.cur]then gamepadDown[SCN.cur](i)
 	elseif keyDown[SCN.cur]then keyDown[SCN.cur](keyMirror[i]or i)
 	elseif i=="back"then SCN.back()
-	else widgetControl_gamepad(i)
+	else WIDGET.gamepadPressed(i)
 	end
 end
 function love.joystickreleased(JS,k)
@@ -1060,7 +928,7 @@ local FPS=love.timer.getFPS
 love.draw,love.update=nil
 function love.run()
 	local T=love.timer
-	local STEP,GETΔ,WAIT=T.step,T.getDelta,T.sleep
+	local STEP,GETDelta,WAIT=T.step,T.getDelta,T.sleep
 	local lastFrame=T.getTime()
 	local lastFreshPow=lastFrame
 	local FCT=0--framedraw counter
@@ -1080,19 +948,16 @@ function love.run()
 				return 1
 			end
 		end
-
 		--UPDATE
-		STEP()local dt=GETΔ()
+		STEP()local dt=GETDelta()
 		TASK.update()
 		VOC.update()
 		BG.update(dt)
 		sysFX.update(dt)
 		TEXT.update()
-		local _=Tmr[SCN.cur]if _ then _(dt)end
-		if SCN.swapping then SCN.swapUpdate()end
-		for _,W in next,Widget[SCN.cur]do
-			W:update()
-		end--更新控件
+		local _=Tmr[SCN.cur]if _ then _(dt)end--Scene Updater
+		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
+		WIDGET.update()--Widgets animation
 
 		--DRAW
 		if not mini()then
@@ -1105,11 +970,7 @@ function love.run()
 				gc.push("transform")
 					gc.replaceTransform(xOy)
 					if Pnt[SCN.cur]then Pnt[SCN.cur]()end
-					for k,W in next,Widget[SCN.cur]do
-						if not(W.hide and W.hide())then
-							W:draw()
-						end
-					end--Draw widgets
+					WIDGET.draw()--Draw widgets
 					if mouseShow then
 						local r=Timer()*.5
 						local R=int(r)%7+1
@@ -1124,14 +985,16 @@ function love.run()
 				gc.pop()
 
 				gc.setColor(1,1,1)
-				gc.draw(infoCanvas,0,0,0,scr.k)
+				if setting.powerInfo then
+					gc.draw(infoCanvas,0,0,0,scr.k)
+				end
 				--Power Info
 
 				if SCN.swapping then
 					_=SCN.swap
 					_.draw(_.time)
 				end--Scene swapping animation
-				
+
 				setFont(15)
 				gc.setColor(1,1,1)
 				_=scr.h-20
@@ -1158,7 +1021,7 @@ function love.run()
 
 		--FRESH POWER
 		lastFrame=Timer()
-		if Timer()-lastFreshPow>1 then
+		if Timer()-lastFreshPow>3 and setting.powerInfo and SCN.cur~="load"then
 			updatePowerInfo()
 			lastFreshPow=Timer()
 		end

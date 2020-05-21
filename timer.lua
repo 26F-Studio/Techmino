@@ -28,7 +28,7 @@ function Tmr.load()
 			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("image/modeIcon/custom.png")
 		elseif S.phase==6 then
-			--------------------------Loading some other things here?
+			--------------------------Loading other little things here
 			SKIN.load()
 			stat.run=stat.run+1
 			--------------------------
@@ -52,7 +52,7 @@ function Tmr.load()
 				S.tar=1
 			end
 		end
-	until not S.skip or SCN.swapping
+	until not S.skip and Timer()-t>.01
 end
 function Tmr.intro()
 	sceneTemp=sceneTemp+1
@@ -239,8 +239,8 @@ function Tmr.play(dt)
 	end
 end
 function Tmr.pause(dt)
-	if not gameResult then
-		pauseTime=pauseTime+dt
+	if not game.result then
+		game.pauseTime=game.pauseTime+dt
 	end
 	if sceneTemp.timer<50 then
 		sceneTemp.timer=sceneTemp.timer+1

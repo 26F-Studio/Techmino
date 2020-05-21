@@ -1,10 +1,11 @@
 --[[
-第一次搞这么大的工程,参考价值也许不是很大
-如果你有时间并且也热爱俄罗斯方块的话,来看代码或者帮助优化的话欢迎!
+	Techmino is my first "huge project"
+	optimization is welcomed if you also love tetromino game
 ]]
 math.randomseed(os.time()*626)
 --Global vars
 system=love.system.getOS()
+game={}
 mapCam={
 	sel=nil,--selected mode ID
 
@@ -22,10 +23,7 @@ scr={x=0,y=0,w=0,h=0,rad=0,k=1}--wid,hei,radius,scale K
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 function NULL()end
---[[
-blockSkin,blockSkinMini={},{}--redefined in SKIN.change
-widget_sel=nil--selected widget obj
-]]
+--blockSkin,blockSkinMini={},{}--redefined in SKIN.change
 
 --Load modules
 setFont=require("parts/setfont")
@@ -53,14 +51,14 @@ TEXT=require("parts/text")
 TASK=require("parts/task")
 BG=require("parts/bg")
 IMG=require("parts/img")
+WIDGET=require("parts/widget")
+LIGHT=require("parts/light")
 
-require("parts/light")
 require("parts/modes")
 require("default_data")
-require("parts/widget")
 require("parts/ai")
 require("player")
-Widget=require("widgetList")
+widgetList=require("widgetList")
 require("callback")
 
 --load files & settings
@@ -74,6 +72,7 @@ else
 		setting.VKSwitch=true
 		setting.swap=false
 		setting.vib=2
+		setting.powerInfo=true
 	end
 end
 LANG.set(setting.lang)

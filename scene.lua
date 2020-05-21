@@ -50,8 +50,8 @@ local sceneInit={
 	end,
 	music=function()
 		if BGM.nowPlay then
-			for i=1,#musicID do
-				if musicID[i]==BGM.nowPlay then
+			for i=1,BGM.len do
+				if BGM.list[i]==BGM.nowPlay then
 					sceneTemp=i--music select
 					return
 				end
@@ -97,6 +97,13 @@ local sceneInit={
 		BG.set(modeEnv.bg)
 	end,
 	pause=function(org)
+		if 
+			org=="setting_game"or
+			org=="setting_video"or
+			org=="setting_sound"
+		then
+			TEXT.show(text.needRestart,640,440,50,"fly",.6)
+		end
 		local S=players[1].stat
 		sceneTemp={
 			timer=org=="play"and 0 or 50,
@@ -113,7 +120,7 @@ local sceneInit={
 				format("%d[%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 			},
 
-			--从上开始,顺时针90°
+			--from right-down, 60 degree each
 			radar={
 				(S.recv-S.pend+S.dig)/S.time*60,--DefPM
 				(S.recv-S.pend)/S.time*60,		--OffPM
@@ -161,11 +168,11 @@ local sceneInit={
 	setting_game=function()
 		BG.set("space")
 	end,
-	setting_graphic=function()
+	setting_video=function()
 		BG.set("space")
 	end,
 	setting_sound=function()
-		sceneTemp={last=0,jump=0}--last sound time,animation count(10→0)
+		sceneTemp={last=0,jump=0}--last sound time,animation count(10 to 0)
 		BG.set("space")
 	end,
 	setting_control=function()
@@ -263,11 +270,12 @@ local backFunc={
 		mergeStat(stat,players[1].stat)
 		TASK.clear("play")
 	end,
+	setting_game=	function()FILE.saveSetting()end,
+	setting_video=	function()FILE.saveSetting()end,
+	setting_sound=	function()FILE.saveSetting()end,
 	setting_touch=	function()FILE.saveVK()end,
 	setting_key=	function()FILE.saveKeyMap()end,
-	setting_game=	function()FILE.saveSetting()end,
-	setting_graphic=function()FILE.saveSetting()end,
-	setting_sound=	function()FILE.saveSetting()end,
+	setting_lang=	function()FILE.saveSetting()end,
 }
 function SCN.swapUpdate()
 	local S=SCN.swap
@@ -275,12 +283,9 @@ function SCN.swapUpdate()
 	if S.time==S.mid then
 		SCN.init(S.tar,SCN.cur)
 		SCN.cur=S.tar
-		for _,W in next,Widget[S.tar]do
-			W:reset()
-		end--重置控件
-		widget_sel=nil
+		WIDGET.set(widgetList[S.tar])
 		collectgarbage()
-		--此时场景切换
+		--Scene swapped this moment
 	end
 	if S.time==0 then
 		SCN.swapping=false
@@ -311,7 +316,6 @@ function SCN.swapTo(tar,style)
 		S.time=swap[1]
 		S.mid=swap[2]
 		S.draw=swap[3]
-		widget_sel=nil
 	end
 end
 function SCN.back()

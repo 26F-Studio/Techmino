@@ -13,31 +13,37 @@ if setting.lang==1 then
 		"2+2=Miya",
 		"225238922  哔哩哔哩 干杯~",
 		"适度游戏益脑,沉迷游戏伤身,合理安排时间,享受健康生活",
-		"合群了就会消失,但是消失不代表没有意义",
-		"学会使用两个旋转键,三个更好",
+		"合群了就会消失, 但是消失不代表没有意义",
+		"学会使用两个旋转键, 三个更好",
 		"更小的DAS和ARR拥有更高的操作上限(如果你还能控制得了的话)",
 		"注意到\"旋转\"到底对方块做了些什么吗?",
 		"20G本质是一套全新的游戏规则",
 		"不要在上课时玩游戏!",
-		"本游戏难度上限很高,做好心理准备",
+		"本游戏难度上限很高, 做好心理准备",
 		"本游戏可不是休闲游戏",
 		"调到特殊的日期也不会发生什么的",
 		"3.1415926535897932384",
 		"2.7182818284590452353",
 		"Let-The-Bass-Kick!",
 		"使用love2d引擎制作",
-		"有疑问?先看设置有没有你想要的",
+		"有疑问? 先看设置有没有你想要的",
 		"有建议的话可以把信息反馈给作者~",
 		"不要按F10",
 		"秘密数字:626",
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
 		"少女祈祷中",
-		"LrL,RlR LLr,RRl RRR,LLL RfR,RRf,rFF FFF",--ZSLJTOI
-		"RUR'U'R'FR2U'R'U'RUR'F'",
+		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
+		"(RUR'U')R'FR2U'R'U'(RUR'F')",
 		"Am G F G",
-		"Techmino 好玩!",
+		"联网还没做呢, 别急",
+		"\"免费吃鸡方块\"",
 		"Techminohaowan",
+		"Techmino 好玩!",
+		"tetr.js 也很好玩!",
+		"jstris 也很好玩!",
+		"tetr.io 也很好玩!",
+		"nullpomino 也很好玩!",
 	}
 elseif setting.lang==2 then
 	L={
@@ -73,11 +79,17 @@ elseif setting.lang==2 then
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"戴上耳机以获得最佳体验",
 		"少女祈祷中",
-		"LrL,RlR LLr,RRl RRR,LLL RfR,RRf,rFF FFF",--ZSLJTOI
-		"RUR'U'R'FR2U'R'U'RUR'F'",
+		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
+		"(RUR'U')R'FR2U'R'U'(RUR'F')",
 		"Am G F G",
-		"Techmino 好玩!",
+		"联网还没做呢, 别急",
+		"\"免费吃鸡方块\"",
 		"Techminohaowan",
+		"Techmino 好玩!",
+		"tetr.js 也很好玩!",
+		"jstris 也很好玩!",
+		"tetr.io 也很好玩!",
+		"nullpomino 也很好玩!",
 	}
 elseif setting.lang==3 then
 	L={
@@ -114,10 +126,24 @@ elseif setting.lang==3 then
 		"CLASSIC SEXY RUSSIAN BLOCKS",
 		"Headphones for better experience",
 		"少女祈禱中",
-		"RUR'U'R'FR2U'R'U'RUR'F'",
+		"(RUR'U')R'FR2U'R'U'(RUR'F')",
 		"Am G F G",
-		"LrL,RlR LLr,RRl RRR,LLL RfR,RRf,rFF FFF",--ZSLJTOI
+		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
+		"Only offline game now",
+		"\"Free block game with royale-mode\"",
 		"Techmino is so fun!",
+		"Who is diao",
+		"Also try tetr.js!",
+		"Also try jstris!",
+		"Also try tetr.io!",
+		"Also try nullpomino!",
 	}
+elseif setting.lang==4 then
+	L={'!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','\\','|',';',':','\'','"',',','<','.','>','/','?'}
+	local s=""
+	for i=1,math.random(16,26)do
+		s=s..L[math.random(#L)]
+	end
+	return s
 end
 return L[math.random(#L)]

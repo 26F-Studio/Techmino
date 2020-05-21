@@ -1,46 +1,56 @@
 local S=[=[
 "Patron"(time ordered,may not accurate):
 		[rmb100+]:
-		那没事了(T6300)
-		弥佑瑶
-		Alan
+			那没事了(T6300)
+			加油啊,钉钉动了的大哥哥(T3228)
+			弥佑瑶
+			Alan
 	[rmb10+]:
-	八零哥
-	蕴空之灵
-	gggf127
-	dtg
-	ThTsOd
-	Fireboos
-	金巧
-	10元
-	立斐
-	时雪
-	yyangdid
-	sfqr
-	心痕
-	Sasoric
-	夏小亚
-	加油啊,钉钉动了的大哥哥(T3228)
-	仁参
-	乐↗乐↘
-	喜欢c4w的ztcjoin
-	面包
-	蠢熏
-	潘一栗
-	Lied
-	星街书婉
-	込余
-	祝西
-	829
-	e m*12
-	我永远爱白银诺艾尔(鹏
-	PCX
-	(D*a)
+		八零哥
+		蕴空之灵
+		gggf127
+		dtg
+		ThTsOd
+		Fireboos
+		金巧
+		10元
+		立斐
+		时雪
+		yyangdid
+		sfqr
+		心痕
+		Sasoric
+		夏小亚
+		仁参
+		乐↗乐↘
+		喜欢c4w的ztcjoin
+		面包
+		蠢熏
+		潘一栗
+		Lied
+		星街书婉
+		込余
+		祝西
+		829
+		e m*12
+		我永远爱白银诺艾尔(鹏
+		PCX
+		kagura77
+		呆喂
+		GlowingEmbers
+		轩辕辚
+		HimuroAki
+		tech有养成系统了@7065
+		HAGE KANOBU
+		葡萄味的曼妥思
+		(闪电和拐棍)
+		(D*a)
 
-	Thanks!
+	Thanks!!!
 
 Future outlook:
 	New mode:
+		tutorial
 		game Abbr. test
 		backfire
 		finesse exam(3next, 1pt/mino, drop to score)
@@ -48,9 +58,14 @@ Future outlook:
 		bigbang
 		rhythm
 		combo
-		aquare
+		square
 		field shifting(left/right)
-		task-based survival
+		task survival
+		dig practice
+		dig zen
+		symmetry
+		hidden mode: sound only
+		reverb mode (often repeat a piece many times)
 	Other:
 		mod system with:
 			block hidden
@@ -60,21 +75,49 @@ Future outlook:
 			next hidden
 			field flip(LR/UD)
 			no fail(∞ lives)
-		防沉迷系统
+		简易防沉迷系统
+		in-game document
 		lang setting page
 		warning FX(Graphic)
 		game recording
-		powerinfo switch
-		new virtualWidgets like joysticks
-		custom sequence
+		new widgets (joystick etc.)
+		custom sequence(TTT!)
 		splashing block
 		cool backgrounds
 		more graphic FXs & 3D features & animations
-		Encrypt source code(compile to byte code)
+		Encrypt source code (compile to byte code)
 		new AI: task-Z
-		smarter CC(think of garbage buffer)
 
-0.8.18:Details Update II
+0.8.19/20: Fantastic Global Update II
+	new:
+		new clearing FX
+		pentomino with new rotation system (testing)
+		new PC training mode with over 1000 quiz
+		new English translation by @MattMayuga#8789
+		new language: ???
+		language-setting page
+		[C B A S SS]→[D C B A S]
+		powerinfo switch
+	changed:
+		resume/quit key changed on pause page (quit with Q, resume with esc)
+		warning when back to pause page from setting page
+		some FX based on real time
+		tiny change (almost nothing) changed for powerInfo
+		page turing of in-game update log changed
+		readable update log of 0.8+ ver
+		some new "tips"
+		add ENG ver. document(not in game)
+	code:
+		swap id of J/L
+		wall-kick list easier to read
+		no utf8 char in code/comments
+		less global variables
+		light module optimized (but not used)
+		code optimized
+	fixed:
+		impossible to get SS in attacker mode
+
+0.8.18: Details Update II
 	new:
 		adjustable virtualkey SFX & VIB
 	changed:
@@ -87,7 +130,7 @@ Future outlook:
 		delete all removable "goto"s!
 		callback system moduled, main.lua easy to read
 
-0.8.17:Details Update
+0.8.17: Details Update
 	new:
 		bag seperating line switch
 		better radar chart & statistics on pause page
@@ -114,7 +157,8 @@ Future outlook:
 		moving block when changing target in t49/t99
 		font error in patron list
 		do not reset pause count when restart
-0.8.16:Fantastic Global Update
+
+0.8.16: Fantastic Global Update
 	new:
 		new statistic page with:
 			Radar chart which shows some important info. of player's performance
@@ -147,7 +191,8 @@ Future outlook:
 		error when set to max 0 next
 		AI sequence initializing error when face setting changed
 		DAS error
-0.8.15:Bug Fixed
+
+0.8.15: Bug Fixed
 	new:
 		can switch line-clear text now
 		new attack way "Clear"(half-clear)
@@ -163,7 +208,7 @@ Future outlook:
 		error when reach 400 in 20G(Lunatic)
 		error block color in modes with starting field
 
-0.8.14:Cool FX
+0.8.14: Cool FX
 	new:
 		click/tap/any-key to skip loading animation
 		lock animation
@@ -178,7 +223,7 @@ Future outlook:
 		some times error when touch screen
 		touch/press release with no press, then error
 
-0.8.13:O-spin Update++
+0.8.13: O-spin Update++
 	new:
 		a independent page to set DAS/ARR, with an animation for preview
 	changed:
@@ -190,9 +235,9 @@ Future outlook:
 		wrong behavior in pause scene
 		ospin error in 0.8.12
 		memory leakage in t49/t99
-		new behavior of widgets
+		unnatural behavior of widgets
 
-0.8.12:Bountful Update
+0.8.12: Bountful Update
 	new:
 		layout setting: skin system with customizable block color/direction
 		more information when pause
@@ -221,7 +266,7 @@ Future outlook:
 		stage reset problem in t49/t99
 		wrong info in tech-L/U/U+ mode
 
-0.8.11:Total Update
+0.8.11: Total Update
 	changed:
 		better rule of checking invalid game
 		can setting when pause
@@ -236,7 +281,7 @@ Future outlook:
 		some O-spin error
 		error line counting when pc(full b2b)
 
-0.8.10:Cool Update
+0.8.10: Cool Update
 	new:
 		new BGM:Distortion(master-final)
 		all background darker
@@ -245,97 +290,127 @@ Future outlook:
 		error when finish master/ultra mode
 		shakeFX no effect when below 3
 
-0.8.9:System Detail Update
-	invalid game when pause too much
-	quick play re-added
-	new BGM: Oxygen(c4w&pc training)
-	space background little changed
+0.8.9: System Detail Update
+	new:
+		invalid game when pause too much
+		quick play re-added
+		new BGM: Oxygen(c4w&pc training)
+	changed:
+		space background little changed
 
-0.8.8+:Bug-Fix Update
+0.8.8+: Bug-Fix Update
 	fixed many fatal bugs
 
-0.8.8:Space BG Update
-	background now is cool space with "planets" and "stars", not boring falling tetrominos!
-	records with date
-	adjustable waiting time before start
-	ajustable maxnext count
-	new error page and a new voice
-	tiny change in rotate system(JL pistol-spin)
-	marked the modes with limited das/arr
-	better board copy/paste
-	no black side in any screen size
-	an unlock-all easter egg
-	cannot press invisible func key
-	fixed: some mode error
-	add many fatal bugs
+0.8.8: Space BG Update
+	new:
+		background now is cool space with "planets" and "stars", instead of boring falling tetrominos
+		no black side in any screen size
+		adjustable waiting time before start
+		ajustable maxnext count
+		marked the modes with limited das/arr
+		new error page and a new voice
+		add many fatal bugs
+	changed:
+		simple records with date
+		tiny change in rotate system(JL pistol-spin)
+		better board copy/paste
+		an unlock-all easter egg
+	fixed:
+		press invisible func key
+		some mode error
 
-0.8.7:Game Detail Update
-	better user experience in mode selecting
-	support 2^n G falling speed
-	speed of marathon mode changed
-	shorter clipboard string(when air above)
-	attack system/score system little changed
-	fixed: rank system, some mode error when enter(again!)
+0.8.7: Game Detail Update
+	new:
+		support 2^n G falling speed
+	changed:
+		better user experience in mode selecting
+		speed of marathon mode changed
+	code:
+		shorter clipboard string(when air above)
+		attack system/score system little changed
+	fixed:
+		wrong behaviour of rank system
+		error when enter some mode(again!)
 
-0.8.6:System Detail Update
-	gamepad can adjust key
-	add SFX when enter game
-	map GUI little adjusted
-	event system little changed(no ctrl when scene swapping)
-	fixed:rank system, some mode error when enter
+0.8.6: System Detail Update
+	new:
+		can adjust gamepad keysetting
+		add SFX when enter game
+	changed:
+		map GUI little adjusted
+		event system little changed(no control when scene swapping)
+	fixed:
+		wrong behaviour of rank system
+		error when enter some mode
 
-0.8.5-:Exploration Update
-	mode map!Brandly new GUI for mode selecting
-	mode unlock system, not that scary for noob
-	every mode has rank calculating method(may some mistakes/inappropriate number)
-	save 10 best recoreds for each mode
-	can save/share custom map now
-	new mode: Big Bang
-	button appearance changed
-	better widget performence
-	remove Qplay
-	many bug fixed
+0.8.5-: Exploration Update
+	new:
+		mode map!Brandly new GUI for mode selecting
+		mode unlock system, not that scary for noob
+		every mode has rank calculating method(may some mistakes/inappropriate number)
+		save 10 best recoreds for each mode
+		can save/share custom map now
+		"new mode": Big Bang
+	changed:
+		button appearance changed
+		better widget performence
+		remove Qplay
+	fixed:
+		many bugs
 
-0.8.4:Miya Update+
-	vocal more natural(important, may cause new bug)
-	a bit better performence on mobile devices
-	fatal bug fixed
+0.8.4: Miya Update+
+	changed:
+		vocal more natural(important, may cause new bug)
+		a bit better performence on mobile devices
+	fixed:
+		some fatal bugs
 
-0.8.3:Miya Update
-	new widget appearence
-	cuter miya
+0.8.3: Miya Update
+	new:
+		new widget appearence
+		cuter miya
 
-0.8.2:Graphics Update
-	miya figure added
-	new widget appearence
-	GUI adjusted
-	bug fixed
+0.8.2: Graphics Update
+	new:
+		miya figure added
+		new widget appearence
+	changed:
+		GUI adjusted
+	fixed:
+		some bugs
 
-0.8.1:Power Info Update
-	more FX level
-	better battery info displaying
-	3 next in GMroll
-	bug fixed
+0.8.1: Power Info Update
+	changed:
+		more FX level
+		better battery info displaying
+		3 next in GMroll
+	fixed:
+		some bugs
 
-0.8.0:Small Update
-	remade text system
-	more details
-	bug fixed
+0.8.0: Small Update
+	new:
+		better update log from now on(2020.5.2)
+	changed:
+		more details
+	code:
+		remade text system
+	fixed:
+		some bugs
 
-0.7.35:Bug Fixed
-	bug fixed
+0.7.35: Bug Fixed
+	yeah, only bug fixed
 
-0.7.34:Voice Update+
+0.7.34: Voice Update+
 	replace most voice
 	shaking FX more natural
 
-0.7.33+:Bot Update
+0.7.33+: Bot Update
 	MORE POWERFUL 9-stack AI
 	add stereo-setting slider
 	code optimized
 	bug fixed
 
-0.7.32:Virtualkey Update+
+0.7.32: Virtualkey Update+
 	Blind-GM now show section directly
 	easier&more standard classic mode
 	can switch Virtualkey's auto dodging
@@ -343,11 +418,11 @@ Future outlook:
 	code optimized
 	bug fixed
 
-0.7.31:Stereo Update
+0.7.31: Stereo Update
 	stereo system
 	fixed a problem in finesse calculating
 
-0.7.30:Virtualkey Update
+0.7.30: Virtualkey Update
 	auto-tracking virtual key, adjustable parameters!
 	can switch on/off virtuakeys
 	add 7 more key
@@ -358,26 +433,26 @@ Future outlook:
 	adjusted GUI
 	many bug fixed
 
-0.7.28:Finesse Update
+0.7.28: Finesse Update
 	add fineese check(almost useful)
 	code optimized
 
-0.7.27:O-spin Update+
+0.7.27: O-spin Update+
 	super O transform system
-	optimized light system(no used)
+	optimized 	 system(no used)
 	bug fixed
 
-0.7.26:Bug Fixed
+0.7.26: Bug Fixed
 	new skin
 	import light lib
 	many bug fixed
 
-0.7.25:Demo Update
+0.7.25: Demo Update
 	demo play at main menu
 	ALMOST reconstructed WHOLE PLAYER SYSTEM, NEED TEST
 	many bug fixed
 
-0.7.23/24:Feast of Hearing
+0.7.23/24: Feast of Hearing
 	all bgm remade
 	more settings with brand new GUI!
 	new mode: Master-Final
@@ -390,7 +465,7 @@ Future outlook:
 	code optimized
 	many bugs fixed
 
-0.7.22:Graphics Update
+0.7.22: Graphics Update
 	scoring system
 	smooth dropping
 	can change FX level
@@ -406,12 +481,12 @@ Future outlook:
 	support 10% step alpha of virtual key
 	many code optimized&bugs fixed
 
-0.7.21:Title Update
+0.7.21: Title Update
 	new title image
 	more GUI details
 	many bugs fixed
 
-0.7.20:Music Room Update
+0.7.20: Music Room Update
 	add music room
 	change block/space apperance in draw mode
 	field shake animation
@@ -419,7 +494,7 @@ Future outlook:
 	can set BG/BGM in custom mode
 	bug fixed
 
-0.7.19:Voice Update
+0.7.19: Voice Update
 	voice system added(voice by Miya)
 	support macOS!
 	new mode: C4W training
@@ -430,7 +505,7 @@ Future outlook:
 	new background/sound effect in master mode
 	bug fixed
 
-0.7.18:Skin Update
+0.7.18: Skin Update
 	3 new block skins!(one skin origional by Miya(nya~))
 	better restarting(to prevent mistakenly touching)
 	switch display of puzzle mode
@@ -438,7 +513,7 @@ Future outlook:
 	code optimized
 	default custom options changed to as infinite mode
 
-0.7.17:Pause Update
+0.7.17: Pause Update
 	display game stats when pause
 	more options in statistics
 	better pausing
@@ -448,7 +523,7 @@ Future outlook:
 	little optimized
 	bugs fixed
 
-0.7.16:Game Detail Update
+0.7.16: Game Detail Update
 	change rules of custom puzzle mode
 	change rules of TSD mode
 	better pausing
@@ -456,31 +531,31 @@ Future outlook:
 	adjust difficulty of dig mode
 	bugs fixed
 
-0.7.15:Puzzle Update
+0.7.15: Puzzle Update
 	can make puzzle by drawing mode
 	can pause game with animation
 	change icon of "Functional key"
 	speed optimized
 	bugs fixed
 
-0.7.14:Creativity Update
+0.7.14: Creativity Update
 	drawing mode in custom game
 	adjustable virtual keys with mouse
 	speed optimized
 	rotate also create shade
 
-0.7.13+:Small Update
+0.7.13+: Small Update
 	change difficulty of survivor mode
 	little game rule change
 	bugs fixed(AI control error)
 
-0.7.13:
+0.7.13: 
 	new:
 		Chinese game name: 方块研究所
 		SUPER COOL instant moving effect
 		new b2b bar style & animation
 		new transition animation
-	change:
+	changed:
 		change difficulty of master mode
 		adjust delay algorithm(probably cause controlfeel changing, please reset your DAS setting)
 		code reconstructed
@@ -489,7 +564,7 @@ Future outlook:
 		error when seq=his
 		error game area size of custom opponent
 
-0.7.12:Total Update
+0.7.12: Total Update
 	AI learned to switch attack mode
 	seperate master mode from marathon mode
 	master mode more interesting
@@ -503,7 +578,7 @@ Future outlook:
 	some Chinese translaton editted
 	[reconstruct event system]
 
-0.7.11:Total Update
+0.7.11: Total Update
 	some Chinese translaton editted
 	add bone block in 2 hardest marathon(new block-fresh system)
 	play sound when get badges in royale mode
@@ -515,13 +590,13 @@ Future outlook:
 	add QR code in help page
 	change some detials
 
-0.7.10:Small Update
+0.7.10: Small Update
 	full Chinese translation
 	add Classic mode
 	change O spin's behaviour
 	bugs fixed
 
-0.7.9:O-spin Update
+0.7.9: O-spin Update
 	O spin is a lie
 	better attacking pointer
 	language system
@@ -530,7 +605,7 @@ Future outlook:
 	code optimized
 	bugs fixed
 
-0.7.8:Performance Update
+0.7.8: Performance Update
 	GPU usage decreased much more than before
 	add virtual key animation
 	display player's rank after death in royale mode
@@ -539,7 +614,7 @@ Future outlook:
 	code optimized
 	bugs fixed
 
-0.7.7:Mode Update
+0.7.7: Mode Update
 	add dig mode
 	add survivor mode
 	combine some modes
@@ -547,7 +622,7 @@ Future outlook:
 	more SFXs
 	bugs fixed
 
-0.7.6:Mode Update
+0.7.6: Mode Update
 	new font
 	add DIFFICULTY selection
 	virtual keys give visual feedback(PC/phone)
@@ -560,7 +635,7 @@ Future outlook:
 	fix all attacking bug of royale mode
 	change sequence of TSD-only mode to bag7
 
-0.7.5:Total Update
+0.7.5: Total Update
 	reduce difficuly of PC training mode, and add more patterns
 	reduce difficuly of death mode
 	add PC challenge mode
@@ -575,10 +650,10 @@ Future outlook:
 	change sequence of TSD-only mode
 	royale mode use LESS GPU
 
-0.7.4:Bug Update
+0.7.4: Bug Update
 	add a lot of bugs
 
-0.7.3:Game Detail Update
+0.7.3: Game Detail Update
 	add infinite target in custom
 	fix TSD-only mode result+1 when finishing with a wrong clear
 	change sequence generator of TSD-only mode
@@ -586,7 +661,7 @@ Future outlook:
 	Fix Screen flow
 	smarter AI
 
-0.7.2:Mode Update
+0.7.2: Mode Update
 	add PC training mode
 	add TSD-only mode
 	remove non-sense s/z spin double
@@ -594,12 +669,19 @@ Future outlook:
 	grid BG changed
 	smarter AI
 ]=]
+
 local find,sub=string.find,string.sub
-local L,n,p={},1,1
+local L,c={},0--list, \n counter,
+local p,p1=1,0--cut start/end pos
 local EOF=#S
-repeat
-	p1=find(S,"\n",p)
-	L[n]=sub(S,p,p1-1)
-	n,p=n+1,p1+1
-until p1==EOF
-return L
+
+while true do
+	p1=find(S,"\n",p1+1)
+	c=c+1
+	if c==23 or p1==EOF then
+		L[#L+1]=sub(S,p,p1-1)
+		if p1==EOF then return L end
+		p=p1+1
+		c=0
+	end
+end

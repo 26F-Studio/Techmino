@@ -1,21 +1,14 @@
 local gc=love.graphics
+local kb=love.keyboard
+local int=math.floor
 local format=string.format
+local next=next
+local EMPTY={}
 
 local button={
 	type="button",
 	ATV=0,--activating time(0~8)
 }
-function newButton(x,y,w,h,color,font,code,hide,N)
-	local _={
-		x=x-w*.5,y=y-h*.5,
-		w=w,h=h,
-		color=color,
-		font=font,
-		code=code,
-		hide=hide,
-		next=N,
-	}for k,v in next,button do _[k]=v end return _
-end
 function button:reset()
 	self.ATV=0
 end
@@ -26,7 +19,7 @@ function button:FX()
 	sysFX.new("ripple",.16,self.x-self.ATV,self.y-self.ATV,self.w+2*self.ATV,self.h+2*self.ATV)
 end
 function button:update()
-	if widget_sel==self then
+	if WIDGET.sel==self then
 		if self.ATV<8 then self.ATV=self.ATV+1 end
 	else
 		if self.ATV>0 then self.ATV=self.ATV-1 end
@@ -65,15 +58,6 @@ local switch={
 	ATV=0,--activating time(0~8)
 	CHK=0,--check alpha(0~6)
 }
-function newSwitch(x,y,font,disp,code,hide,N)
-	local _={
-		x=x,y=y,font=font,
-		disp=disp,
-		code=code,
-		hide=hide,
-		next=N,
-	}for k,v in next,switch do _[k]=v end return _
-end
 function switch:reset()
 	self.ATV=0
 	self.CHK=0
@@ -83,7 +67,7 @@ function switch:isAbove(x,y)
 end
 function switch:update()
 	local _=self.ATV
-	if widget_sel==self then if _<8 then self.ATV=_+1 end
+	if WIDGET.sel==self then if _<8 then self.ATV=_+1 end
 	else if _>0 then self.ATV=_-1 end
 	end
 	_=self.CHK
@@ -123,18 +107,6 @@ local slider={
 	ATV=0,--activating time(0~8)
 	pos=0,--position shown
 }
-function newSlider(x,y,w,unit,font,change,disp,code,hide,N)
-	local _={
-		x=x,y=y,
-		w=w,unit=unit,
-		font=font,
-		change=change,
-		disp=disp,
-		code=code,
-		hide=hide,
-		next=N,
-	}for k,v in next,slider do _[k]=v end return _
-end
 function slider:reset()
 	self.ATV=0
 	self.pos=0
@@ -143,7 +115,7 @@ function slider:isAbove(x,y)
 	return x>self.x-10 and x<self.x+self.w+10 and y>self.y-20 and y<self.y+20
 end
 function slider:update()
-	if widget_sel==self then
+	if WIDGET.sel==self then
 		if self.ATV<6 then self.ATV=self.ATV+1 end
 	else
 		if self.ATV>0 then self.ATV=self.ATV-1 end
@@ -185,3 +157,153 @@ end
 function slider:getInfo()
 	print(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
 end
+
+local WIDGET={}
+WIDGET.active=EMPTY--table, contains all active widgets
+WIDGET.sel=nil--selected widget
+function WIDGET.set(L)
+	WIDGET.sel=nil
+	WIDGET.active=L or EMPTY
+	if L then
+		for _,W in next,L do
+			W:reset()
+		end--Reset all widgets
+	end
+end
+
+WIDGET.new={}
+function WIDGET.new.button(x,y,w,h,color,font,code,hide,N)
+	local _={
+		x=x-w*.5,y=y-h*.5,
+		w=w,h=h,
+		color=color,
+		font=font,
+		code=code,
+		hide=hide,
+		next=N,
+	}for k,v in next,button do _[k]=v end return _
+end
+function WIDGET.new.switch(x,y,font,disp,code,hide,N)
+	local _={
+		x=x,y=y,font=font,
+		disp=disp,
+		code=code,
+		hide=hide,
+		next=N,
+	}for k,v in next,switch do _[k]=v end return _
+end
+function WIDGET.new.slider(x,y,w,unit,font,change,disp,code,hide,N)
+	local _={
+		x=x,y=y,
+		w=w,unit=unit,
+		font=font,
+		change=change,
+		disp=disp,
+		code=code,
+		hide=hide,
+		next=N,
+	}for k,v in next,slider do _[k]=v end return _
+end
+
+function WIDGET.moveCursor(x,y)
+	WIDGET.sel=nil
+	for _,W in next,WIDGET.active do
+		if not(W.hide and W.hide())and W:isAbove(x,y)then
+			WIDGET.sel=W
+			return
+		end
+	end
+end
+function WIDGET.press(x,y)
+	local W=WIDGET.sel
+	if not W then return end
+	if W.type=="button"then
+		W.code()
+		W:FX()
+		SFX.play("button")
+		VOC.play("nya")
+	elseif W.type=="switch"then
+		W.code()
+		SFX.play("move",.6)
+	elseif W.type=="slider"then
+		if not x then return end
+		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
+		if p==P then return end
+		W.code(P)
+		if W.change then W.change()end
+	end
+	if W.hide and W.hide()then WIDGET.sel=nil end
+end
+function WIDGET.drag(x,y,dx,dy)
+	local W=WIDGET.sel
+	if not W then return end
+	if W.type=="slider"then
+		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
+		if p==P then return end
+		W.code(P)
+		if W.change then W.change()end
+	elseif not W:isAbove(x,y)then
+		WIDGET.sel=nil
+	end
+end
+function WIDGET.keyPressed(i)
+	if i=="tab"then
+		if WIDGET.sel then
+			WIDGET.sel=kb.isDown("lshift")and WIDGET.sel.prev or WIDGET.sel.next or WIDGET.sel
+		else
+			WIDGET.sel=select(2,next(WIDGET.active))
+		end
+	elseif i=="space"or i=="return"then
+		if WIDGET.sel then
+			WIDGET.press(WIDGET.sel)
+		end
+	elseif i=="left"or i=="right"then
+		local W=WIDGET.sel
+		if W then
+			if W.type=="slider"then
+				local p=W.disp()
+				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
+				if p==P or not P then return end
+				W.code(P)
+				if W.change then W.change()end
+			end
+		end
+	end
+end
+function WIDGET.gamepadPressed(i)
+	if i=="dpup"or i=="dpdown"then
+		if WIDGET.sel then
+			WIDGET.sel=i=="dpup"and WIDGET.sel.prev or WIDGET.sel.next or WIDGET.sel
+		else
+			WIDGET.sel=select(2,next(WIDGET.active))
+		end
+	elseif i=="start"then
+		if WIDGET.sel then
+			WIDGET.press(WIDGET.sel)
+		end
+	elseif i=="dpleft"or i=="dpright"then
+		if WIDGET.sel then
+			local W=WIDGET.sel
+			if W.type=="slider"then
+				local p=W.disp()
+				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
+				if p==P or not P then return end
+				W.code(P)
+				if W.change then W.change()end
+			end
+		end
+	end
+end
+
+function WIDGET.update()
+	for _,W in next,WIDGET.active do W:update()end
+end
+function WIDGET.draw()
+	for _,W in next,WIDGET.active do
+		if not(W.hide and W.hide())then
+			W:draw()
+		end
+	end
+end
+
+return WIDGET

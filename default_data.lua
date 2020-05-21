@@ -1,4 +1,5 @@
-setting={
+local s={
+	--game
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,
@@ -8,18 +9,18 @@ setting={
 	swap=true,
 	fine=false,
 	autoPause=true,
-
 	lang=1,
 	skinSet=1,
-	skin={1,5,2,8,10,3,7},
-	face={0,0,0,0,0,0,0},
-	--game
+	skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3},
+	face={},
 
+	--graphic
 	ghost=true,center=true,
 	smooth=true,grid=false,
 	bagLine=false,
 	lockFX=2,
 	dropFX=3,
+	clearFX=2,
 	shakeFX=2,
 	atkFX=3,
 	frameMul=100,
@@ -27,13 +28,14 @@ setting={
 	text=true,
 	fullscreen=false,
 	bg=true,
-	--graphic
+	powerInfo=false,
 
+	--sound
 	sfx=10,bgm=7,
 	vib=0,voc=0,
 	stereo=6,
-	--sound
 
+	--virtualkey
 	VKSFX=3,--SFX volume
 	VKVIB=0,--VIB
 	VKSwitch=false,--if disp
@@ -43,28 +45,36 @@ setting={
 	VKCurW=4,--Cur-Pos Weight
 	VKIcon=true,--if disp icon
 	VKAlpha=3,
-	--control
 }
-stat={
+for i=1,25 do
+	s.face[i]=0
+end
+setting=s
+
+s={
 	version=gameVersion,
 	run=0,game=0,time=0,
 	key=0,rotate=0,hold=0,
 	extraPiece=0,extraRate=0,
 	piece=0,row=0,dig=0,
 	atk=0,digatk=0,send=0,recv=0,pend=0,
-	clear_S={0,0,0,0},clear_B={0,0,0,0,0,0,0},
-	spin_S={0,0,0,0},spin_B={0,0,0,0,0,0,0},
-	clear={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
-	spin={{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},
+	clear={},clear_B={},clear_S={0,0,0,0,0},
+	spin={},spin_B={},spin_S={0,0,0,0,0},
 	pc=0,hpc=0,b2b=0,b3b=0,score=0,
 	lastPlay=1,--last played mode ID
 }
+for i=1,25 do
+	s.clear_B[i]=0
+	s.spin_B[i]=0
+	s.clear[i]={0,0,0,0,0}
+	s.spin[i]={0,0,0,0,0}
+end
+stat=s
+
 keyMap={
-	{"left","right","x","z","c","up","down","space","tab","r"},
-	{},{},{},{},{},{},{},
+	{"left","right","x","z","c","up","down","space","tab","r"},{},
 	--keyboard
-	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},
-	{},{},{},{},{},{},{},
+	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},{},
 	--joystick
 }
 for i=1,#keyMap do for j=1,20 do

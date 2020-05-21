@@ -1,9 +1,4 @@
 local format=string.format
-local function tech_check_hard(P)
-	if #P.clearedRow>0 and P.lastClear<10 then
-		P:lose()
-	end
-end
 
 return{
 	color=color.lightYellow,
@@ -13,7 +8,6 @@ return{
 		freshLimit=15,
 		target=200,
 		fineKill=true,
-		dropPiece=tech_check_hard,
 		bg="flink",bgm="infinite",
 	},
 	slowMark=true,

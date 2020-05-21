@@ -5,13 +5,14 @@ local BGM={}
 -- BGM.suspend=[str:pausing ID]
 -- BGM.playing=[src:playing SRC]
 BGM.list={
-	"blank","way","newera","infinite","reason",
-	"race","push","secret7th","secret8th",
-	"rockblock","cruelty","final","8-bit happiness","end",
+	"blank","way","race","newera","push",
+	"reason","infinite","secret7th","secret8th",
 	"shining terminal","oxygen","distortion",
+	"rockblock","cruelty","final","8-bit happiness","end",
 }
+BGM.len=#BGM.list
 function BGM.loadOne(_)
-	_,BGM.list[_]=BGM.list[_]
+	local _=BGM.list[_]
 	BGM.list[_]=love.audio.newSource("/BGM/".._..".ogg","stream")
 	BGM.list[_]:setLooping(true)
 	BGM.list[_]:setVolume(0)

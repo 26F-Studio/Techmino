@@ -17,7 +17,7 @@ local modeRankColor={
 	color.purple,		--Special
 }
 local rankString={
-	"C","B","A","S","SS",
+	"D","C","B","A","S",
 }
 local miniTitle_rect={
 	{2,0,5,1},{4,1,1,6},
@@ -278,8 +278,8 @@ function Pnt.music()
 	gc.draw(drawableText.musicRoom,22,23)
 	gc.draw(drawableText.nowPlaying,490,390)
 	setFont(30)
-	for i=1,#musicID do
-		gc.print(musicID[i],50,90+30*i)
+	for i=1,BGM.len do
+		gc.print(BGM.list[i],50,90+30*i)
 	end
 	gc.draw(IMG.titleImage,640,310,nil,1.5,nil,206,35)
 	if BGM.nowPlay then
@@ -431,10 +431,10 @@ local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
 function Pnt.pause()
 	local S=sceneTemp
 	local T=S.timer*.02
-	if T<1 or gameResult then Pnt.play()end
+	if T<1 or game.result then Pnt.play()end
 	--Dark BG
 	local _=T
-	if gameResult then _=_*.7 end
+	if game.result then _=_*.7 end
 	gc.setColor(.15,.15,.15,_)
 	gc.push("transform")
 		gc.origin()
@@ -443,9 +443,9 @@ function Pnt.pause()
 
 	--Pause Info
 	setFont(25)
-	if pauseCount>0 then
+	if game.pauseCount>0 then
 		gc.setColor(1,.4,.4,T)
-		gc.print(text.pauseCount..":["..pauseCount.."] "..format("%.2f",pauseTime).."s",70,100)
+		gc.print(text.pauseCount..":["..game.pauseCount.."] "..format("%.2f",game.pauseTime).."s",70,100)
 	end
 
 	gc.setColor(1,1,1,T)
@@ -457,7 +457,7 @@ function Pnt.pause()
 
 	--Result Text
 	setFont(35)
-	mText(gameResult and drawableText[gameResult]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
+	mText(game.result and drawableText[game.result]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
 
 	--Infos
 	if frame>180 then
@@ -515,9 +515,9 @@ function Pnt.setting_game()
 	mText(drawableText.setting_game,640,15)
 	gc.draw(blockSkin[int(Timer()*2)%11+1],720,540,Timer()%6.28319,2,nil,15,15)
 end
-function Pnt.setting_graphic()
+function Pnt.setting_video()
 	gc.setColor(1,1,1)
-	mText(drawableText.setting_graphic,640,15)
+	mText(drawableText.setting_video,640,15)
 end
 function Pnt.setting_sound()
 	gc.setColor(1,1,1,.8)
@@ -598,16 +598,16 @@ function Pnt.setting_key()
 
 	gc.setColor(1,1,1)
 	setFont(26)
-	local board=s.board
+	local b1,b2=keyMap[s.board],keyMap[s.board+2]
 	for N=1,20 do
 		if N<11 then
 			gc.printf(text.acts[N],47,45*N+22,180,"right")
-			mStr(keyMap[board][N],340,45*N+22)
-			mStr(keyMap[board+8][N],540,45*N+22)
+			mStr(b1[N],340,45*N+22)
+			mStr(b2[N],540,45*N+22)
 		else
 			gc.printf(text.acts[N],647,45*N-428,180,"right")
-			mStr(keyMap[board][N],940,45*N-428)
-			mStr(keyMap[board+8][N],1040,45*N-428)
+			mStr(b1[N],940,45*N-428)
+			mStr(b2[N],1040,45*N-428)
 		end
 	end
 	gc.setLineWidth(2)
@@ -618,9 +618,7 @@ function Pnt.setting_key()
 		gc.line(40,y,1240,y)
 	end
 	setFont(35)
-	gc.print("Player:",170,590)
-	gc.print(int(board*.5+.5),300,590)
-	gc.print(board.."/8",580,590)
+	gc.print(text.page..s.board,280,590)
 	gc.draw(drawableText.ctrlSetHelp,50,650)
 end
 function Pnt.setting_skin()
@@ -673,7 +671,7 @@ function Pnt.help()
 	end
 	setFont(19)
 	gc.print(text.used,30,330)
-	gc.draw(IMG.titleImage,280,610,.1,1+.05*sin(Timer()*2),nil,206,35)
+	gc.draw(IMG.titleImage,280,610,.1,1+.05*sin(Timer()*2.6),nil,206,35)
 	gc.setLineWidth(3)
 	gc.rectangle("line",18,18,263,263)
 	gc.rectangle("line",1012,18,250,250)
@@ -681,10 +679,10 @@ function Pnt.help()
 	gc.draw(IMG.pay2,1014,20)
 	setFont(20)
 	mStr(text.group,640,490)
-	gc.setColor(1,1,1,sin(Timer()*10)*.4+.6)
+	gc.setColor(1,1,1,sin(Timer()*20)*.3+.6)
 	setFont(30)
-	gc.print(text.support,150,283+20,sin(Timer()*2.6)*.02,nil,nil,115,20)
-	gc.print(text.support,1138,270+20,sin(Timer()*2.83)*.02,nil,nil,115,20)
+	mStr(text.support,150+sin(Timer()*4)*20,283)
+	mStr(text.support,1138-sin(Timer()*4)*20,270)
 end
 function Pnt.stat()
 	local chart=sceneTemp.chart
@@ -737,8 +735,6 @@ function Pnt.history()
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
 	local _=sceneTemp
-	for i=0,min(22,#_[1]-_[2])do
-		gc.print(_[1][_[2]+i],40,50+27*(i))
-	end
+	gc.print(_[1][_[2]],40,50)
 end
 return Pnt
