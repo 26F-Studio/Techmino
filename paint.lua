@@ -70,13 +70,13 @@ local function drawVirtualkey()
 				local B=V[i]
 				gc.setColor(1,1,1,a)
 				gc.setLineWidth(B.r*.07)
-				gc.circle("line",B.x,B.y,B.r)--Button outline
+				gc.circle("line",B.x,B.y,B.r,10)--Button outline
 				_=V[i].pressTime
 				gc.draw(VKIcon[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--icon
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
-					gc.circle("fill",B.x,B.y,B.r*.94)--Glow
-					gc.circle("line",B.x,B.y,B.r*(1.4-_*.04))--Ripple
+					gc.circle("fill",B.x,B.y,B.r*.94,10)--Glow
+					gc.circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
 				end
 			end
 		end
@@ -86,12 +86,12 @@ local function drawVirtualkey()
 				local B=V[i]
 				gc.setColor(1,1,1,a)
 				gc.setLineWidth(B.r*.07)
-				gc.circle("line",B.x,B.y,B.r)
+				gc.circle("line",B.x,B.y,B.r,10)
 				_=V[i].pressTime
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
-					gc.circle("fill",B.x,B.y,B.r*.94)
-					gc.circle("line",B.x,B.y,B.r*(1.4-_*.04))
+					gc.circle("fill",B.x,B.y,B.r*.94,10)
+					gc.circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
 				end
 			end
 		end

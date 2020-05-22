@@ -5,6 +5,7 @@ local S=[=[
 			加油啊,钉钉动了的大哥哥(T3228)
 			弥佑瑶
 			Alan
+			幽灵3383
 	[rmb10+]:
 		八零哥
 		蕴空之灵
@@ -40,6 +41,7 @@ local S=[=[
 		GlowingEmbers
 		轩辕辚
 		HimuroAki
+		TCV100
 		tech有养成系统了@7065
 		HAGE KANOBU
 		葡萄味的曼妥思
@@ -87,6 +89,18 @@ Future outlook:
 		more graphic FXs & 3D features & animations
 		Encrypt source code (compile to byte code)
 		new AI: task-Z
+
+0.8.22: Details Updated
+	changed:
+		won't show "open saving folder" button on mobile devices
+
+0.8.21: Bug Fixed
+	changed:
+		shape of speed dial changed
+		range of FX values changed
+		shape of speed dial changed
+	fixed:
+		error in modes with ai (rotate O in its rotation system, cause some strange error)
 
 0.8.19/20: Fantastic Global Update II
 	new:

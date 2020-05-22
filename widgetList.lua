@@ -1,4 +1,4 @@
-mobileHide=loadstring("function()return "..tostring(system=="Android"or system=="iOS").." end")
+mobileHide=(system=="Android"or system=="iOS")and function()return true end
 local virtualkeySet={
 	{
 		{1,	80,			720-200,	80},--moveLeft

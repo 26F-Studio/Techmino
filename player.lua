@@ -443,7 +443,15 @@ end
 local function drawDial(x,y,speed)
 	gc.setColor(1,1,1)
 	mStr(int(speed),x,y-18)
-	gc.draw(IMG.dialCircle,x,y,nil,nil,nil,32,32)
+
+	gc.setLineWidth(4)
+	gc.setColor(1,1,1,.4)
+	gc.circle("line",x,y,30,10)
+
+	gc.setLineWidth(2)
+	gc.setColor(1,1,1,.6)
+	gc.circle("line",x,y,30,10)
+
 	gc.setColor(1,1,1,.6)
 	gc.draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 end
@@ -855,7 +863,7 @@ local function without(L,e)
 end
 function player.createLockFX(P)
 	local BK=P.cur.bk
-	local t=15-P.gameEnv.lockFX*3
+	local t=12-P.gameEnv.lockFX*3
 
 	for i=1,P.r do
 		local y=P.curY+i-1
@@ -871,7 +879,7 @@ function player.createLockFX(P)
 end
 function player.createDropFX(P,x1,y1,x2,y2)--x1<x2,y1>y2!
 	if P.gameEnv.block and y1>=y2 then
-		P.dropFX[#P.dropFX+1]={P.cur.color,x1,y1,x2,y2,0,12-1.8*P.gameEnv.dropFX}
+		P.dropFX[#P.dropFX+1]={P.cur.color,x1,y1,x2,y2,0,12-2*P.gameEnv.dropFX}
 	end
 end
 function player.createBeam(P,R,send,time,target,color,clear,spin,mini,combo)
@@ -1366,7 +1374,7 @@ function player.drop(P)--Place piece
 	--create clearing FX
 	if cc>0 and P.gameEnv.clearFX then
 		local l=P.clearedRow
-		local t=8-P.gameEnv.clearFX*2
+		local t=6-P.gameEnv.clearFX*1.5
 		for i=1,cc do
 			ins(P.clearFX,{l[i],0,t})
 		end

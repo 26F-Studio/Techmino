@@ -319,7 +319,7 @@ for i=1,25 do collect(TRS[i])end
 pushZero(TRS)
 
 local AIRS={
-	[1]={
+	{
 		[01]={{-1,0},{-1, 1},{ 0,-2},{-1,-2}},
 		[10]={{ 1,0},{ 1,-1},{ 0, 2},{ 1, 2}},
 		[03]={{ 1,0},{ 1, 1},{ 0,-2},{ 1,-2}},
@@ -329,7 +329,12 @@ local AIRS={
 		[32]={{-1,0},{-1,-1},{ 0, 2},{-1, 2}},
 		[23]={{ 1,0},{ 1, 1},{ 0,-2},{ 1,-2}},
 	},
-	[7]={
+	false,
+	false,
+	false,
+	function()end,
+	false,
+	{
 		[01]={{-2, 0},{ 1, 0},{-2,-1},{ 1, 2}},
 		[10]={{ 2, 0},{-1, 0},{ 2, 1},{-1,-2}},
 		[12]={{-1, 0},{ 2, 0},{-1, 2},{ 2,-1}},
@@ -341,7 +346,8 @@ local AIRS={
 	}
 }
 collect(AIRS[1])collect(AIRS[7])
-for i=2,25 do AIRS[i]=AIRS[1]end
+for i=2,5 do AIRS[i]=AIRS[1]end
+for i=8,25 do AIRS[i]=AIRS[1]end
 pushZero(AIRS)
 
 local NONE={}
