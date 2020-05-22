@@ -2178,28 +2178,221 @@ T={
 --------------------------</Control>--------------------------
 
 --------------------------<Generator>--------------------------
-function newDemoPlayer(id,x,y,size)
-	local P={id=id}players[id]=P
-	P.life=1e99
+--- 从当前的modeEnv setting和默认配置中读取GameEnv
+-- @param P 玩家
+function player.loadGameEnv(P)
+	P.gameEnv={}--Current game setting environment
+	local ENV=P.gameEnv
+	for k,v in next,gameEnv0 do
+		if modeEnv[k]~=nil then
+			v=modeEnv[k]
+		elseif setting[k]~=nil then
+			v=setting[k]
+		end
+		ENV[k]=v
+	end--load game settings
+end
+
+--- 整理GameEnv中部分未完成的参数
+-- @param P 玩家
+function player.marshalGameEnv(P)
+	local ENV=P.gameEnv
+	ENV.das=max(ENV.das,ENV.mindas)
+	ENV.arr=max(ENV.arr,ENV.minarr)
+	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
+
+	ENV.next=min(ENV.next,setting.maxNext)
+
+	if ENV.sequence~="bag"then
+		ENV.bagLine=false
+	else
+		ENV.bagLen=#ENV.bag
+	end
+
+	if ENV.lockFX==0 then	ENV.lockFX=nil	end
+    if ENV.dropFX==0 then	ENV.dropFX=nil	end
+    if ENV.clearFX==0 then  ENV.clearFX=nil end
+	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+end
+
+--- 把部分GameEnv参数写入到Player中
+-- 该函数会写入Player的 dropDelay lockDelay color showTime keepVisible
+-- @param P 玩家
+function player.applyGameEnv(P)
+	local ENV=P.gameEnv
+	P.dropDelay,P.lockDelay=ENV.drop,ENV.lock
+
+	P.color={}
+	for _=1,7 do
+		P.color[_]=SKIN.libColor[ENV.skin[_]]
+	end
+
+	P.showTime=visible_opt[ENV.visible]
+	P.keepVisible=ENV.visible=="show"
+end
+
+--- 调用freshPrepare并设置newNext
+-- @param P 玩家
+function player.prepareSequence(P)
+	local ENV=P.gameEnv
+	if type(ENV.sequence)=="string"then
+		freshPrepare[ENV.sequence](P)
+		P.newNext=freshMethod[ENV.sequence]
+	else
+		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
+		ENV.sequence(P)
+		P.newNext=ENV.freshMethod
+	end
+end
+
+--- 加载AI参数
+-- @param P 玩家
+-- @param AIdata AI参数
+function player.loadAI(P, AIdata)
+	local ENV=P.gameEnv
+	P.AI_mode=AIdata.type
+	P.AI_stage=1
+	P.AI_needFresh=false
+	P.AI_keys={}
+	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),2*AIdata.delta)
+	P.AI_delay0=AIdata.delta
+	P.AIdata={
+		next=AIdata.next,
+		hold=AIdata.hold,
+		_20G=ENV._20G,
+		bag=AIdata.bag=="bag",
+		node=AIdata.node,
+	}
+	if not BOT then P.AI_mode="9S"end
+	if P.AI_mode=="CC"then
+		P.RS=kickList.AIRS
+		local opt,wei=BOT.getConf()
+			BOT.setHold(opt,P.AIdata.hold)
+			BOT.set20G(opt,P.AIdata._20G)
+			BOT.setBag(opt,P.AIdata.bag)
+			BOT.setNode(opt,P.AIdata.node)
+		P.AI_bot=BOT.new(opt,wei)
+		BOT.free(opt)BOT.free(wei)
+		for i=1,AIdata.next do
+			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+		end
+	elseif P.AI_mode=="9S"then
+		P.RS=kickList.TRS
+	end
+end
+
+--- 空Player
+-- 创建出来的Player不能直接用 仅包含所有Player的通用参数
+-- @params int id
+-- @params int x
+-- @params int y
+-- @params float size 缩放比例
+-- @params actions 操作序列
+local function newEmptyPlayer(id, x, y, size)
+	local P={id=id}
+	players[id]=P
+	P.life=0
+	--inherit functions of player class
 	for k,v in next,player do P[k]=v end
 	players.alive[#players.alive+1]=P
-	P.x,P.y,P.size=x,y,size
+	P.x,P.y,P.size=x,y,size or 1
+	--for shake FX
 	P.fieldOff={x=0,y=0,vx=0,vy=0}
-	P.small,P.keyRec=false,false
-	P.draw=Pdraw_demo
+
+	P.small=false --
+	P.keyRec=false--if calculate keySpeed
+	P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
+	P.absFieldX=P.x+150*P.size
+	P.absFieldY=P.y+60*P.size
+	P.draw=Pdraw_norm
 	P.update=Pupdate_alive
 
+	P.alive=true
+	P.control=false
+	P.timing=false
+	P.stat=getNewStatTable()
+
+	P.modeData={point=0,event=0,counter=0}--data use by mode
+	P.keyTime={}P.keySpeed=0
+	P.dropTime={}P.dropSpeed=0
+	for i=1,10 do P.keyTime[i]=-1e5 end
+	for i=1,10 do P.dropTime[i]=-1e5 end
+
+	P.field,P.visTime={},{}
+	P.atkBuffer={sum=0}
+
+	P.badge,P.strength=0,0
+	P.atkMode,P.swappingAtkMode=1,20
+	P.atker,P.atking,P.lastRecv={}
+	--Royale-related
+
+	-- loadGameEnv
+	-- marshalGameEnv
+	-- applyGameEnv 以下这些参数在applyGameEnv调用时被初始化
+	P.dropDelay,P.lockDelay=0,0
+	P.color={}
+	P.showTime=nil
+	P.keepVisible=true
+
+	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
+	P.sc,P.dir,P.r,P.c={0,0},0,0,0--IMG.spinCenter,direction,row,col
+	P.curX,P.curY,P.y_img=0,0,0--x,y,ghostY
+	P.hd={bk={{}},id=0,color=0,name=0}
+	P.holded=false
+	P.next={}
+
+	P.freshTime=0
+	P.spinLast,P.lastClear=false,nil
+	P.spinSeq=0--for Ospin, each digit mean a spin
+	P.ctrlCount=0--key press time, for finesse check
+	P.pieceCount=0--count pieces from next, for drawing bagline
+
+	P.human=false
+	P.RS=kickList.TRS
+
+	-- prepareSequence 这个参数在调用prepareSequence时被初始化
+	P.newNext=nil
+
+	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
+	P.movDir,P.moving,P.downing=0,0,0--last move key,DAS charging,downDAS charging
+	P.waiting,P.falling=-1,-1
+	P.clearingRow,P.clearedRow={},{}--clearing animation height,cleared row mark
+	P.combo,P.b2b=0,0
+	P.garbageBeneath=0
+	P.fieldBeneath=0
+
+	P.score1,P.b2b1=0,0
+	P.dropFX,P.lockFX,P.clearFX={},{},{}
+	P.bonus={}--texts
+
+	P.endCounter=0--used after gameover
+	P.result=nil--string:"WIN"/"K.O."
+
+	return P
+end
+--- 游戏开场画面的Demo玩家
+-- @params int id
+-- @params int x
+-- @params int y
+-- @params float size 缩放比例
+function newDemoPlayer(id,x,y,size)
+	local P = newEmptyPlayer(id, x, y, size)
+	P.life=1e99
+
+	-- rewrite draw arguments
+	P.small=false
+	P.keyRec=false
 	P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
 	P.absFieldX=P.x+150*P.size
 	P.absFieldY=P.y+60*P.size
+	P.draw=Pdraw_demo
+	P.update=Pupdate_alive
 
-	P.alive=true
-	P.control=true
-	P.timing=false
-	P.stat=getNewStatTable()
-	P.modeData={point=0,event=0,counter=0}
-	P.keyTime={}P.keySpeed=0
-	P.dropTime={}P.dropSpeed=0
+	P.control = true
+	-- clear key time and drop time
+	-- maybe not necessary
+	P.keyTime={}
+	P.dropTime={}
 
 	P.atker={}P.strength=0
 
@@ -2236,78 +2429,63 @@ function newDemoPlayer(id,x,y,size)
 		target=1e99,dropPiece=NULL,
 		mindas=0,minarr=0,minsdarr=0,
 	}
-	local ENV=P.gameEnv
-	if ENV.lockFX==0 then	ENV.lockFX=nil	end
-	if ENV.dropFX==0 then	ENV.dropFX=nil	end
-	if ENV.clearFX==0 then	ENV.clearFX=nil	end
-	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
-	P.color={}
-	for _=1,7 do
-		P.color[_]=SKIN.libColor[ENV.skin[_]]
-	end
-	P.cur={bk={{}},id=0,color=0,name=0}
-		P.sc,P.dir,P.r,P.c={0,0},0,0,0
-		P.curX,P.curY,P.y_img=0,0,0
-	P.hd={bk={{}},id=0,color=0,name=0}
-		P.holded=false
-	P.next={}
 
+	-- no loadGameEnv
+	P:marshalGameEnv()
+	P:applyGameEnv()
+
+	-- rewrite some arguments
 	P.dropDelay,P.lockDelay=1e99,1e99
-	P.freshTime=0
-	P.spinLast,P.lastClear=false,nil
-	P.spinSeq=0
-	P.ctrlCount=0
-	P.pieceCount=0
+	-- P.color is set at applyGameEnv
+	P.showTime=1e99
+	P.keepVisible=true
 
+	-- use "bag" manually instead of prepareSequence
 	freshPrepare.bag(P)
 	P.newNext=freshMethod.bag
 
 	P.human=false
-	P.AI_mode="CC"
-	P.AI_stage=1
-	P.AI_needFresh=false
-	P.AI_keys={}
-	P.AI_delay,P.AI_delay0=3,3
-	P.AIdata={next=5,hold=true,_20G=false,bag=true,node=80000}
-	if not BOT then P.AI_mode="9S"end
-	if P.AI_mode=="CC"then
-		P.RS=kickList.AIRS
-		local opt,wei=BOT.getConf()
-			BOT.setHold(opt,P.AIdata.hold)
-			BOT.set20G(opt,P.AIdata._20G)
-			BOT.setBag(opt,P.AIdata.bag)
-			BOT.setNode(opt,P.AIdata.node)
-		P.AI_bot=BOT.new(opt,wei)
-		BOT.free(opt)BOT.free(wei)
-		for i=1,5 do
-			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
-		end
-	elseif P.AI_mode=="9S"then
-		P.RS=kickList.TRS
-	end
-	P.showTime=1e99
-	P.keepVisible=true
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-	P.movDir,P.moving,P.downing=0,0,0
-	P.waiting,P.falling=-1,-1
-	P.clearingRow,P.clearedRow={},{}
-	P.combo,P.b2b=0,0
-	P.garbageBeneath=0
-	P.fieldBeneath=0
-	P.score1,P.b2b1=0,0
-	P.dropFX,P.lockFX,P.clearFX={},{},{}
-	P.bonus={}
+	P:loadAI({
+		type="CC",
+		next=5,
+		hold=true,
+		delay=3,
+		delta=3,
+		bag="bag",
+		node=80000,
+	})
 
 	P:popNext()
 end
+--- 远程玩家 即多人联机游戏时的其他玩家
+-- @params int id
+-- @params int x
+-- @params int y
+-- @params float size 缩放比例
+-- @params actions 操作序列
+function newRemotePlayer(id, x, y, size, actions)
+	local P = newEmptyPlayer(id, x, y, size)
+
+	P.human = false -- 录像不是人为操作
+	P.remote = true -- 远程操作
+	-- 开发中
+	-- P.updateAction = buildActionFunctionFromActions(P, actions)
+
+	P:loadGameEnv()
+	P:marshalGameEnv()
+	P:applyGameEnv()
+	P:prepareSequence()
+end
+--- AI玩家 (bot)
+-- @params int id
+-- @params int x
+-- @params int y
+-- @params float size 缩放比例
+-- @params AIdata size AI参数
 function newAIPlayer(id,x,y,size,AIdata)
-	players[id]={id=id}
-	local P=players[id]
-	P.life=0
-	for k,v in next,player do P[k]=v end--inherit functions of player class
-	players.alive[#players.alive+1]=P
-	P.x,P.y,P.size=x,y,size or 1
-	P.fieldOff={x=0,y=0,vx=0,vy=0}--for shake FX
+	local P = newEmptyPlayer(id, x, y, size)
+
+	-- rewrite draw arguments
 	P.small=P.size<.1--if draw in small mode
 	if P.small then
 		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
@@ -2320,245 +2498,59 @@ function newAIPlayer(id,x,y,size,AIdata)
 		P.absFieldX=P.x+150*P.size
 		P.absFieldY=P.y+60*P.size
 		P.draw=Pdraw_norm
+		P.dust=clearDust:clone()
+		P.dust:start()
 		P.bonus={}--texts
 	end
 	P.update=Pupdate_alive
 
-	P.alive=true
-	P.control=false
-	P.timing=false
-	P.stat=getNewStatTable()
-	P.modeData={point=0,event=0,counter=0}--data use by mode
-	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
-	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
+	P:loadGameEnv()
+	P:marshalGameEnv()
+	P:applyGameEnv()
+	P:prepareSequence()
 
-	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
-
-	P.badge,P.strength=0,0
-	P.atkMode,P.swappingAtkMode=1,20
-	P.atker,P.atking,P.lastRecv={}
-	--Royale-related
-
-	P.gameEnv={}--Current game setting environment
-	local ENV=P.gameEnv
-	for k,v in next,gameEnv0 do
-		if modeEnv[k]~=nil then
-			v=modeEnv[k]
-		elseif setting[k]~=nil then
-			v=setting[k]
-		end
-		ENV[k]=v
-	end--load game settings
-	ENV.das=max(ENV.das,ENV.mindas)
-	ENV.arr=max(ENV.arr,ENV.minarr)
-	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
-
-	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
-		P.sc,P.dir,P.r,P.c={0,0},0,0,0--IMG.spinCenter,direction,row,col
-		P.curX,P.curY,P.y_img=0,0,0--x,y,ghostY
-	P.hd={bk={{}},id=0,color=0,name=0}
-		P.holded=false
-	P.next={}
-
-	P.dropDelay,P.lockDelay=ENV.drop,ENV.lock
-	P.freshTime=0
-	P.spinLast,P.lastClear=false,nil
-	P.spinSeq=0--for Ospin, each digit mean a spin
-	P.ctrlCount=0--key press time, for finesse check
-	P.pieceCount=0--count pieces from next, for drawing bagline
-
-	if type(ENV.sequence)=="string"then
-		freshPrepare[ENV.sequence](P)
-		P.newNext=freshMethod[ENV.sequence]
-	else
-		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
-		ENV.sequence(P)
-		P.newNext=ENV.freshMethod
-	end
-	if ENV.sequence~="bag"then
-		ENV.bagLine=false
-	else
-		ENV.bagLen=#ENV.bag
-	end
-
+	local ENV = P.gameEnv
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,5,8,2,10,3,7}
 	P.human=false
-	P.AI_mode=AIdata.type
-	P.AI_stage=1
-	P.AI_needFresh=false
-	P.AI_keys={}
-	P.AI_delay=min(int(ENV.drop*.8),2*AIdata.delta)
-	P.AI_delay0=AIdata.delta
-	P.AIdata={
-		next=AIdata.next,
-		hold=AIdata.hold,
-		_20G=ENV._20G,
-		bag=AIdata.bag=="bag",
-		node=AIdata.node,
-	}
-	if not BOT then P.AI_mode="9S"end
-	if P.AI_mode=="CC"then
-		P.RS=kickList.AIRS
-		local opt,wei=BOT.getConf()
-			BOT.setHold(opt,P.AIdata.hold)
-			BOT.set20G(opt,P.AIdata._20G)
-			BOT.setBag(opt,P.AIdata.bag)
-			BOT.setNode(opt,P.AIdata.node)
-		P.AI_bot=BOT.new(opt,wei)
-		BOT.free(opt)BOT.free(wei)
-		for i=1,AIdata.next do
-			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
-		end
-	elseif P.AI_mode=="9S"then
-		P.RS=kickList.TRS
-		P.AI_keys={}
-	end
+	P:loadAI(AIdata)
 
 	if P.small then
 		ENV.text=false
 		ENV.lockFX=nil
 		ENV.dropFX=nil
-		ENV.clearFX=nil
 		ENV.shakeFX=nil
 	else
 		if ENV.lockFX==0 then	ENV.lockFX=nil	end
-		if ENV.dropFX==0 then	ENV.dropFX=nil	end
-		if ENV.clearFX==0 then	ENV.clearFX=nil	end
+        if ENV.dropFX==0 then	ENV.dropFX=nil	end
+        if ENV.clearFX==0 then  ENV.clearFX=nil end
 		if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
 	end
 
-	P.color={}
-	for _=1,7 do
-		P.color[_]=SKIN.libColor[ENV.skin[_]]
-	end
-
-	P.showTime=visible_opt[ENV.visible]
-	P.keepVisible=ENV.visible=="show"
-
-
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-	P.movDir,P.moving,P.downing=0,0,0--last move key,DAS charging,downDAS charging
-	P.waiting,P.falling=-1,-1
-	P.clearingRow,P.clearedRow={},{}--clearing animation height,cleared row mark
-	P.combo,P.b2b=0,0
-	P.garbageBeneath=0
-	P.fieldBeneath=0
-
-	P.score1,P.b2b1=0,0
-	P.dropFX,P.lockFX,P.clearFX={},{},{}
-	P.bonus={}--texts
-
-	P.endCounter=0--used after gameover
-	P.result=nil--string:"WIN"/"K.O."
 end
+--- 普通玩家
+-- @params int id
+-- @params int x
+-- @params int y
+-- @params float size 缩放比例
 function newPlayer(id,x,y,size)
-	players[id]={id=id}
-	local P=players[id]
-	P.life=0
-	for k,v in next,player do P[k]=v end--inherit functions of player class
-	players.alive[#players.alive+1]=P
-	P.x,P.y,P.size=x,y,size or 1
-	P.fieldOff={x=0,y=0,vx=0,vy=0}--for shake FX
+	local P = newEmptyPlayer(id, x, y, size)
+
+	P:loadGameEnv()
+	P:marshalGameEnv()
+	P:applyGameEnv()
+	P:prepareSequence()
+
+	P.small=false --
 	P.keyRec=true--if calculate keySpeed
 	P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
 	P.absFieldX=P.x+150*P.size
 	P.absFieldY=P.y+60*P.size
 	P.draw=Pdraw_norm
-	P.bonus={}--texts
 	P.update=Pupdate_alive
-
-	P.alive=true
-	P.control=false
-	P.timing=false
-	P.stat=getNewStatTable()
-	P.modeData={point=0,event=0,counter=0}--data use by mode
-	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e5 end P.keySpeed=0
-	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e5 end P.dropSpeed=0
-
-	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
-
-	P.badge,P.strength=0,0
-	P.atkMode,P.swappingAtkMode=1,20
-	P.atker,P.atking,P.lastRecv={}
-	--Royale-related
-
-	P.gameEnv={}--Current game setting environment
-	local ENV=P.gameEnv
-	for k,v in next,gameEnv0 do
-		if modeEnv[k]~=nil then
-			v=modeEnv[k]
-		elseif setting[k]~=nil then
-			v=setting[k]
-		end
-		ENV[k]=v
-	end--load game settings
-	ENV.das=max(ENV.das,ENV.mindas)
-	ENV.arr=max(ENV.arr,ENV.minarr)
-	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
-
-	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
-		P.sc,P.dir,P.r,P.c={0,0},0,0,0--IMG.spinCenter,direction,row,col
-		P.curX,P.curY,P.y_img=0,0,0--x,y,ghostY
-	P.hd={bk={{}},id=0,color=0,name=0}
-		P.holded=false
-	P.next={}
-
-	P.dropDelay,P.lockDelay=ENV.drop,ENV.lock
-	P.freshTime=0
-	P.spinLast,P.lastClear=false,nil
-	P.spinSeq=0--for Ospin, each digit mean a spin
-	P.ctrlCount=0--key press time, for finesse check
-	P.pieceCount=0--count pieces from next, for drawing bagline
-
-	if type(ENV.sequence)=="string"then
-		freshPrepare[ENV.sequence](P)
-		P.newNext=freshMethod[ENV.sequence]
-	else
-		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
-		ENV.sequence(P)
-		P.newNext=ENV.freshMethod
-	end
-	if ENV.sequence~="bag"then
-		ENV.bagLine=false
-	else
-		ENV.bagLen=#ENV.bag
-	end
 
 	P.human=true
 	P.RS=kickList.TRS
 	players.human=players.human+1
-	ENV.next=min(ENV.next,setting.maxNext)
-
-	if ENV.lockFX==0 then	ENV.lockFX=nil	end
-	if ENV.dropFX==0 then	ENV.dropFX=nil	end
-	if ENV.clearFX==0 then	ENV.clearFX=nil	end
-	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
-
-	P.color={}
-	for _=1,7 do
-		P.color[_]=SKIN.libColor[ENV.skin[_]]
-	end
-
-	P.showTime=visible_opt[ENV.visible]
-	P.keepVisible=ENV.visible=="show"
-
-
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-	P.movDir,P.moving,P.downing=0,0,0--last move key,DAS charging,downDAS charging
-	P.waiting,P.falling=-1,-1
-	P.clearingRow,P.clearedRow={},{}--clearing animation height,cleared row mark
-	P.combo,P.b2b=0,0
-	P.garbageBeneath=0
-	P.fieldBeneath=0
-
-	P.score1,P.b2b1=0,0
-	P.dropFX,P.lockFX,P.clearFX={},{},{}
-	P.bonus={}--texts
-
-	P.endCounter=0--used after gameover
-	P.result=nil--string:"WIN"/"K.O."
 end
 --------------------------</Generator>--------------------------
