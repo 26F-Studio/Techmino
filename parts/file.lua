@@ -68,7 +68,7 @@ end
 
 local files={
 	data=	fs.newFile("data.dat"),
-	setting=fs.newFile("setting.dat"),
+	setting=fs.newFile("settings.dat"),
 	VK=		fs.newFile("virtualkey.dat"),
 	keyMap=	fs.newFile("key.dat"),
 	unlock=	fs.newFile("unlock.dat"),
@@ -193,9 +193,6 @@ function File.loadData()
 				end
 				S.spin_S[5]=0
 				S.clear_S[5]=0
-			end
-			if S.version=="Alpha V0.8.16"or S.version=="Alpha V0.8.17"or S.version=="Alpha V0.8.18"then
-				setting.skin[3],setting.skin[4]=setting.skin[4],setting.skin[3]
 			end
 			if S.version=="Alpha V0.8.18"or S.version=="Alpha V0.8.19"then
 				S.clear[3],S.clear[4]=S.clear[4],S.clear[3]

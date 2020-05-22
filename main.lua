@@ -64,8 +64,9 @@ require("callback")
 --load files & settings
 local fs=love.filesystem
 if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
+if fs.getInfo("setting.dat")then fs.remove("setting.dat")end
 
-if fs.getInfo("setting.dat")then FILE.loadSetting()
+if fs.getInfo("settings.dat")then FILE.loadSetting()
 else
 	-- firstRun=true
 	if system=="Android"or system=="iOS" then

@@ -30,7 +30,7 @@ return{
 				P:win("finish")
 			end
 		end,
-		bg="game3",bgm="shining terminal",
+		bg="game3",bgm="far",
 	},
 	slowMark=true,
 	load=function()

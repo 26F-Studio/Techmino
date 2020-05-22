@@ -1,7 +1,7 @@
 local langList={
 	{
 		anykey="按任意键继续",
-		newVersion="检测到更新!存档格式可能更新",
+		newVersion="检测到更新!存档格式可能更新,设置已重置",
 		marking="游戏作者:MrZ_26\n出现此水印则为非法录屏上传",
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -413,7 +413,7 @@ local langList={
 	},
 	{
 		anykey="按任意键继续",
-		newVersion="检测到更新!存档格式可能更新",
+		newVersion="检测到更新!存档格式可能更新,设置已重置",
 		marking="游戏作者:MrZ_26\n出现此水印则为非法录屏上传",
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -823,7 +823,7 @@ local langList={
 	},
 	{
 		anykey="Press any button",
-		newVersion="Updating detected! Save format may have been updated.",
+		newVersion="Updating detected! Save format may have been updated, settings reseted",
 		marking="Author:MrZ_26\nIllegal recording if u see this",
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
@@ -1222,7 +1222,7 @@ local langList={
 	},
 	{
 		anykey="↓□↓",
-		newVersion="!!!!!!!!!!!!!!!!!!!",
+		newVersion="&!!! ___/_?_ R",
 		marking="Author:MrZ_26\nIllegal recording if u see this",
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},

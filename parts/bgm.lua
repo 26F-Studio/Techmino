@@ -5,9 +5,9 @@ local BGM={}
 -- BGM.suspend=[str:pausing ID]
 -- BGM.playing=[src:playing SRC]
 BGM.list={
-	"blank","way","race","newera","push",
-	"reason","infinite","secret7th","secret8th",
-	"shining terminal","oxygen","distortion",
+	"blank","way","race","newera","push","reason","infinite",
+	"secret7th","secret8th",
+	"shining terminal","oxygen","distortion","far",
 	"rockblock","cruelty","final","8-bit happiness","end",
 }
 BGM.len=#BGM.list

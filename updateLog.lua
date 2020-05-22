@@ -78,8 +78,11 @@ Future outlook:
 			field flip(LR/UD)
 			no fail(∞ lives)
 		简易防沉迷系统
+		better drop FX
+		60+ fps supporting
 		in-game document
 		lang setting page
+		dragging control
 		warning FX(Graphic)
 		game recording
 		new widgets (joystick etc.)
@@ -93,6 +96,7 @@ Future outlook:
 0.8.22: Details Updated
 	changed:
 		won't show "open saving folder" button on mobile devices
+		reset all settings
 
 0.8.21: Bug Fixed
 	changed:
