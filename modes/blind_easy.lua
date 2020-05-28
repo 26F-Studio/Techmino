@@ -4,14 +4,14 @@ return{
 	env={
 		drop=30,lock=45,
 		visible="time",
-		dropPiece=player.reach_winCheck,
+		dropPiece=PLY.reach_winCheck,
 		freshLimit=10,
 		target=200,
 		bg="glow",bgm="newera",
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		mText(drawableText.line,-81,300)

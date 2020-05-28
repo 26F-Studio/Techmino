@@ -57,7 +57,6 @@ local spinSCR={--[blockName][row]
 --B2BMUL:1.2/2.0
 --Techrash:1K;MUL:1.3/1.8
 --Mini*=.6
-local visible_opt={show=1e99,time=300,fast=20,none=0}
 local reAtk={0,0,1,1,1,2,2,3,3}
 local reDef={0,1,1,2,3,3,4,4,5}
 local scs=require("parts/spinCenters")
@@ -153,6 +152,11 @@ local clear_n={"clear_1","clear_2","clear_3","clear_4","clear_4"}
 local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
 --------------------------</GameData>--------------------------
 
+--------------------------<LIB>--------------------------
+local player={}
+local PLY={}
+--------------------------</LIB>--------------------------
+
 --------------------------<Update>--------------------------
 local function updateFXs(P,dt)
 	if P.stat.score>P.score1 then
@@ -162,7 +166,7 @@ local function updateFXs(P,dt)
 			P.score1=int(min(P.score1*.9+P.stat.score*.1+1))
 		end
 	end
-	
+
 	for i=#P.lockFX,1,-1 do
 		local S=P.lockFX[i]
 		S[3]=S[3]+S[4]*dt
@@ -844,9 +848,8 @@ local function Pdraw_demo(P)
 	gc.pop()
 end
 --------------------------</Paint>--------------------------
-player={}local player=player
+
 --------------------------<FX>--------------------------
-local textFX=textFX
 function player.showText(P,text,dx,dy,font,style,spd,stop)
 	if P.gameEnv.text then
 		P.bonus[#P.bonus+1]=TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop)
@@ -1543,7 +1546,7 @@ function player.drop(P)--Place piece
 				sendTime=60
 				atk=cc
 			end
-			P.b2b=P.b2b+cc*80-300
+			P.b2b=P.b2b+cc*80-220
 			P.lastClear=P.cur.name*10+cc
 		else
 			if not clear then
@@ -1823,11 +1826,6 @@ function player.die(P)--Same thing when win/lose,not really die!
 		end
 	end
 end
-function player.reach_winCheck(P)
-	if P.stat.row>=P.gameEnv.target then
-		P:win("finish")
-	end
-end
 function player.win(P,result)
 	P:die()
 	P.result="WIN"
@@ -1843,7 +1841,6 @@ function player.win(P,result)
 			BGM.play("8-bit happiness")
 		end
 	end
-	TASK.new(tickEvent.finish,P)
 	if curMode.id=="custom_puzzle"then
 		P:showTextF(text.win,0,0,90,"beat",.4)
 	else
@@ -1852,6 +1849,7 @@ function player.win(P,result)
 	if P.human then
 		gameOver()
 	end
+	TASK.new(tickEvent.finish,P)
 end
 function player.lose(P)
 	if P.life>0 then
@@ -1920,14 +1918,18 @@ function player.lose(P)
 		SFX.play("fail")
 		VOC.play("lose")
 		if modeEnv.royaleMode then BGM.play("end")end
+		gameOver()
+		TASK.new(#players>1 and tickEvent.lose or tickEvent.finish,P)
 	end
 	if #players.alive==1 then
 		players.alive[1]:win()
 	end
-	if #players==1 or(P.human and not players[2].human)then
-		gameOver()
+end
+
+function PLY.reach_winCheck(P)
+	if P.stat.row>=P.gameEnv.target then
+		P:win("finish")
 	end
-	TASK.new(#players>1 and tickEvent.lose or tickEvent.finish,P)
 end
 --------------------------<\Events>--------------------------
 
@@ -2178,135 +2180,36 @@ T={
 --------------------------</Control>--------------------------
 
 --------------------------<Generator>--------------------------
---- 从当前的modeEnv setting和默认配置中读取GameEnv
--- @param P 玩家
-function player.loadGameEnv(P)
-	P.gameEnv={}--Current game setting environment
-	local ENV=P.gameEnv
-	for k,v in next,gameEnv0 do
-		if modeEnv[k]~=nil then
-			v=modeEnv[k]
-		elseif setting[k]~=nil then
-			v=setting[k]
-		end
-		ENV[k]=v
-	end--load game settings
-end
-
---- 整理GameEnv中部分未完成的参数
--- @param P 玩家
-function player.marshalGameEnv(P)
-	local ENV=P.gameEnv
-	ENV.das=max(ENV.das,ENV.mindas)
-	ENV.arr=max(ENV.arr,ENV.minarr)
-	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
-
-	ENV.next=min(ENV.next,setting.maxNext)
-
-	if ENV.sequence~="bag"then
-		ENV.bagLine=false
-	else
-		ENV.bagLen=#ENV.bag
-	end
-
-	if ENV.lockFX==0 then	ENV.lockFX=nil	end
-    if ENV.dropFX==0 then	ENV.dropFX=nil	end
-    if ENV.clearFX==0 then  ENV.clearFX=nil end
-	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
-end
-
---- 把部分GameEnv参数写入到Player中
--- 该函数会写入Player的 dropDelay lockDelay color showTime keepVisible
--- @param P 玩家
-function player.applyGameEnv(P)
-	local ENV=P.gameEnv
-	P.dropDelay,P.lockDelay=ENV.drop,ENV.lock
-
-	P.color={}
-	for _=1,7 do
-		P.color[_]=SKIN.libColor[ENV.skin[_]]
-	end
-
-	P.showTime=visible_opt[ENV.visible]
-	P.keepVisible=ENV.visible=="show"
-end
-
---- 调用freshPrepare并设置newNext
--- @param P 玩家
-function player.prepareSequence(P)
-	local ENV=P.gameEnv
-	if type(ENV.sequence)=="string"then
-		freshPrepare[ENV.sequence](P)
-		P.newNext=freshMethod[ENV.sequence]
-	else
-		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
-		ENV.sequence(P)
-		P.newNext=ENV.freshMethod
-	end
-end
-
---- 加载AI参数
--- @param P 玩家
--- @param AIdata AI参数
-function player.loadAI(P, AIdata)
-	local ENV=P.gameEnv
-	P.AI_mode=AIdata.type
-	P.AI_stage=1
-	P.AI_needFresh=false
-	P.AI_keys={}
-	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),2*AIdata.delta)
-	P.AI_delay0=AIdata.delta
-	P.AIdata={
-		next=AIdata.next,
-		hold=AIdata.hold,
-		_20G=ENV._20G,
-		bag=AIdata.bag=="bag",
-		node=AIdata.node,
-	}
-	if not BOT then P.AI_mode="9S"end
-	if P.AI_mode=="CC"then
-		P.RS=kickList.AIRS
-		local opt,wei=BOT.getConf()
-			BOT.setHold(opt,P.AIdata.hold)
-			BOT.set20G(opt,P.AIdata._20G)
-			BOT.setBag(opt,P.AIdata.bag)
-			BOT.setNode(opt,P.AIdata.node)
-		P.AI_bot=BOT.new(opt,wei)
-		BOT.free(opt)BOT.free(wei)
-		for i=1,AIdata.next do
-			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
-		end
-	elseif P.AI_mode=="9S"then
-		P.RS=kickList.TRS
-	end
-end
-
---- 空Player
--- 创建出来的Player不能直接用 仅包含所有Player的通用参数
--- @params int id
--- @params int x
--- @params int y
--- @params float size 缩放比例
--- @params actions 操作序列
-local function newEmptyPlayer(id, x, y, size)
+local function newEmptyPlayer(id,x,y,size)
 	local P={id=id}
 	players[id]=P
-	P.life=0
-	--inherit functions of player class
-	for k,v in next,player do P[k]=v end
 	players.alive[#players.alive+1]=P
-	P.x,P.y,P.size=x,y,size or 1
-	--for shake FX
-	P.fieldOff={x=0,y=0,vx=0,vy=0}
 
-	P.small=false --
-	P.keyRec=false--if calculate keySpeed
-	P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
-	P.absFieldX=P.x+150*P.size
-	P.absFieldY=P.y+60*P.size
-	P.draw=Pdraw_norm
+	P.fieldOff={x=0,y=0,vx=0,vy=0}--for shake FX
+	P.x,P.y,P.size=x,y,size or 1
+
+	P.small=P.size<.1--if draw in small mode
+	if P.small then
+		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
+		P.canvas=love.graphics.newCanvas(60,120)
+		P.frameWait=rnd(30,120)
+		P.draw=Pdraw_small
+	else
+		P.keyRec=true--if calculate keySpeed
+		P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
+		P.absFieldX=P.x+150*P.size
+		P.absFieldY=P.y+60*P.size
+		P.draw=Pdraw_norm
+		P.bonus={}--text objects
+	end
 	P.update=Pupdate_alive
 
+	--inherit functions of player class
+	for k,v in next,player do P[k]=v end
+
+	P.small=false
+	P.keyRec=false--if calculate keySpeed
+	P.life=0
 	P.alive=true
 	P.control=false
 	P.timing=false
@@ -2321,14 +2224,11 @@ local function newEmptyPlayer(id, x, y, size)
 	P.field,P.visTime={},{}
 	P.atkBuffer={sum=0}
 
+	--Royale-related
 	P.badge,P.strength=0,0
 	P.atkMode,P.swappingAtkMode=1,20
 	P.atker,P.atking,P.lastRecv={}
-	--Royale-related
 
-	-- loadGameEnv
-	-- marshalGameEnv
-	-- applyGameEnv 以下这些参数在applyGameEnv调用时被初始化
 	P.dropDelay,P.lockDelay=0,0
 	P.color={}
 	P.showTime=nil
@@ -2370,13 +2270,98 @@ local function newEmptyPlayer(id, x, y, size)
 
 	return P
 end
---- 游戏开场画面的Demo玩家
--- @params int id
--- @params int x
--- @params int y
--- @params float size 缩放比例
-function newDemoPlayer(id,x,y,size)
-	local P = newEmptyPlayer(id, x, y, size)
+local function loadGameEnv(P)--load gameEnv
+	P.gameEnv={}--Current game setting environment
+	local ENV=P.gameEnv
+	for k,v in next,gameEnv0 do
+		if modeEnv[k]~=nil then
+			v=modeEnv[k]
+		elseif setting[k]~=nil then
+			v=setting[k]
+		end
+		ENV[k]=v
+	end--load game settings
+end
+local function applyGameEnv(P)--finish gameEnv processing
+	local ENV=P.gameEnv
+
+	P.dropDelay=ENV.drop
+	P.lockDelay=ENV.lock
+
+	P.color={}
+	for _=1,7 do
+		P.color[_]=SKIN.libColor[ENV.skin[_]]
+	end
+
+	P.keepVisible=ENV.visible=="show"
+	P.showTime=
+		ENV.visible=="show"and 1e99 or
+		ENV.visible=="time"and 300 or
+		ENV.visible=="fast"and 20 or
+		ENV.visible=="none"and 0
+
+	ENV.das=max(ENV.das,ENV.mindas)
+	ENV.arr=max(ENV.arr,ENV.minarr)
+	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
+	ENV.next=min(ENV.next,setting.maxNext)
+
+	if ENV.sequence~="bag"then
+		ENV.bagLine=false
+	else
+		ENV.bagLen=#ENV.bag
+	end
+
+	if ENV.lockFX==0 then	ENV.lockFX=nil	end
+	if ENV.dropFX==0 then	ENV.dropFX=nil	end
+	if ENV.clearFX==0 then	ENV.clearFX=nil end
+	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+end
+local function prepareSequence(P)--call freshPrepare and set newNext
+	local ENV=P.gameEnv
+	if type(ENV.sequence)=="string"then
+		freshPrepare[ENV.sequence](P)
+		P.newNext=freshMethod[ENV.sequence]
+	else
+		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
+		ENV.sequence(P)
+		P.newNext=ENV.freshMethod
+	end
+end
+local function loadAI(P,AIdata)--load AI params
+	local ENV=P.gameEnv
+	P.AI_mode=AIdata.type
+	P.AI_stage=1
+	P.AI_needFresh=false
+	P.AI_keys={}
+	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),2*AIdata.delta)
+	P.AI_delay0=AIdata.delta
+	P.AIdata={
+		next=AIdata.next,
+		hold=AIdata.hold,
+		_20G=ENV._20G,
+		bag=AIdata.bag=="bag",
+		node=AIdata.node,
+	}
+	if not BOT then P.AI_mode="9S"end
+	if P.AI_mode=="CC"then
+		P.RS=kickList.AIRS
+		local opt,wei=BOT.getConf()
+			BOT.setHold(opt,P.AIdata.hold)
+			BOT.set20G(opt,P.AIdata._20G)
+			BOT.setBag(opt,P.AIdata.bag)
+			BOT.setNode(opt,P.AIdata.node)
+		P.AI_bot=BOT.new(opt,wei)
+		BOT.free(opt)BOT.free(wei)
+		for i=1,AIdata.next do
+			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+		end
+	elseif P.AI_mode=="9S"then
+		P.RS=kickList.TRS
+	end
+end
+
+function PLY.newDemoPlayer(id,x,y,size)
+	local P=newEmptyPlayer(id,x,y,size)
 	P.life=1e99
 
 	-- rewrite draw arguments
@@ -2388,11 +2373,7 @@ function newDemoPlayer(id,x,y,size)
 	P.draw=Pdraw_demo
 	P.update=Pupdate_alive
 
-	P.control = true
-	-- clear key time and drop time
-	-- maybe not necessary
-	P.keyTime={}
-	P.dropTime={}
+	P.control=true
 
 	P.atker={}P.strength=0
 
@@ -2429,23 +2410,18 @@ function newDemoPlayer(id,x,y,size)
 		target=1e99,dropPiece=NULL,
 		mindas=0,minarr=0,minsdarr=0,
 	}
+	applyGameEnv(P)
 
-	-- no loadGameEnv
-	P:marshalGameEnv()
-	P:applyGameEnv()
-
-	-- rewrite some arguments
 	P.dropDelay,P.lockDelay=1e99,1e99
-	-- P.color is set at applyGameEnv
 	P.showTime=1e99
 	P.keepVisible=true
 
-	-- use "bag" manually instead of prepareSequence
+	--always use "bag"
 	freshPrepare.bag(P)
 	P.newNext=freshMethod.bag
 
 	P.human=false
-	P:loadAI({
+	loadAI(P,{
 		type="CC",
 		next=5,
 		hold=true,
@@ -2457,100 +2433,48 @@ function newDemoPlayer(id,x,y,size)
 
 	P:popNext()
 end
---- 远程玩家 即多人联机游戏时的其他玩家
--- @params int id
--- @params int x
--- @params int y
--- @params float size 缩放比例
--- @params actions 操作序列
-function newRemotePlayer(id, x, y, size, actions)
-	local P = newEmptyPlayer(id, x, y, size)
+function PLY.newRemotePlayer(id,x,y,size,actions)
+	local P=newEmptyPlayer(id,x,y,size)
 
-	P.human = false -- 录像不是人为操作
-	P.remote = true -- 远程操作
+	P.human=false -- 录像不是人为操作
+	P.remote=true -- 远程操作
 	-- 开发中
-	-- P.updateAction = buildActionFunctionFromActions(P, actions)
+	-- P.updateAction=buildActionFunctionFromActions(P, actions)
 
-	P:loadGameEnv()
-	P:marshalGameEnv()
-	P:applyGameEnv()
-	P:prepareSequence()
+	loadGameEnv(P)
+	applyGameEnv(P)
+	prepareSequence(P)
 end
---- AI玩家 (bot)
--- @params int id
--- @params int x
--- @params int y
--- @params float size 缩放比例
--- @params AIdata size AI参数
-function newAIPlayer(id,x,y,size,AIdata)
-	local P = newEmptyPlayer(id, x, y, size)
-
-	-- rewrite draw arguments
-	P.small=P.size<.1--if draw in small mode
-	if P.small then
-		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
-		P.canvas=love.graphics.newCanvas(60,120)
-		P.frameWait=rnd(30,120)
-		P.draw=Pdraw_small
-	else
-		P.keyRec=true--if calculate keySpeed
-		P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
-		P.absFieldX=P.x+150*P.size
-		P.absFieldY=P.y+60*P.size
-		P.draw=Pdraw_norm
-		P.dust=clearDust:clone()
-		P.dust:start()
-		P.bonus={}--texts
-	end
-	P.update=Pupdate_alive
-
-	P:loadGameEnv()
-	P:marshalGameEnv()
-	P:applyGameEnv()
-	P:prepareSequence()
-
-	local ENV = P.gameEnv
-	ENV.face={0,0,0,0,0,0,0}
-	ENV.skin={1,5,8,2,10,3,7}
-	P.human=false
-	P:loadAI(AIdata)
+function PLY.newAIPlayer(id,x,y,size,AIdata)
+	local P=newEmptyPlayer(id,x,y,size)
 
 	if P.small then
 		ENV.text=false
 		ENV.lockFX=nil
 		ENV.dropFX=nil
 		ENV.shakeFX=nil
-	else
-		if ENV.lockFX==0 then	ENV.lockFX=nil	end
-        if ENV.dropFX==0 then	ENV.dropFX=nil	end
-        if ENV.clearFX==0 then  ENV.clearFX=nil end
-		if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
 	end
 
+	loadGameEnv(P)
+	applyGameEnv(P)
+	prepareSequence(P)
+
+	local ENV=P.gameEnv
+	ENV.face={0,0,0,0,0,0,0}
+	ENV.skin={1,5,8,2,10,3,7}
+	P.human=false
+	loadAI(P,AIdata)
 end
---- 普通玩家
--- @params int id
--- @params int x
--- @params int y
--- @params float size 缩放比例
-function newPlayer(id,x,y,size)
-	local P = newEmptyPlayer(id, x, y, size)
+function PLY.newPlayer(id,x,y,size)
+	local P=newEmptyPlayer(id,x,y,size)
 
-	P:loadGameEnv()
-	P:marshalGameEnv()
-	P:applyGameEnv()
-	P:prepareSequence()
-
-	P.small=false --
-	P.keyRec=true--if calculate keySpeed
-	P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
-	P.absFieldX=P.x+150*P.size
-	P.absFieldY=P.y+60*P.size
-	P.draw=Pdraw_norm
-	P.update=Pupdate_alive
+	loadGameEnv(P)
+	applyGameEnv(P)
+	prepareSequence(P)
 
 	P.human=true
 	P.RS=kickList.TRS
 	players.human=players.human+1
 end
 --------------------------</Generator>--------------------------
+return PLY

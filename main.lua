@@ -55,9 +55,9 @@ WIDGET=require("parts/widget")
 LIGHT=require("parts/light")
 
 require("parts/modes")
-require("default_data")
+require("parts/default_data")
 require("parts/ai")
-require("player")
+PLY=require("player")
 widgetList=require("widgetList")
 require("callback")
 

@@ -17,8 +17,7 @@ local IMG={
 	miyaF3="miya/f3.png",
 	miyaF4="miya/f4.png",
 
-	gameBG1="BG/bg1.png",
-	gameBG2="BG/bg2.png",
+	electric="mess/electric.png",
 }
 local list={}
 local count=0

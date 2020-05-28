@@ -27,7 +27,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 		local P=players[1]
 		local F=P.field
 		for i=1,24 do

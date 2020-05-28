@@ -121,7 +121,7 @@ function keyDown.load(k)
 	end
 end
 function touchDown.load()
-	if #tc.getTouches()>2 then
+	if #tc.getTouches()==2 then
 		sceneTemp.skip=true
 	end
 end
@@ -669,6 +669,18 @@ function touchDown.help(id,x,y)
 	sceneTemp.pw=pw
 end
 
+function keyDown.staff(key)
+	if key=="escape"then
+		SCN.back()
+	elseif key=="\122"then
+		if kb.isDown("\109")and kb.isDown("\114")then
+			sceneTemp.v=-2.6
+			marking=nil
+			SFX.play("reach")
+		end
+	end
+end
+
 function wheelMoved.history(x,y)
 	wheelScroll(y)
 end
@@ -800,15 +812,10 @@ function love.keypressed(i)
 				local W=WIDGET.sel
 				if W then W:getInfo()end
 			elseif i=="f3"then
-				error("Techmino:挂了")
+				assert(false,"Techmino:挂了")
 			elseif i=="e"then
 				for k,v in next,_G do
 					print(k,v)
-				end
-			elseif i=="\122"then
-				if kb.isDown("\109")and kb.isDown("\114")then
-					marking=nil
-					SFX.play("reach")
 				end
 			elseif WIDGET.sel then
 				local W=WIDGET.sel
@@ -901,9 +908,10 @@ function love.lowmemory()
 	collectgarbage()
 end
 function love.resize(w,h)
-	love.timer.sleep(.26)
-	scr.w,scr.h,scr.r=w,h,h/w
+	scr.w,scr.h=w,h
+	scr.r=h/w
 	scr.rad=(w^2+h^2)^.5
+	scr.dpi=gc.getDPIScale()
 	if scr.r>=.5625 then
 		scr.k=w/1280
 		scr.x,scr.y=0,(h-w*9/16)*.5
@@ -913,6 +921,9 @@ function love.resize(w,h)
 	end
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
 	BG.resize(w,h)
+
+	SHADER.warning:send("w",w*scr.dpi)
+	SHADER.warning:send("h",h*scr.dpi)
 end
 function love.focus(f)
 	if SCN.cur=="play"and not f and setting.autoPause then pauseGame()end
@@ -938,6 +949,7 @@ function love.run()
 	SCN.init("load")--Scene Launch
 	marking=true
 	return function()
+		local _
 		--EVENT
 		PUMP()
 		for N,a,b,c,d,e in POLL()do
@@ -948,6 +960,7 @@ function love.run()
 				return 1
 			end
 		end
+
 		--UPDATE
 		STEP()local dt=GETDelta()
 		TASK.update()
@@ -955,7 +968,7 @@ function love.run()
 		BG.update(dt)
 		sysFX.update(dt)
 		TEXT.update()
-		local _=Tmr[SCN.cur]if _ then _(dt)end--Scene Updater
+		_=Tmr[SCN.cur]if _ then _(dt)end--Scene Updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 
@@ -1019,76 +1032,11 @@ function love.run()
 		if Timer()-lastFrame<.058 then WAIT(.01)end
 		while Timer()-lastFrame<.0159 do WAIT(.001)end
 
-		--FRESH POWER
+		--FRESH POWERINFO
 		lastFrame=Timer()
 		if Timer()-lastFreshPow>3 and setting.powerInfo and SCN.cur~="load"then
 			updatePowerInfo()
 			lastFreshPow=Timer()
 		end
-	end
-end
-function love.errorhandler(msg)
-	local PUMP,POLL=love.event.pump,love.event.poll
-	love.mouse.setVisible(true)
-	love.audio.stop()
-	local err={"Error:"..msg}
-	local trace=debug.traceback("",2)
-	local c=2
-	for l in string.gmatch(trace,"(.-)\n")do
-		if c>2 then
-			if not string.find(l,"boot")then
-				err[c]=string.gsub(l,"^\t*","")
-				c=c+1
-			end
-		else
-			err[2]="Traceback"
-			c=3
-		end
-	end
-	print(table.concat(err,"\n"),1,c-2)
-	gc.reset()
-	local CAP
-	local function _(_)CAP=gc.newImage(_)end
-	gc.captureScreenshot(_)
-	gc.present()
-	setting.sfx=setting.voc--only for error "voice" played with voice volume,not saved
-	if SFX.list.error then SFX.play("error",.8)end
-	local BGcolor=rnd()>.026 and{.3,.5,.9},{.62,.3,.926}
-	local needDraw=true
-	return function()
-		PUMP()
-		for E,a,b,c,d,e in POLL()do
-			if E=="quit"or a=="escape"then
-				destroyPlayers()
-				return 1
-			elseif E=="resize"then
-				love.resize(a,b)
-				needDraw=true
-			elseif E=="focus"then
-				needDraw=true
-			end
-		end
-		if needDraw then
-			gc.discard()
-			gc.clear(BGcolor)
-			gc.setColor(1,1,1)
-			gc.push("transform")
-			gc.replaceTransform(xOy)
-			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
-			setFont(120)gc.print(":(",100,40)
-			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
-			setFont(20)
-			gc.print(system.."-"..gameVersion,100,660)
-			gc.print("scene:"..SCN.cur,400,660)
-			gc.printf(err[1],626,360,1260-626)
-			gc.print("TRACEBACK",626,426)
-			for i=4,#err-2 do
-				gc.print(err[i],626,370+20*i)
-			end
-			gc.pop()
-			gc.present()
-			needDraw=false
-		end
-		love.timer.sleep(.2)
 	end
 end

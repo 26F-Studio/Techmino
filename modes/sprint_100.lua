@@ -4,11 +4,11 @@ return{
 	color=color.orange,
 	env={
 		drop=60,lock=60,
-		target=100,dropPiece=player.reach_winCheck,
+		target=100,dropPiece=PLY.reach_winCheck,
 		bg="strap",bgm="race",
 	},
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y

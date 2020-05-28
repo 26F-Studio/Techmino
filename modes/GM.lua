@@ -30,11 +30,11 @@ return{
 				P:win("finish")
 			end
 		end,
-		bg="game3",bgm="far",
+		bg="aura",bgm="far",
 	},
 	slowMark=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 		players[1].modeData.event="M7"
 	end,
 	mesDisp=function(P,dx,dy)

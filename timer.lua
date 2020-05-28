@@ -1,7 +1,7 @@
 local gc=love.graphics
 local kb=love.keyboard
 local Timer=love.timer.getTime
-local int,abs,rnd,max,min,sin=math.floor,math.abs,math.random,math.max,math.min,math.sin
+local int,abs,rnd,max,min,sin,ln=math.floor,math.abs,math.random,math.max,math.min,math.sin,math.log
 local ins,rem=table.insert,table.remove
 
 local Tmr={}
@@ -68,13 +68,13 @@ local function dumpTable(L)
 		T=type(k)
 			if T=="number"then k="["..k.."]="
 			elseif T=="string"then k=k.."="
-			else error("Error data type!")
+			else assert(false,"Error data type!")
 			end
 		T=type(v)
 			if T=="number"then v=tostring(v)
 			elseif T=="string"then v="\""..v.."\""
 			elseif T=="table"then v=dumpTable(v)
-			else error("Error data type!")
+			else assert(false,"Error data type!")
 			end
 		s=s..k..v..",\n"
 	end
@@ -160,6 +160,7 @@ end
 function Tmr.play(dt)
 	frame=frame+1
 	stat.time=stat.time+dt
+	local P1=players[1]
 	for i=#FX_attack,1,-1 do
 		local b=FX_attack[i]
 		b.t=b.t+1
@@ -216,11 +217,11 @@ function Tmr.play(dt)
 		end
 		if restartCount>0 then restartCount=restartCount-1 end
 		return
-	elseif players[1].keyPressing[10]then
+	elseif P1.keyPressing[10]then
 		restartCount=restartCount+1
 		if restartCount>20 then
 			TASK.clear("play")
-			mergeStat(stat,players[1].stat)
+			mergeStat(stat,P1.stat)
 			resetGameData()
 			return
 		end
@@ -236,6 +237,33 @@ function Tmr.play(dt)
 		if marking and rnd()<.2 then
 			TEXT.show(text.marking,rnd(162,scr.w-162),rnd(126,scr.h-200),40,"mark",.626)
 		end--mark 2s each 10s
+	end
+	if P1.alive then
+		if frame%26==0 and setting.warn then
+			local F=P1.field
+			local M=#F
+			local height=0
+			for x=3,8 do
+				for y=M,1,-1 do
+					if F[y][x]>0 then
+						if y>height then
+							height=y
+						end
+						break
+					end
+				end
+			end
+			game.warnLVL0=ln(height-15+P1.atkBuffer.sum*.8)
+		end
+		local M=game.warnLVL
+		if M<game.warnLVL0 then
+			M=M*.95+game.warnLVL0*.05
+		elseif M>0 then
+			M=max(M-.026,0)
+		end
+		game.warnLVL=M
+	elseif game.warnLVL>0 then
+		game.warnLVL=max(game.warnLVL-.026,0)
 	end
 end
 function Tmr.pause(dt)
@@ -282,5 +310,14 @@ function Tmr.setting_control()
 			T.das=setting.das
 		end
 	end
+end
+function Tmr.staff(dt)
+	local S=sceneTemp
+	if kb.isDown("space","return")and S.v<6.26 then
+		S.v=S.v+.26
+	elseif S.v>1 then
+		S.v=S.v-.26
+	end
+	S.time=S.time+S.v*dt
 end
 return Tmr

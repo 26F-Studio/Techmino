@@ -68,6 +68,7 @@ Future outlook:
 		symmetry
 		hidden mode: sound only
 		reverb mode (often repeat a piece many times)
+		4 keys limit per piece
 	Other:
 		mod system with:
 			block hidden
@@ -83,7 +84,6 @@ Future outlook:
 		in-game document
 		lang setting page
 		dragging control
-		warning FX(Graphic)
 		game recording
 		new widgets (joystick etc.)
 		custom sequence(TTT!)
@@ -91,12 +91,30 @@ Future outlook:
 		cool backgrounds
 		more graphic FXs & 3D features & animations
 		Encrypt source code (compile to byte code)
+		network game
 		new AI: task-Z
 
-0.8.22: Details Updated
+0.8.22: Shader Update
+	new:
+		new background: aura (using shader)
+		new BGM: Far
+		X-spin added
+		visual effects for when the player is in danger
+		staff page added
 	changed:
+		remake several backgrounds with shader, instead of image
+		kick-list of pentomino optimized
+		all backgounds fix screen correctly (maybe)
 		won't show "open saving folder" button on mobile devices
+		wallkick of J/L-180° spin changed
 		reset all settings
+	code:
+		player generator optimized by FinnTenzor
+		player system moduled
+	fixed:
+		rotating x do not fresh lock delay
+		error after reset skin/dir. in pentomino mode
+		some times error when any AI exists (wrong kickList code)
 
 0.8.21: Bug Fixed
 	changed:
@@ -567,7 +585,7 @@ Future outlook:
 	little game rule change
 	bugs fixed(AI control error)
 
-0.7.13: 
+0.7.13:
 	new:
 		Chinese game name: 方块研究所
 		SUPER COOL instant moving effect

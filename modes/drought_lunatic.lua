@@ -82,7 +82,7 @@ return{
 				P:getNext(res[rnd(#res)])
 			end
 		end,
-		target=100,dropPiece=player.reach_winCheck,
+		target=100,dropPiece=PLY.reach_winCheck,
 		next=1,hold=false,
 		ospin=false,
 		freshLimit=15,
@@ -90,7 +90,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(70)

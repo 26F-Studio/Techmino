@@ -11,13 +11,13 @@ return{
 	env={
 		drop=1e99,lock=1e99,
 		hold=false,
-		dropPiece=player.lose,
+		dropPiece=function(P)P:lose()end,
 		task=nil,
 		bg="game1",bgm="newera",
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 	end,

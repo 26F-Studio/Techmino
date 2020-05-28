@@ -26,6 +26,7 @@ local s={
 	frameMul=100,
 
 	text=true,
+	warn=true,
 	fullscreen=false,
 	bg=true,
 	powerInfo=false,

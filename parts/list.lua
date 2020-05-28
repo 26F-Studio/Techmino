@@ -20,7 +20,7 @@ customRange={
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={0,1,2,3,4,5,11,12,13,14,15,16},
-	bg={"none","game1","game2","game3","strap","rgb","glow","matrix"},
+	bg={"none","game1","game2","game3","strap","aura","rgb","glow","matrix"},
 	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
 snapLevelValue={1,10,20,40,60,80}

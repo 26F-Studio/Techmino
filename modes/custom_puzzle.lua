@@ -32,14 +32,14 @@ return{
 		modeEnv._20G=modeEnv.drop==0
 		modeEnv.oncehold=customSel[6]==1
 		modeEnv.target=0
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 		local L=modeEnv.opponent
 		if L~=0 then
 			modeEnv.target=nil
 			if L<10 then
-				newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
+				PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
 			else
-				newAIPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
+				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
 			end
 		end
 		preField.h=20

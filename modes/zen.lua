@@ -3,11 +3,11 @@ return{
 	env={
 		drop=120,lock=120,
 		oncehold=false,target=200,
-		dropPiece=player.reach_winCheck,
+		dropPiece=PLY.reach_winCheck,
 		bg="strap",bgm="infinite",
 	},
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(70)

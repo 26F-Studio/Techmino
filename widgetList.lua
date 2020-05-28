@@ -201,18 +201,19 @@ local widgetList={
 		shakeFX=newSlider(350,520,373,5,32,nil,		SETval("shakeFX"),		SETsto("shakeFX"),		nil,"atkFX"),
 		atkFX=	newSlider(350,580,373,5,32,nil,		SETval("atkFX"),		SETsto("atkFX"),		nil,"frame"),
 		frame=	newSlider(350,640,373,10,30,nil,function()return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4 end,function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end,nil,"text"),
-		text=	newSwitch(1050,180,35,SETval("text"),SETrev("text"),nil,"fullscreen"),
-		fullscreen=newSwitch(1050,260,35,SETval("fullscreen"),function()
+		text=	newSwitch(1050,180,35,SETval("text"),SETrev("text"),nil,"warn"),
+		warn=	newSwitch(1050,260,35,SETval("warn"),SETrev("warn"),nil,"fullscreen"),
+		fullscreen=newSwitch(1050,340,35,SETval("fullscreen"),function()
 			setting.fullscreen=not setting.fullscreen
 			love.window.setFullscreen(setting.fullscreen)
 			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end,nil,"bg"),
-		bg=		newSwitch(1050,340,35,SETval("bg"),function()
+		bg=		newSwitch(1050,420,35,SETval("bg"),function()
 			BG.set("none")
 			setting.bg=not setting.bg
 			BG.set("space")
 		end,nil,"power"),
-		power=	newSwitch(1050,420,35,SETval("powerInfo"),function()
+		power=	newSwitch(1050,500,35,SETval("powerInfo"),function()
 			setting.powerInfo=not setting.powerInfo
 		end,nil,"back"),
 		back=	newButton(1140,650,200,80,C.white,40,SCN.back,nil,"sound"),
@@ -273,8 +274,16 @@ local widgetList={
 		--spin6=newButton(825,540,90,65,C.white,30,nextDir(6)),--cannot rotate O
 		spin7=	newButton(970,540,90,65,C.white,30,nextDir(7)),
 
-		skinR=	newButton(200,640,220,80,C.lightPurple,35,function()setting.skin={1,5,8,2,10,3,7}SFX.play("rotate")end),
-		faceR=	newButton(480,640,220,80,C.lightRed,35,function()setting.face={0,0,0,0,0,0,0}SFX.play("hold")end),
+		skinR=	newButton(200,640,220,80,C.lightPurple,35,function()
+			setting.skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3}
+			SFX.play("rotate")
+		end),
+		faceR=	newButton(480,640,220,80,C.lightRed,35,function()
+			for i=1,25 do
+				setting.face[i]=0
+			end
+			SFX.play("hold")
+		end),
 		back=	newButton(1140,650,200,80,C.white,40,SCN.back),
 	},
 	setting_touch={
@@ -361,9 +370,13 @@ local widgetList={
 		back=	newButton(640,600,200,80,C.white,40,SCN.back,nil,"chi"),
 	},
 	help={
-		his=	newButton(1050,500,250,80,C.white,35,function()SCN.push()SCN.swapTo("history")end,nil,"back"),
-		qq=		newButton(1050,600,250,80,C.white,35,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,mobileHide,"his"),
-		back=	newButton(640,600,200,80,C.white,40,SCN.back,nil,"qq"),
+		staff=	newButton(980,500,150,80,C.white,32,function()SCN.push()SCN.swapTo("staff")end,nil,"his"),
+		his=	newButton(1160,500,150,80,C.white,32,function()SCN.push()SCN.swapTo("history")end,nil,"qq"),
+		qq=		newButton(980,600,150,80,C.white,32,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,mobileHide,"back"),
+		back=	newButton(640,600,200,80,C.white,40,SCN.back,nil,"staff"),
+	},
+	staff={
+		back=	newButton(1160,630,150,80,C.white,40,SCN.back),
 	},
 	history={
 		prev=	newButton(1155,170,180,180,C.white,65,pressKey("up"),function()return sceneTemp[2]==1 end),

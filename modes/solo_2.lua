@@ -7,8 +7,8 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
-		newAIPlayer(2,965,360,.5,AITemplate("9S",5))
+		PLY.newPlayer(1,340,15)
+		PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",5))
 	end,
 	mesDisp=function(P,dx,dy)
 	end,

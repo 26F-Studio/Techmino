@@ -4,14 +4,14 @@ return{
 	env={
 		drop=60,lock=120,
 		fall=10,
-		target=100,dropPiece=player.reach_winCheck,
+		target=100,dropPiece=PLY.reach_winCheck,
 		freshLimit=15,
 		ospin=false,
 		bg="rgb",bgm="infinite",
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)

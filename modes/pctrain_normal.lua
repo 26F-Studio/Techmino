@@ -54,7 +54,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 		newPC(players[1])
 	end,
 	mesDisp=function(P,dx,dy)

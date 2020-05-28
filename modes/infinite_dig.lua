@@ -17,7 +17,7 @@ return{
 		bg="glow",bgm="infinite",
 	},
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 		for _=1,8 do
 			players[1]:garbageRise(13,1,rnd(10))
 		end

@@ -5,7 +5,7 @@ return{
 		drop=20,lock=60,
 		sequence="bag",
 		bag={1,1,2,2,3,3,4,4,5,5,6,6},
-		target=100,dropPiece=player.reach_winCheck,
+		target=100,dropPiece=PLY.reach_winCheck,
 		next=3,
 		ospin=false,
 		freshLimit=15,
@@ -13,7 +13,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(70)

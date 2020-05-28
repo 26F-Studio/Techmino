@@ -1,3 +1,4 @@
+local gc=love.graphics
 local min=math.min
 return{
 	color=color.green,
@@ -5,14 +6,14 @@ return{
 		drop=15,lock=45,
 		freshLimit=10,
 		visible="fast",
-		dropPiece=player.reach_winCheck,
+		dropPiece=PLY.reach_winCheck,
 		freshLimit=10,
 		target=200,
 		bg="glow",bgm="reason",
 	},
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		mText(drawableText.line,-81,300)
@@ -20,6 +21,8 @@ return{
 		setFont(75)
 		mStr(P.stat.row,-81,220)
 		mStr(P.stat.clear_S[4],-81,340)
+		gc.setColor(1,1,1,.2)
+		gc.draw(IMG.electric,-26,120,0,2.6)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

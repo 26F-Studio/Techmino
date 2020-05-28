@@ -83,7 +83,7 @@ function TEXT.getText(text,x,y,font,style,spd,stop)
 		font=font or 40,
 		spd=(spd or 1)/60,
 		stop=stop,
-		draw=textFX[style]or error("unavailable type:"..style),
+		draw=textFX[style]or assert(false,"unavailable type:"..style),
 	}
 end--another version of TEXT()
 function TEXT.show(text,x,y,font,style,spd,stop)
@@ -95,7 +95,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 		font=font or 40,	--font
 		spd=(spd or 1)/60,	--timing speed(1=last 1 sec)
 		stop=stop,			--stop time(sustained text)
-		draw=textFX[style]or error("unavailable type:"..style),	--draw method
+		draw=textFX[style]or assert(false,"unavailable type:"..style),	--draw method
 	}
 end
 function TEXT.update(list)

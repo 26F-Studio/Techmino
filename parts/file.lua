@@ -41,14 +41,14 @@ local function dumpTable(L,t)
 			end
 		elseif T=="string"then k=k.."="
 		elseif T=="boolean"then k="["..k.."]="
-		else error("Error key type!")
+		else assert(false,"Error key type!")
 		end
 		T=type(v)
 		if T=="number"then v=tostring(v)
 		elseif T=="string"then v="\""..v.."\""
 		elseif T=="table"then v=dumpTable(v,t+1)
 		elseif T=="boolean"then v=tostring(v)
-		else error("Error data type!")
+		else assert(false,"Error data type!")
 		end
 		s=s..tabs[t]..k..v..",\n"
 	end

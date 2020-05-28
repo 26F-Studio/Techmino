@@ -17,13 +17,13 @@ function toTime(s)
 	end
 end
 function mStr(s,x,y)
-	gc.printf(s,x-320,y,640,"center")
+	gc.printf(s,x-400,y,800,"center")
 end
 function mText(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)
 end
-function mDraw(s,x,y)
-	gc.draw(s,x-s:getWidth()*.5,y-s:getHeight()*.5)
+function mDraw(s,x,y,a,k)
+	gc.draw(s,x,y,a,k,nil,s:getWidth()*.5,s:getHeight()*.5)
 end
 function destroyPlayers()
 	for i=#players,1,-1 do
@@ -247,6 +247,8 @@ function resetPartGameData()
 		pauseTime=0,
 		pauseCount=0,
 		garbageSpeed=1,
+		warnLVL0=0,
+		warnLVL=0,
 	}
 	frame=150-setting.reTime*15
 	destroyPlayers()
@@ -280,6 +282,8 @@ function resetGameData()
 		pauseTime=0,--Time paused
 		pauseCount=0,--Pausing count
 		garbageSpeed=1,--garbage timing speed
+		warnLVL0=0,
+		warnLVL=0,
 	}
 	frame=150-setting.reTime*15
 	destroyPlayers()

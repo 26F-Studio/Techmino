@@ -25,7 +25,7 @@ return{
 	slowMark=true,
 	pauseLimit=true,
 	load=function()
-		newPlayer(1,340,15)
+		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
 		gc.setLineWidth(2)
