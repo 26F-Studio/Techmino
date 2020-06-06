@@ -120,7 +120,7 @@ function keyDown.load(k)
 		sceneTemp.skip=true
 	end
 end
-function touchDown.load()
+function touchDown.load(id,x,y)
 	if #tc.getTouches()==2 then
 		sceneTemp.skip=true
 	end
@@ -669,15 +669,41 @@ function touchDown.help(id,x,y)
 	sceneTemp.pw=pw
 end
 
-function keyDown.staff(key)
+function keyDown.staff(key,RESET)
 	if key=="escape"then
 		SCN.back()
 	elseif key=="\122"then
-		if kb.isDown("\109")and kb.isDown("\114")then
-			sceneTemp.v=-2.6
+		if kb.isDown("\109")and kb.isDown("\114")or RESET then
+			sceneTemp.ct=sceneTemp.ct+1
+			if sceneTemp.ct==5 then
+				TEXT.show("What are you up to?",640,200,40,"appear",.5)
+			elseif sceneTemp.ct==10 then
+				TEXT.show("Stop what you are doing.",640,200,40,"flicker",.5)
+			elseif sceneTemp.ct==20 then
+				TEXT.show("RESET ALL DATA?",640,200,40,"appear",.3,.2)
+			elseif sceneTemp.ct==26 then
+				local L=love.filesystem.getDirectoryItems("")
+				for i=1,#L do
+					local s=L[i]
+					if s:sub(-4)==".dat"then
+						love.filesystem.remove(s)
+					end
+				end
+				SFX.play("lock")
+				SFX.play("clear_4")
+				SFX.play("finesseError_long")
+				SCN.back()
+				TEXT.clear()
+			end
+			sceneTemp.v=-6.26
 			marking=nil
 			SFX.play("reach")
 		end
+	end
+end
+function touchDown.staff(id,x,y)
+	if #tc.getTouches()==5 then
+		keyDown.staff('\122',true)
 	end
 end
 

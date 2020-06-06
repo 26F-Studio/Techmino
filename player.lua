@@ -957,7 +957,8 @@ local function getNewStatTable()
 		key=0,rotate=0,hold=0,
 		extraPiece=0,extraRate=0,
 		piece=0,row=0,dig=0,
-		atk=0,digatk=0,send=0,recv=0,pend=0,
+		atk=0,digatk=0,
+		send=0,recv=0,pend=0,off=0,
 		clear={},clear_B={},clear_S={0,0,0,0,0},
 		spin={},spin_B={},spin_S={0,0,0,0,0},
 		pc=0,hpc=0,b2b=0,b3b=0,
@@ -1337,11 +1338,12 @@ function player.drop(P)--Place piece
 	local STAT=P.stat
 	local clear--if (perfect)clear
 	local cc,gbcc=0,0--row/garbage-row cleared,full-part
-	local atk,send=0,0--Send&Send Time
-	local exblock=0--extra defense
-	local cscore,sendTime=0,0
+	local atk,exblock=0,0--attack & extra defense
+	local send,off=0,0--sending lines remain & offset
+	local cscore,sendTime=0,0--score & send Time
 	local dospin=0
 	local mini
+
 	--spin check
 	if P.spinLast then
 		if P.cur.id<6 then
@@ -1470,8 +1472,7 @@ function player.drop(P)--Place piece
 	if not finesse then--finesse: control
 		if dospin then P.ctrlCount=P.ctrlCount-2 end--allow 2 more step for roof-less spin
 		local id=P.cur.id
-		local dir=P.dir+1
-		local d=P.ctrlCount-finesseList[id][dir][P.curX]
+		local d=P.ctrlCount-finesseList[id][P.dir+1][P.curX]
 		if d>=2 then P:fineError(2)
 		elseif d>0 then P:fineError(d)
 		end--not finesse
@@ -1595,7 +1596,7 @@ function player.drop(P)--Place piece
 		sendTime=sendTime+25*cmb
 		if cmb>1 then
 			atk=atk+(gbcc>0 and(DigComboAtk[cmb]or 5)or(WidComboAtk[cmb]or 2))
-			P:showText(text.cmb[min(cmb,20)],0,25,15+min(cmb,25)*3,cmb<10 and"appear"or"flicker")
+			P:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,25)*3,cmb<10 and"appear"or"flicker")
 			cscore=cscore+min(20*cmb,300)*cc
 		end
 
@@ -1614,6 +1615,7 @@ function player.drop(P)--Place piece
 			if exblock then exblock=int(exblock*(1+P.strength*.25))end
 			send=int(send*(1+P.strength*.25))
 			--Badge Buff
+
 			if send>0 then
 				P:showText(send,0,80,35,"zoomout")
 				if exblock>0 then
@@ -1631,12 +1633,15 @@ function player.drop(P)--Place piece
 					if not A then goto E end
 				until not A.sent
 				if send>=A.amount then
-					send=send-A.amount
-					P.atkBuffer.sum=P.atkBuffer.sum-A.amount
+					local O=A.amount--cur Offset
+					send=send-O
+					P.atkBuffer.sum=P.atkBuffer.sum-O
+					off=off+O
 					A.sent,A.time=true,0
 					if send>0 then goto R end
 				else
 					A.amount=A.amount-send
+					off=off+send
 					P.atkBuffer.sum=P.atkBuffer.sum-send
 					send=0
 				end
@@ -1717,6 +1722,9 @@ function player.drop(P)--Place piece
 		STAT.atk=STAT.atk+int(atk)
 		if send>0 then
 			STAT.send=STAT.send+int(send)
+		end
+		if off>0 then
+			STAT.off=STAT.off+off
 		end
 	end
 	if gbcc>0 then
@@ -1875,7 +1883,6 @@ function player.lose(P)
 	if modeEnv.royaleMode then
 		P:changeAtk()
 		P.modeData.event=#players.alive+1
-		P:showTextF(P.modeData.event,0,-120,60,"appear",1,12)
 		P.strength=0
 		if P.lastRecv then
 			local A,i=P,0
@@ -1901,6 +1908,7 @@ function player.lose(P)
 		else
 			P.badge=-1
 		end
+
 		freshMostDangerous()
 		for i=1,#players.alive do
 			if players.alive[i].atking==P then
@@ -1910,14 +1918,21 @@ function player.lose(P)
 		if #players.alive==royaleData.stage[game.stage]then
 			royaleLevelup()
 		end
+		P:showTextF(P.modeData.event,0,120,60,"appear",.26,.9)
 	end
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
-	P:showTextF(text.lose,0,0,90,"appear",.5,.2)
+	P:showTextF(text.lose,0,0,90,"appear",.26,.9)
 	if P.human then
 		game.result="lose"
 		SFX.play("fail")
 		VOC.play("lose")
-		if modeEnv.royaleMode then BGM.play("end")end
+		if modeEnv.royaleMode then
+			if P.modeData.event==2 then
+				BGM.play("hay what kind of feeling")
+			else
+				BGM.play("end")
+			end
+		end
 		gameOver()
 		TASK.new(#players>1 and tickEvent.lose or tickEvent.finish,P)
 	end
@@ -2208,7 +2223,6 @@ local function newEmptyPlayer(id,x,y,size)
 	for k,v in next,player do P[k]=v end
 
 	P.small=false
-	P.keyRec=false--if calculate keySpeed
 	P.life=0
 	P.alive=true
 	P.control=false

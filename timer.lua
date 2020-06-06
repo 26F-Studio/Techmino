@@ -319,5 +319,10 @@ function Tmr.staff(dt)
 		S.v=S.v-.26
 	end
 	S.time=S.time+S.v*dt
+	if S.time>45 then
+		S.time=45
+	elseif S.time<-10 then
+		S.time=-10
+	end
 end
 return Tmr

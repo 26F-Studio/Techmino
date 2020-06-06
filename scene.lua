@@ -123,8 +123,8 @@ function sceneInit.pause(org)
 
 		--from right-down, 60 degree each
 		radar={
-			(S.recv-S.pend+S.dig)/S.time*60,--DefPM
-			(S.recv-S.pend)/S.time*60,		--OffPM
+			(S.off+S.dig)/S.time*60,--DefPM
+			(S.off)/S.time*60,		--OffPM
 			S.atk/S.time*60,				--AtkPM
 			S.send/S.time*60,				--SendPM
 			S.piece/S.time*24,				--LinePM
@@ -214,6 +214,7 @@ function sceneInit.staff()
 	sceneTemp={
 		time=0,
 		v=1,
+		ct=0,
 	}
 	BG.set("space")
 end
@@ -231,7 +232,7 @@ function sceneInit.stat()
 			toTime(S.time),
 			S.key.."  "..S.rotate.."  "..S.hold,
 			S.piece.."  "..S.row.."  "..int(S.atk),
-			S.recv.."  "..(S.recv-S.pend).."  "..S.pend,
+			S.recv.."  "..S.off.."  "..S.pend,
 			S.dig.."  "..int(S.digatk),
 			format("%.2f  %.2f",S.atk/S.row,S.digatk/S.dig),
 			format("%d/%.3f%%",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
@@ -259,17 +260,17 @@ local swap={
 	fade={30,15,function(t)
 		local t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	end},
 	fade_togame={120,20,function(t)
 		local t=t>20 and (120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	end},
 	slowFade={180,90,function(t)
 		local t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	end},
 }--Scene swapping animations
 local backFunc={

@@ -6,7 +6,8 @@ local S=[=[
 			弥佑瑶
 			Alan
 			幽灵3383
-	[rmb10+]:
+			靏鸖龘龘
+		[rmb10+]:
 		八零哥
 		蕴空之灵
 		gggf127
@@ -16,6 +17,7 @@ local S=[=[
 		金巧
 		10元
 		立斐
+		Deep_Sea
 		时雪
 		yyangdid
 		sfqr
@@ -44,15 +46,16 @@ local S=[=[
 		TCV100
 		tech有养成系统了@7065
 		HAGE KANOBU
+		闪电和拐棍
 		葡萄味的曼妥思
-		(闪电和拐棍)
-		(D*a)
+		世界沃德
 
 	Thanks!!!
 
 Future outlook:
 	New mode:
-		tutorial
+		game tutorial
+		finesse tutorial
 		game Abbr. test
 		backfire
 		finesse exam(3next, 1pt/mino, drop to score)
@@ -65,10 +68,10 @@ Future outlook:
 		task survival
 		dig practice
 		dig zen
-		symmetry
-		hidden mode: sound only
+		sprint_symmetry
+		hidden: sound only
 		reverb mode (often repeat a piece many times)
-		4 keys limit per piece
+		KPP-locked mode
 	Other:
 		mod system with:
 			block hidden
@@ -78,7 +81,12 @@ Future outlook:
 			next hidden
 			field flip(LR/UD)
 			no fail(∞ lives)
+		mini games:
+			15 puzzle
+			mine sweeper
+			2048
 		简易防沉迷系统
+		next SFX
 		better drop FX
 		60+ fps supporting
 		in-game document
@@ -93,6 +101,17 @@ Future outlook:
 		Encrypt source code (compile to byte code)
 		network game
 		new AI: task-Z
+
+0.8.23: Details Update
+	new:
+		new hidden BGM: Hay what kind of feeling
+		now can reset all data (hidden)
+	changed:
+		add a stat "offset", used to avoid strange radar chart in Attack Mode, show in total stat page only
+		6 more X-spin-wallkick added
+	fixed:
+		speed dial do not moving
+		do not show 20+ combo
 
 0.8.22: Shader Update
 	new:
@@ -394,7 +413,7 @@ Future outlook:
 	fixed:
 		many bugs
 
-0.8.4: Miya Update+
+0.8.4: Miya Update II
 	changed:
 		vocal more natural(important, may cause new bug)
 		a bit better performence on mobile devices

@@ -10,6 +10,7 @@ BGM.list={
 	"secret7th","secret8th",
 	"shining terminal","oxygen","distortion","far",
 	"rockblock","cruelty","final","8-bit happiness","end",
+	"hay what kind of feeling",
 }
 BGM.len=#BGM.list
 function BGM.loadOne(N)

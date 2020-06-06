@@ -418,7 +418,7 @@ function Pnt.play()
 	gc.origin()
 	if restartCount>0 then
 		gc.setColor(0,0,0,restartCount*.05)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	end
 	if game.warnLVL>0 then
 		gc.setColor(0,0,0,0)
@@ -443,7 +443,7 @@ function Pnt.pause()
 	gc.setColor(.15,.15,.15,_)
 	gc.push("transform")
 		gc.origin()
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	gc.pop()
 
 	--Pause Info
@@ -692,7 +692,6 @@ end
 function Pnt.staff()
 	local L=text.staff
 	local t=sceneTemp.time
-	if t>45 then t=45 end
 	if t>0 then
 		setFont(40)
 		for i=1,#L do

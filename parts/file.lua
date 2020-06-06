@@ -200,6 +200,9 @@ function File.loadData()
 				S.clear_B[3],S.clear_B[4]=S.clear_B[4],S.clear_B[3]
 				S.spin_B[3],S.spin_B[4]=S.spin_B[4],S.spin_B[3]
 			end
+			if S.version=="Alpha V0.8.22"then
+				S.off=S.recv-S.pend
+			end
 			if #modeRanks==76 then
 				for i=1,4 do
 					table.remove(modeRanks)
