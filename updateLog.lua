@@ -7,7 +7,7 @@ local S=[=[
 			Alan
 			幽灵3383
 			靏鸖龘龘
-		[rmb10+]:
+	[rmb10+]:
 		八零哥
 		蕴空之灵
 		gggf127
@@ -49,6 +49,7 @@ local S=[=[
 		闪电和拐棍
 		葡萄味的曼妥思
 		世界沃德
+		蓝绿
 
 	Thanks!!!
 
@@ -102,6 +103,14 @@ Future outlook:
 		network game
 		new AI: task-Z
 
+0.8.24: Bug Fixed
+	new:
+		ready to refuse auto-formating stats. if update from versions too old
+	changed:
+		little changing of pentomini wallkicks
+	fixed:
+		incorrect color of P/Q
+		rank of petomino may be [custom]
 0.8.23: Details Update
 	new:
 		new hidden BGM: Hay what kind of feeling
