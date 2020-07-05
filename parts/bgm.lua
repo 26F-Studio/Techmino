@@ -1,4 +1,21 @@
+local min=math.min
 local rem=table.remove
+
+local function fadeOut(_,id)
+	local src=BGM.list[id]
+	local v=src:getVolume()-.025*setting.bgm*.1
+	src:setVolume(v>0 and v or 0)
+	if v<=0 then
+		src:stop()
+		return true
+	end
+end
+local function fadeIn(_,id)
+	local src=BGM.list[id]
+	local v=min(src:getVolume()+.025*setting.bgm*.1,setting.bgm*.1)
+	src:setVolume(v)
+	if v>=setting.bgm*.1 then return true end
+end
 
 local BGM={
 	--nowPlay=[str:playing ID]
@@ -36,12 +53,12 @@ function BGM.play(s)
 		return
 	end
 	if BGM.nowPlay~=s then
-		if BGM.nowPlay then TASK.new(tickEvent.bgmFadeOut,nil,BGM.nowPlay)end
-		TASK.changeCode(tickEvent.bgmFadeIn,tickEvent.bgmFadeOut)
+		if BGM.nowPlay then TASK.new(fadeOut,nil,BGM.nowPlay)end
+		TASK.changeCode(fadeIn,fadeOut)
 		TASK.removeTask_data(s)
 
 		BGM.nowPlay,BGM.suspend=s
-		TASK.new(tickEvent.bgmFadeIn,nil,s)
+		TASK.new(fadeIn,nil,s)
 		BGM.playing=BGM.list[s]
 		BGM.playing:play()
 	end
@@ -64,9 +81,9 @@ function BGM.freshVolume()
 end
 function BGM.stop()
 	if BGM.nowPlay then
-		TASK.new(tickEvent.bgmFadeOut,nil,BGM.nowPlay)
+		TASK.new(fadeOut,nil,BGM.nowPlay)
 	end
-	TASK.changeCode(tickEvent.bgmFadeIn,tickEvent.bgmFadeOut)
+	TASK.changeCode(fadeIn,fadeOut)
 	BGM.playing,BGM.nowPlay=nil
 end
 return BGM

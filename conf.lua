@@ -6,7 +6,7 @@ function love.conf(t)
 	t.gammacorrect=false
 	t.appendidentity=true--search files in source before save directory
 	t.accelerometerjoystick=false--accelerometer=joystick on ios/android
-	t.audio.mixwithsystem=true
+	if t.audio then t.audio.mixwithsystem=true end
 
 	local W=t.window
 	W.title="Techmino "..gameVersion

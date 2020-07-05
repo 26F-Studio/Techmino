@@ -192,7 +192,7 @@ local function getScore(field,cb,cy)
 	return score
 end
 -------------------------------------------------
-AI_think={
+return{
 	["9S"]={
 		function(P,ctrl)
 			local Tfield={}--test field

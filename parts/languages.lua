@@ -1749,7 +1749,7 @@ function LANG.getLen()
 end
 function LANG.set(l)
 	text=langList[l]
-	for S,L in next,widgetList do
+	for S,L in next,Widgets do
 		for N,W in next,L do
 			W.text=text.WidgetText[S][N]
 		end

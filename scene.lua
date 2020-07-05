@@ -29,7 +29,7 @@ function sceneInit.load()
 			#BGM.list,
 			#SFX.list,
 			IMG.getCount(),
-			#modes,
+			#Modes,
 			1,
 		},
 		skip=false,--if skipping
@@ -68,7 +68,7 @@ function sceneInit.mode(org)
 	local cam=mapCam
 	cam.zoomK=org=="main"and 5 or 1
 	if cam.sel then
-		local M=modes[cam.sel]
+		local M=Modes[cam.sel]
 		cam.x,cam.y=M.x*cam.k+180,M.y*cam.k
 		cam.x1,cam.y1=cam.x,cam.y
 	end
@@ -246,7 +246,7 @@ function sceneInit.stat()
 end
 function sceneInit.history()
 	BG.set("strap")
-	sceneTemp={require("updateLog"),1}--scroll pos
+	sceneTemp={require("parts/updateLog"),1}--scroll pos
 end
 function sceneInit.quit()
 	love.timer.sleep(.3)
@@ -293,7 +293,7 @@ function SCN.swapUpdate()
 	if S.time==S.mid then
 		SCN.init(S.tar,SCN.cur)
 		SCN.cur=S.tar
-		WIDGET.set(widgetList[S.tar])
+		WIDGET.set(Widgets[S.tar])
 		collectgarbage()
 		--Scene swapped this moment
 	end

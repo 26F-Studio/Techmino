@@ -2,8 +2,15 @@
 	Techmino is my first "huge project"
 	optimization is welcomed if you also love tetromino game
 ]]
+
+--Global Setting & Vars
+package.path="./?.lua;./parts/?.lua;./modules/?.lua"
 math.randomseed(os.time()*626)
---Global vars
+love.keyboard.setKeyRepeat(true)
+love.keyboard.setTextInput(false)
+love.mouse.setVisible(false)
+
+function NULL()end
 system=love.system.getOS()
 game={}
 mapCam={
@@ -22,46 +29,49 @@ mapCam={
 scr={x=0,y=0,w=0,h=0,rad=0,k=1}--wid,hei,radius,scale K
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
-function NULL()end
+players={alive={},human=0}
 --blockSkin,blockSkinMini={},{}--redefined in SKIN.change
 
 --Load modules
-setFont=require("parts/setfont")
-color=require("parts/color")
-blocks=require("parts/mino")
-SHADER=require("parts/shader")
-AITemplate=require("parts/AITemplate")
-freeRow=require("parts/freeRow")
-tickEvent=require("parts/tickEvent")
+color=		require("color")
+blocks=		require("mino")
+AITemplate=	require("AITemplate")
+freeRow=	require("freeRow")
 
-require("parts/list")
 require("toolfunc")
+require("list")
+require("gametoolfunc")
 require("texture")
+require("default_data")
 
-SCN=require("scene")
-VIB=require("parts/vib")
-SFX=require("parts/sfx")
-sysFX=require("parts/sysFX")
-BGM=require("parts/bgm")
-VOC=require("parts/voice")
-SKIN=require("parts/skin")
-LANG=require("parts/languages")
-FILE=require("parts/file")
-TEXT=require("parts/text")
-TASK=require("parts/task")
-BG=require("parts/bg")
-IMG=require("parts/img")
-WIDGET=require("parts/widget")
-LIGHT=require("parts/light")
+SKIN=	require("skin")
+PLY=	require("player")
+AIfunc=	require("ai")
+Modes=	require("modes")
 
-require("parts/modes")
-require("parts/default_data")
-require("parts/ai")
-PLY=require("player")
-widgetList=require("widgetList")
+--load Z's Framework
+SHADER=	require("shader")
+VIB=	require("vib")
+SFX=	require("sfx")
+sysFX=	require("sysFX")
+BG=		require("bg")
+BGM=	require("bgm")
+VOC=	require("voice")
+LANG=	require("languages")
+FILE=	require("file")
+TEXT=	require("text")
+TASK=	require("task")
+IMG=	require("img")
+WIDGET=	require("widget")
+Widgets=require("widgetList")
+LIGHT=	require("light")
+SCN=	require("scene")
 require("callback")
 
 --load files & settings
+modeRanks={}for i=1,#Modes do modeRanks[i]=false assert(i==Modes[i].id,"ModeID error:"..i)end
+modeRanks[1]=0
+
 local fs=love.filesystem
 if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
 if fs.getInfo("setting.dat")then fs.remove("setting.dat")end

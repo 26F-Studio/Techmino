@@ -5,10 +5,6 @@ local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local abs=math.abs
 local rem=table.remove
 
-kb.setKeyRepeat(true)
-kb.setTextInput(false)
-ms.setVisible(false)
-
 local scr=scr
 local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
@@ -17,7 +13,6 @@ local touchDist=nil
 joysticks={}
 
 local devMode
-players={alive={},human=0}
 
 local Tmr=require("timer")
 local Pnt=require("paint")
@@ -153,7 +148,7 @@ local function onMode(x,y)
 	local cam=mapCam
 	x=(cam.x1-640+x)/cam.k1
 	y=(cam.y1-360+y)/cam.k1
-	local MM,R=modes,modeRanks
+	local MM,R=Modes,modeRanks
 	for _=1,#MM do
 		if R[_]then
 			local M=MM[_]
@@ -199,7 +194,7 @@ function mouseClick.mode(x,y,k)
 			if __ then
 				SFX.play("click")
 				cam.moving=true
-				_=modes[__]
+				_=Modes[__]
 				cam.x=_.x*cam.k+180
 				cam.y=_.y*cam.k
 				cam.sel=__
@@ -402,17 +397,17 @@ function mouseDown.setting_sound(x,y,k)
 			VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
 			sceneTemp.last=Timer()
 			if rnd()<.0626 then
-				for i=1,#modes do
-					local M=modes[i]
+				for i=1,#Modes do
+					local M=Modes[i]
 					for i=1,#M.unlock do
 						local m=M.unlock[i]
 						if not modeRanks[m]then
-							modeRanks[m]=modes[m].score and 0 or 6
+							modeRanks[m]=Modes[m].score and 0 or 6
 						end
 					end
 				end
 				FILE.saveUnlock()
-				TEXT.show("DEVMODE:UNLOCKALL",640,360,50,"stretch",.6)
+				TEXT.show("DEVModes:UNLOCKALL",640,360,50,"stretch",.6)
 			end
 		end
 	end

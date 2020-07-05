@@ -44,6 +44,10 @@ if setting.lang==1 then
 		"jstris 也很好玩!",
 		"tetr.io 也很好玩!",
 		"nullpomino 也很好玩!",
+		"↑↑↓↓←→←→BABA",
+		"草(日本语)",
+		"dym,永远的神",
+		"iced,永远的神",
 	}
 elseif setting.lang==2 then
 	L={
@@ -90,6 +94,10 @@ elseif setting.lang==2 then
 		"jstris 也很好玩!",
 		"tetr.io 也很好玩!",
 		"nullpomino 也很好玩!",
+		"↑↑↓↓←→←→BABA",
+		"草(日本语)",
+		"dym,永远的神",
+		"iced,永远的神",
 	}
 elseif setting.lang==3 then
 	L={
@@ -137,6 +145,11 @@ elseif setting.lang==3 then
 		"Also try jstris!",
 		"Also try tetr.io!",
 		"Also try nullpomino!",
+		"↑↑↓↓←→←→BABA",
+		"wwwwww",
+		"diaoyoumei so bully",
+		"iced so bully",
+		"diao so bully",
 	}
 elseif setting.lang==4 then
 	L={'!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','\\','|',';',':','\'','"',',','<','.','>','/','?'}

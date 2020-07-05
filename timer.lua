@@ -18,9 +18,9 @@ function Tmr.load()
 		elseif S.phase==4 then
 			IMG.loadOne(S.cur)
 		elseif S.phase==5 then
-			local m=modes[S.cur]
-			modes[S.cur]=require("modes/"..m[1])
-			local M=modes[S.cur]
+			local m=Modes[S.cur]
+			Modes[S.cur]=require("modes/"..m[1])
+			local M=Modes[S.cur]
 			M.saveFileName,M.id=m[1],m.id
 			M.x,M.y,M.size,M.shape=m.x,m.y,m.size,m.shape
 			M.unlock=m.unlock
@@ -105,7 +105,7 @@ function Tmr.mode(dt)
 			cam.keyCtrl=true
 		end
 		local x,y=(cam.x1-180)/cam.k1,cam.y1/cam.k1
-		local MM,R=modes,modeRanks
+		local MM,R=Modes,modeRanks
 		for _=1,#MM do
 			if R[_]then
 				local __
@@ -142,7 +142,7 @@ function Tmr.mode(dt)
 	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
 	if cam.zoomMethod==1 then
 		if cam.sel then
-			local M=modes[cam.sel]
+			local M=Modes[cam.sel]
 			cam.x=cam.x*.8+M.x*cam.k*.2
 			cam.y=cam.y*.8+M.y*cam.k*.2
 		end

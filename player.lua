@@ -239,7 +239,7 @@ local function Pupdate_alive(P,dt)
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
-			P.AI_stage=AI_think[P.AI_mode][P.AI_stage](P,C)
+			P.AI_stage=AIfunc[P.AI_mode][P.AI_stage](P,C)
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])
 			rem(C,1)
@@ -581,10 +581,12 @@ local function Pdraw_norm(P)
 				gc.setColor(1,1,1,trans)
 				local x=30*(P.curX+P.sc[2]-1)-15
 				gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1]-1)+15,nil,nil,nil,4,4)
-				gc.translate(0,dy)
-				gc.setColor(1,1,1,.5)
-				gc.draw(IMG.spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
-				goto E
+				if P.gameEnv.ghost then
+					gc.translate(0,dy)
+					gc.setColor(1,1,1,.5)
+					gc.draw(IMG.spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
+					goto E
+				end
 			end--Rotate center
 			gc.translate(0,dy)
 		end
@@ -1770,6 +1772,60 @@ end
 --------------------------</Methods>--------------------------
 
 --------------------------<Events>--------------------------
+local tick={}
+function tick.finish(P)
+	if SCN.cur~="play"then return true end
+	P.endCounter=P.endCounter+1
+	if P.endCounter>120 then pauseGame()end
+end
+function tick.lose(P)
+	P.endCounter=P.endCounter+1
+	if P.endCounter>80 then
+		for i=1,#P.field do
+			for j=1,10 do
+				if P.visTime[i][j]>0 then
+					P.visTime[i][j]=P.visTime[i][j]-1
+				end
+			end
+		end
+		if P.endCounter==120 then
+			for _=#P.field,1,-1 do
+				freeRow.discard(P.field[_])
+				freeRow.discard(P.visTime[_])
+				P.field[_],P.visTime[_]=nil
+			end
+			if #players==1 and SCN.cur=="play"then
+				pauseGame()
+			end
+			return true
+		end
+	end
+end
+function tick.throwBadge(A,data)
+	data[2]=data[2]-1
+	if data[2]%4==0 then
+		local S,R=data[1],data[1].lastRecv
+		local x1,y1,x2,y2
+		if S.small then
+			x1,y1=S.centerX,S.centerY
+		else
+			x1,y1=S.x+308*S.size,S.y+450*S.size
+		end
+		if R.small then
+			x2,y2=R.centerX,R.centerY
+		else
+			x2,y2=R.x+66*R.size,R.y+344*R.size
+		end
+		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
+		--generate badge object
+
+		if not A.ai and data[2]%8==0 then
+			SFX.play("collect")
+		end
+	end
+	if data[2]<=0 then return true end
+end
+
 local function gameOver()
 	FILE.saveData()
 	local M=curMode
@@ -1787,7 +1843,7 @@ local function gameOver()
 			for i=1,#M.unlock do
 				local m=M.unlock[i]
 				if not modeRanks[m]then
-					modeRanks[m]=modes[m].score and 0 or 6
+					modeRanks[m]=Modes[m].score and 0 or 6
 					_=true
 				end
 			end
@@ -1857,7 +1913,7 @@ function player.win(P,result)
 	if P.human then
 		gameOver()
 	end
-	TASK.new(tickEvent.finish,P)
+	TASK.new(tick.finish,P)
 end
 function player.lose(P)
 	if P.life>0 then
@@ -1901,7 +1957,7 @@ function player.lose(P)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(tickEvent.throwBadge,A,{P,max(3,P.badge)*4})
+					TASK.new(tick.throwBadge,A,{P,max(3,P.badge)*4})
 				end
 				freshMostBadge()
 			end
@@ -1934,7 +1990,9 @@ function player.lose(P)
 			end
 		end
 		gameOver()
-		TASK.new(#players>1 and tickEvent.lose or tickEvent.finish,P)
+		TASK.new(#players>1 and tick.lose or tick.finish,P)
+	else
+		TASK.new(tick.lose,P)
 	end
 	if #players.alive==1 then
 		players.alive[1]:win()
@@ -2090,6 +2148,7 @@ function player.act.insLeft(P,auto)
 	end
 	if x0~=P.curX then
 		if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
+		P.spinLast=false
 	end
 	if P.gameEnv.shakeFX then
 		P.fieldOff.vx=-P.gameEnv.shakeFX*.5
@@ -2112,6 +2171,7 @@ function player.act.insRight(P,auto)
 	end
 	if x0~=P.curX then
 		if P.gameEnv.easyFresh or y0~=P.curY then P:freshLockDelay()end
+		P.spinLast=false
 	end
 	if P.gameEnv.shakeFX then
 		P.fieldOff.vx=P.gameEnv.shakeFX*.5

@@ -152,7 +152,7 @@ function Pnt.mode()
 	gc.scale(cam.zoomK)
 	gc.translate(-cam.x1,-cam.y1)
 	gc.scale(cam.k1)
-	local MM=modes
+	local MM=Modes
 	local R=modeRanks
 	local sel=cam.sel
 	setFont(30)

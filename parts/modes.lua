@@ -1,4 +1,4 @@
-modes={
+return{
 	{"sprint_10",						id=1,	x=0,		y=0,		size=35,shape=1,icon="sprint",	unlock={2,3}},
 	{"sprint_20",						id=2,	x=-300,		y=0,		size=45,shape=1,icon="sprint",	unlock={}},
 	{"sprint_40",						id=3,	x=0,		y=-400,		size=55,shape=1,icon="sprint",	unlock={4,9,71,72,73}},
@@ -83,9 +83,3 @@ modes={
 		{"custom_puzzle",				id=72,	x=200,		y=-200,		size=45,shape=3,icon="puzzle",	unlock={}},
 	{"sprintPenta",						id=73,	x=-200,		y=-200,		size=45,shape=3,icon="sprint",	unlock={}},
 }
-modeRanks={}
-for i=1,#modes do
-	modeRanks[i]=false
-	assert(i==modes[i].id,"ModeID error:"..i)
-end
-modeRanks[1]=0

@@ -1,4 +1,5 @@
-mobileHide=(system=="Android"or system=="iOS")and function()return true end
+local mobileHide=(system=="Android"or system=="iOS")and function()return true end
+local function BACK()SCN.back()end
 local virtualkeySet={
 	{
 		{1,	80,			720-200,	80},--moveLeft
@@ -87,7 +88,7 @@ local function setLang(n)	return function()LANG.set(n)setting.lang=n			end end
 local newButton,newSwitch,newSlider=WIDGET.new.button,WIDGET.new.switch,WIDGET.new.slider
 
 local C=color
-local widgetList={
+local Widgets={
 	load={},intro={},quit={},
 	main={
 		play=	newButton(150,280,200,160,C.lightRed,		55,function()SCN.push()SCN.swapTo("mode")end,			nil,"setting"),
@@ -103,7 +104,7 @@ local widgetList={
 		draw=	newButton(1100,	440,240,90,C.lightYellow,	40,function()SCN.push()SCN.swapTo("draw")end,function()return mapCam.sel~=71 and mapCam.sel~=72 end),
 		custom=	newButton(1100,	540,240,90,C.lightGreen,	40,function()SCN.push()SCN.swapTo("custom")end,function()return mapCam.sel~=71 and mapCam.sel~=72 end),
 		start=	newButton(1040,	655,180,80,C.lightGrey,		40,function()if mapCam.sel then SCN.push()loadGame(mapCam.sel)end end,function()return not mapCam.sel end),
-		back=	newButton(1200,	655,120,80,C.white,			40,SCN.back),
+		back=	newButton(1200,	655,120,80,C.white,			40,BACK),
 		--function()SCN.push()SCN.swapTo("custom")end
 	},
 	music={
@@ -111,7 +112,7 @@ local widgetList={
 		up=		newButton(1100,	200,120,120,C.white,55,pressKey("up")),
 		play=	newButton(1100,	340,120,120,C.white,35,pressKey("space"),function()return setting.bgm==0 end),
 		down=	newButton(1100,	480,120,120,C.white,55,pressKey("down")),
-		back=	newButton(640,	630,230,90,	C.white,40,SCN.back),
+		back=	newButton(640,	630,230,90,	C.white,40,BACK),
 	},
 	custom={
 		up=		newButton(1000,	360,100,100,C.white,		45,function()sceneTemp=(sceneTemp-2)%#customID+1 end),
@@ -123,7 +124,7 @@ local widgetList={
 		set3=	newButton(640,	340,240,75,	C.lightYellow,	35,pressKey("3")),
 		set4=	newButton(640,	430,240,75,	C.lightYellow,	35,pressKey("4")),
 		set5=	newButton(640,	520,240,75,	C.lightYellow,	35,pressKey("5")),
-		back=	newButton(640,	630,180,60,	C.white,		35,SCN.back),
+		back=	newButton(640,	630,180,60,	C.white,		35,BACK),
 	},
 	draw={
 		b1=		newButton(500+65*1,	150,58,58,C.red,		30,setPen(1)),--B1
@@ -151,7 +152,7 @@ local widgetList={
 		demo=	newSwitch(755,	640,30,function()return sceneTemp.demo end,function()sceneTemp.demo=not sceneTemp.demo end),
 		copy=	newButton(920,	640,120,120,C.lightRed,		35,copyBoard),
 		paste=	newButton(1060,	640,120,120,C.lightBlue,	35,pasteBoard),
-		back=	newButton(1200,	640,120,120,C.white,		35,SCN.back),
+		back=	newButton(1200,	640,120,120,C.white,		35,BACK),
 	},
 	play={
 		pause=	newButton(1235,45,80,80,C.white,25,pauseGame),
@@ -167,7 +168,7 @@ local widgetList={
 		setting=newButton(1120,70,240,90,C.lightBlue,35,function()
 			SCN.push()SCN.swapTo("setting_sound")
 			end),
-		quit=	newButton(640,600,240,100,C.white,35,SCN.back),
+		quit=	newButton(640,600,240,100,C.white,35,BACK),
 	},
 	setting_game={
 		graphic=newButton(200,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_video")end,				nil,"sound"),
@@ -185,7 +186,7 @@ local widgetList={
 		quickR=	newSwitch(1050,340,35,				SETval("quickR"),		SETrev("quickR"),				nil,"swap"),
 		swap=	newSwitch(1050,440,19,				SETval("swap"),			SETrev("swap"),					nil,"fine"),
 		fine=	newSwitch(1050,540,20,				SETval("fine"),			SETrev("fine"),					nil,"back"),
-		back=	newButton(1140,650,200,80,C.white,40,SCN.back,											nil,"graphic"),
+		back=	newButton(1140,650,200,80,C.white,40,BACK,											nil,"graphic"),
 	},
 	setting_video={
 		sound=	newButton(200,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_sound")end,	nil,"game"),
@@ -216,7 +217,7 @@ local widgetList={
 		power=	newSwitch(1050,500,35,SETval("powerInfo"),function()
 			setting.powerInfo=not setting.powerInfo
 		end,nil,"back"),
-		back=	newButton(1140,650,200,80,C.white,40,SCN.back,nil,"sound"),
+		back=	newButton(1140,650,200,80,C.white,40,BACK,nil,"sound"),
 	},
 	setting_sound={
 		game=	newButton(200,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_game")end,						nil,"graphic"),
@@ -226,7 +227,7 @@ local widgetList={
 		vib=	newSlider(180,440,400,5	,28,function()VIB(2)end,				SETval("vib"),		SETsto("vib"),		nil,"voc"),
 		voc=	newSlider(750,440,400,10,32,function()VOC.play("nya")end,		SETval("voc"),		SETsto("voc"),		nil,"stereo"),
 		stereo=	newSlider(180,630,400,10,35,function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,	SETval("stereo"),	SETsto("stereo"),function()return setting.sfx==0 end,"back"),
-		back=	newButton(1140,650,200,80,C.white,40,SCN.back,nil,"game"),
+		back=	newButton(1140,650,200,80,C.white,40,BACK,nil,"game"),
 	},
 	setting_control={
 		das=	newSlider(226,200,910,	26,	30,nil,SETval("das"),	SETsto("das"),	nil,"arr"),
@@ -242,10 +243,10 @@ local widgetList={
 			_.sddas,_.sdarr=0,2
 			_.ihs,_.irs,_.ims=false,false,false
 			end,nil,"back"),
-		back=	newButton(1140,650,200,80,C.white,40,SCN.back,nil,"das"),
+		back=	newButton(1140,650,200,80,C.white,40,BACK,nil,"das"),
 	},
 	setting_key={
-		back=newButton(1140,650,200,80,C.white,45,SCN.back),
+		back=newButton(1140,650,200,80,C.white,45,BACK),
 	},
 	setting_skin={
 		prev=	newButton(700,100,140,100,C.white,50,function()SKIN.prevSet()end),
@@ -284,7 +285,7 @@ local widgetList={
 			end
 			SFX.play("hold")
 		end),
-		back=	newButton(1140,650,200,80,C.white,40,SCN.back),
+		back=	newButton(1140,650,200,80,C.white,40,BACK),
 	},
 	setting_touch={
 		default=newButton(520,80,170,80,C.white,35,function()
@@ -310,7 +311,7 @@ local widgetList={
 			SCN.push()
 			SCN.swapTo("setting_touchSwitch")
 			end),
-		back=	newButton(760,180,170,80,C.white,40,SCN.back),
+		back=	newButton(760,180,170,80,C.white,40,BACK),
 		size=	newSlider(450,265,460,14,40,nil,function()
 			return VK_org[sceneTemp.sel].r/10-1
 		end,
@@ -354,38 +355,38 @@ local widgetList={
 			SCN.swapTo("setting_trackSetting")
 			end,function()return not setting.VKTrack end),
 		alpha=	newSlider(840,540,400,10,40,nil,SETval("VKAlpha"),SETsto("VKAlpha")),
-		back=	newButton(1120,620,200,80,C.white,45,SCN.back),
+		back=	newButton(1120,620,200,80,C.white,45,BACK),
 	},
 	setting_trackSetting={
 		VKDodge=newSwitch(400,200,	35,SETval("VKDodge"),SETrev("VKDodge")),
 		VKTchW=	newSlider(140,310,1000,10,35,nil,SETval("VKTchW"),function(i)setting.VKTchW=i;setting.VKCurW=math.max(setting.VKCurW,i)end),
 		VKCurW=	newSlider(140,370,1000,10,35,nil,SETval("VKCurW"),function(i)setting.VKCurW=i;setting.VKTchW=math.min(setting.VKTchW,i)end),
-		back=	newButton(1080,600,240,80,C.white,45,SCN.back),
+		back=	newButton(1080,600,240,80,C.white,45,BACK),
 	},
 	setting_lang={
 		chi=	newButton(160,100,200,120,C.white,45,setLang(1),nil,"chi2"),
 		chi2=	newButton(380,100,200,120,C.white,45,setLang(2),nil,"eng"),
 		eng=	newButton(600,100,200,120,C.white,45,setLang(3),nil,"str"),
 		str=	newButton(820,100,200,120,C.white,45,setLang(4),nil,"back"),
-		back=	newButton(640,600,200,80,C.white,40,SCN.back,nil,"chi"),
+		back=	newButton(640,600,200,80,C.white,40,BACK,nil,"chi"),
 	},
 	help={
 		staff=	newButton(980,500,150,80,C.white,32,function()SCN.push()SCN.swapTo("staff")end,nil,"his"),
 		his=	newButton(1160,500,150,80,C.white,32,function()SCN.push()SCN.swapTo("history")end,nil,"qq"),
 		qq=		newButton(980,600,150,80,C.white,32,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,mobileHide,"back"),
-		back=	newButton(640,600,200,80,C.white,40,SCN.back,nil,"staff"),
+		back=	newButton(640,600,200,80,C.white,40,BACK,nil,"staff"),
 	},
 	staff={
-		back=	newButton(1160,630,150,80,C.white,40,SCN.back),
+		back=	newButton(1160,630,150,80,C.white,40,BACK),
 	},
 	history={
 		prev=	newButton(1155,170,180,180,C.white,65,pressKey("up"),function()return sceneTemp[2]==1 end),
 		next=	newButton(1155,400,180,180,C.white,65,pressKey("down"),function()return sceneTemp[2]==#sceneTemp[1]end),
-		back=	newButton(1155,600,180,90,C.white,40,SCN.back),
+		back=	newButton(1155,600,180,90,C.white,40,BACK),
 	},
 	stat={
 		path=	newButton(980,620,250,80,C.white,25,function()love.system.openURL(love.filesystem.getSaveDirectory())end,mobileHide,"back"),
-		back=	newButton(640,620,200,80,C.white,40,SCN.back,nil,"path"),
+		back=	newButton(640,620,200,80,C.white,40,BACK,nil,"path"),
 	},
 }
 mobileHide,SETval,SETsto,SETrev=nil
@@ -393,11 +394,11 @@ pressKey,setPen,prevSkin,nextSkin=nil
 nextDir,VKAdisp,VKAcode,setLang=nil
 newButton,newSwitch,newSlider=nil
 
-for _,L in next,widgetList do
+for _,L in next,Widgets do
 	for _,W in next,L do
 		if W.next then
 			W.next,L[W.next].prev=L[W.next],W
 		end
 	end
 end
-return widgetList
+return Widgets
