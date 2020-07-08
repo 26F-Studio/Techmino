@@ -56,60 +56,60 @@ back to back(B2B)点数说明:
 	在拼图模式下,按功能键切换是否展示提示.其中打"X"的格子不允许有方块,空的格子可以是任何状态,普通的七种彩色方块必须颜色对应,垃圾行方块的为止只要有方块就可以,但是不能是空气,玩家拼出自己画的图后就会判定胜利.
 
 Gameplay:
-    System will offer a series of tetrominoes ("Pieces". There are 7 types), and the player needs to control [them] (move left and right, rotate 90, 180 or 270 degrees), filling a row on the play field will clear it, attack will be sent depending on the type of the line clear (if there is an opponent)
-    Survive till the last or complete the level's goal to win.
+	System will offer a series of tetrominoes ("Pieces". There are 7 types), and the player needs to control [them] (move left and right, rotate 90, 180 or 270 degrees), filling a row on the play field will clear it, attack will be sent depending on the type of the line clear (if there is an opponent)
+	Survive till the last or complete the level's goal to win.
 
 Rotation system:
-    Uses Techmino's custom rotation system. Too lazy to write the details
+	Uses Techmino's custom rotation system. Too lazy to write the details
 
 Spin detection:
-    Combines immobile and 3-corner detection, and whether a spin is mini also depends on the data used for detection. Also too lazy to write the details
+	Combines immobile and 3-corner detection, and whether a spin is mini also depends on the data used for detection. Also too lazy to write the details
 
 Attack system:
-    Regular line clears:
-        Single/Double/Triple/Techrash sends 0.25/1.25/2.25/4
-    Special line clears:
-        Spin Single/Double/Triple sends 2/4/6, half if Mini
-        B2B: +1 (Techrash/Spin Single/Spin Double) or +2 (Spin Triple)
-        B2B2B/B3B: In addition to B2B, +1 if Techrash, +(0.5 * lines cleared) if Spin, and in both cases +1 additional blocking
-        Wide Combo: 0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 3, then 2 afterwards
-        Dig Combo: 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, then 5 afterwards
-    Special line clears will increase B2B gauge, making later special line clears have B2B or B2B2B bonus (see below)
-    Half Perfect Clear (a Perfect Clear "with blocks left below". If it's an I clearing 1 line, then the remaining blocks must not be player-placed): Attack +2, Extra Blocking +2
-    Perfect Clear: square root all damage above, then +6 to +12 attack (increases within a round) and +2 extra blocking. (note: if lines cleared in this round >4, then B2B gauge will be filled)
-    After calculating all above, the damage value will be rounded down then sent
+	Regular line clears:
+		Single/Double/Triple/Techrash sends 0.25/1.25/2.25/4
+	Special line clears:
+		Spin Single/Double/Triple sends 2/4/6, half if Mini
+		B2B: +1 (Techrash/Spin Single/Spin Double) or +2 (Spin Triple)
+		B2B2B/B3B: In addition to B2B, +1 if Techrash, +(0.5 * lines cleared) if Spin, and in both cases +1 additional blocking
+		Wide Combo: 0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 3, then 2 afterwards
+		Dig Combo: 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, then 5 afterwards
+	Special line clears will increase B2B gauge, making later special line clears have B2B or B2B2B bonus (see below)
+	Half Perfect Clear (a Perfect Clear "with blocks left below". If it's an I clearing 1 line, then the remaining blocks must not be player-placed): Attack +2, Extra Blocking +2
+	Perfect Clear: square root all damage above, then +6 to +12 attack (increases within a round) and +2 extra blocking. (note: if lines cleared in this round >4, then B2B gauge will be filled)
+	After calculating all above, the damage value will be rounded down then sent
 
 Score system:
-    The more impressive you play, the more score you get
+	The more impressive you play, the more score you get
 
 Attack delay:
-    Attack from Doubles/Triples take effect the faster, then Techrash, Spins send rather slow attack, and high combos will send the slowest
-    B2B or B2B2B, while they increase lines sent, they also increase the attack delay. Minis will greatly increase delay.
+	Attack from Doubles/Triples take effect the faster, then Techrash, Spins send rather slow attack, and high combos will send the slowest
+	B2B or B2B2B, while they increase lines sent, they also increase the attack delay. Minis will greatly increase delay.
 
 Countering:
-    When you send attack, if there is garbage in queue, extra blocking will be used first, then attack, countering the earliest attack at a 1:1 ratio.
-    Unused extra blocking will be discarded, then remaining attack will be sent to your opponent.
+	When you send attack, if there is garbage in queue, extra blocking will be used first, then attack, countering the earliest attack at a 1:1 ratio.
+	Unused extra blocking will be discarded, then remaining attack will be sent to your opponent.
 
 Back to Back (B2B) gauge:
-    The B2B gauge ranges from 0 to 1,200. Special line clears are B2B if the gauge is >=40, B2B2B if >1,000.
-    A regular line clear -250
-    Spin Single/Double/Triple +50/100/180 (x40% if Mini)
-    Techrash +100
-    Spin without clearing lines +20, but gauge cannot exceed 1,000 with this method
-    When gauge is above 1,000, a drop without clearing lines -40 (cannot drop below 1,000 with this method)
+	The B2B gauge ranges from 0 to 1,200. Special line clears are B2B if the gauge is >=40, B2B2B if >1,000.
+	A regular line clear -250
+	Spin Single/Double/Triple +50/100/180 (x40% if Mini)
+	Techrash +100
+	Spin without clearing lines +20, but gauge cannot exceed 1,000 with this method
+	When gauge is above 1,000, a drop without clearing lines -40 (cannot drop below 1,000 with this method)
 
 Battle Royale modes:
-    Many players play within one game (all opponents are bots, not real players). As players get eliminated, blocks fall faster, and garbage take effect faster, as well as rise faster. KO-ing another player grants you one badge plus all badge that player has, increasing your attack power.
-    Players can select one of 4 attack modes:
-        1. Random: Every time you attack, 10% chance to lock onto a random player.
-        2. Badges: After you attack or when your target dies, lock onto the player with the most badges.
-        3. KOs: After you attack or when your target dies, lock onto the player with the highest field. (This refreshes every second)
-        4. Counter: attack all players locking onto yourself. Your attack will be sent to all of them. If you are not targetted, you attack a random player (not locking).
-    The last survivor wins.
+	Many players play within one game (all opponents are bots, not real players). As players get eliminated, blocks fall faster, and garbage take effect faster, as well as rise faster. KO-ing another player grants you one badge plus all badge that player has, increasing your attack power.
+	Players can select one of 4 attack modes:
+		1. Random: Every time you attack, 10% chance to lock onto a random player.
+		2. Badges: After you attack or when your target dies, lock onto the player with the most badges.
+		3. KOs: After you attack or when your target dies, lock onto the player with the highest field. (This refreshes every second)
+		4. Counter: attack all players locking onto yourself. Your attack will be sent to all of them. If you are not targetted, you attack a random player (not locking).
+	The last survivor wins.
 
 Custom mode:
-    You can freely adjust most parameters (not including special effects of other game modes), and you can also draw a field to clear or make a template to build.
-    In build (puzzle) mode, you can toggle template display with Function key. Cells with a X cannot have blocks; empty cells can be in any state; regular colored cells have to be made of the corresponding block; garbage-colored cells can be any block but not air. Once you make the shape, you will win.
+	You can freely adjust most parameters (not including special effects of other game modes), and you can also draw a field to clear or make a template to build.
+	In build (puzzle) mode, you can toggle template display with Function key. Cells with a X cannot have blocks; empty cells can be in any state; regular colored cells have to be made of the corresponding block; garbage-colored cells can be any block but not air. Once you make the shape, you will win.
 
 附录Appendix:
 ZXC's cool O-spin map:XY0BCgAwCAIR7v9vHtUSt8AS0xKqgpnNGyXkrmFNePf6qi3BbQPrHT2Owxe6D66NeKi86dwB

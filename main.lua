@@ -4,7 +4,6 @@
 ]]
 
 --Global Setting & Vars
-package.path="./?.lua;./parts/?.lua;./modules/?.lua"
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
@@ -32,41 +31,23 @@ preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 players={alive={},human=0}
 --blockSkin,blockSkinMini={},{}--redefined in SKIN.change
 
+require("Zframework")--load Zframework
+
 --Load modules
-color=		require("color")
-blocks=		require("mino")
-AITemplate=	require("AITemplate")
-freeRow=	require("freeRow")
+blocks=		require("parts/mino")
+AITemplate=	require("parts/AITemplate")
+freeRow=	require("parts/freeRow")
 
-require("toolfunc")
-require("list")
-require("gametoolfunc")
-require("texture")
-require("default_data")
+require("parts/list")
+require("parts/gametoolfunc")
+require("parts/texture")
+require("parts/default_data")
 
-SKIN=	require("skin")
-PLY=	require("player")
-AIfunc=	require("ai")
-Modes=	require("modes")
+SKIN=	require("parts/skin")
+PLY=	require("parts/player")
+AIfunc=	require("parts/ai")
+Modes=	require("parts/modes")
 
---load Z's Framework
-SHADER=	require("shader")
-VIB=	require("vib")
-SFX=	require("sfx")
-sysFX=	require("sysFX")
-BG=		require("bg")
-BGM=	require("bgm")
-VOC=	require("voice")
-LANG=	require("languages")
-FILE=	require("file")
-TEXT=	require("text")
-TASK=	require("task")
-IMG=	require("img")
-WIDGET=	require("widget")
-Widgets=require("widgetList")
-LIGHT=	require("light")
-SCN=	require("scene")
-require("callback")
 
 --load files & settings
 modeRanks={}for i=1,#Modes do modeRanks[i]=false assert(i==Modes[i].id,"ModeID error:"..i)end
@@ -76,7 +57,8 @@ local fs=love.filesystem
 if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
 if fs.getInfo("setting.dat")then fs.remove("setting.dat")end
 
-if fs.getInfo("settings.dat")then FILE.loadSetting()
+if fs.getInfo("settings.dat")then
+	FILE.loadSetting()
 else
 	-- firstRun=true
 	if system=="Android"or system=="iOS" then

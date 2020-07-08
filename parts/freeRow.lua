@@ -20,9 +20,9 @@ function freeRow.get(val)
 		end
 		_=_+10
 	end
-    local t=L[_]
+	local t=L[_]
 	for i=1,10 do t[i]=val end
-    L[_]=nil
+	L[_]=nil
 	_=_-1
 	return t
 end
@@ -31,6 +31,6 @@ function freeRow.discard(t)
 	L[_]=t
 end
 function freeRow.getCount()
-    return _
+	return _
 end
 return freeRow

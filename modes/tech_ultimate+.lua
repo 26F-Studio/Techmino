@@ -3,6 +3,9 @@ local function tech_check_hard(P)
 	if #P.clearedRow>0 and P.lastClear<10 or P.lastClear==74 then
 		P:lose()
 	end
+	if P.stat.row>=200 then
+		P:win("finish")
+	end
 end
 
 return{

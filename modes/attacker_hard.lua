@@ -23,9 +23,8 @@ return{
 				end
 				B.sum=B.sum+22
 				P.stat.recv=P.stat.recv+22
-				if D.event<50 then
-					D.event=D.event+1
-					D.point=int(72e4/t)*.1
+				D.event=D.event+1
+				if D.event%10==0 then
 					if D.event==20 then
 						P:showTextF(text.great,0,-140,100,"appear",.6)
 						P.gameEnv.pushSpeed=3

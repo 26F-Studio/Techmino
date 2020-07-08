@@ -153,8 +153,8 @@ local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
 --------------------------</GameData>--------------------------
 
 --------------------------<LIB>--------------------------
-local player={}
-local PLY={}
+local player={}--player object
+local PLY={}--lib
 --------------------------</LIB>--------------------------
 
 --------------------------<Update>--------------------------
@@ -216,6 +216,12 @@ local function updateFXs(P,dt)
 		end
 	end
 	if P.fieldBeneath>0 then P.fieldBeneath=max(P.fieldBeneath-P.gameEnv.pushSpeed,0)end
+end
+local function updateTasks(P)
+	local L=P.tasks
+	for i=#L,1,-1 do
+		if L[i].code(P,L[i].data)then end
+	end
 end
 local function Pupdate_alive(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
@@ -393,6 +399,7 @@ local function Pupdate_alive(P,dt)
 		P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
 	end
 	updateFXs(P,dt)
+	updateTasks(P)
 end
 local function Pupdate_dead(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
@@ -422,6 +429,7 @@ local function Pupdate_dead(P,dt)
 	end
 	if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
 	updateFXs(P,dt)
+	updateTasks(P)
 end
 --------------------------</Update>--------------------------
 
@@ -948,6 +956,13 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,mini,combo)
 		r=r,g=g,b=b,a=a*(setting.atkFX+5)*.1,
 		t=0,
 		drag={},--Afterimage coordinate list
+	}
+end
+function player.newTask(P,code,data)
+	local L=P.tasks
+	L[#L+1]={
+		code=code,
+		data=data,
 	}
 end
 --------------------------</FX>--------------------------
@@ -1801,10 +1816,10 @@ function tick.lose(P)
 		end
 	end
 end
-function tick.throwBadge(A,data)
-	data[2]=data[2]-1
-	if data[2]%4==0 then
-		local S,R=data[1],data[1].lastRecv
+function tick.throwBadge(data)--{ifAI,Sender,timer}
+	data[3]=data[3]-1
+	if data[3]%4==0 then
+		local S,R=data[2],data[2].lastRecv
 		local x1,y1,x2,y2
 		if S.small then
 			x1,y1=S.centerX,S.centerY
@@ -1819,11 +1834,11 @@ function tick.throwBadge(A,data)
 		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
 		--generate badge object
 
-		if not A.ai and data[2]%8==0 then
+		if not data[1]and data[3]%8==0 then
 			SFX.play("collect")
 		end
 	end
-	if data[2]<=0 then return true end
+	if data[3]<=0 then return true end
 end
 
 local function gameOver()
@@ -1872,7 +1887,7 @@ local function gameOver()
 	end
 end--Save record
 
-function player.die(P)--Same thing when win/lose,not really die!
+function player.die(P)--Called when win/lose,not really die!
 	P.alive=false
 	P.timing=false
 	P.control=false
@@ -1913,7 +1928,7 @@ function player.win(P,result)
 	if P.human then
 		gameOver()
 	end
-	TASK.new(tick.finish,P)
+	P:newTask(tick.finish)
 end
 function player.lose(P)
 	if P.life>0 then
@@ -1957,7 +1972,7 @@ function player.lose(P)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(tick.throwBadge,A,{P,max(3,P.badge)*4})
+					TASK.new(tick.throwBadge,{A.ai,P,max(3,P.badge)*4})
 				end
 				freshMostBadge()
 			end
@@ -1990,9 +2005,9 @@ function player.lose(P)
 			end
 		end
 		gameOver()
-		TASK.new(#players>1 and tick.lose or tick.finish,P)
+		P:newTask(#players>1 and tick.lose or tick.finish)
 	else
-		TASK.new(tick.lose,P)
+		P:newTask(tick.lose)
 	end
 	if #players.alive==1 then
 		players.alive[1]:win()
@@ -2337,6 +2352,7 @@ local function newEmptyPlayer(id,x,y,size)
 
 	P.score1,P.b2b1=0,0
 	P.dropFX,P.lockFX,P.clearFX={},{},{}
+	P.tasks={}--tasks
 	P.bonus={}--texts
 
 	P.endCounter=0--used after gameover

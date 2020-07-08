@@ -19,7 +19,7 @@ local S=[=[
 		PCX  kagura77  呆喂  GlowingEmbers
 		轩辕辚  HimuroAki  TCV100  tech有养成系统了@7065
 		HAGE KANOBU  闪电和拐棍  葡萄味的曼妥思  世界沃德
-		蓝绿  天生的魔法师  saki 琳雨空
+		蓝绿  天生的魔法师  saki 琳雨空 T8779.易缄
 
 	Thanks!!!
 
@@ -55,9 +55,9 @@ Future outlook:
 			field flip(LR/UD)
 			no fail(∞ lives)
 		mini games:
-			15 puzzle
+			15 puzzle (with hidden mode)
+			2048 (with next (with deadly mode))
 			mine sweeper
-			2048
 			tank battle
 		time-based-rank for master advanced mode(1:58/2：28/3：03/300P/100P)
 		简易防沉迷系统
@@ -82,11 +82,15 @@ Future outlook:
 0.8.25: Custom Sequence Update
 	new:
 		--TODO: custom sequence
+		many new tips
 	changed:
+		faster&harder attacker-ultimate
 		little easier to get S in PC challenge (easy mode)
-		easier to get S in infinite mode
+		easier to get S in infinite mode, c4w, PC
+		harder to unlock sprint 400/1000
 	code:
 		file sorted
+		task system rewrited, now perfect
 	fixed:
 		hard move won't deactive "spin"
 		do not clear dead enemies' field

@@ -37,7 +37,7 @@ local function newPC(P)
 		P.modeData.symmetry=symmetry
 		P:pushNext(L,symmetry)
 		P.modeData.counter=P.stat.piece==0 and 20 or 0
-		TASK.new(task_PC,P)
+		P:newTask(task_PC)
 	end
 end
 return{

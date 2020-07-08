@@ -1,4 +1,6 @@
 local gc=love.graphics
+local int=math.floor
+local format=string.format
 
 local fontData=love.filesystem.newFile("font.ttf")
 local newFont=gc.setNewFont
@@ -19,8 +21,6 @@ function setFont(s)
 	return f
 end
 
-local int=math.floor
-local format=string.format
 function toTime(s)
 	if s<60 then
 		return format("%.3fs",s)

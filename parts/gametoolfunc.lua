@@ -236,7 +236,7 @@ function resetPartGameData()
 	TEXT.clear()
 	if modeEnv.task then
 		for i=1,#players do
-			players[i].newTask(modeEnv.task)
+			players[i]:newTask(modeEnv.task)
 		end
 	end
 	if modeEnv.royaleMode then
@@ -271,7 +271,7 @@ function resetGameData()
 	curMode.load()--bg/bgm need redefine in custom,so up here
 	if modeEnv.task then
 		for i=1,#players do
-			players[i].newTask(modeEnv.task)
+			players[i]:newTask(modeEnv.task)
 		end
 	end
 	BG.set(modeEnv.bg)

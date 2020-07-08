@@ -32,8 +32,8 @@ return{
 		T<=255 and 5 or
 		T<=326 and 4 or
 		T<=462 and 3 or
-		T<=626 and 2 or
-		T<=1260 and 1 or
+		T<=555 and 2 or
+		T<=626 and 1 or
 		0
 	end,
 }

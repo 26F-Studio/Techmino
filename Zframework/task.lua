@@ -9,17 +9,14 @@ end
 function TASK.update()
 	for i=#tasks,1,-1 do
 		local T=tasks[i]
-		if T.code(T.P,T.data)then
-			for i=i,#tasks do
-				tasks[i]=tasks[i+1]
-			end
+		if T.code(T.data)then
+			rem(tasks,i)
  		end
 	end
 end
-function TASK.new(code,P,data)
+function TASK.new(code,data)
 	tasks[#tasks+1]={
 		code=code,
-		P=P,
 		data=data,
 	}
 end

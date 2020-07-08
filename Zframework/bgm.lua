@@ -1,7 +1,7 @@
 local min=math.min
 local rem=table.remove
 
-local function fadeOut(_,id)
+local function fadeOut(id)
 	local src=BGM.list[id]
 	local v=src:getVolume()-.025*setting.bgm*.1
 	src:setVolume(v>0 and v or 0)
@@ -10,7 +10,7 @@ local function fadeOut(_,id)
 		return true
 	end
 end
-local function fadeIn(_,id)
+local function fadeIn(id)
 	local src=BGM.list[id]
 	local v=min(src:getVolume()+.025*setting.bgm*.1,setting.bgm*.1)
 	src:setVolume(v)
@@ -27,7 +27,7 @@ BGM.list={
 	"secret7th","secret8th",
 	"shining terminal","oxygen","distortion","far",
 	"rockblock","cruelty","final","8-bit happiness","end",
-	"hay what kind of feeling",
+	"how feeling",
 }
 BGM.len=#BGM.list
 function BGM.loadOne(N)
@@ -53,12 +53,12 @@ function BGM.play(s)
 		return
 	end
 	if BGM.nowPlay~=s then
-		if BGM.nowPlay then TASK.new(fadeOut,nil,BGM.nowPlay)end
+		if BGM.nowPlay then TASK.new(fadeOut,BGM.nowPlay)end
 		TASK.changeCode(fadeIn,fadeOut)
 		TASK.removeTask_data(s)
 
 		BGM.nowPlay,BGM.suspend=s
-		TASK.new(fadeIn,nil,s)
+		TASK.new(fadeIn,s)
 		BGM.playing=BGM.list[s]
 		BGM.playing:play()
 	end
@@ -81,7 +81,7 @@ function BGM.freshVolume()
 end
 function BGM.stop()
 	if BGM.nowPlay then
-		TASK.new(fadeOut,nil,BGM.nowPlay)
+		TASK.new(fadeOut,BGM.nowPlay)
 	end
 	TASK.changeCode(fadeIn,fadeOut)
 	BGM.playing,BGM.nowPlay=nil

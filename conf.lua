@@ -1,10 +1,10 @@
-gameVersion="Alpha V0.8.24"
+gameVersion="Alpha V0.9.0"
 function love.conf(t)
-	t.identity="Techmino"--folder name
+	t.identity="Techmino"--saving folder
 	t.version="11.1"
 	t.console=false
 	t.gammacorrect=false
-	t.appendidentity=true--search files in source before save directory
+	t.appendidentity=true--search files in source then in save directory
 	t.accelerometerjoystick=false--accelerometer=joystick on ios/android
 	if t.audio then t.audio.mixwithsystem=true end
 

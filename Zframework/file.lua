@@ -15,7 +15,7 @@ local function splitS(s,sep)
 	return t
 end
 local tabs={
-    [0]="",
+	[0]="",
 	"\t",
 	"\t\t",
 	"\t\t\t",

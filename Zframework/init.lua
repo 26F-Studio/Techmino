@@ -1,3 +1,24 @@
+require("Zframework/toolfunc")
+color=	require("Zframework/color")
+SHADER=	require("Zframework/shader")
+VIB=	require("Zframework/vib")
+SFX=	require("Zframework/sfx")
+sysFX=	require("Zframework/sysFX")
+BG=		require("Zframework/bg")
+BGM=	require("Zframework/bgm")
+VOC=	require("Zframework/voice")
+LANG=	require("Zframework/languages")
+FILE=	require("Zframework/file")
+TEXT=	require("Zframework/text")
+TASK=	require("Zframework/task")
+IMG=	require("Zframework/img")
+WIDGET=	require("Zframework/widget")
+Widgets=require("Zframework/widgetList")
+LIGHT=	require("Zframework/light")
+SCN=	require("Zframework/scene")
+local Tmr=require("Zframework/timer")
+local Pnt=require("Zframework/paint")
+
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 local gc,sys=love.graphics,love.system
 local Timer=love.timer.getTime
@@ -13,9 +34,6 @@ local touchDist=nil
 joysticks={}
 
 local devMode
-
-local Tmr=require("timer")
-local Pnt=require("paint")
 
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()

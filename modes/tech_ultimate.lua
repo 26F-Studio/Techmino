@@ -7,6 +7,7 @@ return{
 		drop=1e99,lock=60,
 		freshLimit=15,
 		target=200,
+		dropPiece=PLY.reach_winCheck,
 		fineKill=true,
 		bg="flink",bgm="infinite",
 	},
