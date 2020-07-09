@@ -128,7 +128,9 @@ local keyDown,keyUp={},{}
 local gamepadDown,gamepadUp={},{}
 
 function keyDown.load(k)
-	if k=="s"then
+	if k=="a"then
+		sceneTemp.skip=true
+	elseif k=="s"then
 		marking=nil
 		sceneTemp.skip=true
 	end

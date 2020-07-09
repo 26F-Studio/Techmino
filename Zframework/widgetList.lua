@@ -155,10 +155,10 @@ local Widgets={
 		back=	newButton(1200,	640,120,120,C.white,		35,BACK),
 	},
 	play={
-		pause=	newButton(1235,45,80,80,C.white,25,pauseGame),
+		pause=	newButton(1235,45,80,80,C.white,25,function()pauseGame()end),
 	},
 	pause={
-		resume=	newButton(640,290,240,100,C.white,30,resumeGame),
+		resume=	newButton(640,290,240,100,C.white,30,function()resumeGame()end),
 		restart=newButton(640,445,240,100,C.white,33,function()
 			TASK.clear("play")
 			mergeStat(stat,players[1].stat)

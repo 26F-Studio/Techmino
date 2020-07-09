@@ -357,6 +357,12 @@ function Pnt.draw()
 	end
 end
 function Pnt.play()
+	if marking then
+		setFont(36)
+		local x=game.frame*2%1800-260
+		gc.setColor(1,1,1,abs(0.26*(1-x/640))-0.0626)
+		mStr(text.marking,x,260+62*sin(Timer()))
+	end
 	for p=1,#players do
 		players[p]:draw()
 	end
@@ -465,7 +471,7 @@ function Pnt.pause()
 	mText(game.result and drawableText[game.result]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
 
 	--Infos
-	if frame>180 then
+	if game.frame>180 then
 		_=S.list
 		setFont(26)
 		for i=1,10 do
@@ -475,7 +481,7 @@ function Pnt.pause()
 	end
 
 	--Radar Chart
-	if T>.5 and frame>180 then
+	if T>.5 and game.frame>180 then
 		T=T*2-1
 		gc.setLineWidth(2)
 		gc.push("transform")

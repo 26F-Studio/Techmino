@@ -223,6 +223,7 @@ function loadGame(M)
 end
 function resetPartGameData()
 	game={
+		frame=150-setting.reTime*15,
 		result=false,
 		pauseTime=0,
 		pauseCount=0,
@@ -230,7 +231,6 @@ function resetPartGameData()
 		warnLVL0=0,
 		warnLVL=0,
 	}
-	frame=150-setting.reTime*15
 	destroyPlayers()
 	curMode.load()
 	TEXT.clear()
@@ -258,6 +258,7 @@ function resetPartGameData()
 end
 function resetGameData()
 	game={
+		frame=150-setting.reTime*15,
 		result=false,
 		pauseTime=0,--Time paused
 		pauseCount=0,--Pausing count
@@ -265,7 +266,6 @@ function resetGameData()
 		warnLVL0=0,
 		warnLVL=0,
 	}
-	frame=150-setting.reTime*15
 	destroyPlayers()
 	modeEnv=curMode.env
 	curMode.load()--bg/bgm need redefine in custom,so up here

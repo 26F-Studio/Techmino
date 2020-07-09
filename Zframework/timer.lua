@@ -158,7 +158,7 @@ function Tmr.draw()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 function Tmr.play(dt)
-	frame=frame+1
+	game.frame=game.frame+1
 	stat.time=stat.time+dt
 	local P1=players[1]
 	for i=#FX_attack,1,-1 do
@@ -199,10 +199,10 @@ function Tmr.play(dt)
 		end
 	end
 
-	if frame<180 then
-		if frame==179 then
+	if game.frame<180 then
+		if game.frame==179 then
 			gameStart()
-		elseif frame==60 or frame==120 then
+		elseif game.frame==60 or game.frame==120 then
 			SFX.play("ready")
 		end
 		for p=1,#players do
@@ -232,14 +232,11 @@ function Tmr.play(dt)
 		local P=players[p]
 		P:update(dt)
 	end
-	if frame%120==0 then
+	if game.frame%120==0 then
 		if modeEnv.royaleMode then freshMostDangerous()end
-		if marking and rnd()<.2 then
-			TEXT.show(text.marking,rnd(162,scr.w-162),rnd(126,scr.h-200),40,"mark",.626)
-		end--mark 2s each 10s
 	end
 	if P1.alive then
-		if frame%26==0 and setting.warn then
+		if game.frame%26==0 and setting.warn then
 			local F=P1.field
 			local M=#F
 			local height=0

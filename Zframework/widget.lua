@@ -218,6 +218,9 @@ function WIDGET.press(x,y)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=="button"then
+		for k,v in next,W do
+			print(k,v)
+		end
 		W.code()
 		W:FX()
 		SFX.play("button")

@@ -1,13 +1,10 @@
 local S=[=[
 "Patron"(time ordered,may not accurate):
 		[rmb100+]:
-			那没事了(T6300)
-			加油啊,钉钉动了的大哥哥(T3228)
-			弥佑瑶
-			Alan
-			幽灵3383
-			靏鸖龘龘
-			込余
+			那没事了(T6300)	加油啊,钉钉动了的大哥哥(T3228)
+			弥佑瑶			Alan
+			幽灵3383		靏鸖龘龘
+			込余			saki
 	[rmb10+]:
 		八零哥  蕴空之灵  gggf127  dtg
 		ThTsOd  Fireboos  金巧  10元
@@ -19,7 +16,7 @@ local S=[=[
 		PCX  kagura77  呆喂  GlowingEmbers
 		轩辕辚  HimuroAki  TCV100  tech有养成系统了@7065
 		HAGE KANOBU  闪电和拐棍  葡萄味的曼妥思  世界沃德
-		蓝绿  天生的魔法师  saki 琳雨空 T8779.易缄
+		蓝绿  天生的魔法师  琳雨空  T8779.易缄  吃水榴莲
 
 	Thanks!!!
 
@@ -83,14 +80,16 @@ Future outlook:
 	new:
 		--TODO: custom sequence
 		many new tips
+		better watermark
 	changed:
-		faster&harder attacker-ultimate
+		faster & harder attacker-ultimate
 		little easier to get S in PC challenge (easy mode)
 		easier to get S in infinite mode, c4w, PC
 		harder to unlock sprint 400/1000
 	code:
 		file sorted
-		task system rewrited, now perfect
+		task system rewrited, now perfect (maybe)
+		remove scissors/blendMode setting in drawing players
 	fixed:
 		hard move won't deactive "spin"
 		do not clear dead enemies' field

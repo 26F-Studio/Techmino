@@ -226,7 +226,7 @@ end
 local function Pupdate_alive(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
 	if P.keyRec then
-		local _=frame
+		local _=game.frame
 		local v=0
 		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
 		v=0
@@ -518,7 +518,6 @@ local function Pdraw_norm(P)
 		end
 	end--Grid
 	gc.translate(0,P.fieldBeneath)
-	gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 		if P.falling==-1 then
 			for j=int(P.fieldBeneath/30+1),#P.field do
 				for i=1,10 do
@@ -599,57 +598,54 @@ local function Pdraw_norm(P)
 			gc.translate(0,dy)
 		end
 	::E::
-	gc.setScissor()--In-playField things
 	gc.translate(0,-P.fieldBeneath)
-	gc.setBlendMode("replace","alphamultiply")--SPEED UPUP(?)
-		gc.setLineWidth(2)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",-1,-11,302,612)--Draw boarder
-		gc.rectangle("line",301,0,15,601)--Draw atkBuffer boarder
-		local h=0
-		for i=1,#P.atkBuffer do
-			local A=P.atkBuffer[i]
-			local bar=A.amount*30
-			if h+bar>600 then bar=600-h end
-			if not A.sent then
-				if A.time<20 then
-					bar=bar*(20*A.time)^.5*.05
-					--Appear
-				end
-				if A.countdown>0 then
-					gc.setColor(attackColor[A.lv][1])
-					gc.rectangle("fill",303,599-h,11,-bar+3)
-					gc.setColor(attackColor[A.lv][2])
-					gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
-					--Timing
-				else
-					local t=math.sin((Timer()-i)*30)*.5+.5
-					local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
-					gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
-					gc.rectangle("fill",303,599-h,11,-bar+3)
-					--Warning
-				end
-			else
-				gc.setColor(attackColor[A.lv][1])
-				bar=bar*(20-A.time)*.05
-				gc.rectangle("fill",303,599-h,11,-bar+2)
-				--Disappear
+	gc.setLineWidth(2)
+	gc.setColor(1,1,1)
+	gc.rectangle("line",-1,-11,302,612)--Draw boarder
+	gc.rectangle("line",301,0,15,601)--Draw atkBuffer boarder
+	local h=0
+	for i=1,#P.atkBuffer do
+		local A=P.atkBuffer[i]
+		local bar=A.amount*30
+		if h+bar>600 then bar=600-h end
+		if not A.sent then
+			if A.time<20 then
+				bar=bar*(20*A.time)^.5*.05
+				--Appear
 			end
-			h=h+bar
-		end--Buffer line
-		local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
-		gc.setColor(.8,1,.2)
-		gc.rectangle("fill",-14,599,11,-b*.5)
-		gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lightRed or color.lightBlue)
-		gc.rectangle("fill",-14,599,11,-a*.5)
-		gc.setColor(1,1,1)
-		if Timer()%.5<.3 then
-			gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
+			if A.countdown>0 then
+				gc.setColor(attackColor[A.lv][1])
+				gc.rectangle("fill",303,599-h,11,-bar+3)
+				gc.setColor(attackColor[A.lv][2])
+				gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
+				--Timing
+			else
+				local t=math.sin((Timer()-i)*30)*.5+.5
+				local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
+				gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
+				gc.rectangle("fill",303,599-h,11,-bar+3)
+				--Warning
+			end
+		else
+			gc.setColor(attackColor[A.lv][1])
+			bar=bar*(20-A.time)*.05
+			gc.rectangle("fill",303,599-h,11,-bar+2)
+			--Disappear
 		end
-		gc.rectangle("line",-16,-3,15,604)--Draw b2b bar boarder
-		--B2B indictator
-		gc.translate(-P.fieldOff.x,-P.fieldOff.y)
-	gc.setBlendMode("alpha")
+		h=h+bar
+	end--Buffer line
+	local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
+	gc.setColor(.8,1,.2)
+	gc.rectangle("fill",-14,599,11,-b*.5)
+	gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lightRed or color.lightBlue)
+	gc.rectangle("fill",-14,599,11,-a*.5)
+	gc.setColor(1,1,1)
+	if Timer()%.5<.3 then
+		gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
+	end
+	gc.rectangle("line",-16,-3,15,604)--Draw b2b bar boarder
+	--B2B indictator
+	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
 
 	if P.gameEnv.hold then
 		mText(drawableText.hold,-81,-15)
@@ -691,8 +687,8 @@ local function Pdraw_norm(P)
 	gc.draw(drawableText.modeName,-135,-65)
 	gc.draw(drawableText.levelName,437-drawableText.levelName:getWidth(),-65)
 	gc.setColor(1,1,1)
-	if frame<180 then
-		local count=179-frame
+	if game.frame<180 then
+		local count=179-game.frame
 		gc.push("transform")
 			gc.translate(155,220)
 			setFont(95)
@@ -1349,7 +1345,7 @@ end
 function player.drop(P)--Place piece
 	local _
 	local CHN=VOC.getFreeChannel()
-	P.dropTime[11]=ins(P.dropTime,1,frame)--update speed dial
+	P.dropTime[11]=ins(P.dropTime,1,game.frame)--update speed dial
 	local cmb=P.combo
 	P.waiting=P.gameEnv.wait
 	local STAT=P.stat
@@ -1771,17 +1767,17 @@ function player.pressKey(P,i)
 	P.act[i](P)
 	if P.control then
 		if P.keyRec then
-			ins(P.keyTime,1,frame)
+			ins(P.keyTime,1,game.frame)
 			P.keyTime[11]=nil
 		end
 		P.stat.key=P.stat.key+1
 	end
-	--ins(rec,{i,frame})
+	--ins(rec,{i,game.frame})
 end
 function player.releaseKey(P,i)
 	if P.keyPressing[i]then
 		P.keyPressing[i]=false
-		-- if recording then ins(rec,{-i,frame})end
+		-- if recording then ins(rec,{-i,game.frame})end
 	end
 end
 --------------------------</Methods>--------------------------
@@ -2146,7 +2142,7 @@ function player.act.func(P)
 	P.gameEnv.Fkey(P)
 end
 function player.act.restart(P)
-	if P.gameEnv.quickR or frame<180 then
+	if P.gameEnv.quickR or game.frame<180 then
 		TASK.clear("play")
 		resetPartGameData()
 	end
