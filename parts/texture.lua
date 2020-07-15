@@ -69,7 +69,7 @@ drawableText={
 	win=T(120),finish=T(120),
 	lose=T(120),pause=T(120),
 
-	custom=T(80),
+	custom=T(80),sequence=T(80),
 	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
 	setting_control=T(70),setting_skin=T(70),
 	preview=T(40),

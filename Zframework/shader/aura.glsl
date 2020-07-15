@@ -37,6 +37,6 @@ vec4 effect(vec4 color,Image text,vec2 pos,vec2 scr_pos){
 	dx=sqrt(dx*dx+dy*dy);
 	V.gb+=vec2(smoothstep(0.626,0.,dx));
 
-	dx=1.26*max(max(V.r,V.g),V.b);
+	dx=1.626*max(max(V.r,V.g),V.b);
 	return vec4(V/dx,1.);
 }

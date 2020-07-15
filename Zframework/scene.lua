@@ -79,6 +79,9 @@ function sceneInit.custom()
 	BG.set(customRange.bg[customSel[12]])
 	BGM.play(customRange.bgm[customSel[13]])
 end
+function sceneInit.sequence()
+	sceneTemp={cur=#preBag,sure=0}
+end
 function sceneInit.draw()
 	BG.set("space")
 	sceneTemp={
@@ -327,6 +330,9 @@ function SCN.swapTo(tar,style)
 		S.mid=swap[2]
 		S.draw=swap[3]
 	end
+end
+function SCN.goto(tar,style)
+	SCN.push()SCN.swapTo(tar,style)
 end
 function SCN.back()
 	if backFunc[SCN.cur] then backFunc[SCN.cur]()end

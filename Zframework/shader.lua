@@ -1,8 +1,8 @@
 local function N(file)
-	return love.graphics.newShader("shader/"..file..".glsl")
+	return love.graphics.newShader("Zframework/shader/"..file..".glsl")
 end
 return{
-	-- glow=gc.newShader("shader/glow.cs"),
+	-- glow=gc.newShader("Zframework/shader/glow.cs"),
 	alpha=N("alpha"),
 	warning=N("warning"),
 

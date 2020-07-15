@@ -63,7 +63,7 @@ s={
 	clear={},clear_B={},clear_S={0,0,0,0,0},
 	spin={},spin_B={},spin_S={0,0,0,0,0},
 	pc=0,hpc=0,b2b=0,b3b=0,score=0,
-	lastPlay=1,--last played mode ID
+	lastPlay="sprint_10",--last played mode ID
 }
 for i=1,25 do
 	s.clear_B[i]=0

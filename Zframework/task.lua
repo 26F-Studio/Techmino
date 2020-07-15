@@ -1,5 +1,4 @@
 local rem=table.remove
-
 local tasks={}
 
 local TASK={}
@@ -47,12 +46,6 @@ function TASK.clear(opt)
 		while i>0 do
 			tasks[i]=nil
 			i=i-1
-		end
-	elseif opt=="play"then
-		for i=#tasks,1,-1 do
-			if tasks[i].P then
-				rem(tasks,i)
-			end
 		end
 	else--Player table
 		for i=#tasks,1,-1 do

@@ -18,13 +18,13 @@ function Tmr.load()
 		elseif S.phase==4 then
 			IMG.loadOne(S.cur)
 		elseif S.phase==5 then
-			local m=Modes[S.cur]
-			Modes[S.cur]=require("modes/"..m[1])
-			local M=Modes[S.cur]
-			M.saveFileName,M.id=m[1],m.id
-			M.x,M.y,M.size,M.shape=m.x,m.y,m.size,m.shape
-			M.unlock=m.unlock
-			M.records=FILE.loadRecord(m[1])or M.score and{}
+			local m=Modes[S.cur]--mode template
+			local M=require("modes/"..m.name)--mode file
+			Modes[m.name]=M
+			for k,v in next,m do
+				M[k]=v
+			end
+			M.records=FILE.loadRecord(m.name)or M.score and{}
 			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("image/modeIcon/custom.png")
 		elseif S.phase==6 then
@@ -105,21 +105,19 @@ function Tmr.mode(dt)
 			cam.keyCtrl=true
 		end
 		local x,y=(cam.x1-180)/cam.k1,cam.y1/cam.k1
-		local MM,R=Modes,modeRanks
-		for _=1,#MM do
-			if R[_]then
-				local __
-				local M=MM[_]
+		for name,M in next,Modes do
+			if modeRanks[name]then
+				local SEL
 				local s=M.size
 				if M.shape==1 then
-					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then __=_ end
+					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then SEL=name end
 				elseif M.shape==2 then
-					if abs(x-M.x)+abs(y-M.y)<s then __=_ end
+					if abs(x-M.x)+abs(y-M.y)<s then SEL=name end
 				elseif M.shape==3 then
-					if(x-M.x)^2+(y-M.y)^2<s^2 then __=_ end
+					if(x-M.x)^2+(y-M.y)^2<s^2 then SEL=name end
 				end
-				if __ and cam.sel~=__ then
-					cam.sel=__
+				if SEL and cam.sel~=SEL then
+					cam.sel=SEL
 					SFX.play("click")
 				end
 			end
@@ -153,6 +151,9 @@ function Tmr.mode(dt)
 	elseif cam.zoomMethod==2 then
 		cam.zoomK=cam.zoomK^.9
 	end
+end
+function Tmr.sequence()
+	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 function Tmr.draw()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
@@ -239,8 +240,8 @@ function Tmr.play(dt)
 		if game.frame%26==0 and setting.warn then
 			local F=P1.field
 			local M=#F
-			local height=0
-			for x=3,8 do
+			local height=0--max height of row 4~7
+			for x=4,7 do
 				for y=M,1,-1 do
 					if F[y][x]>0 then
 						if y>height then

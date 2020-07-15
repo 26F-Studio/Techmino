@@ -5,7 +5,7 @@ local function check_tsd(P)
 		elseif #P.clearedRow>0 then
 			P.modeData.event=P.modeData.event+1
 			if P.modeData.event==20 then
-				P:win()
+				P:win("finish")
 			end
 		end
 	end

@@ -146,21 +146,18 @@ function mouseDown.intro(x,y,k)
 		VOC.play("bye")
 		SCN.back()
 	else
-		SCN.push()
-		SCN.swapTo("main")
+		SCN.goto("main")
 	end
 end
 function touchDown.intro(id,x,y)
-	SCN.push()
-	SCN.swapTo("main")
+	SCN.goto("main")
 end
 function keyDown.intro(key)
 	if key=="escape"then
 		VOC.play("bye")
 		SCN.back()
 	else
-		SCN.push()
-		SCN.swapTo("main")
+		SCN.goto("main")
 	end
 end
 
@@ -168,17 +165,15 @@ local function onMode(x,y)
 	local cam=mapCam
 	x=(cam.x1-640+x)/cam.k1
 	y=(cam.y1-360+y)/cam.k1
-	local MM,R=Modes,modeRanks
-	for _=1,#MM do
-		if R[_]then
-			local M=MM[_]
+	for name,M in next,Modes do
+		if modeRanks[name]then
 			local s=M.size
 			if M.shape==1 then
-				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return _ end
+				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
 			elseif M.shape==2 then
-				if abs(x-M.x)+abs(y-M.y)<s then return _ end
+				if abs(x-M.x)+abs(y-M.y)<s then return name end
 			elseif M.shape==3 then
-				if(x-M.x)^2+(y-M.y)^2<s^2 then return _ end
+				if(x-M.x)^2+(y-M.y)^2<s^2 then return name end
 			end
 		end
 	end
@@ -208,20 +203,22 @@ end
 function mouseClick.mode(x,y,k)
 	local cam=mapCam
 	local _=cam.sel
-	if not cam.sel or x<920 then
-		local __=onMode(x,y)
-		if _~=__ then
-			if __ then
+	if not _ or x<920 then
+		local SEL=onMode(x,y)
+		if _~=SEL then
+			if SEL then
 				SFX.play("click")
 				cam.moving=true
-				_=Modes[__]
+				_=Modes[SEL]
 				cam.x=_.x*cam.k+180
 				cam.y=_.y*cam.k
-				cam.sel=__
+				cam.sel=SEL
 			else
 				cam.sel=nil
 				cam.x=cam.x-180
 			end
+		elseif _ then
+			loadGame(_)
 		end
 	end
 	cam.keyCtrl=false
@@ -259,11 +256,9 @@ function keyDown.mode(key)
 		else
 			SCN.back()
 		end
-	elseif mapCam.sel==71 or mapCam.sel==72 then
-		if key=="q"then
-			SCN.push()SCN.swapTo("draw")
-		elseif key=="e"then
-			SCN.push()SCN.swapTo("custom")
+	elseif mapCam.sel=="custom_clear" or mapCam.sel=="custom_puzzle" then
+		if key=="e"then
+			SCN.goto("custom")
 		end
 	end
 end
@@ -330,6 +325,28 @@ function keyDown.custom(key)
 		end
 	elseif key=="escape"then
 		SCN.back()
+	end
+end
+
+function keyDown.sequence(key)
+	local s=sceneTemp
+	if key=="left"then
+		if s.cur>0 then s.cur=s.cur-1 end
+	elseif key=="right"then
+		if s.cur<#preBag then s.cur=s.cur+1 end
+	elseif key=="backspace"then
+		local C=s.cur
+		if C>0 then
+			rem(preBag,C)
+			s.cur=C-1
+		end
+	elseif key=="delete"then
+		if sceneTemp.sure>20 then
+			preBag={1,2,3,4,5,6,7}
+			sceneTemp.sure=0
+		else
+			sceneTemp.sure=50
+		end
 	end
 end
 
@@ -417,13 +434,9 @@ function mouseDown.setting_sound(x,y,k)
 			VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
 			sceneTemp.last=Timer()
 			if rnd()<.0626 then
-				for i=1,#Modes do
-					local M=Modes[i]
-					for i=1,#M.unlock do
-						local m=M.unlock[i]
-						if not modeRanks[m]then
-							modeRanks[m]=Modes[m].score and 0 or 6
-						end
+				for name,M in next,Modes do
+					if not modeRanks[name]then
+						modeRanks[name]=M.score and 0 or 6
 					end
 				end
 				FILE.saveUnlock()
@@ -547,8 +560,7 @@ function keyDown.pause(key)
 	elseif key=="escape"then
 		resumeGame()
 	elseif key=="s"then
-		SCN.push()
-		SCN.swapTo("setting_sound")
+		SCN.goto("setting_sound")
 	elseif key=="r"then
 		TASK.clear("play")
 		mergeStat(stat,players[1].stat)

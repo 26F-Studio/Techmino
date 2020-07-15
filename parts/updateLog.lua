@@ -21,7 +21,7 @@ local S=[=[
 	Thanks!!!
 
 Future outlook:
-	New mode:
+	New modes:
 		PUYO
 		game tutorial
 		finesse tutorial
@@ -68,7 +68,6 @@ Future outlook:
 		lang setting page
 		game recording
 		new widgets (joystick etc.)
-		custom sequence(TTT!)
 		splashing block
 		cool backgrounds
 		more graphic FXs & 3D features & animations
@@ -76,12 +75,15 @@ Future outlook:
 		network game
 		new AI: task-Z
 
-0.8.25: Custom Sequence Update
+0.9.0: Custom Sequence Update
 	new:
-		--TODO: custom sequence
+		custom sequence
+		new sequence type: loop & fixed
 		many new tips
-		better watermark
+		more powerful watermark
+		die animation in non-royale mode
 	changed:
+		mode name shown at the top of screen
 		faster & harder attacker-ultimate
 		little easier to get S in PC challenge (easy mode)
 		easier to get S in infinite mode, c4w, PC

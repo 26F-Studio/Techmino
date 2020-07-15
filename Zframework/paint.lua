@@ -152,59 +152,60 @@ function Pnt.mode()
 	gc.scale(cam.zoomK)
 	gc.translate(-cam.x1,-cam.y1)
 	gc.scale(cam.k1)
-	local MM=Modes
 	local R=modeRanks
 	local sel=cam.sel
 	setFont(30)
-	for _=1,#MM do
-		local M=MM[_]
-		if R[_]then
-			gc.setLineWidth(8)
-			gc.setColor(1,1,1,.2)
+
+	gc.setLineWidth(8)
+	gc.setColor(1,1,1,.2)
+	for name,M in next,Modes do
+		if R[name]then
 			for _=1,#M.unlock do
-				local m=M.unlock[_]
-				m=MM[m]
+				local m=Modes[M.unlock[_]]
 				gc.line(M.x,M.y,m.x,m.y)
 			end
+		end
+	end--lines connecting modes
 
+	for name,M in next,Modes do
+		if R[name]then
 			local S=M.size
 			local d=((M.x-(cam.x1+(sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
 			if d<500 then S=S*(1.25-d*0.0005) end
-			local c=modeRankColor[modeRanks[M.id]]
+			local c=modeRankColor[R[M.name]]
 			if c then
 				gc.setColor(c)
 			else
-				c=.5+sin(Timer()*6.26-_)*.2
+				c=.5+sin(Timer()*6.26)*.2
 				S=S*(.9+c*.4)
 				gc.setColor(c,c,c)
 			end
 			if M.shape==1 then--Rectangle
 				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)
-				if sel==_ then
+				if sel==name then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
 					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
 				end
 			elseif M.shape==2 then--diamond
 				gc.circle("fill",M.x,M.y,S+5,4)
-				if sel==_ then
+				if sel==name then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
 					gc.circle("line",M.x,M.y,S+5,4)
 				end
 			elseif M.shape==3 then--Octagon
 				gc.circle("fill",M.x,M.y,S,8)
-				if sel==_ then
+				if sel==name then
 					gc.setColor(1,1,1)
 					gc.setLineWidth(10)
 					gc.circle("line",M.x,M.y,S,8)
 				end
 			end
-			_=drawableText[rankString[modeRanks[M.id]]]
-			if _ then
-				local dx,dy=6.26*sin(Timer()*0.626+M.id),6.6*sin(Timer()+M.id)
+			name=drawableText[rankString[R[M.name]]]
+			if name then
 				gc.setColor(0,0,0,.26)
-				mDraw(_,M.x+dx*1.5,M.y+dy*1.5)
+				mDraw(name,M.x,M.y)
 			end
 			--[[
 			if M.icon then
@@ -224,7 +225,7 @@ function Pnt.mode()
 	end
 	gc.pop()
 	if sel then
-		local M=MM[sel]
+		local M=Modes[sel]
 		local lang=setting.lang
 		gc.setColor(.7,.7,.7,.5)
 		gc.rectangle("fill",920,0,360,720)--Info board
@@ -293,21 +294,40 @@ function Pnt.music()
 end
 function Pnt.custom()
 	gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
-	gc.rectangle("fill",25,95+40*sceneTemp,480,40)
-	gc.setColor(.7,.7,.7)gc.draw(drawableText.custom,20,20)
-	gc.setColor(1,1,1)gc.draw(drawableText.custom,22,23)
+	gc.rectangle("fill",100,115+40*sceneTemp,570,40)
+	gc.setColor(.7,.7,.7)gc.draw(drawableText.custom,360,20)
+	gc.setColor(1,1,1)gc.draw(drawableText.custom,362,23)
 	setFont(35)
 	for i=1,#customID do
 		local k=customID[i]
-		local y=90+40*i
-		gc.printf(text.customOption[k],15,y,320,"right")
+		local y=110+40*i
+		gc.printf(text.customOption[k],100,y,320,"right")
 		if text.customVal[k]then
-			gc.print(text.customVal[k][customSel[i]],335,y)
+			gc.print(text.customVal[k][customSel[i]],440,y)
 		else
-			gc.print(customRange[k][customSel[i]],335,y)
+			gc.print(customRange[k][customSel[i]],440,y)
 		end
 	end
 end
+function Pnt.sequence()
+	gc.setColor(.7,.7,.7)gc.draw(drawableText.sequence,120,-15)
+	gc.setColor(1,1,1)gc.draw(drawableText.sequence,122,-12)
+	gc.setLineWidth(4)
+	gc.rectangle("line",100,100,1080,260)
+	setFont(30)
+	for i=1,#preBag do
+		gc.print(preBag[i],100+30*i,110)
+	end
+	setFont(40)
+	gc.print(sceneTemp.cur,120,300)
+
+	--Confirm reset
+	if sceneTemp.sure>0 then
+		gc.setColor(1,1,1,sceneTemp.sure*.02)
+		gc.draw(drawableText.question,1035,570)
+	end
+end
+
 function Pnt.draw()
 	local sx,sy=sceneTemp.x,sceneTemp.y
 	gc.translate(200,60)
@@ -333,6 +353,8 @@ function Pnt.draw()
 		gc.rectangle("line",30*sx-30,600-30*sy,30,30)
 	end
 	gc.translate(-200,-60)
+
+	--Pen
 	local pen=sceneTemp.pen
 	if pen>0 then
 		gc.setLineWidth(13)
@@ -344,10 +366,14 @@ function Pnt.draw()
 		gc.line(575,470,625,520)
 		gc.line(575,520,625,470)
 	end
+
+	--Confirm reset
 	if sceneTemp.sure>0 then
 		gc.setColor(1,1,1,sceneTemp.sure*.02)
 		gc.draw(drawableText.question,1040,430)
 	end
+
+	--Block name
 	setFont(40)
 	local _
 	for i=1,7 do
@@ -358,10 +384,13 @@ function Pnt.draw()
 end
 function Pnt.play()
 	if marking then
-		setFont(36)
-		local x=game.frame*2%1800-260
-		gc.setColor(1,1,1,abs(0.26*(1-x/640))-0.0626)
+		setFont(26)
+		local x=Timer()*46%1680-200
+		gc.setColor(1,1,1,abs(.26*(1-x/640)))
 		mStr(text.marking,x,260+62*sin(Timer()))
+		-- gc.setColor(1,1,1,.0626)
+		-- mStr(text.marking,260,62+26*sin(Timer()))
+		-- mStr(text.marking,1100,460+62*sin(Timer()*1.2))
 	end
 	for p=1,#players do
 		players[p]:draw()
@@ -420,6 +449,13 @@ function Pnt.play()
 			end
 		end
 	end
+
+	--Mode info
+	gc.setColor(1,1,1,.8)
+	gc.draw(drawableText.modeName,485,10)
+	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
+
+	--Danger
 	gc.push("transform")
 	gc.origin()
 	if restartCount>0 then

@@ -39,7 +39,12 @@ local function dumpTable(L,t)
 			else
 				k="["..k.."]="
 			end
-		elseif T=="string"then k=k.."="
+		elseif T=="string"then
+			if find(k,"[^0-9a-zA-Z_]")then
+				k="[\""..k.."\"]="
+			else
+				k=k.."="
+			end
 		elseif T=="boolean"then k="["..k.."]="
 		else assert(false,"Error key type!")
 		end

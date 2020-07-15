@@ -26,8 +26,11 @@ mapCam={
 	--for auto zooming when enter/leave scene
 }
 scr={x=0,y=0,w=0,h=0,rad=0,k=1}--wid,hei,radius,scale K
+
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
+preBag={1,2,3,4,5,6,7}
+
 players={alive={},human=0}
 --blockSkin,blockSkinMini={},{}--redefined in SKIN.change
 
@@ -47,11 +50,11 @@ SKIN=	require("parts/skin")
 PLY=	require("parts/player")
 AIfunc=	require("parts/ai")
 Modes=	require("parts/modes")
+TICK=	require("parts/tick")
 
 
 --load files & settings
-modeRanks={}for i=1,#Modes do modeRanks[i]=false assert(i==Modes[i].id,"ModeID error:"..i)end
-modeRanks[1]=0
+modeRanks={sprint_10=0}
 
 local fs=love.filesystem
 if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
@@ -149,6 +152,12 @@ while #modeRanks>73 do
 	table.remove(modeRanks)
 end
 if modeRanks[73]==6 then modeRanks[73]=0 end
+if modeRanks[1]then--rename key of modeRanks
+	local L=modeRanks
+	for i=1,#L do
+		L[Modes[i].name],L[i]=L[i]
+	end
+end
 if setting.skin[10]==5 then
 	setting.skin[10],setting.skin[11]=1,5
 end

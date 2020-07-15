@@ -87,17 +87,22 @@ local CCblockID={4,3,6,5,1,2,0}
 local freshPrepare={
 	none=NULL,
 	bag=function(P)
-		local bag0,bag=P.gameEnv.bag,{}
-		for i=1,#bag0 do bag[i]=bag0[i]end
-		repeat P:getNext(rem(bag,rnd(#bag)))until not bag[1]
+		local bag=P.gameEnv.bag
+		local L
+		repeat
+			L={}for i=1,#bag do L[i]=i end
+			repeat P:getNext(bag[rem(L,rnd(#L))])until not L[1]
+		until #P.next>5
 	end,
 	his4=function(P)
-		P.his={rnd(7),rnd(7),rnd(7),rnd(7)}
+		local bag=P.gameEnv.bag
+		local L=#bag
+		P.his={bag[rnd(L)],bag[rnd(L)],bag[rnd(L)],bag[rnd(L)]}
 		for _=1,6 do
 			local i
 			local j=0
 			repeat
-				i=rnd(7)
+				i=bag[rnd(L)]
 				j=j+1
 			until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==6
 			P:getNext(i)
@@ -105,11 +110,31 @@ local freshPrepare={
 		end
 	end,
 	rnd=function(P)
-		P:getNext(rnd(7))
+		local bag=P.gameEnv.bag
+		local L=#bag
+		P:getNext(bag[rnd(L)])
 		for i=1,5 do
+			local count=0
 			local i
-			repeat i=rnd(7)until i~=P.next[#P.next].id
+			repeat
+				i=bag[rnd(L)]
+				count=count+1
+			until i~=P.next[#P.next].id or count>=L
 			P:getNext(i)
+		end
+	end,
+	loop=function(P)
+		local bag=P.gameEnv.bag
+		repeat
+			for i=1,#bag do
+				P:getNext(bag[i])
+			end
+		until #P.next>5
+	end,
+	fixed=function(P)
+		local bag=P.gameEnv.bag
+		for i=1,#bag do
+			P:getNext(bag[i])
 		end
 	end,
 }
@@ -124,10 +149,12 @@ local freshMethod={
 	end,
 	his4=function(P)
 		if #P.next<6 then
+			local bag=P.gameEnv.bag
+			local L=#bag
 			for n=1,4 do
 				local j,i=0
 				repeat
-					i=rnd(7)
+					i=bag[rnd(L)]
 					j=j+1
 				until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==4
 				P:getNext(i)
@@ -137,12 +164,28 @@ local freshMethod={
 	end,
 	rnd=function(P)
 		if #P.next<6 then
-			for i=1,3 do
+			local bag=P.gameEnv.bag
+			local L=#bag
+			for i=1,4 do
+				local count=0
 				local i
-				repeat i=rnd(7)until i~=P.next[#P.next].id
+				repeat
+					i=bag[rnd(L)]
+					count=count+1
+				until i~=P.next[#P.next].id or count>=L
 				P:getNext(i)
 			end
 		end
+	end,
+	loop=function(P)
+		local bag=P.gameEnv.bag
+		for i=1,#bag do
+			P:getNext(bag[i])
+		end
+	end,
+	fixed=function(P)
+		if P.cur or P.hd then return end
+		P:lose()
 	end,
 }
 local spinName={"zspin","sspin","jspin","lspin","tspin","ospin","ispin","zspin","sspin","pspin","qspin","fspin","espin","tspin","uspin","vspin","wspin","xspin","jspin","lspin","rspin","yspin","hspin","nspin","ispin"}
@@ -220,7 +263,7 @@ end
 local function updateTasks(P)
 	local L=P.tasks
 	for i=#L,1,-1 do
-		if L[i].code(P,L[i].data)then end
+		if L[i].code(P,L[i].data)then rem(L,i)end
 	end
 end
 local function Pupdate_alive(P,dt)
@@ -281,7 +324,7 @@ local function Pupdate_alive(P,dt)
 							mov=mov+1
 						end
 					end
-					if mov>=das and P.gameEnv.shakeFX and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
+					if mov>=das and P.gameEnv.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 						P.fieldOff.vx=P.gameEnv.shakeFX*.5
 					end
 				else
@@ -306,7 +349,7 @@ local function Pupdate_alive(P,dt)
 							mov=mov+1
 						end
 					end
-					if mov>=das and P.gameEnv.shakeFX and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+					if mov>=das and P.gameEnv.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 						P.fieldOff.vx=-P.gameEnv.shakeFX*.5
 					end
 				else
@@ -353,42 +396,44 @@ local function Pupdate_alive(P,dt)
 		P.waiting=P.waiting-1
 		goto stop
 	end
-	if P.curY~=P.y_img then
-		local D=P.dropDelay
-		if D>1 then
-			P.dropDelay=D-1
-			goto stop
-		end
-		if D==1 then
-			P.curY=P.curY-1
-		else
-			local _=P.curY-P.y_img--max fall dist
-			D=1/D--fall dist
-			if D<_ then
-				P.curY=P.curY-D
-				assert(P.curY==int(P.curY),"y:"..P.curY.." fall:"..D.." D_env:"..P.gameEnv.drop)
+	if P.cur then
+		if P.curY~=P.y_img then
+			local D=P.dropDelay
+			if D>1 then
+				P.dropDelay=D-1
+				goto stop
+			end
+			if D==1 then
+				P.curY=P.curY-1
 			else
-				P.curY=P.y_img
+				local _=P.curY-P.y_img--max fall dist
+				D=1/D--fall dist
+				if D<_ then
+					P.curY=P.curY-D
+					assert(P.curY==int(P.curY),"y:"..P.curY.." fall:"..D.." D_env:"..P.gameEnv.drop)
+				else
+					P.curY=P.y_img
+				end
 			end
-		end
-		P.spinLast=false
-		if P.y_img~=P.curY then
-			P.dropDelay=P.gameEnv.drop
-		elseif P.AI_mode=="CC"then
-			P.AI_needFresh=true
-			if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
-				CC_switch20G(P)
+			P.spinLast=false
+			if P.y_img~=P.curY then
+				P.dropDelay=P.gameEnv.drop
+			elseif P.AI_mode=="CC"then
+				P.AI_needFresh=true
+				if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
+					CC_switch20G(P)
+				end
 			end
-		end
-		if P.freshTime<=P.gameEnv.freshLimit then
-			P.lockDelay=P.gameEnv.lock
-		end
-	else
-		P.lockDelay=P.lockDelay-1
-		if P.lockDelay>=0 then goto stop end
-		P:drop()
-		if P.AI_mode=="CC"then
-			P.AI_needFresh=true
+			if P.freshTime<=P.gameEnv.freshLimit then
+				P.lockDelay=P.gameEnv.lock
+			end
+		else
+			P.lockDelay=P.lockDelay-1
+			if P.lockDelay>=0 then goto stop end
+			P:drop()
+			if P.AI_mode=="CC"then
+				P.AI_needFresh=true
+			end
 		end
 	end
 	::stop::
@@ -422,11 +467,6 @@ local function Pupdate_dead(P,dt)
 		end
 	end
 	::stop::
-	if P.endCounter<40 then
-		for j=1,#P.field do for i=1,10 do
-			if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
-		end end--Make field visible
-	end
 	if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
 	updateFXs(P,dt)
 	updateTasks(P)
@@ -499,15 +539,12 @@ local function drawFXs(P)
 	end--clearFX
 end
 local function Pdraw_norm(P)
-	local curColor=P.cur.color
 	local _
 	gc.push("transform")
 	gc.translate(P.x,P.y)gc.scale(P.size)
 	--Camera
-	gc.setColor(0,0,0,.6)gc.rectangle("fill",0,0,600,690)
-	gc.setLineWidth(7)gc.setColor(frameColor[P.strength])gc.rectangle("line",0,0,600,690)
-	--Boarder
 	gc.translate(150+P.fieldOff.x,70+P.fieldOff.y)
+	gc.setColor(0,0,0,.6)gc.rectangle("fill",0,-10,300,610)
 	if P.gameEnv.grid then
 		gc.setLineWidth(1)
 		gc.setColor(1,1,1,.2)
@@ -517,7 +554,9 @@ local function Pdraw_norm(P)
 			gc.line(0,y,300,y)
 		end
 	end--Grid
+	gc.setLineWidth(2)
 	gc.translate(0,P.fieldBeneath)
+	gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 		if P.falling==-1 then
 			for j=int(P.fieldBeneath/30+1),#P.field do
 				for i=1,10 do
@@ -551,7 +590,8 @@ local function Pdraw_norm(P)
 
 		drawFXs(P)
 
-		if P.waiting==-1 then
+		if P.cur and P.waiting==-1 then
+			local curColor=P.cur.color
 			if P.gameEnv.ghost then
 				gc.setColor(1,1,1,.3)
 				for i=1,P.r do for j=1,P.c do
@@ -598,94 +638,103 @@ local function Pdraw_norm(P)
 			gc.translate(0,dy)
 		end
 	::E::
+	gc.setScissor()--In-playField things
 	gc.translate(0,-P.fieldBeneath)
-	gc.setLineWidth(2)
-	gc.setColor(1,1,1)
-	gc.rectangle("line",-1,-11,302,612)--Draw boarder
-	gc.rectangle("line",301,0,15,601)--Draw atkBuffer boarder
-	local h=0
-	for i=1,#P.atkBuffer do
-		local A=P.atkBuffer[i]
-		local bar=A.amount*30
-		if h+bar>600 then bar=600-h end
-		if not A.sent then
-			if A.time<20 then
-				bar=bar*(20*A.time)^.5*.05
-				--Appear
-			end
-			if A.countdown>0 then
-				gc.setColor(attackColor[A.lv][1])
-				gc.rectangle("fill",303,599-h,11,-bar+3)
-				gc.setColor(attackColor[A.lv][2])
-				gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
-				--Timing
+		gc.setColor(1,1,1)
+		gc.rectangle("line",-1,-11,302,612)--Boarder
+		gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
+		gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
+
+		--Buffer line
+		local h=0
+		for i=1,#P.atkBuffer do
+			local A=P.atkBuffer[i]
+			local bar=A.amount*30
+			if h+bar>600 then bar=600-h end
+			if not A.sent then
+				if A.time<20 then
+					bar=bar*(20*A.time)^.5*.05
+					--Appear
+				end
+				if A.countdown>0 then
+					gc.setColor(attackColor[A.lv][1])
+					gc.rectangle("fill",303,599-h,11,-bar+3)
+					gc.setColor(attackColor[A.lv][2])
+					gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
+					--Timing
+				else
+					local t=math.sin((Timer()-i)*30)*.5+.5
+					local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
+					gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
+					gc.rectangle("fill",303,599-h,11,-bar+3)
+					--Warning
+				end
 			else
-				local t=math.sin((Timer()-i)*30)*.5+.5
-				local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
-				gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
-				gc.rectangle("fill",303,599-h,11,-bar+3)
-				--Warning
+				gc.setColor(attackColor[A.lv][1])
+				bar=bar*(20-A.time)*.05
+				gc.rectangle("fill",303,599-h,11,-bar+2)
+				--Disappear
 			end
-		else
-			gc.setColor(attackColor[A.lv][1])
-			bar=bar*(20-A.time)*.05
-			gc.rectangle("fill",303,599-h,11,-bar+2)
-			--Disappear
+			h=h+bar
 		end
-		h=h+bar
-	end--Buffer line
-	local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
-	gc.setColor(.8,1,.2)
-	gc.rectangle("fill",-14,599,11,-b*.5)
-	gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lightRed or color.lightBlue)
-	gc.rectangle("fill",-14,599,11,-a*.5)
-	gc.setColor(1,1,1)
-	if Timer()%.5<.3 then
-		gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
-	end
-	gc.rectangle("line",-16,-3,15,604)--Draw b2b bar boarder
-	--B2B indictator
+
+		--B2B indictator
+		local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
+		gc.setColor(.8,1,.2)
+		gc.rectangle("fill",-14,599,11,-b*.5)
+		gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lightRed or color.lightBlue)
+		gc.rectangle("fill",-14,599,11,-a*.5)
+		gc.setColor(1,1,1)
+		if Timer()%.5<.3 then
+			gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
+		end
 	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
 
+	--Draw Hold
 	if P.gameEnv.hold then
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",-143,36,124,80)
+		gc.setColor(1,1,1)gc.rectangle("line",-143,36,124,80)
 		mText(drawableText.hold,-81,-15)
-		if P.holded then gc.setColor(.6,.5,.5)end
-		local B=P.hd.bk
-		for i=1,#B do for j=1,#B[1]do
-			if B[i][j]then
-				drawPixel(i+17.5-#B*.5,j-2.7-#B[1]*.5,P.hd.color)
-			end
-		end end
-	end--Hold
-
-	gc.setColor(1,1,1)
-	mText(drawableText.next,381,-15)
-	local N=1
-	while N<=P.gameEnv.next and P.next[N]do
-		local b,c=P.next[N].bk,P.next[N].color
-		for i=1,#b do for j=1,#b[1] do
-			if b[i][j]then
-				drawPixel(i+20-2.4*N-#b*.5,j+12.7-#b[1]*.5,c)
-			end
-		end end
-		N=N+1
+		if P.hd then
+			if P.holded then gc.setColor(.6,.5,.5)end
+			local B=P.hd.bk
+			for i=1,#B do for j=1,#B[1]do
+				if B[i][j]then
+					drawPixel(i+17.5-#B*.5,j-2.7-#B[1]*.5,P.hd.color)
+				end
+			end end
+		end
 	end
-	--Next(s)
 
+	--Draw Next(s)
+	local N=P.gameEnv.next*72
+	if P.gameEnv.next>0 then
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",319,36,124,N)
+		gc.setColor(1,1,1)gc.rectangle("line",319,36,124,N)
+		mText(drawableText.next,381,-15)
+		N=1
+		while N<=P.gameEnv.next and P.next[N]do
+			local b,c=P.next[N].bk,P.next[N].color
+			for i=1,#b do for j=1,#b[1] do
+				if b[i][j]then
+					drawPixel(i+20-2.4*N-#b*.5,j+12.7-#b[1]*.5,c)
+				end
+			end end
+			N=N+1
+		end
+	end
+
+	--Draw Bagline(s)
 	if P.gameEnv.bagLine then
 		local L=P.gameEnv.bagLen
 		local C=-P.pieceCount%L--phase
 		gc.setColor(.5,.5,.5)
 		for i=C,N-1,L do
 			local y=72*i+36
-			gc.line(320,y,442,y)
+			gc.line(321+P.fieldOff.x,y,441,y)
 		end
 	end
-	--BagLine(s)
 
-	gc.setColor(.8,.8,.8)
-	gc.draw(drawableText.modeName,-135,-65)
-	gc.draw(drawableText.levelName,437-drawableText.levelName:getWidth(),-65)
 	gc.setColor(1,1,1)
 	if game.frame<180 then
 		local count=179-game.frame
@@ -715,7 +764,6 @@ local function Pdraw_norm(P)
 			gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
 		end
 		gc.setColor(1,1,1,P.swappingAtkMode*.025)
-		gc.setLineWidth(2)
 		setFont(18)
 		for i=1,4 do
 			gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
@@ -812,7 +860,7 @@ local function Pdraw_demo(P)
 
 	drawFXs(P)
 
-	if P.waiting==-1 then
+	if P.cur and P.waiting==-1 then
 		gc.setColor(1,1,1,.3)
 		for i=1,P.r do for j=1,P.c do
 			if P.cur.bk[i][j]then
@@ -828,14 +876,13 @@ local function Pdraw_demo(P)
 		end end--Block
 	end
 
-	local id=P.hd.id
-	if id>0 then
+	if P.hd then
+		local id=P.hd.id
 		_=P.color[id]
 		gc.setColor(_[1],_[2],_[3],.3)
-		_=miniBlock[P.hd.id]
+		_=miniBlock[id]
 		gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
-	end
-	--Hold
+	end--Hold
 
 	local N=1
 	while N<=P.gameEnv.next and P.next[N]do
@@ -845,8 +892,7 @@ local function Pdraw_demo(P)
 		_=miniBlock[id]
 		gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 		N=N+1
-	end
-	--Next
+	end--Next
 
 	gc.setColor(1,1,1)
 	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
@@ -1248,28 +1294,30 @@ function player.spin(P,d,ifpre)
 	end
 end
 function player.resetBlock(P)
-	local id=P.cur.id
+	local C=P.cur
+	local id=C.id
 	local face=P.gameEnv.face[id]
 	local sc=scs[id][face]
 	P.sc=sc							--spin center
 	P.dir=face						--block direction
-	P.r,P.c=#P.cur.bk,#P.cur.bk[1]	--row/column
+	P.r,P.c=#C.bk,#C.bk[1]	--row/column
 	P.curX=int(6-P.c*.5)
 	local y=21+ceil(P.fieldBeneath/30)
 	P.curY=y
 	if P.gameEnv.ims and(P.keyPressing[1]and P.movDir==-1 or P.keyPressing[2]and P.movDir==1)and P.moving>=P.gameEnv.das then
 		local x=P.curX+P.movDir
-		if not P:ifoverlap(P.cur.bk,x,y)then
+		if not P:ifoverlap(C.bk,x,y)then
 			P.curX=x
 		end
-	end
-	--IMS
+	end--IMS
 end
 function player.hold(P,ifpre)
 	if not P.holded and (ifpre or P.waiting==-1) and P.gameEnv.hold then
+		local H,C=P.hd,P.cur
+		if not(H or C)then return end
+
 		--Finesse check
-		local H,B=P.hd,P.cur
-		if H and H.id==B.id and H.name==B.name or P.ctrlCount>1 then
+		if H and C and H.id==C.id and H.name==C.name or P.ctrlCount>1 then
 			P:fineError(1)
 		end
 
@@ -1277,20 +1325,31 @@ function player.hold(P,ifpre)
 		P.spinLast=false
 		P.ctrlCount=0
 		P.spinSeq=0
-		P.cur,P.hd=P.hd,P.cur
-		local hid=P.hd.id
-		P.hd.bk=blocks[hid][P.gameEnv.face[hid]]
-		if P.cur.id==0 then
-			P.cur=rem(P.next,1)
-			P:newNext()
-			P.pieceCount=P.pieceCount+1
-			if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
-		end
-		P:resetBlock()
 
-		P:freshgho()
-		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,max(P.freshTime-5,0)
-		if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+		P.cur,P.hd=H,C--Swap hold
+
+		H,C=P.hd,P.cur
+		if H then
+			local hid=P.hd.id
+			P.hd.bk=blocks[hid][P.gameEnv.face[hid]]
+		end
+		if not C then
+			C=rem(P.next,1)
+			P:newNext()
+			if C then
+				P.cur=C
+				P.pieceCount=P.pieceCount+1
+				if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
+			else
+				P.holded=false
+			end
+		end
+		if C then
+			P:resetBlock()
+			P:freshgho()
+			P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,max(P.freshTime-5,0)
+			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+		end
 
 		if P.human then
 			SFX.play(ifpre and"prehold"or"hold")
@@ -1298,6 +1357,7 @@ function player.hold(P,ifpre)
 		P.stat.hold=P.stat.hold+1
 	end
 end
+
 function player.getNext(P,n)
 	local E=P.gameEnv
 	P.next[#P.next+1]={bk=blocks[n][E.face[n]],id=n,color=E.bone and 12 or E.skin[n],name=n}
@@ -1310,37 +1370,41 @@ function player.popNext(P)--pop next queue to hand
 
 	P.cur=rem(P.next,1)
 	P:newNext()
-	P.pieceCount=P.pieceCount+1
-	if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
-	local _=P.keyPressing
-	if _[8]and P.gameEnv.hold and P.gameEnv.ihs then
-		P:hold(true)
-		_[8]=false
-	else
-		P:resetBlock()
-	end
-	--IHS
-	P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
-	if P.gameEnv.irs then
-		if _[5]then
-			P:spin(2,true)
+	if P.cur then
+		P.pieceCount=P.pieceCount+1
+		if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
+		local _=P.keyPressing
+		if _[8]and P.gameEnv.hold and P.gameEnv.ihs then
+			P:hold(true)
+			_[8]=false
 		else
-			if _[3]then
-				if _[4]then
-					P:spin(2,true)
-				else
-					P:spin(1,true)
+			P:resetBlock()
+		end--IHS
+
+		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
+		if P.gameEnv.irs then
+			if _[5]then
+				P:spin(2,true)
+			else
+				if _[3]then
+					if _[4]then
+						P:spin(2,true)
+					else
+						P:spin(1,true)
+					end
+				elseif _[4]then
+					P:spin(3,true)
 				end
-			elseif _[4]then
-				P:spin(3,true)
 			end
+		end--IRS
+
+		if P.cur then
+			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+			P:freshgho()
 		end
+
+		if _[6]then P.act.hardDrop(P)_[6]=false end--IHdS
 	end
-	--IRS
-	if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
-	P:freshgho()
-	if _[6]then P.act.hardDrop(P)_[6]=false end
-	--IHdS
 end
 function player.drop(P)--Place piece
 	local _
@@ -1783,60 +1847,6 @@ end
 --------------------------</Methods>--------------------------
 
 --------------------------<Events>--------------------------
-local tick={}
-function tick.finish(P)
-	if SCN.cur~="play"then return true end
-	P.endCounter=P.endCounter+1
-	if P.endCounter>120 then pauseGame()end
-end
-function tick.lose(P)
-	P.endCounter=P.endCounter+1
-	if P.endCounter>80 then
-		for i=1,#P.field do
-			for j=1,10 do
-				if P.visTime[i][j]>0 then
-					P.visTime[i][j]=P.visTime[i][j]-1
-				end
-			end
-		end
-		if P.endCounter==120 then
-			for _=#P.field,1,-1 do
-				freeRow.discard(P.field[_])
-				freeRow.discard(P.visTime[_])
-				P.field[_],P.visTime[_]=nil
-			end
-			if #players==1 and SCN.cur=="play"then
-				pauseGame()
-			end
-			return true
-		end
-	end
-end
-function tick.throwBadge(data)--{ifAI,Sender,timer}
-	data[3]=data[3]-1
-	if data[3]%4==0 then
-		local S,R=data[2],data[2].lastRecv
-		local x1,y1,x2,y2
-		if S.small then
-			x1,y1=S.centerX,S.centerY
-		else
-			x1,y1=S.x+308*S.size,S.y+450*S.size
-		end
-		if R.small then
-			x2,y2=R.centerX,R.centerY
-		else
-			x2,y2=R.x+66*R.size,R.y+344*R.size
-		end
-		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
-		--generate badge object
-
-		if not data[1]and data[3]%8==0 then
-			SFX.play("collect")
-		end
-	end
-	if data[3]<=0 then return true end
-end
-
 local function gameOver()
 	FILE.saveData()
 	local M=curMode
@@ -1845,16 +1855,17 @@ local function gameOver()
 		local P=players[1]
 		R=R(P)--new rank
 		if R then
-			local r=modeRanks[M.id]--old rank
+			local r=modeRanks[M.name]--old rank
 			local _
 			if R>r then
-				modeRanks[M.id]=R
+				modeRanks[M.name]=R
 				_=true
 			end
 			for i=1,#M.unlock do
 				local m=M.unlock[i]
-				if not modeRanks[m]then
-					modeRanks[m]=Modes[m].score and 0 or 6
+				local n=Modes[m].name
+				if not modeRanks[n]then
+					modeRanks[n]=Modes[m].score and 0 or 6
 					_=true
 				end
 			end
@@ -1877,7 +1888,7 @@ local function gameOver()
 				D.date=os.date("%Y/%m/%d %H:%M")
 				ins(L,p+1,D)
 				if L[11]then L[11]=nil end
-				FILE.saveRecord(M.saveFileName,L)
+				FILE.saveRecord(M.name,L)
 			end
 		end
 	end
@@ -1923,8 +1934,9 @@ function player.win(P,result)
 	end
 	if P.human then
 		gameOver()
+		TASK.new(TICK.autoPause,{0})
 	end
-	P:newTask(tick.finish)
+	P:newTask(TICK.finish)
 end
 function player.lose(P)
 	if P.life>0 then
@@ -1968,7 +1980,7 @@ function player.lose(P)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(tick.throwBadge,{A.ai,P,max(3,P.badge)*4})
+					TASK.new(TICK.throwBadge,{A.ai,P,max(3,P.badge)*4})
 				end
 				freshMostBadge()
 			end
@@ -2001,9 +2013,10 @@ function player.lose(P)
 			end
 		end
 		gameOver()
-		P:newTask(#players>1 and tick.lose or tick.finish)
+		P:newTask(#players>1 and TICK.lose or TICK.finish)
+		TASK.new(TICK.autoPause,{0})
 	else
-		P:newTask(tick.lose)
+		P:newTask(TICK.lose)
 	end
 	if #players.alive==1 then
 		players.alive[1]:win()
@@ -2030,7 +2043,7 @@ function player.act.moveLeft(P,auto)
 			P.keyPressing[1]=false
 		end
 	elseif P.control and P.waiting==-1 then
-		if not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+		if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
 			local y0=P.curY
 			P:freshgho()
@@ -2056,7 +2069,7 @@ function player.act.moveRight(P,auto)
 			P.keyPressing[2]=false
 		end
 	elseif P.control and P.waiting==-1 then
-		if not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
+		if P.cur and not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
 			local y0=P.curY
 			P:freshgho()
@@ -2072,21 +2085,21 @@ function player.act.moveRight(P,auto)
 	end
 end
 function player.act.rotRight(P)
-	if P.control and P.waiting==-1 then
+	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
 		P:spin(1)
 		P.keyPressing[3]=false
 	end
 end
 function player.act.rotLeft(P)
-	if P.control and P.waiting==-1 then
+	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
 		P:spin(3)
 		P.keyPressing[4]=false
 	end
 end
 function player.act.rot180(P)
-	if P.control and P.waiting==-1 then
+	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+2
 		P:spin(2)
 		P.keyPressing[5]=false
@@ -2098,7 +2111,7 @@ function player.act.hardDrop(P)
 			P:changeAtkMode(3)
 		end
 		P.keyPressing[6]=false
-	elseif P.control and P.waiting==-1 then
+	elseif P.control and P.waiting==-1 and P.cur then
 		if P.curY~=P.y_img then
 			if P.gameEnv.dropFX then
 				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
@@ -2125,7 +2138,7 @@ function player.act.softDrop(P)
 		end
 	else
 		P.downing=1
-		if P.control and P.waiting==-1 then
+		if P.control and P.waiting==-1 and P.cur then
 			if P.curY~=P.y_img then
 				P.curY=P.curY-1
 				P.spinLast=false
@@ -2143,12 +2156,12 @@ function player.act.func(P)
 end
 function player.act.restart(P)
 	if P.gameEnv.quickR or game.frame<180 then
-		TASK.clear("play")
+		TASK.removeTask_code(TICK.autoPause)
 		resetPartGameData()
 	end
 end
 function player.act.insLeft(P,auto)
-	if P.gameEnv.nofly then return end
+	if P.gameEnv.nofly or not P.cur then return end
 	local x0,y0=P.curX,P.curY
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
 		P.curX=P.curX-1
@@ -2171,7 +2184,7 @@ function player.act.insLeft(P,auto)
 	end
 end
 function player.act.insRight(P,auto)
-	if P.gameEnv.nofly then return end
+	if P.gameEnv.nofly or not P.cur then return end
 	local x0,y0=P.curX,P.curY
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
 		P.curX=P.curX+1
@@ -2194,7 +2207,7 @@ function player.act.insRight(P,auto)
 	end
 end
 function player.act.insDown(P)
-	if P.curY~=P.y_img then
+	if P.curY~=P.y_img and P.cur then
 		if P.gameEnv.dropFX then
 			P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.y_img+P.r-1)
 		end
@@ -2205,14 +2218,14 @@ function player.act.insDown(P)
 	end
 end
 function player.act.down1(P)
-	if P.curY~=P.y_img then
+	if P.curY~=P.y_img and P.cur then
 		P.curY=P.curY-1
 		P.spinLast=false
 	end
 end
 function player.act.down4(P)
 	for _=1,4 do
-		if P.curY~=P.y_img then
+		if P.curY~=P.y_img and P.cur then
 			P.curY=P.curY-1
 			P.spinLast=false
 		else
@@ -2221,34 +2234,36 @@ function player.act.down4(P)
 	end
 end
 function player.act.down10(P)
-	for _=1,10 do
-		if P.curY~=P.y_img then
-			P.curY=P.curY-1
-			P.spinLast=false
-		else
-			break
+	if P.cur then
+		for _=1,10 do
+			if P.curY~=P.y_img then
+				P.curY=P.curY-1
+				P.spinLast=false
+			else
+				break
+			end
 		end
 	end
 end
 function player.act.dropLeft(P)
-	if P.gameEnv.nofly then return end
+	if P.gameEnv.nofly or not P.cur then return end
 	P.act.insLeft(P)
 	P.act.hardDrop(P)
 end
 function player.act.dropRight(P)
-	if P.gameEnv.nofly then return end
+	if P.gameEnv.nofly or not P.cur then return end
 	P.act.insRight(P)
 	P.act.hardDrop(P)
 end
 function player.act.addLeft(P)
-	if P.gameEnv.nofly then return end
+	if P.gameEnv.nofly or not P.cur then return end
 	P.act.insLeft(P)
 	P.act.insDown(P)
 	P.act.insRight(P)
 	P.act.hardDrop(P)
 end
 function player.act.addRight(P)
-	if P.gameEnv.nofly then return end
+	if P.gameEnv.nofly or not P.cur then return end
 	P.act.insRight(P)
 	P.act.insDown(P)
 	P.act.insLeft(P)
@@ -2319,10 +2334,11 @@ local function newEmptyPlayer(id,x,y,size)
 	P.showTime=nil
 	P.keepVisible=true
 
-	P.cur={bk={{}},id=0,color=0,name=0}--shape,shapeID,colorID,nameID
-	P.sc,P.dir,P.r,P.c={0,0},0,0,0--IMG.spinCenter,direction,row,col
+	--P.cur={bk=matrix[2], id=shapeID, color=colorID, name=nameID}
+	--P.sc,P.dir={0,0},0--spinCenterCoord, direction
+	--P.r,P.c=0,0--row, col
+	--P.hd={...},same as P.cur
 	P.curX,P.curY,P.y_img=0,0,0--x,y,ghostY
-	P.hd={bk={{}},id=0,color=0,name=0}
 	P.holded=false
 	P.next={}
 
@@ -2335,8 +2351,7 @@ local function newEmptyPlayer(id,x,y,size)
 	P.human=false
 	P.RS=kickList.TRS
 
-	-- prepareSequence 这个参数在调用prepareSequence时被初始化
-	P.newNext=nil
+	-- P.newNext=nil--call prepareSequence()to get a function to get new next
 
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.movDir,P.moving,P.downing=0,0,0--last move key,DAS charging,downDAS charging
@@ -2391,7 +2406,7 @@ local function applyGameEnv(P)--finish gameEnv processing
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 	ENV.next=min(ENV.next,setting.maxNext)
 
-	if ENV.sequence~="bag"then
+	if ENV.sequence~="bag"and ENV.sequence~="loop"then
 		ENV.bagLine=false
 	else
 		ENV.bagLen=#ENV.bag
@@ -2543,11 +2558,12 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 
 	loadGameEnv(P)
 	applyGameEnv(P)
-	prepareSequence(P)
 
 	local ENV=P.gameEnv
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,5,8,2,10,3,7}
+	prepareSequence(P)
+	
 	P.human=false
 	loadAI(P,AIdata)
 end

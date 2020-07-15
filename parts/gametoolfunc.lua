@@ -97,7 +97,7 @@ function pasteBoard()
 		p=p+1
 	end
 
-	for y=fY+1,20 do
+	for y=fY,20 do
 		for x=1,10 do
 			preField[y][x]=0
 		end
@@ -211,6 +211,7 @@ function resumeGame()
 	SCN.swapTo("play","none")
 end
 function loadGame(M)
+	print(M)
 	--rec={}
 	stat.lastPlay=M
 	curMode=Modes[M]

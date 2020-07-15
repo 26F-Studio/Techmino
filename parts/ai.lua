@@ -205,7 +205,7 @@ return{
 			end
 			local best={x=1,dir=0,hold=false,score=-1e99}
 			for ifhold=0,P.gameEnv.hold and 1 or 0 do
-				local bn=ifhold==0 and P.cur.id or P.hd.id>0 and P.hd.id or P.next[1].id
+				local bn=ifhold==0 and P.cur.id or P.hd and P.hd.id or P.next[1]and P.next[1].id
 				for dir=0,dirCount[bn] do--each dir
 					local cb=blocks[bn][dir]
 					for cx=1,11-#cb[1]do--each pos
