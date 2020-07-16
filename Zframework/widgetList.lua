@@ -159,10 +159,10 @@ local Widgets={
 		H=		newButton(850,	640,90,	90,C.white,			50,SEQpush(24)),
 		I5=		newButton(950,	640,90,	90,C.white,			50,SEQpush(25)),
 
-		left=	newButton(850,	440,90,	90,C.green,			55,pressKey("left")),
-		right=	newButton(950,	440,90,	90,C.green,			55,pressKey("right")),
-		backsp=	newButton(1050,	440,90,	90,C.red,			50,pressKey("backspace")),
-		reset=	newButton(1050,	540,90,	90,C.red,			50,pressKey("delete")),
+		left=	newButton(850,	440,90,	90,C.lightGreen,	55,pressKey("left")),
+		right=	newButton(950,	440,90,	90,C.lightGreen,	55,pressKey("right")),
+		backsp=	newButton(1050,	440,90,	90,C.lightRed,		50,pressKey("backspace")),
+		reset=	newButton(1050,	540,90,	90,C.lightRed,		50,pressKey("delete")),
 		back=	newButton(1200,	640,120,120,C.white,		35,BACK),
 	},
 	draw={

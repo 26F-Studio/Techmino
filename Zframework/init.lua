@@ -343,6 +343,7 @@ function keyDown.sequence(key)
 	elseif key=="delete"then
 		if sceneTemp.sure>20 then
 			preBag={1,2,3,4,5,6,7}
+			sceneTemp.cur=7
 			sceneTemp.sure=0
 		else
 			sceneTemp.sure=50

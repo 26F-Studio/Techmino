@@ -19,7 +19,7 @@ for i=1,20 do
 end
 
 miniBlock={}
-for i=1,7 do
+for i=1,25 do
 	local b=blocks[i][0]
 	miniBlock[i]=C(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do

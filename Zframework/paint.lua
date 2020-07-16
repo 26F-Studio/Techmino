@@ -310,20 +310,39 @@ function Pnt.custom()
 	end
 end
 function Pnt.sequence()
+	local s=sceneTemp
 	gc.setColor(.7,.7,.7)gc.draw(drawableText.sequence,120,-15)
 	gc.setColor(1,1,1)gc.draw(drawableText.sequence,122,-12)
 	gc.setLineWidth(4)
 	gc.rectangle("line",100,100,1080,260)
 	setFont(30)
-	for i=1,#preBag do
-		gc.print(preBag[i],100+30*i,110)
-	end
+	local bag=preBag
+	local len=#bag
+	
 	setFont(40)
-	gc.print(sceneTemp.cur,120,300)
+	gc.print(len,120,300)
+	
+	local L=miniBlock
+	local x,y=120,126
+	local cx,cy=120,126
+	for i=1,len do
+		local B=miniBlock[bag[i]]
+		gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
+		x=x+B:getWidth()*15+10
+		if x>1126 then
+			x,y=120,y+50
+		end
+		if i==s.cur then
+			cx,cy=x,y
+		end
+	end
+
+	gc.setColor(.5,1,.5,.6+.4*sin(Timer()*6.26))
+	gc.line(cx-5,cy-20,cx-5,cy+20)
 
 	--Confirm reset
-	if sceneTemp.sure>0 then
-		gc.setColor(1,1,1,sceneTemp.sure*.02)
+	if s.sure>0 then
+		gc.setColor(1,1,1,s.sure*.02)
 		gc.draw(drawableText.question,1035,570)
 	end
 end
