@@ -24,7 +24,7 @@ local gc,sys=love.graphics,love.system
 local Timer=love.timer.getTime
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local abs=math.abs
-local rem=table.remove
+local ins,rem=table.insert,table.remove
 
 local scr=scr
 local xOy=love.math.newTransform()
@@ -314,6 +314,8 @@ function keyDown.custom(key)
 		elseif sel==13 then
 			BGM.play(customRange.bgm[customSel[sel]])
 		end
+	elseif key=="q"then
+		SCN.goto("sequence")
 	elseif #key==1 then
 		local T=tonumber(key)
 		if T and T>=1 and T<=5 then
@@ -328,25 +330,50 @@ function keyDown.custom(key)
 	end
 end
 
+local minoKey={
+	["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,
+	z=1,s=2,j=3,l=4,t=5,o=6,i=7,
+	p=10,q=11,f=12,e=13,u=15,
+	v=16,w=17,x=18,r=21,y=22,n=23,h=24,
+}
+local minoKey2={
+	["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
+	z=8,s=9,t=14,j=19,l=20,i=25
+}
 function keyDown.sequence(key)
 	local s=sceneTemp
-	if key=="left"then
-		if s.cur>0 then s.cur=s.cur-1 end
-	elseif key=="right"then
-		if s.cur<#preBag then s.cur=s.cur+1 end
-	elseif key=="backspace"then
-		local C=s.cur
-		if C>0 then
-			rem(preBag,C)
-			s.cur=C-1
+	if type(key)=="number"then
+		local C=s.cur+1
+		ins(preBag,C,key)
+		s.cur=C
+	elseif #key==1 then
+		local i=(kb.isDown("lctrl","lshift","lalt","rctrl","rshift","ralt")and minoKey2 or minoKey)[key]
+		if i then
+			local C=s.cur+1
+			ins(preBag,C,i)
+			s.cur=C
 		end
-	elseif key=="delete"then
-		if sceneTemp.sure>20 then
-			preBag={1,2,3,4,5,6,7}
-			sceneTemp.cur=7
-			sceneTemp.sure=0
-		else
-			sceneTemp.sure=50
+	else
+		if key=="left"then
+			if s.cur>0 then s.cur=s.cur-1 end
+		elseif key=="right"then
+			if s.cur<#preBag then s.cur=s.cur+1 end
+		elseif key=="backspace"then
+			local C=s.cur
+			if C>0 then
+				rem(preBag,C)
+				s.cur=C-1
+			end
+		elseif key=="escape"then
+			SCN.back()
+		elseif key=="delete"then
+			if sceneTemp.sure>20 then
+				preBag={}
+				sceneTemp.cur=7
+				sceneTemp.sure=0
+			else
+				sceneTemp.sure=50
+			end
 		end
 	end
 end

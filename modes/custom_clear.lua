@@ -12,7 +12,7 @@ return{
 		end
 		modeEnv._20G=modeEnv.drop==0
 		modeEnv.oncehold=customSel[6]==1
-		modeEnv.bag=preBag
+		if preBag[1]then modeEnv.bag=preBag end
 		PLY.newPlayer(1,340,15)
 		local L=modeEnv.opponent
 		if L~=0 then

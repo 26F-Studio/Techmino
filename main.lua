@@ -29,7 +29,7 @@ scr={x=0,y=0,w=0,h=0,rad=0,k=1}--wid,hei,radius,scale K
 
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
-preBag={1,2,3,4,5,6,7}
+preBag={}
 
 players={alive={},human=0}
 --blockSkin,blockSkinMini={},{}--redefined in SKIN.change
