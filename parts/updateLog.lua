@@ -56,22 +56,19 @@ Future outlook:
 			2048 (with next (with deadly mode))
 			mine sweeper
 			tank battle
-		time-based-rank for master advanced mode(1:58/2：28/3：03/300P/100P)
 		简易防沉迷系统
-		full-key control
-		dragging control
 		"next" SFX
-		new layout of player (rectangle so stupid)
+		full-key control
+		touch-drag control
+		cool backgrounds
+		'Encrypt'(compile to byte code)
 		better drop FX
 		60+ fps supporting
 		in-game document
-		lang setting page
 		game recording
 		new widgets (joystick etc.)
 		splashing block
-		cool backgrounds
 		more graphic FXs & 3D features & animations
-		Encrypt source code (compile to byte code)
 		network game
 		new AI: task-Z
 
@@ -82,12 +79,15 @@ Future outlook:
 		many new tips
 		more powerful watermark
 		die animation in non-royale mode
+		better in-game layout
 	changed:
 		mode name shown at the top of screen
 		faster & harder attacker-ultimate
+		time-based-rank for master-advanced
 		little easier to get S in PC challenge (easy mode)
 		easier to get S in infinite mode, c4w, PC
-		harder to unlock sprint 400/1000
+		harder to unlock sprint-400/1000
+		harder to get high rank of sprint-1000
 	code:
 		file sorted
 		task system rewrited, now perfect (maybe)

@@ -224,6 +224,7 @@ end
 function sceneInit.stat()
 	local S=stat
 	sceneTemp={
+		count=0,
 		chart={
 			A1=S.spin,A2=S.clear,
 			X1=S.spin_S,X2=S.clear_S,
@@ -241,7 +242,7 @@ function sceneInit.stat()
 			format("%d/%.3f%%",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 			S.b2b.."  "..S.b3b,
 			S.pc.."  "..S.hpc,
-		}
+		},
 	}
 	for i=1,11 do
 		sceneTemp.item[i]=text.stat[i].."\t"..sceneTemp.item[i]

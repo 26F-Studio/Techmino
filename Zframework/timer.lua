@@ -20,7 +20,7 @@ function Tmr.load()
 		elseif S.phase==5 then
 			local m=Modes[S.cur]--mode template
 			local M=require("modes/"..m.name)--mode file
-			Modes[m.name]=M
+			Modes[m.name],Modes[S.cur]=M
 			for k,v in next,m do
 				M[k]=v
 			end

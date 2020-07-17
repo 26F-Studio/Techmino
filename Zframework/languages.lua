@@ -2,7 +2,7 @@ local langList={
 	{
 		anykey="按任意键继续",
 		newVersion="检测到更新!存档格式可能更新,设置已重置",
-		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何视频内声明无效",
+		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
@@ -443,7 +443,7 @@ local langList={
 	{
 		anykey="按任意键继续",
 		newVersion="检测到更新!存档格式可能更新,设置已重置",
-		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何视频内声明无效",
+		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
@@ -881,7 +881,7 @@ local langList={
 	{
 		anykey="Press any button",
 		newVersion="Updating detected! Save format may have been updated, settings reseted",
-		marking="Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
+		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
 		royale_remain=function(n)return n.." Players Remaining"end,
@@ -1308,7 +1308,7 @@ local langList={
 	{
 		anykey="↓□↓",
 		newVersion="&!!! ___/_?_ R",
-		marking="Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
+		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
 		royale_remain=function(n)return n.."~"end,

@@ -404,12 +404,9 @@ end
 function Pnt.play()
 	if marking then
 		setFont(26)
-		local x=Timer()*46%1680-200
-		gc.setColor(1,1,1,abs(.26*(1-x/640)))
-		mStr(text.marking,x,260+62*sin(Timer()))
-		-- gc.setColor(1,1,1,.0626)
-		-- mStr(text.marking,260,62+26*sin(Timer()))
-		-- mStr(text.marking,1100,460+62*sin(Timer()*1.2))
+		local t=Timer()
+		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
+		mStr(text.marking,190,60+26*sin(t))
 	end
 	for p=1,#players do
 		players[p]:draw()

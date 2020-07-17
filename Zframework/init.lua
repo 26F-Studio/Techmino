@@ -455,21 +455,13 @@ function keyDown.draw(key)
 end
 
 function mouseDown.setting_sound(x,y,k)
-	if x>780 and x<980 and y>470 and sceneTemp.jump==0 then
-		sceneTemp.jump=10
-		local t=Timer()-sceneTemp.last
+	local s=sceneTemp
+	if x>780 and x<980 and y>470 and s.jump==0 then
+		s.jump=10
+		local t=Timer()-s.last
 		if t>1 then
 			VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
-			sceneTemp.last=Timer()
-			if rnd()<.0626 then
-				for name,M in next,Modes do
-					if not modeRanks[name]then
-						modeRanks[name]=M.score and 0 or 6
-					end
-				end
-				FILE.saveUnlock()
-				TEXT.show("DEVModes:UNLOCKALL",640,360,50,"stretch",.6)
-			end
+			s.last=Timer()
 		end
 	end
 end
@@ -734,8 +726,10 @@ function keyDown.staff(key,RESET)
 				TEXT.show("What are you up to?",640,200,40,"appear",.5)
 			elseif sceneTemp.ct==10 then
 				TEXT.show("Stop what you are doing.",640,200,40,"flicker",.5)
-			elseif sceneTemp.ct==20 then
+			elseif sceneTemp.ct==16 then
 				TEXT.show("RESET ALL DATA?",640,200,40,"appear",.3,.2)
+			elseif sceneTemp.ct==20 then
+				TEXT.show("SURE?????",640,200,40,"beat",.3,.2)
 			elseif sceneTemp.ct==26 then
 				local L=love.filesystem.getDirectoryItems("")
 				for i=1,#L do
@@ -759,6 +753,26 @@ end
 function touchDown.staff(id,x,y)
 	if #tc.getTouches()==5 then
 		keyDown.staff('\122',true)
+	end
+end
+
+function keyDown.stat(key)
+	if key=="u"and kb.isDown("lshift","rshift")then
+		touchDown.stat()
+	end
+end
+function touchDown.stat(id,x,y)
+	local s=sceneTemp
+	s.count=s.count+1
+	if rnd()<.0626 and s.count>26 then
+		for name,M in next,Modes do
+			if not modeRanks[name]then
+				modeRanks[name]=M.score and 0 or 6
+			end
+		end
+		FILE.saveUnlock()
+		TEXT.show("DEV:\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
+		SFX.play("clear_4")
 	end
 end
 
