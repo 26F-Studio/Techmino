@@ -118,8 +118,8 @@ function sceneInit.pause(org)
 			format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
 			format("%d(%d)",S.atk,S.digatk),
 			format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
-			format("%d/%d/%d/%d",S.clear_S[1],S.clear_S[2],S.clear_S[3],S.clear_S[4]),
-			format("(%d)/%d/%d/%d",S.spin_S[1],S.spin_S[2],S.spin_S[3],S.spin_S[4]),
+			format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
+			format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
 			format("%d(+%d)/%d(%d)",S.b2b,S.b3b,S.pc,S.hpc),
 			format("%d[%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 		},
@@ -223,12 +223,22 @@ function sceneInit.staff()
 end
 function sceneInit.stat()
 	local S=stat
+	local X1,X2,Y1,Y2={0,0,0,0},{0,0,0,0},{},{}
+	for i=1,7 do
+		local S,C=S.spin[i],S.clear[i]
+		Y1[i]=S[1]+S[2]+S[3]+S[4]
+		Y2[i]=C[1]+C[2]+C[3]+C[4]
+		for j=1,4 do
+			X1[j]=X1[j]+S[j]
+			X2[j]=X2[j]+C[j]
+		end
+	end
 	sceneTemp={
 		count=0,
 		chart={
 			A1=S.spin,A2=S.clear,
-			X1=S.spin_S,X2=S.clear_S,
-			Y1=S.spin_B,Y2=S.clear_B,
+			X1=X1,X2=X2,
+			Y1=Y1,Y2=Y2,
 		},
 		item={
 			S.run,

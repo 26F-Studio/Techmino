@@ -369,7 +369,7 @@ function keyDown.sequence(key)
 		elseif key=="delete"then
 			if sceneTemp.sure>20 then
 				preBag={}
-				sceneTemp.cur=7
+				sceneTemp.cur=0
 				sceneTemp.sure=0
 			else
 				sceneTemp.sure=50
@@ -720,7 +720,7 @@ function keyDown.staff(key,RESET)
 	if key=="escape"then
 		SCN.back()
 	elseif key=="\122"then
-		if kb.isDown("\109")and kb.isDown("\114")or RESET then
+		if RESET or kb.isDown("\109")and kb.isDown("\114")then
 			sceneTemp.ct=sceneTemp.ct+1
 			if sceneTemp.ct==5 then
 				TEXT.show("What are you up to?",640,200,40,"appear",.5)
@@ -1021,7 +1021,11 @@ function love.resize(w,h)
 	SHADER.warning:send("h",h*scr.dpi)
 end
 function love.focus(f)
-	if SCN.cur=="play"and not f and setting.autoPause then pauseGame()end
+	if f then
+		TASK.new(TICK.autoResize,{0})
+	elseif SCN.cur=="play"and setting.autoPause then
+		pauseGame()
+	end
 end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 local devColor={

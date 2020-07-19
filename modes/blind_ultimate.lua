@@ -23,7 +23,7 @@ return{
 		mText(drawableText.techrash,-81,420)
 		setFont(75)
 		mStr(P.stat.row,-81,220)
-		mStr(P.stat.clear_S[4],-81,340)
+		mStr(P.stat.clears[4],-81,340)
 		gc.setColor(1,1,1,.2)
 		gc.draw(IMG.electric,-26,120,0,2.6)
 	end,

@@ -18,7 +18,7 @@ return{
 		mText(drawableText.techrash,-81,420)
 		setFont(75)
 		mStr(P.stat.row,-81,220)
-		mStr(P.stat.clear_S[4],-81,340)
+		mStr(P.stat.clears[4],-81,340)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

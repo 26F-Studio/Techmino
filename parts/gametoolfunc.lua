@@ -109,9 +109,13 @@ end
 function mergeStat(stat,delta)
 	for k,v in next,delta do
 		if type(v)=="table"then
-			mergeStat(stat[k],v)
+			if type(stat[k])=="table"then
+				mergeStat(stat[k],v)
+			end
 		else
-			stat[k]=stat[k]+v
+			if stat[k]then
+				stat[k]=stat[k]+v
+			end
 		end
 	end
 end

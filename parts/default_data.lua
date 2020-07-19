@@ -60,14 +60,11 @@ s={
 	piece=0,row=0,dig=0,
 	atk=0,digatk=0,
 	send=0,recv=0,pend=0,off=0,
-	clear={},clear_B={},clear_S={0,0,0,0,0},
-	spin={},spin_B={},spin_S={0,0,0,0,0},
+	clear={},spin={},
 	pc=0,hpc=0,b2b=0,b3b=0,score=0,
 	lastPlay="sprint_10",--last played mode ID
 }
 for i=1,25 do
-	s.clear_B[i]=0
-	s.spin_B[i]=0
 	s.clear[i]={0,0,0,0,0}
 	s.spin[i]={0,0,0,0,0}
 end

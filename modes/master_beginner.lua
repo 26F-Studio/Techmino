@@ -67,7 +67,7 @@ return{
 	getRank=function(P)
 		local S=P.modeData.point
 		if S==500 then
-			local L=P.stat.clear_S[4]
+			local L=P.stat.clears[4]
 			return
 			L>=30 and 5 or
 			L>=25 and 4 or

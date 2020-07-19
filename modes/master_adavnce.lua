@@ -63,7 +63,7 @@ return{
 	getRank=function(P)
 		local S=P.modeData.point
 		if S==500 then
-			local T=P.modeData.time
+			local T=P.stat.time
 			return
 			T<=118 and 5 or
 			T<=148 and 4 or

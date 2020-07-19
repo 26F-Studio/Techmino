@@ -1,23 +1,22 @@
 local S=[=[
 "Patron"(time ordered,may not accurate):
 		[rmb100+]:
-			那没事了(T6300)	加油啊,钉钉动了的大哥哥(T3228)
-			弥佑瑶			Alan
-			幽灵3383		靏鸖龘龘
-			込余			saki
+			那没事了(T6300)		加油啊,钉钉动了的大哥哥(T3228)
+			弥佑瑶				Alan			幽灵3383
+			靏鸖龘龘			込余			saki
 	[rmb10+]:
-		八零哥  蕴空之灵  gggf127  dtg
-		ThTsOd  Fireboos  金巧  10元
-		立斐  Deep_Sea  时雪  yyangdid
-		sfqr  心痕  Sasoric  夏小亚
-		仁参  乐↗乐↘  喜欢c4w的ztcjoin  面包
-		蠢熏  潘一栗  Lied  星街书婉
-		祝西  829  e m*12  我永远爱白银诺艾尔(鹏
-		PCX  kagura77  呆喂  GlowingEmbers
-		轩辕辚  HimuroAki  TCV100  tech有养成系统了@7065
-		HAGE KANOBU  闪电和拐棍  葡萄味的曼妥思  世界沃德
-		蓝绿  天生的魔法师  琳雨空  T8779.易缄  吃水榴莲
-
+		八零哥    蕴空之灵    gggf127    dtg
+		ThTsOd    Fireboos    金巧    10元
+		立斐    Deep_Sea    时雪    yyangdid
+		sfqr    心痕    Sasoric    夏小亚    仁参
+		乐↗乐↘    喜欢c4w的ztcjoin    面包    蠢熏
+		潘一栗    Lied    星街书婉    祝西    829
+		e m*12    我永远爱白银诺艾尔(鹏    PCX
+		kagura77    呆喂    GlowingEmbers    轩辕辚
+		HimuroAki    TCV100    tech有养成系统了@7065
+		HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思
+		世界沃德    蓝绿    天生的魔法师    琳雨空
+		T8779.易缄    吃水榴莲    诗情画意    星姐阿夸双推Man暗炎
 	Thanks!!!
 
 Future outlook:
@@ -72,6 +71,12 @@ Future outlook:
 		network game
 		new AI: task-Z
 
+0.9.1: Bug fixed
+	code:
+		render background to canvas first, not redering each frame
+	fixed:
+		error when moving [nothing] when arr>0
+		error when complete master-advanced
 0.9.0: Custom Sequence Update
 	new:
 		custom sequence
@@ -88,14 +93,17 @@ Future outlook:
 		easier to get S in infinite mode, c4w, PC
 		harder to unlock sprint-400/1000
 		harder to get high rank of sprint-1000
+		harder drought-lunatic
 	code:
 		file sorted
 		task system rewrited, now perfect (maybe)
 		remove scissors/blendMode setting in drawing players
 	fixed:
+		screen orientation sometimes error after wake up the phone
 		hard move won't deactive "spin"
 		do not clear dead enemies' field
 		show ghost's center when ghost is off
+		error when get a PC in drought-lunatic
 
 0.8.24: Bug Fixed
 	new:

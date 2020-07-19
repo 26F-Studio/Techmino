@@ -309,7 +309,7 @@ local function Pupdate_alive(P,dt)
 				if P.keyPressing[2]then
 					if arr>0 then
 						if mov==das+arr or mov==das then
-							if P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
+							if not P.cur or P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 								mov=das+arr-1
 							else
 								P.act.moveRight(P,true)
@@ -334,7 +334,7 @@ local function Pupdate_alive(P,dt)
 				if P.keyPressing[1]then
 					if arr>0 then
 						if mov==das+arr or mov==das then
-							if P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+							if not P.cur or P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 								mov=das+arr-1
 							else
 								P.act.moveLeft(P,true)
@@ -728,7 +728,7 @@ local function Pdraw_norm(P)
 	if P.gameEnv.bagLine then
 		local L=P.gameEnv.bagLen
 		local C=-P.pieceCount%L--phase
-		gc.setColor(.5,.5,.5)
+		gc.setColor(.8,.5,.5)
 		for i=C,N-1,L do
 			local y=72*i+36
 			gc.line(321+P.fieldOff.x,y,441,y)
@@ -1018,15 +1018,14 @@ local function getNewStatTable()
 		piece=0,row=0,dig=0,
 		atk=0,digatk=0,
 		send=0,recv=0,pend=0,off=0,
-		clear={},clear_B={},clear_S={0,0,0,0,0},
-		spin={},spin_B={},spin_S={0,0,0,0,0},
+		clear={},clears={},spin={},spins={},
 		pc=0,hpc=0,b2b=0,b3b=0,
 	}
 	for i=1,25 do
 		T.clear[i]={0,0,0,0,0}
 		T.spin[i]={0,0,0,0,0}
-		T.clear_B[i]=0
-		T.spin_B[i]=0
+		T.clears[i]=0
+		T.spins[i]=0
 	end
 	return T
 end
@@ -1811,12 +1810,10 @@ function player.drop(P)--Place piece
 	local n=P.cur.name
 	if dospin then
 		_=STAT.spin[n]	_[cc+1]=_[cc+1]+1--spin[1~25][0~4]
-		_=STAT.spin_S	_[cc+1]=_[cc+1]+1--spin[0~4]
-		_=STAT.spin_B	_[n]=_[n]+1--spin[1~25]
+		_=STAT.spins	_[cc+1]=_[cc+1]+1--spin[0~4]
 	elseif cc>0 then
 		_=STAT.clear[n]	_[cc]=_[cc]+1--clear[1~25][1~5]
-		_=STAT.clear_S	_[cc]=_[cc]+1--clear[1~5]
-		_=STAT.clear_B	_[n]=_[n]+1--clear[1~25]
+		_=STAT.clears	_[cc]=_[cc]+1--clear[1~5]
 	end
 	--Update stat
 

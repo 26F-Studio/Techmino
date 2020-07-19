@@ -10,13 +10,19 @@ return{
 			if not P.next[1] then
 				local height=freeRow.get(0)
 				local max=#P.field
-				for x=1,10 do
-					local h=max
-					while P.field[h][x]==0 and h>1 do
-						h=h-1
+				if max>0 then
+					for x=1,10 do
+						local h=max
+						while P.field[h][x]==0 and h>1 do
+							h=h-1
+						end
+						height[x]=h
+					end--get heights
+				else
+					for x=1,10 do
+						height[x]=0
 					end
-					height[x]=h
-				end--get heights
+				end
 				height[11]=999
 
 				local res={1,1,2,2,3,4}
@@ -27,9 +33,11 @@ return{
 				end
 				if d<40 or P.stat.row>2*42 then
 					A=#res+1
-					for i=A,A+5 do
-						res[i]=1
-						res[i+6]=2
+					for i=1,4 do
+						res[A]=1
+						res[A+1]=2
+						res[A+2]=6
+						A=A+3
 					end
 					goto END
 				end
