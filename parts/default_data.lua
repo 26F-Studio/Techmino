@@ -5,10 +5,11 @@ local s={
 	ihs=true,irs=true,ims=true,
 	reTime=4,
 	maxNext=6,
+	autoPause=true,
 	quickR=true,
 	swap=true,
 	fine=false,
-	autoPause=true,
+	spawn=false,
 	lang=1,
 	skinSet=1,
 	skin={1,5,8,2,10,3,7,1,5,1,5,8,2,10,3,7,10,7,8,2,8,2,1,5,3},
@@ -32,9 +33,11 @@ local s={
 	powerInfo=false,
 
 	--sound
-	sfx=10,bgm=7,
-	vib=0,voc=0,
+	sfx=10,
+	bgm=7,
 	stereo=6,
+	vib=0,
+	voc=0,
 
 	--virtualkey
 	VKSFX=3,--SFX volume

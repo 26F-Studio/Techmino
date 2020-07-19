@@ -115,6 +115,9 @@ if setting.skin[10]==5 then
 	setting.skin[10],setting.skin[11]=1,5
 end
 if S.version~=gameVersion then
+	if S.version then
+		setting.spawn=true
+	end
 	S.version=gameVersion
 	TEXT.show(text.newVersion,640,200,30,"fly",.3)
 end

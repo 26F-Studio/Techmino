@@ -1348,6 +1348,9 @@ function player.hold(P,ifpre)
 			P:freshgho()
 			P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,max(P.freshTime-5,0)
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+			if P.human and setting.spawn then
+				SFX.play("spawn_"..C.id)
+			end
 		end
 
 		if P.human then
@@ -1403,6 +1406,9 @@ function player.popNext(P)--pop next queue to hand
 		end
 
 		if _[6]then P.act.hardDrop(P)_[6]=false end--IHdS
+		if P.human and setting.spawn then
+			SFX.play("spawn_"..P.cur.id)
+		end
 	end
 end
 function player.drop(P)--Place piece

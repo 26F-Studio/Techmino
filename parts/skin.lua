@@ -21,6 +21,7 @@ local list={
 	"text_bone(mrz)",
 	"colored_bone(mrz)",
 	"white_bone(mrz)",
+	"WTF",
 }
 local SKIN={}
 SKIN.lib={}

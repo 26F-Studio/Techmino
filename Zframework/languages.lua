@@ -256,6 +256,7 @@ local langList={
 				quickR="快速重新开始",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
+				spawn="方块生成音",
 				back="返回",
 			},
 			setting_video={
@@ -694,6 +695,7 @@ local langList={
 				quickR="快速重新开始",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
+				spawn="方块生成音",
 				back="返回",
 			},
 			setting_video={
@@ -1121,6 +1123,7 @@ local langList={
 				quickR="Quick Retry",
 				swap="Key Combination (Change Atk. Mode)",
 				fine="Finesse Error Sound",
+				spawn="Piece Spawning Sound",
 				back="Back",
 			},
 			setting_video={

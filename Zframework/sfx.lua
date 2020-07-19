@@ -10,6 +10,7 @@ SFX.list={
 	"virtualKey",
 	"button","swipe",
 	"ready","start","win","fail","collect",
+	"spawn_1","spawn_2","spawn_3","spawn_4","spawn_5","spawn_6","spawn_7",
 	"move","rotate","rotatekick","hold",
 	"prerotate","prehold",
 	"lock","drop","fall",
@@ -38,6 +39,7 @@ end
 function SFX.play(s,v,pos)
 	if setting.sfx==0 then return end
 	local S=SFX.list[s]--source list
+	if not S then return end
 	local n=1
 	while S[n]:isPlaying()do
 		n=n+1

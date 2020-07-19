@@ -56,7 +56,6 @@ Future outlook:
 			mine sweeper
 			tank battle
 		简易防沉迷系统
-		"next" SFX
 		full-key control
 		touch-drag control
 		cool backgrounds
@@ -71,12 +70,15 @@ Future outlook:
 		network game
 		new AI: task-Z
 
-0.9.1: Bug fixed
+0.9.1: next piece SFX
+	new:
+		next piece spawn SFX
 	code:
 		render background to canvas first, not redering each frame
 	fixed:
 		error when moving [nothing] when arr>0
 		error when complete master-advanced
+
 0.9.0: Custom Sequence Update
 	new:
 		custom sequence

@@ -221,9 +221,10 @@ local Widgets={
 		layout=	newButton(590,540,140,70,C.white,35,function()
 			SCN.goto("setting_skin")
 			end,nil,"quickR"),
-		quickR=	newSwitch(1050,340,35,				SETval("quickR"),		SETrev("quickR"),		nil,"swap"),
-		swap=	newSwitch(1050,440,19,				SETval("swap"),			SETrev("swap"),			nil,"fine"),
-		fine=	newSwitch(1050,540,20,				SETval("fine"),			SETrev("fine"),			nil,"back"),
+		quickR=	newSwitch(1050,320,35,				SETval("quickR"),		SETrev("quickR"),		nil,"swap"),
+		swap=	newSwitch(1050,400,20,				SETval("swap"),			SETrev("swap"),			nil,"fine"),
+		fine=	newSwitch(1050,480,20,				SETval("fine"),			SETrev("fine"),			nil,"spawn"),
+		spawn=	newSwitch(1050,560,20,				SETval("spawn"),		SETrev("spawn"),		nil,"back"),
 		back=	newButton(1140,650,200,80,C.white,40,BACK,											nil,"graphic"),
 	},
 	setting_video={
