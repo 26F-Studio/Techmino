@@ -692,15 +692,15 @@ local function Pdraw_norm(P)
 
 	--Draw Hold
 	if P.gameEnv.hold then
-		gc.setColor(0,0,0,.4)gc.rectangle("fill",-143,36,124,80)
-		gc.setColor(1,1,1)gc.rectangle("line",-143,36,124,80)
-		mText(drawableText.hold,-81,-15)
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",-140,36,124,80)
+		gc.setColor(1,1,1)gc.rectangle("line",-140,36,124,80)
+		mText(drawableText.hold,-78,-15)
 		if P.hd then
 			if P.holded then gc.setColor(.6,.5,.5)end
 			local B=P.hd.bk
 			for i=1,#B do for j=1,#B[1]do
 				if B[i][j]then
-					drawPixel(i+17.5-#B*.5,j-2.7-#B[1]*.5,P.hd.color)
+					drawPixel(i+17.5-#B*.5,j-2.6-#B[1]*.5,P.hd.color)
 				end
 			end end
 		end
@@ -709,15 +709,15 @@ local function Pdraw_norm(P)
 	--Draw Next(s)
 	local N=P.gameEnv.next*72
 	if P.gameEnv.next>0 then
-		gc.setColor(0,0,0,.4)gc.rectangle("fill",319,36,124,N)
-		gc.setColor(1,1,1)gc.rectangle("line",319,36,124,N)
-		mText(drawableText.next,381,-15)
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",316,36,124,N)
+		gc.setColor(1,1,1)gc.rectangle("line",316,36,124,N)
+		mText(drawableText.next,378,-15)
 		N=1
 		while N<=P.gameEnv.next and P.next[N]do
 			local b,c=P.next[N].bk,P.next[N].color
 			for i=1,#b do for j=1,#b[1] do
 				if b[i][j]then
-					drawPixel(i+20-2.4*N-#b*.5,j+12.7-#b[1]*.5,c)
+					drawPixel(i+20-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
 				end
 			end end
 			N=N+1
@@ -731,7 +731,7 @@ local function Pdraw_norm(P)
 		gc.setColor(.8,.5,.5)
 		for i=C,N-1,L do
 			local y=72*i+36
-			gc.line(321+P.fieldOff.x,y,441,y)
+			gc.line(318+P.fieldOff.x,y,438,y)
 		end
 	end
 
@@ -745,18 +745,23 @@ local function Pdraw_norm(P)
 			mStr(int(count/60+1),0,0)
 		gc.pop()
 	end--Draw starting counter
-	TEXT.draw(P.bonus)--Bonus texts
+
+	--Bonus texts
+	TEXT.draw(P.bonus)
+
+	--Speed dials
 	setFont(25)
-	drawDial(360,520,P.dropSpeed)
-	drawDial(405,575,P.keySpeed)
+	drawDial(360,510,P.dropSpeed)
+	drawDial(405,565,P.keySpeed)
 	gc.setColor(1,1,1)
+	gc.draw(drawableText.bpm,390,480)
+	gc.draw(drawableText.kpm,344,573)
 	mStr(format("%.2f",P.stat.time),-81,518)--Time
 	mStr(P.score1,-81,560)--Score
-	gc.draw(drawableText.bpm,390,490)
-	gc.draw(drawableText.kpm,344,583)
-	--Speed dials
+
+	--Other messages
 	gc.setColor(1,1,1)
-	curMode.mesDisp(P)--Other messages
+	curMode.mesDisp(P)
 
 	if modeEnv.royaleMode then
 		if P.atkMode then
@@ -773,6 +778,7 @@ local function Pdraw_norm(P)
 	gc.pop()
 end
 local function Pdraw_small(P)
+	--draw content
 	P.frameWait=P.frameWait-1
 	if P.frameWait==0 then
 		P.frameWait=10
@@ -781,16 +787,20 @@ local function Pdraw_small(P)
 		gc.push("transform")
 		gc.origin()
 		gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
+		
+		--Field
 		local F=P.field
 		for j=1,#F do
 			for i=1,10 do if F[j][i]>0 then
 				gc.draw(blockSkinMini[F[j][i]],6*i-6,120-6*j)
 			end end
-		end--Field
+		end
+
+		--Draw boarder
 		if P.alive then
 			gc.setLineWidth(2)
 			gc.setColor(frameColor[P.strength])gc.rectangle("line",1,1,58,118)
-		end--Draw boarder
+		end
 		if modeEnv.royaleMode then
 			gc.setColor(1,1,1)
 			for i=1,P.strength do
@@ -804,11 +814,11 @@ local function Pdraw_small(P)
 		end
 		gc.pop()
 		gc.setCanvas()
-		--draw content
 	end
+
+	--draw Canvas
 	gc.setColor(1,1,1)
 	gc.draw(P.canvas,P.x,P.y,nil,P.size*10)
-	--draw Canvas
 	if P.killMark then
 		gc.setLineWidth(3)
 		gc.setColor(1,0,0,min(P.endCounter,25)*.04)
@@ -861,38 +871,43 @@ local function Pdraw_demo(P)
 	drawFXs(P)
 
 	if P.cur and P.waiting==-1 then
+		--Draw ghost
 		gc.setColor(1,1,1,.3)
 		for i=1,P.r do for j=1,P.c do
 			if P.cur.bk[i][j]then
 				drawPixel(i+P.y_img-1,j+P.curX-1,curColor)
 			end
 		end end
-		--Ghost draw
+
+		--Draw block
 		gc.setColor(1,1,1)
 		for i=1,P.r do for j=1,P.c do
 			if P.cur.bk[i][j]then
 				drawPixel(i+P.curY-1,j+P.curX-1,curColor)
 			end
-		end end--Block
+		end end
 	end
 
+	--Draw hold
+	local blockImg=TEXTURE.miniBlock
 	if P.hd then
 		local id=P.hd.id
 		_=P.color[id]
 		gc.setColor(_[1],_[2],_[3],.3)
-		_=miniBlock[id]
+		_=blockImg[id]
 		gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
-	end--Hold
+	end
 
+	--Draw next
 	local N=1
 	while N<=P.gameEnv.next and P.next[N]do
 		local id=P.next[N].id
 		_=P.color[id]
 		gc.setColor(_[1],_[2],_[3],.3)
-		_=miniBlock[id]
+		_=blockImg[id]
 		gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 		N=N+1
-	end--Next
+	end
 
 	gc.setColor(1,1,1)
 	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
@@ -1121,7 +1136,7 @@ function player.garbageRise(P,color,amount,pos)
 	P.fieldBeneath=P.fieldBeneath+amount*30
 	P.curY=P.curY+amount
 	P.garbageBeneath=P.garbageBeneath+amount
-	P:freshgho()
+	P.y_img=P.y_img+amount
 	for i=1,#P.clearingRow do
 		P.clearingRow[i]=P.clearingRow[i]+amount
 	end
@@ -1155,7 +1170,7 @@ function player.pushLine(P,L,mir)
 	end
 	P.fieldBeneath=P.fieldBeneath+120
 	P.curY=P.curY+#L
-	P:freshgho()
+	P.y_img=P.y_img+#L
 end
 function player.pushNext(P,L,mir)
 	for i=1,#L do
@@ -1211,6 +1226,7 @@ function player.changeAtk(P,R)
 	end
 end
 function player.freshgho(P)
+	if not P.cur then return end
 	P.y_img=min(#P.field+1,P.curY)
 	if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
 		while not P:ifoverlap(P.cur.bk,P.curX,P.y_img-1)do

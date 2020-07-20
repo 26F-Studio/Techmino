@@ -1,3 +1,4 @@
+snapLevelValue={1,10,20,40,60,80}
 customID={
 	"drop","lock",
 	"wait","fall",
@@ -20,7 +21,51 @@ customRange={
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={0,1,2,3,4,5,11,12,13,14,15,16},
-	bg={"none","game1","game2","game3","strap","aura","rgb","glow","matrix"},
+	bg={"none","game1","game2","game3","aura","rgb","glow","matrix"},
 	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
-snapLevelValue={1,10,20,40,60,80}
+local function T(s,t)return love.graphics.newText(setFont(s),t)end
+drawableText={
+	question=T(100,"?"),
+	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
+	speedLV=T(20,"speed level"),
+	atk=T(20,"Attack"),
+	eff=T(20,"Efficiency"),
+	tsd=T(35,"TSD"),
+	line=T(25,"Lines"),
+	techrash=T(25,"Techrash"),
+	grade=T(25,"Grade"),
+	wave=T(30,"Wave"),
+	rpm=T(35,"RPM"),
+	nextWave=T(30,"Next"),
+	combo=T(20,"Combo"),
+	mxcmb=T(20,"Max Combo"),
+	pc=T(20,"Perfect Clear"),
+	ko=T(25,"KO"),
+	D=T(100,"D"),
+	C=T(100,"C"),
+	B=T(100,"B"),
+	A=T(100,"A"),
+	S=T(100,"S"),
+
+
+	modeName=T(30),levelName=T(30),
+
+
+	anykey=T(40),
+	next=T(40),hold=T(40),
+	win=T(120),finish=T(120),
+	lose=T(120),pause=T(120),
+
+	custom=T(80),sequence=T(80),
+	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
+	setting_control=T(70),setting_skin=T(70),
+	preview=T(40),
+	keyboard=T(25),joystick=T(25),
+	ctrlSetHelp=T(30),
+	musicRoom=T(80),
+	nowPlaying=T(50),
+	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
+	noScore=T(45),
+	highScore=T(30),
+}

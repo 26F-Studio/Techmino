@@ -139,24 +139,24 @@ local Widgets={
 		O=		newButton(650,	440,90,	90,C.white,			50,pressKey(6)),
 		I=		newButton(750,	440,90,	90,C.white,			50,pressKey(7)),
 
-		Z5=		newButton(150,	540,90,	90,C.white,			50,pressKey(8)),
-		S5=		newButton(250,	540,90,	90,C.white,			50,pressKey(9)),
-		P=		newButton(350,	540,90,	90,C.white,			50,pressKey(10)),
-		Q=		newButton(450,	540,90,	90,C.white,			50,pressKey(11)),
-		F=		newButton(550,	540,90,	90,C.white,			50,pressKey(12)),
-		E=		newButton(650,	540,90,	90,C.white,			50,pressKey(13)),
-		T5=		newButton(750,	540,90,	90,C.white,			50,pressKey(14)),
-		U=		newButton(850,	540,90,	90,C.white,			50,pressKey(15)),
-		V=		newButton(950,	540,90,	90,C.white,			50,pressKey(16)),
-		W=		newButton(150,	640,90,	90,C.white,			50,pressKey(17)),
-		X=		newButton(250,	640,90,	90,C.white,			50,pressKey(18)),
-		J5=		newButton(350,	640,90,	90,C.white,			50,pressKey(19)),
-		L5=		newButton(450,	640,90,	90,C.white,			50,pressKey(20)),
-		R=		newButton(550,	640,90,	90,C.white,			50,pressKey(21)),
-		Y=		newButton(650,	640,90,	90,C.white,			50,pressKey(22)),
-		N=		newButton(750,	640,90,	90,C.white,			50,pressKey(23)),
-		H=		newButton(850,	640,90,	90,C.white,			50,pressKey(24)),
-		I5=		newButton(950,	640,90,	90,C.white,			50,pressKey(25)),
+		Z5=		newButton(150,	540,90,	90,C.darkGrey,		50,pressKey(8)),
+		S5=		newButton(250,	540,90,	90,C.darkGrey,		50,pressKey(9)),
+		P=		newButton(350,	540,90,	90,C.darkGrey,		50,pressKey(10)),
+		Q=		newButton(450,	540,90,	90,C.darkGrey,		50,pressKey(11)),
+		F=		newButton(550,	540,90,	90,C.darkGrey,		50,pressKey(12)),
+		E=		newButton(650,	540,90,	90,C.darkGrey,		50,pressKey(13)),
+		T5=		newButton(750,	540,90,	90,C.darkGrey,		50,pressKey(14)),
+		U=		newButton(850,	540,90,	90,C.darkGrey,		50,pressKey(15)),
+		V=		newButton(950,	540,90,	90,C.darkGrey,		50,pressKey(16)),
+		W=		newButton(150,	640,90,	90,C.darkGrey,		50,pressKey(17)),
+		X=		newButton(250,	640,90,	90,C.darkGrey,		50,pressKey(18)),
+		J5=		newButton(350,	640,90,	90,C.darkGrey,		50,pressKey(19)),
+		L5=		newButton(450,	640,90,	90,C.darkGrey,		50,pressKey(20)),
+		R=		newButton(550,	640,90,	90,C.darkGrey,		50,pressKey(21)),
+		Y=		newButton(650,	640,90,	90,C.darkGrey,		50,pressKey(22)),
+		N=		newButton(750,	640,90,	90,C.darkGrey,		50,pressKey(23)),
+		H=		newButton(850,	640,90,	90,C.darkGrey,		50,pressKey(24)),
+		I5=		newButton(950,	640,90,	90,C.darkGrey,		50,pressKey(25)),
 
 		left=	newButton(850,	440,90,	90,C.lightGreen,	55,pressKey("left")),
 		right=	newButton(950,	440,90,	90,C.lightGreen,	55,pressKey("right")),
@@ -424,6 +424,44 @@ local Widgets={
 	stat={
 		path=	newButton(980,620,250,80,C.white,25,function()love.system.openURL(love.filesystem.getSaveDirectory())end,mobileHide,"back"),
 		back=	newButton(640,620,200,80,C.white,40,BACK,nil,"path"),
+	},
+	debug={
+		killWTM=newButton(340,200,260,100,C.white,35,function()
+			marking=nil
+			TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
+			SFX.play("clear")
+			end),
+		unlock=	newButton(640,200,260,100,C.white,40,function()
+			for name,M in next,Modes do
+				if not modeRanks[name]then
+					modeRanks[name]=M.score and 0 or 6
+				end
+			end
+			FILE.saveUnlock()
+			TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
+			SFX.play("clear_2")
+			end),
+		reset=	newButton(940,200,260,100,C.white,40,function()
+			sceneTemp.ct=sceneTemp.ct+1
+			if sceneTemp.ct==1 then
+				TEXT.show("RESET ALL DATA?",640,360,50,"appear",.5)
+			elseif sceneTemp.ct==5 then
+				TEXT.show("SURE?????",640,360,80,"beat",.5)
+			elseif sceneTemp.ct==10 then
+				local L=love.filesystem.getDirectoryItems("")
+				for i=1,#L do
+					local s=L[i]
+					if s:sub(-4)==".dat"then
+						love.filesystem.remove(s)
+					end
+				end
+				SFX.play("clear_4")SFX.play("finesseError_long")
+				TEXT.clear()
+				TEXT.show("ALL SAVING FILE DELETED",640,360,60,"stretch",.4)
+				SCN.back()
+			end
+			end),
+		back=	newButton(640,620,200,80,C.white,40,BACK),
 	},
 }
 mobileHide,SETval,SETsto,SETrev=nil

@@ -43,9 +43,9 @@ freeRow=	require("parts/freeRow")
 
 require("parts/list")
 require("parts/gametoolfunc")
-require("parts/texture")
 require("parts/default_data")
 
+TEXTURE=require("parts/texture")
 SKIN=	require("parts/skin")
 PLY=	require("parts/player")
 AIfunc=	require("parts/ai")
@@ -81,43 +81,7 @@ if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 
 --update data file
 S=stat
-S.clear_B,S.clear_S=nil
-if not S.clear[1][5]then
-	for i=1,7 do
-		S.clear[i][5]=0
-		S.spin[i][5]=0
-	end
-	for i=8,25 do
-		S.clear[i]={0,0,0,0,0}
-		S.spin[i]={0,0,0,0,0}
-	end
-end
-if not S.off then
-	S.off=S.recv-S.pend
-end
-if S.clear[1][4]>0 then
-	for i=1,6 do
-		S.clear[7][4]=S.clear[7][4]+S.clear[i][4]
-		S.clear[i][4]=0
-	end
-end
-while #modeRanks>73 do
-	table.remove(modeRanks)
-end
-if modeRanks[73]==6 then modeRanks[73]=0 end
-if modeRanks[1]then--rename key of modeRanks
-	local L=modeRanks
-	for i=1,#L do
-		L[Modes[i].name],L[i]=L[i]
-	end
-end
-if setting.skin[10]==5 then
-	setting.skin[10],setting.skin[11]=1,5
-end
 if S.version~=gameVersion then
-	if S.version then
-		setting.spawn=true
-	end
 	S.version=gameVersion
 	TEXT.show(text.newVersion,640,200,30,"fly",.3)
 end

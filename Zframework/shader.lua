@@ -6,7 +6,8 @@ return{
 	alpha=N("alpha"),
 	warning=N("warning"),
 
-	rainbow=N("rainbow"),
-	strap=N("strap"),
 	aura=N("aura"),
+	gradient1=N("grad1"),--Horizonal
+	gradient2=N("grad2"),--Vertical
+	gradient3=N("grad3"),--Oblique
 }

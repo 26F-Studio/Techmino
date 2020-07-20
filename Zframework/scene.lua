@@ -187,7 +187,7 @@ function sceneInit.setting_control()
 		dir=1,
 		wait=30,
 	}
-	BG.set("strap")
+	BG.set("game1")
 end
 function sceneInit.setting_key()
 	sceneTemp={
@@ -208,16 +208,13 @@ function sceneInit.setting_touchSwitch()
 	BG.set("matrix")
 end
 function sceneInit.help()
-	sceneTemp={
-		pw=0,
-	}
 	BG.set("space")
 end
 function sceneInit.staff()
 	sceneTemp={
+		pw=0,
 		time=0,
 		v=1,
-		ct=0,
 	}
 	BG.set("space")
 end
@@ -234,7 +231,6 @@ function sceneInit.stat()
 		end
 	end
 	sceneTemp={
-		count=0,
 		chart={
 			A1=S.spin,A2=S.clear,
 			X1=X1,X2=X2,
@@ -259,8 +255,13 @@ function sceneInit.stat()
 	end
 end
 function sceneInit.history()
-	BG.set("strap")
+	BG.set("game1")
 	sceneTemp={require("parts/updateLog"),1}--scroll pos
+end
+function sceneInit.debug()
+	sceneTemp={
+		ct=0,
+	}
 end
 function sceneInit.quit()
 	love.timer.sleep(.3)

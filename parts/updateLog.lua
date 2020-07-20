@@ -69,12 +69,18 @@ Future outlook:
 		more graphic FXs & 3D features & animations
 		network game
 		new AI: task-Z
-
-0.9.1: next piece SFX
+0.9.2: Bug Fixed
 	new:
-		next piece spawn SFX
-	code:
-		render background to canvas first, not redering each frame
+		debug page
+	change:
+		three little better backgrounds instead of stupid rainbow
+		little change of in-game layout
+	fixed:
+		error in infinite-dig
+
+0.9.1: Piece Spawn SFX
+	new:
+		piece spawn SFX
 	fixed:
 		error when moving [nothing] when arr>0
 		error when complete master-advanced

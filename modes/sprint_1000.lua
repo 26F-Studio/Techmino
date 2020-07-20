@@ -5,7 +5,7 @@ return{
 	env={
 		drop=60,lock=60,
 		target=1000,dropPiece=PLY.reach_winCheck,
-		bg="strap",bgm="push",
+		bg="game3",bgm="push",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)

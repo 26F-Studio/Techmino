@@ -1,7 +1,7 @@
 local langList={
 	{
 		anykey="按任意键继续",
-		newVersion="检测到更新!存档格式已修改",
+		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -146,7 +146,7 @@ local langList={
 			"",
 			"使用LOVE2D引擎",
 			"错误或者建议请附带截图发送到内测群或者作者邮箱~",
-			"仅通过内测群822023725进行免费下载/更新",
+			"仅通过内测群1080457319进行免费下载/更新",
 			"其他渠道获得游戏皆有被修改/加广告/植入病毒的风险,程序只申请了震动&联网权限!",
 			"若由于被修改的本游戏产生的各种损失作者不负责(我怎么负责啊跟我有啥关系)",
 			"请从正规途径获得最新版,游戏现为免费,不过有打赏当然感谢啦~",
@@ -176,7 +176,7 @@ local langList={
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
-		group="官方QQ群(如果没有被暗改的话就是这个):822023725",
+		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
 		WidgetText={
 			main={
 				play="开始",
@@ -364,6 +364,12 @@ local langList={
 				path="打开存储目录",
 				back="返回",
 			},
+			debug={
+				killWTM="关闭水印",
+				unlock="解锁全模式",
+				reset="清空所有数据",
+				back="返回",
+			},
 		},
 		modes={
 			["sprint_10"]=			{"竞速",		"10L",		"消除10行"},
@@ -443,7 +449,7 @@ local langList={
 	},
 	{
 		anykey="按任意键继续",
-		newVersion="检测到更新!存档格式已修改",
+		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -585,7 +591,7 @@ local langList={
 			"从TO/C2/KOS/TGM3/JS等方块获得过灵感",
 			"",
 			"错误或者建议请附带截图发送到内测群或者作者邮箱~",
-			"仅通过内测群822023725进行免费下载/更新",
+			"仅通过内测群1080457319进行免费下载/更新",
 			"其他渠道获得游戏皆有被修改/加广告/植入病毒的风险,程序只申请了震动&联网权限!",
 			"若由于被修改的本游戏产生的各种损失作者不负责(我怎么负责啊跟我有啥关系)",
 			"请从正规途径获得最新版,游戏现为免费,不过有打赏当然感谢啦~",
@@ -615,7 +621,7 @@ local langList={
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
-		group="官方QQ群(如果没有被暗改的话就是这个):822023725",
+		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
 		WidgetText={
 			main={
 				play="开始",
@@ -803,6 +809,12 @@ local langList={
 				path="打开存储目录",
 				back="返回",
 			},
+			debug={
+				killWTM="关闭水印",
+				unlock="解锁全模式",
+				reset="清空所有数据",
+				back="返回",
+			},
 		},
 		modes={
 			["sprint_10"]=			{"竞速",		"10行",		"消除10行"},
@@ -882,7 +894,7 @@ local langList={
 	},
 	{
 		anykey="Press any button",
-		newVersion="Updating detected! Saving format updated",
+		newVersion="Updating detected!",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
@@ -1043,7 +1055,7 @@ local langList={
 		},
 		used="Tool used:\n\tBeepbox\n\tGFIE\n\tGoldwave\nLib used:\n\tCold_Clear[MinusKelvin]\n\tsimple-love-lights[dylhunn]",
 		support="Support author",
-		group="Official QQ Group(if not hacked):822023725",
+		group="Official QQ Group(if not hacked):1080457319",
 		WidgetText={
 			main={
 				play="Play",
@@ -1231,6 +1243,12 @@ local langList={
 				path="Open Data Folder",
 				back="Back",
 			},
+			debug={
+				killWTM="kill watermark",
+				unlock="unlock all",
+				reset="reset all",
+				back="Back",
+			},
 		},
 		modes={
 			["sprint_10"]=			{"Sprint",			"10L",			"Clear 10 lines!"},
@@ -1310,7 +1328,7 @@ local langList={
 	},
 	{
 		anykey="↓□↓",
-		newVersion="&!!! ___!",
+		newVersion="&!!!",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
@@ -1471,7 +1489,7 @@ local langList={
 		},
 		used="Tool used:\n\tBeepbox\n\tGFIE\n\tGoldwave\nLib used:\n\tCold_Clear[MinusKelvin]\n\tsimple-love-lights[dylhunn]",
 		support="Support author",
-		group="Official QQ Group(if not hacked):822023725",
+		group="Official QQ Group(if not hacked):1080457319",
 		WidgetText={
 			main={
 				play="!!!",
@@ -1656,6 +1674,12 @@ local langList={
 			},
 			stat={
 				path="_$_",
+				back="X",
+			},
+			debug={
+				killWTM="kill watermark",
+				unlock="unlock all",
+				reset="reset all",
 				back="X",
 			},
 		},

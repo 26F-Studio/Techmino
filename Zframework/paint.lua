@@ -65,6 +65,7 @@ local function drawVirtualkey()
 	local a=setting.VKAlpha*.1
 	local _
 	if setting.VKIcon then
+		local icons=TEXTURE.VKIcon
 		for i=1,#V do
 			if V[i].ava then
 				local B=V[i]
@@ -72,7 +73,7 @@ local function drawVirtualkey()
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)--Button outline
 				_=V[i].pressTime
-				gc.draw(VKIcon[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--icon
+				gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--icon
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
 					gc.circle("fill",B.x,B.y,B.r*.94,10)--Glow
@@ -265,7 +266,7 @@ function Pnt.mode()
 	end
 	if cam.keyCtrl then
 		gc.setColor(1,1,1)
-		gc.draw(mapCross,460-20,360-20)
+		gc.draw(TEXTURE.mapCross,460-20,360-20)
 	end
 end
 function Pnt.music()
@@ -322,11 +323,11 @@ function Pnt.sequence()
 	setFont(40)
 	gc.print(len,120,300)
 	
-	local L=miniBlock
+	local L=TEXTURE.miniBlock
 	local x,y=120,126
 	local cx,cy=120,126
 	for i=1,len do
-		local B=miniBlock[bag[i]]
+		local B=L[bag[i]]
 		gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
 		x=x+B:getWidth()*15+10
 		if x>1126 then
@@ -528,7 +529,7 @@ function Pnt.pause()
 		setFont(26)
 		for i=1,10 do
 			gc.print(text.pauseStat[i],40,210+40*i)
-			gc.printf(_[i],245,210+40*i,250,"right")
+			gc.printf(_[i],195,210+40*i,300,"right")
 		end
 	end
 
@@ -750,17 +751,12 @@ end
 function Pnt.staff()
 	local L=text.staff
 	local t=sceneTemp.time
-	if t>0 then
-		setFont(40)
-		for i=1,#L do
-			mStr(L[i],640,800+80*i-t*40)
-		end
-		mDraw(IMG.coloredTitleImage,640,800-t*40,nil,2)
-		mDraw(IMG.coloredTitleImage,640,2160-t*40,nil,2)
-	else
-		setFont(60)
-		mStr("Don't tell this to anyone.",640,-100-t*40)
+	setFont(40)
+	for i=1,#L do
+		mStr(L[i],640,800+80*i-t*40)
 	end
+	mDraw(IMG.coloredTitleImage,640,800-t*40,nil,2)
+	mDraw(IMG.coloredTitleImage,640,2160-t*40,nil,2)
 end
 function Pnt.stat()
 	local chart=sceneTemp.chart

@@ -4,7 +4,7 @@ return{
 		drop=120,lock=120,
 		oncehold=false,target=200,
 		dropPiece=PLY.reach_winCheck,
-		bg="strap",bgm="infinite",
+		bg="game2",bgm="infinite",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)

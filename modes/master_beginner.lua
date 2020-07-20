@@ -47,7 +47,7 @@ return{
 		fall=rush_fall[1],
 		dropPiece=score,
 		freshLimit=15,
-		bg="strap",bgm="secret8th",
+		bg="game1",bgm="secret8th",
 	},
 	slowMark=true,
 	load=function()

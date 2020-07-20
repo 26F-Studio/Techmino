@@ -44,21 +44,6 @@ back.rgb={
 		)
 	end,
 }--Changing pure color
-back.strap={
-	init=function()
-		t=0
-	end,
-	update=function(dt)
-		t=t+dt
-	end,
-	draw=function()
-		SHADER.strap:send("t",t*.626)
-		gc.setColor(.4,.626,.626)
-		gc.setShader(SHADER.strap)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
-		gc.setShader()
-	end,
-}--Horizonal ranbow
 back.flink={
 	init=function()
 		t=0
@@ -95,63 +80,58 @@ back.aura={
 back.game1={
 	init=function()
 		t=0
-		BG.resize(scr.w,scr.h)
+		BG.resize(scr.w)
 	end,
-	resize=function(w,h)
-		SHADER.rainbow:send("w",w*scr.dpi)
-		SHADER.rainbow:send("h",h*scr.dpi)
+	resize=function(w)
+		SHADER.gradient1:send("w",w*scr.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
 	end,
 	draw=function()
-		SHADER.rainbow:send("t",t)
-		gc.setColor(.6,.6,.6)
-		gc.setShader(SHADER.rainbow)
+		SHADER.gradient1:send("t",t)
+		gc.setShader(SHADER.gradient1)
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 		gc.setShader()
 	end,
-}--Rolling rainbow
+}--Horizonal red-blue gradient
 back.game2={
 	init=function()
 		t=0
-		BG.resize(scr.w,scr.h)
+		BG.resize(nil,scr.h)
 	end,
 	resize=function(w,h)
-		SHADER.rainbow:send("w",w*scr.dpi)
-		SHADER.rainbow:send("h",h*scr.dpi)
+		SHADER.gradient2:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
 	end,
 	draw=function()
-		SHADER.rainbow:send("t",t)
-		gc.setColor(.7,.4,.4)
-		gc.setShader(SHADER.rainbow)
+		SHADER.gradient2:send("t",t)
+		gc.setShader(SHADER.gradient2)
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 		gc.setShader()
 	end,
-}--Red rolling rainbow
+}--Vertical red-green gradient
 back.game3={
 	init=function()
 		t=0
 		BG.resize(scr.w,scr.h)
 	end,
 	resize=function(w,h)
-		SHADER.rainbow:send("w",w*scr.dpi)
-		SHADER.rainbow:send("h",h*scr.dpi)
+		SHADER.gradient3:send("w",w*scr.dpi)
+		SHADER.gradient3:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
 	end,
 	draw=function()
-		SHADER.rainbow:send("t",t)
-		gc.setColor(.5,.5,.8)
-		gc.setShader(SHADER.rainbow)
+		SHADER.gradient3:send("t",t)
+		gc.setShader(SHADER.gradient3)
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 		gc.setShader()
 	end,
-}--Blue rolling rainbow
+}--beautiful RGB
 back.game4={
 	init=function()
 		t=0
@@ -160,11 +140,7 @@ back.game4={
 		t=t+dt
 	end,
 	draw=function()
-		SHADER.strap:send("t",t*1.26)
-		gc.setColor(.5,.626,.74)
-		gc.setShader(SHADER.strap)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
-		gc.setShader()
+		
 	end,
 }--Blue strap
 back.game5={
@@ -189,7 +165,7 @@ back.game6={
 		t=0
 		colorLib=_G.SKIN.libColor
 		colorSet=_G.setting.skin
-		miniBlock=_G.miniBlock
+		blockImg=_G.TEXTURE.miniBlock
 	end,
 	update=function(dt)
 		t=t+dt
@@ -202,7 +178,7 @@ back.game6={
 		local R=7-int(t*.5)%7
 		local _=colorLib[colorSet[R]]
 		gc.setColor(_[1],_[2],_[3],.1)
-		gc.draw(miniBlock[R],640,360,t%3.1416*6,400,400,scs[R][0][2]-.5,#blocks[R][0]-scs[R][0][1]+.5)
+		gc.draw(blockImg[R],640,360,t%3.1416*6,400,400,scs[R][0][2]-.5,#blocks[R][0]-scs[R][0][1]+.5)
 	end,
 }--Fast lightning + spining tetromino
 
@@ -284,7 +260,7 @@ BG={
 	update=NULL,
 	draw=back.none.draw,
 }
-function BG.set(bg)
+function BG.set(bg,data)
 	if bg==BG.cur or not setting.bg then return end
 	if BG.discard then
 		BG.discard()

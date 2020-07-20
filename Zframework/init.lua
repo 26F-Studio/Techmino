@@ -290,8 +290,8 @@ end
 local customSet={
 	{3,20,1,1,7,1,1,1,3,4,1,2,3},
 	{5,20,1,1,7,1,1,1,8,3,8,3,3},
-	{1,22,1,1,7,3,1,1,8,4,1,7,7},
-	{3,20,1,1,7,1,1,3,8,3,1,7,8},
+	{1,22,1,1,7,3,1,1,8,4,1,6,7},
+	{3,20,1,1,7,1,1,3,8,3,1,6,8},
 	{25,11,8,11,4,1,2,1,8,3,1,4,9},
 }
 function keyDown.custom(key)
@@ -696,7 +696,16 @@ function gamepadUp.play(key)
 	end
 end
 
-function touchDown.help(id,x,y)
+function keyDown.staff(key,RESET)
+	if key=="escape"then
+		SCN.back()
+	elseif key=="\122"then
+		if RESET or kb.isDown("\109")and kb.isDown("\114")then
+			SCN.goto("debug")
+		end
+	end
+end
+function touchDown.staff(id,x,y)
 	local pw=sceneTemp.pw
 	local t=pw%4
 	if
@@ -707,73 +716,12 @@ function touchDown.help(id,x,y)
 	then
 		pw=pw+1
 		if pw==8 then
-			marking=nil
-			SFX.play("reach")
+			SCN.goto("debug")
 		end
 	else
 		pw=x<640 and y<360==1 and 1 or 0
 	end
 	sceneTemp.pw=pw
-end
-
-function keyDown.staff(key,RESET)
-	if key=="escape"then
-		SCN.back()
-	elseif key=="\122"then
-		if RESET or kb.isDown("\109")and kb.isDown("\114")then
-			sceneTemp.ct=sceneTemp.ct+1
-			if sceneTemp.ct==5 then
-				TEXT.show("What are you up to?",640,200,40,"appear",.5)
-			elseif sceneTemp.ct==10 then
-				TEXT.show("Stop what you are doing.",640,200,40,"flicker",.5)
-			elseif sceneTemp.ct==16 then
-				TEXT.show("RESET ALL DATA?",640,200,40,"appear",.3,.2)
-			elseif sceneTemp.ct==20 then
-				TEXT.show("SURE?????",640,200,40,"beat",.3,.2)
-			elseif sceneTemp.ct==26 then
-				local L=love.filesystem.getDirectoryItems("")
-				for i=1,#L do
-					local s=L[i]
-					if s:sub(-4)==".dat"then
-						love.filesystem.remove(s)
-					end
-				end
-				SFX.play("lock")
-				SFX.play("clear_4")
-				SFX.play("finesseError_long")
-				SCN.back()
-				TEXT.clear()
-			end
-			sceneTemp.v=-6.26
-			marking=nil
-			SFX.play("reach")
-		end
-	end
-end
-function touchDown.staff(id,x,y)
-	if #tc.getTouches()==5 then
-		keyDown.staff('\122',true)
-	end
-end
-
-function keyDown.stat(key)
-	if key=="u"and kb.isDown("lshift","rshift")then
-		touchDown.stat()
-	end
-end
-function touchDown.stat(id,x,y)
-	local s=sceneTemp
-	s.count=s.count+1
-	if rnd()<.0626 and s.count>26 then
-		for name,M in next,Modes do
-			if not modeRanks[name]then
-				modeRanks[name]=M.score and 0 or 6
-			end
-		end
-		FILE.saveUnlock()
-		TEXT.show("DEV:\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
-		SFX.play("clear_4")
-	end
 end
 
 function wheelMoved.history(x,y)
@@ -1088,7 +1036,7 @@ function love.run()
 						local R=int(r)%7+1
 						_=SKIN.libColor[setting.skin[R]]
 						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
-						gc.draw(miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R]-.5,#blocks[R][0]-scs[2*R-1]+.5)
+						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R]-.5,#blocks[R][0]-scs[2*R-1]+.5)
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 					end--Awesome mouse!
