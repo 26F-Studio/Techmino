@@ -103,8 +103,13 @@ local Widgets={
 		quit=	newButton(590,610,160,100,C.lightGrey,		45,function()VOC.play("bye")SCN.swapTo("quit","slowFade")end,nil,"play"),
 	},
 	mode={
-		setting=newButton(1100,	540,240,90,C.lightGreen,	40,function()SCN.goto("custom")end,function()return mapCam.sel~="custom_clear" and mapCam.sel~="custom_puzzle" end),
-		start=	newButton(1040,	655,180,80,C.lightGrey,		40,function()if mapCam.sel then SCN.push()loadGame(mapCam.sel)end end,function()return not mapCam.sel end),
+		setting=newButton(1100,	540,240,90,C.lightGreen,	40,function()
+				SCN.goto("custom")
+			end,
+			function()
+				return mapCam.sel~="custom_clear" and mapCam.sel~="custom_puzzle"
+			end),
+		start=	newButton(1040,	655,180,80,C.lightGrey,		40,pressKey("return"),function()return not mapCam.sel end),
 		back=	newButton(1200,	655,120,80,C.white,			40,BACK),
 	},
 	music={
@@ -126,8 +131,8 @@ local Widgets={
 		set4=	newButton(940,	560,260,70,	C.lightYellow,	32,pressKey("4")),
 		set5=	newButton(940,	640,260,70,	C.lightYellow,	32,pressKey("5")),
 
-		seq=	newButton(665,	415,200,40,	C.lightGreen,	30,function()SCN.goto("sequence")end),
-		draw=	newButton(150,	80,	220,80,	C.white,		35,function()SCN.swapTo("draw")end),
+		seq=	newButton(665,	415,200,40,	C.lightGreen,	30,pressKey("q")),
+		draw=	newButton(150,	80,	220,80,	C.white,		35,pressKey("e")),
 		back=	newButton(1200,	640,120,120,C.white,		35,BACK),
 	},
 	sequence={
@@ -223,8 +228,7 @@ local Widgets={
 			end,nil,"quickR"),
 		quickR=	newSwitch(1050,320,35,				SETval("quickR"),		SETrev("quickR"),		nil,"swap"),
 		swap=	newSwitch(1050,400,20,				SETval("swap"),			SETrev("swap"),			nil,"fine"),
-		fine=	newSwitch(1050,480,20,				SETval("fine"),			SETrev("fine"),			nil,"spawn"),
-		spawn=	newSwitch(1050,560,20,				SETval("spawn"),		SETrev("spawn"),		nil,"back"),
+		fine=	newSwitch(1050,480,20,				SETval("fine"),			SETrev("fine"),			nil,"back"),
 		back=	newButton(1140,650,200,80,C.white,40,BACK,											nil,"graphic"),
 	},
 	setting_video={
@@ -259,13 +263,14 @@ local Widgets={
 		back=	newButton(1140,650,200,80,C.white,40,BACK,nil,"sound"),
 	},
 	setting_sound={
-		game=	newButton(200,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_game")end,						nil,"graphic"),
-		graphic=newButton(1080,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_video")end,					nil,"sfx"),
-		sfx=	newSlider(180,250,400,10,35,function()SFX.play("blip_1")end,	SETval("sfx"),		SETsto("sfx"),	nil,"bgm"),
-		bgm=	newSlider(750,250,400,10,35,function()BGM.freshVolume()end,		SETval("bgm"),		SETsto("bgm"),	nil,"vib"),
-		vib=	newSlider(180,440,400,5	,28,function()VIB(2)end,				SETval("vib"),		SETsto("vib"),	nil,"voc"),
-		voc=	newSlider(750,440,400,10,32,function()VOC.play("nya")end,		SETval("voc"),		SETsto("voc"),	nil,"stereo"),
-		stereo=	newSlider(180,630,400,10,35,function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,	SETval("stereo"),	SETsto("stereo"),function()return setting.sfx==0 end,"back"),
+		game=	newButton(200,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_game")end,											nil,"graphic"),
+		graphic=newButton(1080,80,240,80,C.lightCyan,35,function()SCN.swapTo("setting_video")end,										nil,"sfx"),
+		sfx=	newSlider(180,200,400,10,35,function()SFX.play("blip_1")end,						SETval("sfx"),		SETsto("sfx"),	nil,"stereo"),
+		stereo=	newSlider(180,500,400,10,35,function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,	SETval("stereo"),	SETsto("stereo"),function()return setting.sfx==0 end,"spawn"),
+		spawn=	newSlider(180,300,400,10,30,function()SFX.play("spawn_1",setting.spawn,nil,true)end,SETval("spawn"),	SETsto("spawn"),nil,"bgm"),
+		bgm=	newSlider(180,400,400,10,35,function()BGM.freshVolume()end,							SETval("bgm"),		SETsto("bgm"),	nil,"vib"),
+		vib=	newSlider(750,200,400,5	,28,function()VIB(2)end,									SETval("vib"),		SETsto("vib"),	nil,"voc"),
+		voc=	newSlider(750,300,400,10,32,function()VOC.play("nya")end,							SETval("voc"),		SETsto("voc"),	nil,"back"),
 		back=	newButton(1140,650,200,80,C.white,40,BACK,nil,"game"),
 	},
 	setting_control={
@@ -410,7 +415,7 @@ local Widgets={
 	help={
 		staff=	newButton(980,500,150,80,C.white,32,function()SCN.goto("staff")end,nil,"his"),
 		his=	newButton(1160,500,150,80,C.white,32,function()SCN.goto("history")end,nil,"qq"),
-		qq=		newButton(980,600,150,80,C.white,32,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,mobileHide,"back"),
+		qq=		newButton(1070,600,200,80,C.white,32,function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,mobileHide,"back"),
 		back=	newButton(640,600,200,80,C.white,40,BACK,nil,"staff"),
 	},
 	staff={

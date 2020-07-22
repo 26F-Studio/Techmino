@@ -18,7 +18,7 @@ local Timer=love.timer.getTime
 local blockPos={4,4,4,4,4,5,4}
 local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
 -------------------------------------------------Cold clear
-local CCblockID={4,3,5,6,1,2,0}
+local CCblockID={4,3,6,5,1,2,0}
 if system=="Windows"then
 	require("CCloader")
 	BOT={
@@ -73,7 +73,10 @@ if system=="Windows"then
 		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
 		P:newNext()
-		BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])
+		local id=CCblockID[P.next[P.AIdata.next].id]
+		if id then
+			BOT.addNext(P.AI_bot,id)
+		end
 		collectgarbage()
 	end
 end
@@ -205,7 +208,15 @@ return{
 			end
 			local best={x=1,dir=0,hold=false,score=-1e99}
 			for ifhold=0,P.gameEnv.hold and 1 or 0 do
-				local bn=ifhold==0 and P.cur.id or P.hd and P.hd.id or P.next[1]and P.next[1].id
+				--Get block id
+				local bn
+				if ifhold==0 then
+					bn=P.cur and P.cur.id
+				else
+					bn=P.hd and P.hd.id or P.next[1]and P.next[1].id
+				end
+				if not bn then goto CTN end
+
 				for dir=0,dirCount[bn] do--each dir
 					local cb=blocks[bn][dir]
 					for cx=1,11-#cb[1]do--each pos
@@ -229,8 +240,9 @@ return{
 						resetField(field_org,Tfield,cy)
 					end
 				end
+				::CTN::
 			end
-
+			if not best.bn then return 1 end
 			while #Tfield>0 do
 				freeRow.discard(rem(Tfield,1))
 			end--Release cache

@@ -1,7 +1,7 @@
 local IMG={
 	batteryImage="/mess/power.png",
-	titleImage="mess/title.png",
-	coloredTitleImage="mess/title_colored.png",
+	title="mess/title.png",
+	title_color="mess/title_colored.png",
 	dialCircle="mess/dialCircle.png",
 	dialNeedle="mess/dialNeedle.png",
 	badgeIcon="mess/badge.png",

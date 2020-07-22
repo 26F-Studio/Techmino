@@ -34,7 +34,7 @@ return{
 				end
 			end
 		end,
-		bg="game3",bgm="push",
+		bg="game4",bgm="push",
 	},
 	pauseLimit=true,
 	load=function()

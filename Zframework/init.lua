@@ -218,7 +218,7 @@ function mouseClick.mode(x,y,k)
 				cam.x=cam.x-180
 			end
 		elseif _ then
-			loadGame(_)
+			keyDown.mode("return")
 		end
 	end
 	cam.keyCtrl=false
@@ -247,8 +247,20 @@ end
 function keyDown.mode(key)
 	if key=="return"then
 		if mapCam.sel then
+			if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
+				if customSel[11]>1 then
+					if customSel[7]==5 then
+						TEXT.show(text.ai_fixed,640,360,50,"appear")
+						return
+					elseif #preBag>0 then
+						TEXT.show(text.ai_prebag,640,360,50,"appear")
+						return
+					end
+				end
+			end
 			mapCam.keyCtrl=false
-			SCN.push()loadGame(mapCam.sel)
+			SCN.push()
+			loadGame(mapCam.sel)
 		end
 	elseif key=="escape"then
 		if mapCam.sel then
@@ -316,6 +328,8 @@ function keyDown.custom(key)
 		end
 	elseif key=="q"then
 		SCN.goto("sequence")
+	elseif key=="e"then
+		SCN.swapTo("draw")
 	elseif #key==1 then
 		local T=tonumber(key)
 		if T and T>=1 and T<=5 then
@@ -442,6 +456,8 @@ function keyDown.draw(key)
 		if sx and sy then
 			preField[sy][sx]=pen
 		end
+	elseif key=="e"then
+		SCN.swapTo("custom")
 	elseif key=="escape"then
 		SCN.back()
 	elseif key=="c"and kb.isDown("lctrl","rctrl")then

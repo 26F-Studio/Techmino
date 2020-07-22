@@ -119,30 +119,38 @@ back.game3={
 		BG.resize(scr.w,scr.h)
 	end,
 	resize=function(w,h)
-		SHADER.gradient3:send("w",w*scr.dpi)
-		SHADER.gradient3:send("h",h*scr.dpi)
+		SHADER.rgb1:send("w",w*scr.dpi)
+		SHADER.rgb1:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
 	end,
 	draw=function()
-		SHADER.gradient3:send("t",t)
-		gc.setShader(SHADER.gradient3)
+		SHADER.rgb1:send("t",t)
+		gc.setShader(SHADER.rgb1)
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 		gc.setShader()
 	end,
-}--beautiful RGB
+}--Colorful RGB
 back.game4={
 	init=function()
 		t=0
+		BG.resize(scr.w,scr.h)
+	end,
+	resize=function(w,h)
+		SHADER.rgb2:send("w",w*scr.dpi)
+		SHADER.rgb2:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
 	end,
 	draw=function()
-		
+		SHADER.rgb2:send("t",t)
+		gc.setShader(SHADER.rgb2)
+		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.setShader()
 	end,
-}--Blue strap
+}--Blue RGB
 back.game5={
 	init=function()
 		t=0

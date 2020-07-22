@@ -32,7 +32,7 @@ function toTime(s)
 	end
 end
 function mStr(s,x,y)
-	gc.printf(s,x-400,y,800,"center")
+	gc.printf(s,x-450,y,900,"center")
 end
 function mText(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)

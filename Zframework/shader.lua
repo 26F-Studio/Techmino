@@ -7,7 +7,8 @@ return{
 	warning=N("warning"),
 
 	aura=N("aura"),
-	gradient1=N("grad1"),--Horizonal
-	gradient2=N("grad2"),--Vertical
-	gradient3=N("grad3"),--Oblique
+	gradient1=N("grad1"),--Horizonal red-blue gradient
+	gradient2=N("grad2"),--Vertical red-green gradient
+	rgb1=N("rgb1"),--colorful RGB
+	rgb2=N("rgb2"),--blue RGB
 }

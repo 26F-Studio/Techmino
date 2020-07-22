@@ -1,6 +1,11 @@
 --[[
-	Techmino is my first "huge project"
-	optimization is welcomed if you also love tetromino game
+  ______             __                _
+ /_  __/___   _____ / /_   ____ ___   (_)____   ____
+  / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \
+ / /  /  __// /__ / / / // / / / / // // / / // /_/ /
+/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
+Techmino is my first "huge project"
+optimization is welcomed if you also love tetromino game
 ]]
 
 --Global Setting & Vars
@@ -81,6 +86,9 @@ if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 
 --update data file
 S=stat
+if S.version=="Alpha V0.9.1"then
+	setting.spawn=0
+end
 if S.version~=gameVersion then
 	S.version=gameVersion
 	TEXT.show(text.newVersion,640,200,30,"fly",.3)

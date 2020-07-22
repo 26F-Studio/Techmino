@@ -29,13 +29,6 @@ local miniTitle_rect={
 	{14,8,1,6},{19,8,1,6},{15,9,1,1},{16,10,1,1},{17,11,1,1},{18,12,1,1},
 	{21,8,5,1},{21,13,5,1},{21,9,1,4},{25,9,1,4},
 }
-local function stencil_miniTitle()
-	for i=1,#miniTitle_rect do
-		local a,b,c,d=unpack(miniTitle_rect[i])
-		gc.rectangle("fill",250+a*30,150+b*30,c*30,d*30)
-	end
-end
-
 FX_attack={}--Attack beam
 FX_badge={}--Badge thrown
 local function drawAtkPointer(x,y)
@@ -116,30 +109,62 @@ function Pnt.load()
 	setFont(25)
 	mStr(S.tip,640,400)
 end
+
+local titleTransform={
+	function(t)
+		gc.translate(0,max(50-t,0)^2/25)
+	end,
+	function(t)
+		gc.translate(0,-max(50-t,0)^2/25)
+	end,
+	function(t,i)
+		local d=max(50-t,0)
+		gc.translate(sin(Timer()*3+626*i)*d,cos(Timer()*3+626*i)*d)
+	end,
+	function(t,i)
+		local d=max(50-t,0)
+		gc.translate(sin(Timer()*3+626*i)*d,-cos(Timer()*3+626*i)*d)
+	end,
+	function(t)
+		gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)
+	end,
+}
 function Pnt.intro()
-	local T=sceneTemp
-	gc.stencil(stencil_miniTitle,"replace",1)
-	gc.setStencilTest("equal",1)
-		gc.setColor(1,1,1,min(T,80)*.005)
-		gc.push("transform")
-			gc.translate(250,150)
-			gc.scale(30)
-			gc.rectangle("fill",0,0,26,14)
-		gc.pop()
-		gc.setColor(1,1,1,.06)
-		for i=41,5,-2 do
-			gc.setLineWidth(i)
-			gc.line(200+(T-80)*25,130,(T-80)*25,590)
+	local s=sceneTemp
+	local t=s.t1
+	local T=(t+110)%300
+	if T<30 then
+		gc.setLineWidth(4+(30-T)^1.626/62)
+	else
+		gc.setLineWidth(4)
+	end
+	local L=title
+	gc.push("transform")
+	gc.translate(126,226)
+	for i=1,8 do
+		local T=t-i*15
+		if T>0 then
+			gc.push("transform")
+				gc.setColor(1,1,1,min(T*.025,1))
+				titleTransform[s.r[i]](T,i)
+				local dt=(t+62-5*i)%300
+				if dt<20 then
+					gc.translate(0,abs(10-dt)-10)
+				end
+				gc.polygon("line",L[i])
+			gc.pop()
 		end
-	gc.setStencilTest()
-	if T>=80 then
-		gc.setColor(1,1,1,.5+sin((T-95)/30*3.142)*.5)
+	end
+	gc.pop()
+	t=s.t2
+	if t>=80 then
+		gc.setColor(1,1,1,.6+sin((t-80)*.0626)*.3)
 		mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
 	end
 end
 function Pnt.main()
 	gc.setColor(1,1,1)
-	gc.draw(IMG.coloredTitleImage,60,30,nil,1.3)
+	gc.draw(IMG.title_color,60,30,nil,1.3)
 	setFont(30)
 	gc.print(gameVersion,70,125)
 	gc.print(system,610,100)
@@ -281,7 +306,7 @@ function Pnt.music()
 	for i=1,BGM.len do
 		gc.print(BGM.list[i],50,90+30*i)
 	end
-	gc.draw(IMG.titleImage,640,310,nil,1.5,nil,206,35)
+	gc.draw(IMG.title,640,310,nil,1.5,nil,206,35)
 	if BGM.nowPlay then
 		setFont(45)
 		gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
@@ -289,7 +314,7 @@ function Pnt.music()
 		local t=-Timer()%2.3/2
 		if t<1 then
 			gc.setColor(1,1,1,t)
-			gc.draw(IMG.coloredTitleImage,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+			gc.draw(IMG.title_color,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
 		end
 	end
 end
@@ -319,10 +344,10 @@ function Pnt.sequence()
 	setFont(30)
 	local bag=preBag
 	local len=#bag
-	
+
 	setFont(40)
 	gc.print(len,120,300)
-	
+
 	local L=TEXTURE.miniBlock
 	local x,y=120,126
 	local cx,cy=120,126
@@ -540,13 +565,28 @@ function Pnt.pause()
 		gc.push("transform")
 			gc.translate(1026,400)
 
-			--axes
+			--Polygon
+			gc.push("transform")
+				gc.scale((3-2*T)*T)
+				gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",S.standard)
+				_=S.color
+				gc.setColor(_[1],_[2],_[3],T*.626)
+				_=S.val
+				for i=1,9,2 do
+					gc.polygon("fill",0,0,_[i],_[i+1],_[i+2],_[i+3])
+				end
+				gc.polygon("fill",0,0,_[11],_[12],_[1],_[2])
+				gc.setColor(1,1,1,T)gc.polygon("line",S.val)
+			gc.pop()
+
+			--Axes
 			gc.setColor(1,1,1,T)
 			for i=1,3 do
 				local x,y=hexList[2*i-1],hexList[2*i]
 				gc.line(-x,-y,x,y)
 			end
 
+			--Texts
 			local C
 			_=Timer()%6.2832
 			if _>3.1416 then
@@ -561,16 +601,6 @@ function Pnt.pause()
 			for i=1,6 do
 				mStr(C[i],_[2*i-1],_[2*i])
 			end
-			gc.scale((3-2*T)*T)
-			gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",S.standard)
-			_=S.color
-			gc.setColor(_[1],_[2],_[3],T)
-			_=S.val
-			for i=1,9,2 do
-				gc.polygon("fill",0,0,_[i],_[i+1],_[i+2],_[i+3])
-			end
-			gc.polygon("fill",0,0,_[11],_[12],_[1],_[2])
-			gc.setColor(1,1,1,T)gc.polygon("line",S.val)
 		gc.pop()
 	end
 end
@@ -700,7 +730,7 @@ function Pnt.setting_skin()
 		gc.circle("fill",-10+140*N,340,sin(Timer()*10)+5)
 	end
 	for i=1,6 do
-		gc.draw(blockSkin[11+i],1110,100+60*i,nil,2)
+		gc.draw(blockSkin[11+i],570+60*i,610,nil,2)
 	end
 	gc.draw(drawableText.setting_skin,80,50)
 end
@@ -735,7 +765,7 @@ function Pnt.help()
 	end
 	setFont(19)
 	gc.print(text.used,30,330)
-	gc.draw(IMG.titleImage,280,610,.1,1+.05*sin(Timer()*2.6),nil,206,35)
+	gc.draw(IMG.title,280,610,.1,1+.05*sin(Timer()*2.6),nil,206,35)
 	gc.setLineWidth(3)
 	gc.rectangle("line",18,18,263,263)
 	gc.rectangle("line",1012,18,250,250)
@@ -755,8 +785,8 @@ function Pnt.staff()
 	for i=1,#L do
 		mStr(L[i],640,800+80*i-t*40)
 	end
-	mDraw(IMG.coloredTitleImage,640,800-t*40,nil,2)
-	mDraw(IMG.coloredTitleImage,640,2160-t*40,nil,2)
+	mDraw(IMG.title_color,640,800-t*40,nil,2)
+	mDraw(IMG.title_color,640,2160-t*40,nil,2)
 end
 function Pnt.stat()
 	local chart=sceneTemp.chart
@@ -799,7 +829,7 @@ function Pnt.stat()
 		gc.line(40,240+40*y,600,240+40*y)
 	end
 
-	gc.draw(IMG.titleImage,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
+	gc.draw(IMG.title,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
 end
 function Pnt.history()
 	gc.setColor(.2,.2,.2,.7)

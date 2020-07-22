@@ -1,7 +1,7 @@
 local gc=love.graphics
-local int,log=math.floor,math.log
-local sin,cos=math.sin,math.cos
-local max,format=math.max,string.format
+local int,max,log=math.floor,math.max,math.log
+local rnd,sin,cos=math.random,math.sin,math.cos
+local format=string.format
 local scr=scr
 local SCN={
 	cur="load",--Current scene
@@ -32,12 +32,19 @@ function sceneInit.load()
 			#Modes,
 			1,
 		},
-		skip=false,--if skipping
+		skip=false,--If skipped
 	}
 end
 function sceneInit.intro()
 	BG.set("space")
-	sceneTemp=0--animation timer
+	sceneTemp={
+		t1=0,--Timer 1
+		t2=0,--Timer 2
+		r={},--Random animation type
+	}
+	for i=1,8 do
+		sceneTemp.r[i]=rnd(5)
+	end
 	BGM.play("blank")
 end
 function sceneInit.main()
@@ -47,13 +54,13 @@ function sceneInit.main()
 	modeEnv={}
 	if not players[1]then
 		PLY.newDemoPlayer(1,900,35,1.1)
-	end--create demo player
+	end--Create demo player
 end
 function sceneInit.music()
 	if BGM.nowPlay then
 		for i=1,BGM.len do
 			if BGM.list[i]==BGM.nowPlay then
-				sceneTemp=i--music select
+				sceneTemp=i--Music selected
 				return
 			end
 		end
@@ -74,7 +81,7 @@ function sceneInit.mode(org)
 	end
 end
 function sceneInit.custom()
-	sceneTemp=1--option select
+	sceneTemp=1--Option selected
 	destroyPlayers()
 	BG.set(customRange.bg[customSel[12]])
 	BGM.play(customRange.bgm[customSel[13]])
@@ -128,19 +135,22 @@ function sceneInit.pause(org)
 		radar={
 			(S.off+S.dig)/S.time*60,--DefPM
 			(S.off)/S.time*60,		--OffPM
-			S.atk/S.time*60,				--AtkPM
-			S.send/S.time*60,				--SendPM
-			S.piece/S.time*24,				--LinePM
-			S.dig/S.time*60,				--DigPM
+			S.atk/S.time*60,		--AtkPM
+			S.send/S.time*60,		--SendPM
+			S.piece/S.time*24,		--LinePM
+			S.dig/S.time*60,		--DigPM
 		},
 		val={1/80,1/40,1/60,1/60,1/100,1/40},
 		timing=org=="play",
 	}
 	local _=sceneTemp
 	local A,B=_.radar,_.val
+
+	--Normalize Values
 	for i=1,6 do
-		B[i]=B[i]*A[i]if B[i]>1.26 then B[i]=1.26+(B[i]-1.26)*.26 end
-	end--normalize vals
+		B[i]=B[i]*A[i]if B[i]>1.26 then B[i]=1.26+log(B[i]-.26,10)end
+	end
+
 	for i=1,6 do
 		A[i]=format("%.2f",A[i])..text.radarData[i]
 	end

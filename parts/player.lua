@@ -787,7 +787,7 @@ local function Pdraw_small(P)
 		gc.push("transform")
 		gc.origin()
 		gc.setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
-		
+
 		--Field
 		local F=P.field
 		for j=1,#F do
@@ -1313,8 +1313,8 @@ function player.resetBlock(P)
 	local id=C.id
 	local face=P.gameEnv.face[id]
 	local sc=scs[id][face]
-	P.sc=sc							--spin center
-	P.dir=face						--block direction
+	P.sc=sc					--spin center
+	P.dir=face				--block direction
 	P.r,P.c=#C.bk,#C.bk[1]	--row/column
 	P.curX=int(6-P.c*.5)
 	local y=21+ceil(P.fieldBeneath/30)
@@ -1325,6 +1325,10 @@ function player.resetBlock(P)
 			P.curX=x
 		end
 	end--IMS
+
+	if P.human and id<8 then
+		SFX.play("spawn_"..id,setting.spawn,nil,true)
+	end
 end
 function player.hold(P,ifpre)
 	if not P.holded and (ifpre or P.waiting==-1) and P.gameEnv.hold then
@@ -1354,7 +1358,12 @@ function player.hold(P,ifpre)
 			if C then
 				P.cur=C
 				P.pieceCount=P.pieceCount+1
-				if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
+				if P.AI_mode=="CC"then
+					local next=P.next[P.AIdata.next]
+					if id then
+						BOT.addNext(P.AI_bot,CCblockID[next.id])
+					end
+				end
 			else
 				P.holded=false
 			end
@@ -1364,9 +1373,6 @@ function player.hold(P,ifpre)
 			P:freshgho()
 			P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,max(P.freshTime-5,0)
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
-			if P.human and setting.spawn then
-				SFX.play("spawn_"..C.id)
-			end
 		end
 
 		if P.human then
@@ -1390,7 +1396,12 @@ function player.popNext(P)--pop next queue to hand
 	P:newNext()
 	if P.cur then
 		P.pieceCount=P.pieceCount+1
-		if P.AI_mode=="CC"then BOT.addNext(P.AI_bot,CCblockID[P.next[P.AIdata.next].id])end
+		if P.AI_mode=="CC"then
+			local next=P.next[P.AIdata.next]
+			if id then
+				BOT.addNext(P.AI_bot,CCblockID[next.id])
+			end
+		end
 		local _=P.keyPressing
 		if _[8]and P.gameEnv.hold and P.gameEnv.ihs then
 			P:hold(true)
@@ -1422,9 +1433,6 @@ function player.popNext(P)--pop next queue to hand
 		end
 
 		if _[6]then P.act.hardDrop(P)_[6]=false end--IHdS
-		if P.human and setting.spawn then
-			SFX.play("spawn_"..P.cur.id)
-		end
 	end
 end
 function player.drop(P)--Place piece
@@ -2588,7 +2596,7 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,5,8,2,10,3,7}
 	prepareSequence(P)
-	
+
 	P.human=false
 	loadAI(P,AIdata)
 end

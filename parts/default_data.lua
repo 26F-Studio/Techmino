@@ -9,7 +9,6 @@ local s={
 	quickR=true,
 	swap=true,
 	fine=false,
-	spawn=false,
 	lang=1,
 	skinSet=1,
 	skin={1,5,8,2,10,3,7,1,5,1,5,8,2,10,3,7,10,7,8,2,8,2,1,5,3},
@@ -34,6 +33,7 @@ local s={
 
 	--sound
 	sfx=10,
+	spawn=0,
 	bgm=7,
 	stereo=6,
 	vib=0,

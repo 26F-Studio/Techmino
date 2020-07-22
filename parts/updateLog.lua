@@ -72,11 +72,19 @@ Future outlook:
 0.9.2: Bug Fixed
 	new:
 		debug page
+		independent spawning volume setting
 	change:
 		three little better backgrounds instead of stupid rainbow
-		little change of in-game layout
+		kick list of i-piece little changed
+		no extremly huge radar chart in pause page
+		new in-game layout
+		new setting page layout
 	fixed:
 		error in infinite-dig
+		CC's sudden death sometimes
+		missing the top line when paste field
+		error when AI used all nexts
+		error when play default-bag game after played with custom sequence
 
 0.9.1: Piece Spawn SFX
 	new:

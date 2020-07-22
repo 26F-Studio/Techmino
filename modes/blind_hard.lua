@@ -23,7 +23,7 @@ return{
 		mStr(P.stat.row,-81,220)
 		mStr(P.stat.clears[4],-81,340)
 		gc.setColor(1,1,1,.2)
-		gc.draw(IMG.electric,-26,120,0,2.6)
+		gc.draw(IMG.electric,-26,106,0,2.6)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

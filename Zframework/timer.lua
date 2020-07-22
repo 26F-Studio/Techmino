@@ -55,8 +55,9 @@ function Tmr.load()
 	until not S.skip and Timer()-t>.01
 end
 function Tmr.intro()
-	sceneTemp=sceneTemp+1
-	if sceneTemp==200 then sceneTemp=80 end
+	local s=sceneTemp
+	s.t1=s.t1+1
+	s.t2=s.t2+1
 end
 function Tmr.main(dt)
 	players[1]:update(dt)

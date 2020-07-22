@@ -36,8 +36,8 @@ end
 function SFX.fieldPlay(s,v,P)
 	SFX.play(s,v,(P.curX+P.sc[2]-6.5)*.15)
 end
-function SFX.play(s,v,pos)
-	if setting.sfx==0 then return end
+function SFX.play(s,vol,pos,force)
+	if setting.sfx==0 and not force then return end
 	local S=SFX.list[s]--source list
 	if not S then return end
 	local n=1
@@ -58,7 +58,11 @@ function SFX.play(s,v,pos)
 			S:setPosition(0,0,0)
 		end
 	end
-	S:setVolume((v or 1)*setting.sfx*.1)
+	if not force then
+		S:setVolume((vol or 1)*setting.sfx*.1)
+	else
+		S:setVolume(vol*.1)
+	end
 	S:play()
 end
 function SFX.reset()

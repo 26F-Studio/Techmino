@@ -67,23 +67,31 @@ function copyBoard()
 	TEXT.show(text.copySuccess,350,360,40,"appear",.5)
 end
 function pasteBoard()
-	local str=love.system.getClipboardText()
+	local _
 	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
-	local _,Bid
+
+	--Read data
+	local str=love.system.getClipboardText()
 	local p=find(str,":")--ptr*
 	if p then str=sub(str,p+1)end
 	_,str=pcall(data.decode,"string","base64",str)
 	if not _ then goto ERROR end
 	_,str=pcall(data.decompress,"string","deflate",str)
 	if not _ then goto ERROR end
+
 	p=1
+
 	while true do
 		_=byte(str,p)--1byte
 		if not _ then
-			if fX~=1 then goto ERROR
-			else break
+			if fX~=1 then
+				goto ERROR
+			else
+				fY=fY+1
+				break
 			end
 		end--str end
+
 		__=_%32-1--block id
 		if __>17 then goto ERROR end--illegal blockid
 		_=int(_/32)--mode id
@@ -91,8 +99,9 @@ function pasteBoard()
 		if fX<10 then
 			fX=fX+1
 		else
-			if fY==20 then break end
-			fX=1;fY=fY+1
+			fY=fY+1
+			if fY>20 then break end
+			fX=1
 		end
 		p=p+1
 	end
@@ -215,7 +224,6 @@ function resumeGame()
 	SCN.swapTo("play","none")
 end
 function loadGame(M)
-	print(M)
 	--rec={}
 	stat.lastPlay=M
 	curMode=Modes[M]
