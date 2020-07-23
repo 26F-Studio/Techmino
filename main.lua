@@ -86,6 +86,16 @@ if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 
 --update data file
 S=stat
+while #modeRanks>73 do
+	table.remove(modeRanks)
+end
+if modeRanks[73]==6 then modeRanks[73]=0 end
+if modeRanks[1]then--rename key of modeRanks
+	local L=modeRanks
+	for i=1,#L do
+		L[Modes[i].name],L[i]=L[i]
+	end
+end
 if S.version=="Alpha V0.9.1"then
 	setting.spawn=0
 end

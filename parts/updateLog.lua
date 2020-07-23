@@ -73,6 +73,8 @@ Future outlook:
 	new:
 		debug page
 		independent spawning volume setting
+		select widgets with arrow keys
+		display last played mode on title screen
 	change:
 		three little better backgrounds instead of stupid rainbow
 		kick list of i-piece little changed

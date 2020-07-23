@@ -1839,7 +1839,7 @@ function LANG.set(l)
 	text=langList[l]
 	for S,L in next,Widgets do
 		for N,W in next,L do
-			W.text=text.WidgetText[S][N]
+			W.text=text.WidgetText[S][W.name]
 		end
 	end
 	for _,s in next,drawableTextLoad do

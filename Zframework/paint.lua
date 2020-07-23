@@ -168,6 +168,10 @@ function Pnt.main()
 	setFont(30)
 	gc.print(gameVersion,70,125)
 	gc.print(system,610,100)
+	local L=text.modes[stat.lastPlay]
+	setFont(25)
+	gc.print(L[1],700,470)
+	gc.print(L[2],700,500)
 	players[1]:draw()
 end
 function Pnt.mode()

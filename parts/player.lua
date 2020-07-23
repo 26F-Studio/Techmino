@@ -1360,7 +1360,7 @@ function player.hold(P,ifpre)
 				P.pieceCount=P.pieceCount+1
 				if P.AI_mode=="CC"then
 					local next=P.next[P.AIdata.next]
-					if id then
+					if next then
 						BOT.addNext(P.AI_bot,CCblockID[next.id])
 					end
 				end
@@ -1398,7 +1398,7 @@ function player.popNext(P)--pop next queue to hand
 		P.pieceCount=P.pieceCount+1
 		if P.AI_mode=="CC"then
 			local next=P.next[P.AIdata.next]
-			if id then
+			if next then
 				BOT.addNext(P.AI_bot,CCblockID[next.id])
 			end
 		end
