@@ -84,6 +84,9 @@ if fs.getInfo("data.dat")then FILE.loadData()end
 if fs.getInfo("key.dat")then FILE.loadKeyMap()end
 if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 
+if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
+if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
+
 --update data file
 S=stat
 while #modeRanks>73 do
@@ -96,7 +99,7 @@ if modeRanks[1]then--rename key of modeRanks
 		L[Modes[i].name],L[i]=L[i]
 	end
 end
-if S.version=="Alpha V0.9.1"then
+if S.version=="Alpha V0.9.1"or type(setting.spawn)~="number"then
 	setting.spawn=0
 end
 if S.version~=gameVersion then

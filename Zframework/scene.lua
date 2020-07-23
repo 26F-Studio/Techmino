@@ -274,8 +274,12 @@ function sceneInit.debug()
 	}
 end
 function sceneInit.quit()
-	love.timer.sleep(.3)
-	love.event.quit()
+	if rnd()>.000626 then
+		love.timer.sleep(.3)
+		love.event.quit()
+	else
+		error("So lucky! 0.0626 precent to get this!!!   You can quit the game now.")
+	end
 end
 
 

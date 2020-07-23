@@ -1,4 +1,4 @@
-local s={
+setting={
 	--game
 	das=10,arr=2,
 	sddas=0,sdarr=2,
@@ -51,11 +51,10 @@ local s={
 	VKAlpha=3,
 }
 for i=1,25 do
-	s.face[i]=0
+	setting.face[i]=0
 end
-setting=s
 
-s={
+stat={
 	version=gameVersion,
 	run=0,game=0,time=0,
 	key=0,rotate=0,hold=0,
@@ -68,10 +67,9 @@ s={
 	lastPlay="sprint_10",--last played mode ID
 }
 for i=1,25 do
-	s.clear[i]={0,0,0,0,0}
-	s.spin[i]={0,0,0,0,0}
+	stat.clear[i]={0,0,0,0,0}
+	stat.spin[i]={0,0,0,0,0}
 end
-stat=s
 
 keyMap={
 	{"left","right","x","z","c","up","down","space","tab","r"},{},

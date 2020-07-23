@@ -17,6 +17,7 @@ local S=[=[
 		HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思
 		世界沃德    蓝绿    天生的魔法师    琳雨空
 		T8779.易缄    吃水榴莲    诗情画意    星姐阿夸双推Man暗炎
+		[*Y]    [*炎]
 	Thanks!!!
 
 Future outlook:
@@ -69,12 +70,14 @@ Future outlook:
 		more graphic FXs & 3D features & animations
 		network game
 		new AI: task-Z
-0.9.2: Bug Fixed
+0.9.2: Global Update
 	new:
-		debug page
 		independent spawning volume setting
 		select widgets with arrow keys
 		display last played mode on title screen
+		new blind mode (extremely hard)
+		mode map changed
+		[debug page]
 	change:
 		three little better backgrounds instead of stupid rainbow
 		kick list of i-piece little changed

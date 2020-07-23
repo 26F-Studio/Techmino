@@ -48,7 +48,7 @@ local function VirtualkeyPreview()
 				gc.setColor(c,1,c,setting.VKAlpha*.1)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)
-				if setting.VKIcon then gc.draw(VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
+				if setting.VKIcon then gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
 			end
 		end
 	end
