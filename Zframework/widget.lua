@@ -150,7 +150,7 @@ function slider:draw()
 		local x=x1+(x2-x1)*p/self.unit
 		gc.line(x,y+7,x,y-7)
 	end
-	
+
 	--Axis
 	gc.setLineWidth(4)
 	gc.line(x1,y,x2,y)
@@ -244,7 +244,7 @@ function WIDGET.newSwitch(D)
 
 		x=		D.x,
 		y=		D.y,
-		
+
 		cx=		D.x+25,
 		cy=		D.y,
 		resCtr={
@@ -331,7 +331,7 @@ function WIDGET.keyPressed(i)
 			WIDGET.press()
 		end
 	elseif kb.isDown("lshift","lalt","lctrl")then
-					--when hold [↑], control slider with left/right 
+					--when hold [↑], control slider with left/right
 		if i=="left"or i=="right"then
 			local W=WIDGET.sel
 			if W then
@@ -396,21 +396,25 @@ function WIDGET.keyPressed(i)
 		end
 	end
 end
+local keyMirror={
+	dpup="up",
+	dpdown="down",
+	dpleft="left",
+	dpright="right",
+	start="return",
+	back="escape",
+}
 function WIDGET.gamepadPressed(i)
-	if i=="dpup"or i=="dpdown"then
+	if i=="start"then
 		if WIDGET.sel then
-			WIDGET.sel=i=="dpup"and WIDGET.sel.prev or WIDGET.sel.next or WIDGET.sel
-		else
-			WIDGET.sel=select(2,next(WIDGET.active))
+			WIDGET.press()
 		end
-	elseif i=="start"then
-		if WIDGET.sel then
-			WIDGET.press(WIDGET.sel)
-		end
-	elseif i=="dpleft"or i=="dpright"then
-		if WIDGET.sel then
-			local W=WIDGET.sel
-			if W.type=="slider"then
+	elseif i=="a"or i=="b"then
+		local W=WIDGET.sel
+		if W then
+			if W.type=="button"then
+				WIDGET.press()
+			elseif W.type=="slider"then
 				local p=W.disp()
 				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
 				if p==P or not P then return end
@@ -418,6 +422,8 @@ function WIDGET.gamepadPressed(i)
 				if W.change then W.change()end
 			end
 		end
+	elseif i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
+		WIDGET.keyPressed(keyMirror[i])
 	end
 end
 

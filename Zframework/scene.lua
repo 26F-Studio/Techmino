@@ -123,11 +123,11 @@ function sceneInit.pause(org)
 			S.key.."/"..S.rotate.."/"..S.hold,
 			format("%d  %.2fPPS",S.piece,S.piece/S.time),
 			format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
-			format("%d(%d)",S.atk,S.digatk),
+			format("%d(%d)  %.2fAPM",S.atk,S.digatk,S.atk/S.time*60),
 			format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
 			format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
 			format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
-			format("%d(+%d)/%d(%d)",S.b2b,S.b3b,S.pc,S.hpc),
+			format("%d/%d;%d/%d",S.b2b,S.b3b,S.pc,S.hpc),
 			format("%d[%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 		},
 
@@ -207,7 +207,7 @@ function sceneInit.setting_key()
 	}
 end
 function sceneInit.setting_touch()
-	BG.set("game2")
+	BG.set("game3")
 	sceneTemp={
 		default=1,
 		snap=1,

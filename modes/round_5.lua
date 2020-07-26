@@ -11,7 +11,7 @@ local function update_round(P)
 end
 
 return{
-	color=color.lightYellow,
+	color=color.lYellow,
 	env={
 		drop=1e99,lock=1e99,
 		oncehold=false,

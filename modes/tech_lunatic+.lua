@@ -9,7 +9,7 @@ local function tech_check_hard(P)
 end
 
 return{
-	color=color.darkRed,
+	color=color.dRed,
 	env={
 		_20G=true,lock=60,
 		freshLimit=15,

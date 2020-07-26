@@ -9,12 +9,12 @@ local mStr=mStr
 local scr=scr
 local scs=require("parts/spinCenters")
 local modeRankColor={
-	color.bronze,		--Rank1
-	color.lightGrey,	--Rank2
-	color.lightYellow,	--Rank3
-	color.lightPurple,	--Rank4
-	color.lightCyan,	--Rank5
-	color.purple,		--Special
+	color.bronze,	--Rank1
+	color.lGrey,	--Rank2
+	color.lYellow,	--Rank3
+	color.lPurple,	--Rank4
+	color.lCyan,	--Rank5
+	color.lGreen,	--Special
 }
 local rankString={
 	"D","C","B","A","S",

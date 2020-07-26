@@ -1,7 +1,7 @@
 local gc=love.graphics
 local rnd=math.random
 return{
-	color=color.lightBlue,
+	color=color.lBlue,
 	env={
 		drop=60,lock=60,
 		target=20,dropPiece=PLY.reach_winCheck,

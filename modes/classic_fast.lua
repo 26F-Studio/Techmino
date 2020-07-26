@@ -14,7 +14,7 @@ local function check_LVup(P)
 end
 
 return{
-	color=color.lightBlue,
+	color=color.lBlue,
 	env={
 		noFly=true,
 		das=16,arr=6,sddas=2,sdarr=2,

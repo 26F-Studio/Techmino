@@ -12,7 +12,7 @@ local function score(P)
 end
 
 return{
-	color=color.lightBlue,
+	color=color.lBlue,
 	env={
 		noFly=true,
 		minarr=1,

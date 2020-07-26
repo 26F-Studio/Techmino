@@ -1,6 +1,6 @@
 local int,rnd,min=math.floor,math.random,math.min
 return{
-	color=color.lightYellow,
+	color=color.lYellow,
 	env={
 		drop=5,lock=60,
 		fall=8,

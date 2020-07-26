@@ -38,12 +38,12 @@ SKIN.libColor={
 	color.purple,
 	color.magenta,
 	color.pink,
-	color.darkGrey,
+	color.dGrey,
 	color.grey,
-	color.lightGrey,
-	color.darkPurple,
-	color.darkRed,
-	color.darkGreen,
+	color.lGrey,
+	color.dPurple,
+	color.dRed,
+	color.dGreen,
 }
 function SKIN.load()
 	local _

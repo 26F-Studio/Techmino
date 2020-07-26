@@ -1,5 +1,5 @@
 return{
-	color=color.lightYellow,
+	color=color.lYellow,
 	env={
 		drop=60,lock=60,
 		freshLimit=15,

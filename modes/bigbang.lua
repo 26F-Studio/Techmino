@@ -7,7 +7,7 @@ local function newField(P)
 
 end
 return{
-	color=color.lightGrey,
+	color=color.lGrey,
 	env={
 		drop=1e99,lock=1e99,
 		hold=false,

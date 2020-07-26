@@ -62,25 +62,6 @@ end
 function Tmr.main(dt)
 	players[1]:update(dt)
 end
-local function dumpTable(L)
-	local s="{\n"
-	for k,v in next,L do
-		local T
-		T=type(k)
-			if T=="number"then k="["..k.."]="
-			elseif T=="string"then k=k.."="
-			else assert(false,"Error data type!")
-			end
-		T=type(v)
-			if T=="number"then v=tostring(v)
-			elseif T=="string"then v="\""..v.."\""
-			elseif T=="table"then v=dumpTable(v)
-			else assert(false,"Error data type!")
-			end
-		s=s..k..v..",\n"
-	end
-	return s.."}"
-end
 function Tmr.mode(dt)
 	local cam=mapCam
 	local x,y,k=cam.x,cam.y,cam.k

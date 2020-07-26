@@ -1,8 +1,7 @@
-gameVersion="Alpha V0.9.2"
+gameVersion="Alpha V0.9.3"
 function love.conf(t)
 	t.identity="Techmino"--saving folder
 	t.version="11.1"
-	t.console=false
 	t.gammacorrect=false
 	t.appendidentity=true--search files in source then in save directory
 	t.accelerometerjoystick=false--accelerometer=joystick on ios/android
@@ -17,12 +16,12 @@ function love.conf(t)
 	W.resizable=true
 	W.fullscreentype="desktop"--"exclusive"
 	W.fullscreen=false
-	W.vsync=0--unlimit
+	W.vsync=nil--60FPS
 	W.msaa=false--num of samples to use with multi-sampled antialiasing
 	W.depth=0--bits/samp of depth buffer
 	W.stencil=1--bits/samp of stencil buffer
 	W.display=1--monitor ID
-	W.highdpi=false--high-dpi mode for the window on a Retina display
+	W.highdpi=true--high-dpi mode for the window on a Retina display
 	W.x,W.y=nil
 
 	local M=t.modules

@@ -35,7 +35,7 @@ local function score(P)
 end
 
 return{
-	color=color.lightGrey,
+	color=color.lGrey,
 	env={
 		noFly=true,
 		das=5,arr=1,

@@ -849,8 +849,19 @@ function love.touchreleased(id,x,y)
 end
 function love.keypressed(i)
 	mouseShow=false
-	if SCN.swapping then return end
-	if devMode then
+	if not devMode then
+		if i~="f8"then
+			if SCN.swapping then return end
+
+			if keyDown[SCN.cur]then keyDown[SCN.cur](i)
+			elseif i=="escape"then SCN.back()
+			else WIDGET.keyPressed(i)
+			end
+		else
+			devMode=1
+			TEXT.show("DEBUG ON",640,360,80,"fly",.8)
+		end
+	else
 		if i=="f5"then
 			print("DEBUG:")
 		elseif i=="f8"then	devMode=nil	TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
@@ -890,14 +901,6 @@ function love.keypressed(i)
 				elseif i=="]"then W.font=W.font+1
 				end
 			end
-		end
-	elseif i=="f8"then
-		devMode=1
-		TEXT.show("DEBUG ON",640,360,80,"fly",.8)
-	else
-		if keyDown[SCN.cur]then keyDown[SCN.cur](i)
-		elseif i=="escape"then SCN.back()
-		else WIDGET.keyPressed(i)
 		end
 	end
 end
@@ -987,6 +990,7 @@ end
 function love.focus(f)
 	if f then
 		TASK.new(TICK.autoResize,{0})
+		love.timer.step()
 	elseif SCN.cur=="play"and setting.autoPause then
 		pauseGame()
 	end
@@ -994,25 +998,33 @@ end
 local scs={1,2,1,2,1,2,1,2,1,2,1.5,1.5,.5,2.5}
 local devColor={
 	color.white,
-	color.lightMagenta,
-	color.lightGreen,
-	color.lightBlue,
+	color.lMagenta,
+	color.lGreen,
+	color.lBlue,
 }
 local FPS=love.timer.getFPS
 love.draw,love.update=nil
 function love.run()
 	local T=love.timer
 	local STEP,GETDelta,WAIT=T.step,T.getDelta,T.sleep
+	local mini=love.window.isMinimized
+	local PUMP,POLL=love.event.pump,love.event.poll
+
+	local waitTime=1/60
+	local LIST={}
 	local lastFrame=T.getTime()
 	local lastFreshPow=lastFrame
 	local FCT=0--framedraw counter
-	local mini=love.window.isMinimized
-	local PUMP,POLL=love.event.pump,love.event.poll
+
 	love.resize(gc.getWidth(),gc.getHeight())
 	SCN.init("load")--Scene Launch
 	marking=true
+
 	return function()
 		local _
+
+		lastFrame=Timer()
+
 		--EVENT
 		PUMP()
 		for N,a,b,c,d,e in POLL()do
@@ -1025,7 +1037,8 @@ function love.run()
 		end
 
 		--UPDATE
-		STEP()local dt=GETDelta()
+		STEP()
+		local dt=GETDelta()
 		TASK.update()
 		VOC.update()
 		BG.update(dt)
@@ -1045,8 +1058,14 @@ function love.run()
 				BG.draw()
 				gc.push("transform")
 					gc.replaceTransform(xOy)
+
+					--Draw scene contents
 					if Pnt[SCN.cur]then Pnt[SCN.cur]()end
-					WIDGET.draw()--Draw widgets
+
+					--Draw widgets
+					WIDGET.draw()
+
+					--Draw cursor
 					if mouseShow then
 						local r=Timer()*.5
 						local R=int(r)%7+1
@@ -1055,26 +1074,30 @@ function love.run()
 						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R]-.5,#blocks[R][0]-scs[2*R-1]+.5)
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
-					end--Awesome mouse!
+					end
 					sysFX.draw()
 					TEXT.draw()
 				gc.pop()
 
+				--Draw power info.
 				gc.setColor(1,1,1)
 				if setting.powerInfo then
 					gc.draw(infoCanvas,0,0,0,scr.k)
 				end
-				--Power Info
 
+				--Draw scene swapping animation
 				if SCN.swapping then
 					_=SCN.swap
 					_.draw(_.time)
-				end--Scene swapping animation
+				end
 
-				setFont(15)
+				--Draw FPS
 				gc.setColor(1,1,1)
+				setFont(15)
 				_=scr.h-20
 				gc.print(FPS(),5,_)
+
+				--Debug info.
 				if devMode then
 					gc.setColor(devColor[devMode])
 					gc.print("Cache used:"..gcinfo(),5,_-20)
@@ -1082,21 +1105,26 @@ function love.run()
 					gc.print("Mouse:"..mx.." "..my,5,_-60)
 					gc.print("Voices:"..VOC.getCount(),5,_-80)
 					gc.print("Tasks:"..TASK.getCount(),5,_-100)
+					ins(LIST,1,dt)
+					rem(LIST,126)
+					for i=1,#LIST do
+						gc.rectangle("fill",900+2*i,_,2,-LIST[i]*4000)
+					end
 					if devMode==3 then love.timer.sleep(.26)
 					elseif devMode==4 then love.timer.sleep(.626)
 					end
-				end--DEV info
+				end
 
 				gc.present()
 			end
 		end
 
-		--FRAME TIME CTRL
-		if Timer()-lastFrame<.058 then WAIT(.01)end
-		while Timer()-lastFrame<.0159 do WAIT(.001)end
+		--Keep 60fps
+		if FPS()>60 then
+			WAIT(1/60+lastFrame-Timer())
+		end
 
-		--FRESH POWERINFO
-		lastFrame=Timer()
+		--Fresh power info.
 		if Timer()-lastFreshPow>3 and setting.powerInfo and SCN.cur~="load"then
 			updatePowerInfo()
 			lastFreshPow=Timer()

@@ -24,11 +24,12 @@ return{
 			gc.clear(.26,.26,.26)
 		end
 
-		--MD Figure
+		--Figures
 		local t=Timer()
-		gc.setColor(.6+.3*sin(t*1.26),.6+.3*sin(t*2.6),.6+.3*sin(t*1.626),.2)
-		gc.draw(IMG.electric,-162,-8,0,3.2)
-		
+		gc.setColor(1,1,1,.5+.2*sin(t))
+		gc.draw(IMG.hbm,-426,-86,0,1.5)
+		gc.draw(IMG.electric,326,142,0,2.6)
+
 		--Texts
 		gc.setColor(.8,.8,.8)
 		mText(drawableText.line,-81,300)

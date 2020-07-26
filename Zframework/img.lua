@@ -18,6 +18,7 @@ local IMG={
 	miyaF4="miya/f4.png",
 
 	electric="mess/electric.png",
+	hbm="mess/hbm.png",
 }
 local list={}
 local count=0

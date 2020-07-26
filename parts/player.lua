@@ -476,17 +476,17 @@ end
 --------------------------<Paint>--------------------------
 local frameColor={
 	[0]=color.white,
-	color.lightGreen,
-	color.lightBlue,
-	color.lightPurple,
-	color.lightOrange,
+	color.lGreen,
+	color.lBlue,
+	color.lPurple,
+	color.lOrange,
 }
 local attackColor={
-	{color.darkGrey,color.white},
+	{color.dGrey,color.white},
 	{color.grey,color.white},
-	{color.lightPurple,color.white},
-	{color.lightRed,color.white},
-	{color.darkGreen,color.cyan},
+	{color.lPurple,color.white},
+	{color.lRed,color.white},
+	{color.dGreen,color.cyan},
 }
 local RCPB={10,33,200,33,105,5,105,60}
 local function drawPixel(y,x,id)
@@ -541,10 +541,15 @@ end
 local function Pdraw_norm(P)
 	local _
 	gc.push("transform")
-	gc.translate(P.x,P.y)gc.scale(P.size)
+
 	--Camera
+	gc.translate(P.x,P.y)gc.scale(P.size)
+
+	--Fill field
 	gc.translate(150+P.fieldOff.x,70+P.fieldOff.y)
 	gc.setColor(0,0,0,.6)gc.rectangle("fill",0,-10,300,610)
+
+	--Grid
 	if P.gameEnv.grid then
 		gc.setLineWidth(1)
 		gc.setColor(1,1,1,.2)
@@ -553,11 +558,13 @@ local function Pdraw_norm(P)
 			y=30*(y-int(P.fieldBeneath/30))+P.fieldBeneath
 			gc.line(0,y,300,y)
 		end
-	end--Grid
+	end
+
+	--In-field things
 	gc.setLineWidth(2)
 	gc.translate(0,P.fieldBeneath)
 	gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
-		if P.falling==-1 then
+		if P.falling==-1 then--field block only
 			for j=int(P.fieldBeneath/30+1),#P.field do
 				for i=1,10 do
 					if P.field[j][i]>0 then
@@ -566,7 +573,7 @@ local function Pdraw_norm(P)
 					end
 				end
 			end
-		else--field block only
+		else--Field with falling animation
 			local dy,stepY=0,P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^2.5*30 or 30
 			local A=P.falling/P.gameEnv.fall
 			local h,H=1,#P.field
@@ -586,12 +593,14 @@ local function Pdraw_norm(P)
 				end
 			end
 			gc.translate(0,dy)
-		end--Field with falling animation
+		end
 
 		drawFXs(P)
 
 		if P.cur and P.waiting==-1 then
 			local curColor=P.cur.color
+
+			--Ghost
 			if P.gameEnv.ghost then
 				gc.setColor(1,1,1,.3)
 				for i=1,P.r do for j=1,P.c do
@@ -599,12 +608,13 @@ local function Pdraw_norm(P)
 						drawPixel(i+P.y_img-1,j+P.curX-1,curColor)
 					end
 				end end
-			end--Ghost
+			end
 
 			local dy=P.gameEnv.smooth and P.y_img~=P.curY and (min(P.dropDelay,1e99)/P.gameEnv.drop-1)*30 or 0
 			gc.translate(0,-dy)
 			local trans=P.lockDelay/P.gameEnv.lock
 			if P.gameEnv.block then
+				--White Boarder(indicate lockdelay)
 				SHADER.alpha:send("a",trans)
 				gc.setShader(SHADER.alpha)
 					_=blockSkin[curColor]
@@ -616,14 +626,18 @@ local function Pdraw_norm(P)
 							gc.draw(_,x+6,y)gc.draw(_,x,y+6)
 						end
 					end end
-				gc.setShader()--White Boarder(indicate lockdelay)
+				gc.setShader()
+
+				--Block
 				gc.setColor(1,1,1)
 				for i=1,P.r do for j=1,P.c do
 					if P.cur.bk[i][j]then
 						drawPixel(i+P.curY-1,j+P.curX-1,curColor)
 					end
-				end end--Block
+				end end
 			end
+
+			--Rotate center
 			if P.gameEnv.center then
 				gc.setColor(1,1,1,trans)
 				local x=30*(P.curX+P.sc[2]-1)-15
@@ -634,11 +648,11 @@ local function Pdraw_norm(P)
 					gc.draw(IMG.spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
 					goto E
 				end
-			end--Rotate center
+			end
 			gc.translate(0,dy)
 		end
 	::E::
-	gc.setScissor()--In-playField things
+	gc.setScissor()
 	gc.translate(0,-P.fieldBeneath)
 		gc.setColor(1,1,1)
 		gc.rectangle("line",-1,-11,302,612)--Boarder
@@ -682,7 +696,7 @@ local function Pdraw_norm(P)
 		local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
 		gc.setColor(.8,1,.2)
 		gc.rectangle("fill",-14,599,11,-b*.5)
-		gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lightRed or color.lightBlue)
+		gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lRed or color.lBlue)
 		gc.rectangle("fill",-14,599,11,-a*.5)
 		gc.setColor(1,1,1)
 		if Timer()%.5<.3 then
@@ -1171,6 +1185,7 @@ function player.pushLine(P,L,mir)
 	P.fieldBeneath=P.fieldBeneath+120
 	P.curY=P.curY+#L
 	P.y_img=P.y_img+#L
+	P:freshgho()
 end
 function player.pushNext(P,L,mir)
 	for i=1,#L do

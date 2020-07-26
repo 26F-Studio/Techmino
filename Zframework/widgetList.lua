@@ -208,14 +208,16 @@ local Widgets={
 	},
 	pause={
 		newButton({name="resume",	x=640,y=290,w=240,h=100,color="white",font=30,code=function()resumeGame()end}),
-		newButton({name="restart",	x=640,y=445,w=240,h=100,color="white",font=33,code=function()
-			TASK.removeTask_code(TICK.autoPause)
-			mergeStat(stat,players[1].stat)
-			resetGameData()
-			SCN.swapTo("play","none")
+		newButton({name="restart",	x=640,y=445,w=240,h=100,color="white",font=33,
+			code=function()
+				TASK.removeTask_code(TICK.autoPause)
+				mergeStat(stat,players[1].stat)
+				resetGameData()
+				SCN.swapTo("play","none")
 			end}),
-		newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",font=35,code=function()
-			SCN.goto("setting_sound")
+		newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",font=35,
+			code=function()
+				SCN.goto("setting_sound")
 			end}),
 		newButton({name="quit",		x=640,	y=600,	w=240,h=100,color="white",font=35,code=BACK}),
 	},
@@ -249,25 +251,31 @@ local Widgets={
 		newSlider({name="clearFX",	x=350,	y=460,w=373,unit=3,	font=32,disp=SETval("clearFX"),	code=SETsto("clearFX")}),
 		newSlider({name="shakeFX",	x=350,	y=520,w=373,unit=5,	font=32,disp=SETval("shakeFX"),	code=SETsto("shakeFX")}),
 		newSlider({name="atkFX",	x=350,	y=580,w=373,unit=5,	font=32,disp=SETval("atkFX"),	code=SETsto("atkFX")}),
-		newSlider({name="frame",	x=350,	y=640,w=373,unit=10,font=30,disp=function()
+		newSlider({name="frame",	x=350,	y=640,w=373,unit=10,font=30,
+			disp=function()
 				return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4
 			end,
-			code=function(i)setting.frameMul=i<5 and 5*i+20 or 10*i end}),
+			code=function(i)
+				setting.frameMul=i<5 and 5*i+20 or 10*i
+			end}),
 		newSwitch({name="text",		x=1050,	y=180,	font=35,disp=SETval("text"),code=SETrev("text")}),
 		newSwitch({name="warn",		x=1050,	y=260,	font=35,disp=SETval("warn"),code=SETrev("warn")}),
-		newSwitch({name="fullscreen",x=1050,y=340,	font=35,disp=SETval("fullscreen"),code=function()
-			setting.fullscreen=not setting.fullscreen
-			love.window.setFullscreen(setting.fullscreen)
-			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+		newSwitch({name="fullscreen",x=1050,y=340,	font=35,disp=SETval("fullscreen"),
+			code=function()
+				setting.fullscreen=not setting.fullscreen
+				love.window.setFullscreen(setting.fullscreen)
+				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end}),
-		newSwitch({name="bg",		x=1050,	y=420,	font=35,disp=SETval("bg"),code=function()
-			BG.set("none")
-			setting.bg=not setting.bg
-			BG.set("space")
-		end}),
-		newSwitch({name="power",	x=1050,	y=500,font=35,disp=SETval("powerInfo"),code=function()
-			setting.powerInfo=not setting.powerInfo
-		end}),
+		newSwitch({name="bg",		x=1050,	y=420,	font=35,disp=SETval("bg"),
+			code=function()
+				BG.set("none")
+				setting.bg=not setting.bg
+				BG.set("space")
+			end}),
+		newSwitch({name="power",	x=1050,	y=500,font=35,disp=SETval("powerInfo"),
+			code=function()
+				setting.powerInfo=not setting.powerInfo
+			end}),
 		newButton({name="back",		x=1140,	y=650,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	setting_sound={
@@ -289,11 +297,12 @@ local Widgets={
 		newSwitch({name="ihs",		x=1100,	y=290,font=30,				disp=SETval("ihs"),				code=SETrev("ihs")}),
 		newSwitch({name="irs",		x=1100,	y=380,font=30,				disp=SETval("irs"),				code=SETrev("irs")}),
 		newSwitch({name="ims",		x=1100,	y=470,font=30,				disp=SETval("ims"),				code=SETrev("ims")}),
-		newButton({name="reset",	x=160,	y=580,w=200,h=100,color="lRed",font=40,code=function()
-			local _=setting
-			_.das,_.arr=10,2
-			_.sddas,_.sdarr=0,2
-			_.ihs,_.irs,_.ims=false,false,false
+		newButton({name="reset",	x=160,	y=580,w=200,h=100,color="lRed",font=40,
+			code=function()
+				local _=setting
+				_.das,_.arr=10,2
+				_.sddas,_.sdarr=0,2
+				_.ihs,_.irs,_.ims=false,false,false
 			end}),
 		newButton({name="back",		x=1140,y=650,w=200,h=80,color="white",font=40,code=BACK}),
 	},
@@ -327,43 +336,49 @@ local Widgets={
 		--newButton({name="spin6",x=825,y=540,w=90,h=65,color="white",font=30,code=nextDir(6)}),--cannot rotate O
 		newButton({name="spin7",	x=970,y=540,w=90,h=65,color="white",font=30,code=nextDir(7)}),
 
-		newButton({name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,code=function()
-			setting.skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3}
-			SFX.play("rotate")
+		newButton({name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,
+			code=function()
+				setting.skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3}
+				SFX.play("rotate")
 			end}),
-		newButton({name="faceR",	x=480,y=640,w=220,h=80,color="lRed",font=35,code=function()
-			for i=1,25 do
-				setting.face[i]=0
-			end
-			SFX.play("hold")
+		newButton({name="faceR",	x=480,y=640,w=220,h=80,color="lRed",font=35,
+			code=function()
+				for i=1,25 do
+					setting.face[i]=0
+				end
+				SFX.play("hold")
 			end}),
 		newButton({name="back",		x=1140,y=650,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	setting_touch={
-		newButton({name="default",	x=520,y=80,w=170,h=80,color="white",font=35,code=function()
-			local D=virtualkeySet[sceneTemp.default]
-			for i=1,#VK_org do
-				VK_org[i].ava=false
-			end
-			for n=1,#D do
-				local T=D[n]
-				if T[1]then
-					local B=VK_org[n]
-					B.ava=true
-					B.x,B.y,B.r=T[2],T[3],T[4]
+		newButton({name="default",	x=520,y=80,w=170,h=80,color="white",font=35,
+			code=function()
+				local D=virtualkeySet[sceneTemp.default]
+				for i=1,#VK_org do
+					VK_org[i].ava=false
 				end
-			end--Replace keys
-			sceneTemp.default=sceneTemp.default%5+1
-			sceneTemp.sel=nil
+				for n=1,#D do
+					local T=D[n]
+					if T[1]then
+						local B=VK_org[n]
+						B.ava=true
+						B.x,B.y,B.r=T[2],T[3],T[4]
+					end
+				end--Replace keys
+				sceneTemp.default=sceneTemp.default%5+1
+				sceneTemp.sel=nil
 			end}),
-		newButton({name="snap",		x=760,y=80,w=170,h=80,color="white",font=35,code=function()
-			sceneTemp.snap=sceneTemp.snap%6+1
+		newButton({name="snap",		x=760,y=80,w=170,h=80,color="white",font=35,
+			code=function()
+				sceneTemp.snap=sceneTemp.snap%6+1
 			end}),
-		newButton({name="option",	x=520,y=180,w=170,h=80,color="white",font=40,code=function()
-			SCN.goto("setting_touchSwitch")
+		newButton({name="option",	x=520,y=180,w=170,h=80,color="white",font=40,
+			code=function()
+				SCN.goto("setting_touchSwitch")
 			end}),
 		newButton({name="back",		x=760,y=180,w=170,h=80,color="white",font=40,code=BACK}),
-		newSlider({name="size",		x=450,y=265,w=460,unit=14,font=40,disp=function()
+		newSlider({name="size",		x=450,y=265,w=460,unit=14,font=40,
+			disp=function()
 				return VK_org[sceneTemp.sel].r/10-1
 			end,
 			code=function(v)
@@ -373,7 +388,7 @@ local Widgets={
 			end,
 			hide=function()
 				return not sceneTemp.sel
-		end}),
+			end}),
 	},
 	setting_touchSwitch={
 		newSwitch({name="b1",		x=280,	y=80,	font=35,disp=VKAdisp(1),code=VKAcode(1)}),
@@ -403,14 +418,18 @@ local Widgets={
 		newSlider({name="sfx",		x=800,	y=380,	w=180,unit=4,font=40,change=function()SFX.play("virtualKey",setting.VKSFX*.25)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")}),
 		newSlider({name="vib",		x=800,	y=460,	w=180,unit=2,font=40,change=function()VIB(setting.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")}),
 		newSwitch({name="icon",		x=850,	y=300,	font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon")}),
-		newButton({name="tkset",	x=1120,	y=420,	w=240,h=80,color="white",font=32,code=function()
-			SCN.goto("setting_trackSetting")
-			end,hide=function()return not setting.VKTrack end}),
+		newButton({name="tkset",	x=1120,	y=420,	w=240,h=80,color="white",font=32,
+			code=function()
+				SCN.goto("setting_trackSetting")
+			end,
+			hide=function()
+				return not setting.VKTrack
+			end}),
 		newSlider({name="alpha",	x=840,	y=540,	w=400,unit=10,font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha")}),
 		newButton({name="back",		x=1120,	y=620,	w=200,h=80,color="white",font=45,code=BACK}),
 	},
 	setting_trackSetting={
-		newSwitch({name="VKDodge",	x=400,	y=200,	font=35,SETval("VKDodge"),SETrev("VKDodge")}),
+		newSwitch({name="VKDodge",	x=400,	y=200,	font=35,				disp=SETval("VKDodge"),code=SETrev("VKDodge")}),
 		newSlider({name="VKTchW",	x=140,	y=310,	w=1000,	unit=10,font=35,disp=SETval("VKTchW"),code=function(i)setting.VKTchW=i;setting.VKCurW=math.max(setting.VKCurW,i)end}),
 		newSlider({name="VKCurW",	x=140,	y=370,	w=1000,	unit=10,font=35,disp=SETval("VKCurW"),code=function(i)setting.VKCurW=i;setting.VKTchW=math.min(setting.VKTchW,i)end}),
 		newButton({name="back",		x=1080,	y=600,	w=240,	h=80,color="white",font=45,code=BACK}),
@@ -441,40 +460,46 @@ local Widgets={
 		newButton({name="back",		x=640,	y=620,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	debug={
-		newButton({name="killWTM",	x=340,	y=200,w=260,h=100,color="white",font=35,code=function()
-			marking=nil
-			TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
-			SFX.play("clear")
+		newButton({name="killWTM",	x=340,	y=200,w=260,h=100,color="white",font=35,
+			code=function()
+				marking=nil
+				TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
+				SFX.play("clear")
+			end,
+			hide=function()
+				return not marking
 			end}),
-		newButton({name="unlock",	x=640,y=200,w=260,h=100,color="white",font=40,code=function()
-			for name,M in next,Modes do
-				if not modeRanks[name]then
-					modeRanks[name]=M.score and 0 or 6
-				end
-			end
-			FILE.saveUnlock()
-			TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
-			SFX.play("clear_2")
-			end}),
-		newButton({name="reset",	x=940,y=200,w=260,h=100,color="white",font=40,code=function()
-			sceneTemp.ct=sceneTemp.ct+1
-			if sceneTemp.ct==1 then
-				TEXT.show("RESET ALL DATA?",640,360,50,"appear",.5)
-			elseif sceneTemp.ct==5 then
-				TEXT.show("SURE?????",640,360,80,"beat",.5)
-			elseif sceneTemp.ct==10 then
-				local L=love.filesystem.getDirectoryItems("")
-				for i=1,#L do
-					local s=L[i]
-					if s:sub(-4)==".dat"then
-						love.filesystem.remove(s)
+		newButton({name="unlock",	x=640,y=200,w=260,h=100,color="white",font=40,
+			code=function()
+				for name,M in next,Modes do
+					if not modeRanks[name]then
+						modeRanks[name]=M.score and 0 or 6
 					end
 				end
-				SFX.play("clear_4")SFX.play("finesseError_long")
-				TEXT.clear()
-				TEXT.show("ALL SAVING FILE DELETED",640,360,60,"stretch",.4)
-				SCN.back()
-			end
+				FILE.saveUnlock()
+				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
+				SFX.play("clear_2")
+			end}),
+		newButton({name="reset",	x=940,y=200,w=260,h=100,color="white",font=40,
+			code=function()
+				sceneTemp.ct=sceneTemp.ct+1
+				if sceneTemp.ct==1 then
+					TEXT.show("RESET ALL DATA?",640,360,50,"appear",.5)
+				elseif sceneTemp.ct==5 then
+					TEXT.show("SURE?????",640,360,80,"beat",.5)
+				elseif sceneTemp.ct==10 then
+					local L=love.filesystem.getDirectoryItems("")
+					for i=1,#L do
+						local s=L[i]
+						if s:sub(-4)==".dat"then
+							love.filesystem.remove(s)
+						end
+					end
+					SFX.play("clear_4")SFX.play("finesseError_long")
+					TEXT.clear()
+					TEXT.show("ALL SAVING FILE DELETED",640,360,60,"stretch",.4)
+					SCN.back()
+				end
 			end}),
 		newButton({name="back",		x=640,y=620,w=200,h=80,color="white",font=40,code=BACK}),
 	},

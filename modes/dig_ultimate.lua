@@ -1,6 +1,6 @@
 local max,rnd=math.max,math.random
 return{
-	color=color.lightYellow,
+	color=color.lYellow,
 	env={
 		drop=10,lock=30,
 		freshLimit=15,

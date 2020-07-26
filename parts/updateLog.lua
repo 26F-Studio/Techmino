@@ -4,6 +4,7 @@ local S=[=[
 			那没事了(T6300)		加油啊,钉钉动了的大哥哥(T3228)
 			弥佑瑶				Alan			幽灵3383
 			靏鸖龘龘			込余			saki
+			模电
 	[rmb10+]:
 		八零哥    蕴空之灵    gggf127    dtg
 		ThTsOd    Fireboos    金巧    10元
@@ -17,7 +18,7 @@ local S=[=[
 		HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思
 		世界沃德    蓝绿    天生的魔法师    琳雨空
 		T8779.易缄    吃水榴莲    诗情画意    星姐阿夸双推Man暗炎
-		[*Y]    [*炎]
+		[*炎]    [*Y]    aaa222
 	Thanks!!!
 
 Future outlook:
@@ -48,7 +49,7 @@ Future outlook:
 			field hidden
 			up-hidden
 			low-hidden
-			next hidden
+			next[1] hidden
 			field flip(LR/UD)
 			no fail(∞ lives)
 		mini games:
@@ -56,9 +57,10 @@ Future outlook:
 			2048 (with next (with deadly mode))
 			mine sweeper
 			tank battle
-		简易防沉迷系统
+		简易防沉迷系统(GMT+8限定)
+		new AI: task-Z
 		full-key control
-		touch-drag control
+		drag control for mobile device
 		cool backgrounds
 		'Encrypt'(compile to byte code)
 		better drop FX
@@ -69,7 +71,19 @@ Future outlook:
 		splashing block
 		more graphic FXs & 3D features & animations
 		network game
-		new AI: task-Z
+
+0.9.3: Details Update
+	新内容:
+		中文更新说明
+	改动:
+		模电吉备历史性同框
+		暂停界面数据显示格式微调
+	代码:
+		性能优化，部分老设备运行更流畅
+	修复:
+		自定义序列相关的闪退
+		pc训练方块ghost浮空
+
 0.9.2: Global Update
 	new:
 		independent spawning volume setting

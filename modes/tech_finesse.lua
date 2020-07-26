@@ -1,7 +1,7 @@
 local format=string.format
 
 return{
-	color=color.lightYellow,
+	color=color.lYellow,
 	env={
 		arr=0,
 		drop=1e99,lock=60,
