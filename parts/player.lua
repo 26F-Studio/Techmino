@@ -419,7 +419,7 @@ local function Pupdate_alive(P,dt)
 			if P.y_img~=P.curY then
 				P.dropDelay=P.gameEnv.drop
 			elseif P.AI_mode=="CC"then
-				P.AI_needFresh=true
+				CC_updateField(P)
 				if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
 					CC_switch20G(P)
 				end
@@ -432,7 +432,7 @@ local function Pupdate_alive(P,dt)
 			if P.lockDelay>=0 then goto stop end
 			P:drop()
 			if P.AI_mode=="CC"then
-				P.AI_needFresh=true
+				CC_updateField(P)
 			end
 		end
 	end
@@ -1991,7 +1991,7 @@ function player.lose(P)
 			P.field[_],P.visTime[_]=nil
 		end
 		if P.AI_mode=="CC"then
-			P.AI_needFresh=true
+			CC_updateField(P)
 		end
 		P.life=P.life-1
 		return
@@ -2480,7 +2480,6 @@ local function loadAI(P,AIdata)--load AI params
 	local ENV=P.gameEnv
 	P.AI_mode=AIdata.type
 	P.AI_stage=1
-	P.AI_needFresh=false
 	P.AI_keys={}
 	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),2*AIdata.delta)
 	P.AI_delay0=AIdata.delta

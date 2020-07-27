@@ -271,10 +271,6 @@ return{
 	},
 	["CC"]={
 		function(P)
-			if P.AI_needFresh then
-				CC_updateField(P)
-				P.AI_needFresh=false
-			end
 			BOT.think(P.AI_bot)
 			return 2
 		end,--start thinking
