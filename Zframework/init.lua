@@ -1120,7 +1120,7 @@ function love.run()
 		end
 
 		--Keep 60fps
-		if FPS()>60 then
+		if FPS()>61 then
 			WAIT(1/60+lastFrame-Timer())
 		end
 
