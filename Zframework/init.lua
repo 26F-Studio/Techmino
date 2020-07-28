@@ -1100,18 +1100,17 @@ function love.run()
 				--Debug info.
 				if devMode then
 					gc.setColor(devColor[devMode])
-					gc.print("Cache used:"..gcinfo(),5,_-20)
-					gc.print("Free Row:"..freeRow.getCount(),5,_-40)
-					gc.print("Mouse:"..mx.." "..my,5,_-60)
+					gc.print("Memory:"..gcinfo(),5,_-20)
+					gc.print("Lines:"..freeRow.getCount(),5,_-40)
+					gc.print("Cursor:"..mx.." "..my,5,_-60)
 					gc.print("Voices:"..VOC.getCount(),5,_-80)
 					gc.print("Tasks:"..TASK.getCount(),5,_-100)
-					ins(LIST,1,dt)
-					rem(LIST,126)
+					ins(LIST,1,dt)rem(LIST,126)
 					for i=1,#LIST do
 						gc.rectangle("fill",900+2*i,_,2,-LIST[i]*4000)
 					end
-					if devMode==3 then love.timer.sleep(.26)
-					elseif devMode==4 then love.timer.sleep(.626)
+					if devMode==3 then WAIT(.26)
+					elseif devMode==4 then WAIT(.626)
 					end
 				end
 
@@ -1119,15 +1118,14 @@ function love.run()
 			end
 		end
 
-		--Keep 60fps
-		if FPS()>61 then
-			WAIT(1/60+lastFrame-Timer())
-		end
-
 		--Fresh power info.
 		if Timer()-lastFreshPow>3 and setting.powerInfo and SCN.cur~="load"then
 			updatePowerInfo()
 			lastFreshPow=Timer()
 		end
+
+		--Keep 60fps
+		if Timer()-lastFrame<.005 then WAIT(.01)end
+		while Timer()-lastFrame<.0159 do WAIT(.001)end
 	end
 end
