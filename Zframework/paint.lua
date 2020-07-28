@@ -545,8 +545,8 @@ function Pnt.pause()
 
 	--Mode Info
 	_=drawableText.modeName
-	gc.draw(_,40,180)
-	gc.draw(drawableText.levelName,60+_:getWidth(),180)
+	gc.draw(_,40,170)
+	gc.draw(drawableText.levelName,60+_:getWidth(),170)
 
 	--Result Text
 	setFont(35)

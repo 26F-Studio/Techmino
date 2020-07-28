@@ -265,7 +265,7 @@ function sceneInit.stat()
 	end
 end
 function sceneInit.history()
-	BG.set("game1")
+	BG.set("game3")
 	sceneTemp={require("parts/updateLog"),1}--scroll pos
 end
 function sceneInit.debug()
