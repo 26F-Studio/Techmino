@@ -266,7 +266,14 @@ function sceneInit.stat()
 end
 function sceneInit.history()
 	BG.set("game3")
-	sceneTemp={require("parts/updateLog"),1}--scroll pos
+	sceneTemp={
+		require("parts/updateLog"),
+		1--scroll pos
+	}
+	if newVersionLaunch then
+		newVersionLaunch=nil
+		sceneTemp[2]=4
+	end
 end
 function sceneInit.debug()
 	sceneTemp={
@@ -342,7 +349,7 @@ function SCN.push(tar,style)
 end
 function SCN.pop()
 	local _=SCN.seq
-	_[#_-1]=nil
+	_[#_],_[#_-1]=nil
 end
 function SCN.swapTo(tar,style)
 	local S=SCN.swap

@@ -150,14 +150,13 @@ function mouseDown.intro(x,y,k)
 	end
 end
 function touchDown.intro(id,x,y)
-	SCN.goto("main")
+	mouseDown.intro()
 end
 function keyDown.intro(key)
 	if key=="escape"then
-		VOC.play("bye")
-		SCN.back()
+		mouseDown.intro(nil,nil,2)
 	else
-		SCN.goto("main")
+		mouseDown.intro()
 	end
 end
 

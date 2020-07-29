@@ -38,7 +38,12 @@ function Tmr.load()
 			S.cur=S.cur+1
 			S.tar=S.cur
 			if S.cur>62.6 then
-				SCN.swapTo("intro","none")
+				if newVersionLaunch then
+					SCN.push("intro","fade")
+					SCN.swapTo("history","fade")
+				else
+					SCN.swapTo("intro","none")
+				end
 			end
 			return
 		end
