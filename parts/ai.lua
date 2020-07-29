@@ -19,8 +19,22 @@ local blockPos={4,4,4,4,4,5,4}
 local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
 -------------------------------------------------Cold clear
 local CCblockID={6,5,4,3,2,1,0}
-if system=="Windows"then
-	require("CCloader")
+CCloader_filename = {}
+CCloader_filename.Windows = 'CCloader.dll'
+CCloader_filename.Android = 'CCloader.so'
+CCloader_filename.Linux = 'CCloader.so'
+if CCloader_filename[system] then
+	if system == 'Windows' then
+		local prefixed_CCloader_filename = '\\'..CCloader_filename[system]
+	elseif system == 'Android' or system == 'Linux' then
+		local prefixed_CCloader_filename = '/'..CCloader_filename[system]
+	end
+	local CCloader_f, size = love.filesystem.read('data', CCloader_filename[system])
+	assert(CCloader_f, size)
+	local success, message = love.filesystem.write(CCloader_filename[system], CCloader_f, size)
+	assert(success, message)
+	local f = assert(package.loadlib(love.filesystem.getSaveDirectory()..prefixed_CCloader_filename, "luaopen_CCloader"))
+	f()
 	BOT={
 		getConf=	cc.get_default_config	,--()options,weights
 		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
