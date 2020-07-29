@@ -83,7 +83,7 @@ local finesseList={
 finesseList[1][3],finesseList[1][4],finesseList[7][3],finesseList[7][4]=finesseList[1][1],finesseList[1][2],finesseList[7][1],finesseList[7][2]--"2-phase" SZI
 finesseList[2]=finesseList[1]--S=Z
 finesseList[4],finesseList[5]=finesseList[3],finesseList[3]--J=L=T
-local CCblockID={4,3,6,5,1,2,0}
+local CCblockID={6,5,4,3,2,1,0}
 local freshPrepare={
 	none=NULL,
 	bag=function(P)
