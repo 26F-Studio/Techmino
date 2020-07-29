@@ -275,11 +275,17 @@ return{
 			return 2
 		end,--start thinking
 		function(P,ctrl)
-			local success,hold,move=BOT.getMove(P.AI_bot)
+			local success,dest,hold,move=BOT.getMove(P.AI_bot)
 			if success == 2 then
 				ins(ctrl,6)
 				return 3
 			elseif success == 0 then
+				for i=1,#dest do
+					for j=1,#dest[i] do
+						dest[i][j] = dest[i][j] + 1
+					end
+				end
+				P.AI_dest = dest
 				if hold then ctrl[1]=8 end--Hold
 				while move[1]do
 					local m=rem(move,1)
