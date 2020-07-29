@@ -35,6 +35,7 @@ function Tick.lose(P)
 	end
 	if not modeEnv.royaleMode and #players>1 then
 		P.y=P.y+P.endCounter*.26
+		P.absFieldY=P.absFieldY+P.endCounter*.26
 	end
 end
 function Tick.throwBadge(data)--{ifAI,Sender,timer}
