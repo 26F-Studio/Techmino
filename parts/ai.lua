@@ -24,10 +24,11 @@ CCloader_filename.Windows = 'CCloader.dll'
 CCloader_filename.Android = 'CCloader.so'
 CCloader_filename.Linux = 'CCloader.so'
 if CCloader_filename[system] then
+	local prefixed_CCloader_filename
 	if system == 'Windows' then
-		local prefixed_CCloader_filename = '\\'..CCloader_filename[system]
+		prefixed_CCloader_filename = '\\'..CCloader_filename[system]
 	elseif system == 'Android' or system == 'Linux' then
-		local prefixed_CCloader_filename = '/'..CCloader_filename[system]
+		prefixed_CCloader_filename = '/'..CCloader_filename[system]
 	end
 	local CCloader_f, size = love.filesystem.read('data', CCloader_filename[system])
 	assert(CCloader_f, size)
