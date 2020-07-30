@@ -3,18 +3,6 @@ local int,max,log=math.floor,math.max,math.log
 local rnd,sin,cos=math.random,math.sin,math.cos
 local format=string.format
 local scr=scr
-local SCN={
-	cur="load",--Current scene
-	swapping=false,--ifSwapping
-	swap={
-		tar=nil,	--Swapping target
-		style=nil,	--Swapping style
-		mid=nil,	--Loading point
-		time=nil,	--Full swap time
-		draw=nil,	--Swap draw  func
-	},
-	seq={"quit","slowFade"},--Back sequence
-}--scene datas,returned
 
 local sceneInit={}
 sceneInit.quit=love.event.quit
@@ -120,7 +108,7 @@ function sceneInit.pause(org)
 		timer=org=="play"and 0 or 50,
 		list={
 			toTime(S.time),
-			S.key.."/"..S.rotate.."/"..S.hold,
+			format("%d/%d/%d",S.key,S.rotate,S.hold),
 			format("%d  %.2fPPS",S.piece,S.piece/S.time),
 			format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
 			format("%d(%d)  %.2fAPM",S.atk,S.digatk,S.atk/S.time*60),
@@ -131,7 +119,7 @@ function sceneInit.pause(org)
 			format("%d[%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 		},
 
-		--from right-down, 60 degree each
+		--From right-down, 60 degree each
 		radar={
 			(S.off+S.dig)/S.time*60,--DefPM
 			(S.off)/S.time*60,		--OffPM
@@ -186,7 +174,10 @@ function sceneInit.setting_video()
 	BG.set("space")
 end
 function sceneInit.setting_sound()
-	sceneTemp={last=0,jump=0}--last sound time,animation count(10 to 0)
+	sceneTemp={
+		last=0,--Last sound time
+		jump=0,--Animation timer(10 to 0)
+	}
 	BG.set("space")
 end
 function sceneInit.setting_control()
@@ -267,8 +258,8 @@ end
 function sceneInit.history()
 	BG.set("game3")
 	sceneTemp={
-		require("parts/updateLog"),
-		1--scroll pos
+		text=require("parts/updateLog"),--Text list
+		pos=1,--Scroll pos
 	}
 	if newVersionLaunch then
 		newVersionLaunch=nil
@@ -289,40 +280,47 @@ function sceneInit.quit()
 	end
 end
 
+local sceneBack={}
+function sceneBack.load()
+	love.event.quit()
+end
+function sceneBack.pause()
+	love.keyboard.setKeyRepeat(true)
+	mergeStat(stat,players[1].stat)
+	TASK.clear("play")
+end
+function sceneBack.setting_game()
+	FILE.saveSetting()
+end
+function sceneBack.setting_video()
+	FILE.saveSetting()
+end
+function sceneBack.setting_sound()
+	FILE.saveSetting()
+end
+function sceneBack.setting_touch()
+	FILE.saveVK()
+end
+function sceneBack.setting_key()
+	FILE.saveKeyMap()
+end
+function sceneBack.setting_lang()
+	FILE.saveSetting()
+end
 
-local swap={
-	none={1,0,NULL},
-	flash={8,1,function()gc.clear(1,1,1)end},
-	fade={30,15,function(t)
-		local t=t>15 and 2-t/15 or t/15
-		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
-	end},
-	fade_togame={120,20,function(t)
-		local t=t>20 and (120-t)/100 or t/20
-		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
-	end},
-	slowFade={180,90,function(t)
-		local t=t>90 and 2-t/90 or t/90
-		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
-	end},
-}--Scene swapping animations
-local backFunc={
-	load=love.event.quit,
-	pause=function()
-		love.keyboard.setKeyRepeat(true)
-		mergeStat(stat,players[1].stat)
-		TASK.clear("play")
-	end,
-	setting_game=	function()FILE.saveSetting()end,
-	setting_video=	function()FILE.saveSetting()end,
-	setting_sound=	function()FILE.saveSetting()end,
-	setting_touch=	function()FILE.saveVK()end,
-	setting_key=	function()FILE.saveKeyMap()end,
-	setting_lang=	function()FILE.saveSetting()end,
-}
+local SCN={
+	cur="load",--Current scene
+	swapping=false,--If Swapping
+	swap={
+		tar=nil,	--Swapping target
+		style=nil,	--Swapping style
+		mid=nil,	--Loading point
+		time=nil,	--Full swap time
+		draw=nil,	--Swap draw  func
+	},
+	seq={"quit","slowFade"},--Back sequence
+}--Scene datas, returned
+
 function SCN.swapUpdate()
 	local S=SCN.swap
 	S.time=S.time-1
@@ -351,7 +349,27 @@ function SCN.pop()
 	local _=SCN.seq
 	_[#_],_[#_-1]=nil
 end
-function SCN.swapTo(tar,style)
+
+local swap={
+	none={1,0,NULL},
+	flash={8,1,function()gc.clear(1,1,1)end},
+	fade={30,15,function(t)
+		local t=t>15 and 2-t/15 or t/15
+		gc.setColor(0,0,0,t)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+	end},
+	fade_togame={120,20,function(t)
+		local t=t>20 and (120-t)/100 or t/20
+		gc.setColor(0,0,0,t)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+	end},
+	slowFade={180,90,function(t)
+		local t=t>90 and 2-t/90 or t/90
+		gc.setColor(0,0,0,t)
+		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+	end},
+}--Scene swapping animations
+function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 	local S=SCN.swap
 	if not SCN.swapping and tar~=SCN.cur then
 		SCN.swapping=true
@@ -364,17 +382,18 @@ function SCN.swapTo(tar,style)
 		S.draw=swap[3]
 	end
 end
-function SCN.goto(tar,style)
+function SCN.goto(tar,style)--Normal scene swapping, can back
 	SCN.push()SCN.swapTo(tar,style)
 end
 function SCN.back()
-	if backFunc[SCN.cur] then backFunc[SCN.cur]()end
-	--func when scene end
+	--Leave scene
+	if sceneBack[SCN.cur] then sceneBack[SCN.cur]()end
+
+	--Poll&Back to previous Scene
 	local m=#SCN.seq
 	if m>0 then
 		SCN.swapTo(SCN.seq[m-1],SCN.seq[m])
 		SCN.seq[m],SCN.seq[m-1]=nil
-		--Poll&Back to preScene
 	end
 end
 return SCN
