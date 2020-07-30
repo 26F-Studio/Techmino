@@ -87,7 +87,7 @@ local function VKAdisp(n)	return function()return VK_org[n].ava				end end
 local function VKAcode(n)	return function()VK_org[n].ava=not VK_org[n].ava	end end
 local function setLang(n)	return function()LANG.set(n)setting.lang=n			end end
 
---newXXX
+--NewXXX
 newText=WIDGET.newText
 newImage=WIDGET.newImage
 newButton=WIDGET.newButton
@@ -333,7 +333,7 @@ local Widgets={
 		newButton({name="spin3",	x=410,y=540,w=90,h=65,color="white",font=30,code=nextDir(3)}),
 		newButton({name="spin4",	x=550,y=540,w=90,h=65,color="white",font=30,code=nextDir(4)}),
 		newButton({name="spin5",	x=690,y=540,w=90,h=65,color="white",font=30,code=nextDir(5)}),
-		--newButton({name="spin6",x=825,y=540,w=90,h=65,color="white",font=30,code=nextDir(6)}),--cannot rotate O
+		--newButton({name="spin6",x=825,y=540,w=90,h=65,color="white",font=30,code=nextDir(6)}),--Cannot rotate O
 		newButton({name="spin7",	x=970,y=540,w=90,h=65,color="white",font=30,code=nextDir(7)}),
 
 		newButton({name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,

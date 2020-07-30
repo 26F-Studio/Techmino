@@ -14,7 +14,8 @@ local function score(P)
 	if P.modeData.point%100==99 then
 		SFX.play("blip_1")
 	elseif P.modeData.point>=100*(P.modeData.event+1)then
-		local s=P.modeData.event+1;P.modeData.event=s--level up!
+		--Level up!
+		local s=P.modeData.event+1;P.modeData.event=s
 		local E=P.gameEnv
 		BG.set(s==1 and"game3"or s==2 and"game4"or s==3 and"game5"or s==4 and"game6"or"game5")
 		E.lock=death_lock[s]

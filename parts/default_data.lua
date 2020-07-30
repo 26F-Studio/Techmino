@@ -1,5 +1,5 @@
 setting={
-	--game
+	--Game
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,
@@ -14,7 +14,7 @@ setting={
 	skin={1,5,8,2,10,3,7,1,5,1,5,8,2,10,3,7,10,7,8,2,8,2,1,5,3},
 	face={},
 
-	--graphic
+	--Graphic
 	ghost=true,center=true,
 	smooth=true,grid=false,
 	bagLine=false,
@@ -31,7 +31,7 @@ setting={
 	bg=true,
 	powerInfo=false,
 
-	--sound
+	--Sound
 	sfx=10,
 	spawn=0,
 	bgm=7,
@@ -39,15 +39,15 @@ setting={
 	vib=0,
 	voc=0,
 
-	--virtualkey
+	--Virtualkey
 	VKSFX=3,--SFX volume
 	VKVIB=0,--VIB
-	VKSwitch=false,--if disp
-	VKTrack=false,--if tracked
-	VKDodge=false,--if dodge
+	VKSwitch=false,--If disp
+	VKTrack=false,--If tracked
+	VKDodge=false,--If dodge
 	VKTchW=3,--Touch-Pos Weight
 	VKCurW=4,--Cur-Pos Weight
-	VKIcon=true,--if disp icon
+	VKIcon=true,--If disp icon
 	VKAlpha=3,
 }
 for i=1,25 do
@@ -64,7 +64,7 @@ stat={
 	send=0,recv=0,pend=0,off=0,
 	clear={},spin={},
 	pc=0,hpc=0,b2b=0,b3b=0,score=0,
-	lastPlay="sprint_10",--last played mode ID
+	lastPlay="sprint_10",--Last played mode ID
 }
 for i=1,25 do
 	stat.clear[i]={0,0,0,0,0}
@@ -73,9 +73,9 @@ end
 
 keyMap={
 	{"left","right","x","z","c","up","down","space","tab","r"},{},
-	--keyboard
+	--Keyboard
 	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},{},
-	--joystick
+	--Joystick
 }
 for i=1,#keyMap do for j=1,20 do
 	if not keyMap[i][j]then keyMap[i][j]=""end

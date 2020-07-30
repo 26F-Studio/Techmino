@@ -66,7 +66,7 @@ local function drawVirtualkey()
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)--Button outline
 				_=V[i].pressTime
-				gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--icon
+				gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
 					gc.circle("fill",B.x,B.y,B.r*.94,10)--Glow
@@ -195,7 +195,7 @@ function Pnt.mode()
 				gc.line(M.x,M.y,m.x,m.y)
 			end
 		end
-	end--lines connecting modes
+	end--Lines connecting modes
 
 	for name,M in next,Modes do
 		if R[name]then
@@ -217,7 +217,7 @@ function Pnt.mode()
 					gc.setLineWidth(10)
 					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
 				end
-			elseif M.shape==2 then--diamond
+			elseif M.shape==2 then--Diamond
 				gc.circle("fill",M.x,M.y,S+5,4)
 				if sel==name then
 					gc.setColor(1,1,1)

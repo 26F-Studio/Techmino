@@ -38,7 +38,7 @@ function SFX.fieldPlay(s,v,P)
 end
 function SFX.play(s,vol,pos,force)
 	if setting.sfx==0 and not force then return end
-	local S=SFX.list[s]--source list
+	local S=SFX.list[s]--Source list
 	if not S then return end
 	local n=1
 	while S[n]:isPlaying()do

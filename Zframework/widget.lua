@@ -8,7 +8,7 @@ local EMPTY={}
 
 local button={
 	type="button",
-	ATV=0,--activating time(0~8)
+	ATV=0,--Activating time(0~8)
 }
 function button:reset()
 	self.ATV=0
@@ -59,8 +59,8 @@ end
 
 local switch={
 	type="switch",
-	ATV=0,--activating time(0~8)
-	CHK=0,--check alpha(0~6)
+	ATV=0,--Activating time(0~8)
+	CHK=0,--Check alpha(0~6)
 }
 function switch:reset()
 	self.ATV=0
@@ -115,8 +115,8 @@ end
 
 local slider={
 	type="slider",
-	ATV=0,--activating time(0~8)
-	pos=0,--position shown
+	ATV=0,--Activating time(0~8)
+	pos=0,--Position shown
 }
 function slider:reset()
 	self.ATV=0
@@ -178,8 +178,8 @@ function slider:getInfo()
 end
 
 local WIDGET={}
-WIDGET.active=EMPTY--table, contains all active widgets
-WIDGET.sel=nil--selected widget
+WIDGET.active=EMPTY--Table, contains all active widgets
+WIDGET.sel=nil--Selected widget
 function WIDGET.set(L)
 	WIDGET.sel=nil
 	WIDGET.active=L or EMPTY
@@ -331,7 +331,7 @@ function WIDGET.keyPressed(i)
 			WIDGET.press()
 		end
 	elseif kb.isDown("lshift","lalt","lctrl")then
-					--when hold [↑], control slider with left/right
+					--When hold [↑], control slider with left/right
 		if i=="left"or i=="right"then
 			local W=WIDGET.sel
 			if W then

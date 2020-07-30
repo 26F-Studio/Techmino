@@ -4,7 +4,7 @@ local ZERO={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zer
 
 local map={}
 for x=-3,3 do map[x]={}for y=-3,3 do map[x][y]={x,y}end end
-local function collect(T)--make all vec point to the same vec
+local function collect(T)--Make all vec point to the same vec
 	if type(T)=="table"then
 		for _,T in next,T do
 			for k,vec in next,T do
@@ -14,11 +14,11 @@ local function collect(T)--make all vec point to the same vec
 	end
 end
 
-local function C_sym(L)--use this if the block is centrosymmetry, *PTR!!!
+local function C_sym(L)--Use this if the block is centrosymmetry, *PTR!!!
 	L[23]=L[01]L[32]=L[10]
 	L[21]=L[03]L[12]=L[30]
 end
-local function flipList(O)--use this to copy a symmetry list
+local function flipList(O)--Use this to copy a symmetry list
 	if not O then return end
 	local L={}
 	for i=1,#O do

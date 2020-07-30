@@ -1,6 +1,6 @@
 local freeRow={}
-local L={}--storage
-local _=0--lenth
+local L={}--Storage
+local _=0--Lenth
 function freeRow.reset(num)
 	if num<_ then
 		for i=_,num+1,-1 do

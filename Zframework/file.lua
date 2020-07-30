@@ -59,7 +59,7 @@ local function dumpTable(L,t)
 	end
 	return s..tabs[t-1].."}"
 end
-local function addToTable(G,base)--refresh default base with G-values
+local function addToTable(G,base)--Refresh default base with G-values
 	for k,v in next,G do
 		if type(v)==type(base[k])then
 			if type(v)=="table"then

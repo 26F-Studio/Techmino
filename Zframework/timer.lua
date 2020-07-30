@@ -18,8 +18,8 @@ function Tmr.load()
 		elseif S.phase==4 then
 			IMG.loadOne(S.cur)
 		elseif S.phase==5 then
-			local m=Modes[S.cur]--mode template
-			local M=require("modes/"..m.name)--mode file
+			local m=Modes[S.cur]--Mode template
+			local M=require("modes/"..m.name)--Mode file
 			Modes[m.name],Modes[S.cur]=M
 			for k,v in next,m do
 				M[k]=v
@@ -118,7 +118,7 @@ function Tmr.mode(dt)
 	elseif y<-1900*k then y=-1900*k
 	end
 	cam.x,cam.y=x,y
-	--keyboard controlling
+	--Keyboard controlling
 
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
@@ -227,7 +227,7 @@ function Tmr.play(dt)
 		if game.frame%26==0 and setting.warn then
 			local F=P1.field
 			local M=#F
-			local height=0--max height of row 4~7
+			local height=0--Max height of row 4~7
 			for x=4,7 do
 				for y=M,1,-1 do
 					if F[y][x]>0 then

@@ -2,7 +2,8 @@ local int,max,min=math.floor,math.max,math.min
 local sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
 local function score(P)
 	local F=false
-	if P.modeData.point<70 then--if Less then MM
+	--If Less then MM
+	if P.modeData.point<70 then
 		local R=#P.clearedRow
 		if R==0 then return end
 		if R==4 then R=10 end

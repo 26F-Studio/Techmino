@@ -351,7 +351,7 @@ local langList={
 			},
 			setting_lang={
 				back="返回",
-			},--langName added later
+			},--LangName added later
 			help={
 				staff="制作人员",
 				his="更新历史",
@@ -803,7 +803,7 @@ local langList={
 			},
 			setting_lang={
 				back="返回",
-			},--langName added later
+			},--LangName added later
 			help={
 				staff="制作人员",
 				his="更新历史",
@@ -1244,7 +1244,7 @@ local langList={
 			},
 			setting_lang={
 				back="Back",
-			},--langName added later
+			},--LangName added later
 			help={
 				staff="Staff",
 				his="History",
@@ -1681,7 +1681,7 @@ local langList={
 			},
 			setting_lang={
 				back="X",
-			},--langName added later
+			},--LangName added later
 			help={
 				staff="Orz",
 				his="_&_",

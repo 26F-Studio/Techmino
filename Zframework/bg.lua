@@ -28,7 +28,7 @@ back.glow={
 		local t=(sin(t*.5)+sin(t*.7)+sin(t*.9+1)+sin(t*1.5)+sin(t*2+10))*.08
 		gc.clear(t,t,t)
 	end,
-}--light-dark
+}--Light-dark
 back.rgb={
 	init=function()
 		t=0
@@ -57,7 +57,7 @@ back.flink={
 		else gc.clear(0,0,0)
 		end
 	end,
-}--flash after random time
+}--Flash after random time
 back.aura={
 	init=function()
 		t=rnd()*3600
@@ -76,7 +76,7 @@ back.aura={
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 		gc.setShader()
 	end,
-}--cool liquid background
+}--Cool liquid background
 back.game1={
 	init=function()
 		t=0
@@ -222,11 +222,11 @@ back.space={
 		local S=stars
 		for i=1,1260,5 do
 			local s=rnd(26,40)*.1
-			S[i]=s*scr.k			--size
-			S[i+1]=rnd(W)-10		--x
-			S[i+2]=rnd(H)-10		--y
-			S[i+3]=(rnd()-.5)*.01*s	--vx
-			S[i+4]=(rnd()-.5)*.01*s	--vy
+			S[i]=s*scr.k			--Size
+			S[i+1]=rnd(W)-10		--X
+			S[i+2]=rnd(H)-10		--Y
+			S[i+3]=(rnd()-.5)*.01*s	--Vx
+			S[i+4]=(rnd()-.5)*.01*s	--Vy
 		end--800 var
 	end,
 	update=function(dt)
@@ -234,7 +234,7 @@ back.space={
 		for i=1,1260,5 do
 			S[i+1]=(S[i+1]+S[i+3])%W
 			S[i+2]=(S[i+2]+S[i+4])%H
-		end--star moving
+		end--Star moving
 	end,
 	draw=function()
 		gc.clear(.2,.2,.2)
@@ -260,7 +260,7 @@ for _,bg in next,back do
 	if not bg.update	then bg.update=	NULL end setfenv(bg.update	,BGvars)
 	if not bg.discard	then bg.discard=NULL end setfenv(bg.discard	,BGvars)
 	if not bg.draw		then bg.draw=	NULL end setfenv(bg.draw	,BGvars)
-end--make BG vars invisible
+end--Make BG vars invisible
 
 BG={
 	cur="none",
