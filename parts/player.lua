@@ -1274,6 +1274,7 @@ function player.freshLockDelay(P)
 end
 function player.lock(P)
 	local dest = P.AI_dest
+	local has_dest = (dest ~= nil)
 	for i=1,P.r do
 		local y=P.curY+i-1
 		if not P.field[y]then P.field[y],P.visTime[y]=freeRow.get(0),freeRow.get(0)end
@@ -1291,12 +1292,14 @@ function player.lock(P)
 						end
 					end
 					if #dest ~= original_length - 1 then
-						CC_updateField(P)
 						dest = nil
 					end
 				end
 			end
 		end
+	end
+	if has_dest and not dest then
+		CC_updateField(P)
 	end
 end
 function player.spin(P,d,ifpre)
