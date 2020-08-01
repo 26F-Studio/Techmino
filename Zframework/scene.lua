@@ -268,7 +268,7 @@ function sceneInit.history()
 end
 function sceneInit.debug()
 	sceneTemp={
-		ct=0,
+		reset=false,
 	}
 end
 function sceneInit.quit()

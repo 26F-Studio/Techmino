@@ -108,7 +108,7 @@ local Widgets={
 		newButton({name="quit",		x=590,y=610,w=160,h=100,color="lGrey",	font=45,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end}),
 	},
 	mode={
-		newButton({name="setting",x=1100,y=540,w=240,h=90,color="lGreen",	font=40,code=function()
+		newButton({name="setting",	x=1100,y=540,w=240,h=90,color="lGreen",	font=40,code=function()
 				SCN.goto("custom")
 			end,
 			hide=function()
@@ -118,7 +118,7 @@ local Widgets={
 		newButton({name="back",		x=1200,y=655,w=120,h=80,color="white",	font=40,code=BACK}),
 	},
 	music={
-		newSlider({name="bgm",		x=760,	y=80,	w=400,unit=10,					font=35,change=function()BGM.freshVolume()end,disp=SETval("bgm"),code=SETsto("bgm")}),
+		newSlider({name="bgm",		x=760,	y=80,	w=400,			unit=10,		font=35,change=function()BGM.freshVolume()end,disp=SETval("bgm"),code=SETsto("bgm")}),
 		newButton({name="up",		x=1100,	y=200,	w=120,h=120,	color="white",	font=55,code=pressKey("up")}),
 		newButton({name="play",		x=1100,	y=340,	w=120,h=120,	color="white",	font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
 		newButton({name="down",		x=1100,	y=480,	w=120,h=120,	color="white",	font=55,code=pressKey("down")}),
@@ -175,40 +175,40 @@ local Widgets={
 		newButton({name="back",		x=1200,	y=640,	w=120,h=120,	color="white",	font=35,code=BACK}),
 	},
 	draw={
-		newButton({name="b1",		x=500+65*1,	y=150,w=58,h=58,	color="red",	font=30,code=setPen(1)}),--B1
-		newButton({name="b2",		x=500+65*2,	y=150,w=58,h=58,	color="orange",	font=30,code=setPen(2)}),--B2
-		newButton({name="b3",		x=500+65*3,	y=150,w=58,h=58,	color="yellow",	font=30,code=setPen(3)}),--B3
-		newButton({name="b4",		x=500+65*4,	y=150,w=58,h=58,	color="grass",	font=30,code=setPen(4)}),--B4
-		newButton({name="b5",		x=500+65*5,	y=150,w=58,h=58,	color="green",	font=30,code=setPen(5)}),--B5
-		newButton({name="b6",		x=500+65*6,	y=150,w=58,h=58,	color="water",	font=30,code=setPen(6)}),--B6
-		newButton({name="b7",		x=500+65*7,	y=150,w=58,h=58,	color="cyan",	font=30,code=setPen(7)}),--B7
-		newButton({name="b8",		x=500+65*8,	y=150,w=58,h=58,	color="blue",	font=30,code=setPen(8)}),--B8
-		newButton({name="b9",		x=500+65*9,	y=150,w=58,h=58,	color="purple",	font=30,code=setPen(9)}),--B9
-		newButton({name="b10",		x=500+65*10,y=150,w=58,h=58,	color="magenta",font=30,code=setPen(10)}),--B10
-		newButton({name="b11",		x=500+65*11,y=150,w=58,h=58,	color="pink",	font=30,code=setPen(11)}),--B11
+		newButton({name="b1",		x=500+65*1,	y=150,	w=58,	h=58,	color="red",	font=30,code=setPen(1)}),--B1
+		newButton({name="b2",		x=500+65*2,	y=150,	w=58,	h=58,	color="orange",	font=30,code=setPen(2)}),--B2
+		newButton({name="b3",		x=500+65*3,	y=150,	w=58,	h=58,	color="yellow",	font=30,code=setPen(3)}),--B3
+		newButton({name="b4",		x=500+65*4,	y=150,	w=58,	h=58,	color="grass",	font=30,code=setPen(4)}),--B4
+		newButton({name="b5",		x=500+65*5,	y=150,	w=58,	h=58,	color="green",	font=30,code=setPen(5)}),--B5
+		newButton({name="b6",		x=500+65*6,	y=150,	w=58,	h=58,	color="water",	font=30,code=setPen(6)}),--B6
+		newButton({name="b7",		x=500+65*7,	y=150,	w=58,	h=58,	color="cyan",	font=30,code=setPen(7)}),--B7
+		newButton({name="b8",		x=500+65*8,	y=150,	w=58,	h=58,	color="blue",	font=30,code=setPen(8)}),--B8
+		newButton({name="b9",		x=500+65*9,	y=150,	w=58,	h=58,	color="purple",	font=30,code=setPen(9)}),--B9
+		newButton({name="b10",		x=500+65*10,y=150,	w=58,	h=58,	color="magenta",font=30,code=setPen(10)}),--B10
+		newButton({name="b11",		x=500+65*11,y=150,	w=58,	h=58,	color="pink",	font=30,code=setPen(11)}),--B11
 
-		newButton({name="b12",		x=500+65*1,	y=230,w=58,h=58,	color="dGrey",	font=30,code=setPen(12)}),--Bone
-		newButton({name="b13",		x=500+65*2,	y=230,w=58,h=58,	color="grey",	font=30,code=setPen(13)}),--GB1
-		newButton({name="b14",		x=500+65*3,	y=230,w=58,h=58,	color="lGrey",	font=30,code=setPen(14)}),--GB2
-		newButton({name="b15",		x=500+65*4,	y=230,w=58,h=58,	color="dPurple",font=30,code=setPen(15)}),--GB3
-		newButton({name="b16",		x=500+65*5,	y=230,w=58,h=58,	color="dRed",	font=30,code=setPen(16)}),--GB4
-		newButton({name="b17",		x=500+65*6,	y=230,w=58,h=58,	color="dGreen",	font=30,code=setPen(17)}),--GB5
+		newButton({name="b12",		x=500+65*1,	y=230,	w=58,	h=58,	color="dGrey",	font=30,code=setPen(12)}),--Bone
+		newButton({name="b13",		x=500+65*2,	y=230,	w=58,	h=58,	color="grey",	font=30,code=setPen(13)}),--GB1
+		newButton({name="b14",		x=500+65*3,	y=230,	w=58,	h=58,	color="lGrey",	font=30,code=setPen(14)}),--GB2
+		newButton({name="b15",		x=500+65*4,	y=230,	w=58,	h=58,	color="dPurple",font=30,code=setPen(15)}),--GB3
+		newButton({name="b16",		x=500+65*5,	y=230,	w=58,	h=58,	color="dRed",	font=30,code=setPen(16)}),--GB4
+		newButton({name="b17",		x=500+65*6,	y=230,	w=58,	h=58,	color="dGreen",	font=30,code=setPen(17)}),--GB5
 
-		newButton({name="any",		x=600,	y=360,	w=120,h=120,	color="lGrey",	font=40,code=setPen(0)}),
-		newButton({name="space",	x=730,	y=360,	w=120,h=120,	color="grey",	font=65,code=setPen(-1)}),
-		newButton({name="clear",	x=1200,	y=500,	w=120,h=120,	color="white",	font=40,code=pressKey("delete")}),
-		newSwitch({name="demo",		x=755,	y=640,									font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
-		newButton({name="copy",		x=920,	y=640,	w=120,h=120,	color="lRed",	font=35,code=function()copyBoard()end}),
-		newButton({name="paste",	x=1060,	y=640,	w=120,h=120,	color="lBlue",	font=35,code=function()pasteBoard()end}),
-		newButton({name="custom",	x=110,	y=80,	w=140,h=80,		color="white",	font=35,code=function()SCN.goto("custom")end}),
-		newButton({name="back",		x=1200,	y=640,	w=120,h=120,	color="white",	font=35,code=BACK}),
+		newButton({name="any",		x=600,		y=360,	w=120,	h=120,	color="lGrey",	font=40,code=setPen(0)}),
+		newButton({name="space",	x=730,		y=360,	w=120,	h=120,	color="grey",	font=65,code=setPen(-1)}),
+		newButton({name="clear",	x=1200,		y=500,	w=120,	h=120,	color="white",	font=40,code=pressKey("delete")}),
+		newSwitch({name="demo",		x=755,		y=640,									font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
+		newButton({name="copy",		x=920,		y=640,	w=120,	h=120,	color="lRed",	font=35,code=function()copyBoard()end}),
+		newButton({name="paste",	x=1060,		y=640,	w=120,	h=120,	color="lBlue",	font=35,code=function()pasteBoard()end}),
+		newButton({name="custom",	x=110,		y=80,	w=140,	h=80,	color="white",	font=35,code=function()SCN.goto("custom")end}),
+		newButton({name="back",		x=1200,		y=640,	w=120,	h=120,	color="white",	font=35,code=BACK}),
 	},
 	play={
 		newButton({name="pause",	x=1235,	y=45,	w=80,h=80,		color="white",	font=25,code=function()pauseGame()end}),
 	},
 	pause={
-		newButton({name="resume",	x=640,y=290,w=240,h=100,color="white",font=30,code=function()resumeGame()end}),
-		newButton({name="restart",	x=640,y=445,w=240,h=100,color="white",font=33,
+		newButton({name="resume",	x=640,	y=290,	w=240,h=100,color="white",font=30,code=function()resumeGame()end}),
+		newButton({name="restart",	x=640,	y=445,	w=240,h=100,color="white",font=33,
 			code=function()
 				TASK.removeTask_code(TICK.autoPause)
 				mergeStat(stat,players[1].stat)
@@ -233,10 +233,10 @@ local Widgets={
 		newButton({name="layout",	x=590,	y=540,	w=140,h=70,color="white",	font=35,code=function()
 			SCN.goto("setting_skin")
 			end}),
-		newSwitch({name="quickR",	x=1050,y=320,font=35,				disp=SETval("quickR"),	code=SETrev("quickR")}),
-		newSwitch({name="swap",		x=1050,y=400,font=20,				disp=SETval("swap"),	code=SETrev("swap")}),
-		newSwitch({name="fine",		x=1050,y=480,font=20,				disp=SETval("fine"),	code=SETrev("fine")}),
-		newButton({name="back",		x=1140,y=650,w=200,h=80,color="white",font=40,code=BACK}),
+		newSwitch({name="quickR",	x=1050,	y=320,	font=35,disp=SETval("quickR"),	code=SETrev("quickR")}),
+		newSwitch({name="swap",		x=1050,	y=400,	font=20,disp=SETval("swap"),	code=SETrev("swap")}),
+		newSwitch({name="fine",		x=1050,	y=480,	font=20,disp=SETval("fine"),	code=SETrev("fine")}),
+		newButton({name="back",		x=1140,	y=650,	w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 	setting_video={
 		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound")end}),
@@ -258,15 +258,15 @@ local Widgets={
 			code=function(i)
 				setting.frameMul=i<5 and 5*i+20 or 10*i
 			end}),
-		newSwitch({name="text",		x=1050,	y=180,	font=35,disp=SETval("text"),code=SETrev("text")}),
-		newSwitch({name="warn",		x=1050,	y=260,	font=35,disp=SETval("warn"),code=SETrev("warn")}),
-		newSwitch({name="fullscreen",x=1050,y=340,	font=35,disp=SETval("fullscreen"),
+		newSwitch({name="text",		x=1050,	y=180,font=35,disp=SETval("text"),code=SETrev("text")}),
+		newSwitch({name="warn",		x=1050,	y=260,font=35,disp=SETval("warn"),code=SETrev("warn")}),
+		newSwitch({name="fullscreen",x=1050,y=340,font=35,disp=SETval("fullscreen"),
 			code=function()
 				setting.fullscreen=not setting.fullscreen
 				love.window.setFullscreen(setting.fullscreen)
 				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end}),
-		newSwitch({name="bg",		x=1050,	y=420,	font=35,disp=SETval("bg"),
+		newSwitch({name="bg",		x=1050,	y=420,font=35,disp=SETval("bg"),
 			code=function()
 				BG.set("none")
 				setting.bg=not setting.bg
@@ -460,7 +460,7 @@ local Widgets={
 		newButton({name="back",		x=640,	y=620,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	debug={
-		newButton({name="killWTM",	x=340,	y=200,w=260,h=100,color="white",font=35,
+		newButton({name="killWTM",	x=340,y=200,w=260,h=100,color="white",font=35,
 			code=function()
 				marking=nil
 				TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
@@ -480,26 +480,51 @@ local Widgets={
 				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
 				SFX.play("clear_2")
 			end}),
-		newButton({name="reset",	x=940,y=200,w=260,h=100,color="white",font=40,
+		newButton({name="reset",	x=940,y=200,w=260,h=100,color="yellow",font=40,
 			code=function()
-				sceneTemp.ct=sceneTemp.ct+1
-				if sceneTemp.ct==1 then
-					TEXT.show("RESET ALL DATA?",640,360,50,"appear",.5)
-				elseif sceneTemp.ct==5 then
-					TEXT.show("SURE?????",640,360,80,"beat",.5)
-				elseif sceneTemp.ct==10 then
-					local L=love.filesystem.getDirectoryItems("")
-					for i=1,#L do
-						local s=L[i]
-						if s:sub(-4)==".dat"then
-							love.filesystem.remove(s)
-						end
+				sceneTemp.reset=true
+			end,
+			hide=function()
+				return sceneTemp.reset
+			end}),
+		newButton({name="reset1",	x=340,y=400,w=260,h=100,color="red",font=40,
+			code=function()
+				love.filesystem.remove("unlock.dat")
+				SFX.play("finesseError_long")
+				TEXT.show("rank resetted",640,300,60,"stretch",.4)
+				TEXT.show("effected after restart game",640,360,60,"stretch",.4)
+				TEXT.show("play one game if you regret",640,390,40,"stretch",.4)
+			end,
+			hide=function()
+				return not sceneTemp.reset
+			end}),
+		newButton({name="reset2",	x=640,y=400,w=260,h=100,color="red",font=40,
+			code=function()
+				love.filesystem.remove("data.dat")
+				SFX.play("finesseError_long")
+				TEXT.show("game data resetted",640,300,60,"stretch",.4)
+				TEXT.show("effected after restart game",640,360,60,"stretch",.4)
+				TEXT.show("play one game if you regret",640,390,40,"stretch",.4)
+			end,
+			hide=function()
+				return not sceneTemp.reset
+			end}),
+		newButton({name="reset3",	x=940,y=400,w=260,h=100,color="red",font=40,
+			code=function()
+				local L=love.filesystem.getDirectoryItems("")
+				for i=1,#L do
+					local s=L[i]
+					if s:sub(-4)==".dat"then
+						love.filesystem.remove(s)
 					end
-					SFX.play("clear_4")SFX.play("finesseError_long")
-					TEXT.clear()
-					TEXT.show("ALL SAVING FILE DELETED",640,360,60,"stretch",.4)
-					SCN.back()
 				end
+				SFX.play("clear_4")SFX.play("finesseError_long")
+				TEXT.show("all file deleted",640,330,60,"stretch",.4)
+				TEXT.show("effected after restart game",640,390,60,"stretch",.4)
+				SCN.back()
+			end,
+			hide=function()
+				return not sceneTemp.reset
 			end}),
 		newButton({name="back",		x=640,y=620,w=200,h=80,color="white",font=40,code=BACK}),
 	},
