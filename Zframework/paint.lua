@@ -186,6 +186,7 @@ function Pnt.mode()
 	local sel=cam.sel
 	setFont(30)
 
+	--Draw lines connecting modes
 	gc.setLineWidth(8)
 	gc.setColor(1,1,1,.2)
 	for name,M in next,Modes do
@@ -195,7 +196,7 @@ function Pnt.mode()
 				gc.line(M.x,M.y,m.x,m.y)
 			end
 		end
-	end--Lines connecting modes
+	end
 
 	for name,M in next,Modes do
 		if R[name]then
@@ -441,6 +442,7 @@ function Pnt.play()
 	for p=1,#players do
 		players[p]:draw()
 	end
+
 	gc.setLineWidth(5)
 	for i=1,#FX_attack do
 		local A=FX_attack[i]
@@ -463,9 +465,11 @@ function Pnt.play()
 			gc.rotate(A.t*.1)
 			gc.circle("fill",0,0,A.rad,A.corner)
 		gc.pop()
-	end--FX animation
+	end
+
 	gc.setColor(1,1,1)
 	if setting.VKSwitch then drawVirtualkey()end
+
 	if modeEnv.royaleMode then
 		for i=1,#FX_badge do
 			local b=FX_badge[i]
@@ -501,7 +505,7 @@ function Pnt.play()
 	gc.draw(drawableText.modeName,485,10)
 	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
 
-	--Danger
+	--Warning
 	gc.push("transform")
 	gc.origin()
 	if restartCount>0 then
@@ -843,6 +847,6 @@ function Pnt.history()
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
 	local _=sceneTemp
-	gc.print(_[1][_[2]],40,50)
+	gc.print(_.text[_.pos],40,50)
 end
 return Pnt

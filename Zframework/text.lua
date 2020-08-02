@@ -74,7 +74,7 @@ local TEXT={}
 function TEXT.clear()
 	texts={}
 end
-function TEXT.getText(text,x,y,font,style,spd,stop)
+function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT()
 	return{
 		c=0,
 		text=text,
@@ -85,7 +85,7 @@ function TEXT.getText(text,x,y,font,style,spd,stop)
 		stop=stop,
 		draw=textFX[style]or assert(false,"unavailable type:"..style),
 	}
-end--Another version of TEXT()
+end
 function TEXT.show(text,x,y,font,style,spd,stop)
 	texts[#texts+1]={
 		c=0,				--Timer

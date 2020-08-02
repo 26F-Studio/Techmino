@@ -227,14 +227,15 @@ back.space={
 			S[i+2]=rnd(H)-10		--Y
 			S[i+3]=(rnd()-.5)*.01*s	--Vx
 			S[i+4]=(rnd()-.5)*.01*s	--Vy
-		end--800 var
+		end
 	end,
 	update=function(dt)
 		local S=stars
+		--Star moving
 		for i=1,1260,5 do
 			S[i+1]=(S[i+1]+S[i+3])%W
 			S[i+2]=(S[i+2]+S[i+4])%H
-		end--Star moving
+		end
 	end,
 	draw=function()
 		gc.clear(.2,.2,.2)
@@ -254,13 +255,14 @@ back.space={
 	end,
 }
 
+--Make BG vars invisible
 for _,bg in next,back do
 	if not bg.init		then bg.init=	NULL end setfenv(bg.init	,BGvars)
 	if not bg.resize	then bg.resize=	NULL end setfenv(bg.resize	,BGvars)
 	if not bg.update	then bg.update=	NULL end setfenv(bg.update	,BGvars)
 	if not bg.discard	then bg.discard=NULL end setfenv(bg.discard	,BGvars)
 	if not bg.draw		then bg.draw=	NULL end setfenv(bg.draw	,BGvars)
-end--Make BG vars invisible
+end
 
 BG={
 	cur="none",

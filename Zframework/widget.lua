@@ -199,10 +199,12 @@ WIDGET.sel=nil--Selected widget
 function WIDGET.set(L)
 	WIDGET.sel=nil
 	WIDGET.active=L or{}
+
+	--Reset all widgets
 	if L then
 		for _,W in next,L do
 			W:reset()
-		end--Reset all widgets
+		end
 	end
 end
 

@@ -199,6 +199,7 @@ return{
 	["9S"]={
 		function(P,ctrl)
 			local Tfield={}--Test field
+			local best={x=1,dir=0,hold=false,score=-1e99}--Best method
 			local field_org=P.field
 			for i=1,#field_org do
 				Tfield[i]=freeRow.get(0)
@@ -206,7 +207,7 @@ return{
 					Tfield[i][j]=field_org[i][j]
 				end
 			end
-			local best={x=1,dir=0,hold=false,score=-1e99}
+			
 			for ifhold=0,P.gameEnv.hold and 1 or 0 do
 				--Get block id
 				local bn
@@ -247,9 +248,11 @@ return{
 				::CTN::
 			end
 			if not best.bn then return 1 end
+
+			--Release cache
 			while #Tfield>0 do
 				freeRow.discard(rem(Tfield,1))
-			end--Release cache
+			end
 			local p=#ctrl+1
 			if best.hold then
 				ctrl[p]=8
