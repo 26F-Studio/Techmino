@@ -27,8 +27,8 @@ return{
 		{name="round_4",					x=-900,		y=-800,		size=35,shape=1,icon="round",		unlock={"round_5"}},
 		{name="round_5",					x=-1100,	y=-800,		size=35,shape=1,icon="round",		unlock={}},
 
-		{name="master_beginner",			x=0,		y=-1000,	size=35,shape=1,icon="master",		unlock={"master_adavnce"}},
-		{name="master_adavnce",				x=0,		y=-1200,	size=35,shape=1,icon="master",		unlock={"master_final","GM"}},
+		{name="master_beginner",			x=0,		y=-1000,	size=35,shape=1,icon="master",		unlock={"master_advance"}},
+		{name="master_advance",				x=0,		y=-1200,	size=35,shape=1,icon="master",		unlock={"master_final","GM"}},
 		{name="master_final",				x=0,		y=-1400,	size=40,shape=2,icon="master",		unlock={}},
 		{name="GM",							x=150,		y=-1500,	size=35,shape=1,icon="master",		unlock={}},
 

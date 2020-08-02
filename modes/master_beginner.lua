@@ -60,25 +60,25 @@ return{
 		mStr((P.modeData.event+1)*100,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
-	score=function(P)return{P.modeData.point,P.stat.row,P.stat.time}end,
-	scoreDisp=function(D)return D[1].."P   "..D[2].."L   "..toTime(D[3])end,
+	score=function(P)return{P.modeData.point,P.stat.time}end,
+	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,
 	comp=function(a,b)
-		return a[1]>b[1]or(a[1]==b[1]and(a[2]<b[2]or a[2]==b[2]and a[3]<b[3]))
+		return a[1]>b[1]or(a[1]==b[1]and a[2]<b[2])
 	end,
 	getRank=function(P)
 		local S=P.modeData.point
 		if S==500 then
-			local L=P.stat.clears[4]
+			local T=P.stat.time
 			return
-			L>=30 and 5 or
-			L>=25 and 4 or
+			T<=170 and 5 or
+			T<=200 and 4 or
 			3
 		else
 			return
-			S>=420 and 3 or
-			S>=250 and 2 or
-			S>=120 and 1 or
-			S>=30 and 0
+			S>=460 and 3 or
+			S>=350 and 2 or
+			S>=200 and 1 or
+			S>=50 and 0
 		end
 	end,
 }
