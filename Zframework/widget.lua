@@ -3,8 +3,7 @@ local kb=love.keyboard
 local int,abs=math.floor,math.abs
 local format=string.format
 local color=color
-
-local EMPTY={}
+local setFont=setFont
 
 local button={
 	type="button",
@@ -14,37 +13,52 @@ function button:reset()
 	self.ATV=0
 end
 function button:isAbove(x,y)
-	return x>self.x-self.ATV and x<self.x+self.w+2*self.ATV and y>self.y-self.ATV and y<self.y+self.h+2*self.ATV
+	local ATV=self.ATV
+	return
+		x>self.x-ATV and 
+		y>self.y-ATV and 
+		x<self.x+self.w+2*ATV and 
+		y<self.y+self.h+2*ATV
 end
 function button:getCenter()
 	return self.x+self.w*.5,self.y+self.h*.5
 end
 function button:FX()
-	sysFX.new("ripple",.16,self.x-self.ATV,self.y-self.ATV,self.w+2*self.ATV,self.h+2*self.ATV)
+	local ATV=self.ATV
+	sysFX.new(
+		"ripple",
+		.16,
+		self.x-ATV,
+		self.y-ATV,
+		self.w+2*ATV,
+		self.h+2*ATV
+	)
 end
 function button:update()
+	local ATV=self.ATV
 	if WIDGET.sel==self then
-		if self.ATV<8 then self.ATV=self.ATV+1 end
+		if ATV<8 then self.ATV=ATV+1 end
 	else
-		if self.ATV>0 then self.ATV=self.ATV-1 end
+		if ATV>0 then self.ATV=ATV-.5 end
 	end
 end
 function button:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
+	local ATV=self.ATV
 	local r,g,b=unpack(self.color)
 	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc.rectangle("fill",x-self.ATV,y-self.ATV,w+2*self.ATV,h+2*self.ATV)
-	if self.ATV>0 then
+	gc.rectangle("fill",x-ATV,y-ATV,w+2*ATV,h+2*ATV)
+	if ATV>0 then
 		gc.setLineWidth(4)
-		gc.setColor(1,1,1,self.ATV*.125)
-		gc.rectangle("line",x-self.ATV+2,y-self.ATV+2,w+2*self.ATV-4,h+2*self.ATV-4)
+		gc.setColor(1,1,1,ATV*.125)
+		gc.rectangle("line",x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
 	end
 	local t=self.text
 	if t then
 		if type(t)=="function"then t=t()end
 		setFont(self.font)
-		local y0=y+h*.5-self.font*.7
-		gc.setColor(1,1,1,.3)
+		local y0=y+h*.5-self.font*.7-ATV*.5
+		gc.setColor(1,1,1,.2+ATV*.05)
 		gc.printf(t,x-2,y0-2,w,"center")
 		gc.printf(t,x-2,y0+2,w,"center")
 		gc.printf(t,x+2,y0-2,w,"center")
@@ -75,7 +89,7 @@ end
 function switch:update()
 	local _=self.ATV
 	if WIDGET.sel==self then if _<8 then self.ATV=_+1 end
-	else if _>0 then self.ATV=_-1 end
+	else if _>0 then self.ATV=_-.5 end
 	end
 	_=self.CHK
 	if self:disp()then if _<6 then self.CHK=_+1 end
@@ -84,10 +98,11 @@ function switch:update()
 end
 function switch:draw()
 	local x,y=self.x,self.y-25
+	local ATV=self.ATV
 
 	--Checked
-	if self.ATV>0 then
-		gc.setColor(1,1,1,self.ATV*.08)
+	if ATV>0 then
+		gc.setColor(1,1,1,ATV*.08)
 		gc.rectangle("fill",x,y,50,50)
 	end
 	if self.CHK>0 then
@@ -98,7 +113,7 @@ function switch:draw()
 
 	--Frame
 	gc.setLineWidth(4)
-	gc.setColor(1,1,1,.6+self.ATV*.05)
+	gc.setColor(1,1,1,.6+ATV*.05)
 	gc.rectangle("line",x,y,50,50)
 
 	--Text
@@ -106,7 +121,7 @@ function switch:draw()
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
-		gc.printf(t,x-412,y+20-self.font*.7,400,"right")
+		gc.printf(t,x-412-ATV,y+20-self.font*.7-ATV*.5,400,"right")
 	end
 end
 function switch:getInfo()
@@ -133,7 +148,7 @@ function slider:update()
 	if WIDGET.sel==self then
 		if _<6 then self.ATV=_+1 end
 	else
-		if _>0 then self.ATV=_-1 end
+		if _>0 then self.ATV=_-.5 end
 	end
 	if not(self.hide and self.hide())then
 		self.pos=self.pos*.7+self.disp()*.3
@@ -141,9 +156,10 @@ function slider:update()
 end
 function slider:draw()
 	local x,y=self.x,self.y
+	local ATV=self.ATV
 
 	--Units
-	gc.setColor(1,1,1,.5+self.ATV*.06)
+	gc.setColor(1,1,1,.5+ATV*.06)
 	gc.setLineWidth(2)
 	local x1,x2=x,x+self.w
 	for p=0,self.unit do
@@ -155,22 +171,22 @@ function slider:draw()
 	gc.setLineWidth(4)
 	gc.line(x1,y,x2,y)
 
+	--Block
+	local bx,by,bw,bh=x1+(x2-x1)*self.pos/self.unit-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
+	gc.setColor(.8,.8,.8)
+	gc.rectangle("fill",bx,by,bw,bh)
+	if ATV>0 then
+		gc.setLineWidth(2)
+		gc.setColor(1,1,1,ATV*.16)
+		gc.rectangle("line",bx+1,by+1,bw-2,bh-2)
+	end
+
 	--Text
 	local t=self.text
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
-		gc.printf(t,x-312,y-self.font*.7,300,"right")
-	end
-
-	--Block
-	local x,y,w,h=x1+(x2-x1)*self.pos/self.unit-10-self.ATV*.5,y-16-self.ATV,20+self.ATV,32+2*self.ATV
-	gc.setColor(.8,.8,.8)
-	gc.rectangle("fill",x,y,w,h)
-	if self.ATV>0 then
-		gc.setLineWidth(2)
-		gc.setColor(1,1,1,self.ATV*.16)
-		gc.rectangle("line",x+1,y+1,w-2,h-2)
+		gc.printf(t,x-312-ATV,y-self.font*.7-ATV*.5,300,"right")
 	end
 end
 function slider:getInfo()
@@ -178,11 +194,11 @@ function slider:getInfo()
 end
 
 local WIDGET={}
-WIDGET.active=EMPTY--Table, contains all active widgets
+WIDGET.active={}--Table, contains all active widgets
 WIDGET.sel=nil--Selected widget
 function WIDGET.set(L)
 	WIDGET.sel=nil
-	WIDGET.active=L or EMPTY
+	WIDGET.active=L or{}
 	if L then
 		for _,W in next,L do
 			W:reset()
