@@ -25,7 +25,6 @@ function destroyPlayers()
 	for i=#players.alive,1,-1 do
 		players.alive[i]=nil
 	end
-	players.human=0
 	collectgarbage()
 end
 
@@ -43,18 +42,22 @@ function restoreVirtualKey()
 		virtualkey[9].ava=false
 	end
 end
+
 function copyBoard()
 	local str=""
 	local H=0
+
 	for y=20,1,-1 do
 		for x=1,10 do
 			if preField[y][x]~=0 then
 				H=y
-				goto L
+				goto topFound
 			end
 		end
 	end
-	::L::
+	::topFound::
+
+	--Encode field
 	for y=1,H do
 		local S=""
 		local L=preField[y]
@@ -63,38 +66,36 @@ function copyBoard()
 		end
 		str=str..S
 	end
-	love.system.setClipboardText("Techmino sketchpad:"..data.encode("string","base64",data.compress("string","deflate",str)))
-	TEXT.show(text.copySuccess,350,360,40,"appear",.5)
+	return data.encode("string","base64",data.compress("string","deflate",str))
 end
-function pasteBoard()
+function pasteBoard(str)
 	local _
-	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
 
-	--Read data
-	local str=love.system.getClipboardText()
-	local p=find(str,":")--ptr*
-	if p then str=sub(str,p+1)end
+	--Decode
 	_,str=pcall(data.decode,"string","base64",str)
-	if not _ then goto ERROR end
+	if not _ then return end
 	_,str=pcall(data.decompress,"string","deflate",str)
-	if not _ then goto ERROR end
+	if not _ then return end
 
-	p=1
-
+	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
+	local p=1
 	while true do
 		_=byte(str,p)--1byte
+
+		--Str end
 		if not _ then
 			if fX~=1 then
-				goto ERROR
+				return
 			else
 				fY=fY+1
 				break
 			end
-		end--str end
+		end
 
-		__=_%32-1--block id
-		if __>17 then goto ERROR end--illegal blockid
-		_=int(_/32)--mode id
+		__=_%32-1--Block id
+		if __>17 then return end--Illegal blockid
+		_=int(_/32)--Mode id
+
 		preField[fY][fX]=__
 		if fX<10 then
 			fX=fX+1
@@ -111,8 +112,8 @@ function pasteBoard()
 			preField[y][x]=0
 		end
 	end
-	do return end
-	::ERROR::TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
+
+	return true
 end
 
 function copySequence()
