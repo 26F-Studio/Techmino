@@ -354,10 +354,14 @@ function Pnt.sequence()
 	gc.print(len,120,300)
 
 	local L=TEXTURE.miniBlock
+	local lib=SKIN.libColor
+	local set=setting.skin
+
 	local x,y=120,126
 	local cx,cy=120,126
 	for i=1,len do
 		local B=L[bag[i]]
+		gc.setColor(lib[set[bag[i]]])
 		gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
 		x=x+B:getWidth()*15+10
 		if x>1126 then
