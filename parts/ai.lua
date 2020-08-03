@@ -207,7 +207,7 @@ return{
 					Tfield[i][j]=field_org[i][j]
 				end
 			end
-			
+
 			for ifhold=0,P.gameEnv.hold and 1 or 0 do
 				--Get block id
 				local bn

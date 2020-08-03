@@ -3,9 +3,10 @@ local Tick={}
 function Tick.finish(P)
 	P.endCounter=P.endCounter+1
 	if P.endCounter<40 then
+		--Make field visible
 		for j=1,#P.field do for i=1,10 do
 			if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
-		end end--Make field visible
+		end end
 	elseif P.endCounter==60 then
 		return true
 	end
@@ -13,9 +14,10 @@ end
 function Tick.lose(P)
 	P.endCounter=P.endCounter+1
 	if P.endCounter<40 then
+		--Make field visible
 		for j=1,#P.field do for i=1,10 do
 			if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
-		end end--Make field visible
+		end end
 	elseif P.endCounter>80 then
 		for i=1,#P.field do
 			for j=1,10 do
@@ -53,7 +55,7 @@ function Tick.throwBadge(data)--{ifAI,Sender,timer}
 		else
 			x2,y2=R.x+66*R.size,R.y+344*R.size
 		end
-		
+
 		--Generate badge object
 		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
 
