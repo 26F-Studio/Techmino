@@ -6,7 +6,7 @@
 /_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
 Techmino is my first "huge project"
 optimization is welcomed if you also love tetromino game
-]]
+]]--
 
 --Global Setting & Vars
 math.randomseed(os.time()*626)
@@ -18,17 +18,18 @@ function NULL()end
 system=love.system.getOS()
 game={}
 mapCam={
-	sel=nil,--selected mode ID
+	sel=nil,--Selected mode ID
 
-	x=0,y=0,k=1,--camera pos/k
-	x1=0,y1=0,k1=1,--camera pos/k shown
-	--basic paras
+	--Basic paragrams
+	x=0,y=0,k=1,--Camera pos/k
+	x1=0,y1=0,k1=1,--Camera pos/k shown
 
-	keyCtrl=false,--if controlling with key
+	--If controlling with key
+	keyCtrl=false,
 
+	--For auto zooming when enter/leave scene
 	zoomMethod=nil,
 	zoomK=nil,
-	--for auto zooming when enter/leave scene
 }
 scr={x=0,y=0,w=0,h=0,rad=0,k=1}--wid,hei,radius,scale K
 
@@ -36,10 +37,23 @@ customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 preBag={}
 
-players={alive={},human=0}
---blockSkin,blockSkinMini={},{}--redefined in SKIN.change
+game={
+	frame=0,			--Frame count
+	result=0,			--Game result
+	pauseTime=0,		--Time paused
+	pauseCount=0,		--Pausing count
+	garbageSpeed=1,		--Garbage timing speed
+	warnLVL0=0,			--Warning level
+	warnLVL=0,			--Warning level (show)
+	recording=false,	--If recording
+	replaying=false,	--If replaying
+	rec={},				--Recording list, key-time
+}--Global game data
+players={alive={}}--Players data
+curMode=nil--Current mode object
+--blockSkin,blockSkinMini={},{}--Redefined in SKIN.change
 
-require("Zframework")--load Zframework
+require("Zframework")--Load Zframework
 
 --Load modules
 blocks=		require("parts/mino")
@@ -58,7 +72,7 @@ Modes=	require("parts/modes")
 TICK=	require("parts/tick")
 
 
---load files & settings
+--Load files & settings
 modeRanks={sprint_10=0}
 
 local fs=love.filesystem
@@ -87,23 +101,37 @@ if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
 if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 
---update data file
-S=stat
-while #modeRanks>73 do
-	table.remove(modeRanks)
-end
-if modeRanks[73]==6 then modeRanks[73]=0 end
-if modeRanks[1]then--rename key of modeRanks
-	local L=modeRanks
+--Update modeRanks
+R=modeRanks
+if R[1]then
+	local L=R
 	for i=1,#L do
 		L[Modes[i].name],L[i]=L[i]
 	end
+elseif R.master_adavnce then
+	R.master_advance,R.master_adavnce=R.master_adavnce
 end
+
+--Update data file
+S=stat
 if S.version=="Alpha V0.9.1"or type(setting.spawn)~="number"then
 	setting.spawn=0
 end
 if S.version~=gameVersion then
 	S.version=gameVersion
-	TEXT.show(text.newVersion,640,200,30,"fly",.3)
+	TEXT.show(text.newBigVersion,640,200,30,"fly",.3)
+	newVersionLaunch=true
+
+	fs.remove("master_adavnce.dat")
+	fs.remove("master_beginner.dat")
+	for name,M in next,Modes do
+		if M.score then
+			if modeRanks[name]==6 then
+				modeRanks[name]=0
+			end
+		else
+			modeRanks[name]=6
+		end
+	end
 end
-S=nil
+R,S=nil

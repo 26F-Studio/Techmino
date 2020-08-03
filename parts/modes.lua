@@ -82,5 +82,5 @@ return{
 		{name="infinite_dig",				x=-1000,	y=-600,		size=35,shape=1,icon="infinite_dig",unlock={}},
 		{name="custom_clear",				x=200,		y=-350,		size=45,shape=3,icon="custom",		unlock={}},
 		{name="custom_puzzle",				x=200,		y=-200,		size=45,shape=3,icon="puzzle",		unlock={}},
-	{name="sprintPenta",					x=-200,		y=-200,		size=45,shape=3,icon="sprint",		unlock={}},
+	{name="sprintPenta",					x=-200,		y=-200,		size=50,shape=2,icon="sprint",		unlock={}},
 }

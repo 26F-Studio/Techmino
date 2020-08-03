@@ -2,6 +2,7 @@ local langList={
 	{
 		anykey="按任意键继续",
 		newVersion="检测到更新!",
+		newBigVersion="检测到大更新!大量存档信息被改动",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -464,6 +465,7 @@ local langList={
 	{
 		anykey="按任意键继续",
 		newVersion="检测到更新!",
+		newBigVersion="检测到大更新!大量存档信息被改动",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -923,6 +925,7 @@ local langList={
 	{
 		anykey="Press any button",
 		newVersion="Updating detected!",
+		newBigVersion="Big updating detected! Save data altered",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
@@ -1371,6 +1374,7 @@ local langList={
 	{
 		anykey="↓□↓",
 		newVersion="&!!!",
+		newBigVersion="&!!!~~~",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
