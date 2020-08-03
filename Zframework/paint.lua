@@ -505,6 +505,12 @@ function Pnt.play()
 	gc.draw(drawableText.modeName,485,10)
 	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
 
+	--Replaying
+	if game.replaying then
+		gc.setColor(1,1,Timer()%1>.5 and 1 or 0)
+		mText(drawableText.replaying,410,17)
+	end
+
 	--Warning
 	gc.push("transform")
 	gc.origin()

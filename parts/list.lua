@@ -189,17 +189,14 @@ drawableText={
 	mxcmb=T(20,"Max Combo"),
 	pc=T(20,"Perfect Clear"),
 	ko=T(25,"KO"),
-	D=T(100,"D"),
-	C=T(100,"C"),
-	B=T(100,"B"),
-	A=T(100,"A"),
-	S=T(100,"S"),
+	D=T(100,"D"),C=T(100,"C"),B=T(100,"B"),A=T(100,"A"),S=T(100,"S"),
 
 
 	modeName=T(30),levelName=T(30),
 
 
 	anykey=T(40),
+	replaying=T(20),
 	next=T(40),hold=T(40),
 	win=T(120),finish=T(120),
 	lose=T(120),pause=T(120),
@@ -210,9 +207,7 @@ drawableText={
 	preview=T(40),
 	keyboard=T(25),joystick=T(25),
 	ctrlSetHelp=T(30),
-	musicRoom=T(80),
-	nowPlaying=T(50),
+	musicRoom=T(80),nowPlaying=T(50),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
-	noScore=T(45),
-	highScore=T(30),
+	noScore=T(45),highScore=T(30),
 }

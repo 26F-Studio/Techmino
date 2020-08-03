@@ -29,7 +29,7 @@ local ins,rem=table.insert,table.remove
 local scr=scr
 local xOy=love.math.newTransform()
 local mx,my,mouseShow=-20,-20,false
-local touching=nil--first touching ID(userdata)
+local touching=nil--First touching ID(userdata)
 local touchDist=nil
 joysticks={}
 
@@ -228,7 +228,7 @@ function touchMove.mode(id,x,y,dx,dy)
 		mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
 	elseif not L[3]then
 		x,y=xOy:inverseTransformPoint(tc.getPosition(L[1]))
-		dx,dy=xOy:inverseTransformPoint(tc.getPosition(L[2]))--not delta!!!
+		dx,dy=xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
 		local d=(x-dx)^2+(y-dy)^2
 		if d>100 then
 			d=d^.5
@@ -387,6 +387,18 @@ function keyDown.sequence(key)
 			else
 				sceneTemp.sure=50
 			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #preBag>0 then
+				love.system.setClipboardText("Techmino SEQ:"..copySequence())
+				TEXT.show(text.copySuccess,640,225,50,"appear",.5)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=love.system.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=string.sub(str,p+1)end
+			if not pasteSequence(str)then
+				TEXT.show(text.dataCorrupted,640,225,45,"flicker",.5)
+			end
 		end
 	end
 end
@@ -459,10 +471,16 @@ function keyDown.draw(key)
 		SCN.swapTo("custom")
 	elseif key=="escape"then
 		SCN.back()
-	elseif key=="c"and kb.isDown("lctrl","rctrl")then
-		copyBoard()
-	elseif key=="v"and kb.isDown("lctrl","rctrl")then
-		pasteBoard()
+	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+		love.system.setClipboardText("Techmino Field:"..copyBoard())
+		TEXT.show(text.copySuccess,350,360,40,"appear",.5)
+	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+		local str=love.system.getClipboardText()
+		local p=string.find(str,":")--ptr*
+		if p then str=string.sub(str,p+1)end
+		if not pasteBoard(str)then
+			TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
+		end
 	else
 		pen=penKey[key]or pen
 	end
@@ -601,64 +619,68 @@ function keyDown.pause(key)
 		mergeStat(stat,players[1].stat)
 		resetGameData()
 		SCN.swapTo("play","none")
+	elseif key=="p"and game.result then
+		TASK.removeTask_code(TICK.autoPause)
+		resetPartGameData(true)
+		SCN.swapTo("play","none")
 	end
 end
 
 function touchDown.play(id,x,y)
-	if setting.VKSwitch then
-		local t=onVirtualkey(x,y)
-		if t then
-			players[1]:pressKey(t)
-			if setting.VKSFX>0 then
-				SFX.play("virtualKey",setting.VKSFX*.25)
-			end
-			virtualkey[t].isDown=true
-			virtualkey[t].pressTime=10
-			if setting.VKTrack then
-				local B=virtualkey[t]
-				if setting.VKDodge then--button collision (not accurate)
-				for i=1,#virtualkey do
-						local b=virtualkey[i]
-						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--hit depth(Neg means distance)
-						if d>0 then
-							b.x=b.x+(b.x-B.x)*d*b.r*5e-4
-							b.y=b.y+(b.y-B.y)*d*b.r*5e-4
-						end
+	if not setting.VKSwitch or game.replaying then return end
+
+	local t=onVirtualkey(x,y)
+	if t then
+		players[1]:pressKey(t)
+		if setting.VKSFX>0 then
+			SFX.play("virtualKey",setting.VKSFX*.25)
+		end
+		virtualkey[t].isDown=true
+		virtualkey[t].pressTime=10
+		if setting.VKTrack then
+			local B=virtualkey[t]
+			if setting.VKDodge then--Button collision (not accurate)
+			for i=1,#virtualkey do
+					local b=virtualkey[i]
+					local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
+					if d>0 then
+						b.x=b.x+(b.x-B.x)*d*b.r*5e-4
+						b.y=b.y+(b.y-B.y)*d*b.r*5e-4
 					end
 				end
-				local O=VK_org[t]
-				local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
-				local _OW=1-_FW-_CW
-
-				--Auto follow: finger, current, origin (weight from setting)
-				B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
 			end
-			VIB(setting.VKVIB)
+			local O=VK_org[t]
+			local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
+			local _OW=1-_FW-_CW
+
+			--Auto follow: finger, current, origin (weight from setting)
+			B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
 		end
+		VIB(setting.VKVIB)
 	end
 end
 function touchUp.play(id,x,y)
-	if setting.VKSwitch then
-		local t=onVirtualkey(x,y)
-		if t then
-			players[1]:releaseKey(t)
-		end
+	if not setting.VKSwitch or game.replaying then return end
+
+	local t=onVirtualkey(x,y)
+	if t then
+		players[1]:releaseKey(t)
 	end
 end
 function touchMove.play(id,x,y,dx,dy)
-	if setting.VKSwitch then
-		local l=tc.getTouches()
-		for n=1,#virtualkey do
-			local B=virtualkey[n]
-			for i=1,#l do
-				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
-				if(x-B.x)^2+(y-B.y)^2<=B.r^2 then
-					goto next
-				end
+	if not setting.VKSwitch or game.replaying then return end
+
+	local l=tc.getTouches()
+	for n=1,#virtualkey do
+		local B=virtualkey[n]
+		for i=1,#l do
+			local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
+			if(x-B.x)^2+(y-B.y)^2<=B.r^2 then
+				goto next
 			end
-			players[1]:releaseKey(n)
-			::next::
 		end
+		players[1]:releaseKey(n)
+		::next::
 	end
 end
 function keyDown.play(key)
@@ -666,6 +688,7 @@ function keyDown.play(key)
 		pauseGame()
 		return
 	end
+	if game.replaying then return end
 	local m=keyMap
 	for k=1,20 do
 		if key==m[1][k]or key==m[2][k]then
@@ -677,6 +700,7 @@ function keyDown.play(key)
 	end
 end
 function keyUp.play(key)
+	if game.replaying then return end
 	local m=keyMap
 	for k=1,20 do
 		if key==m[1][k]or key==m[2][k]then
@@ -688,6 +712,8 @@ function keyUp.play(key)
 end
 function gamepadDown.play(key)
 	if key=="back"then SCN.back()return end
+	if game.replaying then return end
+
 	local m=keyMap
 	for k=1,20 do
 		if key==m[3][k]or key==m[4][k]then
@@ -699,14 +725,14 @@ function gamepadDown.play(key)
 	end
 end
 function gamepadUp.play(key)
+	if game.replaying then return end
+
 	local m=keyMap
-	for p=1,players.human do
-		for k=1,20 do
-			if key==m[3][k]or key==m[4][k]then
-				players[1]:releaseKey(k)
-				virtualkey[k].isDown=false
-				return
-			end
+	for k=1,20 do
+		if key==m[3][k]or key==m[4][k]then
+			players[1]:releaseKey(k)
+			virtualkey[k].isDown=false
+			return
 		end
 	end
 end
@@ -744,15 +770,15 @@ function wheelMoved.history(x,y)
 end
 function keyDown.history(key)
 	if key=="up"then
-		sceneTemp[2]=max(sceneTemp[2]-1,1)
+		sceneTemp.pos=max(sceneTemp.pos-1,1)
 	elseif key=="down"then
-		sceneTemp[2]=min(sceneTemp[2]+1,#sceneTemp[1])
+		sceneTemp.pos=min(sceneTemp.pos+1,#sceneTemp.text)
 	elseif key=="escape"then
 		SCN.back()
 	end
 end
 -------------------------------------------------------------
-local lastX,lastY=0,0--last clickDown pos
+local lastX,lastY=0,0--Last clickDown pos
 function love.mousepressed(x,y,k,t,num)
 	if t then return end
 	mouseShow=true
@@ -807,7 +833,7 @@ function love.touchpressed(id,x,y)
 		touching=id
 		love.touchmoved(id,x,y,0,0)
 	end
-	touchDist=nil--reset distance
+	touchDist=nil--Reset distance
 	x,y=xOy:inverseTransformPoint(x,y)
 	lastX,lastY=x,y
 	if touchDown[SCN.cur]then
@@ -1011,9 +1037,10 @@ function love.run()
 
 	local waitTime=1/60
 	local LIST={}
-	local lastFrame=T.getTime()
+
+	local lastFrame=Timer()
 	local lastFreshPow=lastFrame
-	local FCT=0--framedraw counter
+	local FCT=0--Framedraw counter
 
 	love.resize(gc.getWidth(),gc.getHeight())
 	SCN.init("load")--Scene Launch
@@ -1124,7 +1151,8 @@ function love.run()
 		end
 
 		--Keep 60fps
-		if Timer()-lastFrame<.005 then WAIT(.01)end
-		while Timer()-lastFrame<.0159 do WAIT(.001)end
+		_=Timer()-lastFrame
+		if _<.016 then WAIT(.016-_)end
+		while Timer()-lastFrame<1/60-0.000005 do WAIT(0)end
 	end
 end

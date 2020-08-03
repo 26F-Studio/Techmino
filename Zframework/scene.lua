@@ -1,5 +1,6 @@
 local gc=love.graphics
-local int,max,log=math.floor,math.max,math.log
+local int,abs=math.floor,math.abs
+local max,log=math.max,math.log
 local rnd,sin,cos=math.random,math.sin,math.cos
 local format=string.format
 local scr=scr
@@ -38,11 +39,18 @@ end
 function sceneInit.main()
 	BG.set("space")
 	BGM.play("blank")
-	destroyPlayers()
+
+	game.frame=0
+	game.recording=false
+	game.replaying=false
+	game.seed=1046101471
+	game.rec={}
+
 	modeEnv={}
-	if not players[1]then
-		PLY.newDemoPlayer(1,900,35,1.1)
-	end--Create demo player
+	destroyPlayers()
+
+	--Create demo player
+	PLY.newDemoPlayer(1,900,35,1.1)
 end
 function sceneInit.music()
 	if BGM.nowPlay then
@@ -263,7 +271,7 @@ function sceneInit.history()
 	}
 	if newVersionLaunch then
 		newVersionLaunch=nil
-		sceneTemp[2]=4
+		sceneTemp.pos=4
 	end
 end
 function sceneInit.debug()
@@ -351,7 +359,7 @@ function SCN.pop()
 end
 
 local swap={
-	none={1,0,NULL},
+	none={1,0,NULL},--swap time, change time, draw function
 	flash={8,1,function()gc.clear(1,1,1)end},
 	fade={30,15,function(t)
 		local t=t>15 and 2-t/15 or t/15
@@ -359,7 +367,7 @@ local swap={
 		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	end},
 	fade_togame={120,20,function(t)
-		local t=t>20 and (120-t)/100 or t/20
+		local t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
 	end},

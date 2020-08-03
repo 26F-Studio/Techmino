@@ -12,6 +12,7 @@ local langList={
 		mini="Mini",b2b="B2B ",b3b="B2B2B ",
 		PC="Perfect Clear",HPC="Half Clear",
 		hold="暂存",next="下一个",
+		replaying="[回放]",
 
 		stage=function(n)return"关卡 "..n end,
 		great="Great!",
@@ -228,6 +229,8 @@ local langList={
 				right="→",
 				backsp="<X",
 				reset="R",
+				copy="复制",
+				paste="粘贴",
 				back="返回",
 			},
 			draw={
@@ -244,9 +247,10 @@ local langList={
 				pause="暂停",
 			},
 			pause={
+				setting="设置(S)",
+				replay=	"回放(P)",
 				resume=	"继续(esc)",
 				restart="重新开始(R)",
-				setting="设置(S)",
 				quit=	"退出(Q)",
 			},
 			setting_game={
@@ -470,6 +474,7 @@ local langList={
 		mini="迷你",b2b="满贯",b3b="大满贯",
 		PC="场地全清",HPC="场地半清",
 		hold="暂存",next="下一个",
+		replaying="[回放]",
 
 		stage=function(n)return"关卡 "..n end,
 		great="不错!",
@@ -683,6 +688,8 @@ local langList={
 				right="→",
 				backsp="<X",
 				reset="R",
+				copy="复制",
+				paste="粘贴",
 				back="返回",
 			},
 			draw={
@@ -699,9 +706,10 @@ local langList={
 				pause="暂停",
 			},
 			pause={
+				setting="设置(S)",
+				replay=	"回放(P)",
 				resume=	"继续(esc)",
 				restart="重新开始(R)",
-				setting="设置(S)",
 				quit=	"退出(Q)",
 			},
 			setting_game={
@@ -925,6 +933,7 @@ local langList={
 		mini="Mini",b2b="B2B ",b3b="B2B2B ",
 		PC="Perfect Clear",HPC="Clear",
 		hold="Hold",next="Next",
+		replaying="[Replaying]",
 
 		stage=function(n)return"Stage "..n end,
 		great="Great!",
@@ -1127,6 +1136,8 @@ local langList={
 				right="→",
 				backsp="<X",
 				reset="R",
+				copy="Copy",
+				paste="Paste",
 				back="Back",
 			},
 			draw={
@@ -1143,9 +1154,10 @@ local langList={
 				pause="Pause",
 			},
 			pause={
+				setting="Settings (S)",
+				replay="Replay (P)",
 				resume="Resume (esc)",
 				restart="Retry (R)",
-				setting="Settings (S)",
 				quit="Quit (Q)",
 			},
 			setting_game={
@@ -1369,6 +1381,7 @@ local langList={
 		mini="v",b2b="^ ",b3b="^^ ",
 		PC="#<>#",HPC="<>",
 		hold="[  ]",next="→",
+		replaying="[Replaying]",
 
 		stage=function(n)return"::"..n.."::"end,
 		great="!~",
@@ -1567,6 +1580,8 @@ local langList={
 				right="→",
 				backsp="<X",
 				reset="R",
+				copy="→__",
+				paste="__→",
 				back="X",
 			},
 			draw={
@@ -1583,9 +1598,10 @@ local langList={
 				pause="||",
 			},
 			pause={
+				setting="_?_ (S)",
+				replay="## (P)",
 				resume="!! (esc)",
 				restart="_→_ (R)",
-				setting="_?_ (S)",
 				quit="X (Q)",
 			},
 			setting_game={
@@ -1843,6 +1859,7 @@ local gc=love.graphics
 local LANG={}
 local drawableTextLoad={
 	"anykey",
+	"replaying",
 	"next","hold",
 	"win","finish","lose","pause",
 	"custom","sequence",
