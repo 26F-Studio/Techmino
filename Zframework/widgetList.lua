@@ -91,6 +91,7 @@ local function setLang(n)	return function()LANG.set(n)setting.lang=n			end end
 newText=WIDGET.newText
 newImage=WIDGET.newImage
 newButton=WIDGET.newButton
+newKey=WIDGET.newKey
 newSwitch=WIDGET.newSwitch
 newSlider=WIDGET.newSlider
 
@@ -103,7 +104,7 @@ local Widgets={
 		newButton({name="music",	x=590,y=280,w=200,h=160,color="lPurple",font=32,code=function()SCN.goto("music")end}),
 		newButton({name="help",		x=150,y=460,w=200,h=160,color="lYellow",font=50,code=function()SCN.goto("help")end}),
 		newButton({name="stat",		x=370,y=460,w=200,h=160,color="lCyan",	font=43,code=function()SCN.goto("stat")end}),
-		newButton({name="qplay",	x=590,y=460,w=200,h=160,color="lOrange",font=43,code=function()SCN.push()loadGame(stat.lastPlay)end}),
+		newButton({name="qplay",	x=590,y=460,w=200,h=160,color="lOrange",font=43,code=function()SCN.push()loadGame(stat.lastPlay,true)end}),
 		newButton({name="lang",		x=150,y=610,w=160,h=100,color="lGreen",	font=45,code=function()SCN.goto("setting_lang")end}),
 		newButton({name="quit",		x=590,y=610,w=160,h=100,color="lGrey",	font=45,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end}),
 	},
@@ -125,10 +126,10 @@ local Widgets={
 		newButton({name="back",		x=640,	y=630,	w=230,h=90,		color="white",	font=40,code=BACK}),
 	},
 	custom={
-		newButton({name="up",		x=1140,	y=100,	w=100,h=100,	color="white",	font=45,code=function()sceneTemp=(sceneTemp-2)%#customID+1 end}),
-		newButton({name="down",		x=1140,	y=340,	w=100,h=100,	color="white",	font=45,code=function()sceneTemp=sceneTemp%#customID+1 end}),
-		newButton({name="left",		x=1080,	y=220,	w=100,h=100,	color="white",	font=45,code=pressKey("left")}),
-		newButton({name="right",	x=1200,	y=220,	w=100,h=100,	color="white",	font=45,code=pressKey("right")}),
+		newKey({name="up",			x=1140,	y=100,	w=100,h=100,	color="white",	font=45,code=function()sceneTemp=(sceneTemp-2)%#customID+1 end}),
+		newKey({name="down",		x=1140,	y=340,	w=100,h=100,	color="white",	font=45,code=function()sceneTemp=sceneTemp%#customID+1 end}),
+		newKey({name="left",		x=1080,	y=220,	w=100,h=100,	color="white",	font=45,code=pressKey("left")}),
+		newKey({name="right",		x=1200,	y=220,	w=100,h=100,	color="white",	font=45,code=pressKey("right")}),
 
 		newButton({name="set1",		x=940,	y=320,	w=260,h=70,		color="lYellow",font=32,code=pressKey("1")}),
 		newButton({name="set2",		x=940,	y=400,	w=260,h=70,		color="lYellow",font=32,code=pressKey("2")}),
@@ -141,38 +142,40 @@ local Widgets={
 		newButton({name="back",		x=1200,	y=640,	w=120,h=120,	color="white",	font=35,code=BACK}),
 	},
 	sequence={
-		newButton({name="Z",		x=150,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(1)}),
-		newButton({name="S",		x=250,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(2)}),
-		newButton({name="J",		x=350,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(3)}),
-		newButton({name="L",		x=450,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(4)}),
-		newButton({name="T",		x=550,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(5)}),
-		newButton({name="O",		x=650,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(6)}),
-		newButton({name="I",		x=750,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(7)}),
+		newKey({name="Z",			x=100,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(1)}),
+		newKey({name="S",			x=200,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(2)}),
+		newKey({name="J",			x=300,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(3)}),
+		newKey({name="L",			x=400,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(4)}),
+		newKey({name="T",			x=500,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(5)}),
+		newKey({name="O",			x=600,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(6)}),
+		newKey({name="I",			x=700,	y=440,	w=90,h=90,		color="white",	font=50,code=pressKey(7)}),
 
-		newButton({name="Z5",		x=150,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(8)}),
-		newButton({name="S5",		x=250,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(9)}),
-		newButton({name="P",		x=350,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(10)}),
-		newButton({name="Q",		x=450,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(11)}),
-		newButton({name="F",		x=550,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(12)}),
-		newButton({name="E",		x=650,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(13)}),
-		newButton({name="T5",		x=750,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(14)}),
-		newButton({name="U",		x=850,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(15)}),
-		newButton({name="V",		x=950,	y=540,	w=90,h=90,		color="dGrey",font=50,code=pressKey(16)}),
-		newButton({name="W",		x=150,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(17)}),
-		newButton({name="X",		x=250,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(18)}),
-		newButton({name="J5",		x=350,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(19)}),
-		newButton({name="L5",		x=450,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(20)}),
-		newButton({name="R",		x=550,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(21)}),
-		newButton({name="Y",		x=650,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(22)}),
-		newButton({name="N",		x=750,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(23)}),
-		newButton({name="H",		x=850,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(24)}),
-		newButton({name="I5",		x=950,	y=640,	w=90,h=90,		color="dGrey",font=50,code=pressKey(25)}),
+		newKey({name="Z5",			x=100,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(8)}),
+		newKey({name="S5",			x=200,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(9)}),
+		newKey({name="P",			x=300,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(10)}),
+		newKey({name="Q",			x=400,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(11)}),
+		newKey({name="F",			x=500,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(12)}),
+		newKey({name="E",			x=600,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(13)}),
+		newKey({name="T5",			x=700,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(14)}),
+		newKey({name="U",			x=800,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(15)}),
+		newKey({name="V",			x=900,	y=540,	w=90,h=90,		color="grey",	font=50,code=pressKey(16)}),
+		newKey({name="W",			x=100,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(17)}),
+		newKey({name="X",			x=200,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(18)}),
+		newKey({name="J5",			x=300,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(19)}),
+		newKey({name="L5",			x=400,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(20)}),
+		newKey({name="R",			x=500,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(21)}),
+		newKey({name="Y",			x=600,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(22)}),
+		newKey({name="N",			x=700,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(23)}),
+		newKey({name="H",			x=800,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(24)}),
+		newKey({name="I5",			x=900,	y=640,	w=90,h=90,		color="grey",	font=50,code=pressKey(25)}),
 
-		newButton({name="left",		x=850,	y=440,	w=90,h=90,		color="lGreen",	font=55,code=pressKey("left")}),
-		newButton({name="right",	x=950,	y=440,	w=90,h=90,		color="lGreen",	font=55,code=pressKey("right")}),
-		newButton({name="backsp",	x=1050,	y=440,	w=90,h=90,		color="lRed",	font=50,code=pressKey("backspace")}),
-		newButton({name="reset",	x=1050,	y=540,	w=90,h=90,		color="lRed",	font=50,code=pressKey("delete")}),
-		newButton({name="back",		x=1200,	y=640,	w=120,h=120,	color="white",	font=35,code=BACK}),
+		newKey({name="left",		x=800,	y=440,	w=90,h=90,		color="lGreen",	font=55,code=pressKey("left")}),
+		newKey({name="right",		x=900,	y=440,	w=90,h=90,		color="lGreen",	font=55,code=pressKey("right")}),
+		newKey({name="backsp",		x=1000,	y=440,	w=90,h=90,		color="lYellow",font=50,code=pressKey("backspace")}),
+		newKey({name="reset",		x=1000,	y=540,	w=90,h=90,		color="lYellow",font=50,code=pressKey("delete")}),
+		newButton({name="copy",		x=1140,	y=440,	w=170,h=90,		color="lRed",	font=40,code=pressKey("cC"),hide=function()return #preBag==0 end}),
+		newButton({name="paste",	x=1140,	y=540,	w=170,h=90,		color="lBlue",	font=40,code=pressKey("cV")}),
+		newButton({name="back",		x=1090,	y=640,	w=270,h=90,		color="white",	font=50,code=BACK}),
 	},
 	draw={
 		newButton({name="b1",		x=500+65*1,	y=150,	w=58,	h=58,	color="red",	font=30,code=setPen(1)}),--B1
@@ -198,8 +201,8 @@ local Widgets={
 		newButton({name="space",	x=730,		y=360,	w=120,	h=120,	color="grey",	font=65,code=setPen(-1)}),
 		newButton({name="clear",	x=1200,		y=500,	w=120,	h=120,	color="white",	font=40,code=pressKey("delete")}),
 		newSwitch({name="demo",		x=755,		y=640,									font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
-		newButton({name="copy",		x=920,		y=640,	w=120,	h=120,	color="lRed",	font=35,code=function()copyBoard()end}),
-		newButton({name="paste",	x=1060,		y=640,	w=120,	h=120,	color="lBlue",	font=35,code=function()pasteBoard()end}),
+		newButton({name="copy",		x=920,		y=640,	w=120,	h=120,	color="lRed",	font=35,code=pressKey("cC")}),
+		newButton({name="paste",	x=1060,		y=640,	w=120,	h=120,	color="lBlue",	font=35,code=pressKey("cV")}),
 		newButton({name="custom",	x=110,		y=80,	w=140,	h=80,	color="white",	font=35,code=function()SCN.goto("custom")end}),
 		newButton({name="back",		x=1200,		y=640,	w=120,	h=120,	color="white",	font=35,code=BACK}),
 	},
@@ -207,23 +210,15 @@ local Widgets={
 		newButton({name="pause",	x=1235,	y=45,	w=80,h=80,		color="white",	font=25,code=function()pauseGame()end}),
 	},
 	pause={
-		newButton({name="resume",	x=640,	y=290,	w=240,h=100,color="white",font=30,code=function()resumeGame()end}),
-		newButton({name="restart",	x=640,	y=445,	w=240,h=100,color="white",font=33,
-			code=function()
-				TASK.removeTask_code(TICK.autoPause)
-				mergeStat(stat,players[1].stat)
-				resetGameData()
-				SCN.swapTo("play","none")
-			end}),
-		newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",font=35,
-			code=function()
-				SCN.goto("setting_sound")
-			end}),
-		newButton({name="quit",		x=640,	y=600,	w=240,h=100,color="white",font=35,code=BACK}),
+		newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=pressKey("s")}),
+		newButton({name="replay",	x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=pressKey("p"),hide=function()return not game.result end}),
+		newButton({name="resume",	x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=pressKey("escape")}),
+		newButton({name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=33,code=pressKey("r")}),
+		newButton({name="quit",		x=640,	y=600,	w=240,h=100,color="lGrey",	font=35,code=BACK}),
 	},
 	setting_game={
-		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video")end}),
-		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound")end}),
+		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
+		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
 		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=function()SCN.goto("setting_control")end}),
 		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=function()SCN.goto("setting_key")end}),
 		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=function()SCN.goto("setting_touch")end}),
@@ -239,8 +234,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=650,	w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 	setting_video={
-		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound")end}),
-		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game")end}),
+		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
+		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
 		newSwitch({name="ghost",	x=250,	y=180,font=35,				disp=SETval("ghost"),	code=SETrev("ghost")}),
 		newSwitch({name="smooth",	x=250,	y=260,font=25,				disp=SETval("smooth"),	code=SETrev("smooth")}),
 		newSwitch({name="center",	x=500,	y=180,font=35,				disp=SETval("center"),	code=SETrev("center")}),
@@ -279,8 +274,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=650,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	setting_sound={
-		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game")end}),
-		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_video")end}),
+		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
+		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
 		newSlider({name="sfx",		x=180,	y=200,w=400,unit=10,font=35,change=function()SFX.play("blip_1")end,							disp=SETval("sfx"),		code=SETsto("sfx")}),
 		newSlider({name="stereo",	x=180,	y=500,w=400,unit=10,font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,	disp=SETval("stereo"),	code=SETsto("stereo"),hide=function()return setting.sfx==0 end}),
 		newSlider({name="spawn",	x=180,	y=300,w=400,unit=10,font=30,change=function()SFX.play("spawn_1",setting.spawn,nil,true)end,	disp=SETval("spawn"),	code=SETsto("spawn")}),
@@ -357,6 +352,8 @@ local Widgets={
 				for i=1,#VK_org do
 					VK_org[i].ava=false
 				end
+
+				--Replace keys
 				for n=1,#D do
 					local T=D[n]
 					if T[1]then
@@ -364,7 +361,7 @@ local Widgets={
 						B.ava=true
 						B.x,B.y,B.r=T[2],T[3],T[4]
 					end
-				end--Replace keys
+				end
 				sceneTemp.default=sceneTemp.default%5+1
 				sceneTemp.sel=nil
 			end}),
@@ -451,8 +448,8 @@ local Widgets={
 		newButton({name="back",		x=1160,	y=630,w=150,h=80,color="white",font=40,code=BACK}),
 	},
 	history={
-		newButton({name="prev",		x=1155,	y=170,w=180,h=180,color="white",font=65,code=pressKey("up"),hide=function()return sceneTemp[2]==1 end}),
-		newButton({name="next",		x=1155,	y=400,w=180,h=180,color="white",font=65,code=pressKey("down"),hide=function()return sceneTemp[2]==#sceneTemp[1]end}),
+		newButton({name="prev",		x=1155,	y=170,w=180,h=180,color="white",font=65,code=pressKey("up"),hide=function()return sceneTemp.pos==1 end}),
+		newButton({name="next",		x=1155,	y=400,w=180,h=180,color="white",font=65,code=pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
 		newButton({name="back",		x=1155,	y=600,w=180,h=90,color="white",font=40,code=BACK}),
 	},
 	stat={

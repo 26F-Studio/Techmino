@@ -15,9 +15,9 @@ end
 function button:isAbove(x,y)
 	local ATV=self.ATV
 	return
-		x>self.x-ATV and 
-		y>self.y-ATV and 
-		x<self.x+self.w+2*ATV and 
+		x>self.x-ATV and
+		y>self.y-ATV and
+		x<self.x+self.w+2*ATV and
 		y<self.y+self.h+2*ATV
 end
 function button:getCenter()
@@ -68,6 +68,56 @@ function button:draw()
 	end
 end
 function button:getInfo()
+	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
+end
+
+local key={
+	type="key",
+	ATV=0,--Activating time(0~4)
+}
+function key:reset()
+	self.ATV=0
+end
+function key:isAbove(x,y)
+	local ATV=self.ATV
+	return
+		x>self.x and
+		y>self.y and
+		x<self.x+self.w and
+		y<self.y+self.h
+end
+function key:getCenter()
+	return self.x+self.w*.5,self.y+self.h*.5
+end
+function key:update()
+	local ATV=self.ATV
+	if WIDGET.sel==self then
+		if ATV<4 then self.ATV=ATV+1 end
+	else
+		if ATV>0 then self.ATV=ATV-.5 end
+	end
+end
+function key:draw()
+	local x,y,w,h=self.x,self.y,self.w,self.h
+	local ATV=self.ATV
+	local r,g,b=unpack(self.color)
+
+	gc.setColor(1,1,1,ATV*.125)
+	gc.rectangle("fill",x,y,w,h)
+
+	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+	gc.setLineWidth(4)
+	gc.rectangle("line",x,y,w,h)
+
+	local t=self.text
+	if t then
+		if type(t)=="function"then t=t()end
+		setFont(self.font)
+		gc.setColor(r,g,b,1.2)
+		gc.printf(t,x,y+h*.5-self.font*.7,w,"center")
+	end
+end
+function key:getInfo()
 	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
@@ -256,6 +306,29 @@ function WIDGET.newButton(D)
 		hide=	D.hide,
 	}for k,v in next,button do _[k]=v end return _
 end
+function WIDGET.newKey(D)
+	local _={
+		name=	D.name,
+
+		x=		D.x-D.w*.5,
+		y=		D.y-D.h*.5,
+		w=		D.w,
+		h=		D.h,
+
+		resCtr={
+			D.x,D.y,
+			D.x-D.w*.35,D.y-D.h*.35,
+			D.x-D.w*.35,D.y+D.h*.35,
+			D.x+D.w*.35,D.y-D.h*.35,
+			D.x+D.w*.35,D.y+D.h*.35,
+		},
+
+		color=	color[D.color]or D.color,
+		font=	D.font,
+		code=	D.code,
+		hide=	D.hide,
+	}for k,v in next,key do _[k]=v end return _
+end
 function WIDGET.newSwitch(D)
 	local _={
 		name=	D.name,
@@ -319,6 +392,9 @@ function WIDGET.press(x,y)
 		W:FX()
 		SFX.play("button")
 		VOC.play("nya")
+	elseif W.type=="key"then
+		W.code()
+		SFX.play("lock")
 	elseif W.type=="switch"then
 		W.code()
 		SFX.play("move",.6)
@@ -372,7 +448,7 @@ function WIDGET.keyPressed(i)
 			if i=="left"or i=="right"then
 				for i=1,#WIDGET.active do
 					local W1=WIDGET.active[i]
-					if W~=W1 then
+					if W~=W1 and W1.resCtr then
 						local L=W1.resCtr
 						for j=1,#L,2 do
 							local x,y=L[j],L[j+1]
@@ -390,7 +466,7 @@ function WIDGET.keyPressed(i)
 			else
 				for i=1,#WIDGET.active do
 					local W1=WIDGET.active[i]
-					if W~=W1 then
+					if W~=W1 and W1.resCtr then
 						local L=W1.resCtr
 						for j=1,#L,2 do
 							local x,y=L[j],L[j+1]
@@ -430,7 +506,7 @@ function WIDGET.gamepadPressed(i)
 	elseif i=="a"or i=="b"then
 		local W=WIDGET.sel
 		if W then
-			if W.type=="button"then
+			if W.type=="button"or W.type=="key"then
 				WIDGET.press()
 			elseif W.type=="slider"then
 				local p=W.disp()
