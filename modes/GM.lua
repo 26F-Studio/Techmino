@@ -29,6 +29,7 @@ return{
 				P.modeData.point=min(P.modeData.point+16,80)
 				P.modeData.event=sectionName[int(P.modeData.point*.1)+1]
 				P:win("finish")
+				return true
 			end
 		end,
 		bg="aura",bgm="far",
