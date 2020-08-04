@@ -15,7 +15,7 @@ return{
 				D.event=D.event+1
 			end
 		end,
-		bg="game2",bgm="secret7th",
+		bg="game2",bgm="shining terminal",
 	},
 	pauseLimit=true,
 	load=function()

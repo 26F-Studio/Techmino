@@ -15,7 +15,7 @@ return{
 		drop=1e99,lock=1e99,
 		target=200,
 		dropPiece=tech_check_hard,
-		bg="matrix",bgm="newera",
+		bg="matrix",bgm="way",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)

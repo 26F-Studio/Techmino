@@ -11,7 +11,7 @@ return{
 		dropPiece=PLY.reach_winCheck,
 		freshLimit=15,
 		target=200,
-		bg="rgb",bgm="secret7th",
+		bg="rgb",bgm="way",
 	},
 	pauseLimit=true,
 	load=function()
