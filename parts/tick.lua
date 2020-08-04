@@ -74,14 +74,4 @@ function Tick.autoPause(data)
 		return true
 	end
 end
-function Tick.autoResize(data)
-	data[1]=data[1]+1
-	if data[1]==62 then
-		local w,h=gc.getWidth(),gc.getHeight()
-		if w<h then
-			love.resize(w,h)
-		end
-		return true
-	end
-end
 return Tick
