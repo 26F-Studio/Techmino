@@ -364,26 +364,24 @@ local swap={
 	fade={30,15,function(t)
 		local t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	end},
 	fade_togame={120,20,function(t)
 		local t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	end},
 	slowFade={180,90,function(t)
 		local t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	end},
 	swipe={30,15,function(t)
-		gc.setColor(0,0,0,1-abs(t-15)/15)
-		if t>15 then
-			t=t/15-1
-			gc.rectangle("fill",scr.w*scr.dpi,0,-scr.w*scr.dpi*(1-t),scr.h*scr.dpi)
-		else
-			gc.rectangle("fill",0,0,scr.w*scr.dpi*t/15,scr.h*scr.dpi)
-		end
+		t=t/30
+		gc.setColor(.1,.1,.1,1-abs(t-.5))
+		t=t*t*(3-2*t)*2-1
+		local w=scr.W
+		gc.rectangle("fill",t*w,0,w,scr.H)
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back

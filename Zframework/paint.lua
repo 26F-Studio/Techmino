@@ -520,7 +520,7 @@ function Pnt.play()
 	gc.origin()
 	if restartCount>0 then
 		gc.setColor(0,0,0,restartCount*.05)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	end
 	if game.warnLVL>0 then
 		gc.setColor(0,0,0,0)
@@ -545,7 +545,7 @@ function Pnt.pause()
 	gc.setColor(.15,.15,.15,_)
 	gc.push("transform")
 		gc.origin()
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	gc.pop()
 
 	--Pause Info

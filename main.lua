@@ -8,13 +8,16 @@ Techmino is my first "huge project"
 optimization is welcomed if you also love tetromino game
 ]]--
 
+--?
+function NULL()end
+DBP=print--use this if need debugging print
+
 --Global Setting & Vars
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
-function NULL()end
 system=love.system.getOS()
 game={}
 mapCam={
@@ -122,16 +125,8 @@ if S.version~=gameVersion then
 	TEXT.show(text.newBigVersion,640,200,30,"fly",.3)
 	newVersionLaunch=true
 
+	fs.remove("sprintPenta.dat")
 	fs.remove("master_adavnce.dat")
 	fs.remove("master_beginner.dat")
-	for name,M in next,Modes do
-		if M.score then
-			if modeRanks[name]==6 then
-				modeRanks[name]=0
-			end
-		else
-			modeRanks[name]=6
-		end
-	end
 end
 R,S=nil

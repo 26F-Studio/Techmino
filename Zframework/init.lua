@@ -616,10 +616,9 @@ function keyDown.pause(key)
 		SCN.goto("setting_sound")
 	elseif key=="r"then
 		TASK.clear("play")
-		mergeStat(stat,players[1].stat)
 		resetGameData()
 		SCN.swapTo("play","none")
-	elseif key=="p"and game.result then
+	elseif key=="p"and(game.result or game.replaying)then
 		TASK.removeTask_code(TICK.autoPause)
 		resetPartGameData(true)
 		SCN.swapTo("play","none")
@@ -779,11 +778,11 @@ function keyDown.history(key)
 end
 -------------------------------------------------------------
 local lastX,lastY=0,0--Last clickDown pos
-function love.mousepressed(x,y,k,t,num)
-	if t then return end
+function love.mousepressed(x,y,k,touch,num)
+	if touch then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
-	if devMode==1 then print(mx,my)end
+	if devMode==1 then DBP(mx,my)end
 	if SCN.swapping then return end
 	if mouseDown[SCN.cur]then
 		mouseDown[SCN.cur](mx,my,k)
@@ -810,15 +809,17 @@ function love.mousemoved(x,y,dx,dy,t)
 		WIDGET.moveCursor(mx,my)
 	end
 end
-function love.mousereleased(x,y,k,t,num)
-	if t then return end
+function love.mousereleased(x,y,k,touch,num)
+	if touch or SCN.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
-	if t or SCN.swapping then return end
 	if mouseUp[SCN.cur]then
 		mouseUp[SCN.cur](mx,my,k)
 	end
-	if lastX and(mx-lastX)^2+(my-lastY)^2<26 and mouseClick[SCN.cur]then
-		mouseClick[SCN.cur](mx,my,k)
+	if lastX and(mx-lastX)^2+(my-lastY)^2<26 then
+		if mouseClick[SCN.cur]then
+			mouseClick[SCN.cur](mx,my,k)
+		end
+		sysFX.newRipple(.3,mx,my,30)
 	end
 end
 function love.wheelmoved(x,y)
@@ -888,7 +889,7 @@ function love.keypressed(i)
 		end
 	else
 		if i=="f5"then
-			print("DEBUG:")
+			DBP("DEBUG:")
 		elseif i=="f8"then	devMode=nil	TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
 		elseif i=="f9"then	devMode=1	TEXT.show("DEBUG 1",640,360,80,"fly",.8)
 		elseif i=="f10"then	devMode=2	TEXT.show("DEBUG 2",640,360,80,"fly",.8)
@@ -910,7 +911,7 @@ function love.keypressed(i)
 				assert(false,"Techmino:挂了")
 			elseif i=="e"then
 				for k,v in next,_G do
-					print(k,v)
+				DBP(k,v)
 				end
 			elseif WIDGET.sel then
 				local W=WIDGET.sel
@@ -995,10 +996,11 @@ function love.lowmemory()
 	collectgarbage()
 end
 function love.resize(w,h)
-	scr.w,scr.h=w,h
+	scr.w,scr.h,scr.dpi=w,h,gc.getDPIScale()
+	scr.W,scr.H=scr.w*scr.dpi,scr.h*scr.dpi
 	scr.r=h/w
 	scr.rad=(w^2+h^2)^.5
-	scr.dpi=gc.getDPIScale()
+
 	if scr.r>=.5625 then
 		scr.k=w/1280
 		scr.x,scr.y=0,(h-w*9/16)*.5
@@ -1014,7 +1016,6 @@ function love.resize(w,h)
 end
 function love.focus(f)
 	if f then
-		TASK.new(TICK.autoResize,{0})
 		love.timer.step()
 	elseif SCN.cur=="play"and setting.autoPause then
 		pauseGame()
@@ -1145,9 +1146,13 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if Timer()-lastFreshPow>3 and setting.powerInfo and SCN.cur~="load"then
+		if Timer()-lastFreshPow>2 and setting.powerInfo and SCN.cur~="load"then
 			updatePowerInfo()
 			lastFreshPow=Timer()
+			_=gc.getWidth()
+			if _~=scr.w then
+				love.resize(_,gc.getHeight())
+			end
 		end
 
 		--Keep 60fps

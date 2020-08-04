@@ -25,13 +25,13 @@ function button:getCenter()
 end
 function button:FX()
 	local ATV=self.ATV
-	sysFX.new(
-		"ripple",
+	sysFX.newRectRipple(
 		.16,
 		self.x-ATV,
 		self.y-ATV,
 		self.w+2*ATV,
 		self.h+2*ATV
+		,5
 	)
 end
 function button:update()
@@ -68,7 +68,7 @@ function button:draw()
 	end
 end
 function button:getInfo()
-	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
+	DBP(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
 local key={
@@ -118,7 +118,7 @@ function key:draw()
 	end
 end
 function key:getInfo()
-	print(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
+	DBP(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
 local switch={
@@ -171,11 +171,11 @@ function switch:draw()
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
-		gc.printf(t,x-412-ATV,y+20-self.font*.7-ATV*.5,400,"right")
+		gc.printf(t,x-412-ATV,y+20-self.font*.7,400,"right")
 	end
 end
 function switch:getInfo()
-	print(format("x=%d,y=%d,font=%d",self.x,self.y,self.font))
+	DBP(format("x=%d,y=%d,font=%d",self.x,self.y,self.font))
 end
 
 local slider={
@@ -236,11 +236,11 @@ function slider:draw()
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
-		gc.printf(t,x-312-ATV,y-self.font*.7-ATV*.5,300,"right")
+		gc.printf(t,x-312-ATV,y-self.font*.7,300,"right")
 	end
 end
 function slider:getInfo()
-	print(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
+	DBP(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
 end
 
 local WIDGET={}

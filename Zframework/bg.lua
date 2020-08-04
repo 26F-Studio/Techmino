@@ -201,8 +201,8 @@ back.matrix={
 	draw=function()
 		gc.scale(scr.k)
 		gc.clear(.15,.15,.15)
-		local Y=ceil(scr.h*scr.dpi/80)
-		for x=1,ceil(scr.w*scr.dpi/80)do
+		local Y=ceil(scr.H/80)
+		for x=1,ceil(scr.W/80)do
 			for y=1,Y do
 				gc.setColor(1,1,1,sin(x+matrixT[x][y]*t)*.1+.1)
 				gc.rectangle("fill",80*x,80*y,-80,-80)
