@@ -23,9 +23,11 @@ local BGM={
 	--playing=[src:playing SRC]
 }
 BGM.list={
-	"blank","way","race","newera","push","reason","infinite",
+	"blank",
+	"race","push","way","reason",
+	"newera","oxygen","infinite",
 	"secret7th","secret8th",
-	"shining terminal","oxygen","distortion","far",
+	"shining terminal","distortion","far",
 	"rockblock","cruelty","final","8-bit happiness","end",
 	"how feeling",
 }
