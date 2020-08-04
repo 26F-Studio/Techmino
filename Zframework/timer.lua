@@ -25,6 +25,13 @@ function Tmr.load()
 				M[k]=v
 			end
 			M.records=FILE.loadRecord(m.name)or M.score and{}
+			if M.score then
+				if modeRanks[M.name]==6 then
+					modeRanks[M.name]=0
+				end
+			else
+				modeRanks[M.name]=6
+			end
 			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("image/modeIcon/custom.png")
 		elseif S.phase==6 then
@@ -237,7 +244,6 @@ function Tmr.play(dt)
 		restartCount=restartCount+1
 		if restartCount>20 then
 			TASK.clear("play")
-			mergeStat(stat,P1.stat)
 			resetPartGameData()
 			return
 		end
