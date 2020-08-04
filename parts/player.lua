@@ -1509,7 +1509,6 @@ function player.cancel(P,N)--Cancel Garbage
 			bf.sum=bf.sum-O
 			A.sent,A.time=true,0
 			if N>0 then goto R end
-			print(A.amount)
 		else
 			off=off+N
 			A.amount=A.amount-N
@@ -1788,7 +1787,7 @@ function player.drop(P)--Place piece
 		end
 
 		::checkB2Breduce::
-		if not(dospin or cc==4)then
+		if not(dospin or cc>3)then
 			P.b2b=max(P.b2b-250,0)
 			P:showText(text.clear[cc],0,-30,27+cc*3,"appear",(8-cc)*.3)
 			atk=cc-.5
@@ -1909,7 +1908,7 @@ function player.drop(P)--Place piece
 	STAT.piece=STAT.piece+1
 	STAT.row=STAT.row+cc
 	if atk>0 then
-		STAT.atk=STAT.atk+int(atk)
+		STAT.atk=STAT.atk+atk
 		if send>0 then
 			STAT.send=STAT.send+int(send)
 		end
