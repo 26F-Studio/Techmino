@@ -211,7 +211,7 @@ local Widgets={
 	},
 	pause={
 		newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=pressKey("s")}),
-		newButton({name="replay",	x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=pressKey("p"),hide=function()return not game.result end}),
+		newButton({name="replay",	x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=pressKey("p"),hide=function()return not(game.result or game.replaying)end}),
 		newButton({name="resume",	x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=pressKey("escape")}),
 		newButton({name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=33,code=pressKey("r")}),
 		newButton({name="quit",		x=640,	y=600,	w=240,h=100,color="lGrey",	font=35,code=BACK}),
@@ -239,7 +239,7 @@ local Widgets={
 		newSwitch({name="ghost",	x=250,	y=180,font=35,				disp=SETval("ghost"),	code=SETrev("ghost")}),
 		newSwitch({name="smooth",	x=250,	y=260,font=25,				disp=SETval("smooth"),	code=SETrev("smooth")}),
 		newSwitch({name="center",	x=500,	y=180,font=35,				disp=SETval("center"),	code=SETrev("center")}),
-		newSwitch({name="grid",		x=500,	y=260,font=30,				disp=SETval("grid"),	code=SETrev("grid")}),
+		newSwitch({name="grid",		x=500,	y=260,font=35,				disp=SETval("grid"),	code=SETrev("grid")}),
 		newSwitch({name="bagLine",	x=730,	y=180,font=30,				disp=SETval("bagLine"),	code=SETrev("bagLine")}),
 		newSlider({name="lockFX",	x=350,	y=340,w=373,unit=3,	font=32,disp=SETval("lockFX"),	code=SETsto("lockFX")}),
 		newSlider({name="dropFX",	x=350,	y=400,w=373,unit=5,	font=32,disp=SETval("dropFX"),	code=SETsto("dropFX")}),
@@ -436,6 +436,7 @@ local Widgets={
 		newButton({name="chi2",		x=380,	y=100,w=200,h=120,color="white",font=45,code=setLang(2)}),
 		newButton({name="eng",		x=600,	y=100,w=200,h=120,color="white",font=45,code=setLang(3)}),
 		newButton({name="str",		x=820,	y=100,w=200,h=120,color="white",font=45,code=setLang(4)}),
+		newButton({name="yygq",		x=1040,	y=100,w=200,h=120,color="white",font=45,code=setLang(5)}),
 		newButton({name="back",		x=640,	y=600,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	help={
@@ -448,8 +449,8 @@ local Widgets={
 		newButton({name="back",		x=1160,	y=630,w=150,h=80,color="white",font=40,code=BACK}),
 	},
 	history={
-		newButton({name="prev",		x=1155,	y=170,w=180,h=180,color="white",font=65,code=pressKey("up"),hide=function()return sceneTemp.pos==1 end}),
-		newButton({name="next",		x=1155,	y=400,w=180,h=180,color="white",font=65,code=pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
+		newKey({name="prev",		x=1155,	y=170,w=180,h=180,color="white",font=65,code=pressKey("up"),hide=function()return sceneTemp.pos==1 end}),
+		newKey({name="next",		x=1155,	y=400,w=180,h=180,color="white",font=65,code=pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
 		newButton({name="back",		x=1155,	y=600,w=180,h=90,color="white",font=40,code=BACK}),
 	},
 	stat={
