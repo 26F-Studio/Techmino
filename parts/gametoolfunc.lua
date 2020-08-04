@@ -161,6 +161,7 @@ function mergeStat(stat,delta)
 		end
 	end
 end
+
 function randomTarget(P)--Return a random opponent for P
 	if #players.alive>1 then
 		local R
@@ -236,6 +237,7 @@ function royaleLevelup()
 		end
 	end
 end
+
 function pauseGame()
 	if not SCN.swapping then
 		restartCount=0--Avoid strange darkness
@@ -267,6 +269,10 @@ function loadGame(M,ifQuickPlay)
 	SFX.play("enter")
 end
 function resetGameData()
+	if players[1]and not game.replaying then
+		mergeStat(stat,players[1].stat)
+	end
+
 	game.frame=150-setting.reTime*15
 	game.result=false
 	game.pauseTime=0
@@ -309,6 +315,10 @@ function resetGameData()
 	collectgarbage()
 end
 function resetPartGameData(replaying)
+	if players[1]and not game.replaying then
+		mergeStat(stat,players[1].stat)
+	end
+
 	game.result=false
 	game.garbageSpeed=1
 	if replaying then

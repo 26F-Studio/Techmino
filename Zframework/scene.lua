@@ -294,7 +294,9 @@ function sceneBack.load()
 end
 function sceneBack.pause()
 	love.keyboard.setKeyRepeat(true)
-	mergeStat(stat,players[1].stat)
+	if not game.replaying then
+		mergeStat(stat,players[1].stat)
+	end
 	TASK.clear("play")
 end
 function sceneBack.setting_game()
