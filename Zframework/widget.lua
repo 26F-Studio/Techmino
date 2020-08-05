@@ -207,22 +207,25 @@ end
 function slider:draw()
 	local x,y=self.x,self.y
 	local ATV=self.ATV
+	local x2=x+self.w
+
+	gc.setColor(1,1,1,.5+ATV*.06)
 
 	--Units
-	gc.setColor(1,1,1,.5+ATV*.06)
-	gc.setLineWidth(2)
-	local x1,x2=x,x+self.w
-	for p=0,self.unit do
-		local x=x1+(x2-x1)*p/self.unit
-		gc.line(x,y+7,x,y-7)
+	if self.showUnit then
+		gc.setLineWidth(2)
+		for p=0,self.unit do
+			local x=x+(x2-x)*p/self.unit
+			gc.line(x,y+7,x,y-7)
+		end
 	end
 
 	--Axis
 	gc.setLineWidth(4)
-	gc.line(x1,y,x2,y)
+	gc.line(x,y,x2,y)
 
 	--Block
-	local bx,by,bw,bh=x1+(x2-x1)*self.pos/self.unit-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
+	local bx,by,bw,bh=x+(x2-x)*self.pos/self.unit-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
 	gc.setColor(.8,.8,.8)
 	gc.rectangle("fill",bx,by,bw,bh)
 	if ATV>0 then
@@ -367,6 +370,7 @@ function WIDGET.newSlider(D)
 		},
 
 		unit=	D.unit,
+		showUnit=not D.noUnit,
 		font=	D.font,
 		change=	D.change,
 		disp=	D.disp,
