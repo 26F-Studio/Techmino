@@ -18,6 +18,8 @@ local list={
 	"paper(mrz)",
 	"classic(_)",
 	"brick(notypey)",
+	"retro(notypey)",
+	"retro_grey(notypey)",
 	"text_bone(mrz)",
 	"colored_bone(mrz)",
 	"white_bone(mrz)",
