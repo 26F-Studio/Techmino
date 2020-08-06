@@ -793,6 +793,7 @@ function love.mousepressed(x,y,k,touch,num)
 		WIDGET.press(mx,my)
 	end
 	lastX,lastY=mx,my
+	sysFX.newRipple(.3,mx,my,30)
 end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
@@ -815,11 +816,8 @@ function love.mousereleased(x,y,k,touch,num)
 	if mouseUp[SCN.cur]then
 		mouseUp[SCN.cur](mx,my,k)
 	end
-	if lastX and(mx-lastX)^2+(my-lastY)^2<26 then
-		if mouseClick[SCN.cur]then
-			mouseClick[SCN.cur](mx,my,k)
-		end
-		sysFX.newRipple(.3,mx,my,30)
+	if lastX and(mx-lastX)^2+(my-lastY)^2<26 and mouseClick[SCN.cur]then
+		mouseClick[SCN.cur](mx,my,k)
 	end
 end
 function love.wheelmoved(x,y)
@@ -869,8 +867,11 @@ function love.touchreleased(id,x,y)
 	if touchUp[SCN.cur]then
 		touchUp[SCN.cur](id,x,y)
 	end
-	if(x-lastX)^2+(y-lastY)^2<26 and touchClick[SCN.cur]then
-		touchClick[SCN.cur](x,y,k)
+	if(x-lastX)^2+(y-lastY)^2<26 then
+		if touchClick[SCN.cur]then
+			touchClick[SCN.cur](x,y,k)
+		end
+		sysFX.newRipple(.3,mx,my,30)
 	end
 end
 function love.keypressed(i)
