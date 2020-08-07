@@ -1,4 +1,5 @@
 local gc=love.graphics
+local mt=love.math
 local Timer=love.timer.getTime
 local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.max,math.min
 local ins,rem=table.insert,table.remove
@@ -85,22 +86,24 @@ local CCblockID={4,3,6,5,1,2,0}
 local freshPrepare={
 	none=NULL,
 	bag=function(P)
+		local R=P.RND
 		local bag=P.gameEnv.bag
 		local L
 		repeat
 			L={}for i=1,#bag do L[i]=i end
-			repeat P:getNext(bag[rem(L,P:RND(#L))])until not L[1]
+			repeat P:getNext(bag[rem(L,R:random(#L))])until not L[1]
 		until #P.next>5
 	end,
 	his4=function(P)
+		local R=P.RND
 		local bag=P.gameEnv.bag
 		local L=#bag
-		P.his={bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)]}
+		P.his={bag[R:random(L)],bag[R:random(L)],bag[R:random(L)],bag[R:random(L)]}
 		for _=1,6 do
 			local i
 			local j=0
 			repeat
-				i=bag[P:RND(L)]
+				i=bag[R:random(L)]
 				j=j+1
 			until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==6
 			P:getNext(i)
@@ -108,14 +111,15 @@ local freshPrepare={
 		end
 	end,
 	rnd=function(P)
+		local R=P.RND
 		local bag=P.gameEnv.bag
 		local L=#bag
-		P:getNext(bag[P:RND(L)])
+		P:getNext(bag[R:random(L)])
 		for i=1,5 do
 			local count=0
 			local i
 			repeat
-				i=bag[P:RND(L)]
+				i=bag[R:random(L)]
 				count=count+1
 			until i~=P.next[#P.next].id or count>=L
 			P:getNext(i)
@@ -139,20 +143,22 @@ local freshPrepare={
 local freshMethod={
 	none=NULL,
 	bag=function(P)
+		local R=P.RND
 		if #P.next<6 then
 			local bag0,bag=P.gameEnv.bag,{}
 			for i=1,#bag0 do bag[i]=bag0[i]end
-			repeat P:getNext(rem(bag,P:RND(#bag)))until not bag[1]
+			repeat P:getNext(rem(bag,R:random(#bag)))until not bag[1]
 		end
 	end,
 	his4=function(P)
+		local R=P.RND
 		if #P.next<6 then
 			local bag=P.gameEnv.bag
 			local L=#bag
 			for n=1,4 do
 				local j,i=0
 				repeat
-					i=bag[P:RND(L)]
+					i=bag[R:random(L)]
 					j=j+1
 				until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==4
 				P:getNext(i)
@@ -161,6 +167,7 @@ local freshMethod={
 		end
 	end,
 	rnd=function(P)
+		local R=P.RND
 		if #P.next<6 then
 			local bag=P.gameEnv.bag
 			local L=#bag
@@ -168,7 +175,7 @@ local freshMethod={
 				local count=0
 				local i
 				repeat
-					i=bag[P:RND(L)]
+					i=bag[R:random(L)]
 					count=count+1
 				until i~=P.next[#P.next].id or count>=L
 				P:getNext(i)
@@ -2456,7 +2463,7 @@ local function newEmptyPlayer(id,x,y,size)
 		P.draw=Pdraw_norm
 		P.bonus={}--Text objects
 	end
-	P.randomSeed=game.seed
+	P.RND=mt.newRandomGenerator(game.seed)
 
 	P.small=false
 	P.life=0
