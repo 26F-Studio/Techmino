@@ -321,6 +321,8 @@ function resetPartGameData(replaying)
 
 	game.result=false
 	game.garbageSpeed=1
+	game.warnLVL0=0
+	game.warnLVL=0
 	if replaying then
 		game.frame=0
 		game.recording=false
