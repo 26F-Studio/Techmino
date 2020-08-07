@@ -876,19 +876,7 @@ function love.touchreleased(id,x,y)
 end
 function love.keypressed(i)
 	mouseShow=false
-	if not devMode then
-		if i~="f8"then
-			if SCN.swapping then return end
-
-			if keyDown[SCN.cur]then keyDown[SCN.cur](i)
-			elseif i=="escape"then SCN.back()
-			else WIDGET.keyPressed(i)
-			end
-		else
-			devMode=1
-			TEXT.show("DEBUG ON",640,360,80,"fly",.8)
-		end
-	else
+	if devMode then
 		if i=="f5"then
 			DBP("DEBUG:")
 		elseif i=="f8"then	devMode=nil	TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
@@ -928,7 +916,21 @@ function love.keypressed(i)
 				elseif i=="]"then W.font=W.font+1
 				end
 			end
+		else
+			goto NORMAL
 		end
+	end
+	::NORMAL::
+	if i~="f8"then
+		if SCN.swapping then return end
+
+		if keyDown[SCN.cur]then keyDown[SCN.cur](i)
+		elseif i=="escape"then SCN.back()
+		else WIDGET.keyPressed(i)
+		end
+	else
+		devMode=1
+		TEXT.show("DEBUG ON",640,360,80,"fly",.8)
 	end
 end
 function love.keyreleased(i)
