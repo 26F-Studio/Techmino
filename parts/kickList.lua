@@ -114,10 +114,10 @@ local TRS={
 	},--T
 	function(P,d)
 		if P.human then SFX.fieldPlay("rotate",nil,P)end
-		if P.gameEnv.easyFresh then P:freshLockDelay()end
+		P:freshLockDelay()
 		if not P.gameEnv.ospin then return end
 		local x,y=P.curX,P.curY
-		if y==P.y_img and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
+		if y==P.imgY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
 			local D=P.spinSeq%100*10+d
 			P.spinSeq=D
 			if D<100 then return end
@@ -256,7 +256,7 @@ local TRS={
 	},--W
 	function(P,d)
 		if P.human then SFX.fieldPlay("rotate",nil,P)end
-		if P.gameEnv.easyFresh then P:freshLockDelay()end
+		P:freshLockDelay()
 		local iki=XspinList[d]
 		for test=1,#iki do
 			local x,y=P.curX+iki[test][1],P.curY+iki[test][2]

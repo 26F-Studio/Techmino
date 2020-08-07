@@ -230,7 +230,7 @@ function royaleLevelup()
 			local P=players.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
-				P.curY=P.y_img
+				P.curY=P.imgY
 				P.gameEnv._20G=true
 				if P.AI_mode=="CC"then CC_switch20G(P)end
 			end
