@@ -662,12 +662,12 @@ local function Pdraw_norm(P)
 			--Rotate center
 			if P.gameEnv.center then
 				gc.setColor(1,1,1,trans)
-				local x=30*(P.curX+P.sc[2]-1)-15
-				gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1]-1)+15,nil,nil,nil,4,4)
+				local x=30*(P.curX+P.sc[2])-15
+				gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
 				if P.gameEnv.ghost then
 					gc.translate(0,dy)
 					gc.setColor(1,1,1,.5)
-					gc.draw(IMG.spinCenter,x,600-30*(P.y_img+P.sc[1]-1)+15,nil,nil,nil,4,4)
+					gc.draw(IMG.spinCenter,x,600-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
 					goto E
 				end
 			end
@@ -1001,7 +1001,7 @@ end
 function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 	local x1,y1,x2,y2
 	if P.small then x1,y1=P.centerX,P.centerY
-	else x1,y1=P.x+(30*(P.curX+P.sc[2]-1)-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1]-1)+15+70)*P.size
+	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15+70)*P.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
@@ -1544,7 +1544,7 @@ function player.drop(P)--Place piece
 
 		--Tri-corner
 		if P.cur.id<6 then
-			local x,y=P.curX+P.sc[2]-1,P.curY+P.sc[1]-1
+			local x,y=P.curX+P.sc[2],P.curY+P.sc[1]
 			local c=0
 			if P:solid(x-1,y+1)then c=c+1 end
 			if P:solid(x+1,y+1)then c=c+1 end

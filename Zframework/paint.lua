@@ -738,7 +738,7 @@ function Pnt.setting_skin()
 	for N=1,7 do
 		local face=setting.face[N]
 		local B=blocks[N][face]
-		local x,y=-25+140*N-scs[N][face][2]*30,325+scs[N][face][1]*30
+		local x,y=-55+140*N-scs[N][face][2]*30,355+scs[N][face][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then

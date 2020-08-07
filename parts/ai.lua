@@ -16,7 +16,7 @@ local Timer=love.timer.getTime
 -- 6~10:hD,sD,H,A,R,
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
-local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
+local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 local CCblockID={4,3,6,5,1,2,0}
 if system=="Windows"then
