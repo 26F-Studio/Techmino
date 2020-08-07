@@ -69,8 +69,8 @@ local virtualkeySet={
 		{16,970,	50,30},--down10
 		{17,1030,	50,30},--dropLeft
 		{18,1090,	50,30},--dropRight
-		{19,1150,	50,30},--addLeft
-		{20,1210,	50,30},--addRight
+		{19,1150,	50,30},--zangiLeft
+		{20,1210,	50,30},--zangiRight
 	},--PC key feedback(top&in a row)
 }
 

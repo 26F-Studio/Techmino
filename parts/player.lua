@@ -2403,14 +2403,14 @@ function player.act.dropRight(P)
 	P.act.insRight(P)
 	P.act.hardDrop(P)
 end
-function player.act.addLeft(P)
+function player.act.zangiLeft(P)
 	if P.gameEnv.nofly or not P.cur then return end
 	P.act.insLeft(P)
 	P.act.insDown(P)
 	P.act.insRight(P)
 	P.act.hardDrop(P)
 end
-function player.act.addRight(P)
+function player.act.zangiRight(P)
 	if P.gameEnv.nofly or not P.cur then return end
 	P.act.insRight(P)
 	P.act.insDown(P)
@@ -2424,7 +2424,7 @@ T={
 	A.rot180	,A.hardDrop,	A.softDrop,	A.hold,
 	A.func		,A.restart,		A.insLeft,	A.insRight,
 	A.insDown	,A.down1,		A.down4,	A.down10,
-	A.dropLeft	,A.dropRight,	A.addLeft,	A.addRight
+	A.dropLeft	,A.dropRight,	A.zangiLeft,A.zangiRight
 }for i=1,20 do A[i]=T[i]end;A,T=nil
 --------------------------</Control>--------------------------
 
