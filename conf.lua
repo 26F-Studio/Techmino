@@ -1,4 +1,4 @@
-gameVersion="Alpha V0.10.1"
+gameVersion="Alpha V0.10.2"
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
 	t.version="11.1"

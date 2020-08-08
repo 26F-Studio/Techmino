@@ -56,6 +56,7 @@ Future outlook:
 						mine sweeper
 						tank battle
 				new AI: task-Z
+				self protection
 				cool backgrounds
 				'Encrypt'(compile to byte code)
 				better drop FX
@@ -69,7 +70,15 @@ Future outlook:
 				more graphic FXs & 3D features & animations
 				network game
 
-0.10.1: 漏洞修复 Bug Fixed
+0.10.2: 锁延修复 Lock Delay Fixed
+		改动:
+				锁延机制再修正
+				"失败"字样改为"游戏结束"
+		修复:
+				改设置后回放错误
+				字库缺字
+
+0.10.1: 细节更新 Details update
 		新内容:
 				新语言:就这?
 				新语言配套阴阳怪气Tips
