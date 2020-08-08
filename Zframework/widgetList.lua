@@ -203,7 +203,7 @@ local Widgets={
 		newSwitch({name="demo",		x=755,		y=640,									font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
 		newButton({name="copy",		x=920,		y=640,	w=120,	h=120,	color="lRed",	font=35,code=pressKey("cC")}),
 		newButton({name="paste",	x=1060,		y=640,	w=120,	h=120,	color="lBlue",	font=35,code=pressKey("cV")}),
-		newButton({name="custom",	x=110,		y=80,	w=140,	h=80,	color="white",	font=35,code=function()SCN.goto("custom")end}),
+		newButton({name="custom",	x=110,		y=80,	w=140,	h=80,	color="white",	font=35,code=pressKey("e")}),
 		newButton({name="back",		x=1200,		y=640,	w=120,	h=120,	color="white",	font=35,code=BACK}),
 	},
 	play={

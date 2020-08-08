@@ -328,7 +328,7 @@ function keyDown.custom(key)
 	elseif key=="q"then
 		SCN.goto("sequence")
 	elseif key=="e"then
-		SCN.swapTo("draw")
+		SCN.swapTo("draw","swipe")
 	elseif #key==1 then
 		local T=tonumber(key)
 		if T and T>=1 and T<=5 then
@@ -468,7 +468,7 @@ function keyDown.draw(key)
 			preField[sy][sx]=pen
 		end
 	elseif key=="e"then
-		SCN.swapTo("custom")
+		SCN.swapTo("custom","swipe")
 	elseif key=="escape"then
 		SCN.back()
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
