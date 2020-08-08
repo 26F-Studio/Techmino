@@ -297,6 +297,7 @@ function sceneBack.pause()
 	if not game.replaying then
 		mergeStat(stat,players[1].stat)
 	end
+	FILE.saveData()
 	TASK.clear("play")
 end
 function sceneBack.setting_game()
