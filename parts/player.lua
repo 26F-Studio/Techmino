@@ -2577,11 +2577,13 @@ local function loadGameEnv(P)--Load gameEnv
 	--Load game settings
 	for k,v in next,gameEnv0 do
 		if modeEnv[k]~=nil then
-			v=modeEnv[k]
+			v=modeEnv[k]				--Mode setting
+		elseif game.setting[k]~=nil then
+			v=game.setting[k]			--Game setting
 		elseif setting[k]~=nil then
-			v=setting[k]
+			v=setting[k]				--Global setting
 		end
-		ENV[k]=v
+		ENV[k]=v						--Default setting
 	end
 end
 local function applyGameEnv(P)--Finish gameEnv processing

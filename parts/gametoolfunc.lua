@@ -6,6 +6,25 @@ local sub,find=string.sub,string.find
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
 
+local default_setting={
+	"das","arr",
+	"sddas","sdarr",
+	"ihs","irs","ims",
+	"maxNext",
+	"swap",
+	-- "face",
+}
+local function copyGameSetting()
+	local S={face={}}
+	for _,v in next,default_setting do
+		S[v]=setting[v]
+	end
+	for i=1,25 do
+		S.face[i]=setting.face[i]
+	end
+	return S
+end
+
 function destroyPlayers()
 	for i=#players,1,-1 do
 		local P=players[i]
@@ -282,6 +301,7 @@ function resetGameData()
 	game.warnLVL=0
 	game.recording=true
 	game.replaying=false
+	game.setting=copyGameSetting()
 	game.rec={}
 	math.randomseed(tm.getTime())
 	game.seed=rnd(261046101471026)
@@ -333,6 +353,7 @@ function resetPartGameData(replaying)
 		game.pauseCount=0
 		game.recording=true
 		game.replaying=false
+		game.setting=copyGameSetting()
 		game.rec={}
 		math.randomseed(tm.getTime())
 		game.seed=rnd(1046101471,2662622626)
