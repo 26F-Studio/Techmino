@@ -378,7 +378,7 @@ function Pnt.sequence()
 	--Confirm reset
 	if s.sure>0 then
 		gc.setColor(1,1,1,s.sure*.02)
-		gc.draw(drawableText.question,1035,570)
+		gc.draw(drawableText.question,980,470)
 	end
 end
 

@@ -384,6 +384,7 @@ function keyDown.sequence(key)
 				preBag={}
 				sceneTemp.cur=0
 				sceneTemp.sure=0
+				SFX.play("finesseError",.7)
 			else
 				sceneTemp.sure=50
 			end
@@ -460,6 +461,7 @@ function keyDown.draw(key)
 		if sceneTemp.sure>20 then
 			for y=1,20 do for x=1,10 do preField[y][x]=0 end end
 			sceneTemp.sure=0
+			SFX.play("finesseError",.7)
 		else
 			sceneTemp.sure=50
 		end
