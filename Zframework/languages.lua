@@ -23,8 +23,8 @@ local langList={
 		speedup="速度加快",
 
 		win="胜利",
-		finish="结束",
-		lose="失败",
+		finish="完成",
+		gameover="游戏结束",
 		pause="暂停",
 		pauseCount="暂停统计",
 
@@ -486,8 +486,8 @@ local langList={
 		speedup="速度加快",
 
 		win="胜利",
-		finish="结束",
-		lose="失败",
+		finish="完成",
+		gameover="游戏结束",
 		pause="暂停",
 		pauseCount="暂停统计",
 
@@ -945,9 +945,9 @@ local langList={
 		maxspeed="Max speed!",
 		speedup="Speed up!",
 
-		win="WIN",
+		win="Win",
 		finish="Finish",
-		lose="LOSE",
+		gameover="Game Over",
 		pause="Pause",
 		pauseCount="Pauses:",
 
@@ -1396,7 +1396,7 @@ local langList={
 
 		win=": )",
 		finish="&",
-		lose="x",
+		gameover="x",
 		pause="=",
 		pauseCount="=:",
 
@@ -1841,7 +1841,7 @@ local langList={
 
 		win="成了",
 		finish="可以的",
-		lose="挂了",
+		gameover="挂了",
 		pause="歇会",
 		pauseCount="歇多久了",
 
@@ -2329,7 +2329,7 @@ local drawableTextLoad={
 	"anykey",
 	"replaying",
 	"next","hold",
-	"win","finish","lose","pause",
+	"win","finish","gameover","pause",
 	"custom","sequence",
 	"setting_game",
 	"setting_video",
@@ -2356,6 +2356,7 @@ function LANG.set(l)
 		end
 	end
 	for _,s in next,drawableTextLoad do
+		print(s)
 		drawableText[s]:set(text[s])
 	end
 	collectgarbage()

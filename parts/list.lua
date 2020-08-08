@@ -199,7 +199,7 @@ drawableText={
 	replaying=T(20),
 	next=T(40),hold=T(40),
 	win=T(120),finish=T(120),
-	lose=T(120),pause=T(120),
+	gameover=T(100),pause=T(120),
 
 	custom=T(80),sequence=T(80),
 	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
