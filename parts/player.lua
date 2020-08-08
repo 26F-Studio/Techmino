@@ -441,10 +441,7 @@ local function Pupdate_alive(P,dt)
 					P.curY=P.imgY
 				end
 			end
-			if P.curY<P.minY then
-				P.minY=P.curY
-				P.lockDelay=P.gameEnv.lock
-			end
+			P:freshMinY()
 			P.spinLast=false
 
 			if P.imgY~=P.curY then
@@ -692,6 +689,8 @@ local function Pdraw_norm(P)
 		gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
 		gc.setColor(P.frameColor)
 		gc.rectangle("line",-1,-11,302,612)--Boarder
+
+		--LockDelay indicator
 		if P.lockDelay>=0 then
 			gc.rectangle("fill",0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
 		end
@@ -700,6 +699,7 @@ local function Pdraw_norm(P)
 			gc.circle("fill",_,615,5)
 			_=_+20
 		end
+
 		--Buffer line
 		local h=0
 		for i=1,#P.atkBuffer do
@@ -1334,8 +1334,12 @@ function player.freshLockDelay(P)
 		P.freshTime=P.freshTime+1
 		P.lockDelay=min(d+d0*.6,d0)
 	end
+end
+function player.freshMinY(P)
 	if P.curY<P.minY then
+		P.freshTime=max(P.freshTime-1,0)
 		P.minY=P.curY
+		P.lockDelay=P.gameEnv.lock
 	end
 end
 function player.lock(P)
@@ -1366,7 +1370,7 @@ function player.spin(P,d,ifpre)
 		end
 		for test=1,#iki do
 			local x,y=ix+iki[test][1],iy+iki[test][2]
-			if not P:ifoverlap(icb,x,y)and(P.gameEnv.easyFresh or y<=P.curY)then
+			if not P:ifoverlap(icb,x,y)and(P.freshTime<=P.gameEnv.freshLimit or iki[test][2]<0)then
 				ix,iy=x,y
 				if P.gameEnv.dropFX then
 					P:createDropFX(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
@@ -1377,6 +1381,10 @@ function player.spin(P,d,ifpre)
 				P.spinLast=test==2 and 0 or 1
 				if not ifpre then P:freshgho()end
 				P:freshLockDelay()
+				P:freshMinY()
+				if iki[test][2]>0 then
+					P.freshTime=P.freshTime+1
+				end
 
 				if P.human then
 					SFX.fieldPlay(ifpre and"prerotate"or P:ifoverlap(P.cur.bk,P.curX,P.curY+1)and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,P)
@@ -1399,7 +1407,8 @@ function player.resetBlock(P)
 	P.r,P.c=#C.bk,#C.bk[1]	--Row/column
 	P.curX=int(6-P.c*.5)
 	local y=21+ceil(P.fieldBeneath/30)
-	P.curY,P.minY=y,y
+	P.curY=y
+	P.minY=y+sc[2]
 
 	local _=P.keyPressing
 	--IMS
@@ -2174,9 +2183,9 @@ function player.lose(P)
 		P:showTextF(P.modeData.event,0,120,60,"appear",.26,.9)
 	end
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
-	P:showTextF(text.lose,0,0,90,"appear",.26,.9)
+	P:showTextF(text.gameover,0,0,60,"appear",.26,.9)
 	if P.human then
-		game.result="lose"
+		game.result="gameover"
 		SFX.play("fail")
 		VOC.play("lose")
 		if modeEnv.royaleMode then
@@ -2316,9 +2325,7 @@ function player.act.softDrop(P)
 		if P.control and P.waiting==-1 and P.cur then
 			if P.curY~=P.imgY then
 				P.curY=P.curY-1
-				if P.curY<P.minY then
-					P.minY=P.curY
-				end
+				P:freshMinY()
 				P.spinLast=false
 			end
 		end
@@ -2393,17 +2400,13 @@ function player.act.insDown(P)
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
 		end
 		P.curY,P.lockDelay,P.spinLast=P.imgY,P.gameEnv.lock,false
-		if P.curY<P.minY then
-			P.minY=P.curY
-		end
+		P:freshMinY()
 	end
 end
 function player.act.down1(P)
 	if P.curY~=P.imgY and P.cur then
 		P.curY=P.curY-1
-		if P.curY<P.minY then
-			P.minY=P.curY
-		end
+		P:freshMinY()
 		P.spinLast=false
 	end
 end
@@ -2411,9 +2414,7 @@ function player.act.down4(P)
 	for _=1,4 do
 		if P.curY~=P.imgY and P.cur then
 			P.curY=P.curY-1
-			if P.curY<P.minY then
-				P.minY=P.curY
-			end
+			P:freshMinY()
 			P.spinLast=false
 		else
 			return
@@ -2425,9 +2426,7 @@ function player.act.down10(P)
 		for _=1,10 do
 			if P.curY~=P.imgY then
 				P.curY=P.curY-1
-				if P.curY<P.minY then
-					P.minY=P.curY
-				end
+				P:freshMinY()
 				P.spinLast=false
 			else
 				return
@@ -2591,9 +2590,6 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	P.dropDelay=ENV.drop
 	P.lockDelay=ENV.lock
-	if not P.gameEnv.easyFresh then
-		P.gameEnv.freshLimit=0
-	end
 
 	P.color={}
 	for _=1,7 do
