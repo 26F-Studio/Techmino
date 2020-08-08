@@ -1331,6 +1331,9 @@ function player.freshLockDelay(P)
 
 	local d,d0=P.lockDelay,P.gameEnv.lock
 	if d<d0 and(P.freshTime<P.gameEnv.freshLimit or P.curY<P.minY)then
+		if P.lockDelay<P.gameEnv.lock then
+			P.dropDelay=P.gameEnv.drop
+		end
 		P.freshTime=P.freshTime+1
 		P.lockDelay=min(d+d0*.6,d0)
 	end
