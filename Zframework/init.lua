@@ -871,7 +871,7 @@ function love.touchreleased(id,x,y)
 		if touchClick[SCN.cur]then
 			touchClick[SCN.cur](x,y,k)
 		end
-		sysFX.newRipple(.3,mx,my,30)
+		sysFX.newRipple(.3,x,y,30)
 	end
 end
 function love.keypressed(i)
