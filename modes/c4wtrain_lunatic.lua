@@ -1,4 +1,4 @@
-local rnd,min=math.random,math.min
+local min=math.random,math.min
 local function check_c4w(P)
 	for i=1,#P.clearedRow do
 		P.field[#P.field+1]=freeRow.get(13)
@@ -35,7 +35,7 @@ return{
 			P.visTime[i]=freeRow.get(20)
 			for x=4,7 do F[i][x]=0 end
 		end
-		local r=rnd(6)
+		local r=P:RND(6)
 		if r==1 then	 F[1][5],F[1][4],F[2][4]=13,13,13
 		elseif r==2 then F[1][6],F[1][7],F[2][7]=13,13,13
 		elseif r==3 then F[1][4],F[2][4],F[2][5]=13,13,13

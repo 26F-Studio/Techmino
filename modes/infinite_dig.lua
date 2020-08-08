@@ -1,8 +1,8 @@
-local format,rnd=string.format,math.random
+local format=string.format
 local function check_rise(P)
 	if #P.clearedRow==0 then
 		for i=1,8-P.garbageBeneath do
-			P:garbageRise(13,1,rnd(10))
+			P:garbageRise(13,1,P:RND(10))
 		end
 	end
 end
@@ -19,7 +19,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 		for _=1,8 do
-			players[1]:garbageRise(13,1,rnd(10))
+			players[1]:garbageRise(13,1,P:RND(10))
 		end
 	end,
 	mesDisp=function(P,dx,dy)

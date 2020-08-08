@@ -1,4 +1,4 @@
-local int,rnd=math.floor,math.random
+local int=math.floor
 return{
 	color=color.red,
 	env={
@@ -14,7 +14,7 @@ return{
 			if P.modeData.counter>=t then
 				P.modeData.counter=0
 				for _=1,4 do
-					P.atkBuffer[#P.atkBuffer+1]={pos=rnd(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
+					P.atkBuffer[#P.atkBuffer+1]={pos=P:RND(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
 				end
 				P.atkBuffer.sum=P.atkBuffer.sum+4
 				P.stat.recv=P.stat.recv+4

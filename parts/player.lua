@@ -86,24 +86,22 @@ local CCblockID={4,3,6,5,1,2,0}
 local freshPrepare={
 	none=NULL,
 	bag=function(P)
-		local R=P.RND
 		local bag=P.gameEnv.bag
 		local L
 		repeat
 			L={}for i=1,#bag do L[i]=i end
-			repeat P:getNext(bag[rem(L,R:random(#L))])until not L[1]
+			repeat P:getNext(bag[rem(L,P:RND(#L))])until not L[1]
 		until #P.next>5
 	end,
 	his4=function(P)
-		local R=P.RND
 		local bag=P.gameEnv.bag
 		local L=#bag
-		P.his={bag[R:random(L)],bag[R:random(L)],bag[R:random(L)],bag[R:random(L)]}
+		P.his={bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)]}
 		for _=1,6 do
 			local i
 			local j=0
 			repeat
-				i=bag[R:random(L)]
+				i=bag[P:RND(L)]
 				j=j+1
 			until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==6
 			P:getNext(i)
@@ -111,15 +109,14 @@ local freshPrepare={
 		end
 	end,
 	rnd=function(P)
-		local R=P.RND
 		local bag=P.gameEnv.bag
 		local L=#bag
-		P:getNext(bag[R:random(L)])
+		P:getNext(bag[P:RND(L)])
 		for i=1,5 do
 			local count=0
 			local i
 			repeat
-				i=bag[R:random(L)]
+				i=bag[P:RND(L)]
 				count=count+1
 			until i~=P.next[#P.next].id or count>=L
 			P:getNext(i)
@@ -143,22 +140,20 @@ local freshPrepare={
 local freshMethod={
 	none=NULL,
 	bag=function(P)
-		local R=P.RND
 		if #P.next<6 then
 			local bag0,bag=P.gameEnv.bag,{}
 			for i=1,#bag0 do bag[i]=bag0[i]end
-			repeat P:getNext(rem(bag,R:random(#bag)))until not bag[1]
+			repeat P:getNext(rem(bag,P:RND(#bag)))until not bag[1]
 		end
 	end,
 	his4=function(P)
-		local R=P.RND
 		if #P.next<6 then
 			local bag=P.gameEnv.bag
 			local L=#bag
 			for n=1,4 do
 				local j,i=0
 				repeat
-					i=bag[R:random(L)]
+					i=bag[P:RND(L)]
 					j=j+1
 				until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==4
 				P:getNext(i)
@@ -167,7 +162,6 @@ local freshMethod={
 		end
 	end,
 	rnd=function(P)
-		local R=P.RND
 		if #P.next<6 then
 			local bag=P.gameEnv.bag
 			local L=#bag
@@ -175,7 +169,7 @@ local freshMethod={
 				local count=0
 				local i
 				repeat
-					i=bag[R:random(L)]
+					i=bag[P:RND(L)]
 					count=count+1
 				until i~=P.next[#P.next].id or count>=L
 				P:getNext(i)
@@ -1089,6 +1083,11 @@ end
 --------------------------</FX>--------------------------
 
 --------------------------<Method>--------------------------
+function player.RND(P,a,b)
+	local R=P.randGen
+	return R:random(a,b)
+end
+
 local function getNewStatTable()
 	local T={
 		time=0,score=0,
@@ -1157,7 +1156,7 @@ function player.attack(P,R,send,time,...)
 			B[i+1]=B[i]
 		end
 		B[k]={
-			pos=rnd(10),
+			pos=P:RND(10),
 			amount=send,
 			countdown=time,
 			cd0=time,
@@ -2507,7 +2506,7 @@ local function newEmptyPlayer(id,x,y,size)
 		P.draw=Pdraw_norm
 		P.bonus={}--Text objects
 	end
-	P.RND=mt.newRandomGenerator(game.seed)
+	P.randGen=mt.newRandomGenerator(game.seed)
 
 	P.small=false
 	P.life=0

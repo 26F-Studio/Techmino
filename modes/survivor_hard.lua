@@ -1,4 +1,4 @@
-local max,rnd=math.max,math.random
+local max=math.max
 return{
 	color=color.magenta,
 	env={
@@ -11,9 +11,9 @@ return{
 			if P.modeData.counter>=max(60,180-2*P.modeData.event)and B.sum<15 then
 				B[#B+1]=
 					P.modeData.event%3<2 and
-						{pos=rnd(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1}
+						{pos=P:RND(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1}
 					or
-						{pos=rnd(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2}
+						{pos=P:RND(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2}
 				local R=(P.modeData.event%3<2 and 1 or 3)
 				B.sum=B.sum+R
 				P.stat.recv=P.stat.recv+R

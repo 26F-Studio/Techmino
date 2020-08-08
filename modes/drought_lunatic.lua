@@ -1,4 +1,4 @@
-local rnd,min,rem=math.random,math.min,table.remove
+local min,rem=math.min,table.remove
 return{
 	color=color.red,
 	env={
@@ -88,7 +88,7 @@ return{
 
 				::END::
 				freeRow.discard(height)
-				P:getNext(res[rnd(#res)])
+				P:getNext(res[P:RND(#res)])
 			end
 		end,
 		target=100,dropPiece=PLY.reach_winCheck,
