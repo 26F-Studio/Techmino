@@ -919,6 +919,7 @@ function love.keypressed(i)
 		else
 			goto NORMAL
 		end
+		return
 	end
 	::NORMAL::
 	if i~="f8"then
