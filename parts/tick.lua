@@ -67,6 +67,7 @@ function Tick.throwBadge(data)--{ifAI,Sender,timer}
 end
 function Tick.autoPause(data)
 	data[1]=data[1]+1
+	if SCN.cur~="play"then return end
 	if data[1]==120 then
 		if SCN.cur=="play"then
 			pauseGame()
