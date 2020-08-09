@@ -224,13 +224,12 @@ local Widgets={
 		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=function()SCN.goto("setting_touch")end}),
 		newSlider({name="reTime",	x=350,	y=340,	w=300,unit=10,				font=30,disp=SETval("reTime"),	code=SETsto("reTime")}),
 		newSlider({name="maxNext",	x=350,	y=440,	w=300,unit=6,				font=30,disp=SETval("maxNext"),	code=SETsto("maxNext")}),
-		newSwitch({name="autoPause",x=350,	y=540,								font=20,disp=SETval("autoPause"),code=SETrev("autoPause")}),
-		newButton({name="layout",	x=590,	y=540,	w=140,h=70,color="white",	font=35,code=function()
+		newButton({name="layout",	x=460,	y=540,	w=140,h=70,color="white",	font=35,code=function()
 			SCN.goto("setting_skin")
 			end}),
-		newSwitch({name="quickR",	x=1050,	y=320,	font=35,disp=SETval("quickR"),	code=SETrev("quickR")}),
-		newSwitch({name="swap",		x=1050,	y=400,	font=20,disp=SETval("swap"),	code=SETrev("swap")}),
-		newSwitch({name="fine",		x=1050,	y=480,	font=20,disp=SETval("fine"),	code=SETrev("fine")}),
+		newSwitch({name="autoPause",x=1080,	y=320,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")}),
+		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
+		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=SETrev("fine")}),
 		newButton({name="back",		x=1140,	y=650,	w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 	setting_video={

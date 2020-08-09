@@ -625,7 +625,7 @@ end
 function Pnt.setting_game()
 	gc.setColor(1,1,1)
 	mText(drawableText.setting_game,640,15)
-	gc.draw(blockSkin[int(Timer()*2)%11+1],720,540,Timer()%6.28319,2,nil,15,15)
+	gc.draw(blockSkin[int(Timer()*2)%11+1],590,540,Timer()%6.28319,2,nil,15,15)
 end
 function Pnt.setting_video()
 	gc.setColor(1,1,1)

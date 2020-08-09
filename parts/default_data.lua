@@ -3,11 +3,12 @@ setting={
 	das=10,arr=2,
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,
-	reTime=4,
 	maxNext=6,
-	autoPause=true,
-	quickR=true,
 	swap=true,
+	
+	--System
+	reTime=4,
+	autoPause=true,
 	fine=false,
 	lang=1,
 	skinSet=1,

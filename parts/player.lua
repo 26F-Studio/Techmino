@@ -11,7 +11,8 @@ local gameEnv0={
 	das=10,arr=2,
 	sddas=2,sdarr=2,
 	ihs=true,irs=true,ims=true,
-	quickR=true,swap=true,
+	swap=true,
+
 	ghost=true,center=true,
 	smooth=false,grid=false,
 	bagLine=false,
@@ -2344,7 +2345,7 @@ function player.act.func(P)
 	P.gameEnv.Fkey(P)
 end
 function player.act.restart(P)
-	if P.gameEnv.quickR or game.frame<180 then
+	if game.frame<240 or game.result then
 		TASK.removeTask_code(TICK.autoPause)
 		resetPartGameData()
 	end
@@ -2689,7 +2690,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		noFly=false,
 		das=10,arr=2,
 		sddas=2,sdarr=2,
-		quickR=true,swap=true,
+		swap=true,
 		ghost=setting.ghost,center=setting.center,
 		smooth=setting.smooth,grid=setting.grid,
 		text=setting.text,
