@@ -18,8 +18,9 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
+		local P=players[1]
 		for _=1,8 do
-			players[1]:garbageRise(13,1,P:RND(10))
+			P:garbageRise(13,1,P:RND(10))
 		end
 	end,
 	mesDisp=function(P,dx,dy)

@@ -1197,9 +1197,11 @@ function player.garbageRise(P,color,amount,pos)
 		P.field[1][pos]=0
 	end
 	P.fieldBeneath=P.fieldBeneath+amount*30
-	P.curY=P.curY+amount
+	if P.cur then
+		P.curY=P.curY+amount
+		P.imgY=P.imgY+amount
+	end
 	P.garbageBeneath=P.garbageBeneath+amount
-	P.imgY=P.imgY+amount
 	for i=1,#P.clearingRow do
 		P.clearingRow[i]=P.clearingRow[i]+amount
 	end
