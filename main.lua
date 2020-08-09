@@ -106,13 +106,17 @@ if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 
 --Update modeRanks
 R=modeRanks
-if R[1]then
-	local L=R
-	for i=1,#L do
-		L[Modes[i].name],L[i]=L[i]
+for k,v in next,R do
+	if type(k)=="number"then
+		R[Modes[k].name],R[k]=R[k]
+		break
 	end
-elseif R.master_adavnce then
+end
+if R.master_adavnce then
 	R.master_advance,R.master_adavnce=R.master_adavnce
+end
+if not text.modes[stat.lastPlay]then
+	stat.lastPlay="sprint_10"
 end
 
 --Update data file
