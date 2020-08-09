@@ -91,13 +91,13 @@ function VOC.update()
 			end
 		elseif Q.s==1 then--Waiting load source
 			Q[1]=getVoice(Q[1])
-			Q[1]:setVolume(setting.voc*.1)
+			Q[1]:setVolume(setting.voc*.01)
 			Q[1]:play()
 			Q.s=Q[2]and 2 or 4
 		elseif Q.s==2 then--Playing 1,ready 2
 			if Q[1]:getDuration()-Q[1]:tell()<.08 then
 				Q[2]=getVoice(Q[2])
-				Q[2]:setVolume(setting.voc*.1)
+				Q[2]:setVolume(setting.voc*.01)
 				Q[2]:play()
 				Q.s=3
 			end
