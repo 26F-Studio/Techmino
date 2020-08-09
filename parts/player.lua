@@ -1137,7 +1137,7 @@ function player.finesseError(P,rate)
 			SFX.play("finesseError_long",.6)
 			P:lose()
 		elseif setting.fine then
-			SFX.play("finesseError",.3)
+			SFX.play("finesseError",.8)
 		end
 	elseif P.gameEnv.fineKill then
 		P:lose()
