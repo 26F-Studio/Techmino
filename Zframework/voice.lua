@@ -121,7 +121,7 @@ function VOC.play(s,chn)
 		if chn then
 			local L=voiceQueue[chn]
 			local _=VOC.list[s]
-			if not _ then DBP("no VOC called:"..s)return end
+			if not _ then return end
 			L[#L+1]=_[rnd(#_)]
 			L.s=1
 			--Add to queue[chn]
