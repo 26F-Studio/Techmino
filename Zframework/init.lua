@@ -1152,7 +1152,7 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if Timer()-lastFreshPow>2 and setting.powerInfo and SCN.cur~="load"then
+		if Timer()-lastFreshPow>2 and setting.powerInfo and loadingFinished then
 			updatePowerInfo()
 			lastFreshPow=Timer()
 			_=gc.getWidth()

@@ -52,6 +52,7 @@ function Tmr.load()
 					SCN.swapTo("intro","none")
 				end
 			end
+			loadingFinished=true
 			return
 		end
 		S.cur=S.cur+1
