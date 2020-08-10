@@ -337,8 +337,6 @@ function SCN.swapUpdate()
 	S.time=S.time-1
 	if S.time==S.mid then
 		SCN.init(S.tar,SCN.cur)
-		SCN.cur=S.tar
-		WIDGET.set(Widgets[S.tar])
 		collectgarbage()
 		--Scene swapped this moment
 	end
@@ -348,6 +346,8 @@ function SCN.swapUpdate()
 end
 function SCN.init(s,org)
 	if sceneInit[s]then sceneInit[s](org)end
+	SCN.cur=s
+	WIDGET.set(Widgets[s])
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then
