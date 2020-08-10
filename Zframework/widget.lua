@@ -395,7 +395,6 @@ function WIDGET.press(x,y)
 		W.code()
 		W:FX()
 		SFX.play("button")
-		VOC.play("nya")
 	elseif W.type=="key"then
 		W.code()
 		SFX.play("lock")
