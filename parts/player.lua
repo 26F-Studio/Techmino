@@ -5,6 +5,7 @@ local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.ma
 local ins,rem=table.insert,table.remove
 local format=string.format
 local scr=scr--Screen camera
+local setFont=setFont
 --------------------------<GameData>--------------------------
 local gameEnv0={
 	noFly=false,
@@ -2032,6 +2033,7 @@ end
 
 --------------------------<Events>--------------------------
 local function gameOver()--Save record
+	if game.replaying then return end
 	FILE.saveData()
 	local M=curMode
 	local R=M.getRank
