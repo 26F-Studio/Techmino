@@ -263,11 +263,13 @@ function pauseGame()
 		if not game.result then
 			game.pauseCount=game.pauseCount+1
 		end
-		for i=1,#players do
-			local l=players[i].keyPressing
-			for j=1,#l do
-				if l[j]then
-					players[i]:releaseKey(j)
+		if not game.replaying then
+			for i=1,#players do
+				local l=players[i].keyPressing
+				for j=1,#l do
+					if l[j]then
+						players[i]:releaseKey(j)
+					end
 				end
 			end
 		end
