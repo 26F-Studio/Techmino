@@ -690,9 +690,9 @@ local function Pdraw_norm(P)
 		if P.lockDelay>=0 then
 			gc.rectangle("fill",0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
 		end
-		_=10
+		_=3
 		for i=1,min(P.gameEnv.freshLimit-P.freshTime,15)do
-			gc.circle("fill",_,615,5)
+			gc.rectangle("fill",_,615,14,5)
 			_=_+20
 		end
 
