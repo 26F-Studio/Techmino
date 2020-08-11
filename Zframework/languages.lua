@@ -186,6 +186,17 @@ local langList={
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
 		WidgetText={
+			calculator={
+				_1="1",_2="2",_3="3",
+				_4="4",_5="5",_6="6",
+				_7="7",_8="8",_9="9",
+				_0="0",["<"]="<",["="]="=",
+				["+"]="+",
+				["-"]="-",
+				["*"]="*",
+				["/"]="/",
+				play="开始",
+			},
 			main={
 				play="开始",
 				setting="设置",
@@ -258,14 +269,15 @@ local langList={
 				graphic="←画面设置",
 				sound="声音设置→",
 				ctrl="控制设置",
-				reTime="开局等待时间",
-				maxNext="最大预览数量",
-				autoPause="失去焦点自动暂停",
-				layout="外观",
 				key="键位设置",
 				touch="触屏设置",
+				reTime="开局等待时间",
+				maxNext="最大预览数量",
+				layout="外观",
+				autoPause="失去焦点自动暂停",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
+				lock="软件锁(密码626)",
 				back="返回",
 			},
 			setting_video={
@@ -375,8 +387,6 @@ local langList={
 				back="返回",
 			},
 			debug={
-				killWTM="关闭水印",
-				unlock="解锁全模式",
 				reset="重置?",
 				reset1="重置解锁/等级",
 				reset2="重置统计",
@@ -645,6 +655,17 @@ local langList={
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
 		WidgetText={
+			calculator={
+				_1="1",_2="2",_3="3",
+				_4="4",_5="5",_6="6",
+				_7="7",_8="8",_9="9",
+				_0="0",["<"]="<",["="]="=",
+				["+"]="+",
+				["-"]="-",
+				["*"]="*",
+				["/"]="/",
+				play="开始",
+			},
 			main={
 				play="开始",
 				setting="设置",
@@ -717,14 +738,15 @@ local langList={
 				graphic="←画面设置",
 				sound="声音设置→",
 				ctrl="控制设置",
-				reTime="开局等待时间",
-				maxNext="最大预览数量",
-				autoPause="失去焦点自动暂停",
-				layout="外观",
 				key="键位设置",
 				touch="触屏设置",
+				reTime="开局等待时间",
+				maxNext="最大预览数量",
+				layout="外观",
+				autoPause="失去焦点自动暂停",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
+				lock="软件锁(密码626)",
 				back="返回",
 			},
 			setting_video={
@@ -834,8 +856,6 @@ local langList={
 				back="返回",
 			},
 			debug={
-				killWTM="关闭水印",
-				unlock="解锁全模式",
 				reset="重置?",
 				reset1="重置解锁/等级",
 				reset2="重置统计",
@@ -1093,6 +1113,17 @@ local langList={
 		support="Support author",
 		group="Official QQ Group(if not hacked):1080457319",
 		WidgetText={
+			calculator={
+				_1="1",_2="2",_3="3",
+				_4="4",_5="5",_6="6",
+				_7="7",_8="8",_9="9",
+				_0="0",["<"]="<",["="]="=",
+				["+"]="+",
+				["-"]="-",
+				["*"]="*",
+				["/"]="/",
+				play="Play",
+			},
 			main={
 				play="Play",
 				setting="Settings",
@@ -1165,14 +1196,15 @@ local langList={
 				graphic="←Video",
 				sound="Sound→",
 				ctrl="Control settings",
-				reTime="Start Delay",
-				maxNext="Next Queue Length",
-				autoPause="Pause when lose focus",
-				layout="Layout",
 				key="Key Mappings",
 				touch="Touch Settings",
+				reTime="Start Delay",
+				maxNext="Next Queue Length",
+				layout="Layout",
+				autoPause="Pause when lose focus",
 				swap="Key Combination (Change Atk. Mode)",
 				fine="Finesse Error Sound",
+				lock="Game Lock(pw=626)",
 				back="Back",
 			},
 			setting_video={
@@ -1282,8 +1314,6 @@ local langList={
 				back="Back",
 			},
 			debug={
-				killWTM="Kill watermark",
-				unlock="Unlock all",
 				reset="Reset?",
 				reset1="Reset rank",
 				reset2="Reset data",
@@ -1537,6 +1567,17 @@ local langList={
 		support="Support author",
 		group="Official QQ Group(if not hacked):1080457319",
 		WidgetText={
+			calculator={
+				_1="1",_2="2",_3="3",
+				_4="4",_5="5",_6="6",
+				_7="7",_8="8",_9="9",
+				_0="0",["<"]="<",["="]="=",
+				["+"]="+",
+				["-"]="-",
+				["*"]="*",
+				["/"]="/",
+				play="!!!",
+			},
 			main={
 				play="!!!",
 				setting="_?_",
@@ -1609,14 +1650,15 @@ local langList={
 				graphic="←Video",
 				sound="Sound→",
 				ctrl="=?=",
-				reTime="3-2-1",
-				maxNext="=123",
-				autoPause="A||",
-				layout="=-=-=",
 				key="=?",
 				touch="_?",
+				reTime="3-2-1",
+				maxNext="=123",
+				layout="=-=-=",
+				autoPause="A||",
 				swap="=+=+=",
 				fine="!#!X #!#",
+				lock="?XX(=626)",
 				back="X",
 			},
 			setting_video={
@@ -1726,8 +1768,6 @@ local langList={
 				back="X",
 			},
 			debug={
-				killWTM="Kill watermark",
-				unlock="Unlock all",
 				reset="Reset?",
 				reset1="Reset rank",
 				reset2="Reset data",
@@ -1999,6 +2039,17 @@ local langList={
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
 		WidgetText={
+			calculator={
+				_1="1",_2="2",_3="3",
+				_4="4",_5="5",_6="6",
+				_7="7",_8="8",_9="9",
+				_0="0",["<"]="<",["="]="=",
+				["+"]="+",
+				["-"]="-",
+				["*"]="*",
+				["/"]="/",
+				play="开始",
+			},
 			main={
 				play="开始",
 				setting="设置",
@@ -2071,14 +2122,15 @@ local langList={
 				graphic="←改画面",
 				sound="改声音→",
 				ctrl="改控制",
-				reTime="开局等待时间",
-				maxNext="最大预览数量",
-				autoPause="失去焦点自动暂停",
-				layout="外观",
 				key="改键位",
 				touch="改触屏",
+				reTime="开局等待时间",
+				maxNext="最大预览数量",
+				layout="外观",
+				autoPause="失去焦点自动暂停",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
+				lock="家长锁(密码626)",
 				back="返回",
 			},
 			setting_video={
@@ -2188,8 +2240,6 @@ local langList={
 				back="返回",
 			},
 			debug={
-				killWTM="关水印",
-				unlock="解锁全模式",
 				reset="重置?",
 				reset1="重置解锁/等级",
 				reset2="重置统计",
@@ -2351,7 +2401,6 @@ function LANG.set(l)
 		end
 	end
 	for _,s in next,drawableTextLoad do
-		print(s)
 		drawableText[s]:set(text[s])
 	end
 	collectgarbage()

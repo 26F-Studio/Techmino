@@ -25,6 +25,7 @@ local Timer=love.timer.getTime
 local int,rnd,max,min=math.floor,math.random,math.max,math.min
 local abs=math.abs
 local ins,rem=table.insert,table.remove
+local byte=string.byte
 
 local scr=scr
 local xOy=love.math.newTransform()
@@ -126,6 +127,75 @@ local mouseDown,mouseMove,mouseUp,wheelMoved={},{},{},{}
 local touchDown,touchUp,touchMove={},{},{}
 local keyDown,keyUp={},{}
 local gamepadDown,gamepadUp={},{}
+
+function keyDown.calculator(k)
+	local S=sceneTemp
+	if byte(k)>=48 and byte(k)<=57 then
+		if S.sym=="="then
+			S.val=tonumber(k)
+			S.sym=false
+		elseif S.sym then
+			if not S.reg then
+				S.reg=S.val
+				S.val=tonumber(k)
+			elseif S.val<1e13 then
+				S.val=S.val*10+tonumber(k)
+			end
+		else
+			if S.val<1e13 then
+				S.val=S.val*10+tonumber(k)
+			end
+		end
+	elseif k=="backspace"then
+		if S.val>0 then
+			S.val=int(S.val/10)
+		end
+	elseif k=="+"or k=="="and kb.isDown("rshift","lshift")then
+		S.sym="+"
+	elseif k=="-"then
+		S.sym="-"
+	elseif k=="*"or k=="8"and kb.isDown("rshift","lshift")then
+		S.sym="*"
+	elseif k=="/"then
+		S.sym="/"
+	elseif k=="return"then
+		if S.val then
+			if S.sym and S.reg then
+				S.val=
+					S.sym=="+"and S.reg+S.val or
+					S.sym=="-"and S.reg-S.val or
+					S.sym=="*"and S.reg*S.val or
+					S.sym=="/"and S.reg/S.val or
+					-1
+			end
+			S.sym="="
+			S.reg=false
+			if S.val==626 then
+				S.pass=true
+			elseif S.val==196022 then
+				marking=nil
+				TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
+				SFX.play("clear")
+			elseif S.val==72943816 then
+				for name,M in next,Modes do
+					if not modeRanks[name]then
+						modeRanks[name]=M.score and 0 or 6
+					end
+				end
+				FILE.saveUnlock()
+				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
+				SFX.play("clear_2")
+			elseif S.val==137926261379 then
+				SCN.goto("debug")
+			end
+		end
+	elseif k=="space"then
+		if S.pass then
+			SCN.goto("load")
+		end
+	end
+end
+
 
 function keyDown.load(k)
 	if k=="a"then
@@ -738,34 +808,6 @@ function gamepadUp.play(key)
 	end
 end
 
-function keyDown.staff(key,RESET)
-	if key=="escape"then
-		SCN.back()
-	elseif key=="\122"then
-		if RESET or kb.isDown("\109")and kb.isDown("\114")then
-			SCN.goto("debug")
-		end
-	end
-end
-function touchDown.staff(id,x,y)
-	local pw=sceneTemp.pw
-	local t=pw%4
-	if
-		t==0 and x<640 and y<360 or
-		t==1 and x>640 and y<360 or
-		t==2 and x<640 and y>360 or
-		t==3 and x>640 and y>360
-	then
-		pw=pw+1
-		if pw==8 then
-			SCN.goto("debug")
-		end
-	else
-		pw=x<640 and y<360==1 and 1 or 0
-	end
-	sceneTemp.pw=pw
-end
-
 function wheelMoved.history(x,y)
 	wheelScroll(y)
 end
@@ -1050,7 +1092,7 @@ function love.run()
 	local FCT=0--Framedraw counter
 
 	love.resize(gc.getWidth(),gc.getHeight())
-	SCN.init("load")--Scene Launch
+	SCN.init(setting.lock and "calculator"or"load")--Scene Launch
 	marking=true
 
 	return function()

@@ -7,6 +7,14 @@ local scr=scr
 
 local sceneInit={}
 sceneInit.quit=love.event.quit
+function sceneInit.calculator()
+	sceneTemp={
+		reg=false,
+		val=0,
+		sym=false,
+		pass=false,
+	}
+end
 function sceneInit.load()
 	sceneTemp={
 		phase=1,--Loading stage
@@ -221,7 +229,6 @@ function sceneInit.help()
 end
 function sceneInit.staff()
 	sceneTemp={
-		pw=0,
 		time=0,
 		v=1,
 	}

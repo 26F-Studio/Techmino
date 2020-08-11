@@ -98,6 +98,25 @@ newSlider=WIDGET.newSlider
 --All widgets
 local Widgets={
 	load={},intro={},quit={},
+	calculator={
+		newKey({name="_1",			x=300,y=300,w=90,h=90,	color="white",	font=50,code=pressKey("1")}),
+		newKey({name="_2",			x=400,y=300,w=90,h=90,	color="white",	font=50,code=pressKey("2")}),
+		newKey({name="_3",			x=500,y=300,w=90,h=90,	color="white",	font=50,code=pressKey("3")}),
+		newKey({name="_4",			x=300,y=400,w=90,h=90,	color="white",	font=50,code=pressKey("4")}),
+		newKey({name="_5",			x=400,y=400,w=90,h=90,	color="white",	font=50,code=pressKey("5")}),
+		newKey({name="_6",			x=500,y=400,w=90,h=90,	color="white",	font=50,code=pressKey("6")}),
+		newKey({name="_7",			x=300,y=500,w=90,h=90,	color="white",	font=50,code=pressKey("7")}),
+		newKey({name="_8",			x=400,y=500,w=90,h=90,	color="white",	font=50,code=pressKey("8")}),
+		newKey({name="_9",			x=500,y=500,w=90,h=90,	color="white",	font=50,code=pressKey("9")}),
+		newKey({name="_0",			x=300,y=600,w=90,h=90,	color="white",	font=50,code=pressKey("0")}),
+		newKey({name="<",			x=400,y=600,w=90,h=90,	color="lRed",	font=50,code=pressKey("backspace")}),
+		newKey({name="=",			x=500,y=600,w=90,h=90,	color="lYellow",font=50,code=pressKey("return")}),
+		newKey({name="+",			x=600,y=300,w=90,h=90,	color="lBlue",	font=50,code=pressKey("+")}),
+		newKey({name="-",			x=600,y=400,w=90,h=90,	color="lBlue",	font=50,code=pressKey("-")}),
+		newKey({name="*",			x=600,y=500,w=90,h=90,	color="lBlue",	font=50,code=pressKey("*")}),
+		newKey({name="/",			x=600,y=600,w=90,h=90,	color="lBlue",	font=50,code=pressKey("/")}),
+		newButton({name="play",		x=800,y=600,w=180,h=90,	color="lGreen",	font=40,code=pressKey("space"),hide=function()return not sceneTemp.pass end}),
+	},
 	main={
 		newButton({name="play",		x=150,y=280,w=200,h=160,color="lRed",	font=55,code=function()SCN.goto("mode")end}),
 		newButton({name="setting",	x=370,y=280,w=200,h=160,color="lBlue",	font=45,code=function()SCN.goto("setting_game")end}),
@@ -230,6 +249,7 @@ local Widgets={
 		newSwitch({name="autoPause",x=1080,	y=320,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")}),
 		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
 		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=SETrev("fine")}),
+		newSwitch({name="lock",		x=1080,	y=500,	font=20,disp=SETval("lock"),		code=SETrev("lock")}),
 		newButton({name="back",		x=1140,	y=650,	w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 	setting_video={
@@ -457,27 +477,7 @@ local Widgets={
 		newButton({name="back",		x=640,	y=620,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	debug={
-		newButton({name="killWTM",	x=340,y=200,w=260,h=100,color="white",font=35,
-			code=function()
-				marking=nil
-				TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
-				SFX.play("clear")
-			end,
-			hide=function()
-				return not marking
-			end}),
-		newButton({name="unlock",	x=640,y=200,w=260,h=100,color="white",font=40,
-			code=function()
-				for name,M in next,Modes do
-					if not modeRanks[name]then
-						modeRanks[name]=M.score and 0 or 6
-					end
-				end
-				FILE.saveUnlock()
-				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
-				SFX.play("clear_2")
-			end}),
-		newButton({name="reset",	x=940,y=200,w=260,h=100,color="yellow",font=40,
+		newButton({name="reset",	x=640,y=200,w=260,h=100,color="yellow",font=40,
 			code=function()
 				sceneTemp.reset=true
 			end,

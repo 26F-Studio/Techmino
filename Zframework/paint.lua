@@ -94,6 +94,16 @@ end
 
 local Pnt={}
 
+function Pnt.calculator()
+	local S=sceneTemp
+	gc.setLineWidth(4)
+	gc.rectangle("line",100,80,650,150)
+	setFont(45)
+	if S.reg then gc.printf(S.reg,0,100,720,"right")end
+	if S.val then gc.printf(S.val,0,150,720,"right")end
+	setFont(50)
+	if S.sym then gc.print(S.sym,126,150)end
+end
 function Pnt.load()
 	local S=sceneTemp
 	gc.setLineWidth(4)
@@ -381,7 +391,6 @@ function Pnt.sequence()
 		gc.draw(drawableText.question,980,470)
 	end
 end
-
 function Pnt.draw()
 	local sx,sy=sceneTemp.x,sceneTemp.y
 	gc.translate(200,60)
@@ -531,10 +540,10 @@ function Pnt.play()
 	end
 	gc.pop()
 end
+
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
-
 function Pnt.pause()
 	local S=sceneTemp
 	local T=S.timer*.02
@@ -646,6 +655,7 @@ function Pnt.setting_sound()
 	gc.draw(IMG.miyaF4,129,98+3*sin(t*.7))
 	gc.translate(-x,-y)
 end
+
 local function timeConv(t)
 	return t.."F "..int(t*16.67).."ms"
 end
