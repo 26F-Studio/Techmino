@@ -1,4 +1,4 @@
-local min=math.random,math.min
+local min=math.min
 local function check_c4w(P)
 	for i=1,#P.clearedRow do
 		P.field[#P.field+1]=freeRow.get(13)
@@ -59,7 +59,7 @@ return{
 		if L==100 then
 			local T=P.stat.time
 			return
-			T<=36 and 5 or
+			T<=40 and 5 or
 			T<=60 and 4 or
 			3
 		else
