@@ -56,7 +56,6 @@ Future outlook:
 						mine sweeper
 						tank battle
 				new AI: task-Z
-				self protection
 				cool backgrounds
 				'Encrypt'(compile to byte code)
 				better drop FX
@@ -70,11 +69,30 @@ Future outlook:
 				more graphic FXs & 3D features & animations
 				network game
 
+0.10.3: 软件锁 APP Lock
+		新内容:
+				设置增加软件锁选项,打开游戏后进入伪装界面
+		改动:
+				剩余锁延重置次数指示器改为长方形
+				debug界面改为重置界面,进入方法修改
+				游戏设置页面布局更改
+				语音音量条改为无刻度
+				取消快速重开设置,游戏过程中长按重开,结束后开局一秒内点击重开
+		修复:
+				无尽挖掘报错
+				极简错误提示声音太小
+				修复回放也计入排行榜
+				回放时暂停不打断玩家操作
+				c4w练习的lunatic分数bug
+
 0.10.2: 锁延修复 Lock Delay Fixed
 		改动:
 				锁延机制再修正
-				"失败"字样改为"游戏结束"
+				"失败"改为"游戏结束"
 		修复:
+				纠正部分rank文件转换错误
+				模式文件使用玩家的随机器以正确回放
+				游戏结束后马上暂停并解除还会自动暂停
 				改设置后回放错误
 				字库缺字
 

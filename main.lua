@@ -121,12 +121,12 @@ end
 
 --Update data file
 S=stat
-if S.version=="Alpha V0.9.1"or type(setting.spawn)~="number"then
+if type(setting.spawn)~="number"then
 	setting.spawn=0
 end
 if S.version~=gameVersion then
 	S.version=gameVersion
-	TEXT.show(text.newBigVersion,640,200,30,"fly",.3)
+	TEXT.show(text.newVersion,640,200,30,"fly",.3)
 	newVersionLaunch=true
 
 	fs.remove("sprintPenta.dat")
