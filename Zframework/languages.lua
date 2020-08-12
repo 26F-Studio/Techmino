@@ -275,7 +275,7 @@ local langList={
 				autoPause="失去焦点自动暂停",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
-				lock="软件锁(密码626)",
+				appLock="软件锁(密码626)",
 				back="返回",
 			},
 			setting_video={
@@ -742,7 +742,7 @@ local langList={
 				autoPause="失去焦点自动暂停",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
-				lock="软件锁(密码626)",
+				appLock="软件锁(密码626)",
 				back="返回",
 			},
 			setting_video={
@@ -1198,7 +1198,7 @@ local langList={
 				autoPause="Pause when lose focus",
 				swap="Key Combination (Change Atk. Mode)",
 				fine="Finesse Error Sound",
-				lock="Game Lock(pw=626)",
+				appLock="App Lock(pw=626)",
 				back="Back",
 			},
 			setting_video={
@@ -1652,7 +1652,7 @@ local langList={
 				autoPause="A||",
 				swap="=+=+=",
 				fine="!#!X #!#",
-				lock="?XX(=626)",
+				appLock="?XX(=626)",
 				back="X",
 			},
 			setting_video={
@@ -2122,7 +2122,7 @@ local langList={
 				autoPause="失去焦点自动暂停",
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
-				lock="家长锁(密码626)",
+				appLock="家长锁(密码626)",
 				back="返回",
 			},
 			setting_video={
