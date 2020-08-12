@@ -1186,8 +1186,8 @@ function love.run()
 					for i=1,#LIST do
 						gc.rectangle("fill",900+2*i,_,2,-LIST[i]*4000)
 					end
-					if devMode==3 then WAIT(.26)
-					elseif devMode==4 then WAIT(.626)
+					if devMode==3 then WAIT(.1)
+					elseif devMode==4 then WAIT(.5)
 					end
 				end
 
