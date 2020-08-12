@@ -69,6 +69,15 @@ Future outlook:
 				more graphic FXs & 3D features & animations
 				network game
 
+0.10.4: 漏洞修复 Bug Fix
+		代码:
+				修改场景模块方法名
+				软件锁变量名从lock改为appLock
+				使用linter整理代码
+		修复:
+				BPM120~180之间分数计算不正确
+				进不指定锁延的模式就报错
+
 0.10.3: 软件锁 APP Lock
 		新内容:
 				设置增加软件锁选项,打开游戏后进入伪装界面
