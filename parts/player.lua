@@ -1488,7 +1488,9 @@ function player.hold(P,ifpre)
 		if C then
 			P:resetBlock()
 			P:freshgho()
-			P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,max(P.freshTime-5,0)
+			P.dropDelay=P.gameEnv.drop
+			P.lockDelay=P.gameEnv.lock
+			P.freshTime=max(P.freshTime-5,0)
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 		end
 
@@ -1529,7 +1531,9 @@ function player.popNext(P)--Pop next queue to hand
 			P:resetBlock()
 		end
 
-		P.dropDelay,P.lockDelay,P.freshTime=P.gameEnv.drop,P.gameEnv.lock,0
+		P.dropDelay=P.gameEnv.drop
+		P.lockDelay=P.gameEnv.lock
+		P.freshTime=0
 
 		if P.cur then
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
@@ -2579,15 +2583,20 @@ end
 local function loadGameEnv(P)--Load gameEnv
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
-
+	local E
 	--Load game settings
 	for k,v in next,gameEnv0 do
 		if modeEnv[k]~=nil then
 			v=modeEnv[k]				--Mode setting
+			-- DBP("mode-"..k..":"..tostring(v))
 		elseif game.setting[k]~=nil then
 			v=game.setting[k]			--Game setting
+			-- DBP("game-"..k..":"..tostring(v))
 		elseif setting[k]~=nil then
 			v=setting[k]				--Global setting
+			-- DBP("global-"..k..":"..tostring(v))
+		-- else
+			-- DBP("default-"..k..":"..tostring(v))
 		end
 		ENV[k]=v						--Default setting
 	end
@@ -2745,9 +2754,9 @@ end
 function PLY.newRemotePlayer(id,x,y,size,actions)
 	local P=newEmptyPlayer(id,x,y,size)
 
-	P.human=false -- 录像不是人为操作
-	P.remote=true -- 远程操作
-	-- 开发中
+	P.human=false
+	P.remote=true
+
 	-- P.updateAction=buildActionFunctionFromActions(P, actions)
 
 	loadGameEnv(P)
