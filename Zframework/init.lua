@@ -191,7 +191,7 @@ function keyDown.calculator(k)
 		end
 	elseif k=="space"then
 		if S.pass then
-			SCN.go("load")
+			SCN.swapTo("load")
 		end
 	end
 end
@@ -203,6 +203,8 @@ function keyDown.load(k)
 	elseif k=="s"then
 		marking=nil
 		sceneTemp.skip=true
+	elseif k=="escape"then
+		SCN.back()
 	end
 end
 function touchDown.load(id,x,y)
