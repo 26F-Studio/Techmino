@@ -1541,7 +1541,10 @@ function player.popNext(P)--Pop next queue to hand
 		end
 
 		--IHdS
-		if _[6]then P.act.hardDrop(P)_[6]=false end
+		if _[6]then
+			P.act.hardDrop(P)
+			_[6]=false
+		end
 	end
 end
 

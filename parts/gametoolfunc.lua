@@ -388,8 +388,8 @@ function gameStart()
 	SFX.play("start")
 	for P=1,#players do
 		P=players[P]
-		P:popNext()
-		P.timing=true
 		P.control=true
+		P.timing=true
+		P:popNext()
 	end
 end
