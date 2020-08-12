@@ -1942,7 +1942,7 @@ function player.drop(P)--Place piece
 		if P.dropSpeed>60 then
 			dropScore=dropScore*P.dropSpeed/60
 		elseif P.dropSpeed>120 then
-			dropScore=dropScore*1,2*P.dropSpeed/120
+			dropScore=dropScore*1.2*P.dropSpeed/120
 		elseif P.dropSpeed>180 then
 			dropScore=dropScore*1.5*P.dropSpeed/180
 		end

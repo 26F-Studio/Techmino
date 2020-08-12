@@ -7,7 +7,6 @@ return{
 		freshLimit=10,
 		visible="fast",
 		dropPiece=PLY.reach_winCheck,
-		freshLimit=10,
 		target=200,
 		bg="glow",bgm="reason",
 	},

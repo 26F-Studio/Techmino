@@ -223,7 +223,7 @@ elseif setting.lang==5 then
 			--[[23]]"大半夜的在这干啥呢?不睡觉是会猝死的",
 		}
 		return time[tonumber(os.date("%H"))+1]
-	elseif true or R<.1 then
+	elseif R<.1 then
 		local int=math.floor
 		L={
 			"平均"..int(stat.row/stat.time*60).."LPM,那可真强呢",

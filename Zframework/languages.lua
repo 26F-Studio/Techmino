@@ -85,8 +85,6 @@ local langList={
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
 
-		ai_fixed="不能同时开启AI和固定序列",
-		ai_prebag="不能同时开启AI和自定义序列",
 		switchSpawnSFX="请开启方块出生音效",
 
 		needRestart="重新开始以生效",
@@ -555,8 +553,6 @@ local langList={
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
 
-		ai_fixed="不能同时开启电脑玩家和固定序列",
-		ai_prebag="不能同时开启电脑玩家和自定义序列",
 		switchSpawnSFX="请开启方块出生音效",
 
 		needRestart="重新开始以生效",
@@ -1024,8 +1020,6 @@ local langList={
 		unlockSavingError="Failed to save unlock:",
 		recSavingError="Failed to save record:",
 
-		ai_fixed="AI is incompatible with fixed sequence",
-		ai_prebag="AI is incompatible with custom sequence",
 		switchSpawnSFX="Switch on spawn SFX to play",
 
 		needRestart="Effective after restart",
@@ -1938,8 +1932,6 @@ local langList={
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
 
-		ai_fixed="不能同时开启AI和固定序列",
-		ai_prebag="不能同时开启AI和自定义序列",
 		switchSpawnSFX="请开启方块出生音效",
 
 		needRestart="重新开始以生效",

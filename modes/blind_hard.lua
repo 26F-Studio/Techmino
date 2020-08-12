@@ -4,7 +4,7 @@ return{
 	color=color.magenta,
 	env={
 		drop=15,lock=45,
-		fall=10,lock=60,
+		fall=10,
 		center=false,
 		visible="none",
 		dropPiece=PLY.reach_winCheck,
