@@ -118,18 +118,18 @@ local Widgets={
 		newButton({name="play",		x=800,y=600,w=180,h=90,	color="lGreen",	font=40,code=pressKey("space"),hide=function()return not sceneTemp.pass end}),
 	},
 	main={
-		newButton({name="play",		x=150,y=280,w=200,h=160,color="lRed",	font=55,code=function()SCN.goto("mode")end}),
-		newButton({name="setting",	x=370,y=280,w=200,h=160,color="lBlue",	font=45,code=function()SCN.goto("setting_game")end}),
-		newButton({name="music",	x=590,y=280,w=200,h=160,color="lPurple",font=32,code=function()SCN.goto("music")end}),
-		newButton({name="help",		x=150,y=460,w=200,h=160,color="lYellow",font=50,code=function()SCN.goto("help")end}),
-		newButton({name="stat",		x=370,y=460,w=200,h=160,color="lCyan",	font=43,code=function()SCN.goto("stat")end}),
+		newButton({name="play",		x=150,y=280,w=200,h=160,color="lRed",	font=55,code=function()SCN.go("mode")end}),
+		newButton({name="setting",	x=370,y=280,w=200,h=160,color="lBlue",	font=45,code=function()SCN.go("setting_game")end}),
+		newButton({name="music",	x=590,y=280,w=200,h=160,color="lPurple",font=32,code=function()SCN.go("music")end}),
+		newButton({name="help",		x=150,y=460,w=200,h=160,color="lYellow",font=50,code=function()SCN.go("help")end}),
+		newButton({name="stat",		x=370,y=460,w=200,h=160,color="lCyan",	font=43,code=function()SCN.go("stat")end}),
 		newButton({name="qplay",	x=590,y=460,w=200,h=160,color="lOrange",font=43,code=function()SCN.push()loadGame(stat.lastPlay,true)end}),
-		newButton({name="lang",		x=150,y=610,w=160,h=100,color="lGreen",	font=45,code=function()SCN.goto("setting_lang")end}),
+		newButton({name="lang",		x=150,y=610,w=160,h=100,color="lGreen",	font=45,code=function()SCN.go("setting_lang")end}),
 		newButton({name="quit",		x=590,y=610,w=160,h=100,color="lGrey",	font=45,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end}),
 	},
 	mode={
 		newButton({name="setting",	x=1100,y=540,w=240,h=90,color="lGreen",	font=40,code=function()
-				SCN.goto("custom")
+				SCN.go("custom")
 			end,
 			hide=function()
 				return mapCam.sel~="custom_clear" and mapCam.sel~="custom_puzzle"
@@ -238,13 +238,13 @@ local Widgets={
 	setting_game={
 		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
 		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
-		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=function()SCN.goto("setting_control")end}),
-		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=function()SCN.goto("setting_key")end}),
-		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=function()SCN.goto("setting_touch")end}),
+		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=function()SCN.go("setting_control")end}),
+		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=function()SCN.go("setting_key")end}),
+		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=function()SCN.go("setting_touch")end}),
 		newSlider({name="reTime",	x=350,	y=340,	w=300,unit=10,				font=30,disp=SETval("reTime"),	code=SETsto("reTime")}),
 		newSlider({name="maxNext",	x=350,	y=440,	w=300,unit=6,				font=30,disp=SETval("maxNext"),	code=SETsto("maxNext")}),
 		newButton({name="layout",	x=460,	y=540,	w=140,h=70,color="white",	font=35,code=function()
-			SCN.goto("setting_skin")
+			SCN.go("setting_skin")
 			end}),
 		newSwitch({name="autoPause",x=1080,	y=320,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")}),
 		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
@@ -390,7 +390,7 @@ local Widgets={
 			end}),
 		newButton({name="option",	x=520,y=180,w=170,h=80,color="white",font=40,
 			code=function()
-				SCN.goto("setting_touchSwitch")
+				SCN.go("setting_touchSwitch")
 			end}),
 		newButton({name="back",		x=760,y=180,w=170,h=80,color="white",font=40,code=BACK}),
 		newSlider({name="size",		x=450,y=265,w=460,unit=14,font=40,
@@ -436,7 +436,7 @@ local Widgets={
 		newSwitch({name="icon",		x=850,	y=300,	font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon")}),
 		newButton({name="tkset",	x=1120,	y=420,	w=240,h=80,color="white",font=32,
 			code=function()
-				SCN.goto("setting_trackSetting")
+				SCN.go("setting_trackSetting")
 			end,
 			hide=function()
 				return not setting.VKTrack
@@ -459,8 +459,8 @@ local Widgets={
 		newButton({name="back",		x=640,	y=600,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	help={
-		newButton({name="staff",	x=980,	y=500,w=150,h=80,color="white",font=32,code=function()SCN.goto("staff")end}),
-		newButton({name="his",		x=1160,	y=500,w=150,h=80,color="white",font=32,code=function()SCN.goto("history")end}),
+		newButton({name="staff",	x=980,	y=500,w=150,h=80,color="white",font=32,code=function()SCN.go("staff")end}),
+		newButton({name="his",		x=1160,	y=500,w=150,h=80,color="white",font=32,code=function()SCN.go("history")end}),
 		newButton({name="qq",		x=1070,	y=600,w=200,h=80,color="white",font=32,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=mobileHide}),
 		newButton({name="back",		x=640,	y=600,w=200,h=80,color="white",font=40,code=BACK}),
 	},

@@ -186,12 +186,12 @@ function keyDown.calculator(k)
 				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
 				SFX.play("clear_2")
 			elseif S.val==137926261379 then
-				SCN.goto("debug")
+				SCN.go("debug")
 			end
 		end
 	elseif k=="space"then
 		if S.pass then
-			SCN.goto("load")
+			SCN.go("load")
 		end
 	end
 end
@@ -216,7 +216,7 @@ function mouseDown.intro(x,y,k)
 		VOC.play("bye")
 		SCN.back()
 	else
-		SCN.goto("main")
+		SCN.go("main")
 	end
 end
 function touchDown.intro(id,x,y)
@@ -339,7 +339,7 @@ function keyDown.mode(key)
 		end
 	elseif mapCam.sel=="custom_clear" or mapCam.sel=="custom_puzzle" then
 		if key=="e"then
-			SCN.goto("custom")
+			SCN.go("custom")
 		end
 	end
 end
@@ -396,7 +396,7 @@ function keyDown.custom(key)
 			BGM.play(customRange.bgm[customSel[sel]])
 		end
 	elseif key=="q"then
-		SCN.goto("sequence")
+		SCN.go("sequence")
 	elseif key=="e"then
 		SCN.swapTo("draw","swipe")
 	elseif #key==1 then
@@ -685,7 +685,7 @@ function keyDown.pause(key)
 	elseif key=="escape"then
 		resumeGame()
 	elseif key=="s"then
-		SCN.goto("setting_sound")
+		SCN.go("setting_sound")
 	elseif key=="r"then
 		TASK.clear("play")
 		resetGameData()
@@ -1162,7 +1162,7 @@ function love.run()
 
 				--Draw scene swapping animation
 				if SCN.swapping then
-					_=SCN.swap
+					_=SCN.stat
 					_.draw(_.time)
 				end
 

@@ -329,7 +329,7 @@ end
 local SCN={
 	cur="load",--Current scene
 	swapping=false,--If Swapping
-	swap={
+	stat={
 		tar=nil,	--Swapping target
 		style=nil,	--Swapping style
 		mid=nil,	--Loading point
@@ -340,7 +340,7 @@ local SCN={
 }--Scene datas, returned
 
 function SCN.swapUpdate()
-	local S=SCN.swap
+	local S=SCN.stat
 	S.time=S.time-1
 	if S.time==S.mid then
 		SCN.init(S.tar,SCN.cur)
@@ -395,7 +395,7 @@ local swap={
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
-	local S=SCN.swap
+	local S=SCN.stat
 	if not SCN.swapping and tar~=SCN.cur then
 		SCN.swapping=true
 		if not style then style="fade"end
@@ -407,7 +407,7 @@ function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 		S.draw=swap[3]
 	end
 end
-function SCN.goto(tar,style)--Normal scene swapping, can back
+function SCN.go(tar,style)--Normal scene swapping, can back
 	SCN.push()SCN.swapTo(tar,style)
 end
 function SCN.back()

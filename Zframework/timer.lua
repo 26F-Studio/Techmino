@@ -131,7 +131,7 @@ function Tmr.mode(dt)
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
 	cam.k1=cam.k1*.85+k*.15
-	local _=SCN.swap.tar
+	local _=SCN.stat.tar
 	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
 	if cam.zoomMethod==1 then
 		if cam.sel then
