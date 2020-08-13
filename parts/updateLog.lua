@@ -74,9 +74,13 @@ Future outlook:
 				修改场景模块方法名
 				软件锁变量名从lock改为appLock
 				使用linter整理代码
+				重构锁延相关代码,freshgho,freshLockDelay,freshMinY合并为freshBlock
 		修复:
 				BPM120~180之间分数计算不正确
 				进不指定锁延的模式就报错
+				锁延机制错误(这次真修好了)
+				游戏结束后马上暂停并解除还会自动暂停(之前没修好)
+				提前硬降失效
 
 0.10.3: 软件锁 APP Lock
 		新内容:
