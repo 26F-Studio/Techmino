@@ -1,11 +1,11 @@
 --[[
-  ______             __                _
- /_  __/___   _____ / /_   ____ ___   (_)____   ____
-  / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \
- / /  /  __// /__ / / / // / / / / // // / / // /_/ /
-/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
-Techmino is my first "huge project"
-optimization is welcomed if you also love tetromino game
+	  ______             __                _
+	 /_  __/___   _____ / /_   ____ ___   (_)____   ____
+	  / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \
+	 / /  /  __// /__ / / / // / / / / // // / / // /_/ /
+	/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
+	Techmino is my first "huge project"
+	optimization is welcomed if you also love tetromino game
 ]]--
 
 --?
@@ -19,7 +19,6 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 system=love.system.getOS()
-game={}
 mapCam={
 	sel=nil,--Selected mode ID
 
@@ -41,8 +40,8 @@ preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 preBag={}
 
 game={
-	frame=0,			--Frame count
-	result=0,			--Game result
+	frame=0,			--Frame count 
+	result=false,		--Game result (string)
 	pauseTime=0,		--Time paused
 	pauseCount=0,		--Pausing count
 	garbageSpeed=1,		--Garbage timing speed
@@ -50,7 +49,16 @@ game={
 	warnLVL=0,			--Warning level (show)
 	recording=false,	--If recording
 	replaying=false,	--If replaying
-	rec={},				--Recording list, key-time
+	seed=math.random(999999999),--Game seed
+	setting={},			--Game settings
+	rec={},				--Recording list, key,time,key,time...
+
+	--Data for royale mode
+	stage=nil,			--Game stage
+	mostBadge=nil,		--Most badge owner
+	secBadge=nil,		--Second badge owner
+	mostDangerous=nil,	--Most dangerous player
+	secDangerous=nil,	--Second dangerous player
 }--Global game data
 players={alive={}}--Players data
 curMode=nil--Current mode object

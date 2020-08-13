@@ -310,7 +310,6 @@ function resetGameData()
 
 	destroyPlayers()
 	modeEnv=curMode.env
-	math.randomseed(game.seed)
 	curMode.load()--BG/BGM need redefine in custom,so up here
 	if modeEnv.task then
 		for i=1,#players do
@@ -363,7 +362,6 @@ function resetPartGameData(replaying)
 
 	destroyPlayers()
 	modeEnv=curMode.env
-	math.randomseed(game.seed)
 	curMode.load()
 	if modeEnv.task then
 		for i=1,#players do
