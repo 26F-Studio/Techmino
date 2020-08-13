@@ -437,7 +437,7 @@ local function Pupdate_alive(P,dt)
 					P.curY=P.imgY
 				end
 			end
-			P:freshMinY()
+			P:freshBlock(true,true)
 			P.spinLast=false
 
 			if P.imgY~=P.curY then
@@ -810,6 +810,12 @@ local function Pdraw_norm(P)
 	gc.draw(drawableText.kpm,344,573)
 	mStr(format("%.2f",P.stat.time),-81,518)--Time
 	mStr(P.score1,-81,560)--Score
+
+	--Display Ys
+	-- gc.setLineWidth(6)
+	-- if P.curY then gc.setColor(1,.4,0,.626)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
+	-- if P.imgY then gc.setColor(0,1,.4,.626)gc.line(0,615-P.imgY*30,300,615-P.imgY*30)end
+	-- if P.minY then gc.setColor(0,.4,1,.626)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
 
 	--Other messages
 	gc.setColor(1,1,1)
@@ -1238,7 +1244,7 @@ function player.pushLine(P,L,mir)
 	P.fieldBeneath=P.fieldBeneath+120
 	P.curY=P.curY+#L
 	P.imgY=P.imgY+#L
-	P:freshgho()
+	P:freshBlock(true,false)
 end
 function player.pushNext(P,L,mir)
 	for i=1,#L do
@@ -1293,59 +1299,64 @@ function player.changeAtk(P,R)
 		P.atking=nil
 	end
 end
-function player.freshgho(P)
-	if not P.cur then return end
-	P.imgY=min(#P.field+1,P.curY)
+function player.freshBlock(P,keepGhost,control,system)
+	if not keepGhost and P.cur then
+		P.imgY=min(#P.field+1,P.curY)
+		if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
+			local _=P.imgY
 
-	if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
-		local _=P.imgY
-
-		--Move ghost to bottom
-		while not P:ifoverlap(P.cur.bk,P.curX,P.imgY-1)do
-			P.imgY=P.imgY-1
-		end
-
-		--Cancel spinLast
-		if _~=P.imgY then
-			P.spinLast=false
-		end
-
-		--Create FX if dropped
-		if P.curY>P.imgY then
-			if P.gameEnv.dropFX then
-				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
+			--Move ghost to bottom
+			while not P:ifoverlap(P.cur.bk,P.curX,P.imgY-1)do
+				P.imgY=P.imgY-1
 			end
-			if P.gameEnv.shakeFX then
-				P.fieldOff.vy=P.gameEnv.shakeFX*.5
+
+			--Cancel spinLast
+			if _~=P.imgY then
+				P.spinLast=false
 			end
-			P.curY=P.imgY
+
+			--Create FX if dropped
+			if P.curY>P.imgY then
+				if P.gameEnv.dropFX then
+					P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
+				end
+				if P.gameEnv.shakeFX then
+					P.fieldOff.vy=P.gameEnv.shakeFX*.5
+				end
+				P.curY=P.imgY
+			end
+		else
+			while not P:ifoverlap(P.cur.bk,P.curX,P.imgY-1)do
+				P.imgY=P.imgY-1
+			end
 		end
-	else
-		while not P:ifoverlap(P.cur.bk,P.curX,P.imgY-1)do
-			P.imgY=P.imgY-1
-		end
-	end
-end
-function player.freshLockDelay(P)
-	--Return when fall-fresh but no fall
-	if not P.gameEnv.easyFresh and P.curY>=P.minY then
-		return
 	end
 
-	local d,d0=P.lockDelay,P.gameEnv.lock
-	if d<d0 and(P.freshTime<P.gameEnv.freshLimit or P.curY<P.minY)then
-		if P.lockDelay<P.gameEnv.lock then
-			P.dropDelay=P.gameEnv.drop
+	if control then
+		if P.gameEnv.easyFresh then
+			local d,d0=P.lockDelay,P.gameEnv.lock
+			if d<d0 and P.freshTime<P.gameEnv.freshLimit then
+				if not system then
+					P.freshTime=P.freshTime+1
+				end
+				P.lockDelay=min(d+d0*.6,d0)
+				P.dropDelay=P.gameEnv.drop
+			end
+			if P.curY<P.minY then
+				P.minY=P.curY
+				P.dropDelay=P.gameEnv.drop
+				P.lockDelay=P.gameEnv.lock
+			end
+		else
+			if P.curY<P.minY then
+				P.minY=P.curY
+				if P.lockDelay<P.gameEnv.lock and P.freshTime<P.gameEnv.freshLimit then
+					P.freshTime=P.freshTime+1
+					P.dropDelay=P.gameEnv.drop
+					P.lockDelay=P.gameEnv.lock
+				end
+			end
 		end
-		P.freshTime=P.freshTime+1
-		P.lockDelay=min(d+d0*.6,d0)
-	end
-end
-function player.freshMinY(P)
-	if P.curY<P.minY then
-		P.freshTime=max(P.freshTime-1,0)
-		P.minY=P.curY
-		P.lockDelay=P.gameEnv.lock
 	end
 end
 function player.lock(P)
@@ -1370,7 +1381,9 @@ function player.spin(P,d,ifpre)
 		local ix,iy=P.curX+P.sc[2]-isc[2],P.curY+P.sc[1]-isc[1]
 		iki=iki[P.dir*10+idir]
 		if not iki then
-			if P.gameEnv.easyFresh then P:freshLockDelay()end
+			if P.gameEnv.easyFresh then
+				P:freshBlock(false,true)
+			end
 			SFX.fieldPlay(ifpre and"prerotate"or "rotate",nil,P)
 			return
 		end
@@ -1385,10 +1398,10 @@ function player.spin(P,d,ifpre)
 				P.sc,P.cur.bk=scs[P.cur.id][idir],icb
 				P.r,P.c=ir,ic
 				P.spinLast=test==2 and 0 or 1
-				if not ifpre then P:freshgho()end
-				P:freshLockDelay()
-				P:freshMinY()
-				if iki[test][2]>0 then
+				if not ifpre then
+					P:freshBlock(false,true)
+				end
+				if iki[test][2]>0 and not P.gameEnv.easyFresh then
 					P.freshTime=P.freshTime+1
 				end
 
@@ -1487,7 +1500,7 @@ function player.hold(P,ifpre)
 		end
 		if C then
 			P:resetBlock()
-			P:freshgho()
+			P:freshBlock(false,true)
 			P.dropDelay=P.gameEnv.drop
 			P.lockDelay=P.gameEnv.lock
 			P.freshTime=max(P.freshTime-5,0)
@@ -1521,7 +1534,7 @@ function player.popNext(P)--Pop next queue to hand
 				BOT.addNext(P.AI_bot,CCblockID[next.id])
 			end
 		end
-		
+
 		local _=P.keyPressing
 		--IHS
 		if _[8]and P.gameEnv.hold and P.gameEnv.ihs then
@@ -1536,8 +1549,11 @@ function player.popNext(P)--Pop next queue to hand
 		P.freshTime=0
 
 		if P.cur then
-			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
-			P:freshgho()
+			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then
+				P:lock()
+				P:lose()
+			end
+			P:freshBlock(false,true,true)
 		end
 
 		--IHdS
@@ -2245,8 +2261,7 @@ function player.act.moveLeft(P,auto)
 	elseif P.control and P.waiting==-1 then
 		if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			P.curX=P.curX-1
-			P:freshgho()
-			P:freshLockDelay()
+			P:freshBlock(false,true)
 			if P.human and P.curY==P.imgY then SFX.play("move")end
 			if not auto then P.moving=0 end
 			P.spinLast=false
@@ -2270,8 +2285,7 @@ function player.act.moveRight(P,auto)
 	elseif P.control and P.waiting==-1 then
 		if P.cur and not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			P.curX=P.curX+1
-			P:freshgho()
-			P:freshLockDelay()
+			P:freshBlock(false,true)
 			if P.human and P.curY==P.imgY then SFX.play("move")end
 			if not auto then P.moving=0 end
 			P.spinLast=false
@@ -2309,7 +2323,7 @@ function player.act.hardDrop(P)
 			P:changeAtkMode(3)
 		end
 		P.keyPressing[6]=false
-	elseif P.control and P.waiting==-1 and P.cur then
+	elseif P.control and P.waiting<=0 and P.cur then
 		if P.curY~=P.imgY then
 			if P.gameEnv.dropFX then
 				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
@@ -2339,7 +2353,7 @@ function player.act.softDrop(P)
 		if P.control and P.waiting==-1 and P.cur then
 			if P.curY~=P.imgY then
 				P.curY=P.curY-1
-				P:freshMinY()
+				P:freshBlock(true,true)
 				P.spinLast=false
 			end
 		end
@@ -2367,10 +2381,9 @@ function player.act.insLeft(P,auto)
 		if P.gameEnv.dropFX then
 			P:createDropFX(P.curX+P.c,P.curY+P.r-1,P.curX+P.c,P.curY)
 		end
-		P:freshgho()
+		P:freshBlock(false,true)
 	end
 	if P.curX~=x0 then
-		P:freshLockDelay()
 		P.spinLast=false
 	end
 	if P.gameEnv.shakeFX then
@@ -2390,10 +2403,9 @@ function player.act.insRight(P,auto)
 		if P.gameEnv.dropFX then
 			P:createDropFX(P.curX-1,P.curY+P.r-1,P.curX-1,P.curY)
 		end
-		P:freshgho()
+		P:freshBlock(false,true)
 	end
 	if P.curX~=x0 then
-		P:freshLockDelay()
 		P.spinLast=false
 	end
 	if P.gameEnv.shakeFX then
@@ -2414,13 +2426,13 @@ function player.act.insDown(P)
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
 		end
 		P.curY,P.lockDelay,P.spinLast=P.imgY,P.gameEnv.lock,false
-		P:freshMinY()
+		P:freshBlock(true,true)
 	end
 end
 function player.act.down1(P)
 	if P.curY~=P.imgY and P.cur then
 		P.curY=P.curY-1
-		P:freshMinY()
+		P:freshBlock(true,true)
 		P.spinLast=false
 	end
 end
@@ -2428,7 +2440,7 @@ function player.act.down4(P)
 	for _=1,4 do
 		if P.curY~=P.imgY and P.cur then
 			P.curY=P.curY-1
-			P:freshMinY()
+			P:freshBlock(true,true)
 			P.spinLast=false
 		else
 			return
@@ -2440,7 +2452,7 @@ function player.act.down10(P)
 		for _=1,10 do
 			if P.curY~=P.imgY then
 				P.curY=P.curY-1
-				P:freshMinY()
+				P:freshBlock(true,true)
 				P.spinLast=false
 			else
 				return

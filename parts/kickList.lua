@@ -114,7 +114,6 @@ local TRS={
 	},--T
 	function(P,d)
 		if P.human then SFX.fieldPlay("rotate",nil,P)end
-		P:freshLockDelay()
 		if not P.gameEnv.ospin then return end
 		local x,y=P.curX,P.curY
 		if y==P.imgY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
@@ -136,7 +135,7 @@ local TRS={
 						P.dir,P.sc=dir,scs[id][dir]
 						P.spinLast=2
 						P.stat.rotate=P.stat.rotate+1
-						P:freshgho()
+						P:freshBlock(false,true)
 						P.spinSeq=0
 						SFX.fieldPlay("rotatekick",nil,P)
 						return
@@ -146,6 +145,7 @@ local TRS={
 		else
 			P.spinSeq=0
 		end
+		P:freshBlock(true,true)
 	end,--O
 	{
 		[01]={{ 0, 1},{ 1, 0},{-2, 0},{-2,-1},{ 1, 2}},
@@ -256,18 +256,18 @@ local TRS={
 	},--W
 	function(P,d)
 		if P.human then SFX.fieldPlay("rotate",nil,P)end
-		P:freshLockDelay()
 		local iki=XspinList[d]
 		for test=1,#iki do
 			local x,y=P.curX+iki[test][1],P.curY+iki[test][2]
 			if not P:ifoverlap(P.cur.bk,x,y)then
 				P.curX,P.curY=x,y
 				P.spinLast=1
-				P:freshgho()
+				P:freshBlock(false,true)
 				P.stat.rotate=P.stat.rotate+1
 				return
 			end
 		end
+		P:freshBlock(true,true)
 	end,--X
 	{
 		[01]={{-1, 0},{-1, 1},{ 0,-3},{-1, 1},{-1, 2},{ 0, 1}},
