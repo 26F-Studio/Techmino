@@ -48,16 +48,9 @@ function sceneInit.main()
 	BG.set("space")
 	BGM.play("blank")
 
-	game.frame=0
-	game.recording=false
-	game.replaying=false
-	game.seed=1046101471
-	game.rec={}
-
 	modeEnv={}
-	destroyPlayers()
-
 	--Create demo player
+	destroyPlayers()
 	PLY.newDemoPlayer(1,900,35,1.1)
 end
 function sceneInit.music()
