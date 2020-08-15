@@ -125,7 +125,7 @@ local langList={
 		radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
 		radarData={
 			"D'PM",
-			"OPM",
+			"ADPM",
 			"APM",
 			"SPM",
 			"L'PM",
@@ -594,7 +594,7 @@ local langList={
 		radar={"防","守","攻","送","速","挖"},
 		radarData={
 			"防/分",
-			"挡/分",
+			"综/分",
 			"攻/分",
 			"送/分",
 			"行/分",
@@ -1059,7 +1059,7 @@ local langList={
 		radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
 		radarData={
 			"D'PM",
-			"OPM",
+			"ADPM",
 			"APM",
 			"SPM",
 			"L'PM",
@@ -1514,7 +1514,7 @@ local langList={
 		radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
 		radarData={
 			"D'PM",
-			"OPM",
+			"ADPM",
 			"APM",
 			"SPM",
 			"L'PM",
@@ -1976,7 +1976,7 @@ local langList={
 		radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
 		radarData={
 			"D'PM",
-			"OPM",
+			"ADPM",
 			"APM",
 			"SPM",
 			"L'PM",

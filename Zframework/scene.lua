@@ -131,13 +131,13 @@ function sceneInit.pause(org)
 		--From right-down, 60 degree each
 		radar={
 			(S.off+S.dig)/S.time*60,--DefPM
-			(S.off)/S.time*60,		--OffPM
+			(S.send+S.dig)/S.time*60,--ADPM
 			S.atk/S.time*60,		--AtkPM
 			S.send/S.time*60,		--SendPM
 			S.piece/S.time*24,		--LinePM
 			S.dig/S.time*60,		--DigPM
 		},
-		val={1/80,1/40,1/60,1/60,1/100,1/40},
+		val={1/80,1/80,1/80,1/60,1/100,1/40},
 		timing=org=="play",
 	}
 	local _=sceneTemp
