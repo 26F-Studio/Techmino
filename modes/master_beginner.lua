@@ -16,7 +16,7 @@ local function score(P)
 		--Level up!
 		local s=P.modeData.event+1;P.modeData.event=s
 		local E=P.gameEnv
-		BG.set(s==1 and"game1"or s==2 and"game2"or s==3 and"game3"or "game4")
+		BG.set(s==1 and"bg1"or s==2 and"bg2"or s==3 and"rainbow"or "rainbow2")
 		E.lock=rush_lock[s]
 		E.wait=rush_wait[s]
 		E.fall=rush_fall[s]
@@ -48,7 +48,7 @@ return{
 		fall=rush_fall[1],
 		dropPiece=score,
 		freshLimit=15,
-		bg="game1",bgm="secret8th",
+		bg="bg1",bgm="secret8th",
 	},
 	slowMark=true,
 	load=function()

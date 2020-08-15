@@ -168,7 +168,7 @@ customRange={
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={0,1,2,3,4,5,11,12,13,14,15,16},
-	bg={"none","game1","game2","game3","aura","rgb","glow","matrix"},
+	bg={"none","bg1","bg2","rainbow","aura","rgb","glow","matrix"},
 	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
 local function T(s,t)return love.graphics.newText(setFont(s),t)end

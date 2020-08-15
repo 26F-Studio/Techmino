@@ -77,7 +77,7 @@ back.aura={
 		gc.setShader()
 	end,
 }--Cool liquid background
-back.game1={
+back.bg1={
 	init=function()
 		t=0
 		BG.resize(scr.w)
@@ -95,7 +95,7 @@ back.game1={
 		gc.setShader()
 	end,
 }--Horizonal red-blue gradient
-back.game2={
+back.bg2={
 	init=function()
 		t=0
 		BG.resize(nil,scr.h)
@@ -113,7 +113,7 @@ back.game2={
 		gc.setShader()
 	end,
 }--Vertical red-green gradient
-back.game3={
+back.rainbow={
 	init=function()
 		t=0
 		BG.resize(scr.w,scr.h)
@@ -132,7 +132,7 @@ back.game3={
 		gc.setShader()
 	end,
 }--Colorful RGB
-back.game4={
+back.rainbow2={
 	init=function()
 		t=0
 		BG.resize(scr.w,scr.h)
@@ -151,7 +151,7 @@ back.game4={
 		gc.setShader()
 	end,
 }--Blue RGB
-back.game5={
+back.lightning={
 	init=function()
 		t=0
 	end,
@@ -168,7 +168,7 @@ back.game5={
 
 local blocks=require("parts/mino")
 local scs=require("parts/spinCenters")
-back.game6={
+back.lightning2={
 	init=function()
 		t=0
 		colorLib=_G.SKIN.libColor

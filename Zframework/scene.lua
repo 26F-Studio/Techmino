@@ -197,7 +197,7 @@ function sceneInit.setting_control()
 		dir=1,
 		wait=30,
 	}
-	BG.set("game1")
+	BG.set("bg1")
 end
 function sceneInit.setting_key()
 	sceneTemp={
@@ -207,7 +207,7 @@ function sceneInit.setting_key()
 	}
 end
 function sceneInit.setting_touch()
-	BG.set("game3")
+	BG.set("rainbow")
 	sceneTemp={
 		default=1,
 		snap=1,
@@ -264,7 +264,7 @@ function sceneInit.stat()
 	end
 end
 function sceneInit.history()
-	BG.set("game3")
+	BG.set("rainbow")
 	sceneTemp={
 		text=require("parts/updateLog"),--Text list
 		pos=1,--Scroll pos

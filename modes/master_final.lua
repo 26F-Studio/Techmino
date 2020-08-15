@@ -46,7 +46,7 @@ return{
 		dropPiece=score,
 		freshLimit=15,
 		easyFresh=false,bone=true,
-		bg="none",bgm="distortion",
+		bg="lightning",bgm="distortion",
 	},
 	slowMark=true,
 	load=function()

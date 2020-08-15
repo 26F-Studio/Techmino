@@ -16,7 +16,7 @@ return{
 		drop=1e99,lock=1e99,
 		oncehold=false,
 		dropPiece=update_round,
-		bg="game3",bgm="push",
+		bg="rainbow",bgm="push",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)

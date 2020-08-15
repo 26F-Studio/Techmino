@@ -34,7 +34,7 @@ return{
 				end
 			end
 		end,
-		bg="game4",bgm="way",
+		bg="rainbow2",bgm="way",
 	},
 	pauseLimit=true,
 	load=function()
