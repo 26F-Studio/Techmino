@@ -680,13 +680,18 @@ local function Pdraw_norm(P)
 	::E::
 	gc.setScissor()
 	gc.translate(0,-P.fieldBeneath)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
-		gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
 		gc.setColor(P.frameColor)
 		gc.rectangle("line",-1,-11,302,612)--Boarder
+		gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
+		gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
+		
 
 		--LockDelay indicator
+		if P.gameEnv.easyFresh then
+			gc.setColor(1,1,1)
+		else
+			gc.setColor(1,.26,.26)
+		end
 		if P.lockDelay>=0 then
 			gc.rectangle("fill",0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
 		end
