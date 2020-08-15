@@ -64,7 +64,7 @@ back.aura={
 		BG.resize(scr.w,scr.h)
 	end,
 	resize=function(w,h)
-		SHADER.aura:send("w",w*scr.dpi)
+		SHADER.aura:send("w",scr.W)
 		SHADER.aura:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
@@ -83,7 +83,7 @@ back.bg1={
 		BG.resize(scr.w)
 	end,
 	resize=function(w)
-		SHADER.gradient1:send("w",w*scr.dpi)
+		SHADER.gradient1:send("w",scr.W)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -119,7 +119,7 @@ back.rainbow={
 		BG.resize(scr.w,scr.h)
 	end,
 	resize=function(w,h)
-		SHADER.rgb1:send("w",w*scr.dpi)
+		SHADER.rgb1:send("w",scr.W)
 		SHADER.rgb1:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
@@ -138,7 +138,7 @@ back.rainbow2={
 		BG.resize(scr.w,scr.h)
 	end,
 	resize=function(w,h)
-		SHADER.rgb2:send("w",w*scr.dpi)
+		SHADER.rgb2:send("w",scr.W)
 		SHADER.rgb2:send("h",h*scr.dpi)
 	end,
 	update=function(dt)
@@ -251,7 +251,7 @@ back.space={
 		gc.translate(10,10)
 	end,
 	discard=function()
-		stars={}
+		stars=nil
 	end,
 }
 
