@@ -173,10 +173,12 @@ function keyDown.calculator(k)
 			if S.val==626 then
 				S.pass=true
 			elseif S.val==196022 then
+				S.pass=true
 				marking=nil
 				TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
 				SFX.play("clear")
 			elseif S.val==72943816 then
+				S.pass=true
 				for name,M in next,Modes do
 					if not modeRanks[name]then
 						modeRanks[name]=M.score and 0 or 6
@@ -191,7 +193,7 @@ function keyDown.calculator(k)
 		end
 	elseif k=="space"then
 		if S.pass then
-			SCN.swapTo("load")
+			SCN.swapTo("intro")
 		end
 	end
 end
@@ -217,6 +219,10 @@ function mouseDown.intro(x,y,k)
 	if k==2 then
 		VOC.play("bye")
 		SCN.back()
+	elseif newVersionLaunch then
+		SCN.push("main","fade")
+		SCN.swapTo("history","fade")
+		TEXT.show(text.newVersion,640,200,30,"fly",.3)
 	else
 		SCN.go("main")
 	end
@@ -1094,7 +1100,7 @@ function love.run()
 	local FCT=0--Framedraw counter
 
 	love.resize(gc.getWidth(),gc.getHeight())
-	SCN.init(setting.appLock and "calculator"or"load")--Scene Launch
+	SCN.init("load")--Scene Launch
 	marking=true
 
 	return function()

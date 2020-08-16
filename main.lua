@@ -99,6 +99,9 @@ else
 		setting.swap=false
 		setting.vib=2
 		setting.powerInfo=true
+		setting.fullscreen=true
+		love.window.setFullscreen(true)
+		love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 	end
 end
 LANG.set(setting.lang)
@@ -116,8 +119,11 @@ if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 R=modeRanks
 for k,v in next,R do
 	if type(k)=="number"then
-		R[Modes[k].name],R[k]=R[k]
-		break
+		local save=v
+		if not R[Modes[k].name]then
+			R[Modes[k].name]=v
+		end
+		R[k]=nil
 	end
 end
 if R.master_adavnce then
@@ -134,7 +140,6 @@ if type(setting.spawn)~="number"then
 end
 if S.version~=gameVersion then
 	S.version=gameVersion
-	TEXT.show(text.newVersion,640,200,30,"fly",.3)
 	newVersionLaunch=true
 
 	fs.remove("sprintPenta.dat")

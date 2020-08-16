@@ -111,13 +111,15 @@ function Pnt.load()
 	gc.rectangle("fill",300,330,S.cur/S.tar*680,60,5)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60,5)
-	setFont(35)
-	gc.print(text.load[S.phase],340,335)
-	if S.phase~=0 then
-		gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
+	if not setting.appLock then
+		setFont(35)
+		gc.print(text.load[S.phase],340,335)
+		if S.phase~=0 then
+			gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
+		end
+		setFont(25)
+		mStr(S.tip,640,400)
 	end
-	setFont(25)
-	mStr(S.tip,640,400)
 end
 
 local titleTransform={

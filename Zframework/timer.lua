@@ -39,18 +39,15 @@ function Tmr.load()
 			SKIN.load()
 			stat.run=stat.run+1
 			--------------------------
-			SFX.play("welcome_sfx")
-			VOC.play("welcome")
+			if not setting.appLock then
+				SFX.play("welcome_sfx")
+				VOC.play("welcome")
+			end
 		else
 			S.cur=S.cur+1
 			S.tar=S.cur
 			if S.cur>62.6 then
-				if newVersionLaunch then
-					SCN.push("intro","fade")
-					SCN.swapTo("history","fade")
-				else
-					SCN.swapTo("intro","none")
-				end
+				SCN.swapTo(setting.appLock and "calculator"or"intro","none")
 			end
 			loadingFinished=true
 			return
