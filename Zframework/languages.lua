@@ -153,7 +153,7 @@ local langList={
 			"",
 			"使用LOVE2D引擎",
 			"错误或者建议请附带截图发送到内测群或者作者邮箱~",
-			"仅通过内测群1080457319进行免费下载/更新",
+			"仅通过内测群1127702001进行免费下载/更新",
 			"其他渠道获得游戏皆有被修改/加广告/植入病毒的风险,程序只申请了振动&联网权限!",
 			"若由于被修改的本游戏产生的各种损失作者不负责(我怎么负责啊跟我有啥关系)",
 			"请从正规途径获得最新版,游戏现为免费,不过有打赏当然感谢啦~",
@@ -185,7 +185,7 @@ local langList={
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
-		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
+		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 		WidgetText={
 			calculator={
 				_1="1",_2="2",_3="3",
@@ -247,6 +247,7 @@ local langList={
 				back="返回",
 			},
 			draw={
+				b12="[  ]",
 				any="不定",
 				space="×",
 				clear="清除",
@@ -623,7 +624,7 @@ local langList={
 			"从TO/C2/KOS/TGM3/JS等方块获得过灵感",
 			"",
 			"错误或者建议请附带截图发送到内测群或者作者邮箱~",
-			"仅通过内测群1080457319进行免费下载/更新",
+			"仅通过内测群1127702001进行免费下载/更新",
 			"其他渠道获得游戏皆有被修改/加广告/植入病毒的风险,程序只申请了振动&联网权限!",
 			"若由于被修改的本游戏产生的各种损失作者不负责(我怎么负责啊跟我有啥关系)",
 			"请从正规途径获得最新版,游戏现为免费,不过有打赏当然感谢啦~",
@@ -654,7 +655,7 @@ local langList={
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
-		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
+		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 		WidgetText={
 			calculator={
 				_1="1",_2="2",_3="3",
@@ -716,6 +717,7 @@ local langList={
 				back="返回",
 			},
 			draw={
+				b12="[  ]",
 				any="不定",
 				space="×",
 				clear="清除",
@@ -1113,7 +1115,7 @@ local langList={
 		},
 		used="Tool used:\n\tBeepbox\n\tGFIE\n\tGoldwave\nLib used:\n\tCold_Clear[MinusKelvin]\n\tsimple-love-lights[dylhunn]",
 		support="Support author",
-		group="Official QQ Group(if not hacked):1080457319",
+		group="Official QQ Group(if not hacked):1127702001",
 		WidgetText={
 			calculator={
 				_1="1",_2="2",_3="3",
@@ -1175,6 +1177,7 @@ local langList={
 				back="Back",
 			},
 			draw={
+				b12="[  ]",
 				any="Erase",
 				space="×",
 				clear="Clear",
@@ -1570,7 +1573,7 @@ local langList={
 		},
 		used="Tool used:\n\tBeepbox\n\tGFIE\n\tGoldwave\nLib used:\n\tCold_Clear[MinusKelvin]\n\tsimple-love-lights[dylhunn]",
 		support="Support author",
-		group="Official QQ Group(if not hacked):1080457319",
+		group="Official QQ Group(if not hacked):1127702001",
 		WidgetText={
 			calculator={
 				_1="1",_2="2",_3="3",
@@ -1632,6 +1635,7 @@ local langList={
 				back="X",
 			},
 			draw={
+				b12="[  ]",
 				any="_",
 				space="×",
 				clear="XXX",
@@ -2011,7 +2015,7 @@ local langList={
 			"",
 			"使用LOVE2D引擎",
 			"错误或者建议请附带截图发送到内测群或者作者邮箱~",
-			"仅通过内测群1080457319进行免费下载/更新",
+			"仅通过内测群1127702001进行免费下载/更新",
 			"其他渠道获得游戏皆有被修改/加广告/植入病毒的风险,程序只申请了振动&联网权限!",
 			"若由于被修改的本游戏产生的各种损失作者不负责(我怎么负责啊跟我有啥关系)",
 			"请从正规途径获得最新版,游戏现为免费,不过有打赏当然感谢啦~",
@@ -2041,7 +2045,7 @@ local langList={
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
-		group="官方QQ群(如果没有被暗改的话就是这个):1080457319",
+		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 		WidgetText={
 			calculator={
 				_1="1",_2="2",_3="3",
@@ -2103,6 +2107,7 @@ local langList={
 				back="返回",
 			},
 			draw={
+				b12="[  ]",
 				any="不定",
 				space="×",
 				clear="清除",
