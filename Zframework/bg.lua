@@ -89,15 +89,14 @@ back.wing={
 	end,
 	resize=function()
 		crystal={}
-		W,H=scr.W,scr.H
+		W,H=scr.w,scr.h
 		for i=1,16 do
 			crystal[i]={
 				x=i<9 and W*.05*i or W*.05*(28-i),
 				y=H*.1,
 				a=0,
 				va=0,
-				aa=0,
-				f=i<9 and .011-i*.0003 or .011-(17-i)*.0003
+				f=i<9 and .012-i*.0005 or .012-(17-i)*.0005
 			}
 		end
 	end,
@@ -106,8 +105,7 @@ back.wing={
 		for i=1,16 do
 			local B=crystal[i]
 			B.a=B.a+B.va
-			B.va=B.va*.986+B.aa
-			B.va=B.va-B.a*B.f
+			B.va=B.va*.986-B.a*B.f
 		end
 	end,
 	draw=function()
@@ -124,12 +122,13 @@ back.wing={
 	event=function(level)
 		for i=1,8 do
 			local B=crystal[i]
-			B.va=B.va+.002*(level*.5)*(rnd()+(9-i)/16)
+			B.va=B.va+.001*level*(1+rnd())
 			B=crystal[17-i]
-			B.va=B.va-.002*(level*.5)*(rnd()+i/16)
+			B.va=B.va-.001*level*(1+rnd())
 		end
 	end,
-}
+}--Flandre's wing
+
 back.aura={
 	init=function()
 		t=rnd()*3600
