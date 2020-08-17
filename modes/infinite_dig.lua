@@ -17,6 +17,9 @@ local function check_rise(P)
 			P:showTextF(text.awesome,0,-120,80,"beat",.6)
 			SFX.play("clear")
 			BG.send(26)
+			for i=1,8-P.garbageBeneath do
+				P:garbageRise(13,1,P:RND(10))
+			end
 		else
 			BG.send(#P.clearedRow)
 		end
