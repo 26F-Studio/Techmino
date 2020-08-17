@@ -20,7 +20,7 @@ return{
 				end
 			end
 		end,
-		bg="matrix",bgm="infinite",
+		bg="fan",bgm="infinite",
 	},
 	slowMark=true,
 	pauseLimit=true,

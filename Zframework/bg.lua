@@ -71,8 +71,6 @@ local wingColor={
 }
 back.wing={
 	init=function()
-		t=rnd(02200,19600)
-		
 		gc.setDefaultFilter("linear","linear")
 		bar=gc.newCanvas(41,1)
 		gc.push("transform")
@@ -101,7 +99,6 @@ back.wing={
 		end
 	end,
 	update=function()
-		t=t+1
 		for i=1,16 do
 			local B=crystal[i]
 			B.a=B.a+B.va
@@ -128,6 +125,46 @@ back.wing={
 		end
 	end,
 }--Flandre's wing
+
+local _
+back.fan={
+	init=function()
+		L=_G.title_fan
+		t=0
+		BG.resize()
+	end,
+	resize=function()
+		CX,CY=scr.w/2,scr.h/2
+	end,
+	update=function()
+		t=t+1
+	end,
+	draw=function()
+		gc.push("transform")
+		gc.translate(CX,CY+20*sin(t*.02))
+		gc.scale(scr.k)
+		gc.clear(.1,.1,.1)
+		gc.setLineWidth(320)
+		gc.setColor(.3,.2,.3)
+		gc.arc("line","open",0,420,500,-.8*3.1416,-.2*3.1416)
+		
+		gc.setLineWidth(4)
+		gc.setColor(.7,.5,.65)
+		gc.arc("line","open",0,420,660,-.799*3.1416,-.201*3.1416)
+		gc.arc("line","open",0,420,340,-.808*3.1416,-.192*3.1416)
+		gc.line(-281,224,-530,30.5)
+		gc.line(281,224,530,30.5)
+
+		gc.setLineWidth(6)
+		gc.setColor(.55,.5,.6)
+		local L=L
+		for i=1,8 do
+			gc.polygon("line",L[i])
+		end
+
+		gc.pop()
+	end,
+}
 
 back.aura={
 	init=function()

@@ -1,3 +1,4 @@
+local sin,cos=math.sin,math.cos
 snapLevelValue={1,10,20,40,60,80}
 title={
 	{
@@ -114,6 +115,12 @@ title={
 		5878,	463,
 	},
 }
+for _,C in next,title do
+	for i=1,#C do
+		C[i]=C[i]*.1626
+	end
+end
+--[[
 title2={}
 for i=1,#title do title2[i]=title[i]end
 title2[5]={
@@ -140,12 +147,22 @@ title2[5]={
 	3001,	1280,
 	2779,	1280,
 }
-
-for _,C in next,title do
-	for i=1,#C do
-		C[i]=C[i]*.1626
+]]
+title_fan={}
+for i=1,8 do
+	local L={}
+	title_fan[i]=L
+		for j=1,#title[i]do
+		L[j]=title[i][j]
+	end
+	for j=1,#L,2 do
+		local x,y=L[j],L[j+1]--0<x<3041, 290<y<1280
+		x,y=-(x+240+y*.3)*.002,(y-580)*.9
+		x,y=y*cos(x),-y*sin(x)--Rec-Pol-Rec
+		L[j],L[j+1]=x,y+300
 	end
 end
+
 customID={
 	"drop","lock",
 	"wait","fall",
