@@ -437,8 +437,20 @@ function keyDown.sequence(key)
 		local C=s.cur+1
 		ins(preBag,C,key)
 		s.cur=C
+	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+		if #preBag>0 then
+			love.system.setClipboardText("Techmino SEQ:"..copySequence())
+			TEXT.show(text.copySuccess,640,225,50,"appear",.5)
+		end
+	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+		local str=love.system.getClipboardText()
+		local p=string.find(str,":")--ptr*
+		if p then str=string.sub(str,p+1)end
+		if not pasteSequence(str)then
+			TEXT.show(text.dataCorrupted,640,225,45,"flicker",.5)
+		end
 	elseif #key==1 then
-		local i=(kb.isDown("lctrl","lshift","lalt","rctrl","rshift","ralt")and minoKey2 or minoKey)[key]
+		local i=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
 		if i then
 			local C=s.cur+1
 			ins(preBag,C,i)
@@ -465,18 +477,6 @@ function keyDown.sequence(key)
 				SFX.play("finesseError",.7)
 			else
 				sceneTemp.sure=50
-			end
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #preBag>0 then
-				love.system.setClipboardText("Techmino SEQ:"..copySequence())
-				TEXT.show(text.copySuccess,640,225,50,"appear",.5)
-			end
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=love.system.getClipboardText()
-			local p=string.find(str,":")--ptr*
-			if p then str=string.sub(str,p+1)end
-			if not pasteSequence(str)then
-				TEXT.show(text.dataCorrupted,640,225,45,"flicker",.5)
 			end
 		end
 	end

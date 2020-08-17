@@ -164,6 +164,7 @@ function pasteSequence(str)
 	end
 
 	preBag=bag
+	sceneTemp.cur=#preBag
 	return true
 end
 
