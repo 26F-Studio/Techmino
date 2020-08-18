@@ -1,6 +1,7 @@
 local gc=love.graphics
 local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
+local ins,rem=table.insert,table.remove
 
 local BG
 local scr=scr
@@ -124,20 +125,47 @@ back.wing={
 			B.va=B.va-.001*level*(1+rnd())
 		end
 	end,
+	discard=function()
+		bar,crystal=nil
+	end,
 }--Flandre's wing
 
 local _
 back.fan={
 	init=function()
-		L=_G.title_fan
+		fan=_G.title_fan
 		t=0
+		petal={}
 		BG.resize()
 	end,
 	resize=function()
 		CX,CY=scr.w/2,scr.h/2
+		W,H=scr.w,scr.h
 	end,
 	update=function()
 		t=t+1
+		if t%10==0 then
+			ins(petal,{
+				x=scr.w*rnd(),
+				y=0,
+				vy=2+rnd()*2,
+				vx=rnd()*2-.5,
+				rx=4+rnd()*4,
+				ry=4+rnd()*4,
+			})
+		end
+		for i=#petal,1,-1 do
+			local P=petal[i]
+			P.y=P.y+P.vy
+			if P.y>H then
+				rem(petal,i)
+			else
+				P.x=P.x+P.vx
+				P.vx=P.vx+rnd()*.01
+				P.rx=max(min(P.rx+rnd()-.5,10),2)
+				P.ry=max(min(P.ry+rnd()-.5,10),2)
+			end
+		end
 	end,
 	draw=function()
 		gc.push("transform")
@@ -157,12 +185,22 @@ back.fan={
 
 		gc.setLineWidth(6)
 		gc.setColor(.55,.5,.6)
-		local L=L
+		local F=fan
 		for i=1,8 do
-			gc.polygon("line",L[i])
+			gc.polygon("line",F[i])
 		end
 
+		gc.setLineWidth(2)
+		gc.setColor(.6,.3,.5)
+		gc.origin()
+		for i=1,#petal do
+			local P=petal[i]
+			gc.ellipse("fill",P.x,P.y,P.rx,P.ry)
+		end
 		gc.pop()
+	end,
+	discard=function()
+		petal=nil
 	end,
 }
 
