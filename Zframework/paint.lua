@@ -643,7 +643,7 @@ function Pnt.setting_video()
 	mText(drawableText.setting_video,640,15)
 end
 function Pnt.setting_sound()
-	gc.setColor(1,1,1,.8)
+	gc.setColor(1,1,1)
 	mText(drawableText.setting_sound,640,15)
 	local t=Timer()
 	local _=sceneTemp.jump
