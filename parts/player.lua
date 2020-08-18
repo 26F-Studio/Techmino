@@ -410,9 +410,9 @@ local function Pupdate_alive(P,dt)
 
 	--Try spawn new block
 	if not P.control then goto stop end
-	if P.waiting==0 then P:popNext()end
 	if P.waiting>=0 then
 		P.waiting=P.waiting-1
+		if P.waiting<0 then P:popNext()end
 		goto stop
 	end
 
@@ -2328,7 +2328,7 @@ function player.act.hardDrop(P)
 			P:changeAtkMode(3)
 		end
 		P.keyPressing[6]=false
-	elseif P.control and P.waiting<=0 and P.cur then
+	elseif P.control and P.waiting==-1 and P.cur then
 		if P.curY~=P.imgY then
 			if P.gameEnv.dropFX then
 				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
