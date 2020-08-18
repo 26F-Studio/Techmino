@@ -1077,6 +1077,71 @@ function love.focus(f)
 		pauseGame()
 	end
 end
+function love.errorhandler(msg)
+	local PUMP,POLL=love.event.pump,love.event.poll
+	love.mouse.setVisible(true)
+	love.audio.stop()
+	local err={"Error:"..msg}
+	local trace=debug.traceback("",2)
+	local c=2
+	for l in string.gmatch(trace,"(.-)\n")do
+		if c>2 then
+			if not string.find(l,"boot")then
+				err[c]=string.gsub(l,"^\t*","")
+				c=c+1
+			end
+		else
+			err[2]="Traceback"
+			c=3
+		end
+	end
+	print(table.concat(err,"\n"),1,c-2)
+	gc.reset()
+	local CAP
+	local function _(_)CAP=gc.newImage(_)end
+	gc.captureScreenshot(_)
+	gc.present()
+	setting.sfx=setting.voc--only for error "voice" played with voice volume,not saved
+	if SFX.list.error then SFX.play("error",.8)end
+	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
+	local needDraw=true
+	return function()
+		PUMP()
+		for E,a,b,c,d,e in POLL()do
+			if E=="quit"or a=="escape"then
+				destroyPlayers()
+				return 1
+			elseif E=="resize"then
+				love.resize(a,b)
+				needDraw=true
+			elseif E=="focus"then
+				needDraw=true
+			end
+		end
+		if needDraw then
+			gc.discard()
+			gc.clear(BGcolor)
+			gc.setColor(1,1,1)
+			gc.push("transform")
+			gc.replaceTransform(xOy)
+			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
+			setFont(120)gc.print(":(",100,40)
+			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
+			setFont(20)
+			gc.print(system.."-"..gameVersion,100,660)
+			gc.print("scene:"..SCN.cur,400,660)
+			gc.printf(err[1],626,360,1260-626)
+			gc.print("TRACEBACK",626,426)
+			for i=4,#err-2 do
+				gc.print(err[i],626,370+20*i)
+			end
+			gc.pop()
+			gc.present()
+			needDraw=false
+		end
+		love.timer.sleep(.2)
+	end
+end
 local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 local devColor={
 	color.white,
