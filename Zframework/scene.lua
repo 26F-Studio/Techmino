@@ -124,8 +124,8 @@ function sceneInit.pause(org)
 			format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
 			format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
 			format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
-			format("%d/%d;%d/%d",S.b2b,S.b3b,S.pc,S.hpc),
-			format("%d[%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
+			format("%d/%d ; %d/%d",S.b2b,S.b3b,S.pc,S.hpc),
+			format("%d [%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 		},
 
 		--From right-down, 60 degree each
