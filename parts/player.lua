@@ -1249,7 +1249,7 @@ function player.pushLine(P,L,mir)
 	P.fieldBeneath=P.fieldBeneath+120
 	P.curY=P.curY+#L
 	P.imgY=P.imgY+#L
-	P:freshBlock(true,false)
+	P:freshBlock(false,false)
 end
 function player.pushNext(P,L,mir)
 	for i=1,#L do
