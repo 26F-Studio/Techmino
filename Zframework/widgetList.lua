@@ -260,11 +260,12 @@ local Widgets={
 		newSwitch({name="center",	x=500,	y=180,font=35,				disp=SETval("center"),	code=SETrev("center")}),
 		newSwitch({name="grid",		x=500,	y=260,font=35,				disp=SETval("grid"),	code=SETrev("grid")}),
 		newSwitch({name="bagLine",	x=730,	y=180,font=30,				disp=SETval("bagLine"),	code=SETrev("bagLine")}),
-		newSlider({name="lockFX",	x=350,	y=340,w=373,unit=3,	font=32,disp=SETval("lockFX"),	code=SETsto("lockFX")}),
-		newSlider({name="dropFX",	x=350,	y=400,w=373,unit=5,	font=32,disp=SETval("dropFX"),	code=SETsto("dropFX")}),
-		newSlider({name="clearFX",	x=350,	y=460,w=373,unit=3,	font=32,disp=SETval("clearFX"),	code=SETsto("clearFX")}),
-		newSlider({name="shakeFX",	x=350,	y=520,w=373,unit=5,	font=32,disp=SETval("shakeFX"),	code=SETsto("shakeFX")}),
-		newSlider({name="atkFX",	x=350,	y=580,w=373,unit=5,	font=32,disp=SETval("atkFX"),	code=SETsto("atkFX")}),
+		newSlider({name="lockFX",	x=350,	y=340,w=373,unit=5,	font=32,disp=SETval("lockFX"),	code=SETsto("lockFX")}),
+		newSlider({name="dropFX",	x=350,	y=390,w=373,unit=5,	font=32,disp=SETval("dropFX"),	code=SETsto("dropFX")}),
+		newSlider({name="moveFX",	x=350,	y=440,w=373,unit=5,	font=32,disp=SETval("moveFX"),	code=SETsto("moveFX")}),
+		newSlider({name="clearFX",	x=350,	y=490,w=373,unit=5,	font=32,disp=SETval("clearFX"),	code=SETsto("clearFX")}),
+		newSlider({name="shakeFX",	x=350,	y=540,w=373,unit=5,	font=32,disp=SETval("shakeFX"),	code=SETsto("shakeFX")}),
+		newSlider({name="atkFX",	x=350,	y=590,w=373,unit=5,	font=32,disp=SETval("atkFX"),	code=SETsto("atkFX")}),
 		newSlider({name="frame",	x=350,	y=640,w=373,unit=10,font=30,
 			disp=function()
 				return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4

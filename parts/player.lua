@@ -18,8 +18,11 @@ local gameEnv0={
 	smooth=false,grid=false,
 	bagLine=false,
 	text=true,
-	lockFX=2,dropFX=3,
-	clearFX=2,shakeFX=3,
+	lockFX=2,
+	dropFX=2,
+	moveFX=2,
+	clearFX=2,
+	shakeFX=3,
 
 	drop=60,lock=60,
 	wait=0,fall=0,
@@ -243,9 +246,18 @@ local function updateFXs(P,dt)
 	--DropFX
 	for i=#P.dropFX,1,-1 do
 		local S=P.dropFX[i]
-		S[6]=S[6]+S[7]*dt
-		if S[6]>1 then
+		S[5]=S[5]+S[6]*dt
+		if S[5]>1 then
 			rem(P.dropFX,i)
+		end
+	end
+
+	--MoveFX
+	for i=#P.moveFX,1,-1 do
+		local S=P.moveFX[i]
+		S[4]=S[4]+S[5]*dt
+		if S[4]>1 then
+			rem(P.moveFX,i)
 		end
 	end
 
@@ -418,7 +430,7 @@ local function Pupdate_alive(P,dt)
 
 	--Natural block falling
 	if P.cur then
-		if P.curY~=P.imgY then
+		if P.curY>P.imgY then
 			local D=P.dropDelay
 			if D>1 then
 				P.dropDelay=D-1
@@ -533,25 +545,29 @@ end
 local function drawFXs(P)
 	--LockFX
 	for i=1,#P.lockFX do
-		_=P.lockFX[i]
-		if _[3]<.5 then
-			gc.setColor(1,1,1,2*_[3])
-			gc.rectangle("fill",_[1],_[2],60*_[3],30)
+		local S=P.lockFX[i]
+		if S[3]<.5 then
+			gc.setColor(1,1,1,2*S[3])
+			gc.rectangle("fill",S[1],S[2],60*S[3],30)
 		else
-			gc.setColor(1,1,1,2-2*_[3])
-			gc.rectangle("fill",_[1]+30,_[2],60*_[3]-60,30)
+			gc.setColor(1,1,1,2-2*S[3])
+			gc.rectangle("fill",S[1]+30,S[2],60*S[3]-60,30)
 		end
 	end
 
 	--DropFX
 	for i=1,#P.dropFX do
-		_=P.dropFX[i]
-		gc.setColor(1,1,1,.6-_[6]*.6)
-		for x=_[2],_[4]do
-			for y=_[5],_[3]do
-				drawPixel(y,x,_[1])
-			end
-		end
+		local S=P.dropFX[i]
+		gc.setColor(1,1,1,.6-S[5]*.6)
+		local w=30*S[3]*(1-S[5]*.5)
+		gc.rectangle("fill",30*S[1]-30+15*S[3]-w*.5,600-30*S[2],w,30*S[4])
+	end
+	
+	--MoveFX
+	for i=1,#P.moveFX do
+		local S=P.moveFX[i]
+		gc.setColor(1,1,1,.6-S[4]*.6)
+		drawPixel(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -990,11 +1006,11 @@ end
 --------------------------<FX>--------------------------
 function player.showText(P,text,dx,dy,font,style,spd,stop)
 	if P.gameEnv.text then
-		P.bonus[#P.bonus+1]=TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop)
+		ins(P.bonus,TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop))
 	end
 end
 function player.showTextF(P,text,dx,dy,font,style,spd,stop)
-	P.bonus[#P.bonus+1]=TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop)
+	ins(P.bonus,TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop))
 end
 local function without(L,e)
 	for i=1,#L do
@@ -1004,7 +1020,7 @@ local function without(L,e)
 end
 function player.createLockFX(P)
 	local BK=P.cur.bk
-	local t=12-P.gameEnv.lockFX*3
+	local t=12-P.gameEnv.lockFX*2
 
 	for i=1,P.r do
 		local y=P.curY+i-1
@@ -1018,9 +1034,19 @@ function player.createLockFX(P)
 		end
 	end
 end
-function player.createDropFX(P,x1,y1,x2,y2)--x1<x2,y1>y2!
-	if P.gameEnv.block and y1>=y2 then
-		P.dropFX[#P.dropFX+1]={P.cur.color,x1,y1,x2,y2,0,12-2*P.gameEnv.dropFX}
+function player.creatDropFX(P,x,y,w,h)--TODO, remake dropFX
+	ins(P.dropFX,{x,y,w,h,0,13-2*P.gameEnv.dropFX})
+end
+function player.createMoveFX(P)
+	local T=12-2*P.gameEnv.moveFX
+	local C=P.cur.color
+	local x,y=P.curX-1,P.curY-1
+	for i=1,P.r do
+		for j=1,P.c do
+			if P.cur.bk[i][j]then
+				ins(P.moveFX,{C,x+j,y+i,0,T})
+			end
+		end
 	end
 end
 function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
@@ -1074,7 +1100,7 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 		radius=radius*.4
 		a=.35
 	end
-	FX_attack[#FX_attack+1]={
+	ins(FX_attack,{
 		x=x1,y=y1,--Current pos
 		x1=x1,y1=y1,--Start pos
 		x2=x2,y2=y2,--End pos
@@ -1084,14 +1110,14 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 		r=r,g=g,b=b,a=a*(setting.atkFX+5)*.1,
 		t=0,
 		drag={},--Afterimage coordinate list
-	}
+	})
 end
 function player.newTask(P,code,data)
 	local L=P.tasks
-	L[#L+1]={
+	ins(L,{
 		code=code,
 		data=data,
-	}
+	})
 end
 --------------------------</FX>--------------------------
 
@@ -1299,7 +1325,7 @@ function player.changeAtk(P,R)
 	end
 	if R then
 		P.atking=R
-		R.atker[#R.atker+1]=P
+		ins(R.atker,P)
 	else
 		P.atking=nil
 	end
@@ -1322,8 +1348,8 @@ function player.freshBlock(P,keepGhost,control,system)
 
 			--Create FX if dropped
 			if P.curY>P.imgY then
-				if P.gameEnv.dropFX then
-					P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
+				if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
+					P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 				end
 				if P.gameEnv.shakeFX then
 					P.fieldOff.vy=P.gameEnv.shakeFX*.5
@@ -1396,8 +1422,8 @@ function player.spin(P,d,ifpre)
 			local x,y=ix+iki[test][1],iy+iki[test][2]
 			if not P:ifoverlap(icb,x,y)and(P.freshTime<=P.gameEnv.freshLimit or iki[test][2]<0)then
 				ix,iy=x,y
-				if P.gameEnv.dropFX then
-					P:createDropFX(P.curX,P.curY+P.r-1,P.curX+P.c-1,P.curY)
+				if P.gameEnv.moveFX and P.gameEnv.block then
+					P:createMoveFX()
 				end
 				P.curX,P.curY,P.dir=ix,iy,idir
 				P.sc,P.cur.bk=scs[P.cur.id][idir],icb
@@ -1521,7 +1547,7 @@ end
 
 function player.getNext(P,n)
 	local E=P.gameEnv
-	P.next[#P.next+1]={bk=blocks[n][E.face[n]],id=n,color=E.bone and 12 or E.skin[n],name=n}
+	ins(P.next,{bk=blocks[n][E.face[n]],id=n,color=E.bone and 12 or E.skin[n],name=n})
 end
 function player.popNext(P)--Pop next queue to hand
 	P.holded=false
@@ -1652,7 +1678,7 @@ function player.drop(P)--Place piece
 	--Create clearing FX
 	if cc>0 and P.gameEnv.clearFX then
 		local l=P.clearedRow
-		local t=6-P.gameEnv.clearFX*1.5
+		local t=7-P.gameEnv.clearFX*1
 		for i=1,cc do
 			ins(P.clearFX,{l[i],0,t})
 		end
@@ -1662,8 +1688,13 @@ function player.drop(P)--Place piece
 	if P.gameEnv.lockFX then
 		if cc==0 then
 			P:createLockFX()
-		elseif P.lockFX[1]then
-			P.lockFX={}
+		else
+			_=#P.lockFX
+			if _>0 then
+				for i=1,_ do
+					rem(P.lockFX)
+				end
+			end
 		end
 	end
 
@@ -2265,6 +2296,9 @@ function player.act.moveLeft(P,auto)
 		end
 	elseif P.control and P.waiting==-1 then
 		if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+			if P.gameEnv.moveFX and P.gameEnv.block then
+				P:createMoveFX()
+			end
 			P.curX=P.curX-1
 			P:freshBlock(false,true)
 			if P.human and P.curY==P.imgY then SFX.play("move")end
@@ -2289,6 +2323,9 @@ function player.act.moveRight(P,auto)
 		end
 	elseif P.control and P.waiting==-1 then
 		if P.cur and not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
+			if P.gameEnv.moveFX and P.gameEnv.block then
+				P:createMoveFX()
+			end
 			P.curX=P.curX+1
 			P:freshBlock(false,true)
 			if P.human and P.curY==P.imgY then SFX.play("move")end
@@ -2329,9 +2366,9 @@ function player.act.hardDrop(P)
 		end
 		P.keyPressing[6]=false
 	elseif P.control and P.waiting==-1 and P.cur then
-		if P.curY~=P.imgY then
-			if P.gameEnv.dropFX then
-				P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
+		if P.curY>P.imgY then
+			if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
+				P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 			end
 			P.curY=P.imgY
 			P.spinLast=false
@@ -2356,7 +2393,7 @@ function player.act.softDrop(P)
 	else
 		P.downing=1
 		if P.control and P.waiting==-1 and P.cur then
-			if P.curY~=P.imgY then
+			if P.curY>P.imgY then
 				P.curY=P.curY-1
 				P:freshBlock(true,true)
 				P.spinLast=false
@@ -2383,8 +2420,8 @@ function player.act.insLeft(P,auto)
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
 		P.curX=P.curX-1
-		if P.gameEnv.dropFX then
-			P:createDropFX(P.curX+P.c,P.curY+P.r-1,P.curX+P.c,P.curY)
+		if P.gameEnv.moveFX and P.gameEnv.block then
+			P:createMoveFX()
 		end
 		P:freshBlock(false,true)
 	end
@@ -2405,8 +2442,8 @@ function player.act.insRight(P,auto)
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
 		P.curX=P.curX+1
-		if P.gameEnv.dropFX then
-			P:createDropFX(P.curX-1,P.curY+P.r-1,P.curX-1,P.curY)
+		if P.gameEnv.moveFX and P.gameEnv.block then
+			P:createMoveFX()
 		end
 		P:freshBlock(false,true)
 	end
@@ -2423,9 +2460,9 @@ function player.act.insRight(P,auto)
 	end
 end
 function player.act.insDown(P)
-	if P.curY~=P.imgY and P.cur then
-		if P.gameEnv.dropFX then
-			P:createDropFX(P.curX,P.curY+1,P.curX+P.c-1,P.imgY+P.r-1)
+	if P.curY>P.imgY and P.cur then
+		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
+			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 		end
 		if P.gameEnv.shakeFX then
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
@@ -2435,7 +2472,7 @@ function player.act.insDown(P)
 	end
 end
 function player.act.down1(P)
-	if P.curY~=P.imgY and P.cur then
+	if P.curY>P.imgY and P.cur then
 		P.curY=P.curY-1
 		P:freshBlock(true,true)
 		P.spinLast=false
@@ -2443,7 +2480,7 @@ function player.act.down1(P)
 end
 function player.act.down4(P)
 	for _=1,4 do
-		if P.curY~=P.imgY and P.cur then
+		if P.curY>P.imgY and P.cur then
 			P.curY=P.curY-1
 			P:freshBlock(true,true)
 			P.spinLast=false
@@ -2455,7 +2492,7 @@ end
 function player.act.down10(P)
 	if P.cur then
 		for _=1,10 do
-			if P.curY~=P.imgY then
+			if P.curY>P.imgY then
 				P.curY=P.curY-1
 				P:freshBlock(true,true)
 				P.spinLast=false
@@ -2591,7 +2628,7 @@ local function newEmptyPlayer(id,x,y,size)
 	P.fieldBeneath=0
 
 	P.score1,P.b2b1=0,0
-	P.dropFX,P.lockFX,P.clearFX={},{},{}
+	P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
 	P.tasks={}--Tasks
 	P.bonus={}--Texts
 
@@ -2652,6 +2689,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.lockFX==0 then	ENV.lockFX=nil	end
 	if ENV.dropFX==0 then	ENV.dropFX=nil	end
+	if ENV.moveFX==0 then	ENV.moveFX=nil	end
 	if ENV.clearFX==0 then	ENV.clearFX=nil end
 	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
 end
@@ -2725,8 +2763,11 @@ function PLY.newDemoPlayer(id,x,y,size)
 		ghost=setting.ghost,center=setting.center,
 		smooth=setting.smooth,grid=setting.grid,
 		text=setting.text,
-		lockFX=setting.lockFX,dropFX=setting.dropFX,
-		clearFX=setting.clearFX,shakeFX=setting.shakeFX,
+		lockFX=setting.lockFX,
+		dropFX=setting.dropFX,
+		moveFX=setting.moveFX,
+		clearFX=setting.clearFX,
+		shakeFX=setting.shakeFX,
 
 		_20G=false,bone=false,
 		drop=1e99,lock=1e99,
@@ -2790,6 +2831,7 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 		ENV.text=false
 		ENV.lockFX=nil
 		ENV.dropFX=nil
+		ENV.moveFX=nil
 		ENV.shakeFX=nil
 	end
 
