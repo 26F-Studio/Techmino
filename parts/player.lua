@@ -1226,7 +1226,7 @@ function player.garbageRise(P,color,amount,pos)
 		_=P.dropFX[i]
 		_[3],_[5]=_[3]+amount,_[5]+amount
 	end
-	if #P.field>40 then P:lose()end
+	if #P.field>42 then P:lose()end
 end
 
 local invList={2,1,4,3,5,6,7}
