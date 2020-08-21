@@ -438,16 +438,22 @@ local function Pupdate_alive(P,dt)
 			end
 
 			if D==1 then
+				if P.gameEnv.moveFX and P.gameEnv.block then
+					P:createMoveFX("down")
+				end
 				P.curY=P.curY-1
 			else
-				local _=P.curY-P.imgY--Max fall dist
 				D=1/D--Fall dist
-				if D<_ then
-					P.curY=P.curY-D
-					-- assert(P.curY==int(P.curY),"y:"..P.curY.." fall:"..D.." D_env:"..P.gameEnv.drop)
+				if D>P.curY-P.imgY then D=P.curY-P.imgY end
+				if P.gameEnv.moveFX and P.gameEnv.block then
+					for i=1,D do
+						P:createMoveFX("down")
+						P.curY=P.curY-1
+					end
 				else
-					P.curY=P.imgY
+					P.curY=P.curY-D
 				end
+				-- assert(P.curY==int(P.curY),"y:"..P.curY.." fall:"..D.." D_env:"..P.gameEnv.drop)
 			end
 			P:freshBlock(true,true)
 			P.spinLast=false
@@ -652,7 +658,7 @@ local function Pdraw_norm(P)
 				end end
 			end
 
-			local dy=P.gameEnv.smooth and P.imgY~=P.curY and (min(P.dropDelay,1e99)/P.gameEnv.drop-1)*30 or 0
+			local dy=P.gameEnv.smooth and P.imgY~=P.curY and(P.dropDelay/P.gameEnv.drop-1)*30 or 0
 			gc.translate(0,-dy)
 			local trans=P.lockDelay/P.gameEnv.lock
 			if P.gameEnv.block then
@@ -1037,14 +1043,44 @@ end
 function player.creatDropFX(P,x,y,w,h)--TODO, remake dropFX
 	ins(P.dropFX,{x,y,w,h,0,13-2*P.gameEnv.dropFX})
 end
-function player.createMoveFX(P)
-	local T=12-2*P.gameEnv.moveFX
+function player.createMoveFX(P,dir)
+	local T=10-1.5*P.gameEnv.moveFX
 	local C=P.cur.color
-	local x,y=P.curX-1,P.curY-1
-	for i=1,P.r do
+	local x=P.curX-1
+	local y=P.gameEnv.smooth and P.curY+P.dropDelay/P.gameEnv.drop-2 or P.curY-1
+	if dir=="left"then
+		for i=1,P.r do
+			for j=P.c,1,-1 do
+				if P.cur.bk[i][j]then
+					ins(P.moveFX,{C,x+j,y+i,0,T})
+					break
+				end
+			end
+		end
+	elseif dir=="right"then
+		for i=1,P.r do
+			for j=1,P.c do
+				if P.cur.bk[i][j]then
+					ins(P.moveFX,{C,x+j,y+i,0,T})
+					break
+				end
+			end
+		end
+	elseif dir=="down"then
 		for j=1,P.c do
-			if P.cur.bk[i][j]then
-				ins(P.moveFX,{C,x+j,y+i,0,T})
+			for i=P.r,1,-1 do
+				if P.cur.bk[i][j]then
+					ins(P.moveFX,{C,x+j,y+i,0,T})
+					break
+				end
+			end
+		end
+	else
+		for i=1,P.r do
+			for j=1,P.c do
+				if P.cur.bk[i][j]then
+					ins(P.moveFX,{C,x+j,y+i,0,T})
+				end
 			end
 		end
 	end
@@ -2297,7 +2333,7 @@ function player.act.moveLeft(P,auto)
 	elseif P.control and P.waiting==-1 then
 		if P.cur and not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 			if P.gameEnv.moveFX and P.gameEnv.block then
-				P:createMoveFX()
+				P:createMoveFX("left")
 			end
 			P.curX=P.curX-1
 			P:freshBlock(false,true)
@@ -2324,7 +2360,7 @@ function player.act.moveRight(P,auto)
 	elseif P.control and P.waiting==-1 then
 		if P.cur and not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 			if P.gameEnv.moveFX and P.gameEnv.block then
-				P:createMoveFX()
+				P:createMoveFX("right")
 			end
 			P.curX=P.curX+1
 			P:freshBlock(false,true)
@@ -2419,10 +2455,10 @@ function player.act.insLeft(P,auto)
 	if P.gameEnv.nofly or not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
-		P.curX=P.curX-1
 		if P.gameEnv.moveFX and P.gameEnv.block then
-			P:createMoveFX()
+			P:createMoveFX("left")
 		end
+		P.curX=P.curX-1
 		P:freshBlock(false,true)
 	end
 	if P.curX~=x0 then
@@ -2441,10 +2477,10 @@ function player.act.insRight(P,auto)
 	if P.gameEnv.nofly or not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
-		P.curX=P.curX+1
 		if P.gameEnv.moveFX and P.gameEnv.block then
-			P:createMoveFX()
+			P:createMoveFX("right")
 		end
+		P.curX=P.curX+1
 		P:freshBlock(false,true)
 	end
 	if P.curX~=x0 then
@@ -2473,6 +2509,9 @@ function player.act.insDown(P)
 end
 function player.act.down1(P)
 	if P.curY>P.imgY and P.cur then
+		if P.gameEnv.moveFX and P.gameEnv.block then
+			P:createMoveFX("down")
+		end
 		P.curY=P.curY-1
 		P:freshBlock(true,true)
 		P.spinLast=false
