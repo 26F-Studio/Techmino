@@ -34,11 +34,11 @@ function SFX.loadAll()
 	end
 end
 function SFX.fieldPlay(s,v,P)
-	SFX.play(s,v,(P.curX+P.sc[2]-6.5)*.15)
+	SFX.play(s,v,(P.curX+P.sc[2]-5.5)*.15)
 end
-function SFX.play(s,vol,pos,force)
-	if setting.sfx==0 and not force then return end
-	local S=SFX.list[s]--source list
+function SFX.play(s,vol,pos)
+	if setting.sfx==0 then return end
+	local S=SFX.list[s]--Source list
 	if not S then return end
 	local n=1
 	while S[n]:isPlaying()do
@@ -58,11 +58,31 @@ function SFX.play(s,vol,pos,force)
 			S:setPosition(0,0,0)
 		end
 	end
-	if not force then
-		S:setVolume((vol or 1)*setting.sfx*.1)
-	else
-		S:setVolume(vol*.1)
+	S:setVolume(((vol or 1)*setting.sfx*.01)^1.626)
+	S:play()
+end
+function SFX.fplay(s,vol,pos)
+	local S=SFX.list[s]--Source list
+	if not S then return end
+	local n=1
+	while S[n]:isPlaying()do
+		n=n+1
+		if not S[n]then
+			S[n]=S[1]:clone()
+			S[n]:seek(0)
+			break
+		end
 	end
+	S=S[n]--AU_SRC
+	if S:getChannelCount()==1 then
+		if pos then
+			pos=pos*setting.stereo*.1
+			S:setPosition(pos,1-pos^2,0)
+		else
+			S:setPosition(0,0,0)
+		end
+	end
+	S:setVolume((vol*.01)^1.626)
 	S:play()
 end
 function SFX.reset()

@@ -9,6 +9,6 @@ return{
 	aura=N("aura"),
 	gradient1=N("grad1"),--Horizonal red-blue gradient
 	gradient2=N("grad2"),--Vertical red-green gradient
-	rgb1=N("rgb1"),--colorful RGB
-	rgb2=N("rgb2"),--blue RGB
+	rgb1=N("rgb1"),--Colorful RGB
+	rgb2=N("rgb2"),--Blue RGB
 }

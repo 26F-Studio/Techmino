@@ -13,7 +13,7 @@ return{
 		hold=false,
 		dropPiece=function(P)P:lose()end,
 		task=nil,
-		bg="game1",bgm="newera",
+		bg="bg1",bgm="newera",
 	},
 	pauseLimit=true,
 	load=function()

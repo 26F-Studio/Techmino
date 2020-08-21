@@ -5,7 +5,7 @@ return{
 	env={
 		drop=60,lock=60,
 		target=400,dropPiece=PLY.reach_winCheck,
-		bg="game3",bgm="push",
+		bg="rainbow",bgm="push",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
@@ -29,11 +29,11 @@ return{
 		if P.stat.row<400 then return end
 		local T=P.stat.time
 		return
-		T<=255 and 5 or
-		T<=326 and 4 or
-		T<=462 and 3 or
-		T<=555 and 2 or
-		T<=626 and 1 or
+		T<=300 and 5 or
+		T<=330 and 4 or
+		T<=360 and 3 or
+		T<=390 and 2 or
+		T<=420 and 1 or
 		0
 	end,
 }

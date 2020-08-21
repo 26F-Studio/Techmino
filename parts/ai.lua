@@ -16,7 +16,7 @@ local Timer=love.timer.getTime
 -- 6~10:hD,sD,H,A,R,
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
-local scs={{1,2},{1,2},{1,2},{1,2},{1,2},{1.5,1.5},{0.5,2.5}}
+local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 local CCblockID={6,5,4,3,2,1,0}
 if system=="Windows"then
@@ -198,7 +198,8 @@ end
 return{
 	["9S"]={
 		function(P,ctrl)
-			local Tfield={}--test field
+			local Tfield={}--Test field
+			local best={x=1,dir=0,hold=false,score=-1e99}--Best method
 			local field_org=P.field
 			for i=1,#field_org do
 				Tfield[i]=freeRow.get(0)
@@ -206,7 +207,7 @@ return{
 					Tfield[i][j]=field_org[i][j]
 				end
 			end
-			local best={x=1,dir=0,hold=false,score=-1e99}
+
 			for ifhold=0,P.gameEnv.hold and 1 or 0 do
 				--Get block id
 				local bn
@@ -217,13 +218,17 @@ return{
 				end
 				if not bn then goto CTN end
 
-				for dir=0,dirCount[bn] do--each dir
+				for dir=0,dirCount[bn] do--Each dir
 					local cb=blocks[bn][dir]
-					for cx=1,11-#cb[1]do--each pos
+					for cx=1,11-#cb[1]do--Each pos
 						local cy=#Tfield+1
+
+						--Move to bottom
 						while not ifoverlapAI(Tfield,cb,cx,cy-1)do
 							cy=cy-1
-						end--move to bottom
+						end
+
+						--Simulate lock
 						for i=1,#cb do
 							local y=cy+i-1
 							if not Tfield[y]then Tfield[y]=freeRow.get(0)end
@@ -232,7 +237,7 @@ return{
 									Tfield[y][cx+j-1]=1
 								end
 							end
-						end--simulate lock
+						end
 						local score=getScore(Tfield,cb,cy)
 						if score>best.score then
 							best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
@@ -243,9 +248,11 @@ return{
 				::CTN::
 			end
 			if not best.bn then return 1 end
+
+			--Release cache
 			while #Tfield>0 do
 				freeRow.discard(rem(Tfield,1))
-			end--Release cache
+			end
 			local p=#ctrl+1
 			if best.hold then
 				ctrl[p]=8
@@ -270,11 +277,11 @@ return{
 		end,
 	},
 	["CC"]={
-		function(P)
+		function(P)--Start thinking
 			BOT.think(P.AI_bot)
 			return 2
-		end,--start thinking
-		function(P,ctrl)
+		end,
+		function(P,ctrl)--Poll keys
 			local success,dest,hold,move=BOT.getMove(P.AI_bot)
 			if success == 2 then
 				ins(ctrl,6)
@@ -298,10 +305,11 @@ return{
 				ins(ctrl,6)
 				return 3
 			else
-				return 2--stay this stage
+				--Stay this stage
+				return 2
 			end
-		end,--poll keys
-		function(P)
+		end,
+		function(P)--Check if time to change target
 			P.AI_delay=P.AI_delay0
 			if Timer()-P.modeData.point>P.modeData.event then
 				P.modeData.point=Timer()
@@ -309,6 +317,6 @@ return{
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
-		end,--check if time to change target
+		end,
 	},
 }--AI think stage

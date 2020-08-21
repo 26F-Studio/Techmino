@@ -1,4 +1,4 @@
-local int,rnd,min=math.floor,math.random,math.min
+local int,min=math.floor,math.min
 return{
 	color=color.lYellow,
 	env={
@@ -13,18 +13,18 @@ return{
 				local s,t
 				if D.event<10 then
 					t=800-10*D.event--800~700
-					B[p]=	{pos=rnd(5,6),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
-					B[p+1]=	{pos=rnd(4,7),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
+					B[p]=	{pos=P:RND(5,6),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
+					B[p+1]=	{pos=P:RND(4,7),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
 					s=20
 				elseif D.event<20 then
 					t=800-10*D.event--700~600
-					B[p]=	{pos=rnd(3,8),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
-					B[p+1]=	{pos=rnd(4,7),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
+					B[p]=	{pos=P:RND(3,8),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
+					B[p+1]=	{pos=P:RND(4,7),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
 					s=24
 				else
 					t=600-15*(min(D.event-20,10))--600~450
-					B[p]=	{pos=rnd(2)*9-8,amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
-					B[p+1]=	{pos=rnd(3,8),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
+					B[p]=	{pos=P:RND(2)*9-8,amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
+					B[p+1]=	{pos=P:RND(3,8),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
 					s=28
 				end
 				B.sum=B.sum+s
@@ -43,7 +43,7 @@ return{
 				end
 			end
 		end,
-		bg="game4",bgm="shining terminal",
+		bg="rainbow2",bgm="shining terminal",
 	},
 	pauseLimit=true,
 	load=function()

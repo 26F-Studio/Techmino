@@ -9,7 +9,7 @@ local color={
 
 	lRed={1,.5,.5},
 	lGreen={.5,1,.5},
-	lBlue={.6,.6,1},
+	lBlue={.6,.7,1},
 	lCyan={.5,1,1},
 	lMagenta={1,.5,1},
 	lYellow={1,1,.5},
@@ -32,7 +32,6 @@ local color={
 	pink={1,0,.6},
 	grass={.6,1,0},
 	water={0,1,.6},
-	bronze={.7,.4,0},
 	white={1,1,1},
 	purple={.5,0,1},
 }

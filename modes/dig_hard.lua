@@ -1,4 +1,4 @@
-local max,rnd=math.max,math.random
+local max=math.max
 return{
 	color=color.magenta,
 	env={
@@ -10,13 +10,13 @@ return{
 			local D=P.modeData
 			D.counter=D.counter+1
 			if D.counter>=max(90,180-D.event)then
-				P:garbageRise(10,1,rnd(10))
+				P:garbageRise(10,1,P:RND(10))
 				P.stat.recv=P.stat.recv+1
 				D.counter=0
 				D.event=D.event+1
 			end
 		end,
-		bg="game2",bgm="push",
+		bg="bg2",bgm="way",
 	},
 	pauseLimit=true,
 	load=function()

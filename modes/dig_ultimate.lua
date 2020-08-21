@@ -1,4 +1,4 @@
-local max,rnd=math.max,math.random
+local max=math.max
 return{
 	color=color.lYellow,
 	env={
@@ -9,13 +9,13 @@ return{
 			local D=P.modeData
 			D.counter=D.counter+1
 			if D.counter>=max(30,80-.3*D.event)then
-				P:garbageRise(13+D.event%5,1,rnd(10))
+				P:garbageRise(13+D.event%5,1,P:RND(10))
 				P.stat.recv=P.stat.recv+1
 				D.counter=0
 				D.event=D.event+1
 			end
 		end,
-		bg="game2",bgm="secret7th",
+		bg="bg2",bgm="shining terminal",
 	},
 	pauseLimit=true,
 	load=function()

@@ -9,11 +9,11 @@ local mStr=mStr
 local scr=scr
 local scs=require("parts/spinCenters")
 local modeRankColor={
-	color.bronze,	--Rank1
-	color.lGrey,	--Rank2
-	color.lYellow,	--Rank3
-	color.lPurple,	--Rank4
-	color.lCyan,	--Rank5
+	color.dRed,		--D
+	color.dOrange,	--C
+	color.lYellow,	--B
+	color.lBlue,	--A
+	color.lCyan,	--S
 	color.lGreen,	--Special
 }
 local rankString={
@@ -66,7 +66,7 @@ local function drawVirtualkey()
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)--Button outline
 				_=V[i].pressTime
-				gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--icon
+				gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
 				if _>0 then
 					gc.setColor(1,1,1,a*_*.08)
 					gc.circle("fill",B.x,B.y,B.r*.94,10)--Glow
@@ -94,6 +94,16 @@ end
 
 local Pnt={}
 
+function Pnt.calculator()
+	local S=sceneTemp
+	gc.setLineWidth(4)
+	gc.rectangle("line",100,80,650,150)
+	setFont(45)
+	if S.reg then gc.printf(S.reg,0,100,720,"right")end
+	if S.val then gc.printf(S.val,0,150,720,"right")end
+	setFont(50)
+	if S.sym then gc.print(S.sym,126,150)end
+end
 function Pnt.load()
 	local S=sceneTemp
 	gc.setLineWidth(4)
@@ -101,13 +111,15 @@ function Pnt.load()
 	gc.rectangle("fill",300,330,S.cur/S.tar*680,60,5)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",300,330,680,60,5)
-	setFont(35)
-	gc.print(text.load[S.phase],340,335)
-	if S.phase~=0 then
-		gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
+	if not setting.appLock then
+		setFont(35)
+		gc.print(text.load[S.phase],340,335)
+		if S.phase~=0 then
+			gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
+		end
+		setFont(25)
+		mStr(S.tip,640,400)
 	end
-	setFont(25)
-	mStr(S.tip,640,400)
 end
 
 local titleTransform={
@@ -186,6 +198,7 @@ function Pnt.mode()
 	local sel=cam.sel
 	setFont(30)
 
+	--Draw lines connecting modes
 	gc.setLineWidth(8)
 	gc.setColor(1,1,1,.2)
 	for name,M in next,Modes do
@@ -195,7 +208,7 @@ function Pnt.mode()
 				gc.line(M.x,M.y,m.x,m.y)
 			end
 		end
-	end--lines connecting modes
+	end
 
 	for name,M in next,Modes do
 		if R[name]then
@@ -217,7 +230,7 @@ function Pnt.mode()
 					gc.setLineWidth(10)
 					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
 				end
-			elseif M.shape==2 then--diamond
+			elseif M.shape==2 then--Diamond
 				gc.circle("fill",M.x,M.y,S+5,4)
 				if sel==name then
 					gc.setColor(1,1,1)
@@ -353,10 +366,14 @@ function Pnt.sequence()
 	gc.print(len,120,300)
 
 	local L=TEXTURE.miniBlock
+	local lib=SKIN.libColor
+	local set=setting.skin
+
 	local x,y=120,126
 	local cx,cy=120,126
 	for i=1,len do
 		local B=L[bag[i]]
+		gc.setColor(lib[set[bag[i]]])
 		gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
 		x=x+B:getWidth()*15+10
 		if x>1126 then
@@ -373,10 +390,9 @@ function Pnt.sequence()
 	--Confirm reset
 	if s.sure>0 then
 		gc.setColor(1,1,1,s.sure*.02)
-		gc.draw(drawableText.question,1035,570)
+		gc.draw(drawableText.question,980,470)
 	end
 end
-
 function Pnt.draw()
 	local sx,sy=sceneTemp.x,sceneTemp.y
 	gc.translate(200,60)
@@ -441,6 +457,7 @@ function Pnt.play()
 	for p=1,#players do
 		players[p]:draw()
 	end
+
 	gc.setLineWidth(5)
 	for i=1,#FX_attack do
 		local A=FX_attack[i]
@@ -463,9 +480,11 @@ function Pnt.play()
 			gc.rotate(A.t*.1)
 			gc.circle("fill",0,0,A.rad,A.corner)
 		gc.pop()
-	end--FX animation
+	end
+
 	gc.setColor(1,1,1)
 	if setting.VKSwitch then drawVirtualkey()end
+
 	if modeEnv.royaleMode then
 		for i=1,#FX_badge do
 			local b=FX_badge[i]
@@ -501,12 +520,18 @@ function Pnt.play()
 	gc.draw(drawableText.modeName,485,10)
 	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
 
-	--Danger
+	--Replaying
+	if game.replaying then
+		gc.setColor(1,1,Timer()%1>.5 and 1 or 0)
+		mText(drawableText.replaying,410,17)
+	end
+
+	--Warning
 	gc.push("transform")
 	gc.origin()
 	if restartCount>0 then
 		gc.setColor(0,0,0,restartCount*.05)
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	end
 	if game.warnLVL>0 then
 		gc.setColor(0,0,0,0)
@@ -517,10 +542,10 @@ function Pnt.play()
 	end
 	gc.pop()
 end
+
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
-
 function Pnt.pause()
 	local S=sceneTemp
 	local T=S.timer*.02
@@ -531,7 +556,7 @@ function Pnt.pause()
 	gc.setColor(.15,.15,.15,_)
 	gc.push("transform")
 		gc.origin()
-		gc.rectangle("fill",0,0,scr.w*scr.dpi,scr.h*scr.dpi)
+		gc.rectangle("fill",0,0,scr.W,scr.H)
 	gc.pop()
 
 	--Pause Info
@@ -611,14 +636,14 @@ end
 function Pnt.setting_game()
 	gc.setColor(1,1,1)
 	mText(drawableText.setting_game,640,15)
-	gc.draw(blockSkin[int(Timer()*2)%11+1],720,540,Timer()%6.28319,2,nil,15,15)
+	gc.draw(blockSkin[int(Timer()*2)%11+1],590,540,Timer()%6.28319,2,nil,15,15)
 end
 function Pnt.setting_video()
 	gc.setColor(1,1,1)
 	mText(drawableText.setting_video,640,15)
 end
 function Pnt.setting_sound()
-	gc.setColor(1,1,1,.8)
+	gc.setColor(1,1,1)
 	mText(drawableText.setting_sound,640,15)
 	local t=Timer()
 	local _=sceneTemp.jump
@@ -632,6 +657,7 @@ function Pnt.setting_sound()
 	gc.draw(IMG.miyaF4,129,98+3*sin(t*.7))
 	gc.translate(-x,-y)
 end
+
 local function timeConv(t)
 	return t.."F "..int(t*16.67).."ms"
 end
@@ -724,7 +750,7 @@ function Pnt.setting_skin()
 	for N=1,7 do
 		local face=setting.face[N]
 		local B=blocks[N][face]
-		local x,y=-25+140*N-scs[N][face][2]*30,325+scs[N][face][1]*30
+		local x,y=-55+140*N-scs[N][face][2]*30,355+scs[N][face][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then
@@ -843,6 +869,6 @@ function Pnt.history()
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
 	local _=sceneTemp
-	gc.print(_[1][_[2]],40,50)
+	gc.print(_.text[_.pos],40,50)
 end
 return Pnt

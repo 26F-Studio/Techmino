@@ -1,4 +1,4 @@
-local rnd,min,rem=math.random,math.min,table.remove
+local min,rem=math.min,table.remove
 return{
 	color=color.red,
 	env={
@@ -11,13 +11,14 @@ return{
 				local height=freeRow.get(0)
 				local max=#P.field
 				if max>0 then
+					--Get heights
 					for x=1,10 do
 						local h=max
 						while P.field[h][x]==0 and h>1 do
 							h=h-1
 						end
 						height[x]=h
-					end--get heights
+					end
 				else
 					for x=1,10 do
 						height[x]=0
@@ -42,8 +43,8 @@ return{
 					goto END
 				end
 
-				--give I when no hole
-				d=-999--height difference
+				--Give I when no hole
+				d=-999--Height difference
 				--A=hole mark
 				for x=2,11 do
 					local _=height[x]-height[x-1]
@@ -59,7 +60,7 @@ return{
 					res[A+2]=7
 				end
 
-				--give O when no d=0/give T when no d=1
+				--Give O when no d=0/give T when no d=1
 				d=0--d=0 count
 				A=0--d=1 count
 				for x=2,10 do
@@ -87,7 +88,7 @@ return{
 
 				::END::
 				freeRow.discard(height)
-				P:getNext(res[rnd(#res)])
+				P:getNext(res[P:RND(#res)])
 			end
 		end,
 		target=100,dropPiece=PLY.reach_winCheck,

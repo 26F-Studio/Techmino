@@ -1,4 +1,3 @@
-local rnd=math.random
 local PCbase=require("parts/PCbase")
 local PClist=require("parts/PClist")
 local PCtype={
@@ -17,7 +16,7 @@ local function task_PC(P)
 	P.modeData.counter=P.modeData.counter+1
 	if P.modeData.counter==26 then
 		local base=PCbase[P.modeData.type]
-		P:pushLine(base[rnd(#base)],P.modeData.symmetry)
+		P:pushLine(base[P:RND(#base)],P.modeData.symmetry)
 		return true
 	end
 end
@@ -30,9 +29,9 @@ local function newPC(P)
 		if c<5 then P:lose()end
 	end
 	if #P.field==0 then
-		local type=PCtype[P.stat.pc]or rnd(2,3)
-		local L=PClist[type][rnd(#PClist[1])]
-		local symmetry=rnd()>.5
+		local type=PCtype[P.stat.pc]or P:RND(2,3)
+		local L=PClist[type][P:RND(#PClist[1])]
+		local symmetry=P:RND()>.5
 		P.modeData.type=type
 		P.modeData.symmetry=symmetry
 		P:pushNext(L,symmetry)

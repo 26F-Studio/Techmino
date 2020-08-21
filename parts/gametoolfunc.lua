@@ -6,6 +6,25 @@ local sub,find=string.sub,string.find
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
 
+local default_setting={
+	"das","arr",
+	"sddas","sdarr",
+	"ihs","irs","ims",
+	"maxNext",
+	"swap",
+	-- "face",
+}
+local function copyGameSetting()
+	local S={face={}}
+	for _,v in next,default_setting do
+		S[v]=setting[v]
+	end
+	for i=1,25 do
+		S.face[i]=setting.face[i]
+	end
+	return S
+end
+
 function destroyPlayers()
 	for i=#players,1,-1 do
 		local P=players[i]
@@ -25,7 +44,6 @@ function destroyPlayers()
 	for i=#players.alive,1,-1 do
 		players.alive[i]=nil
 	end
-	players.human=0
 	collectgarbage()
 end
 
@@ -43,18 +61,22 @@ function restoreVirtualKey()
 		virtualkey[9].ava=false
 	end
 end
+
 function copyBoard()
 	local str=""
 	local H=0
+
 	for y=20,1,-1 do
 		for x=1,10 do
 			if preField[y][x]~=0 then
 				H=y
-				goto L
+				goto topFound
 			end
 		end
 	end
-	::L::
+	::topFound::
+
+	--Encode field
 	for y=1,H do
 		local S=""
 		local L=preField[y]
@@ -63,38 +85,36 @@ function copyBoard()
 		end
 		str=str..S
 	end
-	love.system.setClipboardText("Techmino sketchpad:"..data.encode("string","base64",data.compress("string","deflate",str)))
-	TEXT.show(text.copySuccess,350,360,40,"appear",.5)
+	return data.encode("string","base64",data.compress("string","deflate",str))
 end
-function pasteBoard()
+function pasteBoard(str)
 	local _
-	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
 
-	--Read data
-	local str=love.system.getClipboardText()
-	local p=find(str,":")--ptr*
-	if p then str=sub(str,p+1)end
+	--Decode
 	_,str=pcall(data.decode,"string","base64",str)
-	if not _ then goto ERROR end
+	if not _ then return end
 	_,str=pcall(data.decompress,"string","deflate",str)
-	if not _ then goto ERROR end
+	if not _ then return end
 
-	p=1
-
+	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
+	local p=1
 	while true do
 		_=byte(str,p)--1byte
+
+		--Str end
 		if not _ then
 			if fX~=1 then
-				goto ERROR
+				return
 			else
 				fY=fY+1
 				break
 			end
-		end--str end
+		end
 
-		__=_%32-1--block id
-		if __>17 then goto ERROR end--illegal blockid
-		_=int(_/32)--mode id
+		__=_%32-1--Block id
+		if __>17 then return end--Illegal blockid
+		_=int(_/32)--Mode id
+
 		preField[fY][fX]=__
 		if fX<10 then
 			fX=fX+1
@@ -111,8 +131,41 @@ function pasteBoard()
 			preField[y][x]=0
 		end
 	end
-	do return end
-	::ERROR::TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
+
+	return true
+end
+
+function copySequence()
+	local str=""
+
+	for i=1,#preBag do
+		str=str..char(preBag[i]-1)
+	end
+
+	return data.encode("string","base64",data.compress("string","deflate",str))
+end
+function pasteSequence(str)
+	local _
+
+	--Decode
+	_,str=pcall(data.decode,"string","base64",str)
+	if not _ then return end
+	_,str=pcall(data.decompress,"string","deflate",str)
+	if not _ then return end
+
+	local bag={}
+	for i=1,#str do
+		_=byte(str,i)
+		if _<25 then
+			bag[i]=_+1
+		else
+			return
+		end
+	end
+
+	preBag=bag
+	sceneTemp.cur=#preBag
+	return true
 end
 
 function mergeStat(stat,delta)
@@ -128,7 +181,8 @@ function mergeStat(stat,delta)
 		end
 	end
 end
-function randomTarget(P)
+
+function randomTarget(P)--Return a random opponent for P
 	if #players.alive>1 then
 		local R
 		repeat
@@ -136,7 +190,7 @@ function randomTarget(P)
 		until R~=P
 		return R
 	end
-end--return a random opponent for P
+end
 function freshMostDangerous()
 	game.mostDangerous,game.secDangerous=nil
 	local m,m2=0,0
@@ -196,24 +250,27 @@ function royaleLevelup()
 			local P=players.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
-				P.curY=P.y_img
+				P.curY=P.imgY
 				P.gameEnv._20G=true
-				if P.AI_mode=="CC"then CC_switch20G(P)end--little cheating,never mind
+				if P.AI_mode=="CC"then CC_switch20G(P)end
 			end
 		end
 	end
 end
+
 function pauseGame()
 	if not SCN.swapping then
 		restartCount=0--Avoid strange darkness
 		if not game.result then
 			game.pauseCount=game.pauseCount+1
 		end
-		for i=1,#players do
-			local l=players[i].keyPressing
-			for j=1,#l do
-				if l[j]then
-					players[i]:releaseKey(j)
+		if not game.replaying then
+			for i=1,#players do
+				local l=players[i].keyPressing
+				for j=1,#l do
+					if l[j]then
+						players[i]:releaseKey(j)
+					end
 				end
 			end
 		end
@@ -223,65 +280,38 @@ end
 function resumeGame()
 	SCN.swapTo("play","none")
 end
-function loadGame(M)
-	--rec={}
+function loadGame(M,ifQuickPlay)
 	stat.lastPlay=M
 	curMode=Modes[M]
 	local lang=setting.lang
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
-	SCN.swapTo("play","fade_togame")
+	SCN.swapTo("play",ifQuickPlay and"swipe"or"fade_togame")
 	SFX.play("enter")
 end
-function resetPartGameData()
-	game={
-		frame=150-setting.reTime*15,
-		result=false,
-		pauseTime=0,
-		pauseCount=0,
-		garbageSpeed=1,
-		warnLVL0=0,
-		warnLVL=0,
-	}
-	destroyPlayers()
-	curMode.load()
-	TEXT.clear()
-	if modeEnv.task then
-		for i=1,#players do
-			players[i]:newTask(modeEnv.task)
-		end
-	end
-	if modeEnv.royaleMode then
-		for i=1,#players do
-			players[i]:changeAtk(randomTarget(players[i]))
-		end
-	end
-	BG.set(modeEnv.bg)
-	BGM.play(modeEnv.bgm)
-	if modeEnv.royaleMode then
-		for i=1,#players do
-			players[i]:changeAtk(randomTarget(players[i]))
-		end
-		game.stage=1
-		game.garbageSpeed=.3
-	end
-	restoreVirtualKey()
-	collectgarbage()
-end
 function resetGameData()
-	game={
-		frame=150-setting.reTime*15,
-		result=false,
-		pauseTime=0,--Time paused
-		pauseCount=0,--Pausing count
-		garbageSpeed=1,--garbage timing speed
-		warnLVL0=0,
-		warnLVL=0,
-	}
+	if players[1]and not game.replaying then
+		mergeStat(stat,players[1].stat)
+	end
+
+	game.frame=150-setting.reTime*15
+	game.result=false
+	game.pauseTime=0
+	game.pauseCount=0
+	game.garbageSpeed=1
+	game.warnLVL0=0
+	game.warnLVL=0
+	game.recording=true
+	game.replaying=false
+	game.setting=copyGameSetting()
+	game.rec={}
+	math.randomseed(tm.getTime())
+	game.seed=rnd(261046101471026)
+
 	destroyPlayers()
 	modeEnv=curMode.env
-	curMode.load()--bg/bgm need redefine in custom,so up here
+	curMode.load()--BG/BGM need redefine in custom,so up here
 	if modeEnv.task then
 		for i=1,#players do
 			players[i]:newTask(modeEnv.task)
@@ -306,12 +336,59 @@ function resetGameData()
 	SFX.play("ready")
 	collectgarbage()
 end
+function resetPartGameData(replaying)
+	if players[1]and not game.replaying then
+		mergeStat(stat,players[1].stat)
+	end
+
+	game.result=false
+	game.garbageSpeed=1
+	game.warnLVL0=0
+	game.warnLVL=0
+	if replaying then
+		game.frame=0
+		game.recording=false
+		game.replaying=1
+	else
+		game.frame=150-setting.reTime*15
+		game.pauseTime=0
+		game.pauseCount=0
+		game.recording=true
+		game.replaying=false
+		game.setting=copyGameSetting()
+		game.rec={}
+		math.randomseed(tm.getTime())
+		game.seed=rnd(1046101471,2662622626)
+	end
+
+	destroyPlayers()
+	modeEnv=curMode.env
+	curMode.load()
+	if modeEnv.task then
+		for i=1,#players do
+			players[i]:newTask(modeEnv.task)
+		end
+	end
+	BG.set(modeEnv.bg)
+	BGM.play(modeEnv.bgm)
+
+	TEXT.clear()
+	if modeEnv.royaleMode then
+		for i=1,#players do
+			players[i]:changeAtk(randomTarget(players[i]))
+		end
+		game.stage=1
+		game.garbageSpeed=.3
+	end
+	restoreVirtualKey()
+	collectgarbage()
+end
 function gameStart()
 	SFX.play("start")
 	for P=1,#players do
 		P=players[P]
-		P:popNext()
-		P.timing=true
 		P.control=true
+		P.timing=true
+		P:popNext()
 	end
 end

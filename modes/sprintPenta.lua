@@ -25,20 +25,16 @@ return{
 	end,
 	score=function(P)return{P.stat.time,P.stat.piece}end,
 	scoreDisp=function(D)return toTime(D[1]).."   "..D[2].." Pieces"end,
-	comp=function(a,b)return a[2]>b[2]or a[2]==b[2]and a[1]<b[1]end,
+	comp=function(a,b)return a[1]<b[1]or(a[1]==b[1] and a[2]<b[2])end,
 	getRank=function(P)
-		local T=P.stat.row
-		if T<5 then
-			return
-		elseif T<40 then
-			return 0
-		end
-		T=P.stat.time
+		if P.stat.row<40 then return end
+		local T=P.stat.time
 		return
 		T<=76 and 5 or
 		T<=90 and 4 or
 		T<=150 and 3 or
 		T<=260 and 2 or
-		1
+		T<=500 and 1 or
+		0
 	end,
 }

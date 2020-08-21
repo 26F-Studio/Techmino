@@ -1,4 +1,4 @@
-local max,rnd=math.max,math.random
+local max=math.max
 return{
 	color=color.lYellow,
 	env={
@@ -12,10 +12,10 @@ return{
 			if P.modeData.counter>=max(300,600-10*P.modeData.event)and P.atkBuffer.sum<20 then
 				local t=max(300,480-12*P.modeData.event)
 				local p=#P.atkBuffer+1
-					P.atkBuffer[p]	={pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=2}
-					P.atkBuffer[p+1]={pos=rnd(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3}
-					P.atkBuffer[p+2]={pos=rnd(10),amount=6,countdown=1.2*t,cd0=1.2*t,time=0,sent=false,lv=4}
-					P.atkBuffer[p+3]={pos=rnd(10),amount=6,countdown=1.5*t,cd0=1.5*t,time=0,sent=false,lv=5}
+					P.atkBuffer[p]	={pos=P:RND(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=2}
+					P.atkBuffer[p+1]={pos=P:RND(10),amount=4,countdown=t,cd0=t,time=0,sent=false,lv=3}
+					P.atkBuffer[p+2]={pos=P:RND(10),amount=6,countdown=1.2*t,cd0=1.2*t,time=0,sent=false,lv=4}
+					P.atkBuffer[p+3]={pos=P:RND(10),amount=6,countdown=1.5*t,cd0=1.5*t,time=0,sent=false,lv=5}
 				P.atkBuffer.sum=P.atkBuffer.sum+20
 				P.stat.recv=P.stat.recv+20
 				if P.modeData.event==31 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end

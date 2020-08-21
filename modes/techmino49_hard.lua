@@ -24,7 +24,7 @@ return{
 		Fkey=selectTarget,
 		pushSpeed=2,
 		freshLimit=15,
-		bg="game3",bgm="rockblock",
+		bg="rainbow",bgm="rockblock",
 	},
 	load=function()
 		royaleData={

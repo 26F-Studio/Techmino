@@ -14,9 +14,10 @@ local function score(P)
 	if P.modeData.point%100==99 then
 		SFX.play("blip_1")
 	elseif P.modeData.point>=100*(P.modeData.event+1)then
-		local s=P.modeData.event+1;P.modeData.event=s--level up!
+		--Level up!
+		local s=P.modeData.event+1;P.modeData.event=s
 		local E=P.gameEnv
-		BG.set(s==1 and"game3"or s==2 and"game4"or s==3 and"game5"or s==4 and"game6"or"game5")
+		BG.set(s==1 and"rainbow"or s==2 and"rainbow2"or s==3 and"lightning"or s==4 and"lightning2"or"lightning")
 		E.lock=death_lock[s]
 		E.wait=death_wait[s]
 		E.fall=death_fall[s]
@@ -43,7 +44,7 @@ return{
 		fall=death_fall[1],
 		dropPiece=score,
 		freshLimit=15,
-		bg="game2",bgm="secret7th",
+		bg="bg2",bgm="secret7th",
 	},
 	slowMark=true,
 	load=function()
@@ -55,10 +56,10 @@ return{
 		mStr((P.modeData.event+1)*100,-81,370)
 		gc.rectangle("fill",-125,375,90,4)
 	end,
-	score=function(P)return{P.modeData.point,P.stat.row,P.stat.time}end,
-	scoreDisp=function(D)return D[1].."P   "..D[2].."L   "..toTime(D[3])end,
+	score=function(P)return{P.modeData.point,P.stat.time}end,
+	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,
 	comp=function(a,b)
-		return a[1]>b[1]or(a[1]==b[1]and(a[2]<b[2]or a[2]==b[2]and a[3]<b[3]))
+		return a[1]>b[1]or(a[1]==b[1]and a[2]<b[2])
 	end,
 	getRank=function(P)
 		local S=P.modeData.point

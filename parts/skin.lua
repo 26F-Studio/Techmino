@@ -18,6 +18,8 @@ local list={
 	"paper(mrz)",
 	"classic(_)",
 	"brick(notypey)",
+	"retro(notypey)",
+	"retro_grey(notypey)",
 	"text_bone(mrz)",
 	"colored_bone(mrz)",
 	"white_bone(mrz)",
@@ -97,33 +99,33 @@ function SKIN.load()
 	gc.pop()
 end
 local L=#list
-function SKIN.prevSet()--prev skin_set
+function SKIN.prevSet()--Prev skin_set
 	local _=(setting.skinSet-2)%L+1
 	setting.skinSet=_
 	SKIN.change(_)
 	_=list[_]
 	TEXT.show(_,1100,100,int(300/#_)+5,"fly")
 end
-function SKIN.nextSet()--next skin_set
+function SKIN.nextSet()--Next skin_set
 	local _=setting.skinSet%L+1
 	setting.skinSet=_
 	SKIN.change(_)
 	_=list[_]
 	TEXT.show(_,1100,100,int(300/#_)+5,"fly")
 end
-function SKIN.prev(i)--prev skin for [i]
+function SKIN.prev(i)--Prev skin for [i]
 	local _=setting.skin
 	_[i]=(_[i]-2)%11+1
 end
-function SKIN.next(i)--next skin for [i]
+function SKIN.next(i)--Next skin for [i]
 	local _=setting.skin
 	_[i]=_[i]%11+1
 end
-function SKIN.rotate(i)--change direction of [i]
+function SKIN.rotate(i)--Change direction of [i]
 	setting.face[i]=(setting.face[i]+1)%4
 	SFX.play("rotate")
 end
-function SKIN.change(i)--change to skin_set[i]
+function SKIN.change(i)--Change to skin_set[i]
 	blockSkin=SKIN.lib[i]
 	blockSkinMini=SKIN.libMini[i]
 end

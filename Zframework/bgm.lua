@@ -3,7 +3,7 @@ local rem=table.remove
 
 local function fadeOut(id)
 	local src=BGM.list[id]
-	local v=src:getVolume()-.025*setting.bgm*.1
+	local v=src:getVolume()-.025*setting.bgm*.01
 	src:setVolume(v>0 and v or 0)
 	if v<=0 then
 		src:stop()
@@ -12,9 +12,10 @@ local function fadeOut(id)
 end
 local function fadeIn(id)
 	local src=BGM.list[id]
-	local v=min(src:getVolume()+.025*setting.bgm*.1,setting.bgm*.1)
+	local v=setting.bgm*.01
+	v=min(v,src:getVolume()+.025*v)
 	src:setVolume(v)
-	if v>=setting.bgm*.1 then return true end
+	if v>=setting.bgm*.01 then return true end
 end
 
 local BGM={
@@ -23,9 +24,11 @@ local BGM={
 	--playing=[src:playing SRC]
 }
 BGM.list={
-	"blank","way","race","newera","push","reason","infinite",
+	"blank",
+	"race","push","way","reason",
+	"newera","oxygen","infinite",
 	"secret7th","secret8th",
-	"shining terminal","oxygen","distortion","far",
+	"shining terminal","distortion","far",
 	"rockblock","cruelty","final","8-bit happiness","end",
 	"how feeling",
 }
@@ -65,7 +68,7 @@ function BGM.play(s)
 end
 function BGM.freshVolume()
 	if BGM.playing then
-		local v=setting.bgm*.1
+		local v=setting.bgm*.01
 		if v>0 then
 			BGM.playing:setVolume(v)
 			if BGM.suspend then

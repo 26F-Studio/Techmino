@@ -57,7 +57,7 @@ local function getVoice(str)
 		end
 	end
 	return L[n]
-	--load voice with string
+	--Load voice with string
 end
 function VOC.loadOne(_)
 	local N=VOC.name[_]
@@ -91,24 +91,24 @@ function VOC.update()
 			end
 		elseif Q.s==1 then--Waiting load source
 			Q[1]=getVoice(Q[1])
-			Q[1]:setVolume(setting.voc*.1)
+			Q[1]:setVolume(setting.voc*.01)
 			Q[1]:play()
 			Q.s=Q[2]and 2 or 4
-		elseif Q.s==2 then--playing 1,ready 2
+		elseif Q.s==2 then--Playing 1,ready 2
 			if Q[1]:getDuration()-Q[1]:tell()<.08 then
 				Q[2]=getVoice(Q[2])
-				Q[2]:setVolume(setting.voc*.1)
+				Q[2]:setVolume(setting.voc*.01)
 				Q[2]:play()
 				Q.s=3
 			end
-		elseif Q.s==3 then--playing 12 same time
+		elseif Q.s==3 then--Playing 12 same time
 			if not Q[1]:isPlaying()then
 				for i=1,#Q do
 					Q[i]=Q[i+1]
 				end
 				Q.s=Q[2]and 2 or 4
 			end
-		elseif Q.s==4 then--playing last
+		elseif Q.s==4 then--Playing last
 			if not Q[1].isPlaying(Q[1])then
 				Q[1]=nil
 				Q.s=0
@@ -121,13 +121,13 @@ function VOC.play(s,chn)
 		if chn then
 			local L=voiceQueue[chn]
 			local _=VOC.list[s]
-			if not _ then print("no VOC called:"..s)return end
+			if not _ then return end
 			L[#L+1]=_[rnd(#_)]
 			L.s=1
-			--add to queue[chn]
+			--Add to queue[chn]
 		else
 			voiceQueue[VOC.getFreeChannel()]={s=1,VOC.list[s][rnd(#VOC.list[s])]}
-			--create new channel & play
+			--Create new channel & play
 		end
 	end
 end

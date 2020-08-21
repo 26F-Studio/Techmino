@@ -1,8 +1,27 @@
-local format,rnd=string.format,math.random
+local format=string.format
 local function check_rise(P)
 	if #P.clearedRow==0 then
+		local L=P.garbageBeneath
+		if L>0 then
+			if L<3 then
+				P:showTextF(text.almost,0,-120,80,"beat",.8)
+			elseif L<5 then
+				P:showTextF(text.great,0,-120,80,"fly",.8)
+			end
+		end
 		for i=1,8-P.garbageBeneath do
-			P:garbageRise(13,1,rnd(10))
+			P:garbageRise(13,1,P:RND(10))
+		end
+	else
+		if P.garbageBeneath==0 then
+			P:showTextF(text.awesome,0,-120,80,"beat",.6)
+			SFX.play("clear")
+			BG.send(26)
+			for i=1,8-P.garbageBeneath do
+				P:garbageRise(13,1,P:RND(10))
+			end
+		else
+			BG.send(#P.clearedRow)
 		end
 	end
 end
@@ -13,13 +32,14 @@ return{
 		drop=1e99,lock=1e99,
 		oncehold=false,
 		dropPiece=check_rise,
-		pushSpeed=1,
-		bg="glow",bgm="infinite",
+		pushSpeed=1.2,
+		bg="wing",bgm="infinite",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
+		local P=players[1]
 		for _=1,8 do
-			players[1]:garbageRise(13,1,rnd(10))
+			P:garbageRise(13,1,P:RND(10))
 		end
 	end,
 	mesDisp=function(P,dx,dy)

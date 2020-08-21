@@ -11,21 +11,23 @@ local function score(P)
 	MD.point=MD.point+s
 	if MD.point%100==99 then SFX.play("blip_1")end
 	if int(MD.point*.01)>MD.event then
-		local s=MD.event+1;MD.event=s--level up!
+		--Level up!
+		local s=MD.event+1;MD.event=s
 		local E=P.gameEnv
-		if s<4 then--first 300
+		if s<4 then
+			P:showTextF(text.stage(s),0,-120,80,"fly")
+			--First 300
 			if s~=1 then E.lock=E.lock-1 end
 			if s~=2 then E.wait=E.wait-1 end
 			if s~=3 then E.fall=E.fall-1 end
-			P:showTextF(text.stage(s),0,-120,80,"fly")
 		elseif s<10 then
+			P:showTextF(text.stage(s),0,-120,60,"fly",1.26)
 			if s==4 or s==7 then E.das=E.das-1 end
 			s=s%3
 			if s==0 then E.lock=E.lock-1
 			elseif s==1 then E.wait=E.wait-1
 			elseif s==2 then E.fall=E.fall-1
 			end
-			P:showTextF(text.stage(s),0,-120,80,"fly")
 		else
 			MD.point,MD.event=1000,9
 			P:win("finish")
@@ -44,7 +46,7 @@ return{
 		dropPiece=score,
 		freshLimit=15,
 		easyFresh=false,bone=true,
-		bg="none",bgm="distortion",
+		bg="lightning",bgm="distortion",
 	},
 	slowMark=true,
 	load=function()

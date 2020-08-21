@@ -17,11 +17,10 @@ return{
 	color=color.green,
 	env={
 		noFly=true,
-		minsdarr=1,
 		wait=8,fall=20,
 		target=10,dropPiece=check_LVup,
 		mindas=7,minarr=1,minsdarr=1,
-		bg="game2",bgm="push",
+		bg="bg2",bgm="push",
 	},
 	pauseLimit=true,
 	slowMark=true,

@@ -7,7 +7,7 @@ return{
 		target=100,dropPiece=PLY.reach_winCheck,
 		freshLimit=15,
 		ospin=false,
-		bg="rgb",bgm="infinite",
+		bg="rgb",bgm="newera",
 	},
 	pauseLimit=true,
 	load=function()

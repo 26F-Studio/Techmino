@@ -3,9 +3,10 @@ local Tick={}
 function Tick.finish(P)
 	P.endCounter=P.endCounter+1
 	if P.endCounter<40 then
+		--Make field visible
 		for j=1,#P.field do for i=1,10 do
 			if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
-		end end--Make field visible
+		end end
 	elseif P.endCounter==60 then
 		return true
 	end
@@ -13,9 +14,10 @@ end
 function Tick.lose(P)
 	P.endCounter=P.endCounter+1
 	if P.endCounter<40 then
+		--Make field visible
 		for j=1,#P.field do for i=1,10 do
 			if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
-		end end--Make field visible
+		end end
 	elseif P.endCounter>80 then
 		for i=1,#P.field do
 			for j=1,10 do
@@ -35,6 +37,7 @@ function Tick.lose(P)
 	end
 	if not modeEnv.royaleMode and #players>1 then
 		P.y=P.y+P.endCounter*.26
+		P.absFieldY=P.absFieldY+P.endCounter*.26
 	end
 end
 function Tick.throwBadge(data)--{ifAI,Sender,timer}
@@ -52,8 +55,9 @@ function Tick.throwBadge(data)--{ifAI,Sender,timer}
 		else
 			x2,y2=R.x+66*R.size,R.y+344*R.size
 		end
+
+		--Generate badge object
 		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
-		--generate badge object
 
 		if not data[1]and data[3]%8==0 then
 			SFX.play("collect")
@@ -63,19 +67,10 @@ function Tick.throwBadge(data)--{ifAI,Sender,timer}
 end
 function Tick.autoPause(data)
 	data[1]=data[1]+1
+	if SCN.cur~="play"then return true end
 	if data[1]==120 then
 		if SCN.cur=="play"then
 			pauseGame()
-		end
-		return true
-	end
-end
-function Tick.autoResize(data)
-	data[1]=data[1]+1
-	if data[1]==62 then
-		local w,h=gc.getWidth(),gc.getHeight()
-		if w<h then
-			love.resize(w,h)
 		end
 		return true
 	end

@@ -26,7 +26,7 @@ local function draw(L)
 	lightRenderShader:send("xresolution",L.size);
 	shadowMapShader:send("yresolution",L.size);
 
-	--get up-left of light
+	--Get up-left of light
 	local X=L.x-L.size*.5
 	local Y=L.y-L.size*.5
 
@@ -74,10 +74,10 @@ function LIGHT.add(x,y,R,F)
 		--Methods
 		id=id,
 		x=x,y=y,size=R,
-		blackCanvas=gc.newCanvas(R,R),--solid canvas
+		blackCanvas=gc.newCanvas(R,R),--Solid canvas
 		shadowCanvas=gc.newCanvas(R,1),--1D vis-depth canvas
-		renderCanvas=gc.newCanvas(R,R),--light canvas
-		blackFn=F,--solid draw funcion
+		renderCanvas=gc.newCanvas(R,R),--Light canvas
+		blackFn=F,--Solid draw funcion
 
 
 		move=move,

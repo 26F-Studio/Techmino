@@ -3,7 +3,7 @@ return{
 	env={
 		drop=60,lock=60,
 		freshLimit=15,
-		bg="game2",bgm="race",
+		bg="bg2",bgm="race",
 	},
 	pauseLimit=true,
 	load=function()

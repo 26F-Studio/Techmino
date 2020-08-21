@@ -1,3 +1,4 @@
+local sin,cos=math.sin,math.cos
 snapLevelValue={1,10,20,40,60,80}
 title={
 	{
@@ -114,6 +115,12 @@ title={
 		5878,	463,
 	},
 }
+for _,C in next,title do
+	for i=1,#C do
+		C[i]=C[i]*.1626
+	end
+end
+--[[
 title2={}
 for i=1,#title do title2[i]=title[i]end
 title2[5]={
@@ -140,12 +147,22 @@ title2[5]={
 	3001,	1280,
 	2779,	1280,
 }
-
-for _,C in next,title do
-	for i=1,#C do
-		C[i]=C[i]*.1626
+]]
+title_fan={}
+for i=1,8 do
+	local L={}
+	title_fan[i]=L
+		for j=1,#title[i]do
+		L[j]=title[i][j]
+	end
+	for j=1,#L,2 do
+		local x,y=L[j],L[j+1]--0<x<3041, 290<y<1280
+		x,y=-(x+240+y*.3)*.002,(y-580)*.9
+		x,y=y*cos(x),-y*sin(x)--Rec-Pol-Rec
+		L[j],L[j+1]=x,y+300
 	end
 end
+
 customID={
 	"drop","lock",
 	"wait","fall",
@@ -168,7 +185,7 @@ customRange={
 	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={0,1,2,3,4,5,11,12,13,14,15,16},
-	bg={"none","game1","game2","game3","aura","rgb","glow","matrix"},
+	bg={"none","bg1","bg2","rainbow","aura","rgb","glow","matrix"},
 	bgm={"blank","way","race","newera","push","reason","infinite","secret7th","secret8th","rockblock"},
 }
 local function T(s,t)return love.graphics.newText(setFont(s),t)end
@@ -189,20 +206,17 @@ drawableText={
 	mxcmb=T(20,"Max Combo"),
 	pc=T(20,"Perfect Clear"),
 	ko=T(25,"KO"),
-	D=T(100,"D"),
-	C=T(100,"C"),
-	B=T(100,"B"),
-	A=T(100,"A"),
-	S=T(100,"S"),
+	D=T(100,"D"),C=T(100,"C"),B=T(100,"B"),A=T(100,"A"),S=T(100,"S"),
 
 
 	modeName=T(30),levelName=T(30),
 
 
 	anykey=T(40),
+	replaying=T(20),
 	next=T(40),hold=T(40),
 	win=T(120),finish=T(120),
-	lose=T(120),pause=T(120),
+	gameover=T(100),pause=T(120),
 
 	custom=T(80),sequence=T(80),
 	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
@@ -210,9 +224,7 @@ drawableText={
 	preview=T(40),
 	keyboard=T(25),joystick=T(25),
 	ctrlSetHelp=T(30),
-	musicRoom=T(80),
-	nowPlaying=T(50),
+	musicRoom=T(80),nowPlaying=T(50),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
-	noScore=T(45),
-	highScore=T(30),
+	noScore=T(45),highScore=T(30),
 }

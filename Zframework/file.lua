@@ -59,7 +59,7 @@ local function dumpTable(L,t)
 	end
 	return s..tabs[t-1].."}"
 end
-local function addToTable(G,base)--refresh default base with G-values
+local function addToTable(G,base)--Refresh default base with G-values
 	for k,v in next,G do
 		if type(v)==type(base[k])then
 			if type(v)=="table"then
@@ -79,8 +79,8 @@ local files={
 	unlock=	fs.newFile("unlock.dat"),
 }
 
-local File={}
-function File.loadRecord(N)
+local FILE={}
+function FILE.loadRecord(N)
 	local F=fs.newFile(N..".dat")
 	if F:open("r")then
 		local s=loadstring(F:read())
@@ -93,7 +93,7 @@ function File.loadRecord(N)
 		end
 	end
 end
-function File.saveRecord(N,L)
+function FILE.saveRecord(N,L)
 	local F=fs.newFile(N..".dat")
 	F:open("w")
 	local _,mes=F:write(dumpTable(L))
@@ -102,11 +102,11 @@ function File.saveRecord(N,L)
 		TEXT.show(text.recSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
-function File.delRecord(N)
+function FILE.delRecord(N)
 	fs.remove(N..".dat")
 end
 
-function File.loadUnlock()
+function FILE.loadUnlock()
 	local F=files.unlock
 	if F:open("r")then
 		local s=F:read()
@@ -119,7 +119,7 @@ function File.loadUnlock()
 		end
 	end
 end
-function File.saveUnlock()
+function FILE.saveUnlock()
 	local F=files.unlock
 	F:open("w")
 	local _,mes=F:write(dumpTable(modeRanks))
@@ -129,7 +129,7 @@ function File.saveUnlock()
 	end
 end
 
-function File.loadData()
+function FILE.loadData()
 	local F=files.data
 	if F:open("r")then
 		local s=F:read()
@@ -145,7 +145,7 @@ function File.loadData()
 		end
 	end
 end
-function File.saveData()
+function FILE.saveData()
 	local F=files.data
 	F:open("w")
 	local _,mes=F:write(dumpTable(stat))
@@ -155,7 +155,7 @@ function File.saveData()
 	end
 end
 
-function File.loadSetting()
+function FILE.loadSetting()
 	local F=files.setting
 	if F:open("r")then
 		local s=F:read()
@@ -170,7 +170,7 @@ function File.loadSetting()
 		end
 	end
 end
-function File.saveSetting()
+function FILE.saveSetting()
 	local F=files.setting
 	F:open("w")
 	local _,mes=F:write(dumpTable(setting))
@@ -180,7 +180,7 @@ function File.saveSetting()
 	end
 end
 
-function File.loadKeyMap()
+function FILE.loadKeyMap()
 	local F=files.keyMap
 	if F:open("r")then
 		local s=loadstring(F:read())
@@ -191,7 +191,7 @@ function File.loadKeyMap()
 		end
 	end
 end
-function File.saveKeyMap()
+function FILE.saveKeyMap()
 	local F=files.keyMap
 	F:open("w")
 	local _,mes=F:write(dumpTable(keyMap))
@@ -201,7 +201,7 @@ function File.saveKeyMap()
 	end
 end
 
-function File.loadVK()
+function FILE.loadVK()
 	local F=files.VK
 	if F:open("r")then
 		local s=loadstring(F:read())
@@ -212,7 +212,7 @@ function File.loadVK()
 		end
 	end
 end
-function File.saveVK()
+function FILE.saveVK()
 	local F=files.VK
 	F:open("w")
 	local _,mes=F:write(dumpTable(VK_org))
@@ -221,4 +221,4 @@ function File.saveVK()
 	else TEXT.show(text.VKSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
 	end
 end
-return File
+return FILE

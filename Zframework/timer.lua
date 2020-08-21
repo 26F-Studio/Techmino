@@ -18,13 +18,20 @@ function Tmr.load()
 		elseif S.phase==4 then
 			IMG.loadOne(S.cur)
 		elseif S.phase==5 then
-			local m=Modes[S.cur]--mode template
-			local M=require("modes/"..m.name)--mode file
+			local m=Modes[S.cur]--Mode template
+			local M=require("modes/"..m.name)--Mode file
 			Modes[m.name],Modes[S.cur]=M
 			for k,v in next,m do
 				M[k]=v
 			end
 			M.records=FILE.loadRecord(m.name)or M.score and{}
+			if M.score then
+				if modeRanks[M.name]==6 then
+					modeRanks[M.name]=0
+				end
+			else
+				modeRanks[M.name]=6
+			end
 			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("image/modeIcon/custom.png")
 		elseif S.phase==6 then
@@ -32,14 +39,17 @@ function Tmr.load()
 			SKIN.load()
 			stat.run=stat.run+1
 			--------------------------
-			SFX.play("welcome_sfx")
-			VOC.play("welcome")
+			if not setting.appLock then
+				SFX.play("welcome_sfx")
+				VOC.play("welcome")
+			end
 		else
 			S.cur=S.cur+1
 			S.tar=S.cur
 			if S.cur>62.6 then
-				SCN.swapTo("intro","none")
+				SCN.swapTo(setting.appLock and "calculator"or"intro","none")
 			end
+			loadingFinished=true
 			return
 		end
 		S.cur=S.cur+1
@@ -113,12 +123,12 @@ function Tmr.mode(dt)
 	elseif y<-1900*k then y=-1900*k
 	end
 	cam.x,cam.y=x,y
-	--keyboard controlling
+	--Keyboard controlling
 
 	cam.x1=cam.x1*.85+x*.15
 	cam.y1=cam.y1*.85+y*.15
 	cam.k1=cam.k1*.85+k*.15
-	local _=SCN.swap.tar
+	local _=SCN.stat.tar
 	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
 	if cam.zoomMethod==1 then
 		if cam.sel then
@@ -141,9 +151,11 @@ function Tmr.draw()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 function Tmr.play(dt)
+	local _
 	game.frame=game.frame+1
 	stat.time=stat.time+dt
-	local P1=players[1]
+
+	--Update attack FX
 	for i=#FX_attack,1,-1 do
 		local b=FX_attack[i]
 		b.t=b.t+1
@@ -151,15 +163,16 @@ function Tmr.play(dt)
 			b.rad=b.rad*1.05+.1
 			b.x,b.y=b.x2,b.y2
 		elseif b.t>10 then
-			local t=((b.t-10)*.025)t=(3-2*t)*t*t
-			b.x,b.y=b.x1*(1-t)+b.x2*t,b.y1*(1-t)+b.y2*t
+			_=(b.t-10)*.025
+			_=(3-2*_)*_*_
+			b.x,b.y=b.x1*(1-_)+b.x2*_,b.y1*(1-_)+b.y2*_
 		end
 		if b.t<60 then
-			local L=FX_attack[i].drag
-			if #L==4*setting.atkFX then
-				rem(L,1)rem(L,1)
+			_=FX_attack[i].drag
+			if #_==4*setting.atkFX then
+				rem(_,1)rem(_,1)
 			end
-			ins(L,b.x)ins(L,b.y)
+			ins(_,b.x)ins(_,b.y)
 		else
 			for i=i,#FX_attack do
 				FX_attack[i]=FX_attack[i+1]
@@ -167,6 +180,7 @@ function Tmr.play(dt)
 		end
 	end
 
+	--Update badge FX
 	for i=#FX_badge,1,-1 do
 		local b=FX_badge[i]
 		b.t=b.t+1
@@ -174,14 +188,38 @@ function Tmr.play(dt)
 			rem(FX_badge,i)
 		end
 	end
-	local _
-	for i=1,#virtualkey do
-		_=virtualkey[i]
-		if _.pressTime>0 then
-			_.pressTime=_.pressTime-1
+
+	--Update virtualkey animation
+	if setting.VKSwitch then
+		for i=1,#virtualkey do
+			_=virtualkey[i]
+			if _.pressTime>0 then
+				_.pressTime=_.pressTime-1
+			end
 		end
 	end
 
+	local P1=players[1]
+
+	--Replay
+	if game.replaying then
+		_=game.replaying
+		local L=game.rec
+		while game.frame==L[_]do
+			local k=L[_+1]
+			if k>0 then
+				P1:pressKey(k)
+				virtualkey[k].isDown=true
+				virtualkey[k].pressTime=10
+			else
+				virtualkey[-k].isDown=false
+				P1:releaseKey(-k)
+			end
+			_=_+2
+		end
+		game.replaying=_
+	end
+	--Counting,include pre-das,directy RETURN,or restart counting
 	if game.frame<180 then
 		if game.frame==179 then
 			gameStart()
@@ -204,27 +242,31 @@ function Tmr.play(dt)
 		restartCount=restartCount+1
 		if restartCount>20 then
 			TASK.clear("play")
-			mergeStat(stat,P1.stat)
-			resetGameData()
+			resetPartGameData()
 			return
 		end
 	elseif restartCount>0 then
 		restartCount=restartCount>2 and restartCount-2 or 0
-	end--Counting,include pre-das,directy RETURN,or restart counting
+	end
+
+	--Update players
 	for p=1,#players do
 		local P=players[p]
 		P:update(dt)
 	end
+
+	--Fresh royale target
 	if game.frame%120==0 then
 		if modeEnv.royaleMode then freshMostDangerous()end
 	end
+
+	--Warning check
 	if P1.alive then
 		if game.frame%26==0 and setting.warn then
 			local F=P1.field
-			local M=#F
-			local height=0--max height of row 4~7
+			local height=0--Max height of row 4~7
 			for x=4,7 do
-				for y=M,1,-1 do
+				for y=#F,1,-1 do
 					if F[y][x]>0 then
 						if y>height then
 							height=y
@@ -235,13 +277,13 @@ function Tmr.play(dt)
 			end
 			game.warnLVL0=ln(height-15+P1.atkBuffer.sum*.8)
 		end
-		local M=game.warnLVL
-		if M<game.warnLVL0 then
-			M=M*.95+game.warnLVL0*.05
-		elseif M>0 then
-			M=max(M-.026,0)
+		_=game.warnLVL
+		if _<game.warnLVL0 then
+			_=_*.95+game.warnLVL0*.05
+		elseif _>0 then
+			_=max(_-.026,0)
 		end
-		game.warnLVL=M
+		game.warnLVL=_
 	elseif game.warnLVL>0 then
 		game.warnLVL=max(game.warnLVL-.026,0)
 	end
@@ -273,7 +315,15 @@ function Tmr.setting_control()
 	if T.das>0 then
 		T.das=T.das-1
 		if T.das==0 then
-			T.pos=T.pos+T.dir
+			if T.arr==0 then
+				T.pos=T.pos+7*T.dir
+				T.das=setting.das
+				T.arr=setting.arr
+				T.dir=-T.dir
+				T.wait=26
+			else
+				T.pos=T.pos+T.dir
+			end
 		end
 	else
 		T.arr=T.arr-1
@@ -301,8 +351,6 @@ function Tmr.staff(dt)
 	S.time=S.time+S.v*dt
 	if S.time>45 then
 		S.time=45
-	elseif S.time<-10 then
-		S.time=-10
 	end
 end
 return Tmr

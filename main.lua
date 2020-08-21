@@ -1,12 +1,16 @@
 --[[
-  ______             __                _
- /_  __/___   _____ / /_   ____ ___   (_)____   ____
-  / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \
- / /  /  __// /__ / / / // / / / / // // / / // /_/ /
-/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
-Techmino is my first "huge project"
-optimization is welcomed if you also love tetromino game
-]]
+	  ______             __                _
+	 /_  __/___   _____ / /_   ____ ___   (_)____   ____
+	  / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \
+	 / /  /  __// /__ / / / // / / / / // // / / // /_/ /
+	/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
+	Techmino is my first "huge project"
+	optimization is welcomed if you also love tetromino game
+]]--
+
+--?
+function NULL()end
+DBP=print--use this if need debugging print
 
 --Global Setting & Vars
 math.randomseed(os.time()*626)
@@ -14,32 +18,53 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
-function NULL()end
 system=love.system.getOS()
-game={}
 mapCam={
-	sel=nil,--selected mode ID
+	sel=nil,--Selected mode ID
 
-	x=0,y=0,k=1,--camera pos/k
-	x1=0,y1=0,k1=1,--camera pos/k shown
-	--basic paras
+	--Basic paragrams
+	x=0,y=0,k=1,--Camera pos/k
+	x1=0,y1=0,k1=1,--Camera pos/k shown
 
-	keyCtrl=false,--if controlling with key
+	--If controlling with key
+	keyCtrl=false,
 
+	--For auto zooming when enter/leave scene
 	zoomMethod=nil,
 	zoomK=nil,
-	--for auto zooming when enter/leave scene
 }
-scr={x=0,y=0,w=0,h=0,rad=0,k=1}--wid,hei,radius,scale K
+scr={x=0,y=0,w=0,h=0,W=0,H=0,rad=0,k=1}--wid,hei,radius,scale K
 
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 preBag={}
 
-players={alive={},human=0}
---blockSkin,blockSkinMini={},{}--redefined in SKIN.change
+game={
+	frame=0,			--Frame count 
+	result=false,		--Game result (string)
+	pauseTime=0,		--Time paused
+	pauseCount=0,		--Pausing count
+	garbageSpeed=1,		--Garbage timing speed
+	warnLVL0=0,			--Warning level
+	warnLVL=0,			--Warning level (show)
+	recording=false,	--If recording
+	replaying=false,	--If replaying
+	seed=math.random(999999999),--Game seed
+	setting={},			--Game settings
+	rec={},				--Recording list, key,time,key,time...
 
-require("Zframework")--load Zframework
+	--Data for royale mode
+	stage=nil,			--Game stage
+	mostBadge=nil,		--Most badge owner
+	secBadge=nil,		--Second badge owner
+	mostDangerous=nil,	--Most dangerous player
+	secDangerous=nil,	--Second dangerous player
+}--Global game data
+players={alive={}}--Players data
+curMode=nil--Current mode object
+--blockSkin,blockSkinMini={},{}--Redefined in SKIN.change
+
+require("Zframework")--Load Zframework
 
 --Load modules
 blocks=		require("parts/mino")
@@ -58,7 +83,7 @@ Modes=	require("parts/modes")
 TICK=	require("parts/tick")
 
 
---load files & settings
+--Load files & settings
 modeRanks={sprint_10=0}
 
 local fs=love.filesystem
@@ -74,6 +99,9 @@ else
 		setting.swap=false
 		setting.vib=2
 		setting.powerInfo=true
+		setting.fullscreen=true
+		love.window.setFullscreen(true)
+		love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 	end
 end
 LANG.set(setting.lang)
@@ -87,23 +115,35 @@ if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
 if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 
---update data file
-S=stat
-while #modeRanks>73 do
-	table.remove(modeRanks)
-end
-if modeRanks[73]==6 then modeRanks[73]=0 end
-if modeRanks[1]then--rename key of modeRanks
-	local L=modeRanks
-	for i=1,#L do
-		L[Modes[i].name],L[i]=L[i]
+--Update modeRanks
+R=modeRanks
+for k,v in next,R do
+	if type(k)=="number"then
+		local save=v
+		if not R[Modes[k].name]then
+			R[Modes[k].name]=v
+		end
+		R[k]=nil
 	end
 end
-if S.version=="Alpha V0.9.1"or type(setting.spawn)~="number"then
+if R.master_adavnce then
+	R.master_advance,R.master_adavnce=R.master_adavnce
+end
+if not text.modes[stat.lastPlay]then
+	stat.lastPlay="sprint_10"
+end
+
+--Update data file
+S=stat
+if type(setting.spawn)~="number"then
 	setting.spawn=0
 end
 if S.version~=gameVersion then
 	S.version=gameVersion
-	TEXT.show(text.newVersion,640,200,30,"fly",.3)
+	newVersionLaunch=true
+
+	fs.remove("sprintPenta.dat")
+	fs.remove("master_adavnce.dat")
+	fs.remove("master_beginner.dat")
 end
-S=nil
+R,S=nil

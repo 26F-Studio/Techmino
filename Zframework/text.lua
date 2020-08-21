@@ -74,7 +74,7 @@ local TEXT={}
 function TEXT.clear()
 	texts={}
 end
-function TEXT.getText(text,x,y,font,style,spd,stop)
+function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT()
 	return{
 		c=0,
 		text=text,
@@ -85,17 +85,17 @@ function TEXT.getText(text,x,y,font,style,spd,stop)
 		stop=stop,
 		draw=textFX[style]or assert(false,"unavailable type:"..style),
 	}
-end--another version of TEXT()
+end
 function TEXT.show(text,x,y,font,style,spd,stop)
 	texts[#texts+1]={
-		c=0,				--timer
-		text=text,			--string
-		x=x or 0,			--x
-		y=y or 0,			--y
-		font=font or 40,	--font
-		spd=(spd or 1)/60,	--timing speed(1=last 1 sec)
-		stop=stop,			--stop time(sustained text)
-		draw=textFX[style]or assert(false,"unavailable type:"..style),	--draw method
+		c=0,				--Timer
+		text=text,			--String
+		x=x or 0,			--X
+		y=y or 0,			--Y
+		font=font or 40,	--Font
+		spd=(spd or 1)/60,	--Timing speed(1=last 1 sec)
+		stop=stop,			--Stop time(sustained text)
+		draw=textFX[style]or assert(false,"unavailable type:"..style),	--Draw method
 	}
 end
 function TEXT.update(list)
