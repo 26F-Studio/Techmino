@@ -1270,9 +1270,9 @@ function love.run()
 		if Timer()-lastFreshPow>2 and setting.powerInfo and loadingFinished then
 			updatePowerInfo()
 			lastFreshPow=Timer()
-			_=gc.getWidth()
-			if _~=scr.w then
-				love.resize(_,gc.getHeight())
+			if gc.getWidth()~=scr.w then
+				love.resize(gc.getWidth(),gc.getHeight())
+				TEXT.show("resized",200,100,30,"stretch")
 			end
 		end
 

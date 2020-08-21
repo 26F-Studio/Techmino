@@ -1365,12 +1365,12 @@ function player.freshBlock(P,keepGhost,control,system)
 
 	if control then
 		if P.gameEnv.easyFresh then
-			local d,d0=P.lockDelay,P.gameEnv.lock
-			if d<d0 and P.freshTime<P.gameEnv.freshLimit then
+			local d0=P.gameEnv.lock
+			if P.lockDelay<d0 and P.freshTime<P.gameEnv.freshLimit then
 				if not system then
 					P.freshTime=P.freshTime+1
 				end
-				P.lockDelay=min(d+d0*.6,d0)
+				P.lockDelay=d0
 				P.dropDelay=P.gameEnv.drop
 			end
 			if P.curY<P.minY then
