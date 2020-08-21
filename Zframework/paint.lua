@@ -314,10 +314,8 @@ end
 function Pnt.music()
 	gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
 	gc.rectangle("fill",45,98+30*sceneTemp,250,30)
-	gc.setColor(.7,.7,.7)
-	gc.draw(drawableText.musicRoom,20,20)
-	gc.setColor(1,1,1)
-	gc.draw(drawableText.musicRoom,22,23)
+	gc.setColor(.7,.7,.7)gc.draw(drawableText.musicRoom,20,20)
+	gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
 	gc.draw(drawableText.nowPlaying,490,390)
 	setFont(30)
 	for i=1,BGM.len do
@@ -676,7 +674,8 @@ function Pnt.setting_control()
 	gc.line(950,530,950,630)
 
 	--Texts
-	gc.draw(drawableText.setting_control,80,50)
+	gc.setColor(.7,.7,.7)gc.draw(drawableText.setting_control,80,50)
+	gc.setColor(1,1,1)gc.draw(drawableText.setting_control,80,50)
 	setFont(50)
 	gc.printf(text.preview,320,540,200,"right")
 
@@ -746,7 +745,8 @@ function Pnt.setting_key()
 	gc.draw(drawableText.ctrlSetHelp,50,650)
 end
 function Pnt.setting_skin()
-	gc.setColor(1,1,1)
+	gc.setColor(.7,.7,.7)gc.draw(drawableText.setting_skin,80,50)
+	gc.setColor(1,1,1)gc.draw(drawableText.setting_skin,80,50)
 	for N=1,7 do
 		local face=setting.face[N]
 		local B=blocks[N][face]
@@ -762,7 +762,6 @@ function Pnt.setting_skin()
 	for i=1,6 do
 		gc.draw(blockSkin[11+i],570+60*i,610,nil,2)
 	end
-	gc.draw(drawableText.setting_skin,80,50)
 end
 function Pnt.setting_touch()
 	gc.setColor(1,1,1)
