@@ -6,21 +6,20 @@ local S=[=[
 						靏鸖龘龘			込余			saki
 						模电
 		[rmb10+]:
-				八零哥    蕴空之灵    gggf127    dtg
-				ThTsOd    Fireboos    金巧    10元
-				立斐    Deep_Sea    时雪    yyangdid
-				sfqr    心痕    Sasoric    夏小亚    仁参
-				乐↗乐↘    喜欢c4w的ztcjoin    面包    蠢熏
-				潘一栗    Lied    星街书婉    祝西    829
-				e m*12    我永远爱白银诺艾尔(鹏    PCX
+				八零哥    蕴空之灵    gggf127    dtg    ThTsOd
+				Fireboos    金巧    10元    立斐    Deep_Sea
+				时雪    yyangdid    sfqr    心痕    Sasoric
+				夏小亚    仁参    乐↗乐↘    喜欢c4w的ztcjoin
+				面包    蠢熏    潘一栗    Lied    星街书婉    祝西
+				829    e m*12    我永远爱白银诺艾尔(鹏    PCX
 				kagura77    呆喂    GlowingEmbers    轩辕辚
 				HimuroAki    TCV100    tech有养成系统了@7065
 				HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思
-				世界沃德    蓝绿    天生的魔法师    琳雨空
-				T8779.易缄    吃水榴莲    诗情画意    星姐阿夸双推Man暗炎
-				[*炎]    [*Y]    aaa222    [**城]    cnDD
-				红桃老给    昭庭玲秋    旋树墩    火花工作室
-				Cosine
+				世界沃德    蓝绿    天生的魔法师    琳雨空    T8779.易缄
+				吃水榴莲    诗情画意    星姐阿夸双推Man暗炎    [*炎]
+				[*Y]    aaa222    [**城]    cnDD    红桃老给
+				昭庭玲秋    旋树墩    火花工作室    Cosine    天上_飞
+
 		Thanks!!!
 
 Future outlook:
@@ -28,11 +27,13 @@ Future outlook:
 				PUYO
 				game tutorial
 				finesse tutorial/exam(3next, 1pt/mino, drop to score)
+				easy finesse (only revert current)
 				game Abbr. test
 				backfire
 				round-based dig
 				bigbang
 				rhythm
+				KPP-locked
 				combo
 				square
 				field shifting(left/right)
@@ -42,21 +43,19 @@ Future outlook:
 				symmetry
 				hidden: sound only
 				reverb (often repeat a piece many times)
-				KPP-locked
 				parkour
 		Other:
 				mod system with:
 						block/field/up/low hidden
-						next[1] hidden
+						next[1-n] hidden
 						field flip(LR/UD)
 						no fail(∞ lives)
 				mini games:
 						15 puzzle (with hidden mode)
-						2048 (with next (with deadly mode))
+						2048 (with next/deadly mode)
 						mine sweeper
 						tank battle
 				new AI: task-Z
-				cool backgrounds
 				'Encrypt'(compile to byte code)
 				better drop FX
 				60+ fps supporting
@@ -68,6 +67,32 @@ Future outlook:
 				splashing block
 				more graphic FXs & 3D features & animations
 				network game
+
+0.10.5: 特效更新 FX update
+		新内容:
+				瞬移特效独立为瞬降和移动(旋转)特效,增加移动特效滑条,各特效范围均为0~5
+				增加两个莫名其妙的背景(放在无尽和限时打分)
+				把之前不小心弄丢的自制蓝屏报错界面捡回来了
+		改动:
+				雷达图OPM参数改为ADPM
+				调整J/L/I的踢墙表
+				根据锁延刷新模式决定锁延指示条颜色
+				增加无尽挖掘连挖提示,挖完后下一波立即升起
+				new English translation by @MattMayuga#8789
+				修改100/400/1000L的评级要求
+				支持加载部分老版本存档
+				软件锁界面出现时机调整,按钮位置调整
+				调整混战模式倍率影响边框颜色的范围
+		代码:
+				重命名大多数背景
+				重构createXxxFX函数
+		修复:
+				几个设置大标题样式统一
+				有消行延迟+出块等待时连续硬降出现神秘现象
+				垃圾行上涨不刷新ghost
+				粘贴序列bug
+				可以用键盘复制粘贴序列
+				每次启动游戏ai是一样的块序
 
 0.10.4: 漏洞修复 Bug Fix
 		代码:
