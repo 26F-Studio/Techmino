@@ -188,6 +188,7 @@ function keyDown.calculator(k)
 				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
 				SFX.play("clear_2")
 			elseif S.val==137926261379 then
+				S.pass=true
 				SCN.go("debug")
 			end
 		end
