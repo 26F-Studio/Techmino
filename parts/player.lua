@@ -87,7 +87,7 @@ local finesseList={
 finesseList[1][3],finesseList[1][4],finesseList[7][3],finesseList[7][4]=finesseList[1][1],finesseList[1][2],finesseList[7][1],finesseList[7][2]--"2-phase" SZI
 finesseList[2]=finesseList[1]--S=Z
 finesseList[4],finesseList[5]=finesseList[3],finesseList[3]--J=L=T
-local CCblockID={4,3,6,5,1,2,0}
+local CCblockID={6,5,4,3,2,1,0}
 local freshPrepare={
 	none=NULL,
 	bag=function(P)
@@ -1427,6 +1427,8 @@ function player.freshBlock(P,keepGhost,control,system)
 	end
 end
 function player.lock(P)
+	local dest = P.AI_dest
+	local has_dest = (dest ~= nil)
 	for i=1,P.r do
 		local y=P.curY+i-1
 		if not P.field[y]then P.field[y],P.visTime[y]=freeRow.get(0),freeRow.get(0)end
@@ -1434,8 +1436,24 @@ function player.lock(P)
 			if P.cur.bk[i][j]then
 				P.field[y][P.curX+j-1]=P.cur.color
 				P.visTime[y][P.curX+j-1]=P.showTime
+				local x = P.curX+j-1
+				if dest then
+					local original_length = #dest
+					for k=1,original_length do
+						if x == dest[k][1] and y == dest[k][2] then
+							rem(dest, k)
+							break
+						end
+					end
+					if #dest ~= original_length - 1 then
+						dest = nil
+					end
+				end
 			end
 		end
+	end
+	if has_dest and not dest then
+		CC_updateField(P)
 	end
 end
 function player.spin(P,d,ifpre)

@@ -18,7 +18,7 @@ local Timer=love.timer.getTime
 local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
-local CCblockID={4,3,6,5,1,2,0}
+local CCblockID={6,5,4,3,2,1,0}
 if system=="Windows"then
 	require("CCloader")
 	BOT={
@@ -29,12 +29,12 @@ if system=="Windows"then
 		addNext=	cc.add_next_piece_async	,--(bot,piece)
 		update=		cc.reset_async			,--(bot,field,b2b,combo)
 		think=		cc.request_next_move	,--(bot)
-		getMove=	cc.poll_next_move		,--(bot)success,hold,move
-		ifDead=		cc.is_dead_async		,--(bot)dead
+		getMove=	cc.poll_next_move		,--(bot)success,dest,hold,move
 		destroy=	cc.destroy_async		,--(bot)
 
 		setHold=	cc.set_hold				,--(opt,bool)
 		set20G=		cc.set_20g				,--(opt,bool)
+		setPCLoop=	cc.set_pcloop			,--(opt,bool)
 		setBag=		cc.set_bag7				,--(opt,bool)
 		setNode=	cc.set_max_nodes		,--(opt,bool)
 		free=		cc.free					,--(opt/wei)
@@ -282,9 +282,17 @@ return{
 			return 2
 		end,
 		function(P,ctrl)--Poll keys
-			if BOT.ifDead(P.AI_bot)then ins(ctrl,6)return 3 end
-			local success,hold,move=BOT.getMove(P.AI_bot)
-			if success then
+			local success,dest,hold,move=BOT.getMove(P.AI_bot)
+			if success == 2 then
+				ins(ctrl,6)
+				return 3
+			elseif success == 0 then
+				for i=1,#dest do
+					for j=1,#dest[i] do
+						dest[i][j] = dest[i][j] + 1
+					end
+				end
+				P.AI_dest = dest
 				if hold then ctrl[1]=8 end--Hold
 				while move[1]do
 					local m=rem(move,1)
