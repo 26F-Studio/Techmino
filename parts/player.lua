@@ -2584,14 +2584,16 @@ function player.act.zangiRight(P)
 	P.act.hardDrop(P)
 end
 --Give operations a num name
-A=player.act
-T={
-	A.moveLeft	,A.moveRight,	A.rotRight,	A.rotLeft,
-	A.rot180	,A.hardDrop,	A.softDrop,	A.hold,
-	A.func		,A.restart,		A.insLeft,	A.insRight,
-	A.insDown	,A.down1,		A.down4,	A.down10,
-	A.dropLeft	,A.dropRight,	A.zangiLeft,A.zangiRight
-}for i=1,20 do A[i]=T[i]end;A,T=nil
+do
+	local A=player.act
+	local T={
+		A.moveLeft	,A.moveRight,	A.rotRight,	A.rotLeft,
+		A.rot180	,A.hardDrop,	A.softDrop,	A.hold,
+		A.func		,A.restart,		A.insLeft,	A.insRight,
+		A.insDown	,A.down1,		A.down4,	A.down10,
+		A.dropLeft	,A.dropRight,	A.zangiLeft,A.zangiRight
+	}for i=1,20 do A[i]=T[i]end
+end
 --------------------------</Control>--------------------------
 
 --------------------------<Generator>--------------------------
