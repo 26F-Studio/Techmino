@@ -116,34 +116,34 @@ if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
 if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 
 --Update modeRanks
-R=modeRanks
-for k,v in next,R do
-	if type(k)=="number"then
-		local save=v
-		if not R[Modes[k].name]then
-			R[Modes[k].name]=v
+do
+	local R=modeRanks
+	for k,v in next,R do
+		if type(k)=="number"then
+			if Modes[k]and not R[Modes[k].name]then
+				R[Modes[k].name]=v
+			end
+			R[k]=nil
 		end
-		R[k]=nil
+	end
+	if R.master_adavnce then
+		R.master_advance,R.master_adavnce=R.master_adavnce
+	end
+	if not text.modes[stat.lastPlay]then
+		stat.lastPlay="sprint_10"
+	end
+
+	--Update data file
+	local S=stat
+	if type(setting.spawn)~="number"then
+		setting.spawn=0
+	end
+	if S.version~=gameVersion then
+		S.version=gameVersion
+		newVersionLaunch=true
+
+		fs.remove("sprintPenta.dat")
+		fs.remove("master_adavnce.dat")
+		fs.remove("master_beginner.dat")
 	end
 end
-if R.master_adavnce then
-	R.master_advance,R.master_adavnce=R.master_adavnce
-end
-if not text.modes[stat.lastPlay]then
-	stat.lastPlay="sprint_10"
-end
-
---Update data file
-S=stat
-if type(setting.spawn)~="number"then
-	setting.spawn=0
-end
-if S.version~=gameVersion then
-	S.version=gameVersion
-	newVersionLaunch=true
-
-	fs.remove("sprintPenta.dat")
-	fs.remove("master_adavnce.dat")
-	fs.remove("master_beginner.dat")
-end
-R,S=nil

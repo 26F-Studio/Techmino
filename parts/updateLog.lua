@@ -26,7 +26,7 @@ Future outlook:
 		New modes:
 				PUYO
 				game tutorial
-				finesse tutorial/exam(3next, 1pt/mino, drop to score)
+				finesse tutorial/exam (3next, 1pt/mino, drop to score)
 				easy finesse (only revert current)
 				game Abbr. test
 				backfire
@@ -60,7 +60,7 @@ Future outlook:
 				better drop FX
 				60+ fps supporting
 				in-game document
-				game recording
+				save recordings
 				full-key control
 				drag control for mobile device
 				new widgets (joystick etc.)
@@ -80,18 +80,19 @@ Future outlook:
 				增加无尽挖掘连挖提示,挖完后下一波立即升起
 				new English translation by @MattMayuga#8789
 				修改100/400/1000L的评级要求
-				支持加载部分老版本存档
 				软件锁界面出现时机调整,按钮位置调整
 				调整混战模式倍率影响边框颜色的范围
+				软件锁也可显示tip
 		代码:
 				重命名大多数背景
-				重构createXxxFX函数
+				重构create___FX函数
 		修复:
-				几个设置大标题样式统一
+				加载部分老版本存档报错
+				几个设置大标题样式不统一
 				有消行延迟+出块等待时连续硬降出现神秘现象
 				垃圾行上涨不刷新ghost
-				粘贴序列bug
-				可以用键盘复制粘贴序列
+				粘贴序列后光标位置错误
+				不能用键盘复制粘贴序列
 				每次启动游戏ai是一样的块序
 
 0.10.4: 漏洞修复 Bug Fix
