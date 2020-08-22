@@ -19,8 +19,37 @@ local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 local CCblockID={6,5,4,3,2,1,0}
-if system=="Windows"then
-	require("CCloader")
+CCloader_filename = {}
+CCloader_filename.Windows = {'CCloader.dll', '\\', {'x86_64'}}
+CCloader_filename.Android = {'libCCloader.so', '/', {'arm64-v8a', 'armeabi-v7a'}}
+CCloader_filename.Linux = {'libCCloader.so', '/', {'x86_64'}}
+local function loadCC()
+	if not CCloader_filename[system] then return end
+	local concatter = CCloader_filename[system][2]
+	local function path_concat(paths)
+		local res = paths[1]
+		for i=2,#paths do
+			res = res .. concatter .. paths[i]
+		end
+		return res
+	end
+	local f
+	for i=1,#CCloader_filename[system][3] do
+		local function simulate_continue()
+			local CCloader_f, size = love.filesystem.read('data', path_concat({'lib', system, CCloader_filename[system][3][i], CCloader_filename[system][1]}))
+			if not CCloader_f then return end
+			local success, message = love.filesystem.write(CCloader_filename[system][1], CCloader_f, size)
+			if not success then return end
+			return package.loadlib(path_concat({love.filesystem.getSaveDirectory(), CCloader_filename[system][1]}), "luaopen_CCloader")
+		end
+		f = simulate_continue()
+		if f then break end
+	end
+	if not f then
+		CCloader_filename[system] = nil
+		return
+	end
+	f()
 	BOT={
 		getConf=	cc.get_default_config	,--()options,weights
 		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
@@ -80,6 +109,7 @@ if system=="Windows"then
 		collectgarbage()
 	end
 end
+loadCC()
 -------------------------------------------------9 Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
