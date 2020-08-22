@@ -170,9 +170,9 @@ function keyDown.calculator(k)
 			end
 			S.sym="="
 			S.reg=false
-			if S.val==626 then
+			if S.val==600+20+6 then
 				S.pass=true
-			elseif S.val==196022 then
+			elseif S.val==196000+022 then
 				S.pass=true
 				marking=nil
 				TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
@@ -187,15 +187,27 @@ function keyDown.calculator(k)
 				FILE.saveUnlock()
 				TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
 				SFX.play("clear_2")
-			elseif S.val==137926261379 then
+			elseif S.val==1379e8+2626e4+1379 then
 				S.pass=true
 				SCN.go("debug")
+			elseif S.val==34494 then
+				error("This is an error testing message.")
+			elseif S.val==114 then
+				S.val=514
+			elseif S.val==114514 then
+				S.reg=1919810
+				S.val=114514
+			elseif S.val==123456789 then
+				S.reg=123456789
+				S.val=987654321
 			end
 		end
-	elseif k=="space"then
-		if S.pass then
-			SCN.swapTo("intro")
-		end
+	elseif k=="escape"then
+		S.val,S.reg,S.sym=0
+	elseif k=="delete"then
+		S.val=0
+	elseif k=="space"and S.pass then
+		SCN.swapTo("intro")
 	end
 end
 
