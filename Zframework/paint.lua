@@ -101,8 +101,9 @@ function Pnt.calculator()
 	setFont(45)
 	if S.reg then gc.printf(S.reg,0,100,720,"right")end
 	if S.val then gc.printf(S.val,0,150,720,"right")end
-	setFont(50)
-	if S.sym then gc.print(S.sym,126,150)end
+	
+	if S.sym then setFont(50)gc.print(S.sym,126,150)end
+	if S.pass then setFont(40)mStr(S.tip,640,10)end
 end
 function Pnt.load()
 	local S=sceneTemp

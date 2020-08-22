@@ -13,6 +13,7 @@ function sceneInit.calculator()
 		val=0,
 		sym=false,
 		pass=false,
+		tip=require("parts/getTip"),
 	}
 end
 function sceneInit.load()
@@ -20,7 +21,7 @@ function sceneInit.load()
 		phase=1,--Loading stage
 		cur=1,--Counter
 		tar=#VOC.name,--Loading bar lenth(current)
-		tip=require("parts/getTip"),
+		tip=setting.appLock and require("parts/getTip"),
 		list={
 			#VOC.name,
 			#BGM.list,
