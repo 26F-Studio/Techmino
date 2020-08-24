@@ -6,6 +6,7 @@ return{
 		drop=15,lock=45,
 		fall=10,
 		center=false,
+		dropFX=0,lockFX=0,
 		visible="none",
 		dropPiece=PLY.reach_winCheck,
 		freshLimit=15,
