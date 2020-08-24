@@ -33,7 +33,7 @@ return{
 		}
 		PLY.newPlayer(1,340,15)
 		local L={}for i=1,100 do L[i]=true end
-		local t=CCloader_filename[system] and 0 or 4
+		local t=CCloader_filename[system] and 4 or 0
 		while t>0 do
 			local r=rnd(2,99)
 			if L[r]then L[r],t=false,t-1 end
@@ -43,7 +43,7 @@ return{
 			if L[n]then
 				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(8,10)))
 			else
-				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(8,10)-1,4,true,30000))
+				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(9,10),4,true,30000))
 			end
 			n=n+1
 		end end
@@ -51,7 +51,7 @@ return{
 			if L[n]then
 				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(8,10)))
 			else
-				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(8,10)-1,4,true,30000))
+				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(9,10),4,true,30000))
 			end
 			n=n+1
 		end end

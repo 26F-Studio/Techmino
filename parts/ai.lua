@@ -1,12 +1,10 @@
 --[[
 	HighestBlock
-	HorizontalTransitions
-	VerticalTransitions
 	BlockedCells
 	Wells
 	FilledLines
 	4deepShape
-	BlockedWells;
+	BlockedWells
 ]]
 local int,ceil,min,abs,rnd=math.floor,math.ceil,math.min,math.abs,math.random
 local ins,rem=table.insert,table.remove
@@ -19,34 +17,38 @@ local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 local CCblockID={6,5,4,3,2,1,0}
-CCloader_filename = {}
-CCloader_filename.Windows = {'CCloader.dll', '\\', {'x86_64'}}
-CCloader_filename.Android = {'libCCloader.so', '/', {'arm64-v8a', 'armeabi-v7a'}}
-CCloader_filename.Linux = {'libCCloader.so', '/', {'x86_64'}}
+CCloader_filename={
+	Windows={"CCloader.dll","/",{"x86_64","x86"}},
+	Android={"libCCloader.so","/",{"arm64-v8a","armeabi-v7a"}},
+	Linux={"libCCloader.so","/",{"x86_64"}},
+}
 local function loadCC()
-	if not CCloader_filename[system] then return end
-	local concatter = CCloader_filename[system][2]
+	if not CCloader_filename[system]then return end
+	local concatter=CCloader_filename[system][2]
 	local function path_concat(paths)
-		local res = paths[1]
+		local res=paths[1]
 		for i=2,#paths do
-			res = res .. concatter .. paths[i]
+			res=res..concatter..paths[i]
 		end
 		return res
 	end
 	local f
-	for i=1,#CCloader_filename[system][3] do
-		local function simulate_continue()
-			local CCloader_f, size = love.filesystem.read('data', path_concat({'lib', system, CCloader_filename[system][3][i], CCloader_filename[system][1]}))
+	for i=1,#CCloader_filename[system][3]do
+		function f()
+			local CCloader_f,size=love.filesystem.read("data",path_concat({"lib",system,CCloader_filename[system][3][i],CCloader_filename[system][1]}))
+			-- print(CCloader_f,size)
 			if not CCloader_f then return end
-			local success, message = love.filesystem.write(CCloader_filename[system][1], CCloader_f, size)
+			local success,message=love.filesystem.write(CCloader_filename[system][1],CCloader_f,size)
 			if not success then return end
-			return package.loadlib(path_concat({love.filesystem.getSaveDirectory(), CCloader_filename[system][1]}), "luaopen_CCloader")
+			local success,message=package.loadlib(path_concat({love.filesystem.getSaveDirectory(),CCloader_filename[system][1]}),"luaopen_CCloader")
+			-- print(success,message)
+			return success,message
 		end
-		f = simulate_continue()
+		f=f()
 		if f then break end
 	end
 	if not f then
-		CCloader_filename[system] = nil
+		CCloader_filename[system]=nil
 		return
 	end
 	f()
@@ -248,7 +250,7 @@ return{
 				end
 				if not bn then goto CTN end
 
-				for dir=0,dirCount[bn] do--Each dir
+				for dir=0,dirCount[bn]do--Each dir
 					local cb=blocks[bn][dir]
 					for cx=1,11-#cb[1]do--Each pos
 						local cy=#Tfield+1
@@ -313,16 +315,16 @@ return{
 		end,
 		function(P,ctrl)--Poll keys
 			local success,dest,hold,move=BOT.getMove(P.AI_bot)
-			if success == 2 then
+			if success==2 then
 				ins(ctrl,6)
 				return 3
-			elseif success == 0 then
+			elseif success==0 then
 				for i=1,#dest do
-					for j=1,#dest[i] do
-						dest[i][j] = dest[i][j] + 1
+					for j=1,#dest[i]do
+						dest[i][j]=dest[i][j]+1
 					end
 				end
-				P.AI_dest = dest
+				P.AI_dest=dest
 				if hold then ctrl[1]=8 end--Hold
 				while move[1]do
 					local m=rem(move,1)
