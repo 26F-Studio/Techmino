@@ -20,6 +20,7 @@ function sceneInit.load()
 	sceneTemp={
 		phase=1,--Loading stage
 		cur=1,--Counter
+		tar=#VOC.name,--Loading bar length(current)
 		tip=setting.appLock or require("parts/getTip"),
 		list={
 			#VOC.name,
