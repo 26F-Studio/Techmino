@@ -20,8 +20,7 @@ function sceneInit.load()
 	sceneTemp={
 		phase=1,--Loading stage
 		cur=1,--Counter
-		tar=#VOC.name,--Loading bar lenth(current)
-		tip=setting.appLock and require("parts/getTip"),
+		tip=setting.appLock or require("parts/getTip"),
 		list={
 			#VOC.name,
 			#BGM.list,
