@@ -18,30 +18,20 @@ local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 local CCblockID={6,5,4,3,2,1,0}
 CCloader_filename={
-	Windows={"CCloader.dll","/",{"x86_64","x86"}},
-	Android={"libCCloader.so","/",{"arm64-v8a","armeabi-v7a"}},
-	Linux={"libCCloader.so","/",{"x86_64"}},
+	Windows={"CCloader.dll",{"x86_64","x86"}},
+	Android={"libCCloader.so",{"arm64-v8a","armeabi-v7a"}},
+	Linux={"libCCloader.so",{"x86_64"}},
 }
 local function loadCC()
 	if not CCloader_filename[system]then return end
-	local concatter=CCloader_filename[system][2]
-	local function path_concat(paths)
-		local res=paths[1]
-		for i=2,#paths do
-			res=res..concatter..paths[i]
-		end
-		return res
-	end
 	local f
-	for i=1,#CCloader_filename[system][3]do
+	for i=1,#CCloader_filename[system][2]do
 		function f()
-			local CCloader_f,size=love.filesystem.read("data",path_concat({"lib",system,CCloader_filename[system][3][i],CCloader_filename[system][1]}))
-			-- print(CCloader_f,size)
+			local CCloader_f,size=love.filesystem.read("data",table.concat({"lib",system,CCloader_filename[system][2][i],CCloader_filename[system][1]},"/"))
 			if not CCloader_f then return end
 			local success,message=love.filesystem.write(CCloader_filename[system][1],CCloader_f,size)
 			if not success then return end
-			local success,message=package.loadlib(path_concat({love.filesystem.getSaveDirectory(),CCloader_filename[system][1]}),"luaopen_CCloader")
-			-- print(success,message)
+			local success,message=package.loadlib(table.concat({love.filesystem.getSaveDirectory(),CCloader_filename[system][1]},"/"),"luaopen_CCloader")
 			return success,message
 		end
 		f=f()
@@ -97,7 +87,8 @@ local function loadCC()
 			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
 		end
 		CC_updateField(P)
-		P.hd={bk={{}},id=0,color=0,name=0}P.holded=false
+		P.hd=nil
+		P.holded=false
 		P.cur=rem(P.next,1)
 		P.sc,P.dir=scs[P.cur.id],0
 		P.r,P.c=#P.cur.bk,#P.cur.bk[1]
