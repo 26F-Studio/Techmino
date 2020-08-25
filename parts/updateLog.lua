@@ -24,25 +24,22 @@ local S=[=[
 
 Future outlook:
 		New modes:
-				PUYO
+				dig practice
+				dig zen
+				infinite PC challenge
+				reverb (often repeat a piece many times)
 				game tutorial
 				finesse tutorial/exam (3next, 1pt/mino, drop to score)
 				easy finesse (only revert current)
-				game Abbr. test
+				combo
 				backfire
-				round-based dig
 				bigbang
 				rhythm
 				KPP-locked
-				combo
 				square
-				field shifting(left/right)
 				task survival
-				dig practice
-				dig zen
 				symmetry
-				hidden: sound only
-				reverb (often repeat a piece many times)
+				game Abbr. test
 				parkour
 		Other:
 				mod system with:
@@ -57,7 +54,6 @@ Future outlook:
 						tank battle
 				new AI: task-Z
 				'Encrypt'(compile to byte code)
-				better drop FX
 				60+ fps supporting
 				in-game document
 				save recordings
@@ -67,6 +63,15 @@ Future outlook:
 				splashing block
 				more graphic FXs & 3D features & animations
 				network game
+
+0.10.6: CC更新 Cold Clear update
+		新内容:
+				全平台支持新版CC(也许)
+		改动:
+				修改UVRY的踢墙表
+		修复:
+				O卡住的时候旋转不刷新锁定延迟
+				CC在发现重力过大后hold即报错
 
 0.10.5: 特效更新 FX update
 		新内容:
