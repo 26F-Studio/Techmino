@@ -119,7 +119,10 @@ local TRS={
 		if y==P.imgY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
 			local D=P.spinSeq%100*10+d
 			P.spinSeq=D
-			if D<100 then return end
+			if D<100 then
+				P:freshBlock(true,true)
+				return
+			end
 			for i=1,#OspinList do
 				local L=OspinList[i]
 				if D==L[1]then
@@ -144,8 +147,8 @@ local TRS={
 			end
 		else
 			P.spinSeq=0
+			P:freshBlock(true,true)
 		end
-		P:freshBlock(true,true)
 	end,--O
 	{
 		[01]={{ 0, 1},{ 1, 0},{-2, 0},{-2,-1},{ 1, 2}},
