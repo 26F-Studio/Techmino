@@ -317,7 +317,7 @@ function Tmr.setting_control()
 		if T.das==0 then
 			if T.arr==0 then
 				T.pos=T.pos+7*T.dir
-				T.das=setting.das
+				T.das=setting.das+1
 				T.arr=setting.arr
 				T.dir=-T.dir
 				T.wait=26
