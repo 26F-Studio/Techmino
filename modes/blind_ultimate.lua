@@ -5,7 +5,7 @@ return{
 	env={
 		drop=30,lock=60,
 		block=false,
-		center=false,ghost=false,
+		center=0,ghost=0,
 		dropFX=0,lockFX=0,
 		visible="none",
 		dropPiece=PLY.reach_winCheck,

@@ -725,7 +725,7 @@ function touchDown.play(id,x,y)
 	if t then
 		players[1]:pressKey(t)
 		if setting.VKSFX>0 then
-			SFX.play("virtualKey",setting.VKSFX*.25)
+			SFX.play("virtualKey",setting.VKSFX)
 		end
 		virtualkey[t].isDown=true
 		virtualkey[t].pressTime=10
@@ -878,6 +878,7 @@ end
 function love.mousereleased(x,y,k,touch,num)
 	if touch or SCN.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
+	WIDGET.release(mx,my)
 	if mouseUp[SCN.cur]then
 		mouseUp[SCN.cur](mx,my,k)
 	end
@@ -926,6 +927,7 @@ function love.touchreleased(id,x,y)
 	x,y=xOy:inverseTransformPoint(x,y)
 	if id==touching then
 		WIDGET.press(x,y)
+		WIDGET.release(x,y)
 		touching=nil
 		WIDGET.sel=nil
 	end

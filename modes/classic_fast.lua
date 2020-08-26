@@ -18,7 +18,7 @@ return{
 	env={
 		noFly=true,
 		das=16,arr=6,sddas=2,sdarr=2,
-		ghost=false,center=false,
+		center=0,ghost=0,
 		drop=3,lock=3,wait=10,fall=25,
 		next=1,hold=false,
 		sequence="rnd",

@@ -52,13 +52,13 @@ function SFX.play(s,vol,pos)
 	S=S[n]--AU_SRC
 	if S:getChannelCount()==1 then
 		if pos then
-			pos=pos*setting.stereo*.1
+			pos=pos*setting.stereo
 			S:setPosition(pos,1-pos^2,0)
 		else
 			S:setPosition(0,0,0)
 		end
 	end
-	S:setVolume(((vol or 1)*setting.sfx*.01)^1.626)
+	S:setVolume(((vol or 1)*setting.sfx)^1.626)
 	S:play()
 end
 function SFX.fplay(s,vol,pos)
@@ -76,13 +76,13 @@ function SFX.fplay(s,vol,pos)
 	S=S[n]--AU_SRC
 	if S:getChannelCount()==1 then
 		if pos then
-			pos=pos*setting.stereo*.1
+			pos=pos*setting.stereo
 			S:setPosition(pos,1-pos^2,0)
 		else
 			S:setPosition(0,0,0)
 		end
 	end
-	S:setVolume((vol*.01)^1.626)
+	S:setVolume(vol^1.626)
 	S:play()
 end
 function SFX.reset()

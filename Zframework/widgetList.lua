@@ -1,3 +1,4 @@
+local rnd=math.random
 local ins,rem=table.insert,table.remove
 local mobileHide=(system=="Android"or system=="iOS")and function()return true end
 local function BACK()SCN.back()end
@@ -138,7 +139,7 @@ local Widgets={
 		newButton({name="back",		x=1200,y=655,w=120,h=80,color="white",	font=40,code=BACK}),
 	},
 	music={
-		newSlider({name="bgm",		x=760,	y=80,	w=400,unit=100,	noUnit=true,	font=35,change=function()BGM.freshVolume()end,disp=SETval("bgm"),code=SETsto("bgm")}),
+		newSlider({name="bgm",		x=760,	y=80,	w=400,							font=35,disp=SETval("bgm"),code=function(v)setting.bgm=v;BGM.freshVolume()end}),
 		newButton({name="up",		x=1100,	y=200,	w=120,h=120,	color="white",	font=55,code=pressKey("up")}),
 		newButton({name="play",		x=1100,	y=340,	w=120,h=120,	color="white",	font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
 		newButton({name="down",		x=1100,	y=480,	w=120,h=120,	color="white",	font=55,code=pressKey("down")}),
@@ -241,7 +242,7 @@ local Widgets={
 		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=function()SCN.go("setting_control")end}),
 		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=function()SCN.go("setting_key")end}),
 		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=function()SCN.go("setting_touch")end}),
-		newSlider({name="reTime",	x=350,	y=340,	w=300,unit=10,				font=30,disp=SETval("reTime"),	code=SETsto("reTime")}),
+		newSlider({name="reTime",	x=350,	y=340,	w=300,unit=10,				font=30,disp=SETval("reTime"),	code=SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end}),
 		newSlider({name="maxNext",	x=350,	y=440,	w=300,unit=6,				font=30,disp=SETval("maxNext"),	code=SETsto("maxNext")}),
 		newButton({name="layout",	x=460,	y=540,	w=140,h=70,color="white",	font=35,code=function()
 			SCN.go("setting_skin")
@@ -255,11 +256,11 @@ local Widgets={
 	setting_video={
 		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
 		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
-		newSwitch({name="ghost",	x=250,	y=180,font=35,				disp=SETval("ghost"),	code=SETrev("ghost")}),
-		newSwitch({name="smooth",	x=250,	y=260,font=25,				disp=SETval("smooth"),	code=SETrev("smooth")}),
-		newSwitch({name="center",	x=500,	y=180,font=35,				disp=SETval("center"),	code=SETrev("center")}),
-		newSwitch({name="grid",		x=500,	y=260,font=35,				disp=SETval("grid"),	code=SETrev("grid")}),
-		newSwitch({name="bagLine",	x=730,	y=180,font=30,				disp=SETval("bagLine"),	code=SETrev("bagLine")}),
+		newSlider({name="ghost",	x=250,	y=180,w=200,unit=.6,noUnit=true,font=35,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
+		newSlider({name="center",	x=600,	y=180,w=200,unit=1,	font=35,disp=SETval("center"),	code=SETsto("center")}),
+		newSwitch({name="smooth",	x=260,	y=260,				font=25,disp=SETval("smooth"),	code=SETrev("smooth")}),
+		newSwitch({name="grid",		x=480,	y=260,				font=35,disp=SETval("grid"),	code=SETrev("grid")}),
+		newSwitch({name="bagLine",	x=700,	y=260,				font=30,disp=SETval("bagLine"),	code=SETrev("bagLine")}),
 		newSlider({name="lockFX",	x=350,	y=340,w=373,unit=5,	font=32,disp=SETval("lockFX"),	code=SETsto("lockFX")}),
 		newSlider({name="dropFX",	x=350,	y=390,w=373,unit=5,	font=32,disp=SETval("dropFX"),	code=SETsto("dropFX")}),
 		newSlider({name="moveFX",	x=350,	y=440,w=373,unit=5,	font=32,disp=SETval("moveFX"),	code=SETsto("moveFX")}),
@@ -294,21 +295,21 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=650,w=200,h=80,color="white",font=40,code=BACK}),
 	},
 	setting_sound={
-		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
-		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
-		newSlider({name="sfx",		x=180,	y=200,w=400,unit=100,noUnit=true,font=35,change=function()SFX.play("blip_1")end,						disp=SETval("sfx"),		code=SETsto("sfx")}),
-		newSlider({name="stereo",	x=180,	y=500,w=400,unit=10,			font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,	disp=SETval("stereo"),	code=SETsto("stereo"),hide=function()return setting.sfx==0 end}),
-		newSlider({name="spawn",	x=180,	y=300,w=400,unit=100,noUnit=true,font=30,change=function()SFX.fplay("spawn_1",setting.spawn)end,		disp=SETval("spawn"),	code=SETsto("spawn")}),
-		newSlider({name="bgm",		x=180,	y=400,w=400,unit=100,noUnit=true,font=35,change=function()BGM.freshVolume()end,							disp=SETval("bgm"),		code=SETsto("bgm")}),
-		newSlider({name="vib",		x=750,	y=200,w=400,unit=5,				font=28,change=function()VIB(2)end,										disp=SETval("vib"),		code=SETsto("vib")}),
-		newSlider({name="voc",		x=750,	y=300,w=400,unit=100,noUnit=true,font=32,change=function()VOC.play("nya")end,							disp=SETval("voc"),		code=SETsto("voc")}),
-		newButton({name="back",		x=1140,	y=650,w=200,h=80,color="white",font=40,code=BACK}),
+		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
+		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
+		newSlider({name="sfx",		x=180,	y=200,w=400,					font=35,change=function()SFX.play("blip_1")end,						disp=SETval("sfx"),		code=SETsto("sfx")}),
+		newSlider({name="stereo",	x=180,	y=500,w=400,					font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hide=function()return setting.sfx==0 end}),
+		newSlider({name="spawn",	x=180,	y=300,w=400,					font=30,change=function()SFX.fplay("spawn_"..rnd(7),setting.spawn)end,disp=SETval("spawn"),	code=SETsto("spawn")}),
+		newSlider({name="bgm",		x=180,	y=400,w=400,					font=35,change=function()BGM.freshVolume()end,						disp=SETval("bgm"),		code=SETsto("bgm")}),
+		newSlider({name="vib",		x=750,	y=200,w=400,	unit=5,			font=28,change=function()VIB(2)end,									disp=SETval("vib"),		code=SETsto("vib")}),
+		newSlider({name="voc",		x=750,	y=300,w=400,					font=32,change=function()VOC.play("nya")end,						disp=SETval("voc"),		code=SETsto("voc")}),
+		newButton({name="back",		x=1140,	y=650,w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 	setting_control={
-		newSlider({name="das",		x=226,	y=200,w=910,	unit=26,	font=30,disp=SETval("das"),		code=SETsto("das")}),
-		newSlider({name="arr",		x=226,	y=290,w=525,	unit=15,	font=30,disp=SETval("arr"),		code=SETsto("arr")}),
-		newSlider({name="sddas",	x=226,	y=380,w=350,	unit=10,	font=30,disp=SETval("sddas"),	code=SETsto("sddas")}),
-		newSlider({name="sdarr",	x=226,	y=470,w=140,	unit=4,		font=30,disp=SETval("sdarr"),	code=SETsto("sdarr")}),
+		newSlider({name="das",		x=226,	y=200,w=910,	unit=26,	font=30,disp=SETval("das"),		show="frame_time",code=SETsto("das")}),
+		newSlider({name="arr",		x=226,	y=290,w=525,	unit=15,	font=30,disp=SETval("arr"),		show="frame_time",code=SETsto("arr")}),
+		newSlider({name="sddas",	x=226,	y=380,w=350,	unit=10,	font=30,disp=SETval("sddas"),	show="frame_time",code=SETsto("sddas")}),
+		newSlider({name="sdarr",	x=226,	y=470,w=140,	unit=4,		font=30,disp=SETval("sdarr"),	show="frame_time",code=SETsto("sdarr")}),
 		newSwitch({name="ihs",		x=1100,	y=290,font=30,				disp=SETval("ihs"),				code=SETrev("ihs")}),
 		newSwitch({name="irs",		x=1100,	y=380,font=30,				disp=SETval("irs"),				code=SETrev("irs")}),
 		newSwitch({name="ims",		x=1100,	y=470,font=30,				disp=SETval("ims"),				code=SETrev("ims")}),
@@ -394,7 +395,7 @@ local Widgets={
 				SCN.go("setting_touchSwitch")
 			end}),
 		newButton({name="back",		x=760,y=180,w=170,h=80,color="white",font=40,code=BACK}),
-		newSlider({name="size",		x=450,y=265,w=460,unit=14,font=40,
+		newSlider({name="size",		x=450,y=265,w=460,unit=14,font=40,show="vkSize",
 			disp=function()
 				return VK_org[sceneTemp.sel].r/10-1
 			end,
@@ -432,8 +433,8 @@ local Widgets={
 		newButton({name="pro",		x=1120,	y=100,	w=240,h=80,color="white",font=35,code=function()for i=1,20 do VK_org[i].ava=true end end}),
 		newSwitch({name="hide",		x=1170,	y=200,	font=40,disp=SETval("VKSwitch"),code=SETrev("VKSwitch")}),
 		newSwitch({name="track",	x=1170,	y=300,	font=35,disp=SETval("VKTrack"),code=SETrev("VKTrack")}),
-		newSlider({name="sfx",		x=800,	y=380,	w=180,unit=4,font=40,change=function()SFX.play("virtualKey",setting.VKSFX*.25)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")}),
-		newSlider({name="vib",		x=800,	y=460,	w=180,unit=2,font=40,change=function()VIB(setting.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")}),
+		newSlider({name="sfx",		x=800,	y=380,	w=180,			font=40,change=function()SFX.play("virtualKey",setting.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")}),
+		newSlider({name="vib",		x=800,	y=460,	w=180,unit=2,	font=40,change=function()VIB(setting.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")}),
 		newSwitch({name="icon",		x=850,	y=300,	font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon")}),
 		newButton({name="tkset",	x=1120,	y=420,	w=240,h=80,color="white",font=32,
 			code=function()
@@ -442,7 +443,7 @@ local Widgets={
 			hide=function()
 				return not setting.VKTrack
 			end}),
-		newSlider({name="alpha",	x=840,	y=540,	w=400,unit=10,font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha")}),
+		newSlider({name="alpha",	x=840,	y=540,	w=400,font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha")}),
 		newButton({name="back",		x=1120,	y=620,	w=200,h=80,color="white",font=45,code=BACK}),
 	},
 	setting_trackSetting={

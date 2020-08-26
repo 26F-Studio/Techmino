@@ -657,9 +657,6 @@ function Pnt.setting_sound()
 	gc.translate(-x,-y)
 end
 
-local function timeConv(t)
-	return t.."F "..int(t*16.67).."ms"
-end
 function Pnt.setting_control()
 	--Testing grid line
 	gc.setLineWidth(4)
@@ -679,14 +676,6 @@ function Pnt.setting_control()
 	gc.setColor(1,1,1)gc.draw(drawableText.setting_control,80,50)
 	setFont(50)
 	gc.printf(text.preview,320,540,200,"right")
-
-	--Floating number
-	setFont(30)
-	local _=setting
-	mStr(timeConv(_.das),226+35*_.das,145)
-	mStr(timeConv(_.arr),226+35*_.arr,235)
-	mStr(timeConv(_.sddas),226+35*_.sddas,325)
-	mStr(timeConv(_.sdarr),226+35*_.sdarr,415)
 
 	--Testing O mino
 	_=blockSkin[setting.skin[6]]

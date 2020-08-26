@@ -17,7 +17,7 @@ setting={
 	face={},
 
 	--Graphic
-	ghost=true,center=true,
+	ghost=.3,center=1,
 	smooth=true,grid=false,
 	bagLine=false,
 	lockFX=2,
@@ -35,15 +35,15 @@ setting={
 	powerInfo=false,
 
 	--Sound
-	sfx=10,
+	sfx=1,
 	spawn=0,
-	bgm=7,
-	stereo=6,
+	bgm=.7,
+	stereo=.6,
 	vib=0,
 	voc=0,
 
 	--Virtualkey
-	VKSFX=3,--SFX volume
+	VKSFX=.2,--SFX volume
 	VKVIB=0,--VIB
 	VKSwitch=false,--If disp
 	VKTrack=false,--If tracked
@@ -51,7 +51,7 @@ setting={
 	VKTchW=3,--Touch-Pos Weight
 	VKCurW=4,--Cur-Pos Weight
 	VKIcon=true,--If disp icon
-	VKAlpha=3,
+	VKAlpha=.3,
 }
 for i=1,25 do
 	setting.face[i]=0

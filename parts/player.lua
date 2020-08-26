@@ -14,7 +14,7 @@ local gameEnv0={
 	ihs=true,irs=true,ims=true,
 	swap=true,
 
-	ghost=true,center=true,
+	ghost=.3,center=1,
 	smooth=false,grid=false,
 	bagLine=false,
 	text=true,
@@ -588,6 +588,7 @@ local function drawFXs(P)
 end
 local function Pdraw_norm(P)
 	local _
+	local ENV=P.gameEnv
 	gc.push("transform")
 
 	--Camera
@@ -598,7 +599,7 @@ local function Pdraw_norm(P)
 	gc.setColor(0,0,0,.6)gc.rectangle("fill",0,-10,300,610)
 
 	--Grid
-	if P.gameEnv.grid then
+	if ENV.grid then
 		gc.setLineWidth(1)
 		gc.setColor(1,1,1,.2)
 		for x=1,9 do gc.line(30*x,-10,30*x,600)end
@@ -622,8 +623,8 @@ local function Pdraw_norm(P)
 				end
 			end
 		else--Field with falling animation
-			local dy,stepY=0,P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^2.5*30 or 30
-			local A=P.falling/P.gameEnv.fall
+			local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+			local A=P.falling/ENV.fall
 			local h,H=1,#P.field
 			for j=int(P.fieldBeneath/30+1),H do
 				while j==P.clearingRow[h]do
@@ -649,8 +650,8 @@ local function Pdraw_norm(P)
 			local curColor=P.cur.color
 
 			--Ghost
-			if P.gameEnv.ghost then
-				gc.setColor(1,1,1,.3)
+			if ENV.ghost then
+				gc.setColor(1,1,1,ENV.ghost)
 				for i=1,P.r do for j=1,P.c do
 					if P.cur.bk[i][j]then
 						drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
@@ -658,10 +659,10 @@ local function Pdraw_norm(P)
 				end end
 			end
 
-			local dy=P.gameEnv.smooth and P.imgY~=P.curY and(P.dropDelay/P.gameEnv.drop-1)*30 or 0
+			local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 			gc.translate(0,-dy)
-			local trans=P.lockDelay/P.gameEnv.lock
-			if P.gameEnv.block then
+			local trans=P.lockDelay/ENV.lock
+			if ENV.block then
 				--White Boarder(indicate lockdelay)
 				SHADER.alpha:send("a",trans)
 				gc.setShader(SHADER.alpha)
@@ -686,13 +687,13 @@ local function Pdraw_norm(P)
 			end
 
 			--Rotate center
-			if P.gameEnv.center then
-				gc.setColor(1,1,1,trans)
+			if ENV.center then
+				gc.setColor(1,1,1,trans*ENV.center)
 				local x=30*(P.curX+P.sc[2])-15
 				gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
-				if P.gameEnv.ghost then
+				if ENV.ghost then
 					gc.translate(0,dy)
-					gc.setColor(1,1,1,.5)
+					gc.setColor(1,1,1,trans*ENV.center)
 					gc.draw(IMG.spinCenter,x,600-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
 					goto E
 				end
@@ -709,16 +710,16 @@ local function Pdraw_norm(P)
 		
 
 		--LockDelay indicator
-		if P.gameEnv.easyFresh then
+		if ENV.easyFresh then
 			gc.setColor(1,1,1)
 		else
 			gc.setColor(1,.26,.26)
 		end
 		if P.lockDelay>=0 then
-			gc.rectangle("fill",0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
+			gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
 		end
 		_=3
-		for i=1,min(P.gameEnv.freshLimit-P.freshTime,15)do
+		for i=1,min(ENV.freshLimit-P.freshTime,15)do
 			gc.rectangle("fill",_,615,14,5)
 			_=_+20
 		end
@@ -769,7 +770,7 @@ local function Pdraw_norm(P)
 	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
 
 	--Draw Hold
-	if P.gameEnv.hold then
+	if ENV.hold then
 		gc.setColor(0,0,0,.4)gc.rectangle("fill",-140,36,124,80)
 		gc.setColor(1,1,1)gc.rectangle("line",-140,36,124,80)
 		mText(drawableText.hold,-78,-15)
@@ -785,13 +786,13 @@ local function Pdraw_norm(P)
 	end
 
 	--Draw Next(s)
-	local N=P.gameEnv.next*72
-	if P.gameEnv.next>0 then
+	local N=ENV.next*72
+	if ENV.next>0 then
 		gc.setColor(0,0,0,.4)gc.rectangle("fill",316,36,124,N)
 		gc.setColor(1,1,1)gc.rectangle("line",316,36,124,N)
 		mText(drawableText.next,378,-15)
 		N=1
-		while N<=P.gameEnv.next and P.next[N]do
+		while N<=ENV.next and P.next[N]do
 			local b,c=P.next[N].bk,P.next[N].color
 			for i=1,#b do for j=1,#b[1] do
 				if b[i][j]then
@@ -803,8 +804,8 @@ local function Pdraw_norm(P)
 	end
 
 	--Draw Bagline(s)
-	if P.gameEnv.bagLine then
-		local L=P.gameEnv.bagLen
+	if ENV.bagLine then
+		local L=ENV.bagLen
 		local C=-P.pieceCount%L--Phase
 		gc.setColor(.8,.5,.5)
 		for i=C,N-1,L do
@@ -914,6 +915,7 @@ local function Pdraw_small(P)
 end
 local function Pdraw_demo(P)
 	local _
+	local ENV=P.gameEnv
 	local curColor=P.cur.color
 
 	--Camera
@@ -940,8 +942,8 @@ local function Pdraw_demo(P)
 		end
 	else
 		--Field with falling animation
-		local dy,stepY=0,P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^2.5*30 or 30
-		local A=P.falling/P.gameEnv.fall
+		local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+		local A=P.falling/ENV.fall
 		local h,H=1,#P.field
 		for j=int(P.fieldBeneath/30+1),H do
 			while j==P.clearingRow[h]do
@@ -993,7 +995,7 @@ local function Pdraw_demo(P)
 
 	--Draw next
 	local N=1
-	while N<=P.gameEnv.next and P.next[N]do
+	while N<=ENV.next and P.next[N]do
 		local id=P.next[N].id
 		_=P.color[id]
 		gc.setColor(_[1],_[2],_[3],.3)
@@ -1040,7 +1042,7 @@ function player.createLockFX(P)
 		end
 	end
 end
-function player.creatDropFX(P,x,y,w,h)--TODO, remake dropFX
+function player.creatDropFX(P,x,y,w,h)
 	ins(P.dropFX,{x,y,w,h,0,13-2*P.gameEnv.dropFX})
 end
 function player.createMoveFX(P,dir)
@@ -1049,40 +1051,32 @@ function player.createMoveFX(P,dir)
 	local x=P.curX-1
 	local y=P.gameEnv.smooth and P.curY+P.dropDelay/P.gameEnv.drop-2 or P.curY-1
 	if dir=="left"then
-		for i=1,P.r do
-			for j=P.c,1,-1 do
-				if P.cur.bk[i][j]then
-					ins(P.moveFX,{C,x+j,y+i,0,T})
-					break
-				end
+		for i=1,P.r do for j=P.c,1,-1 do
+			if P.cur.bk[i][j]then
+				ins(P.moveFX,{C,x+j,y+i,0,T})
+				break
 			end
-		end
+		end end
 	elseif dir=="right"then
-		for i=1,P.r do
-			for j=1,P.c do
-				if P.cur.bk[i][j]then
-					ins(P.moveFX,{C,x+j,y+i,0,T})
-					break
-				end
+		for i=1,P.r do for j=1,P.c do
+			if P.cur.bk[i][j]then
+				ins(P.moveFX,{C,x+j,y+i,0,T})
+				break
 			end
-		end
+		end end
 	elseif dir=="down"then
-		for j=1,P.c do
-			for i=P.r,1,-1 do
-				if P.cur.bk[i][j]then
-					ins(P.moveFX,{C,x+j,y+i,0,T})
-					break
-				end
+		for j=1,P.c do for i=P.r,1,-1 do
+			if P.cur.bk[i][j]then
+				ins(P.moveFX,{C,x+j,y+i,0,T})
+				break
 			end
-		end
+		end end
 	else
-		for i=1,P.r do
-			for j=1,P.c do
-				if P.cur.bk[i][j]then
-					ins(P.moveFX,{C,x+j,y+i,0,T})
-				end
+		for i=1,P.r do for j=1,P.c do
+			if P.cur.bk[i][j]then
+				ins(P.moveFX,{C,x+j,y+i,0,T})
 			end
-		end
+		end end
 	end
 end
 function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
@@ -1367,9 +1361,10 @@ function player.changeAtk(P,R)
 	end
 end
 function player.freshBlock(P,keepGhost,control,system)
+	local ENV=P.gameEnv
 	if not keepGhost and P.cur then
 		P.imgY=min(#P.field+1,P.curY)
-		if P.gameEnv._20G or P.keyPressing[7]and P.gameEnv.sdarr==0 then
+		if ENV._20G or P.keyPressing[7]and ENV.sdarr==0 then
 			local _=P.imgY
 
 			--Move ghost to bottom
@@ -1384,11 +1379,11 @@ function player.freshBlock(P,keepGhost,control,system)
 
 			--Create FX if dropped
 			if P.curY>P.imgY then
-				if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
+				if ENV.dropFX and ENV.block and P.curY-P.imgY-P.r>-1 then
 					P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 				end
-				if P.gameEnv.shakeFX then
-					P.fieldOff.vy=P.gameEnv.shakeFX*.5
+				if ENV.shakeFX then
+					P.fieldOff.vy=ENV.shakeFX*.5
 				end
 				P.curY=P.imgY
 			end
@@ -1400,27 +1395,27 @@ function player.freshBlock(P,keepGhost,control,system)
 	end
 
 	if control then
-		if P.gameEnv.easyFresh then
-			local d0=P.gameEnv.lock
-			if P.lockDelay<d0 and P.freshTime<P.gameEnv.freshLimit then
+		if ENV.easyFresh then
+			local d0=ENV.lock
+			if P.lockDelay<d0 and P.freshTime<ENV.freshLimit then
 				if not system then
 					P.freshTime=P.freshTime+1
 				end
 				P.lockDelay=d0
-				P.dropDelay=P.gameEnv.drop
+				P.dropDelay=ENV.drop
 			end
 			if P.curY<P.minY then
 				P.minY=P.curY
-				P.dropDelay=P.gameEnv.drop
-				P.lockDelay=P.gameEnv.lock
+				P.dropDelay=ENV.drop
+				P.lockDelay=ENV.lock
 			end
 		else
 			if P.curY<P.minY then
 				P.minY=P.curY
-				if P.lockDelay<P.gameEnv.lock and P.freshTime<P.gameEnv.freshLimit then
+				if P.lockDelay<ENV.lock and P.freshTime<ENV.freshLimit then
 					P.freshTime=P.freshTime+1
-					P.dropDelay=P.gameEnv.drop
-					P.lockDelay=P.gameEnv.lock
+					P.dropDelay=ENV.drop
+					P.lockDelay=ENV.lock
 				end
 			end
 		end
@@ -2751,6 +2746,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.moveFX==0 then	ENV.moveFX=nil	end
 	if ENV.clearFX==0 then	ENV.clearFX=nil end
 	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+	if ENV.ghost==0 then	ENV.ghost=nil	end
+	if ENV.center==0 then	ENV.center=nil	end
 end
 local function prepareSequence(P)--Call freshPrepare and set newNext
 	local ENV=P.gameEnv

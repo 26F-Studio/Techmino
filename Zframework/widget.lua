@@ -4,6 +4,7 @@ local int,abs=math.floor,math.abs
 local format=string.format
 local color=color
 local setFont=setFont
+local Timer=love.timer.getTime
 
 local button={
 	type="button",
@@ -183,6 +184,21 @@ local slider={
 	ATV=0,--Activating time(0~8)
 	pos=0,--Position shown
 }
+local sliderShowFunc={
+	int=function(S)
+		return S.disp()
+	end,
+	float=function(S)
+		return int(S.disp()*100)*.01
+	end,
+	percent=function(S)
+		return int(S.disp()*100).."%"
+	end,
+	frame_time=function(S)
+		S=S.disp()
+		return S.."F "..int(S*16.67).."ms"
+	end,
+}
 function slider:reset()
 	self.ATV=0
 	self.pos=0
@@ -212,7 +228,7 @@ function slider:draw()
 	gc.setColor(1,1,1,.5+ATV*.06)
 
 	--Units
-	if self.showUnit then
+	if not self.smooth then
 		gc.setLineWidth(2)
 		for p=0,self.unit do
 			local x=x+(x2-x)*p/self.unit
@@ -225,17 +241,24 @@ function slider:draw()
 	gc.line(x,y,x2,y)
 
 	--Block
-	local bx,by,bw,bh=x+(x2-x)*self.pos/self.unit-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
+	local cx=x+(x2-x)*self.pos/self.unit
+	local bx,by,bw,bh=cx-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
 	gc.setColor(.8,.8,.8)
 	gc.rectangle("fill",bx,by,bw,bh)
+
+	local t
 	if ATV>0 then
 		gc.setLineWidth(2)
 		gc.setColor(1,1,1,ATV*.16)
 		gc.rectangle("line",bx+1,by+1,bw-2,bh-2)
+		if self.show then
+			setFont(25)
+			mStr(self:show(),cx,by-30)
+		end
 	end
 
 	--Text
-	local t=self.text
+	t=self.text
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
@@ -369,14 +392,34 @@ function WIDGET.newSlider(D)
 			D.x+D.w,D.y,
 		},
 
-		unit=	D.unit,
-		showUnit=not D.noUnit,
+		unit=	D.unit or 1,
+		--smooth=nil,
 		font=	D.font,
 		change=	D.change,
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
-	}for k,v in next,slider do _[k]=v end return _
+		--show=	nil,
+
+		lastTime=0,
+	}
+	if D.smooth~=nil then
+		_.smooth=D.smooth
+	else
+		_.smooth=_.unit<=1
+	end
+	if D.show then
+		if type(D.show)=="function"then
+			_.show=D.show
+		else
+			_.show=sliderShowFunc[D.show]
+		end
+	elseif _.unit<=1 then
+		_.show=sliderShowFunc.percent
+	else
+		_.show=sliderShowFunc.int
+	end
+	for k,v in next,slider do _[k]=v end return _
 end
 
 function WIDGET.moveCursor(x,y)
@@ -402,11 +445,7 @@ function WIDGET.press(x,y)
 		W.code()
 		SFX.play("move",.6)
 	elseif W.type=="slider"then
-		if not x then return end
-		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
-		if p==P then return end
-		W.code(P)
-		if W.change then W.change()end
+		WIDGET.drag(x,y)
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end
 end
@@ -414,13 +453,31 @@ function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=="slider"then
-		local p,P=W.disp(),x<W.x and 0 or x>W.x+W.w and W.unit or int((x-W.x)*W.unit/W.w+.5)
-		if p==P then return end
-		W.code(P)
-		if W.change then W.change()end
+		if not x then return end
+		local p=W.disp()
+		local P=x<W.x and 0 or x>W.x+W.w and W.unit or(x-W.x)/W.w*W.unit
+		if not W.smooth then
+			P=int(P+.5)
+		end
+		if p~=P then
+			W.code(P)
+		end
+		if W.change and Timer()-W.lastTime>.18 then
+			W.lastTime=Timer()
+			W.change()
+		end
 	elseif not W:isAbove(x,y)then
 		WIDGET.sel=nil
 	end
+end
+function WIDGET.release(x,y)
+	local W=WIDGET.sel
+	if not W then return end
+	if W.type=="slider"then
+		W.lastTime=0
+		WIDGET.drag(x,y)
+	end
+	WIDGET.sel=nil
 end
 function WIDGET.keyPressed(i)
 	if i=="space"or i=="return"then

@@ -134,10 +134,17 @@ do
 	end
 
 	--Update data file
-	local S=stat
-	if type(setting.spawn)~="number"then
-		setting.spawn=0
-	end
+	local S=setting
+	if type(S.spawn)~="number"then S.spawn=0 end
+	if type(S.ghost)~="number"then S.ghost=.3 end
+	if type(S.center)~="number"then S.center=1 end
+	if S.bgm>1 then S.bgm=S.bgm*.01 end
+	if S.sfx>1 then S.sfx=S.sfx*.01 end
+	if S.voc>1 then S.voc=S.voc*.01 end
+	if S.stereo>1 then S.stereo=S.stereo*.1 end
+	if S.VKSFX>1 then S.VKSFX=S.VKSFX*.25 end
+	if S.VKAlpha>1 then S.VKAlpha=S.VKAlpha*.1 end
+	S=stat
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
