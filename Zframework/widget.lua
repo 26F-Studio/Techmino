@@ -310,6 +310,7 @@ function WIDGET.newImage(D)
 	}for k,v in next,button do _[k]=v end return _
 end
 function WIDGET.newButton(D)
+	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
 
@@ -333,6 +334,7 @@ function WIDGET.newButton(D)
 	}for k,v in next,button do _[k]=v end return _
 end
 function WIDGET.newKey(D)
+	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
 
