@@ -1274,6 +1274,7 @@ function player.garbageRise(P,color,amount,pos)
 	for i=1,#P.clearingRow do
 		P.clearingRow[i]=P.clearingRow[i]+amount
 	end
+	P:freshBlock(false,false)
 	for i=1,#P.lockFX do
 		_=P.lockFX[i]
 		_[2]=_[2]-30*amount--Shift 30px per line cleared
