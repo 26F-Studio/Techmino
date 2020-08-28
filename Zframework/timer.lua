@@ -64,10 +64,16 @@ function Tmr.load()
 		end
 	until not S.skip and Timer()-t>.01
 end
+function Tmr.p15()
+	local S=sceneTemp
+	if S.state==1 then
+		S.time=Timer()-S.startTime
+	end
+end
 function Tmr.intro()
-	local s=sceneTemp
-	s.t1=s.t1+1
-	s.t2=s.t2+1
+	local S=sceneTemp
+	S.t1=S.t1+1
+	S.t2=S.t2+1
 end
 function Tmr.main(dt)
 	players[1]:update(dt)

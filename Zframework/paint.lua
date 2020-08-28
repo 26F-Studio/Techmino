@@ -143,8 +143,8 @@ local titleTransform={
 	end,
 }
 function Pnt.intro()
-	local s=sceneTemp
-	local t=s.t1
+	local S=sceneTemp
+	local t=S.t1
 	local T=(t+110)%300
 	if T<30 then
 		gc.setLineWidth(4+(30-T)^1.626/62)
@@ -159,7 +159,7 @@ function Pnt.intro()
 		if T>0 then
 			gc.push("transform")
 				gc.setColor(1,1,1,min(T*.025,1))
-				titleTransform[s.r[i]](T,i)
+				titleTransform[S.r[i]](T,i)
 				local dt=(t+62-5*i)%300
 				if dt<20 then
 					gc.translate(0,abs(10-dt)-10)
@@ -169,7 +169,7 @@ function Pnt.intro()
 		end
 	end
 	gc.pop()
-	t=s.t2
+	t=S.t2
 	if t>=80 then
 		gc.setColor(1,1,1,.6+sin((t-80)*.0626)*.3)
 		mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
@@ -352,7 +352,7 @@ function Pnt.custom()
 	end
 end
 function Pnt.sequence()
-	local s=sceneTemp
+	local S=sceneTemp
 	gc.setColor(.7,.7,.7)gc.draw(drawableText.sequence,120,-15)
 	gc.setColor(1,1,1)gc.draw(drawableText.sequence,122,-12)
 	gc.setLineWidth(4)
@@ -378,7 +378,7 @@ function Pnt.sequence()
 		if x>1126 then
 			x,y=120,y+50
 		end
-		if i==s.cur then
+		if i==S.cur then
 			cx,cy=x,y
 		end
 	end
@@ -387,8 +387,8 @@ function Pnt.sequence()
 	gc.line(cx-5,cy-20,cx-5,cy+20)
 
 	--Confirm reset
-	if s.sure>0 then
-		gc.setColor(1,1,1,s.sure*.02)
+	if S.sure>0 then
+		gc.setColor(1,1,1,S.sure*.02)
 		gc.draw(drawableText.question,980,470)
 	end
 end
@@ -686,18 +686,18 @@ function Pnt.setting_control()
 	gc.draw(_,x+40,580,nil,40/30)
 end
 function Pnt.setting_key()
-	local s=sceneTemp
+	local S=sceneTemp
 	local a=.3+sin(Timer()*15)*.1
-	if s.kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
+	if S.kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
 	gc.rectangle("fill",
-		s.kb<11 and 240 or 840,
-		45*s.kb+20-450*int(s.kb/11),
+		S.kb<11 and 240 or 840,
+		45*S.kb+20-450*int(S.kb/11),
 		200,45
 	)
-	if s.jS then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
+	if S.jS then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
 	gc.rectangle("fill",
-		s.js<11 and 440 or 1040,
-		45*s.js+20-450*int(s.js/11),
+		S.js<11 and 440 or 1040,
+		45*S.js+20-450*int(S.js/11),
 		200,45
 	)
 	--Selection rect
@@ -711,7 +711,7 @@ function Pnt.setting_key()
 
 	gc.setColor(1,1,1)
 	setFont(26)
-	local b1,b2=keyMap[s.board],keyMap[s.board+2]
+	local b1,b2=keyMap[S.board],keyMap[S.board+2]
 	for N=1,20 do
 		if N<11 then
 			gc.printf(text.acts[N],47,45*N+22,180,"right")
@@ -731,7 +731,7 @@ function Pnt.setting_key()
 		gc.line(40,y,1240,y)
 	end
 	setFont(35)
-	gc.print(text.page..s.board,280,590)
+	gc.print(text.page..S.board,280,590)
 	gc.draw(drawableText.ctrlSetHelp,50,650)
 end
 function Pnt.setting_skin()
@@ -857,7 +857,7 @@ function Pnt.history()
 	gc.setLineWidth(4)
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
-	local _=sceneTemp
-	gc.print(_.text[_.pos],40,50)
+	local S=sceneTemp
+	gc.print(S.text[S.pos],40,50)
 end
 return Pnt
