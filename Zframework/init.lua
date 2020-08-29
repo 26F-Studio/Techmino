@@ -122,11 +122,18 @@ local function wheelScroll(y)
 		floatWheel=floatWheel+1
 	end
 end
-local mouseClick,touchClick={},{}
-local mouseDown,mouseMove,mouseUp,wheelMoved={},{},{},{}
-local touchDown,touchUp,touchMove={},{},{}
-local keyDown,keyUp={},{}
-local gamepadDown,gamepadUp={},{}
+
+mouseClick,touchClick={},{}
+mouseDown,mouseMove,mouseUp,wheelMoved={},{},{},{}
+touchDown,touchUp,touchMove={},{},{}
+keyDown,keyUp={},{}
+gamepadDown,gamepadUp={},{}
+
+local mouseClick,touchClick=mouseClick,touchClick
+local mouseDown,mouseMove,mouseUp,wheelMoved=mouseDown,mouseMove,mouseUp,wheelMoved
+local touchDown,touchUp,touchMove=touchDown,touchUp,touchMove
+local keyDown,keyUp=keyDown,keyUp
+local gamepadDown,gamepadUp=gamepadDown,gamepadUp
 
 function keyDown.calculator(k)
 	local S=sceneTemp
