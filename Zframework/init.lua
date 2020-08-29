@@ -204,9 +204,13 @@ function keyDown.calculator(k)
 			elseif S.val==114514 then
 				S.reg=1919810
 				S.val=114514
+			elseif S.val==1145141919810 then
+				error("小鬼自裁请")
 			elseif S.val==123456789 then
 				S.reg=123456789
 				S.val=987654321
+			elseif S.val==152435 or S.val==81524 then
+				SCN.go("p15")
 			end
 		end
 	elseif k=="escape"then
@@ -218,6 +222,133 @@ function keyDown.calculator(k)
 	end
 end
 
+local function moveU(S,b,x,y)
+	if y<4 then
+		b[y][x],b[y+1][x]=b[y+1][x],b[y][x]
+		S.y=y+1
+	end
+end
+local function moveD(S,b,x,y)
+	if y>1 then
+		b[y][x],b[y-1][x]=b[y-1][x],b[y][x]
+		S.y=y-1
+	end
+end
+local function moveL(S,b,x,y)
+	if x<4 then
+		b[y][x],b[y][x+1]=b[y][x+1],b[y][x]
+		S.x=x+1
+	end
+end
+local function moveR(S,b,x,y)
+	if x>1 then
+		b[y][x],b[y][x-1]=b[y][x-1],b[y][x]
+		S.x=x-1
+	end
+end
+local function shuffleBoard(S,b)
+	for i=1,300 do
+		i=rnd()
+		if i<.25 then moveU(S,b,S.x,S.y)
+		elseif i<.5 then moveD(S,b,S.x,S.y)
+		elseif i<.75 then moveL(S,b,S.x,S.y)
+		else moveR(S,b,S.x,S.y)
+		end
+	end
+end
+local function checkBoard(b)
+	for i=4,1,-1 do
+		for j=1,4 do
+			if b[i][j]~=4*i+j-4 then return false end
+		end
+	end
+	return true
+end
+local function tapBoard(x,y,key)
+	local S=sceneTemp
+	if S.state<2 then
+		if not key then
+			sysFX.newRipple(.2,x,y,13)
+			x,y=int((x-320)/160)+1,int((y-40)/160)+1
+		end
+		local b=S.board
+		local moves=0
+		if S.x==x then
+			if y>S.y and y<5 then
+				for i=S.y,y-1 do
+					moveU(S,b,x,i)
+					moves=moves+1
+				end
+			elseif y<S.y and y>0 then
+				for i=S.y,y+1,-1 do
+					moveD(S,b,x,i)
+					moves=moves+1
+				end
+			end
+		elseif S.y==y then
+			if x>S.x and x<5 then
+				for i=S.x,x-1 do
+					moveL(S,b,i,y)
+					moves=moves+1
+				end
+			elseif x<S.x and x>0 then
+				for i=S.x,x+1,-1 do
+					moveR(S,b,i,y)
+					moves=moves+1
+				end
+			end
+		end
+		if moves>0 then
+			SFX.play("move")
+			S.move=S.move+moves
+			if S.state==0 then
+				S.state=1
+				S.startTime=Timer()
+			end
+			if checkBoard(b)then
+				S.state=2
+				S.time=Timer()-S.startTime
+				SFX.play("win")
+			end
+		end
+	end
+end
+function keyDown.p15(k)
+	local S=sceneTemp
+	local b=S.board
+	if k=="up"then
+		tapBoard(S.x,S.y+1,true)
+	elseif k=="down"then
+		tapBoard(S.x,S.y-1,true)
+	elseif k=="left"then
+		tapBoard(S.x+1,S.y,true)
+	elseif k=="right"then
+		tapBoard(S.x-1,S.y,true)
+	elseif k=="space"then
+		shuffleBoard(S,b)
+		S.state=0
+		S.time=0
+		S.move=0
+	elseif S.state==0 then
+		if k=="c"then
+			S.color=not S.color
+		elseif k=="h"then
+			S.blind=not S.blind
+		end
+	end
+end
+function mouseDown.p15(x,y,k)
+	tapBoard(x,y)
+end
+function mouseMove.p15(x,y)
+	tapBoard(x,y)
+end
+function touchDown.p15(id,x,y)
+	tapBoard(x,y)
+end
+function touchMove.p15(id,x,y,dx,dy)
+	tapBoard(x,y)
+end
 
 function keyDown.load(k)
 	if k=="a"then

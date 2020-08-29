@@ -16,6 +16,19 @@ function sceneInit.calculator()
 		tip=require("parts/getTip"),
 	}
 end
+function sceneInit.p15()
+	sceneTemp={
+		board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}},
+		x=4,y=4,
+		startTime=0,
+		time=0,
+		move=0,
+		state=2,
+
+		color=true,
+		blind=false,
+	}
+end
 function sceneInit.load()
 	sceneTemp={
 		phase=1,--Loading stage

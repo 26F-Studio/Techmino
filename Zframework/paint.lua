@@ -105,6 +105,65 @@ function Pnt.calculator()
 	if S.sym then setFont(50)gc.print(S.sym,126,150)end
 	if S.pass then setFont(40)mStr(S.tip,640,10)end
 end
+
+local cellColor={
+	color.lRed,color.lRed,color.lRed,color.lRed,
+	color.lBlue,color.lGreen,color.lGreen,color.lGreen,
+	color.lBlue,color.lYellow,color.lPurple,color.lPurple,
+	color.lBlue,color.lYellow,color.lPurple,color.lPurple,
+}
+local backColor={
+	color.dRed,color.dRed,color.dRed,color.dRed,
+	color.dBlue,color.dGreen,color.dGreen,color.dGreen,
+	color.dBlue,color.dYellow,color.dPurple,color.dPurple,
+	color.dBlue,color.dYellow,color.dPurple,color.dPurple,
+}
+function Pnt.p15()
+	local S=sceneTemp
+
+	setFont(40)
+	gc.print(format("%.3f",S.time),1000,50)
+	gc.print(S.move,1000,100)
+
+	if S.state==1 then gc.setColor(.9,.9,.9)	--game
+	elseif S.state==0 then gc.setColor(.2,.8,.2)--ready
+	elseif S.state==2 then gc.setColor(.9,.9,0)	--win
+	end
+	gc.setLineWidth(10)
+	gc.rectangle("line",313,33,654,654,18)
+
+	gc.setLineWidth(4)
+	local x,y=S.x,S.y
+	setFont(80)
+	for i=1,4 do
+		for j=1,4 do
+			if x~=j or y~=i then
+				local N=S.board[i][j]
+				if S.color and not(S.blind and S.state==1)then
+					gc.setColor(backColor[N])
+					gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
+					gc.setColor(cellColor[N])
+					gc.rectangle("line",j*160+163,i*160-117,154,154,8)
+				else
+					gc.setColor(.3,.3,.3)
+					gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
+					gc.setColor(1,1,1)
+					gc.rectangle("line",j*160+163,i*160-117,154,154,8)
+				end
+				if not(S.blind and S.state==1)then
+					gc.setColor(.1,.1,.1)
+					mStr(N,j*160+240,i*160-96)
+					mStr(N,j*160+242,i*160-98)
+					gc.setColor(1,1,1)
+					mStr(N,j*160+243,i*160-95)
+				end
+			end
+		end
+	end
+	gc.setColor(.3,.3,.3)
+	gc.setLineWidth(10)
+	gc.rectangle("line",x*160+173,y*160-107,134,134,50)
+end
 function Pnt.load()
 	local S=sceneTemp
 	gc.setLineWidth(4)

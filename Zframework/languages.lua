@@ -198,6 +198,11 @@ local langList={
 				["/"]="/",
 				play="开始",
 			},
+			p15={
+				reset="重新开始",
+				color="颜色",
+				hide="盲",
+			},
 			main={
 				play="开始",
 				setting="设置",
@@ -669,6 +674,11 @@ local langList={
 				["/"]="/",
 				play="开始",
 			},
+			p15={
+				reset="重新开始",
+				color="颜色",
+				hide="盲",
+			},
 			main={
 				play="开始",
 				setting="设置",
@@ -1130,6 +1140,11 @@ local langList={
 				["/"]="/",
 				play="Play",
 			},
+			p15={
+				reset="Reset",
+				color="Color",
+				hide="Blind",
+			},
 			main={
 				play="Play",
 				setting="Settings",
@@ -1588,6 +1603,11 @@ local langList={
 				["*"]="*",
 				["/"]="/",
 				play="!!!",
+			},
+			p15={
+				reset="Reset",
+				color="Color",
+				hide="Blind",
 			},
 			main={
 				play="!!!",
@@ -2061,6 +2081,11 @@ local langList={
 				["*"]="*",
 				["/"]="/",
 				play="开始",
+			},
+			p15={
+				reset="Reset",
+				color="彩",
+				hide="瞎",
 			},
 			main={
 				play="开始",
