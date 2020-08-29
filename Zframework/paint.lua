@@ -45,7 +45,7 @@ local function VirtualkeyPreview()
 			local B=VK_org[i]
 			if B.ava then
 				local c=sceneTemp.sel==i and .6 or 1
-				gc.setColor(c,1,c,setting.VKAlpha*.1)
+				gc.setColor(c,1,c,setting.VKAlpha)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)
 				if setting.VKIcon then gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
@@ -55,7 +55,7 @@ local function VirtualkeyPreview()
 end
 local function drawVirtualkey()
 	local V=virtualkey
-	local a=setting.VKAlpha*.1
+	local a=setting.VKAlpha
 	local _
 	if setting.VKIcon then
 		local icons=TEXTURE.VKIcon
