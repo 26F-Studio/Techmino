@@ -202,6 +202,7 @@ local langList={
 				reset="重新开始",
 				color="颜色",
 				hide="盲",
+				quit="退出",
 			},
 			main={
 				play="开始",
@@ -678,6 +679,7 @@ local langList={
 				reset="重新开始",
 				color="颜色",
 				hide="盲",
+				quit="退出",
 			},
 			main={
 				play="开始",
@@ -1144,6 +1146,7 @@ local langList={
 				reset="Reset",
 				color="Color",
 				hide="Blind",
+				quit="Back",
 			},
 			main={
 				play="Play",
@@ -1608,6 +1611,7 @@ local langList={
 				reset="Reset",
 				color="Color",
 				hide="Blind",
+				quit="X",
 			},
 			main={
 				play="!!!",
@@ -2086,6 +2090,7 @@ local langList={
 				reset="Reset",
 				color="彩",
 				hide="瞎",
+				quit="退出",
 			},
 			main={
 				play="开始",

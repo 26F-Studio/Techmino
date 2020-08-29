@@ -119,9 +119,10 @@ local Widgets={
 		newButton({name="play",		x=640,y=600,w=180,h=90,	color="lGreen",	font=40,code=pressKey("space"),hide=function()return not sceneTemp.pass end}),
 	},
 	p15={
-		newButton({name="reset",	x=160,y=100,w=180,h=100,color="white",	font=40,code=pressKey("space")}),
-		newSwitch({name="color",	x=200,y=240,w=60,		color="white",	font=40,disp=function()return sceneTemp.color end,code=pressKey("c"),hide=function()return sceneTemp.state>0 end}),
-		newSwitch({name="hide",		x=200,y=340,w=60,		color="white",	font=40,disp=function()return sceneTemp.blind end,code=pressKey("h"),hide=function()return sceneTemp.state>0 end}),
+		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
+		newSwitch({name="color",	x=200,y=240,w=60,						font=40,disp=function()return sceneTemp.color end,code=pressKey("c"),hide=function()return sceneTemp.state>0 end}),
+		newSwitch({name="hide",		x=200,y=340,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("h"),hide=function()return sceneTemp.state>0 end}),
+		newButton({name="back",		x=1100,y=100,w=100,		color="white",	font=40,code=BACK}),
 	},
 	main={
 		newButton({name="play",		x=150,y=280,w=200,h=160,color="lRed",	font=55,code=function()SCN.go("mode")end}),
