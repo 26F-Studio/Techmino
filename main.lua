@@ -40,7 +40,7 @@ preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 preBag={}
 
 game={
-	frame=0,			--Frame count 
+	frame=0,			--Frame count
 	result=false,		--Game result (string)
 	pauseTime=0,		--Time paused
 	pauseCount=0,		--Pausing count

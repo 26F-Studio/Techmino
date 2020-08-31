@@ -5,7 +5,7 @@ setting={
 	ihs=true,irs=true,ims=true,
 	maxNext=6,
 	swap=true,
-	
+
 	--System
 	reTime=4,
 	autoPause=true,

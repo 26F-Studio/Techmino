@@ -568,7 +568,7 @@ local function drawFXs(P)
 		local w=30*S[3]*(1-S[5]*.5)
 		gc.rectangle("fill",30*S[1]-30+15*S[3]-w*.5,600-30*S[2],w,30*S[4])
 	end
-	
+
 	--MoveFX
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
@@ -707,7 +707,7 @@ local function Pdraw_norm(P)
 		gc.rectangle("line",-1,-11,302,612)--Boarder
 		gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
 		gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
-		
+
 
 		--LockDelay indicator
 		if ENV.easyFresh then

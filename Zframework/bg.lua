@@ -175,7 +175,7 @@ back.fan={
 		gc.setLineWidth(320)
 		gc.setColor(.3,.2,.3)
 		gc.arc("line","open",0,420,500,-.8*3.1416,-.2*3.1416)
-		
+
 		gc.setLineWidth(4)
 		gc.setColor(.7,.5,.65)
 		gc.arc("line","open",0,420,660,-.799*3.1416,-.201*3.1416)
