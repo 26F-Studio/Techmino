@@ -16,8 +16,6 @@ WIDGET=	require("Zframework/widget")
 Widgets=require("Zframework/widgetList")
 LIGHT=	require("Zframework/light")
 SCN=	require("Zframework/scene")
-local Tmr=require("Zframework/timer")
-local Pnt=require("Zframework/paint")
 
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 local gc,sys=love.graphics,love.system
@@ -200,16 +198,15 @@ function keyDown.calculator(k)
 			elseif S.val==34494 then
 				error("This is an error testing message.")
 			elseif S.val==114 then
-				S.val=514
+				S.reg=514
 			elseif S.val==114514 then
 				S.reg=1919810
-				S.val=114514
 			elseif S.val==1145141919810 then
 				error("小鬼自裁请")
 			elseif S.val==123456789 then
 				S.reg=123456789
 				S.val=987654321
-			elseif S.val==152435 or S.val==81524 then
+			elseif S.val==152435 or S.val==81524 or S.val==815 or S.val==1524 or S.val==2435 then
 				SCN.go("p15")
 			end
 		end
@@ -268,7 +265,7 @@ local function tapBoard(x,y,key)
 	local S=sceneTemp
 	if S.state<2 then
 		if not key then
-			sysFX.newRipple(.2,x,y,13)
+			sysFX.newRipple(.16,x,y,10)
 			x,y=int((x-320)/160)+1,int((y-40)/160)+1
 		end
 		local b=S.board

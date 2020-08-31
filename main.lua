@@ -82,6 +82,7 @@ AIfunc=	require("parts/ai")
 Modes=	require("parts/modes")
 TICK=	require("parts/tick")
 
+require("parts/scenes")
 
 --Load files & settings
 modeRanks={sprint_10=0}
