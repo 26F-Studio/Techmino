@@ -1,11 +1,11 @@
 local S=[=[
 "Patron"(time ordered, may not accurate):
-				[rmb100+]:
+				<<<rmb100+>>>
 						那没事了(T6300)		加油啊,钉钉动了的大哥哥(T3228)
 						弥佑瑶				Alan			幽灵3383
 						靏鸖龘龘			込余			saki
 						模电
-		[rmb10+]:
+		<rmb10+>
 				八零哥    蕴空之灵    gggf127    dtg    ThTsOd
 				Fireboos    金巧    10元    立斐    Deep_Sea
 				时雪    yyangdid    sfqr    心痕    Sasoric
@@ -18,7 +18,8 @@ local S=[=[
 				世界沃德    蓝绿    天生的魔法师    琳雨空    T8779.易缄
 				吃水榴莲    诗情画意    星姐阿夸双推Man暗炎    [*炎]
 				[*Y]    aaa222    [**城]    cnDD    红桃老给
-				昭庭玲秋    旋树墩    火花工作室    Cosine    天上_飞
+				昭庭玲秋    旋树墩    火花工作室    Cosine    沁音的芝麻王
+				SuperJH    天上_飞    *莲    uiro
 
 		Thanks!!!
 
@@ -48,21 +49,41 @@ Future outlook:
 						field flip(LR/UD)
 						no fail(∞ lives)
 				mini games:
-						15 puzzle (with hidden mode)
 						2048 (with next/deadly mode)
 						mine sweeper
 						tank battle
-				new AI: task-Z
-				'Encrypt'(compile to byte code)
-				60+ fps supporting
-				in-game document
-				save recordings
-				full-key control
-				drag control for mobile device
-				new widgets (joystick etc.)
-				splashing block
-				more graphic FXs & 3D features & animations
-				network game
+				方块散落动画
+				task-Z(新AI)
+				工程编译到字节码
+				游戏内文档
+				改连击攻击
+				场地序列一起复制
+				自定义消行要求(可复制)
+				支持超60帧
+				录像保存/导出
+				"一键操作"
+				手机滑动操作
+				新控件(例如虚拟摇杆)
+				联网游戏
+				更多画面效果 & 一些3D小玩意
+
+0.10.7: 15P更新 15puzzle update
+		新内容:
+				ghost和center透明度可调
+				15puzzle(软件锁界面输入815/1524/2435进入)
+		改动:
+				大多数滑条都会显示当前值
+				滑条交互机制优化
+				部分控件重排版
+				更新计划改为中文
+		代码:
+				部分设置值域改为[0%,100%]
+				整理场景代码,同一个场景代码放在一起
+				攻击特效和徽章特效并入sysFX
+		修复:
+				修复挖掘模式涨行不刷新ghost
+				控制设置页面预览显示bug
+				在倒计时阶段按一些按键会报错
 
 0.10.6: CC更新 Cold Clear update
 		新内容:

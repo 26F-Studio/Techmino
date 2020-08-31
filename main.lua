@@ -49,7 +49,7 @@ game={
 	warnLVL=0,			--Warning level (show)
 	recording=false,	--If recording
 	replaying=false,	--If replaying
-	seed=math.random(999999999),--Game seed
+	seed=math.random(2e6),--Game seed
 	setting={},			--Game settings
 	rec={},				--Recording list, key,time,key,time...
 
