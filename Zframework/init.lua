@@ -206,7 +206,7 @@ function keyDown.calculator(k)
 			elseif S.val==123456789 then
 				S.reg=123456789
 				S.val=987654321
-			elseif S.val==152435 or S.val==81524 or S.val==815 or S.val==1524 or S.val==2435 then
+			elseif S.val==815 or S.val==1524 or S.val==2435 then
 				SCN.go("p15")
 			end
 		end
