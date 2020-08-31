@@ -2510,19 +2510,21 @@ function player.act.insRight(P,auto)
 	end
 end
 function player.act.insDown(P)
-	if P.curY>P.imgY and P.cur then
+	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
 			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 		end
 		if P.gameEnv.shakeFX then
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
 		end
-		P.curY,P.lockDelay,P.spinLast=P.imgY,P.gameEnv.lock,false
+		P.curY=P.imgY
+		P.lockDelay=P.gameEnv.lock
+		P.spinLast=false
 		P:freshBlock(true,true)
 	end
 end
 function player.act.down1(P)
-	if P.curY>P.imgY and P.cur then
+	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.moveFX and P.gameEnv.block then
 			P:createMoveFX("down")
 		end
@@ -2532,27 +2534,25 @@ function player.act.down1(P)
 	end
 end
 function player.act.down4(P)
-	for _=1,4 do
-		if P.curY>P.imgY and P.cur then
-			P.curY=P.curY-1
-			P:freshBlock(true,true)
-			P.spinLast=false
-		else
-			return
+	if P.cur and P.curY>P.imgY then
+		local y=max(P.cur-4,P.imgY)
+		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
+			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
 		end
+		P.curY=y
+		P:freshBlock(true,true)
+		P.spinLast=false
 	end
 end
 function player.act.down10(P)
-	if P.cur then
-		for _=1,10 do
-			if P.curY>P.imgY then
-				P.curY=P.curY-1
-				P:freshBlock(true,true)
-				P.spinLast=false
-			else
-				return
-			end
+	if P.cur and P.curY>P.imgY then
+		local y=max(P.cur-10,P.imgY)
+		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
+			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
 		end
+		P.curY=y
+		P:freshBlock(true,true)
+		P.spinLast=false
 	end
 end
 function player.act.dropLeft(P)
