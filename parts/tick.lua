@@ -57,7 +57,7 @@ function Tick.throwBadge(data)--{ifAI,Sender,timer}
 		end
 
 		--Generate badge object
-		FX_badge[#FX_badge+1]={x1,y1,x2,y2,t=0}
+		sysFX.newBadge(x1,y1,x2,y2)
 
 		if not data[1]and data[3]%8==0 then
 			SFX.play("collect")

@@ -1130,17 +1130,7 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 		radius=radius*.4
 		a=.35
 	end
-	ins(FX_attack,{
-		x=x1,y=y1,--Current pos
-		x1=x1,y1=y1,--Start pos
-		x2=x2,y2=y2,--End pos
-		rad=radius*(setting.atkFX+3)*.12,
-		corner=corner,
-		type=type==1 and"fill"or"line",
-		r=r,g=g,b=b,a=a*(setting.atkFX+5)*.1,
-		t=0,
-		drag={},--Afterimage coordinate list
-	})
+	sysFX.newAttack(x1,y1,x2,y2,radius*(setting.atkFX+3)*.12,corner,type==1 and"fill"or"line",r,g,b,a*(setting.atkFX+5)*.1)
 end
 function player.newTask(P,code,data)
 	local L=P.tasks

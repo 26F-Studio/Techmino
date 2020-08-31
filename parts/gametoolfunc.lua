@@ -321,8 +321,6 @@ function resetGameData()
 	BGM.play(modeEnv.bgm)
 
 	TEXT.clear()
-	FX_badge={}
-	FX_attack={}
 	if modeEnv.royaleMode then
 		for i=1,#players do
 			players[i]:changeAtk(randomTarget(players[i]))
