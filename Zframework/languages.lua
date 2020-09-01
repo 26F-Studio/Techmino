@@ -372,13 +372,14 @@ local langList={
 				back="返回",
 			},--LangName added later
 			minigame={
-				p15="15 Puzzle"
+				p15="15 Puzzle",
+				back="返回",
 			},
 			p15={
-				reset="重新开始",
+				reset="打乱",
 				color="颜色",
 				hide="盲",
-				back="退出",
+				back="返回",
 			},
 			help={
 				staff="制作人员",
@@ -852,13 +853,14 @@ local langList={
 				back="返回",
 			},--LangName added later
 			minigame={
-				p15="15 Puzzle"
+				p15="15 Puzzle",
+				back="返回",
 			},
 			p15={
-				reset="重新开始",
+				reset="打乱",
 				color="颜色",
 				hide="盲",
-				back="退出",
+				back="返回",
 			},
 			help={
 				staff="制作人员",
@@ -1322,10 +1324,11 @@ local langList={
 				back="Back",
 			},--LangName added later
 			minigame={
-				p15="15 Puzzle"
+				p15="15 Puzzle",
+				back="Back",
 			},
 			p15={
-				reset="Reset",
+				reset="Shuffle",
 				color="Color",
 				hide="Blind",
 				back="Back",
@@ -1790,12 +1793,13 @@ local langList={
 				back="X",
 			},--LangName added later
 			minigame={
-				p15="15 Puzzle"
+				p15="15 Puzzle",
+				back="X",
 			},
 			p15={
-				reset="Reset",
-				color="Color",
-				hide="Blind",
+				reset="!@#$%",
+				color="~~~",
+				hide="???",
 				back="X",
 			},
 			help={
@@ -2272,13 +2276,14 @@ local langList={
 				back="返回",
 			},--LangName added later
 			minigame={
-				p15="15 Puzzle"
+				p15="15 Puzzle",
+				back="返回",
 			},
 			p15={
-				reset="Reset",
+				reset="打乱",
 				color="彩",
 				hide="瞎",
-				back="退出",
+				back="返回",
 			},
 			help={
 				staff="制作人员",

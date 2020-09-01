@@ -143,6 +143,8 @@ do--calculator
 end
 do--p15
 	function sceneInit.p15()
+		BG.set("rainbow")
+		BGM.play("push")
 		sceneTemp={
 			board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}},
 			x=4,y=4,
@@ -151,7 +153,7 @@ do--p15
 			move=0,
 			state=2,
 
-			color=true,
+			color=2,
 			blind=false,
 		}
 	end
@@ -263,12 +265,16 @@ do--p15
 			S.state=0
 			S.time=0
 			S.move=0
-		elseif S.state==0 then
-			if k=="c"then
-				S.color=not S.color
-			elseif k=="h"then
+		elseif k=="c"then
+			if S.state==2 then
+				S.color=(S.color+1)%5
+			end
+		elseif k=="h"then
+			if S.state==0 then
 				S.blind=not S.blind
 			end
+		elseif k=="escape"then
+			SCN.back()
 		end
 	end
 	function mouseDown.p15(x,y,k)
@@ -291,24 +297,77 @@ do--p15
 		end
 	end
 
-	local cellColor={
-		color.lRed,color.lRed,color.lRed,color.lRed,
-		color.lBlue,color.lGreen,color.lGreen,color.lGreen,
-		color.lBlue,color.lYellow,color.lPurple,color.lPurple,
-		color.lBlue,color.lYellow,color.lPurple,color.lPurple,
+	local frontColor={
+		[0]={
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+		},--Black
+		{
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+		},--Grey
+		{
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lBlue,color.lBlue,color.lBlue,color.lBlue,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		},--Colorful(row)
+		{
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lGreen,color.lBlue,color.lBlue,color.lBlue,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		},--Colorful(rank)
+		{
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lOrange,color.lYellow,color.lYellow,color.lYellow,
+			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
+			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
+		},--Colorful(row)
 	}
 	local backColor={
-		color.dRed,color.dRed,color.dRed,color.dRed,
-		color.dBlue,color.dGreen,color.dGreen,color.dGreen,
-		color.dBlue,color.dYellow,color.dPurple,color.dPurple,
-		color.dBlue,color.dYellow,color.dPurple,color.dPurple,
+		[0]={
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+		},--Black
+		{
+			color.grey,color.grey,color.grey,color.grey,
+			color.grey,color.grey,color.grey,color.grey,
+			color.grey,color.grey,color.grey,color.grey,
+			color.grey,color.grey,color.grey,color.grey,
+		},--Grey
+		{
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dBlue,color.dBlue,color.dBlue,color.dBlue,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		},--Colorful(row)
+		{
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dGreen,color.dBlue,color.dBlue,color.dBlue,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		},--Colorful(rank)
+		{
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dOrange,color.dYellow,color.dYellow,color.dYellow,
+			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
+			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
+		},--Rainbow(rank)
 	}
 	function Pnt.p15()
 		local S=sceneTemp
 
 		setFont(40)
-		gc.print(format("%.3f",S.time),1000,50)
-		gc.print(S.move,1000,100)
+		gc.setColor(1,1,1)
+		gc.print(format("%.3f",S.time),1026,80)
+		gc.print(S.move,1026,150)
 
 		if S.state==1 then gc.setColor(.9,.9,.9)	--game
 		elseif S.state==0 then gc.setColor(.2,.8,.2)--ready
@@ -323,19 +382,18 @@ do--p15
 		for i=1,4 do
 			for j=1,4 do
 				if x~=j or y~=i then
+					local blind=S.blind and S.state==1
 					local N=S.board[i][j]
-					if S.color and not(S.blind and S.state==1)then
-						gc.setColor(backColor[N])
-						gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
-						gc.setColor(cellColor[N])
-						gc.rectangle("line",j*160+163,i*160-117,154,154,8)
-					else
-						gc.setColor(.3,.3,.3)
-						gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
-						gc.setColor(1,1,1)
-						gc.rectangle("line",j*160+163,i*160-117,154,154,8)
-					end
-					if not(S.blind and S.state==1)then
+
+					local C=blind and 0 or S.color
+					local backColor=backColor[C]
+					local frontColor=frontColor[C]
+
+					gc.setColor(backColor[N])
+					gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
+					gc.setColor(frontColor[N])
+					gc.rectangle("line",j*160+163,i*160-117,154,154,8)
+					if not blind then
 						gc.setColor(.1,.1,.1)
 						mStr(N,j*160+240,i*160-96)
 						mStr(N,j*160+242,i*160-98)
@@ -345,7 +403,7 @@ do--p15
 				end
 			end
 		end
-		gc.setColor(.3,.3,.3)
+		gc.setColor(0,0,0,.3)
 		gc.setLineWidth(10)
 		gc.rectangle("line",x*160+173,y*160-107,134,134,50)
 	end

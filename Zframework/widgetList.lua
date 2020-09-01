@@ -468,7 +468,7 @@ local Widgets={
 	},
 	p15={
 		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
-		newSwitch({name="color",	x=200,y=240,w=60,						font=40,disp=function()return sceneTemp.color end,code=pressKey("c"),hide=function()return sceneTemp.state>0 end}),
+		newSlider({name="color",	x=110,y=240,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)sceneTemp.color=v end,hide=function()return sceneTemp.state<2 end}),
 		newSwitch({name="hide",		x=200,y=340,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("h"),hide=function()return sceneTemp.state>0 end}),
 		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
