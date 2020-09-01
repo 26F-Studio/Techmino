@@ -29,7 +29,7 @@ jobs:
         cmd /c copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
         del love-11.3-win64\love.exe
         del love-11.3-win64\lovec.exe
-        rmdir /S/Q lib\windows\x86
+        cmd /c rmdir /S/Q lib\windows\x86
     - name: Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
