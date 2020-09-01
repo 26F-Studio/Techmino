@@ -31,9 +31,9 @@ return{
 		return
 		T<=70 and 5 or
 		T<=90 and 4 or
-		T<=136 and 3 or
-		T<=196 and 2 or
-		T<=240 and 1 or
+		T<=110 and 3 or
+		T<=130 and 2 or
+		T<=160 and 1 or
 		0
 	end,
 }
