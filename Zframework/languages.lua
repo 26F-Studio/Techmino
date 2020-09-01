@@ -198,12 +198,6 @@ local langList={
 				["/"]="/",
 				play="开始",
 			},
-			p15={
-				reset="重新开始",
-				color="颜色",
-				hide="盲",
-				back="退出",
-			},
 			main={
 				play="开始",
 				setting="设置",
@@ -377,6 +371,15 @@ local langList={
 			setting_lang={
 				back="返回",
 			},--LangName added later
+			minigame={
+				p15="15 Puzzle"
+			},
+			p15={
+				reset="重新开始",
+				color="颜色",
+				hide="盲",
+				back="退出",
+			},
 			help={
 				staff="制作人员",
 				his="更新历史",
@@ -675,12 +678,6 @@ local langList={
 				["/"]="/",
 				play="开始",
 			},
-			p15={
-				reset="重新开始",
-				color="颜色",
-				hide="盲",
-				back="退出",
-			},
 			main={
 				play="开始",
 				setting="设置",
@@ -854,6 +851,15 @@ local langList={
 			setting_lang={
 				back="返回",
 			},--LangName added later
+			minigame={
+				p15="15 Puzzle"
+			},
+			p15={
+				reset="重新开始",
+				color="颜色",
+				hide="盲",
+				back="退出",
+			},
 			help={
 				staff="制作人员",
 				his="更新历史",
@@ -1142,12 +1148,6 @@ local langList={
 				["/"]="/",
 				play="Play",
 			},
-			p15={
-				reset="Reset",
-				color="Color",
-				hide="Blind",
-				back="Back",
-			},
 			main={
 				play="Play",
 				setting="Settings",
@@ -1321,6 +1321,15 @@ local langList={
 			setting_lang={
 				back="Back",
 			},--LangName added later
+			minigame={
+				p15="15 Puzzle"
+			},
+			p15={
+				reset="Reset",
+				color="Color",
+				hide="Blind",
+				back="Back",
+			},
 			help={
 				staff="Staff",
 				his="History",
@@ -1607,12 +1616,6 @@ local langList={
 				["/"]="/",
 				play="!!!",
 			},
-			p15={
-				reset="Reset",
-				color="Color",
-				hide="Blind",
-				back="X",
-			},
 			main={
 				play="!!!",
 				setting="_?_",
@@ -1786,6 +1789,15 @@ local langList={
 			setting_lang={
 				back="X",
 			},--LangName added later
+			minigame={
+				p15="15 Puzzle"
+			},
+			p15={
+				reset="Reset",
+				color="Color",
+				hide="Blind",
+				back="X",
+			},
 			help={
 				staff="Orz",
 				his="_&_",
@@ -2086,12 +2098,6 @@ local langList={
 				["/"]="/",
 				play="开始",
 			},
-			p15={
-				reset="Reset",
-				color="彩",
-				hide="瞎",
-				back="退出",
-			},
 			main={
 				play="开始",
 				setting="设置",
@@ -2265,6 +2271,15 @@ local langList={
 			setting_lang={
 				back="返回",
 			},--LangName added later
+			minigame={
+				p15="15 Puzzle"
+			},
+			p15={
+				reset="Reset",
+				color="彩",
+				hide="瞎",
+				back="退出",
+			},
 			help={
 				staff="制作人员",
 				his="更新历史",

@@ -76,17 +76,18 @@ local virtualkeySet={
 }
 
 --Lambda Funcs for widgets,delete at file end
-local function SETval(k)	return function()return setting[k]					end end
-local function SETsto(k)	return function(i)setting[k]=i						end end
-local function SETrev(k)	return function()setting[k]=not setting[k]			end end
-local function pressKey(k)	return function()love.keypressed(k)					end end
-local function setPen(i)	return function()sceneTemp.pen=i					end end
-local function prevSkin(n)	return function()SKIN.prev(n)						end end
-local function nextSkin(n)	return function()SKIN.next(n)						end end
-local function nextDir(n)	return function()SKIN.rotate(n)						end end
-local function VKAdisp(n)	return function()return VK_org[n].ava				end end
-local function VKAcode(n)	return function()VK_org[n].ava=not VK_org[n].ava	end end
-local function setLang(n)	return function()LANG.set(n)setting.lang=n			end end
+function SETval(k)	return function()return setting[k]					end end
+function SETsto(k)	return function(i)setting[k]=i						end end
+function SETrev(k)	return function()setting[k]=not setting[k]			end end
+function pressKey(k)return function()love.keypressed(k)					end end
+function setPen(i)	return function()sceneTemp.pen=i					end end
+function prevSkin(n)return function()SKIN.prev(n)						end end
+function nextSkin(n)return function()SKIN.next(n)						end end
+function nextDir(n)	return function()SKIN.rotate(n)						end end
+function VKAdisp(n)	return function()return VK_org[n].ava				end end
+function VKAcode(n)	return function()VK_org[n].ava=not VK_org[n].ava	end end
+function setLang(n)	return function()LANG.set(n)setting.lang=n			end end
+function goScene(s)	return function()SCN.go(s)							end end
 
 --NewXXX
 newText=WIDGET.newText
@@ -118,20 +119,15 @@ local Widgets={
 		newKey({name="/",			x=450,y=600,w=90,		color="lBlue",	font=50,code=pressKey("/")}),
 		newButton({name="play",		x=640,y=600,w=180,h=90,	color="lGreen",	font=40,code=pressKey("space"),hide=function()return not sceneTemp.pass end}),
 	},
-	p15={
-		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
-		newSwitch({name="color",	x=200,y=240,w=60,						font=40,disp=function()return sceneTemp.color end,code=pressKey("c"),hide=function()return sceneTemp.state>0 end}),
-		newSwitch({name="hide",		x=200,y=340,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("h"),hide=function()return sceneTemp.state>0 end}),
-		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
-	},
 	main={
-		newButton({name="play",		x=150,y=280,w=200,h=160,color="lRed",	font=55,code=function()SCN.go("mode")end}),
-		newButton({name="setting",	x=370,y=280,w=200,h=160,color="lBlue",	font=45,code=function()SCN.go("setting_game")end}),
-		newButton({name="music",	x=590,y=280,w=200,h=160,color="lPurple",font=32,code=function()SCN.go("music")end}),
-		newButton({name="help",		x=150,y=460,w=200,h=160,color="lYellow",font=50,code=function()SCN.go("help")end}),
-		newButton({name="stat",		x=370,y=460,w=200,h=160,color="lCyan",	font=43,code=function()SCN.go("stat")end}),
+		newButton({name="play",		x=150,y=280,w=200,h=160,color="lRed",	font=55,code=goScene("mode")}),
+		newButton({name="setting",	x=370,y=280,w=200,h=160,color="lBlue",	font=45,code=goScene("setting_game")}),
+		newButton({name="music",	x=590,y=280,w=200,h=160,color="lPurple",font=32,code=goScene("music")}),
+		newButton({name="help",		x=150,y=460,w=200,h=160,color="lYellow",font=50,code=goScene("help")}),
+		newButton({name="stat",		x=370,y=460,w=200,h=160,color="lCyan",	font=43,code=goScene("stat")}),
 		newButton({name="qplay",	x=590,y=460,w=200,h=160,color="lOrange",font=43,code=function()SCN.push()loadGame(stat.lastPlay,true)end}),
-		newButton({name="lang",		x=150,y=610,w=160,h=100,color="lGreen",	font=45,code=function()SCN.go("setting_lang")end}),
+		newButton({name="lang",		x=150,y=610,w=160,h=100,color="lGreen",	font=45,code=goScene("setting_lang")}),
+		newButton({name="minigame",	x=370,y=610,w=80,		color="black",			code=goScene("minigame")}),
 		newButton({name="quit",		x=590,y=610,w=160,h=100,color="lGrey",	font=45,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end}),
 	},
 	mode={
@@ -245,9 +241,9 @@ local Widgets={
 	setting_game={
 		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
 		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
-		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=function()SCN.go("setting_control")end}),
-		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=function()SCN.go("setting_key")end}),
-		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=function()SCN.go("setting_touch")end}),
+		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=goScene("setting_control")}),
+		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=goScene("setting_key")}),
+		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=goScene("setting_touch")}),
 		newSlider({name="reTime",	x=350,	y=340,	w=300,unit=10,				font=30,disp=SETval("reTime"),	code=SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end}),
 		newSlider({name="maxNext",	x=350,	y=440,	w=300,unit=6,				font=30,disp=SETval("maxNext"),	code=SETsto("maxNext")}),
 		newButton({name="layout",	x=460,	y=540,	w=140,h=70,color="white",	font=35,code=function()
@@ -464,11 +460,21 @@ local Widgets={
 		newButton({name="eng",		x=600,	y=100,w=200,h=120,color="white",font=45,code=setLang(3)}),
 		newButton({name="str",		x=820,	y=100,w=200,h=120,color="white",font=45,code=setLang(4)}),
 		newButton({name="yygq",		x=1040,	y=100,w=200,h=120,color="white",font=45,code=setLang(5)}),
-		newButton({name="back",		x=640,	y=600,w=200,h=80,color="white",font=35,code=BACK}),
+		newButton({name="back",		x=640,	y=600,w=200,h=80,color="white",	font=35,code=BACK}),
+	},
+	minigame={
+		newButton({name="p15",		x=640,	y=100,w=350,h=120,color="white",font=40,code=goScene("p15")}),
+		newButton({name="back",		x=1140,	y=640,w=180,h=80,color="white",	font=35,code=BACK}),
+	},
+	p15={
+		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
+		newSwitch({name="color",	x=200,y=240,w=60,						font=40,disp=function()return sceneTemp.color end,code=pressKey("c"),hide=function()return sceneTemp.state>0 end}),
+		newSwitch({name="hide",		x=200,y=340,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("h"),hide=function()return sceneTemp.state>0 end}),
+		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	help={
-		newButton({name="staff",	x=980,	y=500,w=150,h=80,color="white",font=32,code=function()SCN.go("staff")end}),
-		newButton({name="his",		x=1160,	y=500,w=150,h=80,color="white",font=32,code=function()SCN.go("history")end}),
+		newButton({name="staff",	x=980,	y=500,w=150,h=80,color="white",font=32,code=goScene("staff")}),
+		newButton({name="his",		x=1160,	y=500,w=150,h=80,color="white",font=32,code=goScene("history")}),
 		newButton({name="qq",		x=1070,	y=600,w=200,h=80,color="white",font=32,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=mobileHide}),
 		newButton({name="back",		x=640,	y=600,w=200,h=80,color="white",font=35,code=BACK}),
 	},
@@ -539,5 +545,6 @@ local Widgets={
 mobileHide,SETval,SETsto,SETrev=nil
 pressKey,setPen,prevSkin,nextSkin=nil
 nextDir,VKAdisp,VKAcode,setLang=nil
+goScene=nil
 newText,newImage,newButton,newSwitch,newSlider=nil
 return Widgets
