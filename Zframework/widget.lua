@@ -138,13 +138,13 @@ function switch:getCenter()
 	return self.x,self.y
 end
 function switch:update()
-	local _=self.ATV
-	if WIDGET.sel==self then if _<8 then self.ATV=_+1 end
-	else if _>0 then self.ATV=_-.5 end
+	local atv=self.ATV
+	if WIDGET.sel==self then if atv<8 then self.ATV=atv+1 end
+	else if atv>0 then self.ATV=atv-.5 end
 	end
-	_=self.CHK
-	if self:disp()then if _<6 then self.CHK=_+1 end
-	else if _>0 then self.CHK=_-1 end
+	chk=self.CHK
+	if self:disp()then if chk<6 then self.CHK=chk+1 end
+	else if chk>0 then self.CHK=chk-1 end
 	end
 end
 function switch:draw()
@@ -182,9 +182,11 @@ end
 local slider={
 	type="slider",
 	ATV=0,--Activating time(0~8)
+	TAT=0,--Text activating time(0~180)
 	pos=0,--Position shown
 }
 local sliderShowFunc={
+	none=NULL,
 	int=function(S)
 		return S.disp()
 	end,
@@ -210,11 +212,21 @@ function slider:getCenter()
 	return self.x+self.w*(self.pos/self.unit),self.y
 end
 function slider:update()
-	local _=self.ATV
+	local atv=self.ATV
+	if self.TAT>0 then
+		self.TAT=self.TAT-1
+	end
 	if WIDGET.sel==self then
-		if _<6 then self.ATV=_+1 end
+		if atv<6 then
+			atv=atv+1
+			self.ATV=atv
+		end
+		self.TAT=180
 	else
-		if _>0 then self.ATV=_-.5 end
+		if atv>0 then
+			atv=atv-.5
+			self.ATV=atv
+		end
 	end
 	if not(self.hide and self.hide())then
 		self.pos=self.pos*.7+self.disp()*.3
@@ -251,10 +263,11 @@ function slider:draw()
 		gc.setLineWidth(2)
 		gc.setColor(1,1,1,ATV*.16)
 		gc.rectangle("line",bx+1,by+1,bw-2,bh-2)
-		if self.show then
-			setFont(25)
-			mStr(self:show(),cx,by-30)
-		end
+	end
+	if self.TAT>0 and self.show then
+		setFont(25)
+		gc.setColor(1,1,1,self.TAT/180)
+		mStr(self:show(),cx,by-30)
 	end
 
 	--Text
@@ -416,10 +429,12 @@ function WIDGET.newSlider(D)
 		else
 			_.show=sliderShowFunc[D.show]
 		end
-	elseif _.unit<=1 then
-		_.show=sliderShowFunc.percent
-	else
-		_.show=sliderShowFunc.int
+	elseif D.show~=false then
+		if _.unit<=1 then
+			_.show=sliderShowFunc.percent
+		else
+			_.show=sliderShowFunc.int
+		end
 	end
 	for k,v in next,slider do _[k]=v end return _
 end
