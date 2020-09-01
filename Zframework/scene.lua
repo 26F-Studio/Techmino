@@ -49,7 +49,7 @@ function SCN.pop()
 end
 
 local swap={
-	none={1,0,NULL},--swap time, change time, draw function
+	none={1,0,NULL},--swapTime, changeTime, drawFunction
 	flash={8,1,function()gc.clear(1,1,1)end},
 	fade={30,15,function(t)
 		local t=t>15 and 2-t/15 or t/15
@@ -70,25 +70,21 @@ local swap={
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(3-2*t)*2-1
-		local w=scr.W
-		gc.rectangle("fill",t*w,0,w,scr.H)
+		gc.rectangle("fill",t*scr.W,0,scr.W,scr.H)
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 	local S=SCN.stat
 	if not SCN.swapping and tar~=SCN.cur then
-		SCN.swapping=true
 		if not style then style="fade"end
-		S.tar=tar
-		S.style=style
-		local swap=swap[style]
-		S.time=swap[1]
-		S.mid=swap[2]
-		S.draw=swap[3]
+		SCN.swapping=true
+		S.tar,S.style=tar,style
+		S.time,S.mid,S.draw=unpack(swap[style])
 	end
 end
 function SCN.go(tar,style)--Normal scene swapping, can back
-	SCN.push()SCN.swapTo(tar,style)
+	SCN.push()
+	SCN.swapTo(tar,style)
 end
 function SCN.back()
 	--Leave scene
