@@ -121,6 +121,7 @@ function love.mousereleased(x,y,k,touch,num)
 	if touch or SCN.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	WIDGET.release(mx,my)
+	WIDGET.moveCursor(mx,my)
 	if mouseUp[SCN.cur]then
 		mouseUp[SCN.cur](mx,my,k)
 	end
