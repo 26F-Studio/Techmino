@@ -1,5 +1,6 @@
-local gc=love.graphics
-local kb=love.keyboard
+local gc,sys=love.graphics,love.system
+local ms,kb,tc=love.mouse,love.keyboard,love.touch
+local Timer=love.timer.getTime
 
 local setFont=setFont
 local mStr=mStr
@@ -7,15 +8,32 @@ local mStr=mStr
 local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local log,rnd=math.log,math.random
-
 local format=string.format
-local Timer=love.timer.getTime
 local ins,rem=table.insert,table.remove
+local byte=string.byte
 
 local scr=scr
 
-Tmr,Pnt={},{}
+local floatWheel=0
+local function wheelScroll(y)
+	if y>0 then
+		if floatWheel<0 then floatWheel=0 end
+		floatWheel=floatWheel+y^1.2
+	elseif y<0 then
+		if floatWheel>0 then floatWheel=0 end
+		floatWheel=floatWheel-(-y)^1.2
+	end
+	while floatWheel>=1 do
+		love.keypressed("up")
+		floatWheel=floatWheel-1
+	end
+	while floatWheel<=-1 do
+		love.keypressed("down")
+		floatWheel=floatWheel+1
+	end
+end
 
+--ALL SCENES & FUNCTIONS
 do--calculator
 	function sceneInit.calculator()
 		sceneTemp={
@@ -26,6 +44,91 @@ do--calculator
 			tip=require("parts/getTip"),
 		}
 	end
+
+	function keyDown.calculator(k)
+		local S=sceneTemp
+		if byte(k)>=48 and byte(k)<=57 then
+			if S.sym=="="then
+				S.val=tonumber(k)
+				S.sym=false
+			elseif S.sym then
+				if not S.reg then
+					S.reg=S.val
+					S.val=tonumber(k)
+				elseif S.val<1e13 then
+					S.val=S.val*10+tonumber(k)
+				end
+			else
+				if S.val<1e13 then
+					S.val=S.val*10+tonumber(k)
+				end
+			end
+		elseif k=="backspace"then
+			if S.val>0 then
+				S.val=int(S.val/10)
+			end
+		elseif k=="+"or k=="="and kb.isDown("rshift","lshift")then
+			S.sym="+"
+		elseif k=="-"then
+			S.sym="-"
+		elseif k=="*"or k=="8"and kb.isDown("rshift","lshift")then
+			S.sym="*"
+		elseif k=="/"then
+			S.sym="/"
+		elseif k=="return"then
+			if S.val then
+				if S.sym and S.reg then
+					S.val=
+						S.sym=="+"and S.reg+S.val or
+						S.sym=="-"and S.reg-S.val or
+						S.sym=="*"and S.reg*S.val or
+						S.sym=="/"and S.reg/S.val or
+						-1
+				end
+				S.sym="="
+				S.reg=false
+				if S.val==600+20+6 then
+					S.pass=true
+				elseif S.val==196000+022 then
+					S.pass=true
+					marking=nil
+					TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
+					SFX.play("clear")
+				elseif S.val==72943816 then
+					S.pass=true
+					for name,M in next,Modes do
+						if not modeRanks[name]then
+							modeRanks[name]=M.score and 0 or 6
+						end
+					end
+					FILE.saveUnlock()
+					TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
+					SFX.play("clear_2")
+				elseif S.val==1379e8+2626e4+1379 then
+					S.pass=true
+					SCN.go("debug")
+				elseif S.val==34494 then
+					error("This is an error testing message.")
+				elseif S.val==114 then
+					S.reg=514
+				elseif S.val==114514 then
+					S.reg=1919810
+				elseif S.val==1145141919810 then
+					error("小鬼自裁请")
+				elseif S.val==123456789 then
+					S.reg=123456789
+					S.val=987654321
+				end
+			end
+		elseif k=="escape"then
+			S.val,S.reg,S.sym=0
+		elseif k=="delete"then
+			S.val=0
+		elseif k=="space"and S.pass then
+			SCN.swapTo("intro")
+		end
+	end
+
 	function Pnt.calculator()
 		local S=sceneTemp
 		gc.setLineWidth(4)
@@ -35,10 +138,9 @@ do--calculator
 		if S.val then gc.printf(S.val,0,150,720,"right")end
 
 		if S.sym then setFont(50)gc.print(S.sym,126,150)end
-		if S.pass then setFont(40)mStr(S.tip,640,10)end
+		if S.pass then setFont(30)mStr(S.tip,640,10)end
 	end
 end
-
 do--p15
 	function sceneInit.p15()
 		sceneTemp={
@@ -52,6 +154,134 @@ do--p15
 			color=true,
 			blind=false,
 		}
+	end
+
+	local function moveU(S,b,x,y)
+		if y<4 then
+			b[y][x],b[y+1][x]=b[y+1][x],b[y][x]
+			S.y=y+1
+		end
+	end
+	local function moveD(S,b,x,y)
+		if y>1 then
+			b[y][x],b[y-1][x]=b[y-1][x],b[y][x]
+			S.y=y-1
+		end
+	end
+	local function moveL(S,b,x,y)
+		if x<4 then
+			b[y][x],b[y][x+1]=b[y][x+1],b[y][x]
+			S.x=x+1
+		end
+	end
+	local function moveR(S,b,x,y)
+		if x>1 then
+			b[y][x],b[y][x-1]=b[y][x-1],b[y][x]
+			S.x=x-1
+		end
+	end
+	local function shuffleBoard(S,b)
+		for i=1,300 do
+			i=rnd()
+			if i<.25 then moveU(S,b,S.x,S.y)
+			elseif i<.5 then moveD(S,b,S.x,S.y)
+			elseif i<.75 then moveL(S,b,S.x,S.y)
+			else moveR(S,b,S.x,S.y)
+			end
+		end
+	end
+	local function checkBoard(b)
+		for i=4,1,-1 do
+			for j=1,4 do
+				if b[i][j]~=4*i+j-4 then return false end
+			end
+		end
+		return true
+	end
+	local function tapBoard(x,y,key)
+		local S=sceneTemp
+		if S.state<2 then
+			if not key then
+				sysFX.newRipple(.16,x,y,10)
+				x,y=int((x-320)/160)+1,int((y-40)/160)+1
+			end
+			local b=S.board
+			local moves=0
+			if S.x==x then
+				if y>S.y and y<5 then
+					for i=S.y,y-1 do
+						moveU(S,b,x,i)
+						moves=moves+1
+					end
+				elseif y<S.y and y>0 then
+					for i=S.y,y+1,-1 do
+						moveD(S,b,x,i)
+						moves=moves+1
+					end
+				end
+			elseif S.y==y then
+				if x>S.x and x<5 then
+					for i=S.x,x-1 do
+						moveL(S,b,i,y)
+						moves=moves+1
+					end
+				elseif x<S.x and x>0 then
+					for i=S.x,x+1,-1 do
+						moveR(S,b,i,y)
+						moves=moves+1
+					end
+				end
+			end
+			if moves>0 then
+				SFX.play("move")
+				S.move=S.move+moves
+				if S.state==0 then
+					S.state=1
+					S.startTime=Timer()
+				end
+				if checkBoard(b)then
+					S.state=2
+					S.time=Timer()-S.startTime
+					SFX.play("win")
+				end
+			end
+		end
+	end
+	function keyDown.p15(k)
+		local S=sceneTemp
+		local b=S.board
+		if k=="up"then
+			tapBoard(S.x,S.y+1,true)
+		elseif k=="down"then
+			tapBoard(S.x,S.y-1,true)
+		elseif k=="left"then
+			tapBoard(S.x+1,S.y,true)
+		elseif k=="right"then
+			tapBoard(S.x-1,S.y,true)
+		elseif k=="space"then
+			shuffleBoard(S,b)
+			S.state=0
+			S.time=0
+			S.move=0
+		elseif S.state==0 then
+			if k=="c"then
+				S.color=not S.color
+			elseif k=="h"then
+				S.blind=not S.blind
+			end
+		end
+	end
+	function mouseDown.p15(x,y,k)
+		tapBoard(x,y)
+	end
+	function mouseMove.p15(x,y)
+		tapBoard(x,y)
+	end
+	function touchDown.p15(id,x,y)
+		tapBoard(x,y)
+	end
+	function touchMove.p15(id,x,y,dx,dy)
+		tapBoard(x,y)
 	end
 
 	function Tmr.p15()
@@ -120,7 +350,6 @@ do--p15
 		gc.rectangle("line",x*160+173,y*160-107,134,134,50)
 	end
 end
-
 do--load
 	function sceneInit.load()
 		sceneTemp={
@@ -141,6 +370,22 @@ do--load
 	end
 	function sceneBack.load()
 		love.event.quit()
+	end
+
+	function keyDown.load(k)
+		if k=="a"then
+			sceneTemp.skip=true
+		elseif k=="s"then
+			marking=nil
+			sceneTemp.skip=true
+		elseif k=="escape"then
+			SCN.back()
+		end
+	end
+	function touchDown.load(id,x,y)
+		if #tc.getTouches()==2 then
+			sceneTemp.skip=true
+		end
 	end
 
 	function Tmr.load()
@@ -221,7 +466,6 @@ do--load
 		end
 	end
 end
-
 do--intro
 	function sceneInit.intro()
 		BG.set("space")
@@ -234,6 +478,29 @@ do--intro
 			sceneTemp.r[i]=rnd(5)
 		end
 		BGM.play("blank")
+	end
+
+	function mouseDown.intro(x,y,k)
+		if k==2 then
+			VOC.play("bye")
+			SCN.back()
+		elseif newVersionLaunch then
+			SCN.push("main","fade")
+			SCN.swapTo("history","fade")
+			TEXT.show(text.newVersion,640,200,30,"fly",.3)
+		else
+			SCN.go("main")
+		end
+	end
+	function touchDown.intro(id,x,y)
+		mouseDown.intro()
+	end
+	function keyDown.intro(key)
+		if key=="escape"then
+			mouseDown.intro(nil,nil,2)
+		else
+			mouseDown.intro()
+		end
 	end
 
 	function Tmr.intro()
@@ -295,7 +562,6 @@ do--intro
 		end
 	end
 end
-
 do--main
 	function sceneInit.main()
 		BG.set("space")
@@ -324,46 +590,8 @@ do--main
 		players[1]:draw()
 	end
 end
-
-do--music
-	function sceneInit.music()
-		if BGM.nowPlay then
-			for i=1,BGM.len do
-				if BGM.list[i]==BGM.nowPlay then
-					sceneTemp=i--Music selected
-					return
-				end
-			end
-		else
-			sceneTemp=1
-		end
-	end
-
-	function Pnt.music()
-		gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
-		gc.rectangle("fill",45,98+30*sceneTemp,250,30)
-		gc.setColor(.7,.7,.7)gc.draw(drawableText.musicRoom,20,20)
-		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
-		gc.draw(drawableText.nowPlaying,490,390)
-		setFont(30)
-		for i=1,BGM.len do
-			gc.print(BGM.list[i],50,90+30*i)
-		end
-		gc.draw(IMG.title,640,310,nil,1.5,nil,206,35)
-		if BGM.nowPlay then
-			setFont(45)
-			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-			mStr(BGM.nowPlay,630,460)
-			local t=-Timer()%2.3/2
-			if t<1 then
-				gc.setColor(1,1,1,t)
-				gc.draw(IMG.title_color,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
-			end
-		end
-	end
-end
-
 do--mode
+	local touchDist=nil
 	function sceneInit.mode(org)
 		BG.set("space")
 		BGM.play("blank")
@@ -374,6 +602,123 @@ do--mode
 			local M=Modes[cam.sel]
 			cam.x,cam.y=M.x*cam.k+180,M.y*cam.k
 			cam.x1,cam.y1=cam.x,cam.y
+		end
+	end
+
+	local function onMode(x,y)
+		local cam=mapCam
+		x=(cam.x1-640+x)/cam.k1
+		y=(cam.y1-360+y)/cam.k1
+		for name,M in next,Modes do
+			if modeRanks[name]then
+				local s=M.size
+				if M.shape==1 then
+					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
+				elseif M.shape==2 then
+					if abs(x-M.x)+abs(y-M.y)<s then return name end
+				elseif M.shape==3 then
+					if(x-M.x)^2+(y-M.y)^2<s^2 then return name end
+				end
+			end
+		end
+	end
+	function wheelMoved.mode(x,y)
+		local cam=mapCam
+		local t=cam.k
+		local k=t+y*.1
+		if k>1.5 then k=1.5
+		elseif k<.3 then k=.3
+		end
+		t=k/t
+		if cam.sel then
+			cam.x=(cam.x-180)*t+180;cam.y=cam.y*t
+		else
+			cam.x=cam.x*t;cam.y=cam.y*t
+		end
+		cam.k=k
+		cam.keyCtrl=false
+	end
+	function mouseMove.mode(x,y,dx,dy)
+		if ms.isDown(1)then
+			mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
+		end
+		mapCam.keyCtrl=false
+	end
+	function mouseClick.mode(x,y,k)
+		local cam=mapCam
+		local _=cam.sel
+		if not _ or x<920 then
+			local SEL=onMode(x,y)
+			if _~=SEL then
+				if SEL then
+					SFX.play("click")
+					cam.moving=true
+					_=Modes[SEL]
+					cam.x=_.x*cam.k+180
+					cam.y=_.y*cam.k
+					cam.sel=SEL
+				else
+					cam.sel=nil
+					cam.x=cam.x-180
+				end
+			elseif _ then
+				keyDown.mode("return")
+			end
+		end
+		cam.keyCtrl=false
+	end
+	function touchDown.mode(id,x,y)
+		touchDist=nil
+	end
+	function touchMove.mode(id,x,y,dx,dy)
+		local L=tc.getTouches()
+		if not L[2]then
+			mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
+		elseif not L[3]then
+			x,y=xOy:inverseTransformPoint(tc.getPosition(L[1]))
+			dx,dy=xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
+			local d=(x-dx)^2+(y-dy)^2
+			if d>100 then
+				d=d^.5
+				if touchDist then
+					wheelMoved.mode(nil,(d-touchDist)*.02)
+				end
+				touchDist=d
+			end
+		end
+		mapCam.keyCtrl=false
+	end
+	function touchClick.mode(x,y,id)
+		mouseClick.mode(x,y,1)
+	end
+	function keyDown.mode(key)
+		if key=="return"then
+			if mapCam.sel then
+				if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
+					if customSel[11]>1 then
+						if customSel[7]==5 then
+							TEXT.show(text.ai_fixed,640,360,50,"appear")
+							return
+						elseif #preBag>0 then
+							TEXT.show(text.ai_prebag,640,360,50,"appear")
+							return
+						end
+					end
+				end
+				mapCam.keyCtrl=false
+				SCN.push()
+				loadGame(mapCam.sel)
+			end
+		elseif key=="escape"then
+			if mapCam.sel then
+				mapCam.sel=nil
+			else
+				SCN.back()
+			end
+		elseif mapCam.sel=="custom_clear" or mapCam.sel=="custom_puzzle" then
+			if key=="e"then
+				SCN.go("custom")
+			end
 		end
 	end
 
@@ -587,13 +932,114 @@ do--mode
 		end
 	end
 end
+do--music
+	function sceneInit.music()
+		if BGM.nowPlay then
+			for i=1,BGM.len do
+				if BGM.list[i]==BGM.nowPlay then
+					sceneTemp=i--Music selected
+					return
+				end
+			end
+		else
+			sceneTemp=1
+		end
+	end
 
+	function wheelMoved.music(x,y)
+		wheelScroll(y)
+	end
+	function keyDown.music(key)
+		if key=="down"then
+			sceneTemp=sceneTemp%BGM.len+1
+		elseif key=="up"then
+			sceneTemp=(sceneTemp-2)%BGM.len+1
+		elseif key=="return"or key=="space"then
+			if BGM.nowPlay~=BGM.list[sceneTemp]then
+				SFX.play("click")
+				BGM.play(BGM.list[sceneTemp])
+			else
+				BGM.stop()
+			end
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+
+	function Pnt.music()
+		gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
+		gc.rectangle("fill",45,98+30*sceneTemp,250,30)
+		gc.setColor(.7,.7,.7)gc.draw(drawableText.musicRoom,20,20)
+		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
+		gc.draw(drawableText.nowPlaying,490,390)
+		setFont(30)
+		for i=1,BGM.len do
+			gc.print(BGM.list[i],50,90+30*i)
+		end
+		gc.draw(IMG.title,640,310,nil,1.5,nil,206,35)
+		if BGM.nowPlay then
+			setFont(45)
+			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
+			mStr(BGM.nowPlay,630,460)
+			local t=-Timer()%2.3/2
+			if t<1 then
+				gc.setColor(1,1,1,t)
+				gc.draw(IMG.title_color,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+			end
+		end
+	end
+end
 do--custom
 	function sceneInit.custom()
 		sceneTemp=1--Option selected
 		destroyPlayers()
 		BG.set(customRange.bg[customSel[12]])
 		BGM.play(customRange.bgm[customSel[13]])
+	end
+
+	local customSet={
+		{3,20,1,1,7,1,1,1,3,4,1,2,3},
+		{5,20,1,1,7,1,1,1,8,3,8,3,3},
+		{1,22,1,1,7,3,1,1,8,4,1,6,7},
+		{3,20,1,1,7,1,1,3,8,3,1,6,8},
+		{25,11,8,11,4,1,2,1,8,3,1,4,9},
+	}
+	function keyDown.custom(key)
+		local sel=sceneTemp
+		if key=="up"or key=="w"then
+			sceneTemp=(sel-2)%#customID+1
+		elseif key=="down"or key=="s"then
+			sceneTemp=sel%#customID+1
+		elseif key=="left"or key=="a"then
+			customSel[sel]=(customSel[sel]-2)%#customRange[customID[sel]]+1
+			if sel==12 then
+				BG.set(customRange.bg[customSel[12]])
+			elseif sel==13 then
+				BGM.play(customRange.bgm[customSel[13]])
+			end
+		elseif key=="right"or key=="d"then
+			customSel[sel]=customSel[sel]%#customRange[customID[sel]]+1
+			if sel==12 then
+				BG.set(customRange.bg[customSel[sel]])
+			elseif sel==13 then
+				BGM.play(customRange.bgm[customSel[sel]])
+			end
+		elseif key=="q"then
+			SCN.go("sequence")
+		elseif key=="e"then
+			SCN.swapTo("draw","swipe")
+		elseif #key==1 then
+			local T=tonumber(key)
+			if T and T>=1 and T<=5 then
+				for i=1,#customSet[T]do
+					customSel[i]=customSet[T][i]
+				end
+				BG.set(customRange.bg[customSel[12]])
+				BGM.play(customRange.bgm[customSel[13]])
+			end
+		elseif key=="escape"then
+			SCN.back()
+		end
 	end
 
 	function Pnt.custom()
@@ -614,10 +1060,70 @@ do--custom
 		end
 	end
 end
-
 do--sequence
 	function sceneInit.sequence()
 		sceneTemp={cur=#preBag,sure=0}
+	end
+
+	local minoKey={
+		["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,
+		z=1,s=2,j=3,l=4,t=5,o=6,i=7,
+		p=10,q=11,f=12,e=13,u=15,
+		v=16,w=17,x=18,r=21,y=22,n=23,h=24,
+	}
+	local minoKey2={
+		["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
+		z=8,s=9,t=14,j=19,l=20,i=25
+	}
+	function keyDown.sequence(key)
+		local s=sceneTemp
+		if type(key)=="number"then
+			local C=s.cur+1
+			ins(preBag,C,key)
+			s.cur=C
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #preBag>0 then
+				sys.setClipboardText("Techmino SEQ:"..copySequence())
+				TEXT.show(text.copySuccess,640,225,50,"appear",.5)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=string.sub(str,p+1)end
+			if not pasteSequence(str)then
+				TEXT.show(text.dataCorrupted,640,225,45,"flicker",.5)
+			end
+		elseif #key==1 then
+			local i=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
+			if i then
+				local C=s.cur+1
+				ins(preBag,C,i)
+				s.cur=C
+			end
+		else
+			if key=="left"then
+				if s.cur>0 then s.cur=s.cur-1 end
+			elseif key=="right"then
+				if s.cur<#preBag then s.cur=s.cur+1 end
+			elseif key=="backspace"then
+				local C=s.cur
+				if C>0 then
+					rem(preBag,C)
+					s.cur=C-1
+				end
+			elseif key=="escape"then
+				SCN.back()
+			elseif key=="delete"then
+				if sceneTemp.sure>20 then
+					preBag={}
+					sceneTemp.cur=0
+					sceneTemp.sure=0
+					SFX.play("finesseError",.7)
+				else
+					sceneTemp.sure=50
+				end
+			end
+		end
 	end
 
 	function Tmr.sequence()
@@ -666,7 +1172,6 @@ do--sequence
 		end
 	end
 end
-
 do--draw
 	function sceneInit.draw()
 		BG.set("space")
@@ -676,6 +1181,91 @@ do--draw
 			x=1,y=1,
 			demo=false,
 		}
+	end
+
+	local penKey={
+		q=1,w=2,e=3,r=4,t=5,y=6,u=7,i=8,o=9,p=10,["["]=11,
+		a=12,s=13,d=14,f=15,g=16,h=17,
+		z=0,x=-1,
+	}
+	function mouseDown.draw(x,y,k)
+		mouseMove.draw(x,y)
+	end
+	function mouseMove.draw(x,y,dx,dy)
+		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+		if sx<1 or sx>10 then sx=nil end
+		if sy<1 or sy>20 then sy=nil end
+		sceneTemp.x,sceneTemp.y=sx,sy
+		if sx and sy and ms.isDown(1,2,3)then
+			preField[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
+		end
+	end
+	function wheelMoved.draw(x,y)
+		local pen=sceneTemp.pen
+		if y<0 then
+			pen=pen+1
+			if pen==8 then pen=9 elseif pen==14 then pen=0 end
+		else
+			pen=pen-1
+			if pen==8 then pen=7 elseif pen==-1 then pen=13 end
+		end
+		sceneTemp.pen=pen
+	end
+	function touchDown.draw(id,x,y)
+		mouseMove.draw(x,y)
+	end
+	function touchMove.draw(id,x,y,dx,dy)
+		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+		if sx<1 or sx>10 then sx=nil end
+		if sy<1 or sy>20 then sy=nil end
+		sceneTemp.x,sceneTemp.y=sx,sy
+		if sx and sy then
+			preField[sy][sx]=sceneTemp.pen
+		end
+	end
+	function keyDown.draw(key)
+		local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
+		if key=="up"or key=="down"or key=="left"or key=="right"then
+			if not sx then sx=1 end
+			if not sy then sy=1 end
+			if key=="up"and sy<20 then sy=sy+1
+			elseif key=="down"and sy>1 then sy=sy-1
+			elseif key=="left"and sx>1 then sx=sx-1
+			elseif key=="right"and sx<10 then sx=sx+1
+			end
+			if kb.isDown("space")then
+				preField[sy][sx]=pen
+			end
+		elseif key=="delete"then
+			if sceneTemp.sure>20 then
+				for y=1,20 do for x=1,10 do preField[y][x]=0 end end
+				sceneTemp.sure=0
+				SFX.play("finesseError",.7)
+			else
+				sceneTemp.sure=50
+			end
+		elseif key=="space"then
+			if sx and sy then
+				preField[sy][sx]=pen
+			end
+		elseif key=="e"then
+			SCN.swapTo("custom","swipe")
+		elseif key=="escape"then
+			SCN.back()
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			sys.setClipboardText("Techmino Field:"..copyBoard())
+			TEXT.show(text.copySuccess,350,360,40,"appear",.5)
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=string.sub(str,p+1)end
+			if not pasteBoard(str)then
+				TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
+			end
+		else
+			pen=penKey[key]or pen
+		end
+		sceneTemp.x,sceneTemp.y,sceneTemp.pen=sx,sy,pen
 	end
 
 	function Tmr.draw()
@@ -737,8 +1327,23 @@ do--draw
 		end
 	end
 end
-
 do--play
+	local function onVirtualkey(x,y)
+		local dist,nearest=1e10
+		for K=1,#virtualkey do
+			local b=virtualkey[K]
+			if b.ava then
+				local d1=(x-b.x)^2+(y-b.y)^2
+				if d1<b.r^2 then
+					if d1<dist then
+						nearest,dist=K,d1
+					end
+				end
+			end
+		end
+		return nearest
+	end
+
 	function sceneInit.play()
 		love.keyboard.setKeyRepeat(false)
 		restartCount=0
@@ -747,6 +1352,117 @@ do--play
 			needResetGameData=nil
 		end
 		BG.set(modeEnv.bg)
+	end
+
+	function touchDown.play(id,x,y)
+		if not setting.VKSwitch or game.replaying then return end
+
+		local t=onVirtualkey(x,y)
+		if t then
+			players[1]:pressKey(t)
+			if setting.VKSFX>0 then
+				SFX.play("virtualKey",setting.VKSFX)
+			end
+			virtualkey[t].isDown=true
+			virtualkey[t].pressTime=10
+			if setting.VKTrack then
+				local B=virtualkey[t]
+				if setting.VKDodge then--Button collision (not accurate)
+				for i=1,#virtualkey do
+						local b=virtualkey[i]
+						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
+						if d>0 then
+							b.x=b.x+(b.x-B.x)*d*b.r*5e-4
+							b.y=b.y+(b.y-B.y)*d*b.r*5e-4
+						end
+					end
+				end
+				local O=VK_org[t]
+				local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
+				local _OW=1-_FW-_CW
+
+				--Auto follow: finger, current, origin (weight from setting)
+				B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
+			end
+			VIB(setting.VKVIB)
+		end
+	end
+	function touchUp.play(id,x,y)
+		if not setting.VKSwitch or game.replaying then return end
+
+		local t=onVirtualkey(x,y)
+		if t then
+			players[1]:releaseKey(t)
+		end
+	end
+	function touchMove.play(id,x,y,dx,dy)
+		if not setting.VKSwitch or game.replaying then return end
+
+		local l=tc.getTouches()
+		for n=1,#virtualkey do
+			local B=virtualkey[n]
+			for i=1,#l do
+				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
+				if(x-B.x)^2+(y-B.y)^2<=B.r^2 then
+					goto next
+				end
+			end
+			players[1]:releaseKey(n)
+			::next::
+		end
+	end
+	function keyDown.play(key)
+		if key=="escape"then
+			pauseGame()
+			return
+		end
+		if game.replaying then return end
+		local m=keyMap
+		for k=1,20 do
+			if key==m[1][k]or key==m[2][k]then
+				players[1]:pressKey(k)
+				virtualkey[k].isDown=true
+				virtualkey[k].pressTime=10
+				return
+			end
+		end
+	end
+	function keyUp.play(key)
+		if game.replaying then return end
+		local m=keyMap
+		for k=1,20 do
+			if key==m[1][k]or key==m[2][k]then
+				players[1]:releaseKey(k)
+				virtualkey[k].isDown=false
+				return
+			end
+		end
+	end
+	function gamepadDown.play(key)
+		if key=="back"then SCN.back()return end
+		if game.replaying then return end
+
+		local m=keyMap
+		for k=1,20 do
+			if key==m[3][k]or key==m[4][k]then
+				players[1]:pressKey(k)
+				virtualkey[k].isDown=true
+				virtualkey[k].pressTime=10
+				return
+			end
+		end
+	end
+	function gamepadUp.play(key)
+		if game.replaying then return end
+
+		local m=keyMap
+		for k=1,20 do
+			if key==m[3][k]or key==m[4][k]then
+				players[1]:releaseKey(k)
+				virtualkey[k].isDown=false
+				return
+			end
+		end
 	end
 
 	function Tmr.play(dt)
@@ -960,7 +1676,6 @@ do--play
 		gc.pop()
 	end
 end
-
 do--pause
 	function sceneInit.pause(org)
 		if
@@ -1041,6 +1756,24 @@ do--pause
 		end
 		FILE.saveData()
 		TASK.clear("play")
+	end
+
+	function keyDown.pause(key)
+		if key=="q"then
+			SCN.back()
+		elseif key=="escape"then
+			resumeGame()
+		elseif key=="s"then
+			SCN.go("setting_sound")
+		elseif key=="r"then
+			TASK.clear("play")
+			resetGameData()
+			SCN.swapTo("play","none")
+		elseif key=="p"and(game.result or game.replaying)then
+			TASK.removeTask_code(TICK.autoPause)
+			resetPartGameData(true)
+			SCN.swapTo("play","none")
+		end
 	end
 
 	function Tmr.pause(dt)
@@ -1144,7 +1877,6 @@ do--pause
 		end
 	end
 end
-
 do--setting_game
 	function sceneInit.setting_game()
 		BG.set("space")
@@ -1159,7 +1891,6 @@ do--setting_game
 		gc.draw(blockSkin[int(Timer()*2)%11+1],590,540,Timer()%6.28319,2,nil,15,15)
 	end
 end
-
 do--setting_video
 	function sceneInit.setting_video()
 		BG.set("space")
@@ -1173,7 +1904,6 @@ do--setting_video
 		mText(drawableText.setting_video,640,15)
 	end
 end
-
 do--setting_sound
 	function sceneInit.setting_sound()
 		sceneTemp={
@@ -1184,6 +1914,21 @@ do--setting_sound
 	end
 	function sceneBack.setting_sound()
 		FILE.saveSetting()
+	end
+
+	function mouseDown.setting_sound(x,y,k)
+		local s=sceneTemp
+		if x>780 and x<980 and y>470 and s.jump==0 then
+			s.jump=10
+			local t=Timer()-s.last
+			if t>1 then
+				VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
+				s.last=Timer()
+			end
+		end
+	end
+	function touchDown.setting_sound(id,x,y)
+		mouseDown.setting_sound(x,y)
 	end
 
 	function Tmr.setting_sound()
@@ -1209,7 +1954,6 @@ do--setting_sound
 		gc.translate(-x,-y)
 	end
 end
-
 do--setting_control
 	function sceneInit.setting_control()
 		sceneTemp={
@@ -1291,7 +2035,6 @@ do--setting_control
 		gc.draw(_,x+40,580,nil,40/30)
 	end
 end
-
 do--setting_key
 	function sceneInit.setting_key()
 		sceneTemp={
@@ -1302,6 +2045,77 @@ do--setting_key
 	end
 	function sceneBack.setting_key()
 		FILE.saveKeyMap()
+	end
+
+	function keyDown.setting_key(key)
+		local s=sceneTemp
+		if key=="escape"then
+			if s.kS then
+				s.kS=false
+				SFX.play("finesseError",.5)
+			else
+				SCN.back()
+			end
+		elseif s.kS then
+			for y=1,20 do
+				if keyMap[1][y]==key then keyMap[1][y]=""break end
+				if keyMap[2][y]==key then keyMap[2][y]=""break end
+			end
+			keyMap[s.board][s.kb]=key
+			SFX.play("reach",.5)
+			s.kS=false
+		elseif key=="return"or key=="space"then
+			s.kS=true
+			SFX.play("lock",.5)
+		elseif key=="up"or key=="w"then
+			if s.kb>1 then
+				s.kb=s.kb-1
+				SFX.play("move",.5)
+			end
+		elseif key=="down"or key=="s"then
+			if s.kb<20 then
+				s.kb=s.kb+1
+				SFX.play("move",.5)
+			end
+		elseif key=="left"or key=="a"or key=="right"or key=="d"then
+			s.board=3-s.board
+			SFX.play("rotate",.5)
+		end
+	end
+	function gamepadDown.setting_key(key)
+		local s=sceneTemp
+		if key=="back"then
+			if s.jS then
+				s.jS=false
+				SFX.play("finesseError",.5)
+			else
+				SCN.back()
+			end
+		elseif s.jS then
+			for y=1,20 do
+				if keyMap[3][y]==key then keyMap[3][y]=""break end
+				if keyMap[4][y]==key then keyMap[4][y]=""break end
+			end
+			keyMap[2+s.board][s.js]=key
+			SFX.play("reach",.5)
+			s.jS=false
+		elseif key=="start"then
+			s.jS=true
+			SFX.play("lock",.5)
+		elseif key=="dpup"then
+			if s.js>1 then
+				s.js=s.js-1
+				SFX.play("move",.5)
+			end
+		elseif key=="dpdown"then
+			if s.js<20 then
+				s.js=s.js+1
+				SFX.play("move",.5)
+			end
+		elseif key=="dpleft"or key=="dpright"then
+			s.board=3-s.board
+			SFX.play("rotate",.5)
+		end
 	end
 
 	function Pnt.setting_key()
@@ -1354,7 +2168,6 @@ do--setting_key
 		gc.draw(drawableText.ctrlSetHelp,50,650)
 	end
 end
-
 do--setting_skin
 	local scs=require("parts/spinCenters")
 	function Pnt.setting_skin()
@@ -1377,8 +2190,8 @@ do--setting_skin
 		end
 	end
 end
-
 do--setting_touch
+
 	function sceneInit.setting_touch()
 		BG.set("rainbow")
 		sceneTemp={
@@ -1389,6 +2202,55 @@ do--setting_touch
 	end
 	function sceneBack.setting_touch()
 		FILE.saveVK()
+	end
+
+	local function onVK_org(x,y)
+		local dist,nearest=1e10
+		for K=1,#VK_org do
+			local b=VK_org[K]
+			if b.ava then
+				local d1=(x-b.x)^2+(y-b.y)^2
+				if d1<b.r^2 then
+					if d1<dist then
+						nearest,dist=K,d1
+					end
+				end
+			end
+		end
+		return nearest
+	end
+	function mouseDown.setting_touch(x,y,k)
+		if k==2 then SCN.back()end
+		sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
+	end
+	function mouseMove.setting_touch(x,y,dx,dy)
+		if sceneTemp.sel and ms.isDown(1)and not WIDGET.sel then
+			local B=VK_org[sceneTemp.sel]
+			B.x,B.y=B.x+dx,B.y+dy
+		end
+	end
+	function mouseUp.setting_touch(x,y,k)
+		if sceneTemp.sel then
+			local B=VK_org[sceneTemp.sel]
+			local k=snapLevelValue[sceneTemp.snap]
+			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
+		end
+	end
+	function touchDown.setting_touch(id,x,y)
+		sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
+	end
+	function touchUp.setting_touch(id,x,y)
+		if sceneTemp.sel then
+			local B=VK_org[sceneTemp.sel]
+			local k=snapLevelValue[sceneTemp.snap]
+			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
+		end
+	end
+	function touchMove.setting_touch(id,x,y,dx,dy)
+		if sceneTemp.sel and not WIDGET.sel then
+			local B=VK_org[sceneTemp.sel]
+			B.x,B.y=B.x+dx,B.y+dy
+		end
 	end
 
 	local function VirtualkeyPreview()
@@ -1423,7 +2285,6 @@ do--setting_touch
 		end
 	end
 end
-
 do--setting_trackSetting
 	function Pnt.setting_trackSetting()
 		gc.setColor(1,1,1)
@@ -1432,19 +2293,16 @@ do--setting_trackSetting
 		mText(drawableText.VKCurW,640+50*setting.VKCurW,380)
 	end
 end
-
 do--setting_touchSwitch
 	function sceneInit.setting_touchSwitch()
 		BG.set("matrix")
 	end
 end
-
 do--setting_lang
 	function sceneBack.setting_lang()
 		FILE.saveSetting()
 	end
 end
-
 do--help
 	function sceneInit.help()
 		BG.set("space")
@@ -1472,7 +2330,6 @@ do--help
 		mStr(text.support,1138-sin(Timer()*4)*20,270)
 	end
 end
-
 do--staff
 	function sceneInit.staff()
 		sceneTemp={
@@ -1506,7 +2363,6 @@ do--staff
 		mDraw(IMG.title_color,640,2160-t*40,nil,2)
 	end
 end
-
 do--stat
 	function sceneInit.stat()
 		local S=stat
@@ -1589,7 +2445,6 @@ do--stat
 		gc.draw(IMG.title,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
 	end
 end
-
 do--history
 	function sceneInit.history()
 		BG.set("rainbow")
@@ -1600,6 +2455,19 @@ do--history
 		if newVersionLaunch then
 			newVersionLaunch=nil
 			sceneTemp.pos=4
+		end
+	end
+
+	function wheelMoved.history(x,y)
+		wheelScroll(y)
+	end
+	function keyDown.history(key)
+		if key=="up"then
+			sceneTemp.pos=max(sceneTemp.pos-1,1)
+		elseif key=="down"then
+			sceneTemp.pos=min(sceneTemp.pos+1,#sceneTemp.text)
+		elseif key=="escape"then
+			SCN.back()
 		end
 	end
 
@@ -1614,7 +2482,6 @@ do--history
 		gc.print(S.text[S.pos],40,50)
 	end
 end
-
 do--debug
 	function sceneInit.debug()
 		sceneTemp={
@@ -1622,7 +2489,6 @@ do--debug
 		}
 	end
 end
-
 do--quit
 	function sceneInit.quit()
 		if rnd()>.000626 then
