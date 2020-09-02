@@ -378,7 +378,9 @@ local langList={
 			p15={
 				reset="打乱",
 				color="颜色",
-				hide="盲",
+				blind="盲打",
+				slide="滑动操作",
+				revKB="键盘反向",
 				back="返回",
 			},
 			help={
@@ -859,7 +861,9 @@ local langList={
 			p15={
 				reset="打乱",
 				color="颜色",
-				hide="盲",
+				blind="盲打",
+				slide="滑动操作",
+				revKB="键盘反向",
 				back="返回",
 			},
 			help={
@@ -1330,7 +1334,9 @@ local langList={
 			p15={
 				reset="Shuffle",
 				color="Color",
-				hide="Blind",
+				blind="Blind",
+				slide="Slide",
+				revKB="Reverse",
 				back="Back",
 			},
 			help={
@@ -1799,7 +1805,9 @@ local langList={
 			p15={
 				reset="!@#$%",
 				color="~~~",
-				hide="???",
+				blind="???",
+				slide="~_~",
+				revKB="Reverse",
 				back="X",
 			},
 			help={
@@ -2282,7 +2290,9 @@ local langList={
 			p15={
 				reset="打乱",
 				color="彩",
-				hide="瞎",
+				blind="盲",
+				slide="滑动",
+				revKB="键盘反向",
 				back="返回",
 			},
 			help={

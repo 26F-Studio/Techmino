@@ -141,6 +141,12 @@ do--calculator
 		if S.pass then setFont(30)mStr(S.tip,640,10)end
 	end
 end
+do--minigame
+	function sceneInit.p15()
+		BG.set("space")
+		BGM.play()
+	end
+end
 do--p15
 	function sceneInit.p15()
 		BG.set("rainbow")
@@ -155,6 +161,8 @@ do--p15
 
 			color=2,
 			blind=false,
+			slide=true,
+			revKB=false,
 		}
 	end
 
@@ -253,13 +261,13 @@ do--p15
 		local S=sceneTemp
 		local b=S.board
 		if k=="up"then
-			tapBoard(S.x,S.y+1,true)
+			tapBoard(S.x,S.y-(S.revKB and 1 or -1),true)
 		elseif k=="down"then
-			tapBoard(S.x,S.y-1,true)
+			tapBoard(S.x,S.y+(S.revKB and 1 or -1),true)
 		elseif k=="left"then
-			tapBoard(S.x+1,S.y,true)
+			tapBoard(S.x-(S.revKB and 1 or -1),S.y,true)
 		elseif k=="right"then
-			tapBoard(S.x-1,S.y,true)
+			tapBoard(S.x+(S.revKB and 1 or -1),S.y,true)
 		elseif k=="space"then
 			shuffleBoard(S,b)
 			S.state=0
@@ -269,7 +277,15 @@ do--p15
 			if S.state==2 then
 				S.color=(S.color+1)%5
 			end
-		elseif k=="h"then
+		elseif k=="r"then
+			if S.state==0 then
+				S.revKB=not S.revKB
+			end
+		elseif k=="s"then
+			if S.state==0 then
+				S.slide=not S.slide
+			end
+		elseif k=="b"then
 			if S.state==0 then
 				S.blind=not S.blind
 			end
@@ -281,13 +297,17 @@ do--p15
 		tapBoard(x,y)
 	end
 	function mouseMove.p15(x,y)
-		tapBoard(x,y)
+		if sceneTemp.slide then
+			tapBoard(x,y)
+		end
 	end
 	function touchDown.p15(id,x,y)
 		tapBoard(x,y)
 	end
 	function touchMove.p15(id,x,y,dx,dy)
-		tapBoard(x,y)
+		if sceneTemp.slide then
+			tapBoard(x,y)
+		end
 	end
 
 	function Tmr.p15()
@@ -337,10 +357,10 @@ do--p15
 			color.black,color.black,color.black,color.black,
 		},--Black
 		{
-			color.grey,color.grey,color.grey,color.grey,
-			color.grey,color.grey,color.grey,color.grey,
-			color.grey,color.grey,color.grey,color.grey,
-			color.grey,color.grey,color.grey,color.grey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
 		},--Grey
 		{
 			color.dRed,color.dRed,color.dRed,color.dRed,
@@ -385,7 +405,7 @@ do--p15
 					local blind=S.blind and S.state==1
 					local N=S.board[i][j]
 
-					local C=blind and 0 or S.color
+					local C=blind and 1 or S.color
 					local backColor=backColor[C]
 					local frontColor=frontColor[C]
 
