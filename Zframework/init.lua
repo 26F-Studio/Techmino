@@ -31,6 +31,7 @@ xOy=love.math.newTransform()
 joysticks={}
 
 local devMode
+debugMesHistory={}
 
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
@@ -415,8 +416,15 @@ function love.run()
 	local PUMP,POLL=love.event.pump,love.event.poll
 
 	local waitTime=1/60
-	local LIST={}
-
+	local frameTimeList={}
+	local debugMesList={}
+	local debugMesFloat=0
+	function PRINT(text,clr,time)--use this for print for debug in-game
+		if not clr then clr=color.white end
+		ins(debugMesList,{text=text,r=clr[1],g=clr[2],b=clr[3],time=time or 180})
+		ins(debugMesHistory,SCN.cur..": "..tostring(text))
+	end
+	
 	local lastFrame=Timer()
 	local lastFreshPow=lastFrame
 	local FCT=0--Framedraw counter
@@ -510,12 +518,33 @@ function love.run()
 					gc.print("Cursor:"..mx.." "..my,5,_-60)
 					gc.print("Voices:"..VOC.getCount(),5,_-80)
 					gc.print("Tasks:"..TASK.getCount(),5,_-100)
-					ins(LIST,1,dt)rem(LIST,126)
-					for i=1,#LIST do
-						gc.rectangle("fill",900+2*i,_,2,-LIST[i]*4000)
+					ins(frameTimeList,1,dt)rem(frameTimeList,126)
+					for i=1,#frameTimeList do
+						gc.rectangle("fill",900+2*i,_,2,-frameTimeList[i]*4000)
 					end
 					if devMode==3 then WAIT(.1)
 					elseif devMode==4 then WAIT(.5)
+					end
+				end
+				if debugMesList[1]then
+					setFont(20)
+					if debugMesFloat>0 then
+						debugMesFloat=int(debugMesFloat*.9)
+					end
+					for i=#debugMesList,1,-1 do
+						local M=debugMesList[i]
+						M.time=M.time-1
+						if M.time<=0 then
+							rem(debugMesList,i)
+							if not debugMesList[1]then
+								debugMesFloat=0
+							else
+								debugMesFloat=debugMesFloat+25
+							end
+						else
+							gc.setColor(M.r,M.g,M.b,min(M.time/26,1))
+							gc.print(M.text,10+(15-min(M.time,15))^1.5/3,25*i+debugMesFloat)
+						end
 					end
 				end
 
