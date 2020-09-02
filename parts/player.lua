@@ -545,7 +545,7 @@ local function drawDial(x,y,speed)
 	gc.setColor(1,1,1,.6)
 	gc.circle("line",x,y,30,10)
 
-	gc.setColor(1,1,1,.6)
+	gc.setColor(1,1,1,.8)
 	gc.draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 end
 local function drawFXs(P)
