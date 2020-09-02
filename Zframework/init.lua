@@ -184,6 +184,7 @@ function love.touchreleased(id,x,y)
 		sysFX.newRipple(.3,x,y,30)
 	end
 end
+
 function love.keypressed(i)
 	mouseShow=false
 	if devMode then
@@ -205,12 +206,12 @@ function love.keypressed(i)
 				end
 			elseif i=="q"then
 				local W=WIDGET.sel
-				if W then W:getInfo()end
+				if W then W:printInfo()end
 			elseif i=="f3"then
 				assert(false,"Techmino:挂了")
 			elseif i=="e"then
 				for k,v in next,_G do
-				DBP(k,v)
+					DBP(k,v)
 				end
 			elseif WIDGET.sel then
 				local W=WIDGET.sel
@@ -408,7 +409,7 @@ local devColor={
 	color.lBlue,
 }
 local FPS=love.timer.getFPS
-love.draw,love.update=nil
+love.draw,love.update=nil--remove default draw/update
 function love.run()
 	local T=love.timer
 	local STEP,GETDelta,WAIT=T.step,T.getDelta,T.sleep

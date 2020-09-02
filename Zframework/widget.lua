@@ -69,7 +69,7 @@ function button:draw()
 		gc.printf(t,x,y0,w,"center")
 	end
 end
-function button:getInfo()
+function button:printInfo()
 	DBP(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
@@ -119,7 +119,7 @@ function key:draw()
 		gc.printf(t,x,y+h*.5-self.font*.7,w,"center")
 	end
 end
-function key:getInfo()
+function key:printInfo()
 	DBP(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
 end
 
@@ -176,7 +176,7 @@ function switch:draw()
 		gc.printf(t,x-412-ATV,y+20-self.font*.7,400,"right")
 	end
 end
-function switch:getInfo()
+function switch:printInfo()
 	DBP(format("x=%d,y=%d,font=%d",self.x,self.y,self.font))
 end
 
@@ -279,7 +279,7 @@ function slider:draw()
 		gc.printf(t,x-312-ATV,y-self.font*.7,300,"right")
 	end
 end
-function slider:getInfo()
+function slider:printInfo()
 	DBP(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
 end
 
