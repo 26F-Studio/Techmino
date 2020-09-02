@@ -16,6 +16,7 @@ WIDGET=	require("Zframework/widget")
 Widgets=require("Zframework/widgetList")
 LIGHT=	require("Zframework/light")
 SCN=	require("Zframework/scene")
+LOG=	require("Zframework/log")
 
 local ms=love.mouse
 local gc=love.graphics
@@ -190,6 +191,8 @@ function love.keypressed(i)
 	if devMode then
 		if i=="f5"then
 			DBP("DEBUG:")
+		elseif i=="f3"then
+			LOG.print("挂了.gif")
 		elseif i=="f8"then	devMode=nil	TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
 		elseif i=="f9"then	devMode=1	TEXT.show("DEBUG 1",640,360,80,"fly",.8)
 		elseif i=="f10"then	devMode=2	TEXT.show("DEBUG 2",640,360,80,"fly",.8)
@@ -257,6 +260,7 @@ function love.joystickremoved(JS)
 	for i=1,#joysticks do
 		if joysticks[i]==JS then
 			rem(joysticks,i)
+			LOG.print("Joystick removed")
 			return
 		end
 	end
@@ -418,14 +422,7 @@ function love.run()
 
 	local waitTime=1/60
 	local frameTimeList={}
-	local debugMesList={}
-	local debugMesFloat=0
-	function PRINT(text,clr,time)--use this for print for debug in-game
-		if not clr then clr=color.white end
-		ins(debugMesList,{text=text,r=clr[1],g=clr[2],b=clr[3],time=time or 180})
-		ins(debugMesHistory,SCN.cur..": "..tostring(text))
-	end
-	
+
 	local lastFrame=Timer()
 	local lastFreshPow=lastFrame
 	local FCT=0--Framedraw counter
@@ -461,6 +458,7 @@ function love.run()
 		_=Tmr[SCN.cur]if _ then _(dt)end--Scene Updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
+		LOG.update()
 
 		--DRAW
 		if not mini()then
@@ -527,27 +525,7 @@ function love.run()
 					elseif devMode==4 then WAIT(.5)
 					end
 				end
-				if debugMesList[1]then
-					setFont(20)
-					if debugMesFloat>0 then
-						debugMesFloat=int(debugMesFloat*.9)
-					end
-					for i=#debugMesList,1,-1 do
-						local M=debugMesList[i]
-						M.time=M.time-1
-						if M.time<=0 then
-							rem(debugMesList,i)
-							if not debugMesList[1]then
-								debugMesFloat=0
-							else
-								debugMesFloat=debugMesFloat+25
-							end
-						else
-							gc.setColor(M.r,M.g,M.b,min(M.time/26,1))
-							gc.print(M.text,10+(15-min(M.time,15))^1.5/3,25*i+debugMesFloat)
-						end
-					end
-				end
+				LOG.draw()
 
 				gc.present()
 			end

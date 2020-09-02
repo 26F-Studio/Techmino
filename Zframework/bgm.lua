@@ -52,7 +52,10 @@ function BGM.play(s)
 		BGM.playing=BGM.list[s]
 		BGM.suspend,BGM.nowPlay=s
 		return
-	elseif not s or not BGM.list[s]then
+	elseif not s then
+		return
+	elseif not BGM.list[s]then
+		LOG.print("Cannot find BGM: "..s,color.lRed)
 		return
 	end
 	if BGM.nowPlay~=s then

@@ -39,8 +39,10 @@ local function loadCC()
 	end
 	if not f then
 		CCloader_filename[system]=nil
+		LOG.print("failed to load CC")
 		return
 	end
+	LOG.print("CC load successfully")
 	f()
 	BOT={
 		getConf=	cc.get_default_config	,--()options,weights

@@ -252,6 +252,15 @@ do--p15
 				if checkBoard(b)then
 					S.state=2
 					S.time=Timer()-S.startTime
+					if S.time<1 then		LOG.print("不是人")
+					elseif S.time<2 then	LOG.print("还是人")
+					elseif S.time<3 then	LOG.print("神仙")
+					elseif S.time<5 then	LOG.print("太强了")
+					elseif S.time<7.5 then	LOG.print("很强")
+					elseif S.time<10 then	LOG.print("可以的")
+					elseif S.time<20 then	LOG.print("再接再厉")
+					elseif S.time<30 then	LOG.print("多加练习")
+					end
 					SFX.play("win")
 				end
 			end
