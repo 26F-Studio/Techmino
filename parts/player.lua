@@ -1042,7 +1042,7 @@ function player.createLockFX(P)
 		end
 	end
 end
-function player.creatDropFX(P,x,y,w,h)
+function player.createDropFX(P,x,y,w,h)
 	ins(P.dropFX,{x,y,w,h,0,13-2*P.gameEnv.dropFX})
 end
 function player.createMoveFX(P,dir)
@@ -1371,7 +1371,7 @@ function player.freshBlock(P,keepGhost,control,system)
 			--Create FX if dropped
 			if P.curY>P.imgY then
 				if ENV.dropFX and ENV.block and P.curY-P.imgY-P.r>-1 then
-					P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
+					P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 				end
 				if ENV.shakeFX then
 					P.fieldOff.vy=ENV.shakeFX*.5
@@ -2408,7 +2408,7 @@ function player.act.hardDrop(P)
 	elseif P.control and P.waiting==-1 and P.cur then
 		if P.curY>P.imgY then
 			if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
-				P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
+				P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 			end
 			P.curY=P.imgY
 			P.spinLast=false
@@ -2503,7 +2503,7 @@ function player.act.insDown(P)
 	if P.gameEnv.noTele or not P.cur then return end
 	if P.curY>P.imgY then
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
-			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
+			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 		end
 		if P.gameEnv.shakeFX then
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
@@ -2529,7 +2529,7 @@ function player.act.down4(P)
 	if P.curY>P.imgY then
 		local y=max(P.cur-4,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
-			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
+			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
 		end
 		P.curY=y
 		P:freshBlock(true,true)
@@ -2541,7 +2541,7 @@ function player.act.down10(P)
 	if P.curY>P.imgY then
 		local y=max(P.cur-10,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
-			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
+			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
 		end
 		P.curY=y
 		P:freshBlock(true,true)
