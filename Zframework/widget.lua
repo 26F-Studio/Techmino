@@ -1,6 +1,7 @@
 local gc=love.graphics
 local kb=love.keyboard
 local int,abs=math.floor,math.abs
+local max,min=math.max,math.min
 local format=string.format
 local color=color
 local setFont=setFont
@@ -508,10 +509,14 @@ function WIDGET.keyPressed(i)
 			if W then
 				if W.type=="slider"then
 					local p=W.disp()
-					local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
+					local u=(W.smooth and .01 or 1)
+					local P=i=="left"and max(p-u,0)or min(p+u,W.unit)
 					if p==P or not P then return end
 					W.code(P)
-					if W.change then W.change()end
+					if W.change and Timer()-W.lastTime>.18 then
+						W.lastTime=Timer()
+						W.change()
+					end
 				end
 			end
 		end
@@ -590,7 +595,10 @@ function WIDGET.gamepadPressed(i)
 				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
 				if p==P or not P then return end
 				W.code(P)
-				if W.change then W.change()end
+				if W.change and Timer()-W.lastTime>.18 then
+					W.lastTime=Timer()
+					W.change()
+				end
 			end
 		end
 	elseif i=="dpup"or i=="dpdown"or i=="dpleft"or i=="dpright"then
