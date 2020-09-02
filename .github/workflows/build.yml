@@ -1,0 +1,37 @@
+name: Techmino CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download font
+      run: curl -LO https://github.com/flaribbit/Techmino/releases/download/font/font.ttf
+    - name: Download love
+      run: |
+        curl -LO https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        7z x love-11.3-win64.zip
+    - name: Download ColdClear
+      run: |
+        curl -LO https://github.com/flaribbit/Techmino/releases/download/coldclear/lib.zip
+        7z x lib.zip -olib
+        move lib\Windows\x86_64\cold_clear.dll love-11.3-win64
+    - name: Pack Techmino
+      run: |
+        7z a game.zip BGM image lib modes parts SFX VOICE Zframework conf.lua document.txt font.ttf main.lua
+        move game.zip game.love
+        cmd /c copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
+        del love-11.3-win64\love.exe
+        del love-11.3-win64\lovec.exe
+        cmd /c rmdir /S/Q lib\windows\x86
+    - name: Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: Techmino_x64
+        path: love-11.3-win64
