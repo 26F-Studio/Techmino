@@ -1,6 +1,7 @@
 return{
 	color=color.red,
 	env={
+		life=2,
 		drop=60,lock=60,
 		freshLimit=15,
 		bg="bg2",bgm="race",
