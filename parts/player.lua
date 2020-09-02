@@ -34,6 +34,7 @@ local gameEnv0={
 	freshMethod=NULL,
 	face=NULL,skin=NULL,
 
+	life=0,
 	pushSpeed=3,
 	block=true,
 	visible="show",
@@ -1084,6 +1085,9 @@ function player.createMoveFX(P,dir)
 		end end
 	end
 end
+function player.createClearingFX(P,y,t)
+	ins(P.clearFX,{y,0,t})
+end
 function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 	local x1,y1,x2,y2
 	if P.small then x1,y1=P.centerX,P.centerY
@@ -1722,10 +1726,9 @@ function player.drop(P)--Place piece
 
 	--Create clearing FX
 	if cc>0 and P.gameEnv.clearFX then
-		local l=P.clearedRow
 		local t=7-P.gameEnv.clearFX*1
 		for i=1,cc do
-			ins(P.clearFX,{l[i],0,t})
+			P:createClearingFX(P.clearedRow[i],t)
 		end
 	end
 
@@ -2238,10 +2241,30 @@ function player.lose(P)
 			freeRow.discard(P.visTime[_])
 			P.field[_],P.visTime[_]=nil
 		end
+
 		if P.AI_mode=="CC"then
 			CC_updateField(P)
 		end
+
 		P.life=P.life-1
+		P.b2b=0
+		for i=1,#P.atkBuffer do
+			local A=P.atkBuffer[i]
+			if not A.sent then
+				A.sent=true
+				A.time=0
+			end
+		end
+		P.atkBuffer.sum=0
+
+		for i=1,21 do
+			P:createClearingFX(i,.6)
+		end
+		sysFX.newShade(.5,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		sysFX.newRectRipple(.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		SFX.play("clear_3")
+		SFX.play("emit")
+
 		return
 	end
 	P:die()
@@ -2628,7 +2651,6 @@ local function newEmptyPlayer(id,x,y,size)
 	P.randGen=mt.newRandomGenerator(game.seed)
 
 	P.small=false
-	P.life=0
 	P.alive=true
 	P.control=false
 	P.timing=false
@@ -2729,6 +2751,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		ENV.visible=="fast"and 20 or
 		ENV.visible=="none"and 0
 
+	P.life=ENV.life
+
 	ENV.das=max(ENV.das,ENV.mindas)
 	ENV.arr=max(ENV.arr,ENV.minarr)
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
@@ -2793,7 +2817,6 @@ end
 
 function PLY.newDemoPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
-	P.life=1e99
 
 	-- rewrite draw arguments
 	P.small=false
@@ -2835,6 +2858,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		face={0,0,0,0,0,0,0},
 		skin=setting.skin,
 
+		life=1e99,
 		pushSpeed=3,
 		block=true,
 		visible="show",
