@@ -221,10 +221,10 @@ local Widgets={
 
 		newButton({name="any",		x=600,		y=360,	w=120,		color="lGrey",	font=40,code=setPen(0)}),
 		newButton({name="space",	x=730,		y=360,	w=120,		color="grey",	font=65,code=setPen(-1)}),
+		newButton({name="copy",		x=920,		y=500,	w=120,		color="lRed",	font=35,code=pressKey("cC")}),
+		newButton({name="paste",	x=1060,		y=500,	w=120,		color="lBlue",	font=35,code=pressKey("cV")}),
 		newButton({name="clear",	x=1200,		y=500,	w=120,		color="white",	font=40,code=pressKey("delete")}),
 		newSwitch({name="demo",		x=755,		y=640,									font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
-		newButton({name="copy",		x=920,		y=640,	w=120,		color="lRed",	font=35,code=pressKey("cC")}),
-		newButton({name="paste",	x=1060,		y=640,	w=120,		color="lBlue",	font=35,code=pressKey("cV")}),
 		newButton({name="custom",	x=110,		y=80,	w=140,h=80,	color="white",	font=35,code=pressKey("e")}),
 		newButton({name="back",		x=1140,		y=640,	w=180,h=80,	color="white",	font=35,code=BACK}),
 	},
@@ -258,8 +258,8 @@ local Widgets={
 	setting_video={
 		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
 		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
-		newSlider({name="ghost",	x=250,	y=180,w=200,unit=.6,noUnit=true,font=35,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
-		newSlider({name="center",	x=600,	y=180,w=200,unit=1,	font=35,disp=SETval("center"),	code=SETsto("center")}),
+		newSlider({name="ghost",	x=250,	y=180,w=200,unit=.6,font=35,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
+		newSlider({name="center",	x=620,	y=180,w=200,unit=1,	font=35,disp=SETval("center"),	code=SETsto("center")}),
 		newSwitch({name="smooth",	x=260,	y=260,				font=25,disp=SETval("smooth"),	code=SETrev("smooth")}),
 		newSwitch({name="grid",		x=480,	y=260,				font=35,disp=SETval("grid"),	code=SETrev("grid")}),
 		newSwitch({name="bagLine",	x=700,	y=260,				font=30,disp=SETval("bagLine"),	code=SETrev("bagLine")}),
