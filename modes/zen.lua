@@ -12,7 +12,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(70)
 		local R=200-P.stat.row
-		mStr(R>=0 and R or 0,-81,280)
+		mStr(R>=0 and R or 0,69,335)
 	end,
 	score=function(P)return{P.stat.score}end,
 	scoreDisp=function(D)return tostring(D[1])end,

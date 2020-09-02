@@ -63,14 +63,14 @@ return{
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y
 		setFont(55)
-		mStr(P.stat.row,-81,225)
-		mText(drawableText.line,-81,290)
+		mStr(P.stat.row,69,295)
+		mText(drawableText.line,69,360)
 		if P.gameEnv.puzzle and P.modeData.event==0 then
 			local m=puzzleMark
 			for y=1,preField.h do for x=1,10 do
 				local T=preField[y][x]
 				if T~=0 then
-					gc.draw(m[T],30*x-30+dx,600-30*y+dy)
+					gc.draw(m[T],150+30*x-30+dx,70+600-30*y+dy)
 				end
 			end end
 		end

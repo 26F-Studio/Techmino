@@ -14,11 +14,11 @@ return{
 		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P,dx,dy)
-		mText(drawableText.line,-81,300)
-		mText(drawableText.techrash,-81,420)
+		mText(drawableText.line,69,370)
+		mText(drawableText.techrash,69,490)
 		setFont(75)
-		mStr(P.stat.row,-81,220)
-		mStr(P.stat.clears[4],-81,340)
+		mStr(P.stat.row,69,290)
+		mStr(P.stat.clears[4],69,410)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

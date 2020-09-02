@@ -16,11 +16,11 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(45)
 		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,-81,250)
+		mStr(R>=0 and R or 0,69,320)
 
 		setFont(75)
-		mStr(P.stat.pc,-81,350)
-		mText(drawableText.pc,-81,432)
+		mStr(P.stat.pc,69,420)
+		mText(drawableText.pc,69,502)
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..toTime(D[2])end,

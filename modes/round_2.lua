@@ -23,8 +23,6 @@ return{
 		PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,10000))
 		game.garbageSpeed=1e99
 	end,
-	mesDisp=function(P,dx,dy)
-	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Pieces   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,

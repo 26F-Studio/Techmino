@@ -11,8 +11,6 @@ return{
 		PLY.newPlayer(1,340,15)
 		PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",5))
 	end,
-	mesDisp=function(P,dx,dy)
-	end,
 	score=function(P)return{P.stat.time}end,
 	scoreDisp=function(D)return toTime(D[1])end,
 	comp=function(a,b)return a[1]<b[1]end,

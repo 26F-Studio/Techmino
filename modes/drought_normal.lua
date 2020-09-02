@@ -18,7 +18,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(70)
 		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,-81,280)
+		mStr(R>=0 and R or 0,69,335)
 	end,
 	score=function(P)return{min(P.stat.row,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

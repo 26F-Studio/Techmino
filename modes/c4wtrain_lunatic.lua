@@ -46,10 +46,10 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.combo,-81,310)
-		mStr(P.modeData.point,-81,400)
-		mText(drawableText.combo,-81,358)
-		mText(drawableText.mxcmb,-81,450)
+		mStr(P.combo,69,380)
+		mStr(P.modeData.point,69,470)
+		mText(drawableText.combo,69,428)
+		mText(drawableText.mxcmb,69,520)
 	end,
 	score=function(P)return{min(P.modeData.point,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Combo   "..toTime(D[2])end,

@@ -51,21 +51,12 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(55)
-		if P.gameEnv.puzzle or P.gameEnv.target>1e10 then
-			mStr(P.stat.row,-81,225)
-			mText(drawableText.line,-81,290)
+		if P.gameEnv.target>1e10 then
+			mStr(P.stat.row,69,295)
+			mText(drawableText.line,69,360)
 		else
 			local R=P.gameEnv.target-P.stat.row
-			mStr(R>=0 and R or 0,-81,240)
-		end
-		if P.gameEnv.puzzle and P.modeData.event==0 then
-			local m=puzzleMark
-			for y=1,preField.h do for x=1,10 do
-				local T=preField[y][x]
-				if T~=0 then
-					gc.draw(m[T],30*x-30+dx,600-30*y+dy)
-				end
-			end end
+			mStr(R>=0 and R or 0,69,310)
 		end
 	end,
 }

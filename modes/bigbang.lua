@@ -19,8 +19,6 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
-	end,
 	score=function(P)return{P.modeData.event,P.stat.extraRate}end,
 	scoreDisp=function(D)return D[1].."Stage "..format("%.2f",D[2]).."%"end,
 	comp=function(a,b)return a[1]>b[1]end,

@@ -17,10 +17,10 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.atk,-81,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),-81,420)
-		mText(drawableText.atk,-81,363)
-		mText(drawableText.eff,-81,475)
+		mStr(P.stat.atk,69,260)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),69,380)
+		mText(drawableText.atk,69,313)
+		mText(drawableText.eff,69,433)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines  "..toTime(D[2])end,

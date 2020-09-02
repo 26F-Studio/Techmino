@@ -40,14 +40,14 @@ return{
 		players[1].modeData.event="M7"
 	end,
 	mesDisp=function(P,dx,dy)
-		mText(drawableText.line,-81,300)
-		mText(drawableText.techrash,-81,420)
-		mText(drawableText.grade,-81,170)
+		mText(drawableText.line,69,370)
+		mText(drawableText.techrash,69,490)
+		mText(drawableText.grade,69,240)
 		setFont(55)
-		mStr(P.modeData.event,-81,110)
+		mStr(P.modeData.event,69,180)
 		setFont(75)
-		mStr(P.stat.row,-81,220)
-		mStr(P.stat.clears[4],-81,340)
+		mStr(P.stat.row,69,290)
+		mStr(P.stat.clears[4],69,410)
 	end,
 	score=function(P)return{P.modeData.point,P.stat.score}end,
 	scoreDisp=function(D)return sectionName[int(D[1]*.1)+1].."   "..D[2]end,

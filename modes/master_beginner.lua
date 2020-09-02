@@ -56,9 +56,9 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.modeData.point,-81,320)
-		mStr((P.modeData.event+1)*100,-81,370)
-		gc.rectangle("fill",-125,375,90,4)
+		mStr(P.modeData.point,69,390)
+		mStr((P.modeData.event+1)*100,69,440)
+		gc.rectangle("fill",25,445,90,4)
 	end,
 	score=function(P)return{P.modeData.point,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,

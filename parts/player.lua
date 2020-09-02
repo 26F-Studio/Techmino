@@ -591,282 +591,292 @@ local function Pdraw_norm(P)
 	local _
 	local ENV=P.gameEnv
 	gc.push("transform")
+		gc.translate(P.x,P.y)gc.scale(P.size)
 
-	--Camera
-	gc.translate(P.x,P.y)gc.scale(P.size)
-
-	--Fill field
-	gc.translate(150+P.fieldOff.x,70+P.fieldOff.y)
-	gc.setColor(0,0,0,.6)gc.rectangle("fill",0,-10,300,610)
-
-	--Grid
-	if ENV.grid then
-		gc.setLineWidth(1)
-		gc.setColor(1,1,1,.2)
-		for x=1,9 do gc.line(30*x,-10,30*x,600)end
-		for y=0,19 do
-			y=30*(y-int(P.fieldBeneath/30))+P.fieldBeneath
-			gc.line(0,y,300,y)
-		end
-	end
-
-	--In-field things
-	gc.setLineWidth(2)
-	gc.translate(0,P.fieldBeneath)
-	gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
-		if P.falling==-1 then--Field block only
-			for j=int(P.fieldBeneath/30+1),#P.field do
-				for i=1,10 do
-					if P.field[j][i]>0 then
-						gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-						drawPixel(j,i,P.field[j][i])
-					end
-				end
-			end
-		else--Field with falling animation
-			local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
-			local A=P.falling/ENV.fall
-			local h,H=1,#P.field
-			for j=int(P.fieldBeneath/30+1),H do
-				while j==P.clearingRow[h]do
-					h=h+1
-					dy=dy+stepY
-					gc.translate(0,-stepY)
-					gc.setColor(1,1,1,A)
-					gc.rectangle("fill",0,630-30*j,300,stepY)
-				end
-				for i=1,10 do
-					if P.field[j][i]>0 then
-						gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-						drawPixel(j,i,P.field[j][i])
-					end
-				end
-			end
-			gc.translate(0,dy)
-		end
-
-		drawFXs(P)
-
-		if P.cur and P.waiting==-1 then
-			local curColor=P.cur.color
-
-			--Ghost
-			if ENV.ghost then
-				gc.setColor(1,1,1,ENV.ghost)
-				for i=1,P.r do for j=1,P.c do
-					if P.cur.bk[i][j]then
-						drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
-					end
-				end end
-			end
-
-			local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
-			gc.translate(0,-dy)
-			local trans=P.lockDelay/ENV.lock
-			if ENV.block then
-				--White Boarder(indicate lockdelay)
-				SHADER.alpha:send("a",trans)
-				gc.setShader(SHADER.alpha)
-					_=blockSkin[curColor]
-					for i=1,P.r do for j=1,P.c do
-						if P.cur.bk[i][j]then
-							local x=30*(j+P.curX)-60-3
-							local y=630-30*(i+P.curY)-3
-							gc.draw(_,x,y)gc.draw(_,x+6,y+6)
-							gc.draw(_,x+6,y)gc.draw(_,x,y+6)
-						end
-					end end
-				gc.setShader()
-
-				--Block
-				gc.setColor(1,1,1)
-				for i=1,P.r do for j=1,P.c do
-					if P.cur.bk[i][j]then
-						drawPixel(i+P.curY-1,j+P.curX-1,curColor)
-					end
-				end end
-			end
-
-			--Rotate center
-			if ENV.center then
-				gc.setColor(1,1,1,trans*ENV.center)
-				local x=30*(P.curX+P.sc[2])-15
-				gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
-				if ENV.ghost then
-					gc.translate(0,dy)
-					gc.setColor(1,1,1,trans*ENV.center)
-					gc.draw(IMG.spinCenter,x,600-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
-					goto E
-				end
-			end
-			gc.translate(0,dy)
-		end
-	::E::
-	gc.setScissor()
-	gc.translate(0,-P.fieldBeneath)
-		gc.setColor(P.frameColor)
-		gc.rectangle("line",-1,-11,302,612)--Boarder
-		gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
-		gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
-
-
-		--LockDelay indicator
-		if ENV.easyFresh then
-			gc.setColor(1,1,1)
-		else
-			gc.setColor(1,.26,.26)
-		end
-		if P.lockDelay>=0 then
-			gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
-		end
-		_=3
-		for i=1,min(ENV.freshLimit-P.freshTime,15)do
-			gc.rectangle("fill",_,615,14,5)
-			_=_+20
-		end
-
-		--Buffer line
-		local h=0
-		for i=1,#P.atkBuffer do
-			local A=P.atkBuffer[i]
-			local bar=A.amount*30
-			if h+bar>600 then bar=600-h end
-			if not A.sent then
-				--Appear
-				if A.time<20 then
-					bar=bar*(20*A.time)^.5*.05
-				end
-				if A.countdown>0 then
-					--Timing
-					gc.setColor(attackColor[A.lv][1])
-					gc.rectangle("fill",303,599-h,11,-bar+3)
-					gc.setColor(attackColor[A.lv][2])
-					gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
-				else
-					--Warning
-					local t=math.sin((Timer()-i)*30)*.5+.5
-					local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
-					gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
-					gc.rectangle("fill",303,599-h,11,-bar+3)
-				end
-			else
-				gc.setColor(attackColor[A.lv][1])
-				bar=bar*(20-A.time)*.05
-				gc.rectangle("fill",303,599-h,11,-bar+2)
-				--Disappear
-			end
-			h=h+bar
-		end
-
-		--B2B indictator
-		local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
-		gc.setColor(.8,1,.2)
-		gc.rectangle("fill",-14,599,11,-b*.5)
-		gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lRed or color.lBlue)
-		gc.rectangle("fill",-14,599,11,-a*.5)
-		gc.setColor(1,1,1)
-		if Timer()%.5<.3 then
-			gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
-		end
-	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
-
-	--Draw Hold
-	if ENV.hold then
-		gc.setColor(0,0,0,.4)gc.rectangle("fill",-140,36,124,80)
-		gc.setColor(1,1,1)gc.rectangle("line",-140,36,124,80)
-		mText(drawableText.hold,-78,-15)
-		if P.hd then
-			if P.holded then gc.setColor(.6,.5,.5)end
-			local B=P.hd.bk
-			for i=1,#B do for j=1,#B[1]do
-				if B[i][j]then
-					drawPixel(i+17.5-#B*.5,j-2.6-#B[1]*.5,P.hd.color)
-				end
-			end end
-		end
-	end
-
-	--Draw Next(s)
-	local N=ENV.next*72
-	if ENV.next>0 then
-		gc.setColor(0,0,0,.4)gc.rectangle("fill",316,36,124,N)
-		gc.setColor(1,1,1)gc.rectangle("line",316,36,124,N)
-		mText(drawableText.next,378,-15)
-		N=1
-		while N<=ENV.next and P.next[N]do
-			local b,c=P.next[N].bk,P.next[N].color
-			for i=1,#b do for j=1,#b[1] do
-				if b[i][j]then
-					drawPixel(i+20-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
-				end
-			end end
-			N=N+1
-		end
-	end
-
-	--Draw Bagline(s)
-	if ENV.bagLine then
-		local L=ENV.bagLen
-		local C=-P.pieceCount%L--Phase
-		gc.setColor(.8,.5,.5)
-		for i=C,N-1,L do
-			local y=72*i+36
-			gc.line(318+P.fieldOff.x,y,438,y)
-		end
-	end
-
-	--Draw starting counter
-	gc.setColor(1,1,1)
-	if game.frame<180 then
-		local count=179-game.frame
+		--Field-related things
 		gc.push("transform")
-			gc.translate(155,220)
-			setFont(95)
-			if count%60>45 then gc.scale(1+(count%60-45)^2*.01,1)end
-			mStr(int(count/60+1),0,0)
+			gc.translate(150,70)
+
+			--Things shake with field
+			gc.push("transform")
+				gc.translate(P.fieldOff.x,P.fieldOff.y)
+
+				--Fill field
+				gc.setColor(0,0,0,.6)gc.rectangle("fill",0,-10,300,610)
+
+				--Grid
+				if ENV.grid then
+					gc.setLineWidth(1)
+					gc.setColor(1,1,1,.2)
+					for x=1,9 do gc.line(30*x,-10,30*x,600)end
+					for y=0,19 do
+						y=30*(y-int(P.fieldBeneath/30))+P.fieldBeneath
+						gc.line(0,y,300,y)
+					end
+				end
+
+				--In-field things
+				gc.push("transform")
+					gc.translate(0,P.fieldBeneath)
+					gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
+					--Draw field
+					if P.falling==-1 then--Blocks only
+						for j=int(P.fieldBeneath/30+1),#P.field do
+							for i=1,10 do
+								if P.field[j][i]>0 then
+									gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
+									drawPixel(j,i,P.field[j][i])
+								end
+							end
+						end
+					else--With falling animation
+						local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+						local A=P.falling/ENV.fall
+						local h,H=1,#P.field
+						for j=int(P.fieldBeneath/30+1),H do
+							while j==P.clearingRow[h]do
+								h=h+1
+								dy=dy+stepY
+								gc.translate(0,-stepY)
+								gc.setColor(1,1,1,A)
+								gc.rectangle("fill",0,630-30*j,300,stepY)
+							end
+							for i=1,10 do
+								if P.field[j][i]>0 then
+									gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
+									drawPixel(j,i,P.field[j][i])
+								end
+							end
+						end
+						gc.translate(0,dy)
+					end
+
+					--Draw FXs
+					drawFXs(P)
+
+					--Draw current block
+					if P.cur and P.waiting==-1 then
+						local curColor=P.cur.color
+
+						--Ghost
+						if ENV.ghost then
+							gc.setColor(1,1,1,ENV.ghost)
+							for i=1,P.r do for j=1,P.c do
+								if P.cur.bk[i][j]then
+									drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
+								end
+							end end
+						end
+
+						local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
+						gc.translate(0,-dy)
+						local trans=P.lockDelay/ENV.lock
+						if ENV.block then
+							--White Boarder(indicate lockdelay)
+							SHADER.alpha:send("a",trans)
+							gc.setShader(SHADER.alpha)
+								_=blockSkin[curColor]
+								for i=1,P.r do for j=1,P.c do
+									if P.cur.bk[i][j]then
+										local x=30*(j+P.curX)-60-3
+										local y=630-30*(i+P.curY)-3
+										gc.draw(_,x,y)gc.draw(_,x+6,y+6)
+										gc.draw(_,x+6,y)gc.draw(_,x,y+6)
+									end
+								end end
+							gc.setShader()
+
+							--Block
+							gc.setColor(1,1,1)
+							for i=1,P.r do for j=1,P.c do
+								if P.cur.bk[i][j]then
+									drawPixel(i+P.curY-1,j+P.curX-1,curColor)
+								end
+							end end
+						end
+
+						--Rotate center
+						local x=30*(P.curX+P.sc[2])-15
+						if ENV.center then
+							gc.setColor(1,1,1,trans*ENV.center)
+							gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+						end
+						gc.translate(0,dy)
+						if ENV.center and ENV.ghost then
+							gc.setColor(1,1,1,trans*ENV.center)
+							gc.draw(IMG.spinCenter,x,600-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
+						end
+					end
+					gc.setScissor()
+				gc.pop()
+
+				gc.setLineWidth(2)
+				gc.setColor(P.frameColor)
+				gc.rectangle("line",-1,-11,302,612)--Boarder
+				gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
+				gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
+
+				--LockDelay indicator
+				if ENV.easyFresh then
+					gc.setColor(1,1,1)
+				else
+					gc.setColor(1,.26,.26)
+				end
+				if P.lockDelay>=0 then
+					gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
+				end
+				_=3
+				for i=1,min(ENV.freshLimit-P.freshTime,15)do
+					gc.rectangle("fill",_,615,14,5)
+					_=_+20
+				end
+
+				--Buffer line
+				local h=0
+				for i=1,#P.atkBuffer do
+					local A=P.atkBuffer[i]
+					local bar=A.amount*30
+					if h+bar>600 then bar=600-h end
+					if not A.sent then
+						--Appear
+						if A.time<20 then
+							bar=bar*(20*A.time)^.5*.05
+						end
+						if A.countdown>0 then
+							--Timing
+							gc.setColor(attackColor[A.lv][1])
+							gc.rectangle("fill",303,599-h,11,-bar+3)
+							gc.setColor(attackColor[A.lv][2])
+							gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
+						else
+							--Warning
+							local t=math.sin((Timer()-i)*30)*.5+.5
+							local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
+							gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
+							gc.rectangle("fill",303,599-h,11,-bar+3)
+						end
+					else
+						gc.setColor(attackColor[A.lv][1])
+						bar=bar*(20-A.time)*.05
+						gc.rectangle("fill",303,599-h,11,-bar+2)
+						--Disappear
+					end
+					h=h+bar
+				end
+
+				--B2B indictator
+				local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
+				gc.setColor(.8,1,.2)
+				gc.rectangle("fill",-14,599,11,-b*.5)
+				gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lRed or color.lBlue)
+				gc.rectangle("fill",-14,599,11,-a*.5)
+				gc.setColor(1,1,1)
+				if Timer()%.5<.3 then
+					gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
+				end
+
+				--Draw Hold
+				if ENV.hold then
+					gc.setColor(0,0,0,.4)gc.rectangle("fill",-140,36,124,80)
+					gc.setColor(1,1,1)gc.rectangle("line",-140,36,124,80)
+					mText(drawableText.hold,-78,-15)
+					if P.hd then
+						if P.holded then gc.setColor(.6,.5,.5)end
+						local B=P.hd.bk
+						for i=1,#B do for j=1,#B[1]do
+							if B[i][j]then
+								drawPixel(i+17.5-#B*.5,j-2.6-#B[1]*.5,P.hd.color)
+							end
+						end end
+					end
+				end
+
+				--Draw Next(s)
+				local N=ENV.next*72
+				if ENV.next>0 then
+					gc.setColor(0,0,0,.4)gc.rectangle("fill",316,36,124,N)
+					gc.setColor(1,1,1)gc.rectangle("line",316,36,124,N)
+					mText(drawableText.next,378,-15)
+					N=1
+					while N<=ENV.next and P.next[N]do
+						local b,c=P.next[N].bk,P.next[N].color
+						for i=1,#b do for j=1,#b[1] do
+							if b[i][j]then
+								drawPixel(i+20-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
+							end
+						end end
+						N=N+1
+					end
+				end
+
+				--Draw Bagline(s)
+				if ENV.bagLine then
+					local L=ENV.bagLen
+					local C=-P.pieceCount%L--Phase
+					gc.setColor(.8,.5,.5)
+					for i=C,N-1,L do
+						local y=72*i+36
+						gc.line(318+P.fieldOff.x,y,438,y)
+					end
+				end
+
+				--Draw target selecting pad
+				if modeEnv.royaleMode then
+					if P.atkMode then
+						gc.setColor(1,.8,0,P.swappingAtkMode*.02)
+						gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
+					end
+					gc.setColor(1,1,1,P.swappingAtkMode*.025)
+					setFont(18)
+					for i=1,4 do
+						gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
+						mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
+					end
+				end
+			gc.pop()
+
+			--Bonus texts
+			TEXT.draw(P.bonus)
 		gc.pop()
-	end
 
-	--Bonus texts
-	TEXT.draw(P.bonus)
-
-	--Speed dials
-	setFont(25)
-	drawDial(360,510,P.dropSpeed)
-	drawDial(405,565,P.keySpeed)
-	gc.setColor(1,1,1)
-	gc.draw(drawableText.bpm,390,480)
-	gc.draw(drawableText.kpm,344,573)
-	if P.life>0 then
-		for i=1,P.life do
-			gc.draw(IMG.lifeIcon,300+25*i,595,nil,.7)
+		--Speed dials
+		setFont(25)
+		drawDial(510,580,P.dropSpeed)
+		drawDial(555,635,P.keySpeed)
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.bpm,540,550)
+		gc.draw(drawableText.kpm,494,643)
+		if P.life>0 then
+			for i=1,P.life do
+				gc.draw(IMG.lifeIcon,450+25*i,665,nil,.8)
+			end
 		end
-	end
-	mStr(format("%.2f",P.stat.time),-81,518)--Time
-	mStr(P.score1,-81,560)--Score
+		mStr(format("%.2f",P.stat.time),69,588)--Time
+		mStr(P.score1,69,630)--Score
 
-	--Display Ys
-	-- gc.setLineWidth(6)
-	-- if P.curY then gc.setColor(1,.4,0,.626)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
-	-- if P.imgY then gc.setColor(0,1,.4,.626)gc.line(0,615-P.imgY*30,300,615-P.imgY*30)end
-	-- if P.minY then gc.setColor(0,.4,1,.626)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
+		--Display Ys
+		-- gc.setLineWidth(6)
+		-- if P.curY then gc.setColor(1,.4,0,.626)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
+		-- if P.imgY then gc.setColor(0,1,.4,.626)gc.line(0,615-P.imgY*30,300,615-P.imgY*30)end
+		-- if P.minY then gc.setColor(0,.4,1,.626)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
 
-	--Other messages
-	gc.setColor(1,1,1)
-	curMode.mesDisp(P)
-
-	if modeEnv.royaleMode then
-		if P.atkMode then
-			gc.setColor(1,.8,0,P.swappingAtkMode*.02)
-			gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
+		--Other messages
+		gc.setColor(1,1,1)
+		if curMode.mesDisp then
+			curMode.mesDisp(P)
 		end
-		gc.setColor(1,1,1,P.swappingAtkMode*.025)
-		setFont(18)
-		for i=1,4 do
-			gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-			mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
+
+		--Draw starting counter
+		gc.setColor(1,1,1)
+		if game.frame<180 then
+			local count=179-game.frame
+			gc.push("transform")
+				gc.translate(305,290)
+				setFont(95)
+				if count%60>45 then gc.scale(1+(count%60-45)^2*.01,1)end
+				mStr(int(count/60+1),0,0)
+			gc.pop()
 		end
-	end
 	gc.pop()
 end
 local function Pdraw_small(P)
@@ -2262,6 +2272,8 @@ function player.lose(P)
 		end
 		sysFX.newShade(.5,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
 		sysFX.newRectRipple(.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		sysFX.newRipple(.3,P.x+(300+25+25*P.life+12)*P.size,P.y+(595+12)*P.size,20)
+		--300+25*i,595
 		SFX.play("clear_3")
 		SFX.play("emit")
 
