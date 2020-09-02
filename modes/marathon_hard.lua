@@ -17,7 +17,7 @@ end
 return{
 	color=color.magenta,
 	env={
-		noFly=true,
+		noTele=true,
 		mindas=7,minarr=1,minsdarr=1,
 		drop=.5,wait=8,fall=20,
 		target=50,dropPiece=check,

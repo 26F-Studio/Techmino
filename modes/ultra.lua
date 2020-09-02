@@ -3,7 +3,7 @@ local warnTime={60,90,105,115,116,117,118,119,120}
 return{
 	color=color.lGrey,
 	env={
-		noFly=true,
+		noTele=true,
 		minarr=1,minsdarr=1,
 		drop=60,lock=60,
 		fall=20,

@@ -16,7 +16,7 @@ end
 return{
 	color=color.green,
 	env={
-		noFly=true,
+		noTele=true,
 		wait=8,fall=20,
 		target=10,dropPiece=check_LVup,
 		mindas=7,minarr=1,minsdarr=1,

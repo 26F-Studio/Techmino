@@ -36,7 +36,7 @@ end
 return{
 	color=color.red,
 	env={
-		noFly=true,
+		noTele=true,
 		das=6,arr=1,
 		_20G=true,
 		lock=death_lock[1],

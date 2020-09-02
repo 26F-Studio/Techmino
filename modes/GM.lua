@@ -15,7 +15,7 @@ end
 return{
 	color=color.lBlue,
 	env={
-		noFly=true,
+		noTele=true,
 		minarr=1,
 		_20G=true,
 		drop=0,lock=15,

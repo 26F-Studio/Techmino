@@ -8,7 +8,7 @@ local scr=scr--Screen camera
 local setFont=setFont
 --------------------------<GameData>--------------------------
 local gameEnv0={
-	noFly=false,
+	noTele=false,
 	das=10,arr=2,
 	sddas=2,sdarr=2,
 	ihs=true,irs=true,ims=true,
@@ -2456,7 +2456,7 @@ function player.act.restart(P)
 	end
 end
 function player.act.insLeft(P,auto)
-	if P.gameEnv.nofly or not P.cur then return end
+	if P.gameEnv.noTele or not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
 		if P.gameEnv.moveFX and P.gameEnv.block then
@@ -2478,7 +2478,7 @@ function player.act.insLeft(P,auto)
 	end
 end
 function player.act.insRight(P,auto)
-	if P.gameEnv.nofly or not P.cur then return end
+	if P.gameEnv.noTele or not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
 		if P.gameEnv.moveFX and P.gameEnv.block then
@@ -2500,7 +2500,8 @@ function player.act.insRight(P,auto)
 	end
 end
 function player.act.insDown(P)
-	if P.cur and P.curY>P.imgY then
+	if P.gameEnv.noTele or not P.cur then return end
+	if P.curY>P.imgY then
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
 			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 		end
@@ -2524,7 +2525,8 @@ function player.act.down1(P)
 	end
 end
 function player.act.down4(P)
-	if P.cur and P.curY>P.imgY then
+	if P.gameEnv.noTele or not P.cur then return end
+	if P.curY>P.imgY then
 		local y=max(P.cur-4,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
 			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
@@ -2535,7 +2537,8 @@ function player.act.down4(P)
 	end
 end
 function player.act.down10(P)
-	if P.cur and P.curY>P.imgY then
+	if P.gameEnv.noTele or not P.cur then return end
+	if P.curY>P.imgY then
 		local y=max(P.cur-10,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
 			P:creatDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
@@ -2546,24 +2549,24 @@ function player.act.down10(P)
 	end
 end
 function player.act.dropLeft(P)
-	if P.gameEnv.nofly or not P.cur then return end
+	if P.gameEnv.noTele or not P.cur then return end
 	P.act.insLeft(P)
 	P.act.hardDrop(P)
 end
 function player.act.dropRight(P)
-	if P.gameEnv.nofly or not P.cur then return end
+	if P.gameEnv.noTele or not P.cur then return end
 	P.act.insRight(P)
 	P.act.hardDrop(P)
 end
 function player.act.zangiLeft(P)
-	if P.gameEnv.nofly or not P.cur then return end
+	if P.gameEnv.noTele or not P.cur then return end
 	P.act.insLeft(P)
 	P.act.insDown(P)
 	P.act.insRight(P)
 	P.act.hardDrop(P)
 end
 function player.act.zangiRight(P)
-	if P.gameEnv.nofly or not P.cur then return end
+	if P.gameEnv.noTele or not P.cur then return end
 	P.act.insRight(P)
 	P.act.insDown(P)
 	P.act.insLeft(P)
@@ -2803,7 +2806,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 	P.field,P.visTime={},{}
 	P.atkBuffer={sum=0}
 	P.gameEnv={
-		noFly=false,
+		noTele=false,
 		das=10,arr=2,
 		sddas=2,sdarr=2,
 		swap=true,

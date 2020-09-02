@@ -39,7 +39,7 @@ end
 return{
 	color=color.lGrey,
 	env={
-		noFly=true,
+		noTele=true,
 		das=5,arr=1,
 		_20G=true,lock=12,
 		wait=10,fall=10,

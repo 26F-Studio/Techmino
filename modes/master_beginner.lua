@@ -40,7 +40,7 @@ end
 return{
 	color=color.red,
 	env={
-		noFly=true,
+		noTele=true,
 		das=9,arr=3,
 		_20G=true,
 		lock=rush_lock[1],
