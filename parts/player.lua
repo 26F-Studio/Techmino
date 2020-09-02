@@ -836,6 +836,11 @@ local function Pdraw_norm(P)
 	gc.setColor(1,1,1)
 	gc.draw(drawableText.bpm,390,480)
 	gc.draw(drawableText.kpm,344,573)
+	if P.life>0 then
+		for i=1,P.life do
+			gc.draw(IMG.lifeIcon,300+25*i,595,nil,.7)
+		end
+	end
 	mStr(format("%.2f",P.stat.time),-81,518)--Time
 	mStr(P.score1,-81,560)--Score
 

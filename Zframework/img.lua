@@ -4,6 +4,7 @@ local IMG={
 	title_color="mess/title_colored.png",
 	dialCircle="mess/dialCircle.png",
 	dialNeedle="mess/dialNeedle.png",
+	lifeIcon="mess/life.png",
 	badgeIcon="mess/badge.png",
 	spinCenter="mess/spinCenter.png",
 	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
