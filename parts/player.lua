@@ -941,12 +941,14 @@ local function Pdraw_demo(P)
 
 	if P.cur and P.waiting==-1 then
 		--Draw ghost
-		gc.setColor(1,1,1,.3)
-		for i=1,P.r do for j=1,P.c do
-			if P.cur.bk[i][j]then
-				drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
-			end
-		end end
+		if ENV.ghost then
+			gc.setColor(1,1,1,ENV.ghost)
+			for i=1,P.r do for j=1,P.c do
+				if P.cur.bk[i][j]then
+					drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
+				end
+			end end
+		end
 
 		--Draw block
 		gc.setColor(1,1,1)
