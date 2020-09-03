@@ -1751,7 +1751,7 @@ do--play
 		gc.origin()
 		if restartCount>0 then
 			gc.setColor(0,0,0,restartCount*.05)
-			gc.rectangle("fill",0,0,scr.W,scr.H)
+			gc.rectangle("fill",0,0,scr.w,scr.h)
 		end
 		if game.warnLVL>0 then
 			gc.setColor(0,0,0,0)
@@ -1886,7 +1886,7 @@ do--pause
 		gc.setColor(.15,.15,.15,_)
 		gc.push("transform")
 			gc.origin()
-			gc.rectangle("fill",0,0,scr.W,scr.H)
+			gc.rectangle("fill",0,0,scr.w,scr.h)
 		gc.pop()
 
 		--Pause Info

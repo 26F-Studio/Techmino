@@ -33,7 +33,13 @@ mapCam={
 	zoomMethod=nil,
 	zoomK=nil,
 }
-scr={x=0,y=0,w=0,h=0,W=0,H=0,rad=0,k=1}--wid,hei,radius,scale K
+scr={
+	x=0,y=0,--Up-left Coord on screen
+	w=0,h=0,--Fullscreen w/h in gc
+	W=0,H=0,--Fullscreen w/h in shader
+	rad=0,--Radius
+	k=1,--Scale size
+}--1280:720-Rect Screen Info
 
 customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end

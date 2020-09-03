@@ -345,16 +345,18 @@ back.matrix={
 		t=t+dt
 	end,
 	draw=function()
-		gc.scale(scr.k)
 		gc.clear(.15,.15,.15)
-		local Y=ceil(scr.H/80)
-		for x=1,ceil(scr.W/80)do
-			for y=1,Y do
-				gc.setColor(1,1,1,sin(x+matrixT[x][y]*t)*.1+.1)
-				gc.rectangle("fill",80*x,80*y,-80,-80)
+		gc.push("transform")
+			local k=scr.k
+			gc.scale(k)
+			local Y=ceil(scr.h/80/k)
+			for x=1,ceil(scr.w/80/k)do
+				for y=1,Y do
+					gc.setColor(1,1,1,sin(x+matrixT[x][y]*t)*.1+.1)
+					gc.rectangle("fill",80*x,80*y,-80,-80)
+				end
 			end
-		end
-		gc.scale(1/scr.k)
+		gc.pop()
 	end,
 }
 

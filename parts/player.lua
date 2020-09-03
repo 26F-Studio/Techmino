@@ -4,7 +4,7 @@ local Timer=love.timer.getTime
 local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.max,math.min
 local ins,rem=table.insert,table.remove
 local format=string.format
-local scr=scr--Screen camera
+local scr=scr
 local setFont=setFont
 --------------------------<GameData>--------------------------
 local gameEnv0={
