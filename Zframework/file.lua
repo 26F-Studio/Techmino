@@ -99,7 +99,7 @@ function FILE.saveRecord(N,L)
 	local _,mes=F:write(dumpTable(L))
 	F:flush()F:close()
 	if not _ then
-		TEXT.show(text.recSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+		LOG.print(text.recSavingError..(mes or"unknown error"),color.red)
 	end
 end
 function FILE.delRecord(N)
@@ -125,7 +125,7 @@ function FILE.saveUnlock()
 	local _,mes=F:write(dumpTable(modeRanks))
 	F:flush()F:close()
 	if not _ then
-		TEXT.show(text.unlockSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+		LOG.print(text.unlockSavingError..(mes or"unknown error"),color.red)
 	end
 end
 
@@ -151,7 +151,7 @@ function FILE.saveData()
 	local _,mes=F:write(dumpTable(stat))
 	F:flush()F:close()
 	if not _ then
-		TEXT.show(text.statSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+		LOG.print(text.statSavingError..(mes or"unknown error"),color.red)
 	end
 end
 
@@ -175,8 +175,8 @@ function FILE.saveSetting()
 	F:open("w")
 	local _,mes=F:write(dumpTable(setting))
 	F:flush()F:close()
-	if _ then TEXT.show(text.settingSaved,1140,650,40,"sudden",.5)
-	else TEXT.show(text.settingSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+	if _ then LOG.print(text.settingSaved,color.green)
+	else LOG.print(text.settingSavingError..(mes or"unknown error"),color.red)
 	end
 end
 
@@ -196,8 +196,8 @@ function FILE.saveKeyMap()
 	F:open("w")
 	local _,mes=F:write(dumpTable(keyMap))
 	F:flush()F:close()
-	if _ then TEXT.show(text.keyMapSaved,1140,650,26,"sudden",.5)
-	else TEXT.show(text.keyMapSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+	if _ then LOG.print(text.keyMapSaved,color.green)
+	else LOG.print(text.keyMapSavingError..(mes or"unknown error"),color.red)
 	end
 end
 
@@ -217,8 +217,8 @@ function FILE.saveVK()
 	F:open("w")
 	local _,mes=F:write(dumpTable(VK_org))
 	F:flush()F:close()
-	if _ then TEXT.show(text.VKSaved,1140,650,26,"sudden",.5)
-	else TEXT.show(text.VKSavingError..(mes or"unknown error"),1140,650,20,"sudden",.5)
+	if _ then LOG.print(text.VKSaved,color.green)
+	else LOG.print(text.VKSavingError..(mes or"unknown error"),color.red)
 	end
 end
 return FILE

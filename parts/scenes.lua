@@ -92,7 +92,7 @@ do--calculator
 				elseif S.val==196000+022 then
 					S.pass=true
 					marking=nil
-					TEXT.show("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100",640,360,60,"stretch",.6)
+					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
 					SFX.play("clear")
 				elseif S.val==72943816 then
 					S.pass=true
@@ -102,7 +102,7 @@ do--calculator
 						end
 					end
 					FILE.saveUnlock()
-					TEXT.show("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60,"stretch",.6)
+					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60)
 					SFX.play("clear_2")
 				elseif S.val==1379e8+2626e4+1379 then
 					S.pass=true
@@ -574,7 +574,7 @@ do--intro
 		elseif newVersionLaunch then
 			SCN.push("main","fade")
 			SCN.swapTo("history","fade")
-			TEXT.show(text.newVersion,640,200,30,"fly",.3)
+			LOG.print(text.newVersion,color.lBlue)
 		else
 			SCN.go("main")
 		end
@@ -784,10 +784,10 @@ do--mode
 				if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
 					if customSel[11]>1 then
 						if customSel[7]==5 then
-							TEXT.show(text.ai_fixed,640,360,50,"appear")
+							LOG.print(text.ai_fixed,color.red)
 							return
 						elseif #preBag>0 then
-							TEXT.show(text.ai_prebag,640,360,50,"appear")
+							LOG.print(text.ai_prebag,color.red)
 							return
 						end
 					end
@@ -1171,14 +1171,14 @@ do--sequence
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			if #preBag>0 then
 				sys.setClipboardText("Techmino SEQ:"..copySequence())
-				TEXT.show(text.copySuccess,640,225,50,"appear",.5)
+				LOG.print(text.copySuccess,color.green)
 			end
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
 			if p then str=string.sub(str,p+1)end
 			if not pasteSequence(str)then
-				TEXT.show(text.dataCorrupted,640,225,45,"flicker",.5)
+				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif #key==1 then
 			local i=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
@@ -1341,13 +1341,13 @@ do--draw
 			SCN.back()
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			sys.setClipboardText("Techmino Field:"..copyBoard())
-			TEXT.show(text.copySuccess,350,360,40,"appear",.5)
+			LOG.print(text.copySuccess,color.green)
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
 			if p then str=string.sub(str,p+1)end
 			if not pasteBoard(str)then
-				TEXT.show(text.dataCorrupted,350,360,35,"flicker",.5)
+				LOG.print(text.dataCorrupted,color.red)
 			end
 		else
 			pen=penKey[key]or pen

@@ -193,11 +193,11 @@ function love.keypressed(i)
 			DBP("DEBUG:")
 		elseif i=="f3"then
 			LOG.print("挂了.gif")
-		elseif i=="f8"then	devMode=nil	TEXT.show("DEBUG OFF",640,360,80,"fly",.8)
-		elseif i=="f9"then	devMode=1	TEXT.show("DEBUG 1",640,360,80,"fly",.8)
-		elseif i=="f10"then	devMode=2	TEXT.show("DEBUG 2",640,360,80,"fly",.8)
-		elseif i=="f11"then	devMode=3	TEXT.show("DEBUG 3",640,360,80,"fly",8)
-		elseif i=="f12"then	devMode=4	TEXT.show("DEBUG 4",640,360,80,"fly",12)
+		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",color.yellow)
+		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",color.yellow)
+		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",color.yellow)
+		elseif i=="f11"then	devMode=3	LOG.print("DEBUG 3",color.yellow)
+		elseif i=="f12"then	devMode=4	LOG.print("DEBUG 4",color.yellow)
 		elseif devMode==2 then
 			if i=="k"then
 				for i=1,8 do
@@ -245,7 +245,7 @@ function love.keypressed(i)
 		end
 	else
 		devMode=1
-		TEXT.show("DEBUG ON",640,360,80,"fly",.8)
+		LOG.print("DEBUG ON",color.yellow)
 	end
 end
 function love.keyreleased(i)
@@ -537,7 +537,7 @@ function love.run()
 			lastFreshPow=Timer()
 			if gc.getWidth()~=scr.w then
 				love.resize(gc.getWidth(),gc.getHeight())
-				TEXT.show("resized",200,100,30,"stretch")
+				LOG.print("Resized",color.yellow)
 			end
 		end
 
