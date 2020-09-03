@@ -131,6 +131,7 @@ do--calculator
 
 	function Pnt.calculator()
 		local S=sceneTemp
+		gc.setColor(1,1,1)
 		gc.setLineWidth(4)
 		gc.rectangle("line",100,80,650,150)
 		setFont(45)
