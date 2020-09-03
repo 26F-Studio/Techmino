@@ -2456,6 +2456,7 @@ function player.lose(P)
 		end
 
 		if P.AI_mode=="CC"then
+			BOT.destroy(P.AI_bot)
 			P.hd=nil
 			loadAI(P,P.AIdata)
 			P:popNext()
