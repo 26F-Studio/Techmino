@@ -228,7 +228,10 @@ function love.keypressed(i)
 				elseif i=="'"then W.h=W.h+10
 				elseif i=="["then W.font=W.font-1
 				elseif i=="]"then W.font=W.font+1
+				else goto NORMAL
 				end
+			else
+				goto NORMAL
 			end
 		else
 			goto NORMAL
@@ -518,8 +521,9 @@ function love.run()
 					gc.print("Voices:"..VOC.getCount(),5,_-80)
 					gc.print("Tasks:"..TASK.getCount(),5,_-100)
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
+					gc.setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
-						gc.rectangle("fill",900+2*i,_,2,-frameTimeList[i]*4000)
+						gc.rectangle("fill",150+2*i,_,2,-frameTimeList[i]*4000)
 					end
 					if devMode==3 then WAIT(.1)
 					elseif devMode==4 then WAIT(.5)
