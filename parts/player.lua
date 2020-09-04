@@ -520,7 +520,8 @@ local function drawFXs(P)
 		gc.rectangle("fill",150-x*150,615-S[1]*30-y*15,300*x,y*30)
 	end
 end
-do--local function Pdraw_norm(P)
+local Pdraw_norm
+do--function Pdraw_norm(P)
 	local attackColor={
 		{color.dGrey,color.white},
 		{color.grey,color.white},
@@ -544,7 +545,7 @@ do--local function Pdraw_norm(P)
 		gc.setColor(1,1,1,.8)
 		gc.draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 	end	
-	local function Pdraw_norm(P)
+	function Pdraw_norm(P)
 		local _
 		local ENV=P.gameEnv
 		gc.push("transform")
