@@ -578,19 +578,26 @@ do--function Pdraw_norm(P)
 						gc.translate(0,P.fieldBeneath)
 						gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 						--Draw field
+						local V=P.visTime
+						local F=P.field
 						if P.falling==-1 then--Blocks only
-							for j=int(P.fieldBeneath/30+1),#P.field do
+							for j=int(P.fieldBeneath/30+1),#F do
 								for i=1,10 do
-									if P.field[j][i]>0 then
-										gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-										drawPixel(j,i,P.field[j][i])
+									if F[j][i]>0 then
+										if V[j][i]>0 then
+											gc.setColor(1,1,1,min(V[j][i]*.05,1))
+											drawPixel(j,i,F[j][i])
+										elseif game.replaying then
+											gc.setColor(1,1,1,.2)
+											gc.rectangle("fill",30*i-30,600-30*j,30,30)
+										end
 									end
 								end
 							end
 						else--With falling animation
 							local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 							local A=P.falling/ENV.fall
-							local h,H=1,#P.field
+							local h,H=1,#F
 							for j=int(P.fieldBeneath/30+1),H do
 								while j==P.clearingRow[h]do
 									h=h+1
@@ -600,9 +607,14 @@ do--function Pdraw_norm(P)
 									gc.rectangle("fill",0,630-30*j,300,stepY)
 								end
 								for i=1,10 do
-									if P.field[j][i]>0 then
-										gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-										drawPixel(j,i,P.field[j][i])
+									if F[j][i]>0 then
+										if V[j][i]>0 then
+											gc.setColor(1,1,1,min(V[j][i]*.05,1))
+											drawPixel(j,i,F[j][i])
+										elseif game.replaying then
+											gc.setColor(1,1,1,.2)
+											gc.rectangle("fill",30*i-30,600-30*j,30,30)
+										end
 									end
 								end
 							end
