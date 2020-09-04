@@ -5,14 +5,14 @@ local toN,toS=tonumber,tostring
 local concat=table.concat
 
 local function splitS(s,sep)
-	local t,n={},1
-	repeat
-		local p=find(s,sep)or #s+1
-		t[n]=sub(s,1,p-1)
-		n=n+1
-		s=sub(s,p+#sep)
-	until #s==0
-	return t
+	local L={}
+	local p1,p2=1--start,target
+	while p1<=#s do
+		p2=find(s,sep,p1)or #s+1
+		L[#L+1]=sub(s,p1,p2-1)
+		p1=p2+#sep
+	end
+	return L
 end
 local tabs={
 	[0]="",
@@ -128,7 +128,6 @@ function FILE.saveUnlock()
 		LOG.print(text.unlockSavingError..(mes or"unknown error"),color.red)
 	end
 end
-
 function FILE.loadData()
 	local F=files.data
 	if F:open("r")then
