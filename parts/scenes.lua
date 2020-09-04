@@ -92,7 +92,7 @@ do--calculator
 				elseif S.val==196000+022 then
 					S.pass=true
 					marking=nil
-					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
+					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","warn",color.lBlue)
 					SFX.play("clear")
 				elseif S.val==72943816 then
 					S.pass=true
@@ -102,7 +102,7 @@ do--calculator
 						end
 					end
 					FILE.saveUnlock()
-					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76",640,360,60)
+					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","warn",color.lBlue)
 					SFX.play("clear_2")
 				elseif S.val==1379e8+2626e4+1379 then
 					S.pass=true
@@ -253,14 +253,14 @@ do--p15
 				if checkBoard(b)then
 					S.state=2
 					S.time=Timer()-S.startTime
-					if S.time<1 then		LOG.print("不是人")
-					elseif S.time<2 then	LOG.print("还是人")
-					elseif S.time<3 then	LOG.print("神仙")
-					elseif S.time<5 then	LOG.print("太强了")
-					elseif S.time<7.5 then	LOG.print("很强")
-					elseif S.time<10 then	LOG.print("可以的")
-					elseif S.time<20 then	LOG.print("再接再厉")
-					elseif S.time<30 then	LOG.print("多加练习")
+					if S.time<1 then		LOG.print("不是人",color.lBlue)
+					elseif S.time<2 then	LOG.print("还是人",color.lBlue)
+					elseif S.time<3 then	LOG.print("神仙",color.lBlue)
+					elseif S.time<5 then	LOG.print("太强了",color.lBlue)
+					elseif S.time<7.5 then	LOG.print("很强",color.lBlue)
+					elseif S.time<10 then	LOG.print("可以的",color.lBlue)
+					elseif S.time<20 then	LOG.print("再接再厉",color.lBlue)
+					elseif S.time<30 then	LOG.print("多加练习",color.lBlue)
 					end
 					SFX.play("win")
 				end
@@ -575,7 +575,7 @@ do--intro
 		elseif newVersionLaunch then
 			SCN.push("main","fade")
 			SCN.swapTo("history","fade")
-			LOG.print(text.newVersion,color.lBlue)
+			LOG.print(text.newVersion,"warn",color.lBlue)
 		else
 			SCN.go("main")
 		end
@@ -785,10 +785,10 @@ do--mode
 				if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
 					if customSel[11]>1 then
 						if customSel[7]==5 then
-							LOG.print(text.ai_fixed,color.red)
+							LOG.print(text.ai_fixed,"warn",color.red)
 							return
 						elseif #preBag>0 then
-							LOG.print(text.ai_prebag,color.red)
+							LOG.print(text.ai_prebag,"warn",color.red)
 							return
 						end
 					end

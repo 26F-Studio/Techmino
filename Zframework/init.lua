@@ -32,7 +32,6 @@ xOy=love.math.newTransform()
 joysticks={}
 
 local devMode
-debugMesHistory={}
 
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
@@ -191,8 +190,8 @@ function love.keypressed(i)
 	if devMode then
 		if i=="f5"then
 			DBP("DEBUG:")
-		elseif i=="f3"then
-			LOG.print("挂了.gif")
+		elseif i=="f3"then LOG.print("挂了.gif")
+		elseif i=="f4"then LOG.copy()
 		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",color.yellow)
 		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",color.yellow)
 		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",color.yellow)
@@ -210,8 +209,6 @@ function love.keypressed(i)
 			elseif i=="q"then
 				local W=WIDGET.sel
 				if W then W:printInfo()end
-			elseif i=="f3"then
-				assert(false,"Techmino:挂了")
 			elseif i=="e"then
 				for k,v in next,_G do
 					DBP(k,v)
@@ -263,7 +260,7 @@ function love.joystickremoved(JS)
 	for i=1,#joysticks do
 		if joysticks[i]==JS then
 			rem(joysticks,i)
-			LOG.print("Joystick removed")
+			LOG.print("Joystick removed",color.yellow)
 			return
 		end
 	end
