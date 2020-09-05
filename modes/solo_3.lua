@@ -9,7 +9,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",7))
+		PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",5))
 	end,
 	score=function(P)return{P.stat.time}end,
 	scoreDisp=function(D)return toTime(D[1])end,

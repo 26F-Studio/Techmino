@@ -1,4 +1,4 @@
-local AISpeed={60,50,45,35,25,15,9,6,4,3}
+local AISpeed={60,45,30,24,18,12,8,5,4,3}
 return function(type,speedLV,next,hold,node)
 	if type=="CC"then
 		return{
