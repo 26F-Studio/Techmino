@@ -2,23 +2,42 @@ local gc=love.graphics
 local int=math.floor
 local format=string.format
 
-local fontData=love.filesystem.newFile("font.ttf")
-local newFont=gc.setNewFont
-local setNewFont=gc.setFont
-local fontCache,currentFontSize={}
-function setFont(s)
-	local f=fontCache[s]
-	if s~=currentFontSize then
-		if f then
-			setNewFont(f)
-		else
-			f=newFont(fontData,s)
-			fontCache[s]=f
-			setNewFont(f)
+do
+	local newFont=gc.setNewFont
+	local setNewFont=gc.setFont
+	local fontCache,currentFontSize={}
+	if love.filesystem.getInfo("font.ttf")then
+		local fontData=love.filesystem.newFile("font.ttf")
+		function setFont(s)
+			local f=fontCache[s]
+			if s~=currentFontSize then
+				if f then
+					setNewFont(f)
+				else
+					f=newFont(fontData,s)
+					fontCache[s]=f
+					setNewFont(f)
+				end
+				currentFontSize=s
+			end
+			return f
 		end
-		currentFontSize=s
+	else
+		function setFont(s)
+			local f=fontCache[s]
+			if s~=currentFontSize then
+				if f then
+					setNewFont(f)
+				else
+					f=newFont(s)
+					fontCache[s]=f
+					setNewFont(f)
+				end
+				currentFontSize=s
+			end
+			return f
+		end
 	end
-	return f
 end
 
 function toTime(s)
