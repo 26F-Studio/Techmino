@@ -1349,6 +1349,28 @@ do--draw
 			SCN.swapTo("custom","swipe")
 		elseif key=="escape"then
 			SCN.back()
+		elseif key=="k"then
+			ins(preField,1,{14,14,14,14,14,14,14,14,14,14})
+			preField[21]=nil
+			SFX.play("blip")
+		elseif key=="l"then
+			local F=preField
+			for i=20,1,-1 do
+				for j=1,10 do
+					if F[i][j]<=0 then goto L end
+				end
+				sysFX.newShade(.3,1,1,1,200,660-30*i,300,30)
+				sysFX.newRectRipple(.3,200,660-30*i,300,30)
+				rem(F,i)
+				::L::
+			end
+			if #F~=20 then
+				repeat
+					F[#F+1]={0,0,0,0,0,0,0,0,0,0}
+				until#F==20
+				SFX.play("clear_4",.8)
+				SFX.play("fall",.8)
+			end
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			sys.setClipboardText("Techmino Field:"..copyBoard())
 			LOG.print(text.copySuccess,color.green)
@@ -1411,7 +1433,7 @@ do--draw
 		--Confirm reset
 		if sceneTemp.sure>0 then
 			gc.setColor(1,1,1,sceneTemp.sure*.02)
-			gc.draw(drawableText.question,1040,430)
+			gc.draw(drawableText.question,1180,290)
 		end
 
 		--Block name
