@@ -143,7 +143,7 @@ do--calculator
 	end
 end
 do--minigame
-	function sceneInit.p15()
+	function sceneInit.minigame()
 		BG.set("space")
 		BGM.play()
 	end
@@ -163,6 +163,7 @@ do--p15
 			color=2,
 			blind=false,
 			slide=true,
+			pathVis=true,
 			revKB=false,
 		}
 	end
@@ -213,7 +214,9 @@ do--p15
 		local S=sceneTemp
 		if S.state<2 then
 			if not key then
-				sysFX.newRipple(.16,x,y,10)
+				if S.pathVis then
+					sysFX.newRipple(.16,x,y,10)
+				end
 				x,y=int((x-320)/160)+1,int((y-40)/160)+1
 			end
 			local b=S.board
@@ -294,6 +297,12 @@ do--p15
 		elseif k=="s"then
 			if S.state==0 then
 				S.slide=not S.slide
+			end
+		elseif k=="p"then
+			if S.state==0 then
+				if S.slide then
+					S.pathVis=not S.pathVis
+				end
 			end
 		elseif k=="b"then
 			if S.state==0 then
