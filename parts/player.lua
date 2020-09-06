@@ -1330,8 +1330,8 @@ function player.createMoveFX(P,dir)
 		end end
 	end
 end
-function player.createClearingFX(P,y,t)
-	ins(P.clearFX,{y,0,t})
+function player.createClearingFX(P,y,spd)
+	ins(P.clearFX,{y,0,spd})
 end
 function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 	local x1,y1,x2,y2
@@ -2495,7 +2495,7 @@ function player.lose(P)
 		P.atkBuffer.sum=0
 
 		for i=1,21 do
-			P:createClearingFX(i,.6)
+			P:createClearingFX(i,1.5)
 		end
 		sysFX.newShade(.5,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
 		sysFX.newRectRipple(.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
