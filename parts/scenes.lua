@@ -145,7 +145,7 @@ end
 do--minigame
 	function sceneInit.minigame()
 		BG.set("space")
-		BGM.play()
+		BGM.stop()
 	end
 end
 do--p15
@@ -446,6 +446,148 @@ do--p15
 		gc.setColor(0,0,0,.3)
 		gc.setLineWidth(10)
 		gc.rectangle("line",x*160+173,y*160-107,134,134,50)
+	end
+end
+do--schulte_G
+	function sceneInit.schulte_G()
+		BGM.play("way")
+		sceneTemp={
+			board={},
+			rank=3,
+			blind=false,
+			disappear=false,
+
+			startTime=0,
+			time=0,
+			error=0,
+			state=0,
+			target=0,
+		}
+	end
+	
+	local function newBoard()
+		local S=sceneTemp
+		local L={}
+		for i=1,S.rank^2 do
+			L[i]=i
+		end
+		for i=1,S.rank^2 do
+			S.board[i]=rem(L,rnd(#L))
+		end
+	end
+	local function tapBoard(x,y)
+		local S=sceneTemp
+		if x>320 and x<960 and y>40 and y<680 then
+			if S.state==0 then
+				newBoard()
+				S.state=1
+				S.startTime=Timer()
+				S.target=1
+			elseif S.state==1 then
+				x=S.rank*(int((y-40)/640*S.rank))+int((x-320)/640*S.rank)+1
+				if S.board[x]==S.target then
+					S.target=S.target+1
+					if S.target<=S.rank^2 then
+						SFX.play("lock")
+					else
+						S.time=Timer()-S.startTime+S.error
+						S.state=2
+						SFX.play("reach")
+					end
+				else
+					SFX.play("finesseError")
+					S.error=S.error+1
+				end
+			end
+		end
+	end
+
+	function mouseDown.schulte_G(x,y,k)
+		tapBoard(x,y)
+	end
+	function touchDown.schulte_G(id,x,y)
+		tapBoard(x,y)
+	end
+	function keyDown.schulte_G(key)
+		local S=sceneTemp
+		if key=="space"or key=="r"then
+			if sceneTemp.state>0 then
+				S.board={}
+				S.time=0
+				S.error=0
+				S.state=0
+				S.target=0
+			end
+		elseif key=="z"or key=="x"then
+			tapBoard(ms.getPosition())
+		elseif key=="b"then
+			if S.state==0 then
+				S.blind=not S.blind
+			end
+		elseif key=="d"then
+			if S.state==0 then
+				S.disappear=not S.disappear
+			end
+		elseif key=="3"or key=="4"or key=="5"or key=="6"then
+			if S.state==0 then
+				S.rank=tonumber(key)
+			end
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+
+	function Tmr.schulte_G()
+		local S=sceneTemp
+		if S.state==1 then
+			S.time=Timer()-S.startTime+S.error
+		end
+	end
+	
+	local fontSize={nil,nil,120,100,80,60}
+	function Pnt.schulte_G()
+		local S=sceneTemp
+
+		setFont(40)
+		gc.setColor(1,1,1)
+		gc.print(format("%.3f",S.time),1026,80)
+		gc.print(S.error,1026,150)
+
+		setFont(70)
+		mStr(S.state==1 and S.target or S.state==0 and"Ready"or S.state==2 and"Win",1130,300)
+
+		if S.state==1 then gc.setColor(.9,.9,.9)	--game
+		elseif S.state==0 then gc.setColor(.2,.8,.2)--ready
+		elseif S.state==2 then gc.setColor(.9,.9,0)	--win
+		end
+		gc.setLineWidth(10)
+		gc.rectangle("line",310,30,660,660)
+
+		local rank=S.rank
+		local width=640/rank
+		local blind=S.state==0 or S.blind and(S.state==2 or S.target>1)
+		gc.setLineWidth(4)
+		local f=fontSize[rank]
+		setFont(f)
+		for i=1,rank do
+			for j=1,rank do
+				local N=S.board[rank*(i-1)+j]
+				if not(S.state==1 and S.disappear and N<S.target)then
+					gc.setColor(.6,.4,.4)
+					gc.rectangle("fill",320+(j-1)*width,(i-1)*width+40,width,width)
+					gc.setColor(1,1,1)
+					gc.rectangle("line",320+(j-1)*width,(i-1)*width+40,width,width)
+					if not blind then
+						local x,y=320+(j-.5)*width,40+(i-.5)*width-f*.67
+						gc.setColor(.1,.1,.1)
+						mStr(N,x-3,y-1)
+						mStr(N,x-1,y-3)
+						gc.setColor(1,1,1)
+						mStr(N,x,y)
+					end
+				end
+			end
+		end
 	end
 end
 do--load

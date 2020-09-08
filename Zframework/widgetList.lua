@@ -466,6 +466,7 @@ local Widgets={
 	},
 	minigame={
 		newButton({name="p15",		x=640,	y=100,w=350,h=120,color="white",font=40,code=goScene("p15")}),
+		newButton({name="schulte_G",x=640,	y=250,w=350,h=120,color="white",font=40,code=goScene("schulte_G")}),
 		newButton({name="back",		x=1140,	y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	p15={
@@ -477,6 +478,11 @@ local Widgets={
 		newSwitch({name="revKB",	x=200,y=600,w=60,						font=40,disp=function()return sceneTemp.revKB end,code=pressKey("r"),hide=function()return sceneTemp.state==1 end}),
 		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
+	schulte_G={
+		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("r"),hide=function()return sceneTemp.state==0 end}),
+		newSlider({name="rank",		x=130,y=250,w=150,unit=3,show=false,	font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end}),
+		newSwitch({name="blind",	x=160,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state==1 end}),
+		newSwitch({name="disappear",x=160,y=410,w=60,						font=40,disp=function()return sceneTemp.disappear end,code=pressKey("d"),hide=function()return sceneTemp.state==1 end}),
 		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	help={

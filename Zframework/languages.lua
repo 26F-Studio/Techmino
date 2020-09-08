@@ -375,6 +375,7 @@ local langList={
 			},--LangName added later
 			minigame={
 				p15="15 Puzzle",
+				schulte_G="舒尔特方格",
 				back="返回",
 			},
 			p15={
@@ -384,6 +385,13 @@ local langList={
 				slide="滑动操作",
 				pathVis="路径显示",
 				revKB="键盘反向",
+				back="返回",
+			},
+			schulte_G={
+				reset="重来",
+				rank="尺寸",
+				blind="盲打",
+				disappear="消失",
 				back="返回",
 			},
 			help={
@@ -861,6 +869,7 @@ local langList={
 			},--LangName added later
 			minigame={
 				p15="15 Puzzle",
+				schulte_G="舒尔特方格",
 				back="返回",
 			},
 			p15={
@@ -870,6 +879,13 @@ local langList={
 				slide="滑动操作",
 				pathVis="路径显示",
 				revKB="键盘反向",
+				back="返回",
+			},
+			schulte_G={
+				reset="重来",
+				rank="尺寸",
+				blind="盲打",
+				disappear="消失",
 				back="返回",
 			},
 			help={
@@ -1337,6 +1353,7 @@ local langList={
 			},--LangName added later
 			minigame={
 				p15="15 Puzzle",
+				schulte_G="Schulte Grid",
 				back="Back",
 			},
 			p15={
@@ -1346,6 +1363,13 @@ local langList={
 				slide="Slide",
 				pathVis="Path show",
 				revKB="Reverse",
+				back="Back",
+			},
+			schulte_G={
+				reset="Reset",
+				rank="Size",
+				blind="Blind",
+				disappear="Hide",
 				back="Back",
 			},
 			help={
@@ -1811,6 +1835,7 @@ local langList={
 			},--LangName added later
 			minigame={
 				p15="15 Puzzle",
+				schulte_G="Schulte Grid",
 				back="X",
 			},
 			p15={
@@ -1820,6 +1845,13 @@ local langList={
 				slide="~_~",
 				pathVis="--==>",
 				revKB="Reverse",
+				back="X",
+			},
+			schulte_G={
+				reset="!@#$%",
+				rank="←?→",
+				blind="???",
+				disappear="=X=",
 				back="X",
 			},
 			help={
@@ -2299,6 +2331,7 @@ local langList={
 			},--LangName added later
 			minigame={
 				p15="15 Puzzle",
+				schulte_G="舒尔特方格",
 				back="返回",
 			},
 			p15={
@@ -2308,6 +2341,13 @@ local langList={
 				slide="滑动",
 				pathVis="路径显示",
 				revKB="键盘反向",
+				back="返回",
+			},
+			schulte_G={
+				reset="重开",
+				rank="尺寸",
+				blind="盲",
+				disappear="消失",
 				back="返回",
 			},
 			help={
