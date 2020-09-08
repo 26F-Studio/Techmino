@@ -1,7 +1,8 @@
 local gc=love.graphics
 local mt=love.math
 local Timer=love.timer.getTime
-local int,ceil,abs,rnd,max,min=math.floor,math.ceil,math.abs,math.random,math.max,math.min
+local int,ceil,rnd=math.floor,math.ceil,math.random
+local max,min,abs,sin,cos=math.max,math.min,math.abs,math.sin,math.cos
 local ins,rem=table.insert,table.remove
 local format=string.format
 local scr=scr
@@ -533,18 +534,18 @@ do--function Pdraw_norm(P)
 	local function drawDial(x,y,speed)
 		gc.setColor(1,1,1)
 		mStr(int(speed),x,y-18)
-	
+
 		gc.setLineWidth(4)
 		gc.setColor(1,1,1,.4)
 		gc.circle("line",x,y,30,10)
-	
+
 		gc.setLineWidth(2)
 		gc.setColor(1,1,1,.6)
 		gc.circle("line",x,y,30,10)
-	
+
 		gc.setColor(1,1,1,.8)
 		gc.draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
-	end	
+	end
 	function Pdraw_norm(P)
 		local _
 		local ENV=P.gameEnv
@@ -588,7 +589,7 @@ do--function Pdraw_norm(P)
 											gc.setColor(1,1,1,min(V[j][i]*.05,1))
 											drawPixel(j,i,F[j][i])
 										elseif game.replaying then
-											gc.setColor(1,1,1,.2)
+											gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
 											gc.rectangle("fill",30*i-30,600-30*j,30,30)
 										end
 									end
