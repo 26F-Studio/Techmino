@@ -224,7 +224,7 @@ drawableText={
 	preview=T(40),
 	keyboard=T(25),joystick=T(25),
 	ctrlSetHelp=T(30),
-	musicRoom=T(80),nowPlaying=T(50),
+	musicRoom=T(80),nowPlaying=T(60),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
 	noScore=T(45),highScore=T(30),
 }

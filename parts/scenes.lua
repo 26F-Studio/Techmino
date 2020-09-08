@@ -464,7 +464,7 @@ do--schulte_G
 			target=0,
 		}
 	end
-	
+
 	local function newBoard()
 		local S=sceneTemp
 		local L={}
@@ -543,7 +543,7 @@ do--schulte_G
 			S.time=Timer()-S.startTime+S.error
 		end
 	end
-	
+
 	local fontSize={nil,nil,120,100,80,60}
 	function Pnt.schulte_G()
 		local S=sceneTemp
@@ -1191,9 +1191,9 @@ do--music
 	end
 	function keyDown.music(key)
 		if key=="down"then
-			sceneTemp=sceneTemp%BGM.len+1
+				sceneTemp=min(sceneTemp+1,BGM.len)
 		elseif key=="up"then
-			sceneTemp=(sceneTemp-2)%BGM.len+1
+			sceneTemp=max(sceneTemp-1,1)
 		elseif key=="return"or key=="space"then
 			if BGM.nowPlay~=BGM.list[sceneTemp]then
 				SFX.play("click")
@@ -1207,24 +1207,32 @@ do--music
 	end
 
 	function Pnt.music()
-		gc.setColor(1,1,1,.3+sin(Timer()*5)*.2)
-		gc.rectangle("fill",45,98+30*sceneTemp,250,30)
-		gc.setColor(.7,.7,.7)gc.draw(drawableText.musicRoom,20,20)
-		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
-		gc.draw(drawableText.nowPlaying,490,390)
+		gc.setColor(.7,.7,.7)
+		gc.draw(drawableText.musicRoom,20,20)
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.musicRoom,22,23)
+
+		setFont(55)
+		gc.printf(BGM.list[sceneTemp],500,300,500,"right")
 		setFont(30)
-		for i=1,BGM.len do
-			gc.print(BGM.list[i],50,90+30*i)
+		if sceneTemp>1 then
+			gc.printf(BGM.list[sceneTemp-1],500,270,500,"right")
 		end
-		gc.draw(IMG.title,640,310,nil,1.5,nil,206,35)
+		if sceneTemp<BGM.len then
+			gc.printf(BGM.list[sceneTemp+1],500,370,500,"right")
+		end
+
+		gc.draw(IMG.title,500,610,nil,1.5,nil,206,35)
 		if BGM.nowPlay then
-			setFont(45)
+			gc.draw(drawableText.nowPlaying,490-drawableText.nowPlaying:getWidth(),450)
+			setFont(60)
 			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-			mStr(BGM.nowPlay,630,460)
+			gc.print(BGM.nowPlay,500,450)
+
 			local t=-Timer()%2.3/2
 			if t<1 then
 				gc.setColor(1,1,1,t)
-				gc.draw(IMG.title_color,640,310,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+				gc.draw(IMG.title_color,500,610,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
 			end
 		end
 	end

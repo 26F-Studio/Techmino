@@ -142,9 +142,9 @@ local Widgets={
 	},
 	music={
 		newSlider({name="bgm",		x=760,	y=80,	w=400,							font=35,disp=SETval("bgm"),code=function(v)setting.bgm=v;BGM.freshVolume()end}),
-		newButton({name="up",		x=1100,	y=200,	w=120,			color="white",	font=55,code=pressKey("up")}),
+		newButton({name="up",		x=1100,	y=200,	w=120,			color="white",	font=55,code=pressKey("up"),hide=function()return sceneTemp==1 end}),
 		newButton({name="play",		x=1100,	y=340,	w=120,			color="white",	font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
-		newButton({name="down",		x=1100,	y=480,	w=120,			color="white",	font=55,code=pressKey("down")}),
+		newButton({name="down",		x=1100,	y=480,	w=120,			color="white",	font=55,code=pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,		color="white",	font=35,code=BACK}),
 	},
 	custom={
@@ -471,7 +471,7 @@ local Widgets={
 	},
 	p15={
 		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
-		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)if sceneTemp.state==0 then sceneTemp.color=v end end,hide=function()return sceneTemp.state==1 end}),	
+		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)if sceneTemp.state==0 then sceneTemp.color=v end end,hide=function()return sceneTemp.state==1 end}),
 		newSwitch({name="blind",	x=240,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state==1 end}),
 		newSwitch({name="slide",	x=240,y=420,w=60,						font=40,disp=function()return sceneTemp.slide end,code=pressKey("s"),hide=function()return sceneTemp.state==1 end}),
 		newSwitch({name="pathVis",	x=240,y=510,w=60,						font=40,disp=function()return sceneTemp.pathVis end,code=pressKey("p"),hide=function()return sceneTemp.state==1 or not sceneTemp.slide end}),
