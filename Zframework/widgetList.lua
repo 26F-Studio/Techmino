@@ -470,11 +470,13 @@ local Widgets={
 	},
 	p15={
 		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
-		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)sceneTemp.color=v end,hide=function()return sceneTemp.state<2 end}),
-		newSwitch({name="blind",	x=200,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state>0 end}),
-		newSwitch({name="slide",	x=200,y=420,w=60,						font=40,disp=function()return sceneTemp.slide end,code=pressKey("s"),hide=function()return sceneTemp.state>0 end}),
-		newSwitch({name="pathVis",	x=200,y=510,w=60,						font=40,disp=function()return sceneTemp.pathVis end,code=pressKey("p"),hide=function()return sceneTemp.state>0 and sceneTemp.slide end}),
-		newSwitch({name="revKB",	x=200,y=600,w=60,						font=40,disp=function()return sceneTemp.revKB end,code=pressKey("r"),hide=function()return sceneTemp.state>0 end}),
+		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)sceneTemp.color=v end,hide=function()return sceneTemp.state<2 end}),	
+		newSwitch({name="blind",	x=200,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state==1 end}),
+		newSwitch({name="slide",	x=200,y=420,w=60,						font=40,disp=function()return sceneTemp.slide end,code=pressKey("s"),hide=function()return sceneTemp.state==1 end}),
+		newSwitch({name="pathVis",	x=200,y=510,w=60,						font=40,disp=function()return sceneTemp.pathVis end,code=pressKey("p"),hide=function()return sceneTemp.state==1 and sceneTemp.slide end}),
+		newSwitch({name="revKB",	x=200,y=600,w=60,						font=40,disp=function()return sceneTemp.revKB end,code=pressKey("r"),hide=function()return sceneTemp.state==1 end}),
+		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
+	},
 		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	help={

@@ -297,12 +297,13 @@ do--p15
 		elseif k=="s"then
 			if S.state==0 then
 				S.slide=not S.slide
+				if not S.slide then
+					S.pathVis=false
+				end
 			end
 		elseif k=="p"then
-			if S.state==0 then
-				if S.slide then
-					S.pathVis=not S.pathVis
-				end
+			if S.state==0 and S.slide then
+				S.pathVis=not S.pathVis
 			end
 		elseif k=="b"then
 			if S.state==0 then
@@ -408,20 +409,20 @@ do--p15
 		gc.print(format("%.3f",S.time),1026,80)
 		gc.print(S.move,1026,150)
 
-		if S.state==1 then gc.setColor(.9,.9,.9)	--game
+		if S.state==2 then gc.setColor(.9,.9,0)		--win
+		elseif S.state==1 then gc.setColor(.9,.9,.9)--game
 		elseif S.state==0 then gc.setColor(.2,.8,.2)--ready
-		elseif S.state==2 then gc.setColor(.9,.9,0)	--win
 		end
 		gc.setLineWidth(10)
 		gc.rectangle("line",313,33,654,654,18)
 
 		gc.setLineWidth(4)
 		local x,y=S.x,S.y
+		local blind=S.blind and S.state==1
 		setFont(80)
 		for i=1,4 do
 			for j=1,4 do
 				if x~=j or y~=i then
-					local blind=S.blind and S.state==1
 					local N=S.board[i][j]
 
 					local C=blind and 1 or S.color
