@@ -15,7 +15,7 @@ return{
 				D.event=D.event+1
 			end
 		end,
-		bg="bg2",bgm="shining terminal",
+		bg="bg2",bgm="down",
 	},
 	pauseLimit=true,
 	load=function()

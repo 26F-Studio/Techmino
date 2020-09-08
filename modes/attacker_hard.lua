@@ -34,7 +34,7 @@ return{
 				end
 			end
 		end,
-		bg="rainbow2",bgm="way",
+		bg="rainbow2",bgm="shining terminal",
 	},
 	pauseLimit=true,
 	load=function()

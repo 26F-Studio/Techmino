@@ -26,7 +26,7 @@ local BGM={
 BGM.list={
 	"blank",
 	"race","push","way","reason",
-	"newera","oxygen","infinite",
+	"newera","oxygen","infinite","down",
 	"secret7th","secret8th",
 	"shining terminal","distortion","far",
 	"rockblock","cruelty","final","8-bit happiness","end",
