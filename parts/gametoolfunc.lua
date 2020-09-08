@@ -310,6 +310,7 @@ function resetGameData()
 	game.seed=rnd(261046101471026)
 
 	destroyPlayers()
+	restoreVirtualKey()
 	modeEnv=curMode.env
 	curMode.load()--BG/BGM need redefine in custom,so up here
 	if modeEnv.task then
@@ -328,7 +329,6 @@ function resetGameData()
 		game.stage=1
 		game.garbageSpeed=.3
 	end
-	restoreVirtualKey()
 	stat.game=stat.game+1
 	freeRow.reset(30*#players)
 	SFX.play("ready")
@@ -360,6 +360,7 @@ function resetPartGameData(replaying)
 	end
 
 	destroyPlayers()
+	restoreVirtualKey()
 	modeEnv=curMode.env
 	curMode.load()
 	if modeEnv.task then
@@ -378,7 +379,6 @@ function resetPartGameData(replaying)
 		game.stage=1
 		game.garbageSpeed=.3
 	end
-	restoreVirtualKey()
 	collectgarbage()
 end
 function gameStart()
