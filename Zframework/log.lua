@@ -43,29 +43,32 @@ function LOG.draw()
 		end
 	end
 end
-function LOG.print(text,type,clr)
+function LOG.print(text,T,C)--type/time,color
 	local time
 	local his
-	if _G.type(type)=="table"then
-		clr,type=type or color.white
-	elseif type=="warn"then
-		clr=clr or color.yellow
+	if type(T)=="table"then
+		C,T=T or color.white
+	elseif T=="warn"then
+		C=C or color.yellow
 		his=true
 		time=180
-	elseif type=="error"then
-		clr=clr or color.red
+	elseif T=="error"then
+		C=C or color.red
 		his=true
 		time=210
-	elseif type=="message"then
-		clr=clr or color.green
+	elseif T=="message"then
+		C=C or color.green
 		his=true
-	elseif not clr then
-		clr=color.white
+	elseif T=="short"then
+		C=C or color.orange
+		time=30
+	elseif not C then
+		C=color.white
 	end
 	if his then
 		ins(debugMesHistory,SCN.cur..": "..tostring(text))
 	end
-	ins(debugMesList,{text=text,r=clr[1],g=clr[2],b=clr[3],blink=30,time=time or 150})
+	ins(debugMesList,{text=text,r=C[1],g=C[2],b=C[3],blink=30,time=time or 150})
 end
 function LOG.copy()
 	local str=table.concat(debugMesHistory,"\n")

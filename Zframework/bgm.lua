@@ -55,7 +55,7 @@ function BGM.play(s)
 	elseif not s then
 		return
 	elseif not BGM.list[s]then
-		LOG.print("Cannot find BGM: "..s,color.red)
+		LOG.print("Cannot find BGM: "..s,"short",color.red)
 		return
 	end
 	if BGM.nowPlay~=s then
