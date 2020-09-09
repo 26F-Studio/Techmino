@@ -17,11 +17,11 @@ function LOG.update()
 				M.blink=M.blink-1
 			else
 				M.time=M.time-1
-				if i==1 and M.time==0 then
+				if M.time==0 then
 					rem(debugMesList,i)
 					if not debugMesList[1]then
 						debugMesFloat=0
-					else
+					elseif i==1 then
 						debugMesFloat=debugMesFloat+25
 					end
 				end
@@ -62,6 +62,9 @@ function LOG.print(text,T,C)--type/time,color
 	elseif T=="short"then
 		C=C or color.orange
 		time=20
+	elseif type(T)=="number"then
+		C=C or color.white
+		time=T
 	elseif not C then
 		C=color.white
 	end
