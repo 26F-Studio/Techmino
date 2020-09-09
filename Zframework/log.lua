@@ -46,9 +46,7 @@ end
 function LOG.print(text,T,C)--type/time,color
 	local time
 	local his
-	if type(T)=="table"then
-		C,T=T or color.white
-	elseif T=="warn"then
+	if T=="warn"then
 		C=C or color.yellow
 		his=true
 		time=180
@@ -59,19 +57,18 @@ function LOG.print(text,T,C)--type/time,color
 	elseif T=="message"then
 		C=C or color.green
 		his=true
-	elseif T=="short"then
-		C=C or color.orange
-		time=20
 	elseif type(T)=="number"then
 		C=C or color.white
 		time=T
+	elseif type(T)=="table"then
+		C,T=T or color.white
 	elseif not C then
 		C=color.white
 	end
 	if his then
 		ins(debugMesHistory,SCN.cur..": "..tostring(text))
 	end
-	ins(debugMesList,{text=text,r=C[1],g=C[2],b=C[3],blink=30,time=time or 150})
+	ins(debugMesList,{text=text,r=C[1],g=C[2],b=C[3],blink=30,time=time or 120})
 end
 function LOG.copy()
 	local str=table.concat(debugMesHistory,"\n")

@@ -2735,7 +2735,7 @@ function player.act.restart(P)
 		TASK.removeTask_code(TICK.autoPause)
 		resetPartGameData()
 	else
-		LOG.print(text.holdR,"short")
+		LOG.print(text.holdR,20,color.orange)
 	end
 end
 function player.act.insLeft(P,auto)
