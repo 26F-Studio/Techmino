@@ -16,34 +16,45 @@ local Timer=love.timer.getTime
 local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
-local CCblockID={6,5,4,3,2,1,0}
-CCloader_filename={
-	Windows={"CCloader.dll",{"x86_64","x86"}},
-	Android={"libCCloader.so",{"arm64-v8a","armeabi-v7a"}},
-	Linux={"libCCloader.so",{"x86_64"}},
-}
 local function loadCC()
-	if not CCloader_filename[system]then return end
-	local f
-	for i=1,#CCloader_filename[system][2]do
-		function f()
-			local CCloader_f,size=love.filesystem.read("data",table.concat({"lib",system,CCloader_filename[system][2][i],CCloader_filename[system][1]},"/"))
-			if not CCloader_f then return end
-			local success,message=love.filesystem.write(CCloader_filename[system][1],CCloader_f,size)
-			if not success then return end
-			local success,message=package.loadlib(table.concat({love.filesystem.getSaveDirectory(),CCloader_filename[system][1]},"/"),"luaopen_CCloader")
-			return success,message
+	local SYS=({
+		Windows={"CCloader.dll",{"x86_64","x86"}},
+		Android={"libCCloader.so",{"arm64-v8a","armeabi-v7a"}},
+		Linux={"libCCloader.so",{"x86_64"}},
+	})[system]
+	if not SYS then return end
+
+	local fs=love.filesystem
+	local libFunc,success,message
+	for i=1,#SYS[2]do
+		local CCloader_f,size=fs.read("data",table.concat({"lib",system,SYS[2][i],SYS[1]},"/"))
+		if CCloader_f then
+			LOG.print("Read CC-"..SYS[2][i].." successfully","warn",color.green)
+			success,message=fs.write(SYS[1],CCloader_f,size)
+			if success then
+				LOG.print("Write CC-"..SYS[2][i].." to saving successfully","warn",color.green)
+				libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),SYS[1]},"/"),"luaopen_CCloader")
+				if libFunc then
+					LOG.print("CC lib loaded","warn",color.green)
+					break
+				else
+					LOG.print("Cannot load CC: "..message,"warn",color.red)
+				end
+			else
+				LOG.print("Write CC-"..SYS[2][i].." to saving failed","warn",color.red)
+			end
+		else
+			LOG.print("Read CC-"..SYS[2][i].." failed","warn",color.red)
 		end
-		f=f()
-		if f then break end
 	end
-	if not f then
-		CCloader_filename[system]=nil
+	if not libFunc then
+		SYS=nil
 		LOG.print("failed to load CC","warn",color.red)
 		return
 	end
 	LOG.print("CC load successfully","warn",color.green)
-	f()
+	libFunc()
+	local CCblockID={6,5,4,3,2,1,0}
 	BOT={
 		getConf=	cc.get_default_config	,--()options,weights
 		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
