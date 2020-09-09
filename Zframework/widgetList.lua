@@ -142,9 +142,9 @@ local Widgets={
 	},
 	music={
 		newSlider({name="bgm",		x=760,	y=80,	w=400,							font=35,disp=SETval("bgm"),code=function(v)setting.bgm=v;BGM.freshVolume()end}),
-		newButton({name="up",		x=1100,	y=200,	w=120,			color="white",	font=55,code=pressKey("up"),hide=function()return sceneTemp==1 end}),
-		newButton({name="play",		x=1100,	y=340,	w=120,			color="white",	font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
-		newButton({name="down",		x=1100,	y=480,	w=120,			color="white",	font=55,code=pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
+		newButton({name="up",		x=200,	y=250,	w=120,			color="white",	font=55,code=pressKey("up"),hide=function()return sceneTemp==1 end}),
+		newButton({name="play",		x=200,	y=390,	w=120,			color="white",	font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
+		newButton({name="down",		x=200,	y=530,	w=120,			color="white",	font=55,code=pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,		color="white",	font=35,code=BACK}),
 	},
 	custom={

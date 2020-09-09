@@ -191,7 +191,9 @@ customRange={
 local function T(s,t)return love.graphics.newText(setFont(s),t)end
 drawableText={
 	question=T(100,"?"),
+	right=T(45,"→"),
 	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
+
 	speedLV=T(20,"speed level"),
 	atk=T(20,"Attack"),
 	eff=T(20,"Efficiency"),
@@ -224,7 +226,7 @@ drawableText={
 	preview=T(40),
 	keyboard=T(25),joystick=T(25),
 	ctrlSetHelp=T(30),
-	musicRoom=T(80),nowPlaying=T(60),
+	musicRoom=T(80),nowPlaying=T(50),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
 	noScore=T(45),highScore=T(30),
 }

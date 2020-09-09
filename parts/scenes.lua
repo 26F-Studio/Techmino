@@ -1190,14 +1190,23 @@ do--music
 		wheelScroll(y)
 	end
 	function keyDown.music(key)
+		local S=sceneTemp
 		if key=="down"then
-				sceneTemp=min(sceneTemp+1,BGM.len)
+			if S<BGM.len then
+				sceneTemp=S+1
+				SFX.play("move",.7)
+			end
 		elseif key=="up"then
-			sceneTemp=max(sceneTemp-1,1)
+			if S>1 then
+				sceneTemp=S-1
+				SFX.play("move",.7)
+			end
 		elseif key=="return"or key=="space"then
-			if BGM.nowPlay~=BGM.list[sceneTemp]then
-				SFX.play("click")
-				BGM.play(BGM.list[sceneTemp])
+			if BGM.nowPlay~=BGM.list[S]then
+				if setting.bgm>0 then
+					SFX.play("click")
+					BGM.play(BGM.list[S])
+				end
 			else
 				BGM.stop()
 			end
@@ -1212,27 +1221,27 @@ do--music
 		gc.setColor(1,1,1)
 		gc.draw(drawableText.musicRoom,22,23)
 
-		setFont(55)
-		gc.printf(BGM.list[sceneTemp],500,300,500,"right")
-		setFont(30)
-		if sceneTemp>1 then
-			gc.printf(BGM.list[sceneTemp-1],500,270,500,"right")
-		end
-		if sceneTemp<BGM.len then
-			gc.printf(BGM.list[sceneTemp+1],500,370,500,"right")
-		end
+		gc.draw(drawableText.right,270,350+10)
+		setFont(50)
+		gc.print(BGM.list[sceneTemp],320,350+5)
+		setFont(35)
+		if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
+		if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
+		setFont(20)
+		if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
+		if sceneTemp<BGM.len-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
 
-		gc.draw(IMG.title,500,610,nil,1.5,nil,206,35)
+		gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
 		if BGM.nowPlay then
-			gc.draw(drawableText.nowPlaying,490-drawableText.nowPlaying:getWidth(),450)
-			setFont(60)
+			gc.draw(drawableText.nowPlaying,700-drawableText.nowPlaying:getWidth(),500)
+			setFont(50)
 			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-			gc.print(BGM.nowPlay,500,450)
+			gc.print(BGM.nowPlay,710,500)
 
 			local t=-Timer()%2.3/2
 			if t<1 then
 				gc.setColor(1,1,1,t)
-				gc.draw(IMG.title_color,500,610,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+				gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
 			end
 		end
 	end
