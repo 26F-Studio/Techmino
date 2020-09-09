@@ -26,7 +26,12 @@ SFX.list={
 }
 function SFX.loadOne(_)
 	_,SFX.list[_]=SFX.list[_]
-	SFX.list[_]={love.audio.newSource("/SFX/".._..".ogg","static")}
+	local N="/SFX/".._..".ogg"
+	if love.filesystem.getInfo(N)then
+		SFX.list[_]={love.audio.newSource(N,"static")}
+	else
+		LOG.print("No SFX file: "..N,color.red)
+	end
 end
 function SFX.loadAll()
 	for i=1,#SFX.list do

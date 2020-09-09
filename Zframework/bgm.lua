@@ -40,6 +40,8 @@ function BGM.loadOne(N)
 		BGM.list[N]=love.audio.newSource(file,"stream")
 		BGM.list[N]:setLooping(true)
 		BGM.list[N]:setVolume(0)
+	else
+		LOG.print("No BGM file: "..N,color.red)
 	end
 end
 function BGM.loadAll()
@@ -52,10 +54,7 @@ function BGM.play(s)
 		BGM.playing=BGM.list[s]
 		BGM.suspend,BGM.nowPlay=s
 		return
-	elseif not s then
-		return
-	elseif not BGM.list[s]then
-		LOG.print("Cannot find BGM: "..s,"short",color.red)
+	elseif not(s and BGM.list[s])then
 		return
 	end
 	if BGM.nowPlay~=s then

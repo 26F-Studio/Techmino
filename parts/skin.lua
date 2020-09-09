@@ -54,8 +54,15 @@ function SKIN.load()
 	gc.setDefaultFilter("nearest","nearest")
 	gc.setColor(1,1,1)
 	for i=1,#list do
-		local I=gc.newImage("/image/skin/"..list[i]..".png")
 		SKIN.lib[i],SKIN.libMini[i]={},{}--30/6
+		local N="/image/skin/"..list[i]..".png"
+		local I
+		if love.filesystem.getInfo(N)then
+			I=gc.newImage(N)
+		else
+			I=gc.newImage("/image/skin/"..list[1]..".png")
+			LOG.print("No skin file: "..list[i],color.red)
+		end
 		for j=1,11 do
 			SKIN.lib[i][j]=C(30,30)
 			gc.draw(I,30-30*j,0)
