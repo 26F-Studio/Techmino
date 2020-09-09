@@ -533,12 +533,14 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if Timer()-lastFreshPow>2 and setting.powerInfo and loadingFinished then
-			updatePowerInfo()
-			lastFreshPow=Timer()
+		if Timer()-lastFreshPow>2 then
+			if setting.powerInfo and loadingFinished then
+				updatePowerInfo()
+				lastFreshPow=Timer()
+			end
 			if gc.getWidth()~=scr.w then
 				love.resize(gc.getWidth(),gc.getHeight())
-				LOG.print("Resized",color.yellow)
+				LOG.print("Screen Resized",color.yellow)
 			end
 		end
 
