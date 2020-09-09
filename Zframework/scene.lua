@@ -66,11 +66,23 @@ local swap={
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,scr.w,scr.h)
 	end},
-	swipe={30,15,function(t)
+	swipeL={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(3-2*t)*2-1
 		gc.rectangle("fill",t*scr.w,0,scr.w,scr.h)
+	end},
+	swipeR={30,15,function(t)
+		t=t/30
+		gc.setColor(.1,.1,.1,1-abs(t-.5))
+		t=t*t*(2*t-3)*2+1
+		gc.rectangle("fill",t*scr.w,0,scr.w,scr.h)
+	end},
+	swipeD={30,15,function(t)
+		t=t/30
+		gc.setColor(.1,.1,.1,1-abs(t-.5))
+		t=t*t*(2*t-3)*2+1
+		gc.rectangle("fill",0,t*scr.h,scr.w,scr.h)
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back

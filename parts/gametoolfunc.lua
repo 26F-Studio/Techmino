@@ -287,7 +287,7 @@ function loadGame(M,ifQuickPlay)
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
-	SCN.swapTo("play",ifQuickPlay and"swipe"or"fade_togame")
+	SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
 	SFX.play("enter")
 end
 function resetGameData()

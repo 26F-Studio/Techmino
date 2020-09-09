@@ -1275,7 +1275,7 @@ do--custom
 		elseif key=="q"then
 			SCN.go("sequence")
 		elseif key=="e"then
-			SCN.swapTo("draw","swipe")
+			SCN.swapTo("draw","swipeL")
 		elseif #key==1 then
 			local T=tonumber(key)
 			if T and T>=1 and T<=5 then
@@ -1497,7 +1497,7 @@ do--draw
 				preField[sy][sx]=pen
 			end
 		elseif key=="e"then
-			SCN.swapTo("custom","swipe")
+			SCN.swapTo("custom","swipeL")
 		elseif key=="escape"then
 			SCN.back()
 		elseif key=="k"then

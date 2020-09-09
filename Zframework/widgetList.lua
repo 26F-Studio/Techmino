@@ -241,8 +241,8 @@ local Widgets={
 		newButton({name="quit",		x=640,	y=600,	w=240,h=100,color="white",	font=35,code=BACK}),
 	},
 	setting_game={
-		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
-		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
+		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipeR")end}),
+		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound","swipeL")end}),
 		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=goScene("setting_control")}),
 		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=goScene("setting_key")}),
 		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=goScene("setting_touch")}),
@@ -258,8 +258,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	setting_video={
-		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipe")end}),
-		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
+		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipeR")end}),
+		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipeL")end}),
 		newSlider({name="ghost",	x=250,	y=180,w=200,unit=.6,font=35,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
 		newSlider({name="center",	x=620,	y=180,w=200,unit=1,	font=35,disp=SETval("center"),	code=SETsto("center")}),
 		newSwitch({name="smooth",	x=260,	y=260,				font=25,disp=SETval("smooth"),	code=SETrev("smooth")}),
@@ -299,8 +299,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	setting_sound={
-		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_game","swipe")end}),
-		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipe")end}),
+		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_game","swipeR")end}),
+		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipeL")end}),
 		newSlider({name="sfx",		x=180,	y=200,w=400,					font=35,change=function()SFX.play("blip_1")end,						disp=SETval("sfx"),		code=SETsto("sfx")}),
 		newSlider({name="stereo",	x=180,	y=500,w=400,					font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hide=function()return setting.sfx==0 end}),
 		newSlider({name="spawn",	x=180,	y=300,w=400,					font=30,change=function()SFX.fplay("spawn_"..rnd(7),setting.spawn)end,disp=SETval("spawn"),	code=SETsto("spawn")}),
