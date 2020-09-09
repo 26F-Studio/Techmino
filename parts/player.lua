@@ -2734,6 +2734,8 @@ function player.act.restart(P)
 	if game.frame<240 or game.result then
 		TASK.removeTask_code(TICK.autoPause)
 		resetPartGameData()
+	else
+		LOG.print(text.holdR,"short")
 	end
 end
 function player.act.insLeft(P,auto)

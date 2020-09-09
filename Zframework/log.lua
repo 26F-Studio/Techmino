@@ -61,7 +61,7 @@ function LOG.print(text,T,C)--type/time,color
 		his=true
 	elseif T=="short"then
 		C=C or color.orange
-		time=30
+		time=20
 	elseif not C then
 		C=color.white
 	end

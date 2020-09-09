@@ -1932,16 +1932,16 @@ do--play
 		--Warning
 		gc.push("transform")
 		gc.origin()
-		if restartCount>0 then
-			gc.setColor(0,0,0,restartCount*.05)
-			gc.rectangle("fill",0,0,scr.w,scr.h)
-		end
 		if game.warnLVL>0 then
 			gc.setColor(0,0,0,0)
 			SHADER.warning:send("level",game.warnLVL)
 			gc.setShader(SHADER.warning)
 			gc.rectangle("fill",0,0,scr.w,scr.h)
 			gc.setShader()
+		end
+		if restartCount>0 then
+			gc.setColor(0,0,0,restartCount*.05)
+			gc.rectangle("fill",0,0,scr.w,scr.h)
 		end
 		gc.pop()
 	end

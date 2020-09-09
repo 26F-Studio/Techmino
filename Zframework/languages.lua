@@ -2,8 +2,9 @@ local langList={
 	{
 		anykey="按任意键继续",
 		newVersion="检测到更新!",
-		newBigVersion="检测到大更新!大量存档信息已修改",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
+		holdR="请长按R键重新开始",
+
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
@@ -500,8 +501,9 @@ local langList={
 	{
 		anykey="按任意键继续",
 		newVersion="检测到更新!",
-		newBigVersion="检测到大更新!大量存档信息已修改",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
+		holdR="请长按R键重新开始",
+
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
@@ -994,8 +996,9 @@ local langList={
 	{
 		anykey="Press any button",
 		newVersion="Update detected!",
-		newBigVersion="A big update was detected! Save data has been altered.",
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
+		holdR="Hold R key to restart",
+
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
 		royale_remain=function(n)return n.." Players Remaining"end,
@@ -1478,8 +1481,9 @@ local langList={
 	{
 		anykey="↓□↓",
 		newVersion="&!!!",
-		newBigVersion="&!!!~~~",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
+		holdR="→→→→R",
+
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
 		royale_remain=function(n)return n.."~"end,
@@ -1960,8 +1964,9 @@ local langList={
 	{
 		anykey="您开始了",
 		newVersion="感谢更新!",
-		newBigVersion="检测到大更新!大量存档信息已修改",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
+		holdR="长按重开",
+
 		lang="就这",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩 "..n.." 人"end,
