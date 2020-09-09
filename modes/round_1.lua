@@ -20,7 +20,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
-		PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,5000))
+		PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,10000))
 		game.garbageSpeed=1e99
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
