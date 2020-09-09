@@ -19,7 +19,7 @@ local S=[=[
 				吃水榴莲    诗情画意    星姐阿夸双推Man暗炎    [*炎]
 				[*Y]    aaa222    [**城]    cnDD    红桃老给
 				昭庭玲秋    旋树墩    火花工作室    Cosine    沁音的芝麻王
-				SuperJH    天上_飞    *莲    uiro    宇酱
+				SuperJH    天上_飞    uiro    宇酱
 
 		Thanks!!!
 
@@ -52,6 +52,11 @@ Future outlook:
 						2048 (with next/deadly mode)
 						mine sweeper
 						tank battle
+						find difference
+						soduku
+						link-link
+				画图智能画笔
+				超高时场地上移
 				改连击攻击
 				场地序列一起复制
 				自定义消行要求(可复制)
@@ -66,6 +71,31 @@ Future outlook:
 				支持超60帧
 				task-Z(新AI)
 				更多画面效果 & 一些3D小玩意
+
+0.10.9: 舒尔特方格 Schulte Grid
+		新内容:
+				舒尔特方格
+				15p可关闭滑动轨迹显示
+				隐型模式回放时方块不会完全隐藏
+				画图界面新增顶起一行和消除满行功能
+				把音乐室装修得更好看了
+				新BGM: Down
+				修改BGM: Rockblock
+		改动:
+				优化15p开关排版和机制
+				不允许使用瞬移操作的模式虚拟按键也不显示
+				单挑评分标准适配三条命
+				调整ai难度
+				部分弹出消息改用LOG.print输出到屏幕左上角
+				缺失字体文件时使用引擎自带字体
+		代码:
+				整理player.lua文件
+				整理scr变量相关代码
+				所有音乐重新转码,BGM文件夹不再追踪
+				LOG.print新增"short"输出方式，仅显示一个时长很短的不重要提示信息
+		修复:
+				CC死后不能正常复活
+				部分背景不能正确显示
 
 0.10.8: 全局更新 Global Update
 		新内容:
