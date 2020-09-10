@@ -999,6 +999,14 @@ local function Pdraw_demo(P)
 	TEXT.draw(P.bonus)
 	gc.pop()
 end
+function player.drawTargetLine(P,r)
+	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
+		gc.setLineWidth(4)
+		gc.setColor(1,r>10 and 0 or rnd(),.5)
+		local dx,dy=150+P.fieldOff.x,70+P.fieldOff.y+P.fieldBeneath+P.fieldUp
+		gc.line(dx,600-30*r+dy,300+dx,600-30*r+dy)
+	end
+end
 --------------------------</Paint>--------------------------
 
 --------------------------<Lib Func>--------------------------

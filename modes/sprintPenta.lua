@@ -12,16 +12,11 @@ return{
 		PLY.newPlayer(1,340,15)
 	end,
 	mesDisp=function(P)
-		local dx,dy=150+P.fieldOff.x,70+P.fieldOff.y
 		setFont(55)
 		local r=40-P.stat.row
 		if r<0 then r=0 end
 		mStr(r,69,335)
-		if r<21 and r>0 then
-			gc.setLineWidth(4)
-			gc.setColor(1,r>10 and 0 or rnd(),.5)
-			gc.line(dx,600-30*r+dy,300+dx,600-30*r+dy)
-		end
+		P:drawTargetLine(r)
 	end,
 	score=function(P)return{P.stat.time,P.stat.piece}end,
 	scoreDisp=function(D)return toTime(D[1]).."   "..D[2].." Pieces"end,
