@@ -204,6 +204,7 @@ local sliderShowFunc={
 }
 function slider:reset()
 	self.ATV=0
+	self.TAT=180
 	self.pos=0
 end
 function slider:isAbove(x,y)
