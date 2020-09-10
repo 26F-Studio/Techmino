@@ -160,7 +160,7 @@ do--p15
 			move=0,
 			state=2,
 
-			color=2,
+			color=0,
 			blind=false,
 			slide=true,
 			pathVis=true,
@@ -262,8 +262,10 @@ do--p15
 					elseif S.time<5 then	LOG.print("太强了",color.lBlue)
 					elseif S.time<7.5 then	LOG.print("很强",color.lBlue)
 					elseif S.time<10 then	LOG.print("可以的",color.lBlue)
-					elseif S.time<20 then	LOG.print("再接再厉",color.lBlue)
-					elseif S.time<30 then	LOG.print("多加练习",color.lBlue)
+					elseif S.time<20 then	LOG.print("马上入门了",color.lBlue)
+					elseif S.time<30 then	LOG.print("入门不远了",color.lBlue)
+					elseif S.time<60 then	LOG.print("多加练习",color.lBlue)
+					else					LOG.print("第一次玩?加油",color.lBlue)
 					end
 					SFX.play("win")
 				end
@@ -339,67 +341,67 @@ do--p15
 
 	local frontColor={
 		[0]={
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-		},--Black
-		{
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-		},--Grey
-		{
-			color.lRed,color.lRed,color.lRed,color.lRed,
-			color.lBlue,color.lBlue,color.lBlue,color.lBlue,
-			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-		},--Colorful(row)
-		{
 			color.lRed,color.lRed,color.lRed,color.lRed,
 			color.lGreen,color.lBlue,color.lBlue,color.lBlue,
 			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
 			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-		},--Colorful(rank)
+		},--Colored(rank)
 		{
 			color.lRed,color.lRed,color.lRed,color.lRed,
 			color.lOrange,color.lYellow,color.lYellow,color.lYellow,
 			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
 			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
-		},--Colorful(row)
+		},--Rainbow(rank)
+		{
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lBlue,color.lBlue,color.lBlue,color.lBlue,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		},--Colored(row)
+		{
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+		},--Grey
+		{
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+		},--Black
 	}
 	local backColor={
 		[0]={
-			color.black,color.black,color.black,color.black,
-			color.black,color.black,color.black,color.black,
-			color.black,color.black,color.black,color.black,
-			color.black,color.black,color.black,color.black,
-		},--Black
-		{
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-		},--Grey
-		{
-			color.dRed,color.dRed,color.dRed,color.dRed,
-			color.dBlue,color.dBlue,color.dBlue,color.dBlue,
-			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-		},--Colorful(row)
-		{
 			color.dRed,color.dRed,color.dRed,color.dRed,
 			color.dGreen,color.dBlue,color.dBlue,color.dBlue,
 			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
 			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-		},--Colorful(rank)
+		},--Colored(rank)
 		{
 			color.dRed,color.dRed,color.dRed,color.dRed,
 			color.dOrange,color.dYellow,color.dYellow,color.dYellow,
 			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
 			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
 		},--Rainbow(rank)
+		{
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dBlue,color.dBlue,color.dBlue,color.dBlue,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		},--Colored(row)
+		{
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+		},--Grey
+		{
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+		},--Black
 	}
 	function Pnt.p15()
 		local S=sceneTemp
