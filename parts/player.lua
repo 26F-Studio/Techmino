@@ -2786,8 +2786,7 @@ function player.act.insRight(P,auto)
 	end
 end
 function player.act.insDown(P)
-	if not P.cur then return end
-	if P.curY>P.imgY then
+	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
 			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 		end
@@ -2811,9 +2810,8 @@ function player.act.down1(P)
 	end
 end
 function player.act.down4(P)
-	if not P.cur then return end
-	if P.curY>P.imgY then
-		local y=max(P.cur-4,P.imgY)
+	if P.cur and P.curY>P.imgY then
+		local y=max(P.curY-4,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
 			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
 		end
@@ -2823,9 +2821,8 @@ function player.act.down4(P)
 	end
 end
 function player.act.down10(P)
-	if not P.cur then return end
-	if P.curY>P.imgY then
-		local y=max(P.cur-10,P.imgY)
+	if P.cur and P.curY>P.imgY then
+		local y=max(P.curY-10,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
 			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
 		end
