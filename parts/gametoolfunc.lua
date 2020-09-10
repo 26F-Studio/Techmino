@@ -34,9 +34,9 @@ function destroyPlayers()
 			freeRow.discard(rem(P.visTime))
 		end
 		if P.AI_mode=="CC"then
-			BOT.free(P.bot_opt)
-			BOT.free(P.bot_wei)
-			BOT.destroy(P.AI_bot)
+			CC.free(P.bot_opt)
+			CC.free(P.bot_wei)
+			CC.destroy(P.AI_bot)
 			P.AI_mode=nil
 		end
 		players[i]=nil

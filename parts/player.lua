@@ -1165,18 +1165,18 @@ local function loadAI(P,AIdata)--Load AI params
 		bag=AIdata.bag,
 		node=AIdata.node,
 	}
-	if not BOT then P.AI_mode="9S"end
+	if not CC then P.AI_mode="9S"end
 	if P.AI_mode=="CC"then
 		P.RS=kickList.AIRS
-		local opt,wei=BOT.getConf()
-			BOT.setHold(opt,P.AIdata.hold)
-			BOT.set20G(opt,P.AIdata._20G)
-			BOT.setBag(opt,P.AIdata.bag=="bag")
-			BOT.setNode(opt,P.AIdata.node)
-		P.AI_bot=BOT.new(opt,wei)
-		BOT.free(opt)BOT.free(wei)
+		local opt,wei=CC.getConf()
+			CC.setHold(opt,P.AIdata.hold)
+			CC.set20G(opt,P.AIdata._20G)
+			CC.setBag(opt,P.AIdata.bag=="bag")
+			CC.setNode(opt,P.AIdata.node)
+		P.AI_bot=CC.new(opt,wei)
+		CC.free(opt)CC.free(wei)
 		for i=1,AIdata.next do
-			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+			CC.addNext(P.AI_bot,CCblockID[P.next[i].id])
 		end
 	elseif P.AI_mode=="9S"then
 		P.RS=kickList.TRS
@@ -1811,7 +1811,7 @@ function player.hold(P,ifpre)
 				if P.AI_mode=="CC"then
 					local next=P.next[P.AIdata.next]
 					if next then
-						BOT.addNext(P.AI_bot,CCblockID[next.id])
+						CC.addNext(P.AI_bot,CCblockID[next.id])
 					end
 				end
 			else
@@ -1851,7 +1851,7 @@ function player.popNext(P)--Pop next queue to hand
 		if P.AI_mode=="CC"then
 			local next=P.next[P.AIdata.next]
 			if next then
-				BOT.addNext(P.AI_bot,CCblockID[next.id])
+				CC.addNext(P.AI_bot,CCblockID[next.id])
 			end
 		end
 
@@ -2493,7 +2493,7 @@ function player.lose(P)
 		end
 
 		if P.AI_mode=="CC"then
-			BOT.destroy(P.AI_bot)
+			CC.destroy(P.AI_bot)
 			P.hd=nil
 			loadAI(P,P.AIdata)
 			P:popNext()

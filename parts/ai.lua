@@ -16,46 +16,51 @@ local Timer=love.timer.getTime
 local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
-local function loadCC()
-	local SYS=({
-		Windows={"CCloader.dll",{"x86_64","x86"}},
-		Android={"libCCloader.so",{"arm64-v8a","armeabi-v7a"}},
-		Linux={"libCCloader.so",{"x86_64"}},
-	})[system]
-	if not SYS then return end
-
-	local fs=love.filesystem
-	local libFunc,success,message
-	for i=1,#SYS[2]do
-		local CCloader_f,size=fs.read("data",table.concat({"lib",system,SYS[2][i],SYS[1]},"/"))
-		if CCloader_f then
-			LOG.print("Read CC-"..SYS[2][i].." successfully","warn",color.green)
-			success,message=fs.write(SYS[1],CCloader_f,size)
-			if success then
-				LOG.print("Write CC-"..SYS[2][i].." to saving successfully","warn",color.green)
-				libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),SYS[1]},"/"),"luaopen_CCloader")
-				if libFunc then
-					LOG.print("CC lib loaded","warn",color.green)
-					break
+do
+	if system=="Windows"then
+		local success,message=require("CCloader")
+		if success then
+			LOG.print("CC load successfully","warn",color.green)
+		else
+			LOG.print("Cannot load CC: "..message,"warn",color.red)
+		end
+	elseif system=="Android"then
+		local armList={"arm64-v8a","armeabi-v7a"}
+		local fs=love.filesystem
+		local libFunc,success,message
+		for i=1,#armList do
+			local CCloader_f,size=fs.read("data","libAndroid/"..armList[i].."/libCCloader.so")
+			if CCloader_f then
+				LOG.print("Read CC-"..armList[i].." successfully","warn",color.green)
+				success,message=fs.write("libCCloader.so",CCloader_f,size)
+				if success then
+					LOG.print("Write CC-"..armList[i].." to saving successfully","warn",color.green)
+					libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),"libCCloader.so"},"/"),"luaopen_CCloader")
+					if libFunc then
+						LOG.print("CC lib loaded","warn",color.green)
+						break
+					else
+						LOG.print("Cannot load CC: "..message,"warn",color.red)
+					end
 				else
-					LOG.print("Cannot load CC: "..message,"warn",color.red)
+					LOG.print("Write CC-"..armList[i].." to saving failed","warn",color.red)
 				end
 			else
-				LOG.print("Write CC-"..SYS[2][i].." to saving failed","warn",color.red)
+				LOG.print("Read CC-"..armList[i].." failed","warn",color.red)
 			end
-		else
-			LOG.print("Read CC-"..SYS[2][i].." failed","warn",color.red)
 		end
+		if not libFunc then
+			LOG.print("failed to load CC","warn",color.red)
+			goto FAILED
+		end
+		LOG.print("CC load successfully","warn",color.green)
+		libFunc()
+	else
+		LOG.print("No CC for "..system,"warn",color.red)
+		goto FAILED
 	end
-	if not libFunc then
-		SYS=nil
-		LOG.print("failed to load CC","warn",color.red)
-		return
-	end
-	LOG.print("CC load successfully","warn",color.green)
-	libFunc()
 	local CCblockID={6,5,4,3,2,1,0}
-	BOT={
+	CC={
 		getConf=	cc.get_default_config	,--()options,weights
 		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
 
@@ -83,21 +88,21 @@ local function loadCC()
 		while i<400 do
 			F[i],i=false,i+1
 		end
-		BOT.update(P.AI_bot,F,P.b2b>=100,P.combo)
+		CC.update(P.AI_bot,F,P.b2b>=100,P.combo)
 	end
 	function CC_switch20G(P)
 		P.AIdata._20G=true
 		P.AI_keys={}
-		BOT.destroy(P.AI_bot)
-		local opt,wei=BOT.getConf()
-			BOT.setHold(opt,P.AIdata.hold)
-			BOT.set20G(opt,P.AIdata._20G)
-			BOT.setBag(opt,P.AIdata.bag7)
-			BOT.setNode(opt,P.AIdata.node)
-		P.AI_bot=BOT.new(opt,wei)
-		BOT.free(opt)BOT.free(wei)
+		CC.destroy(P.AI_bot)
+		local opt,wei=CC.getConf()
+			CC.setHold(opt,P.AIdata.hold)
+			CC.set20G(opt,P.AIdata._20G)
+			CC.setBag(opt,P.AIdata.bag7)
+			CC.setNode(opt,P.AIdata.node)
+		P.AI_bot=CC.new(opt,wei)
+		CC.free(opt)CC.free(wei)
 		for i=1,P.AIdata.next do
-			BOT.addNext(P.AI_bot,CCblockID[P.next[i].id])
+			CC.addNext(P.AI_bot,CCblockID[P.next[i].id])
 		end
 		CC_updateField(P)
 		P.hd=nil
@@ -110,12 +115,12 @@ local function loadCC()
 		P:newNext()
 		local id=CCblockID[P.next[P.AIdata.next].id]
 		if id then
-			BOT.addNext(P.AI_bot,id)
+			CC.addNext(P.AI_bot,id)
 		end
 		collectgarbage()
 	end
 end
-loadCC()
+::FAILED::
 -------------------------------------------------9 Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
@@ -314,11 +319,11 @@ return{
 	},
 	["CC"]={
 		function(P)--Start thinking
-			BOT.think(P.AI_bot)
+			CC.think(P.AI_bot)
 			return 2
 		end,
 		function(P,ctrl)--Poll keys
-			local success,dest,hold,move=BOT.getMove(P.AI_bot)
+			local success,dest,hold,move=CC.getMove(P.AI_bot)
 			if success==2 then
 				ins(ctrl,6)
 				return 3

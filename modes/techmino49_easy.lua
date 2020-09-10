@@ -33,7 +33,7 @@ return{
 		}
 		PLY.newPlayer(1,340,15)
 		local L={}for i=1,49 do L[i]=true end
-		local t=CCloader_filename[system] and 2 or 0
+		local t=CC and 2 or 0
 		while t>0 do
 			local r=rnd(2,49)
 			if L[r]then L[r],t=false,t-1 end
