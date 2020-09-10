@@ -35,7 +35,8 @@ local function dumpTable(L,t)
 		local T=type(k)
 		if T=="number"then
 			if k==count then
-				k="";count=count+1
+				k=""
+				count=count+1
 			else
 				k="["..k.."]="
 			end

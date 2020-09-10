@@ -3,18 +3,21 @@ local rush_lock={20,18,16,15,14}
 local rush_wait={12,10,9,8,7}
 local rush_fall={18,16,14,13,12}
 local function score(P)
+	local MD=P.modeData
+
 	local c=#P.clearedRow
-	if c==0 and P.modeData.point%100==99 then return end
+	if c==0 and MD.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
 	elseif P.combo>3 then s=s+1
 	end
-	P.modeData.point=P.modeData.point+s
-	if P.modeData.point%100==99 then
+	MD.point=MD.point+s
+
+	if MD.point%100==99 then
 		SFX.play("blip_1")
-	elseif P.modeData.point>=100*(P.modeData.event+1)then
+	elseif MD.point>=100*(MD.event+1)then
 		--Level up!
-		local s=P.modeData.event+1;P.modeData.event=s
+		local s=MD.event+1;MD.event=s
 		local E=P.gameEnv
 		BG.set(s==1 and"bg1"or s==2 and"bg2"or s==3 and"rainbow"or "rainbow2")
 		E.lock=rush_lock[s]
@@ -28,7 +31,7 @@ local function score(P)
 		end
 
 		if s==5 then
-			P.modeData.point,P.modeData.event=500,4
+			MD.point,MD.event=500,4
 			P:win("finish")
 		else
 			P:showTextF(text.stage(s),0,-120,80,"fly")

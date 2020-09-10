@@ -23,8 +23,8 @@ local function draw(L)
 	gc.setCanvas(L.blackCanvas)C()
 	gc.setCanvas(L.shadowCanvas)C()
 	gc.setCanvas(L.renderCanvas)C()
-	lightRenderShader:send("xresolution",L.size);
-	shadowMapShader:send("yresolution",L.size);
+	lightRenderShader:send("xresolution",L.size)
+	shadowMapShader:send("yresolution",L.size)
 
 	--Get up-left of light
 	local X=L.x-L.size*.5

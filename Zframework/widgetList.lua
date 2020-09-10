@@ -141,7 +141,7 @@ local Widgets={
 		newButton({name="back",		x=1200,y=655,w=120,h=80,color="white",	font=40,code=BACK}),
 	},
 	music={
-		newSlider({name="bgm",		x=760,	y=80,	w=400,							font=35,disp=SETval("bgm"),code=function(v)setting.bgm=v;BGM.freshVolume()end}),
+		newSlider({name="bgm",		x=760,	y=80,	w=400,							font=35,disp=SETval("bgm"),code=function(v)setting.bgm=v BGM.freshVolume()end}),
 		newButton({name="up",		x=200,	y=250,	w=120,			color="white",	font=55,code=pressKey("up"),hide=function()return sceneTemp==1 end}),
 		newButton({name="play",		x=200,	y=390,	w=120,			color="white",	font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
 		newButton({name="down",		x=200,	y=530,	w=120,			color="white",	font=55,code=pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
@@ -452,8 +452,8 @@ local Widgets={
 	},
 	setting_trackSetting={
 		newSwitch({name="VKDodge",	x=400,	y=200,	font=35,				disp=SETval("VKDodge"),code=SETrev("VKDodge")}),
-		newSlider({name="VKTchW",	x=140,	y=310,	w=1000,	unit=10,font=35,disp=SETval("VKTchW"),code=function(i)setting.VKTchW=i;setting.VKCurW=math.max(setting.VKCurW,i)end}),
-		newSlider({name="VKCurW",	x=140,	y=370,	w=1000,	unit=10,font=35,disp=SETval("VKCurW"),code=function(i)setting.VKCurW=i;setting.VKTchW=math.min(setting.VKTchW,i)end}),
+		newSlider({name="VKTchW",	x=140,	y=310,	w=1000,	unit=10,font=35,disp=SETval("VKTchW"),code=function(i)setting.VKTchW=i setting.VKCurW=math.max(setting.VKCurW,i)end}),
+		newSlider({name="VKCurW",	x=140,	y=370,	w=1000,	unit=10,font=35,disp=SETval("VKCurW"),code=function(i)setting.VKCurW=i setting.VKTchW=math.min(setting.VKTchW,i)end}),
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,color="white",font=35,code=BACK}),
 	},
 	setting_lang={

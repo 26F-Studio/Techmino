@@ -2063,7 +2063,10 @@ do--player.drop(P)--Place piece
 			for x=1,c do
 				local y
 				for i=#B,1,-1 do
-					if B[i][x]then y=i;goto L1 end
+					if B[i][x]then
+						y=i
+						goto L1
+					end
 				end
 				goto L2
 				::L1::

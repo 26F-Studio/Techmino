@@ -1,14 +1,16 @@
 local gc=love.graphics
 local int=math.floor
 local function score(P)
+	local MD=P.modeData
+	
 	local c=#P.clearedRow
-	if c==0 and P.modeData.point%100==99 then return end
+	if c==0 and MD.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
 	elseif P.combo>3 then s=s+1
 	end
-	local MD=P.modeData
 	MD.point=MD.point+s
+
 	if MD.point%100==99 then SFX.play("blip_1")end
 	if int(MD.point*.01)>MD.event then
 		--Level up!

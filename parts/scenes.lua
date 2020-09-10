@@ -871,9 +871,11 @@ do--mode
 		end
 		t=k/t
 		if cam.sel then
-			cam.x=(cam.x-180)*t+180;cam.y=cam.y*t
+			cam.x=(cam.x-180)*t+180
+			cam.y=cam.y*t
 		else
-			cam.x=cam.x*t;cam.y=cam.y*t
+			cam.x=cam.x*t
+			cam.y=cam.y*t
 		end
 		cam.k=k
 		cam.keyCtrl=false
@@ -967,18 +969,18 @@ do--mode
 		local x,y,k=cam.x,cam.y,cam.k
 		local F
 		if not SCN.swapping then
-			if kb.isDown("up",	"w")then y=y-10*k;F=true end
-			if kb.isDown("down","s")then y=y+10*k;F=true end
-			if kb.isDown("left","a")then x=x-10*k;F=true end
-			if kb.isDown("right","d")then x=x+10*k;F=true end
+			if kb.isDown("up",	"w")then	y=y-10*k F=true end
+			if kb.isDown("down","s")then	y=y+10*k F=true end
+			if kb.isDown("left","a")then	x=x-10*k F=true end
+			if kb.isDown("right","d")then	x=x+10*k F=true end
 			local js1=joysticks[1]
 			if js1 then
 				local k=js1:getAxis(1)
 				if k~="c"then
-					if k=="u"or k=="ul"or k=="ur"then y=y-10*k;F=true end
-					if k=="d"or k=="dl"or k=="dl"then y=y+10*k;F=true end
-					if k=="l"or k=="ul"or k=="dl"then x=x-10*k;F=true end
-					if k=="r"or k=="ur"or k=="dr"then x=x+10*k;F=true end
+					if k=="u"or k=="ul"or k=="ur"then y=y-10*k F=true end
+					if k=="d"or k=="dl"or k=="dl"then y=y+10*k F=true end
+					if k=="l"or k=="ul"or k=="dl"then x=x-10*k F=true end
+					if k=="r"or k=="ur"or k=="dr"then x=x+10*k F=true end
 				end
 			end
 		end
