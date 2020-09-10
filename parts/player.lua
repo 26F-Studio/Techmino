@@ -178,9 +178,20 @@ local function updateLine(P,dt)
 			end
 		end
 	end
-	local bn=P.fieldBeneath
-	if bn>0 then
-		P.fieldBeneath=max(bn-P.gameEnv.pushSpeed,0)
+
+	local y=P.fieldBeneath
+	if y>0 then
+		P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
+	end
+	
+	local f=P.fieldUp
+	if not P.alive then
+		y=0
+	else
+		y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.imgY-17),0)
+	end
+	if f~=y then
+		P.fieldUp=f>y and max(f*.95+y*.05-2,y)or ceil(f*.97+y*.03+1,y)
 	end
 end
 local function updateFXs(P,dt)
@@ -549,6 +560,7 @@ do--function Pdraw_norm(P)
 	function Pdraw_norm(P)
 		local _
 		local ENV=P.gameEnv
+		local FBN,FUP=P.fieldBeneath,P.fieldUp
 		gc.push("transform")
 			gc.translate(P.x,P.y)gc.scale(P.size)
 
@@ -569,20 +581,29 @@ do--function Pdraw_norm(P)
 						gc.setColor(1,1,1,.2)
 						for x=1,9 do gc.line(30*x,-10,30*x,600)end
 						for y=0,19 do
-							y=30*(y-int(P.fieldBeneath/30))+P.fieldBeneath
+							y=30*(y-int((FBN+FUP)/30))+FBN+FUP
 							gc.line(0,y,300,y)
 						end
 					end
 
 					--In-field things
 					gc.push("transform")
-						gc.translate(0,P.fieldBeneath)
+						gc.translate(0,FBN+FUP)
 						gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
+
+						--Draw dangerous area
+						gc.setColor(1,0,0,.2)
+						gc.rectangle("fill",0,0,300,-FUP-FBN-10)
+
+						gc.setLineWidth(4)
+						gc.setColor(1,0,0,min(FUP/9,1)*(sin(Timer()*10)*.5+.5))
+						gc.rectangle("line",90+2,0-2-FBN,120-4,-60+4)
+
 						--Draw field
 						local V=P.visTime
 						local F=P.field
 						if P.falling==-1 then--Blocks only
-							for j=int(P.fieldBeneath/30+1),#F do
+							for j=int(FBN/30+1),#F do
 								for i=1,10 do
 									if F[j][i]>0 then
 										if V[j][i]>0 then
@@ -599,7 +620,7 @@ do--function Pdraw_norm(P)
 							local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 							local A=P.falling/ENV.fall
 							local h,H=1,#F
-							for j=int(P.fieldBeneath/30+1),H do
+							for j=int(FBN/30+1),H do
 								while j==P.clearingRow[h]do
 									h=h+1
 									dy=dy+stepY
@@ -621,6 +642,11 @@ do--function Pdraw_norm(P)
 							end
 							gc.translate(0,dy)
 						end
+
+						--Draw spawn line
+						gc.setColor(1,sin(Timer())*.4+.5,0,.5)
+						gc.setLineWidth(4)
+						gc.line(0,0-FBN,300,0-FBN)
 
 						--Draw FXs
 						drawFXs(P)
@@ -1277,6 +1303,7 @@ local function newEmptyPlayer(id,x,y,size)
 	P.combo,P.b2b=0,0
 	P.garbageBeneath=0
 	P.fieldBeneath=0
+	P.fieldUp=0
 
 	P.score1,P.b2b1=0,0
 	P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
