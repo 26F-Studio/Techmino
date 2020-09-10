@@ -53,8 +53,8 @@ return{
 		setFont(55)
 		mStr(P.modeData.event,69,270)
 		mStr(
-			P.modeData.event<10 and 22
-			or P.modeData.event<20 and 25
+			P.modeData.event<10 and 20
+			or P.modeData.event<20 and 24
 			or 28
 		,69,390)
 		mText(drawableText.wave,69,330)
