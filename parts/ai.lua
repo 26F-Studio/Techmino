@@ -17,6 +17,7 @@ local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 do
+	local fs=love.filesystem
 	if system=="Windows"then
 		local success,message=require("CCloader")
 		if success then
@@ -24,9 +25,11 @@ do
 		else
 			LOG.print("Cannot load CC: "..message,"warn",color.red)
 		end
+		if fs.getInfo("CCloader.dll")then
+			NOGAME="delCC"
+		end
 	elseif system=="Android"then
 		local armList={"arm64-v8a","armeabi-v7a"}
-		local fs=love.filesystem
 		local libFunc,success,message
 		for i=1,#armList do
 			local CCloader_f,size=fs.read("data","libAndroid/"..armList[i].."/libCCloader.so")

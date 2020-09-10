@@ -726,12 +726,24 @@ do--intro
 		if k==2 then
 			VOC.play("bye")
 			SCN.back()
-		elseif newVersionLaunch then
-			SCN.push("main","fade")
-			SCN.swapTo("history","fade")
-			LOG.print(text.newVersion,"warn",color.lBlue)
+		elseif NOGAME=="delCC"then
+			LOG.print("Please quit the game, then delete CCloader.dll(21KB) in saving folder!",600,color.yellow)
+			LOG.print("请关闭游戏,然后删除存档文件夹内的 CCloader.dll(21KB) !",600,color.yellow)
+			TASK.new(function(S)
+				S[1]=S[1]-1
+				if S[1]==0 then
+					love.system.openURL(love.filesystem.getSaveDirectory())
+					return true
+				end
+			end,{60})
 		else
-			SCN.go("main")
+			if newVersionLaunch then
+				SCN.push("main","fade")
+				SCN.swapTo("history","fade")
+				LOG.print(text.newVersion,"warn",color.lBlue)
+			else
+				SCN.go("main")
+			end
 		end
 	end
 	function touchDown.intro(id,x,y)

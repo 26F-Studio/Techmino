@@ -429,7 +429,6 @@ function love.run()
 
 	love.resize(gc.getWidth(),gc.getHeight())
 	SCN.init("load")--Scene Launch
-	marking=true
 
 	return function()
 		local _
