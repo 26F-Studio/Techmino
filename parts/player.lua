@@ -183,7 +183,7 @@ local function updateLine(P,dt)
 	if y>0 then
 		P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
 	end
-	
+
 	local f=P.fieldUp
 	if not P.alive then
 		y=0

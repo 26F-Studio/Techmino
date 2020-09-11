@@ -1762,6 +1762,7 @@ do--play
 
 	function Tmr.play(dt)
 		local _
+		local P1=players[1]
 		game.frame=game.frame+1
 		stat.time=stat.time+dt
 
@@ -1774,8 +1775,6 @@ do--play
 				end
 			end
 		end
-
-		local P1=players[1]
 
 		--Replay
 		if game.replaying then
@@ -1795,6 +1794,7 @@ do--play
 			end
 			game.replaying=_
 		end
+
 		--Counting,include pre-das,directy RETURN,or restart counting
 		if game.frame<180 then
 			if game.frame==179 then

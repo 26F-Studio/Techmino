@@ -2,7 +2,7 @@ local gc=love.graphics
 local int=math.floor
 local function score(P)
 	local MD=P.modeData
-	
+
 	local c=#P.clearedRow
 	if c==0 and MD.point%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
