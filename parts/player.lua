@@ -26,6 +26,8 @@ local gameEnv0={
 	clearFX=2,
 	shakeFX=3,
 
+	highCam=false,
+
 	drop=60,lock=60,
 	wait=0,fall=0,
 	_20G=false,bone=false,
@@ -184,14 +186,16 @@ local function updateLine(P,dt)
 		P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
 	end
 
-	local f=P.fieldUp
-	if not P.alive then
-		y=0
-	else
-		y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.imgY-17),0)
-	end
-	if f~=y then
-		P.fieldUp=f>y and max(f*.95+y*.05-2,y)or ceil(f*.97+y*.03+1,y)
+	if P.gameEnv.highCam then
+		local f=P.fieldUp
+		if not P.alive then
+			y=0
+		else
+			y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.imgY-17),0)
+		end
+		if f~=y then
+			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or ceil(f*.97+y*.03+1,y)
+		end
 	end
 end
 local function updateFXs(P,dt)

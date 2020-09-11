@@ -279,8 +279,9 @@ local Widgets={
 				setting.frameMul=i<5 and 5*i+20 or 10*i
 			end}),
 		newSwitch({name="text",		x=1050,	y=180,font=35,disp=SETval("text"),code=SETrev("text")}),
-		newSwitch({name="warn",		x=1050,	y=260,font=35,disp=SETval("warn"),code=SETrev("warn")}),
-		newSwitch({name="fullscreen",x=1050,y=340,font=35,disp=SETval("fullscreen"),
+		newSwitch({name="warn",		x=1050,	y=240,font=35,disp=SETval("warn"),code=SETrev("warn")}),
+		newSwitch({name="highCam",	x=1050,	y=300,font=35,disp=SETval("highCam"),code=SETrev("highCam")}),
+		newSwitch({name="fullscreen",x=1050,y=360,font=35,disp=SETval("fullscreen"),
 			code=function()
 				setting.fullscreen=not setting.fullscreen
 				love.window.setFullscreen(setting.fullscreen)
@@ -292,7 +293,7 @@ local Widgets={
 				setting.bg=not setting.bg
 				BG.set("space")
 			end}),
-		newSwitch({name="power",	x=1050,	y=500,font=35,disp=SETval("powerInfo"),
+		newSwitch({name="power",	x=1050,	y=480,font=35,disp=SETval("powerInfo"),
 			code=function()
 				setting.powerInfo=not setting.powerInfo
 			end}),

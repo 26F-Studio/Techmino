@@ -30,6 +30,7 @@ setting={
 
 	text=true,
 	warn=true,
+	highCam=false,
 	fullscreen=false,
 	bg=true,
 	powerInfo=false,
