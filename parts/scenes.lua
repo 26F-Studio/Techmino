@@ -1999,7 +1999,7 @@ do--pause
 			--From right-down, 60 degree each
 			radar={
 				(S.off+S.dig)/S.time*60,--DefPM
-				(S.send+S.dig)/S.time*60,--ADPM
+				(S.atk+S.dig)/S.time*60,--ADPM
 				S.atk/S.time*60,		--AtkPM
 				S.send/S.time*60,		--SendPM
 				S.piece/S.time*24,		--LinePM
