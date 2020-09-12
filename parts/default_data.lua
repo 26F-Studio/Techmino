@@ -72,7 +72,7 @@ stat={
 }
 for i=1,25 do
 	stat.clear[i]={0,0,0,0,0}
-	stat.spin[i]={0,0,0,0,0}
+	stat.spin[i]={0,0,0,0,0,0}
 end
 
 keyMap={

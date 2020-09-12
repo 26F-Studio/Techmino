@@ -1059,7 +1059,7 @@ local function getNewStatTable()
 	}
 	for i=1,25 do
 		T.clear[i]={0,0,0,0,0}
-		T.spin[i]={0,0,0,0,0}
+		T.spin[i]={0,0,0,0,0,0}
 		T.clears[i]=0
 		T.spins[i]=0
 	end
@@ -1951,8 +1951,8 @@ function player.cancel(P,N)--Cancel Garbage
 	return off
 end
 do--player.drop(P)--Place piece
-	local b2bPoint={50,100,180,300}
-	local b2bATK={3,5,8,10}
+	local b2bPoint={50,100,180,300,800}
+	local b2bATK={3,5,8,10,20}
 	local clearSCR={80,200,400}
 	local spinSCR={--[blockName][row]
 		{200,750,1300},--Z
@@ -1962,7 +1962,7 @@ do--player.drop(P)--Place piece
 		{250,800,1400},--T
 		{260,900,1700},--O
 		{300,1200,1700},--I
-		{220,800,2000,3000},--Else
+		{220,800,2000,3000,8000},--Else
 	}
 	--B2BMUL:1.2/2.0
 	--Techrash:1K;MUL:1.3/1.8
@@ -1971,7 +1971,7 @@ do--player.drop(P)--Place piece
 	local reDef={0,1,1,2,3,3,4,4,5}
 	local spinName={"zspin","sspin","jspin","lspin","tspin","ospin","ispin","zspin","sspin","pspin","qspin","fspin","espin","tspin","uspin","vspin","wspin","xspin","jspin","lspin","rspin","yspin","hspin","nspin","ispin"}
 	local clearName={"single","double","triple","techrash","pentcrash"}
-	local spin_n={[0]="spin_0","spin_1","spin_2","spin_3","spin_3"}
+	local spin_n={[0]="spin_0","spin_1","spin_2","spin_3","spin_3","spin_3"}
 	local clear_n={"clear_1","clear_2","clear_3","clear_4","clear_4"}
 	local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
 	local finesseList={

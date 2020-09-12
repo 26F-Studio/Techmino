@@ -124,7 +124,7 @@ if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
 if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
 if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 
---Update modeRanks
+--Update data
 do
 	local R=modeRanks
 	for k,v in next,R do
@@ -154,6 +154,11 @@ do
 	if S.VKSFX>1 then S.VKSFX=S.VKSFX*.25 end
 	if S.VKAlpha>1 then S.VKAlpha=S.VKAlpha*.1 end
 	S=stat
+	if not S.spin[1][6]then
+		for i=1,25 do
+			S.spin[i][6]=0
+		end
+	end
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
