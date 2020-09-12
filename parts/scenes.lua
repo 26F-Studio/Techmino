@@ -479,6 +479,7 @@ do--schulte_G
 	end
 	local function tapBoard(x,y)
 		local S=sceneTemp
+		local R=S.rank
 		if x>320 and x<960 and y>40 and y<680 then
 			if S.state==0 then
 				newBoard()
@@ -486,19 +487,23 @@ do--schulte_G
 				S.startTime=Timer()
 				S.target=1
 			elseif S.state==1 then
-				x=S.rank*(int((y-40)/640*S.rank))+int((x-320)/640*S.rank)+1
+				local X=int((x-320)/640*R)
+				local Y=int((y-40)/640*R)
+				x=R*Y+X+1
 				if S.board[x]==S.target then
 					S.target=S.target+1
-					if S.target<=S.rank^2 then
+					if S.target<=R^2 then
 						SFX.play("lock")
 					else
 						S.time=Timer()-S.startTime+S.error
 						S.state=2
 						SFX.play("reach")
 					end
+					sysFX.newShade(.3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
 				else
 					SFX.play("finesseError")
 					S.error=S.error+1
+					sysFX.newShade(.5,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
 				end
 			end
 		end
@@ -567,7 +572,7 @@ do--schulte_G
 
 		local rank=S.rank
 		local width=640/rank
-		local blind=S.state==0 or S.blind and(S.state==2 or S.target>1)
+		local blind=S.state==0 or S.blind and S.state==1 and S.target>1
 		gc.setLineWidth(4)
 		local f=fontSize[rank]
 		setFont(f)
@@ -575,7 +580,7 @@ do--schulte_G
 			for j=1,rank do
 				local N=S.board[rank*(i-1)+j]
 				if not(S.state==1 and S.disappear and N<S.target)then
-					gc.setColor(.6,.4,.4)
+					gc.setColor(.4,.5,.6)
 					gc.rectangle("fill",320+(j-1)*width,(i-1)*width+40,width,width)
 					gc.setColor(1,1,1)
 					gc.rectangle("line",320+(j-1)*width,(i-1)*width+40,width,width)
