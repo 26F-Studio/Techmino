@@ -2003,6 +2003,7 @@ do--player.drop(P)--Place piece
 		local cmb=P.combo
 		P.waiting=P.gameEnv.wait
 		local STAT=P.stat
+		local CB,CX,CY=P.cur,P.curX,P.curY
 		local clear--If (perfect)clear
 		local cc,gbcc=0,0--Row/garbage-row cleared,full-part
 		local atk,exblock=0,0--Attack & extra defense
@@ -2011,12 +2012,10 @@ do--player.drop(P)--Place piece
 		local dospin=0
 		local mini
 
-		--Spin check
+		--Tri-corner spin check
 		if P.spinLast then
-
-			--Tri-corner
-			if P.cur.id<6 then
-				local x,y=P.curX+P.sc[2],P.curY+P.sc[1]
+			if CB.id<6 then
+				local x,y=CX+P.sc[2],CY+P.sc[1]
 				local c=0
 				if P:solid(x-1,y+1)then c=c+1 end
 				if P:solid(x+1,y+1)then c=c+1 end
@@ -2026,11 +2025,10 @@ do--player.drop(P)--Place piece
 				if c>2 then dospin=dospin+1 end
 			end
 			::NTC::
-
-			--Immovable
-			if P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and P:ifoverlap(P.cur.bk,P.curX,P.curY+1)then
-				dospin=dospin+2
-			end
+		end
+		--Immovable spin check
+		if P:ifoverlap(CB.bk,CX,CY+1)and P:ifoverlap(CB.bk,CX-1,CY)and P:ifoverlap(CB.bk,CX+1,CY)then
+			dospin=dospin+2
 		end
 
 		--Lock block to field
@@ -2041,7 +2039,7 @@ do--player.drop(P)--Place piece
 
 		--Check rows to be cleared
 		for i=0,P.r-1 do
-			local h=P.curY+i
+			local h=CY+i
 			if P:ckfull(h)then
 				cc=cc+1
 				P.clearingRow[cc]=h-cc+1
@@ -2077,7 +2075,7 @@ do--player.drop(P)--Place piece
 				if dospin>0 then
 					dospin=dospin+P.spinLast
 					if dospin<2 then
-						mini=P.cur.id<6 and cc<3 and cc<P.r
+						mini=CB.id<6 and cc<3 and cc<P.r
 					end
 				else
 					dospin=false
@@ -2093,12 +2091,12 @@ do--player.drop(P)--Place piece
 
 		--Finesse: roof check
 		local finesse
-		if P.cur.id>7 then
+		if CB.id>7 then
 			finesse=true
-		elseif P.curY<=18 then
-			local y0=P.curY
-			local x,c=P.curX,P.c
-			local B=P.cur.bk
+		elseif CY<=18 then
+			local y0=CY
+			local x,c=CX,P.c
+			local B=CB.bk
 			for x=1,c do
 				local y
 				for i=#B,1,-1 do
@@ -2110,7 +2108,7 @@ do--player.drop(P)--Place piece
 				goto L2
 				::L1::
 				if y then
-					x=P.curX+x-1
+					x=CX+x-1
 					for y=y0+y,#P.field do
 						--Roof=finesse
 						if P:solid(x,y)then
@@ -2153,8 +2151,8 @@ do--player.drop(P)--Place piece
 		--Finesse check (control)
 		if not finesse then
 			if dospin then P.ctrlCount=P.ctrlCount-2 end--Allow 2 more step for roof-less spin
-			local id=P.cur.id
-			local d=P.ctrlCount-finesseList[id][P.dir+1][P.curX]
+			local id=CB.id
+			local d=P.ctrlCount-finesseList[id][P.dir+1][CX]
 			if d>=2 then
 				P:finesseError(2)
 			elseif d>0 then
@@ -2165,9 +2163,9 @@ do--player.drop(P)--Place piece
 		if cc>0 then
 			cmb=cmb+1
 			if dospin then
-				cscore=(spinSCR[P.cur.name]or spinSCR[8])[cc]
+				cscore=(spinSCR[CB.name]or spinSCR[8])[cc]
 				if P.b2b>1000 then
-					P:showText(text.b3b..text.block[P.cur.name]..text.spin.." "..text.clear[cc],0,-30,35,"stretch")
+					P:showText(text.b3b..text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,35,"stretch")
 					atk=b2bATK[cc]+cc*.5
 					exblock=exblock+1
 					cscore=cscore*2
@@ -2176,7 +2174,7 @@ do--player.drop(P)--Place piece
 						VOC.play("b3b",CHN)
 					end
 				elseif P.b2b>=50 then
-					P:showText(text.b2b..text.block[P.cur.name]..text.spin.." "..text.clear[cc],0,-30,35,"spin")
+					P:showText(text.b2b..text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,35,"spin")
 					atk=b2bATK[cc]
 					cscore=cscore*1.2
 					STAT.b2b=STAT.b2b+1
@@ -2184,7 +2182,7 @@ do--player.drop(P)--Place piece
 						VOC.play("b2b",CHN)
 					end
 				else
-					P:showText(text.block[P.cur.name]..text.spin.." "..text.clear[cc],0,-30,45,"spin")
+					P:showText(text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,45,"spin")
 					atk=2*cc
 				end
 				sendTime=20+atk*20
@@ -2200,10 +2198,10 @@ do--player.drop(P)--Place piece
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
-				P.lastClear=P.cur.id*10+cc
+				P.lastClear=CB.id*10+cc
 				if P.human then
 					SFX.play(spin_n[cc])
-					VOC.play(spinName[P.cur.name],CHN)
+					VOC.play(spinName[CB.name],CHN)
 				end
 			elseif cc>=4 then
 				cscore=cc==4 and 1000 or 1500
@@ -2232,7 +2230,7 @@ do--player.drop(P)--Place piece
 					atk=cc
 				end
 				P.b2b=P.b2b+cc*80-220
-				P.lastClear=P.cur.name*10+cc
+				P.lastClear=CB.name*10+cc
 			end
 			if P.human then
 				VOC.play(clearName[cc],CHN)
@@ -2268,7 +2266,7 @@ do--player.drop(P)--Place piece
 				else
 					goto checkB2Breduce
 				end
-				P.lastClear=P.cur.name*10+5
+				P.lastClear=CB.name*10+5
 				goto skipB2Breduce
 			end
 
@@ -2325,7 +2323,7 @@ do--player.drop(P)--Place piece
 								local M=#P.atker
 								if M>0 then
 									for i=1,M do
-										P:attack(P.atker[i],send,sendTime,M,P.cur.color,P.lastClear,dospin,cmb)
+										P:attack(P.atker[i],send,sendTime,M,CB.color,P.lastClear,dospin,cmb)
 									end
 								else
 									T=randomTarget(P)
@@ -2338,7 +2336,7 @@ do--player.drop(P)--Place piece
 							T=randomTarget(P)
 						end
 						if T then
-							P:attack(T,send,sendTime,1,P.cur.color,P.lastClear,dospin,cmb)
+							P:attack(T,send,sendTime,1,CB.color,P.lastClear,dospin,cmb)
 						end
 					end
 					if P.human and send>3 then SFX.play("emit",min(send,7)*.1)end
@@ -2357,11 +2355,11 @@ do--player.drop(P)--Place piece
 
 			--Spin bonus
 			if dospin then
-				P:showText(text.block[P.cur.name]..text.spin,0,-30,45,"appear")
+				P:showText(text.block[CB.name]..text.spin,0,-30,45,"appear")
 				P.b2b=P.b2b+20
 				if P.human then
 					SFX.play("spin_0")
-					VOC.play(spinName[P.cur.name],CHN)
+					VOC.play(spinName[CB.name],CHN)
 				end
 				dropScore=25
 			end
@@ -2408,7 +2406,7 @@ do--player.drop(P)--Place piece
 		end
 
 		--Update stat
-		local n=P.cur.name
+		local n=CB.name
 		if dospin then
 			_=STAT.spin[n]	_[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
 			_=STAT.spins	_[cc+1]=_[cc+1]+1--Spin[0~4]
