@@ -27,6 +27,7 @@ local gameEnv0={
 	shakeFX=3,
 
 	highCam=false,
+	nextPos=false,
 
 	drop=60,lock=60,
 	wait=0,fall=0,
@@ -599,10 +600,6 @@ do--function Pdraw_norm(P)
 						gc.setColor(1,0,0,.2)
 						gc.rectangle("fill",0,0,300,-FUP-FBN-10)
 
-						gc.setLineWidth(4)
-						gc.setColor(1,0,0,min(FUP/9,1)*(sin(Timer()*10)*.5+.5))
-						gc.rectangle("line",90+2,0-2-FBN,120-4,-60+4)
-
 						--Draw field
 						local V=P.visTime
 						local F=P.field
@@ -708,6 +705,22 @@ do--function Pdraw_norm(P)
 								gc.draw(IMG.spinCenter,x,600-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
 							end
 						end
+
+						--Draw next preview
+						if ENV.nextPos and P.next[1]then
+							gc.setColor(1,1,1,.8)
+							local B=P.next[1].bk
+							local x=int(6-#B[1]*.5)
+							local y=21+ceil(P.fieldBeneath/30)
+							for i=1,#B do
+								for j=1,#B[1]do
+									if B[i][j]then
+										gc.draw(puzzleMark[-1],30*(x+j-2),30*(21-y-i))
+									end
+								end
+							end
+						end
+
 						gc.setScissor()
 					gc.pop()
 

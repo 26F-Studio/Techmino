@@ -31,6 +31,7 @@ setting={
 	text=true,
 	warn=true,
 	highCam=false,
+	nextPos=false,
 	fullscreen=false,
 	bg=true,
 	powerInfo=false,
