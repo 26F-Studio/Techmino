@@ -91,7 +91,7 @@ return{
 				P:getNext(res[P:RND(#res)])
 			end
 		end,
-		target=100,dropPiece=PLY.reach_winCheck,
+		target=100,dropPiece=PLY.check_lineReach,
 		next=1,hold=false,
 		ospin=false,
 		freshLimit=15,

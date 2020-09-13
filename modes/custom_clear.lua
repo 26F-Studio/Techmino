@@ -3,7 +3,7 @@ local int=math.floor
 return{
 	color=color.white,
 	env={
-		dropPiece=PLY.reach_winCheck,
+		dropPiece=PLY.check_lineReach,
 	},
 	load=function()
 		for i=1,#customID do

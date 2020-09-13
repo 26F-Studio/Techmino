@@ -5,7 +5,7 @@ return{
 		drop=20,lock=60,
 		sequence="bag",
 		bag={1,1,2,2,3,3,4,4,5,5,6,6},
-		target=100,dropPiece=PLY.reach_winCheck,
+		target=100,dropPiece=PLY.check_lineReach,
 		next=3,
 		ospin=false,
 		freshLimit=15,

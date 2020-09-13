@@ -4,7 +4,7 @@ return{
 	env={
 		drop=30,lock=45,
 		visible="time",
-		dropPiece=PLY.reach_winCheck,
+		dropPiece=PLY.check_lineReach,
 		freshLimit=10,
 		target=200,
 		bg="glow",bgm="reason",

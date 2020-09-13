@@ -2,8 +2,8 @@ return{
 	color=color.lGrey,
 	env={
 		drop=120,lock=120,
-		oncehold=false,target=200,
-		dropPiece=PLY.reach_winCheck,
+		oncehold=false,
+		target=200,dropPiece=PLY.check_lineReach,
 		bg="bg2",bgm="infinite",
 	},
 	load=function()

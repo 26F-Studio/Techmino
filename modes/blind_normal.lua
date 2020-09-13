@@ -6,7 +6,7 @@ return{
 		drop=15,lock=45,
 		freshLimit=10,
 		visible="fast",
-		dropPiece=PLY.reach_winCheck,
+		dropPiece=PLY.check_lineReach,
 		target=200,
 		bg="glow",bgm="reason",
 	},

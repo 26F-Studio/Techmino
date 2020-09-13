@@ -10,7 +10,7 @@ return{
 		center=0,ghost=0,
 		dropFX=0,lockFX=0,
 		visible="none",
-		dropPiece=PLY.reach_winCheck,
+		dropPiece=PLY.check_lineReach,
 		freshLimit=15,
 		target=100,
 		bg="none",bgm="way",

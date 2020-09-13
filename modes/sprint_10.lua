@@ -4,7 +4,7 @@ return{
 	color=color.cyan,
 	env={
 		drop=60,lock=60,
-		target=10,dropPiece=PLY.reach_winCheck,
+		target=10,dropPiece=PLY.check_lineReach,
 		bg="bg2",bgm="race",
 	},
 	load=function()

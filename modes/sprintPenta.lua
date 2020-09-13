@@ -5,7 +5,7 @@ return{
 	env={
 		drop=60,lock=60,
 		sequence="bag",bag={8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
-		target=40,dropPiece=PLY.reach_winCheck,
+		target=40,dropPiece=PLY.check_lineReach,
 		bg="aura",bgm="race",
 	},
 	load=function()

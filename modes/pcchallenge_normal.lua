@@ -4,7 +4,7 @@ return{
 	env={
 		oncehold=false,
 		drop=300,lock=1e99,
-		target=100,dropPiece=PLY.reach_winCheck,
+		target=100,dropPiece=PLY.check_lineReach,
 		ospin=false,
 		bg="rgb",bgm="newera",
 	},
