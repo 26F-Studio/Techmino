@@ -3,7 +3,7 @@ local function tech_check_hard(P)
 	if #P.clearedRow>0 and P.lastClear<10 or P.lastClear==74 then
 		P:lose()
 	end
-	if P.stat.row>=200 then
+	if P.stat.atk>=200 then
 		P:win("finish")
 	end
 end
@@ -14,7 +14,6 @@ return{
 		arr=0,
 		drop=1e99,lock=60,
 		freshLimit=15,
-		target=200,
 		fineKill=true,
 		dropPiece=tech_check_hard,
 		bg="flink",bgm="infinite",
@@ -30,17 +29,23 @@ return{
 		mText(drawableText.atk,69,313)
 		mText(drawableText.eff,69,433)
 	end,
-	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Lines  "..toTime(D[2])end,
+	score=function(P)return{P.stat.atk<=200 and P.stat.atk or 200,P.stat.time}end,
+	scoreDisp=function(D)return D[1].." Attack  "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local L=P.stat.row
-		return
-		L>=200 and 5 or
-		L>=150 and 4 or
-		L>=100 and 3 or
-		L>=70 and 2 or
-		L>=40 and 1 or
-		L>=10 and 0
+		local L=P.stat.atk
+		if L>=200 then
+			local T=P.stat.time
+			return
+			T<120 and 5 or
+			T<150 and 4 or
+			3
+		else
+			return
+			L>=150 and 3 or
+			L>=100 and 2 or
+			L>=60 and 1 or
+			L>=20 and 0
+		end
 	end,
 }
