@@ -473,7 +473,7 @@ local Widgets={
 	},
 	p15={
 		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
-		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)if sceneTemp.state==0 then sceneTemp.color=v end end,hide=function()return sceneTemp.state==1 end}),
+		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=function()return sceneTemp.color end,code=function(v)if sceneTemp.state~=1 then sceneTemp.color=v end end,hide=function()return sceneTemp.state==1 end}),
 		newSwitch({name="blind",	x=240,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state==1 end}),
 		newSwitch({name="slide",	x=240,y=420,w=60,						font=40,disp=function()return sceneTemp.slide end,code=pressKey("s"),hide=function()return sceneTemp.state==1 end}),
 		newSwitch({name="pathVis",	x=240,y=510,w=60,						font=40,disp=function()return sceneTemp.pathVis end,code=pressKey("p"),hide=function()return sceneTemp.state==1 or not sceneTemp.slide end}),
@@ -483,8 +483,8 @@ local Widgets={
 	schulte_G={
 		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("r"),hide=function()return sceneTemp.state==0 end}),
 		newSlider({name="rank",		x=130,y=250,w=150,unit=3,show=false,	font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end}),
-		newSwitch({name="blind",	x=160,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state==1 end}),
-		newSwitch({name="disappear",x=160,y=410,w=60,						font=40,disp=function()return sceneTemp.disappear end,code=pressKey("d"),hide=function()return sceneTemp.state==1 end}),
+		newSwitch({name="blind",	x=200,y=330,w=60,						font=40,disp=function()return sceneTemp.blind end,code=pressKey("b"),hide=function()return sceneTemp.state==1 end}),
+		newSwitch({name="disappear",x=200,y=410,w=60,						font=40,disp=function()return sceneTemp.disappear end,code=pressKey("d"),hide=function()return sceneTemp.state==1 end}),
 		newButton({name="back",		x=1140,y=640,w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	help={

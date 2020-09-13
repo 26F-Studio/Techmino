@@ -289,7 +289,7 @@ do--p15
 			S.time=0
 			S.move=0
 		elseif k=="c"then
-			if S.state==2 then
+			if S.state~=1 then
 				S.color=(S.color+1)%5
 			end
 		elseif k=="r"then
@@ -411,9 +411,16 @@ do--p15
 		gc.print(format("%.3f",S.time),1026,80)
 		gc.print(S.move,1026,150)
 
-		if S.state==2 then gc.setColor(.9,.9,0)		--win
-		elseif S.state==1 then gc.setColor(.9,.9,.9)--game
-		elseif S.state==0 then gc.setColor(.2,.8,.2)--ready
+		if S.state==2 then
+			--Draw no-setting area
+			gc.setColor(1,0,0,.3)
+			gc.rectangle("fill",15,300,285,330)
+
+			gc.setColor(.9,.9,0)--win
+		elseif S.state==1 then
+			gc.setColor(.9,.9,.9)--game
+		elseif S.state==0 then
+			gc.setColor(.2,.8,.2)--ready
 		end
 		gc.setLineWidth(10)
 		gc.rectangle("line",313,33,654,654,18)
@@ -463,7 +470,7 @@ do--schulte_G
 			time=0,
 			error=0,
 			state=0,
-			target=0,
+			progress=0,
 		}
 	end
 
@@ -485,14 +492,14 @@ do--schulte_G
 				newBoard()
 				S.state=1
 				S.startTime=Timer()
-				S.target=1
+				S.progress=0
 			elseif S.state==1 then
 				local X=int((x-320)/640*R)
 				local Y=int((y-40)/640*R)
 				x=R*Y+X+1
-				if S.board[x]==S.target then
-					S.target=S.target+1
-					if S.target<=R^2 then
+				if S.board[x]==S.progress+1 then
+					S.progress=S.progress+1
+					if S.progress<R^2 then
 						SFX.play("lock")
 					else
 						S.time=Timer()-S.startTime+S.error
@@ -523,7 +530,7 @@ do--schulte_G
 				S.time=0
 				S.error=0
 				S.state=0
-				S.target=0
+				S.progress=0
 			end
 		elseif key=="z"or key=="x"then
 			tapBoard(ms.getPosition())
@@ -561,25 +568,32 @@ do--schulte_G
 		gc.print(S.error,1026,150)
 
 		setFont(70)
-		mStr(S.state==1 and S.target or S.state==0 and"Ready"or S.state==2 and"Win",1130,300)
+		mStr(S.state==1 and S.progress or S.state==0 and"Ready"or S.state==2 and"Win",1130,300)
 
-		if S.state==1 then gc.setColor(.9,.9,.9)	--game
-		elseif S.state==0 then gc.setColor(.2,.8,.2)--ready
-		elseif S.state==2 then gc.setColor(.9,.9,0)	--win
+		if S.state==2 then
+			--Draw no-setting area
+			gc.setColor(1,0,0,.3)
+			gc.rectangle("fill",60,295,200,150)
+
+			gc.setColor(.9,.9,0)--win
+		elseif S.state==1 then
+			gc.setColor(.9,.9,.9)--game
+		elseif S.state==0 then
+			gc.setColor(.2,.8,.2)--ready
 		end
 		gc.setLineWidth(10)
 		gc.rectangle("line",310,30,660,660)
 
 		local rank=S.rank
 		local width=640/rank
-		local blind=S.state==0 or S.blind and S.state==1 and S.target>1
+		local blind=S.state==0 or S.blind and S.state==1 and S.progress>0
 		gc.setLineWidth(4)
 		local f=fontSize[rank]
 		setFont(f)
 		for i=1,rank do
 			for j=1,rank do
 				local N=S.board[rank*(i-1)+j]
-				if not(S.state==1 and S.disappear and N<S.target)then
+				if not(S.state==1 and S.disappear and N<=S.progress)then
 					gc.setColor(.4,.5,.6)
 					gc.rectangle("fill",320+(j-1)*width,(i-1)*width+40,width,width)
 					gc.setColor(1,1,1)
