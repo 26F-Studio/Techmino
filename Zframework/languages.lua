@@ -3,7 +3,7 @@ local langList={
 		anykey="按任意键继续",
 		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
-		holdR="请长按R键重新开始",
+		holdR="长按以重新开始",
 
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -505,7 +505,7 @@ local langList={
 		anykey="按任意键继续",
 		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
-		holdR="请长按R键重新开始",
+		holdR="长按以重新开始",
 
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -1003,7 +1003,7 @@ local langList={
 		anykey="Press any button",
 		newVersion="Update detected!",
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
-		holdR="Hold R key to restart",
+		holdR="Hold to restart",
 
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
