@@ -2641,8 +2641,13 @@ function player.lose(P)
 	end
 end
 
-function PLY.reach_winCheck(P)
+function PLY.check_lineReach(P)
 	if P.stat.row>=P.gameEnv.target then
+		P:win("finish")
+	end
+end
+function PLY.check_attackReach(P)
+	if P.stat.atk>=P.gameEnv.target then
 		P:win("finish")
 	end
 end
