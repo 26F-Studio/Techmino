@@ -395,6 +395,7 @@ local langList={
 				rank="尺寸",
 				blind="盲打",
 				disappear="消失",
+				tapFX="点击动画",
 				back="返回",
 			},
 			help={
@@ -892,6 +893,7 @@ local langList={
 				rank="尺寸",
 				blind="盲打",
 				disappear="消失",
+				tapFX="点击动画",
 				back="返回",
 			},
 			help={
@@ -1379,6 +1381,7 @@ local langList={
 				rank="Size",
 				blind="Blind",
 				disappear="Hide",
+				tapFX="tap FX",
 				back="Back",
 			},
 			help={
@@ -1864,6 +1867,7 @@ local langList={
 				rank="←?→",
 				blind="???",
 				disappear="=X=",
+				tapFX="↓ !",
 				back="X",
 			},
 			help={
@@ -2363,6 +2367,7 @@ local langList={
 				rank="尺寸",
 				blind="盲",
 				disappear="消失",
+				tapFX="动画",
 				back="返回",
 			},
 			help={

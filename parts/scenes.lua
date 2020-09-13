@@ -288,28 +288,28 @@ do--p15
 			S.state=0
 			S.time=0
 			S.move=0
-		elseif k=="c"then
+		elseif k=="q"then
 			if S.state~=1 then
 				S.color=(S.color+1)%5
 			end
-		elseif k=="r"then
+		elseif k=="w"then
 			if S.state==0 then
-				S.revKB=not S.revKB
+				S.blind=not S.blind
 			end
-		elseif k=="s"then
+		elseif k=="e"then
 			if S.state==0 then
 				S.slide=not S.slide
 				if not S.slide then
 					S.pathVis=false
 				end
 			end
-		elseif k=="p"then
+		elseif k=="r"then
 			if S.state==0 and S.slide then
 				S.pathVis=not S.pathVis
 			end
-		elseif k=="b"then
+		elseif k=="t"then
 			if S.state==0 then
-				S.blind=not S.blind
+				S.revKB=not S.revKB
 			end
 		elseif k=="escape"then
 			SCN.back()
@@ -414,7 +414,7 @@ do--p15
 		if S.state==2 then
 			--Draw no-setting area
 			gc.setColor(1,0,0,.3)
-			gc.rectangle("fill",15,300,285,330)
+			gc.rectangle("fill",15,295,285,340)
 
 			gc.setColor(.9,.9,0)--win
 		elseif S.state==1 then
@@ -465,6 +465,7 @@ do--schulte_G
 			rank=3,
 			blind=false,
 			disappear=false,
+			tapFX=true,
 
 			startTime=0,
 			time=0,
@@ -506,11 +507,15 @@ do--schulte_G
 						S.state=2
 						SFX.play("reach")
 					end
-					sysFX.newShade(.3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
+					if S.tapFX then
+						sysFX.newShade(.3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
+					end
 				else
 					SFX.play("finesseError")
 					S.error=S.error+1
-					sysFX.newShade(.5,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
+					if S.tapFX then
+						sysFX.newShade(.5,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
+					end
 				end
 			end
 		end
@@ -533,14 +538,18 @@ do--schulte_G
 				S.progress=0
 			end
 		elseif key=="z"or key=="x"then
-			tapBoard(ms.getPosition())
-		elseif key=="b"then
+			love.mousepressed(ms.getPosition())
+		elseif key=="q"then
 			if S.state==0 then
 				S.blind=not S.blind
 			end
-		elseif key=="d"then
+		elseif key=="w"then
 			if S.state==0 then
 				S.disappear=not S.disappear
+			end
+		elseif key=="e"then
+			if S.state==0 then
+				S.tapFX=not S.tapFX
 			end
 		elseif key=="3"or key=="4"or key=="5"or key=="6"then
 			if S.state==0 then
@@ -573,7 +582,7 @@ do--schulte_G
 		if S.state==2 then
 			--Draw no-setting area
 			gc.setColor(1,0,0,.3)
-			gc.rectangle("fill",60,295,200,150)
+			gc.rectangle("fill",15,295,285,250)
 
 			gc.setColor(.9,.9,0)--win
 		elseif S.state==1 then
