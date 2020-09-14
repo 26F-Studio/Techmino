@@ -1,13 +1,13 @@
 local min=math.min
 local function check_c4w(P)
-	for i=1,#P.clearedRow do
-		P.field[#P.field+1]=freeRow.get(13)
-		P.visTime[#P.visTime+1]=freeRow.get(20)
-		for i=4,7 do P.field[#P.field][i]=0 end
-	end
 	if #P.clearedRow==0 then
 		P:lose()
 	else
+		for i=1,#P.clearedRow do
+			P.field[#P.field+1]=freeRow.get(13)
+			P.visTime[#P.visTime+1]=freeRow.get(20)
+			for i=4,7 do P.field[#P.field][i]=0 end
+		end
 		if P.combo>P.modeData.point then
 			P.modeData.point=P.combo
 		end

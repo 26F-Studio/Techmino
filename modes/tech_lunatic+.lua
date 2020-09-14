@@ -1,7 +1,9 @@
 local format=string.format
 local function tech_check_hard(P)
-	if #P.clearedRow>0 and P.lastClear<10 or P.lastClear==74 then
-		P:lose()
+	if #P.clearedRow>0 then
+		if not(P.lastClear.spin or P.lastClear.pc)then
+			P:lose()
+		end
 	end
 	if P.stat.atk>=200 then
 		P:win("finish")

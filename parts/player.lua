@@ -1305,7 +1305,16 @@ local function newEmptyPlayer(id,x,y,size)
 	P.next={}
 
 	P.freshTime=0
-	P.spinLast,P.lastClear=false,nil
+	P.spinLast=false
+	P.lastClear={
+		id=1,--block id
+		name=1,--block name
+		row=0,--line cleared
+		spin=false,--if spin
+		mini=false,--if mini
+		pc=false,--if pc
+		special=false,--if special clear (spin, >=4, pc)
+	}
 	P.spinSeq=0--For Ospin, each digit mean a spin
 	P.ctrlCount=0--Key press time, for finesse check
 	P.pieceCount=0--Count pieces from next, for drawing bagline
@@ -1401,7 +1410,7 @@ end
 function player.createClearingFX(P,y,spd)
 	ins(P.clearFX,{y,0,spd})
 end
-function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
+function player.createBeam(P,R,send,time,target,color,clear,combo)
 	local x1,y1,x2,y2
 	if P.small then x1,y1=P.centerX,P.centerY
 	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15+70)*P.size
@@ -1412,9 +1421,9 @@ function player.createBeam(P,R,send,time,target,color,clear,spin,combo)
 
 	local radius,corner
 	local a,r,g,b=1,unpack(SKIN.libColor[color])
-	if clear>10 then
+	if clear.special then
 		radius=10+3*send+100/(target+4)
-		local t=clear%10
+		local t=clear.row
 		if t==1 then
 			corner=3
 			r=.3+r*.4
@@ -2168,6 +2177,10 @@ do--player.drop(P)--Place piece
 		end
 
 		if cc>0 then
+			local C=P.lastClear
+			C.id,C.name=CB.id,CB.name
+			C.row=cc
+			C.spin=dospin
 			cmb=cmb+1
 			if dospin then
 				cscore=(spinSCR[CB.name]or spinSCR[8])[cc]
@@ -2205,7 +2218,8 @@ do--player.drop(P)--Place piece
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
-				P.lastClear=CB.id*10+cc
+				C.mini=mini
+				C.special=true
 				if P.human then
 					SFX.play(spin_n[cc])
 					VOC.play(spinName[CB.name],CHN)
@@ -2237,7 +2251,9 @@ do--player.drop(P)--Place piece
 					atk=cc
 				end
 				P.b2b=P.b2b+cc*80-220
-				P.lastClear=CB.name*10+cc
+				C.special=true
+			else
+				C.special=false
 			end
 			if P.human then
 				VOC.play(clearName[cc],CHN)
@@ -2260,6 +2276,7 @@ do--player.drop(P)--Place piece
 						SFX.play("clear")
 						VOC.play("pc",CHN)
 					end
+					C.special=true
 				elseif cc>1 or #P.field==P.garbageBeneath then
 					P:showText(text.HPC,0,-80,50,"fly")
 					atk=atk+2
@@ -2270,23 +2287,20 @@ do--player.drop(P)--Place piece
 					if P.human then
 						SFX.play("clear")
 					end
-				else
-					goto checkB2Breduce
+					C.special=true
 				end
-				P.lastClear=CB.name*10+5
-				goto skipB2Breduce
+				C.pc=true
+			else
+				C.pc=false
 			end
 
-			::checkB2Breduce::
-			if not(dospin or cc>3)then
+			if not C.special then
 				P.b2b=max(P.b2b-250,0)
 				P:showText(text.clear[cc],0,-30,27+cc*3,"appear",(8-cc)*.3)
 				atk=cc-.5
 				sendTime=20+atk*20
 				cscore=cscore+clearSCR[cc]
-				P.lastClear=cc
 			end
-			::skipB2Breduce::
 
 			sendTime=sendTime+25*cmb
 			if cmb>1 then
@@ -2330,7 +2344,7 @@ do--player.drop(P)--Place piece
 								local M=#P.atker
 								if M>0 then
 									for i=1,M do
-										P:attack(P.atker[i],send,sendTime,M,CB.color,P.lastClear,dospin,cmb)
+										P:attack(P.atker[i],send,sendTime,M,CB.color,C,cmb)
 									end
 								else
 									T=randomTarget(P)
@@ -2343,7 +2357,7 @@ do--player.drop(P)--Place piece
 							T=randomTarget(P)
 						end
 						if T then
-							P:attack(T,send,sendTime,1,CB.color,P.lastClear,dospin,cmb)
+							P:attack(T,send,sendTime,1,CB.color,C,cmb)
 						end
 					end
 					if P.human and send>3 then SFX.play("emit",min(send,7)*.1)end
