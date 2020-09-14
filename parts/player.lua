@@ -1179,6 +1179,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		ENV.bagLen=#ENV.bag
 	end
 
+	if ENV.next==0 then ENV.nextPos=false end
+
 	if ENV.lockFX==0 then	ENV.lockFX=nil	end
 	if ENV.dropFX==0 then	ENV.dropFX=nil	end
 	if ENV.moveFX==0 then	ENV.moveFX=nil	end
