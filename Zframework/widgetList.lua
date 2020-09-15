@@ -401,13 +401,13 @@ local Widgets={
 				SCN.go("setting_touchSwitch")
 			end}),
 		newButton({name="back",		x=760,y=180,w=200,h=80,color="white",font=35,code=BACK}),
-		newSlider({name="size",		x=450,y=265,w=460,unit=14,font=40,show="vkSize",
+		newSlider({name="size",		x=450,y=265,w=460,unit=19,font=40,show="vkSize",
 			disp=function()
 				return VK_org[sceneTemp.sel].r/10-1
 			end,
 			code=function(v)
 				if sceneTemp.sel then
-					VK_org[sceneTemp.sel].r=10+v*10
+					VK_org[sceneTemp.sel].r=(v+1)*10
 				end
 			end,
 			hide=function()
