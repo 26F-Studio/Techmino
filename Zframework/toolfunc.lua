@@ -2,7 +2,7 @@ local gc=love.graphics
 local int=math.floor
 local format=string.format
 
-do
+do--setFont
 	local newFont=gc.setNewFont
 	local setNewFont=gc.setFont
 	local fontCache,currentFontSize={}

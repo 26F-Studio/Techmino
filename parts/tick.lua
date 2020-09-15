@@ -1,4 +1,3 @@
-local gc=love.graphics
 local Tick={}
 function Tick.finish(P)
 	P.endCounter=P.endCounter+1

@@ -209,13 +209,14 @@ function freshMostBadge()
 	game.mostBadge,game.secBadge=nil
 	local m,m2=0,0
 	for i=1,#players.alive do
-		local h=players.alive[i].badge
-		if h>=m then
-			game.mostBadge,game.secBadge=players.alive[i],game.mostBadge
-			m,m2=h,m
-		elseif h>=m2 then
-			game.secBadge=players.alive[i]
-			m2=h
+		local P=players.alive[i]
+		local b=P.badge
+		if b>=m then
+			game.mostBadge,game.secBadge=P,game.mostBadge
+			m,m2=b,m
+		elseif b>=m2 then
+			game.secBadge=P
+			m2=b
 		end
 	end
 end
