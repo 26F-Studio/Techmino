@@ -10,9 +10,7 @@ local setFont=setFont
 
 --------------------------<Data>--------------------------
 local gameEnv0={
-	noTele=false,
-	das=10,arr=2,
-	sddas=2,sdarr=2,
+	das=10,arr=2,sddas=2,sdarr=2,
 	ihs=true,irs=true,ims=true,
 	swap=true,
 
@@ -36,15 +34,16 @@ local gameEnv0={
 	hold=true,oncehold=true,
 	ospin=true,
 	sequence="bag",bag={1,2,3,4,5,6,7},
-	freshMethod=NULL,
 	face=NULL,skin=NULL,
 
 	life=0,
 	pushSpeed=3,
 	block=true,
+	noTele=false,
 	visible="show",
-	Fkey=NULL,puzzle=false,
 	freshLimit=1e99,easyFresh=true,
+
+	Fkey=NULL,
 	fine=false,fineKill=false,
 	target=1e99,dropPiece=NULL,
 	mindas=0,minarr=0,minsdarr=0,
@@ -3010,10 +3009,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		pushSpeed=3,
 		block=true,
 		visible="show",
-		Fkey=nil,puzzle=false,
 		freshLimit=1e99,easyFresh=true,
-		fine=false,fineKill=false,
-		target=1e99,dropPiece=NULL,
 		mindas=0,minarr=0,minsdarr=0,
 	}
 	applyGameEnv(P)

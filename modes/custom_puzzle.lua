@@ -20,7 +20,6 @@ end
 return{
 	color=color.white,
 	env={
-		puzzle=true,
 		Fkey=function(P)P.modeData.event=1-P.modeData.event end,
 		dropPiece=puzzleCheck,
 	},
@@ -65,7 +64,7 @@ return{
 		setFont(55)
 		mStr(P.stat.row,69,295)
 		mText(drawableText.line,69,360)
-		if P.gameEnv.puzzle and P.modeData.event==0 then
+		if P.modeData.event==0 then
 			local m=puzzleMark
 			for y=1,preField.h do for x=1,10 do
 				local T=preField[y][x]

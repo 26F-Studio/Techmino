@@ -17,7 +17,7 @@ setting={
 	face={},
 
 	--Graphic
-	ghost=.3,center=1,
+	block=1,ghost=.3,center=1,
 	smooth=true,grid=false,
 	bagLine=false,
 	lockFX=2,
