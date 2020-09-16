@@ -496,8 +496,66 @@ local frameColor={
 	color.lPurple,
 	color.lOrange,
 }
-local function drawPixel(y,x,id)
-	gc.draw(blockSkin[id],30*x-30,600-30*y)
+local function drawCell(y,x,id)
+	gc.draw(blockSkin[id],30*x-30,-30*y)
+end
+local function drawGrid(P)
+	local FBN,FUP=P.fieldBeneath,P.fieldUp
+	gc.setLineWidth(1)
+	gc.setColor(1,1,1,.2)
+	for x=1,9 do
+		gc.line(30*x,-10,30*x,600)
+	end
+	for y=0,19 do
+		y=30*(y-int((FBN+FUP)/30))+FBN+FUP
+		gc.line(0,y,300,y)
+	end
+end
+local function drawField(P)
+	local V,F=P.visTime,P.field
+	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
+	local rep=game.replaying
+	if P.falling==-1 then--Blocks only
+		for j=start,min(start+20,#F)do
+			for i=1,10 do
+				if F[j][i]>0 then
+					if V[j][i]>0 then
+						gc.setColor(1,1,1,min(V[j][i]*.05,1))
+						drawCell(j,i,F[j][i])
+					elseif rep then
+						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
+						gc.rectangle("fill",30*i-30,-30*j,30,30)
+					end
+				end
+			end
+		end
+	else--With falling animation
+		local ENV=P.gameEnv
+		local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+		local A=P.falling/ENV.fall
+		local h=1
+		for j=start,min(start+20,#F)do
+			while j==P.clearingRow[h]do
+				h=h+1
+				dy=dy+stepY
+				gc.translate(0,-stepY)
+				gc.setColor(1,1,1,A)
+				gc.rectangle("fill",0,30-30*j,300,stepY)
+			end
+			for i=1,10 do
+				if F[j][i]>0 then
+					if V[j][i]>0 then
+						gc.setColor(1,1,1,min(V[j][i]*.05,1))
+						drawCell(j,i,F[j][i])
+					elseif rep then
+						gc.setColor(1,1,1,.2)
+						gc.rectangle("fill",30*i-30,-30*j,30,30)
+					end
+				end
+			end
+		end
+		gc.translate(0,dy)
+	end
 end
 local function drawFXs(P)
 	--LockFX
@@ -517,14 +575,14 @@ local function drawFXs(P)
 		local S=P.dropFX[i]
 		gc.setColor(1,1,1,.6-S[5]*.6)
 		local w=30*S[3]*(1-S[5]*.5)
-		gc.rectangle("fill",30*S[1]-30+15*S[3]-w*.5,600-30*S[2],w,30*S[4])
+		gc.rectangle("fill",30*S[1]-30+15*S[3]-w*.5,-30*S[2],w,30*S[4])
 	end
 
 	--MoveFX
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc.setColor(1,1,1,.6-S[4]*.6)
-		drawPixel(S[3],S[2],S[1])
+		drawCell(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -534,9 +592,59 @@ local function drawFXs(P)
 		local x=t<.3 and 1-(3.3333*t-1)^2 or 1
 		local y=t<.2 and 5*t or 1-1.25*(t-.2)
 		gc.setColor(1,1,1,y)
-		gc.rectangle("fill",150-x*150,615-S[1]*30-y*15,300*x,y*30)
+		gc.rectangle("fill",150-x*150,15-S[1]*30-y*15,300*x,y*30)
 	end
 end
+local function drawGhost(P,clr)
+	gc.setColor(1,1,1,P.gameEnv.ghost)
+	for i=1,P.r do for j=1,P.c do
+		if P.cur.bk[i][j]then
+			drawCell(i+P.imgY-1,j+P.curX-1,clr)
+		end
+	end end
+end
+local function drawBlockOutline(P,clr,trans)
+	SHADER.alpha:send("a",trans)
+	gc.setShader(SHADER.alpha)
+	local _=blockSkin[clr]
+	for i=1,P.r do for j=1,P.c do
+		if P.cur.bk[i][j]then
+			local x=30*(j+P.curX)-60-3
+			local y=30-30*(i+P.curY)-3
+			gc.draw(_,x,y)gc.draw(_,x+6,y+6)
+			gc.draw(_,x+6,y)gc.draw(_,x,y+6)
+		end
+	end end
+	gc.setShader()
+end
+local function drawBlock(P,clr)
+	gc.setColor(1,1,1)
+	for i=1,P.r do for j=1,P.c do
+		if P.cur.bk[i][j]then
+			drawCell(i+P.curY-1,j+P.curX-1,clr)
+		end
+	end end
+end
+local function drawNextPreview(P,B)
+	gc.setColor(1,1,1,.8)
+	local x=int(6-#B[1]*.5)
+	local y=21+ceil(P.fieldBeneath/30)
+	for i=1,#B do for j=1,#B[1]do
+		if B[i][j]then
+			gc.draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
+		end
+	end end
+end
+local function drawHold(P,clr)
+	if P.holded then gc.setColor(.6,.4,.4)end
+	local B=P.hd.bk
+	for i=1,#B do for j=1,#B[1]do
+		if B[i][j]then
+			drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+		end
+	end end
+end
+
 local Pdraw_norm
 do--function Pdraw_norm(P)
 	local attackColor={
@@ -578,76 +686,28 @@ do--function Pdraw_norm(P)
 					gc.translate(P.fieldOff.x,P.fieldOff.y)
 
 					--Fill field
-					gc.setColor(0,0,0,.6)gc.rectangle("fill",0,-10,300,610)
+					gc.setColor(0,0,0,.6)
+					gc.rectangle("fill",0,-10,300,610)
 
-					--Grid
-					if ENV.grid then
-						gc.setLineWidth(1)
-						gc.setColor(1,1,1,.2)
-						for x=1,9 do gc.line(30*x,-10,30*x,600)end
-						for y=0,19 do
-							y=30*(y-int((FBN+FUP)/30))+FBN+FUP
-							gc.line(0,y,300,y)
-						end
-					end
+					--Draw grid
+					if ENV.grid then drawGrid(P)end
 
 					--In-field things
 					gc.push("transform")
-						gc.translate(0,FBN+FUP)
+						gc.translate(0,600+FBN+FUP)
 						gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
 
 						--Draw dangerous area
-						gc.setColor(1,0,0,.2)
-						gc.rectangle("fill",0,0,300,-FUP-FBN-10)
+						gc.setColor(1,0,0,.3)
+						gc.rectangle("fill",0,-600,300,-610-FUP-FBN)
 
 						--Draw field
-						local V=P.visTime
-						local F=P.field
-						if P.falling==-1 then--Blocks only
-							for j=int(FBN/30+1),#F do
-								for i=1,10 do
-									if F[j][i]>0 then
-										if V[j][i]>0 then
-											gc.setColor(1,1,1,min(V[j][i]*.05,1))
-											drawPixel(j,i,F[j][i])
-										elseif game.replaying then
-											gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
-											gc.rectangle("fill",30*i-30,600-30*j,30,30)
-										end
-									end
-								end
-							end
-						else--With falling animation
-							local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
-							local A=P.falling/ENV.fall
-							local h,H=1,#F
-							for j=int(FBN/30+1),H do
-								while j==P.clearingRow[h]do
-									h=h+1
-									dy=dy+stepY
-									gc.translate(0,-stepY)
-									gc.setColor(1,1,1,A)
-									gc.rectangle("fill",0,630-30*j,300,stepY)
-								end
-								for i=1,10 do
-									if F[j][i]>0 then
-										if V[j][i]>0 then
-											gc.setColor(1,1,1,min(V[j][i]*.05,1))
-											drawPixel(j,i,F[j][i])
-										elseif game.replaying then
-											gc.setColor(1,1,1,.2)
-											gc.rectangle("fill",30*i-30,600-30*j,30,30)
-										end
-									end
-								end
-							end
-							gc.translate(0,dy)
-						end
+						drawField(P)
 
 						--Draw spawn line
 						gc.setColor(1,sin(Timer())*.4+.5,0,.5)
 						gc.setLineWidth(4)
-						gc.line(0,0-FBN,300,0-FBN)
+						gc.line(0,-600-FBN,300,-600-FBN)
 
 						--Draw FXs
 						drawFXs(P)
@@ -656,69 +716,35 @@ do--function Pdraw_norm(P)
 						if P.cur and P.waiting==-1 then
 							local curColor=P.cur.color
 
-							--Ghost
-							if ENV.ghost then
-								gc.setColor(1,1,1,ENV.ghost)
-								for i=1,P.r do for j=1,P.c do
-									if P.cur.bk[i][j]then
-										drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
-									end
-								end end
-							end
+							--Draw ghost
+							if ENV.ghost then drawGhost(P,curColor)end
 
 							local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 							gc.translate(0,-dy)
 							local trans=P.lockDelay/ENV.lock
-							if ENV.block then
-								--White Boarder(indicate lockdelay)
-								SHADER.alpha:send("a",trans)
-								gc.setShader(SHADER.alpha)
-									_=blockSkin[curColor]
-									for i=1,P.r do for j=1,P.c do
-										if P.cur.bk[i][j]then
-											local x=30*(j+P.curX)-60-3
-											local y=630-30*(i+P.curY)-3
-											gc.draw(_,x,y)gc.draw(_,x+6,y+6)
-											gc.draw(_,x+6,y)gc.draw(_,x,y+6)
-										end
-									end end
-								gc.setShader()
 
-								--Block
-								gc.setColor(1,1,1)
-								for i=1,P.r do for j=1,P.c do
-									if P.cur.bk[i][j]then
-										drawPixel(i+P.curY-1,j+P.curX-1,curColor)
-									end
-								end end
+							--Draw block
+							if ENV.block then
+								drawBlockOutline(P,curColor,trans)
+								drawBlock(P,curColor)
 							end
 
-							--Rotate center
+							--Draw rotate center
 							local x=30*(P.curX+P.sc[2])-15
 							if ENV.center then
 								gc.setColor(1,1,1,trans*ENV.center)
-								gc.draw(IMG.spinCenter,x,600-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+								gc.draw(IMG.spinCenter,x,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
 							end
 							gc.translate(0,dy)
 							if ENV.center and ENV.ghost then
 								gc.setColor(1,1,1,trans*ENV.center)
-								gc.draw(IMG.spinCenter,x,600-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
+								gc.draw(IMG.spinCenter,x,-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
 							end
 						end
 
 						--Draw next preview
 						if ENV.nextPos and P.next[1]then
-							gc.setColor(1,1,1,.8)
-							local B=P.next[1].bk
-							local x=int(6-#B[1]*.5)
-							local y=21+ceil(P.fieldBeneath/30)
-							for i=1,#B do
-								for j=1,#B[1]do
-									if B[i][j]then
-										gc.draw(puzzleMark[-1],30*(x+j-2),30*(21-y-i))
-									end
-								end
-							end
+							drawNextPreview(P,P.next[1].bk)
 						end
 
 						gc.setScissor()
@@ -727,23 +753,8 @@ do--function Pdraw_norm(P)
 					gc.setLineWidth(2)
 					gc.setColor(P.frameColor)
 					gc.rectangle("line",-1,-11,302,612)--Boarder
-					gc.rectangle("line",301,0,15,601)--AtkBuffer boarder
+					gc.rectangle("line",301,-3,15,604)--AtkBuffer boarder
 					gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
-
-					--LockDelay indicator
-					if ENV.easyFresh then
-						gc.setColor(1,1,1)
-					else
-						gc.setColor(1,.26,.26)
-					end
-					if P.lockDelay>=0 then
-						gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
-					end
-					_=3
-					for i=1,min(ENV.freshLimit-P.freshTime,15)do
-						gc.rectangle("fill",_,615,14,5)
-						_=_+20
-					end
 
 					--Buffer line
 					local h=0
@@ -759,20 +770,20 @@ do--function Pdraw_norm(P)
 							if A.countdown>0 then
 								--Timing
 								gc.setColor(attackColor[A.lv][1])
-								gc.rectangle("fill",303,599-h,11,-bar+3)
+								gc.rectangle("fill",303,599-h,11,-bar)
 								gc.setColor(attackColor[A.lv][2])
-								gc.rectangle("fill",303,599-h+(-bar+3),11,-(-bar+3)*(1-A.countdown/A.cd0))
+								gc.rectangle("fill",303,599-h-bar,11,bar*(1-A.countdown/A.cd0))
 							else
 								--Warning
 								local t=math.sin((Timer()-i)*30)*.5+.5
 								local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
 								gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
-								gc.rectangle("fill",303,599-h,11,-bar+3)
+								gc.rectangle("fill",303,599-h,11,-bar)
 							end
 						else
 							gc.setColor(attackColor[A.lv][1])
 							bar=bar*(20-A.time)*.05
-							gc.rectangle("fill",303,599-h,11,-bar+2)
+							gc.rectangle("fill",303,599-h,11,-bar)
 							--Disappear
 						end
 						h=h+bar
@@ -789,20 +800,32 @@ do--function Pdraw_norm(P)
 						gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
 					end
 
+					--LockDelay indicator
+					if ENV.easyFresh then
+						gc.setColor(1,1,1)
+					else
+						gc.setColor(1,.26,.26)
+					end
+					if P.lockDelay>=0 then
+						gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
+					end
+					_=3
+					for i=1,min(ENV.freshLimit-P.freshTime,15)do
+						gc.rectangle("fill",_,615,14,5)
+						_=_+20
+					end
+
 					--Draw Hold
 					if ENV.hold then
-						gc.setColor(0,0,0,.4)gc.rectangle("fill",-140,36,124,80)
-						gc.setColor(1,1,1)gc.rectangle("line",-140,36,124,80)
-						mText(drawableText.hold,-78,-15)
-						if P.hd then
-							if P.holded then gc.setColor(.6,.5,.5)end
-							local B=P.hd.bk
-							for i=1,#B do for j=1,#B[1]do
-								if B[i][j]then
-									drawPixel(i+17.5-#B*.5,j-2.6-#B[1]*.5,P.hd.color)
-								end
-							end end
-						end
+						gc.push("transform")
+						gc.translate(-140,116)--TODO: adjust needed
+							gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,80)
+							gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,80)
+							mText(drawableText.hold,62,-131)
+							if P.hd then
+								drawHold(P,P.hd.color)
+							end
+						gc.pop()
 					end
 
 					--Draw Next(s)
@@ -816,7 +839,7 @@ do--function Pdraw_norm(P)
 							local b,c=P.next[N].bk,P.next[N].color
 							for i=1,#b do for j=1,#b[1] do
 								if b[i][j]then
-									drawPixel(i+20-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
+									drawCell(i-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
 								end
 							end end
 							N=N+1
@@ -917,14 +940,18 @@ local function Pdraw_small(P)
 		if P.alive then
 			gc.setLineWidth(2)
 			gc.setColor(P.frameColor)
-			gc.rectangle("line",1,1,58,118)
+			gc.rectangle("line",0,0,60,120)
 		end
+
+		--Draw badge
 		if modeEnv.royaleMode then
 			gc.setColor(1,1,1)
 			for i=1,P.strength do
 				gc.draw(IMG.badgeIcon,12*i-7,4,nil,.5)
 			end
 		end
+
+		--Draw result
 		if P.result then
 			gc.setColor(1,1,1,min(P.endCounter,60)*.01)
 			setFont(17)mStr(P.result,32,47)
@@ -961,60 +988,63 @@ local function Pdraw_demo(P)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",-1,-1,302,602)
 
-	if P.falling==-1 then
-		--Field block only
-		for j=int(P.fieldBeneath/30+1),#P.field do
-			for i=1,10 do
-				if P.field[j][i]>0 then
-					gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-					drawPixel(j,i,P.field[j][i])
+	gc.push("transform")
+		gc.translate(0,600)
+		if P.falling==-1 then
+			--Field block only
+			for j=int(P.fieldBeneath/30+1),#P.field do
+				for i=1,10 do
+					if P.field[j][i]>0 then
+						gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
+						drawCell(j,i,P.field[j][i])
+					end
 				end
 			end
-		end
-	else
-		--Field with falling animation
-		local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
-		local A=P.falling/ENV.fall
-		local h,H=1,#P.field
-		for j=int(P.fieldBeneath/30+1),H do
-			while j==P.clearingRow[h]do
-				h=h+1
-				dy=dy+stepY
-				gc.translate(0,-stepY)
-				gc.setColor(1,1,1,A)
-				gc.rectangle("fill",0,630-30*j,300,stepY)
-			end
-			for i=1,10 do
-				if P.field[j][i]>0 then
-					gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-					drawPixel(j,i,P.field[j][i])
+		else
+			--Field with falling animation
+			local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+			local A=P.falling/ENV.fall
+			local h,H=1,#P.field
+			for j=int(P.fieldBeneath/30+1),H do
+				while j==P.clearingRow[h]do
+					h=h+1
+					dy=dy+stepY
+					gc.translate(0,-stepY)
+					gc.setColor(1,1,1,A)
+					gc.rectangle("fill",0,630-30*j,300,stepY)
+				end
+				for i=1,10 do
+					if P.field[j][i]>0 then
+						gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
+						drawCell(j,i,P.field[j][i])
+					end
 				end
 			end
+			gc.translate(0,dy)
 		end
-		gc.translate(0,dy)
-	end
 
-	drawFXs(P)
+		drawFXs(P)
 
-	if P.cur and P.waiting==-1 then
-		--Draw ghost
-		if ENV.ghost then
-			gc.setColor(1,1,1,ENV.ghost)
+		if P.cur and P.waiting==-1 then
+			--Draw ghost
+			if ENV.ghost then
+				gc.setColor(1,1,1,ENV.ghost)
+				for i=1,P.r do for j=1,P.c do
+					if P.cur.bk[i][j]then
+						drawCell(i+P.imgY-1,j+P.curX-1,curColor)
+					end
+				end end
+			end
+
+			--Draw block
+			gc.setColor(1,1,1)
 			for i=1,P.r do for j=1,P.c do
 				if P.cur.bk[i][j]then
-					drawPixel(i+P.imgY-1,j+P.curX-1,curColor)
+					drawCell(i+P.curY-1,j+P.curX-1,curColor)
 				end
 			end end
 		end
-
-		--Draw block
-		gc.setColor(1,1,1)
-		for i=1,P.r do for j=1,P.c do
-			if P.cur.bk[i][j]then
-				drawPixel(i+P.curY-1,j+P.curX-1,curColor)
-			end
-		end end
-	end
+	gc.pop()
 
 	--Draw hold
 	local blockImg=TEXTURE.miniBlock
@@ -1186,6 +1216,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.moveFX==0 then	ENV.moveFX=nil	end
 	if ENV.clearFX==0 then	ENV.clearFX=nil end
 	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+
 	if ENV.ghost==0 then	ENV.ghost=nil	end
 	if ENV.center==0 then	ENV.center=nil	end
 end
@@ -1361,7 +1392,7 @@ function player.createLockFX(P)
 	for i=1,P.r do
 		local y=P.curY+i-1
 		if without(P.clearedRow,y)then
-			y=600-30*y
+			y=-30*y
 			for j=1,P.c do
 				if BK[i][j]then
 					ins(P.lockFX,{30*(P.curX+j-2),y,0,t})
