@@ -730,8 +730,8 @@ do--function Pdraw_norm(P)
 
 							--Draw rotate center
 							local x=30*(P.curX+P.sc[2])-15
-							if ENV.center then
-								gc.setColor(1,1,1,trans*ENV.center)
+							if ENV.center and ENV.block then
+								gc.setColor(1,1,1,ENV.block*ENV.center)
 								gc.draw(IMG.spinCenter,x,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
 							end
 							gc.translate(0,dy)
@@ -1216,6 +1216,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.clearFX==0 then	ENV.clearFX=nil end
 	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
 
+	if ENV.block==0 then	ENV.block=nil	end
 	if ENV.ghost==0 then	ENV.ghost=nil	end
 	if ENV.center==0 then	ENV.center=nil	end
 end

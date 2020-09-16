@@ -243,6 +243,7 @@ local Widgets={
 	setting_game={
 		newButton({name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipeR")end}),
 		newButton({name="sound",	x=1080,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=function()SCN.swapTo("setting_sound","swipeL")end}),
+
 		newButton({name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=goScene("setting_control")}),
 		newButton({name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=goScene("setting_key")}),
 		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=goScene("setting_touch")}),
@@ -260,41 +261,46 @@ local Widgets={
 	setting_video={
 		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipeR")end}),
 		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipeL")end}),
-		newSlider({name="ghost",	x=250,	y=180,w=200,unit=.6,font=35,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
-		newSlider({name="center",	x=620,	y=180,w=200,unit=1,	font=35,disp=SETval("center"),	code=SETsto("center")}),
-		newSwitch({name="smooth",	x=260,	y=260,				font=25,disp=SETval("smooth"),	code=SETrev("smooth")}),
-		newSwitch({name="grid",		x=480,	y=260,				font=35,disp=SETval("grid"),	code=SETrev("grid")}),
-		newSwitch({name="bagLine",	x=700,	y=260,				font=30,disp=SETval("bagLine"),	code=SETrev("bagLine")}),
-		newSlider({name="lockFX",	x=350,	y=340,w=373,unit=5,	font=32,disp=SETval("lockFX"),	code=SETsto("lockFX")}),
-		newSlider({name="dropFX",	x=350,	y=390,w=373,unit=5,	font=32,disp=SETval("dropFX"),	code=SETsto("dropFX")}),
-		newSlider({name="moveFX",	x=350,	y=440,w=373,unit=5,	font=32,disp=SETval("moveFX"),	code=SETsto("moveFX")}),
-		newSlider({name="clearFX",	x=350,	y=490,w=373,unit=5,	font=32,disp=SETval("clearFX"),	code=SETsto("clearFX")}),
-		newSlider({name="shakeFX",	x=350,	y=540,w=373,unit=5,	font=32,disp=SETval("shakeFX"),	code=SETsto("shakeFX")}),
-		newSlider({name="atkFX",	x=350,	y=590,w=373,unit=5,	font=32,disp=SETval("atkFX"),	code=SETsto("atkFX")}),
-		newSlider({name="frame",	x=350,	y=640,w=373,unit=10,font=30,
+
+		newSlider({name="block",	x=260,	y=180,w=200,unit=1,	font=30,disp=SETval("block"),show="percent",code=SETsto("block")}),
+		newSlider({name="ghost",	x=260,	y=240,w=200,unit=.6,font=30,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
+		newSlider({name="center",	x=260,	y=300,w=200,unit=1,	font=30,disp=SETval("center"),show="percent",code=SETsto("center")}),
+
+		newSwitch({name="smooth",	x=700,	y=180,				font=30,disp=SETval("smooth"),	code=SETrev("smooth")}),
+		newSwitch({name="grid",		x=700,	y=240,				font=30,disp=SETval("grid"),	code=SETrev("grid")}),
+		newSwitch({name="bagLine",	x=700,	y=300,				font=30,disp=SETval("bagLine"),	code=SETrev("bagLine")}),
+
+		newSlider({name="lockFX",	x=350,	y=350,w=373,unit=5,	font=32,disp=SETval("lockFX"),	code=SETsto("lockFX")}),
+		newSlider({name="dropFX",	x=350,	y=400,w=373,unit=5,	font=32,disp=SETval("dropFX"),	code=SETsto("dropFX")}),
+		newSlider({name="moveFX",	x=350,	y=450,w=373,unit=5,	font=32,disp=SETval("moveFX"),	code=SETsto("moveFX")}),
+		newSlider({name="clearFX",	x=350,	y=500,w=373,unit=5,	font=32,disp=SETval("clearFX"),	code=SETsto("clearFX")}),
+		newSlider({name="shakeFX",	x=350,	y=550,w=373,unit=5,	font=32,disp=SETval("shakeFX"),	code=SETsto("shakeFX")}),
+		newSlider({name="atkFX",	x=350,	y=600,w=373,unit=5,	font=32,disp=SETval("atkFX"),	code=SETsto("atkFX")}),
+		newSlider({name="frame",	x=350,	y=650,w=373,unit=10,font=30,
 			disp=function()
 				return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4
 			end,
 			code=function(i)
 				setting.frameMul=i<5 and 5*i+20 or 10*i
 			end}),
-		newSwitch({name="text",		x=1050,	y=180,font=35,disp=SETval("text"),code=SETrev("text")}),
-		newSwitch({name="warn",		x=1050,	y=240,font=35,disp=SETval("warn"),code=SETrev("warn")}),
-		newSwitch({name="highCam",	x=1050,	y=300,font=35,disp=SETval("highCam"),code=SETrev("highCam")}),
-		newSwitch({name="nextPos",	x=1050,	y=360,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")}),
-		newSwitch({name="fullscreen",x=1050,y=420,font=35,disp=SETval("fullscreen"),
+
+		newSwitch({name="text",		x=1100,	y=180,font=35,disp=SETval("text"),code=SETrev("text")}),
+		newSwitch({name="warn",		x=1100,	y=240,font=35,disp=SETval("warn"),code=SETrev("warn")}),
+		newSwitch({name="highCam",	x=1100,	y=300,font=35,disp=SETval("highCam"),code=SETrev("highCam")}),
+		newSwitch({name="nextPos",	x=1100,	y=360,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")}),
+		newSwitch({name="fullscreen",x=1100,y=420,font=35,disp=SETval("fullscreen"),
 			code=function()
 				setting.fullscreen=not setting.fullscreen
 				love.window.setFullscreen(setting.fullscreen)
 				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end}),
-		newSwitch({name="bg",		x=1050,	y=480,font=35,disp=SETval("bg"),
+		newSwitch({name="bg",		x=1100,	y=480,font=35,disp=SETval("bg"),
 			code=function()
 				BG.set("none")
 				setting.bg=not setting.bg
 				BG.set("space")
 			end}),
-		newSwitch({name="power",	x=1050,	y=540,font=35,disp=SETval("powerInfo"),
+		newSwitch({name="power",	x=1100,	y=540,font=35,disp=SETval("powerInfo"),
 			code=function()
 				setting.powerInfo=not setting.powerInfo
 			end}),
@@ -303,6 +309,7 @@ local Widgets={
 	setting_sound={
 		newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_game","swipeR")end}),
 		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",	font=35,code=function()SCN.swapTo("setting_video","swipeL")end}),
+
 		newSlider({name="sfx",		x=180,	y=200,w=400,					font=35,change=function()SFX.play("blip_1")end,						disp=SETval("sfx"),		code=SETsto("sfx")}),
 		newSlider({name="stereo",	x=180,	y=500,w=400,					font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hide=function()return setting.sfx==0 end}),
 		newSlider({name="spawn",	x=180,	y=300,w=400,					font=30,change=function()SFX.fplay("spawn_"..rnd(7),setting.spawn)end,disp=SETval("spawn"),	code=SETsto("spawn")}),
