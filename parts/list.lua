@@ -165,8 +165,8 @@ end
 
 local function T(s,t)return love.graphics.newText(setFont(s),t)end
 drawableText={
-	question=T(100,"?"),
-	right=T(45,"→"),
+	question=T(100,"?"),right=T(45,"→"),
+	small=T(30,"<"),large=T(30,">"),
 	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
 
 	speedLV=T(20,"speed level"),

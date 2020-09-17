@@ -1304,6 +1304,8 @@ do--custom
 			SCN.swapTo("draw","swipeL")
 		elseif key=="escape"then
 			SCN.back()
+		else
+			WIDGET.keyPressed(key)
 		end
 	end
 

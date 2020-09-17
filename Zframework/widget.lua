@@ -208,7 +208,7 @@ function slider:reset()
 	self.pos=0
 end
 function slider:isAbove(x,y)
-	return x>self.x-10 and x<self.x+self.w+10 and y>self.y-20 and y<self.y+20
+	return x>self.x-10 and x<self.x+self.w+10 and y>self.y-25 and y<self.y+25
 end
 function slider:getCenter()
 	return self.x+self.w*(self.pos/self.unit),self.y
@@ -284,8 +284,90 @@ function slider:printInfo()
 	DBP(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
 end
 
+local selector={
+	type="selector",
+	ATV=8,--Activating time(0~4)
+	select=0,--Selected item ID
+	selText=nil,--Selected item name
+}
+function selector:reset()
+	self.ATV=0
+	local V=self.disp()
+	local L=self.list
+	for i=1,#L do
+		if L[i]==V then
+			self.select=i
+			self.selText=self.list[i]
+			break
+		end
+	end
+end
+function selector:isAbove(x,y)
+	return
+		x>self.x and
+		x<self.x+self.w+2 and
+		y>self.y and
+		y<self.y+60
+end
+function selector:getCenter()
+	return self.x+self.w*(self.pos/self.unit),self.y
+end
+function selector:update()
+	local atv=self.ATV
+	if WIDGET.sel==self then
+		if atv<8 then
+			self.ATV=atv+1
+		end
+	else
+		if atv>0 then
+			self.ATV=atv-.5
+		end
+	end
+end
+function selector:draw()
+	local x,y=self.x,self.y
+	local r,g,b=unpack(self.color)
+	local w=self.w
+	local ATV=self.ATV
+
+	gc.setColor(1,1,1,.6+ATV*.1)
+	gc.setLineWidth(3)
+	gc.rectangle("line",x,y,w,60)
+
+	gc.setColor(1,1,1,.2+ATV*.1)
+	local t=(Timer()%.5)^.5
+	if self.select>1 then
+		gc.draw(drawableText.small,x+6,y+20)
+		if ATV>0 then
+			gc.setColor(1,1,1,ATV*.4*(.5-t))
+			gc.draw(drawableText.small,x+6-t*40,y+20)
+			gc.setColor(1,1,1,.2+ATV*.1)
+		end
+	end
+	if self.select<#self.list then
+		gc.draw(drawableText.large,x+w-24,y+20)
+		if ATV>0 then
+			gc.setColor(1,1,1,ATV*.4*(.5-t))
+			gc.draw(drawableText.large,x+w-24+t*40,y+20)
+		end
+	end
+	
+	setFont(28)
+	t=self.text
+	if t then
+		if type(t)=="function"then t=t()end
+		gc.setColor(r,g,b)
+		mStr(self.text,x+w*.5,y+17-21)
+	end
+	gc.setColor(1,1,1)
+	mStr(self.selText,x+w*.5,y+43-21)
+end
+function selector:printInfo()
+	DBP(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
+end
+
 local WIDGET={}
-WIDGET.active={}--Table, contains all active widgets
+WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=nil--Selected widget
 function WIDGET.set(L)
 	WIDGET.sel=nil
@@ -306,7 +388,7 @@ function WIDGET.newText(D)
 		x=		D.x,
 		y=		D.y,
 		align=	D.align,
-		color=	color[D.color]or D.color,
+		color=	D.color and(color[D.color]or D.color)or color.white,
 		font=	D.font,
 		hide=	D.hide,
 	}for k,v in next,button do _[k]=v end return _
@@ -318,7 +400,7 @@ function WIDGET.newImage(D)
 		y=		D.y-h*.5,
 		w=		D.w,
 		h=		D.h,
-		color=	color[D.color]or D.color,
+		color=	D.color and(color[D.color]or D.color)or color.white,
 		font=	D.font,
 		code=	D.code,
 		hide=	D.hide,
@@ -342,7 +424,7 @@ function WIDGET.newButton(D)
 			D.x+D.w*.35,D.y+D.h*.35,
 		},
 
-		color=	color[D.color]or D.color,
+		color=	D.color and(color[D.color]or D.color)or color.white,
 		font=	D.font,
 		code=	D.code,
 		hide=	D.hide,
@@ -366,7 +448,7 @@ function WIDGET.newKey(D)
 			D.x+D.w*.35,D.y+D.h*.35,
 		},
 
-		color=	color[D.color]or D.color,
+		color=	D.color and(color[D.color]or D.color)or color.white,
 		font=	D.font,
 		code=	D.code,
 		hide=	D.hide,
@@ -379,8 +461,6 @@ function WIDGET.newSwitch(D)
 		x=		D.x,
 		y=		D.y,
 
-		cx=		D.x+25,
-		cy=		D.y,
 		resCtr={
 			D.x+25,D.y,
 		},
@@ -399,8 +479,6 @@ function WIDGET.newSlider(D)
 		y=		D.y,
 		w=		D.w,
 
-		cx=		D.x+D.w*.5,
-		cy=		D.y,
 		resCtr={
 			D.x,D.y,
 			D.x+D.w*.25,D.y,
@@ -440,6 +518,30 @@ function WIDGET.newSlider(D)
 	end
 	for k,v in next,slider do _[k]=v end return _
 end
+function WIDGET.newSelector(D)
+	local _={
+		name=	D.name,
+
+		x=		D.x-D.w*.5,
+		y=		D.y-30,
+		w=		D.w,
+
+		resCtr={
+			D.x,D.y,
+			D.x+D.w*.25,D.y,
+			D.x+D.w*.5,D.y,
+			D.x+D.w*.75,D.y,
+			D.x+D.w,D.y,
+		},
+
+		color=	D.color and(color[D.color]or D.color)or color.white,
+		list=	D.list,
+		disp=	D.disp,
+		code=	D.code,
+		hide=	D.hide,
+	}
+	for k,v in next,selector do _[k]=v end return _
+end
 
 function WIDGET.moveCursor(x,y)
 	WIDGET.sel=nil
@@ -462,9 +564,28 @@ function WIDGET.press(x,y)
 		SFX.play("lock")
 	elseif W.type=="switch"then
 		W.code()
-		SFX.play("move",.6)
+		SFX.play("move")
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
+	elseif W.type=="selector"then
+		local s=W.select
+		if x<W.x+W.w*.5 then
+			if s>1 then
+				s=s-1
+				sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
+			end
+		else
+			if s<#W.list then
+				s=s+1
+				sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
+			end
+		end
+		if W.select~=s then
+			W.code(W.list[s])
+			W.select=s
+			W.selText=W.list[s]
+			SFX.play("prerotate")
+		end
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end
 end
@@ -473,8 +594,9 @@ function WIDGET.drag(x,y,dx,dy)
 	if not W then return end
 	if W.type=="slider"then
 		if not x then return end
+		x=x-W.x
 		local p=W.disp()
-		local P=x<W.x and 0 or x>W.x+W.w and W.unit or(x-W.x)/W.w*W.unit
+		local P=x<0 and 0 or x>W.w and W.unit or x/W.w*W.unit
 		if not W.smooth then
 			P=int(P+.5)
 		end
@@ -517,6 +639,26 @@ function WIDGET.keyPressed(i)
 					if W.change and Timer()-W.lastTime>.18 then
 						W.lastTime=Timer()
 						W.change()
+					end
+				elseif W.type=="selector"then
+					print(1)
+					local s=W.select
+					if i=="left"then
+						if s>1 then
+							s=s-1
+							sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
+						end
+					else
+						if s<#W.list then
+							s=s+1
+							sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
+						end
+					end
+					if W.select~=s then
+						W.code(W.list[s])
+						W.select=s
+						W.selText=W.list[s]
+						SFX.play("prerotate")
 					end
 				end
 			end
