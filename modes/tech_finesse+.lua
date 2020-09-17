@@ -2,7 +2,7 @@ local format=string.format
 local int=math.floor
 local function tech_check_hard(P)
 	if #P.clearedRow>0 then
-		if not(P.lastClear.spin or P.lastClear.pc)then
+		if not P.lastClear.special then
 			P:lose()
 		end
 	end
