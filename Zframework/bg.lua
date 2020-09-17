@@ -313,7 +313,7 @@ back.lightning={
 }--Lightning
 
 local blocks=require("parts/mino")
-local scs=require("parts/spinCenters")
+local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 back.lightning2={
 	init=function()
 		t=0
@@ -325,14 +325,14 @@ back.lightning2={
 		t=t+dt
 	end,
 	draw=function()
-		local t=1.2-t%10%3%1.2
-		if t<.3 then gc.clear(t,t,t)
+		local R=7-int(t*.5%7)
+		local T=1.2-t%10%3%1.2
+		if T<.3 then gc.clear(T,T,T)
 		else gc.clear(0,0,0)
 		end
-		local R=7-int(t*.5)%7
 		local _=colorLib[colorSet[R]]
-		gc.setColor(_[1],_[2],_[3],.1)
-		gc.draw(blockImg[R],640,360,t%3.1416*6,400,400,scs[R][0][2]-.5,#blocks[R][0]-scs[R][0][1]+.5)
+		gc.setColor(_[1],_[2],_[3],.12)
+		gc.draw(blockImg[R],640,360,t%3.1416*6,400,400,scs[2*R],#blocks[R][0]-scs[2*R-1])
 	end,
 }--Fast lightning + spining tetromino
 
