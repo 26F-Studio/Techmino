@@ -24,26 +24,22 @@ return{
 		dropPiece=puzzleCheck,
 	},
 	load=function()
-		for i=1,#customID do
-			local k=customID[i]
-			modeEnv[k]=customRange[k][customSel[i]]
+		for k,v in next,customEnv do
+			modeEnv[k]=v
 		end
-		modeEnv._20G=modeEnv.drop==0
-		modeEnv.oncehold=customSel[6]==1
 		if preBag[1]then
 			modeEnv.bag=preBag
 		else
 			modeEnv.bag=nil
 		end
-		modeEnv.target=0
 		PLY.newPlayer(1,340,15)
 		local L=modeEnv.opponent
 		if L~=0 then
 			modeEnv.target=nil
-			if L<10 then
+			if L<6 then
 				PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
 			else
-				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",L-6,2+int((L-11)*.5),modeEnv.hold,15000+5000*(L-10)))
+				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",L,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
 		preField.h=20
@@ -56,8 +52,8 @@ return{
 			preField.h=preField.h-1
 		until preField.h==0
 		::L::
-		modeEnv.bg=customRange.bg[customSel[12]]
-		modeEnv.bgm=customRange.bgm[customSel[13]]
+		modeEnv.bg=customEnv.bg
+		modeEnv.bgm=customEnv.bgm
 	end,
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y

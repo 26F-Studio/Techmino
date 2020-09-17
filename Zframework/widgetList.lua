@@ -74,11 +74,28 @@ local virtualkeySet={
 		{20,1210,	50,30},--zangiRight
 	},--PC key feedback(top&in a row)
 }
-
+local CUSlist={
+	drop={1e99,180,60,40,30,25,20,18,16,14,12,10,9,8,7,6,5,4,3,2,1,.5,.25,.125,0},
+	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
+	wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+	fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+	sequence={"bag","his4","rnd","loop","fixed"},
+	target={10,20,40,100,200,500,1000,1e99},
+	visible={"show","time","fast","none"},
+	freshLimit={0,8,15,1e99},
+	opponent={0,1,2,3,4,5,6,7,8,9,10},
+	life={0,1,2,3,4,5,10,42,87,500},
+	pushSpeed={1,2,3,5,15},
+	bg={"none","bg1","bg2","rainbow","aura","rgb","glow","matrix"},
+	bgm={"blank","race","push","way","reason","newera","oxygen","infinite","down","secret7th","secret8th","rockblock","cruelty","final"},
+}
 --Lambda Funcs for widgets,delete at file end
+function CUSval(k)	return function()return customEnv[k]				end end
+function CUSrev(k)	return function()customEnv[k]=not customEnv[k]		end end
+function CUSsto(k)	return function(i)customEnv[k]=i					end end
 function SETval(k)	return function()return setting[k]					end end
-function SETsto(k)	return function(i)setting[k]=i						end end
 function SETrev(k)	return function()setting[k]=not setting[k]			end end
+function SETsto(k)	return function(i)setting[k]=i						end end
 function pressKey(k)return function()love.keypressed(k)					end end
 function setPen(i)	return function()sceneTemp.pen=i					end end
 function prevSkin(n)return function()SKIN.prev(n)						end end
@@ -96,6 +113,7 @@ newButton=WIDGET.newButton
 newKey=WIDGET.newKey
 newSwitch=WIDGET.newSwitch
 newSlider=WIDGET.newSlider
+newSelector=WIDGET.newSelector
 
 --All widgets
 local Widgets={
@@ -148,18 +166,46 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,		color="white",	font=35,code=BACK}),
 	},
 	custom={
-		newKey({name="up",			x=1140,	y=100,	w=100,			color="white",	font=45,code=function()sceneTemp=(sceneTemp-2)%#customID+1 end}),
-		newKey({name="down",		x=1140,	y=340,	w=100,			color="white",	font=45,code=function()sceneTemp=sceneTemp%#customID+1 end}),
-		newKey({name="left",		x=1080,	y=220,	w=100,			color="white",	font=45,code=pressKey("left")}),
-		newKey({name="right",		x=1200,	y=220,	w=100,			color="white",	font=45,code=pressKey("right")}),
+		--Basic
+		newSelector({name="drop",	x=180,	y=150+20,w=260,			list=CUSlist.drop,		disp=CUSval("drop"),	code=CUSsto("drop")}),
+		newSelector({name="lock",	x=180,	y=230+20,w=260,			list=CUSlist.lock,		disp=CUSval("lock"),	code=CUSsto("lock")}),
+		newSelector({name="wait",	x=180,	y=310+20,w=260,			list=CUSlist.wait,		disp=CUSval("wait"),	code=CUSsto("wait")}),
+		newSelector({name="fall",	x=180,	y=390+20,w=260,			list=CUSlist.fall,		disp=CUSval("fall"),	code=CUSsto("fall")}),
 
-		newButton({name="set1",		x=900,	y=320,	w=210,h=70,		color="lYellow",font=32,code=pressKey("1")}),
-		newButton({name="set2",		x=900,	y=400,	w=210,h=70,		color="lYellow",font=32,code=pressKey("2")}),
-		newButton({name="set3",		x=900,	y=480,	w=210,h=70,		color="lYellow",font=32,code=pressKey("3")}),
-		newButton({name="set4",		x=900,	y=560,	w=210,h=70,		color="lYellow",font=32,code=pressKey("4")}),
-		newButton({name="set5",		x=900,	y=640,	w=210,h=70,		color="lYellow",font=32,code=pressKey("5")}),
+		newSlider({name="next",		x=120,	y=500,w=200,unit=6,		font=30,				disp=CUSval("next"),	code=CUSsto("next")}),
+		newSwitch({name="hold",		x=230,	y=570,					font=30,				disp=CUSval("hold"),	code=CUSrev("hold")}),
+		newSwitch({name="oncehold",	x=230,	y=650,					font=30,				disp=CUSval("oncehold"),code=CUSrev("oncehold"),hide=function()return not customEnv.hold end}),
 
-		newButton({name="seq",		x=665,	y=415,	w=200,h=40,		color="lGreen",	font=30,code=pressKey("q")}),
+		--Visual
+		newSlider({name="block",	x=470,	y=150,w=120,unit=1,		font=25,				disp=CUSval("block"),	code=CUSsto("block")}),
+		newSlider({name="ghost",	x=470,	y=210,w=120,unit=.6,	font=25,				disp=CUSval("ghost"),	code=CUSsto("ghost")}),
+		newSlider({name="center",	x=470,	y=270,w=120,unit=1,		font=25,				disp=CUSval("center"),	code=CUSsto("center")}),
+		newSwitch({name="bagLine",	x=570,	y=340,					font=30,				disp=CUSval("bagLine"),	code=CUSrev("bagLine")}),
+		newSwitch({name="highCam",	x=570,	y=400,					font=30,				disp=CUSval("highCam"),	code=CUSrev("highCam")}),
+		newSwitch({name="nextPos",	x=570,	y=460,					font=30,				disp=CUSval("nextPos"),	code=CUSrev("nextPos")}),
+		newSwitch({name="bone",		x=570,	y=520,					font=30,				disp=CUSval("bone"),	code=CUSrev("bone")}),
+
+		--Rule
+		newSlider({name="mindas",		x=750,	y=150,w=200,unit=15,font=25,				disp=CUSval("mindas"),	code=CUSsto("mindas")}),
+		newSlider({name="minarr",		x=750,	y=210,w=200,unit=10,font=25,				disp=CUSval("minarr"),	code=CUSsto("minarr")}),
+		newSlider({name="minsdarr",		x=750,	y=270,w=200,unit=4,	font=22,				disp=CUSval("minsdarr"),code=CUSsto("minsdarr")}),
+		newSelector({name="sequence",	x=520,	y=600,w=200,		list=CUSlist.sequence,	disp=CUSval("sequence"),code=CUSsto("sequence")}),
+		newSwitch({name="ospin",		x=860,	y=340,				font=30,				disp=CUSval("ospin"),	code=CUSrev("ospin")}),
+		newSwitch({name="noTele",		x=860,	y=400,				font=25,				disp=CUSval("noTele"),	code=CUSrev("noTele")}),
+		newSwitch({name="fineKill",		x=860,	y=460,				font=22,				disp=CUSval("fineKill"),code=CUSrev("fineKill")}),
+		newSwitch({name="easyFresh",	x=860,	y=520,				font=18,				disp=CUSval("easyFresh"),code=CUSrev("easyFresh")}),
+		newSelector({name="visible",	x=1120,	y=60,w=260,			list=CUSlist.visible,	disp=CUSval("visible"),	code=CUSsto("visible")}),
+		newSelector({name="target",		x=1120,	y=140,w=260,		list=CUSlist.target,	disp=CUSval("target"),	code=CUSsto("target")}),
+		newSelector({name="freshLimit",	x=1120,	y=220,w=260,		list=CUSlist.freshLimit,disp=CUSval("freshLimit"),code=CUSsto("freshLimit")}),
+		newSelector({name="opponent",	x=1120,	y=300,w=260,		list=CUSlist.opponent,	disp=CUSval("opponent"),code=CUSsto("opponent")}),
+		newSelector({name="life",		x=1120,	y=380,w=260,		list=CUSlist.life,		disp=CUSval("life"),	code=CUSsto("life")}),
+		newSelector({name="pushSpeed",	x=1120,	y=460,w=260,		list=CUSlist.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")}),
+
+		--Else
+		newSelector({name="bg",		x=800,	y=600,	w=220,			list=CUSlist.bg,		disp=CUSval("bg"),		code=CUSsto("bg")}),
+		newSelector({name="bgm",	x=800,	y=670,	w=220,			list=CUSlist.bgm,		disp=CUSval("bgm"),		code=CUSsto("bgm")}),
+
+		newButton({name="seq",		x=520,	y=670,	w=200,h=60,		color="lGreen",	font=30,code=pressKey("q")}),
 		newButton({name="draw",		x=150,	y=80,	w=220,h=80,		color="white",	font=35,code=pressKey("e")}),
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,		color="white",	font=35,code=BACK}),
 	},

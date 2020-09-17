@@ -979,8 +979,8 @@ do--mode
 		if key=="return"then
 			if mapCam.sel then
 				if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
-					if customSel[11]>1 then
-						if customSel[7]==5 then
+					if customEnv.opponent>1 then
+						if customEnv.seq=="fixed"then
 							LOG.print(text.ai_fixed,"warn",color.red)
 							return
 						elseif #preBag>0 then
@@ -1289,52 +1289,19 @@ do--music
 end
 do--custom
 	function sceneInit.custom()
+		BG.set("space")
 		sceneTemp=1--Option selected
 		destroyPlayers()
-		BG.set(customRange.bg[customSel[12]])
-		BGM.play(customRange.bgm[customSel[13]])
+		BG.set(customEnv.bg)
+		BGM.play(customEnv.bgm)
 	end
 
-	local customSet={
-		{3,20,1,1,7,1,1,1,3,4,1,2,3},
-		{5,20,1,1,7,1,1,1,8,3,8,3,3},
-		{1,22,1,1,7,3,1,1,8,4,1,6,7},
-		{3,20,1,1,7,1,1,3,8,3,1,6,8},
-		{25,11,8,11,4,1,2,1,8,3,1,4,9},
-	}
 	function keyDown.custom(key)
 		local sel=sceneTemp
-		if key=="up"or key=="w"then
-			sceneTemp=(sel-2)%#customID+1
-		elseif key=="down"or key=="s"then
-			sceneTemp=sel%#customID+1
-		elseif key=="left"or key=="a"then
-			customSel[sel]=(customSel[sel]-2)%#customRange[customID[sel]]+1
-			if sel==12 then
-				BG.set(customRange.bg[customSel[12]])
-			elseif sel==13 then
-				BGM.play(customRange.bgm[customSel[13]])
-			end
-		elseif key=="right"or key=="d"then
-			customSel[sel]=customSel[sel]%#customRange[customID[sel]]+1
-			if sel==12 then
-				BG.set(customRange.bg[customSel[sel]])
-			elseif sel==13 then
-				BGM.play(customRange.bgm[customSel[sel]])
-			end
-		elseif key=="q"then
+		if key=="q"then
 			SCN.go("sequence")
 		elseif key=="e"then
 			SCN.swapTo("draw","swipeL")
-		elseif #key==1 then
-			local T=tonumber(key)
-			if T and T>=1 and T<=5 then
-				for i=1,#customSet[T]do
-					customSel[i]=customSet[T][i]
-				end
-				BG.set(customRange.bg[customSel[12]])
-				BGM.play(customRange.bgm[customSel[13]])
-			end
 		elseif key=="escape"then
 			SCN.back()
 		end

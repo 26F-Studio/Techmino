@@ -43,7 +43,46 @@ scr={
 	k=1,--Scale size
 }--1280:720-Rect Screen Info
 
-customSel={1,22,1,1,7,3,1,1,8,4,1,1,1}
+customEnv={
+	--Basic
+	drop=60,
+	lock=60,
+	wait=0,
+	fall=0,
+
+	next=6,
+	hold=true,
+	oncehold=true,
+
+	--Visual
+	block=1,
+	ghost=.3,
+	center=1,
+	bagLine=false,
+	highCam=false,
+	nextPos=false,
+	bone=false,
+
+	--Rule
+	mindas=0,
+	minarr=0,
+	minsdarr=0,
+	sequence="bag",
+	ospin=true,
+	noTele=false,
+	fineKill=false,
+	easyFresh=true,
+	visible="show",
+	target=200,
+	freshLimit=1e99,
+	opponent=0,
+	life=0,
+	pushSpeed=3,
+
+	--Else
+	bg="none",
+	bgm="race"
+}
 preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
 preBag={}
 

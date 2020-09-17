@@ -2983,12 +2983,22 @@ function PLY.newDemoPlayer(id,x,y,size)
 	P.field,P.visTime={},{}
 	P.atkBuffer={sum=0}
 	P.gameEnv={
-		noTele=false,
+		drop=1e99,lock=1e99,
+		wait=10,fall=20,
+		next=6,hold=true,
+		oncehold=true,
+
 		das=10,arr=2,
 		sddas=2,sdarr=2,
 		swap=true,
-		ghost=setting.ghost,center=setting.center,
-		smooth=setting.smooth,grid=setting.grid,
+
+		--Visual
+		block=true,
+		ghost=setting.ghost,
+		center=setting.center,
+		bone=false,
+		smooth=setting.smooth,
+		grid=setting.grid,
 		text=setting.text,
 		lockFX=setting.lockFX,
 		dropFX=setting.dropFX,
@@ -2996,23 +3006,20 @@ function PLY.newDemoPlayer(id,x,y,size)
 		clearFX=setting.clearFX,
 		shakeFX=setting.shakeFX,
 
-		_20G=false,bone=false,
-		drop=1e99,lock=1e99,
-		wait=10,fall=20,
-		next=6,hold=true,
-		oncehold=true,
-		ospin=true,
+		mindas=0,minarr=0,minsdarr=0,
 		sequence="bag",
+		ospin=true,
+		noTele=false,
+
+		easyFresh=true,
+		visible="show",
+		freshLimit=1e99,
+		life=1e99,
+		pushSpeed=3,
+
 		bag={1,2,3,4,5,6,7},
 		face={0,0,0,0,0,0,0},
 		skin=setting.skin,
-
-		life=1e99,
-		pushSpeed=3,
-		block=true,
-		visible="show",
-		freshLimit=1e99,easyFresh=true,
-		mindas=0,minarr=0,minsdarr=0,
 	}
 	applyGameEnv(P)
 
