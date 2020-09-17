@@ -1000,7 +1000,7 @@ local langList={
 			["custom_clear"]=		{"自定义",		"普通",		"画点什么然后把它消除!"},
 			["custom_puzzle"]=		{"自定义",		"拼图",		"画点什么然后把它拼出来吧!"},
 			["sprintPenta"]=		{"竞速",		"五联块",	"伤脑筋十八块"},
-			["sprintMPH"]=			{"竞速",		"MPH",		"很经典"},
+			["sprintMPH"]=			{"竞速",		"纯净",		"很经典"},
 		},
 	},
 	{
@@ -1490,7 +1490,7 @@ local langList={
 			["custom_clear"]=		{"Custom",			"NORMAL",		"Draw something then clear it!!"},
 			["custom_puzzle"]=		{"Custom",			"PUZZLE",		"Draw something then stack it!!"},
 			["sprintPenta"]=		{"Sprint",			"Pentomino",	"Clear 40 lines with pentominoes.\n18 pentominoes in each bag."},
-			["sprintMPH"]=			{"Sprint",			"MPH",			"Classic."},
+			["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless.\nPreviewless.\nHoldless."},
 		},
 	},
 	{
@@ -1978,7 +1978,7 @@ local langList={
 			["custom_clear"]=		{"Custom",			"NORMAL",		"Draw something then clear it!!"},
 			["custom_puzzle"]=		{"Custom",			"PUZZLE",		"Draw something then stack it!!"},
 			["sprintPenta"]=		{"Sprint",			"Pentomino",	"Puzzle-18"},
-			["sprintMPH"]=			{"Sprint",			"MPH",			"Classic."},
+			["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless.\nPreviewless.\nHoldless."},
 		},
 	},
 	{
@@ -2479,6 +2479,7 @@ local langList={
 			["custom_clear"]=		{"自定义",		"普通",		"试验场"},
 			["custom_puzzle"]=		{"自定义",		"拼图",		"宁就是方块艺术家"},
 			["sprintPenta"]=		{"竞速",		"五联块",	"离谱"},
+			["sprintMPH"]=			{"竞速",		"无脑",		"听说你反应很快?"},
 		},
 	},
 }
