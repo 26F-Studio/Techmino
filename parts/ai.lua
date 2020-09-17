@@ -91,12 +91,17 @@ do
 		while i<400 do
 			F[i],i=false,i+1
 		end
-		CC.update(P.AI_bot,F,P.b2b>=100,P.combo)
+		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
+			LOG.print("CC is dead ("..P.id..")","error")
+		end
 	end
 	function CC_switch20G(P)
+		if not pcall(CC.destroy,P.AI_bot)then
+			LOG.print("CC is dead ("..P.id..")","error")
+			return
+		end
 		P.AIdata._20G=true
 		P.AI_keys={}
-		CC.destroy(P.AI_bot)
 		local opt,wei=CC.getConf()
 			CC.setHold(opt,P.AIdata.hold)
 			CC.set20G(opt,P.AIdata._20G)
@@ -321,8 +326,12 @@ return{
 		end,
 	},
 	["CC"]={
+		[0]=NULL,
 		function(P)--Start thinking
-			CC.think(P.AI_bot)
+			if not pcall(CC.think,P.AI_bot)then
+				LOG.print("CC is dead ("..P.id..")","error")
+				return 0
+			end
 			return 2
 		end,
 		function(P,ctrl)--Poll keys
