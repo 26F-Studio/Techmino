@@ -1742,6 +1742,7 @@ do--play
 	function Tmr.play(dt)
 		local _
 		local P1=players[1]
+		local game=game
 		game.frame=game.frame+1
 		stat.time=stat.time+dt
 

@@ -817,7 +817,7 @@ do--function Pdraw_norm(P)
 					--Draw Hold
 					if ENV.hold then
 						gc.push("transform")
-						gc.translate(-140,116)--TODO: adjust needed
+						gc.translate(-140,116)
 							gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,80)
 							gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,80)
 							mText(drawableText.hold,62,-131)
@@ -1126,7 +1126,7 @@ end
 local function pressKey_Rec(P,i)
 	if P.keyAvailable[i]then
 		if game.recording then
-			ins(game.rec,game.frame)
+			ins(game.rec,game.frame+1)
 			ins(game.rec,i)
 		end
 		P.keyPressing[i]=true
@@ -1142,7 +1142,7 @@ local function pressKey_Rec(P,i)
 end
 local function releaseKey_Rec(P,i)
 	if game.recording then
-		ins(game.rec,game.frame)
+		ins(game.rec,game.frame+1)
 		ins(game.rec,-i)
 	end
 	P.keyPressing[i]=false
