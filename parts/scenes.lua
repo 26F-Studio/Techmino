@@ -87,9 +87,9 @@ do--calculator
 				end
 				S.sym="="
 				S.reg=false
-				if S.val==600+20+6 then
+				if S.val==600+26 or S.val==196 or S.val==022 or S.val==942 or S.val==238 or S.val==872 or S.val==670 or S.val==114 or S.val==7023 then
 					S.pass=true
-				elseif S.val==196000+022 then
+				elseif S.val==190000+6022 then
 					S.pass=true
 					marking=nil
 					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
@@ -109,11 +109,7 @@ do--calculator
 					SCN.go("debug")
 				elseif S.val==34494 then
 					error("This is an error testing message.")
-				elseif S.val==114 then
-					S.reg=514
-				elseif S.val==114514 then
-					S.reg=1919810
-				elseif S.val==1145141919810 then
+				elseif S.val==114514 or S.val==1145141919810 then
 					error("小鬼自裁请")
 				elseif S.val==123456789 then
 					S.reg=123456789
