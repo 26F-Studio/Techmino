@@ -64,7 +64,7 @@ function SKIN.load()
 			I=gc.newImage(N)
 		else
 			I=gc.newImage("/image/skin/"..list[1]..".png")
-			LOG.print("No skin file: "..list[i],color.red)
+			LOG.print("No skin file: "..list[i],"warn")
 		end
 		for j=1,11 do
 			SKIN.lib[i][j]=C(30,30)

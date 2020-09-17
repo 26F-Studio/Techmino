@@ -41,7 +41,7 @@ function BGM.loadOne(N)
 		BGM.list[N]:setLooping(true)
 		BGM.list[N]:setVolume(0)
 	else
-		LOG.print("No BGM file: "..N,color.red)
+		LOG.print("No BGM file: "..N,"warn")
 	end
 end
 function BGM.loadAll()

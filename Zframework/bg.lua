@@ -430,6 +430,10 @@ function BG.set(bg,data)
 		BG.discard()
 		collectgarbage()
 	end
+	if not back[bg]then
+		LOG.print("No BG called"..bg,"warn")
+		return
+	end
 	BG.cur=bg
 	bg=back[bg]
 

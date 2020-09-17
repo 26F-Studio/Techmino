@@ -30,7 +30,7 @@ function SFX.loadOne(_)
 	if love.filesystem.getInfo(N)then
 		SFX.list[_]={love.audio.newSource(N,"static")}
 	else
-		LOG.print("No SFX file: "..N,color.red)
+		LOG.print("No SFX file: "..N,"warn")
 	end
 end
 function SFX.loadAll()

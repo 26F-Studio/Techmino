@@ -92,7 +92,7 @@ do--calculator
 				elseif S.val==196000+022 then
 					S.pass=true
 					marking=nil
-					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","warn",color.lBlue)
+					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 					SFX.play("clear")
 				elseif S.val==72943816 then
 					S.pass=true
@@ -102,7 +102,7 @@ do--calculator
 						end
 					end
 					FILE.saveUnlock()
-					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","warn",color.lBlue)
+					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
 					SFX.play("clear_2")
 				elseif S.val==1379e8+2626e4+1379 then
 					S.pass=true
@@ -981,10 +981,10 @@ do--mode
 				if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
 					if customEnv.opponent>1 then
 						if customEnv.seq=="fixed"then
-							LOG.print(text.ai_fixed,"warn",color.red)
+							LOG.print(text.ai_fixed,"warn")
 							return
 						elseif #preBag>0 then
-							LOG.print(text.ai_prebag,"warn",color.red)
+							LOG.print(text.ai_prebag,"warn")
 							return
 						end
 					end
