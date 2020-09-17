@@ -1,4 +1,5 @@
 local format=string.format
+local int=math.floor
 local function tech_check_easy(P)
 	if #P.clearedRow>0 and P.b2b<40 then
 		P:lose()
@@ -21,12 +22,12 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.atk,69,260)
+		mStr(format("%.1f",P.stat.atk),69,260)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),69,380)
 		mText(drawableText.atk,69,313)
 		mText(drawableText.eff,69,433)
 	end,
-	score=function(P)return{P.stat.atk<=200 and P.stat.atk or 200,P.stat.time}end,
+	score=function(P)return{P.stat.atk<=200 and int(P.stat.atk)or 200,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Attack  "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

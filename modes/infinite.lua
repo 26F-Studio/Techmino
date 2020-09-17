@@ -11,7 +11,7 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		setFont(45)
-		mStr(P.stat.atk,69,260)
+		mStr(format("%.1f",P.stat.atk),69,260)
 		mStr(format("%.2f",P.stat.atk/P.stat.row),69,380)
 		mText(drawableText.atk,69,313)
 		mText(drawableText.eff,69,433)
