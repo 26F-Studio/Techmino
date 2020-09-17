@@ -34,13 +34,15 @@ function LOG.update()
 end
 function LOG.draw()
 	if debugMesList[1]then
-		setFont(20)
+		gc.push("transform")
+		setFont(int(20*scr.w/1280))
 		for i=1,#debugMesList do
 			local M=debugMesList[i]
 			local t=M.time
 			gc.setColor(M.r,M.g,M.b,M.blink>0 and int(M.blink/3)%2 or min(t/26,1))
 			gc.print(M.text,10+(20-min(t,20))^1.5/4,25*i+debugMesFloat)
 		end
+		gc.pop()
 	end
 end
 function LOG.print(text,T,C)--text,type/time,color
