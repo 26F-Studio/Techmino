@@ -1306,7 +1306,7 @@ do--custom
 	end
 
 	function Pnt.custom()
-		gc.setColor(1,1,1)gc.draw(drawableText.custom,362,10)
+		gc.setColor(1,1,1)gc.draw(drawableText.custom,300,10)
 	end
 end
 do--sequence
