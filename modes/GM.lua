@@ -17,7 +17,6 @@ return{
 	env={
 		noTele=true,
 		minarr=1,
-		_20G=true,
 		drop=0,lock=15,
 		wait=15,fall=6,
 		next=3,

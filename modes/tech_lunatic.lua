@@ -11,7 +11,7 @@ end
 return{
 	color=color.red,
 	env={
-		_20G=true,lock=60,
+		drop=0,lock=60,
 		freshLimit=15,
 		dropPiece=tech_check_easy,
 		bg="matrix",bgm="down",

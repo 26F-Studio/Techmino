@@ -252,7 +252,7 @@ function royaleLevelup()
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.imgY
-				P.gameEnv._20G=true
+				P._20G=true
 				if P.AI_mode=="CC"then CC_switch20G(P)end
 			end
 		end

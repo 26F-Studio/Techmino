@@ -1171,6 +1171,7 @@ end
 local function applyGameEnv(P)--Finish gameEnv processing
 	local ENV=P.gameEnv
 
+	if ENV.drop==0 then P._20G=true end
 	P.dropDelay=ENV.drop
 	P.lockDelay=ENV.lock
 
@@ -1698,7 +1699,7 @@ function player.freshBlock(P,keepGhost,control,system)
 	local ENV=P.gameEnv
 	if not keepGhost and P.cur then
 		P.imgY=min(#P.field+1,P.curY)
-		if ENV._20G or P.keyPressing[7]and ENV.sdarr==0 then
+		if _20G or P.keyPressing[7]and ENV.sdarr==0 then
 			local _=P.imgY
 
 			--Move ghost to bottom
@@ -2417,7 +2418,7 @@ do--player.drop(P)--Place piece
 			end
 
 			--DropSpeed bonus
-			if P.gameEnv._20G then
+			if P._20G then
 				dropScore=dropScore*2
 			elseif P.gameEnv.drop<3 then
 				dropScore=dropScore*1.5

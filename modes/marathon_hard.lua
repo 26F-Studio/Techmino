@@ -6,7 +6,7 @@ local function check(P)
 			P.gameEnv.drop=.25
 			P.gameEnv.target=100
 		elseif T==100 then
-			P.gameEnv._20G=true
+			P._20G=true
 			P.gameEnv.target=200
 		else
 			P:win("finish")

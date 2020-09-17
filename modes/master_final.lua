@@ -43,7 +43,7 @@ return{
 	env={
 		noTele=true,
 		das=5,arr=1,
-		_20G=true,lock=12,
+		drop=0,lock=12,
 		wait=10,fall=10,
 		dropPiece=score,
 		freshLimit=15,

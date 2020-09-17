@@ -13,7 +13,7 @@ end
 return{
 	color=color.dRed,
 	env={
-		_20G=true,lock=60,
+		drop=0,lock=60,
 		freshLimit=15,
 		dropPiece=tech_check_hard,
 		bg="matrix",bgm="down",

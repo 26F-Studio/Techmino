@@ -45,7 +45,7 @@ return{
 	env={
 		noTele=true,
 		das=9,arr=3,
-		_20G=true,
+		drop=0,
 		lock=rush_lock[1],
 		wait=rush_wait[1],
 		fall=rush_fall[1],
