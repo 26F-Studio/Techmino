@@ -1260,10 +1260,7 @@ do--music
 	end
 
 	function Pnt.music()
-		gc.setColor(.7,.7,.7)
-		gc.draw(drawableText.musicRoom,20,20)
-		gc.setColor(1,1,1)
-		gc.draw(drawableText.musicRoom,22,23)
+		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
 
 		gc.draw(drawableText.right,270,350+10)
 		setFont(50)
@@ -1344,21 +1341,7 @@ do--custom
 	end
 
 	function Pnt.custom()
-		gc.setColor(1,1,1,.3+sin(Timer()*8)*.2)
-		gc.rectangle("fill",100,115+40*sceneTemp,570,40)
-		gc.setColor(.7,.7,.7)gc.draw(drawableText.custom,360,20)
-		gc.setColor(1,1,1)gc.draw(drawableText.custom,362,23)
-		setFont(35)
-		for i=1,#customID do
-			local k=customID[i]
-			local y=110+40*i
-			gc.printf(text.customOption[k],100,y,320,"right")
-			if text.customVal[k]then
-				gc.print(text.customVal[k][customSel[i]],440,y)
-			else
-				gc.print(customRange[k][customSel[i]],440,y)
-			end
-		end
+		gc.setColor(1,1,1)gc.draw(drawableText.custom,362,10)
 	end
 end
 do--sequence
@@ -1433,7 +1416,6 @@ do--sequence
 
 	function Pnt.sequence()
 		local S=sceneTemp
-		gc.setColor(.7,.7,.7)gc.draw(drawableText.sequence,120,-15)
 		gc.setColor(1,1,1)gc.draw(drawableText.sequence,122,-12)
 		gc.setLineWidth(4)
 		gc.rectangle("line",100,100,1080,260)
@@ -2344,7 +2326,6 @@ do--setting_control
 		gc.line(950,530,950,630)
 
 		--Texts
-		gc.setColor(.7,.7,.7)gc.draw(drawableText.setting_control,80,50)
 		gc.setColor(1,1,1)gc.draw(drawableText.setting_control,80,50)
 		setFont(50)
 		gc.printf(text.preview,320,540,200,"right")
@@ -2494,7 +2475,6 @@ end
 do--setting_skin
 	local scs=require("parts/spinCenters")
 	function Pnt.setting_skin()
-		gc.setColor(.7,.7,.7)gc.draw(drawableText.setting_skin,80,50)
 		gc.setColor(1,1,1)gc.draw(drawableText.setting_skin,80,50)
 		for N=1,7 do
 			local face=setting.face[N]
