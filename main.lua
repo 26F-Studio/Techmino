@@ -204,9 +204,5 @@ do
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
-
-		fs.remove("sprintPenta.dat")
-		fs.remove("master_adavnce.dat")
-		fs.remove("master_beginner.dat")
 	end
 end
