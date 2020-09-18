@@ -1358,9 +1358,15 @@ do--sequence
 			end
 		else
 			if key=="left"then
-				if s.cur>0 then s.cur=s.cur-1 end
+				s.cur=s.cur-1
+				if s.cur==-1 then
+					s.cur=#preBag
+				end
 			elseif key=="right"then
-				if s.cur<#preBag then s.cur=s.cur+1 end
+				s.cur=s.cur+1
+				if s.cur>#preBag then
+					s.cur=0
+				end
 			elseif key=="backspace"then
 				local C=s.cur
 				if C>0 then
