@@ -58,7 +58,6 @@ local langList={
 		statSavingError="统计保存失败:",
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
-
 		switchSpawnSFX="请开启方块出生音效",
 
 		needRestart="重新开始以生效",
@@ -439,6 +438,8 @@ local langList={
 				back="返回",
 			},
 			debug={
+				copyLog="复制日志",
+				scrInfo="输出屏幕信息",
 				reset="重置?",
 				reset1="重置解锁/等级",
 				reset2="重置统计",
@@ -581,7 +582,6 @@ local langList={
 		statSavingError="统计保存失败:",
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
-
 		switchSpawnSFX="请开启方块出生音效",
 
 		needRestart="重新开始以生效",
@@ -960,6 +960,8 @@ local langList={
 				back="返回",
 			},
 			debug={
+				copyLog="复制日志",
+				scrInfo="输出屏幕信息",
 				reset="重置?",
 				reset1="重置解锁/等级",
 				reset2="重置统计",
@@ -1102,7 +1104,6 @@ local langList={
 		statSavingError="Failed to save statistics:",
 		unlockSavingError="Failed to save unlocked content:",
 		recSavingError="Failed to save record:",
-
 		switchSpawnSFX="Switch on spawn SFX to play",
 
 		needRestart="Effective after restart",
@@ -1471,6 +1472,8 @@ local langList={
 				back="Back",
 			},
 			debug={
+				copyLog="Copy Log",
+				scrInfo="Show Screen Info.",
 				reset="Reset?",
 				reset1="Reset ranks",
 				reset2="Reset data",
@@ -1613,6 +1616,7 @@ local langList={
 		statSavingError="x!:",
 		unlockSavingError="x!:",
 		recSavingError="x!:",
+		switchSpawnSFX="Switch on spawn SFX to play",
 
 		needRestart="!!*#R#*!!",
 		copySuccess="~$~",
@@ -2124,7 +2128,6 @@ local langList={
 		statSavingError="统计保存失败:",
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
-
 		switchSpawnSFX="请开启方块出生音效",
 
 		needRestart="重新开始以生效",
@@ -2502,6 +2505,8 @@ local langList={
 				back="返回",
 			},
 			debug={
+				copyLog="复制日志",
+				scrInfo="输出屏幕信息",
 				reset="重置?",
 				reset1="重置解锁/等级",
 				reset2="重置统计",

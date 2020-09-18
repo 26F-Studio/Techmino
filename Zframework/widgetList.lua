@@ -617,14 +617,20 @@ local Widgets={
 		newButton({name="back",		x=640,	y=620,w=200,h=80,color="white",font=35,code=BACK}),
 	},
 	debug={
-		newButton({name="reset",	x=640,y=200,w=260,h=100,color="yellow",font=40,
-			code=function()
-				sceneTemp.reset=true
-			end,
-			hide=function()
-				return sceneTemp.reset
-			end}),
-		newButton({name="reset1",	x=340,y=400,w=260,h=100,color="red",font=40,
+		newButton({name="copyLog",	x=300,y=120,w=300,h=100,color="green",	font=30,code=function()LOG.copy()end}),
+		newButton({name="scrInfo",	x=640,y=120,w=300,h=100,color="green",	font=30,code=function()
+			LOG.print("Screen Info:")
+			LOG.print("x y: "..scr.x.." "..scr.y)
+			LOG.print("w h: "..scr.w.." "..scr.h)
+			LOG.print("W H: "..scr.W.." "..scr.H)
+			LOG.print("k: "..math.floor(scr.k*100)*.01)
+			LOG.print("rad: "..math.floor(scr.rad*100)*.01)
+			LOG.print("dpi: "..scr.dpi)
+		end}),
+		newButton({name="reset",	x=640,y=380,w=240,h=100,color="orange",	font=40,
+			code=function()sceneTemp.reset=true end,
+			hide=function()return sceneTemp.reset end}),
+		newButton({name="reset1",	x=340,y=480,w=240,h=100,color="red",	font=40,
 			code=function()
 				love.filesystem.remove("unlock.dat")
 				SFX.play("finesseError_long")
@@ -632,10 +638,8 @@ local Widgets={
 				TEXT.show("effected after restart game",640,360,60,"stretch",.4)
 				TEXT.show("play one game if you regret",640,390,40,"stretch",.4)
 			end,
-			hide=function()
-				return not sceneTemp.reset
-			end}),
-		newButton({name="reset2",	x=640,y=400,w=260,h=100,color="red",font=40,
+			hide=function()return not sceneTemp.reset end}),
+		newButton({name="reset2",	x=640,y=480,w=260,h=100,color="red",	font=40,
 			code=function()
 				love.filesystem.remove("data.dat")
 				SFX.play("finesseError_long")
@@ -643,10 +647,8 @@ local Widgets={
 				TEXT.show("effected after restart game",640,360,60,"stretch",.4)
 				TEXT.show("play one game if you regret",640,390,40,"stretch",.4)
 			end,
-			hide=function()
-				return not sceneTemp.reset
-			end}),
-		newButton({name="reset3",	x=940,y=400,w=260,h=100,color="red",font=40,
+			hide=function()return not sceneTemp.reset end}),
+		newButton({name="reset3",	x=940,y=480,w=260,h=100,color="red",	font=40,
 			code=function()
 				local L=love.filesystem.getDirectoryItems("")
 				for i=1,#L do
@@ -660,10 +662,8 @@ local Widgets={
 				TEXT.show("effected after restart game",640,390,60,"stretch",.4)
 				SCN.back()
 			end,
-			hide=function()
-				return not sceneTemp.reset
-			end}),
-		newButton({name="back",		x=640,y=620,w=200,h=80,color="white",font=35,code=BACK}),
+			hide=function()return not sceneTemp.reset end}),
+		newButton({name="back",		x=640,y=620,w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 }
 

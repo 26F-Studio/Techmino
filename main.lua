@@ -41,6 +41,7 @@ scr={
 	W=0,H=0,--Fullscreen w/h in shader
 	rad=0,--Radius
 	k=1,--Scale size
+	dpi=1--DPI from gc.getDPIScale()
 }--1280:720-Rect Screen Info
 
 customEnv={
