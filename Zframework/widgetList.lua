@@ -75,7 +75,7 @@ local virtualkeySet={
 	},--PC key feedback(top&in a row)
 }
 local CUSlist={
-	drop={1e99,180,60,40,30,25,20,18,16,14,12,10,9,8,7,6,5,4,3,2,1,.5,.25,.125,0},
+	drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 	wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
 	fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
@@ -84,9 +84,9 @@ local CUSlist={
 	visible={"show","time","fast","none"},
 	freshLimit={0,8,15,1e99},
 	opponent={0,1,2,3,4,5,6,7,8,9,10},
-	life={0,1,2,3,4,5,10,42,87,500},
+	life={0,1,2,3,5,10,15,26,42,87,500},
 	pushSpeed={1,2,3,5,15},
-	bg={"none","glow","rgb","flink","aura","bg1","bg2","rainbow","rainbow2","lightning","lightning2","matrix","space"},
+	bg={"none","bg1","bg2","rainbow","rainbow2","glow","rgb","aura","wing","matrix","space"},
 	bgm={"blank","race","push","way","reason","newera","oxygen","infinite","down","secret7th","secret8th","rockblock","cruelty","final"},
 }
 --Lambda Funcs for widgets,delete at file end
