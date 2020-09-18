@@ -17,6 +17,9 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
+		if setting.spawn==0 then
+			LOG.print(text.switchSpawnSFX,color.yellow)
+		end
 	end,
 	mesDisp=function(P,dx,dy)
 		if not game.result then
