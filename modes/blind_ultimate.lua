@@ -4,7 +4,7 @@ return{
 	color=color.red,
 	env={
 		drop=30,lock=60,
-		block=0,center=0,ghost=0,
+		block=false,center=0,ghost=0,
 		dropFX=0,lockFX=0,
 		visible="none",
 		dropPiece=PLY.check_lineReach,

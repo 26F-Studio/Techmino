@@ -55,7 +55,7 @@ customEnv={
 	oncehold=true,
 
 	--Visual
-	block=1,
+	block=true,
 	ghost=.3,
 	center=1,
 	bagLine=false,
