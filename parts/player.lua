@@ -883,8 +883,15 @@ do--function Pdraw_norm(P)
 			gc.draw(drawableText.bpm,540,550)
 			gc.draw(drawableText.kpm,494,643)
 			if P.life>0 then
-				for i=1,P.life do
-					gc.draw(IMG.lifeIcon,450+25*i,665,nil,.8)
+				if P.life<=3 then
+					for i=1,P.life do
+						gc.draw(IMG.lifeIcon,450+25*i,665,nil,.8)
+					end
+				else
+					gc.draw(IMG.lifeIcon,475,665,nil,.8)
+					setFont(20)
+					gc.print("x",503,665)
+					gc.print(P.life,517,665)
 				end
 			end
 			mStr(format("%.2f",P.stat.time),69,588)--Time
@@ -2606,7 +2613,7 @@ function player.lose(P)
 		end
 		sysFX.newShade(.5,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
 		sysFX.newRectRipple(.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
-		sysFX.newRipple(.3,P.x+(450+25+25*P.life+12)*P.size,P.y+(665+12)*P.size,20)
+		sysFX.newRipple(.3,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
 		--300+25*i,595
 		SFX.play("clear_3")
 		SFX.play("emit")
