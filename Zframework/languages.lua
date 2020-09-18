@@ -23,6 +23,7 @@ local langList={
 		continue="Continue.",
 		maxspeed="最高速度",
 		speedup="速度加快",
+		missionFailed="非任务消除",
 
 		win="胜利",
 		finish="完成",
@@ -30,7 +31,7 @@ local langList={
 		pause="暂停",
 		pauseCount="暂停统计",
 
-		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",
+		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
 		softdropdas="软降DAS:",
 		softdroparr="软降ARR:",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
@@ -205,7 +206,7 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				draw="←初始场地",
+				mission="←任务设置",
 				rule="更多规则(Tab)→",
 				back="返回",
 			},
@@ -255,8 +256,26 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
-				seq="←序列设置",
-				norm="基础设置(Tab)→",
+				mission="任务设置(Tab)→",
+				back="返回",
+			},
+			custom_mission={
+				Z1="Z1",S1="S1",J1="J1",L1="L1",T1="T1",O1="O1",I1="I1",
+				Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
+				Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
+				any1="any1",any2="any2",any3="any3",any4="any4",
+				PC="PC",O4="O4",I4="I4",
+				_1="1",_2="2",_3="3",_4="4",
+				left="←",right="→",
+				ten="+10",
+				backsp="<X",
+				reset="R",
+				copy="复制",
+				paste="粘贴",
+				mission="强制任务",
+
+				draw="←初始场地",
+				norm="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -527,6 +546,7 @@ local langList={
 		continue="继续。",
 		maxspeed="最高速度",
 		speedup="速度加快",
+		missionFailed="非任务消除",
 
 		win="胜利",
 		finish="完成",
@@ -534,7 +554,7 @@ local langList={
 		pause="暂停",
 		pauseCount="暂停统计",
 
-		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",
+		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10像素吸附","20像素吸附","40像素吸附","60像素吸附","80像素吸附"},
 		setting_game="游戏设置",
 		setting_video="画面设置",
@@ -705,7 +725,7 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				draw="←初始场地",
+				mission="←任务设置",
 				rule="更多规则(Tab)→",
 				back="返回",
 			},
@@ -755,8 +775,26 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
-				seq="←序列设置",
-				norm="基础设置(Tab)→",
+				mission="任务设置(Tab)→",
+				back="返回",
+			},
+			custom_mission={
+				Z1="Z1",S1="S1",J1="J1",L1="L1",T1="T1",O1="O1",I1="I1",
+				Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
+				Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
+				any1="any1",any2="any2",any3="any3",any4="any4",
+				PC="PC",O4="O4",I4="I4",
+				_1="1",_2="2",_3="3",_4="4",
+				left="←",right="→",
+				ten="+10",
+				backsp="<X",
+				reset="R",
+				copy="复制",
+				paste="粘贴",
+				mission="强制任务",
+
+				draw="←初始场地",
+				norm="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -1027,6 +1065,7 @@ local langList={
 		continue="Keep going!",
 		maxspeed="Max speed!",
 		speedup="Speed up!",
+		missionFailed="Wrong Clear",
 
 		win="You Win!",
 		finish="Finish",
@@ -1034,7 +1073,7 @@ local langList={
 		pause="Pause",
 		pauseCount="Pauses:",
 
-		custom="Custom Game",basic="Basic",rule="Rule",field="Custom Field",
+		custom="Custom Game",basic="Basic",rule="Rule",field="Custom Field",mission="Mission",
 		snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"},
 		setting_game="Game Settings",
 		setting_video="Video Settings",
@@ -1195,7 +1234,7 @@ local langList={
 				bg="Background",
 				bgm="Music",
 
-				draw="←Field",
+				mission="←Mission",
 				rule="Rules (Tab)→",
 				back="Back",
 			},
@@ -1245,8 +1284,26 @@ local langList={
 				delLine="Del Line(L)",
 				demo="Don't show ×",
 
-				seq="←Sequence",
-				norm="Basic (Tab)→",
+				mission="Mission (Tab)→",
+				back="Back",
+			},
+			custom_mission={
+				Z1="Z1",S1="S1",J1="J1",L1="L1",T1="T1",O1="O1",I1="I1",
+				Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
+				Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
+				any1="any1",any2="any2",any3="any3",any4="any4",
+				PC="PC",O4="O4",I4="I4",
+				_1="1",_2="2",_3="3",_4="4",
+				left="←",right="→",
+				ten="+10",
+				backsp="<X",
+				reset="R",
+				copy="Copy",
+				paste="Paste",
+				mission="Force mission",
+
+				draw="←Field",
+				norm="Basic (tab)→",
 				back="Back",
 			},
 			play={
@@ -1517,6 +1574,7 @@ local langList={
 		continue="~~",
 		maxspeed="!!!",
 		speedup="~!~",
+		missionFailed="-X_X-",
 
 		win=": )",
 		finish="&",
@@ -1524,7 +1582,7 @@ local langList={
 		pause="=",
 		pauseCount="=:",
 
-		custom="!@#$%^&*",basic="!!",rule="##",field="!@#$%^&* [##]",
+		custom="!@#$%^&*",basic="!!",rule="##",field="!@#$%^&* [##]",mission="(!)",
 		snapLevelName={"~","10","20","40","60","80"},
 		setting_game="%~~%",
 		setting_video="{~~}",
@@ -1683,7 +1741,7 @@ local langList={
 				bg="{~}",
 				bgm="(~)",
 
-				draw="←Field",
+				mission="←Mission",
 				rule="Rule (Tab)→",
 				back="X",
 			},
@@ -1733,8 +1791,26 @@ local langList={
 				delLine="==X==(L)",
 				demo="X ×",
 
-				seq="←Seq",
-				norm="Basic (Tab)→",
+				mission="Mission (Tab)→",
+				back="X",
+			},
+			custom_mission={
+				Z1="Z1",S1="S1",J1="J1",L1="L1",T1="T1",O1="O1",I1="I1",
+				Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
+				Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
+				any1="any1",any2="any2",any3="any3",any4="any4",
+				PC="PC",O4="O4",I4="I4",
+				_1="1",_2="2",_3="3",_4="4",
+				left="←",right="→",
+				ten="+10",
+				backsp="<X",
+				reset="R",
+				copy="Copy",
+				paste="Paste",
+				mission="Force mission",
+
+				draw="←Field",
+				norm="Basic (tab)→",
 				back="X",
 			},
 			play={
@@ -2005,6 +2081,7 @@ local langList={
 		continue="您继续",
 		maxspeed="速度封顶",
 		speedup="速度加快",
+		missionFailed="非任务消除",
 
 		win="成了",
 		finish="可以的",
@@ -2012,7 +2089,7 @@ local langList={
 		pause="歇会",
 		pauseCount="歇多久了",
 
-		custom="自定义",basic="普通",rule="规则",field="自定义场地",
+		custom="自定义",basic="普通",rule="规则",field="自定义场地",mission="任务",
 		softdropdas="软降DAS:",
 		softdroparr="软降ARR:",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
@@ -2185,7 +2262,7 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				draw="←初始场地",
+				mission="←任务设置",
 				rule="更多规则(Tab)→",
 				back="返回",
 			},
@@ -2235,8 +2312,26 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
-				seq="←序列设置",
-				norm="基础设置(Tab)→",
+				mission="任务设置(Tab)→",
+				back="返回",
+			},
+			custom_mission={
+				Z1="Z1",S1="S1",J1="J1",L1="L1",T1="T1",O1="O1",I1="I1",
+				Z2="Z2",S2="S2",J2="J2",L2="L2",T2="T2",O2="O2",I2="I2",
+				Z3="Z3",S3="S3",J3="J3",L3="L3",T3="T3",O3="O3",I3="I3",
+				any1="any1",any2="any2",any3="any3",any4="any4",
+				PC="PC",O4="O4",I4="I4",
+				_1="1",_2="2",_3="3",_4="4",
+				left="←",right="→",
+				ten="+10",
+				backsp="<X",
+				reset="R",
+				copy="复制",
+				paste="粘贴",
+				mission="强制任务",
+
+				draw="←初始场地",
+				norm="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -2534,7 +2629,7 @@ local drawableTextLoad={
 	"next","hold",
 	"win","finish","gameover","pause",
 
-	"custom","basic","rule","field",
+	"custom","basic","rule","field","mission",
 	"setting_game","setting_video","setting_sound",
 	"setting_control","setting_skin",
 	"keyboard","joystick",

@@ -34,6 +34,7 @@ local gameEnv0={
 	hold=true,oncehold=true,
 	ospin=true,
 	sequence="bag",bag={1,2,3,4,5,6,7},
+	mission=NULL,
 	face=NULL,skin=NULL,
 
 	life=0,
@@ -45,6 +46,7 @@ local gameEnv0={
 
 	Fkey=NULL,
 	fine=false,fineKill=false,
+	missionKill=false,
 	target=1e99,dropPiece=NULL,
 	mindas=0,minarr=0,minsdarr=0,
 
@@ -1205,6 +1207,10 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		end
 	end
 
+	if type(ENV.mission)=="table"then
+		P.missionProgress=0
+	end
+
 	ENV.das=max(ENV.das,ENV.mindas)
 	ENV.arr=max(ENV.arr,ENV.minarr)
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
@@ -2214,7 +2220,7 @@ do--player.drop(P)--Place piece
 			end
 		end
 
-		if cc>0 then
+		if cc>0 then--If lines cleared, about 200 lines below
 			local C=P.lastClear
 			C.id,C.name=CB.id,CB.name
 			C.row=cc
@@ -2297,6 +2303,7 @@ do--player.drop(P)--Place piece
 				VOC.play(clearName[cc],CHN)
 			end
 
+			--PC/HPC bonus
 			if clear then
 				if #P.field==0 then
 					P:showText(text.PC,0,-80,50,"flicker")
@@ -2332,6 +2339,7 @@ do--player.drop(P)--Place piece
 				C.pc=false
 			end
 
+			--Normal clear, reduce B2B point
 			if not C.special then
 				P.b2b=max(P.b2b-250,0)
 				P:showText(text.clear[cc],0,-30,27+cc*3,"appear",(8-cc)*.3)
@@ -2361,6 +2369,7 @@ do--player.drop(P)--Place piece
 				end
 			end
 
+			--Send Lines
 			send=atk
 			if send>0 then
 				if exblock>0 then
@@ -2402,13 +2411,47 @@ do--player.drop(P)--Place piece
 				end
 			end
 
+			--Check clearing task
+			if P.missionProgress then
+				local t=P.gameEnv.mission[P.missionProgress+1]
+				local success
+				if t<10 then
+					if C.row==t then
+						success=true
+					end
+				elseif t<90 then
+					if C.row==int(t/10)and C.name==t%10 then
+						success=true
+					end
+				elseif t<99 then
+					if C.row==int(t/10)then
+						success=true
+					end
+				elseif t==99 then
+					if C.pc then
+						success=true
+					end
+				end
+				if success then
+					P.missionProgress=P.missionProgress+1
+					if P.missionProgress==#P.gameEnv.mission then
+						P:win()
+					end
+				elseif P.gameEnv.missionKill then
+					P:showText(text.missionFailed,0,200,40,"flicker",.5)
+					SFX.play("finesseError_long",.6)
+					P:lose()
+				end
+			end
+
+			--SFX & Vibrate
 			if P.human then
 				SFX.play(clear_n[cc])
 				SFX.play(ren_n[min(cmb,11)])
 				if cmb>14 then SFX.play("ren_mega",(cmb-10)*.1)end
 				VIB(cc+1)
 			end
-		else
+		else--No lines clear
 			cmb=0
 			local dropScore=10
 

@@ -14,6 +14,11 @@ return{
 		else
 			modeEnv.bag=nil
 		end
+		if preMission[1]then
+			modeEnv.mission=preMission
+		else
+			modeEnv.mission=nil
+		end
 		PLY.newPlayer(1,340,15)
 		local L=modeEnv.opponent
 		if L~=0 then

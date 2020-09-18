@@ -1229,7 +1229,7 @@ do--custom_norm
 	function keyDown.custom_norm(key)
 		if key=="tab"then
 			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_draw","swipeR")
+				SCN.swapTo("custom_mission","swipeR")
 			else
 				SCN.swapTo("custom_rule","swipeL")
 			end
@@ -1477,7 +1477,7 @@ do--custom_draw
 			if kb.isDown("lshift","rshift")then
 				SCN.swapTo("custom_seq","swipeR")
 			else
-				SCN.swapTo("custom_norm","swipeL")
+				SCN.swapTo("custom_mission","swipeL")
 			end
 		elseif key=="escape"then
 			SCN.back()
@@ -1580,6 +1580,156 @@ do--custom_draw
 			_=setting.skin[i]
 			gc.setColor(SKIN.libColor[_])
 			mStr(text.block[i],500+65*_,115)
+		end
+	end
+end
+do--custom_mission
+	function sceneInit.custom_mission()
+		sceneTemp={
+			input="",
+			cur=#preMission,
+			sure=0,
+		}
+	end
+
+	local clear={
+		Z1=11,Z2=21,Z3=31,
+		S1=12,S2=22,S3=32,
+		J1=13,J2=23,J3=33,
+		L1=14,L2=24,L3=34,
+		T1=15,T2=25,T3=35,
+		O1=16,O2=26,O3=36,O4=46,
+		I1=17,I2=27,I3=37,I4=47,
+		A1=91,A2=92,A3=93,A4=94,
+		_1=01,_2=02,_3=03,_4=04,
+		PC=99,
+		[11]="Z1",[21]="Z2",[31]="Z3",
+		[12]="S1",[22]="S2",[32]="S3",
+		[13]="J1",[23]="J2",[33]="J3",
+		[14]="L1",[24]="L2",[34]="L3",
+		[15]="T1",[25]="T2",[35]="T3",
+		[16]="O1",[26]="O2",[36]="O3",[46]="O4",
+		[17]="I1",[27]="I2",[37]="I3",[47]="I4",
+		[91]="A1",[92]="A2",[93]="A3",[94]="A4",
+		[01]="_1",[02]="_2",[03]="_3",[04]="_4",
+		[99]="PC",
+	}
+	local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
+	function keyDown.custom_mission(key)
+		local S=sceneTemp
+		if key=="left"then
+			S.cur=S.cur-1
+			if S.cur==-1 then
+				S.cur=#preMission
+			end
+		elseif key=="right"then
+			S.cur=S.cur+1
+			if S.cur>#preMission then
+				S.cur=0
+			end
+		elseif key=="ten"then
+			S.cur=min(S.cur+10,#preMission)
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #preMission>0 then
+				sys.setClipboardText("Techmino Target:"..copyTarget())
+				LOG.print(text.copySuccess,color.green)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=string.sub(str,p+1)end
+			if not pasteTarget(str)then
+				LOG.print(text.dataCorrupted,color.red)
+			end
+		elseif key=="backspace"then
+			if S.cur>0 then
+				rem(preMission,S.cur)
+				S.cur=S.cur-1
+			end
+		elseif key=="delete"then
+			if S.sure>20 then
+				preMission={}
+				S.cur=0
+				S.sure=0
+				SFX.play("finesseError",.7)
+			else
+				S.sure=50
+			end
+		elseif key=="tab"then
+			if kb.isDown("lshift","rshift")then
+				SCN.swapTo("custom_draw","swipeR")
+			else
+				SCN.swapTo("custom_norm","swipeL")
+			end
+		elseif key=="escape"then
+			SCN.back()
+		elseif type(key)=="number"then
+			S.cur=S.cur+1
+			ins(preMission,S.cur,key)
+		else
+			if key=="space"then
+				key="_"
+			else
+				key=string.upper(key)
+			end
+
+			local input=S.input
+			input=input..key
+			if clear[input]then
+				input=""
+				ins(preMission,clear[input])
+			elseif #input>1 or not legalInput[input]then
+				input=""
+			end
+			S.input=input
+		end
+	end
+
+	function Tmr.custom_mission()
+		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	end
+
+	function Pnt.custom_mission()
+		local S=sceneTemp
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.custom,20,5)
+		gc.setColor(.7,.7,.7)
+		gc.draw(drawableText.mission,585,50)
+
+		--Draw frame
+		gc.setLineWidth(4)
+		gc.setColor(1,1,1)
+		gc.rectangle("line",60,110,1160,170)
+
+		--Draw inputing target
+		setFont(30)
+		gc.setColor(.1,.9,.1)
+		gc.print(S.input,1200,270)
+
+		--Draw targets
+		gc.setColor(1,1,1)
+		setFont(35)
+		local x,y=100,136--Next block pos
+		local cx,cy=100,136--Cursor-center pos
+		for i=1,#preMission do
+			gc.print(clear[preMission[i]],x,y-25)
+			x=x+55
+			if x>1160 then
+				x,y=100,y+50
+			end
+			if i==S.cur then
+				cx,cy=x,y
+			end
+		end
+
+		--Draw cursor
+		gc.setColor(1,1,.4,.6+.4*sin(Timer()*6.26))
+		gc.line(cx-5,cy-20,cx-5,cy+20)
+
+		--Confirm reset
+		if S.sure>0 then
+			gc.setColor(1,1,1,S.sure*.02)
+			gc.draw(drawableText.question,980,570)
 		end
 	end
 end

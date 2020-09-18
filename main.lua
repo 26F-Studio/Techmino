@@ -71,6 +71,7 @@ customEnv={
 	ospin=true,
 	noTele=false,
 	fineKill=false,
+	missionKill=false,
 	easyFresh=true,
 	visible="show",
 	target=200,
@@ -83,8 +84,9 @@ customEnv={
 	bg="none",
 	bgm="race"
 }
-preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end
-preBag={}
+preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end--Field for custom game
+preBag={}--Sequence for custom game
+preMission={}--Clearing target for custom game
 
 game={
 	frame=0,			--Frame count
