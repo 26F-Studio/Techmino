@@ -175,9 +175,9 @@ missionEnum={
 	A1=91,A2=92,A3=93,A4=94,
 	PC=99,
 }
-for k,v in next,missionEnum do
-	missionEnum[v]=k
-end
+local _={}
+for k,v in next,missionEnum do _[v]=k end
+for k,v in next,_ do missionEnum[k]=v end
 
 local function T(s,t)return love.graphics.newText(setFont(s),t)end
 drawableText={
