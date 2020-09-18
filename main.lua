@@ -205,4 +205,8 @@ do
 		S.version=gameVersion
 		newVersionLaunch=true
 	end
+	if system=="Android"and not setting.fullscreen then
+		LOG.print("如果你的手机状态栏不会消失,请到设置界面开启全屏",300,color.yellow)
+		LOG.print("Switch fullscreen on if titleBar don't disappear",300,color.yellow)
+	end
 end
