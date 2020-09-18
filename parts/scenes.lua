@@ -36,6 +36,7 @@ end
 --ALL SCENES & FUNCTIONS
 do--calculator
 	function sceneInit.calculator()
+		BG.set("none")
 		sceneTemp={
 			reg=false,
 			val=0,
@@ -45,6 +46,7 @@ do--calculator
 		}
 	end
 
+	mouseDown.calculator=NULL
 	function keyDown.calculator(k)
 		local S=sceneTemp
 		if byte(k)>=48 and byte(k)<=57 then
@@ -121,7 +123,7 @@ do--calculator
 		elseif k=="delete"then
 			S.val=0
 		elseif k=="space"and S.pass then
-			SCN.swapTo("intro")
+			SCN.back()
 		end
 	end
 
@@ -696,7 +698,12 @@ do--load
 				S.cur=S.cur+1
 				S.tar=S.cur
 				if S.cur>62.6 then
-					SCN.swapTo(setting.appLock and "calculator"or"intro","none")
+					if setting.appLock then
+						SCN.push("intro","fade")
+						SCN.swapTo("calculator","none")
+					else
+						SCN.swapTo("intro","none")
+					end
 				end
 				loadingFinished=true
 				return

@@ -267,6 +267,7 @@ local langList={
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
 				appLock="软件锁(密码626)",
+				calc="软件锁",
 				back="返回",
 			},
 			setting_video={
@@ -751,6 +752,7 @@ local langList={
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
 				appLock="软件锁(密码626)",
+				calc="软件锁",
 				back="返回",
 			},
 			setting_video={
@@ -1225,6 +1227,7 @@ local langList={
 				swap="Key Combination (Change Atk. Mode)",
 				fine="Finesse Error Sound",
 				appLock="App Lock (Password: 626)",
+				calc="App Lock",
 				back="Back",
 			},
 			setting_video={
@@ -1698,6 +1701,7 @@ local langList={
 				swap="=+=+=",
 				fine="12 X 21",
 				appLock="?XX(=626)",
+				calc="?XX",
 				back="X",
 			},
 			setting_video={
@@ -2184,6 +2188,7 @@ local langList={
 				swap="组合键切换攻击模式",
 				fine="极简操作提示音",
 				appLock="家长锁(密码626)",
+				calc="家长锁",
 				back="返回",
 			},
 			setting_video={

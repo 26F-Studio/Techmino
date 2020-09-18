@@ -302,6 +302,7 @@ local Widgets={
 		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
 		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=SETrev("fine")}),
 		newSwitch({name="appLock",	x=1080,	y=500,	font=20,disp=SETval("appLock"),		code=SETrev("appLock")}),
+		newButton({name="calc",		x=970,	y=550,	w=150,h=60,color="dGrey",	font=25,code=goScene("calculator"),hide=function()return not setting.appLock end}),
 		newButton({name="back",		x=1140,	y=640,	w=180,h=80,color="white",	font=35,code=BACK}),
 	},
 	setting_video={
