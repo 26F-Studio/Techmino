@@ -163,6 +163,22 @@ for i=1,8 do
 	end
 end
 
+missionEnum={
+	_1=01,_2=02,_3=03,_4=04,
+	Z1=11,Z2=12,Z3=13,
+	S1=21,S2=22,S3=23,
+	J1=31,J2=32,J3=33,
+	L1=41,L2=42,L3=43,
+	T1=51,T2=52,T3=53,
+	O1=61,O2=62,O3=63,O4=64,
+	I1=71,I2=72,I3=73,I4=74,
+	A1=91,A2=92,A3=93,A4=94,
+	PC=99,
+}
+for k,v in next,missionEnum do
+	missionEnum[v]=k
+end
+
 local function T(s,t)return love.graphics.newText(setFont(s),t)end
 drawableText={
 	question=T(100,"?"),right=T(45,"→"),

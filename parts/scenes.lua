@@ -1592,28 +1592,7 @@ do--custom_mission
 		}
 	end
 
-	local clear={
-		Z1=11,Z2=21,Z3=31,
-		S1=12,S2=22,S3=32,
-		J1=13,J2=23,J3=33,
-		L1=14,L2=24,L3=34,
-		T1=15,T2=25,T3=35,
-		O1=16,O2=26,O3=36,O4=46,
-		I1=17,I2=27,I3=37,I4=47,
-		A1=91,A2=92,A3=93,A4=94,
-		_1=01,_2=02,_3=03,_4=04,
-		PC=99,
-		[11]="Z1",[21]="Z2",[31]="Z3",
-		[12]="S1",[22]="S2",[32]="S3",
-		[13]="J1",[23]="J2",[33]="J3",
-		[14]="L1",[24]="L2",[34]="L3",
-		[15]="T1",[25]="T2",[35]="T3",
-		[16]="O1",[26]="O2",[36]="O3",[46]="O4",
-		[17]="I1",[27]="I2",[37]="I3",[47]="I4",
-		[91]="A1",[92]="A2",[93]="A3",[94]="A4",
-		[01]="_1",[02]="_2",[03]="_3",[04]="_4",
-		[99]="PC",
-	}
+	local missionEnum=missionEnum
 	local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 	function keyDown.custom_mission(key)
 		local S=sceneTemp
@@ -1675,9 +1654,9 @@ do--custom_mission
 
 			local input=S.input
 			input=input..key
-			if clear[input]then
+			if missionEnum[input]then
 				input=""
-				ins(preMission,clear[input])
+				ins(preMission,missionEnum[input])
 			elseif #input>1 or not legalInput[input]then
 				input=""
 			end
@@ -1712,7 +1691,7 @@ do--custom_mission
 		local x,y=100,136--Next block pos
 		local cx,cy=100,136--Cursor-center pos
 		for i=1,#preMission do
-			gc.print(clear[preMission[i]],x,y-25)
+			gc.print(missionEnum[preMission[i]],x,y-25)
 			x=x+55
 			if x>1160 then
 				x,y=100,y+50

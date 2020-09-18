@@ -2420,11 +2420,11 @@ do--player.drop(P)--Place piece
 						success=true
 					end
 				elseif t<90 then
-					if C.row==int(t/10)and C.name==t%10 then
+					if C.row==t%10 and C.name==int(t/10)then
 						success=true
 					end
 				elseif t<99 then
-					if C.row==int(t/10)then
+					if C.row==t%10 then
 						success=true
 					end
 				elseif t==99 then
@@ -2434,6 +2434,7 @@ do--player.drop(P)--Place piece
 				end
 				if success then
 					P.missionProgress=P.missionProgress+1
+					SFX.play("reach")
 					if P.missionProgress==#P.gameEnv.mission then
 						P:win()
 					end

@@ -169,6 +169,37 @@ function pasteSequence(str)
 	return true
 end
 
+function copyTarget()
+	local str=""
+	local preMission=preMission
+	for i=1,#preMission do
+		str=str..char(preMission[i])
+	end
+
+	return data.encode("string","base64",data.compress("string","deflate",str))
+end
+function pasteTarget(str)
+	local _
+
+	--Decode
+	_,str=pcall(data.decode,"string","base64",str)
+	if not _ then return end
+	_,str=pcall(data.decompress,"string","deflate",str)
+	if not _ then return end
+
+	local mission={}
+	for i=1,#str do
+		_=byte(str,i)
+		if missionEnum[_]then
+			ins(mission,_)
+		else
+			return
+		end
+	end
+	preMission=mission
+	return true
+end
+
 function mergeStat(stat,delta)
 	for k,v in next,delta do
 		if type(v)=="table"then
