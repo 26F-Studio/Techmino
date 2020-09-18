@@ -192,7 +192,7 @@ local langList={
 				down="↓",
 				back="返回",
 			},
-			custom_norm={
+			custom_basic={
 				drop="下落延迟",lock="锁定延迟",wait="出块等待",fall="消行延迟",
 				next="Next",hold="Hold",oncehold="Hold一次",
 				block="方块可见",
@@ -223,8 +223,8 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-				
-				norm="←基本规则",
+
+				basic="←基本规则",
 				sequence="序列设置(Tab)→",
 				back="返回",
 			},
@@ -276,7 +276,7 @@ local langList={
 				mission="强制任务",
 
 				draw="←初始场地",
-				norm="基础设置(tab)→",
+				basic="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -714,7 +714,7 @@ local langList={
 				down="↓",
 				back="返回",
 			},
-			custom_norm={
+			custom_basic={
 				drop="下落延迟",lock="锁定延迟",wait="出块等待",fall="消行延迟",
 				next="预览",hold="暂存",oncehold="暂存一次",
 				block="方块可见",
@@ -745,8 +745,8 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-				
-				norm="←基本规则",
+
+				basic="←基本规则",
 				sequence="序列设置(Tab)→",
 				back="返回",
 			},
@@ -798,7 +798,7 @@ local langList={
 				mission="强制任务",
 
 				draw="←初始场地",
-				norm="基础设置(tab)→",
+				basic="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -1226,7 +1226,7 @@ local langList={
 				down="↓",
 				back="Back",
 			},
-			custom_norm={
+			custom_basic={
 				drop="Drop Speed",lock="Lock Delay",wait="Entry Delay",fall="Line Delay",
 				next="Next",hold="Hold",oncehold="Hold Once",
 				block="Draw Block",
@@ -1258,7 +1258,7 @@ local langList={
 				life="Life",
 				pushSpeed="Garbage Speed",
 
-				norm="←Basic",
+				basic="←Basic",
 				sequence="SEQ. (Tab)→",
 				back="Back",
 			},
@@ -1310,7 +1310,7 @@ local langList={
 				mission="Force mission",
 
 				draw="←Field",
-				norm="Basic (tab)→",
+				basic="Basic (tab)→",
 				back="Back",
 			},
 			play={
@@ -1738,7 +1738,7 @@ local langList={
 				down="↓",
 				back="X",
 			},
-			custom_norm={
+			custom_basic={
 				drop="↓",lock="↓_",wait="→=",fall="↓=",
 				next="→",hold="[ ]",oncehold="[ ]*1",
 				block="==↓==",
@@ -1770,7 +1770,7 @@ local langList={
 				life="<R>",
 				pushSpeed="_↑_↑_",
 
-				norm="←Basic",
+				basic="←Basic",
 				sequence="Seq (Tab)→",
 				back="X",
 			},
@@ -1822,7 +1822,7 @@ local langList={
 				mission="Force mission",
 
 				draw="←Field",
-				norm="Basic (tab)→",
+				basic="Basic (tab)→",
 				back="X",
 			},
 			play={
@@ -2260,7 +2260,7 @@ local langList={
 				down="↓",
 				back="返回",
 			},
-			custom_norm={
+			custom_basic={
 				drop="下落延迟",lock="锁定延迟",wait="出块等待",fall="消行延迟",
 				next="Next",hold="Hold",oncehold="Hold一次",
 				block="方块可见",
@@ -2292,7 +2292,7 @@ local langList={
 				life="命数",
 				pushSpeed="上涨速度",
 
-				norm="←基本规则",
+				basic="←基本规则",
 				sequence="序列设置(Tab)→",
 				back="返回",
 			},
@@ -2344,7 +2344,7 @@ local langList={
 				mission="强制任务",
 
 				draw="←初始场地",
-				norm="基础设置(tab)→",
+				basic="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -2446,7 +2446,7 @@ local langList={
 				b9=	"功能键:",	b10="重新开始:",b11="左瞬移:",		b12="右瞬移:",
 				b13="软降到底:",b14="软降一格:",b15="软降四格:",	b16="软降十格:",
 				b17="落在最左:",b18="落在最右:",b19="列在最左:",	b20="列在最右:",
-				norm="标准",
+				basic="标准",
 				pro="专业",
 				hide="显示虚拟按键",
 				track="按键自动跟踪",

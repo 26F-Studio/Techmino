@@ -161,7 +161,7 @@ local Widgets={
 		newButton({name="down",		x=200,	y=530,	w=120,			color="white",	font=55,code=pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),
 	},
-	custom_norm={
+	custom_basic={
 		--Basic
 		newSelector({name="drop",	x=250,	y=150,w=260,color="orange",		list=CUSlist.drop,	disp=CUSval("drop"),	code=CUSsto("drop")}),
 		newSelector({name="lock",	x=250,	y=230,w=260,color="red",		list=CUSlist.lock,	disp=CUSval("lock"),	code=CUSsto("lock")}),
@@ -181,12 +181,12 @@ local Widgets={
 		newSwitch({name="nextPos",	x=1190,	y=300,					font=30,					disp=CUSval("nextPos"),	code=CUSrev("nextPos")}),
 		newSwitch({name="bone",		x=1190,	y=370,					font=30,					disp=CUSval("bone"),	code=CUSrev("bone")}),
 
-		--Else	
+		--Else
 		newSelector({name="bg",		x=1140,	y=460,	w=220,color="yellow",	list=CUSlist.bg,	disp=CUSval("bg"),		code=function(i)customEnv.bg=i BG.set(i)end}),
 		newSelector({name="bgm",	x=1140,	y=540,	w=220,color="yellow",	list=CUSlist.bgm,	disp=CUSval("bgm"),		code=function(i)customEnv.bgm=i BGM.play(i)end}),
 
-		newButton({name="mission",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_mission","swipeR")}),
-		newButton({name="rule",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_rule","swipeL")}),
+		newButton({name="mission",	x=900,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_mission","swipeR")}),
+		newButton({name="rule",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_rule","swipeL")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),
 	},
 	custom_rule={
@@ -205,8 +205,8 @@ local Widgets={
 		newSelector({name="life",		x=1100,	y=260,w=260,color="red",	list=CUSlist.life,		disp=CUSval("life"),	code=CUSsto("life")}),
 		newSelector({name="pushSpeed",	x=1100,	y=360,w=260,color="red",	list=CUSlist.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")}),
 
-		newButton({name="norm",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_norm","swipeR")}),
-		newButton({name="sequence",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_seq","swipeL")}),
+		newButton({name="basic",	x=900,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_basic","swipeR")}),
+		newButton({name="sequence",	x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_seq","swipeL")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),
 	},
 	custom_seq={
@@ -246,8 +246,8 @@ local Widgets={
 		newButton({name="paste",	x=1140,	y=540,	w=170,h=80,		color="lBlue",	font=40,code=pressKey("cV")}),
 
 		newSelector({name="sequence",x=670,	y=60,	w=200,color="yellow",list=CUSlist.sequence,disp=CUSval("sequence"),code=CUSsto("sequence")}),
-		newButton({name="rule",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_rule","swipeR")}),
-		newButton({name="draw",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_draw","swipeL")}),
+		newButton({name="rule",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_rule","swipeR")}),
+		newButton({name="draw",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_draw","swipeL")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),
 	},
 	custom_draw={
@@ -279,8 +279,8 @@ local Widgets={
 		newButton({name="delLine",	x=1200,		y=520,	w=120,		color="lYellow",font=20,code=pressKey("l")}),
 		newSwitch({name="demo",		x=755,		y=640,								font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
 
-		newButton({name="sequence",		x=900,		y=60,	w=220,h=80,	color="lBlue",	font=30,code=swapScene("custom_seq","swipeR")}),
-		newButton({name="mission",		x=1140,		y=60,	w=220,h=80,	color="lBlue",	font=30,code=swapScene("custom_mission","swipeL")}),
+		newButton({name="sequence",	x=900,		y=60,	w=220,h=80,	color="lBlue",	font=25,code=swapScene("custom_seq","swipeR")}),
+		newButton({name="mission",	x=1140,		y=60,	w=220,h=80,	color="lBlue",	font=25,code=swapScene("custom_mission","swipeL")}),
 		newButton({name="back",		x=1140,		y=640,	w=170,h=80,	color="white",	font=40,code=BACK}),
 	},
 	custom_mission={
@@ -330,8 +330,8 @@ local Widgets={
 		newButton({name="paste",	x=1140,	y=540,	w=170,h=80,		color="lBlue",	font=40,code=pressKey("cV")}),
 		newSwitch({name="mission",	x=1150, y=350,	font=30,		disp=CUSval("missionKill"),	code=CUSrev("missionKill")}),
 
-		newButton({name="draw",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_draw","swipeR")}),
-		newButton({name="norm",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_norm","swipeL")}),
+		newButton({name="draw",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_draw","swipeR")}),
+		newButton({name="basic",	x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_basic","swipeL")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),
 	},
 	play={

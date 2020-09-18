@@ -1004,7 +1004,7 @@ do--mode
 			end
 		elseif mapCam.sel=="custom_clear" or mapCam.sel=="custom_puzzle" then
 			if key=="e"then
-				SCN.go("custom_norm")
+				SCN.go("custom_basic")
 			end
 		end
 	end
@@ -1219,14 +1219,14 @@ do--mode
 		end
 	end
 end
-do--custom_norm
-	function sceneInit.custom_norm()
+do--custom_basic
+	function sceneInit.custom_basic()
 		destroyPlayers()
 		BG.set(customEnv.bg)
 		BGM.play(customEnv.bgm)
 	end
 
-	function keyDown.custom_norm(key)
+	function keyDown.custom_basic(key)
 		if key=="tab"then
 			if kb.isDown("lshift","rshift")then
 				SCN.swapTo("custom_mission","swipeR")
@@ -1240,7 +1240,7 @@ do--custom_norm
 		end
 	end
 
-	function Pnt.custom_norm()
+	function Pnt.custom_basic()
 		gc.setColor(1,1,1)
 		gc.draw(drawableText.custom,20,5)
 		gc.setColor(.7,.7,.7)
@@ -1255,7 +1255,7 @@ do--custom_rule
 	function keyDown.custom_rule(key)
 		if key=="tab"then
 			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_norm","swipeR")
+				SCN.swapTo("custom_basic","swipeR")
 			else
 				SCN.swapTo("custom_seq","swipeL")
 			end
@@ -1638,7 +1638,7 @@ do--custom_mission
 			if kb.isDown("lshift","rshift")then
 				SCN.swapTo("custom_draw","swipeR")
 			else
-				SCN.swapTo("custom_norm","swipeL")
+				SCN.swapTo("custom_basic","swipeL")
 			end
 		elseif key=="escape"then
 			SCN.back()
