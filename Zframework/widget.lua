@@ -310,7 +310,7 @@ function selector:isAbove(x,y)
 		y<self.y+60
 end
 function selector:getCenter()
-	return self.x+self.w*(self.pos/self.unit),self.y
+	return self.x+self.w*.5,self.y+30
 end
 function selector:update()
 	local atv=self.ATV
