@@ -220,13 +220,13 @@ local langList={
 				visible="能见度",
 				freshLimit="锁延刷新限制",
 				easyFresh="普通刷新锁延",
-				fineKill="非极简即死",
+				fineKill="强制极简",
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
 				
 				norm="←基本规则",
-				seq="序列设置(Tab)→",
+				sequence="序列设置(Tab)→",
 				back="返回",
 			},
 			custom_seq={
@@ -235,6 +235,7 @@ local langList={
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
 				left="←",
 				right="→",
+				ten="+10",
 				backsp="<X",
 				reset="R",
 				copy="复制",
@@ -256,6 +257,7 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
+				sequence="←序列设置",
 				mission="任务设置(Tab)→",
 				back="返回",
 			},
@@ -739,13 +741,13 @@ local langList={
 				visible="能见度",
 				freshLimit="锁延刷新限制",
 				easyFresh="普通刷新锁延",
-				fineKill="非极简即死",
+				fineKill="强制极简",
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
 				
 				norm="←基本规则",
-				seq="序列设置(Tab)→",
+				sequence="序列设置(Tab)→",
 				back="返回",
 			},
 			custom_seq={
@@ -754,6 +756,7 @@ local langList={
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
 				left="←",
 				right="→",
+				ten="+10",
 				backsp="<X",
 				reset="R",
 				copy="复制",
@@ -775,6 +778,7 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
+				sequence="←序列设置",
 				mission="任务设置(Tab)→",
 				back="返回",
 			},
@@ -1071,7 +1075,7 @@ local langList={
 		finish="Finish",
 		gameover="Game Over",
 		pause="Pause",
-		pauseCount="Pauses:",
+		pauseCount="Pauses",
 
 		custom="Custom Game",basic="Basic",rule="Rule",field="Custom Field",mission="Mission",
 		snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"},
@@ -1254,7 +1258,7 @@ local langList={
 				pushSpeed="Garbage Speed",
 
 				norm="←Basic",
-				seq="SEQ. (Tab)→",
+				sequence="SEQ. (Tab)→",
 				back="Back",
 			},
 			custom_seq={
@@ -1263,6 +1267,7 @@ local langList={
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
 				left="←",
 				right="→",
+				ten="+10",
 				backsp="<X",
 				reset="R",
 				copy="Copy",
@@ -1284,6 +1289,7 @@ local langList={
 				delLine="Del Line(L)",
 				demo="Don't show ×",
 
+				sequence="←Sequence",
 				mission="Mission (Tab)→",
 				back="Back",
 			},
@@ -1580,7 +1586,7 @@ local langList={
 		finish="&",
 		gameover="x",
 		pause="=",
-		pauseCount="=:",
+		pauseCount="==",
 
 		custom="!@#$%^&*",basic="!!",rule="##",field="!@#$%^&* [##]",mission="(!)",
 		snapLevelName={"~","10","20","40","60","80"},
@@ -1761,7 +1767,7 @@ local langList={
 				pushSpeed="_↑_↑_",
 
 				norm="←Basic",
-				seq="Seq (Tab)→",
+				sequence="Seq (Tab)→",
 				back="X",
 			},
 			custom_seq={
@@ -1770,6 +1776,7 @@ local langList={
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
 				left="←",
 				right="→",
+				ten="+10",
 				backsp="<X",
 				reset="R",
 				copy="→__",
@@ -1791,6 +1798,7 @@ local langList={
 				delLine="==X==(L)",
 				demo="X ×",
 
+				sequence="←Sequence",
 				mission="Mission (Tab)→",
 				back="X",
 			},
@@ -2276,13 +2284,13 @@ local langList={
 				visible="能见度",
 				freshLimit="锁延刷新限制",
 				easyFresh="普通刷新锁延",
-				fineKill="非极简即死",
+				fineKill="强制极简",
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
 
 				norm="←基本规则",
-				seq="序列设置(Tab)→",
+				sequence="序列设置(Tab)→",
 				back="返回",
 			},
 			custom_seq={
@@ -2291,6 +2299,7 @@ local langList={
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
 				left="←",
 				right="→",
+				ten="+10",
 				backsp="<X",
 				reset="R",
 				copy="复制",
@@ -2312,6 +2321,7 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
+				sequence="←序列设置",
 				mission="任务设置(Tab)→",
 				back="返回",
 			},

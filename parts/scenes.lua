@@ -1289,11 +1289,19 @@ do--custom_seq
 		z=8,s=9,t=14,j=19,l=20,i=25
 	}
 	function keyDown.custom_seq(key)
-		local s=sceneTemp
-		if type(key)=="number"then
-			local C=s.cur+1
-			ins(preBag,C,key)
-			s.cur=C
+		local S=sceneTemp
+		if key=="left"then
+			S.cur=S.cur-1
+			if S.cur==-1 then
+				S.cur=#preBag
+			end
+		elseif key=="right"then
+			S.cur=S.cur+1
+			if S.cur>#preBag then
+				S.cur=0
+			end
+		elseif key=="ten"then
+			S.cur=min(S.cur+10,#preBag)
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			if #preBag>0 then
 				sys.setClipboardText("Techmino SEQ:"..copySequence())
@@ -1306,47 +1314,37 @@ do--custom_seq
 			if not pasteSequence(str)then
 				LOG.print(text.dataCorrupted,color.red)
 			end
+		elseif key=="backspace"then
+			if S.cur>0 then
+				rem(preBag,S.cur)
+				S.cur=S.cur-1
+			end
+		elseif key=="delete"then
+			if S.sure>20 then
+				preBag={}
+				S.cur=0
+				S.sure=0
+				SFX.play("finesseError",.7)
+			else
+				S.sure=50
+			end
+		elseif key=="tab"then
+			if kb.isDown("lshift","rshift")then
+				SCN.swapTo("custom_rule","swipeR")
+			else
+				SCN.swapTo("custom_draw","swipeL")
+			end
+		elseif key=="escape"then
+			SCN.back()
+		elseif type(key)=="number"then
+			S.cur=S.cur+1
+			ins(preBag,S.cur,key)
 		elseif #key==1 then
 			local i=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
 			if i then
-				local C=s.cur+1
+				local C=S.cur+1
 				ins(preBag,C,i)
-				s.cur=C
-			end
-		else
-			if key=="left"then
-				s.cur=s.cur-1
-				if s.cur==-1 then
-					s.cur=#preBag
-				end
-			elseif key=="right"then
-				s.cur=s.cur+1
-				if s.cur>#preBag then
-					s.cur=0
-				end
-			elseif key=="backspace"then
-				local C=s.cur
-				if C>0 then
-					rem(preBag,C)
-					s.cur=C-1
-				end
-			elseif key=="tab"then
-				if kb.isDown("lshift","rshift")then
-					SCN.swapTo("custom_rule","swipeR")
-				else
-					SCN.swapTo("custom_draw","swipeL")
-				end
-			elseif key=="escape"then
-				SCN.back()
-			elseif key=="delete"then
-				if sceneTemp.sure>20 then
-					preBag={}
-					sceneTemp.cur=0
-					sceneTemp.sure=0
-					SFX.play("finesseError",.7)
-				else
-					sceneTemp.sure=50
-				end
+				S.cur=C
 			end
 		end
 	end
@@ -1360,27 +1358,28 @@ do--custom_seq
 		gc.setColor(1,1,1)
 		gc.draw(drawableText.custom,20,5)
 
+		--Draw frame
 		gc.setLineWidth(4)
 		gc.rectangle("line",100,110,1080,260)
-		setFont(30)
 		local bag=preBag
-		local len=#bag
 
+		--Draw lenth
 		setFont(40)
-		gc.print(len,120,310)
+		gc.print(#bag,120,310)
 
+		--Draw sequence
 		local L=TEXTURE.miniBlock
 		local lib=SKIN.libColor
 		local set=setting.skin
 
-		local x,y=120,136
-		local cx,cy=120,136
-		for i=1,len do
+		local x,y=120,136--Next block pos
+		local cx,cy=120,136--Cursor-center pos
+		for i=1,#bag do
 			local B=L[bag[i]]
 			gc.setColor(lib[set[bag[i]]])
 			gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
 			x=x+B:getWidth()*15+10
-			if x>1126 then
+			if x>1100 then
 				x,y=120,y+50
 			end
 			if i==S.cur then
@@ -1388,13 +1387,14 @@ do--custom_seq
 			end
 		end
 
+		--Draw cursor
 		gc.setColor(.5,1,.5,.6+.4*sin(Timer()*6.26))
 		gc.line(cx-5,cy-20,cx-5,cy+20)
 
 		--Confirm reset
 		if S.sure>0 then
 			gc.setColor(1,1,1,S.sure*.02)
-			gc.draw(drawableText.question,980,470)
+			gc.draw(drawableText.question,980,570)
 		end
 	end
 end
@@ -2324,13 +2324,13 @@ do--setting_sound
 	end
 
 	function mouseDown.setting_sound(x,y,k)
-		local s=sceneTemp
-		if x>780 and x<980 and y>470 and s.jump==0 then
-			s.jump=10
-			local t=Timer()-s.last
+		local S=sceneTemp
+		if x>780 and x<980 and y>470 and S.jump==0 then
+			S.jump=10
+			local t=Timer()-S.last
 			if t>1 then
 				VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
-				s.last=Timer()
+				S.last=Timer()
 			end
 		end
 	end
@@ -2454,72 +2454,72 @@ do--setting_key
 	end
 
 	function keyDown.setting_key(key)
-		local s=sceneTemp
+		local S=sceneTemp
 		if key=="escape"then
-			if s.kS then
-				s.kS=false
+			if S.kS then
+				S.kS=false
 				SFX.play("finesseError",.5)
 			else
 				SCN.back()
 			end
-		elseif s.kS then
+		elseif S.kS then
 			for y=1,20 do
 				if keyMap[1][y]==key then keyMap[1][y]=""break end
 				if keyMap[2][y]==key then keyMap[2][y]=""break end
 			end
-			keyMap[s.board][s.kb]=key
+			keyMap[S.board][S.kb]=key
 			SFX.play("reach",.5)
-			s.kS=false
+			S.kS=false
 		elseif key=="return"or key=="space"then
-			s.kS=true
+			S.kS=true
 			SFX.play("lock",.5)
 		elseif key=="up"or key=="w"then
-			if s.kb>1 then
-				s.kb=s.kb-1
+			if S.kb>1 then
+				S.kb=S.kb-1
 				SFX.play("move",.5)
 			end
 		elseif key=="down"or key=="s"then
-			if s.kb<20 then
-				s.kb=s.kb+1
+			if S.kb<20 then
+				S.kb=S.kb+1
 				SFX.play("move",.5)
 			end
 		elseif key=="left"or key=="a"or key=="right"or key=="d"then
-			s.board=3-s.board
+			S.board=3-S.board
 			SFX.play("rotate",.5)
 		end
 	end
 	function gamepadDown.setting_key(key)
-		local s=sceneTemp
+		local S=sceneTemp
 		if key=="back"then
-			if s.jS then
-				s.jS=false
+			if S.jS then
+				S.jS=false
 				SFX.play("finesseError",.5)
 			else
 				SCN.back()
 			end
-		elseif s.jS then
+		elseif S.jS then
 			for y=1,20 do
 				if keyMap[3][y]==key then keyMap[3][y]=""break end
 				if keyMap[4][y]==key then keyMap[4][y]=""break end
 			end
-			keyMap[2+s.board][s.js]=key
+			keyMap[2+S.board][S.js]=key
 			SFX.play("reach",.5)
-			s.jS=false
+			S.jS=false
 		elseif key=="start"then
-			s.jS=true
+			S.jS=true
 			SFX.play("lock",.5)
 		elseif key=="dpup"then
-			if s.js>1 then
-				s.js=s.js-1
+			if S.js>1 then
+				S.js=S.js-1
 				SFX.play("move",.5)
 			end
 		elseif key=="dpdown"then
-			if s.js<20 then
-				s.js=s.js+1
+			if S.js<20 then
+				S.js=S.js+1
 				SFX.play("move",.5)
 			end
 		elseif key=="dpleft"or key=="dpright"then
-			s.board=3-s.board
+			S.board=3-S.board
 			SFX.play("rotate",.5)
 		end
 	end

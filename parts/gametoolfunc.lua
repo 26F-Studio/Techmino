@@ -136,6 +136,7 @@ function pasteBoard(str)
 end
 
 function copySequence()
+	local preBag=preBag
 	local str=""
 
 	for i=1,#preBag do

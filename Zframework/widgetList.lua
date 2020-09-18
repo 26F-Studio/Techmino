@@ -206,7 +206,7 @@ local Widgets={
 		newSelector({name="pushSpeed",	x=1100,	y=360,w=260,color="red",	list=CUSlist.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")}),
 
 		newButton({name="norm",		x=900,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_norm","swipeR")}),
-		newButton({name="seq",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_seq","swipeL")}),
+		newButton({name="sequence",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=30,code=swapScene("custom_seq","swipeL")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),
 	},
 	custom_seq={
@@ -239,8 +239,9 @@ local Widgets={
 
 		newKey({name="left",		x=800,	y=440,	w=90,			color="lGreen",	font=55,code=pressKey("left")}),
 		newKey({name="right",		x=900,	y=440,	w=90,			color="lGreen",	font=55,code=pressKey("right")}),
-		newKey({name="backsp",		x=1000,	y=440,	w=90,			color="lYellow",font=50,code=pressKey("backspace")}),
-		newKey({name="reset",		x=1000,	y=540,	w=90,			color="lYellow",font=50,code=pressKey("delete")}),
+		newKey({name="ten",			x=1000,	y=440,	w=90,			color="lGreen",	font=40,code=pressKey("ten")}),
+		newKey({name="backsp",		x=1000,	y=540,	w=90,			color="lYellow",font=50,code=pressKey("backspace")}),
+		newKey({name="reset",		x=1000,	y=640,	w=90,			color="lYellow",font=50,code=pressKey("delete")}),
 		newButton({name="copy",		x=1140,	y=440,	w=170,h=80,		color="lRed",	font=40,code=pressKey("cC"),hide=function()return #preBag==0 end}),
 		newButton({name="paste",	x=1140,	y=540,	w=170,h=80,		color="lBlue",	font=40,code=pressKey("cV")}),
 
@@ -278,6 +279,7 @@ local Widgets={
 		newButton({name="delLine",	x=1200,		y=520,	w=120,		color="lYellow",font=20,code=pressKey("l")}),
 		newSwitch({name="demo",		x=755,		y=640,								font=30,disp=function()return sceneTemp.demo end,code=function()sceneTemp.demo=not sceneTemp.demo end}),
 
+		newButton({name="sequence",		x=900,		y=60,	w=220,h=80,	color="lBlue",	font=30,code=swapScene("custom_seq","swipeR")}),
 		newButton({name="mission",		x=1140,		y=60,	w=220,h=80,	color="lBlue",	font=30,code=swapScene("custom_mission","swipeL")}),
 		newButton({name="back",		x=1140,		y=640,	w=170,h=80,	color="white",	font=40,code=BACK}),
 	},
@@ -351,9 +353,7 @@ local Widgets={
 		newButton({name="touch",	x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=goScene("setting_touch")}),
 		newSlider({name="reTime",	x=350,	y=340,	w=300,unit=10,				font=30,disp=SETval("reTime"),	code=SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end}),
 		newSlider({name="maxNext",	x=350,	y=440,	w=300,unit=6,				font=30,disp=SETval("maxNext"),	code=SETsto("maxNext")}),
-		newButton({name="layout",	x=460,	y=540,	w=140,h=70,color="white",	font=35,code=function()
-			SCN.go("setting_skin")
-			end}),
+		newButton({name="layout",	x=460,	y=540,	w=140,h=70,color="white",	font=35,code=goScene("setting_skin")}),
 		newSwitch({name="autoPause",x=1080,	y=320,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")}),
 		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
 		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=SETrev("fine")}),
