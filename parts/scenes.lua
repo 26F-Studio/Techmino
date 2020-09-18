@@ -69,11 +69,11 @@ do--calculator
 			if S.val>0 then
 				S.val=int(S.val/10)
 			end
-		elseif k=="+"or k=="="and kb.isDown("rshift","lshift")then
+		elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then
 			S.sym="+"
 		elseif k=="-"then
 			S.sym="-"
-		elseif k=="*"or k=="8"and kb.isDown("rshift","lshift")then
+		elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then
 			S.sym="*"
 		elseif k=="/"then
 			S.sym="/"
@@ -1004,7 +1004,7 @@ do--mode
 			end
 		elseif mapCam.sel=="custom_clear" or mapCam.sel=="custom_puzzle" then
 			if key=="e"then
-				SCN.go("custom")
+				SCN.go("custom_norm")
 			end
 		end
 	end
@@ -1219,92 +1219,20 @@ do--mode
 		end
 	end
 end
-do--music
-	function sceneInit.music()
-		if BGM.nowPlay then
-			for i=1,BGM.len do
-				if BGM.list[i]==BGM.nowPlay then
-					sceneTemp=i--Music selected
-					return
-				end
-			end
-		else
-			sceneTemp=1
-		end
-	end
-
-	function wheelMoved.music(x,y)
-		wheelScroll(y)
-	end
-	function keyDown.music(key)
-		local S=sceneTemp
-		if key=="down"then
-			if S<BGM.len then
-				sceneTemp=S+1
-				SFX.play("move",.7)
-			end
-		elseif key=="up"then
-			if S>1 then
-				sceneTemp=S-1
-				SFX.play("move",.7)
-			end
-		elseif key=="return"or key=="space"then
-			if BGM.nowPlay~=BGM.list[S]then
-				if setting.bgm>0 then
-					SFX.play("click")
-					BGM.play(BGM.list[S])
-				end
-			else
-				BGM.stop()
-			end
-		elseif key=="escape"then
-			SCN.back()
-		end
-	end
-
-	function Pnt.music()
-		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
-
-		gc.draw(drawableText.right,270,350+10)
-		setFont(50)
-		gc.print(BGM.list[sceneTemp],320,350+5)
-		setFont(35)
-		if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
-		if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
-		setFont(20)
-		if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
-		if sceneTemp<BGM.len-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
-
-		gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
-		if BGM.nowPlay then
-			gc.draw(drawableText.nowPlaying,700-drawableText.nowPlaying:getWidth(),500)
-			setFont(50)
-			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-			gc.print(BGM.nowPlay,710,500)
-
-			local t=-Timer()%2.3/2
-			if t<1 then
-				gc.setColor(1,1,1,t)
-				gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
-			end
-		end
-	end
-end
-do--custom
-	function sceneInit.custom()
-		BG.set("space")
-		sceneTemp=1--Option selected
+do--custom_norm
+	function sceneInit.custom_norm()
 		destroyPlayers()
 		BG.set(customEnv.bg)
 		BGM.play(customEnv.bgm)
 	end
 
-	function keyDown.custom(key)
-		local sel=sceneTemp
-		if key=="q"then
-			SCN.go("sequence")
-		elseif key=="e"then
-			SCN.swapTo("draw","swipeL")
+	function keyDown.custom_norm(key)
+		if key=="tab"then
+			if kb.isDown("lshift","rshift")then
+				SCN.swapTo("custom_draw","swipeR")
+			else
+				SCN.swapTo("custom_rule","swipeL")
+			end
 		elseif key=="escape"then
 			SCN.back()
 		else
@@ -1312,12 +1240,41 @@ do--custom
 		end
 	end
 
-	function Pnt.custom()
-		gc.setColor(1,1,1)gc.draw(drawableText.custom,300,10)
+	function Pnt.custom_norm()
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.custom,20,5)
+		gc.setColor(.7,.7,.7)
+		gc.draw(drawableText.basic,580,50)
 	end
 end
-do--sequence
-	function sceneInit.sequence()
+do--custom_rule
+	function sceneInit.custom_rule()
+		destroyPlayers()
+	end
+
+	function keyDown.custom_rule(key)
+		if key=="tab"then
+			if kb.isDown("lshift","rshift")then
+				SCN.swapTo("custom_norm","swipeR")
+			else
+				SCN.swapTo("custom_seq","swipeL")
+			end
+		elseif key=="escape"then
+			SCN.back()
+		else
+			WIDGET.keyPressed(key)
+		end
+	end
+
+	function Pnt.custom_rule()
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.custom,20,5)
+		gc.setColor(.7,.7,.7)
+		gc.draw(drawableText.rule,585,50)
+	end
+end
+do--custom_seq
+	function sceneInit.custom_seq()
 		sceneTemp={cur=#preBag,sure=0}
 	end
 
@@ -1331,7 +1288,7 @@ do--sequence
 		["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
 		z=8,s=9,t=14,j=19,l=20,i=25
 	}
-	function keyDown.sequence(key)
+	function keyDown.custom_seq(key)
 		local s=sceneTemp
 		if type(key)=="number"then
 			local C=s.cur+1
@@ -1373,6 +1330,12 @@ do--sequence
 					rem(preBag,C)
 					s.cur=C-1
 				end
+			elseif key=="tab"then
+				if kb.isDown("lshift","rshift")then
+					SCN.swapTo("custom_rule","swipeR")
+				else
+					SCN.swapTo("custom_draw","swipeL")
+				end
 			elseif key=="escape"then
 				SCN.back()
 			elseif key=="delete"then
@@ -1388,28 +1351,30 @@ do--sequence
 		end
 	end
 
-	function Tmr.sequence()
+	function Tmr.custom_seq()
 		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 	end
 
-	function Pnt.sequence()
+	function Pnt.custom_seq()
 		local S=sceneTemp
-		gc.setColor(1,1,1)gc.draw(drawableText.sequence,122,-12)
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.custom,20,5)
+
 		gc.setLineWidth(4)
-		gc.rectangle("line",100,100,1080,260)
+		gc.rectangle("line",100,110,1080,260)
 		setFont(30)
 		local bag=preBag
 		local len=#bag
 
 		setFont(40)
-		gc.print(len,120,300)
+		gc.print(len,120,310)
 
 		local L=TEXTURE.miniBlock
 		local lib=SKIN.libColor
 		local set=setting.skin
 
-		local x,y=120,126
-		local cx,cy=120,126
+		local x,y=120,136
+		local cx,cy=120,136
 		for i=1,len do
 			local B=L[bag[i]]
 			gc.setColor(lib[set[bag[i]]])
@@ -1433,9 +1398,8 @@ do--sequence
 		end
 	end
 end
-do--draw
-	function sceneInit.draw()
-		BG.set("space")
+do--custom_draw
+	function sceneInit.custom_draw()
 		sceneTemp={
 			sure=0,
 			pen=1,
@@ -1449,10 +1413,10 @@ do--draw
 		a=12,s=13,d=14,f=15,g=16,h=17,
 		z=0,x=-1,
 	}
-	function mouseDown.draw(x,y,k)
-		mouseMove.draw(x,y)
+	function mouseDown.custom_draw(x,y,k)
+		mouseMove.custom_draw(x,y)
 	end
-	function mouseMove.draw(x,y,dx,dy)
+	function mouseMove.custom_draw(x,y,dx,dy)
 		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 		if sx<1 or sx>10 then sx=nil end
 		if sy<1 or sy>20 then sy=nil end
@@ -1461,7 +1425,7 @@ do--draw
 			preField[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
 		end
 	end
-	function wheelMoved.draw(x,y)
+	function wheelMoved.custom_draw(x,y)
 		local pen=sceneTemp.pen
 		if y<0 then
 			pen=pen+1
@@ -1472,10 +1436,10 @@ do--draw
 		end
 		sceneTemp.pen=pen
 	end
-	function touchDown.draw(id,x,y)
-		mouseMove.draw(x,y)
+	function touchDown.custom_draw(id,x,y)
+		mouseMove.custom_draw(x,y)
 	end
-	function touchMove.draw(id,x,y,dx,dy)
+	function touchMove.custom_draw(id,x,y,dx,dy)
 		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 		if sx<1 or sx>10 then sx=nil end
 		if sy<1 or sy>20 then sy=nil end
@@ -1484,7 +1448,7 @@ do--draw
 			preField[sy][sx]=sceneTemp.pen
 		end
 	end
-	function keyDown.draw(key)
+	function keyDown.custom_draw(key)
 		local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
 		if key=="up"or key=="down"or key=="left"or key=="right"then
 			if not sx then sx=1 end
@@ -1509,8 +1473,12 @@ do--draw
 			if sx and sy then
 				preField[sy][sx]=pen
 			end
-		elseif key=="e"then
-			SCN.swapTo("custom","swipeL")
+		elseif key=="tab"then
+			if kb.isDown("lshift","rshift")then
+				SCN.swapTo("custom_seq","swipeR")
+			else
+				SCN.swapTo("custom_norm","swipeL")
+			end
 		elseif key=="escape"then
 			SCN.back()
 		elseif key=="k"then
@@ -1551,12 +1519,17 @@ do--draw
 		sceneTemp.x,sceneTemp.y,sceneTemp.pen=sx,sy,pen
 	end
 
-	function Tmr.draw()
+	function Tmr.custom_draw()
 		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 	end
 
-	function Pnt.draw()
+	function Pnt.custom_draw()
 		local sx,sy=sceneTemp.x,sceneTemp.y
+
+		gc.setColor(.7,.7,.7)
+		mText(drawableText.field,350,5)
+
+		--Field
 		gc.translate(200,60)
 		gc.setColor(1,1,1,.2)
 		gc.setLineWidth(1)
@@ -1606,7 +1579,7 @@ do--draw
 		for i=1,7 do
 			_=setting.skin[i]
 			gc.setColor(SKIN.libColor[_])
-			mStr(text.block[i],500+65*_,65)
+			mStr(text.block[i],500+65*_,115)
 		end
 	end
 end
@@ -2583,6 +2556,77 @@ end
 do--setting_lang
 	function sceneBack.setting_lang()
 		FILE.saveSetting()
+	end
+end
+do--music
+	function sceneInit.music()
+		if BGM.nowPlay then
+			for i=1,BGM.len do
+				if BGM.list[i]==BGM.nowPlay then
+					sceneTemp=i--Music selected
+					return
+				end
+			end
+		else
+			sceneTemp=1
+		end
+	end
+
+	function wheelMoved.music(x,y)
+		wheelScroll(y)
+	end
+	function keyDown.music(key)
+		local S=sceneTemp
+		if key=="down"then
+			if S<BGM.len then
+				sceneTemp=S+1
+				SFX.play("move",.7)
+			end
+		elseif key=="up"then
+			if S>1 then
+				sceneTemp=S-1
+				SFX.play("move",.7)
+			end
+		elseif key=="return"or key=="space"then
+			if BGM.nowPlay~=BGM.list[S]then
+				if setting.bgm>0 then
+					SFX.play("click")
+					BGM.play(BGM.list[S])
+				end
+			else
+				BGM.stop()
+			end
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+
+	function Pnt.music()
+		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
+
+		gc.draw(drawableText.right,270,350+10)
+		setFont(50)
+		gc.print(BGM.list[sceneTemp],320,350+5)
+		setFont(35)
+		if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
+		if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
+		setFont(20)
+		if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
+		if sceneTemp<BGM.len-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
+
+		gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
+		if BGM.nowPlay then
+			gc.draw(drawableText.nowPlaying,700-drawableText.nowPlaying:getWidth(),500)
+			setFont(50)
+			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
+			gc.print(BGM.nowPlay,710,500)
+
+			local t=-Timer()%2.3/2
+			if t<1 then
+				gc.setColor(1,1,1,t)
+				gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+			end
+		end
 	end
 end
 do--help
