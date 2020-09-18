@@ -177,7 +177,7 @@ local Widgets={
 		newSwitch({name="oncehold",	x=230,	y=650,							font=30,				disp=CUSval("oncehold"),code=CUSrev("oncehold"),hide=function()return not customEnv.hold end}),
 
 		--Visual
-		newSlider({name="block",	x=470,	y=150,w=120,unit=1,				font=25,				disp=CUSval("block"),	code=CUSsto("block")}),
+		newSwitch({name="block",	x=570,	y=150,							font=25,				disp=CUSval("block"),	code=CUSrev("block")}),
 		newSlider({name="ghost",	x=470,	y=210,w=120,unit=.6,			font=25,				disp=CUSval("ghost"),	code=CUSsto("ghost")}),
 		newSlider({name="center",	x=470,	y=270,w=120,unit=1,				font=25,				disp=CUSval("center"),	code=CUSsto("center")}),
 		newSwitch({name="bagLine",	x=570,	y=340,							font=30,				disp=CUSval("bagLine"),	code=CUSrev("bagLine")}),
@@ -309,9 +309,9 @@ local Widgets={
 		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_sound","swipeR")end}),
 		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=function()SCN.swapTo("setting_game","swipeL")end}),
 
-		newSlider({name="block",	x=260,	y=180,w=200,unit=1,	font=30,disp=SETval("block"),show="percent",code=SETsto("block")}),
+		newSwitch({name="block",	x=360,	y=180,				font=30,disp=SETval("block"),				code=SETrev("block")}),
 		newSlider({name="ghost",	x=260,	y=240,w=200,unit=.6,font=30,disp=SETval("ghost"),show="percent",code=SETsto("ghost")}),
-		newSlider({name="center",	x=260,	y=300,w=200,unit=1,	font=30,disp=SETval("center"),show="percent",code=SETsto("center")}),
+		newSlider({name="center",	x=260,	y=300,w=200,unit=1,	font=30,disp=SETval("center"),				code=SETsto("center")}),
 
 		newSwitch({name="smooth",	x=700,	y=180,				font=30,disp=SETval("smooth"),	code=SETrev("smooth")}),
 		newSwitch({name="grid",		x=700,	y=240,				font=30,disp=SETval("grid"),	code=SETrev("grid")}),

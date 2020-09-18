@@ -1156,7 +1156,7 @@ local langList={
 			custom={
 				drop="Drop Speed",lock="Lock Delay",wait="Entry Delay",fall="Line Delay",
 				next="Next",hold="Hold",oncehold="Hold Once",
-				block="Block",ghost="Ghost",center="Center",
+				block="Draw Block",ghost="Ghost",center="Center",
 				bagLine="Bag Line",
 				highCam="Bird-eye view",
 				nextPos="Next preview",
@@ -1233,7 +1233,7 @@ local langList={
 			setting_video={
 				sound="←Sound",
 				game="Game→",
-				block="Block",
+				block="Draw Block",
 				ghost="Ghost",
 				center="Center",
 				smooth="Smooth drop",
