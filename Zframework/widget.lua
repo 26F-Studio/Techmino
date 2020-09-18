@@ -70,7 +70,9 @@ function button:draw()
 	end
 end
 function button:printInfo()
-	DBP(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
+	local s=format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+	LOG.print(s)
+	DBP(s)
 end
 
 local key={
