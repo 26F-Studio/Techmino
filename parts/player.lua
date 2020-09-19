@@ -1249,7 +1249,7 @@ local function loadAI(P,AIdata)--Load AI params
 	P.AI_mode=AIdata.type
 	P.AI_stage=1
 	P.AI_keys={}
-	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),2*AIdata.delta)
+	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),AIdata.delta*rnd()*4)
 	P.AI_delay0=AIdata.delta
 	P.AIdata={
 		type=AIdata.type,
@@ -2020,7 +2020,7 @@ function player.cancel(P,N)--Cancel Garbage
 end
 do--player.drop(P)--Place piece
 	local b2bPoint={50,100,180,300,800}
-	local b2bATK={3,5,8,10,20}
+	local b2bATK={3,5,8,12,18}
 	local clearSCR={80,200,400}
 	local spinSCR={--[blockName][row]
 		{200,750,1300},--Z
@@ -2272,7 +2272,7 @@ do--player.drop(P)--Place piece
 				cscore=cc==4 and 1000 or 1500
 				if P.b2b>1000 then
 					P:showText(text.b3b..text.clear[cc],0,-30,50,"fly")
-					atk=cc+2
+					atk=cc*1.5
 					sendTime=100
 					exblock=exblock+1
 					cscore=cscore*1.8
@@ -2305,9 +2305,9 @@ do--player.drop(P)--Place piece
 
 			--PC/HPC bonus
 			if clear then
-				if #P.field==0 then
+				if #P.field==0 then	
 					P:showText(text.PC,0,-80,50,"flicker")
-					atk=atk*.5+min(6+STAT.pc,12)
+					atk=atk*.5+min(8+STAT.pc*2,20)
 					exblock=exblock+2
 					sendTime=sendTime+120
 					if STAT.row+cc>4 then
@@ -2348,9 +2348,10 @@ do--player.drop(P)--Place piece
 				cscore=cscore+clearSCR[cc]
 			end
 
+			--Combo bonus
 			sendTime=sendTime+25*cmb
 			if cmb>1 then
-				atk=atk*(.8+.2*min(cmb,11))
+				atk=atk*(1+(cc==1 and .15 or .25)*min(cmb-1,12))
 				if cmb>=3 then
 					atk=atk+1
 				end
