@@ -22,7 +22,7 @@ function LOG.update()
 					if not debugMesList[1]then
 						debugMesFloat=0
 					elseif i==1 then
-						debugMesFloat=debugMesFloat+25
+						debugMesFloat=debugMesFloat
 					end
 				end
 			end
@@ -35,12 +35,13 @@ end
 function LOG.draw()
 	if debugMesList[1]then
 		gc.push("transform")
-		setFont(int(20*scr.w/1280))
+		local k=scr.w/1280
+		setFont(int(20*k))
 		for i=1,#debugMesList do
 			local M=debugMesList[i]
 			local t=M.time
 			gc.setColor(M.r,M.g,M.b,M.blink>0 and int(M.blink/3)%2 or min(t/26,1))
-			gc.print(M.text,10+(20-min(t,20))^1.5/4,25*i+debugMesFloat)
+			gc.print(M.text,10+(20-min(t,20))^1.5/4,25*i*k+debugMesFloat)
 		end
 		gc.pop()
 	end
