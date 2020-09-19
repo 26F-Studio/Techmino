@@ -23,7 +23,23 @@ return{
 	end,
 	mesDisp=function(P,dx,dy)
 		if not game.result then
-			gc.clear(.26,.26,.26)
+			if game.replaying then
+				gc.setColor(.3,.3,.3,.7)
+				gc.push("transform")
+				gc.origin()
+				gc.rectangle("fill",0,0,scr.w,scr.h)
+				gc.pop()
+			else
+				gc.clear(.26,.26,.26)
+				--Frame
+				gc.setColor(.5,.5,.5)
+				gc.push("transform")
+				gc.translate(150,70)
+				gc.rectangle("line",-1,-11,302,612)--Boarder
+				gc.rectangle("line",301,-3,15,604)--AtkBuffer boarder
+				gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
+				gc.pop()
+			end
 		end
 
 		--Figures
@@ -39,12 +55,6 @@ return{
 		setFont(75)
 		mStr(P.stat.row,69,290)
 		mStr(P.stat.clears[4],69,410)
-
-		--"Field"
-		gc.setColor(.5,.5,.5)
-		gc.rectangle("line",149,59,302,612)
-		gc.rectangle("line",451,70,15,601)
-		gc.rectangle("line",134,67,15,604)
 	end,
 	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
