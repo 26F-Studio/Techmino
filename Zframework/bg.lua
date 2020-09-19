@@ -53,7 +53,7 @@ back.flink={
 		t=t+dt
 	end,
 	draw=function()
-		local t=.13-t%3%1.7
+		local t=.13-t%3%1.9
 		if t<.2 then gc.clear(t,t,t)
 		else gc.clear(0,0,0)
 		end
@@ -130,7 +130,6 @@ back.wing={
 	end,
 }--Flandre's wing
 
-local _
 back.fan={
 	init=function()
 		fan=_G.title_fan
