@@ -335,31 +335,36 @@ return{
 			return 2
 		end,
 		function(P,ctrl)--Poll keys
-			local success,dest,hold,move=CC.getMove(P.AI_bot)
-			if success==2 then
-				ins(ctrl,6)
-				return 3
-			elseif success==0 then
-				for i=1,#dest do
-					for j=1,#dest[i]do
-						dest[i][j]=dest[i][j]+1
+			local success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
+			if success then
+				if result==2 then
+					ins(ctrl,6)
+					return 3
+				elseif result==0 then
+					for i=1,#dest do
+						for j=1,#dest[i]do
+							dest[i][j]=dest[i][j]+1
+						end
 					end
-				end
-				P.AI_dest=dest
-				if hold then ctrl[1]=8 end--Hold
-				while move[1]do
-					local m=rem(move,1)
-					if m<4 then
-						ins(ctrl,m+1)
-					elseif not P.AIdata._20G then
-						ins(ctrl,13)
+					P.AI_dest=dest
+					if hold then ctrl[1]=8 end--Hold
+					while move[1]do
+						local m=rem(move,1)
+						if m<4 then
+							ins(ctrl,m+1)
+						elseif not P.AIdata._20G then
+							ins(ctrl,13)
+						end
 					end
+					ins(ctrl,6)
+					return 3
+				else
+					--Stay this stage
+					return 2
 				end
-				ins(ctrl,6)
-				return 3
 			else
-				--Stay this stage
-				return 2
+				LOG.print("CC is dead ("..P.id..")","error")
+				return 0
 			end
 		end,
 		function(P)--Check if time to change target
