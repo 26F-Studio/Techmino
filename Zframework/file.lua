@@ -1,8 +1,6 @@
 local fs=love.filesystem
-local int,max,min=math.floor,math.max,math.min
-local sub,find=string.sub,string.find
+local int=math.floor
 local toN,toS=tonumber,tostring
-local concat=table.concat
 
 local files={
 	data=	fs.newFile("data.dat"),

@@ -1,6 +1,7 @@
 local gc=love.graphics
 local int=math.floor
 local format=string.format
+local find=string.find
 
 do--setFont
 	local newFont=gc.setNewFont
