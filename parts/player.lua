@@ -33,7 +33,9 @@ local gameEnv0={
 	next=6,
 	hold=true,oncehold=true,
 	ospin=true,
-	sequence="bag",bag={1,2,3,4,5,6,7},
+	sequence="bag",
+	freshMethod=NULL,
+	bag={1,2,3,4,5,6,7},
 	mission=NULL,
 	face=NULL,skin=NULL,
 
@@ -1239,6 +1241,8 @@ local function prepareSequence(P)--Call freshPrepare and set newNext
 		freshPrepare[ENV.sequence](P)
 		P.newNext=freshMethod[ENV.sequence]
 	else
+		print(type(ENV.sequence))
+		print(type(ENV.freshMethod))
 		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
 		ENV.sequence(P)
 		P.newNext=ENV.freshMethod
