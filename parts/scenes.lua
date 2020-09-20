@@ -10,7 +10,7 @@ local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local log,rnd=math.log,math.random
 local format=string.format
 local ins,rem=table.insert,table.remove
-local byte=string.byte
+local find,sub,char,byte=string.find,string.sub,string.char,string.byte
 
 local scr=scr
 
@@ -763,7 +763,7 @@ do--intro
 			TASK.new(function(S)
 				S[1]=S[1]-1
 				if S[1]==0 then
-					love.system.openURL(love.filesystem.getSaveDirectory())
+					sys.openURL(love.filesystem.getSaveDirectory())
 					return true
 				end
 			end,{60})
@@ -1233,6 +1233,44 @@ do--custom_basic
 			else
 				SCN.swapTo("custom_rule","swipeL")
 			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			local str="Techmino Quest:"..copyQuestArgs().."_"
+			if #preBag>0 then str=str..copySequence()end
+			str=str.."_"..copyBoard().."_"
+			if #preMission>0 then str=str..copyMission()end
+			sys.setClipboardText(str.."_")
+			LOG.print(text.copySuccess,color.green)
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p1,p2,p3,p4,p5--ptr*
+			while true do
+				p1=find(str,":")or 0
+				p2=find(str,"_",p1+1)
+				if not p2 then break end
+				p3=find(str,"_",p2+1)
+				if not p3 then break end
+				p4=find(str,"_",p3+1)
+				if not p4 then break end
+				p5=find(str,"_",p4+1)or #str+1
+
+				pasteQuestArgs(sub(str,p1+1,p2-1))
+				if p2+1~=p3 then
+					if not pasteSequence(sub(str,p2+1,p3-1))then
+						break
+					end
+				end
+				if not pasteBoard(sub(str,p3+1,p4-1))then
+					break
+				end
+				if p4+1~=p5 then
+					if not pasteMission(sub(str,p4+1,p5-1))then
+						break
+					end
+				end
+				LOG.print(text.pasteSuccess,color.green)
+				return
+			end
+			LOG.print(text.dataCorrupted,color.red)
 		elseif key=="escape"then
 			SCN.back()
 		else
@@ -1326,8 +1364,10 @@ do--custom_seq
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
-			if p then str=string.sub(str,p+1)end
-			if not pasteSequence(str)then
+			if p then str=sub(str,p+1)end
+			if pasteSequence(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
 				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif key=="backspace"then
@@ -1548,8 +1588,10 @@ do--custom_draw
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
-			if p then str=string.sub(str,p+1)end
-			if not pasteBoard(str)then
+			if p then str=sub(str,p+1)end
+			if pasteBoard(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
 				LOG.print(text.dataCorrupted,color.red)
 			end
 		else
@@ -1671,8 +1713,10 @@ do--custom_mission
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
-			if p then str=string.sub(str,p+1)end
+			if p then str=sub(str,p+1)end
 			if not pasteMission(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
 				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif key=="backspace"then

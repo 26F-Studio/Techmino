@@ -185,6 +185,10 @@ local Widgets={
 		newSelector({name="bg",		x=1140,	y=460,	w=220,color="yellow",	list=CUSlist.bg,	disp=CUSval("bg"),		code=function(i)customEnv.bg=i BG.set(i)end}),
 		newSelector({name="bgm",	x=1140,	y=540,	w=220,color="yellow",	list=CUSlist.bgm,	disp=CUSval("bgm"),		code=function(i)customEnv.bgm=i BGM.play(i)end}),
 
+		--Copy/Paste Quest
+		newButton({name="copy",		x=560,	y=640,	w=300,h=100,	color="lRed",	font=25,code=pressKey("cC")}),
+		newButton({name="paste",	x=870,	y=640,	w=300,h=100,	color="lBlue",	font=25,code=pressKey("cV")}),
+
 		newButton({name="mission",	x=900,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_mission","swipeR")}),
 		newButton({name="rule",		x=1140,	y=60,	w=220,h=80,		color="lBlue",	font=25,code=swapScene("custom_rule","swipeL")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,		color="white",	font=40,code=BACK}),

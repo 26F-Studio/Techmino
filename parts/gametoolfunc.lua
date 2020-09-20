@@ -62,6 +62,57 @@ function restoreVirtualKey()
 	end
 end
 
+function copyQuestArgs()
+	local ENV=customEnv
+	local str=""
+	str=str..(ENV.hold and"H"or"Z")
+	str=str..(ENV.ospin and"O"or"Z")
+	str=str..(ENV.missionKill and"M"or"Z")
+	str=str..ENV.sequence
+	return str
+end
+function pasteQuestArgs(str)
+	local ENV=customEnv
+	ENV.hold=			byte(str,1)~=90
+	ENV.ospin=			byte(str,2)~=90
+	ENV.missionKill=	byte(str,3)~=90
+	ENV.sequence=		sub(str,4)
+end
+
+function copySequence()
+	local preBag=preBag
+	local str=""
+
+	for i=1,#preBag do
+		str=str..char(preBag[i]-1)
+	end
+
+	return data.encode("string","base64",data.compress("string","deflate",str))
+end
+function pasteSequence(str)
+	local _
+
+	--Decode
+	_,str=pcall(data.decode,"string","base64",str)
+	if not _ then return end
+	_,str=pcall(data.decompress,"string","deflate",str)
+	if not _ then return end
+
+	local bag={}
+	for i=1,#str do
+		_=byte(str,i)
+		if _<25 then
+			bag[i]=_+1
+		else
+			return
+		end
+	end
+
+	preBag=bag
+	sceneTemp.cur=#preBag
+	return true
+end
+
 function copyBoard()
 	local str=""
 	local H=0
@@ -132,40 +183,6 @@ function pasteBoard(str)
 		end
 	end
 
-	return true
-end
-
-function copySequence()
-	local preBag=preBag
-	local str=""
-
-	for i=1,#preBag do
-		str=str..char(preBag[i]-1)
-	end
-
-	return data.encode("string","base64",data.compress("string","deflate",str))
-end
-function pasteSequence(str)
-	local _
-
-	--Decode
-	_,str=pcall(data.decode,"string","base64",str)
-	if not _ then return end
-	_,str=pcall(data.decompress,"string","deflate",str)
-	if not _ then return end
-
-	local bag={}
-	for i=1,#str do
-		_=byte(str,i)
-		if _<25 then
-			bag[i]=_+1
-		else
-			return
-		end
-	end
-
-	preBag=bag
-	sceneTemp.cur=#preBag
 	return true
 end
 

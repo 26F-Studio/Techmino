@@ -32,8 +32,6 @@ local langList={
 		pauseCount="暂停统计",
 
 		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
-		softdropdas="软降DAS:",
-		softdroparr="软降ARR:",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
 		setting_game="游戏设置",
 		setting_video="画面设置",
@@ -62,6 +60,7 @@ local langList={
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
+		pasteSuccess="粘贴成功",
 		dataCorrupted="数据损坏",
 		VKTchW="触摸点权重",
 		VKOrgW="原始点权重",
@@ -202,8 +201,12 @@ local langList={
 				highCam="超屏视野",
 				nextPos="生成预览",
 				bone="骨块",
+
 				bg="背景",
 				bgm="音乐",
+
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 
 				mission="←任务设置",
 				rule="更多规则(Tab)→",
@@ -586,6 +589,7 @@ local langList={
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
+		pasteSuccess="粘贴成功",
 		dataCorrupted="数据损坏",
 		VKTchW="触摸点权重",
 		VKOrgW="原始点权重",
@@ -724,8 +728,12 @@ local langList={
 				highCam="超屏视野",
 				nextPos="生成预览",
 				bone="骨块",
+
 				bg="背景",
 				bgm="音乐",
+
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 
 				mission="←任务设置",
 				rule="更多规则(Tab)→",
@@ -1108,6 +1116,7 @@ local langList={
 
 		needRestart="Effective after restart",
 		copySuccess="Copied successfully",
+		pasteSuccess="Pasted successfully",
 		dataCorrupted="Data corrupted",
 		VKTchW="Touch Weight",
 		VKOrgW="Origin Weight",
@@ -1236,8 +1245,12 @@ local langList={
 				highCam="Bird-eye view",
 				nextPos="Next preview",
 				bone="Bone Block",
+
 				bg="Background",
 				bgm="Music",
+
+				copy="Copy Seq+Field+Misn",
+				paste="Paste Seq+Field+Misn",
 
 				mission="←Mission",
 				rule="Rules (Tab)→",
@@ -1620,6 +1633,7 @@ local langList={
 
 		needRestart="!!*#R#*!!",
 		copySuccess="~$~",
+		pasteSuccess="~v~",
 		dataCorrupted="XXXXX",
 		VKTchW="Tch↓",
 		VKOrgW="Org↓",
@@ -2102,8 +2116,6 @@ local langList={
 		pauseCount="歇多久了",
 
 		custom="自定义",basic="普通",rule="规则",field="自定义场地",mission="任务",
-		softdropdas="软降DAS:",
-		softdroparr="软降ARR:",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
 		setting_game="游戏设置",
 		setting_video="改画面",
@@ -2132,6 +2144,7 @@ local langList={
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
+		pasteSuccess="粘贴成功",
 		dataCorrupted="数据损坏",
 		VKTchW="触摸点权重",
 		VKOrgW="原始点权重",
@@ -2270,8 +2283,12 @@ local langList={
 				highCam="超屏视野",
 				nextPos="生成预览",
 				bone="骨块",
+
 				bg="背景",
 				bgm="音乐",
+
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 
 				mission="←任务设置",
 				rule="更多规则(Tab)→",
@@ -2376,6 +2393,7 @@ local langList={
 			setting_video={
 				sound="←改声音",
 				game="游戏设置→",
+				block="方块可见",
 				ghost="阴影",
 				smooth="平滑下落",
 				center="旋转中心",
@@ -2593,6 +2611,9 @@ local langList={
 		},
 	},
 }
+for k,v in next,langList[1] do
+	if not langList[2][k]then print(k)end
+end
 local publicText={
 	block={
 		"Z","S","J","L","T","O","I",
