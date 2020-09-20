@@ -913,6 +913,34 @@ do--function Pdraw_norm(P)
 				curMode.mesDisp(P)
 			end
 
+			--Missions
+			if P.missionProgress then
+				local missionEnum=missionEnum
+				local L=ENV.mission
+
+				--Draw current mission
+				setFont(35)
+				if ENV.missionKill then
+					gc.setColor(1,.7+.2*sin(Timer()*3),.4)
+				else
+					gc.setColor(1,1,1)
+				end
+				gc.print(missionEnum[L[P.missionProgress+1]],85,180)
+
+				--Draw next mission
+				gc.setColor(1,1,1)
+				setFont(17)
+				for i=2,4 do
+					local t=L[P.missionProgress+i]
+					if t then
+						t=missionEnum[t]
+						gc.print(t,113-26*i,187)
+					else
+						break
+					end
+				end
+			end
+
 			--Draw starting counter
 			gc.setColor(1,1,1)
 			if game.frame<180 then
@@ -2442,6 +2470,7 @@ do--player.drop(P)--Place piece
 					SFX.play("reach")
 					if P.missionProgress==#P.gameEnv.mission then
 						P:win()
+						P.missionProgress=nil
 					end
 				elseif P.gameEnv.missionKill then
 					P:showText(text.missionFailed,0,140,40,"flicker",.5)
