@@ -2379,7 +2379,7 @@ do--player.drop(P)--Place piece
 			if send>0 then
 				if exblock>0 then
 					exblock=int(exblock*(1+P.strength*.25))--Badge Buff
-					P:showText(exblock,0,120,20,"zoomout")
+					P:showText("+"..exblock,0,53,20,"fly")
 					off=off+P:cancel(exblock)
 				end
 
@@ -2444,7 +2444,7 @@ do--player.drop(P)--Place piece
 						P:win()
 					end
 				elseif P.gameEnv.missionKill then
-					P:showText(text.missionFailed,0,200,40,"flicker",.5)
+					P:showText(text.missionFailed,0,140,40,"flicker",.5)
 					SFX.play("finesseError_long",.6)
 					P:lose()
 				end
