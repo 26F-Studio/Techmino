@@ -39,7 +39,7 @@ do--calculator
 		BG.set("none")
 		sceneTemp={
 			reg=false,
-			val=0,
+			val="0",
 			sym=false,
 			pass=false,
 			tip=require("parts/getTip"),
@@ -47,56 +47,83 @@ do--calculator
 	end
 
 	mouseDown.calculator=NULL
+	local function EGG(str)
+		sceneTemp.reg=str
+		sceneTemp.sym="="
+	end
 	function keyDown.calculator(k)
 		local S=sceneTemp
 		if byte(k)>=48 and byte(k)<=57 then
 			if S.sym=="="then
-				S.val=tonumber(k)
+				S.val=k
 				S.sym=false
-			elseif S.sym then
-				if not S.reg then
-					S.reg=S.val
-					S.val=tonumber(k)
-				elseif S.val<1e13 then
-					S.val=S.val*10+tonumber(k)
-				end
+			elseif S.sym and not S.reg then
+				S.reg=S.val
+				S.val=k
 			else
-				if S.val<1e13 then
-					S.val=S.val*10+tonumber(k)
+				if #S.val<14 then
+					if S.val=="0"then S.val=""end
+					S.val=S.val..k
 				end
+			end
+		elseif k=="."then
+			if not(find(S.val,".",nil,true)or find(S.val,"e"))then
+				S.val=S.val.."."
+			end
+		elseif k=="e"then
+			if not find(S.val,"e")then
+				S.val=S.val.."e"
 			end
 		elseif k=="backspace"then
-			if S.val>0 then
-				S.val=int(S.val/10)
-			end
+			S.val=sub(S.val,1,-2)
+			if S.val==""then S.val="0"end
 		elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then
 			S.sym="+"
+			S.reg=false
 		elseif k=="-"then
 			S.sym="-"
+			S.reg=false
 		elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then
 			S.sym="*"
+			S.reg=false
 		elseif k=="/"then
 			S.sym="/"
+			S.reg=false
 		elseif k=="return"then
 			if S.val then
 				if S.sym and S.reg then
 					S.val=
-						S.sym=="+"and S.reg+S.val or
-						S.sym=="-"and S.reg-S.val or
-						S.sym=="*"and S.reg*S.val or
-						S.sym=="/"and S.reg/S.val or
+						S.sym=="+"and (tonumber(S.reg)or 0)+tonumber(S.val)or
+						S.sym=="-"and (tonumber(S.reg)or 0)-tonumber(S.val)or
+						S.sym=="*"and (tonumber(S.reg)or 0)*tonumber(S.val)or
+						S.sym=="/"and (tonumber(S.reg)or 0)/tonumber(S.val)or
 						-1
 				end
 				S.sym="="
 				S.reg=false
-				if S.val==600+26 or S.val==196 or S.val==022 or S.val==942 or S.val==238 or S.val==872 or S.val==670 or S.val==114 or S.val==7023 then
-					S.pass=true
-				elseif S.val==190000+6022 then
-					S.pass=true
-					marking=nil
+				local v=tonumber(S.val)
+				if v==600+26 then S.pass=true
+				elseif v==022 then EGG("T022.Teatube")
+				elseif v==024 then EGG("S024.Sniraite")
+				elseif v==114 then EGG("T114.Flyz")
+				elseif v==127 then EGG("T127.gggf")
+				elseif v==196 then EGG("T196.蕴空之灵")
+				elseif v==238 then EGG("T238.模电")
+				elseif v==274 then EGG("T274.ZZZ")
+				elseif v==512 then EGG("T512.tatianyi")
+				elseif v==616 then EGG("T616.Mifu")
+				elseif v==655 then EGG("T655.ThTsOd")
+				elseif v==665 then EGG("T665.Tinko")
+				elseif v==722 then EGG("T0722")
+				elseif v==872 then EGG("T872.DIAO")
+				elseif v==942 then EGG("T942.思竣")
+				elseif v==1905 then EGG("T1905.Rinnya")
+				elseif v==7023 then EGG("T7023.Miya")
+				elseif v==190000+6022 then
+					S.pass,marking=true
 					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 					SFX.play("clear")
-				elseif S.val==72943816 then
+				elseif v==72943816 then
 					S.pass=true
 					for name,M in next,Modes do
 						if not modeRanks[name]then
@@ -106,22 +133,22 @@ do--calculator
 					FILE.saveUnlock()
 					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
 					SFX.play("clear_2")
-				elseif S.val==1379e8+2626e4+1379 then
+				elseif v==1379e8+2626e4+1379 then
 					S.pass=true
 					SCN.go("debug")
-				elseif S.val==34494 then
+				elseif v==34494 then
 					error("This is an error testing message.")
-				elseif S.val==114514 or S.val==1145141919810 then
+				elseif v==114514 or v==1145141919810 then
 					error("小鬼自裁请")
-				elseif S.val==123456789 then
+				elseif v==123456789 then
 					S.reg=123456789
-					S.val=987654321
+					v=987654321
 				end
 			end
 		elseif k=="escape"then
-			S.val,S.reg,S.sym=0
+			S.val,S.reg,S.sym="0"
 		elseif k=="delete"then
-			S.val=0
+			S.val="0"
 		elseif k=="space"and S.pass then
 			SCN.back()
 		end
