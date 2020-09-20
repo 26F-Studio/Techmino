@@ -353,7 +353,7 @@ function selector:draw()
 			gc.draw(drawableText.large,x+w-24+t*40,y+20)
 		end
 	end
-	
+
 	setFont(28)
 	t=self.text
 	if t then
