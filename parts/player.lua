@@ -2051,7 +2051,7 @@ function player.cancel(P,N)--Cancel Garbage
 	return off
 end
 do--player.drop(P)--Place piece
-	local b2bPoint={50,100,180,300,800}
+	local b2bPoint={50,100,180,1000,1200}
 	local b2bATK={3,5,8,12,18}
 	local clearSCR={80,200,400}
 	local spinSCR={--[blockName][row]
@@ -2122,7 +2122,7 @@ do--player.drop(P)--Place piece
 				if c==0 then goto NTC end
 				if P:solid(x-1,y-1)then c=c+1 end
 				if P:solid(x+1,y-1)then c=c+1 end
-				if c>2 then dospin=dospin+1 end
+				if c>2 then dospin=dospin+2 end
 			end
 			::NTC::
 		end
@@ -2172,9 +2172,11 @@ do--player.drop(P)--Place piece
 		--Final spin check
 		if dospin>0 then
 			if cc>0 then
-				dospin=dospin+(P.spinLast or 0)
-				if dospin<2 then
-					mini=CB.id<6 and cc<3 and cc<P.r
+				if P.spinLast then
+					dospin=dospin+1
+				end
+				if dospin<3 then
+					mini=CB.id<6 and cc<P.r
 				end
 			end
 		else
@@ -2326,7 +2328,7 @@ do--player.drop(P)--Place piece
 					sendTime=60
 					atk=cc
 				end
-				P.b2b=P.b2b+cc*80-220
+				P.b2b=P.b2b+cc*100-300
 				C.special=true
 			else
 				C.special=false
