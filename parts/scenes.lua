@@ -1377,12 +1377,14 @@ do--custom_seq
 				S.cur=p
 			end
 		elseif key=="ten"then
-			S.cur=min(S.cur+9,#preBag)
-			local p=S.cur
-			repeat
-				p=p+1
-			until preBag[p+1]~=preBag[S.cur+1]
-			S.cur=p
+			for i=1,10 do
+				local p=S.cur
+				if p==#preBag then break end
+				repeat
+					p=p+1
+				until preBag[p+1]~=preBag[S.cur+1]
+				S.cur=p
+			end
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			if #preBag>0 then
 				sys.setClipboardText("Techmino SEQ:"..copySequence())
@@ -1425,11 +1427,12 @@ do--custom_seq
 			S.cur=S.cur+1
 			ins(preBag,S.cur,key)
 		elseif #key==1 then
-			local i=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
-			if i then
-				local C=S.cur+1
-				ins(preBag,C,i)
-				S.cur=C
+			key=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
+			if key then
+				local p=S.cur+1
+				while preBag[p]==key do p=p+1 end
+				ins(preBag,p,key)
+				S.cur=p
 			end
 		end
 	end
@@ -1726,12 +1729,14 @@ do--custom_mission
 				S.cur=p
 			end
 		elseif key=="ten"then
-			S.cur=min(S.cur+9,#preMission)
-			local p=S.cur
-			repeat
-				p=p+1
-			until preMission[p+1]~=preMission[S.cur+1]
-			S.cur=p
+			for i=1,10 do
+				local p=S.cur
+				if p==#preMission then break end
+				repeat
+					p=p+1
+				until preMission[p+1]~=preMission[S.cur+1]
+				S.cur=p
+			end
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			if #preMission>0 then
 				sys.setClipboardText("Techmino Target:"..copyMission())
@@ -1771,8 +1776,10 @@ do--custom_mission
 		elseif key=="escape"then
 			SCN.back()
 		elseif type(key)=="number"then
-			S.cur=S.cur+1
-			ins(preMission,S.cur,key)
+			local p=S.cur+1
+			while preMission[p]==key do p=p+1 end
+			ins(preMission,p,key)
+			S.cur=p
 		else
 			if key=="space"then
 				key="_"
