@@ -169,7 +169,7 @@ function pasteSequence(str)
 	return true
 end
 
-function copyTarget()
+function copyMission()
 	local str=""
 	local preMission=preMission
 	for i=1,#preMission do
@@ -178,7 +178,7 @@ function copyTarget()
 
 	return data.encode("string","base64",data.compress("string","deflate",str))
 end
-function pasteTarget(str)
+function pasteMission(str)
 	local _
 
 	--Decode
@@ -197,6 +197,7 @@ function pasteTarget(str)
 		end
 	end
 	preMission=mission
+	sceneTemp.cur=#preMission
 	return true
 end
 

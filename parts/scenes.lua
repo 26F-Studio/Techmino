@@ -1290,18 +1290,34 @@ do--custom_seq
 	}
 	function keyDown.custom_seq(key)
 		local S=sceneTemp
+		local preBag=preBag
 		if key=="left"then
-			S.cur=S.cur-1
-			if S.cur==-1 then
+			local p=S.cur
+			if p==0 then
 				S.cur=#preBag
+			else
+				repeat
+					p=p-1
+				until preBag[p]~=preBag[S.cur]
+				S.cur=p
 			end
 		elseif key=="right"then
-			S.cur=S.cur+1
-			if S.cur>#preBag then
+			local p=S.cur
+			if p==#preBag then
 				S.cur=0
+			else
+				repeat
+					p=p+1
+				until preBag[p+1]~=preBag[S.cur+1]
+				S.cur=p
 			end
 		elseif key=="ten"then
-			S.cur=min(S.cur+10,#preBag)
+			S.cur=min(S.cur+9,#preBag)
+			local p=S.cur
+			repeat
+				p=p+1
+			until preBag[p+1]~=preBag[S.cur+1]
+			S.cur=p
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			if #preBag>0 then
 				sys.setClipboardText("Techmino SEQ:"..copySequence())
@@ -1321,7 +1337,9 @@ do--custom_seq
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
-				preBag={}
+				for i=1,#preBag do
+					rem(preBag)
+				end
 				S.cur=0
 				S.sure=0
 				SFX.play("finesseError",.7)
@@ -1361,31 +1379,52 @@ do--custom_seq
 		--Draw frame
 		gc.setLineWidth(4)
 		gc.rectangle("line",100,110,1080,260)
-		local bag=preBag
-
-		--Draw lenth
-		setFont(40)
-		gc.print(#bag,120,310)
-
+		
 		--Draw sequence
-		local L=TEXTURE.miniBlock
-		local lib=SKIN.libColor
+		local miniBlock=TEXTURE.miniBlock
+		local libColor=SKIN.libColor
 		local set=setting.skin
-
+		local L=preBag
 		local x,y=120,136--Next block pos
 		local cx,cy=120,136--Cursor-center pos
-		for i=1,#bag do
-			local B=L[bag[i]]
-			gc.setColor(lib[set[bag[i]]])
-			gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
-			x=x+B:getWidth()*15+10
-			if x>1100 then
-				x,y=120,y+50
+		local i,j=1,#L
+		local count=1
+		setFont(25)
+		repeat
+			if L[i]==L[i-1]then
+				count=count+1
+			else
+				if count>1 then
+					gc.setColor(1,1,1)
+					gc.print("x",x-5,y-15)
+					gc.print(count,x+10,y-13)
+					x=x+(count<10 and 33 or 45)
+					count=1
+					if i==S.cur+1 then
+						cx,cy=x,y
+					end
+				end
+				if x>1060 then
+					x,y=120,y+50
+				end
+				if i<=j then
+					local B=miniBlock[L[i]]
+					gc.setColor(libColor[set[L[i]]])
+					gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
+					x=x+B:getWidth()*15+10
+				end
 			end
+
 			if i==S.cur then
 				cx,cy=x,y
 			end
-		end
+			i=i+1
+		until i>j+1
+
+		--Draw lenth
+		setFont(40)
+		gc.setColor(1,1,1)
+		gc.print(#L,120,310)
 
 		--Draw cursor
 		gc.setColor(.5,1,.5,.6+.4*sin(Timer()*6.26))
@@ -1596,28 +1635,44 @@ do--custom_mission
 	local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 	function keyDown.custom_mission(key)
 		local S=sceneTemp
+		local preMission=preMission
 		if key=="left"then
-			S.cur=S.cur-1
-			if S.cur==-1 then
+			local p=S.cur
+			if p==0 then
 				S.cur=#preMission
+			else
+				repeat
+					p=p-1
+				until preMission[p]~=preMission[S.cur]
+				S.cur=p
 			end
 		elseif key=="right"then
-			S.cur=S.cur+1
-			if S.cur>#preMission then
+			local p=S.cur
+			if p==#preMission then
 				S.cur=0
+			else
+				repeat
+					p=p+1
+				until preMission[p+1]~=preMission[S.cur+1]
+				S.cur=p
 			end
 		elseif key=="ten"then
-			S.cur=min(S.cur+10,#preMission)
+			S.cur=min(S.cur+9,#preMission)
+			local p=S.cur
+			repeat
+				p=p+1
+			until preMission[p+1]~=preMission[S.cur+1]
+			S.cur=p
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			if #preMission>0 then
-				sys.setClipboardText("Techmino Target:"..copyTarget())
+				sys.setClipboardText("Techmino Target:"..copyMission())
 				LOG.print(text.copySuccess,color.green)
 			end
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
 			if p then str=string.sub(str,p+1)end
-			if not pasteTarget(str)then
+			if not pasteMission(str)then
 				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif key=="backspace"then
@@ -1627,7 +1682,9 @@ do--custom_mission
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
-				preMission={}
+				for i=1,#preMission do
+					rem(preMission)
+				end
 				S.cur=0
 				S.sure=0
 				SFX.play("finesseError",.7)
@@ -1686,20 +1743,50 @@ do--custom_mission
 		gc.print(S.input,1200,270)
 
 		--Draw targets
-		gc.setColor(1,1,1)
-		setFont(35)
+		local libColor=SKIN.libColor
+		local set=setting.skin
+		local L=preMission
 		local x,y=100,136--Next block pos
 		local cx,cy=100,136--Cursor-center pos
-		for i=1,#preMission do
-			gc.print(missionEnum[preMission[i]],x,y-25)
-			x=x+55
-			if x>1160 then
-				x,y=100,y+50
+		local i,j=1,#L
+		local count=1
+		repeat
+			if L[i]==L[i-1]then
+				count=count+1
+			else
+				if count>1 then
+					setFont(25)
+					gc.setColor(1,1,1)
+					gc.print("x",x-10,y-15)
+					gc.print(count,x+5,y-13)
+					x=x+(count<10 and 33 or 45)
+					count=1
+					if i==S.cur+1 then
+						cx,cy=x,y
+					end
+				end
+				if x>1140 then
+					x,y=100,y+36
+				end
+				if i<=j then
+					setFont(35)
+					local N=int(L[i]*.1)
+					if N==9 then
+						gc.setColor(color.rainbow(i+Timer()*6.26))
+					elseif N>0 then
+						gc.setColor(libColor[set[N]])
+					else
+						gc.setColor(color.grey)
+					end
+					gc.print(missionEnum[L[i]],x,y-25)
+					x=x+56
+				end
 			end
 			if i==S.cur then
 				cx,cy=x,y
 			end
-		end
+			i=i+1
+		until i>j+1
 
 		--Draw cursor
 		gc.setColor(1,1,.4,.6+.4*sin(Timer()*6.26))
