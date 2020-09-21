@@ -1,4 +1,5 @@
 .vscode
 libAndroid
-font.ttf
 BGM
+font.ttf
+note.lua
