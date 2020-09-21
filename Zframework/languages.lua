@@ -4,7 +4,6 @@ local langList={
 		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
-		D="D",C="C",B="B",A="A",S="S",
 
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -69,7 +68,7 @@ local langList={
 		noScore="暂无成绩",
 		highScore="最佳成绩",
 		newRecord="打破纪录",
-		errorMsg="Techmino遇到了问题,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
+		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
 			"左移:","右移:",
@@ -524,7 +523,6 @@ local langList={
 		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
-		D="D",C="C",B="B",A="A",S="S",
 
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -589,7 +587,7 @@ local langList={
 		noScore="暂无成绩",
 		highScore="最佳成绩",
 		newRecord="打破纪录",
-		errorMsg="Techmino遇到了问题,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
+		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
 			"左移:","右移:",
@@ -1042,7 +1040,6 @@ local langList={
 		newVersion="Update detected!",
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
 		holdR="Hold to restart",
-		D="D",C="C",B="B",A="A",S="S",
 
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
@@ -1550,7 +1547,6 @@ local langList={
 		newVersion="&!!!",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		holdR="→→→→R",
-		D="",C=".",B="-",A="+",S="=",
 
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
@@ -2052,7 +2048,6 @@ local langList={
 		newVersion="感谢更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按重开",
-		D="菜",C="可",B="行",A="强",S="神",
 
 		lang="就这",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -2117,7 +2112,7 @@ local langList={
 		noScore="暂无成绩",
 		highScore="最佳成绩",
 		newRecord="打破纪录",
-		errorMsg="Techmino遇到了问题,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
+		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
 			"左移:","右移:",
@@ -2630,7 +2625,6 @@ local drawableTextLoad={
 	"replaying",
 	"next","hold",
 	"win","finish","gameover","pause",
-	"D","C","B","A","S",
 
 	"custom","basic","rule","field","mission",
 	"setting_game","setting_video","setting_sound",
