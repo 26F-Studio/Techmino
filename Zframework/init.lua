@@ -20,7 +20,6 @@ LOG=	require("Zframework/log")
 
 local ms=love.mouse
 local gc=love.graphics
-local Timer=love.timer.getTime
 local int,rnd,abs=math.floor,math.random,math.abs
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
@@ -411,6 +410,7 @@ local FPS=love.timer.getFPS
 love.draw,love.update=nil--remove default draw/update
 function love.run()
 	local T=love.timer
+	local Timer=T.getTime
 	local STEP,GETDelta,WAIT=T.step,T.getDelta,T.sleep
 	local mini=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
@@ -508,7 +508,7 @@ function love.run()
 					gc.setColor(devColor[devMode])
 					gc.print("Memory:"..gcinfo(),5,_-20)
 					gc.print("Lines:"..freeRow.getCount(),5,_-40)
-					gc.print("Cursor:"..mx.." "..my,5,_-60)
+					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),5,_-60)
 					gc.print("Voices:"..VOC.getCount(),5,_-80)
 					gc.print("Tasks:"..TASK.getCount(),5,_-100)
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
