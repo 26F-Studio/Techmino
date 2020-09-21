@@ -1261,24 +1261,24 @@ do--custom_basic
 				SCN.swapTo("custom_rule","swipeL")
 			end
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			local str="Techmino Quest:"..copyQuestArgs().."_"
+			local str="Techmino Quest:"..copyQuestArgs().."!"
 			if #preBag>0 then str=str..copySequence()end
-			str=str.."_"..copyBoard().."_"
+			str=str.."!"..copyBoard().."!"
 			if #preMission>0 then str=str..copyMission()end
-			sys.setClipboardText(str.."_")
+			sys.setClipboardText(str.."!")
 			LOG.print(text.copySuccess,color.green)
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 			local str=sys.getClipboardText()
 			local p1,p2,p3,p4,p5--ptr*
 			while true do
 				p1=find(str,":")or 0
-				p2=find(str,"_",p1+1)
+				p2=find(str,"!",p1+1)
 				if not p2 then break end
-				p3=find(str,"_",p2+1)
+				p3=find(str,"!",p2+1)
 				if not p3 then break end
-				p4=find(str,"_",p3+1)
+				p4=find(str,"!",p3+1)
 				if not p4 then break end
-				p5=find(str,"_",p4+1)or #str+1
+				p5=find(str,"!",p4+1)or #str+1
 
 				pasteQuestArgs(sub(str,p1+1,p2-1))
 				if p2+1~=p3 then

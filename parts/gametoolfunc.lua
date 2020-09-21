@@ -79,11 +79,11 @@ function pasteQuestArgs(str)
 	ENV.sequence=		sub(str,4)
 end
 
-
 --Encoding Functions
---Safe char: 33~94, 96~126
+--Sep symbol: 33 (!)
+--Safe char: 34~126
 --[[
-	Count: 33~94
+	Count: 34~96
 	Block: 97~125
 	Encode: [A] or [AB] sequence, A = block ID, B = repeat times, no B means do not repeat.
 	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
@@ -94,10 +94,10 @@ function copySequence()
 
 	local count=1
 	for i=1,#preBag+1 do
-		if preBag[i+1]~=preBag[i]or count==63 then
+		if preBag[i+1]~=preBag[i]or count==64 then
 			str=str..char(96+preBag[i])
 			if count>1 then
-				str=str..char(31+count)
+				str=str..char(32+count)
 				count=1
 			end
 		else
@@ -124,8 +124,8 @@ function pasteSequence(str)
 			if _>=97 and _<=125 then
 				ins(bag,reg)
 				reg=_-96
-			elseif _>=33 and _<=94 then
-				for i=1,_-31 do
+			elseif _>=34 and _<=96 then
+				for i=1,_-32 do
 					ins(bag,reg)
 				end
 				reg=nil
@@ -215,8 +215,8 @@ function pasteBoard(str)
 end
 
 --[[
-	mission: 33~94,96~115
-	Count: 116~126
+	Mission: 33~114
+	Count: 115~126
 	Encode: [A] or [AB] sequence, A = mission ID, B = repeat times, no B means do not repeat.
 
 	_1=01,_2=02,_3=03,_4=04,
@@ -237,12 +237,11 @@ function copyMission()
 
 	local count=1
 	for i=1,#preMission+1 do
-		if preMission[i+1]~=preMission[i]or count==11 then
+		if preMission[i+1]~=preMission[i]or count==12 then
 			_=32+preMission[i]
-			if _>=95 then _=_+1 end
 			str=str..char(_)
 			if count>1 then
-				str=str..char(115+count)
+				str=str..char(114+count)
 				count=1
 			end
 		else
@@ -259,17 +258,17 @@ function pasteMission(str)
 	for i=1,#str do
 		_=byte(str,i)
 		if not reg then
-			if _>=33 and _<=115 and _~=95 then
-				reg=_<95 and _-32 or _-33
+			if _>=33 and _<=114 then
+				reg=_-32
 			else
 				return
 			end
 		else
-			if _>=33 and _<=115 and _~=95 then
+			if _>=33 and _<=114 then
 				ins(mission,reg)
-				reg=_<95 and _-32 or _-33
+				reg=_-32
 			elseif _>=116 and _<=126 then
-				for i=1,_-114 do
+				for i=1,_-113 do
 					ins(mission,reg)
 				end
 				reg=nil
