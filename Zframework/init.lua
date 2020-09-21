@@ -188,25 +188,27 @@ end
 function love.keypressed(i)
 	mouseShow=false
 	if devMode then
-		if i=="f5"then
-			DBP("DEBUG:")
-		elseif i=="f3"then LOG.print("挂了.gif")
-		elseif i=="f4"then LOG.copy()
+		if i=="f1"then		love._setGammaCorrect(true)LOG.print("GammaCorrect: on","warn")
+		elseif i=="f2"then	love._setGammaCorrect(false)LOG.print("GammaCorrect: off","warn")
+		elseif i=="f3"then
+			for i=1,8 do
+				local P=players.alive[rnd(#players.alive)]
+				if P~=players[1]then
+					P.lastRecv=players[1]
+					P:lose()
+				end
+			end
+		elseif i=="f4"then	LOG.copy()
+		elseif i=="f5"then	if love._openConsole then love._openConsole()end
+		elseif i=="f6"then	if WIDGET.sel then DBP(WIDGET.sel)end
+		elseif i=="f7"then	for k,v in next,_G do DBP(k,v)end
 		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",color.yellow)
 		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",color.yellow)
 		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",color.yellow)
 		elseif i=="f11"then	devMode=3	LOG.print("DEBUG 3",color.yellow)
 		elseif i=="f12"then	devMode=4	LOG.print("DEBUG 4",color.yellow)
 		elseif devMode==2 then
-			if i=="k"then
-				for i=1,8 do
-					local P=players.alive[rnd(#players.alive)]
-					if P~=players[1]then
-						P.lastRecv=players[1]
-						P:lose()
-					end
-				end
-		elseif i=="f7"then	for k,v in next,_G do DBP(k,v)end
+			if WIDGET.sel then
 				local W=WIDGET.sel
 				if i=="left"then W.x=W.x-10
 				elseif i=="right"then W.x=W.x+10
