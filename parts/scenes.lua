@@ -1746,7 +1746,7 @@ do--custom_mission
 			local str=sys.getClipboardText()
 			local p=string.find(str,":")--ptr*
 			if p then str=sub(str,p+1)end
-			if not pasteMission(str)then
+			if pasteMission(str)then
 				LOG.print(text.pasteSuccess,color.green)
 			else
 				LOG.print(text.dataCorrupted,color.red)
