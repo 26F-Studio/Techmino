@@ -79,33 +79,61 @@ function pasteQuestArgs(str)
 	ENV.sequence=		sub(str,4)
 end
 
+
+--Encoding Functions
+--Safe char: 33~94, 96~126
+--[[
+	Count: 33~94
+	Block: 97~125
+	Encode: [A] or [AB] sequence, A = block ID, B = repeat times, no B means do not repeat.
+	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
+]]
 function copySequence()
 	local preBag=preBag
 	local str=""
 
-	for i=1,#preBag do
-		str=str..char(preBag[i]-1)
+	local count=1
+	for i=1,#preBag+1 do
+		if preBag[i+1]~=preBag[i]or count==63 then
+			str=str..char(96+preBag[i])
+			if count>1 then
+				str=str..char(31+count)
+				count=1
+			end
+		else
+			count=count+1
+		end
 	end
 
-	return data.encode("string","base64",data.compress("string","deflate",str))
+	return str
 end
 function pasteSequence(str)
 	local _
 
-	--Decode
-	_,str=pcall(data.decode,"string","base64",str)
-	if not _ then return end
-	_,str=pcall(data.decompress,"string","deflate",str)
-	if not _ then return end
-
 	local bag={}
+	local reg
 	for i=1,#str do
 		_=byte(str,i)
-		if _<25 then
-			bag[i]=_+1
+		if not reg then
+			if _>=97 and _<=125 then
+				reg=_-96
+			else
+				return
+			end
 		else
-			return
+			if _>=97 and _<=125 then
+				ins(bag,reg)
+				reg=_-96
+			elseif _>=33 and _<=94 then
+				for i=1,_-31 do
+					ins(bag,reg)
+				end
+				reg=nil
+			end
 		end
+	end
+	if reg then
+		ins(bag,reg)
 	end
 
 	preBag=bag
@@ -136,7 +164,7 @@ function copyBoard()
 		end
 		str=str..S
 	end
-	return data.encode("string","base64",data.compress("string","deflate",str))
+	return data.encode("string","base64",data.compress("string","zlib",str))
 end
 function pasteBoard(str)
 	local _
@@ -144,7 +172,7 @@ function pasteBoard(str)
 	--Decode
 	_,str=pcall(data.decode,"string","base64",str)
 	if not _ then return end
-	_,str=pcall(data.decompress,"string","deflate",str)
+	_,str=pcall(data.decompress,"string","zlib",str)
 	if not _ then return end
 
 	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
@@ -186,35 +214,74 @@ function pasteBoard(str)
 	return true
 end
 
+--[[
+	mission: 33~94,96~115
+	Count: 116~126
+	Encode: [A] or [AB] sequence, A = mission ID, B = repeat times, no B means do not repeat.
+
+	_1=01,_2=02,_3=03,_4=04,
+	A1=05,A2=06,A3=07,A4=08,
+	PC=09,
+	Z1=11,Z2=12,Z3=13,
+	S1=21,S2=22,S3=23,
+	J1=31,J2=32,J3=33,
+	L1=41,L2=42,L3=43,
+	T1=51,T2=52,T3=53,
+	O1=61,O2=62,O3=63,O4=64,
+	I1=71,I2=72,I3=73,I4=74,
+]]
 function copyMission()
-	local str=""
+	local _
 	local preMission=preMission
-	for i=1,#preMission do
-		str=str..char(preMission[i])
+	local str=""
+
+	local count=1
+	for i=1,#preMission+1 do
+		if preMission[i+1]~=preMission[i]or count==11 then
+			_=32+preMission[i]
+			if _>=95 then _=_+1 end
+			str=str..char(_)
+			if count>1 then
+				str=str..char(115+count)
+				count=1
+			end
+		else
+			count=count+1
+		end
 	end
 
-	return data.encode("string","base64",data.compress("string","deflate",str))
+	return str
 end
 function pasteMission(str)
 	local _
-
-	--Decode
-	_,str=pcall(data.decode,"string","base64",str)
-	if not _ then return end
-	_,str=pcall(data.decompress,"string","deflate",str)
-	if not _ then return end
-
 	local mission={}
+	local reg
 	for i=1,#str do
 		_=byte(str,i)
-		if missionEnum[_]then
-			ins(mission,_)
+		if not reg then
+			if _>=33 and _<=115 and _~=95 then
+				reg=_<95 and _-32 or _-33
+			else
+				return
+			end
 		else
-			return
+			if _>=33 and _<=115 and _~=95 then
+				ins(mission,reg)
+				reg=_<95 and _-32 or _-33
+			elseif _>=116 and _<=126 then
+				for i=1,_-114 do
+					ins(mission,reg)
+				end
+				reg=nil
+			end
 		end
 	end
+	if reg then
+		ins(mission,reg)
+	end
+
 	preMission=mission
-	sceneTemp.cur=#preMission
+	sceneTemp.cur=#preBag
 	return true
 end
 
