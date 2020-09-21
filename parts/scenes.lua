@@ -2320,7 +2320,7 @@ do--pause
 			TASK.clear("play")
 			resetGameData()
 			SCN.swapTo("play","none")
-		elseif key=="p"and(game.result or game.replaying)then
+		elseif key=="p"and(game.result or game.replaying)and #players==1 then
 			TASK.removeTask_code(TICK.autoPause)
 			resetPartGameData(true)
 			SCN.swapTo("play","none")
