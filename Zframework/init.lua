@@ -206,14 +206,7 @@ function love.keypressed(i)
 						P:lose()
 					end
 				end
-			elseif i=="q"then
-				local W=WIDGET.sel
-				if W then W:printInfo()end
-			elseif i=="e"then
-				for k,v in next,_G do
-					DBP(k,v)
-				end
-			elseif WIDGET.sel then
+		elseif i=="f7"then	for k,v in next,_G do DBP(k,v)end
 				local W=WIDGET.sel
 				if i=="left"then W.x=W.x-10
 				elseif i=="right"then W.x=W.x+10

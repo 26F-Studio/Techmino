@@ -69,10 +69,8 @@ function button:draw()
 		gc.printf(t,x,y0,w,"center")
 	end
 end
-function button:printInfo()
-	local s=format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
-	LOG.print(s)
-	DBP(s)
+function button:getInfo()
+	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
 
 local key={
@@ -121,8 +119,8 @@ function key:draw()
 		gc.printf(t,x,y+h*.5-self.font*.7,w,"center")
 	end
 end
-function key:printInfo()
-	DBP(format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font))
+function key:getInfo()
+	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
 
 local switch={
@@ -178,8 +176,8 @@ function switch:draw()
 		gc.printf(t,x-412-ATV,y+20-self.font*.7,400,"right")
 	end
 end
-function switch:printInfo()
-	DBP(format("x=%d,y=%d,font=%d",self.x,self.y,self.font))
+function switch:getInfo()
+	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
 end
 
 local slider={
@@ -282,8 +280,8 @@ function slider:draw()
 		gc.printf(t,x-312-ATV,y-self.font*.7,300,"right")
 	end
 end
-function slider:printInfo()
-	DBP(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
+function slider:getInfo()
+	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
 end
 
 local selector={
@@ -364,8 +362,8 @@ function selector:draw()
 	gc.setColor(1,1,1)
 	mStr(self.selText,x+w*.5,y+43-21)
 end
-function selector:printInfo()
-	DBP(format("x=%d,y=%d,w=%d",self.x,self.y,self.w))
+function selector:getInfo()
+	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
 end
 
 local WIDGET={}
@@ -383,7 +381,11 @@ function WIDGET.set(L)
 	end
 end
 
-WIDGET.new={}
+local widgetMetatable={
+	__tostring=function(self)
+		return self:getInfo()
+	end,
+}
 function WIDGET.newText(D)
 	local _={
 		name=	D.name,
@@ -393,7 +395,10 @@ function WIDGET.newText(D)
 		color=	D.color and(color[D.color]or D.color)or color.white,
 		font=	D.font,
 		hide=	D.hide,
-	}for k,v in next,button do _[k]=v end return _
+	}
+	for k,v in next,button do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 function WIDGET.newImage(D)
 	local _={
@@ -406,7 +411,10 @@ function WIDGET.newImage(D)
 		font=	D.font,
 		code=	D.code,
 		hide=	D.hide,
-	}for k,v in next,button do _[k]=v end return _
+	}
+	for k,v in next,button do _[k]=v end 
+	setmetatable(_,widgetMetatable)
+	return _
 end
 function WIDGET.newButton(D)
 	if not D.h then D.h=D.w end
@@ -430,7 +438,10 @@ function WIDGET.newButton(D)
 		font=	D.font,
 		code=	D.code,
 		hide=	D.hide,
-	}for k,v in next,button do _[k]=v end return _
+	}
+	for k,v in next,button do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 function WIDGET.newKey(D)
 	if not D.h then D.h=D.w end
@@ -454,7 +465,10 @@ function WIDGET.newKey(D)
 		font=	D.font,
 		code=	D.code,
 		hide=	D.hide,
-	}for k,v in next,key do _[k]=v end return _
+	}
+	for k,v in next,key do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 function WIDGET.newSwitch(D)
 	local _={
@@ -471,7 +485,10 @@ function WIDGET.newSwitch(D)
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
-	}for k,v in next,switch do _[k]=v end return _
+	}
+	for k,v in next,switch do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 function WIDGET.newSlider(D)
 	local _={
@@ -518,7 +535,9 @@ function WIDGET.newSlider(D)
 			_.show=sliderShowFunc.int
 		end
 	end
-	for k,v in next,slider do _[k]=v end return _
+	for k,v in next,slider do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 function WIDGET.newSelector(D)
 	local _={
@@ -542,7 +561,9 @@ function WIDGET.newSelector(D)
 		code=	D.code,
 		hide=	D.hide,
 	}
-	for k,v in next,selector do _[k]=v end return _
+	for k,v in next,selector do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 
 function WIDGET.moveCursor(x,y)
