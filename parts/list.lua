@@ -199,7 +199,6 @@ drawableText={
 	mxcmb=T(20,"Max Combo"),
 	pc=T(20,"Perfect Clear"),
 	ko=T(25,"KO"),
-	D=T(100,"D"),C=T(100,"C"),B=T(100,"B"),A=T(100,"A"),S=T(100,"S"),
 
 
 	modeName=T(30),levelName=T(30),
@@ -210,6 +209,7 @@ drawableText={
 	next=T(40),hold=T(40),
 	win=T(120),finish=T(120),
 	gameover=T(100),pause=T(120),
+	D=T(100),C=T(100),B=T(100),A=T(100),S=T(100),
 
 	custom=T(80),basic=T(35),rule=T(35),field=T(35),mission=T(35),
 	setting_game=T(80),setting_video=T(80),setting_sound=T(80),

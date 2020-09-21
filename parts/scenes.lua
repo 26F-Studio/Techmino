@@ -1466,7 +1466,7 @@ do--custom_seq
 			else
 				if count>1 then
 					gc.setColor(1,1,1)
-					gc.print("x",x-5,y-15)
+					gc.print("×",x-5,y-14)
 					gc.print(count,x+10,y-13)
 					x=x+(count<10 and 33 or 45)
 					count=1
@@ -1835,7 +1835,7 @@ do--custom_mission
 				if count>1 then
 					setFont(25)
 					gc.setColor(1,1,1)
-					gc.print("x",x-10,y-15)
+					gc.print("×",x-10,y-14)
 					gc.print(count,x+5,y-13)
 					x=x+(count<10 and 33 or 45)
 					count=1

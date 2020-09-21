@@ -4,6 +4,7 @@ local langList={
 		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
+		D="D",C="C",B="B",A="A",S="S",
 
 		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -158,15 +159,6 @@ local langList={
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 		WidgetText={
-			calculator={
-				_1="1",_2="2",_3="3",
-				_4="4",_5="5",_6="6",
-				_7="7",_8="8",_9="9",
-				_0="0",["."]=".",e="e",
-				["+"]="+",["-"]="-",["*"]="*",["/"]="/",
-				["<"]="<",["="]="=",
-				play="开始",
-			},
 			main={
 				play="开始",
 				setting="设置",
@@ -531,6 +523,7 @@ local langList={
 		newVersion="检测到更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
+		D="D",C="C",B="B",A="A",S="S",
 
 		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -683,15 +676,6 @@ local langList={
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 		WidgetText={
-			calculator={
-				_1="1",_2="2",_3="3",
-				_4="4",_5="5",_6="6",
-				_7="7",_8="8",_9="9",
-				_0="0",["."]=".",e="e",
-				["+"]="+",["-"]="-",["*"]="*",["/"]="/",
-				["<"]="<",["="]="=",
-				play="开始",
-			},
 			main={
 				play="开始",
 				setting="设置",
@@ -1056,6 +1040,7 @@ local langList={
 		newVersion="Update detected!",
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
 		holdR="Hold to restart",
+		D="D",C="C",B="B",A="A",S="S",
 
 		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
@@ -1198,15 +1183,6 @@ local langList={
 		support="Support author",
 		group="Official QQ Group (if not hacked): 1127702001",
 		WidgetText={
-			calculator={
-				_1="1",_2="2",_3="3",
-				_4="4",_5="5",_6="6",
-				_7="7",_8="8",_9="9",
-				_0="0",["."]=".",e="e",
-				["+"]="+",["-"]="-",["*"]="*",["/"]="/",
-				["<"]="<",["="]="=",
-				play="Play",
-			},
 			main={
 				play="Play",
 				setting="Settings",
@@ -1571,6 +1547,7 @@ local langList={
 		newVersion="&!!!",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		holdR="→→→→R",
+		D="",C=".",B="-",A="+",S="=",
 
 		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
@@ -1713,15 +1690,6 @@ local langList={
 		support="Support author",
 		group="Official QQ Group(if not hacked):1127702001",
 		WidgetText={
-			calculator={
-				_1="1",_2="2",_3="3",
-				_4="4",_5="5",_6="6",
-				_7="7",_8="8",_9="9",
-				_0="0",["."]=".",e="e",
-				["+"]="+",["-"]="-",["*"]="*",["/"]="/",
-				["<"]="<",["="]="=",
-				play="!!!",
-			},
 			main={
 				play="!!!",
 				setting="_?_",
@@ -2080,6 +2048,7 @@ local langList={
 		newVersion="感谢更新!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按重开",
+		D="菜",C="可",B="行",A="强",S="神",
 
 		lang="就这",
 		atkModeName={"随机","徽章","击杀","反击"},
@@ -2232,15 +2201,6 @@ local langList={
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 		WidgetText={
-			calculator={
-				_1="1",_2="2",_3="3",
-				_4="4",_5="5",_6="6",
-				_7="7",_8="8",_9="9",
-				_0="0",["."]=".",e="e",
-				["+"]="+",["-"]="-",["*"]="*",["/"]="/",
-				["<"]="<",["="]="=",
-				play="开始",
-			},
 			main={
 				play="开始",
 				setting="设置",
@@ -2601,9 +2561,6 @@ local langList={
 		},
 	},
 }
-for k,v in next,langList[1] do
-	if not langList[2][k]then print(k)end
-end
 local publicText={
 	block={
 		"Z","S","J","L","T","O","I",
@@ -2612,6 +2569,25 @@ local publicText={
 		"J5","L5","R","Y","N","H","I5"
 	},
 }
+local publicWidgetText={
+	calculator={
+		_1="1",_2="2",_3="3",
+		_4="4",_5="5",_6="6",
+		_7="7",_8="8",_9="9",
+		_0="0",["."]=".",e="e",
+		["+"]="+",["-"]="-",["*"]="*",["/"]="/",
+		["<"]="<",["="]="=",
+		play="-->",
+	},
+	setting_lang={
+		chi="中文",
+		chi2="全中文",
+		eng="English",
+		str="?????",
+		yygq="就这?",
+	},
+}
+
 for key,list in next,publicText do
 	for i=1,#langList do
 		if langList[i][key]then
@@ -2624,15 +2600,6 @@ for key,list in next,publicText do
 		end
 	end
 end
-local publicWidgetText={
-	setting_lang={
-		chi="中文",
-		chi2="全中文",
-		eng="English",
-		str="?????",
-		yygq="就这?",
-	},
-}
 for key,list in next,publicWidgetText do
 	for i=1,#langList do
 		local WT=langList[i].WidgetText
@@ -2647,6 +2614,10 @@ for key,list in next,publicWidgetText do
 	end
 end
 
+--fallback to normal Chinese if no
+local langMeta={__index=langList[1]}
+for i=2,#langList do setmetatable(langList[i],langMeta)end
+
 local gc=love.graphics
 local LANG={}
 local drawableTextLoad={
@@ -2654,6 +2625,7 @@ local drawableTextLoad={
 	"replaying",
 	"next","hold",
 	"win","finish","gameover","pause",
+	"D","C","B","A","S",
 
 	"custom","basic","rule","field","mission",
 	"setting_game","setting_video","setting_sound",
