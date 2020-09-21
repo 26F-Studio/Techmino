@@ -1790,8 +1790,9 @@ do--custom_mission
 			local input=S.input
 			input=input..key
 			if missionEnum[input]then
+				S.cur=S.cur+1
+				ins(preMission,S.cur,missionEnum[input])
 				input=""
-				ins(preMission,missionEnum[input])
 			elseif #input>1 or not legalInput[input]then
 				input=""
 			end
@@ -1817,8 +1818,8 @@ do--custom_mission
 
 		--Draw inputing target
 		setFont(30)
-		gc.setColor(.1,.9,.1)
-		gc.print(S.input,1200,270)
+		gc.setColor(.9,.9,.9)
+		gc.print(S.input,1200,275)
 
 		--Draw targets
 		local libColor=SKIN.libColor
@@ -1849,10 +1850,10 @@ do--custom_mission
 				if i<=j then
 					setFont(35)
 					local N=int(L[i]*.1)
-					if N==9 then
-						gc.setColor(color.rainbow(i+Timer()*6.26))
-					elseif N>0 then
+					if N>0 then
 						gc.setColor(libColor[set[N]])
+					elseif L[i]>4 then
+						gc.setColor(color.rainbow(i+Timer()*6.26))
 					else
 						gc.setColor(color.grey)
 					end
