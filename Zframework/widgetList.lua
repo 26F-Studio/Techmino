@@ -290,6 +290,16 @@ local Widgets={
 		newButton({name="back",		x=1140,		y=640,	w=170,h=80,	color="white",	font=40,code=BACK}),
 	},
 	custom_mission={
+		newKey({name="_1",			x=800,	y=540,	w=90,			color="white",	font=50,code=pressKey(01)}),
+		newKey({name="_2",			x=900,	y=540,	w=90,			color="white",	font=50,code=pressKey(02)}),
+		newKey({name="_3",			x=800,	y=640,	w=90,			color="white",	font=50,code=pressKey(03)}),
+		newKey({name="_4",			x=900,	y=640,	w=90,			color="white",	font=50,code=pressKey(04)}),
+		newKey({name="any1",		x=100,	y=640,	w=90,			color="white",	font=30,code=pressKey(05)}),
+		newKey({name="any2",		x=200,	y=640,	w=90,			color="white",	font=30,code=pressKey(06)}),
+		newKey({name="any3",		x=300,	y=640,	w=90,			color="white",	font=30,code=pressKey(07)}),
+		newKey({name="any4",		x=400,	y=640,	w=90,			color="white",	font=30,code=pressKey(08)}),
+		newKey({name="PC",			x=500,	y=640,	w=90,			color="white",	font=50,code=pressKey(09)}),
+
 		newKey({name="Z1",			x=100,	y=340,	w=90,			color="white",	font=50,code=pressKey(11)}),
 		newKey({name="S1",			x=200,	y=340,	w=90,			color="white",	font=50,code=pressKey(21)}),
 		newKey({name="J1",			x=300,	y=340,	w=90,			color="white",	font=50,code=pressKey(31)}),
@@ -314,18 +324,8 @@ local Widgets={
 		newKey({name="O3",			x=600,	y=540,	w=90,			color="white",	font=50,code=pressKey(63)}),
 		newKey({name="I3",			x=700,	y=540,	w=90,			color="white",	font=50,code=pressKey(73)}),
 
-		newKey({name="any1",		x=100,	y=640,	w=90,			color="white",	font=30,code=pressKey(91)}),
-		newKey({name="any2",		x=200,	y=640,	w=90,			color="white",	font=30,code=pressKey(92)}),
-		newKey({name="any3",		x=300,	y=640,	w=90,			color="white",	font=30,code=pressKey(93)}),
-		newKey({name="any4",		x=400,	y=640,	w=90,			color="white",	font=30,code=pressKey(94)}),
-		newKey({name="PC",			x=500,	y=640,	w=90,			color="white",	font=50,code=pressKey(99)}),
 		newKey({name="O4",			x=600,	y=640,	w=90,			color="white",	font=50,code=pressKey(64)}),
 		newKey({name="I4",			x=700,	y=640,	w=90,			color="white",	font=50,code=pressKey(74)}),
-
-		newKey({name="_1",			x=800,	y=540,	w=90,			color="white",	font=50,code=pressKey(1)}),
-		newKey({name="_2",			x=900,	y=540,	w=90,			color="white",	font=50,code=pressKey(2)}),
-		newKey({name="_3",			x=800,	y=640,	w=90,			color="white",	font=50,code=pressKey(3)}),
-		newKey({name="_4",			x=900,	y=640,	w=90,			color="white",	font=50,code=pressKey(4)}),
 
 		newKey({name="left",		x=800,	y=440,	w=90,			color="lGreen",	font=55,code=pressKey("left")}),
 		newKey({name="right",		x=900,	y=440,	w=90,			color="lGreen",	font=55,code=pressKey("right")}),
