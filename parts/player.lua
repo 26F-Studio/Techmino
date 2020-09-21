@@ -914,7 +914,7 @@ do--function Pdraw_norm(P)
 			end
 
 			--Missions
-			if P.missionProgress then
+			if P.curMission then
 				local missionEnum=missionEnum
 				local L=ENV.mission
 
@@ -925,16 +925,16 @@ do--function Pdraw_norm(P)
 				else
 					gc.setColor(1,1,1)
 				end
-				gc.print(missionEnum[L[P.missionProgress+1]],85,180)
+				gc.print(missionEnum[L[P.curMission]],85,180)
 
 				--Draw next mission
 				gc.setColor(1,1,1)
 				setFont(17)
-				for i=2,4 do
-					local t=L[P.missionProgress+i]
+				for i=1,3 do
+					local t=L[P.curMission+i]
 					if t then
 						t=missionEnum[t]
-						gc.print(t,113-26*i,187)
+						gc.print(t,87-26*i,187)
 					else
 						break
 					end
@@ -1238,7 +1238,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	end
 
 	if type(ENV.mission)=="table"then
-		P.missionProgress=0
+		P.curMission=1
 	end
 
 	ENV.das=max(ENV.das,ENV.mindas)
@@ -2447,32 +2447,32 @@ do--player.drop(P)--Place piece
 			end
 
 			--Check clearing task
-			if P.missionProgress then
-				local t=P.gameEnv.mission[P.missionProgress+1]
+			if P.curMission then
+				local t=P.gameEnv.mission[P.curMission]
 				local success
-				if t<10 then
+				if t<5 then
 					if C.row==t then
 						success=true
 					end
-				elseif t<90 then
-					if C.row==t%10 and C.name==int(t/10)then
+				elseif t<9 then
+					if C.row==t%10 and C.spin then
 						success=true
 					end
-				elseif t<99 then
-					if C.row==t%10 then
-						success=true
-					end
-				elseif t==99 then
+				elseif t==9 then
 					if C.pc then
+						success=true
+					end
+				elseif t<90 then
+					if C.row==t%10 and C.name==int(t/10)and C.spin then
 						success=true
 					end
 				end
 				if success then
-					P.missionProgress=P.missionProgress+1
+					P.curMission=P.curMission+1
 					SFX.play("reach")
-					if P.missionProgress==#P.gameEnv.mission then
+					if P.curMission>#P.gameEnv.mission then
+						P.curMission=nil
 						P:win()
-						P.missionProgress=nil
 					end
 				elseif P.gameEnv.missionKill then
 					P:showText(text.missionFailed,0,140,40,"flicker",.5)
