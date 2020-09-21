@@ -475,15 +475,12 @@ local function Pupdate_dead(P,dt)
 	end
 	if P.falling>=0 then
 		P.falling=P.falling-1
-		if P.falling>=0 then
-			goto stop
-		else
+		if P.falling<0 then
 			local L=#P.clearingRow
 			if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
 			P.clearingRow={}
 		end
 	end
-	::stop::
 	if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
 	updateLine(P,dt)
 	updateFXs(P,dt)
