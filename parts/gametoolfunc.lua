@@ -137,7 +137,7 @@ function pasteSequence(str)
 	end
 
 	preBag=bag
-	sceneTemp.cur=#preBag
+	sceneTemp.cur=#bag
 	return true
 end
 
@@ -215,7 +215,7 @@ function pasteBoard(str)
 end
 
 --[[
-	Mission: 33~114
+	Mission: 34~114
 	Count: 115~126
 	Encode: [A] or [AB] sequence, A = mission ID, B = repeat times, no B means do not repeat.
 
@@ -237,11 +237,11 @@ function copyMission()
 
 	local count=1
 	for i=1,#preMission+1 do
-		if preMission[i+1]~=preMission[i]or count==12 then
-			_=32+preMission[i]
+		if preMission[i+1]~=preMission[i]or count==13 then
+			_=33+preMission[i]
 			str=str..char(_)
 			if count>1 then
-				str=str..char(114+count)
+				str=str..char(113+count)
 				count=1
 			end
 		else
@@ -258,16 +258,16 @@ function pasteMission(str)
 	for i=1,#str do
 		_=byte(str,i)
 		if not reg then
-			if _>=33 and _<=114 then
-				reg=_-32
+			if _>=34 and _<=114 then
+				reg=_-33
 			else
 				return
 			end
 		else
-			if _>=33 and _<=114 then
+			if _>=34 and _<=114 then
 				ins(mission,reg)
-				reg=_-32
-			elseif _>=116 and _<=126 then
+				reg=_-33
+			elseif _>=115 and _<=126 then
 				for i=1,_-113 do
 					ins(mission,reg)
 				end
@@ -280,7 +280,7 @@ function pasteMission(str)
 	end
 
 	preMission=mission
-	sceneTemp.cur=#preBag
+	sceneTemp.cur=#mission
 	return true
 end
 
