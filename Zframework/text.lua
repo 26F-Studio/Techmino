@@ -64,10 +64,10 @@ function textFX.beat(t)
 		mStr(t.text,0,-t.font*.7)
 	gc.pop()
 end
-function textFX.mark(t)
+function textFX.score(t)
 	local _,_,_,T=gc.getColor()
-	gc.setColor(1,1,1,T*.08)
-	mStr(t.text,t.x,t.y-t.font*.7)
+	gc.setColor(1,1,1,T*.5)
+	mStr(t.text,t.x,t.y-t.font*.7-t.c^.3*50)
 end
 
 local TEXT={}

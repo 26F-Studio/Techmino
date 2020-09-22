@@ -29,6 +29,7 @@ setting={
 	frameMul=100,
 
 	text=true,
+	score=true,
 	warn=true,
 	highCam=false,
 	nextPos=false,

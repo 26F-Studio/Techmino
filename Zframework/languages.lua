@@ -285,6 +285,7 @@ local langList={
 			setting_game={
 				graphic="←画面设置",
 				sound="声音设置→",
+
 				ctrl="控制设置",
 				key="键位设置",
 				touch="触屏设置",
@@ -301,12 +302,15 @@ local langList={
 			setting_video={
 				sound="←声音设置",
 				game="游戏设置→",
+
 				block="方块可见",
 				ghost="阴影透明度",
 				center="旋转中心透明度",
+
 				smooth="平滑下落",
 				grid="网格",
 				bagLine="包分界线",
+
 				lockFX="锁定特效等级",
 				dropFX="下落特效等级",
 				moveFX="移动特效等级",
@@ -314,7 +318,9 @@ local langList={
 				shakeFX="晃动特效等级",
 				atkFX="攻击特效等级",
 				frame="绘制帧率",
+				
 				text="消行文本",
+				score="分数动画",
 				warn="死亡预警",
 				highCam="超屏视野",
 				nextPos="生成预览",
@@ -326,6 +332,7 @@ local langList={
 			setting_sound={
 				game="←游戏设置",
 				graphic="画面设置→",
+				
 				sfx="音效",
 				stereo="立体声",
 				spawn="方块生成",
@@ -802,6 +809,7 @@ local langList={
 			setting_game={
 				graphic="←画面设置",
 				sound="声音设置→",
+
 				ctrl="控制设置",
 				key="键位设置",
 				touch="触屏设置",
@@ -818,12 +826,15 @@ local langList={
 			setting_video={
 				sound="←声音设置",
 				game="游戏设置→",
+
 				block="方块可见",
 				ghost="阴影透明度",
 				center="旋转中心透明度",
+
 				smooth="平滑下落",
 				grid="网格",
 				bagLine="包分界线",
+
 				lockFX="锁定特效等级",
 				dropFX="下落特效等级",
 				moveFX="移动特效等级",
@@ -831,7 +842,9 @@ local langList={
 				shakeFX="晃动特效等级",
 				atkFX="攻击特效等级",
 				frame="绘制帧率",
+				
 				text="消行文本",
+				score="分数动画",
 				warn="死亡预警",
 				highCam="超屏视野",
 				nextPos="生成预览",
@@ -843,6 +856,7 @@ local langList={
 			setting_sound={
 				game="←游戏设置",
 				graphic="画面设置→",
+				
 				sfx="音效",
 				stereo="立体声",
 				spawn="方块生成",
@@ -1309,6 +1323,7 @@ local langList={
 			setting_game={
 				graphic="←Video",
 				sound="Sound→",
+
 				ctrl="Control Settings",
 				key="Key Mappings",
 				touch="Touch Settings",
@@ -1325,12 +1340,15 @@ local langList={
 			setting_video={
 				sound="←Sound",
 				game="Game→",
+
 				block="Draw Block",
 				ghost="Ghost",
 				center="Center",
+
 				smooth="Smooth drop",
 				grid="Grid",
 				bagLine="Bag Line",
+
 				lockFX="Lock FX Level",
 				dropFX="Drop FX Level",
 				moveFX="Move FX Level",
@@ -1338,7 +1356,9 @@ local langList={
 				shakeFX="Field Sway Level",
 				atkFX="ATK. FX Level",
 				frame="Render Frame Rate",
+				
 				text="Action Text",
+				score="Pop-up Score",
 				warn="Death Alert",
 				highCam="Bird-eye view",
 				nextPos="Next preview",
@@ -1350,6 +1370,7 @@ local langList={
 			setting_sound={
 				game="←Game",
 				graphic="Video→",
+				
 				sfx="SFX",
 				stereo="Stereo",
 				spawn="Spawning",
@@ -1812,6 +1833,7 @@ local langList={
 			setting_game={
 				graphic="←Video",
 				sound="Sound→",
+
 				ctrl="=?=",
 				key="=?",
 				touch="_?",
@@ -1828,12 +1850,15 @@ local langList={
 			setting_video={
 				sound="←Sound",
 				game="Game→",
+
 				block="==↓==",
 				ghost="__↓__",
 				center="+",
+
 				smooth="~~↓~~",
 				grid="#",
 				bagLine="123|123",
+
 				lockFX="↓_~",
 				dropFX="↓~",
 				moveFX="←→~",
@@ -1841,7 +1866,9 @@ local langList={
 				shakeFX="~|~|~",
 				atkFX="→→~",
 				frame="|=|",
+				
 				text="ABC",
+				score="+123",
 				warn="!↑↑↑!",
 				highCam="↑__↑",
 				nextPos="???←",
@@ -1853,6 +1880,7 @@ local langList={
 			setting_sound={
 				game="←Game",
 				graphic="Video→",
+				
 				sfx="#!#",
 				stereo="←~→",
 				spawn="#[]#",
@@ -2327,6 +2355,7 @@ local langList={
 			setting_game={
 				graphic="←改画面",
 				sound="改声音→",
+
 				ctrl="改控制",
 				key="改键位",
 				touch="改触屏",
@@ -2343,12 +2372,15 @@ local langList={
 			setting_video={
 				sound="←改声音",
 				game="游戏设置→",
+
 				block="方块可见",
 				ghost="阴影",
 				smooth="平滑下落",
+
 				center="中心",
 				grid="网格",
 				bagLine="包分界线",
+
 				lockFX="锁定特效",
 				dropFX="下落特效",
 				moveFX="移动特效",
@@ -2356,7 +2388,9 @@ local langList={
 				shakeFX="晃动特效",
 				atkFX="攻击特效",
 				frame="绘制帧率",
+				
 				text="招式名",
+				score="跳分",
 				warn="死亡预警",
 				highCam="拉镜",
 				nextPos="生成预览",
@@ -2368,6 +2402,7 @@ local langList={
 			setting_sound={
 				game="←游戏设置",
 				graphic="改画面→",
+				
 				sfx="音效",
 				stereo="立体声",
 				spawn="出块",

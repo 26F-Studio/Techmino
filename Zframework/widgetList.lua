@@ -394,22 +394,23 @@ local Widgets={
 			end}),
 
 		newSwitch({name="text",		x=1100,	y=180,font=35,disp=SETval("text"),code=SETrev("text")}),
-		newSwitch({name="warn",		x=1100,	y=240,font=35,disp=SETval("warn"),code=SETrev("warn")}),
-		newSwitch({name="highCam",	x=1100,	y=300,font=35,disp=SETval("highCam"),code=SETrev("highCam")}),
-		newSwitch({name="nextPos",	x=1100,	y=360,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")}),
-		newSwitch({name="fullscreen",x=1100,y=420,font=35,disp=SETval("fullscreen"),
+		newSwitch({name="score",	x=1100,	y=240,font=35,disp=SETval("score"),code=SETrev("score")}),
+		newSwitch({name="warn",		x=1100,	y=300,font=35,disp=SETval("warn"),code=SETrev("warn")}),
+		newSwitch({name="highCam",	x=1100,	y=360,font=35,disp=SETval("highCam"),code=SETrev("highCam")}),
+		newSwitch({name="nextPos",	x=1100,	y=420,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")}),
+		newSwitch({name="fullscreen",x=1100,y=480,font=30,disp=SETval("fullscreen"),
 			code=function()
 				setting.fullscreen=not setting.fullscreen
 				love.window.setFullscreen(setting.fullscreen)
 				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end}),
-		newSwitch({name="bg",		x=1100,	y=480,font=35,disp=SETval("bg"),
+		newSwitch({name="bg",		x=1100,	y=540,font=35,disp=SETval("bg"),
 			code=function()
 				BG.set("none")
 				setting.bg=not setting.bg
 				BG.set("space")
 			end}),
-		newSwitch({name="power",	x=1100,	y=540,font=35,disp=SETval("powerInfo"),
+		newSwitch({name="power",	x=990,	y=640,font=35,disp=SETval("powerInfo"),
 			code=function()
 				setting.powerInfo=not setting.powerInfo
 			end}),

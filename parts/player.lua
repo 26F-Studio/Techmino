@@ -2,7 +2,7 @@ local gc=love.graphics
 local mt=love.math
 local Timer=love.timer.getTime
 local int,ceil,rnd=math.floor,math.ceil,math.random
-local max,min,abs,sin,cos=math.max,math.min,math.abs,math.sin,math.cos
+local max,min,abs,sin,cos,log=math.max,math.min,math.abs,math.sin,math.cos,math.log
 local ins,rem=table.insert,table.remove
 local format=string.format
 local scr=scr
@@ -18,6 +18,7 @@ local gameEnv0={
 	smooth=false,grid=false,
 	bagLine=false,
 	text=true,
+	score=true,
 	lockFX=2,
 	dropFX=2,
 	moveFX=2,
@@ -2097,9 +2098,11 @@ do--player.drop(P)--Place piece
 		local _
 		local CHN=VOC.getFreeChannel()
 		P.dropTime[11]=ins(P.dropTime,1,game.frame)--Update speed dial
-		local cmb=P.combo
-		P.waiting=P.gameEnv.wait
+		local ENV=P.gameEnv
 		local STAT=P.stat
+		P.waiting=ENV.wait
+
+		local cmb=P.combo
 		local CB,CX,CY=P.cur,P.curX,P.curY
 		local clear--If (perfect)clear
 		local cc,gbcc=0,0--Row/garbage-row cleared,full-part
@@ -2145,15 +2148,15 @@ do--player.drop(P)--Place piece
 		end
 
 		--Create clearing FX
-		if cc>0 and P.gameEnv.clearFX then
-			local t=7-P.gameEnv.clearFX*1
+		if cc>0 and ENV.clearFX then
+			local t=7-ENV.clearFX*1
 			for i=1,cc do
 				P:createClearingFX(P.clearedRow[i],t)
 			end
 		end
 
 		--Create locking FX
-		if P.gameEnv.lockFX then
+		if ENV.lockFX then
 			if cc==0 then
 				P:createLockFX()
 			else
@@ -2234,7 +2237,7 @@ do--player.drop(P)--Place piece
 			_=_-1
 		end
 		if P.clearingRow[1]then
-			P.falling=P.gameEnv.fall
+			P.falling=ENV.fall
 		elseif cc==P.r then
 			clear=true
 		end
@@ -2285,7 +2288,7 @@ do--player.drop(P)--Place piece
 					P:showText(text.mini,0,-80,35,"appear")
 					atk=atk*.25
 					sendTime=sendTime+60
-					cscore=cscore*.6
+					cscore=cscore*.5
 					P.b2b=P.b2b+b2bPoint[cc]*.5
 					if P.human then
 						VOC.play("mini",CHN)
@@ -2445,7 +2448,7 @@ do--player.drop(P)--Place piece
 
 			--Check clearing task
 			if P.curMission then
-				local t=P.gameEnv.mission[P.curMission]
+				local t=ENV.mission[P.curMission]
 				local success
 				if t<5 then
 					if C.row==t then
@@ -2467,11 +2470,11 @@ do--player.drop(P)--Place piece
 				if success then
 					P.curMission=P.curMission+1
 					SFX.play("reach")
-					if P.curMission>#P.gameEnv.mission then
+					if P.curMission>#ENV.mission then
 						P.curMission=nil
 						P:win()
 					end
-				elseif P.gameEnv.missionKill then
+				elseif ENV.missionKill then
 					P:showText(text.missionFailed,0,140,40,"flicker",.5)
 					SFX.play("finesseError_long",.6)
 					P:lose()
@@ -2503,7 +2506,7 @@ do--player.drop(P)--Place piece
 			--DropSpeed bonus
 			if P._20G then
 				dropScore=dropScore*2
-			elseif P.gameEnv.drop<3 then
+			elseif ENV.drop<3 then
 				dropScore=dropScore*1.5
 			end
 
@@ -2524,7 +2527,11 @@ do--player.drop(P)--Place piece
 		end
 		P.combo=cmb
 
-		STAT.score=STAT.score+int(cscore)
+		cscore=int(cscore)
+		if ENV.score then
+			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,int(40-600/(cscore+20)),"score",2)
+		end
+		STAT.score=STAT.score+cscore
 		STAT.piece=STAT.piece+1
 		STAT.row=STAT.row+cc
 		if atk>0 then
@@ -2552,7 +2559,7 @@ do--player.drop(P)--Place piece
 		end
 
 		--Drop event
-		_=P.gameEnv.dropPiece
+		_=ENV.dropPiece
 		if _ then _(P)end
 
 		--Stereo SFX
@@ -3083,6 +3090,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		smooth=setting.smooth,
 		grid=setting.grid,
 		text=setting.text,
+		score=setting.score,
 		lockFX=setting.lockFX,
 		dropFX=setting.dropFX,
 		moveFX=setting.moveFX,

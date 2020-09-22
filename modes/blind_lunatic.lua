@@ -5,7 +5,7 @@ return{
 	env={
 		drop=10,lock=60,
 		fall=5,
-		center=0,ghost=0,
+		ghost=0,
 		dropFX=0,lockFX=0,
 		visible="none",
 		dropPiece=PLY.check_lineReach,
