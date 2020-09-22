@@ -90,31 +90,31 @@ local CUSlist={
 	bgm={"blank","race","push","way","reason","newera","oxygen","infinite","down","secret7th","secret8th","rockblock","cruelty","final"},
 }
 --Lambda Funcs for widgets,delete at file end
-function CUSval(k)		return function()	return customEnv[k]				end end
-function CUSrev(k)		return function()	customEnv[k]=not customEnv[k]	end end
-function CUSsto(k)		return function(i)	customEnv[k]=i					end end
-function SETval(k)		return function()	return setting[k]				end end
-function SETrev(k)		return function()	setting[k]=not setting[k]		end end
-function SETsto(k)		return function(i)	setting[k]=i					end end
-function pressKey(k)	return function()	love.keypressed(k)				end end
-function setPen(i)		return function()	sceneTemp.pen=i					end end
-function prevSkin(n)	return function()	SKIN.prev(n)					end end
-function nextSkin(n)	return function()	SKIN.next(n)					end end
-function nextDir(n)		return function()	SKIN.rotate(n)					end end
-function VKAdisp(n)		return function()	return VK_org[n].ava			end end
-function VKAcode(n)		return function()	VK_org[n].ava=not VK_org[n].ava	end end
-function setLang(n)		return function()	LANG.set(n)setting.lang=n		end end
-function goScene(t,s)	return function()	SCN.go(t,s)						end end
-function swapScene(t,s)	return function()	SCN.swapTo(t,s)					end end
+local function CUSval(k)	return function()	return customEnv[k]				end end
+local function CUSrev(k)	return function()	customEnv[k]=not customEnv[k]	end end
+local function CUSsto(k)	return function(i)	customEnv[k]=i					end end
+local function SETval(k)	return function()	return setting[k]				end end
+local function SETrev(k)	return function()	setting[k]=not setting[k]		end end
+local function SETsto(k)	return function(i)	setting[k]=i					end end
+local function pressKey(k)	return function()	love.keypressed(k)				end end
+local function setPen(i)	return function()	sceneTemp.pen=i					end end
+local function prevSkin(n)	return function()	SKIN.prev(n)					end end
+local function nextSkin(n)	return function()	SKIN.next(n)					end end
+local function nextDir(n)	return function()	SKIN.rotate(n)					end end
+local function VKAdisp(n)	return function()	return VK_org[n].ava			end end
+local function VKAcode(n)	return function()	VK_org[n].ava=not VK_org[n].ava	end end
+local function setLang(n)	return function()	LANG.set(n)setting.lang=n		end end
+local function goScene(t,s)	return function()	SCN.go(t,s)						end end
+local function swapScene(t,s)return function()	SCN.swapTo(t,s)					end end
 
 --NewXXX
-newText=WIDGET.newText
-newImage=WIDGET.newImage
-newButton=WIDGET.newButton
-newKey=WIDGET.newKey
-newSwitch=WIDGET.newSwitch
-newSlider=WIDGET.newSlider
-newSelector=WIDGET.newSelector
+local newText=		WIDGET.newText
+local newImage=		WIDGET.newImage
+local newButton=	WIDGET.newButton
+local newKey=		WIDGET.newKey
+local newSwitch=	WIDGET.newSwitch
+local newSlider=	WIDGET.newSlider
+local newSelector=	WIDGET.newSelector
 
 --All widgets
 local Widgets={
@@ -672,11 +672,4 @@ local Widgets={
 		newButton({name="back",		x=640,y=620,w=200,h=80,color="white",	font=40,code=BACK}),
 	},
 }
-
---Remove temp vars
-mobileHide,SETval,SETsto,SETrev=nil
-pressKey,setPen,prevSkin,nextSkin=nil
-nextDir,VKAdisp,VKAcode,setLang=nil
-goScene=nil
-newText,newImage,newButton,newSwitch,newSlider=nil
 return Widgets
