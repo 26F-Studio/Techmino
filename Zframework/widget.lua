@@ -591,23 +591,25 @@ function WIDGET.press(x,y)
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
 	elseif W.type=="selector"then
-		local s=W.select
-		if x<W.x+W.w*.5 then
-			if s>1 then
-				s=s-1
-				sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
+		if x then
+			local s=W.select
+			if x<W.x+W.w*.5 then
+				if s>1 then
+					s=s-1
+					sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
+				end
+			else
+				if s<#W.list then
+					s=s+1
+					sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
+				end
 			end
-		else
-			if s<#W.list then
-				s=s+1
-				sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
+			if W.select~=s then
+				W.code(W.list[s])
+				W.select=s
+				W.selText=W.list[s]
+				SFX.play("prerotate")
 			end
-		end
-		if W.select~=s then
-			W.code(W.list[s])
-			W.select=s
-			W.selText=W.list[s]
-			SFX.play("prerotate")
 		end
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end
