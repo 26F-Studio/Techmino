@@ -128,4 +128,4 @@ Custom mode:
 	In build (puzzle) mode, you can toggle template display with Function key. Cells with a X cannot have blocks; empty cells can be in any state; regular colored cells have to be made of the corresponding block; garbage-colored cells can be any block but not air. Once you make the shape, you will win.
 
 附录Appendix:
-ZXC's cool O-spin map:XY0BCgAwCAIR7v9vHtUSt8AS0xKqgpnNGyXkrmFNePf6qi3BbQPrHT2Owxe6D66NeKi86dwB
+ZXC's cool O-spin map:eJxdjQEKADAIAhHu/28e1RK3wBLTEqqCmc0bJeSuYU149/qqLcFtA+sdPY7DF7oPro14qLzp3AGwKgHj
