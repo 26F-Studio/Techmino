@@ -2350,7 +2350,7 @@ do--player.drop(P)--Place piece
 					STAT.pc=STAT.pc+1
 					if P.human then
 						SFX.play("clear")
-						VOC.play("pc",CHN)
+						VOC.play("clear",CHN)
 					end
 					C.special=true
 				elseif cc>1 or #P.field==P.garbageBeneath then

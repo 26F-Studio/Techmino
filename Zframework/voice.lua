@@ -1,49 +1,66 @@
 local rnd=math.random
 local rem=table.remove
 local voiceQueue={free=0}
-local bank={}--{{SRC1s},{SRC2s},...}
+local bank={}--{vocName1={SRC1s},vocName2={SRC2s},...}
 local VOC={}
 VOC.name={
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
 	"single","double","triple","techrash",
-	"mini","b2b","b3b","pc",
+	"mini","b2b","b3b","clear",
 	"win","lose",
 	"bye",
 	"nya",
-	"happy",
-	"doubt",
-	"sad",
+	"nya_happy",
+	"nya_doubt",
+	"nya_sad",
 	"egg",
-	"welcome"
+	"welcome_voc"
 }
-VOC.list={
-	zspin={"zspin_1","zspin_2","zspin_3"},
-	sspin={"sspin_1","sspin_2","sspin_3","sspin_4","sspin_5","sspin_6"},
-	lspin={"lspin_1","lspin_2"},
-	jspin={"jspin_1","jspin_2","jspin_3","jspin_4"},
-	tspin={"tspin_1","tspin_2","tspin_3","tspin_4","tspin_5","tspin_6"},
-	ospin={"ospin_1","ospin_2","ospin_3"},
-	ispin={"ispin_1","ispin_2","ispin_3"},
+VOC.list={}
 
-	single={"single_1","single_2","single_3","single_4","single_5","single_6","single_7"},
-	double={"double_1","double_2","double_3","double_4","double_5"},
-	triple={"triple_1","triple_2","triple_3","triple_4","triple_5","triple_6","triple_7"},
-	techrash={"techrash_1","techrash_2","techrash_3","techrash_4"},
+local function loadVoiceFile(N,vocName)
+	local fileName="VOICE/"..vocName..".ogg"
+	if love.filesystem.getInfo(fileName)then
+		bank[vocName]={love.audio.newSource(fileName,"static")}
+		table.insert(VOC.list[N],vocName)
+		return true
+	else
+		return
+	end
+end
+function VOC.loadOne(_)
+	local N=VOC.name[_]
+	VOC.list[N]={}
+	local i=1
+	while true do
+		if not loadVoiceFile(N,N.."_"..i)then
+			break
+		end
+		i=i+1
+	end
+	if i==1 then
+		if not loadVoiceFile(N,N)then
+			LOG.print("No VOICE file: "..N,"warn")
+		end
+	end
+end
+function VOC.loadAll()
+	for i=1,#VOC.name do
+		VOC.loadOne(i)
+	end
+end
 
-	mini={"mini_1","mini_2","mini_3"},
-	b2b={"b2b_1","b2b_2","b2b_3"},
-	b3b={"b3b_1","b3b_2"},
-	pc={"clear_1","clear_2"},
-	win={"win_1","win_2","win_3","win_4","win_5","win_6","win_6","win_7"},
-	lose={"lose_1","lose_2","lose_3"},
-	bye={"bye_1","bye_2"},
-	nya={"nya_1","nya_2","nya_3","nya_4"},
-	happy={"nya_happy_1","nya_happy_2","nya_happy_3","nya_happy_4"},
-	doubt={"nya_doubt_1","nya_doubt_2"},
-	sad={"nya_sad_1"},
-	egg={"egg_1","egg_2"},
-	welcome={"welcome_voc"},
-}
+function VOC.getFreeChannel()
+	local i=#voiceQueue
+	for i=1,i do
+		if #voiceQueue[i]==0 then return i end
+	end
+	voiceQueue[i+1]={s=0}
+	return i+1
+end
+function VOC.getCount()
+	return #voiceQueue
+end
 
 local function getVoice(str)
 	local L=bank[str]
@@ -58,29 +75,6 @@ local function getVoice(str)
 	end
 	return L[n]
 	--Load voice with string
-end
-function VOC.loadOne(_)
-	local N=VOC.name[_]
-	for i=1,#VOC.list[N]do
-		local V=VOC.list[N][i]
-		bank[V]={love.audio.newSource("VOICE/"..V..".ogg","static")}
-	end
-end
-function VOC.loadAll()
-	for i=1,#VOC.list do
-		VOC.loadOne(i)
-	end
-end
-function VOC.getFreeChannel()
-	local i=#voiceQueue
-	for i=1,i do
-		if #voiceQueue[i]==0 then return i end
-	end
-	voiceQueue[i+1]={s=0}
-	return i+1
-end
-function VOC.getCount()
-	return #voiceQueue
 end
 function VOC.update()
 	for i=#voiceQueue,1,-1 do
@@ -118,15 +112,15 @@ function VOC.update()
 end
 function VOC.play(s,chn)
 	if setting.voc>0 then
+		local _=VOC.list[s]
+		if not _ then return end
 		if chn then
 			local L=voiceQueue[chn]
-			local _=VOC.list[s]
-			if not _ then return end
 			L[#L+1]=_[rnd(#_)]
 			L.s=1
 			--Add to queue[chn]
 		else
-			voiceQueue[VOC.getFreeChannel()]={s=1,VOC.list[s][rnd(#VOC.list[s])]}
+			voiceQueue[VOC.getFreeChannel()]={s=1,_[rnd(#_)]}
 			--Create new channel & play
 		end
 	end

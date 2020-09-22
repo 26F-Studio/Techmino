@@ -719,7 +719,7 @@ do--load
 				--------------------------
 				if not setting.appLock then
 					SFX.play("welcome_sfx")
-					VOC.play("welcome")
+					VOC.play("welcome_voc")
 				end
 			else
 				S.cur=S.cur+1
@@ -2474,7 +2474,7 @@ do--setting_sound
 			S.jump=10
 			local t=Timer()-S.last
 			if t>1 then
-				VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
+				VOC.play((t<1.5 or t>15)and"nya_doubt"or rnd()<.8 and"nya_happy"or"egg")
 				S.last=Timer()
 			end
 		end
