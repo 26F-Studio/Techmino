@@ -40,19 +40,11 @@ function TASK.removeTask_data(data)
 		end
 	end
 end
-function TASK.clear(opt)
-	if opt=="all"then
-		local i=#tasks
-		while i>0 do
-			tasks[i]=nil
-			i=i-1
-		end
-	else--Player table
-		for i=#tasks,1,-1 do
-			if tasks[i].P==opt then
-				rem(tasks,i)
-			end
-		end
+function TASK.clear()
+	local i=#tasks
+	while i>0 do
+		tasks[i]=nil
+		i=i-1
 	end
 end
 return TASK

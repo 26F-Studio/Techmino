@@ -108,6 +108,7 @@ do--calculator
 				elseif v==114 then EGG("T114.Flyz")
 				elseif v==127 then EGG("T127.gggf")
 				elseif v==196 then EGG("T196.蕴空之灵")
+				elseif v==210 then EGG("T210.Naki")
 				elseif v==238 then EGG("T238.模电")
 				elseif v==274 then EGG("T274.ZZZ")
 				elseif v==512 then EGG("T512.tatianyi")
@@ -118,6 +119,7 @@ do--calculator
 				elseif v==872 then EGG("T872.DIAO")
 				elseif v==942 then EGG("T942.思竣")
 				elseif v==1905 then EGG("T1905.Rinnya")
+				elseif v==3182 then EGG("T3182.蓝绿")
 				elseif v==7023 then EGG("T7023.Miya")
 				elseif v==190000+6022 then
 					S.pass,marking=true
@@ -239,10 +241,10 @@ do--p15
 		local S=sceneTemp
 		if S.state<2 then
 			if not key then
+				x,y=int((x-320)/160)+1,int((y-40)/160)+1
 				if S.pathVis then
 					sysFX.newRipple(.16,x,y,10)
 				end
-				x,y=int((x-320)/160)+1,int((y-40)/160)+1
 			end
 			local b=S.board
 			local moves=0
@@ -272,7 +274,6 @@ do--p15
 				end
 			end
 			if moves>0 then
-				SFX.play("move")
 				S.move=S.move+moves
 				if S.state==0 then
 					S.state=1
@@ -294,6 +295,7 @@ do--p15
 					end
 					SFX.play("win")
 				end
+				SFX.play("move")
 			end
 		end
 	end
@@ -536,11 +538,11 @@ do--schulte_G
 						sysFX.newShade(.3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
 					end
 				else
-					SFX.play("finesseError")
 					S.error=S.error+1
 					if S.tapFX then
 						sysFX.newShade(.5,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
 					end
+					SFX.play("finesseError")
 				end
 			end
 		end
@@ -671,8 +673,7 @@ do--load
 		if k=="a"then
 			sceneTemp.skip=true
 		elseif k=="s"then
-			marking=nil
-			sceneTemp.skip=true
+			sceneTemp.skip,marking=true
 		elseif k=="escape"then
 			SCN.back()
 		end
@@ -769,6 +770,7 @@ end
 do--intro
 	function sceneInit.intro()
 		BG.set("space")
+		BGM.play("blank")
 		sceneTemp={
 			t1=0,--Timer 1
 			t2=0,--Timer 2
@@ -777,7 +779,20 @@ do--intro
 		for i=1,8 do
 			sceneTemp.r[i]=rnd(5)
 		end
-		BGM.play("blank")
+		local notice=HTTPrequest("http://47.103.200.40/api/notice.php")
+		if notice then
+			LOG.print(notice,"message")
+		else
+			LOG.print(text.getNoticeFail,"warn")
+		end
+		local newVersion=HTTPrequest("http://47.103.200.40/api/getNewVersion.php")
+		if not newVersion then
+			LOG.print(text.getVersionFail,"warn")
+		elseif newVersion~=gameVersion then
+			LOG.print(string.gsub(text.versionIsOld,"$1",newVersion),"warn")
+		else
+			LOG.print(text.versionIsNew,"message")
+		end
 	end
 
 	function mouseDown.intro(x,y,k)
@@ -882,10 +897,12 @@ do--main
 		modeEnv={}
 		--Create demo player
 		destroyPlayers()
+		game.frame=0
 		PLY.newDemoPlayer(1,900,35,1.1)
 	end
 
 	function Tmr.main(dt)
+		game.frame=game.frame+1
 		players[1]:update(dt)
 	end
 
@@ -903,6 +920,21 @@ do--main
 	end
 end
 do--mode
+	mapCam={
+		sel=nil,--Selected mode ID
+
+		--Basic paragrams
+		x=0,y=0,k=1,--Camera pos/k
+		x1=0,y1=0,k1=1,--Camera pos/k shown
+
+		--If controlling with key
+		keyCtrl=false,
+
+		--For auto zooming when enter/leave scene
+		zoomMethod=nil,
+		zoomK=nil,
+	}
+	local mapCam=mapCam
 	local touchDist=nil
 	function sceneInit.mode(org)
 		BG.set("space")
@@ -965,12 +997,12 @@ do--mode
 			local SEL=onMode(x,y)
 			if _~=SEL then
 				if SEL then
-					SFX.play("click")
 					cam.moving=true
 					_=Modes[SEL]
 					cam.x=_.x*cam.k+180
 					cam.y=_.y*cam.k
 					cam.sel=SEL
+					SFX.play("click")
 				else
 					cam.sel=nil
 					cam.x=cam.x-180
@@ -1008,17 +1040,6 @@ do--mode
 	function keyDown.mode(key)
 		if key=="return"then
 			if mapCam.sel then
-				if mapCam.sel=="custom_clear"or mapCam.sel=="custom_puzzle"then
-					if customEnv.opponent>1 then
-						if customEnv.seq=="fixed"then
-							LOG.print(text.ai_fixed,"warn")
-							return
-						elseif #preBag>0 then
-							LOG.print(text.ai_prebag,"warn")
-							return
-						end
-					end
-				end
 				mapCam.keyCtrl=false
 				SCN.push()
 				loadGame(mapCam.sel)
@@ -1028,10 +1049,6 @@ do--mode
 				mapCam.sel=nil
 			else
 				SCN.back()
-			end
-		elseif mapCam.sel=="custom_clear" or mapCam.sel=="custom_puzzle" then
-			if key=="e"then
-				SCN.go("custom_basic")
 			end
 		end
 	end
@@ -1136,7 +1153,7 @@ do--mode
 		gc.setLineWidth(8)
 		gc.setColor(1,1,1,.2)
 		for name,M in next,Modes do
-			if R[name]then
+			if R[name]and M.unlock then
 				for _=1,#M.unlock do
 					local m=Modes[M.unlock[_]]
 					gc.line(M.x,M.y,m.x,m.y)
@@ -1254,7 +1271,20 @@ do--custom_basic
 	end
 
 	function keyDown.custom_basic(key)
-		if key=="tab"then
+		if key=="return"or key=="return2"then
+			if customEnv.opponent>0 then
+				if customEnv.opponent>5 and customEnv.seq=="fixed"then
+					LOG.print(text.ai_fixed,"warn")
+					return
+				elseif customEnv.opponent>0 and #preBag>0 then
+					LOG.print(text.ai_prebag,"warn")
+					return
+				end
+			end
+			SCN.push()
+
+			loadGame(key=="return"and"custom_clear"or"custom_puzzle",true)
+		elseif key=="tab"then
 			if kb.isDown("lshift","rshift")then
 				SCN.swapTo("custom_mission","swipeR")
 			else
@@ -1385,20 +1415,6 @@ do--custom_seq
 				until preBag[p+1]~=preBag[S.cur+1]
 				S.cur=p
 			end
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #preBag>0 then
-				sys.setClipboardText("Techmino SEQ:"..copySequence())
-				LOG.print(text.copySuccess,color.green)
-			end
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=sys.getClipboardText()
-			local p=string.find(str,":")--ptr*
-			if p then str=sub(str,p+1)end
-			if pasteSequence(str)then
-				LOG.print(text.pasteSuccess,color.green)
-			else
-				LOG.print(text.dataCorrupted,color.red)
-			end
 		elseif key=="backspace"then
 			if S.cur>0 then
 				rem(preBag,S.cur)
@@ -1414,6 +1430,20 @@ do--custom_seq
 				SFX.play("finesseError",.7)
 			else
 				S.sure=50
+			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #preBag>0 then
+				sys.setClipboardText("Techmino SEQ:"..copySequence())
+				LOG.print(text.copySuccess,color.green)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=sub(str,p+1)end
+			if pasteSequence(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
+				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif key=="tab"then
 			if kb.isDown("lshift","rshift")then
@@ -1449,7 +1479,7 @@ do--custom_seq
 		--Draw frame
 		gc.setLineWidth(4)
 		gc.rectangle("line",100,110,1080,260)
-		
+
 		--Draw sequence
 		local miniBlock=TEXTURE.miniBlock
 		local libColor=SKIN.libColor
@@ -1737,20 +1767,6 @@ do--custom_mission
 				until preMission[p+1]~=preMission[S.cur+1]
 				S.cur=p
 			end
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #preMission>0 then
-				sys.setClipboardText("Techmino Target:"..copyMission())
-				LOG.print(text.copySuccess,color.green)
-			end
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=sys.getClipboardText()
-			local p=string.find(str,":")--ptr*
-			if p then str=sub(str,p+1)end
-			if pasteMission(str)then
-				LOG.print(text.pasteSuccess,color.green)
-			else
-				LOG.print(text.dataCorrupted,color.red)
-			end
 		elseif key=="backspace"then
 			if S.cur>0 then
 				rem(preMission,S.cur)
@@ -1766,6 +1782,20 @@ do--custom_mission
 				SFX.play("finesseError",.7)
 			else
 				S.sure=50
+			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #preMission>0 then
+				sys.setClipboardText("Techmino Target:"..copyMission())
+				LOG.print(text.copySuccess,color.green)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=sub(str,p+1)end
+			if pasteMission(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
+				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif key=="tab"then
 			if kb.isDown("lshift","rshift")then
@@ -1879,10 +1909,11 @@ do--custom_mission
 	end
 end
 do--play
+	local VK=virtualkey
 	local function onVirtualkey(x,y)
 		local dist,nearest=1e10
-		for K=1,#virtualkey do
-			local b=virtualkey[K]
+		for K=1,#VK do
+			local b=VK[K]
 			if b.ava then
 				local d1=(x-b.x)^2+(y-b.y)^2
 				if d1<b.r^2 then
@@ -1914,13 +1945,13 @@ do--play
 			if setting.VKSFX>0 then
 				SFX.play("virtualKey",setting.VKSFX)
 			end
-			virtualkey[t].isDown=true
-			virtualkey[t].pressTime=10
+			VK[t].isDown=true
+			VK[t].pressTime=10
 			if setting.VKTrack then
-				local B=virtualkey[t]
+				local B=VK[t]
 				if setting.VKDodge then--Button collision (not accurate)
-				for i=1,#virtualkey do
-						local b=virtualkey[i]
+				for i=1,#VK do
+						local b=VK[i]
 						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
 						if d>0 then
 							b.x=b.x+(b.x-B.x)*d*b.r*5e-4
@@ -1950,8 +1981,8 @@ do--play
 		if not setting.VKSwitch or game.replaying then return end
 
 		local l=tc.getTouches()
-		for n=1,#virtualkey do
-			local B=virtualkey[n]
+		for n=1,#VK do
+			local B=VK[n]
 			for i=1,#l do
 				local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
 				if(x-B.x)^2+(y-B.y)^2<=B.r^2 then
@@ -1963,20 +1994,19 @@ do--play
 		end
 	end
 	function keyDown.play(key)
-		if key=="escape"then
-			pauseGame()
-			return
-		end
 		if game.replaying then return end
+
 		local m=keyMap
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
 				players[1]:pressKey(k)
-				virtualkey[k].isDown=true
-				virtualkey[k].pressTime=10
+				VK[k].isDown=true
+				VK[k].pressTime=10
 				return
 			end
 		end
+
+		if key=="escape"then pauseGame()end
 	end
 	function keyUp.play(key)
 		if game.replaying then return end
@@ -1984,24 +2014,25 @@ do--play
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
 				players[1]:releaseKey(k)
-				virtualkey[k].isDown=false
+				VK[k].isDown=false
 				return
 			end
 		end
 	end
 	function gamepadDown.play(key)
-		if key=="back"then SCN.back()return end
 		if game.replaying then return end
 
 		local m=keyMap
 		for k=1,20 do
 			if key==m[3][k]or key==m[4][k]then
 				players[1]:pressKey(k)
-				virtualkey[k].isDown=true
-				virtualkey[k].pressTime=10
+				VK[k].isDown=true
+				VK[k].pressTime=10
 				return
 			end
 		end
+
+		if key=="back"then pauseGame()end
 	end
 	function gamepadUp.play(key)
 		if game.replaying then return end
@@ -2010,7 +2041,7 @@ do--play
 		for k=1,20 do
 			if key==m[3][k]or key==m[4][k]then
 				players[1]:releaseKey(k)
-				virtualkey[k].isDown=false
+				VK[k].isDown=false
 				return
 			end
 		end
@@ -2025,8 +2056,8 @@ do--play
 
 		--Update virtualkey animation
 		if setting.VKSwitch then
-			for i=1,#virtualkey do
-				_=virtualkey[i]
+			for i=1,#VK do
+				_=VK[i]
 				if _.pressTime>0 then
 					_.pressTime=_.pressTime-1
 				end
@@ -2041,10 +2072,10 @@ do--play
 				local k=L[_+1]
 				if k>0 then
 					P1:pressKey(k)
-					virtualkey[k].isDown=true
-					virtualkey[k].pressTime=10
+					VK[k].isDown=true
+					VK[k].pressTime=10
 				else
-					virtualkey[-k].isDown=false
+					VK[-k].isDown=false
 					P1:releaseKey(-k)
 				end
 				_=_+2
@@ -2074,7 +2105,6 @@ do--play
 		elseif P1.keyPressing[10]then
 			restartCount=restartCount+1
 			if restartCount>20 then
-				TASK.clear("play")
 				resetPartGameData()
 				return
 			end
@@ -2089,8 +2119,8 @@ do--play
 		end
 
 		--Fresh royale target
-		if game.frame%120==0 then
-			if modeEnv.royaleMode then freshMostDangerous()end
+		if modeEnv.royaleMode and game.frame%120==0 then
+			freshMostDangerous()
 		end
 
 		--Warning check
@@ -2131,18 +2161,17 @@ do--play
 		gc.circle("line",x,y,30*(1+a),6)
 	end
 	local function drawVirtualkey()
-		local V=virtualkey
 		local a=setting.VKAlpha
 		local _
 		if setting.VKIcon then
 			local icons=TEXTURE.VKIcon
-			for i=1,#V do
-				if V[i].ava then
-					local B=V[i]
+			for i=1,#VK do
+				if VK[i].ava then
+					local B=VK[i]
 					gc.setColor(1,1,1,a)
 					gc.setLineWidth(B.r*.07)
 					gc.circle("line",B.x,B.y,B.r,10)--Button outline
-					_=V[i].pressTime
+					_=VK[i].pressTime
 					gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
 					if _>0 then
 						gc.setColor(1,1,1,a*_*.08)
@@ -2152,13 +2181,13 @@ do--play
 				end
 			end
 		else
-			for i=1,#V do
-				if V[i].ava then
-					local B=V[i]
+			for i=1,#VK do
+				if VK[i].ava then
+					local B=VK[i]
 					gc.setColor(1,1,1,a)
 					gc.setLineWidth(B.r*.07)
 					gc.circle("line",B.x,B.y,B.r,10)
-					_=V[i].pressTime
+					_=VK[i].pressTime
 					if _>0 then
 						gc.setColor(1,1,1,a*_*.08)
 						gc.circle("fill",B.x,B.y,B.r*.94,10)
@@ -2307,7 +2336,6 @@ do--pause
 			mergeStat(stat,players[1].stat)
 		end
 		FILE.saveData()
-		TASK.clear("play")
 	end
 
 	function keyDown.pause(key)
@@ -2318,11 +2346,9 @@ do--pause
 		elseif key=="s"then
 			SCN.go("setting_sound")
 		elseif key=="r"then
-			TASK.clear("play")
 			resetGameData()
 			SCN.swapTo("play","none")
 		elseif key=="p"and(game.result or game.replaying)and #players==1 then
-			TASK.removeTask_code(TICK.autoPause)
 			resetPartGameData(true)
 			SCN.swapTo("play","none")
 		end
@@ -2474,7 +2500,7 @@ do--setting_sound
 			S.jump=10
 			local t=Timer()-S.last
 			if t>1 then
-				VOC.play((t<1.5 or t>15)and"nya_doubt"or rnd()<.8 and"nya_happy"or"egg")
+				VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
 				S.last=Timer()
 			end
 		end
@@ -2608,13 +2634,15 @@ do--setting_key
 				SCN.back()
 			end
 		elseif S.kS then
-			for y=1,20 do
-				if keyMap[1][y]==key then keyMap[1][y]=""break end
-				if keyMap[2][y]==key then keyMap[2][y]=""break end
+			if key~="\\"then
+				for y=1,20 do
+					if keyMap[1][y]==key then keyMap[1][y]=""break end
+					if keyMap[2][y]==key then keyMap[2][y]=""break end
+				end
+				keyMap[S.board][S.kb]=key
+				S.kS=false
+				SFX.play("reach",.5)
 			end
-			keyMap[S.board][S.kb]=key
-			SFX.play("reach",.5)
-			S.kS=false
 		elseif key=="return"or key=="space"then
 			S.kS=true
 			SFX.play("lock",.5)
@@ -2720,7 +2748,7 @@ do--setting_key
 	end
 end
 do--setting_skin
-	local scs=require("parts/spinCenters")
+	local scs=spinCenters
 	function Pnt.setting_skin()
 		gc.setColor(1,1,1)gc.draw(drawableText.setting_skin,80,50)
 		for N=1,7 do
@@ -2951,6 +2979,151 @@ do--help
 		mStr(text.support,1138-sin(Timer()*4)*20,270)
 	end
 end
+do--dict
+	function sceneInit.dict()
+		sceneTemp={
+			input="",
+			dict=require("document/dict"),
+			result={},
+			select=nil,
+			title=nil,
+			lastSearch=nil,
+			hideKB=1 or system~="Windows",
+		}
+		BG.set("rainbow")
+	end
+
+	local function search()
+		local S=sceneTemp
+		local dict=S.dict
+		local result=S.result
+		for i=1,#result do rem(result)end
+		local first
+		for i=1,#dict do
+			local pos=find(dict[i][1],S.input)
+			if pos==1 and not first then
+				ins(result,1,dict[i])
+				first=true
+			elseif pos then
+				ins(result,dict[i])
+			end
+			if first and #result==15 then
+				break
+			end
+		end
+		if result[1]then
+			S.select=1
+			S.title=result[1][3]
+		else
+			S.select=nil
+			S.title=nil
+		end
+	end
+
+	function keyDown.dict(key)
+		local S=sceneTemp
+		if #key==1 then
+			if #S.input<15 then
+				S.input=S.input..key
+			end
+		elseif key=="up"then
+			if S.select and S.select>1 then
+				S.select=S.select-1
+			end
+		elseif key=="down"then
+			if S.select and S.select<#S.result and S.select<15 then
+				S.select=S.select+1
+			end
+		elseif key=="kb"then
+			S.hideKB=not S.hideKB
+		elseif key=="delete"then
+			if #S.input>0 then
+				S.input=""
+				S.select=nil
+				S.lastSearch=nil
+				SFX.play("hold")
+			end
+		elseif key=="backspace"then
+			S.input=sub(S.input,1,-2)
+			if #S.input==0 then
+				S.select=nil
+				S.lastSearch=nil
+			end
+		elseif key=="escape"then
+			if #S.input>0 then
+				S.input=""
+				S.select=nil
+				S.lastSearch=nil
+			else
+				SCN.back()
+			end
+		elseif key=="return"then
+			if #S.input<2 then
+				S.input=""
+			elseif S.input~=S.lastSearch then
+				search()
+				if S.result[1]then
+					SFX.play("reach")
+				else
+					SFX.play("finesseError")
+				end
+				S.lastSearch=S.input
+			end
+		end
+	end
+
+	local typeColor={
+		help=color.lGrey,
+		other=color.lOrange,
+		game=color.lCyan,
+		term=color.lRed,
+		name=color.lPurple,
+	}
+	function Pnt.dict()
+		local S=sceneTemp
+		gc.setColor(1,1,1)
+		gc.draw(drawableText.dict,20,5)
+
+		setFont(40)
+		gc.print(S.input,35,110)
+
+		gc.setLineWidth(4)
+		gc.rectangle("line",20,109,726,60)
+
+		if S.select then
+			gc.rectangle("line",300,180,958,526)
+			gc.rectangle("line",20,180,280,526)
+
+			gc.setColor(1,1,1)
+			local text=S.result[S.select][4]
+			if #text>500 then
+				setFont(20)
+			elseif #text>300 then
+				setFont(24)
+			else
+				setFont(28)
+			end
+			gc.printf(text,306,180,950)
+
+			setFont(30)
+			gc.setColor(1,1,1,.4+.2*sin(Timer()*4))
+			gc.rectangle("fill",20,143+35*S.select,280,35)
+
+			setFont(30)
+			for i=1,min(#S.result,15)do
+				local S=S.result[i]
+				local y=142+35*i
+				gc.setColor(0,0,0)
+				gc.print(S[3],29,y-1)
+				gc.print(S[3],29,y+1)
+				gc.print(S[3],31,y-1)
+				gc.print(S[3],31,y+1)
+				gc.setColor(typeColor[S[2]])
+				gc.print(S[3],30,y)
+			end
+		end
+	end
+end
 do--staff
 	function sceneInit.staff()
 		sceneTemp={
@@ -3108,6 +3281,9 @@ do--debug
 		sceneTemp={
 			reset=false,
 		}
+	end
+	function keyDown.debug(key)
+		LOG.print("keyPress: ["..key.."]")
 	end
 end
 do--quit

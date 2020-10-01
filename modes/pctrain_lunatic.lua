@@ -3,8 +3,8 @@ local ins=table.insert
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,45,40,36,32,30}
 local pc_fall={18,16,14,12,10,9,8,7,6}
-local PCbase=require("parts/PCbase")
-local PClist=require("parts/PClist")
+local PCbase=require("modes/PCbase")
+local PClist=require("modes/PClist")
 local PCtype={[0]=1,2,1,3,2,3}
 
 local function task_PC(P)

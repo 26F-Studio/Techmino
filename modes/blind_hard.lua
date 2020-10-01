@@ -7,6 +7,7 @@ return{
 		fall=10,
 		dropFX=0,lockFX=0,
 		visible="none",
+		score=false,
 		dropPiece=PLY.check_lineReach,
 		freshLimit=15,
 		target=200,

@@ -67,7 +67,7 @@ end
 function textFX.score(t)
 	local _,_,_,T=gc.getColor()
 	gc.setColor(1,1,1,T*.5)
-	mStr(t.text,t.x,t.y-t.font*.7-t.c^.3*50)
+	mStr(t.text,t.x,t.y-t.font*.7-t.c^.2*50)
 end
 
 local TEXT={}

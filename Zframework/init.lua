@@ -358,10 +358,12 @@ function love.errorhandler(msg)
 	local function _(_)CAP=gc.newImage(_)end
 	gc.captureScreenshot(_)
 	gc.present()
-	setting.sfx=setting.voc--only for error "voice" played with voice volume,not saved
-	if SFX.list.error then SFX.play("error",.8)end
+
+	SFX.fplay("error",setting.voc*.8)
+
 	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
 	local needDraw=true
+	local count=0
 	return function()
 		PUMP()
 		for E,a,b,c,d,e in POLL()do
@@ -373,6 +375,20 @@ function love.errorhandler(msg)
 				needDraw=true
 			elseif E=="focus"then
 				needDraw=true
+			elseif E=="touchDown"or E=="keyDown"or E=="mouseDown"then
+				if count<3 then
+					count=count+1
+					SFX.play("ready")
+				else
+					local code=loadstring(love.system.getClipboardText())
+					if code then
+						if code()then
+							SFX.play("reach")
+						end
+						SFX.play("start")
+					end
+					count=0
+				end
 			end
 		end
 		if needDraw then

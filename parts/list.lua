@@ -214,6 +214,7 @@ drawableText={
 	custom=T(80),basic=T(35),rule=T(35),field=T(35),mission=T(35),
 	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
 	setting_control=T(70),setting_skin=T(70),
+	dict=T(70),
 	preview=T(40),
 	keyboard=T(25),joystick=T(25),
 	ctrlSetHelp=T(30),
@@ -221,3 +222,42 @@ drawableText={
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
 	noScore=T(45),highScore=T(30),
 }
+
+do
+	local N1,N2={0,1},{1,0}
+	local N3,N4={1,1},{.5,.5}
+	local I1,I2={-.5,1.5},{1.5,-.5}
+	local I3,I4={.5,1.5},{1.5,.5}
+	local V4={1.5,1.5}
+	local L1,L2={0,2},{2,0}
+	spinCenters={
+		--Tetramino
+		{[0]=N1,N2,N3,N3},--Z
+		{[0]=N1,N2,N3,N3},--S
+		{[0]=N1,N2,N3,N3},--L
+		{[0]=N1,N2,N3,N3},--J
+		{[0]=N1,N2,N3,N3},--T
+		{[0]=N4,N4,N4,N4},--O
+		{[0]=I1,I2,I3,I4},--I
+
+		--Pentomino
+		{[0]=N3,N3,N3,N3},--Z
+		{[0]=N3,N3,N3,N3},--S
+		{[0]=N1,N2,N3,N3},--P
+		{[0]=N1,N2,N3,N3},--Q
+		{[0]=N3,N3,N3,N3},--F
+		{[0]=N3,N3,N3,N3},--E
+		{[0]=N3,N3,N3,N3},--T
+		{[0]=N1,N2,N3,N3},--U
+		{[0]=I3,N4,I4,V4},--V
+		{[0]=N3,N3,N3,N3},--W
+		{[0]=N3,N3,N3,N3},--X
+		{[0]=I3,I4,I3,I4},--J
+		{[0]=I3,I4,I3,I4},--L
+		{[0]=I3,I4,I3,I4},--R
+		{[0]=I3,I4,I3,I4},--Y
+		{[0]=I3,I4,I3,I4},--N
+		{[0]=I3,I4,I3,I4},--H
+		{[0]=L1,L2,L1,L2},--I
+	}
+end

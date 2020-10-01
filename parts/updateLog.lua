@@ -1,10 +1,10 @@
 local S=[=[
 "Patron"(time ordered, may not accurate):
 				<<<rmb100+>>>
-						那没事了(T6300)		加油啊,钉钉动了的大哥哥(T3228)
-						弥佑瑶				Alan			幽灵3383
-						靏鸖龘龘			込余			saki
-						模电				吃水榴莲
+						那没事了(T6300)              加油啊,钉钉动了的大哥哥(T3228)
+						弥佑瑶               Alan           幽灵3383
+						靏鸖龘龘             込余             saki
+						模电                吃水榴莲          世界沃德
 		<rmb10+>
 				八零哥    蕴空之灵    gggf127    dtg    ThTsOd
 				Fireboos    金巧    10元    立斐    Deep_Sea
@@ -15,11 +15,11 @@ local S=[=[
 				kagura77    呆喂    GlowingEmbers    轩辕辚
 				HimuroAki    TCV100    tech有养成系统了@7065
 				HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思
-				世界沃德    蓝绿    天生的魔法师    琳雨空    T8779.易缄
+				蓝绿    天生的魔法师    琳雨空    T8779.易缄
 				诗情画意    星姐阿夸双推Man暗炎    [*炎]    [*Y]
 				aaa222    [**城]    cnDD    红桃老给    昭庭玲秋
 				旋树墩    火花工作室    Cosine    沁音的芝麻王
-				SuperJH    天上_飞    uiro    宇酱
+				SuperJH    天上_飞    uiro    宇酱    [W*N]
 
 		Thanks!!!
 
@@ -55,11 +55,19 @@ Future outlook:
 						find difference
 						sodoku
 						link-link
+						pong
+				自定义游戏允许按各种目的复制数据
+				地图增加模式图标
+				物理hold
+				多hold
+				多方块
+				自定义游戏支持选择旋转系统(C2,DTET,ASC...)
+				录像保存/导出
+				热更新
+				新BGM:water
 				画图智能画笔
 				健康游戏时间提醒
 				多语音包系统
-				自定义游戏支持选择旋转系统(C2,DTET,ASC...)
-				录像保存/导出
 				按块回放录像
 				split判定及效果
 				工程编译到字节码
@@ -72,6 +80,36 @@ Future outlook:
 				支持超60帧
 				task-Z(新AI)
 				更多画面效果 & 一些3D小玩意
+
+0.11.1: 小Z更新 Dictionary Update
+		新内容:
+				新增:小Z词典
+				自定义模式入口移至主菜单
+				游戏结束时显示评级
+				修改下落/操作速度的加分机制
+				联网公告+版本更新检测
+				新控件:虚拟键盘
+		改动:
+				修改分数文字上浮速度曲线
+				主界面demoPlay落块计算速度加分
+				PC任务判定修改
+				移除LOG.print消息平滑上拉动画
+				移除debug界面复制日志按钮
+				报错界面可以执行任意代码救急
+		代码:
+				控件系统增强
+				旋转中心表从require改为全局
+				修改LOG.print的message模式输出颜色
+				TASK模块代码整理,删除老旧代码
+		修复:
+				盲打还会显示落块分数
+				游戏结束时不到D评级报错
+				TSD模式判定错误
+				any1~4任务不能完成
+				粘贴场地有残留
+				修复混战模式目标切换的问题
+				修复场地最上显示不全
+				按键设置使用反斜杠后保存失败
 
 0.11.0: 谜题更新 Puzzle Update
 		新内容:

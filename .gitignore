@@ -1,5 +1,7 @@
 .vscode
 libAndroid
 BGM
+SFX
+VOICE
 font.ttf
 note.lua

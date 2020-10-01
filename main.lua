@@ -21,20 +21,6 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 system=love.system.getOS()
-mapCam={
-	sel=nil,--Selected mode ID
-
-	--Basic paragrams
-	x=0,y=0,k=1,--Camera pos/k
-	x1=0,y1=0,k1=1,--Camera pos/k shown
-
-	--If controlling with key
-	keyCtrl=false,
-
-	--For auto zooming when enter/leave scene
-	zoomMethod=nil,
-	zoomK=nil,
-}
 scr={
 	x=0,y=0,--Up-left Coord on screen
 	w=0,h=0,--Fullscreen w/h in gc

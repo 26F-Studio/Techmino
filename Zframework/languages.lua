@@ -5,7 +5,6 @@ local langList={
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
 
-		lang="中文",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
 		cmb={nil,"1 Combo","2 Combo","3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB"},
@@ -38,9 +37,10 @@ local langList={
 		setting_sound="声音设置",
 		setting_control="控制设置",
 		setting_skin="外观设置",
+		dict="小Z方块词典",
 		preview="预览",
 		keyboard="键盘",joystick="手柄",
-		ctrlSetHelp="方向键选择/翻页,回车修改,esc返回",
+		ctrlSetHelp="方向键选择/翻页,回车/空格修改,esc返回",
 		musicRoom="音乐室",
 		nowPlaying="正在播放:",
 		page="页面:",
@@ -57,6 +57,8 @@ local langList={
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
+		getRank="本局评级:",
+		ranks={"D","C","B","A","S"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -68,6 +70,10 @@ local langList={
 		noScore="暂无成绩",
 		highScore="最佳成绩",
 		newRecord="打破纪录",
+		getNoticeFail="拉取公告失败",
+		getVersionFail="检测新版本失败",
+		versionIsNew="游戏已是最新版本",
+		versionIsOld="最新版本$1可以下载了!",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -153,6 +159,7 @@ local langList={
 			Goldwave
 		使用库:
 			Cold_Clear[MinusKelvin]
+			json.lua[rxi]
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
@@ -160,16 +167,16 @@ local langList={
 		WidgetText={
 			main={
 				play="开始",
-				setting="设置",
-				music="音乐室",
+				custom="自定义",
+				qplay="快速开始",
 				stat="统计信息",
 				help="帮助",
-				qplay="快速开始",
+				setting="设置",
 				lang="言/A",
+				music="音乐室",
 				quit="退出",
 			},
 			mode={
-				setting="参数(E)",
 				start="开始",
 				back="返回",
 			},
@@ -194,8 +201,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
+				clear="开始-消除",
+				puzzle="开始-拼图",
 
 				mission="←任务设置",
 				rule="更多规则(Tab)→",
@@ -215,6 +222,9 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
+
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 
 				basic="←基本规则",
 				sequence="序列设置(Tab)→",
@@ -318,7 +328,7 @@ local langList={
 				shakeFX="晃动特效等级",
 				atkFX="攻击特效等级",
 				frame="绘制帧率",
-				
+
 				text="消行文本",
 				score="分数动画",
 				warn="死亡预警",
@@ -332,7 +342,7 @@ local langList={
 			setting_sound={
 				game="←游戏设置",
 				graphic="画面设置→",
-				
+
 				sfx="音效",
 				stereo="立体声",
 				spawn="方块生成",
@@ -420,9 +430,14 @@ local langList={
 				back="返回",
 			},
 			help={
+				dict="小Z词典",
 				staff="制作人员",
 				his="更新历史",
 				qq="作者QQ",
+				back="返回",
+			},
+			dict={
+				hideKB="键盘",
 				back="返回",
 			},
 			staff={
@@ -531,7 +546,6 @@ local langList={
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
 
-		lang="全中文",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
 		cmb={nil,"1连击","2连击","3连击","4连击","5连击","6连击","7连击","8连击","9连击","10连击!","11连击!","12连击!","13连击!","14连击!","15连击!","16连击!","17连击!","18连击!","19连击!","巨型连击"},
@@ -564,9 +578,10 @@ local langList={
 		setting_sound="声音设置",
 		setting_control="控制设置",
 		setting_skin="外观设置",
+		dict="小Z方块词典",
 		preview="预览",
 		keyboard="键盘",joystick="手柄",
-		ctrlSetHelp="方向键选择/翻页,回车修改,esc返回",
+		ctrlSetHelp="方向键选择/翻页,回车/空格修改,esc返回",
 		musicRoom="音乐室",
 		nowPlaying="正在播放:",
 		page="页面:",
@@ -583,6 +598,8 @@ local langList={
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
+		getRank="本局评级:",
+		ranks={"D","C","B","A","S"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -594,6 +611,10 @@ local langList={
 		noScore="暂无成绩",
 		highScore="最佳成绩",
 		newRecord="打破纪录",
+		getNoticeFail="拉取公告失败",
+		getVersionFail="检测新版本失败",
+		versionIsNew="游戏已是最新版本",
+		versionIsOld="最新版本$1可以下载了!",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -677,6 +698,7 @@ local langList={
 			Goldwave
 		使用库:
 			Cold_Clear[MinusKelvin]
+			json.lua[rxi]
 			simple-love-lights[dylhunn]
 		]],
 		support="支持作者",
@@ -684,16 +706,16 @@ local langList={
 		WidgetText={
 			main={
 				play="开始",
-				setting="设置",
-				music="音乐室",
+				custom="自定义",
+				qplay="快速开始",
 				stat="统计信息",
 				help="帮助",
-				qplay="快速开始",
+				setting="设置",
 				lang="言/A",
+				music="音乐室",
 				quit="退出",
 			},
 			mode={
-				setting="参数(E)",
 				start="开始",
 				back="返回",
 			},
@@ -718,8 +740,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
+				clear="开始-消除",
+				puzzle="开始-拼图",
 
 				mission="←任务设置",
 				rule="更多规则(Tab)→",
@@ -739,6 +761,9 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
+
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 
 				basic="←基本规则",
 				sequence="序列设置(Tab)→",
@@ -842,7 +867,7 @@ local langList={
 				shakeFX="晃动特效等级",
 				atkFX="攻击特效等级",
 				frame="绘制帧率",
-				
+
 				text="消行文本",
 				score="分数动画",
 				warn="死亡预警",
@@ -856,7 +881,7 @@ local langList={
 			setting_sound={
 				game="←游戏设置",
 				graphic="画面设置→",
-				
+
 				sfx="音效",
 				stereo="立体声",
 				spawn="方块生成",
@@ -944,9 +969,14 @@ local langList={
 				back="返回",
 			},
 			help={
+				dict="小Z词典",
 				staff="制作人员",
 				his="更新历史",
 				qq="作者QQ",
+				back="返回",
+			},
+			dict={
+				hideKB="键盘",
 				back="返回",
 			},
 			staff={
@@ -1055,7 +1085,6 @@ local langList={
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
 		holdR="Hold to restart",
 
-		lang="English",
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
 		royale_remain=function(n)return n.." Players Remaining"end,
 		cmb={nil,"1 Combo","2 Combo","3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!!","15 Combo!!","16 Combo!!","17 Combo!!!","18 Combo!!!","19 Combo!!!","MEGACMB"},
@@ -1088,9 +1117,10 @@ local langList={
 		setting_sound="Sound Settings",
 		setting_control="Control Settings",
 		setting_skin="Layout Settings",
+		dict="TetroDictionary",
 		preview="Preview",
 		keyboard="Keyboard",joystick="Controller",
-		ctrlSetHelp="Arrow keys: select/change slot, Enter: Change, Esc: Go back",
+		ctrlSetHelp="Arrow keys: select/change slot, Enter/Space: Change, Esc: Go back",
 		musicRoom="Music Room",
 		nowPlaying="Now Playing:",
 		page="Page:",
@@ -1107,6 +1137,8 @@ local langList={
 		unlockSavingError="Failed to save unlocked content:",
 		recSavingError="Failed to save record:",
 		switchSpawnSFX="Switch on spawn SFX to play",
+		getRank="Rank: ",
+		ranks={"D","C","B","A","S"},
 
 		needRestart="Effective after restart",
 		copySuccess="Copied successfully",
@@ -1118,6 +1150,10 @@ local langList={
 		noScore="No Scores Yet",
 		highScore="Personal Bests",
 		newRecord="New Record!",
+		getNoticeFail="get notice failed",
+		getVersionFail="get newest version failed",
+		versionIsNew="You are now on the latest version.",
+		versionIsOld="Version $1 is available now!",
 		errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
 		acts={
@@ -1192,22 +1228,30 @@ local langList={
 			"Flyz, Farter, 蕴空之灵,",
 			"Teatube, [All test staff]",
 		},
-		used="Tools used:\n\tBeepbox\n\tGFIE\n\tGoldwave\nLib used:\n\tCold_Clear[MinusKelvin]\n\tsimple-love-lights[dylhunn]",
+		used=[[
+		Tools used:
+			Beepbox
+			GFIE
+			Goldwave
+		Lib used:
+			Cold_Clear[MinusKelvin]
+			simple-love-lights[dylhunn]
+		]],
 		support="Support author",
 		group="Official QQ Group (if not hacked): 1127702001",
 		WidgetText={
 			main={
 				play="Play",
-				setting="Settings",
-				music="Music Room",
+				custom="Custom",
+				qplay="Q. Play",
 				stat="Statistics",
 				help="Help",
-				qplay="Q. Play",
+				setting="Settings",
 				lang="言/A",
+				music="Music Room",
 				quit="Exit",
 			},
 			mode={
-				setting="Settings (E)",
 				start="Start",
 				back="Back",
 			},
@@ -1232,8 +1276,8 @@ local langList={
 				bg="Background",
 				bgm="Music",
 
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
+				clear="Start-Clear",
+				puzzle="Start-Puzzle",
 
 				mission="←Mission",
 				rule="Rules (Tab)→",
@@ -1253,6 +1297,9 @@ local langList={
 				opponent="Opponent",
 				life="Life",
 				pushSpeed="Garbage Speed",
+
+				copy="Copy Seq+Field+Misn",
+				paste="Paste Seq+Field+Misn",
 
 				basic="←Basic",
 				sequence="SEQ. (Tab)→",
@@ -1356,7 +1403,7 @@ local langList={
 				shakeFX="Field Sway Level",
 				atkFX="ATK. FX Level",
 				frame="Render Frame Rate",
-				
+
 				text="Action Text",
 				score="Pop-up Score",
 				warn="Death Alert",
@@ -1370,7 +1417,7 @@ local langList={
 			setting_sound={
 				game="←Game",
 				graphic="Video→",
-				
+
 				sfx="SFX",
 				stereo="Stereo",
 				spawn="Spawning",
@@ -1458,9 +1505,14 @@ local langList={
 				back="Back",
 			},
 			help={
+				dict="little Z",
 				staff="Staff",
 				his="History",
 				qq="Author's qq",
+				back="Back",
+			},
+			dict={
+				hideKB="Keyboard",
 				back="Back",
 			},
 			staff={
@@ -1569,7 +1621,6 @@ local langList={
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		holdR="→→→→R",
 
-		lang="?????",
 		atkModeName={"?","(  )","!","←→"},
 		royale_remain=function(n)return n.."~"end,
 		cmb={nil,"!","!!","!!!","!!!!","!!!!!","!!!!!!","!!!!!!!","!!!!!!!!","!!!!!!!!!","!!!!!!!!!!","!!!!!!!!!!!","!!!!!!!!!!!!","!!!!!!!!!!!!!","!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!!",},
@@ -1602,9 +1653,10 @@ local langList={
 		setting_sound="(~~)",
 		setting_control="[~~]",
 		setting_skin="%{~~}",
+		dict="TetroDictionary",
 		preview="?:",
 		keyboard="[##]",joystick="^-^",
-		ctrlSetHelp="......",
+		ctrlSetHelp="..........................",
 		musicRoom="(~~~~)",
 		nowPlaying="~:",
 		page=":",
@@ -1621,6 +1673,8 @@ local langList={
 		unlockSavingError="x!:",
 		recSavingError="x!:",
 		switchSpawnSFX="Switch on spawn SFX to play",
+		getRank="#:",
+		ranks={"D","C","B","A","S"},
 
 		needRestart="!!*#R#*!!",
 		copySuccess="~$~",
@@ -1632,6 +1686,10 @@ local langList={
 		noScore="?_____?",
 		highScore="__&:",
 		newRecord="^!!!^",
+		getNoticeFail="ge7 no7!ce f@i1ed",
+		getVersionFail="ge7 newe5t ver5i0n f@i1ed",
+		versionIsNew="Y0u @re now 0n the l@7e57 ver5ion.",
+		versionIsOld="Versi0n $1 is @v@i1able n0w!",
 		errorMsg="An e??o? h@s occ^__ed @nd Techmino n__ds to r_st@rt.\n&**o* in#o h@$ b==n cre@ted, @nd y0u c@n $&nd it to the @uth0r.",
 
 		acts={
@@ -1706,22 +1764,30 @@ local langList={
 			"Flyz, Farter, 蕴空之灵,",
 			"Teatube, [All test staff]",
 		},
-		used="Tool used:\n\tBeepbox\n\tGFIE\n\tGoldwave\nLib used:\n\tCold_Clear[MinusKelvin]\n\tsimple-love-lights[dylhunn]",
+		used=[[
+		Tools used:
+			Beepbox
+			GFIE
+			Goldwave
+		Lib used:
+			Cold_Clear[MinusKelvin]
+			simple-love-lights[dylhunn]
+		]],
 		support="Support author",
 		group="Official QQ Group(if not hacked):1127702001",
 		WidgetText={
 			main={
 				play="!!!",
-				setting="_?_",
-				music="~~~",
+				custom="_?!",
+				qplay="!",
 				stat="=___",
 				help="???",
-				qplay="!",
+				setting="_?_",
 				lang="言/A",
+				music="~~~",
 				quit="X",
 			},
 			mode={
-				setting="_?_ (E)",
 				start="!!!",
 				back="X",
 			},
@@ -1745,6 +1811,9 @@ local langList={
 				bg="{~}",
 				bgm="(~)",
 
+				clear="Start-Clear",
+				puzzle="Start-Puzzle",
+
 				mission="←Mission",
 				rule="Rule (Tab)→",
 				back="X",
@@ -1763,6 +1832,9 @@ local langList={
 				opponent="^_^",
 				life="<R>",
 				pushSpeed="_↑_↑_",
+
+				copy="Copy Seq+Field+Misn",
+				paste="Paste Seq+Field+Misn",
 
 				basic="←Basic",
 				sequence="Seq (Tab)→",
@@ -1866,7 +1938,7 @@ local langList={
 				shakeFX="~|~|~",
 				atkFX="→→~",
 				frame="|=|",
-				
+
 				text="ABC",
 				score="+123",
 				warn="!↑↑↑!",
@@ -1880,7 +1952,7 @@ local langList={
 			setting_sound={
 				game="←Game",
 				graphic="Video→",
-				
+
 				sfx="#!#",
 				stereo="←~→",
 				spawn="#[]#",
@@ -1968,9 +2040,14 @@ local langList={
 				back="X",
 			},
 			help={
+				dict="z",
 				staff="Orz",
 				his="_&_",
 				qq="_@_",
+				back="X",
+			},
+			dict={
+				hideKB="□□□",
 				back="X",
 			},
 			staff={
@@ -2077,7 +2154,6 @@ local langList={
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按重开",
 
-		lang="就这",
 		atkModeName={"随机","徽章","击杀","反击"},
 		royale_remain=function(n)return"剩 "..n.." 人"end,
 		cmb={nil,"1连","2连","3连","4连","5连","6连","7连","8连","9连","10连!","11连!","12连!","13连!","14连!","15连!","16连!","17连!","18连!","19连!","MEGACMB"},
@@ -2110,9 +2186,10 @@ local langList={
 		setting_sound="改声音",
 		setting_control="改控制",
 		setting_skin="改外观",
+		dict="小Z方块词典",
 		preview="预览",
 		keyboard="键盘",joystick="手柄",
-		ctrlSetHelp="方向键选择/翻页,回车修改,esc返回",
+		ctrlSetHelp="方向键选择/翻页,回车/空格修改,esc返回",
 		musicRoom="音乐室",
 		nowPlaying="正在放:",
 		page="页面:",
@@ -2129,6 +2206,8 @@ local langList={
 		unlockSavingError="解锁保存失败:",
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
+		getRank="本局评级:",
+		ranks={"D","C","B","A","S"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -2140,6 +2219,10 @@ local langList={
 		noScore="暂无成绩",
 		highScore="最佳成绩",
 		newRecord="打破纪录",
+		getNoticeFail="拉取公告失败",
+		getVersionFail="拉取公告失败",
+		versionIsNew="游戏已是最新版本",
+		versionIsOld="最新版本$1可以下载了!",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -2230,16 +2313,16 @@ local langList={
 		WidgetText={
 			main={
 				play="开始",
-				setting="设置",
-				music="音乐室",
+				custom="自定义",
+				qplay="快速开始",
 				stat="统计信息",
 				help="帮助",
-				qplay="快速开始",
+				setting="设置",
 				lang="言/A",
+				music="音乐室",
 				quit="退出",
 			},
 			mode={
-				setting="参数(E)",
 				start="开始",
 				back="返回",
 			},
@@ -2264,8 +2347,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
+				clear="开始-消除",
+				puzzle="开始-拼图",
 
 				mission="←任务设置",
 				rule="更多规则(Tab)→",
@@ -2285,6 +2368,9 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
+
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 
 				basic="←基本规则",
 				sequence="序列设置(Tab)→",
@@ -2388,7 +2474,7 @@ local langList={
 				shakeFX="晃动特效",
 				atkFX="攻击特效",
 				frame="绘制帧率",
-				
+
 				text="招式名",
 				score="跳分",
 				warn="死亡预警",
@@ -2402,7 +2488,7 @@ local langList={
 			setting_sound={
 				game="←游戏设置",
 				graphic="改画面→",
-				
+
 				sfx="音效",
 				stereo="立体声",
 				spawn="出块",
@@ -2490,9 +2576,14 @@ local langList={
 				back="返回",
 			},
 			help={
+				dict="小Z词典",
 				staff="制作人员",
 				his="更新历史",
 				qq="作者QQ",
+				back="返回",
+			},
+			dict={
+				hideKB="键盘",
 				back="返回",
 			},
 			staff={
@@ -2664,6 +2755,7 @@ local drawableTextLoad={
 	"custom","basic","rule","field","mission",
 	"setting_game","setting_video","setting_sound",
 	"setting_control","setting_skin",
+	"dict",
 	"keyboard","joystick",
 	"ctrlSetHelp",
 	"musicRoom","nowPlaying",

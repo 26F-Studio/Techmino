@@ -1,0 +1,27 @@
+以下是Techmino使用/将要使用/未来也许会使用的语音文件, 每一个都可以录任意多条
+有多个文件的语音在播放时会随机挑选一个播放, 所以组合性的语音不能随意发挥
+
+例如多个mini语音文件名: mini_1.ogg, mini_2.ogg, ......
+如果只有一个, "_1"可以省略, 但是多个文件的数字不能跳跃
+格式使用ogg, 不支持别的(因为ogg小 哈哈哈)
+
+目前游戏内正在使用, 必须录制的音频文件名们:
+	zspin, sspin, lspin, jspin, tspin, ospin, ispin
+	single, double, triple, techrash
+	mini, b2b, b3b
+	以上直接念就可以
+
+	perfect_clear, half_clear
+	这俩可以直接念也可以略做修改
+
+	win, lose, bye
+	这几个可以自由发挥
+
+	test, happy, doubt, sad, egg
+	第一个是拉语音条预览音量播放的, 剩下的是彩蛋音效(不录也行, 反正一般不会触发)
+
+	welcome_voc
+	进入游戏播放的欢迎语音(类似osu)
+
+目前游戏内没有但是以后可能会加入的:
+	split

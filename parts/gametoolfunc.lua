@@ -185,7 +185,6 @@ function pasteBoard(str)
 			if fX~=1 then
 				return
 			else
-				fY=fY+1
 				break
 			end
 		end
@@ -320,6 +319,12 @@ function freshMostDangerous()
 			m2=h
 		end
 	end
+
+	for i=1,#players.alive do
+		if players.alive[i].atkMode==3 then
+			players.alive[i]:freshTarget()
+		end
+	end
 end
 function freshMostBadge()
 	game.mostBadge,game.secBadge=nil
@@ -333,6 +338,12 @@ function freshMostBadge()
 		elseif b>=m2 then
 			game.secBadge=P
 			m2=b
+		end
+	end
+
+	for i=1,#players.alive do
+		if players.alive[i].atkMode==4 then
+			players.alive[i]:freshTarget()
 		end
 	end
 end
@@ -443,6 +454,11 @@ function resetGameData()
 		for i=1,#players do
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
+		game.stage=nil
+		game.mostBadge=nil
+		game.secBadge=nil
+		game.mostDangerous=nil
+		game.secDangerous=nil
 		game.stage=1
 		game.garbageSpeed=.3
 	end
@@ -452,6 +468,7 @@ function resetGameData()
 	collectgarbage()
 end
 function resetPartGameData(replaying)
+	TASK.removeTask_code(TICK.autoPause)
 	if players[1]and not game.replaying then
 		mergeStat(stat,players[1].stat)
 	end
@@ -493,6 +510,11 @@ function resetPartGameData(replaying)
 		for i=1,#players do
 			players[i]:changeAtk(randomTarget(players[i]))
 		end
+		game.stage=nil
+		game.mostBadge=nil
+		game.secBadge=nil
+		game.mostDangerous=nil
+		game.secDangerous=nil
 		game.stage=1
 		game.garbageSpeed=.3
 	end

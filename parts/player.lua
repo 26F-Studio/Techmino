@@ -55,7 +55,7 @@ local gameEnv0={
 
 	bg="none",bgm="race"
 }
-local scs=require("parts/spinCenters")
+local scs=spinCenters
 local kickList=require("parts/kickList")
 local CCblockID={6,5,4,3,2,1,0}
 local freshPrepare={
@@ -272,9 +272,11 @@ local function Pupdate_alive(P,dt)
 	if P.keyRec then
 		local _=game.frame
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i])end P.keySpeed=P.keySpeed*.99+v*.1
+		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i])end
+		P.keySpeed=P.keySpeed*.99+v*.1
 		v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.dropTime[i])end P.dropSpeed=P.dropSpeed*.99+v*.1
+		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.dropTime[i])end
+		P.dropSpeed=P.dropSpeed*.99+v*.1
 		--Update speeds
 		if modeEnv.royaleMode then
 			if P.keyPressing[9]then
@@ -517,7 +519,7 @@ local function drawField(P)
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
 	local rep=game.replaying
 	if P.falling==-1 then--Blocks only
-		for j=start,min(start+20,#F)do
+		for j=start,min(start+21,#F)do
 			for i=1,10 do
 				if F[j][i]>0 then
 					if V[j][i]>0 then
@@ -535,7 +537,7 @@ local function drawField(P)
 		local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 		local A=P.falling/ENV.fall
 		local h=1
-		for j=start,min(start+20,#F)do
+		for j=start,min(start+21,#F)do
 			while j==P.clearingRow[h]do
 				h=h+1
 				dy=dy+stepY
@@ -1208,7 +1210,7 @@ end
 local function applyGameEnv(P)--Finish gameEnv processing
 	local ENV=P.gameEnv
 
-	if ENV.drop==0 then P._20G=true end
+	P._20G=ENV.drop==0
 	P.dropDelay=ENV.drop
 	P.lockDelay=ENV.lock
 
@@ -2108,7 +2110,7 @@ do--player.drop(P)--Place piece
 		local cc,gbcc=0,0--Row/garbage-row cleared,full-part
 		local atk,exblock=0,0--Attack & extra defense
 		local send,off=0,0--Sending lines remain & offset
-		local cscore,sendTime=0,0--Score & send Time
+		local cscore,sendTime=10,0--Score & send Time
 		local dospin=0
 		local mini
 
@@ -2338,39 +2340,38 @@ do--player.drop(P)--Place piece
 			end
 
 			--PC/HPC bonus
-			if clear then
-				if #P.field==0 then	
-					P:showText(text.PC,0,-80,50,"flicker")
-					atk=atk*.5+min(8+STAT.pc*2,20)
-					exblock=exblock+2
-					sendTime=sendTime+120
-					if STAT.row+cc>4 then
-						P.b2b=1200
-						cscore=cscore+300*min(6+STAT.pc,10)
-					else
-						cscore=cscore+626
-					end
-					STAT.pc=STAT.pc+1
-					if P.human then
-						SFX.play("clear")
-						VOC.play("clear",CHN)
-					end
-					C.special=true
-				elseif cc>1 or #P.field==P.garbageBeneath then
-					P:showText(text.HPC,0,-80,50,"fly")
-					atk=atk+2
-					exblock=exblock+2
-					sendTime=sendTime+60
+			C.pc,C.hpc=false,false
+			if clear and #P.field==0 then
+				P:showText(text.PC,0,-80,50,"flicker")
+				atk=atk*.5+min(8+STAT.pc*2,20)
+				exblock=exblock+2
+				sendTime=sendTime+120
+				if STAT.row+cc>4 then
+					P.b2b=1200
+					cscore=cscore+300*min(6+STAT.pc,10)
+				else
 					cscore=cscore+626
-					STAT.hpc=STAT.hpc+1
-					if P.human then
-						SFX.play("clear")
-					end
-					C.special=true
+				end
+				STAT.pc=STAT.pc+1
+				if P.human then
+					SFX.play("clear")
+					VOC.play("perfect_clear",CHN)
 				end
 				C.pc=true
-			else
-				C.pc=false
+				C.special=true
+			elseif clear and(cc>1 or #P.field==P.garbageBeneath)then
+				P:showText(text.HPC,0,-80,50,"fly")
+				atk=atk+2
+				exblock=exblock+2
+				sendTime=sendTime+60
+				cscore=cscore+626
+				STAT.hpc=STAT.hpc+1
+				if P.human then
+					SFX.play("clear")
+					VOC.play("half_clear",CHN)
+				end
+				C.hpc=true
+				C.special=true
 			end
 
 			--Normal clear, reduce B2B point
@@ -2451,11 +2452,11 @@ do--player.drop(P)--Place piece
 				local t=ENV.mission[P.curMission]
 				local success
 				if t<5 then
-					if C.row==t then
+					if C.row==t and not C.special then
 						success=true
 					end
 				elseif t<9 then
-					if C.row==t%10 and C.spin then
+					if C.row==t-4 and C.spin then
 						success=true
 					end
 				elseif t==9 then
@@ -2490,7 +2491,6 @@ do--player.drop(P)--Place piece
 			end
 		else--No lines clear
 			cmb=0
-			local dropScore=10
 
 			--Spin bonus
 			if dospin then
@@ -2500,32 +2500,29 @@ do--player.drop(P)--Place piece
 					SFX.play("spin_0")
 					VOC.play(spinName[CB.name],CHN)
 				end
-				dropScore=25
+				cscore=30
 			end
 
-			--DropSpeed bonus
-			if P._20G then
-				dropScore=dropScore*2
-			elseif ENV.drop<3 then
-				dropScore=dropScore*1.5
-			end
-
-			--Speed bonus
-			if P.dropSpeed>60 then
-				dropScore=dropScore*P.dropSpeed/60
-			elseif P.dropSpeed>120 then
-				dropScore=dropScore*1.2*P.dropSpeed/120
-			elseif P.dropSpeed>180 then
-				dropScore=dropScore*1.5*P.dropSpeed/180
-			end
-
-			cscore=cscore+dropScore
 			if P.b2b>1000 then
 				P.b2b=max(P.b2b-40,1000)
 			end
 			P:garbageRelease()
 		end
+
 		P.combo=cmb
+
+		local mul=1
+		--DropSpeed bonus
+		if P._20G then
+			cscore=cscore*2
+		elseif ENV.drop<3 then
+			cscore=cscore*1.5
+		end
+
+		--Speed bonus
+		if P.dropSpeed>60 then
+			cscore=cscore*(.9+P.dropSpeed/600)
+		end
 
 		cscore=int(cscore)
 		if ENV.score then
@@ -2578,18 +2575,21 @@ local function gameOver()--Save record
 		local P=players[1]
 		R=R(P)--New rank
 		if R then
+			if R>0 then LOG.print(text.getRank..text.ranks[R],color.green)end
 			local r=modeRanks[M.name]--Old rank
 			local _
 			if R>r then
 				modeRanks[M.name]=R
 				_=true
 			end
-			for i=1,#M.unlock do
-				local m=M.unlock[i]
-				local n=Modes[m].name
-				if not modeRanks[n]then
-					modeRanks[n]=Modes[m].score and 0 or 6
-					_=true
+			if M.unlock then
+				for i=1,#M.unlock do
+					local m=M.unlock[i]
+					local n=Modes[m].name
+					if not modeRanks[n]then
+						modeRanks[n]=Modes[m].score and 0 or 6
+						_=true
+					end
 				end
 			end
 			if _ then
@@ -2624,7 +2624,7 @@ function player.die(P)--Called when win/lose,not really die!
 	P.update=Pupdate_dead
 	P.waiting=1e99
 	P.b2b=0
-	TASK.clear(P)
+	for i=1,#P.tasks do rem(P.tasks)end
 	for i=1,#P.atkBuffer do
 		P.atkBuffer[i].sent=true
 		P.atkBuffer[i].time=0
@@ -2735,18 +2735,13 @@ function player.lose(P)
 				if P.id==1 or A.id==1 then
 					TASK.new(TICK.throwBadge,{A.ai,P,max(3,P.badge)*4})
 				end
-				freshMostBadge()
 			end
 		else
 			P.badge=-1
 		end
 
+		freshMostBadge()
 		freshMostDangerous()
-		for i=1,#players.alive do
-			if players.alive[i].atking==P then
-				players.alive[i]:freshTarget()
-			end
-		end
 		if #players.alive==royaleData.stage[game.stage]then
 			royaleLevelup()
 		end
@@ -2920,7 +2915,6 @@ function player.act.func(P)
 end
 function player.act.restart(P)
 	if game.frame<240 or game.result then
-		TASK.removeTask_code(TICK.autoPause)
 		resetPartGameData()
 	else
 		LOG.print(text.holdR,20,color.orange)
@@ -3057,21 +3051,13 @@ end
 function PLY.newDemoPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
 
-	-- rewrite draw arguments
+	-- rewrite some args
 	P.small=false
-	P.keyRec=false
 	P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
 	P.absFieldX=P.x+150*P.size
 	P.absFieldY=P.y+60*P.size
 	P.draw=Pdraw_demo
-	P.update=Pupdate_alive
-
 	P.control=true
-
-	P.atker={}P.strength=0
-
-	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
 	P.gameEnv={
 		drop=1e99,lock=1e99,
 		wait=10,fall=20,
@@ -3113,14 +3099,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		skin=setting.skin,
 	}
 	applyGameEnv(P)
-
-	P.dropDelay,P.lockDelay=1e99,1e99
-	P.showTime=1e99
-	P.keepVisible=true
-
-	--Always use "bag"
-	freshPrepare.bag(P)
-	P.newNext=freshMethod.bag
+	prepareSequence(P)
 
 	P.human=false
 	loadAI(P,{
@@ -3130,7 +3109,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		delay=3,
 		delta=3,
 		bag="bag",
-		node=80000,
+		node=100000,
 	})
 
 	P:popNext()

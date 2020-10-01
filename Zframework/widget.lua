@@ -7,6 +7,32 @@ local color=color
 local setFont=setFont
 local Timer=love.timer.getTime
 
+local text={
+	type="text",
+}
+function text:reset()
+	if type(self.text)=="string"then
+		self.text=gc.newText(setFont(self.font or 30),self.text)
+	end
+end
+function text:draw()
+	gc.setColor(self.color)
+	gc.draw(self.text,self.x,self.y)
+end
+
+local image={
+	type="image",
+}
+function image:reset()
+	if type(self.img)=="string"then
+		self.img=IMG[self.img]
+	end
+end
+function image:draw()
+	gc.setColor(1,1,1,self.alpha)
+	gc.draw(self.img,self.x,self.y,self.ang,self.kx,self.ky,self.ox,self.oy)
+end
+
 local button={
 	type="button",
 	ATV=0,--Activating time(0~8)
@@ -366,6 +392,67 @@ function selector:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
 end
 
+local keyboardNames={--15*5 keys
+	"ESC","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","","Del",
+	"1","2","3","4","5","6","7","8","9","0","-","=","","<X","<X",
+	"Q","W","E","R","T","Y","U","I","O","P","[","]","Rtn","Rtn","PgUp",
+	"A","S","D","F","G","H","J","K","L","",";","'","/","↑","PgDn",
+	"","Z","X","C","V","B","N","M","___","___",",",".","←","↓","→",
+}
+local keyboardKeys={
+	"escape","f1","f2","f3","f4","f5","f6","f7","f8","f9","f10","f11","f12",nil,"delete",
+	"1","2","3","4","5","6","7","8","9","0","-","=",nil,"backspace","backspace",
+	"q","w","e","r","t","y","u","i","o","p","[","]","return","return","pgup",
+	"a","s","d","f","g","h","j","k","l",nil,";","'","/","up","pgdown",
+	nil,"z","x","c","v","b","n","m","space","space",",",".","left","down","right",
+}
+local keyboard={
+	type="keyboard",
+}
+function keyboard:reset()end
+function keyboard:isAbove(x,y)
+	return
+		x>self.x and
+		x<self.x+self.w and
+		y>self.y and
+		y<self.y+self.h
+end
+function keyboard:getCenter()
+	return self.x+self.w*.5,self.y+self.h*.5
+end
+function keyboard:update()end
+function keyboard:draw()
+	local x,y,w,h=self.x,self.y,self.w,self.h
+	gc.translate(x,y)
+
+	gc.setColor(0,0,0,.4)
+	gc.rectangle("fill",0,0,w,h)
+
+	gc.setColor(1,1,1)
+	gc.setLineWidth(3)
+	for x=0,w,w/15 do
+		gc.line(x,0,x,h)
+	end
+	for y=0,h,h/5 do
+		gc.line(0,y,w,y)
+	end
+
+	local mStr=mStr
+	for i=0,4 do
+		for j=1,15 do
+			local s=keyboardNames[15*i+j]
+			local f=int((55-7*#s)*w/1200)
+			setFont(f)
+			mStr(s,(j-.5)*w/15,(i+.5)*h/5-f*.7)
+		end
+	end
+
+	gc.translate(-x,-y)
+end
+function keyboard:getInfo()
+	return format("x=%d,y=%d,w=%d,h=%d",self.x,self.y,self.w,self.h)
+end
+
 local WIDGET={}
 WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=nil--Selected widget
@@ -376,7 +463,7 @@ function WIDGET.set(L)
 	--Reset all widgets
 	if L then
 		for _,W in next,L do
-			W:reset()
+			if W.reset then W:reset()end
 		end
 	end
 end
@@ -391,28 +478,28 @@ function WIDGET.newText(D)
 		name=	D.name,
 		x=		D.x,
 		y=		D.y,
-		align=	D.align,
 		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font,
 		hide=	D.hide,
 	}
-	for k,v in next,button do _[k]=v end
+	for k,v in next,text do _[k]=v end
 	setmetatable(_,widgetMetatable)
 	return _
 end
 function WIDGET.newImage(D)
 	local _={
 		name=	D.name,
-		x=		D.x-w*.5,
-		y=		D.y-h*.5,
-		w=		D.w,
-		h=		D.h,
-		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font,
-		code=	D.code,
+		img=	D.img,
+		alpha=	D.alpha or 1,
+		x=		D.x,
+		y=		D.y,
+		ang=	D.ang,
+		kx=		D.kx,
+		ky=		D.ky,
+		ox=		D.ox,
+		oy=		D.oy,
 		hide=	D.hide,
 	}
-	for k,v in next,button do _[k]=v end 
+	for k,v in next,image do _[k]=v end
 	setmetatable(_,widgetMetatable)
 	return _
 end
@@ -435,7 +522,7 @@ function WIDGET.newButton(D)
 		},
 
 		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font,
+		font=	D.font or 30,
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -462,7 +549,7 @@ function WIDGET.newKey(D)
 		},
 
 		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font,
+		font=	D.font or 30,
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -481,7 +568,7 @@ function WIDGET.newSwitch(D)
 			D.x+25,D.y,
 		},
 
-		font=	D.font,
+		font=	D.font or 30,
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
@@ -508,7 +595,7 @@ function WIDGET.newSlider(D)
 
 		unit=	D.unit or 1,
 		--smooth=nil,
-		font=	D.font,
+		font=	D.font or 30,
 		change=	D.change,
 		disp=	D.disp,
 		code=	D.code,
@@ -565,11 +652,25 @@ function WIDGET.newSelector(D)
 	setmetatable(_,widgetMetatable)
 	return _
 end
+function WIDGET.newKeyboard(D)
+	local _={
+		x=		D.x,
+		y=		D.y,
+		w=		D.w,
+		h=		D.h,
+		hide=	D.hide,
+
+		resCtr={},
+	}
+	for k,v in next,keyboard do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
 
 function WIDGET.moveCursor(x,y)
 	WIDGET.sel=nil
 	for _,W in next,WIDGET.active do
-		if not(W.hide and W.hide())and W:isAbove(x,y)then
+		if not(W.hide and W.hide())and W.resCtr and W:isAbove(x,y)then
 			WIDGET.sel=W
 			return
 		end
@@ -609,6 +710,15 @@ function WIDGET.press(x,y)
 				W.select=s
 				W.selText=W.list[s]
 				SFX.play("prerotate")
+			end
+		end
+	elseif W.type=="keyboard"then
+		if x then
+			x,y=int((x-W.x)/W.w*15)+1,int((y-W.y)/W.h*5)
+			local k=keyboardKeys[15*y+x]
+			if k then
+				sysFX.newShade(.4,1,1,1,W.x+(x-1)/15*W.w,W.y+y/5*W.h,W.w/15,W.h/5)
+				love.keypressed(k)
 			end
 		end
 	end
@@ -691,49 +801,51 @@ function WIDGET.keyPressed(i)
 	elseif i=="up"or i=="down"or i=="left"or i=="right"then
 		if WIDGET.sel then
 			local W=WIDGET.sel
-			local WX,WY=W:getCenter()
-			local dir=(i=="right"or i=="down")and 1 or -1
-			local tar
-			local minDist=1e99
-			if i=="left"or i=="right"then
-				for i=1,#WIDGET.active do
-					local W1=WIDGET.active[i]
-					if W~=W1 and W1.resCtr then
-						local L=W1.resCtr
-						for j=1,#L,2 do
-							local x,y=L[j],L[j+1]
-							local dist=(x-WX)*dir
-							if dist>10 then
-								dist=dist+abs(y-WY)*6.26
-								if dist<minDist then
-									minDist=dist
-									tar=W1
+			if W.getCenter then
+				local WX,WY=W:getCenter()
+				local dir=(i=="right"or i=="down")and 1 or -1
+				local tar
+				local minDist=1e99
+				if i=="left"or i=="right"then
+					for i=1,#WIDGET.active do
+						local W1=WIDGET.active[i]
+						if W~=W1 and W1.resCtr then
+							local L=W1.resCtr
+							for j=1,#L,2 do
+								local x,y=L[j],L[j+1]
+								local dist=(x-WX)*dir
+								if dist>10 then
+									dist=dist+abs(y-WY)*6.26
+									if dist<minDist then
+										minDist=dist
+										tar=W1
+									end
+								end
+							end
+						end
+					end
+				else
+					for i=1,#WIDGET.active do
+						local W1=WIDGET.active[i]
+						if W~=W1 and W1.resCtr then
+							local L=W1.resCtr
+							for j=1,#L,2 do
+								local x,y=L[j],L[j+1]
+								local dist=(y-WY)*dir
+								if dist>10 then
+									dist=dist+abs(x-WX)*6.26
+									if dist<minDist then
+										minDist=dist
+										tar=W1
+									end
 								end
 							end
 						end
 					end
 				end
-			else
-				for i=1,#WIDGET.active do
-					local W1=WIDGET.active[i]
-					if W~=W1 and W1.resCtr then
-						local L=W1.resCtr
-						for j=1,#L,2 do
-							local x,y=L[j],L[j+1]
-							local dist=(y-WY)*dir
-							if dist>10 then
-								dist=dist+abs(x-WX)*6.26
-								if dist<minDist then
-									minDist=dist
-									tar=W1
-								end
-							end
-						end
-					end
+				if tar then
+					WIDGET.sel=tar
 				end
-			end
-			if tar then
-				WIDGET.sel=tar
 			end
 		else
 			WIDGET.sel=WIDGET.active[1]
@@ -776,7 +888,7 @@ end
 
 function WIDGET.update()
 	for _,W in next,WIDGET.active do
-		W:update()
+		if W.update then W:update()end
 	end
 end
 function WIDGET.draw()

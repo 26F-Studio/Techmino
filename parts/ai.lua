@@ -28,6 +28,13 @@ do
 		if fs.getInfo("CCloader.dll")then
 			NOGAME="delCC"
 		end
+	elseif system=="Linux"then
+		local success,message=require("CCloader")
+		if success then
+			LOG.print("CC load successfully","warn",color.green)
+		else
+			LOG.print("Cannot load CC: "..message,"warn",color.red)
+		end
 	elseif system=="Android"then
 		local armList={"arm64-v8a","armeabi-v7a"}
 		local libFunc,success,message

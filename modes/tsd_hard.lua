@@ -1,9 +1,10 @@
 local function check_tsd(P)
 	if #P.clearedRow>0 then
-		if P.lastClear.id~=5 or P.lastClear.row~=2 then
-			P:lose()
-		else
+		local C=P.lastClear
+		if C.id==5 and C.row==2 and C.spin then
 			P.modeData.event=P.modeData.event+1
+		else
+			P:lose()
 		end
 	end
 end
