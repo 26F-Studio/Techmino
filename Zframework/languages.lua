@@ -442,7 +442,8 @@ local langList={
 				back="返回",
 			},
 			dict={
-				hideKB="键盘",
+				link="打开链接",
+				keyboard="键盘",
 				back="返回",
 			},
 			staff={
@@ -991,7 +992,8 @@ local langList={
 				back="返回",
 			},
 			dict={
-				hideKB="键盘",
+				link="打开链接",
+				keyboard="键盘",
 				back="返回",
 			},
 			staff={
@@ -1537,7 +1539,8 @@ local langList={
 				back="Back",
 			},
 			dict={
-				hideKB="Keyboard",
+				link="Open URL",
+				keyboard="Keyboard",
 				back="Back",
 			},
 			staff={
@@ -2082,7 +2085,8 @@ local langList={
 				back="X",
 			},
 			dict={
-				hideKB="□□□",
+				link="~~e>>",
+				keyboard="□□□",
 				back="X",
 			},
 			staff={
@@ -2628,7 +2632,8 @@ local langList={
 				back="返回",
 			},
 			dict={
-				hideKB="键盘",
+				link="看链接",
+				keyboard="键盘",
 				back="返回",
 			},
 			staff={

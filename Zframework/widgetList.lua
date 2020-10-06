@@ -621,8 +621,9 @@ local Widgets={
 		newButton({name="back",		x=640,	y=600,w=170,h=80,color="white",font=35,code=BACK}),
 	},
 	dict={
-		newKey({name="hideKB",		x=940,y=70,w=240,h=80,color="white",font=40,code=pressKey("kb"),hide=function()return not sceneTemp.select end}),
-		newButton({name="back",		x=1165,y=70,w=170,h=80,color="white",font=40,code=BACK}),
+		newKey({name="link",		x=740,y=60,w=200,h=80,color="white",font=35,code=pressKey("link")}),
+		newKey({name="keyboard",	x=960,y=60,w=200,h=80,color="white",font=35,code=pressKey("kb"),hide=function()return not sceneTemp.select end}),
+		newButton({name="back",		x=1165,y=60,w=170,h=80,color="white",font=40,code=BACK}),
 		newKeyboard({name="kb",		x=310,y=325,w=940,h=370,hide=function()return sceneTemp.hideKB end}),
 	},
 	staff={

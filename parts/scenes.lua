@@ -5,7 +5,7 @@ local Timer=love.timer.getTime
 local setFont=setFont
 local mStr=mStr
 
-local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
+local int,ceil,abs=math.floor,math.ceil,math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local log,rnd=math.log,math.random
 local format=string.format
@@ -3166,7 +3166,7 @@ do--dict
 		local result=S.result
 		local first
 		for i=1,#dict do
-			local pos=find(dict[i][1],S.input,nil,true)
+			local pos=find(dict[i][2],S.input,nil,true)
 			if pos==1 and not first then
 				ins(result,1,dict[i])
 				first=true
@@ -3198,6 +3198,12 @@ do--dict
 				if S.select>S.scroll+15 then
 					S.scroll=S.select-15
 				end
+			end
+		elseif key=="link"then
+			local url=(S.result[1]and S.result or S.dict)[S.select][5]
+			LOG.print(url)
+			if url then
+				love.system.openURL(url)
 			end
 		elseif key=="kb"then
 			S.hideKB=not S.hideKB
@@ -3271,12 +3277,12 @@ do--dict
 			i=i+S.scroll
 			local S=list[i]
 			gc.setColor(0,0,0)
-			gc.print(S[3],29,y-1)
-			gc.print(S[3],29,y+1)
-			gc.print(S[3],31,y-1)
-			gc.print(S[3],31,y+1)
-			gc.setColor(typeColor[S[2]])
-			gc.print(S[3],30,y)
+			gc.print(S[1],29,y-1)
+			gc.print(S[1],29,y+1)
+			gc.print(S[1],31,y-1)
+			gc.print(S[1],31,y+1)
+			gc.setColor(typeColor[S[3]])
+			gc.print(S[1],30,y)
 		end
 
 		gc.setColor(1,1,1)
