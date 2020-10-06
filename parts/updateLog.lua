@@ -6,42 +6,24 @@ local S=[=[
 						靏鸖龘龘             込余             saki
 						模电                吃水榴莲          世界沃德
 		<rmb10+>
-				八零哥    蕴空之灵    gggf127    dtg    ThTsOd
-				Fireboos    金巧    10元    立斐    Deep_Sea
-				时雪    yyangdid    sfqr    心痕    Sasoric
-				夏小亚    仁参    乐↗乐↘    喜欢c4w的ztcjoin
-				面包    蠢熏    潘一栗    Lied    星街书婉    祝西
-				829    e m*12    我永远爱白银诺艾尔(鹏    PCX
-				kagura77    呆喂    GlowingEmbers    轩辕辚
-				HimuroAki    TCV100    tech有养成系统了@7065
-				HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思
-				蓝绿    天生的魔法师    琳雨空    T8779.易缄
-				诗情画意    星姐阿夸双推Man暗炎    [*炎]    [*Y]
-				aaa222    [**城]    cnDD    红桃老给    昭庭玲秋
-				旋树墩    火花工作室    Cosine    沁音的芝麻王
-				SuperJH    天上_飞    uiro    宇酱    [W*N]
-				[Z*.]
+				八零哥    蕴空之灵    gggf127    dtg    ThTsOd    Fireboos    金巧    10元
+				立斐    Deep_Sea    时雪    yyangdid    sfqr    心痕    Sasoric    夏小亚
+				仁参    乐↗乐↘    喜欢c4w的ztcjoin    面包    蠢熏    潘一栗    Lied    星街书婉
+				祝西    829    e m*12    我永远爱白银诺艾尔(鹏    PCX    kagura77    呆喂
+				GlowingEmbers    轩辕辚    HimuroAki    TCV100    tech有养成系统了@7065
+				HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思    蓝绿    天生的魔法师    琳雨空
+				T8779.易缄    诗情画意    星姐阿夸双推Man暗炎    [*炎]    [*Y]    aaa222    [**城]
+				cnDD    红桃老给    昭庭玲秋    旋树墩    火花工作室    Cosine    沁音的芝麻王
+				SuperJH    天上_飞    uiro    宇酱    [W*N]    [Z*.]
 		Thanks!!!
 
 Future outlook:
 		New modes:
-				dig practice
-				dig zen
-				infinite PC challenge
+				infinite PC challenge; easy finesse (only revert current)
 				reverb (often repeat a piece many times)
-				game tutorial
-				finesse tutorial/exam (3next, 1pt/mino, drop to score)
-				easy finesse (only revert current)
-				combo
-				backfire
-				bigbang
-				rhythm
-				KPP-locked
-				square
-				task survival
-				symmetry
-				game Abbr. test
-				parkour
+				combo; backfire; bigbang; rhythm; square
+				task survival; symmetry; parkour; game tutorial
+				game Abbr. testl finesse tutorial/exam (3next, 1pt/mino, drop to score)
 		Other:
 				mod system with:
 						block/field/up/low hidden
@@ -49,23 +31,18 @@ Future outlook:
 						field flip(LR/UD)
 						no fail(∞ lives)
 				mini games:
-						2048 (with next/deadly mode)
-						扫雷
-						坦克大战
-						找不同
-						数独
-						连连看
-				热更新; 联网游戏
-				录像保存/导出; 按块回放录像
-				⑨S机器人调试模式
-				健康游戏时间提醒;游戏内文档
-				物理hold; 多hold; 多方块
-				自定义游戏支持选择旋转系统(C2,DTET,ASC...)
-				自定义游戏允许按各种目的复制数据; 画图智能画笔
-				地图增加模式图标; 多语音包系统
-				split判定及效果
+						2048 (带预览; 后妈发牌)
+						扫雷; 坦克大战; 找不同
+				热更新; 联网游戏; 录像保存/导出; 按块回放录像
+				⑨S机器人调试模式; 健康游戏时间提醒;游戏内文档
+				物理hold; 多hold
+				多方块; 多语音包系统
+				自定义游戏选择旋转系统(C2,DTET,ASC...)
+				自定义游戏按各种目的复制数据; 画图智能画笔
+				地图增加模式图标; split判定及效果
+				更多画面效果; 一些3D小玩意
+				方块散落动画; 超60帧
 				"一键操作"; 手机滑动操作; 特殊控件(例如虚拟摇杆)
-				方块散落动画; 更多画面效果; 一些3D小玩意; 支持超60帧
 				task-Z(新AI); 工程编译到字节码
 
 0.11.2: 弹球小游戏 Pong

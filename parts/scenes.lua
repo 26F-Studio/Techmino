@@ -3418,7 +3418,7 @@ do--history
 		}
 		if newVersionLaunch then
 			newVersionLaunch=nil
-			sceneTemp.pos=4
+			sceneTemp.pos=3
 		end
 	end
 
