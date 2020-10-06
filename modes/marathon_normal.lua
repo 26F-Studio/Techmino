@@ -30,7 +30,7 @@ return{
 	mesDisp=function(P,dx,dy)
 		setFont(45)
 		mStr(P.stat.row,69,390)
-		mStr(P.modeData.event*100+100,69,440)
+		mStr(P.modeData.point+10,69,440)
 		gc.rectangle("fill",25,445,90,4)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,

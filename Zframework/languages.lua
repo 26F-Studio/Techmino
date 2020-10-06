@@ -86,7 +86,7 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载模式ing","加载乱七八糟的东西ing"},
+		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载字体ing","加载模式ing","加载乱七八糟的东西ing"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -174,6 +174,7 @@ local langList={
 				setting="设置",
 				lang="言/A",
 				music="音乐室",
+				minigame="小游戏",
 				quit="退出",
 			},
 			mode={
@@ -201,6 +202,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 				clear="开始-消除",
 				puzzle="开始-拼图",
 
@@ -222,9 +225,6 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
 
 				basic="←基本规则",
 				sequence="序列设置(Tab)→",
@@ -410,6 +410,7 @@ local langList={
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
+				pong="Pong",
 				back="返回",
 			},
 			p15={
@@ -427,6 +428,10 @@ local langList={
 				blind="盲打",
 				disappear="消失",
 				tapFX="点击动画",
+				back="返回",
+			},
+			pong={
+				reset="重置",
 				back="返回",
 			},
 			help={
@@ -466,6 +471,11 @@ local langList={
 			["sprint_10"]=			{"竞速",		"10L",		"消除10行"},
 			["sprint_20"]=			{"竞速",		"20L",		"消除20行"},
 			["sprint_40"]=			{"竞速",		"40L",		"消除40行"},
+			["dig_10"]=				{"挖掘",		"10L",		"挖掘10行"},
+			["dig_40"]=				{"挖掘",		"40L",		"挖掘40行"},
+			["dig_100"]=			{"挖掘",		"100L",		"挖掘100行"},
+			["dig_400"]=			{"挖掘",		"400L",		"挖掘400行"},
+			["dig_1000"]=			{"挖掘",		"1000L",	"挖掘1000行"},
 			["sprint_100"]=			{"竞速",		"100L",		"消除100行"},
 			["sprint_400"]=			{"竞速",		"400L",		"消除400行"},
 			["sprint_1000"]=		{"竞速",		"1000L",	"消除1000行"},
@@ -520,13 +530,13 @@ local langList={
 			["pcchallenge_hard"]=	{"全清挑战",	"困难",		"100行内刷PC"},
 			["pcchallenge_lunatic"]={"全清挑战",	"疯狂",		"100行内刷PC"},
 			["tech_normal"]=		{"科研",		"普通",		"禁止断B2B"},
-			["tech_normal+"]=		{"科研",		"普通+",	"仅允许spin与PC"},
+			["tech_normal2"]=		{"科研",		"普通+",	"仅允许spin与PC"},
 			["tech_hard"]=			{"科研",		"困难",		"禁止断B2B"},
-			["tech_hard+"]=			{"科研",		"困难+",	"仅允许spin与PC"},
+			["tech_hard2"]=			{"科研",		"困难+",	"仅允许spin与PC"},
 			["tech_lunatic"]=		{"科研",		"疯狂",		"禁止断B2B"},
-			["tech_lunatic+"]=		{"科研",		"疯狂+",	"仅允许spin与PC"},
+			["tech_lunatic2"]=		{"科研",		"疯狂+",	"仅允许spin与PC"},
 			["tech_finesse"]=		{"科研",		"极简",		"强制最简操作"},
-			["tech_finesse+"]=		{"科研",		"极简+",	"禁止普通消除,强制最简操作"},
+			["tech_finesse2"]=		{"科研",		"极简+",	"禁止普通消除,强制最简操作"},
 			["tsd_easy"]=			{"TSD挑战",		"简单",		"你能连续做几个TSD?"},
 			["tsd_hard"]=			{"TSD挑战",		"困难",		"你能连续做几个TSD?"},
 			["tsd_ultimate"]=		{"TSD挑战",		"极限",		"你能连续做几个TSD?"},
@@ -537,7 +547,7 @@ local langList={
 			["custom_clear"]=		{"自定义",		"普通",		"画点什么然后把它消除!"},
 			["custom_puzzle"]=		{"自定义",		"拼图",		"画点什么然后把它拼出来吧!"},
 			["sprintPenta"]=		{"竞速",		"五联块",	"伤脑筋十八块"},
-			["sprintMPH"]=			{"竞速",		"MPH",		"很经典"},
+			["sprintMPH"]=			{"竞速",		"MPH",		"纯随机\n无预览\n无暂存"},
 		},
 	},
 	{
@@ -627,7 +637,7 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","正在加载语音","正在加载音乐","正在加载音效","正在加载图片","正在加载模式","正在加载乱七八糟的东西"},
+		load={[0]="加载完成","正在加载语音","正在加载音乐","正在加载音效","正在加载图片","正在加载字体","正在加载模式","正在加载乱七八糟的东西"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -713,6 +723,7 @@ local langList={
 				setting="设置",
 				lang="言/A",
 				music="音乐室",
+				minigame="小游戏",
 				quit="退出",
 			},
 			mode={
@@ -740,6 +751,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 				clear="开始-消除",
 				puzzle="开始-拼图",
 
@@ -761,9 +774,6 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
 
 				basic="←基本规则",
 				sequence="序列设置(Tab)→",
@@ -949,6 +959,7 @@ local langList={
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
+				pong="Pong",
 				back="返回",
 			},
 			p15={
@@ -966,6 +977,10 @@ local langList={
 				blind="盲打",
 				disappear="消失",
 				tapFX="点击动画",
+				back="返回",
+			},
+			pong={
+				reset="重置",
 				back="返回",
 			},
 			help={
@@ -1005,6 +1020,11 @@ local langList={
 			["sprint_10"]=			{"竞速",		"10行",		"消除10行"},
 			["sprint_20"]=			{"竞速",		"20行",		"消除20行"},
 			["sprint_40"]=			{"竞速",		"40行",		"消除40行"},
+			["dig_10"]=				{"挖掘",		"10L",		"挖掘10行"},
+			["dig_40"]=				{"挖掘",		"40L",		"挖掘40行"},
+			["dig_100"]=			{"挖掘",		"100L",		"挖掘100行"},
+			["dig_400"]=			{"挖掘",		"400L",		"挖掘400行"},
+			["dig_1000"]=			{"挖掘",		"1000L",	"挖掘1000行"},
 			["sprint_100"]=			{"竞速",		"100行",	"消除100行"},
 			["sprint_400"]=			{"竞速",		"400行",	"消除400行"},
 			["sprint_1000"]=		{"竞速",		"1000行",	"消除1000行"},
@@ -1059,13 +1079,13 @@ local langList={
 			["pcchallenge_hard"]=	{"全清挑战",	"困难",		"100行内刷全清"},
 			["pcchallenge_lunatic"]={"全清挑战",	"疯狂",		"100行内刷全清"},
 			["tech_normal"]=		{"科研",		"普通",		"禁止断B2B"},
-			["tech_normal+"]=		{"科研",		"普通+",	"仅允许回旋与全清"},
+			["tech_normal2"]=		{"科研",		"普通+",	"仅允许回旋与全清"},
 			["tech_hard"]=			{"科研",		"困难",		"禁止断B2B"},
-			["tech_hard+"]=			{"科研",		"困难+",	"仅允许回旋与全清"},
+			["tech_hard2"]=			{"科研",		"困难+",	"仅允许回旋与全清"},
 			["tech_lunatic"]=		{"科研",		"疯狂",		"禁止断B2B"},
-			["tech_lunatic+"]=		{"科研",		"疯狂+",	"仅允许spin与PC"},
+			["tech_lunatic2"]=		{"科研",		"疯狂+",	"仅允许spin与PC"},
 			["tech_finesse"]=		{"科研",		"极简",		"强制最简操作"},
-			["tech_finesse+"]=		{"科研",		"极简+",	"禁止普通消除,强制最简操作"},
+			["tech_finesse2"]=		{"科研",		"极简+",	"禁止普通消除,强制最简操作"},
 			["tsd_easy"]=			{"T2挑战",		"简单",		"你能连续做几个T旋双清?"},
 			["tsd_hard"]=			{"T2挑战",		"困难",		"你能连续做几个T旋双清?"},
 			["tsd_ultimate"]=		{"T2挑战",		"极限",		"你能连续做几个T旋双清?"},
@@ -1076,7 +1096,7 @@ local langList={
 			["custom_clear"]=		{"自定义",		"普通",		"画点什么然后把它消除!"},
 			["custom_puzzle"]=		{"自定义",		"拼图",		"画点什么然后把它拼出来吧!"},
 			["sprintPenta"]=		{"竞速",		"五联块",	"伤脑筋十八块"},
-			["sprintMPH"]=			{"竞速",		"纯净",		"很经典"},
+			["sprintMPH"]=			{"竞速",		"纯净",		"纯随机\n无预览\n无暂存"},
 		},
 	},
 	{
@@ -1163,7 +1183,7 @@ local langList={
 			"Instant Left:","Instant Right:","Sonic Drop:","Down 1:","Down 4:","Down 10:",
 			"Left Drop:","Right Drop:","Left Zangi:","Right Zangi:",
 		},
-		load={[0]="Finished","Loading voice","Loading BGM","Loading SFX","Loading images","Loading modes","Loading other things"},
+		load={[0]="Finished","Loading voice","Loading BGM","Loading SFX","Loading images","Loading fonts","Loading modes","Loading other things"},
 		pauseStat={
 			"Time:",
 			"Key/Rot./Hold:",
@@ -1249,6 +1269,7 @@ local langList={
 				setting="Settings",
 				lang="言/A",
 				music="Music Room",
+				minigame="Mini Games",
 				quit="Exit",
 			},
 			mode={
@@ -1276,6 +1297,8 @@ local langList={
 				bg="Background",
 				bgm="Music",
 
+				copy="Copy Seq+Field+Misn",
+				paste="Paste Seq+Field+Misn",
 				clear="Start-Clear",
 				puzzle="Start-Puzzle",
 
@@ -1297,9 +1320,6 @@ local langList={
 				opponent="Opponent",
 				life="Life",
 				pushSpeed="Garbage Speed",
-
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
 
 				basic="←Basic",
 				sequence="SEQ. (Tab)→",
@@ -1485,6 +1505,7 @@ local langList={
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="Schulte Grid",
+				pong="Pong",
 				back="Back",
 			},
 			p15={
@@ -1502,6 +1523,10 @@ local langList={
 				blind="Blind",
 				disappear="Hide",
 				tapFX="tap FX",
+				back="Back",
+			},
+			pong={
+				reset="Restart",
 				back="Back",
 			},
 			help={
@@ -1541,6 +1566,11 @@ local langList={
 			["sprint_10"]=			{"Sprint",			"10L",			"Clear 10 lines!"},
 			["sprint_20"]=			{"Sprint",			"20L",			"Clear 20 lines!"},
 			["sprint_40"]=			{"Sprint",			"40L",			"Clear 40 lines!"},
+			["dig_10"]=				{"Dig",				"10L",			"Dig 10 lines"},
+			["dig_40"]=				{"Dig",				"40L",			"Dig 40 lines"},
+			["dig_100"]=			{"Dig",				"100L",			"Dig 100 lines"},
+			["dig_400"]=			{"Dig",				"400L",			"Dig 400 lines"},
+			["dig_1000"]=			{"Dig",				"1000L",		"Dig 1000 lines"},
 			["sprint_100"]=			{"Sprint",			"100L",			"Clear 100 lines!"},
 			["sprint_400"]=			{"Sprint",			"400L",			"Clear 400 lines!"},
 			["sprint_1000"]=		{"Sprint",			"1000L",		"Clear 1000 lines!"},
@@ -1595,13 +1625,13 @@ local langList={
 			["pcchallenge_hard"]=	{"PC Challenge",	"HARD",			"Get PCs within 100 lines!"},
 			["pcchallenge_lunatic"]={"PC Challenge",	"LUNATIC",		"Get PCs within 100 lines!"},
 			["tech_normal"]=		{"Tech",			"NORMAL",		"Keep the B2B chain!"},
-			["tech_normal+"]=		{"Tech",			"NORMAL+",		"Spin & PC only"},
+			["tech_normal2"]=		{"Tech",			"NORMAL+",		"Spin & PC only"},
 			["tech_hard"]=			{"Tech",			"HARD",			"Keep the B2B chain!"},
-			["tech_hard+"]=			{"Tech",			"HARD+",		"Spin & PC only"},
+			["tech_hard2"]=			{"Tech",			"HARD+",		"Spin & PC only"},
 			["tech_lunatic"]=		{"Tech",			"LUNATIC",		"Keep the B2B chain!"},
-			["tech_lunatic+"]=		{"Tech",			"LUNATIC+",		"Spin & PC only"},
+			["tech_lunatic2"]=		{"Tech",			"LUNATIC+",		"Spin & PC only"},
 			["tech_finesse"]=		{"Tech",			"FINESSE",		"No finesse faults!"},
-			["tech_finesse+"]=		{"Tech",			"FINESSE+",		"No normal clears, no finesse faults!"},
+			["tech_finesse2"]=		{"Tech",			"FINESSE+",		"No normal clears, no finesse faults!"},
 			["tsd_easy"]=			{"TSD Challenge",	"EASY",			"T-spin-doubles only!"},
 			["tsd_hard"]=			{"TSD Challenge",	"HARD",			"T-spin-doubles only!"},
 			["tsd_ultimate"]=		{"TSD Challenge",	"ULTIMATE",		"T-spin-doubles only!"},
@@ -1611,7 +1641,7 @@ local langList={
 			["infinite_dig"]=		{"Infinite: Dig",	"",				"Dig, dig, dig."},
 			["custom_clear"]=		{"Custom",			"NORMAL",		"Draw something then clear it!!"},
 			["custom_puzzle"]=		{"Custom",			"PUZZLE",		"Draw something then stack it!!"},
-			["sprintPenta"]=		{"Sprint",			"Pentomino",	"Clear 40 lines.\n18 pentominoes in each bag."},
+			["sprintPenta"]=		{"Sprint",			"Pentomino",	"Clear 40 lines with 18 pentominoes."},
 			["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless\nPreviewless\nHoldless"},
 		},
 	},
@@ -1699,7 +1729,7 @@ local langList={
 			"|←:","→|:","↓_:","↓1:","↓4:","↓10:",
 			"←↓→↓:","→↓↓:","←↓→↓:","→↓←↓:",
 		},
-		load={[0]="___","_vocie_","_BGM_","_SFX_","_images_","_modes_","_???_"},
+		load={[0]="___","_vocie_","_BGM_","_SFX_","_images_","_fonts_","_modes_","_???_"},
 		pauseStat={
 			"~:",
 			"=/''/[ ]:",
@@ -1785,6 +1815,7 @@ local langList={
 				setting="_?_",
 				lang="言/A",
 				music="~~~",
+				minigame="^_^",
 				quit="X",
 			},
 			mode={
@@ -1811,6 +1842,8 @@ local langList={
 				bg="{~}",
 				bgm="(~)",
 
+				copy="Copy Seq+Field+Misn",
+				paste="Paste Seq+Field+Misn",
 				clear="Start-Clear",
 				puzzle="Start-Puzzle",
 
@@ -1832,9 +1865,6 @@ local langList={
 				opponent="^_^",
 				life="<R>",
 				pushSpeed="_↑_↑_",
-
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
 
 				basic="←Basic",
 				sequence="Seq (Tab)→",
@@ -2020,6 +2050,7 @@ local langList={
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="Schulte Grid",
+				pong="Pong",
 				back="X",
 			},
 			p15={
@@ -2037,6 +2068,10 @@ local langList={
 				blind="???",
 				disappear="=X=",
 				tapFX="↓ !",
+				back="X",
+			},
+			pong={
+				reset="R",
 				back="X",
 			},
 			help={
@@ -2074,6 +2109,11 @@ local langList={
 			["sprint_10"]=			{"Sprint",			"10L",			"Clear 10 lines!"},
 			["sprint_20"]=			{"Sprint",			"20L",			"Clear 20 lines!"},
 			["sprint_40"]=			{"Sprint",			"40L",			"Clear 40 lines!"},
+			["dig_10"]=				{"Dig",				"10L",			"Dig 10 lines"},
+			["dig_40"]=				{"Dig",				"40L",			"Dig 40 lines"},
+			["dig_100"]=			{"Dig",				"100L",			"Dig 100 lines"},
+			["dig_400"]=			{"Dig",				"400L",			"Dig 400 lines"},
+			["dig_1000"]=			{"Dig",				"1000L",		"Dig 1000 lines"},
 			["sprint_100"]=			{"Sprint",			"100L",			"Clear 100 lines!"},
 			["sprint_400"]=			{"Sprint",			"400L",			"Clear 400 lines!"},
 			["sprint_1000"]=		{"Sprint",			"1000L",		"Clear 1000 lines!"},
@@ -2128,13 +2168,13 @@ local langList={
 			["pcchallenge_hard"]=	{"PC Challenge",	"HARD",			"Get PCs within 100 lines!"},
 			["pcchallenge_lunatic"]={"PC Challenge",	"LUNATIC",		"Get PCs within 100 lines!"},
 			["tech_normal"]=		{"Tech",			"NORMAL",		"Keep the B2B chain!"},
-			["tech_normal+"]=		{"Tech",			"NORMAL+",		"Spin & PC only"},
+			["tech_normal2"]=		{"Tech",			"NORMAL+",		"Spin & PC only"},
 			["tech_hard"]=			{"Tech",			"HARD",			"Keep the B2B chain!"},
-			["tech_hard+"]=			{"Tech",			"HARD+",		"Spin & PC only"},
+			["tech_hard2"]=			{"Tech",			"HARD+",		"Spin & PC only"},
 			["tech_lunatic"]=		{"Tech",			"LUNATIC",		"Keep the B2B chain!"},
-			["tech_lunatic+"]=		{"Tech",			"LUNATIC+",		"Spin & PC only"},
+			["tech_lunatic2"]=		{"Tech",			"LUNATIC+",		"Spin & PC only"},
 			["tech_finesse"]=		{"Tech",			"FINESSE",		"No finesse faults!"},
-			["tech_finesse+"]=		{"Tech",			"FINESSE+",		"No normal clears, no finesse faults!"},
+			["tech_finesse2"]=		{"Tech",			"FINESSE+",		"No normal clears, no finesse faults!"},
 			["tsd_easy"]=			{"TSD Challenge",	"EASY",			"T-spin-doubles only!"},
 			["tsd_hard"]=			{"TSD Challenge",	"HARD",			"T-spin-doubles only!"},
 			["tsd_ultimate"]=		{"TSD Challenge",	"ULTIMATE",		"T-spin-doubles only!"},
@@ -2235,7 +2275,7 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载模式ing","加载乱七八糟的东西ing"},
+		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载字体ing","加载模式ing","加载乱七八糟的东西ing"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -2320,6 +2360,7 @@ local langList={
 				setting="设置",
 				lang="言/A",
 				music="音乐室",
+				minigame="小游戏",
 				quit="退出",
 			},
 			mode={
@@ -2347,6 +2388,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
+				copy="复制序列+场地+任务",
+				paste="粘贴序列+场地+任务",
 				clear="开始-消除",
 				puzzle="开始-拼图",
 
@@ -2368,9 +2411,6 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
 
 				basic="←基本规则",
 				sequence="序列设置(Tab)→",
@@ -2556,6 +2596,7 @@ local langList={
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
+				pong="Pong",
 				back="返回",
 			},
 			p15={
@@ -2573,6 +2614,10 @@ local langList={
 				blind="盲",
 				disappear="消失",
 				tapFX="动画",
+				back="返回",
+			},
+			pong={
+				reset="重置",
 				back="返回",
 			},
 			help={
@@ -2612,11 +2657,16 @@ local langList={
 			["sprint_10"]=			{"竞速",		"10L",		"消10行"},
 			["sprint_20"]=			{"竞速",		"20L",		"消20行"},
 			["sprint_40"]=			{"竞速",		"40L",		"消40行"},
+			["dig_10"]=				{"挖掘",		"10L",		"挖10行"},
+			["dig_40"]=				{"挖掘",		"40L",		"挖40行"},
+			["dig_100"]=			{"挖掘",		"100L",		"挖100行"},
+			["dig_400"]=			{"挖掘",		"400L",		"挖400行"},
+			["dig_1000"]=			{"挖掘",		"1000L",	"挖1000行"},
 			["sprint_100"]=			{"竞速",		"100L",		"消100行"},
 			["sprint_400"]=			{"竞速",		"400L",		"消400行"},
 			["sprint_1000"]=		{"竞速",		"1000L",	"消1000行"},
-			["drought_normal"]=		{"干旱",		"100L",		"哟,就不行了?"},
-			["drought_lunatic"]=	{"干旱",		"100L",		"可牛逼了嗷"},
+			["drought_normal"]=		{"干旱",		"100L",		"放轻松,简单得很"},
+			["drought_lunatic"]=	{"干旱",		"100L",		"有趣的要来了"},
 			["marathon_normal"]=	{"马拉松",		"普通",		"休闲模式"},
 			["marathon_hard"]=		{"马拉松",		"困难",		"休闲模式"},
 			["solo_1"]=				{"单挑",		"简单",		"鲨AI"},
@@ -2666,13 +2716,13 @@ local langList={
 			["pcchallenge_hard"]=	{"全清挑战",	"困难",		"100行内刷PC"},
 			["pcchallenge_lunatic"]={"全清挑战",	"疯狂",		"100行内刷PC"},
 			["tech_normal"]=		{"科研",		"普通",		"禁止断B2B"},
-			["tech_normal+"]=		{"科研",		"普通+",	"仅允许spin与PC"},
+			["tech_normal2"]=		{"科研",		"普通+",	"仅允许spin与PC"},
 			["tech_hard"]=			{"科研",		"困难",		"禁止断B2B"},
-			["tech_hard+"]=			{"科研",		"困难+",	"仅允许spin与PC"},
+			["tech_hard2"]=			{"科研",		"困难+",	"仅允许spin与PC"},
 			["tech_lunatic"]=		{"科研",		"疯狂",		"禁止断B2B"},
-			["tech_lunatic+"]=		{"科研",		"疯狂+",	"仅允许spin与PC"},
+			["tech_lunatic2"]=		{"科研",		"疯狂+",	"仅允许spin与PC"},
 			["tech_finesse"]=		{"科研",		"极简",		"强制最简操作"},
-			["tech_finesse+"]=		{"科研",		"极简+",	"禁止普通消除,强制最简操作"},
+			["tech_finesse2"]=		{"科研",		"极简+",	"禁止普通消除,强制最简操作"},
 			["tsd_easy"]=			{"TSD挑战",		"简单",		"刷T2"},
 			["tsd_hard"]=			{"TSD挑战",		"困难",		"刷T2"},
 			["tsd_ultimate"]=		{"TSD挑战",		"极限",		"刷T2"},
@@ -2683,7 +2733,7 @@ local langList={
 			["custom_clear"]=		{"自定义",		"普通",		"试验场"},
 			["custom_puzzle"]=		{"自定义",		"拼图",		"宁就是方块艺术家"},
 			["sprintPenta"]=		{"竞速",		"五联块",	"离谱"},
-			["sprintMPH"]=			{"竞速",		"无脑",		"听说你反应很快?"},
+			["sprintMPH"]=			{"竞速",		"纯净",		"听说你反应很快?"},
 		},
 	},
 }

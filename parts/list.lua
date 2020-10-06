@@ -179,7 +179,7 @@ local _={}
 for k,v in next,missionEnum do _[v]=k end
 for k,v in next,_ do missionEnum[k]=v end
 
-local function T(s,t)return love.graphics.newText(setFont(s),t)end
+local function T(s,t)return love.graphics.newText(getFont(s),t)end
 drawableText={
 	question=T(100,"?"),right=T(45,"→"),
 	small=T(30,"<"),large=T(30,">"),
@@ -224,10 +224,8 @@ drawableText={
 }
 
 do
-	local N1,N2={0,1},{1,0}
-	local N3,N4={1,1},{.5,.5}
-	local I1,I2={-.5,1.5},{1.5,-.5}
-	local I3,I4={.5,1.5},{1.5,.5}
+	local N1,N2,N3,N4={0,1},{1,0},{1,1},{.5,.5}
+	local I1,I2,I3,I4={-.5,1.5},{1.5,-.5},{.5,1.5},{1.5,.5}
 	local V4={1.5,1.5}
 	local L1,L2={0,2},{2,0}
 	spinCenters={

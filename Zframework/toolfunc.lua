@@ -1,7 +1,6 @@
 local gc=love.graphics
 local int=math.floor
-local format=string.format
-local find=string.find
+local sub,find,format=string.sub,string.find,string.format
 
 do--setFont
 	local newFont=gc.setNewFont
@@ -10,33 +9,36 @@ do--setFont
 	if love.filesystem.getInfo("font.ttf")then
 		local fontData=love.filesystem.newFile("font.ttf")
 		function setFont(s)
-			local f=fontCache[s]
 			if s~=currentFontSize then
-				if f then
-					setNewFont(f)
-				else
-					f=newFont(fontData,s)
-					fontCache[s]=f
-					setNewFont(f)
+				if not fontCache[s]then
+					fontCache[s]=newFont(fontData,s)
 				end
+				setNewFont(fontCache[s])
 				currentFontSize=s
 			end
-			return f
+		end
+		function getFont(s)
+			if not fontCache[s]then
+				fontCache[s]=newFont(fontData,s)
+			end
+			return fontCache[s]
 		end
 	else
 		function setFont(s)
 			local f=fontCache[s]
 			if s~=currentFontSize then
-				if f then
-					setNewFont(f)
-				else
-					f=newFont(s)
-					fontCache[s]=f
-					setNewFont(f)
+				if not fontCache[s]then
+					fontCache[s]=newFont(s)
 				end
+				setNewFont(fontCache[s])
 				currentFontSize=s
 			end
-			return f
+		end
+		function getFont(s)
+			if not fontCache[s]then
+				fontCache[s]=newFont(s)
+			end
+			return fontCache[s]
 		end
 	end
 end
@@ -96,7 +98,7 @@ do--HTTPrequest
 			url=url,
 			sink=ltn12.sink.table(data)
 		}
-		if not res then
+		if code~=200 then
 			LOG.print("NET ERROR: code="..(code or"nil"))
 		end
 		return data[1]
@@ -428,7 +430,7 @@ do--json
 		["{"] = parse_object
 	}
 
-	parse = function(str, idx)
+	function parse(str, idx)
 		local chr = str:sub(idx, idx)
 		local f = char_func_map[chr]
 		if f then return f(str, idx) end

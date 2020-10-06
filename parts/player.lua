@@ -58,110 +58,6 @@ local gameEnv0={
 local scs=spinCenters
 local kickList=require("parts/kickList")
 local CCblockID={6,5,4,3,2,1,0}
-local freshPrepare={
-	none=NULL,
-	bag=function(P)
-		local bag=P.gameEnv.bag
-		local L
-		repeat
-			L={}for i=1,#bag do L[i]=i end
-			repeat P:getNext(bag[rem(L,P:RND(#L))])until not L[1]
-		until #P.next>5
-	end,
-	his4=function(P)
-		local bag=P.gameEnv.bag
-		local L=#bag
-		P.his={bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)]}
-		for _=1,6 do
-			local i
-			local j=0
-			repeat
-				i=bag[P:RND(L)]
-				j=j+1
-			until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==6
-			P:getNext(i)
-			rem(P.his,1)P.his[4]=i
-		end
-	end,
-	rnd=function(P)
-		local bag=P.gameEnv.bag
-		local L=#bag
-		P:getNext(bag[P:RND(L)])
-		for i=1,5 do
-			local count=0
-			local i
-			repeat
-				i=bag[P:RND(L)]
-				count=count+1
-			until i~=P.next[#P.next].id or count>=L
-			P:getNext(i)
-		end
-	end,
-	loop=function(P)
-		local bag=P.gameEnv.bag
-		repeat
-			for i=1,#bag do
-				P:getNext(bag[i])
-			end
-		until #P.next>5
-	end,
-	fixed=function(P)
-		local bag=P.gameEnv.bag
-		for i=1,#bag do
-			P:getNext(bag[i])
-		end
-	end,
-}
-local freshMethod={
-	none=NULL,
-	bag=function(P)
-		if #P.next<6 then
-			local bag0,bag=P.gameEnv.bag,{}
-			for i=1,#bag0 do bag[i]=bag0[i]end
-			repeat P:getNext(rem(bag,P:RND(#bag)))until not bag[1]
-		end
-	end,
-	his4=function(P)
-		if #P.next<6 then
-			local bag=P.gameEnv.bag
-			local L=#bag
-			for n=1,4 do
-				local j,i=0
-				repeat
-					i=bag[P:RND(L)]
-					j=j+1
-				until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==4
-				P:getNext(i)
-				P.his[n]=i
-			end
-		end
-	end,
-	rnd=function(P)
-		if #P.next<6 then
-			local bag=P.gameEnv.bag
-			local L=#bag
-			for i=1,4 do
-				local count=0
-				local i
-				repeat
-					i=bag[P:RND(L)]
-					count=count+1
-				until i~=P.next[#P.next].id or count>=L
-				P:getNext(i)
-			end
-		end
-	end,
-	loop=function(P)
-		local bag=P.gameEnv.bag
-		for i=1,#bag do
-			P:getNext(bag[i])
-		end
-	end,
-	fixed=function(P)
-		if P.cur or P.hd then return end
-		P:lose()
-	end,
-}
 --------------------------</Data>--------------------------
 
 --------------------------<LIB>--------------------------
@@ -648,8 +544,7 @@ local function drawHold(P,clr)
 	end end
 end
 
-local Pdraw_norm
-do--function Pdraw_norm(P)
+local Pdraw_norm do
 	local attackColor={
 		{color.dGrey,color.white},
 		{color.grey,color.white},
@@ -1263,17 +1158,124 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.ghost==0 then	ENV.ghost=nil	end
 	if ENV.center==0 then	ENV.center=nil	end
 end
-local function prepareSequence(P)--Call freshPrepare and set newNext
-	local ENV=P.gameEnv
-	if type(ENV.sequence)=="string"then
-		freshPrepare[ENV.sequence](P)
-		P.newNext=freshMethod[ENV.sequence]
-	else
-		print(type(ENV.sequence))
-		print(type(ENV.freshMethod))
-		assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
-		ENV.sequence(P)
-		P.newNext=ENV.freshMethod
+
+local prepareSequence do
+	local freshPrepare={
+		none=NULL,
+		bag=function(P)
+			local bag=P.gameEnv.bag
+			local L
+			repeat
+				L={}for i=1,#bag do L[i]=i end
+				repeat P:getNext(bag[rem(L,P:RND(#L))])until not L[1]
+			until #P.next>5
+		end,
+		his4=function(P)
+			local bag=P.gameEnv.bag
+			local L=#bag
+			P.his={bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)]}
+			for _=1,6 do
+				local i
+				local j=0
+				repeat
+					i=bag[P:RND(L)]
+					j=j+1
+				until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==6
+				P:getNext(i)
+				rem(P.his,1)P.his[4]=i
+			end
+		end,
+		rnd=function(P)
+			local bag=P.gameEnv.bag
+			local L=#bag
+			P:getNext(bag[P:RND(L)])
+			for i=1,5 do
+				local count=0
+				local i
+				repeat
+					i=bag[P:RND(L)]
+					count=count+1
+				until i~=P.next[#P.next].id or count>=L
+				P:getNext(i)
+			end
+		end,
+		loop=function(P)
+			local bag=P.gameEnv.bag
+			repeat
+				for i=1,#bag do
+					P:getNext(bag[i])
+				end
+			until #P.next>5
+		end,
+		fixed=function(P)
+			local bag=P.gameEnv.bag
+			for i=1,#bag do
+				P:getNext(bag[i])
+			end
+		end,
+	}
+	local freshMethod={
+		none=NULL,
+		bag=function(P)
+			if #P.next<6 then
+				local bag0,bag=P.gameEnv.bag,{}
+				for i=1,#bag0 do bag[i]=bag0[i]end
+				repeat P:getNext(rem(bag,P:RND(#bag)))until not bag[1]
+			end
+		end,
+		his4=function(P)
+			if #P.next<6 then
+				local bag=P.gameEnv.bag
+				local L=#bag
+				for n=1,4 do
+					local j,i=0
+					repeat
+						i=bag[P:RND(L)]
+						j=j+1
+					until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==4
+					P:getNext(i)
+					P.his[n]=i
+				end
+			end
+		end,
+		rnd=function(P)
+			if #P.next<6 then
+				local bag=P.gameEnv.bag
+				local L=#bag
+				for i=1,4 do
+					local count=0
+					local i
+					repeat
+						i=bag[P:RND(L)]
+						count=count+1
+					until i~=P.next[#P.next].id or count>=L
+					P:getNext(i)
+				end
+			end
+		end,
+		loop=function(P)
+			local bag=P.gameEnv.bag
+			for i=1,#bag do
+				P:getNext(bag[i])
+			end
+		end,
+		fixed=function(P)
+			if P.cur or P.hd then return end
+			P:lose()
+		end,
+	}
+	function prepareSequence(P)--Call freshPrepare and set newNext
+		local ENV=P.gameEnv
+		if type(ENV.sequence)=="string"then
+			freshPrepare[ENV.sequence](P)
+			P.newNext=freshMethod[ENV.sequence]
+		else
+			print(type(ENV.sequence))
+			print(type(ENV.freshMethod))
+			assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
+			ENV.sequence(P)
+			P.newNext=ENV.freshMethod
+		end
 	end
 end
 local function loadAI(P,AIdata)--Load AI params
@@ -1618,6 +1620,7 @@ function player.attack(P,R,send,time,...)
 		end
 	end
 end
+
 function player.garbageRelease(P)
 	local n,flag=1
 	while true do
@@ -1743,7 +1746,7 @@ function player.freshBlock(P,keepGhost,control,system)
 	local ENV=P.gameEnv
 	if not keepGhost and P.cur then
 		P.imgY=min(#P.field+1,P.curY)
-		if _20G or P.keyPressing[7]and ENV.sdarr==0 then
+		if P._20G or P.keyPressing[7]and ENV.sdarr==0 then
 			local _=P.imgY
 
 			--Move ghost to bottom
@@ -1830,6 +1833,53 @@ function player.lock(P)
 		CC_updateField(P)
 	end
 end
+
+local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]="spawn_"..i end
+function player.resetBlock(P)
+	local C=P.cur
+	local id=C.id
+	local face=P.gameEnv.face[id]
+	local sc=scs[id][face]
+	P.sc=sc					--Spin center
+	P.dir=face				--Block direction
+	P.r,P.c=#C.bk,#C.bk[1]	--Row/column
+	P.curX=int(6-P.c*.5)
+	local y=21+ceil(P.fieldBeneath/30)
+	P.curY=y
+	P.minY=y+sc[2]
+
+	local _=P.keyPressing
+	--IMS
+	if P.gameEnv.ims and(_[1]and P.movDir==-1 or _[2]and P.movDir==1)and P.moving>=P.gameEnv.das then
+		local x=P.curX+P.movDir
+		if not P:ifoverlap(C.bk,x,y)then
+			P.curX=x
+		end
+	end
+
+	--IRS
+	if P.gameEnv.irs then
+		if _[5]then
+			P:spin(2,true)
+		else
+			if _[3]then
+				if _[4]then
+					P:spin(2,true)
+				else
+					P:spin(1,true)
+				end
+			elseif _[4]then
+				P:spin(3,true)
+			end
+		end
+	end
+
+	--Spawn SFX
+	if P.human and id<8 then
+		SFX.fplay(spawnSFX_name[id],setting.spawn)
+	end
+end
+
 function player.spin(P,d,ifpre)
 	local iki=P.RS[P.cur.id]
 	if type(iki)=="table"then
@@ -1873,50 +1923,6 @@ function player.spin(P,d,ifpre)
 		end
 	else
 		iki(P,d)
-	end
-end
-function player.resetBlock(P)
-	local C=P.cur
-	local id=C.id
-	local face=P.gameEnv.face[id]
-	local sc=scs[id][face]
-	P.sc=sc					--Spin center
-	P.dir=face				--Block direction
-	P.r,P.c=#C.bk,#C.bk[1]	--Row/column
-	P.curX=int(6-P.c*.5)
-	local y=21+ceil(P.fieldBeneath/30)
-	P.curY=y
-	P.minY=y+sc[2]
-
-	local _=P.keyPressing
-	--IMS
-	if P.gameEnv.ims and(_[1]and P.movDir==-1 or _[2]and P.movDir==1)and P.moving>=P.gameEnv.das then
-		local x=P.curX+P.movDir
-		if not P:ifoverlap(C.bk,x,y)then
-			P.curX=x
-		end
-	end
-
-	--IRS
-	if P.gameEnv.irs then
-		if _[5]then
-			P:spin(2,true)
-		else
-			if _[3]then
-				if _[4]then
-					P:spin(2,true)
-				else
-					P:spin(1,true)
-				end
-			elseif _[4]then
-				P:spin(3,true)
-			end
-		end
-	end
-
-	--Spawn SFX
-	if P.human and id<8 then
-		SFX.fplay("spawn_"..id,setting.spawn)
 	end
 end
 function player.hold(P,ifpre)
@@ -2096,7 +2102,7 @@ do--player.drop(P)--Place piece
 	finesseList[1][3],finesseList[1][4],finesseList[7][3],finesseList[7][4]=finesseList[1][1],finesseList[1][2],finesseList[7][1],finesseList[7][2]--"2-phase" SZI
 	finesseList[2]=finesseList[1]--S=Z
 	finesseList[4],finesseList[5]=finesseList[3],finesseList[3]--J=L=T
-	function player.drop(P)--Place piece
+	function player.drop(P)
 		local _
 		local CHN=VOC.getFreeChannel()
 		P.dropTime[11]=ins(P.dropTime,1,game.frame)--Update speed dial
@@ -2377,7 +2383,7 @@ do--player.drop(P)--Place piece
 			--Normal clear, reduce B2B point
 			if not C.special then
 				P.b2b=max(P.b2b-250,0)
-				P:showText(text.clear[cc],0,-30,27+cc*3,"appear",(8-cc)*.3)
+				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
 				atk=cc-.5
 				sendTime=20+atk*20
 				cscore=cscore+clearSCR[cc]
@@ -2390,7 +2396,7 @@ do--player.drop(P)--Place piece
 				if cmb>=3 then
 					atk=atk+1
 				end
-				P:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,25)*3,cmb<10 and"appear"or"flicker")
+				P:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and"appear"or"flicker")
 				cscore=cscore+min(50*cmb,500)*(2*cc-1)
 			end
 
@@ -2526,7 +2532,7 @@ do--player.drop(P)--Place piece
 
 		cscore=int(cscore)
 		if ENV.score then
-			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,int(40-600/(cscore+20)),"score",2)
+			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,int(8-120/(cscore+20))*5,"score",2)
 		end
 		STAT.score=STAT.score+cscore
 		STAT.piece=STAT.piece+1
@@ -2575,24 +2581,26 @@ local function gameOver()--Save record
 		local P=players[1]
 		R=R(P)--New rank
 		if R then
-			if R>0 then LOG.print(text.getRank..text.ranks[R],color.green)end
 			local r=modeRanks[M.name]--Old rank
-			local _
+			local needSave
 			if R>r then
 				modeRanks[M.name]=R
-				_=true
+				needSave=true
 			end
-			if M.unlock then
-				for i=1,#M.unlock do
-					local m=M.unlock[i]
-					local n=Modes[m].name
-					if not modeRanks[n]then
-						modeRanks[n]=Modes[m].score and 0 or 6
-						_=true
+			if R>0 then
+				LOG.print(text.getRank..text.ranks[R],color.green)
+				if M.unlock then
+					for i=1,#M.unlock do
+						local m=M.unlock[i]
+						local n=Modes[m].name
+						if not modeRanks[n]then
+							modeRanks[n]=Modes[m].score and 0 or 6
+							needSave=true
+						end
 					end
 				end
 			end
-			if _ then
+			if needSave then
 				FILE.saveUnlock()
 			end
 			local D=M.score(P)
@@ -2659,7 +2667,7 @@ function player.win(P,result)
 		gameOver()
 		TASK.new(TICK.autoPause,{0})
 		if marking then
-			P:showTextF(text.marking,0,-226,22,"appear",.4,.0626)
+			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
 	end
 	P:newTask(TICK.finish)
@@ -2764,7 +2772,7 @@ function player.lose(P)
 		P:newTask(#players>1 and TICK.lose or TICK.finish)
 		TASK.new(TICK.autoPause,{0})
 		if marking then
-			P:showTextF(text.marking,0,-226,22,"appear",.4,.0626)
+			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
 	else
 		P:newTask(TICK.lose)
@@ -2786,7 +2794,7 @@ function PLY.check_attackReach(P)
 end
 --------------------------<\Events>--------------------------
 
---------------------------<Control>--------------------------
+--------------------------<Actions>--------------------------
 player.act={}
 function player.act.moveLeft(P,auto)
 	if not auto then
@@ -3045,7 +3053,7 @@ do
 		A.dropLeft	,A.dropRight,	A.zangiLeft,A.zangiRight
 	}for i=1,20 do A[i]=T[i]end
 end
---------------------------</Control>--------------------------
+--------------------------</Actions>--------------------------
 
 --------------------------<Generator>--------------------------
 function PLY.newDemoPlayer(id,x,y,size)
@@ -3128,6 +3136,7 @@ function PLY.newRemotePlayer(id,x,y,size,actions)
 end
 function PLY.newAIPlayer(id,x,y,size,AIdata)
 	local P=newEmptyPlayer(id,x,y,size)
+	local ENV=P.gameEnv
 
 	if P.small then
 		ENV.text=false

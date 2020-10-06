@@ -157,30 +157,38 @@ do
 	local R=modeRanks
 	for k,v in next,R do
 		if type(k)=="number"then
-			if Modes[k]and not R[Modes[k].name]then
-				R[Modes[k].name]=v
-			end
 			R[k]=nil
 		end
 	end
 	if R.master_adavnce then
 		R.master_advance,R.master_adavnce=R.master_adavnce
 	end
+	if R["tech_normal+"]then
+		R.tech_normal2=R["tech_normal+"]
+		R.tech_hard2=R["tech_hard+"]
+		R.tech_lunatic2=R["tech_lunatic+"]
+		R.tech_finesse2=R["tech_finesse+"]
+		R["tech_normal+"],R["tech_hard+"],R["tech_lunatic+"],R["tech_finesse+"]=nil
+	end
 	if not text.modes[stat.lastPlay]then
 		stat.lastPlay="sprint_10"
 	end
 
-	--Update data file
+	--Check setting file
 	local S=setting
-	if type(S.spawn)~="number"then S.spawn=0 end
-	if type(S.ghost)~="number"then S.ghost=.3 end
-	if type(S.center)~="number"then S.center=1 end
-	if S.bgm>1 then S.bgm=S.bgm*.01 end
-	if S.sfx>1 then S.sfx=S.sfx*.01 end
-	if S.voc>1 then S.voc=S.voc*.01 end
-	if S.stereo>1 then S.stereo=S.stereo*.1 end
-	if S.VKSFX>1 then S.VKSFX=S.VKSFX*.25 end
-	if S.VKAlpha>1 then S.VKAlpha=S.VKAlpha*.1 end
+	if
+		type(S.block)~="boolean"or
+		type(S.spawn)~="number"or
+		type(S.ghost)~="number"or
+		type(S.center)~="number"or
+		S.bgm>1 or S.sfx>1 or S.voc>1 or
+		S.stereo>1 or S.VKSFX>1 or S.VKAlpha>1
+	then
+		NOGAME="delSetting"
+		fs.remove("settings.dat")
+	end
+
+	--Update data file
 	S=stat
 	if not S.spin[1][6]then
 		for i=1,25 do
@@ -192,7 +200,7 @@ do
 		newVersionLaunch=true
 	end
 	if system=="Android"and not setting.fullscreen then
-		LOG.print("如果你的手机状态栏不会消失,请到设置界面开启全屏",300,color.yellow)
+		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,color.yellow)
 		LOG.print("Switch fullscreen on if titleBar don't disappear",300,color.yellow)
 	end
 end

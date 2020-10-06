@@ -1,5 +1,3 @@
-local gc=love.graphics
-local rnd=math.random
 return{
 	color=color.green,
 	env={

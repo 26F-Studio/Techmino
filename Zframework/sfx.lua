@@ -91,10 +91,12 @@ function SFX.fplay(s,vol,pos)
 	S:play()
 end
 function SFX.reset()
-	for _,L in next,sfx do
-		for i=#v,2,-1 do
-			if not L[i]:isPlaying()then
-				rem(L,i)
+	for _,L in next,SFX.list do
+		if type(L)=="table"then
+			for i=#L,1,-1 do
+				if not L[i]:isPlaying()then
+					rem(L,i)
+				end
 			end
 		end
 	end

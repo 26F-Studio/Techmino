@@ -438,9 +438,9 @@ function resetGameData()
 	game.seed=rnd(261046101471026)
 
 	destroyPlayers()
-	restoreVirtualKey()
 	modeEnv=curMode.env
-	curMode.load()--BG/BGM need redefine in custom,so up here
+	restoreVirtualKey()
+	curMode.load()
 	if modeEnv.task then
 		for i=1,#players do
 			players[i]:newTask(modeEnv.task)
@@ -494,8 +494,8 @@ function resetPartGameData(replaying)
 	end
 
 	destroyPlayers()
-	restoreVirtualKey()
 	modeEnv=curMode.env
+	restoreVirtualKey()
 	curMode.load()
 	if modeEnv.task then
 		for i=1,#players do

@@ -103,24 +103,6 @@ do--calculator
 				S.reg=false
 				local v=tonumber(S.val)
 				if v==600+26 then S.pass=true
-				elseif v==022 then EGG("T022.Teatube")
-				elseif v==024 then EGG("S024.Sniraite")
-				elseif v==114 then EGG("T114.Flyz")
-				elseif v==127 then EGG("T127.gggf")
-				elseif v==196 then EGG("T196.蕴空之灵")
-				elseif v==210 then EGG("T210.Naki")
-				elseif v==238 then EGG("T238.模电")
-				elseif v==274 then EGG("T274.ZZZ")
-				elseif v==512 then EGG("T512.tatianyi")
-				elseif v==616 then EGG("T616.Mifu")
-				elseif v==655 then EGG("T655.ThTsOd")
-				elseif v==665 then EGG("T665.Tinko")
-				elseif v==722 then EGG("T0722")
-				elseif v==872 then EGG("T872.DIAO")
-				elseif v==942 then EGG("T942.思竣")
-				elseif v==1905 then EGG("T1905.Rinnya")
-				elseif v==3182 then EGG("T3182.蓝绿")
-				elseif v==7023 then EGG("T7023.Miya")
 				elseif v==190000+6022 then
 					S.pass,marking=true
 					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
@@ -241,10 +223,10 @@ do--p15
 		local S=sceneTemp
 		if S.state<2 then
 			if not key then
-				x,y=int((x-320)/160)+1,int((y-40)/160)+1
 				if S.pathVis then
 					sysFX.newRipple(.16,x,y,10)
 				end
+				x,y=int((x-320)/160)+1,int((y-40)/160)+1
 			end
 			local b=S.board
 			local moves=0
@@ -556,7 +538,9 @@ do--schulte_G
 	end
 	function keyDown.schulte_G(key)
 		local S=sceneTemp
-		if key=="space"or key=="r"then
+		if key=="z"or key=="x"then
+			love.mousepressed(ms.getPosition())
+		elseif key=="space"then
 			if sceneTemp.state>0 then
 				S.board={}
 				S.time=0
@@ -564,8 +548,6 @@ do--schulte_G
 				S.state=0
 				S.progress=0
 			end
-		elseif key=="z"or key=="x"then
-			love.mousepressed(ms.getPosition())
 		elseif key=="q"then
 			if S.state==0 then
 				S.blind=not S.blind
@@ -594,7 +576,6 @@ do--schulte_G
 		end
 	end
 
-	local fontSize={nil,nil,120,100,80,60}
 	function Pnt.schulte_G()
 		local S=sceneTemp
 
@@ -624,7 +605,7 @@ do--schulte_G
 		local width=640/rank
 		local blind=S.state==0 or S.blind and S.state==1 and S.progress>0
 		gc.setLineWidth(4)
-		local f=fontSize[rank]
+		local f=180-rank*20
 		setFont(f)
 		for i=1,rank do
 			for j=1,rank do
@@ -647,6 +628,178 @@ do--schulte_G
 		end
 	end
 end
+do--pong
+	function sceneInit.pong()
+		BG.set("none")
+		BGM.play("way")
+		sceneTemp={
+			state=0,
+
+			x=640,y=360,
+			vx=0,vy=0,
+			ry=0,
+
+			p1={
+				score=0,
+				y=360,
+				vy=0,
+				y0=false,
+			},
+			p2={
+				score=0,
+				y=360,
+				vy=0,
+				y0=false,
+			},
+		}
+	end
+
+	local function start()
+		sceneTemp.state=1
+		sceneTemp.vx=rnd()>.5 and 6 or -6
+		sceneTemp.vy=rnd()*6-3
+	end
+	function keyDown.pong(key)
+		local S=sceneTemp
+		if key=="space"then
+			if S.state==0 then
+				start()
+			end
+		elseif key=="r"then
+			S.state=0
+			S.x,S.y=640,360
+			S.vx,S.vy=0,0
+			S.ry=0
+			S.p1.score,S.p2.score=0,0
+		elseif key=="w"or key=="s"then
+			S.p1.y0=false
+		elseif key=="up"or key=="down"then
+			S.p2.y0=false
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+	function touchDown.pong(id,x,y)
+		touchMove.pong(id,x,y)
+		if sceneTemp.state==0 then
+			start()
+		end
+	end
+	function touchMove.pong(id,x,y,dx,dy)
+		sceneTemp[x<640 and"p1"or"p2"].y0=y
+	end
+
+	--DEBUGGING
+	function mouseMove.pong(x,y)
+		sceneTemp[x<640 and"p1"or"p2"].y0=y
+	end
+
+	--Rect Area X:150~1130 Y:20~700
+	function Tmr.pong()
+		local S=sceneTemp
+
+		--Update pads
+		local P=S.p1
+		while P do
+			if P.y0 then
+				if P.y>P.y0 then
+					P.y=max(P.y-8,P.y0,70)
+					P.vy=-8
+				elseif P.y<P.y0 then
+					P.y=min(P.y+8,P.y0,650)
+					P.vy=8
+				else
+					P.vy=P.vy*.5
+				end
+			else
+				if kb.isDown(P==S.p1 and"w"or"up")then P.vy=max(P.vy-1,-8)end
+				if kb.isDown(P==S.p1 and"s"or"down")then P.vy=min(P.vy+1,8)end
+				P.y=P.y+P.vy
+				P.vy=P.vy*.9
+				if P.y>650 then
+					P.vy=-P.vy*.5
+					P.y=650
+				elseif P.y<70 then
+					P.vy=-P.vy*.5
+					P.y=70
+				end
+			end
+			P=P==S.p1 and S.p2
+		end
+
+		--Update ball
+		local x,y,vx,vy,ry=S.x,S.y,S.vx,S.vy,S.ry
+		x,y=x+vx,y+vy
+		if ry~=0 then
+			if ry>0 then
+				ry=max(ry-.1,0)
+				vy=vy-.1
+			else
+				ry=min(ry+.1,0)
+				vy=vy+.1
+			end
+		end
+		if S.state==1 then--Playing
+			if x<160 or x>1120 then
+				local P=x<160 and S.p1 or S.p2
+				local d=y-P.y
+				if abs(d)<60 then
+					vx=-vx-(vx>0 and .05 or -.5)
+					vy=vy+d*.08+P.vy*.5
+					ry=P.vy
+					SFX.play("collect")
+				else
+					S.state=2
+				end
+			end
+			if y<30 or y>690 then
+				y=y<30 and 30 or 690
+				vy,ry=-vy,-ry
+				SFX.play("collect")
+			end
+		elseif S.state==2 then--Game over
+			if x<-120 or x>1400 or y<-40 or y>760 then
+				local P=x>1400 and S.p1 or S.p2
+				P.score=P.score+1
+				TEXT.show("+1",x>1400 and 470 or 810,226,50,"score")
+				SFX.play("reach")
+
+				S.state=0
+				x,y=640,360
+				vx,vy=0,0
+			end
+		end
+		S.x,S.y,S.vx,S.vy,S.ry=x,y,vx,vy,ry
+	end
+
+	function Pnt.pong()
+		local S=sceneTemp
+
+		--Draw score
+		setFont(100)
+		gc.setColor(.4,.4,.4)
+		mStr(S.p1.score,470,20)
+		mStr(S.p2.score,810,20)
+
+		--Draw boundary
+		gc.setColor(1,1,1)
+		gc.setLineWidth(6)
+		gc.line(130,20,1160,20)
+		gc.line(130,700,1160,700)
+
+		--Draw ball & speed line
+		gc.setColor(1,1,1-abs(S.ry)*.16)
+		gc.circle("fill",S.x,S.y,10)
+		gc.setColor(1,1,1,.1)
+		gc.line(S.x+S.vx*22,S.y+S.vy*22,S.x+S.vx*30,S.y+S.vy*30)
+
+		--Draw pads
+		gc.setColor(1,.8,.8)
+		gc.rectangle("fill",130,S.p1.y-50,20,100)
+		gc.setColor(.8,.8,1)
+		gc.rectangle("fill",1130,S.p2.y-50,20,100)
+	end
+end
 do--load
 	function sceneInit.load()
 		sceneTemp={
@@ -659,6 +812,7 @@ do--load
 				#BGM.list,
 				#SFX.list,
 				IMG.getCount(),
+				17,--Fontsize 20~100
 				#Modes,
 				1,
 			},
@@ -697,6 +851,8 @@ do--load
 			elseif S.phase==4 then
 				IMG.loadOne(S.cur)
 			elseif S.phase==5 then
+				getFont(15+5*S.cur)
+			elseif S.phase==6 then
 				local m=Modes[S.cur]--Mode template
 				local M=require("modes/"..m.name)--Mode file
 				Modes[m.name],Modes[S.cur]=M
@@ -713,7 +869,7 @@ do--load
 				end
 				-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 				-- M.icon=gc.newImage("image/modeIcon/custom.png")
-			elseif S.phase==6 then
+			elseif S.phase==7 then
 				--------------------------Loading other little things here
 				SKIN.load()
 				stat.run=stat.run+1
@@ -779,13 +935,13 @@ do--intro
 		for i=1,8 do
 			sceneTemp.r[i]=rnd(5)
 		end
-		local notice=HTTPrequest("http://47.103.200.40/api/notice.php")
+		local notice=HTTPrequest("http://47.103.200.40/api/notice")
 		if notice then
 			LOG.print(notice,"message")
 		else
 			LOG.print(text.getNoticeFail,"warn")
 		end
-		local newVersion=HTTPrequest("http://47.103.200.40/api/getNewVersion.php")
+		local newVersion=HTTPrequest("http://47.103.200.40/api/version_check")
 		if not newVersion then
 			LOG.print(text.getVersionFail,"warn")
 		elseif newVersion~=gameVersion then
@@ -799,9 +955,12 @@ do--intro
 		if k==2 then
 			VOC.play("bye")
 			SCN.back()
+		elseif NOGAME=="delSetting"then
+			LOG.print("检测到过老版本非法设置数据,设置已经全部重置,请重启游戏完成",600,color.yellow)
+			LOG.print("Old version detected, setting file deleted, please restart the game",600,color.yellow)
 		elseif NOGAME=="delCC"then
-			LOG.print("Please quit the game, then delete CCloader.dll(21KB) in saving folder!",600,color.yellow)
 			LOG.print("请关闭游戏,然后删除存档文件夹内的 CCloader.dll(21KB) !",600,color.yellow)
+			LOG.print("Please quit the game, then delete CCloader.dll(21KB) in saving folder!",600,color.yellow)
 			TASK.new(function(S)
 				S[1]=S[1]-1
 				if S[1]==0 then
@@ -990,7 +1149,7 @@ do--mode
 		end
 		mapCam.keyCtrl=false
 	end
-	function mouseClick.mode(x,y,k)
+	function mouseClick.mode(x,y)
 		local cam=mapCam
 		local _=cam.sel
 		if not _ or x<920 then
@@ -1034,8 +1193,8 @@ do--mode
 		end
 		mapCam.keyCtrl=false
 	end
-	function touchClick.mode(x,y,id)
-		mouseClick.mode(x,y,1)
+	function touchClick.mode(x,y)
+		mouseClick.mode(x,y)
 	end
 	function keyDown.mode(key)
 		if key=="return"then
@@ -1246,7 +1405,7 @@ do--mode
 						elseif s<25 then	dy=2
 						else				dy=4
 						end
-						setFont(int(26-s*.4))
+						setFont(int((26-s*.4)/3)*3)
 						gc.print(t,955,275+dy+25*i)
 						setFont(10)
 						_=L[i].date
@@ -2985,38 +3144,38 @@ do--dict
 			input="",
 			dict=require("document/dict"),
 			result={},
-			select=nil,
-			title=nil,
+			select=1,
+			scroll=0,
+
 			lastSearch=nil,
-			hideKB=1 or system~="Windows",
+			hideKB=system~="Windows",
 		}
 		BG.set("rainbow")
 	end
 
+	local function clearResult()
+		local S=sceneTemp
+		local result=S.result
+		for i=1,#result do rem(result)end
+		S.select,S.scroll,S.lastSearch=1,0
+	end
 	local function search()
+		clearResult()
 		local S=sceneTemp
 		local dict=S.dict
 		local result=S.result
-		for i=1,#result do rem(result)end
 		local first
 		for i=1,#dict do
-			local pos=find(dict[i][1],S.input)
+			local pos=find(dict[i][1],S.input,nil,true)
 			if pos==1 and not first then
 				ins(result,1,dict[i])
 				first=true
 			elseif pos then
 				ins(result,dict[i])
 			end
-			if first and #result==15 then
-				break
-			end
 		end
-		if result[1]then
-			S.select=1
-			S.title=result[1][3]
-		else
-			S.select=nil
-			S.title=nil
+		if not result[1]then
+			S.input=""
 		end
 	end
 
@@ -3029,38 +3188,39 @@ do--dict
 		elseif key=="up"then
 			if S.select and S.select>1 then
 				S.select=S.select-1
+				if S.select<S.scroll+1 then
+					S.scroll=S.scroll-1
+				end
 			end
 		elseif key=="down"then
-			if S.select and S.select<#S.result and S.select<15 then
+			if S.select and S.select<#(S.result[1]and S.result or S.dict)then
 				S.select=S.select+1
+				if S.select>S.scroll+15 then
+					S.scroll=S.select-15
+				end
 			end
 		elseif key=="kb"then
 			S.hideKB=not S.hideKB
 		elseif key=="delete"then
 			if #S.input>0 then
+				clearResult()
 				S.input=""
-				S.select=nil
-				S.lastSearch=nil
 				SFX.play("hold")
 			end
 		elseif key=="backspace"then
 			S.input=sub(S.input,1,-2)
 			if #S.input==0 then
-				S.select=nil
-				S.lastSearch=nil
+				clearResult()
 			end
 		elseif key=="escape"then
 			if #S.input>0 then
+				clearResult()
 				S.input=""
-				S.select=nil
-				S.lastSearch=nil
 			else
 				SCN.back()
 			end
 		elseif key=="return"then
-			if #S.input<2 then
-				S.input=""
-			elseif S.input~=S.lastSearch then
+			if #S.input>0 and S.input~=S.lastSearch then
 				search()
 				if S.result[1]then
 					SFX.play("reach")
@@ -3084,44 +3244,44 @@ do--dict
 		gc.setColor(1,1,1)
 		gc.draw(drawableText.dict,20,5)
 
+		gc.setLineWidth(4)
+		gc.rectangle("line",20,109,726,60)
 		setFont(40)
 		gc.print(S.input,35,110)
 
-		gc.setLineWidth(4)
-		gc.rectangle("line",20,109,726,60)
-
-		if S.select then
-			gc.rectangle("line",300,180,958,526)
-			gc.rectangle("line",20,180,280,526)
-
-			gc.setColor(1,1,1)
-			local text=S.result[S.select][4]
-			if #text>500 then
-				setFont(20)
-			elseif #text>300 then
-				setFont(24)
-			else
-				setFont(28)
-			end
-			gc.printf(text,306,180,950)
-
-			setFont(30)
-			gc.setColor(1,1,1,.4+.2*sin(Timer()*4))
-			gc.rectangle("fill",20,143+35*S.select,280,35)
-
-			setFont(30)
-			for i=1,min(#S.result,15)do
-				local S=S.result[i]
-				local y=142+35*i
-				gc.setColor(0,0,0)
-				gc.print(S[3],29,y-1)
-				gc.print(S[3],29,y+1)
-				gc.print(S[3],31,y-1)
-				gc.print(S[3],31,y+1)
-				gc.setColor(typeColor[S[2]])
-				gc.print(S[3],30,y)
-			end
+		local list=S.result[1]and S.result or S.dict
+		gc.setColor(1,1,1)
+		local text=list[S.select][4]
+		if #text>500 then
+			setFont(20)
+		elseif #text>300 then
+			setFont(24)
+		else
+			setFont(28)
 		end
+		gc.printf(text,306,180,950)
+
+		setFont(30)
+		gc.setColor(1,1,1,.4+.2*sin(Timer()*4))
+		gc.rectangle("fill",20,143+35*(S.select-S.scroll),280,35)
+
+		setFont(30)
+		for i=1,min(#list,15)do
+			local y=142+35*i
+			i=i+S.scroll
+			local S=list[i]
+			gc.setColor(0,0,0)
+			gc.print(S[3],29,y-1)
+			gc.print(S[3],29,y+1)
+			gc.print(S[3],31,y-1)
+			gc.print(S[3],31,y+1)
+			gc.setColor(typeColor[S[2]])
+			gc.print(S[3],30,y)
+		end
+
+		gc.setColor(1,1,1)
+		gc.rectangle("line",300,180,958,526)
+		gc.rectangle("line",20,180,280,526)
 	end
 end
 do--staff

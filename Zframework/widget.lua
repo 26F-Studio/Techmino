@@ -12,7 +12,7 @@ local text={
 }
 function text:reset()
 	if type(self.text)=="string"then
-		self.text=gc.newText(setFont(self.font or 30),self.text)
+		self.text=gc.newText(getFont(self.font or 30),self.text)
 	end
 end
 function text:draw()

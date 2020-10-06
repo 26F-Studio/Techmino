@@ -1,4 +1,5 @@
 local gc=love.graphics
+local format=string.format
 local function check_LVup(P)
 	if P.stat.row>=P.gameEnv.target then
 		P.gameEnv.target=P.gameEnv.target+10

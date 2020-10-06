@@ -1,5 +1,3 @@
-local gc=love.graphics
-local rnd=math.random
 return{
 	color=color.green,
 	env={
@@ -7,7 +5,7 @@ return{
 		next=0,hold=false,
 		sequence="rnd",
 		target=40,dropPiece=PLY.check_lineReach,
-		bg="aura",bgm="race",
+		bg="aura",bgm="waterfall",
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)

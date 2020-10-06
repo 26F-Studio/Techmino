@@ -178,7 +178,7 @@ function love.touchreleased(id,x,y)
 	end
 	if(x-lastX)^2+(y-lastY)^2<26 then
 		if touchClick[SCN.cur]then
-			touchClick[SCN.cur](x,y,k)
+			touchClick[SCN.cur](x,y)
 		end
 		sysFX.newRipple(.3,x,y,30)
 	end
@@ -375,17 +375,17 @@ function love.errorhandler(msg)
 				needDraw=true
 			elseif E=="focus"then
 				needDraw=true
-			elseif E=="touchDown"or E=="keyDown"or E=="mouseDown"then
+			elseif E=="touchpressed"or E=="keypressed"or E=="mousepressed"then
 				if count<3 then
 					count=count+1
 					SFX.play("ready")
 				else
 					local code=loadstring(love.system.getClipboardText())
 					if code then
-						if code()then
-							SFX.play("reach")
-						end
-						SFX.play("start")
+						code()
+						SFX.play("reach")
+					else
+						SFX.play("finesseError")
 					end
 					count=0
 				end
