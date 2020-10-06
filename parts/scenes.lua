@@ -759,7 +759,7 @@ do--pong
 			end
 		elseif S.state==2 then--Game over
 			if x<-120 or x>1400 or y<-40 or y>760 then
-				local P=x>1400 and S.p1 or S.p2
+				local P=x>640 and S.p1 or S.p2
 				P.score=P.score+1
 				TEXT.show("+1",x>1400 and 470 or 810,226,50,"score")
 				SFX.play("reach")
