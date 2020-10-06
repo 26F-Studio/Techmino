@@ -688,8 +688,6 @@ do--pong
 	function touchMove.pong(id,x,y,dx,dy)
 		sceneTemp[x<640 and"p1"or"p2"].y0=y
 	end
-
-	--DEBUGGING
 	function mouseMove.pong(x,y)
 		sceneTemp[x<640 and"p1"or"p2"].y0=y
 	end
@@ -759,7 +757,7 @@ do--pong
 			end
 		elseif S.state==2 then--Game over
 			if x<-120 or x>1400 or y<-40 or y>760 then
-				local P=x>640 and S.p1 or S.p2
+				P=x>640 and S.p1 or S.p2
 				P.score=P.score+1
 				TEXT.show("+1",x>1400 and 470 or 810,226,50,"score")
 				SFX.play("reach")
@@ -1578,6 +1576,9 @@ do--custom_seq
 			if S.cur>0 then
 				rem(preBag,S.cur)
 				S.cur=S.cur-1
+				if S.cur>0 and preBag[S.cur]==preBag[S.cur+1]then
+					keyDown.custom_mission("right")
+				end
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
@@ -1930,6 +1931,9 @@ do--custom_mission
 			if S.cur>0 then
 				rem(preMission,S.cur)
 				S.cur=S.cur-1
+				if S.cur>0 and preMission[S.cur]==preMission[S.cur+1]then
+					keyDown.custom_mission("right")
+				end
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
@@ -3301,7 +3305,7 @@ do--staff
 
 	function Tmr.staff(dt)
 		local S=sceneTemp
-		if kb.isDown("space","return")and S.v<6.26 then
+		if(kb.isDown("space","return")or tc.getTouches()[1])and S.v<6.26 then
 			S.v=S.v+.26
 		elseif S.v>1 then
 			S.v=S.v-.26
