@@ -3145,15 +3145,19 @@ end
 do--dict
 	function sceneInit.dict()
 		sceneTemp={
-			input="",
 			dict=require("document/dict"),
+
+			input="",
 			result={},
+			url=nil,
 			select=1,
 			scroll=0,
 
 			lastSearch=nil,
-			hideKB=system~="Windows",
+			hideKB=true,
 		}
+		local S=sceneTemp
+		S.url=(S.result[1]and S.result or S.dict)[S.select][5]
 		BG.set("rainbow")
 	end
 
@@ -3204,11 +3208,7 @@ do--dict
 				end
 			end
 		elseif key=="link"then
-			local url=(S.result[1]and S.result or S.dict)[S.select][5]
-			LOG.print(url)
-			if url then
-				love.system.openURL(url)
-			end
+			love.system.openURL(S.url)
 		elseif key=="kb"then
 			S.hideKB=not S.hideKB
 		elseif key=="delete"then
@@ -3240,6 +3240,7 @@ do--dict
 				S.lastSearch=S.input
 			end
 		end
+		S.url=(S.result[1]and S.result or S.dict)[S.select][5]
 	end
 
 	local typeColor={
