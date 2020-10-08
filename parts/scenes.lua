@@ -120,13 +120,6 @@ do--calculator
 				elseif v==1379e8+2626e4+1379 then
 					S.pass=true
 					SCN.go("debug")
-				elseif v==34494 then
-					error("This is an error testing message.")
-				elseif v==114514 or v==1145141919810 then
-					error("小鬼自裁请")
-				elseif v==123456789 then
-					S.reg=123456789
-					v=987654321
 				end
 			end
 		elseif k=="escape"then
