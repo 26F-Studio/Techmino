@@ -2,6 +2,66 @@ local gc=love.graphics
 local int=math.floor
 local sub,find,format=string.sub,string.find,string.format
 
+do--LOADLIB
+	local libName={
+		CC={
+			Windows="CCloader",
+			Linux="CCloader",
+			Android="libCCloader.so",
+			libFunc="luaopen_CCloader",
+		},
+		NETlib={
+			Windows="client",
+			Linux="client",
+			Android="client.so",
+			libFunc="client",
+		},
+	}
+	function LOADLIB(name)
+		local libName=libName[name]
+		if system=="Windows"or system=="Linux"then
+			local success,message=require(libName[system])
+			if success then
+				LOG.print(name.." load successfully","warn",color.green)
+			else
+				LOG.print("Cannot load "..name..": "..message,"warn",color.red)
+			end
+		elseif system=="Android"then
+			local fs=love.filesystem
+			local platform={"arm64-v8a","armeabi-v7a"}
+			local libFunc
+			for i=1,#platform do
+				local soFile,size=fs.read("data","libAndroid/"..platform[i].."/"..libName.Android)
+				if soFile then
+					local success,message=fs.write(libName.Android,soFile,size)
+					if success then
+						libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),libName.Android},"/"),libName.libFunc)
+						if libFunc then
+							LOG.print(name.." lib loaded","warn",color.green)
+							break
+						else
+							LOG.print("Cannot load "..name..": "..message,"warn",color.red)
+						end
+					else
+						LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",color.red)
+					end
+				else
+					LOG.print("Read "..name.."-"..platform[i].." failed","warn",color.red)
+				end
+			end
+			if not libFunc then
+				LOG.print("failed to load "..name,"warn",color.red)
+				return
+			end
+			LOG.print(name.." load successfully","warn",color.green)
+			libFunc()
+		else
+			LOG.print("No "..name.." for "..system,"warn",color.red)
+			return
+		end
+		return true
+	end
+end
 do--setFont
 	local newFont=gc.setNewFont
 	local setNewFont=gc.setFont
@@ -25,7 +85,6 @@ do--setFont
 		end
 	else
 		function setFont(s)
-			local f=fontCache[s]
 			if s~=currentFontSize then
 				if not fontCache[s]then
 					fontCache[s]=newFont(s)
@@ -92,17 +151,34 @@ do--dumpTable
 end
 do--HTTPrequest
 	local http=require("socket.http")
-	function HTTPrequest(url)
+	function HTTPrequest(url,method)
 		local data={}
 		local res,code,response_headers,response_body=http.request{
 			url=url,
-			sink=ltn12.sink.table(data)
+			sink=ltn12.sink.table(data),
+			method=method or"GET",
 		}
 		if code~=200 then
 			LOG.print("NET ERROR: code="..(code or"nil"))
 		end
 		return data[1]
 	end
+	--[[
+	LOADLIB("NETlib")
+	function HTTPrequest(url,method)
+		local task,err=client.httpraw{
+			url=url,
+			method=method,
+			-- header={},
+			-- body="",
+		}
+		if not err then
+			TASK.new(TICK.httpRequest,{code=task,time=0})
+		else
+			LOG.print("NET error: "..err,"error")
+		end
+	end
+	]]
 end
 do--json
 	--

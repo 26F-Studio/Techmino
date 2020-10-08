@@ -16,59 +16,7 @@ local Timer=love.timer.getTime
 local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
-do
-	local fs=love.filesystem
-	if system=="Windows"then
-		local success,message=require("CCloader")
-		if success then
-			LOG.print("CC load successfully","warn",color.green)
-		else
-			LOG.print("Cannot load CC: "..message,"warn",color.red)
-		end
-		if fs.getInfo("CCloader.dll")then
-			NOGAME="delCC"
-		end
-	elseif system=="Linux"then
-		local success,message=require("CCloader")
-		if success then
-			LOG.print("CC load successfully","warn",color.green)
-		else
-			LOG.print("Cannot load CC: "..message,"warn",color.red)
-		end
-	elseif system=="Android"then
-		local armList={"arm64-v8a","armeabi-v7a"}
-		local libFunc,success,message
-		for i=1,#armList do
-			local CCloader_f,size=fs.read("data","libAndroid/"..armList[i].."/libCCloader.so")
-			if CCloader_f then
-				LOG.print("Read CC-"..armList[i].." successfully","warn",color.green)
-				success,message=fs.write("libCCloader.so",CCloader_f,size)
-				if success then
-					LOG.print("Write CC-"..armList[i].." to saving successfully","warn",color.green)
-					libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),"libCCloader.so"},"/"),"luaopen_CCloader")
-					if libFunc then
-						LOG.print("CC lib loaded","warn",color.green)
-						break
-					else
-						LOG.print("Cannot load CC: "..message,"warn",color.red)
-					end
-				else
-					LOG.print("Write CC-"..armList[i].." to saving failed","warn",color.red)
-				end
-			else
-				LOG.print("Read CC-"..armList[i].." failed","warn",color.red)
-			end
-		end
-		if not libFunc then
-			LOG.print("failed to load CC","warn",color.red)
-			goto FAILED
-		end
-		LOG.print("CC load successfully","warn",color.green)
-		libFunc()
-	else
-		LOG.print("No CC for "..system,"warn",color.red)
-		goto FAILED
-	end
+if LOADLIB("CC")then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
 		getConf=	cc.get_default_config	,--()options,weights
@@ -135,7 +83,6 @@ do
 		collectgarbage()
 	end
 end
-::FAILED::
 -------------------------------------------------9 Stack setup
 local dirCount={1,1,3,3,3,0,1}
 local spinOffset={
