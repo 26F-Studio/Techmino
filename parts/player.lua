@@ -291,7 +291,7 @@ local function Pupdate_alive(P,dt)
 			goto stop
 		else
 			local L=#P.clearingRow
-			if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
+			if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
 			P.clearingRow={}
 		end
 	end
@@ -376,7 +376,7 @@ local function Pupdate_dead(P,dt)
 		P.falling=P.falling-1
 		if P.falling<0 then
 			local L=#P.clearingRow
-			if P.human and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
+			if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
 			P.clearingRow={}
 		end
 	end
@@ -1580,15 +1580,15 @@ end
 function player.finesseError(P,rate)
 	P.stat.extraPiece=P.stat.extraPiece+1
 	P.stat.extraRate=P.stat.extraRate+rate
-	if P.human then
+	if P.gameEnv.fineKill then
+		P:lose()
+	end
+	if P.sound then
 		if P.gameEnv.fineKill then
 			SFX.play("finesseError_long",.6)
-			P:lose()
 		elseif setting.fine then
 			SFX.play("finesseError",.8)
 		end
-	elseif P.gameEnv.fineKill then
-		P:lose()
 	end
 end
 function player.attack(P,R,send,time,...)
@@ -1615,7 +1615,7 @@ function player.attack(P,R,send,time,...)
 		}--Sorted insert(by time)
 		B.sum=B.sum+send
 		R.stat.recv=R.stat.recv+send
-		if R.human then
+		if R.sound then
 			SFX.play(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)
 		end
 	end
@@ -1875,7 +1875,7 @@ function player.resetBlock(P)
 	end
 
 	--Spawn SFX
-	if P.human and id<8 then
+	if P.sound and id<8 then
 		SFX.fplay(spawnSFX_name[id],setting.spawn)
 	end
 end
@@ -1914,7 +1914,7 @@ function player.spin(P,d,ifpre)
 					P.freshTime=P.freshTime+1
 				end
 
-				if P.human then
+				if P.sound then
 					SFX.fieldPlay(ifpre and"prerotate"or P:ifoverlap(P.cur.bk,P.curX,P.curY+1)and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,P)
 				end
 				P.stat.rotate=P.stat.rotate+1
@@ -1972,7 +1972,7 @@ function player.hold(P,ifpre)
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 		end
 
-		if P.human then
+		if P.sound then
 			SFX.play(ifpre and"prehold"or"hold")
 		end
 		P.stat.hold=P.stat.hold+1
@@ -2276,7 +2276,7 @@ do--player.drop(P)--Place piece
 					exblock=exblock+1
 					cscore=cscore*2
 					STAT.b3b=STAT.b3b+1
-					if P.human then
+					if P.sound then
 						VOC.play("b3b",CHN)
 					end
 				elseif P.b2b>=50 then
@@ -2284,7 +2284,7 @@ do--player.drop(P)--Place piece
 					atk=b2bATK[cc]
 					cscore=cscore*1.2
 					STAT.b2b=STAT.b2b+1
-					if P.human then
+					if P.sound then
 						VOC.play("b2b",CHN)
 					end
 				else
@@ -2298,7 +2298,7 @@ do--player.drop(P)--Place piece
 					sendTime=sendTime+60
 					cscore=cscore*.5
 					P.b2b=P.b2b+b2bPoint[cc]*.5
-					if P.human then
+					if P.sound then
 						VOC.play("mini",CHN)
 					end
 				else
@@ -2306,7 +2306,7 @@ do--player.drop(P)--Place piece
 				end
 				C.mini=mini
 				C.special=true
-				if P.human then
+				if P.sound then
 					SFX.play(spin_n[cc])
 					VOC.play(spinName[CB.name],CHN)
 				end
@@ -2319,7 +2319,7 @@ do--player.drop(P)--Place piece
 					exblock=exblock+1
 					cscore=cscore*1.8
 					STAT.b3b=STAT.b3b+1
-					if P.human then
+					if P.sound then
 						VOC.play("b3b",CHN)
 					end
 				elseif P.b2b>=50 then
@@ -2328,7 +2328,7 @@ do--player.drop(P)--Place piece
 					atk=cc+1
 					cscore=cscore*1.3
 					STAT.b2b=STAT.b2b+1
-					if P.human then
+					if P.sound then
 						VOC.play("b2b",CHN)
 					end
 				else
@@ -2341,7 +2341,7 @@ do--player.drop(P)--Place piece
 			else
 				C.special=false
 			end
-			if P.human then
+			if P.sound then
 				VOC.play(clearName[cc],CHN)
 			end
 
@@ -2359,7 +2359,7 @@ do--player.drop(P)--Place piece
 					cscore=cscore+626
 				end
 				STAT.pc=STAT.pc+1
-				if P.human then
+				if P.sound then
 					SFX.play("clear")
 					VOC.play("perfect_clear",CHN)
 				end
@@ -2372,7 +2372,7 @@ do--player.drop(P)--Place piece
 				sendTime=sendTime+60
 				cscore=cscore+626
 				STAT.hpc=STAT.hpc+1
-				if P.human then
+				if P.sound then
 					SFX.play("clear")
 					VOC.play("half_clear",CHN)
 				end
@@ -2449,7 +2449,7 @@ do--player.drop(P)--Place piece
 							P:attack(T,send,sendTime,1,CB.color,C,cmb)
 						end
 					end
-					if P.human and send>3 then SFX.play("emit",min(send,7)*.1)end
+					if P.sound and send>3 then SFX.play("emit",min(send,7)*.1)end
 				end
 			end
 
@@ -2489,7 +2489,7 @@ do--player.drop(P)--Place piece
 			end
 
 			--SFX & Vibrate
-			if P.human then
+			if P.sound then
 				SFX.play(clear_n[cc])
 				SFX.play(ren_n[min(cmb,11)])
 				if cmb>14 then SFX.play("ren_mega",(cmb-10)*.1)end
@@ -2502,7 +2502,7 @@ do--player.drop(P)--Place piece
 			if dospin then
 				P:showText(text.block[CB.name]..text.spin,0,-30,45,"appear")
 				P.b2b=P.b2b+20
-				if P.human then
+				if P.sound then
 					SFX.play("spin_0")
 					VOC.play(spinName[CB.name],CHN)
 				end
@@ -2566,7 +2566,7 @@ do--player.drop(P)--Place piece
 		if _ then _(P)end
 
 		--Stereo SFX
-		if P.human then SFX.fieldPlay("lock",nil,P)end
+		if P.sound then SFX.fieldPlay("lock",nil,P)end
 	end
 end
 --------------------------</Methods>--------------------------
@@ -2813,7 +2813,7 @@ function player.act.moveLeft(P,auto)
 			end
 			P.curX=P.curX-1
 			P:freshBlock(false,true)
-			if P.human and P.curY==P.imgY then SFX.play("move")end
+			if P.sound and P.curY==P.imgY then SFX.play("move")end
 			if not auto then P.moving=0 end
 			P.spinLast=false
 		else
@@ -2840,7 +2840,7 @@ function player.act.moveRight(P,auto)
 			end
 			P.curX=P.curX+1
 			P:freshBlock(false,true)
-			if P.human and P.curY==P.imgY then SFX.play("move")end
+			if P.sound and P.curY==P.imgY then SFX.play("move")end
 			if not auto then P.moving=0 end
 			P.spinLast=false
 		else
@@ -2887,7 +2887,7 @@ function player.act.hardDrop(P)
 			if P.gameEnv.shakeFX then
 				P.fieldOff.vy=P.gameEnv.shakeFX*.6
 			end
-			if P.human then
+			if P.sound then
 				SFX.fieldPlay("drop",nil,P)
 				VIB(1)
 			end
@@ -3110,6 +3110,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 	prepareSequence(P)
 
 	P.human=false
+	P.sound=true
 	loadAI(P,{
 		type="CC",
 		next=5,
@@ -3126,6 +3127,7 @@ function PLY.newRemotePlayer(id,x,y,size,actions)
 	local P=newEmptyPlayer(id,x,y,size)
 
 	P.human=false
+	P.sound=false
 	P.remote=true
 
 	-- P.updateAction=buildActionFunctionFromActions(P, actions)
@@ -3155,6 +3157,7 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 	prepareSequence(P)
 
 	P.human=false
+	P.sound=false
 	loadAI(P,AIdata)
 end
 function PLY.newPlayer(id,x,y,size)
@@ -3165,6 +3168,7 @@ function PLY.newPlayer(id,x,y,size)
 	prepareSequence(P)
 
 	P.human=true
+	P.sound=true
 	P.RS=kickList.TRS
 end
 --------------------------</Generator>--------------------------
