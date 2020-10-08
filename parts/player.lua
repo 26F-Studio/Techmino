@@ -1050,8 +1050,8 @@ local function pressKey(P,i)
 				ins(P.keyTime,1,game.frame)
 				P.keyTime[11]=nil
 			end
-			P.stat.key=P.stat.key+1
 		end
+		P.stat.key=P.stat.key+1
 	end
 end
 local function releaseKey(P,i)
@@ -1070,8 +1070,8 @@ local function pressKey_Rec(P,i)
 				ins(P.keyTime,1,game.frame)
 				P.keyTime[11]=nil
 			end
-			P.stat.key=P.stat.key+1
 		end
+		P.stat.key=P.stat.key+1
 	end
 end
 local function releaseKey_Rec(P,i)
@@ -1292,7 +1292,7 @@ local function loadAI(P,AIdata)--Load AI params
 
 		next=AIdata.next,
 		hold=AIdata.hold,
-		_20G=ENV._20G,
+		_20G=P._20G,
 		bag=AIdata.bag,
 		node=AIdata.node,
 	}
