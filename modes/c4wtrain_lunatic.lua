@@ -44,7 +44,7 @@ return{
 		elseif r==6 then F[1][7],F[1][6],F[1][5]=13,13,13
 		end
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(45)
 		mStr(P.combo,69,380)
 		mStr(P.modeData.point,69,470)

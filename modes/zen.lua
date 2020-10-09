@@ -9,7 +9,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(70)
 		local R=200-P.stat.row
 		mStr(R>=0 and R or 0,69,335)

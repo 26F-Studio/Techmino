@@ -56,7 +56,7 @@ return{
 		PLY.newPlayer(1,340,15)
 		newPC(players[1])
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(75)
 		mStr(P.stat.pc,69,400)
 		mText(drawableText.pc,69,482)

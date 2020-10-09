@@ -51,7 +51,7 @@ return{
 		modeEnv.bg=customEnv.bg
 		modeEnv.bgm=customEnv.bgm
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(55)
 		if P.gameEnv.target>1e10 then
 			mStr(P.stat.row,69,295)

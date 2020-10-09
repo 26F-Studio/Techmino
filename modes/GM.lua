@@ -38,7 +38,7 @@ return{
 		PLY.newPlayer(1,340,15)
 		players[1].modeData.event="M7"
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		mText(drawableText.line,69,370)
 		mText(drawableText.techrash,69,490)
 		mText(drawableText.grade,69,240)

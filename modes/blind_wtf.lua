@@ -21,7 +21,7 @@ return{
 			LOG.print(text.switchSpawnSFX,color.yellow)
 		end
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		if not game.result then
 			if game.replaying then
 				gc.setColor(.3,.3,.3,.7)

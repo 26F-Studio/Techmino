@@ -27,7 +27,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		gc.setLineWidth(2)
 		gc.rectangle("line",55,190,32,402)
 		local T=P.stat.time/120

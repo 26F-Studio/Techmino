@@ -32,7 +32,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(75)
 		local r=P.gameEnv.target*.1
 		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),69,280)

@@ -42,7 +42,7 @@ return{
 			P:garbageRise(13,1,P:RND(10))
 		end
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(45)
 		mStr(P.stat.dig,69,260)
 		mStr(P.stat.atk,69,380)

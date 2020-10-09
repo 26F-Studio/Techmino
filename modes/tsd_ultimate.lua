@@ -22,7 +22,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(65)
 		mStr(P.modeData.event,69,320)
 		mText(drawableText.tsd,69,385)

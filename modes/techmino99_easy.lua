@@ -56,7 +56,7 @@ return{
 			n=n+1
 		end end
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(35)
 		mStr(#players.alive.."/99",69,245)
 		mStr(P.modeData.point,80,285)

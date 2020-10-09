@@ -43,7 +43,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		setFont(55)
 		mStr(P.modeData.event,69,270)
 		mStr(P.modeData.point,69,390)

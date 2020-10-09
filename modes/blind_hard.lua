@@ -17,7 +17,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 	end,
-	mesDisp=function(P,dx,dy)
+	mesDisp=function(P)
 		mText(drawableText.line,69,370)
 		mText(drawableText.techrash,69,490)
 		setFont(75)
