@@ -3,8 +3,7 @@ local int=math.floor
 local function tech_check_easy(P)
 	if #P.clearedRow>0 and P.b2b<40 then
 		P:lose()
-	end
-	if P.stat.atk>=200 then
+	elseif P.stat.atk>=200 then
 		P:win("finish")
 	end
 end

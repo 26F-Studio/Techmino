@@ -4,6 +4,7 @@ local function tech_check_hard(P)
 	if #P.clearedRow>0 then
 		if not(P.lastClear.spin or P.lastClear.pc)then
 			P:lose()
+			return
 		end
 	end
 	if P.stat.atk>=200 then
