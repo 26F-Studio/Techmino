@@ -3,7 +3,7 @@ local function check_rise(P)
 		P:garbageRise(13,1,P:RND(10))
 	end
 	if P.stat.dig==400 then
-		P:win()
+		P:win("finish")
 	end
 end
 

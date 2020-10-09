@@ -1,6 +1,6 @@
 local function check_rise(P)
 	if P.stat.dig==10 then
-		P:win()
+		P:win("finish")
 	end
 end
 
