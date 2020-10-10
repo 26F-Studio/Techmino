@@ -37,7 +37,7 @@ return{
 				end
 			end
 		end,
-		bg="rainbow2",bgm="way",
+		bg="rainbow2",bgm="storm",
 	},
 	pauseLimit=true,
 	load=function()

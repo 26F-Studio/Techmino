@@ -28,7 +28,7 @@ BGM.list={
 	"race","push","way","reason",
 	"newera","oxygen","infinite","down",
 	"secret7th","secret8th",
-	"waterfall","shining terminal","distortion","far",
+	"waterfall","shining terminal","distortion","far","storm",
 	"rockblock","cruelty","final","8-bit happiness","end",
 	"how feeling",
 }
