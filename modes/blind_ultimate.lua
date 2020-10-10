@@ -11,7 +11,7 @@ return{
 		dropPiece=PLY.check_lineReach,
 		freshLimit=15,
 		target=200,
-		bg="rgb",bgm="way",
+		bg="rgb",bgm="push",
 	},
 	pauseLimit=true,
 	load=function()

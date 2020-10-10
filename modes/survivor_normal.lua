@@ -21,7 +21,7 @@ return{
 				P.modeData.event=d
 			end
 		end,
-		bg="glow",bgm="newera",
+		bg="glow",bgm="secret8th",
 	},
 	pauseLimit=true,
 	load=function()

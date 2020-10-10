@@ -47,7 +47,7 @@ return{
 		setFont(55)
 		mStr(P.modeData.event,69,270)
 		mStr(P.modeData.point,69,390)
-		mText(drawableText.wave,69,350)
+		mText(drawableText.wave,69,330)
 		mText(drawableText.rpm,69,450)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,

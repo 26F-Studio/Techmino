@@ -24,13 +24,27 @@ local BGM={
 	--playing=[src:playing SRC]
 }
 BGM.list={
-	"blank",
-	"race","push","way","reason",
-	"newera","oxygen","infinite","down",
-	"secret7th","secret8th",
-	"waterfall","shining terminal","distortion","far","storm",
-	"rockblock","cruelty","final","8-bit happiness","end",
-	"how feeling",
+	"blank",--menu
+	"race",--sprint, solo
+	"infinite",--infinite norm/dig, ultra, zen, tech-finesse
+	"push",--marathon, round, tsd, blind-5/6
+	"way",--dig sprint
+	"reason",--drought, blind-1/2/3/4
+
+	"secret8th",--master-1, survivor-2
+	"secret7th",--master-2, survivor-3
+	"waterfall",--sprint Penta/MPH
+	"newera",--bigbang, pc challenge, survivor-1, tech-normal
+	"oxygen",--c4w/pc train
+
+	"distortion",--master-3
+	"far",--GM
+	"shining terminal",--attacker
+	"storm",--defender, survivor-4/5
+	"down",--dig, tech-hard/lunatic
+
+	"rockblock",--classic, 49/99
+	"cruelty","final","8-bit happiness","end","how feeling",--49/99
 }
 BGM.len=#BGM.list
 function BGM.loadOne(N)
