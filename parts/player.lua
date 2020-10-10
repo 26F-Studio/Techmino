@@ -2207,9 +2207,7 @@ do--player.drop(P)--Place piece
 		--Final spin check
 		if dospin>0 then
 			if cc>0 then
-				if P.spinLast then
-					dospin=dospin+1
-				end
+				dospin=dospin+(P.spinLast or 0)
 				if dospin<3 then
 					mini=CB.id<6 and cc<P.r
 				end
