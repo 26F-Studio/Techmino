@@ -165,15 +165,17 @@ local function updateTasks(P)
 end
 local function Pupdate_alive(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
-	if P.keyRec then
+	if P.keyRec then--Update speeds
 		local _=game.frame
+
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i])end
+		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i]+1)end
 		P.keySpeed=P.keySpeed*.99+v*.1
+
 		v=0
 		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.dropTime[i])end
 		P.dropSpeed=P.dropSpeed*.99+v*.1
-		--Update speeds
+
 		if modeEnv.royaleMode then
 			if P.keyPressing[9]then
 				P.swappingAtkMode=min(P.swappingAtkMode+2,30)
