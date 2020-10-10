@@ -360,6 +360,9 @@ local function Pupdate_alive(P,dt)
 	else
 		P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
 	end
+	if P.finesseComboTime>0 then
+		P.finesseComboTime=P.finesseComboTime-1
+	end
 	updateLine(P,dt)
 	updateFXs(P,dt)
 	updateTasks(P)
@@ -382,7 +385,12 @@ local function Pupdate_dead(P,dt)
 			P.clearingRow={}
 		end
 	end
-	if P.b2b1>0 then P.b2b1=max(0,P.b2b1*.92-1)end
+	if P.b2b1>0 then
+		P.b2b1=max(0,P.b2b1*.92-1)
+	end
+	if P.finesseComboTime>0 then
+		P.finesseComboTime=P.finesseComboTime-1
+	end
 	updateLine(P,dt)
 	updateFXs(P,dt)
 	updateTasks(P)
@@ -783,7 +791,38 @@ local Pdraw_norm do
 			gc.setColor(1,1,1)
 			gc.draw(drawableText.bpm,540,550)
 			gc.draw(drawableText.kpm,494,643)
+
+			--Score & Time
+			setFont(25)
+			gc.setColor(0,0,0,.3)
+			gc.print(P.score1,18,579)
+			gc.print(format("%.2f",P.stat.time),18,609)
+
+			gc.setColor(color.lYellow)gc.print(P.score1,20,580)
+			gc.setColor(color.sky)gc.print(format("%.2f",P.stat.time),20,610)
+
+			--FinesseCombo
+			if P.finesseCombo>2 then
+				_=P.finesseComboTime
+				local T=P.finesseCombo.."x"
+				if _>0 then
+					gc.setColor(1,1,1,_*.2)
+					gc.print(T,20,640)
+					gc.setColor(1,1,1,1.2-_*.1)
+					gc.push("transform")
+					gc.translate(20,670)
+					gc.scale(1+_*.08)
+					gc.print(T,0,-30)
+					gc.pop()
+				else
+					gc.setColor(1,1,1)
+					gc.print(T,20,640)
+				end
+			end
+
+			--Lives
 			if P.life>0 then
+				gc.setColor(1,1,1)
 				if P.life<=3 then
 					for i=1,P.life do
 						gc.draw(IMG.lifeIcon,450+25*i,665,nil,.8)
@@ -795,8 +834,6 @@ local Pdraw_norm do
 					gc.print(P.life,517,665)
 				end
 			end
-			mStr(format("%.2f",P.stat.time),69,588)--Time
-			mStr(P.score1,69,630)--Score
 
 			--Display Ys
 			-- gc.setLineWidth(6)
@@ -1028,12 +1065,13 @@ local function getNewStatTable()
 	local T={
 		time=0,score=0,
 		key=0,rotate=0,hold=0,
-		extraPiece=0,extraRate=0,
+		extraPiece=0,finesseRate=0,
 		piece=0,row=0,dig=0,
 		atk=0,digatk=0,
 		send=0,recv=0,pend=0,off=0,
 		clear={},clears={},spin={},spins={},
 		pc=0,hpc=0,b2b=0,b3b=0,
+		maxCombo=0,maxFinesseCombo=0,
 	}
 	for i=1,25 do
 		T.clear[i]={0,0,0,0,0}
@@ -1409,11 +1447,13 @@ local function newEmptyPlayer(id,x,y,size)
 	P.waiting,P.falling=-1,-1
 	P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
 	P.combo,P.b2b=0,0
+	P.finesseCombo=0
 	P.garbageBeneath=0
 	P.fieldBeneath=0
 	P.fieldUp=0
 
 	P.score1,P.b2b1=0,0
+	P.finesseComboTime=0
 	P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
 	P.tasks={}--Tasks
 	P.bonus={}--Texts
@@ -1578,20 +1618,6 @@ end
 function player.ckfull(P,i)
 	for j=1,10 do if P.field[i][j]<=0 then return end end
 	return true
-end
-function player.finesseError(P,rate)
-	P.stat.extraPiece=P.stat.extraPiece+1
-	P.stat.extraRate=P.stat.extraRate+rate
-	if P.gameEnv.fineKill then
-		P:lose()
-	end
-	if P.sound then
-		if P.gameEnv.fineKill then
-			SFX.play("finesseError_long",.6)
-		elseif setting.fine then
-			SFX.play("finesseError",.8)
-		end
-	end
 end
 function player.attack(P,R,send,time,...)
 	if setting.atkFX>0 then
@@ -1933,13 +1959,12 @@ function player.hold(P,ifpre)
 		if not(H or C)then return end
 
 		--Finesse check
-		if H and C and H.id==C.id and H.name==C.name or P.ctrlCount>1 then
-			P:finesseError(1)
+		if not(H and C and H.id==C.id and H.name==C.name or P.ctrlCount>1)then
+			P.ctrlCount=0
 		end
 
 		P.holded=P.gameEnv.oncehold
 		P.spinLast=false
-		P.ctrlCount=0
 		P.spinSeq=0
 
 		P.cur,P.hd=H,C--Swap hold
@@ -2253,15 +2278,38 @@ do--player.drop(P)--Place piece
 		end
 
 		--Finesse check (control)
+		local finePts
 		if not finesse then
 			if dospin then P.ctrlCount=P.ctrlCount-2 end--Allow 2 more step for roof-less spin
 			local id=CB.id
 			local d=P.ctrlCount-finesseList[id][P.dir+1][CX]
-			if d>=2 then
-				P:finesseError(2)
-			elseif d>0 then
-				P:finesseError(d)
+			finePts=d<=0 and 4 or max(3-d,0)
+		else
+			finePts=4
+		end
+
+		P.stat.finesseRate=P.stat.finesseRate+finePts
+		if finePts<4 then
+			P.stat.extraPiece=P.stat.extraPiece+1
+			if P.gameEnv.fineKill then
+				P:lose()
 			end
+			if P.sound then
+				if P.gameEnv.fineKill then
+					SFX.play("finesseError_long",.6)
+				elseif setting.fine then
+					SFX.play("finesseError",.8)
+				end
+			end
+		end
+		if finePts<2 then
+			P.finesseCombo=0
+		else
+			P.finesseCombo=P.finesseCombo+1
+			if P.finesseCombo>2 then
+				P.finesseComboTime=12
+			end
+			if P.sound then SFX.fieldPlay("lock",nil,P)end
 		end
 
 		if cc>0 then--If lines cleared, about 200 lines below
@@ -2536,9 +2584,13 @@ do--player.drop(P)--Place piece
 		if ENV.score then
 			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,int(8-120/(cscore+20))*5,"score",2)
 		end
+
+		--Update stat
 		STAT.score=STAT.score+cscore
 		STAT.piece=STAT.piece+1
 		STAT.row=STAT.row+cc
+		STAT.maxFinesseCombo=max(STAT.maxFinesseCombo,P.finesseCombo)
+		STAT.maxCombo=max(STAT.maxCombo,P.combo)
 		if atk>0 then
 			STAT.atk=STAT.atk+atk
 			if send>0 then
@@ -2552,8 +2604,6 @@ do--player.drop(P)--Place piece
 			STAT.dig=STAT.dig+gbcc
 			STAT.digatk=STAT.digatk+atk*gbcc/cc
 		end
-
-		--Update stat
 		local n=CB.name
 		if dospin then
 			_=STAT.spin[n]	_[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
@@ -2566,9 +2616,6 @@ do--player.drop(P)--Place piece
 		--Drop event
 		_=ENV.dropPiece
 		if _ then _(P)end
-
-		--Stereo SFX
-		if P.sound then SFX.fieldPlay("lock",nil,P)end
 	end
 end
 --------------------------</Methods>--------------------------

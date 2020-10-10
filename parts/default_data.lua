@@ -64,7 +64,7 @@ stat={
 	version=gameVersion,
 	run=0,game=0,time=0,
 	key=0,rotate=0,hold=0,
-	extraPiece=0,extraRate=0,
+	extraPiece=0,finesseRate=0,
 	piece=0,row=0,dig=0,
 	atk=0,digatk=0,
 	send=0,recv=0,pend=0,off=0,

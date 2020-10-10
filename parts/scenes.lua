@@ -2414,6 +2414,19 @@ do--play
 	end
 end
 do--pause
+	local ranks={
+		
+	}
+	local rankColor={
+		Z=color.lYellow,
+		S=color.lGrey,
+		A=color.sky,
+		B=color.lGreen,
+		C=color.magenta,
+		D=color.dGreen,
+		E=color.red,
+		F=color.dRed,
+	}
 	function sceneInit.pause(org)
 		if
 			org=="setting_game"or
@@ -2422,7 +2435,8 @@ do--pause
 		then
 			TEXT.show(text.needRestart,640,440,50,"fly",.6)
 		end
-		local S=players[1].stat
+		local P=players[1]
+		local S=P.stat
 		sceneTemp={
 			timer=org=="play"and 0 or 50,
 			list={
@@ -2435,9 +2449,8 @@ do--pause
 				format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
 				format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
 				format("%d/%d ; %d/%d",S.b2b,S.b3b,S.pc,S.hpc),
-				format("%d [%.2f%%]",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
+				format("%d/%dx/%.2f%%",S.extraPiece,S.maxFinesseCombo,S.finesseRate*25/S.piece),
 			},
-
 			--From right-down, 60 degree each
 			radar={
 				(S.off+S.dig)/S.time*60,--DefPM
@@ -2450,8 +2463,8 @@ do--pause
 			val={1/80,1/80,1/80,1/60,1/100,1/40},
 			timing=org=="play",
 		}
-		local _=sceneTemp
-		local A,B=_.radar,_.val
+		local S=sceneTemp
+		local A,B=S.radar,S.val
 
 		--Normalize Values
 		for i=1,6 do
@@ -2466,9 +2479,9 @@ do--pause
 			if B[i]>.5 then f=2 end
 			if B[i]>1 then f=3 break end
 		end
-		if f==1 then	 _.color,f={.4,.9,.5},1.25	--Vegetable
-		elseif f==2 then _.color,f={.4,.7,.9},1		--Normal
-		elseif f==3 then _.color,f={1,.3,.3},.626	--Diao
+		if f==1 then	 S.color,f={.4,.9,.5},1.25	--Vegetable
+		elseif f==2 then S.color,f={.4,.7,.9},1		--Normal
+		elseif f==3 then S.color,f={1,.3,.3},.626	--Diao
 		end
 		A={
 			120*.5*f,	120*3^.5*.5*f,
@@ -2478,13 +2491,34 @@ do--pause
 			120*.5*f,	120*-3^.5*.5*f,
 			120*1*f,	120*0*f,
 		}
-		_.scale=f
-		_.standard=A
+		S.scale=f
+		S.standard=A
 
 		for i=6,1,-1 do
 			B[2*i-1],B[2*i]=B[i]*A[2*i-1],B[i]*A[2*i]
 		end
-		_.val=B
+		S.val=B
+
+		if P.result=="WIN"then
+			local acc=P.stat.finesseRate*.25/P.stat.piece
+			S.rank=
+				acc==1. and"Z"or
+				acc>.97 and"S"or
+				acc>.94 and"A"or
+				acc>.87 and"B"or
+				acc>.70 and"C"or
+				acc>.50 and"D"or
+				acc>.30 and"E"or
+				"F"
+			S.rankColor=rankColor[S.rank]
+			if acc==1 then
+				S.trophy="All Perfect"
+				S.trophyColor=color.yellow
+			elseif P.stat.maxFinesseCombo==P.stat.piece then
+				S.trophy="Full Combo"
+				S.trophyColor=color.lCyan
+			end
+		end
 	end
 	function sceneBack.pause()
 		love.keyboard.setKeyRepeat(true)
@@ -2527,6 +2561,7 @@ do--pause
 		local S=sceneTemp
 		local T=S.timer*.02
 		if T<1 or game.result then Pnt.play()end
+
 		--Dark BG
 		local _=T
 		if game.result then _=_*.7 end
@@ -2561,6 +2596,18 @@ do--pause
 			for i=1,10 do
 				gc.print(text.pauseStat[i],40,210+40*i)
 				gc.printf(_[i],195,210+40*i,300,"right")
+			end
+		end
+
+		--rank & trophy
+		if S.rank then
+			setFont(60)
+			gc.setColor(S.rankColor[1],S.rankColor[2],S.rankColor[3],T)
+			gc.print(S.rank,420,635)
+			if S.trophy then
+				setFont(40)
+				gc.setColor(S.trophyColor[1],S.trophyColor[2],S.trophyColor[3],T*2-1)
+				gc.print(S.trophy,160-120*(1-T^.5),650)
 			end
 		end
 
@@ -3349,9 +3396,9 @@ do--stat
 				S.recv.."  "..S.off.."  "..S.pend,
 				S.dig.."  "..int(S.digatk),
 				format("%.2f  %.2f",S.atk/S.row,S.digatk/S.dig),
-				format("%d/%.3f%%",S.extraPiece,100*max(1-S.extraRate/S.piece,0)),
 				S.b2b.."  "..S.b3b,
 				S.pc.."  "..S.hpc,
+				format("%d/%.2f%%",S.extraPiece,S.finesseRate*25/S.piece),
 			},
 		}
 		for i=1,11 do

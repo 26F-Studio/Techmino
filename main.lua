@@ -195,6 +195,9 @@ do
 			S.spin[i][6]=0
 		end
 	end
+	if S.extraRate then
+		S.finesseRate=S.extraRate
+	end
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
