@@ -2681,7 +2681,7 @@ function player.die(P)--Called when win/lose,not really die!
 	P.update=Pupdate_dead
 	P.waiting=1e99
 	P.b2b=0
-	for i=1,#P.tasks do rem(P.tasks)end
+	P.tasks={}
 	for i=1,#P.atkBuffer do
 		P.atkBuffer[i].sent=true
 		P.atkBuffer[i].time=0
