@@ -2569,8 +2569,10 @@ do--player.drop(P)--Place piece
 		--DropSpeed bonus
 		if P._20G then
 			cscore=cscore*2
-		elseif ENV.drop<3 then
+		elseif ENV.drop<1 then
 			cscore=cscore*1.5
+		elseif ENV.drop<3 then
+			cscore=cscore*1.2
 		end
 
 		--Speed bonus
