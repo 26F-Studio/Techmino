@@ -87,7 +87,7 @@ local CUSlist={
 	life={0,1,2,3,5,10,15,26,42,87,500},
 	pushSpeed={1,2,3,5,15},
 	bg={"none","bg1","bg2","rainbow","rainbow2","glow","rgb","aura","wing","matrix","space"},
-	bgm={"blank","race","push","way","reason","newera","oxygen","infinite","down","secret7th","secret8th","rockblock","cruelty","final"},
+	bgm=BGM.list,
 }
 --Lambda Funcs for widgets,delete at file end
 local function CUSval(k)	return function()	return customEnv[k]				end end
