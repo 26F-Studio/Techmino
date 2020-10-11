@@ -198,6 +198,7 @@ do
 	if S.extraRate then
 		S.finesseRate=S.extraRate
 	end
+	if fs.getInfo("bigbang.dat")then fs.remove("bigbang.dat")end
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
