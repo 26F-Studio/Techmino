@@ -66,7 +66,7 @@ local PLY={}--Lib
 --------------------------</LIB>--------------------------
 
 --------------------------<Update>--------------------------
-local function updateLine(P,dt)
+local function updateLine(P,dt)--Attacks, line pushing, cam moving
 	local bf=P.atkBuffer
 	for i=#bf,1,-1 do
 		local A=bf[i]
@@ -1310,8 +1310,6 @@ local prepareSequence do
 			freshPrepare[ENV.sequence](P)
 			P.newNext=freshMethod[ENV.sequence]
 		else
-			print(type(ENV.sequence))
-			print(type(ENV.freshMethod))
 			assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
 			ENV.sequence(P)
 			P.newNext=ENV.freshMethod
@@ -2527,7 +2525,7 @@ do--player.drop(P)--Place piece
 					SFX.play("reach")
 					if P.curMission>#ENV.mission then
 						P.curMission=nil
-						P:win()
+						P:win("finish")
 					end
 				elseif ENV.missionKill then
 					P:showText(text.missionFailed,0,140,40,"flicker",.5)
@@ -2565,7 +2563,6 @@ do--player.drop(P)--Place piece
 
 		P.combo=cmb
 
-		local mul=1
 		--DropSpeed bonus
 		if P._20G then
 			cscore=cscore*2
