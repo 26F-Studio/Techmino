@@ -651,7 +651,7 @@ local Widgets={
 		newButton({name="reset",	x=640,y=380,w=240,h=100,color="orange",	font=40,
 			code=function()sceneTemp.reset=true end,
 			hide=function()return sceneTemp.reset end}),
-		newButton({name="reset1",	x=340,y=480,w=240,h=100,color="red",	font=40,
+		newButton({name="reset1",	x=340,y=480,w=240,h=100,color="red",	font=35,
 			code=function()
 				love.filesystem.remove("unlock.dat")
 				SFX.play("finesseError_long")
@@ -660,7 +660,7 @@ local Widgets={
 				TEXT.show("play one game if you regret",640,390,40,"stretch",.4)
 			end,
 			hide=function()return not sceneTemp.reset end}),
-		newButton({name="reset2",	x=640,y=480,w=260,h=100,color="red",	font=40,
+		newButton({name="reset2",	x=640,y=480,w=260,h=100,color="red",	font=35,
 			code=function()
 				love.filesystem.remove("data.dat")
 				SFX.play("finesseError_long")
@@ -669,7 +669,7 @@ local Widgets={
 				TEXT.show("play one game if you regret",640,390,40,"stretch",.4)
 			end,
 			hide=function()return not sceneTemp.reset end}),
-		newButton({name="reset3",	x=940,y=480,w=260,h=100,color="red",	font=40,
+		newButton({name="reset3",	x=940,y=480,w=260,h=100,color="red",	font=35,
 			code=function()
 				local L=love.filesystem.getDirectoryItems("")
 				for i=1,#L do
