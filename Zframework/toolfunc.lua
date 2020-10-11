@@ -23,6 +23,7 @@ do--LOADLIB
 			local success,message=require(libName[system])
 			if success then
 				LOG.print(name.." load successfully","warn",color.green)
+				return success
 			else
 				LOG.print("Cannot load "..name..": "..message,"warn",color.red)
 			end
@@ -54,7 +55,7 @@ do--LOADLIB
 				return
 			end
 			LOG.print(name.." load successfully","warn",color.green)
-			libFunc()
+			return libFunc()
 		else
 			LOG.print("No "..name.." for "..system,"warn",color.red)
 			return

@@ -16,7 +16,8 @@ local Timer=love.timer.getTime
 local blockPos={4,4,4,4,4,5,4}
 local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
-if LOADLIB("CC")then
+cc=LOADLIB("CC")
+if cc then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
 		getConf=	cc.get_default_config	,--()options,weights
