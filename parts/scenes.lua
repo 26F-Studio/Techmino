@@ -3288,6 +3288,7 @@ do--dict
 		other=color.lOrange,
 		game=color.lCyan,
 		term=color.lRed,
+		english=color.green,
 		name=color.lPurple,
 	}
 	function Pnt.dict()
