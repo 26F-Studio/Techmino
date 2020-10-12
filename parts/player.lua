@@ -192,8 +192,12 @@ local function Pupdate_alive(P,dt)
 			P.AI_stage=AIfunc[P.AI_mode][P.AI_stage](P,C)
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])
+			if P.AI_mode~="CC"or C[1]>3 then
+				P.AI_delay=P.AI_delay0*2
+			else
+				P.AI_delay=P.AI_delay0*.5
+			end
 			rem(C,1)
-			P.AI_delay=P.AI_delay0*2
 		end
 	end
 

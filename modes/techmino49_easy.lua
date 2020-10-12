@@ -41,15 +41,15 @@ return{
 		local n=2
 		for i=1,4 do for j=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(2,5)))
+				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(4,6)))
 			else
-				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(3,5),2,true,20000))
+				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(3,4),2,true,20000))
 			end
 			n=n+1
 		end end
 		for i=9,12 do for j=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(2,5)))
+				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(4,5)))
 			else
 				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(3,5),2,true,20000))
 			end

@@ -43,15 +43,15 @@ return{
 			if L[n]then
 				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("9S",rnd(8,10)))
 			else
-				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(8,10),3,true,40000))
+				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AITemplate("CC",rnd(7,9),3,true,40000))
 			end
 			n=n+1
 		end end
 		for i=9,12 do for j=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(8,10)))
+				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("9S",rnd(8,9)))
 			else
-				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(8,10),3,true,40000))
+				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AITemplate("CC",rnd(7,9),3,true,40000))
 			end
 			n=n+1
 		end end
