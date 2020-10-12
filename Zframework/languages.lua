@@ -1,7 +1,8 @@
 local langList={
 	{
 		anykey="按任意键继续",
-		newVersion="检测到更新!",
+		newVersion="感谢更新!更新内容如下",
+		httpTimeout="网络连接超时!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
 
@@ -553,7 +554,8 @@ local langList={
 	},
 	{
 		anykey="按任意键继续",
-		newVersion="检测到更新!",
+		newVersion="感谢更新!更新内容如下",
+		httpTimeout="网络连接超时!",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按以重新开始",
 
@@ -1103,7 +1105,8 @@ local langList={
 	},
 	{
 		anykey="Press any button",
-		newVersion="Update detected!",
+		newVersion="Thanks for updating! New feature below",
+		httpTimeout="Network connection timed out!",
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
 		holdR="Hold to restart",
 
@@ -1650,7 +1653,8 @@ local langList={
 	},
 	{
 		anykey="↓□↓",
-		newVersion="&!!!",
+		newVersion="&!!!???↓↓",
+		httpTimeout="e??????x",
 		marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 		holdR="→→→→R",
 
@@ -2194,7 +2198,8 @@ local langList={
 	},
 	{
 		anykey="您开始了",
-		newVersion="感谢更新!",
+		newVersion="感谢更新,请看看更新了些啥",
+		httpTimeout="没网或者网不好?",
 		marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 		holdR="长按重开",
 

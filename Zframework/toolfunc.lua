@@ -150,36 +150,21 @@ do--dumpTable
 		return s..tabs[t-1].."}"
 	end
 end
-do--HTTPrequest
-	local http=require("socket.http")
-	function HTTPrequest(url,method)
-		local data={}
-		local res,code,response_headers,response_body=http.request{
-			url=url,
-			sink=ltn12.sink.table(data),
-			method=method or"GET",
-		}
-		if code~=200 then
-			LOG.print("NET ERROR: code="..(code or"nil"))
-		end
-		return data[1]
-	end
-	--[[
-	LOADLIB("NETlib")
-	function HTTPrequest(url,method)
+do--httpRequest
+	client=LOADLIB("NETlib")
+	function httpRequest(tick,url,method)
 		local task,err=client.httpraw{
 			url=url,
-			method=method,
+			method=method or"GET",
 			-- header={},
 			-- body="",
 		}
-		if not err then
-			TASK.new(TICK.httpRequest,{code=task,time=0})
+		if task then
+			TASK.new(tick,{task=task,time=0})
 		else
-			LOG.print("NET error: "..err,"error")
+			LOG.print("NETlib error: "..err,"warn")
 		end
 	end
-	]]
 end
 do--json
 	--

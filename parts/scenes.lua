@@ -926,20 +926,8 @@ do--intro
 		for i=1,8 do
 			sceneTemp.r[i]=rnd(5)
 		end
-		local notice=HTTPrequest("http://47.103.200.40/api/notice")
-		if notice then
-			LOG.print(notice,"message")
-		else
-			LOG.print(text.getNoticeFail,"warn")
-		end
-		local newVersion=HTTPrequest("http://47.103.200.40/api/version_check")
-		if not newVersion then
-			LOG.print(text.getVersionFail,"warn")
-		elseif newVersion~=gameVersion then
-			LOG.print(string.gsub(text.versionIsOld,"$1",newVersion),"warn")
-		else
-			LOG.print(text.versionIsNew,"message")
-		end
+
+		httpRequest(TICK.httpREQ_launch,"http://47.103.200.40/api/game")
 	end
 
 	function mouseDown.intro(x,y,k)
@@ -2414,9 +2402,6 @@ do--play
 	end
 end
 do--pause
-	local ranks={
-		
-	}
 	local rankColor={
 		Z=color.lYellow,
 		S=color.lGrey,

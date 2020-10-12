@@ -74,4 +74,31 @@ function Tick.autoPause(data)
 		return true
 	end
 end
+function Tick.httpREQ_launch(data)
+	local res,err=client.poll(data.task)
+	if res then
+		if res.code==200 then
+			res=json.decode(res.body)
+			LOG.print(res.notice,"message")
+			if gameVersion==res.version then
+				LOG.print(text.versionIsNew,"message")
+			else
+				LOG.print(string.gsub(text.versionIsOld,"$1",res.version),"warn")
+			end
+			return true
+		else
+			LOG.print("Code error: "..res.code,"warn")
+			return true
+		end
+	elseif err then
+		LOG.print(text.getNoticeFail..":"..err,"warn")
+		return true
+	end
+	data.time=data.time+1
+	if data.time==180 then
+		LOG.print(text.httpTimeout,"message")
+		coroutine.resume(data.selfFunc)
+		return true
+	end
+end
 return Tick

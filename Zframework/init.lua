@@ -1,5 +1,7 @@
-require("Zframework/toolfunc")
 color=	require("Zframework/color")
+SCN=	require("Zframework/scene")
+LOG=	require("Zframework/log")
+require("Zframework/toolfunc")
 SHADER=	require("Zframework/shader")
 VIB=	require("Zframework/vib")
 SFX=	require("Zframework/sfx")
@@ -15,8 +17,6 @@ IMG=	require("Zframework/img")
 WIDGET=	require("Zframework/widget")
 Widgets=require("Zframework/widgetList")
 LIGHT=	require("Zframework/light")
-SCN=	require("Zframework/scene")
-LOG=	require("Zframework/log")
 
 local ms=love.mouse
 local gc=love.graphics
@@ -375,7 +375,7 @@ function love.errorhandler(msg)
 				needDraw=true
 			elseif E=="focus"then
 				needDraw=true
-			elseif E=="touchpressed"or E=="keypressed"or E=="mousepressed"then
+			elseif E=="touchpressed"or E=="mousepressed"or E=="keypressed"and a=="space"then
 				if count<3 then
 					count=count+1
 					SFX.play("ready")
