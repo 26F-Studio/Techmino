@@ -30,15 +30,15 @@ local gameEnv0={
 
 	drop=60,lock=60,
 	wait=0,fall=0,
-	_20G=false,bone=false,
+	bone=false,
 	next=6,
 	hold=true,oncehold=true,
 	ospin=true,
 	sequence="bag",
 	freshMethod=NULL,
 	bag={1,2,3,4,5,6,7},
-	mission=NULL,
 	face=NULL,skin=NULL,
+	mission=NULL,
 
 	life=0,
 	pushSpeed=3,
@@ -2287,13 +2287,13 @@ do--player.drop(P)--Place piece
 		P.stat.finesseRate=P.stat.finesseRate+finePts
 		if finePts<4 then
 			P.stat.extraPiece=P.stat.extraPiece+1
-			if P.gameEnv.fineKill then
+			if ENV.fineKill then
 				P:lose()
 			end
 			if P.sound then
-				if P.gameEnv.fineKill then
+				if ENV.fineKill then
 					SFX.play("finesseError_long",.6)
-				elseif setting.fine then
+				elseif ENV.fine then
 					SFX.play("finesseError",.8)
 				end
 			end
@@ -3113,20 +3113,11 @@ function PLY.newDemoPlayer(id,x,y,size)
 	P.draw=Pdraw_demo
 	P.control=true
 	P.gameEnv={
-		drop=1e99,lock=1e99,
-		wait=10,fall=20,
-		next=6,hold=true,
-		oncehold=true,
-
-		das=10,arr=2,
-		sddas=2,sdarr=2,
+		das=10,arr=2,sddas=2,sdarr=2,
 		swap=true,
 
-		--Visual
-		block=true,
 		ghost=setting.ghost,
 		center=setting.center,
-		bone=false,
 		smooth=setting.smooth,
 		grid=setting.grid,
 		text=setting.text,
@@ -3137,20 +3128,25 @@ function PLY.newDemoPlayer(id,x,y,size)
 		clearFX=setting.clearFX,
 		shakeFX=setting.shakeFX,
 
-		mindas=0,minarr=0,minsdarr=0,
-		sequence="bag",
+		drop=1e99,lock=1e99,
+		wait=10,fall=20,
+		bone=false,
+		next=6,
+		hold=true,oncehold=true,
 		ospin=true,
-		noTele=false,
-
-		easyFresh=true,
-		visible="show",
-		freshLimit=1e99,
-		life=1e99,
-		pushSpeed=3,
-
+		sequence="bag",
 		bag={1,2,3,4,5,6,7},
 		face={0,0,0,0,0,0,0},
 		skin=setting.skin,
+		mission=false,
+
+		life=1e99,
+		pushSpeed=3,
+		block=true,
+		noTele=false,
+		visible="show",
+		freshLimit=1e99,easyFresh=true,
+		mindas=0,minarr=0,minsdarr=0,
 	}
 	applyGameEnv(P)
 	prepareSequence(P)
