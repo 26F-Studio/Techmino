@@ -152,17 +152,23 @@ do--dumpTable
 end
 do--httpRequest
 	client=LOADLIB("NETlib")
-	function httpRequest(tick,url,method)
-		local task,err=client.httpraw{
-			url=url,
-			method=method or"GET",
-			-- header={},
-			-- body="",
-		}
-		if task then
-			TASK.new(tick,{task=task,time=0})
-		else
-			LOG.print("NETlib error: "..err,"warn")
+	if client then
+		function httpRequest(tick,url,method)
+			local task,err=client.httpraw{
+				url=url,
+				method=method or"GET",
+				-- header={},
+				-- body="",
+			}
+			if task then
+				TASK.new(tick,{task=task,time=0})
+			else
+				LOG.print("NETlib error: "..err,"warn")
+			end
+		end
+	else
+		function httpRequest(tick,url,method)
+			LOG.print("[NO NETlib]",5,color.yellow)
 		end
 	end
 end
