@@ -26,7 +26,7 @@ return{
 			if L<6 then
 				PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
 			else
-				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",L,int(L*.5-1.5),modeEnv.hold,4000*L))
+				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
 		preField.h=20
