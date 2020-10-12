@@ -264,8 +264,12 @@ function pasteMission(str)
 			end
 		else
 			if _>=34 and _<=114 then
-				ins(mission,reg)
-				reg=_-33
+				if missionEnum[reg]then
+					ins(mission,reg)
+					reg=_-33
+				else
+					return
+				end
 			elseif _>=115 and _<=126 then
 				for i=1,_-113 do
 					ins(mission,reg)
