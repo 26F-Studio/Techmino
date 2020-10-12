@@ -621,10 +621,10 @@ local Widgets={
 		newButton({name="back",		x=640,	y=600,w=170,h=80,color="white",font=35,code=BACK}),
 	},
 	dict={
-		newKey({name="link",		x=740,y=60,w=200,h=80,color="white",font=35,code=pressKey("link"),hide=function()return not sceneTemp.url end}),
-		newKey({name="keyboard",	x=960,y=60,w=200,h=80,color="white",font=35,code=pressKey("kb"),hide=function()return not sceneTemp.select end}),
+		newKey({name="keyboard",	x=960,y=60,w=200,h=80,color="white",font=35,code=pressKey("kb")}),
+		newKey({name="link",		x=1140,y=650,w=200,h=80,color="white",font=35,code=pressKey("link"),hide=function()return not(sceneTemp.url and sceneTemp.hideKB)end}),
 		newButton({name="back",		x=1165,y=60,w=170,h=80,color="white",font=40,code=BACK}),
-		newKeyboard({name="kb",		x=310,y=325,w=940,h=370,hide=function()return sceneTemp.hideKB end}),
+		newKeyboard({name="kb",		x=130,y=255,w=1120,h=440,hide=function()return sceneTemp.hideKB end}),
 	},
 	staff={
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,color="white",font=40,code=BACK}),

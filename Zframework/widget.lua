@@ -425,7 +425,7 @@ function keyboard:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	gc.translate(x,y)
 
-	gc.setColor(0,0,0,.4)
+	gc.setColor(.2,.2,.2,.75)
 	gc.rectangle("fill",0,0,w,h)
 
 	gc.setColor(1,1,1)
