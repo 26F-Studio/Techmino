@@ -2484,7 +2484,7 @@ do--pause
 		end
 		S.val=B
 
-		if P.result=="WIN"then
+		if P.result=="WIN"and P.stat.piece>4 then
 			local acc=P.stat.finesseRate*.25/P.stat.piece
 			S.rank=
 				acc==1. and"Z"or
