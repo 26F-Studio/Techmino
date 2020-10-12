@@ -48,6 +48,7 @@ local gameEnv0={
 	freshLimit=1e99,easyFresh=true,
 
 	Fkey=NULL,
+	keyCancel={},
 	fine=false,fineKill=false,
 	missionKill=false,
 	target=1e99,dropPiece=NULL,
@@ -1169,11 +1170,16 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	P.keyAvailable={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}
 	if ENV.noTele then
-		local L={11,12,13,15,16,17,18,19,20}
-		for i=1,#L do
-			P.keyAvailable[L[i]]=false
-			virtualkey[L[i]].ava=false
+		for i=11,20 do
+			if i~=14 then
+				P.keyAvailable[i]=false
+				virtualkey[i].ava=false
+			end
 		end
+	end
+	for _,v in next,ENV.keyCancel do
+		P.keyAvailable[v]=false
+		virtualkey[v].ava=false
 	end
 
 	if type(ENV.mission)=="table"then
@@ -3150,6 +3156,8 @@ function PLY.newDemoPlayer(id,x,y,size)
 		noTele=false,
 		visible="show",
 		freshLimit=1e99,easyFresh=true,
+
+		keyCancel={},
 		mindas=0,minarr=0,minsdarr=0,
 	}
 	applyGameEnv(P)
