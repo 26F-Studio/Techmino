@@ -79,17 +79,16 @@ function Tick.httpREQ_launch(data)
 	if res then
 		if res.code==200 then
 			res=json.decode(res.body)
-			LOG.print(res.notice,"message")
+			LOG.print(res.notice,360,color.sky)
 			if gameVersion==res.version then
-				LOG.print(text.versionIsNew,"message")
+				LOG.print(text.versionIsNew,360,color.sky)
 			else
 				LOG.print(string.gsub(text.versionIsOld,"$1",res.version),"warn")
 			end
-			return true
 		else
 			LOG.print("Code error: "..res.code,"warn")
-			return true
 		end
+		return true
 	elseif err then
 		LOG.print(text.getNoticeFail..":"..err,"warn")
 		return true
@@ -97,7 +96,6 @@ function Tick.httpREQ_launch(data)
 	data.time=data.time+1
 	if data.time==180 then
 		LOG.print(text.httpTimeout,"message")
-		coroutine.resume(data.selfFunc)
 		return true
 	end
 end
