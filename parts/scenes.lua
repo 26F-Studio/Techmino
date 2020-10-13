@@ -3173,6 +3173,8 @@ do--dict
 			input="",
 			result={},
 			url=nil,
+
+			waiting=0,
 			select=1,
 			scroll=0,
 
@@ -3205,9 +3207,11 @@ do--dict
 				ins(result,dict[i])
 			end
 		end
-		if not result[1]then
-			S.input=""
+		if result[1]then
+			SFX.play("reach")
 		end
+		S.url=(S.result[1]and S.result or S.dict)[S.select][5]
+		S.lastSearch=S.input
 	end
 
 	function keyDown.dict(key)
@@ -3215,6 +3219,7 @@ do--dict
 		if #key==1 then
 			if #S.input<15 then
 				S.input=S.input..key
+				S.waiting=.8
 			end
 		elseif key=="up"then
 			if S.select and S.select>1 then
@@ -3244,6 +3249,8 @@ do--dict
 			S.input=sub(S.input,1,-2)
 			if #S.input==0 then
 				clearResult()
+			else
+				S.waiting=.8
 			end
 		elseif key=="escape"then
 			if #S.input>0 then
@@ -3252,18 +3259,20 @@ do--dict
 			else
 				SCN.back()
 			end
-		elseif key=="return"then
-			if #S.input>0 and S.input~=S.lastSearch then
-				search()
-				if S.result[1]then
-					SFX.play("reach")
-				else
-					SFX.play("finesseError")
-				end
-				S.lastSearch=S.input
-			end
 		end
 		S.url=(S.result[1]and S.result or S.dict)[S.select][5]
+	end
+
+	function Tmr.dict(dt)
+		local S=sceneTemp
+		if S.waiting>0 then
+			S.waiting=S.waiting-dt
+			if S.waiting<=0 then
+				if #S.input>0 and S.input~=S.lastSearch then
+					search()
+				end
+			end
+		end
 	end
 
 	local typeColor={
@@ -3280,7 +3289,7 @@ do--dict
 		gc.draw(drawableText.dict,20,5)
 
 		gc.setLineWidth(4)
-		gc.rectangle("line",20,109,726,60)
+		gc.rectangle("line",20,110,726,60)
 		setFont(40)
 		gc.print(S.input,35,110)
 
@@ -3317,6 +3326,13 @@ do--dict
 		gc.setColor(1,1,1)
 		gc.rectangle("line",300,180,958,526)
 		gc.rectangle("line",20,180,280,526)
+
+		if S.waiting>0 then
+			gc.setLineWidth(3)
+			gc.circle("line",780,140,25)
+			gc.setColor(1,1,1,.6)
+			gc.arc("fill",780,140,25,S.waiting/.8*6.28-1.5708,4.7124)
+		end
 	end
 end
 do--staff
