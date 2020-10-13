@@ -47,10 +47,6 @@ do--calculator
 	end
 
 	mouseDown.calculator=NULL
-	local function EGG(str)
-		sceneTemp.reg=str
-		sceneTemp.sym="="
-	end
 	function keyDown.calculator(k)
 		local S=sceneTemp
 		if byte(k)>=48 and byte(k)<=57 then
@@ -68,6 +64,10 @@ do--calculator
 			end
 		elseif k=="."then
 			if not(find(S.val,".",nil,true)or find(S.val,"e"))then
+				if S.sym and not S.reg then
+					S.reg=S.val
+					S.val="0."
+				end
 				S.val=S.val.."."
 			end
 		elseif k=="e"then
@@ -75,7 +75,13 @@ do--calculator
 				S.val=S.val.."e"
 			end
 		elseif k=="backspace"then
-			S.val=sub(S.val,1,-2)
+			if S.sym=="="then
+				S.val=""
+			elseif S.sym then
+				S.sym=false
+			else
+				S.val=sub(S.val,1,-2)
+			end
 			if S.val==""then S.val="0"end
 		elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then
 			S.sym="+"
@@ -90,37 +96,37 @@ do--calculator
 			S.sym="/"
 			S.reg=false
 		elseif k=="return"then
-			if S.val then
-				if S.sym and S.reg then
-					S.val=
-						S.sym=="+"and (tonumber(S.reg)or 0)+tonumber(S.val)or
-						S.sym=="-"and (tonumber(S.reg)or 0)-tonumber(S.val)or
-						S.sym=="*"and (tonumber(S.reg)or 0)*tonumber(S.val)or
-						S.sym=="/"and (tonumber(S.reg)or 0)/tonumber(S.val)or
-						-1
-				end
-				S.sym="="
-				S.reg=false
-				local v=tonumber(S.val)
-				if v==600+26 then S.pass=true
-				elseif v==190000+6022 then
-					S.pass,marking=true
-					LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
-					SFX.play("clear")
-				elseif v==72943816 then
-					S.pass=true
-					for name,M in next,Modes do
-						if not modeRanks[name]then
-							modeRanks[name]=M.score and 0 or 6
-						end
+			if byte(S.val,-1)==101 then S.val=sub(S.val,1,-2)end
+			if S.sym and S.reg then
+				if byte(S.reg,-1)==101 then S.reg=sub(S.reg,1,-2)end
+				S.val=
+					S.sym=="+"and (tonumber(S.reg)or 0)+tonumber(S.val)or
+					S.sym=="-"and (tonumber(S.reg)or 0)-tonumber(S.val)or
+					S.sym=="*"and (tonumber(S.reg)or 0)*tonumber(S.val)or
+					S.sym=="/"and (tonumber(S.reg)or 0)/tonumber(S.val)or
+					-1
+			end
+			S.sym="="
+			S.reg=false
+			local v=tonumber(S.val)
+			if v==600+26 then S.pass=true
+			elseif v==190000+6022 then
+				S.pass,marking=true
+				LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
+				SFX.play("clear")
+			elseif v==72943816 then
+				S.pass=true
+				for name,M in next,Modes do
+					if not modeRanks[name]then
+						modeRanks[name]=M.score and 0 or 6
 					end
-					FILE.saveUnlock()
-					LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
-					SFX.play("clear_2")
-				elseif v==1379e8+2626e4+1379 then
-					S.pass=true
-					SCN.go("debug")
 				end
+				FILE.saveUnlock()
+				LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
+				SFX.play("clear_2")
+			elseif v==1379e8+2626e4+1379 then
+				S.pass=true
+				SCN.go("debug")
 			end
 		elseif k=="escape"then
 			S.val,S.reg,S.sym="0"
