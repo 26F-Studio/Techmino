@@ -42,7 +42,6 @@ do--calculator
 			val="0",
 			sym=false,
 			pass=false,
-			tip=require("parts/getTip"),
 		}
 	end
 
@@ -133,7 +132,11 @@ do--calculator
 		elseif k=="delete"then
 			S.val="0"
 		elseif k=="space"and S.pass then
-			SCN.back()
+			if LOADED then
+				SCN.back()
+			else
+				SCN.swapTo("load","swipeD")
+			end
 		end
 	end
 
@@ -145,9 +148,7 @@ do--calculator
 		setFont(45)
 		if S.reg then gc.printf(S.reg,0,100,720,"right")end
 		if S.val then gc.printf(S.val,0,150,720,"right")end
-
 		if S.sym then setFont(50)gc.print(S.sym,126,150)end
-		if S.pass then setFont(30)mStr(S.tip,640,10)end
 	end
 end
 do--minigame
@@ -803,7 +804,7 @@ do--load
 			phase=1,--Loading stage
 			cur=1,--Counter
 			tar=#VOC.name,--Loading bar length(current)
-			tip=setting.appLock or require("parts/getTip"),
+			tip=require("parts/getTip"),
 			list={
 				#VOC.name,
 				#BGM.list,
@@ -870,21 +871,16 @@ do--load
 				--------------------------Loading other little things here
 				SKIN.load()
 				stat.run=stat.run+1
+				LOADED=true
 				--------------------------
-				if not setting.appLock then
-					SFX.play("welcome_sfx")
-					VOC.play("welcome_voc")
-				end
+				SFX.play("welcome_sfx")
+				VOC.play("welcome_voc")
+				httpRequest(TICK.httpREQ_launch,"http://47.103.200.40/api/game")
 			else
 				S.cur=S.cur+1
 				S.tar=S.cur
 				if S.cur>62.6 then
-					if setting.appLock then
-						SCN.push("intro","fade")
-						SCN.swapTo("calculator","none")
-					else
-						SCN.swapTo("intro","none")
-					end
+					SCN.swapTo("intro","none")
 				end
 				loadingFinished=true
 				return
@@ -909,15 +905,13 @@ do--load
 		gc.rectangle("fill",300,330,S.cur/S.tar*680,60,5)
 		gc.setColor(1,1,1)
 		gc.rectangle("line",300,330,680,60,5)
-		if not setting.appLock then
-			setFont(35)
-			gc.print(text.load[S.phase],340,335)
-			if S.phase~=0 then
-				gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
-			end
-			setFont(25)
-			mStr(S.tip,640,400)
+		setFont(35)
+		gc.print(text.load[S.phase],340,335)
+		if S.phase~=0 then
+			gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
 		end
+		setFont(25)
+		mStr(S.tip,640,400)
 	end
 end
 do--intro
@@ -932,8 +926,6 @@ do--intro
 		for i=1,8 do
 			sceneTemp.r[i]=rnd(5)
 		end
-
-		httpRequest(TICK.httpREQ_launch,"http://47.103.200.40/api/game")
 	end
 
 	function mouseDown.intro(x,y,k)
@@ -3295,9 +3287,9 @@ do--dict
 		local list=S.result[1]and S.result or S.dict
 		gc.setColor(1,1,1)
 		local text=list[S.select][4]
-		if #text>500 then
+		if #text>600 then
 			setFont(20)
-		elseif #text>300 then
+		elseif #text>400 then
 			setFont(24)
 		else
 			setFont(28)

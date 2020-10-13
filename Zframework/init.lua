@@ -439,7 +439,13 @@ function love.run()
 	local FCT=0--Framedraw counter
 
 	love.resize(gc.getWidth(),gc.getHeight())
-	SCN.init("load")--Scene Launch
+
+	--Scene Launch
+	if setting.appLock then
+		SCN.init("calculator")
+	else
+		SCN.init("load")
+	end
 
 	return function()
 		local _
