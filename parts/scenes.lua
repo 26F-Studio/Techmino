@@ -2495,10 +2495,10 @@ do--pause
 				"F"
 			S.rankColor=rankColor[S.rank]
 			if acc==1 then
-				S.trophy="All Perfect"
+				S.trophy=text.finesse_ap
 				S.trophyColor=color.yellow
 			elseif P.stat.maxFinesseCombo==P.stat.piece then
-				S.trophy="Full Combo"
+				S.trophy=text.finesse_fc
 				S.trophyColor=color.lCyan
 			end
 		end
@@ -2590,7 +2590,7 @@ do--pause
 			if S.trophy then
 				setFont(40)
 				gc.setColor(S.trophyColor[1],S.trophyColor[2],S.trophyColor[3],T*2-1)
-				gc.print(S.trophy,160-120*(1-T^.5),650)
+				gc.printf(S.trophy,100-120*(1-T^.5),650,300,"right")
 			end
 		end
 

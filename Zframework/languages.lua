@@ -30,6 +30,8 @@ local langList={
 		gameover="游戏结束",
 		pause="暂停",
 		pauseCount="暂停统计",
+		finesse_ap="All Perfect",
+		finesse_fc="Full Combo",
 
 		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
@@ -122,7 +124,7 @@ local langList={
 			"效率/挖掘效率:",
 			"满贯/大满贯:",
 			"全/半清:",
-			"多余操作/最大极简连锁/极简率:",
+			"多余操作/极简率:",
 		},
 		help={
 			"既然你能玩到这个游戏,应该也不需要什么帮助吧?",
@@ -586,6 +588,8 @@ local langList={
 		gameover="游戏结束",
 		pause="暂停",
 		pauseCount="暂停统计",
+		finesse_ap="完美极简",
+		finesse_fc="全连击",
 
 		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10像素吸附","20像素吸附","40像素吸附","60像素吸附","80像素吸附"},
@@ -678,7 +682,7 @@ local langList={
 			"效率/挖掘效率:",
 			"满贯/大满贯:",
 			"全/半清:",
-			"多余操作/最大极简连锁/极简率:",
+			"多余操作/极简率:",
 		},
 		help={
 			"既然你能玩到这个游戏,应该也不需要什么帮助吧?",
@@ -1140,6 +1144,8 @@ local langList={
 		gameover="Game Over",
 		pause="Pause",
 		pauseCount="Pauses",
+		finesse_ap="All Perfect",
+		finesse_fc="Full Combo",
 
 		custom="Custom Game",basic="Basic",rule="Rule",field="Custom Field",mission="Mission",
 		snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"},
@@ -1229,7 +1235,7 @@ local langList={
 			"Eff./Dig Eff.:",
 			"B2B/B3B:",
 			"PC/HPC:",
-			"FnsErrs./maxFnsChain/FnsRate:",
+			"FnsErrs./FnsRate:",
 		},
 		help={
 			"Now you can play this, you are probabaly do not need \"help\"?",
@@ -1691,6 +1697,8 @@ local langList={
 		gameover="x",
 		pause="=",
 		pauseCount="==",
+		finesse_ap="AP",
+		finesse_fc="FC",
 
 		custom="!@#$%^&*",basic="!!",rule="##",field="!@#$%^&* [##]",mission="(!)",
 		snapLevelName={"~","10","20","40","60","80"},
@@ -1780,7 +1788,7 @@ local langList={
 			"^%/↓^%:",
 			"^/^^:",
 			"#<>#/<>:",
-			"!#!X/^#^/%:",
+			"!#!X/%:",
 		},
 		help={
 			"□□□□~~~, ?_?x ?",
@@ -2239,6 +2247,8 @@ local langList={
 		gameover="挂了",
 		pause="歇会",
 		pauseCount="歇多久了",
+		finesse_ap="您",
+		finesse_fc="全连",
 
 		custom="自定义",basic="普通",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
@@ -2331,7 +2341,7 @@ local langList={
 			"效率/挖掘效率:",
 			"牛逼/很牛逼:",
 			"消光/消半截:",
-			"多余操作/最大极简连击/极简率:",
+			"多余操作/极简率:",
 		},
 		help={
 			"既然你能玩到这个游戏,应该也不需要什么帮助吧?",
