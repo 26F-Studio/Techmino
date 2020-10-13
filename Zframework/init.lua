@@ -187,10 +187,17 @@ end
 function love.keypressed(i)
 	mouseShow=false
 	if devMode then
-		if i=="f1"then		love._setGammaCorrect(true)LOG.print("GammaCorrect: on","warn")
-		elseif i=="f2"then	love._setGammaCorrect(false)LOG.print("GammaCorrect: off","warn")
+		if i=="f1"then
+			local r=rnd()<.5
+			love._setGammaCorrect(r)
+			LOG.print("GammaCorrect: "..(r and"on"or"off"),"warn")
+		elseif i=="f2"then
+			LOG.print("System:"..system.."["..jit.arch.."]")
+			LOG.print("luaVer:".._VERSION)
+			LOG.print("jitVer:"..jit.version)
+			LOG.print("jitVerNum:"..jit.version_num)
 		elseif i=="f3"then
-			for i=1,8 do
+			for _=1,8 do
 				local P=players.alive[rnd(#players.alive)]
 				if P~=players[1]then
 					P.lastRecv=players[1]
