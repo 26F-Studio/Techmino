@@ -2432,7 +2432,7 @@ do--pause
 				format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
 				format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
 				format("%d/%d ; %d/%d",S.b2b,S.b3b,S.pc,S.hpc),
-				format("%d/%dx/%.2f%%",S.extraPiece,S.maxFinesseCombo,S.finesseRate*25/S.piece),
+				format("%d/%dx/%.2f%%",S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
 			},
 			--From right-down, 60 degree each
 			radar={
@@ -2483,7 +2483,7 @@ do--pause
 		S.val=B
 
 		if P.result=="WIN"and P.stat.piece>4 then
-			local acc=P.stat.finesseRate*.25/P.stat.piece
+			local acc=P.stat.finesseRate*.2/P.stat.piece
 			S.rank=
 				acc==1. and"Z"or
 				acc>.97 and"S"or
@@ -3398,7 +3398,7 @@ do--stat
 				format("%.2f  %.2f",S.atk/S.row,S.digatk/S.dig),
 				S.b2b.."  "..S.b3b,
 				S.pc.."  "..S.hpc,
-				format("%d/%.2f%%",S.extraPiece,S.finesseRate*25/S.piece),
+				format("%d/%.2f%%",S.extraPiece,S.finesseRate*20/S.piece),
 			},
 		}
 		for i=1,11 do

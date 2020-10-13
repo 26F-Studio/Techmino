@@ -2289,13 +2289,13 @@ do--player.drop(P)--Place piece
 			if dospin then P.ctrlCount=P.ctrlCount-2 end--Allow 2 more step for roof-less spin
 			local id=CB.id
 			local d=P.ctrlCount-finesseList[id][P.dir+1][CX]
-			finePts=d<=0 and 4 or max(3-d,0)
+			finePts=d<=0 and 5 or max(3-d,0)
 		else
-			finePts=4
+			finePts=5
 		end
 
 		P.stat.finesseRate=P.stat.finesseRate+finePts
-		if finePts<4 then
+		if finePts<5 then
 			P.stat.extraPiece=P.stat.extraPiece+1
 			if ENV.fineKill then
 				P:lose()
@@ -2308,7 +2308,7 @@ do--player.drop(P)--Place piece
 				end
 			end
 		end
-		if finePts<2 then
+		if finePts<=1 then
 			P.finesseCombo=0
 		else
 			P.finesseCombo=P.finesseCombo+1
