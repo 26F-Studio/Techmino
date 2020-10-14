@@ -1210,52 +1210,16 @@ local function applyGameEnv(P)--Finish gameEnv processing
 end
 
 local prepareSequence do
+	local freshMethod
 	local freshPrepare={
-		none=NULL,
-		bag=function(P)
-			local bag=P.gameEnv.bag
-			local L
-			repeat
-				L={}for i=1,#bag do L[i]=i end
-				repeat P:getNext(bag[rem(L,P:RND(#L))])until not L[1]
-			until #P.next>5
-		end,
-		his4=function(P)
-			local bag=P.gameEnv.bag
-			local L=#bag
-			P.his={bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)],bag[P:RND(L)]}
-			for _=1,6 do
-				local i
-				local j=0
-				repeat
-					i=bag[P:RND(L)]
-					j=j+1
-				until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==6
-				P:getNext(i)
-				rem(P.his,1)P.his[4]=i
-			end
-		end,
 		rnd=function(P)
 			local bag=P.gameEnv.bag
-			local L=#bag
-			P:getNext(bag[P:RND(L)])
-			for i=1,5 do
-				local count=0
-				local i
-				repeat
-					i=bag[P:RND(L)]
-					count=count+1
-				until i~=P.next[#P.next].id or count>=L
-				P:getNext(i)
-			end
+			P:getNext(bag[rnd(#bag)])
+			freshMethod.rnd(P)
 		end,
-		loop=function(P)
-			local bag=P.gameEnv.bag
-			repeat
-				for i=1,#bag do
-					P:getNext(bag[i])
-				end
-			until #P.next>5
+		his4=function(P)
+			P.his={}
+			freshMethod.his4(P)
 		end,
 		fixed=function(P)
 			local bag=P.gameEnv.bag
@@ -1264,17 +1228,17 @@ local prepareSequence do
 			end
 		end,
 	}
-	local freshMethod={
+	freshMethod={
 		none=NULL,
 		bag=function(P)
-			if #P.next<6 then
+			while #P.next<6 do
 				local bag0,bag=P.gameEnv.bag,{}
 				for i=1,#bag0 do bag[i]=bag0[i]end
 				repeat P:getNext(rem(bag,P:RND(#bag)))until not bag[1]
 			end
 		end,
 		his4=function(P)
-			if #P.next<6 then
+			while #P.next<6 do
 				local bag=P.gameEnv.bag
 				local L=#bag
 				for n=1,4 do
@@ -1289,12 +1253,11 @@ local prepareSequence do
 			end
 		end,
 		rnd=function(P)
-			if #P.next<6 then
+			while #P.next<6 do
 				local bag=P.gameEnv.bag
 				local L=#bag
 				for i=1,4 do
 					local count=0
-					local i
 					repeat
 						i=bag[P:RND(L)]
 						count=count+1
@@ -1303,10 +1266,26 @@ local prepareSequence do
 				end
 			end
 		end,
+		reverb=function(P)
+			while #P.next<6 do
+				local bag0,bag=P.gameEnv.bag,{}
+				for i=1,#bag0 do bag[i]=bag0[i]end
+				repeat
+					local r=rem(bag,P:RND(#bag))
+					local p=1
+					repeat
+						P:getNext(r)
+						p=p-.15-rnd()
+					until p<0
+				until not bag[1]
+			end
+		end,
 		loop=function(P)
-			local bag=P.gameEnv.bag
-			for i=1,#bag do
-				P:getNext(bag[i])
+			while #P.next<6 do
+				local bag=P.gameEnv.bag
+				for i=1,#bag do
+					P:getNext(bag[i])
+				end
 			end
 		end,
 		fixed=function(P)
@@ -1317,12 +1296,21 @@ local prepareSequence do
 	function prepareSequence(P)--Call freshPrepare and set newNext
 		local ENV=P.gameEnv
 		if type(ENV.sequence)=="string"then
-			freshPrepare[ENV.sequence](P)
 			P.newNext=freshMethod[ENV.sequence]
+			if freshPrepare[ENV.sequence]then
+				freshPrepare[ENV.sequence](P)
+			else
+				P:newNext()
+			end
 		else
-			assert(type(ENV.sequence)=="function"and type(ENV.freshMethod)=="function","wrong sequence generator code")
-			ENV.sequence(P)
-			P.newNext=ENV.freshMethod
+			if type(ENV.freshMethod)=="function"then
+				if ENV.sequence then ENV.sequence(P)end
+				P.newNext=ENV.freshMethod
+			else
+				LOG.print("Wrong sequence generator code","warn")
+				ENV.sequence="bag"
+				prepareSequence(P)
+			end
 		end
 	end
 end
