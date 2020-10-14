@@ -14,7 +14,7 @@ do--LOADLIB
 			Windows="client",
 			Linux="client",
 			Android="client.so",
-			libFunc="client",
+			libFunc="luaopen_client",
 		},
 	}
 	function LOADLIB(name)
