@@ -1597,7 +1597,8 @@ end
 function player.solid(P,x,y)
 	if x<1 or x>10 or y<1 then return true end
 	if y>#P.field then return false end
-	return P.field[y][x]>0
+	return P.field[y]
+	[x]>0--to catch bug (nil[*])
 end
 function player.ifoverlap(P,bk,x,y)
 	local C=#bk[1]
