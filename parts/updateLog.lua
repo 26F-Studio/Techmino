@@ -1,10 +1,13 @@
 local S=[=[
 "Patron"(time ordered, may not accurate):
+						<<<<<<<<<<rmb1000+>>>>>>>>>>
+											★☆白羽☆★
 				<<<rmb100+>>>
-						那没事了(T6300)              加油啊,钉钉动了的大哥哥(T3228)
-						弥佑瑶               Alan           幽灵3383
-						靏鸖龘龘             込余             saki
-						模电                吃水榴莲          世界沃德
+						\那没事了(T6300)/              \加油啊,钉钉动了的大哥哥(T3228)/
+						\弥佑瑶/               \Alan/           \幽灵3383/
+						\靏鸖龘龘/             \込余/             \saki/
+						\模电/                \吃水榴莲/          \世界沃德/
+						\Petris/
 		<rmb10+>
 				八零哥    蕴空之灵    gggf127    dtg    ThTsOd    Fireboos    金巧    10元
 				立斐    Deep_Sea    时雪    yyangdid    sfqr    心痕    Sasoric    夏小亚
@@ -20,7 +23,6 @@ local S=[=[
 Future outlook:
 		New modes:
 				infinite PC challenge; easy finesse (only revert current)
-				reverb (often repeat a piece many times)
 				combo; backfire; bigbang; rhythm; square
 				task survival; symmetry; parkour; game tutorial
 				game Abbr. testl finesse tutorial/exam (3next, 1pt/mino, drop to score)
@@ -35,15 +37,37 @@ Future outlook:
 						扫雷; 坦克大战; 找不同
 				热更新; 联网游戏; 录像保存/导出; 按块回放录像
 				⑨S机器人调试模式; 健康游戏时间提醒;游戏内文档
-				物理hold; 多hold
-				多方块; 多语音包系统
+				物理hold; 多hold; 多方块; 多语音包系统
 				自定义游戏选择旋转系统(C2,DTET,ASC...)
 				自定义游戏按各种目的复制数据; 画图智能画笔
 				地图增加模式图标; split判定及效果
-				更多画面效果; 一些3D小玩意
-				方块散落动画; 超60帧
+				更多画面效果; 一些3D小玩意; 方块散落动画; 超60帧
 				"一键操作"; 手机滑动操作; 特殊控件(例如虚拟摇杆)
 				task-Z(新AI); 工程编译到字节码
+
+0.11.4: 网络库更新 Network Update
+		新内容:
+				新块序:回声
+				新模式:无移动/无旋转40行
+				新模式:纯单消马拉松
+		改动:
+				使用aegistudio的新网络库获取公告,无连接/拉取超时不会卡死了
+				增加公告/最新版本文字显示时长
+				极简评级要求改为通关且至少放了5个方块
+				极简等第文本区分语言
+				demo玩家不触发极简错误音
+				CC操作速度加强
+				地图布局微调
+				词典控件排版微调,键盘透明度降低,不再需要手动确认查询
+				软件锁在加载资源前启动
+		代码:
+				按键禁用加入模式环境变量
+				modes.lua文件模式扁平化
+				规范加载外部库代码
+		修复:
+				粘贴错误任务代码崩溃
+				计算器e键非法输入报错
+				ios打不开词典部分定式词条
 
 0.11.3: 新极简系统 New Finesse System
 		新内容:
