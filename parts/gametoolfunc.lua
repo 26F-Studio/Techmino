@@ -167,7 +167,7 @@ function copyBoard()
 	return data.encode("string","base64",data.compress("string","zlib",str))
 end
 function pasteBoard(str)
-	local _
+	local _,__
 
 	--Decode
 	_,str=pcall(data.decode,"string","base64",str)
