@@ -3,13 +3,26 @@
 
 例如多个mini语音文件名: mini_1.ogg, mini_2.ogg, ......
 如果只有一个, "_1"可以省略, 但是多个文件的数字不能跳跃
-格式使用ogg, 不支持别的(因为ogg小 哈哈哈)
+格式使用ogg, 不支持别的 (因为ogg小,哈哈哈哈哈哈)
 
 目前游戏内正在使用, 必须录制的音频文件名们:
-	zspin, sspin, lspin, jspin, tspin, ospin, ispin
 	single, double, triple, techrash
+	以上直接念就可以,用于普通直接消行
+
 	mini, b2b, b3b
-	以上直接念就可以
+	以上直接念就可以,用于组合进spin消除
+
+	zspin, sspin, lspin, jspin, tspin, ospin, ispin
+	以上的每一个都要衍生出数条语音,例如zpin的是这五条:
+		z-spin (用于不消行)
+		z-spin single
+		z-spin double
+		z-spin triple
+		z-spin techrash
+	对于 S L J T O I 每一个都是这样,五种语音
+
+	另：对于P, Q, F, E, U, V, W, X, R, Y, N, H
+	这些方块, 也可以有上面那些语音,但由于仅在五联块使用所以不录也可以,而且会显著增加语音包体积
 
 	perfect_clear, half_clear
 	这俩可以直接念也可以略做修改
