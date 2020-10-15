@@ -3284,6 +3284,7 @@ do--dict
 		english=color.green,
 		name=color.lPurple,
 	}
+	local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 	function Pnt.dict()
 		local S=sceneTemp
 		gc.setColor(1,1,1)
@@ -3329,10 +3330,10 @@ do--dict
 		gc.rectangle("line",20,180,280,526)
 
 		if S.waiting>0 then
-			gc.setLineWidth(3)
-			gc.circle("line",780,140,25)
-			gc.setColor(1,1,1,.6)
-			gc.arc("fill",780,140,25,S.waiting/.8*6.28-1.5708,4.7124)
+			local r=Timer()*2
+			local R=int(r)%7+1
+			gc.setColor(1,1,1,1-abs(r%1*2-1))
+			gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,scs[2*R],#blocks[R][0]-scs[2*R-1])
 		end
 	end
 end
