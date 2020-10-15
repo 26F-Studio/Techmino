@@ -44,7 +44,7 @@ if cc then
 				F[i],i=P.field[y][x]>0,i+1
 			end
 		end
-		while i<400 do
+		while i<=400 do
 			F[i],i=false,i+1
 		end
 		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
