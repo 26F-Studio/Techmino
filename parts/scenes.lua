@@ -1028,7 +1028,6 @@ end
 do--main
 	function sceneInit.main()
 		BG.set("space")
-		BGM.play("blank")
 
 		modeEnv={}
 		--Create demo player
@@ -1074,7 +1073,6 @@ do--mode
 	local touchDist=nil
 	function sceneInit.mode(org)
 		BG.set("space")
-		BGM.play("blank")
 		destroyPlayers()
 		local cam=mapCam
 		cam.zoomK=org=="main"and 5 or 1
