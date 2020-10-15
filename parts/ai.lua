@@ -14,13 +14,13 @@ local Timer=love.timer.getTime
 -- 6~10:hD,sD,H,A,R,
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
-local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
 cc=LOADLIB("CC")
 if cc then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
 		getConf=	cc.get_default_config	,--()options,weights
+		fastWeights=cc.fast_weights			,--(weights)
 		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
 
 		new=		cc.launch_async			,--(options,weights)bot
@@ -51,6 +51,7 @@ if cc then
 			LOG.print("CC is dead ("..P.id..")","error")
 		end
 	end
+	local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 	function CC_switch20G(P)
 		if not pcall(CC.destroy,P.AI_bot)then
 			LOG.print("CC is dead ("..P.id..")","error")
@@ -59,9 +60,10 @@ if cc then
 		P.AIdata._20G=true
 		P.AI_keys={}
 		local opt,wei=CC.getConf()
+			CC.fastWeights(wei)
 			CC.setHold(opt,P.AIdata.hold)
 			CC.set20G(opt,P.AIdata._20G)
-			CC.setBag(opt,P.AIdata.bag7)
+			CC.setBag(opt,P.AIdata.bag=="bag")
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)

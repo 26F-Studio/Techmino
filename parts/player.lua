@@ -1336,6 +1336,7 @@ local function loadAI(P,AIdata)--Load AI params
 	if P.AI_mode=="CC"then
 		P.RS=kickList.AIRS
 		local opt,wei=CC.getConf()
+			CC.fastWeights(wei)
 			CC.setHold(opt,P.AIdata.hold)
 			CC.set20G(opt,P.AIdata._20G)
 			CC.setBag(opt,P.AIdata.bag=="bag")
@@ -3158,8 +3159,8 @@ function PLY.newDemoPlayer(id,x,y,size)
 		type="CC",
 		next=5,
 		hold=true,
-		delay=3,
-		delta=3,
+		delay=30,
+		delta=4,
 		bag="bag",
 		node=100000,
 	})
