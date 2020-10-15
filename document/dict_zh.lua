@@ -294,7 +294,7 @@ return{
 	{"TRS",
 		"trs rotate",
 		"term",
-		"Techmino Rotation System\nTechmino独有的旋转系统，基于SRS设计，修补了一些常见SZ卡死的地形，增加了不少实用踢墙，每个五联块也基本按照SRS的spin逻辑单独设计了踢墙表。",
+		"Techmino Rotation System\nTechmino独有的旋转系统，基于SRS设计，修补了一些常见SZ卡死的地形，增加了不少实用踢墙，每个五连块也基本按照SRS的spin逻辑单独设计了踢墙表。",
 	},
 
 	{"Spin",
