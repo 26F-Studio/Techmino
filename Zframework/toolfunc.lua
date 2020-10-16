@@ -153,12 +153,12 @@ end
 do--httpRequest
 	client=LOADLIB("NETlib")
 	if client then
-		function httpRequest(tick,url,method)
+		function httpRequest(tick,url,method,header,body)
 			local task,err=client.httpraw{
 				url=url,
 				method=method or"GET",
-				-- header={},
-				-- body="",
+				header=header,
+				body=body,
 			}
 			if task then
 				TASK.new(tick,{task=task,time=0})
