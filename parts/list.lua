@@ -181,7 +181,7 @@ for k,v in next,_ do missionEnum[k]=v end
 
 local function T(s,t)return love.graphics.newText(getFont(s),t)end
 drawableText={
-	question=T(100,"?"),right=T(45,"→"),
+	question=T(100,"?"),
 	small=T(30,"<"),large=T(30,">"),
 	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
 
@@ -211,14 +211,6 @@ drawableText={
 	gameover=T(100),pause=T(120),
 	D=T(100,"D"),C=T(100,"C"),B=T(100,"B"),A=T(100,"A"),S=T(100,"S"),
 
-	custom=T(80),basic=T(35),rule=T(35),field=T(35),mission=T(35),
-	setting_game=T(80),setting_video=T(80),setting_sound=T(80),
-	setting_control=T(70),setting_skin=T(70),
-	dict=T(70),
-	preview=T(40),
-	keyboard=T(25),joystick=T(25),
-	ctrlSetHelp=T(30),
-	musicRoom=T(80),nowPlaying=T(50),
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
 	noScore=T(45),highScore=T(30),
 }
