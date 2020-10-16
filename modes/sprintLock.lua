@@ -1,7 +1,7 @@
 return{
 	color=color.green,
 	env={
-		drop=60,lock=60,
+		drop=60,lock=180,
 		keyCancel={3,4,5},
 		target=40,dropPiece=PLY.check_lineReach,
 		bg="aura",bgm="waterfall",
@@ -29,8 +29,8 @@ return{
 		end
 		local T=P.stat.time
 		return
-		T<=420 and 5 or
-		T<=600 and 4 or
+		T<=60 and 5 or
+		T<=100 and 4 or
 		3
 	end,
 }
