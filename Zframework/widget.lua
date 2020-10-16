@@ -12,12 +12,18 @@ local text={
 }
 function text:reset()
 	if type(self.text)=="string"then
-		self.text=gc.newText(getFont(self.font or 30),self.text)
+		self.text=gc.newText(getFont(self.font),self.text)
 	end
 end
 function text:draw()
 	gc.setColor(self.color)
-	gc.draw(self.text,self.x,self.y)
+	if self.align=="M" then
+		gc.draw(self.text,self.x-self.text:getWidth()*.5,self.y)
+	elseif self.align=="L" then
+		gc.draw(self.text,self.x,self.y)
+	elseif self.align=="R" then
+		gc.draw(self.text,self.x-self.text:getWidth(),self.y)
+	end
 end
 
 local image={
@@ -479,6 +485,8 @@ function WIDGET.newText(D)
 		x=		D.x,
 		y=		D.y,
 		color=	D.color and(color[D.color]or D.color)or color.white,
+		font=	D.font or 30,
+		align=	D.align or"M",
 		hide=	D.hide,
 	}
 	for k,v in next,text do _[k]=v end
@@ -847,7 +855,12 @@ function WIDGET.keyPressed(i)
 				end
 			end
 		else
-			WIDGET.sel=WIDGET.active[1]
+			for k,v in next,WIDGET.active do
+				if v.isAbove then
+					WIDGET.sel=v
+					break
+				end
+			end
 		end
 	end
 end

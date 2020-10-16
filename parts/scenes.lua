@@ -1397,14 +1397,14 @@ do--mode
 		end
 	end
 end
-do--custom_basic
-	function sceneInit.custom_basic()
+do--customGame
+	function sceneInit.customGame()
 		destroyPlayers()
 		BG.set(customEnv.bg)
 		BGM.play(customEnv.bgm)
 	end
 
-	function keyDown.custom_basic(key)
+	function keyDown.customGame(key)
 		if key=="return"or key=="return2"then
 			if customEnv.opponent>0 then
 				if customEnv.opponent>5 and customEnv.seq=="fixed"then
@@ -1418,12 +1418,14 @@ do--custom_basic
 			SCN.push()
 
 			loadGame(key=="return"and"custom_clear"or"custom_puzzle",true)
-		elseif key=="tab"then
-			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_mission","swipeR")
-			else
-				SCN.swapTo("custom_rule","swipeL")
-			end
+		elseif key=="f"then
+			SCN.go("custom_field","swipeD")
+		elseif key=="s"then
+			SCN.go("custom_sequence","swipeD")
+		elseif key=="m"then
+			SCN.go("custom_mission","swipeD")
+		elseif key=="a"then
+			SCN.go("custom_advance","swipeD")
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			local str="Techmino Quest:"..copyQuestArgs().."!"
 			if #preBag>0 then str=str..copySequence()end
@@ -1468,42 +1470,14 @@ do--custom_basic
 			WIDGET.keyPressed(key)
 		end
 	end
-
-	function Pnt.custom_basic()
-		gc.setColor(1,1,1)
-		gc.draw(drawableText.custom,20,5)
-		gc.setColor(.7,.7,.7)
-		gc.draw(drawableText.basic,580,50)
-	end
 end
-do--custom_rule
-	function sceneInit.custom_rule()
+do--custom_advance
+	function sceneInit.custom_advance()
 		destroyPlayers()
 	end
-
-	function keyDown.custom_rule(key)
-		if key=="tab"then
-			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_basic","swipeR")
-			else
-				SCN.swapTo("custom_seq","swipeL")
-			end
-		elseif key=="escape"then
-			SCN.back()
-		else
-			WIDGET.keyPressed(key)
-		end
-	end
-
-	function Pnt.custom_rule()
-		gc.setColor(1,1,1)
-		gc.draw(drawableText.custom,20,5)
-		gc.setColor(.7,.7,.7)
-		gc.draw(drawableText.rule,585,50)
-	end
 end
-do--custom_seq
-	function sceneInit.custom_seq()
+do--custom_sequence
+	function sceneInit.custom_sequence()
 		sceneTemp={cur=#preBag,sure=0}
 	end
 
@@ -1517,7 +1491,7 @@ do--custom_seq
 		["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
 		z=8,s=9,t=14,j=19,l=20,i=25
 	}
-	function keyDown.custom_seq(key)
+	function keyDown.custom_sequence(key)
 		local S=sceneTemp
 		local preBag=preBag
 		if key=="left"then
@@ -1582,12 +1556,6 @@ do--custom_seq
 			else
 				LOG.print(text.dataCorrupted,color.red)
 			end
-		elseif key=="tab"then
-			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_rule","swipeR")
-			else
-				SCN.swapTo("custom_draw","swipeL")
-			end
 		elseif key=="escape"then
 			SCN.back()
 		elseif type(key)=="number"then
@@ -1604,16 +1572,15 @@ do--custom_seq
 		end
 	end
 
-	function Tmr.custom_seq()
+	function Tmr.custom_sequence()
 		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 	end
 
-	function Pnt.custom_seq()
+	function Pnt.custom_sequence()
 		local S=sceneTemp
-		gc.setColor(1,1,1)
-		gc.draw(drawableText.custom,20,5)
 
 		--Draw frame
+		gc.setColor(1,1,1)
 		gc.setLineWidth(4)
 		gc.rectangle("line",100,110,1080,260)
 
@@ -1674,8 +1641,8 @@ do--custom_seq
 		end
 	end
 end
-do--custom_draw
-	function sceneInit.custom_draw()
+do--custom_field
+	function sceneInit.custom_field()
 		sceneTemp={
 			sure=0,
 			pen=1,
@@ -1689,10 +1656,10 @@ do--custom_draw
 		a=12,s=13,d=14,f=15,g=16,h=17,
 		z=0,x=-1,
 	}
-	function mouseDown.custom_draw(x,y,k)
-		mouseMove.custom_draw(x,y)
+	function mouseDown.custom_field(x,y,k)
+		mouseMove.custom_field(x,y)
 	end
-	function mouseMove.custom_draw(x,y,dx,dy)
+	function mouseMove.custom_field(x,y,dx,dy)
 		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 		if sx<1 or sx>10 then sx=nil end
 		if sy<1 or sy>20 then sy=nil end
@@ -1701,7 +1668,7 @@ do--custom_draw
 			preField[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
 		end
 	end
-	function wheelMoved.custom_draw(x,y)
+	function wheelMoved.custom_field(x,y)
 		local pen=sceneTemp.pen
 		if y<0 then
 			pen=pen+1
@@ -1712,10 +1679,10 @@ do--custom_draw
 		end
 		sceneTemp.pen=pen
 	end
-	function touchDown.custom_draw(id,x,y)
-		mouseMove.custom_draw(x,y)
+	function touchDown.custom_field(id,x,y)
+		mouseMove.custom_field(x,y)
 	end
-	function touchMove.custom_draw(id,x,y,dx,dy)
+	function touchMove.custom_field(id,x,y,dx,dy)
 		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 		if sx<1 or sx>10 then sx=nil end
 		if sy<1 or sy>20 then sy=nil end
@@ -1724,7 +1691,7 @@ do--custom_draw
 			preField[sy][sx]=sceneTemp.pen
 		end
 	end
-	function keyDown.custom_draw(key)
+	function keyDown.custom_field(key)
 		local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
 		if key=="up"or key=="down"or key=="left"or key=="right"then
 			if not sx then sx=1 end
@@ -1748,12 +1715,6 @@ do--custom_draw
 		elseif key=="space"then
 			if sx and sy then
 				preField[sy][sx]=pen
-			end
-		elseif key=="tab"then
-			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_seq","swipeR")
-			else
-				SCN.swapTo("custom_mission","swipeL")
 			end
 		elseif key=="escape"then
 			SCN.back()
@@ -1797,15 +1758,13 @@ do--custom_draw
 		sceneTemp.x,sceneTemp.y,sceneTemp.pen=sx,sy,pen
 	end
 
-	function Tmr.custom_draw()
+	function Tmr.custom_field()
 		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 	end
 
-	function Pnt.custom_draw()
-		local sx,sy=sceneTemp.x,sceneTemp.y
-
-		gc.setColor(.7,.7,.7)
-		mText(drawableText.field,350,5)
+	function Pnt.custom_field()
+		local S=sceneTemp
+		local sx,sy=S.x,S.y
 
 		--Field
 		gc.translate(200,60)
@@ -1822,7 +1781,7 @@ do--custom_draw
 			local B=preField[y][x]
 			if B>0 then
 				gc.draw(blockSkin[B],30*x-30,600-30*y)
-			elseif B==-1 and not sceneTemp.demo then
+			elseif B==-1 and not S.demo then
 				gc.draw(cross,30*x-30,600-30*y)
 			end
 		end end
@@ -1833,7 +1792,7 @@ do--custom_draw
 		gc.translate(-200,-60)
 
 		--Pen
-		local pen=sceneTemp.pen
+		local pen=S.pen
 		if pen>0 then
 			gc.setLineWidth(13)
 			gc.setColor(SKIN.libColor[pen])
@@ -1846,8 +1805,8 @@ do--custom_draw
 		end
 
 		--Confirm reset
-		if sceneTemp.sure>0 then
-			gc.setColor(1,1,1,sceneTemp.sure*.02)
+		if S.sure>0 then
+			gc.setColor(1,1,1,S.sure*.02)
 			gc.draw(drawableText.question,1180,290)
 		end
 
@@ -1937,12 +1896,6 @@ do--custom_mission
 			else
 				LOG.print(text.dataCorrupted,color.red)
 			end
-		elseif key=="tab"then
-			if kb.isDown("lshift","rshift")then
-				SCN.swapTo("custom_draw","swipeR")
-			else
-				SCN.swapTo("custom_basic","swipeL")
-			end
 		elseif key=="escape"then
 			SCN.back()
 		elseif type(key)=="number"then
@@ -1976,10 +1929,6 @@ do--custom_mission
 
 	function Pnt.custom_mission()
 		local S=sceneTemp
-		gc.setColor(1,1,1)
-		gc.draw(drawableText.custom,20,5)
-		gc.setColor(.7,.7,.7)
-		gc.draw(drawableText.mission,585,50)
 
 		--Draw frame
 		gc.setLineWidth(4)
@@ -2649,7 +2598,6 @@ do--setting_game
 
 	function Pnt.setting_game()
 		gc.setColor(1,1,1)
-		mText(drawableText.setting_game,640,15)
 		gc.draw(blockSkin[int(Timer()*2)%11+1],590,540,Timer()%6.28319,2,nil,15,15)
 	end
 end
@@ -2659,11 +2607,6 @@ do--setting_video
 	end
 	function sceneBack.setting_video()
 		FILE.saveSetting()
-	end
-
-	function Pnt.setting_video()
-		gc.setColor(1,1,1)
-		mText(drawableText.setting_video,640,15)
 	end
 end
 do--setting_sound
@@ -2702,7 +2645,6 @@ do--setting_sound
 
 	function Pnt.setting_sound()
 		gc.setColor(1,1,1)
-		mText(drawableText.setting_sound,640,15)
 		local t=Timer()
 		local _=sceneTemp.jump
 		local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
@@ -2781,11 +2723,6 @@ do--setting_control
 		gc.setColor(1,1,1)
 		gc.line(550,530,550,630)
 		gc.line(950,530,950,630)
-
-		--Texts
-		gc.setColor(1,1,1)gc.draw(drawableText.setting_control,80,50)
-		setFont(50)
-		gc.printf(text.preview,320,540,200,"right")
 
 		--Testing O mino
 		_=blockSkin[setting.skin[6]]
@@ -2898,13 +2835,6 @@ do--setting_key
 		)
 		--Selection rect
 
-		gc.setColor(1,.3,.3)
-		mText(drawableText.keyboard,340,30)
-		mText(drawableText.keyboard,940,30)
-		gc.setColor(.3,.3,1)
-		mText(drawableText.joystick,540,30)
-		mText(drawableText.joystick,1140,30)
-
 		gc.setColor(1,1,1)
 		setFont(26)
 		local b1,b2=keyMap[S.board],keyMap[S.board+2]
@@ -2927,14 +2857,13 @@ do--setting_key
 			gc.line(40,y,1240,y)
 		end
 		setFont(35)
-		gc.print(text.page..S.board,280,590)
-		gc.draw(drawableText.ctrlSetHelp,50,650)
+		gc.print(text.page..S.board,280,570)
 	end
 end
 do--setting_skin
 	local scs=spinCenters
 	function Pnt.setting_skin()
-		gc.setColor(1,1,1)gc.draw(drawableText.setting_skin,80,50)
+		gc.setColor(1,1,1)
 		for N=1,7 do
 			local face=setting.face[N]
 			local B=blocks[N][face]
@@ -3109,11 +3038,10 @@ do--music
 	end
 
 	function Pnt.music()
-		gc.setColor(1,1,1)gc.draw(drawableText.musicRoom,22,23)
+		gc.setColor(1,1,1)
 
-		gc.draw(drawableText.right,270,350+10)
 		setFont(50)
-		gc.print(BGM.list[sceneTemp],320,350+5)
+		gc.print(BGM.list[sceneTemp],320,355)
 		setFont(35)
 		if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
 		if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
@@ -3123,7 +3051,6 @@ do--music
 
 		gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
 		if BGM.nowPlay then
-			gc.draw(drawableText.nowPlaying,700-drawableText.nowPlaying:getWidth(),500)
 			setFont(50)
 			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
 			gc.print(BGM.nowPlay,710,500)
@@ -3285,10 +3212,9 @@ do--dict
 	local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 	function Pnt.dict()
 		local S=sceneTemp
-		gc.setColor(1,1,1)
-		gc.draw(drawableText.dict,20,5)
 
 		gc.setLineWidth(4)
+		gc.setColor(1,1,1)
 		gc.rectangle("line",20,110,726,60)
 		setFont(40)
 		gc.print(S.input,35,110)
