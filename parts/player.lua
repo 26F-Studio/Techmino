@@ -344,9 +344,9 @@ local function Pupdate_alive(P,dt)
 			if P.imgY~=P.curY then
 				P.dropDelay=P.gameEnv.drop
 			elseif P.AI_mode=="CC"then
-				CC_updateField(P)
+				CC.updateField(P)
 				if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
-					CC_switch20G(P)
+					CC.switch20G(P)
 				end
 			end
 		else
@@ -354,7 +354,7 @@ local function Pupdate_alive(P,dt)
 			if P.lockDelay>=0 then goto stop end
 			P:drop()
 			if P.AI_mode=="CC"then
-				CC_updateField(P)
+				CC.updateField(P)
 			end
 		end
 	end
@@ -1662,7 +1662,7 @@ function player.garbageRelease(P)
 			break
 		end
 	end
-	if flag and P.AI_mode=="CC"then CC_updateField(P)end
+	if flag and P.AI_mode=="CC"then CC.updateField(P)end
 end
 function player.garbageRise(P,color,amount,pos)
 	local _
@@ -1856,7 +1856,7 @@ function player.lock(P)
 		end
 	end
 	if has_dest and not dest then
-		CC_updateField(P)
+		CC.updateField(P)
 	end
 end
 
