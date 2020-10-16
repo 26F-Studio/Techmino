@@ -389,7 +389,7 @@ function selector:draw()
 	mStr(self.selText,x+w*.5,y+43-21)
 end
 function selector:getInfo()
-	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
+	return format("x=%d,y=%d,w=%d",self.x+self.w*.5,self.y+30,self.w)
 end
 
 local keyboardNames={--15*5 keys
@@ -776,7 +776,6 @@ function WIDGET.keyPressed(i)
 						W.change()
 					end
 				elseif W.type=="selector"then
-					print(1)
 					local s=W.select
 					if i=="left"then
 						if s>1 then
