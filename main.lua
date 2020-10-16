@@ -155,6 +155,7 @@ if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 --Update data
 do
 	local R=modeRanks
+	R.sprint_10=R.sprint_10 or 0
 	for k,v in next,R do
 		if type(k)=="number"then
 			R[k]=nil
@@ -196,12 +197,17 @@ do
 		end
 	end
 	if S.extraRate then
-		S.finesseRate=S.extraRate
+		S.finesseRate=5*(S.piece-S.extraRate)
 	end
 	if fs.getInfo("bigbang.dat")then fs.remove("bigbang.dat")end
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
+		if S.finesseRate<.3*S.piece then
+			S.finesseRate=10*S.finesseRate
+		end
+		FILE.saveData()
+		FILE.saveSetting()
 	end
 	if system=="Android"and not setting.fullscreen then
 		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,color.yellow)
