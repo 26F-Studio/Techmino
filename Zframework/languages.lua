@@ -177,6 +177,7 @@ local langList={
 				title="音乐室",
 				arrow="→",
 				now="正在播放:",
+
 				bgm="BGM",
 				up="↑",
 				play="播放",
@@ -186,6 +187,8 @@ local langList={
 			customGame={
 				title="自定义游戏",
 				subTitle="基本",
+				defSeq="默认序列",
+				noMsn="无任务",
 
 				drop="下落延迟",
 				lock="锁定延迟",
@@ -195,8 +198,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
+				copy="复制场地+序列+任务",
+				paste="粘贴场地+序列+任务",
 				clear="开始-消除",
 				puzzle="开始-拼图",
 
@@ -764,6 +767,8 @@ local langList={
 			customGame={
 				title="自定义游戏",
 				subTitle="基本",
+				defSeq="默认序列",
+				noMsn="无任务",
 
 				drop="下落延迟",
 				lock="锁定延迟",
@@ -773,8 +778,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
+				copy="复制场地+序列+任务",
+				paste="粘贴场地+序列+任务",
 				clear="开始-消除",
 				puzzle="开始-拼图",
 
@@ -1343,6 +1348,8 @@ local langList={
 			customGame={
 				title="Custom Game",
 				subTitle="Basic",
+				defSeq="Default Seq.",
+				noMsn="No mission",
 
 				drop="Drop Delay",
 				lock="Lock Delay",
@@ -1352,15 +1359,15 @@ local langList={
 				bg="Background",
 				bgm="Music",
 
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
+				copy="Copy Field+Seq+Misn",
+				paste="Paste Field+Seq+Misn",
 				clear="Start-Clear",
 				puzzle="Start-Puzzle",
 
 				advance="More (A)",
-				field="EditField (F)",
-				sequence="EditSequence (S)",
-				mission="EditMission (M)",
+				field="Edit Field (F)",
+				sequence="Edit Sequence (S)",
+				mission="Edit Mission (M)",
 
 				back="Back",
 			},
@@ -1919,10 +1926,11 @@ local langList={
 				down="↓",
 				back="X",
 			},
-
 			customGame={
 				title="!@#$%^&*",
 				subTitle="!!",
+				defSeq="0-[123]",
+				noMsn="-x-",
 
 				drop="↓",
 				lock="↓_",
@@ -1932,15 +1940,15 @@ local langList={
 				bg="{~}",
 				bgm="(~)",
 
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
+				copy="Copy Field+Seq+Misn",
+				paste="Paste Field+Seq+Misn",
 				clear="Start-Clear",
 				puzzle="Start-Puzzle",
 
 				advance="More (A)",
-				field="EditField (F)",
-				sequence="EditSequence (S)",
-				mission="EditMission (M)",
+				field="Edit Field (F)",
+				sequence="Edit Sequence (S)",
+				mission="Edit Mission (M)",
 
 				back="X",
 			},
@@ -2502,6 +2510,8 @@ local langList={
 			customGame={
 				title="自定义游戏",
 				subTitle="基本",
+				defSeq="默认序列",
+				noMsn="无任务",
 
 				drop="下落延迟",
 				lock="锁定延迟",
@@ -2511,8 +2521,8 @@ local langList={
 				bg="背景",
 				bgm="音乐",
 
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
+				copy="复制场地+序列+任务",
+				paste="粘贴场地+序列+任务",
 				clear="开始-消除",
 				puzzle="开始-拼图",
 

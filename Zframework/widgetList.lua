@@ -181,12 +181,14 @@ local Widgets={
 	customGame={
 		newText({name="title",		x=600,y=5,font=80,align="R"}),
 		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
+		newText({name="defSeq",		x=450,y=550,color="grey",hide=function()return preBag[1]end}),
+		newText({name="noMsn",		x=730,y=550,color="grey",hide=function()return preMission[1]end}),
 
 		--Basic
-		newSelector({name="drop",	x=160,	y=150,w=220,color="orange",		list=CUSlist.drop,	disp=CUSval("drop"),code=CUSsto("drop")}),
-		newSelector({name="lock",	x=160,	y=230,w=220,color="red",		list=CUSlist.lock,	disp=CUSval("lock"),code=CUSsto("lock")}),
-		newSelector({name="wait",	x=400,	y=150,w=220,color="green",		list=CUSlist.wait,	disp=CUSval("wait"),code=CUSsto("wait")}),
-		newSelector({name="fall",	x=400,	y=230,w=220,color="yellow",		list=CUSlist.fall,	disp=CUSval("fall"),code=CUSsto("fall")}),
+		newSelector({name="drop",	x=170,	y=150,w=220,color="orange",		list=CUSlist.drop,	disp=CUSval("drop"),code=CUSsto("drop")}),
+		newSelector({name="lock",	x=170,	y=230,w=220,color="red",		list=CUSlist.lock,	disp=CUSval("lock"),code=CUSsto("lock")}),
+		newSelector({name="wait",	x=410,	y=150,w=220,color="green",		list=CUSlist.wait,	disp=CUSval("wait"),code=CUSsto("wait")}),
+		newSelector({name="fall",	x=410,	y=230,w=220,color="yellow",		list=CUSlist.fall,	disp=CUSval("fall"),code=CUSsto("fall")}),
 
 		--Else
 		newSelector({name="bg",		x=1070,	y=150,w=250,color="yellow",		list=CUSlist.bg,	disp=CUSval("bg"),	code=function(i)customEnv.bg=i BG.set(i)end}),
@@ -402,7 +404,7 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,					font=40,code=BACK}),
 	},
 	setting_video={
-		newText({name="title",x=640,y=15,font=80}),
+		newText({name="title",		x=640,y=15,font=80}),
 
 		newButton({name="sound",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=swapScene("setting_sound","swipeR")}),
 		newButton({name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=swapScene("setting_game","swipeL")}),
@@ -487,10 +489,10 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	setting_key={
-		newText({name="keyboard",	x=340,y=30,color="lRed",font=25}),
-		newText({name="keyboard",	x=940,y=30,color="lRed",font=25}),
-		newText({name="joystick",	x=540,y=30,color="lBlue",font=25}),
-		newText({name="joystick",	x=1140,y=30,color="lBlue",font=25}),
+		newText({name="keyboard",	x=340,y=30,font=25,color="lRed"}),
+		newText({name="keyboard",	x=940,y=30,font=25,color="lRed"}),
+		newText({name="joystick",	x=540,y=30,font=25,color="lBlue"}),
+		newText({name="joystick",	x=1140,y=30,font=25,color="lBlue"}),
 		newText({name="help",		x=50,y=650,font=30,align="L"}),
 		newButton({name="back",		x=1140,y=640,w=170,h=80,font=40,code=BACK}),
 	},
