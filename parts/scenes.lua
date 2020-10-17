@@ -61,6 +61,8 @@ do--calculator
 					S.val=S.val..k
 				end
 			end
+		elseif k:sub(1,2)=="kp"then
+			keyDown.calculator(k:sub(3))
 		elseif k=="."then
 			if not(find(S.val,".",nil,true)or find(S.val,"e"))then
 				if S.sym and not S.reg then
