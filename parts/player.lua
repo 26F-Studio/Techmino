@@ -1332,7 +1332,10 @@ local function loadAI(P,AIdata)--Load AI params
 		bag=AIdata.bag,
 		node=AIdata.node,
 	}
-	if not CC then P.AI_mode="9S"end
+	if not CC then
+		P.AI_mode="9S"
+		P.AI_delay0=int(P.AI_delay0*.26)
+	end
 	if P.AI_mode=="CC"then
 		P.RS=kickList.AIRS
 		local opt,wei=CC.getConf()
