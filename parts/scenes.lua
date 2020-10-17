@@ -153,653 +153,6 @@ do--calculator
 		if S.sym then setFont(50)gc.print(S.sym,126,150)end
 	end
 end
-do--minigame
-	function sceneInit.minigame()
-		BG.set("space")
-		BGM.stop()
-	end
-end
-do--p15
-	function sceneInit.p15()
-		BG.set("rainbow")
-		BGM.play("push")
-		sceneTemp={
-			board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}},
-			x=4,y=4,
-			startTime=0,
-			time=0,
-			move=0,
-			state=2,
-
-			color=0,
-			blind=false,
-			slide=true,
-			pathVis=true,
-			revKB=false,
-		}
-	end
-
-	local function moveU(S,b,x,y)
-		if y<4 then
-			b[y][x],b[y+1][x]=b[y+1][x],b[y][x]
-			S.y=y+1
-		end
-	end
-	local function moveD(S,b,x,y)
-		if y>1 then
-			b[y][x],b[y-1][x]=b[y-1][x],b[y][x]
-			S.y=y-1
-		end
-	end
-	local function moveL(S,b,x,y)
-		if x<4 then
-			b[y][x],b[y][x+1]=b[y][x+1],b[y][x]
-			S.x=x+1
-		end
-	end
-	local function moveR(S,b,x,y)
-		if x>1 then
-			b[y][x],b[y][x-1]=b[y][x-1],b[y][x]
-			S.x=x-1
-		end
-	end
-	local function shuffleBoard(S,b)
-		for i=1,300 do
-			i=rnd()
-			if i<.25 then moveU(S,b,S.x,S.y)
-			elseif i<.5 then moveD(S,b,S.x,S.y)
-			elseif i<.75 then moveL(S,b,S.x,S.y)
-			else moveR(S,b,S.x,S.y)
-			end
-		end
-	end
-	local function checkBoard(b)
-		for i=4,1,-1 do
-			for j=1,4 do
-				if b[i][j]~=4*i+j-4 then return false end
-			end
-		end
-		return true
-	end
-	local function tapBoard(x,y,key)
-		local S=sceneTemp
-		if S.state<2 then
-			if not key then
-				if S.pathVis then
-					sysFX.newRipple(.16,x,y,10)
-				end
-				x,y=int((x-320)/160)+1,int((y-40)/160)+1
-			end
-			local b=S.board
-			local moves=0
-			if S.x==x then
-				if y>S.y and y<5 then
-					for i=S.y,y-1 do
-						moveU(S,b,x,i)
-						moves=moves+1
-					end
-				elseif y<S.y and y>0 then
-					for i=S.y,y+1,-1 do
-						moveD(S,b,x,i)
-						moves=moves+1
-					end
-				end
-			elseif S.y==y then
-				if x>S.x and x<5 then
-					for i=S.x,x-1 do
-						moveL(S,b,i,y)
-						moves=moves+1
-					end
-				elseif x<S.x and x>0 then
-					for i=S.x,x+1,-1 do
-						moveR(S,b,i,y)
-						moves=moves+1
-					end
-				end
-			end
-			if moves>0 then
-				S.move=S.move+moves
-				if S.state==0 then
-					S.state=1
-					S.startTime=Timer()
-				end
-				if checkBoard(b)then
-					S.state=2
-					S.time=Timer()-S.startTime
-					if S.time<1 then		LOG.print("不是人",color.lBlue)
-					elseif S.time<2 then	LOG.print("还是人",color.lBlue)
-					elseif S.time<3 then	LOG.print("神仙",color.lBlue)
-					elseif S.time<5 then	LOG.print("太强了",color.lBlue)
-					elseif S.time<7.5 then	LOG.print("很强",color.lBlue)
-					elseif S.time<10 then	LOG.print("可以的",color.lBlue)
-					elseif S.time<20 then	LOG.print("马上入门了",color.lBlue)
-					elseif S.time<30 then	LOG.print("入门不远了",color.lBlue)
-					elseif S.time<60 then	LOG.print("多加练习",color.lBlue)
-					else					LOG.print("第一次玩?加油",color.lBlue)
-					end
-					SFX.play("win")
-				end
-				SFX.play("move")
-			end
-		end
-	end
-	function keyDown.p15(k)
-		local S=sceneTemp
-		local b=S.board
-		if k=="up"then
-			tapBoard(S.x,S.y-(S.revKB and 1 or -1),true)
-		elseif k=="down"then
-			tapBoard(S.x,S.y+(S.revKB and 1 or -1),true)
-		elseif k=="left"then
-			tapBoard(S.x-(S.revKB and 1 or -1),S.y,true)
-		elseif k=="right"then
-			tapBoard(S.x+(S.revKB and 1 or -1),S.y,true)
-		elseif k=="space"then
-			shuffleBoard(S,b)
-			S.state=0
-			S.time=0
-			S.move=0
-		elseif k=="q"then
-			if S.state~=1 then
-				S.color=(S.color+1)%5
-			end
-		elseif k=="w"then
-			if S.state==0 then
-				S.blind=not S.blind
-			end
-		elseif k=="e"then
-			if S.state==0 then
-				S.slide=not S.slide
-				if not S.slide then
-					S.pathVis=false
-				end
-			end
-		elseif k=="r"then
-			if S.state==0 and S.slide then
-				S.pathVis=not S.pathVis
-			end
-		elseif k=="t"then
-			if S.state==0 then
-				S.revKB=not S.revKB
-			end
-		elseif k=="escape"then
-			SCN.back()
-		end
-	end
-	function mouseDown.p15(x,y,k)
-		tapBoard(x,y)
-	end
-	function mouseMove.p15(x,y)
-		if sceneTemp.slide then
-			tapBoard(x,y)
-		end
-	end
-	function touchDown.p15(id,x,y)
-		tapBoard(x,y)
-	end
-	function touchMove.p15(id,x,y,dx,dy)
-		if sceneTemp.slide then
-			tapBoard(x,y)
-		end
-	end
-
-	function Tmr.p15()
-		local S=sceneTemp
-		if S.state==1 then
-			S.time=Timer()-S.startTime
-		end
-	end
-
-	local frontColor={
-		[0]={
-			color.lRed,color.lRed,color.lRed,color.lRed,
-			color.lGreen,color.lBlue,color.lBlue,color.lBlue,
-			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-		},--Colored(rank)
-		{
-			color.lRed,color.lRed,color.lRed,color.lRed,
-			color.lOrange,color.lYellow,color.lYellow,color.lYellow,
-			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
-			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
-		},--Rainbow(rank)
-		{
-			color.lRed,color.lRed,color.lRed,color.lRed,
-			color.lBlue,color.lBlue,color.lBlue,color.lBlue,
-			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-		},--Colored(row)
-		{
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-		},--Grey
-		{
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-			color.white,color.white,color.white,color.white,
-		},--Black
-	}
-	local backColor={
-		[0]={
-			color.dRed,color.dRed,color.dRed,color.dRed,
-			color.dGreen,color.dBlue,color.dBlue,color.dBlue,
-			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-		},--Colored(rank)
-		{
-			color.dRed,color.dRed,color.dRed,color.dRed,
-			color.dOrange,color.dYellow,color.dYellow,color.dYellow,
-			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
-			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
-		},--Rainbow(rank)
-		{
-			color.dRed,color.dRed,color.dRed,color.dRed,
-			color.dBlue,color.dBlue,color.dBlue,color.dBlue,
-			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-		},--Colored(row)
-		{
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-		},--Grey
-		{
-			color.black,color.black,color.black,color.black,
-			color.black,color.black,color.black,color.black,
-			color.black,color.black,color.black,color.black,
-			color.black,color.black,color.black,color.black,
-		},--Black
-	}
-	function Pnt.p15()
-		local S=sceneTemp
-
-		setFont(40)
-		gc.setColor(1,1,1)
-		gc.print(format("%.3f",S.time),1026,80)
-		gc.print(S.move,1026,150)
-
-		if S.state==2 then
-			--Draw no-setting area
-			gc.setColor(1,0,0,.3)
-			gc.rectangle("fill",15,295,285,340)
-
-			gc.setColor(.9,.9,0)--win
-		elseif S.state==1 then
-			gc.setColor(.9,.9,.9)--game
-		elseif S.state==0 then
-			gc.setColor(.2,.8,.2)--ready
-		end
-		gc.setLineWidth(10)
-		gc.rectangle("line",313,33,654,654,18)
-
-		gc.setLineWidth(4)
-		local x,y=S.x,S.y
-		local blind=S.blind and S.state==1
-		setFont(80)
-		for i=1,4 do
-			for j=1,4 do
-				if x~=j or y~=i then
-					local N=S.board[i][j]
-
-					local C=blind and 1 or S.color
-					local backColor=backColor[C]
-					local frontColor=frontColor[C]
-
-					gc.setColor(backColor[N])
-					gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
-					gc.setColor(frontColor[N])
-					gc.rectangle("line",j*160+163,i*160-117,154,154,8)
-					if not blind then
-						gc.setColor(.1,.1,.1)
-						mStr(N,j*160+240,i*160-96)
-						mStr(N,j*160+242,i*160-98)
-						gc.setColor(1,1,1)
-						mStr(N,j*160+243,i*160-95)
-					end
-				end
-			end
-		end
-		gc.setColor(0,0,0,.3)
-		gc.setLineWidth(10)
-		gc.rectangle("line",x*160+173,y*160-107,134,134,50)
-	end
-end
-do--schulte_G
-	function sceneInit.schulte_G()
-		BGM.play("way")
-		sceneTemp={
-			board={},
-			rank=3,
-			blind=false,
-			disappear=false,
-			tapFX=true,
-
-			startTime=0,
-			time=0,
-			error=0,
-			state=0,
-			progress=0,
-		}
-	end
-
-	local function newBoard()
-		local S=sceneTemp
-		local L={}
-		for i=1,S.rank^2 do
-			L[i]=i
-		end
-		for i=1,S.rank^2 do
-			S.board[i]=rem(L,rnd(#L))
-		end
-	end
-	local function tapBoard(x,y)
-		local S=sceneTemp
-		local R=S.rank
-		if x>320 and x<960 and y>40 and y<680 then
-			if S.state==0 then
-				newBoard()
-				S.state=1
-				S.startTime=Timer()
-				S.progress=0
-			elseif S.state==1 then
-				local X=int((x-320)/640*R)
-				local Y=int((y-40)/640*R)
-				x=R*Y+X+1
-				if S.board[x]==S.progress+1 then
-					S.progress=S.progress+1
-					if S.progress<R^2 then
-						SFX.play("lock")
-					else
-						S.time=Timer()-S.startTime+S.error
-						S.state=2
-						SFX.play("reach")
-					end
-					if S.tapFX then
-						sysFX.newShade(.3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
-					end
-				else
-					S.error=S.error+1
-					if S.tapFX then
-						sysFX.newShade(.5,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
-					end
-					SFX.play("finesseError")
-				end
-			end
-		end
-	end
-
-	function mouseDown.schulte_G(x,y,k)
-		tapBoard(x,y)
-	end
-	function touchDown.schulte_G(id,x,y)
-		tapBoard(x,y)
-	end
-	function keyDown.schulte_G(key)
-		local S=sceneTemp
-		if key=="z"or key=="x"then
-			love.mousepressed(ms.getPosition())
-		elseif key=="space"then
-			if sceneTemp.state>0 then
-				S.board={}
-				S.time=0
-				S.error=0
-				S.state=0
-				S.progress=0
-			end
-		elseif key=="q"then
-			if S.state==0 then
-				S.blind=not S.blind
-			end
-		elseif key=="w"then
-			if S.state==0 then
-				S.disappear=not S.disappear
-			end
-		elseif key=="e"then
-			if S.state==0 then
-				S.tapFX=not S.tapFX
-			end
-		elseif key=="3"or key=="4"or key=="5"or key=="6"then
-			if S.state==0 then
-				S.rank=tonumber(key)
-			end
-		elseif key=="escape"then
-			SCN.back()
-		end
-	end
-
-	function Tmr.schulte_G()
-		local S=sceneTemp
-		if S.state==1 then
-			S.time=Timer()-S.startTime+S.error
-		end
-	end
-
-	function Pnt.schulte_G()
-		local S=sceneTemp
-
-		setFont(40)
-		gc.setColor(1,1,1)
-		gc.print(format("%.3f",S.time),1026,80)
-		gc.print(S.error,1026,150)
-
-		setFont(70)
-		mStr(S.state==1 and S.progress or S.state==0 and"Ready"or S.state==2 and"Win",1130,300)
-
-		if S.state==2 then
-			--Draw no-setting area
-			gc.setColor(1,0,0,.3)
-			gc.rectangle("fill",15,295,285,250)
-
-			gc.setColor(.9,.9,0)--win
-		elseif S.state==1 then
-			gc.setColor(.9,.9,.9)--game
-		elseif S.state==0 then
-			gc.setColor(.2,.8,.2)--ready
-		end
-		gc.setLineWidth(10)
-		gc.rectangle("line",310,30,660,660)
-
-		local rank=S.rank
-		local width=640/rank
-		local blind=S.state==0 or S.blind and S.state==1 and S.progress>0
-		gc.setLineWidth(4)
-		local f=180-rank*20
-		setFont(f)
-		for i=1,rank do
-			for j=1,rank do
-				local N=S.board[rank*(i-1)+j]
-				if not(S.state==1 and S.disappear and N<=S.progress)then
-					gc.setColor(.4,.5,.6)
-					gc.rectangle("fill",320+(j-1)*width,(i-1)*width+40,width,width)
-					gc.setColor(1,1,1)
-					gc.rectangle("line",320+(j-1)*width,(i-1)*width+40,width,width)
-					if not blind then
-						local x,y=320+(j-.5)*width,40+(i-.5)*width-f*.67
-						gc.setColor(.1,.1,.1)
-						mStr(N,x-3,y-1)
-						mStr(N,x-1,y-3)
-						gc.setColor(1,1,1)
-						mStr(N,x,y)
-					end
-				end
-			end
-		end
-	end
-end
-do--pong
-	function sceneInit.pong()
-		BG.set("none")
-		BGM.play("way")
-		sceneTemp={
-			state=0,
-
-			x=640,y=360,
-			vx=0,vy=0,
-			ry=0,
-
-			p1={
-				score=0,
-				y=360,
-				vy=0,
-				y0=false,
-			},
-			p2={
-				score=0,
-				y=360,
-				vy=0,
-				y0=false,
-			},
-		}
-	end
-
-	local function start()
-		sceneTemp.state=1
-		sceneTemp.vx=rnd()>.5 and 6 or -6
-		sceneTemp.vy=rnd()*6-3
-	end
-	function keyDown.pong(key)
-		local S=sceneTemp
-		if key=="space"then
-			if S.state==0 then
-				start()
-			end
-		elseif key=="r"then
-			S.state=0
-			S.x,S.y=640,360
-			S.vx,S.vy=0,0
-			S.ry=0
-			S.p1.score,S.p2.score=0,0
-		elseif key=="w"or key=="s"then
-			S.p1.y0=false
-		elseif key=="up"or key=="down"then
-			S.p2.y0=false
-		elseif key=="escape"then
-			SCN.back()
-		end
-	end
-	function touchDown.pong(id,x,y)
-		touchMove.pong(id,x,y)
-		if sceneTemp.state==0 then
-			start()
-		end
-	end
-	function touchMove.pong(id,x,y,dx,dy)
-		sceneTemp[x<640 and"p1"or"p2"].y0=y
-	end
-	function mouseMove.pong(x,y)
-		sceneTemp[x<640 and"p1"or"p2"].y0=y
-	end
-
-	--Rect Area X:150~1130 Y:20~700
-	function Tmr.pong()
-		local S=sceneTemp
-
-		--Update pads
-		local P=S.p1
-		while P do
-			if P.y0 then
-				if P.y>P.y0 then
-					P.y=max(P.y-8,P.y0,70)
-					P.vy=-8
-				elseif P.y<P.y0 then
-					P.y=min(P.y+8,P.y0,650)
-					P.vy=8
-				else
-					P.vy=P.vy*.5
-				end
-			else
-				if kb.isDown(P==S.p1 and"w"or"up")then P.vy=max(P.vy-1,-8)end
-				if kb.isDown(P==S.p1 and"s"or"down")then P.vy=min(P.vy+1,8)end
-				P.y=P.y+P.vy
-				P.vy=P.vy*.9
-				if P.y>650 then
-					P.vy=-P.vy*.5
-					P.y=650
-				elseif P.y<70 then
-					P.vy=-P.vy*.5
-					P.y=70
-				end
-			end
-			P=P==S.p1 and S.p2
-		end
-
-		--Update ball
-		local x,y,vx,vy,ry=S.x,S.y,S.vx,S.vy,S.ry
-		x,y=x+vx,y+vy
-		if ry~=0 then
-			if ry>0 then
-				ry=max(ry-.1,0)
-				vy=vy-.1
-			else
-				ry=min(ry+.1,0)
-				vy=vy+.1
-			end
-		end
-		if S.state==1 then--Playing
-			if x<160 or x>1120 then
-				local P=x<160 and S.p1 or S.p2
-				local d=y-P.y
-				if abs(d)<60 then
-					vx=-vx-(vx>0 and .05 or -.5)
-					vy=vy+d*.08+P.vy*.5
-					ry=P.vy
-					SFX.play("collect")
-				else
-					S.state=2
-				end
-			end
-			if y<30 or y>690 then
-				y=y<30 and 30 or 690
-				vy,ry=-vy,-ry
-				SFX.play("collect")
-			end
-		elseif S.state==2 then--Game over
-			if x<-120 or x>1400 or y<-40 or y>760 then
-				P=x>640 and S.p1 or S.p2
-				P.score=P.score+1
-				TEXT.show("+1",x>1400 and 470 or 810,226,50,"score")
-				SFX.play("reach")
-
-				S.state=0
-				x,y=640,360
-				vx,vy=0,0
-			end
-		end
-		S.x,S.y,S.vx,S.vy,S.ry=x,y,vx,vy,ry
-	end
-
-	function Pnt.pong()
-		local S=sceneTemp
-
-		--Draw score
-		setFont(100)
-		gc.setColor(.4,.4,.4)
-		mStr(S.p1.score,470,20)
-		mStr(S.p2.score,810,20)
-
-		--Draw boundary
-		gc.setColor(1,1,1)
-		gc.setLineWidth(6)
-		gc.line(130,20,1160,20)
-		gc.line(130,700,1160,700)
-
-		--Draw ball & speed line
-		gc.setColor(1,1,1-abs(S.ry)*.16)
-		gc.circle("fill",S.x,S.y,10)
-		gc.setColor(1,1,1,.1)
-		gc.line(S.x+S.vx*22,S.y+S.vy*22,S.x+S.vx*30,S.y+S.vy*30)
-
-		--Draw pads
-		gc.setColor(1,.8,.8)
-		gc.rectangle("fill",130,S.p1.y-50,20,100)
-		gc.setColor(.8,.8,1)
-		gc.rectangle("fill",1130,S.p2.y-50,20,100)
-	end
-end
 do--load
 	function sceneInit.load()
 		sceneTemp={
@@ -3414,6 +2767,652 @@ do--stat
 		end
 
 		gc.draw(IMG.title,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
+	end
+end
+do--minigame
+	function sceneInit.minigame()
+		BG.set("space")
+	end
+end
+do--p15
+	function sceneInit.p15()
+		BG.set("rainbow")
+		BGM.play("push")
+		sceneTemp={
+			board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}},
+			x=4,y=4,
+			startTime=0,
+			time=0,
+			move=0,
+			state=2,
+
+			color=0,
+			blind=false,
+			slide=true,
+			pathVis=true,
+			revKB=false,
+		}
+	end
+
+	local function moveU(S,b,x,y)
+		if y<4 then
+			b[y][x],b[y+1][x]=b[y+1][x],b[y][x]
+			S.y=y+1
+		end
+	end
+	local function moveD(S,b,x,y)
+		if y>1 then
+			b[y][x],b[y-1][x]=b[y-1][x],b[y][x]
+			S.y=y-1
+		end
+	end
+	local function moveL(S,b,x,y)
+		if x<4 then
+			b[y][x],b[y][x+1]=b[y][x+1],b[y][x]
+			S.x=x+1
+		end
+	end
+	local function moveR(S,b,x,y)
+		if x>1 then
+			b[y][x],b[y][x-1]=b[y][x-1],b[y][x]
+			S.x=x-1
+		end
+	end
+	local function shuffleBoard(S,b)
+		for i=1,300 do
+			i=rnd()
+			if i<.25 then moveU(S,b,S.x,S.y)
+			elseif i<.5 then moveD(S,b,S.x,S.y)
+			elseif i<.75 then moveL(S,b,S.x,S.y)
+			else moveR(S,b,S.x,S.y)
+			end
+		end
+	end
+	local function checkBoard(b)
+		for i=4,1,-1 do
+			for j=1,4 do
+				if b[i][j]~=4*i+j-4 then return false end
+			end
+		end
+		return true
+	end
+	local function tapBoard(x,y,key)
+		local S=sceneTemp
+		if S.state<2 then
+			if not key then
+				if S.pathVis then
+					sysFX.newRipple(.16,x,y,10)
+				end
+				x,y=int((x-320)/160)+1,int((y-40)/160)+1
+			end
+			local b=S.board
+			local moves=0
+			if S.x==x then
+				if y>S.y and y<5 then
+					for i=S.y,y-1 do
+						moveU(S,b,x,i)
+						moves=moves+1
+					end
+				elseif y<S.y and y>0 then
+					for i=S.y,y+1,-1 do
+						moveD(S,b,x,i)
+						moves=moves+1
+					end
+				end
+			elseif S.y==y then
+				if x>S.x and x<5 then
+					for i=S.x,x-1 do
+						moveL(S,b,i,y)
+						moves=moves+1
+					end
+				elseif x<S.x and x>0 then
+					for i=S.x,x+1,-1 do
+						moveR(S,b,i,y)
+						moves=moves+1
+					end
+				end
+			end
+			if moves>0 then
+				S.move=S.move+moves
+				if S.state==0 then
+					S.state=1
+					S.startTime=Timer()
+				end
+				if checkBoard(b)then
+					S.state=2
+					S.time=Timer()-S.startTime
+					if S.time<1 then		LOG.print("不是人",color.lBlue)
+					elseif S.time<2 then	LOG.print("还是人",color.lBlue)
+					elseif S.time<3 then	LOG.print("神仙",color.lBlue)
+					elseif S.time<5 then	LOG.print("太强了",color.lBlue)
+					elseif S.time<7.5 then	LOG.print("很强",color.lBlue)
+					elseif S.time<10 then	LOG.print("可以的",color.lBlue)
+					elseif S.time<20 then	LOG.print("马上入门了",color.lBlue)
+					elseif S.time<30 then	LOG.print("入门不远了",color.lBlue)
+					elseif S.time<60 then	LOG.print("多加练习",color.lBlue)
+					else					LOG.print("第一次玩?加油",color.lBlue)
+					end
+					SFX.play("win")
+				end
+				SFX.play("move")
+			end
+		end
+	end
+	function keyDown.p15(k)
+		local S=sceneTemp
+		local b=S.board
+		if k=="up"then
+			tapBoard(S.x,S.y-(S.revKB and 1 or -1),true)
+		elseif k=="down"then
+			tapBoard(S.x,S.y+(S.revKB and 1 or -1),true)
+		elseif k=="left"then
+			tapBoard(S.x-(S.revKB and 1 or -1),S.y,true)
+		elseif k=="right"then
+			tapBoard(S.x+(S.revKB and 1 or -1),S.y,true)
+		elseif k=="space"then
+			shuffleBoard(S,b)
+			S.state=0
+			S.time=0
+			S.move=0
+		elseif k=="q"then
+			if S.state~=1 then
+				S.color=(S.color+1)%5
+			end
+		elseif k=="w"then
+			if S.state==0 then
+				S.blind=not S.blind
+			end
+		elseif k=="e"then
+			if S.state==0 then
+				S.slide=not S.slide
+				if not S.slide then
+					S.pathVis=false
+				end
+			end
+		elseif k=="r"then
+			if S.state==0 and S.slide then
+				S.pathVis=not S.pathVis
+			end
+		elseif k=="t"then
+			if S.state==0 then
+				S.revKB=not S.revKB
+			end
+		elseif k=="escape"then
+			SCN.back()
+		end
+	end
+	function mouseDown.p15(x,y,k)
+		tapBoard(x,y)
+	end
+	function mouseMove.p15(x,y)
+		if sceneTemp.slide then
+			tapBoard(x,y)
+		end
+	end
+	function touchDown.p15(id,x,y)
+		tapBoard(x,y)
+	end
+	function touchMove.p15(id,x,y,dx,dy)
+		if sceneTemp.slide then
+			tapBoard(x,y)
+		end
+	end
+
+	function Tmr.p15()
+		local S=sceneTemp
+		if S.state==1 then
+			S.time=Timer()-S.startTime
+		end
+	end
+
+	local frontColor={
+		[0]={
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lGreen,color.lBlue,color.lBlue,color.lBlue,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		},--Colored(rank)
+		{
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lOrange,color.lYellow,color.lYellow,color.lYellow,
+			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
+			color.lOrange,color.lGreen,color.lBlue,color.lBlue,
+		},--Rainbow(rank)
+		{
+			color.lRed,color.lRed,color.lRed,color.lRed,
+			color.lBlue,color.lBlue,color.lBlue,color.lBlue,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+			color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		},--Colored(row)
+		{
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+		},--Grey
+		{
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+			color.white,color.white,color.white,color.white,
+		},--Black
+	}
+	local backColor={
+		[0]={
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dGreen,color.dBlue,color.dBlue,color.dBlue,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		},--Colored(rank)
+		{
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dOrange,color.dYellow,color.dYellow,color.dYellow,
+			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
+			color.dOrange,color.dGreen,color.dBlue,color.dBlue,
+		},--Rainbow(rank)
+		{
+			color.dRed,color.dRed,color.dRed,color.dRed,
+			color.dBlue,color.dBlue,color.dBlue,color.dBlue,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+			color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		},--Colored(row)
+		{
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+			color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+		},--Grey
+		{
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+			color.black,color.black,color.black,color.black,
+		},--Black
+	}
+	function Pnt.p15()
+		local S=sceneTemp
+
+		setFont(40)
+		gc.setColor(1,1,1)
+		gc.print(format("%.3f",S.time),1026,80)
+		gc.print(S.move,1026,150)
+
+		if S.state==2 then
+			--Draw no-setting area
+			gc.setColor(1,0,0,.3)
+			gc.rectangle("fill",15,295,285,340)
+
+			gc.setColor(.9,.9,0)--win
+		elseif S.state==1 then
+			gc.setColor(.9,.9,.9)--game
+		elseif S.state==0 then
+			gc.setColor(.2,.8,.2)--ready
+		end
+		gc.setLineWidth(10)
+		gc.rectangle("line",313,33,654,654,18)
+
+		gc.setLineWidth(4)
+		local x,y=S.x,S.y
+		local blind=S.blind and S.state==1
+		setFont(80)
+		for i=1,4 do
+			for j=1,4 do
+				if x~=j or y~=i then
+					local N=S.board[i][j]
+
+					local C=blind and 1 or S.color
+					local backColor=backColor[C]
+					local frontColor=frontColor[C]
+
+					gc.setColor(backColor[N])
+					gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
+					gc.setColor(frontColor[N])
+					gc.rectangle("line",j*160+163,i*160-117,154,154,8)
+					if not blind then
+						gc.setColor(.1,.1,.1)
+						mStr(N,j*160+240,i*160-96)
+						mStr(N,j*160+242,i*160-98)
+						gc.setColor(1,1,1)
+						mStr(N,j*160+243,i*160-95)
+					end
+				end
+			end
+		end
+		gc.setColor(0,0,0,.3)
+		gc.setLineWidth(10)
+		gc.rectangle("line",x*160+173,y*160-107,134,134,50)
+	end
+end
+do--schulte_G
+	function sceneInit.schulte_G()
+		BGM.play("way")
+		sceneTemp={
+			board={},
+			rank=3,
+			blind=false,
+			disappear=false,
+			tapFX=true,
+
+			startTime=0,
+			time=0,
+			error=0,
+			state=0,
+			progress=0,
+		}
+	end
+
+	local function newBoard()
+		local S=sceneTemp
+		local L={}
+		for i=1,S.rank^2 do
+			L[i]=i
+		end
+		for i=1,S.rank^2 do
+			S.board[i]=rem(L,rnd(#L))
+		end
+	end
+	local function tapBoard(x,y)
+		local S=sceneTemp
+		local R=S.rank
+		if x>320 and x<960 and y>40 and y<680 then
+			if S.state==0 then
+				newBoard()
+				S.state=1
+				S.startTime=Timer()
+				S.progress=0
+			elseif S.state==1 then
+				local X=int((x-320)/640*R)
+				local Y=int((y-40)/640*R)
+				x=R*Y+X+1
+				if S.board[x]==S.progress+1 then
+					S.progress=S.progress+1
+					if S.progress<R^2 then
+						SFX.play("lock")
+					else
+						S.time=Timer()-S.startTime+S.error
+						S.state=2
+						SFX.play("reach")
+					end
+					if S.tapFX then
+						sysFX.newShade(.3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
+					end
+				else
+					S.error=S.error+1
+					if S.tapFX then
+						sysFX.newShade(.5,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
+					end
+					SFX.play("finesseError")
+				end
+			end
+		end
+	end
+
+	function mouseDown.schulte_G(x,y,k)
+		tapBoard(x,y)
+	end
+	function touchDown.schulte_G(id,x,y)
+		tapBoard(x,y)
+	end
+	function keyDown.schulte_G(key)
+		local S=sceneTemp
+		if key=="z"or key=="x"then
+			love.mousepressed(ms.getPosition())
+		elseif key=="space"then
+			if sceneTemp.state>0 then
+				S.board={}
+				S.time=0
+				S.error=0
+				S.state=0
+				S.progress=0
+			end
+		elseif key=="q"then
+			if S.state==0 then
+				S.blind=not S.blind
+			end
+		elseif key=="w"then
+			if S.state==0 then
+				S.disappear=not S.disappear
+			end
+		elseif key=="e"then
+			if S.state==0 then
+				S.tapFX=not S.tapFX
+			end
+		elseif key=="3"or key=="4"or key=="5"or key=="6"then
+			if S.state==0 then
+				S.rank=tonumber(key)
+			end
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+
+	function Tmr.schulte_G()
+		local S=sceneTemp
+		if S.state==1 then
+			S.time=Timer()-S.startTime+S.error
+		end
+	end
+
+	function Pnt.schulte_G()
+		local S=sceneTemp
+
+		setFont(40)
+		gc.setColor(1,1,1)
+		gc.print(format("%.3f",S.time),1026,80)
+		gc.print(S.error,1026,150)
+
+		setFont(70)
+		mStr(S.state==1 and S.progress or S.state==0 and"Ready"or S.state==2 and"Win",1130,300)
+
+		if S.state==2 then
+			--Draw no-setting area
+			gc.setColor(1,0,0,.3)
+			gc.rectangle("fill",15,295,285,250)
+
+			gc.setColor(.9,.9,0)--win
+		elseif S.state==1 then
+			gc.setColor(.9,.9,.9)--game
+		elseif S.state==0 then
+			gc.setColor(.2,.8,.2)--ready
+		end
+		gc.setLineWidth(10)
+		gc.rectangle("line",310,30,660,660)
+
+		local rank=S.rank
+		local width=640/rank
+		local blind=S.state==0 or S.blind and S.state==1 and S.progress>0
+		gc.setLineWidth(4)
+		local f=180-rank*20
+		setFont(f)
+		for i=1,rank do
+			for j=1,rank do
+				local N=S.board[rank*(i-1)+j]
+				if not(S.state==1 and S.disappear and N<=S.progress)then
+					gc.setColor(.4,.5,.6)
+					gc.rectangle("fill",320+(j-1)*width,(i-1)*width+40,width,width)
+					gc.setColor(1,1,1)
+					gc.rectangle("line",320+(j-1)*width,(i-1)*width+40,width,width)
+					if not blind then
+						local x,y=320+(j-.5)*width,40+(i-.5)*width-f*.67
+						gc.setColor(.1,.1,.1)
+						mStr(N,x-3,y-1)
+						mStr(N,x-1,y-3)
+						gc.setColor(1,1,1)
+						mStr(N,x,y)
+					end
+				end
+			end
+		end
+	end
+end
+do--pong
+	function sceneInit.pong()
+		BG.set("none")
+		BGM.play("way")
+		sceneTemp={
+			state=0,
+
+			x=640,y=360,
+			vx=0,vy=0,
+			ry=0,
+
+			p1={
+				score=0,
+				y=360,
+				vy=0,
+				y0=false,
+			},
+			p2={
+				score=0,
+				y=360,
+				vy=0,
+				y0=false,
+			},
+		}
+	end
+
+	local function start()
+		sceneTemp.state=1
+		sceneTemp.vx=rnd()>.5 and 6 or -6
+		sceneTemp.vy=rnd()*6-3
+	end
+	function keyDown.pong(key)
+		local S=sceneTemp
+		if key=="space"then
+			if S.state==0 then
+				start()
+			end
+		elseif key=="r"then
+			S.state=0
+			S.x,S.y=640,360
+			S.vx,S.vy=0,0
+			S.ry=0
+			S.p1.score,S.p2.score=0,0
+		elseif key=="w"or key=="s"then
+			S.p1.y0=false
+		elseif key=="up"or key=="down"then
+			S.p2.y0=false
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+	function touchDown.pong(id,x,y)
+		touchMove.pong(id,x,y)
+		if sceneTemp.state==0 then
+			start()
+		end
+	end
+	function touchMove.pong(id,x,y,dx,dy)
+		sceneTemp[x<640 and"p1"or"p2"].y0=y
+	end
+	function mouseMove.pong(x,y)
+		sceneTemp[x<640 and"p1"or"p2"].y0=y
+	end
+
+	--Rect Area X:150~1130 Y:20~700
+	function Tmr.pong()
+		local S=sceneTemp
+
+		--Update pads
+		local P=S.p1
+		while P do
+			if P.y0 then
+				if P.y>P.y0 then
+					P.y=max(P.y-8,P.y0,70)
+					P.vy=-8
+				elseif P.y<P.y0 then
+					P.y=min(P.y+8,P.y0,650)
+					P.vy=8
+				else
+					P.vy=P.vy*.5
+				end
+			else
+				if kb.isDown(P==S.p1 and"w"or"up")then P.vy=max(P.vy-1,-8)end
+				if kb.isDown(P==S.p1 and"s"or"down")then P.vy=min(P.vy+1,8)end
+				P.y=P.y+P.vy
+				P.vy=P.vy*.9
+				if P.y>650 then
+					P.vy=-P.vy*.5
+					P.y=650
+				elseif P.y<70 then
+					P.vy=-P.vy*.5
+					P.y=70
+				end
+			end
+			P=P==S.p1 and S.p2
+		end
+
+		--Update ball
+		local x,y,vx,vy,ry=S.x,S.y,S.vx,S.vy,S.ry
+		x,y=x+vx,y+vy
+		if ry~=0 then
+			if ry>0 then
+				ry=max(ry-.1,0)
+				vy=vy-.1
+			else
+				ry=min(ry+.1,0)
+				vy=vy+.1
+			end
+		end
+		if S.state==1 then--Playing
+			if x<160 or x>1120 then
+				local P=x<160 and S.p1 or S.p2
+				local d=y-P.y
+				if abs(d)<60 then
+					vx=-vx-(vx>0 and .05 or -.5)
+					vy=vy+d*.08+P.vy*.5
+					ry=P.vy
+					SFX.play("collect")
+				else
+					S.state=2
+				end
+			end
+			if y<30 or y>690 then
+				y=y<30 and 30 or 690
+				vy,ry=-vy,-ry
+				SFX.play("collect")
+			end
+		elseif S.state==2 then--Game over
+			if x<-120 or x>1400 or y<-40 or y>760 then
+				P=x>640 and S.p1 or S.p2
+				P.score=P.score+1
+				TEXT.show("+1",x>1400 and 470 or 810,226,50,"score")
+				SFX.play("reach")
+
+				S.state=0
+				x,y=640,360
+				vx,vy=0,0
+			end
+		end
+		S.x,S.y,S.vx,S.vy,S.ry=x,y,vx,vy,ry
+	end
+
+	function Pnt.pong()
+		local S=sceneTemp
+
+		--Draw score
+		setFont(100)
+		gc.setColor(.4,.4,.4)
+		mStr(S.p1.score,470,20)
+		mStr(S.p2.score,810,20)
+
+		--Draw boundary
+		gc.setColor(1,1,1)
+		gc.setLineWidth(6)
+		gc.line(130,20,1160,20)
+		gc.line(130,700,1160,700)
+
+		--Draw ball & speed line
+		gc.setColor(1,1,1-abs(S.ry)*.16)
+		gc.circle("fill",S.x,S.y,10)
+		gc.setColor(1,1,1,.1)
+		gc.line(S.x+S.vx*22,S.y+S.vy*22,S.x+S.vx*30,S.y+S.vy*30)
+
+		--Draw pads
+		gc.setColor(1,.8,.8)
+		gc.rectangle("fill",130,S.p1.y-50,20,100)
+		gc.setColor(.8,.8,1)
+		gc.rectangle("fill",1130,S.p2.y-50,20,100)
 	end
 end
 do--history
