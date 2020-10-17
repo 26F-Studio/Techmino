@@ -1470,6 +1470,43 @@ do--customGame
 			WIDGET.keyPressed(key)
 		end
 	end
+
+	local preField=preField
+	function Pnt.customGame()
+		--Field
+		gc.push("transform")
+		gc.translate(95,290)
+		gc.scale(.5)
+		gc.setColor(1,1,1)
+		gc.setLineWidth(3)
+		gc.rectangle("line",-2,-2,304,604)
+		local cross=puzzleMark[-1]
+		for y=1,20 do for x=1,10 do
+			local B=preField[y][x]
+			if B>0 then
+				gc.draw(blockSkin[B],30*x-30,600-30*y)
+			elseif B==-1 then
+				gc.draw(cross,30*x-30,600-30*y)
+			end
+		end end
+		gc.pop()
+
+		--Sequence
+		if #preBag>0 then
+			setFont(40)
+			gc.setColor(1,1,int(Timer()*3)%2)
+			gc.print("#",365,545)
+			gc.print(#preBag,390,545)
+		end
+
+		--Sequence
+		if #preMission>0 then
+			setFont(40)
+			gc.setColor(1,1,int(Timer()*3)%2)
+			gc.print("#",645,545)
+			gc.print(#preMission,670,545)
+		end
+	end
 end
 do--custom_advance
 	function sceneInit.custom_advance()
@@ -1656,6 +1693,7 @@ do--custom_field
 		a=12,s=13,d=14,f=15,g=16,h=17,
 		z=0,x=-1,
 	}
+	local preField=preField
 	function mouseDown.custom_field(x,y,k)
 		mouseMove.custom_field(x,y)
 	end
