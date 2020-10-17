@@ -181,8 +181,8 @@ local Widgets={
 	customGame={
 		newText({name="title",		x=600,y=5,font=80,align="R"}),
 		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
-		newText({name="defSeq",		x=450,y=550,color="grey",hide=function()return preBag[1]end}),
-		newText({name="noMsn",		x=730,y=550,color="grey",hide=function()return preMission[1]end}),
+		newText({name="defSeq",		x=330,y=550,align="L",color="grey",hide=function()return preBag[1]end}),
+		newText({name="noMsn",		x=610,y=550,align="L",color="grey",hide=function()return preMission[1]end}),
 
 		--Basic
 		newSelector({name="drop",	x=170,	y=150,w=220,color="orange",		list=CUSlist.drop,	disp=CUSval("drop"),code=CUSsto("drop")}),
@@ -660,7 +660,7 @@ local Widgets={
 		newButton({name="back",		x=640,	y=620,w=200,h=80,	font=35,code=BACK}),
 	},
 	account={
-		newText({name="username",	x=100,y=100,font=60}),
+		newText({name="title",		x=80,y=50,font=70,align="L"}),
 	},
 	minigame={
 		newButton({name="p15",		x=240,	y=250,w=350,h=120,font=40,code=goScene("p15")}),

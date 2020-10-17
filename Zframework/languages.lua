@@ -38,6 +38,7 @@ local langList={
 
 		ai_fixed="不能同时开启AI和固定序列",
 		ai_prebag="不能同时开启AI和自定义序列",
+		ai_mission="不能同时开启AI和自定义任务",
 		settingSaved="设置已保存",
 		settingSavingError="设置保存失败:",
 		keyMapSaved="键位设置已保存",
@@ -456,7 +457,7 @@ local langList={
 				back="返回",
 			},
 			account={
-				username="测试",
+				title="账户",
 			},
 			minigame={
 				p15="15 Puzzle",
@@ -620,6 +621,7 @@ local langList={
 
 		ai_fixed="不能同时开启电脑玩家和固定序列",
 		ai_prebag="不能同时开启电脑玩家和自定义序列",
+		ai_mission="不能同时开启电脑玩家和自定义任务",
 		settingSaved="设置已保存",
 		settingSavingError="设置保存失败:",
 		keyMapSaved="键位设置已保存",
@@ -631,7 +633,7 @@ local langList={
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
 		getRank="本局评级:",
-		ranks={"D","C","B","A","S"},
+		ranks={"菜","可","好","强","您"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -1040,7 +1042,7 @@ local langList={
 				back="返回",
 			},
 			account={
-				username="test",
+				title="账户",
 			},
 			minigame={
 				p15="15 Puzzle",
@@ -1204,6 +1206,7 @@ local langList={
 
 		ai_fixed="The AI is incompatible with fixed sequences.",
 		ai_prebag="The AI is incompatible with custom sequences.",
+		ai_mission="The AI is incompatible with custom missions.",
 		settingSaved="Settings Saved",
 		settingSavingError="Failed to save settings:",
 		keyMapSaved="Key settings saved",
@@ -1614,7 +1617,7 @@ local langList={
 				back="Back",
 			},
 			account={
-				username="test",
+				title="Account",
 			},
 			minigame={
 				p15="15 Puzzle",
@@ -1785,6 +1788,7 @@ local langList={
 
 		ai_fixed="X!!!",
 		ai_prebag="X!!!",
+		ai_mission="X!!!",
 		settingSaved="~~~",
 		settingSavingError="x!:",
 		keyMapSaved="~~~",
@@ -2202,7 +2206,7 @@ local langList={
 				back="X",
 			},
 			account={
-				username="test",
+				title="@_@",
 			},
 			minigame={
 				p15="15 Puzzle",
@@ -2364,6 +2368,7 @@ local langList={
 
 		ai_fixed="不能同时开启AI和固定序列",
 		ai_prebag="不能同时开启AI和自定义序列",
+		ai_mission="不能同时开启电脑玩家和自定义任务",
 		settingSaved="设置已保存",
 		settingSavingError="设置保存失败:",
 		keyMapSaved="键位设置已保存",
@@ -2783,7 +2788,7 @@ local langList={
 				back="返回",
 			},
 			account={
-				username="test",
+				title="账户",
 			},
 			minigame={
 				p15="15 Puzzle",

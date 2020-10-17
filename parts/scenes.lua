@@ -753,6 +753,7 @@ do--mode
 	end
 end
 do--customGame
+	local customEnv=customEnv
 	function sceneInit.customGame()
 		destroyPlayers()
 		BG.set(customEnv.bg)
@@ -762,17 +763,19 @@ do--customGame
 	function keyDown.customGame(key)
 		if key=="return"or key=="return2"then
 			if customEnv.opponent>0 then
-				if customEnv.opponent>5 and customEnv.seq=="fixed"then
+				if customEnv.opponent>5 and customEnv.sequence=="fixed"then
 					LOG.print(text.ai_fixed,"warn")
 					return
 				elseif customEnv.opponent>0 and #preBag>0 then
 					LOG.print(text.ai_prebag,"warn")
 					return
+				elseif customEnv.opponent>0 and #preMission>0 then
+					LOG.print(text.ai_mission,"warn")
+					return
 				end
 			end
 			SCN.push()
-
-			loadGame(key=="return"and"custom_clear"or"custom_puzzle",true)
+			loadGame((key=="return2"or kb.isDown("lalt","lctrl","lshift"))and"custom_puzzle"or"custom_clear",true)
 		elseif key=="f"then
 			SCN.go("custom_field","swipeD")
 		elseif key=="s"then
@@ -847,19 +850,20 @@ do--customGame
 		gc.pop()
 
 		--Sequence
+		setFont(30)
+		gc.printf(customEnv.sequence,330,550,240,"right")
+		setFont(40)
 		if #preBag>0 then
-			setFont(40)
-			gc.setColor(1,1,int(Timer()*3)%2)
-			gc.print("#",365,545)
-			gc.print(#preBag,390,545)
+			gc.setColor(1,1,int(Timer()*6.26)%2)
+			gc.print("#",330,545)
+			gc.print(#preBag,360,545)
 		end
 
 		--Sequence
 		if #preMission>0 then
-			setFont(40)
-			gc.setColor(1,1,int(Timer()*3)%2)
-			gc.print("#",645,545)
-			gc.print(#preMission,670,545)
+			gc.setColor(1,customEnv.missionKill and 0 or 1,int(Timer()*6.26)%2)
+			gc.print("#",610,545)
+			gc.print(#preMission,640,545)
 		end
 	end
 end
