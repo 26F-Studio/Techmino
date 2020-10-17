@@ -398,7 +398,7 @@ local Widgets={
 		newButton({name="layout",	x=460,	y=540,	w=140,h=70,					font=35,code=goScene("setting_skin")}),
 		newSwitch({name="autoPause",x=1080,	y=320,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")}),
 		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
-		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=SETrev("fine")}),
+		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=function()setting.fine=not setting.fine if setting.fine then SFX.play("finesseError",.6) end end}),
 		newSwitch({name="appLock",	x=1080,	y=500,	font=20,disp=SETval("appLock"),		code=SETrev("appLock")}),
 		newButton({name="calc",		x=970,	y=550,	w=150,h=60,color="dGrey",	font=25,code=goScene("calculator"),hide=function()return not setting.appLock end}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,					font=40,code=BACK}),
