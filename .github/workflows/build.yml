@@ -21,18 +21,18 @@ jobs:
       run: |
         curl -LO https://github.com/26F-Studio/Techmino/releases/download/coldclear/coldclear.zip
         7z x coldclear.zip -ocoldclear
-        move coldclear/win64/cold_clear.dll love-11.3-win64
-        move coldclear/win64/CCloader.dll love-11.3-win64
+        move coldclear\win64\cold_clear.dll love-11.3-win64
+        move coldclear\win64\CCloader.dll love-11.3-win64
     - name: Pack Techmino
       shell: cmd
       run: |
         7z a game.zip BGM document image modes parts SFX VOICE Zframework conf.lua font.ttf main.lua
         move game.zip game.love
-        copy /b love-11.3-win64/love.exe + game.love love-11.3-win64/Techmino.exe
-        del love-11.3-win64/love.exe
-        del love-11.3-win64/lovec.exe
+        copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
+        del love-11.3-win64\love.exe
+        del love-11.3-win64\lovec.exe
     - name: Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: Techmino_x64
+        name: Techmino_win64
         path: love-11.3-win64
