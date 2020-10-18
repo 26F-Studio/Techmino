@@ -659,6 +659,9 @@ local Widgets={
 		newButton({name="path",		x=980,	y=620,w=250,h=80,	font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=mobileHide}),
 		newButton({name="back",		x=640,	y=620,w=200,h=80,	font=35,code=BACK}),
 	},
+	login={
+		newText({name="title",		x=80,y=50,font=70,align="L"}),
+	},
 	account={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
 	},
