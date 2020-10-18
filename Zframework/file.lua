@@ -71,14 +71,14 @@ function FILE.loadData()
 		if s then
 			setfenv(s,{})
 			local S=s()
-			addToTable(S,stat)
+			addToTable(S,STAT)
 		end
 	end
 end
 function FILE.saveData()
 	local F=files.data
 	F:open("w")
-	local _,mes=F:write(dumpTable(stat))
+	local _,mes=F:write(dumpTable(STAT))
 	F:flush()F:close()
 	if not _ then
 		LOG.print(text.statSavingError..(mes or"unknown error"),color.red)
@@ -96,14 +96,14 @@ function FILE.loadSetting()
 		F:close()
 		if s then
 			setfenv(s,{})
-			addToTable(s(),setting)
+			addToTable(s(),SETTING)
 		end
 	end
 end
 function FILE.saveSetting()
 	local F=files.setting
 	F:open("w")
-	local _,mes=F:write(dumpTable(setting))
+	local _,mes=F:write(dumpTable(SETTING))
 	F:flush()F:close()
 	if _ then LOG.print(text.settingSaved,color.green)
 	else LOG.print(text.settingSavingError..(mes or"unknown error"),color.red)

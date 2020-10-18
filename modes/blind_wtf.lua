@@ -17,17 +17,17 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		if setting.spawn==0 then
+		if SETTING.spawn==0 then
 			LOG.print(text.switchSpawnSFX,color.yellow)
 		end
 	end,
 	mesDisp=function(P)
-		if not game.result then
-			if game.replaying then
+		if not GAME.result then
+			if GAME.replaying then
 				gc.setColor(.3,.3,.3,.7)
 				gc.push("transform")
 				gc.origin()
-				gc.rectangle("fill",0,0,scr.w,scr.h)
+				gc.rectangle("fill",0,0,SCR.w,SCR.h)
 				gc.pop()
 			else
 				gc.clear(.26,.26,.26)

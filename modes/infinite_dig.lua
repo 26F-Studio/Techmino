@@ -37,7 +37,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
-		local P=players[1]
+		local P=PLAYERS[1]
 		for _=1,8 do
 			P:garbageRise(13,1,P:RND(10))
 		end

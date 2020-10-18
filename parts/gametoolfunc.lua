@@ -17,17 +17,17 @@ local default_setting={
 local function copyGameSetting()
 	local S={face={}}
 	for _,v in next,default_setting do
-		S[v]=setting[v]
+		S[v]=SETTING[v]
 	end
 	for i=1,25 do
-		S.face[i]=setting.face[i]
+		S.face[i]=SETTING.face[i]
 	end
 	return S
 end
 
 function destroyPlayers()
-	for i=#players,1,-1 do
-		local P=players[i]
+	for i=#PLAYERS,1,-1 do
+		local P=PLAYERS[i]
 		if P.canvas then P.canvas:release()end
 		while P.field[1]do
 			freeRow.discard(rem(P.field))
@@ -39,10 +39,10 @@ function destroyPlayers()
 			CC.destroy(P.AI_bot)
 			P.AI_mode=nil
 		end
-		players[i]=nil
+		PLAYERS[i]=nil
 	end
-	for i=#players.alive,1,-1 do
-		players.alive[i]=nil
+	for i=#PLAYERS.alive,1,-1 do
+		PLAYERS.alive[i]=nil
 	end
 	collectgarbage()
 end
@@ -89,13 +89,13 @@ end
 	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
 ]]
 function copySequence()
-	local preBag=preBag
+	local BAG=BAG
 	local str=""
 
 	local count=1
-	for i=1,#preBag+1 do
-		if preBag[i+1]~=preBag[i]or count==64 then
-			str=str..char(96+preBag[i])
+	for i=1,#BAG+1 do
+		if BAG[i+1]~=BAG[i]or count==64 then
+			str=str..char(96+BAG[i])
 			if count>1 then
 				str=str..char(32+count)
 				count=1
@@ -136,7 +136,7 @@ function pasteSequence(str)
 		ins(bag,reg)
 	end
 
-	preBag=bag
+	BAG=bag
 	sceneTemp.cur=#bag
 	return true
 end
@@ -147,7 +147,7 @@ function copyBoard()
 
 	for y=20,1,-1 do
 		for x=1,10 do
-			if preField[y][x]~=0 then
+			if FIELD[y][x]~=0 then
 				H=y
 				goto topFound
 			end
@@ -158,7 +158,7 @@ function copyBoard()
 	--Encode field
 	for y=1,H do
 		local S=""
-		local L=preField[y]
+		local L=FIELD[y]
 		for x=1,10 do
 			S=S..char(L[x]+1)
 		end
@@ -193,7 +193,7 @@ function pasteBoard(str)
 		if __>17 then return end--Illegal blockid
 		_=int(_/32)--Mode id
 
-		preField[fY][fX]=__
+		FIELD[fY][fX]=__
 		if fX<10 then
 			fX=fX+1
 		else
@@ -206,7 +206,7 @@ function pasteBoard(str)
 
 	for y=fY,20 do
 		for x=1,10 do
-			preField[y][x]=0
+			FIELD[y][x]=0
 		end
 	end
 
@@ -231,13 +231,13 @@ end
 ]]
 function copyMission()
 	local _
-	local preMission=preMission
+	local MISSION=MISSION
 	local str=""
 
 	local count=1
-	for i=1,#preMission+1 do
-		if preMission[i+1]~=preMission[i]or count==13 then
-			_=33+preMission[i]
+	for i=1,#MISSION+1 do
+		if MISSION[i+1]~=MISSION[i]or count==13 then
+			_=33+MISSION[i]
 			str=str..char(_)
 			if count>1 then
 				str=str..char(113+count)
@@ -282,7 +282,7 @@ function pasteMission(str)
 		ins(mission,reg)
 	end
 
-	preMission=mission
+	MISSION=mission
 	sceneTemp.cur=#mission
 	return true
 end
@@ -302,84 +302,84 @@ function mergeStat(stat,delta)
 end
 
 function randomTarget(P)--Return a random opponent for P
-	if #players.alive>1 then
+	if #PLAYERS.alive>1 then
 		local R
 		repeat
-			R=players.alive[rnd(#players.alive)]
+			R=PLAYERS.alive[rnd(#PLAYERS.alive)]
 		until R~=P
 		return R
 	end
 end
 function freshMostDangerous()
-	game.mostDangerous,game.secDangerous=nil
+	GAME.mostDangerous,GAME.secDangerous=nil
 	local m,m2=0,0
-	for i=1,#players.alive do
-		local h=#players.alive[i].field
+	for i=1,#PLAYERS.alive do
+		local h=#PLAYERS.alive[i].field
 		if h>=m then
-			game.mostDangerous,game.secDangerous=players.alive[i],game.mostDangerous
+			GAME.mostDangerous,GAME.secDangerous=PLAYERS.alive[i],GAME.mostDangerous
 			m,m2=h,m
 		elseif h>=m2 then
-			game.secDangerous=players.alive[i]
+			GAME.secDangerous=PLAYERS.alive[i]
 			m2=h
 		end
 	end
 
-	for i=1,#players.alive do
-		if players.alive[i].atkMode==3 then
-			players.alive[i]:freshTarget()
+	for i=1,#PLAYERS.alive do
+		if PLAYERS.alive[i].atkMode==3 then
+			PLAYERS.alive[i]:freshTarget()
 		end
 	end
 end
 function freshMostBadge()
-	game.mostBadge,game.secBadge=nil
+	GAME.mostBadge,GAME.secBadge=nil
 	local m,m2=0,0
-	for i=1,#players.alive do
-		local P=players.alive[i]
+	for i=1,#PLAYERS.alive do
+		local P=PLAYERS.alive[i]
 		local b=P.badge
 		if b>=m then
-			game.mostBadge,game.secBadge=P,game.mostBadge
+			GAME.mostBadge,GAME.secBadge=P,GAME.mostBadge
 			m,m2=b,m
 		elseif b>=m2 then
-			game.secBadge=P
+			GAME.secBadge=P
 			m2=b
 		end
 	end
 
-	for i=1,#players.alive do
-		if players.alive[i].atkMode==4 then
-			players.alive[i]:freshTarget()
+	for i=1,#PLAYERS.alive do
+		if PLAYERS.alive[i].atkMode==4 then
+			PLAYERS.alive[i]:freshTarget()
 		end
 	end
 end
 function royaleLevelup()
-	game.stage=game.stage+1
+	GAME.stage=GAME.stage+1
 	local spd
-	TEXT.show(text.royale_remain(#players.alive),640,200,40,"beat",.3)
-	if game.stage==2 then
+	TEXT.show(text.royale_remain(#PLAYERS.alive),640,200,40,"beat",.3)
+	if GAME.stage==2 then
 		spd=30
-	elseif game.stage==3 then
+	elseif GAME.stage==3 then
 		spd=15
-		game.garbageSpeed=.6
-		if players[1].alive then BGM.play("cruelty")end
-	elseif game.stage==4 then
+		GAME.garbageSpeed=.6
+		if PLAYERS[1].alive then BGM.play("cruelty")end
+	elseif GAME.stage==4 then
 		spd=10
-		local _=players.alive
+		local _=PLAYERS.alive
 		for i=1,#_ do
 			_[i].gameEnv.pushSpeed=3
 		end
-	elseif game.stage==5 then
+	elseif GAME.stage==5 then
 		spd=5
-		game.garbageSpeed=1
-	elseif game.stage==6 then
+		GAME.garbageSpeed=1
+	elseif GAME.stage==6 then
 		spd=3
-		if players[1].alive then BGM.play("final")end
+		if PLAYERS[1].alive then BGM.play("final")end
 	end
-	for i=1,#players.alive do
-		players.alive[i].gameEnv.drop=spd
+	for i=1,#PLAYERS.alive do
+		PLAYERS.alive[i].gameEnv.drop=spd
 	end
-	if curMode.lv==3 then
-		for i=1,#players.alive do
-			local P=players.alive[i]
+	if CURMODE.lv==3 then
+		for i=1,#PLAYERS.alive do
+			local P=PLAYERS.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.imgY
@@ -393,15 +393,15 @@ end
 function pauseGame()
 	if not SCN.swapping then
 		restartCount=0--Avoid strange darkness
-		if not game.result then
-			game.pauseCount=game.pauseCount+1
+		if not GAME.result then
+			GAME.pauseCount=GAME.pauseCount+1
 		end
-		if not game.replaying then
-			for i=1,#players do
-				local l=players[i].keyPressing
+		if not GAME.replaying then
+			for i=1,#PLAYERS do
+				local l=PLAYERS[i].keyPressing
 				for j=1,#l do
 					if l[j]then
-						players[i]:releaseKey(j)
+						PLAYERS[i]:releaseKey(j)
 					end
 				end
 			end
@@ -413,9 +413,8 @@ function resumeGame()
 	SCN.swapTo("play","none")
 end
 function loadGame(M,ifQuickPlay)
-	stat.lastPlay=M
-	curMode=Modes[M]
-	local lang=setting.lang
+	STAT.lastPlay=M
+	CURMODE=Modes[M]
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
@@ -423,31 +422,31 @@ function loadGame(M,ifQuickPlay)
 	SFX.play("enter")
 end
 function resetGameData()
-	if players[1]and not game.replaying then
-		mergeStat(stat,players[1].stat)
+	if PLAYERS[1]and not GAME.replaying then
+		mergeStat(STAT,PLAYERS[1].stat)
 	end
 
-	game.frame=150-setting.reTime*15
-	game.result=false
-	game.pauseTime=0
-	game.pauseCount=0
-	game.garbageSpeed=1
-	game.warnLVL0=0
-	game.warnLVL=0
-	game.recording=true
-	game.replaying=false
-	game.setting=copyGameSetting()
-	game.rec={}
+	GAME.frame=150-SETTING.reTime*15
+	GAME.result=false
+	GAME.pauseTime=0
+	GAME.pauseCount=0
+	GAME.garbageSpeed=1
+	GAME.warnLVL0=0
+	GAME.warnLVL=0
+	GAME.recording=true
+	GAME.replaying=false
+	GAME.setting=copyGameSetting()
+	GAME.rec={}
 	math.randomseed(tm.getTime())
-	game.seed=rnd(261046101471026)
+	GAME.seed=rnd(261046101471026)
 
 	destroyPlayers()
-	modeEnv=curMode.env
+	modeEnv=CURMODE.env
 	restoreVirtualKey()
-	curMode.load()
+	CURMODE.load()
 	if modeEnv.task then
-		for i=1,#players do
-			players[i]:newTask(modeEnv.task)
+		for i=1,#PLAYERS do
+			PLAYERS[i]:newTask(modeEnv.task)
 		end
 	end
 	BG.set(modeEnv.bg)
@@ -455,55 +454,55 @@ function resetGameData()
 
 	TEXT.clear()
 	if modeEnv.royaleMode then
-		for i=1,#players do
-			players[i]:changeAtk(randomTarget(players[i]))
+		for i=1,#PLAYERS do
+			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end
-		game.stage=nil
-		game.mostBadge=nil
-		game.secBadge=nil
-		game.mostDangerous=nil
-		game.secDangerous=nil
-		game.stage=1
-		game.garbageSpeed=.3
+		GAME.stage=nil
+		GAME.mostBadge=nil
+		GAME.secBadge=nil
+		GAME.mostDangerous=nil
+		GAME.secDangerous=nil
+		GAME.stage=1
+		GAME.garbageSpeed=.3
 	end
-	stat.game=stat.game+1
-	freeRow.reset(30*#players)
+	STAT.game=STAT.game+1
+	freeRow.reset(30*#PLAYERS)
 	SFX.play("ready")
 	collectgarbage()
 end
 function resetPartGameData(replaying)
 	TASK.removeTask_code(TICK.autoPause)
-	if players[1]and not game.replaying then
-		mergeStat(stat,players[1].stat)
+	if PLAYERS[1]and not GAME.replaying then
+		mergeStat(STAT,PLAYERS[1].stat)
 	end
 
-	game.result=false
-	game.garbageSpeed=1
-	game.warnLVL0=0
-	game.warnLVL=0
+	GAME.result=false
+	GAME.garbageSpeed=1
+	GAME.warnLVL0=0
+	GAME.warnLVL=0
 	if replaying then
-		game.frame=0
-		game.recording=false
-		game.replaying=1
+		GAME.frame=0
+		GAME.recording=false
+		GAME.replaying=1
 	else
-		game.frame=150-setting.reTime*15
-		game.pauseTime=0
-		game.pauseCount=0
-		game.recording=true
-		game.replaying=false
-		game.setting=copyGameSetting()
-		game.rec={}
+		GAME.frame=150-SETTING.reTime*15
+		GAME.pauseTime=0
+		GAME.pauseCount=0
+		GAME.recording=true
+		GAME.replaying=false
+		GAME.setting=copyGameSetting()
+		GAME.rec={}
 		math.randomseed(tm.getTime())
-		game.seed=rnd(1046101471,2662622626)
+		GAME.seed=rnd(1046101471,2662622626)
 	end
 
 	destroyPlayers()
-	modeEnv=curMode.env
+	modeEnv=CURMODE.env
 	restoreVirtualKey()
-	curMode.load()
+	CURMODE.load()
 	if modeEnv.task then
-		for i=1,#players do
-			players[i]:newTask(modeEnv.task)
+		for i=1,#PLAYERS do
+			PLAYERS[i]:newTask(modeEnv.task)
 		end
 	end
 	BG.set(modeEnv.bg)
@@ -511,23 +510,23 @@ function resetPartGameData(replaying)
 
 	TEXT.clear()
 	if modeEnv.royaleMode then
-		for i=1,#players do
-			players[i]:changeAtk(randomTarget(players[i]))
+		for i=1,#PLAYERS do
+			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end
-		game.stage=nil
-		game.mostBadge=nil
-		game.secBadge=nil
-		game.mostDangerous=nil
-		game.secDangerous=nil
-		game.stage=1
-		game.garbageSpeed=.3
+		GAME.stage=nil
+		GAME.mostBadge=nil
+		GAME.secBadge=nil
+		GAME.mostDangerous=nil
+		GAME.secDangerous=nil
+		GAME.stage=1
+		GAME.garbageSpeed=.3
 	end
 	collectgarbage()
 end
 function gameStart()
 	SFX.play("start")
-	for P=1,#players do
-		P=players[P]
+	for P=1,#PLAYERS do
+		P=PLAYERS[P]
 		P.control=true
 		P.timing=true
 		P:popNext()

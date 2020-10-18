@@ -11,6 +11,7 @@
 --?
 function NULL()end
 DBP=print--use this if need debugging print
+SYSTEM=love.system.getOS()
 MARKING=true
 LOADED=false
 NOGAME=false
@@ -21,8 +22,7 @@ math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
 love.mouse.setVisible(false)
 
-system=love.system.getOS()
-scr={
+SCR={
 	x=0,y=0,--Up-left Coord on screen
 	w=0,h=0,--Fullscreen w/h in gc
 	W=0,H=0,--Fullscreen w/h in shader
@@ -72,11 +72,11 @@ customEnv={
 	bg="none",
 	bgm="race"
 }
-preField={h=20}for i=1,20 do preField[i]={0,0,0,0,0,0,0,0,0,0}end--Field for custom game
-preBag={}--Sequence for custom game
-preMission={}--Clearing target for custom game
+FIELD={h=20}for i=1,20 do FIELD[i]={0,0,0,0,0,0,0,0,0,0}end--Field for custom game
+BAG={}--Sequence for custom game
+MISSION={}--Clearing mission for custom game
 
-game={
+GAME={
 	frame=0,			--Frame count
 	result=false,		--Game result (string)
 	pauseTime=0,		--Time paused
@@ -97,13 +97,13 @@ game={
 	mostDangerous=nil,	--Most dangerous player
 	secDangerous=nil,	--Second dangerous player
 }--Global game data
-players={alive={}}--Players data
-curMode=nil--Current mode object
+PLAYERS={alive={}}--Players data
+CURMODE=nil--Current mode object
 --blockSkin,blockSkinMini={},{}--Redefined in SKIN.change
 
-require("Zframework")--Load Zframework
 
 --Load modules
+require("Zframework")--Load Zframework
 blocks=		require("parts/mino")
 AITemplate=	require("parts/AITemplate")
 freeRow=	require("parts/freeRow")
@@ -132,18 +132,18 @@ if fs.getInfo("settings.dat")then
 	FILE.loadSetting()
 else
 	-- firstRun=true
-	if system=="Android"or system=="iOS" then
-		setting.VKSwitch=true
-		setting.swap=false
-		setting.vib=2
-		setting.powerInfo=true
-		setting.fullscreen=true
+	if SYSTEM=="Android"or SYSTEM=="iOS" then
+		SETTING.VKSwitch=true
+		SETTING.swap=false
+		SETTING.vib=2
+		SETTING.powerInfo=true
+		SETTING.fullscreen=true
 		love.window.setFullscreen(true)
 		love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 	end
 end
-LANG.set(setting.lang)
-if setting.fullscreen then love.window.setFullscreen(true)end
+LANG.set(SETTING.lang)
+if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 if fs.getInfo("unlock.dat")then FILE.loadUnlock()end
 if fs.getInfo("data.dat")then FILE.loadData()end
@@ -172,12 +172,12 @@ do
 		R.tech_finesse2=R["tech_finesse+"]
 		R["tech_normal+"],R["tech_hard+"],R["tech_lunatic+"],R["tech_finesse+"]=nil
 	end
-	if not text.modes[stat.lastPlay]then
-		stat.lastPlay="sprint_10"
+	if not text.modes[STAT.lastPlay]then
+		STAT.lastPlay="sprint_10"
 	end
 
 	--Check setting file
-	local S=setting
+	local S=SETTING
 	if
 		type(S.block)~="boolean"or
 		type(S.spawn)~="number"or
@@ -191,7 +191,7 @@ do
 	end
 
 	--Update data file
-	S=stat
+	S=STAT
 	if not S.spin[1][6]then
 		for i=1,25 do
 			S.spin[i][6]=0
@@ -210,7 +210,7 @@ do
 		FILE.saveData()
 		FILE.saveSetting()
 	end
-	if system=="Android"and not setting.fullscreen then
+	if SYSTEM=="Android"and not SETTING.fullscreen then
 		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,color.yellow)
 		LOG.print("Switch fullscreen on if titleBar don't disappear",300,color.yellow)
 	end

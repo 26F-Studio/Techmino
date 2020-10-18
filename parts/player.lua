@@ -5,7 +5,7 @@ local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,abs,sin,cos,log=math.max,math.min,math.abs,math.sin,math.cos,math.log
 local ins,rem=table.insert,table.remove
 local format=string.format
-local scr=scr
+local SCR=SCR
 local setFont=setFont
 
 --------------------------<Data>--------------------------
@@ -74,7 +74,7 @@ local function updateLine(P,dt)--Attacks, line pushing, cam moving
 		A.time=A.time+1
 		if not A.sent then
 			if A.countdown>0 then
-				A.countdown=max(A.countdown-game.garbageSpeed,0)
+				A.countdown=max(A.countdown-GAME.garbageSpeed,0)
 			end
 		else
 			if A.time>20 then
@@ -167,7 +167,7 @@ end
 local function Pupdate_alive(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
 	if P.keyRec then--Update speeds
-		local _=game.frame
+		local _=GAME.frame
 
 		local v=0
 		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i]+1)end
@@ -428,7 +428,7 @@ end
 local function drawField(P)
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
-	local rep=game.replaying
+	local rep=GAME.replaying
 	if P.falling==-1 then--Blocks only
 		for j=start,min(start+21,#F)do
 			for i=1,10 do
@@ -608,7 +608,7 @@ local Pdraw_norm do
 					--In-field things
 					gc.push("transform")
 						gc.translate(0,600+FBN+FUP)
-						gc.setScissor(scr.x+(P.absFieldX+P.fieldOff.x)*scr.k,scr.y+(P.absFieldY+P.fieldOff.y)*scr.k,300*P.size*scr.k,610*P.size*scr.k)
+						gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
 						--Draw dangerous area
 						gc.setColor(1,0,0,.3)
@@ -848,8 +848,8 @@ local Pdraw_norm do
 
 			--Other messages
 			gc.setColor(1,1,1)
-			if curMode.mesDisp then
-				curMode.mesDisp(P)
+			if CURMODE.mesDisp then
+				CURMODE.mesDisp(P)
 			end
 
 			--Missions
@@ -882,8 +882,8 @@ local Pdraw_norm do
 
 			--Draw starting counter
 			gc.setColor(1,1,1)
-			if game.frame<180 then
-				local count=179-game.frame
+			if GAME.frame<180 then
+				local count=179-GAME.frame
 				gc.push("transform")
 					gc.translate(305,290)
 					setFont(95)
@@ -1092,7 +1092,7 @@ local function pressKey(P,i)
 		P.act[i](P)
 		if P.control then
 			if P.keyRec then
-				ins(P.keyTime,1,game.frame)
+				ins(P.keyTime,1,GAME.frame)
 				P.keyTime[11]=nil
 			end
 		end
@@ -1104,15 +1104,15 @@ local function releaseKey(P,i)
 end
 local function pressKey_Rec(P,i)
 	if P.keyAvailable[i]then
-		if game.recording then
-			ins(game.rec,game.frame+1)
-			ins(game.rec,i)
+		if GAME.recording then
+			ins(GAME.rec,GAME.frame+1)
+			ins(GAME.rec,i)
 		end
 		P.keyPressing[i]=true
 		P.act[i](P)
 		if P.control then
 			if P.keyRec then
-				ins(P.keyTime,1,game.frame)
+				ins(P.keyTime,1,GAME.frame)
 				P.keyTime[11]=nil
 			end
 		end
@@ -1120,9 +1120,9 @@ local function pressKey_Rec(P,i)
 	end
 end
 local function releaseKey_Rec(P,i)
-	if game.recording then
-		ins(game.rec,game.frame+1)
-		ins(game.rec,-i)
+	if GAME.recording then
+		ins(GAME.rec,GAME.frame+1)
+		ins(GAME.rec,-i)
 	end
 	P.keyPressing[i]=false
 end
@@ -1135,11 +1135,11 @@ local function loadGameEnv(P)--Load gameEnv
 		if modeEnv[k]~=nil then
 			v=modeEnv[k]				--Mode setting
 			-- DBP("mode-"..k..":"..tostring(v))
-		elseif game.setting[k]~=nil then
-			v=game.setting[k]			--Game setting
+		elseif GAME.setting[k]~=nil then
+			v=GAME.setting[k]			--Game setting
 			-- DBP("game-"..k..":"..tostring(v))
-		elseif setting[k]~=nil then
-			v=setting[k]				--Global setting
+		elseif SETTING[k]~=nil then
+			v=SETTING[k]				--Global setting
 			-- DBP("global-"..k..":"..tostring(v))
 		-- else
 			-- DBP("default-"..k..":"..tostring(v))
@@ -1189,7 +1189,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	ENV.das=max(ENV.das,ENV.mindas)
 	ENV.arr=max(ENV.arr,ENV.minarr)
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
-	ENV.next=min(ENV.next,setting.maxNext)
+	ENV.next=min(ENV.next,SETTING.maxNext)
 
 	if ENV.sequence~="bag"and ENV.sequence~="loop"then
 		ENV.bagLine=false
@@ -1355,12 +1355,12 @@ local function loadAI(P,AIdata)--Load AI params
 end
 local function newEmptyPlayer(id,x,y,size)
 	local P={id=id}
-	players[id]=P
-	players.alive[id]=P
+	PLAYERS[id]=P
+	PLAYERS.alive[id]=P
 
 	--Inherit functions of player class
 	for k,v in next,player do P[k]=v end
-	if P.id==1 and game.recording then
+	if P.id==1 and GAME.recording then
 		P.pressKey=pressKey_Rec
 		P.releaseKey=releaseKey_Rec
 	else
@@ -1387,7 +1387,7 @@ local function newEmptyPlayer(id,x,y,size)
 		P.draw=Pdraw_norm
 		P.bonus={}--Text objects
 	end
-	P.randGen=mt.newRandomGenerator(game.seed)
+	P.randGen=mt.newRandomGenerator(GAME.seed)
 
 	P.small=false
 	P.alive=true
@@ -1581,7 +1581,7 @@ function player.createBeam(P,R,send,time,target,color,clear,combo)
 		radius=radius*.4
 		a=.35
 	end
-	sysFX.newAttack(x1,y1,x2,y2,radius*(setting.atkFX+3)*.12,corner,type==1 and"fill"or"line",r,g,b,a*(setting.atkFX+5)*.1)
+	sysFX.newAttack(x1,y1,x2,y2,radius*(SETTING.atkFX+3)*.12,corner,type==1 and"fill"or"line",r,g,b,a*(SETTING.atkFX+5)*.1)
 end
 function player.newTask(P,code,data)
 	local L=P.tasks
@@ -1621,7 +1621,7 @@ function player.ckfull(P,i)
 	return true
 end
 function player.attack(P,R,send,time,...)
-	if setting.atkFX>0 then
+	if SETTING.atkFX>0 then
 		P:createBeam(R,send,time,...)
 	end
 	R.lastRecv=P
@@ -1730,9 +1730,9 @@ function player.freshTarget(P)
 			P:changeAtk(randomTarget(P))
 		end
 	elseif P.atkMode==2 then
-		P:changeAtk(P~=game.mostBadge and game.mostBadge or game.secBadge or randomTarget(P))
+		P:changeAtk(P~=GAME.mostBadge and GAME.mostBadge or GAME.secBadge or randomTarget(P))
 	elseif P.atkMode==3 then
-		P:changeAtk(P~=game.mostDangerous and game.mostDangerous or game.secDangerous or randomTarget(P))
+		P:changeAtk(P~=GAME.mostDangerous and GAME.mostDangerous or GAME.secDangerous or randomTarget(P))
 	elseif P.atkMode==4 then
 		for i=1,#P.atker do
 			if not P.atker[i].alive then
@@ -1754,7 +1754,7 @@ function player.changeAtkMode(P,m)
 	end
 end
 function player.changeAtk(P,R)
-	-- if not P.human then R=players[1]end--1vALL mode?
+	-- if not P.human then R=PLAYERS[1]end--1vALL mode?
 	if P.atking then
 		local K=P.atking.atker
 		for i=1,#K do
@@ -1905,7 +1905,7 @@ function player.resetBlock(P)
 
 	--Spawn SFX
 	if P.sound and id<8 then
-		SFX.fplay(spawnSFX_name[id],setting.spawn)
+		SFX.fplay(spawnSFX_name[id],SETTING.spawn)
 	end
 end
 
@@ -2133,7 +2133,7 @@ do--player.drop(P)--Place piece
 	function player.drop(P)
 		local _
 		local CHN=VOC.getFreeChannel()
-		P.dropTime[11]=ins(P.dropTime,1,game.frame)--Update speed dial
+		P.dropTime[11]=ins(P.dropTime,1,GAME.frame)--Update speed dial
 		local ENV=P.gameEnv
 		local STAT=P.stat
 		P.waiting=ENV.wait
@@ -2491,7 +2491,7 @@ do--player.drop(P)--Place piece
 								P:freshTarget()
 								T=P.atking
 							end
-						elseif #players.alive>1 then
+						elseif #PLAYERS.alive>1 then
 							T=randomTarget(P)
 						end
 						if T then
@@ -2622,12 +2622,12 @@ end
 
 --------------------------<Events>--------------------------
 local function gameOver()--Save record
-	if game.replaying then return end
+	if GAME.replaying then return end
 	FILE.saveData()
-	local M=curMode
+	local M=CURMODE
 	local R=M.getRank
 	if R then
-		local P=players[1]
+		local P=PLAYERS[1]
 		R=R(P)--New rank
 		if R then
 			local r=modeRanks[M.name]--Old rank
@@ -2700,14 +2700,14 @@ function player.win(P,result)
 		P:changeAtk()
 	end
 	if P.human then
-		game.result=result or"win"
+		GAME.result=result or"win"
 		SFX.play("win")
 		VOC.play("win")
 		if modeEnv.royaleMode then
 			BGM.play("8-bit happiness")
 		end
 	end
-	if curMode.id=="custom_puzzle"then
+	if CURMODE.id=="custom_puzzle"then
 		P:showTextF(text.win,0,0,90,"beat",.4)
 	else
 		P:showTextF(text.win,0,0,90,"beat",.5,.2)
@@ -2761,16 +2761,16 @@ function player.lose(P)
 		return
 	end
 	P:die()
-	for i=1,#players.alive do
-		if players.alive[i]==P then
-			rem(players.alive,i)
+	for i=1,#PLAYERS.alive do
+		if PLAYERS.alive[i]==P then
+			rem(PLAYERS.alive,i)
 			break
 		end
 	end
 	P.result="K.O."
 	if modeEnv.royaleMode then
 		P:changeAtk()
-		P.modeData.event=#players.alive+1
+		P.modeData.event=#PLAYERS.alive+1
 		P.strength=0
 		if P.lastRecv then
 			local A,i=P,0
@@ -2799,7 +2799,7 @@ function player.lose(P)
 
 		freshMostBadge()
 		freshMostDangerous()
-		if #players.alive==royaleData.stage[game.stage]then
+		if #PLAYERS.alive==royaleData.stage[GAME.stage]then
 			royaleLevelup()
 		end
 		P:showTextF(P.modeData.event,0,120,60,"appear",.26,.9)
@@ -2807,7 +2807,7 @@ function player.lose(P)
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
 	P:showTextF(text.gameover,0,0,60,"appear",.26,.9)
 	if P.human then
-		game.result="gameover"
+		GAME.result="gameover"
 		SFX.play("fail")
 		VOC.play("lose")
 		if modeEnv.royaleMode then
@@ -2818,7 +2818,7 @@ function player.lose(P)
 			end
 		end
 		gameOver()
-		P:newTask(#players>1 and TICK.lose or TICK.finish)
+		P:newTask(#PLAYERS>1 and TICK.lose or TICK.finish)
 		TASK.new(TICK.autoPause,{0})
 		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
@@ -2826,8 +2826,8 @@ function player.lose(P)
 	else
 		P:newTask(TICK.lose)
 	end
-	if #players.alive==1 then
-		players.alive[1]:win()
+	if #PLAYERS.alive==1 then
+		PLAYERS.alive[1]:win()
 	end
 end
 
@@ -2971,7 +2971,7 @@ function player.act.func(P)
 	P.gameEnv.Fkey(P)
 end
 function player.act.restart(P)
-	if game.frame<240 or game.result then
+	if GAME.frame<240 or GAME.result then
 		resetPartGameData()
 	else
 		LOG.print(text.holdR,20,color.orange)
@@ -3119,17 +3119,17 @@ function PLY.newDemoPlayer(id,x,y,size)
 		das=10,arr=2,sddas=2,sdarr=2,
 		swap=true,
 
-		ghost=setting.ghost,
-		center=setting.center,
-		smooth=setting.smooth,
-		grid=setting.grid,
-		text=setting.text,
-		score=setting.score,
-		lockFX=setting.lockFX,
-		dropFX=setting.dropFX,
-		moveFX=setting.moveFX,
-		clearFX=setting.clearFX,
-		shakeFX=setting.shakeFX,
+		ghost=SETTING.ghost,
+		center=SETTING.center,
+		smooth=SETTING.smooth,
+		grid=SETTING.grid,
+		text=SETTING.text,
+		score=SETTING.score,
+		lockFX=SETTING.lockFX,
+		dropFX=SETTING.dropFX,
+		moveFX=SETTING.moveFX,
+		clearFX=SETTING.clearFX,
+		shakeFX=SETTING.shakeFX,
 
 		drop=1e99,lock=1e99,
 		wait=10,fall=20,
@@ -3140,7 +3140,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		sequence="bag",
 		bag={1,2,3,4,5,6,7},
 		face={0,0,0,0,0,0,0},
-		skin=setting.skin,
+		skin=SETTING.skin,
 		mission=false,
 
 		life=1e99,

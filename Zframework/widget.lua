@@ -729,7 +729,7 @@ function WIDGET.press(x,y)
 			end
 		end
 	elseif W.type=="textBox"then
-		if system=="Android"then
+		if SYSTEM=="Android"then
 			local _,y=xOy:transformPoint(0,W.y+W.h)
 			kb.setTextInput(true,0,y,1,1)
 		end

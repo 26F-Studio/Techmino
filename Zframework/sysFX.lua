@@ -32,7 +32,7 @@ function FXupdate.attack(S,dt)
 
 		ins(L,S.x)ins(L,S.y)
 	end
-	if #L==4+4*setting.atkFX then
+	if #L==4+4*SETTING.atkFX then
 		rem(L,1)rem(L,1)
 	end
 return S.t>1

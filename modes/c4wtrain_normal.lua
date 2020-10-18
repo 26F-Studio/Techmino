@@ -26,7 +26,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		local P=players[1]
+		local P=PLAYERS[1]
 		local F=P.field
 		for i=1,24 do
 			F[i]=freeRow.get(13)
