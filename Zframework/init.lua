@@ -171,7 +171,9 @@ function love.touchreleased(id,x,y)
 		WIDGET.press(x,y)
 		WIDGET.release(x,y)
 		touching=nil
-		WIDGET.sel=nil
+		if WIDGET.sel and not WIDGET.sel.keepFocus then
+			WIDGET.sel=nil
+		end
 	end
 	if touchUp[SCN.cur]then
 		touchUp[SCN.cur](id,x,y)
@@ -252,6 +254,11 @@ end
 function love.keyreleased(i)
 	if SCN.swapping then return end
 	if keyUp[SCN.cur]then keyUp[SCN.cur](i)end
+end
+function love.textinput(text)
+	if WIDGET.sel and WIDGET.sel.type=="textBox"then
+		WIDGET.sel.value=WIDGET.sel.value..text
+	end
 end
 
 function love.joystickadded(JS)

@@ -457,6 +457,9 @@ local langList={
 			},
 			login={
 				title="登录/注册",
+				username="用户名",
+				password="密码",
+				password2="确认密码",
 			},
 			account={
 				title="账户",
@@ -1044,6 +1047,9 @@ local langList={
 			},
 			login={
 				title="登录/注册",
+				username="用户名",
+				password="密码",
+				password2="确认密码",
 			},
 			account={
 				title="账户",
@@ -1621,6 +1627,9 @@ local langList={
 			},
 			login={
 				title="Log in / Sign up",
+				username="Username",
+				password="Password",
+				password2="Again Password",
 			},
 			account={
 				title="Account",
@@ -2212,6 +2221,9 @@ local langList={
 			},
 			login={
 				title="Log in / Sign up",
+				username="@",
+				password="*",
+				password2="*",
 			},
 			account={
 				title="@_@",
@@ -2796,6 +2808,9 @@ local langList={
 			},
 			login={
 				title="登录/注册",
+				username="用户名",
+				password="密码",
+				password2="你觉得应该填啥",
 			},
 			account={
 				title="账户",
