@@ -4,7 +4,7 @@ local function puzzleCheck(P)
 	for y=1,20 do
 		local L=P.field[y]
 		for x=1,10 do
-			local a,b=preField[y][x],L and L[x]or 0
+			local a,b=FIELD[y][x],L and L[x]or 0
 			if a~=0 then
 				if a==-1 then if b>0 then return end
 				elseif a<12 then if a~=b then return end
@@ -27,13 +27,13 @@ return{
 		for k,v in next,customEnv do
 			modeEnv[k]=v
 		end
-		if preBag[1]then
-			modeEnv.bag=preBag
+		if BAG[1]then
+			modeEnv.bag=BAG
 		else
 			modeEnv.bag=nil
 		end
-		if preMission[1]then
-			modeEnv.mission=preMission
+		if MISSION[1]then
+			modeEnv.mission=MISSION
 		else
 			modeEnv.mission=nil
 		end
@@ -47,15 +47,15 @@ return{
 				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
-		preField.h=20
+		FIELD.h=20
 		repeat
 			for i=1,10 do
-				if preField[preField.h][i]~=0 then
+				if FIELD[FIELD.h][i]~=0 then
 					goto L
 				end
 			end
-			preField.h=preField.h-1
-		until preField.h==0
+			FIELD.h=FIELD.h-1
+		until FIELD.h==0
 		::L::
 		modeEnv.bg=customEnv.bg
 		modeEnv.bgm=customEnv.bgm
@@ -67,8 +67,8 @@ return{
 		mText(drawableText.line,69,360)
 		if P.modeData.event==0 then
 			local m=puzzleMark
-			for y=1,preField.h do for x=1,10 do
-				local T=preField[y][x]
+			for y=1,FIELD.h do for x=1,10 do
+				local T=FIELD[y][x]
 				if T~=0 then
 					gc.draw(m[T],150+30*x-30+dx,70+600-30*y+dy)
 				end

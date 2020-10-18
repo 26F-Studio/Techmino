@@ -19,14 +19,14 @@ do--LOADLIB
 	}
 	function LOADLIB(name)
 		local libName=libName[name]
-		if system=="Windows"or system=="Linux"then
-			local success,message=require(libName[system])
+		if SYSTEM=="Windows"or SYSTEM=="Linux"then
+			local success,message=require(libName[SYSTEM])
 			if success then
 				return success
 			else
 				LOG.print("Cannot load "..name..": "..message,"warn",color.red)
 			end
-		elseif system=="Android"then
+		elseif SYSTEM=="Android"then
 			local fs=love.filesystem
 			local platform={"arm64-v8a","armeabi-v7a"}
 			local libFunc
@@ -55,7 +55,7 @@ do--LOADLIB
 			end
 			return libFunc()
 		else
-			LOG.print("No "..name.." for "..system,"warn",color.red)
+			LOG.print("No "..name.." for "..SYSTEM,"warn",color.red)
 			return
 		end
 		return true

@@ -4,7 +4,7 @@ local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local ins,rem=table.insert,table.remove
 
 local BG
-local scr=scr
+local SCR=SCR
 local BGvars={_G=_G,SHADER=SHADER}
 
 local back={}
@@ -88,7 +88,7 @@ back.wing={
 	end,
 	resize=function()
 		crystal={}
-		W,H=scr.w,scr.h
+		W,H=SCR.w,SCR.h
 		for i=1,16 do
 			crystal[i]={
 				x=i<9 and W*.05*i or W*.05*(28-i),
@@ -138,14 +138,14 @@ back.fan={
 		BG.resize()
 	end,
 	resize=function()
-		CX,CY=scr.w/2,scr.h/2
-		W,H=scr.w,scr.h
+		CX,CY=SCR.w/2,SCR.h/2
+		W,H=SCR.w,SCR.h
 	end,
 	update=function()
 		t=t+1
 		if t%10==0 then
 			ins(petal,{
-				x=scr.w*rnd(),
+				x=SCR.w*rnd(),
 				y=0,
 				vy=2+rnd()*2,
 				vx=rnd()*2-.5,
@@ -169,7 +169,7 @@ back.fan={
 	draw=function()
 		gc.push("transform")
 		gc.translate(CX,CY+20*sin(t*.02))
-		gc.scale(scr.k)
+		gc.scale(SCR.k)
 		gc.clear(.1,.1,.1)
 		gc.setLineWidth(320)
 		gc.setColor(.3,.2,.3)
@@ -206,11 +206,11 @@ back.fan={
 back.aura={
 	init=function()
 		t=rnd()*3600
-		BG.resize(scr.w,scr.h)
+		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(w,h)
-		SHADER.aura:send("w",scr.W)
-		SHADER.aura:send("h",h*scr.dpi)
+		SHADER.aura:send("w",SCR.W)
+		SHADER.aura:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -218,17 +218,17 @@ back.aura={
 	draw=function()
 		SHADER.aura:send("t",t)
 		gc.setShader(SHADER.aura)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Cool liquid background
 back.bg1={
 	init=function()
 		t=0
-		BG.resize(scr.w)
+		BG.resize(SCR.w)
 	end,
 	resize=function(w)
-		SHADER.gradient1:send("w",scr.W)
+		SHADER.gradient1:send("w",SCR.W)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -236,17 +236,17 @@ back.bg1={
 	draw=function()
 		SHADER.gradient1:send("t",t)
 		gc.setShader(SHADER.gradient1)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Horizonal red-blue gradient
 back.bg2={
 	init=function()
 		t=0
-		BG.resize(nil,scr.h)
+		BG.resize(nil,SCR.h)
 	end,
 	resize=function(w,h)
-		SHADER.gradient2:send("h",h*scr.dpi)
+		SHADER.gradient2:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -254,18 +254,18 @@ back.bg2={
 	draw=function()
 		SHADER.gradient2:send("t",t)
 		gc.setShader(SHADER.gradient2)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Vertical red-green gradient
 back.rainbow={
 	init=function()
 		t=0
-		BG.resize(scr.w,scr.h)
+		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(w,h)
-		SHADER.rgb1:send("w",scr.W)
-		SHADER.rgb1:send("h",h*scr.dpi)
+		SHADER.rgb1:send("w",SCR.W)
+		SHADER.rgb1:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -273,18 +273,18 @@ back.rainbow={
 	draw=function()
 		SHADER.rgb1:send("t",t)
 		gc.setShader(SHADER.rgb1)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Colorful RGB
 back.rainbow2={
 	init=function()
 		t=0
-		BG.resize(scr.w,scr.h)
+		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(w,h)
-		SHADER.rgb2:send("w",scr.W)
-		SHADER.rgb2:send("h",h*scr.dpi)
+		SHADER.rgb2:send("w",SCR.W)
+		SHADER.rgb2:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -292,7 +292,7 @@ back.rainbow2={
 	draw=function()
 		SHADER.rgb2:send("t",t)
 		gc.setShader(SHADER.rgb2)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Blue RGB
@@ -317,7 +317,7 @@ back.lightning2={
 	init=function()
 		t=0
 		colorLib=_G.SKIN.libColor
-		colorSet=_G.setting.skin
+		colorSet=_G.SETTING.skin
 		blockImg=_G.TEXTURE.miniBlock
 	end,
 	update=function(dt)
@@ -346,10 +346,10 @@ back.matrix={
 	draw=function()
 		gc.clear(.15,.15,.15)
 		gc.push("transform")
-			local k=scr.k
+			local k=SCR.k
 			gc.scale(k)
-			local Y=ceil(scr.h/80/k)
-			for x=1,ceil(scr.w/80/k)do
+			local Y=ceil(SCR.h/80/k)
+			for x=1,ceil(SCR.w/80/k)do
 				for y=1,Y do
 					gc.setColor(1,1,1,sin(x+matrixT[x][y]*t)*.1+.1)
 					gc.rectangle("fill",80*x,80*y,-80,-80)
@@ -362,14 +362,14 @@ back.matrix={
 back.space={
 	init=function()
 		stars={}
-		W,H=scr.w+20,scr.h+20
-		BG.resize(scr.w,scr.h)
+		W,H=SCR.w+20,SCR.h+20
+		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(w,h)
 		local S=stars
 		for i=1,1260,5 do
 			local s=rnd(26,40)*.1
-			S[i]=s*scr.k			--Size
+			S[i]=s*SCR.k			--Size
 			S[i+1]=rnd(W)-10		--X
 			S[i+2]=rnd(H)-10		--Y
 			S[i+3]=(rnd()-.5)*.01*s	--Vx
@@ -424,7 +424,7 @@ function BG.send(data)
 	end
 end
 function BG.set(bg,data)
-	if bg==BG.cur or not setting.bg then return end
+	if bg==BG.cur or not SETTING.bg then return end
 	if BG.discard then
 		BG.discard()
 		collectgarbage()

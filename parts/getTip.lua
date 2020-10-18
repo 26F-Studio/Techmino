@@ -1,5 +1,5 @@
 local L
-if setting.lang==1 or setting.lang==2 then
+if SETTING.lang==1 or SETTING.lang==2 then
 	L={
 		'注意到"旋转"到底对方块做了些什么吗?',
 		"(RUR'U')R'FR2U'R'U'(RUR'F')",
@@ -159,7 +159,7 @@ if setting.lang==1 or setting.lang==2 then
 		"ZS JL T O I",
 		-- "Z酱 可爱!",
 	}
-elseif setting.lang==3 then
+elseif SETTING.lang==3 then
 	L={
 		'Free block game with Battle Royale mode!',
 		'Have you noticed what "rotating" does do to the block?',
@@ -228,14 +228,14 @@ elseif setting.lang==3 then
 		"You can set orientation for each block",
 		"ZS JL T O I",
 	}
-elseif setting.lang==4 then
+elseif SETTING.lang==4 then
 	L={'!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','\\','|',';',':','\'','"',',','<','.','>','/','?'}
 	local s=""
 	for i=1,math.random(16,26)do
 		s=s..L[math.random(#L)]
 	end
 	return s
-elseif setting.lang==5 then
+elseif SETTING.lang==5 then
 	local R=math.random()
 	if R<.05 then
 		local time={
@@ -268,14 +268,14 @@ elseif setting.lang==5 then
 	elseif R<.1 then
 		local int=math.floor
 		L={
-			"平均"..int(stat.row/stat.time*60).."LPM,那可真强呢",
-			"平均"..int(stat.atk/stat.time*60).."APM,好厉害哦",
-			"平均"..(int(stat.atk/stat.row*10)*.1).."效,你看这数据能看么",
-			"平均"..(int(stat.atk/stat.row*10)*.1).."效,我就不说你多菜了",
-			"才玩了"..stat.game.."把,跟几十万局的没法比",
-			"才玩了"..stat.game.."把,玩了不下几万局的人可不在少数",
-			"才玩了"..int(stat.time/3600).."小时,人家总时长是你不知道多少倍",
-			"才玩了"..int(stat.time/3600).."小时,别人总时长跟你都不在一个数量级",
+			"平均"..int(STAT.row/STAT.time*60).."LPM,那可真强呢",
+			"平均"..int(STAT.atk/STAT.time*60).."APM,好厉害哦",
+			"平均"..(int(STAT.atk/STAT.row*10)*.1).."效,你看这数据能看么",
+			"平均"..(int(STAT.atk/STAT.row*10)*.1).."效,我就不说你多菜了",
+			"才玩了"..STAT.game.."把,跟几十万局的没法比",
+			"才玩了"..STAT.game.."把,玩了不下几万局的人可不在少数",
+			"才玩了"..int(STAT.time/3600).."小时,人家总时长是你不知道多少倍",
+			"才玩了"..int(STAT.time/3600).."小时,别人总时长跟你都不在一个数量级",
 		}
 	else
 		L={

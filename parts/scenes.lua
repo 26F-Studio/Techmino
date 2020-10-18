@@ -12,7 +12,7 @@ local format=string.format
 local ins,rem=table.insert,table.remove
 local find,sub,char,byte=string.find,string.sub,string.char,string.byte
 
-local scr=scr
+local SCR=SCR
 
 local floatWheel=0
 local function wheelScroll(y)
@@ -227,7 +227,7 @@ do--load
 			elseif S.phase==7 then
 				--------------------------Loading other little things here
 				SKIN.load()
-				stat.run=stat.run+1
+				STAT.run=STAT.run+1
 				LOADED=true
 				--------------------------
 				SFX.play("welcome_sfx")
@@ -389,13 +389,13 @@ do--main
 		modeEnv={}
 		--Create demo player
 		destroyPlayers()
-		game.frame=0
+		GAME.frame=0
 		PLY.newDemoPlayer(1,900,35,1.1)
 	end
 
 	function Tmr.main(dt)
-		game.frame=game.frame+1
-		players[1]:update(dt)
+		GAME.frame=GAME.frame+1
+		PLAYERS[1]:update(dt)
 	end
 
 	function Pnt.main()
@@ -403,12 +403,12 @@ do--main
 		gc.draw(IMG.title_color,60,30,nil,1.3)
 		setFont(30)
 		gc.print(gameVersion,70,125)
-		gc.print(system,610,100)
-		local L=text.modes[stat.lastPlay]
+		gc.print(SYSTEM,610,100)
+		local L=text.modes[STAT.lastPlay]
 		setFont(25)
 		gc.print(L[1],700,470)
 		gc.print(L[2],700,500)
-		players[1]:draw()
+		PLAYERS[1]:draw()
 	end
 end
 do--mode
@@ -708,7 +708,7 @@ do--mode
 		gc.pop()
 		if sel then
 			local M=Modes[sel]
-			local lang=setting.lang
+			local lang=SETTING.lang
 			gc.setColor(.7,.7,.7,.5)
 			gc.rectangle("fill",920,0,360,720)--Info board
 			gc.setColor(M.color)
@@ -765,10 +765,10 @@ do--customGame
 				if customEnv.opponent>5 and customEnv.sequence=="fixed"then
 					LOG.print(text.ai_fixed,"warn")
 					return
-				elseif customEnv.opponent>0 and #preBag>0 then
+				elseif customEnv.opponent>0 and #BAG>0 then
 					LOG.print(text.ai_prebag,"warn")
 					return
-				elseif customEnv.opponent>0 and #preMission>0 then
+				elseif customEnv.opponent>0 and #MISSION>0 then
 					LOG.print(text.ai_mission,"warn")
 					return
 				end
@@ -785,9 +785,9 @@ do--customGame
 			SCN.go("custom_advance","swipeD")
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 			local str="Techmino Quest:"..copyQuestArgs().."!"
-			if #preBag>0 then str=str..copySequence()end
+			if #BAG>0 then str=str..copySequence()end
 			str=str.."!"..copyBoard().."!"
-			if #preMission>0 then str=str..copyMission()end
+			if #MISSION>0 then str=str..copyMission()end
 			sys.setClipboardText(str.."!")
 			LOG.print(text.copySuccess,color.green)
 		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
@@ -828,7 +828,7 @@ do--customGame
 		end
 	end
 
-	local preField=preField
+	local FIELD=FIELD
 	function Pnt.customGame()
 		--Field
 		gc.push("transform")
@@ -839,7 +839,7 @@ do--customGame
 		gc.rectangle("line",-2,-2,304,604)
 		local cross=puzzleMark[-1]
 		for y=1,20 do for x=1,10 do
-			local B=preField[y][x]
+			local B=FIELD[y][x]
 			if B>0 then
 				gc.draw(blockSkin[B],30*x-30,600-30*y)
 			elseif B==-1 then
@@ -852,17 +852,17 @@ do--customGame
 		setFont(30)
 		gc.printf(customEnv.sequence,330,550,240,"right")
 		setFont(40)
-		if #preBag>0 then
+		if #BAG>0 then
 			gc.setColor(1,1,int(Timer()*6.26)%2)
 			gc.print("#",330,545)
-			gc.print(#preBag,360,545)
+			gc.print(#BAG,360,545)
 		end
 
 		--Sequence
-		if #preMission>0 then
+		if #MISSION>0 then
 			gc.setColor(1,customEnv.missionKill and 0 or 1,int(Timer()*6.26)%2)
 			gc.print("#",610,545)
-			gc.print(#preMission,640,545)
+			gc.print(#MISSION,640,545)
 		end
 	end
 end
@@ -873,7 +873,7 @@ do--custom_advance
 end
 do--custom_sequence
 	function sceneInit.custom_sequence()
-		sceneTemp={cur=#preBag,sure=0}
+		sceneTemp={cur=#BAG,sure=0}
 	end
 
 	local minoKey={
@@ -888,48 +888,48 @@ do--custom_sequence
 	}
 	function keyDown.custom_sequence(key)
 		local S=sceneTemp
-		local preBag=preBag
+		local BAG=BAG
 		if key=="left"then
 			local p=S.cur
 			if p==0 then
-				S.cur=#preBag
+				S.cur=#BAG
 			else
 				repeat
 					p=p-1
-				until preBag[p]~=preBag[S.cur]
+				until BAG[p]~=BAG[S.cur]
 				S.cur=p
 			end
 		elseif key=="right"then
 			local p=S.cur
-			if p==#preBag then
+			if p==#BAG then
 				S.cur=0
 			else
 				repeat
 					p=p+1
-				until preBag[p+1]~=preBag[S.cur+1]
+				until BAG[p+1]~=BAG[S.cur+1]
 				S.cur=p
 			end
 		elseif key=="ten"then
 			for i=1,10 do
 				local p=S.cur
-				if p==#preBag then break end
+				if p==#BAG then break end
 				repeat
 					p=p+1
-				until preBag[p+1]~=preBag[S.cur+1]
+				until BAG[p+1]~=BAG[S.cur+1]
 				S.cur=p
 			end
 		elseif key=="backspace"then
 			if S.cur>0 then
-				rem(preBag,S.cur)
+				rem(BAG,S.cur)
 				S.cur=S.cur-1
-				if S.cur>0 and preBag[S.cur]==preBag[S.cur+1]then
+				if S.cur>0 and BAG[S.cur]==BAG[S.cur+1]then
 					keyDown.custom_mission("right")
 				end
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
-				for i=1,#preBag do
-					rem(preBag)
+				for i=1,#BAG do
+					rem(BAG)
 				end
 				S.cur=0
 				S.sure=0
@@ -938,7 +938,7 @@ do--custom_sequence
 				S.sure=50
 			end
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #preBag>0 then
+			if #BAG>0 then
 				sys.setClipboardText("Techmino SEQ:"..copySequence())
 				LOG.print(text.copySuccess,color.green)
 			end
@@ -955,13 +955,13 @@ do--custom_sequence
 			SCN.back()
 		elseif type(key)=="number"then
 			S.cur=S.cur+1
-			ins(preBag,S.cur,key)
+			ins(BAG,S.cur,key)
 		elseif #key==1 then
 			key=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
 			if key then
 				local p=S.cur+1
-				while preBag[p]==key do p=p+1 end
-				ins(preBag,p,key)
+				while BAG[p]==key do p=p+1 end
+				ins(BAG,p,key)
 				S.cur=p
 			end
 		end
@@ -982,8 +982,8 @@ do--custom_sequence
 		--Draw sequence
 		local miniBlock=TEXTURE.miniBlock
 		local libColor=SKIN.libColor
-		local set=setting.skin
-		local L=preBag
+		local set=SETTING.skin
+		local L=BAG
 		local x,y=120,136--Next block pos
 		local cx,cy=120,136--Cursor-center pos
 		local i,j=1,#L
@@ -1051,7 +1051,7 @@ do--custom_field
 		a=12,s=13,d=14,f=15,g=16,h=17,
 		z=0,x=-1,
 	}
-	local preField=preField
+	local FIELD=FIELD
 	function mouseDown.custom_field(x,y,k)
 		mouseMove.custom_field(x,y)
 	end
@@ -1061,7 +1061,7 @@ do--custom_field
 		if sy<1 or sy>20 then sy=nil end
 		sceneTemp.x,sceneTemp.y=sx,sy
 		if sx and sy and ms.isDown(1,2,3)then
-			preField[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
+			FIELD[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
 		end
 	end
 	function wheelMoved.custom_field(x,y)
@@ -1084,7 +1084,7 @@ do--custom_field
 		if sy<1 or sy>20 then sy=nil end
 		sceneTemp.x,sceneTemp.y=sx,sy
 		if sx and sy then
-			preField[sy][sx]=sceneTemp.pen
+			FIELD[sy][sx]=sceneTemp.pen
 		end
 	end
 	function keyDown.custom_field(key)
@@ -1098,11 +1098,11 @@ do--custom_field
 			elseif key=="right"and sx<10 then sx=sx+1
 			end
 			if kb.isDown("space")then
-				preField[sy][sx]=pen
+				FIELD[sy][sx]=pen
 			end
 		elseif key=="delete"then
 			if sceneTemp.sure>20 then
-				for y=1,20 do for x=1,10 do preField[y][x]=0 end end
+				for y=1,20 do for x=1,10 do FIELD[y][x]=0 end end
 				sceneTemp.sure=0
 				SFX.play("finesseError",.7)
 			else
@@ -1110,16 +1110,16 @@ do--custom_field
 			end
 		elseif key=="space"then
 			if sx and sy then
-				preField[sy][sx]=pen
+				FIELD[sy][sx]=pen
 			end
 		elseif key=="escape"then
 			SCN.back()
 		elseif key=="k"then
-			ins(preField,1,{14,14,14,14,14,14,14,14,14,14})
-			preField[21]=nil
+			ins(FIELD,1,{14,14,14,14,14,14,14,14,14,14})
+			FIELD[21]=nil
 			SFX.play("blip")
 		elseif key=="l"then
-			local F=preField
+			local F=FIELD
 			for i=20,1,-1 do
 				for j=1,10 do
 					if F[i][j]<=0 then goto L end
@@ -1174,7 +1174,7 @@ do--custom_field
 		gc.setLineWidth(2)
 		local cross=puzzleMark[-1]
 		for y=1,20 do for x=1,10 do
-			local B=preField[y][x]
+			local B=FIELD[y][x]
 			if B>0 then
 				gc.draw(blockSkin[B],30*x-30,600-30*y)
 			elseif B==-1 and not S.demo then
@@ -1210,7 +1210,7 @@ do--custom_field
 		setFont(40)
 		local _
 		for i=1,7 do
-			_=setting.skin[i]
+			_=SETTING.skin[i]
 			gc.setColor(SKIN.libColor[_])
 			mStr(text.block[i],500+65*_,115)
 		end
@@ -1220,7 +1220,7 @@ do--custom_mission
 	function sceneInit.custom_mission()
 		sceneTemp={
 			input="",
-			cur=#preMission,
+			cur=#MISSION,
 			sure=0,
 		}
 	end
@@ -1229,48 +1229,48 @@ do--custom_mission
 	local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 	function keyDown.custom_mission(key)
 		local S=sceneTemp
-		local preMission=preMission
+		local MISSION=MISSION
 		if key=="left"then
 			local p=S.cur
 			if p==0 then
-				S.cur=#preMission
+				S.cur=#MISSION
 			else
 				repeat
 					p=p-1
-				until preMission[p]~=preMission[S.cur]
+				until MISSION[p]~=MISSION[S.cur]
 				S.cur=p
 			end
 		elseif key=="right"then
 			local p=S.cur
-			if p==#preMission then
+			if p==#MISSION then
 				S.cur=0
 			else
 				repeat
 					p=p+1
-				until preMission[p+1]~=preMission[S.cur+1]
+				until MISSION[p+1]~=MISSION[S.cur+1]
 				S.cur=p
 			end
 		elseif key=="ten"then
 			for i=1,10 do
 				local p=S.cur
-				if p==#preMission then break end
+				if p==#MISSION then break end
 				repeat
 					p=p+1
-				until preMission[p+1]~=preMission[S.cur+1]
+				until MISSION[p+1]~=MISSION[S.cur+1]
 				S.cur=p
 			end
 		elseif key=="backspace"then
 			if S.cur>0 then
-				rem(preMission,S.cur)
+				rem(MISSION,S.cur)
 				S.cur=S.cur-1
-				if S.cur>0 and preMission[S.cur]==preMission[S.cur+1]then
+				if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
 					keyDown.custom_mission("right")
 				end
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
-				for i=1,#preMission do
-					rem(preMission)
+				for i=1,#MISSION do
+					rem(MISSION)
 				end
 				S.cur=0
 				S.sure=0
@@ -1279,7 +1279,7 @@ do--custom_mission
 				S.sure=50
 			end
 		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #preMission>0 then
+			if #MISSION>0 then
 				sys.setClipboardText("Techmino Target:"..copyMission())
 				LOG.print(text.copySuccess,color.green)
 			end
@@ -1296,8 +1296,8 @@ do--custom_mission
 			SCN.back()
 		elseif type(key)=="number"then
 			local p=S.cur+1
-			while preMission[p]==key do p=p+1 end
-			ins(preMission,p,key)
+			while MISSION[p]==key do p=p+1 end
+			ins(MISSION,p,key)
 			S.cur=p
 		else
 			if key=="space"then
@@ -1310,7 +1310,7 @@ do--custom_mission
 			input=input..key
 			if missionEnum[input]then
 				S.cur=S.cur+1
-				ins(preMission,S.cur,missionEnum[input])
+				ins(MISSION,S.cur,missionEnum[input])
 				input=""
 			elseif #input>1 or not legalInput[input]then
 				input=""
@@ -1338,8 +1338,8 @@ do--custom_mission
 
 		--Draw targets
 		local libColor=SKIN.libColor
-		local set=setting.skin
-		local L=preMission
+		local set=SETTING.skin
+		local L=MISSION
 		local x,y=100,136--Next block pos
 		local cx,cy=100,136--Cursor-center pos
 		local i,j=1,#L
@@ -1422,19 +1422,19 @@ do--play
 	end
 
 	function touchDown.play(id,x,y)
-		if not setting.VKSwitch or game.replaying then return end
+		if not SETTING.VKSwitch or GAME.replaying then return end
 
 		local t=onVirtualkey(x,y)
 		if t then
-			players[1]:pressKey(t)
-			if setting.VKSFX>0 then
-				SFX.play("virtualKey",setting.VKSFX)
+			PLAYERS[1]:pressKey(t)
+			if SETTING.VKSFX>0 then
+				SFX.play("virtualKey",SETTING.VKSFX)
 			end
 			VK[t].isDown=true
 			VK[t].pressTime=10
-			if setting.VKTrack then
+			if SETTING.VKTrack then
 				local B=VK[t]
-				if setting.VKDodge then--Button collision (not accurate)
+				if SETTING.VKDodge then--Button collision (not accurate)
 				for i=1,#VK do
 						local b=VK[i]
 						local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
@@ -1445,25 +1445,25 @@ do--play
 					end
 				end
 				local O=VK_org[t]
-				local _FW,_CW=setting.VKTchW*.1,1-setting.VKCurW*.1
+				local _FW,_CW=SETTING.VKTchW*.1,1-SETTING.VKCurW*.1
 				local _OW=1-_FW-_CW
 
 				--Auto follow: finger, current, origin (weight from setting)
 				B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
 			end
-			VIB(setting.VKVIB)
+			VIB(SETTING.VKVIB)
 		end
 	end
 	function touchUp.play(id,x,y)
-		if not setting.VKSwitch or game.replaying then return end
+		if not SETTING.VKSwitch or GAME.replaying then return end
 
 		local t=onVirtualkey(x,y)
 		if t then
-			players[1]:releaseKey(t)
+			PLAYERS[1]:releaseKey(t)
 		end
 	end
 	function touchMove.play(id,x,y,dx,dy)
-		if not setting.VKSwitch or game.replaying then return end
+		if not SETTING.VKSwitch or GAME.replaying then return end
 
 		local l=tc.getTouches()
 		for n=1,#VK do
@@ -1474,17 +1474,17 @@ do--play
 					goto next
 				end
 			end
-			players[1]:releaseKey(n)
+			PLAYERS[1]:releaseKey(n)
 			::next::
 		end
 	end
 	function keyDown.play(key)
-		if game.replaying then return end
+		if GAME.replaying then return end
 
 		local m=keyMap
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
-				players[1]:pressKey(k)
+				PLAYERS[1]:pressKey(k)
 				VK[k].isDown=true
 				VK[k].pressTime=10
 				return
@@ -1494,23 +1494,23 @@ do--play
 		if key=="escape"then pauseGame()end
 	end
 	function keyUp.play(key)
-		if game.replaying then return end
+		if GAME.replaying then return end
 		local m=keyMap
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
-				players[1]:releaseKey(k)
+				PLAYERS[1]:releaseKey(k)
 				VK[k].isDown=false
 				return
 			end
 		end
 	end
 	function gamepadDown.play(key)
-		if game.replaying then return end
+		if GAME.replaying then return end
 
 		local m=keyMap
 		for k=1,20 do
 			if key==m[3][k]or key==m[4][k]then
-				players[1]:pressKey(k)
+				PLAYERS[1]:pressKey(k)
 				VK[k].isDown=true
 				VK[k].pressTime=10
 				return
@@ -1520,12 +1520,12 @@ do--play
 		if key=="back"then pauseGame()end
 	end
 	function gamepadUp.play(key)
-		if game.replaying then return end
+		if GAME.replaying then return end
 
 		local m=keyMap
 		for k=1,20 do
 			if key==m[3][k]or key==m[4][k]then
-				players[1]:releaseKey(k)
+				PLAYERS[1]:releaseKey(k)
 				VK[k].isDown=false
 				return
 			end
@@ -1534,13 +1534,13 @@ do--play
 
 	function Tmr.play(dt)
 		local _
-		local P1=players[1]
-		local game=game
-		game.frame=game.frame+1
-		stat.time=stat.time+dt
+		local P1=PLAYERS[1]
+		local GAME=GAME
+		GAME.frame=GAME.frame+1
+		STAT.time=STAT.time+dt
 
 		--Update virtualkey animation
-		if setting.VKSwitch then
+		if SETTING.VKSwitch then
 			for i=1,#VK do
 				_=VK[i]
 				if _.pressTime>0 then
@@ -1550,10 +1550,10 @@ do--play
 		end
 
 		--Replay
-		if game.replaying then
-			_=game.replaying
-			local L=game.rec
-			while game.frame==L[_]do
+		if GAME.replaying then
+			_=GAME.replaying
+			local L=GAME.rec
+			while GAME.frame==L[_]do
 				local k=L[_+1]
 				if k>0 then
 					P1:pressKey(k)
@@ -1565,18 +1565,18 @@ do--play
 				end
 				_=_+2
 			end
-			game.replaying=_
+			GAME.replaying=_
 		end
 
 		--Counting,include pre-das,directy RETURN,or restart counting
-		if game.frame<180 then
-			if game.frame==179 then
+		if GAME.frame<180 then
+			if GAME.frame==179 then
 				gameStart()
-			elseif game.frame==60 or game.frame==120 then
+			elseif GAME.frame==60 or GAME.frame==120 then
 				SFX.play("ready")
 			end
-			for p=1,#players do
-				local P=players[p]
+			for p=1,#PLAYERS do
+				local P=PLAYERS[p]
 				if P.movDir~=0 then
 					if P.moving<P.gameEnv.das then
 						P.moving=P.moving+1
@@ -1598,19 +1598,19 @@ do--play
 		end
 
 		--Update players
-		for p=1,#players do
-			local P=players[p]
+		for p=1,#PLAYERS do
+			local P=PLAYERS[p]
 			P:update(dt)
 		end
 
 		--Fresh royale target
-		if modeEnv.royaleMode and game.frame%120==0 then
+		if modeEnv.royaleMode and GAME.frame%120==0 then
 			freshMostDangerous()
 		end
 
 		--Warning check
 		if P1.alive then
-			if game.frame%26==0 and setting.warn then
+			if GAME.frame%26==0 and SETTING.warn then
 				local F=P1.field
 				local height=0--Max height of row 4~7
 				for x=4,7 do
@@ -1623,17 +1623,17 @@ do--play
 						end
 					end
 				end
-				game.warnLVL0=log(height-15+P1.atkBuffer.sum*.8)
+				GAME.warnLVL0=log(height-15+P1.atkBuffer.sum*.8)
 			end
-			_=game.warnLVL
-			if _<game.warnLVL0 then
-				_=_*.95+game.warnLVL0*.05
+			_=GAME.warnLVL
+			if _<GAME.warnLVL0 then
+				_=_*.95+GAME.warnLVL0*.05
 			elseif _>0 then
 				_=max(_-.026,0)
 			end
-			game.warnLVL=_
-		elseif game.warnLVL>0 then
-			game.warnLVL=max(game.warnLVL-.026,0)
+			GAME.warnLVL=_
+		elseif GAME.warnLVL>0 then
+			GAME.warnLVL=max(GAME.warnLVL-.026,0)
 		end
 	end
 
@@ -1646,9 +1646,9 @@ do--play
 		gc.circle("line",x,y,30*(1+a),6)
 	end
 	local function drawVirtualkey()
-		local a=setting.VKAlpha
+		local a=SETTING.VKAlpha
 		local _
-		if setting.VKIcon then
+		if SETTING.VKIcon then
 			local icons=TEXTURE.VKIcon
 			for i=1,#VK do
 				if VK[i].ava then
@@ -1689,15 +1689,15 @@ do--play
 			gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 			mStr(text.marking,190,60+26*sin(t))
 		end
-		for p=1,#players do
-			players[p]:draw()
+		for p=1,#PLAYERS do
+			PLAYERS[p]:draw()
 		end
 
 		gc.setColor(1,1,1)
-		if setting.VKSwitch then drawVirtualkey()end
+		if SETTING.VKSwitch then drawVirtualkey()end
 
 		if modeEnv.royaleMode then
-			local P=players[1]
+			local P=PLAYERS[1]
 			gc.setLineWidth(5)
 			gc.setColor(.8,1,0,.2)
 			for i=1,#P.atker do
@@ -1720,7 +1720,7 @@ do--play
 		gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
 
 		--Replaying
-		if game.replaying then
+		if GAME.replaying then
 			gc.setColor(1,1,Timer()%1>.5 and 1 or 0)
 			mText(drawableText.replaying,410,17)
 		end
@@ -1728,16 +1728,16 @@ do--play
 		--Warning
 		gc.push("transform")
 		gc.origin()
-		if game.warnLVL>0 then
+		if GAME.warnLVL>0 then
 			gc.setColor(0,0,0,0)
-			SHADER.warning:send("level",game.warnLVL)
+			SHADER.warning:send("level",GAME.warnLVL)
 			gc.setShader(SHADER.warning)
-			gc.rectangle("fill",0,0,scr.w,scr.h)
+			gc.rectangle("fill",0,0,SCR.w,SCR.h)
 			gc.setShader()
 		end
 		if restartCount>0 then
 			gc.setColor(0,0,0,restartCount*.05)
-			gc.rectangle("fill",0,0,scr.w,scr.h)
+			gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		end
 		gc.pop()
 	end
@@ -1761,7 +1761,7 @@ do--pause
 		then
 			TEXT.show(text.needRestart,640,440,50,"fly",.6)
 		end
-		local P=players[1]
+		local P=PLAYERS[1]
 		local S=P.stat
 		sceneTemp={
 			timer=org=="play"and 0 or 50,
@@ -1848,8 +1848,8 @@ do--pause
 	end
 	function sceneBack.pause()
 		love.keyboard.setKeyRepeat(true)
-		if not game.replaying then
-			mergeStat(stat,players[1].stat)
+		if not GAME.replaying then
+			mergeStat(STAT,PLAYERS[1].stat)
 		end
 		FILE.saveData()
 	end
@@ -1864,15 +1864,15 @@ do--pause
 		elseif key=="r"then
 			resetGameData()
 			SCN.swapTo("play","none")
-		elseif key=="p"and(game.result or game.replaying)and #players==1 then
+		elseif key=="p"and(GAME.result or GAME.replaying)and #PLAYERS==1 then
 			resetPartGameData(true)
 			SCN.swapTo("play","none")
 		end
 	end
 
 	function Tmr.pause(dt)
-		if not game.result then
-			game.pauseTime=game.pauseTime+dt
+		if not GAME.result then
+			GAME.pauseTime=GAME.pauseTime+dt
 		end
 		if sceneTemp.timer<50 then
 			sceneTemp.timer=sceneTemp.timer+1
@@ -1886,22 +1886,22 @@ do--pause
 	function Pnt.pause()
 		local S=sceneTemp
 		local T=S.timer*.02
-		if T<1 or game.result then Pnt.play()end
+		if T<1 or GAME.result then Pnt.play()end
 
 		--Dark BG
 		local _=T
-		if game.result then _=_*.7 end
+		if GAME.result then _=_*.7 end
 		gc.setColor(.15,.15,.15,_)
 		gc.push("transform")
 			gc.origin()
-			gc.rectangle("fill",0,0,scr.w,scr.h)
+			gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.pop()
 
 		--Pause Info
 		setFont(25)
-		if game.pauseCount>0 then
+		if GAME.pauseCount>0 then
 			gc.setColor(1,.4,.4,T)
-			gc.print(text.pauseCount..":["..game.pauseCount.."] "..format("%.2f",game.pauseTime).."s",70,100)
+			gc.print(text.pauseCount..":["..GAME.pauseCount.."] "..format("%.2f",GAME.pauseTime).."s",70,100)
 		end
 
 		gc.setColor(1,1,1,T)
@@ -1913,10 +1913,10 @@ do--pause
 
 		--Result Text
 		setFont(35)
-		mText(game.result and drawableText[game.result]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
+		mText(GAME.result and drawableText[GAME.result]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
 
 		--Infos
-		if game.frame>180 then
+		if GAME.frame>180 then
 			_=S.list
 			setFont(26)
 			for i=1,10 do
@@ -1938,7 +1938,7 @@ do--pause
 		end
 
 		--Radar Chart
-		if T>.5 and game.frame>180 then
+		if T>.5 and GAME.frame>180 then
 			T=T*2-1
 			gc.setLineWidth(2)
 			gc.push("transform")
@@ -2057,8 +2057,8 @@ end
 do--setting_control
 	function sceneInit.setting_control()
 		sceneTemp={
-			das=setting.das,
-			arr=setting.arr,
+			das=SETTING.das,
+			arr=SETTING.arr,
 			pos=0,
 			dir=1,
 			wait=30,
@@ -2081,8 +2081,8 @@ do--setting_control
 			if T.das==0 then
 				if T.arr==0 then
 					T.pos=T.pos+7*T.dir
-					T.das=setting.das+1
-					T.arr=setting.arr
+					T.das=SETTING.das+1
+					T.arr=SETTING.arr
 					T.dir=-T.dir
 					T.wait=26
 				else
@@ -2093,15 +2093,15 @@ do--setting_control
 			T.arr=T.arr-1
 			if T.arr==0 then
 				T.pos=T.pos+T.dir
-				T.arr=setting.arr
+				T.arr=SETTING.arr
 			elseif T.arr==-1 then
 				T.pos=T.dir>0 and 8 or 0
-				T.arr=setting.arr
+				T.arr=SETTING.arr
 			end
 			if T.pos%8==0 then
 				T.dir=-T.dir
 				T.wait=26
-				T.das=setting.das
+				T.das=SETTING.das
 			end
 		end
 	end
@@ -2121,7 +2121,7 @@ do--setting_control
 		gc.line(950,530,950,630)
 
 		--Testing O mino
-		_=blockSkin[setting.skin[6]]
+		_=blockSkin[SETTING.skin[6]]
 		local x=550+40*sceneTemp.pos
 		gc.draw(_,x,540,nil,40/30)
 		gc.draw(_,x,580,nil,40/30)
@@ -2261,13 +2261,13 @@ do--setting_skin
 	function Pnt.setting_skin()
 		gc.setColor(1,1,1)
 		for N=1,7 do
-			local face=setting.face[N]
+			local face=SETTING.face[N]
 			local B=blocks[N][face]
 			local x,y=-55+140*N-scs[N][face][2]*30,355+scs[N][face][1]*30
 			local col=#B[1]
 			for i=1,#B do for j=1,col do
 				if B[i][j]then
-					gc.draw(blockSkin[setting.skin[N]],x+30*j,y-30*i)
+					gc.draw(blockSkin[SETTING.skin[N]],x+30*j,y-30*i)
 				end
 			end end
 			gc.circle("fill",-10+140*N,340,sin(Timer()*10)+5)
@@ -2341,15 +2341,15 @@ do--setting_touch
 	end
 
 	local function VirtualkeyPreview()
-		if setting.VKSwitch then
+		if SETTING.VKSwitch then
 			for i=1,#VK_org do
 				local B=VK_org[i]
 				if B.ava then
 					local c=sceneTemp.sel==i and .6 or 1
-					gc.setColor(c,1,c,setting.VKAlpha)
+					gc.setColor(c,1,c,SETTING.VKAlpha)
 					gc.setLineWidth(B.r*.07)
 					gc.circle("line",B.x,B.y,B.r,10)
-					if setting.VKIcon then gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
+					if SETTING.VKIcon then gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
 				end
 			end
 		end
@@ -2375,9 +2375,9 @@ end
 do--setting_trackSetting
 	function Pnt.setting_trackSetting()
 		gc.setColor(1,1,1)
-		mText(drawableText.VKTchW,140+50*setting.VKTchW,260)
-		mText(drawableText.VKOrgW,140+50*setting.VKTchW+50*setting.VKCurW,320)
-		mText(drawableText.VKCurW,640+50*setting.VKCurW,380)
+		mText(drawableText.VKTchW,140+50*SETTING.VKTchW,260)
+		mText(drawableText.VKOrgW,140+50*SETTING.VKTchW+50*SETTING.VKCurW,320)
+		mText(drawableText.VKCurW,640+50*SETTING.VKCurW,380)
 	end
 end
 do--setting_touchSwitch
@@ -2421,7 +2421,7 @@ do--music
 			end
 		elseif key=="return"or key=="space"then
 			if BGM.nowPlay~=BGM.list[S]then
-				if setting.bgm>0 then
+				if SETTING.bgm>0 then
 					SFX.play("click")
 					BGM.play(BGM.list[S])
 				end
@@ -2488,7 +2488,7 @@ do--help
 end
 do--dict
 	function sceneInit.dict()
-		local location=(setting.lang==3 or setting.lang==4)and"en"or"zh"
+		local location=(SETTING.lang==3 or SETTING.lang==4)and"en"or"zh"
 		sceneTemp={
 			dict=require("document/dict_"..location),
 
@@ -2689,7 +2689,7 @@ do--staff
 end
 do--stat
 	function sceneInit.stat()
-		local S=stat
+		local S=STAT
 		local X1,X2,Y1,Y2={0,0,0,0},{0,0,0,0},{},{}
 		for i=1,7 do
 			local S,C=S.spin[i],S.clear[i]
@@ -2728,7 +2728,7 @@ do--stat
 	function Pnt.stat()
 		local chart=sceneTemp.chart
 		setFont(24)
-		local _,__=SKIN.libColor,setting.skin
+		local _,__=SKIN.libColor,SETTING.skin
 		local A,B=chart.A1,chart.A2
 		for x=1,7 do
 			gc.setColor(_[__[x]])

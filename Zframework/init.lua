@@ -23,7 +23,7 @@ local gc=love.graphics
 local int,rnd,abs=math.floor,math.random,math.abs
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
-local scr=scr
+local SCR=SCR
 
 local mx,my,mouseShow=-20,-20,false
 local touching=nil--First touching ID(userdata)
@@ -107,7 +107,7 @@ function love.mousemoved(x,y,dx,dy,t)
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if SCN.swapping then return end
-	dx,dy=dx/scr.k,dy/scr.k
+	dx,dy=dx/SCR.k,dy/SCR.k
 	if mouseMove[SCN.cur]then
 		mouseMove[SCN.cur](mx,my,dx,dy)
 	end
@@ -151,7 +151,7 @@ function love.touchmoved(id,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if touchMove[SCN.cur]then
-		touchMove[SCN.cur](id,x,y,dx/scr.k,dy/scr.k)
+		touchMove[SCN.cur](id,x,y,dx/SCR.k,dy/SCR.k)
 	end
 	if WIDGET.sel then
 		if touching then
@@ -194,15 +194,15 @@ function love.keypressed(i)
 			love._setGammaCorrect(r)
 			LOG.print("GammaCorrect: "..(r and"on"or"off"),"warn")
 		elseif i=="f2"then
-			LOG.print("System:"..system.."["..jit.arch.."]")
+			LOG.print("System:"..SYSTEM.."["..jit.arch.."]")
 			LOG.print("luaVer:".._VERSION)
 			LOG.print("jitVer:"..jit.version)
 			LOG.print("jitVerNum:"..jit.version_num)
 		elseif i=="f3"then
 			for _=1,8 do
-				local P=players.alive[rnd(#players.alive)]
-				if P~=players[1]then
-					P.lastRecv=players[1]
+				local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
+				if P~=PLAYERS[1]then
+					P.lastRecv=PLAYERS[1]
 					P:lose()
 				end
 			end
@@ -323,28 +323,28 @@ function love.lowmemory()
 	collectgarbage()
 end
 function love.resize(w,h)
-	scr.w,scr.h,scr.dpi=w,h,gc.getDPIScale()
-	scr.W,scr.H=scr.w*scr.dpi,scr.h*scr.dpi
-	scr.r=h/w
-	scr.rad=(w^2+h^2)^.5
+	SCR.w,SCR.h,SCR.dpi=w,h,gc.getDPIScale()
+	SCR.W,SCR.H=SCR.w*SCR.dpi,SCR.h*SCR.dpi
+	SCR.r=h/w
+	SCR.rad=(w^2+h^2)^.5
 
-	if scr.r>=.5625 then
-		scr.k=w/1280
-		scr.x,scr.y=0,(h-w*9/16)*.5
+	if SCR.r>=.5625 then
+		SCR.k=w/1280
+		SCR.x,SCR.y=0,(h-w*9/16)*.5
 	else
-		scr.k=h/720
-		scr.x,scr.y=(w-h*16/9)*.5,0
+		SCR.k=h/720
+		SCR.x,SCR.y=(w-h*16/9)*.5,0
 	end
-	xOy=xOy:setTransformation(w*.5,h*.5,nil,scr.k,nil,640,360)
+	xOy=xOy:setTransformation(w*.5,h*.5,nil,SCR.k,nil,640,360)
 	BG.resize(w,h)
 
-	SHADER.warning:send("w",w*scr.dpi)
-	SHADER.warning:send("h",h*scr.dpi)
+	SHADER.warning:send("w",w*SCR.dpi)
+	SHADER.warning:send("h",h*SCR.dpi)
 end
 function love.focus(f)
 	if f then
 		love.timer.step()
-	elseif SCN.cur=="play"and setting.autoPause then
+	elseif SCN.cur=="play"and SETTING.autoPause then
 		pauseGame()
 	end
 end
@@ -373,7 +373,7 @@ function love.errorhandler(msg)
 	gc.captureScreenshot(_)
 	gc.present()
 
-	SFX.fplay("error",setting.voc*.8)
+	SFX.fplay("error",SETTING.voc*.8)
 
 	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
 	local needDraw=true
@@ -415,7 +415,7 @@ function love.errorhandler(msg)
 			setFont(120)gc.print(":(",100,40)
 			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
 			setFont(20)
-			gc.print(system.."-"..gameVersion,100,660)
+			gc.print(SYSTEM.."-"..gameVersion,100,660)
 			gc.print("scene:"..SCN.cur,400,660)
 			gc.printf(err[1],626,360,1260-626)
 			gc.print("TRACEBACK",626,426)
@@ -455,7 +455,7 @@ function love.run()
 	love.resize(gc.getWidth(),gc.getHeight())
 
 	--Scene Launch
-	if setting.appLock then
+	if SETTING.appLock then
 		SCN.init("calculator")
 	else
 		SCN.init("load")
@@ -492,7 +492,7 @@ function love.run()
 
 		--DRAW
 		if not mini()then
-			FCT=FCT+setting.frameMul
+			FCT=FCT+SETTING.frameMul
 			if FCT>=100 then
 				FCT=FCT-100
 				gc.discard()--SPEED UPUPUP!
@@ -511,7 +511,7 @@ function love.run()
 					if mouseShow then
 						local r=Timer()*.5
 						local R=int(r)%7+1
-						_=SKIN.libColor[setting.skin[R]]
+						_=SKIN.libColor[SETTING.skin[R]]
 						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
 						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R],#blocks[R][0]-scs[2*R-1])
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
@@ -523,8 +523,8 @@ function love.run()
 
 				--Draw power info.
 				gc.setColor(1,1,1)
-				if setting.powerInfo then
-					gc.draw(infoCanvas,0,0,0,scr.k)
+				if SETTING.powerInfo then
+					gc.draw(infoCanvas,0,0,0,SCR.k)
 				end
 
 				--Draw scene swapping animation
@@ -536,7 +536,7 @@ function love.run()
 				--Draw FPS
 				gc.setColor(1,1,1)
 				setFont(15)
-				_=scr.h-20
+				_=SCR.h-20
 				gc.print(FPS(),5,_)
 
 				--Debug info.
@@ -564,11 +564,11 @@ function love.run()
 
 		--Fresh power info.
 		if Timer()-lastFreshPow>2 then
-			if setting.powerInfo and loadingFinished then
+			if SETTING.powerInfo and loadingFinished then
 				updatePowerInfo()
 				lastFreshPow=Timer()
 			end
-			if gc.getWidth()~=scr.w then
+			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
 				LOG.print("Screen Resized",color.yellow)
 			end

@@ -82,7 +82,7 @@ function SKIN.load()
 		end
 		I:release()
 	end
-	SKIN.change(setting.skinSet)
+	SKIN.change(SETTING.skinSet)
 	puzzleMark={}
 	gc.setLineWidth(3)
 	for i=1,11 do
@@ -110,29 +110,29 @@ function SKIN.load()
 end
 local L=#list
 function SKIN.prevSet()--Prev skin_set
-	local _=(setting.skinSet-2)%L+1
-	setting.skinSet=_
+	local _=(SETTING.skinSet-2)%L+1
+	SETTING.skinSet=_
 	SKIN.change(_)
 	_=list[_]
 	TEXT.show(_,1100,100,int(300/#_)+5,"fly")
 end
 function SKIN.nextSet()--Next skin_set
-	local _=setting.skinSet%L+1
-	setting.skinSet=_
+	local _=SETTING.skinSet%L+1
+	SETTING.skinSet=_
 	SKIN.change(_)
 	_=list[_]
 	TEXT.show(_,1100,100,int(300/#_)+5,"fly")
 end
 function SKIN.prev(i)--Prev skin for [i]
-	local _=setting.skin
+	local _=SETTING.skin
 	_[i]=(_[i]-2)%11+1
 end
 function SKIN.next(i)--Next skin for [i]
-	local _=setting.skin
+	local _=SETTING.skin
 	_[i]=_[i]%11+1
 end
 function SKIN.rotate(i)--Change direction of [i]
-	setting.face[i]=(setting.face[i]+1)%4
+	SETTING.face[i]=(SETTING.face[i]+1)%4
 	SFX.play("rotate")
 end
 function SKIN.change(i)--Change to skin_set[i]

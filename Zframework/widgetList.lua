@@ -1,6 +1,6 @@
 local rnd=math.random
 local ins,rem=table.insert,table.remove
-local mobileHide=(system=="Android"or system=="iOS")and function()return true end
+local mobileHide=(SYSTEM=="Android"or SYSTEM=="iOS")and function()return true end
 local function BACK()SCN.back()end
 local virtualkeySet={
 	{
@@ -95,9 +95,9 @@ local function CUSval(k)	return function()	return customEnv[k]				end end
 local function CUSrev(k)	return function()	customEnv[k]=not customEnv[k]	end end
 local function CUSsto(k)	return function(i)	customEnv[k]=i					end end
 
-local function SETval(k)	return function()	return setting[k]				end end
-local function SETrev(k)	return function()	setting[k]=not setting[k]		end end
-local function SETsto(k)	return function(i)	setting[k]=i					end end
+local function SETval(k)	return function()	return SETTING[k]				end end
+local function SETrev(k)	return function()	SETTING[k]=not SETTING[k]		end end
+local function SETsto(k)	return function(i)	SETTING[k]=i					end end
 
 local function STPval(k)	return function()	return sceneTemp[k]				end end
 local function STPrev(k)	return function()	sceneTemp[k]=not sceneTemp[k]	end end
@@ -113,7 +113,7 @@ local function VKAcode(n)	return function()	VK_org[n].ava=not VK_org[n].ava	end 
 
 local function pressKey(k)	return function()	love.keypressed(k)				end end
 local function setPen(i)	return function()	sceneTemp.pen=i					end end
-local function setLang(n)	return function()	LANG.set(n)setting.lang=n		end end
+local function setLang(n)	return function()	LANG.set(n)SETTING.lang=n		end end
 local function goScene(t,s)	return function()	SCN.go(t,s)						end end
 local function swapScene(t,s)return function()	SCN.swapTo(t,s)					end end
 
@@ -157,7 +157,7 @@ local Widgets={
 		newButton({name="custom",	x=590,y=270,w=200,h=160,color="lOrange",font=45,code=goScene("customGame"),hide=function()return not modeRanks.marathon_normal end}),
 		newButton({name="help",		x=150,y=450,w=200,h=160,color="lYellow",font=50,code=goScene("help")}),
 		newButton({name="stat",		x=370,y=450,w=200,h=160,color="lCyan",	font=40,code=goScene("stat")}),
-		newButton({name="qplay",	x=590,y=450,w=200,h=160,color="lGreen",	font=45,code=function()SCN.push()loadGame(stat.lastPlay,true)end}),
+		newButton({name="qplay",	x=590,y=450,w=200,h=160,color="lGreen",	font=45,code=function()SCN.push()loadGame(STAT.lastPlay,true)end}),
 		newButton({name="lang",		x=150,y=590,w=200,h=80,color="lGreen",	font=45,code=goScene("setting_lang")}),
 		newButton({name="music",	x=370,y=590,w=200,h=80,color="lPurple",	font=30,code=goScene("music")}),
 		newButton({name="quit",		x=590,y=590,w=200,h=80,color="lGrey",	font=45,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end}),
@@ -172,17 +172,17 @@ local Widgets={
 		newText({name="title",		x=30,	y=30,font=80,align="L"}),
 		newText({name="arrow",		x=270,	y=360,font=45,align="L"}),
 		newText({name="now",		x=700,	y=500,font=50,align="R",hide=function()return not BGM.nowPlay end}),
-		newSlider({name="bgm",		x=760,	y=80,w=400,						font=35,disp=SETval("bgm"),code=function(v)setting.bgm=v BGM.freshVolume()end}),
+		newSlider({name="bgm",		x=760,	y=80,w=400,						font=35,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end}),
 		newButton({name="up",		x=200,	y=250,w=120,					font=55,code=pressKey("up"),hide=function()return sceneTemp==1 end}),
-		newButton({name="play",		x=200,	y=390,w=120,					font=35,code=pressKey("space"),hide=function()return setting.bgm==0 end}),
+		newButton({name="play",		x=200,	y=390,w=120,					font=35,code=pressKey("space"),hide=function()return SETTING.bgm==0 end}),
 		newButton({name="down",		x=200,	y=530,w=120,					font=55,code=pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,				font=40,code=BACK}),
 	},
 	customGame={
 		newText({name="title",		x=600,y=5,font=80,align="R"}),
 		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
-		newText({name="defSeq",		x=330,y=550,align="L",color="grey",hide=function()return preBag[1]end}),
-		newText({name="noMsn",		x=610,y=550,align="L",color="grey",hide=function()return preMission[1]end}),
+		newText({name="defSeq",		x=330,y=550,align="L",color="grey",hide=function()return BAG[1]end}),
+		newText({name="noMsn",		x=610,y=550,align="L",color="grey",hide=function()return MISSION[1]end}),
 
 		--Basic
 		newSelector({name="drop",	x=170,	y=150,w=220,color="orange",		list=CUSlist.drop,	disp=CUSval("drop"),code=CUSsto("drop")}),
@@ -317,7 +317,7 @@ local Widgets={
 		newKey({name="ten",			x=1000,	y=440,	w=90,		color="lGreen",	font=40,code=pressKey("ten")}),
 		newKey({name="backsp",		x=1000,	y=540,	w=90,		color="lYellow",font=50,code=pressKey("backspace")}),
 		newKey({name="reset",		x=1000,	y=640,	w=90,		color="lYellow",font=50,code=pressKey("delete")}),
-		newButton({name="copy",		x=1140,	y=440,	w=170,h=80,	color="lRed",	font=40,code=pressKey("cC"),hide=function()return #preBag==0 end}),
+		newButton({name="copy",		x=1140,	y=440,	w=170,h=80,	color="lRed",	font=40,code=pressKey("cC"),hide=function()return #BAG==0 end}),
 		newButton({name="paste",	x=1140,	y=540,	w=170,h=80,	color="lBlue",	font=40,code=pressKey("cV")}),
 
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=BACK}),
@@ -368,7 +368,7 @@ local Widgets={
 		newKey({name="ten",			x=1000,	y=440,	w=90,		color="lGreen",	font=40,code=pressKey("ten")}),
 		newKey({name="backsp",		x=1000,	y=540,	w=90,		color="lYellow",font=50,code=pressKey("backspace")}),
 		newKey({name="reset",		x=1000,	y=640,	w=90,		color="lYellow",font=50,code=pressKey("delete")}),
-		newButton({name="copy",		x=1140,	y=440,	w=170,h=80,	color="lRed",	font=40,code=pressKey("cC"),hide=function()return #preMission==0 end}),
+		newButton({name="copy",		x=1140,	y=440,	w=170,h=80,	color="lRed",	font=40,code=pressKey("cC"),hide=function()return #MISSION==0 end}),
 		newButton({name="paste",	x=1140,	y=540,	w=170,h=80,	color="lBlue",	font=40,code=pressKey("cV")}),
 		newSwitch({name="mission",	x=1150, y=350,		disp=CUSval("missionKill"),		code=CUSrev("missionKill")}),
 
@@ -379,7 +379,7 @@ local Widgets={
 	},
 	pause={
 		newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=pressKey("s")}),
-		newButton({name="replay",	x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=pressKey("p"),hide=function()return not(game.result or game.replaying)or #players>1 end}),
+		newButton({name="replay",	x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=pressKey("p"),hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end}),
 		newButton({name="resume",	x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=pressKey("escape")}),
 		newButton({name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=35,code=pressKey("r")}),
 		newButton({name="quit",		x=640,	y=600,	w=240,h=100,font=35,code=BACK}),
@@ -398,9 +398,9 @@ local Widgets={
 		newButton({name="layout",	x=460,	y=540,	w=140,h=70,					font=35,code=goScene("setting_skin")}),
 		newSwitch({name="autoPause",x=1080,	y=320,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")}),
 		newSwitch({name="swap",		x=1080,	y=380,	font=20,disp=SETval("swap"),		code=SETrev("swap")}),
-		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=function()setting.fine=not setting.fine if setting.fine then SFX.play("finesseError",.6) end end}),
+		newSwitch({name="fine",		x=1080,	y=440,	font=20,disp=SETval("fine"),		code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6) end end}),
 		newSwitch({name="appLock",	x=1080,	y=500,	font=20,disp=SETval("appLock"),		code=SETrev("appLock")}),
-		newButton({name="calc",		x=970,	y=550,	w=150,h=60,color="dGrey",	font=25,code=goScene("calculator"),hide=function()return not setting.appLock end}),
+		newButton({name="calc",		x=970,	y=550,	w=150,h=60,color="dGrey",	font=25,code=goScene("calculator"),hide=function()return not SETTING.appLock end}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,					font=40,code=BACK}),
 	},
 	setting_video={
@@ -425,10 +425,10 @@ local Widgets={
 		newSlider({name="atkFX",	x=350,	y=600,w=373,unit=5,			disp=SETval("atkFX"),	code=SETsto("atkFX")}),
 		newSlider({name="frame",	x=350,	y=650,w=373,unit=10,
 			disp=function()
-				return setting.frameMul>35 and setting.frameMul/10 or setting.frameMul/5-4
+				return SETTING.frameMul>35 and SETTING.frameMul/10 or SETTING.frameMul/5-4
 			end,
 			code=function(i)
-				setting.frameMul=i<5 and 5*i+20 or 10*i
+				SETTING.frameMul=i<5 and 5*i+20 or 10*i
 			end}),
 
 		newSwitch({name="text",		x=1100,	y=180,font=35,disp=SETval("text"),code=SETrev("text")}),
@@ -438,19 +438,19 @@ local Widgets={
 		newSwitch({name="nextPos",	x=1100,	y=420,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")}),
 		newSwitch({name="fullscreen",x=1100,y=480,disp=SETval("fullscreen"),
 			code=function()
-				setting.fullscreen=not setting.fullscreen
-				love.window.setFullscreen(setting.fullscreen)
+				SETTING.fullscreen=not SETTING.fullscreen
+				love.window.setFullscreen(SETTING.fullscreen)
 				love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 			end}),
 		newSwitch({name="bg",		x=1100,	y=540,font=35,disp=SETval("bg"),
 			code=function()
 				BG.set("none")
-				setting.bg=not setting.bg
+				SETTING.bg=not SETTING.bg
 				BG.set("space")
 			end}),
 		newSwitch({name="power",	x=990,	y=640,font=35,disp=SETval("powerInfo"),
 			code=function()
-				setting.powerInfo=not setting.powerInfo
+				SETTING.powerInfo=not SETTING.powerInfo
 			end}),
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,				font=40,code=BACK}),
 	},
@@ -461,8 +461,8 @@ local Widgets={
 		newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",	font=35,code=swapScene("setting_video","swipeL")}),
 
 		newSlider({name="sfx",		x=180,	y=200,w=400,					font=35,change=function()SFX.play("blip_1")end,						disp=SETval("sfx"),		code=SETsto("sfx")}),
-		newSlider({name="stereo",	x=180,	y=500,w=400,					font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hide=function()return setting.sfx==0 end}),
-		newSlider({name="spawn",	x=180,	y=300,w=400,					font=30,change=function()SFX.fplay("spawn_"..rnd(7),setting.spawn)end,disp=SETval("spawn"),	code=SETsto("spawn")}),
+		newSlider({name="stereo",	x=180,	y=500,w=400,					font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hide=function()return SETTING.sfx==0 end}),
+		newSlider({name="spawn",	x=180,	y=300,w=400,					font=30,change=function()SFX.fplay("spawn_"..rnd(7),SETTING.spawn)end,disp=SETval("spawn"),	code=SETsto("spawn")}),
 		newSlider({name="bgm",		x=180,	y=400,w=400,					font=35,change=function()BGM.freshVolume()end,						disp=SETval("bgm"),		code=SETsto("bgm")}),
 		newSlider({name="vib",		x=750,	y=200,w=400,	unit=5,			font=25,change=function()VIB(2)end,									disp=SETval("vib"),		code=SETsto("vib")}),
 		newSlider({name="voc",		x=750,	y=300,w=400,					font=35,change=function()VOC.play("test")end,						disp=SETval("voc"),		code=SETsto("voc")}),
@@ -481,7 +481,7 @@ local Widgets={
 		newSwitch({name="ims",		x=1100,	y=470,						disp=SETval("ims"),		code=SETrev("ims")}),
 		newButton({name="reset",	x=160,	y=580,w=200,h=100,color="lRed",font=40,
 			code=function()
-				local _=setting
+				local _=SETTING
 				_.das,_.arr=10,2
 				_.sddas,_.sdarr=0,2
 				_.ihs,_.irs,_.ims=false,false,false
@@ -527,13 +527,13 @@ local Widgets={
 
 		newButton({name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,
 			code=function()
-				setting.skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3}
+				SETTING.skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3}
 				SFX.play("rotate")
 			end}),
 		newButton({name="faceR",	x=480,y=640,w=220,h=80,color="lRed",font=35,
 			code=function()
 				for i=1,25 do
-					setting.face[i]=0
+					SETTING.face[i]=0
 				end
 				SFX.play("hold")
 			end}),
@@ -606,23 +606,23 @@ local Widgets={
 		newButton({name="pro",		x=1120,	y=100,	w=240,h=80,		font=35,code=function()for i=1,20 do VK_org[i].ava=true end end}),
 		newSwitch({name="hide",		x=1170,	y=200,					font=40,disp=SETval("VKSwitch"),code=SETrev("VKSwitch")}),
 		newSwitch({name="track",	x=1170,	y=300,					font=35,disp=SETval("VKTrack"),code=SETrev("VKTrack")}),
-		newSlider({name="sfx",		x=800,	y=380,	w=180,			font=35,change=function()SFX.play("virtualKey",setting.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")}),
-		newSlider({name="vib",		x=800,	y=460,	w=180,unit=2,	font=35,change=function()VIB(setting.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")}),
+		newSlider({name="sfx",		x=800,	y=380,	w=180,			font=35,change=function()SFX.play("virtualKey",SETTING.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")}),
+		newSlider({name="vib",		x=800,	y=460,	w=180,unit=2,	font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")}),
 		newSwitch({name="icon",		x=850,	y=300,	font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon")}),
 		newButton({name="tkset",	x=1120,	y=420,	w=240,h=80,
 			code=function()
 				SCN.go("setting_trackSetting")
 			end,
 			hide=function()
-				return not setting.VKTrack
+				return not SETTING.VKTrack
 			end}),
 		newSlider({name="alpha",	x=840,	y=540,	w=400,font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha")}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=BACK}),
 	},
 	setting_trackSetting={
 		newSwitch({name="VKDodge",	x=400,	y=200,	font=35,				disp=SETval("VKDodge"),code=SETrev("VKDodge")}),
-		newSlider({name="VKTchW",	x=140,	y=310,	w=1000,	unit=10,font=35,disp=SETval("VKTchW"),code=function(i)setting.VKTchW=i setting.VKCurW=math.max(setting.VKCurW,i)end}),
-		newSlider({name="VKCurW",	x=140,	y=370,	w=1000,	unit=10,font=35,disp=SETval("VKCurW"),code=function(i)setting.VKCurW=i setting.VKTchW=math.min(setting.VKTchW,i)end}),
+		newSlider({name="VKTchW",	x=140,	y=310,	w=1000,	unit=10,font=35,disp=SETval("VKTchW"),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end}),
+		newSlider({name="VKCurW",	x=140,	y=370,	w=1000,	unit=10,font=35,disp=SETval("VKCurW"),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end}),
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=BACK}),
 	},
 	setting_lang={
@@ -696,12 +696,12 @@ local Widgets={
 	debug={
 		newButton({name="scrInfo",	x=300,y=120,w=300,h=100,color="green",code=function()
 			LOG.print("Screen Info:")
-			LOG.print("x y: "..scr.x.." "..scr.y)
-			LOG.print("w h: "..scr.w.." "..scr.h)
-			LOG.print("W H: "..scr.W.." "..scr.H)
-			LOG.print("k: "..math.floor(scr.k*100)*.01)
-			LOG.print("rad: "..math.floor(scr.rad*100)*.01)
-			LOG.print("dpi: "..scr.dpi)
+			LOG.print("x y: "..SCR.x.." "..SCR.y)
+			LOG.print("w h: "..SCR.w.." "..SCR.h)
+			LOG.print("W H: "..SCR.W.." "..SCR.H)
+			LOG.print("k: "..math.floor(SCR.k*100)*.01)
+			LOG.print("rad: "..math.floor(SCR.rad*100)*.01)
+			LOG.print("dpi: "..SCR.dpi)
 		end}),
 		newButton({name="reset",	x=640,y=380,w=240,h=100,color="orange",	font=40,
 			code=function()sceneTemp.reset=true end,

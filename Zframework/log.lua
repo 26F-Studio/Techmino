@@ -26,7 +26,7 @@ end
 function LOG.draw()
 	if debugMesList[1]then
 		gc.push("transform")
-		local k=scr.w/1280
+		local k=SCR.w/1280
 		setFont(int(20*k))
 		for i=1,#debugMesList do
 			local M=debugMesList[i]

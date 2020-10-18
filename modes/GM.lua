@@ -36,7 +36,7 @@ return{
 	slowMark=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		players[1].modeData.event="M7"
+		PLAYERS[1].modeData.event="M7"
 	end,
 	mesDisp=function(P)
 		mText(drawableText.line,69,370)
