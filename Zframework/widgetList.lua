@@ -125,7 +125,6 @@ local newKey=		WIDGET.newKey
 local newSwitch=	WIDGET.newSwitch
 local newSlider=	WIDGET.newSlider
 local newSelector=	WIDGET.newSelector
-local newKeyboard=	WIDGET.newKeyboard
 
 --All widgets
 local Widgets={
@@ -642,10 +641,8 @@ local Widgets={
 	},
 	dict={
 		newText({name="title",		x=20,y=5,font=70,align="L"}),
-		newKey({name="keyboard",	x=960,y=60,w=200,h=80,		font=35,code=pressKey("kb")}),
-		newKey({name="link",		x=1140,y=650,w=200,h=80,	font=35,code=pressKey("link"),hide=function()return not(sceneTemp.url and sceneTemp.hideKB)end}),
+		newKey({name="link",		x=1140,y=650,w=200,h=80,	font=35,code=pressKey("link"),hide=function()return not sceneTemp.url end}),
 		newButton({name="back",		x=1165,y=60,w=170,h=80,		font=40,code=BACK}),
-		newKeyboard({name="kb",		x=130,y=255,w=1120,h=440,hide=STPval("hideKB")}),
 	},
 	staff={
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,	font=40,code=BACK}),

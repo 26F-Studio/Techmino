@@ -7,6 +7,13 @@ local color=color
 local setFont=setFont
 local Timer=love.timer.getTime
 
+local WIDGET={}
+local widgetMetatable={
+	__tostring=function(self)
+		return self:getInfo()
+	end,
+}
+
 local text={
 	type="text",
 }
@@ -25,6 +32,20 @@ function text:draw()
 		gc.draw(self.text,self.x-self.text:getWidth(),self.y)
 	end
 end
+function WIDGET.newText(D)
+	local _={
+		name=	D.name,
+		x=		D.x,
+		y=		D.y,
+		color=	D.color and(color[D.color]or D.color)or color.white,
+		font=	D.font or 30,
+		align=	D.align or"M",
+		hide=	D.hide,
+	}
+	for k,v in next,text do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
 
 local image={
 	type="image",
@@ -37,6 +58,24 @@ end
 function image:draw()
 	gc.setColor(1,1,1,self.alpha)
 	gc.draw(self.img,self.x,self.y,self.ang,self.kx,self.ky,self.ox,self.oy)
+end
+function WIDGET.newImage(D)
+	local _={
+		name=	D.name,
+		img=	D.img,
+		alpha=	D.alpha or 1,
+		x=		D.x,
+		y=		D.y,
+		ang=	D.ang,
+		kx=		D.kx,
+		ky=		D.ky,
+		ox=		D.ox,
+		oy=		D.oy,
+		hide=	D.hide,
+	}
+	for k,v in next,image do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 
 local button={
@@ -104,6 +143,33 @@ end
 function button:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
+function WIDGET.newButton(D)
+	if not D.h then D.h=D.w end
+	local _={
+		name=	D.name,
+
+		x=		D.x-D.w*.5,
+		y=		D.y-D.h*.5,
+		w=		D.w,
+		h=		D.h,
+
+		resCtr={
+			D.x,D.y,
+			D.x-D.w*.35,D.y-D.h*.35,
+			D.x-D.w*.35,D.y+D.h*.35,
+			D.x+D.w*.35,D.y-D.h*.35,
+			D.x+D.w*.35,D.y+D.h*.35,
+		},
+
+		color=	D.color and(color[D.color]or D.color)or color.white,
+		font=	D.font or 30,
+		code=	D.code,
+		hide=	D.hide,
+	}
+	for k,v in next,button do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
 
 local key={
 	type="key",
@@ -113,7 +179,6 @@ function key:reset()
 	self.ATV=0
 end
 function key:isAbove(x,y)
-	local ATV=self.ATV
 	return
 		x>self.x and
 		y>self.y and
@@ -153,6 +218,33 @@ function key:draw()
 end
 function key:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+end
+function WIDGET.newKey(D)
+	if not D.h then D.h=D.w end
+	local _={
+		name=	D.name,
+
+		x=		D.x-D.w*.5,
+		y=		D.y-D.h*.5,
+		w=		D.w,
+		h=		D.h,
+
+		resCtr={
+			D.x,D.y,
+			D.x-D.w*.35,D.y-D.h*.35,
+			D.x-D.w*.35,D.y+D.h*.35,
+			D.x+D.w*.35,D.y-D.h*.35,
+			D.x+D.w*.35,D.y+D.h*.35,
+		},
+
+		color=	D.color and(color[D.color]or D.color)or color.white,
+		font=	D.font or 30,
+		code=	D.code,
+		hide=	D.hide,
+	}
+	for k,v in next,key do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 
 local switch={
@@ -210,6 +302,26 @@ function switch:draw()
 end
 function switch:getInfo()
 	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
+end
+function WIDGET.newSwitch(D)
+	local _={
+		name=	D.name,
+
+		x=		D.x,
+		y=		D.y,
+
+		resCtr={
+			D.x+25,D.y,
+		},
+
+		font=	D.font or 30,
+		disp=	D.disp,
+		code=	D.code,
+		hide=	D.hide,
+	}
+	for k,v in next,switch do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
 end
 
 local slider={
@@ -315,6 +427,55 @@ end
 function slider:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
 end
+function WIDGET.newSlider(D)
+	local _={
+		name=	D.name,
+
+		x=		D.x,
+		y=		D.y,
+		w=		D.w,
+
+		resCtr={
+			D.x,D.y,
+			D.x+D.w*.25,D.y,
+			D.x+D.w*.5,D.y,
+			D.x+D.w*.75,D.y,
+			D.x+D.w,D.y,
+		},
+
+		unit=	D.unit or 1,
+		--smooth=nil,
+		font=	D.font or 30,
+		change=	D.change,
+		disp=	D.disp,
+		code=	D.code,
+		hide=	D.hide,
+		--show=	nil,
+
+		lastTime=0,
+	}
+	if D.smooth~=nil then
+		_.smooth=D.smooth
+	else
+		_.smooth=_.unit<=1
+	end
+	if D.show then
+		if type(D.show)=="function"then
+			_.show=D.show
+		else
+			_.show=sliderShowFunc[D.show]
+		end
+	elseif D.show~=false then
+		if _.unit<=1 then
+			_.show=sliderShowFunc.percent
+		else
+			_.show=sliderShowFunc.int
+		end
+	end
+	for k,v in next,slider do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
 
 local selector={
 	type="selector",
@@ -384,6 +545,7 @@ function selector:draw()
 		end
 	end
 
+	--Text
 	setFont(28)
 	t=self.text
 	if t then
@@ -396,243 +558,6 @@ function selector:draw()
 end
 function selector:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x+self.w*.5,self.y+30,self.w)
-end
-
-local keyboardNames={--15*5 keys
-	"ESC","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","","Del",
-	"1","2","3","4","5","6","7","8","9","0","-","=","","<X","<X",
-	"Q","W","E","R","T","Y","U","I","O","P","[","]","Rtn","Rtn","PgUp",
-	"A","S","D","F","G","H","J","K","L","",";","'","/","↑","PgDn",
-	"","Z","X","C","V","B","N","M","___","___",",",".","←","↓","→",
-}
-local keyboardKeys={
-	"escape","f1","f2","f3","f4","f5","f6","f7","f8","f9","f10","f11","f12",nil,"delete",
-	"1","2","3","4","5","6","7","8","9","0","-","=",nil,"backspace","backspace",
-	"q","w","e","r","t","y","u","i","o","p","[","]","return","return","pgup",
-	"a","s","d","f","g","h","j","k","l",nil,";","'","/","up","pgdown",
-	nil,"z","x","c","v","b","n","m","space","space",",",".","left","down","right",
-}
-local keyboard={
-	type="keyboard",
-}
-function keyboard:reset()end
-function keyboard:isAbove(x,y)
-	return
-		x>self.x and
-		x<self.x+self.w and
-		y>self.y and
-		y<self.y+self.h
-end
-function keyboard:getCenter()
-	return self.x+self.w*.5,self.y+self.h*.5
-end
-function keyboard:update()end
-function keyboard:draw()
-	local x,y,w,h=self.x,self.y,self.w,self.h
-	gc.translate(x,y)
-
-	gc.setColor(.2,.2,.2,.75)
-	gc.rectangle("fill",0,0,w,h)
-
-	gc.setColor(1,1,1)
-	gc.setLineWidth(3)
-	for x=0,w,w/15 do
-		gc.line(x,0,x,h)
-	end
-	for y=0,h,h/5 do
-		gc.line(0,y,w,y)
-	end
-
-	local mStr=mStr
-	for i=0,4 do
-		for j=1,15 do
-			local s=keyboardNames[15*i+j]
-			local f=int((55-7*#s)*w/1200)
-			setFont(f)
-			mStr(s,(j-.5)*w/15,(i+.5)*h/5-f*.7)
-		end
-	end
-
-	gc.translate(-x,-y)
-end
-function keyboard:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d",self.x,self.y,self.w,self.h)
-end
-
-local WIDGET={}
-WIDGET.active={}--Table contains all active widgets
-WIDGET.sel=nil--Selected widget
-function WIDGET.set(L)
-	WIDGET.sel=nil
-	WIDGET.active=L or{}
-
-	--Reset all widgets
-	if L then
-		for _,W in next,L do
-			if W.reset then W:reset()end
-		end
-	end
-end
-
-local widgetMetatable={
-	__tostring=function(self)
-		return self:getInfo()
-	end,
-}
-function WIDGET.newText(D)
-	local _={
-		name=	D.name,
-		x=		D.x,
-		y=		D.y,
-		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font or 30,
-		align=	D.align or"M",
-		hide=	D.hide,
-	}
-	for k,v in next,text do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
-end
-function WIDGET.newImage(D)
-	local _={
-		name=	D.name,
-		img=	D.img,
-		alpha=	D.alpha or 1,
-		x=		D.x,
-		y=		D.y,
-		ang=	D.ang,
-		kx=		D.kx,
-		ky=		D.ky,
-		ox=		D.ox,
-		oy=		D.oy,
-		hide=	D.hide,
-	}
-	for k,v in next,image do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
-end
-function WIDGET.newButton(D)
-	if not D.h then D.h=D.w end
-	local _={
-		name=	D.name,
-
-		x=		D.x-D.w*.5,
-		y=		D.y-D.h*.5,
-		w=		D.w,
-		h=		D.h,
-
-		resCtr={
-			D.x,D.y,
-			D.x-D.w*.35,D.y-D.h*.35,
-			D.x-D.w*.35,D.y+D.h*.35,
-			D.x+D.w*.35,D.y-D.h*.35,
-			D.x+D.w*.35,D.y+D.h*.35,
-		},
-
-		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font or 30,
-		code=	D.code,
-		hide=	D.hide,
-	}
-	for k,v in next,button do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
-end
-function WIDGET.newKey(D)
-	if not D.h then D.h=D.w end
-	local _={
-		name=	D.name,
-
-		x=		D.x-D.w*.5,
-		y=		D.y-D.h*.5,
-		w=		D.w,
-		h=		D.h,
-
-		resCtr={
-			D.x,D.y,
-			D.x-D.w*.35,D.y-D.h*.35,
-			D.x-D.w*.35,D.y+D.h*.35,
-			D.x+D.w*.35,D.y-D.h*.35,
-			D.x+D.w*.35,D.y+D.h*.35,
-		},
-
-		color=	D.color and(color[D.color]or D.color)or color.white,
-		font=	D.font or 30,
-		code=	D.code,
-		hide=	D.hide,
-	}
-	for k,v in next,key do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
-end
-function WIDGET.newSwitch(D)
-	local _={
-		name=	D.name,
-
-		x=		D.x,
-		y=		D.y,
-
-		resCtr={
-			D.x+25,D.y,
-		},
-
-		font=	D.font or 30,
-		disp=	D.disp,
-		code=	D.code,
-		hide=	D.hide,
-	}
-	for k,v in next,switch do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
-end
-function WIDGET.newSlider(D)
-	local _={
-		name=	D.name,
-
-		x=		D.x,
-		y=		D.y,
-		w=		D.w,
-
-		resCtr={
-			D.x,D.y,
-			D.x+D.w*.25,D.y,
-			D.x+D.w*.5,D.y,
-			D.x+D.w*.75,D.y,
-			D.x+D.w,D.y,
-		},
-
-		unit=	D.unit or 1,
-		--smooth=nil,
-		font=	D.font or 30,
-		change=	D.change,
-		disp=	D.disp,
-		code=	D.code,
-		hide=	D.hide,
-		--show=	nil,
-
-		lastTime=0,
-	}
-	if D.smooth~=nil then
-		_.smooth=D.smooth
-	else
-		_.smooth=_.unit<=1
-	end
-	if D.show then
-		if type(D.show)=="function"then
-			_.show=D.show
-		else
-			_.show=sliderShowFunc[D.show]
-		end
-	elseif D.show~=false then
-		if _.unit<=1 then
-			_.show=sliderShowFunc.percent
-		else
-			_.show=sliderShowFunc.int
-		end
-	end
-	for k,v in next,slider do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
 end
 function WIDGET.newSelector(D)
 	local _={
@@ -660,19 +585,19 @@ function WIDGET.newSelector(D)
 	setmetatable(_,widgetMetatable)
 	return _
 end
-function WIDGET.newKeyboard(D)
-	local _={
-		x=		D.x,
-		y=		D.y,
-		w=		D.w,
-		h=		D.h,
-		hide=	D.hide,
 
-		resCtr={},
-	}
-	for k,v in next,keyboard do _[k]=v end
-	setmetatable(_,widgetMetatable)
-	return _
+WIDGET.active={}--Table contains all active widgets
+WIDGET.sel=nil--Selected widget
+function WIDGET.set(L)
+	WIDGET.sel=nil
+	WIDGET.active=L or{}
+
+	--Reset all widgets
+	if L then
+		for _,W in next,L do
+			if W.reset then W:reset()end
+		end
+	end
 end
 
 function WIDGET.moveCursor(x,y)

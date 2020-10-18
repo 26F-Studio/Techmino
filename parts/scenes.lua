@@ -2499,7 +2499,6 @@ do--dict
 			scroll=0,
 
 			lastSearch=nil,
-			hideKB=true,
 		}
 		local S=sceneTemp
 		S.url=(S.result[1]and S.result or S.dict)[S.select][5]
@@ -2557,8 +2556,6 @@ do--dict
 			end
 		elseif key=="link"then
 			love.system.openURL(S.url)
-		elseif key=="kb"then
-			S.hideKB=not S.hideKB
 		elseif key=="delete"then
 			if #S.input>0 then
 				clearResult()
