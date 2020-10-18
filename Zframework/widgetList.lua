@@ -125,6 +125,7 @@ local newKey=		WIDGET.newKey
 local newSwitch=	WIDGET.newSwitch
 local newSlider=	WIDGET.newSlider
 local newSelector=	WIDGET.newSelector
+local newTextBox=	WIDGET.newTextBox
 
 --All widgets
 local Widgets={
@@ -658,6 +659,9 @@ local Widgets={
 	},
 	login={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
+		newTextBox({name="username",x=400,y=200,w=500,h=60}),
+		newTextBox({name="password",x=400,y=300,w=626,h=60,secret=true}),
+		newTextBox({name="password2",x=400,y=400,w=626,h=60,secret=true}),
 	},
 	account={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),

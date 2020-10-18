@@ -2,6 +2,7 @@ local gc=love.graphics
 local kb=love.keyboard
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
+local sub=string.sub
 local format=string.format
 local color=color
 local setFont=setFont
@@ -586,6 +587,86 @@ function WIDGET.newSelector(D)
 	return _
 end
 
+local textBox={
+	type="textBox",
+	keepFocus=true,
+	ATV=0,--Activating time(0~4)
+	value="",--Text contained
+}
+function textBox:reset()
+	self.ATV=0
+end
+function textBox:isAbove(x,y)
+	return
+		x>self.x and
+		y>self.y and
+		x<self.x+self.w and
+		y<self.y+self.h
+end
+function textBox:getCenter()
+	return self.x+self.w*.5,self.y
+end
+function textBox:update()
+	local ATV=self.ATV
+	if WIDGET.sel==self then
+		if ATV<3 then self.ATV=ATV+1 end
+	else
+		if ATV>0 then self.ATV=ATV-.25 end
+	end
+end
+function textBox:draw()
+	local x,y,w,h=self.x,self.y,self.w,self.h
+	local ATV=self.ATV
+
+	gc.setColor(1,1,1,ATV*.1)
+	gc.rectangle("fill",x,y,w,h)
+
+	gc.setColor(1,1,1)
+	gc.setLineWidth(4)
+	gc.rectangle("line",x,y,w,h)
+
+	--Text
+	setFont(self.font)
+	if self.secret then
+		for i=1,#self.value do
+			gc.print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
+		end
+	else
+		gc.print(self.value,x+10,y+h*.5-self.font*.7)
+	end
+	t=self.text
+	if t then
+		gc.printf(t,x-412,y+h*.5-self.font*.7,400,"right")
+	end
+end
+function textBox:getInfo()
+	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+end
+function WIDGET.newTextBox(D)
+	if not D.h then D.h=D.w end
+	local _={
+		name=	D.name,
+
+		x=		D.x,
+		y=		D.y,
+		w=		D.w,
+		h=		D.h,
+		secret=	D.secret,
+
+		resCtr={
+			D.x+.5,D.y,
+			D.x+D.w*.2,D.y,
+			D.x+D.w*.8,D.y,
+		},
+
+		font=	int(D.h/7-1)*5,
+		hide=	D.hide,
+	}
+	for k,v in next,textBox do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
+
 WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=nil--Selected widget
 function WIDGET.set(L)
@@ -601,12 +682,14 @@ function WIDGET.set(L)
 end
 
 function WIDGET.moveCursor(x,y)
-	WIDGET.sel=nil
 	for _,W in next,WIDGET.active do
 		if not(W.hide and W.hide())and W.resCtr and W:isAbove(x,y)then
 			WIDGET.sel=W
 			return
 		end
+	end
+	if WIDGET.sel and not WIDGET.sel.keepFocus then
+		WIDGET.sel=nil
 	end
 end
 function WIDGET.press(x,y)
@@ -645,14 +728,10 @@ function WIDGET.press(x,y)
 				SFX.play("prerotate")
 			end
 		end
-	elseif W.type=="keyboard"then
-		if x then
-			x,y=int((x-W.x)/W.w*15)+1,int((y-W.y)/W.h*5)
-			local k=keyboardKeys[15*y+x]
-			if k then
-				sysFX.newShade(.4,1,1,1,W.x+(x-1)/15*W.w,W.y+y/5*W.h,W.w/15,W.h/5)
-				love.keypressed(k)
-			end
+	elseif W.type=="textBox"then
+		if system=="Android"then
+			local _,y=xOy:transformPoint(0,W.y+W.h)
+			kb.setTextInput(true,0,y,1,1)
 		end
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end
@@ -686,59 +765,54 @@ function WIDGET.release(x,y)
 		W.lastTime=0
 		WIDGET.drag(x,y)
 	end
-	WIDGET.sel=nil
 end
-function WIDGET.keyPressed(i)
-	if i=="space"or i=="return"then
-		if WIDGET.sel then
-			WIDGET.press()
-		end
-	elseif kb.isDown("lshift","lalt","lctrl")then
+function WIDGET.keyPressed(key)
+	if key=="space"or key=="return"then
+		WIDGET.press()
+	elseif kb.isDown("lshift","lalt","lctrl")and key=="left"or key=="right"then
 					--When hold [↑], control slider with left/right
-		if i=="left"or i=="right"then
-			local W=WIDGET.sel
-			if W then
-				if W.type=="slider"then
-					local p=W.disp()
-					local u=(W.smooth and .01 or 1)
-					local P=i=="left"and max(p-u,0)or min(p+u,W.unit)
-					if p==P or not P then return end
-					W.code(P)
-					if W.change and Timer()-W.lastTime>.18 then
-						W.lastTime=Timer()
-						W.change()
+		local W=WIDGET.sel
+		if W then
+			if W.type=="slider"then
+				local p=W.disp()
+				local u=(W.smooth and .01 or 1)
+				local P=key=="left"and max(p-u,0)or min(p+u,W.unit)
+				if p==P or not P then return end
+				W.code(P)
+				if W.change and Timer()-W.lastTime>.18 then
+					W.lastTime=Timer()
+					W.change()
+				end
+			elseif W.type=="selector"then
+				local s=W.select
+				if key=="left"then
+					if s>1 then
+						s=s-1
+						sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
 					end
-				elseif W.type=="selector"then
-					local s=W.select
-					if i=="left"then
-						if s>1 then
-							s=s-1
-							sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
-						end
-					else
-						if s<#W.list then
-							s=s+1
-							sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
-						end
+				else
+					if s<#W.list then
+						s=s+1
+						sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
 					end
-					if W.select~=s then
-						W.code(W.list[s])
-						W.select=s
-						W.selText=W.list[s]
-						SFX.play("prerotate")
-					end
+				end
+				if W.select~=s then
+					W.code(W.list[s])
+					W.select=s
+					W.selText=W.list[s]
+					SFX.play("prerotate")
 				end
 			end
 		end
-	elseif i=="up"or i=="down"or i=="left"or i=="right"then
+	elseif key=="up"or key=="down"or key=="left"or key=="right"then
 		if WIDGET.sel then
 			local W=WIDGET.sel
 			if W.getCenter then
 				local WX,WY=W:getCenter()
-				local dir=(i=="right"or i=="down")and 1 or -1
+				local dir=(key=="right"or key=="down")and 1 or -1
 				local tar
 				local minDist=1e99
-				if i=="left"or i=="right"then
+				if key=="left"or key=="right"then
 					for i=1,#WIDGET.active do
 						local W1=WIDGET.active[i]
 						if W~=W1 and W1.resCtr then
@@ -787,6 +861,25 @@ function WIDGET.keyPressed(i)
 				end
 			end
 		end
+	else
+		if WIDGET.sel and WIDGET.sel.type=="textBox"then
+			local t=WIDGET.sel.value
+			if key=="backspace"then
+				if #t>0 then
+					while t:byte(#t)>=128 and t:byte(#t)<192 do
+						t=sub(t,1,-2)
+					end
+					t=sub(t,1,-2)
+					SFX.play("lock")
+				end
+			elseif key=="delete"then
+				if #t>0 then
+					t=""
+					SFX.play("hold")
+				end
+			end
+			WIDGET.sel.value=t
+		end
 	end
 end
 local keyMirror={
@@ -799,9 +892,7 @@ local keyMirror={
 }
 function WIDGET.gamepadPressed(i)
 	if i=="start"then
-		if WIDGET.sel then
-			WIDGET.press()
-		end
+		WIDGET.press()
 	elseif i=="a"or i=="b"then
 		local W=WIDGET.sel
 		if W then

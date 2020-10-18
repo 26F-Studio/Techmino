@@ -19,7 +19,6 @@ LOGIN=false
 --Global Setting & Vars
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
-love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 system=love.system.getOS()
