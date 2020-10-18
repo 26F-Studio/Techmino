@@ -2715,7 +2715,7 @@ function player.win(P,result)
 	if P.human then
 		gameOver()
 		TASK.new(TICK.autoPause,{0})
-		if marking then
+		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
 	end
@@ -2820,7 +2820,7 @@ function player.lose(P)
 		gameOver()
 		P:newTask(#players>1 and TICK.lose or TICK.finish)
 		TASK.new(TICK.autoPause,{0})
-		if marking then
+		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
 	else

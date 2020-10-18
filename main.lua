@@ -11,8 +11,10 @@
 --?
 function NULL()end
 DBP=print--use this if need debugging print
-marking=true
+MARKING=true
+LOADED=false
 NOGAME=false
+LOGIN=false
 
 --Global Setting & Vars
 math.randomseed(os.time()*626)
