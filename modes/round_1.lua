@@ -13,7 +13,7 @@ end
 return{
 	color=color.cyan,
 	env={
-		drop=1e99,lock=1e99,
+		drop=300,lock=300,
 		oncehold=false,
 		dropPiece=update_round,
 		bg="rainbow",bgm="push",
