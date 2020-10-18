@@ -128,6 +128,8 @@ do--calculator
 			elseif v==1379e8+2626e4+1379 then
 				S.pass=true
 				SCN.go("debug")
+			elseif v%1==0 and v>=6001 and v<=6012 then
+				love.keypressed("f"..(v-6000))
 			end
 		elseif k=="escape"then
 			S.val,S.reg,S.sym="0"
