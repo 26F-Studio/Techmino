@@ -633,7 +633,7 @@ local langList={
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
 		getRank="本局评级:",
-		ranks={"菜","可","好","强","您"},
+		ranks={"差","可","中","良","优"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -2380,7 +2380,7 @@ local langList={
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
 		getRank="本局评级:",
-		ranks={"D","C","B","A","S"},
+		ranks={"菜","可","好","强","您"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",

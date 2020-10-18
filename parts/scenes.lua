@@ -615,9 +615,6 @@ do--mode
 		end
 	end
 
-	local rankString={
-		"D","C","B","A","S",
-	}
 	local modeRankColor={
 		color.dRed,		--D
 		color.dOrange,	--C
@@ -636,7 +633,6 @@ do--mode
 		gc.scale(cam.k1)
 		local R=modeRanks
 		local sel=cam.sel
-		setFont(30)
 
 		--Draw lines connecting modes
 		gc.setLineWidth(8)
@@ -650,6 +646,7 @@ do--mode
 			end
 		end
 
+		setFont(60)
 		for name,M in next,Modes do
 			if R[name]then
 				local S=M.size
@@ -685,10 +682,10 @@ do--mode
 						gc.circle("line",M.x,M.y,S,8)
 					end
 				end
-				name=drawableText[rankString[R[M.name]]]
+				name=text.ranks[R[M.name]]
 				if name then
 					gc.setColor(0,0,0,.26)
-					mDraw(name,M.x,M.y)
+					mStr(name,M.x,M.y-40)
 				end
 				--[[
 				if M.icon then
