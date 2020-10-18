@@ -456,6 +456,9 @@ local langList={
 				path="打开存储目录",
 				back="返回",
 			},
+			login={
+				title="登录/注册",
+			},
 			account={
 				title="账户",
 			},
@@ -1041,6 +1044,9 @@ local langList={
 				path="打开存储目录",
 				back="返回",
 			},
+			login={
+				title="登录/注册",
+			},
 			account={
 				title="账户",
 			},
@@ -1615,6 +1621,9 @@ local langList={
 			stat={
 				path="Open Data Folder",
 				back="Back",
+			},
+			login={
+				title="Log in / Sign up",
 			},
 			account={
 				title="Account",
@@ -2205,6 +2214,9 @@ local langList={
 				path="_$_",
 				back="X",
 			},
+			login={
+				title="Log in / Sign up",
+			},
 			account={
 				title="@_@",
 			},
@@ -2786,6 +2798,9 @@ local langList={
 			stat={
 				path="打开存储目录",
 				back="返回",
+			},
+			login={
+				title="登录/注册",
 			},
 			account={
 				title="账户",
