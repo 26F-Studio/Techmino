@@ -112,7 +112,7 @@ do--calculator
 			local v=tonumber(S.val)
 			if v==600+26 then S.pass=true
 			elseif v==190000+6022 then
-				S.pass,marking=true
+				S.pass,MARKING=true
 				LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 				SFX.play("clear")
 			elseif v==72943816 then
@@ -180,7 +180,7 @@ do--load
 		if k=="a"then
 			sceneTemp.skip=true
 		elseif k=="s"then
-			sceneTemp.skip,marking=true
+			sceneTemp.skip,MARKING=true
 		elseif k=="escape"then
 			SCN.back()
 		end
@@ -1681,7 +1681,7 @@ do--play
 		end
 	end
 	function Pnt.play()
-		if marking then
+		if MARKING then
 			setFont(26)
 			local t=Timer()
 			gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
@@ -2768,6 +2768,18 @@ do--stat
 		end
 
 		gc.draw(IMG.title,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
+	end
+end
+do--login
+	function Pnt.login()
+		local S=sceneTemp
+
+	end
+end
+do--account
+	function Pnt.account()
+		local S=sceneTemp
+
 	end
 end
 do--minigame

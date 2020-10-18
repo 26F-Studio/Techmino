@@ -161,7 +161,7 @@ local Widgets={
 		newButton({name="lang",		x=150,y=590,w=200,h=80,color="lGreen",	font=45,code=goScene("setting_lang")}),
 		newButton({name="music",	x=370,y=590,w=200,h=80,color="lPurple",	font=30,code=goScene("music")}),
 		newButton({name="quit",		x=590,y=590,w=200,h=80,color="lGrey",	font=45,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end}),
-		newKey({name="account",		x=150,y=670,w=200,h=60,color="dRed",			code=goScene("account")}),
+		newKey({name="account",		x=150,y=670,w=200,h=60,color="red",				code=function()SCN.go(LOGIN and"account"or"login")end}),
 		newKey({name="minigame",	x=370,y=670,w=200,h=60,color="grey",			code=goScene("minigame")}),
 	},
 	mode={
