@@ -26,7 +26,7 @@ local function flipList(O)--Use this to copy a symmetry list
 	end
 	return L
 end
-local function reflect(a,b)
+local function reflect(a)
 	local b={}
 	b[03]=flipList(a[01])
 	b[01]=flipList(a[03])

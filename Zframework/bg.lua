@@ -1,12 +1,12 @@
 local gc=love.graphics
-local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
-local max,min,sin,cos=math.max,math.min,math.sin,math.cos
+local int,ceil,rnd=math.floor,math.ceil,math.random
+local max,min,sin=math.max,math.min,math.sin
 local ins,rem=table.insert,table.remove
 
-local BG
+local function NULL(...)end
 local SCR=SCR
 local BGvars={_G=_G,SHADER=SHADER}
-
+local BG
 local back={}
 back.none={
 	draw=function()
@@ -208,7 +208,7 @@ back.aura={
 		t=rnd()*3600
 		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
+	resize=function(_,h)
 		SHADER.aura:send("w",SCR.W)
 		SHADER.aura:send("h",h*SCR.dpi)
 	end,
@@ -225,9 +225,9 @@ back.aura={
 back.bg1={
 	init=function()
 		t=0
-		BG.resize(SCR.w)
+		BG.resize()
 	end,
-	resize=function(w)
+	resize=function()
 		SHADER.gradient1:send("w",SCR.W)
 	end,
 	update=function(dt)
@@ -245,7 +245,7 @@ back.bg2={
 		t=0
 		BG.resize(nil,SCR.h)
 	end,
-	resize=function(w,h)
+	resize=function(_,h)
 		SHADER.gradient2:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
@@ -263,7 +263,7 @@ back.rainbow={
 		t=0
 		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
+	resize=function(_,h)
 		SHADER.rgb1:send("w",SCR.W)
 		SHADER.rgb1:send("h",h*SCR.dpi)
 	end,
@@ -282,7 +282,7 @@ back.rainbow2={
 		t=0
 		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
+	resize=function(_,h)
 		SHADER.rgb2:send("w",SCR.W)
 		SHADER.rgb2:send("h",h*SCR.dpi)
 	end,
@@ -365,7 +365,7 @@ back.space={
 		W,H=SCR.w+20,SCR.h+20
 		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
+	resize=function()
 		local S=stars
 		for i=1,1260,5 do
 			local s=rnd(26,40)*.1
@@ -376,7 +376,7 @@ back.space={
 			S[i+4]=(rnd()-.5)*.01*s	--Vy
 		end
 	end,
-	update=function(dt)
+	update=function()
 		local S=stars
 		--Star moving
 		for i=1,1260,5 do
@@ -404,31 +404,31 @@ back.space={
 
 --Make BG vars invisible
 for _,bg in next,back do
-	if not bg.init		then bg.init=	NULL end setfenv(bg.init	,BGvars)
-	if not bg.resize	then bg.resize=	NULL end setfenv(bg.resize	,BGvars)
-	if not bg.update	then bg.update=	NULL end setfenv(bg.update	,BGvars)
-	if not bg.draw		then bg.draw=	NULL end setfenv(bg.draw	,BGvars)
-	if not bg.event		then bg.event=	NULL end setfenv(bg.event	,BGvars)
-	if not bg.discard	then bg.discard=NULL end setfenv(bg.discard	,BGvars)
+	if bg.init		then setfenv(bg.init	,BGvars)end
+	if bg.resize	then setfenv(bg.resize	,BGvars)end
+	if bg.update	then setfenv(bg.update	,BGvars)end
+	if bg.draw		then setfenv(bg.draw	,BGvars)end
+	if bg.event		then setfenv(bg.event	,BGvars)end
+	if bg.discard	then setfenv(bg.discard	,BGvars)end
 end
 
 BG={
 	cur="none",
+	init=NULL,
 	resize=NULL,
 	update=NULL,
 	draw=back.none.draw,
+	event=NULL,
+	discard=NULL,
 }
 function BG.send(data)
 	if BG.event then
 		BG.event(data)
 	end
 end
-function BG.set(bg,data)
+function BG.set(bg)
 	if bg==BG.cur or not SETTING.bg then return end
-	if BG.discard then
-		BG.discard()
-		collectgarbage()
-	end
+	BG.discard()
 	if not back[bg]then
 		LOG.print("No BG called"..bg,"warn")
 		return

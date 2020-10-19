@@ -102,7 +102,6 @@ function button:FX()
 		self.y-ATV,
 		self.w+2*ATV,
 		self.h+2*ATV
-		,5
 	)
 end
 function button:update()
@@ -329,7 +328,6 @@ local slider={
 	pos=0,--Position shown
 }
 local sliderShowFunc={
-	none=NULL,
 	int=function(S)
 		return S.disp()
 	end,
@@ -733,7 +731,7 @@ function WIDGET.press(x,y)
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end
 end
-function WIDGET.drag(x,y,dx,dy)
+function WIDGET.drag(x,y)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=="slider"then
@@ -851,7 +849,7 @@ function WIDGET.keyPressed(key)
 				end
 			end
 		else
-			for k,v in next,WIDGET.active do
+			for _,v in next,WIDGET.active do
 				if v.isAbove then
 					WIDGET.sel=v
 					break

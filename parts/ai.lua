@@ -87,15 +87,6 @@ if CC then
 end
 -------------------------------------------------9 Stack setup
 local dirCount={1,1,3,3,3,0,1}
-local spinOffset={
-	{[0]=0,1,0,0},--Z
-	{[0]=0,1,0,0},--L
-	{[0]=0,1,0,0},--J
-	{[0]=0,1,0,0},--T
-	{[0]=0,1,0,0},--S
-	{[0]=0,0,0,0},--O
-	{[0]=0,2,0,1},--I
-}
 local FCL={
 	[1]={
 		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12}},
@@ -281,7 +272,7 @@ return{
 			return 1
 		end,
 	},
-	["CC"]={
+	["CC"]=CC and{
 		[0]=NULL,
 		function(P)--Start thinking
 			if not pcall(CC.think,P.AI_bot)then

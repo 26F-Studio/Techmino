@@ -231,7 +231,7 @@ elseif SETTING.lang==3 then
 elseif SETTING.lang==4 then
 	L={'!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','\\','|',';',':','\'','"',',','<','.','>','/','?'}
 	local s=""
-	for i=1,math.random(16,26)do
+	for _=1,math.random(16,26)do
 		s=s..L[math.random(#L)]
 	end
 	return s

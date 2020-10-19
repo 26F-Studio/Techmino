@@ -9,7 +9,7 @@
 ]]--
 
 --?
-function NULL()end
+NULL=function()end
 DBP=print--use this if need debugging print
 SYSTEM=love.system.getOS()
 MARKING=true
@@ -157,7 +157,7 @@ if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 do
 	local R=modeRanks
 	R.sprint_10=R.sprint_10 or 0
-	for k,v in next,R do
+	for k,_ in next,R do
 		if type(k)=="number"then
 			R[k]=nil
 		end

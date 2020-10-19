@@ -1,5 +1,4 @@
 local min=math.min
-local rem=table.remove
 
 local function fadeOut(id)
 	local src=BGM.list[id]

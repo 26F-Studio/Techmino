@@ -2,7 +2,7 @@ local gc=love.graphics
 local mt=love.math
 local Timer=love.timer.getTime
 local int,ceil,rnd=math.floor,math.ceil,math.random
-local max,min,abs,sin,cos,log=math.max,math.min,math.abs,math.sin,math.cos,math.log
+local max,min,abs,sin=math.max,math.min,math.abs,math.sin
 local ins,rem=table.insert,table.remove
 local format=string.format
 local SCR=SCR
@@ -67,7 +67,7 @@ local PLY={}--Lib
 --------------------------</LIB>--------------------------
 
 --------------------------<Update>--------------------------
-local function updateLine(P,dt)--Attacks, line pushing, cam moving
+local function updateLine(P)--Attacks, line pushing, cam moving
 	local bf=P.atkBuffer
 	for i=#bf,1,-1 do
 		local A=bf[i]
@@ -96,7 +96,7 @@ local function updateLine(P,dt)--Attacks, line pushing, cam moving
 			y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.imgY-17),0)
 		end
 		if f~=y then
-			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or ceil(f*.97+y*.03+1,y)
+			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or min(f*.97+y*.03+1,y)
 		end
 	end
 end
@@ -329,7 +329,7 @@ local function Pupdate_alive(P,dt)
 				D=1/D--Fall dist
 				if D>P.curY-P.imgY then D=P.curY-P.imgY end
 				if P.gameEnv.moveFX and P.gameEnv.block then
-					for i=1,D do
+					for _=1,D do
 						P:createMoveFX("down")
 						P.curY=P.curY-1
 					end
@@ -368,7 +368,7 @@ local function Pupdate_alive(P,dt)
 	if P.finesseComboTime>0 then
 		P.finesseComboTime=P.finesseComboTime-1
 	end
-	updateLine(P,dt)
+	updateLine(P)
 	updateFXs(P,dt)
 	updateTasks(P)
 end
@@ -396,7 +396,7 @@ local function Pupdate_dead(P,dt)
 	if P.finesseComboTime>0 then
 		P.finesseComboTime=P.finesseComboTime-1
 	end
-	updateLine(P,dt)
+	updateLine(P)
 	updateFXs(P,dt)
 	updateTasks(P)
 end
@@ -722,10 +722,10 @@ local Pdraw_norm do
 					if P.lockDelay>=0 then
 						gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
 					end
-					_=3
-					for i=1,min(ENV.freshLimit-P.freshTime,15)do
-						gc.rectangle("fill",_,615,14,5)
-						_=_+20
+					local x=3
+					for _=1,min(ENV.freshLimit-P.freshTime,15)do
+						gc.rectangle("fill",x,615,14,5)
+						x=x+20
 					end
 
 					--Draw Hold
@@ -1129,7 +1129,6 @@ end
 local function loadGameEnv(P)--Load gameEnv
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
-	local E
 	--Load game settings
 	for k,v in next,gameEnv0 do
 		if modeEnv[k]~=nil then
@@ -1567,7 +1566,7 @@ function player.createBeam(P,R,send,time,target,color,clear,combo)
 		end
 	else
 		if combo>3 then
-			radius=min(15+combo,30)
+			radius=min(15+combo,30)+time*.1
 			corner=3
 		else
 			radius=30
@@ -1577,7 +1576,7 @@ function player.createBeam(P,R,send,time,target,color,clear,combo)
 		g=1-g*.3
 		b=1-b*.3
 	end
-	if modeEnv.royaleMode and not(P.human or R.human)then
+	if modeEnv.royaleMode and not P.human and not R.human then
 		radius=radius*.4
 		a=.35
 	end
@@ -2198,7 +2197,7 @@ do--player.drop(P)--Place piece
 			else
 				_=#P.lockFX
 				if _>0 then
-					for i=1,_ do
+					for _=1,_ do
 						rem(P.lockFX)
 					end
 				end
@@ -2223,7 +2222,7 @@ do--player.drop(P)--Place piece
 			finesse=true
 		elseif CY<=18 then
 			local y0=CY
-			local x,c=CX,P.c
+			local c=P.c
 			local B=CB.bk
 			for x=1,c do
 				local y
@@ -2970,7 +2969,7 @@ end
 function player.act.func(P)
 	P.gameEnv.Fkey(P)
 end
-function player.act.restart(P)
+function player.act.restart()
 	if GAME.frame<240 or GAME.result then
 		resetPartGameData()
 	else
@@ -3170,7 +3169,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,x,y,size,actions)
+function PLY.newRemotePlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
 
 	P.human=false

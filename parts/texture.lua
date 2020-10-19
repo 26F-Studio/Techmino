@@ -5,7 +5,6 @@ local function C(x,y)
 	gc.setCanvas(_)
 	return _
 end
-local c
 local TEXTURE={}
 
 gc.setDefaultFilter("nearest","nearest")

@@ -1,5 +1,4 @@
 local rnd=math.random
-local ins,rem=table.insert,table.remove
 local mobileHide=(SYSTEM=="Android"or SYSTEM=="iOS")and function()return true end
 local function BACK()SCN.back()end
 local virtualkeySet={
@@ -102,7 +101,6 @@ local function SETsto(k)	return function(i)	SETTING[k]=i					end end
 local function STPval(k)	return function()	return sceneTemp[k]				end end
 local function STPrev(k)	return function()	sceneTemp[k]=not sceneTemp[k]	end end
 local function STPeq(k,v)	return function()	return sceneTemp[k]==v			end end
-local function STPsto(k)	return function(i)	sceneTemp[k]=i					end end
 
 local function prevSkin(n)	return function()	SKIN.prev(n)					end end
 local function nextSkin(n)	return function()	SKIN.next(n)					end end
@@ -644,20 +642,20 @@ local Widgets={
 	},
 	dict={
 		newText({name="title",		x=20,y=5,font=70,align="L"}),
-		newKey({name="link",		x=1140,y=650,w=200,h=80,	font=35,code=pressKey("link"),hide=function()return not sceneTemp.url end}),
-		newButton({name="back",		x=1165,y=60,w=170,h=80,		font=40,code=BACK}),
+		newKey({name="link",		x=1140,y=650,w=200,h=80,font=35,code=pressKey("link"),hide=function()return not sceneTemp.url end}),
+		newButton({name="back",		x=1165,y=60,w=170,h=80,font=40,code=BACK}),
 	},
 	staff={
-		newButton({name="back",		x=1140,	y=640,w=170,h=80,	font=40,code=BACK}),
+		newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	history={
-		newKey({name="prev",		x=1155,	y=170,w=180,		font=65,code=pressKey("up"),hide=STPeq("pos",1)}),
-		newKey({name="next",		x=1155,	y=400,w=180,		font=65,code=pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
-		newButton({name="back",		x=1140,	y=640,w=170,h=80,	font=40,code=BACK}),
+		newKey({name="prev",		x=1155,	y=170,w=180,font=65,code=pressKey("up"),hide=STPeq("pos",1)}),
+		newKey({name="next",		x=1155,	y=400,w=180,font=65,code=pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
+		newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	stat={
-		newButton({name="path",		x=980,	y=620,w=250,h=80,	font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=mobileHide}),
-		newButton({name="back",		x=640,	y=620,w=200,h=80,	font=35,code=BACK}),
+		newButton({name="path",		x=980,	y=620,w=250,h=80,font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=mobileHide}),
+		newButton({name="back",		x=640,	y=620,w=200,h=80,font=35,code=BACK}),
 	},
 	login={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
@@ -676,20 +674,20 @@ local Widgets={
 	},
 	p15={
 		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space")}),
-		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,	font=30,disp=STPval("color"),	code=function(v)if sceneTemp.state~=1 then sceneTemp.color=v end end,hide=STPeq("state",1)}),
-		newSwitch({name="blind",	x=240,y=330,w=60,						font=40,disp=STPval("blind"),	code=pressKey("w"),	hide=STPeq("state",1)}),
-		newSwitch({name="slide",	x=240,y=420,w=60,						font=40,disp=STPval("slide"),	code=pressKey("e"),	hide=STPeq("state",1)}),
-		newSwitch({name="pathVis",	x=240,y=510,w=60,						font=40,disp=STPval("pathVis"),	code=pressKey("r"),	hide=function()return sceneTemp.state==1 or not sceneTemp.slide end}),
-		newSwitch({name="revKB",	x=240,y=600,w=60,						font=40,disp=STPval("revKB"),	code=pressKey("t"),	hide=STPeq("state",1)}),
-		newButton({name="back",		x=1140,y=640,w=170,h=80,				font=40,code=BACK}),
+		newSlider({name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=STPval("color"),	code=function(v)if sceneTemp.state~=1 then sceneTemp.color=v end end,hide=STPeq("state",1)}),
+		newSwitch({name="blind",	x=240,y=330,w=60,					font=40,disp=STPval("blind"),	code=pressKey("w"),	hide=STPeq("state",1)}),
+		newSwitch({name="slide",	x=240,y=420,w=60,					font=40,disp=STPval("slide"),	code=pressKey("e"),	hide=STPeq("state",1)}),
+		newSwitch({name="pathVis",	x=240,y=510,w=60,					font=40,disp=STPval("pathVis"),	code=pressKey("r"),	hide=function()return sceneTemp.state==1 or not sceneTemp.slide end}),
+		newSwitch({name="revKB",	x=240,y=600,w=60,					font=40,disp=STPval("revKB"),	code=pressKey("t"),	hide=STPeq("state",1)}),
+		newButton({name="back",		x=1140,y=640,w=170,h=80,			font=40,code=BACK}),
 	},
 	schulte_G={
-		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",	font=40,code=pressKey("space"),hide=function()return sceneTemp.state==0 end}),
-		newSlider({name="rank",		x=130,y=250,w=150,unit=3,show=false,	font=40,disp=function()return sceneTemp.rank-3 end,		code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end}),
-		newSwitch({name="blind",	x=240,y=330,w=60,						font=40,disp=STPval("blind"),		code=pressKey("q"),hide=STPeq("state",1)}),
-		newSwitch({name="disappear",x=240,y=420,w=60,						font=40,disp=STPval("disappear"),	code=pressKey("w"),hide=STPeq("state",1)}),
-		newSwitch({name="tapFX",	x=240,y=510,w=60,						font=40,disp=STPval("tapFX"),		code=pressKey("e"),hide=STPeq("state",1)}),
-		newButton({name="back",		x=1140,y=640,w=170,h=80,				font=40,code=BACK}),
+		newButton({name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey("space"),hide=function()return sceneTemp.state==0 end}),
+		newSlider({name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end}),
+		newSwitch({name="blind",	x=240,y=330,w=60,					font=40,disp=STPval("blind"),	code=pressKey("q"),hide=STPeq("state",1)}),
+		newSwitch({name="disappear",x=240,y=420,w=60,					font=40,disp=STPval("disappear"),code=pressKey("w"),hide=STPeq("state",1)}),
+		newSwitch({name="tapFX",	x=240,y=510,w=60,					font=40,disp=STPval("tapFX"),	code=pressKey("e"),hide=STPeq("state",1)}),
+		newButton({name="back",		x=1140,y=640,w=170,h=80,			font=40,code=BACK}),
 	},
 	pong={
 		newKey({name="reset",		x=640,y=45,w=150,h=50,		font=35,code=pressKey("r")}),

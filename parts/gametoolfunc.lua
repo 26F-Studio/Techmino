@@ -1,8 +1,7 @@
-local tm,gc=love.timer,love.graphics
-local kb,data=love.keyboard,love.data
-local int,abs,rnd=math.floor,math.abs,math.random
-local max,min=math.max,math.min
-local sub,find=string.sub,string.find
+local tm=love.timer
+local data=love.data
+local int,rnd=math.floor,math.random
+local sub=string.sub
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
 
@@ -108,24 +107,24 @@ function copySequence()
 	return str
 end
 function pasteSequence(str)
-	local _
+	local b
 
 	local bag={}
 	local reg
 	for i=1,#str do
-		_=byte(str,i)
+		b=byte(str,i)
 		if not reg then
-			if _>=97 and _<=125 then
-				reg=_-96
+			if b>=97 and b<=125 then
+				reg=b-96
 			else
 				return
 			end
 		else
-			if _>=97 and _<=125 then
+			if b>=97 and b<=125 then
 				ins(bag,reg)
-				reg=_-96
-			elseif _>=34 and _<=96 then
-				for i=1,_-32 do
+				reg=b-96
+			elseif b>=34 and b<=96 then
+				for _=1,b-32 do
 					ins(bag,reg)
 				end
 				reg=nil
@@ -251,27 +250,27 @@ function copyMission()
 	return str
 end
 function pasteMission(str)
-	local _
+	local b
 	local mission={}
 	local reg
 	for i=1,#str do
-		_=byte(str,i)
+		b=byte(str,i)
 		if not reg then
-			if _>=34 and _<=114 then
-				reg=_-33
+			if b>=34 and b<=114 then
+				reg=b-33
 			else
 				return
 			end
 		else
-			if _>=34 and _<=114 then
+			if b>=34 and b<=114 then
 				if missionEnum[reg]then
 					ins(mission,reg)
-					reg=_-33
+					reg=b-33
 				else
 					return
 				end
-			elseif _>=115 and _<=126 then
-				for i=1,_-113 do
+			elseif b>=115 and b<=126 then
+				for _=1,b-113 do
 					ins(mission,reg)
 				end
 				reg=nil

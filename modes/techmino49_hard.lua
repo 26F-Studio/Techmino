@@ -1,5 +1,5 @@
 local gc=love.graphics
-local int,rnd=math.floor,math.random
+local rnd=math.random
 local powerUp={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 local function selectTarget(P)
 	if SETTING.swap then

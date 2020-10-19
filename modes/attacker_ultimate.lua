@@ -1,4 +1,4 @@
-local int,min=math.floor,math.min
+local min=math.min
 return{
 	color=color.lYellow,
 	env={
