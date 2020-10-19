@@ -776,114 +776,85 @@ function WIDGET.keyPressed(key)
 	elseif kb.isDown("lshift","lalt","lctrl")and key=="left"or key=="right"then
 					--When hold [↑], control slider with left/right
 		local W=WIDGET.sel
-		if W then
-			if W.type=="slider"then
-				local p=W.disp()
-				local u=(W.smooth and .01 or 1)
-				local P=key=="left"and max(p-u,0)or min(p+u,W.unit)
-				if p==P or not P then return end
-				W.code(P)
-				if W.change and Timer()-W.lastTime>.18 then
-					W.lastTime=Timer()
-					W.change()
-				end
-			elseif W.type=="selector"then
-				local s=W.select
-				if key=="left"then
-					if s>1 then
-						s=s-1
-						sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
-					end
-				else
-					if s<#W.list then
-						s=s+1
-						sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
-					end
-				end
-				if W.select~=s then
-					W.code(W.list[s])
-					W.select=s
-					W.selText=W.list[s]
-					SFX.play("prerotate")
-				end
+		if not W then return end
+		local isLeft = key == "left"
+		if W.type=="slider"then
+			local p=W.disp()
+			local u=(W.smooth and .01 or 1)
+			local P= isLeft and max(p-u,0)or min(p+u,W.unit)
+			if p==P or not P then return end
+			W.code(P)
+			if W.change and Timer()-W.lastTime>.18 then
+				W.lastTime=Timer()
+				W.change()
 			end
+		elseif W.type=="selector"then
+			local s=W.select
+			if not ((isLeft and s > 1) or ((not isLeft) and s < #W.list)) then return end
+			if isLeft then
+				s=s-1
+				sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
+			else
+				s=s+1
+				sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
+			end
+			W.code(W.list[s])
+			W.select=s
+			W.selText=W.list[s]
+			SFX.play("prerotate")
 		end
 	elseif key=="up"or key=="down"or key=="left"or key=="right"then
-		if WIDGET.sel then
-			local W=WIDGET.sel
-			if W.getCenter then
-				local WX,WY=W:getCenter()
-				local dir=(key=="right"or key=="down")and 1 or -1
-				local tar
-				local minDist=1e99
-				if key=="left"or key=="right"then
-					for i=1,#WIDGET.active do
-						local W1=WIDGET.active[i]
-						if W~=W1 and W1.resCtr then
-							local L=W1.resCtr
-							for j=1,#L,2 do
-								local x,y=L[j],L[j+1]
-								local dist=(x-WX)*dir
-								if dist>10 then
-									dist=dist+abs(y-WY)*6.26
-									if dist<minDist then
-										minDist=dist
-										tar=W1
-									end
-								end
-							end
-						end
-					end
-				else
-					for i=1,#WIDGET.active do
-						local W1=WIDGET.active[i]
-						if W~=W1 and W1.resCtr then
-							local L=W1.resCtr
-							for j=1,#L,2 do
-								local x,y=L[j],L[j+1]
-								local dist=(y-WY)*dir
-								if dist>10 then
-									dist=dist+abs(x-WX)*6.26
-									if dist<minDist then
-										minDist=dist
-										tar=W1
-									end
-								end
-							end
-						end
-					end
-				end
-				if tar then
-					WIDGET.sel=tar
-				end
-			end
-		else
+		if not WIDGET.sel then
 			for _,v in next,WIDGET.active do
 				if v.isAbove then
 					WIDGET.sel=v
-					break
+					return
 				end
 			end
+			return
 		end
-	else
-		if WIDGET.sel and WIDGET.sel.type=="textBox"then
-			local t=WIDGET.sel.value
-			if key=="backspace"then
-				if #t>0 then
-					while t:byte(#t)>=128 and t:byte(#t)<192 do
-						t=sub(t,1,-2)
+		local W=WIDGET.sel
+		if not W.getCenter then return end
+		local WX,WY=W:getCenter()
+		local dir=(key=="right"or key=="down")and 1 or -1
+		local tar
+		local minDist=1e99
+		local swap_xy = not (key=="left" or key == "right")
+		if swap_xy then WX, WY = WY, WX end -- note that we do not swap them back later
+		for i, W1 in ipairs(WIDGET.active) do
+			if W~=W1 and W1.resCtr then
+				local L=W1.resCtr
+				for j=1,#L,2 do
+					local x,y=L[j],L[j+1]
+					if swap_xy then x, y = y, x end -- note that we do not swap them back later
+					local dist=(x-WX)*dir
+					if dist>10 then
+						dist=dist+abs(y-WY)*6.26
+						if dist<minDist then
+							minDist=dist
+							tar=W1
+						end
 					end
-					t=sub(t,1,-2)
-					SFX.play("lock")
-				end
-			elseif key=="delete"then
-				if #t>0 then
-					t=""
-					SFX.play("hold")
 				end
 			end
-			WIDGET.sel.value=t
 		end
+		if tar then
+			WIDGET.sel=tar
+		end
+	elseif WIDGET.sel and WIDGET.sel.type=="textBox"then
+		local t=WIDGET.sel.value
+		if #t <= 0 then return end
+		if key=="backspace"then
+			while t:byte(#t)>=128 and t:byte(#t)<192 do
+				t=sub(t,1,-2)
+			end
+			t=sub(t,1,-2)
+			SFX.play("lock")
+		elseif key=="delete"then
+			t=""
+			SFX.play("hold")
+		end
+		WIDGET.sel.value=t
 	end
 end
 local keyMirror={
