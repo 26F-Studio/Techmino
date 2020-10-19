@@ -58,20 +58,17 @@ function image:reset()
 end
 function image:draw()
 	gc.setColor(1,1,1,self.alpha)
-	gc.draw(self.img,self.x,self.y,self.ang,self.kx,self.ky,self.ox,self.oy)
+	gc.draw(self.img,self.x,self.y,self.ang,self.k)
 end
 function WIDGET.newImage(D)
 	local _={
 		name=	D.name,
-		img=	D.img,
-		alpha=	D.alpha or 1,
+		img=	D.img or D.name,
+		alpha=	D.alpha,
 		x=		D.x,
 		y=		D.y,
 		ang=	D.ang,
-		kx=		D.kx,
-		ky=		D.ky,
-		ox=		D.ox,
-		oy=		D.oy,
+		k=		D.k,
 		hide=	D.hide,
 	}
 	for k,v in next,image do _[k]=v end

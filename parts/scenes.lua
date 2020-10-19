@@ -2476,8 +2476,6 @@ do--help
 		gc.setLineWidth(3)
 		gc.rectangle("line",18,18,263,263)
 		gc.rectangle("line",1012,18,250,250)
-		gc.draw(IMG.pay1,20,20)
-		gc.draw(IMG.pay2,1014,20)
 		setFont(20)
 		mStr(text.group,640,490)
 		gc.setColor(1,1,1,sin(Timer()*20)*.3+.6)
