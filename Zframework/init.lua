@@ -21,7 +21,7 @@ LIGHT=	require("Zframework/light")
 local ms=love.mouse
 local gc=love.graphics
 local int,rnd,abs=math.floor,math.random,math.abs
-local max,min=math.max,math.min
+local min=math.min
 local ins,rem=table.insert,table.remove
 local SCR=SCR
 
@@ -85,7 +85,7 @@ local keyDown,keyUp=keyDown,keyUp
 local gamepadDown,gamepadUp=gamepadDown,gamepadUp
 -------------------------------------------------------------
 local lastX,lastY=0,0--Last clickDown pos
-function love.mousepressed(x,y,k,touch,num)
+function love.mousepressed(x,y,k,touch)
 	if touch then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
@@ -112,12 +112,12 @@ function love.mousemoved(x,y,dx,dy,t)
 		mouseMove[SCN.cur](mx,my,dx,dy)
 	end
 	if ms.isDown(1) then
-		WIDGET.drag(mx,my,dx,dy)
+		WIDGET.drag(mx,my)
 	else
 		WIDGET.moveCursor(mx,my)
 	end
 end
-function love.mousereleased(x,y,k,touch,num)
+function love.mousereleased(x,y,k,touch)
 	if touch or SCN.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	WIDGET.release(mx,my)
@@ -155,7 +155,7 @@ function love.touchmoved(id,x,y,dx,dy)
 	end
 	if WIDGET.sel then
 		if touching then
-			WIDGET.drag(x,y,dx,dy)
+			WIDGET.drag(x,y)
 		end
 	else
 		WIDGET.moveCursor(x,y)
@@ -281,7 +281,7 @@ local keyMirror={
 	start="return",
 	back="escape",
 }
-function love.gamepadpressed(joystick,i)
+function love.gamepadpressed(_,i)
 	mouseShow=false
 	if SCN.swapping then return end
 	if gamepadDown[SCN.cur]then gamepadDown[SCN.cur](i)
@@ -290,7 +290,7 @@ function love.gamepadpressed(joystick,i)
 	else WIDGET.gamepadPressed(i)
 	end
 end
-function love.gamepadreleased(joystick,i)
+function love.gamepadreleased(_,i)
 	if SCN.swapping then return end
 	if gamepadUp[SCN.cur]then gamepadUp[SCN.cur](i)
 	end
@@ -336,7 +336,7 @@ function love.resize(w,h)
 		SCR.x,SCR.y=(w-h*16/9)*.5,0
 	end
 	xOy=xOy:setTransformation(w*.5,h*.5,nil,SCR.k,nil,640,360)
-	BG.resize(w,h)
+	if BG.resize then BG.resize(w,h)end
 
 	SHADER.warning:send("w",w*SCR.dpi)
 	SHADER.warning:send("h",h*SCR.dpi)
@@ -366,7 +366,7 @@ function love.errorhandler(msg)
 			c=3
 		end
 	end
-	print(table.concat(err,"\n"),1,c-2)
+	DBP(table.concat(err,"\n"),1,c-2)
 	gc.reset()
 	local CAP
 	local function _(_)CAP=gc.newImage(_)end
@@ -380,7 +380,7 @@ function love.errorhandler(msg)
 	local count=0
 	return function()
 		PUMP()
-		for E,a,b,c,d,e in POLL()do
+		for E,a,b in POLL()do
 			if E=="quit"or a=="escape"then
 				destroyPlayers()
 				return 1
@@ -445,7 +445,6 @@ function love.run()
 	local mini=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 
-	local waitTime=1/60
 	local frameTimeList={}
 
 	local lastFrame=Timer()

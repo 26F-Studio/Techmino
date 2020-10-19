@@ -1,6 +1,4 @@
 local fs=love.filesystem
-local int=math.floor
-local toN,toS=tonumber,tostring
 
 local files={
 	data=	fs.newFile("data.dat"),

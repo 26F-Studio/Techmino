@@ -23,7 +23,7 @@ local IMG={
 }
 local list={}
 local count=0
-for k,v in next,IMG do
+for k,_ in next,IMG do
 	count=count+1
 	list[count]=k
 end

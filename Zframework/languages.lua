@@ -2996,7 +2996,6 @@ end
 local langMeta={__index=langList[1]}
 for i=2,#langList do setmetatable(langList[i],langMeta)end
 
-local gc=love.graphics
 local LANG={}
 local drawableTextLoad={
 	"anykey",
@@ -3013,7 +3012,7 @@ end
 function LANG.set(l)
 	text=langList[l]
 	for S,L in next,Widgets do
-		for N,W in next,L do
+		for _,W in next,L do
 			W.text=text.WidgetText[S][W.name]
 		end
 	end

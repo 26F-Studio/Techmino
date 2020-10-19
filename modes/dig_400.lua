@@ -1,5 +1,5 @@
 local function check_rise(P)
-	for i=1,math.min(8,400-P.stat.dig)-P.garbageBeneath do
+	for _=1,math.min(8,400-P.stat.dig)-P.garbageBeneath do
 		P:garbageRise(13,1,P:RND(10))
 	end
 	if P.stat.dig==400 then

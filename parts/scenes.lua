@@ -5,12 +5,12 @@ local Timer=love.timer.getTime
 local setFont=setFont
 local mStr=mStr
 
-local int,ceil,abs=math.floor,math.ceil,math.abs
+local int,abs=math.floor,math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local log,rnd=math.log,math.random
 local format=string.format
 local ins,rem=table.insert,table.remove
-local find,sub,char,byte=string.find,string.sub,string.char,string.byte
+local find,sub,byte=string.find,string.sub,string.byte
 
 local SCR=SCR
 
@@ -187,7 +187,7 @@ do--load
 			SCN.back()
 		end
 	end
-	function touchDown.load(id,x,y)
+	function touchDown.load()
 		if #tc.getTouches()==2 then
 			sceneTemp.skip=true
 		end
@@ -285,7 +285,7 @@ do--intro
 		end
 	end
 
-	function mouseDown.intro(x,y,k)
+	function mouseDown.intro(_,_,k)
 		if k==2 then
 			VOC.play("bye")
 			SCN.back()
@@ -312,7 +312,7 @@ do--intro
 			end
 		end
 	end
-	function touchDown.intro(id,x,y)
+	function touchDown.intro()
 		mouseDown.intro()
 	end
 	function keyDown.intro(key)
@@ -457,7 +457,7 @@ do--mode
 			end
 		end
 	end
-	function wheelMoved.mode(x,y)
+	function wheelMoved.mode(_,y)
 		local cam=mapCam
 		local t=cam.k
 		local k=t+y*.1
@@ -475,7 +475,7 @@ do--mode
 		cam.k=k
 		cam.keyCtrl=false
 	end
-	function mouseMove.mode(x,y,dx,dy)
+	function mouseMove.mode(_,_,dx,dy)
 		if ms.isDown(1)then
 			mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
 		end
@@ -504,10 +504,10 @@ do--mode
 		end
 		cam.keyCtrl=false
 	end
-	function touchDown.mode(id,x,y)
+	function touchDown.mode()
 		touchDist=nil
 	end
-	function touchMove.mode(id,x,y,dx,dy)
+	function touchMove.mode(_,x,y,dx,dy)
 		local L=tc.getTouches()
 		if not L[2]then
 			mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
@@ -544,7 +544,7 @@ do--mode
 		end
 	end
 
-	function Tmr.mode(dt)
+	function Tmr.mode()
 		local cam=mapCam
 		local x,y,k=cam.x,cam.y,cam.k
 		local F
@@ -708,7 +708,6 @@ do--mode
 		gc.pop()
 		if sel then
 			local M=Modes[sel]
-			local lang=SETTING.lang
 			gc.setColor(.7,.7,.7,.5)
 			gc.rectangle("fill",920,0,360,720)--Info board
 			gc.setColor(M.color)
@@ -910,7 +909,7 @@ do--custom_sequence
 				S.cur=p
 			end
 		elseif key=="ten"then
-			for i=1,10 do
+			for _=1,10 do
 				local p=S.cur
 				if p==#BAG then break end
 				repeat
@@ -928,7 +927,7 @@ do--custom_sequence
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
-				for i=1,#BAG do
+				for _=1,#BAG do
 					rem(BAG)
 				end
 				S.cur=0
@@ -1052,10 +1051,10 @@ do--custom_field
 		z=0,x=-1,
 	}
 	local FIELD=FIELD
-	function mouseDown.custom_field(x,y,k)
+	function mouseDown.custom_field(x,y)
 		mouseMove.custom_field(x,y)
 	end
-	function mouseMove.custom_field(x,y,dx,dy)
+	function mouseMove.custom_field(x,y)
 		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 		if sx<1 or sx>10 then sx=nil end
 		if sy<1 or sy>20 then sy=nil end
@@ -1064,7 +1063,7 @@ do--custom_field
 			FIELD[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
 		end
 	end
-	function wheelMoved.custom_field(x,y)
+	function wheelMoved.custom_field(_,y)
 		local pen=sceneTemp.pen
 		if y<0 then
 			pen=pen+1
@@ -1075,10 +1074,10 @@ do--custom_field
 		end
 		sceneTemp.pen=pen
 	end
-	function touchDown.custom_field(id,x,y)
+	function touchDown.custom_field(_,x,y)
 		mouseMove.custom_field(x,y)
 	end
-	function touchMove.custom_field(id,x,y,dx,dy)
+	function touchMove.custom_field(_,x,y)
 		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 		if sx<1 or sx>10 then sx=nil end
 		if sy<1 or sy>20 then sy=nil end
@@ -1251,7 +1250,7 @@ do--custom_mission
 				S.cur=p
 			end
 		elseif key=="ten"then
-			for i=1,10 do
+			for _=1,10 do
 				local p=S.cur
 				if p==#MISSION then break end
 				repeat
@@ -1269,7 +1268,7 @@ do--custom_mission
 			end
 		elseif key=="delete"then
 			if S.sure>20 then
-				for i=1,#MISSION do
+				for _=1,#MISSION do
 					rem(MISSION)
 				end
 				S.cur=0
@@ -1421,7 +1420,7 @@ do--play
 		BG.set(modeEnv.bg)
 	end
 
-	function touchDown.play(id,x,y)
+	function touchDown.play(_,x,y)
 		if not SETTING.VKSwitch or GAME.replaying then return end
 
 		local t=onVirtualkey(x,y)
@@ -1454,7 +1453,7 @@ do--play
 			VIB(SETTING.VKVIB)
 		end
 	end
-	function touchUp.play(id,x,y)
+	function touchUp.play(_,x,y)
 		if not SETTING.VKSwitch or GAME.replaying then return end
 
 		local t=onVirtualkey(x,y)
@@ -1462,7 +1461,7 @@ do--play
 			PLAYERS[1]:releaseKey(t)
 		end
 	end
-	function touchMove.play(id,x,y,dx,dy)
+	function touchMove.play()
 		if not SETTING.VKSwitch or GAME.replaying then return end
 
 		local l=tc.getTouches()
@@ -2017,7 +2016,7 @@ do--setting_sound
 		FILE.saveSetting()
 	end
 
-	function mouseDown.setting_sound(x,y,k)
+	function mouseDown.setting_sound(x,y)
 		local S=sceneTemp
 		if x>780 and x<980 and y>470 and S.jump==0 then
 			S.jump=10
@@ -2028,7 +2027,7 @@ do--setting_sound
 			end
 		end
 	end
-	function touchDown.setting_sound(id,x,y)
+	function touchDown.setting_sound(_,x,y)
 		mouseDown.setting_sound(x,y)
 	end
 
@@ -2310,30 +2309,30 @@ do--setting_touch
 		if k==2 then SCN.back()end
 		sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 	end
-	function mouseMove.setting_touch(x,y,dx,dy)
+	function mouseMove.setting_touch(_,_,dx,dy)
 		if sceneTemp.sel and ms.isDown(1)and not WIDGET.sel then
 			local B=VK_org[sceneTemp.sel]
 			B.x,B.y=B.x+dx,B.y+dy
 		end
 	end
-	function mouseUp.setting_touch(x,y,k)
+	function mouseUp.setting_touch()
 		if sceneTemp.sel then
 			local B=VK_org[sceneTemp.sel]
 			local k=snapLevelValue[sceneTemp.snap]
 			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 		end
 	end
-	function touchDown.setting_touch(id,x,y)
+	function touchDown.setting_touch(_,x,y)
 		sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 	end
-	function touchUp.setting_touch(id,x,y)
+	function touchUp.setting_touch()
 		if sceneTemp.sel then
 			local B=VK_org[sceneTemp.sel]
 			local k=snapLevelValue[sceneTemp.snap]
 			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 		end
 	end
-	function touchMove.setting_touch(id,x,y,dx,dy)
+	function touchMove.setting_touch(_,_,_,dx,dy)
 		if sceneTemp.sel and not WIDGET.sel then
 			local B=VK_org[sceneTemp.sel]
 			B.x,B.y=B.x+dx,B.y+dy
@@ -2404,7 +2403,7 @@ do--music
 		end
 	end
 
-	function wheelMoved.music(x,y)
+	function wheelMoved.music(_,y)
 		wheelScroll(y)
 	end
 	function keyDown.music(key)
@@ -2508,7 +2507,7 @@ do--dict
 	local function clearResult()
 		local S=sceneTemp
 		local result=S.result
-		for i=1,#result do rem(result)end
+		for _=1,#result do rem(result)end
 		S.select,S.scroll,S.lastSearch=1,0
 	end
 	local function search()
@@ -2768,16 +2767,8 @@ do--stat
 	end
 end
 do--login
-	function Pnt.login()
-		local S=sceneTemp
-
-	end
 end
 do--account
-	function Pnt.account()
-		local S=sceneTemp
-
-	end
 end
 do--minigame
 	function sceneInit.minigame()
@@ -2951,7 +2942,7 @@ do--p15
 			SCN.back()
 		end
 	end
-	function mouseDown.p15(x,y,k)
+	function mouseDown.p15(x,y)
 		tapBoard(x,y)
 	end
 	function mouseMove.p15(x,y)
@@ -2959,10 +2950,10 @@ do--p15
 			tapBoard(x,y)
 		end
 	end
-	function touchDown.p15(id,x,y)
+	function touchDown.p15(_,x,y)
 		tapBoard(x,y)
 	end
-	function touchMove.p15(id,x,y,dx,dy)
+	function touchMove.p15(_,x,y)
 		if sceneTemp.slide then
 			tapBoard(x,y)
 		end
@@ -3157,10 +3148,10 @@ do--schulte_G
 		end
 	end
 
-	function mouseDown.schulte_G(x,y,k)
+	function mouseDown.schulte_G(x,y)
 		tapBoard(x,y)
 	end
-	function touchDown.schulte_G(id,x,y)
+	function touchDown.schulte_G(_,x,y)
 		tapBoard(x,y)
 	end
 	function keyDown.schulte_G(key)
@@ -3312,7 +3303,7 @@ do--pong
 			start()
 		end
 	end
-	function touchMove.pong(id,x,y,dx,dy)
+	function touchMove.pong(_,x,y)
 		sceneTemp[x<640 and"p1"or"p2"].y0=y
 	end
 	function mouseMove.pong(x,y)
@@ -3438,7 +3429,7 @@ do--history
 		end
 	end
 
-	function wheelMoved.history(x,y)
+	function wheelMoved.history(_,y)
 		wheelScroll(y)
 	end
 	function keyDown.history(key)

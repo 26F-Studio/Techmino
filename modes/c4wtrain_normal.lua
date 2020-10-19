@@ -1,7 +1,7 @@
 local min=math.min
 local function check_c4w(P)
 	if #P.clearedRow>0 then
-		for i=1,#P.clearedRow do
+		for _=1,#P.clearedRow do
 			P.field[#P.field+1]=freeRow.get(13)
 			P.visTime[#P.visTime+1]=freeRow.get(20)
 			for i=4,7 do P.field[#P.field][i]=0 end

@@ -1,4 +1,3 @@
-local gc=love.graphics
 local int=math.floor
 return{
 	color=color.white,

@@ -179,7 +179,7 @@ do--httpRequest
 			end
 		end
 	else
-		function httpRequest(tick,url,method)
+		function httpRequest(...)
 			LOG.print("[NO NETlib]",5,color.yellow)
 		end
 	end
@@ -235,7 +235,7 @@ do--json
 		return "\\" .. (escape_char_map[c] or string.format("u%04x", c:byte()))
 	end
 
-	local function encode_nil(val) return "null" end
+	local function encode_nil() return "null" end
 
 	local function encode_table(val, stack)
 		local res = {}
@@ -257,7 +257,7 @@ do--json
 			end
 			if n ~= #val then error("invalid table: sparse array") end
 			-- Encode
-			for i, v in ipairs(val) do table.insert(res, encode(v, stack)) end
+			for _, v in ipairs(val) do table.insert(res, encode(v, stack)) end
 			stack[val] = nil
 			return "[" .. table.concat(res, ",") .. "]"
 
