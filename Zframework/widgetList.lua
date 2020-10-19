@@ -634,11 +634,13 @@ local Widgets={
 		newButton({name="back",		x=640,	y=600,w=200,h=80,font=35,code=BACK}),
 	},
 	help={
-		newButton({name="dict",		x=1140,	y=410,w=220,h=70,	font=35,code=goScene("dict")}),
-		newButton({name="staff",	x=1140,	y=490,w=220,h=70,	font=35,code=goScene("staff")}),
-		newButton({name="his",		x=1140,	y=570,w=220,h=70,	font=35,code=goScene("history")}),
-		newButton({name="qq",		x=1140,	y=650,w=220,h=70,	font=35,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=mobileHide}),
-		newButton({name="back",		x=640,	y=600,w=170,h=80,	font=35,code=BACK}),
+		newImage({name="pay1",		x=20,	y=20}),
+		newImage({name="pay2",		x=1014,	y=20}),
+		newButton({name="dict",		x=1140,	y=410,w=220,h=70,font=35,code=goScene("dict")}),
+		newButton({name="staff",	x=1140,	y=490,w=220,h=70,font=35,code=goScene("staff")}),
+		newButton({name="his",		x=1140,	y=570,w=220,h=70,font=35,code=goScene("history")}),
+		newButton({name="qq",		x=1140,	y=650,w=220,h=70,font=35,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=mobileHide}),
+		newButton({name="back",		x=640,	y=600,w=170,h=80,font=35,code=BACK}),
 	},
 	dict={
 		newText({name="title",		x=20,y=5,font=70,align="L"}),
