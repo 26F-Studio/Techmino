@@ -440,7 +440,10 @@ local langList={
 			},
 			dict={
 				title="小Z方块词典",
+				keyboard="键盘",
 				link="打开链接",
+				up="↑",
+				down="↓",
 				back="返回",
 			},
 			staff={
@@ -1030,7 +1033,10 @@ local langList={
 			},
 			dict={
 				title="小Z方块词典",
+				keyboard="键盘",
 				link="打开链接",
+				up="↑",
+				down="↓",
 				back="返回",
 			},
 			staff={
@@ -1610,7 +1616,10 @@ local langList={
 			},--LangName added later
 			dict={
 				title="TetroDictionary",
+				keyboard="Keyboard",
 				link="Open URL",
+				up="↑",
+				down="↓",
 				back="Back",
 			},
 			staff={
@@ -2204,7 +2213,10 @@ local langList={
 			},
 			dict={
 				title="TetroDictionary",
+				keyboard="□□□",
 				link="~~e>>",
+				up="↑",
+				down="↓",
 				back="X",
 			},
 			staff={
@@ -2791,7 +2803,10 @@ local langList={
 			},
 			dict={
 				title="小Z方块词典",
+				keyboard="键盘",
 				link="看链接",
+				up="↑",
+				down="↓",
 				back="返回",
 			},
 			staff={
