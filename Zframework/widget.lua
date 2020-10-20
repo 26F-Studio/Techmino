@@ -636,6 +636,10 @@ function textBox:draw()
 	if t then
 		gc.printf(t,x-412,y+h*.5-self.font*.7,400,"right")
 	end
+	setFont(self.font-10)
+	if WIDGET.sel==self then
+		gc.print(EDITING,x+10,y+5-self.font*1.4)
+	end
 end
 function textBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
@@ -650,6 +654,7 @@ function WIDGET.newTextBox(D)
 		w=		D.w,
 		h=		D.h,
 		secret=	D.secret,
+		regex=	D.regex,
 
 		resCtr={
 			D.x+.5,D.y,
