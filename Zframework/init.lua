@@ -255,9 +255,16 @@ function love.keyreleased(i)
 	if SCN.swapping then return end
 	if keyUp[SCN.cur]then keyUp[SCN.cur](i)end
 end
+function love.textedited(text)
+	EDITING=text
+end
 function love.textinput(text)
-	if WIDGET.sel and WIDGET.sel.type=="textBox"then
-		WIDGET.sel.value=WIDGET.sel.value..text
+	local W=WIDGET.sel
+	if W and W.type=="textBox"then
+		if not W.regex or text:match(W.regex)then
+			WIDGET.sel.value=WIDGET.sel.value..text
+			SFX.play("move")
+		end
 	end
 end
 

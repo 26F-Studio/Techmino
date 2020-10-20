@@ -17,6 +17,7 @@ MARKING=true
 LOADED=false
 NOGAME=false
 LOGIN=false
+EDITING=""
 
 --Global Setting & Vars
 math.randomseed(os.time()*626)
