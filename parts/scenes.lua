@@ -2497,7 +2497,7 @@ do--dict
 			select=1,
 			scroll=0,
 
-			lastSearch=nil,
+			lastSearch=false,
 		}
 		local S=sceneTemp
 		S.url=(S.result[1]and S.result or S.dict)[S.select][5]
@@ -2508,7 +2508,7 @@ do--dict
 		local S=sceneTemp
 		local result=S.result
 		for _=1,#result do rem(result)end
-		S.select,S.scroll,S.lastSearch=1,0
+		S.select,S.scroll,S.waiting,S.lastSearch=1,0,0,false
 	end
 	local function search()
 		clearResult()
