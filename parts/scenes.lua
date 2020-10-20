@@ -232,7 +232,7 @@ do--load
 				--------------------------
 				SFX.play("welcome_sfx")
 				VOC.play("welcome_voc")
-				httpRequest(TICK.httpREQ_launch,"http://47.103.200.40/api/game")
+				httpRequest(TICK.httpREQ_launch,"api/game")
 			else
 				S.cur=S.cur+1
 				S.tar=S.cur

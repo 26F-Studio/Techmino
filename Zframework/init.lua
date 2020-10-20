@@ -532,6 +532,13 @@ function love.run()
 					_.draw(_.time)
 				end
 
+				--Draw network working
+				if TASK.netTaskCount>0 then
+					setFont(30)
+					gc.setColor(color.rainbow(Timer()*5))
+					gc.print("E",1250,0,.26+.355*math.sin(Timer()*6.26))
+				end
+
 				--Draw FPS
 				gc.setColor(1,1,1)
 				setFont(15)

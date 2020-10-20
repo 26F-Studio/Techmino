@@ -164,24 +164,23 @@ do--dumpTable
 end
 do--httpRequest
 	client=LOADLIB("NETlib")
-	if client then
-		function httpRequest(tick,url,method,header,body)
-			local task,err=client.httpraw{
-				url=url,
-				method=method or"GET",
-				header=header,
-				body=body,
-			}
-			if task then
-				TASK.new(tick,{task=task,time=0})
-			else
-				LOG.print("NETlib error: "..err,"warn")
-			end
+	httpRequest=
+	client and function(tick,api,method,header,body)
+		local task,err=client.httpraw{
+			url="http://47.103.200.40/"..api,
+			method=method or"GET",
+			header=header,
+			body=body,
+		}
+		if task then
+			TASK.new(tick,{task=task,time=0,net=true})
+		else
+			LOG.print("NETlib error: "..err,"warn")
 		end
-	else
-		function httpRequest(...)
-			LOG.print("[NO NETlib]",5,color.yellow)
-		end
+		TASK.netTaskCount=TASK.netTaskCount+1
+	end or
+	function()
+		LOG.print("[NO NETlib]",5,color.yellow)
 	end
 end
 do--json
