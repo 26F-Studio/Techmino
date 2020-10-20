@@ -1,7 +1,9 @@
 local rem=table.remove
 local tasks={}
 
-local TASK={}
+local TASK={
+	netTaskCount=0,
+}
 function TASK.getCount()
 	return #tasks
 end
@@ -9,6 +11,9 @@ function TASK.update()
 	for i=#tasks,1,-1 do
 		local T=tasks[i]
 		if T.code(T.data)then
+			if T.data.net then
+				TASK.netTaskCount=TASK.netTaskCount-1
+			end
 			rem(tasks,i)
  		end
 	end
