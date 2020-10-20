@@ -2767,6 +2767,38 @@ do--stat
 	end
 end
 do--login
+	function keyDown.login(key)
+		if key=="return"then
+			LOG.print("敬请期待！")
+			LOG.print("Coming Soon!")
+			-- local user=	WIDGET.active.username.value
+			-- local email=WIDGET.active.email.value
+			-- local pw=	WIDGET.active.password.value
+			-- local pw2=	WIDGET.active.password2.value
+			-- if #user==0 then
+			-- 	LOG.print(text.noUsername)return
+			-- elseif #pw==0 or #pw2==0 then
+			-- 	LOG.print(text.noPassword)return
+			-- elseif pw~=pw2 then
+			-- 	LOG.print(text.diffPassword)return
+			-- end
+			-- httpRequest(
+			-- 	TICK.httpREQ_register,
+			-- 	"api/register",
+			-- 	"POST",
+			-- 	{["Content-Type"]="application/json"},
+			-- 	json.encode({
+			-- 		user=user,
+			-- 		email=email,
+			-- 		password=pw,
+			-- 	})
+			-- )
+		elseif key=="escape"then
+			SCN.back()
+		else
+			WIDGET.keyPressed(key)
+		end
+	end
 end
 do--account
 end
