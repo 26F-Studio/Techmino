@@ -12,6 +12,7 @@
 NULL=function()end
 DBP=print--use this if need debugging print
 SYSTEM=love.system.getOS()
+MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
 MARKING=true
 LOADED=false
 NOGAME=false
@@ -20,6 +21,7 @@ LOGIN=false
 --Global Setting & Vars
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
+love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 SCR={
@@ -132,7 +134,7 @@ if fs.getInfo("settings.dat")then
 	FILE.loadSetting()
 else
 	-- firstRun=true
-	if SYSTEM=="Android"or SYSTEM=="iOS" then
+	if MOBILE then
 		SETTING.VKSwitch=true
 		SETTING.swap=false
 		SETTING.vib=2
@@ -210,7 +212,7 @@ do
 		FILE.saveData()
 		FILE.saveSetting()
 	end
-	if SYSTEM=="Android"and not SETTING.fullscreen then
+	if MOBILE and not SETTING.fullscreen then
 		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,color.yellow)
 		LOG.print("Switch fullscreen on if titleBar don't disappear",300,color.yellow)
 	end
