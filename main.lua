@@ -207,7 +207,7 @@ do
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
-		if S.finesseRate<.3*S.piece then
+		if S.finesseRate<.5*S.piece then
 			S.finesseRate=10*S.finesseRate
 		end
 		FILE.saveData()

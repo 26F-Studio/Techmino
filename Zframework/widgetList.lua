@@ -668,8 +668,10 @@ local Widgets={
 	login={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
 		newTextBox({name="username",x=400,y=200,w=500,h=60}),
-		newTextBox({name="password",x=400,y=300,w=626,h=60,secret=true}),
-		newTextBox({name="password2",x=400,y=400,w=626,h=60,secret=true}),
+		newTextBox({name="email",	x=400,y=300,w=626,h=60}),
+		newTextBox({name="password",x=400,y=400,w=626,h=60,secret=true,regex="[ -~]"}),
+		newTextBox({name="password2",x=400,y=500,w=626,h=60,secret=true,regex="[ -~]"}),
+		newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	account={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
@@ -750,4 +752,16 @@ local Widgets={
 		newButton({name="back",		x=640,y=620,w=200,h=80,font=40,code=BACK}),
 	},
 }
+local META={
+	__index=function(L,k)
+		for i=1,#L do
+			if L[i].name==k then
+				return L[i]
+			end
+		end
+	end
+}
+for _,v in next,Widgets do
+	setmetatable(v,META)
+end
 return Widgets

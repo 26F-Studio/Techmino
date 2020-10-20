@@ -66,6 +66,12 @@ local langList={
 		getVersionFail="检测新版本失败",
 		versionIsNew="游戏已是最新版本",
 		versionIsOld="最新版本$1可以下载了!",
+		registerSuccessed="注册成功!",
+		registerFailed="注册失败",
+		netErrorCode="网络错误码",
+		noUsername="请填写用户名",
+		noPassword="请填写密码",
+		diffPassword="两次密码不一致",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -461,8 +467,10 @@ local langList={
 			login={
 				title="登录/注册",
 				username="用户名",
+				email="邮箱",
 				password="密码",
 				password2="确认密码",
+				back="返回",
 			},
 			account={
 				title="账户",
@@ -657,6 +665,12 @@ local langList={
 		getVersionFail="检测新版本失败",
 		versionIsNew="游戏已是最新版本",
 		versionIsOld="最新版本$1可以下载了!",
+		registerSuccessed="注册成功!",
+		registerFailed="注册失败",
+		netErrorCode="网络错误码",
+		noUsername="请填写用户名",
+		noPassword="请填写密码",
+		diffPassword="两次密码不一致",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -1054,8 +1068,10 @@ local langList={
 			login={
 				title="登录/注册",
 				username="用户名",
+				email="邮箱",
 				password="密码",
 				password2="确认密码",
+				back="返回",
 			},
 			account={
 				title="账户",
@@ -1250,6 +1266,12 @@ local langList={
 		getVersionFail="get newest version failed",
 		versionIsNew="You are now on the latest version.",
 		versionIsOld="Version $1 is available now!",
+		registerSuccessed="Register successed!",
+		registerFailed="Register failed",
+		netErrorCode="Network error code",
+		noUsername="Input username",
+		noPassword="Input password",
+		diffPassword="Password don't match",
 		errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
 		acts={
@@ -1637,8 +1659,10 @@ local langList={
 			login={
 				title="Log in / Sign up",
 				username="Username",
+				email="E-mail",
 				password="Password",
 				password2="Again Password",
+				back="Back",
 			},
 			account={
 				title="Account",
@@ -1836,12 +1860,17 @@ local langList={
 		noScore="?_____?",
 		highScore="__&:",
 		newRecord="^!!!^",
-		getNoticeFail="ge7 no7!ce f@i1ed",
-		getVersionFail="ge7 newe5t ver5i0n f@i1ed",
-		versionIsNew="Y0u @re now 0n the l@7e57 ver5ion.",
-		versionIsOld="Versi0n $1 is @v@i1able n0w!",
+		getNoticeFail="get notice failed",
+		getVersionFail="get newest version failed",
+		versionIsNew="You are now on the latest version.",
+		versionIsOld="Version $1 is available now!",
+		registerSuccessed="Register successed!",
+		registerFailed="Register failed",
+		netErrorCode="Network error code",
+		noUsername="Input username",
+		noPassword="Input password",
+		diffPassword="Password don't match",
 		errorMsg="An e??o? h@s occ^__ed @nd Techmino n__ds to r_st@rt.\n&**o* in#o h@$ b==n cre@ted, @nd y0u c@n $&nd it to the @uth0r.",
-
 		acts={
 			"←:","→:",
 			"R→:","←R:","R↑↓:",
@@ -2234,8 +2263,10 @@ local langList={
 			login={
 				title="Log in / Sign up",
 				username="@",
+				email="E-mail",
 				password="*",
 				password2="*",
+				back="X",
 			},
 			account={
 				title="@_@",
@@ -2425,9 +2456,15 @@ local langList={
 		highScore="最佳成绩",
 		newRecord="打破纪录",
 		getNoticeFail="拉取公告失败",
-		getVersionFail="拉取公告失败",
+		getVersionFail="检测新版本失败",
 		versionIsNew="游戏已是最新版本",
 		versionIsOld="最新版本$1可以下载了!",
+		registerSuccessed="注册成功!",
+		registerFailed="注册失败",
+		netErrorCode="网络错误码",
+		noUsername="账号密码都填不来?",
+		noPassword="账号密码都填不来?",
+		diffPassword="账号密码都填不来?",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -2824,8 +2861,10 @@ local langList={
 			login={
 				title="登录/注册",
 				username="用户名",
+				email="邮箱",
 				password="密码",
 				password2="你觉得应该填啥",
+				back="返回",
 			},
 			account={
 				title="账户",
