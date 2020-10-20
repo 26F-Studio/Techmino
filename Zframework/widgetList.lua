@@ -1,5 +1,10 @@
 local rnd=math.random
-local mobileHide=(SYSTEM=="Android"or SYSTEM=="iOS")and function()return true end
+local mobileHide,mobileShow
+if MOBILE then
+	function mobileHide()return true end
+else
+	function mobileShow()return true end
+end
 local function BACK()SCN.back()end
 local virtualkeySet={
 	{

@@ -590,6 +590,9 @@ local textBox={
 }
 function textBox:reset()
 	self.ATV=0
+	if not MOBILE then
+		kb.setTextInput(true)
+	end
 end
 function textBox:isAbove(x,y)
 	return
@@ -665,13 +668,14 @@ end
 WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=nil--Selected widget
 function WIDGET.set(L)
+	kb.setTextInput(false)
 	WIDGET.sel=nil
 	WIDGET.active=L or{}
 
 	--Reset all widgets
 	if L then
-		for _,W in next,L do
-			if W.reset then W:reset()end
+		for i=1,#L do
+			L[i]:reset()
 		end
 	end
 end
@@ -724,7 +728,7 @@ function WIDGET.press(x,y)
 			end
 		end
 	elseif W.type=="textBox"then
-		if SYSTEM=="Android"then
+		if MOBILE then
 			local _,y=xOy:transformPoint(0,W.y+W.h)
 			kb.setTextInput(true,0,y,1,1)
 		end
