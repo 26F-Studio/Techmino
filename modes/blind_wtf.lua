@@ -11,7 +11,7 @@ return{
 		visible="none",
 		dropPiece=PLY.check_lineReach,
 		freshLimit=15,
-		target=100,
+		target=40,
 		bg="none",bgm="push",
 	},
 	pauseLimit=true,
@@ -56,15 +56,15 @@ return{
 		mStr(P.stat.row,69,290)
 		mStr(P.stat.clears[4],69,410)
 	end,
-	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
+	score=function(P)return{min(P.stat.row,40),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row
 		return
-		L>=100 and 5 or
-		L>=60 and 4 or
-		L>=30 and 3 or
+		L>=40 and 5 or
+		L>=30 and 4 or
+		L>=20 and 3 or
 		L>=10 and 2 or
 		L>=5 and 1 or
 		L>=1 and 0
