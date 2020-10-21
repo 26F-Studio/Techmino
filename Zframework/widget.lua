@@ -625,20 +625,20 @@ function textBox:draw()
 
 	--Text
 	setFont(self.font)
+	t=self.text
+	if t then
+		gc.printf(t,x-412,y+h*.5-self.font*.7,400,"right")
+	end
 	if self.secret then
 		for i=1,#self.value do
 			gc.print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
 		end
 	else
 		gc.print(self.value,x+10,y+h*.5-self.font*.7)
-	end
-	t=self.text
-	if t then
-		gc.printf(t,x-412,y+h*.5-self.font*.7,400,"right")
-	end
-	setFont(self.font-10)
-	if WIDGET.sel==self then
-		gc.print(EDITING,x+10,y+5-self.font*1.4)
+		setFont(self.font-10)
+		if WIDGET.sel==self then
+			gc.print(EDITING,x+10,y+12-self.font*1.4)
+		end
 	end
 end
 function textBox:getInfo()

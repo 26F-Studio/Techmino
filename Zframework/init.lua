@@ -264,6 +264,8 @@ function love.textinput(text)
 		if not W.regex or text:match(W.regex)then
 			WIDGET.sel.value=WIDGET.sel.value..text
 			SFX.play("move")
+		else
+			SFX.play("finesseError",.3)
 		end
 	end
 end
