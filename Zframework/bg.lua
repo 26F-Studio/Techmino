@@ -20,7 +20,7 @@ back.grey={
 }
 back.glow={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -32,7 +32,7 @@ back.glow={
 }--Light-dark
 back.rgb={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -47,7 +47,7 @@ back.rgb={
 }--Changing pure color
 back.flink={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -74,16 +74,16 @@ back.wing={
 	init=function()
 		gc.setDefaultFilter("linear","linear")
 		bar=gc.newCanvas(41,1)
+		gc.setCanvas(bar)
 		gc.push("transform")
-			gc.origin()
-			gc.setCanvas(bar)
-			for x=0,20 do
-				gc.setColor(1,1,1,x/11)
-				gc.rectangle("fill",x,0,1,1)
-				gc.rectangle("fill",41-x,0,1,1)
-			end
-			gc.setCanvas()
+		gc.origin()
+		for x=0,20 do
+			gc.setColor(1,1,1,x/11)
+			gc.rectangle("fill",x,0,1,1)
+			gc.rectangle("fill",41-x,0,1,1)
+		end
 		gc.pop()
+		gc.setCanvas()
 		BG.resize()
 	end,
 	resize=function()
@@ -133,7 +133,7 @@ back.wing={
 back.fan={
 	init=function()
 		fan=_G.title_fan
-		t=0
+		t=rnd(2600)
 		petal={}
 		BG.resize()
 	end,
@@ -205,7 +205,7 @@ back.fan={
 
 back.aura={
 	init=function()
-		t=rnd()*3600
+		t=rnd()*2600
 		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(_,h)
@@ -224,7 +224,7 @@ back.aura={
 }--Cool liquid background
 back.bg1={
 	init=function()
-		t=0
+		t=rnd()*2600
 		BG.resize()
 	end,
 	resize=function()
@@ -242,7 +242,7 @@ back.bg1={
 }--Horizonal red-blue gradient
 back.bg2={
 	init=function()
-		t=0
+		t=rnd()*2600
 		BG.resize(nil,SCR.h)
 	end,
 	resize=function(_,h)
@@ -260,7 +260,7 @@ back.bg2={
 }--Vertical red-green gradient
 back.rainbow={
 	init=function()
-		t=0
+		t=rnd()*2600
 		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(_,h)
@@ -279,7 +279,7 @@ back.rainbow={
 }--Colorful RGB
 back.rainbow2={
 	init=function()
-		t=0
+		t=rnd()*2600
 		BG.resize(SCR.w,SCR.h)
 	end,
 	resize=function(_,h)
@@ -298,7 +298,7 @@ back.rainbow2={
 }--Blue RGB
 back.lightning={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -315,7 +315,7 @@ local blocks=require("parts/mino")
 local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 back.lightning2={
 	init=function()
-		t=0
+		t=rnd()*2600
 		colorLib=_G.SKIN.libColor
 		colorSet=_G.SETTING.skin
 		blockImg=_G.TEXTURE.miniBlock
@@ -338,7 +338,7 @@ back.lightning2={
 local matrixT={}for i=1,50 do matrixT[i]={}for j=1,50 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 back.matrix={
 	init=function()
-		t=rnd()*3600
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
