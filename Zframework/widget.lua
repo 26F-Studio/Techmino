@@ -25,11 +25,11 @@ function text:reset()
 end
 function text:draw()
 	gc.setColor(self.color)
-	if self.align=="M" then
+	if self.align=="M"then
 		gc.draw(self.text,self.x-self.text:getWidth()*.5,self.y)
-	elseif self.align=="L" then
+	elseif self.align=="L"then
 		gc.draw(self.text,self.x,self.y)
-	elseif self.align=="R" then
+	elseif self.align=="R"then
 		gc.draw(self.text,self.x-self.text:getWidth(),self.y)
 	end
 end
@@ -657,8 +657,8 @@ function WIDGET.newTextBox(D)
 		regex=	D.regex,
 
 		resCtr={
-			D.x+.5,D.y,
 			D.x+D.w*.2,D.y,
+			D.x+D.w*.5,D.y,
 			D.x+D.w*.8,D.y,
 		},
 
@@ -773,15 +773,15 @@ end
 function WIDGET.keyPressed(key)
 	if key=="space"or key=="return"then
 		WIDGET.press()
-	elseif kb.isDown("lshift","lalt","lctrl")and key=="left"or key=="right"then
+	elseif kb.isDown("lshift","lalt","lctrl")and(key=="left"or key=="right")then
 					--When hold [↑], control slider with left/right
 		local W=WIDGET.sel
 		if not W then return end
-		local isLeft = key == "left"
+		local isLeft=key=="left"
 		if W.type=="slider"then
 			local p=W.disp()
 			local u=(W.smooth and .01 or 1)
-			local P= isLeft and max(p-u,0)or min(p+u,W.unit)
+			local P=isLeft and max(p-u,0)or min(p+u,W.unit)
 			if p==P or not P then return end
 			W.code(P)
 			if W.change and Timer()-W.lastTime>.18 then
@@ -790,7 +790,7 @@ function WIDGET.keyPressed(key)
 			end
 		elseif W.type=="selector"then
 			local s=W.select
-			if not ((isLeft and s > 1) or ((not isLeft) and s < #W.list)) then return end
+			if isLeft and s==1 or not isLeft and s==#W.list then return end
 			if isLeft then
 				s=s-1
 				sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
@@ -819,17 +819,18 @@ function WIDGET.keyPressed(key)
 		local dir=(key=="right"or key=="down")and 1 or -1
 		local tar
 		local minDist=1e99
-		local swap_xy = not (key=="left" or key == "right")
-		if swap_xy then WX, WY = WY, WX end -- note that we do not swap them back later
-		for i, W1 in ipairs(WIDGET.active) do
+		local swap_xy=key=="up"or key=="down"
+		if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
+		for _,W1 in ipairs(WIDGET.active)do
 			if W~=W1 and W1.resCtr then
 				local L=W1.resCtr
 				for j=1,#L,2 do
 					local x,y=L[j],L[j+1]
-					if swap_xy then x, y = y, x end -- note that we do not swap them back later
+					if swap_xy then x,y=y,x end -- note that we do not swap them back later
 					local dist=(x-WX)*dir
 					if dist>10 then
 						dist=dist+abs(y-WY)*6.26
+						print(W1.name,dist)
 						if dist<minDist then
 							minDist=dist
 							tar=W1
@@ -843,7 +844,7 @@ function WIDGET.keyPressed(key)
 		end
 	elseif WIDGET.sel and WIDGET.sel.type=="textBox"then
 		local t=WIDGET.sel.value
-		if #t <= 0 then return end
+		if #t==0 then return end
 		if key=="backspace"then
 			while t:byte(#t)>=128 and t:byte(#t)<192 do
 				t=sub(t,1,-2)
