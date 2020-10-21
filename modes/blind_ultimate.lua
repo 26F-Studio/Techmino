@@ -10,7 +10,7 @@ return{
 		score=false,
 		dropPiece=PLY.check_lineReach,
 		freshLimit=15,
-		target=200,
+		target=100,
 		bg="rgb",bgm="push",
 	},
 	pauseLimit=true,
@@ -26,14 +26,14 @@ return{
 		gc.setColor(1,1,1,.2)
 		gc.draw(IMG.electric,124,176,0,2.6)
 	end,
-	score=function(P)return{min(P.stat.row or 200),P.stat.time}end,
+	score=function(P)return{min(P.stat.row,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row
 		return
-		L>=200 and 5 or
-		L>=100 and 4 or
+		L>=100 and 5 or
+		L>=75 and 4 or
 		L>=50 and 3 or
 		L>=26 and 2 or
 		L>=10 and 1 or
