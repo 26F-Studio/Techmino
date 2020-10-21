@@ -23,7 +23,7 @@ return{
 				P.modeData.event=P.modeData.event+1
 			end
 		end,
-		bg="rgb",bgm="storm",
+		bg="welcome",bgm="storm",
 	},
 	pauseLimit=true,
 	load=function()

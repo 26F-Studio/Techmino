@@ -90,7 +90,7 @@ local CUSlist={
 	opponent={0,1,2,3,4,5,6,7,8,9,10},
 	life={0,1,2,3,5,10,15,26,42,87,500},
 	pushSpeed={1,2,3,5,15},
-	bg={"none","grey","glow","rgb","flink","wing","fan","aura","bg1","bg2","rainbow","rainbow2","lightning","lightning2","matrix","space"},
+	bg={"none","grey","glow","rgb","flink","wing","fan","welcome","aura","bg1","bg2","rainbow","rainbow2","lightning","lightning2","matrix","space"},
 	bgm=BGM.list,
 }
 
