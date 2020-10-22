@@ -1,7 +1,6 @@
-local int,max,min=math.floor,math.max,math.min
+local int,min=math.floor,math.min
 local sectionName={"M7","M8","M9","M","MK","MV","MO","MM","GM"}
 local function score(P)
-	local F=false
 	--If Less then MM
 	if P.modeData.point<70 then
 		local R=#P.clearedRow
@@ -31,12 +30,12 @@ return{
 				return true
 			end
 		end,
-		bg="aura",bgm="far",
+		bg="welcome",bgm="far",
 	},
 	slowMark=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		players[1].modeData.event="M7"
+		PLAYERS[1].modeData.event="M7"
 	end,
 	mesDisp=function(P)
 		mText(drawableText.line,69,370)

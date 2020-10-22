@@ -1,5 +1,5 @@
 local function check_rise(P)
-	for i=1,math.min(8,100-P.stat.dig)-P.garbageBeneath do
+	for _=1,math.min(8,100-P.stat.dig)-P.garbageBeneath do
 		P:garbageRise(13,1,P:RND(10))
 	end
 	if P.stat.dig==100 then
@@ -16,7 +16,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
-		local P=players[1]
+		local P=PLAYERS[1]
 		for _=1,10 do
 			P:garbageRise(13,1,P:RND(10))
 		end

@@ -9,7 +9,7 @@ local function check_rise(P)
 				P:showTextF(text.great,0,-120,80,"fly",.8)
 			end
 		end
-		for i=1,8-L do
+		for _=1,8-L do
 			P:garbageRise(13,1,P:RND(10))
 		end
 	else
@@ -17,7 +17,7 @@ local function check_rise(P)
 			P:showTextF(text.awesome,0,-120,80,"beat",.6)
 			SFX.play("clear")
 			BG.send(26)
-			for i=1,8 do
+			for _=1,8 do
 				P:garbageRise(13,1,P:RND(10))
 			end
 		else
@@ -37,7 +37,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
-		local P=players[1]
+		local P=PLAYERS[1]
 		for _=1,8 do
 			P:garbageRise(13,1,P:RND(10))
 		end

@@ -14,44 +14,44 @@ local Timer=love.timer.getTime
 -- 6~10:hD,sD,H,A,R,
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
-local scs={{0,1},{0,1},{0,1},{0,1},{0,1},{.5,.5},{-.5,1.5}}
 -------------------------------------------------Cold clear
-cc=LOADLIB("CC")
-if cc then
+CC=LOADLIB("CC")
+if CC then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
-		getConf=	cc.get_default_config	,--()options,weights
-		--setConf=	cc.set_options			,--(options,hold,20g,bag7)
+		getConf=	CC.get_default_config	,--()options,weights
+		fastWeights=CC.fast_weights			,--(weights)
+		--setConf=	CC.set_options			,--(options,hold,20g,bag7)
 
-		new=		cc.launch_async			,--(options,weights)bot
-		addNext=	cc.add_next_piece_async	,--(bot,piece)
-		update=		cc.reset_async			,--(bot,field,b2b,combo)
-		think=		cc.request_next_move	,--(bot)
-		getMove=	cc.poll_next_move		,--(bot)success,dest,hold,move
-		destroy=	cc.destroy_async		,--(bot)
+		new=		CC.launch_async			,--(options,weights)bot
+		addNext=	CC.add_next_piece_async	,--(bot,piece)
+		update=		CC.reset_async			,--(bot,field,b2b,combo)
+		think=		CC.request_next_move	,--(bot)
+		getMove=	CC.poll_next_move		,--(bot)success,dest,hold,move
+		destroy=	CC.destroy_async		,--(bot)
 
-		setHold=	cc.set_hold				,--(opt,bool)
-		set20G=		cc.set_20g				,--(opt,bool)
-		setPCLoop=	cc.set_pcloop			,--(opt,bool)
-		setBag=		cc.set_bag7				,--(opt,bool)
-		setNode=	cc.set_max_nodes		,--(opt,bool)
-		free=		cc.free					,--(opt/wei)
+		setHold=	CC.set_hold				,--(opt,bool)
+		set20G=		CC.set_20g				,--(opt,bool)
+		-- setPCLoop=	CC.set_pcloop			,--(opt,bool)
+		setBag=		CC.set_bag7				,--(opt,bool)
+		setNode=	CC.set_max_nodes		,--(opt,bool)
+		free=		CC.free					,--(opt/wei)
 	}
-	function CC_updateField(P)
+	function CC.updateField(P)
 		local F,i={},1
 		for y=1,#P.field do
 			for x=1,10 do
 				F[i],i=P.field[y][x]>0,i+1
 			end
 		end
-		while i<400 do
+		while i<=400 do
 			F[i],i=false,i+1
 		end
 		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
 			LOG.print("CC is dead ("..P.id..")","error")
 		end
 	end
-	function CC_switch20G(P)
+	function CC.switch20G(P)
 		if not pcall(CC.destroy,P.AI_bot)then
 			LOG.print("CC is dead ("..P.id..")","error")
 			return
@@ -59,20 +59,21 @@ if cc then
 		P.AIdata._20G=true
 		P.AI_keys={}
 		local opt,wei=CC.getConf()
+			CC.fastWeights(wei)
 			CC.setHold(opt,P.AIdata.hold)
 			CC.set20G(opt,P.AIdata._20G)
-			CC.setBag(opt,P.AIdata.bag7)
+			CC.setBag(opt,P.AIdata.bag=="bag")
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
 		for i=1,P.AIdata.next do
 			CC.addNext(P.AI_bot,CCblockID[P.next[i].id])
 		end
-		CC_updateField(P)
+		CC.updateField(P)
 		P.hd=nil
 		P.holded=false
 		P.cur=rem(P.next,1)
-		P.sc,P.dir=scs[P.cur.id],0
+		P.sc,P.dir=spinCenters[P.cur.id][0],0
 		P.r,P.c=#P.cur.bk,#P.cur.bk[1]
 		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
@@ -86,15 +87,6 @@ if cc then
 end
 -------------------------------------------------9 Stack setup
 local dirCount={1,1,3,3,3,0,1}
-local spinOffset={
-	{[0]=0,1,0,0},--Z
-	{[0]=0,1,0,0},--L
-	{[0]=0,1,0,0},--J
-	{[0]=0,1,0,0},--T
-	{[0]=0,1,0,0},--S
-	{[0]=0,0,0,0},--O
-	{[0]=0,2,0,1},--I
-}
 local FCL={
 	[1]={
 		{{11},{11,2},{1},{},{2},{2,2},{12,1},{12}},
@@ -280,7 +272,7 @@ return{
 			return 1
 		end,
 	},
-	["CC"]={
+	["CC"]=CC and{
 		[0]=NULL,
 		function(P)--Start thinking
 			if not pcall(CC.think,P.AI_bot)then

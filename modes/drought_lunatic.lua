@@ -1,10 +1,10 @@
-local min,rem=math.min,table.remove
+local min=math.min
 return{
 	color=color.red,
 	env={
 		drop=20,lock=60,
 		sequence=function(P)
-			for i=1,3 do P:getNext(7)end
+			for _=1,3 do P:getNext(7)end
 		end,
 		freshMethod=function(P)
 			if not P.next[1] then
@@ -34,7 +34,7 @@ return{
 				end
 				if d<40 or P.stat.row>2*42 then
 					A=#res+1
-					for i=1,4 do
+					for _=1,4 do
 						res[A]=1
 						res[A+1]=2
 						res[A+2]=6

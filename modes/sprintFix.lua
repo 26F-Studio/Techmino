@@ -1,7 +1,7 @@
 return{
 	color=color.green,
 	env={
-		drop=60,lock=60,
+		drop=60,lock=180,
 		noTele=true,
 		keyCancel={1,2},
 		target=40,dropPiece=PLY.check_lineReach,
@@ -30,8 +30,8 @@ return{
 		end
 		local T=P.stat.time
 		return
-		T<=360 and 5 or
-		T<=600 and 4 or
+		T<=260 and 5 or
+		T<=420 and 4 or
 		3
 	end,
 }

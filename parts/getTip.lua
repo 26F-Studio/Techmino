@@ -1,5 +1,5 @@
 local L
-if setting.lang==1 or setting.lang==2 then
+if SETTING.lang==1 or SETTING.lang==2 then
 	L={
 		'注意到"旋转"到底对方块做了些什么吗?',
 		"(RUR'U')R'FR2U'R'U'(RUR'F')",
@@ -12,6 +12,7 @@ if setting.lang==1 or setting.lang==2 then
 		"2+2=Miya",
 		"20连PC来一个?",
 		"20G本质是一套全新的游戏规则",
+		"25种方块都能spin你敢信",
 		"26连T2来一个?",
 		"3.1415926535897932384",
 		"40行世界纪录:15.654s",
@@ -34,7 +35,6 @@ if setting.lang==1 or setting.lang==2 then
 		"大概还是有人会认真看tips的",
 		"大满贯10连击消四全清!",
 		"戴上耳机以获得最佳体验",
-		"音乐使用beepbox制作",
 		"单手也能玩!",
 		"低帧率会降低游戏体验",
 		"俄罗斯方块环游记也不错!",
@@ -79,7 +79,6 @@ if setting.lang==1 or setting.lang==2 then
 		"去玩别的方块的时候记得没有Ospin!",
 		"扫雷好玩!",
 		"少女祈祷中",
-		"游戏使用love2d引擎制作",
 		"适度游戏益脑,沉迷游戏伤身,合理安排时间,享受健康生活",
 		"术语不认识?去帮助-词典里查查吧",
 		"泰拉瑞亚好玩!",
@@ -98,8 +97,11 @@ if setting.lang==1 or setting.lang==2 then
 		"新人请千万记住,打好基础,不要太早学那些花里胡哨的。",
 		"旋转不是变形!请尽量灵活利用顺逆时针两个旋转键!",
 		"学会使用两个旋转键,三个更好",
+		"学习能力很重要,无论是学校知识还是玩游戏",
+		"音乐使用beepbox制作",
 		"音游方块是一家(暴论",
 		"应该没人会认真看tips吧?",
+		"游戏使用love2d引擎制作",
 		"游戏作者40行卡27秒好几个月了...",
 		"有建议的话可以把信息反馈给作者~",
 		"有疑问? 先看设置有没有你想要的",
@@ -127,7 +129,6 @@ if setting.lang==1 or setting.lang==2 then
 		"e^(pi*i)=-1",
 		"e^(pi*i/2)=i",
 		"fin neo iso 是满足tspin条件的特殊t2的名字",
-		"fqmzwmhxzypdgzfzagjycxys",
 		"Jstris也很好玩!",
 		"l-=-1",
 		"Let-The-Bass-Kick!",
@@ -141,6 +142,7 @@ if setting.lang==1 or setting.lang==2 then
 		"Phigros好玩!",
 		"REGRET!!",
 		"STSD必死",
+		"techmino安卓下载",
 		"Techmino好玩!",
 		"Techmino没有抽卡没有氪金,太好玩了",
 		"Techminohaowan",
@@ -151,14 +153,13 @@ if setting.lang==1 or setting.lang==2 then
 		"uid:225238922",
 		"VVVVVV好玩!",
 		"Xspin是个啥玩意",
-		"Z酱不是应急食品!不!是!",
 		"Z酱累了,Z酱不想更新",
 		"Z酱只是个写代码的,懂什么方块",
 		"Z块等身抱枕来一个(x",
 		"ZS JL T O I",
 		-- "Z酱 可爱!",
 	}
-elseif setting.lang==3 then
+elseif SETTING.lang==3 then
 	L={
 		'Free block game with Battle Royale mode!',
 		'Have you noticed what "rotating" does do to the block?',
@@ -169,7 +170,6 @@ elseif setting.lang==3 then
 		"↑↑↓↓←→←→BA",
 		"1, 2, ⑨!!!!!",
 		"20G actually is a brand new game rule",
-		"Sprint WR: 15.654s by VinceHD",
 		"少女祈禱中",
 		"ALLSPIN!",
 		"Also try Cultris II!",
@@ -186,23 +186,26 @@ elseif setting.lang==3 then
 		"Any suggestions? Post them in our Discord!",
 		"B2B2B???",
 		"Back to Back 10 combo Techrash PC!",
+		"Change log in English can be found on Discord.",
 		"COOL!!",
+		"Decreasing DAS and ARR: faster, but harder to control.",
 		"Diao so bully",
 		"Don't let a small glitch ruin your entire day!",
-		"e^(pi*i)=-1",
-		"e^(pi*i/2)=i",
+		"Don't look directly at the bugs!",
 		"Enjoy Techmino rotation system!",
 		"Find out what's in the settings!",
 		"Headphones recommended for better experience",
 		"Hello world!",
+		"Increase frame rate for better experience.",
 		"Initial [insert action] system can save your life",
 		"Is B2B2B2B possible?",
+		"It's really loading! Not just a cutscene!",
+		"Join our discord!",
 		"l-=-1",
 		"Let-The-Bass-Kick!",
-		"Increase frame rate for better experience.",
 		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
 		"Lua No.1",
-		"It's really loading! Not just a cutscene!",
+		"Music distracting? Feel free to turn it off.",
 		"No, there are no easter eggs based on your device time.",
 		"O-Spin Triple!",
 		"OHHHHHHHHHHHHHH",
@@ -210,11 +213,11 @@ elseif setting.lang==3 then
 		"Powered by Love2D",
 		"REGRET!!",
 		"Secret number: 626",
-		"Decreasing DAS and ARR: faster, but harder to control.",
-		"Music distracting? Feel free to turn it off.",
+		"Sprint WR: 15.654s by VinceHD",
+		"Techmino = Technique + Tetromino",
 		"Techmino has a Nspire-CX edition!",
 		"Techmino is so fun!",
-		"Techmino = Technique + Tetromino",
+		"TetroDictionary (Little Z) in English can be found on Discord.",
 		"Try to use two rotate buttons. Even better, all three.",
 		"Warning: Programmer Art",
 		"What about 20 PCs?",
@@ -224,18 +227,15 @@ elseif setting.lang==3 then
 		"You can open saving directory from Stats page",
 		"You can set orientation for each block",
 		"ZS JL T O I",
-		"Join our discord!",
-		"Change log in English can be found on Discord.",
-		"TetroDictionary (Little Z) in English can be found on Discord."
 	}
-elseif setting.lang==4 then
+elseif SETTING.lang==4 then
 	L={'!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','\\','|',';',':','\'','"',',','<','.','>','/','?'}
 	local s=""
-	for i=1,math.random(16,26)do
+	for _=1,math.random(16,26)do
 		s=s..L[math.random(#L)]
 	end
 	return s
-elseif setting.lang==5 then
+elseif SETTING.lang==5 then
 	local R=math.random()
 	if R<.05 then
 		local time={
@@ -268,14 +268,14 @@ elseif setting.lang==5 then
 	elseif R<.1 then
 		local int=math.floor
 		L={
-			"平均"..int(stat.row/stat.time*60).."LPM,那可真强呢",
-			"平均"..int(stat.atk/stat.time*60).."APM,好厉害哦",
-			"平均"..(int(stat.atk/stat.row*10)*.1).."效,你看这数据能看么",
-			"平均"..(int(stat.atk/stat.row*10)*.1).."效,我就不说你多菜了",
-			"才玩了"..stat.game.."把,跟几十万局的没法比",
-			"才玩了"..stat.game.."把,玩了不下几万局的人可不在少数",
-			"才玩了"..int(stat.time/3600).."小时,人家总时长是你不知道多少倍",
-			"才玩了"..int(stat.time/3600).."小时,别人总时长跟你都不在一个数量级",
+			"平均"..int(STAT.row/STAT.time*60).."LPM,那可真强呢",
+			"平均"..int(STAT.atk/STAT.time*60).."APM,好厉害哦",
+			"平均"..(int(STAT.atk/STAT.row*10)*.1).."效,你看这数据能看么",
+			"平均"..(int(STAT.atk/STAT.row*10)*.1).."效,我就不说你多菜了",
+			"才玩了"..STAT.game.."把,跟几十万局的没法比",
+			"才玩了"..STAT.game.."把,玩了不下几万局的人可不在少数",
+			"才玩了"..int(STAT.time/3600).."小时,人家总时长是你不知道多少倍",
+			"才玩了"..int(STAT.time/3600).."小时,别人总时长跟你都不在一个数量级",
 		}
 	else
 		L={

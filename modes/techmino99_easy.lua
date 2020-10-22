@@ -1,8 +1,8 @@
 local gc=love.graphics
-local int,rnd=math.floor,math.random
+local rnd=math.random
 local powerUp={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 local function selectTarget(P)
-	if setting.swap then
+	if SETTING.swap then
 		for i=1,#P.keyPressing do
 			if P.keyPressing[i]then
 				P.keyPressing[i]=false
@@ -58,7 +58,7 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(35)
-		mStr(#players.alive.."/99",69,245)
+		mStr(#PLAYERS.alive.."/99",69,245)
 		mStr(P.modeData.point,80,285)
 		gc.draw(drawableText.ko,23,295)
 		setFont(20)

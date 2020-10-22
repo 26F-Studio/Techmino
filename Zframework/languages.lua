@@ -33,23 +33,12 @@ local langList={
 		finesse_ap="All Perfect",
 		finesse_fc="Full Combo",
 
-		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
-		setting_game="游戏设置",
-		setting_video="画面设置",
-		setting_sound="声音设置",
-		setting_control="控制设置",
-		setting_skin="外观设置",
-		dict="小Z方块词典",
-		preview="预览",
-		keyboard="键盘",joystick="手柄",
-		ctrlSetHelp="方向键选择/翻页,回车/空格修改,esc返回",
-		musicRoom="音乐室",
-		nowPlaying="正在播放:",
 		page="页面:",
 
 		ai_fixed="不能同时开启AI和固定序列",
 		ai_prebag="不能同时开启AI和自定义序列",
+		ai_mission="不能同时开启AI和自定义任务",
 		settingSaved="设置已保存",
 		settingSavingError="设置保存失败:",
 		keyMapSaved="键位设置已保存",
@@ -77,6 +66,12 @@ local langList={
 		getVersionFail="检测新版本失败",
 		versionIsNew="游戏已是最新版本",
 		versionIsOld="最新版本$1可以下载了!",
+		registerSuccessed="注册成功!",
+		registerFailed="注册失败",
+		netErrorCode="网络错误码",
+		noUsername="请填写用户名",
+		noPassword="请填写密码",
+		diffPassword="两次密码不一致",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -177,6 +172,7 @@ local langList={
 				setting="设置",
 				lang="言/A",
 				music="音乐室",
+				account="账户",
 				minigame="小游戏",
 				quit="退出",
 			},
@@ -185,14 +181,46 @@ local langList={
 				back="返回",
 			},
 			music={
+				title="音乐室",
+				arrow="→",
+				now="正在播放:",
+
 				bgm="BGM",
 				up="↑",
 				play="播放",
 				down="↓",
 				back="返回",
 			},
-			custom_basic={
-				drop="下落延迟",lock="锁定延迟",wait="出块等待",fall="消行延迟",
+			customGame={
+				title="自定义游戏",
+				subTitle="基本",
+				defSeq="默认序列",
+				noMsn="无任务",
+
+				drop="下落延迟",
+				lock="锁定延迟",
+				wait="出块等待",
+				fall="消行延迟",
+
+				bg="背景",
+				bgm="音乐",
+
+				copy="复制场地+序列+任务",
+				paste="粘贴场地+序列+任务",
+				clear="开始-消除",
+				puzzle="开始-拼图",
+
+				advance="更多设置(A)",
+				field="场地编辑(F)",
+				sequence="序列编辑(S)",
+				mission="任务编辑(M)",
+
+				back="返回",
+			},
+			custom_advance={
+				title="自定义游戏",
+				subTitle="高级",
+
 				next="Next",hold="Hold",oncehold="Hold一次",
 				block="方块可见",
 				ghost="阴影透明度",
@@ -202,19 +230,6 @@ local langList={
 				nextPos="生成预览",
 				bone="骨块",
 
-				bg="背景",
-				bgm="音乐",
-
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
-				clear="开始-消除",
-				puzzle="开始-拼图",
-
-				mission="←任务设置",
-				rule="更多规则(Tab)→",
-				back="返回",
-			},
-			custom_rule={
 				mindas="最小DAS",
 				minarr="最小ARR",
 				minsdarr="最小软降ARR",
@@ -229,11 +244,30 @@ local langList={
 				life="命数",
 				pushSpeed="上涨速度",
 
-				basic="←基本规则",
-				sequence="序列设置(Tab)→",
 				back="返回",
 			},
-			custom_seq={
+			custom_field={
+				title="自定义游戏",
+				subTitle="场地",
+
+				b12="[  ]",
+				any="不定",
+				space="×",
+				copy="复制",
+				paste="粘贴",
+				clear="清除",
+				pushLine="增加一行(K)",
+				delLine="消除行(L)",
+				demo="不显示×",
+
+				back="返回",
+			},
+			custom_sequence={
+				title="自定义游戏",
+				subTitle="序列",
+
+				sequence="序列",
+
 				Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",
 				Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
@@ -245,27 +279,12 @@ local langList={
 				copy="复制",
 				paste="粘贴",
 
-				sequence="序列",
-				rule="←更多规则",
-				draw="初始场地(Tab)→",
-				back="返回",
-			},
-			custom_draw={
-				b12="[  ]",
-				any="不定",
-				space="×",
-				copy="复制",
-				paste="粘贴",
-				clear="清除",
-				pushLine="增加一行(K)",
-				delLine="消除行(L)",
-				demo="不显示×",
-
-				sequence="←序列设置",
-				mission="任务设置(Tab)→",
 				back="返回",
 			},
 			custom_mission={
+				title="自定义游戏",
+				subTitle="任务",
+
 				_1="1",_2="2",_3="3",_4="4",
 				any1="any1",any2="any2",any3="any3",any4="any4",
 				PC="PC",
@@ -281,8 +300,6 @@ local langList={
 				paste="粘贴",
 				mission="强制任务",
 
-				draw="←初始场地",
-				basic="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -296,6 +313,7 @@ local langList={
 				quit=	"退出(Q)",
 			},
 			setting_game={
+				title="游戏设置",
 				graphic="←画面设置",
 				sound="声音设置→",
 
@@ -313,6 +331,7 @@ local langList={
 				back="返回",
 			},
 			setting_video={
+				title="画面设置",
 				sound="←声音设置",
 				game="游戏设置→",
 
@@ -343,6 +362,7 @@ local langList={
 				back="返回",
 			},
 			setting_sound={
+				title="声音设置",
 				game="←游戏设置",
 				graphic="画面设置→",
 
@@ -355,6 +375,9 @@ local langList={
 				back="返回",
 			},
 			setting_control={
+				title="控制设置",
+				preview="预览",
+
 				das="DAS",arr="ARR",
 				sddas="软降DAS",sdarr="软降ARR",
 				ihs="提前Hold",
@@ -364,9 +387,13 @@ local langList={
 				back="返回",
 			},
 			setting_key={
+				keyboard="键盘",
+				joystick="手柄",
+				help="方向键选择/翻页,回车/空格修改,esc返回",
 				back="返回",
 			},
 			setting_skin={
+				title="外观设置",
 				prev="←",next="→",
 				prev1="↑",next1="↓",spin1="R",
 				prev2="↑",next2="↓",spin2="R",
@@ -410,6 +437,44 @@ local langList={
 			setting_lang={
 				back="返回",
 			},--LangName added later
+			help={
+				dict="小Z词典",
+				staff="制作人员",
+				his="更新历史",
+				qq="作者QQ",
+				back="返回",
+			},
+			dict={
+				title="小Z方块词典",
+				keyboard="键盘",
+				link="打开链接",
+				up="↑",
+				down="↓",
+				back="返回",
+			},
+			staff={
+				back="返回",
+			},
+			history={
+				prev="↑",
+				next="↓",
+				back="返回",
+			},
+			stat={
+				path="打开存储目录",
+				back="返回",
+			},
+			login={
+				title="登录/注册",
+				username="用户名",
+				email="邮箱",
+				password="密码",
+				password2="确认密码",
+				back="返回",
+			},
+			account={
+				title="账户",
+			},
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
@@ -435,30 +500,6 @@ local langList={
 			},
 			pong={
 				reset="重置",
-				back="返回",
-			},
-			help={
-				dict="小Z词典",
-				staff="制作人员",
-				his="更新历史",
-				qq="作者QQ",
-				back="返回",
-			},
-			dict={
-				link="打开链接",
-				keyboard="键盘",
-				back="返回",
-			},
-			staff={
-				back="返回",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="返回",
-			},
-			stat={
-				path="打开存储目录",
 				back="返回",
 			},
 			debug={
@@ -553,7 +594,7 @@ local langList={
 			["custom_puzzle"]=		{"自定义",		"拼图",		"画点什么然后把它拼出来吧!"},
 			["sprintFix"]=			{"竞速",		"无移动",	"这是可能的。"},
 			["sprintLock"]=			{"竞速",		"无旋转",	"这不可能。"},
-			["sprintPenta"]=		{"竞速",		"五联块",	"伤脑筋十八块"},
+			["sprintPenta"]=		{"竞速",		"五连块",	"伤脑筋十八块"},
 			["sprintMPH"]=			{"竞速",		"MPH",		"纯随机\n无预览\n无暂存"},
 		},
 	},
@@ -591,23 +632,12 @@ local langList={
 		finesse_ap="完美极简",
 		finesse_fc="全连击",
 
-		custom="自定义游戏",basic="常规",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10像素吸附","20像素吸附","40像素吸附","60像素吸附","80像素吸附"},
-		setting_game="游戏设置",
-		setting_video="画面设置",
-		setting_sound="声音设置",
-		setting_control="控制设置",
-		setting_skin="外观设置",
-		dict="小Z方块词典",
-		preview="预览",
-		keyboard="键盘",joystick="手柄",
-		ctrlSetHelp="方向键选择/翻页,回车/空格修改,esc返回",
-		musicRoom="音乐室",
-		nowPlaying="正在播放:",
 		page="页面:",
 
 		ai_fixed="不能同时开启电脑玩家和固定序列",
 		ai_prebag="不能同时开启电脑玩家和自定义序列",
+		ai_mission="不能同时开启电脑玩家和自定义任务",
 		settingSaved="设置已保存",
 		settingSavingError="设置保存失败:",
 		keyMapSaved="键位设置已保存",
@@ -619,7 +649,7 @@ local langList={
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
 		getRank="本局评级:",
-		ranks={"D","C","B","A","S"},
+		ranks={"差","可","中","良","优"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -635,6 +665,12 @@ local langList={
 		getVersionFail="检测新版本失败",
 		versionIsNew="游戏已是最新版本",
 		versionIsOld="最新版本$1可以下载了!",
+		registerSuccessed="注册成功!",
+		registerFailed="注册失败",
+		netErrorCode="网络错误码",
+		noUsername="请填写用户名",
+		noPassword="请填写密码",
+		diffPassword="两次密码不一致",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -733,6 +769,7 @@ local langList={
 				setting="设置",
 				lang="言/A",
 				music="音乐室",
+				account="账户",
 				minigame="小游戏",
 				quit="退出",
 			},
@@ -741,14 +778,46 @@ local langList={
 				back="返回",
 			},
 			music={
+				title="音乐室",
+				arrow="→",
+				now="正在播放:",
+
 				bgm="BGM",
 				up="↑",
 				play="播放",
 				down="↓",
 				back="返回",
 			},
-			custom_basic={
-				drop="下落延迟",lock="锁定延迟",wait="出块等待",fall="消行延迟",
+			customGame={
+				title="自定义游戏",
+				subTitle="基本",
+				defSeq="默认序列",
+				noMsn="无任务",
+
+				drop="下落延迟",
+				lock="锁定延迟",
+				wait="出块等待",
+				fall="消行延迟",
+
+				bg="背景",
+				bgm="音乐",
+
+				copy="复制场地+序列+任务",
+				paste="粘贴场地+序列+任务",
+				clear="开始-消除",
+				puzzle="开始-拼图",
+
+				advance="更多设置(A)",
+				field="场地编辑(F)",
+				sequence="序列编辑(S)",
+				mission="任务编辑(M)",
+
+				back="返回",
+			},
+			custom_advance={
+				title="自定义游戏",
+				subTitle="高级",
+
 				next="预览",hold="暂存",oncehold="暂存一次",
 				block="方块可见",
 				ghost="阴影透明度",
@@ -758,24 +827,11 @@ local langList={
 				nextPos="生成预览",
 				bone="骨块",
 
-				bg="背景",
-				bgm="音乐",
-
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
-				clear="开始-消除",
-				puzzle="开始-拼图",
-
-				mission="←任务设置",
-				rule="更多规则(Tab)→",
-				back="返回",
-			},
-			custom_rule={
 				mindas="最小DAS",
 				minarr="最小ARR",
 				minsdarr="最小软降ARR",
 				noTele="禁止瞬移",
-				ospin="O旋",
+				ospin="O-spin",
 				target="目标行数",
 				visible="能见度",
 				freshLimit="锁延刷新限制",
@@ -785,11 +841,14 @@ local langList={
 				life="命数",
 				pushSpeed="上涨速度",
 
-				basic="←基本规则",
-				sequence="序列设置(Tab)→",
 				back="返回",
 			},
-			custom_seq={
+			custom_sequence={
+				title="自定义游戏",
+				subTitle="序列",
+
+				sequence="序列",
+
 				Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",
 				Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
@@ -801,12 +860,12 @@ local langList={
 				copy="复制",
 				paste="粘贴",
 
-				sequence="序列",
-				rule="←更多规则",
-				draw="初始场地(Tab)→",
 				back="返回",
 			},
-			custom_draw={
+			custom_field={
+				title="自定义游戏",
+				subTitle="场地",
+
 				b12="[  ]",
 				any="不定",
 				space="×",
@@ -817,11 +876,12 @@ local langList={
 				delLine="消除行(L)",
 				demo="不显示×",
 
-				sequence="←序列设置",
-				mission="任务设置(Tab)→",
 				back="返回",
 			},
 			custom_mission={
+				title="自定义游戏",
+				subTitle="任务",
+
 				_1="1",_2="2",_3="3",_4="4",
 				any1="any1",any2="any2",any3="any3",any4="any4",
 				PC="PC",
@@ -837,8 +897,6 @@ local langList={
 				paste="粘贴",
 				mission="强制任务",
 
-				draw="←初始场地",
-				basic="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -852,6 +910,8 @@ local langList={
 				quit=	"退出(Q)",
 			},
 			setting_game={
+				title="游戏设置",
+
 				graphic="←画面设置",
 				sound="声音设置→",
 
@@ -869,6 +929,8 @@ local langList={
 				back="返回",
 			},
 			setting_video={
+				title="画面设置",
+
 				sound="←声音设置",
 				game="游戏设置→",
 
@@ -899,6 +961,8 @@ local langList={
 				back="返回",
 			},
 			setting_sound={
+				title="声音设置",
+
 				game="←游戏设置",
 				graphic="画面设置→",
 
@@ -911,6 +975,9 @@ local langList={
 				back="返回",
 			},
 			setting_control={
+				title="控制设置",
+				preview="预览",
+
 				das="首次移动延迟",arr="移动重复延迟",
 				sddas="首次软降延迟",sdarr="软降重复延迟",
 				ihs="提前暂存",
@@ -920,9 +987,14 @@ local langList={
 				back="返回",
 			},
 			setting_key={
+				keyboard="键盘",
+				joystick="手柄",
+				help="方向键选择/翻页,回车/空格修改,esc返回",
 				back="返回",
 			},
 			setting_skin={
+				title="外观设置",
+
 				prev="←",next="→",
 				prev1="↑",next1="↓",spin1="转",
 				prev2="↑",next2="↓",spin2="转",
@@ -966,6 +1038,44 @@ local langList={
 			setting_lang={
 				back="返回",
 			},--LangName added later
+			help={
+				dict="小Z词典",
+				staff="制作人员",
+				his="更新历史",
+				qq="作者QQ",
+				back="返回",
+			},
+			dict={
+				title="小Z方块词典",
+				keyboard="键盘",
+				link="打开链接",
+				up="↑",
+				down="↓",
+				back="返回",
+			},
+			staff={
+				back="返回",
+			},
+			history={
+				prev="↑",
+				next="↓",
+				back="返回",
+			},
+			stat={
+				path="打开存储目录",
+				back="返回",
+			},
+			login={
+				title="登录/注册",
+				username="用户名",
+				email="邮箱",
+				password="密码",
+				password2="确认密码",
+				back="返回",
+			},
+			account={
+				title="账户",
+			},
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
@@ -991,30 +1101,6 @@ local langList={
 			},
 			pong={
 				reset="重置",
-				back="返回",
-			},
-			help={
-				dict="小Z词典",
-				staff="制作人员",
-				his="更新历史",
-				qq="作者QQ",
-				back="返回",
-			},
-			dict={
-				link="打开链接",
-				keyboard="键盘",
-				back="返回",
-			},
-			staff={
-				back="返回",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="返回",
-			},
-			stat={
-				path="打开存储目录",
 				back="返回",
 			},
 			debug={
@@ -1109,7 +1195,7 @@ local langList={
 			["custom_puzzle"]=		{"自定义",		"拼图",		"画点什么然后把它拼出来吧!"},
 			["sprintFix"]=			{"竞速",		"无移动",	"这是可能的。"},
 			["sprintLock"]=			{"竞速",		"无旋转",	"这不可能。"},
-			["sprintPenta"]=		{"竞速",		"五联块",	"伤脑筋十八块"},
+			["sprintPenta"]=		{"竞速",		"五连块",	"伤脑筋十八块"},
 			["sprintMPH"]=			{"竞速",		"纯净",		"纯随机\n无预览\n无暂存"},
 		},
 	},
@@ -1147,23 +1233,12 @@ local langList={
 		finesse_ap="All Perfect",
 		finesse_fc="Full Combo",
 
-		custom="Custom Game",basic="Basic",rule="Rule",field="Custom Field",mission="Mission",
 		snapLevelName={"Free pos","Snap-10","Snap-20","Snap-40","Snap-60","Snap-80"},
-		setting_game="Game Settings",
-		setting_video="Video Settings",
-		setting_sound="Sound Settings",
-		setting_control="Control Settings",
-		setting_skin="Layout Settings",
-		dict="TetroDictionary",
-		preview="Preview",
-		keyboard="Keyboard",joystick="Controller",
-		ctrlSetHelp="Arrow keys: select/change slot, Enter/Space: Change, Esc: Go back",
-		musicRoom="Music Room",
-		nowPlaying="Now Playing:",
 		page="Page:",
 
 		ai_fixed="The AI is incompatible with fixed sequences.",
 		ai_prebag="The AI is incompatible with custom sequences.",
+		ai_mission="The AI is incompatible with custom missions.",
 		settingSaved="Settings Saved",
 		settingSavingError="Failed to save settings:",
 		keyMapSaved="Key settings saved",
@@ -1191,6 +1266,12 @@ local langList={
 		getVersionFail="get newest version failed",
 		versionIsNew="You are now on the latest version.",
 		versionIsOld="Version $1 is available now!",
+		registerSuccessed="Register successed!",
+		registerFailed="Register failed",
+		netErrorCode="Network error code",
+		noUsername="Input username",
+		noPassword="Input password",
+		diffPassword="Password don't match",
 		errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
 		acts={
@@ -1286,6 +1367,7 @@ local langList={
 				setting="Settings",
 				lang="言/A",
 				music="Music Room",
+				account="Account",
 				minigame="Mini Games",
 				quit="Exit",
 			},
@@ -1294,14 +1376,46 @@ local langList={
 				back="Back",
 			},
 			music={
+				title="Music Room",
+				arrow="→",
+				now="Now Playing:",
+
 				bgm="BGM",
 				up="↑",
 				play="Play",
 				down="↓",
 				back="Back",
 			},
-			custom_basic={
-				drop="Drop Speed",lock="Lock Delay",wait="Entry Delay",fall="Line Delay",
+			customGame={
+				title="Custom Game",
+				subTitle="Basic",
+				defSeq="Default Seq.",
+				noMsn="No mission",
+
+				drop="Drop Delay",
+				lock="Lock Delay",
+				wait="Entry Delay",
+				fall="Line Delay",
+
+				bg="Background",
+				bgm="Music",
+
+				copy="Copy Field+Seq+Misn",
+				paste="Paste Field+Seq+Misn",
+				clear="Start-Clear",
+				puzzle="Start-Puzzle",
+
+				advance="More (A)",
+				field="Edit Field (F)",
+				sequence="Edit Sequence (S)",
+				mission="Edit Mission (M)",
+
+				back="Back",
+			},
+			custom_advance={
+				title="Custom Game",
+				subTitle="Advance",
+
 				next="Next",hold="Hold",oncehold="Hold Once",
 				block="Draw Block",
 				ghost="Ghost",
@@ -1311,19 +1425,6 @@ local langList={
 				nextPos="Next preview",
 				bone="Bone Block",
 
-				bg="Background",
-				bgm="Music",
-
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
-				clear="Start-Clear",
-				puzzle="Start-Puzzle",
-
-				mission="←Mission",
-				rule="Rules (Tab)→",
-				back="Back",
-			},
-			custom_rule={
 				mindas="min DAS",
 				minarr="min ARR",
 				minsdarr="min SDARR",
@@ -1338,11 +1439,30 @@ local langList={
 				life="Life",
 				pushSpeed="Garbage Speed",
 
-				basic="←Basic",
-				sequence="SEQ. (Tab)→",
 				back="Back",
 			},
-			custom_seq={
+			custom_field={
+				title="Custom Game",
+				subTitle="Field",
+
+				b12="[  ]",
+				any="Erase",
+				space="×",
+				copy="Copy",
+				paste="Paste",
+				clear="Clear",
+				pushLine="Add Line(K)",
+				delLine="Del Line(L)",
+				demo="Don't show ×",
+
+				back="Back",
+			},
+			custom_sequence={
+				title="Custom Game",
+				subTitle="Sequence",
+
+				sequence="Sequence",
+
 				Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",
 				Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
@@ -1354,27 +1474,12 @@ local langList={
 				copy="Copy",
 				paste="Paste",
 
-				sequence="Sequence",
-				rule="←Rules",
-				draw="Field (Tab)→",
-				back="Back",
-			},
-			custom_draw={
-				b12="[  ]",
-				any="Erase",
-				space="×",
-				copy="Copy",
-				paste="Paste",
-				clear="Clear",
-				pushLine="Add Line(K)",
-				delLine="Del Line(L)",
-				demo="Don't show ×",
-
-				sequence="←Sequence",
-				mission="Mission (Tab)→",
 				back="Back",
 			},
 			custom_mission={
+				title="Custom Game",
+				subTitle="Mission",
+
 				_1="1",_2="2",_3="3",_4="4",
 				any1="any1",any2="any2",any3="any3",any4="any4",
 				PC="PC",
@@ -1390,8 +1495,6 @@ local langList={
 				paste="Paste",
 				mission="Force mission",
 
-				draw="←Field",
-				basic="Basic (tab)→",
 				back="Back",
 			},
 			play={
@@ -1405,6 +1508,8 @@ local langList={
 				quit="Quit (Q)",
 			},
 			setting_game={
+				title="Game Settings",
+
 				graphic="←Video",
 				sound="Sound→",
 
@@ -1422,6 +1527,8 @@ local langList={
 				back="Back",
 			},
 			setting_video={
+				title="Video Settings",
+
 				sound="←Sound",
 				game="Game→",
 
@@ -1452,6 +1559,8 @@ local langList={
 				back="Back",
 			},
 			setting_sound={
+				title="Sound Settings",
+
 				game="←Game",
 				graphic="Video→",
 
@@ -1464,6 +1573,9 @@ local langList={
 				back="Back",
 			},
 			setting_control={
+				title="Control Settings",
+				preview="Preview",
+
 				das="DAS",arr="ARR",
 				sddas="Soft Drop DAS",sdarr="Soft Drop ARR",
 				ihs="Initial Hold",
@@ -1473,9 +1585,14 @@ local langList={
 				back="Back",
 			},
 			setting_key={
+				keyboard="Keyboard",
+				joystick="Controller",
+				help="Arrow keys: select/change slot, Enter/Space: Change, Esc: Go back",
 				back="Back",
 			},
 			setting_skin={
+				title="Layout Settings",
+
 				prev="←",next="→",
 				prev1="↑",next1="↓",spin1="R",
 				prev2="↑",next2="↓",spin2="R",
@@ -1519,6 +1636,37 @@ local langList={
 			setting_lang={
 				back="Back",
 			},--LangName added later
+			dict={
+				title="TetroDictionary",
+				keyboard="Keyboard",
+				link="Open URL",
+				up="↑",
+				down="↓",
+				back="Back",
+			},
+			staff={
+				back="Back",
+			},
+			history={
+				prev="↑",
+				next="↓",
+				back="Back",
+			},
+			stat={
+				path="Open Data Folder",
+				back="Back",
+			},
+			login={
+				title="Log in / Sign up",
+				username="Username",
+				email="E-mail",
+				password="Password",
+				password2="Again Password",
+				back="Back",
+			},
+			account={
+				title="Account",
+			},
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="Schulte Grid",
@@ -1551,23 +1699,6 @@ local langList={
 				staff="Staff",
 				his="History",
 				qq="Author's qq",
-				back="Back",
-			},
-			dict={
-				link="Open URL",
-				keyboard="Keyboard",
-				back="Back",
-			},
-			staff={
-				back="Back",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="Back",
-			},
-			stat={
-				path="Open Data Folder",
 				back="Back",
 			},
 			debug={
@@ -1700,23 +1831,12 @@ local langList={
 		finesse_ap="AP",
 		finesse_fc="FC",
 
-		custom="!@#$%^&*",basic="!!",rule="##",field="!@#$%^&* [##]",mission="(!)",
 		snapLevelName={"~","10","20","40","60","80"},
-		setting_game="%~~%",
-		setting_video="{~~}",
-		setting_sound="(~~)",
-		setting_control="[~~]",
-		setting_skin="%{~~}",
-		dict="TetroDictionary",
-		preview="?:",
-		keyboard="[##]",joystick="^-^",
-		ctrlSetHelp="..........................",
-		musicRoom="(~~~~)",
-		nowPlaying="~:",
 		page=":",
 
 		ai_fixed="X!!!",
 		ai_prebag="X!!!",
+		ai_mission="X!!!",
 		settingSaved="~~~",
 		settingSavingError="x!:",
 		keyMapSaved="~~~",
@@ -1740,12 +1860,17 @@ local langList={
 		noScore="?_____?",
 		highScore="__&:",
 		newRecord="^!!!^",
-		getNoticeFail="ge7 no7!ce f@i1ed",
-		getVersionFail="ge7 newe5t ver5i0n f@i1ed",
-		versionIsNew="Y0u @re now 0n the l@7e57 ver5ion.",
-		versionIsOld="Versi0n $1 is @v@i1able n0w!",
+		getNoticeFail="get notice failed",
+		getVersionFail="get newest version failed",
+		versionIsNew="You are now on the latest version.",
+		versionIsOld="Version $1 is available now!",
+		registerSuccessed="Register successed!",
+		registerFailed="Register failed",
+		netErrorCode="Network error code",
+		noUsername="Input username",
+		noPassword="Input password",
+		diffPassword="Password don't match",
 		errorMsg="An e??o? h@s occ^__ed @nd Techmino n__ds to r_st@rt.\n&**o* in#o h@$ b==n cre@ted, @nd y0u c@n $&nd it to the @uth0r.",
-
 		acts={
 			"←:","→:",
 			"R→:","←R:","R↑↓:",
@@ -1839,6 +1964,7 @@ local langList={
 				setting="_?_",
 				lang="言/A",
 				music="~~~",
+				account="Account",
 				minigame="^_^",
 				quit="X",
 			},
@@ -1847,14 +1973,46 @@ local langList={
 				back="X",
 			},
 			music={
+				title="(~~~~)",
+				arrow="→",
+				now="~:",
+
 				bgm="#~#",
 				up="↑",
 				play="!!!",
 				down="↓",
 				back="X",
 			},
-			custom_basic={
-				drop="↓",lock="↓_",wait="→=",fall="↓=",
+			customGame={
+				title="!@#$%^&*",
+				subTitle="!!",
+				defSeq="0-[123]",
+				noMsn="-x-",
+
+				drop="↓",
+				lock="↓_",
+				wait="→=",
+				fall="↓=",
+
+				bg="{~}",
+				bgm="(~)",
+
+				copy="Copy Field+Seq+Misn",
+				paste="Paste Field+Seq+Misn",
+				clear="Start-Clear",
+				puzzle="Start-Puzzle",
+
+				advance="More (A)",
+				field="Edit Field (F)",
+				sequence="Edit Sequence (S)",
+				mission="Edit Mission (M)",
+
+				back="X",
+			},
+			custom_advance={
+				title="!@#$%^&*",
+				subTitle="##",
+
 				next="→",hold="[ ]",oncehold="[ ]*1",
 				block="==↓==",
 				ghost="__↓__",
@@ -1863,19 +2021,7 @@ local langList={
 				highCam="↑__↑",
 				nextPos="???←",
 				bone="[]",
-				bg="{~}",
-				bgm="(~)",
 
-				copy="Copy Seq+Field+Misn",
-				paste="Paste Seq+Field+Misn",
-				clear="Start-Clear",
-				puzzle="Start-Puzzle",
-
-				mission="←Mission",
-				rule="Rule (Tab)→",
-				back="X",
-			},
-			custom_rule={
 				mindas="mDAS",
 				minarr="mARR",
 				minsdarr="msdARR",
@@ -1890,11 +2036,30 @@ local langList={
 				life="<R>",
 				pushSpeed="_↑_↑_",
 
-				basic="←Basic",
-				sequence="Seq (Tab)→",
 				back="X",
 			},
-			custom_seq={
+			custom_field={
+				title="!@#$%^&*",
+				subTitle="!@#$%^&* [##]",
+
+				b12="[  ]",
+				any="_",
+				space="×",
+				copy="→__",
+				paste="__→",
+				clear="XXX",
+				pushLine="↑↑↑↑↑(K)",
+				delLine="==X==(L)",
+				demo="X ×",
+
+				back="X",
+			},
+			custom_sequence={
+				title="!@#$%^&*",
+				subTitle="Sequence",
+
+				sequence="$=",
+
 				Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",
 				Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
@@ -1906,27 +2071,12 @@ local langList={
 				copy="→__",
 				paste="__→",
 
-				sequence="$=",
-				rule="←Rule",
-				draw="Field (Tab)→",
-				back="X",
-			},
-			custom_draw={
-				b12="[  ]",
-				any="_",
-				space="×",
-				copy="→__",
-				paste="__→",
-				clear="XXX",
-				pushLine="↑↑↑↑↑(K)",
-				delLine="==X==(L)",
-				demo="X ×",
-
-				sequence="←Sequence",
-				mission="Mission (Tab)→",
 				back="X",
 			},
 			custom_mission={
+				title="!@#$%^&*",
+				subTitle="(!)",
+
 				_1="1",_2="2",_3="3",_4="4",
 				any1="any1",any2="any2",any3="any3",any4="any4",
 				PC="PC",
@@ -1942,8 +2092,6 @@ local langList={
 				paste="Paste",
 				mission="Force mission",
 
-				draw="←Field",
-				basic="Basic (tab)→",
 				back="X",
 			},
 			play={
@@ -1957,6 +2105,8 @@ local langList={
 				quit="X (Q)",
 			},
 			setting_game={
+				title="%~~%",
+
 				graphic="←Video",
 				sound="Sound→",
 
@@ -1974,6 +2124,8 @@ local langList={
 				back="X",
 			},
 			setting_video={
+				title="{~~}",
+
 				sound="←Sound",
 				game="Game→",
 
@@ -2004,6 +2156,8 @@ local langList={
 				back="X",
 			},
 			setting_sound={
+				title="(~~)",
+
 				game="←Game",
 				graphic="Video→",
 
@@ -2016,6 +2170,9 @@ local langList={
 				back="X",
 			},
 			setting_control={
+				title="[~~]",
+				preview="?:",
+
 				das="x---x x x",arr="x   x-x-x",
 				sddas="↓---↓ ↓ ↓",sdarr="↓   ↓-↓-↓",
 				ihs="![ ]",
@@ -2025,9 +2182,14 @@ local langList={
 				back="X",
 			},
 			setting_key={
+				keyboard="[##]",
+				joystick="^-^",
+				help="..........................",
 				back="X",
 			},
 			setting_skin={
+				title="%{~~}",
+
 				prev="←",next="→",
 				prev1="↑",next1="↓",spin1="R",
 				prev2="↑",next2="↓",spin2="R",
@@ -2071,6 +2233,44 @@ local langList={
 			setting_lang={
 				back="X",
 			},--LangName added later
+			help={
+				dict="z",
+				staff="Orz",
+				his="_&_",
+				qq="_@_",
+				back="X",
+			},
+			dict={
+				title="TetroDictionary",
+				keyboard="□□□",
+				link="~~e>>",
+				up="↑",
+				down="↓",
+				back="X",
+			},
+			staff={
+				back="X",
+			},
+			history={
+				prev="↑",
+				next="↓",
+				back="X",
+			},
+			stat={
+				path="_$_",
+				back="X",
+			},
+			login={
+				title="Log in / Sign up",
+				username="@",
+				email="E-mail",
+				password="*",
+				password2="*",
+				back="X",
+			},
+			account={
+				title="@_@",
+			},
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="Schulte Grid",
@@ -2096,30 +2296,6 @@ local langList={
 			},
 			pong={
 				reset="R",
-				back="X",
-			},
-			help={
-				dict="z",
-				staff="Orz",
-				his="_&_",
-				qq="_@_",
-				back="X",
-			},
-			dict={
-				link="~~e>>",
-				keyboard="□□□",
-				back="X",
-			},
-			staff={
-				back="X",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="X",
-			},
-			stat={
-				path="_$_",
 				back="X",
 			},
 			debug={
@@ -2250,23 +2426,12 @@ local langList={
 		finesse_ap="您",
 		finesse_fc="全连",
 
-		custom="自定义",basic="普通",rule="规则",field="自定义场地",mission="任务",
 		snapLevelName={"无吸附","10px吸附","20px吸附","40px吸附","60px吸附","80px吸附"},
-		setting_game="游戏设置",
-		setting_video="改画面",
-		setting_sound="改声音",
-		setting_control="改控制",
-		setting_skin="改外观",
-		dict="小Z方块词典",
-		preview="预览",
-		keyboard="键盘",joystick="手柄",
-		ctrlSetHelp="方向键选择/翻页,回车/空格修改,esc返回",
-		musicRoom="音乐室",
-		nowPlaying="正在放:",
 		page="页面:",
 
 		ai_fixed="不能同时开启AI和固定序列",
 		ai_prebag="不能同时开启AI和自定义序列",
+		ai_mission="不能同时开启电脑玩家和自定义任务",
 		settingSaved="设置已保存",
 		settingSavingError="设置保存失败:",
 		keyMapSaved="键位设置已保存",
@@ -2278,7 +2443,7 @@ local langList={
 		recSavingError="纪录保存失败:",
 		switchSpawnSFX="请开启方块出生音效",
 		getRank="本局评级:",
-		ranks={"D","C","B","A","S"},
+		ranks={"菜","可","好","强","您"},
 
 		needRestart="重新开始以生效",
 		copySuccess="已复制到剪切板",
@@ -2291,9 +2456,15 @@ local langList={
 		highScore="最佳成绩",
 		newRecord="打破纪录",
 		getNoticeFail="拉取公告失败",
-		getVersionFail="拉取公告失败",
+		getVersionFail="检测新版本失败",
 		versionIsNew="游戏已是最新版本",
 		versionIsOld="最新版本$1可以下载了!",
+		registerSuccessed="注册成功!",
+		registerFailed="注册失败",
+		netErrorCode="网络错误码",
+		noUsername="账号密码都填不来?",
+		noPassword="账号密码都填不来?",
+		diffPassword="账号密码都填不来?",
 		errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 		acts={
@@ -2391,6 +2562,7 @@ local langList={
 				setting="设置",
 				lang="言/A",
 				music="音乐室",
+				account="账户",
 				minigame="小游戏",
 				quit="退出",
 			},
@@ -2399,14 +2571,46 @@ local langList={
 				back="返回",
 			},
 			music={
+				title="音乐室",
+				arrow="→",
+				now="正在放:",
+
 				bgm="歌",
 				up="↑",
 				play="播放",
 				down="↓",
 				back="返回",
 			},
-			custom_basic={
-				drop="下落延迟",lock="锁定延迟",wait="出块等待",fall="消行延迟",
+			customGame={
+				title="自定义游戏",
+				subTitle="基本",
+				defSeq="默认序列",
+				noMsn="无任务",
+
+				drop="下落延迟",
+				lock="锁定延迟",
+				wait="出块等待",
+				fall="消行延迟",
+
+				bg="背景",
+				bgm="音乐",
+
+				copy="复制场地+序列+任务",
+				paste="粘贴场地+序列+任务",
+				clear="开始-消除",
+				puzzle="开始-拼图",
+
+				advance="更多设置(A)",
+				field="场地编辑(F)",
+				sequence="序列编辑(S)",
+				mission="任务编辑(M)",
+
+				back="返回",
+			},
+			custom_advance={
+				title="自定义游戏",
+				subTitle="高级",
+
 				next="Next",hold="Hold",oncehold="Hold一次",
 				block="方块可见",
 				ghost="阴影透明度",
@@ -2416,19 +2620,6 @@ local langList={
 				nextPos="生成预览",
 				bone="骨块",
 
-				bg="背景",
-				bgm="音乐",
-
-				copy="复制序列+场地+任务",
-				paste="粘贴序列+场地+任务",
-				clear="开始-消除",
-				puzzle="开始-拼图",
-
-				mission="←任务设置",
-				rule="更多规则(Tab)→",
-				back="返回",
-			},
-			custom_rule={
 				mindas="最小DAS",
 				minarr="最小ARR",
 				minsdarr="最小软降ARR",
@@ -2443,11 +2634,30 @@ local langList={
 				life="命数",
 				pushSpeed="上涨速度",
 
-				basic="←基本规则",
-				sequence="序列设置(Tab)→",
 				back="返回",
 			},
-			custom_seq={
+			custom_field={
+				title="自定义游戏",
+				subTitle="场地",
+
+				b12="[  ]",
+				any="不定",
+				space="×",
+				copy="复制",
+				paste="粘贴",
+				clear="清除",
+				pushLine="增加一行(K)",
+				delLine="消除行(L)",
+				demo="不显示×",
+
+				back="返回",
+			},
+			custom_sequence={
+				title="自定义游戏",
+				subTitle="序列",
+
+				sequence="序列",
+
 				Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",
 				Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",
 				V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
@@ -2459,27 +2669,12 @@ local langList={
 				copy="复制",
 				paste="粘贴",
 
-				sequence="序列",
-				rule="←更多规则",
-				draw="初始场地(Tab)→",
-				back="返回",
-			},
-			custom_draw={
-				b12="[  ]",
-				any="不定",
-				space="×",
-				copy="复制",
-				paste="粘贴",
-				clear="清除",
-				pushLine="增加一行(K)",
-				delLine="消除行(L)",
-				demo="不显示×",
-
-				sequence="←序列设置",
-				mission="任务设置(Tab)→",
 				back="返回",
 			},
 			custom_mission={
+				title="自定义游戏",
+				subTitle="任务",
+
 				_1="1",_2="2",_3="3",_4="4",
 				any1="any1",any2="any2",any3="any3",any4="any4",
 				PC="PC",
@@ -2495,8 +2690,6 @@ local langList={
 				paste="粘贴",
 				mission="强制任务",
 
-				draw="←初始场地",
-				basic="基础设置(tab)→",
 				back="返回",
 			},
 			play={
@@ -2510,6 +2703,8 @@ local langList={
 				quit=	"退出(Q)",
 			},
 			setting_game={
+				title="游戏设置",
+
 				graphic="←改画面",
 				sound="改声音→",
 
@@ -2527,6 +2722,8 @@ local langList={
 				back="返回",
 			},
 			setting_video={
+				title="改画面",
+
 				sound="←改声音",
 				game="游戏设置→",
 
@@ -2557,6 +2754,8 @@ local langList={
 				back="返回",
 			},
 			setting_sound={
+				title="改声音",
+
 				game="←游戏设置",
 				graphic="改画面→",
 
@@ -2569,6 +2768,9 @@ local langList={
 				back="返回",
 			},
 			setting_control={
+				title="改控制",
+				preview="预览",
+
 				das="DAS",arr="ARR",
 				sddas="软降DAS",sdarr="软降ARR",
 				ihs="提前Hold",
@@ -2578,9 +2780,14 @@ local langList={
 				back="返回",
 			},
 			setting_key={
+				keyboard="键盘",
+				joystick="手柄",
+				help="方向键选择/翻页,回车/空格修改,esc返回",
 				back="返回",
 			},
 			setting_skin={
+				title="改外观",
+
 				prev="←",next="→",
 				prev1="↑",next1="↓",spin1="R",
 				prev2="↑",next2="↓",spin2="R",
@@ -2624,6 +2831,44 @@ local langList={
 			setting_lang={
 				back="返回",
 			},--LangName added later
+			help={
+				dict="小Z词典",
+				staff="制作人员",
+				his="更新历史",
+				qq="作者QQ",
+				back="返回",
+			},
+			dict={
+				title="小Z方块词典",
+				keyboard="键盘",
+				link="看链接",
+				up="↑",
+				down="↓",
+				back="返回",
+			},
+			staff={
+				back="返回",
+			},
+			history={
+				prev="↑",
+				next="↓",
+				back="返回",
+			},
+			stat={
+				path="打开存储目录",
+				back="返回",
+			},
+			login={
+				title="登录/注册",
+				username="用户名",
+				email="邮箱",
+				password="密码",
+				password2="你觉得应该填啥",
+				back="返回",
+			},
+			account={
+				title="账户",
+			},
 			minigame={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
@@ -2649,30 +2894,6 @@ local langList={
 			},
 			pong={
 				reset="重置",
-				back="返回",
-			},
-			help={
-				dict="小Z词典",
-				staff="制作人员",
-				his="更新历史",
-				qq="作者QQ",
-				back="返回",
-			},
-			dict={
-				link="看链接",
-				keyboard="键盘",
-				back="返回",
-			},
-			staff={
-				back="返回",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="返回",
-			},
-			stat={
-				path="打开存储目录",
 				back="返回",
 			},
 			debug={
@@ -2720,7 +2941,7 @@ local langList={
 			["round_5"]=			{"回合制",		"极限",		"下棋"},
 			["master_beginner"]=	{"大师",		"疯狂",		"无脑20G"},
 			["master_advance"]=		{"大师",		"极限",		"简单20G"},
-			["master_final"]=		{"大师",		"终点",		"究极20G:拜拜了您嘞"},
+			["master_final"]=		{"大师",		"终点",		"究极20G:真正的游戏"},
 			["GM"]=					{"宗师",		"GM",		"你行你上"},
 			["blind_easy"]=			{"隐形",		"半隐",		"谁都能玩"},
 			["blind_normal"]=		{"隐形",		"全隐",		"稍加练习即可"},
@@ -2767,7 +2988,7 @@ local langList={
 			["custom_puzzle"]=		{"自定义",		"拼图",		"宁就是方块艺术家"},
 			["sprintFix"]=			{"竞速",		"无移动",	"这是可能的。"},
 			["sprintLock"]=			{"竞速",		"无旋转",	"这不可能。"},
-			["sprintPenta"]=		{"竞速",		"五联块",	"离谱"},
+			["sprintPenta"]=		{"竞速",		"五连块",	"离谱"},
 			["sprintMPH"]=			{"竞速",		"纯净",		"听说你反应很快?"},
 		},
 	},
@@ -2829,7 +3050,6 @@ end
 local langMeta={__index=langList[1]}
 for i=2,#langList do setmetatable(langList[i],langMeta)end
 
-local gc=love.graphics
 local LANG={}
 local drawableTextLoad={
 	"anykey",
@@ -2837,13 +3057,6 @@ local drawableTextLoad={
 	"next","hold",
 	"win","finish","gameover","pause",
 
-	"custom","basic","rule","field","mission",
-	"setting_game","setting_video","setting_sound",
-	"setting_control","setting_skin",
-	"dict",
-	"keyboard","joystick",
-	"ctrlSetHelp",
-	"musicRoom","nowPlaying",
 	"VKTchW","VKOrgW","VKCurW",
 	"noScore","highScore",
 }
@@ -2853,7 +3066,7 @@ end
 function LANG.set(l)
 	text=langList[l]
 	for S,L in next,Widgets do
-		for N,W in next,L do
+		for _,W in next,L do
 			W.text=text.WidgetText[S][W.name]
 		end
 	end

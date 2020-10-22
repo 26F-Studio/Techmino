@@ -62,7 +62,7 @@ function LIGHT.draw()
 		Lights[i]:draw()
 	end
 end
-function LIGHT.clear(L)
+function LIGHT.clear()
 	for i=#Lights,1,-1 do
 		Lights[i]:destroy()
 		Lights[i]=nil

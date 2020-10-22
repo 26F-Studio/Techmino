@@ -1,12 +1,12 @@
 local gc=love.graphics
-local int,ceil,rnd,abs=math.floor,math.ceil,math.random,math.abs
-local max,min,sin,cos=math.max,math.min,math.sin,math.cos
+local int,ceil,rnd=math.floor,math.ceil,math.random
+local max,min,sin=math.max,math.min,math.sin
 local ins,rem=table.insert,table.remove
 
-local BG
-local scr=scr
+local function NULL(...)end
+local SCR=SCR
 local BGvars={_G=_G,SHADER=SHADER}
-
+local BG
 local back={}
 back.none={
 	draw=function()
@@ -20,7 +20,7 @@ back.grey={
 }
 back.glow={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -32,7 +32,7 @@ back.glow={
 }--Light-dark
 back.rgb={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -47,7 +47,7 @@ back.rgb={
 }--Changing pure color
 back.flink={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -74,21 +74,21 @@ back.wing={
 	init=function()
 		gc.setDefaultFilter("linear","linear")
 		bar=gc.newCanvas(41,1)
+		gc.setCanvas(bar)
 		gc.push("transform")
-			gc.origin()
-			gc.setCanvas(bar)
-			for x=0,20 do
-				gc.setColor(1,1,1,x/11)
-				gc.rectangle("fill",x,0,1,1)
-				gc.rectangle("fill",41-x,0,1,1)
-			end
-			gc.setCanvas()
+		gc.origin()
+		for x=0,20 do
+			gc.setColor(1,1,1,x/11)
+			gc.rectangle("fill",x,0,1,1)
+			gc.rectangle("fill",41-x,0,1,1)
+		end
 		gc.pop()
+		gc.setCanvas()
 		BG.resize()
 	end,
 	resize=function()
 		crystal={}
-		W,H=scr.w,scr.h
+		W,H=SCR.w,SCR.h
 		for i=1,16 do
 			crystal[i]={
 				x=i<9 and W*.05*i or W*.05*(28-i),
@@ -133,19 +133,19 @@ back.wing={
 back.fan={
 	init=function()
 		fan=_G.title_fan
-		t=0
+		t=rnd(2600)
 		petal={}
 		BG.resize()
 	end,
 	resize=function()
-		CX,CY=scr.w/2,scr.h/2
-		W,H=scr.w,scr.h
+		CX,CY=SCR.w/2,SCR.h/2
+		W,H=SCR.w,SCR.h
 	end,
 	update=function()
 		t=t+1
 		if t%10==0 then
 			ins(petal,{
-				x=scr.w*rnd(),
+				x=SCR.w*rnd(),
 				y=0,
 				vy=2+rnd()*2,
 				vx=rnd()*2-.5,
@@ -169,7 +169,7 @@ back.fan={
 	draw=function()
 		gc.push("transform")
 		gc.translate(CX,CY+20*sin(t*.02))
-		gc.scale(scr.k)
+		gc.scale(SCR.k)
 		gc.clear(.1,.1,.1)
 		gc.setLineWidth(320)
 		gc.setColor(.3,.2,.3)
@@ -203,14 +203,56 @@ back.fan={
 	end,
 }
 
+back.welcome={
+	init=function()
+		t=rnd()*2600
+		txt=gc.newText(_G.getFont(80),"Welcome To Techmino")
+	end,
+	resize=function()
+		W,H=SCR.w,SCR.h
+	end,
+	update=function(dt)
+		t=t+dt
+	end,
+	draw=function()
+		if -t%13.55<.1 then
+			gc.clear(.2+.1*sin(t),.2+.1*sin(1.26*t),.2+.1*sin(1.626*t))
+		else
+			gc.clear(.1,.1,.1)
+		end
+		gc.push("transform")
+		gc.replaceTransform(_G.xOy)
+		gc.translate(640,360)
+		if -t%18.26<1 then
+			gc.scale(6.26)
+			gc.translate(-t*400%800-400,0)
+		else
+			gc.scale(1.1626,1.26)
+		end
+		if -t%12.6<.1 then
+			gc.translate(60*sin(t*.26),100*sin(t*.626))
+		end
+		if -t%16.26<.1 then
+			gc.rotate(t+5*sin(.26*t)+5*sin(.626*t))
+		end
+		gc.setColor(.3,.6,.7)
+		gc.draw(txt,-883*.5+4*sin(t*.7942),-110*.5+4*sin(t*.7355))
+		gc.setColor(.6,.8,1)
+		gc.draw(txt,-883*.5+2*sin(t*.77023),-110*.5+2*sin(t*.7026))
+		gc.setColor(1,1,1)
+		gc.draw(txt,-883*.5+3*sin(t*.7283),-110*.5+3*sin(t*.7626))
+		gc.pop()
+	end,
+}
+
 back.aura={
 	init=function()
-		t=rnd()*3600
-		BG.resize(scr.w,scr.h)
+		t=rnd()*2600
+		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
-		SHADER.aura:send("w",scr.W)
-		SHADER.aura:send("h",h*scr.dpi)
+	resize=function(_,h)
+		SHADER.aura:send("w",SCR.W)
+		SHADER.aura:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -218,17 +260,17 @@ back.aura={
 	draw=function()
 		SHADER.aura:send("t",t)
 		gc.setShader(SHADER.aura)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Cool liquid background
 back.bg1={
 	init=function()
-		t=0
-		BG.resize(scr.w)
+		t=rnd()*2600
+		BG.resize()
 	end,
-	resize=function(w)
-		SHADER.gradient1:send("w",scr.W)
+	resize=function()
+		SHADER.gradient1:send("w",SCR.W)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -236,17 +278,17 @@ back.bg1={
 	draw=function()
 		SHADER.gradient1:send("t",t)
 		gc.setShader(SHADER.gradient1)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Horizonal red-blue gradient
 back.bg2={
 	init=function()
-		t=0
-		BG.resize(nil,scr.h)
+		t=rnd()*2600
+		BG.resize(nil,SCR.h)
 	end,
-	resize=function(w,h)
-		SHADER.gradient2:send("h",h*scr.dpi)
+	resize=function(_,h)
+		SHADER.gradient2:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -254,18 +296,18 @@ back.bg2={
 	draw=function()
 		SHADER.gradient2:send("t",t)
 		gc.setShader(SHADER.gradient2)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Vertical red-green gradient
 back.rainbow={
 	init=function()
-		t=0
-		BG.resize(scr.w,scr.h)
+		t=rnd()*2600
+		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
-		SHADER.rgb1:send("w",scr.W)
-		SHADER.rgb1:send("h",h*scr.dpi)
+	resize=function(_,h)
+		SHADER.rgb1:send("w",SCR.W)
+		SHADER.rgb1:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -273,18 +315,18 @@ back.rainbow={
 	draw=function()
 		SHADER.rgb1:send("t",t)
 		gc.setShader(SHADER.rgb1)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Colorful RGB
 back.rainbow2={
 	init=function()
-		t=0
-		BG.resize(scr.w,scr.h)
+		t=rnd()*2600
+		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
-		SHADER.rgb2:send("w",scr.W)
-		SHADER.rgb2:send("h",h*scr.dpi)
+	resize=function(_,h)
+		SHADER.rgb2:send("w",SCR.W)
+		SHADER.rgb2:send("h",h*SCR.dpi)
 	end,
 	update=function(dt)
 		t=t+dt
@@ -292,13 +334,13 @@ back.rainbow2={
 	draw=function()
 		SHADER.rgb2:send("t",t)
 		gc.setShader(SHADER.rgb2)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end,
 }--Blue RGB
 back.lightning={
 	init=function()
-		t=0
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -315,9 +357,9 @@ local blocks=require("parts/mino")
 local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 back.lightning2={
 	init=function()
-		t=0
+		t=rnd()*2600
 		colorLib=_G.SKIN.libColor
-		colorSet=_G.setting.skin
+		colorSet=_G.SETTING.skin
 		blockImg=_G.TEXTURE.miniBlock
 	end,
 	update=function(dt)
@@ -338,7 +380,7 @@ back.lightning2={
 local matrixT={}for i=1,50 do matrixT[i]={}for j=1,50 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 back.matrix={
 	init=function()
-		t=rnd()*3600
+		t=rnd()*2600
 	end,
 	update=function(dt)
 		t=t+dt
@@ -346,10 +388,10 @@ back.matrix={
 	draw=function()
 		gc.clear(.15,.15,.15)
 		gc.push("transform")
-			local k=scr.k
+			local k=SCR.k
 			gc.scale(k)
-			local Y=ceil(scr.h/80/k)
-			for x=1,ceil(scr.w/80/k)do
+			local Y=ceil(SCR.h/80/k)
+			for x=1,ceil(SCR.w/80/k)do
 				for y=1,Y do
 					gc.setColor(1,1,1,sin(x+matrixT[x][y]*t)*.1+.1)
 					gc.rectangle("fill",80*x,80*y,-80,-80)
@@ -362,21 +404,21 @@ back.matrix={
 back.space={
 	init=function()
 		stars={}
-		W,H=scr.w+20,scr.h+20
-		BG.resize(scr.w,scr.h)
+		W,H=SCR.w+20,SCR.h+20
+		BG.resize(SCR.w,SCR.h)
 	end,
-	resize=function(w,h)
+	resize=function()
 		local S=stars
 		for i=1,1260,5 do
 			local s=rnd(26,40)*.1
-			S[i]=s*scr.k			--Size
+			S[i]=s*SCR.k			--Size
 			S[i+1]=rnd(W)-10		--X
 			S[i+2]=rnd(H)-10		--Y
 			S[i+3]=(rnd()-.5)*.01*s	--Vx
 			S[i+4]=(rnd()-.5)*.01*s	--Vy
 		end
 	end,
-	update=function(dt)
+	update=function()
 		local S=stars
 		--Star moving
 		for i=1,1260,5 do
@@ -404,31 +446,31 @@ back.space={
 
 --Make BG vars invisible
 for _,bg in next,back do
-	if not bg.init		then bg.init=	NULL end setfenv(bg.init	,BGvars)
-	if not bg.resize	then bg.resize=	NULL end setfenv(bg.resize	,BGvars)
-	if not bg.update	then bg.update=	NULL end setfenv(bg.update	,BGvars)
-	if not bg.draw		then bg.draw=	NULL end setfenv(bg.draw	,BGvars)
-	if not bg.event		then bg.event=	NULL end setfenv(bg.event	,BGvars)
-	if not bg.discard	then bg.discard=NULL end setfenv(bg.discard	,BGvars)
+	if bg.init		then setfenv(bg.init	,BGvars)end
+	if bg.resize	then setfenv(bg.resize	,BGvars)end
+	if bg.update	then setfenv(bg.update	,BGvars)end
+	if bg.draw		then setfenv(bg.draw	,BGvars)end
+	if bg.event		then setfenv(bg.event	,BGvars)end
+	if bg.discard	then setfenv(bg.discard	,BGvars)end
 end
 
 BG={
 	cur="none",
+	init=NULL,
 	resize=NULL,
 	update=NULL,
 	draw=back.none.draw,
+	event=NULL,
+	discard=NULL,
 }
 function BG.send(data)
 	if BG.event then
 		BG.event(data)
 	end
 end
-function BG.set(bg,data)
-	if bg==BG.cur or not setting.bg then return end
-	if BG.discard then
-		BG.discard()
-		collectgarbage()
-	end
+function BG.set(bg)
+	if bg==BG.cur or not SETTING.bg then return end
+	BG.discard()
 	if not back[bg]then
 		LOG.print("No BG called"..bg,"warn")
 		return

@@ -1,19 +1,19 @@
 local function update_round(P)
-	if #players.alive>1 then
+	if #PLAYERS.alive>1 then
 		P.control=false
 		local ID=P.id
 		repeat
 			ID=ID+1
-			if not players[ID]then ID=1 end
-		until players[ID].alive or ID==P.id
-		players[ID].control=true
+			if not PLAYERS[ID]then ID=1 end
+		until PLAYERS[ID].alive or ID==P.id
+		PLAYERS[ID].control=true
 	end
 end
 
 return{
 	color=color.green,
 	env={
-		drop=1e99,lock=1e99,
+		drop=300,lock=300,
 		oncehold=false,
 		dropPiece=update_round,
 		bg="rainbow",bgm="push",
@@ -21,7 +21,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 		PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,13000))
-		game.garbageSpeed=1e99
+		GAME.garbageSpeed=1e99
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Pieces   "..toTime(D[2])end,

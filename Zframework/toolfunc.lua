@@ -14,20 +14,19 @@ do--LOADLIB
 			Windows="client",
 			Linux="client",
 			Android="client.so",
-			libFunc="client",
+			libFunc="luaopen_client",
 		},
 	}
 	function LOADLIB(name)
 		local libName=libName[name]
-		if system=="Windows"or system=="Linux"then
-			local success,message=require(libName[system])
+		if SYSTEM=="Windows"or SYSTEM=="Linux"then
+			local success,message=require(libName[SYSTEM])
 			if success then
-				LOG.print(name.." load successfully","warn",color.green)
 				return success
 			else
 				LOG.print("Cannot load "..name..": "..message,"warn",color.red)
 			end
-		elseif system=="Android"then
+		elseif SYSTEM=="Android"then
 			local fs=love.filesystem
 			local platform={"arm64-v8a","armeabi-v7a"}
 			local libFunc
@@ -54,10 +53,9 @@ do--LOADLIB
 				LOG.print("failed to load "..name,"warn",color.red)
 				return
 			end
-			LOG.print(name.." load successfully","warn",color.green)
 			return libFunc()
 		else
-			LOG.print("No "..name.." for "..system,"warn",color.red)
+			LOG.print("No "..name.." for "..SYSTEM,"warn",color.red)
 			return
 		end
 		return true
@@ -100,6 +98,20 @@ do--setFont
 			end
 			return fontCache[s]
 		end
+	end
+end
+do--upperChar
+	local upper=string.upper
+	upperList={
+		["1"]="!",["2"]="@",["3"]="#",["4"]="$",["5"]="%",
+		["6"]="^",["7"]="&",["8"]="*",["9"]="(",["0"]=")",
+		["`"]="~",["-"]="_",["="]="+",
+		["["]="{",["]"]="}",["\\"]="|",
+		[";"]=":",["'"]="\"",
+		[","]="<",["."]=">",["/"]="?",
+	}
+	function upperChar(c)
+		return upperList[c]or upper(c)
 	end
 end
 do--dumpTable
@@ -152,24 +164,23 @@ do--dumpTable
 end
 do--httpRequest
 	client=LOADLIB("NETlib")
-	if client then
-		function httpRequest(tick,url,method)
-			local task,err=client.httpraw{
-				url=url,
-				method=method or"GET",
-				-- header={},
-				-- body="",
-			}
-			if task then
-				TASK.new(tick,{task=task,time=0})
-			else
-				LOG.print("NETlib error: "..err,"warn")
-			end
+	httpRequest=
+	client and function(tick,api,method,header,body)
+		local task,err=client.httpraw{
+			url="http://47.103.200.40/"..api,
+			method=method or"GET",
+			header=header,
+			body=body,
+		}
+		if task then
+			TASK.new(tick,{task=task,time=0,net=true})
+		else
+			LOG.print("NETlib error: "..err,"warn")
 		end
-	else
-		function httpRequest(tick,url,method)
-			LOG.print("[NO NETlib]",5,color.yellow)
-		end
+		TASK.netTaskCount=TASK.netTaskCount+1
+	end or
+	function()
+		LOG.print("[NO NETlib]",5,color.yellow)
 	end
 end
 do--json
@@ -223,7 +234,7 @@ do--json
 		return "\\" .. (escape_char_map[c] or string.format("u%04x", c:byte()))
 	end
 
-	local function encode_nil(val) return "null" end
+	local function encode_nil() return "null" end
 
 	local function encode_table(val, stack)
 		local res = {}
@@ -245,7 +256,7 @@ do--json
 			end
 			if n ~= #val then error("invalid table: sparse array") end
 			-- Encode
-			for i, v in ipairs(val) do table.insert(res, encode(v, stack)) end
+			for _, v in ipairs(val) do table.insert(res, encode(v, stack)) end
 			stack[val] = nil
 			return "[" .. table.concat(res, ",") .. "]"
 

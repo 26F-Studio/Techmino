@@ -42,7 +42,7 @@ function SFX.fieldPlay(s,v,P)
 	SFX.play(s,v,(P.curX+P.sc[2]-5.5)*.15)
 end
 function SFX.play(s,vol,pos)
-	if setting.sfx==0 then return end
+	if SETTING.sfx==0 then return end
 	local S=SFX.list[s]--Source list
 	if not S then return end
 	local n=1
@@ -57,13 +57,13 @@ function SFX.play(s,vol,pos)
 	S=S[n]--AU_SRC
 	if S:getChannelCount()==1 then
 		if pos then
-			pos=pos*setting.stereo
+			pos=pos*SETTING.stereo
 			S:setPosition(pos,1-pos^2,0)
 		else
 			S:setPosition(0,0,0)
 		end
 	end
-	S:setVolume(((vol or 1)*setting.sfx)^1.626)
+	S:setVolume(((vol or 1)*SETTING.sfx)^1.626)
 	S:play()
 end
 function SFX.fplay(s,vol,pos)
@@ -81,7 +81,7 @@ function SFX.fplay(s,vol,pos)
 	S=S[n]--AU_SRC
 	if S:getChannelCount()==1 then
 		if pos then
-			pos=pos*setting.stereo
+			pos=pos*SETTING.stereo
 			S:setPosition(pos,1-pos^2,0)
 		else
 			S:setPosition(0,0,0)

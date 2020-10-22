@@ -1,5 +1,4 @@
 local int=math.floor
-local ins=table.insert
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,45,40,36,32,30}
 local pc_fall={18,16,14,12,10,9,8,7,6}
@@ -63,7 +62,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		newPC(players[1])
+		newPC(PLAYERS[1])
 	end,
 	mesDisp=function(P)
 		setFont(75)

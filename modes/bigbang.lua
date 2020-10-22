@@ -1,11 +1,4 @@
 local format=string.format
-local function getField()
-	local F={}
-	return F
-end
-local function newField(P)
-
-end
 return{
 	color=color.lGrey,
 	env={

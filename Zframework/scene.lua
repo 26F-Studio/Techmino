@@ -1,6 +1,6 @@
 local gc=love.graphics
 local abs=math.abs
-local scr=scr
+local SCR=SCR
 
 sceneInit,sceneBack={},{}
 local sceneInit,sceneBack=sceneInit,sceneBack
@@ -54,35 +54,35 @@ local swap={
 	fade={30,15,function(t)
 		local t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	fade_togame={120,20,function(t)
 		local t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	slowFade={180,90,function(t)
 		local t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,scr.w,scr.h)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	swipeL={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(3-2*t)*2-1
-		gc.rectangle("fill",t*scr.w,0,scr.w,scr.h)
+		gc.rectangle("fill",t*SCR.w,0,SCR.w,SCR.h)
 	end},
 	swipeR={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(2*t-3)*2+1
-		gc.rectangle("fill",t*scr.w,0,scr.w,scr.h)
+		gc.rectangle("fill",t*SCR.w,0,SCR.w,SCR.h)
 	end},
 	swipeD={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(2*t-3)*2+1
-		gc.rectangle("fill",0,t*scr.h,scr.w,scr.h)
+		gc.rectangle("fill",0,t*SCR.h,SCR.w,SCR.h)
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back

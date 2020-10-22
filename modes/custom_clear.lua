@@ -1,4 +1,3 @@
-local gc=love.graphics
 local int=math.floor
 return{
 	color=color.white,
@@ -9,13 +8,13 @@ return{
 		for k,v in next,customEnv do
 			modeEnv[k]=v
 		end
-		if preBag[1]then
-			modeEnv.bag=preBag
+		if BAG[1]then
+			modeEnv.bag=BAG
 		else
 			modeEnv.bag=nil
 		end
-		if preMission[1]then
-			modeEnv.mission=preMission
+		if MISSION[1]then
+			modeEnv.mission=MISSION
 		else
 			modeEnv.mission=nil
 		end
@@ -29,24 +28,24 @@ return{
 				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
-		preField.h=20
+		FIELD.h=20
 		repeat
 			for i=1,10 do
-				if preField[preField.h][i]>0 then
+				if FIELD[FIELD.h][i]>0 then
 					goto L
 				end
 			end
-			preField.h=preField.h-1
-		until preField.h==0
+			FIELD.h=FIELD.h-1
+		until FIELD.h==0
 		::L::
-		for _,P in next,players.alive do
+		for _,P in next,PLAYERS.alive do
 			local t=P.showTime*3
-			for y=1,preField.h do
+			for y=1,FIELD.h do
 				P.field[y]=freeRow.get(0)
 				P.visTime[y]=freeRow.get(t)
-				for x=1,10 do P.field[y][x]=preField[y][x]end
+				for x=1,10 do P.field[y][x]=FIELD[y][x]end
 			end
-			P.garbageBeneath=preField.h
+			P.garbageBeneath=FIELD.h
 		end
 		modeEnv.bg=customEnv.bg
 		modeEnv.bgm=customEnv.bgm
