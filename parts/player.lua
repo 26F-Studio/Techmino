@@ -1911,7 +1911,9 @@ function player.hold(P,ifpre)
 		if not(H or C)then return end
 
 		--Finesse check
-		if not(H and C and H.id==C.id and H.name==C.name or P.ctrlCount>1)then
+		if H and C and H.id==C.id and H.name==C.name then
+			P.ctrlCount=P.ctrlCount+1
+		elseif P.ctrlCount<=1 then
 			P.ctrlCount=0
 		end
 
