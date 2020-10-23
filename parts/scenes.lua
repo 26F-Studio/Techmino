@@ -849,7 +849,7 @@ do--customGame
 
 		--Sequence
 		setFont(30)
-		gc.printf(customEnv.sequence,330,550,240,"right")
+		gc.print(customEnv.sequence,330,510)
 		setFont(40)
 		if #BAG>0 then
 			gc.setColor(1,1,int(Timer()*6.26)%2)
@@ -2772,30 +2772,30 @@ end
 do--login
 	function keyDown.login(key)
 		if key=="return"then
-			LOG.print("敬请期待！")
-			LOG.print("Coming Soon!")
-			-- local user=	WIDGET.active.username.value
-			-- local email=WIDGET.active.email.value
-			-- local pw=	WIDGET.active.password.value
-			-- local pw2=	WIDGET.active.password2.value
-			-- if #user==0 then
-			-- 	LOG.print(text.noUsername)return
-			-- elseif #pw==0 or #pw2==0 then
-			-- 	LOG.print(text.noPassword)return
-			-- elseif pw~=pw2 then
-			-- 	LOG.print(text.diffPassword)return
-			-- end
-			-- httpRequest(
-			-- 	TICK.httpREQ_register,
-			-- 	"api/register",
-			-- 	"POST",
-			-- 	{["Content-Type"]="application/json"},
-			-- 	json.encode({
-			-- 		user=user,
-			-- 		email=email,
-			-- 		password=pw,
-			-- 	})
-			-- )
+			local username=	WIDGET.active.username.value
+			local email=	WIDGET.active.email.value
+			local code=		WIDGET.active.code.value
+			local password=	WIDGET.active.password.value
+			local password2=WIDGET.active.password2.value
+			if #username==0 then
+				LOG.print(text.noUsername)return
+			elseif #password==0 or #password2==0 then
+				LOG.print(text.noPassword)return
+			elseif password~=password2 then
+				LOG.print(text.diffPassword)return
+			end
+			httpRequest(
+				TICK.httpREQ_register,
+				"api/account/register",
+				"POST",
+				{["Content-Type"]="application/json"},
+				json.encode({
+					username=username,
+					email=email,
+					password=password,
+					code=code,
+				})
+			)
 		elseif key=="escape"then
 			SCN.back()
 		else
