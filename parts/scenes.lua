@@ -2612,12 +2612,14 @@ do--dict
 		local list=S.result[1]and S.result or S.dict
 		gc.setColor(1,1,1)
 		local text=list[S.select][4]
-		if #text>600 then
+		if #text>900 then
+			setFont(15)
+		elseif #text>600 then
 			setFont(20)
 		elseif #text>400 then
-			setFont(24)
+			setFont(25)
 		else
-			setFont(28)
+			setFont(30)
 		end
 		gc.printf(text,306,180,950)
 
