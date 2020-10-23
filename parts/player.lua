@@ -410,9 +410,7 @@ local frameColor={
 	color.lPurple,
 	color.lOrange,
 }
-local function drawCell(y,x,id)
-	gc.draw(blockSkin[id],30*x-30,-30*y)
-end
+--local function drawCell(y,x,id)gc.draw(blockSkin[id],30*x-30,-30*y)end
 local function drawGrid(P)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	gc.setLineWidth(1)
@@ -435,7 +433,7 @@ local function drawField(P)
 				if F[j][i]>0 then
 					if V[j][i]>0 then
 						gc.setColor(1,1,1,min(V[j][i]*.05,1))
-						drawCell(j,i,F[j][i])
+						gc.draw(blockSkin[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 					elseif rep then
 						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
 						gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -460,7 +458,7 @@ local function drawField(P)
 					if F[j][i]>0 then
 						if V[j][i]>0 then
 							gc.setColor(1,1,1,min(V[j][i]*.05,1))
-							drawCell(j,i,F[j][i])
+							gc.draw(blockSkin[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 						elseif rep then
 							gc.setColor(1,1,1,.2)
 							gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -496,7 +494,7 @@ local function drawFXs(P)
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc.setColor(1,1,1,.6-S[4]*.6)
-		drawCell(S[3],S[2],S[1])
+		gc.draw(blockSkin[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -513,7 +511,7 @@ local function drawGhost(P,clr)
 	gc.setColor(1,1,1,P.gameEnv.ghost)
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			drawCell(i+P.imgY-1,j+P.curX-1,clr)
+			gc.draw(blockSkin[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -535,7 +533,7 @@ local function drawBlock(P,clr)
 	gc.setColor(1,1,1)
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			drawCell(i+P.curY-1,j+P.curX-1,clr)
+			gc.draw(blockSkin[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -554,7 +552,7 @@ local function drawHold(P,clr)
 	local B=P.hd.bk
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+			gc.draw(blockSkin[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
 		end
 	end end
 end
@@ -752,7 +750,7 @@ local Pdraw_norm do
 							local b,c=P.next[N].bk,P.next[N].color
 							for i=1,#b do for j=1,#b[1] do
 								if b[i][j]then
-									drawCell(i-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
+									gc.draw(blockSkin[c],30*(j+12.6-#b[1]*.5)-30,-30*(i-2.4*N-#b*.5))-- drawCell(i-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
 								end
 							end end
 							N=N+1
