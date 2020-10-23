@@ -17,8 +17,9 @@ IMG=	require("Zframework/img")
 WIDGET=	require("Zframework/widget")
 Widgets=require("Zframework/widgetList")
 LIGHT=	require("Zframework/light")
+PROFILE=require("Zframework/profile")
 
-local ms=love.mouse
+local ms,kb=love.mouse,love.keyboard
 local gc=love.graphics
 local int,rnd,abs=math.floor,math.random,math.abs
 local min=math.min
@@ -146,6 +147,7 @@ function love.touchpressed(id,x,y)
 	if touchDown[SCN.cur]then
 		touchDown[SCN.cur](id,x,y)
 	end
+	if kb.hasTextInput()then kb.setTextInput(false)end
 end
 function love.touchmoved(id,x,y,dx,dy)
 	if SCN.swapping then return end
@@ -189,7 +191,19 @@ end
 function love.keypressed(i)
 	mouseShow=false
 	if devMode then
-		if i=="f1"then
+		if i=="1"then
+			print("profile start!")
+			PROFILE.start()
+		elseif i=="2"then
+			print("profile stop!")
+			PROFILE.stop()
+		elseif i=="3"then
+			print("profile report copied!")
+			love.system.setClipboardText(PROFILE.report())
+		elseif i=="4"then
+			print("profile resetted!")
+			PROFILE.reset()
+		elseif i=="f1"then
 			local r=rnd()<.5
 			love._setGammaCorrect(r)
 			LOG.print("GammaCorrect: "..(r and"on"or"off"),"warn")
