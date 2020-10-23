@@ -3,7 +3,7 @@ local int=math.floor
 local sub,find,format=string.sub,string.find,string.format
 
 do--LOADLIB
-	local libName={
+	local libs={
 		CC={
 			Windows="CCloader",
 			Linux="CCloader",
@@ -18,7 +18,7 @@ do--LOADLIB
 		},
 	}
 	function LOADLIB(name)
-		local libName=libName[name]
+		local libName=libs[name]
 		if SYSTEM=="Windows"or SYSTEM=="Linux"then
 			local success,message=require(libName[SYSTEM])
 			if success then
