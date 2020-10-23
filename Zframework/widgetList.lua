@@ -182,8 +182,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,				font=40,code=BACK}),
 	},
 	customGame={
-		newText({name="title",		x=600,y=5,font=80,align="R"}),
-		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
+		newText({name="title",		x=520,y=5,font=70,align="R"}),
+		newText({name="subTitle",	x=530,y=50,font=35,align="L",color="grey"}),
 		newText({name="defSeq",		x=330,y=550,align="L",color="grey",hide=function()return BAG[1]end}),
 		newText({name="noMsn",		x=610,y=550,align="L",color="grey",hide=function()return MISSION[1]end}),
 
@@ -212,8 +212,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=BACK}),
 	},
 	custom_advance={
-		newText({name="title",		x=600,y=5,font=80,align="R"}),
-		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
+		newText({name="title",		x=520,y=5,font=70,align="R"}),
+		newText({name="subTitle",	x=530,y=50,font=35,align="L",color="grey"}),
 
 		--Visual
 		newSwitch({name="block",	x=620,	y=430,				font=25,	disp=CUSval("block"),	code=CUSrev("block")}),
@@ -249,8 +249,8 @@ local Widgets={
 		newButton({name="back",			x=1140,	y=640,	w=170,h=80,	font=40,code=BACK}),
 	},
 	custom_field={
-		newText({name="title",		x=1100,y=5,font=80,align="R"}),
-		newText({name="subTitle",	x=1110,y=50,font=35,align="L",color="grey"}),
+		newText({name="title",		x=1020,y=5,font=70,align="R"}),
+		newText({name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"}),
 
 		newButton({name="b1",		x=500+65*1,	y=200,	w=58,	color="red",		code=setPen(1)}),--B1
 		newButton({name="b2",		x=500+65*2,	y=200,	w=58,	color="orange",		code=setPen(2)}),--B2
@@ -283,8 +283,8 @@ local Widgets={
 		newButton({name="back",		x=1140,		y=640,	w=170,h=80,	font=40,code=BACK}),
 	},
 	custom_sequence={
-		newText({name="title",		x=600,y=5,font=80,align="R"}),
-		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
+		newText({name="title",		x=520,y=5,font=70,align="R"}),
+		newText({name="subTitle",	x=530,y=50,font=35,align="L",color="grey"}),
 
 		newSelector({name="sequence",x=1080,y=60,	w=200,		color="yellow",list=CUSlist.sequence,disp=CUSval("sequence"),code=CUSsto("sequence")}),
 
@@ -326,8 +326,8 @@ local Widgets={
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=BACK}),
 	},
 	custom_mission={
-		newText({name="title",		x=600,y=5,font=80,align="R"}),
-		newText({name="subTitle",	x=610,y=50,font=35,align="L",color="grey"}),
+		newText({name="title",		x=520,y=5,font=70,align="R"}),
+		newText({name="subTitle",	x=530,y=50,font=35,align="L",color="grey"}),
 
 		newKey({name="_1",			x=800,	y=540,	w=90,	font=50,code=pressKey(01)}),
 		newKey({name="_2",			x=900,	y=540,	w=90,	font=50,code=pressKey(02)}),
@@ -667,14 +667,16 @@ local Widgets={
 	},
 	login={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
-		newTextBox({name="username",x=400,y=200,w=500,h=60}),
-		newTextBox({name="email",	x=400,y=300,w=626,h=60}),
-		newTextBox({name="password",x=400,y=400,w=626,h=60,secret=true,regex="[ -~]"}),
-		newTextBox({name="password2",x=400,y=500,w=626,h=60,secret=true,regex="[ -~]"}),
+		newTextBox({name="username",x=380,y=160,w=500,h=60,regex="[0-9A-Za-z_-=+'.<>/{}*]"}),
+		newTextBox({name="email",	x=380,y=260,w=626,h=60,regex="[0-9A-Za-z_@]"}),
+		newTextBox({name="code",	x=380,y=360,w=626,h=60,regex="[0-9A-Za-z]"}),
+		newTextBox({name="password",x=380,y=460,w=626,h=60,secret=true,regex="[ -~]"}),
+		newTextBox({name="password2",x=380,y=560,w=626,h=60,secret=true,regex="[ -~]"}),
 		newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	account={
 		newText({name="title",		x=80,y=50,font=70,align="L"}),
+		newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	minigame={
 		newButton({name="p15",		x=240,	y=250,w=350,h=120,font=40,code=goScene("p15")}),
