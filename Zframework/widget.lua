@@ -7,6 +7,7 @@ local format=string.format
 local color=color
 local setFont=setFont
 local Timer=love.timer.getTime
+local mStr=mStr
 
 local WIDGET={}
 local widgetMetatable={
