@@ -138,13 +138,11 @@ local langList={
 			"使用LOVE2D引擎",
 			"",
 			"程序: MrZ, FinnTenzor",
-			"美术: MrZ, (Gnyar)",
+			"美术: MrZ, (T0722, Gnyar)",
 			"音乐: MrZ, (T0722)",
 			"音效/语音: MrZ, Miya",
-			"演出: 模电, HBM",
-			"测试: 思竣",
-			"英文文案: User670",
-			"官网: 渣渣120",
+			"演出: 模电, HBM 测试: 思竣",
+			"英文文案: User670 官网: 渣渣120",
 			"",
 			"特别感谢:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -156,9 +154,10 @@ local langList={
 			GFIE
 			Goldwave
 		使用库:
-			Cold_Clear[MinusKelvin]
-			json.lua[rxi]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
@@ -739,10 +738,9 @@ local langList={
 			"美术: MrZ, (T0722, Gnyar)",
 			"音乐: MrZ, (T0722)",
 			"音效/语音: MrZ, Miya",
-			"演出: 模电, HBM",
-			"测试: 思竣",
-			"英文文案: User670",
-			"官网: 渣渣120",
+			"演出: 模电, HBM 测试: 思竣",
+			"英文文案: User670 官网: 渣渣120",
+			"",
 			"特别感谢:",
 			"Flyz, Farter, 蕴空之灵,",
 			"茶管, [所有内测人员]",
@@ -753,9 +751,10 @@ local langList={
 			GFIE
 			Goldwave
 		使用库:
-			Cold_Clear[MinusKelvin]
-			json.lua[rxi]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
@@ -1334,13 +1333,11 @@ local langList={
 			"Powered by LOVE2D",
 			"",
 			"Program: MrZ, FinnTenzor",
-			"Art: MrZ, (Gnyar)",
+			"Art: MrZ, (T0722, Gnyar)",
 			"Music: MrZ, (T0722)",
 			"Voice & Sound: MrZ, Miya",
-			"Performance: 模电, HBM",
-			"Test: 思竣",
-			"Eng Doc: User670",
-			"Web: 渣渣120",
+			"Performance: 模电, HBM  Test: 思竣",
+			"Eng Doc: User670  Web: 渣渣120",
 			"",
 			"Special Thanks:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -1352,8 +1349,10 @@ local langList={
 			GFIE
 			Goldwave
 		Lib used:
-			Cold_Clear[MinusKelvin]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="Support author",
 		group="Official QQ Group (if not hacked): 1127702001",
@@ -1931,13 +1930,11 @@ local langList={
 			"Powered by LOVE2D",
 			"",
 			"Program: MrZ, FinnTenzor",
-			"Art: MrZ, (Gnyar)",
+			"Art: MrZ, (T0722, Gnyar)",
 			"Music: MrZ, (T0722)",
-			"Voice % Sound: MrZ, Miya",
-			"Performance: 模电, HBM",
-			"Test: 思竣",
-			"Eng Doc: User670",
-			"Web: 渣渣120",
+			"Voice & Sound: MrZ, Miya",
+			"Performance: 模电, HBM  Test: 思竣",
+			"Eng Doc: User670  Web: 渣渣120",
 			"",
 			"Special Thanks:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -1949,8 +1946,10 @@ local langList={
 			GFIE
 			Goldwave
 		Lib used:
-			Cold_Clear[MinusKelvin]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="Support author",
 		group="Official QQ Group(if not hacked):1127702001",
@@ -2530,12 +2529,12 @@ local langList={
 			"作者:MrZ  邮箱:1046101471@qq.com",
 			"使用LOVE2D引擎",
 			"",
-			"程序:MrZ, FinnTenzor",
-			"美术:MrZ, (Gnyar)",
-			"音乐:MrZ, (T0722)",
+			"程序: MrZ, FinnTenzor",
+			"美术: MrZ, (T0722, Gnyar)",
+			"音乐: MrZ, (T0722)",
 			"音效/语音: MrZ, Miya",
-			"演出: 模电, HBM",
-			"测试:思竣 官网: 渣渣120",
+			"演出: 模电, HBM 测试: 思竣",
+			"英文文案: User670 官网: 渣渣120",
 			"",
 			"特别感谢:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -2547,8 +2546,10 @@ local langList={
 			GFIE
 			Goldwave
 		使用库:
-			Cold_Clear[MinusKelvin]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
