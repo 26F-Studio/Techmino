@@ -201,6 +201,7 @@ elseif SETTING.lang==3 then
 		"Is B2B2B2B possible?",
 		"It's really loading! Not just a cutscene!",
 		"Join our discord!",
+		"Jstris is better",
 		"l-=-1",
 		"Let-The-Bass-Kick!",
 		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
@@ -237,8 +238,8 @@ elseif SETTING.lang==4 then
 	return s
 elseif SETTING.lang==5 then
 	local R=math.random()
-	if R<.05 then
-		local time={
+	if R<.08 then
+		return({
 			--[[00]]"大半夜的在这干啥呢?不睡觉是会猝死的",
 			--[[01]]"大半夜的在这干啥呢?不睡觉是会猝死的",
 			--[[02]]"现在打块你是认真的?",
@@ -263,20 +264,7 @@ elseif SETTING.lang==5 then
 			--[[21]]"好睡了,作息健康活得久",
 			--[[22]]"好睡了,作息健康活得久",
 			--[[23]]"大半夜的在这干啥呢?不睡觉是会猝死的",
-		}
-		return time[tonumber(os.date("%H"))+1]
-	elseif R<.1 then
-		local int=math.floor
-		L={
-			"平均"..int(STAT.row/STAT.time*60).."LPM,那可真强呢",
-			"平均"..int(STAT.atk/STAT.time*60).."APM,好厉害哦",
-			"平均"..(int(STAT.atk/STAT.row*10)*.1).."效,你看这数据能看么",
-			"平均"..(int(STAT.atk/STAT.row*10)*.1).."效,我就不说你多菜了",
-			"才玩了"..STAT.game.."把,跟几十万局的没法比",
-			"才玩了"..STAT.game.."把,玩了不下几万局的人可不在少数",
-			"才玩了"..int(STAT.time/3600).."小时,人家总时长是你不知道多少倍",
-			"才玩了"..int(STAT.time/3600).."小时,别人总时长跟你都不在一个数量级",
-		}
+		})[tonumber(os.date("%H"))+1]
 	else
 		L={
 			"0202年了,还在玩这种小孩子玩的游戏?",
