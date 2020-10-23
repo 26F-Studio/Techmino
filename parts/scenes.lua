@@ -2469,7 +2469,7 @@ do--help
 		for i=1,#text.help do
 			gc.printf(text.help[i],150,35*i+40,1000,"center")
 		end
-		setFont(19)
+		setFont(15)
 		gc.print(text.used,30,330)
 		gc.draw(IMG.title,280,610,.1,1+.05*sin(Timer()*2.6),nil,206,35)
 		gc.setLineWidth(3)
@@ -2679,6 +2679,7 @@ do--staff
 		local L=text.staff
 		local t=sceneTemp.time
 		setFont(40)
+		gc.setColor(1,1,1)
 		for i=1,#L do
 			mStr(L[i],640,800+80*i-t*40)
 		end
