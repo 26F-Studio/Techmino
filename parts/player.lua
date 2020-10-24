@@ -410,9 +410,7 @@ local frameColor={
 	color.lPurple,
 	color.lOrange,
 }
-local function drawCell(y,x,id)
-	gc.draw(blockSkin[id],30*x-30,-30*y)
-end
+--local function drawCell(y,x,id)gc.draw(blockSkin[id],30*x-30,-30*y)end
 local function drawGrid(P)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	gc.setLineWidth(1)
@@ -435,7 +433,7 @@ local function drawField(P)
 				if F[j][i]>0 then
 					if V[j][i]>0 then
 						gc.setColor(1,1,1,min(V[j][i]*.05,1))
-						drawCell(j,i,F[j][i])
+						gc.draw(blockSkin[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 					elseif rep then
 						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
 						gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -445,30 +443,30 @@ local function drawField(P)
 		end
 	else--With falling animation
 		local ENV=P.gameEnv
-		local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 		local A=P.falling/ENV.fall
 		local h=1
-		for j=start,min(start+21,#F)do
-			while j==P.clearingRow[h]do
-				h=h+1
-				dy=dy+stepY
-				gc.translate(0,-stepY)
-				gc.setColor(1,1,1,A)
-				gc.rectangle("fill",0,30-30*j,300,stepY)
-			end
-			for i=1,10 do
-				if F[j][i]>0 then
-					if V[j][i]>0 then
-						gc.setColor(1,1,1,min(V[j][i]*.05,1))
-						drawCell(j,i,F[j][i])
-					elseif rep then
-						gc.setColor(1,1,1,.2)
-						gc.rectangle("fill",30*i-30,-30*j,30,30)
+		gc.push("transform")
+			for j=start,min(start+21,#F)do
+				while j==P.clearingRow[h]do
+					h=h+1
+					gc.translate(0,-stepY)
+					gc.setColor(1,1,1,A)
+					gc.rectangle("fill",0,30-30*j,300,stepY)
+				end
+				for i=1,10 do
+					if F[j][i]>0 then
+						if V[j][i]>0 then
+							gc.setColor(1,1,1,min(V[j][i]*.05,1))
+							gc.draw(blockSkin[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+						elseif rep then
+							gc.setColor(1,1,1,.2)
+							gc.rectangle("fill",30*i-30,-30*j,30,30)
+						end
 					end
 				end
 			end
-		end
-		gc.translate(0,dy)
+		gc.pop()
 	end
 end
 local function drawFXs(P)
@@ -496,7 +494,7 @@ local function drawFXs(P)
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc.setColor(1,1,1,.6-S[4]*.6)
-		drawCell(S[3],S[2],S[1])
+		gc.draw(blockSkin[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -513,7 +511,7 @@ local function drawGhost(P,clr)
 	gc.setColor(1,1,1,P.gameEnv.ghost)
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			drawCell(i+P.imgY-1,j+P.curX-1,clr)
+			gc.draw(blockSkin[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -535,7 +533,7 @@ local function drawBlock(P,clr)
 	gc.setColor(1,1,1)
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			drawCell(i+P.curY-1,j+P.curX-1,clr)
+			gc.draw(blockSkin[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -554,7 +552,7 @@ local function drawHold(P,clr)
 	local B=P.hd.bk
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+			gc.draw(blockSkin[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
 		end
 	end end
 end
@@ -752,7 +750,7 @@ local Pdraw_norm do
 							local b,c=P.next[N].bk,P.next[N].color
 							for i=1,#b do for j=1,#b[1] do
 								if b[i][j]then
-									drawCell(i-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
+									gc.draw(blockSkin[c],30*(j+12.6-#b[1]*.5)-30,-30*(i-2.4*N-#b*.5))-- drawCell(i-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
 								end
 							end end
 							N=N+1
@@ -955,98 +953,52 @@ local function Pdraw_demo(P)
 
 	--Camera
 	gc.push("transform")
-	gc.translate(P.x,P.y)gc.scale(P.size)gc.translate(P.fieldOff.x,P.fieldOff.y)
+		gc.translate(P.x,P.y)gc.scale(P.size)
+		gc.push("transform")
+			gc.translate(P.fieldOff.x,P.fieldOff.y)
 
-	--Frame
-	gc.setColor(.1,.1,.1,.8)
-	gc.rectangle("fill",0,0,300,600)
-
-	gc.setLineWidth(2)
-	gc.setColor(1,1,1)
-	gc.rectangle("line",-1,-1,302,602)
-
-	gc.push("transform")
-		gc.translate(0,600)
-		if P.falling==-1 then
-			--Field block only
-			for j=int(P.fieldBeneath/30+1),#P.field do
-				for i=1,10 do
-					if P.field[j][i]>0 then
-						gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-						drawCell(j,i,P.field[j][i])
-					end
-				end
-			end
-		else
-			--Field with falling animation
-			local dy,stepY=0,ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
-			local A=P.falling/ENV.fall
-			local h,H=1,#P.field
-			for j=int(P.fieldBeneath/30+1),H do
-				while j==P.clearingRow[h]do
-					h=h+1
-					dy=dy+stepY
-					gc.translate(0,-stepY)
-					gc.setColor(1,1,1,A)
-					gc.rectangle("fill",0,630-30*j,300,stepY)
-				end
-				for i=1,10 do
-					if P.field[j][i]>0 then
-						gc.setColor(1,1,1,min(P.visTime[j][i]*.05,1))
-						drawCell(j,i,P.field[j][i])
-					end
-				end
-			end
-			gc.translate(0,dy)
-		end
-
-		drawFXs(P)
-
-		if P.cur and P.waiting==-1 then
-			--Draw ghost
-			if ENV.ghost then
-				gc.setColor(1,1,1,ENV.ghost)
-				for i=1,P.r do for j=1,P.c do
-					if P.cur.bk[i][j]then
-						drawCell(i+P.imgY-1,j+P.curX-1,curColor)
-					end
-				end end
-			end
-
-			--Draw block
+			--Frame
+			gc.setColor(0,0,0,.6)
+			gc.rectangle("fill",0,0,300,600)
+			gc.setLineWidth(2)
 			gc.setColor(1,1,1)
-			for i=1,P.r do for j=1,P.c do
-				if P.cur.bk[i][j]then
-					drawCell(i+P.curY-1,j+P.curX-1,curColor)
+			gc.rectangle("line",-1,-1,302,602)
+
+			gc.push("transform")
+				gc.translate(0,600)
+				drawField(P)
+				drawFXs(P)
+				if P.cur and P.waiting==-1 then
+					if ENV.ghost then drawGhost(P,curColor)end
+					if ENV.block then
+						drawBlockOutline(P,curColor,P.lockDelay/ENV.lock)
+						drawBlock(P,curColor)
+					end
 				end
-			end end
-		end
-	gc.pop()
+			gc.pop()
 
-	--Draw hold
-	local blockImg=TEXTURE.miniBlock
-	if P.hd then
-		local id=P.hd.id
-		_=P.color[id]
-		gc.setColor(_[1],_[2],_[3],.3)
-		_=blockImg[id]
-		gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
-	end
+			--Draw hold
+			local blockImg=TEXTURE.miniBlock
+			if P.hd then
+				local id=P.hd.id
+				_=P.color[id]
+				gc.setColor(_[1],_[2],_[3],.3)
+				_=blockImg[id]
+				gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
+			end
 
-	--Draw next
-	local N=1
-	while N<=ENV.next and P.next[N]do
-		local id=P.next[N].id
-		_=P.color[id]
-		gc.setColor(_[1],_[2],_[3],.3)
-		_=blockImg[id]
-		gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
-		N=N+1
-	end
-
-	gc.setColor(1,1,1)
-	gc.translate(-P.fieldOff.x,-P.fieldOff.y)
-	TEXT.draw(P.bonus)
+			--Draw next
+			local N=1
+			while N<=ENV.next and P.next[N]do
+				local id=P.next[N].id
+				_=P.color[id]
+				gc.setColor(_[1],_[2],_[3],.3)
+				_=blockImg[id]
+				gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
+				N=N+1
+			end
+		gc.pop()
+		TEXT.draw(P.bonus)
 	gc.pop()
 end
 function player.drawTargetLine(P,r)
@@ -1959,7 +1911,9 @@ function player.hold(P,ifpre)
 		if not(H or C)then return end
 
 		--Finesse check
-		if not(H and C and H.id==C.id and H.name==C.name or P.ctrlCount>1)then
+		if H and C and H.id==C.id and H.name==C.name then
+			P.ctrlCount=P.ctrlCount+1
+		elseif P.ctrlCount<=1 then
 			P.ctrlCount=0
 		end
 

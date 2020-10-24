@@ -1,5 +1,6 @@
 local langList={
 	{
+		back="返回",
 		anykey="按任意键继续",
 		newVersion="感谢更新!更新内容如下",
 		httpTimeout="网络连接超时!",
@@ -138,13 +139,11 @@ local langList={
 			"使用LOVE2D引擎",
 			"",
 			"程序: MrZ, FinnTenzor",
-			"美术: MrZ, (Gnyar)",
+			"美术: MrZ, (T0722, Gnyar)",
 			"音乐: MrZ, (T0722)",
 			"音效/语音: MrZ, Miya",
-			"演出: 模电, HBM",
-			"测试: 思竣",
-			"英文文案: User670",
-			"官网: 渣渣120",
+			"演出: 模电, HBM 测试: 思竣",
+			"英文文案: User670 官网: 渣渣120",
 			"",
 			"特别感谢:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -156,9 +155,10 @@ local langList={
 			GFIE
 			Goldwave
 		使用库:
-			Cold_Clear[MinusKelvin]
-			json.lua[rxi]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
@@ -178,7 +178,6 @@ local langList={
 			},
 			mode={
 				start="开始",
-				back="返回",
 			},
 			music={
 				title="音乐室",
@@ -189,7 +188,6 @@ local langList={
 				up="↑",
 				play="播放",
 				down="↓",
-				back="返回",
 			},
 			customGame={
 				title="自定义游戏",
@@ -214,8 +212,6 @@ local langList={
 				field="场地编辑(F)",
 				sequence="序列编辑(S)",
 				mission="任务编辑(M)",
-
-				back="返回",
 			},
 			custom_advance={
 				title="自定义游戏",
@@ -243,8 +239,6 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-
-				back="返回",
 			},
 			custom_field={
 				title="自定义游戏",
@@ -259,8 +253,6 @@ local langList={
 				pushLine="增加一行(K)",
 				delLine="消除行(L)",
 				demo="不显示×",
-
-				back="返回",
 			},
 			custom_sequence={
 				title="自定义游戏",
@@ -278,8 +270,6 @@ local langList={
 				reset="R",
 				copy="复制",
 				paste="粘贴",
-
-				back="返回",
 			},
 			custom_mission={
 				title="自定义游戏",
@@ -299,8 +289,6 @@ local langList={
 				copy="复制",
 				paste="粘贴",
 				mission="强制任务",
-
-				back="返回",
 			},
 			play={
 				pause="暂停",
@@ -328,7 +316,6 @@ local langList={
 				fine="极简操作提示音",
 				appLock="软件锁(密码626)",
 				calc="软件锁",
-				back="返回",
 			},
 			setting_video={
 				title="画面设置",
@@ -359,7 +346,6 @@ local langList={
 				fullscreen="全屏",
 				bg="背景",
 				power="电量显示",
-				back="返回",
 			},
 			setting_sound={
 				title="声音设置",
@@ -372,7 +358,6 @@ local langList={
 				bgm="音乐",
 				vib="振动",
 				voc="语音",
-				back="返回",
 			},
 			setting_control={
 				title="控制设置",
@@ -384,13 +369,11 @@ local langList={
 				irs="提前旋转",
 				ims="提前移动",
 				reset="重置",
-				back="返回",
 			},
 			setting_key={
 				keyboard="键盘",
 				joystick="手柄",
 				help="方向键选择/翻页,回车/空格修改,esc返回",
-				back="返回",
 			},
 			setting_skin={
 				title="外观设置",
@@ -404,13 +387,11 @@ local langList={
 				prev7="↑",next7="↓",spin7="R",
 				skinR="重置配色",
 				faceR="重置方向",
-				back="返回",
 			},
 			setting_touch={
 				default="默认组合",
 				snap=function()return text.snapLevelName[sceneTemp.snap]end,
 				option="选项",
-				back="返回",
 				size="大小",
 			},
 			setting_touchSwitch={
@@ -428,21 +409,17 @@ local langList={
 				icon="图标",
 				tkset="跟踪设置",
 				alpha="透明度",
-				back="返回",
 			},
 			setting_trackSetting={
 				VKDodge="自动避让",
-				back="返回",
 			},
 			setting_lang={
-				back="返回",
 			},--LangName added later
 			help={
 				dict="小Z词典",
 				staff="制作人员",
 				his="更新历史",
 				qq="作者QQ",
-				back="返回",
 			},
 			dict={
 				title="小Z方块词典",
@@ -450,27 +427,19 @@ local langList={
 				link="打开链接",
 				up="↑",
 				down="↓",
-				back="返回",
 			},
 			staff={
-				back="返回",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="返回",
 			},
 			stat={
 				path="打开存储目录",
-				back="返回",
 			},
 			login={
 				title="登录/注册",
 				username="用户名",
 				email="邮箱",
+				code="邀请码",
 				password="密码",
 				password2="确认密码",
-				back="返回",
 			},
 			account={
 				title="账户",
@@ -479,7 +448,6 @@ local langList={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
 				pong="Pong",
-				back="返回",
 			},
 			p15={
 				reset="打乱",
@@ -488,7 +456,6 @@ local langList={
 				slide="滑动操作",
 				pathVis="路径显示",
 				revKB="键盘反向",
-				back="返回",
 			},
 			schulte_G={
 				reset="重来",
@@ -496,11 +463,9 @@ local langList={
 				blind="盲打",
 				disappear="消失",
 				tapFX="点击动画",
-				back="返回",
 			},
 			pong={
 				reset="重置",
-				back="返回",
 			},
 			debug={
 				copyLog="复制日志",
@@ -509,7 +474,6 @@ local langList={
 				reset1="重置解锁/等级",
 				reset2="重置统计",
 				reset3="清空所有数据",
-				back="返回",
 			},
 		},
 		modes={
@@ -599,6 +563,7 @@ local langList={
 		},
 	},
 	{
+		back="返回",
 		anykey="按任意键继续",
 		newVersion="感谢更新!更新内容如下",
 		httpTimeout="网络连接超时!",
@@ -739,10 +704,9 @@ local langList={
 			"美术: MrZ, (T0722, Gnyar)",
 			"音乐: MrZ, (T0722)",
 			"音效/语音: MrZ, Miya",
-			"演出: 模电, HBM",
-			"测试: 思竣",
-			"英文文案: User670",
-			"官网: 渣渣120",
+			"演出: 模电, HBM 测试: 思竣",
+			"英文文案: User670 官网: 渣渣120",
+			"",
 			"特别感谢:",
 			"Flyz, Farter, 蕴空之灵,",
 			"茶管, [所有内测人员]",
@@ -753,9 +717,10 @@ local langList={
 			GFIE
 			Goldwave
 		使用库:
-			Cold_Clear[MinusKelvin]
-			json.lua[rxi]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
@@ -775,7 +740,6 @@ local langList={
 			},
 			mode={
 				start="开始",
-				back="返回",
 			},
 			music={
 				title="音乐室",
@@ -786,7 +750,6 @@ local langList={
 				up="↑",
 				play="播放",
 				down="↓",
-				back="返回",
 			},
 			customGame={
 				title="自定义游戏",
@@ -811,8 +774,6 @@ local langList={
 				field="场地编辑(F)",
 				sequence="序列编辑(S)",
 				mission="任务编辑(M)",
-
-				back="返回",
 			},
 			custom_advance={
 				title="自定义游戏",
@@ -840,8 +801,6 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-
-				back="返回",
 			},
 			custom_sequence={
 				title="自定义游戏",
@@ -859,8 +818,6 @@ local langList={
 				reset="R",
 				copy="复制",
 				paste="粘贴",
-
-				back="返回",
 			},
 			custom_field={
 				title="自定义游戏",
@@ -875,8 +832,6 @@ local langList={
 				pushLine="增加一行(K)",
 				delLine="消除行(L)",
 				demo="不显示×",
-
-				back="返回",
 			},
 			custom_mission={
 				title="自定义游戏",
@@ -896,8 +851,6 @@ local langList={
 				copy="复制",
 				paste="粘贴",
 				mission="强制任务",
-
-				back="返回",
 			},
 			play={
 				pause="暂停",
@@ -926,7 +879,6 @@ local langList={
 				fine="极简操作提示音",
 				appLock="软件锁(密码626)",
 				calc="软件锁",
-				back="返回",
 			},
 			setting_video={
 				title="画面设置",
@@ -958,7 +910,6 @@ local langList={
 				fullscreen="全屏",
 				bg="背景",
 				power="电量显示",
-				back="返回",
 			},
 			setting_sound={
 				title="声音设置",
@@ -972,7 +923,6 @@ local langList={
 				bgm="音乐",
 				vib="振动",
 				voc="语音",
-				back="返回",
 			},
 			setting_control={
 				title="控制设置",
@@ -984,13 +934,11 @@ local langList={
 				irs="提前旋转",
 				ims="提前移动",
 				reset="重置",
-				back="返回",
 			},
 			setting_key={
 				keyboard="键盘",
 				joystick="手柄",
 				help="方向键选择/翻页,回车/空格修改,esc返回",
-				back="返回",
 			},
 			setting_skin={
 				title="外观设置",
@@ -1005,13 +953,11 @@ local langList={
 				prev7="↑",next7="↓",spin7="转",
 				skinR="重置配色",
 				faceR="重置方向",
-				back="返回",
 			},
 			setting_touch={
 				default="默认组合",
 				snap=function()return text.snapLevelName[sceneTemp.snap]end,
 				option="选项",
-				back="返回",
 				size="大小",
 			},
 			setting_touchSwitch={
@@ -1029,21 +975,17 @@ local langList={
 				icon="图标",
 				tkset="跟踪设置",
 				alpha="透明度",
-				back="返回",
 			},
 			setting_trackSetting={
 				VKDodge="自动避让",
-				back="返回",
 			},
 			setting_lang={
-				back="返回",
 			},--LangName added later
 			help={
 				dict="小Z词典",
 				staff="制作人员",
 				his="更新历史",
 				qq="作者QQ",
-				back="返回",
 			},
 			dict={
 				title="小Z方块词典",
@@ -1051,27 +993,19 @@ local langList={
 				link="打开链接",
 				up="↑",
 				down="↓",
-				back="返回",
 			},
 			staff={
-				back="返回",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="返回",
 			},
 			stat={
 				path="打开存储目录",
-				back="返回",
 			},
 			login={
 				title="登录/注册",
 				username="用户名",
 				email="邮箱",
+				code="邀请码",
 				password="密码",
 				password2="确认密码",
-				back="返回",
 			},
 			account={
 				title="账户",
@@ -1080,7 +1014,6 @@ local langList={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
 				pong="Pong",
-				back="返回",
 			},
 			p15={
 				reset="打乱",
@@ -1089,7 +1022,6 @@ local langList={
 				slide="滑动操作",
 				pathVis="路径显示",
 				revKB="键盘反向",
-				back="返回",
 			},
 			schulte_G={
 				reset="重来",
@@ -1097,11 +1029,9 @@ local langList={
 				blind="盲打",
 				disappear="消失",
 				tapFX="点击动画",
-				back="返回",
 			},
 			pong={
 				reset="重置",
-				back="返回",
 			},
 			debug={
 				copyLog="复制日志",
@@ -1110,7 +1040,6 @@ local langList={
 				reset1="重置解锁/等级",
 				reset2="重置统计",
 				reset3="清空所有数据",
-				back="返回",
 			},
 		},
 		modes={
@@ -1200,6 +1129,7 @@ local langList={
 		},
 	},
 	{
+		back="Back",
 		anykey="Press any button",
 		newVersion="Thanks for updating! New feature below",
 		httpTimeout="Network connection timed out!",
@@ -1334,13 +1264,11 @@ local langList={
 			"Powered by LOVE2D",
 			"",
 			"Program: MrZ, FinnTenzor",
-			"Art: MrZ, (Gnyar)",
+			"Art: MrZ, (T0722, Gnyar)",
 			"Music: MrZ, (T0722)",
 			"Voice & Sound: MrZ, Miya",
-			"Performance: 模电, HBM",
-			"Test: 思竣",
-			"Eng Doc: User670",
-			"Web: 渣渣120",
+			"Performance: 模电, HBM  Test: 思竣",
+			"Eng Doc: User670  Web: 渣渣120",
 			"",
 			"Special Thanks:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -1352,8 +1280,10 @@ local langList={
 			GFIE
 			Goldwave
 		Lib used:
-			Cold_Clear[MinusKelvin]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="Support author",
 		group="Official QQ Group (if not hacked): 1127702001",
@@ -1373,7 +1303,6 @@ local langList={
 			},
 			mode={
 				start="Start",
-				back="Back",
 			},
 			music={
 				title="Music Room",
@@ -1384,7 +1313,6 @@ local langList={
 				up="↑",
 				play="Play",
 				down="↓",
-				back="Back",
 			},
 			customGame={
 				title="Custom Game",
@@ -1409,8 +1337,6 @@ local langList={
 				field="Edit Field (F)",
 				sequence="Edit Sequence (S)",
 				mission="Edit Mission (M)",
-
-				back="Back",
 			},
 			custom_advance={
 				title="Custom Game",
@@ -1438,8 +1364,6 @@ local langList={
 				opponent="Opponent",
 				life="Life",
 				pushSpeed="Garbage Speed",
-
-				back="Back",
 			},
 			custom_field={
 				title="Custom Game",
@@ -1454,8 +1378,6 @@ local langList={
 				pushLine="Add Line(K)",
 				delLine="Del Line(L)",
 				demo="Don't show ×",
-
-				back="Back",
 			},
 			custom_sequence={
 				title="Custom Game",
@@ -1473,8 +1395,6 @@ local langList={
 				reset="R",
 				copy="Copy",
 				paste="Paste",
-
-				back="Back",
 			},
 			custom_mission={
 				title="Custom Game",
@@ -1494,8 +1414,6 @@ local langList={
 				copy="Copy",
 				paste="Paste",
 				mission="Force mission",
-
-				back="Back",
 			},
 			play={
 				pause="Pause",
@@ -1524,7 +1442,6 @@ local langList={
 				fine="Finesse Error Sound",
 				appLock="App Lock (Password: 626)",
 				calc="App Lock",
-				back="Back",
 			},
 			setting_video={
 				title="Video Settings",
@@ -1556,7 +1473,6 @@ local langList={
 				fullscreen="Full Screen",
 				bg="Background",
 				power="Power Info",
-				back="Back",
 			},
 			setting_sound={
 				title="Sound Settings",
@@ -1570,7 +1486,6 @@ local langList={
 				bgm="BGM",
 				vib="Vibration",
 				voc="Voice",
-				back="Back",
 			},
 			setting_control={
 				title="Control Settings",
@@ -1582,13 +1497,11 @@ local langList={
 				irs="Initial Rotation",
 				ims="Initial Movement",
 				reset="Reset",
-				back="Back",
 			},
 			setting_key={
 				keyboard="Keyboard",
 				joystick="Controller",
 				help="Arrow keys: select/change slot, Enter/Space: Change, Esc: Go back",
-				back="Back",
 			},
 			setting_skin={
 				title="Layout Settings",
@@ -1603,13 +1516,11 @@ local langList={
 				prev7="↑",next7="↓",spin7="R",
 				skinR="Reset Color",
 				faceR="Reset Dir.",
-				back="Back",
 			},
 			setting_touch={
 				default="Default",
 				snap=function()return text.snapLevelName[sceneTemp.snap]end,
 				option="Options",
-				back="Back",
 				size="Size",
 			},
 			setting_touchSwitch={
@@ -1627,14 +1538,11 @@ local langList={
 				icon="Icon",
 				tkset="Track Settings",
 				alpha="Alpha",
-				back="Back",
 			},
 			setting_trackSetting={
 				VKDodge="Auto Dodge",
-				back="Back",
 			},
 			setting_lang={
-				back="Back",
 			},--LangName added later
 			dict={
 				title="TetroDictionary",
@@ -1642,27 +1550,19 @@ local langList={
 				link="Open URL",
 				up="↑",
 				down="↓",
-				back="Back",
 			},
 			staff={
-				back="Back",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="Back",
 			},
 			stat={
 				path="Open Data Folder",
-				back="Back",
 			},
 			login={
 				title="Log in / Sign up",
 				username="Username",
 				email="E-mail",
+				code="Invitation Code",
 				password="Password",
 				password2="Again Password",
-				back="Back",
 			},
 			account={
 				title="Account",
@@ -1671,7 +1571,6 @@ local langList={
 				p15="15 Puzzle",
 				schulte_G="Schulte Grid",
 				pong="Pong",
-				back="Back",
 			},
 			p15={
 				reset="Shuffle",
@@ -1680,7 +1579,6 @@ local langList={
 				slide="Slide",
 				pathVis="Path show",
 				revKB="Reverse",
-				back="Back",
 			},
 			schulte_G={
 				reset="Reset",
@@ -1688,18 +1586,15 @@ local langList={
 				blind="Blind",
 				disappear="Hide",
 				tapFX="tap FX",
-				back="Back",
 			},
 			pong={
 				reset="Restart",
-				back="Back",
 			},
 			help={
 				dict="little Z",
 				staff="Staff",
 				his="History",
 				qq="Author's qq",
-				back="Back",
 			},
 			debug={
 				copyLog="Copy Log",
@@ -1708,7 +1603,6 @@ local langList={
 				reset1="Reset ranks",
 				reset2="Reset data",
 				reset3="Reset all",
-				back="Back",
 			},
 		},
 		modes={
@@ -1798,6 +1692,7 @@ local langList={
 		},
 	},
 	{
+		back="X",
 		anykey="↓□↓",
 		newVersion="&!!!???↓↓",
 		httpTimeout="e??????x",
@@ -1931,13 +1826,11 @@ local langList={
 			"Powered by LOVE2D",
 			"",
 			"Program: MrZ, FinnTenzor",
-			"Art: MrZ, (Gnyar)",
+			"Art: MrZ, (T0722, Gnyar)",
 			"Music: MrZ, (T0722)",
-			"Voice % Sound: MrZ, Miya",
-			"Performance: 模电, HBM",
-			"Test: 思竣",
-			"Eng Doc: User670",
-			"Web: 渣渣120",
+			"Voice & Sound: MrZ, Miya",
+			"Performance: 模电, HBM  Test: 思竣",
+			"Eng Doc: User670  Web: 渣渣120",
 			"",
 			"Special Thanks:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -1949,8 +1842,10 @@ local langList={
 			GFIE
 			Goldwave
 		Lib used:
-			Cold_Clear[MinusKelvin]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="Support author",
 		group="Official QQ Group(if not hacked):1127702001",
@@ -1970,7 +1865,6 @@ local langList={
 			},
 			mode={
 				start="!!!",
-				back="X",
 			},
 			music={
 				title="(~~~~)",
@@ -1981,7 +1875,6 @@ local langList={
 				up="↑",
 				play="!!!",
 				down="↓",
-				back="X",
 			},
 			customGame={
 				title="!@#$%^&*",
@@ -2006,8 +1899,6 @@ local langList={
 				field="Edit Field (F)",
 				sequence="Edit Sequence (S)",
 				mission="Edit Mission (M)",
-
-				back="X",
 			},
 			custom_advance={
 				title="!@#$%^&*",
@@ -2035,8 +1926,6 @@ local langList={
 				opponent="^_^",
 				life="<R>",
 				pushSpeed="_↑_↑_",
-
-				back="X",
 			},
 			custom_field={
 				title="!@#$%^&*",
@@ -2051,8 +1940,6 @@ local langList={
 				pushLine="↑↑↑↑↑(K)",
 				delLine="==X==(L)",
 				demo="X ×",
-
-				back="X",
 			},
 			custom_sequence={
 				title="!@#$%^&*",
@@ -2070,8 +1957,6 @@ local langList={
 				reset="R",
 				copy="→__",
 				paste="__→",
-
-				back="X",
 			},
 			custom_mission={
 				title="!@#$%^&*",
@@ -2091,8 +1976,6 @@ local langList={
 				copy="Copy",
 				paste="Paste",
 				mission="Force mission",
-
-				back="X",
 			},
 			play={
 				pause="||",
@@ -2121,7 +2004,6 @@ local langList={
 				fine="12 X 21",
 				appLock="?XX(=626)",
 				calc="?XX",
-				back="X",
 			},
 			setting_video={
 				title="{~~}",
@@ -2153,7 +2035,6 @@ local langList={
 				fullscreen="|←→|",
 				bg="__?__",
 				power="+.",
-				back="X",
 			},
 			setting_sound={
 				title="(~~)",
@@ -2167,7 +2048,6 @@ local langList={
 				bgm="#~#",
 				vib="=~=",
 				voc="~~~",
-				back="X",
 			},
 			setting_control={
 				title="[~~]",
@@ -2179,13 +2059,11 @@ local langList={
 				irs="!''",
 				ims="!←→",
 				reset="R",
-				back="X",
 			},
 			setting_key={
 				keyboard="[##]",
 				joystick="^-^",
 				help="..........................",
-				back="X",
 			},
 			setting_skin={
 				title="%{~~}",
@@ -2200,13 +2078,11 @@ local langList={
 				prev7="↑",next7="↓",spin7="R",
 				skinR="R @%&",
 				faceR="R ↑↓←→.",
-				back="X",
 			},
 			setting_touch={
 				default="$0",
 				snap=function()return text.snapLevelName[sceneTemp.snap]end,
 				option="_?",
-				back="X",
 				size="←→",
 			},
 			setting_touchSwitch={
@@ -2224,21 +2100,17 @@ local langList={
 				icon="@?",
 				tkset="_~=_",
 				alpha="+?",
-				back="X",
 			},
 			setting_trackSetting={
 				VKDodge="←_→",
-				back="X",
 			},
 			setting_lang={
-				back="X",
 			},--LangName added later
 			help={
 				dict="z",
 				staff="Orz",
 				his="_&_",
 				qq="_@_",
-				back="X",
 			},
 			dict={
 				title="TetroDictionary",
@@ -2246,27 +2118,19 @@ local langList={
 				link="~~e>>",
 				up="↑",
 				down="↓",
-				back="X",
 			},
 			staff={
-				back="X",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="X",
 			},
 			stat={
 				path="_$_",
-				back="X",
 			},
 			login={
 				title="Log in / Sign up",
-				username="@",
-				email="E-mail",
+				username="#",
+				email="@",
+				code="%",
 				password="*",
 				password2="*",
-				back="X",
 			},
 			account={
 				title="@_@",
@@ -2275,7 +2139,6 @@ local langList={
 				p15="15 Puzzle",
 				schulte_G="Schulte Grid",
 				pong="Pong",
-				back="X",
 			},
 			p15={
 				reset="!@#$%",
@@ -2284,7 +2147,6 @@ local langList={
 				slide="~_~",
 				pathVis="--==>",
 				revKB="Reverse",
-				back="X",
 			},
 			schulte_G={
 				reset="!@#$%",
@@ -2292,18 +2154,15 @@ local langList={
 				blind="???",
 				disappear="=X=",
 				tapFX="↓ !",
-				back="X",
 			},
 			pong={
 				reset="R",
-				back="X",
 			},
 			debug={
 				reset="Reset?",
 				reset1="Reset rank",
 				reset2="Reset data",
 				reset3="Reset ALL",
-				back="X",
 			},
 		},
 		modes={
@@ -2393,6 +2252,7 @@ local langList={
 		},
 	},
 	{
+		back="返回",
 		anykey="您开始了",
 		newVersion="感谢更新,请看看更新了些啥",
 		httpTimeout="没网或者网不好?",
@@ -2530,12 +2390,12 @@ local langList={
 			"作者:MrZ  邮箱:1046101471@qq.com",
 			"使用LOVE2D引擎",
 			"",
-			"程序:MrZ, FinnTenzor",
-			"美术:MrZ, (Gnyar)",
-			"音乐:MrZ, (T0722)",
+			"程序: MrZ, FinnTenzor",
+			"美术: MrZ, (T0722, Gnyar)",
+			"音乐: MrZ, (T0722)",
 			"音效/语音: MrZ, Miya",
-			"演出: 模电, HBM",
-			"测试:思竣 官网: 渣渣120",
+			"演出: 模电, HBM 测试: 思竣",
+			"英文文案: User670 官网: 渣渣120",
 			"",
 			"特别感谢:",
 			"Flyz, Farter, 蕴空之灵,",
@@ -2547,8 +2407,10 @@ local langList={
 			GFIE
 			Goldwave
 		使用库:
-			Cold_Clear[MinusKelvin]
-			simple-love-lights[dylhunn]
+			Cold_Clear [MinusKelvin]
+			json.lua [rxi]
+			profile.lua [itraykov]
+			simple-love-lights [dylhunn]
 		]],
 		support="支持作者",
 		group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
@@ -2568,7 +2430,6 @@ local langList={
 			},
 			mode={
 				start="开始",
-				back="返回",
 			},
 			music={
 				title="音乐室",
@@ -2579,7 +2440,6 @@ local langList={
 				up="↑",
 				play="播放",
 				down="↓",
-				back="返回",
 			},
 			customGame={
 				title="自定义游戏",
@@ -2604,8 +2464,6 @@ local langList={
 				field="场地编辑(F)",
 				sequence="序列编辑(S)",
 				mission="任务编辑(M)",
-
-				back="返回",
 			},
 			custom_advance={
 				title="自定义游戏",
@@ -2633,8 +2491,6 @@ local langList={
 				opponent="对手",
 				life="命数",
 				pushSpeed="上涨速度",
-
-				back="返回",
 			},
 			custom_field={
 				title="自定义游戏",
@@ -2649,8 +2505,6 @@ local langList={
 				pushLine="增加一行(K)",
 				delLine="消除行(L)",
 				demo="不显示×",
-
-				back="返回",
 			},
 			custom_sequence={
 				title="自定义游戏",
@@ -2668,8 +2522,6 @@ local langList={
 				reset="R",
 				copy="复制",
 				paste="粘贴",
-
-				back="返回",
 			},
 			custom_mission={
 				title="自定义游戏",
@@ -2689,8 +2541,6 @@ local langList={
 				copy="复制",
 				paste="粘贴",
 				mission="强制任务",
-
-				back="返回",
 			},
 			play={
 				pause="暂停",
@@ -2719,7 +2569,6 @@ local langList={
 				fine="极简操作提示音",
 				appLock="家长锁(密码626)",
 				calc="家长锁",
-				back="返回",
 			},
 			setting_video={
 				title="改画面",
@@ -2751,7 +2600,6 @@ local langList={
 				fullscreen="全屏",
 				bg="背景",
 				power="电量显示",
-				back="返回",
 			},
 			setting_sound={
 				title="改声音",
@@ -2765,7 +2613,6 @@ local langList={
 				bgm="曲",
 				vib="嗡嗡",
 				voc="语音",
-				back="返回",
 			},
 			setting_control={
 				title="改控制",
@@ -2777,13 +2624,11 @@ local langList={
 				irs="提前旋转",
 				ims="提前移动",
 				reset="重来",
-				back="返回",
 			},
 			setting_key={
 				keyboard="键盘",
 				joystick="手柄",
 				help="方向键选择/翻页,回车/空格修改,esc返回",
-				back="返回",
 			},
 			setting_skin={
 				title="改外观",
@@ -2798,13 +2643,11 @@ local langList={
 				prev7="↑",next7="↓",spin7="R",
 				skinR="重设配色",
 				faceR="重设方向",
-				back="返回",
 			},
 			setting_touch={
 				default="默认组合",
 				snap=function()return text.snapLevelName[sceneTemp.snap]end,
 				option="选项",
-				back="返回",
 				size="大小",
 			},
 			setting_touchSwitch={
@@ -2822,21 +2665,17 @@ local langList={
 				icon="图标",
 				tkset="跟踪设置",
 				alpha="透明度",
-				back="返回",
 			},
 			setting_trackSetting={
 				VKDodge="自动避让",
-				back="返回",
 			},
 			setting_lang={
-				back="返回",
 			},--LangName added later
 			help={
 				dict="小Z词典",
 				staff="制作人员",
 				his="更新历史",
 				qq="作者QQ",
-				back="返回",
 			},
 			dict={
 				title="小Z方块词典",
@@ -2844,27 +2683,19 @@ local langList={
 				link="看链接",
 				up="↑",
 				down="↓",
-				back="返回",
 			},
 			staff={
-				back="返回",
-			},
-			history={
-				prev="↑",
-				next="↓",
-				back="返回",
 			},
 			stat={
 				path="打开存储目录",
-				back="返回",
 			},
 			login={
 				title="登录/注册",
 				username="用户名",
 				email="邮箱",
+				code="邀请码",
 				password="密码",
 				password2="你觉得应该填啥",
-				back="返回",
 			},
 			account={
 				title="账户",
@@ -2873,7 +2704,6 @@ local langList={
 				p15="15 Puzzle",
 				schulte_G="舒尔特方格",
 				pong="Pong",
-				back="返回",
 			},
 			p15={
 				reset="打乱",
@@ -2882,7 +2712,6 @@ local langList={
 				slide="滑动",
 				pathVis="路径显示",
 				revKB="键盘反向",
-				back="返回",
 			},
 			schulte_G={
 				reset="重开",
@@ -2890,11 +2719,9 @@ local langList={
 				blind="盲",
 				disappear="消失",
 				tapFX="动画",
-				back="返回",
 			},
 			pong={
 				reset="重置",
-				back="返回",
 			},
 			debug={
 				copyLog="复制日志",
@@ -2903,7 +2730,6 @@ local langList={
 				reset1="重置解锁/等级",
 				reset2="重置统计",
 				reset3="清空所有数据",
-				back="返回",
 			},
 		},
 		modes={
@@ -3018,8 +2844,11 @@ local publicWidgetText={
 		str="?????",
 		yygq="就这?",
 	},
+	history={
+		prev="↑",
+		next="↓",
+	},
 }
-
 for key,list in next,publicText do
 	for i=1,#langList do
 		if langList[i][key]then
@@ -3046,11 +2875,18 @@ for key,list in next,publicWidgetText do
 	end
 end
 
+--set global name for all back button
+for i=1,#langList do
+	local L=langList[i]
+	for _,v in next,L.WidgetText do
+		v.back=L.back
+	end
+end
+
 --fallback to normal Chinese if no
 local langMeta={__index=langList[1]}
 for i=2,#langList do setmetatable(langList[i],langMeta)end
 
-local LANG={}
 local drawableTextLoad={
 	"anykey",
 	"replaying",
@@ -3060,6 +2896,7 @@ local drawableTextLoad={
 	"VKTchW","VKOrgW","VKCurW",
 	"noScore","highScore",
 }
+local LANG={}
 function LANG.getLen()
 	return #langList
 end

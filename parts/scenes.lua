@@ -2469,7 +2469,7 @@ do--help
 		for i=1,#text.help do
 			gc.printf(text.help[i],150,35*i+40,1000,"center")
 		end
-		setFont(19)
+		setFont(15)
 		gc.print(text.used,30,330)
 		gc.draw(IMG.title,280,610,.1,1+.05*sin(Timer()*2.6),nil,206,35)
 		gc.setLineWidth(3)
@@ -2612,12 +2612,14 @@ do--dict
 		local list=S.result[1]and S.result or S.dict
 		gc.setColor(1,1,1)
 		local text=list[S.select][4]
-		if #text>600 then
+		if #text>900 then
+			setFont(15)
+		elseif #text>600 then
 			setFont(20)
 		elseif #text>400 then
-			setFont(24)
+			setFont(25)
 		else
-			setFont(28)
+			setFont(30)
 		end
 		gc.printf(text,306,180,950)
 
@@ -2677,6 +2679,7 @@ do--staff
 		local L=text.staff
 		local t=sceneTemp.time
 		setFont(40)
+		gc.setColor(1,1,1)
 		for i=1,#L do
 			mStr(L[i],640,800+80*i-t*40)
 		end

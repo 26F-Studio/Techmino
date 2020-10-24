@@ -109,19 +109,19 @@ local FCL={
 local LclearScore={[0]=0,-200,-120,-80,200}
 local HclearScore={[0]=0,100,140,200,500}
 local function ifoverlapAI(f,bk,x,y)
-	if y<1 then return true end
-	if y>#f then return end
 	for i=1,#bk do for j=1,#bk[1]do
 		if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
+local discardRow=freeRow.discard
+local getRow=freeRow.get
 local function resetField(f0,f,start)
 	for _=#f,start,-1 do
-		freeRow.discard(f[_])
+		discardRow(f[_])
 		f[_]=nil
 	end
 	for i=start,#f0 do
-		f[i]=freeRow.get(0)
+		f[i]=getRow(0)
 		for j=1,10 do
 			f[i][j]=f0[i][j]
 		end
@@ -130,7 +130,7 @@ end
 local function getScore(field,cb,cy)
 	local score=0
 	local highest=0
-	local height=freeRow.get(0)
+	local height=getRow(0)
 	local clear=0
 	local hole=0
 
@@ -138,7 +138,7 @@ local function getScore(field,cb,cy)
 		for j=1,10 do
 			if field[i][j]==0 then goto L end
 		end
-		freeRow.discard(rem(field,i))
+		discardRow(rem(field,i))
 		clear=clear+1
 		::L::
 	end
@@ -171,7 +171,7 @@ local function getScore(field,cb,cy)
 		end
 		sdh=sdh+min(dh^1.6,20)
 	end
-	freeRow.discard(height)
+	discardRow(height)
 	score=
 		-#field*30
 		-#cb*15
@@ -198,7 +198,7 @@ return{
 			local best={x=1,dir=0,hold=false,score=-1e99}--Best method
 			local field_org=P.field
 			for i=1,#field_org do
-				Tfield[i]=freeRow.get(0)
+				Tfield[i]=getRow(0)
 				for j=1,10 do
 					Tfield[i][j]=field_org[i][j]
 				end
@@ -220,14 +220,19 @@ return{
 						local cy=#Tfield+1
 
 						--Move to bottom
-						while not ifoverlapAI(Tfield,cb,cx,cy-1)do
-							cy=cy-1
+						while true do
+							if cy==1 then break end
+							if not ifoverlapAI(Tfield,cb,cx,cy-1)then
+								cy=cy-1
+							else
+								break
+							end
 						end
 
 						--Simulate lock
 						for i=1,#cb do
 							local y=cy+i-1
-							if not Tfield[y]then Tfield[y]=freeRow.get(0)end
+							if not Tfield[y]then Tfield[y]=getRow(0)end
 							for j=1,#cb[1]do
 								if cb[i][j]then
 									Tfield[y][cx+j-1]=1
@@ -247,7 +252,7 @@ return{
 
 			--Release cache
 			while #Tfield>0 do
-				freeRow.discard(rem(Tfield,1))
+				discardRow(rem(Tfield,1))
 			end
 			local p=#ctrl+1
 			if best.hold then

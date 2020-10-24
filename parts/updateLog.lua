@@ -7,7 +7,8 @@ local S=[=[
 						\弥佑瑶/               \Alan/           \幽灵3383/
 						\靏鸖龘龘/             \込余/             \saki/
 						\模电/                \吃水榴莲/          \世界沃德/
-						\Petris/
+						\Petris/             \[*润]/             \镝/
+						\HitachiMako/
 		<rmb10+>
 				八零哥    蕴空之灵    gggf127    dtg    ThTsOd    Fireboos    金巧    10元
 				立斐    Deep_Sea    时雪    yyangdid    sfqr    心痕    Sasoric    夏小亚
@@ -17,22 +18,21 @@ local S=[=[
 				HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思    蓝绿    天生的魔法师    琳雨空
 				T8779.易缄    诗情画意    星姐阿夸双推Man暗炎    [*炎]    [*Y]    aaa222    [**城]
 				cnDD    红桃老给    昭庭玲秋    旋树墩    火花工作室    Cosine    沁音的芝麻王
-				SuperJH    天上_飞    uiro    宇酱    [W*N]    [Z*.]    [*之]
+				SuperJH    天上_飞    uiro    宇酱    [W*N]    [Z*.]    [*之]    白衣    给虫
 		Thanks!!!
 
-Future outlook:
-		New modes:
-				infinite PC challenge; easy finesse (only revert current)
-				combo; backfire; bigbang; rhythm; square
-				task survival; symmetry; parkour; game tutorial
-				game Abbr. testl finesse tutorial/exam (3next, 1pt/mino, drop to score)
-		Other:
-				mod system with:
+未来计划:
+		新模式:
+				无尽PC挑战; 简单极简练习; 任务生存; 对称; 跑酷; 教学;
+				术语问答; 极简教程/考试; 连击练习; 自攻自受;
+				大爆炸; 节奏模式; 拼方形; Phantasm(0h his L10/W5/F5 5lives)
+		其他:
+				mod系统:
 						block/field/up/low hidden
 						next[1-n] hidden
 						field flip(LR/UD)
 						no fail(∞ lives)
-				mini games:
+				小游戏:
 						2048 (带预览; 后妈发牌)
 						扫雷; 坦克大战; 找不同
 				热更新; 联网游戏; 录像保存/导出; 按块回放录像
@@ -41,9 +41,33 @@ Future outlook:
 				自定义游戏选择旋转系统(C2,DTET,ASC...)
 				自定义游戏按各种目的复制数据; 画图智能画笔
 				地图增加模式图标; split判定及效果
-				更多画面效果; 一些3D小玩意; 方块散落动画; 超60帧
+				更多背景; 一些3D小玩意; 方块散落动画; 超60帧
 				"一键操作"; 手机滑动操作; 特殊控件(例如虚拟摇杆)
 				task-Z(新AI); 工程编译到字节码
+
+0.11.5: 自定义页面更新 Custom Menu Update
+		新内容:
+				新自定义页面:可预览场地,显示序列/任务情况
+				新背景:welcome(用于final和生存极限)
+				新控件:文本框(用于登录等功能)
+				用户注册/登录界面(暂时没有任何功能)
+				英语版词典
+		改动:
+				不再频繁切默认BGM,体验更好
+				移除自制虚拟键盘控件,手机端改用系统键盘,词典加入选择词条的上下键
+				词典调整,搜索动画改好看
+				CC使用新参数,AI平衡再调整
+				调整最后两个隐形模式通关条件
+				模式地图评级文本支持多语言,地图排版微调
+				极简提示音预览
+				删除yygq语言统计数据参与的tips
+		代码:
+				优化性能:ai思考和绘制玩家场地
+				整理代码,变量整理,许多全局变量名改为大写
+		修复:
+				CC报错(大概也许)
+				顶替CC的9S大幅加速
+				回合制会自然下落,ai不会卡住了
 
 0.11.4: 网络库更新 Network Update
 		新内容:
@@ -58,7 +82,7 @@ Future outlook:
 				demo玩家不触发极简错误音
 				CC操作速度加强
 				地图布局微调
-				词典控件排版微调,键盘透明度降低,不再需要手动确认查询
+				词典控件排版微调,键盘透明度降低
 				软件锁在加载资源前启动
 		代码:
 				按键禁用加入模式环境变量
@@ -411,7 +435,7 @@ Future outlook:
 				一些文本小错误
 				自定义序列相关的闪退
 				按键跟踪设置界面闪退
-				五联块成绩排序错误
+				五连块成绩排序错误
 				pc训练方块ghost浮空
 				i平放顶层消1的奇怪行为
 				玩家掉出屏幕过程中绘制场地时剪裁不正确

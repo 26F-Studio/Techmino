@@ -647,7 +647,7 @@ local Widgets={
 	},
 	dict={
 		newText({name="title",		x=20,	y=5,font=70,align="L"}),
-		newKey({name="keyboard",	x=960,	y=60,w=200,h=80,font=35,code=function()love.keyboard.setTextInput(true)end,hide=mobileShow}),
+		newKey({name="keyboard",	x=960,	y=60,w=200,h=80,font=35,code=function()love.keyboard.setTextInput(true,0,0,1,1)end,hide=mobileShow}),
 		newKey({name="link",		x=1140,	y=650,w=200,h=80,font=35,code=pressKey("link"),hide=function()return not sceneTemp.url end}),
 		newKey({name="up",			x=1190,	y=440,w=100,h=100,font=35,code=pressKey("up"),hide=mobileShow}),
 		newKey({name="down",		x=1190,	y=550,w=100,h=100,font=35,code=pressKey("down"),hide=mobileShow}),
