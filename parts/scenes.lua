@@ -1113,6 +1113,8 @@ do--custom_field
 			end
 		elseif key=="escape"then
 			SCN.back()
+		elseif key=="j"then
+			sceneTemp.demo=not sceneTemp.demo
 		elseif key=="k"then
 			ins(FIELD,1,{14,14,14,14,14,14,14,14,14,14})
 			FIELD[21]=nil
@@ -1259,7 +1261,9 @@ do--custom_mission
 				S.cur=p
 			end
 		elseif key=="backspace"then
-			if S.cur>0 then
+			if #S.input>0 then
+				S.input=""
+			elseif S.cur>0 then
 				rem(MISSION,S.cur)
 				S.cur=S.cur-1
 				if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
