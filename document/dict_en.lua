@@ -846,7 +846,7 @@ return{
 	{"MrZ",
 		"mrz626",
 		"name",
-		"Tetris Research community member, author of Techmino.\nPersonal bests: Sprint 27 seconds, MPH Sprint 57 seconds, #8 on Jstris leaderboards, cleared TGM3 (World rule, Shirase gold 1300).",
+		"Tetris Research community member, author of Techmino.\nPersonal bests: Sprint 27 seconds, MPH Sprint 57 seconds, #8 on Jstris leaderboards, U rank on Tetr.io, cleared TGM3 (World rule, Shirase gold 1300).",
 		"https://space.bilibili.com/225238922",
 	},
 
