@@ -159,8 +159,8 @@ do--load
 	function sceneInit.load()
 		sceneTemp={
 			phase=1,--Loading stage
-			cur=1,--Counter
-			tar=#VOC.name,--Loading bar length(current)
+			cur=1,--Loading timer
+			tar=#VOC.name,--Current Loading bar length
 			tip=require("parts/getTip"),
 			list={
 				#VOC.name,

@@ -582,7 +582,7 @@ function love.run()
 
 		--Fresh power info.
 		if Timer()-lastFreshPow>2 then
-			if SETTING.powerInfo and loadingFinished then
+			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
 				lastFreshPow=Timer()
 			end
