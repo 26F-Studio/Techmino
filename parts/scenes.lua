@@ -158,6 +158,7 @@ end
 do--load
 	function sceneInit.load()
 		sceneTemp={
+			time=0,--Animation timer
 			phase=1,--Loading stage
 			cur=1,--Loading timer
 			tar=#VOC.name,--Current Loading bar length
@@ -183,6 +184,8 @@ do--load
 			sceneTemp.skip=true
 		elseif k=="s"then
 			sceneTemp.skip,MARKING=true
+		elseif k=="space"then
+			sceneTemp.time=max(sceneTemp.time-5,0)
 		elseif k=="escape"then
 			SCN.back()
 		end
@@ -194,8 +197,8 @@ do--load
 	end
 
 	function Tmr.load()
-		local t=Timer()
 		local S=sceneTemp
+		if S.time==400 then return end
 		repeat
 			if S.phase==1 then
 				VOC.loadOne(S.cur)
@@ -233,42 +236,65 @@ do--load
 				SFX.play("welcome_sfx")
 				VOC.play("welcome_voc")
 				httpRequest(TICK.httpREQ_launch,"api/game")
-			else
+			end
+			if S.tar then
 				S.cur=S.cur+1
-				S.tar=S.cur
-				if S.cur>62.6 then
-					SCN.swapTo("intro","none")
+				if S.cur>S.tar then
+					S.phase=S.phase+1
+					S.cur=1
+					S.tar=S.list[S.phase]
 				end
-				loadingFinished=true
+			end
+			S.time=S.time+1
+			if S.time==400 then
+				SCN.swapTo("intro")
 				return
 			end
-			S.cur=S.cur+1
-			if S.cur>S.tar then
-				S.phase=S.phase+1
-				S.cur=1
-				S.tar=S.list[S.phase]
-				if not S.tar then
-					S.phase=0
-					S.tar=1
-				end
-			end
-		until not S.skip and Timer()-t>.01
+		until not S.skip
 	end
 
 	function Pnt.load()
 		local S=sceneTemp
-		gc.setLineWidth(4)
-		gc.setColor(1,1,1,.5)
-		gc.rectangle("fill",300,330,S.cur/S.tar*680,60,5)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",300,330,680,60,5)
-		setFont(35)
-		gc.print(text.load[S.phase],340,335)
-		if S.phase~=0 then
-			gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
+
+		gc.push("transform")
+		gc.translate(640,360)
+		gc.scale(2)
+
+		setFont(80)
+		local Y=3250*(sin(-1.5708+min(S.time,260)/260*3.1416)+1)+200
+
+		--Draw 26F Studio logo
+		if S.time>220 then
+			local T=Timer()
+			gc.setColor(color.dCyan)
+			mStr("26F Studio",0,(Y-6700)*1.2-60)
+			mStr("26F Studio",0,(Y-6700)*0.8-60)
+			gc.setColor(color.cyan)
+			mStr("26F Studio",4*sin(T*10),Y-6760+4*sin(T*6))
+			mStr("26F Studio",4*sin(T*12),Y-6760+4*sin(T*8))
+			gc.setColor(color.dCyan)
+			mStr("26F Studio",-1,Y-6759)
+			mStr("26F Studio",-1,Y-6761)
+			mStr("26F Studio",1,Y-6759)
+			mStr("26F Studio",1,Y-6761)
+			gc.setColor(.2,.2,.2)
+			mStr("26F Studio",0,Y-6760)
 		end
-		setFont(25)
-		mStr(S.tip,640,400)
+
+		--Draw side line
+		gc.setColor(1,1,1)
+		gc.line(-220,Y-80,-220,Y-6840)
+		gc.line(220,Y-80,220,Y-6840)
+
+		--Draw floors
+		for i=1,27 do
+			if i<26 then
+				mStr(i.."F",0,Y-260*i)
+			end
+			gc.line(-220,Y-260*i+180,220,Y-260*i+180)
+		end
+
+		gc.pop()
 	end
 end
 do--intro
