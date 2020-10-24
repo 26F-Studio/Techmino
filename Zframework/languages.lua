@@ -85,7 +85,6 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载字体ing","加载模式ing","加载乱七八糟的东西ing"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -648,7 +647,6 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","正在加载语音","正在加载音乐","正在加载音效","正在加载图片","正在加载字体","正在加载模式","正在加载乱七八糟的东西"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -1211,7 +1209,6 @@ local langList={
 			"Instant Left:","Instant Right:","Sonic Drop:","Down 1:","Down 4:","Down 10:",
 			"Left Drop:","Right Drop:","Left Zangi:","Right Zangi:",
 		},
-		load={[0]="Finished","Loading voice","Loading BGM","Loading SFX","Loading images","Loading fonts","Loading modes","Loading other things"},
 		pauseStat={
 			"Time:",
 			"Key/Rot./Hold:",
@@ -1773,7 +1770,6 @@ local langList={
 			"|←:","→|:","↓_:","↓1:","↓4:","↓10:",
 			"←↓→↓:","→↓↓:","←↓→↓:","→↓←↓:",
 		},
-		load={[0]="___","_vocie_","_BGM_","_SFX_","_images_","_fonts_","_modes_","_???_"},
 		pauseStat={
 			"~:",
 			"=/''/[ ]:",
@@ -2337,7 +2333,6 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载字体ing","加载模式ing","加载乱七八糟的东西ing"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
