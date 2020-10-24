@@ -166,6 +166,20 @@ function profile.report(n)
 	return '\n'..sz..row
 end
 
+local switch=false
+function profile.switch()
+	if switch then
+		profile.stop()
+		love.system.setClipboardText(PROFILE.report())
+		PROFILE.reset()
+		LOG.print("profile report copied!")
+	else
+		PROFILE.start()
+		LOG.print("profile start!")
+	end
+	switch=not switch
+end
+
 -- store all internal profiler functions
 for _, v in next,profile do
 	if type(v) == "function" then
