@@ -169,7 +169,9 @@ do--load
 				#SFX.list,
 				IMG.getCount(),
 				17,--Fontsize 20~100
+				SKIN.getCount(),
 				#Modes,
+				1,
 				1,
 			},
 			skip=false,--If skipped
@@ -211,6 +213,8 @@ do--load
 			elseif S.phase==5 then
 				getFont(15+5*S.cur)
 			elseif S.phase==6 then
+				SKIN.loadOne(S.cur)
+			elseif S.phase==7 then
 				local m=Modes[S.cur]--Mode template
 				local M=require("modes/"..m.name)--Mode file
 				Modes[m.name],Modes[S.cur]=M
@@ -227,12 +231,40 @@ do--load
 				end
 				-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 				-- M.icon=gc.newImage("image/modeIcon/custom.png")
-			elseif S.phase==7 then
-				--------------------------Loading other little things here
-				SKIN.load()
+			elseif S.phase==8 then
+				local function C(x,y)
+					local _=gc.newCanvas(x,y)
+					gc.setCanvas(_)
+					return _
+				end
+
+				puzzleMark={}
+				gc.setLineWidth(3)
+				for i=1,11 do
+					puzzleMark[i]=C(30,30)
+					_=SKIN.libColor[i]
+					gc.setColor(_[1],_[2],_[3],.6)
+					gc.rectangle("line",5,5,20,20)
+					gc.rectangle("line",10,10,10,10)
+				end
+				for i=12,17 do
+					puzzleMark[i]=C(30,30)
+					gc.setColor(SKIN.libColor[i])
+					gc.rectangle("line",7,7,16,16)
+				end
+				local _=C(30,30)
+				gc.setColor(1,1,1)
+				gc.line(5,5,25,25)
+				gc.line(5,25,25,5)
+				puzzleMark[-1]=C(30,30)
+				gc.setColor(1,1,1,.9)
+				gc.draw(_)
+				_:release()
+				gc.setCanvas()
+			elseif S.phase==9 then
+				SKIN.change(SETTING.skinSet)
 				STAT.run=STAT.run+1
 				LOADED=true
-				--------------------------
 				SFX.play("welcome_sfx")
 				VOC.play("welcome_voc")
 				httpRequest(TICK.httpREQ_launch,"api/game")
