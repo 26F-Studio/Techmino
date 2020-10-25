@@ -1734,7 +1734,7 @@ do--setting_touch
 	function mouseUp.setting_touch()
 		if sceneTemp.sel then
 			local B=VK_org[sceneTemp.sel]
-			local k=snapLevelValue[sceneTemp.snap]
+			local k=sceneTemp.snap
 			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 		end
 	end
@@ -1744,7 +1744,7 @@ do--setting_touch
 	function touchUp.setting_touch()
 		if sceneTemp.sel then
 			local B=VK_org[sceneTemp.sel]
-			local k=snapLevelValue[sceneTemp.snap]
+			local k=sceneTemp.snap
 			B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 		end
 	end
@@ -1774,7 +1774,7 @@ do--setting_touch
 		gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 		gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
 		VirtualkeyPreview()
-		local d=snapLevelValue[sceneTemp.snap]
+		local d=sceneTemp.snap
 		if d>=10 then
 			gc.setLineWidth(3)
 			gc.setColor(1,1,1,sin(Timer()*4)*.1+.1)

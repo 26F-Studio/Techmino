@@ -278,7 +278,7 @@ local langList={
 			},
 			setting_touch={
 				default="默认组合",
-				snap=function()return text.snapLevelName[sceneTemp.snap]end,
+				snap="吸附",
 				option="选项",
 				size="大小",
 			},
@@ -841,7 +841,7 @@ local langList={
 			},
 			setting_touch={
 				default="默认组合",
-				snap=function()return text.snapLevelName[sceneTemp.snap]end,
+				snap="吸附",
 				option="选项",
 				size="大小",
 			},
@@ -1401,7 +1401,7 @@ local langList={
 			},
 			setting_touch={
 				default="Default",
-				snap=function()return text.snapLevelName[sceneTemp.snap]end,
+				snap="Snap",
 				option="Options",
 				size="Size",
 			},
@@ -1960,7 +1960,7 @@ local langList={
 			},
 			setting_touch={
 				default="$0",
-				snap=function()return text.snapLevelName[sceneTemp.snap]end,
+				snap="_ _",
 				option="_?",
 				size="←→",
 			},
@@ -2522,7 +2522,7 @@ local langList={
 			},
 			setting_touch={
 				default="默认组合",
-				snap=function()return text.snapLevelName[sceneTemp.snap]end,
+				snap="吸附",
 				option="选项",
 				size="大小",
 			},
