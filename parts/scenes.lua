@@ -1672,13 +1672,12 @@ do--setting_key
 	end
 end
 do--setting_skin
-	local scs=spinCenters
 	function Pnt.setting_skin()
 		gc.setColor(1,1,1)
 		for N=1,7 do
 			local face=SETTING.face[N]
 			local B=blocks[N][face]
-			local x,y=-55+140*N-scs[N][face][2]*30,355+scs[N][face][1]*30
+			local x,y=-55+140*N-spinCenters[N][face][2]*30,355+spinCenters[N][face][1]*30
 			local col=#B[1]
 			for i=1,#B do for j=1,col do
 				if B[i][j]then
@@ -2587,7 +2586,6 @@ do--dict
 		english=color.green,
 		name=color.lPurple,
 	}
-	local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 	function Pnt.dict()
 		local S=sceneTemp
 
@@ -2637,7 +2635,7 @@ do--dict
 			local r=Timer()*2
 			local R=int(r)%7+1
 			gc.setColor(1,1,1,1-abs(r%1*2-1))
-			gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,scs[2*R],#blocks[R][0]-scs[2*R-1])
+			gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
 		end
 	end
 end
@@ -3033,46 +3031,46 @@ do--p15
 			end
 		end
 	end
-	function keyDown.p15(k)
+	function keyDown.p15(key)
 		local S=sceneTemp
 		local b=S.board
-		if k=="up"then
+		if key=="up"then
 			tapBoard(S.x,S.y-(S.revKB and 1 or -1),true)
-		elseif k=="down"then
+		elseif key=="down"then
 			tapBoard(S.x,S.y+(S.revKB and 1 or -1),true)
-		elseif k=="left"then
+		elseif key=="left"then
 			tapBoard(S.x-(S.revKB and 1 or -1),S.y,true)
-		elseif k=="right"then
+		elseif key=="right"then
 			tapBoard(S.x+(S.revKB and 1 or -1),S.y,true)
-		elseif k=="space"then
+		elseif key=="space"then
 			shuffleBoard(S,b)
 			S.state=0
 			S.time=0
 			S.move=0
-		elseif k=="q"then
+		elseif key=="q"then
 			if S.state~=1 then
 				S.color=(S.color+1)%5
 			end
-		elseif k=="w"then
+		elseif key=="w"then
 			if S.state==0 then
 				S.blind=not S.blind
 			end
-		elseif k=="e"then
+		elseif key=="e"then
 			if S.state==0 then
 				S.slide=not S.slide
 				if not S.slide then
 					S.pathVis=false
 				end
 			end
-		elseif k=="r"then
+		elseif key=="r"then
 			if S.state==0 and S.slide then
 				S.pathVis=not S.pathVis
 			end
-		elseif k=="t"then
+		elseif key=="t"then
 			if S.state==0 then
 				S.revKB=not S.revKB
 			end
-		elseif k=="escape"then
+		elseif key=="escape"then
 			SCN.back()
 		end
 	end

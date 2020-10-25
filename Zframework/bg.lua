@@ -72,7 +72,6 @@ local wingColor={
 }
 back.wing={
 	init=function()
-		gc.setDefaultFilter("linear","linear")
 		bar=gc.newCanvas(41,1)
 		gc.setCanvas(bar)
 		gc.push("transform")
@@ -354,7 +353,7 @@ back.lightning={
 }--Lightning
 
 local blocks=require("parts/mino")
-local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
+local scs=spinCenters
 back.lightning2={
 	init=function()
 		t=rnd()*2600
@@ -373,7 +372,7 @@ back.lightning2={
 		end
 		local _=colorLib[colorSet[R]]
 		gc.setColor(_[1],_[2],_[3],.12)
-		gc.draw(blockImg[R],640,360,t%3.1416*6,400,400,scs[2*R],#blocks[R][0]-scs[2*R-1])
+		gc.draw(blockImg[R],640,360,t%3.1416*6,400,400,scs[R][0][2]+.5,#blocks[R][0]-scs[R][0][1]-.5)
 	end,
 }--Fast lightning + spining tetromino
 
@@ -446,12 +445,12 @@ back.space={
 
 --Make BG vars invisible
 for _,bg in next,back do
-	if bg.init		then setfenv(bg.init	,BGvars)end
-	if bg.resize	then setfenv(bg.resize	,BGvars)end
-	if bg.update	then setfenv(bg.update	,BGvars)end
-	if bg.draw		then setfenv(bg.draw	,BGvars)end
-	if bg.event		then setfenv(bg.event	,BGvars)end
-	if bg.discard	then setfenv(bg.discard	,BGvars)end
+	if bg.init then		setfenv(bg.init,	BGvars)else bg.init=NULL	end
+	if bg.resize then	setfenv(bg.resize,	BGvars)else bg.resize=NULL	end
+	if bg.update then	setfenv(bg.update,	BGvars)else bg.update=NULL	end
+	if bg.draw then		setfenv(bg.draw,	BGvars)else bg.draw=NULL	end
+	if bg.event then	setfenv(bg.event,	BGvars)else bg.event=NULL	end
+	if bg.discard then	setfenv(bg.discard,	BGvars)else bg.discard=NULL	end
 end
 
 BG={
@@ -478,12 +477,12 @@ function BG.set(bg)
 	BG.cur=bg
 	bg=back[bg]
 
-	BG.init=bg.init or NULL
-	BG.resize=bg.resize or NULL
-	BG.update=bg.update or NULL
-	BG.draw=bg.draw or NULL
-	BG.event=bg.event or NULL
-	BG.discard=bg.discard or NULL
+	BG.init=	bg.init
+	BG.resize=	bg.resize
+	BG.update=	bg.update
+	BG.draw=	bg.draw
+	BG.event=	bg.event
+	BG.discard=	bg.discard
 	BG.init()
 end
 return BG
