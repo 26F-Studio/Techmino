@@ -8,7 +8,7 @@ local langList={
 		holdR="长按以重新开始",
 
 		atkModeName={"随机","徽章","击杀","反击"},
-		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
+		royale_remain="剩余 $1 名玩家",
 		cmb={nil,"1 Combo","2 Combo","3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!","15 Combo!","16 Combo!","17 Combo!","18 Combo!","19 Combo!","MEGACMB"},
 		block=nil,spin="-spin ",
 		clear={"single","double","triple","Techrash","Techrach+"},
@@ -17,7 +17,7 @@ local langList={
 		hold="暂存",next="下一个",
 		replaying="[回放]",
 
-		stage=function(n)return"关卡 "..n end,
+		stage="关卡 $1",
 		great="Great!",
 		awesome="Awesome.",
 		almost="Almost!",
@@ -568,7 +568,7 @@ local langList={
 		holdR="长按以重新开始",
 
 		atkModeName={"随机","徽章","击杀","反击"},
-		royale_remain=function(n)return"剩余 "..n.." 名玩家"end,
+		royale_remain="剩余 $1 名玩家",
 		cmb={nil,"1连击","2连击","3连击","4连击","5连击","6连击","7连击","8连击","9连击","10连击!","11连击!","12连击!","13连击!","14连击!","15连击!","16连击!","17连击!","18连击!","19连击!","巨型连击"},
 		block=nil,spin="型回旋",
 		clear={"单清","双清","三清","四清","五清"},
@@ -577,7 +577,7 @@ local langList={
 		hold="暂存",next="下一个",
 		replaying="[回放]",
 
-		stage=function(n)return"关卡 "..n end,
+		stage="关卡 $1",
 		great="不错!",
 		awesome="精彩。",
 		almost="差一点!",
@@ -1131,7 +1131,7 @@ local langList={
 		holdR="Keep holding to retry",
 
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
-		royale_remain=function(n)return n.." Players Remaining"end,
+		royale_remain="$1 Players Remaining",
 		cmb={nil,"1 Combo","2 Combo","3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!!","15 Combo!!","16 Combo!!","17 Combo!!!","18 Combo!!!","19 Combo!!!","MEGACMB"},
 		block=nil,spin="-Spin ",
 		clear={"Single","Double","Triple","Techrash","Techrash+"},
@@ -1140,7 +1140,7 @@ local langList={
 		hold="HOLD",next="NEXT",
 		replaying="[Replay]",
 
-		stage=function(n)return"Stage "..n end,
+		stage="Stage $1",
 		great="Great!",
 		awesome="Awesome!",
 		almost="Almost!",
@@ -1691,7 +1691,7 @@ local langList={
 		holdR="→→→→R",
 
 		atkModeName={"?","(  )","!","←→"},
-		royale_remain=function(n)return n.."~"end,
+		royale_remain="$1 ~",
 		cmb={nil,"!","!!","!!!","!!!!","!!!!!","!!!!!!","!!!!!!!","!!!!!!!!","!!!!!!!!!","!!!!!!!!!!","!!!!!!!!!!!","!!!!!!!!!!!!","!!!!!!!!!!!!!","!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!!",},
 		block=nil,spin=" ~",
 		clear={"1","2","3","4","5"},
@@ -1700,7 +1700,7 @@ local langList={
 		hold="[ ]",next="→",
 		replaying="[Replaying]",
 
-		stage=function(n)return"::"..n.."::"end,
+		stage="::$1::",
 		great="!~",
 		awesome="!!~",
 		almost="...!",
@@ -2248,7 +2248,7 @@ local langList={
 		holdR="长按重开",
 
 		atkModeName={"随机","徽章","击杀","反击"},
-		royale_remain=function(n)return"剩 "..n.." 人"end,
+		royale_remain="剩 $1 人",
 		cmb={nil,"1连","2连","3连","4连","5连","6连","7连","8连","9连","10连!","11连!","12连!","13连!","14连!","15连!","16连!","17连!","18连!","19连!","MEGACMB"},
 		block=nil,spin="旋",
 		clear={"消一","消二","消三","消四","卧槽"},
@@ -2257,7 +2257,7 @@ local langList={
 		hold="暂存",next="下一个",
 		replaying="[回放]",
 
-		stage=function(n)return"关卡 "..n end,
+		stage="关卡 $1",
 		great="不错的",
 		awesome="您很强",
 		almost="太舒服了",
