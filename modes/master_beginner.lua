@@ -34,7 +34,7 @@ local function score(P)
 			MD.point,MD.event=500,4
 			P:win("finish")
 		else
-			P:showTextF(text.stage(s),0,-120,80,"fly")
+			P:showTextF(text.stage:gsub("$1",s),0,-120,80,"fly")
 		end
 		SFX.play("reach")
 	end

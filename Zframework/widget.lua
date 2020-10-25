@@ -126,7 +126,6 @@ function button:draw()
 	end
 	local t=self.text
 	if t then
-		if type(t)=="function"then t=t()end
 		setFont(self.font)
 		local y0=y+h*.5-self.font*.7-ATV*.5
 		gc.setColor(1,1,1,.2+ATV*.05)
@@ -208,7 +207,6 @@ function key:draw()
 
 	local t=self.text
 	if t then
-		if type(t)=="function"then t=t()end
 		setFont(self.font)
 		gc.setColor(r,g,b,1.2)
 		gc.printf(t,x,y+h*.5-self.font*.7,w,"center")
@@ -546,7 +544,6 @@ function selector:draw()
 	setFont(28)
 	t=self.text
 	if t then
-		if type(t)=="function"then t=t()end
 		gc.setColor(r,g,b)
 		mStr(self.text,x+w*.5,y+17-21)
 	end

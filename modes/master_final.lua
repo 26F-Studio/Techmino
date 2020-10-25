@@ -17,13 +17,13 @@ local function score(P)
 		local s=MD.event+1;MD.event=s
 		local E=P.gameEnv
 		if s<4 then
-			P:showTextF(text.stage(s),0,-120,80,"fly")
+			P:showTextF(text.stage:gsub("$1",s),0,-120,80,"fly")
 			--First 300
 			if s~=1 then E.lock=E.lock-1 end
 			if s~=2 then E.wait=E.wait-1 end
 			if s~=3 then E.fall=E.fall-1 end
 		elseif s<10 then
-			P:showTextF(text.stage(s),0,-120,60,"fly",1.26)
+			P:showTextF(text.stage:gsub("$1",s),0,-120,60,"fly",1.26)
 			if s==4 or s==7 then E.das=E.das-1 end
 			s=s%3
 			if s==0 then E.lock=E.lock-1
