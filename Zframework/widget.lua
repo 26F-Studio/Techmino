@@ -703,7 +703,6 @@ function WIDGET.press(x,y)
 		SFX.play("button")
 	elseif W.type=="key"then
 		W.code()
-		SFX.play("lock")
 	elseif W.type=="switch"then
 		W.code()
 		SFX.play("move")
