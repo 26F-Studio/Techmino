@@ -85,7 +85,6 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载字体ing","加载模式ing","加载乱七八糟的东西ing"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -648,7 +647,6 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","正在加载语音","正在加载音乐","正在加载音效","正在加载图片","正在加载字体","正在加载模式","正在加载乱七八糟的东西"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",
@@ -1131,10 +1129,10 @@ local langList={
 	{
 		back="Back",
 		anykey="Press any button",
-		newVersion="Thanks for updating! New feature below",
-		httpTimeout="Network connection timed out!",
+		newVersion="Thanks for updating! Check out the updates below.",
+		httpTimeout="Network connection timed out",
 		marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
-		holdR="Hold to restart",
+		holdR="Keep holding to retry",
 
 		atkModeName={"Random","Badges","K.O.s","Attackers"},
 		royale_remain=function(n)return n.." Players Remaining"end,
@@ -1192,16 +1190,16 @@ local langList={
 		noScore="No Scores Yet",
 		highScore="Personal Bests",
 		newRecord="New Record!",
-		getNoticeFail="get notice failed",
-		getVersionFail="get newest version failed",
+		getNoticeFail="Couldn't get announcements",
+		getVersionFail="Unable to detect a new version",
 		versionIsNew="You are now on the latest version.",
 		versionIsOld="Version $1 is available now!",
-		registerSuccessed="Register successed!",
-		registerFailed="Register failed",
+		registerSuccessed="Registered!",
+		registerFailed="Registration failed",
 		netErrorCode="Network error code",
-		noUsername="Input username",
-		noPassword="Input password",
-		diffPassword="Password don't match",
+		noUsername="Please enter your username",
+		noPassword="Please enter your password",
+		diffPassword="Passwords don't match",
 		errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
 		acts={
@@ -1211,7 +1209,6 @@ local langList={
 			"Instant Left:","Instant Right:","Sonic Drop:","Down 1:","Down 4:","Down 10:",
 			"Left Drop:","Right Drop:","Left Zangi:","Right Zangi:",
 		},
-		load={[0]="Finished","Loading voice","Loading BGM","Loading SFX","Loading images","Loading fonts","Loading modes","Loading other things"},
 		pauseStat={
 			"Time:",
 			"Key/Rot./Hold:",
@@ -1249,7 +1246,7 @@ local langList={
 			"FnsErrs./FnsRate:",
 		},
 		help={
-			"Now you can play this, you are probabaly do not need \"help\"?",
+			"Now you can play this - you probably do not need \"help\"?",
 			"This is just an ordinary block game, not a certain one.",
 			"It plays like TO/C2/KOS/TGM3 and others.",
 			"",
@@ -1279,7 +1276,7 @@ local langList={
 			Beepbox
 			GFIE
 			Goldwave
-		Lib used:
+		Libs used:
 			Cold_Clear [MinusKelvin]
 			json.lua [rxi]
 			profile.lua [itraykov]
@@ -1318,7 +1315,7 @@ local langList={
 				title="Custom Game",
 				subTitle="Basic",
 				defSeq="Default Seq.",
-				noMsn="No mission",
+				noMsn="No missions",
 
 				drop="Drop Delay",
 				lock="Lock Delay",
@@ -1347,22 +1344,22 @@ local langList={
 				ghost="Ghost",
 				center="Center",
 				bagLine="Bag Line",
-				highCam="Bird-eye view",
-				nextPos="Next preview",
+				highCam="Birds-eye View",
+				nextPos="Next Preview",
 				bone="Bone Block",
 
-				mindas="min DAS",
-				minarr="min ARR",
-				minsdarr="min SDARR",
-				noTele="no Teleport",
-				ospin="O-spin",
+				mindas="Min. DAS",
+				minarr="Min. ARR",
+				minsdarr="Min. SDARR",
+				noTele="No Teleportation",
+				ospin="O-Spin",
 				target="Target",
 				visible="Visibility",
-				freshLimit="LD-Reset Limit",
+				freshLimit="Lock Reset Limit",
 				easyFresh="Normal Lock Reset",
 				fineKill="100% Finesse",
 				opponent="Opponent",
-				life="Life",
+				life="Lives",
 				pushSpeed="Garbage Speed",
 			},
 			custom_field={
@@ -1377,7 +1374,7 @@ local langList={
 				clear="Clear",
 				pushLine="Add Line(K)",
 				delLine="Del Line(L)",
-				demo="Don't show ×",
+				demo="Don't Show ×",
 			},
 			custom_sequence={
 				title="Custom Game",
@@ -1453,7 +1450,7 @@ local langList={
 				ghost="Ghost",
 				center="Center",
 
-				smooth="Smooth drop",
+				smooth="Smooth Drop",
 				grid="Grid",
 				bagLine="Bag Line",
 
@@ -1462,14 +1459,14 @@ local langList={
 				moveFX="Move FX Level",
 				clearFX="Clear FX Level",
 				shakeFX="Field Sway Level",
-				atkFX="ATK. FX Level",
+				atkFX="Atk. FX Level",
 				frame="Render Frame Rate",
 
 				text="Action Text",
-				score="Pop-up Score",
-				warn="Death Alert",
-				highCam="Bird-eye view",
-				nextPos="Next preview",
+				score="Score Pop-up",
+				warn="Danger Alert",
+				highCam="Birds-eye View",
+				nextPos="Next Preview",
 				fullscreen="Full Screen",
 				bg="Background",
 				power="Power Info",
@@ -1526,12 +1523,12 @@ local langList={
 			setting_touchSwitch={
 				b1=	"Move Left:",	b2="Move Right:",	b3="Rotate Right:",	b4="Rotate Left:",
 				b5=	"Rotate 180°:",	b6="Hard Drop:",	b7="Soft Drop:",	b8="Hold:",
-				b9=	"Function:",	b10="Restart:",		b11="Instant Left:",b12="Instant Right:",
+				b9=	"Function:",	b10="Restart Game:",		b11="Instant Left:",b12="Instant Right:",
 				b13="Sonic Drop:",	b14="Down 1:",		b15="Down 4:",		b16="Down 10:",
 				b17="Left Drop:",	b18="Right Drop:",	b19="Left Zangi:",	b20="Right Zangi:",
 				norm="Normal",
 				pro="Professional",
-				hide="Show Virtual Key",
+				hide="Show Virtual Keys",
 				track="Auto Track",
 				sfx="SFX",
 				vib="VIB",
@@ -1559,10 +1556,10 @@ local langList={
 			login={
 				title="Log in / Sign up",
 				username="Username",
-				email="E-mail",
+				email="Email address",
 				code="Invitation Code",
 				password="Password",
-				password2="Again Password",
+				password2="Reenter password",
 			},
 			account={
 				title="Account",
@@ -1577,7 +1574,7 @@ local langList={
 				color="Color",
 				blind="Blind",
 				slide="Slide",
-				pathVis="Path show",
+				pathVis="Show Path",
 				revKB="Reverse",
 			},
 			schulte_G={
@@ -1598,8 +1595,8 @@ local langList={
 			},
 			debug={
 				copyLog="Copy Log",
-				scrInfo="Show Screen Info.",
-				reset="Reset?",
+				scrInfo="Show Screen Info",
+				reset="Are you sure you want to reset?",
 				reset1="Reset ranks",
 				reset2="Reset data",
 				reset3="Reset all",
@@ -1685,9 +1682,9 @@ local langList={
 			["infinite_dig"]=		{"Infinite: Dig",	"",				"Dig, dig, dig."},
 			["custom_clear"]=		{"Custom",			"NORMAL",		"Draw something then clear it!!"},
 			["custom_puzzle"]=		{"Custom",			"PUZZLE",		"Draw something then stack it!!"},
-			["sprintFix"]=			{"Sprint",			"No left/right","It's possible."},
-			["sprintLock"]=			{"Sprint",			"No rotation",	"It's impossible."},
-			["sprintPenta"]=		{"Sprint",			"Pentomino",	"Clear 40 lines with 18 pentominoes."},
+			["sprintFix"]=			{"Sprint",			"NO LEFT/RIGHT","It's possible."},
+			["sprintLock"]=			{"Sprint",			"NO ROTATIONS",	"It's impossible."},
+			["sprintPenta"]=		{"Sprint",			"PENTOMINO",	"Clear 40 lines with 18 pentominoes."},
 			["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless\nPreviewless\nHoldless"},
 		},
 	},
@@ -1773,7 +1770,6 @@ local langList={
 			"|←:","→|:","↓_:","↓1:","↓4:","↓10:",
 			"←↓→↓:","→↓↓:","←↓→↓:","→↓←↓:",
 		},
-		load={[0]="___","_vocie_","_BGM_","_SFX_","_images_","_fonts_","_modes_","_???_"},
 		pauseStat={
 			"~:",
 			"=/''/[ ]:",
@@ -2245,10 +2241,10 @@ local langList={
 			["infinite_dig"]=		{"Infinite: Dig",	"",				"Dig, dig, dig."},
 			["custom_clear"]=		{"Custom",			"NORMAL",		"Draw something then clear it!!"},
 			["custom_puzzle"]=		{"Custom",			"PUZZLE",		"Draw something then stack it!!"},
-			["sprintFix"]=			{"Sprint",			"No left/right","It's possible."},
-			["sprintLock"]=			{"Sprint",			"No rotation",	"It's impossible."},
-			["sprintPenta"]=		{"Sprint",			"Pentomino",	"Puzzle-18"},
-			["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless.\nPreviewless.\nHoldless."},
+			["sprintFix"]=			{"Sprint",			"NO LEFT/RIGHT","It's possible."},
+			["sprintLock"]=			{"Sprint",			"NO ROTATIONS",	"It's impossible."},
+			["sprintPenta"]=		{"Sprint",			"PENTOMINO",	"Clear 40 lines with 18 pentominoes."},
+			["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless\nPreviewless\nHoldless"},
 		},
 	},
 	{
@@ -2337,7 +2333,6 @@ local langList={
 			"落在最左:","落在最右:","列在最左:","列在最右:",
 		},
 
-		load={[0]="加载完成","加载语音ing","加载音乐ing","加载音效ing","加载图片ing","加载字体ing","加载模式ing","加载乱七八糟的东西ing"},
 		pauseStat={
 			"时间:",
 			"按键/旋转/暂存:",

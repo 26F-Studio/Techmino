@@ -158,9 +158,10 @@ end
 do--load
 	function sceneInit.load()
 		sceneTemp={
+			time=0,--Animation timer
 			phase=1,--Loading stage
-			cur=1,--Counter
-			tar=#VOC.name,--Loading bar length(current)
+			cur=1,--Loading timer
+			tar=#VOC.name,--Current Loading bar length
 			tip=require("parts/getTip"),
 			list={
 				#VOC.name,
@@ -168,7 +169,9 @@ do--load
 				#SFX.list,
 				IMG.getCount(),
 				17,--Fontsize 20~100
+				SKIN.getCount(),
 				#Modes,
+				1,
 				1,
 			},
 			skip=false,--If skipped
@@ -183,6 +186,8 @@ do--load
 			sceneTemp.skip=true
 		elseif k=="s"then
 			sceneTemp.skip,MARKING=true
+		elseif k=="space"then
+			sceneTemp.time=max(sceneTemp.time-5,0)
 		elseif k=="escape"then
 			SCN.back()
 		end
@@ -194,8 +199,8 @@ do--load
 	end
 
 	function Tmr.load()
-		local t=Timer()
 		local S=sceneTemp
+		if S.time==400 then return end
 		repeat
 			if S.phase==1 then
 				VOC.loadOne(S.cur)
@@ -208,6 +213,8 @@ do--load
 			elseif S.phase==5 then
 				getFont(15+5*S.cur)
 			elseif S.phase==6 then
+				SKIN.loadOne(S.cur)
+			elseif S.phase==7 then
 				local m=Modes[S.cur]--Mode template
 				local M=require("modes/"..m.name)--Mode file
 				Modes[m.name],Modes[S.cur]=M
@@ -224,51 +231,102 @@ do--load
 				end
 				-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 				-- M.icon=gc.newImage("image/modeIcon/custom.png")
-			elseif S.phase==7 then
-				--------------------------Loading other little things here
-				SKIN.load()
+			elseif S.phase==8 then
+				local function C(x,y)
+					local _=gc.newCanvas(x,y)
+					gc.setCanvas(_)
+					return _
+				end
+
+				puzzleMark={}
+				gc.setLineWidth(3)
+				for i=1,11 do
+					puzzleMark[i]=C(30,30)
+					_=SKIN.libColor[i]
+					gc.setColor(_[1],_[2],_[3],.6)
+					gc.rectangle("line",5,5,20,20)
+					gc.rectangle("line",10,10,10,10)
+				end
+				for i=12,17 do
+					puzzleMark[i]=C(30,30)
+					gc.setColor(SKIN.libColor[i])
+					gc.rectangle("line",7,7,16,16)
+				end
+				local _=C(30,30)
+				gc.setColor(1,1,1)
+				gc.line(5,5,25,25)
+				gc.line(5,25,25,5)
+				puzzleMark[-1]=C(30,30)
+				gc.setColor(1,1,1,.9)
+				gc.draw(_)
+				_:release()
+				gc.setCanvas()
+			elseif S.phase==9 then
+				SKIN.change(SETTING.skinSet)
 				STAT.run=STAT.run+1
 				LOADED=true
-				--------------------------
 				SFX.play("welcome_sfx")
 				VOC.play("welcome_voc")
 				httpRequest(TICK.httpREQ_launch,"api/game")
-			else
+			end
+			if S.tar then
 				S.cur=S.cur+1
-				S.tar=S.cur
-				if S.cur>62.6 then
-					SCN.swapTo("intro","none")
+				if S.cur>S.tar then
+					S.phase=S.phase+1
+					S.cur=1
+					S.tar=S.list[S.phase]
 				end
-				loadingFinished=true
+			end
+			S.time=S.time+1
+			if S.time==400 then
+				SCN.swapTo("intro")
 				return
 			end
-			S.cur=S.cur+1
-			if S.cur>S.tar then
-				S.phase=S.phase+1
-				S.cur=1
-				S.tar=S.list[S.phase]
-				if not S.tar then
-					S.phase=0
-					S.tar=1
-				end
-			end
-		until not S.skip and Timer()-t>.01
+		until not S.skip
 	end
 
 	function Pnt.load()
 		local S=sceneTemp
-		gc.setLineWidth(4)
-		gc.setColor(1,1,1,.5)
-		gc.rectangle("fill",300,330,S.cur/S.tar*680,60,5)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",300,330,680,60,5)
-		setFont(35)
-		gc.print(text.load[S.phase],340,335)
-		if S.phase~=0 then
-			gc.printf(S.cur.."/"..S.tar,795,335,150,"right")
+
+		gc.push("transform")
+		gc.translate(640,360)
+		gc.scale(2)
+
+		setFont(80)
+		local Y=3250*(sin(-1.5708+min(S.time,260)/260*3.1416)+1)+200
+
+		--Draw 26F Studio logo
+		if S.time>220 then
+			local T=Timer()
+			gc.setColor(color.dCyan)
+			mStr("26F Studio",0,(Y-6700)*1.2-60)
+			mStr("26F Studio",0,(Y-6700)*0.8-60)
+			gc.setColor(color.cyan)
+			mStr("26F Studio",4*sin(T*10),Y-6760+4*sin(T*6))
+			mStr("26F Studio",4*sin(T*12),Y-6760+4*sin(T*8))
+			gc.setColor(color.dCyan)
+			mStr("26F Studio",-1,Y-6759)
+			mStr("26F Studio",-1,Y-6761)
+			mStr("26F Studio",1,Y-6759)
+			mStr("26F Studio",1,Y-6761)
+			gc.setColor(.2,.2,.2)
+			mStr("26F Studio",0,Y-6760)
 		end
-		setFont(25)
-		mStr(S.tip,640,400)
+
+		--Draw side line
+		gc.setColor(1,1,1)
+		gc.line(-220,Y-80,-220,Y-6840)
+		gc.line(220,Y-80,220,Y-6840)
+
+		--Draw floors
+		for i=1,27 do
+			if i<26 then
+				mStr(i.."F",0,Y-260*i)
+			end
+			gc.line(-220,Y-260*i+180,220,Y-260*i+180)
+		end
+
+		gc.pop()
 	end
 end
 do--intro
@@ -849,7 +907,7 @@ do--customGame
 
 		--Sequence
 		setFont(30)
-		gc.printf(customEnv.sequence,330,550,240,"right")
+		gc.print(customEnv.sequence,330,510)
 		setFont(40)
 		if #BAG>0 then
 			gc.setColor(1,1,int(Timer()*6.26)%2)
@@ -1113,6 +1171,8 @@ do--custom_field
 			end
 		elseif key=="escape"then
 			SCN.back()
+		elseif key=="j"then
+			sceneTemp.demo=not sceneTemp.demo
 		elseif key=="k"then
 			ins(FIELD,1,{14,14,14,14,14,14,14,14,14,14})
 			FIELD[21]=nil
@@ -1259,7 +1319,9 @@ do--custom_mission
 				S.cur=p
 			end
 		elseif key=="backspace"then
-			if S.cur>0 then
+			if #S.input>0 then
+				S.input=""
+			elseif S.cur>0 then
 				rem(MISSION,S.cur)
 				S.cur=S.cur-1
 				if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
@@ -2772,30 +2834,30 @@ end
 do--login
 	function keyDown.login(key)
 		if key=="return"then
-			LOG.print("敬请期待！")
-			LOG.print("Coming Soon!")
-			-- local user=	WIDGET.active.username.value
-			-- local email=WIDGET.active.email.value
-			-- local pw=	WIDGET.active.password.value
-			-- local pw2=	WIDGET.active.password2.value
-			-- if #user==0 then
-			-- 	LOG.print(text.noUsername)return
-			-- elseif #pw==0 or #pw2==0 then
-			-- 	LOG.print(text.noPassword)return
-			-- elseif pw~=pw2 then
-			-- 	LOG.print(text.diffPassword)return
-			-- end
-			-- httpRequest(
-			-- 	TICK.httpREQ_register,
-			-- 	"api/register",
-			-- 	"POST",
-			-- 	{["Content-Type"]="application/json"},
-			-- 	json.encode({
-			-- 		user=user,
-			-- 		email=email,
-			-- 		password=pw,
-			-- 	})
-			-- )
+			local username=	WIDGET.active.username.value
+			local email=	WIDGET.active.email.value
+			local code=		WIDGET.active.code.value
+			local password=	WIDGET.active.password.value
+			local password2=WIDGET.active.password2.value
+			if #username==0 then
+				LOG.print(text.noUsername)return
+			elseif #password==0 or #password2==0 then
+				LOG.print(text.noPassword)return
+			elseif password~=password2 then
+				LOG.print(text.diffPassword)return
+			end
+			httpRequest(
+				TICK.httpREQ_register,
+				"api/account/register",
+				"POST",
+				{["Content-Type"]="application/json"},
+				json.encode({
+					username=username,
+					email=email,
+					password=password,
+					code=code,
+				})
+			)
 		elseif key=="escape"then
 			SCN.back()
 		else

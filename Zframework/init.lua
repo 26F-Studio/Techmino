@@ -191,27 +191,16 @@ end
 function love.keypressed(i)
 	mouseShow=false
 	if devMode then
-		if i=="1"then
-			print("profile start!")
-			PROFILE.start()
-		elseif i=="2"then
-			print("profile stop!")
-			PROFILE.stop()
-		elseif i=="3"then
-			print("profile report copied!")
-			love.system.setClipboardText(PROFILE.report())
-		elseif i=="4"then
-			print("profile resetted!")
-			PROFILE.reset()
-		elseif i=="f1"then
-			local r=rnd()<.5
-			love._setGammaCorrect(r)
-			LOG.print("GammaCorrect: "..(r and"on"or"off"),"warn")
+		if i=="f1"then
+			PROFILE.switch()
 		elseif i=="f2"then
 			LOG.print("System:"..SYSTEM.."["..jit.arch.."]")
 			LOG.print("luaVer:".._VERSION)
 			LOG.print("jitVer:"..jit.version)
 			LOG.print("jitVerNum:"..jit.version_num)
+			local r=rnd()<.5
+			love._setGammaCorrect(r)
+			LOG.print("GammaCorrect: "..(r and"on"or"off"),"warn")
 		elseif i=="f3"then
 			for _=1,8 do
 				local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
@@ -220,7 +209,7 @@ function love.keypressed(i)
 					P:lose()
 				end
 			end
-		elseif i=="f4"then	LOG.copy()
+		elseif i=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
 		elseif i=="f5"then	if love._openConsole then love._openConsole()end
 		elseif i=="f6"then	if WIDGET.sel then DBP(WIDGET.sel)end
 		elseif i=="f7"then	for k,v in next,_G do DBP(k,v)end
@@ -593,7 +582,7 @@ function love.run()
 
 		--Fresh power info.
 		if Timer()-lastFreshPow>2 then
-			if SETTING.powerInfo and loadingFinished then
+			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
 				lastFreshPow=Timer()
 			end
