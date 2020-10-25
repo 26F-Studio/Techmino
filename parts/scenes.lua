@@ -464,8 +464,8 @@ do--main
 		gc.print(SYSTEM,610,100)
 		local L=text.modes[STAT.lastPlay]
 		setFont(25)
-		gc.print(L[1],700,470)
-		gc.print(L[2],700,500)
+		gc.print(L[1],700,430)
+		gc.print(L[2],700,460)
 		PLAYERS[1]:draw()
 	end
 end
@@ -805,652 +805,6 @@ do--mode
 		if cam.keyCtrl then
 			gc.setColor(1,1,1)
 			gc.draw(TEXTURE.mapCross,460-20,360-20)
-		end
-	end
-end
-do--customGame
-	local customEnv=customEnv
-	function sceneInit.customGame()
-		destroyPlayers()
-		BG.set(customEnv.bg)
-		BGM.play(customEnv.bgm)
-	end
-
-	function keyDown.customGame(key)
-		if key=="return"or key=="return2"then
-			if customEnv.opponent>0 then
-				if customEnv.opponent>5 and customEnv.sequence=="fixed"then
-					LOG.print(text.ai_fixed,"warn")
-					return
-				elseif customEnv.opponent>0 and #BAG>0 then
-					LOG.print(text.ai_prebag,"warn")
-					return
-				elseif customEnv.opponent>0 and #MISSION>0 then
-					LOG.print(text.ai_mission,"warn")
-					return
-				end
-			end
-			SCN.push()
-			loadGame((key=="return2"or kb.isDown("lalt","lctrl","lshift"))and"custom_puzzle"or"custom_clear",true)
-		elseif key=="f"then
-			SCN.go("custom_field","swipeD")
-		elseif key=="s"then
-			SCN.go("custom_sequence","swipeD")
-		elseif key=="m"then
-			SCN.go("custom_mission","swipeD")
-		elseif key=="a"then
-			SCN.go("custom_advance","swipeD")
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			local str="Techmino Quest:"..copyQuestArgs().."!"
-			if #BAG>0 then str=str..copySequence()end
-			str=str.."!"..copyBoard().."!"
-			if #MISSION>0 then str=str..copyMission()end
-			sys.setClipboardText(str.."!")
-			LOG.print(text.copySuccess,color.green)
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=sys.getClipboardText()
-			local p1,p2,p3,p4,p5--ptr*
-			while true do
-				p1=find(str,":")or 0
-				p2=find(str,"!",p1+1)
-				if not p2 then break end
-				p3=find(str,"!",p2+1)
-				if not p3 then break end
-				p4=find(str,"!",p3+1)
-				if not p4 then break end
-				p5=find(str,"!",p4+1)or #str+1
-
-				pasteQuestArgs(sub(str,p1+1,p2-1))
-				if p2+1~=p3 then
-					if not pasteSequence(sub(str,p2+1,p3-1))then
-						break
-					end
-				end
-				if not pasteBoard(sub(str,p3+1,p4-1))then
-					break
-				end
-				if p4+1~=p5 then
-					if not pasteMission(sub(str,p4+1,p5-1))then
-						break
-					end
-				end
-				LOG.print(text.pasteSuccess,color.green)
-				return
-			end
-			LOG.print(text.dataCorrupted,color.red)
-		elseif key=="escape"then
-			SCN.back()
-		else
-			WIDGET.keyPressed(key)
-		end
-	end
-
-	local FIELD=FIELD
-	function Pnt.customGame()
-		--Field
-		gc.push("transform")
-		gc.translate(95,290)
-		gc.scale(.5)
-		gc.setColor(1,1,1)
-		gc.setLineWidth(3)
-		gc.rectangle("line",-2,-2,304,604)
-		local cross=puzzleMark[-1]
-		for y=1,20 do for x=1,10 do
-			local B=FIELD[y][x]
-			if B>0 then
-				gc.draw(blockSkin[B],30*x-30,600-30*y)
-			elseif B==-1 then
-				gc.draw(cross,30*x-30,600-30*y)
-			end
-		end end
-		gc.pop()
-
-		--Sequence
-		setFont(30)
-		gc.print(customEnv.sequence,330,510)
-		setFont(40)
-		if #BAG>0 then
-			gc.setColor(1,1,int(Timer()*6.26)%2)
-			gc.print("#",330,545)
-			gc.print(#BAG,360,545)
-		end
-
-		--Sequence
-		if #MISSION>0 then
-			gc.setColor(1,customEnv.missionKill and 0 or 1,int(Timer()*6.26)%2)
-			gc.print("#",610,545)
-			gc.print(#MISSION,640,545)
-		end
-	end
-end
-do--custom_advance
-	function sceneInit.custom_advance()
-		destroyPlayers()
-	end
-end
-do--custom_sequence
-	function sceneInit.custom_sequence()
-		sceneTemp={cur=#BAG,sure=0}
-	end
-
-	local minoKey={
-		["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,
-		z=1,s=2,j=3,l=4,t=5,o=6,i=7,
-		p=10,q=11,f=12,e=13,u=15,
-		v=16,w=17,x=18,r=21,y=22,n=23,h=24,
-	}
-	local minoKey2={
-		["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
-		z=8,s=9,t=14,j=19,l=20,i=25
-	}
-	function keyDown.custom_sequence(key)
-		local S=sceneTemp
-		local BAG=BAG
-		if key=="left"then
-			local p=S.cur
-			if p==0 then
-				S.cur=#BAG
-			else
-				repeat
-					p=p-1
-				until BAG[p]~=BAG[S.cur]
-				S.cur=p
-			end
-		elseif key=="right"then
-			local p=S.cur
-			if p==#BAG then
-				S.cur=0
-			else
-				repeat
-					p=p+1
-				until BAG[p+1]~=BAG[S.cur+1]
-				S.cur=p
-			end
-		elseif key=="ten"then
-			for _=1,10 do
-				local p=S.cur
-				if p==#BAG then break end
-				repeat
-					p=p+1
-				until BAG[p+1]~=BAG[S.cur+1]
-				S.cur=p
-			end
-		elseif key=="backspace"then
-			if S.cur>0 then
-				rem(BAG,S.cur)
-				S.cur=S.cur-1
-				if S.cur>0 and BAG[S.cur]==BAG[S.cur+1]then
-					keyDown.custom_mission("right")
-				end
-			end
-		elseif key=="delete"then
-			if S.sure>20 then
-				for _=1,#BAG do
-					rem(BAG)
-				end
-				S.cur=0
-				S.sure=0
-				SFX.play("finesseError",.7)
-			else
-				S.sure=50
-			end
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #BAG>0 then
-				sys.setClipboardText("Techmino SEQ:"..copySequence())
-				LOG.print(text.copySuccess,color.green)
-			end
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=sys.getClipboardText()
-			local p=string.find(str,":")--ptr*
-			if p then str=sub(str,p+1)end
-			if pasteSequence(str)then
-				LOG.print(text.pasteSuccess,color.green)
-			else
-				LOG.print(text.dataCorrupted,color.red)
-			end
-		elseif key=="escape"then
-			SCN.back()
-		elseif type(key)=="number"then
-			S.cur=S.cur+1
-			ins(BAG,S.cur,key)
-		elseif #key==1 then
-			key=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
-			if key then
-				local p=S.cur+1
-				while BAG[p]==key do p=p+1 end
-				ins(BAG,p,key)
-				S.cur=p
-			end
-		end
-	end
-
-	function Tmr.custom_sequence()
-		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
-	end
-
-	function Pnt.custom_sequence()
-		local S=sceneTemp
-
-		--Draw frame
-		gc.setColor(1,1,1)
-		gc.setLineWidth(4)
-		gc.rectangle("line",100,110,1080,260)
-
-		--Draw sequence
-		local miniBlock=TEXTURE.miniBlock
-		local libColor=SKIN.libColor
-		local set=SETTING.skin
-		local L=BAG
-		local x,y=120,136--Next block pos
-		local cx,cy=120,136--Cursor-center pos
-		local i,j=1,#L
-		local count=1
-		setFont(25)
-		repeat
-			if L[i]==L[i-1]then
-				count=count+1
-			else
-				if count>1 then
-					gc.setColor(1,1,1)
-					gc.print("×",x-5,y-14)
-					gc.print(count,x+10,y-13)
-					x=x+(count<10 and 33 or 45)
-					count=1
-					if i==S.cur+1 then
-						cx,cy=x,y
-					end
-				end
-				if x>1060 then
-					x,y=120,y+50
-				end
-				if i<=j then
-					local B=miniBlock[L[i]]
-					gc.setColor(libColor[set[L[i]]])
-					gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
-					x=x+B:getWidth()*15+10
-				end
-			end
-
-			if i==S.cur then
-				cx,cy=x,y
-			end
-			i=i+1
-		until i>j+1
-
-		--Draw lenth
-		setFont(40)
-		gc.setColor(1,1,1)
-		gc.print(#L,120,310)
-
-		--Draw cursor
-		gc.setColor(.5,1,.5,.6+.4*sin(Timer()*6.26))
-		gc.line(cx-5,cy-20,cx-5,cy+20)
-
-		--Confirm reset
-		if S.sure>0 then
-			gc.setColor(1,1,1,S.sure*.02)
-			gc.draw(drawableText.question,980,570)
-		end
-	end
-end
-do--custom_field
-	function sceneInit.custom_field()
-		sceneTemp={
-			sure=0,
-			pen=1,
-			x=1,y=1,
-			demo=false,
-		}
-	end
-
-	local penKey={
-		q=1,w=2,e=3,r=4,t=5,y=6,u=7,i=8,o=9,p=10,["["]=11,
-		a=12,s=13,d=14,f=15,g=16,h=17,
-		z=0,x=-1,
-	}
-	local FIELD=FIELD
-	function mouseDown.custom_field(x,y)
-		mouseMove.custom_field(x,y)
-	end
-	function mouseMove.custom_field(x,y)
-		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
-		if sx<1 or sx>10 then sx=nil end
-		if sy<1 or sy>20 then sy=nil end
-		sceneTemp.x,sceneTemp.y=sx,sy
-		if sx and sy and ms.isDown(1,2,3)then
-			FIELD[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
-		end
-	end
-	function wheelMoved.custom_field(_,y)
-		local pen=sceneTemp.pen
-		if y<0 then
-			pen=pen+1
-			if pen==8 then pen=9 elseif pen==14 then pen=0 end
-		else
-			pen=pen-1
-			if pen==8 then pen=7 elseif pen==-1 then pen=13 end
-		end
-		sceneTemp.pen=pen
-	end
-	function touchDown.custom_field(_,x,y)
-		mouseMove.custom_field(x,y)
-	end
-	function touchMove.custom_field(_,x,y)
-		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
-		if sx<1 or sx>10 then sx=nil end
-		if sy<1 or sy>20 then sy=nil end
-		sceneTemp.x,sceneTemp.y=sx,sy
-		if sx and sy then
-			FIELD[sy][sx]=sceneTemp.pen
-		end
-	end
-	function keyDown.custom_field(key)
-		local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
-		if key=="up"or key=="down"or key=="left"or key=="right"then
-			if not sx then sx=1 end
-			if not sy then sy=1 end
-			if key=="up"and sy<20 then sy=sy+1
-			elseif key=="down"and sy>1 then sy=sy-1
-			elseif key=="left"and sx>1 then sx=sx-1
-			elseif key=="right"and sx<10 then sx=sx+1
-			end
-			if kb.isDown("space")then
-				FIELD[sy][sx]=pen
-			end
-		elseif key=="delete"then
-			if sceneTemp.sure>20 then
-				for y=1,20 do for x=1,10 do FIELD[y][x]=0 end end
-				sceneTemp.sure=0
-				SFX.play("finesseError",.7)
-			else
-				sceneTemp.sure=50
-			end
-		elseif key=="space"then
-			if sx and sy then
-				FIELD[sy][sx]=pen
-			end
-		elseif key=="escape"then
-			SCN.back()
-		elseif key=="j"then
-			sceneTemp.demo=not sceneTemp.demo
-		elseif key=="k"then
-			ins(FIELD,1,{14,14,14,14,14,14,14,14,14,14})
-			FIELD[21]=nil
-			SFX.play("blip")
-		elseif key=="l"then
-			local F=FIELD
-			for i=20,1,-1 do
-				for j=1,10 do
-					if F[i][j]<=0 then goto L end
-				end
-				sysFX.newShade(.3,1,1,1,200,660-30*i,300,30)
-				sysFX.newRectRipple(.3,200,660-30*i,300,30)
-				rem(F,i)
-				::L::
-			end
-			if #F~=20 then
-				repeat
-					F[#F+1]={0,0,0,0,0,0,0,0,0,0}
-				until#F==20
-				SFX.play("clear_4",.8)
-				SFX.play("fall",.8)
-			end
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			sys.setClipboardText("Techmino Field:"..copyBoard())
-			LOG.print(text.copySuccess,color.green)
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=sys.getClipboardText()
-			local p=string.find(str,":")--ptr*
-			if p then str=sub(str,p+1)end
-			if pasteBoard(str)then
-				LOG.print(text.pasteSuccess,color.green)
-			else
-				LOG.print(text.dataCorrupted,color.red)
-			end
-		else
-			pen=penKey[key]or pen
-		end
-		sceneTemp.x,sceneTemp.y,sceneTemp.pen=sx,sy,pen
-	end
-
-	function Tmr.custom_field()
-		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
-	end
-
-	function Pnt.custom_field()
-		local S=sceneTemp
-		local sx,sy=S.x,S.y
-
-		--Field
-		gc.translate(200,60)
-		gc.setColor(1,1,1,.2)
-		gc.setLineWidth(1)
-		for x=1,9 do gc.line(30*x,0,30*x,600)end
-		for y=0,19 do gc.line(0,30*y,300,30*y)end
-		gc.setColor(1,1,1)
-		gc.setLineWidth(3)
-		gc.rectangle("line",-2,-2,304,604)
-		gc.setLineWidth(2)
-		local cross=puzzleMark[-1]
-		for y=1,20 do for x=1,10 do
-			local B=FIELD[y][x]
-			if B>0 then
-				gc.draw(blockSkin[B],30*x-30,600-30*y)
-			elseif B==-1 and not S.demo then
-				gc.draw(cross,30*x-30,600-30*y)
-			end
-		end end
-		if sx and sy then
-			gc.setLineWidth(2)
-			gc.rectangle("line",30*sx-30,600-30*sy,30,30)
-		end
-		gc.translate(-200,-60)
-
-		--Pen
-		local pen=S.pen
-		if pen>0 then
-			gc.setLineWidth(13)
-			gc.setColor(SKIN.libColor[pen])
-			gc.rectangle("line",565,460,70,70)
-		elseif pen==-1 then
-			gc.setLineWidth(5)
-			gc.setColor(.9,.9,.9)
-			gc.line(575,470,625,520)
-			gc.line(575,520,625,470)
-		end
-
-		--Confirm reset
-		if S.sure>0 then
-			gc.setColor(1,1,1,S.sure*.02)
-			gc.draw(drawableText.question,1180,290)
-		end
-
-		--Block name
-		setFont(40)
-		local _
-		for i=1,7 do
-			_=SETTING.skin[i]
-			gc.setColor(SKIN.libColor[_])
-			mStr(text.block[i],500+65*_,115)
-		end
-	end
-end
-do--custom_mission
-	function sceneInit.custom_mission()
-		sceneTemp={
-			input="",
-			cur=#MISSION,
-			sure=0,
-		}
-	end
-
-	local missionEnum=missionEnum
-	local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
-	function keyDown.custom_mission(key)
-		local S=sceneTemp
-		local MISSION=MISSION
-		if key=="left"then
-			local p=S.cur
-			if p==0 then
-				S.cur=#MISSION
-			else
-				repeat
-					p=p-1
-				until MISSION[p]~=MISSION[S.cur]
-				S.cur=p
-			end
-		elseif key=="right"then
-			local p=S.cur
-			if p==#MISSION then
-				S.cur=0
-			else
-				repeat
-					p=p+1
-				until MISSION[p+1]~=MISSION[S.cur+1]
-				S.cur=p
-			end
-		elseif key=="ten"then
-			for _=1,10 do
-				local p=S.cur
-				if p==#MISSION then break end
-				repeat
-					p=p+1
-				until MISSION[p+1]~=MISSION[S.cur+1]
-				S.cur=p
-			end
-		elseif key=="backspace"then
-			if #S.input>0 then
-				S.input=""
-			elseif S.cur>0 then
-				rem(MISSION,S.cur)
-				S.cur=S.cur-1
-				if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
-					keyDown.custom_mission("right")
-				end
-			end
-		elseif key=="delete"then
-			if S.sure>20 then
-				for _=1,#MISSION do
-					rem(MISSION)
-				end
-				S.cur=0
-				S.sure=0
-				SFX.play("finesseError",.7)
-			else
-				S.sure=50
-			end
-		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-			if #MISSION>0 then
-				sys.setClipboardText("Techmino Target:"..copyMission())
-				LOG.print(text.copySuccess,color.green)
-			end
-		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
-			local str=sys.getClipboardText()
-			local p=string.find(str,":")--ptr*
-			if p then str=sub(str,p+1)end
-			if pasteMission(str)then
-				LOG.print(text.pasteSuccess,color.green)
-			else
-				LOG.print(text.dataCorrupted,color.red)
-			end
-		elseif key=="escape"then
-			SCN.back()
-		elseif type(key)=="number"then
-			local p=S.cur+1
-			while MISSION[p]==key do p=p+1 end
-			ins(MISSION,p,key)
-			S.cur=p
-		else
-			if key=="space"then
-				key="_"
-			else
-				key=string.upper(key)
-			end
-
-			local input=S.input
-			input=input..key
-			if missionEnum[input]then
-				S.cur=S.cur+1
-				ins(MISSION,S.cur,missionEnum[input])
-				input=""
-			elseif #input>1 or not legalInput[input]then
-				input=""
-			end
-			S.input=input
-		end
-	end
-
-	function Tmr.custom_mission()
-		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
-	end
-
-	function Pnt.custom_mission()
-		local S=sceneTemp
-
-		--Draw frame
-		gc.setLineWidth(4)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",60,110,1160,170)
-
-		--Draw inputing target
-		setFont(30)
-		gc.setColor(.9,.9,.9)
-		gc.print(S.input,1200,275)
-
-		--Draw targets
-		local libColor=SKIN.libColor
-		local set=SETTING.skin
-		local L=MISSION
-		local x,y=100,136--Next block pos
-		local cx,cy=100,136--Cursor-center pos
-		local i,j=1,#L
-		local count=1
-		repeat
-			if L[i]==L[i-1]then
-				count=count+1
-			else
-				if count>1 then
-					setFont(25)
-					gc.setColor(1,1,1)
-					gc.print("×",x-10,y-14)
-					gc.print(count,x+5,y-13)
-					x=x+(count<10 and 33 or 45)
-					count=1
-					if i==S.cur+1 then
-						cx,cy=x,y
-					end
-				end
-				if x>1140 then
-					x,y=100,y+36
-				end
-				if i<=j then
-					setFont(35)
-					local N=int(L[i]*.1)
-					if N>0 then
-						gc.setColor(libColor[set[N]])
-					elseif L[i]>4 then
-						gc.setColor(color.rainbow(i+Timer()*6.26))
-					else
-						gc.setColor(color.grey)
-					end
-					gc.print(missionEnum[L[i]],x,y-25)
-					x=x+56
-				end
-			end
-			if i==S.cur then
-				cx,cy=x,y
-			end
-			i=i+1
-		until i>j+1
-
-		--Draw cursor
-		gc.setColor(1,1,.4,.6+.4*sin(Timer()*6.26))
-		gc.line(cx-5,cy-20,cx-5,cy+20)
-
-		--Confirm reset
-		if S.sure>0 then
-			gc.setColor(1,1,1,S.sure*.02)
-			gc.draw(drawableText.question,980,570)
 		end
 	end
 end
@@ -2446,77 +1800,649 @@ do--setting_touchSwitch
 		BG.set("matrix")
 	end
 end
-do--setting_lang
-	function sceneBack.setting_lang()
-		FILE.saveSetting()
+do--customGame
+	local customEnv=customEnv
+	function sceneInit.customGame()
+		destroyPlayers()
+		BG.set(customEnv.bg)
+		BGM.play(customEnv.bgm)
 	end
-end
-do--music
-	function sceneInit.music()
-		if BGM.nowPlay then
-			for i=1,BGM.len do
-				if BGM.list[i]==BGM.nowPlay then
-					sceneTemp=i--Music selected
+
+	function keyDown.customGame(key)
+		if key=="return"or key=="return2"then
+			if customEnv.opponent>0 then
+				if customEnv.opponent>5 and customEnv.sequence=="fixed"then
+					LOG.print(text.ai_fixed,"warn")
+					return
+				elseif customEnv.opponent>0 and #BAG>0 then
+					LOG.print(text.ai_prebag,"warn")
+					return
+				elseif customEnv.opponent>0 and #MISSION>0 then
+					LOG.print(text.ai_mission,"warn")
 					return
 				end
 			end
+			SCN.push()
+			loadGame((key=="return2"or kb.isDown("lalt","lctrl","lshift"))and"custom_puzzle"or"custom_clear",true)
+		elseif key=="f"then
+			SCN.go("custom_field","swipeD")
+		elseif key=="s"then
+			SCN.go("custom_sequence","swipeD")
+		elseif key=="m"then
+			SCN.go("custom_mission","swipeD")
+		elseif key=="a"then
+			SCN.go("custom_advance","swipeD")
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			local str="Techmino Quest:"..copyQuestArgs().."!"
+			if #BAG>0 then str=str..copySequence()end
+			str=str.."!"..copyBoard().."!"
+			if #MISSION>0 then str=str..copyMission()end
+			sys.setClipboardText(str.."!")
+			LOG.print(text.copySuccess,color.green)
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p1,p2,p3,p4,p5--ptr*
+			while true do
+				p1=find(str,":")or 0
+				p2=find(str,"!",p1+1)
+				if not p2 then break end
+				p3=find(str,"!",p2+1)
+				if not p3 then break end
+				p4=find(str,"!",p3+1)
+				if not p4 then break end
+				p5=find(str,"!",p4+1)or #str+1
+
+				pasteQuestArgs(sub(str,p1+1,p2-1))
+				if p2+1~=p3 then
+					if not pasteSequence(sub(str,p2+1,p3-1))then
+						break
+					end
+				end
+				if not pasteBoard(sub(str,p3+1,p4-1))then
+					break
+				end
+				if p4+1~=p5 then
+					if not pasteMission(sub(str,p4+1,p5-1))then
+						break
+					end
+				end
+				LOG.print(text.pasteSuccess,color.green)
+				return
+			end
+			LOG.print(text.dataCorrupted,color.red)
+		elseif key=="escape"then
+			SCN.back()
 		else
-			sceneTemp=1
+			WIDGET.keyPressed(key)
 		end
 	end
 
-	function wheelMoved.music(_,y)
-		wheelScroll(y)
+	local FIELD=FIELD
+	function Pnt.customGame()
+		--Field
+		gc.push("transform")
+		gc.translate(95,290)
+		gc.scale(.5)
+		gc.setColor(1,1,1)
+		gc.setLineWidth(3)
+		gc.rectangle("line",-2,-2,304,604)
+		local cross=puzzleMark[-1]
+		for y=1,20 do for x=1,10 do
+			local B=FIELD[y][x]
+			if B>0 then
+				gc.draw(blockSkin[B],30*x-30,600-30*y)
+			elseif B==-1 then
+				gc.draw(cross,30*x-30,600-30*y)
+			end
+		end end
+		gc.pop()
+
+		--Sequence
+		setFont(30)
+		gc.print(customEnv.sequence,330,510)
+		setFont(40)
+		if #BAG>0 then
+			gc.setColor(1,1,int(Timer()*6.26)%2)
+			gc.print("#",330,545)
+			gc.print(#BAG,360,545)
+		end
+
+		--Sequence
+		if #MISSION>0 then
+			gc.setColor(1,customEnv.missionKill and 0 or 1,int(Timer()*6.26)%2)
+			gc.print("#",610,545)
+			gc.print(#MISSION,640,545)
+		end
 	end
-	function keyDown.music(key)
+end
+do--custom_advance
+	function sceneInit.custom_advance()
+		destroyPlayers()
+	end
+end
+do--custom_sequence
+	function sceneInit.custom_sequence()
+		sceneTemp={cur=#BAG,sure=0}
+	end
+
+	local minoKey={
+		["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,
+		z=1,s=2,j=3,l=4,t=5,o=6,i=7,
+		p=10,q=11,f=12,e=13,u=15,
+		v=16,w=17,x=18,r=21,y=22,n=23,h=24,
+	}
+	local minoKey2={
+		["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
+		z=8,s=9,t=14,j=19,l=20,i=25
+	}
+	function keyDown.custom_sequence(key)
 		local S=sceneTemp
-		if key=="down"then
-			if S<BGM.len then
-				sceneTemp=S+1
-				SFX.play("move",.7)
-			end
-		elseif key=="up"then
-			if S>1 then
-				sceneTemp=S-1
-				SFX.play("move",.7)
-			end
-		elseif key=="return"or key=="space"then
-			if BGM.nowPlay~=BGM.list[S]then
-				if SETTING.bgm>0 then
-					SFX.play("click")
-					BGM.play(BGM.list[S])
-				end
+		local BAG=BAG
+		if key=="left"then
+			local p=S.cur
+			if p==0 then
+				S.cur=#BAG
 			else
-				BGM.stop()
+				repeat
+					p=p-1
+				until BAG[p]~=BAG[S.cur]
+				S.cur=p
+			end
+		elseif key=="right"then
+			local p=S.cur
+			if p==#BAG then
+				S.cur=0
+			else
+				repeat
+					p=p+1
+				until BAG[p+1]~=BAG[S.cur+1]
+				S.cur=p
+			end
+		elseif key=="ten"then
+			for _=1,10 do
+				local p=S.cur
+				if p==#BAG then break end
+				repeat
+					p=p+1
+				until BAG[p+1]~=BAG[S.cur+1]
+				S.cur=p
+			end
+		elseif key=="backspace"then
+			if S.cur>0 then
+				rem(BAG,S.cur)
+				S.cur=S.cur-1
+				if S.cur>0 and BAG[S.cur]==BAG[S.cur+1]then
+					keyDown.custom_mission("right")
+				end
+			end
+		elseif key=="delete"then
+			if S.sure>20 then
+				for _=1,#BAG do
+					rem(BAG)
+				end
+				S.cur=0
+				S.sure=0
+				SFX.play("finesseError",.7)
+			else
+				S.sure=50
+			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #BAG>0 then
+				sys.setClipboardText("Techmino SEQ:"..copySequence())
+				LOG.print(text.copySuccess,color.green)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=sub(str,p+1)end
+			if pasteSequence(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
+				LOG.print(text.dataCorrupted,color.red)
 			end
 		elseif key=="escape"then
 			SCN.back()
+		elseif type(key)=="number"then
+			S.cur=S.cur+1
+			ins(BAG,S.cur,key)
+		elseif #key==1 then
+			key=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
+			if key then
+				local p=S.cur+1
+				while BAG[p]==key do p=p+1 end
+				ins(BAG,p,key)
+				S.cur=p
+			end
 		end
 	end
 
-	function Pnt.music()
+	function Tmr.custom_sequence()
+		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	end
+
+	function Pnt.custom_sequence()
+		local S=sceneTemp
+
+		--Draw frame
 		gc.setColor(1,1,1)
+		gc.setLineWidth(4)
+		gc.rectangle("line",100,110,1080,260)
 
-		setFont(50)
-		gc.print(BGM.list[sceneTemp],320,355)
-		setFont(35)
-		if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
-		if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
-		setFont(20)
-		if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
-		if sceneTemp<BGM.len-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
-
-		gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
-		if BGM.nowPlay then
-			setFont(50)
-			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
-			gc.print(BGM.nowPlay,710,500)
-
-			local t=-Timer()%2.3/2
-			if t<1 then
-				gc.setColor(1,1,1,t)
-				gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+		--Draw sequence
+		local miniBlock=TEXTURE.miniBlock
+		local libColor=SKIN.libColor
+		local set=SETTING.skin
+		local L=BAG
+		local x,y=120,136--Next block pos
+		local cx,cy=120,136--Cursor-center pos
+		local i,j=1,#L
+		local count=1
+		setFont(25)
+		repeat
+			if L[i]==L[i-1]then
+				count=count+1
+			else
+				if count>1 then
+					gc.setColor(1,1,1)
+					gc.print("×",x-5,y-14)
+					gc.print(count,x+10,y-13)
+					x=x+(count<10 and 33 or 45)
+					count=1
+					if i==S.cur+1 then
+						cx,cy=x,y
+					end
+				end
+				if x>1060 then
+					x,y=120,y+50
+				end
+				if i<=j then
+					local B=miniBlock[L[i]]
+					gc.setColor(libColor[set[L[i]]])
+					gc.draw(B,x,y,nil,15,15,0,B:getHeight()*.5)
+					x=x+B:getWidth()*15+10
+				end
 			end
+
+			if i==S.cur then
+				cx,cy=x,y
+			end
+			i=i+1
+		until i>j+1
+
+		--Draw lenth
+		setFont(40)
+		gc.setColor(1,1,1)
+		gc.print(#L,120,310)
+
+		--Draw cursor
+		gc.setColor(.5,1,.5,.6+.4*sin(Timer()*6.26))
+		gc.line(cx-5,cy-20,cx-5,cy+20)
+
+		--Confirm reset
+		if S.sure>0 then
+			gc.setColor(1,1,1,S.sure*.02)
+			gc.draw(drawableText.question,980,570)
+		end
+	end
+end
+do--custom_field
+	function sceneInit.custom_field()
+		sceneTemp={
+			sure=0,
+			pen=1,
+			x=1,y=1,
+			demo=false,
+		}
+	end
+
+	local penKey={
+		q=1,w=2,e=3,r=4,t=5,y=6,u=7,i=8,o=9,p=10,["["]=11,
+		a=12,s=13,d=14,f=15,g=16,h=17,
+		z=0,x=-1,
+	}
+	local FIELD=FIELD
+	function mouseDown.custom_field(x,y)
+		mouseMove.custom_field(x,y)
+	end
+	function mouseMove.custom_field(x,y)
+		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+		if sx<1 or sx>10 then sx=nil end
+		if sy<1 or sy>20 then sy=nil end
+		sceneTemp.x,sceneTemp.y=sx,sy
+		if sx and sy and ms.isDown(1,2,3)then
+			FIELD[sy][sx]=ms.isDown(1)and sceneTemp.pen or ms.isDown(2)and -1 or 0
+		end
+	end
+	function wheelMoved.custom_field(_,y)
+		local pen=sceneTemp.pen
+		if y<0 then
+			pen=pen+1
+			if pen==8 then pen=9 elseif pen==14 then pen=0 end
+		else
+			pen=pen-1
+			if pen==8 then pen=7 elseif pen==-1 then pen=13 end
+		end
+		sceneTemp.pen=pen
+	end
+	function touchDown.custom_field(_,x,y)
+		mouseMove.custom_field(x,y)
+	end
+	function touchMove.custom_field(_,x,y)
+		local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
+		if sx<1 or sx>10 then sx=nil end
+		if sy<1 or sy>20 then sy=nil end
+		sceneTemp.x,sceneTemp.y=sx,sy
+		if sx and sy then
+			FIELD[sy][sx]=sceneTemp.pen
+		end
+	end
+	function keyDown.custom_field(key)
+		local sx,sy,pen=sceneTemp.x,sceneTemp.y,sceneTemp.pen
+		if key=="up"or key=="down"or key=="left"or key=="right"then
+			if not sx then sx=1 end
+			if not sy then sy=1 end
+			if key=="up"and sy<20 then sy=sy+1
+			elseif key=="down"and sy>1 then sy=sy-1
+			elseif key=="left"and sx>1 then sx=sx-1
+			elseif key=="right"and sx<10 then sx=sx+1
+			end
+			if kb.isDown("space")then
+				FIELD[sy][sx]=pen
+			end
+		elseif key=="delete"then
+			if sceneTemp.sure>20 then
+				for y=1,20 do for x=1,10 do FIELD[y][x]=0 end end
+				sceneTemp.sure=0
+				SFX.play("finesseError",.7)
+			else
+				sceneTemp.sure=50
+			end
+		elseif key=="space"then
+			if sx and sy then
+				FIELD[sy][sx]=pen
+			end
+		elseif key=="escape"then
+			SCN.back()
+		elseif key=="j"then
+			sceneTemp.demo=not sceneTemp.demo
+		elseif key=="k"then
+			ins(FIELD,1,{14,14,14,14,14,14,14,14,14,14})
+			FIELD[21]=nil
+			SFX.play("blip")
+		elseif key=="l"then
+			local F=FIELD
+			for i=20,1,-1 do
+				for j=1,10 do
+					if F[i][j]<=0 then goto L end
+				end
+				sysFX.newShade(.3,1,1,1,200,660-30*i,300,30)
+				sysFX.newRectRipple(.3,200,660-30*i,300,30)
+				rem(F,i)
+				::L::
+			end
+			if #F~=20 then
+				repeat
+					F[#F+1]={0,0,0,0,0,0,0,0,0,0}
+				until#F==20
+				SFX.play("clear_4",.8)
+				SFX.play("fall",.8)
+			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			sys.setClipboardText("Techmino Field:"..copyBoard())
+			LOG.print(text.copySuccess,color.green)
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=sub(str,p+1)end
+			if pasteBoard(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
+				LOG.print(text.dataCorrupted,color.red)
+			end
+		else
+			pen=penKey[key]or pen
+		end
+		sceneTemp.x,sceneTemp.y,sceneTemp.pen=sx,sy,pen
+	end
+
+	function Tmr.custom_field()
+		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	end
+
+	function Pnt.custom_field()
+		local S=sceneTemp
+		local sx,sy=S.x,S.y
+
+		--Field
+		gc.translate(200,60)
+		gc.setColor(1,1,1,.2)
+		gc.setLineWidth(1)
+		for x=1,9 do gc.line(30*x,0,30*x,600)end
+		for y=0,19 do gc.line(0,30*y,300,30*y)end
+		gc.setColor(1,1,1)
+		gc.setLineWidth(3)
+		gc.rectangle("line",-2,-2,304,604)
+		gc.setLineWidth(2)
+		local cross=puzzleMark[-1]
+		for y=1,20 do for x=1,10 do
+			local B=FIELD[y][x]
+			if B>0 then
+				gc.draw(blockSkin[B],30*x-30,600-30*y)
+			elseif B==-1 and not S.demo then
+				gc.draw(cross,30*x-30,600-30*y)
+			end
+		end end
+		if sx and sy then
+			gc.setLineWidth(2)
+			gc.rectangle("line",30*sx-30,600-30*sy,30,30)
+		end
+		gc.translate(-200,-60)
+
+		--Pen
+		local pen=S.pen
+		if pen>0 then
+			gc.setLineWidth(13)
+			gc.setColor(SKIN.libColor[pen])
+			gc.rectangle("line",565,460,70,70)
+		elseif pen==-1 then
+			gc.setLineWidth(5)
+			gc.setColor(.9,.9,.9)
+			gc.line(575,470,625,520)
+			gc.line(575,520,625,470)
+		end
+
+		--Confirm reset
+		if S.sure>0 then
+			gc.setColor(1,1,1,S.sure*.02)
+			gc.draw(drawableText.question,1180,290)
+		end
+
+		--Block name
+		setFont(40)
+		local _
+		for i=1,7 do
+			_=SETTING.skin[i]
+			gc.setColor(SKIN.libColor[_])
+			mStr(text.block[i],500+65*_,115)
+		end
+	end
+end
+do--custom_mission
+	function sceneInit.custom_mission()
+		sceneTemp={
+			input="",
+			cur=#MISSION,
+			sure=0,
+		}
+	end
+
+	local missionEnum=missionEnum
+	local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
+	function keyDown.custom_mission(key)
+		local S=sceneTemp
+		local MISSION=MISSION
+		if key=="left"then
+			local p=S.cur
+			if p==0 then
+				S.cur=#MISSION
+			else
+				repeat
+					p=p-1
+				until MISSION[p]~=MISSION[S.cur]
+				S.cur=p
+			end
+		elseif key=="right"then
+			local p=S.cur
+			if p==#MISSION then
+				S.cur=0
+			else
+				repeat
+					p=p+1
+				until MISSION[p+1]~=MISSION[S.cur+1]
+				S.cur=p
+			end
+		elseif key=="ten"then
+			for _=1,10 do
+				local p=S.cur
+				if p==#MISSION then break end
+				repeat
+					p=p+1
+				until MISSION[p+1]~=MISSION[S.cur+1]
+				S.cur=p
+			end
+		elseif key=="backspace"then
+			if #S.input>0 then
+				S.input=""
+			elseif S.cur>0 then
+				rem(MISSION,S.cur)
+				S.cur=S.cur-1
+				if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
+					keyDown.custom_mission("right")
+				end
+			end
+		elseif key=="delete"then
+			if S.sure>20 then
+				for _=1,#MISSION do
+					rem(MISSION)
+				end
+				S.cur=0
+				S.sure=0
+				SFX.play("finesseError",.7)
+			else
+				S.sure=50
+			end
+		elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+			if #MISSION>0 then
+				sys.setClipboardText("Techmino Target:"..copyMission())
+				LOG.print(text.copySuccess,color.green)
+			end
+		elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+			local str=sys.getClipboardText()
+			local p=string.find(str,":")--ptr*
+			if p then str=sub(str,p+1)end
+			if pasteMission(str)then
+				LOG.print(text.pasteSuccess,color.green)
+			else
+				LOG.print(text.dataCorrupted,color.red)
+			end
+		elseif key=="escape"then
+			SCN.back()
+		elseif type(key)=="number"then
+			local p=S.cur+1
+			while MISSION[p]==key do p=p+1 end
+			ins(MISSION,p,key)
+			S.cur=p
+		else
+			if key=="space"then
+				key="_"
+			else
+				key=string.upper(key)
+			end
+
+			local input=S.input
+			input=input..key
+			if missionEnum[input]then
+				S.cur=S.cur+1
+				ins(MISSION,S.cur,missionEnum[input])
+				input=""
+			elseif #input>1 or not legalInput[input]then
+				input=""
+			end
+			S.input=input
+		end
+	end
+
+	function Tmr.custom_mission()
+		if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	end
+
+	function Pnt.custom_mission()
+		local S=sceneTemp
+
+		--Draw frame
+		gc.setLineWidth(4)
+		gc.setColor(1,1,1)
+		gc.rectangle("line",60,110,1160,170)
+
+		--Draw inputing target
+		setFont(30)
+		gc.setColor(.9,.9,.9)
+		gc.print(S.input,1200,275)
+
+		--Draw targets
+		local libColor=SKIN.libColor
+		local set=SETTING.skin
+		local L=MISSION
+		local x,y=100,136--Next block pos
+		local cx,cy=100,136--Cursor-center pos
+		local i,j=1,#L
+		local count=1
+		repeat
+			if L[i]==L[i-1]then
+				count=count+1
+			else
+				if count>1 then
+					setFont(25)
+					gc.setColor(1,1,1)
+					gc.print("×",x-10,y-14)
+					gc.print(count,x+5,y-13)
+					x=x+(count<10 and 33 or 45)
+					count=1
+					if i==S.cur+1 then
+						cx,cy=x,y
+					end
+				end
+				if x>1140 then
+					x,y=100,y+36
+				end
+				if i<=j then
+					setFont(35)
+					local N=int(L[i]*.1)
+					if N>0 then
+						gc.setColor(libColor[set[N]])
+					elseif L[i]>4 then
+						gc.setColor(color.rainbow(i+Timer()*6.26))
+					else
+						gc.setColor(color.grey)
+					end
+					gc.print(missionEnum[L[i]],x,y-25)
+					x=x+56
+				end
+			end
+			if i==S.cur then
+				cx,cy=x,y
+			end
+			i=i+1
+		until i>j+1
+
+		--Draw cursor
+		gc.setColor(1,1,.4,.6+.4*sin(Timer()*6.26))
+		gc.line(cx-5,cy-20,cx-5,cy+20)
+
+		--Confirm reset
+		if S.sure>0 then
+			gc.setColor(1,1,1,S.sure*.02)
+			gc.draw(drawableText.question,980,570)
 		end
 	end
 end
@@ -2749,6 +2675,43 @@ do--staff
 		mDraw(IMG.title_color,640,2160-t*40,nil,2)
 	end
 end
+do--history
+	function sceneInit.history()
+		BG.set("rainbow")
+		sceneTemp={
+			text=require("parts/updateLog"),--Text list
+			pos=1,--Scroll pos
+		}
+		if newVersionLaunch then
+			newVersionLaunch=nil
+			sceneTemp.pos=3
+		end
+	end
+
+	function wheelMoved.history(_,y)
+		wheelScroll(y)
+	end
+	function keyDown.history(key)
+		if key=="up"then
+			sceneTemp.pos=max(sceneTemp.pos-1,1)
+		elseif key=="down"then
+			sceneTemp.pos=min(sceneTemp.pos+1,#sceneTemp.text)
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+
+	function Pnt.history()
+		gc.setColor(.2,.2,.2,.7)
+		gc.rectangle("fill",30,45,1000,632)
+		gc.setColor(1,1,1)
+		gc.setLineWidth(4)
+		gc.rectangle("line",30,45,1000,632)
+		setFont(20)
+		local S=sceneTemp
+		gc.print(S.text[S.pos],40,50)
+	end
+end
 do--stat
 	function sceneInit.stat()
 		local S=STAT
@@ -2829,6 +2792,80 @@ do--stat
 		end
 
 		gc.draw(IMG.title,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
+	end
+end
+do--lang
+	function sceneBack.lang()
+		FILE.saveSetting()
+	end
+end
+do--music
+	function sceneInit.music()
+		if BGM.nowPlay then
+			for i=1,BGM.len do
+				if BGM.list[i]==BGM.nowPlay then
+					sceneTemp=i--Music selected
+					return
+				end
+			end
+		else
+			sceneTemp=1
+		end
+	end
+
+	function wheelMoved.music(_,y)
+		wheelScroll(y)
+	end
+	function keyDown.music(key)
+		local S=sceneTemp
+		if key=="down"then
+			if S<BGM.len then
+				sceneTemp=S+1
+				SFX.play("move",.7)
+			end
+		elseif key=="up"then
+			if S>1 then
+				sceneTemp=S-1
+				SFX.play("move",.7)
+			end
+		elseif key=="return"or key=="space"then
+			if BGM.nowPlay~=BGM.list[S]then
+				if SETTING.bgm>0 then
+					SFX.play("click")
+					BGM.play(BGM.list[S])
+				end
+			else
+				BGM.stop()
+			end
+		elseif key=="escape"then
+			SCN.back()
+		end
+	end
+
+	function Pnt.music()
+		gc.setColor(1,1,1)
+
+		setFont(50)
+		gc.print(BGM.list[sceneTemp],320,355)
+		setFont(35)
+		if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
+		if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
+		setFont(20)
+		if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
+		if sceneTemp<BGM.len-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
+
+		gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
+		if BGM.nowPlay then
+			setFont(50)
+			gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
+			gc.print(BGM.nowPlay,710,500)
+
+			local t=-Timer()%2.3/2
+			if t<1 then
+				gc.setColor(1,1,1,t)
+				gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+			end
+		end
 	end
 end
 do--login
@@ -3511,43 +3548,6 @@ do--pong
 		gc.rectangle("fill",130,S.p1.y-50,20,100)
 		gc.setColor(.8,.8,1)
 		gc.rectangle("fill",1130,S.p2.y-50,20,100)
-	end
-end
-do--history
-	function sceneInit.history()
-		BG.set("rainbow")
-		sceneTemp={
-			text=require("parts/updateLog"),--Text list
-			pos=1,--Scroll pos
-		}
-		if newVersionLaunch then
-			newVersionLaunch=nil
-			sceneTemp.pos=3
-		end
-	end
-
-	function wheelMoved.history(_,y)
-		wheelScroll(y)
-	end
-	function keyDown.history(key)
-		if key=="up"then
-			sceneTemp.pos=max(sceneTemp.pos-1,1)
-		elseif key=="down"then
-			sceneTemp.pos=min(sceneTemp.pos+1,#sceneTemp.text)
-		elseif key=="escape"then
-			SCN.back()
-		end
-	end
-
-	function Pnt.history()
-		gc.setColor(.2,.2,.2,.7)
-		gc.rectangle("fill",30,45,1000,632)
-		gc.setColor(1,1,1)
-		gc.setLineWidth(4)
-		gc.rectangle("line",30,45,1000,632)
-		setFont(20)
-		local S=sceneTemp
-		gc.print(S.text[S.pos],40,50)
 	end
 end
 do--debug
