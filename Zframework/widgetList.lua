@@ -79,6 +79,8 @@ local virtualkeySet={
 	},--PC key feedback(top&in a row)
 }
 local CUSlist={
+	snap={1,10,20,40,60,80},
+
 	drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 	wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
@@ -105,6 +107,7 @@ local function SETsto(k)	return function(i)	SETTING[k]=i					end end
 
 local function STPval(k)	return function()	return sceneTemp[k]				end end
 local function STPrev(k)	return function()	sceneTemp[k]=not sceneTemp[k]	end end
+local function STPsto(k)	return function(i)	sceneTemp[k]=i					end end
 local function STPeq(k,v)	return function()	return sceneTemp[k]==v			end end
 
 local function prevSkin(n)	return function()	SKIN.prev(n)					end end
@@ -337,7 +340,7 @@ local Widgets={
 		newButton({name="back",		x=1140,y=640,w=170,h=80,font=40,code=BACK}),
 	},
 	setting_touch={
-		newButton({name="default",	x=520,y=80,w=200,h=80,font=35,
+		newButton({name="default",	x=520,y=90,w=200,h=80,font=35,
 			code=function()
 				local D=virtualkeySet[sceneTemp.default]
 				for i=1,#VK_org do
@@ -355,17 +358,15 @@ local Widgets={
 				end
 				sceneTemp.default=sceneTemp.default%5+1
 				sceneTemp.sel=nil
+				LOG.print("[ "..sceneTemp.default.." ]")
 			end}),
-		newButton({name="snap",		x=760,y=80,w=200,h=80,font=35,
-			code=function()
-				sceneTemp.snap=sceneTemp.snap%6+1
-			end}),
-		newButton({name="option",	x=520,y=180,w=200,h=80,font=40,
+		newSelector({name="snap",	x=760,y=90,w=200,h=80,color="yellow",list=CUSlist.snap,disp=STPval("snap"),code=STPsto("snap")}),
+		newButton({name="option",	x=520,y=190,w=200,h=80,font=40,
 			code=function()
 				SCN.go("setting_touchSwitch")
 			end}),
-		newButton({name="back",		x=760,y=180,w=200,h=80,font=35,code=BACK}),
-		newSlider({name="size",		x=450,y=265,w=460,unit=19,font=40,show="vkSize",
+		newButton({name="back",		x=760,y=190,w=200,h=80,font=35,code=BACK}),
+		newSlider({name="size",		x=450,y=270,w=460,unit=19,font=40,show="vkSize",
 			disp=function()
 				return VK_org[sceneTemp.sel].r/10-1
 			end,

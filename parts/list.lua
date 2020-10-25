@@ -1,5 +1,4 @@
 local sin,cos=math.sin,math.cos
-snapLevelValue={1,10,20,40,60,80}
 title={
 	{
 		53,		60,
