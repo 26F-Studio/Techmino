@@ -441,7 +441,6 @@ function love.errorhandler(msg)
 		love.timer.sleep(.2)
 	end
 end
-local scs={.5,1.5,.5,1.5,.5,1.5,.5,1.5,.5,1.5,1,1,0,2}
 local devColor={
 	color.white,
 	color.lMagenta,
@@ -524,7 +523,7 @@ function love.run()
 						local R=int(r)%7+1
 						_=SKIN.libColor[SETTING.skin[R]]
 						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
-						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,scs[2*R],#blocks[R][0]-scs[2*R-1])
+						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 					end
