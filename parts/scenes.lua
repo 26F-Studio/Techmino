@@ -174,6 +174,8 @@ do--load
 				1,
 			},
 			skip=false,--If skipped
+
+			text=gc.newText(getFont(80),"26F Studio"),
 		}
 	end
 	function sceneBack.load()
@@ -291,39 +293,56 @@ do--load
 		gc.translate(640,360)
 		gc.scale(2)
 
-		setFont(80)
 		local Y=3250*(sin(-1.5708+min(S.time,260)/260*3.1416)+1)+200
 
 		--Draw 26F Studio logo
 		if S.time>220 then
+			gc.push("transform")
+			gc.translate(-220,Y-6840)
+
+			gc.setColor(.4,.4,.4)
+			gc.rectangle("fill",0,0,440,260)
+
 			local T=Timer()
 			gc.setColor(color.dCyan)
-			mStr("26F Studio",0,(Y-6700)*1.2-60)
-			mStr("26F Studio",0,(Y-6700)*0.8-60)
+			mDraw(S.text,220,Y*.2-1204)
+			mDraw(S.text,220,-Y*.2+1476)
+
 			gc.setColor(color.cyan)
-			mStr("26F Studio",4*sin(T*10),Y-6760+4*sin(T*6))
-			mStr("26F Studio",4*sin(T*12),Y-6760+4*sin(T*8))
+			mDraw(S.text,220+4*sin(T*10),136+4*sin(T*6))
+			mDraw(S.text,220+4*sin(T*12),136+4*sin(T*8))
+
 			gc.setColor(color.dCyan)
-			mStr("26F Studio",-1,Y-6759)
-			mStr("26F Studio",-1,Y-6761)
-			mStr("26F Studio",1,Y-6759)
-			mStr("26F Studio",1,Y-6761)
+			mDraw(S.text,219,137)
+			mDraw(S.text,219,135)
+			mDraw(S.text,221,137)
+			mDraw(S.text,221,135)
+
 			gc.setColor(.2,.2,.2)
-			mStr("26F Studio",0,Y-6760)
+			mDraw(S.text,220,136)
+
+			gc.pop()
+		end
+
+		--Draw floors
+		setFont(50)
+		for i=1,27 do
+			if i<26 then
+				local r,g,b=color.rainbow(i+3.5)
+				gc.setColor(r*.26,g*.26,b*.26)
+				gc.rectangle("fill",-220,Y-260*i-80,440,260)
+				gc.setColor(r*1.6,g*1.6,b*1.6)
+				gc.printf(i.."F",100,Y-260*i-70,100,"right")
+				gc.setColor(1,1,1)
+				gc.rectangle("line",-160,Y-260*i,80,50)
+			end
+			gc.line(-220,Y-260*i+180,220,Y-260*i+180)
 		end
 
 		--Draw side line
 		gc.setColor(1,1,1)
 		gc.line(-220,Y-80,-220,Y-6840)
 		gc.line(220,Y-80,220,Y-6840)
-
-		--Draw floors
-		for i=1,27 do
-			if i<26 then
-				mStr(i.."F",0,Y-260*i)
-			end
-			gc.line(-220,Y-260*i+180,220,Y-260*i+180)
-		end
 
 		gc.pop()
 	end
