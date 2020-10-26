@@ -1,78 +1,25 @@
 return{
-	back="返回",
-	anykey="按任意键继续",
-	newVersion="感谢更新!更新内容如下",
-	httpTimeout="网络连接超时!",
-	marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
-	holdR="长按以重新开始",
-
 	atkModeName={"随机","徽章","击杀","反击"},
-	royale_remain="剩余 $1 名玩家",
 	cmb={nil,"1连击","2连击","3连击","4连击","5连击","6连击","7连击","8连击","9连击","10连击!","11连击!","12连击!","13连击!","14连击!","15连击!","16连击!","17连击!","18连击!","19连击!","巨型连击"},
 	block=nil,spin="型回旋",
 	clear={"单清","双清","三清","四清","五清"},
 	mini="迷你",b2b="满贯",b3b="大满贯",
 	PC="场地全清",HPC="场地半清",
-	hold="暂存",next="下一个",
-	replaying="[回放]",
 
-	stage="关卡 $1",
 	great="不错!",
 	awesome="精彩。",
 	almost="差一点!",
 	continue="继续。",
-	maxspeed="最高速度",
-	speedup="速度加快",
-	missionFailed="非任务消除",
 
-	win="胜利",
-	finish="完成",
-	gameover="游戏结束",
-	pause="暂停",
-	pauseCount="暂停统计",
 	finesse_ap="完美极简",
 	finesse_fc="全连击",
 
 	snapLevelName={"无吸附","10像素吸附","20像素吸附","40像素吸附","60像素吸附","80像素吸附"},
-	page="页面:",
 
 	ai_fixed="不能同时开启电脑玩家和固定序列",
 	ai_prebag="不能同时开启电脑玩家和自定义序列",
 	ai_mission="不能同时开启电脑玩家和自定义任务",
-	settingSaved="设置已保存",
-	settingSavingError="设置保存失败:",
-	keyMapSaved="键位设置已保存",
-	keyMapSavingError="键位保存失败:",
-	VKSaved="虚拟按键设置已保存",
-	VKSavingError="虚拟按键保存失败:",
-	statSavingError="统计保存失败:",
-	unlockSavingError="解锁保存失败:",
-	recSavingError="纪录保存失败:",
-	switchSpawnSFX="请开启方块出生音效",
-	getRank="本局评级:",
 	ranks={"差","可","中","良","优"},
-
-	needRestart="重新开始以生效",
-	copySuccess="已复制到剪切板",
-	pasteSuccess="粘贴成功",
-	dataCorrupted="数据损坏",
-	VKTchW="触摸点权重",
-	VKOrgW="原始点权重",
-	VKCurW="当前点权重",
-	noScore="暂无成绩",
-	highScore="最佳成绩",
-	newRecord="打破纪录",
-	getNoticeFail="拉取公告失败",
-	getVersionFail="检测新版本失败",
-	versionIsNew="游戏已是最新版本",
-	versionIsOld="最新版本$1可以下载了!",
-	registerSuccessed="注册成功!",
-	registerFailed="注册失败",
-	netErrorCode="网络错误码",
-	noUsername="请填写用户名",
-	noPassword="请填写密码",
-	diffPassword="两次密码不一致",
-	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 	acts={
 		"左移:","右移:",
@@ -146,19 +93,6 @@ return{
 		"Flyz, Farter, 蕴空之灵,",
 		"茶管, [所有内测人员]",
 	},
-	used=[[
-	使用工具:
-		Beepbox
-		GFIE
-		Goldwave
-	使用库:
-		Cold_Clear [MinusKelvin]
-		json.lua [rxi]
-		profile.lua [itraykov]
-		simple-love-lights [dylhunn]
-	]],
-	support="支持作者",
-	group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 	WidgetText={
 		main={
 			play="开始",
@@ -189,7 +123,6 @@ return{
 		},
 		setting_game={
 			title="游戏设置",
-
 			graphic="←画面设置",
 			sound="声音设置→",
 
@@ -207,7 +140,6 @@ return{
 		},
 		setting_video={
 			title="画面设置",
-
 			sound="←声音设置",
 			game="游戏设置→",
 

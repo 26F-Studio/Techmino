@@ -203,7 +203,6 @@ return{
 		},
 		setting_video={
 			title="{~~}",
-
 			sound="←Sound",
 			game="Game→",
 

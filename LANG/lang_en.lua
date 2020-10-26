@@ -186,7 +186,6 @@ return{
 		},
 		setting_game={
 			title="Game Settings",
-
 			graphic="←Video",
 			sound="Sound→",
 
@@ -204,7 +203,6 @@ return{
 		},
 		setting_video={
 			title="Video Settings",
-
 			sound="←Sound",
 			game="Game→",
 
