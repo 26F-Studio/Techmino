@@ -57,8 +57,8 @@ return{
 	getRank=function(P)
 		local L=P.stat.dig
 		return
-		L>=626 and 5 or
-		L>=400 and 4 or
+		L>=400 and 5 or
+		L>=300 and 4 or
 		L>=200 and 3 or
 		L>=100 and 2 or
 		L>=40 and 1 or
