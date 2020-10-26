@@ -1601,6 +1601,17 @@ function player.attack(P,R,send,time,...)
 	end
 end
 
+function player.getHolePos(P)
+	if P.garbageBeneath==0 then
+		return P:RND(10)
+	else
+		local p=P:RND(10)
+		if P.field[1][p]>0 then
+			return P:RND(10)
+		end
+		return p
+	end
+end
 function player.garbageRelease(P)
 	local n,flag=1
 	while true do
