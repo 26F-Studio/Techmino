@@ -37,8 +37,20 @@ local publicWidgetText={
 		yygq="就这?",
 	},
 }
+local function langFallback(T0,T)
+	for k,v in next,T0 do
+		if not T[k]then
+			if type(v)=="table"then
+				if not T[k]then T[k]={}end
+				langFallback(v,T[k])
+			else
+				T[k]=v
+			end
+		end
+	end
+end
 local tipMeta={__call=function(L)return L[math.random(#L)]end}
-local langMeta={__index=langList[1]}
+local L0=langList[1]
 for i=1,#langList do
 	local L=langList[i]
 
@@ -57,7 +69,9 @@ for i=1,#langList do
 	end
 
 	--Fallback to Chinese if missing text
-	setmetatable(L,langMeta)
+	if i>1 then
+		langFallback(L0,L)
+	end
 
 	--Metatable for getTip (table)
 	if type(L.getTip)=="table"then
