@@ -162,7 +162,6 @@ do--load
 			phase=1,--Loading stage
 			cur=1,--Loading timer
 			tar=#VOC.name,--Current Loading bar length
-			tip=require("parts/getTip"),
 			list={
 				#VOC.name,
 				#BGM.list,
@@ -442,6 +441,9 @@ do--intro
 end
 do--main
 	function sceneInit.main()
+		sceneTemp={
+			tip=text.getTip(),
+		}
 		BG.set("space")
 
 		modeEnv={}
@@ -460,12 +462,13 @@ do--main
 		gc.setColor(1,1,1)
 		gc.draw(IMG.title_color,60,30,nil,1.3)
 		setFont(30)
-		gc.print(gameVersion,70,125)
-		gc.print(SYSTEM,610,100)
+		gc.print(SYSTEM,610,50)
+		gc.print(gameVersion,610,90)
+		gc.print(sceneTemp.tip,50,660)
 		local L=text.modes[STAT.lastPlay]
 		setFont(25)
-		gc.print(L[1],700,430)
-		gc.print(L[2],700,460)
+		gc.print(L[1],700,390)
+		gc.print(L[2],700,420)
 		PLAYERS[1]:draw()
 	end
 end
