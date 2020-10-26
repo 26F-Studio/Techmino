@@ -1,6 +1,6 @@
 local function check_rise(P)
 	for _=1,math.min(8,40-P.stat.dig)-P.garbageBeneath do
-		P:garbageRise(13,1,P:RND(10))
+		P:garbageRise(13,1,P:getHolePos())
 	end
 	if P.stat.dig==40 then
 		P:win("finish")
@@ -18,7 +18,7 @@ return{
 		PLY.newPlayer(1,340,15)
 		local P=PLAYERS[1]
 		for _=1,10 do
-			P:garbageRise(13,1,P:RND(10))
+			P:garbageRise(13,1,P:getHolePos())
 		end
 		P.fieldBeneath=0
 	end,
