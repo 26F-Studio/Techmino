@@ -22,10 +22,10 @@ return{
 	getRank=function(P)
 		local L=P.stat.row
 		return
-		L>=2000 and 5 or
-		L>=1500 and 4 or
-		L>=1000 and 3 or
-		L>=500 and 2 or
+		L>=1200 and 5 or
+		L>=900 and 4 or
+		L>=600 and 3 or
+		L>=300 and 2 or
 		L>=100 and 1 or
 		L>=20 and 0
 	end,
