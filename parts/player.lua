@@ -2563,7 +2563,7 @@ local function gameOver()--Save record
 				needSave=true
 			end
 			if R>0 then
-				GAME.rank=text.ranks[R]
+				GAME.rank=R
 				if M.unlock then
 					for i=1,#M.unlock do
 						local m=M.unlock[i]
