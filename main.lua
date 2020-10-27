@@ -92,6 +92,7 @@ GAME={
 	seed=math.random(2e6),--Game seed
 	setting={},			--Game settings
 	rec={},				--Recording list, key,time,key,time...
+	rank=nil,			--Rank reached
 
 	--Data for royale mode
 	stage=nil,			--Game stage

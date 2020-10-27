@@ -436,6 +436,7 @@ function resetGameData()
 	GAME.replaying=false
 	GAME.setting=copyGameSetting()
 	GAME.rec={}
+	GAME.rank=0
 	math.randomseed(tm.getTime())
 	GAME.seed=rnd(261046101471026)
 
@@ -491,6 +492,7 @@ function resetPartGameData(replaying)
 		GAME.replaying=false
 		GAME.setting=copyGameSetting()
 		GAME.rec={}
+		GAME.rank=0
 		math.randomseed(tm.getTime())
 		GAME.seed=rnd(1046101471,2662622626)
 	end

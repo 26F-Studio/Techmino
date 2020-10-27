@@ -697,14 +697,6 @@ do--mode
 		end
 	end
 
-	local modeRankColor={
-		color.dRed,		--D
-		color.dOrange,	--C
-		color.lYellow,	--B
-		color.lBlue,	--A
-		color.lCyan,	--S
-		color.lGreen,	--Special
-	}
 	function Pnt.mode()
 		local _
 		local cam=mapCam
@@ -734,7 +726,7 @@ do--mode
 				local S=M.size
 				local d=((M.x-(cam.x1+(sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
 				if d<500 then S=S*(1.25-d*0.0005) end
-				local c=modeRankColor[R[M.name]]
+				local c=rankColor[R[M.name]]
 				if c then
 					gc.setColor(c)
 				else
@@ -1180,7 +1172,7 @@ do--play
 	end
 end
 do--pause
-	local rankColor={
+	local fnsRankColor={
 		Z=color.lYellow,
 		S=color.lGrey,
 		A=color.sky,
@@ -1273,7 +1265,7 @@ do--pause
 				acc>.50 and"D"or
 				acc>.30 and"E"or
 				"F"
-			S.rankColor=rankColor[S.rank]
+			S.fnsRankColor=fnsRankColor[S.rank]
 			if acc==1 then
 				S.trophy=text.finesse_ap
 				S.trophyColor=color.yellow
@@ -1363,15 +1355,31 @@ do--pause
 		end
 
 		--Level rank
-		if GAME.rank then
+		if GAME.rank>0 then
+			local str=text.ranks[GAME.rank]
 			setFont(80)
-			gc.print(GAME.rank,50,10,nil,1.6)
+
+			gc.setColor(0,0,0,T*.3)
+			gc.print(str,46,-14,nil,1.8)
+			gc.print(str,46,-6,nil,1.8)
+			gc.print(str,54,-14,nil,1.8)
+			gc.print(str,54,-6,nil,1.8)
+
+			gc.setColor(0,0,0,T*.15)
+			gc.print(str,46,-10,nil,1.8)
+			gc.print(str,54,-10,nil,1.8)
+			gc.print(str,50,-14,nil,1.8)
+			gc.print(str,50,-6,nil,1.8)
+
+			local L=rankColor[GAME.rank]
+			gc.setColor(L[1],L[2],L[3],T)
+			gc.print(str,50,-10,nil,1.8)
 		end
 
 		--Finesse rank & trophy
 		if S.rank then
 			setFont(60)
-			gc.setColor(S.rankColor[1],S.rankColor[2],S.rankColor[3],T)
+			gc.setColor(S.fnsRankColor[1],S.fnsRankColor[2],S.fnsRankColor[3],T)
 			gc.print(S.rank,420,635)
 			if S.trophy then
 				setFont(40)
