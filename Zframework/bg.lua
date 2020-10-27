@@ -234,11 +234,11 @@ back.welcome={
 		if -t%16.26<.1 then
 			gc.rotate(t+5*sin(.26*t)+5*sin(.626*t))
 		end
-		gc.setColor(.3,.6,.7)
+		gc.setColor(.2,.3,.5)
 		gc.draw(txt,-883*.5+4*sin(t*.7942),-110*.5+4*sin(t*.7355))
-		gc.setColor(.6,.8,1)
+		gc.setColor(.4,.6,.8)
 		gc.draw(txt,-883*.5+2*sin(t*.77023),-110*.5+2*sin(t*.7026))
-		gc.setColor(1,1,1)
+		gc.setColor(.9,.9,.9)
 		gc.draw(txt,-883*.5+3*sin(t*.7283),-110*.5+3*sin(t*.7626))
 		gc.pop()
 	end,
