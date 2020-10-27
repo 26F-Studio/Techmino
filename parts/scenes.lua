@@ -1338,19 +1338,19 @@ do--pause
 		setFont(25)
 		if GAME.pauseCount>0 then
 			gc.setColor(1,.4,.4,T)
-			gc.print(text.pauseCount..":["..GAME.pauseCount.."] "..format("%.2f",GAME.pauseTime).."s",70,100)
+			gc.print(text.pauseCount..":["..GAME.pauseCount.."] "..format("%.2f",GAME.pauseTime).."s",40,160)
 		end
 
 		gc.setColor(1,1,1,T)
 
-		--Mode Info
-		_=drawableText.modeName
-		gc.draw(_,40,170)
-		gc.draw(drawableText.levelName,60+_:getWidth(),170)
-
 		--Result Text
 		setFont(35)
 		mText(GAME.result and drawableText[GAME.result]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
+
+		--Mode Info
+		_=drawableText.modeName
+		gc.draw(_,40,200)
+		gc.draw(drawableText.levelName,60+_:getWidth(),200)
 
 		--Infos
 		if GAME.frame>180 then
@@ -1362,7 +1362,13 @@ do--pause
 			end
 		end
 
-		--rank & trophy
+		--Level rank
+		if GAME.rank then
+			setFont(80)
+			gc.print(GAME.rank,50,10,nil,1.6)
+		end
+
+		--Finesse rank & trophy
 		if S.rank then
 			setFont(60)
 			gc.setColor(S.rankColor[1],S.rankColor[2],S.rankColor[3],T)
