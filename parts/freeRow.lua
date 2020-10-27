@@ -13,7 +13,7 @@ function freeRow.reset(num)
 	end
 	_=num
 end
-function freeRow.get(val)
+function freeRow.get(val,type)--type: nil=norm, 0=garbage, 1=bomb
 	if _==0 then
 		for i=1,10 do
 			L[i]={0,0,0,0,0,0,0,0,0,0}
@@ -22,6 +22,7 @@ function freeRow.get(val)
 	end
 	local t=L[_]
 	for i=1,10 do t[i]=val end
+	t[11]=type
 	L[_]=nil
 	_=_-1
 	return t

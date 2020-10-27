@@ -1595,7 +1595,7 @@ function player.garbageRise(P,color,amount,pos)
 	local _
 	local t=P.showTime*2
 	for _=1,amount do
-		ins(P.field,1,freeRow.get(color))
+		ins(P.field,1,freeRow.get(color,0))
 		ins(P.visTime,1,freeRow.get(t))
 		P.field[1][pos]=0
 	end
@@ -1622,8 +1622,9 @@ end
 
 local invList={2,1,4,3,5,6,7}
 function player.pushLine(P,L,mir)
+	local l=#L
 	local S=P.gameEnv.skin
-	for i=1,#L do
+	for i=1,l do
 		local r=freeRow.get(0)
 		if not mir then
 			for j=1,10 do
@@ -1637,9 +1638,9 @@ function player.pushLine(P,L,mir)
 		ins(P.field,1,r)
 		ins(P.visTime,1,freeRow.get(20))
 	end
-	P.fieldBeneath=P.fieldBeneath+120
-	P.curY=P.curY+#L
-	P.imgY=P.imgY+#L
+	P.fieldBeneath=P.fieldBeneath+30*l
+	P.curY=P.curY+l
+	P.imgY=P.imgY+l
 	P:freshBlock(false,false)
 end
 function player.pushNext(P,L,mir)
@@ -2181,12 +2182,12 @@ do--player.drop(P)--Place piece
 		if cc>0 then
 			for i=cc,1,-1 do
 				_=P.clearedRow[i]
-				freeRow.discard(rem(P.field,_))
-				freeRow.discard(rem(P.visTime,_))
-				if _<=P.garbageBeneath then
+				if P.field[_][11]then
 					P.garbageBeneath=P.garbageBeneath-1
 					gbcc=gbcc+1
 				end
+				freeRow.discard(rem(P.field,_))
+				freeRow.discard(rem(P.visTime,_))
 			end
 		end
 
