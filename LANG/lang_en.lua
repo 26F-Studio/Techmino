@@ -49,7 +49,6 @@ return{
 	unlockSavingError="Failed to save unlocked content:",
 	recSavingError="Failed to save record:",
 	switchSpawnSFX="Switch on spawn SFX to play",
-	getRank="Rank: ",
 	ranks={"D","C","B","A","S"},
 
 	needRestart="Effective after restart",

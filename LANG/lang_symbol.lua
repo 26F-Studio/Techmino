@@ -49,7 +49,6 @@ return{
 	unlockSavingError="x!:",
 	recSavingError="x!:",
 	switchSpawnSFX="Switch on spawn SFX to play",
-	getRank="#:",
 	ranks={"D","C","B","A","S"},
 
 	needRestart="!!*#R#*!!",

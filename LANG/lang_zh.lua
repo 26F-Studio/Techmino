@@ -49,7 +49,6 @@ return{
 	unlockSavingError="解锁保存失败:",
 	recSavingError="纪录保存失败:",
 	switchSpawnSFX="请开启方块出生音效",
-	getRank="本局评级:",
 	ranks={"D","C","B","A","S"},
 
 	needRestart="重新开始以生效",
