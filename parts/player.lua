@@ -336,7 +336,6 @@ local function Pupdate_alive(P,dt)
 				else
 					P.curY=P.curY-D
 				end
-				-- assert(P.curY==int(P.curY),"y:"..P.curY.." fall:"..D.." D_env:"..P.gameEnv.drop)
 			end
 			P:freshBlock(true,true)
 			P.spinLast=false
@@ -1481,7 +1480,7 @@ end
 function player.createClearingFX(P,y,spd)
 	ins(P.clearFX,{y,0,spd})
 end
-function player.createBeam(P,R,send,time,target,color,clear,combo)
+function player.createBeam(P,R,send,color)
 	local x1,y1,x2,y2
 	if P.small then x1,y1=P.centerX,P.centerY
 	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15+70)*P.size
@@ -1490,49 +1489,12 @@ function player.createBeam(P,R,send,time,target,color,clear,combo)
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
 	end
 
-	local radius,corner
-	local a,r,g,b=1,unpack(SKIN.libColor[color])
-	if clear.special then
-		radius=10+3*send+100/(target+4)
-		local t=clear.row
-		if t==1 then
-			corner=3
-			r=.3+r*.4
-			g=.3+g*.4
-			b=.3+b*.4
-		elseif t==2 then
-			corner=5
-			r=.5+r*.5
-			g=.5+g*.5
-			b=.5+b*.5
-		elseif t<6 then
-			corner=6
-			r=.6+r*.4
-			g=.6+g*.4
-			b=.6+b*.4
-		else
-			corner=20
-			r=.8+r*.2
-			g=.8+g*.2
-			b=.8+b*.2
-		end
-	else
-		if combo>3 then
-			radius=min(15+combo,30)+time*.1
-			corner=3
-		else
-			radius=30
-			corner=4
-		end
-		r=1-r*.3
-		g=1-g*.3
-		b=1-b*.3
-	end
-	if modeEnv.royaleMode and not P.human and not R.human then
-		radius=radius*.4
-		a=.35
-	end
-	sysFX.newAttack(x1,y1,x2,y2,radius*(SETTING.atkFX+3)*.12,corner,type==1 and"fill"or"line",r,g,b,a*(SETTING.atkFX+5)*.1)
+	wid=int(send^.7*(4+SETTING.atkFX))
+	local r,g,b=unpack(SKIN.libColor[color])
+	r,g,b=r*2,g*2,b*2
+
+	local a=modeEnv.royaleMode and not(P.human or R.human)and .2 or 1
+	sysFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
 end
 function player.newTask(P,code,data)
 	local L=P.tasks
@@ -1596,7 +1558,7 @@ function player.attack(P,R,send,time,...)
 		B.sum=B.sum+send
 		R.stat.recv=R.stat.recv+send
 		if R.sound then
-			SFX.play(send<4 and "blip_1"or"blip_2",min(send+1,5)*.1)
+			SFX.play(send<4 and"blip_1"or"blip_2",min(send+1,5)*.1)
 		end
 	end
 end
@@ -1884,7 +1846,7 @@ function player.spin(P,d,ifpre)
 			if P.gameEnv.easyFresh then
 				P:freshBlock(false,true)
 			end
-			SFX.fieldPlay(ifpre and"prerotate"or "rotate",nil,P)
+			SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
 			return
 		end
 		for test=1,#iki do
@@ -2446,7 +2408,7 @@ do--player.drop(P)--Place piece
 								local M=#P.atker
 								if M>0 then
 									for i=1,M do
-										P:attack(P.atker[i],send,sendTime,M,CB.color,C,cmb)
+										P:attack(P.atker[i],send,CB.color)
 									end
 								else
 									T=randomTarget(P)
@@ -2459,7 +2421,7 @@ do--player.drop(P)--Place piece
 							T=randomTarget(P)
 						end
 						if T then
-							P:attack(T,send,sendTime,1,CB.color,C,cmb)
+							P:attack(T,send,CB.color)
 						end
 					end
 					if P.sound and send>3 then SFX.play("emit",min(send,7)*.1)end

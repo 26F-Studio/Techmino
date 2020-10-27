@@ -1,7 +1,8 @@
 local gc=love.graphics
 local setColor=gc.setColor
 local setWidth=gc.setLineWidth
-local ins,rem=table.insert,table.remove
+local rem=table.remove
+local max,min=math.max,math.min
 
 local fx={}
 
@@ -20,22 +21,8 @@ function FXupdate.badge(S,dt)
 	return S.t>=1
 end
 function FXupdate.attack(S,dt)
-	S.t=S.t+dt
-	local L=S.drag
-	if S.t>.8 then
-		S.rad=S.rad*1.05+.1
-		S.x,S.y=S.x2,S.y2
-	elseif S.t>.2 then
-		local t=(S.t-.2)*1.6667
-		t=(3-2*t)*t*t
-		S.x,S.y=S.x1*(1-t)+S.x2*t,S.y1*(1-t)+S.y2*t
-
-		ins(L,S.x)ins(L,S.y)
-	end
-	if #L==4+4*SETTING.atkFX then
-		rem(L,1)rem(L,1)
-	end
-return S.t>1
+	S.t=S.t+dt*S.rate
+	return S.t>1
 end
 function FXupdate.ripple(S,dt)
 	S.t=S.t+dt*S.rate
@@ -52,31 +39,29 @@ end
 
 local FXdraw={}
 function FXdraw.badge(S)
-	gc.setColor(1,1,1,S.t<.2 and S.t*.6 or S.t<.8 and 1 or(1-S.t)*.6)
+	setColor(1,1,1,S.t<.2 and S.t*.6 or S.t<.8 and 1 or(1-S.t)*.6)
 	gc.draw(IMG.badgeIcon,S.x,S.y)
 end
 function FXdraw.attack(S)
-	gc.setLineWidth(5)
-	gc.push("transform")
-		local t=S.t
-		local a=(t<.2 and t*5 or t<.8 and 1 or 5-t*5)*S.a
-		local L=S.drag
-		local len=#L
-		local r,g,b=S.r,S.g,S.b
-		local rad,crn=S.rad,S.corner
-		for i=1,len,2 do
-			gc.setColor(r,g,b,.4*a*i/len)
-			gc.translate(L[i],L[i+1])
-			gc.rotate(t*.1)
-			gc.circle("fill",0,0,rad,crn)
-			gc.rotate(-t*.1)
-			gc.translate(-L[i],-L[i+1])
-		end
-		gc.translate(S.x,S.y)
-		gc.rotate(t*6)
-		gc.setColor(r,g,b,a*.5)gc.circle("line",0,0,rad,crn)
-		gc.setColor(r,g,b,a)gc.circle("fill",0,0,rad,crn)
-	gc.pop()
+	setColor(S.r*2,S.g*2,S.b*2,S.a*min(4-S.t*4,1))
+
+	setWidth(S.wid)
+	local t1,t2=max(5*S.t-4,0),min(S.t*4,1)
+	gc.line(
+		S.x1*(1-t1)+S.x2*t1,
+		S.y1*(1-t1)+S.y2*t1,
+		S.x1*(1-t2)+S.x2*t2,
+		S.y1*(1-t2)+S.y2*t2
+	)
+
+	setWidth(S.wid*.6)
+	t1,t2=max(4*S.t-3,0),min(S.t*5,1)
+	gc.line(
+		S.x1*(1-t1)+S.x2*t1,
+		S.y1*(1-t1)+S.y2*t1,
+		S.x1*(1-t2)+S.x2*t2,
+		S.y1*(1-t2)+S.y2*t2
+	)
 end
 function FXdraw.ripple(S)
 	local t=S.t
@@ -119,19 +104,16 @@ function sysFX.newBadge(x1,y1,x2,y2)
 		x2=x2,y2=y2,
 	}
 end
-function sysFX.newAttack(x1,y1,x2,y2,rad,corner,type,r,g,b,a)
+function sysFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 	fx[#fx+1]={
 		update=FXupdate.attack,
 		draw=FXdraw.attack,
 		t=0,
-		x=x1,y=y1,
+		rate=rate,
 		x1=x1,y1=y1,--Start pos
 		x2=x2,y2=y2,--End pos
-		rad=rad,
-		corner=corner,
-		type=type,
+		wid=wid,--Line width
 		r=r,g=g,b=b,a=a,
-		drag={},--Afterimage coordinate list
 	}
 end
 function sysFX.newRipple(duration,x,y,r)
