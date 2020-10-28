@@ -847,7 +847,6 @@ do--play
 			resetGameData()
 			needResetGameData=nil
 		end
-		BG.set(modeEnv.bg)
 	end
 
 	function touchDown.play(_,x,y)
