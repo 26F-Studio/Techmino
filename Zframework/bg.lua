@@ -353,13 +353,13 @@ back.lightning={
 }--Lightning
 
 local blocks=require("parts/mino")
-local scs=spinCenters
 back.lightning2={
 	init=function()
 		t=rnd()*2600
 		colorLib=_G.SKIN.libColor
 		colorSet=_G.SETTING.skin
 		blockImg=_G.TEXTURE.miniBlock
+		scs=_G.spinCenters
 	end,
 	update=function(dt)
 		t=t+dt
