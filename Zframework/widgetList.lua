@@ -669,8 +669,8 @@ local Widgets={
 	},
 	login={
 		newText({name="title",		x=80,	y=50,font=70,align="L"}),
-		newTextBox({name="username",x=380,	y=160,w=500,h=60,regex="[0-9A-Za-z_-=+'.<>/{}*]"}),
-		newTextBox({name="email",	x=380,	y=260,w=626,h=60,regex="[0-9A-Za-z_@]"}),
+		newTextBox({name="username",x=380,	y=160,w=500,h=60,regex="[0-9A-Za-z_]"}),
+		newTextBox({name="email",	x=380,	y=260,w=626,h=60,regex="[0-9A-Za-z@-._]"}),
 		newTextBox({name="code",	x=380,	y=360,w=626,h=60,regex="[0-9A-Za-z]"}),
 		newTextBox({name="password",x=380,	y=460,w=626,h=60,secret=true,regex="[ -~]"}),
 		newTextBox({name="password2",x=380,	y=560,w=626,h=60,secret=true,regex="[ -~]"}),
