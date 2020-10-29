@@ -1094,7 +1094,11 @@ local function loadGameEnv(P)--Load gameEnv
 		-- else
 			-- DBP("default-"..k..":"..tostring(v))
 		end
-		ENV[k]=v						--Default setting
+		if type(v)~="table"then--Default setting
+			ENV[k]=v
+		else
+			ENV[k]=copyTable(v)
+		end
 	end
 end
 local function applyGameEnv(P)--Finish gameEnv processing
@@ -3081,7 +3085,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		sequence="bag",
 		bag={1,2,3,4,5,6,7},
 		face={0,0,0,0,0,0,0},
-		skin=SETTING.skin,
+		skin=copyTable(SETTING.skin),
 		mission=false,
 
 		life=1e99,

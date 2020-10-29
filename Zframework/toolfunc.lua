@@ -526,7 +526,25 @@ do--json
 		return res
 	end
 end
-function addToTable(G,base)--Refresh default base with G-values
+function copyList(org)
+	local L={}
+	for i=1,#org do
+		L[i]=org[i]
+	end
+	return L
+end
+function copyTable(org)
+	local L={}
+	for k,v in next,org do
+		if type(v)~="table"then
+			L[k]=v
+		else
+			L[k]=copyTable(v)
+		end
+	end
+	return L
+end
+function addToTable(G,base)--For all things in G if same type in base, push to base
 	for k,v in next,G do
 		if type(v)==type(base[k])then
 			if type(v)=="table"then

@@ -11,15 +11,15 @@ local default_setting={
 	"ihs","irs","ims",
 	"maxNext",
 	"swap",
-	-- "face",
+	--"face","skin",
 }
 local function copyGameSetting()
-	local S={face={}}
+	local S={
+		face=copyList(SETTING.face),
+		skin=copyList(SETTING.skin),
+	}
 	for _,v in next,default_setting do
 		S[v]=SETTING[v]
-	end
-	for i=1,25 do
-		S.face[i]=SETTING.face[i]
 	end
 	return S
 end
