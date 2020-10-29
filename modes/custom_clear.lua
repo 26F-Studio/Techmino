@@ -41,7 +41,7 @@ return{
 		for _,P in next,PLAYERS.alive do
 			local t=P.showTime*3
 			for y=1,FIELD.h do
-				P.field[y]=freeRow.get(0,0)
+				P.field[y]=freeRow.get(0,true)
 				P.visTime[y]=freeRow.get(t)
 				for x=1,10 do P.field[y][x]=FIELD[y][x]end
 			end

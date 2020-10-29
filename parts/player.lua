@@ -1595,7 +1595,7 @@ function player.garbageRise(P,color,amount,pos)
 	local _
 	local t=P.showTime*2
 	for _=1,amount do
-		ins(P.field,1,freeRow.get(color,0))
+		ins(P.field,1,freeRow.get(color,true))
 		ins(P.visTime,1,freeRow.get(t))
 		P.field[1][pos]=0
 	end

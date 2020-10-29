@@ -13,7 +13,7 @@ function freeRow.reset(num)
 	end
 	_=num
 end
-function freeRow.get(val,type)--type: nil=norm, 0=garbage, 1=bomb
+function freeRow.get(val,type)--type: nil=norm, true=garbage
 	if _==0 then
 		for i=1,10 do
 			L[i]={0,0,0,0,0,0,0,0,0,0}
