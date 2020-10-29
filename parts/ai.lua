@@ -151,8 +151,8 @@ local function getScore(field,cb,cy)
 		height[x]=h
 		if x>3 and x<8 and h>highest then highest=h end
 		if h>1 then
-			for h=h-1,1,-1 do
-				if field[h][x]==0 then
+			for h1=h-1,1,-1 do
+				if field[h1][x]==0 then
 					hole=hole+1
 					if hole==5 then break end
 				end

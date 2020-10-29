@@ -51,7 +51,7 @@ return{
 	scoreDisp=function(D)return sectionName[int(D[1]*.1)+1].."   "..D[2]end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]>b[2]end,
 	getRank=function(P)
-		local P=P.modeData.point
+		P=P.modeData.point
 		return P==80 and 5 or P>=70 and 4 or P>=60 and 3 or P>=40 and 2 or P>=20 and 1 or P>=5 and 0
 	end,
 }

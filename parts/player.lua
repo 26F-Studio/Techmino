@@ -746,10 +746,10 @@ local Pdraw_norm do
 						mText(drawableText.next,378,-15)
 						N=1
 						while N<=ENV.next and P.next[N]do
-							local b,c=P.next[N].bk,P.next[N].color
-							for i=1,#b do for j=1,#b[1] do
-								if b[i][j]then
-									gc.draw(blockSkin[c],30*(j+12.6-#b[1]*.5)-30,-30*(i-2.4*N-#b*.5))-- drawCell(i-2.4*N-#b*.5,j+12.6-#b[1]*.5,c)
+							local bk,clr=P.next[N].bk,P.next[N].color
+							for i=1,#bk do for j=1,#bk[1] do
+								if bk[i][j]then
+									gc.draw(blockSkin[clr],30*(j+12.6-#bk[1]*.5)-30,-30*(i-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
 								end
 							end end
 							N=N+1
@@ -2182,9 +2182,9 @@ do--player.drop(P)--Place piece
 				::L1::
 				if y then
 					x=CX+x-1
-					for y=y0+y,#P.field do
+					for y1=y0+y,#P.field do
 						--Roof=finesse
-						if P:solid(x,y)then
+						if P:solid(x,y1)then
 							finesse=true
 							goto L2
 						end
@@ -2727,9 +2727,9 @@ function player.lose(P)
 					P.killMark=A.id==1
 				end
 				A.modeData.point,A.badge=A.modeData.point+1,A.badge+P.badge+1
-				for i=A.strength+1,4 do
-					if A.badge>=royaleData.powerUp[i]then
-						A.strength=i
+				for j=A.strength+1,4 do
+					if A.badge>=royaleData.powerUp[j]then
+						A.strength=j
 						A.frameColor=frameColor[A.strength]
 					end
 				end
@@ -3143,7 +3143,6 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 	loadGameEnv(P)
 	applyGameEnv(P)
 
-	local ENV=P.gameEnv
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,5,8,2,10,3,7}
 	prepareSequence(P)

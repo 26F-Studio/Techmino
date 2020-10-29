@@ -52,17 +52,17 @@ local swap={
 	none={1,0,NULL},--swapTime, changeTime, drawFunction
 	flash={8,1,function()gc.clear(1,1,1)end},
 	fade={30,15,function(t)
-		local t=t>15 and 2-t/15 or t/15
+		t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	fade_togame={120,20,function(t)
-		local t=t>20 and(120-t)/100 or t/20
+		t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	slowFade={180,90,function(t)
-		local t=t>90 and 2-t/90 or t/90
+		t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},

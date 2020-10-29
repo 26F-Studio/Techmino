@@ -6,9 +6,9 @@ local map={}
 for x=-3,3 do map[x]={}for y=-3,3 do map[x][y]={x,y}end end
 local function collect(T)--Make all vec point to the same vec
 	if type(T)=="table"then
-		for _,T in next,T do
-			for k,vec in next,T do
-				T[k]=map[vec[1]][vec[2]]
+		for _,t in next,T do
+			for k,vec in next,t do
+				t[k]=map[vec[1]][vec[2]]
 			end
 		end
 	end
@@ -42,8 +42,8 @@ local function reflect(a)
 	b[13]=flipList(a[31])
 	return b
 end
-local function pushZero(T)
-	for _,L in next,T do
+local function pushZero(t)
+	for _,L in next,t do
 		if type(L)=="table"then
 			for _,v in next,L do
 				table.insert(v,1,zero)
@@ -55,8 +55,8 @@ end
 local TRS
 do
 	local OspinList={
-		{111,5,2, 0,-1,0},{111,5,2,-1,-1,0},{111,5,0,-1, 0,0},--T
-		{333,5,2,-1,-1,0},{333,5,2, 0,-1,0},{333,5,0, 0, 0,0},--T
+		{111,5,2, 0,-1,0},{111,5,2,-1,-1,0},{111,5,0,-1, 0,0},--t
+		{333,5,2,-1,-1,0},{333,5,2, 0,-1,0},{333,5,0, 0, 0,0},--t
 		{313,1,2,-1, 0,0},{313,1,2, 0,-1,0},{313,1,2, 0, 0,0},--Z
 		{131,2,2, 0, 0,0},{131,2,2,-1,-1,0},{131,2,2,-1, 0,0},--S
 		{331,3,2, 0,-1,0},{113,3,0, 0, 0,0},{113,3,2,-1, 0,0},--J
@@ -114,7 +114,7 @@ do
 			[20]={{ 1, 0},{-1, 0},{ 0,-1}},
 			[13]={{ 0,-1},{ 0, 1},{ 1, 0},{ 0,-2},{ 0, 2}},
 			[31]={{ 0,-1},{ 0, 1},{-1, 0},{ 0,-2},{ 0, 2}},
-		},--T
+		},--t
 		function(P,d)
 			if P.human then SFX.fieldPlay("rotate",nil,P)end
 			if not P.gameEnv.ospin then return end
@@ -131,7 +131,7 @@ do
 					if D==L[1]then
 						local id,dir=L[2],L[3]
 						local bk=blocks[id][dir]
-						local x,y=P.curX+L[4],P.curY+L[5]
+						x,y=P.curX+L[4],P.curY+L[5]
 						if not P:ifoverlap(bk,x,y)and(L[6]>0 or P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))and(L[6]==2 or P:ifoverlap(bk,x,y-1))and P:ifoverlap(bk,x,y+1)then
 							local C=P.cur
 							C.id=id

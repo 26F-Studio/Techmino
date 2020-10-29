@@ -384,8 +384,8 @@ function slider:draw()
 	if not self.smooth then
 		gc.setLineWidth(2)
 		for p=0,self.unit do
-			local x=x+(x2-x)*p/self.unit
-			gc.line(x,y+7,x,y-7)
+			local X=x+(x2-x)*p/self.unit
+			gc.line(X,y+7,X,y-7)
 		end
 	end
 
@@ -731,8 +731,8 @@ function WIDGET.press(x,y)
 		end
 	elseif W.type=="textBox"then
 		if MOBILE then
-			local _,y=xOy:transformPoint(0,W.y+W.h)
-			kb.setTextInput(true,0,y,1,1)
+			local _,y1=xOy:transformPoint(0,W.y+W.h)
+			kb.setTextInput(true,0,y1,1,1)
 		end
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end

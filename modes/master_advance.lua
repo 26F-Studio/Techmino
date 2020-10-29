@@ -18,7 +18,8 @@ local function score(P)
 		SFX.play("blip_1")
 	elseif MD.point>=100*(MD.event+1)then
 		--Level up!
-		local s=MD.event+1;MD.event=s
+		s=MD.event+1
+		MD.event=s
 		local E=P.gameEnv
 		BG.set(s==1 and"rainbow"or s==2 and"rainbow2"or s==3 and"lightning"or s==4 and"lightning2"or"lightning")
 		E.lock=death_lock[s]

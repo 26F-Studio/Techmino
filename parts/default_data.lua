@@ -14,7 +14,7 @@ SETTING={
 	lang=1,
 	skinSet=1,
 	skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4},
-	face={},
+	face={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 
 	--Graphic
 	block=true,ghost=.3,center=1,
@@ -56,9 +56,6 @@ SETTING={
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }
-for i=1,25 do
-	SETTING.face[i]=0
-end
 
 STAT={
 	version=gameVersion,

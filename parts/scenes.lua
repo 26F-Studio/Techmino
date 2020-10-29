@@ -426,8 +426,7 @@ do--intro
 	}
 	function Pnt.intro()
 		local S=sceneTemp
-		local t=S.t1
-		local T=(t+110)%300
+		local T=(S.t1+110)%300
 		if T<30 then
 			gc.setLineWidth(4+(30-T)^1.626/62)
 		else
@@ -437,12 +436,12 @@ do--intro
 		gc.push("transform")
 		gc.translate(126,226)
 		for i=1,8 do
-			local T=t-i*15
-			if T>0 then
+			local t=S.t1-i*15
+			if t>0 then
 				gc.push("transform")
-					gc.setColor(1,1,1,min(T*.025,1))
-					titleTransform[S.r[i]](T,i)
-					local dt=(t+62-5*i)%300
+					gc.setColor(1,1,1,min(t*.025,1))
+					titleTransform[S.r[i]](t,i)
+					local dt=(S.t1+62-5*i)%300
 					if dt<20 then
 						gc.translate(0,abs(10-dt)-10)
 					end
@@ -451,9 +450,8 @@ do--intro
 			end
 		end
 		gc.pop()
-		t=S.t2
-		if t>=80 then
-			gc.setColor(1,1,1,.6+sin((t-80)*.0626)*.3)
+		if S.t2>=80 then
+			gc.setColor(1,1,1,.6+sin((S.t2-80)*.0626)*.3)
 			mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
 		end
 	end
@@ -635,12 +633,12 @@ do--mode
 			if kb.isDown("right","d")then	x=x+10*k F=true end
 			local js1=joysticks[1]
 			if js1 then
-				local k=js1:getAxis(1)
-				if k~="c"then
-					if k=="u"or k=="ul"or k=="ur"then y=y-10*k F=true end
-					if k=="d"or k=="dl"or k=="dl"then y=y+10*k F=true end
-					if k=="l"or k=="ul"or k=="dl"then x=x-10*k F=true end
-					if k=="r"or k=="ur"or k=="dr"then x=x+10*k F=true end
+				local dir=js1:getAxis(1)
+				if dir~="c"then
+					if dir=="u"or dir=="ul"or dir=="ur"then y=y-10*k F=true end
+					if dir=="d"or dir=="dl"or dir=="dl"then y=y+10*k F=true end
+					if dir=="l"or dir=="ul"or dir=="dl"then x=x-10*k F=true end
+					if dir=="r"or dir=="ur"or dir=="dr"then x=x+10*k F=true end
 				end
 			end
 		end
@@ -648,17 +646,17 @@ do--mode
 			if F then
 				cam.keyCtrl=true
 			end
-			local x,y=(cam.x1-180)/cam.k1,cam.y1/cam.k1
+			local x1,y1=(cam.x1-180)/cam.k1,cam.y1/cam.k1
 			for name,M in next,Modes do
 				if modeRanks[name]then
 					local SEL
 					local s=M.size
 					if M.shape==1 then
-						if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then SEL=name end
+						if x1>M.x-s and x1<M.x+s and y1>M.y-s and y1<M.y+s then SEL=name end
 					elseif M.shape==2 then
-						if abs(x-M.x)+abs(y-M.y)<s then SEL=name end
+						if abs(x1-M.x)+abs(y1-M.y)<s then SEL=name end
 					elseif M.shape==3 then
-						if(x-M.x)^2+(y-M.y)^2<s^2 then SEL=name end
+						if(x1-M.x)^2+(y1-M.y)^2<s^2 then SEL=name end
 					end
 					if SEL and cam.sel~=SEL then
 						cam.sel=SEL
@@ -1217,7 +1215,7 @@ do--pause
 			val={1/80,1/80,1/80,1/60,1/100,1/40},
 			timing=org=="play",
 		}
-		local S=sceneTemp
+		S=sceneTemp
 		local A,B=S.radar,S.val
 
 		--Normalize Values
@@ -2659,14 +2657,14 @@ do--dict
 		for i=1,min(#list,15)do
 			local y=142+35*i
 			i=i+S.scroll
-			local S=list[i]
+			local item=list[i]
 			gc.setColor(0,0,0)
-			gc.print(S[1],29,y-1)
-			gc.print(S[1],29,y+1)
-			gc.print(S[1],31,y-1)
-			gc.print(S[1],31,y+1)
-			gc.setColor(typeColor[S[3]])
-			gc.print(S[1],30,y)
+			gc.print(item[1],29,y-1)
+			gc.print(item[1],29,y+1)
+			gc.print(item[1],31,y-1)
+			gc.print(item[1],31,y+1)
+			gc.setColor(typeColor[item[3]])
+			gc.print(item[1],30,y)
 		end
 
 		gc.setColor(1,1,1)
@@ -2757,12 +2755,12 @@ do--stat
 		local S=STAT
 		local X1,X2,Y1,Y2={0,0,0,0},{0,0,0,0},{},{}
 		for i=1,7 do
-			local S,C=S.spin[i],S.clear[i]
-			Y1[i]=S[1]+S[2]+S[3]+S[4]
-			Y2[i]=C[1]+C[2]+C[3]+C[4]
+			local s,c=S.spin[i],S.clear[i]
+			Y1[i]=s[1]+s[2]+s[3]+s[4]
+			Y2[i]=c[1]+c[2]+c[3]+c[4]
 			for j=1,4 do
-				X1[j]=X1[j]+S[j]
-				X2[j]=X2[j]+C[j]
+				X1[j]=X1[j]+s[j]
+				X2[j]=X2[j]+c[j]
 			end
 		end
 		sceneTemp={
@@ -3278,12 +3276,12 @@ do--p15
 					local N=S.board[i][j]
 
 					local C=blind and 1 or S.color
-					local backColor=backColor[C]
-					local frontColor=frontColor[C]
+					local back=backColor[C]
+					local front=frontColor[C]
 
-					gc.setColor(backColor[N])
+					gc.setColor(back[N])
 					gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
-					gc.setColor(frontColor[N])
+					gc.setColor(front[N])
 					gc.rectangle("line",j*160+163,i*160-117,154,154,8)
 					if not blind then
 						gc.setColor(.1,.1,.1)
@@ -3573,7 +3571,7 @@ do--pong
 		end
 		if S.state==1 then--Playing
 			if x<160 or x>1120 then
-				local P=x<160 and S.p1 or S.p2
+				P=x<160 and S.p1 or S.p2
 				local d=y-P.y
 				if abs(d)<60 then
 					vx=-vx-(vx>0 and .05 or -.5)

@@ -46,12 +46,12 @@ function VOC.loadAll()
 end
 
 function VOC.getFreeChannel()
-	local i=#voiceQueue
-	for i=1,i do
+	local l=#voiceQueue
+	for i=1,l do
 		if #voiceQueue[i]==0 then return i end
 	end
-	voiceQueue[i+1]={s=0}
-	return i+1
+	voiceQueue[l+1]={s=0}
+	return l+1
 end
 function VOC.getCount()
 	return #voiceQueue
@@ -92,8 +92,8 @@ function VOC.update()
 			end
 		elseif Q.s==3 then--Playing 12 same time
 			if not Q[1]:isPlaying()then
-				for i=1,#Q do
-					Q[i]=Q[i+1]
+				for j=1,#Q do
+					Q[j]=Q[j+1]
 				end
 				Q.s=Q[2]and 2 or 4
 			end

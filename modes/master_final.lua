@@ -14,7 +14,8 @@ local function score(P)
 	if MD.point%100==99 then SFX.play("blip_1")end
 	if int(MD.point*.01)>MD.event then
 		--Level up!
-		local s=MD.event+1;MD.event=s
+		s=MD.event+1
+		MD.event=s
 		local E=P.gameEnv
 		if s<4 then
 			P:showTextF(text.stage:gsub("$1",s),0,-120,80,"fly")
