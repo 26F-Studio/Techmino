@@ -1268,7 +1268,7 @@ local prepareSequence do
 				else
 					print(P.cur)
 					print(P.hd)
-					if not(P.cur or P.hd)then P:lose()end
+					if not(P.cur or P.hd)then P:lose(true)end
 					return
 				end
 			end
@@ -2509,7 +2509,7 @@ do--player.drop(P)--Place piece
 				elseif ENV.missionKill then
 					P:showText(text.missionFailed,0,140,40,"flicker",.5)
 					SFX.play("finesseError_long",.6)
-					P:lose()
+					P:lose(true)
 				end
 			end
 
@@ -2697,8 +2697,8 @@ function player.win(P,result)
 	end
 	P:newTask(TICK.finish)
 end
-function player.lose(P)
-	if P.life>0 then
+function player.lose(P,force)
+	if P.life>0 and not force then
 		for _=#P.field,1,-1 do
 			freeRow.discard(P.field[_])
 			freeRow.discard(P.visTime[_])
