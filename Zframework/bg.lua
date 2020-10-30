@@ -202,13 +202,55 @@ back.fan={
 	end,
 }
 
+local video
+back.badapple={
+	init=function()
+		if not video then
+			video=_G.love.data.decompress("string","zlib",_G.love.filesystem.read("Zframework/badapple.dat"))
+		end
+		t=0
+		BG.resize()
+	end,
+	resize=function()
+		local W,H=SCR.w,SCR.h
+		if H/W>=20/27 then
+			K=W/27
+			X,Y=0,(H-W*20/27)*.5
+		else
+			K=H/20
+			X,Y=(W-H*27/20)*.5,0
+		end
+	end,
+	update=function()
+		t=t+1
+		if t==1404*6 then
+			t=0
+		end
+	end,
+	draw=function()
+		gc.clear(.2,.2,.2)
+		gc.push("transform")
+		gc.origin()
+		gc.translate(X,Y)
+		gc.scale(K)
+		gc.setColor(.4,.4,.4)
+		local t=int(t/6)
+		for i=0,539 do
+			if video:byte(540*t+i+1)==48 then
+				gc.rectangle("fill",(i%27),int(i/27),1,1)
+			end
+		end
+		gc.pop()
+	end,
+	discard=function()
+		video=nil
+	end
+}
+
 back.welcome={
 	init=function()
 		t=rnd()*2600
 		txt=gc.newText(_G.getFont(80),"Welcome To Techmino")
-	end,
-	resize=function()
-		W,H=SCR.w,SCR.h
 	end,
 	update=function(dt)
 		t=t+dt
