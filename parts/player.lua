@@ -1171,24 +1171,31 @@ local prepareSequence do
 			P:getNext(bag[rnd(#bag)])
 			freshMethod.rnd(P)
 		end,
-		his4=function(P)
-			P.his={}
-			freshMethod.his4(P)
-		end,
 		fixed=function(P)
 			local bag=P.gameEnv.bag
-			for i=1,#bag do
-				P:getNext(bag[i])
+			local L=#bag
+			for i=1,L do
+				P.seqData[i]=bag[L+1-i]
+			end
+			while #P.next<6 do
+				if P.seqData[1]then
+					P:getNext(rem(P.seqData))
+				else
+					break
+				end
 			end
 		end,
 	}
 	freshMethod={
 		none=NULL,
 		bag=function(P)
+			local bag=P.seqData
 			while #P.next<6 do
-				local bag0,bag=P.gameEnv.bag,{}
-				for i=1,#bag0 do bag[i]=bag0[i]end
-				repeat P:getNext(rem(bag,P:RND(#bag)))until not bag[1]
+				if #bag==0 then--Copy a new bag
+					local bag0=P.gameEnv.bag
+					for i=1,#bag0 do bag[i]=bag0[i]end
+				end
+				P:getNext(rem(bag,P:RND(#bag)))
 			end
 		end,
 		his4=function(P)
@@ -1200,9 +1207,9 @@ local prepareSequence do
 					repeat
 						i=bag[P:RND(L)]
 						j=j+1
-					until i~=P.his[1]and i~=P.his[2]and i~=P.his[3]and i~=P.his[4]or j==4
+					until i~=P.seqData[1]and i~=P.seqData[2]and i~=P.seqData[3]and i~=P.seqData[4]or j==4
+					P.seqData[n]=i
 					P:getNext(i)
-					P.his[n]=i
 				end
 			end
 		end,
@@ -1221,30 +1228,50 @@ local prepareSequence do
 			end
 		end,
 		reverb=function(P)
+			local seq=P.seqData
 			while #P.next<6 do
-				local bag0,bag=P.gameEnv.bag,{}
-				for i=1,#bag0 do bag[i]=bag0[i]end
-				repeat
-					local r=rem(bag,P:RND(#bag))
-					local p=1
+				if #seq==0 then
+					local bag0=P.gameEnv.bag
+					for i=1,#bag0 do seq[i]=bag0[i]end
+					local bag={}
 					repeat
-						P:getNext(r)
-						p=p-.15-rnd()
-					until p<0
-				until not bag[1]
+						local r=rem(seq,P:RND(#bag))
+						local p=1
+						repeat
+							ins(bag,r)
+							p=p-.15-P:RND()
+						until p<0
+					until #seq==0
+					for i=1,#bag do
+						seq[i]=bag[i]
+					end
+				end
+				P:getNext(rem(seq))
 			end
 		end,
 		loop=function(P)
 			while #P.next<6 do
-				local bag=P.gameEnv.bag
-				for i=1,#bag do
-					P:getNext(bag[i])
+				if #P.seqData==0 then
+					local bag=P.gameEnv.bag
+					local L=#bag
+					for i=1,L do
+						P.seqData[i]=bag[L+1-i]
+					end
 				end
+				P:getNext(rem(P.seqData))
 			end
 		end,
 		fixed=function(P)
-			if P.cur or P.hd then return end
-			P:lose()
+			while #P.next<6 do
+				if P.seqData[1]then
+					P:getNext(rem(P.seqData))
+				else
+					print(P.cur)
+					print(P.hd)
+					if not(P.cur or P.hd)then P:lose()end
+					return
+				end
+			end
 		end,
 	}
 	function prepareSequence(P)--Call freshPrepare and set newNext
@@ -1375,6 +1402,7 @@ local function newEmptyPlayer(id,x,y,size)
 	-- P.curX,P.curY,P.imgY,P.minY=0,0,0,0--x,y,ghostY
 	P.holded=false
 	P.next={}
+	P.seqData={}
 
 	P.freshTime=0
 	P.spinLast=false
@@ -1895,13 +1923,16 @@ function player.hold(P,ifpre)
 			P.ctrlCount=0
 		end
 
-		P.holded=P.gameEnv.oncehold
 		P.spinLast=false
 		P.spinSeq=0
 
 		P.cur,P.hd=H,C--Swap hold
-
 		H,C=P.hd,P.cur
+
+		if P.next[1]or C then--Make hold available in fixed sequence
+			P.holded=P.gameEnv.oncehold
+		end
+
 		if H then
 			local hid=P.hd.id
 			P.hd.bk=blocks[hid][P.gameEnv.face[hid]]
