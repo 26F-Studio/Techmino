@@ -212,6 +212,12 @@ do
 			S.finesseRate=10*S.finesseRate
 		end
 		SETTING.skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4}
+		for i=1,5 do
+			FILE.delRecord("solo_"..i)
+			modeRanks["solo_"..i]=modeRanks["solo_"..i]and 0
+		end
+		LOG.print("更新提醒:单挑模式记录删除完成",600)
+		LOG.print("Update Warning: 1v1 records deleted",600)
 		FILE.saveData()
 		FILE.saveSetting()
 	end
