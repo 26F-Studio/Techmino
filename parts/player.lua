@@ -1328,8 +1328,6 @@ local function loadAI(P,AIdata)--Load AI params
 		for i=1,AIdata.next do
 			CC.addNext(P.AI_bot,CCblockID[P.next[i].id])
 		end
-	elseif P.AI_mode=="9S"then
-		P.RS=kickList.TRS
 	end
 end
 local function newEmptyPlayer(id,x,y,size)
@@ -1418,6 +1416,7 @@ local function newEmptyPlayer(id,x,y,size)
 	P.pieceCount=0--Count pieces from next, for drawing bagline
 
 	P.human=false
+	P.sound=false
 	P.RS=kickList.TRS
 
 	-- P.newNext=nil--Call prepareSequence()to get a function to get new next
@@ -3081,6 +3080,7 @@ end
 --------------------------<Generator>--------------------------
 function PLY.newDemoPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
+	P.sound=true
 
 	-- rewrite some args
 	P.small=false
@@ -3129,9 +3129,6 @@ function PLY.newDemoPlayer(id,x,y,size)
 	}
 	applyGameEnv(P)
 	prepareSequence(P)
-
-	P.human=false
-	P.sound=true
 	loadAI(P,{
 		type="CC",
 		next=5,
@@ -3146,9 +3143,6 @@ function PLY.newDemoPlayer(id,x,y,size)
 end
 function PLY.newRemotePlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
-
-	P.human=false
-	P.sound=false
 	P.remote=true
 
 	-- P.updateAction=buildActionFunctionFromActions(P, actions)
@@ -3159,8 +3153,11 @@ function PLY.newRemotePlayer(id,x,y,size)
 end
 function PLY.newAIPlayer(id,x,y,size,AIdata)
 	local P=newEmptyPlayer(id,x,y,size)
-	local ENV=P.gameEnv
 
+	loadGameEnv(P)
+	local ENV=P.gameEnv
+	ENV.face={0,0,0,0,0,0,0}
+	ENV.skin={1,5,8,2,10,3,7}
 	if P.small then
 		ENV.text=false
 		ENV.lockFX=nil
@@ -3168,28 +3165,19 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 		ENV.moveFX=nil
 		ENV.shakeFX=nil
 	end
-
-	loadGameEnv(P)
 	applyGameEnv(P)
-
-	ENV.face={0,0,0,0,0,0,0}
-	ENV.skin={1,5,8,2,10,3,7}
 	prepareSequence(P)
-
-	P.human=false
-	P.sound=false
 	loadAI(P,AIdata)
 end
 function PLY.newPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
+	P.human=true
+	P.sound=true
 
 	loadGameEnv(P)
 	applyGameEnv(P)
 	prepareSequence(P)
 
-	P.human=true
-	P.sound=true
-	P.RS=kickList.TRS
 end
 --------------------------</Generator>--------------------------
 return PLY
