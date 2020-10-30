@@ -18,7 +18,7 @@ return{
 	env={
 		noTele=true,
 		wait=8,fall=20,
-		target=10,dropPiece=check_LVup,
+		dropPiece=check_LVup,
 		mindas=7,minarr=1,minsdarr=1,
 		bg="bg2",bgm="push",
 	},
@@ -33,7 +33,7 @@ return{
 		mStr(P.modeData.point+10,69,440)
 		gc.rectangle("fill",25,445,90,4)
 	end,
-	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
+	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

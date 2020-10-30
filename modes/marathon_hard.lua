@@ -5,9 +5,11 @@ local function check(P)
 		if T==50 then
 			P.gameEnv.drop=.25
 			P.gameEnv.target=100
+			SFX.play("reach")
 		elseif T==100 then
 			P._20G=true
 			P.gameEnv.target=200
+			SFX.play("reach")
 		else
 			P:win("finish")
 		end
@@ -31,10 +33,10 @@ return{
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.stat.row,69,390)
-		mStr(P.modeData.event*100+100,69,440)
+		mStr(P.gameEnv.target,69,440)
 		gc.rectangle("fill",25,445,90,4)
 	end,
-	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
+	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
