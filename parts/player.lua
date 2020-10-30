@@ -547,7 +547,6 @@ local function drawNextPreview(P,B)
 	end end
 end
 local function drawHold(P,clr)
-	if P.holded then gc.setColor(.6,.4,.4)end
 	local B=P.hd.bk
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
@@ -731,10 +730,9 @@ local Pdraw_norm do
 						gc.translate(-140,116)
 							gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,80)
 							gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,80)
+							if P.holded then gc.setColor(.6,.4,.4)end
 							mText(drawableText.hold,62,-131)
-							if P.hd then
-								drawHold(P,P.hd.color)
-							end
+							if P.hd then drawHold(P,P.hd.color)end
 						gc.pop()
 					end
 
