@@ -562,6 +562,7 @@ return{
 		["master_beginner"]=	{"Master",			"LUNATIC",		"For 20G beginners."},
 		["master_advance"]=		{"Master",			"ULTIMATE",		"Professional 20G challenge!"},
 		["master_final"]=		{"Master",			"FINAL",		"20G: Unreachable end point!"},
+		["master_phantasm"]=	{"Master",			"PHANTASM",		"20G: ???"},
 		["GM"]=					{"GrandMaster",		"GM",			"To be a Grand Master, take \nthis challenge."},
 		["blind_easy"]=			{"Blind",			"HALF",			"For novice players."},
 		["blind_normal"]=		{"Blind",			"ALL",			"For intermediate players."},

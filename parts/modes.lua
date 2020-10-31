@@ -44,7 +44,8 @@ return{
 
 	{name="master_beginner",		x=0,		y=-1000,	size=35,shape=1,icon="master",		unlock={"master_advance"}},
 	{name="master_advance",			x=0,		y=-1200,	size=35,shape=3,icon="master",		unlock={"master_final","GM"}},
-	{name="master_final",			x=0,		y=-1400,	size=40,shape=2,icon="master",		},
+	{name="master_final",			x=0,		y=-1400,	size=40,shape=2,icon="master",		unlock={"master_phantasm"}},
+	{name="master_phantasm",		x=0,		y=-2000,	size=40,shape=2,icon="master",		},
 	{name="GM",						x=150,		y=-1500,	size=35,shape=2,icon="master",		},
 
 	{name="blind_easy",				x=150,		y=-700,		size=35,shape=1,icon="blind",		unlock={"blind_normal"}},
