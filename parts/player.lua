@@ -2696,6 +2696,7 @@ function player.win(P,result)
 end
 function player.lose(P,force)
 	if P.life>0 and not force then
+		P.waiting=62
 		for _=#P.field,1,-1 do
 			freeRow.discard(P.field[_])
 			freeRow.discard(P.visTime[_])
@@ -2724,9 +2725,9 @@ function player.lose(P,force)
 		for i=1,21 do
 			P:createClearingFX(i,1.5)
 		end
-		sysFX.newShade(.5,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
-		sysFX.newRectRipple(.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
-		sysFX.newRipple(.3,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
+		sysFX.newShade(.7,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		sysFX.newRectRipple(.5,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		sysFX.newRipple(.5,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
 		--300+25*i,595
 		SFX.play("clear_3")
 		SFX.play("emit")
