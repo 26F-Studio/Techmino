@@ -392,6 +392,9 @@ return{
 		},
 		sound={
 			title="音效室",
+			sfx="音效",
+			voc="语音",
+
 			move="移动",
 			lock="锁定",
 			drop="硬降",
@@ -401,6 +404,7 @@ return{
 			hold="暂存",
 			prerotate="提前旋转",
 			prehold="提前暂存",
+			_pc="消干净了",
 
 			_1="消一",
 			_2="消二",

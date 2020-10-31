@@ -439,6 +439,9 @@ return{
 		},
 		sound={
 			title="SE Room",
+			sfx="SFX",
+			voc="VOICE",
+
 			move="Move",
 			lock="Lock",
 			drop="Drop",
@@ -448,6 +451,7 @@ return{
 			hold="Hold",
 			prerotate="Prerotate",
 			prehold="Prehold",
+			_pc="PC",
 
 			_1="Clear 1",
 			_2="Clear 2",
