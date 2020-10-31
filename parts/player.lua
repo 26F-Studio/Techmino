@@ -3158,7 +3158,7 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 	loadGameEnv(P)
 	local ENV=P.gameEnv
 	ENV.face={0,0,0,0,0,0,0}
-	ENV.skin={1,5,8,2,10,3,7}
+	ENV.skin={1,7,11,3,14,4,9}
 	if P.small then
 		ENV.text=false
 		ENV.lockFX=nil
