@@ -68,6 +68,7 @@ return{
 	registerSuccessed="Registered!",
 	registerFailed="Registration failed",
 	netErrorCode="Network error code",
+	jsonError="Json error",
 	noUsername="Please enter your username",
 	wrongEmail="Wrong email address",
 	noPassword="Please enter your password",

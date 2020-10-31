@@ -68,6 +68,7 @@ return{
 	registerSuccessed="注册成功!",
 	registerFailed="注册失败",
 	netErrorCode="网络错误码",
+	jsonError="json错误",
 	noUsername="请填写用户名",
 	wrongEmail="邮箱格式错误",
 	noPassword="请填写密码",

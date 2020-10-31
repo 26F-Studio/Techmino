@@ -78,12 +78,16 @@ function Tick.httpREQ_launch(data)
 	local res,err=client.poll(data.task)
 	if res then
 		if res.code==200 then
-			res=json.decode(res.body)
-			LOG.print(res.notice,360,color.sky)
-			if gameVersion==res.version then
-				LOG.print(text.versionIsNew,360,color.sky)
+			err,res=json.decode(res.body)
+			if res then
+				LOG.print(res.notice,360,color.sky)
+				if gameVersion==res.version then
+					LOG.print(text.versionIsNew,360,color.sky)
+				else
+					LOG.print(string.gsub(text.versionIsOld,"$1",res.version),"warn")
+				end
 			else
-				LOG.print(string.gsub(text.versionIsOld,"$1",res.version),"warn")
+				LOG.print(text.jsonError..": "..err,"warn")
 			end
 		else
 			LOG.print(text.netErrorCode..res.code,"warn")
@@ -103,11 +107,15 @@ function Tick.httpREQ_register(data)
 	local res,err=client.poll(data.task)
 	if res then
 		if res.code==200 then
-			res=json.decode(res.body)
-			if res.status then
-				LOG.print(text.registerSuccessed)
+			err,res=json.decode(res.body)
+			if res then
+				if res.status then
+					LOG.print(text.registerSuccessed)
+				else
+					LOG.print(text.registerFailed..": "..res.msg)
+				end
 			else
-				LOG.print(text.registerFailed..": "..res.msg)
+				LOG.print(text.jsonError..": "..err,"warn")
 			end
 		else
 			LOG.print(text.netErrorCode..res.code,"warn")

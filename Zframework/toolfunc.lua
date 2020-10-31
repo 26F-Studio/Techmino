@@ -300,7 +300,9 @@ do--json
 		error("unexpected type '" .. t .. "'")
 	end
 
-	function json.encode(val) return encode(val) end
+	function json.encode(val)
+		return pcall(encode,val)
+	end
 
 	-------------------------------------------------------------------------------
 	-- Decode
@@ -516,7 +518,7 @@ do--json
 		decode_error(str, idx, "unexpected character '" .. chr .. "'")
 	end
 
-	function json.decode(str)
+	local function decode(str)
 		if type(str) ~= "string" then
 			error("expected argument of type string, got " .. type(str))
 		end
@@ -524,6 +526,9 @@ do--json
 		idx = next_char(str, idx, space_chars, true)
 		if idx <= #str then decode_error(str, idx, "trailing garbage") end
 		return res
+	end
+	function json.decode(str)
+		return pcall(decode,str)
 	end
 end
 function copyList(org)
