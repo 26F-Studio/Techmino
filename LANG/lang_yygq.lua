@@ -30,8 +30,9 @@ return{
 
 	ranks={"菜","可","好","强","您"},
 
-	noUsername="账号密码都填不来?",
-	noPassword="账号密码都填不来?",
+	noUsername="账号填不来?",
+	wrongEmail="邮箱不会填?",
+	noPassword="密码填不来?",
 	diffPassword="账号密码都填不来?",
 
 	acts={

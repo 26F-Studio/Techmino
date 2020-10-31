@@ -2916,6 +2916,8 @@ do--login
 			local password2=WIDGET.active.password2.value
 			if #username==0 then
 				LOG.print(text.noUsername)return
+			elseif #email~=#email:match("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")then
+				LOG.print(text.wrongEmail)return
 			elseif #password==0 or #password2==0 then
 				LOG.print(text.noPassword)return
 			elseif password~=password2 then

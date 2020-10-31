@@ -69,6 +69,7 @@ return{
 	registerFailed="注册失败",
 	netErrorCode="网络错误码",
 	noUsername="请填写用户名",
+	wrongEmail="邮箱格式错误",
 	noPassword="请填写密码",
 	diffPassword="两次密码不一致",
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",

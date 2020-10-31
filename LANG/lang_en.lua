@@ -69,6 +69,7 @@ return{
 	registerFailed="Registration failed",
 	netErrorCode="Network error code",
 	noUsername="Please enter your username",
+	wrongEmail="Wrong email address",
 	noPassword="Please enter your password",
 	diffPassword="Passwords don't match",
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
