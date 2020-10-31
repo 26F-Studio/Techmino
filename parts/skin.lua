@@ -80,7 +80,7 @@ function SKIN.loadOne(_)
 			SKIN.lib[_][8*i+j]=C(30,30)
 			gc.draw(I,30-30*j,-30*i)
 
-			SKIN.libMini[_][j]=C(6,6)
+			SKIN.libMini[_][8*i+j]=C(6,6)
 			gc.draw(I,6-6*j,-6*i,nil,.2)
 		end
 	end
