@@ -216,6 +216,19 @@ do
 			FILE.delRecord("solo_"..i)
 			modeRanks["solo_"..i]=modeRanks["solo_"..i]and 0
 		end
+		for name,rank in next,modeRanks do
+			if rank and rank>0 then
+				for i=1,#Modes do
+					if Modes[i].name==name and Modes[i].unlock then
+						for _,unlockName in next,Modes[i].unlock do
+							if not modeRanks[unlockName]then
+								modeRanks[unlockName]=0
+							end
+						end
+					end
+				end
+			end
+		end
 		LOG.print("更新提醒:单挑模式记录删除完成",600)
 		LOG.print("Update Warning: 1v1 records deleted",600)
 		FILE.saveData()
