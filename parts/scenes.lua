@@ -2515,7 +2515,7 @@ do--dict
 	function sceneInit.dict()
 		local location=(SETTING.lang==3 or SETTING.lang==4)and"en"or"zh"
 		sceneTemp={
-			dict=require("document/dict_"..location),
+			dict=require("LANG/dict_"..location),
 
 			input="",
 			result={},
