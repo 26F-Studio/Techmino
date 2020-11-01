@@ -564,6 +564,15 @@ function addToTable(G,base)--For all things in G if same type in base, push to b
 		end
 	end
 end
+function completeTable(G,base)--For all things in G if no val in base, push to base
+	for k,v in next,G do
+		if base[k]==nil then
+			base[k]=v
+		elseif type(v)=="table"and type(base[k])=="table"then
+			completeTable(v,base[k])
+		end
+	end
+end
 function splitStr(s,sep)
 	local L={}
 	local p1,p2=1--start,target
