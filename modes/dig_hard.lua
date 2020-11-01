@@ -10,7 +10,7 @@ return{
 			local D=P.modeData
 			D.counter=D.counter+1
 			if D.counter>=max(90,180-D.event)then
-				P:garbageRise(10,1,P:getHolePos())
+				P:garbageRise(21,1,P:getHolePos())
 				P.stat.recv=P.stat.recv+1
 				D.counter=0
 				D.event=D.event+1

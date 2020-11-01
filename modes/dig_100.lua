@@ -18,7 +18,7 @@ return{
 		PLY.newPlayer(1,340,15)
 		local P=PLAYERS[1]
 		for _=1,10 do
-			P:garbageRise(13,1,P:getHolePos())
+			P:garbageRise(21,1,P:getHolePos())
 		end
 		P.fieldBeneath=0
 	end,
