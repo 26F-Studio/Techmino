@@ -123,12 +123,20 @@ AIfunc=	require("parts/ai")
 Modes=	require("parts/modes")
 TICK=	require("parts/tick")
 
-require("parts/scenes")
+--Load Scenes files from SOURCE ONLY
+local fs=love.filesystem
+local saveDir=fs.getSaveDirectory()
+for _,v in next,fs.getDirectoryItems("parts/scenes")do
+	if fs.getRealDirectory("parts/scenes/"..v)~=saveDir then
+		require("parts/scenes/"..v:sub(1,-5))
+	else
+		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
+	end
+end
 
 --Load files & settings
 modeRanks={sprint_10=0}
 
-local fs=love.filesystem
 if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
 if fs.getInfo("setting.dat")then fs.remove("setting.dat")end
 
