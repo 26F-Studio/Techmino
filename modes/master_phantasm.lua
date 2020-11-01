@@ -93,7 +93,7 @@ local function check_LVup(P)
 
 				ENV.target=162
 			elseif T==162 then--Stage 7: speed up+++
-				P.life=P.life+2
+				P.life=P.life+1
 
 				ENV.lock=10
 
@@ -118,13 +118,13 @@ local function check_LVup(P)
 				P.showTime=40
 				ENV.lock=15
 				P.curMission=1
-				ENV.mission={4,4,4,4}
+				ENV.mission={4,4,4,4,4,4,4,4}
 				ENV.missionKill=false
 
 				ENV.target=260
 				SFX.play("blip_2")
-			elseif P.result~="WIN"then
-				p=259
+			else
+				p=P.result=="WIN"and 260 or 259
 			end
 		end
 		P.modeData.point=p
@@ -156,13 +156,13 @@ return{
 		mStr(P.gameEnv.target,69,440)
 		gc.rectangle("fill",25,445,90,4)
 	end,
-	score=function(P)return{math.min(P.modeData.point,260),P.stat.time}end,
+	score=function(P)return{P.result=="WIN"and 260 or P.modeData.point,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		P=P.modeData.point
 		return
-		P>=260 and 5 or
+		P==260 and 5 or
 		P>=226 and 4 or
 		P>=162 and 3 or
 		P>=62 and 2 or
