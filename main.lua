@@ -207,26 +207,12 @@ do
 
 	--Update data file
 	S=STAT
-	if not S.spin[1][6]then
-		for i=1,25 do
-			S.spin[i][6]=0
-		end
-	end
 	if S.extraRate then
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
-	if fs.getInfo("bigbang.dat")then fs.remove("bigbang.dat")end
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
-		if S.finesseRate<.5*S.piece then
-			S.finesseRate=10*S.finesseRate
-		end
-		SETTING.skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4}
-		for i=1,5 do
-			FILE.delRecord("solo_"..i)
-			modeRanks["solo_"..i]=modeRanks["solo_"..i]and 0
-		end
 		for name,rank in next,modeRanks do
 			if rank and rank>0 then
 				for i=1,#Modes do
@@ -240,8 +226,6 @@ do
 				end
 			end
 		end
-		LOG.print("更新提醒:单挑模式记录删除完成",600)
-		LOG.print("Update Warning: 1v1 records deleted",600)
 		FILE.saveData()
 		FILE.saveSetting()
 	end
