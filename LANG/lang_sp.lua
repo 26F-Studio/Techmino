@@ -538,7 +538,7 @@ return{
 			reset3="Reiniciar todo",
 		},
 	},
-	modes={
+	modes={fullCopy=true,
 		["sprint_10"]=			{"Sprint",			"10L",		"¡Limpia 10 líneas!"},
 		["sprint_20"]=			{"Sprint",			"20L",		"¡Limpia 20 líneas!"},
 		["sprint_40"]=			{"Sprint",			"40L",		"¡Limpia 40 líneas!"},

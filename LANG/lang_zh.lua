@@ -118,7 +118,7 @@ return{
 		"全/半清:",
 		"多余操作/极简率:",
 	},
-	help={
+	help={fullCopy=true,
 		"既然你能玩到这个游戏,应该也不需要什么帮助吧?",
 		"这只是一个普通的方块游戏,请勿称此游戏为某某某方块",
 		"从TO/C2/KOS/TGM3/JS等方块获得过灵感",
@@ -537,7 +537,7 @@ return{
 			reset3="清空所有数据",
 		},
 	},
-	modes={
+	modes={fullCopy=true,
 		["sprint_10"]=			{"竞速",		"10L",		"消除10行"},
 		["sprint_20"]=			{"竞速",		"20L",		"消除20行"},
 		["sprint_40"]=			{"竞速",		"40L",		"消除40行"},
@@ -623,7 +623,7 @@ return{
 		["sprintPenta"]=		{"竞速",		"五连块",	"伤脑筋十八块"},
 		["sprintMPH"]=			{"竞速",		"MPH",		"纯随机\n无预览\n无暂存"},
 	},
-	getTip={noMerge=true,
+	getTip={fullCopy=true,
 		'注意到"旋转"到底对方块做了些什么吗?',
 		"(RUR'U')R'FR2U'R'U'(RUR'F')",
 		"↑↑↓↓←→←→BA",

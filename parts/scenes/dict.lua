@@ -8,7 +8,7 @@ local ins,rem=table.insert,table.remove
 local find,sub=string.find,string.sub
 
 function sceneInit.dict()
-	local location=(SETTING.lang==3 or SETTING.lang==4)and"en"or"zh"
+	local location=({"zh","zh","en","en","en","en","zh"})[SETTING.lang]
 	sceneTemp={
 		dict=require("LANG/dict_"..location),
 

@@ -436,7 +436,7 @@ return{
 			tapFX="动画",
 		},
 	},
-	modes={
+	modes={fullCopy=true,
 		["sprint_10"]=			{"竞速",		"10L",		"消10行"},
 		["sprint_20"]=			{"竞速",		"20L",		"消20行"},
 		["sprint_40"]=			{"竞速",		"40L",		"消40行"},
@@ -522,7 +522,7 @@ return{
 		["sprintPenta"]=		{"竞速",		"五连块",	"离谱"},
 		["sprintMPH"]=			{"竞速",		"纯净",		"听说你反应很快?"},
 	},
-	getTip={noMerge=true,
+	getTip={fullCopy=true,
 		"100apm?你倒是不用开局定式连续打几把",
 		"10连pc不是随手?",
 		"20G很难?是个人都能玩吧。",
