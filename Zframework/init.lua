@@ -487,7 +487,7 @@ function love.run()
 				love[N](a,b,c,d,e)
 			elseif N=="quit"then
 				destroyPlayers()
-				return 1
+				return true
 			end
 		end
 
@@ -557,21 +557,21 @@ function love.run()
 				--Draw FPS
 				gc.setColor(1,1,1)
 				setFont(15)
-				_=SCR.h-20
-				gc.print(FPS(),5,_)
+				_=SCR.h
+				gc.print(FPS(),5,_-20)
 
 				--Debug info.
 				if devMode then
 					gc.setColor(devColor[devMode])
-					gc.print("Memory:"..gcinfo(),5,_-20)
-					gc.print("Lines:"..freeRow.getCount(),5,_-40)
-					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),5,_-60)
-					gc.print("Voices:"..VOC.getCount(),5,_-80)
-					gc.print("Tasks:"..TASK.getCount(),5,_-100)
+					gc.print("Memory:"..gcinfo(),5,_-40)
+					gc.print("Lines:"..freeRow.getCount(),5,_-60)
+					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),5,_-80)
+					gc.print("Voices:"..VOC.getCount(),5,_-100)
+					gc.print("Tasks:"..TASK.getCount(),5,_-120)
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
 					gc.setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
-						gc.rectangle("fill",150+2*i,_,2,-frameTimeList[i]*4000)
+						gc.rectangle("fill",150+2*i,_-20,2,-frameTimeList[i]*4000)
 					end
 					if devMode==3 then WAIT(.1)
 					elseif devMode==4 then WAIT(.5)
@@ -584,7 +584,7 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if Timer()-lastFreshPow>2 then
+		if Timer()-lastFreshPow>2.6 then
 			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
 				lastFreshPow=Timer()
@@ -598,6 +598,6 @@ function love.run()
 		--Keep 60fps
 		_=Timer()-lastFrame
 		if _<.016 then WAIT(.016-_)end
-		while Timer()-lastFrame<1/60-0.000005 do WAIT(0)end
+		while Timer()-lastFrame<1/60-5e-6 do WAIT(0)end
 	end
 end
