@@ -70,8 +70,8 @@ STAT={
 	lastPlay="sprint_10",--Last played mode ID
 }
 for i=1,25 do
-	STAT.clear[i]={0,0,0,0,0}
-	STAT.spin[i]={0,0,0,0,0,0}
+	STAT.clear[i]={0,0,0,0,0,0}
+	STAT.spin[i]={0,0,0,0,0,0,0}
 end
 
 keyMap={
