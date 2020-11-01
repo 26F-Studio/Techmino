@@ -450,6 +450,10 @@ local devColor={
 local FPS=love.timer.getFPS
 love.draw,love.update=nil--remove default draw/update
 function love.run()
+	local SETTING=SETTING
+	local DISCARD=gc.discard
+	local PRESENT=gc.present
+
 	local T=love.timer
 	local Timer=T.getTime
 	local STEP,GETDelta,WAIT=T.step,T.getDelta,T.sleep
@@ -505,7 +509,7 @@ function love.run()
 			FCT=FCT+SETTING.frameMul
 			if FCT>=100 then
 				FCT=FCT-100
-				gc.discard()--SPEED UPUPUP!
+				DISCARD()--SPEED UPUPUP!
 
 				BG.draw()
 				gc.push("transform")
@@ -575,7 +579,7 @@ function love.run()
 				end
 				LOG.draw()
 
-				gc.present()
+				PRESENT()
 			end
 		end
 
