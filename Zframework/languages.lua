@@ -2,6 +2,8 @@ local langList={
 	require("LANG/lang_zh"),
 	require("LANG/lang_zh2"),
 	require("LANG/lang_en"),
+	require("LANG/lang_fr"),
+	require("LANG/lang_sp"),
 	require("LANG/lang_symbol"),
 	require("LANG/lang_yygq"),
 	--Add new language file to LANG folder. Attention, new language won't show in-game when you add language
@@ -33,24 +35,23 @@ local publicWidgetText={
 		zh="中文",
 		zh2="全中文",
 		en="English",
+		fr="Français",
+		sp="Español",
 		symbol="?????",
 		yygq="就这?",
 	},
 }
 local function langFallback(T0,T)
 	for k,v in next,T0 do
-		if not T[k]then
-			if type(v)=="table"then
-				if not T[k]then T[k]={}end
-				langFallback(v,T[k])
-			else
-				T[k]=v
-			end
+		if type(v)=="table"and not v.noMerge then--noMerge=true : copy pointer instead of content
+			if not T[k]then T[k]={}end
+			if type(T[k])=="table"and not v[1]then langFallback(v,T[k])end
+		elseif not T[k]then
+			T[k]=v
 		end
 	end
 end
 local tipMeta={__call=function(L)return L[math.random(#L)]end}
-local L0=langList[1]
 for i=1,#langList do
 	local L=langList[i]
 
@@ -68,12 +69,12 @@ for i=1,#langList do
 		end
 	end
 
-	--Fallback to Chinese if missing text
+	--Fallback to other language, default zh
 	if i>1 then
-		langFallback(L0,L)
+		langFallback(langList[L.fallback or 1],L)
 	end
 
-	--Metatable for getTip (table)
+	--Metatable:__call for table:getTip
 	if type(L.getTip)=="table"then
 		setmetatable(L.getTip,tipMeta)
 	end

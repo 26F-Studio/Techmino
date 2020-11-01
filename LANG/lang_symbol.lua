@@ -1,4 +1,5 @@
 return{
+	fallback=3,
 	back="X",
 	anykey="↓□↓",
 	newVersion="&!!!???↓↓",
@@ -9,12 +10,11 @@ return{
 	atkModeName={"?","(  )","!","←→"},
 	royale_remain="$1 ~",
 	cmb={nil,"!","!!","!!!","!!!!","!!!!!","!!!!!!","!!!!!!!","!!!!!!!!","!!!!!!!!!","!!!!!!!!!!","!!!!!!!!!!!","!!!!!!!!!!!!","!!!!!!!!!!!!!","!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!","!!!!!!!!!!!!!!!!!!!!",},
-	block=nil,spin=" ~",
+	spin=" ~",
 	clear={"1","2","3","4","5"},
 	mini="v",b2b="^ ",b3b="^^ ",
 	PC="#<>#",HPC="<>",
 	hold="[ ]",next="→",
-	replaying="[Replaying]",
 
 	stage="::$1::",
 	great="!~",
@@ -33,7 +33,6 @@ return{
 	finesse_ap="AP",
 	finesse_fc="FC",
 
-	snapLevelName={"~","10","20","40","60","80"},
 	page=":",
 
 	ai_fixed="X!!!",
@@ -48,8 +47,6 @@ return{
 	statSavingError="x!:",
 	unlockSavingError="x!:",
 	recSavingError="x!:",
-	switchSpawnSFX="Switch on spawn SFX to play",
-	ranks={"D","C","B","A","S"},
 
 	needRestart="!!*#R#*!!",
 	copySuccess="~$~",
@@ -61,19 +58,13 @@ return{
 	noScore="?_____?",
 	highScore="__&:",
 	newRecord="^!!!^",
-	getNoticeFail="get notice failed",
-	getVersionFail="get newest version failed",
-	versionIsNew="You are now on the latest version.",
-	versionIsOld="Version $1 is available now!",
-	registerSuccessed="Register successed!",
-	registerFailed="Register failed",
-	netErrorCode="Network error code",
-	jsonError="Json error",
+
 	noUsername="Input username",
 	wrongEmail="Wrong email address",
 	noPassword="Input password",
 	diffPassword="Password don't match",
 	errorMsg="An e??o? h@s occ^__ed @nd Techmino n__ds to r_st@rt.\n&**o* in#o h@$ b==n cre@ted, @nd y0u c@n $&nd it to the @uth0r.",
+
 	acts={
 		"←:","→:",
 		"R→:","←R:","R↑↓:",
@@ -93,18 +84,7 @@ return{
 		"^^/^^^/#<>#/<>:",
 		"!#!X:",
 	},
-	radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
 	stat={
-		spin="~0-3",
-		clear="□1-4",
 		"@:",
 		"##:",
 		"~:",
@@ -128,34 +108,6 @@ return{
 		"and only vibration & networking permissions are needed for mobile versions!",
 		"The author is not responsible for any losses from modifying the game.",
 	},
-	staff={
-		"Author: MrZ  E-mail: 1046101471@qq.com",
-		"Powered by LOVE2D",
-		"",
-		"Program: MrZ, FinnTenzor",
-		"Art: MrZ, (T0722, Gnyar)",
-		"Music: MrZ, (T0722)",
-		"Voice & Sound: MrZ, Miya",
-		"Performance: 模电, HBM  Test: 思竣",
-		"Eng Doc: User670  Web: 渣渣120",
-		"",
-		"Special Thanks:",
-		"Flyz, Farter, 蕴空之灵,",
-		"Teatube, [All test staff]",
-	},
-	used=[[
-	Tools used:
-		Beepbox
-		GFIE
-		Goldwave
-	Lib used:
-		Cold_Clear [MinusKelvin]
-		json.lua [rxi]
-		profile.lua [itraykov]
-		simple-love-lights [dylhunn]
-	]],
-	support="Support author",
-	group="Official QQ Group(if not hacked):1127702001",
 	WidgetText={
 		main={
 			play="!!!",
@@ -523,104 +475,13 @@ return{
 		pong={
 			reset="R",
 		},
-		debug={
-			reset="Reset?",
-			reset1="Reset rank",
-			reset2="Reset data",
-			reset3="Reset ALL",
-		},
-	},
-	modes={
-		["sprint_10"]=			{"Sprint",			"10L",			"Clear 10 lines!"},
-		["sprint_20"]=			{"Sprint",			"20L",			"Clear 20 lines!"},
-		["sprint_40"]=			{"Sprint",			"40L",			"Clear 40 lines!"},
-		["dig_10"]=				{"Dig",				"10L",			"Dig 10 lines"},
-		["dig_40"]=				{"Dig",				"40L",			"Dig 40 lines"},
-		["dig_100"]=			{"Dig",				"100L",			"Dig 100 lines"},
-		["dig_400"]=			{"Dig",				"400L",			"Dig 400 lines"},
-		["dig_1000"]=			{"Dig",				"1000L",		"Dig 1000 lines"},
-		["sprint_100"]=			{"Sprint",			"100L",			"Clear 100 lines!"},
-		["sprint_400"]=			{"Sprint",			"400L",			"Clear 400 lines!"},
-		["sprint_1000"]=		{"Sprint",			"1000L",		"Clear 1000 lines!"},
-		["drought_normal"]=		{"Drought",			"100L",			"No I piece!"},
-		["drought_lunatic"]=	{"Drought",			"100L",			"WTF"},
-		["marathon_normal"]=	{"Marathon",		"NORMAL",		"200-line marathon with accelerating speed."},
-		["marathon_hard"]=		{"Marathon",		"HARD",			"200-line high-speed marathon."},
-		["marathon_ultimate"]=	{"Marathon",		"Ultimate",		"Regular singles without combo only"},
-		["solo_1"]=				{"Battle",			"EASY",			"Defeat the AI!"},
-		["solo_2"]=				{"Battle",			"NORMAL",		"Defeat the AI!"},
-		["solo_3"]=				{"Battle",			"HARD",			"Defeat the AI!"},
-		["solo_4"]=				{"Battle",			"LUNATIC",		"Defeat the AI!"},
-		["solo_5"]=				{"Battle",			"ULTIMATE",		"Defeat the AI!"},
-		["techmino49_easy"]=	{"Tech 49",			"EASY",			"49-player battle.\nThe last one standing wins."},
-		["techmino49_hard"]=	{"Tech 49",			"HARD",			"49-player battle.\nThe last one standing wins."},
-		["techmino49_ultimate"]={"Tech 49",			"ULTIMATE",		"49-player battle.\nThe last one standing wins."},
-		["techmino99_easy"]=	{"Tech 99",			"EASY",			"99-player battle.\nThe last one standing wins."},
-		["techmino99_hard"]=	{"Tech 99",			"HARD",			"99-player battle.\nThe last one standing wins."},
-		["techmino99_ultimate"]={"Tech 99",			"ULTIMATE",		"99-player battle.\nThe last one standing wins."},
-		["round_1"]=			{"Turn-Based",		"EASY",			"Chess mode"},
-		["round_2"]=			{"Turn-Based",		"NORMAL",		"Chess mode"},
-		["round_3"]=			{"Turn-Based",		"HARD",			"Chess mode"},
-		["round_4"]=			{"Turn-Based",		"LUNATIC",		"Chess mode"},
-		["round_5"]=			{"Turn-Based",		"ULTIMATE",		"Chess mode"},
-		["master_beginner"]=	{"Master",			"LUNATIC",		"For 20G beginners."},
-		["master_advance"]=		{"Master",			"ULTIMATE",		"Professional 20G challenge!"},
-		["master_final"]=		{"Master",			"FINAL",		"20G: Unreachable end point!"},
-		["master_phantasm"]=	{"Master",			"PHANTASM",		"20G: ???"},
-		["GM"]=					{"GrandMaster",		"GM",			"To be Grand Master"},
-		["blind_easy"]=			{"Blind",			"HALF",			"For novice players."},
-		["blind_normal"]=		{"Blind",			"ALL",			"For intermediate players."},
-		["blind_hard"]=			{"Blind",			"SUDDEN",		"For experienced players."},
-		["blind_lunatic"]=		{"Blind",			"SUDDEN+",		"For professionals."},
-		["blind_ultimate"]=		{"Blind",			"?",			"R U Ready?"},
-		["blind_wtf"]=			{"Blind",			"WTF",			"i m not ready"},
-		["classic_fast"]=		{"Classic",			"CTWC",			"High-speed classic mode."},
-		["survivor_easy"]=		{"Survivor",		"EASY",			"How long can you survive?"},
-		["survivor_normal"]=	{"Survivor",		"NORMAL",		"How long can you survive?"},
-		["survivor_hard"]=		{"Survivor",		"HARD",			"How long can you survive?"},
-		["survivor_lunatic"]=	{"Survivor",		"LUNATIC",		"How long can you survive?"},
-		["survivor_ultimate"]=	{"Survivor",		"ULTIMATE",		"How long can you survive?"},
-		["attacker_hard"]=		{"Attacker",		"HARD",			"Offensive practice!"},
-		["attacker_ultimate"]=	{"Attacker",		"ULTIMATE",		"Offensive practice!"},
-		["defender_normal"]=	{"Defender",		"NORMAL",		"Defensive practice!"},
-		["defender_lunatic"]=	{"Defender",		"LUNATIC",		"Defensive practice!"},
-		["dig_hard"]=			{"Driller",			"HARD",			"Digging practice!"},
-		["dig_ultimate"]=		{"Driller",			"ULTIMATE",		"Digging practice!"},
-		["bigbang"]=			{"Big Bang",		"EASY",			"All-spin tutorial!\n[Under construction]"},
-		["c4wtrain_normal"]=	{"C4W Training",	"NORMAL",		"Infinite combos."},
-		["c4wtrain_lunatic"]=	{"C4W Training",	"LUNATIC",		"Infinite combos."},
-		["pctrain_normal"]=		{"PC Training",		"NORMAL",		"Simple Perfect Clear mode."},
-		["pctrain_lunatic"]=	{"PC Training",		"LUNATIC",		"Simple Perfect Clear mode."},
-		["pcchallenge_normal"]=	{"PC Challenge",	"NORMAL",		"Get PCs within 100 lines!"},
-		["pcchallenge_hard"]=	{"PC Challenge",	"HARD",			"Get PCs within 100 lines!"},
-		["pcchallenge_lunatic"]={"PC Challenge",	"LUNATIC",		"Get PCs within 100 lines!"},
-		["tech_normal"]=		{"Tech",			"NORMAL",		"Keep the B2B chain!"},
-		["tech_normal2"]=		{"Tech",			"NORMAL+",		"Spin & PC only"},
-		["tech_hard"]=			{"Tech",			"HARD",			"Keep the B2B chain!"},
-		["tech_hard2"]=			{"Tech",			"HARD+",		"Spin & PC only"},
-		["tech_lunatic"]=		{"Tech",			"LUNATIC",		"Keep the B2B chain!"},
-		["tech_lunatic2"]=		{"Tech",			"LUNATIC+",		"Spin & PC only"},
-		["tech_finesse"]=		{"Tech",			"FINESSE",		"No finesse faults!"},
-		["tech_finesse2"]=		{"Tech",			"FINESSE+",		"No normal clears, no finesse faults!"},
-		["tsd_easy"]=			{"TSD Challenge",	"EASY",			"T-spin-doubles only!"},
-		["tsd_hard"]=			{"TSD Challenge",	"HARD",			"T-spin-doubles only!"},
-		["tsd_ultimate"]=		{"TSD Challenge",	"ULTIMATE",		"T-spin-doubles only!"},
-		["zen"]=				{"Zen",				"200",			"200 lines without a time limit."},
-		["ultra"]=				{"Ultra",			"EXTRA",		"Get the highest score within 2 min."},
-		["infinite"]=			{"Infinite",		"",				"Sandbox mode."},
-		["infinite_dig"]=		{"Infinite: Dig",	"",				"Dig, dig, dig."},
-		["custom_clear"]=		{"Custom",			"NORMAL",		"Draw something then clear it!!"},
-		["custom_puzzle"]=		{"Custom",			"PUZZLE",		"Draw something then stack it!!"},
-		["sprintFix"]=			{"Sprint",			"NO LEFT/RIGHT","It's possible."},
-		["sprintLock"]=			{"Sprint",			"NO ROTATIONS",	"It's impossible."},
-		["sprintPenta"]=		{"Sprint",			"PENTOMINO",	"Clear 40 lines with 18 pentominoes."},
-		["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless\nPreviewless\nHoldless"},
 	},
 	getTip=function()
-		local L={'!','@','#','$','%','^','&','*','(',')','-','=','_','+','[',']','{','}','\\','|',';',':','\'','"',',','<','.','>','/','?'}
+		local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"
 		local s=""
 		for _=1,math.random(16,26)do
-			s=s..L[math.random(#L)]
+			local p=math.random(#L)
+			s=s..L:sub(p,p)
 		end
 		return s
 	end,

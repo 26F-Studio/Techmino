@@ -31,7 +31,7 @@ function Pnt.staff()
 	setFont(40)
 	gc.setColor(1,1,1)
 	for i=1,#L do
-		mStr(L[i],640,800+80*i-t*40)
+		mStr(L[i],640,800+70*i-t*40)
 	end
 	mDraw(IMG.title_color,640,800-t*40,nil,2)
 	mDraw(IMG.title_color,640,2160-t*40,nil,2)

@@ -658,11 +658,13 @@ local Widgets={
 		newButton({name="back",		x=640,	y=620,w=200,h=80,font=35,code=BACK}),
 	},
 	lang={
-		newButton({name="zh",		x=160,	y=100,w=200,h=120,font=45,code=setLang(1)}),
-		newButton({name="zh2",		x=380,	y=100,w=200,h=120,font=45,code=setLang(2)}),
-		newButton({name="en",		x=600,	y=100,w=200,h=120,font=45,code=setLang(3)}),
-		newButton({name="symbol",	x=820,	y=100,w=200,h=120,font=45,code=setLang(4)}),
-		newButton({name="yygq",		x=1040,	y=100,w=200,h=120,font=45,code=setLang(5)}),
+		newButton({name="zh",		x=200,	y=100,w=200,h=120,font=45,code=setLang(1)}),
+		newButton({name="zh2",		x=420,	y=100,w=200,h=120,font=45,code=setLang(2)}),
+		newButton({name="en",		x=640,	y=100,w=200,h=120,font=45,code=setLang(3)}),
+		newButton({name="fr",		x=860,	y=100,w=200,h=120,font=45,code=setLang(4)}),
+		newButton({name="sp",		x=1080,	y=100,w=200,h=120,font=45,code=setLang(5)}),
+		newButton({name="symbol",	x=200,	y=250,w=200,h=120,font=45,code=setLang(6)}),
+		newButton({name="yygq",		x=420,	y=250,w=200,h=120,font=45,code=setLang(7)}),
 		newButton({name="back",		x=640,	y=600,w=200,h=80,font=35,code=BACK}),
 	},
 	music={
