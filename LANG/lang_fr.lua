@@ -363,6 +363,11 @@ return{
 			copy="Copier",
 			paste="Coller",
 			clear="Nettoyer",
+
+			-- newPage="New Page(N)",
+			-- delPage="Del Page(M)",
+			-- prevPage="Prev Page",
+			-- nextPage="Next Page",
 			pushLine="Ajouter ligne (K)",
 			delLine="Supprimer ligne (L)",
 			demo="Masquer les ×",

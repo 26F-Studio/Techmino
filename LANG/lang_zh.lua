@@ -361,6 +361,11 @@ return{
 			copy="复制",
 			paste="粘贴",
 			clear="清除",
+
+			newPage="新页面(N)",
+			delPage="删除页面(M)",
+			prevPage="上一页面",
+			nextPage="下一页面",
 			pushLine="增加一行(K)",
 			delLine="消除行(L)",
 			demo="不显示×",

@@ -82,18 +82,18 @@ function keyDown.customGame(key)
 	end
 end
 
-local FIELD=FIELD
 function Pnt.customGame()
-	--Field
+	--Field content
 	gc.push("transform")
 	gc.translate(95,290)
 	gc.scale(.5)
 	gc.setColor(1,1,1)
 	gc.setLineWidth(3)
 	gc.rectangle("line",-2,-2,304,604)
+	local F=FIELD[1]
 	local cross=puzzleMark[-1]
 	for y=1,20 do for x=1,10 do
-		local B=FIELD[y][x]
+		local B=F[y][x]
 		if B>0 then
 			gc.draw(blockSkin[B],30*x-30,600-30*y)
 		elseif B==-1 then
@@ -102,15 +102,22 @@ function Pnt.customGame()
 	end end
 	gc.pop()
 
-	--Sequence
-	setFont(30)
-	gc.print(customEnv.sequence,330,510)
+	--Field
 	setFont(40)
+	if #FIELD>1 then
+		gc.setColor(1,1,int(Timer()*6.26)%2)
+		gc.print("+",275,300)
+		gc.print(#FIELD-1,300,300)
+	end
+
+	--Sequence
 	if #BAG>0 then
 		gc.setColor(1,1,int(Timer()*6.26)%2)
 		gc.print("#",330,545)
 		gc.print(#BAG,360,545)
 	end
+	setFont(30)
+	gc.print(customEnv.sequence,330,510)
 
 	--Sequence
 	if #MISSION>0 then

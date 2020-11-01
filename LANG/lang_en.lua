@@ -359,6 +359,11 @@ return{
 			copy="Copy",
 			paste="Paste",
 			clear="Clear",
+
+			newPage="New Page(N)",
+			delPage="Del Page(M)",
+			prevPage="Prev Page",
+			nextPage="Next Page",
 			pushLine="Add Line(K)",
 			delLine="Del Line(L)",
 			demo="Don't Show ×",

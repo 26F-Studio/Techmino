@@ -522,13 +522,18 @@ local Widgets={
 		newButton({name="b23",		x=1060,	y=290,w=75,color="dRed",	code=setPen(23)}),--GB4
 		newButton({name="b24",		x=1140,	y=290,w=75,color="dGreen",	code=setPen(24)}),--GB5
 
-		newButton({name="any",		x=600,	y=400,	w=120,	color="lGrey",	font=40,code=setPen(0)}),
-		newButton({name="space",	x=730,	y=400,	w=120,	color="grey",	font=65,code=setPen(-1)}),
-		newButton({name="copy",		x=905,	y=400,	w=120,	color="lRed",	font=35,code=pressKey("cC")}),
-		newButton({name="paste",	x=1035,	y=400,	w=120,	color="lBlue",	font=35,code=pressKey("cV")}),
-		newButton({name="clear",	x=1165,	y=400,	w=120,	color="white",	font=40,code=pressKey("delete")}),
-		newButton({name="pushLine",	x=1035,	y=530,	w=120,	color="lYellow",font=20,code=pressKey("k")}),
-		newButton({name="delLine",	x=1165,	y=530,	w=120,	color="lYellow",font=20,code=pressKey("l")}),
+		newButton({name="any",		x=600,	y=400,w=120,color="lGrey",	font=40,code=setPen(0)}),
+		newButton({name="space",	x=730,	y=400,w=120,color="grey",	font=65,code=setPen(-1)}),
+		newButton({name="copy",		x=905,	y=400,w=120,color="lRed",	font=35,code=pressKey("cC")}),
+		newButton({name="paste",	x=1035,	y=400,w=120,color="lBlue",	font=35,code=pressKey("cV")}),
+		newButton({name="clear",	x=1165,	y=400,w=120,color="white",	font=40,code=pressKey("delete")}),
+
+		newButton({name="newPage",	x=680,	y=530,w=90,h=90,color="sky",font=15,code=pressKey("n")}),
+		newButton({name="delPage",	x=780,	y=530,w=90,h=90,color="lRed",font=15,code=pressKey("m")}),
+		newButton({name="prevPage",	x=880,	y=530,w=90,h=90,color="lGreen",font=15,code=pressKey("sTab"),hide=STPeq("page",1)}),
+		newButton({name="nextPage",	x=980,	y=530,w=90,h=90,color="lGreen",font=15,code=pressKey("tab"),hide=function()return sceneTemp.page==#FIELD end}),
+		newButton({name="pushLine",	x=1080,	y=530,w=90,h=90,color="lYellow",font=20,code=pressKey("k")}),
+		newButton({name="delLine",	x=1180,	y=530,w=90,h=90,color="lYellow",font=20,code=pressKey("l")}),
 		newSwitch({name="demo",		x=755,	y=640,	disp=STPval("demo"),code=STPrev("demo")}),
 
 		newButton({name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=BACK}),

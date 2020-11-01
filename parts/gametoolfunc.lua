@@ -140,13 +140,23 @@ function pasteSequence(str)
 	return true
 end
 
-function copyBoard()
+function newBoard(f)
+	if f then
+		return copyList(f)
+	else
+		local F={}
+		for i=1,20 do F[i]={0,0,0,0,0,0,0,0,0,0}end
+		return F
+	end
+end
+function copyBoard(page)
+	local F=FIELD[page or 1]
 	local str=""
 	local H=0
 
 	for y=20,1,-1 do
 		for x=1,10 do
-			if FIELD[y][x]~=0 then
+			if F[y][x]~=0 then
 				H=y
 				goto topFound
 			end
@@ -157,7 +167,7 @@ function copyBoard()
 	--Encode field
 	for y=1,H do
 		local S=""
-		local L=FIELD[y]
+		local L=F[y]
 		for x=1,10 do
 			S=S..char(L[x]+1)
 		end
@@ -165,7 +175,8 @@ function copyBoard()
 	end
 	return data.encode("string","base64",data.compress("string","zlib",str))
 end
-function pasteBoard(str)
+function pasteBoard(str,page)
+	local F=FIELD[page or 1]
 	local _,__
 
 	--Decode
@@ -192,7 +203,7 @@ function pasteBoard(str)
 		if __>26 then return end--Illegal blockid
 		_=int(_/32)--Mode id
 
-		FIELD[fY][fX]=__
+		F[fY][fX]=__
 		if fX<10 then
 			fX=fX+1
 		else
@@ -205,7 +216,7 @@ function pasteBoard(str)
 
 	for y=fY,20 do
 		for x=1,10 do
-			FIELD[y][x]=0
+			F[y][x]=0
 		end
 	end
 

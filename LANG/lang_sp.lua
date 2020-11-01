@@ -362,6 +362,11 @@ return{
 			copy="Copiar",
 			paste="Pegar",
 			clear="Limpiar",
+
+			-- newPage="New Page(N)",
+			-- delPage="Del Page(M)",
+			-- prevPage="Prev Page",
+			-- nextPage="Next Page",
 			pushLine="Añadir Línea (K)",
 			delLine="Borrar Línea (L)",
 			demo="No Mostrar X",

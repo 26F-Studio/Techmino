@@ -534,7 +534,11 @@ end
 function copyList(org)
 	local L={}
 	for i=1,#org do
-		L[i]=org[i]
+		if type(org[i])~="table"then
+			L[i]=org[i]
+		else
+			L[i]=copyList(org[i])
+		end
 	end
 	return L
 end

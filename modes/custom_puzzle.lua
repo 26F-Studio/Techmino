@@ -1,10 +1,11 @@
 local gc=love.graphics
 local int=math.floor
 local function puzzleCheck(P)
+	local F=FIELD[P.modeData.point+1]
 	for y=1,20 do
 		local L=P.field[y]
 		for x=1,10 do
-			local a,b=FIELD[y][x],L and L[x]or 0
+			local a,b=F[y][x],L and L[x]or 0
 			if a~=0 then
 				if a==-1 then if b>0 then return end
 				elseif a<12 then if a~=b then return end
@@ -13,8 +14,21 @@ local function puzzleCheck(P)
 			end
 		end
 	end
-	P.modeData.event=1
-	P:win("finish")
+	P.modeData.point=P.modeData.point+1
+	if FIELD[P.modeData.point+1]then
+		P.waiting=26
+		for _=#P.field,1,-1 do
+			freeRow.discard(P.field[_])
+			freeRow.discard(P.visTime[_])
+			P.field[_],P.visTime[_]=nil
+		end
+		sysFX.newShade(.7,.3,1,.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		SFX.play("reach")
+		P.modeData.event=0
+	else
+		P.modeData.event=1
+		P:win("finish")
+	end
 end
 
 return{
@@ -47,16 +61,6 @@ return{
 				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
-		FIELD.h=20
-		repeat
-			for i=1,10 do
-				if FIELD[FIELD.h][i]~=0 then
-					goto L
-				end
-			end
-			FIELD.h=FIELD.h-1
-		until FIELD.h==0
-		::L::
 		modeEnv.bg=customEnv.bg
 		modeEnv.bgm=customEnv.bgm
 	end,
@@ -67,8 +71,9 @@ return{
 		mText(drawableText.line,69,360)
 		if P.modeData.event==0 then
 			local m=puzzleMark
-			for y=1,FIELD.h do for x=1,10 do
-				local T=FIELD[y][x]
+			local F=FIELD[P.modeData.point+1]
+			for y=1,20 do for x=1,10 do
+				local T=F[y][x]
 				if T~=0 then
 					gc.draw(m[T],150+30*x-30+dx,70+600-30*y+dy)
 				end

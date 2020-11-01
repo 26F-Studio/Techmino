@@ -75,7 +75,7 @@ customEnv={
 	bg="none",
 	bgm="race"
 }
-FIELD={h=20}for i=1,20 do FIELD[i]={0,0,0,0,0,0,0,0,0,0}end--Field for custom game
+FIELD={}--Field(s) for custom game
 BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
 
@@ -108,13 +108,16 @@ CURMODE=nil--Current mode object
 
 --Load modules
 require("Zframework")--Load Zframework
+
+require("parts/list")
+require("parts/default_data")
+require("parts/gametoolfunc")
+
+FIELD[1]=newBoard()--Initialize field[1]
+
 blocks=		require("parts/mino")
 AITemplate=	require("parts/AITemplate")
 freeRow=	require("parts/freeRow")
-
-require("parts/list")
-require("parts/gametoolfunc")
-require("parts/default_data")
 
 TEXTURE=require("parts/texture")
 SKIN=	require("parts/skin")

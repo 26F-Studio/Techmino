@@ -313,6 +313,11 @@ return{
 			copy="→__",
 			paste="__→",
 			clear="XXX",
+
+			newPage="+[_](N)",
+			delPage="x[_](M)",
+			prevPage="←[_]",
+			nextPage="[_]→",
 			pushLine="↑↑↑↑↑(K)",
 			delLine="==X==(L)",
 			demo="X ×",
