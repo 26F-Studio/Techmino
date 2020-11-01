@@ -172,7 +172,7 @@ return{
 	{"LPM",
 		"lpm linesperminute speed",
 		"term",
-		"Lines per minute\n\tReflects playing speed of a player.\nDifferent games calculates LPM differently. For example, Tetris Online calculates its LPM using PPS (see below), where 1PPS=2.4LPM. This basically ignores clearing garbage lines, and makes it different from its literal meaning. In Techmino, this converted LPM value is marked \"L'PM\".",
+		"Lines per minute\n\tReflects playing speed of a player.\nDifferent games calculates LPM differently. For example, Tetris Online calculates its LPM using PPS (see below), where 1PPS=24LPM. This basically ignores clearing garbage lines, and makes it different from its literal meaning. In Techmino, this converted LPM value is marked \"L'PM\".",
 	},
 	{"PPS",
 		"pps piecespersecond speed",
