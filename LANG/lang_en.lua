@@ -535,7 +535,7 @@ return{
 			reset3="Reset all",
 		},
 	},
-	modes={fullCopy=true,
+	modes={
 		["sprint_10"]=			{"Sprint",			"10L",			"Clear 10 lines!"},
 		["sprint_20"]=			{"Sprint",			"20L",			"Clear 20 lines!"},
 		["sprint_40"]=			{"Sprint",			"40L",			"Clear 40 lines!"},
@@ -621,7 +621,7 @@ return{
 		["sprintPenta"]=		{"Sprint",			"PENTOMINO",	"Clear 40 lines with 18 pentominoes."},
 		["sprintMPH"]=			{"Sprint",			"MPH",			"Memoriyless\nPreviewless\nHoldless"},
 	},
-	getTip={fullCopy=true,
+	getTip={refuseCopy=true,
 		'Free block game with Battle Royale mode!',
 		'Have you noticed what "rotating" does do to the block?',
 		":pog:",

@@ -539,7 +539,7 @@ return{
 			reset3="Tout réinitialiser",
 		},
 	},
-	modes={fullCopy=true,
+	modes={
 		["sprint_10"]=			{"Sprint",			"10L",			"Nettoyez 10 lignes !"},
 		["sprint_20"]=			{"Sprint",			"20L",			"Nettoyez 20 lignes !"},
 		["sprint_40"]=			{"Sprint",			"40L",			"Nettoyez 40 lignes !"},

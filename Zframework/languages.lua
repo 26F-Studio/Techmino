@@ -43,9 +43,9 @@ local publicWidgetText={
 }
 local function langFallback(T0,T)
 	for k,v in next,T0 do
-		if type(v)=="table"and not v.fullCopy then--fullCopy=true : copy pointer instead of content
+		if type(v)=="table"and not v.refuseCopy then--refuseCopy: just copy pointer, not contents
 			if not T[k]then T[k]={}end
-			if type(T[k])=="table"and not v[1]then langFallback(v,T[k])end
+			if type(T[k])=="table"then langFallback(v,T[k])end
 		elseif not T[k]then
 			T[k]=v
 		end
