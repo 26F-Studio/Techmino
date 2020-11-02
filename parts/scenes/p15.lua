@@ -315,3 +315,13 @@ function Pnt.p15()
 	gc.setLineWidth(10)
 	gc.rectangle("line",x*160+173,y*160-107,134,134,50)
 end
+
+WIDGET.init("p15",{
+	WIDGET.newButton({name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk.pressKey("space")}),
+	WIDGET.newSlider({name="color",		x=110,y=250,w=170,unit=4,show=false,font=30,disp=WIDGET.lnk.STPval("color"),	code=function(v)if sceneTemp.state~=1 then sceneTemp.color=v end end,hide=WIDGET.lnk.STPeq("state",1)}),
+	WIDGET.newSwitch({name="blind",		x=240,y=330,w=60,					font=40,disp=WIDGET.lnk.STPval("blind"),	code=WIDGET.lnk.pressKey("w"),	hide=WIDGET.lnk.STPeq("state",1)}),
+	WIDGET.newSwitch({name="slide",		x=240,y=420,w=60,					font=40,disp=WIDGET.lnk.STPval("slide"),	code=WIDGET.lnk.pressKey("e"),	hide=WIDGET.lnk.STPeq("state",1)}),
+	WIDGET.newSwitch({name="pathVis",	x=240,y=510,w=60,					font=40,disp=WIDGET.lnk.STPval("pathVis"),	code=WIDGET.lnk.pressKey("r"),	hide=function()return sceneTemp.state==1 or not sceneTemp.slide end}),
+	WIDGET.newSwitch({name="revKB",		x=240,y=600,w=60,					font=40,disp=WIDGET.lnk.STPval("revKB"),	code=WIDGET.lnk.pressKey("t"),	hide=WIDGET.lnk.STPeq("state",1)}),
+	WIDGET.newButton({name="back",		x=1140,y=640,w=170,h=80,			font=40,code=WIDGET.lnk.BACK}),
+})

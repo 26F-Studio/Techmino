@@ -15,7 +15,6 @@ TEXT=	require("Zframework/text")
 TASK=	require("Zframework/task")
 IMG=	require("Zframework/img")
 WIDGET=	require("Zframework/widget")
-Widgets=require("Zframework/widgetList")
 LIGHT=	require("Zframework/light")
 PROFILE=require("Zframework/profile")
 

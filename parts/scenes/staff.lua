@@ -36,3 +36,7 @@ function Pnt.staff()
 	mDraw(IMG.title_color,640,800-t*40,nil,2)
 	mDraw(IMG.title_color,640,2160-t*40,nil,2)
 end
+
+WIDGET.init("staff",{
+	WIDGET.newButton({name="back",		x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+})

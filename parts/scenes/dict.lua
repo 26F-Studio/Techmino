@@ -174,3 +174,12 @@ function Pnt.dict()
 		gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
 	end
 end
+
+WIDGET.init("dict",{
+	WIDGET.newText({name="title",	x=20,	y=5,font=70,align="L"}),
+	WIDGET.newKey({name="keyboard",	x=960,	y=60,w=200,h=80,font=35,code=function()love.keyboard.setTextInput(true,0,0,1,1)end,hide=not MOBILE}),
+	WIDGET.newKey({name="link",		x=1140,	y=650,w=200,h=80,font=35,code=WIDGET.lnk.pressKey("link"),hide=function()return not sceneTemp.url end}),
+	WIDGET.newKey({name="up",		x=1190,	y=440,w=100,h=100,font=35,code=WIDGET.lnk.pressKey("up"),hide=not MOBILE}),
+	WIDGET.newKey({name="down",		x=1190,	y=550,w=100,h=100,font=35,code=WIDGET.lnk.pressKey("down"),hide=not MOBILE}),
+	WIDGET.newButton({name="back",	x=1165,	y=60,w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+})

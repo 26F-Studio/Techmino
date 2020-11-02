@@ -231,3 +231,52 @@ function Pnt.custom_field()
 		end
 	end
 end
+
+local function setPen(i)return function()sceneTemp.pen=i end end
+WIDGET.init("custom_field",{
+	WIDGET.newText({name="title",		x=1020,y=5,font=70,align="R"}),
+	WIDGET.newText({name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"}),
+
+	WIDGET.newButton({name="b1",		x=580,	y=130,w=75,color={color.rainbow( 1.471)},code=setPen(1)}),--B1
+	WIDGET.newButton({name="b2",		x=660,	y=130,w=75,color={color.rainbow( 1.078)},code=setPen(2)}),--B2
+	WIDGET.newButton({name="b3",		x=740,	y=130,w=75,color={color.rainbow( 0.685)},code=setPen(3)}),--B3
+	WIDGET.newButton({name="b4",		x=820,	y=130,w=75,color={color.rainbow( 0.293)},code=setPen(4)}),--B4
+	WIDGET.newButton({name="b5",		x=900,	y=130,w=75,color={color.rainbow(-0.100)},code=setPen(5)}),--B5
+	WIDGET.newButton({name="b6",		x=980,	y=130,w=75,color={color.rainbow(-0.493)},code=setPen(6)}),--B6
+	WIDGET.newButton({name="b7",		x=1060,	y=130,w=75,color={color.rainbow(-0.885)},code=setPen(7)}),--B7
+	WIDGET.newButton({name="b8",		x=1140,	y=130,w=75,color={color.rainbow(-1.278)},code=setPen(8)}),--B8
+
+	WIDGET.newButton({name="b9",		x=580,	y=210,w=75,color={color.rainbow(-1.671)},code=setPen(9)}),--B9
+	WIDGET.newButton({name="b10",		x=660,	y=210,w=75,color={color.rainbow(-2.063)},code=setPen(10)}),--B10
+	WIDGET.newButton({name="b11",		x=740,	y=210,w=75,color={color.rainbow(-2.456)},code=setPen(11)}),--B11
+	WIDGET.newButton({name="b12",		x=820,	y=210,w=75,color={color.rainbow(-2.849)},code=setPen(12)}),--B12
+	WIDGET.newButton({name="b13",		x=900,	y=210,w=75,color={color.rainbow(-3.242)},code=setPen(13)}),--B13
+	WIDGET.newButton({name="b14",		x=980,	y=210,w=75,color={color.rainbow(-3.634)},code=setPen(14)}),--B14
+	WIDGET.newButton({name="b15",		x=1060,	y=210,w=75,color={color.rainbow(-4.027)},code=setPen(15)}),--B15
+	WIDGET.newButton({name="b16",		x=1140,	y=210,w=75,color={color.rainbow(-4.412)},code=setPen(16)}),--B16
+
+	WIDGET.newButton({name="b17",		x=580,	y=290,w=75,color="dGrey",	code=setPen(17)}),--BONE
+	WIDGET.newButton({name="b18",		x=660,	y=290,w=75,color="black",	code=setPen(18)}),--HIDE
+	WIDGET.newButton({name="b19",		x=740,	y=290,w=75,color="lYellow",	code=setPen(19)}),--BOMB
+	WIDGET.newButton({name="b20",		x=820,	y=290,w=75,color="grey",	code=setPen(20)}),--GB1
+	WIDGET.newButton({name="b21",		x=900,	y=290,w=75,color="lGrey",	code=setPen(21)}),--GB2
+	WIDGET.newButton({name="b22",		x=980,	y=290,w=75,color="dPurple",	code=setPen(22)}),--GB3
+	WIDGET.newButton({name="b23",		x=1060,	y=290,w=75,color="dRed",	code=setPen(23)}),--GB4
+	WIDGET.newButton({name="b24",		x=1140,	y=290,w=75,color="dGreen",	code=setPen(24)}),--GB5
+
+	WIDGET.newButton({name="any",		x=600,	y=400,w=120,color="lGrey",	font=40,code=setPen(0)}),
+	WIDGET.newButton({name="space",		x=730,	y=400,w=120,color="grey",	font=65,code=setPen(-1)}),
+	WIDGET.newButton({name="copy",		x=905,	y=400,w=120,color="lRed",	font=35,code=WIDGET.lnk.pressKey("cC")}),
+	WIDGET.newButton({name="paste",		x=1035,	y=400,w=120,color="lBlue",	font=35,code=WIDGET.lnk.pressKey("cV")}),
+	WIDGET.newButton({name="clear",		x=1165,	y=400,w=120,color="white",	font=40,code=WIDGET.lnk.pressKey("delete")}),
+
+	WIDGET.newButton({name="newPage",	x=680,	y=530,w=90,h=90,color="sky",font=15,code=WIDGET.lnk.pressKey("n")}),
+	WIDGET.newButton({name="delPage",	x=780,	y=530,w=90,h=90,color="lRed",font=15,code=WIDGET.lnk.pressKey("m")}),
+	WIDGET.newButton({name="prevPage",	x=880,	y=530,w=90,h=90,color="lGreen",font=15,code=WIDGET.lnk.pressKey("sTab"),hide=WIDGET.lnk.STPeq("page",1)}),
+	WIDGET.newButton({name="nextPage",	x=980,	y=530,w=90,h=90,color="lGreen",font=15,code=WIDGET.lnk.pressKey("tab"),hide=function()return sceneTemp.page==#FIELD end}),
+	WIDGET.newButton({name="pushLine",	x=1080,	y=530,w=90,h=90,color="lYellow",font=20,code=WIDGET.lnk.pressKey("k")}),
+	WIDGET.newButton({name="delLine",	x=1180,	y=530,w=90,h=90,color="lYellow",font=20,code=WIDGET.lnk.pressKey("l")}),
+	WIDGET.newSwitch({name="demo",		x=755,	y=640,	disp=WIDGET.lnk.STPval("demo"),code=WIDGET.lnk.STPrev("demo")}),
+
+	WIDGET.newButton({name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+})

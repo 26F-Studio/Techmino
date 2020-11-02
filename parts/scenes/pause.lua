@@ -272,3 +272,11 @@ function Pnt.pause()
 		gc.pop()
 	end
 end
+
+WIDGET.init("pause",{
+	WIDGET.newButton({name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=WIDGET.lnk.pressKey("s")}),
+	WIDGET.newButton({name="replay",	x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=WIDGET.lnk.pressKey("p"),hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end}),
+	WIDGET.newButton({name="resume",	x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=WIDGET.lnk.pressKey("escape")}),
+	WIDGET.newButton({name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=35,code=WIDGET.lnk.pressKey("r")}),
+	WIDGET.newButton({name="quit",		x=640,	y=600,	w=240,h=100,font=35,code=WIDGET.lnk.BACK}),
+})

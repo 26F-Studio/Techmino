@@ -2,13 +2,16 @@ local gc=love.graphics
 local kb=love.keyboard
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
-local sub=string.sub
-local format=string.format
+local sub,format=string.sub,string.format
+local ins=table.insert
+
 local color=color
 local setFont=setFont
 local Timer=love.timer.getTime
 local mStr=mStr
 
+local Empty={}
+local widgetList={}
 local WIDGET={}
 local widgetMetatable={
 	__tostring=function(self)
@@ -670,22 +673,68 @@ end
 
 WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=nil--Selected widget
-function WIDGET.set(L)
-	kb.setTextInput(false)
-	WIDGET.sel=nil
-	WIDGET.active=L or{}
 
-	--Reset all widgets
-	if L then
+WIDGET.lnk={
+	BACK=function()SCN.back()end,
+	CUSval=function(k)	return function()	return customEnv[k]				end end,
+	CUSrev=function(k)	return function()	customEnv[k]=not customEnv[k]	end end,
+	CUSsto=function(k)	return function(i)	customEnv[k]=i					end end,
+
+	SETval=function(k)	return function()	return SETTING[k]				end end,
+	SETrev=function(k)	return function()	SETTING[k]=not SETTING[k]		end end,
+	SETsto=function(k)	return function(i)	SETTING[k]=i					end end,
+
+	STPval=function(k)	return function()	return sceneTemp[k]				end end,
+	STPrev=function(k)	return function()	sceneTemp[k]=not sceneTemp[k]	end end,
+	STPsto=function(k)	return function(i)	sceneTemp[k]=i					end end,
+	STPeq=function(k,v)	return function()	return sceneTemp[k]==v			end end,
+
+	pressKey=function(k)return function()	love.keypressed(k)				end end,
+	goScene=function(t,s)return function()	SCN.go(t,s)						end end,
+	swapScene=function(t,s)return function()SCN.swapTo(t,s)					end end,
+}
+local indexMeta={
+	__index=function(L,k)
 		for i=1,#L do
-			L[i]:reset()
+			if L[i].name==k then
+				return L[i]
+			end
 		end
 	end
+}
+function WIDGET.init(scene,list)
+	local L={}
+	for i=1,#list do
+		ins(L,list[i])
+	end
+	setmetatable(L,indexMeta)
+	widgetList[scene]=L
+end
+function WIDGET.set(scene)
+	kb.setTextInput(false)
+	WIDGET.sel=nil
+	scene=widgetList[scene]
+	WIDGET.active=scene or Empty
+
+	--Reset all widgets
+	if scene then
+		for i=1,#scene do
+			scene[i]:reset()
+		end
+	end
+end
+function WIDGET.setLang(lang)
+	for S,L in next,widgetList do
+		for _,W in next,L do
+			W.text=lang[S][W.name]
+		end
+	end
+
 end
 
 function WIDGET.moveCursor(x,y)
 	for _,W in next,WIDGET.active do
-		if not(W.hide and W.hide())and W.resCtr and W:isAbove(x,y)then
+		if not(W.hide==true or W.hide and W.hide())and W.resCtr and W:isAbove(x,y)then
 			WIDGET.sel=W
 			return
 		end
@@ -894,7 +943,7 @@ function WIDGET.update()
 end
 function WIDGET.draw()
 	for _,W in next,WIDGET.active do
-		if not(W.hide and W.hide())then
+		if not(W.hide==true or W.hide and W.hide())then
 			W:draw()
 		end
 	end

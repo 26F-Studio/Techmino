@@ -185,3 +185,56 @@ function Pnt.custom_mission()
 		gc.draw(drawableText.question,980,570)
 	end
 end
+
+WIDGET.init("custom_mission",{
+	WIDGET.newText({name="title",	x=520,y=5,font=70,align="R"}),
+	WIDGET.newText({name="subTitle",x=530,y=50,font=35,align="L",color="grey"}),
+
+	WIDGET.newKey({name="_1",		x=800,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(01)}),
+	WIDGET.newKey({name="_2",		x=900,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(02)}),
+	WIDGET.newKey({name="_3",		x=800,	y=640,	w=90,	font=50,code=WIDGET.lnk.pressKey(03)}),
+	WIDGET.newKey({name="_4",		x=900,	y=640,	w=90,	font=50,code=WIDGET.lnk.pressKey(04)}),
+	WIDGET.newKey({name="any1",		x=100,	y=640,	w=90,			code=WIDGET.lnk.pressKey(05)}),
+	WIDGET.newKey({name="any2",		x=200,	y=640,	w=90,			code=WIDGET.lnk.pressKey(06)}),
+	WIDGET.newKey({name="any3",		x=300,	y=640,	w=90,			code=WIDGET.lnk.pressKey(07)}),
+	WIDGET.newKey({name="any4",		x=400,	y=640,	w=90,			code=WIDGET.lnk.pressKey(08)}),
+	WIDGET.newKey({name="PC",		x=500,	y=640,	w=90,	font=50,code=WIDGET.lnk.pressKey(09)}),
+
+	WIDGET.newKey({name="Z1",		x=100,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(11)}),
+	WIDGET.newKey({name="S1",		x=200,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(21)}),
+	WIDGET.newKey({name="J1",		x=300,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(31)}),
+	WIDGET.newKey({name="L1",		x=400,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(41)}),
+	WIDGET.newKey({name="T1",		x=500,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(51)}),
+	WIDGET.newKey({name="O1",		x=600,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(61)}),
+	WIDGET.newKey({name="I1",		x=700,	y=340,	w=90,	font=50,code=WIDGET.lnk.pressKey(71)}),
+
+	WIDGET.newKey({name="Z2",		x=100,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(12)}),
+	WIDGET.newKey({name="S2",		x=200,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(22)}),
+	WIDGET.newKey({name="J2",		x=300,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(32)}),
+	WIDGET.newKey({name="L2",		x=400,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(42)}),
+	WIDGET.newKey({name="T2",		x=500,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(52)}),
+	WIDGET.newKey({name="O2",		x=600,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(62)}),
+	WIDGET.newKey({name="I2",		x=700,	y=440,	w=90,	font=50,code=WIDGET.lnk.pressKey(72)}),
+
+	WIDGET.newKey({name="Z3",		x=100,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(13)}),
+	WIDGET.newKey({name="S3",		x=200,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(23)}),
+	WIDGET.newKey({name="J3",		x=300,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(33)}),
+	WIDGET.newKey({name="L3",		x=400,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(43)}),
+	WIDGET.newKey({name="T3",		x=500,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(53)}),
+	WIDGET.newKey({name="O3",		x=600,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(63)}),
+	WIDGET.newKey({name="I3",		x=700,	y=540,	w=90,	font=50,code=WIDGET.lnk.pressKey(73)}),
+
+	WIDGET.newKey({name="O4",		x=600,	y=640,	w=90,	font=50,code=WIDGET.lnk.pressKey(64)}),
+	WIDGET.newKey({name="I4",		x=700,	y=640,	w=90,	font=50,code=WIDGET.lnk.pressKey(74)}),
+
+	WIDGET.newKey({name="left",		x=800,	y=440,	w=90,		color="lGreen",	font=55,code=WIDGET.lnk.pressKey("left")}),
+	WIDGET.newKey({name="right",	x=900,	y=440,	w=90,		color="lGreen",	font=55,code=WIDGET.lnk.pressKey("right")}),
+	WIDGET.newKey({name="ten",		x=1000,	y=440,	w=90,		color="lGreen",	font=40,code=WIDGET.lnk.pressKey("ten")}),
+	WIDGET.newKey({name="backsp",	x=1000,	y=540,	w=90,		color="lYellow",font=50,code=WIDGET.lnk.pressKey("backspace")}),
+	WIDGET.newKey({name="reset",	x=1000,	y=640,	w=90,		color="lYellow",font=50,code=WIDGET.lnk.pressKey("delete")}),
+	WIDGET.newButton({name="copy",	x=1140,	y=440,	w=170,h=80,	color="lRed",	font=40,code=WIDGET.lnk.pressKey("cC"),hide=function()return #MISSION==0 end}),
+	WIDGET.newButton({name="paste",	x=1140,	y=540,	w=170,h=80,	color="lBlue",	font=40,code=WIDGET.lnk.pressKey("cV")}),
+	WIDGET.newSwitch({name="mission",x=1150, y=350,	disp=WIDGET.lnk.CUSval("missionKill"),			code=WIDGET.lnk.CUSrev("missionKill")}),
+
+	WIDGET.newButton({name="back",	x=1140,	y=640,	w=170,h=80,	font=40,code=WIDGET.lnk.BACK}),
+})

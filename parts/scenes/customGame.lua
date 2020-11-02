@@ -126,3 +126,39 @@ function Pnt.customGame()
 		gc.print(#MISSION,640,545)
 	end
 end
+
+WIDGET.init("customGame",{
+	WIDGET.newText({name="title",	x=520,	y=5,font=70,align="R"}),
+	WIDGET.newText({name="subTitle",x=530,	y=50,font=35,align="L",color="grey"}),
+	WIDGET.newText({name="defSeq",	x=330,	y=550,align="L",color="grey",hide=function()return BAG[1]end}),
+	WIDGET.newText({name="noMsn",	x=610,	y=550,align="L",color="grey",hide=function()return MISSION[1]end}),
+
+	--Basic
+	WIDGET.newSelector({name="drop",x=170,	y=150,w=220,color="orange",	list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=WIDGET.lnk.CUSval("drop"),code=WIDGET.lnk.CUSsto("drop")}),
+	WIDGET.newSelector({name="lock",x=170,	y=230,w=220,color="red",	list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},			disp=WIDGET.lnk.CUSval("lock"),code=WIDGET.lnk.CUSsto("lock")}),
+	WIDGET.newSelector({name="wait",x=410,	y=150,w=220,color="green",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=WIDGET.lnk.CUSval("wait"),code=WIDGET.lnk.CUSsto("wait")}),
+	WIDGET.newSelector({name="fall",x=410,	y=230,w=220,color="yellow",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=WIDGET.lnk.CUSval("fall"),code=WIDGET.lnk.CUSsto("fall")}),
+
+	--Else
+	WIDGET.newSelector({name="bg",
+		x=1070,	y=150,w=250,color="yellow",
+		list={"none","grey","glow","rgb","flink","wing","fan","badapple","welcome","aura","bg1","bg2","rainbow","rainbow2","lightning","lightning2","matrix","space"},
+		disp=WIDGET.lnk.CUSval("bg"),
+		code=function(i)customEnv.bg=i BG.set(i)end
+	}),
+	WIDGET.newSelector({name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.list,	disp=WIDGET.lnk.CUSval("bgm"),	code=function(i)customEnv.bgm=i BGM.play(i)end}),
+
+	--Copy/Paste/Start
+	WIDGET.newButton({name="copy",	x=1070,	y=310,w=310,h=70,color="lRed",	font=25,code=WIDGET.lnk.pressKey("cC")}),
+	WIDGET.newButton({name="paste",	x=1070,	y=390,w=310,h=70,color="lBlue",	font=25,code=WIDGET.lnk.pressKey("cV")}),
+	WIDGET.newButton({name="clear",	x=1070,	y=470,w=310,h=70,color="lYellow",font=35,code=WIDGET.lnk.pressKey("return")}),
+	WIDGET.newButton({name="puzzle",x=1070,	y=550,w=310,h=70,color="lMagenta",font=35,code=WIDGET.lnk.pressKey("return2")}),
+
+	--More
+	WIDGET.newKey({name="advance",	x=730,	y=190,w=220,h=90,color="red",	font=35,code=WIDGET.lnk.goScene("custom_advance")}),
+	WIDGET.newKey({name="field",	x=170,	y=640,w=240,h=80,color="water",	font=25,code=WIDGET.lnk.goScene("custom_field")}),
+	WIDGET.newKey({name="sequence",	x=450,	y=640,w=240,h=80,color="pink",	font=25,code=WIDGET.lnk.goScene("custom_sequence")}),
+	WIDGET.newKey({name="mission",	x=730,	y=640,w=240,h=80,color="sky",	font=25,code=WIDGET.lnk.goScene("custom_mission")}),
+
+	WIDGET.newButton({name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+})

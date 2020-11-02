@@ -92,3 +92,8 @@ function Pnt.stat()
 	gc.draw(TEXTURE.miniBlock[R],650,50,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
 	gc.draw(TEXTURE.miniBlock[R],650,300,0,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
 end
+
+WIDGET.init("stat",{
+	WIDGET.newButton({name="path",x=980,y=620,w=250,h=80,font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=MOBILE}),
+	WIDGET.newButton({name="back",x=640,y=620,w=200,h=80,font=35,code=WIDGET.lnk.BACK}),
+})

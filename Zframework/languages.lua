@@ -100,14 +100,9 @@ function LANG.getLen()
 end
 function LANG.set(l)
 	text=langList[l]
-	for S,L in next,Widgets do
-		for _,W in next,L do
-			W.text=text.WidgetText[S][W.name]
-		end
-	end
+	WIDGET.setLang(text.WidgetText)
 	for _,s in next,drawableTextLoad do
 		drawableText[s]:set(text[s])
 	end
-	collectgarbage()
 end
 return LANG

@@ -124,3 +124,25 @@ function Pnt.calculator()
 	if S.val then gc.printf(S.val,0,150,720,"right")end
 	if S.sym then setFont(50)gc.print(S.sym,126,150)end
 end
+
+WIDGET.init("calculator",{
+	WIDGET.newKey({name="_1",		x=150,y=300,w=90,						font=50,code=WIDGET.lnk.pressKey("1")}),
+	WIDGET.newKey({name="_2",		x=250,y=300,w=90,						font=50,code=WIDGET.lnk.pressKey("2")}),
+	WIDGET.newKey({name="_3",		x=350,y=300,w=90,						font=50,code=WIDGET.lnk.pressKey("3")}),
+	WIDGET.newKey({name="_4",		x=150,y=400,w=90,						font=50,code=WIDGET.lnk.pressKey("4")}),
+	WIDGET.newKey({name="_5",		x=250,y=400,w=90,						font=50,code=WIDGET.lnk.pressKey("5")}),
+	WIDGET.newKey({name="_6",		x=350,y=400,w=90,						font=50,code=WIDGET.lnk.pressKey("6")}),
+	WIDGET.newKey({name="_7",		x=150,y=500,w=90,						font=50,code=WIDGET.lnk.pressKey("7")}),
+	WIDGET.newKey({name="_8",		x=250,y=500,w=90,						font=50,code=WIDGET.lnk.pressKey("8")}),
+	WIDGET.newKey({name="_9",		x=350,y=500,w=90,						font=50,code=WIDGET.lnk.pressKey("9")}),
+	WIDGET.newKey({name="_0",		x=150,y=600,w=90,						font=50,code=WIDGET.lnk.pressKey("0")}),
+	WIDGET.newKey({name=".",		x=250,y=600,w=90,		color="lPurple",font=50,code=WIDGET.lnk.pressKey(".")}),
+	WIDGET.newKey({name="e",		x=350,y=600,w=90,		color="lPurple",font=50,code=WIDGET.lnk.pressKey("e")}),
+	WIDGET.newKey({name="+",		x=450,y=300,w=90,		color="lBlue",	font=50,code=WIDGET.lnk.pressKey("+")}),
+	WIDGET.newKey({name="-",		x=450,y=400,w=90,		color="lBlue",	font=50,code=WIDGET.lnk.pressKey("-")}),
+	WIDGET.newKey({name="*",		x=450,y=500,w=90,		color="lBlue",	font=50,code=WIDGET.lnk.pressKey("*")}),
+	WIDGET.newKey({name="/",		x=450,y=600,w=90,		color="lBlue",	font=50,code=WIDGET.lnk.pressKey("/")}),
+	WIDGET.newKey({name="<",		x=550,y=300,w=90,		color="lRed",	font=50,code=WIDGET.lnk.pressKey("backspace")}),
+	WIDGET.newKey({name="=",		x=550,y=400,w=90,		color="lYellow",font=50,code=WIDGET.lnk.pressKey("return")}),
+	WIDGET.newButton({name="play",	x=640,y=600,w=180,h=90,	color="lGreen",	font=40,code=WIDGET.lnk.pressKey("space"),hide=function()return not sceneTemp.pass end}),
+})

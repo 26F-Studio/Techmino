@@ -51,3 +51,18 @@ function Pnt.setting_sound()
 	gc.draw(IMG.miyaF4,129,98+3*sin(t*.7))
 	gc.translate(-x,-y)
 end
+
+WIDGET.init("setting_sound",{
+	WIDGET.newText({name="title",		x=640,y=15,font=80}),
+
+	WIDGET.newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",	font=35,code=WIDGET.lnk.swapScene("setting_game","swipeR")}),
+	WIDGET.newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",	font=35,code=WIDGET.lnk.swapScene("setting_video","swipeL")}),
+
+	WIDGET.newSlider({name="sfx",		x=180,	y=200,w=400,					font=35,change=function()SFX.play("blip_1")end,						disp=WIDGET.lnk.SETval("sfx"),		code=WIDGET.lnk.SETsto("sfx")}),
+	WIDGET.newSlider({name="stereo",	x=180,	y=500,w=400,					font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=WIDGET.lnk.SETval("stereo"),code=WIDGET.lnk.SETsto("stereo"),hide=function()return SETTING.sfx==0 end}),
+	WIDGET.newSlider({name="spawn",	x=180,	y=300,w=400,					font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.spawn)end,disp=WIDGET.lnk.SETval("spawn"),	code=WIDGET.lnk.SETsto("spawn")}),
+	WIDGET.newSlider({name="bgm",		x=180,	y=400,w=400,					font=35,change=function()BGM.freshVolume()end,						disp=WIDGET.lnk.SETval("bgm"),		code=WIDGET.lnk.SETsto("bgm")}),
+	WIDGET.newSlider({name="vib",		x=750,	y=200,w=400,	unit=5,			font=25,change=function()VIB(2)end,									disp=WIDGET.lnk.SETval("vib"),		code=WIDGET.lnk.SETsto("vib")}),
+	WIDGET.newSlider({name="voc",		x=750,	y=300,w=400,					font=35,change=function()VOC.play("test")end,						disp=WIDGET.lnk.SETval("voc"),		code=WIDGET.lnk.SETsto("voc")}),
+	WIDGET.newButton({name="back",		x=1140,	y=640,w=170,h=80,				font=40,code=WIDGET.lnk.BACK}),
+})

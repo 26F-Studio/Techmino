@@ -172,3 +172,52 @@ function Pnt.custom_sequence()
 		gc.draw(drawableText.question,980,570)
 	end
 end
+
+WIDGET.init("custom_sequence",{
+	WIDGET.newText({name="title",	x=520,y=5,font=70,align="R"}),
+	WIDGET.newText({name="subTitle",x=530,y=50,font=35,align="L",color="grey"}),
+
+	WIDGET.newSelector({name="sequence",
+		x=1080,y=60,w=200,color="yellow",
+		list={"bag","his4","rnd","reverb","loop","fixed"},
+		disp=WIDGET.lnk.CUSval("sequence"),
+		code=WIDGET.lnk.CUSsto("sequence")
+	}),
+
+	WIDGET.newKey({name="Z",	x=100,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(1)}),
+	WIDGET.newKey({name="S",	x=200,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(2)}),
+	WIDGET.newKey({name="J",	x=300,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(3)}),
+	WIDGET.newKey({name="L",	x=400,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(4)}),
+	WIDGET.newKey({name="T",	x=500,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(5)}),
+	WIDGET.newKey({name="O",	x=600,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(6)}),
+	WIDGET.newKey({name="I",	x=700,y=440,w=90,font=50,code=WIDGET.lnk.pressKey(7)}),
+
+	WIDGET.newKey({name="Z5",	x=100,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(8)}),
+	WIDGET.newKey({name="S5",	x=200,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(9)}),
+	WIDGET.newKey({name="P",	x=300,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(10)}),
+	WIDGET.newKey({name="Q",	x=400,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(11)}),
+	WIDGET.newKey({name="F",	x=500,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(12)}),
+	WIDGET.newKey({name="E",	x=600,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(13)}),
+	WIDGET.newKey({name="T5",	x=700,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(14)}),
+	WIDGET.newKey({name="U",	x=800,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(15)}),
+	WIDGET.newKey({name="V",	x=900,y=540,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(16)}),
+	WIDGET.newKey({name="W",	x=100,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(17)}),
+	WIDGET.newKey({name="X",	x=200,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(18)}),
+	WIDGET.newKey({name="J5",	x=300,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(19)}),
+	WIDGET.newKey({name="L5",	x=400,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(20)}),
+	WIDGET.newKey({name="R",	x=500,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(21)}),
+	WIDGET.newKey({name="Y",	x=600,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(22)}),
+	WIDGET.newKey({name="N",	x=700,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(23)}),
+	WIDGET.newKey({name="H",	x=800,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(24)}),
+	WIDGET.newKey({name="I5",	x=900,y=640,w=90,color="grey",font=50,code=WIDGET.lnk.pressKey(25)}),
+
+	WIDGET.newKey({name="left",		x=800,	y=440,w=90,		color="lGreen",	font=55,code=WIDGET.lnk.pressKey("left")}),
+	WIDGET.newKey({name="right",	x=900,	y=440,w=90,		color="lGreen",	font=55,code=WIDGET.lnk.pressKey("right")}),
+	WIDGET.newKey({name="ten",		x=1000,	y=440,w=90,		color="lGreen",	font=40,code=WIDGET.lnk.pressKey("ten")}),
+	WIDGET.newKey({name="backsp",	x=1000,	y=540,w=90,		color="lYellow",font=50,code=WIDGET.lnk.pressKey("backspace")}),
+	WIDGET.newKey({name="reset",	x=1000,	y=640,w=90,		color="lYellow",font=50,code=WIDGET.lnk.pressKey("delete")}),
+	WIDGET.newButton({name="copy",	x=1140,	y=440,w=170,h=80,color="lRed",	font=40,code=WIDGET.lnk.pressKey("cC"),hide=function()return #BAG==0 end}),
+	WIDGET.newButton({name="paste",	x=1140,	y=540,w=170,h=80,color="lBlue",	font=40,code=WIDGET.lnk.pressKey("cV")}),
+
+	WIDGET.newButton({name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=WIDGET.lnk.BACK}),
+})

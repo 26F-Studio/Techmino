@@ -91,3 +91,14 @@ function Pnt.music()
 		end
 	end
 end
+
+WIDGET.init("music",{
+	WIDGET.newText({name="title",	x=30,	y=30,font=80,align="L"}),
+	WIDGET.newText({name="arrow",	x=270,	y=360,font=45,align="L"}),
+	WIDGET.newText({name="now",		x=700,	y=500,font=50,align="R",hide=function()return not BGM.nowPlay end}),
+	WIDGET.newSlider({name="bgm",	x=760,	y=80,w=400,			font=35,disp=WIDGET.lnk.SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end}),
+	WIDGET.newButton({name="up",	x=200,	y=250,w=120,		font=55,code=WIDGET.lnk.pressKey("up"),hide=function()return sceneTemp==1 end}),
+	WIDGET.newButton({name="play",	x=200,	y=390,w=120,		font=35,code=WIDGET.lnk.pressKey("space"),hide=function()return SETTING.bgm==0 end}),
+	WIDGET.newButton({name="down",	x=200,	y=530,w=120,		font=55,code=WIDGET.lnk.pressKey("down"),hide=function()return sceneTemp==BGM.len end}),
+	WIDGET.newButton({name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk.BACK}),
+})

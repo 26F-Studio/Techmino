@@ -34,7 +34,7 @@ end
 function SCN.init(s,org)
 	if sceneInit[s]then sceneInit[s](org)end
 	SCN.cur=s
-	WIDGET.set(Widgets[s])
+	WIDGET.set(s)
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then
