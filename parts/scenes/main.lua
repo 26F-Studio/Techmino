@@ -5,6 +5,7 @@ function sceneInit.main()
 	sceneTemp={
 		tip=text.getTip(),
 	}
+	BGM.play("blank")
 	BG.set("space")
 
 	modeEnv={}
