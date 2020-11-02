@@ -1597,7 +1597,7 @@ function player.getHolePos(P)
 		return P:RND(10)
 	else
 		local p=P:RND(10)
-		if P.field[1][p]>0 then
+		if P.field[1][p]<=0 then
 			return P:RND(10)
 		end
 		return p
