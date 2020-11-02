@@ -37,7 +37,7 @@ function text:draw()
 		gc.draw(self.text,self.x-self.text:getWidth(),self.y)
 	end
 end
-function WIDGET.newText(D)
+function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,hide]
 	local _={
 		name=	D.name,
 		x=		D.x,
@@ -64,7 +64,7 @@ function image:draw()
 	gc.setColor(1,1,1,self.alpha)
 	gc.draw(self.img,self.x,self.y,self.ang,self.k)
 end
-function WIDGET.newImage(D)
+function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hide]
 	local _={
 		name=	D.name,
 		img=	D.img or D.name,
@@ -143,7 +143,7 @@ end
 function button:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
-function WIDGET.newButton(D)
+function WIDGET.newButton(D)--name,x,y,w[,h][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -218,7 +218,7 @@ end
 function key:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
-function WIDGET.newKey(D)
+function WIDGET.newKey(D)--name,x,y,w[,h][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -302,7 +302,7 @@ end
 function switch:getInfo()
 	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
 end
-function WIDGET.newSwitch(D)
+function WIDGET.newSwitch(D)--name,x,y[,font][,disp],code,hide
 	local _={
 		name=	D.name,
 
@@ -328,6 +328,7 @@ local slider={
 	ATV=0,--Activating time(0~8)
 	TAT=0,--Text activating time(0~180)
 	pos=0,--Position shown
+	lastTime=0,
 }
 local sliderShowFunc={
 	int=function(S)
@@ -338,10 +339,6 @@ local sliderShowFunc={
 	end,
 	percent=function(S)
 		return int(S.disp()*100).."%"
-	end,
-	frame_time=function(S)
-		S=S.disp()
-		return S.."F "..int(S*16.67).."ms"
 	end,
 }
 function slider:reset()
@@ -425,7 +422,7 @@ end
 function slider:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
 end
-function WIDGET.newSlider(D)
+function WIDGET.newSlider(D)--name,x,y,w[,unit][,smooth][,font][,change],disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -442,15 +439,13 @@ function WIDGET.newSlider(D)
 		},
 
 		unit=	D.unit or 1,
-		--smooth=nil,
+		smooth=nil,
 		font=	D.font or 30,
 		change=	D.change,
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
-		--show=	nil,
-
-		lastTime=0,
+		show=	nil,
 	}
 	if D.smooth~=nil then
 		_.smooth=D.smooth
@@ -556,7 +551,7 @@ end
 function selector:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x+self.w*.5,self.y+30,self.w)
 end
-function WIDGET.newSelector(D)
+function WIDGET.newSelector(D)--name,x,y,w[,color],list,disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -645,8 +640,7 @@ end
 function textBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newTextBox(D)
-	if not D.h then D.h=D.w end
+function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 	local _={
 		name=	D.name,
 
@@ -654,8 +648,6 @@ function WIDGET.newTextBox(D)
 		y=		D.y,
 		w=		D.w,
 		h=		D.h,
-		secret=	D.secret,
-		regex=	D.regex,
 
 		resCtr={
 			D.x+D.w*.2,D.y,
@@ -664,6 +656,8 @@ function WIDGET.newTextBox(D)
 		},
 
 		font=	int(D.h/7-1)*5,
+		secret=	D.secret,
+		regex=	D.regex,
 		hide=	D.hide,
 	}
 	for k,v in next,textBox do _[k]=v end

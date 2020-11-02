@@ -1,4 +1,5 @@
 local gc=love.graphics
+local int=math.floor
 
 function sceneInit.setting_control()
 	sceneTemp={
@@ -74,14 +75,18 @@ function Pnt.setting_control()
 	gc.draw(_,x+40,580,nil,40/30)
 end
 
+local function sliderShow(S)
+	S=S.disp()
+	return S.."F "..int(S*16.67).."ms"
+end
 WIDGET.init("setting_control",{
 	WIDGET.newText({name="title",	x=80,	y=50,font=70,align="L"}),
 	WIDGET.newText({name="preview",	x=520,	y=540,font=40,align="R"}),
 
-	WIDGET.newSlider({name="das",	x=250,	y=200,w=910,unit=26,disp=WIDGET.lnk.SETval("das"),		show="frame_time",code=WIDGET.lnk.SETsto("das")}),
-	WIDGET.newSlider({name="arr",	x=250,	y=290,w=525,unit=15,disp=WIDGET.lnk.SETval("arr"),		show="frame_time",code=WIDGET.lnk.SETsto("arr")}),
-	WIDGET.newSlider({name="sddas",	x=250,	y=380,w=350,unit=10,disp=WIDGET.lnk.SETval("sddas"),	show="frame_time",code=WIDGET.lnk.SETsto("sddas")}),
-	WIDGET.newSlider({name="sdarr",	x=250,	y=470,w=140,unit=4,	disp=WIDGET.lnk.SETval("sdarr"),	show="frame_time",code=WIDGET.lnk.SETsto("sdarr")}),
+	WIDGET.newSlider({name="das",	x=250,	y=200,w=910,unit=26,disp=WIDGET.lnk.SETval("das"),		show=sliderShow,code=WIDGET.lnk.SETsto("das")}),
+	WIDGET.newSlider({name="arr",	x=250,	y=290,w=525,unit=15,disp=WIDGET.lnk.SETval("arr"),		show=sliderShow,code=WIDGET.lnk.SETsto("arr")}),
+	WIDGET.newSlider({name="sddas",	x=250,	y=380,w=350,unit=10,disp=WIDGET.lnk.SETval("sddas"),	show=sliderShow,code=WIDGET.lnk.SETsto("sddas")}),
+	WIDGET.newSlider({name="sdarr",	x=250,	y=470,w=140,unit=4,	disp=WIDGET.lnk.SETval("sdarr"),	show=sliderShow,code=WIDGET.lnk.SETsto("sdarr")}),
 	WIDGET.newSwitch({name="ihs",	x=1100,	y=290,				disp=WIDGET.lnk.SETval("ihs"),		code=WIDGET.lnk.SETrev("ihs")}),
 	WIDGET.newSwitch({name="irs",	x=1100,	y=380,				disp=WIDGET.lnk.SETval("irs"),		code=WIDGET.lnk.SETrev("irs")}),
 	WIDGET.newSwitch({name="ims",	x=1100,	y=470,				disp=WIDGET.lnk.SETval("ims"),		code=WIDGET.lnk.SETrev("ims")}),
