@@ -202,7 +202,7 @@ back.fan={
 	end,
 }
 
-local video
+local video--128x96, 10fps, 2192f
 back.badapple={
 	init=function()
 		if not video then
@@ -213,17 +213,17 @@ back.badapple={
 	end,
 	resize=function()
 		local W,H=SCR.w,SCR.h
-		if H/W>=20/27 then
-			K=W/27
-			X,Y=0,(H-W*20/27)*.5
+		if H/W>=96/128 then
+			K=W/128
+			X,Y=0,(H-W*96/128)*.5
 		else
-			K=H/20
-			X,Y=(W-H*27/20)*.5,0
+			K=H/96
+			X,Y=(W-H*128/96)*.5,0
 		end
 	end,
 	update=function()
 		t=t+1
-		if t==1404*6 then
+		if t==13146 then
 			t=0
 		end
 	end,
@@ -235,9 +235,15 @@ back.badapple={
 		gc.scale(K)
 		gc.setColor(.4,.4,.4)
 		local t=int(t/6)
-		for i=0,539 do
-			if video:byte(540*t+i+1)==48 then
-				gc.rectangle("fill",(i%27),int(i/27),1,1)
+		local bAnd,bRshift=_G.bit.band,_G.bit.rshift
+		for i=0,1535 do
+			local B=video:byte(1536*t+i+1)
+			for j=7,0,-1 do
+				local p=8*i+j
+				if bAnd(B,1)==0 then
+					gc.rectangle("fill",p%128,int(p/128),1,1)
+				end
+				B=bRshift(B,1)
 			end
 		end
 		gc.pop()
