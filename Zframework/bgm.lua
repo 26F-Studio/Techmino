@@ -33,8 +33,9 @@ BGM.list={
 	"secret8th",--master-1, survivor-2
 	"secret7th",--master-2, survivor-3
 	"waterfall",--sprint Penta/MPH
-	"newera",--bigbang, pc challenge, survivor-1, tech-normal
+	"newera",--bigbang, survivor-1, tech-normal
 	"oxygen",--c4w/pc train
+	"truth",--pc challenge
 
 	"distortion",--master-3
 	"far",--GM

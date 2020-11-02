@@ -6,7 +6,7 @@ return{
 		target=100,dropPiece=PLY.check_lineReach,
 		freshLimit=15,
 		ospin=false,
-		bg="rgb",bgm="newera",
+		bg="rgb",bgm="truth",
 	},
 	pauseLimit=true,
 	load=function()
