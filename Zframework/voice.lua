@@ -10,28 +10,25 @@ VOC.name={
 	"perfect_clear","half_clear",
 	"win","lose","bye",
 	"test","happy","doubt","sad","egg",
-	"welcome_voc"
+	"welcome_voc",
 }
 VOC.list={}
 
 local function loadVoiceFile(N,vocName)
-	local fileName="VOICE/"..vocName..".ogg"
+	local fileName="VOICE/"..SETTING.cv.."/"..vocName..".ogg"
 	if love.filesystem.getInfo(fileName)then
 		bank[vocName]={love.audio.newSource(fileName,"static")}
 		table.insert(VOC.list[N],vocName)
 		return true
 	end
 end
-function VOC.loadOne(_)
-	local N=VOC.name[_]
+function VOC.loadOne(name)
+	local N=VOC.name[name]
 	VOC.list[N]={}
-	local i=1
-	while true do
-		if not loadVoiceFile(N,N.."_"..i)then
-			break
-		end
-		i=i+1
-	end
+
+	local i=0
+	repeat i=i+1 until not loadVoiceFile(N,N.."_"..i)
+
 	if i==1 then
 		if not loadVoiceFile(N,N)then
 			LOG.print("No VOICE file: "..N,5,color.orange)
@@ -43,6 +40,7 @@ function VOC.loadAll()
 	for i=1,#VOC.name do
 		VOC.loadOne(i)
 	end
+	collectgarbage()
 end
 
 function VOC.getFreeChannel()

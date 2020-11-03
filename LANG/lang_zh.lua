@@ -245,6 +245,8 @@ return{
 			bgm="音乐",
 			vib="振动",
 			voc="语音",
+			cv="语音包",
+			apply="应用",
 		},
 		setting_control={
 			title="控制设置",

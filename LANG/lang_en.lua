@@ -242,6 +242,8 @@ return{
 			bgm="BGM",
 			vib="Vibration",
 			voc="Voice",
+			cv="Voice Pack",
+			apply="Apply",
 		},
 		setting_control={
 			title="Control Settings",

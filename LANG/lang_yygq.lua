@@ -86,7 +86,7 @@ return{
 			spawn="出块",
 			bgm="曲",
 			vib="嗡嗡",
-			voc="语音",
+			cv="谁",
 		},
 		setting_control={
 			title="改控制",

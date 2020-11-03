@@ -44,6 +44,7 @@ SETTING={
 	stereo=.6,
 	vib=0,
 	voc=0,
+	cv="miya",
 
 	--Virtualkey
 	VKSFX=.2,--SFX volume
