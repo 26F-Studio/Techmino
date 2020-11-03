@@ -38,8 +38,8 @@ local function check_LVup(P)
 							P.field[i][P:RND(10)]=0
 						end
 					else
-						P.field[i]=freeRow.get(0)
-						P.visTime[i]=freeRow.get(30)
+						P.field[i]=FREEROW.get(0)
+						P.visTime[i]=FREEROW.get(30)
 						for j=1,10 do
 							if P:RND()>.9 then
 								P.field[i][j]=math.random(16)
@@ -132,7 +132,7 @@ local function check_LVup(P)
 end
 
 return{
-	color=color.black,
+	color=COLOR.black,
 	env={
 		noTele=true,
 		das=5,arr=1,

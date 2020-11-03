@@ -1,8 +1,6 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
-local mStr=mStr
 local sin=math.sin
 
 function sceneInit.help()

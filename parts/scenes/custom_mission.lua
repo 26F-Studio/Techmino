@@ -2,7 +2,6 @@ local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local int,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
 local sub=string.sub
@@ -73,16 +72,16 @@ function keyDown.custom_mission(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
 			sys.setClipboardText("Techmino Target:"..copyMission())
-			LOG.print(text.copySuccess,color.green)
+			LOG.print(text.copySuccess,COLOR.green)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
 		if pasteMission(str)then
-			LOG.print(text.pasteSuccess,color.green)
+			LOG.print(text.pasteSuccess,COLOR.green)
 		else
-			LOG.print(text.dataCorrupted,color.red)
+			LOG.print(text.dataCorrupted,COLOR.red)
 		end
 	elseif key=="escape"then
 		SCN.back()
@@ -161,9 +160,9 @@ function Pnt.custom_mission()
 				if N>0 then
 					gc.setColor(libColor[set[N]])
 				elseif L[i]>4 then
-					gc.setColor(color.rainbow(i+Timer()*6.26))
+					gc.setColor(COLOR.rainbow(i+Timer()*6.26))
 				else
-					gc.setColor(color.grey)
+					gc.setColor(COLOR.grey)
 				end
 				gc.print(missionEnum[L[i]],x,y-25)
 				x=x+56

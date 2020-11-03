@@ -1,7 +1,7 @@
 local gc=love.graphics
 local min=math.min
 return{
-	color=color.red,
+	color=COLOR.red,
 	env={
 		drop=30,lock=60,
 		block=false,center=0,ghost=0,

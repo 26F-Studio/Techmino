@@ -1,6 +1,6 @@
 local int=math.floor
 return{
-	color=color.red,
+	color=COLOR.red,
 	env={
 		drop=5,lock=60,
 		fall=6,

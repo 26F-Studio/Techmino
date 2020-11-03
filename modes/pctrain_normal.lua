@@ -40,7 +40,7 @@ local function newPC(P)
 	end
 end
 return{
-	color=color.green,
+	color=COLOR.green,
 	env={
 		next=4,
 		hold=false,

@@ -1,21 +1,25 @@
-color=	require("Zframework/color")
+COLOR=	require("Zframework/color")
 SCN=	require("Zframework/scene")
 LOG=	require("Zframework/log")
 require("Zframework/toolfunc")
-SHADER=	require("Zframework/shader")
+
 VIB=	require("Zframework/vib")
 SFX=	require("Zframework/sfx")
-sysFX=	require("Zframework/sysFX")
+
+LIGHT=	require("Zframework/light")
+SHADER=	require("Zframework/shader")
 BG=		require("Zframework/bg")
+WIDGET=	require("Zframework/widget")
+TEXT=	require("Zframework/text")
+sysFX=	require("Zframework/sysFX")
+
+IMG=	require("Zframework/img")
 BGM=	require("Zframework/bgm")
 VOC=	require("Zframework/voice")
+
 LANG=	require("Zframework/languages")
-FILE=	require("Zframework/file")
-TEXT=	require("Zframework/text")
 TASK=	require("Zframework/task")
-IMG=	require("Zframework/img")
-WIDGET=	require("Zframework/widget")
-LIGHT=	require("Zframework/light")
+FILE=	require("Zframework/file")
 PROFILE=require("Zframework/profile")
 
 local ms,kb=love.mouse,love.keyboard
@@ -24,6 +28,7 @@ local int,rnd,abs=math.floor,math.random,math.abs
 local min=math.min
 local ins,rem=table.insert,table.remove
 local SCR=SCR
+local setFont=setFont
 
 local mx,my,mouseShow=-20,-20,false
 local touching=nil--First touching ID(userdata)
@@ -212,11 +217,11 @@ function love.keypressed(i)
 		elseif i=="f5"then	if love._openConsole then love._openConsole()end
 		elseif i=="f6"then	if WIDGET.sel then DBP(WIDGET.sel)end
 		elseif i=="f7"then	for k,v in next,_G do DBP(k,v)end
-		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",color.yellow)
-		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",color.yellow)
-		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",color.yellow)
-		elseif i=="f11"then	devMode=3	LOG.print("DEBUG 3",color.yellow)
-		elseif i=="f12"then	devMode=4	LOG.print("DEBUG 4",color.yellow)
+		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.yellow)
+		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.yellow)
+		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.yellow)
+		elseif i=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.yellow)
+		elseif i=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.yellow)
 		elseif devMode==2 then
 			if WIDGET.sel then
 				local W=WIDGET.sel
@@ -250,7 +255,7 @@ function love.keypressed(i)
 		end
 	else
 		devMode=1
-		LOG.print("DEBUG ON",color.yellow)
+		LOG.print("DEBUG ON",COLOR.yellow)
 	end
 end
 function love.keyreleased(i)
@@ -279,7 +284,7 @@ function love.joystickremoved(JS)
 	for i=1,#joysticks do
 		if joysticks[i]==JS then
 			rem(joysticks,i)
-			LOG.print("Joystick removed",color.yellow)
+			LOG.print("Joystick removed",COLOR.yellow)
 			return
 		end
 	end
@@ -360,9 +365,9 @@ function love.focus(f)
 	end
 end
 function love.errorhandler(msg)
-	local PUMP,POLL=love.event.pump,love.event.poll
-	love.mouse.setVisible(true)
+	ms.setVisible(true)
 	love.audio.stop()
+
 	local err={"Error:"..msg}
 	local trace=debug.traceback("",2)
 	local c=2
@@ -379,9 +384,9 @@ function love.errorhandler(msg)
 	end
 	DBP(table.concat(err,"\n"),1,c-2)
 	gc.reset()
-	local CAP
-	local function _(_)CAP=gc.newImage(_)end
-	gc.captureScreenshot(_)
+
+	local errScrShot
+	gc.captureScreenshot(function (_)errScrShot=gc.newImage(_)end)
 	gc.present()
 
 	SFX.fplay("error",SETTING.voc*.8)
@@ -390,8 +395,8 @@ function love.errorhandler(msg)
 	local needDraw=true
 	local count=0
 	return function()
-		PUMP()
-		for E,a,b in POLL()do
+		love.event.pump()
+		for E,a,b in love.event.poll()do
 			if E=="quit"or a=="escape"then
 				destroyPlayers()
 				return 1
@@ -422,7 +427,7 @@ function love.errorhandler(msg)
 			gc.setColor(1,1,1)
 			gc.push("transform")
 			gc.replaceTransform(xOy)
-			gc.draw(CAP,100,365,nil,512/CAP:getWidth(),288/CAP:getHeight())
+			gc.draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
 			setFont(120)gc.print(":(",100,40)
 			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
 			setFont(20)
@@ -437,14 +442,14 @@ function love.errorhandler(msg)
 			gc.present()
 			needDraw=false
 		end
-		love.timer.sleep(.2)
+		love.timer.sleep(.26)
 	end
 end
 local devColor={
-	color.white,
-	color.lMagenta,
-	color.lGreen,
-	color.lBlue,
+	COLOR.white,
+	COLOR.lMagenta,
+	COLOR.lGreen,
+	COLOR.lBlue,
 }
 local FPS=love.timer.getFPS
 love.draw,love.update=nil--remove default draw/update
@@ -473,6 +478,7 @@ function love.run()
 	else
 		SCN.init("load")
 	end
+	BG.set("none")
 
 	return function()
 		local _
@@ -526,7 +532,7 @@ function love.run()
 						local R=int(r)%7+1
 						_=SKIN.libColor[SETTING.skin[R]]
 						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
-						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
+						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 					end
@@ -549,7 +555,7 @@ function love.run()
 				--Draw network working
 				if TASK.netTaskCount>0 then
 					setFont(30)
-					gc.setColor(color.rainbow(Timer()*5))
+					gc.setColor(COLOR.rainbow(Timer()*5))
 					gc.print("E",1250,0,.26+.355*math.sin(Timer()*6.26))
 				end
 
@@ -563,7 +569,7 @@ function love.run()
 				if devMode then
 					gc.setColor(devColor[devMode])
 					gc.print("Memory:"..gcinfo(),5,_-40)
-					gc.print("Lines:"..freeRow.getCount(),5,_-60)
+					gc.print("Lines:"..FREEROW.getCount(),5,_-60)
 					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),5,_-80)
 					gc.print("Voices:"..VOC.getCount(),5,_-100)
 					gc.print("Tasks:"..TASK.getCount(),5,_-120)
@@ -590,7 +596,7 @@ function love.run()
 			end
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
-				LOG.print("Screen Resized",color.yellow)
+				LOG.print("Screen Resized",COLOR.yellow)
 			end
 		end
 

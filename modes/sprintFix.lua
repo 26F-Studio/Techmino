@@ -1,5 +1,5 @@
 return{
-	color=color.green,
+	color=COLOR.green,
 	env={
 		drop=60,lock=180,
 		noTele=true,

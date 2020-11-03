@@ -1,9 +1,6 @@
 local gc=love.graphics
 local kb,tc=love.keyboard,love.touch
 
-local setFont=setFont
-local mStr=mStr
-
 function sceneInit.staff()
 	sceneTemp={
 		time=0,

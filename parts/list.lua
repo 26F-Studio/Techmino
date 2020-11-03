@@ -179,12 +179,12 @@ for k,v in next,missionEnum do _[v]=k end
 for k,v in next,_ do missionEnum[k]=v end
 
 rankColor={
-	color.dRed,		--D
-	color.dOrange,	--C
-	color.lYellow,	--B
-	color.lBlue,	--A
-	color.lCyan,	--S
-	color.lGreen,	--Special
+	COLOR.dRed,		--D
+	COLOR.dOrange,	--C
+	COLOR.lYellow,	--B
+	COLOR.lBlue,	--A
+	COLOR.lCyan,	--S
+	COLOR.lGreen,	--Special
 }
 
 local function T(s,t)return love.graphics.newText(getFont(s),t)end

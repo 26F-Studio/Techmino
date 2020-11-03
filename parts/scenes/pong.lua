@@ -1,9 +1,6 @@
 local gc=love.graphics
 local kb=love.keyboard
 
-local setFont=setFont
-local mStr=mStr
-
 local abs=math.abs
 local max,min=math.max,math.min
 local rnd=math.random

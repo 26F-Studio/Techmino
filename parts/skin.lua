@@ -33,30 +33,30 @@ local SKIN={}
 SKIN.lib={}
 SKIN.libMini={}
 SKIN.libColor={
-	{color.rainbow( 1.471)},
-	{color.rainbow( 1.078)},
-	{color.rainbow( 0.685)},
-	{color.rainbow( 0.293)},
-	{color.rainbow(-0.100)},
-	{color.rainbow(-0.493)},
-	{color.rainbow(-0.885)},
-	{color.rainbow(-1.278)},
-	{color.rainbow(-1.671)},
-	{color.rainbow(-2.063)},
-	{color.rainbow(-2.456)},
-	{color.rainbow(-2.849)},
-	{color.rainbow(-3.242)},
-	{color.rainbow(-3.634)},
-	{color.rainbow(-4.027)},
-	{color.rainbow(-4.412)},
-	color.dGrey,
-	color.black,
-	color.lYellow,
-	color.grey,
-	color.lGrey,
-	color.dPurple,
-	color.dRed,
-	color.dGreen,
+	{COLOR.rainbow( 1.471)},
+	{COLOR.rainbow( 1.078)},
+	{COLOR.rainbow( 0.685)},
+	{COLOR.rainbow( 0.293)},
+	{COLOR.rainbow(-0.100)},
+	{COLOR.rainbow(-0.493)},
+	{COLOR.rainbow(-0.885)},
+	{COLOR.rainbow(-1.278)},
+	{COLOR.rainbow(-1.671)},
+	{COLOR.rainbow(-2.063)},
+	{COLOR.rainbow(-2.456)},
+	{COLOR.rainbow(-2.849)},
+	{COLOR.rainbow(-3.242)},
+	{COLOR.rainbow(-3.634)},
+	{COLOR.rainbow(-4.027)},
+	{COLOR.rainbow(-4.412)},
+	COLOR.dGrey,
+	COLOR.black,
+	COLOR.lYellow,
+	COLOR.grey,
+	COLOR.lGrey,
+	COLOR.dPurple,
+	COLOR.dRed,
+	COLOR.dGreen,
 }
 function SKIN.getCount()
 	return count
@@ -120,7 +120,7 @@ function SKIN.rotate(i)--Change direction of [i]
 	SFX.play("rotate")
 end
 function SKIN.change(i)--Change to skin_set[i]
-	blockSkin=SKIN.lib[i]
-	blockSkinMini=SKIN.libMini[i]
+	SKIN.curText=SKIN.lib[i]
+	SKIN.curTextMini=SKIN.libMini[i]
 end
 return SKIN

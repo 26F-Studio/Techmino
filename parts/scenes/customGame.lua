@@ -2,7 +2,6 @@ local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local int=math.floor
 local find,sub=string.find,string.sub
 
@@ -43,7 +42,7 @@ function keyDown.customGame(key)
 		str=str.."!"..copyBoard().."!"
 		if #MISSION>0 then str=str..copyMission()end
 		sys.setClipboardText(str.."!")
-		LOG.print(text.copySuccess,color.green)
+		LOG.print(text.copySuccess,COLOR.green)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p1,p2,p3,p4,p5--ptr*
@@ -71,10 +70,10 @@ function keyDown.customGame(key)
 					break
 				end
 			end
-			LOG.print(text.pasteSuccess,color.green)
+			LOG.print(text.pasteSuccess,COLOR.green)
 			return
 		end
-		LOG.print(text.dataCorrupted,color.red)
+		LOG.print(text.dataCorrupted,COLOR.red)
 	elseif key=="escape"then
 		SCN.back()
 	else
@@ -92,10 +91,11 @@ function Pnt.customGame()
 	gc.rectangle("line",-2,-2,304,604)
 	local F=FIELD[1]
 	local cross=puzzleMark[-1]
+	local texture=SKIN.curText
 	for y=1,20 do for x=1,10 do
 		local B=F[y][x]
 		if B>0 then
-			gc.draw(blockSkin[B],30*x-30,600-30*y)
+			gc.draw(texture[B],30*x-30,600-30*y)
 		elseif B==-1 then
 			gc.draw(cross,30*x-30,600-30*y)
 		end

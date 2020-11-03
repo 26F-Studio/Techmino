@@ -5,10 +5,8 @@ local max,min=math.max,math.min
 local sub,format=string.sub,string.format
 local ins=table.insert
 
-local color=color
-local setFont=setFont
 local Timer=love.timer.getTime
-local mStr=mStr
+local setFont,mStr=setFont,mStr
 
 local Empty={}
 local widgetList={}
@@ -42,7 +40,7 @@ function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,hide]
 		name=	D.name,
 		x=		D.x,
 		y=		D.y,
-		color=	D.color and(color[D.color]or D.color)or color.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	D.align or"M",
 		hide=	D.hide,
@@ -161,7 +159,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,color][,font],code[,hide]
 			D.x+D.w*.35,D.y+D.h*.35,
 		},
 
-		color=	D.color and(color[D.color]or D.color)or color.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		code=	D.code,
 		hide=	D.hide,
@@ -236,7 +234,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,color][,font],code[,hide]
 			D.x+D.w*.35,D.y+D.h*.35,
 		},
 
-		color=	D.color and(color[D.color]or D.color)or color.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		code=	D.code,
 		hide=	D.hide,
@@ -567,7 +565,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,color],list,disp,code,hide
 			D.x+D.w,D.y,
 		},
 
-		color=	D.color and(color[D.color]or D.color)or color.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		list=	D.list,
 		disp=	D.disp,
 		code=	D.code,
@@ -870,7 +868,6 @@ function WIDGET.keyPressed(key)
 					local dist=(x-WX)*dir
 					if dist>10 then
 						dist=dist+abs(y-WY)*6.26
-						print(W1.name,dist)
 						if dist<minDist then
 							minDist=dist
 							tar=W1

@@ -17,7 +17,7 @@ local function check(P)
 end
 
 return{
-	color=color.magenta,
+	color=COLOR.magenta,
 	env={
 		noTele=true,
 		mindas=7,minarr=1,minsdarr=1,

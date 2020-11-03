@@ -1,8 +1,6 @@
 local gc=love.graphics
 local kb=love.keyboard
 
-local setFont=setFont
-
 local find,sub,byte=string.find,string.sub,string.byte
 
 function sceneInit.calculator()
@@ -87,9 +85,9 @@ function keyDown.calculator(k)
 			SFX.play("clear")
 		elseif v==72943816 then
 			S.pass=true
-			for name,M in next,Modes do
-				if not modeRanks[name]then
-					modeRanks[name]=M.score and 0 or 6
+			for name,M in next,MODES do
+				if not RANKS[name]then
+					RANKS[name]=M.score and 0 or 6
 				end
 			end
 			FILE.saveUnlock()

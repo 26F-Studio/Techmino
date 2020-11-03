@@ -1,5 +1,5 @@
 return{
-	color=color.cyan,
+	color=COLOR.cyan,
 	env={
 		drop=60,lock=60,
 		target=10,dropPiece=PLY.check_lineReach,

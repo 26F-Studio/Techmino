@@ -2,9 +2,6 @@ local gc=love.graphics
 local tc=love.touch
 local Timer=love.timer.getTime
 
-local setFont=setFont
-local mStr=mStr
-
 local max,sin=math.max,math.sin
 local log=math.log
 

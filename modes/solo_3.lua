@@ -1,5 +1,5 @@
 return{
-	color=color.magenta,
+	color=COLOR.magenta,
 	env={
 		life=2,
 		drop=60,lock=60,
@@ -9,7 +9,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",6))
+		PLY.newAIPlayer(2,965,360,.5,AIBUILDER("9S",6))
 	end,
 	score=function(P)return{P.stat.time}end,
 	scoreDisp=function(D)return toTime(D[1])end,

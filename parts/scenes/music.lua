@@ -1,8 +1,6 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
-
 local sin=math.sin
 
 local floatWheel=0

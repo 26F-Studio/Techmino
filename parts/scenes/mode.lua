@@ -2,9 +2,6 @@ local gc=love.graphics
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 local Timer=love.timer.getTime
 
-local setFont=setFont
-local mStr=mStr
-
 local int,abs=math.floor,math.abs
 local sin=math.sin
 
@@ -30,7 +27,7 @@ function sceneInit.mode(org)
 	local cam=mapCam
 	cam.zoomK=org=="main"and 5 or 1
 	if cam.sel then
-		local M=Modes[cam.sel]
+		local M=MODES[cam.sel]
 		cam.x,cam.y=M.x*cam.k+180,M.y*cam.k
 		cam.x1,cam.y1=cam.x,cam.y
 	end
@@ -40,8 +37,8 @@ local function onMode(x,y)
 	local cam=mapCam
 	x=(cam.x1-640+x)/cam.k1
 	y=(cam.y1-360+y)/cam.k1
-	for name,M in next,Modes do
-		if modeRanks[name]then
+	for name,M in next,MODES do
+		if RANKS[name]then
 			local s=M.size
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
@@ -85,7 +82,7 @@ function mouseClick.mode(x,y)
 		if _~=SEL then
 			if SEL then
 				cam.moving=true
-				_=Modes[SEL]
+				_=MODES[SEL]
 				cam.x=_.x*cam.k+180
 				cam.y=_.y*cam.k
 				cam.sel=SEL
@@ -165,8 +162,8 @@ function Tmr.mode()
 			cam.keyCtrl=true
 		end
 		local x1,y1=(cam.x1-180)/cam.k1,cam.y1/cam.k1
-		for name,M in next,Modes do
-			if modeRanks[name]then
+		for name,M in next,MODES do
+			if RANKS[name]then
 				local SEL
 				local s=M.size
 				if M.shape==1 then
@@ -200,7 +197,7 @@ function Tmr.mode()
 	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
 	if cam.zoomMethod==1 then
 		if cam.sel then
-			local M=Modes[cam.sel]
+			local M=MODES[cam.sel]
 			cam.x=cam.x*.8+M.x*cam.k*.2
 			cam.y=cam.y*.8+M.y*cam.k*.2
 		end
@@ -221,23 +218,23 @@ function Pnt.mode()
 	gc.scale(cam.zoomK)
 	gc.translate(-cam.x1,-cam.y1)
 	gc.scale(cam.k1)
-	local R=modeRanks
+	local R=RANKS
 	local sel=cam.sel
 
 	--Draw lines connecting modes
 	gc.setLineWidth(8)
 	gc.setColor(1,1,1,.2)
-	for name,M in next,Modes do
+	for name,M in next,MODES do
 		if R[name]and M.unlock then
 			for _=1,#M.unlock do
-				local m=Modes[M.unlock[_]]
+				local m=MODES[M.unlock[_]]
 				gc.line(M.x,M.y,m.x,m.y)
 			end
 		end
 	end
 
 	setFont(60)
-	for name,M in next,Modes do
+	for name,M in next,MODES do
 		if R[name]then
 			local S=M.size
 			local d=((M.x-(cam.x1+(sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
@@ -295,7 +292,7 @@ function Pnt.mode()
 	end
 	gc.pop()
 	if sel then
-		local M=Modes[sel]
+		local M=MODES[sel]
 		gc.setColor(.7,.7,.7,.5)
 		gc.rectangle("fill",920,0,360,720)--Info board
 		gc.setColor(M.color)

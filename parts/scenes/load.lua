@@ -2,7 +2,6 @@ local gc=love.graphics
 local tc=love.touch
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local max,min,sin=math.max,math.min,math.sin
 
 function sceneInit.load()
@@ -18,7 +17,7 @@ function sceneInit.load()
 			IMG.getCount(),
 			17,--Fontsize 20~100
 			SKIN.getCount(),
-			#Modes,
+			#MODES,
 			1,
 			1,
 		},
@@ -65,19 +64,19 @@ function Tmr.load()
 		elseif S.phase==6 then
 			SKIN.loadOne(S.cur)
 		elseif S.phase==7 then
-			local m=Modes[S.cur]--Mode template
+			local m=MODES[S.cur]--Mode template
 			local M=require("modes/"..m.name)--Mode file
-			Modes[m.name],Modes[S.cur]=M
+			MODES[m.name],MODES[S.cur]=M
 			for k,v in next,m do
 				M[k]=v
 			end
 			M.records=FILE.loadRecord(m.name)or M.score and{}
 			if M.score then
-				if modeRanks[M.name]==6 then
-					modeRanks[M.name]=0
+				if RANKS[M.name]==6 then
+					RANKS[M.name]=0
 				end
 			else
-				modeRanks[M.name]=6
+				RANKS[M.name]=6
 			end
 			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("image/modeIcon/custom.png")
@@ -153,15 +152,15 @@ function Pnt.load()
 		gc.rectangle("fill",0,0,440,260)
 
 		local T=Timer()
-		gc.setColor(color.dCyan)
+		gc.setColor(COLOR.dCyan)
 		mDraw(S.text,220,Y*.2-1204)
 		mDraw(S.text,220,-Y*.2+1476)
 
-		gc.setColor(color.cyan)
+		gc.setColor(COLOR.cyan)
 		mDraw(S.text,220+4*sin(T*10),136+4*sin(T*6))
 		mDraw(S.text,220+4*sin(T*12),136+4*sin(T*8))
 
-		gc.setColor(color.dCyan)
+		gc.setColor(COLOR.dCyan)
 		mDraw(S.text,219,137)
 		mDraw(S.text,219,135)
 		mDraw(S.text,221,137)
@@ -177,7 +176,7 @@ function Pnt.load()
 	setFont(50)
 	for i=1,27 do
 		if i<26 then
-			local r,g,b=color.rainbow(i+3.5)
+			local r,g,b=COLOR.rainbow(i+3.5)
 			gc.setColor(r*.26,g*.26,b*.26)
 			gc.rectangle("fill",-220,Y-260*i-80,440,260)
 			gc.setColor(r*1.6,g*1.6,b*1.6)

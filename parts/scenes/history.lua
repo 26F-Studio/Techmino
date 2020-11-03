@@ -1,5 +1,4 @@
 local gc=love.graphics
-local setFont=setFont
 local max,min=math.max,math.min
 
 local floatWheel=0

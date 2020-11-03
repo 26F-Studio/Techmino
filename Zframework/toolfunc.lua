@@ -24,7 +24,7 @@ do--LOADLIB
 			if success then
 				return success
 			else
-				LOG.print("Cannot load "..name..": "..message,"warn",color.red)
+				LOG.print("Cannot load "..name..": "..message,"warn",COLOR.red)
 			end
 		elseif SYSTEM=="Android"then
 			local fs=love.filesystem
@@ -37,25 +37,25 @@ do--LOADLIB
 					if success then
 						libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),libName.Android},"/"),libName.libFunc)
 						if libFunc then
-							LOG.print(name.." lib loaded","warn",color.green)
+							LOG.print(name.." lib loaded","warn",COLOR.green)
 							break
 						else
-							LOG.print("Cannot load "..name..": "..message,"warn",color.red)
+							LOG.print("Cannot load "..name..": "..message,"warn",COLOR.red)
 						end
 					else
-						LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",color.red)
+						LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",COLOR.red)
 					end
 				else
-					LOG.print("Read "..name.."-"..platform[i].." failed","warn",color.red)
+					LOG.print("Read "..name.."-"..platform[i].." failed","warn",COLOR.red)
 				end
 			end
 			if not libFunc then
-				LOG.print("failed to load "..name,"warn",color.red)
+				LOG.print("failed to load "..name,"warn",COLOR.red)
 				return
 			end
 			return libFunc()
 		else
-			LOG.print("No "..name.." for "..SYSTEM,"warn",color.red)
+			LOG.print("No "..name.." for "..SYSTEM,"warn",COLOR.red)
 			return
 		end
 		return true
@@ -180,7 +180,7 @@ do--httpRequest
 		TASK.netTaskCount=TASK.netTaskCount+1
 	end or
 	function()
-		LOG.print("[NO NETlib]",5,color.yellow)
+		LOG.print("[NO NETlib]",5,COLOR.yellow)
 	end
 end
 do--json

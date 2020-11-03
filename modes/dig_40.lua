@@ -8,7 +8,7 @@ local function check_rise(P)
 end
 
 return{
-	color=color.lBlue,
+	color=COLOR.lBlue,
 	env={
 		pushSpeed=6,
 		dropPiece=check_rise,

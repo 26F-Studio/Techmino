@@ -18,8 +18,8 @@ local function puzzleCheck(P)
 	if FIELD[P.modeData.point+1]then
 		P.waiting=26
 		for _=#P.field,1,-1 do
-			freeRow.discard(P.field[_])
-			freeRow.discard(P.visTime[_])
+			FREEROW.discard(P.field[_])
+			FREEROW.discard(P.visTime[_])
 			P.field[_],P.visTime[_]=nil
 		end
 		sysFX.newShade(.7,.3,1,.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
@@ -32,7 +32,7 @@ local function puzzleCheck(P)
 end
 
 return{
-	color=color.white,
+	color=COLOR.white,
 	env={
 		Fkey=function(P)P.modeData.event=1-P.modeData.event end,
 		dropPiece=puzzleCheck,
@@ -56,9 +56,9 @@ return{
 		if L~=0 then
 			modeEnv.target=nil
 			if L<6 then
-				PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
+				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("9S",2*L))
 			else
-				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
+				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
 		modeEnv.bg=customEnv.bg

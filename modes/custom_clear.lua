@@ -17,8 +17,8 @@ local function setField(P,page)
 	local t=P.showTime*3
 	for y=1,height do
 		local solid=notAir(F[y])
-		P.field[y]=freeRow.get(0,solid)
-		P.visTime[y]=freeRow.get(t)
+		P.field[y]=FREEROW.get(0,solid)
+		P.visTime[y]=FREEROW.get(t)
 		if solid then
 			for x=1,10 do
 				P.field[y][x]=F[y][x]
@@ -33,8 +33,8 @@ local function checkClear(P)
 		if FIELD[P.modeData.point+1]then
 			P.waiting=26
 			for _=#P.field,1,-1 do
-				freeRow.discard(P.field[_])
-				freeRow.discard(P.visTime[_])
+				FREEROW.discard(P.field[_])
+				FREEROW.discard(P.visTime[_])
 				P.field[_],P.visTime[_]=nil
 			end
 			setField(P,P.modeData.point+1)
@@ -46,7 +46,7 @@ local function checkClear(P)
 	end
 end
 return{
-	color=color.white,
+	color=COLOR.white,
 	env={},
 	load=function()
 		for k,v in next,customEnv do
@@ -80,9 +80,9 @@ return{
 		if L~=0 then
 			modeEnv.target=nil
 			if L<6 then
-				PLY.newAIPlayer(2,965,360,.5,AITemplate("9S",2*L))
+				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("9S",2*L))
 			else
-				PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
+				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
 		for _,P in next,PLAYERS.alive do

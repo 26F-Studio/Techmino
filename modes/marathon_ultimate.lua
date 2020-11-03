@@ -21,7 +21,7 @@ local function check_LVup(P)
 end
 
 return{
-	color=color.yellow,
+	color=COLOR.yellow,
 	env={
 		noTele=true,
 		wait=8,fall=20,

@@ -29,8 +29,8 @@ function destroyPlayers()
 		local P=PLAYERS[i]
 		if P.canvas then P.canvas:release()end
 		while P.field[1]do
-			freeRow.discard(rem(P.field))
-			freeRow.discard(rem(P.visTime))
+			FREEROW.discard(rem(P.field))
+			FREEROW.discard(rem(P.visTime))
 		end
 		if P.AI_mode=="CC"then
 			CC.free(P.bot_opt)
@@ -63,11 +63,11 @@ end
 
 function copyQuestArgs()
 	local ENV=customEnv
-	local str=""
-	str=str..(ENV.hold and"H"or"Z")
-	str=str..(ENV.ospin and"O"or"Z")
-	str=str..(ENV.missionKill and"M"or"Z")
-	str=str..ENV.sequence
+	local str=""..
+		(ENV.hold and"H"or"Z")..
+		(ENV.ospin and"O"or"Z")..
+		(ENV.missionKill and"M"or"Z")..
+		ENV.sequence
 	return str
 end
 function pasteQuestArgs(str)
@@ -84,7 +84,7 @@ end
 --[[
 	Count: 34~96
 	Block: 97~125
-	Encode: [A] or [AB] sequence, A = block ID, B = repeat times, no B means do not repeat.
+	Encode: A[B] sequence, A = block ID, B = repeat times, no B means do not repeat.
 	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
 ]]
 function copySequence()
@@ -424,7 +424,7 @@ function resumeGame()
 end
 function loadGame(M,ifQuickPlay)
 	STAT.lastPlay=M
-	CURMODE=Modes[M]
+	CURMODE=MODES[M]
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
@@ -477,7 +477,7 @@ function resetGameData()
 		GAME.garbageSpeed=.3
 	end
 	STAT.game=STAT.game+1
-	freeRow.reset(30*#PLAYERS)
+	FREEROW.reset(30*#PLAYERS)
 	SFX.play("ready")
 	collectgarbage()
 end

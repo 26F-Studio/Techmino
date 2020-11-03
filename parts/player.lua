@@ -190,7 +190,7 @@ local function Pupdate_alive(P,dt)
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
-			P.AI_stage=AIfunc[P.AI_mode][P.AI_stage](P,C)
+			P.AI_stage=AIFUNC[P.AI_mode][P.AI_stage](P,C)
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])
 			if P.AI_mode~="CC"or C[1]>3 then
@@ -403,13 +403,13 @@ end
 
 --------------------------<Paint>--------------------------
 local frameColor={
-	[0]=color.white,
-	color.lGreen,
-	color.lBlue,
-	color.lPurple,
-	color.lOrange,
+	[0]=COLOR.white,
+	COLOR.lGreen,
+	COLOR.lBlue,
+	COLOR.lPurple,
+	COLOR.lOrange,
 }
---local function drawCell(y,x,id)gc.draw(blockSkin[id],30*x-30,-30*y)end
+--local function drawCell(y,x,id)gc.draw(SKIN.curText[id],30*x-30,-30*y)end
 local function drawGrid(P)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	gc.setLineWidth(1)
@@ -426,13 +426,14 @@ local function drawField(P)
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
 	local rep=GAME.replaying
+	local texture=SKIN.curText
 	if P.falling==-1 then--Blocks only
 		for j=start,min(start+21,#F)do
 			for i=1,10 do
 				if F[j][i]>0 then
 					if V[j][i]>0 then
 						gc.setColor(1,1,1,min(V[j][i]*.05,1))
-						gc.draw(blockSkin[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+						gc.draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 					elseif rep then
 						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
 						gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -457,7 +458,7 @@ local function drawField(P)
 					if F[j][i]>0 then
 						if V[j][i]>0 then
 							gc.setColor(1,1,1,min(V[j][i]*.05,1))
-							gc.draw(blockSkin[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+							gc.draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 						elseif rep then
 							gc.setColor(1,1,1,.2)
 							gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -490,10 +491,11 @@ local function drawFXs(P)
 	end
 
 	--MoveFX
+	local texture=SKIN.curText
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc.setColor(1,1,1,.6-S[4]*.6)
-		gc.draw(blockSkin[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
+		gc.draw(texture[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -508,31 +510,34 @@ local function drawFXs(P)
 end
 local function drawGhost(P,clr)
 	gc.setColor(1,1,1,P.gameEnv.ghost)
+	local texture=SKIN.curText
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			gc.draw(blockSkin[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
+			gc.draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
 		end
 	end end
 end
-local function drawBlockOutline(P,clr,trans)
+local function drawBlockOutline(P,texture,trans)
 	SHADER.alpha:send("a",trans)
 	gc.setShader(SHADER.alpha)
-	local _=blockSkin[clr]
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
 			local x=30*(j+P.curX)-60-3
 			local y=30-30*(i+P.curY)-3
-			gc.draw(_,x,y)gc.draw(_,x+6,y+6)
-			gc.draw(_,x+6,y)gc.draw(_,x,y+6)
+			gc.draw(texture,x,y)
+			gc.draw(texture,x+6,y+6)
+			gc.draw(texture,x+6,y)
+			gc.draw(texture,x,y+6)
 		end
 	end end
 	gc.setShader()
 end
 local function drawBlock(P,clr)
 	gc.setColor(1,1,1)
+	local texture=SKIN.curText
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			gc.draw(blockSkin[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
+			gc.draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -548,20 +553,21 @@ local function drawNextPreview(P,B)
 end
 local function drawHold(P,clr)
 	local B=P.hd.bk
+	local texture=SKIN.curText
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			gc.draw(blockSkin[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+			gc.draw(texture[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
 		end
 	end end
 end
 
 local Pdraw_norm do
 	local attackColor={
-		{color.dGrey,color.white},
-		{color.grey,color.white},
-		{color.lPurple,color.white},
-		{color.lRed,color.white},
-		{color.dGreen,color.cyan},
+		{COLOR.dGrey,COLOR.white},
+		{COLOR.grey,COLOR.white},
+		{COLOR.lPurple,COLOR.white},
+		{COLOR.lRed,COLOR.white},
+		{COLOR.dGreen,COLOR.cyan},
 	}
 	local RCPB={10,33,200,33,105,5,105,60}
 	local function drawDial(x,y,speed)
@@ -634,7 +640,7 @@ local Pdraw_norm do
 
 							--Draw block
 							if ENV.block then
-								drawBlockOutline(P,curColor,trans)
+								drawBlockOutline(P,SKIN.curText[curColor],trans)
 								drawBlock(P,curColor)
 							end
 
@@ -702,7 +708,7 @@ local Pdraw_norm do
 					local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
 					gc.setColor(.8,1,.2)
 					gc.rectangle("fill",-14,599,11,-b*.5)
-					gc.setColor(P.b2b<40 and color.white or P.b2b<=1e3 and color.lRed or color.lBlue)
+					gc.setColor(P.b2b<40 and COLOR.white or P.b2b<=1e3 and COLOR.lRed or COLOR.lBlue)
 					gc.rectangle("fill",-14,599,11,-a*.5)
 					gc.setColor(1,1,1)
 					if Timer()%.5<.3 then
@@ -743,11 +749,12 @@ local Pdraw_norm do
 						gc.setColor(1,1,1)gc.rectangle("line",316,36,124,N)
 						mText(drawableText.next,378,-15)
 						N=1
+						local texture=SKIN.curText
 						while N<=ENV.next and P.next[N]do
 							local bk,clr=P.next[N].bk,P.next[N].color
 							for i=1,#bk do for j=1,#bk[1] do
 								if bk[i][j]then
-									gc.draw(blockSkin[clr],30*(j+12.6-#bk[1]*.5)-30,-30*(i-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
+									gc.draw(texture[clr],30*(j+12.6-#bk[1]*.5)-30,-30*(i-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
 								end
 							end end
 							N=N+1
@@ -798,8 +805,8 @@ local Pdraw_norm do
 			gc.print(P.score1,18,579)
 			gc.print(format("%.2f",P.stat.time),18,609)
 
-			gc.setColor(color.lYellow)gc.print(P.score1,20,580)
-			gc.setColor(color.sky)gc.print(format("%.2f",P.stat.time),20,610)
+			gc.setColor(COLOR.lYellow)gc.print(P.score1,20,580)
+			gc.setColor(COLOR.sky)gc.print(format("%.2f",P.stat.time),20,610)
 
 			--FinesseCombo
 			if P.finesseCombo>2 then
@@ -902,9 +909,10 @@ local function Pdraw_small(P)
 
 		--Field
 		local F=P.field
+		local texture=SKIN.curTextMini
 		for j=1,#F do
 			for i=1,10 do if F[j][i]>0 then
-				gc.draw(blockSkinMini[F[j][i]],6*i-6,120-6*j)
+				gc.draw(texture[F[j][i]],6*i-6,120-6*j)
 			end end
 		end
 
@@ -968,7 +976,7 @@ local function Pdraw_demo(P)
 				if P.cur and P.waiting==-1 then
 					if ENV.ghost then drawGhost(P,curColor)end
 					if ENV.block then
-						drawBlockOutline(P,curColor,P.lockDelay/ENV.lock)
+						drawBlockOutline(P,SKIN.curText[curColor],P.lockDelay/ENV.lock)
 						drawBlock(P,curColor)
 					end
 				end
@@ -1264,8 +1272,6 @@ local prepareSequence do
 				if P.seqData[1]then
 					P:getNext(rem(P.seqData))
 				else
-					print(P.cur)
-					print(P.hd)
 					if not(P.cur or P.hd)then P:lose(true)end
 					return
 				end
@@ -1624,8 +1630,8 @@ function player.garbageRise(P,color,amount,pos)
 	local _
 	local t=P.showTime*2
 	for _=1,amount do
-		ins(P.field,1,freeRow.get(color,true))
-		ins(P.visTime,1,freeRow.get(t))
+		ins(P.field,1,FREEROW.get(color,true))
+		ins(P.visTime,1,FREEROW.get(t))
 		P.field[1][pos]=0
 	end
 	P.fieldBeneath=P.fieldBeneath+amount*30
@@ -1654,7 +1660,7 @@ function player.pushLine(P,L,mir)
 	local l=#L
 	local S=P.gameEnv.skin
 	for i=1,l do
-		local r=freeRow.get(0)
+		local r=FREEROW.get(0)
 		if not mir then
 			for j=1,10 do
 				r[j]=S[L[i][j]]or 0
@@ -1665,7 +1671,7 @@ function player.pushLine(P,L,mir)
 			end
 		end
 		ins(P.field,1,r)
-		ins(P.visTime,1,freeRow.get(20))
+		ins(P.visTime,1,FREEROW.get(20))
 	end
 	P.fieldBeneath=P.fieldBeneath+30*l
 	P.curY=P.curY+l
@@ -1791,7 +1797,7 @@ function player.lock(P)
 	local has_dest=dest~=nil
 	for i=1,P.r do
 		local y=P.curY+i-1
-		if not P.field[y]then P.field[y],P.visTime[y]=freeRow.get(0),freeRow.get(0)end
+		if not P.field[y]then P.field[y],P.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
 		for j=1,P.c do
 			if P.cur.bk[i][j]then
 				P.field[y][P.curX+j-1]=P.cur.color
@@ -1867,7 +1873,7 @@ function player.spin(P,d,ifpre)
 	local iki=P.RS[P.cur.id]
 	if type(iki)=="table"then
 		local idir=(P.dir+d)%4
-		local icb=blocks[P.cur.id][idir]
+		local icb=BLOCKS[P.cur.id][idir]
 		local isc=scs[P.cur.id][idir]
 		local ir,ic=#icb,#icb[1]
 		local ix,iy=P.curX+P.sc[2]-isc[2],P.curY+P.sc[1]-isc[1]
@@ -1932,7 +1938,7 @@ function player.hold(P,ifpre)
 
 		if H then
 			local hid=P.hd.id
-			P.hd.bk=blocks[hid][P.gameEnv.face[hid]]
+			P.hd.bk=BLOCKS[hid][P.gameEnv.face[hid]]
 		end
 		if not C then
 			C=rem(P.next,1)
@@ -1968,7 +1974,7 @@ end
 
 function player.getNext(P,n)
 	local E=P.gameEnv
-	ins(P.next,{bk=blocks[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
+	ins(P.next,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
 end
 function player.popNext(P)--Pop next queue to hand
 	P.holded=false
@@ -2232,8 +2238,8 @@ do--player.drop(P)--Place piece
 					P.garbageBeneath=P.garbageBeneath-1
 					gbcc=gbcc+1
 				end
-				freeRow.discard(rem(P.field,_))
-				freeRow.discard(rem(P.visTime,_))
+				FREEROW.discard(rem(P.field,_))
+				FREEROW.discard(rem(P.visTime,_))
 			end
 		end
 
@@ -2603,10 +2609,10 @@ local function gameOver()--Save record
 		local P=PLAYERS[1]
 		R=R(P)--New rank
 		if R then
-			local r=modeRanks[M.name]--Old rank
+			local r=RANKS[M.name]--Old rank
 			local needSave
 			if R>r then
-				modeRanks[M.name]=R
+				RANKS[M.name]=R
 				needSave=true
 			end
 			if R>0 then
@@ -2614,9 +2620,9 @@ local function gameOver()--Save record
 				if M.unlock then
 					for i=1,#M.unlock do
 						local m=M.unlock[i]
-						local n=Modes[m].name
-						if not modeRanks[n]then
-							modeRanks[n]=Modes[m].score and 0 or 6
+						local n=MODES[m].name
+						if not RANKS[n]then
+							RANKS[n]=MODES[m].score and 0 or 6
 							needSave=true
 						end
 					end
@@ -2698,8 +2704,8 @@ function player.lose(P,force)
 	if P.life>0 and not force then
 		P.waiting=62
 		for _=#P.field,1,-1 do
-			freeRow.discard(P.field[_])
-			freeRow.discard(P.visTime[_])
+			FREEROW.discard(P.field[_])
+			FREEROW.discard(P.visTime[_])
 			P.field[_],P.visTime[_]=nil
 		end
 
@@ -2948,7 +2954,7 @@ function player.act.restart()
 	if GAME.frame<240 or GAME.result then
 		resetPartGameData()
 	else
-		LOG.print(text.holdR,20,color.orange)
+		LOG.print(text.holdR,20,COLOR.orange)
 	end
 end
 function player.act.insLeft(P,auto)

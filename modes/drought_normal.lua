@@ -1,6 +1,6 @@
 local min=math.min
 return{
-	color=color.green,
+	color=COLOR.green,
 	env={
 		drop=20,lock=60,
 		sequence="bag",

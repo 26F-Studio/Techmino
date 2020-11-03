@@ -15,7 +15,7 @@ function TASK.update()
 				TASK.netTaskCount=TASK.netTaskCount-1
 			end
 			rem(tasks,i)
- 		end
+		end
 	end
 end
 function TASK.new(code,data)

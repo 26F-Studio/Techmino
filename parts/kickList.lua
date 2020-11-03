@@ -130,7 +130,7 @@ do
 					local L=OspinList[i]
 					if D==L[1]then
 						local id,dir=L[2],L[3]
-						local bk=blocks[id][dir]
+						local bk=BLOCKS[id][dir]
 						x,y=P.curX+L[4],P.curY+L[5]
 						if not P:ifoverlap(bk,x,y)and(L[6]>0 or P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))and(L[6]==2 or P:ifoverlap(bk,x,y-1))and P:ifoverlap(bk,x,y+1)then
 							local C=P.cur

@@ -1,7 +1,6 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local mStr=mStr
 
 local abs,int,sin=math.abs,math.floor,math.sin
@@ -89,8 +88,8 @@ function Pnt.stat()
 	local r=Timer()*2
 	local R=int(r)%7+1
 	gc.setColor(1,1,1,1-abs(r%1*2-1))
-	gc.draw(TEXTURE.miniBlock[R],650,50,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
-	gc.draw(TEXTURE.miniBlock[R],650,300,0,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],650,50,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],650,300,0,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 end
 
 WIDGET.init("stat",{

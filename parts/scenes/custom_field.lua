@@ -1,9 +1,6 @@
 local gc,sys=love.graphics,love.system
 local ms,kb=love.mouse,love.keyboard
 
-local setFont=setFont
-local mStr=mStr
-
 local max,min,int=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
 local sub=string.sub
@@ -118,15 +115,15 @@ function keyDown.custom_field(key)
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		sys.setClipboardText("Techmino Field:"..copyBoard(S.page))
-		LOG.print(text.copySuccess,color.green)
+		LOG.print(text.copySuccess,COLOR.green)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
 		if pasteBoard(str,S.page)then
-			LOG.print(text.pasteSuccess,color.green)
+			LOG.print(text.pasteSuccess,COLOR.green)
 		else
-			LOG.print(text.dataCorrupted,color.red)
+			LOG.print(text.dataCorrupted,COLOR.red)
 		end
 	elseif key=="tab"or key=="sTab"then
 		if key=="sTab"or kb.isDown("lshift","rshift")then
@@ -177,10 +174,11 @@ function Pnt.custom_field()
 	gc.setLineWidth(2)
 	local cross=puzzleMark[-1]
 	local F=FIELD[S.page]
+	local texture=SKIN.curText
 	for y=1,20 do for x=1,10 do
 		local B=F[y][x]
 		if B>0 then
-			gc.draw(blockSkin[B],30*x-30,600-30*y)
+			gc.draw(texture[B],30*x-30,600-30*y)
 		elseif B==-1 and not S.demo then
 			gc.draw(cross,30*x-30,600-30*y)
 		end
@@ -237,23 +235,23 @@ WIDGET.init("custom_field",{
 	WIDGET.newText({name="title",		x=1020,y=5,font=70,align="R"}),
 	WIDGET.newText({name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"}),
 
-	WIDGET.newButton({name="b1",		x=580,	y=130,w=75,color={color.rainbow( 1.471)},code=setPen(1)}),--B1
-	WIDGET.newButton({name="b2",		x=660,	y=130,w=75,color={color.rainbow( 1.078)},code=setPen(2)}),--B2
-	WIDGET.newButton({name="b3",		x=740,	y=130,w=75,color={color.rainbow( 0.685)},code=setPen(3)}),--B3
-	WIDGET.newButton({name="b4",		x=820,	y=130,w=75,color={color.rainbow( 0.293)},code=setPen(4)}),--B4
-	WIDGET.newButton({name="b5",		x=900,	y=130,w=75,color={color.rainbow(-0.100)},code=setPen(5)}),--B5
-	WIDGET.newButton({name="b6",		x=980,	y=130,w=75,color={color.rainbow(-0.493)},code=setPen(6)}),--B6
-	WIDGET.newButton({name="b7",		x=1060,	y=130,w=75,color={color.rainbow(-0.885)},code=setPen(7)}),--B7
-	WIDGET.newButton({name="b8",		x=1140,	y=130,w=75,color={color.rainbow(-1.278)},code=setPen(8)}),--B8
+	WIDGET.newButton({name="b1",		x=580,	y=130,w=75,color={COLOR.rainbow( 1.471)},code=setPen(1)}),--B1
+	WIDGET.newButton({name="b2",		x=660,	y=130,w=75,color={COLOR.rainbow( 1.078)},code=setPen(2)}),--B2
+	WIDGET.newButton({name="b3",		x=740,	y=130,w=75,color={COLOR.rainbow( 0.685)},code=setPen(3)}),--B3
+	WIDGET.newButton({name="b4",		x=820,	y=130,w=75,color={COLOR.rainbow( 0.293)},code=setPen(4)}),--B4
+	WIDGET.newButton({name="b5",		x=900,	y=130,w=75,color={COLOR.rainbow(-0.100)},code=setPen(5)}),--B5
+	WIDGET.newButton({name="b6",		x=980,	y=130,w=75,color={COLOR.rainbow(-0.493)},code=setPen(6)}),--B6
+	WIDGET.newButton({name="b7",		x=1060,	y=130,w=75,color={COLOR.rainbow(-0.885)},code=setPen(7)}),--B7
+	WIDGET.newButton({name="b8",		x=1140,	y=130,w=75,color={COLOR.rainbow(-1.278)},code=setPen(8)}),--B8
 
-	WIDGET.newButton({name="b9",		x=580,	y=210,w=75,color={color.rainbow(-1.671)},code=setPen(9)}),--B9
-	WIDGET.newButton({name="b10",		x=660,	y=210,w=75,color={color.rainbow(-2.063)},code=setPen(10)}),--B10
-	WIDGET.newButton({name="b11",		x=740,	y=210,w=75,color={color.rainbow(-2.456)},code=setPen(11)}),--B11
-	WIDGET.newButton({name="b12",		x=820,	y=210,w=75,color={color.rainbow(-2.849)},code=setPen(12)}),--B12
-	WIDGET.newButton({name="b13",		x=900,	y=210,w=75,color={color.rainbow(-3.242)},code=setPen(13)}),--B13
-	WIDGET.newButton({name="b14",		x=980,	y=210,w=75,color={color.rainbow(-3.634)},code=setPen(14)}),--B14
-	WIDGET.newButton({name="b15",		x=1060,	y=210,w=75,color={color.rainbow(-4.027)},code=setPen(15)}),--B15
-	WIDGET.newButton({name="b16",		x=1140,	y=210,w=75,color={color.rainbow(-4.412)},code=setPen(16)}),--B16
+	WIDGET.newButton({name="b9",		x=580,	y=210,w=75,color={COLOR.rainbow(-1.671)},code=setPen(9)}),--B9
+	WIDGET.newButton({name="b10",		x=660,	y=210,w=75,color={COLOR.rainbow(-2.063)},code=setPen(10)}),--B10
+	WIDGET.newButton({name="b11",		x=740,	y=210,w=75,color={COLOR.rainbow(-2.456)},code=setPen(11)}),--B11
+	WIDGET.newButton({name="b12",		x=820,	y=210,w=75,color={COLOR.rainbow(-2.849)},code=setPen(12)}),--B12
+	WIDGET.newButton({name="b13",		x=900,	y=210,w=75,color={COLOR.rainbow(-3.242)},code=setPen(13)}),--B13
+	WIDGET.newButton({name="b14",		x=980,	y=210,w=75,color={COLOR.rainbow(-3.634)},code=setPen(14)}),--B14
+	WIDGET.newButton({name="b15",		x=1060,	y=210,w=75,color={COLOR.rainbow(-4.027)},code=setPen(15)}),--B15
+	WIDGET.newButton({name="b16",		x=1140,	y=210,w=75,color={COLOR.rainbow(-4.412)},code=setPen(16)}),--B16
 
 	WIDGET.newButton({name="b17",		x=580,	y=290,w=75,color="dGrey",	code=setPen(17)}),--BONE
 	WIDGET.newButton({name="b18",		x=660,	y=290,w=75,color="black",	code=setPen(18)}),--HIDE

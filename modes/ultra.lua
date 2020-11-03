@@ -1,7 +1,7 @@
 local gc=love.graphics
 local warnTime={60,90,105,115,116,117,118,119,120}
 return{
-	color=color.lGrey,
+	color=COLOR.lGrey,
 	env={
 		noTele=true,
 		minarr=1,minsdarr=1,

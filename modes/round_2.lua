@@ -11,7 +11,7 @@ local function update_round(P)
 end
 
 return{
-	color=color.green,
+	color=COLOR.green,
 	env={
 		drop=300,lock=300,
 		oncehold=false,
@@ -20,7 +20,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1,340,15)
-		PLY.newAIPlayer(2,965,360,.5,AITemplate("CC",10,1,true,13000))
+		PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",10,1,true,13000))
 		GAME.garbageSpeed=1e99
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,

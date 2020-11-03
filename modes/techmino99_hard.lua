@@ -16,7 +16,7 @@ local function selectTarget(P)
 end
 
 return{
-	color=color.magenta,
+	color=COLOR.magenta,
 	env={
 		drop=60,lock=60,
 		fall=20,
@@ -41,17 +41,17 @@ return{
 		local n=2
 		for i=1,7 do for j=1,7 do
 			if L[n]then
-				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("9S",rnd(4,8)))
+				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AIBUILDER("9S",rnd(4,8)))
 			else
-				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AITemplate("CC",rnd(3,6),3,true,30000))
+				PLY.newAIPlayer(n,46*i-36,97*j-72,.068,AIBUILDER("CC",rnd(3,6),3,true,30000))
 			end
 			n=n+1
 		end end
 		for i=15,21 do for j=1,7 do
 			if L[n]then
-				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("9S",rnd(4,7)))
+				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AIBUILDER("9S",rnd(4,7)))
 			else
-				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AITemplate("CC",rnd(4,6),3,true,30000))
+				PLY.newAIPlayer(n,46*i+264,97*j-72,.068,AIBUILDER("CC",rnd(4,6),3,true,30000))
 			end
 			n=n+1
 		end end

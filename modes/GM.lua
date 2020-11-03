@@ -12,7 +12,7 @@ local function score(P)
 end
 
 return{
-	color=color.lBlue,
+	color=COLOR.lBlue,
 	env={
 		noTele=true,
 		minarr=1,

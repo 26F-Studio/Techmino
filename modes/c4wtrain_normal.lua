@@ -2,8 +2,8 @@ local min=math.min
 local function check_c4w(P)
 	if #P.clearedRow>0 then
 		for _=1,#P.clearedRow do
-			P.field[#P.field+1]=freeRow.get(13)
-			P.visTime[#P.visTime+1]=freeRow.get(20)
+			P.field[#P.field+1]=FREEROW.get(13)
+			P.visTime[#P.visTime+1]=FREEROW.get(20)
 			for i=4,7 do P.field[#P.field][i]=0 end
 		end
 		if P.combo>P.modeData.point then
@@ -16,7 +16,7 @@ local function check_c4w(P)
 end
 
 return{
-	color=color.green,
+	color=COLOR.green,
 	env={
 		drop=30,lock=60,oncehold=false,
 		dropPiece=check_c4w,
@@ -29,8 +29,8 @@ return{
 		local P=PLAYERS[1]
 		local F=P.field
 		for i=1,24 do
-			F[i]=freeRow.get(13)
-			P.visTime[i]=freeRow.get(20)
+			F[i]=FREEROW.get(13)
+			P.visTime[i]=FREEROW.get(20)
 			for x=4,7 do F[i][x]=0 end
 		end
 		local r=P:RND(6)

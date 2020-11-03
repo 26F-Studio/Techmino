@@ -1,6 +1,6 @@
 local max=math.max
 return{
-	color=color.lYellow,
+	color=COLOR.lYellow,
 	env={
 		drop=5,lock=60,
 		fall=10,

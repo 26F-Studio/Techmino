@@ -66,13 +66,13 @@ function Pnt.setting_control()
 	gc.line(550,530,550,630)
 	gc.line(950,530,950,630)
 
-	--Testing O mino
-	_=blockSkin[SETTING.skin[6]]
+	--O mino animation
+	local O=SKIN.curText[SETTING.skin[6]]
 	local x=550+40*sceneTemp.pos
-	gc.draw(_,x,540,nil,40/30)
-	gc.draw(_,x,580,nil,40/30)
-	gc.draw(_,x+40,540,nil,40/30)
-	gc.draw(_,x+40,580,nil,40/30)
+	gc.draw(O,x,540,nil,40/30)
+	gc.draw(O,x,580,nil,40/30)
+	gc.draw(O,x+40,540,nil,40/30)
+	gc.draw(O,x+40,580,nil,40/30)
 end
 
 local function sliderShow(S)

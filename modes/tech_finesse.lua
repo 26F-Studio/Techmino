@@ -1,7 +1,7 @@
 local format=string.format
 local int=math.floor
 return{
-	color=color.lYellow,
+	color=COLOR.lYellow,
 	env={
 		arr=0,
 		drop=1e99,lock=60,

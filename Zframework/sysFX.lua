@@ -1,8 +1,7 @@
 local gc=love.graphics
-local setColor=gc.setColor
-local setWidth=gc.setLineWidth
-local rem=table.remove
+local setColor,setWidth=gc.setColor,gc.setLineWidth
 local max,min=math.max,math.min
+local rem=table.remove
 
 local fx={}
 

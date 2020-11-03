@@ -28,7 +28,7 @@ function FILE.saveRecord(N,L)
 	local _,mes=F:write(dumpTable(L))
 	F:flush()F:close()
 	if not _ then
-		LOG.print(text.recSavingError..(mes or"unknown error"),color.red)
+		LOG.print(text.recSavingError..(mes or"unknown error"),COLOR.red)
 	end
 end
 function FILE.delRecord(N)
@@ -36,7 +36,7 @@ function FILE.delRecord(N)
 end
 
 function FILE.exportUnlock()
-	sys.setClipboardText(dumpTable(modeRanks))
+	sys.setClipboardText(dumpTable(RANKS))
 end
 function FILE.loadUnlock()
 	local F=files.unlock
@@ -47,17 +47,17 @@ function FILE.loadUnlock()
 		F:close()
 		if s then
 			setfenv(s,{})
-			modeRanks=s()
+			RANKS=s()
 		end
 	end
 end
 function FILE.saveUnlock()
 	local F=files.unlock
 	F:open("w")
-	local _,mes=F:write(dumpTable(modeRanks))
+	local _,mes=F:write(dumpTable(RANKS))
 	F:flush()F:close()
 	if not _ then
-		LOG.print(text.unlockSavingError..(mes or"unknown error"),color.red)
+		LOG.print(text.unlockSavingError..(mes or"unknown error"),COLOR.red)
 	end
 end
 
@@ -86,7 +86,7 @@ function FILE.saveData()
 	local _,mes=F:write(dumpTable(STAT))
 	F:flush()F:close()
 	if not _ then
-		LOG.print(text.statSavingError..(mes or"unknown error"),color.red)
+		LOG.print(text.statSavingError..(mes or"unknown error"),COLOR.red)
 	end
 end
 
@@ -113,8 +113,8 @@ function FILE.saveSetting()
 	F:open("w")
 	local _,mes=F:write(dumpTable(SETTING))
 	F:flush()F:close()
-	if _ then LOG.print(text.settingSaved,color.green)
-	else LOG.print(text.settingSavingError..(mes or"unknown error"),color.red)
+	if _ then LOG.print(text.settingSaved,COLOR.green)
+	else LOG.print(text.settingSavingError..(mes or"unknown error"),COLOR.red)
 	end
 end
 
@@ -134,8 +134,8 @@ function FILE.saveKeyMap()
 	F:open("w")
 	local _,mes=F:write(dumpTable(keyMap))
 	F:flush()F:close()
-	if _ then LOG.print(text.keyMapSaved,color.green)
-	else LOG.print(text.keyMapSavingError..(mes or"unknown error"),color.red)
+	if _ then LOG.print(text.keyMapSaved,COLOR.green)
+	else LOG.print(text.keyMapSavingError..(mes or"unknown error"),COLOR.red)
 	end
 end
 
@@ -158,8 +158,8 @@ function FILE.saveVK()
 	F:open("w")
 	local _,mes=F:write(dumpTable(VK_org))
 	F:flush()F:close()
-	if _ then LOG.print(text.VKSaved,color.green)
-	else LOG.print(text.VKSavingError..(mes or"unknown error"),color.red)
+	if _ then LOG.print(text.VKSaved,COLOR.green)
+	else LOG.print(text.VKSavingError..(mes or"unknown error"),COLOR.red)
 	end
 end
 return FILE

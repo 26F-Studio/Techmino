@@ -31,7 +31,7 @@ function VOC.loadOne(name)
 
 	if i==1 then
 		if not loadVoiceFile(N,N)then
-			LOG.print("No VOICE file: "..N,5,color.orange)
+			LOG.print("No VOICE file: "..N,5,COLOR.orange)
 		end
 	end
 	if not VOC.list[N][1]then VOC.list[N]=nil end

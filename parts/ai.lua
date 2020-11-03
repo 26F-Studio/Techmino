@@ -113,8 +113,8 @@ local function ifoverlapAI(f,bk,x,y)
 		if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
-local discardRow=freeRow.discard
-local getRow=freeRow.get
+local discardRow=FREEROW.discard
+local getRow=FREEROW.get
 local function resetField(f0,f,start)
 	for _=#f,start,-1 do
 		discardRow(f[_])
@@ -215,7 +215,7 @@ return{
 				if not bn then goto CTN end
 
 				for dir=0,dirCount[bn]do--Each dir
-					local cb=blocks[bn][dir]
+					local cb=BLOCKS[bn][dir]
 					for cx=1,11-#cb[1]do--Each pos
 						local cy=#Tfield+1
 

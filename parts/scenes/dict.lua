@@ -1,7 +1,6 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins,rem=table.insert,table.remove
@@ -115,12 +114,12 @@ function Tmr.dict(dt)
 end
 
 local typeColor={
-	help=color.lGrey,
-	other=color.lOrange,
-	game=color.lCyan,
-	term=color.lRed,
-	english=color.green,
-	name=color.lPurple,
+	help=COLOR.lGrey,
+	other=COLOR.lOrange,
+	game=COLOR.lCyan,
+	term=COLOR.lRed,
+	english=COLOR.green,
+	name=COLOR.lPurple,
 }
 function Pnt.dict()
 	local S=sceneTemp
@@ -171,7 +170,7 @@ function Pnt.dict()
 		local r=Timer()*2
 		local R=int(r)%7+1
 		gc.setColor(1,1,1,1-abs(r%1*2-1))
-		gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#blocks[R][0]-spinCenters[R][0][1]-.5)
+		gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 	end
 end
 

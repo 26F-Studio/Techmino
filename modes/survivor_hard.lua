@@ -1,6 +1,6 @@
 local max=math.max
 return{
-	color=color.magenta,
+	color=COLOR.magenta,
 	env={
 		drop=30,lock=45,
 		freshLimit=10,

@@ -1,6 +1,6 @@
 local min=math.min
 return{
-	color=color.red,
+	color=COLOR.red,
 	env={
 		drop=20,lock=60,
 		sequence=function(P)
@@ -8,7 +8,7 @@ return{
 		end,
 		freshMethod=function(P)
 			if not P.next[1] then
-				local height=freeRow.get(0)
+				local height=FREEROW.get(0)
 				local max=#P.field
 				if max>0 then
 					--Get heights
@@ -87,7 +87,7 @@ return{
 				end
 
 				::END::
-				freeRow.discard(height)
+				FREEROW.discard(height)
 				P:getNext(res[P:RND(#res)])
 			end
 		end,

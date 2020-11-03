@@ -1,6 +1,6 @@
 local min=math.min
 return{
-	color=color.cyan,
+	color=COLOR.cyan,
 	env={
 		drop=30,lock=45,
 		visible="time",

@@ -13,7 +13,7 @@ local function tech_check_hard(P)
 end
 
 return{
-	color=color.grey,
+	color=COLOR.grey,
 	env={
 		arr=0,
 		drop=1e99,lock=60,

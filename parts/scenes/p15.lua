@@ -1,7 +1,6 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local mStr=mStr
 
 local int=math.floor
@@ -114,16 +113,16 @@ local function tapBoard(x,y,key)
 			if checkBoard(b)then
 				S.state=2
 				S.time=Timer()-S.startTime
-				if S.time<1 then		LOG.print("不是人",color.lBlue)
-				elseif S.time<2 then	LOG.print("还是人",color.lBlue)
-				elseif S.time<3 then	LOG.print("神仙",color.lBlue)
-				elseif S.time<5 then	LOG.print("太强了",color.lBlue)
-				elseif S.time<7.5 then	LOG.print("很强",color.lBlue)
-				elseif S.time<10 then	LOG.print("可以的",color.lBlue)
-				elseif S.time<20 then	LOG.print("马上入门了",color.lBlue)
-				elseif S.time<30 then	LOG.print("入门不远了",color.lBlue)
-				elseif S.time<60 then	LOG.print("多加练习",color.lBlue)
-				else					LOG.print("第一次玩?加油",color.lBlue)
+				if S.time<1 then		LOG.print("不是人",COLOR.lBlue)
+				elseif S.time<2 then	LOG.print("还是人",COLOR.lBlue)
+				elseif S.time<3 then	LOG.print("神仙",COLOR.lBlue)
+				elseif S.time<5 then	LOG.print("太强了",COLOR.lBlue)
+				elseif S.time<7.5 then	LOG.print("很强",COLOR.lBlue)
+				elseif S.time<10 then	LOG.print("可以的",COLOR.lBlue)
+				elseif S.time<20 then	LOG.print("马上入门了",COLOR.lBlue)
+				elseif S.time<30 then	LOG.print("入门不远了",COLOR.lBlue)
+				elseif S.time<60 then	LOG.print("多加练习",COLOR.lBlue)
+				else					LOG.print("第一次玩?加油",COLOR.lBlue)
 				end
 				SFX.play("win")
 			end
@@ -200,66 +199,66 @@ end
 
 local frontColor={
 	[0]={
-		color.lRed,color.lRed,color.lRed,color.lRed,
-		color.lGreen,color.lBlue,color.lBlue,color.lBlue,
-		color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-		color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		COLOR.lRed,COLOR.lRed,COLOR.lRed,COLOR.lRed,
+		COLOR.lGreen,COLOR.lBlue,COLOR.lBlue,COLOR.lBlue,
+		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
+		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
 	},--Colored(rank)
 	{
-		color.lRed,color.lRed,color.lRed,color.lRed,
-		color.lOrange,color.lYellow,color.lYellow,color.lYellow,
-		color.lOrange,color.lGreen,color.lBlue,color.lBlue,
-		color.lOrange,color.lGreen,color.lBlue,color.lBlue,
+		COLOR.lRed,COLOR.lRed,COLOR.lRed,COLOR.lRed,
+		COLOR.lOrange,COLOR.lYellow,COLOR.lYellow,COLOR.lYellow,
+		COLOR.lOrange,COLOR.lGreen,COLOR.lBlue,COLOR.lBlue,
+		COLOR.lOrange,COLOR.lGreen,COLOR.lBlue,COLOR.lBlue,
 	},--Rainbow(rank)
 	{
-		color.lRed,color.lRed,color.lRed,color.lRed,
-		color.lBlue,color.lBlue,color.lBlue,color.lBlue,
-		color.lGreen,color.lYellow,color.lPurple,color.lPurple,
-		color.lGreen,color.lYellow,color.lPurple,color.lPurple,
+		COLOR.lRed,COLOR.lRed,COLOR.lRed,COLOR.lRed,
+		COLOR.lBlue,COLOR.lBlue,COLOR.lBlue,COLOR.lBlue,
+		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
+		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
 	},--Colored(row)
 	{
-		color.white,color.white,color.white,color.white,
-		color.white,color.white,color.white,color.white,
-		color.white,color.white,color.white,color.white,
-		color.white,color.white,color.white,color.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
 	},--Grey
 	{
-		color.white,color.white,color.white,color.white,
-		color.white,color.white,color.white,color.white,
-		color.white,color.white,color.white,color.white,
-		color.white,color.white,color.white,color.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
 	},--Black
 }
 local backColor={
 	[0]={
-		color.dRed,color.dRed,color.dRed,color.dRed,
-		color.dGreen,color.dBlue,color.dBlue,color.dBlue,
-		color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-		color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		COLOR.dRed,COLOR.dRed,COLOR.dRed,COLOR.dRed,
+		COLOR.dGreen,COLOR.dBlue,COLOR.dBlue,COLOR.dBlue,
+		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
+		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
 	},--Colored(rank)
 	{
-		color.dRed,color.dRed,color.dRed,color.dRed,
-		color.dOrange,color.dYellow,color.dYellow,color.dYellow,
-		color.dOrange,color.dGreen,color.dBlue,color.dBlue,
-		color.dOrange,color.dGreen,color.dBlue,color.dBlue,
+		COLOR.dRed,COLOR.dRed,COLOR.dRed,COLOR.dRed,
+		COLOR.dOrange,COLOR.dYellow,COLOR.dYellow,COLOR.dYellow,
+		COLOR.dOrange,COLOR.dGreen,COLOR.dBlue,COLOR.dBlue,
+		COLOR.dOrange,COLOR.dGreen,COLOR.dBlue,COLOR.dBlue,
 	},--Rainbow(rank)
 	{
-		color.dRed,color.dRed,color.dRed,color.dRed,
-		color.dBlue,color.dBlue,color.dBlue,color.dBlue,
-		color.dGreen,color.dYellow,color.dPurple,color.dPurple,
-		color.dGreen,color.dYellow,color.dPurple,color.dPurple,
+		COLOR.dRed,COLOR.dRed,COLOR.dRed,COLOR.dRed,
+		COLOR.dBlue,COLOR.dBlue,COLOR.dBlue,COLOR.dBlue,
+		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
+		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
 	},--Colored(row)
 	{
-		color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-		color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-		color.dGrey,color.dGrey,color.dGrey,color.dGrey,
-		color.dGrey,color.dGrey,color.dGrey,color.dGrey,
+		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
+		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
+		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
+		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
 	},--Grey
 	{
-		color.black,color.black,color.black,color.black,
-		color.black,color.black,color.black,color.black,
-		color.black,color.black,color.black,color.black,
-		color.black,color.black,color.black,color.black,
+		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
+		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
+		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
+		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
 	},--Black
 }
 function Pnt.p15()

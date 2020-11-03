@@ -2,8 +2,6 @@ local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 local Timer=love.timer.getTime
 
-local setFont=setFont
-
 local sin=math.sin
 local ins,rem=table.insert,table.remove
 local sub=string.sub
@@ -76,16 +74,16 @@ function keyDown.custom_sequence(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #BAG>0 then
 			sys.setClipboardText("Techmino SEQ:"..copySequence())
-			LOG.print(text.copySuccess,color.green)
+			LOG.print(text.copySuccess,COLOR.green)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
 		if pasteSequence(str)then
-			LOG.print(text.pasteSuccess,color.green)
+			LOG.print(text.pasteSuccess,COLOR.green)
 		else
-			LOG.print(text.dataCorrupted,color.red)
+			LOG.print(text.dataCorrupted,COLOR.red)
 		end
 	elseif key=="escape"then
 		SCN.back()

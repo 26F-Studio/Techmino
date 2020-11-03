@@ -1,5 +1,5 @@
 return{
-	color=color.lGrey,
+	color=COLOR.lGrey,
 	env={
 		drop=60,lock=60,
 		target=1000,dropPiece=PLY.check_lineReach,

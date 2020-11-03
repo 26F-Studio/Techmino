@@ -1,7 +1,7 @@
-local freeRow={}
+local FREEROW={}
 local L={}--Storage
 local _=0--Length
-function freeRow.reset(num)
+function FREEROW.reset(num)
 	if num<_ then
 		for i=_,num+1,-1 do
 			L[i]=nil
@@ -13,7 +13,7 @@ function freeRow.reset(num)
 	end
 	_=num
 end
-function freeRow.get(val,type)--type: nil=norm, true=garbage
+function FREEROW.get(val,type)--type: nil=norm, true=garbage
 	if _==0 then
 		for i=1,10 do
 			L[i]={0,0,0,0,0,0,0,0,0,0}
@@ -27,11 +27,11 @@ function freeRow.get(val,type)--type: nil=norm, true=garbage
 	_=_-1
 	return t
 end
-function freeRow.discard(t)
+function FREEROW.discard(t)
 	_=_+1
 	L[_]=t
 end
-function freeRow.getCount()
+function FREEROW.getCount()
 	return _
 end
-return freeRow
+return FREEROW

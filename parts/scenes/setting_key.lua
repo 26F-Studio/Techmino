@@ -1,7 +1,6 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
 local mStr=mStr
 
 local int,sin=math.floor,math.sin

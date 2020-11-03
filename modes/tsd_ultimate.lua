@@ -10,7 +10,7 @@ local function check_tsd(P)
 end
 
 return{
-	color=color.lYellow,
+	color=COLOR.lYellow,
 	env={
 		drop=60,lock=60,
 		freshLimit=15,

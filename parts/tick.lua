@@ -27,8 +27,8 @@ function Tick.lose(P)
 		end
 		if P.endCounter==120 then
 			for _=#P.field,1,-1 do
-				freeRow.discard(P.field[_])
-				freeRow.discard(P.visTime[_])
+				FREEROW.discard(P.field[_])
+				FREEROW.discard(P.visTime[_])
 				P.field[_],P.visTime[_]=nil
 			end
 			return true
@@ -80,9 +80,9 @@ function Tick.httpREQ_launch(data)
 		if res.code==200 then
 			err,res=json.decode(res.body)
 			if res then
-				LOG.print(res.notice,360,color.sky)
+				LOG.print(res.notice,360,COLOR.sky)
 				if gameVersion==res.version then
-					LOG.print(text.versionIsNew,360,color.sky)
+					LOG.print(text.versionIsNew,360,COLOR.sky)
 				else
 					LOG.print(string.gsub(text.versionIsOld,"$1",res.version),"warn")
 				end

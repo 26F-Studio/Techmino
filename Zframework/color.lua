@@ -1,6 +1,6 @@
 local rnd=math.random
 local sin=math.sin
-local color={
+local COLOR={
 	red={1,0,0},
 	green={0,1,0},
 	blue={.2,.2,1},
@@ -41,27 +41,27 @@ local color={
 }
 local list_norm={"red","green","blue","yellow","magenta","cyan","purple","orange","pink","grass"}
 local len_list_norm=#list_norm
-function color.random_norm()
-	return color[list_norm[rnd(len_list_norm)]]
+function COLOR.random_norm()
+	return COLOR[list_norm[rnd(len_list_norm)]]
 end
 
 local list_bright={"lRed","lGreen","lBlue","lYellow","lMagenta","lCyan","lPurple","lOrange"}
 local len_list_bright=#list_bright
-function color.random_bright()
-	return color[list_bright[rnd(len_list_bright)]]
+function COLOR.random_bright()
+	return COLOR[list_bright[rnd(len_list_bright)]]
 end
 
 local list_dark={"dRed","dGreen","dBlue","dYellow","dMagenta","dCyan","dPurple","dOrange"}
 local len_list_dark=#list_dark
-function color.random_bright()
-	return color[list_dark[rnd(len_list_dark)]]
+function COLOR.random_bright()
+	return COLOR[list_dark[rnd(len_list_dark)]]
 end
 
-function color.rainbow(phase)
+function COLOR.rainbow(phase)
 	return
 		sin(phase)*.4+.6,
 		sin(phase+2.0944)*.4+.6,
 		sin(phase-2.0944)*.4+.6
 end
 
-return color
+return COLOR

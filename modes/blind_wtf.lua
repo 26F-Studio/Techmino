@@ -2,7 +2,7 @@ local gc=love.graphics
 local sin,min=math.sin,math.min
 local Timer=love.timer.getTime
 return{
-	color=color.red,
+	color=COLOR.red,
 	env={
 		drop=30,lock=60,
 		next=1,
@@ -18,7 +18,7 @@ return{
 	load=function()
 		PLY.newPlayer(1,340,15)
 		if SETTING.spawn==0 then
-			LOG.print(text.switchSpawnSFX,color.yellow)
+			LOG.print(text.switchSpawnSFX,COLOR.yellow)
 		end
 	end,
 	mesDisp=function(P)

@@ -4,21 +4,20 @@ local Timer=love.timer.getTime
 local setFont=setFont
 local mStr=mStr
 
-local sin=math.sin
-local log=math.log
+local sin,log=math.sin,math.log
 local format=string.format
 
 local SCR=SCR
 
 local fnsRankColor={
-	Z=color.lYellow,
-	S=color.lGrey,
-	A=color.sky,
-	B=color.lGreen,
-	C=color.magenta,
-	D=color.dGreen,
-	E=color.red,
-	F=color.dRed,
+	Z=COLOR.lYellow,
+	S=COLOR.lGrey,
+	A=COLOR.sky,
+	B=COLOR.lGreen,
+	C=COLOR.magenta,
+	D=COLOR.dGreen,
+	E=COLOR.red,
+	F=COLOR.dRed,
 }
 function sceneInit.pause(org)
 	if
@@ -106,10 +105,10 @@ function sceneInit.pause(org)
 		S.fnsRankColor=fnsRankColor[S.rank]
 		if acc==1 then
 			S.trophy=text.finesse_ap
-			S.trophyColor=color.yellow
+			S.trophyColor=COLOR.yellow
 		elseif P.stat.maxFinesseCombo==P.stat.piece then
 			S.trophy=text.finesse_fc
-			S.trophyColor=color.lCyan
+			S.trophyColor=COLOR.lCyan
 		end
 	end
 end

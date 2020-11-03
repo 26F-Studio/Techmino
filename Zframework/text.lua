@@ -1,7 +1,7 @@
 local gc=love.graphics
 local rnd=math.random
 local rem=table.remove
-local mStr=mStr
+local setFont,mStr=setFont,mStr
 
 local texts={}
 
