@@ -482,9 +482,11 @@ function selector:reset()
 		if L[i]==V then
 			self.select=i
 			self.selText=self.list[i]
-			break
+			return
 		end
 	end
+	self.hide=true
+	LOG.print("Selector "..self.name.." dead, disp= "..tostring(V),"warn")
 end
 function selector:isAbove(x,y)
 	return
