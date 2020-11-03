@@ -225,11 +225,13 @@ do
 	if S.version~=gameVersion then
 		S.version=gameVersion
 		newVersionLaunch=true
+
+		--Try unlock modes which should be unlocked
 		for name,rank in next,RANKS do
 			if rank and rank>0 then
-				for i=1,#MODES do
-					if MODES[i].name==name and MODES[i].unlock then
-						for _,unlockName in next,MODES[i].unlock do
+				for _,mode in next,MODES do
+					if mode.name==name and mode.unlock then
+						for _,unlockName in next,mode.unlock do
 							if not RANKS[unlockName]then
 								RANKS[unlockName]=0
 							end
@@ -238,8 +240,8 @@ do
 				end
 			end
 		end
+		FILE.saveUnlock()
 		FILE.saveData()
-		FILE.saveSetting()
 	end
 	if MOBILE and not SETTING.fullscreen then
 		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,COLOR.yellow)
