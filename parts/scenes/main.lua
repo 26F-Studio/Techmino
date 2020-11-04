@@ -11,6 +11,7 @@ function sceneInit.main()
 	--Create demo player
 	destroyPlayers()
 	GAME.frame=0
+	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1,900,35,1.1)
 end
 
