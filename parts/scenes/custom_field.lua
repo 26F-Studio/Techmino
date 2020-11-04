@@ -235,23 +235,23 @@ WIDGET.init("custom_field",{
 	WIDGET.newText({name="title",		x=1020,y=5,font=70,align="R"}),
 	WIDGET.newText({name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"}),
 
-	WIDGET.newButton({name="b1",		x=580,	y=130,w=75,color={COLOR.rainbow( 1.471)},code=setPen(1)}),--B1
-	WIDGET.newButton({name="b2",		x=660,	y=130,w=75,color={COLOR.rainbow( 1.078)},code=setPen(2)}),--B2
-	WIDGET.newButton({name="b3",		x=740,	y=130,w=75,color={COLOR.rainbow( 0.685)},code=setPen(3)}),--B3
-	WIDGET.newButton({name="b4",		x=820,	y=130,w=75,color={COLOR.rainbow( 0.293)},code=setPen(4)}),--B4
-	WIDGET.newButton({name="b5",		x=900,	y=130,w=75,color={COLOR.rainbow(-0.100)},code=setPen(5)}),--B5
-	WIDGET.newButton({name="b6",		x=980,	y=130,w=75,color={COLOR.rainbow(-0.493)},code=setPen(6)}),--B6
-	WIDGET.newButton({name="b7",		x=1060,	y=130,w=75,color={COLOR.rainbow(-0.885)},code=setPen(7)}),--B7
-	WIDGET.newButton({name="b8",		x=1140,	y=130,w=75,color={COLOR.rainbow(-1.278)},code=setPen(8)}),--B8
+	WIDGET.newButton({name="b1",		x=580,	y=130,w=75,color=COLOR.red,		code=setPen(1)}),--B1
+	WIDGET.newButton({name="b2",		x=660,	y=130,w=75,color=COLOR.fire,	code=setPen(2)}),--B2
+	WIDGET.newButton({name="b3",		x=740,	y=130,w=75,color=COLOR.orange,	code=setPen(3)}),--B3
+	WIDGET.newButton({name="b4",		x=820,	y=130,w=75,color=COLOR.yellow,	code=setPen(4)}),--B4
+	WIDGET.newButton({name="b5",		x=900,	y=130,w=75,color=COLOR.lame,	code=setPen(5)}),--B5
+	WIDGET.newButton({name="b6",		x=980,	y=130,w=75,color=COLOR.grass,	code=setPen(6)}),--B6
+	WIDGET.newButton({name="b7",		x=1060,	y=130,w=75,color=COLOR.green,	code=setPen(7)}),--B7
+	WIDGET.newButton({name="b8",		x=1140,	y=130,w=75,color=COLOR.water,	code=setPen(8)}),--B8
 
-	WIDGET.newButton({name="b9",		x=580,	y=210,w=75,color={COLOR.rainbow(-1.671)},code=setPen(9)}),--B9
-	WIDGET.newButton({name="b10",		x=660,	y=210,w=75,color={COLOR.rainbow(-2.063)},code=setPen(10)}),--B10
-	WIDGET.newButton({name="b11",		x=740,	y=210,w=75,color={COLOR.rainbow(-2.456)},code=setPen(11)}),--B11
-	WIDGET.newButton({name="b12",		x=820,	y=210,w=75,color={COLOR.rainbow(-2.849)},code=setPen(12)}),--B12
-	WIDGET.newButton({name="b13",		x=900,	y=210,w=75,color={COLOR.rainbow(-3.242)},code=setPen(13)}),--B13
-	WIDGET.newButton({name="b14",		x=980,	y=210,w=75,color={COLOR.rainbow(-3.634)},code=setPen(14)}),--B14
-	WIDGET.newButton({name="b15",		x=1060,	y=210,w=75,color={COLOR.rainbow(-4.027)},code=setPen(15)}),--B15
-	WIDGET.newButton({name="b16",		x=1140,	y=210,w=75,color={COLOR.rainbow(-4.412)},code=setPen(16)}),--B16
+	WIDGET.newButton({name="b9",		x=580,	y=210,w=75,color=COLOR.cyan,	code=setPen(9)}),--B9
+	WIDGET.newButton({name="b10",		x=660,	y=210,w=75,color=COLOR.sky,		code=setPen(10)}),--B10
+	WIDGET.newButton({name="b11",		x=740,	y=210,w=75,color=COLOR.sea,		code=setPen(11)}),--B11
+	WIDGET.newButton({name="b12",		x=820,	y=210,w=75,color=COLOR.blue,	code=setPen(12)}),--B12
+	WIDGET.newButton({name="b13",		x=900,	y=210,w=75,color=COLOR.purple,	code=setPen(13)}),--B13
+	WIDGET.newButton({name="b14",		x=980,	y=210,w=75,color=COLOR.grape,	code=setPen(14)}),--B14
+	WIDGET.newButton({name="b15",		x=1060,	y=210,w=75,color=COLOR.magenta,	code=setPen(15)}),--B15
+	WIDGET.newButton({name="b16",		x=1140,	y=210,w=75,color=COLOR.pink,	code=setPen(16)}),--B16
 
 	WIDGET.newButton({name="b17",		x=580,	y=290,w=75,color="dGrey",	code=setPen(17)}),--BONE
 	WIDGET.newButton({name="b18",		x=660,	y=290,w=75,color="black",	code=setPen(18)}),--HIDE
