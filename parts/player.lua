@@ -2702,7 +2702,7 @@ function player.win(P,result)
 end
 function player.lose(P,force)
 	if P.life>0 and not force then
-		P.waiting=62
+		if P.human then P.waiting=62 end--TOFIX: CC will bug if there is a delay
 		for _=#P.field,1,-1 do
 			FREEROW.discard(P.field[_])
 			FREEROW.discard(P.visTime[_])
