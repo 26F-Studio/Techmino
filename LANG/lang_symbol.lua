@@ -310,17 +310,18 @@ return{
 			b17="[  ]",
 			any="_",
 			space="×",
+			pushLine="↑↑↑↑↑(K)",
+			delLine="==X==(L)",
+
 			copy="→__",
 			paste="__→",
 			clear="XXX",
+			demo="X ×",
 
 			newPage="+[_](N)",
 			delPage="x[_](M)",
 			prevPage="←[_]",
 			nextPage="[_]→",
-			pushLine="↑↑↑↑↑(K)",
-			delLine="==X==(L)",
-			demo="X ×",
 		},
 		custom_sequence={
 			title="!@#$%^&*",

@@ -282,11 +282,11 @@ return{
 			size="Tamaño",
 		},
 		setting_touchSwitch={
-			b1=	"Mover Izq.:",	b2="Mover Der.:",		b3="Rotar Der.:",	b4="Rotar Izq.:",
-			b5=	"Rotar 180°:",b6="Caída Inst.:",		b7="Caída Ráp.:",			b8="Reserva:",
-			b9=	"Función:",	b10="Reiniciar:",b11="Izq. Instant.:",		b12="Der. Instant.:",
-			b13="Sonic Drop:",b14="Abajo 1:",b15="Abajo 4:",	b16="Abajo 10:",
-			b17="Soltar a Izq.:",b18="Soltar a Der.:",b19="Zangi a Izq.:",	b20="Zangi a Der.:",
+			b1=	"Mover Izq.:",b2="Mover Der.:",b3="Rotar Der.:",b4="Rotar Izq.:",
+			b5=	"Rotar 180°:",b6="Caída Inst.:",b7="Caída Ráp.:",b8="Reserva:",
+			b9=	"Función:",b10="Reiniciar:",b11="Izq. Instant.:",b12="Der. Instant.:",
+			b13="Sonic Drop:",b14="Abajo 1:",b15="Abajo 4:",b16="Abajo 10:",
+			b17="Soltar a Izq.:",b18="Soltar a Der.:",b19="Zangi a Izq.:",b20="Zangi a Der.:",
 			norm="Normal",
 			pro="Profesional",
 			hide="Mostrar Tec. Virtual",
@@ -356,20 +356,21 @@ return{
 
 			subTitle="Tablero",
 
-			b12="[  ]",
+			b17="[  ]",
 			any="Borrar",
 			space="×",
+			pushLine="Añadir Línea (K)",
+			delLine="Borrar Línea (L)",
+
 			copy="Copiar",
 			paste="Pegar",
 			clear="Limpiar",
+			demo="No Mostrar X",
 
 			-- newPage="New Page(N)",
 			-- delPage="Del Page(M)",
 			-- prevPage="Prev Page",
 			-- nextPage="Next Page",
-			pushLine="Añadir Línea (K)",
-			delLine="Borrar Línea (L)",
-			demo="No Mostrar X",
 		},
 		custom_sequence={
 			title="Juego Personalizado",

@@ -283,7 +283,7 @@ return{
 		},
 		setting_touchSwitch={
 			b1=	"Déplacement vers la gauche :",b2="Déplacement vers la droite:",
-			b3="Rotation vers la droite :",	b4="Rotation vers la gauche :",
+			b3="Rotation vers la droite :",b4="Rotation vers la gauche :",
 			b5=	"180° :",b6="Chute instantanée :",b7="Chute rapide :",b8="Réserve :",
 			b9=	"Fonction :",b10="Redémarrer :",
 			b11="Déplacement instantané vers la gauche :",b12="Déplacement instantané vers la droite :",
@@ -357,20 +357,21 @@ return{
 			title="Mode personnalisé",
 			subTitle="Matrice",
 
-			b12="[  ]",
+			b17="[  ]",
 			any="Effacer",
 			space="×",
+			pushLine="Ajouter ligne (K)",
+			delLine="Supprimer ligne (L)",
+
 			copy="Copier",
 			paste="Coller",
 			clear="Nettoyer",
+			demo="Masquer les ×",
 
 			-- newPage="New Page(N)",
 			-- delPage="Del Page(M)",
 			-- prevPage="Prev Page",
 			-- nextPage="Next Page",
-			pushLine="Ajouter ligne (K)",
-			delLine="Supprimer ligne (L)",
-			demo="Masquer les ×",
 		},
 		custom_sequence={
 			title="Mode personnalisée",
