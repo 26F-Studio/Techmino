@@ -11,7 +11,7 @@
 local fs=love.filesystem
 
 --?
-NULL=function()end
+NONE={}function NULL()end
 DBP=print--use this if need debugging print
 SYSTEM=love.system.getOS()
 MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"

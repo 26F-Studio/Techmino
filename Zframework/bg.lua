@@ -1,4 +1,3 @@
-local function NULL(...)end
 local BG={
 	list={},
 	cur="",

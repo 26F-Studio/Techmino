@@ -7,7 +7,7 @@ function sceneInit.main()
 	BGM.play("blank")
 	BG.set("space")
 
-	modeEnv={}
+	modeEnv=NONE
 	--Create demo player
 	destroyPlayers()
 	GAME.frame=0
