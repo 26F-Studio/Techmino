@@ -862,14 +862,13 @@ local Pdraw_norm do
 				--Draw current mission
 				setFont(35)
 				if ENV.missionKill then
-					gc.setColor(1,.7+.2*sin(Timer()*3),.4)
+					gc.setColor(1,.7+.2*sin(Timer()*6.26),.4)
 				else
 					gc.setColor(1,1,1)
 				end
 				gc.print(missionEnum[L[P.curMission]],85,180)
 
 				--Draw next mission
-				gc.setColor(1,1,1)
 				setFont(17)
 				for i=1,3 do
 					local t=L[P.curMission+i]
