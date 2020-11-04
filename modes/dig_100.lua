@@ -1,6 +1,6 @@
 local function check_rise(P)
 	for _=1,math.min(8,100-P.stat.dig)-P.garbageBeneath do
-		P:garbageRise(13,1,P:getHolePos())
+		P:garbageRise(21,1,P:getHolePos())
 	end
 	if P.stat.dig==100 then
 		P:win("finish")
