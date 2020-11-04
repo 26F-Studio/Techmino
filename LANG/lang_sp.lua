@@ -52,8 +52,8 @@ return{
 	getRank="Rango obtenido:",
 
 	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
-	copySuccess="Copiado con éxito al Portapapeles",
-	pasteSuccess="Pegado con éxito",
+	-- exportSuccess="Export successfully",
+	-- importSuccess="Import successfully",
 	dataCorrupted="Los datos están corruptos.",
 	VKTchW="Sens. al toque",
 	VKOrgW="Sens. al origen",
@@ -422,6 +422,7 @@ return{
 		},
 		stat={
 			path="Abrir carpeta del juego",
+			-- save="Data Management",
 		},
 		music={
 			title="Sala de Música",
@@ -529,13 +530,21 @@ return{
 		pong={
 			reset="Reiniciar",
 		},
-		debug={
-			copyLog="Copiar Reporte",
-			scrInfo="Mostrar inf. de pant.",
+		savedata={
+			-- exportUnlock="Export Unlock",
+			-- exportData="Export Data",
+			-- exportSetting="Export Setting",
+			-- exportVK="Export VK",
+
+			-- importUnlock="Import Unlock",
+			-- importData="Import Data",
+			-- importSetting="Import Setting",
+			-- importVK="Import VK",
+
 			reset="¿Reiniciar?",
-			reset1="Reiniciar rangos",
-			reset2="Reiniciar datos",
-			reset3="Reiniciar todo",
+			resetUnlock="Reiniciar rangos",
+			resetData="Reiniciar datos",
+			resetALL="Reiniciar todo",
 		},
 	},
 	modes={

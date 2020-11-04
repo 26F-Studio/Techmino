@@ -93,6 +93,7 @@ function Pnt.stat()
 end
 
 WIDGET.init("stat",{
-	WIDGET.newButton({name="path",x=980,y=620,w=250,h=80,font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=MOBILE}),
+	WIDGET.newButton({name="path",x=1000,y=540,w=250,h=80,font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=MOBILE}),
+	WIDGET.newButton({name="save",x=1000,y=640,w=250,h=80,font=25,code=WIDGET.lnk.goScene("savedata")}),
 	WIDGET.newButton({name="back",x=640,y=620,w=200,h=80,font=35,code=WIDGET.lnk.BACK}),
 })

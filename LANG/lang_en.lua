@@ -50,8 +50,8 @@ return{
 	ranks={"D","C","B","A","S"},
 
 	needRestart="Effective after restart",
-	copySuccess="Copied successfully",
-	pasteSuccess="Pasted successfully",
+	exportSuccess="Export successfully",
+	importSuccess="Import successfully",
 	dataCorrupted="Data corrupted",
 	VKTchW="Touch Weight",
 	VKOrgW="Origin Weight",
@@ -421,6 +421,7 @@ return{
 		},
 		stat={
 			path="Open Data Folder",
+			save="Data Management",
 		},
 		music={
 			title="Music Room",
@@ -528,13 +529,21 @@ return{
 		pong={
 			reset="Restart",
 		},
-		debug={
-			copyLog="Copy Log",
-			scrInfo="Screen Info",
+		savedata={
+			exportUnlock="Export progress",
+			exportData="Export statistics",
+			exportSetting="Export settings",
+			exportVK="Export virtualkey layout",
+
+			importUnlock="Import progress",
+			importData="Import statistics",
+			importSetting="Import settings",
+			importVK="Import virtualkey layout",
+
 			reset="RESET?",
-			reset1="Reset ranks",
-			reset2="Reset data",
-			reset3="Reset all",
+			resetUnlock="Reset ranks",
+			resetData="Reset data",
+			resetALL="Reset all",
 		},
 	},
 	modes={

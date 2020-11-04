@@ -49,8 +49,8 @@ return{
 	recSavingError="x!:",
 
 	needRestart="!!*#R#*!!",
-	copySuccess="~$~",
-	pasteSuccess="~v~",
+	exportSuccess="~Out~",
+	importSuccess="~In~",
 	dataCorrupted="XXXXX",
 	VKTchW="Tch↓",
 	VKOrgW="Org↓",
@@ -372,7 +372,8 @@ return{
 			down="↓",
 		},
 		stat={
-			path="_$_",
+			path="%$%",
+			save="%0101%",
 		},
 		music={
 			title="(~~~~)",

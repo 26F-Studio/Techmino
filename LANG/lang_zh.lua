@@ -51,8 +51,8 @@ return{
 	ranks={"D","C","B","A","S"},
 
 	needRestart="重新开始以生效",
-	copySuccess="已复制到剪切板",
-	pasteSuccess="粘贴成功",
+	exportSuccess="导出成功",
+	importSuccess="导入成功",
 	dataCorrupted="数据损坏",
 	VKTchW="触摸点权重",
 	VKOrgW="原始点权重",
@@ -433,6 +433,7 @@ return{
 		},
 		stat={
 			path="打开存储目录",
+			save="用户档案管理",
 		},
 		login={
 			title="登录/注册",
@@ -530,13 +531,21 @@ return{
 		pong={
 			reset="重置",
 		},
-		debug={
-			copyLog="复制日志",
-			scrInfo="输出屏幕信息",
+		savedata={
+			exportUnlock="导出地图进度",
+			exportData="导出统计数据",
+			exportSetting="导出设置",
+			exportVK="导出虚拟按键布局",
+
+			importUnlock="导入地图进度",
+			importData="导入统计数据",
+			importSetting="导入设置",
+			importVK="导入虚拟按键布局",
+
 			reset="重置?",
-			reset1="重置解锁/等级",
-			reset2="重置统计",
-			reset3="清空所有数据",
+			resetUnlock="重置解锁/等级",
+			resetData="重置统计",
+			resetALL="清空所有数据",
 		},
 	},
 	modes={

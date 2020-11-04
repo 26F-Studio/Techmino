@@ -52,18 +52,10 @@ function keyDown.calculator(k)
 			S.val=sub(S.val,1,-2)
 		end
 		if S.val==""then S.val="0"end
-	elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then
-		S.sym="+"
-		S.reg=false
-	elseif k=="-"then
-		S.sym="-"
-		S.reg=false
-	elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then
-		S.sym="*"
-		S.reg=false
-	elseif k=="/"then
-		S.sym="/"
-		S.reg=false
+	elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then S.sym="+" S.reg=false
+	elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then S.sym="*" S.reg=false
+	elseif k=="-"then S.sym="-" S.reg=false
+	elseif k=="/"then S.sym="/" S.reg=false
 	elseif k=="return"then
 		if byte(S.val,-1)==101 then S.val=sub(S.val,1,-2)end
 		if S.sym and S.reg then
@@ -96,8 +88,16 @@ function keyDown.calculator(k)
 		elseif v==1379e8+2626e4+1379 then
 			S.pass=true
 			SCN.go("debug")
-		elseif v%1==0 and v>=6001 and v<=6012 then
-			love.keypressed("f"..(v-6000))
+		elseif v%1==0 and v>=8001 and v<=8012 then
+			love.keypressed("f"..(v-8000))
+		elseif v==670 then
+			LOG.print("Screen Info:")
+			LOG.print("x y: "..SCR.x.." "..SCR.y)
+			LOG.print("w h: "..SCR.w.." "..SCR.h)
+			LOG.print("W H: "..SCR.W.." "..SCR.H)
+			LOG.print("k: "..math.floor(SCR.k*100)*.01)
+			LOG.print("rad: "..math.floor(SCR.rad*100)*.01)
+			LOG.print("dpi: "..SCR.dpi)
 		end
 	elseif k=="escape"then
 		S.val,S.reg,S.sym="0"

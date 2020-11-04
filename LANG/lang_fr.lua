@@ -52,8 +52,8 @@ return{
 	getRank="Rang: ",
 
 	needRestart="Fonctionnera dès la prochaine partie",
-	copySuccess="Copié avec succès",
-	pasteSuccess="Collé avec succès",
+	-- exportSuccess="Export successfully",
+	-- importSuccess="Import successfully",
 	dataCorrupted="Données corrompues",
 	VKTchW="Poids du toucher",
 	VKOrgW="Pois d'origine",
@@ -417,6 +417,7 @@ return{
 		},
 		stat={
 			path="Ouvrir dossier des données",
+			-- save="Data Management",
 		},
 		music={
 			title="Salon musical",
@@ -530,13 +531,21 @@ return{
 			his="History",
 			qq="QQ du créateur",
 		},
-		debug={
-			copyLog="Copier logs",
-			scrInfo="Montrer les infos de l'écran",
+		savedata={
+			-- exportUnlock="Export Unlock",
+			-- exportData="Export Data",
+			-- exportSetting="Export Setting",
+			-- exportVK="Export VK",
+
+			-- importUnlock="Import Unlock",
+			-- importData="Import Data",
+			-- importSetting="Import Setting",
+			-- importVK="Import VK",
+
 			reset="Réinitialiser ?",
-			reset1="Réinitialiser les rangs",
-			reset2="Réinitialiser les données",
-			reset3="Tout réinitialiser",
+			resetUnlock="Réinitialiser les rangs",
+			resetData="Réinitialiser les données",
+			resetALL="Tout réinitialiser",
 		},
 	},
 	modes={

@@ -1,4 +1,4 @@
-local sys,fs=love.filesystem,love.filesystem
+local fs=love.filesystem
 
 local files={
 	data=	fs.newFile("data.dat"),
@@ -35,9 +35,6 @@ function FILE.delRecord(N)
 	fs.remove(N..".dat")
 end
 
-function FILE.exportUnlock()
-	sys.setClipboardText(dumpTable(RANKS))
-end
 function FILE.loadUnlock()
 	local F=files.unlock
 	if F:open("r")then
@@ -61,9 +58,6 @@ function FILE.saveUnlock()
 	end
 end
 
-function FILE.exportUnlock()
-	sys.setClipboardText(dumpTable(STAT))
-end
 function FILE.loadData()
 	local F=files.data
 	if F:open("r")then
@@ -90,9 +84,6 @@ function FILE.saveData()
 	end
 end
 
-function FILE.exportSetting()
-	sys.setClipboardText(dumpTable(SETTING))
-end
 function FILE.loadSetting()
 	local F=files.setting
 	if F:open("r")then
@@ -139,9 +130,6 @@ function FILE.saveKeyMap()
 	end
 end
 
-function FILE.exportVK()
-	sys.setClipboardText(dumpTable(VK_org))
-end
 function FILE.loadVK()
 	local F=files.VK
 	if F:open("r")then
