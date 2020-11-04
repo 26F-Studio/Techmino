@@ -174,6 +174,7 @@ function Pnt.load()
 
 	--Draw floors
 	setFont(50)
+	gc.setLineWidth(4)
 	for i=1,27 do
 		if i<26 then
 			local r,g,b=COLOR.rainbow(i+3.5)
