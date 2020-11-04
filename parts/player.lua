@@ -2701,7 +2701,7 @@ function player.win(P,result)
 end
 function player.lose(P,force)
 	if P.life>0 and not force then
-		if P.human then P.waiting=62 end--TOFIX: CC will bug if there is a delay
+		P.waiting=62
 		for _=#P.field,1,-1 do
 			FREEROW.discard(P.field[_])
 			FREEROW.discard(P.visTime[_])
@@ -2712,7 +2712,6 @@ function player.lose(P,force)
 			CC.destroy(P.AI_bot)
 			P.hd=nil
 			loadAI(P,P.AIdata)
-			P:popNext()
 		end
 
 		P.life=P.life-1
