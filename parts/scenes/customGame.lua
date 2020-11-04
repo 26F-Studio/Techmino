@@ -42,7 +42,7 @@ function keyDown.customGame(key)
 		str=str.."!"..copyBoard().."!"
 		if #MISSION>0 then str=str..copyMission()end
 		sys.setClipboardText(str.."!")
-		LOG.print(text.copySuccess,COLOR.green)
+		LOG.print(text.exportSuccess,COLOR.green)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p1,p2,p3,p4,p5--ptr*
@@ -70,7 +70,7 @@ function keyDown.customGame(key)
 					break
 				end
 			end
-			LOG.print(text.pasteSuccess,COLOR.green)
+			LOG.print(text.importSuccess,COLOR.green)
 			return
 		end
 		LOG.print(text.dataCorrupted,COLOR.red)

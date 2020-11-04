@@ -74,14 +74,14 @@ function keyDown.custom_sequence(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #BAG>0 then
 			sys.setClipboardText("Techmino SEQ:"..copySequence())
-			LOG.print(text.copySuccess,COLOR.green)
+			LOG.print(text.exportSuccess,COLOR.green)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
 		if pasteSequence(str)then
-			LOG.print(text.pasteSuccess,COLOR.green)
+			LOG.print(text.importSuccess,COLOR.green)
 		else
 			LOG.print(text.dataCorrupted,COLOR.red)
 		end

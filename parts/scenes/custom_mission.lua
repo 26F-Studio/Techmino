@@ -72,14 +72,14 @@ function keyDown.custom_mission(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
 			sys.setClipboardText("Techmino Target:"..copyMission())
-			LOG.print(text.copySuccess,COLOR.green)
+			LOG.print(text.exportSuccess,COLOR.green)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
 		if pasteMission(str)then
-			LOG.print(text.pasteSuccess,COLOR.green)
+			LOG.print(text.importSuccess,COLOR.green)
 		else
 			LOG.print(text.dataCorrupted,COLOR.red)
 		end
