@@ -10,11 +10,7 @@ function sceneInit.sound()
 end
 
 local blockName={"z","s","j","l","t","o","i"}
-local lineCount={
-	"single",
-	"double",
-	"triple",
-}
+local lineCount={"single","double","triple","techrash"}
 function keyDown.sound(key)
 	local S=sceneTemp
 	if key=="1"then
@@ -33,8 +29,10 @@ function keyDown.sound(key)
 		if S.b2b then VOC.play("b2b",CHN)
 		elseif S.b3b then VOC.play("b3b",CHN)
 		end
-		VOC.play(blockName[int(key/10)].."spin",CHN)
-		if key%10>0 then VOC.play(lineCount[key%10],CHN)end
+		if key>10 then
+			VOC.play(blockName[int(key/10)].."spin",CHN)
+		end
+		if lineCount[key%10]then VOC.play(lineCount[key%10],CHN)end
 		if S.pc then VOC.play("perfect_clear",CHN)end
 	elseif key=="escape"then
 		SCN.back()
@@ -43,8 +41,8 @@ end
 
 WIDGET.init("sound",{
 	WIDGET.newText({name="title",	x=30,	y=15,font=70,align="L"}),
-	WIDGET.newSlider({name="sfx",	x=760,	y=60,w=400,font=35,change=function()SFX.play("blip_1")end,disp=WIDGET.lnk.SETval("sfx"),code=WIDGET.lnk.SETsto("sfx")}),
-	WIDGET.newSlider({name="voc",	x=760,	y=120,w=400,font=35,change=function()VOC.play("test")end,disp=WIDGET.lnk.SETval("voc"),code=WIDGET.lnk.SETsto("voc")}),
+	WIDGET.newSlider({name="sfx",	x=510,	y=60,w=330,font=35,change=function()SFX.play("blip_1")end,disp=WIDGET.lnk.SETval("sfx"),code=WIDGET.lnk.SETsto("sfx")}),
+	WIDGET.newSlider({name="voc",	x=510,	y=120,w=330,font=35,change=function()VOC.play("test")end,disp=WIDGET.lnk.SETval("voc"),code=WIDGET.lnk.SETsto("voc")}),
 
 	WIDGET.newKey({name="move",		x=110,	y=140,w=160,h=50,code=function()SFX.play("move")end}),
 	WIDGET.newKey({name="lock",		x=110,	y=205,w=160,h=50,code=function()SFX.play("lock")end}),
@@ -56,15 +54,20 @@ WIDGET.init("sound",{
 	WIDGET.newKey({name="prerotate",x=110,	y=595,w=160,h=50,code=function()SFX.play("prerotate")end}),
 	WIDGET.newKey({name="prehold",	x=110,	y=660,w=160,h=50,code=function()SFX.play("prehold")end}),
 
-	WIDGET.newKey({name="_1",		x=280,	y=140,w=160,h=50,code=function()SFX.play("clear_1")end}),
-	WIDGET.newKey({name="_2",		x=280,	y=205,w=160,h=50,code=function()SFX.play("clear_2")end}),
-	WIDGET.newKey({name="_3",		x=280,	y=270,w=160,h=50,code=function()SFX.play("clear_3")end}),
-	WIDGET.newKey({name="_4",		x=280,	y=335,w=160,h=50,code=function()SFX.play("clear_4")end}),
+	WIDGET.newKey({name="clear1",	x=280,	y=140,w=160,h=50,code=function()SFX.play("clear_1")end}),
+	WIDGET.newKey({name="clear2",	x=280,	y=205,w=160,h=50,code=function()SFX.play("clear_2")end}),
+	WIDGET.newKey({name="clear3",	x=280,	y=270,w=160,h=50,code=function()SFX.play("clear_3")end}),
+	WIDGET.newKey({name="clear4",	x=280,	y=335,w=160,h=50,code=function()SFX.play("clear_4")end}),
 	WIDGET.newKey({name="spin0",	x=280,	y=400,w=160,h=50,code=function()SFX.play("spin_0")end}),
 	WIDGET.newKey({name="spin1",	x=280,	y=465,w=160,h=50,code=function()SFX.play("spin_1")end}),
 	WIDGET.newKey({name="spin2",	x=280,	y=530,w=160,h=50,code=function()SFX.play("spin_2")end}),
 	WIDGET.newKey({name="spin3",	x=280,	y=595,w=160,h=50,code=function()SFX.play("spin_3")end}),
 	WIDGET.newKey({name="_pc",		x=280,	y=660,w=160,h=50,code=function()SFX.play("clear")end}),
+
+	WIDGET.newKey({name="_1",		x=970,	y=75,w=140,h=50,code=WIDGET.lnk.pressKey(1)}),
+	WIDGET.newKey({name="_2",		x=1130,	y=75,w=140,h=50,code=WIDGET.lnk.pressKey(2)}),
+	WIDGET.newKey({name="_3",		x=970,	y=140,w=140,h=50,code=WIDGET.lnk.pressKey(3)}),
+	WIDGET.newKey({name="_4",		x=1130,	y=140,w=140,h=50,code=WIDGET.lnk.pressKey(4)}),
 
 	WIDGET.newKey({name="z0",		x=650,	y=205,w=140,h=50,code=WIDGET.lnk.pressKey(10)}),
 	WIDGET.newKey({name="z1",		x=650,	y=270,w=140,h=50,code=WIDGET.lnk.pressKey(11)}),
