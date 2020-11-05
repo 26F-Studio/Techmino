@@ -62,18 +62,13 @@ return{
 		else
 			modeEnv.mission=nil
 		end
-		local clearmode
-		if FIELD[1]then
-			for y=1,20 do
-				if notAir(FIELD[1][y])then
-					clearmode=true
-				end
+		modeEnv.dropPiece=PLY.check_lineReach
+		for y=1,20 do
+			if notAir(FIELD[1][y])then
+				--Switch clear mode on
+				modeEnv.dropPiece=checkClear
+				break
 			end
-		end
-		if clearmode then
-			modeEnv.dropPiece=checkClear
-		else
-			modeEnv.dropPiece=PLY.check_lineReach
 		end
 		PLY.newPlayer(1,340,15)
 		local L=modeEnv.opponent

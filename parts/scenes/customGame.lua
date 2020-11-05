@@ -5,11 +5,23 @@ local Timer=love.timer.getTime
 local int=math.floor
 local find,sub=string.find,string.sub
 
+local function notAir(L)
+	for i=1,10 do
+		if L[i]>0 then return true end
+	end
+end
+
 local customEnv=customEnv
 function sceneInit.customGame()
 	destroyPlayers()
 	BG.set(customEnv.bg)
 	BGM.play(customEnv.bgm)
+	sceneInit={initField=false}
+	for y=1,20 do
+		if notAir(FIELD[1][y])then
+			sceneTemp.initField=true
+		end
+	end
 end
 
 function keyDown.customGame(key)
@@ -27,7 +39,13 @@ function keyDown.customGame(key)
 			end
 		end
 		SCN.push()
-		loadGame((key=="return2"or kb.isDown("lalt","lctrl","lshift"))and"custom_puzzle"or"custom_clear",true)
+		if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
+			if sceneTemp.initField then
+				loadGame("custom_puzzle",true)
+			end
+		else
+			loadGame("custom_clear",true)
+		end
 	elseif key=="f"then
 		SCN.go("custom_field","swipeD")
 	elseif key=="s"then
@@ -83,28 +101,30 @@ end
 
 function Pnt.customGame()
 	--Field content
-	gc.push("transform")
-	gc.translate(95,290)
-	gc.scale(.5)
-	gc.setColor(1,1,1)
-	gc.setLineWidth(3)
-	gc.rectangle("line",-2,-2,304,604)
-	local F=FIELD[1]
-	local cross=puzzleMark[-1]
-	local texture=SKIN.curText
-	for y=1,20 do for x=1,10 do
-		local B=F[y][x]
-		if B>0 then
-			gc.draw(texture[B],30*x-30,600-30*y)
-		elseif B==-1 then
-			gc.draw(cross,30*x-30,600-30*y)
-		end
-	end end
-	gc.pop()
+	if sceneTemp.initField then
+		gc.push("transform")
+		gc.translate(95,290)
+		gc.scale(.5)
+		gc.setColor(1,1,1)
+		gc.setLineWidth(3)
+		gc.rectangle("line",-2,-2,304,604)
+		local F=FIELD[1]
+		local cross=puzzleMark[-1]
+		local texture=SKIN.curText
+		for y=1,20 do for x=1,10 do
+			local B=F[y][x]
+			if B>0 then
+				gc.draw(texture[B],30*x-30,600-30*y)
+			elseif B==-1 then
+				gc.draw(cross,30*x-30,600-30*y)
+			end
+		end end
+		gc.pop()
+	end
 
 	--Field
 	setFont(40)
-	if #FIELD>1 then
+	if sceneTemp.initField and #FIELD>1 then
 		gc.setColor(1,1,int(Timer()*6.26)%2)
 		gc.print("+",275,300)
 		gc.print(#FIELD-1,300,300)
@@ -117,6 +137,7 @@ function Pnt.customGame()
 		gc.print(#BAG,360,545)
 	end
 	setFont(30)
+	gc.setColor(1,1,1)
 	gc.print(customEnv.sequence,330,510)
 
 	--Sequence
@@ -152,7 +173,7 @@ WIDGET.init("customGame",{
 	WIDGET.newButton({name="copy",	x=1070,	y=310,w=310,h=70,color="lRed",	font=25,code=WIDGET.lnk.pressKey("cC")}),
 	WIDGET.newButton({name="paste",	x=1070,	y=390,w=310,h=70,color="lBlue",	font=25,code=WIDGET.lnk.pressKey("cV")}),
 	WIDGET.newButton({name="clear",	x=1070,	y=470,w=310,h=70,color="lYellow",font=35,code=WIDGET.lnk.pressKey("return")}),
-	WIDGET.newButton({name="puzzle",x=1070,	y=550,w=310,h=70,color="lMagenta",font=35,code=WIDGET.lnk.pressKey("return2")}),
+	WIDGET.newButton({name="puzzle",x=1070,	y=550,w=310,h=70,color="lMagenta",font=35,code=WIDGET.lnk.pressKey("return2"),hide=function()return not sceneTemp.initField end}),
 
 	--More
 	WIDGET.newKey({name="advance",	x=730,	y=190,w=220,h=90,color="red",	font=35,code=WIDGET.lnk.goScene("custom_advance")}),

@@ -5,8 +5,6 @@ local max,min,int=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
 local sub=string.sub
 
-
-
 local FIELD=FIELD
 function sceneInit.custom_field()
 	sceneTemp={
