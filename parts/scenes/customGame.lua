@@ -23,6 +23,9 @@ function sceneInit.customGame()
 		end
 	end
 end
+function sceneBack.customGame()
+	BGM.play("blank")
+end
 
 function keyDown.customGame(key)
 	if key=="return"or key=="return2"then
