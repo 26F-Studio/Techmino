@@ -1,8 +1,9 @@
 local format=string.format
 local int=math.floor
 local function tech_check_hard(P)
-	if #P.clearedRow>0 then
-		if not(P.lastClear.spin or P.lastClear.pc)then
+	local C=P.lastPiece
+	if C.row>0 then
+		if not(C.spin or C.pc)then
 			P:lose()
 			return
 		end

@@ -1,6 +1,6 @@
 local function check_tsd(P)
-	if #P.clearedRow>0 then
-		local C=P.lastClear
+	local C=P.lastPiece
+	if C.row>0 then
 		if C.id==5 and C.row==2 and C.spin then
 			P.modeData.event=P.modeData.event+1
 		else

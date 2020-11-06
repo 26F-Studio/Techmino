@@ -1408,13 +1408,11 @@ local function newEmptyPlayer(id,x,y,size)
 
 	P.freshTime=0
 	P.spinLast=false
-	P.lastClear={
-		id=1,--block id
-		name=1,--block name
+	P.lastPiece={
+		id=0,name=0,--block id/name
 		row=0,--line cleared
-		spin=false,--if spin
-		mini=false,--if mini
-		pc=false,--if pc
+		spin=false,mini=false,--if spin/mini
+		pc=false,hpc=false,--if pc/hpc
 		special=false,--if special clear (spin, >=4, pc)
 	}
 	P.spinSeq=0--For Ospin, each digit mean a spin
@@ -2291,11 +2289,13 @@ do--player.drop(P)--Place piece
 			if P.sound then SFX.fieldPlay("lock",nil,P)end
 		end
 
+		local C=P.lastPiece
+		C.id,C.name=CB.id,CB.name
+		C.row=cc
+		C.spin,C.mini=dospin,false
+		C.pc,C.hpc=false,false
+		C.special=false
 		if cc>0 then--If lines cleared, about 200 lines below
-			local C=P.lastClear
-			C.id,C.name=CB.id,CB.name
-			C.row=cc
-			C.spin=dospin
 			cmb=cmb+1
 			if dospin then
 				cscore=(spinSCR[CB.name]or spinSCR[8])[cc]
@@ -2375,7 +2375,6 @@ do--player.drop(P)--Place piece
 			end
 
 			--PC/HPC bonus
-			C.pc,C.hpc=false,false
 			if clear and #P.field==0 then
 				P:showText(text.PC,0,-80,50,"flicker")
 				atk=atk*.5+min(8+STAT.pc*2,20)

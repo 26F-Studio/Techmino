@@ -1,10 +1,10 @@
 local gc=love.graphics
 local dropSpeed={[0]=60,50,40,30,25,20,15,12,9,7,5,4,3,2,1,1,.5,.5,.25,.25}
 local function check_LVup(P)
-	if P.combo>1 or P.b2b>0 or P.lastClear.row>1 then
+	if P.combo>1 or P.b2b>0 or P.lastPiece.row>1 then
 		if P.combo>1 then 			P:showText("2x",0,-220,40,"flicker",.3)end
 		if P.b2b>0 then 			P:showText("spin",0,-160,40,"flicker",.3)end
-		if P.lastClear.row>1 then 	P:showText("1+",0,-100,40,"flicker",.3)end
+		if P.lastPiece.row>1 then 	P:showText("1+",0,-100,40,"flicker",.3)end
 		P:lose()
 		return
 	end

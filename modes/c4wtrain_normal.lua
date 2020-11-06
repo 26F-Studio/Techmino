@@ -1,6 +1,6 @@
 local min=math.min
 local function check_c4w(P)
-	if #P.clearedRow>0 then
+	if #P.lastPiece.row>0 then
 		for _=1,#P.clearedRow do
 			P.field[#P.field+1]=FREEROW.get(13)
 			P.visTime[#P.visTime+1]=FREEROW.get(20)
