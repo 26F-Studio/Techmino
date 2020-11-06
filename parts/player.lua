@@ -1563,10 +1563,6 @@ function player.ifoverlap(P,bk,x,y)
 		end
 	end
 end
-function player.ckfull(P,i)
-	for j=1,10 do if P.field[i][j]<=0 then return end end
-	return true
-end
 function player.attack(P,R,send,time,...)
 	if SETTING.atkFX>0 then
 		P:createBeam(R,send,time,...)
@@ -2137,28 +2133,33 @@ do--player.drop(P)--Place piece
 		--Clear list of cleared-rows
 		if P.clearedRow[1]then P.clearedRow={}end
 
-		--Check bomb garbage
-		if CY>1 then
-			local L=P.field[CY-1]
-			local l=CB.bk[1]
-			for i=1,P.c do
-				if l[i]and L[CX+i-1]==19 then
-					cc=1--cc=cc+1
-					P.clearingRow[1]=CY-1--P.clearingRow[cc]=CY-1
-					P.clearedRow[1]=CY-1--P.clearedRow[cc]=CY-1
-					break
+		--Check line clear
+		for i=1,P.r do
+			local h=CY+i-2
+
+			--Bomb trigger
+			if h>0 and P.field[h]and P.clearedRow[cc]~=h then
+				for x=1,P.c do
+					if CB.bk[i][x]and P.field[h][CX+x-1]==19 then
+						cc=cc+1
+						P.clearingRow[cc]=h-cc+1
+						P.clearedRow[cc]=h
+						break
+					end
 				end
 			end
-		end
 
-		--Check rows filled
-		for i=0,P.r-1 do
-			local h=CY+i
-			if P:ckfull(h)then
+			h=h+1
+			--Row filled
+			for x=1,10 do
+				if P.field[h][x]<=0 then
+					goto notFull
+				end
+			end
 				cc=cc+1
 				P.clearingRow[cc]=h-cc+1
 				P.clearedRow[cc]=h
-			end
+			::notFull::
 		end
 
 		--Create clearing FX
