@@ -161,18 +161,18 @@ return{
 	group="Grupo Oficial de QQ (si no lo hackean):1127702001",
 	WidgetText={
 		main={
-			play="Jugar",
+			-- offline="Single",
+			-- online="Multi",
 			custom="Person.",
-			qplay="P. Rápida",
 			stat="Estadísticas",
-			help="Ayuda",
 			setting="Opciones",
+			qplay="P. Rápida",
 			lang="言/A",
+			help="Ayuda",
+			quit="Salir",
 			music="Música",
-			account="Cuenta",
 			sound="Sala de SE",
 			minigame="Minijuegos",
-			quit="Salir",
 		},
 		mode={
 			start="Empezar",

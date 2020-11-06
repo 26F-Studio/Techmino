@@ -161,18 +161,18 @@ return{
 	group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
 	WidgetText={
 		main={
-			play="开始",
+			offline="单机游戏",
+			online="联网游戏",
 			custom="自定义",
-			qplay="快速开始",
 			stat="统计信息",
-			help="帮助",
 			setting="设置",
+			qplay="快速开始",
 			lang="言/A",
+			help="帮助",
+			quit="退出",
 			music="音乐室",
-			account="账户",
 			sound="音效室",
 			minigame="小游戏",
-			quit="退出",
 		},
 		mode={
 			start="开始",

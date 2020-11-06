@@ -110,18 +110,18 @@ return{
 	},
 	WidgetText={
 		main={
-			play="!!!",
+			offline="!",
+			online="!!!",
 			custom="_?!",
-			qplay="!",
 			stat="=___",
-			help="???",
 			setting="_?_",
+			qplay="!",
 			lang="言/A",
+			help="???",
+			quit="X",
 			music="~~~",
-			account="Account",
 			sound="=><=",
 			minigame="^_^",
-			quit="X",
 		},
 		mode={
 			start="!!!",
