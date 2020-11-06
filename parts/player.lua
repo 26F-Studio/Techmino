@@ -789,6 +789,13 @@ local Pdraw_norm do
 
 				--Bonus texts
 				TEXT.draw(P.bonus)
+
+				--Display Ys
+				-- gc.setLineWidth(6)
+				-- if P.curY then	gc.setColor(1,.4,0,.42)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
+				-- if P.imgY then	gc.setColor(0,1,.4,.42)gc.line(0,615-P.imgY*30,300,615-P.imgY*30)end
+				-- if P.minY then	gc.setColor(0,.4,1,.42)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
+				-- 				gc.setColor(0,.4,1,.42)gc.line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 			gc.pop()
 
 			--Speed dials
@@ -841,12 +848,6 @@ local Pdraw_norm do
 					gc.print(P.life,517,665)
 				end
 			end
-
-			--Display Ys
-			-- gc.setLineWidth(6)
-			-- if P.curY then gc.setColor(1,.4,0,.626)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
-			-- if P.imgY then gc.setColor(0,1,.4,.626)gc.line(0,615-P.imgY*30,300,615-P.imgY*30)end
-			-- if P.minY then gc.setColor(0,.4,1,.626)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
 
 			--Other messages
 			gc.setColor(1,1,1)
