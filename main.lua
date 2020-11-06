@@ -107,11 +107,11 @@ GAME={
 }--Global game data
 PLAYERS={alive={}}--Players data
 CURMODE=nil--Current mode object
+RANKS={sprint_10=0}
 
 
 --Load modules
-
-require("Zframework")--Load Zframework
+require("Zframework")
 
 require("parts/list")
 require("parts/default_data")
@@ -139,26 +139,10 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	end
 end
 
---Load Background files from SOURCE ONLY
-for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do
-	if love.filesystem.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
-		local name=v:sub(1,-5)
-		BG.list[name]=require("parts/backgrounds/"..name)
-	else
-		LOG.print("Dangerous file : %SAVE%/parts/backgrounds/"..v)
-	end
-end
-
 --Load files & settings
-RANKS={sprint_10=0}
-
-if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
-if fs.getInfo("setting.dat")then fs.remove("setting.dat")end
-
 if fs.getInfo("settings.dat")then
 	FILE.loadSetting()
 else
-	-- firstRun=true
 	if MOBILE then
 		SETTING.VKSwitch=true
 		SETTING.swap=false
