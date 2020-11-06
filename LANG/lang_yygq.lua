@@ -25,10 +25,11 @@ return{
 	finesse_ap="您",
 	finesse_fc="全连",
 
-	noUsername="账号填不来?",
-	wrongEmail="邮箱不会填?",
-	noPassword="密码填不来?",
-	diffPassword="账号密码都填不来?",
+	noUsername="别闹。",
+	wrongCode="有人邀请你注册了?",
+	wrongEmail="别乱输。",
+	noPassword="注册会不会?",
+	diffPassword="字不认识?",
 
 	ranks={"菜","可","好","强","您"},
 

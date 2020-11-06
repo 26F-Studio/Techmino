@@ -7,24 +7,27 @@ function keyDown.login(key)
 		local password2=WIDGET.active.password2.value
 		if #username==0 then
 			LOG.print(text.noUsername)return
-		elseif not email:match("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$")then
+		elseif not email:match("^[a-zA-Z0-9_]+@[a-zA-Z0-9_-]+%.[a-zA-Z0-9_]+$")then
 			LOG.print(text.wrongEmail)return
+		elseif #code~=12 then
+			LOG.print(text.wrongCode)return
 		elseif #password==0 or #password2==0 then
 			LOG.print(text.noPassword)return
 		elseif password~=password2 then
 			LOG.print(text.diffPassword)return
 		end
+		local data=urlencode.encode({
+			username=username,
+			email=email,
+			password=password,
+			code=code,
+		})
 		httpRequest(
 			TICK.httpREQ_register,
 			"api/account/register",
 			"POST",
-			{["Content-Type"]="application/json"},
-			json.encode({
-				username=username,
-				email=email,
-				password=password,
-				code=code,
-			})
+			{["Content-Type"]="application/x-www-form-urlencoded"},
+			data
 		)
 	elseif key=="escape"then
 		SCN.back()

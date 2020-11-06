@@ -52,25 +52,36 @@ return{
 	getRank="Rango obtenido:",
 
 	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
+
 	-- exportSuccess="Export successfully",
 	-- importSuccess="Import successfully",
 	dataCorrupted="Los datos están corruptos.",
+
 	VKTchW="Sens. al toque",
 	VKOrgW="Sens. al origen",
 	VKCurW="Sens. Cur. Pos.",
+
 	noScore="Sin puntajes aún.",
 	highScore="Mejores puntajes",
 	newRecord="¡Nuevo Récord!",
+
 	getNoticeFail="Error al buscar novedades.",
 	getVersionFail="Error al buscar nuevas versiones.",
 	versionIsNew="Esta es la versión más reciente disponible.",
 	versionIsOld="¡Está disponible la nueva versión $1!",
-	registerSuccessed="¡Registro exitoso!",
-	registerFailed="Registro fallido.",
+
 	netErrorCode="Código de error de conexión",
+	-- jsonError="Json error",
+
 	noUsername="Por favor ingresa un nombre de usuario",
+
+	-- wrongCode="Please enter invitation code",
+	-- wrongEmail="Wrong email address",
 	noPassword="Por favor ingresa una contraseña",
 	diffPassword="Las contraseñas no coinciden",
+	registerSuccessed="¡Registro exitoso!",
+	registerFailed="Registro fallido.",
+
 	errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
 
 	acts={

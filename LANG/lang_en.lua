@@ -50,12 +50,15 @@ return{
 	ranks={"D","C","B","A","S"},
 
 	needRestart="Effective after restart",
+
 	exportSuccess="Export successfully",
 	importSuccess="Import successfully",
 	dataCorrupted="Data corrupted",
+
 	VKTchW="Touch Weight",
 	VKOrgW="Origin Weight",
 	VKCurW="Cur. Pos. Weight",
+
 	noScore="No Scores Yet",
 	highScore="Personal Bests",
 	newRecord="New Record!",
@@ -64,14 +67,18 @@ return{
 	getVersionFail="Unable to detect a new version",
 	versionIsNew="You are now on the latest version.",
 	versionIsOld="Version $1 is available now!",
-	registerSuccessed="Registration successed!",
-	registerFailed="Registration failed",
+
 	netErrorCode="Network error code",
 	jsonError="Json error",
+
 	noUsername="Please enter your username",
+	wrongCode="Please enter invitation code",
 	wrongEmail="Wrong email address",
 	noPassword="Please enter your password",
 	diffPassword="Passwords don't match",
+	registerSuccessed="Registration successed!",
+	registerFailed="Registration failed",
+
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
 	acts={

@@ -51,27 +51,35 @@ return{
 	ranks={"D","C","B","A","S"},
 
 	needRestart="重新开始以生效",
+
 	exportSuccess="导出成功",
 	importSuccess="导入成功",
 	dataCorrupted="数据损坏",
+
 	VKTchW="触摸点权重",
 	VKOrgW="原始点权重",
 	VKCurW="当前点权重",
+
 	noScore="暂无成绩",
 	highScore="最佳成绩",
 	newRecord="打破纪录",
+
 	getNoticeFail="拉取公告失败",
 	getVersionFail="检测新版本失败",
 	versionIsNew="游戏已是最新版本",
 	versionIsOld="最新版本$1可以下载了!",
-	registerSuccessed="注册成功!",
-	registerFailed="注册失败",
+
 	netErrorCode="网络错误码",
 	jsonError="json错误",
+
 	noUsername="请填写用户名",
+	wrongCode="请填写邀请码",
 	wrongEmail="邮箱格式错误",
 	noPassword="请填写密码",
 	diffPassword="两次密码不一致",
+	registerSuccessed="注册成功!",
+	registerFailed="注册失败",
+
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
 	acts={
