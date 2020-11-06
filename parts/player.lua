@@ -1035,8 +1035,8 @@ local function getNewStatTable()
 		maxCombo=0,maxFinesseCombo=0,
 	}
 	for i=1,25 do
-		T.clear[i]={0,0,0,0,0}
-		T.spin[i]={0,0,0,0,0,0}
+		T.clear[i]={0,0,0,0,0,0}
+		T.spin[i]={0,0,0,0,0,0,0}
 		T.clears[i]=0
 		T.spins[i]=0
 	end
@@ -2067,11 +2067,11 @@ do--player.drop(P)--Place piece
 	--Mini*=.6
 	local reAtk={0,0,1,1,1,2,2,3,3}
 	local reDef={0,1,1,2,3,3,4,4,5}
-	local spinName={"zspin","sspin","jspin","lspin","tspin","ospin","ispin","zspin","sspin","pspin","qspin","fspin","espin","tspin","uspin","vspin","wspin","xspin","jspin","lspin","rspin","yspin","hspin","nspin","ispin"}
-	local clearName={"single","double","triple","techrash","pentcrash"}
-	local spin_n={[0]="spin_0","spin_1","spin_2","spin_3","spin_3","spin_3"}
-	local clear_n={"clear_1","clear_2","clear_3","clear_4","clear_4"}
-	local ren_n={}for i=1,11 do ren_n[i]="ren_"..i end
+	local spinVoice={"zspin","sspin","jspin","lspin","tspin","ospin","ispin","zspin","sspin","pspin","qspin","fspin","espin","tspin","uspin","vspin","wspin","xspin","jspin","lspin","rspin","yspin","hspin","nspin","ispin"}
+	local clearVoice={"single","double","triple","techrash","pentcrash","hexcrash"}
+	local spinSFX={[0]="spin_0","spin_1","spin_2"}
+	local clearSFX={"clear_1","clear_2","clear_3"}
+	local renSFX={}for i=1,11 do renSFX[i]="ren_"..i end
 	local finesseList={
 		[1]={
 			{1,2,1,0,1,2,2,1},
@@ -2334,14 +2334,14 @@ do--player.drop(P)--Place piece
 				C.mini=mini
 				C.special=true
 				if P.sound then
-					SFX.play(spin_n[cc])
-					VOC.play(spinName[CB.name],CHN)
+					SFX.play(spinSFX[cc]or"spin_3")
+					VOC.play(spinVoice[CB.name],CHN)
 				end
 			elseif cc>=4 then
-				cscore=cc==4 and 1000 or 1500
+				cscore=cc==4 and 1000 or cc==5 and 1500 or 2000
 				if P.b2b>1000 then
 					P:showText(text.b3b..text.clear[cc],0,-30,50,"fly")
-					atk=cc*1.5
+					atk=4*cc-10
 					sendTime=100
 					exblock=exblock+1
 					cscore=cscore*1.8
@@ -2352,7 +2352,7 @@ do--player.drop(P)--Place piece
 				elseif P.b2b>=50 then
 					P:showText(text.b2b..text.clear[cc],0,-30,50,"drive")
 					sendTime=80
-					atk=cc+1
+					atk=3*cc-7
 					cscore=cscore*1.3
 					STAT.b2b=STAT.b2b+1
 					if P.sound then
@@ -2361,7 +2361,7 @@ do--player.drop(P)--Place piece
 				else
 					P:showText(text.clear[cc],0,-30,70,"stretch")
 					sendTime=60
-					atk=cc
+					atk=2*cc-4
 				end
 				P.b2b=P.b2b+cc*100-300
 				C.special=true
@@ -2369,7 +2369,7 @@ do--player.drop(P)--Place piece
 				C.special=false
 			end
 			if P.sound then
-				VOC.play(clearName[cc],CHN)
+				VOC.play(clearVoice[cc],CHN)
 			end
 
 			--PC/HPC bonus
@@ -2517,8 +2517,8 @@ do--player.drop(P)--Place piece
 
 			--SFX & Vibrate
 			if P.sound then
-				SFX.play(clear_n[cc])
-				SFX.play(ren_n[min(cmb,11)])
+				SFX.play(clearSFX[cc]or"clear_4")
+				SFX.play(renSFX[min(cmb,11)])
 				if cmb>14 then SFX.play("ren_mega",(cmb-10)*.1)end
 				VIB(cc+1)
 			end
@@ -2531,7 +2531,7 @@ do--player.drop(P)--Place piece
 				P.b2b=P.b2b+20
 				if P.sound then
 					SFX.play("spin_0")
-					VOC.play(spinName[CB.name],CHN)
+					VOC.play(spinVoice[CB.name],CHN)
 				end
 				cscore=30
 			end
