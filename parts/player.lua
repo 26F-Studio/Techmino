@@ -1410,7 +1410,14 @@ local function newEmptyPlayer(id,x,y,size)
 	P.spinLast=false
 	P.lastPiece={
 		id=0,name=0,--block id/name
-		row=0,--line cleared
+
+		finePts=0,--finesse Points
+
+		row=0,dig=0,--lines/garbage cleared
+		score=0,--score gained
+		atk=0,exblock=0,--lines attack/defend
+		off=0,send=0,--lines offset/sent
+
 		spin=false,mini=false,--if spin/mini
 		pc=false,hpc=false,--if pc/hpc
 		special=false,--if special clear (spin, >=4, pc)
@@ -2095,17 +2102,19 @@ do--player.drop(P)--Place piece
 		P.dropTime[11]=ins(P.dropTime,1,GAME.frame)--Update speed dial
 		local ENV=P.gameEnv
 		local STAT=P.stat
-		P.waiting=ENV.wait
+		local piece=P.lastPiece
 
 		local cmb=P.combo
 		local CB,CX,CY=P.cur,P.curX,P.curY
-		local clear--If (perfect)clear
+		local clear--If clear with no line fall
 		local cc,gbcc=0,0--Row/garbage-row cleared,full-part
 		local atk,exblock=0,0--Attack & extra defense
 		local send,off=0,0--Sending lines remain & offset
 		local cscore,sendTime=10,0--Score & send Time
-		local dospin=0
-		local mini
+		local dospin,mini=0
+
+		piece.id,piece.name=CB.id,CB.name
+		P.waiting=ENV.wait
 
 		--Tri-corner spin check
 		if P.spinLast then
@@ -2264,6 +2273,7 @@ do--player.drop(P)--Place piece
 		else
 			finePts=5
 		end
+		piece.finePts=finePts
 
 		P.stat.finesseRate=P.stat.finesseRate+finePts
 		if finePts<5 then
@@ -2289,12 +2299,9 @@ do--player.drop(P)--Place piece
 			if P.sound then SFX.fieldPlay("lock",nil,P)end
 		end
 
-		local C=P.lastPiece
-		C.id,C.name=CB.id,CB.name
-		C.row=cc
-		C.spin,C.mini=dospin,false
-		C.pc,C.hpc=false,false
-		C.special=false
+		piece.spin,piece.mini=dospin,false
+		piece.pc,piece.hpc=false,false
+		piece.special=false
 		if cc>0 then--If lines cleared, about 200 lines below
 			cmb=cmb+1
 			if dospin then
@@ -2333,8 +2340,8 @@ do--player.drop(P)--Place piece
 				else
 					P.b2b=P.b2b+b2bPoint[cc]
 				end
-				C.mini=mini
-				C.special=true
+				piece.mini=mini
+				piece.special=true
 				if P.sound then
 					SFX.play(spinSFX[cc]or"spin_3")
 					VOC.play(spinVoice[CB.name],CHN)
@@ -2366,9 +2373,9 @@ do--player.drop(P)--Place piece
 					atk=2*cc-4
 				end
 				P.b2b=P.b2b+cc*100-300
-				C.special=true
+				piece.special=true
 			else
-				C.special=false
+				piece.special=false
 			end
 			if P.sound then
 				VOC.play(clearVoice[cc],CHN)
@@ -2391,8 +2398,8 @@ do--player.drop(P)--Place piece
 					SFX.play("clear")
 					VOC.play("perfect_clear",CHN)
 				end
-				C.pc=true
-				C.special=true
+				piece.pc=true
+				piece.special=true
 			elseif clear and(cc>1 or #P.field==P.garbageBeneath)then
 				P:showText(text.HPC,0,-80,50,"fly")
 				atk=atk+2
@@ -2404,12 +2411,12 @@ do--player.drop(P)--Place piece
 					SFX.play("clear")
 					VOC.play("half_clear",CHN)
 				end
-				C.hpc=true
-				C.special=true
+				piece.hpc=true
+				piece.special=true
 			end
 
 			--Normal clear, reduce B2B point
-			if not C.special then
+			if not piece.special then
 				P.b2b=max(P.b2b-250,0)
 				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
 				atk=cc-.5
@@ -2486,19 +2493,19 @@ do--player.drop(P)--Place piece
 				local t=ENV.mission[P.curMission]
 				local success
 				if t<5 then
-					if C.row==t and(t==4 or not C.special)then
+					if piece.row==t and(t==4 or not piece.special)then
 						success=true
 					end
 				elseif t<9 then
-					if C.row==t-4 and C.spin then
+					if piece.row==t-4 and piece.spin then
 						success=true
 					end
 				elseif t==9 then
-					if C.pc then
+					if piece.pc then
 						success=true
 					end
 				elseif t<90 then
-					if C.row==t%10 and C.name==int(t/10)and C.spin then
+					if piece.row==t%10 and piece.name==int(t/10)and piece.spin then
 						success=true
 					end
 				end
@@ -2563,6 +2570,11 @@ do--player.drop(P)--Place piece
 		if ENV.score then
 			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,int(8-120/(cscore+20))*5,"score",2)
 		end
+
+		piece.row,piece.dig=cc,gbcc
+		piece.score=cscore
+		piece.atk,piece.exblock=atk,exblock
+		piece.off,piece.send=off,send
 
 		--Update stat
 		STAT.score=STAT.score+cscore
