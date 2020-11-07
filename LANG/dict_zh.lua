@@ -867,7 +867,7 @@ return{
 	{"gggf",
 		"gggf kissne 127",
 		"name",
-		"【研究群】「T127」\n40行22.831秒(手机28.229)，MPH40行56秒，tetr.io段位U，top数据约60L85A\n20G规则国内一流玩家，拿到了TGM3几乎全部的最终成就(全世界都没几个)，Tech中20G系列模式Final和PH用PC/手机都通关，Touhoumino的L难度一命无炸通\n其他名称:127 kissne 小柒\n一些东方成绩:永EX 1M NB FS 风L NM",
+		"【研究群】「T127」\n40行22.831秒(手机28.229)，MPH40行56秒，tetr.io段位U，top数据约60L85A\n20G规则国内一流玩家，拿到了TGM3几乎全部的最终成就(全世界都没几个)，Tech中20G系列模式Final和PH用PC/手机都通关，Touhoumino的L难度一命无炸通\n其他名称:127 kissne 小柒\n还是车车人，几个正作成绩:永EX NM 1B FS 风L NM",
 		"https://space.bilibili.com/287769888",
 	},
 	{"蕴空之灵",
