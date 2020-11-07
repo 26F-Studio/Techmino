@@ -387,14 +387,13 @@ function royaleLevelup()
 	for i=1,#PLAYERS.alive do
 		PLAYERS.alive[i].gameEnv.drop=spd
 	end
-	if CURMODE.lv==3 then
+	if CURMODE.name:find("ultimate")then
 		for i=1,#PLAYERS.alive do
 			local P=PLAYERS.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.imgY
-				P._20G=true
-				if P.AI_mode=="CC"then CC.switch20G(P)end
+				P:set20G()
 			end
 		end
 	end
