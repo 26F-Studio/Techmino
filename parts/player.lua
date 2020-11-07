@@ -1141,6 +1141,10 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		P.keyAvailable[v]=false
 		virtualkey[v].ava=false
 	end
+	if P._20G then
+		P.keyAvailable[7]=false
+		virtualkey[7].ava=false
+	end
 
 	if type(ENV.mission)=="table"then
 		P.curMission=1
