@@ -21,6 +21,7 @@ local list={
 	"brick(notypey)",
 	"brick_light(notypey)",
 	"cartoon_cup(earety)",
+	"crack(earety)",
 	"retro(notypey)",
 	"retro_grey(notypey)",
 	"text_bone(mrz)",
