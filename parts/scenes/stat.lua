@@ -45,7 +45,7 @@ end
 
 function Pnt.stat()
 	local chart=sceneTemp.chart
-	setFont(24)
+	setFont(25)
 	local _,__=SKIN.libColor,SETTING.skin
 	local A,B=chart.A1,chart.A2
 	for x=1,7 do
@@ -59,15 +59,18 @@ function Pnt.stat()
 		mStr(chart.Y1[x],80*x,240)
 		mStr(chart.Y2[x],80*x,480)
 	end
-	gc.setColor(1,1,1)
-	A,B=chart.X1,chart.X2
 
+	A,B=chart.X1,chart.X2
 	for y=1,4 do
-		mStr(A[y],650,40+40*y)
-		mStr(B[y],650,280+40*y)
+		gc.setColor(.5,.5,.5)
+		gc.print(y-1,620,40+40*y)
+		gc.print(y,620,280+40*y)
+		gc.setColor(1,1,1)
+		mStr(A[y],680,40+40*y)
+		mStr(B[y],680,280+40*y)
 	end
 
-	setFont(22)
+	setFont(20)
 	for i=1,11 do
 		gc.print(sceneTemp.item[i],740,40*i+10)
 	end
@@ -88,8 +91,8 @@ function Pnt.stat()
 	local r=Timer()*2
 	local R=int(r)%7+1
 	gc.setColor(1,1,1,1-abs(r%1*2-1))
-	gc.draw(TEXTURE.miniBlock[R],650,50,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
-	gc.draw(TEXTURE.miniBlock[R],650,300,0,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],660,50,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],660,300,0,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 end
 
 WIDGET.init("stat",{
