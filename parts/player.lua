@@ -1540,19 +1540,24 @@ function player.createBeam(P,R,send,color)
 	local a=modeEnv.royaleMode and not(P.human or R.human)and .2 or 1
 	sysFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
 end
-function player.newTask(P,code,data)
-	local L=P.tasks
-	ins(L,{
-		code=code,
-		data=data,
-	})
-end
 --------------------------</FX>--------------------------
 
 --------------------------<Method>--------------------------
 function player.RND(P,a,b)
 	local R=P.randGen
 	return R:random(a,b)
+end
+
+function player.set20G(P)
+	P._20G=true
+	if P.AI_mode=="CC"then CC.switch20G(P)end
+end
+function player.newTask(P,code,data)
+	local L=P.tasks
+	ins(L,{
+		code=code,
+		data=data,
+	})
 end
 
 function player.solid(P,x,y)

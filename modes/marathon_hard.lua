@@ -7,7 +7,7 @@ local function check(P)
 			P.gameEnv.target=100
 			SFX.play("reach")
 		elseif T==100 then
-			P._20G=true
+			P:set20G()
 			P.gameEnv.target=200
 			SFX.play("reach")
 		else
