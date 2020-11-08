@@ -9,7 +9,7 @@ local video
 local X,Y,K
 function back.init()
 	if not video then
-		video=love.data.decompress("string","zlib",love.filesystem.read("Zframework/badapple.dat"))
+		video=love.data.decompress("string","zlib",love.filesystem.read("parts/backgrounds/badapple.dat"))
 	end
 	t=0
 	BG.resize()
