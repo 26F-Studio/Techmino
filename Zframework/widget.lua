@@ -268,7 +268,7 @@ function switch:update()
 	if WIDGET.sel==self then if atv<8 then self.ATV=atv+1 end
 	else if atv>0 then self.ATV=atv-.5 end
 	end
-	chk=self.CHK
+	local chk=self.CHK
 	if self:disp()then if chk<6 then self.CHK=chk+1 end
 	else if chk>0 then self.CHK=chk-1 end
 	end
@@ -401,7 +401,6 @@ function slider:draw()
 	gc.setColor(.8,.8,.8)
 	gc.rectangle("fill",bx,by,bw,bh)
 
-	local t
 	if ATV>0 then
 		gc.setLineWidth(2)
 		gc.setColor(1,1,1,ATV*.16)
@@ -414,7 +413,7 @@ function slider:draw()
 	end
 
 	--Text
-	t=self.text
+	local t=self.text
 	if t then
 		gc.setColor(1,1,1)
 		setFont(self.font)
@@ -625,7 +624,7 @@ function textBox:draw()
 
 	--Text
 	setFont(self.font)
-	t=self.text
+	local t=self.text
 	if t then
 		gc.printf(t,x-412,y+h*.5-self.font*.7,400,"right")
 	end
