@@ -23,6 +23,10 @@ local text={
 function text:reset()
 	if type(self.text)=="string"then
 		self.text=gc.newText(getFont(self.font),self.text)
+	elseif type(self.text)~="userdata"or self.text.type(self.text)~="Text"then
+		self.text=gc.newText(getFont(self.font),self.name)
+		self.color=COLOR.dPurple
+		self.font=self.font-10
 	end
 end
 function text:draw()
