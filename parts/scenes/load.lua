@@ -144,7 +144,7 @@ function Pnt.load()
 	local Y=3250*(sin(-1.5708+min(S.time,260)/260*3.1416)+1)+200
 
 	--Draw 26F Studio logo
-	if S.time>220 then
+	if S.time>200 then
 		gc.push("transform")
 		gc.translate(-220,Y-6840)
 
