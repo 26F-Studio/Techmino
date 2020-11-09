@@ -130,7 +130,17 @@ AIFUNC=	require("parts/ai")
 MODES=	require("parts/modes")
 TICK=	require("parts/tick")
 
---Load Scene files from SOURCE ONLY
+--Load background files from SOURCE ONLY
+for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do
+	if love.filesystem.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
+		local name=v:sub(1,-5)
+		BG.add(name,require("parts/backgrounds/"..name))
+	else
+		LOG.print("Dangerous file : %SAVE%/parts/backgrounds/"..v)
+	end
+end
+
+--Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
 		require("parts/scenes/"..v:sub(1,-5))
