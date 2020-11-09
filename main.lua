@@ -39,7 +39,7 @@ SCR={
 	dpi=1--DPI from gc.getDPIScale()
 }
 
-customEnv={
+CUSTOMENV={
 	--Basic
 	drop=60,
 	lock=60,
@@ -217,8 +217,8 @@ do
 	if S.extraRate then
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
-	if S.version~=gameVersion then
-		S.version=gameVersion
+	if S.version~=VERSION then
+		S.version=VERSION
 		newVersionLaunch=true
 
 		--Try unlock modes which should be unlocked

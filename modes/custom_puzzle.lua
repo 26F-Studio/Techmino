@@ -38,7 +38,7 @@ return{
 		dropPiece=puzzleCheck,
 	},
 	load=function()
-		for k,v in next,customEnv do
+		for k,v in next,CUSTOMENV do
 			modeEnv[k]=v
 		end
 		if BAG[1]then
@@ -61,8 +61,8 @@ return{
 				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",2*L-11,int(L*.5-1.5),modeEnv.hold,4000*L))
 			end
 		end
-		modeEnv.bg=customEnv.bg
-		modeEnv.bgm=customEnv.bgm
+		modeEnv.bg=CUSTOMENV.bg
+		modeEnv.bgm=CUSTOMENV.bgm
 	end,
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y

@@ -9,7 +9,7 @@ function love.conf(t)
 	if t.audio then t.audio.mixwithsystem=true end
 
 	local W=t.window
-	W.title="Techmino "..gameVersion
+	W.title="Techmino "..VERSION
 	W.icon="/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360

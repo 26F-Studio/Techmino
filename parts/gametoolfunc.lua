@@ -62,7 +62,7 @@ function restoreVirtualKey()
 end
 
 function copyQuestArgs()
-	local ENV=customEnv
+	local ENV=CUSTOMENV
 	local str=""..
 		(ENV.hold and"H"or"Z")..
 		(ENV.ospin and"O"or"Z")..
@@ -71,7 +71,7 @@ function copyQuestArgs()
 	return str
 end
 function pasteQuestArgs(str)
-	local ENV=customEnv
+	local ENV=CUSTOMENV
 	ENV.hold=			byte(str,1)~=90
 	ENV.ospin=			byte(str,2)~=90
 	ENV.missionKill=	byte(str,3)~=90

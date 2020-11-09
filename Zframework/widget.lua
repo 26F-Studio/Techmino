@@ -673,9 +673,9 @@ WIDGET.sel=nil--Selected widget
 
 WIDGET.lnk={
 	BACK=function()SCN.back()end,
-	CUSval=function(k)	return function()	return customEnv[k]				end end,
-	CUSrev=function(k)	return function()	customEnv[k]=not customEnv[k]	end end,
-	CUSsto=function(k)	return function(i)	customEnv[k]=i					end end,
+	CUSval=function(k)	return function()	return CUSTOMENV[k]				end end,
+	CUSrev=function(k)	return function()	CUSTOMENV[k]=not CUSTOMENV[k]	end end,
+	CUSsto=function(k)	return function(i)	CUSTOMENV[k]=i					end end,
 
 	SETval=function(k)	return function()	return SETTING[k]				end end,
 	SETrev=function(k)	return function()	SETTING[k]=not SETTING[k]		end end,

@@ -81,7 +81,7 @@ function Tick.httpREQ_launch(data)
 			err,res=json.decode(res.body)
 			if res then
 				LOG.print(res.notice,360,COLOR.sky)
-				if gameVersion==res.version then
+				if VERSION==res.version then
 					LOG.print(text.versionIsNew,360,COLOR.sky)
 				else
 					LOG.print(string.gsub(text.versionIsOld,"$1",res.version),"warn")

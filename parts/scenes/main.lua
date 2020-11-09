@@ -24,7 +24,7 @@ function Pnt.main()
 	gc.draw(IMG.title_color,60,30,nil,1.3)
 	setFont(30)
 	gc.print(SYSTEM,610,50)
-	gc.print(gameVersion,610,90)
+	gc.print(VERSION,610,90)
 	gc.print(sceneTemp.tip,50,660)
 	local L=text.modes[STAT.lastPlay]
 	setFont(25)

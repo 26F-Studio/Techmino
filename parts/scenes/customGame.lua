@@ -11,11 +11,11 @@ local function notAir(L)
 	end
 end
 
-local customEnv=customEnv
+local CUSTOMENV=CUSTOMENV
 function sceneInit.customGame()
 	destroyPlayers()
-	BG.set(customEnv.bg)
-	BGM.play(customEnv.bgm)
+	BG.set(CUSTOMENV.bg)
+	BGM.play(CUSTOMENV.bgm)
 	sceneInit={initField=false}
 	for y=1,20 do
 		if notAir(FIELD[1][y])then
@@ -29,14 +29,14 @@ end
 
 function keyDown.customGame(key)
 	if key=="return"or key=="return2"then
-		if customEnv.opponent>0 then
-			if customEnv.opponent>5 and customEnv.sequence=="fixed"then
+		if CUSTOMENV.opponent>0 then
+			if CUSTOMENV.opponent>5 and CUSTOMENV.sequence=="fixed"then
 				LOG.print(text.ai_fixed,"warn")
 				return
-			elseif customEnv.opponent>0 and #BAG>0 then
+			elseif CUSTOMENV.opponent>0 and #BAG>0 then
 				LOG.print(text.ai_prebag,"warn")
 				return
-			elseif customEnv.opponent>0 and #MISSION>0 then
+			elseif CUSTOMENV.opponent>0 and #MISSION>0 then
 				LOG.print(text.ai_mission,"warn")
 				return
 			end
@@ -141,11 +141,11 @@ function Pnt.customGame()
 	end
 	setFont(30)
 	gc.setColor(1,1,1)
-	gc.print(customEnv.sequence,330,510)
+	gc.print(CUSTOMENV.sequence,330,510)
 
 	--Sequence
 	if #MISSION>0 then
-		gc.setColor(1,customEnv.missionKill and 0 or 1,int(Timer()*6.26)%2)
+		gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(Timer()*6.26)%2)
 		gc.print("#",610,545)
 		gc.print(#MISSION,640,545)
 	end
@@ -168,9 +168,9 @@ WIDGET.init("customGame",{
 		x=1070,	y=150,w=250,color="yellow",
 		list={"none","grey","glow","rgb","flink","wing","fan","badapple","welcome","aura","bg1","bg2","rainbow","rainbow2","lightning","lightning2","matrix","space"},
 		disp=WIDGET.lnk.CUSval("bg"),
-		code=function(i)customEnv.bg=i BG.set(i)end
+		code=function(i)CUSTOMENV.bg=i BG.set(i)end
 	}),
-	WIDGET.newSelector({name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.list,	disp=WIDGET.lnk.CUSval("bgm"),	code=function(i)customEnv.bgm=i BGM.play(i)end}),
+	WIDGET.newSelector({name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.list,	disp=WIDGET.lnk.CUSval("bgm"),	code=function(i)CUSTOMENV.bgm=i BGM.play(i)end}),
 
 	--Copy/Paste/Start
 	WIDGET.newButton({name="copy",	x=1070,	y=310,w=310,h=70,color="lRed",	font=25,code=WIDGET.lnk.pressKey("cC")}),

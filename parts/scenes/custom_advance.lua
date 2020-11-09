@@ -15,7 +15,7 @@ WIDGET.init("custom_advance",{
 	--Control
 	WIDGET.newSlider({name="next",		x=130,	y=410,w=200,unit=6,	disp=WIDGET.lnk.CUSval("next"),	code=WIDGET.lnk.CUSsto("next")}),
 	WIDGET.newSwitch({name="hold",		x=260,	y=480,				disp=WIDGET.lnk.CUSval("hold"),	code=WIDGET.lnk.CUSrev("hold")}),
-	WIDGET.newSwitch({name="oncehold",	x=260,	y=560,				disp=WIDGET.lnk.CUSval("oncehold"),code=WIDGET.lnk.CUSrev("oncehold"),hide=function()return not customEnv.hold end}),
+	WIDGET.newSwitch({name="oncehold",	x=260,	y=560,				disp=WIDGET.lnk.CUSval("oncehold"),code=WIDGET.lnk.CUSrev("oncehold"),hide=function()return not CUSTOMENV.hold end}),
 
 	WIDGET.newSlider({name="mindas",	x=180,	y=150,w=400,unit=15,font=25,	disp=WIDGET.lnk.CUSval("mindas"),	code=WIDGET.lnk.CUSsto("mindas")}),
 	WIDGET.newSlider({name="minarr",	x=180,	y=220,w=400,unit=10,font=25,	disp=WIDGET.lnk.CUSval("minarr"),	code=WIDGET.lnk.CUSsto("minarr")}),

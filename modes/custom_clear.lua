@@ -49,7 +49,7 @@ return{
 	color=COLOR.white,
 	env={},
 	load=function()
-		for k,v in next,customEnv do
+		for k,v in next,CUSTOMENV do
 			modeEnv[k]=v
 		end
 		if BAG[1]then
@@ -83,8 +83,8 @@ return{
 		for _,P in next,PLAYERS.alive do
 			setField(P,1)
 		end
-		modeEnv.bg=customEnv.bg
-		modeEnv.bgm=customEnv.bgm
+		modeEnv.bg=CUSTOMENV.bg
+		modeEnv.bgm=CUSTOMENV.bgm
 	end,
 	mesDisp=function(P)
 		setFont(55)
