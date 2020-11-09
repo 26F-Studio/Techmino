@@ -344,14 +344,14 @@ function love.resize(w,h)
 	SCR.r=h/w
 	SCR.rad=(w^2+h^2)^.5
 
-	if SCR.r>=.5625 then
-		SCR.k=w/1280
-		SCR.x,SCR.y=0,(h-w*9/16)*.5
+	if SCR.r>=SCR.h0/SCR.w0 then
+		SCR.k=w/SCR.w0
+		SCR.x,SCR.y=0,(h-w*SCR.h0/SCR.w0)/2
 	else
-		SCR.k=h/720
-		SCR.x,SCR.y=(w-h*16/9)*.5,0
+		SCR.k=h/SCR.h0
+		SCR.x,SCR.y=(w-h*SCR.w0/SCR.h0)/2,0
 	end
-	xOy=xOy:setTransformation(w*.5,h*.5,nil,SCR.k,nil,640,360)
+	xOy=xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
 	if BG.resize then BG.resize(w,h)end
 
 	SHADER.warning:send("w",w*SCR.dpi)
@@ -429,7 +429,7 @@ function love.errorhandler(msg)
 			gc.replaceTransform(xOy)
 			gc.draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
 			setFont(120)gc.print(":(",100,40)
-			setFont(38)gc.printf(text.errorMsg,100,200,1280-100)
+			setFont(38)gc.printf(text.errorMsg,100,200,SCR.w0-100)
 			setFont(20)
 			gc.print(SYSTEM.."-"..gameVersion,100,660)
 			gc.print("scene:"..SCN.cur,400,660)

@@ -26,8 +26,8 @@ end
 function LOG.draw()
 	if debugMesList[1]then
 		gc.push("transform")
-		local k=SCR.w/1280
-		setFont(int(20*k))
+		local k=SCR.w/SCR.w0
+		setFont(int(4*k)*5)
 		for i=1,#debugMesList do
 			local M=debugMesList[i]
 			local t=M.time
