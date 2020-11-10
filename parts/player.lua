@@ -1566,6 +1566,17 @@ function player.setHold(P,ifhold)
 		P.hd=nil
 	end
 end
+function player.setNext(P,next)
+	P.gameEnv.next=next
+end
+function player.setInvisible(P,time)
+	if time<0 then
+		P.keepVisible=true
+	else
+		P.keepVisible=false
+		P.showTime=time
+	end
+end
 
 function player.newTask(P,code,data)
 	local L=P.tasks

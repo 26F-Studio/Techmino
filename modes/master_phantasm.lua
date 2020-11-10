@@ -15,7 +15,7 @@ local function check_LVup(P)
 			ENV.lock=14
 			ENV.wait=7
 			ENV.fall=7
-			ENV.next=4
+			P:setNext(4)
 
 			ENV.target=26
 			SFX.play("reach")
@@ -57,7 +57,7 @@ local function check_LVup(P)
 			ENV.lock=13
 			ENV.wait=6
 			ENV.fall=6
-			ENV.next=5
+			P:setNext(5)
 
 			ENV.target=42
 			SFX.play("reach")
@@ -65,7 +65,7 @@ local function check_LVup(P)
 			if P.garbageBeneath==0 then
 				P.waiting=30
 				ENV.lock=11
-				ENV.next=6
+				P:setNext(6)
 				P:setHold(false)
 				ENV.bone=true
 
@@ -97,8 +97,7 @@ local function check_LVup(P)
 			ENV.lock=10
 
 			P:setHold(true)
-			P.keepVisible=false
-			P.showTime=180
+			P:setInvisible(180)
 
 			ENV.target=226
 			SFX.play("reach")
@@ -106,7 +105,7 @@ local function check_LVup(P)
 			P.life=P.life+2
 
 			ENV.bone=false
-			P.showTime=90
+			P:setInvisible(90)
 
 			ENV.target=259
 			SFX.play("reach")
@@ -114,7 +113,7 @@ local function check_LVup(P)
 			P.life=P.life+1
 			for i=1,7 do ENV.skin[i]=math.random(16)end
 
-			P.showTime=40
+			P:setInvisible(40)
 			ENV.lock=15
 			P.curMission=1
 			ENV.mission={4,4,4,4,4,4,4,4}
