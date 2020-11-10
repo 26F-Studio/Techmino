@@ -221,14 +221,14 @@ local function Pupdate_alive(P,dt)
 							if not P.cur or P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
 								mov=das+arr-1
 							else
-								P.act.moveRight(P,true)
+								P:act_moveRight(true)
 								mov=das
 							end
 						end
 						mov=mov+1
 					else
 						if mov==das then
-							P.act.insRight(P,true)
+							P:act_insRight(true)
 						else
 							mov=mov+1
 						end
@@ -246,14 +246,14 @@ local function Pupdate_alive(P,dt)
 							if not P.cur or P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
 								mov=das+arr-1
 							else
-								P.act.moveLeft(P,true)
+								P:act_moveLeft(true)
 								mov=das
 							end
 						end
 						mov=mov+1
 					else
 						if mov==das then
-							P.act.insLeft(P,true)
+							P:act_insLeft(true)
 						else
 							mov=mov+1
 						end
@@ -278,10 +278,10 @@ local function Pupdate_alive(P,dt)
 		if d>1 then
 			if P.gameEnv.sdarr>0 then
 				if d%P.gameEnv.sdarr==0 then
-					P.act.down1(P)
+					P:act_down1()
 				end
 			else
-				P.act.insDown(P)
+				P:act_insDown()
 			end
 			if P.gameEnv.shakeFX then
 				P.fieldOff.vy=P.gameEnv.shakeFX*.3
@@ -1043,10 +1043,10 @@ local function getNewStatTable()
 	end
 	return T
 end
-local function pressKey(P,i)
-	if P.keyAvailable[i]then
-		P.keyPressing[i]=true
-		P.act[i](P)
+local function pressKey(P,keyID)
+	if P.keyAvailable[keyID]then
+		P.keyPressing[keyID]=true
+		P.actList[keyID](P)
 		if P.control then
 			if P.keyRec then
 				ins(P.keyTime,1,GAME.frame)
@@ -1056,17 +1056,17 @@ local function pressKey(P,i)
 		P.stat.key=P.stat.key+1
 	end
 end
-local function releaseKey(P,i)
-	P.keyPressing[i]=false
+local function releaseKey(P,keyID)
+	P.keyPressing[keyID]=false
 end
-local function pressKey_Rec(P,i)
-	if P.keyAvailable[i]then
+local function pressKey_Rec(P,keyID)
+	if P.keyAvailable[keyID]then
 		if GAME.recording then
 			ins(GAME.rec,GAME.frame+1)
-			ins(GAME.rec,i)
+			ins(GAME.rec,keyID)
 		end
-		P.keyPressing[i]=true
-		P.act[i](P)
+		P.keyPressing[keyID]=true
+		P.actList[keyID](P)
 		if P.control then
 			if P.keyRec then
 				ins(P.keyTime,1,GAME.frame)
@@ -1076,12 +1076,12 @@ local function pressKey_Rec(P,i)
 		P.stat.key=P.stat.key+1
 	end
 end
-local function releaseKey_Rec(P,i)
+local function releaseKey_Rec(P,keyID)
 	if GAME.recording then
 		ins(GAME.rec,GAME.frame+1)
-		ins(GAME.rec,-i)
+		ins(GAME.rec,-keyID)
 	end
-	P.keyPressing[i]=false
+	P.keyPressing[keyID]=false
 end
 local function loadGameEnv(P)--Load gameEnv
 	P.gameEnv={}--Current game setting environment
@@ -1089,13 +1089,13 @@ local function loadGameEnv(P)--Load gameEnv
 	--Load game settings
 	for k,v in next,gameEnv0 do
 		if modeEnv[k]~=nil then
-			v=modeEnv[k]				--Mode setting
+			v=modeEnv[k]		--Mode setting
 			-- DBP("mode-"..k..":"..tostring(v))
 		elseif GAME.setting[k]~=nil then
-			v=GAME.setting[k]			--Game setting
+			v=GAME.setting[k]	--Game setting
 			-- DBP("game-"..k..":"..tostring(v))
 		elseif SETTING[k]~=nil then
-			v=SETTING[k]				--Global setting
+			v=SETTING[k]		--Global setting
 			-- DBP("global-"..k..":"..tostring(v))
 		-- else
 			-- DBP("default-"..k..":"..tostring(v))
@@ -2026,7 +2026,7 @@ function player.popNext(P)--Pop next queue to hand
 
 		--IHdS
 		if _[6]then
-			P.act.hardDrop(P)
+			P.act_hardDrop(P)
 			_[6]=false
 		end
 	end
@@ -2059,25 +2059,24 @@ function player.cancel(P,N)--Cancel Garbage
 	end
 	return off
 end
-do--player.drop(P)--Place piece
-	local b2bPoint={50,100,180,1000,1200}
-	local b2bATK={3,5,8,12,18}
-	local clearSCR={80,200,400}
-	local spinSCR={--[blockName][row]
+do--player:drop()--Place piece
+	local clearSCR={80,200,400}--Techrash:1K; B2Bmul:1.3/1.8
+	local spinSCR={
 		{200,750,1300,2000},--Z
 		{200,750,1300,2000},--S
 		{220,700,1300,2000},--L
 		{220,700,1300,2000},--J
 		{250,800,1400,2000},--T
-		{260,900,1700,4000,6000},--O
+		{260,900,1600,4500,7000},--O
 		{300,1200,1700,4000,6000},--I
 		{220,800,2000,3000,8000,26000},--Else
-	}
-	--B2BMUL:1.2/2.0
-	--Techrash:1K;MUL:1.3/1.8
-	--Mini*=.6
+	}--B2Bmul:1.2/2.0; Mini*=.6
+	local b2bPoint={50,100,180,1000,1200,9999}
+
+	local b2bATK={3,5,8,12,18}
 	local reAtk={0,0,1,1,1,2,2,3,3}
 	local reDef={0,1,1,2,3,3,4,4,5}
+
 	local spinVoice={"zspin","sspin","jspin","lspin","tspin","ospin","ispin","zspin","sspin","pspin","qspin","fspin","espin","tspin","uspin","vspin","wspin","xspin","jspin","lspin","rspin","yspin","hspin","nspin","ispin"}
 	local clearVoice={"single","double","triple","techrash","pentcrash","hexcrash"}
 	local spinSFX={[0]="spin_0","spin_1","spin_2"}
@@ -2830,22 +2829,10 @@ function player.lose(P,force)
 		PLAYERS.alive[1]:win()
 	end
 end
-
-function PLY.check_lineReach(P)
-	if P.stat.row>=P.gameEnv.target then
-		P:win("finish")
-	end
-end
-function PLY.check_attackReach(P)
-	if P.stat.atk>=P.gameEnv.target then
-		P:win("finish")
-	end
-end
 --------------------------<\Events>--------------------------
 
 --------------------------<Actions>--------------------------
-player.act={}
-function player.act.moveLeft(P,auto)
+function player.act_moveLeft(P,auto)
 	if not auto then
 		P.ctrlCount=P.ctrlCount+1
 	end
@@ -2872,7 +2859,7 @@ function player.act.moveLeft(P,auto)
 		P.moving=0
 	end
 end
-function player.act.moveRight(P,auto)
+function player.act_moveRight(P,auto)
 	if not auto then
 		P.ctrlCount=P.ctrlCount+1
 	end
@@ -2899,28 +2886,28 @@ function player.act.moveRight(P,auto)
 		P.moving=0
 	end
 end
-function player.act.rotRight(P)
+function player.act_rotRight(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
 		P:spin(1)
 		P.keyPressing[3]=false
 	end
 end
-function player.act.rotLeft(P)
+function player.act_rotLeft(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
 		P:spin(3)
 		P.keyPressing[4]=false
 	end
 end
-function player.act.rot180(P)
+function player.act_rot180(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+2
 		P:spin(2)
 		P.keyPressing[5]=false
 	end
 end
-function player.act.hardDrop(P)
+function player.act_hardDrop(P)
 	if P.keyPressing[9]then
 		if P.gameEnv.swap then
 			P:changeAtkMode(3)
@@ -2946,7 +2933,7 @@ function player.act.hardDrop(P)
 		P.keyPressing[6]=false
 	end
 end
-function player.act.softDrop(P)
+function player.act_softDrop(P)
 	if P.keyPressing[9]then
 		if P.gameEnv.swap then
 			P:changeAtkMode(4)
@@ -2962,22 +2949,22 @@ function player.act.softDrop(P)
 		end
 	end
 end
-function player.act.hold(P)
+function player.act_hold(P)
 	if P.control and P.waiting==-1 then
 		P:hold()
 	end
 end
-function player.act.func(P)
+function player.act_func(P)
 	P.gameEnv.Fkey(P)
 end
-function player.act.restart()
+function player.act_restart()
 	if GAME.frame<240 or GAME.result then
 		resetPartGameData()
 	else
 		LOG.print(text.holdR,20,COLOR.orange)
 	end
 end
-function player.act.insLeft(P,auto)
+function player.act_insLeft(P,auto)
 	if not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
@@ -2999,7 +2986,7 @@ function player.act.insLeft(P,auto)
 		P.ctrlCount=P.ctrlCount+1
 	end
 end
-function player.act.insRight(P,auto)
+function player.act_insRight(P,auto)
 	if not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
@@ -3021,21 +3008,21 @@ function player.act.insRight(P,auto)
 		P.ctrlCount=P.ctrlCount+1
 	end
 end
-function player.act.insDown(P)
+function player.act_insDown(P)
 	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
 			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
 		end
 		if P.gameEnv.shakeFX then
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
-		end
+	end
 		P.curY=P.imgY
 		P.lockDelay=P.gameEnv.lock
 		P.spinLast=false
 		P:freshBlock(true,true)
-	end
 end
-function player.act.down1(P)
+		end
+function player.act_down1(P)
 	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.moveFX and P.gameEnv.block then
 			P:createMoveFX("down")
@@ -3045,7 +3032,7 @@ function player.act.down1(P)
 		P.spinLast=false
 	end
 end
-function player.act.down4(P)
+function player.act_down4(P)
 	if P.cur and P.curY>P.imgY then
 		local y=max(P.curY-4,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
@@ -3056,7 +3043,7 @@ function player.act.down4(P)
 		P.spinLast=false
 	end
 end
-function player.act.down10(P)
+function player.act_down10(P)
 	if P.cur and P.curY>P.imgY then
 		local y=max(P.curY-10,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
@@ -3067,44 +3054,66 @@ function player.act.down10(P)
 		P.spinLast=false
 	end
 end
-function player.act.dropLeft(P)
+function player.act_dropLeft(P)
 	if not P.cur then return end
-	P.act.insLeft(P)
-	P.act.hardDrop(P)
-end
-function player.act.dropRight(P)
+	P:act_insLeft()
+	P:act_hardDrop()
+		end
+function player.act_dropRight(P)
 	if not P.cur then return end
-	P.act.insRight(P)
-	P.act.hardDrop(P)
-end
-function player.act.zangiLeft(P)
+	P:act_insRight()
+	P:act_hardDrop()
+	end
+function player.act_zangiLeft(P)
 	if not P.cur then return end
-	P.act.insLeft(P)
-	P.act.insDown(P)
-	P.act.insRight(P)
-	P.act.hardDrop(P)
+	P:act_insLeft()
+	P:act_insDown()
+	P:act_insRight()
+	P:act_hardDrop()
 end
-function player.act.zangiRight(P)
+function player.act_zangiRight(P)
 	if not P.cur then return end
-	P.act.insRight(P)
-	P.act.insDown(P)
-	P.act.insLeft(P)
-	P.act.hardDrop(P)
+	P:act_insRight()
+	P:act_insDown()
+	P:act_insLeft()
+	P:act_hardDrop()
 end
---Give operations a num name
-do
-	local A=player.act
-	local T={
-		A.moveLeft	,A.moveRight,	A.rotRight,	A.rotLeft,
-		A.rot180	,A.hardDrop,	A.softDrop,	A.hold,
-		A.func		,A.restart,		A.insLeft,	A.insRight,
-		A.insDown	,A.down1,		A.down4,	A.down10,
-		A.dropLeft	,A.dropRight,	A.zangiLeft,A.zangiRight
-	}for i=1,20 do A[i]=T[i]end
-end
+player.actList={
+	player.act_moveLeft,
+	player.act_moveRight,
+	player.act_rotRight,
+	player.act_rotLeft,
+	player.act_rot180,
+	player.act_hardDrop,
+	player.act_softDrop,
+	player.act_hold,
+	player.act_func,
+	player.act_restart,
+	player.act_insLeft,
+	player.act_insRight,
+	player.act_insDown,
+	player.act_down1,
+	player.act_down4,
+	player.act_down10,
+	player.act_dropLeft,
+	player.act_dropRight,
+	player.act_zangiLeft,
+	player.act_zangiRight,
+}
 --------------------------</Actions>--------------------------
 
---------------------------<Generator>--------------------------
+--------------------------<Public>--------------------------
+function PLY.check_lineReach(P)
+	if P.stat.row>=P.gameEnv.target then
+		P:win("finish")
+end
+end
+function PLY.check_attackReach(P)
+	if P.stat.atk>=P.gameEnv.target then
+		P:win("finish")
+end
+end
+
 function PLY.newDemoPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
 	P.sound=true
@@ -3206,5 +3215,5 @@ function PLY.newPlayer(id,x,y,size)
 	prepareSequence(P)
 
 end
---------------------------</Generator>--------------------------
+--------------------------</Public>--------------------------
 return PLY
