@@ -2730,6 +2730,7 @@ function player.lose(P,force)
 			FREEROW.discard(P.visTime[_])
 			P.field[_],P.visTime[_]=nil
 		end
+		P.garbageBeneath=0
 
 		if P.AI_mode=="CC"then
 			CC.destroy(P.AI_bot)
