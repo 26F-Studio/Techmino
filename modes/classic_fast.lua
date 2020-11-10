@@ -17,7 +17,8 @@ end
 return{
 	color=COLOR.lBlue,
 	env={
-		noTele=true,
+		smooth=false,
+		noTele=true,keyCancel={6},
 		das=16,arr=6,sddas=2,sdarr=2,
 		center=0,ghost=0,
 		drop=3,lock=3,wait=10,fall=25,
