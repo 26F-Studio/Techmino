@@ -1145,6 +1145,10 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		P.keyAvailable[7]=false
 		virtualkey[7].ava=false
 	end
+	if not ENV.hold then
+		P.keyAvailable[8]=false
+		virtualkey[8].ava=false
+	end
 
 	if type(ENV.mission)=="table"then
 		P.curMission=1
@@ -1548,10 +1552,21 @@ function player.RND(P,a,b)
 	return R:random(a,b)
 end
 
-function player.set20G(P)
-	P._20G=true
-	if P.AI_mode=="CC"then CC.switch20G(P)end
+function player.set20G(P,if20g,init)
+	P._20G=if20g
+	P.keyAvailable[7]=not if20g
+	virtualkey[7].ava=not if20g
+	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
+function player.setHold(P,ifhold)
+	P.gameEnv.hold=ifhold
+	P.keyAvailable[8]=not ifhold
+	virtualkey[8].ava=not ifhold
+	if not ifhold then
+		P.hd=nil
+	end
+end
+
 function player.newTask(P,code,data)
 	local L=P.tasks
 	ins(L,{

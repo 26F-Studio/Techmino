@@ -393,7 +393,7 @@ function royaleLevelup()
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.imgY
-				P:set20G()
+				P:set20G(true)
 			end
 		end
 	end

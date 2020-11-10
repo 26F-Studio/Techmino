@@ -66,7 +66,7 @@ local function check_LVup(P)
 				P.waiting=30
 				ENV.lock=11
 				ENV.next=6
-				ENV.hold=false
+				P:setHold(false)
 				ENV.bone=true
 
 				ENV.target=62
@@ -96,7 +96,7 @@ local function check_LVup(P)
 
 			ENV.lock=10
 
-			ENV.hold=true
+			P:setHold(true)
 			P.keepVisible=false
 			P.showTime=180
 
