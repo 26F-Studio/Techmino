@@ -2511,41 +2511,6 @@ do--player:drop()--Place piece
 				end
 			end
 
-			--Check clearing task
-			if P.curMission then
-				local t=ENV.mission[P.curMission]
-				local success
-				if t<5 then
-					if piece.row==t and(t==4 or not piece.special)then
-						success=true
-					end
-				elseif t<9 then
-					if piece.row==t-4 and piece.spin then
-						success=true
-					end
-				elseif t==9 then
-					if piece.pc then
-						success=true
-					end
-				elseif t<90 then
-					if piece.row==t%10 and piece.name==int(t/10)and piece.spin then
-						success=true
-					end
-				end
-				if success then
-					P.curMission=P.curMission+1
-					SFX.play("reach")
-					if P.curMission>#ENV.mission then
-						P.curMission=nil
-						P:win("finish")
-					end
-				elseif ENV.missionKill then
-					P:showText(text.missionFailed,0,140,40,"flicker",.5)
-					SFX.play("finesseError_long",.6)
-					P:lose(true)
-				end
-			end
-
 			--SFX & Vibrate
 			if P.sound then
 				SFX.play(clearSFX[cc]or"clear_4")
@@ -2598,6 +2563,41 @@ do--player:drop()--Place piece
 		piece.score=cscore
 		piece.atk,piece.exblock=atk,exblock
 		piece.off,piece.send=off,send
+
+		--Check clearing task
+		if cc>0 and P.curMission then
+			local t=ENV.mission[P.curMission]
+			local success
+			if t<5 then
+				if piece.row==t and not piece.spin then
+					success=true
+				end
+			elseif t<9 then
+				if piece.row==t-4 and piece.spin then
+					success=true
+				end
+			elseif t==9 then
+				if piece.pc then
+					success=true
+				end
+			elseif t<90 then
+				if piece.row==t%10 and piece.name==int(t/10)and piece.spin then
+					success=true
+				end
+			end
+			if success then
+				P.curMission=P.curMission+1
+				SFX.play("reach")
+				if P.curMission>#ENV.mission then
+					P.curMission=nil
+					P:win("finish")
+				end
+			elseif ENV.missionKill then
+				P:showText(text.missionFailed,0,140,40,"flicker",.5)
+				SFX.play("finesseError_long",.6)
+				P:lose(true)
+			end
+		end
 
 		--Update stat
 		STAT.score=STAT.score+cscore
