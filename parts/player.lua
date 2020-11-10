@@ -3058,12 +3058,12 @@ function player.act_dropLeft(P)
 	if not P.cur then return end
 	P:act_insLeft()
 	P:act_hardDrop()
-		end
+end
 function player.act_dropRight(P)
 	if not P.cur then return end
 	P:act_insRight()
 	P:act_hardDrop()
-	end
+end
 function player.act_zangiLeft(P)
 	if not P.cur then return end
 	P:act_insLeft()
@@ -3079,26 +3079,26 @@ function player.act_zangiRight(P)
 	P:act_hardDrop()
 end
 player.actList={
-	player.act_moveLeft,
-	player.act_moveRight,
-	player.act_rotRight,
-	player.act_rotLeft,
-	player.act_rot180,
-	player.act_hardDrop,
-	player.act_softDrop,
-	player.act_hold,
-	player.act_func,
-	player.act_restart,
-	player.act_insLeft,
-	player.act_insRight,
-	player.act_insDown,
-	player.act_down1,
-	player.act_down4,
-	player.act_down10,
-	player.act_dropLeft,
-	player.act_dropRight,
-	player.act_zangiLeft,
-	player.act_zangiRight,
+	player.act_moveLeft,	--1
+	player.act_moveRight,	--2
+	player.act_rotRight,	--3
+	player.act_rotLeft,		--4
+	player.act_rot180,		--5
+	player.act_hardDrop,	--6
+	player.act_softDrop,	--7
+	player.act_hold,		--8
+	player.act_func,		--9
+	player.act_restart,		--10
+	player.act_insLeft,		--11
+	player.act_insRight,	--12
+	player.act_insDown,		--13
+	player.act_down1,		--14
+	player.act_down4,		--15
+	player.act_down10,		--16
+	player.act_dropLeft,	--17
+	player.act_dropRight,	--18
+	player.act_zangiLeft,	--19
+	player.act_zangiRight,	--20
 }
 --------------------------</Actions>--------------------------
 
