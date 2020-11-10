@@ -81,7 +81,7 @@ function touchMove.play()
 	for n=1,#VK do
 		local B=VK[n]
 		for i=1,#l do
-			local x,y=xOy:inverseTransformPoint(tc.getPosition(l[i]))
+			local x,y=SCR.xOy:inverseTransformPoint(tc.getPosition(l[i]))
 			if(x-B.x)^2+(y-B.y)^2<=B.r^2 then
 				goto next
 			end

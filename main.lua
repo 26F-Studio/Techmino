@@ -36,7 +36,8 @@ SCR={
 	W=0,H=0,--Fullscreen w/h in shader
 	rad=0,--Radius
 	k=1,--Scale size
-	dpi=1--DPI from gc.getDPIScale()
+	dpi=1,--DPI from gc.getDPIScale()
+	xOy=love.math.newTransform(),--Screen transformation object
 }
 
 CUSTOMENV={

@@ -105,8 +105,8 @@ function touchMove.mode(_,x,y,dx,dy)
 	if not L[2]then
 		mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
 	elseif not L[3]then
-		x,y=xOy:inverseTransformPoint(tc.getPosition(L[1]))
-		dx,dy=xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
+		x,y=SCR.xOy:inverseTransformPoint(tc.getPosition(L[1]))
+		dx,dy=SCR.xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
 		local d=(x-dx)^2+(y-dy)^2
 		if d>100 then
 			d=d^.5

@@ -726,7 +726,6 @@ function WIDGET.setLang(lang)
 			W.text=lang[S][W.name]
 		end
 	end
-
 end
 
 function WIDGET.moveCursor(x,y)
@@ -777,7 +776,7 @@ function WIDGET.press(x,y)
 		end
 	elseif W.type=="textBox"then
 		if MOBILE then
-			local _,y1=xOy:transformPoint(0,W.y+W.h)
+			local _,y1=SCR.xOy:transformPoint(0,W.y+W.h)
 			kb.setTextInput(true,0,y1,1,1)
 		end
 	end
