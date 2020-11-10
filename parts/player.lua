@@ -2673,7 +2673,7 @@ local function gameOver()--Save record
 	end
 end
 
-function player.die(P)--Called when win/lose,not really die!
+function player.die(P)--Called both when win/lose!
 	P.alive=false
 	P.timing=false
 	P.control=false
@@ -2692,6 +2692,7 @@ function player.die(P)--Called when win/lose,not really die!
 	end
 end
 function player.win(P,result)
+	if P.result then return end
 	P:die()
 	P.result="WIN"
 	if modeEnv.royaleMode then
@@ -2721,6 +2722,7 @@ function player.win(P,result)
 	P:newTask(TICK.finish)
 end
 function player.lose(P,force)
+	if P.result then return end
 	if P.life>0 and not force then
 		P.waiting=62
 		for _=#P.field,1,-1 do
