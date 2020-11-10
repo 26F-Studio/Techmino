@@ -17,6 +17,14 @@ return{
 	continue="您继续",
 	maxspeed="速度封顶",
 
+	speedLV="速度等级",
+	line="行数",atk="攻",eff="效",
+	rpm="收每分",tsd="T2",
+	grade="段位",techrash="消四",
+	wave="波数",nextWave="下一波",
+	combo="连击",maxcmb="最大连",
+	pc="消干净了",ko="淘汰",
+
 	win="成了",
 	finish="可以的",
 	gameover="挂了",

@@ -188,25 +188,35 @@ rankColor={
 }
 
 local function T(s,t)return love.graphics.newText(getFont(s),t)end
+drawableTextLoad={
+	"anykey",
+	"replaying",
+	"next","hold",
+	"win","finish","gameover","pause",
+
+	"speedLV",
+	"line","atk","eff",
+	"rpm","tsd",
+	"grade","techrash",
+	"wave","nextWave",
+	"combo","maxcmb",
+	"pc","ko",
+
+	"VKTchW","VKOrgW","VKCurW",
+	"noScore","highScore",
+}
 drawableText={
 	question=T(100,"?"),
 	small=T(30,"<"),large=T(30,">"),
 	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
 
-	speedLV=T(20,"speed level"),
-	atk=T(20,"Attack"),
-	eff=T(20,"Efficiency"),
-	tsd=T(35,"TSD"),
-	line=T(25,"Lines"),
-	techrash=T(25,"Techrash"),
-	grade=T(25,"Grade"),
-	wave=T(30,"Wave"),
-	rpm=T(35,"RPM"),
-	nextWave=T(30,"Next"),
-	combo=T(20,"Combo"),
-	mxcmb=T(20,"Max Combo"),
-	pc=T(20,"Perfect Clear"),
-	ko=T(25,"KO"),
+	speedLV=T(20),
+	line=T(25),atk=T(20),eff=T(20),
+	rpm=T(35),tsd=T(35),
+	grade=T(25),techrash=T(25),
+	wave=T(30),nextWave=T(30),
+	combo=T(20),maxcmb=T(20),
+	pc=T(20),ko=T(25),
 
 
 	modeName=T(30),levelName=T(30),
@@ -217,7 +227,6 @@ drawableText={
 	next=T(40),hold=T(40),
 	win=T(120),finish=T(120),
 	gameover=T(100),pause=T(120),
-	D=T(100,"D"),C=T(100,"C"),B=T(100,"B"),A=T(100,"A"),S=T(100,"S"),
 
 	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
 	noScore=T(45),highScore=T(30),

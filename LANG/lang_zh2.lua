@@ -10,6 +10,14 @@ return{
 	almost="差一点!",
 	continue="继续。",
 
+	speedLV="速度等级",
+	line="行数",atk="攻击",eff="效率",
+	rpm="收每分",tsd="T2",
+	grade="段位",techrash="消四",
+	wave="波数",nextWave="下一波",
+	combo="连击",maxcmb="最大连击",
+	pc="全清",ko="淘汰",
+
 	finesse_ap="完美极简",
 	finesse_fc="全连击",
 

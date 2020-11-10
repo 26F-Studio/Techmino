@@ -25,6 +25,14 @@ return{
 	speedup="速度加快",
 	missionFailed="非任务消除",
 
+	speedLV="速度等级",
+	line="行数",atk="攻击",eff="效率",
+	rpm="RPM",tsd="T2",
+	grade="段位",techrash="Techrash",
+	wave="波数",nextWave="下一波",
+	combo="Combo",maxcmb="Max Combo",
+	pc="Perfect Clear",ko="KO",
+
 	win="胜利",
 	finish="完成",
 	gameover="游戏结束",

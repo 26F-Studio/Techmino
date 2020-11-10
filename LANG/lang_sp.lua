@@ -26,6 +26,14 @@ return{
 	speedup="¡Más rápido!",
 	missionFailed="Misión Fallida",
 
+	-- speedLV="speed level",
+	-- line="Lines",atk="Attack",eff="Efficiency",
+	-- rpm="RPM",tsd="TSD",
+	-- grade="Grade",techrash="Techrash",
+	-- wave="Wave",nextWave="Next",
+	-- combo="Combo",maxcmb="Max Combo",
+	-- pc="Perfect Clear",ko="KO",
+
 	win="Victoria",
 	finish="Fin",
 	gameover="Fin del Juego",

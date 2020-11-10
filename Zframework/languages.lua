@@ -85,15 +85,6 @@ for i=1,#langList do
 	end
 end
 
-local drawableTextLoad={
-	"anykey",
-	"replaying",
-	"next","hold",
-	"win","finish","gameover","pause",
-
-	"VKTchW","VKOrgW","VKCurW",
-	"noScore","highScore",
-}
 local LANG={}
 function LANG.getLen()
 	return #langList
