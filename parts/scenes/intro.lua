@@ -23,18 +23,8 @@ function mouseDown.intro(_,_,k)
 		VOC.play("bye")
 		SCN.back()
 	elseif NOGAME=="delSetting"then
-		LOG.print("检测到过老版本非法设置数据,设置已经全部重置,请重启游戏完成",600,COLOR.yellow)
-		LOG.print("Old version detected, setting file deleted, please restart the game",600,COLOR.yellow)
-	elseif NOGAME=="delCC"then
-		LOG.print("请关闭游戏,然后删除存档文件夹内的 CCloader.dll(21KB) !",600,COLOR.yellow)
-		LOG.print("Please quit the game, then delete CCloader.dll(21KB) in saving folder!",600,COLOR.yellow)
-		TASK.new(function(S)
-			S[1]=S[1]-1
-			if S[1]==0 then
-				sys.openURL(love.filesystem.getSaveDirectory())
-				return true
-			end
-		end,{60})
+		LOG.print("检测到过老版本无效设置数据,设置已经全部重置,请重启游戏完成",600,COLOR.yellow)
+		LOG.print("Old version detected & setting file deleted, please restart the game",600,COLOR.yellow)
 	else
 		if newVersionLaunch then
 			SCN.push("main","fade")
