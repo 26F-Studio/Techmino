@@ -477,7 +477,7 @@ function love.run()
 	else
 		SCN.init("load")
 	end
-	BG.set("none")
+	BG.set("none",true)
 
 	return function()
 		local _

@@ -17,8 +17,8 @@ function BG.send(...)
 		BG.event(...)
 	end
 end
-function BG.set(background)
-	if background==BG.cur or not SETTING.bg then return end
+function BG.set(background,force)
+	if background==BG.cur or not(SETTING.bg or force)then return end
 	BG.discard()
 	background=BGlist[background]
 	if not background then
