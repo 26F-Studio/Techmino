@@ -62,7 +62,7 @@ local CCblockID={6,5,4,3,2,1,0}
 --------------------------</Data>--------------------------
 
 --------------------------<LIB>--------------------------
-local player={}--Player object
+local Player={}--Player object
 local PLY={}--Lib
 --------------------------</LIB>--------------------------
 
@@ -1006,7 +1006,7 @@ local function Pdraw_demo(P)
 		TEXT.draw(P.bonus)
 	gc.pop()
 end
-function player.drawTargetLine(P,r)
+function Player.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
 		gc.setLineWidth(4)
 		gc.setColor(1,r>10 and 0 or rnd(),.5)
@@ -1350,7 +1350,7 @@ local function newEmptyPlayer(id,x,y,size)
 	PLAYERS.alive[id]=P
 
 	--Inherit functions of player class
-	for k,v in next,player do P[k]=v end
+	for k,v in next,Player do P[k]=v end
 	if P.id==1 and GAME.recording then
 		P.pressKey=pressKey_Rec
 		P.releaseKey=releaseKey_Rec
@@ -1464,15 +1464,15 @@ end
 --------------------------</Lib Func>--------------------------
 
 --------------------------<FX>--------------------------
-function player.showText(P,text,dx,dy,font,style,spd,stop)
+function Player.showText(P,text,dx,dy,font,style,spd,stop)
 	if P.gameEnv.text then
 		ins(P.bonus,TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop))
 	end
 end
-function player.showTextF(P,text,dx,dy,font,style,spd,stop)
+function Player.showTextF(P,text,dx,dy,font,style,spd,stop)
 	ins(P.bonus,TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop))
 end
-function player.createLockFX(P)
+function Player.createLockFX(P)
 	local BK=P.cur.bk
 	local t=12-P.gameEnv.lockFX*2
 
@@ -1488,10 +1488,10 @@ function player.createLockFX(P)
 		end
 	end
 end
-function player.createDropFX(P,x,y,w,h)
+function Player.createDropFX(P,x,y,w,h)
 	ins(P.dropFX,{x,y,w,h,0,13-2*P.gameEnv.dropFX})
 end
-function player.createMoveFX(P,dir)
+function Player.createMoveFX(P,dir)
 	local T=10-1.5*P.gameEnv.moveFX
 	local C=P.cur.color
 	local x=P.curX-1
@@ -1525,10 +1525,10 @@ function player.createMoveFX(P,dir)
 		end end
 	end
 end
-function player.createClearingFX(P,y,spd)
+function Player.createClearingFX(P,y,spd)
 	ins(P.clearFX,{y,0,spd})
 end
-function player.createBeam(P,R,send,color)
+function Player.createBeam(P,R,send,color)
 	local x1,y1,x2,y2
 	if P.small then x1,y1=P.centerX,P.centerY
 	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15+70)*P.size
@@ -1547,18 +1547,18 @@ end
 --------------------------</FX>--------------------------
 
 --------------------------<Method>--------------------------
-function player.RND(P,a,b)
+function Player.RND(P,a,b)
 	local R=P.randGen
 	return R:random(a,b)
 end
 
-function player.set20G(P,if20g,init)
+function Player.set20G(P,if20g,init)
 	P._20G=if20g
 	P.keyAvailable[7]=not if20g
 	virtualkey[7].ava=not if20g
 	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
-function player.setHold(P,ifhold)
+function Player.setHold(P,ifhold)
 	P.gameEnv.hold=ifhold
 	P.keyAvailable[8]=not ifhold
 	virtualkey[8].ava=not ifhold
@@ -1566,10 +1566,10 @@ function player.setHold(P,ifhold)
 		P.hd=nil
 	end
 end
-function player.setNext(P,next)
+function Player.setNext(P,next)
 	P.gameEnv.next=next
 end
-function player.setInvisible(P,time)
+function Player.setInvisible(P,time)
 	if time<0 then
 		P.keepVisible=true
 	else
@@ -1578,7 +1578,7 @@ function player.setInvisible(P,time)
 	end
 end
 
-function player.newTask(P,code,data)
+function Player.newTask(P,code,data)
 	local L=P.tasks
 	ins(L,{
 		code=code,
@@ -1586,13 +1586,13 @@ function player.newTask(P,code,data)
 	})
 end
 
-function player.solid(P,x,y)
+function Player.solid(P,x,y)
 	if x<1 or x>10 or y<1 then return true end
 	if y>#P.field then return false end
 	return P.field[y]
 	[x]>0--to catch bug (nil[*])
 end
-function player.ifoverlap(P,bk,x,y)
+function Player.ifoverlap(P,bk,x,y)
 	local C=#bk[1]
 	if x<1 or x+C>11 or y<1 then return true end
 	if y>#P.field then return end
@@ -1604,7 +1604,7 @@ function player.ifoverlap(P,bk,x,y)
 		end
 	end
 end
-function player.attack(P,R,send,time,...)
+function Player.attack(P,R,send,time,...)
 	if SETTING.atkFX>0 then
 		P:createBeam(R,send,time,...)
 	end
@@ -1634,7 +1634,7 @@ function player.attack(P,R,send,time,...)
 	end
 end
 
-function player.getHolePos(P)
+function Player.getHolePos(P)
 	if P.garbageBeneath==0 then
 		return P:RND(10)
 	else
@@ -1645,7 +1645,7 @@ function player.getHolePos(P)
 		return p
 	end
 end
-function player.garbageRelease(P)
+function Player.garbageRelease(P)
 	local n,flag=1
 	while true do
 		local A=P.atkBuffer[n]
@@ -1662,7 +1662,7 @@ function player.garbageRelease(P)
 	end
 	if flag and P.AI_mode=="CC"then CC.updateField(P)end
 end
-function player.garbageRise(P,color,amount,pos)
+function Player.garbageRise(P,color,amount,pos)
 	local _
 	local t=P.showTime*2
 	for _=1,amount do
@@ -1692,7 +1692,7 @@ function player.garbageRise(P,color,amount,pos)
 end
 
 local invList={2,1,4,3,5,6,7}
-function player.pushLine(P,L,mir)
+function Player.pushLine(P,L,mir)
 	local l=#L
 	local S=P.gameEnv.skin
 	for i=1,l do
@@ -1714,13 +1714,13 @@ function player.pushLine(P,L,mir)
 	P.imgY=P.imgY+l
 	P:freshBlock(false,false)
 end
-function player.pushNext(P,L,mir)
+function Player.pushNext(P,L,mir)
 	for i=1,#L do
 		P:getNext(mir and invList[L[i]]or L[i])
 	end
 end
 
-function player.freshTarget(P)
+function Player.freshTarget(P)
 	if P.atkMode==1 then
 		if not P.atking or not P.atking.alive or rnd()<.1 then
 			P:changeAtk(randomTarget(P))
@@ -1738,7 +1738,7 @@ function player.freshTarget(P)
 		end
 	end
 end
-function player.changeAtkMode(P,m)
+function Player.changeAtkMode(P,m)
 	if P.atkMode==m then return end
 	P.atkMode=m
 	if m==1 then
@@ -1749,7 +1749,7 @@ function player.changeAtkMode(P,m)
 		P:changeAtk()
 	end
 end
-function player.changeAtk(P,R)
+function Player.changeAtk(P,R)
 	-- if not P.human then R=PLAYERS[1]end--1vALL mode?
 	if P.atking then
 		local K=P.atking.atker
@@ -1767,7 +1767,7 @@ function player.changeAtk(P,R)
 		P.atking=nil
 	end
 end
-function player.freshBlock(P,keepGhost,control,system)
+function Player.freshBlock(P,keepGhost,control,system)
 	local ENV=P.gameEnv
 	if not keepGhost and P.cur then
 		P.imgY=min(#P.field+1,P.curY)
@@ -1828,7 +1828,7 @@ function player.freshBlock(P,keepGhost,control,system)
 		end
 	end
 end
-function player.lock(P)
+function Player.lock(P)
 	local dest=P.AI_dest
 	local has_dest=dest~=nil
 	for i=1,P.r do
@@ -1860,7 +1860,7 @@ function player.lock(P)
 end
 
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]="spawn_"..i end
-function player.resetBlock(P)
+function Player.resetBlock(P)
 	local C=P.cur
 	local id=C.id
 	local face=P.gameEnv.face[id]
@@ -1905,7 +1905,7 @@ function player.resetBlock(P)
 	end
 end
 
-function player.spin(P,d,ifpre)
+function Player.spin(P,d,ifpre)
 	local iki=P.RS[P.cur.id]
 	if type(iki)=="table"then
 		local idir=(P.dir+d)%4
@@ -1950,7 +1950,7 @@ function player.spin(P,d,ifpre)
 		iki(P,d)
 	end
 end
-function player.hold(P,ifpre)
+function Player.hold(P,ifpre)
 	if not P.holded and (ifpre or P.waiting==-1) and P.gameEnv.hold then
 		local H,C=P.hd,P.cur
 		if not(H or C)then return end
@@ -2008,11 +2008,11 @@ function player.hold(P,ifpre)
 	end
 end
 
-function player.getNext(P,n)
+function Player.getNext(P,n)
 	local E=P.gameEnv
 	ins(P.next,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
 end
-function player.popNext(P)--Pop next queue to hand
+function Player.popNext(P)--Pop next queue to hand
 	P.holded=false
 	P.spinLast=false
 	P.spinSeq=0
@@ -2058,7 +2058,7 @@ function player.popNext(P)--Pop next queue to hand
 	end
 end
 
-function player.cancel(P,N)--Cancel Garbage
+function Player.cancel(P,N)--Cancel Garbage
 	local k=0	--Pointer, attack bar selected
 	local off=0	--Lines offseted
 	local bf=P.atkBuffer
@@ -2130,7 +2130,7 @@ do--player:drop()--Place piece
 	finesseList[1][3],finesseList[1][4],finesseList[7][3],finesseList[7][4]=finesseList[1][1],finesseList[1][2],finesseList[7][1],finesseList[7][2]--"2-phase" SZI
 	finesseList[2]=finesseList[1]--S=Z
 	finesseList[4],finesseList[5]=finesseList[3],finesseList[3]--J=L=T
-	function player.drop(P)
+	function Player.drop(P)
 		local _
 		local CHN=VOC.getFreeChannel()
 		P.dropTime[11]=ins(P.dropTime,1,GAME.frame)--Update speed dial
@@ -2699,7 +2699,7 @@ local function gameOver()--Save record
 	end
 end
 
-function player.die(P)--Called both when win/lose!
+function Player.die(P)--Called both when win/lose!
 	P.alive=false
 	P.timing=false
 	P.control=false
@@ -2717,7 +2717,7 @@ function player.die(P)--Called both when win/lose!
 		end
 	end
 end
-function player.win(P,result)
+function Player.win(P,result)
 	if P.result then return end
 	P:die()
 	P.result="WIN"
@@ -2747,7 +2747,7 @@ function player.win(P,result)
 	end
 	P:newTask(TICK.finish)
 end
-function player.lose(P,force)
+function Player.lose(P,force)
 	if P.result then return end
 	if P.life>0 and not force then
 		P.waiting=62
@@ -2861,7 +2861,7 @@ end
 --------------------------<\Events>--------------------------
 
 --------------------------<Actions>--------------------------
-function player.act_moveLeft(P,auto)
+function Player.act_moveLeft(P,auto)
 	if not auto then
 		P.ctrlCount=P.ctrlCount+1
 	end
@@ -2888,7 +2888,7 @@ function player.act_moveLeft(P,auto)
 		P.moving=0
 	end
 end
-function player.act_moveRight(P,auto)
+function Player.act_moveRight(P,auto)
 	if not auto then
 		P.ctrlCount=P.ctrlCount+1
 	end
@@ -2915,28 +2915,28 @@ function player.act_moveRight(P,auto)
 		P.moving=0
 	end
 end
-function player.act_rotRight(P)
+function Player.act_rotRight(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
 		P:spin(1)
 		P.keyPressing[3]=false
 	end
 end
-function player.act_rotLeft(P)
+function Player.act_rotLeft(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
 		P:spin(3)
 		P.keyPressing[4]=false
 	end
 end
-function player.act_rot180(P)
+function Player.act_rot180(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+2
 		P:spin(2)
 		P.keyPressing[5]=false
 	end
 end
-function player.act_hardDrop(P)
+function Player.act_hardDrop(P)
 	if P.keyPressing[9]then
 		if P.gameEnv.swap then
 			P:changeAtkMode(3)
@@ -2962,7 +2962,7 @@ function player.act_hardDrop(P)
 		P.keyPressing[6]=false
 	end
 end
-function player.act_softDrop(P)
+function Player.act_softDrop(P)
 	if P.keyPressing[9]then
 		if P.gameEnv.swap then
 			P:changeAtkMode(4)
@@ -2978,22 +2978,22 @@ function player.act_softDrop(P)
 		end
 	end
 end
-function player.act_hold(P)
+function Player.act_hold(P)
 	if P.control and P.waiting==-1 then
 		P:hold()
 	end
 end
-function player.act_func(P)
+function Player.act_func(P)
 	P.gameEnv.Fkey(P)
 end
-function player.act_restart()
+function Player.act_restart()
 	if GAME.frame<240 or GAME.result then
 		resetPartGameData()
 	else
 		LOG.print(text.holdR,20,COLOR.orange)
 	end
 end
-function player.act_insLeft(P,auto)
+function Player.act_insLeft(P,auto)
 	if not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX-1,P.curY)do
@@ -3015,7 +3015,7 @@ function player.act_insLeft(P,auto)
 		P.ctrlCount=P.ctrlCount+1
 	end
 end
-function player.act_insRight(P,auto)
+function Player.act_insRight(P,auto)
 	if not P.cur then return end
 	local x0=P.curX
 	while not P:ifoverlap(P.cur.bk,P.curX+1,P.curY)do
@@ -3037,7 +3037,7 @@ function player.act_insRight(P,auto)
 		P.ctrlCount=P.ctrlCount+1
 	end
 end
-function player.act_insDown(P)
+function Player.act_insDown(P)
 	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.imgY-P.r>-1 then
 			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.imgY-P.r+1)
@@ -3051,7 +3051,7 @@ function player.act_insDown(P)
 		P:freshBlock(true,true)
 end
 		end
-function player.act_down1(P)
+function Player.act_down1(P)
 	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.moveFX and P.gameEnv.block then
 			P:createMoveFX("down")
@@ -3061,7 +3061,7 @@ function player.act_down1(P)
 		P.spinLast=false
 	end
 end
-function player.act_down4(P)
+function Player.act_down4(P)
 	if P.cur and P.curY>P.imgY then
 		local y=max(P.curY-4,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
@@ -3072,7 +3072,7 @@ function player.act_down4(P)
 		P.spinLast=false
 	end
 end
-function player.act_down10(P)
+function Player.act_down10(P)
 	if P.cur and P.curY>P.imgY then
 		local y=max(P.curY-10,P.imgY)
 		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
@@ -3083,51 +3083,51 @@ function player.act_down10(P)
 		P.spinLast=false
 	end
 end
-function player.act_dropLeft(P)
+function Player.act_dropLeft(P)
 	if not P.cur then return end
 	P:act_insLeft()
 	P:act_hardDrop()
 end
-function player.act_dropRight(P)
+function Player.act_dropRight(P)
 	if not P.cur then return end
 	P:act_insRight()
 	P:act_hardDrop()
 end
-function player.act_zangiLeft(P)
+function Player.act_zangiLeft(P)
 	if not P.cur then return end
 	P:act_insLeft()
 	P:act_insDown()
 	P:act_insRight()
 	P:act_hardDrop()
 end
-function player.act_zangiRight(P)
+function Player.act_zangiRight(P)
 	if not P.cur then return end
 	P:act_insRight()
 	P:act_insDown()
 	P:act_insLeft()
 	P:act_hardDrop()
 end
-player.actList={
-	player.act_moveLeft,	--1
-	player.act_moveRight,	--2
-	player.act_rotRight,	--3
-	player.act_rotLeft,		--4
-	player.act_rot180,		--5
-	player.act_hardDrop,	--6
-	player.act_softDrop,	--7
-	player.act_hold,		--8
-	player.act_func,		--9
-	player.act_restart,		--10
-	player.act_insLeft,		--11
-	player.act_insRight,	--12
-	player.act_insDown,		--13
-	player.act_down1,		--14
-	player.act_down4,		--15
-	player.act_down10,		--16
-	player.act_dropLeft,	--17
-	player.act_dropRight,	--18
-	player.act_zangiLeft,	--19
-	player.act_zangiRight,	--20
+Player.actList={
+	Player.act_moveLeft,	--1
+	Player.act_moveRight,	--2
+	Player.act_rotRight,	--3
+	Player.act_rotLeft,		--4
+	Player.act_rot180,		--5
+	Player.act_hardDrop,	--6
+	Player.act_softDrop,	--7
+	Player.act_hold,		--8
+	Player.act_func,		--9
+	Player.act_restart,		--10
+	Player.act_insLeft,		--11
+	Player.act_insRight,	--12
+	Player.act_insDown,		--13
+	Player.act_down1,		--14
+	Player.act_down4,		--15
+	Player.act_down10,		--16
+	Player.act_dropLeft,	--17
+	Player.act_dropRight,	--18
+	Player.act_zangiLeft,	--19
+	Player.act_zangiRight,	--20
 }
 --------------------------</Actions>--------------------------
 
