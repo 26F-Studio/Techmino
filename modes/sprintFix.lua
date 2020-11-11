@@ -15,7 +15,7 @@ return{
 		local r=40-P.stat.row
 		if r<0 then r=0 end
 		mStr(r,69,335)
-		P:drawTargetLine(r)
+		PLY.draw.drawTargetLine(P,r)
 	end,
 	score=function(P)return{P.stat.row<=200 and P.stat.row or 200,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
