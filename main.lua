@@ -100,6 +100,8 @@ GAME={
 	rec={},				--Recording list, key,time,key,time...
 	rank=nil,			--Rank reached
 
+	prevBG=nil,			--Previous background, for restore BG when quit setting page
+
 	--Data for royale mode
 	stage=nil,			--Game stage
 	mostBadge=nil,		--Most badge owner

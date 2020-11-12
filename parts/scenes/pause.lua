@@ -111,6 +111,10 @@ function sceneInit.pause(org)
 			S.trophyColor=COLOR.lCyan
 		end
 	end
+	if GAME.bg then
+		BG.set(GAME.BG)
+		GAME.prevBG=nil
+	end
 end
 function sceneBack.pause()
 	love.keyboard.setKeyRepeat(true)
@@ -126,6 +130,8 @@ function keyDown.pause(key)
 	elseif key=="escape"then
 		resumeGame()
 	elseif key=="s"then
+		GAME.prevBG=BG.cur
+		print(BG.cur)
 		SCN.go("setting_sound")
 	elseif key=="r"then
 		resetGameData()

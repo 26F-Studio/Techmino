@@ -26,12 +26,12 @@ end
 function BG.set(background)
 	if background==BG.cur or not SETTING.bg then return end
 	BG.discard()
+	BG.cur=background
 	background=BGlist[background]
 	if not background then
 		LOG.print("No BG called"..background,"warn")
 		return
 	end
-	BG.cur=background
 
 	BG.init=	background.init or NULL
 	BG.resize=	background.resize or NULL
