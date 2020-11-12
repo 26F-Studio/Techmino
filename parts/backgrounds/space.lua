@@ -7,10 +7,10 @@ local stars
 local W,H
 function back.init()
 	stars={}
-	W,H=SCR.w+20,SCR.h+20
 	BG.resize(SCR.w,SCR.h)
 end
-function back.resize()
+function back.resize(w,h)
+	W,H=w+20,h+20
 	local S=stars
 	for i=1,1260,5 do
 		local s=rnd(26,40)*.1
