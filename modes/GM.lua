@@ -30,7 +30,7 @@ return{
 				return true
 			end
 		end,
-		bg="welcome",bgm="far",
+		bg="tunnel",bgm="far",
 	},
 	slowMark=true,
 	load=function()

@@ -166,7 +166,7 @@ WIDGET.init("customGame",{
 	--Else
 	WIDGET.newSelector({name="bg",
 		x=1070,	y=150,w=250,color="yellow",
-		list={"none","grey","glow","rgb","flink","wing","fan","badapple","welcome","aura","bg1","bg2","rainbow","rainbow2","lightning","lightning2","matrix","space"},
+		list={"none","grey","glow","rgb","flink","wing","fan","badapple","welcome","aura","bg1","bg2","rainbow","rainbow2","tunnel","lightning","lightning2","matrix","space"},
 		disp=WIDGET.lnk.CUSval("bg"),
 		code=function(i)CUSTOMENV.bg=i BG.set(i)end
 	}),
