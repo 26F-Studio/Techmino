@@ -115,8 +115,8 @@ function Player.set20G(P,if20g,init)
 end
 function Player.setHold(P,ifhold)
 	P.gameEnv.hold=ifhold
-	P.keyAvailable[8]=not ifhold
-	virtualkey[8].ava=not ifhold
+	P.keyAvailable[8]=ifhold
+	virtualkey[8].ava=ifhold
 	if not ifhold then
 		P.hd=nil
 	end
@@ -127,6 +127,7 @@ end
 function Player.setInvisible(P,time)
 	if time<0 then
 		P.keepVisible=true
+		P.showTime=1e99
 	else
 		P.keepVisible=false
 		P.showTime=time

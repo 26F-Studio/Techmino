@@ -110,13 +110,6 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		P.color[_]=SKIN.libColor[ENV.skin[_]]
 	end
 
-	P.keepVisible=ENV.visible=="show"
-	P.showTime=
-		ENV.visible=="show"and 1e99 or
-		ENV.visible=="time"and 300 or
-		ENV.visible=="fast"and 20 or
-		ENV.visible=="none"and 0
-
 	P.life=ENV.life
 
 	P.keyAvailable={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}
@@ -132,14 +125,14 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		P.keyAvailable[v]=false
 		virtualkey[v].ava=false
 	end
-	if P._20G then
-		P.keyAvailable[7]=false
-		virtualkey[7].ava=false
-	end
-	if not ENV.hold then
-		P.keyAvailable[8]=false
-		virtualkey[8].ava=false
-	end
+	P:setInvisible(
+		ENV.visible=="show"and -1 or
+		ENV.visible=="time"and 300 or
+		ENV.visible=="fast"and 20 or
+		ENV.visible=="none"and 0
+	)
+	P:set20G(P._20G)
+	P:setHold(ENV.hold)
 
 	if type(ENV.mission)=="table"then
 		P.curMission=1
