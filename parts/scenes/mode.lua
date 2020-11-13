@@ -38,7 +38,7 @@ local function onMode(x,y)
 	x=(cam.x1-640+x)/cam.k1
 	y=(cam.y1-360+y)/cam.k1
 	for name,M in next,MODES do
-		if RANKS[name]then
+		if RANKS[name]and M.x then
 			local s=M.size
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
@@ -163,7 +163,7 @@ function Tmr.mode()
 		end
 		local x1,y1=(cam.x1-180)/cam.k1,cam.y1/cam.k1
 		for name,M in next,MODES do
-			if RANKS[name]then
+			if RANKS[name]and M.x then
 				local SEL
 				local s=M.size
 				if M.shape==1 then
@@ -225,7 +225,7 @@ function Pnt.mode()
 	gc.setLineWidth(8)
 	gc.setColor(1,1,1,.2)
 	for name,M in next,MODES do
-		if R[name]and M.unlock then
+		if R[name]and M.unlock and M.x then
 			for _=1,#M.unlock do
 				local m=MODES[M.unlock[_]]
 				gc.line(M.x,M.y,m.x,m.y)

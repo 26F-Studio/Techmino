@@ -51,17 +51,4 @@ return{
 		mText(drawableText.atk,69,433)
 		mText(drawableText.eff,69,545)
 	end,
-	score=function(P)return{P.stat.dig}end,
-	scoreDisp=function(D)return D[1].." Lines"end,
-	comp=function(a,b)return a[1]>b[1]end,
-	getRank=function(P)
-		local L=P.stat.dig
-		return
-		L>=400 and 5 or
-		L>=300 and 4 or
-		L>=200 and 3 or
-		L>=100 and 2 or
-		L>=40 and 1 or
-		L>=5 and 0
-	end,
 }

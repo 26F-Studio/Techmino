@@ -102,6 +102,6 @@ return{
 	{name="infinite",				x=-800,		y=-400,		size=35,shape=1,icon="infinite"},
 	{name="infinite_dig",			x=-1000,	y=-600,		size=35,shape=1,icon="infinite"},
 
-	{name="custom_puzzle",			x=0,		y=2600,		size=45,shape=1,icon="none"},
-	{name="custom_clear",			x=0,		y=2600,		size=45,shape=1,icon="none"},
+	{name="custom_puzzle"},
+	{name="custom_clear"},
 }

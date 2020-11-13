@@ -197,6 +197,12 @@ do
 		R.tech_finesse2=R["tech_finesse+"]
 		R["tech_normal+"],R["tech_hard+"],R["tech_lunatic+"],R["tech_finesse+"]=nil
 	end
+	if R.infinite and R.infinite~=6 then
+		R.infinite=6
+		R.infinite_dig=6
+		fs.remove("infinite.dat")
+		fs.remove("infinite_dig.dat")
+	end
 	if not text.modes[STAT.lastPlay]then
 		STAT.lastPlay="sprint_10"
 	end

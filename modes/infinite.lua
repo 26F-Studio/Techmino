@@ -16,17 +16,4 @@ return{
 		mText(drawableText.atk,69,313)
 		mText(drawableText.eff,69,433)
 	end,
-	score=function(P)return{P.stat.score}end,
-	scoreDisp=function(D)return tostring(D[1])end,
-	comp=function(a,b)return a[1]>b[1]end,
-	getRank=function(P)
-		local L=P.stat.row
-		return
-		L>=1200 and 5 or
-		L>=900 and 4 or
-		L>=600 and 3 or
-		L>=300 and 2 or
-		L>=100 and 1 or
-		L>=20 and 0
-	end,
 }
