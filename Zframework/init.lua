@@ -32,6 +32,7 @@ local setFont=setFont
 
 local mx,my,mouseShow=-20,-20,false
 local touching=nil--First touching ID(userdata)
+local xOy=SCR.xOy
 joysticks={}
 
 local devMode
@@ -92,7 +93,7 @@ local lastX,lastY=0,0--Last clickDown pos
 function love.mousepressed(x,y,k,touch)
 	if touch then return end
 	mouseShow=true
-	mx,my=SCR.xOy:inverseTransformPoint(x,y)
+	mx,my=xOy:inverseTransformPoint(x,y)
 	if devMode==1 then DBP(mx,my)end
 	if SCN.swapping then return end
 	if mouseDown[SCN.cur]then
@@ -109,7 +110,7 @@ end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
 	mouseShow=true
-	mx,my=SCR.xOy:inverseTransformPoint(x,y)
+	mx,my=xOy:inverseTransformPoint(x,y)
 	if SCN.swapping then return end
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if mouseMove[SCN.cur]then
@@ -123,7 +124,7 @@ function love.mousemoved(x,y,dx,dy,t)
 end
 function love.mousereleased(x,y,k,touch)
 	if touch or SCN.swapping then return end
-	mx,my=SCR.xOy:inverseTransformPoint(x,y)
+	mx,my=xOy:inverseTransformPoint(x,y)
 	WIDGET.release(mx,my)
 	WIDGET.moveCursor(mx,my)
 	if mouseUp[SCN.cur]then
@@ -145,7 +146,7 @@ function love.touchpressed(id,x,y)
 		touching=id
 		love.touchmoved(id,x,y,0,0)
 	end
-	x,y=SCR.xOy:inverseTransformPoint(x,y)
+	x,y=xOy:inverseTransformPoint(x,y)
 	lastX,lastY=x,y
 	if touchDown[SCN.cur]then
 		touchDown[SCN.cur](id,x,y)
@@ -154,7 +155,7 @@ function love.touchpressed(id,x,y)
 end
 function love.touchmoved(id,x,y,dx,dy)
 	if SCN.swapping then return end
-	x,y=SCR.xOy:inverseTransformPoint(x,y)
+	x,y=xOy:inverseTransformPoint(x,y)
 	if touchMove[SCN.cur]then
 		touchMove[SCN.cur](id,x,y,dx/SCR.k,dy/SCR.k)
 	end
@@ -171,7 +172,7 @@ function love.touchmoved(id,x,y,dx,dy)
 end
 function love.touchreleased(id,x,y)
 	if SCN.swapping then return end
-	x,y=SCR.xOy:inverseTransformPoint(x,y)
+	x,y=xOy:inverseTransformPoint(x,y)
 	if id==touching then
 		WIDGET.press(x,y)
 		WIDGET.release(x,y)
@@ -350,7 +351,7 @@ function love.resize(w,h)
 		SCR.k=h/SCR.h0
 		SCR.x,SCR.y=(w-h*SCR.w0/SCR.h0)/2,0
 	end
-	SCR.xOy=SCR.xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
+	xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
 	if BG.resize then BG.resize(w,h)end
 
 	SHADER.warning:send("w",w*SCR.dpi)
@@ -425,7 +426,7 @@ function love.errorhandler(msg)
 			gc.clear(BGcolor)
 			gc.setColor(1,1,1)
 			gc.push("transform")
-			gc.replaceTransform(SCR.xOy)
+			gc.replaceTransform(xOy)
 			gc.draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
 			setFont(120)gc.print(":(",100,40)
 			setFont(38)gc.printf(text.errorMsg,100,200,SCR.w0-100)
@@ -516,7 +517,7 @@ function love.run()
 
 				BG.draw()
 				gc.push("transform")
-					gc.replaceTransform(SCR.xOy)
+					gc.replaceTransform(xOy)
 
 					--Draw scene contents
 					if Pnt[SCN.cur]then Pnt[SCN.cur]()end
