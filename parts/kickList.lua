@@ -1,6 +1,7 @@
 local zero={0,0}
 local Zero={zero}
-local ZERO={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
+local ZERO={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
+local ZERO_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 
 local map={}
 for x=-3,3 do map[x]={}for y=-3,3 do map[x][y]={x,y}end end
@@ -379,11 +380,35 @@ do
 	for i=8,25 do AIRS[i]=AIRS[1]end
 
 end
-local NONE={}
-for i=1,25 do NONE[i]=ZERO end
+
+local C2
+do
+	local L={{0,0},{-1,0},{1,0},{0,-1},{-1,-1},{1,-1}}
+	C2={{[01]=L,[10]=L,[12]=L,[21]=L,[23]=L,[32]=L,[30]=L,[03]=L}}
+	collect(C2[1])
+	for i=2,25 do C2[i]=C2[1]end
+end
+
+local C2sym
+do
+	local L1={{0,0},{-1,0},{1,0},{0,-1},{-1,-1},{1,-1}}
+	local L2={{0,0},{-1,0},{1,0},{0,-1},{-1,-1},{1,-1}}
+	C2sym={{[01]=L1,[10]=L2,[12]=L1,[21]=L2,[23]=L1,[32]=L2,[30]=L1,[03]=L2,[02]=L1,[20]=L1,[13]=L1,[31]=L2}}
+	collect(C2sym[1])
+	for i=2,25 do C2sym[i]=C2sym[1]end
+end
+
+local None={}
+for i=1,25 do None[i]=ZERO_180 end
+
+local Classic={}
+for i=1,25 do Classic[i]=ZERO end
 
 return{
 	TRS=TRS,
 	AIRS=AIRS,
-	NONE=NONE,
+	C2=C2,
+	C2sym=C2sym,
+	None=None,
+	Classic=Classic,
 }

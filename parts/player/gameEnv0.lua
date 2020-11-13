@@ -23,6 +23,7 @@ return{
 	next=6,
 	hold=true,oncehold=true,
 	ospin=true,
+	RS="TRS",
 	sequence="bag",
 	freshMethod=NULL,
 	bag={1,2,3,4,5,6,7},
