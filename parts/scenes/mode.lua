@@ -1,16 +1,16 @@
+local mt=love.math
 local gc=love.graphics
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
 local Timer=love.timer.getTime
 
+local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
 local sin=math.sin
 
-mapCam={
+local mapCam={
 	sel=nil,--Selected mode ID
 
-	--Basic paragrams
-	x=0,y=0,k=1,--Camera pos/k
-	x1=0,y1=0,k1=1,--Camera pos/k shown
+	xOy=mt.newTransform(0,0,0,1),
 
 	--If controlling with key
 	keyCtrl=false,
@@ -19,24 +19,25 @@ mapCam={
 	zoomMethod=nil,
 	zoomK=nil,
 }
-local mapCam=mapCam
 local touchDist=nil
+
 function sceneInit.mode(org)
 	BG.set("space")
 	destroyPlayers()
 	local cam=mapCam
 	cam.zoomK=org=="main"and 5 or 1
-	if cam.sel then
-		local M=MODES[cam.sel]
-		cam.x,cam.y=M.x*cam.k+180,M.y*cam.k
-		cam.x1,cam.y1=cam.x,cam.y
-	end
+end
+
+local function getK()
+	return abs(mapCam.xOy:transformPoint(1,0)-mapCam.xOy:transformPoint(0,0))
+end
+local function getPos()
+	return mapCam.xOy:inverseTransformPoint(0,0)
 end
 
 local function onMode(x,y)
-	local cam=mapCam
-	x=(cam.x1-640+x)/cam.k1
-	y=(cam.y1-360+y)/cam.k1
+	x,y=x-640,y-360
+	x,y=mapCam.xOy:inverseTransformPoint(x,y)
 	for name,M in next,MODES do
 		if RANKS[name]and M.x then
 			local s=M.size
@@ -50,52 +51,46 @@ local function onMode(x,y)
 		end
 	end
 end
-function wheelMoved.mode(_,y)
-	local cam=mapCam
-	local t=cam.k
-	local k=t+y*.1
-	if k>1.5 then k=1.5
-	elseif k<.3 then k=.3
-	end
-	t=k/t
-	if cam.sel then
-		cam.x=(cam.x-180)*t+180
-		cam.y=cam.y*t
-	else
-		cam.x=cam.x*t
-		cam.y=cam.y*t
-	end
-	cam.k=k
-	cam.keyCtrl=false
+local function moveMap(dx,dy)
+	local k=getK()
+	local x,y=getPos()
+	if x>1300 and dx<0 or x<-1200 and dx>0 then dx=0 end
+	if y>420 and dy<0 or y<-1900 and dy>0 then dy=0 end
+	mapCam.xOy:translate(dx/k,dy/k)
+end
+function wheelMoved.mode(_,dy)
+	mapCam.keyCtrl=false
+	local k=getK()
+	k=min(max(k+dy*.1,.3),1.6)/k
+	mapCam.xOy:scale(k)
+
+	local x,y=getPos()
+	mapCam.xOy:translate(x*(1-k),y*(1-k))
 end
 function mouseMove.mode(_,_,dx,dy)
 	if ms.isDown(1)then
-		mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
+		moveMap(dx,dy)
 	end
 	mapCam.keyCtrl=false
 end
 function mouseClick.mode(x,y)
-	local cam=mapCam
-	local _=cam.sel
+	local _=mapCam.sel
 	if not _ or x<920 then
 		local SEL=onMode(x,y)
 		if _~=SEL then
 			if SEL then
-				cam.moving=true
+				mapCam.moving=true
 				_=MODES[SEL]
-				cam.x=_.x*cam.k+180
-				cam.y=_.y*cam.k
-				cam.sel=SEL
+				mapCam.sel=SEL
 				SFX.play("click")
 			else
-				cam.sel=nil
-				cam.x=cam.x-180
+				mapCam.sel=nil
 			end
 		elseif _ then
 			keyDown.mode("return")
 		end
 	end
-	cam.keyCtrl=false
+	mapCam.keyCtrl=false
 end
 function touchDown.mode()
 	touchDist=nil
@@ -103,7 +98,7 @@ end
 function touchMove.mode(_,x,y,dx,dy)
 	local L=tc.getTouches()
 	if not L[2]then
-		mapCam.x,mapCam.y=mapCam.x-dx,mapCam.y-dy
+		moveMap(dx,dy)
 	elseif not L[3]then
 		x,y=SCR.xOy:inverseTransformPoint(tc.getPosition(L[1]))
 		dx,dy=SCR.xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
@@ -138,88 +133,70 @@ function keyDown.mode(key)
 end
 
 function Tmr.mode()
-	local cam=mapCam
-	local x,y,k=cam.x,cam.y,cam.k
+	local dx,dy=0,0
 	local F
 	if not SCN.swapping then
-		if kb.isDown("up",	"w")then	y=y-10*k F=true end
-		if kb.isDown("down","s")then	y=y+10*k F=true end
-		if kb.isDown("left","a")then	x=x-10*k F=true end
-		if kb.isDown("right","d")then	x=x+10*k F=true end
+		if kb.isDown("up",	"w")then	dy=dy+10 F=true end
+		if kb.isDown("down","s")then	dy=dy-10 F=true end
+		if kb.isDown("left","a")then	dx=dx+10 F=true end
+		if kb.isDown("right","d")then	dx=dx-10 F=true end
 		local js1=joysticks[1]
 		if js1 then
 			local dir=js1:getAxis(1)
 			if dir~="c"then
-				if dir=="u"or dir=="ul"or dir=="ur"then y=y-10*k F=true end
-				if dir=="d"or dir=="dl"or dir=="dl"then y=y+10*k F=true end
-				if dir=="l"or dir=="ul"or dir=="dl"then x=x-10*k F=true end
-				if dir=="r"or dir=="ur"or dir=="dr"then x=x+10*k F=true end
+				if dir=="u"or dir=="ul"or dir=="ur"then dy=dy+10 F=true end
+				if dir=="d"or dir=="dl"or dir=="dl"then dy=dy-10 F=true end
+				if dir=="l"or dir=="ul"or dir=="dl"then dx=dx+10 F=true end
+				if dir=="r"or dir=="ur"or dir=="dr"then dx=dx-10 F=true end
 			end
 		end
 	end
-	if F or cam.keyCtrl and(x-cam.x1)^2+(y-cam.y1)^2>2.6 then
-		if F then
-			cam.keyCtrl=true
-		end
-		local x1,y1=(cam.x1-180)/cam.k1,cam.y1/cam.k1
+	if F then
+		mapCam.keyCtrl=true
+		moveMap(dx,dy)
+		local x,y=getPos()
 		for name,M in next,MODES do
 			if RANKS[name]and M.x then
 				local SEL
 				local s=M.size
 				if M.shape==1 then
-					if x1>M.x-s and x1<M.x+s and y1>M.y-s and y1<M.y+s then SEL=name end
+					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then SEL=name end
 				elseif M.shape==2 then
-					if abs(x1-M.x)+abs(y1-M.y)<s then SEL=name end
+					if abs(x-M.x)+abs(y-M.y)<s then SEL=name end
 				elseif M.shape==3 then
-					if(x1-M.x)^2+(y1-M.y)^2<s^2 then SEL=name end
+					if(x-M.x)^2+(y-M.y)^2<s^2 then SEL=name end
 				end
-				if SEL and cam.sel~=SEL then
-					cam.sel=SEL
+				if SEL and mapCam.sel~=SEL then
+					mapCam.sel=SEL
 					SFX.play("click")
 				end
 			end
 		end
 	end
 
-	if x>1850*k then x=1850*k
-	elseif x<-1000*k then x=-1000*k
-	end
-	if y>500*k then y=500*k
-	elseif y<-1900*k then y=-1900*k
-	end
-	cam.x,cam.y=x,y
-	--Keyboard controlling
-
-	cam.x1=cam.x1*.85+x*.15
-	cam.y1=cam.y1*.85+y*.15
-	cam.k1=cam.k1*.85+k*.15
 	local _=SCN.stat.tar
-	cam.zoomMethod=_=="play"and 1 or _=="mode"and 2
-	if cam.zoomMethod==1 then
-		if cam.sel then
-			local M=MODES[cam.sel]
-			cam.x=cam.x*.8+M.x*cam.k*.2
-			cam.y=cam.y*.8+M.y*cam.k*.2
-		end
-		_=cam.zoomK
+	mapCam.zoomMethod=_=="play"and 1 or _=="mode"and 2
+	if mapCam.zoomMethod==1 then
+		_=mapCam.zoomK
 		if _<.8 then _=_*1.05 end
 		if _<1.1 then _=_*1.05 end
-		cam.zoomK=_*1.05
-	elseif cam.zoomMethod==2 then
-		cam.zoomK=cam.zoomK^.9
+		mapCam.zoomK=_*1.05
+	elseif mapCam.zoomMethod==2 then
+		mapCam.zoomK=mapCam.zoomK^.9
 	end
 end
 
 function Pnt.mode()
 	local _
-	local cam=mapCam
 	gc.push("transform")
 	gc.translate(640,360)
-	gc.scale(cam.zoomK)
-	gc.translate(-cam.x1,-cam.y1)
-	gc.scale(cam.k1)
+	gc.scale(mapCam.zoomK)
+	gc.rotate((mapCam.zoomK^.8-1)*.6)
+	gc.shear((mapCam.zoomK-1)*.0626,0)
+	gc.applyTransform(mapCam.xOy);
+
 	local R=RANKS
-	local sel=cam.sel
+	local sel=mapCam.sel
 
 	--Draw lines connecting modes
 	gc.setLineWidth(8)
@@ -236,17 +213,15 @@ function Pnt.mode()
 	setFont(60)
 	for name,M in next,MODES do
 		if R[name]then
-			local S=M.size
-			local d=((M.x-(cam.x1+(sel and -180 or 0))/cam.k1)^2+(M.y-cam.y1/cam.k1)^2)^.55
-			if d<500 then S=S*(1.25-d*0.0005) end
 			local c=rankColor[R[M.name]]
 			if c then
 				gc.setColor(c)
 			else
 				c=.5+sin(Timer()*6.26)*.2
-				S=S*(.9+c*.4)
 				gc.setColor(c,c,c)
 			end
+
+			local S=M.size
 			if M.shape==1 then--Rectangle
 				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)
 				if sel==name then
@@ -291,6 +266,7 @@ function Pnt.mode()
 		end
 	end
 	gc.pop()
+
 	if sel then
 		local M=MODES[sel]
 		gc.setColor(.7,.7,.7,.5)
@@ -329,13 +305,13 @@ function Pnt.mode()
 			end
 		end
 	end
-	if cam.keyCtrl then
+	if mapCam.keyCtrl then
 		gc.setColor(1,1,1)
-		gc.draw(TEXTURE.mapCross,460-20,360-20)
+		gc.draw(TEXTURE.mapCross,640-20,360-20)
 	end
 end
 
 WIDGET.init("mode",{
-	WIDGET.newButton({name="start",	x=1040,	y=655,w=180,h=80,	font=40,code=WIDGET.lnk.pressKey("return"),hide=function()return not mapCam.sel end}),
-	WIDGET.newButton({name="back",		x=1200,	y=655,w=120,h=80,	font=40,code=WIDGET.lnk.BACK}),
+	WIDGET.newButton({name="start",	x=1040,	y=655,w=180,h=80,	font=40,code=WIDGET.lnk_pressKey("return"),hide=function()return not mapCam.sel end}),
+	WIDGET.newButton({name="back",	x=1200,	y=655,w=120,h=80,	font=40,code=WIDGET.lnk_BACK}),
 })
