@@ -180,23 +180,9 @@ if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
 
 --Update data
 do
+	--Check Ranks
 	local R=RANKS
 	R.sprint_10=R.sprint_10 or 0
-	for k,_ in next,R do
-		if type(k)=="number"then
-			R[k]=nil
-		end
-	end
-	if R.master_adavnce then
-		R.master_advance,R.master_adavnce=R.master_adavnce
-	end
-	if R["tech_normal+"]then
-		R.tech_normal2=R["tech_normal+"]
-		R.tech_hard2=R["tech_hard+"]
-		R.tech_lunatic2=R["tech_lunatic+"]
-		R.tech_finesse2=R["tech_finesse+"]
-		R["tech_normal+"],R["tech_hard+"],R["tech_lunatic+"],R["tech_finesse+"]=nil
-	end
 	if R.infinite and R.infinite~=6 then
 		R.infinite=6
 		R.infinite_dig=6
@@ -229,6 +215,16 @@ do
 	if S.version~=VERSION then
 		S.version=VERSION
 		newVersionLaunch=true
+
+		local function delRecord(n)
+			if R[n]then
+				R[n]=0
+				fs.remove(n..".dat")
+			end
+		end
+		delRecord("solo_1")delRecord("solo_2")delRecord("solo_3")delRecord("solo_4")delRecord("solo_5")
+		delRecord("dig_10")delRecord("dig_40")delRecord("dig_100")delRecord("dig_400")
+		delRecord("classic_fast")
 
 		--Try unlock modes which should be unlocked
 		for name,rank in next,RANKS do
