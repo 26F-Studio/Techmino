@@ -550,6 +550,10 @@ return{
 		pong={
 			reset="Restart",
 		},
+		AtoZ={
+			level="Level",
+			reset="Reset",
+		},
 		savedata={
 			exportUnlock="Export progress",
 			exportData="Export statistics",

@@ -549,6 +549,10 @@ return{
 		pong={
 			reset="Redémarrer",
 		},
+		AtoZ={
+			-- level="Level",
+			reset="Redémarrer",
+		},
 		help={
 			dict="little Z",
 			staff="Staff",

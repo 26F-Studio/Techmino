@@ -533,6 +533,7 @@ return{
 			p15="15 Puzzle",
 			schulte_G="舒尔特方格",
 			pong="Pong",
+			AtoZ="A to Z",
 		},
 		p15={
 			reset="打乱",
@@ -550,6 +551,10 @@ return{
 			tapFX="点击动画",
 		},
 		pong={
+			reset="重置",
+		},
+		AtoZ={
+			level="关卡",
 			reset="重置",
 		},
 		savedata={

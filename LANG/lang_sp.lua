@@ -554,6 +554,10 @@ return{
 		pong={
 			reset="Reiniciar",
 		},
+		AtoZ={
+			-- level="Level",
+			reset="Reiniciar",
+		},
 		savedata={
 			-- exportUnlock="Export Unlock",
 			-- exportData="Export Data",

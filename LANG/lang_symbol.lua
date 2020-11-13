@@ -486,6 +486,10 @@ return{
 		pong={
 			reset="R",
 		},
+		AtoZ={
+			level="_ _ _",
+			reset="R",
+		},
 	},
 	getTip=function()
 		local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"
