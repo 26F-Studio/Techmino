@@ -11,7 +11,7 @@ return{
 	royale_remain="$1 Jugadores Restantes",
 	cmb={nil,"Combo de 1","Combo de 2","Combo de 3","Combo de 4","Combo de 5","Combo de 6","Combo de 7","Combo de 8","Combo de 9","¡Combo de 10!","¡Combo de 11!","¡Combo de 12!","¡Combo de 13!","¡Combo de 14!","¡Combo de 15!","¡Combo de 16!","¡Combo de 17!","¡Combo de 18!","¡Combo de 19!","MEGACOMBO"},
 	spin="-spin ",
-	clear={"single","doble","triple","Techrash","Pentcrash","Hexcrash"},
+	clear={"Single","Doble","Triple","Techrash","Pentacrash","Hexacrash"},
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Half Clear",
 	hold="Reserva",next="Siguiente",

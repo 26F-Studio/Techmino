@@ -21,7 +21,9 @@
 		z-spin double
 		z-spin triple
 		z-spin techrash
-	对于 S L J T O I 每一个都是这样,五种语音
+		(z-spin pentacrash)
+		(z-spin hexacrash)
+	对于 S L J T O I 每一个都是这样, 五种语音, 加括号的是消5和消6, 一般不用所以可以不录
 
 	另：对于P, Q, F, E, U, V, W, X, R, Y, N, H
 	这些方块也可以有上面那些语音,但由于仅在五连块使用还会显著增加语音包体积, 所以不录也可以
