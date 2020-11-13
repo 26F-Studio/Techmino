@@ -57,7 +57,7 @@ function Pnt.history()
 end
 
 WIDGET.init("history",{
-	WIDGET.newKey({name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk.pressKey("up"),hide=WIDGET.lnk.STPeq("pos",1)}),
-	WIDGET.newKey({name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk.pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
-	WIDGET.newButton({name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+	WIDGET.newKey({name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=WIDGET.lnk_STPeq("pos",1)}),
+	WIDGET.newKey({name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
+	WIDGET.newButton({name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK}),
 })

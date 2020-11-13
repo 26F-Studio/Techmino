@@ -137,5 +137,5 @@ WIDGET.init("setting_key",{
 	WIDGET.newText({name="joystick",	x=540,y=30,font=25,color="lBlue"}),
 	WIDGET.newText({name="joystick",	x=1140,y=30,font=25,color="lBlue"}),
 	WIDGET.newText({name="help",		x=50,y=650,font=30,align="L"}),
-	WIDGET.newButton({name="back",		x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+	WIDGET.newButton({name="back",		x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK}),
 })

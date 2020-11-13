@@ -190,12 +190,12 @@ WIDGET.init("setting_touch",{
 			sceneTemp.sel=nil
 			LOG.print("[ "..sceneTemp.default.." ]")
 		end}),
-	WIDGET.newSelector({name="snap",	x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=WIDGET.lnk.STPval("snap"),code=WIDGET.lnk.STPsto("snap")}),
+	WIDGET.newSelector({name="snap",	x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=WIDGET.lnk_STPval("snap"),code=WIDGET.lnk_STPsto("snap")}),
 	WIDGET.newButton({name="option",	x=520,y=190,w=200,h=80,font=40,
 		code=function()
 			SCN.go("setting_touchSwitch")
 		end}),
-	WIDGET.newButton({name="back",		x=760,y=190,w=200,h=80,font=35,code=WIDGET.lnk.BACK}),
+	WIDGET.newButton({name="back",		x=760,y=190,w=200,h=80,font=35,code=WIDGET.lnk_BACK}),
 	WIDGET.newSlider({name="size",		x=450,y=270,w=460,unit=19,font=40,show="vkSize",
 		disp=function()
 			return VK_org[sceneTemp.sel].r/10-1

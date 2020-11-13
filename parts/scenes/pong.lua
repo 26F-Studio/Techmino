@@ -175,6 +175,6 @@ function Pnt.pong()
 end
 
 WIDGET.init("pong",{
-	WIDGET.newKey({name="reset",x=640,y=45,w=150,h=50,	font=35,code=WIDGET.lnk.pressKey("r")}),
-	WIDGET.newKey({name="back",	x=640,y=675,w=150,h=50,	font=35,code=WIDGET.lnk.BACK}),
+	WIDGET.newKey({name="reset",x=640,y=45,w=150,h=50,font=35,code=WIDGET.lnk_pressKey("r")}),
+	WIDGET.newKey({name="back",x=640,y=675,w=150,h=50,font=35,code=WIDGET.lnk_BACK}),
 })

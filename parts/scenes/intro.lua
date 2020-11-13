@@ -1,4 +1,4 @@
-local gc,sys=love.graphics,love.system
+local gc=love.graphics
 local Timer=love.timer.getTime
 
 local abs=math.abs

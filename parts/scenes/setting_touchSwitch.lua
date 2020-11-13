@@ -28,11 +28,11 @@ WIDGET.init("setting_touchSwitch",{
 	WIDGET.newSwitch({name="b20",	x=580,	y=620,	font=35,disp=VKAdisp(20),code=VKAcode(20)}),
 	WIDGET.newButton({name="norm",	x=840,	y=100,	w=240,h=80,		font=35,code=function()for i=1,20 do VK_org[i].ava=i<11 end end}),
 	WIDGET.newButton({name="pro",	x=1120,	y=100,	w=240,h=80,		font=35,code=function()for i=1,20 do VK_org[i].ava=true end end}),
-	WIDGET.newSwitch({name="hide",	x=1170,	y=200,					font=40,disp=WIDGET.lnk.SETval("VKSwitch"),code=WIDGET.lnk.SETrev("VKSwitch")}),
-	WIDGET.newSwitch({name="track",	x=1170,	y=300,					font=35,disp=WIDGET.lnk.SETval("VKTrack"),code=WIDGET.lnk.SETrev("VKTrack")}),
-	WIDGET.newSlider({name="sfx",	x=800,	y=380,	w=180,			font=35,change=function()SFX.play("virtualKey",SETTING.VKSFX)end,disp=WIDGET.lnk.SETval("VKSFX"),code=WIDGET.lnk.SETsto("VKSFX")}),
-	WIDGET.newSlider({name="vib",	x=800,	y=460,	w=180,unit=2,	font=35,change=function()VIB(SETTING.VKVIB)end,disp=WIDGET.lnk.SETval("VKVIB"),code=WIDGET.lnk.SETsto("VKVIB")}),
-	WIDGET.newSwitch({name="icon",	x=850,	y=300,	font=40,disp=WIDGET.lnk.SETval("VKIcon"),code=WIDGET.lnk.SETrev("VKIcon")}),
+	WIDGET.newSwitch({name="hide",	x=1170,	y=200,					font=40,disp=WIDGET.lnk_SETval("VKSwitch"),code=WIDGET.lnk_SETrev("VKSwitch")}),
+	WIDGET.newSwitch({name="track",	x=1170,	y=300,					font=35,disp=WIDGET.lnk_SETval("VKTrack"),code=WIDGET.lnk_SETrev("VKTrack")}),
+	WIDGET.newSlider({name="sfx",	x=800,	y=380,	w=180,			font=35,change=function()SFX.play("virtualKey",SETTING.VKSFX)end,disp=WIDGET.lnk_SETval("VKSFX"),code=WIDGET.lnk_SETsto("VKSFX")}),
+	WIDGET.newSlider({name="vib",	x=800,	y=460,	w=180,unit=2,	font=35,change=function()VIB(SETTING.VKVIB)end,disp=WIDGET.lnk_SETval("VKVIB"),code=WIDGET.lnk_SETsto("VKVIB")}),
+	WIDGET.newSwitch({name="icon",	x=850,	y=300,	font=40,disp=WIDGET.lnk_SETval("VKIcon"),code=WIDGET.lnk_SETrev("VKIcon")}),
 	WIDGET.newButton({name="tkset",	x=1120,	y=420,	w=240,h=80,
 		code=function()
 			SCN.go("setting_trackSetting")
@@ -40,6 +40,6 @@ WIDGET.init("setting_touchSwitch",{
 		hide=function()
 			return not SETTING.VKTrack
 		end}),
-	WIDGET.newSlider({name="alpha",	x=840,	y=540,	w=400,font=40,disp=WIDGET.lnk.SETval("VKAlpha"),code=WIDGET.lnk.SETsto("VKAlpha")}),
-	WIDGET.newButton({name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk.BACK}),
+	WIDGET.newSlider({name="alpha",	x=840,	y=540,	w=400,font=40,disp=WIDGET.lnk_SETval("VKAlpha"),code=WIDGET.lnk_SETsto("VKAlpha")}),
+	WIDGET.newButton({name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk_BACK}),
 })

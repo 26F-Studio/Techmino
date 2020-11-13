@@ -671,25 +671,24 @@ end
 WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=nil--Selected widget
 
-WIDGET.lnk={
-	BACK=function()SCN.back()end,
-	CUSval=function(k)	return function()	return CUSTOMENV[k]				end end,
-	CUSrev=function(k)	return function()	CUSTOMENV[k]=not CUSTOMENV[k]	end end,
-	CUSsto=function(k)	return function(i)	CUSTOMENV[k]=i					end end,
+function WIDGET.lnk_BACK()			SCN.back()end
+function WIDGET.lnk_CUSval(k)		return function()	return CUSTOMENV[k]				end end
+function WIDGET.lnk_CUSrev(k)		return function()	CUSTOMENV[k]=not CUSTOMENV[k]	end end
+function WIDGET.lnk_CUSsto(k)		return function(i)	CUSTOMENV[k]=i					end end
 
-	SETval=function(k)	return function()	return SETTING[k]				end end,
-	SETrev=function(k)	return function()	SETTING[k]=not SETTING[k]		end end,
-	SETsto=function(k)	return function(i)	SETTING[k]=i					end end,
+function WIDGET.lnk_SETval(k)		return function()	return SETTING[k]				end end
+function WIDGET.lnk_SETrev(k)		return function()	SETTING[k]=not SETTING[k]		end end
+function WIDGET.lnk_SETsto(k)		return function(i)	SETTING[k]=i					end end
 
-	STPval=function(k)	return function()	return sceneTemp[k]				end end,
-	STPrev=function(k)	return function()	sceneTemp[k]=not sceneTemp[k]	end end,
-	STPsto=function(k)	return function(i)	sceneTemp[k]=i					end end,
-	STPeq=function(k,v)	return function()	return sceneTemp[k]==v			end end,
+function WIDGET.lnk_STPval(k)		return function()	return sceneTemp[k]				end end
+function WIDGET.lnk_STPrev(k)		return function()	sceneTemp[k]=not sceneTemp[k]	end end
+function WIDGET.lnk_STPsto(k)		return function(i)	sceneTemp[k]=i					end end
+function WIDGET.lnk_STPeq(k,v)		return function()	return sceneTemp[k]==v			end end
 
-	pressKey=function(k)return function()	love.keypressed(k)				end end,
-	goScene=function(t,s)return function()	SCN.go(t,s)						end end,
-	swapScene=function(t,s)return function()SCN.swapTo(t,s)					end end,
-}
+function WIDGET.lnk_pressKey(k)		return function()	love.keypressed(k)				end end
+function WIDGET.lnk_goScene(t,s)	return function()	SCN.go(t,s)						end end
+function WIDGET.lnk_swapScene(t,s)	return function()	SCN.swapTo(t,s)					end end
+
 local indexMeta={
 	__index=function(L,k)
 		for i=1,#L do
