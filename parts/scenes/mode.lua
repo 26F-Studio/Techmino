@@ -312,6 +312,6 @@ function Pnt.mode()
 end
 
 WIDGET.init("mode",{
-	WIDGET.newButton({name="start",	x=1040,	y=655,w=180,h=80,	font=40,code=WIDGET.lnk_pressKey("return"),hide=function()return not mapCam.sel end}),
-	WIDGET.newButton({name="back",	x=1200,	y=655,w=120,h=80,	font=40,code=WIDGET.lnk_BACK}),
+	WIDGET.newButton({name="start",x=1040,y=655,w=180,h=80,font=40,code=WIDGET.lnk_pressKey("return"),hide=function()return not mapCam.sel end}),
+	WIDGET.newButton({name="back",x=1200,y=655,w=120,h=80,font=40,code=WIDGET.lnk_BACK}),
 })

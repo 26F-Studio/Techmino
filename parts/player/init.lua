@@ -1,12 +1,10 @@
 local Player=require("parts/player/player")
 local prepareSequence=require("parts/player/prepareSequence")
+local gameEnv0=require("parts/player/gameEnv0")
 
 local mt=love.math
 local rnd,max,min=math.random,math.max,math.min
 local ins=table.insert
-
-local gameEnv0=require("parts/player/gameEnv0")
-
 
 local PLY={
 	update=require("parts/player/update"),
@@ -133,6 +131,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	)
 	P:set20G(P._20G)
 	P:setHold(ENV.hold)
+	P:setRS(ENV.RS)
 
 	if type(ENV.mission)=="table"then
 		P.curMission=1
@@ -253,7 +252,6 @@ local function newEmptyPlayer(id,x,y,size)
 
 	P.human=false
 	P.sound=false
-	P:setRS("TRS")
 
 	-- P.newNext=nil--Call prepareSequence()to get a function to get new next
 
