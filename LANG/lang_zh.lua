@@ -555,6 +555,7 @@ return{
 		},
 		AtoZ={
 			level="关卡",
+			keyboard="键盘",
 			reset="重置",
 		},
 		savedata={

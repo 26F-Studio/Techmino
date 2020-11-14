@@ -556,6 +556,7 @@ return{
 		},
 		AtoZ={
 			-- level="Level",
+			-- keyboard="Keyboard",
 			reset="Reiniciar",
 		},
 		savedata={

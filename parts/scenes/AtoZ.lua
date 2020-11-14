@@ -106,5 +106,6 @@ end
 WIDGET.init("AtoZ",{
 	WIDGET.newSelector({name="level",x=640,y=640,w=200,list={"A_Z","Z_A","Tech1","Tech2","KeyTest1","KeyTest2","hello","zzz","zxzx","stair"},disp=WIDGET.lnk_STPval("level"),code=function(i)sceneTemp.level=i;sceneTemp.target=levels[i]end,hide=function()return sceneTemp.state>0 end}),
 	WIDGET.newButton({name="reset",x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space")}),
+	WIDGET.newButton({name="keyboard",x=160,y=210,w=180,h=100,code=function()love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1)end,hide=not MOBILE}),
 	WIDGET.newButton({name="back",x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK}),
 })

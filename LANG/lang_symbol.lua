@@ -367,7 +367,7 @@ return{
 		},
 		dict={
 			title="TetroDictionary",
-			keyboard="□□□",
+			keyboard="[##]",
 			link="~~e>>",
 			up="↑",
 			down="↓",
@@ -488,6 +488,7 @@ return{
 		},
 		AtoZ={
 			level="_ _ _",
+			keyboard="[##]",
 			reset="R",
 		},
 	},
