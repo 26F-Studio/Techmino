@@ -323,6 +323,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		next=6,
 		hold=true,oncehold=true,
 		ospin=true,
+		RS="TRS",
 		sequence="bag",
 		bag={1,2,3,4,5,6,7},
 		face={0,0,0,0,0,0,0},
