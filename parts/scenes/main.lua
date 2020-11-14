@@ -36,7 +36,7 @@ end
 WIDGET.init("main",{
 	WIDGET.newButton({name="offline",	x=150,y=220,w=200,h=140,color="lRed",	font=40,code=WIDGET.lnk_goScene("mode")}),
 	WIDGET.newButton({name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=WIDGET.lnk_goScene(LOGIN and"netgame"or"login")}),
-	WIDGET.newButton({name="custom",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=WIDGET.lnk_goScene("customGame"),hide=function()return not RANKS.marathon_normal end}),
+	WIDGET.newButton({name="custom",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=WIDGET.lnk_goScene("customGame")}),
 	WIDGET.newButton({name="setting",	x=150,y=380,w=200,h=140,color="lOrange",font=40,code=WIDGET.lnk_goScene("setting_game")}),
 	WIDGET.newButton({name="stat",		x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=WIDGET.lnk_goScene("stat")}),
 	WIDGET.newButton({name="qplay",		x=590,y=380,w=200,h=140,color="white",	font=40,code=function()SCN.push()loadGame(STAT.lastPlay,true)end}),
