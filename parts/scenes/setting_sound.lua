@@ -65,7 +65,7 @@ WIDGET.init("setting_sound",{
 	WIDGET.newSlider({name="bgm",		x=180,	y=400,w=400,		font=35,change=function()BGM.freshVolume()end,	disp=WIDGET.lnk_SETval("bgm"),code=WIDGET.lnk_SETsto("bgm")}),
 	WIDGET.newSlider({name="vib",		x=750,	y=200,w=400,unit=5,	font=25,change=function()VIB(2)end,				disp=WIDGET.lnk_SETval("vib"),code=WIDGET.lnk_SETsto("vib")}),
 	WIDGET.newSlider({name="voc",		x=750,	y=300,w=400,		font=35,change=function()VOC.play("test")end,	disp=WIDGET.lnk_SETval("voc"),code=WIDGET.lnk_SETsto("voc")}),
-	WIDGET.newSelector({name="cv",		x=1100,	y=380,w=200,		list={"miya"},							disp=WIDGET.lnk_STPval("cv"),code=WIDGET.lnk_STPsto("cv")}),
+	WIDGET.newSelector({name="cv",		x=1100,	y=380,w=200,		list={"miya","naki"},							disp=WIDGET.lnk_STPval("cv"),code=WIDGET.lnk_STPsto("cv")}),
 	WIDGET.newButton({name="apply",		x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=sceneTemp.cv VOC.loadAll()end,hide=function()return SETTING.cv==sceneTemp.cv end}),
 	WIDGET.newButton({name="back",		x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK}),
 })
