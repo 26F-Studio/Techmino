@@ -4,7 +4,7 @@ local pc_lock={55,50,45,40,36,32,30}
 local pc_fall={18,16,14,12,10,9,8,7,6}
 local PCbase=require("modes/PCbase")
 local PClist=require("modes/PClist")
-local PCtype={[0]=1,2,1,3,2,3}
+local PCtype={[0]=1,2,3,2,3}
 
 local function task_PC(P)
 	P.modeData.counter=P.modeData.counter+1
@@ -75,10 +75,10 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=100 and 5 or
-		L>=70 and 4 or
-		L>=40 and 3 or
-		L>=20 and 2 or
+		L>=62 and 5 or
+		L>=42 and 4 or
+		L>=26 and 3 or
+		L>=18 and 2 or
 		L>=10 and 1 or
 		L>=2 and 0
 	end,

@@ -67,9 +67,9 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=260 and 5 or
-		L>=126 and 4 or
-		L>=62 and 3 or
+		L>=126 and 5 or
+		L>=62 and 4 or
+		L>=42 and 3 or
 		L>=26 and 2 or
 		L>=12 and 1 or
 		L>=2 and 0
