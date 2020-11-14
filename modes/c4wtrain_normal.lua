@@ -1,8 +1,8 @@
 local min=math.min
 local function check_c4w(P)
-	if #P.lastPiece.row>0 then
+	if P.lastPiece.row>0 then
 		for _=1,#P.clearedRow do
-			P.field[#P.field+1]=FREEROW.get(13)
+			P.field[#P.field+1]=FREEROW.get(20)
 			P.visTime[#P.visTime+1]=FREEROW.get(20)
 			for i=4,7 do P.field[#P.field][i]=0 end
 		end
@@ -29,17 +29,17 @@ return{
 		local P=PLAYERS[1]
 		local F=P.field
 		for i=1,24 do
-			F[i]=FREEROW.get(13)
+			F[i]=FREEROW.get(20)
 			P.visTime[i]=FREEROW.get(20)
 			for x=4,7 do F[i][x]=0 end
 		end
 		local r=P:RND(6)
-		if r==1 then	 F[1][5],F[1][4],F[2][4]=13,13,13
-		elseif r==2 then F[1][6],F[1][7],F[2][7]=13,13,13
-		elseif r==3 then F[1][4],F[2][4],F[2][5]=13,13,13
-		elseif r==4 then F[1][7],F[2][7],F[2][6]=13,13,13
-		elseif r==5 then F[1][4],F[1][5],F[1][6]=13,13,13
-		elseif r==6 then F[1][7],F[1][6],F[1][5]=13,13,13
+		if r==1 then	 F[1][5],F[1][4],F[2][4]=20,20,20
+		elseif r==2 then F[1][6],F[1][7],F[2][7]=20,20,20
+		elseif r==3 then F[1][4],F[2][4],F[2][5]=20,20,20
+		elseif r==4 then F[1][7],F[2][7],F[2][6]=20,20,20
+		elseif r==5 then F[1][4],F[1][5],F[1][6]=20,20,20
+		elseif r==6 then F[1][7],F[1][6],F[1][5]=20,20,20
 		end
 	end,
 	mesDisp=function(P)
