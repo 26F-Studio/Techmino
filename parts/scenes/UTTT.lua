@@ -37,7 +37,6 @@ local function restart()
 		end
 	end
 end
-
 local function checkBoard(b,p)
 	for i=1,8 do
 		for j=1,3 do
@@ -49,9 +48,17 @@ local function checkBoard(b,p)
 		::nextLine::
 	end
 end
-
+local function full(L)
+	for i=1,9 do
+		if not L[i]then
+			return false
+		end
+	end
+	return true
+end
 local function place(X,x)
 	board[X][x]=round
+	SFX.play("move")
 	lastX,lastx=X,x
 	curX,curx=nil
 	placeTime=Timer()
@@ -59,25 +66,24 @@ local function place(X,x)
 		score[X]=round
 		if checkBoard(score,round)then
 			gameover=round
+			SFX.play("win")
 			return
 		else
-			for i=1,9 do
-				if not score[i]then
-					goto continueGame
-				end
+			if full(score)then
+				gameover=true
+				return
 			end
-			gameover=true
-			do return end
-			::continueGame::
 		end
+		SFX.play("reach")
 	else
-		for i=1,9 do
-			if not board[X][i]then
-				goto continueGame
+		if full(board[X])then
+			SFX.play("emit")
+			score[X]=true
+			if full(score)then
+				gameover=true
+				return
 			end
 		end
-		score[X]=true
-		::continueGame::
 	end
 	if score[x]then
 		target=false
@@ -89,9 +95,9 @@ end
 
 function sceneInit.UTTT()
 	restart()
+	BGM.set("truth")
 	BG.set("bg2")
 end
-
 
 function Pnt.UTTT()
 	gc.push("transform")
@@ -125,7 +131,7 @@ function Pnt.UTTT()
 			elseif score[X]==1 then
 				gc.setColor(0,0,.5)
 			else
-				gc.setColor(.5,.5,.5)
+				gc.setColor(0,0,0)
 			end
 			gc.rectangle("fill",(X-1)%3*30,int((X-1)/3)*30,30,30)
 		end
