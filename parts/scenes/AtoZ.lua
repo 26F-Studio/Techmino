@@ -26,19 +26,25 @@ function sceneInit.AtoZ()
 		level="A_Z",
 		target=levels.A_Z,
 		count=1,
+		frameKeyCount=0,
 		error=0,
 		startTime=0,
 		time=0,
 		state=0,
 	}
+	love.keyboard.setKeyRepeat(false)
+end
+function sceneBack.AtoZ()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function keyDown.AtoZ(key)
 	local S=sceneTemp
 	if #key==1 then
-		if S.state<2 then
+		if S.state<2 and S.frameKeyCount<3 then
 			if key:upper():byte()==S.target:byte(S.count)then
 				S.count=S.count+1
+				S.frameKeyCount=S.frameKeyCount+1
 				TEXT.show(key:upper(),rnd(320,960),rnd(100,240),90,"score",2.6)
 				SFX.play("move")
 				if S.count==2 then
@@ -67,6 +73,7 @@ end
 function Tmr.AtoZ()
 	local S=sceneTemp
 	if S.state==1 then
+		S.frameKeyCount=0
 		S.time=Timer()-S.startTime
 	end
 end
