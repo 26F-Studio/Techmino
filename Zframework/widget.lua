@@ -145,6 +145,11 @@ end
 function button:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
+function button:press()
+	self.code()
+	self:FX()
+	SFX.play("button")
+end
 function WIDGET.newButton(D)--name,x,y,w[,h][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
@@ -220,6 +225,10 @@ end
 function key:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
+function key:press()
+	self.code()
+end
+
 function WIDGET.newKey(D)--name,x,y,w[,h][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
@@ -304,6 +313,11 @@ end
 function switch:getInfo()
 	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
 end
+function switch:press()
+	self.code()
+	SFX.play("move")
+end
+
 function WIDGET.newSwitch(D)--name,x,y[,font][,disp],code,hide
 	local _={
 		name=	D.name,
@@ -422,6 +436,37 @@ function slider:draw()
 end
 function slider:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
+end
+function slider:drag(x)
+	if not x then return end
+	x=x-self.x
+	local p=self.disp()
+	local P=x<0 and 0 or x>self.w and self.unit or x/self.w*self.unit
+	if not self.smooth then
+		P=int(P+.5)
+	end
+	if p~=P then
+		self.code(P)
+	end
+	if self.change and Timer()-self.lastTime>.18 then
+		self.lastTime=Timer()
+		self.change()
+	end
+end
+function slider:release(x,y)
+	self.lastTime=0
+	self:drag(x)
+end
+function slider:arrowKey(isLeft)
+	local p=self.disp()
+	local u=(self.smooth and .01 or 1)
+	local P=isLeft and max(p-u,0)or min(p+u,self.unit)
+	if p==P or not P then return end
+	self.code(P)
+	if self.change and Timer()-self.lastTime>.18 then
+		self.lastTime=Timer()
+		self.change()
+	end
 end
 function WIDGET.newSlider(D)--name,x,y,w[,unit][,smooth][,font][,change],disp,code,hide
 	local _={
@@ -554,6 +599,43 @@ end
 function selector:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x+self.w*.5,self.y+30,self.w)
 end
+function selector:press(x)
+	if x then
+		local s=self.select
+		if x<self.x+self.w*.5 then
+			if s>1 then
+				s=s-1
+				sysFX.newShade(.3,1,1,1,self.x,self.y,self.w*.5,60)
+			end
+		else
+			if s<#self.list then
+				s=s+1
+				sysFX.newShade(.3,1,1,1,self.x+self.w*.5,self.y,self.w*.5,60)
+			end
+		end
+		if self.select~=s then
+			self.code(self.list[s])
+			self.select=s
+			self.selText=self.list[s]
+			SFX.play("prerotate")
+		end
+	end
+end
+function selector:arrowKey(isLeft)
+	local s=self.select
+	if isLeft and s==1 or not isLeft and s==#self.list then return end
+	if isLeft then
+		s=s-1
+		sysFX.newShade(.3,1,1,1,self.x,self.y,self.w*.5,60)
+	else
+		s=s+1
+		sysFX.newShade(.3,1,1,1,self.x+self.w*.5,self.y,self.w*.5,60)
+	end
+	self.code(self.list[s])
+	self.select=s
+	self.selText=self.list[s]
+	SFX.play("prerotate")
+end
 function WIDGET.newSelector(D)--name,x,y,w[,color],list,disp,code,hide
 	local _={
 		name=	D.name,
@@ -642,6 +724,27 @@ function textBox:draw()
 end
 function textBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+end
+function textBox:press()
+	if MOBILE then
+		local _,y1=SCR.xOy:transformPoint(0,self.y+self.h)
+		kb.setTextInput(true,0,y1,1,1)
+	end
+end
+function textBox:keypress(key)
+	local t=self.value
+	if #t==0 then return end
+	if key=="backspace"then
+		while t:byte(#t)>=128 and t:byte(#t)<192 do
+			t=sub(t,1,-2)
+		end
+		t=sub(t,1,-2)
+		SFX.play("lock")
+	elseif key=="delete"then
+		t=""
+		SFX.play("hold")
+	end
+	self.value=t
 end
 function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 	local _={
@@ -741,43 +844,10 @@ end
 function WIDGET.press(x,y)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="button"then
-		W.code()
-		W:FX()
-		SFX.play("button")
-	elseif W.type=="key"then
-		W.code()
-	elseif W.type=="switch"then
-		W.code()
-		SFX.play("move")
+	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="textBox"then
+		W:press(x,y)
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
-	elseif W.type=="selector"then
-		if x then
-			local s=W.select
-			if x<W.x+W.w*.5 then
-				if s>1 then
-					s=s-1
-					sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
-				end
-			else
-				if s<#W.list then
-					s=s+1
-					sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
-				end
-			end
-			if W.select~=s then
-				W.code(W.list[s])
-				W.select=s
-				W.selText=W.list[s]
-				SFX.play("prerotate")
-			end
-		end
-	elseif W.type=="textBox"then
-		if MOBILE then
-			local _,y1=SCR.xOy:transformPoint(0,W.y+W.h)
-			kb.setTextInput(true,0,y1,1,1)
-		end
 	end
 	if W.hide and W.hide()then WIDGET.sel=nil end
 end
@@ -785,20 +855,7 @@ function WIDGET.drag(x,y)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=="slider"then
-		if not x then return end
-		x=x-W.x
-		local p=W.disp()
-		local P=x<0 and 0 or x>W.w and W.unit or x/W.w*W.unit
-		if not W.smooth then
-			P=int(P+.5)
-		end
-		if p~=P then
-			W.code(P)
-		end
-		if W.change and Timer()-W.lastTime>.18 then
-			W.lastTime=Timer()
-			W.change()
-		end
+		W:drag(x,y)
 	elseif not W:isAbove(x,y)then
 		WIDGET.sel=nil
 	end
@@ -807,8 +864,7 @@ function WIDGET.release(x,y)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=="slider"then
-		W.lastTime=0
-		WIDGET.drag(x,y)
+		W:release(x,y)
 	end
 end
 function WIDGET.keyPressed(key)
@@ -817,32 +873,8 @@ function WIDGET.keyPressed(key)
 	elseif kb.isDown("lshift","lalt","lctrl")and(key=="left"or key=="right")then
 					--When hold [↑], control slider with left/right
 		local W=WIDGET.sel
-		if not W then return end
-		local isLeft=key=="left"
-		if W.type=="slider"then
-			local p=W.disp()
-			local u=(W.smooth and .01 or 1)
-			local P=isLeft and max(p-u,0)or min(p+u,W.unit)
-			if p==P or not P then return end
-			W.code(P)
-			if W.change and Timer()-W.lastTime>.18 then
-				W.lastTime=Timer()
-				W.change()
-			end
-		elseif W.type=="selector"then
-			local s=W.select
-			if isLeft and s==1 or not isLeft and s==#W.list then return end
-			if isLeft then
-				s=s-1
-				sysFX.newShade(.3,1,1,1,W.x,W.y,W.w*.5,60)
-			else
-				s=s+1
-				sysFX.newShade(.3,1,1,1,W.x+W.w*.5,W.y,W.w*.5,60)
-			end
-			W.code(W.list[s])
-			W.select=s
-			W.selText=W.list[s]
-			SFX.play("prerotate")
+		if W and W.type=="slider"or W.type=="selector"then
+			W:arrowKey(key=="left")
 		end
 	elseif key=="up"or key=="down"or key=="left"or key=="right"then
 		if not WIDGET.sel then
@@ -882,20 +914,11 @@ function WIDGET.keyPressed(key)
 		if tar then
 			WIDGET.sel=tar
 		end
-	elseif WIDGET.sel and WIDGET.sel.type=="textBox"then
-		local t=WIDGET.sel.value
-		if #t==0 then return end
-		if key=="backspace"then
-			while t:byte(#t)>=128 and t:byte(#t)<192 do
-				t=sub(t,1,-2)
-			end
-			t=sub(t,1,-2)
-			SFX.play("lock")
-		elseif key=="delete"then
-			t=""
-			SFX.play("hold")
+	else
+		local W=WIDGET.sel
+		if W and W.type=="textBox"then
+			W:keypress(key)
 		end
-		WIDGET.sel.value=t
 	end
 end
 local keyMirror={

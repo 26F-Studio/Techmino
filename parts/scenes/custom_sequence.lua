@@ -71,6 +71,13 @@ function keyDown.custom_sequence(key)
 		else
 			S.sure=50
 		end
+	elseif key=="tab"then
+		local W=WIDGET.active.sequence
+		if kb.isDown("lshift","rshift")then
+			W:press(W.x)
+		else
+			W:press(W.x+W.w)
+		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #BAG>0 then
 			sys.setClipboardText("Techmino SEQ:"..copySequence())
