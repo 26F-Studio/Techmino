@@ -1,8 +1,8 @@
 local zero={0,0}
-local ZERO,ZERO_180 do
+local noKick,noKick_180 do
 	local Zero={zero}
-	ZERO={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
-	ZERO_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
+	noKick={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
+	noKick_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 end
 
 local map={}
@@ -338,12 +338,11 @@ do
 	TRS[20]=reflect(TRS[19])--L5J5
 	TRS[22]=reflect(TRS[21])--RY
 	TRS[24]=reflect(TRS[23])--HN
-	pushZero(TRS)
-
 	C_sym(TRS[8])
 	C_sym(TRS[9])
 	C_sym(TRS[25])
 	for i=1,25 do collect(TRS[i])end
+	pushZero(TRS)
 end
 
 local AIRS
@@ -358,12 +357,12 @@ do
 			[21]={{-1,0},{-1, 1},{ 0,-2},{-1,-2}},
 			[32]={{-1,0},{-1,-1},{ 0, 2},{-1, 2}},
 			[23]={{ 1,0},{ 1, 1},{ 0,-2},{ 1,-2}},
-		},
-		false,
-		false,
-		false,
-		false,
-		function()end,
+		},--Z
+		false,--S
+		false,--J
+		false,--L
+		false,--T
+		noKick,--O
 		{
 			[01]={{-2, 0},{ 1, 0},{-2,-1},{ 1, 2}},
 			[10]={{ 2, 0},{-1, 0},{ 2, 1},{-1,-2}},
@@ -373,7 +372,7 @@ do
 			[32]={{-2, 0},{ 1, 0},{-2,-1},{ 1, 2}},
 			[30]={{ 1, 0},{-2, 0},{ 1,-2},{-2, 1}},
 			[03]={{-1, 0},{ 2, 0},{-1, 2},{ 2,-1}},
-		}
+		}--I
 	}
 	collect(AIRS[1])
 	collect(AIRS[7])
@@ -409,30 +408,30 @@ do
 		Z,S,--Z,S
 		Z,S,--JL
 		Z,--T
-		ZERO,--O
+		noKick,--O
 		Z,--I
 		Z,S,--Z5,S5
 		Z,S,--P,Q
 		Z,S,--F,E
 		Z,Z,Z,Z,--T5,U,V,W
-		ZERO,--X
+		noKick,--X
 		Z,S,--J5,L5
 		Z,S,--R,Y
 		Z,S,--N,H
 	}
 end
 
-local None={}
-for i=1,25 do None[i]=ZERO_180 end
-
 local Classic={}
-for i=1,25 do Classic[i]=ZERO end
+for i=1,25 do Classic[i]=noKick end
+
+local None={}
+for i=1,25 do None[i]=noKick_180 end
 
 return{
 	TRS=TRS,
 	AIRS=AIRS,
 	C2=C2,
 	C2sym=C2sym,
-	None=None,
 	Classic=Classic,
+	None=None,
 }

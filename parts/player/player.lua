@@ -505,7 +505,7 @@ function Player.spin(P,d,ifpre)
 				return
 			end
 		end
-	else
+	elseif iki then
 		iki(P,d)
 	end
 end
@@ -668,27 +668,32 @@ do--player:drop()--Place piece
 	local clearSFX={"clear_1","clear_2","clear_3"}
 	local renSFX={}for i=1,11 do renSFX[i]="ren_"..i end
 	local finesseList={
-		[1]={
+		{
 			{1,2,1,0,1,2,2,1},
 			{2,2,2,1,1,2,3,2,2},
 		},--Z
-		[3]={
+		false,--S
+		{
 			{1,2,1,0,1,2,2,1},
 			{2,2,3,2,1,2,3,3,2},
 			{3,4,3,2,3,4,4,3},
 			{2,3,2,1,2,3,3,2,2},
-		},--L
-		[6]={
+		},--J
+		false,--L
+		false,--T
+		{
 			{1,2,2,1,0,1,2,2,1},
 		},--O
-		[7]={
+		{
 			{1,2,1,0,1,2,1},
 			{2,2,2,2,1,1,2,2,2,2},
 		},--I
 	}
 	finesseList[1][3],finesseList[1][4],finesseList[7][3],finesseList[7][4]=finesseList[1][1],finesseList[1][2],finesseList[7][1],finesseList[7][2]--"2-phase" SZI
+	for i=2,4 do finesseList[6][i]=finesseList[6][1]end
 	finesseList[2]=finesseList[1]--S=Z
 	finesseList[4],finesseList[5]=finesseList[3],finesseList[3]--J=L=T
+
 	function Player.drop(P)
 		local _
 		local CHN=VOC.getFreeChannel()
