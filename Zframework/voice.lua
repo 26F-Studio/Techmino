@@ -3,15 +3,6 @@ local rem=table.remove
 local voiceQueue={free=0}
 local bank={}--{vocName1={SRC1s},vocName2={SRC2s},...}
 local VOC={}
-VOC.name={
-	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
-	"single","double","triple","techrash",
-	"mini","b2b","b3b",
-	"perfect_clear","half_clear",
-	"win","lose","bye",
-	"test","happy","doubt","sad","egg",
-	"welcome_voc",
-}
 VOC.list={}
 
 local function loadVoiceFile(N,vocName)
@@ -22,6 +13,11 @@ local function loadVoiceFile(N,vocName)
 		return true
 	end
 end
+function VOC.set(L)
+	VOC.name=L
+	VOC.len=#L
+end
+
 function VOC.loadOne(name)
 	local N=VOC.name[name]
 	VOC.list[N]={}

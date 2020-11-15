@@ -6,7 +6,7 @@ return{
 		hold=false,
 		dropPiece=function(P)P:lose()end,
 		task=nil,
-		bg="bg1",bgm="newera",
+		bg="bg1",bgm="new era",
 	},
 	pauseLimit=true,
 	load=function()

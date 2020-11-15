@@ -134,6 +134,64 @@ AIFUNC=	require("parts/ai")
 MODES=	require("parts/modes")
 TICK=	require("parts/tick")
 
+SFX.set{
+	"welcome_sfx",
+	"click","enter",
+	"finesseError","finesseError_long",
+	--Stereo sfxs(cannot set position)
+
+	"virtualKey",
+	"button","swipe",
+	"ready","start","win","fail","collect",
+	"spawn_1","spawn_2","spawn_3","spawn_4","spawn_5","spawn_6","spawn_7",
+	"move","rotate","rotatekick","hold",
+	"prerotate","prehold",
+	"lock","drop","fall",
+	"reach",
+	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11","ren_mega",
+	"clear_1","clear_2","clear_3","clear_4",
+	"spin_0","spin_1","spin_2","spin_3",
+	"emit","blip_1","blip_2",
+	"clear",
+
+	"error",
+	--Mono sfxs
+}
+BGM.set{
+	"blank",--menu
+	"race",--sprint, solo
+	"infinite",--infinite norm/dig, ultra, zen, tech-finesse
+	"push",--marathon, round, tsd, blind-5/6
+	"way",--dig sprint
+	"reason",--drought, blind-1/2/3/4
+
+	"secret8th",--master-1, survivor-2
+	"secret7th",--master-2, survivor-3
+	"waterfall",--sprint Penta/MPH
+	"new era",--bigbang, survivor-1, tech-normal
+	"oxygen",--c4w/pc train
+	"truth",--pc challenge
+	"sugar fairy",--classic2
+
+	"distortion",--master-3
+	"far",--GM
+	"shining terminal",--attacker
+	"storm",--defender, survivor-4/5
+	"down",--dig, tech-hard/lunatic
+
+	"rockblock",--classic, 49/99
+	"cruelty","final","8-bit happiness","end","how feeling",--49/99
+}
+VOC.set{
+	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
+	"single","double","triple","techrash",
+	"mini","b2b","b3b",
+	"perfect_clear","half_clear",
+	"win","lose","bye",
+	"test","happy","doubt","sad","egg",
+	"welcome_voc",
+}
+
 --Load background files from SOURCE ONLY
 for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do
 	if love.filesystem.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then

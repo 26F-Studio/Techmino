@@ -16,7 +16,7 @@ return{
 				P.modeData.event=P.modeData.event+1
 			end
 		end,
-		bg="glow",bgm="newera",
+		bg="glow",bgm="new era",
 	},
 	pauseLimit=true,
 	load=function()

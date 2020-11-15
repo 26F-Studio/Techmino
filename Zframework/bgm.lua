@@ -22,31 +22,10 @@ local BGM={
 	--suspend=[str:pausing ID]
 	--playing=[src:playing SRC]
 }
-BGM.list={
-	"blank",--menu
-	"race",--sprint, solo
-	"infinite",--infinite norm/dig, ultra, zen, tech-finesse
-	"push",--marathon, round, tsd, blind-5/6
-	"way",--dig sprint
-	"reason",--drought, blind-1/2/3/4
-
-	"secret8th",--master-1, survivor-2
-	"secret7th",--master-2, survivor-3
-	"waterfall",--sprint Penta/MPH
-	"newera",--bigbang, survivor-1, tech-normal
-	"oxygen",--c4w/pc train
-	"truth",--pc challenge
-
-	"distortion",--master-3
-	"far",--GM
-	"shining terminal",--attacker
-	"storm",--defender, survivor-4/5
-	"down",--dig, tech-hard/lunatic
-
-	"rockblock",--classic, 49/99
-	"cruelty","final","8-bit happiness","end","how feeling",--49/99
-}
-BGM.len=#BGM.list
+function BGM.set(L)
+	BGM.list=L
+	BGM.len=#L
+end
 function BGM.loadOne(N)
 	N=BGM.list[N]
 	local file="/BGM/"..N..".ogg"
