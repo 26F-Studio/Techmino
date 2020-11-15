@@ -4,6 +4,7 @@ SETTING={
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,
 	maxNext=6,
+	RS="TRS",
 	swap=true,
 
 	--System

@@ -1203,11 +1203,10 @@ do--player:drop()--Place piece
 	end
 end
 function Player.loadAI(P,AIdata)--Load AI params
-	local ENV=P.gameEnv
 	P.AI_mode=AIdata.type
 	P.AI_stage=1
 	P.AI_keys={}
-	P.AI_delay=AIdata.delay or min(int(ENV.drop*.8),AIdata.delta*rnd()*4)
+	P.AI_delay=AIdata.delay or min(int(P.gameEnv.drop*.8),AIdata.delta*rnd()*4)
 	P.AI_delay0=AIdata.delta
 	P.AIdata={
 		type=AIdata.type,
@@ -1237,6 +1236,8 @@ function Player.loadAI(P,AIdata)--Load AI params
 		for i=1,AIdata.next do
 			CC.addNext(P.AI_bot,P.next[i].id)
 		end
+	else
+		P:setRS("TRS")
 	end
 end
 --------------------------</Methods>--------------------------
