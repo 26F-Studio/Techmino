@@ -121,6 +121,8 @@ return{
 			p15="数字华容道",
 			schulte_G="舒尔特方格",
 			pong="弹球",
+			AtoZ="打字游戏",
+			UTTT="战略井字棋",
 		},
 	},
 	modes={

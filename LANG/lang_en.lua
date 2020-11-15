@@ -531,6 +531,8 @@ return{
 			p15="15 Puzzle",
 			schulte_G="Schulte Grid",
 			pong="Pong",
+			AtoZ="A to Z",
+			UTTT="Ultimate Tic-Tac-Toe",
 		},
 		p15={
 			reset="Shuffle",

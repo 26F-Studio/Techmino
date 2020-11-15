@@ -534,6 +534,7 @@ return{
 			schulte_G="舒尔特方格",
 			pong="Pong",
 			AtoZ="A to Z",
+			UTTT="战略井字棋",
 		},
 		p15={
 			reset="打乱",
@@ -556,6 +557,9 @@ return{
 		AtoZ={
 			level="关卡",
 			keyboard="键盘",
+			reset="重置",
+		},
+		UTTT={
 			reset="重置",
 		},
 		savedata={

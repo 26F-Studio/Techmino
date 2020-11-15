@@ -535,6 +535,8 @@ return{
 			p15="Puzzle-15",
 			schulte_G="Grilla Schulte",
 			pong="Pong",
+			-- AtoZ="A to Z",
+			-- UTTT="Ultimate Tic-Tac-Toe",
 		},
 		p15={
 			reset="Mezclar",

@@ -463,11 +463,6 @@ return{
 			b3b="^^",
 			pc="#<>#",
 		},
-		minigame={
-			p15="15 Puzzle",
-			schulte_G="Schulte Grid",
-			pong="Pong",
-		},
 		p15={
 			reset="!@#$%",
 			color="~~~",
