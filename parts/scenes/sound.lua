@@ -29,7 +29,7 @@ function keyDown.sound(key)
 		if S.b2b then VOC.play("b2b",CHN)
 		elseif S.b3b then VOC.play("b3b",CHN)
 		end
-		if key>10 then
+		if key>=10 then
 			VOC.play(blockName[int(key/10)].."spin",CHN)
 		end
 		if lineCount[key%10]then VOC.play(lineCount[key%10],CHN)end
