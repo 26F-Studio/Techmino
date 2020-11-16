@@ -5,10 +5,11 @@ local function check_LVup(P)
 		P.gameEnv.target=P.gameEnv.target+10
 		if P.gameEnv.target==110 then
 			P.gameEnv.drop,P.gameEnv.lock=2,2
+			SFX.play("blip_1")
 		elseif P.gameEnv.target==200 then
 			P.gameEnv.drop,P.gameEnv.lock=1,1
-		end
-		if P.gameEnv.target>100 then
+			SFX.play("blip_1")
+		else
 			SFX.play("reach")
 		end
 	end
