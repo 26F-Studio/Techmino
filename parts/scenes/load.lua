@@ -78,8 +78,8 @@ function Tmr.load()
 			else
 				RANKS[M.name]=6
 			end
-			-- M.icon=gc.newImage("image/modeIcon/"..m.icon..".png")
-			-- M.icon=gc.newImage("image/modeIcon/custom.png")
+			-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
+			-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
 		elseif S.phase==8 then
 			local function C(x,y)
 				local _=gc.newCanvas(x,y)

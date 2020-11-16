@@ -6,7 +6,7 @@ local VOC={}
 VOC.list={}
 
 local function loadVoiceFile(N,vocName)
-	local fileName="VOICE/"..SETTING.cv.."/"..vocName..".ogg"
+	local fileName="media/VOICE/"..SETTING.cv.."/"..vocName..".ogg"
 	if love.filesystem.getInfo(fileName)then
 		bank[vocName]={love.audio.newSource(fileName,"static")}
 		table.insert(VOC.list[N],vocName)

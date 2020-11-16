@@ -28,7 +28,7 @@ function BGM.set(L)
 end
 function BGM.loadOne(N)
 	N=BGM.list[N]
-	local file="/BGM/"..N..".ogg"
+	local file="media/BGM/"..N..".ogg"
 	if love.filesystem.getInfo(file)then
 		BGM.list[N]=love.audio.newSource(file,"stream")
 		BGM.list[N]:setLooping(true)

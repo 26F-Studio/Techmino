@@ -7,7 +7,7 @@ function SFX.set(L)
 end
 function SFX.loadOne(_)
 	_,SFX.list[_]=SFX.list[_]
-	local N="/SFX/".._..".ogg"
+	local N="media/SFX/".._..".ogg"
 	if love.filesystem.getInfo(N)then
 		SFX.list[_]={love.audio.newSource(N,"static")}
 	else

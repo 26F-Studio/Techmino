@@ -68,12 +68,12 @@ function SKIN.loadOne(_)
 	gc.setDefaultFilter("nearest","nearest")
 	gc.setColor(1,1,1)
 	SKIN.lib[_],SKIN.libMini[_]={},{}
-	local N="/image/skin/"..list[_]..".png"
+	local N="media/image/skin/"..list[_]..".png"
 	local I
 	if love.filesystem.getInfo(N)then
 		I=gc.newImage(N)
 	else
-		I=gc.newImage("/image/skin/"..list[1]..".png")
+		I=gc.newImage("media/image/skin/"..list[1]..".png")
 		LOG.print("No skin file: "..list[_],"warn")
 	end
 	for i=0,2 do

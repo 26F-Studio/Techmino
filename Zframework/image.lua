@@ -32,7 +32,7 @@ function IMG.getCount()
 end
 function IMG.loadOne(_)
 	local N=list[_]
-	IMG[N]=love.graphics.newImage("/image/"..IMG[N])
+	IMG[N]=love.graphics.newImage("media/image/"..IMG[N])
 end
 function IMG.loadAll()
 	for i=1,count do

@@ -9,7 +9,7 @@ local TEXTURE={}
 
 gc.setDefaultFilter("nearest","nearest")
 gc.setColor(1,1,1)
-local VKI=gc.newImage("/image/virtualkey.png")
+local VKI=gc.newImage("media/image/virtualkey.png")
 TEXTURE.VKIcon={}
 for i=1,20 do
 	TEXTURE.VKIcon[i]=C(36,36)
