@@ -7,7 +7,6 @@ VIB=	require("Zframework/vib")
 SFX=	require("Zframework/sfx")
 
 LIGHT=	require("Zframework/light")
-SHADER=	require("Zframework/shader")
 BG=		require("Zframework/bg")
 WIDGET=	require("Zframework/widget")
 TEXT=	require("Zframework/text")

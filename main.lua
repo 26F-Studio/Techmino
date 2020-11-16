@@ -113,7 +113,6 @@ PLAYERS={alive={}}--Players data
 CURMODE=nil--Current mode object
 RANKS={sprint_10=0}
 
-
 --Load modules
 require("Zframework")
 
@@ -191,6 +190,17 @@ VOC.set{
 	"test","happy","doubt","sad","egg",
 	"welcome_voc",
 }
+
+--Load shader files from SOURCE ONLY
+SHADER={}
+for _,v in next,love.filesystem.getDirectoryItems("parts/shaders")do
+	if love.filesystem.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
+		local name=v:sub(1,-6)
+		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
+	else
+		LOG.print("Dangerous file : %SAVE%/parts/shaders/"..v)
+	end
+end
 
 --Load background files from SOURCE ONLY
 for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do

@@ -2,6 +2,7 @@
 local gc=love.graphics
 local rnd=math.random
 local back={}
+local shader=SHADER.rgb2
 
 local t
 function back.init()
@@ -9,15 +10,15 @@ function back.init()
 	BG.resize(SCR.w,SCR.h)
 end
 function back.resize(_,h)
-	SHADER.rgb2:send("w",SCR.W)
-	SHADER.rgb2:send("h",h*SCR.dpi)
+	shader:send("w",SCR.W)
+	shader:send("h",h*SCR.dpi)
 end
 function back.update(dt)
 	t=t+dt
 end
 function back.draw()
-	SHADER.rgb2:send("t",t)
-	gc.setShader(SHADER.rgb2)
+	shader:send("t",t)
+	gc.setShader(shader)
 	gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	gc.setShader()
 end
