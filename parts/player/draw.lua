@@ -5,6 +5,7 @@ local max,min,sin=math.max,math.min,math.sin
 local format=string.format
 local SCR=SCR
 local setFont=setFont
+local Draw=gc.draw--Use to speed up gc.draw(blockTexture)
 
 local frameColorList={
 	[0]=COLOR.white,
@@ -37,7 +38,7 @@ local function drawField(P)
 				if F[j][i]>0 then
 					if V[j][i]>0 then
 						gc.setColor(1,1,1,min(V[j][i]*.05,1))
-						gc.draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+						Draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 					elseif rep then
 						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
 						gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -62,7 +63,7 @@ local function drawField(P)
 					if F[j][i]>0 then
 						if V[j][i]>0 then
 							gc.setColor(1,1,1,min(V[j][i]*.05,1))
-							gc.draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+							Draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 						elseif rep then
 							gc.setColor(1,1,1,.2)
 							gc.rectangle("fill",30*i-30,-30*j,30,30)
@@ -99,7 +100,7 @@ local function drawFXs(P)
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc.setColor(1,1,1,.6-S[4]*.6)
-		gc.draw(texture[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
+		Draw(texture[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -117,7 +118,7 @@ local function drawGhost(P,clr)
 	local texture=SKIN.curText
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			gc.draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
+			Draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -128,10 +129,10 @@ local function drawBlockOutline(P,texture,trans)
 		if P.cur.bk[i][j]then
 			local x=30*(j+P.curX)-60-3
 			local y=30-30*(i+P.curY)-3
-			gc.draw(texture,x,y)
-			gc.draw(texture,x+6,y+6)
-			gc.draw(texture,x+6,y)
-			gc.draw(texture,x,y+6)
+			Draw(texture,x,y)
+			Draw(texture,x+6,y+6)
+			Draw(texture,x+6,y)
+			Draw(texture,x,y+6)
 		end
 	end end
 	gc.setShader()
@@ -141,7 +142,7 @@ local function drawBlock(P,clr)
 	local texture=SKIN.curText
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			gc.draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
+			Draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -151,7 +152,7 @@ local function drawNextPreview(P,B)
 	local y=21+ceil(P.fieldBeneath/30)
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			gc.draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
+			Draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
 		end
 	end end
 end
@@ -160,7 +161,7 @@ local function drawHold(P,clr)
 	local texture=SKIN.curText
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			gc.draw(texture[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+			Draw(texture[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
 		end
 	end end
 end
@@ -368,7 +369,7 @@ function draw.norm(P)
 						local bk,clr=P.next[N].bk,P.next[N].color
 						for i=1,#bk do for j=1,#bk[1] do
 							if bk[i][j]then
-								gc.draw(texture[clr],30*(j+12.6-#bk[1]*.5)-30,-30*(i-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
+								Draw(texture[clr],30*(j+12.6-#bk[1]*.5)-30,-30*(i-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
 							end
 						end end
 						N=N+1
@@ -526,7 +527,7 @@ function draw.small(P)
 		local texture=SKIN.curTextMini
 		for j=1,#F do
 			for i=1,10 do if F[j][i]>0 then
-				gc.draw(texture[F[j][i]],6*i-6,120-6*j)
+				Draw(texture[F[j][i]],6*i-6,120-6*j)
 			end end
 		end
 
