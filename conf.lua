@@ -6,7 +6,10 @@ function love.conf(t)
 	t.gammacorrect=false
 	t.appendidentity=true--Search files in source then in save directory
 	t.accelerometerjoystick=false--Accelerometer=joystick on ios/android
-	if t.audio then t.audio.mixwithsystem=true end
+	if t.audio then
+		t.audio.mic=false
+		t.audio.mixwithsystem=true
+	end
 
 	local W=t.window
 	W.title="Techmino "..VERSION
