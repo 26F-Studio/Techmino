@@ -1,5 +1,3 @@
-local sin,cos=math.sin,math.cos
-
 title={
 	{
 		53,		60,
@@ -150,90 +148,86 @@ title2[5]={
 }
 ]]
 
-title_fan={}
-for i=1,8 do
-	local L={}
-	title_fan[i]=L
-		for j=1,#title[i]do
-		L[j]=title[i][j]
-	end
-	for j=1,#L,2 do
-		local x,y=L[j],L[j+1]--0<x<3041, 290<y<1280
-		x,y=-(x+240+y*.3)*.002,(y-580)*.9
-		x,y=y*cos(x),-y*sin(x)--Rec-Pol-Rec
-		L[j],L[j+1]=x,y+300
+do--title_fan
+	local sin,cos=math.sin,math.cos
+	title_fan={}
+	for i=1,8 do
+		local L={}
+		title_fan[i]=L
+			for j=1,#title[i]do
+			L[j]=title[i][j]
+		end
+		for j=1,#L,2 do
+			local x,y=L[j],L[j+1]--0<x<3041, 290<y<1280
+			x,y=-(x+240+y*.3)*.002,(y-580)*.9
+			x,y=y*cos(x),-y*sin(x)--Rec-Pol-Rec
+			L[j],L[j+1]=x,y+300
+		end
 	end
 end
 
-missionEnum={
-	_1=01,_2=02,_3=03,_4=04,
-	A1=05,A2=06,A3=07,A4=08,
-	PC=09,
-	Z1=11,Z2=12,Z3=13,
-	S1=21,S2=22,S3=23,
-	J1=31,J2=32,J3=33,
-	L1=41,L2=42,L3=43,
-	T1=51,T2=52,T3=53,
-	O1=61,O2=62,O3=63,O4=64,
-	I1=71,I2=72,I3=73,I4=74,
-}
-local _={}
-for k,v in next,missionEnum do _[v]=k end
-for k,v in next,_ do missionEnum[k]=v end
+do--missionEnum
+	missionEnum={
+		_1=01,_2=02,_3=03,_4=04,
+		A1=05,A2=06,A3=07,A4=08,
+		PC=09,
+		Z1=11,Z2=12,Z3=13,
+		S1=21,S2=22,S3=23,
+		J1=31,J2=32,J3=33,
+		L1=41,L2=42,L3=43,
+		T1=51,T2=52,T3=53,
+		O1=61,O2=62,O3=63,O4=64,
+		I1=71,I2=72,I3=73,I4=74,
+	}
+	local _={}
+	for k,v in next,missionEnum do _[v]=k end
+	for k,v in next,_ do missionEnum[k]=v end
+end
 
-rankColor={
-	COLOR.dRed,		--D
-	COLOR.dOrange,	--C
-	COLOR.lYellow,	--B
-	COLOR.lBlue,	--A
-	COLOR.lCyan,	--S
-	COLOR.lGreen,	--Special
-}
+do--drawableTextLoad, drawableText
+	local function T(s,t)return love.graphics.newText(getFont(s),t)end
+	drawableTextLoad={
+		"anykey",
+		"replaying",
+		"next","hold",
+		"win","finish","gameover","pause",
 
-local function T(s,t)return love.graphics.newText(getFont(s),t)end
-drawableTextLoad={
-	"anykey",
-	"replaying",
-	"next","hold",
-	"win","finish","gameover","pause",
+		"speedLV",
+		"line","atk","eff",
+		"rpm","tsd",
+		"grade","techrash",
+		"wave","nextWave",
+		"combo","maxcmb",
+		"pc","ko",
 
-	"speedLV",
-	"line","atk","eff",
-	"rpm","tsd",
-	"grade","techrash",
-	"wave","nextWave",
-	"combo","maxcmb",
-	"pc","ko",
+		"VKTchW","VKOrgW","VKCurW",
+		"noScore","highScore",
+	}
+	drawableText={
+		question=T(100,"?"),
+		small=T(30,"<"),large=T(30,">"),
+		bpm=T(15,"BPM"),kpm=T(15,"KPM"),
 
-	"VKTchW","VKOrgW","VKCurW",
-	"noScore","highScore",
-}
-drawableText={
-	question=T(100,"?"),
-	small=T(30,"<"),large=T(30,">"),
-	bpm=T(15,"BPM"),kpm=T(15,"KPM"),
+		speedLV=T(20),
+		line=T(25),atk=T(20),eff=T(20),
+		rpm=T(35),tsd=T(35),
+		grade=T(25),techrash=T(25),
+		wave=T(30),nextWave=T(30),
+		combo=T(20),maxcmb=T(20),
+		pc=T(20),ko=T(25),
 
-	speedLV=T(20),
-	line=T(25),atk=T(20),eff=T(20),
-	rpm=T(35),tsd=T(35),
-	grade=T(25),techrash=T(25),
-	wave=T(30),nextWave=T(30),
-	combo=T(20),maxcmb=T(20),
-	pc=T(20),ko=T(25),
+		modeName=T(30),levelName=T(30),
 
+		anykey=T(40),
+		replaying=T(20),
+		next=T(40),hold=T(40),
+		win=T(120),finish=T(120),
+		gameover=T(100),pause=T(120),
 
-	modeName=T(30),levelName=T(30),
-
-
-	anykey=T(40),
-	replaying=T(20),
-	next=T(40),hold=T(40),
-	win=T(120),finish=T(120),
-	gameover=T(100),pause=T(120),
-
-	VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
-	noScore=T(45),highScore=T(30),
-}
+		VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
+		noScore=T(45),highScore=T(30),
+	}
+end
 
 do--spinCenters
 	local N1,N2,N3,N4={0,1},{1,0},{1,1},{.5,.5}
@@ -271,3 +265,12 @@ do--spinCenters
 		{[0]=L1,L2,L1,L2},--I
 	}
 end
+
+rankColor={
+	COLOR.dRed,		--D
+	COLOR.dOrange,	--C
+	COLOR.lYellow,	--B
+	COLOR.lBlue,	--A
+	COLOR.lCyan,	--S
+	COLOR.lGreen,	--Special
+}
