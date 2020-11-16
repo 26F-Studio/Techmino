@@ -4,16 +4,16 @@ SCN=	require("Zframework/scene")
 LOG=	require("Zframework/log")
 require("Zframework/toolfunc")
 
-VIB=	require("Zframework/vib")
+VIB=	require("Zframework/vibrate")
 SFX=	require("Zframework/sfx")
 
 LIGHT=	require("Zframework/light")
-BG=		require("Zframework/bg")
+BG=		require("Zframework/background")
 WIDGET=	require("Zframework/widget")
 TEXT=	require("Zframework/text")
 sysFX=	require("Zframework/sysFX")
 
-IMG=	require("Zframework/img")
+IMG=	require("Zframework/image")
 BGM=	require("Zframework/bgm")
 VOC=	require("Zframework/voice")
 
