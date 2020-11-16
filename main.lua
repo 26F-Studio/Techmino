@@ -29,17 +29,6 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
-SCR={
-	w0=1280,h0=720,--Default Screen Size
-	x=0,y=0,--Up-left Coord on screen
-	w=0,h=0,--Fullscreen w/h in gc
-	W=0,H=0,--Fullscreen w/h in shader
-	rad=0,--Radius
-	k=1,--Scale size
-	dpi=1,--DPI from gc.getDPIScale()
-	xOy=love.math.newTransform(),--Screen transformation object
-}
-
 CUSTOMENV={
 	--Basic
 	drop=60,
@@ -120,6 +109,7 @@ require("parts/list")
 require("parts/default_data")
 require("parts/gametoolfunc")
 
+SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
 BLOCKS=		require("parts/mino")

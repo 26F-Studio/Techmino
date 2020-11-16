@@ -1,3 +1,4 @@
+SCR=	require("Zframework/screen")
 COLOR=	require("Zframework/color")
 SCN=	require("Zframework/scene")
 LOG=	require("Zframework/log")
