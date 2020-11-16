@@ -5,7 +5,7 @@ local abs=math.abs
 local max,min=math.max,math.min
 local rnd=math.random
 
-function sceneInit.pong()
+function sceneInit.mg_pong()
 	BG.set("none")
 	BGM.play("way")
 	sceneTemp={
@@ -35,7 +35,7 @@ local function start()
 	sceneTemp.vx=rnd()>.5 and 6 or -6
 	sceneTemp.vy=rnd()*6-3
 end
-function keyDown.pong(key)
+function keyDown.mg_pong(key)
 	local S=sceneTemp
 	if key=="space"then
 		if S.state==0 then
@@ -55,21 +55,21 @@ function keyDown.pong(key)
 		SCN.back()
 	end
 end
-function touchDown.pong(id,x,y)
-	touchMove.pong(id,x,y)
+function touchDown.mg_pong(id,x,y)
+	touchMove.mg_pong(id,x,y)
 	if sceneTemp.state==0 then
 		start()
 	end
 end
-function touchMove.pong(_,x,y)
+function touchMove.mg_pong(_,x,y)
 	sceneTemp[x<640 and"p1"or"p2"].y0=y
 end
-function mouseMove.pong(x,y)
+function mouseMove.mg_pong(x,y)
 	sceneTemp[x<640 and"p1"or"p2"].y0=y
 end
 
 --Rect Area X:150~1130 Y:20~700
-function Tmr.pong()
+function Tmr.mg_pong()
 	local S=sceneTemp
 
 	--Update pads
@@ -146,7 +146,7 @@ function Tmr.pong()
 	S.x,S.y,S.vx,S.vy,S.ry=x,y,vx,vy,ry
 end
 
-function Pnt.pong()
+function Pnt.mg_pong()
 	local S=sceneTemp
 
 	--Draw score
@@ -174,7 +174,7 @@ function Pnt.pong()
 	gc.rectangle("fill",1130,S.p2.y-50,20,100)
 end
 
-WIDGET.init("pong",{
+WIDGET.init("mg_pong",{
 	WIDGET.newKey({name="reset",x=640,y=45,w=150,h=50,font=35,code=WIDGET.lnk_pressKey("r")}),
 	WIDGET.newKey({name="back",x=640,y=675,w=150,h=50,font=35,code=WIDGET.lnk_BACK}),
 })

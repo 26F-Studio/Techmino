@@ -463,7 +463,7 @@ return{
 			b3b="^^",
 			pc="#<>#",
 		},
-		p15={
+		mg_15p={
 			reset="!@#$%",
 			color="~~~",
 			blind="???",
@@ -471,17 +471,17 @@ return{
 			pathVis="--==>",
 			revKB="Reverse",
 		},
-		schulte_G={
+		mg_schulteG={
 			reset="!@#$%",
 			rank="←?→",
 			blind="???",
 			disappear="=X=",
 			tapFX="↓ !",
 		},
-		pong={
+		mg_pong={
 			reset="R",
 		},
-		AtoZ={
+		mg_AtoZ={
 			level="_ _ _",
 			keyboard="[##]",
 			reset="R",

@@ -19,7 +19,7 @@ local levels={
 	bpw="OHOOOOOOOOOAAAAEAAIAUJOOOOOOOOOOOAAEOAAUUAEEEEEEEEEAAAAEAEIEAJOOOOOOOOOOEEEEOAAAAAAA",
 }
 
-function sceneInit.AtoZ()
+function sceneInit.mg_AtoZ()
 	BG.set("bg2")
 	BGM.play("way")
 	sceneTemp={
@@ -34,11 +34,11 @@ function sceneInit.AtoZ()
 	}
 	love.keyboard.setKeyRepeat(false)
 end
-function sceneBack.AtoZ()
+function sceneBack.mg_AtoZ()
 	love.keyboard.setKeyRepeat(true)
 end
 
-function keyDown.AtoZ(key)
+function keyDown.mg_AtoZ(key)
 	local S=sceneTemp
 	if #key==1 then
 		if S.state<2 and S.frameKeyCount<3 then
@@ -70,7 +70,7 @@ function keyDown.AtoZ(key)
 	end
 end
 
-function Tmr.AtoZ()
+function Tmr.mg_AtoZ()
 	local S=sceneTemp
 	if S.state==1 then
 		S.frameKeyCount=0
@@ -78,7 +78,7 @@ function Tmr.AtoZ()
 	end
 end
 
-function Pnt.AtoZ()
+function Pnt.mg_AtoZ()
 	local S=sceneTemp
 
 	setFont(40)
@@ -110,7 +110,7 @@ function Pnt.AtoZ()
 	gc.print(S.target,120,520)
 end
 
-WIDGET.init("AtoZ",{
+WIDGET.init("mg_AtoZ",{
 	WIDGET.newSelector({name="level",x=640,y=640,w=200,list={"A_Z","Z_A","Tech1","Tech2","KeyTest1","KeyTest2","hello","zzz","zxzx","stair"},disp=WIDGET.lnk_STPval("level"),code=function(i)sceneTemp.level=i;sceneTemp.target=levels[i]end,hide=function()return sceneTemp.state>0 end}),
 	WIDGET.newButton({name="reset",x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space")}),
 	WIDGET.newButton({name="keyboard",x=160,y=210,w=180,h=100,code=function()love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1)end,hide=not MOBILE}),

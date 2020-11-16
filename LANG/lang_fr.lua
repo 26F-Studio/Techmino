@@ -527,13 +527,13 @@ return{
 			pc="PC",
 		},
 		minigame={
-			p15="15 Puzzle",
-			schulte_G="Grille de Schulte",
-			pong="Pong",
-			-- AtoZ="A to Z",
-			-- UTTT="Ultimate Tic-Tac-Toe",
+			mg_15p="15 Puzzle",
+			mg_schulteG="Grille de Schulte",
+			mg_pong="Pong",
+			-- mg_AtoZ="A to Z",
+			-- mg_UTTT="Ultimate Tic-Tac-Toe",
 		},
-		p15={
+		mg_15p={
 			reset="Réinitialiser",
 			color="Couleur",
 			blind="Aveugler",
@@ -541,17 +541,17 @@ return{
 			pathVis="Montrer le tracé",
 			revKB="Inverser",
 		},
-		schulte_G={
+		mg_schulteG={
 			reset="Réinitialiser",
             rank="Taille",
 			blind="Aveugler",
 			disappear="Cacher",
 			tapFX="Effet quand tapé",
 		},
-		pong={
+		mg_pong={
 			reset="Redémarrer",
 		},
-		AtoZ={
+		mg_AtoZ={
 			level="niveau",
 			keyboard="Clavier",
 			reset="Redémarrer",

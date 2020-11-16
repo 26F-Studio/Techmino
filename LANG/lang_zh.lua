@@ -530,13 +530,13 @@ return{
 			pc="PC",
 		},
 		minigame={
-			p15="15 Puzzle",
-			schulte_G="舒尔特方格",
-			pong="Pong",
-			AtoZ="A to Z",
-			UTTT="战略井字棋",
+			mg_15p="15 Puzzle",
+			mg_schulteG="舒尔特方格",
+			mg_pong="Pong",
+			mg_AtoZ="A to Z",
+			mg_UTTT="战略井字棋",
 		},
-		p15={
+		mg_15p={
 			reset="打乱",
 			color="颜色",
 			blind="盲打",
@@ -544,22 +544,22 @@ return{
 			pathVis="路径显示",
 			revKB="键盘反向",
 		},
-		schulte_G={
+		mg_schulteG={
 			reset="重来",
 			rank="尺寸",
 			blind="盲打",
 			disappear="消失",
 			tapFX="点击动画",
 		},
-		pong={
+		mg_pong={
 			reset="重置",
 		},
-		AtoZ={
+		mg_AtoZ={
 			level="关卡",
 			keyboard="键盘",
 			reset="重置",
 		},
-		UTTT={
+		mg_UTTT={
 			reset="重置",
 		},
 		savedata={

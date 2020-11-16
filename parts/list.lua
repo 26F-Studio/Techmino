@@ -1,4 +1,5 @@
 local sin,cos=math.sin,math.cos
+
 title={
 	{
 		53,		60,
@@ -119,6 +120,7 @@ for _,C in next,title do
 		C[i]=C[i]*.1626
 	end
 end
+
 --[[
 title2={}
 for i=1,#title do title2[i]=title[i]end
@@ -147,6 +149,7 @@ title2[5]={
 	2779,	1280,
 }
 ]]
+
 title_fan={}
 for i=1,8 do
 	local L={}
@@ -232,7 +235,7 @@ drawableText={
 	noScore=T(45),highScore=T(30),
 }
 
-do
+do--spinCenters
 	local N1,N2,N3,N4={0,1},{1,0},{1,1},{.5,.5}
 	local I1,I2,I3,I4={-.5,1.5},{1.5,-.5},{.5,1.5},{1.5,.5}
 	local V4={1.5,1.5}

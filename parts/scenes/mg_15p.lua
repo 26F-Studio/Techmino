@@ -7,7 +7,7 @@ local int=math.floor
 local rnd=math.random
 local format=string.format
 
-function sceneInit.p15()
+function sceneInit.mg_15p()
 	BG.set("rainbow")
 	BGM.play("push")
 	sceneTemp={
@@ -130,7 +130,7 @@ local function tapBoard(x,y,key)
 		end
 	end
 end
-function keyDown.p15(key)
+function keyDown.mg_15p(key)
 	local S=sceneTemp
 	local b=S.board
 	if key=="up"then
@@ -173,24 +173,24 @@ function keyDown.p15(key)
 		SCN.back()
 	end
 end
-function mouseDown.p15(x,y)
+function mouseDown.mg_15p(x,y)
 	tapBoard(x,y)
 end
-function mouseMove.p15(x,y)
+function mouseMove.mg_15p(x,y)
 	if sceneTemp.slide then
 		tapBoard(x,y)
 	end
 end
-function touchDown.p15(_,x,y)
+function touchDown.mg_15p(_,x,y)
 	tapBoard(x,y)
 end
-function touchMove.p15(_,x,y)
+function touchMove.mg_15p(_,x,y)
 	if sceneTemp.slide then
 		tapBoard(x,y)
 	end
 end
 
-function Tmr.p15()
+function Tmr.mg_15p()
 	local S=sceneTemp
 	if S.state==1 then
 		S.time=Timer()-S.startTime
@@ -261,7 +261,7 @@ local backColor={
 		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
 	},--Black
 }
-function Pnt.p15()
+function Pnt.mg_15p()
 	local S=sceneTemp
 
 	setFont(40)
@@ -315,7 +315,7 @@ function Pnt.p15()
 	gc.rectangle("line",x*160+173,y*160-107,134,134,50)
 end
 
-WIDGET.init("p15",{
+WIDGET.init("mg_15p",{
 	WIDGET.newButton({name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space")}),
 	WIDGET.newSlider({name="color",		x=110,y=250,w=170,unit=4,show=false,font=30,disp=WIDGET.lnk_STPval("color"),	code=function(v)if sceneTemp.state~=1 then sceneTemp.color=v end end,hide=WIDGET.lnk_STPeq("state",1)}),
 	WIDGET.newSwitch({name="blind",		x=240,y=330,w=60,					font=40,disp=WIDGET.lnk_STPval("blind"),	code=WIDGET.lnk_pressKey("w"),	hide=WIDGET.lnk_STPeq("state",1)}),

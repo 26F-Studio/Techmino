@@ -118,11 +118,11 @@ return{
 			pc="全清",
 		},
 		minigame={
-			p15="数字华容道",
-			schulte_G="舒尔特方格",
-			pong="弹球",
-			AtoZ="打字游戏",
-			UTTT="战略井字棋",
+			mg_15p="数字华容道",
+			mg_schulteG="舒尔特方格",
+			mg_pong="弹球",
+			mg_AtoZ="打字游戏",
+			mg_UTTT="战略井字棋",
 		},
 	},
 	modes={

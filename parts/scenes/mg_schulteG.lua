@@ -10,7 +10,7 @@ local rnd=math.random
 local format=string.format
 local rem=table.remove
 
-function sceneInit.schulte_G()
+function sceneInit.mg_schulteG()
 	BGM.play("way")
 	sceneTemp={
 		board={},
@@ -73,13 +73,13 @@ local function tapBoard(x,y)
 	end
 end
 
-function mouseDown.schulte_G(x,y)
+function mouseDown.mg_schulteG(x,y)
 	tapBoard(x,y)
 end
-function touchDown.schulte_G(_,x,y)
+function touchDown.mg_schulteG(_,x,y)
 	tapBoard(x,y)
 end
-function keyDown.schulte_G(key)
+function keyDown.mg_schulteG(key)
 	local S=sceneTemp
 	if key=="z"or key=="x"then
 		love.mousepressed(ms.getPosition())
@@ -112,14 +112,14 @@ function keyDown.schulte_G(key)
 	end
 end
 
-function Tmr.schulte_G()
+function Tmr.mg_schulteG()
 	local S=sceneTemp
 	if S.state==1 then
 		S.time=Timer()-S.startTime+S.error
 	end
 end
 
-function Pnt.schulte_G()
+function Pnt.mg_schulteG()
 	local S=sceneTemp
 
 	setFont(40)
@@ -171,7 +171,7 @@ function Pnt.schulte_G()
 	end
 end
 
-WIDGET.init("schulte_G",{
+WIDGET.init("mg_schulteG",{
 	WIDGET.newButton({name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return sceneTemp.state==0 end}),
 	WIDGET.newSlider({name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end}),
 	WIDGET.newSwitch({name="blind",		x=240,y=330,w=60,					font=40,disp=WIDGET.lnk_STPval("blind"),	code=WIDGET.lnk_pressKey("q"),hide=WIDGET.lnk_STPeq("state",1)}),

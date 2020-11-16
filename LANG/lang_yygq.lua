@@ -168,7 +168,7 @@ return{
 			b3b="很牛逼",
 			pc="消干净了",
 		},
-		p15={
+		mg_15p={
 			reset="打乱",
 			color="彩",
 			blind="盲",
@@ -176,7 +176,7 @@ return{
 			pathVis="路径显示",
 			revKB="键盘反向",
 		},
-		schulte_G={
+		mg_schulteG={
 			reset="重开",
 			rank="尺寸",
 			blind="盲",
