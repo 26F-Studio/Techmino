@@ -94,7 +94,10 @@ function love.mousepressed(x,y,k,touch)
 	if touch then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
-	if devMode==1 then DBP(mx,my)end
+	if devMode==1 then
+		local dx,dy=mx-lastX,my-lastY
+		DBP(("(%d,%d), D=(%d,%d)~~(%d,%d)(%d,%d)"):format(mx,my,dx,dy,int(mx/10)*10,int(my/10)*10,int(dx/10)*10,int(dy/10)*10))
+	end
 	if SCN.swapping then return end
 	if mouseDown[SCN.cur]then
 		mouseDown[SCN.cur](mx,my,k)
