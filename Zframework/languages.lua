@@ -1,11 +1,11 @@
 local langList={
-	require("LANG/lang_zh"),
-	require("LANG/lang_zh2"),
-	require("LANG/lang_en"),
-	require("LANG/lang_fr"),
-	require("LANG/lang_sp"),
-	require("LANG/lang_symbol"),
-	require("LANG/lang_yygq"),
+	require("parts/language/lang_zh"),
+	require("parts/language/lang_zh2"),
+	require("parts/language/lang_en"),
+	require("parts/language/lang_fr"),
+	require("parts/language/lang_sp"),
+	require("parts/language/lang_symbol"),
+	require("parts/language/lang_yygq"),
 	--Add new language file to LANG folder. Attention, new language won't show in-game when you add language
 }
 local publicText={

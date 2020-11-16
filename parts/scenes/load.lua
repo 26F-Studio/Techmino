@@ -65,7 +65,7 @@ function Tmr.load()
 			SKIN.loadOne(S.cur)
 		elseif S.phase==7 then
 			local m=MODES[S.cur]--Mode template
-			local M=require("modes/"..m.name)--Mode file
+			local M=require("parts/modes/"..m.name)--Mode file
 			MODES[m.name],MODES[S.cur]=M
 			for k,v in next,m do
 				M[k]=v

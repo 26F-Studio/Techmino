@@ -2,7 +2,7 @@ function sceneBack.lang()
 	FILE.saveSetting()
 end
 
-local function setLang(n)return function()LANG.set(n)SETTING.lang=n end end
+local function setLang(n)return function()SETTING.lang=n LANG.set(n)end end
 WIDGET.init("lang",{
 	WIDGET.newButton({name="zh",	x=200,	y=100,w=200,h=120,font=45,code=setLang(1)}),
 	WIDGET.newButton({name="zh2",	x=420,	y=100,w=200,h=120,font=45,code=setLang(2)}),

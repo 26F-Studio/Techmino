@@ -9,7 +9,7 @@ local find,sub=string.find,string.sub
 function sceneInit.dict()
 	local location=({"zh","zh","en","en","en","en","zh"})[SETTING.lang]
 	sceneTemp={
-		dict=require("LANG/dict_"..location),
+		dict=require("parts/language/dict_"..location),
 
 		input="",
 		result={},

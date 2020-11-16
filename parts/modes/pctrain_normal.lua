@@ -1,5 +1,5 @@
-local PCbase=require("modes/PCbase")
-local PClist=require("modes/PClist")
+local PCbase=require("parts/modes/PCbase")
+local PClist=require("parts/modes/PClist")
 local PCtype={
 [0]=1,1,1,1,2,
 	1,1,1,1,3,
