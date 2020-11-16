@@ -275,7 +275,7 @@ function Pnt.mode()
 		setFont(40)mStr(text.modes[sel][1],1100,5)
 		setFont(30)mStr(text.modes[sel][2],1100,50)
 		gc.setColor(1,1,1)
-		setFont(28)gc.printf(text.modes[sel][3],920,110,360,"center")
+		setFont(25)gc.printf(text.modes[sel][3],920,110,360,"center")
 		if M.slowMark then
 			gc.draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
 		end
@@ -289,13 +289,8 @@ function Pnt.mode()
 				for i=1,#L do
 					local t=M.scoreDisp(L[i])
 					local s=#t
-					local dy
-					if s<15 then		dy=0
-					elseif s<25 then	dy=2
-					else				dy=4
-					end
-					setFont(int((26-s*.4)/3)*3)
-					gc.print(t,955,275+dy+25*i)
+					setFont(int((26-s*.4)/5)*5)
+					gc.print(t,955,275+25*i+(s<15 and 0 or s<25 and 2 or 4))
 					setFont(10)
 					_=L[i].date
 					if _ then gc.print(_,1155,284+25*i)end

@@ -296,7 +296,7 @@ local function drawVirtualkey()
 end
 function Pnt.play()
 	if MARKING then
-		setFont(26)
+		setFont(25)
 		local t=Timer()
 		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(text.marking,190,60+26*sin(t))

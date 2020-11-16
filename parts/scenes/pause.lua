@@ -190,7 +190,7 @@ function Pnt.pause()
 	--Infos
 	if GAME.frame>180 then
 		_=S.list
-		setFont(26)
+		setFont(30)
 		for i=1,10 do
 			gc.print(text.pauseStat[i],40,210+40*i)
 			gc.printf(_[i],195,210+40*i,300,"right")
@@ -268,7 +268,7 @@ function Pnt.pause()
 				C,_=text.radar,textPos
 			else
 				gc.setColor(1,1,1,T*sin(_))
-				setFont(18)
+				setFont(20)
 				C,_=S.radar,dataPos
 			end
 			for i=1,6 do

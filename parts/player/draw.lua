@@ -184,7 +184,7 @@ local attackColor={
 	{COLOR.lRed,COLOR.white},
 	{COLOR.dGreen,COLOR.cyan},
 }
-local RCPB={10,33,200,33,105,5,105,60}
+local RCPB={5,33,195,33,100,5,100,60}
 local function drawDial(x,y,speed)
 	gc.setColor(1,1,1)
 	mStr(int(speed),x,y-18)
@@ -394,10 +394,10 @@ function draw.norm(P)
 						gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
 					end
 					gc.setColor(1,1,1,P.swappingAtkMode*.025)
-					setFont(18)
+					setFont(35)
 					for i=1,4 do
 						gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-						mStr(text.atkModeName[i],RCPB[2*i-1]+45,RCPB[2*i]+3)
+						gc.printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
 					end
 				end
 			gc.pop()
@@ -485,12 +485,12 @@ function draw.norm(P)
 			gc.print(missionEnum[L[P.curMission]],85,180)
 
 			--Draw next mission
-			setFont(17)
+			setFont(20)
 			for i=1,3 do
 				local t=L[P.curMission+i]
 				if t then
 					t=missionEnum[t]
-					gc.print(t,87-26*i,187)
+					gc.print(t,87-28*i,187)
 				else
 					break
 				end
@@ -549,7 +549,7 @@ function draw.small(P)
 		--Draw result
 		if P.result then
 			gc.setColor(1,1,1,min(P.endCounter,60)*.01)
-			setFont(17)mStr(P.result,32,47)
+			setFont(20)mStr(P.result,32,47)
 			setFont(15)mStr(P.modeData.event,30,82)
 		end
 		gc.pop()

@@ -107,17 +107,17 @@ function Pnt.setting_key()
 	--Selection rect
 
 	gc.setColor(1,1,1)
-	setFont(26)
+	setFont(25)
 	local b1,b2=keyMap[S.board],keyMap[S.board+2]
 	for N=1,20 do
 		if N<11 then
 			gc.printf(text.acts[N],47,45*N+22,180,"right")
-			mStr(b1[N],340,45*N+22)
-			mStr(b2[N],540,45*N+22)
+			mStr(b1[N],340,45*N+24)
+			mStr(b2[N],540,45*N+24)
 		else
 			gc.printf(text.acts[N],647,45*N-428,180,"right")
-			mStr(b1[N],940,45*N-428)
-			mStr(b2[N],1040,45*N-428)
+			mStr(b1[N],940,45*N-426)
+			mStr(b2[N],1040,45*N-426)
 		end
 	end
 	gc.setLineWidth(2)

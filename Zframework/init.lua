@@ -58,14 +58,14 @@ local function updatePowerInfo()
 			end
 			gc.rectangle("fill",76,6,pow*.22,14)
 			if pow<100 then
-				setFont(14)
+				setFont(15)
 				gc.setColor(0,0,0)
-				gc.print(pow,77,2)
-				gc.print(pow,77,4)
-				gc.print(pow,79,2)
-				gc.print(pow,79,4)
+				gc.print(pow,77,1)
+				gc.print(pow,77,3)
+				gc.print(pow,79,1)
+				gc.print(pow,79,3)
 				gc.setColor(1,1,1)
-				gc.print(pow,78,3)
+				gc.print(pow,78,2)
 			end
 		end
 		gc.draw(IMG.batteryImage,73,3)

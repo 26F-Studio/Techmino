@@ -587,7 +587,7 @@ function selector:draw()
 	end
 
 	--Text
-	setFont(28)
+	setFont(30)
 	t=self.text
 	if t then
 		gc.setColor(r,g,b)
