@@ -56,6 +56,7 @@ return{
 		sequence="none",
 		freshLimit=15,
 		dropPiece=newPC,
+		RS="SRS",
 		ospin=false,
 		bg="rgb",bgm="oxygen",
 	},

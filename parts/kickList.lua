@@ -345,9 +345,9 @@ do
 	pushZero(TRS)
 end
 
-local AIRS
+local SRS
 do
-	AIRS={
+	SRS={
 		{
 			[01]={{-1,0},{-1, 1},{ 0,-2},{-1,-2}},
 			[10]={{ 1,0},{ 1,-1},{ 0, 2},{ 1, 2}},
@@ -357,6 +357,7 @@ do
 			[21]={{-1,0},{-1, 1},{ 0,-2},{-1,-2}},
 			[32]={{-1,0},{-1,-1},{ 0, 2},{-1, 2}},
 			[23]={{ 1,0},{ 1, 1},{ 0,-2},{ 1,-2}},
+			[02]={},[20]={},[13]={},[31]={},
 		},--Z
 		false,--S
 		false,--J
@@ -372,14 +373,14 @@ do
 			[32]={{-2, 0},{ 1, 0},{-2,-1},{ 1, 2}},
 			[30]={{ 1, 0},{-2, 0},{ 1,-2},{-2, 1}},
 			[03]={{-1, 0},{ 2, 0},{-1, 2},{ 2,-1}},
+			[02]={},[20]={},[13]={},[31]={},
 		}--I
 	}
-	collect(AIRS[1])
-	collect(AIRS[7])
-	pushZero(AIRS)
-	for i=2,5 do AIRS[i]=AIRS[1]end
-	for i=8,25 do AIRS[i]=AIRS[1]end
-
+	collect(SRS[1])
+	collect(SRS[7])
+	pushZero(SRS)
+	for i=2,5 do SRS[i]=SRS[1]end
+	for i=8,25 do SRS[i]=SRS[1]end
 end
 
 local C2
@@ -429,7 +430,7 @@ for i=1,25 do None[i]=noKick_180 end
 
 return{
 	TRS=TRS,
-	AIRS=AIRS,
+	SRS=SRS,
 	C2=C2,
 	C2sym=C2sym,
 	Classic=Classic,

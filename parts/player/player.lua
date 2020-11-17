@@ -1229,7 +1229,7 @@ function Player.loadAI(P,AIdata)--Load AI params
 		P.AI_delay0=int(P.AI_delay0*.26)
 	end
 	if P.AI_mode=="CC"then
-		P:setRS("AIRS")
+		P:setRS("SRS")
 		local opt,wei=CC.getConf()
 			CC.fastWeights(wei)
 			CC.setHold(opt,P.AIdata.hold)

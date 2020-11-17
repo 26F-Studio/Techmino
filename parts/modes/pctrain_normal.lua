@@ -48,6 +48,7 @@ return{
 		fall=20,
 		sequence="none",
 		dropPiece=newPC,
+		RS="SRS",
 		ospin=false,
 		bg="rgb",bgm="oxygen",
 	},

@@ -26,7 +26,7 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSwitch({name="noTele",		x=910,	y=420,			font=25,	disp=WIDGET.lnk_CUSval("noTele"),	code=WIDGET.lnk_CUSrev("noTele")}),
 	WIDGET.newSwitch({name="fineKill",		x=910,	y=490,			font=20,	disp=WIDGET.lnk_CUSval("fineKill"),	code=WIDGET.lnk_CUSrev("fineKill")}),
 	WIDGET.newSwitch({name="easyFresh",		x=910,	y=560,			font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
-	WIDGET.newSelector({name="RS",			x=560,	y=340,	w=260,color="sea",	list={"TRS","AIRS","C2","C2sym","Classic","None"},disp=WIDGET.lnk_CUSval("RS"),code=WIDGET.lnk_CUSsto("RS")}),
+	WIDGET.newSelector({name="RS",			x=560,	y=340,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=WIDGET.lnk_CUSval("RS"),code=WIDGET.lnk_CUSsto("RS")}),
 	WIDGET.newSelector({name="visible",		x=840,	y=60,	w=260,color="lBlue",list={"show","time","fast","none"},		disp=WIDGET.lnk_CUSval("visible"),	code=WIDGET.lnk_CUSsto("visible")}),
 	WIDGET.newSelector({name="target",		x=840,	y=160,	w=260,color="green",list={10,20,40,100,200,500,1000,1e99},	disp=WIDGET.lnk_CUSval("target"),	code=WIDGET.lnk_CUSsto("target")}),
 	WIDGET.newSelector({name="freshLimit",	x=840,	y=260,	w=260,color="purple",list={0,8,15,1e99},					disp=WIDGET.lnk_CUSval("freshLimit"),code=WIDGET.lnk_CUSsto("freshLimit")}),
