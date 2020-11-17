@@ -1,4 +1,3 @@
-local min=math.min
 return{
 	color=COLOR.lYellow,
 	env={
@@ -10,19 +9,17 @@ return{
 			if P.atkBuffer.sum<4 then
 				local p=#P.atkBuffer+1
 				local B,D=P.atkBuffer,P.modeData
-				local s,t
+				local s
+				local t=800-10*D.event--800~700~600~500
 				if D.event<10 then
-					t=800-10*D.event--800~700
 					B[p]=	{pos=P:RND(5,6),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
 					B[p+1]=	{pos=P:RND(4,7),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
 					s=20
 				elseif D.event<20 then
-					t=800-10*D.event--700~600
 					B[p]=	{pos=P:RND(3,8),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
 					B[p+1]=	{pos=P:RND(4,7),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
 					s=24
 				else
-					t=600-15*(min(D.event-20,10))--600~450
 					B[p]=	{pos=P:RND(2)*9-8,amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
 					B[p+1]=	{pos=P:RND(3,8),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
 					s=28
