@@ -306,7 +306,7 @@ function love.gamepadpressed(_,i)
 	if gamepadDown[SCN.cur]then gamepadDown[SCN.cur](i)
 	elseif keyDown[SCN.cur]then keyDown[SCN.cur](keyMirror[i]or i)
 	elseif i=="back"then SCN.back()
-	else WIDGET.gamepadPressed(i)
+	else WIDGET.gamepadPressed(keyMirror[i]or i)
 	end
 end
 function love.gamepadreleased(_,i)

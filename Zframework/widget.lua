@@ -228,7 +228,6 @@ end
 function key:press()
 	self.code()
 end
-
 function WIDGET.newKey(D)--name,x,y,w[,h][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
@@ -317,7 +316,6 @@ function switch:press()
 	self.code()
 	SFX.play("move")
 end
-
 function WIDGET.newSwitch(D)--name,x,y[,font][,disp],code,hide
 	local _={
 		name=	D.name,
@@ -453,7 +451,7 @@ function slider:drag(x)
 		self.change()
 	end
 end
-function slider:release(x,y)
+function slider:release(x)
 	self.lastTime=0
 	self:drag(x)
 end
