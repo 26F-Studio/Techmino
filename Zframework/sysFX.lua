@@ -79,21 +79,21 @@ function FXdraw.shade(S)
 	gc.rectangle("fill",S.x,S.y,S.w,S.h,2)
 end
 
-local sysFX={}
-function sysFX.update(dt)
+local SYSFX={}
+function SYSFX.update(dt)
 	for i=#fx,1,-1 do
 		if fx[i]:update(dt) then
 			rem(fx,i)
 		end
 	end
 end
-function sysFX.draw()
+function SYSFX.draw()
 	for i=1,#fx do
 		fx[i]:draw()
 	end
 end
 
-function sysFX.newBadge(x1,y1,x2,y2)
+function SYSFX.newBadge(x1,y1,x2,y2)
 	fx[#fx+1]={
 		update=FXupdate.badge,
 		draw=FXdraw.badge,
@@ -103,7 +103,7 @@ function sysFX.newBadge(x1,y1,x2,y2)
 		x2=x2,y2=y2,
 	}
 end
-function sysFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
+function SYSFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 	fx[#fx+1]={
 		update=FXupdate.attack,
 		draw=FXdraw.attack,
@@ -115,7 +115,7 @@ function sysFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 		r=r,g=g,b=b,a=a,
 	}
 end
-function sysFX.newRipple(duration,x,y,r)
+function SYSFX.newRipple(duration,x,y,r)
 	fx[#fx+1]={
 		update=FXupdate.ripple,
 		draw=FXdraw.ripple,
@@ -124,7 +124,7 @@ function sysFX.newRipple(duration,x,y,r)
 		x=x,y=y,r=r,
 	}
 end
-function sysFX.newRectRipple(duration,x,y,w,h)
+function SYSFX.newRectRipple(duration,x,y,w,h)
 	fx[#fx+1]={
 		update=FXupdate.rectRipple,
 		draw=FXdraw.rectRipple,
@@ -133,7 +133,7 @@ function sysFX.newRectRipple(duration,x,y,w,h)
 		x=x,y=y,w=w,h=h,
 	}
 end
-function sysFX.newShade(duration,r,g,b,x,y,w,h)
+function SYSFX.newShade(duration,r,g,b,x,y,w,h)
 	fx[#fx+1]={
 		update=FXupdate.shade,
 		draw=FXdraw.shade,
@@ -143,4 +143,4 @@ function sysFX.newShade(duration,r,g,b,x,y,w,h)
 		x=x,y=y,w=w,h=h,
 	}
 end
-return sysFX
+return SYSFX

@@ -11,7 +11,7 @@ LIGHT=	require("Zframework/light")
 BG=		require("Zframework/background")
 WIDGET=	require("Zframework/widget")
 TEXT=	require("Zframework/text")
-sysFX=	require("Zframework/sysFX")
+SYSFX=	require("Zframework/sysFX")
 
 IMG=	require("Zframework/image")
 BGM=	require("Zframework/bgm")
@@ -108,7 +108,7 @@ function love.mousepressed(x,y,k,touch)
 		WIDGET.press(mx,my)
 	end
 	lastX,lastY=mx,my
-	sysFX.newRipple(.3,mx,my,30)
+	SYSFX.newRipple(.3,mx,my,30)
 end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
@@ -191,7 +191,7 @@ function love.touchreleased(id,x,y)
 		if touchClick[SCN.cur]then
 			touchClick[SCN.cur](x,y)
 		end
-		sysFX.newRipple(.3,x,y,30)
+		SYSFX.newRipple(.3,x,y,30)
 	end
 end
 
@@ -504,7 +504,7 @@ function love.run()
 		TASK.update()
 		VOC.update()
 		BG.update(dt)
-		sysFX.update(dt)
+		SYSFX.update(dt)
 		TEXT.update()
 		_=Tmr[SCN.cur]if _ then _(dt)end--Scene Updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
@@ -538,7 +538,7 @@ function love.run()
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 					end
-					sysFX.draw()
+					SYSFX.draw()
 					TEXT.draw()
 				gc.pop()
 

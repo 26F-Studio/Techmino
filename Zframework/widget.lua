@@ -102,7 +102,7 @@ function button:getCenter()
 end
 function button:FX()
 	local ATV=self.ATV
-	sysFX.newRectRipple(
+	SYSFX.newRectRipple(
 		.16,
 		self.x-ATV,
 		self.y-ATV,
@@ -605,12 +605,12 @@ function selector:press(x)
 		if x<self.x+self.w*.5 then
 			if s>1 then
 				s=s-1
-				sysFX.newShade(.3,1,1,1,self.x,self.y,self.w*.5,60)
+				SYSFX.newShade(.3,1,1,1,self.x,self.y,self.w*.5,60)
 			end
 		else
 			if s<#self.list then
 				s=s+1
-				sysFX.newShade(.3,1,1,1,self.x+self.w*.5,self.y,self.w*.5,60)
+				SYSFX.newShade(.3,1,1,1,self.x+self.w*.5,self.y,self.w*.5,60)
 			end
 		end
 		if self.select~=s then
@@ -626,10 +626,10 @@ function selector:arrowKey(isLeft)
 	if isLeft and s==1 or not isLeft and s==#self.list then return end
 	if isLeft then
 		s=s-1
-		sysFX.newShade(.3,1,1,1,self.x,self.y,self.w*.5,60)
+		SYSFX.newShade(.3,1,1,1,self.x,self.y,self.w*.5,60)
 	else
 		s=s+1
-		sysFX.newShade(.3,1,1,1,self.x+self.w*.5,self.y,self.w*.5,60)
+		SYSFX.newShade(.3,1,1,1,self.x+self.w*.5,self.y,self.w*.5,60)
 	end
 	self.code(self.list[s])
 	self.select=s

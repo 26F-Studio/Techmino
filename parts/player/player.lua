@@ -97,7 +97,7 @@ function Player.createBeam(P,R,send,color)
 	r,g,b=r*2,g*2,b*2
 
 	local a=modeEnv.royaleMode and not(P.human or R.human)and .2 or 1
-	sysFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
+	SYSFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
 end
 --------------------------</FX>--------------------------
 
@@ -1381,9 +1381,9 @@ function Player.lose(P,force)
 		for i=1,21 do
 			P:createClearingFX(i,1.5)
 		end
-		sysFX.newShade(.7,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
-		sysFX.newRectRipple(.5,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
-		sysFX.newRipple(.5,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
+		SYSFX.newShade(.7,1,1,1,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		SYSFX.newRectRipple(.5,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		SYSFX.newRipple(.5,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
 		--300+25*i,595
 		SFX.play("clear_3")
 		SFX.play("emit")

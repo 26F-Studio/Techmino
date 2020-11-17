@@ -73,7 +73,7 @@ local function tapBoard(x,y,key)
 	if S.state<2 then
 		if not key then
 			if S.pathVis then
-				sysFX.newRipple(.16,x,y,10)
+				SYSFX.newRipple(.16,x,y,10)
 			end
 			x,y=int((x-320)/160)+1,int((y-40)/160)+1
 		end
