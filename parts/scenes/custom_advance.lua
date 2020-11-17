@@ -22,16 +22,17 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSlider({name="minsdarr",	x=180,	y=290,w=200,unit=4,	font=20,	disp=WIDGET.lnk_CUSval("minsdarr"),	code=WIDGET.lnk_CUSsto("minsdarr")}),
 
 	--Rule
-	WIDGET.newSwitch({name="ospin",		x=910,	y=340,				font=30,	disp=WIDGET.lnk_CUSval("ospin"),	code=WIDGET.lnk_CUSrev("ospin")}),
-	WIDGET.newSwitch({name="noTele",	x=910,	y=420,				font=25,	disp=WIDGET.lnk_CUSval("noTele"),	code=WIDGET.lnk_CUSrev("noTele")}),
-	WIDGET.newSwitch({name="fineKill",	x=910,	y=490,				font=20,	disp=WIDGET.lnk_CUSval("fineKill"),	code=WIDGET.lnk_CUSrev("fineKill")}),
-	WIDGET.newSwitch({name="easyFresh",	x=910,	y=560,				font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
-	WIDGET.newSelector({name="visible",	x=840,	y=60,w=260,color="lBlue",		list={"show","time","fast","none"},		disp=WIDGET.lnk_CUSval("visible"),	code=WIDGET.lnk_CUSsto("visible")}),
-	WIDGET.newSelector({name="target",		x=840,	y=160,w=260,color="green",	list={10,20,40,100,200,500,1000,1e99},	disp=WIDGET.lnk_CUSval("target"),	code=WIDGET.lnk_CUSsto("target")}),
-	WIDGET.newSelector({name="freshLimit",	x=840,	y=260,w=260,color="purple",	list={0,8,15,1e99},						disp=WIDGET.lnk_CUSval("freshLimit"),code=WIDGET.lnk_CUSsto("freshLimit")}),
-	WIDGET.newSelector({name="opponent",	x=1120,	y=60,w=260,color="red",		list={0,1,2,3,4,5,6,7,8,9,10},			disp=WIDGET.lnk_CUSval("opponent"),code=WIDGET.lnk_CUSsto("opponent")}),
-	WIDGET.newSelector({name="life",		x=1120,	y=160,w=260,color="red",	list={0,1,2,3,5,10,15,26,42,87,500},	disp=WIDGET.lnk_CUSval("life"),	code=WIDGET.lnk_CUSsto("life")}),
-	WIDGET.newSelector({name="pushSpeed",	x=1120,	y=260,w=260,color="red",	list={1,2,3,5,15},						disp=WIDGET.lnk_CUSval("pushSpeed"),code=WIDGET.lnk_CUSsto("pushSpeed")}),
+	WIDGET.newSwitch({name="ospin",			x=910,	y=340,			font=30,	disp=WIDGET.lnk_CUSval("ospin"),	code=WIDGET.lnk_CUSrev("ospin")}),
+	WIDGET.newSwitch({name="noTele",		x=910,	y=420,			font=25,	disp=WIDGET.lnk_CUSval("noTele"),	code=WIDGET.lnk_CUSrev("noTele")}),
+	WIDGET.newSwitch({name="fineKill",		x=910,	y=490,			font=20,	disp=WIDGET.lnk_CUSval("fineKill"),	code=WIDGET.lnk_CUSrev("fineKill")}),
+	WIDGET.newSwitch({name="easyFresh",		x=910,	y=560,			font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
+	WIDGET.newSelector({name="RS",			x=560,	y=340,	w=260,color="sea",	list={"TRS","AIRS","C2","C2sym","Classic","None"},disp=WIDGET.lnk_CUSval("RS"),code=WIDGET.lnk_CUSsto("RS")}),
+	WIDGET.newSelector({name="visible",		x=840,	y=60,	w=260,color="lBlue",list={"show","time","fast","none"},		disp=WIDGET.lnk_CUSval("visible"),	code=WIDGET.lnk_CUSsto("visible")}),
+	WIDGET.newSelector({name="target",		x=840,	y=160,	w=260,color="green",list={10,20,40,100,200,500,1000,1e99},	disp=WIDGET.lnk_CUSval("target"),	code=WIDGET.lnk_CUSsto("target")}),
+	WIDGET.newSelector({name="freshLimit",	x=840,	y=260,	w=260,color="purple",list={0,8,15,1e99},					disp=WIDGET.lnk_CUSval("freshLimit"),code=WIDGET.lnk_CUSsto("freshLimit")}),
+	WIDGET.newSelector({name="opponent",	x=1120,	y=60,	w=260,color="red",	list={0,1,2,3,4,5,6,7,8,9,10},			disp=WIDGET.lnk_CUSval("opponent"),code=WIDGET.lnk_CUSsto("opponent")}),
+	WIDGET.newSelector({name="life",		x=1120,	y=160,	w=260,color="red",	list={0,1,2,3,5,10,15,26,42,87,500},	disp=WIDGET.lnk_CUSval("life"),	code=WIDGET.lnk_CUSsto("life")}),
+	WIDGET.newSelector({name="pushSpeed",	x=1120,	y=260,	w=260,color="red",	list={1,2,3,5,15},						disp=WIDGET.lnk_CUSval("pushSpeed"),code=WIDGET.lnk_CUSsto("pushSpeed")}),
 
 	WIDGET.newButton({name="back",			x=1140,	y=640,	w=170,h=80,	font=40,code=WIDGET.lnk_BACK}),
 })

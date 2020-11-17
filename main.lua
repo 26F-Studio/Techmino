@@ -55,6 +55,8 @@ CUSTOMENV={
 	minsdarr=0,
 	sequence="bag",
 	ospin=false,
+	RS="TRS",
+
 	noTele=false,
 	fineKill=false,
 	missionKill=false,
