@@ -2,7 +2,7 @@ return{
 	color=COLOR.green,
 	env={
 		drop=60,lock=60,
-		nextCount=0,hold=false,
+		nextCount=0,holdCount=0,
 		sequence="rnd",
 		target=40,dropPiece=PLY.check_lineReach,
 		bg="aura",bgm="waterfall",

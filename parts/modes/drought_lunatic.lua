@@ -92,7 +92,7 @@ return{
 			end
 		end,
 		target=100,dropPiece=PLY.check_lineReach,
-		nextCount=1,hold=false,
+		nextCount=1,holdCount=0,
 		ospin=false,
 		freshLimit=15,
 		bg="glow",bgm="reason",

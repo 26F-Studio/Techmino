@@ -3,7 +3,7 @@ return{
 	color=COLOR.lGrey,
 	env={
 		drop=1e99,lock=1e99,
-		hold=false,
+		holdCount=0,
 		dropPiece=function(P)P:lose()end,
 		task=nil,
 		bg="bg1",bgm="new era",

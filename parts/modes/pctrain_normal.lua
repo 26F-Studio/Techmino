@@ -43,7 +43,7 @@ return{
 	color=COLOR.green,
 	env={
 		nextCount=4,
-		hold=false,
+		holdCount=0,
 		drop=120,lock=180,
 		fall=20,
 		sequence="none",
