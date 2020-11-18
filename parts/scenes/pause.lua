@@ -1,12 +1,11 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
-local setFont=setFont
-local mStr=mStr
-
 local sin,log=math.sin,math.log
 local format=string.format
 
+local setFont=setFont
+local mStr=mStr
 local SCR=SCR
 
 local fnsRankColor={
@@ -20,11 +19,7 @@ local fnsRankColor={
 	F=COLOR.dRed,
 }
 function sceneInit.pause(org)
-	if
-		org=="setting_game"or
-		org=="setting_video"or
-		org=="setting_sound"
-	then
+	if org:find("setting")then
 		TEXT.show(text.needRestart,640,440,50,"fly",.6)
 	end
 	local P=PLAYERS[1]
@@ -131,7 +126,6 @@ function keyDown.pause(key)
 		resumeGame()
 	elseif key=="s"then
 		GAME.prevBG=BG.cur
-		print(BG.cur)
 		SCN.go("setting_sound")
 	elseif key=="r"then
 		resetGameData()
