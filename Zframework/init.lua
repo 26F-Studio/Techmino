@@ -516,9 +516,10 @@ function love.run()
 			FCT=FCT+SETTING.frameMul
 			if FCT>=100 then
 				FCT=FCT-100
-				DISCARD()--SPEED UPUPUP!
 
+				--Draw background
 				BG.draw()
+
 				gc.push("transform")
 					gc.replaceTransform(xOy)
 
@@ -587,6 +588,7 @@ function love.run()
 				LOG.draw()
 
 				PRESENT()
+				DISCARD()--SPEED UPUPUP!
 			end
 		end
 
