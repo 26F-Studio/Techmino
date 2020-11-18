@@ -186,9 +186,9 @@ function Player.attack(P,R,send,time,...)
 		P:createBeam(R,send,time,...)
 	end
 	R.lastRecv=P
-	if R.atkBuffer.sum<20 then
+	if R.atkBuffer.sum<26 then
 		local B=R.atkBuffer
-		if send>20-B.sum then send=20-B.sum end--No more then 20
+		if send>26-B.sum then send=26-B.sum end
 		local m,k=#B,1
 		while k<=m and time>B[k].countdown do k=k+1 end
 		for i=m,k,-1 do
