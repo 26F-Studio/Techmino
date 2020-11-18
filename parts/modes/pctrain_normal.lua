@@ -16,7 +16,7 @@ local function task_PC(P)
 	P.modeData.counter=P.modeData.counter+1
 	if P.modeData.counter==26 then
 		local base=PCbase[P.modeData.type]
-		P:pushLine(base[P:RND(#base)],P.modeData.symmetry)
+		P:pushLineList(base[P:RND(#base)],P.modeData.symmetry)
 		return true
 	end
 end
@@ -34,7 +34,7 @@ local function newPC(P)
 		local symmetry=P:RND()>.5
 		P.modeData.type=type
 		P.modeData.symmetry=symmetry
-		P:pushNext(L,symmetry)
+		P:pushNextList(L,symmetry)
 		P.modeData.counter=P.stat.piece==0 and 20 or 0
 		P:newTask(task_PC)
 	end

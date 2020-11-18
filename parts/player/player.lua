@@ -106,14 +106,21 @@ function Player.RND(P,a,b)
 	local R=P.randGen
 	return R:random(a,b)
 end
+function Player.newTask(P,code,data)
+	local L=P.tasks
+	ins(L,{
+		code=code,
+		data=data,
+	})
+end
 
-function Player.set20G(P,if20g,init)
+function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
 	P._20G=if20g
 	P.keyAvailable[7]=not if20g
 	virtualkey[7].ava=not if20g
 	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
-function Player.setHold(P,count)
+function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	if not count then
 		count=0
 	elseif count==true then
@@ -132,7 +139,7 @@ function Player.setHold(P,count)
 		P.drawHold=PLY.draw.drawHold_multi
 	end
 end
-function Player.setNext(P,next,hidden)
+function Player.setNext(P,next,hidden)--Set next count　(use hidden=true if set env.nextStartPos>1)
 	P.gameEnv.nextCount=next
 	if next==0 then
 		P.drawNext=NULL
@@ -142,7 +149,7 @@ function Player.setNext(P,next,hidden)
 		P.drawNext=PLY.draw.drawNext_hidden
 	end
 end
-function Player.setInvisible(P,time)
+function Player.setInvisible(P,time)--Time in frames
 	if time<0 then
 		P.keepVisible=true
 		P.showTime=1e99
@@ -155,12 +162,90 @@ function Player.setRS(P,RSname)
 	P.RS=kickList[RSname]
 end
 
-function Player.newTask(P,code,data)
-	local L=P.tasks
-	ins(L,{
-		code=code,
-		data=data,
-	})
+function Player.getHolePos(P)--Get a good garbage-line hole position
+	if P.garbageBeneath==0 then
+		return P:RND(10)
+	else
+		local p=P:RND(10)
+		if P.field[1][p]<=0 then
+			return P:RND(10)
+		end
+		return p
+	end
+end
+function Player.garbageRelease(P)--Check garbage buffer and try to release them
+	local n,flag=1
+	while true do
+		local A=P.atkBuffer[n]
+		if A and A.countdown<=0 and not A.sent then
+			P:garbageRise(19+A.lv,A.amount,A.pos)
+			P.atkBuffer.sum=P.atkBuffer.sum-A.amount
+			A.sent,A.time=true,0
+			P.stat.pend=P.stat.pend+A.amount
+			n=n+1
+			flag=true
+		else
+			break
+		end
+	end
+	if flag and P.AI_mode=="CC"then CC.updateField(P)end
+end
+function Player.garbageRise(P,color,amount,pos)--Release n-lines garbage to field
+	local _
+	local t=P.showTime*2
+	for _=1,amount do
+		ins(P.field,1,FREEROW.get(color,true))
+		ins(P.visTime,1,FREEROW.get(t))
+		P.field[1][pos]=0
+	end
+	P.fieldBeneath=P.fieldBeneath+amount*30
+	if P.cur then
+		P.curY=P.curY+amount
+		P.imgY=P.imgY+amount
+	end
+	P.garbageBeneath=P.garbageBeneath+amount
+	for i=1,#P.clearingRow do
+		P.clearingRow[i]=P.clearingRow[i]+amount
+	end
+	P:freshBlock(false,false)
+	for i=1,#P.lockFX do
+		_=P.lockFX[i]
+		_[2]=_[2]-30*amount--Shift 30px per line cleared
+	end
+	for i=1,#P.dropFX do
+		_=P.dropFX[i]
+		_[3],_[5]=_[3]+amount,_[5]+amount
+	end
+	if #P.field>42 then P:lose()end
+end
+
+local invList={2,1,4,3,5,6,7}
+function Player.pushLineList(P,L,mir)--Push some lines to field
+	local l=#L
+	local S=P.gameEnv.skin
+	for i=1,l do
+		local r=FREEROW.get(0)
+		if not mir then
+			for j=1,10 do
+				r[j]=S[L[i][j]]or 0
+			end
+		else
+			for j=1,10 do
+				r[j]=S[invList[L[i][11-j]]]or 0
+			end
+		end
+		ins(P.field,1,r)
+		ins(P.visTime,1,FREEROW.get(20))
+	end
+	P.fieldBeneath=P.fieldBeneath+30*l
+	P.curY=P.curY+l
+	P.imgY=P.imgY+l
+	P:freshBlock(false,false)
+end
+function Player.pushNextList(P,L,mir)--Push some nexts to nextQueue
+	for i=1,#L do
+		P:getNext(mir and invList[L[i]]or L[i])
+	end
 end
 
 function Player.solid(P,x,y)
@@ -210,93 +295,6 @@ function Player.attack(P,R,send,time,...)
 		end
 	end
 end
-
-function Player.getHolePos(P)
-	if P.garbageBeneath==0 then
-		return P:RND(10)
-	else
-		local p=P:RND(10)
-		if P.field[1][p]<=0 then
-			return P:RND(10)
-		end
-		return p
-	end
-end
-function Player.garbageRelease(P)
-	local n,flag=1
-	while true do
-		local A=P.atkBuffer[n]
-		if A and A.countdown<=0 and not A.sent then
-			P:garbageRise(19+A.lv,A.amount,A.pos)
-			P.atkBuffer.sum=P.atkBuffer.sum-A.amount
-			A.sent,A.time=true,0
-			P.stat.pend=P.stat.pend+A.amount
-			n=n+1
-			flag=true
-		else
-			break
-		end
-	end
-	if flag and P.AI_mode=="CC"then CC.updateField(P)end
-end
-function Player.garbageRise(P,color,amount,pos)
-	local _
-	local t=P.showTime*2
-	for _=1,amount do
-		ins(P.field,1,FREEROW.get(color,true))
-		ins(P.visTime,1,FREEROW.get(t))
-		P.field[1][pos]=0
-	end
-	P.fieldBeneath=P.fieldBeneath+amount*30
-	if P.cur then
-		P.curY=P.curY+amount
-		P.imgY=P.imgY+amount
-	end
-	P.garbageBeneath=P.garbageBeneath+amount
-	for i=1,#P.clearingRow do
-		P.clearingRow[i]=P.clearingRow[i]+amount
-	end
-	P:freshBlock(false,false)
-	for i=1,#P.lockFX do
-		_=P.lockFX[i]
-		_[2]=_[2]-30*amount--Shift 30px per line cleared
-	end
-	for i=1,#P.dropFX do
-		_=P.dropFX[i]
-		_[3],_[5]=_[3]+amount,_[5]+amount
-	end
-	if #P.field>42 then P:lose()end
-end
-
-local invList={2,1,4,3,5,6,7}
-function Player.pushLine(P,L,mir)
-	local l=#L
-	local S=P.gameEnv.skin
-	for i=1,l do
-		local r=FREEROW.get(0)
-		if not mir then
-			for j=1,10 do
-				r[j]=S[L[i][j]]or 0
-			end
-		else
-			for j=1,10 do
-				r[j]=S[invList[L[i][11-j]]]or 0
-			end
-		end
-		ins(P.field,1,r)
-		ins(P.visTime,1,FREEROW.get(20))
-	end
-	P.fieldBeneath=P.fieldBeneath+30*l
-	P.curY=P.curY+l
-	P.imgY=P.imgY+l
-	P:freshBlock(false,false)
-end
-function Player.pushNext(P,L,mir)
-	for i=1,#L do
-		P:getNext(mir and invList[L[i]]or L[i])
-	end
-end
-
 function Player.freshTarget(P)
 	if P.atkMode==1 then
 		if not P.atking or not P.atking.alive or rnd()<.1 then
@@ -590,11 +588,11 @@ function Player.hold(P,ifpre)
 	end
 end
 
-function Player.getNext(P,n)
+function Player.getNext(P,n)--Push a block(id=n) to nextQueue
 	local E=P.gameEnv
 	ins(P.nextQueue,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
 end
-function Player.popNext(P)--Pop next queue to hand
+function Player.popNext(P)--Pop nextQueue to hand
 	P.holdTime=P.gameEnv.holdCount
 	P.spinLast=false
 	P.spinSeq=0
@@ -667,7 +665,7 @@ function Player.cancel(P,N)--Cancel Garbage
 	end
 	return off
 end
-do--player:drop()--Place piece
+do--Player.drop(P)--Place piece
 	local clearSCR={80,200,400}--Techrash:1K; B2Bmul:1.3/1.8
 	local spinSCR={
 		{200,750,1300,2000},--Z
