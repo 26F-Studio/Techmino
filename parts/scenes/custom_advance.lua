@@ -3,9 +3,9 @@ WIDGET.init("custom_advance",{
 	WIDGET.newText({name="subTitle",	x=530,y=50,font=35,align="L",color="grey"}),
 
 	--Visual
-	WIDGET.newSwitch({name="block",		x=620,	y=430,				font=25,	disp=WIDGET.lnk_CUSval("block"),	code=WIDGET.lnk_CUSrev("block")}),
-	WIDGET.newSlider({name="ghost",		x=490,	y=500,w=200,unit=.6,font=25,	disp=WIDGET.lnk_CUSval("ghost"),	code=WIDGET.lnk_CUSsto("ghost")}),
-	WIDGET.newSlider({name="center",	x=490,	y=560,w=200,unit=1,	font=25,	disp=WIDGET.lnk_CUSval("center"),	code=WIDGET.lnk_CUSsto("center")}),
+	WIDGET.newSwitch({name="block",		x=600,	y=600,				font=25,	disp=WIDGET.lnk_CUSval("block"),	code=WIDGET.lnk_CUSrev("block")}),
+	WIDGET.newSlider({name="ghost",		x=480,	y=450,w=200,unit=.6,font=25,	disp=WIDGET.lnk_CUSval("ghost"),	code=WIDGET.lnk_CUSsto("ghost")}),
+	WIDGET.newSlider({name="center",	x=480,	y=520,w=200,unit=1,	font=25,	disp=WIDGET.lnk_CUSval("center"),	code=WIDGET.lnk_CUSsto("center")}),
 
 	WIDGET.newSwitch({name="bagLine",	x=1190,	y=340,				disp=WIDGET.lnk_CUSval("bagLine"),	code=WIDGET.lnk_CUSrev("bagLine")}),
 	WIDGET.newSwitch({name="highCam",	x=1190,	y=410,				disp=WIDGET.lnk_CUSval("highCam"),	code=WIDGET.lnk_CUSrev("highCam")}),
@@ -13,9 +13,9 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSwitch({name="bone",		x=1190,	y=550,				disp=WIDGET.lnk_CUSval("bone"),		code=WIDGET.lnk_CUSrev("bone")}),
 
 	--Control
-	WIDGET.newSlider({name="nextCount",	x=130,	y=410,w=200,unit=6,	disp=WIDGET.lnk_CUSval("nextCount"),code=WIDGET.lnk_CUSsto("nextCount")}),
-	WIDGET.newSlider({name="holdCount",	x=130,	y=480,w=200,unit=6,	disp=WIDGET.lnk_CUSval("holdCount"),code=WIDGET.lnk_CUSsto("holdCount")}),
-	WIDGET.newSwitch({name="infHold",	x=260,	y=560,				disp=WIDGET.lnk_CUSval("infHold"),	code=WIDGET.lnk_CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end}),
+	WIDGET.newSlider({name="nextCount",	x=150,y=450,w=200,unit=6,	disp=WIDGET.lnk_CUSval("nextCount"),code=WIDGET.lnk_CUSsto("nextCount")}),
+	WIDGET.newSlider({name="holdCount",	x=150,y=520,w=200,unit=6,	disp=WIDGET.lnk_CUSval("holdCount"),code=WIDGET.lnk_CUSsto("holdCount")}),
+	WIDGET.newSwitch({name="infHold",	x=260,y=600,				disp=WIDGET.lnk_CUSval("infHold"),	code=WIDGET.lnk_CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end}),
 
 	WIDGET.newSlider({name="mindas",	x=180,	y=150,w=400,unit=15,font=25,	disp=WIDGET.lnk_CUSval("mindas"),	code=WIDGET.lnk_CUSsto("mindas")}),
 	WIDGET.newSlider({name="minarr",	x=180,	y=220,w=400,unit=10,font=25,	disp=WIDGET.lnk_CUSval("minarr"),	code=WIDGET.lnk_CUSsto("minarr")}),
@@ -23,10 +23,11 @@ WIDGET.init("custom_advance",{
 
 	--Rule
 	WIDGET.newSwitch({name="ospin",			x=910,	y=340,			font=30,	disp=WIDGET.lnk_CUSval("ospin"),	code=WIDGET.lnk_CUSrev("ospin")}),
-	WIDGET.newSwitch({name="noTele",		x=910,	y=420,			font=25,	disp=WIDGET.lnk_CUSval("noTele"),	code=WIDGET.lnk_CUSrev("noTele")}),
-	WIDGET.newSwitch({name="fineKill",		x=910,	y=490,			font=20,	disp=WIDGET.lnk_CUSval("fineKill"),	code=WIDGET.lnk_CUSrev("fineKill")}),
-	WIDGET.newSwitch({name="easyFresh",		x=910,	y=560,			font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
-	WIDGET.newSelector({name="RS",			x=560,	y=340,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=WIDGET.lnk_CUSval("RS"),code=WIDGET.lnk_CUSsto("RS")}),
+	WIDGET.newSwitch({name="noTele",		x=910,	y=410,			font=25,	disp=WIDGET.lnk_CUSval("noTele"),	code=WIDGET.lnk_CUSrev("noTele")}),
+	WIDGET.newSwitch({name="fineKill",		x=910,	y=480,			font=20,	disp=WIDGET.lnk_CUSval("fineKill"),	code=WIDGET.lnk_CUSrev("fineKill")}),
+	WIDGET.newSwitch({name="easyFresh",		x=910,	y=550,			font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
+
+	WIDGET.newSelector({name="RS",			x=410,	y=370,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=WIDGET.lnk_CUSval("RS"),code=WIDGET.lnk_CUSsto("RS")}),
 	WIDGET.newSelector({name="visible",		x=840,	y=60,	w=260,color="lBlue",list={"show","time","fast","none"},		disp=WIDGET.lnk_CUSval("visible"),	code=WIDGET.lnk_CUSsto("visible")}),
 	WIDGET.newSelector({name="target",		x=840,	y=160,	w=260,color="green",list={10,20,40,100,200,500,1000,1e99},	disp=WIDGET.lnk_CUSval("target"),	code=WIDGET.lnk_CUSsto("target")}),
 	WIDGET.newSelector({name="freshLimit",	x=840,	y=260,	w=260,color="purple",list={0,8,15,1e99},					disp=WIDGET.lnk_CUSval("freshLimit"),code=WIDGET.lnk_CUSsto("freshLimit")}),
