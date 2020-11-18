@@ -41,6 +41,7 @@ return{
 		for _=1,8 do
 			P:garbageRise(13,1,P:RND(10))
 		end
+		P.fieldBeneath=0
 	end,
 	mesDisp=function(P)
 		setFont(45)
