@@ -13,7 +13,7 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSwitch({name="bone",		x=1190,	y=550,				disp=WIDGET.lnk_CUSval("bone"),		code=WIDGET.lnk_CUSrev("bone")}),
 
 	--Control
-	WIDGET.newSlider({name="next",		x=130,	y=410,w=200,unit=6,	disp=WIDGET.lnk_CUSval("next"),		code=WIDGET.lnk_CUSsto("next")}),
+	WIDGET.newSlider({name="next",		x=130,	y=410,w=200,unit=6,	disp=WIDGET.lnk_CUSval("nextCount"),code=WIDGET.lnk_CUSsto("nextCount")}),
 	WIDGET.newSwitch({name="hold",		x=260,	y=480,				disp=WIDGET.lnk_CUSval("hold"),		code=WIDGET.lnk_CUSrev("hold")}),
 	WIDGET.newSwitch({name="oncehold",	x=260,	y=560,				disp=WIDGET.lnk_CUSval("oncehold"),	code=WIDGET.lnk_CUSrev("oncehold"),hide=function()return not CUSTOMENV.hold end}),
 

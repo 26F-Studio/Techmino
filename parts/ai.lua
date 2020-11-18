@@ -66,19 +66,21 @@ if _CC then
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
-		for i=1,P.AIdata.next do
-			CC.addNext(P.AI_bot,CCblockID[P.next[i].id])
+		for i=1,P.AIdata.nextCount do
+			CC.addNext(P.AI_bot,CCblockID[P.nextQueue[i].id])
 		end
 		CC.updateField(P)
-		P.hd=nil
-		P.holded=false
-		P.cur=rem(P.next,1)
+
+		while P.holdQueue[1]do rem(P.holdQueue)end
+		P.holdTime=P.gameEnv.holdCount
+
+		P.cur=rem(P.nextQueue,1)
 		P.sc,P.dir=spinCenters[P.cur.id][0],0
 		P.r,P.c=#P.cur.bk,#P.cur.bk[1]
 		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
 		P:newNext()
-		local id=CCblockID[P.next[P.AIdata.next].id]
+		local id=CCblockID[P.nextQueue[P.AIdata.nextCount].id]
 		if id then
 			CC.addNext(P.AI_bot,id)
 		end
@@ -204,13 +206,13 @@ return{
 				end
 			end
 
-			for ifhold=0,P.gameEnv.hold and 1 or 0 do
+			for ifhold=0,P.gameEnv.holdCount>0 and 1 or 0 do
 				--Get block id
 				local bn
 				if ifhold==0 then
 					bn=P.cur and P.cur.id
 				else
-					bn=P.hd and P.hd.id or P.next[1]and P.next[1].id
+					bn=P.holdQueue[1]and P.holdQueue[1].id or P.nextQueue[1]and P.nextQueue[1].id
 				end
 				if not bn then goto CTN end
 

@@ -7,7 +7,7 @@ return{
 			for _=1,3 do P:getNext(7)end
 		end,
 		freshMethod=function(P)
-			if not P.next[1] then
+			if not P.nextQueue[1] then
 				local height=FREEROW.get(0)
 				local max=#P.field
 				if max>0 then
@@ -92,7 +92,7 @@ return{
 			end
 		end,
 		target=100,dropPiece=PLY.check_lineReach,
-		next=1,hold=false,
+		nextCount=1,hold=false,
 		ospin=false,
 		freshLimit=15,
 		bg="glow",bgm="reason",

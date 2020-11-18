@@ -56,7 +56,7 @@ function restoreVirtualKey()
 		B.isDown=false
 		B.pressTime=0
 	end
-	if not modeEnv.Fkey then
+	if not MODEENV.Fkey then
 		virtualkey[9].ava=false
 	end
 end
@@ -64,7 +64,7 @@ end
 function copyQuestArgs()
 	local ENV=CUSTOMENV
 	local str=""..
-		(ENV.hold and"H"or"Z")..
+		(ENV.hold>0 and"H"or"Z")..
 		(ENV.ospin and"O"or"Z")..
 		(ENV.missionKill and"M"or"Z")..
 		ENV.sequence
@@ -72,7 +72,7 @@ function copyQuestArgs()
 end
 function pasteQuestArgs(str)
 	local ENV=CUSTOMENV
-	ENV.hold=			byte(str,1)~=90
+	ENV.holdCount=		byte(str,1)~=90 and 1 or 0
 	ENV.ospin=			byte(str,2)~=90
 	ENV.missionKill=	byte(str,3)~=90
 	ENV.sequence=		sub(str,4)
@@ -451,19 +451,19 @@ function resetGameData()
 	GAME.seed=rnd(261046101471026)
 
 	destroyPlayers()
-	modeEnv=CURMODE.env
+	MODEENV=CURMODE.env
 	restoreVirtualKey()
 	CURMODE.load()
-	if modeEnv.task then
+	if MODEENV.task then
 		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(modeEnv.task)
+			PLAYERS[i]:newTask(MODEENV.task)
 		end
 	end
-	BG.set(modeEnv.bg)
-	BGM.play(modeEnv.bgm)
+	BG.set(MODEENV.bg)
+	BGM.play(MODEENV.bgm)
 
 	TEXT.clear()
-	if modeEnv.royaleMode then
+	if MODEENV.royaleMode then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end
@@ -508,19 +508,19 @@ function resetPartGameData(replaying)
 	end
 
 	destroyPlayers()
-	modeEnv=CURMODE.env
+	MODEENV=CURMODE.env
 	restoreVirtualKey()
 	CURMODE.load()
-	if modeEnv.task then
+	if MODEENV.task then
 		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(modeEnv.task)
+			PLAYERS[i]:newTask(MODEENV.task)
 		end
 	end
-	BG.set(modeEnv.bg)
-	BGM.play(modeEnv.bgm)
+	BG.set(MODEENV.bg)
+	BGM.play(MODEENV.bgm)
 
 	TEXT.clear()
-	if modeEnv.royaleMode then
+	if MODEENV.royaleMode then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end

@@ -18,7 +18,7 @@ return{
 		minarr=1,
 		drop=0,lock=15,
 		wait=15,fall=6,
-		next=3,
+		nextCount=3,
 		visible="fast",
 		freshLimit=15,
 		dropPiece=score,

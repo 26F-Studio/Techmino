@@ -24,7 +24,7 @@ return{
 		irs=false,ims=false,
 		center=0,ghost=0,
 		drop=3,lock=3,wait=10,fall=25,
-		next=1,hold=false,
+		nextCount=1,hold=false,
 		sequence="rnd",
 		RS="Classic",
 		freshLimit=0,

@@ -20,7 +20,7 @@ local function check_LVup(P)
 			ENV.target=26
 			SFX.play("reach")
 		elseif T==26 then--Stage 3: dig to bottom
-			if not P.hd then P.life=P.life+1 end--1 up if ban hold
+			if not P.holdQueue[1]then P.life=P.life+1 end--1 up if ban hold
 			P.waiting=45
 			ENV.skin[1],ENV.skin[2]=ENV.skin[2],ENV.skin[1]
 			ENV.skin[3],ENV.skin[4]=ENV.skin[4],ENV.skin[3]
@@ -135,7 +135,7 @@ return{
 		das=5,arr=1,
 		drop=0,lock=15,
 		wait=10,fall=10,
-		next=2,
+		nextCount=2,
 		sequence="his4",
 		target=12,dropPiece=check_LVup,
 		mission={4,4,4,64},

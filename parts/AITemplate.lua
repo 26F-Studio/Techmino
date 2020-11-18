@@ -3,8 +3,8 @@ return function(type,speedLV,next,hold,node)
 	if type=="CC"then
 		return{
 			type="CC",
-			next=next,
-			hold=hold,
+			nextCount=next,
+			hold=hold>0,
 			delta=AISpeed[speedLV],
 			node=node,
 		}

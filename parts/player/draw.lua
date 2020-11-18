@@ -156,17 +156,120 @@ local function drawNextPreview(P,B)
 		end
 	end end
 end
-local function drawHold(P,clr)
-	local B=P.hd.bk
-	local texture=SKIN.curText
-	for i=1,#B do for j=1,#B[1]do
-		if B[i][j]then
-			Draw(texture[clr],30*(j+2.06-#B[1]*.5)-30,-30*(i+1.36-#B*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
-		end
-	end end
-end
 
 local draw={}
+
+function draw.drawNext_norm(P)
+	local ENV=P.gameEnv
+	local N=ENV.nextCount*72
+	local texture=SKIN.curText
+	gc.push("transform")
+	gc.translate(316,116)
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,N+8)
+		gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,N+8)
+		mText(drawableText.next,62,-131)
+		N=1
+		while N<=ENV.nextCount and P.nextQueue[N]do
+			local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
+			for i=1,#bk do for j=1,#bk[1] do
+				if bk[i][j]then
+					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
+				end
+			end end
+			N=N+1
+		end
+
+		if ENV.bagLine then
+			local L=ENV.bagLen
+			local C=-P.pieceCount%L--Phase
+			gc.setColor(.8,.5,.5)
+			for i=C,N-1,L do
+				local y=72*i-77
+				gc.line(2+P.fieldOff.x,y,120,y)
+			end
+		end
+	gc.pop()
+end
+function draw.drawNext_hidden(P)
+	local ENV=P.gameEnv
+	local N=ENV.nextCount*72
+	local texture=SKIN.curText
+	gc.push("transform")
+	gc.translate(316,116)
+		gc.setColor(.5,0,0,.4)gc.rectangle("fill",0,-80,124,N+8)
+		gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,N+8)
+		mText(drawableText.next,62,-131)
+		N=min(ENV.nextStartPos,P.pieceCount+1)
+		while N<=ENV.nextCount and P.nextQueue[N]do
+			local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
+			for i=1,#bk do for j=1,#bk[1] do
+				if bk[i][j]then
+					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
+				end
+			end end
+			N=N+1
+		end
+
+		if ENV.bagLine then
+			local L=ENV.bagLen
+			local C=-P.pieceCount%L--Phase
+			gc.setColor(.8,.5,.5)
+			for i=C,N-1,L do
+				local y=72*i-77
+				gc.line(2+P.fieldOff.x,y,120,y)
+			end
+		end
+	gc.pop()
+end
+
+function draw.drawHold_norm(P)
+	local texture=SKIN.curText
+	gc.push("transform")
+	gc.translate(-140,116)
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,80)
+		gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,80)
+		if P.holdTime==0 then gc.setColor(.6,.4,.4)end
+		mText(drawableText.hold,62,-131)
+
+		local B=P.holdQueue[1]
+		if B then
+			local bk,clr=B.bk,B.color
+			for i=1,#bk do for j=1,#bk[1]do
+				if bk[i][j]then
+					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*1-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+				end
+			end end
+		end
+	gc.pop()
+end
+function draw.drawHold_multi(P)
+	local ENV=P.gameEnv
+	local N=ENV.holdCount*72
+	local texture=SKIN.curText
+	gc.push("transform")
+	gc.translate(-140,116)
+		gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,N+8)
+		gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,N+8)
+		if P.holdTime==0 then gc.setColor(.6,.4,.4)end
+		mText(drawableText.hold,62,-131)
+
+		gc.setColor(1,1,1)
+		if P.holdQueue[ENV.holdCount]then
+			N=P.holdTime+1
+		else
+			N=1
+		end
+		for n=1,#P.holdQueue do
+			if n==N then gc.setColor(.6,.4,.4)end
+			local bk,clr=P.holdQueue[n].bk,P.holdQueue[n].color
+			for i=1,#bk do for j=1,#bk[1]do
+				if bk[i][j]then
+					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*n-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+				end
+			end end
+		end
+	gc.pop()
+end
 
 function draw.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
@@ -273,8 +376,8 @@ function draw.norm(P)
 					end
 
 					--Draw next preview
-					if ENV.nextPos and P.next[1]then
-						drawNextPreview(P,P.next[1].bk)
+					if ENV.nextPos and P.nextQueue[1]then
+						drawNextPreview(P,P.nextQueue[1].bk)
 					end
 
 					gc.setScissor()
@@ -346,49 +449,13 @@ function draw.norm(P)
 				end
 
 				--Draw Hold
-				if ENV.hold then
-					gc.push("transform")
-					gc.translate(-140,116)
-						gc.setColor(0,0,0,.4)gc.rectangle("fill",0,-80,124,80)
-						gc.setColor(1,1,1)gc.rectangle("line",0,-80,124,80)
-						if P.holded then gc.setColor(.6,.4,.4)end
-						mText(drawableText.hold,62,-131)
-						if P.hd then drawHold(P,P.hd.color)end
-					gc.pop()
-				end
+				P:drawHold()
 
 				--Draw Next(s)
-				local N=ENV.next*72
-				if ENV.next>0 then
-					gc.setColor(0,0,0,.4)gc.rectangle("fill",316,36,124,N)
-					gc.setColor(1,1,1)gc.rectangle("line",316,36,124,N)
-					mText(drawableText.next,378,-15)
-					N=1
-					local texture=SKIN.curText
-					while N<=ENV.next and P.next[N]do
-						local bk,clr=P.next[N].bk,P.next[N].color
-						for i=1,#bk do for j=1,#bk[1] do
-							if bk[i][j]then
-								Draw(texture[clr],30*(j+12.6-#bk[1]*.5)-30,-30*(i-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
-							end
-						end end
-						N=N+1
-					end
-				end
-
-				--Draw Bagline(s)
-				if ENV.bagLine then
-					local L=ENV.bagLen
-					local C=-P.pieceCount%L--Phase
-					gc.setColor(.8,.5,.5)
-					for i=C,N-1,L do
-						local y=72*i+36
-						gc.line(318+P.fieldOff.x,y,438,y)
-					end
-				end
+				P:drawNext()
 
 				--Draw target selecting pad
-				if modeEnv.royaleMode then
+				if MODEENV.royaleMode then
 					if P.atkMode then
 						gc.setColor(1,.8,0,P.swappingAtkMode*.02)
 						gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
@@ -539,7 +606,7 @@ function draw.small(P)
 		end
 
 		--Draw badge
-		if modeEnv.royaleMode then
+		if MODEENV.royaleMode then
 			gc.setColor(1,1,1)
 			for i=1,P.strength do
 				gc.draw(IMG.badgeIcon,12*i-7,4,nil,.5)
@@ -598,20 +665,22 @@ function draw.demo(P)
 				end
 			gc.pop()
 
-			--Draw hold
 			local blockImg=TEXTURE.miniBlock
-			if P.hd then
-				local id=P.hd.id
+			--Draw hold
+			local N=1
+			while P.holdQueue[N]do
+				local id=P.holdQueue[N].id
 				_=P.color[id]
 				gc.setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
-				gc.draw(_,15,30,nil,16,nil,0,_:getHeight()*.5)
+				gc.draw(_,15,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
+				N=N+1
 			end
 
 			--Draw next
-			local N=1
-			while N<=ENV.next and P.next[N]do
-				local id=P.next[N].id
+			N=1
+			while N<=ENV.nextCount and P.nextQueue[N]do
+				local id=P.nextQueue[N].id
 				_=P.color[id]
 				gc.setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]

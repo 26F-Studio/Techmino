@@ -14,7 +14,7 @@ local freshPrepare={
 		for i=1,L do
 			P.seqData[i]=bag[L+1-i]
 		end
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			if P.seqData[1]then
 				P:getNext(rem(P.seqData))
 			else
@@ -27,7 +27,7 @@ freshMethod={
 	none=NULL,
 	bag=function(P)
 		local bag=P.seqData
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			if #bag==0 then--Copy a new bag
 				local bag0=P.gameEnv.bag
 				for i=1,#bag0 do bag[i]=bag0[i]end
@@ -36,7 +36,7 @@ freshMethod={
 		end
 	end,
 	his4=function(P)
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			local bag=P.gameEnv.bag
 			local L=#bag
 			for n=1,4 do
@@ -51,7 +51,7 @@ freshMethod={
 		end
 	end,
 	rnd=function(P)
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			local bag=P.gameEnv.bag
 			local L=#bag
 			for i=1,4 do
@@ -59,14 +59,14 @@ freshMethod={
 				repeat
 					i=bag[P:RND(L)]
 					count=count+1
-				until i~=P.next[#P.next].id or count>=L
+				until i~=P.nextQueue[#P.nextQueue].id or count>=L
 				P:getNext(i)
 			end
 		end
 	end,
 	reverb=function(P)
 		local seq=P.seqData
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			if #seq==0 then
 				local bag0=P.gameEnv.bag
 				for i=1,#bag0 do seq[i]=bag0[i]end
@@ -87,7 +87,7 @@ freshMethod={
 		end
 	end,
 	loop=function(P)
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			if #P.seqData==0 then
 				local bag=P.gameEnv.bag
 				local L=#bag
@@ -99,11 +99,11 @@ freshMethod={
 		end
 	end,
 	fixed=function(P)
-		while #P.next<6 do
+		while #P.nextQueue<6 do
 			if P.seqData[1]then
 				P:getNext(rem(P.seqData))
 			else
-				if not(P.cur or P.hd)then P:lose(true)end
+				if not(P.cur or P.holdQueue[1])then P:lose(true)end
 				return
 			end
 		end

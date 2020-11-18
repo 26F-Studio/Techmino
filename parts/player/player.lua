@@ -96,7 +96,7 @@ function Player.createBeam(P,R,send,color)
 	local r,g,b=unpack(SKIN.libColor[color])
 	r,g,b=r*2,g*2,b*2
 
-	local a=modeEnv.royaleMode and not(P.human or R.human)and .2 or 1
+	local a=MODEENV.royaleMode and not(P.human or R.human)and .2 or 1
 	SYSFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
 end
 --------------------------</FX>--------------------------
@@ -113,16 +113,34 @@ function Player.set20G(P,if20g,init)
 	virtualkey[7].ava=not if20g
 	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
-function Player.setHold(P,ifhold)
-	P.gameEnv.hold=ifhold
-	P.keyAvailable[8]=ifhold
-	virtualkey[8].ava=ifhold
-	if not ifhold then
-		P.hd=nil
+function Player.setHold(P,count)
+	if not count then
+		count=0
+	elseif count==true then
+		count=1
+	end
+	P.gameEnv.holdCount=count
+	P.holdTime=count
+	P.keyAvailable[8]=count>0
+	virtualkey[8].ava=count>0
+	if count==0 then
+		P.drawHold=NULL
+		while P.holdQueue[1]do rem(P.holdQueue)end
+	elseif count==1 then
+		P.drawHold=PLY.draw.drawHold_norm
+	else
+		P.drawHold=PLY.draw.drawHold_multi
 	end
 end
-function Player.setNext(P,next)
-	P.gameEnv.next=next
+function Player.setNext(P,next,hidden)
+	P.gameEnv.nextCount=next
+	if next==0 then
+		P.drawNext=NULL
+	elseif not hidden then
+		P.drawNext=PLY.draw.drawNext_norm
+	else
+		P.drawNext=PLY.draw.drawNext_hidden
+	end
 end
 function Player.setInvisible(P,time)
 	if time<0 then
@@ -510,8 +528,9 @@ function Player.spin(P,d,ifpre)
 	end
 end
 function Player.hold(P,ifpre)
-	if not P.holded and (ifpre or P.waiting==-1) and P.gameEnv.hold then
-		local H,C=P.hd,P.cur
+	if P.holdTime>0 and(ifpre or P.waiting==-1)then
+		local N=#P.holdQueue<P.gameEnv.holdCount and #P.holdQueue+1 or 1
+		local H,C=P.holdQueue[N],P.cur
 		if not(H or C)then return end
 
 		--Finesse check
@@ -524,31 +543,33 @@ function Player.hold(P,ifpre)
 		P.spinLast=false
 		P.spinSeq=0
 
-		P.cur,P.hd=H,C--Swap hold
-		H,C=P.hd,P.cur
+		P.cur,P.holdQueue[N]=H,C--Swap hold
+		H,C=P.holdQueue[N],P.cur
 
-		if P.next[1]or C then--Make hold available in fixed sequence
-			P.holded=P.gameEnv.oncehold
+		if P.nextQueue[1]or C then--Make hold available in fixed sequence
+			if P.gameEnv.oncehold then
+				P.holdTime=P.holdTime-1
+			end
 		end
 
 		if H then
-			local hid=P.hd.id
-			P.hd.bk=BLOCKS[hid][P.gameEnv.face[hid]]
+			local hid=P.holdQueue[N].id
+			P.holdQueue[N].bk=BLOCKS[hid][P.gameEnv.face[hid]]
 		end
 		if not C then
-			C=rem(P.next,1)
+			C=rem(P.nextQueue,1)
 			P:newNext()
 			if C then
 				P.cur=C
 				P.pieceCount=P.pieceCount+1
 				if P.AI_mode=="CC"then
-					local next=P.next[P.AIdata.next]
+					local next=P.nextQueue[P.AIdata.nextCount]
 					if next then
 						CC.addNext(P.AI_bot,next.id)
 					end
 				end
 			else
-				P.holded=false
+				P.holdTime=0
 			end
 		end
 		if C then
@@ -556,8 +577,12 @@ function Player.hold(P,ifpre)
 			P:freshBlock(false,true)
 			P.dropDelay=P.gameEnv.drop
 			P.lockDelay=P.gameEnv.lock
-			P.freshTime=max(P.freshTime-5,0)
+			P.freshTime=max(P.freshTime-5,int(P.gameEnv.freshLimit*(P.gameEnv.holdCount-P.holdTime)/P.gameEnv.holdCount))
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+		end
+
+		if #P.holdQueue==P.gameEnv.holdCount then
+			ins(P.holdQueue,rem(P.holdQueue,1))
 		end
 
 		if P.sound then
@@ -569,20 +594,20 @@ end
 
 function Player.getNext(P,n)
 	local E=P.gameEnv
-	ins(P.next,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
+	ins(P.nextQueue,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
 end
 function Player.popNext(P)--Pop next queue to hand
-	P.holded=false
+	P.holdTime=P.gameEnv.holdCount
 	P.spinLast=false
 	P.spinSeq=0
 	P.ctrlCount=0
 
-	P.cur=rem(P.next,1)
+	P.cur=rem(P.nextQueue,1)
 	P:newNext()
 	if P.cur then
 		P.pieceCount=P.pieceCount+1
 		if P.AI_mode=="CC"then
-			local next=P.next[P.AIdata.next]
+			local next=P.nextQueue[P.AIdata.nextCount]
 			if next then
 				CC.addNext(P.AI_bot,next.id)
 			end
@@ -873,9 +898,9 @@ do--player:drop()--Place piece
 		end
 		piece.finePts=finePts
 
-		P.stat.finesseRate=P.stat.finesseRate+finePts
+		STAT.finesseRate=STAT.finesseRate+finePts
 		if finePts<5 then
-			P.stat.extraPiece=P.stat.extraPiece+1
+			STAT.extraPiece=STAT.extraPiece+1
 			if ENV.fineKill then
 				P:lose()
 			end
@@ -1036,7 +1061,7 @@ do--player:drop()--Place piece
 			if P.b2b>1200 then P.b2b=1200 end
 
 			--Bonus atk/def when focused
-			if modeEnv.royaleMode then
+			if MODEENV.royaleMode then
 				local i=min(#P.atker,9)
 				if i>1 then
 					atk=atk+reAtk[i]
@@ -1061,7 +1086,7 @@ do--player:drop()--Place piece
 					off=off+_
 					if send>0 then
 						local T
-						if modeEnv.royaleMode then
+						if MODEENV.royaleMode then
 							if P.atkMode==4 then
 								local M=#P.atker
 								if M>0 then
@@ -1218,7 +1243,7 @@ function Player.loadAI(P,AIdata)--Load AI params
 		delay=AIdata.delay,
 		delta=AIdata.delta,
 
-		next=AIdata.next,
+		nextCount=AIdata.nextCount,
 		hold=AIdata.hold,
 		_20G=P._20G,
 		bag=AIdata.bag,
@@ -1229,6 +1254,7 @@ function Player.loadAI(P,AIdata)--Load AI params
 		P.AI_delay0=int(P.AI_delay0*.26)
 	end
 	if P.AI_mode=="CC"then
+		P:setHold(1)
 		P:setRS("SRS")
 		local opt,wei=CC.getConf()
 			CC.fastWeights(wei)
@@ -1238,10 +1264,11 @@ function Player.loadAI(P,AIdata)--Load AI params
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
-		for i=1,AIdata.next do
-			CC.addNext(P.AI_bot,P.next[i].id)
+		for i=1,AIdata.nextCount do
+			CC.addNext(P.AI_bot,P.nextQueue[i].id)
 		end
 	else
+		P:setHold(1)
 		P:setRS("TRS")
 	end
 end
@@ -1323,7 +1350,7 @@ function Player.win(P,result)
 	if P.result then return end
 	P:die()
 	P.result="WIN"
-	if modeEnv.royaleMode then
+	if MODEENV.royaleMode then
 		P.modeData.event=1
 		P:changeAtk()
 	end
@@ -1331,7 +1358,7 @@ function Player.win(P,result)
 		GAME.result=result or"win"
 		SFX.play("win")
 		VOC.play("win")
-		if modeEnv.royaleMode then
+		if MODEENV.royaleMode then
 			BGM.play("8-bit happiness")
 		end
 	end
@@ -1362,7 +1389,7 @@ function Player.lose(P,force)
 
 		if P.AI_mode=="CC"then
 			CC.destroy(P.AI_bot)
-			P.hd=nil
+			while P.holdQueue[1]do rem(P.holdQueue)end
 			P:loadAI(P.AIdata)
 		end
 
@@ -1398,7 +1425,7 @@ function Player.lose(P,force)
 		end
 	end
 	P.result="K.O."
-	if modeEnv.royaleMode then
+	if MODEENV.royaleMode then
 		P:changeAtk()
 		P.modeData.event=#PLAYERS.alive+1
 		P.strength=0
@@ -1440,7 +1467,7 @@ function Player.lose(P,force)
 		GAME.result="gameover"
 		SFX.play("fail")
 		VOC.play("lose")
-		if modeEnv.royaleMode then
+		if MODEENV.royaleMode then
 			if P.modeData.event==2 then
 				BGM.play("hay what kind of feeling")
 			else

@@ -34,7 +34,7 @@ function Tick.lose(P)
 			return true
 		end
 	end
-	if not modeEnv.royaleMode and #PLAYERS>1 then
+	if not MODEENV.royaleMode and #PLAYERS>1 then
 		P.y=P.y+P.endCounter*.26
 		P.absFieldY=P.absFieldY+P.endCounter*.26
 	end

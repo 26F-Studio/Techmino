@@ -72,99 +72,12 @@ local function releaseKey_Rec(P,keyID)
 	end
 	P.keyPressing[keyID]=false
 end
-local function loadGameEnv(P)--Load gameEnv
-	P.gameEnv={}--Current game setting environment
-	local ENV=P.gameEnv
-	--Load game settings
-	for k,v in next,gameEnv0 do
-		if modeEnv[k]~=nil then
-			v=modeEnv[k]		--Mode setting
-			-- DBP("mode-"..k..":"..tostring(v))
-		elseif GAME.setting[k]~=nil then
-			v=GAME.setting[k]	--Game setting
-			-- DBP("game-"..k..":"..tostring(v))
-		elseif SETTING[k]~=nil then
-			v=SETTING[k]		--Global setting
-			-- DBP("global-"..k..":"..tostring(v))
-		-- else
-			-- DBP("default-"..k..":"..tostring(v))
-		end
-		if type(v)~="table"then--Default setting
-			ENV[k]=v
-		else
-			ENV[k]=copyTable(v)
-		end
-	end
-end
-local function applyGameEnv(P)--Finish gameEnv processing
-	local ENV=P.gameEnv
-
-	P._20G=ENV.drop==0
-	P.dropDelay=ENV.drop
-	P.lockDelay=ENV.lock
-
-	P.color={}
-	for _=1,7 do
-		P.color[_]=SKIN.libColor[ENV.skin[_]]
-	end
-
-	P.life=ENV.life
-
-	P.keyAvailable={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}
-	if ENV.noTele then
-		for i=11,20 do
-			if i~=14 then
-				P.keyAvailable[i]=false
-				virtualkey[i].ava=false
-			end
-		end
-	end
-	for _,v in next,ENV.keyCancel do
-		P.keyAvailable[v]=false
-		virtualkey[v].ava=false
-	end
-	P:setInvisible(
-		ENV.visible=="show"and -1 or
-		ENV.visible=="time"and 300 or
-		ENV.visible=="fast"and 20 or
-		ENV.visible=="none"and 0
-	)
-	P:set20G(P._20G)
-	P:setHold(ENV.hold)
-	P:setRS(ENV.RS)
-
-	if type(ENV.mission)=="table"then
-		P.curMission=1
-	end
-
-	ENV.das=max(ENV.das,ENV.mindas)
-	ENV.arr=max(ENV.arr,ENV.minarr)
-	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
-	ENV.next=min(ENV.next,SETTING.maxNext)
-
-	if ENV.sequence~="bag"and ENV.sequence~="loop"then
-		ENV.bagLine=false
-	else
-		ENV.bagLen=#ENV.bag
-	end
-
-	if ENV.next==0 then ENV.nextPos=false end
-
-	if ENV.lockFX==0 then	ENV.lockFX=nil	end
-	if ENV.dropFX==0 then	ENV.dropFX=nil	end
-	if ENV.moveFX==0 then	ENV.moveFX=nil	end
-	if ENV.clearFX==0 then	ENV.clearFX=nil end
-	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
-
-	if ENV.ghost==0 then	ENV.ghost=nil	end
-	if ENV.center==0 then	ENV.center=nil	end
-end
 local function newEmptyPlayer(id,x,y,size)
 	local P={id=id}
 	PLAYERS[id]=P
 	PLAYERS.alive[id]=P
 
-	--Inherit functions of player class
+	--Inherit functions of Player class
 	for k,v in next,Player do P[k]=v end
 
 	if P.id==1 and GAME.recording then
@@ -224,10 +137,10 @@ local function newEmptyPlayer(id,x,y,size)
 	--P.cur={bk=matrix[2], id=shapeID, color=colorID, name=nameID}
 	--P.sc,P.dir={0,0},0--SpinCenterCoord, direction
 	--P.r,P.c=0,0--row, col
-	--P.hd={...},same as P.cur
 	-- P.curX,P.curY,P.imgY,P.minY=0,0,0,0--x,y,ghostY
-	P.holded=false
-	P.next={}
+	P.holdQueue={}
+	P.holdTime=0
+	P.nextQueue={}
 	P.seqData={}
 
 	P.freshTime=0
@@ -276,6 +189,100 @@ local function newEmptyPlayer(id,x,y,size)
 
 	return P
 end
+local function loadGameEnv(P)--Load gameEnv
+	P.gameEnv={}--Current game setting environment
+	local ENV=P.gameEnv
+	local MODOPT=MODOPT
+	local GAME=GAME
+	local SETTING=SETTING
+	--Load game settings
+	for k,v in next,gameEnv0 do
+		if MODOPT[k]~=nil then
+			v=MODOPT[k]			--Mod setting
+			-- DBP("mod-"..k..":"..tostring(v))
+		elseif MODEENV[k]~=nil then
+			v=MODEENV[k]		--Mode setting
+			-- DBP("mode-"..k..":"..tostring(v))
+		elseif GAME.setting[k]~=nil then
+			v=GAME.setting[k]	--Game setting
+			-- DBP("game-"..k..":"..tostring(v))
+		elseif SETTING[k]~=nil then
+			v=SETTING[k]		--Global setting
+			-- DBP("global-"..k..":"..tostring(v))
+		-- else
+			-- DBP("default-"..k..":"..tostring(v))
+		end
+		if type(v)~="table"then--Default setting
+			ENV[k]=v
+		else
+			ENV[k]=copyTable(v)
+		end
+	end
+end
+local function applyGameEnv(P)--Finish gameEnv processing
+	local ENV=P.gameEnv
+
+	P._20G=ENV.drop==0
+	P.dropDelay=ENV.drop
+	P.lockDelay=ENV.lock
+
+	P.color={}
+	for _=1,7 do
+		P.color[_]=SKIN.libColor[ENV.skin[_]]
+	end
+
+	P.life=ENV.life
+
+	P.keyAvailable={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}
+	if ENV.noTele then
+		for i=11,20 do
+			if i~=14 then
+				P.keyAvailable[i]=false
+				virtualkey[i].ava=false
+			end
+		end
+	end
+	for _,v in next,ENV.keyCancel do
+		P.keyAvailable[v]=false
+		virtualkey[v].ava=false
+	end
+	P:setInvisible(
+		ENV.visible=="show"and -1 or
+		ENV.visible=="time"and 300 or
+		ENV.visible=="fast"and 20 or
+		ENV.visible=="none"and 0
+	)
+	P:set20G(P._20G)
+	P:setHold(ENV.holdCount)
+	P:setNext(ENV.nextCount,ENV.nextStartPos>1)
+	P:setRS(ENV.RS)
+
+	if type(ENV.mission)=="table"then
+		P.curMission=1
+	end
+
+	ENV.das=max(ENV.das,ENV.mindas)
+	ENV.arr=max(ENV.arr,ENV.minarr)
+	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
+	ENV.nextCount=min(ENV.nextCount,SETTING.maxNext)
+
+	if ENV.sequence~="bag"and ENV.sequence~="loop"then
+		ENV.bagLine=false
+	else
+		ENV.bagLen=#ENV.bag
+	end
+
+	if ENV.nextCount==0 then ENV.nextPos=false end
+
+	if ENV.lockFX==0 then	ENV.lockFX=nil	end
+	if ENV.dropFX==0 then	ENV.dropFX=nil	end
+	if ENV.moveFX==0 then	ENV.moveFX=nil	end
+	if ENV.clearFX==0 then	ENV.clearFX=nil end
+	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+
+	if ENV.ghost==0 then	ENV.ghost=nil	end
+	if ENV.center==0 then	ENV.center=nil	end
+end
 --------------------------</Lib Func>--------------------------
 
 --------------------------<Public>--------------------------
@@ -303,48 +310,16 @@ function PLY.newDemoPlayer(id,x,y,size)
 	P.control=true
 	P.gameEnv={
 		das=10,arr=2,sddas=2,sdarr=2,
-		swap=true,
-
-		ghost=SETTING.ghost,
-		center=SETTING.center,
-		smooth=SETTING.smooth,
-		grid=SETTING.grid,
-		text=SETTING.text,
-		score=SETTING.score,
-		lockFX=SETTING.lockFX,
-		dropFX=SETTING.dropFX,
-		moveFX=SETTING.moveFX,
-		clearFX=SETTING.clearFX,
-		shakeFX=SETTING.shakeFX,
-
 		drop=1e99,lock=1e99,
 		wait=10,fall=20,
-		bone=false,
-		next=6,
-		hold=true,oncehold=true,
-		ospin=true,
-		RS="TRS",
-		sequence="bag",
-		bag={1,2,3,4,5,6,7},
-		face={0,0,0,0,0,0,0},
-		skin=copyTable(SETTING.skin),
-		mission=false,
-
 		life=1e99,
-		pushSpeed=3,
-		block=true,
-		noTele=false,
-		visible="show",
-		freshLimit=1e99,easyFresh=true,
-
-		keyCancel={},
-		mindas=0,minarr=0,minsdarr=0,
 	}
+	loadGameEnv(P)
 	applyGameEnv(P)
 	prepareSequence(P)
 	P:loadAI({
 		type="CC",
-		next=5,
+		nextCount=5,
 		hold=true,
 		delay=30,
 		delta=4,

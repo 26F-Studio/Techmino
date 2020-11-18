@@ -29,6 +29,11 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
+MODOPT={
+	-- nextStartPos=2,
+	-- drop=0,
+	-- lock=0,
+}
 CUSTOMENV={
 	--Basic
 	drop=60,
@@ -36,8 +41,9 @@ CUSTOMENV={
 	wait=0,
 	fall=0,
 
-	next=6,
-	hold=true,
+	nextCount=6,
+	nextStartPos=1,
+	holdCount=1,
 	oncehold=true,
 
 	--Visual

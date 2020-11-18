@@ -4,7 +4,7 @@ return{
 	env={
 		drop=5,lock=60,
 		fall=6,
-		next=3,
+		nextCount=3,
 		freshLimit=15,
 		pushSpeed=2,
 		task=function(P)
