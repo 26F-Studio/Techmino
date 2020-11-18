@@ -8,7 +8,6 @@
 ]]
 local int,ceil,min,abs,rnd=math.floor,math.ceil,math.min,math.abs,math.random
 local ins,rem=table.insert,table.remove
-local Timer=love.timer.getTime
 -- controlname:
 -- 1~5:mL,mR,rR,rL,rF,
 -- 6~10:hD,sD,H,A,R,
@@ -270,10 +269,7 @@ return{
 			return 2
 		end,
 		function(P)
-			P.AI_delay=P.AI_delay0
-			if Timer()-P.modeData.point>P.modeData.event then
-				P.modeData.point=Timer()
-				P.modeData.event=P.AI_delay0+rnd(5,15)
+			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
@@ -322,10 +318,7 @@ return{
 			end
 		end,
 		function(P)--Check if time to change target
-			P.AI_delay=P.AI_delay0
-			if Timer()-P.modeData.point>P.modeData.event then
-				P.modeData.point=Timer()
-				P.modeData.event=P.AI_delay0+rnd(5,15)
+			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1

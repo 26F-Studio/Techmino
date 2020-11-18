@@ -1280,43 +1280,46 @@ do--Player.drop(P)--Place piece
 		if _ then _(P)end
 	end
 end
-function Player.loadAI(P,AIdata)--Load AI params
-	P.AI_mode=AIdata.type
+function Player.loadAI(P,data)--Load AI params
+	P.AI_mode=data.type
 	P.AI_stage=1
 	P.AI_keys={}
-	P.AI_delay=AIdata.delay or min(int(P.gameEnv.drop*.8),AIdata.delta*rnd()*4)
-	P.AI_delay0=AIdata.delta
+	P.AI_delay=min(int(P.gameEnv.drop*.8),data.delta*rnd()*4)
+	P.AI_delay0=data.delta
 	P.AIdata={
-		type=AIdata.type,
-		delay=AIdata.delay,
-		delta=AIdata.delta,
+		type=data.type,
+		delay=data.delay,
+		delta=data.delta,
 
-		nextCount=AIdata.nextCount,
-		hold=AIdata.hold,
+		nextCount=data.nextCount,
+		holdCount=data.holdCount,
 		_20G=P._20G,
-		bag=AIdata.bag,
-		node=AIdata.node,
+		bag=data.bag,
+		node=data.node,
 	}
+	if P.gameEnv.holdCount==0 then
+		P.AIdata.holdCount=false
+	end
 	if not CC then
 		P.AI_mode="9S"
-		P.AI_delay0=int(P.AI_delay0*.26)
+		P.AI_delay0=int(P.AI_delay0*.3)
 	end
 	if P.AI_mode=="CC"then
-		P:setHold(1)
+		P:setHold(P.AIdata.holdCount)
 		P:setRS("SRS")
 		local opt,wei=CC.getConf()
 			CC.fastWeights(wei)
-			CC.setHold(opt,P.AIdata.hold)
+			CC.setHold(opt,P.AIdata.holdCount)
 			CC.set20G(opt,P.AIdata._20G)
 			CC.setBag(opt,P.AIdata.bag=="bag")
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
-		for i=1,AIdata.nextCount do
+		for i=1,data.nextCount do
 			CC.addNext(P.AI_bot,P.nextQueue[i].id)
 		end
 	else
-		P:setHold(1)
+		P:setHold(P.AIdata.holdCount)
 		P:setRS("TRS")
 	end
 end

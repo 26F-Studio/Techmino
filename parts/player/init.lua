@@ -323,7 +323,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		nextCount=5,
 		hold=true,
 		delay=30,
-		delta=4,
+		delta=6,
 		bag="bag",
 		node=100000,
 	})
