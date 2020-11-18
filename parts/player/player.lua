@@ -577,7 +577,7 @@ function Player.hold(P,ifpre)
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 		end
 
-		if #P.holdQueue==P.gameEnv.holdCount then
+		if N==1 then
 			ins(P.holdQueue,rem(P.holdQueue,1))
 		end
 
