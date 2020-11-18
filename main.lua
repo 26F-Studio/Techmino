@@ -282,15 +282,17 @@ do
 		S.version=VERSION
 		newVersionLaunch=true
 
-		local function delRecord(n)
-			if R[n]then
-				R[n]=0
-				fs.remove(n..".dat")
+		if not VERSION:find("0.12")or VERSION:find("0.12.0")then
+			local function delRecord(n)
+				if R[n]then
+					R[n]=0
+					fs.remove(n..".dat")
+				end
 			end
+			delRecord("solo_1")delRecord("solo_2")delRecord("solo_3")delRecord("solo_4")delRecord("solo_5")
+			delRecord("dig_10")delRecord("dig_40")delRecord("dig_100")delRecord("dig_400")
+			delRecord("classic_fast")
 		end
-		delRecord("solo_1")delRecord("solo_2")delRecord("solo_3")delRecord("solo_4")delRecord("solo_5")
-		delRecord("dig_10")delRecord("dig_40")delRecord("dig_100")delRecord("dig_400")
-		delRecord("classic_fast")
 
 		--Try unlock modes which should be unlocked
 		for name,rank in next,RANKS do
