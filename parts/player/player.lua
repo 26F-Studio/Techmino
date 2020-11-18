@@ -696,28 +696,82 @@ do--player:drop()--Place piece
 		{
 			{1,2,1,0,1,2,2,1},
 			{2,2,2,1,1,2,3,2,2},
+			1,2
 		},--Z
-		false,--S
+		1,--S
 		{
 			{1,2,1,0,1,2,2,1},
 			{2,2,3,2,1,2,3,3,2},
 			{3,4,3,2,3,4,4,3},
 			{2,3,2,1,2,3,3,2,2},
 		},--J
-		false,--L
-		false,--T
+		3,--L
+		3,--T
 		{
 			{1,2,2,1,0,1,2,2,1},
+			1,1,1
 		},--O
 		{
 			{1,2,1,0,1,2,1},
 			{2,2,2,2,1,1,2,2,2,2},
+			1,2
 		},--I
+		{
+			{1,2,1,0,1,2,2,1},
+			{2,3,2,1,2,3,3,2},
+			1,2
+		},--Z5
+		8,--S5
+		3,--P
+		3,--Q
+		{
+			{1,2,1,0,1,2,2,1},
+			{2,3,2,1,2,3,3,2},
+			{3,4,3,2,3,4,4,3},
+			2
+		},--F
+		12,--E
+		12,--T5
+		3,--U
+		{
+			{1,2,1,0,1,2,2,1},
+			{2,3,3,2,1,2,3,2},
+			{3,4,4,3,2,3,4,3},
+			{2,3,2,1,2,3,3,2},
+		},--V
+		12,--W
+		{
+			{1,2,1,0,1,2,2,1},
+			1,1,1
+		},--X
+		{
+			{1,2,1,0,1,2,1},
+			{2,2,3,2,1,2,3,2,2},
+			{3,4,3,2,3,4,3},
+			2,
+		},--J5
+		19,--L5
+		19,--R
+		19,--Y
+		19,--N
+		19,--H
+		{
+			{1,1,0,1,2,1},
+			{2,3,2,2,1,2,3,2,3,2},
+			1,2
+		},--I5
 	}
-	finesseList[1][3],finesseList[1][4],finesseList[7][3],finesseList[7][4]=finesseList[1][1],finesseList[1][2],finesseList[7][1],finesseList[7][2]--"2-phase" SZI
-	for i=2,4 do finesseList[6][i]=finesseList[6][1]end
-	finesseList[2]=finesseList[1]--S=Z
-	finesseList[4],finesseList[5]=finesseList[3],finesseList[3]--J=L=T
+	for k,v in next,finesseList do
+		if type(v)=="table"then
+			for d,l in next,v do
+				if type(l)=="number"then
+					v[d]=v[l]
+				end
+			end
+		else
+			finesseList[k]=finesseList[v]
+		end
+	end
 
 	function Player.drop(P)
 		local _
@@ -829,9 +883,7 @@ do--player:drop()--Place piece
 
 		--Finesse: roof check
 		local finesse
-		if CB.id>7 then
-			finesse=true
-		elseif CY<=18 then
+		if CY<=18 then
 			local y0=CY
 			local c=P.c
 			local B=CB.bk
