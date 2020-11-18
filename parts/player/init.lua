@@ -225,6 +225,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	P._20G=ENV.drop==0
 	P.dropDelay=ENV.drop
 	P.lockDelay=ENV.lock
+	P.freshTime=ENV.freshLimit
 
 	P.color={}
 	for _=1,7 do

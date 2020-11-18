@@ -443,7 +443,7 @@ function draw.norm(P)
 					gc.rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
 				end
 				local x=3
-				for _=1,min(ENV.freshLimit-P.freshTime,15)do
+				for _=1,min(P.freshTime,15)do
 					gc.rectangle("fill",x,615,14,5)
 					x=x+20
 				end

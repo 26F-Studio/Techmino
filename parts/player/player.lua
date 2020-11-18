@@ -381,9 +381,9 @@ function Player.freshBlock(P,keepGhost,control,system)
 	if control then
 		if ENV.easyFresh then
 			local d0=ENV.lock
-			if P.lockDelay<d0 and P.freshTime<ENV.freshLimit then
+			if P.lockDelay<d0 and P.freshTime>0 then
 				if not system then
-					P.freshTime=P.freshTime+1
+					P.freshTime=P.freshTime-1
 				end
 				P.lockDelay=d0
 				P.dropDelay=ENV.drop
@@ -396,8 +396,8 @@ function Player.freshBlock(P,keepGhost,control,system)
 		else
 			if P.curY<P.minY then
 				P.minY=P.curY
-				if P.lockDelay<ENV.lock and P.freshTime<ENV.freshLimit then
-					P.freshTime=P.freshTime+1
+				if P.lockDelay<ENV.lock and P.freshTime>0 then
+					P.freshTime=P.freshTime-1
 					P.dropDelay=ENV.drop
 					P.lockDelay=ENV.lock
 				end
@@ -500,7 +500,7 @@ function Player.spin(P,d,ifpre)
 		end
 		for test=1,#iki do
 			local x,y=ix+iki[test][1],iy+iki[test][2]
-			if not P:ifoverlap(icb,x,y)and(P.freshTime<=P.gameEnv.freshLimit or iki[test][2]<0)then
+			if not P:ifoverlap(icb,x,y)and(P.freshTime>=0 or iki[test][2]<0)then
 				ix,iy=x,y
 				if P.gameEnv.moveFX and P.gameEnv.block then
 					P:createMoveFX()
@@ -513,7 +513,7 @@ function Player.spin(P,d,ifpre)
 					P:freshBlock(false,true)
 				end
 				if iki[test][2]>0 and not P.gameEnv.easyFresh then
-					P.freshTime=P.freshTime+1
+					P.freshTime=P.freshTime-1
 				end
 
 				if P.sound then
@@ -546,10 +546,8 @@ function Player.hold(P,ifpre)
 		P.cur,P.holdQueue[N]=H,C--Swap hold
 		H,C=P.holdQueue[N],P.cur
 
-		if P.nextQueue[1]or C then--Make hold available in fixed sequence
-			if P.gameEnv.oncehold then
-				P.holdTime=P.holdTime-1
-			end
+		if P.gameEnv.oncehold and(P.nextQueue[1]or C)then--Make hold available in fixed sequence
+			P.holdTime=P.holdTime-1
 		end
 
 		if H then
@@ -577,7 +575,7 @@ function Player.hold(P,ifpre)
 			P:freshBlock(false,true)
 			P.dropDelay=P.gameEnv.drop
 			P.lockDelay=P.gameEnv.lock
-			P.freshTime=max(P.freshTime-5,int(P.gameEnv.freshLimit*(P.gameEnv.holdCount-P.holdTime)/P.gameEnv.holdCount))
+			P.freshTime=int(min(P.freshTime+P.gameEnv.freshLimit*.25,P.gameEnv.freshLimit*((P.holdTime+1)/P.gameEnv.holdCount)))
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 		end
 
@@ -624,7 +622,7 @@ function Player.popNext(P)--Pop next queue to hand
 
 		P.dropDelay=P.gameEnv.drop
 		P.lockDelay=P.gameEnv.lock
-		P.freshTime=0
+		P.freshTime=P.gameEnv.freshLimit
 
 		if P.cur then
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then
