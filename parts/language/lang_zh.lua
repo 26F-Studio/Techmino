@@ -347,7 +347,9 @@ return{
 			title="自定义游戏",
 			subTitle="高级",
 
-			next="Next",hold="Hold",oncehold="Hold一次",
+			nextCount="Next",
+			holdCount="Hold",
+			infHold="无限Hold",
 			block="方块可见",
 			ghost="阴影透明度",
 			center="中心透明度",

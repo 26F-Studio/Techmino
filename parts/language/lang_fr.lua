@@ -350,7 +350,9 @@ return{
 			title="Mode personnalisé",
 			subTitle="Avancer",
 
-			next="Prévisualisations de pièces",hold="Réserve",oncehold="Réserver une fois",
+			nextCount="Prévisualisations de pièces",
+			holdCount="Réserve",
+			-- infHold="Réserver une fois",
 			block="Dessiner le bloc",
 			ghost="Pièce fantôme",
 			center="Centre",

@@ -30,7 +30,7 @@ return{
 	color=COLOR.white,
 	env={
 		drop=1e99,lock=1e99,
-		oncehold=false,
+		infHold=true,
 		dropPiece=check_rise,
 		pushSpeed=1.2,
 		bg="wing",bgm="infinite",

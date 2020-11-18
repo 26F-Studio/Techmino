@@ -13,7 +13,7 @@ return{
 	color=COLOR.green,
 	env={
 		drop=1e99,lock=1e99,
-		oncehold=false,
+		infHold=true,
 		dropPiece=check_tsd,
 		ospin=false,
 		bg="matrix",bgm="push",

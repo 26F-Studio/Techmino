@@ -281,7 +281,9 @@ return{
 			title="!@#$%^&*",
 			subTitle="##",
 
-			next="→",hold="[ ]",oncehold="[ ]*1",
+			nextCount="→",
+			holdCount="[ ]",
+			infHold="∞*[ ]",
 			block="==↓==",
 			ghost="__↓__",
 			center="+",

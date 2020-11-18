@@ -11,7 +11,7 @@ end
 return{
 	color=COLOR.green,
 	env={
-		oncehold=false,
+		infHold=true,
 		drop=1e99,lock=1e99,
 		dropPiece=tech_check_easy,
 		bg="matrix",bgm="new era",

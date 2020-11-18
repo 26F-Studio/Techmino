@@ -2,7 +2,7 @@ return{
 	color=COLOR.lGrey,
 	env={
 		drop=120,lock=120,
-		oncehold=false,
+		infHold=true,
 		target=200,dropPiece=PLY.check_lineReach,
 		bg="bg2",bgm="infinite",
 	},

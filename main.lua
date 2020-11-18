@@ -44,7 +44,7 @@ CUSTOMENV={
 	nextCount=6,
 	nextStartPos=1,
 	holdCount=1,
-	oncehold=true,
+	infHold=false,
 
 	--Visual
 	block=true,

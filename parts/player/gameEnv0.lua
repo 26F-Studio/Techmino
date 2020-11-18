@@ -26,7 +26,7 @@ return{
 	wait=0,fall=0,
 	bone=false,
 	nextCount=6,nextStartPos=1,
-	holdCount=1,oncehold=true,
+	holdCount=1,infHold=false,
 	ospin=true,
 	RS="TRS",
 	sequence="bag",

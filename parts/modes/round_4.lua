@@ -14,7 +14,7 @@ return{
 	color=COLOR.red,
 	env={
 		drop=300,lock=300,
-		oncehold=false,
+		infHold=true,
 		dropPiece=update_round,
 		bg="rainbow",bgm="push",
 	},

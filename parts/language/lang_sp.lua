@@ -348,7 +348,9 @@ return{
 			title="Juego Personalizado",
 			subTitle="Avanzado",
 
-			next="Siguiente",hold="Reserva",oncehold="Hold Único",
+			nextCount="Siguiente",
+			holdCount="Reserva",
+			-- infHold="Hold Único",
 			block="Dibujar Bloques",
 			ghost="Fantasma",
 			center="Centrar",

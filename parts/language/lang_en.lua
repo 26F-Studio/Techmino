@@ -344,7 +344,9 @@ return{
 			title="Custom Game",
 			subTitle="Advance",
 
-			next="Next",hold="Hold",oncehold="Hold Once",
+			nextCount="Next",
+			holdCount="Hold",
+			infHold="Infinite Hold",
 			block="Draw Block",
 			ghost="Ghost",
 			center="Center",

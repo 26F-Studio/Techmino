@@ -13,9 +13,9 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSwitch({name="bone",		x=1190,	y=550,				disp=WIDGET.lnk_CUSval("bone"),		code=WIDGET.lnk_CUSrev("bone")}),
 
 	--Control
-	WIDGET.newSlider({name="next",		x=130,	y=410,w=200,unit=6,	disp=WIDGET.lnk_CUSval("nextCount"),code=WIDGET.lnk_CUSsto("nextCount")}),
-	WIDGET.newSwitch({name="hold",		x=260,	y=480,				disp=WIDGET.lnk_CUSval("hold"),		code=WIDGET.lnk_CUSrev("hold")}),
-	WIDGET.newSwitch({name="oncehold",	x=260,	y=560,				disp=WIDGET.lnk_CUSval("oncehold"),	code=WIDGET.lnk_CUSrev("oncehold"),hide=function()return not CUSTOMENV.hold end}),
+	WIDGET.newSlider({name="nextCount",	x=130,	y=410,w=200,unit=6,	disp=WIDGET.lnk_CUSval("nextCount"),code=WIDGET.lnk_CUSsto("nextCount")}),
+	WIDGET.newSlider({name="holdCount",	x=130,	y=480,w=200,unit=6,	disp=WIDGET.lnk_CUSval("holdCount"),code=WIDGET.lnk_CUSsto("holdCount")}),
+	WIDGET.newSwitch({name="infHold",	x=260,	y=560,				disp=WIDGET.lnk_CUSval("infHold"),	code=WIDGET.lnk_CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end}),
 
 	WIDGET.newSlider({name="mindas",	x=180,	y=150,w=400,unit=15,font=25,	disp=WIDGET.lnk_CUSval("mindas"),	code=WIDGET.lnk_CUSsto("mindas")}),
 	WIDGET.newSlider({name="minarr",	x=180,	y=220,w=400,unit=10,font=25,	disp=WIDGET.lnk_CUSval("minarr"),	code=WIDGET.lnk_CUSsto("minarr")}),

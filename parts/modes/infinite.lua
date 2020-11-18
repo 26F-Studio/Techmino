@@ -3,7 +3,7 @@ return{
 	color=COLOR.white,
 	env={
 		drop=1e99,lock=1e99,
-		oncehold=false,
+		infHold=true,
 		bg="glow",bgm="infinite",
 	},
 	load=function()

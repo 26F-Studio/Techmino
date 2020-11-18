@@ -18,7 +18,7 @@ end
 return{
 	color=COLOR.green,
 	env={
-		drop=30,lock=60,oncehold=false,
+		drop=30,lock=60,infHold=true,
 		dropPiece=check_c4w,
 		freshLimit=15,ospin=false,
 		bg="rgb",bgm="oxygen",

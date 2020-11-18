@@ -544,7 +544,7 @@ function Player.hold(P,ifpre)
 		P.cur,P.holdQueue[N]=H,C--Swap hold
 		H,C=P.holdQueue[N],P.cur
 
-		if P.gameEnv.oncehold and(P.nextQueue[1]or C)then--Make hold available in fixed sequence
+		if not P.gameEnv.infHold and(P.nextQueue[1]or C)then--Make hold available in fixed sequence
 			P.holdTime=P.holdTime-1
 		end
 
@@ -611,7 +611,7 @@ function Player.popNext(P)--Pop nextQueue to hand
 
 		local _=P.keyPressing
 		--IHS
-		if _[8]and P.gameEnv.hold and P.gameEnv.ihs then
+		if _[8]and P.gameEnv.holdCount>0 and P.gameEnv.ihs then
 			P:hold(true)
 			_[8]=false
 		else
