@@ -60,7 +60,7 @@ CUSTOMENV={
 	minarr=0,
 	minsdarr=0,
 	sequence="bag",
-	ospin=false,
+	ospin=true,
 	RS="TRS",
 
 	noTele=false,
