@@ -1664,7 +1664,7 @@ function Player.act_func(P)
 end
 function Player.act_restart()
 	if GAME.frame<240 or GAME.result then
-		resetPartGameData()
+		resetGameData()
 	else
 		LOG.print(text.holdR,20,COLOR.orange)
 	end

@@ -202,7 +202,7 @@ function Tmr.play(dt)
 	elseif P1.keyPressing[10]then
 		restartCount=restartCount+1
 		if restartCount>20 then
-			resetPartGameData()
+			resetGameData()
 			return
 		end
 	elseif restartCount>0 then

@@ -439,26 +439,33 @@ function loadGame(M,ifQuickPlay)
 	SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
 	SFX.play("enter")
 end
-function resetGameData()
+function resetGameData(replaying)
 	if PLAYERS[1]and not GAME.replaying then
 		mergeStat(STAT,PLAYERS[1].stat)
 	end
 
-	GAME.frame=150-SETTING.reTime*15
 	GAME.result=false
-	GAME.pauseTime=0
-	GAME.pauseCount=0
 	GAME.garbageSpeed=1
 	GAME.warnLVL0=0
 	GAME.warnLVL=0
-	GAME.recording=true
-	GAME.replaying=false
-	GAME.setting=copyGameSetting()
-	GAME.rec={}
-	GAME.rank=0
-	math.randomseed(tm.getTime())
-	GAME.seed=rnd(261046101471026)
+	if replaying then
+		GAME.frame=0
+		GAME.recording=false
+		GAME.replaying=1
+	else
+		GAME.frame=150-SETTING.reTime*15
+		GAME.pauseTime=0
+		GAME.pauseCount=0
+		GAME.recording=true
+		GAME.replaying=false
+		GAME.setting=copyGameSetting()
+		GAME.rec={}
+		GAME.rank=0
+		math.randomseed(tm.getTime())
+		GAME.seed=rnd(1046101471,2662622626)
+	end
 
+	TASK.removeTask_code(TICK.autoPause)
 	destroyPlayers()
 	restoreVirtualKey()
 	GAME.curMode.load()
@@ -486,59 +493,6 @@ function resetGameData()
 	STAT.game=STAT.game+1
 	FREEROW.reset(30*#PLAYERS)
 	SFX.play("ready")
-	collectgarbage()
-end
-function resetPartGameData(replaying)
-	TASK.removeTask_code(TICK.autoPause)
-	if PLAYERS[1]and not GAME.replaying then
-		mergeStat(STAT,PLAYERS[1].stat)
-	end
-
-	GAME.result=false
-	GAME.garbageSpeed=1
-	GAME.warnLVL0=0
-	GAME.warnLVL=0
-	if replaying then
-		GAME.frame=0
-		GAME.recording=false
-		GAME.replaying=1
-	else
-		GAME.frame=150-SETTING.reTime*15
-		GAME.pauseTime=0
-		GAME.pauseCount=0
-		GAME.recording=true
-		GAME.replaying=false
-		GAME.setting=copyGameSetting()
-		GAME.rec={}
-		GAME.rank=0
-		math.randomseed(tm.getTime())
-		GAME.seed=rnd(1046101471,2662622626)
-	end
-
-	destroyPlayers()
-	restoreVirtualKey()
-	GAME.curMode.load()
-	if GAME.modeEnv.task then
-		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(GAME.modeEnv.task)
-		end
-	end
-	BG.set(GAME.modeEnv.bg)
-	BGM.play(GAME.modeEnv.bgm)
-
-	TEXT.clear()
-	if GAME.modeEnv.royaleMode then
-		for i=1,#PLAYERS do
-			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
-		end
-		GAME.stage=nil
-		GAME.mostBadge=nil
-		GAME.secBadge=nil
-		GAME.mostDangerous=nil
-		GAME.secDangerous=nil
-		GAME.stage=1
-		GAME.garbageSpeed=.3
-	end
 	collectgarbage()
 end
 function gameStart()

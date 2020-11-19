@@ -131,7 +131,7 @@ function keyDown.pause(key)
 		resetGameData()
 		SCN.swapTo("play","none")
 	elseif key=="p"and(GAME.result or GAME.replaying)and #PLAYERS==1 then
-		resetPartGameData(true)
+		resetGameData(true)
 		SCN.swapTo("play","none")
 	end
 end
