@@ -601,7 +601,7 @@ function Player.popNext(P,ifhold)--Pop nextQueue to hand
 	if P.cur then
 		P.pieceCount=P.pieceCount+1
 		if P.AI_mode=="CC"then
-			local next=P.nextQueue[P.AIdata.nextCount]
+			local next=P.nextQueue[P.AIdata.next]
 			if next then
 				CC.addNext(P.AI_bot,next.id)
 			end
@@ -1292,35 +1292,30 @@ function Player.loadAI(P,data)--Load AI params
 		delay=data.delay,
 		delta=data.delta,
 
-		nextCount=data.nextCount,
-		holdCount=data.holdCount,
+		next=data.next,
+		hold=data.hold,
 		_20G=P._20G,
 		bag=data.bag,
 		node=data.node,
 	}
-	if P.gameEnv.holdCount==0 then
-		P.AIdata.holdCount=false
-	end
 	if not CC then
 		P.AI_mode="9S"
 		P.AI_delay0=int(P.AI_delay0*.3)
 	end
 	if P.AI_mode=="CC"then
-		P:setHold(P.AIdata.holdCount)
 		P:setRS("SRS")
 		local opt,wei=CC.getConf()
 			CC.fastWeights(wei)
-			CC.setHold(opt,P.AIdata.holdCount)
+			CC.setHold(opt,P.AIdata.hold)
 			CC.set20G(opt,P.AIdata._20G)
 			CC.setBag(opt,P.AIdata.bag=="bag")
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
-		for i=1,data.nextCount do
+		for i=1,P.AIdata.next do
 			CC.addNext(P.AI_bot,P.nextQueue[i].id)
 		end
 	else
-		P:setHold(P.AIdata.holdCount)
 		P:setRS("TRS")
 	end
 end

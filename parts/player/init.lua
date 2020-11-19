@@ -316,8 +316,8 @@ function PLY.newDemoPlayer(id,x,y,size)
 	prepareSequence(P)
 	P:loadAI({
 		type="CC",
-		nextCount=5,
-		holdCount=true,
+		next=5,
+		hold=true,
 		delay=30,
 		delta=6,
 		bag="bag",

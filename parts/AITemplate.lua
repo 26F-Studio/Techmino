@@ -4,8 +4,8 @@ return function(type,speedLV,next,hold,node)
 		if not hold then hold=false else hold=true end
 		return{
 			type="CC",
-			nextCount=next,
-			holdCount=hold,
+			next=next,
+			hold=hold,
 			delta=AISpeed[speedLV],
 			node=node,
 		}
@@ -13,7 +13,7 @@ return function(type,speedLV,next,hold,node)
 		return{
 			type="9S",
 			delta=math.floor(AISpeed[speedLV]),
-			holdCount=hold,
+			hold=hold,
 		}
 	end
 end
