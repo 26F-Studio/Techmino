@@ -327,7 +327,6 @@ function PLY.newDemoPlayer(id,x,y,size)
 		bag="bag",
 		node=100000,
 	})
-
 	P:popNext()
 end
 function PLY.newRemotePlayer(id,x,y,size)

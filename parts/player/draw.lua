@@ -254,10 +254,10 @@ function draw.drawHold_multi(P)
 		mText(drawableText.hold,62,-131)
 
 		gc.setColor(1,1,1)
-		if P.holdQueue[ENV.holdCount]then
-			N=P.holdTime+1
-		else
+		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then
 			N=1
+		else
+			N=P.holdTime+1
 		end
 		for n=1,#P.holdQueue do
 			if n==N then gc.setColor(.6,.4,.4)end

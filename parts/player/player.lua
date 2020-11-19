@@ -527,63 +527,56 @@ function Player.spin(P,d,ifpre)
 end
 function Player.hold(P,ifpre)
 	if P.holdTime>0 and(ifpre or P.waiting==-1)then
-		local N=#P.holdQueue<P.gameEnv.holdCount and #P.holdQueue+1 or 1
-		local H,C=P.holdQueue[N],P.cur
-		if not(H or C)then return end
-
-		--Finesse check
-		if H and C and H.id==C.id and H.name==C.name then
-			P.ctrlCount=P.ctrlCount+1
-		elseif P.ctrlCount<=1 then
-			P.ctrlCount=0
-		end
-
-		P.spinLast=false
-		P.spinSeq=0
-
-		P.cur,P.holdQueue[N]=H,C--Swap hold
-		H,C=P.holdQueue[N],P.cur
-
-		if not P.gameEnv.infHold and(P.nextQueue[1]or C)then--Make hold available in fixed sequence
-			P.holdTime=P.holdTime-1
-		end
-
-		if H then
-			local hid=P.holdQueue[N].id
-			P.holdQueue[N].bk=BLOCKS[hid][P.gameEnv.face[hid]]
-		end
-		if not C then
-			C=rem(P.nextQueue,1)
-			P:newNext()
-			if C then
-				P.cur=C
-				P.pieceCount=P.pieceCount+1
-				if P.AI_mode=="CC"then
-					local next=P.nextQueue[P.AIdata.nextCount]
-					if next then
-						CC.addNext(P.AI_bot,next.id)
-					end
-				end
-			else
-				P.holdTime=0
+		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then--Skip
+			if P.nextQueue[1]then
+				ins(P.holdQueue,P.cur)
 			end
-		end
-		if C then
+
+			local t=P.holdTime
+			P:popNext(true)
+			P.holdTime=t
+		else--Hold
+			local C,H=P.cur,P.holdQueue[1]
+
+			--Finesse check
+			if H and C and H.id==C.id and H.name==C.name then
+				P.ctrlCount=P.ctrlCount+1
+			elseif P.ctrlCount<=1 then
+				P.ctrlCount=0
+			end
+
+			P.spinLast=false
+			P.spinSeq=0
+
+			if C then
+				C.bk=BLOCKS[C.id][P.gameEnv.face[C.id]]
+				ins(P.holdQueue,C)
+			end
+			P.cur=rem(P.holdQueue,1)
+
 			P:resetBlock()
 			P:freshBlock(false,true)
 			P.dropDelay=P.gameEnv.drop
 			P.lockDelay=P.gameEnv.lock
-			P.freshTime=int(min(P.freshTime+P.gameEnv.freshLimit*.25,P.gameEnv.freshLimit*((P.holdTime+1)/P.gameEnv.holdCount)))
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
 		end
 
-		if N==1 then
-			ins(P.holdQueue,rem(P.holdQueue,1))
+		P.freshTime=int(min(P.freshTime+P.gameEnv.freshLimit*.25,P.gameEnv.freshLimit*((P.holdTime+1)/P.gameEnv.holdCount)))
+		if not P.gameEnv.infHold then
+			P.holdTime=P.holdTime-1
 		end
 
 		if P.sound then
 			SFX.play(ifpre and"prehold"or"hold")
 		end
+
+		if P.AI_mode=="CC"then
+			local next=P.nextQueue[P.AIdata.nextCount]
+			if next then
+				CC.addNext(P.AI_bot,next.id)
+			end
+		end
+
 		P.stat.hold=P.stat.hold+1
 	end
 end
@@ -592,8 +585,10 @@ function Player.getNext(P,n)--Push a block(id=n) to nextQueue
 	local E=P.gameEnv
 	ins(P.nextQueue,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
 end
-function Player.popNext(P)--Pop nextQueue to hand
-	P.holdTime=P.gameEnv.holdCount
+function Player.popNext(P,ifhold)--Pop nextQueue to hand
+	if not ifhold then
+		P.holdTime=min(P.holdTime+1,P.gameEnv.holdCount)
+	end
 	P.spinLast=false
 	P.spinSeq=0
 	P.ctrlCount=0
@@ -610,8 +605,9 @@ function Player.popNext(P)--Pop nextQueue to hand
 		end
 
 		local _=P.keyPressing
+
 		--IHS
-		if _[8]and P.gameEnv.holdCount>0 and P.gameEnv.ihs then
+		if not ifhold and _[8]and P.gameEnv.ihs then
 			P:hold(true)
 			_[8]=false
 		else
@@ -635,6 +631,8 @@ function Player.popNext(P)--Pop nextQueue to hand
 			P.act_hardDrop(P)
 			_[6]=false
 		end
+	else
+		P:hold()
 	end
 end
 
