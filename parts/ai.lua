@@ -14,7 +14,7 @@ local ins,rem=table.insert,table.remove
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
 -------------------------------------------------Cold clear
-local _CC=LOADLIB("CC")
+local _CC=LOADLIB("CC")cc=nil
 if _CC then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={

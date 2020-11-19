@@ -409,7 +409,7 @@ end
 
 function pauseGame()
 	if not SCN.swapping then
-		restartCount=0--Avoid strange darkness
+		GAME.restartCount=0--Avoid strange darkness
 		if not GAME.result then
 			GAME.pauseCount=GAME.pauseCount+1
 		end
@@ -435,7 +435,7 @@ function loadGame(M,ifQuickPlay)
 	GAME.modeEnv=GAME.curMode.env
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
-	needResetGameData=true
+	GAME.init=true
 	SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
 	SFX.play("enter")
 end

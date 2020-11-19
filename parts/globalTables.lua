@@ -168,6 +168,9 @@ BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
 
 GAME={--Global game data
+	init=false,			--If need initializing game when enter scene-play
+	restartCount=0,		--Keep +=1 if player hold restart button after game start
+
 	frame=0,			--Frame count
 	result=false,		--Game result (string)
 	pauseTime=0,		--Time paused

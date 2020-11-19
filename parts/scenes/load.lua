@@ -91,7 +91,7 @@ function Tmr.load()
 			gc.setLineWidth(3)
 			for i=1,17 do
 				puzzleMark[i]=C(30,30)
-				_=SKIN.libColor[i]
+				local _=SKIN.libColor[i]
 				gc.setColor(_[1],_[2],_[3],.6)
 				gc.rectangle("line",5,5,20,20)
 				gc.rectangle("line",10,10,10,10)

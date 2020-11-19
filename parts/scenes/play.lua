@@ -26,10 +26,10 @@ end
 
 function sceneInit.play()
 	love.keyboard.setKeyRepeat(false)
-	restartCount=0
-	if needResetGameData then
+	GAME.restartCount=0
+	if GAME.init then
 		resetGameData()
-		needResetGameData=nil
+		GAME.init=nil
 	end
 end
 
@@ -197,16 +197,16 @@ function Tmr.play(dt)
 				P.moving=0
 			end
 		end
-		if restartCount>0 then restartCount=restartCount-1 end
+		if GAME.restartCount>0 then GAME.restartCount=GAME.restartCount-1 end
 		return
 	elseif P1.keyPressing[10]then
-		restartCount=restartCount+1
-		if restartCount>20 then
+		GAME.restartCount=GAME.restartCount+1
+		if GAME.restartCount>20 then
 			resetGameData()
 			return
 		end
-	elseif restartCount>0 then
-		restartCount=restartCount>2 and restartCount-2 or 0
+	elseif GAME.restartCount>0 then
+		GAME.restartCount=GAME.restartCount>2 and GAME.restartCount-2 or 0
 	end
 
 	--Update players
@@ -347,8 +347,8 @@ function Pnt.play()
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end
-	if restartCount>0 then
-		gc.setColor(0,0,0,restartCount*.05)
+	if GAME.restartCount>0 then
+		gc.setColor(0,0,0,GAME.restartCount*.05)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end
 	gc.pop()
