@@ -39,30 +39,30 @@ return{
 	},
 	load=function()
 		for k,v in next,CUSTOMENV do
-			MODEENV[k]=v
+			GAME.modeEnv[k]=v
 		end
 		if BAG[1]then
-			MODEENV.bag=BAG
+			GAME.modeEnv.bag=BAG
 		else
-			MODEENV.bag=nil
+			GAME.modeEnv.bag=nil
 		end
 		if MISSION[1]then
-			MODEENV.mission=MISSION
+			GAME.modeEnv.mission=MISSION
 		else
-			MODEENV.mission=nil
+			GAME.modeEnv.mission=nil
 		end
 		PLY.newPlayer(1,340,15)
-		local L=MODEENV.opponent
+		local L=GAME.modeEnv.opponent
 		if L~=0 then
-			MODEENV.target=nil
+			GAME.modeEnv.target=nil
 			if L<6 then
 				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("9S",2*L))
 			else
 				PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",2*L-11,int(L*.5-1.5),true,4000*L))
 			end
 		end
-		MODEENV.bg=CUSTOMENV.bg
-		MODEENV.bgm=CUSTOMENV.bgm
+		GAME.modeEnv.bg=CUSTOMENV.bg
+		GAME.modeEnv.bgm=CUSTOMENV.bgm
 	end,
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y

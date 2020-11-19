@@ -6,7 +6,7 @@ function sceneInit.main()
 	}
 	BG.set("space")
 
-	MODEENV=NONE
+	GAME.modeEnv=NONE
 	--Create demo player
 	destroyPlayers()
 	GAME.frame=0

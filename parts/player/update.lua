@@ -113,7 +113,7 @@ function update.alive(P,dt)
 		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.dropTime[i])end
 		P.dropSpeed=P.dropSpeed*.99+v*.1
 
-		if MODEENV.royaleMode then
+		if GAME.modeEnv.royaleMode then
 			if P.keyPressing[9]then
 				P.swappingAtkMode=min(P.swappingAtkMode+2,30)
 			else
@@ -313,7 +313,7 @@ function update.dead(P,dt)
 		P.keySpeed=P.keySpeed*.96+P.stat.key/P.stat.time*60*.04
 		P.dropSpeed=P.dropSpeed*.96+P.stat.piece/P.stat.time*60*.04
 		--Final average speeds
-		if MODEENV.royaleMode then
+		if GAME.modeEnv.royaleMode then
 			P.swappingAtkMode=min(P.swappingAtkMode+2,30)
 		end
 	end

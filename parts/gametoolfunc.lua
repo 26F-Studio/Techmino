@@ -56,8 +56,16 @@ function restoreVirtualKey()
 		B.isDown=false
 		B.pressTime=0
 	end
-	if not MODEENV.Fkey then
+	if not GAME.modeEnv.Fkey then
 		virtualkey[9].ava=false
+	end
+	if not GAME.modeEnv.holdCount or GAME.modeEnv.holdCount==0 then
+		virtualkey[8].ava=false
+	end
+	if GAME.modeEnv.keyCancel then
+		for _,v in next,GAME.modeEnv.keyCancel do
+			virtualkey[v].ava=false
+		end
 	end
 end
 
@@ -424,6 +432,7 @@ end
 function loadGame(M,ifQuickPlay)
 	STAT.lastPlay=M
 	GAME.curMode=MODES[M]
+	GAME.modeEnv=GAME.curMode.env
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
@@ -451,19 +460,18 @@ function resetGameData()
 	GAME.seed=rnd(261046101471026)
 
 	destroyPlayers()
-	MODEENV=GAME.curMode.env
 	restoreVirtualKey()
 	GAME.curMode.load()
-	if MODEENV.task then
+	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(MODEENV.task)
+			PLAYERS[i]:newTask(GAME.modeEnv.task)
 		end
 	end
-	BG.set(MODEENV.bg)
-	BGM.play(MODEENV.bgm)
+	BG.set(GAME.modeEnv.bg)
+	BGM.play(GAME.modeEnv.bgm)
 
 	TEXT.clear()
-	if MODEENV.royaleMode then
+	if GAME.modeEnv.royaleMode then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end
@@ -508,19 +516,18 @@ function resetPartGameData(replaying)
 	end
 
 	destroyPlayers()
-	MODEENV=GAME.curMode.env
 	restoreVirtualKey()
 	GAME.curMode.load()
-	if MODEENV.task then
+	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(MODEENV.task)
+			PLAYERS[i]:newTask(GAME.modeEnv.task)
 		end
 	end
-	BG.set(MODEENV.bg)
-	BGM.play(MODEENV.bgm)
+	BG.set(GAME.modeEnv.bg)
+	BGM.play(GAME.modeEnv.bgm)
 
 	TEXT.clear()
-	if MODEENV.royaleMode then
+	if GAME.modeEnv.royaleMode then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end

@@ -96,7 +96,7 @@ function Player.createBeam(P,R,send,color)
 	local r,g,b=unpack(SKIN.libColor[color])
 	r,g,b=r*2,g*2,b*2
 
-	local a=MODEENV.royaleMode and not(P.human or R.human)and .2 or 1
+	local a=GAME.modeEnv.royaleMode and not(P.human or R.human)and .2 or 1
 	SYSFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
 end
 --------------------------</FX>--------------------------
@@ -117,7 +117,9 @@ end
 function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
 	P._20G=if20g
 	P.keyAvailable[7]=not if20g
-	virtualkey[7].ava=not if20g
+	if P.human then
+		virtualkey[7].ava=not if20g
+	end
 	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
 function Player.setHold(P,count)--Set hold count (false/true as 0/1)
@@ -128,8 +130,9 @@ function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	end
 	P.gameEnv.holdCount=count
 	P.holdTime=count
-	P.keyAvailable[8]=count>0
-	virtualkey[8].ava=count>0
+	if P.human then
+		virtualkey[8].ava=count>0
+	end
 	if count==0 then
 		P.drawHold=NULL
 		while P.holdQueue[1]do rem(P.holdQueue)end
@@ -1107,7 +1110,7 @@ do--Player.drop(P)--Place piece
 			if P.b2b>1200 then P.b2b=1200 end
 
 			--Bonus atk/def when focused
-			if MODEENV.royaleMode then
+			if GAME.modeEnv.royaleMode then
 				local i=min(#P.atker,9)
 				if i>1 then
 					atk=atk+reAtk[i]
@@ -1132,7 +1135,7 @@ do--Player.drop(P)--Place piece
 					off=off+_
 					if send>0 then
 						local T
-						if MODEENV.royaleMode then
+						if GAME.modeEnv.royaleMode then
 							if P.atkMode==4 then
 								local M=#P.atker
 								if M>0 then
@@ -1399,7 +1402,7 @@ function Player.win(P,result)
 	if P.result then return end
 	P:die()
 	P.result="WIN"
-	if MODEENV.royaleMode then
+	if GAME.modeEnv.royaleMode then
 		P.modeData.event=1
 		P:changeAtk()
 	end
@@ -1407,7 +1410,7 @@ function Player.win(P,result)
 		GAME.result=result or"win"
 		SFX.play("win")
 		VOC.play("win")
-		if MODEENV.royaleMode then
+		if GAME.modeEnv.royaleMode then
 			BGM.play("8-bit happiness")
 		end
 	end
@@ -1474,7 +1477,7 @@ function Player.lose(P,force)
 		end
 	end
 	P.result="K.O."
-	if MODEENV.royaleMode then
+	if GAME.modeEnv.royaleMode then
 		P:changeAtk()
 		P.modeData.event=#PLAYERS.alive+1
 		P.strength=0
@@ -1516,7 +1519,7 @@ function Player.lose(P,force)
 		GAME.result="gameover"
 		SFX.play("fail")
 		VOC.play("lose")
-		if MODEENV.royaleMode then
+		if GAME.modeEnv.royaleMode then
 			if P.modeData.event==2 then
 				BGM.play("hay what kind of feeling")
 			else

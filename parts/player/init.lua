@@ -196,8 +196,8 @@ local function loadGameEnv(P)--Load gameEnv
 	local SETTING=SETTING
 	--Load game settings
 	for k,v in next,gameEnv0 do
-		if MODEENV[k]~=nil then
-			v=MODEENV[k]		--Mode setting
+		if GAME.modeEnv[k]~=nil then
+			v=GAME.modeEnv[k]		--Mode setting
 			-- DBP("mode-"..k..":"..tostring(v))
 		elseif GAME.setting[k]~=nil then
 			v=GAME.setting[k]	--Game setting
@@ -235,13 +235,11 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		for i=11,20 do
 			if i~=14 then
 				P.keyAvailable[i]=false
-				virtualkey[i].ava=false
 			end
 		end
 	end
 	for _,v in next,ENV.keyCancel do
 		P.keyAvailable[v]=false
-		virtualkey[v].ava=false
 	end
 	P:setInvisible(
 		ENV.visible=="show"and -1 or
@@ -294,6 +292,13 @@ function PLY.check_attackReach(P)
 	end
 end
 
+local DemoEnv={
+	das=10,arr=2,sddas=2,sdarr=2,
+	drop=1e99,lock=1e99,
+	wait=10,fall=20,
+	highCam=false,
+	life=1e99,
+}
 function PLY.newDemoPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
 	P.sound=true
@@ -305,19 +310,14 @@ function PLY.newDemoPlayer(id,x,y,size)
 	P.absFieldY=P.y+60*P.size
 	P.draw=PLY.draw.demo
 	P.control=true
-	P.gameEnv={
-		das=10,arr=2,sddas=2,sdarr=2,
-		drop=1e99,lock=1e99,
-		wait=10,fall=20,
-		life=1e99,
-	}
+	GAME.modeEnv=DemoEnv
 	loadGameEnv(P)
 	applyGameEnv(P)
 	prepareSequence(P)
 	P:loadAI({
 		type="CC",
 		nextCount=5,
-		hold=true,
+		holdCount=true,
 		delay=30,
 		delta=6,
 		bag="bag",

@@ -216,7 +216,7 @@ function Tmr.play(dt)
 	end
 
 	--Fresh royale target
-	if MODEENV.royaleMode and GAME.frame%120==0 then
+	if GAME.modeEnv.royaleMode and GAME.frame%120==0 then
 		freshMostDangerous()
 	end
 
@@ -308,7 +308,7 @@ function Pnt.play()
 	gc.setColor(1,1,1)
 	if SETTING.VKSwitch then drawVirtualkey()end
 
-	if MODEENV.royaleMode then
+	if GAME.modeEnv.royaleMode then
 		local P=PLAYERS[1]
 		gc.setLineWidth(5)
 		gc.setColor(.8,1,0,.2)

@@ -455,7 +455,7 @@ function draw.norm(P)
 				P:drawNext()
 
 				--Draw target selecting pad
-				if MODEENV.royaleMode then
+				if GAME.modeEnv.royaleMode then
 					if P.atkMode then
 						gc.setColor(1,.8,0,P.swappingAtkMode*.02)
 						gc.rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
@@ -606,7 +606,7 @@ function draw.small(P)
 		end
 
 		--Draw badge
-		if MODEENV.royaleMode then
+		if GAME.modeEnv.royaleMode then
 			gc.setColor(1,1,1)
 			for i=1,P.strength do
 				gc.draw(IMG.badgeIcon,12*i-7,4,nil,.5)
@@ -673,7 +673,7 @@ function draw.demo(P)
 				_=P.color[id]
 				gc.setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
-				gc.draw(_,15,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
+				gc.draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
 				N=N+1
 			end
 
