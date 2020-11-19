@@ -533,8 +533,8 @@ function draw.norm(P)
 
 		--Other messages
 		gc.setColor(1,1,1)
-		if CURMODE.mesDisp then
-			CURMODE.mesDisp(P)
+		if GAME.curMode.mesDisp then
+			GAME.curMode.mesDisp(P)
 		end
 
 		--Missions

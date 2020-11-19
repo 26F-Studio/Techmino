@@ -29,92 +29,11 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
-MODOPT={
-	-- nextStartPos=2,
-	-- drop=0,
-	-- lock=0,
-}
-CUSTOMENV={
-	--Basic
-	drop=60,
-	lock=60,
-	wait=0,
-	fall=0,
-
-	nextCount=6,
-	nextStartPos=1,
-	holdCount=1,
-	infHold=false,
-
-	--Visual
-	block=true,
-	ghost=.3,
-	center=1,
-	bagLine=false,
-	highCam=false,
-	nextPos=false,
-	bone=false,
-
-	--Rule
-	mindas=0,
-	minarr=0,
-	minsdarr=0,
-	sequence="bag",
-	ospin=true,
-	RS="TRS",
-
-	noTele=false,
-	fineKill=false,
-	missionKill=false,
-	easyFresh=true,
-	visible="show",
-	target=1e99,
-	freshLimit=1e99,
-	opponent=0,
-	life=0,
-	pushSpeed=3,
-
-	--Else
-	bg="none",
-	bgm="race"
-}
-FIELD={}--Field(s) for custom game
-BAG={}--Sequence for custom game
-MISSION={}--Clearing mission for custom game
-
-GAME={
-	frame=0,			--Frame count
-	result=false,		--Game result (string)
-	pauseTime=0,		--Time paused
-	pauseCount=0,		--Pausing count
-	garbageSpeed=1,		--Garbage timing speed
-	warnLVL0=0,			--Warning level
-	warnLVL=0,			--Warning level (show)
-	recording=false,	--If recording
-	replaying=false,	--If replaying
-	seed=math.random(2e6),--Game seed
-	setting={},			--Game settings
-	rec={},				--Recording list, key,time,key,time...
-	rank=nil,			--Rank reached
-
-	prevBG=nil,			--Previous background, for restore BG when quit setting page
-
-	--Data for royale mode
-	stage=nil,			--Game stage
-	mostBadge=nil,		--Most badge owner
-	secBadge=nil,		--Second badge owner
-	mostDangerous=nil,	--Most dangerous player
-	secDangerous=nil,	--Second dangerous player
-}--Global game data
-PLAYERS={alive={}}--Players data
-CURMODE=nil--Current mode object
-RANKS={sprint_10=0}
-
 --Load modules
 require("Zframework")
 
 require("parts/list")
-require("parts/default_data")
+require("parts/globalTables")
 require("parts/gametoolfunc")
 
 SCR.setSize(1280,720)--Initialize Screen size

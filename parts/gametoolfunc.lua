@@ -387,7 +387,7 @@ function royaleLevelup()
 	for i=1,#PLAYERS.alive do
 		PLAYERS.alive[i].gameEnv.drop=spd
 	end
-	if CURMODE.name:find("ultimate")then
+	if GAME.curMode.name:find("ultimate")then
 		for i=1,#PLAYERS.alive do
 			local P=PLAYERS.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
@@ -423,7 +423,7 @@ function resumeGame()
 end
 function loadGame(M,ifQuickPlay)
 	STAT.lastPlay=M
-	CURMODE=MODES[M]
+	GAME.curMode=MODES[M]
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	needResetGameData=true
@@ -451,9 +451,9 @@ function resetGameData()
 	GAME.seed=rnd(261046101471026)
 
 	destroyPlayers()
-	MODEENV=CURMODE.env
+	MODEENV=GAME.curMode.env
 	restoreVirtualKey()
-	CURMODE.load()
+	GAME.curMode.load()
 	if MODEENV.task then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:newTask(MODEENV.task)
@@ -508,9 +508,9 @@ function resetPartGameData(replaying)
 	end
 
 	destroyPlayers()
-	MODEENV=CURMODE.env
+	MODEENV=GAME.curMode.env
 	restoreVirtualKey()
-	CURMODE.load()
+	GAME.curMode.load()
 	if MODEENV.task then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:newTask(MODEENV.task)

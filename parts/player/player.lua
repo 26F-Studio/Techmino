@@ -1327,7 +1327,7 @@ end
 local function gameOver()--Save record
 	if GAME.replaying then return end
 	FILE.saveData()
-	local M=CURMODE
+	local M=GAME.curMode
 	local R=M.getRank
 	if R then
 		local P=PLAYERS[1]
@@ -1411,7 +1411,7 @@ function Player.win(P,result)
 			BGM.play("8-bit happiness")
 		end
 	end
-	if CURMODE.id=="custom_puzzle"then
+	if GAME.curMode.id=="custom_puzzle"then
 		P:showTextF(text.win,0,0,90,"beat",.4)
 	else
 		P:showTextF(text.win,0,0,90,"beat",.5,.2)

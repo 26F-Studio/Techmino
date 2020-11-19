@@ -192,15 +192,11 @@ end
 local function loadGameEnv(P)--Load gameEnv
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
-	local MODOPT=MODOPT
 	local GAME=GAME
 	local SETTING=SETTING
 	--Load game settings
 	for k,v in next,gameEnv0 do
-		if MODOPT[k]~=nil then
-			v=MODOPT[k]			--Mod setting
-			-- DBP("mod-"..k..":"..tostring(v))
-		elseif MODEENV[k]~=nil then
+		if MODEENV[k]~=nil then
 			v=MODEENV[k]		--Mode setting
 			-- DBP("mode-"..k..":"..tostring(v))
 		elseif GAME.setting[k]~=nil then
