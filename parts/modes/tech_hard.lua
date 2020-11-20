@@ -1,19 +1,14 @@
 local format=string.format
 local int=math.floor
-local function tech_check_easy(P)
-	if #P.clearedRow>0 and P.b2b<40 then
-		P:lose()
-	elseif P.stat.atk>=200 then
-		P:win("finish")
-	end
-end
 
 return{
 	color=COLOR.magenta,
 	env={
 		drop=20,lock=60,
 		freshLimit=15,
-		dropPiece=tech_check_easy,
+		b2bKill=true,
+		target=200,
+		dropPiece=PLY.check_attackReach,
 		bg="matrix",bgm="down",
 	},
 	load=function()

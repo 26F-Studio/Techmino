@@ -3,9 +3,9 @@ WIDGET.init("custom_advance",{
 	WIDGET.newText({name="subTitle",	x=530,y=50,font=35,align="L",color="grey"}),
 
 	--Visual
-	WIDGET.newSwitch({name="block",		x=600,	y=600,				font=25,	disp=WIDGET.lnk_CUSval("block"),	code=WIDGET.lnk_CUSrev("block")}),
-	WIDGET.newSlider({name="ghost",		x=480,	y=450,w=200,unit=.6,font=25,	disp=WIDGET.lnk_CUSval("ghost"),	code=WIDGET.lnk_CUSsto("ghost")}),
-	WIDGET.newSlider({name="center",	x=480,	y=520,w=200,unit=1,	font=25,	disp=WIDGET.lnk_CUSval("center"),	code=WIDGET.lnk_CUSsto("center")}),
+	WIDGET.newSwitch({name="block",		x=620,	y=600,				font=25,	disp=WIDGET.lnk_CUSval("block"),	code=WIDGET.lnk_CUSrev("block")}),
+	WIDGET.newSlider({name="ghost",		x=500,	y=450,w=200,unit=.6,font=25,	disp=WIDGET.lnk_CUSval("ghost"),	code=WIDGET.lnk_CUSsto("ghost")}),
+	WIDGET.newSlider({name="center",	x=500,	y=520,w=200,unit=1,	font=25,	disp=WIDGET.lnk_CUSval("center"),	code=WIDGET.lnk_CUSsto("center")}),
 
 	WIDGET.newSwitch({name="bagLine",	x=1190,	y=340,				disp=WIDGET.lnk_CUSval("bagLine"),	code=WIDGET.lnk_CUSrev("bagLine")}),
 	WIDGET.newSwitch({name="highCam",	x=1190,	y=410,				disp=WIDGET.lnk_CUSval("highCam"),	code=WIDGET.lnk_CUSrev("highCam")}),
@@ -25,7 +25,8 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSwitch({name="ospin",			x=910,	y=340,			font=30,	disp=WIDGET.lnk_CUSval("ospin"),	code=WIDGET.lnk_CUSrev("ospin")}),
 	WIDGET.newSwitch({name="noTele",		x=910,	y=410,			font=25,	disp=WIDGET.lnk_CUSval("noTele"),	code=WIDGET.lnk_CUSrev("noTele")}),
 	WIDGET.newSwitch({name="fineKill",		x=910,	y=480,			font=20,	disp=WIDGET.lnk_CUSval("fineKill"),	code=WIDGET.lnk_CUSrev("fineKill")}),
-	WIDGET.newSwitch({name="easyFresh",		x=910,	y=550,			font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
+	WIDGET.newSwitch({name="b2bKill",		x=910,	y=550,			font=20,	disp=WIDGET.lnk_CUSval("b2bKill"),	code=WIDGET.lnk_CUSrev("b2bKill")}),
+	WIDGET.newSwitch({name="easyFresh",		x=910,	y=620,			font=20,	disp=WIDGET.lnk_CUSval("easyFresh"),code=WIDGET.lnk_CUSrev("easyFresh")}),
 
 	WIDGET.newSelector({name="RS",			x=410,	y=370,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=WIDGET.lnk_CUSval("RS"),code=WIDGET.lnk_CUSsto("RS")}),
 	WIDGET.newSelector({name="visible",		x=840,	y=60,	w=260,color="lBlue",list={"show","time","fast","none"},		disp=WIDGET.lnk_CUSval("visible"),	code=WIDGET.lnk_CUSsto("visible")}),
