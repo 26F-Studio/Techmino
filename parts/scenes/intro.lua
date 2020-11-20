@@ -19,19 +19,18 @@ function sceneInit.intro()
 end
 
 function mouseDown.intro(_,_,k)
-	if k==2 then
-		VOC.play("bye")
-		SCN.back()
-	elseif NOGAME=="delSetting"then
-		LOG.print("检测到过老版本无效设置数据,设置已经全部重置,请重启游戏完成",600,COLOR.yellow)
-		LOG.print("Old version detected & setting file deleted, please restart the game",600,COLOR.yellow)
-	else
-		if newVersionLaunch then
-			SCN.push("main","fade")
-			SCN.swapTo("history","fade")
-			LOG.print(text.newVersion,"warn",COLOR.lBlue)
+	if k~=2 then
+		if NOGAME=="delSetting"then
+			LOG.print("检测到过老版本无效设置数据,设置已经全部重置,请重启游戏完成",600,COLOR.yellow)
+			LOG.print("Old version detected & setting file deleted, please restart the game",600,COLOR.yellow)
 		else
-			SCN.go("main")
+			if newVersionLaunch then
+				SCN.push("main","fade")
+				SCN.swapTo("history","fade")
+				LOG.print(text.newVersion,"warn",COLOR.lBlue)
+			else
+				SCN.go("main")
+			end
 		end
 	end
 end
@@ -40,7 +39,8 @@ function touchDown.intro()
 end
 function keyDown.intro(key)
 	if key=="escape"then
-		mouseDown.intro(nil,nil,2)
+		VOC.play("bye")
+		SCN.back()
 	else
 		mouseDown.intro()
 	end
