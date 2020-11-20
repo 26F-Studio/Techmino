@@ -95,21 +95,21 @@ local function newEmptyPlayer(id,x,y,size)
 
 	P.small=P.size<.1--If draw in small mode
 	if P.small then
+		P.fieldX,P.fieldY=P.x,P.y
 		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
 		P.canvas=love.graphics.newCanvas(60,120)
 		P.frameWait=rnd(30,120)
 		P.draw=PLY.draw.small
 	else
 		P.keyRec=true--If calculate keySpeed
+		P.fieldX,P.fieldY=P.x+150*P.size,P.y+70*P.size
 		P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
-		P.absFieldX=P.x+150*P.size
-		P.absFieldY=P.y+60*P.size
+		P.absFieldX,P.absFieldY=P.x+150*P.size,P.y+60*P.size
 		P.draw=PLY.draw.norm
 		P.bonus={}--Text objects
 	end
 	P.randGen=mt.newRandomGenerator(GAME.seed)
 
-	P.small=false
 	P.alive=true
 	P.control=false
 	P.timing=false
@@ -269,12 +269,19 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
-	if ENV.lockFX==0 then	ENV.lockFX=nil	end
-	if ENV.dropFX==0 then	ENV.dropFX=nil	end
-	if ENV.moveFX==0 then	ENV.moveFX=nil	end
-	if ENV.clearFX==0 then	ENV.clearFX=nil end
-	if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
-
+	if P.small then
+		ENV.lockFX=nil
+		ENV.dropFX=nil
+		ENV.moveFX=nil
+		ENV.clearFX=nil
+		ENV.shakeFX=nil
+	else
+		if ENV.lockFX==0 then	ENV.lockFX=nil	end
+		if ENV.dropFX==0 then	ENV.dropFX=nil	end
+		if ENV.moveFX==0 then	ENV.moveFX=nil	end
+		if ENV.clearFX==0 then	ENV.clearFX=nil end
+		if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+	end
 	if ENV.ghost==0 then	ENV.ghost=nil	end
 	if ENV.center==0 then	ENV.center=nil	end
 end
@@ -304,10 +311,9 @@ function PLY.newDemoPlayer(id,x,y,size)
 	P.sound=true
 
 	-- rewrite some args
-	P.small=false
+	P.fieldX,P.fieldY=P.x,P.y
 	P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
-	P.absFieldX=P.x+150*P.size
-	P.absFieldY=P.y+60*P.size
+	P.absFieldX,P.absFieldY=P.x+150*P.size,P.y+60*P.size
 	P.draw=PLY.draw.demo
 	P.control=true
 	GAME.modeEnv=DemoEnv
@@ -335,6 +341,7 @@ function PLY.newRemotePlayer(id,x,y,size)
 	applyGameEnv(P)
 	prepareSequence(P)
 end
+
 function PLY.newAIPlayer(id,x,y,size,AIdata)
 	local P=newEmptyPlayer(id,x,y,size)
 
@@ -342,13 +349,6 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 	local ENV=P.gameEnv
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,7,11,3,14,4,9}
-	if P.small then
-		ENV.text=false
-		ENV.lockFX=nil
-		ENV.dropFX=nil
-		ENV.moveFX=nil
-		ENV.shakeFX=nil
-	end
 	applyGameEnv(P)
 	prepareSequence(P)
 	P:loadAI(AIdata)
