@@ -294,7 +294,7 @@ end
 
 local DemoEnv={
 	das=10,arr=2,sddas=2,sdarr=2,
-	drop=1e99,lock=1e99,
+	drop=60,lock=60,
 	wait=10,fall=20,
 	highCam=false,
 	life=1e99,

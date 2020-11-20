@@ -641,7 +641,8 @@ function draw.demo(P)
 
 	--Camera
 	gc.push("transform")
-		gc.translate(P.x,P.y)gc.scale(P.size)
+		gc.translate(P.x,P.y)
+		gc.scale(P.size)
 		gc.push("transform")
 			gc.translate(P.fieldOff.x,P.fieldOff.y)
 
@@ -659,8 +660,11 @@ function draw.demo(P)
 				if P.cur and P.waiting==-1 then
 					if ENV.ghost then drawGhost(P,curColor)end
 					if ENV.block then
+						local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
+						gc.translate(0,-dy)
 						drawBlockOutline(P,SKIN.curText[curColor],P.lockDelay/ENV.lock)
 						drawBlock(P,curColor)
+						gc.translate(0,dy)
 					end
 				end
 			gc.pop()
