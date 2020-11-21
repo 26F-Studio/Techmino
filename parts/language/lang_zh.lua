@@ -113,7 +113,7 @@ return{
 		infLock="无限锁延:\n方块将不会锁定",
 		infLife="不死:\n无限生命数",
 		teleMove="瞬移:\n强制启用0DAS和0ARR",
-		randSeq="随机序列:\n强制使用随机序列",
+		customSeq="指定序列:\n强制使用某种序列",
 		noRotation="无旋转:\n禁用旋转按键",
 		noMove="无移动:\n禁用移动按键",
 	},
