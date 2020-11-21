@@ -115,8 +115,13 @@ function Pnt.mod()
 		gc.pop()
 	end
 
-	setFont(30)
-	gc.printf(sceneTemp.sel and text.modInfo[sceneTemp.sel]or text.modInstruction,70,540,950)
+	if sceneTemp.sel then
+		setFont(30)
+		gc.printf(text.modInfo[sceneTemp.sel],70,540,950)
+	else
+		setFont(25)
+		gc.printf(text.modInstruction,70,540,950)
+	end
 end
 
 WIDGET.init("mod",{
