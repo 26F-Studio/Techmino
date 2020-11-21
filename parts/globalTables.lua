@@ -2,7 +2,7 @@ local function disableKey(P,key)
 	table.insert(P.gameEnv.keyCancel,key)
 end
 MODOPT={--Mod options
-	noNext={id="NL",
+	noNext={id="NN",
 		key="q",x=80,y=230,color=COLOR.red,
 		conflict={"hideNext","fullNext"},
 		func=function(P)P.gameEnv.nextCount=0 end,
@@ -13,12 +13,12 @@ MODOPT={--Mod options
 		func=function(P)P.gameEnv.nextCount=6 end,
 		unranked=true,
 	},
-	noHold={id="HL",
+	noHold={id="NH",
 		key="e",x=320,y=230,color=COLOR.red,
 		conflict={"multiHold"},
 		func=function(P)P.gameEnv.holdCount=0 end,
 	},
-	multiHold={id="FH",
+	multiHold={id="MH",
 		key="r",x=440,y=230,color=COLOR.water,
 		list={2,3,4,5,6},
 		conflict={"noHold"},
