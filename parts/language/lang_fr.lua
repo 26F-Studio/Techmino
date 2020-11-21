@@ -348,6 +348,7 @@ return{
 			puzzle="Démarrer Puzzle",
 
 			advance="Plus (A)",
+			-- mod="Mods",
 			field="Modifier la matrice (F)",
 			sequence="Modifier la séquence (S)",
 			mission="Modifier la mission(M)",

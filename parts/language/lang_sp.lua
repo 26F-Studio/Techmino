@@ -345,6 +345,7 @@ return{
 			puzzle="Inicio-Puzzle",
 
 			advance="Más opciones (A)",
+			-- mod="Mods",
 			field="Editar Tablero (F)",
 			sequence="Editar Secuencia (S)",
 			mission="Editar Misiones (M)",

@@ -180,6 +180,7 @@ WIDGET.init("customGame",{
 
 	--More
 	WIDGET.newKey({name="advance",	x=730,	y=190,w=220,h=90,color="red",	font=35,code=WIDGET.lnk_goScene("custom_advance")}),
+	WIDGET.newKey({name="mod",		x=730,	y=310,w=220,h=90,color="white",	font=35,code=WIDGET.lnk_goScene("mod")}),
 	WIDGET.newKey({name="field",	x=170,	y=640,w=240,h=80,color="water",	font=25,code=WIDGET.lnk_goScene("custom_field")}),
 	WIDGET.newKey({name="sequence",	x=450,	y=640,w=240,h=80,color="pink",	font=25,code=WIDGET.lnk_goScene("custom_sequence")}),
 	WIDGET.newKey({name="mission",	x=730,	y=640,w=240,h=80,color="sky",	font=25,code=WIDGET.lnk_goScene("custom_mission")}),

@@ -370,6 +370,7 @@ return{
 			puzzle="开始-拼图",
 
 			advance="更多设置(A)",
+			mod="Mods",
 			field="场地编辑(F)",
 			sequence="序列编辑(S)",
 			mission="任务编辑(M)",

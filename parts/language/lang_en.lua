@@ -343,6 +343,7 @@ return{
 			puzzle="Start-Puzzle",
 
 			advance="More (A)",
+			mod="Mods",
 			field="Edit Field (F)",
 			sequence="Edit Sequence (S)",
 			mission="Edit Mission (M)",

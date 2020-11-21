@@ -95,8 +95,11 @@ return{
 			spin6="转",
 			spin7="转",
 		},
+		customGame={
+			mod="模组",
+		},
 		custom_advance={
-			nextCount="Next个数",
+			nextCount="预览个数",
 			holdCount="暂存个数",
 			infHold="无限暂存",
 
