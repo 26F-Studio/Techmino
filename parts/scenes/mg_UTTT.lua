@@ -113,7 +113,7 @@ function Pnt.mg_UTTT()
 	gc.setColor(1,1,1,math.sin((Timer()-placeTime)*5)/5+.2)
 	if target then
 		gc.rectangle("fill",(target-1)%3*30,int((target-1)/3)*30,30,30)
-	else
+	elseif not gameover then
 		gc.rectangle("fill",0,0,90,90)
 	end
 
