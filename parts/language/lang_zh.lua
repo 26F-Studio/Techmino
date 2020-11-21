@@ -96,6 +96,7 @@ return{
 		hideNext="隐藏Next:\n隐藏前几个Next",
 		fullNext="全Next:\n强制打开6Next",
 		noHold="无Hold:\n禁用Hold",
+		multiHold="多Hold:\n可以使用多个Hold",
 		hideBlock="隐藏方块:\n隐藏当前方块",
 		hideGhost="隐藏阴影:\n隐藏提示阴影",
 		hidden="隐形:\n方块将会在锁定之后隐形",
