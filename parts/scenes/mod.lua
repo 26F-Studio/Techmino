@@ -51,6 +51,13 @@ function mouseDown.mod(x,y,k)
 		SCN.back()
 	end
 end
+function touchMove.mod(_,x,y)
+	mouseMove.mod(x,y)
+end
+function touchDown.mod(_,x,y)
+	mouseMove.mod(x,y)
+	mouseDown.mod(x,y)
+end
 function keyDown.mod(key)
 	if key=="tab"or key=="delete"or key=="`"then
 		for _,M in next,MODOPT do
