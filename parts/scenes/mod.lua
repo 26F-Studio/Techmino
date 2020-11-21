@@ -59,10 +59,11 @@ function touchDown.mod(_,x,y)
 	mouseDown.mod(x,y)
 end
 function keyDown.mod(key)
-	if key=="tab"or key=="delete"or key=="`"then
+	if key=="tab"or key=="delete"then
 		for _,M in next,MODOPT do
 			M.sel=0
 		end
+		sceneTemp.unranked=false
 	elseif #key==1 then
 		for N,M in next,MODOPT do
 			if key==M.key then
