@@ -124,7 +124,12 @@ return{
 			minigame="^_^",
 		},
 		mode={
+			mod="?!?!?!(F1)",
 			start="!!!",
+		},
+		mod={
+			title="?!?!?!",
+			unranked="X!!!",
 		},
 		play={
 			pause="||",

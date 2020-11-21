@@ -197,7 +197,7 @@ local function loadGameEnv(P)--Load gameEnv
 	--Load game settings
 	for k,v in next,gameEnv0 do
 		if GAME.modeEnv[k]~=nil then
-			v=GAME.modeEnv[k]		--Mode setting
+			v=GAME.modeEnv[k]	--Mode setting
 			-- DBP("mode-"..k..":"..tostring(v))
 		elseif GAME.setting[k]~=nil then
 			v=GAME.setting[k]	--Game setting
@@ -212,6 +212,11 @@ local function loadGameEnv(P)--Load gameEnv
 			ENV[k]=v
 		else
 			ENV[k]=copyTable(v)
+		end
+	end
+	for _,M in next,MODOPT do
+		if M.sel>0 then
+			M.func(P,M)
 		end
 	end
 end

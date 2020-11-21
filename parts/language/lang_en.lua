@@ -89,6 +89,8 @@ return{
 
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
+	-- modInstruction="",
+	-- modInfo={},--See lang_zh.lua
 	acts={
 		"Move Left:","Move Right:",
 		"Rotate Right:","Rotate Left:","Rotate 180°:",
@@ -186,7 +188,12 @@ return{
 			minigame="Mini Games",
 		},
 		mode={
+			mod="Mods (F1)",
 			start="Start",
+		},
+		mod={
+			title="Mods",
+			unranked="Unranked",
 		},
 		play={
 			pause="Pause",

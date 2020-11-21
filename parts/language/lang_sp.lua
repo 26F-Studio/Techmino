@@ -92,6 +92,8 @@ return{
 
 	errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
 
+	-- modInstruction="",
+	-- modInfo={},--See lang_en.lua
 	acts={
 		"Mover a Izq.:","Mover a Der.:",
 		"Rotar Der.:","Rotar Izq.:","Rotar 180°:",
@@ -101,8 +103,6 @@ return{
 		"Izq. Instant.:","Der. Instant.:","Sonic Drop:","Abajo 1:","Abajo 4:","Abajo 10:",
 		"Caída a Izq.:","Caída a Der.:","Zangi a Izq.:","Zangi a Der.:",
 	},
-
-	load={[0]="Terminado","Cargando voces","Cargando bgm","Cargando sfx","Cargando imágenes","Cargando fuentes","Cargando modos","Cargando otras cosas"},
 	pauseStat={
 		"Tiempo:",
 		"Tecla/Rot./Reserva:",
@@ -194,7 +194,12 @@ return{
 			minigame="Minijuegos",
 		},
 		mode={
+			-- mod="Mods (F1)",
 			start="Empezar",
+		},
+		mod={
+			-- title="Mods",
+			-- unranked="Unranked",
 		},
 		play={
 			pause="Pausa",

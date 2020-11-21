@@ -92,6 +92,8 @@ return{
 
 	errorMsg="Une erreur est survenue et Techmino doit redémarrer.\nDes informations concernant l'erreur ont été créées, et vous pouvez les envoyer au créateur.",
 
+	-- modInstruction="",
+	-- modInfo={},--See lang_en.lua
 	acts={
 		"Déplacement vers la gauche :","Déplacement vers la droite :",
 		"Rotation vers la droite:","Rotation vers la gauche :","180° :",
@@ -99,7 +101,6 @@ return{
 		"Déplacement instantané vers la gauche :","Déplacement instantané vers la droite : ","Chute sonique :","Descendre de 1 :","Descendre de 4 :","Descendre de 10 :",
 		"Chute à gauche :","Chute à droite :","Zangi gauche :","Zangi droite :",
 	},
-	load={[0]="Terminé","Chargement de la voix","Chargement de la musique","Chargement des effets sonores","Chargement des images","Chargement des polices","chargement des modes","Loading other things"},
 	pauseStat={
 		"Temps :",
 		"Touche/Rot./Réserve :",
@@ -190,7 +191,12 @@ return{
 			minigame="Minijeux",
 		},
 		mode={
+			-- mod="Mods (F1)",
 			start="Démarrer",
+		},
+		mod={
+			-- title="Mods",
+			-- unranked="Unranked",
 		},
 		play={
 			pause="Pause",

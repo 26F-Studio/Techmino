@@ -1342,45 +1342,49 @@ local function gameOver()--Save record
 		local P=PLAYERS[1]
 		R=R(P)--New rank
 		if R then
-			local r=RANKS[M.name]--Old rank
-			local needSave
-			if R>r then
-				RANKS[M.name]=R
-				needSave=true
-			end
 			if R>0 then
 				GAME.rank=R
-				if M.unlock then
-					for i=1,#M.unlock do
-						local m=M.unlock[i]
-						local n=MODES[m].name
-						if not RANKS[n]then
-							RANKS[n]=MODES[m].getRank and 0 or 6
-							needSave=true
+			end
+			if not GAME.unranked then
+				local r=RANKS[M.name]--Old rank
+				local needSave
+				if R>r then
+					RANKS[M.name]=R
+					needSave=true
+				end
+				if R>0 then
+					if M.unlock then
+						for i=1,#M.unlock do
+							local m=M.unlock[i]
+							local n=MODES[m].name
+							if not RANKS[n]then
+								RANKS[n]=MODES[m].getRank and 0 or 6
+								needSave=true
+							end
 						end
 					end
 				end
-			end
-			if needSave then
-				FILE.saveUnlock()
-			end
-			local D=M.score(P)
-			local L=M.records
-			local p=#L--Rank-1
-			if p>0 then
-				while M.comp(D,L[p])do--If higher rank
-					p=p-1
-					if p==0 then break end
+				if needSave then
+					FILE.saveUnlock()
 				end
-			end
-			if p<10 then
-				if p==0 then
-					P:showTextF(text.newRecord,0,-100,100,"beat",.5)
+				local D=M.score(P)
+				local L=M.records
+				local p=#L--Rank-1
+				if p>0 then
+					while M.comp(D,L[p])do--If higher rank
+						p=p-1
+						if p==0 then break end
+					end
 				end
-				D.date=os.date("%Y/%m/%d %H:%M")
-				ins(L,p+1,D)
-				if L[11]then L[11]=nil end
-				FILE.saveRecord(M.name,L)
+				if p<10 then
+					if p==0 then
+						P:showTextF(text.newRecord,0,-100,100,"beat",.5)
+					end
+					D.date=os.date("%Y/%m/%d %H:%M")
+					ins(L,p+1,D)
+					if L[11]then L[11]=nil end
+					FILE.saveRecord(M.name,L)
+				end
 			end
 		end
 	end

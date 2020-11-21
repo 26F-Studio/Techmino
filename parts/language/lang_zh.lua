@@ -90,6 +90,32 @@ return{
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
+	modInstruction="选择你要使用的Mod!\n不同的Mod会用不同的方式改变游戏规则,来开发新玩法挑战自我吧!\n提醒:开启一些Mod会让成绩无效  你可以用键盘开关Mod,按tab重置",
+	modInfo={
+		noNext="无Next:\n禁用Next",
+		hideNext="隐藏Next:\n隐藏前几个Next",
+		fullNext="全Next:\n强制打开6Next",
+		noHold="无Hold:\n禁用Hold",
+		hideBlock="隐藏方块:\n隐藏当前方块",
+		hideGhost="隐藏阴影:\n隐藏提示阴影",
+		hidden="隐形:\n方块将会在锁定之后隐形",
+		coverBoard="遮挡:\n遮挡部分/全部场地",
+		maxG="20G:\n强制启用最高下落速度",
+		suddenLock="0锁延:\n强制启用0锁定延迟",
+		oneLife="一命:\n只有一条生命!",
+		noTele="简单操作:\n禁用10个高级操作按键",
+		forceB2B="禁断B2B:\nB2B条掉到启动线以下就会结束游戏",
+		forceFinesse="禁非极简:\n非极简操作将强制结束游戏",
+		mirror="镜像:\n场地左右颠倒",
+		flip="翻转:\n场地上下颠倒",
+		minG="0G:\n关闭重力",
+		infLock="无限锁延:\n方块将不会锁定",
+		infLife="不死:\n无限生命数",
+		teleMove="瞬移:\n强制启用0DAS和0ARR",
+		randSeq="随机序列:\n强制使用随机序列",
+		noRotation="无旋转:\n禁用旋转按键",
+		noMove="无移动:\n禁用移动按键",
+	},
 	acts={
 		"左移:","右移:",
 		"顺时针旋转:","逆时针旋转:","180°旋转:",
@@ -99,7 +125,6 @@ return{
 		"左瞬移:","右瞬移:","软降到底:","软降一格:","软降四格:","软降十格:",
 		"落在最左:","落在最右:","列在最左:","列在最右:",
 	},
-
 	pauseStat={
 		"时间:",
 		"按键/旋转/暂存:",
@@ -191,7 +216,12 @@ return{
 			minigame="小游戏",
 		},
 		mode={
+			mod="Mods (F1)",
 			start="开始",
+		},
+		mod={
+			title="Mods",
+			unranked="成绩无效",
 		},
 		play={
 			pause="暂停",

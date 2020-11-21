@@ -1,120 +1,144 @@
+local function disableKey(P,key)
+	table.insert(P.gameEnv.keyCancel,key)
+end
 MODOPT={--Mod options
-	{
-		name="noRotation",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	noNext={id="NL",
+		key="q",x=80,y=230,color=COLOR.red,
+		conflict={"hideNext","fullNext"},
+		func=function(P)P.gameEnv.nextCount=0 end,
 	},
-	{
-		name="noMove",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	hideNext={id="FL",
+		key="w",x=200,y=230,color=COLOR.red,
+		list={1,2,3,4,5},
+		conflict={"noNext"},
+		func=function(P,M)P.gameEnv.nextStartPos=M.list[M.sel]+1 end,
 	},
-	{
-		name="suddenMove",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	fullNext={id="FN",
+		key="e",x=320,y=230,color=COLOR.water,
+		conflict={"noNext"},
+		func=function(P)P.gameEnv.nextCount=6 end,
+		unranked=true,
 	},
-
-	{
-		name="noNext",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	noHold={id="HL",
+		key="r",x=440,y=230,color=COLOR.red,
+		func=function(P)P.gameEnv.holdCount=0 end,
 	},
-	{
-		name="noHold",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	hideBlock={id="HB",
+		key="y",x=680,y=230,color=COLOR.orange,
+		func=function(P)P.gameEnv.block=false end,
 	},
-	{
-		name="hideNext",
-		list={0,1,2,3,4,5,6},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	hideGhost={id="HG",
+		key="u",x=800,y=230,color=COLOR.orange,
+		func=function(P)P.gameEnv.ghost=false end,
 	},
-	{
-		name="hideBlock",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	hidden={id="HD",
+		key="o",x=1040,y=230,color=COLOR.green,
+		list={"time","fast","none"},
+		conflict={"coverBoard"},
+		func=function(P,M)P.gameEnv.visible=M.list[M.sel]end,
+		unranked=true,
 	},
-	{
-		name="hideGhost",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	coverBoard={id="CB",
+		key="p",x=1160,y=230,color=COLOR.green,
+		list={"down","up","all"},
+		conflict={"hidden"},
+		func=function(P)LOG.print("该mod还没有做好!")end,
 	},
 
-	{
-		name="mirror",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	maxG={id="20G",
+		key="a",x=140,y=350,color=COLOR.red,
+		conflict={"minG","suddenLock"},
+		func=function(P)P.gameEnv.drop=0 end,
+		unranked=true,
 	},
-	{
-		name="flip",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	suddenLock={id="SL",
+		key="s",x=260,y=350,color=COLOR.red,
+		conflict={"maxG","infLock"},
+		func=function(P)P.gameEnv.lock=0 end,
+		unranked=true,
 	},
-	{
-		name="hidden",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	oneLife={id="SD",
+		key="d",x=380,y=350,color=COLOR.red,
+		conflict={"infLife"},
+		func=function(P)P.gameEnv.life=0 end,
+		unranked=true,
 	},
-	{
-		name="hideUp",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	noTele={id="NT",
+		key="f",x=500,y=350,color=COLOR.red,
+		conflict={"teleMove"},
+		func=function(P)P.gameEnv.noTele=true end,
+		unranked=true,
 	},
-	{
-		name="hideDown",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	forceB2B={id="FB",
+		key="h",x=740,y=350,color=COLOR.yellow,
+		func=function(P)P.gameEnv.b2bKill=true end,
+	},
+	forceFinesse={id="PF",
+		key="j",x=860,y=350,color=COLOR.yellow,
+		func=function(P)P.gameEnv.fineKill=true end,
+	},
+	mirror={id="MR",
+		key="k",x=980,y=350,color=COLOR.yellow,
+		func=function(P)LOG.print("该mod还没有做好!")end,
+	},
+	flip={id="HR",
+		key="l",x=1100,y=350,color=COLOR.yellow,
+		func=function(P)LOG.print("该mod还没有做好!")end,
 	},
 
-	{
-		name="_20G",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	minG={id="0G",
+		key="z",x=200,y=470,color=COLOR.cyan,
+		conflict={"maxG"},
+		func=function(P)P.gameEnv.drop=1e99 end,
+		unranked=true,
 	},
-	{
-		name="suddenLock",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	infLock={id="IF",
+		key="x",x=320,y=470,color=COLOR.cyan,
+		conflict={"suddenLock"},
+		func=function(P)P.gameEnv.lock=1e99 end,
+		unranked=true,
 	},
-	{
-		name="infLives",
-		list={false,true},
-		sel=1,
-		code=function(P)end,
-		time=0,
+	infLife={id="NF",
+		key="c",x=440,y=470,color=COLOR.cyan,
+		conflict={"oneLife"},
+		func=function(P)P.gameEnv.life=1e99 end,
+		unranked=true,
 	},
-}
+	teleMove={id="TL",
+		key="v",x=560,y=470,color=COLOR.cyan,
+		conflict={"noTele"},
+		func=function(P)
+			P.gameEnv.das,P.gameEnv.arr=0,0
+			P.gameEnv.sddas,P.gameEnv.sdarr=0,0
+			disableKey(P,14)
+			disableKey(P,15)
+			disableKey(P,16)
+		end,
+		unranked=true,
+	},
+	randSeq={id="RS",
+		key="b",x=680,y=470,color=COLOR.purple,
+		func=function(P)P.gameEnv.sequence="rnd"end,
+		unranked=true,
+	},
+	noRotation={id="FX",
+		key="n",x=800,y=470,color=COLOR.red,
+		func=function(P)
+			disableKey(P,3)
+			disableKey(P,4)
+			disableKey(P,5)
+		end,
+	},
+	noMove={id="ST",
+		key="m",x=920,y=470,color=COLOR.red,
+		func=function(P)
+			disableKey(P,1)disableKey(P,2)
+			disableKey(P,11)disableKey(P,12)
+			disableKey(P,17)disableKey(P,18)
+			disableKey(P,19)disableKey(P,20)
+		end,
+	},
+}for _,M in next,MODOPT do M.sel,M.time=0,0 end
 
 CUSTOMENV={--gameEnv for cutsom game
 	--Basic
@@ -147,6 +171,7 @@ CUSTOMENV={--gameEnv for cutsom game
 
 	noTele=false,
 	fineKill=false,
+	b2bKill=false,
 	missionKill=false,
 	easyFresh=true,
 	visible="show",
@@ -162,9 +187,7 @@ CUSTOMENV={--gameEnv for cutsom game
 }
 
 FIELD={}--Field(s) for custom game
-
 BAG={}--Sequence for custom game
-
 MISSION={}--Clearing mission for custom game
 
 GAME={--Global game data
@@ -178,12 +201,15 @@ GAME={--Global game data
 	garbageSpeed=1,		--Garbage timing speed
 	warnLVL0=0,			--Warning level
 	warnLVL=0,			--Warning level (show)
-	recording=false,	--If recording
-	replaying=false,	--If replaying
-	seed=math.random(2e6),--Game seed
+
+	seed=1046101471,	--Game seed
 	curMode=nil,		--Current gamemode object
+	modeEnv=nil,		--Current gamemode environment
 	setting={},			--Game settings
 	rec={},				--Recording list, key,time,key,time...
+	recording=false,	--If recording
+	replaying=false,	--If replaying
+	unranked=nil,		--unranked if specific mod is on
 	rank=nil,			--Rank reached
 
 	prevBG=nil,			--Previous background, for restore BG when quit setting page
