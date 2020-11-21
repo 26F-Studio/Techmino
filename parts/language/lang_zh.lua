@@ -93,10 +93,10 @@ return{
 	modInstruction="选择你要使用的Mod!\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n来开发新玩法或者挑战自我吧!\n提醒:开启一些Mod会让成绩无效,你也可以用键盘开关Mod,按tab重置",
 	modInfo={
 		noNext="无Next:\n禁用Next",
-		hideNext="隐藏Next:\n隐藏前几个Next",
 		fullNext="全Next:\n强制打开6Next",
 		noHold="无Hold:\n禁用Hold",
 		multiHold="多Hold:\n可以使用多个Hold",
+		hideNext="隐藏Next:\n隐藏前几个Next",
 		hideBlock="隐藏方块:\n隐藏当前方块",
 		hideGhost="隐藏阴影:\n隐藏提示阴影",
 		hidden="隐形:\n方块将会在锁定之后隐形",
