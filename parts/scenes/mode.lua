@@ -9,11 +9,8 @@ local sin=math.sin
 
 local mapCam={
 	sel=nil,--Selected mode ID
-
-	xOy=mt.newTransform(0,0,0,1),
-
-	--If controlling with key
-	keyCtrl=false,
+	xOy=mt.newTransform(0,0,0,1),--Transformation for map display
+	keyCtrl=false,--If controlling with key
 
 	--For auto zooming when enter/leave scene
 	zoomMethod=nil,
@@ -291,8 +288,9 @@ function Pnt.mode()
 				for i=1,#L do
 					local t=M.scoreDisp(L[i])
 					local s=#t
-					setFont(int((26-s*.4)/5)*5)
-					gc.print(t,955,275+25*i+(s<15 and 0 or s<25 and 2 or 4))
+					local f=int((30-s*.4)/5)*5
+					setFont(f)
+					gc.print(t,955,275+25*i+17-7*(f/5+1)*.5)
 					setFont(10)
 					_=L[i].date
 					if _ then gc.print(_,1155,284+25*i)end
@@ -309,7 +307,7 @@ function Pnt.mode()
 end
 
 WIDGET.init("mode",{
-	WIDGET.newKey({name="mod",		x=140,y=655,w=210,h=80,font=35,code=WIDGET.lnk_goScene("mod")}),
+	WIDGET.newKey({name="mod",		x=140,y=655,w=220,h=80,font=35,code=WIDGET.lnk_goScene("mod")}),
 	WIDGET.newButton({name="start",	x=1040,y=655,w=180,h=80,font=40,code=WIDGET.lnk_pressKey("return"),hide=function()return not mapCam.sel end}),
 	WIDGET.newButton({name="back",	x=1200,y=655,w=120,h=80,font=40,code=WIDGET.lnk_BACK}),
 })

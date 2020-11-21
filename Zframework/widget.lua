@@ -743,16 +743,16 @@ function textBox:press()
 		kb.setTextInput(true,0,y1,1,1)
 	end
 end
-function textBox:keypress(key)
+function textBox:keypress(k)
 	local t=self.value
 	if #t==0 then return end
-	if key=="backspace"then
+	if k=="backspace"then
 		while t:byte(#t)>=128 and t:byte(#t)<192 do
 			t=sub(t,1,-2)
 		end
 		t=sub(t,1,-2)
 		SFX.play("lock")
-	elseif key=="delete"then
+	elseif k=="delete"then
 		t=""
 		SFX.play("hold")
 	end
@@ -879,16 +879,16 @@ function WIDGET.release(x,y)
 		W:release(x,y)
 	end
 end
-function WIDGET.keyPressed(key)
-	if key=="space"or key=="return"then
+function WIDGET.keyPressed(k)
+	if k=="space"or k=="return"then
 		WIDGET.press()
-	elseif kb.isDown("lshift","lalt","lctrl")and(key=="left"or key=="right")then
+	elseif kb.isDown("lshift","lalt","lctrl")and(k=="left"or k=="right")then
 					--When hold [↑], control slider with left/right
 		local W=WIDGET.sel
 		if W and W.type=="slider"or W.type=="selector"then
-			W:arrowKey(key=="left")
+			W:arrowKey(k=="left")
 		end
-	elseif key=="up"or key=="down"or key=="left"or key=="right"then
+	elseif k=="up"or k=="down"or k=="left"or k=="right"then
 		if not WIDGET.sel then
 			for _,v in next,WIDGET.active do
 				if v.isAbove then
@@ -901,10 +901,10 @@ function WIDGET.keyPressed(key)
 		local W=WIDGET.sel
 		if not W.getCenter then return end
 		local WX,WY=W:getCenter()
-		local dir=(key=="right"or key=="down")and 1 or -1
+		local dir=(k=="right"or k=="down")and 1 or -1
 		local tar
 		local minDist=1e99
-		local swap_xy=key=="up"or key=="down"
+		local swap_xy=k=="up"or k=="down"
 		if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
 		for _,W1 in ipairs(WIDGET.active)do
 			if W~=W1 and W1.resCtr then
@@ -929,7 +929,7 @@ function WIDGET.keyPressed(key)
 	else
 		local W=WIDGET.sel
 		if W and W.type=="textBox"then
-			W:keypress(key)
+			W:keypress(k)
 		end
 	end
 end
