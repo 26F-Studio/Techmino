@@ -39,16 +39,12 @@ function mouseMove.mod(x,y)
 		end
 	end
 end
-function mouseDown.mod(x,y,k)
-	if k==1 then
-		for _,M in next,MODOPT do
-			if(x-M.x)^2+(y-M.y)^2<1600 then
-				toggleMod(M)
-				break
-			end
+function mouseDown.mod(x,y)
+	for _,M in next,MODOPT do
+		if(x-M.x)^2+(y-M.y)^2<1600 then
+			toggleMod(M)
+			break
 		end
-	elseif k==2 then
-		SCN.back()
 	end
 end
 function touchMove.mod(_,x,y)
