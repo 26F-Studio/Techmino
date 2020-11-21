@@ -366,6 +366,7 @@ return{
 			freshLimit="Lock Reset Limit",
 			easyFresh="Normal Lock Reset",
 			fineKill="100% Finesse",
+			b2bKill="No B2B break",
 			opponent="Opponent",
 			life="Lives",
 			pushSpeed="Garbage Speed",

@@ -372,6 +372,7 @@ return{
 			freshLimit="Limite de réinit. du délai de verrouillage",
 			easyFresh="Réinit. de verrouillage normale",
 			fineKill="100% Finesse",
+			-- b2bKill="No B2B break",
 			opponent="Adversaire",
 			life="Vie",
 			pushSpeed="Vitesse des lignes indésirables",

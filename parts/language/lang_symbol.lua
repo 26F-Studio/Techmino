@@ -303,6 +303,7 @@ return{
 			freshLimit="@",
 			easyFresh="↓_↓_↓_",
 			fineKill="12 XX 21",
+			b2bKill="_1 XX",
 			opponent="^_^",
 			life="<R>",
 			pushSpeed="_↑_↑_",

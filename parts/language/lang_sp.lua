@@ -370,6 +370,7 @@ return{
 			freshLimit="Límite de Reinicio LD",
 			easyFresh="Reinicio de Bloqueo Normal",
 			fineKill="100% Finesse",
+			-- b2bKill="No B2B break",
 			opponent="Oponente",
 			life="Vida",
 			pushSpeed="Velocidad de Basura",

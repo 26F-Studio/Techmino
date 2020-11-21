@@ -1091,7 +1091,7 @@ do--Player.drop(P)--Place piece
 			--Normal clear, reduce B2B point
 			if not piece.special then
 				P.b2b=max(P.b2b-250,0)
-				if ENV.b2bKill then
+				if P.b2b<50 and ENV.b2bKill then
 					lose=true
 				end
 				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)

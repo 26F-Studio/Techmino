@@ -369,6 +369,7 @@ return{
 			freshLimit="锁延刷新限制",
 			easyFresh="普通刷新锁延",
 			fineKill="强制极简",
+			b2bKill="强制B2B",
 			opponent="对手",
 			life="命数",
 			pushSpeed="上涨速度",
