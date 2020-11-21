@@ -19,6 +19,7 @@ local widgetMetatable={
 
 local text={
 	type="text",
+	alpha=0,
 }
 function text:reset()
 	if type(self.text)=="string"then
@@ -29,14 +30,26 @@ function text:reset()
 		self.font=self.font-10
 	end
 end
+function text:update()
+	if self.hideCon and self.hideCon()then
+		if self.alpha>0 then
+			self.alpha=self.alpha-.125
+		end
+	elseif self.alpha<1 then
+		self.alpha=self.alpha+.125
+	end
+end
 function text:draw()
-	gc.setColor(self.color)
-	if self.align=="M"then
-		gc.draw(self.text,self.x-self.text:getWidth()*.5,self.y)
-	elseif self.align=="L"then
-		gc.draw(self.text,self.x,self.y)
-	elseif self.align=="R"then
-		gc.draw(self.text,self.x-self.text:getWidth(),self.y)
+	if self.alpha>0 then
+		local c=self.color
+		gc.setColor(c[1],c[2],c[3],self.alpha)
+		if self.align=="M"then
+			gc.draw(self.text,self.x-self.text:getWidth()*.5,self.y)
+		elseif self.align=="L"then
+			gc.draw(self.text,self.x,self.y)
+		elseif self.align=="R"then
+			gc.draw(self.text,self.x-self.text:getWidth(),self.y)
+		end
 	end
 end
 function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,hide]
@@ -47,9 +60,10 @@ function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,hide]
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	D.align or"M",
-		hide=	D.hide,
+		hideCon=D.hide,
 	}
 	for k,v in next,text do _[k]=v end
+	if not _.hideCon then _.alpha=1 end
 	setmetatable(_,widgetMetatable)
 	return _
 end
