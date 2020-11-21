@@ -90,7 +90,7 @@ return{
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
-	modInstruction="选择你要使用的Mod!\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n来开发新玩法或者挑战自我吧!\n提醒:开启一些Mod会让成绩无效,你也可以用键盘开关Mod,按tab重置",
+	modInstruction="选择你要使用的Mod!\n不同Mod会用不同的方式改变初始游戏规则(可能导致不能正常游玩)\n来开发新玩法或者挑战自我吧!\n提醒:开启一些Mod会让成绩无效,你也可以用键盘开关Mod",
 	modInfo={
 		noNext="无Next:\n禁用Next",
 		fullNext="全Next:\n强制打开6Next",
@@ -222,6 +222,7 @@ return{
 		},
 		mod={
 			title="Mods",
+			reset="重置(tab)",
 			unranked="成绩无效",
 		},
 		play={

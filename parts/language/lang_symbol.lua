@@ -129,6 +129,7 @@ return{
 		},
 		mod={
 			title="?!?!?!",
+			reset="R",
 			unranked="X!!!",
 		},
 		play={

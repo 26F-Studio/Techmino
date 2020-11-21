@@ -199,6 +199,7 @@ return{
 		},
 		mod={
 			-- title="Mods",
+			-- reset="Reset (tab)",
 			-- unranked="Unranked",
 		},
 		play={
