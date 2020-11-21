@@ -50,5 +50,6 @@ return{
 	target=1e99,dropPiece=NULL,
 	mindas=0,minarr=0,minsdarr=0,
 
-	bg="none",bgm="race"
+	bg="none",bgm="race",
+	noMod=false,
 }

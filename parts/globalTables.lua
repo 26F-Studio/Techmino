@@ -191,7 +191,8 @@ CUSTOMENV={--gameEnv for cutsom game
 
 	--Else
 	bg="none",
-	bgm="race"
+	bgm="race",
+	noMod=true,
 }
 
 FIELD={}--Field(s) for custom game

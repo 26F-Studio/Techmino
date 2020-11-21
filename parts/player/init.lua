@@ -214,9 +214,11 @@ local function loadGameEnv(P)--Load gameEnv
 			ENV[k]=copyTable(v)
 		end
 	end
-	for _,M in next,MODOPT do
-		if M.sel>0 then
-			M.func(P,M)
+	if not ENV.noMod then
+		for _,M in next,MODOPT do
+			if M.sel>0 then
+				M.func(P,M)
+			end
 		end
 	end
 end
@@ -310,6 +312,7 @@ local DemoEnv={
 	wait=10,fall=20,
 	highCam=false,
 	life=1e99,
+	noMod=true,
 }
 function PLY.newDemoPlayer(id,x,y,size)
 	local P=newEmptyPlayer(id,x,y,size)
