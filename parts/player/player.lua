@@ -531,9 +531,9 @@ end
 function Player.hold(P,ifpre)
 	if P.holdTime>0 and(ifpre or P.waiting==-1)then
 		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then--Skip
-			if P.nextQueue[1]then
-				ins(P.holdQueue,P.cur)
-			end
+			local C=P.cur
+			C.bk=BLOCKS[C.id][P.gameEnv.face[C.id]]
+			ins(P.holdQueue,C)
 
 			local t=P.holdTime
 			P:popNext(true)
