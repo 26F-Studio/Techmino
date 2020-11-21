@@ -34,7 +34,7 @@ function back.draw()
 	for i=1,#ring do
 		local r=ring[i]^2/12
 		gc.setLineWidth(30-15/(r+.5))
-		gc.rectangle("line",640-W*r/2,360-H*r/2,W*r,H*r)
+		gc.rectangle("line",W*.5-W*r/2,H*.5-H*r/2,W*r,H*r)
 	end
 end
 function back.discard()
