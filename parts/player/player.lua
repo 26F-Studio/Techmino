@@ -1678,6 +1678,7 @@ function Player.act_restart()
 		LOG.print(text.holdR,20,COLOR.orange)
 	end
 end
+
 function Player.act_insLeft(P,auto)
 	if not P.cur then return end
 	local x0=P.curX
@@ -1729,13 +1730,13 @@ function Player.act_insDown(P)
 		end
 		if P.gameEnv.shakeFX then
 			P.fieldOff.vy=P.gameEnv.shakeFX*.5
-	end
+		end
 		P.curY=P.imgY
 		P.lockDelay=P.gameEnv.lock
 		P.spinLast=false
 		P:freshBlock(true,true)
+	end
 end
-		end
 function Player.act_down1(P)
 	if P.cur and P.curY>P.imgY then
 		if P.gameEnv.moveFX and P.gameEnv.block then
