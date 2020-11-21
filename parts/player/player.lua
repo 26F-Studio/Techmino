@@ -1323,6 +1323,9 @@ function Player.loadAI(P,data)--Load AI params
 		for i=1,P.AIdata.next do
 			CC.addNext(P.AI_bot,P.nextQueue[i].id)
 		end
+		if P.gameEnv.holdCount and P.gameEnv.holdCount>1 then
+			P:setHold(1)
+		end
 	else
 		P:setRS("TRS")
 	end
