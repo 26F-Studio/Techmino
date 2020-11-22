@@ -1,6 +1,9 @@
 local gc=love.graphics
 local ins,rem=table.insert,table.remove
 
+local function modComp(a,b)
+	return a.no<b.no
+end
 local function remMod(M)
 	for i=1,#GAME.mod do
 		if GAME.mod[i]==M then
@@ -12,6 +15,7 @@ end
 local function toggleMod(M)
 	if M.sel==0 then
 		ins(GAME.mod,M)
+		table.sort(GAME.mod,modComp)
 	end
 	if M.list then
 		M.sel=(M.sel+1)%(#M.list+1)

@@ -501,8 +501,8 @@ function gameStart()
 	end
 end
 function scoreValid()
-	for _,v in next,GAME.mod do
-		if v.unranked then
+	for _,M in next,GAME.mod do
+		if M.unranked then
 			return false
 		end
 	end

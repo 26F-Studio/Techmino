@@ -1,6 +1,7 @@
 local gc=love.graphics
 local Timer=love.timer.getTime
 
+local int=math.floor
 local sin,log=math.sin,math.log
 local format=string.format
 
@@ -191,6 +192,25 @@ function Pnt.pause()
 		end
 	end
 
+	--Mods
+	if #GAME.mod>0 then
+		if scoreValid()then
+			gc.setColor(.7,.7,.7,T*.3)
+		else
+			gc.setColor(1,0,0,T*.3)
+		end
+		gc.rectangle("fill",780,575,485,140)
+		setFont(35)
+		for _,M in next,MODOPT do
+			if M.sel>0 then
+				i=M.color
+				gc.setColor(i[1],i[2],i[3],T)
+				i=M.no
+				mStr(M.id,810+i%8*60,575+int(i/8)*45)
+			end
+		end
+	end
+
 	--Level rank
 	if GAME.rank>0 then
 		local str=text.ranks[GAME.rank]
@@ -216,7 +236,8 @@ function Pnt.pause()
 	--Finesse rank & trophy
 	if S.rank then
 		setFont(60)
-		gc.setColor(S.fnsRankColor[1],S.fnsRankColor[2],S.fnsRankColor[3],T)
+		local c=S.fnsRankColor
+		gc.setColor(c[1],c[2],c[3],T)
 		gc.print(S.rank,420,635)
 		if S.trophy then
 			setFont(40)
