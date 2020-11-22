@@ -65,7 +65,7 @@ if _CC then
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
-		for i=1,P.AIdata.nextCount do
+		for i=1,P.AIdata.next do
 			CC.addNext(P.AI_bot,CCblockID[P.nextQueue[i].id])
 		end
 		CC.updateField(P)
@@ -79,7 +79,7 @@ if _CC then
 		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
 		P:newNext()
-		local id=CCblockID[P.nextQueue[P.AIdata.nextCount].id]
+		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
 		if id then
 			CC.addNext(P.AI_bot,id)
 		end
