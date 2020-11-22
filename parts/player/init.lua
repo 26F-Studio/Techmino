@@ -298,7 +298,7 @@ end
 function PLY.check_lineReach(P)
 	if P.stat.row>=P.gameEnv.target then
 		P:win("finish")
-end
+	end
 end
 function PLY.check_attackReach(P)
 	if P.stat.atk>=P.gameEnv.target then
@@ -369,7 +369,6 @@ function PLY.newPlayer(id,x,y,size)
 	loadGameEnv(P)
 	applyGameEnv(P)
 	prepareSequence(P)
-
 end
 --------------------------</Public>--------------------------
 return PLY
