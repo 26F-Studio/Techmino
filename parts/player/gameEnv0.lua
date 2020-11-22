@@ -42,7 +42,7 @@ return{
 	visible="show",
 	freshLimit=1e99,easyFresh=true,
 
-	Fkey=NULL,
+	Fkey=false,
 	keyCancel={},
 	fine=false,fineKill=false,
 	b2bKill=false,

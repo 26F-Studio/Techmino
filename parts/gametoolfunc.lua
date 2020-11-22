@@ -56,15 +56,9 @@ function restoreVirtualKey()
 		B.isDown=false
 		B.pressTime=0
 	end
-	if not GAME.modeEnv.Fkey then
-		virtualkey[9].ava=false
-	end
-	if not GAME.modeEnv.holdCount or GAME.modeEnv.holdCount==0 then
-		virtualkey[8].ava=false
-	end
-	if GAME.modeEnv.keyCancel then
-		for _,v in next,GAME.modeEnv.keyCancel do
-			virtualkey[v].ava=false
+	for k,v in next,PLAYERS[1].keyAvailable do
+		if not v then
+			virtualkey[k].ava=false
 		end
 	end
 end
@@ -467,8 +461,8 @@ function resetGameData(replaying)
 
 	TASK.removeTask_code(TICK.autoPause)
 	destroyPlayers()
-	restoreVirtualKey()
 	GAME.curMode.load()
+	restoreVirtualKey()
 	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:newTask(GAME.modeEnv.task)
