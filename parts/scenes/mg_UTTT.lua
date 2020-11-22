@@ -95,7 +95,7 @@ end
 
 function sceneInit.mg_UTTT()
 	restart()
-	BGM.set("truth")
+	BGM.play("truth")
 	BG.set("bg2")
 end
 
