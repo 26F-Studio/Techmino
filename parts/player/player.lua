@@ -1345,7 +1345,7 @@ local function gameOver()--Save record
 			if R>0 then
 				GAME.rank=R
 			end
-			if not GAME.unranked then
+			if scoreValid()then
 				local r=RANKS[M.name]--Old rank
 				local needSave
 				if R>r then

@@ -215,10 +215,8 @@ local function loadGameEnv(P)--Load gameEnv
 		end
 	end
 	if not ENV.noMod then
-		for _,M in next,MODOPT do
-			if M.sel>0 then
-				M.func(P,M)
-			end
+		for _,M in next,GAME.mod do
+			M.func(P,M)
 		end
 	end
 end

@@ -221,7 +221,7 @@ GAME={--Global game data
 	rec={},				--Recording list, key,time,key,time...
 	recording=false,	--If recording
 	replaying=false,	--If replaying
-	unranked=nil,		--unranked if specific mod is on
+	mod={},				--List of loaded mods
 	rank=nil,			--Rank reached
 
 	prevBG=nil,			--Previous background, for restore BG when quit setting page

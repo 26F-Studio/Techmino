@@ -433,13 +433,6 @@ function loadGame(M,ifQuickPlay)
 	STAT.lastPlay=M
 	GAME.curMode=MODES[M]
 	GAME.modeEnv=GAME.curMode.env
-	GAME.unranked=false
-	for _,mod in next,MODOPT do
-		if mod.sel>0 and mod.unranked then
-			GAME.unranked=true
-		end
-	end
-	print(GAME.unranked)
 	drawableText.modeName:set(text.modes[M][1])
 	drawableText.levelName:set(text.modes[M][2])
 	GAME.init=true
@@ -510,4 +503,12 @@ function gameStart()
 		P.timing=true
 		P:popNext()
 	end
+end
+function scoreValid()
+	for _,v in next,GAME.mod do
+		if v.unranked then
+			return false
+		end
+	end
+	return true
 end
