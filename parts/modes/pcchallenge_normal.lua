@@ -2,9 +2,8 @@ return{
 	color=COLOR.green,
 	env={
 		infHold=true,
-		drop=300,lock=1e99,
+		drop=150,lock=1e99,
 		target=100,dropPiece=PLY.check_lineReach,
-		ospin=false,
 		bg="rgb",bgm="truth",
 	},
 	pauseLimit=true,
