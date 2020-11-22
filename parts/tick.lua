@@ -1,4 +1,16 @@
 local Tick={}
+function Tick.showMods(data)
+	local d=data[1]+1
+	if d%20==0 then
+		local M=GAME.mod[d/20]
+		if M then
+			TEXT.show(M.id,700+(d-20)%120*4,36,45,"spin",.5)
+		else
+			return true
+		end
+	end
+	data[1]=d
+end
 function Tick.finish(P)
 	P.endCounter=P.endCounter+1
 	if P.endCounter<40 then
