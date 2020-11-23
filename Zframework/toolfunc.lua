@@ -303,7 +303,8 @@ do--json
 	end
 
 	function json.encode(val)
-		return pcall(encode,val)
+		local a,b=pcall(encode,val)
+		if a then return b else return""end
 	end
 
 	-------------------------------------------------------------------------------
@@ -530,7 +531,8 @@ do--json
 		return res
 	end
 	function json.decode(str)
-		return pcall(decode,str)
+		local a,b=pcall(decode,str)
+		if a then return b else return""end
 	end
 end
 
