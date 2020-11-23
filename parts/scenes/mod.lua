@@ -1,4 +1,5 @@
 local gc=love.graphics
+local kb=love.keyboard
 local ins,rem=table.insert,table.remove
 
 local function modComp(a,b)
@@ -12,23 +13,22 @@ local function remMod(M)
 		end
 	end
 end
-local function toggleMod(M)
+local function toggleMod(M,back)
 	if M.sel==0 then
 		ins(GAME.mod,M)
 		table.sort(GAME.mod,modComp)
 	end
 	if M.list then
-		M.sel=(M.sel+1)%(#M.list+1)
+		if back then
+			M.sel=(M.sel-1)%(#M.list+1)
+		else
+			M.sel=(M.sel+1)%(#M.list+1)
+		end
 	else
 		M.sel=1-M.sel
 	end
 	if M.sel==0 then
 		remMod(M)
-	elseif M.conflict then
-		for _,v in next,M.conflict do
-			MODOPT[v].sel=0
-			remMod(MODOPT[v])
-		end
 	end
 	if M.unranked then
 		SFX.play("move",.6)
@@ -55,10 +55,10 @@ function mouseMove.mod(x,y)
 		end
 	end
 end
-function mouseDown.mod(x,y)
+function mouseDown.mod(x,y,k)
 	for _,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
-			toggleMod(M)
+			toggleMod(M,k==2 or kb.isDown("lshift","rshift"))
 			break
 		end
 	end
@@ -81,7 +81,7 @@ function keyDown.mod(key)
 	elseif #key==1 then
 		for N,M in next,MODOPT do
 			if key==M.key then
-				toggleMod(M)
+				toggleMod(M,kb.isDown("lshift","rshift"))
 				sceneTemp.sel=N
 				break
 			end
@@ -106,7 +106,7 @@ function Tmr.mod()
 end
 function Pnt.mod()
 	setFont(40)
-	gc.setLineWidth(4)
+	gc.setLineWidth(5)
 	for _,M in next,MODOPT do
 		gc.push("transform")
 		gc.translate(M.x,M.y)
@@ -147,7 +147,7 @@ end
 
 WIDGET.init("mod",{
 	WIDGET.newText{name="title",	x=80,y=50,font=70,align="L"},
-	WIDGET.newText{name="unranked",	x=1200,y=60,color="lRed",font=50,align="R",hide=function()return scoreValid()end},
+	WIDGET.newText{name="unranked",	x=1200,y=60,color="yellow",font=50,align="R",hide=function()return scoreValid()end},
 	WIDGET.newButton{name="reset",	x=1140,y=540,w=170,h=80,font=25,code=WIDGET.lnk_pressKey("tab")},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 })
