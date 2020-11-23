@@ -166,9 +166,10 @@ end
 do--httpRequest
 	client=LOADLIB("NETlib")
 	httpRequest=
-	client and function(tick,api,method,header,body)
+	client and function(tick,path,method,header,body)
 		local task,err=client.httpraw{
-			url="http://47.103.200.40/"..api,
+			-- url="http://47.103.200.40/"..path,
+			url="http://127.0.0.1:10026"..path,
 			method=method or"GET",
 			header=header,
 			body=body,
@@ -302,8 +303,7 @@ do--json
 	end
 
 	function json.encode(val)
-		local a,b=pcall(encode,val)
-		if a then return b else return""end
+		return pcall(encode,val)
 	end
 
 	-------------------------------------------------------------------------------
@@ -530,8 +530,7 @@ do--json
 		return res
 	end
 	function json.decode(str)
-		local a,b=pcall(decode,str)
-		if a then return b else return""end
+		return pcall(decode,str)
 	end
 end
 

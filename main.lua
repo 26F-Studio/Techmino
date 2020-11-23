@@ -197,11 +197,11 @@ do
 	if S.extraRate then
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
-	if S.version~=VERSION then
-		S.version=VERSION
+	if S.version~=VERSION_NAME then
+		S.version=VERSION_NAME
 		newVersionLaunch=true
 
-		if not VERSION:find("0.12")or VERSION:find("0.12.0")then
+		if not VERSION_NAME:find("0.12")or VERSION_NAME:find("0.12.0")then
 			local function delRecord(n)
 				if R[n]then
 					R[n]=0

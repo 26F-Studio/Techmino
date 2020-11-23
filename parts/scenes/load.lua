@@ -116,7 +116,7 @@ function Tmr.load()
 			LOADED=true
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
-			httpRequest(TICK.httpREQ_launch,"api/game")
+			httpRequest(TICK.httpREQ_launch,"/tech/api/v1/app/info")
 		end
 		if S.tar then
 			S.cur=S.cur+1

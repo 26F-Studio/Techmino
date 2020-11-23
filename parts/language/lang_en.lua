@@ -85,6 +85,8 @@ return{
 	diffPassword="Passwords don't match",
 	registerSuccessed="Successfully registered!",
 	registerFailed="Registration failed",
+	loginSuccessed="Successfully logged in!",
+	loginFailed="Login failed",
 
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 

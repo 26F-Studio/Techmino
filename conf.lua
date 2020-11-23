@@ -1,4 +1,5 @@
-VERSION="Alpha V0.12.2"
+VERSION_CODE=1202
+VERSION_NAME="Alpha V0.12.2"
 love.setDeprecationOutput(false)
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
@@ -12,7 +13,7 @@ function love.conf(t)
 	end
 
 	local W=t.window
-	W.title="Techmino "..VERSION
+	W.title="Techmino "..VERSION_NAME
 	W.icon="media/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360

@@ -86,6 +86,8 @@ return{
 	diffPassword="两次密码不一致",
 	registerSuccessed="注册成功!",
 	registerFailed="注册失败",
+	loginSuccessed="登录成功!",
+	loginFailed="登录失败",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 

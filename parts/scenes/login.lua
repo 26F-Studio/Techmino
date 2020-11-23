@@ -7,15 +7,19 @@ function keyDown.login(key)
 		elseif #password==0 then
 			LOG.print(text.noPassword)return
 		end
-		local data=urlencode.encode{
+		local success,data=json.encode({
 			username=username,
 			password=password,
-		}
+		})
+		if not success then
+			LOG.print(text.jsonError,"warn")
+			return
+		end
 		httpRequest(
-			TICK.httpREQ_register,
-			"api/account/register",
-			"POST",
-			{["Content-Type"]="application/x-www-form-urlencoded"},
+			TICK.httpREQ_login,
+			"/tech/api/v1/users",
+			"GET",
+			{["Content-Type"]="application/json"},
 			data
 		)
 	elseif key=="escape"then
