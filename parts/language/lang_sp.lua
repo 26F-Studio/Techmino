@@ -83,7 +83,6 @@ return{
 
 	noUsername="Por favor ingresa un nombre de usuario",
 
-	-- wrongCode="Please enter invitation code",
 	-- wrongEmail="Wrong email address",
 	noPassword="Por favor ingresa una contraseña",
 	diffPassword="Las contraseñas no coinciden",
@@ -467,10 +466,16 @@ return{
 			down="↓",
 		},
 		login={
-			title="Entrar/Registrarse",
+			title="Entrar",
+			register="Registrarse",
+			username="Nombre de Usuario",
+			password="Contraseña",
+		},
+		register={
+			title="Registrarse",
+			login="Entrar",
 			username="Nombre de Usuario",
 			email="Correo Elec.",
-			code="Código de Invit.",
 			password="Contraseña",
 			password2="Repetir Contr.",
 		},

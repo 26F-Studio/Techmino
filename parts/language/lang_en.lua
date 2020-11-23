@@ -80,7 +80,6 @@ return{
 	jsonError="Json error",
 
 	noUsername="Please enter your username",
-	wrongCode="Please enter invitation code",
 	wrongEmail="Wrong email address",
 	noPassword="Please enter your password",
 	diffPassword="Passwords don't match",
@@ -465,10 +464,16 @@ return{
 			down="↓",
 		},
 		login={
-			title="Log in / Sign up",
+			title="Log in",
+			register="Sign up",
+			username="Username",
+			password="Password",
+		},
+		register={
+			title="Sign up",
+			login="Log in",
 			username="Username",
 			email="Email address",
-			code="Invitation Code",
 			password="Password",
 			password2="Reenter password",
 		},

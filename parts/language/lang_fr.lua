@@ -83,7 +83,6 @@ return{
 	jsonError="Erreur json",
 
 	noUsername="Entrez votre nom d'utilisateur",
-	wrongCode="Veuillez entrer un code d'invitation",
 	wrongEmail="Mauvaise adresse email",
 	noPassword="Entrez votre mot de passe",
 	diffPassword="Les mots de passe ne se correspondent pas",
@@ -463,10 +462,16 @@ return{
 			down="↓",
 		},
 		login={
-			title="Connexion / Enregistrement",
+			title="Connexion",
+			register="Enregistrement",
+			username="Nom d'utilisateur",
+			password="Mot de passe",
+		},
+		register={
+			title="Enregistrement",
+			login="Connexion",
 			username="Nom d'utilisateur",
 			email="E-mail",
-			code="Code d'invitation",
 			password="Mot de passe",
 			password2="Confirmer le mot de passe",
 		},

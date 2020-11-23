@@ -34,7 +34,6 @@ return{
 	finesse_fc="全连",
 
 	noUsername="别闹。",
-	wrongCode="有人邀请你注册了?",
 	wrongEmail="别乱输。",
 	noPassword="注册会不会?",
 	diffPassword="字不认识?",
@@ -114,7 +113,7 @@ return{
 			his="黑历史",
 			qq="QQ对线",
 		},
-		login={
+		register={
 			password2="你觉得应该填啥",
 		},
 		sound={

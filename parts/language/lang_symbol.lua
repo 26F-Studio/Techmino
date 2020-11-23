@@ -399,10 +399,16 @@ return{
 			down="↓",
 		},
 		login={
-			title="Log in / Sign up",
+			title="Log in",
+			register="Sign up",
+			username="#",
+			password="*",
+		},
+		register={
+			title="Sign up",
+			login="Log in",
 			username="#",
 			email="@",
-			code="%",
 			password="*",
 			password2="*",
 		},

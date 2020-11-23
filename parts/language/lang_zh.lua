@@ -81,7 +81,6 @@ return{
 	jsonError="json错误",
 
 	noUsername="请填写用户名",
-	wrongCode="请填写邀请码",
 	wrongEmail="邮箱格式错误",
 	noPassword="请填写密码",
 	diffPassword="两次密码不一致",
@@ -489,10 +488,16 @@ return{
 			save="用户档案管理",
 		},
 		login={
-			title="登录/注册",
+			title="登录",
+			register="注册",
+			username="用户名",
+			password="密码",
+		},
+		register={
+			title="注册",
+			login="登录",
 			username="用户名",
 			email="邮箱",
-			code="邀请码",
 			password="密码",
 			password2="确认密码",
 		},
