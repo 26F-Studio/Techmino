@@ -302,7 +302,8 @@ do--json
 	end
 
 	function json.encode(val)
-		return pcall(encode,val)
+		local a,b=pcall(encode,val)
+		if a then return b else return""end
 	end
 
 	-------------------------------------------------------------------------------
@@ -529,9 +530,11 @@ do--json
 		return res
 	end
 	function json.decode(str)
-		return pcall(decode,str)
+		local a,b=pcall(decode,str)
+		if a then return b else return""end
 	end
 end
+
 do--urlencode
 	local rshift=bit.rshift
 	local b16={[0]="0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}
