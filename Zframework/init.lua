@@ -1,26 +1,26 @@
-SCR=	require("Zframework/screen")
-COLOR=	require("Zframework/color")
-SCN=	require("Zframework/scene")
-LOG=	require("Zframework/log")
-require("Zframework/toolfunc")
+SCR=	require"Zframework/screen"
+COLOR=	require"Zframework/color"
+SCN=	require"Zframework/scene"
+LOG=	require"Zframework/log"
+require"Zframework/toolfunc"
 
-VIB=	require("Zframework/vibrate")
-SFX=	require("Zframework/sfx")
+VIB=	require"Zframework/vibrate"
+SFX=	require"Zframework/sfx"
 
-LIGHT=	require("Zframework/light")
-BG=		require("Zframework/background")
-WIDGET=	require("Zframework/widget")
-TEXT=	require("Zframework/text")
-SYSFX=	require("Zframework/sysFX")
+LIGHT=	require"Zframework/light"
+BG=		require"Zframework/background"
+WIDGET=	require"Zframework/widget"
+TEXT=	require"Zframework/text"
+SYSFX=	require"Zframework/sysFX"
 
-IMG=	require("Zframework/image")
-BGM=	require("Zframework/bgm")
-VOC=	require("Zframework/voice")
+IMG=	require"Zframework/image"
+BGM=	require"Zframework/bgm"
+VOC=	require"Zframework/voice"
 
-LANG=	require("Zframework/languages")
-TASK=	require("Zframework/task")
-FILE=	require("Zframework/file")
-PROFILE=require("Zframework/profile")
+LANG=	require"Zframework/languages"
+TASK=	require"Zframework/task"
+FILE=	require"Zframework/file"
+PROFILE=require"Zframework/profile"
 
 local ms,kb=love.mouse,love.keyboard
 local gc=love.graphics

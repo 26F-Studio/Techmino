@@ -1,14 +1,14 @@
-local Player=require("parts/player/player")
-local prepareSequence=require("parts/player/prepareSequence")
-local gameEnv0=require("parts/player/gameEnv0")
+local Player=require"parts/player/player"
+local prepareSequence=require"parts/player/prepareSequence"
+local gameEnv0=require"parts/player/gameEnv0"
 
 local mt=love.math
 local rnd,max,min=math.random,math.max,math.min
 local ins=table.insert
 
 local PLY={
-	update=require("parts/player/update"),
-	draw=require("parts/player/draw"),
+	update=require"parts/player/update",
+	draw=require"parts/player/draw",
 }
 
 --------------------------<Lib Func>--------------------------
@@ -330,7 +330,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 	loadGameEnv(P)
 	applyGameEnv(P)
 	prepareSequence(P)
-	P:loadAI({
+	P:loadAI{
 		type="CC",
 		next=5,
 		hold=true,
@@ -338,7 +338,7 @@ function PLY.newDemoPlayer(id,x,y,size)
 		delta=6,
 		bag="bag",
 		node=100000,
-	})
+	}
 	P:popNext()
 end
 function PLY.newRemotePlayer(id,x,y,size)

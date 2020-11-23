@@ -54,18 +54,18 @@ function Pnt.setting_sound()
 end
 
 WIDGET.init("setting_sound",{
-	WIDGET.newText({name="title",		x=640,y=15,font=80}),
+	WIDGET.newText{name="title",	x=640,y=15,font=80},
 
-	WIDGET.newButton({name="game",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_game","swipeR")}),
-	WIDGET.newButton({name="graphic",	x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_video","swipeL")}),
+	WIDGET.newButton{name="game",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_game","swipeR")},
+	WIDGET.newButton{name="graphic",x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_video","swipeL")},
 
-	WIDGET.newSlider({name="sfx",		x=180,	y=200,w=400,		font=35,change=function()SFX.play("blip_1")end,	disp=WIDGET.lnk_SETval("sfx"),code=WIDGET.lnk_SETsto("sfx")}),
-	WIDGET.newSlider({name="stereo",	x=180,	y=500,w=400,		font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=WIDGET.lnk_SETval("stereo"),code=WIDGET.lnk_SETsto("stereo"),hide=function()return SETTING.sfx==0 end}),
-	WIDGET.newSlider({name="spawn",		x=180,	y=300,w=400,		font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.spawn)end,disp=WIDGET.lnk_SETval("spawn"),code=WIDGET.lnk_SETsto("spawn")}),
-	WIDGET.newSlider({name="bgm",		x=180,	y=400,w=400,		font=35,										disp=WIDGET.lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end}),
-	WIDGET.newSlider({name="vib",		x=750,	y=200,w=400,unit=5,	font=25,change=function()VIB(2)end,				disp=WIDGET.lnk_SETval("vib"),code=WIDGET.lnk_SETsto("vib")}),
-	WIDGET.newSlider({name="voc",		x=750,	y=300,w=400,		font=35,change=function()VOC.play("test")end,	disp=WIDGET.lnk_SETval("voc"),code=WIDGET.lnk_SETsto("voc")}),
-	WIDGET.newSelector({name="cv",		x=1100,	y=380,w=200,		list={"miya","naki"},							disp=WIDGET.lnk_STPval("cv"),code=WIDGET.lnk_STPsto("cv")}),
-	WIDGET.newButton({name="apply",		x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=sceneTemp.cv VOC.loadAll()end,hide=function()return SETTING.cv==sceneTemp.cv end}),
-	WIDGET.newButton({name="back",		x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK}),
+	WIDGET.newSlider{name="sfx",	x=180,	y=200,w=400,		font=35,change=function()SFX.play("blip_1")end,	disp=WIDGET.lnk_SETval("sfx"),code=WIDGET.lnk_SETsto("sfx")},
+	WIDGET.newSlider{name="stereo",	x=180,	y=500,w=400,		font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=WIDGET.lnk_SETval("stereo"),code=WIDGET.lnk_SETsto("stereo"),hide=function()return SETTING.sx==0 end},
+	WIDGET.newSlider{name="spawn",	x=180,	y=300,w=400,		font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.spawn)end,disp=WIDGET.lnk_SETval("spawn"),code=WIDGET.lnk_SETsto("spawn")},
+	WIDGET.newSlider{name="bgm",	x=180,	y=400,w=400,		font=35,										disp=WIDGET.lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+	WIDGET.newSlider{name="vib",	x=750,	y=200,w=400,unit=5,	font=25,change=function()VIB(2)end,				disp=WIDGET.lnk_SETval("vib"),code=WIDGET.lnk_SETsto("vib")},
+	WIDGET.newSlider{name="voc",	x=750,	y=300,w=400,		font=35,change=function()VOC.play("test")end,	disp=WIDGET.lnk_SETval("voc"),code=WIDGET.lnk_SETsto("voc")},
+	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={"miya","naki"},							disp=WIDGET.lnk_STPval("cv"),code=WIDGET.lnk_STPsto("cv")},
+	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=sceneTemp.cv VOC.loadAll()end,hide=function()return SETTING.cv==sceneTemp.cv end},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
 })

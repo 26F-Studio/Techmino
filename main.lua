@@ -30,25 +30,25 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 --Load modules
-require("Zframework")
+require"Zframework"
 
-require("parts/list")
-require("parts/globalTables")
-require("parts/gametoolfunc")
+require"parts/list"
+require"parts/globalTables"
+require"parts/gametoolfunc"
 
 SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
-BLOCKS=		require("parts/mino")
-AIBUILDER=	require("parts/AITemplate")
-FREEROW=	require("parts/freeRow")
+BLOCKS=		require"parts/mino"
+AIBUILDER=	require"parts/AITemplate"
+FREEROW=	require"parts/freeRow"
 
-TEXTURE=require("parts/texture")
-SKIN=	require("parts/skin")
-PLY=	require("parts/player")
-AIFUNC=	require("parts/ai")
-MODES=	require("parts/modes")
-TICK=	require("parts/tick")
+TEXTURE=require"parts/texture"
+SKIN=	require"parts/skin"
+PLY=	require"parts/player"
+AIFUNC=	require"parts/ai"
+MODES=	require"parts/modes"
+TICK=	require"parts/tick"
 
 SFX.set{
 	"welcome_sfx",

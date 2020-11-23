@@ -355,5 +355,5 @@ function Pnt.play()
 end
 
 WIDGET.init("play",{
-	WIDGET.newButton({name="pause",	x=1235,	y=45,	w=80,		font=25,code=function()pauseGame()end}),
+	WIDGET.newButton{name="pause",x=1235,y=45,w=80,font=25,code=function()pauseGame()end},
 })

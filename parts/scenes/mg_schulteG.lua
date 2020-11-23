@@ -172,10 +172,10 @@ function Pnt.mg_schulteG()
 end
 
 WIDGET.init("mg_schulteG",{
-	WIDGET.newButton({name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return sceneTemp.state==0 end}),
-	WIDGET.newSlider({name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end}),
-	WIDGET.newSwitch({name="blind",		x=240,y=330,w=60,					font=40,disp=WIDGET.lnk_STPval("blind"),	code=WIDGET.lnk_pressKey("q"),hide=WIDGET.lnk_STPeq("state",1)}),
-	WIDGET.newSwitch({name="disappear",	x=240,y=420,w=60,					font=40,disp=WIDGET.lnk_STPval("disappear"),code=WIDGET.lnk_pressKey("w"),hide=WIDGET.lnk_STPeq("state",1)}),
-	WIDGET.newSwitch({name="tapFX",		x=240,y=510,w=60,					font=40,disp=WIDGET.lnk_STPval("tapFX"),	code=WIDGET.lnk_pressKey("e"),hide=WIDGET.lnk_STPeq("state",1)}),
-	WIDGET.newButton({name="back",		x=1140,y=640,w=170,h=80,			font=40,code=WIDGET.lnk_BACK}),
+	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return sceneTemp.state==0 end},
+	WIDGET.newSlider{name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end},
+	WIDGET.newSwitch{name="blind",		x=240,y=330,w=60,		font=40,disp=WIDGET.lnk_STPval("blind"),	code=WIDGET.lnk_pressKey("q"),hide=WIDGET.lnk_STPeq("state",1)},
+	WIDGET.newSwitch{name="disappear",	x=240,y=420,w=60,		font=40,disp=WIDGET.lnk_STPval("disappear"),code=WIDGET.lnk_pressKey("w"),hide=WIDGET.lnk_STPeq("state",1)},
+	WIDGET.newSwitch{name="tapFX",		x=240,y=510,w=60,		font=40,disp=WIDGET.lnk_STPval("tapFX"),	code=WIDGET.lnk_pressKey("e"),hide=WIDGET.lnk_STPeq("state",1)},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 })

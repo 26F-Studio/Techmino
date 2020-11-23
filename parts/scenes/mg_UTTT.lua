@@ -247,6 +247,6 @@ function mouseDown.mg_UTTT(x,y)
 end
 
 WIDGET.init("mg_UTTT",{
-	WIDGET.newButton({name="reset",x=1140,y=540,w=170,h=80,font=40,color="lGreen",code=restart}),
-	WIDGET.newButton({name="back",x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK}),
+	WIDGET.newButton{name="reset",x=1140,y=540,w=170,h=80,font=40,color="lGreen",code=restart},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 })

@@ -23,7 +23,7 @@ end
 function sceneInit.history()
 	BG.set("rainbow")
 	sceneTemp={
-		text=require("parts/updateLog"),--Text list
+		text=require"parts/updateLog",--Text list
 		pos=1,--Scroll pos
 	}
 	if newVersionLaunch then
@@ -57,7 +57,7 @@ function Pnt.history()
 end
 
 WIDGET.init("history",{
-	WIDGET.newKey({name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=WIDGET.lnk_STPeq("pos",1)}),
-	WIDGET.newKey({name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end}),
-	WIDGET.newButton({name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK}),
+	WIDGET.newKey{name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=WIDGET.lnk_STPeq("pos",1)},
+	WIDGET.newKey{name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 })

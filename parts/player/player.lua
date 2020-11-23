@@ -8,7 +8,7 @@ local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
 
-local kickList=require("parts/kickList")
+local kickList=require"parts/kickList"
 local scs=spinCenters
 
 local function without(L,e)
