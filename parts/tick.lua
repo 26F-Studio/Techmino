@@ -155,8 +155,7 @@ function Tick.httpREQ_login(data)
 		if response.code==200 then
 			local success,content=json.decode(response.body)
 			if success then
-				-- LOG.print(text.registerSuccessed..": "..content.message)
-				-- TODO: display a login success message
+				LOG.print(text.loginSuccessed..": "..content.message)
 				-- TODO: save {content.token} to storage and a global variable
 				-- TODO: save {content.user_id} to a global variable
 			else
