@@ -30,7 +30,13 @@ local function toggleMod(M)
 			remMod(MODOPT[v])
 		end
 	end
-	SFX.play("move")
+	if M.unranked then
+		SFX.play("move",.6)
+		SFX.play("lock")
+	else
+		SFX.play("move")
+		SFX.play("lock",.6)
+	end
 end
 
 function sceneInit.mod()
@@ -66,13 +72,12 @@ function touchDown.mod(_,x,y)
 end
 function keyDown.mod(key)
 	if key=="tab"or key=="delete"then
-		for _,M in next,MODOPT do
-			M.sel=0
+		if GAME.mod[1]then
+			while GAME.mod[1]do
+				rem(GAME.mod).sel=0
+			end
+			SFX.play("hold")
 		end
-		while GAME.mod[1]do
-			rem(GAME.mod)
-		end
-		SFX.play("hold")
 	elseif #key==1 then
 		for N,M in next,MODOPT do
 			if key==M.key then
@@ -108,12 +113,18 @@ function Pnt.mod()
 		local t=M.time*.01
 		gc.scale(1+3*t)
 		gc.rotate(t)
+			local rad,side
+			if M.unranked then
+				rad,side=45,5
+			else
+				rad=40
+			end
 			local color=M.color
 			gc.setColor(color[1],color[2],color[3],5*t)
-			gc.circle("fill",0,0,40)
+			gc.circle("fill",0,0,rad,side)
 
 			gc.setColor(color)
-			gc.circle("line",0,0,40)
+			gc.circle("line",0,0,rad,side)
 			gc.setColor(1,1,1)
 			mStr(M.id,0,-28)
 			if M.sel>0 and M.list then
