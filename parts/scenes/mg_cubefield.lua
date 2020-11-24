@@ -9,17 +9,17 @@ local Timer=love.timer.getTime
 local setFont=setFont
 
 local cubeColor={
-	{.878,.752,.000},
-	{.501,.501,.972},
-	{.501,.501,.501},
-	{.501,.972,.000},
-	{.941,.941,.941},
-	{.250,.250,.250},
-	{.313,.878,.972},
-	{.972,.972,.501},
-	{.909,.501,.972},
-	{.972,.627,.313},
-	{.150,.150,.150},
+	{.88,.75,.00},
+	{.50,.50,.97},
+	{.50,.50,.50},
+	{.50,.97,.00},
+	{.94,.94,.94},
+	{.40,.40,.40},
+	{.31,.88,.97},
+	{.97,.97,.50},
+	{.91,.50,.97},
+	{.97,.63,.31},
+	{0,0,0},
 }
 
 local cubesX,cubesY
@@ -175,7 +175,7 @@ function Tmr.mg_cubefield(dt)
 		if ct==60 then menu=false end
 	elseif menu==-1 then
 		for i=1,3 do color[i]=near(color[i],cubeColor[1][i])end
-		for i=1,40 do cubesY[i]=cubesY[i]-(70-ct)*.002 end
+		for i=1,40 do cubesY[i]=cubesY[i]-(70-ct)*.003 end
 		if sunH>0 then sunH=max(sunH*.85-1,0)end
 		ct=ct-1
 		if ct==0 then
@@ -281,8 +281,8 @@ function Pnt.mg_cubefield()
 
 		setFont(20)
 		gc.print("Original game by Max Abernethy",680,140)
-		gc.print("Original CX-CAS version by Par Loic Pujet",680,160)
-		gc.print("Ported / Rewritten / Balanced by MrZ",680,180)
+		gc.print("Original CX-CAS version by Par Loic Pujet",680,165)
+		gc.print("Ported / Rewritten / Balanced by MrZ",680,190)
 
 		setFont(45)
 		if score>0 then
