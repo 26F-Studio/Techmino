@@ -149,6 +149,7 @@ return{
 			mg_pong="弹球",
 			mg_AtoZ="打字游戏",
 			mg_UTTT="战略井字棋",
+			mg_cubefield="飞行器",
 		},
 	},
 	modes={

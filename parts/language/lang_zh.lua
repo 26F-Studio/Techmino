@@ -578,6 +578,7 @@ return{
 			mg_pong="Pong",
 			mg_AtoZ="A to Z",
 			mg_UTTT="战略井字棋",
+			mg_cubefield="Cubefield",
 		},
 		mg_15p={
 			reset="打乱",

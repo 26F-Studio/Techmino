@@ -552,6 +552,7 @@ return{
 			mg_pong="Pong",
 			-- mg_AtoZ="A to Z",
 			-- mg_UTTT="Ultimate Tic-Tac-Toe",
+			-- mg_cubefield="Cubefield",
 		},
 		mg_15p={
 			reset="Réinitialiser",
