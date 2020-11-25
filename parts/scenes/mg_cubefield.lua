@@ -60,6 +60,7 @@ function sceneInit.mg_cubefield()
 	sunH,color,rot=0,{.878,.752,0},0
 
 	gc.setLineJoin("bevel")
+	BGM.play("push")
 	BG.set("none")
 end
 
@@ -168,6 +169,7 @@ function Tmr.mg_cubefield(dt)
 		if score>1000*level then
 			if speed<3 then speed=speed+.2 end
 			level=level+1
+			SFX.play("blip_1")
 		end
 		sunH=sunH+.01
 	elseif menu==1 then
@@ -217,7 +219,7 @@ function Pnt.mg_cubefield()
 	if play then
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1,.4)
-		gc.line(-18,-20,0,-440,18,-20)
+		gc.polygon("fill",-18,-20,0,-440,18,-20)
 	end
 
 	--Draw Horizon/Direction
@@ -247,48 +249,47 @@ function Pnt.mg_cubefield()
 			end
 		end
 	end
-	gc.pop()
 
 	--Draw menu
 	if play then
 		setFont(60)
-		gc.print(int(score),40,50)
+		mStr(int(score),-400,-640)
+		mStr(int(score),400,-640)
 		if score%1000>920 then
-			setFont(35)
 			gc.setColor(1,1,1,abs(score%1000-970)*8)
 			setFont(70)
 			if level<11 then
-				mStr("++SPEED++",640,40)
+				mStr("++SPEED++",0,-650)
 				for i=1,3 do
 					color[i]=near(color[i],cubeColor[level+1][i])
 				end
 			else
-				mStr("!!MAXSPEED!!",640,40)
+				mStr("!!MAXSPEED!!",0,-650)
 			end
 		end
 	else
 		gc.setColor(1,1,1)
-		gc.rectangle("fill",620,670+ct,40,40)
+		gc.rectangle("fill",-20,-20+ct,40,40)
 
-		gc.setLineWidth(3)
-		gc.setColor(1,1,1,.4*(1-ct/60))
-		gc.line(622,670,640,250,658,670)
+		gc.setColor(1,1,1,(1-ct/60)*.2)
+		gc.polygon("fill",-18,20,0,-440,18,200)
 		
 		gc.setColor(1,1,1,ct/60)
 
 		setFont(90)
-		mStr("CubeField",640,40)
+		mStr("CubeField",0,-650)
 
 		setFont(20)
-		gc.print("Original game by Max Abernethy",680,140)
-		gc.print("Original CX-CAS version by Par Loic Pujet",680,165)
-		gc.print("Ported / Rewritten / Balanced by MrZ",680,190)
+		gc.print("Original game by Max Abernethy",40,-550)
+		gc.print("Original CX-CAS version by Par Loic Pujet",40,-525)
+		gc.print("Ported / Rewritten / Balanced by MrZ",40,-500)
 
 		setFont(45)
 		if score>0 then
-			mStr("Score : "..score,640,340)
+			mStr("Score : "..score,0,-350)
 		end
 		
-		mStr(MOBILE and"Touch to Start"or"Press space",640,530)
+		mStr(MOBILE and"Touch to Start"or"Press space",0,-160)
 	end
+	gc.pop()
 end
