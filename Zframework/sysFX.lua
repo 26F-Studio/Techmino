@@ -1,7 +1,6 @@
 local gc=love.graphics
 local setColor,setWidth=gc.setColor,gc.setLineWidth
 local max,min=math.max,math.min
-local sin,cos=math.sin,math.cos
 local rnd=math.random
 local rem=table.remove
 
@@ -31,8 +30,14 @@ FXupdate.ripple=normUpdate
 FXupdate.rectRipple=normUpdate
 FXupdate.shade=normUpdate
 function FXupdate.cell(S,dt)
-	S.x=S.x+S.vx
-	S.y=S.y+S.vy
+	if S.vx then
+		S.x=S.x+S.vx
+		S.y=S.y+S.vy
+		if S.ax then
+			S.vx=S.vx+S.ax
+			S.vy=S.vy+S.ay
+		end
+	end
 	S.t=S.t+dt*S.rate
 	return S.t>1
 end
@@ -148,15 +153,17 @@ function SYSFX.newShade(rate,r,g,b,x,y,w,h)
 		x=x,y=y,w=w,h=h,
 	}
 end
-function SYSFX.newCell(rate,image,x,y,size)
-	local v,a=1+rnd(),rnd()*6.28
+function SYSFX.newCell(rate,image,size,x,y,vx,vy,ax,ay)
 	fx[#fx+1]={
 		update=FXupdate.cell,
 		draw=FXdraw.cell,
 		t=0,
-		rate=rate,image=image,
-		x=x,y=y,size=size,
-		vx=v*cos(a),vy=v*sin(a),
+		rate=rate*(.9+rnd()*.2),
+		image=image,
+		size=size,
+		x=x,y=y,
+		vx=vx,vy=vy,
+		ax=ax,ay=ay,
 	}
 end
 return SYSFX

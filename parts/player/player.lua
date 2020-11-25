@@ -6,6 +6,7 @@ local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min=math.max,math.min
+local sin,cos=math.sin,math.cos
 local ins,rem=table.insert,table.remove
 
 local kickList=require"parts/kickList"
@@ -80,12 +81,20 @@ function Player.createMoveFX(P,dir)
 		end end
 	end
 end
-function Player.createSplashFX(P,y)
-	local L=P.field[y]
+function Player.createSplashFX(P,h)
+	local L=P.field[h]
+	local y=P.fieldY+P.size*(P.fieldOff.y+P.fieldBeneath+P.fieldUp+585)
 	for x=1,10 do
 		local c=L[x]
 		if c>0 then
-			SYSFX.newCell(6-P.gameEnv.splashFX,SKIN.curText[c],P.fieldX+30*x-30,P.fieldY+600-30*y,1)
+			local v,a=1+rnd(),rnd()*6.28
+			SYSFX.newCell(
+				6-P.gameEnv.splashFX,
+				SKIN.curText[c],
+				1,
+				P.fieldX+30*x-15,y-30*h,
+				v*cos(a),v*sin(a)
+			)
 		end
 	end
 end
