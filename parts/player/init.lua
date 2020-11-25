@@ -311,6 +311,7 @@ function PLY.check_attackReach(P)
 end
 
 local DemoEnv={
+	face={0,0,0,0,0,0,0},
 	das=10,arr=2,sddas=2,sdarr=2,
 	drop=60,lock=60,
 	wait=10,fall=20,
