@@ -99,8 +99,8 @@ function keyDown.custom_field(key)
 			for j=1,10 do
 				if F[i][j]<=0 then goto L end
 			end
-			SYSFX.newShade(.3,1,1,1,200,660-30*i,300,30)
-			SYSFX.newRectRipple(.3,200,660-30*i,300,30)
+			SYSFX.newShade(3,1,1,1,200,660-30*i,300,30)
+			SYSFX.newRectRipple(3,200,660-30*i,300,30)
 			rem(F,i)
 			::L::
 		end
@@ -133,14 +133,14 @@ function keyDown.custom_field(key)
 		ins(FIELD,S.page+1,newBoard(FIELD[S.page]))
 		S.page=S.page+1
 		SFX.play("blip_1",.8)
-		SYSFX.newShade(.3,.5,1,.5,200,60,300,600)
+		SYSFX.newShade(3,.5,1,.5,200,60,300,600)
 	elseif key=="m"then
 		rem(FIELD,S.page)
 		S.page=max(S.page-1,1)
 		if not FIELD[1]then
 			ins(FIELD,newBoard())
 		end
-		SYSFX.newShade(.3,1,.5,.5,200,60,300,600)
+		SYSFX.newShade(3,1,.5,.5,200,60,300,600)
 		SFX.play("clear_4",.8)
 		SFX.play("fall",.8)
 	else

@@ -115,30 +115,30 @@ function SYSFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 		r=r,g=g,b=b,a=a,
 	}
 end
-function SYSFX.newRipple(duration,x,y,r)
+function SYSFX.newRipple(rate,x,y,r)
 	fx[#fx+1]={
 		update=FXupdate.ripple,
 		draw=FXdraw.ripple,
 		t=0,
-		rate=1/duration,
+		rate=rate,
 		x=x,y=y,r=r,
 	}
 end
-function SYSFX.newRectRipple(duration,x,y,w,h)
+function SYSFX.newRectRipple(rate,x,y,w,h)
 	fx[#fx+1]={
 		update=FXupdate.rectRipple,
 		draw=FXdraw.rectRipple,
 		t=0,
-		rate=1/duration,
+		rate=rate,
 		x=x,y=y,w=w,h=h,
 	}
 end
-function SYSFX.newShade(duration,r,g,b,x,y,w,h)
+function SYSFX.newShade(rate,r,g,b,x,y,w,h)
 	fx[#fx+1]={
 		update=FXupdate.shade,
 		draw=FXdraw.shade,
 		t=0,
-		rate=1/duration,
+		rate=rate,
 		r=r,g=g,b=b,
 		x=x,y=y,w=w,h=h,
 	}

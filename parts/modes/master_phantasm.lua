@@ -52,7 +52,7 @@ local function check_LVup(P)
 			for i=1,10 do
 				P:createClearingFX(i,1.5)
 			end
-			SYSFX.newShade(.4,1,1,1,P.x+150*P.size,P.y+370*P.size,300*P.size,300*P.size)
+			SYSFX.newShade(2.5,1,1,1,P.x+150*P.size,P.y+370*P.size,300*P.size,300*P.size)
 
 			ENV.lock=13
 			ENV.wait=6

@@ -38,7 +38,7 @@ local function checkClear(P)
 				P.field[_],P.visTime[_]=nil
 			end
 			setField(P,P.modeData.point+1)
-			SYSFX.newShade(.7,.6,.8,.6,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+			SYSFX.newShade(1.4,.6,.8,.6,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
 			SFX.play("blip_1")
 		else
 			P:win("finish")

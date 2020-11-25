@@ -108,7 +108,7 @@ function love.mousepressed(x,y,k,touch)
 		WIDGET.press(mx,my)
 	end
 	lastX,lastY=mx,my
-	SYSFX.newRipple(.3,mx,my,30)
+	SYSFX.newRipple(3,mx,my,30)
 end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
@@ -191,7 +191,7 @@ function love.touchreleased(id,x,y)
 		if touchClick[SCN.cur]then
 			touchClick[SCN.cur](x,y)
 		end
-		SYSFX.newRipple(.3,x,y,30)
+		SYSFX.newRipple(3,x,y,30)
 	end
 end
 
