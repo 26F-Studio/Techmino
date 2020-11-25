@@ -283,12 +283,14 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		ENV.dropFX=nil
 		ENV.moveFX=nil
 		ENV.clearFX=nil
+		ENV.splashFX=nil
 		ENV.shakeFX=nil
 	else
 		if ENV.lockFX==0 then	ENV.lockFX=nil	end
 		if ENV.dropFX==0 then	ENV.dropFX=nil	end
 		if ENV.moveFX==0 then	ENV.moveFX=nil	end
 		if ENV.clearFX==0 then	ENV.clearFX=nil end
+		if ENV.splashFX==0 then	ENV.splashFX=nil end
 		if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
 	end
 	if ENV.ghost==0 then	ENV.ghost=nil	end

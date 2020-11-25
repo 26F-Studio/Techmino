@@ -1,9 +1,16 @@
 local gc=love.graphics
 local setColor,setWidth=gc.setColor,gc.setLineWidth
 local max,min=math.max,math.min
+local sin,cos=math.sin,math.cos
+local rnd=math.random
 local rem=table.remove
 
 local fx={}
+
+local function normUpdate(S,dt)
+	S.t=S.t+dt*S.rate
+	return S.t>1
+end
 
 local FXupdate={}
 function FXupdate.badge(S,dt)
@@ -19,21 +26,15 @@ function FXupdate.badge(S,dt)
 	end
 	return S.t>=1
 end
-function FXupdate.attack(S,dt)
+FXupdate.attack=normUpdate
+FXupdate.ripple=normUpdate
+FXupdate.rectRipple=normUpdate
+FXupdate.shade=normUpdate
+function FXupdate.cell(S,dt)
+	S.x=S.x+S.vx
+	S.y=S.y+S.vy
 	S.t=S.t+dt*S.rate
 	return S.t>1
-end
-function FXupdate.ripple(S,dt)
-	S.t=S.t+dt*S.rate
-	return S.t>=1
-end
-function FXupdate.rectRipple(S,dt)
-	S.t=S.t+dt*S.rate
-	return S.t>=1
-end
-function FXupdate.shade(S,dt)
-	S.t=S.t+dt*S.rate
-	return S.t>=1
 end
 
 local FXdraw={}
@@ -77,6 +78,10 @@ end
 function FXdraw.shade(S)
 	setColor(S.r,S.g,S.b,1-S.t)
 	gc.rectangle("fill",S.x,S.y,S.w,S.h,2)
+end
+function FXdraw.cell(S,dt)
+	setColor(1,1,1,1-S.t)
+	gc.draw(S.image,S.x,S.y,nil,S.size)
 end
 
 local SYSFX={}
@@ -141,6 +146,17 @@ function SYSFX.newShade(rate,r,g,b,x,y,w,h)
 		rate=rate,
 		r=r,g=g,b=b,
 		x=x,y=y,w=w,h=h,
+	}
+end
+function SYSFX.newCell(rate,image,x,y,size)
+	local v,a=1+rnd(),rnd()*6.28
+	fx[#fx+1]={
+		update=FXupdate.cell,
+		draw=FXdraw.cell,
+		t=0,
+		rate=rate,image=image,
+		x=x,y=y,size=size,
+		vx=v*cos(a),vy=v*sin(a),
 	}
 end
 return SYSFX

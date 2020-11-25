@@ -178,6 +178,7 @@ return{
 			dropFX="↓~",
 			moveFX="←→~",
 			clearFX="↓↓↓~",
+			splashFX="↑↑↑~",
 			shakeFX="~|~|~",
 			atkFX="→→~",
 			frame="|=|",

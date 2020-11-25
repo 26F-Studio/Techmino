@@ -80,6 +80,15 @@ function Player.createMoveFX(P,dir)
 		end end
 	end
 end
+function Player.createSplashFX(P,y)
+	local L=P.field[y]
+	for x=1,10 do
+		local c=L[x]
+		if c>0 then
+			SYSFX.newCell(6-P.gameEnv.splashFX,SKIN.curText[c],P.fieldX+30*x-30,P.fieldY+600-30*y,1)
+		end
+	end
+end
 function Player.createClearingFX(P,y,spd)
 	ins(P.clearFX,{y,0,spd})
 end
@@ -849,7 +858,11 @@ do--Player.drop(P)--Place piece
 		if cc>0 and ENV.clearFX then
 			local t=7-ENV.clearFX*1
 			for i=1,cc do
-				P:createClearingFX(P.clearedRow[i],t)
+				local y=P.clearedRow[i]
+				P:createClearingFX(y,t)
+				if ENV.splashFX then
+					P:createSplashFX(y)
+				end
 			end
 		end
 

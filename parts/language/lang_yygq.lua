@@ -78,6 +78,7 @@ return{
 			dropFX="下落特效",
 			moveFX="移动特效",
 			clearFX="消除特效",
+			splashFX="溅射特效",
 			shakeFX="晃动特效",
 			atkFX="攻击特效",
 

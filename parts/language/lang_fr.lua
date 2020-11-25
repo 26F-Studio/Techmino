@@ -247,6 +247,7 @@ return{
 			dropFX="Effets de chute",
 			moveFX="Effets de déplacement",
 			clearFX="Effets de nettoyage",
+			-- splashFX="Splash FX Level",
 			shakeFX="Tremblements de l'écran",
 			atkFX="Effets d'attaque",
 			frame="Montrer les FPS",

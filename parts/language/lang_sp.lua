@@ -248,6 +248,7 @@ return{
 			dropFX="FX Vis. de Caída",
 			moveFX="FX Vis. de Movim.",
 			clearFX="FX Vis. de Limpieza",
+			-- splashFX="Splash FX Level",
 			shakeFX="Bamboleo del Tablero",
 			atkFX="FX Vis. de Ataque",
 			frame="Ratio de FPSs",

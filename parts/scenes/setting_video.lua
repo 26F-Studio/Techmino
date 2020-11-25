@@ -6,7 +6,7 @@ function sceneBack.setting_video()
 end
 
 WIDGET.init("setting_video",{
-	WIDGET.newText{name="title",		x=640,y=15,font=80},
+	WIDGET.newText{name="title",		x=640,	y=15,font=80},
 
 	WIDGET.newButton{name="sound",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_sound","swipeR")},
 	WIDGET.newButton{name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_game","swipeL")},
@@ -19,13 +19,14 @@ WIDGET.init("setting_video",{
 	WIDGET.newSwitch{name="grid",		x=700,	y=240,				disp=WIDGET.lnk_SETval("grid"),		code=WIDGET.lnk_SETrev("grid")},
 	WIDGET.newSwitch{name="bagLine",	x=700,	y=300,				disp=WIDGET.lnk_SETval("bagLine"),	code=WIDGET.lnk_SETrev("bagLine")},
 
-	WIDGET.newSlider{name="lockFX",		x=350,	y=350,w=373,unit=5,	disp=WIDGET.lnk_SETval("lockFX"),	code=WIDGET.lnk_SETsto("lockFX")},
-	WIDGET.newSlider{name="dropFX",		x=350,	y=400,w=373,unit=5,	disp=WIDGET.lnk_SETval("dropFX"),	code=WIDGET.lnk_SETsto("dropFX")},
-	WIDGET.newSlider{name="moveFX",		x=350,	y=450,w=373,unit=5,	disp=WIDGET.lnk_SETval("moveFX"),	code=WIDGET.lnk_SETsto("moveFX")},
+	WIDGET.newSlider{name="lockFX",		x=350,	y=365,w=373,unit=5,	disp=WIDGET.lnk_SETval("lockFX"),	code=WIDGET.lnk_SETsto("lockFX")},
+	WIDGET.newSlider{name="dropFX",		x=350,	y=410,w=373,unit=5,	disp=WIDGET.lnk_SETval("dropFX"),	code=WIDGET.lnk_SETsto("dropFX")},
+	WIDGET.newSlider{name="moveFX",		x=350,	y=455,w=373,unit=5,	disp=WIDGET.lnk_SETval("moveFX"),	code=WIDGET.lnk_SETsto("moveFX")},
 	WIDGET.newSlider{name="clearFX",	x=350,	y=500,w=373,unit=5,	disp=WIDGET.lnk_SETval("clearFX"),	code=WIDGET.lnk_SETsto("clearFX")},
-	WIDGET.newSlider{name="shakeFX",	x=350,	y=550,w=373,unit=5,	disp=WIDGET.lnk_SETval("shakeFX"),	code=WIDGET.lnk_SETsto("shakeFX")},
-	WIDGET.newSlider{name="atkFX",		x=350,	y=600,w=373,unit=5,	disp=WIDGET.lnk_SETval("atkFX"),	code=WIDGET.lnk_SETsto("atkFX")},
-	WIDGET.newSlider{name="frame",		x=350,	y=650,w=373,unit=10,
+	WIDGET.newSlider{name="splashFX",	x=350,	y=545,w=373,unit=5,	disp=WIDGET.lnk_SETval("splashFX"),	code=WIDGET.lnk_SETsto("splashFX")},
+	WIDGET.newSlider{name="shakeFX",	x=350,	y=590,w=373,unit=5,	disp=WIDGET.lnk_SETval("shakeFX"),	code=WIDGET.lnk_SETsto("shakeFX")},
+	WIDGET.newSlider{name="atkFX",		x=350,	y=635,w=373,unit=5,	disp=WIDGET.lnk_SETval("atkFX"),	code=WIDGET.lnk_SETsto("atkFX")},
+	WIDGET.newSlider{name="frame",		x=350,	y=680,w=373,unit=10,
 		disp=function()
 			return SETTING.frameMul>35 and SETTING.frameMul/10 or SETTING.frameMul/5-4
 		end,

@@ -247,8 +247,9 @@ SETTING={
 	dropFX=2,
 	moveFX=2,
 	clearFX=2,
+	splashFX=2,
 	shakeFX=2,
-	atkFX=3,
+	atkFX=2,
 	frameMul=100,
 
 	text=true,

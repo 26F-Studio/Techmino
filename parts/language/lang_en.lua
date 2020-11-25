@@ -242,6 +242,7 @@ return{
 			dropFX="Drop FX Level",
 			moveFX="Move FX Level",
 			clearFX="Clear FX Level",
+			splashFX="Splash FX Level",
 			shakeFX="Field Sway Level",
 			atkFX="Atk. FX Level",
 			frame="Render Frame Rate",
