@@ -138,28 +138,15 @@ function Pnt.mg_UTTT()
 		for x=1,9 do
 			local c=board[X][x]
 			if c then
+				local _x=(X-1)%3*30+(x-1)%3*10
+				local _y=int((X-1)/3)*30+int((x-1)/3)*10
 				if c==0 then
 					gc.setColor(1,.2,.2)
-					gc.circle(
-						"line",
-						5+(X-1)%3*30+(x-1)%3*10,
-						5+int((X-1)/3)*30+int((x-1)/3)*10,
-						3.5
-					)
+					gc.rectangle("line",_x+2.25,_y+2.25,5.5,5.5)
 				else
 					gc.setColor(.3,.3,1)
-					gc.line(
-						2+(X-1)%3*30+(x-1)%3*10,
-						2+int((X-1)/3)*30+int((x-1)/3)*10,
-						8+(X-1)%3*30+(x-1)%3*10,
-						8+int((X-1)/3)*30+int((x-1)/3)*10
-					)
-					gc.line(
-						2+(X-1)%3*30+(x-1)%3*10,
-						8+int((X-1)/3)*30+int((x-1)/3)*10,
-						8+(X-1)%3*30+(x-1)%3*10,
-						2+int((X-1)/3)*30+int((x-1)/3)*10
-					)
+					gc.line(_x+2,_y+2,_x+8,_y+8)
+					gc.line(_x+2,_y+8,_x+8,_y+2)
 				end
 			end
 		end
@@ -205,7 +192,7 @@ function Pnt.mg_UTTT()
 		gc.setLineWidth(10)
 		if round==0 then
 			gc.setColor(1,0,0)
-			gc.circle("line",160,160,50)
+			gc.rectangle("line",160-40,160-40,80,80)
 		else
 			gc.setColor(0,0,1)
 			gc.line(160-45,160-45,160+45,160+45)
