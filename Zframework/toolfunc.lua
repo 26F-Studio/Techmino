@@ -169,7 +169,7 @@ do--httpRequest
 	client and function(tick,path,method,header,body)
 		local task,err=client.httpraw{
 			-- url="http://47.103.200.40/"..path,
-			url="http://127.0.0.1:10026"..path,
+			url="http://krakens.tpddns.cn:10026"..path,
 			method=method or"GET",
 			header=header,
 			body=body,

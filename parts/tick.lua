@@ -157,7 +157,7 @@ function Tick.httpREQ_login(data)
 			if success then
 				LOG.print(text.loginSuccessed..": "..content.message)
 				-- TODO: save {content.token} to storage and a global variable
-				-- TODO: save {content.user_id} to a global variable
+				-- TODO: save {content.id} to a global variable
 			else
 				LOG.print(text.jsonError,"warn")
 			end
