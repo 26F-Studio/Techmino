@@ -299,6 +299,15 @@ for i=1,25 do
 	STAT.spin[i]={0,0,0,0,0,0,0}
 end
 
+NETWORK={
+	id=nil,
+	username=nil,
+	motto=nil,
+	avatar=nil,
+	auth_token=nil,
+	access_token=nil
+}
+
 keyMap={
 	{"left","right","x","z","c","up","down","space","tab","r"},{},
 	--Keyboard

@@ -3,6 +3,7 @@ local fs=love.filesystem
 local files={
 	data=	fs.newFile("data.dat"),
 	setting=fs.newFile("settings.dat"),
+	network=fs.newFile("network.dat"),
 	VK=		fs.newFile("virtualkey.dat"),
 	keyMap=	fs.newFile("key.dat"),
 	unlock=	fs.newFile("unlock.dat"),
@@ -107,6 +108,28 @@ function FILE.saveSetting()
 	if _ then LOG.print(text.settingSaved,COLOR.green)
 	else LOG.print(text.settingSavingError..(mes or"unknown error"),COLOR.red)
 	end
+end
+
+function FILE.loadNetwork()
+	local F=files.setting
+	if F:open("r")then
+		local s=F:read()
+		if s:sub(1,6)~="return"then
+			s="return{"..s:gsub("\n",",").."}"
+		end
+		s=loadstring(s)
+		F:close()
+		if s then
+			setfenv(s,{})
+			addToTable(s(),NETWORK)
+		end
+	end
+end
+function FILE.saveNetwork()
+	local F=files.setting
+	F:open("w")
+	F:write(dumpTable(NETWORK))
+	F:flush()F:close()
 end
 
 function FILE.loadKeyMap()
