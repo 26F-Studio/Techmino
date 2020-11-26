@@ -402,7 +402,7 @@ return{
 		login={
 			title="Log in",
 			register="Sign up",
-			username="#",
+			email="@",
 			password="*",
 		},
 		register={

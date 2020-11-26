@@ -88,8 +88,8 @@ return{
 	diffPassword="Las contraseñas no coinciden",
 	registerSuccessed="¡Registro exitoso!",
 	registerFailed="Registro fallido.",
-	loginSuccessed="Successfully logged in!", -- TODO: Need translation
-	loginFailed="Login failed", -- TODO: Need translation
+	-- loginSuccessed="Successfully logged in!",
+	-- loginFailed="Login failed",
 
 	errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
 
@@ -471,7 +471,7 @@ return{
 		login={
 			title="Entrar",
 			register="Registrarse",
-			username="Nombre de Usuario",
+			email="Correo Elec.",
 			password="Contraseña",
 		},
 		register={

@@ -469,7 +469,7 @@ return{
 		login={
 			title="Log in",
 			register="Sign up",
-			username="Username",
+			email="Email address",
 			password="Password",
 		},
 		register={
