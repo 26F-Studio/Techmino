@@ -299,7 +299,7 @@ for i=1,25 do
 	STAT.spin[i]={0,0,0,0,0,0,0}
 end
 
-NETWORK={
+ACCOUNT={
 	id=nil,
 	username=nil,
 	motto=nil,

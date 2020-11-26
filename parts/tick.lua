@@ -156,10 +156,10 @@ function Tick.httpREQ_login(data)
 			local success,content=json.decode(response.body)
 			if success then
 				LOG.print(text.loginSuccessed..": "..content.message)
-				NETWORK.id=content.id
-				NETWORK.username=content.username
-				NETWORK.auth_token=content.auth_token
-				FILE.saveNetwork()
+				ACCOUNT.id=content.id
+				ACCOUNT.username=content.username
+				ACCOUNT.auth_token=content.auth_token
+				FILE.saveAccount()
 			else
 				LOG.print(text.jsonError,"warn")
 			end

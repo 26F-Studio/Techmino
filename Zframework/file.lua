@@ -110,7 +110,7 @@ function FILE.saveSetting()
 	end
 end
 
-function FILE.loadNetwork()
+function FILE.loadAccount()
 	local F=files.setting
 	if F:open("r")then
 		local s=F:read()
@@ -121,14 +121,14 @@ function FILE.loadNetwork()
 		F:close()
 		if s then
 			setfenv(s,{})
-			addToTable(s(),NETWORK)
+			addToTable(s(),ACCOUNT)
 		end
 	end
 end
-function FILE.saveNetwork()
+function FILE.saveAccount()
 	local F=files.setting
 	F:open("w")
-	F:write(dumpTable(NETWORK))
+	F:write(dumpTable(ACCOUNT))
 	F:flush()F:close()
 end
 
