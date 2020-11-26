@@ -31,11 +31,11 @@ FXupdate.rectRipple=normUpdate
 FXupdate.shade=normUpdate
 function FXupdate.cell(S,dt)
 	if S.vx then
-		S.x=S.x+S.vx
-		S.y=S.y+S.vy
+		S.x=S.x+S.vx*S.rate
+		S.y=S.y+S.vy*S.rate
 		if S.ax then
-			S.vx=S.vx+S.ax
-			S.vy=S.vy+S.ay
+			S.vx=S.vx+S.ax*S.rate
+			S.vy=S.vy+S.ay*S.rate
 		end
 	end
 	S.t=S.t+dt*S.rate

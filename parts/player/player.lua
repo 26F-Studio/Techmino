@@ -87,13 +87,13 @@ function Player.createSplashFX(P,h)
 	for x=1,10 do
 		local c=L[x]
 		if c>0 then
-			local v,a=1+rnd(),rnd()*6.28
 			SYSFX.newCell(
-				6-P.gameEnv.splashFX,
+				3-P.gameEnv.splashFX*.5,
 				SKIN.curText[c],
 				1,
 				P.fieldX+30*x-15,y-30*h,
-				v*cos(a),v*sin(a)
+				rnd()*5-2.5,rnd()*-1,
+				0,.6
 			)
 		end
 	end
