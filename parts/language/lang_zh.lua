@@ -265,6 +265,15 @@ return{
 			grid="网格",
 			bagLine="包分界线",
 
+			lockFX="锁定特效",
+			dropFX="下落特效",
+			moveFX="移动特效",
+			clearFX="消除特效",
+			splashFX="溅射特效",
+			shakeFX="晃动特效",
+			atkFX="攻击特效",
+			frame="绘制帧率",
+
 			text="消行文本",
 			score="分数动画",
 			warn="死亡预警",
