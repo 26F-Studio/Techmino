@@ -86,7 +86,7 @@ function FXdraw.shade(S)
 end
 function FXdraw.cell(S,dt)
 	setColor(1,1,1,1-S.t)
-	gc.draw(S.image,S.x,S.y,nil,S.size)
+	gc.draw(S.image,S.x,S.y,nil,S.size,nil,S.cx,S.cy)
 end
 
 local SYSFX={}
@@ -159,8 +159,8 @@ function SYSFX.newCell(rate,image,size,x,y,vx,vy,ax,ay)
 		draw=FXdraw.cell,
 		t=0,
 		rate=rate*(.9+rnd()*.2),
-		image=image,
-		size=size,
+		image=image,size=size,
+		cx=image:getWidth()*.5,cy=image:getHeight()*.5,
 		x=x,y=y,
 		vx=vx,vy=vy,
 		ax=ax,ay=ay,
