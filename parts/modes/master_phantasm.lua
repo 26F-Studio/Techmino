@@ -114,15 +114,16 @@ local function check_LVup(P)
 			for i=1,7 do ENV.skin[i]=math.random(16)end
 
 			P:setInvisible(40)
-			ENV.lock=15
+			ENV.lock=150
 			P.curMission=1
 			ENV.mission={4,4,4,4,4,4,4,4}
 			ENV.missionKill=false
 
 			ENV.target=260
+			p=260
 			SFX.play("blip_2")
 		else
-			p=P.result=="WIN"and 260 or 259
+			p=260
 		end
 	end
 	P.modeData.point=p
@@ -157,13 +158,13 @@ return{
 	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		P=P.modeData.point
+		local p=P.modeData.point
 		return
-		P==260 and 5 or
-		P>=226 and 4 or
-		P>=162 and 3 or
-		P>=62 and 2 or
-		P>=42 and 1 or
-		P>=26 and 0
+		P.result=="WIN"and 5 or
+		p>=226 and 4 or
+		p>=162 and 3 or
+		p>=62 and 2 or
+		p>=42 and 1 or
+		p>=26 and 0
 	end,
 }
