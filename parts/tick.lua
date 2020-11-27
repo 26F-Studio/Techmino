@@ -156,7 +156,6 @@ function Tick.httpREQ_login(data)
 			local success,content=json.decode(response.body)
 			if success then
 				LOG.print(text.loginSuccessed..": "..content.message)
-				ACCOUNT.id=content.id
 				ACCOUNT.username=content.username
 				ACCOUNT.auth_token=content.auth_token
 				FILE.saveAccount()

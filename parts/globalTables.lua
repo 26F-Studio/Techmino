@@ -300,7 +300,6 @@ for i=1,25 do
 end
 
 ACCOUNT={
-	id=nil,
 	username=nil,
 	motto=nil,
 	avatar=nil,
