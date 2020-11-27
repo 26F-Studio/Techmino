@@ -149,20 +149,54 @@ function Tick.httpREQ_register(data)
 		return true
 	end
 end
-function Tick.httpREQ_login(data)
+function Tick.httpREQ_newLogin(data)
 	local response,request_error=client.poll(data.task)
 	if response then
 		if response.code==200 then
+			LOGIN=true
 			local success,content=json.decode(response.body)
 			if success then
 				LOG.print(text.loginSuccessed..": "..content.message)
-				ACCOUNT.username=content.username
+				local _success,_content=json.decode(data)
+				ACCOUNT.email=_content.email
 				ACCOUNT.auth_token=content.auth_token
-				FILE.saveAccount()
+				FILE.save(ACCOUNT,"account","")
 			else
 				LOG.print(text.jsonError,"warn")
 			end
 		else
+			LOGIN=false
+			local success,content=json.decode(response.body)
+			if success then
+				LOG.print(text.netErrorCode..response.code..": "..content.message,"warn")
+			else
+				LOG.print(text.netErrorCode..response.code,"warn")
+			end
+		end
+		return true
+	elseif request_error then
+		LOG.print(text.registerFailed..": "..request_error,"warn")
+		return true
+	end
+	data.time=data.time+1
+	if data.time==360 then
+		LOG.print(text.httpTimeout,"message")
+		return true
+	end
+end
+function Tick.httpREQ_autoLogin(data)
+	local response,request_error=client.poll(data.task)
+	if response then
+		if response.code==200 then
+			LOGIN=true
+			local success,content=json.decode(response.body)
+			if success then
+				LOG.print(text.loginSuccessed..": "..content.message)
+			else
+				LOG.print(text.jsonError,"warn")
+			end
+		else
+			LOGIN=false
 			local success,content=json.decode(response.body)
 			if success then
 				LOG.print(text.netErrorCode..response.code..": "..content.message,"warn")

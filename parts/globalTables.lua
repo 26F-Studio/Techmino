@@ -282,6 +282,16 @@ SETTING={
 	VKAlpha=.3,
 }
 
+ACCOUNT={
+	email=nil,
+	auth_token=nil,
+	access_token=nil,
+
+	username=nil,
+	motto=nil,
+	avatar=nil,
+}
+
 STAT={
 	version=VERSION_NAME,
 	run=0,game=0,time=0,

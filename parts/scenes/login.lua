@@ -16,7 +16,7 @@ function keyDown.login(key)
 			return
 		end
 		httpRequest(
-			TICK.httpREQ_login,
+			TICK.httpREQ_newLogin,
 			"/tech/api/v1/users",
 			"GET",
 			{["Content-Type"]="application/json"},
