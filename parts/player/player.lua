@@ -797,7 +797,7 @@ do--Player.drop(P)--Place piece
 		local STAT=P.stat
 		local piece=P.lastPiece
 
-		local lose
+		local finish
 		local cmb=P.combo
 		local CB,CX,CY=P.cur,P.curX,P.curY
 		local clear--If clear with no line fall
@@ -975,7 +975,7 @@ do--Player.drop(P)--Place piece
 		if finePts<5 then
 			STAT.extraPiece=STAT.extraPiece+1
 			if ENV.fineKill then
-				lose=true
+				finish=true
 			end
 			if P.sound then
 				if ENV.fineKill then
@@ -1115,7 +1115,7 @@ do--Player.drop(P)--Place piece
 			if not piece.special then
 				P.b2b=max(P.b2b-250,0)
 				if P.b2b<50 and ENV.b2bKill then
-					lose=true
+					finish=true
 				end
 				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
 				atk=cc-.5
@@ -1266,12 +1266,12 @@ do--Player.drop(P)--Place piece
 				SFX.play("reach")
 				if P.curMission>#ENV.mission then
 					P.curMission=nil
-					P:win("finish")
+					if not finish then finish="finish"end
 				end
 			elseif ENV.missionKill then
 				P:showText(text.missionFailed,0,140,40,"flicker",.5)
 				SFX.play("finesseError_long",.6)
-				lose=true
+				finish=true
 			end
 		end
 
@@ -1303,12 +1303,12 @@ do--Player.drop(P)--Place piece
 			_=STAT.clears	_[cc]=_[cc]+1--Clear[1~5]
 		end
 
-		if lose then
-			P:lose()
+		if finish then
+			if finish==true then P:lose()end
+			_=ENV.dropPiece if _ then _(P)end
+			if finish then P:win(finish)end
 		else
-			--Drop event
-			_=ENV.dropPiece
-			if _ then _(P)end
+			_=ENV.dropPiece if _ then _(P)end
 		end
 	end
 end
