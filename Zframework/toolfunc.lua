@@ -307,7 +307,7 @@ do--json
 		if a then
 			return b
 		else
-			LOG.print(text.jsonError,"warn")
+			LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
 			return
 		end
 	end
@@ -540,7 +540,7 @@ do--json
 		if a then
 			return b
 		else
-			LOG.print(text.jsonError,"warn")
+			LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
 			return
 		end
 	end

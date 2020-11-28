@@ -13,6 +13,7 @@ function FILE.load(name)
 				return s()
 			else
 				LOG.print(name.." "..text.loadError,COLOR.red)
+				return{}
 			end
 		else
 			local res=json.decode(s)
@@ -20,6 +21,7 @@ function FILE.load(name)
 				return res
 			else
 				LOG.print(name.." "..text.loadError,COLOR.red)
+				return{}
 			end
 		end
 	end
@@ -27,11 +29,10 @@ end
 function FILE.save(data,name,mode,luacode)
 	if not mode then mode="m"end
 	name=name..".dat"
-	local _,mes
 	if not luacode then
-		res=json.encode(res)
-		if res then
-			LOG.print(name.." "..text.saveError..(mes or"json error"),"error")
+		data=json.encode(data)
+		if not data then
+			LOG.print(name.." "..text.saveError.."json error","error")
 		end
 	else
 		data=dumpTable(data)
@@ -39,7 +40,7 @@ function FILE.save(data,name,mode,luacode)
 
 	local F=fs.newFile(name)
 	F:open("w")
-	_,mes=F:write(data)
+	local _,mes=F:write(data)
 	F:flush()F:close()
 	if _ then
 		if mode:find("m")then
