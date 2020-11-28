@@ -20,7 +20,7 @@ MODOPT={--Mod options
 	},
 	infHold={no=3,id="IH",
 		key="r",x=440,y=230,color="water",
-		func=function(P,M)P.gameEnv.infHold=true end,
+		func=function(P)P.gameEnv.infHold=true end,
 		unranked=true,
 	},
 	hideBlock={no=4,id="HB",
@@ -126,7 +126,7 @@ MODOPT={--Mod options
 	},
 	boneBlock={no=21,id="BN",
 		key="m",x=920,y=470,color="blue",
-		func=function(P,M)P.gameEnv.bone=true end,
+		func=function(P)P.gameEnv.bone=true end,
 	},
 }
 for _,M in next,MODOPT do

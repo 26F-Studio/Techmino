@@ -2,10 +2,8 @@ local gc=love.graphics
 local kb=love.keyboard
 local tc=love.touch
 
-local function sign(a)return a>0 and 1 or -1 end
 local rnd,int,abs=math.random,math.floor,math.abs
-local max,min,sin,cos=math.max,math.min,math.sin,math.cos
-local Timer=love.timer.getTime
+local max,min=math.max,math.min
 local setFont=setFont
 
 local cubeColor={
@@ -128,7 +126,7 @@ end
 
 function Tmr.mg_cubefield(dt)
 	dt=dt*600
-	
+
 	--Update cubes' position
 	local cy=cubesY
 	local step=speed*dt*.005
@@ -273,7 +271,7 @@ function Pnt.mg_cubefield()
 
 		gc.setColor(1,1,1,(1-ct/60)*.2)
 		gc.polygon("fill",-18,20,0,-440,18,200)
-		
+
 		gc.setColor(1,1,1,ct/60)
 
 		setFont(90)
@@ -288,7 +286,7 @@ function Pnt.mg_cubefield()
 		if score>0 then
 			mStr("Score : "..score,0,-350)
 		end
-		
+
 		mStr(MOBILE and"Touch to Start"or"Press space",0,-160)
 	end
 	gc.pop()

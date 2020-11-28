@@ -6,7 +6,6 @@ local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min=math.max,math.min
-local sin,cos=math.sin,math.cos
 local ins,rem=table.insert,table.remove
 
 local kickList=require"parts/kickList"

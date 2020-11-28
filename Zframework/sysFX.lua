@@ -84,7 +84,7 @@ function FXdraw.shade(S)
 	setColor(S.r,S.g,S.b,1-S.t)
 	gc.rectangle("fill",S.x,S.y,S.w,S.h,2)
 end
-function FXdraw.cell(S,dt)
+function FXdraw.cell(S)
 	setColor(1,1,1,1-S.t)
 	gc.draw(S.image,S.x,S.y,nil,S.size,nil,S.cx,S.cy)
 end
