@@ -35,5 +35,5 @@ function love.conf(t)
 	M.math,M.data=true,true
 	M.timer,M.graphics,M.font,M.image=true,true,true,true
 	M.mouse,M.touch,M.keyboard,M.joystick=true,true,true,true
-	M.physics,M.thread,M.video=false,true,false
+	M.physics,M.thread,M.video=false,false,false
 end

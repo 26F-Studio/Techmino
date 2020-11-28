@@ -282,16 +282,6 @@ SETTING={
 	VKAlpha=.3,
 }
 
-ACCOUNT={
-	email=nil,
-	auth_token=nil,
-	access_token=nil,
-
-	username=nil,
-	motto=nil,
-	avatar=nil,
-}
-
 STAT={
 	version=VERSION_NAME,
 	run=0,game=0,time=0,
@@ -310,11 +300,13 @@ for i=1,25 do
 end
 
 ACCOUNT={
+	email=nil,
+	auth_token=nil,
+	access_token=nil,
+
 	username=nil,
 	motto=nil,
 	avatar=nil,
-	auth_token=nil,
-	access_token=nil
 }
 
 keyMap={
