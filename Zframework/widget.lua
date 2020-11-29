@@ -154,6 +154,9 @@ function button:draw()
 		gc.printf(t,x+2,y0+2,w,"center")
 		gc.setColor(r*.5,g*.5,b*.5)
 		gc.printf(t,x,y0,w,"center")
+	else
+		self.text=self.name or"NONAME"
+		self.color=COLOR.dPurple
 	end
 end
 function button:getInfo()
