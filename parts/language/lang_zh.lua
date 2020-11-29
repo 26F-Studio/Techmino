@@ -169,7 +169,7 @@ return{
 		"作者:MrZ  邮箱:1046101471@qq.com",
 		"使用LOVE2D引擎",
 		"",
-		"程序: MrZ, [T9972, FinnTenzor]",
+		"程序: MrZ, Particle_G, [T9972, FinnTenzor]",
 		"美术: MrZ, [Gnyar, T0722]",
 		"音乐: MrZ, [T0722]",
 		"音效/语音: MrZ, Miya  演出: 模电, HBM",

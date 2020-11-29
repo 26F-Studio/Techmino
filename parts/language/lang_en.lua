@@ -143,7 +143,7 @@ return{
 		"Author: MrZ  E-mail: 1046101471@qq.com",
 		"Powered by LOVE2D",
 		"",
-		"Program: MrZ, [T9972, FinnTenzor]",
+		"Program: MrZ, Particle_G, [T9972, FinnTenzor]",
 		"Art: MrZ, [Gnyar, T0722]",
 		"Music: MrZ, [T0722]",
 		"Voice & Sound: MrZ, Miya  Performance: 模电, HBM",
