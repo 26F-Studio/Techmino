@@ -12,7 +12,7 @@ local fs=love.filesystem
 
 --?
 NONE={}function NULL()end
-DBP=print--use this if need debugging print
+DBP=print--Use this in permanent code
 SYSTEM=love.system.getOS()
 MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
 SAVEDIR=fs.getSaveDirectory()
@@ -50,12 +50,14 @@ AIFUNC=	require"parts/ai"
 MODES=	require"parts/modes"
 TICK=	require"parts/tick"
 
+--Initialize sound libs
 SFX.set{
+	--Stereo sfxs(cannot set position)
 	"welcome_sfx",
 	"click","enter",
 	"finesseError","finesseError_long",
-	--Stereo sfxs(cannot set position)
 
+	--Mono sfxs
 	"virtualKey",
 	"button","swipe",
 	"ready","start","win","fail","collect",
@@ -69,9 +71,7 @@ SFX.set{
 	"spin_0","spin_1","spin_2","spin_3",
 	"emit","blip_1","blip_2",
 	"clear",
-
 	"error",
-	--Mono sfxs
 }
 BGM.set{
 	"blank",--menu
@@ -138,7 +138,7 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	end
 end
 
---Load files & settings
+--Load files
 if fs.getInfo("settings.dat")then
 	SETTING=FILE.load("settings")
 else
@@ -152,12 +152,11 @@ else
 		love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 	end
 end
-LANG.set(SETTING.lang)
 if SETTING.fullscreen then love.window.setFullscreen(true)end
+LANG.set(SETTING.lang)
 
 if fs.getInfo("unlock.dat")then RANKS=FILE.load("unlock")end
 if fs.getInfo("data.dat")then STAT=FILE.load("data")end
-print(STAT.version)
 if fs.getInfo("key.dat")then keyMap=FILE.load("key")end
 if fs.getInfo("virtualkey.dat")then VK_org=FILE.load("virtualkey")end
 
