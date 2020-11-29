@@ -5,7 +5,7 @@ function keyDown.savedata(key)
 	LOG.print("keyPress: ["..key.."]")
 end
 
-local function encodeCB(T)
+local function dumpCB(T)
 	love.system.setClipboardText(
 			love.data.encode(
 				"string","base64",
@@ -30,7 +30,6 @@ local function parseCB()
 	s=loadstring(s)
 	if s then
 		setfenv(s,NONE)
-		LOG.print(text.importSuccess,COLOR.green)
 		return s()
 	end
 end
@@ -38,15 +37,47 @@ local function HIDE()
 	return not sceneTemp.reset
 end
 WIDGET.init("savedata",{
-	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color="lGreen",font=25,code=function()encodeCB(RANKS)end},
-	WIDGET.newButton{name="exportData",		x=490,y=150,w=280,h=100,color="lGreen",font=25,code=function()encodeCB(STAT)end},
-	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color="lGreen",font=25,code=function()encodeCB(SETTING)end},
-	WIDGET.newButton{name="exportVK",		x=1090,y=150,w=280,h=100,color="lGreen",font=25,code=function()encodeCB(VK_org)end},
+	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(RANKS)end},
+	WIDGET.newButton{name="exportData",		x=490,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(STAT)end},
+	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(SETTING)end},
+	WIDGET.newButton{name="exportVK",		x=1090,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(VK_org)end},
 
-	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lBlue",font=25,code=function()addToTable(parseCB()or NONE,RANKS)end},
-	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,code=function()addToTable(parseCB()or NONE,STAT)end},
-	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,code=function()addToTable(parseCB()or NONE,SETTING)end},
-	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,code=function()addToTable(parseCB()or NONE,VK_org)end},
+	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lBlue",font=25,code=function()
+		local D=parseCB()
+		if D then
+			addToTable(D,RANKS)
+			FILE.save(RANKS,"unlock")
+		else
+			LOG.print(text.importSuccess,COLOR.green)
+		end
+	end},
+	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,code=function()
+		local D=parseCB()
+		if D then
+			addToTable(D,STAT)
+			FILE.save(STAT,"data")
+		else
+			LOG.print(text.importSuccess,COLOR.green)
+		end
+	end},
+	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,code=function()
+		local D=parseCB()
+		if D then
+			addToTable(D,SETTING)
+			FILE.save(SETTING,"settings")
+		else
+			LOG.print(text.importSuccess,COLOR.green)
+		end
+	end},
+	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,code=function()
+		local D=parseCB()
+		if D then
+			addToTable(D,VK_org)
+			FILE.save(VK_org,"virtualkey")
+		else
+			LOG.print(text.importSuccess,COLOR.green)
+		end
+	end},
 
 	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,code=function()sceneTemp.reset=true end,hide=function()return sceneTemp.reset end},
 	WIDGET.newButton{name="resetUnlock",	x=340,y=460,w=280,h=100,color="red",
