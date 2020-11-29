@@ -1,3 +1,10 @@
+local function checkTimeout(data,time)
+	data.time=data.time+1
+	if data.time==time then
+		LOG.print(text.httpTimeout,"message")
+		return true
+	end
+end
 local Tick={}
 function Tick.showMods(data)
 	local d=data[1]+1
@@ -107,11 +114,7 @@ function Tick.httpREQ_launch(data)
 		LOG.print(text.getNoticeFail..": "..request_error,"warn")
 		return true
 	end
-	data.time=data.time+1
-	if data.time==300 then
-		LOG.print(text.httpTimeout,"message")
-		return true
-	end
+	return checkTimeout(data,260)
 end
 function Tick.httpREQ_register(data)
 	local response,request_error=client.poll(data.task)
@@ -129,11 +132,7 @@ function Tick.httpREQ_register(data)
 		LOG.print(text.registerFailed..": "..request_error,"warn")
 		return true
 	end
-	data.time=data.time+1
-	if data.time==360 then
-		LOG.print(text.httpTimeout,"message")
-		return true
-	end
+	return checkTimeout(data,360)
 end
 function Tick.httpREQ_newLogin(data)
 	local response,request_error=client.poll(data.task)
@@ -155,11 +154,7 @@ function Tick.httpREQ_newLogin(data)
 		LOG.print(text.registerFailed..": "..request_error,"warn")
 		return true
 	end
-	data.time=data.time+1
-	if data.time==360 then
-		LOG.print(text.httpTimeout,"message")
-		return true
-	end
+	return checkTimeout(data,360)
 end
 function Tick.httpREQ_autoLogin(data)
 	local response,request_error=client.poll(data.task)
@@ -182,10 +177,6 @@ function Tick.httpREQ_autoLogin(data)
 		LOG.print(text.registerFailed..": "..request_error,"warn")
 		return true
 	end
-	data.time=data.time+1
-	if data.time==360 then
-		LOG.print(text.httpTimeout,"message")
-		return true
-	end
+	return checkTimeout(data,360)
 end
 return Tick
