@@ -216,8 +216,8 @@ function Pnt.mg_cubefield()
 	--Draw direction
 	if play then
 		gc.setLineWidth(3)
-		gc.setColor(1,1,1,.4)
-		gc.polygon("fill",-18,-20,0,-440,18,-20)
+		gc.setColor(1,1,1,.2)
+		gc.polygon("fill",-15,30,0,-440,15,30)
 	end
 
 	--Draw Horizon/Direction
@@ -270,7 +270,7 @@ function Pnt.mg_cubefield()
 		gc.rectangle("fill",-20,-20+ct,40,40)
 
 		gc.setColor(1,1,1,(1-ct/60)*.2)
-		gc.polygon("fill",-18,20,0,-440,18,200)
+		gc.polygon("fill",-15,30,0,-440,15,30)
 
 		gc.setColor(1,1,1,ct/60)
 
