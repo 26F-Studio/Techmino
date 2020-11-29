@@ -131,6 +131,9 @@ do--dumpTable
 		else
 			s="return{\n"
 			t=1
+			if type(L)~="table"then
+				return
+			end
 		end
 		local count=1
 		for k,v in next,L do

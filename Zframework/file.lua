@@ -33,16 +33,21 @@ function FILE.save(data,name,mode,luacode)
 		data=json.encode(data)
 		if not data then
 			LOG.print(name.." "..text.saveError.."json error","error")
+			return
 		end
 	else
 		data=dumpTable(data)
+		if not data then
+			LOG.print(name.." "..text.saveError.."dump error","error")
+			return
+		end
 	end
 
 	local F=fs.newFile(name)
 	F:open("w")
-	local _,mes=F:write(data)
+	local success,mes=F:write(data)
 	F:flush()F:close()
-	if _ then
+	if success then
 		if mode:find("m")then
 			LOG.print(text.saveDone,COLOR.green)
 		end
