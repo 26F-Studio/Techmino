@@ -132,11 +132,12 @@ return{
 		"This is just an ordinary block game, not a certain one.",
 		"It plays like TO/C2/KOS/TGM3 and others.",
 		"",
-		"You can send bug reports or suggestions to the author's testing group or email ~",
-		"This is a free download available only through discord.gg/f9pUvkh",
-		"The game downloaded from other sources may contain viruses,",
-		"and only vibration & networking permissions are needed for mobile versions!",
-		"The author is not responsible for any loss of data from modifying the game.",
+		"Powered by Love 2D Engine",
+		"Please send bugs or suggestions to the author.",
+		"Make sure to only obtain the game from official sources;",
+		"binaries obtained elsewhere might contain malware.",
+		"The author is not responsible for any modified binaries.",
+		"While the game is free, donations are appreciated."
 	},
 	staff={
 		"Author: MrZ  E-mail: 1046101471@qq.com",
@@ -166,7 +167,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="Support author",
-	group="Official QQ Group (if not hacked): 1127702001",
+	group="Join our Discord: discord.gg/f9pUvkh",
 	WidgetText={
 		main={
 			offline="Single",
