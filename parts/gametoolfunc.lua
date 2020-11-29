@@ -508,3 +508,62 @@ function scoreValid()
 	end
 	return true
 end
+function dumpRecording(L)
+	local out=""
+	local buffer=""
+	local prevFrm=0
+	local p=1
+	while L[p]do
+		--Check buffer size
+		if #buffer>10 then
+			out=out..buffer
+			buffer=""
+		end
+
+		--Encode time
+		local t=L[p]-prevFrm
+		prevFrm=L[p]
+		while t>=255 do
+			buffer=buffer.."\255"
+			t=t-255
+		end
+		buffer=buffer..char(t)
+
+		--Encode key
+		t=L[p+1]
+		buffer=buffer..char(t>0 and t or 256+t)
+
+		--Step
+		p=p+2
+	end
+	return data.encode("string","base64",out..buffer)
+end
+function parseRecording(str)
+	str=data.decode("string","base64",str)
+	local len=#str
+	local L={}
+	local p=1
+	local curFrm=0
+
+	while p<=len do
+		--Read delta time
+		::nextByte::
+		local b=byte(str,p)
+		if b==255 then
+			curFrm=curFrm+255
+			p=p+1
+			goto nextByte
+		end
+		curFrm=curFrm+b
+		L[#L+1]=curFrm
+		p=p+1
+
+		b=byte(str,p)
+		if b>127 then
+			b=b-256
+		end
+		L[#L+1]=b
+		p=p+1
+	end
+	return L
+end
