@@ -159,6 +159,7 @@ if fs.getInfo("unlock.dat")then RANKS=FILE.load("unlock")end
 if fs.getInfo("data.dat")then STAT=FILE.load("data")end
 if fs.getInfo("key.dat")then keyMap=FILE.load("key")end
 if fs.getInfo("virtualkey.dat")then VK_org=FILE.load("virtualkey")end
+if fs.getInfo("account.dat")then ACCOUNT=FILE.load("account")end
 
 if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
 if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
