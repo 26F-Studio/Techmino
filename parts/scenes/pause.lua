@@ -170,7 +170,7 @@ function Pnt.pause()
 	setFont(25)
 	if GAME.pauseCount>0 then
 		gc.setColor(1,.4,.4,T)
-		gc.print(text.pauseCount..":["..GAME.pauseCount.."] "..format("%.2f",GAME.pauseTime).."s",40,160)
+		gc.print(text.pauseCount..":["..GAME.pauseCount.."] "..format("%.2f",GAME.pauseTime).."s",40,180)
 	end
 
 	gc.setColor(1,1,1,T)
@@ -181,16 +181,16 @@ function Pnt.pause()
 
 	--Mode Info
 	_=drawableText.modeName
-	gc.draw(_,40,200)
-	gc.draw(drawableText.levelName,60+_:getWidth(),200)
+	gc.draw(_,40,240)
+	gc.draw(drawableText.levelName,60+_:getWidth(),240)
 
 	--Infos
 	if GAME.frame>180 then
 		_=S.list
-		setFont(30)
+		setFont(25)
 		for i=1,10 do
-			gc.print(text.pauseStat[i],40,210+40*i)
-			gc.printf(_[i],195,210+40*i,300,"right")
+			gc.print(text.pauseStat[i],40,270+35*i)
+			gc.printf(_[i],195,270+35*i,300,"right")
 		end
 	end
 
