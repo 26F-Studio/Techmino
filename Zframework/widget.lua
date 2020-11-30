@@ -776,7 +776,7 @@ function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 			D.x+D.w*.8,D.y,
 		},
 
-		font=	int(D.h/7-1)*5,
+		font=	font or int(D.h/7-1)*5,
 		secret=	D.secret,
 		regex=	D.regex,
 		hide=	D.hide,
