@@ -508,12 +508,12 @@ function scoreValid()
 	end
 	return true
 end
-function dumpRecording(L)
+function dumpRecording(list)
 	local out=""
 	local buffer=""
 	local prevFrm=0
 	local p=1
-	while L[p]do
+	while list[p]do
 		--Check buffer size
 		if #buffer>10 then
 			out=out..buffer
@@ -521,8 +521,8 @@ function dumpRecording(L)
 		end
 
 		--Encode time
-		local t=L[p]-prevFrm
-		prevFrm=L[p]
+		local t=list[p]-prevFrm
+		prevFrm=list[p]
 		while t>=255 do
 			buffer=buffer.."\255"
 			t=t-255
@@ -530,7 +530,7 @@ function dumpRecording(L)
 		buffer=buffer..char(t)
 
 		--Encode key
-		t=L[p+1]
+		t=list[p+1]
 		buffer=buffer..char(t>0 and t or 256+t)
 
 		--Step
@@ -538,12 +538,19 @@ function dumpRecording(L)
 	end
 	return data.encode("string","base64",out..buffer)
 end
-function parseRecording(str)
+function pumpRecording(str,L)
 	str=data.decode("string","base64",str)
 	local len=#str
-	local L={}
 	local p=1
-	local curFrm=0
+
+	local list,curFrm
+	if L then
+		list=L
+		curFrm=L[#L-1]
+	else
+		list={}
+		curFrm=0
+	end
 
 	while p<=len do
 		--Read delta time
@@ -555,15 +562,15 @@ function parseRecording(str)
 			goto nextByte
 		end
 		curFrm=curFrm+b
-		L[#L+1]=curFrm
+		list[#list+1]=curFrm
 		p=p+1
 
 		b=byte(str,p)
 		if b>127 then
 			b=b-256
 		end
-		L[#L+1]=b
+		list[#list+1]=b
 		p=p+1
 	end
-	return L
+	return list
 end
