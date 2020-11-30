@@ -114,10 +114,14 @@ function update.alive(P,dt)
 		P.dropSpeed=P.dropSpeed*.99+v*.1
 
 		if GAME.modeEnv.royaleMode then
+			v=P.swappingAtkMode
 			if P.keyPressing[9]then
-				P.swappingAtkMode=min(P.swappingAtkMode+2,30)
+				P.swappingAtkMode=min(v+2,30)
 			else
-				P.swappingAtkMode=P.swappingAtkMode+((#P.field>15 and P.swappingAtkMode>4 or P.swappingAtkMode>8)and -1 or 1)
+				local tar=#P.field>15 and 4 or 8
+				if v~=tar then
+					P.swappingAtkMode=v+(v<tar and 1 or -1)
+				end
 			end
 		end
 	end
