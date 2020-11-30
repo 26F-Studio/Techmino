@@ -1,0 +1,144 @@
+一个正确的模式文件应是一个合法lua程序，其必须立刻返回一个table，里面的内容包括：
+	color:模式的颜色，用于点击地图图标后显示的提示文本
+	env:
+		必选
+		模式环境变量，决定了关卡的各项属性
+		table值:
+			drop:下落延迟(帧，支持自然数和2的整数次幂)
+			lock:锁定延迟(帧)
+			wait:出块延迟(帧)
+			fall:下落延迟(帧)
+			bone:是否开启骨块模式
+			nextCount:显示next个数
+			nextStartPos:next从第几个开始显示
+			holdCount:hold个数,
+			infHold:是否能无限hold
+			ospin=是否能O-spin
+			RS:旋转系统名
+
+			das:DAS
+			arr:ARR
+			sddas:软降DAS
+			sdarr:软降ARR
+			mindas:允许的最小DAS
+			minarr:允许的最小ARR
+			minsdarr:允许的最小软降ARR
+			ihs:提前Hold
+			irs:提前旋转
+			ims:提前移动
+			maxNext:最大next数
+
+			skin:方块颜色,包含25个整数(1~16)的table
+			face:方块朝向,包含25个整数(0~3)的table
+
+			block:是否显示方块
+			ghost:影子透明度(0~1)
+			center:旋转中心透明度(0~1)
+			smooth:是否平滑下落
+			grid:是否显示网格
+			bagLine:是否显示包分界线
+			lockFX:特效等级(0,5)
+			dropFX:特效等级(0,5)
+			moveFX:特效等级(0,5)
+			clearFX:特效等级(0,5)
+			splashFX:特效等级(0,5)
+			shakeFX:特效等级(0,5)
+			atkFX:特效等级(0,5)
+
+			text:是否显示消行文本
+			score:是否显示落块分数
+			warn:是否开启死亡预警
+			highCam:是否开启超屏视野
+			nextPos:是否开启生成预览
+
+			sequence:序列模式，可以使用默认的几个函数用字符串表示，也可以自己写
+			freshMethod=放一块后对next序列的刷新函数，不使用默认sequence的话就要自己写
+			bag:一包的方块(本质是基准序列,不一定是包)
+			mission:包含任务的table,说明暂时略
+
+			life:生命数,
+			pushSpeed:上涨速度
+			noTele:是否禁止10个高级按键,
+			visible:方块可见性，填写固定的几个字符串
+			freshLimit:锁延刷新次数限制
+			easyFresh:是否使用简单锁延刷新规则
+
+			Fkey:按下功能键后执行的函数
+			keyCancel:包含禁止使用的按键的id们的table
+			fineKill:是否开启非极简即死
+			b2bKill:是否开启断b2b即死
+			missionKill:是否开启强制任务
+			target:目标行数，如果dropPiece使用了默认的几个通用通关函数或者自己有一个目标数字就要写
+			dropPiece:放一块后要执行的函数，输入玩家对象
+
+			bg:背景，只能填写默认背景的名字
+			bgm:背景音乐，只能填写默认音乐库的音乐名
+			noMod:是否禁用玩家开启mod
+	load:
+		必选
+		模式初始化函数，一般创建一个玩家即可
+		无输入和输出
+	mesDisp:
+		必选
+		模式显示信息，是一个绘图函数，坐标系原点是玩家对象最左上角
+		输入玩家对象
+		无输出
+
+	score:
+		可选（不填就没有分数保存和计算）
+		一局打完后要存储的数据
+		输入玩家对象
+		输出游戏结束瞬间返回一个包含直接决定该模式成绩的数据table（会被强制加上date标签）
+
+	scoreDisp:
+		可选（当模式不出现在地图上的时候）
+		是把score()存起来的table转换为字符串显示出来的函数
+		输入一个成绩table
+		输出一个字符串
+
+	comp:
+		可选（当没有score函数的时候）
+		是成绩table之间对比并排序的规则
+		输入两个成绩table
+		输出[第一个是不是排在第二个前面]的布尔值(可以类比"小于"运算)
+
+	getRank:
+		可选，模式评级函数
+		是用于评价玩家表现的函数
+		输入玩家对象
+		返回0~5，0表示除了记录到排行榜外什么都不做；1/2/3/4/5表示D/C/B/A/S级，能解锁连接的模式，还会让模式图标在地图上显示不同的颜色
+
+以下是40行的模式文件内容:
+//sprint_40.lua
+return{--返回一个table，你也可以在之前定义一些常量或者函数什么的
+	color=COLOR.green,--颜色
+	env={--模式环境变量
+		drop=60,lock=60,
+		target=40,dropPiece=PLY.check_lineReach,
+		bg="bg2",bgm="race",
+	},
+	load=function()--生成玩家
+		PLY.newPlayer(1,340,15)
+	end,
+	mesDisp=function(P)--40行模式需要显示的信息
+		setFont(55)
+		local r=40-P.stat.row
+		if r<0 then r=0 end
+		mStr(r,69,335)--把计算出来的剩余行数r显示出来
+		PLY.draw.drawTargetLine(P,r)--使用自带的境界高度线绘制函数
+	end,
+	score=function(P)return{P.stat.time,P.stat.piece}end,--游戏结束时需要保存的本局关键信息
+	scoreDisp=function(D)return toTime(D[1]).."   "..D[2].." Pieces"end,--把score返回的数据显示出来的方法
+	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,--按照时间排序，时间一样就看块数
+	getRank=function(P)--计算评级
+		if P.stat.row<40 then return end--你总得打完40行对吧，否则直接return空掉，成绩都不记录
+		local T=P.stat.time
+		return
+		T<=26 and 5 or--时间小于等于26秒，S级要求，至于为什么是26秒不解释
+		T<=32.6 and 4 or--A级要求
+		T<=52.6 and 3 or--B级要求
+		T<=92.9 and 2 or--C级要求
+		T<=183 and 1 or--D级要求，是解锁别的模式的最低标准
+		0--打完了40行那成绩就给你记一下
+	end,
+}
