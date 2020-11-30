@@ -228,6 +228,14 @@ return{
 			restart="重新开始(R)",
 			quit=	"退出(Q)",
 		},
+		netgame={
+			ffa="FFA",
+			rooms="房间列表",
+			chat="聊天室",
+		},
+		chat={
+			send="发送",
+		},
 		setting_game={
 			title="游戏设置",
 			graphic="←画面设置",
