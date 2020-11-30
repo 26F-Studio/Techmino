@@ -199,6 +199,13 @@ do
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
 	if S.version~=VERSION_CODE then
+		if(tonumber(S.version)or 0)<1204 then
+			STAT.lastPlay="sprint_10"
+			RANKS.sprintFix=nil
+			RANKS.sprintLock=nil
+			fs.remove("sprintFix.dat")
+			fs.remove("sprintLock.dat")
+		end
 		newVersionLaunch=true
 
 		--Try unlock modes which should be unlocked

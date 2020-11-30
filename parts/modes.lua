@@ -1,15 +1,13 @@
 return{
 	{name="sprint_10",				x=0,	y=0,	size=35,shape=1,icon="sprint",		unlock={"sprint_20","sprint_40"}},
 	{name="sprint_20",				x=-200,	y=0,	size=45,shape=1,icon="sprint"},
-	{name="sprint_40",				x=0,	y=-300,	size=35,shape=1,icon="sprint",		unlock={"dig_10","sprint_100","marathon_normal","sprintFix","sprintLock","sprintPenta","sprintMPH"}},
+	{name="sprint_40",				x=0,	y=-300,	size=35,shape=1,icon="sprint",		unlock={"dig_10","sprint_100","marathon_normal","sprintPenta","sprintMPH"}},
 	{name="sprint_100",				x=-200,	y=-200,	size=45,shape=1,icon="sprint",		unlock={"sprint_400","drought_normal"}},
 	{name="sprint_400",				x=-400,	y=-200,	size=35,shape=1,icon="sprint",		unlock={"sprint_1000"}},
 	{name="sprint_1000",			x=-600,	y=-200,	size=35,shape=1,icon="sprint"},
 
-	{name="sprintFix",				x=180,	y=-410,	size=40,shape=3,icon="sprint_new"},
-	{name="sprintLock",				x=240,	y=-300,	size=40,shape=3,icon="sprint_new"},
-	{name="sprintPenta",			x=240,	y=-180,	size=40,shape=3,icon="sprint_new"},
-	{name="sprintMPH",				x=180,	y=-70,	size=40,shape=3,icon="sprint_new"},
+	{name="sprintPenta",			x=210,	y=-370,	size=40,shape=3,icon="sprint_new"},
+	{name="sprintMPH",				x=210,	y=-230,	size=40,shape=3,icon="sprint_new"},
 
 	{name="drought_normal",			x=-400,	y=0,	size=35,shape=1,icon="noI",			unlock={"drought_lunatic"}},
 	{name="drought_lunatic",		x=-600,	y=0,	size=35,shape=1,icon="mess"},
@@ -102,6 +100,8 @@ return{
 	{name="infinite",				x=-800,	y=-400,	size=35,shape=1,icon="infinite"},
 	{name="infinite_dig",			x=-1000,y=-600,	size=35,shape=1,icon="infinite"},
 
+	{name="sprintFix"},
+	{name="sprintLock"},
 	{name="custom_puzzle"},
 	{name="custom_clear"},
 }

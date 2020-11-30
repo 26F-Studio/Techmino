@@ -103,14 +103,14 @@ local update={}
 function update.alive(P,dt)
 	if P.timing then P.stat.time=P.stat.time+dt end
 	if P.keyRec then--Update speeds
-		local _=GAME.frame
+		local frame=GAME.frame
 
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.keyTime[i]+1)end
+		for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i]+1)end
 		P.keySpeed=P.keySpeed*.99+v*.1
 
 		v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(_-P.dropTime[i])end
+		for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end
 		P.dropSpeed=P.dropSpeed*.99+v*.1
 
 		if GAME.modeEnv.royaleMode then
@@ -298,15 +298,21 @@ function update.alive(P,dt)
 		end
 	end
 	::stop::
+
+	--B2B bar animation
 	if P.b2b1==P.b2b then
 	elseif P.b2b1<P.b2b then
 		P.b2b1=min(P.b2b1*.98+P.b2b*.02+.4,P.b2b)
 	else
 		P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
 	end
+
+	--Finesse combo animation
 	if P.finesseComboTime>0 then
 		P.finesseComboTime=P.finesseComboTime-1
 	end
+
+	--Update FXs
 	updateLine(P)
 	updateFXs(P,dt)
 	updateTasks(P)
