@@ -91,18 +91,17 @@ function touchMove.play()
 	end
 end
 function keyDown.play(key)
-	if GAME.replaying then return end
-
-	local m=keyMap
-	for k=1,20 do
-		if key==m[1][k]or key==m[2][k]then
-			PLAYERS[1]:pressKey(k)
-			VK[k].isDown=true
-			VK[k].pressTime=10
-			return
+	if not GAME.replaying then
+		local m=keyMap
+		for k=1,20 do
+			if key==m[1][k]or key==m[2][k]then
+				PLAYERS[1]:pressKey(k)
+				VK[k].isDown=true
+				VK[k].pressTime=10
+				return
+			end
 		end
 	end
-
 	if key=="escape"then pauseGame()end
 end
 function keyUp.play(key)
