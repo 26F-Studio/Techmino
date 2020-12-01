@@ -28,7 +28,7 @@ function sceneInit.pause(org)
 	sceneTemp={
 		timer=org=="play"and 0 or 50,
 		list={
-			toTime(S.time),
+			format("%s / %s",toTime(S.frame/60),toTime(S.time)),
 			format("%d/%d/%d",S.key,S.rotate,S.hold),
 			format("%d  %.2fPPS",S.piece,S.piece/S.time),
 			format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),

@@ -9,7 +9,7 @@ return{
 		fall=20,
 		task=function(P)
 			local _=P.modeData.counter+1
-			if P.stat.time>=warnTime[_]then
+			if P.stat.frame>=warnTime[_]then
 				if _<9 then
 					P.modeData.counter=_
 					SFX.play("ready",.7+_*.03)
@@ -30,7 +30,7 @@ return{
 	mesDisp=function(P)
 		gc.setLineWidth(2)
 		gc.rectangle("line",55,190,32,402)
-		local T=P.stat.time/120
+		local T=P.stat.frame/7200
 		gc.setColor(2*T,2-2*T,.2)
 		gc.rectangle("fill",56,591,30,(T-1)*400)
 	end,

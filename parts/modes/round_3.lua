@@ -23,7 +23,7 @@ return{
 		PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",10,2,true,16000))
 		GAME.garbageSpeed=1e99
 	end,
-	score=function(P)return{P.stat.piece,P.stat.time}end,
+	score=function(P)return{P.stat.piece,P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Pieces   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

@@ -36,13 +36,13 @@ return{
 		mStr(P.gameEnv.target,69,440)
 		gc.rectangle("fill",25,445,90,4)
 	end,
-	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
+	score=function(P)return{math.min(P.stat.row,200),P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row
 		if L>=200 then
-			local T=P.stat.time
+			local T=P.stat.frame/60
 			return
 			T<=230 and 5 or
 			T<=270 and 4 or

@@ -26,7 +26,7 @@ return{
 		gc.setColor(1,1,1,.2)
 		gc.draw(IMG.electric,124,176,0,2.6)
 	end,
-	score=function(P)return{min(P.stat.row,100),P.stat.time}end,
+	score=function(P)return{min(P.stat.row,100),P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

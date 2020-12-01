@@ -284,7 +284,7 @@ SETTING={
 
 STAT={
 	version=VERSION_NAME,
-	run=0,game=0,time=0,
+	run=0,game=0,time=0,frame=0,
 	key=0,rotate=0,hold=0,
 	extraPiece=0,finesseRate=0,
 	piece=0,row=0,dig=0,

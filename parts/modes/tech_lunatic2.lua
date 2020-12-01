@@ -31,13 +31,13 @@ return{
 		mText(drawableText.atk,69,313)
 		mText(drawableText.eff,69,433)
 	end,
-	score=function(P)return{P.stat.atk<=200 and int(P.stat.atk)or 200,P.stat.time}end,
+	score=function(P)return{P.stat.atk<=200 and int(P.stat.atk)or 200,P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Attack  "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.atk
 		if L>=200 then
-			local T=P.stat.time
+			local T=P.stat.frame/60
 			return
 			T<140 and 5 or
 			T<180 and 4 or

@@ -49,13 +49,13 @@ return{
 		mText(drawableText.combo,69,428)
 		mText(drawableText.maxcmb,69,520)
 	end,
-	score=function(P)return{min(P.modeData.point,100),P.stat.time}end,
+	score=function(P)return{min(P.modeData.point,100),P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Combo   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row
 		if L==100 then
-			local T=P.stat.time
+			local T=P.stat.frame/60
 			return
 			T<=32 and 5 or
 			T<=50 and 4 or

@@ -25,7 +25,7 @@ return{
 			L>10 and 1 or
 			L>5 and 0
 		end
-		local T=P.stat.time
+		local T=P.stat.frame/60
 		return
 		T<=260 and 5 or
 		T<=420 and 4 or

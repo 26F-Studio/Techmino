@@ -127,12 +127,12 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
 		mStr(r,69,335)--把计算出来的剩余行数r显示出来
 		PLY.draw.drawTargetLine(P,r)--使用自带的境界高度线绘制函数
 	end,
-	score=function(P)return{P.stat.time,P.stat.piece}end,--游戏结束时需要保存的本局关键信息
+	score=function(P)return{P.stat.frame/60,P.stat.piece}end,--游戏结束时需要保存的本局关键信息
 	scoreDisp=function(D)return toTime(D[1]).."   "..D[2].." Pieces"end,--把score返回的数据显示出来的方法
 	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,--按照时间排序，时间一样就看块数
 	getRank=function(P)--计算评级
 		if P.stat.row<40 then return end--你总得打完40行对吧，否则直接return空掉，成绩都不记录
-		local T=P.stat.time
+		local T=P.stat.frame/60
 		return
 		T<=26 and 5 or--时间小于等于26秒，S级要求，至于为什么是26秒不解释
 		T<=32.6 and 4 or--A级要求

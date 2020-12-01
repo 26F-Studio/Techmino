@@ -61,7 +61,7 @@ return{
 		mStr((P.modeData.event+1)*100,69,440)
 		gc.rectangle("fill",25,445,90,4)
 	end,
-	score=function(P)return{P.modeData.point,P.stat.time}end,
+	score=function(P)return{P.modeData.point,P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

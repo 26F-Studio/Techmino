@@ -11,12 +11,12 @@ return{
 		PLY.newPlayer(1,340,15)
 		PLY.newAIPlayer(2,965,360,.5,AIBUILDER("9S",6))
 	end,
-	score=function(P)return{P.stat.time}end,
+	score=function(P)return{P.stat.frame/60}end,
 	scoreDisp=function(D)return toTime(D[1])end,
 	comp=function(a,b)return a[1]<b[1]end,
 	getRank=function(P)
 		if P.result=="WIN"then
-			local T=P.stat.time
+			local T=P.stat.frame/60
 			return
 			T<=50 and 5 or
 			T<=80 and 4 or

@@ -14,7 +14,7 @@ local PLY={
 --------------------------<Lib Func>--------------------------
 local function getNewStatTable()
 	local T={
-		time=0,score=0,
+		time=0,frame=0,score=0,
 		key=0,rotate=0,hold=0,
 		extraPiece=0,finesseRate=0,
 		piece=0,row=0,dig=0,

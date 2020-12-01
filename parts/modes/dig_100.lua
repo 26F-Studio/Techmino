@@ -26,12 +26,12 @@ return{
 		setFont(55)
 		mStr(100-P.stat.dig,69,335)
 	end,
-	score=function(P)return{P.stat.time,P.stat.piece}end,
+	score=function(P)return{P.stat.frame/60,P.stat.piece}end,
 	scoreDisp=function(D)return toTime(D[1]).."   "..D[2].." Pieces"end,
 	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		if P.stat.dig<100 then return end
-		local T=P.stat.time
+		local T=P.stat.frame/60
 		return
 		T<=120 and 5 or
 		T<=160 and 4 or

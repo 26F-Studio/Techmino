@@ -200,6 +200,7 @@ do
 	end
 	if S.version~=VERSION_CODE then
 		if(tonumber(S.version)or 0)<1204 then
+			STAT.frame=math.floor(STAT.time*60)
 			STAT.lastPlay="sprint_10"
 			RANKS.sprintFix=nil
 			RANKS.sprintLock=nil

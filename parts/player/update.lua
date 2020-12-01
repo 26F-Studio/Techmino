@@ -101,7 +101,11 @@ end
 
 local update={}
 function update.alive(P,dt)
-	if P.timing then P.stat.time=P.stat.time+dt end
+	if P.timing then
+		local S=P.stat
+		S.time=S.time+dt
+		S.frame=S.frame+1
+	end
 	if P.keyRec then--Update speeds
 		local frame=GAME.frame
 
@@ -318,10 +322,10 @@ function update.alive(P,dt)
 	updateTasks(P)
 end
 function update.dead(P,dt)
-	if P.timing then P.stat.time=P.stat.time+dt end
 	if P.keyRec then
-		P.keySpeed=P.keySpeed*.96+P.stat.key/P.stat.time*60*.04
-		P.dropSpeed=P.dropSpeed*.96+P.stat.piece/P.stat.time*60*.04
+		local S=P.stat
+		P.keySpeed=P.keySpeed*.96+S.key/S.frame*.04
+		P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*.04
 		--Final average speeds
 		if GAME.modeEnv.royaleMode then
 			P.swappingAtkMode=min(P.swappingAtkMode+2,30)
