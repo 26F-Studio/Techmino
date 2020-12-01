@@ -22,7 +22,7 @@ local function destroy(L)
 end
 local function draw(L)
 	--Initialization
-	local r,g,b,a=love.graphics.getColor()
+	local r,g,b,a=gc.getColor()
 	setCanvas(L.blackCanvas)clear()
 	setCanvas(L.shadowCanvas)clear()
 	setCanvas(L.renderCanvas)clear()
@@ -62,7 +62,7 @@ end
 local LIGHT={}
 function LIGHT.draw()
 	for i=1,#Lights do
-		Lights[i]:draw()
+		draw(Lights[i])
 	end
 end
 function LIGHT.clear()
@@ -71,19 +71,18 @@ function LIGHT.clear()
 		Lights[i]=nil
 	end
 end
-function LIGHT.add(x,y,R,F)
+function LIGHT.add(x,y,radius,solidFunc)
 	local id=#Lights+1
 	Lights[id]={
 		id=id,
-		x=x,y=y,size=R,
-		blackCanvas=gc.newCanvas(R,R),--Solid canvas
-		shadowCanvas=gc.newCanvas(R,1),--1D vis-depth canvas
-		renderCanvas=gc.newCanvas(R,R),--Light canvas
-		blackFn=F,--Solid draw funcion
+		x=x,y=y,size=radius,
+		blackCanvas=gc.newCanvas(radius,radius),--Solid canvas
+		shadowCanvas=gc.newCanvas(radius,1),--1D vis-depth canvas
+		renderCanvas=gc.newCanvas(radius,radius),--Light canvas
+		blackFn=solidFunc,--Solid draw funcion
 
 		move=move,
 		setPow=setPow,
-		draw=draw,
 		destroy=destroy,
 	}
 end
