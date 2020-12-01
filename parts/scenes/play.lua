@@ -149,7 +149,6 @@ function Tmr.play(dt)
 	local P1=PLAYERS[1]
 	local GAME=GAME
 	GAME.frame=GAME.frame+1
-	STAT.time=STAT.time+dt
 
 	--Update virtualkey animation
 	if SETTING.VKSwitch then
