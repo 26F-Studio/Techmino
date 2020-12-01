@@ -485,7 +485,9 @@ function love.run()
 	return function()
 		local _
 
-		lastFrame=Timer()
+		local T=Timer()
+		local dt=T-lastFrame
+		lastFrame=T
 
 		--EVENT
 		PUMP()
@@ -500,7 +502,6 @@ function love.run()
 
 		--UPDATE
 		STEP()
-		local dt=GETDelta()
 		TASK.update()
 		VOC.update()
 		BG.update(dt)
@@ -531,11 +532,11 @@ function love.run()
 
 					--Draw cursor
 					if mouseShow then
-						local r=Timer()*.5
+						local r=T*.5
 						local R=int(r)%7+1
 						_=SKIN.libColor[SETTING.skin[R]]
 						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
-						gc.draw(TEXTURE.miniBlock[R],mx,my,Timer()%3.1416*4,20,20,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+						gc.draw(TEXTURE.miniBlock[R],mx,my,T%3.1416*4,20,20,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 					end
@@ -558,8 +559,8 @@ function love.run()
 				--Draw network working
 				if TASK.netTaskCount>0 then
 					setFont(30)
-					gc.setColor(COLOR.rainbow(Timer()*5))
-					gc.print("E",1250,0,.26+.355*math.sin(Timer()*6.26))
+					gc.setColor(COLOR.rainbow(T*5))
+					gc.print("E",1250,0,.26+.355*math.sin(T*6.26))
 				end
 
 				--Draw FPS
