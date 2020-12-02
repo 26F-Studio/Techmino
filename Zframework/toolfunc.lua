@@ -568,31 +568,17 @@ end
 do--urlencode
 	local rshift=bit.rshift
 	local b16={[0]="0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}
-	urlencode={}
-	function urlencode.encode(T)
-		local out={}
-		for k,v in next,T do
-			local k1=""
-			for i=1,#k do
-				if k:sub(i,i):match("[a-zA-Z0-9]")then
-					k1=k1..k:sub(i,i)
-				else
-					local b=k:byte(i)
-					k1=k1.."%"..b16[rshift(b,4)]..b16[b%16]
-				end
+	function urlEncode(str)
+		local out=""
+		for i=1,#str do
+			if str:sub(i,i):match("[a-zA-Z0-9]")then
+				out=out..str:sub(i,i)
+			else
+				local b=str:byte(i)
+				out=out.."%"..b16[rshift(b,4)]..b16[b%16]
 			end
-			local v1=""
-			for i=1,#v do
-				if v:sub(i,i):match("[a-zA-Z0-9]")then
-					v1=v1..v:sub(i,i)
-				else
-					local b=v:byte(i)
-					v1=v1.."%"..b16[rshift(b,4)]..b16[b%16]
-				end
-			end
-			ins(out,k1.."="..v1)
 		end
-		return table.concat(out,"&")
+		return out
 	end
 end
 function copyList(org)
