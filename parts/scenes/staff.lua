@@ -9,6 +9,34 @@ function sceneInit.staff()
 	BG.set("space")
 end
 
+function mouseDown.staff(x,y)
+	if x>230 and x<1050 then
+		if math.abs(y-800+sceneTemp.time*40)<70 then
+			SCN.pop()SCN.push()
+			loadGame("sprintLock")
+		elseif math.abs(y-2160+sceneTemp.time*40)<70 then
+			SCN.pop()SCN.push()
+			loadGame("sprintFix")
+		end
+	end
+end
+
+function touchDown.staff(_,x,y)
+	mouseDown(nil,x,y)
+end
+
+function keyDown.staff(k)
+	if kb.isDown("s")then
+		if k=="l"then
+			SCN.pop()
+			loadGame("sprintLock")
+		elseif k=="f"then
+			SCN.pop()
+			loadGame("sprintFix")
+		end
+	end
+end
+
 function Tmr.staff(dt)
 	local S=sceneTemp
 	if(kb.isDown("space","return")or tc.getTouches()[1])and S.v<6.26 then
