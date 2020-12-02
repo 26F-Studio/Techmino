@@ -190,9 +190,7 @@ do--httpRequest
 	wsConnect=
 	client and function(tick,path,header)
 		local task,err=client.wsraw{
-			-- url="http://krakens.tpddns.cn:10026"..path,
-			url="ws://127.0.0.1:10026"..path,
-			origin = "127.0.0.1",
+			url="http://krakens.tpddns.cn:10026"..path,
 			header=header,
 		}
 		if task then

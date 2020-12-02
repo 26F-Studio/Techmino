@@ -485,10 +485,6 @@ return{
 			password="Password",
 			password2="Reenter password",
 		},
-		netgame={
-			title="Online game",
-			test="Test",
-		},
 		account={
 			title="Account",
 		},

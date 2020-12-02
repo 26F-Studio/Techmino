@@ -508,10 +508,6 @@ return{
 			password="密码",
 			password2="确认密码",
 		},
-		netgame={
-			title="在线游戏",
-			test="测试",
-		},
 		account={
 			title="账户",
 		},
