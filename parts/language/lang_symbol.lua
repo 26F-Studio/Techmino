@@ -407,6 +407,10 @@ return{
 			password="*",
 			password2="*",
 		},
+		netgame={
+			title="Online game",
+			test="Test",
+		},
 		account={
 			title="@_@",
 		},

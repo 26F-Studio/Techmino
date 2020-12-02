@@ -21,7 +21,7 @@ function keyDown.register(key)
 		if res then
 			httpRequest(
 				TICK.httpREQ_register,
-				"/tech/api/v1/users",
+				PATH.api..PATH.auth,
 				"POST",
 				{["Content-Type"]="application/json"},
 				res

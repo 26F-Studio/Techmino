@@ -81,6 +81,8 @@ return{
 	registerFailed="Registration failed",
 	loginSuccessed="Successfully logged in!",
 	loginFailed="Login failed",
+	wsSuccessed="Websocket connected!",
+	wsFailed="Websocket failed to connect",
 
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
@@ -482,6 +484,10 @@ return{
 			email="Email address",
 			password="Password",
 			password2="Reenter password",
+		},
+		netgame={
+			title="Online game",
+			test="Test",
 		},
 		account={
 			title="Account",

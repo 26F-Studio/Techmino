@@ -171,7 +171,6 @@ do--httpRequest
 	httpRequest=
 	client and function(tick,path,method,header,body)
 		local task,err=client.httpraw{
-			-- url="http://47.103.200.40/"..path,
 			url="http://krakens.tpddns.cn:10026"..path,
 			method=method or"GET",
 			header=header,
@@ -179,6 +178,25 @@ do--httpRequest
 		}
 		if task then
 			TASK.new(tick,{task=task,time=0,net=true})
+		else
+			LOG.print("NETlib error: "..err,"warn")
+		end
+		TASK.netTaskCount=TASK.netTaskCount+1
+	end or
+	function()
+		LOG.print("[NO NETlib]",5,COLOR.yellow)
+	end
+
+	wsConnect=
+	client and function(tick,path,header)
+		local task,err=client.wsraw{
+			-- url="http://krakens.tpddns.cn:10026"..path,
+			url="ws://127.0.0.1:10026"..path,
+			origin = "127.0.0.1",
+			header=header,
+		}
+		if task then
+			TASK.new(tick,{wsconntask=task,time=0,net=true})
 		else
 			LOG.print("NETlib error: "..err,"warn")
 		end

@@ -82,6 +82,8 @@ return{
 	registerFailed="注册失败",
 	loginSuccessed="登录成功!",
 	loginFailed="登录失败",
+	wsSuccessed="连接成功！",
+	wsFailed="连接失败",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
@@ -505,6 +507,10 @@ return{
 			email="邮箱",
 			password="密码",
 			password2="确认密码",
+		},
+		netgame={
+			title="在线游戏",
+			test="测试",
 		},
 		account={
 			title="账户",

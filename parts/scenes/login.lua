@@ -14,7 +14,7 @@ function keyDown.login(key)
 		if res then
 			httpRequest(
 				TICK.httpREQ_newLogin,
-				"/tech/api/v1/users",
+				PATH.api..PATH.auth,
 				"GET",
 				{["Content-Type"]="application/json"},
 				res

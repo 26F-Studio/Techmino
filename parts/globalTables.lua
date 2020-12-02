@@ -309,6 +309,15 @@ ACCOUNT={
 	avatar=nil,
 }
 
+PATH={
+	api="/tech/api/v1",
+	appInfo="/app/info",
+	users="/users",
+	auth="/auth",
+	access="/auth/access",
+	versus="/online/versus"
+}
+
 keyMap={
 	{"left","right","x","z","c","up","down","space","tab","r"},{},
 	--Keyboard

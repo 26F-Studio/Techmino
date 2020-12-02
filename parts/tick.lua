@@ -129,7 +129,7 @@ function Tick.httpREQ_register(data)
 		end
 		return true
 	elseif request_error then
-		LOG.print(text.registerFailed..": "..request_error,"warn")
+		LOG.print(text.loginFailed..": "..request_error,"warn")
 		return true
 	end
 	return checkTimeout(data,360)
@@ -151,7 +151,7 @@ function Tick.httpREQ_newLogin(data)
 		end
 		return true
 	elseif request_error then
-		LOG.print(text.registerFailed..": "..request_error,"warn")
+		LOG.print(text.loginFailed..": "..request_error,"warn")
 		return true
 	end
 	return checkTimeout(data,360)
@@ -163,7 +163,7 @@ function Tick.httpREQ_autoLogin(data)
 			LOGIN=true
 			local res=json.decode(response.body)
 			if res then
-				LOG.print(text.loginSuccessed..": "..res.message)
+				LOG.print(text.loginSuccessed)
 			end
 		else
 			LOGIN=false
@@ -174,9 +174,54 @@ function Tick.httpREQ_autoLogin(data)
 		end
 		return true
 	elseif request_error then
-		LOG.print(text.registerFailed..": "..request_error,"warn")
+		LOG.print(text.loginFailed..": "..request_error,"warn")
 		return true
 	end
 	return checkTimeout(data,360)
 end
+function Tick.wsCONN_connect(data)
+	print("Running wsconntask...")
+	if data.wsconntask then
+		local wsconn,connErr=client.poll(data.wsconntask)
+		if wsconn then
+			WSCONN = wsconn
+			TASK.new(Tick.wsCONN_read,{net=true})
+			return true
+		elseif connErr then
+			LOG.print(text.wsFailed..": "..connErr,"warn")
+			return true
+		end
+	end
+	return checkTimeout(data,360)
+end
+function Tick.wsCONN_read(data)
+	if not data.net then
+		return true
+	end
+	local messages,readErr=client.read(WSCONN)
+	if messages then
+		if messages[1] then
+			print(messages[1])
+			LOG.print("Message: "..messages[1])
+		end
+	elseif readErr then
+		print("Read error: "..readErr)
+		if readErr == "EOF" then
+			LOG.print("Socket closed!","warn")
+		end
+		WSCONN = nil
+		return true
+	end
+end
+-- function Tick.wsCONN_write(data)
+-- 	if not data.net then
+-- 		return true
+-- 	end
+-- 	local writeErr=client.write(WSCONN,data.message)
+-- 	if writeErr then
+-- 		print(writeErr, "warn")
+-- 	end
+-- 	return true
+-- end
+
 return Tick

@@ -84,6 +84,8 @@ return{
 	registerFailed="Erreur d'enregistrement",
 	-- loginSuccessed="Successfully logged in!",
 	-- loginFailed="Login failed",
+	-- wsSuccessed="Websocket connected!",
+	-- wsFailed="Websocket failed to connect",
 
 	errorMsg="Une erreur est survenue et Techmino doit redémarrer.\nDes informations concernant l'erreur ont été créées, et vous pouvez les envoyer au créateur.",
 
@@ -479,6 +481,10 @@ return{
 			email="E-mail",
 			password="Mot de passe",
 			password2="Confirmer le mot de passe",
+		},
+		netgame={ -- TODO: translation
+			title="Online game",
+			test="Test",
 		},
 		account={
 			title="Compte",
