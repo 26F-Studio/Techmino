@@ -100,7 +100,7 @@ function Tick.httpREQ_launch(data)
 		if res then
 			if response.code==200 then
 				LOG.print(res.notice,360,COLOR.sky)
-				if VERSION_CODE==res.version_code then
+				if VERSION_CODE>=res.version_code then
 					LOG.print(text.versionIsNew,360,COLOR.sky)
 				else
 					LOG.print(string.gsub(text.versionIsOld,"$1",res.version_name),"warn")
