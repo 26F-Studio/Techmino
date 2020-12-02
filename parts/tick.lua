@@ -141,10 +141,12 @@ function Tick.httpREQ_newLogin(data)
 		LOGIN=response.code==200
 		if res then
 			if LOGIN then
-				LOG.print(text.loginSuccessed..": "..res.message)
+				LOG.print(text.loginSuccessed)
 				ACCOUNT.email=res.email
 				ACCOUNT.auth_token=res.auth_token
 				FILE.save(ACCOUNT,"account","")
+				SCN.pop()
+				SCN.go("netgame")
 			else
 				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 			end
