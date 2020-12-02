@@ -730,7 +730,7 @@ function textBox:draw()
 			gc.print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
 		end
 	else
-		gc.print(self.value,x+10,y+h*.5-self.font*.7)
+		gc.printf(self.value,x+10,y,self.w,"left")
 		setFont(self.font-10)
 		if WIDGET.sel==self then
 			gc.print(EDITING,x+10,y+12-self.font*1.4)
@@ -776,7 +776,7 @@ function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 			D.x+D.w*.8,D.y,
 		},
 
-		font=	font or int(D.h/7-1)*5,
+		font=	D.font or int(D.h/7-1)*5,
 		secret=	D.secret,
 		regex=	D.regex,
 		hide=	D.hide,
