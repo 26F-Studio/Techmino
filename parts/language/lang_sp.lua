@@ -85,6 +85,8 @@ return{
 	registerFailed="Registro fallido.",
 	-- loginSuccessed="Successfully logged in!",
 	-- loginFailed="Login failed",
+	-- accessSuccessed="Successfully authorized!",
+	-- accessFailed="Authorization failed",
 	-- wsSuccessed="Websocket connected!",
 	-- wsFailed="Websocket failed to connect",
 

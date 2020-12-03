@@ -166,44 +166,6 @@ do--dumpTable
 		return s..tabs[t-1].."}"
 	end
 end
-do--httpRequest
-	client=LOADLIB("NETlib")
-	httpRequest=
-	client and function(tick,path,method,header,body)
-		local task,err=client.httpraw{
-			url="http://krakens.tpddns.cn:10026"..path,
-			method=method or"GET",
-			header=header,
-			body=body,
-		}
-		if task then
-			TASK.new(tick,{task=task,time=0,net=true})
-		else
-			LOG.print("NETlib error: "..err,"warn")
-		end
-		TASK.netTaskCount=TASK.netTaskCount+1
-	end or
-	function()
-		LOG.print("[NO NETlib]",5,COLOR.yellow)
-	end
-
-	wsConnect=
-	client and function(tick,path,header)
-		local task,err=client.wsraw{
-			url="http://krakens.tpddns.cn:10026"..path,
-			header=header,
-		}
-		if task then
-			TASK.new(tick,{wsconntask=task,time=0,net=true})
-		else
-			LOG.print("NETlib error: "..err,"warn")
-		end
-		TASK.netTaskCount=TASK.netTaskCount+1
-	end or
-	function()
-		LOG.print("[NO NETlib]",5,COLOR.yellow)
-	end
-end
 do--json
 	--
 	-- json.lua
@@ -564,7 +526,6 @@ do--json
 		end
 	end
 end
-
 do--urlencode
 	local rshift=bit.rshift
 	local b16={[0]="0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}
@@ -579,6 +540,48 @@ do--urlencode
 			end
 		end
 		return out
+	end
+end
+do--httpRequest
+	client=LOADLIB("NETlib")
+	httpRequest=
+	client and function(tick,path,method,header,body)
+		local task,err=client.httpraw{
+			url="http://krakens.tpddns.cn:10026"..path,
+			-- url="http://127.0.0.1:10026"..path,
+			method=method or"GET",
+			header=header,
+			body=body,
+		}
+		if task then
+			TASK.new(tick,{task=task,time=0,net=true})
+		else
+			LOG.print("NETlib error: "..err,"warn")
+		end
+		TASK.netTaskCount=TASK.netTaskCount+1
+	end or
+	function()
+		LOG.print("[NO NETlib]",5,COLOR.yellow)
+	end
+
+	wsConnect=
+	client and function(tick,path,header)
+		local task,err=client.wsraw{
+			url="ws://krakens.tpddns.cn:10026"..path,
+			origin="krakens.tpddns.cn",
+			-- url="ws://127.0.0.1:10026"..path,
+			-- origin="127.0.0.1",
+			header=header,
+		}
+		if task then
+			TASK.new(tick,{wsconntask=task,time=0,net=true})
+		else
+			LOG.print("NETlib error: "..err,"warn")
+		end
+		TASK.netTaskCount=TASK.netTaskCount+1
+	end or
+	function()
+		LOG.print("[NO NETlib]",5,COLOR.yellow)
 	end
 end
 function copyList(org)

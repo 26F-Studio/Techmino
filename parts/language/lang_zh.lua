@@ -82,6 +82,8 @@ return{
 	registerFailed="注册失败",
 	loginSuccessed="登录成功!",
 	loginFailed="登录失败",
+	accessSuccessed="授权成功!",
+	accessFailed="授权失败",
 	wsSuccessed="连接成功！",
 	wsFailed="连接失败",
 

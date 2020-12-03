@@ -145,8 +145,18 @@ function Tick.httpREQ_newLogin(data)
 				ACCOUNT.email=res.email
 				ACCOUNT.auth_token=res.auth_token
 				FILE.save(ACCOUNT,"account","")
-				SCN.pop()
-				SCN.go("netgame")
+
+				local payload=json.encode{
+					email=ACCOUNT.email,
+					auth_token=ACCOUNT.auth_token,
+				}
+				httpRequest(
+					TICK.httpREQ_getAccessToken,
+					PATH.api..PATH.access,
+					"POST",
+					{["Content-Type"]="application/json"},
+					payload
+				)
 			else
 				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 			end
@@ -171,6 +181,38 @@ function Tick.httpREQ_autoLogin(data)
 			LOGIN=false
 			local err=json.decode(response.body)
 			if err then
+				LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")
+			end
+		end
+		return true
+	elseif request_error then
+		LOG.print(text.loginFailed..": "..request_error,"warn")
+		return true
+	end
+	return checkTimeout(data,360)
+end
+function Tick.httpREQ_checkAccessToken(data)
+	local response,request_error=client.poll(data.task)
+	if response then
+		if response.code==200 then
+			LOG.print(text.accessSuccessed)
+			SCN.pop()
+			SCN.go("netgame")
+		elseif response.code==403 or response.code==401 then
+			local payload=json.encode{
+				email=ACCOUNT.email,
+				auth_token=ACCOUNT.auth_token,
+			}
+			httpRequest(
+				TICK.httpREQ_getAccessToken,
+				PATH.api..PATH.access,
+				"POST",
+				{["Content-Type"]="application/json"},
+				payload
+			)
+		else
+			local err=json.decode(response.body)
+			if err then
 				LOG.print(text.netErrorCode..response.code..": "..err.message,"warn")
 			end
 		end
@@ -181,8 +223,43 @@ function Tick.httpREQ_autoLogin(data)
 	end
 	return checkTimeout(data,360)
 end
+function Tick.httpREQ_getAccessToken(data)
+	local response,request_error=client.poll(data.task)
+	if response then
+		if response.code==200 then
+			local res=json.decode(response.body)
+			if res then
+				LOG.print(text.accessSuccessed)
+				ACCOUNT.access_token=res.access_token
+				FILE.save(ACCOUNT,"account","")
+				SCN.pop()
+				SCN.go("netgame")
+			else
+				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
+				SCN.pop()
+				SCN.go("main")
+			end
+		else
+			LOGIN=false
+			ACCOUNT.access_token=nil
+			ACCOUNT.auth_token=nil
+			local err=json.decode(response.body)
+			if err then
+				LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")
+			else
+				LOG.print(text.loginFailed..": "..text.netErrorCode,"warn")
+			end
+			SCN.pop()
+			SCN.go("main")
+		end
+		return true
+	elseif request_error then
+		LOG.print(text.loginFailed..": "..request_error,"warn")
+		return true
+	end
+	return checkTimeout(data,360)
+end
 function Tick.wsCONN_connect(data)
-	print("Running wsconntask...")
 	if data.wsconntask then
 		local wsconn,connErr=client.poll(data.wsconntask)
 		if wsconn then
@@ -203,8 +280,7 @@ function Tick.wsCONN_read(data)
 	local messages,readErr=client.read(WSCONN)
 	if messages then
 		if messages[1] then
-			print(messages[1])
-			LOG.print("Message: "..messages[1])
+			LOG.print(messages[1])
 		end
 	elseif readErr then
 		print("Read error: "..readErr)

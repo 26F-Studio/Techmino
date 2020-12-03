@@ -1,32 +1,28 @@
-local function send()
-	local W=WIDGET.active.text
-	--sendMessage(W.value)
-	W.value=""
-end
-
-function sceneInit.chat()
-	BG.set("none")
-end
-
-local function socketConnect()
-    wsConnect(
-		TICK.wsCONN_connect,
-		"/solo?room_id=114",
-		{}
-	)
-end
-local function socketWrite()
+local function socketWrite(message)
 	if not WSCONN then
 		LOG.print("尚未连接到服务器","warn")
 		return
 	end
-	local message = WIDGET.active.message.value
-	print("TextBox: "..message)
 	local writeErr = client.write(WSCONN, message)
 	if writeErr then
 		print(writeErr, "warn")
 	end
 	return true
+end
+
+local function send()
+	local W=WIDGET.active.text
+	socketWrite(W.value)
+	W.value=""
+end
+
+function sceneInit.chat()
+	BG.set("none")
+	wsConnect(
+		TICK.wsCONN_connect,
+		PATH.socket..PATH.chat.."?email="..urlEncode(ACCOUNT.email).."&access_token="..urlEncode(ACCOUNT.access_token),
+		{}
+	)
 end
 
 WIDGET.init("chat",{
