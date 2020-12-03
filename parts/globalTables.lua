@@ -283,7 +283,7 @@ SETTING={
 }
 
 STAT={
-	version=VERSION_NAME,
+	version=VERSION_CODE,
 	run=0,game=0,time=0,frame=0,
 	key=0,rotate=0,hold=0,
 	extraPiece=0,finesseRate=0,

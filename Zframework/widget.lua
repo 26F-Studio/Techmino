@@ -809,28 +809,26 @@ function WIDGET.lnk_swapScene(t,s)	return function()	SCN.swapTo(t,s)					end end
 function WIDGET.lnk_goNetgame()
 	if LOGIN then
 		if ACCOUNT.access_token then
-			local res=json.encode{
-				email=ACCOUNT.email,
-				access_token=ACCOUNT.access_token,
-			}
 			httpRequest(
 				TICK.httpREQ_checkAccessToken,
 				PATH.api..PATH.access,
 				"GET",
 				{["Content-Type"]="application/json"},
-				res
+				json.encode{
+					email=ACCOUNT.email,
+					access_token=ACCOUNT.access_token,
+				}
 			)
 		else
-			local payload=json.encode{
-				email=ACCOUNT.email,
-				auth_token=ACCOUNT.auth_token,
-			}
 			httpRequest(
 				TICK.httpREQ_getAccessToken,
 				PATH.api..PATH.access,
 				"POST",
 				{["Content-Type"]="application/json"},
-				payload
+				json.encode{
+					email=ACCOUNT.email,
+					auth_token=ACCOUNT.auth_token,
+				}
 			)
 		end
 	else

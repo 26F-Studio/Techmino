@@ -45,13 +45,6 @@ function TASK.removeTask_data(data)
 		end
 	end
 end
-function TASK.checkTask_code(code)
-	for i=#tasks,1,-1 do
-		if tasks[i].code==code then
-			return true
-		end
-	end
-end
 function TASK.clear()
 	local i=#tasks
 	while i>0 do

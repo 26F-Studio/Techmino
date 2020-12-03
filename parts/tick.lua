@@ -146,16 +146,15 @@ function Tick.httpREQ_newLogin(data)
 				ACCOUNT.auth_token=res.auth_token
 				FILE.save(ACCOUNT,"account","")
 
-				local payload=json.encode{
-					email=ACCOUNT.email,
-					auth_token=ACCOUNT.auth_token,
-				}
 				httpRequest(
 					TICK.httpREQ_getAccessToken,
 					PATH.api..PATH.access,
 					"POST",
 					{["Content-Type"]="application/json"},
-					payload
+					json.encode{
+						email=ACCOUNT.email,
+						auth_token=ACCOUNT.auth_token,
+					}
 				)
 			else
 				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
@@ -199,16 +198,15 @@ function Tick.httpREQ_checkAccessToken(data)
 			SCN.pop()
 			SCN.go("netgame")
 		elseif response.code==403 or response.code==401 then
-			local payload=json.encode{
-				email=ACCOUNT.email,
-				auth_token=ACCOUNT.auth_token,
-			}
 			httpRequest(
 				TICK.httpREQ_getAccessToken,
 				PATH.api..PATH.access,
 				"POST",
 				{["Content-Type"]="application/json"},
-				payload
+				json.encode{
+					email=ACCOUNT.email,
+					auth_token=ACCOUNT.auth_token,
+				}
 			)
 		else
 			local err=json.decode(response.body)
@@ -264,7 +262,7 @@ function Tick.wsCONN_connect(data)
 		local wsconn,connErr=client.poll(data.wsconntask)
 		if wsconn then
 			WSCONN = wsconn
-			TASK.new(Tick.wsCONN_read,{net=true})
+			TASK.new(Tick.wsCONN_read)
 			return true
 		elseif connErr then
 			LOG.print(text.wsFailed..": "..connErr,"warn")
@@ -273,10 +271,7 @@ function Tick.wsCONN_connect(data)
 	end
 	return checkTimeout(data,360)
 end
-function Tick.wsCONN_read(data)
-	if not data.net then
-		return true
-	end
+function Tick.wsCONN_read()
 	local messages,readErr=client.read(WSCONN)
 	if messages then
 		if messages[1] then

@@ -118,19 +118,16 @@ function Tmr.load()
 			VOC.play("welcome_voc")
 			httpRequest(TICK.httpREQ_launch,PATH.api..PATH.appInfo)
 			if ACCOUNT.auth_token and ACCOUNT.email then
-				local res=json.encode{
-					email=ACCOUNT.email,
-					auth_token=ACCOUNT.auth_token,
-				}
-				if res then
-					httpRequest(
-						TICK.httpREQ_autoLogin,
-						PATH.api..PATH.auth,
-						"GET",
-						{["Content-Type"]="application/json"},
-						res
-					)
-				end
+				httpRequest(
+					TICK.httpREQ_autoLogin,
+					PATH.api..PATH.auth,
+					"GET",
+					{["Content-Type"]="application/json"},
+					json.encode{
+						email=ACCOUNT.email,
+						auth_token=ACCOUNT.auth_token,
+					}
+				)
 			end
 		end
 		if S.tar then

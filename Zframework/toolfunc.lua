@@ -542,7 +542,7 @@ do--urlencode
 		return out
 	end
 end
-do--httpRequest
+do--httpRequest & wsConnect
 	client=LOADLIB("NETlib")
 	httpRequest=
 	client and function(tick,path,method,header,body)
