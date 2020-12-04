@@ -748,18 +748,19 @@ function textBox:press()
 end
 function textBox:keypress(k)
 	local t=self.value
-	if #t==0 then return end
-	if k=="backspace"then
-		while t:byte(#t)>=128 and t:byte(#t)<192 do
+	if #t>0 and EDITING==""then
+		if k=="backspace"then
+			while t:byte(#t)>=128 and t:byte(#t)<192 do
+				t=sub(t,1,-2)
+			end
 			t=sub(t,1,-2)
+			SFX.play("lock")
+		elseif k=="delete"then
+			t=""
+			SFX.play("hold")
 		end
-		t=sub(t,1,-2)
-		SFX.play("lock")
-	elseif k=="delete"then
-		t=""
-		SFX.play("hold")
+		self.value=t
 	end
-	self.value=t
 end
 function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 	local _={
