@@ -1,4 +1,6 @@
 local rem=table.remove
+local ct=coroutine
+local assert=assert
 local tasks={}
 
 local TASK={
@@ -10,24 +12,40 @@ end
 function TASK.update()
 	for i=#tasks,1,-1 do
 		local T=tasks[i]
-		if T.code(T.data)then
-			if T.data.net then
+		assert(ct.resume(T.thread))
+		if ct.status(T.thread)=="dead"then
+			if T.net then
 				TASK.netTaskCount=TASK.netTaskCount-1
 			end
 			rem(tasks,i)
 		end
 	end
 end
-function TASK.new(code,data)
-	tasks[#tasks+1]={
-		code=code,
-		data=data,
-	}
+function TASK.new(code,...)
+	local thread=ct.create(code)
+	if ...~=nil then ct.resume(thread,...)end
+	if ct.status(thread)~="dead"then
+		tasks[#tasks+1]={
+			thread=thread,
+			code=code,
+		}
+	end
+end
+function TASK.newNet(code,...)
+	local thread=ct.create(code)
+	if ...~=nil then ct.resume(thread,...)end
+	if ct.status(thread)~="dead"then
+		tasks[#tasks+1]={
+			thread=thread,
+			code=code,
+			net=true,
+		}
+	end
 end
 function TASK.changeCode(c1,c2)
 	for i=#tasks,1,-1 do
-		if tasks[i].code==c1 then
-			tasks[i].code=c2
+		if tasks[i].thread==c1 then
+			tasks[i].thread=c2
 		end
 	end
 end

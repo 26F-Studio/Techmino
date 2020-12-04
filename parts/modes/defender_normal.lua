@@ -8,33 +8,37 @@ return{
 		freshLimit=15,
 		pushSpeed=1,
 		task=function(P)
-			if not(P.control and SCN.cur=="play")then return end
-			P.modeData.counter=P.modeData.counter+1
-			local t=360-P.modeData.event*2
-			if P.modeData.counter>=t then
-				P.modeData.counter=0
-				for _=1,3 do
-					P.atkBuffer[#P.atkBuffer+1]={pos=P:RND(2,9),amount=1,countdown=2*t,cd0=2*t,time=0,sent=false,lv=1}
-				end
-				P.atkBuffer.sum=P.atkBuffer.sum+3
-				P.stat.recv=P.stat.recv+3
-				local D=P.modeData
-				if D.event<90 then
-					D.event=D.event+1
-					D.point=int(108e3/(360-D.event*2))*.1
-					if D.event==25 then
-						P:showTextF(text.great,0,-140,100,"appear",.6)
-						P.gameEnv.pushSpeed=2
-						P.dropDelay,P.gameEnv.drop=20,20
-					elseif D.event==50 then
-						P:showTextF(text.awesome,0,-140,100,"appear",.6)
-						P.gameEnv.pushSpeed=3
-						P.dropDelay,P.gameEnv.drop=10,10
-					elseif D.event==90 then
-						P.dropDelay,P.gameEnv.drop=5,5
-						P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+			while true do
+				coroutine.yield()
+				if P.control and SCN.cur=="play"then
+					P.modeData.counter=P.modeData.counter+1
+					local t=360-P.modeData.event*2
+					if P.modeData.counter>=t then
+						P.modeData.counter=0
+						for _=1,3 do
+							P.atkBuffer[#P.atkBuffer+1]={pos=P:RND(2,9),amount=1,countdown=2*t,cd0=2*t,time=0,sent=false,lv=1}
+						end
+						P.atkBuffer.sum=P.atkBuffer.sum+3
+						P.stat.recv=P.stat.recv+3
+						local D=P.modeData
+						if D.event<90 then
+							D.event=D.event+1
+							D.point=int(108e3/(360-D.event*2))*.1
+							if D.event==25 then
+								P:showTextF(text.great,0,-140,100,"appear",.6)
+								P.gameEnv.pushSpeed=2
+								P.dropDelay,P.gameEnv.drop=20,20
+							elseif D.event==50 then
+								P:showTextF(text.awesome,0,-140,100,"appear",.6)
+								P.gameEnv.pushSpeed=3
+								P.dropDelay,P.gameEnv.drop=10,10
+							elseif D.event==90 then
+								P.dropDelay,P.gameEnv.drop=5,5
+								P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+							end
+						end
 					end
-				end
+				end	
 			end
 		end,
 		bg="rainbow2",bgm="storm",

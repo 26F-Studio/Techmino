@@ -1,5 +1,7 @@
 local int,max,min,abs=math.floor,math.max,math.min,math.abs
 local rem=table.remove
+local ct=coroutine
+local assert=assert
 
 local function updateLine(P)--Attacks, line pushing, cam moving
 	local bf=P.atkBuffer
@@ -95,7 +97,10 @@ end
 local function updateTasks(P)
 	local L=P.tasks
 	for i=#L,1,-1 do
-		if L[i].code(P,L[i].data)then rem(L,i)end
+		assert(ct.resume(L[i]))
+		if ct.status(L[i])=="dead"then
+			rem(L,i)
+		end
 	end
 end
 

@@ -8,31 +8,35 @@ return{
 		freshLimit=15,
 		pushSpeed=2,
 		task=function(P)
-			if not(P.control and SCN.cur=="play")then return end
-			P.modeData.counter=P.modeData.counter+1
-			local t=240-2*P.modeData.event
-			if P.modeData.counter>=t then
-				P.modeData.counter=0
-				for _=1,4 do
-					P.atkBuffer[#P.atkBuffer+1]={pos=P:RND(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
-				end
-				P.atkBuffer.sum=P.atkBuffer.sum+4
-				P.stat.recv=P.stat.recv+4
-				local D=P.modeData
-				if D.event<75 then
-					D.event=D.event+1
-					D.point=int(144e3/(240-2*D.event))*.1
-					if D.event==25 then
-						P:showTextF(text.great,0,-140,100,"appear",.6)
-						P.gameEnv.pushSpeed=3
-						P.dropDelay,P.gameEnv.drop=4,4
-					elseif D.event==50 then
-						P:showTextF(text.awesome,0,-140,100,"appear",.6)
-						P.gameEnv.pushSpeed=4
-						P.dropDelay,P.gameEnv.drop=3,3
-					elseif D.event==75 then
-						P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
-						P.dropDelay,P.gameEnv.drop=2,2
+			while true do
+				coroutine.yield()
+				if P.control and SCN.cur=="play"then
+					P.modeData.counter=P.modeData.counter+1
+					local t=240-2*P.modeData.event
+					if P.modeData.counter>=t then
+						P.modeData.counter=0
+						for _=1,4 do
+							P.atkBuffer[#P.atkBuffer+1]={pos=P:RND(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
+						end
+						P.atkBuffer.sum=P.atkBuffer.sum+4
+						P.stat.recv=P.stat.recv+4
+						local D=P.modeData
+						if D.event<75 then
+							D.event=D.event+1
+							D.point=int(144e3/(240-2*D.event))*.1
+							if D.event==25 then
+								P:showTextF(text.great,0,-140,100,"appear",.6)
+								P.gameEnv.pushSpeed=3
+								P.dropDelay,P.gameEnv.drop=4,4
+							elseif D.event==50 then
+								P:showTextF(text.awesome,0,-140,100,"appear",.6)
+								P.gameEnv.pushSpeed=4
+								P.dropDelay,P.gameEnv.drop=3,3
+							elseif D.event==75 then
+								P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+								P.dropDelay,P.gameEnv.drop=2,2
+							end
+						end
 					end
 				end
 			end

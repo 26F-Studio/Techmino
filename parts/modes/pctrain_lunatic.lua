@@ -7,14 +7,17 @@ local PClist=require"parts/modes/PClist"
 local PCtype={[0]=1,2,3,2,3}
 
 local function task_PC(P)
-	P.modeData.counter=P.modeData.counter+1
-	if P.modeData.counter==26 then
-		local base=PCbase[P.modeData.type]
-		P:pushLineList(base[P:RND(#base)],P.modeData.symmetry)
-		return true
+	local D=P.modeData
+	while true do
+		coroutine.yield()
+		D.counter=D.counter+1
+		if D.counter==26 then
+			local base=PCbase[D.type]
+			P:pushLineList(base[P:RND(#base)],D.symmetry)
+		end
 	end
 end
-local function newPC(P)
+local function check(P)
 	local r=P.field
 	if r[1]then
 		r=r[#r]
@@ -55,7 +58,7 @@ return{
 		fall=20,
 		sequence="none",
 		freshLimit=15,
-		dropPiece=newPC,
+		dropPiece=check,
 		RS="SRS",
 		ospin=false,
 		bg="rgb",bgm="oxygen",
@@ -63,7 +66,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1,340,15)
-		newPC(PLAYERS[1])
+		check(PLAYERS[1])
 	end,
 	mesDisp=function(P)
 		setFont(75)

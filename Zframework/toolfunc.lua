@@ -548,13 +548,12 @@ do--httpRequest & wsConnect
 	client and function(tick,path,method,header,body)
 		local task,err=client.httpraw{
 			url="http://krakens.tpddns.cn:10026"..path,
-			-- url="http://127.0.0.1:10026"..path,
 			method=method or"GET",
 			header=header,
 			body=body,
 		}
 		if task then
-			TASK.new(tick,{task=task,time=0,net=true})
+			TASK.newNet(tick,task)
 		else
 			LOG.print("NETlib error: "..err,"warn")
 		end
@@ -569,12 +568,10 @@ do--httpRequest & wsConnect
 		local task,err=client.wsraw{
 			url="ws://krakens.tpddns.cn:10026"..path,
 			origin="krakens.tpddns.cn",
-			-- url="ws://127.0.0.1:10026"..path,
-			-- origin="127.0.0.1",
 			header=header,
 		}
 		if task then
-			TASK.new(tick,{wsconntask=task,time=0,net=true})
+			TASK.newNet(tick,task)
 		else
 			LOG.print("NETlib error: "..err,"warn")
 		end

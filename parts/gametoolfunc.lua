@@ -487,7 +487,7 @@ function resetGameData(replaying)
 	STAT.game=STAT.game+1
 	FREEROW.reset(30*#PLAYERS)
 	TASK.removeTask_code(TICK.showMods)
-	TASK.new(TICK.showMods,{0})
+	TASK.new(TICK.showMods)
 	SFX.play("ready")
 	collectgarbage()
 end

@@ -1,4 +1,3 @@
-local max=math.max
 return{
 	color=COLOR.magenta,
 	env={
@@ -6,14 +5,18 @@ return{
 		fall=20,
 		freshLimit=15,
 		task=function(P)
-			if not(P.control and SCN.cur=="play")then return end
-			local D=P.modeData
-			D.counter=D.counter+1
-			if D.counter>=max(90,180-D.event)then
-				P:garbageRise(21,1,P:getHolePos())
-				P.stat.recv=P.stat.recv+1
-				D.counter=0
-				D.event=D.event+1
+			while true do
+				coroutine.yield()
+				if P.control and SCN.cur=="play"then
+					local D=P.modeData
+					D.counter=D.counter+1
+					if D.counter>=math.max(90,180-D.event)then
+						P:garbageRise(21,1,P:getHolePos())
+						P.stat.recv=P.stat.recv+1
+						D.counter=0
+						D.event=D.event+1
+					end
+				end
 			end
 		end,
 		bg="bg2",bgm="down",

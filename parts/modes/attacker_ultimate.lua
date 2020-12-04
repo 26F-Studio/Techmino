@@ -5,37 +5,39 @@ return{
 		fall=8,
 		freshLimit=15,
 		task=function(P)
-			if not(P.control and SCN.cur=="play")then return end
-			if P.atkBuffer.sum<4 then
-				local p=#P.atkBuffer+1
-				local B,D=P.atkBuffer,P.modeData
-				local s
-				local t=800-10*D.event--800~700~600~500
-				if D.event<10 then
-					B[p]=	{pos=P:RND(5,6),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
-					B[p+1]=	{pos=P:RND(4,7),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
-					s=20
-				elseif D.event<20 then
-					B[p]=	{pos=P:RND(3,8),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
-					B[p+1]=	{pos=P:RND(4,7),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
-					s=24
-				else
-					B[p]=	{pos=P:RND(2)*9-8,amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
-					B[p+1]=	{pos=P:RND(3,8),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
-					s=28
-				end
-				B.sum=B.sum+s
-				P.stat.recv=P.stat.recv+s
-				D.event=D.event+1
-				if D.event%10==0 then
-					if D.event==10 then
-						P:showTextF(text.great,0,-140,100,"appear",.6)
-						P.gameEnv.pushSpeed=4
-					elseif D.event==20 then
-						P:showTextF(text.awesome,0,-140,100,"appear",.6)
-						P.gameEnv.pushSpeed=5
-					elseif D.event==30 then
-						P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+			while true do
+				coroutine.yield()
+				if P.control and SCN.cur=="play"and P.atkBuffer.sum<4 then
+					local p=#P.atkBuffer+1
+					local B,D=P.atkBuffer,P.modeData
+					local s
+					local t=800-10*D.event--800~700~600~500
+					if D.event<10 then
+						B[p]=	{pos=P:RND(5,6),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
+						B[p+1]=	{pos=P:RND(4,7),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
+						s=20
+					elseif D.event<20 then
+						B[p]=	{pos=P:RND(3,8),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
+						B[p+1]=	{pos=P:RND(4,7),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
+						s=24
+					else
+						B[p]=	{pos=P:RND(2)*9-8,amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
+						B[p+1]=	{pos=P:RND(3,8),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
+						s=28
+					end
+					B.sum=B.sum+s
+					P.stat.recv=P.stat.recv+s
+					D.event=D.event+1
+					if D.event%10==0 then
+						if D.event==10 then
+							P:showTextF(text.great,0,-140,100,"appear",.6)
+							P.gameEnv.pushSpeed=4
+						elseif D.event==20 then
+							P:showTextF(text.awesome,0,-140,100,"appear",.6)
+							P.gameEnv.pushSpeed=5
+						elseif D.event==30 then
+							P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+						end
 					end
 				end
 			end

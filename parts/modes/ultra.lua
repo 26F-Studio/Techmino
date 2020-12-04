@@ -8,15 +8,18 @@ return{
 		drop=60,lock=60,
 		fall=20,
 		task=function(P)
-			local _=P.modeData.counter+1
-			if P.stat.frame>=warnTime[_]*60 then
-				if _<9 then
-					P.modeData.counter=_
-					SFX.play("ready",.7+_*.03)
-				else
-					SFX.play("start")
-					P:win("finish")
-					return true
+			while true do
+				coroutine.yield()
+				local _=P.modeData.counter+1
+				if P.stat.frame>=warnTime[_]*60 then
+					if _<9 then
+						P.modeData.counter=_
+						SFX.play("ready",.7+_*.03)
+					else
+						SFX.play("start")
+						P:win("finish")
+						return
+					end
 				end
 			end
 		end,

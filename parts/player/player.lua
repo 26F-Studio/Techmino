@@ -7,6 +7,7 @@ local Player={}--Player class
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
+local ct=coroutine
 
 local kickList=require"parts/kickList"
 local scs=spinCenters
@@ -124,12 +125,11 @@ function Player.RND(P,a,b)
 	local R=P.randGen
 	return R:random(a,b)
 end
-function Player.newTask(P,code,data)
+function Player.newTask(P,code)
 	local L=P.tasks
-	ins(L,{
-		code=code,
-		data=data,
-	})
+	local thread=ct.create(code)
+	ct.resume(thread,P)
+	L[#L+1]=thread
 end
 
 function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
@@ -1453,7 +1453,7 @@ function Player.win(P,result)
 	end
 	if P.human then
 		gameOver()
-		TASK.new(TICK.autoPause,{0})
+		TASK.new(TICK.autoPause)
 		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
@@ -1532,7 +1532,7 @@ function Player.lose(P,force)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(TICK.throwBadge,{A.ai,P,max(3,P.badge)*4})
+					TASK.new(TICK.throwBadge,A.ai,P,max(3,P.badge)*4)
 				end
 			end
 		else
@@ -1561,7 +1561,7 @@ function Player.lose(P,force)
 		end
 		gameOver()
 		P:newTask(#PLAYERS>1 and TICK.lose or TICK.finish)
-		TASK.new(TICK.autoPause,{0})
+		TASK.new(TICK.autoPause)
 		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
