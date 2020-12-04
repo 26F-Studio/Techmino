@@ -338,6 +338,7 @@ end
 function Tick.wsCONN_read()
 	while true do
 		yield()
+		if not WSCONN then return end
 		local messages,readErr=client.read(WSCONN)
 		if messages then
 			if messages[1]then

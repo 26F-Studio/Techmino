@@ -25,6 +25,10 @@ function scene.sceneInit()
 	)
 end
 
+function scene.sceneBack()
+    WSCONN=nil
+end
+
 function scene.keyDown(k)
 	if k=="return"then
 		sendMessage()
