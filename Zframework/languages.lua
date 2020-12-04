@@ -40,6 +40,11 @@ local publicWidgetText={
 		symbol="?????",
 		yygq="就这?",
 	},
+	custom_field={
+		b0="",b1="",b2="",b3="",b4="",b5="",b6="",b7="",
+		b8="",b9="",b10="",b11="",b12="",b13="",b14="",b15="",b16="",
+		b17="[  ]",b18="N",b19="B",b20="_",b21="_",b22="_",b23="_",b24="_",
+	},
 	mg_cubefield={},
 }
 local function langFallback(T0,T)

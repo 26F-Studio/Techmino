@@ -417,7 +417,6 @@ return{
 			title="自定义游戏",
 			subTitle="场地",
 
-			b17="[  ]",
 			any="不定",
 			space="×",
 			pushLine="增加一行(K)",

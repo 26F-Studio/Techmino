@@ -143,6 +143,7 @@ function scene.Pnt()
 		gc.pop()
 	end
 
+	gc.setColor(1,1,1)
 	if sceneTemp.sel then
 		setFont(30)
 		gc.printf(text.modInfo[sceneTemp.sel],70,540,950)

@@ -314,7 +314,6 @@ return{
 			title="!@#$%^&*",
 			subTitle="!@#$%^&* [##]",
 
-			b17="[  ]",
 			any="_",
 			space="×",
 			pushLine="↑↑↑↑↑(K)",

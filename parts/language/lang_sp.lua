@@ -396,7 +396,6 @@ return{
 
 			subTitle="Tablero",
 
-			b17="[  ]",
 			any="Borrar",
 			space="×",
 			pushLine="Añadir Línea (K)",

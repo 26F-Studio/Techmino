@@ -397,7 +397,6 @@ return{
 			title="Mode personnalisé",
 			subTitle="Matrice",
 
-			b17="[  ]",
 			any="Effacer",
 			space="×",
 			pushLine="Ajouter ligne (K)",

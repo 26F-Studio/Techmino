@@ -393,7 +393,6 @@ return{
 			title="Custom Game",
 			subTitle="Field",
 
-			b17="[  ]",
 			any="Erase",
 			space="×",
 

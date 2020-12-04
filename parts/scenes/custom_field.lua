@@ -233,7 +233,7 @@ end
 
 local function setPen(i)return function()sceneTemp.pen=i end end
 scene.widgetList={
-	WIDGET.newText{name="title",		x=1020,y=5,font=70,align="R"},
+	WIDGET.newText{name="title",	x=1020,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"},
 
 	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,color=COLOR.red,		code=setPen(1)},--B1
