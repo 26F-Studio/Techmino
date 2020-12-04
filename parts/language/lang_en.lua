@@ -5,6 +5,9 @@ return{
 	httpTimeout="Network connection timed out",
 	marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
 	holdR="Keep holding to retry",
+	-- newDay="新的一天,新的开始~",
+	-- playedLong="已经玩很久了!注意休息!",
+	-- playedTooMuch="今天玩太久啦!打块好玩但也要适可而止哦~",
 
 	atkModeName={"Random","Badges","K.O.s","Attackers"},
 	royale_remain="$1 Players Remaining",

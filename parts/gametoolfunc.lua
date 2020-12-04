@@ -299,6 +299,32 @@ function pasteMission(str)
 	return true
 end
 
+function freshDate()
+	local date=os.date("%Y/%m/%d")
+	if STAT.date~=date then
+		STAT.date=date
+		STAT.todayTime=0
+		LOG.print(text.newDay,"message")
+	end
+end
+function legalGameTime()
+	if
+		(SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
+		RANKS.sprint_10<4 and
+		(not RANKS.sprint_40 or RANKS.sprint_40<3)
+	then
+		if STAT.todayTime<14400 then
+			return true
+		elseif STAT.todayTime<21600 then
+			LOG.print(text.playedLong,"warning")
+			return true
+		else
+			LOG.print(text.playedTooMuch,"warning")
+			return false
+		end
+	end
+	return true
+end
 function mergeStat(stat,delta)
 	for k,v in next,delta do
 		if type(v)=="table"then
@@ -424,18 +450,23 @@ function resumeGame()
 	SCN.swapTo("play","none")
 end
 function loadGame(M,ifQuickPlay)
-	if M.score then STAT.lastPlay=M end
-	GAME.curMode=MODES[M]
-	GAME.modeEnv=GAME.curMode.env
-	drawableText.modeName:set(text.modes[M][1])
-	drawableText.levelName:set(text.modes[M][2])
-	GAME.init=true
-	SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
-	SFX.play("enter")
+	freshDate()
+	if legalGameTime()then
+		if M.score then STAT.lastPlay=M end
+		GAME.curMode=MODES[M]
+		GAME.modeEnv=GAME.curMode.env
+		drawableText.modeName:set(text.modes[M][1])
+		drawableText.levelName:set(text.modes[M][2])
+		GAME.init=true
+		SCN.push()
+		SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
+		SFX.play("enter")
+	end
 end
 function resetGameData(replaying)
 	if PLAYERS[1]and not GAME.replaying then
 		mergeStat(STAT,PLAYERS[1].stat)
+		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	end
 
 	GAME.result=false

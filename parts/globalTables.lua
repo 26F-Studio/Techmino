@@ -294,6 +294,8 @@ STAT={
 	clear={},spin={},
 	pc=0,hpc=0,b2b=0,b3b=0,score=0,
 	lastPlay="sprint_10",--Last played mode ID
+	date=nil,
+	todayTime=0,
 }
 for i=1,25 do
 	STAT.clear[i]={0,0,0,0,0,0}

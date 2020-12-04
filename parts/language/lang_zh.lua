@@ -5,6 +5,9 @@ return{
 	httpTimeout="网络连接超时!",
 	marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 	holdR="长按以重新开始",
+	newDay="新的一天,新的开始~",
+	playedLong="已经玩很久了!注意休息!",
+	playedTooMuch="今天玩太久啦!打块好玩但也要适可而止哦~",
 
 	atkModeName={"随机","徽章","击杀","反击"},
 	royale_remain="剩余 $1 名玩家",

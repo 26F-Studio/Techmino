@@ -6,6 +6,9 @@ return{
 	httpTimeout="¡Tiempo de espera de conexión agotado!",
 	marking="Autor:MrZ_26\nEsta grabación es ilegal si ves esto\nNo se aceptan excusas",
 	holdR="Mantén presionado para reiniciar",
+	-- newDay="新的一天,新的开始~",
+	-- playedLong="已经玩很久了!注意休息!",
+	-- playedTooMuch="今天玩太久啦!打块好玩但也要适可而止哦~",
 
 	atkModeName={"Al azar","Medallas","KOs","Atacantes"},
 	royale_remain="$1 Jugadores Restantes",

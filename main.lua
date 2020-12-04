@@ -199,6 +199,7 @@ do
 
 	--Update data file
 	S=STAT
+	freshDate()
 	if S.extraRate then
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end

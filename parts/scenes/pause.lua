@@ -119,6 +119,7 @@ function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
 	if not GAME.replaying then
 		mergeStat(STAT,PLAYERS[1].stat)
+		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	end
 	if not GAME.result then
 		FILE.save(STAT,"data")

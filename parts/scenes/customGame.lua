@@ -44,7 +44,6 @@ function scene.keyDown(key)
 				return
 			end
 		end
-		SCN.push()
 		if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
 			if sceneTemp.initField then
 				loadGame("custom_puzzle",true)

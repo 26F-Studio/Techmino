@@ -14,10 +14,10 @@ end
 function scene.mouseDown(x,y)
 	if x>230 and x<1050 then
 		if math.abs(y-800+sceneTemp.time*40)<70 then
-			SCN.pop()SCN.push()
+			SCN.pop()
 			loadGame("sprintLock")
 		elseif math.abs(y-2160+sceneTemp.time*40)<70 then
-			SCN.pop()SCN.push()
+			SCN.pop()
 			loadGame("sprintFix")
 		end
 	end

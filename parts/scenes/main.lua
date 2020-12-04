@@ -41,7 +41,7 @@ scene.widgetList={
 	WIDGET.newButton{name="custom",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=WIDGET.lnk_goScene("customGame")},
 	WIDGET.newButton{name="setting",x=150,y=380,w=200,h=140,color="lOrange",font=40,code=WIDGET.lnk_goScene("setting_game")},
 	WIDGET.newButton{name="stat",	x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=WIDGET.lnk_goScene("stat")},
-	WIDGET.newButton{name="qplay",	x=590,y=380,w=200,h=140,color="white",	font=40,code=function()SCN.push()loadGame(STAT.lastPlay,true)end},
+	WIDGET.newButton{name="qplay",	x=590,y=380,w=200,h=140,color="white",	font=40,code=function()loadGame(STAT.lastPlay,true)end},
 	WIDGET.newButton{name="lang",	x=150,y=515,w=200,h=90,color="lYellow",	font=40,code=WIDGET.lnk_goScene("lang")},
 	WIDGET.newButton{name="help",	x=370,y=515,w=200,h=90,color="dGreen",	font=40,code=WIDGET.lnk_goScene("help")},
 	WIDGET.newButton{name="quit",	x=590,y=515,w=200,h=90,color="grey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},

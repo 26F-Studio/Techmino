@@ -6,6 +6,9 @@ return{
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
 	marking="Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide.",
 	holdR="Hold to restart",
+	-- newDay="新的一天,新的开始~",
+	-- playedLong="已经玩很久了!注意休息!",
+	-- playedTooMuch="今天玩太久啦!打块好玩但也要适可而止哦~",
 
 	atkModeName={"Aléatoire","Badges","K.O.s faciles","Attaquants"},
 	royale_remain="$1 Joueurs restants",
