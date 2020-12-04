@@ -110,7 +110,7 @@ function Pnt.mod()
 	for _,M in next,MODOPT do
 		gc.push("transform")
 		gc.translate(M.x,M.y)
-		local t=M.time*.01
+		local t=M.time*.01--t range:0~0.1
 		gc.scale(1+3*t)
 		gc.rotate(t)
 			local rad,side
@@ -132,6 +132,11 @@ function Pnt.mod()
 				gc.setColor(1,1,1,10*t)
 				mStr(M.list[M.sel],20,8)
 				setFont(40)
+			end
+			
+			if M.list then
+				gc.setColor(1,1,1,t*6)
+				gc.arc("line","open",0,0,rad+6,0,(M.sel/#M.list)*t*62.832)
 			end
 		gc.pop()
 	end
