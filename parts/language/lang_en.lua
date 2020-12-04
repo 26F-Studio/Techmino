@@ -477,6 +477,7 @@ return{
 			register="Sign up",
 			email="Email address",
 			password="Password",
+			login="Log in",
 		},
 		register={
 			title="Sign up",

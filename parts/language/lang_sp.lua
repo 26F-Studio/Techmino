@@ -479,6 +479,7 @@ return{
 			register="Registrarse",
 			email="Correo Elec.",
 			password="Contraseña",
+			login="Entrar",
 		},
 		register={
 			title="Registrarse",

@@ -474,6 +474,7 @@ return{
 			register="Enregistrement",
 			email="E-mail",
 			password="Mot de passe",
+			login="Connexion",
 		},
 		register={
 			title="Enregistrement",

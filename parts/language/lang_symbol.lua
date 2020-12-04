@@ -397,6 +397,7 @@ return{
 			register="Sign up",
 			email="@",
 			password="*",
+			login="Log in",
 		},
 		register={
 			title="Sign up",

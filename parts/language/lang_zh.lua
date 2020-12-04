@@ -500,6 +500,7 @@ return{
 			register="注册",
 			email="邮箱",
 			password="密码",
+			login="登录",
 		},
 		register={
 			title="注册",
