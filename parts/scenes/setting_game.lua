@@ -3,19 +3,21 @@ local Timer=love.timer.getTime
 
 local int=math.floor
 
-function sceneInit.setting_game()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("space")
 end
-function sceneBack.setting_game()
+function scene.sceneBack()
 	FILE.save(SETTING,"settings")
 end
 
-function Pnt.setting_game()
+function scene.Pnt()
 	gc.setColor(1,1,1)
 	gc.draw(SKIN.curText[int(Timer()*2)%16+1],740,540,Timer()%6.28319,2,nil,15,15)
 end
 
-WIDGET.init("setting_game",{
+scene.widgetList={
 	WIDGET.newText{name="title",		x=640,y=15,font=80},
 
 	WIDGET.newButton{name="graphic",	x=200,	y=80,	w=240,h=80,	color="lCyan",	font=35,code=WIDGET.lnk_swapScene("setting_video","swipeR")},
@@ -34,4 +36,6 @@ WIDGET.init("setting_game",{
 	WIDGET.newSwitch{name="appLock",	x=1080,	y=500,	font=20,disp=WIDGET.lnk_SETval("appLock"),	code=WIDGET.lnk_SETrev("appLock")},
 	WIDGET.newButton{name="calc",		x=970,	y=550,	w=150,h=60,color="dGrey",	font=25,code=WIDGET.lnk_goScene("calculator"),hide=function()return not SETTING.appLock end},
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,					font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

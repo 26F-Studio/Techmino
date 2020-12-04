@@ -1,7 +1,9 @@
-function sceneInit.savedata()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={reset=false}
 end
-function keyDown.savedata(key)
+function scene.keyDown(key)
 	LOG.print("keyPress: ["..key.."]")
 end
 
@@ -36,7 +38,7 @@ end
 local function HIDE()
 	return not sceneTemp.reset
 end
-WIDGET.init("savedata",{
+scene.widgetList={
 	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(RANKS)end},
 	WIDGET.newButton{name="exportData",		x=490,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(STAT)end},
 	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(SETTING)end},
@@ -115,4 +117,6 @@ WIDGET.init("savedata",{
 		hide=HIDE},
 
 		WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

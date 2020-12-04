@@ -24,7 +24,9 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
-function sceneInit.play()
+local scene={}
+
+function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
 	GAME.restartCount=0
 	if GAME.init then
@@ -33,7 +35,7 @@ function sceneInit.play()
 	end
 end
 
-function touchDown.play(_,x,y)
+function scene.touchDown(_,x,y)
 	if not SETTING.VKSwitch or GAME.replaying then return end
 
 	local t=onVirtualkey(x,y)
@@ -66,7 +68,7 @@ function touchDown.play(_,x,y)
 		VIB(SETTING.VKVIB)
 	end
 end
-function touchUp.play(_,x,y)
+function scene.touchUp(_,x,y)
 	if not SETTING.VKSwitch or GAME.replaying then return end
 
 	local t=onVirtualkey(x,y)
@@ -74,7 +76,7 @@ function touchUp.play(_,x,y)
 		PLAYERS[1]:releaseKey(t)
 	end
 end
-function touchMove.play()
+function scene.touchMove()
 	if not SETTING.VKSwitch or GAME.replaying then return end
 
 	local l=tc.getTouches()
@@ -90,7 +92,7 @@ function touchMove.play()
 		::next::
 	end
 end
-function keyDown.play(key)
+function scene.keyDown(key)
 	if not GAME.replaying then
 		local m=keyMap
 		for k=1,20 do
@@ -104,7 +106,7 @@ function keyDown.play(key)
 	end
 	if key=="escape"then pauseGame()end
 end
-function keyUp.play(key)
+function scene.keyUp(key)
 	if GAME.replaying then return end
 	local m=keyMap
 	for k=1,20 do
@@ -115,7 +117,7 @@ function keyUp.play(key)
 		end
 	end
 end
-function gamepadDown.play(key)
+function scene.gamepadDown(key)
 	if GAME.replaying then return end
 
 	local m=keyMap
@@ -130,7 +132,7 @@ function gamepadDown.play(key)
 
 	if key=="back"then pauseGame()end
 end
-function gamepadUp.play(key)
+function scene.gamepadUp(key)
 	if GAME.replaying then return end
 
 	local m=keyMap
@@ -143,7 +145,7 @@ function gamepadUp.play(key)
 	end
 end
 
-function Tmr.play(dt)
+function scene.Tmr(dt)
 	local _
 	local P1=PLAYERS[1]
 	local GAME=GAME
@@ -292,7 +294,7 @@ local function drawVirtualkey()
 		end
 	end
 end
-function Pnt.play()
+function scene.Pnt()
 	if MARKING then
 		setFont(25)
 		local t=Timer()
@@ -352,6 +354,8 @@ function Pnt.play()
 	gc.pop()
 end
 
-WIDGET.init("play",{
+scene.widgetList={
 	WIDGET.newButton{name="pause",x=1235,y=45,w=80,font=25,code=function()pauseGame()end},
-})
+}
+
+return scene

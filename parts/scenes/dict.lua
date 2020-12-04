@@ -6,7 +6,9 @@ local min,sin=math.min,math.sin
 local ins,rem=table.insert,table.remove
 local find,sub=string.find,string.sub
 
-function sceneInit.dict()
+local scene={}
+
+function scene.sceneInit()
 	local location=({"zh","zh","en","en","en","en","zh"})[SETTING.lang]
 	sceneTemp={
 		dict=require("parts/language/dict_"..location),
@@ -54,7 +56,7 @@ local function search()
 	S.lastSearch=S.input
 end
 
-function keyDown.dict(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	if #key==1 then
 		if #S.input<15 then
@@ -101,7 +103,7 @@ function keyDown.dict(key)
 	S.url=(S.result[1]and S.result or S.dict)[S.select][5]
 end
 
-function Tmr.dict(dt)
+function scene.Tmr(dt)
 	local S=sceneTemp
 	if S.waiting>0 then
 		S.waiting=S.waiting-dt
@@ -121,7 +123,7 @@ local typeColor={
 	english=COLOR.green,
 	name=COLOR.lPurple,
 }
-function Pnt.dict()
+function scene.Pnt()
 	local S=sceneTemp
 
 	gc.setLineWidth(4)
@@ -174,11 +176,13 @@ function Pnt.dict()
 	end
 end
 
-WIDGET.init("dict",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align="L"},
 	WIDGET.newKey{name="keyboard",	x=960,	y=60,w=200,h=80,font=35,code=function()love.keyboard.setTextInput(true,0,0,1,1)end,hide=not MOBILE},
 	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=WIDGET.lnk_pressKey("link"),hide=function()return not sceneTemp.url end},
 	WIDGET.newKey{name="up",		x=1190,	y=440,w=100,h=100,font=35,code=WIDGET.lnk_pressKey("up"),hide=not MOBILE},
 	WIDGET.newKey{name="down",		x=1190,	y=550,w=100,h=100,font=35,code=WIDGET.lnk_pressKey("down"),hide=not MOBILE},
 	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

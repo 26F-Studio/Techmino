@@ -3,11 +3,13 @@ local Timer=love.timer.getTime
 
 local sin=math.sin
 
-function sceneInit.help()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("space")
 end
 
-function Pnt.help()
+function scene.Pnt()
 	setFont(20)
 	gc.setColor(1,1,1)
 	for i=1,#text.help do
@@ -27,7 +29,7 @@ function Pnt.help()
 	mStr(text.support,1138-sin(Timer()*4)*20,270)
 end
 
-WIDGET.init("help",{
+scene.widgetList={
 	WIDGET.newImage{name="pay1",	x=20,	y=20},
 	WIDGET.newImage{name="pay2",	x=1014,	y=20},
 	WIDGET.newButton{name="dict",	x=1140,	y=410,w=220,h=70,font=35,code=WIDGET.lnk_goScene("dict")},
@@ -35,4 +37,6 @@ WIDGET.init("help",{
 	WIDGET.newButton{name="his",	x=1140,	y=570,w=220,h=70,font=35,code=WIDGET.lnk_goScene("history")},
 	WIDGET.newButton{name="qq",		x=1140,	y=650,w=220,h=70,font=35,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=MOBILE},
 	WIDGET.newButton{name="back",	x=640,	y=600,w=170,h=80,font=35,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

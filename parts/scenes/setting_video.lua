@@ -1,11 +1,13 @@
-function sceneInit.setting_video()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("space")
 end
-function sceneBack.setting_video()
+function scene.sceneBack()
 	FILE.save(SETTING,"settings")
 end
 
-WIDGET.init("setting_video",{
+scene.widgetList={
 	WIDGET.newText{name="title",		x=640,	y=15,font=80},
 
 	WIDGET.newButton{name="sound",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_sound","swipeR")},
@@ -56,4 +58,6 @@ WIDGET.init("setting_video",{
 			SETTING.powerInfo=not SETTING.powerInfo
 		end},
 	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

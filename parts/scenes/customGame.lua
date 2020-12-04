@@ -12,22 +12,25 @@ local function notAir(L)
 end
 
 local CUSTOMENV=CUSTOMENV
-function sceneInit.customGame()
+
+local scene={}
+
+function scene.sceneInit()
 	destroyPlayers()
 	BG.set(CUSTOMENV.bg)
 	BGM.play(CUSTOMENV.bgm)
-	sceneInit={initField=false}
+	sceneTemp={initField=false}
 	for y=1,20 do
 		if notAir(FIELD[1][y])then
 			sceneTemp.initField=true
 		end
 	end
 end
-function sceneBack.customGame()
+function scene.sceneBack()
 	BGM.play("blank")
 end
 
-function keyDown.customGame(key)
+function scene.keyDown(key)
 	if key=="return"or key=="return2"then
 		if CUSTOMENV.opponent>0 then
 			if CUSTOMENV.opponent>5 and CUSTOMENV.sequence=="fixed"then
@@ -102,7 +105,7 @@ function keyDown.customGame(key)
 	end
 end
 
-function Pnt.customGame()
+function scene.Pnt()
 	--Field content
 	if sceneTemp.initField then
 		gc.push("transform")
@@ -151,7 +154,7 @@ function Pnt.customGame()
 	end
 end
 
-WIDGET.init("customGame",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=520,	y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",	x=530,	y=50,font=35,align="L",color="grey"},
 	WIDGET.newText{name="defSeq",	x=330,	y=550,align="L",color="grey",hide=function()return BAG[1]end},
@@ -186,4 +189,6 @@ WIDGET.init("customGame",{
 	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color="sky",	font=25,code=WIDGET.lnk_goScene("custom_mission")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

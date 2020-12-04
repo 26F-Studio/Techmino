@@ -1,6 +1,8 @@
 local gc=love.graphics
 
-function sceneInit.main()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		tip=text.getTip(),
 	}
@@ -14,12 +16,12 @@ function sceneInit.main()
 	PLY.newDemoPlayer(1,900,35,1.1)
 end
 
-function Tmr.main(dt)
+function scene.Tmr(dt)
 	GAME.frame=GAME.frame+1
 	PLAYERS[1]:update(dt)
 end
 
-function Pnt.main()
+function scene.Pnt()
 	gc.setColor(1,1,1)
 	gc.draw(IMG.title_color,60,30,nil,1.3)
 	setFont(30)
@@ -33,7 +35,7 @@ function Pnt.main()
 	PLAYERS[1]:draw()
 end
 
-WIDGET.init("main",{
+scene.widgetList={
 	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=WIDGET.lnk_goScene("mode")},
 	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=WIDGET.lnk_goNetgame},
 	WIDGET.newButton{name="custom",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=WIDGET.lnk_goScene("customGame")},
@@ -46,4 +48,6 @@ WIDGET.init("main",{
 	WIDGET.newKey{name="music",		x=150,y=610,w=200,h=60,color="red",				code=WIDGET.lnk_goScene("music")},
 	WIDGET.newKey{name="sound",		x=370,y=610,w=200,h=60,color="green",			code=WIDGET.lnk_goScene("sound")},
 	WIDGET.newKey{name="minigame",	x=590,y=610,w=200,h=60,color="blue",			code=WIDGET.lnk_goScene("minigame")},
-})
+}
+
+return scene

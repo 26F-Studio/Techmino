@@ -1,4 +1,6 @@
-function keyDown.register(key)
+local scene={}
+
+function scene.keyDown(key)
 	if key=="return"then
 		local username=	WIDGET.active.username.value
 		local email=	WIDGET.active.email.value
@@ -31,7 +33,7 @@ function keyDown.register(key)
 	end
 end
 
-WIDGET.init("register",{
+scene.widgetList={
 	WIDGET.newText{name="title",		x=80,	y=50,font=70,align="L"},
 	WIDGET.newButton{name="login",		x=1140,	y=100,w=170,h=80,color="green",code=function()SCN.swapTo("login","swipeL")end},
 	WIDGET.newTextBox{name="username",	x=380,	y=200,w=500,h=60,regex="[0-9A-Za-z_]"},
@@ -39,4 +41,6 @@ WIDGET.init("register",{
 	WIDGET.newTextBox{name="password",	x=380,	y=400,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newTextBox{name="password2",	x=380,	y=500,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

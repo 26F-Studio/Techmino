@@ -10,7 +10,9 @@ local rnd=math.random
 local format=string.format
 local rem=table.remove
 
-function sceneInit.mg_schulteG()
+local scene={}
+
+function scene.sceneInit()
 	BGM.play("way")
 	sceneTemp={
 		board={},
@@ -73,13 +75,13 @@ local function tapBoard(x,y)
 	end
 end
 
-function mouseDown.mg_schulteG(x,y)
+function scene.mouseDown(x,y)
 	tapBoard(x,y)
 end
-function touchDown.mg_schulteG(_,x,y)
+function scene.touchDown(_,x,y)
 	tapBoard(x,y)
 end
-function keyDown.mg_schulteG(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	if key=="z"or key=="x"then
 		love.mousepressed(ms.getPosition())
@@ -112,14 +114,14 @@ function keyDown.mg_schulteG(key)
 	end
 end
 
-function Tmr.mg_schulteG()
+function scene.Tmr()
 	local S=sceneTemp
 	if S.state==1 then
 		S.time=Timer()-S.startTime+S.error
 	end
 end
 
-function Pnt.mg_schulteG()
+function scene.Pnt()
 	local S=sceneTemp
 
 	setFont(40)
@@ -171,11 +173,13 @@ function Pnt.mg_schulteG()
 	end
 end
 
-WIDGET.init("mg_schulteG",{
+scene.widgetList={
 	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return sceneTemp.state==0 end},
 	WIDGET.newSlider{name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return sceneTemp.rank-3 end,code=function(v)sceneTemp.rank=v+3 end,hide=function()return sceneTemp.state>0 end},
 	WIDGET.newSwitch{name="blind",		x=240,y=330,w=60,		font=40,disp=WIDGET.lnk_STPval("blind"),	code=WIDGET.lnk_pressKey("q"),hide=WIDGET.lnk_STPeq("state",1)},
 	WIDGET.newSwitch{name="disappear",	x=240,y=420,w=60,		font=40,disp=WIDGET.lnk_STPval("disappear"),code=WIDGET.lnk_pressKey("w"),hide=WIDGET.lnk_STPeq("state",1)},
 	WIDGET.newSwitch{name="tapFX",		x=240,y=510,w=60,		font=40,disp=WIDGET.lnk_STPval("tapFX"),	code=WIDGET.lnk_pressKey("e"),hide=WIDGET.lnk_STPeq("state",1)},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

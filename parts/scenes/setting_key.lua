@@ -5,18 +5,20 @@ local mStr=mStr
 
 local int,sin=math.floor,math.sin
 
-function sceneInit.setting_key()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		board=1,
 		kb=1,js=1,
 		kS=false,jS=false,
 	}
 end
-function sceneBack.setting_key()
+function scene.sceneBack()
 	FILE.save(keyMap,"key")
 end
 
-function keyDown.setting_key(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	if key=="escape"then
 		if S.kS then
@@ -53,7 +55,7 @@ function keyDown.setting_key(key)
 		SFX.play("rotate",.5)
 	end
 end
-function gamepadDown.setting_key(key)
+function scene.gamepadDown(key)
 	local S=sceneTemp
 	if key=="back"then
 		if S.jS then
@@ -89,7 +91,7 @@ function gamepadDown.setting_key(key)
 	end
 end
 
-function Pnt.setting_key()
+function scene.Pnt()
 	local S=sceneTemp
 	local a=.3+sin(Timer()*15)*.1
 	if S.kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
@@ -131,11 +133,13 @@ function Pnt.setting_key()
 	gc.print(text.page..S.board,280,570)
 end
 
-WIDGET.init("setting_key",{
+scene.widgetList={
 	WIDGET.newText{name="keyboard",	x=340,y=30,font=25,color="lRed"},
 	WIDGET.newText{name="keyboard",	x=940,y=30,font=25,color="lRed"},
 	WIDGET.newText{name="joystick",	x=540,y=30,font=25,color="lBlue"},
 	WIDGET.newText{name="joystick",	x=1140,y=30,font=25,color="lBlue"},
 	WIDGET.newText{name="help",		x=50,y=650,font=30,align="L"},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

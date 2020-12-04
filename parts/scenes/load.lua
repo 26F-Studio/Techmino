@@ -4,7 +4,9 @@ local Timer=love.timer.getTime
 
 local max,min,sin=math.max,math.min,math.sin
 
-function sceneInit.load()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		time=0,--Animation timer
 		phase=1,--Loading stage
@@ -26,11 +28,11 @@ function sceneInit.load()
 		text=gc.newText(getFont(80),"26F Studio"),
 	}
 end
-function sceneBack.load()
+function scene.sceneBack()
 	love.event.quit()
 end
 
-function keyDown.load(k)
+function scene.keyDown(k)
 	if k=="a"then
 		sceneTemp.skip=true
 	elseif k=="s"then
@@ -41,13 +43,13 @@ function keyDown.load(k)
 		SCN.back()
 	end
 end
-function touchDown.load()
+function scene.touchDown()
 	if #tc.getTouches()==2 then
 		sceneTemp.skip=true
 	end
 end
 
-function Tmr.load()
+function scene.Tmr()
 	local S=sceneTemp
 	if S.time==400 then return end
 	repeat
@@ -146,7 +148,7 @@ function Tmr.load()
 	until not S.skip
 end
 
-function Pnt.load()
+function scene.Pnt()
 	local S=sceneTemp
 
 	gc.push("transform")
@@ -207,3 +209,5 @@ function Pnt.load()
 
 	gc.pop()
 end
+
+return scene

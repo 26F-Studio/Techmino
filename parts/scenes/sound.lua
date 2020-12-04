@@ -1,6 +1,8 @@
 local int=math.floor
 
-function sceneInit.sound()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		mini=false,
 		b2b=false,
@@ -11,7 +13,7 @@ end
 
 local blockName={"z","s","j","l","t","o","i"}
 local lineCount={"single","double","triple","techrash"}
-function keyDown.sound(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	if key=="1"then
 		S.mini=not S.mini
@@ -39,7 +41,7 @@ function keyDown.sound(key)
 	end
 end
 
-WIDGET.init("sound",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=30,	y=15,font=70,align="L"},
 	WIDGET.newSlider{name="sfx",	x=510,	y=60,w=330,font=35,change=function()SFX.play("blip_1")end,disp=WIDGET.lnk_SETval("sfx"),code=WIDGET.lnk_SETsto("sfx")},
 	WIDGET.newSlider{name="voc",	x=510,	y=120,w=330,font=35,change=function()VOC.play("test")end,disp=WIDGET.lnk_SETval("voc"),code=WIDGET.lnk_SETsto("voc")},
@@ -107,4 +109,6 @@ WIDGET.init("sound",{
 	WIDGET.newSwitch{name="pc",		x=515,	y=660,font=25,disp=WIDGET.lnk_STPval("pc"),code=WIDGET.lnk_pressKey("4")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

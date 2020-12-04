@@ -1,4 +1,6 @@
-WIDGET.init("custom_advance",{
+local scene={}
+
+scene.widgetList={
 	WIDGET.newText{name="title",		x=520,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="grey"},
 
@@ -37,4 +39,6 @@ WIDGET.init("custom_advance",{
 	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list={1,2,3,5,15},						disp=WIDGET.lnk_CUSval("pushSpeed"),code=WIDGET.lnk_CUSsto("pushSpeed")},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

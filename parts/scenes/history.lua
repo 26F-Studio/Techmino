@@ -20,7 +20,9 @@ local function wheelScroll(y)
 	end
 end
 
-function sceneInit.history()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("rainbow")
 	sceneTemp={
 		text=require"parts/updateLog",--Text list
@@ -32,10 +34,10 @@ function sceneInit.history()
 	end
 end
 
-function wheelMoved.history(_,y)
+function scene.wheelMoved(_,y)
 	wheelScroll(y)
 end
-function keyDown.history(key)
+function scene.keyDown(key)
 	if key=="up"then
 		sceneTemp.pos=max(sceneTemp.pos-1,1)
 	elseif key=="down"then
@@ -45,7 +47,7 @@ function keyDown.history(key)
 	end
 end
 
-function Pnt.history()
+function scene.Pnt()
 	gc.setColor(.2,.2,.2,.7)
 	gc.rectangle("fill",30,45,1000,632)
 	gc.setColor(1,1,1)
@@ -56,8 +58,10 @@ function Pnt.history()
 	gc.print(S.text[S.pos],40,50)
 end
 
-WIDGET.init("history",{
+scene.widgetList={
 	WIDGET.newKey{name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=WIDGET.lnk_STPeq("pos",1)},
 	WIDGET.newKey{name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

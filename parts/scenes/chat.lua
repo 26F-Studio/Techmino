@@ -15,7 +15,9 @@ local function sendMessage()
 	end
 end
 
-function sceneInit.chat()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("none")
 	wsConnect(
 		TICK.wsCONN_connect,
@@ -23,7 +25,7 @@ function sceneInit.chat()
 	)
 end
 
-function keyDown.chat(k)
+function scene.keyDown(k)
 	if k=="return"then
 		sendMessage()
 	elseif k=="escape"then
@@ -33,8 +35,10 @@ function keyDown.chat(k)
 	end
 end
 
-WIDGET.init("chat",{
+scene.widgetList={
 	WIDGET.newTextBox{name="text",	x=40,	y=500,w=980,h=180,font=40},
 	WIDGET.newButton{name="send",	x=1140,	y=540,w=170,h=80,font=40,code=sendMessage},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

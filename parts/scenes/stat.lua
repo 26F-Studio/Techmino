@@ -6,7 +6,9 @@ local format=string.format
 
 local mStr=mStr
 
-function sceneInit.stat()
+local scene={}
+
+function scene.sceneInit()
 	local S=STAT
 	local X1,X2,Y1,Y2={0,0,0,0},{0,0,0,0},{},{}
 	for i=1,7 do
@@ -43,7 +45,7 @@ function sceneInit.stat()
 	end
 end
 
-function Pnt.stat()
+function scene.Pnt()
 	local chart=sceneTemp.chart
 	setFont(25)
 	local _,__=SKIN.libColor,SETTING.skin
@@ -95,8 +97,10 @@ function Pnt.stat()
 	gc.draw(TEXTURE.miniBlock[R],680,300,0,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 end
 
-WIDGET.init("stat",{
+scene.widgetList={
 	WIDGET.newButton{name="path",x=1000,y=540,w=250,h=80,font=25,code=function()love.system.openURL(love.filesystem.getSaveDirectory())end,hide=MOBILE},
 	WIDGET.newButton{name="save",x=1000,y=640,w=250,h=80,font=25,code=WIDGET.lnk_goScene("savedata")},
 	WIDGET.newButton{name="back",x=640,y=620,w=200,h=80,font=35,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

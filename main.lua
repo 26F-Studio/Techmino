@@ -133,7 +133,10 @@ end
 --Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
-		require("parts/scenes/"..v:sub(1,-5))
+		local sceneName=v:sub(1,-5)
+		local scene=require("parts/scenes/"..sceneName)
+		SCN.add(sceneName,scene)
+		if scene.widgetList then WIDGET.init(sceneName,scene.widgetList)end
 	else
 		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
 	end

@@ -2,12 +2,11 @@ local gc=love.graphics
 local abs=math.abs
 local SCR=SCR
 
-sceneInit,sceneBack={},{}
-local sceneInit,sceneBack=sceneInit,sceneBack
-sceneInit.quit=love.event.quit
+local scenes={}
 
 local SCN={
-	cur="load",--Current scene
+	cur="NULL",--Current scene name
+	scenes=scenes,
 	swapping=false,--If Swapping
 	stat={
 		tar=nil,	--Swapping target
@@ -17,7 +16,28 @@ local SCN={
 		draw=nil,	--Swap draw  func
 	},
 	seq={"quit","slowFade"},--Back sequence
+
+	--Events
+	Tmr=nil,
+	Pnt=nil,
+	mouseClick=nil,
+	touchClick=nil,
+	mouseDown=nil,
+	mouseMove=nil,
+	mouseUp=nil,
+	wheelMoved=nil,
+	touchDown=nil,
+	touchUp=nil,
+	touchMove=nil,
+	keyDown=nil,
+	keyUp=nil,
+	gamepadDown=nil,
+	gamepadUp=nil,
 }--Scene datas, returned
+
+function SCN.add(name,scene)
+	scenes[name]=scene
+end
 
 function SCN.swapUpdate()
 	local S=SCN.stat
@@ -32,9 +52,27 @@ function SCN.swapUpdate()
 	end
 end
 function SCN.init(s,org)
-	if sceneInit[s]then sceneInit[s](org)end
 	SCN.cur=s
 	WIDGET.set(s)
+	local S=scenes[s]
+	SCN.sceneInit=S.sceneInit
+	SCN.sceneBack=S.sceneBack
+	SCN.Tmr=S.Tmr
+	SCN.Pnt=S.Pnt
+	SCN.mouseClick=S.mouseClick
+	SCN.touchClick=S.touchClick
+	SCN.mouseDown=S.mouseDown
+	SCN.mouseMove=S.mouseMove
+	SCN.mouseUp=S.mouseUp
+	SCN.wheelMoved=S.wheelMoved
+	SCN.touchDown=S.touchDown
+	SCN.touchUp=S.touchUp
+	SCN.touchMove=S.touchMove
+	SCN.keyDown=S.keyDown
+	SCN.keyUp=S.keyUp
+	SCN.gamepadDown=S.gamepadDown
+	SCN.gamepadUp=S.gamepadUp
+	if SCN.sceneInit then SCN.sceneInit(org)end
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then
@@ -100,7 +138,7 @@ function SCN.go(tar,style)--Normal scene swapping, can back
 end
 function SCN.back()
 	--Leave scene
-	if sceneBack[SCN.cur] then sceneBack[SCN.cur]()end
+	if SCN.sceneBack then SCN.sceneBack()end
 
 	--Poll&Back to previous Scene
 	local m=#SCN.seq

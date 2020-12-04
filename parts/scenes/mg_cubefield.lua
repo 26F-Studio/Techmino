@@ -46,7 +46,9 @@ local function hurt(i)
 	end
 end
 
-function sceneInit.mg_cubefield()
+local scene={}
+
+function scene.sceneInit()
 	cubesX={}for i=1,40 do cubesX[i]=rnd()*16-8 end
 	cubesY={}for i=1,40 do cubesY[i]=i/40*9 end
 	lastCube=1
@@ -62,7 +64,7 @@ function sceneInit.mg_cubefield()
 	BG.set("none")
 end
 
-function touchDown.mg_cubefield(_,x)
+function scene.touchDown(_,x)
 	if play then
 		if x<640 then
 			moveDir=-1
@@ -70,10 +72,10 @@ function touchDown.mg_cubefield(_,x)
 			moveDir=1
 		end
 	else
-		keyDown.mg_cubefield("space")
+		scene.keyDown("space")
 	end
 end
-function touchUp.mg_cubefield(_,x)
+function scene.touchUp(_,x)
 	if play then
 		local L=tc.getTouches()
 		if x<640 then
@@ -94,7 +96,7 @@ function touchUp.mg_cubefield(_,x)
 		moveDir=0
 	end
 end
-function keyDown.mg_cubefield(key)
+function scene.keyDown(key)
 	if key=="escape"then
 		SCN.back()
 		return
@@ -114,7 +116,7 @@ function keyDown.mg_cubefield(key)
 		end
 	end
 end
-function keyUp.mg_cubefield(key)
+function scene.keyUp(key)
 	if play then
 		if key=="left"or key=="a"then
 			moveDir=kb.isDown("right","d")and 1 or 0
@@ -124,7 +126,7 @@ function keyUp.mg_cubefield(key)
 	end
 end
 
-function Tmr.mg_cubefield(dt)
+function scene.Tmr(dt)
 	dt=dt*600
 
 	--Update cubes' position
@@ -187,7 +189,7 @@ function Tmr.mg_cubefield(dt)
 	end
 end
 
-function Pnt.mg_cubefield()
+function scene.Pnt()
 	--Health bar
 	if life1>0 then
 		gc.setColor(1,0,0)
@@ -292,6 +294,8 @@ function Pnt.mg_cubefield()
 	gc.pop()
 end
 
-WIDGET.init("mg_cubefield",{
+scene.widgetList={
 	WIDGET.newKey{name="back",x=1140,y=80,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

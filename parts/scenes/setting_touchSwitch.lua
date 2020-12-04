@@ -1,11 +1,13 @@
-function sceneInit.setting_touchSwitch()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("matrix")
 end
 
 local function VKAdisp(n)return function()return VK_org[n].ava end end
 local function VKAcode(n)return function()VK_org[n].ava=not VK_org[n].ava end end
 
-WIDGET.init("setting_touchSwitch",{
+scene.widgetList={
 	WIDGET.newSwitch{name="b1",		x=280,	y=80,	font=35,disp=VKAdisp(1),code=VKAcode(1)},
 	WIDGET.newSwitch{name="b2",		x=280,	y=140,	font=35,disp=VKAdisp(2),code=VKAcode(2)},
 	WIDGET.newSwitch{name="b3",		x=280,	y=200,	font=35,disp=VKAdisp(3),code=VKAcode(3)},
@@ -42,4 +44,6 @@ WIDGET.init("setting_touchSwitch",{
 		end},
 	WIDGET.newSlider{name="alpha",	x=840,	y=540,	w=400,font=40,disp=WIDGET.lnk_SETval("VKAlpha"),code=WIDGET.lnk_SETsto("VKAlpha")},
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

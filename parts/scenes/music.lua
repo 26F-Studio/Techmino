@@ -22,7 +22,9 @@ local function wheelScroll(y)
 	end
 end
 
-function sceneInit.music()
+local scene={}
+
+function scene.sceneInit()
 	if BGM.nowPlay then
 		for i=1,BGM.len do
 			if BGM.list[i]==BGM.nowPlay then
@@ -35,10 +37,10 @@ function sceneInit.music()
 	end
 end
 
-function wheelMoved.music(_,y)
+function scene.wheelMoved(_,y)
 	wheelScroll(y)
 end
-function keyDown.music(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	if key=="down"then
 		if S<BGM.len then
@@ -64,7 +66,7 @@ function keyDown.music(key)
 	end
 end
 
-function Pnt.music()
+function scene.Pnt()
 	gc.setColor(1,1,1)
 
 	setFont(50)
@@ -90,7 +92,7 @@ function Pnt.music()
 	end
 end
 
-WIDGET.init("music",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=30,	y=30,font=80,align="L"},
 	WIDGET.newText{name="arrow",	x=270,	y=360,font=45,align="L"},
 	WIDGET.newText{name="now",		x=700,	y=500,font=50,align="R",hide=function()return not BGM.nowPlay end},
@@ -99,4 +101,6 @@ WIDGET.init("music",{
 	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=WIDGET.lnk_pressKey("space"),hide=function()return SETTING.bgm==0 end},
 	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp==BGM.len end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

@@ -4,7 +4,9 @@ local Timer=love.timer.getTime
 local sin=math.sin
 local rnd=math.random
 
-function sceneInit.setting_sound()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		last=0,--Last touch time
 		jump=0,--Animation timer(10 to 0)
@@ -12,11 +14,11 @@ function sceneInit.setting_sound()
 	}
 	BG.set("space")
 end
-function sceneBack.setting_sound()
+function scene.sceneBack()
 	FILE.save(SETTING,"settings")
 end
 
-function mouseDown.setting_sound(x,y)
+function scene.mouseDown(x,y)
 	local S=sceneTemp
 	if x>780 and x<980 and y>470 and S.jump==0 then
 		S.jump=10
@@ -27,18 +29,18 @@ function mouseDown.setting_sound(x,y)
 		end
 	end
 end
-function touchDown.setting_sound(_,x,y)
-	mouseDown.setting_sound(x,y)
+function scene.touchDown(_,x,y)
+	scene.mouseDown(x,y)
 end
 
-function Tmr.setting_sound()
+function scene.Tmr()
 	local t=sceneTemp.jump
 	if t>0 then
 		sceneTemp.jump=t-1
 	end
 end
 
-function Pnt.setting_sound()
+function scene.Pnt()
 	gc.setColor(1,1,1)
 	local t=Timer()
 	local _=sceneTemp.jump
@@ -53,7 +55,7 @@ function Pnt.setting_sound()
 	gc.translate(-x,-y)
 end
 
-WIDGET.init("setting_sound",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=640,y=15,font=80},
 
 	WIDGET.newButton{name="game",	x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_game","swipeR")},
@@ -68,4 +70,6 @@ WIDGET.init("setting_sound",{
 	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={"miya","naki"},							disp=WIDGET.lnk_STPval("cv"),code=WIDGET.lnk_STPsto("cv")},
 	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=sceneTemp.cv VOC.loadAll()end,hide=function()return SETTING.cv==sceneTemp.cv end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

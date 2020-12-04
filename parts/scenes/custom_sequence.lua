@@ -6,7 +6,9 @@ local sin=math.sin
 local ins,rem=table.insert,table.remove
 local sub=string.sub
 
-function sceneInit.custom_sequence()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={cur=#BAG,sure=0}
 end
 
@@ -20,7 +22,7 @@ local minoKey2={
 	["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
 	z=8,s=9,t=14,j=19,l=20,i=25
 }
-function keyDown.custom_sequence(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	local BAG=BAG
 	if key=="left"then
@@ -57,7 +59,7 @@ function keyDown.custom_sequence(key)
 			rem(BAG,S.cur)
 			S.cur=S.cur-1
 			if S.cur>0 and BAG[S.cur]==BAG[S.cur+1]then
-				keyDown.custom_mission("right")
+				S.keyDown("right")
 			end
 		end
 	elseif key=="delete"then
@@ -109,11 +111,11 @@ function keyDown.custom_sequence(key)
 	end
 end
 
-function Tmr.custom_sequence()
+function scene.Tmr()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 
-function Pnt.custom_sequence()
+function scene.Pnt()
 	local S=sceneTemp
 
 	--Draw frame
@@ -178,7 +180,7 @@ function Pnt.custom_sequence()
 	end
 end
 
-WIDGET.init("custom_sequence",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=520,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",x=530,y=50,font=35,align="L",color="grey"},
 
@@ -225,4 +227,6 @@ WIDGET.init("custom_sequence",{
 	WIDGET.newButton{name="paste",	x=1140,	y=540,w=170,h=80,color="lBlue",	font=40,code=WIDGET.lnk_pressKey("cV")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

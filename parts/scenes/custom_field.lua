@@ -6,7 +6,9 @@ local ins,rem=table.insert,table.remove
 local sub=string.sub
 
 local FIELD=FIELD
-function sceneInit.custom_field()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		sure=0,
 		pen=1,
@@ -22,10 +24,11 @@ local penKey={
 	a=17,s=18,d=19,f=20,g=21,h=22,j=23,k=24,
 	z=0,x=-1,
 }
-function mouseDown.custom_field(x,y)
-	mouseMove.custom_field(x,y)
+
+function scene.mouseDown(x,y)
+	scene.mouseMove(x,y)
 end
-function mouseMove.custom_field(x,y)
+function scene.mouseMove(x,y)
 	local S=sceneTemp
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
@@ -35,7 +38,7 @@ function mouseMove.custom_field(x,y)
 		FIELD[S.page][sy][sx]=ms.isDown(1)and S.pen or ms.isDown(2)and -1 or 0
 	end
 end
-function wheelMoved.custom_field(_,y)
+function scene.wheelMoved(_,y)
 	local pen=sceneTemp.pen
 	if y<0 then
 		pen=pen+1
@@ -46,10 +49,10 @@ function wheelMoved.custom_field(_,y)
 	end
 	sceneTemp.pen=pen
 end
-function touchDown.custom_field(_,x,y)
-	mouseMove.custom_field(x,y)
+function scene.touchDown(_,x,y)
+	scene.mouseMove(x,y)
 end
-function touchMove.custom_field(_,x,y)
+function scene.touchMove(_,x,y)
 	local S=sceneTemp
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
@@ -59,7 +62,7 @@ function touchMove.custom_field(_,x,y)
 		FIELD[S.page][sy][sx]=S.pen
 	end
 end
-function keyDown.custom_field(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	local sx,sy,pen=S.x,S.y,S.pen
 	if key=="up"or key=="down"or key=="left"or key=="right"then
@@ -149,11 +152,11 @@ function keyDown.custom_field(key)
 	S.x,S.y,S.pen=sx,sy,pen
 end
 
-function Tmr.custom_field()
+function scene.Tmr()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 
-function Pnt.custom_field()
+function scene.Pnt()
 	local S=sceneTemp
 	local sx,sy=S.x,S.y
 
@@ -229,7 +232,7 @@ function Pnt.custom_field()
 end
 
 local function setPen(i)return function()sceneTemp.pen=i end end
-WIDGET.init("custom_field",{
+scene.widgetList={
 	WIDGET.newText{name="title",		x=1020,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"},
 
@@ -276,4 +279,6 @@ WIDGET.init("custom_field",{
 	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("tab"),hide=function()return sceneTemp.page==#FIELD end},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

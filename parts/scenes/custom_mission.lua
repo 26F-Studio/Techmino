@@ -6,7 +6,9 @@ local int,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
 local sub=string.sub
 
-function sceneInit.custom_mission()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		input="",
 		cur=#MISSION,
@@ -16,7 +18,7 @@ end
 
 local missionEnum=missionEnum
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
-function keyDown.custom_mission(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	local MISSION=MISSION
 	if key=="left"then
@@ -55,7 +57,7 @@ function keyDown.custom_mission(key)
 			rem(MISSION,S.cur)
 			S.cur=S.cur-1
 			if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
-				keyDown.custom_mission("right")
+				S.keyDown("right")
 			end
 		end
 	elseif key=="delete"then
@@ -111,11 +113,11 @@ function keyDown.custom_mission(key)
 	end
 end
 
-function Tmr.custom_mission()
+function scene.Tmr()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 
-function Pnt.custom_mission()
+function scene.Pnt()
 	local S=sceneTemp
 
 	--Draw frame
@@ -185,7 +187,7 @@ function Pnt.custom_mission()
 	end
 end
 
-WIDGET.init("custom_mission",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=520,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",	x=530,y=50,font=35,align="L",color="grey"},
 
@@ -236,4 +238,6 @@ WIDGET.init("custom_mission",{
 	WIDGET.newSwitch{name="mission",x=1150, y=350,	disp=WIDGET.lnk_CUSval("missionKill"),code=WIDGET.lnk_CUSrev("missionKill")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

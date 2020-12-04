@@ -2,7 +2,9 @@ local gc=love.graphics
 local Timer=love.timer.getTime
 local sin=math.sin
 
-function Pnt.setting_skin()
+local scene={}
+
+function scene.Pnt()
 	gc.setColor(1,1,1)
 	local texture=SKIN.curText
 	for N=1,7 do
@@ -27,7 +29,7 @@ local function prevSkin(n)return function()SKIN.prev(n)end end
 local function nextSkin(n)return function()SKIN.next(n)end end
 local function nextDir(n)return function()SKIN.rotate(n)end end
 
-WIDGET.init("setting_skin",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=80,y=50,font=70},
 
 	WIDGET.newButton{name="prev",	x=700,y=100,w=140,h=100,font=50,code=function()SKIN.prevSet()end},
@@ -69,4 +71,6 @@ WIDGET.init("setting_skin",{
 			SFX.play("hold")
 		end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

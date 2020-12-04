@@ -7,7 +7,9 @@ local int=math.floor
 local rnd=math.random
 local format=string.format
 
-function sceneInit.mg_15p()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("rainbow")
 	BGM.play("push")
 	sceneTemp={
@@ -130,7 +132,7 @@ local function tapBoard(x,y,key)
 		end
 	end
 end
-function keyDown.mg_15p(key)
+function scene.keyDown(key)
 	local S=sceneTemp
 	local b=S.board
 	if key=="up"then
@@ -173,24 +175,24 @@ function keyDown.mg_15p(key)
 		SCN.back()
 	end
 end
-function mouseDown.mg_15p(x,y)
+function scene.mouseDown(x,y)
 	tapBoard(x,y)
 end
-function mouseMove.mg_15p(x,y)
+function scene.mouseMove(x,y)
 	if sceneTemp.slide then
 		tapBoard(x,y)
 	end
 end
-function touchDown.mg_15p(_,x,y)
+function scene.touchDown(_,x,y)
 	tapBoard(x,y)
 end
-function touchMove.mg_15p(_,x,y)
+function scene.touchMove(_,x,y)
 	if sceneTemp.slide then
 		tapBoard(x,y)
 	end
 end
 
-function Tmr.mg_15p()
+function scene.Tmr()
 	local S=sceneTemp
 	if S.state==1 then
 		S.time=Timer()-S.startTime
@@ -261,7 +263,7 @@ local backColor={
 		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
 	},--Black
 }
-function Pnt.mg_15p()
+function scene.Pnt()
 	local S=sceneTemp
 
 	setFont(40)
@@ -315,7 +317,7 @@ function Pnt.mg_15p()
 	gc.rectangle("line",x*160+173,y*160-107,134,134,50)
 end
 
-WIDGET.init("mg_15p",{
+scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space")},
 	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=WIDGET.lnk_STPval("color"),	code=function(v)if sceneTemp.state~=1 then sceneTemp.color=v end end,hide=WIDGET.lnk_STPeq("state",1)},
 	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=WIDGET.lnk_STPval("blind"),	code=WIDGET.lnk_pressKey("w"),	hide=WIDGET.lnk_STPeq("state",1)},
@@ -323,4 +325,6 @@ WIDGET.init("mg_15p",{
 	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=WIDGET.lnk_STPval("pathVis"),	code=WIDGET.lnk_pressKey("r"),	hide=function()return sceneTemp.state==1 or not sceneTemp.slide end},
 	WIDGET.newSwitch{name="revKB",	x=240,y=600,w=60,					font=40,disp=WIDGET.lnk_STPval("revKB"),	code=WIDGET.lnk_pressKey("t"),	hide=WIDGET.lnk_STPeq("state",1)},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,			font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

@@ -18,7 +18,9 @@ local mapCam={
 }
 local touchDist=nil
 
-function sceneInit.mode(org)
+local scene={}
+
+function scene.sceneInit(org)
 	BG.set("space")
 	destroyPlayers()
 	local cam=mapCam
@@ -55,7 +57,7 @@ local function moveMap(dx,dy)
 	if y>420 and dy<0 or y<-1900 and dy>0 then dy=0 end
 	mapCam.xOy:translate(dx/k,dy/k)
 end
-function wheelMoved.mode(_,dy)
+function scene.wheelMoved(_,dy)
 	mapCam.keyCtrl=false
 	local k=getK()
 	k=min(max(k+dy*.1,.3),1.6)/k
@@ -64,13 +66,13 @@ function wheelMoved.mode(_,dy)
 	local x,y=getPos()
 	mapCam.xOy:translate(x*(1-k),y*(1-k))
 end
-function mouseMove.mode(_,_,dx,dy)
+function scene.mouseMove(_,_,dx,dy)
 	if ms.isDown(1)then
 		moveMap(dx,dy)
 	end
 	mapCam.keyCtrl=false
 end
-function mouseClick.mode(x,y)
+function scene.mouseClick(x,y)
 	local _=mapCam.sel
 	if not _ or x<920 then
 		local SEL=onMode(x,y)
@@ -84,15 +86,15 @@ function mouseClick.mode(x,y)
 				mapCam.sel=nil
 			end
 		elseif _ then
-			keyDown.mode("return")
+			scene.keyDown("return")
 		end
 	end
 	mapCam.keyCtrl=false
 end
-function touchDown.mode()
+function scene.touchDown()
 	touchDist=nil
 end
-function touchMove.mode(_,x,y,dx,dy)
+function scene.touchMove(_,x,y,dx,dy)
 	local L=tc.getTouches()
 	if not L[2]then
 		moveMap(dx,dy)
@@ -103,17 +105,17 @@ function touchMove.mode(_,x,y,dx,dy)
 		if d>100 then
 			d=d^.5
 			if touchDist then
-				wheelMoved.mode(nil,(d-touchDist)*.02)
+				scene.wheelMoved(nil,(d-touchDist)*.02)
 			end
 			touchDist=d
 		end
 	end
 	mapCam.keyCtrl=false
 end
-function touchClick.mode(x,y)
-	mouseClick.mode(x,y)
+function scene.touchClick(x,y)
+	scene.mouseClick(x,y)
 end
-function keyDown.mode(key)
+function scene.keyDown(key)
 	if key=="return"then
 		if mapCam.sel then
 			mapCam.keyCtrl=false
@@ -131,7 +133,7 @@ function keyDown.mode(key)
 	end
 end
 
-function Tmr.mode()
+function scene.Tmr()
 	local dx,dy=0,0
 	local F
 	if not SCN.swapping then
@@ -185,7 +187,7 @@ function Tmr.mode()
 	end
 end
 
-function Pnt.mode()
+function scene.Pnt()
 	local _
 	gc.push("transform")
 	gc.translate(640,360)
@@ -306,8 +308,10 @@ function Pnt.mode()
 	end
 end
 
-WIDGET.init("mode",{
+scene.widgetList={
 	WIDGET.newKey{name="mod",		x=140,y=655,w=220,h=80,font=35,code=WIDGET.lnk_goScene("mod")},
 	WIDGET.newButton{name="start",	x=1040,y=655,w=180,h=80,font=40,code=WIDGET.lnk_pressKey("return"),hide=function()return not mapCam.sel end},
 	WIDGET.newButton{name="back",	x=1200,y=655,w=120,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

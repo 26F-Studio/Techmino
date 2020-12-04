@@ -1,7 +1,9 @@
 local gc=love.graphics
 local kb,tc=love.keyboard,love.touch
 
-function sceneInit.staff()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		time=0,
 		v=1,
@@ -9,7 +11,7 @@ function sceneInit.staff()
 	BG.set("space")
 end
 
-function mouseDown.staff(x,y)
+function scene.mouseDown(x,y)
 	if x>230 and x<1050 then
 		if math.abs(y-800+sceneTemp.time*40)<70 then
 			SCN.pop()SCN.push()
@@ -21,11 +23,11 @@ function mouseDown.staff(x,y)
 	end
 end
 
-function touchDown.staff(_,x,y)
-	mouseDown(nil,x,y)
+function scene.touchDown(_,x,y)
+	scene.mouseDown(x,y)
 end
 
-function keyDown.staff(k)
+function scene.keyDown(k)
 	if kb.isDown("s")then
 		if k=="l"then
 			SCN.pop()
@@ -37,7 +39,7 @@ function keyDown.staff(k)
 	end
 end
 
-function Tmr.staff(dt)
+function scene.Tmr(dt)
 	local S=sceneTemp
 	if(kb.isDown("space","return")or tc.getTouches()[1])and S.v<6.26 then
 		S.v=S.v+.26
@@ -50,7 +52,7 @@ function Tmr.staff(dt)
 	end
 end
 
-function Pnt.staff()
+function scene.Pnt()
 	local L=text.staff
 	local t=sceneTemp.time
 	setFont(40)
@@ -62,6 +64,8 @@ function Pnt.staff()
 	mDraw(IMG.title_color,640,2160-t*40,nil,2)
 end
 
-WIDGET.init("staff",{
+scene.widgetList={
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

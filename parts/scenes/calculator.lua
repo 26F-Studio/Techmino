@@ -3,7 +3,9 @@ local kb=love.keyboard
 
 local find,sub,byte=string.find,string.sub,string.byte
 
-function sceneInit.calculator()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("none")
 	sceneTemp={
 		reg=false,
@@ -13,8 +15,8 @@ function sceneInit.calculator()
 	}
 end
 
-mouseDown.calculator=NULL
-function keyDown.calculator(k)
+scene.mouseDown=NULL
+function scene.keyDown(k)
 	local S=sceneTemp
 	if byte(k)>=48 and byte(k)<=57 then
 		if S.sym=="="then
@@ -30,7 +32,7 @@ function keyDown.calculator(k)
 			end
 		end
 	elseif k:sub(1,2)=="kp"then
-		keyDown.calculator(k:sub(3))
+		S.keyDown(k:sub(3))
 	elseif k=="."then
 		if not(find(S.val,".",nil,true)or find(S.val,"e"))then
 			if S.sym and not S.reg then
@@ -112,7 +114,7 @@ function keyDown.calculator(k)
 	end
 end
 
-function Pnt.calculator()
+function scene.Pnt()
 	local S=sceneTemp
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
@@ -123,7 +125,7 @@ function Pnt.calculator()
 	if S.sym then setFont(50)gc.print(S.sym,126,150)end
 end
 
-WIDGET.init("calculator",{
+scene.widgetList={
 	WIDGET.newKey{name="_1",x=150,y=300,w=90,				font=50,code=WIDGET.lnk_pressKey("1")},
 	WIDGET.newKey{name="_2",x=250,y=300,w=90,				font=50,code=WIDGET.lnk_pressKey("2")},
 	WIDGET.newKey{name="_3",x=350,y=300,w=90,				font=50,code=WIDGET.lnk_pressKey("3")},
@@ -143,4 +145,6 @@ WIDGET.init("calculator",{
 	WIDGET.newKey{name="<",	x=550,y=300,w=90,color="lRed",	font=50,code=WIDGET.lnk_pressKey("backspace")},
 	WIDGET.newKey{name="=",	x=550,y=400,w=90,color="lYellow",font=50,code=WIDGET.lnk_pressKey("return")},
 	WIDGET.newButton{name="play",x=640,y=600,w=180,h=90,color="lGreen",	font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return not sceneTemp.pass end},
-})
+}
+
+return scene

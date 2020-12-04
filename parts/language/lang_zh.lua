@@ -858,6 +858,7 @@ return{
 		"Z块等身抱枕来一个(x",
 		{COLOR.B,"COLOR.blue"},
 		{COLOR.C,"Xspin",COLOR.W,"是个啥玩意"},
+		{COLOR.cyan,"♦PU",COLOR.grape,"RE♦"},
 		{COLOR.cyan,"COLOR.cyan"},
 		{COLOR.cyan,"VVVVVV好玩!"},
 		{COLOR.fire,"COLOR.fire"},

@@ -93,13 +93,15 @@ local function place(X,x)
 	round=1-round
 end
 
-function sceneInit.mg_UTTT()
+local scene={}
+
+function scene.sceneInit()
 	restart()
 	BGM.play("truth")
 	BG.set("bg2")
 end
 
-function Pnt.mg_UTTT()
+function scene.Pnt()
 	gc.push("transform")
 	--origin pos:0,140; scale:4
 	gc.translate(280,0)
@@ -201,19 +203,19 @@ function Pnt.mg_UTTT()
 	end
 end
 
-function touchDown.mg_UTTT(_,x,y)
-	mouseMove.mg_UTTT(x,y)
+function scene.touchDown(_,x,y)
+	scene.mouseMove(x,y)
 end
 
-function touchMove.mg_UTTT(_,x,y)
-	mouseMove.mg_UTTT(x,y)
+function scene.touchMove(_,x,y)
+	scene.mouseMove(x,y)
 end
 
-function touchUp.mg_UTTT(_,x,y)
-	mouseDown.mg_UTTT(x,y)
+function scene.touchUp(_,x,y)
+	scene.mouseDown(x,y)
 end
 
-function mouseMove.mg_UTTT(x,y)
+function scene.mouseMove(x,y)
 	x,y=int((x-280)/80),int(y/80)
 	curX,curx=int(x/3)+int(y/3)*3+1,x%3+y%3*3+1
 	if
@@ -228,12 +230,14 @@ function mouseMove.mg_UTTT(x,y)
 	end
 end
 
-function mouseDown.mg_UTTT(x,y)
-	mouseMove.mg_UTTT(x,y)
+function scene.mouseDown(x,y)
+	scene.mouseMove(x,y)
 	if curX then place(curX,curx)end
 end
 
-WIDGET.init("mg_UTTT",{
+scene.widgetList={
 	WIDGET.newButton{name="reset",x=1140,y=540,w=170,h=80,font=40,color="lGreen",code=restart},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

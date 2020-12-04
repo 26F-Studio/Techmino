@@ -75,20 +75,6 @@ local function updatePowerInfo()
 	gc.pop()gc.setCanvas()
 end
 -------------------------------------------------------------
-Tmr,Pnt={},{}
-mouseClick,touchClick={},{}
-mouseDown,mouseMove,mouseUp,wheelMoved={},{},{},{}
-touchDown,touchUp,touchMove={},{},{}
-keyDown,keyUp={},{}
-gamepadDown,gamepadUp={},{}
-
-local Tmr,Pnt=Tmr,Pnt
-local mouseClick,touchClick=mouseClick,touchClick
-local mouseDown,mouseMove,mouseUp,wheelMoved=mouseDown,mouseMove,mouseUp,wheelMoved
-local touchDown,touchUp,touchMove=touchDown,touchUp,touchMove
-local keyDown,keyUp=keyDown,keyUp
-local gamepadDown,gamepadUp=gamepadDown,gamepadUp
--------------------------------------------------------------
 local lastX,lastY=0,0--Last clickDown pos
 function love.mousepressed(x,y,k,touch)
 	if touch then return end
@@ -98,17 +84,18 @@ function love.mousepressed(x,y,k,touch)
 		local dx,dy=mx-lastX,my-lastY
 		DBP(("(%d,%d), D=(%d,%d)~~(%d,%d)(%d,%d)"):format(mx,my,dx,dy,int(mx/10)*10,int(my/10)*10,int(dx/10)*10,int(dy/10)*10))
 	end
-	if SCN.swapping then return end
-	if mouseDown[SCN.cur]then
-		mouseDown[SCN.cur](mx,my,k)
-	elseif k==2 then
-		SCN.back()
+	if not SCN.swapping then
+		if SCN.mouseDown then
+			SCN.mouseDown(mx,my,k)
+		elseif k==2 then
+			SCN.back()
+		end
+		if k==1 then
+			WIDGET.press(mx,my)
+		end
+		lastX,lastY=mx,my
+		SYSFX.newRipple(3,mx,my,30)
 	end
-	if k==1 then
-		WIDGET.press(mx,my)
-	end
-	lastX,lastY=mx,my
-	SYSFX.newRipple(3,mx,my,30)
 end
 function love.mousemoved(x,y,dx,dy,t)
 	if t then return end
@@ -116,9 +103,7 @@ function love.mousemoved(x,y,dx,dy,t)
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if SCN.swapping then return end
 	dx,dy=dx/SCR.k,dy/SCR.k
-	if mouseMove[SCN.cur]then
-		mouseMove[SCN.cur](mx,my,dx,dy)
-	end
+	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
 	if ms.isDown(1) then
 		WIDGET.drag(mx,my)
 	else
@@ -130,16 +115,12 @@ function love.mousereleased(x,y,k,touch)
 	mx,my=xOy:inverseTransformPoint(x,y)
 	WIDGET.release(mx,my)
 	WIDGET.moveCursor(mx,my)
-	if mouseUp[SCN.cur]then
-		mouseUp[SCN.cur](mx,my,k)
-	end
-	if lastX and(mx-lastX)^2+(my-lastY)^2<26 and mouseClick[SCN.cur]then
-		mouseClick[SCN.cur](mx,my,k)
-	end
+	if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
+	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<26 then SCN.mouseClick(mx,my,k)end
 end
 function love.wheelmoved(x,y)
 	if SCN.swapping then return end
-	if wheelMoved[SCN.cur]then wheelMoved[SCN.cur](x,y)end
+	if SCN.wheelMoved then SCN.wheelMoved(x,y)end
 end
 
 function love.touchpressed(id,x,y)
@@ -151,17 +132,13 @@ function love.touchpressed(id,x,y)
 	end
 	x,y=xOy:inverseTransformPoint(x,y)
 	lastX,lastY=x,y
-	if touchDown[SCN.cur]then
-		touchDown[SCN.cur](id,x,y)
-	end
+	if SCN.touchDown then SCN.touchDown(id,x,y)end
 	if kb.hasTextInput()then kb.setTextInput(false)end
 end
 function love.touchmoved(id,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
-	if touchMove[SCN.cur]then
-		touchMove[SCN.cur](id,x,y,dx/SCR.k,dy/SCR.k)
-	end
+	if SCN.touchMove then SCN.touchMove(id,x,y,dx/SCR.k,dy/SCR.k)end
 	if WIDGET.sel then
 		if touching then
 			WIDGET.drag(x,y)
@@ -184,13 +161,9 @@ function love.touchreleased(id,x,y)
 			WIDGET.sel=nil
 		end
 	end
-	if touchUp[SCN.cur]then
-		touchUp[SCN.cur](id,x,y)
-	end
+	if SCN.touchUp then SCN.touchUp(id,x,y)end
 	if(x-lastX)^2+(y-lastY)^2<26 then
-		if touchClick[SCN.cur]then
-			touchClick[SCN.cur](x,y)
-		end
+		if SCN.touchClick then SCN.touchClick(x,y)end
 		SYSFX.newRipple(3,x,y,30)
 	end
 end
@@ -252,7 +225,7 @@ function love.keypressed(i)
 	if i~="f8"then
 		if SCN.swapping then return end
 
-		if keyDown[SCN.cur]then keyDown[SCN.cur](i)
+		if SCN.keyDown then SCN.keyDown(i)
 		elseif i=="escape"then SCN.back()
 		else WIDGET.keyPressed(i)
 		end
@@ -263,7 +236,7 @@ function love.keypressed(i)
 end
 function love.keyreleased(i)
 	if SCN.swapping then return end
-	if keyUp[SCN.cur]then keyUp[SCN.cur](i)end
+	if SCN.keyUp then SCN.keyUp(i)end
 end
 function love.textedited(text)
 	EDITING=text
@@ -303,30 +276,29 @@ local keyMirror={
 function love.gamepadpressed(_,i)
 	mouseShow=false
 	if SCN.swapping then return end
-	if gamepadDown[SCN.cur]then gamepadDown[SCN.cur](i)
-	elseif keyDown[SCN.cur]then keyDown[SCN.cur](keyMirror[i]or i)
+	if SCN.gamepadDown then SCN.gamepadDown(i)
+	elseif SCN.keyDown then SCN.keyDown(keyMirror[i]or i)
 	elseif i=="back"then SCN.back()
 	else WIDGET.gamepadPressed(keyMirror[i]or i)
 	end
 end
 function love.gamepadreleased(_,i)
 	if SCN.swapping then return end
-	if gamepadUp[SCN.cur]then gamepadUp[SCN.cur](i)
-	end
+	if SCN.gamepadUp then SCN.gamepadUp(i)end
 end
 --[[
 function love.joystickpressed(JS,k)
 	mouseShow=false
 	if SCN.swapping then return end
-	if gamepadDown[SCN.cur]then gamepadDown[SCN.cur](i)
-	elseif keyDown[SCN.cur]then keyDown[SCN.cur](keyMirror[i]or i)
+	if SCN.gamepadDown then SCN.gamepadDown(i)
+	elseif SCN.keyDown then SCN.keyDown(keyMirror[i]or i)
 	elseif i=="back"then SCN.back()
 	else WIDGET.gamepadPressed(i)
 	end
 end
 function love.joystickreleased(JS,k)
 	if SCN.swapping then return end
-	if gamepadUp[SCN.cur]then gamepadUp[SCN.cur](i)
+	if SCN.gamepadUp then SCN.gamepadUp(i)
 	end
 end
 function love.joystickaxis(JS,axis,val)
@@ -389,7 +361,7 @@ function love.errorhandler(msg)
 	gc.reset()
 
 	local errScrShot
-	gc.captureScreenshot(function (_)errScrShot=gc.newImage(_)end)
+	gc.captureScreenshot(function(_)errScrShot=gc.newImage(_)end)
 	gc.present()
 
 	SFX.fplay("error",SETTING.voc*.8)
@@ -457,6 +429,7 @@ local devColor={
 local FPS=love.timer.getFPS
 love.draw,love.update=nil--remove default draw/update
 function love.run()
+	local SCN=SCN
 	local SETTING=SETTING
 	local DISCARD=gc.discard
 	local PRESENT=gc.present
@@ -506,7 +479,7 @@ function love.run()
 		BG.update(dt)
 		SYSFX.update(dt)
 		TEXT.update()
-		_=Tmr[SCN.cur]if _ then _(dt)end--Scene Updater
+		if SCN.Tmr then SCN.Tmr(dt)end--Scene Updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 		LOG.update()
@@ -524,7 +497,7 @@ function love.run()
 					gc.replaceTransform(xOy)
 
 					--Draw scene contents
-					if Pnt[SCN.cur]then Pnt[SCN.cur]()end
+					if SCN.Pnt then SCN.Pnt()end
 
 					--Draw widgets
 					WIDGET.draw()

@@ -19,7 +19,10 @@ local fnsRankColor={
 	E=COLOR.red,
 	F=COLOR.dRed,
 }
-function sceneInit.pause(org)
+
+local scene={}
+
+function scene.sceneInit(org)
 	if org:find("setting")then
 		TEXT.show(text.needRestart,640,440,50,"fly",.6)
 	end
@@ -112,7 +115,7 @@ function sceneInit.pause(org)
 		GAME.prevBG=nil
 	end
 end
-function sceneBack.pause()
+function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
 	if not GAME.replaying then
 		mergeStat(STAT,PLAYERS[1].stat)
@@ -122,7 +125,7 @@ function sceneBack.pause()
 	end
 end
 
-function keyDown.pause(key)
+function scene.keyDown(key)
 	if key=="q"then
 		SCN.back()
 	elseif key=="escape"then
@@ -139,7 +142,7 @@ function keyDown.pause(key)
 	end
 end
 
-function Tmr.pause(dt)
+function scene.Tmr(dt)
 	if not GAME.result then
 		GAME.pauseTime=GAME.pauseTime+dt
 	end
@@ -152,10 +155,10 @@ local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
 for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
-function Pnt.pause()
+function scene.Pnt()
 	local S=sceneTemp
 	local T=S.timer*.02
-	if T<1 or GAME.result then Pnt.play()end
+	if T<1 or GAME.result then SCN.scenes.play.Pnt()end
 
 	--Dark BG
 	local _=T
@@ -295,10 +298,12 @@ function Pnt.pause()
 	end
 end
 
-WIDGET.init("pause",{
+scene.widgetList={
 	WIDGET.newButton{name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=WIDGET.lnk_pressKey("s")},
 	WIDGET.newButton{name="replay",		x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=WIDGET.lnk_pressKey("p"),hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
 	WIDGET.newButton{name="resume",		x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=WIDGET.lnk_pressKey("escape")},
 	WIDGET.newButton{name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=35,code=WIDGET.lnk_pressKey("r")},
 	WIDGET.newButton{name="quit",		x=640,	y=600,	w=240,h=100,font=35,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

@@ -1,7 +1,9 @@
 local gc=love.graphics
 local int=math.floor
 
-function sceneInit.setting_control()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		das=SETTING.das,
 		arr=SETTING.arr,
@@ -12,7 +14,7 @@ function sceneInit.setting_control()
 	BG.set("bg1")
 end
 
-function Tmr.setting_control()
+function scene.Tmr()
 	local T=sceneTemp
 	if T.wait>0 then
 		T.wait=T.wait-1
@@ -52,7 +54,7 @@ function Tmr.setting_control()
 	end
 end
 
-function Pnt.setting_control()
+function scene.Pnt()
 	--Testing grid line
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.4)
@@ -79,7 +81,7 @@ local function sliderShow(S)
 	S=S.disp()
 	return S.."F "..int(S*16.67).."ms"
 end
-WIDGET.init("setting_control",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=80,	y=50,font=70,align="L"},
 	WIDGET.newText{name="preview",	x=520,	y=540,font=40,align="R"},
 
@@ -98,4 +100,6 @@ WIDGET.init("setting_control",{
 			_.ihs,_.irs,_.ims=false,false,false
 		end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene

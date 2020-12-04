@@ -5,7 +5,9 @@ local abs=math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local rnd=math.random
 
-function sceneInit.intro()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("space")
 	BGM.play("blank")
 	sceneTemp={
@@ -18,7 +20,7 @@ function sceneInit.intro()
 	end
 end
 
-function mouseDown.intro(_,_,k)
+function scene.mouseDown(_,_,k)
 	if k~=2 then
 		if NOGAME=="delSetting"then
 			LOG.print("检测到过老版本无效设置数据,设置已经全部重置,请重启游戏完成",600,COLOR.yellow)
@@ -34,19 +36,19 @@ function mouseDown.intro(_,_,k)
 		end
 	end
 end
-function touchDown.intro()
-	mouseDown.intro()
+function scene.touchDown()
+	scene.mouseDown()
 end
-function keyDown.intro(key)
+function scene.keyDown(key)
 	if key=="escape"then
 		VOC.play("bye")
 		SCN.back()
 	else
-		mouseDown.intro()
+		scene.mouseDown()
 	end
 end
 
-function Tmr.intro()
+function scene.Tmr()
 	local S=sceneTemp
 	S.t1=S.t1+1
 	S.t2=S.t2+1
@@ -71,7 +73,7 @@ local titleTransform={
 		gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)
 	end,
 }
-function Pnt.intro()
+function scene.Pnt()
 	local S=sceneTemp
 	local T=(S.t1+110)%300
 	if T<30 then
@@ -102,3 +104,5 @@ function Pnt.intro()
 		mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
 	end
 end
+
+return scene

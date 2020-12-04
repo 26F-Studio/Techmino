@@ -4,7 +4,9 @@ local Timer=love.timer.getTime
 
 local int,sin=math.floor,math.sin
 
-function sceneInit.setting_touch()
+local scene={}
+
+function scene.sceneInit()
 	BG.set("rainbow")
 	sceneTemp={
 		default=1,
@@ -12,7 +14,7 @@ function sceneInit.setting_touch()
 		sel=nil,
 	}
 end
-function sceneBack.setting_touch()
+function scene.sceneBack()
 	FILE.save(VK_org,"virtualkey")
 end
 
@@ -31,34 +33,34 @@ local function onVK_org(x,y)
 	end
 	return nearest
 end
-function mouseDown.setting_touch(x,y,k)
+function scene.mouseDown(x,y,k)
 	if k==2 then SCN.back()end
 	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 end
-function mouseMove.setting_touch(_,_,dx,dy)
+function scene.mouseMove(_,_,dx,dy)
 	if sceneTemp.sel and ms.isDown(1)and not WIDGET.sel then
 		local B=VK_org[sceneTemp.sel]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
-function mouseUp.setting_touch()
+function scene.mouseUp()
 	if sceneTemp.sel then
 		local B=VK_org[sceneTemp.sel]
 		local k=sceneTemp.snap
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
-function touchDown.setting_touch(_,x,y)
+function scene.touchDown(_,x,y)
 	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
 end
-function touchUp.setting_touch()
+function scene.touchUp()
 	if sceneTemp.sel then
 		local B=VK_org[sceneTemp.sel]
 		local k=sceneTemp.snap
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
-function touchMove.setting_touch(_,_,_,dx,dy)
+function scene.touchMove(_,_,_,dx,dy)
 	if sceneTemp.sel and not WIDGET.sel then
 		local B=VK_org[sceneTemp.sel]
 		B.x,B.y=B.x+dx,B.y+dy
@@ -79,7 +81,7 @@ local function VirtualkeyPreview()
 		end
 	end
 end
-function Pnt.setting_touch()
+function scene.Pnt()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
@@ -169,7 +171,7 @@ local virtualkeySet={
 		{20,1210,	50,30},--zangiRight
 	},--PC key feedback(top&in a row)
 }
-WIDGET.init("setting_touch",{
+scene.widgetList={
 	WIDGET.newButton{name="default",	x=520,y=90,w=200,h=80,font=35,
 		code=function()
 			local D=virtualkeySet[sceneTemp.default]
@@ -208,4 +210,6 @@ WIDGET.init("setting_touch",{
 		hide=function()
 			return not sceneTemp.sel
 		end},
-})
+}
+
+return scene

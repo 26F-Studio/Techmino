@@ -39,14 +39,16 @@ local function toggleMod(M,back)
 	end
 end
 
-function sceneInit.mod()
+local scene={}
+
+function scene.sceneInit()
 	sceneTemp={
 		sel=nil,--selected mod name
 	}
 	BG.set("tunnel")
 end
 
-function mouseMove.mod(x,y)
+function scene.mouseMove(x,y)
 	sceneTemp.sel=nil
 	for N,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
@@ -55,7 +57,7 @@ function mouseMove.mod(x,y)
 		end
 	end
 end
-function mouseDown.mod(x,y,k)
+function scene.mouseDown(x,y,k)
 	for _,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
 			toggleMod(M,k==2 or kb.isDown("lshift","rshift"))
@@ -63,14 +65,14 @@ function mouseDown.mod(x,y,k)
 		end
 	end
 end
-function touchMove.mod(_,x,y)
-	mouseMove.mod(x,y)
+function scene.touchMove(_,x,y)
+	scene.mouseMove(x,y)
 end
-function touchDown.mod(_,x,y)
-	mouseMove.mod(x,y)
-	mouseDown.mod(x,y)
+function scene.touchDown(_,x,y)
+	scene.mouseMove(x,y)
+	scene.mouseDown(x,y)
 end
-function keyDown.mod(key)
+function scene.keyDown(key)
 	if key=="tab"or key=="delete"then
 		if GAME.mod[1]then
 			while GAME.mod[1]do
@@ -91,7 +93,7 @@ function keyDown.mod(key)
 	end
 end
 
-function Tmr.mod()
+function scene.Tmr()
 	for _,M in next,MODOPT do
 		if M.sel==0 then
 			if M.time>0 then
@@ -104,7 +106,7 @@ function Tmr.mod()
 		end
 	end
 end
-function Pnt.mod()
+function scene.Pnt()
 	setFont(40)
 	gc.setLineWidth(5)
 	for _,M in next,MODOPT do
@@ -150,9 +152,11 @@ function Pnt.mod()
 	end
 end
 
-WIDGET.init("mod",{
+scene.widgetList={
 	WIDGET.newText{name="title",	x=80,y=50,font=70,align="L"},
 	WIDGET.newText{name="unranked",	x=1200,y=60,color="yellow",font=50,align="R",hide=function()return scoreValid()end},
 	WIDGET.newButton{name="reset",	x=1140,y=540,w=170,h=80,font=25,code=WIDGET.lnk_pressKey("tab")},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
-})
+}
+
+return scene
