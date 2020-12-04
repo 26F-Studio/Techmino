@@ -9,7 +9,7 @@ return{
 		fall=20,
 		task=function(P)
 			local _=P.modeData.counter+1
-			if P.stat.frame>=warnTime[_]then
+			if P.stat.frame>=warnTime[_]*60 then
 				if _<9 then
 					P.modeData.counter=_
 					SFX.play("ready",.7+_*.03)
