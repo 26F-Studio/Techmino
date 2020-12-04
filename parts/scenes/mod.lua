@@ -133,7 +133,7 @@ function Pnt.mod()
 				mStr(M.list[M.sel],20,8)
 				setFont(40)
 			end
-			
+
 			if M.list then
 				gc.setColor(1,1,1,t*6)
 				gc.arc("line","open",0,0,rad+6,0,(M.sel/#M.list)*t*62.832)

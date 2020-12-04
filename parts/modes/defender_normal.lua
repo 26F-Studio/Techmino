@@ -38,7 +38,7 @@ return{
 							end
 						end
 					end
-				end	
+				end
 			end
 		end,
 		bg="rainbow2",bgm="storm",

@@ -30,7 +30,7 @@ return{
 					P.modeData.event=sectionName[int(P.modeData.point*.1)+1]
 					P:win("finish")
 					return
-				end	
+				end
 			end
 		end,
 		bg="tunnel",bgm="far",

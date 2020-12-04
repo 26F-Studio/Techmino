@@ -15,7 +15,7 @@ return{
 						D.counter=0
 						D.event=D.event+1
 					end
-				end	
+				end
 			end
 		end,
 		bg="bg2",bgm="down",

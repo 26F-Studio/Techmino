@@ -461,9 +461,8 @@ function love.run()
 	local DISCARD=gc.discard
 	local PRESENT=gc.present
 
-	local T=love.timer
-	local Timer=T.getTime
-	local STEP,GETDelta,WAIT=T.step,T.getDelta,T.sleep
+	local Timer=love.timer.getTime
+	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local mini=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 
