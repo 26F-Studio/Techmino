@@ -251,8 +251,8 @@ function Pnt.mg_cubefield()
 	--Draw menu
 	if play then
 		setFont(60)
-		mStr(int(score),-400,-640)
-		mStr(int(score),400,-640)
+		mStr(int(score),-300,-640)
+		mStr(int(score),300,-640)
 		if score%1000>920 then
 			gc.setColor(1,1,1,abs(score%1000-970)*8)
 			setFont(70)
@@ -291,3 +291,7 @@ function Pnt.mg_cubefield()
 	end
 	gc.pop()
 end
+
+WIDGET.init("mg_cubefield",{
+	WIDGET.newKey{name="back",x=1140,y=80,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
+})

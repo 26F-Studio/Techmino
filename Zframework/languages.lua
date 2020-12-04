@@ -40,6 +40,7 @@ local publicWidgetText={
 		symbol="?????",
 		yygq="就这?",
 	},
+	mg_cubefield={},
 }
 local function langFallback(T0,T)
 	for k,v in next,T0 do
