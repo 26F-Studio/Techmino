@@ -23,7 +23,7 @@ return{
 		freshLimit=15,
 		dropPiece=score,
 		task=function(P)
-			if P.stat.frame>=53.5 then
+				if P.stat.frame>=53.5*60 then
 				P.modeData.point=min(P.modeData.point+16,80)
 				P.modeData.event=sectionName[int(P.modeData.point*.1)+1]
 				P:win("finish")
