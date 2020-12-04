@@ -126,7 +126,8 @@ MODOPT={--Mod options
 	},
 	boneBlock={no=21,id="BN",
 		key="m",x=920,y=470,color="blue",
-		func=function(P)P.gameEnv.bone=true end,
+		list={"on","off"},
+		func=function(P,M)P.gameEnv.bone=M.sel==1 end,
 	},
 }
 for _,M in next,MODOPT do
