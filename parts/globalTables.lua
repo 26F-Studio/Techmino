@@ -258,7 +258,7 @@ SETTING={
 	warn=true,
 	highCam=false,
 	nextPos=false,
-	fullscreen=false,
+	fullscreen=true,
 	bg=true,
 	powerInfo=false,
 

@@ -233,8 +233,4 @@ do
 		FILE.save(RANKS,"unlock","")
 		FILE.save(STAT,"data","")
 	end
-	if MOBILE and not SETTING.fullscreen then
-		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,COLOR.yellow)
-		LOG.print("Switch fullscreen on if titleBar don't disappear",300,COLOR.yellow)
-	end
 end
