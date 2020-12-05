@@ -1532,7 +1532,7 @@ function Player.lose(P,force)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(TICK.throwBadge,A.ai,P,max(3,P.badge)*4)
+					TASK.new(TICK.throwBadge,not A.human,P,max(3,P.badge)*4)
 				end
 			end
 		else
