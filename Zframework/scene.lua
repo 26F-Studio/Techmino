@@ -33,6 +33,7 @@ local SCN={
 	keyUp=nil,
 	gamepadDown=nil,
 	gamepadUp=nil,
+	socketRead=nil,
 }--Scene datas, returned
 
 function SCN.add(name,scene)
@@ -72,6 +73,7 @@ function SCN.init(s,org)
 	SCN.keyUp=S.keyUp
 	SCN.gamepadDown=S.gamepadDown
 	SCN.gamepadUp=S.gamepadUp
+	SCN.socketRead=S.socketRead
 	if SCN.sceneInit then SCN.sceneInit(org)end
 end
 function SCN.push(tar,style)

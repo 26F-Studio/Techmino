@@ -83,12 +83,19 @@ return{
 	diffPassword="两次密码不一致",
 	registerSuccessed="注册成功!",
 	registerFailed="注册失败",
-	loginSuccessed="登录成功!",
+	loginSuccessed="登录成功",
 	loginFailed="登录失败",
-	accessSuccessed="授权成功!",
+	accessSuccessed="授权成功",
 	accessFailed="授权失败",
-	wsSuccessed="连接成功！",
-	wsFailed="连接失败",
+	wsSuccessed="WS连接成功",
+	wsFailed="WS连接失败",
+	wsDisconnected="WS连接断开",
+	wsNoConn="WS未连接",
+
+	chatJoin="有人来了,当前人数:",
+	chatLeave="有人离开了,当前人数:",
+	chatRemain="人数:",
+	chatHistory="------以上是历史消息------",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
@@ -241,6 +248,7 @@ return{
 			chat="聊天室",
 		},
 		chat={
+			clear="清空",
 			send="发送",
 		},
 		setting_game={

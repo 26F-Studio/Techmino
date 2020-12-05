@@ -90,8 +90,15 @@ return{
 	-- loginFailed="Login failed",
 	-- accessSuccessed="Successfully authorized!",
 	-- accessFailed="Authorization failed",
-	-- wsSuccessed="Websocket connected!",
-	-- wsFailed="Websocket failed to connect",
+	-- wsSuccessed="WS连接成功",
+	-- wsFailed="WS连接失败",
+	-- wsDisconnected="WS连接断开",
+	-- wsNoConn="WS未连接",
+
+	-- chatJoin="有人来了,当前人数:",
+	-- chatLeave="有人离开了,当前人数:",
+	-- chatRemain="人数:",
+	-- chatHistory="------以上是历史消息------",
 
 	errorMsg="Ha ocurrido un error y Techmino necesita reiniciarse.\nSe creó un registro de error, puedes enviarlo al autor.",
 
@@ -221,6 +228,7 @@ return{
 			-- chat="Chat",
 		},
 		chat={
+			-- clear="Clear",
 			-- send="Send",
 		},
 		setting_game={

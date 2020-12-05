@@ -323,6 +323,7 @@ function Tick.wsCONN_connect(task)
 		if wsconn then
 			WSCONN=wsconn
 			TASK.new(Tick.wsCONN_read)
+			LOG.print(text.wsSuccessed,"warn")
 			return
 		elseif connErr then
 			LOG.print(text.wsFailed..": "..connErr,"warn")
@@ -341,15 +342,13 @@ function Tick.wsCONN_read()
 		if not WSCONN then return end
 		local messages,readErr=client.read(WSCONN)
 		if messages then
-			if messages[1]then
-				LOG.print(messages[1])
+			for i=1,#messages do
+				SCN.socketRead(messages[i])
 			end
 		elseif readErr then
-			print("Read error: "..readErr)
-			if readErr=="EOF"then
-				LOG.print("Socket closed!","warn")
-			end
+			wsWrite("/quit")
 			WSCONN=nil
+			LOG.print(text.wsDisconnected,"warn")
 			return
 		end
 	end

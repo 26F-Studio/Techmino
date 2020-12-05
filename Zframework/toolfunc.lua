@@ -544,41 +544,75 @@ do--urlencode
 end
 do--httpRequest & wsConnect
 	client=LOADLIB("NETlib")
-	httpRequest=
-	client and function(tick,path,method,header,body)
-		local task,err=client.httpraw{
-			url="http://krakens.tpddns.cn:10026"..path,
-			method=method or"GET",
-			header=header,
-			body=body,
-		}
-		if task then
-			TASK.newNet(tick,task)
-		else
-			LOG.print("NETlib error: "..err,"warn")
+	if client then
+		function httpRequest(tick,path,method,header,body)
+			local task,err=client.httpraw{
+				url="http://krakens.tpddns.cn:10026"..path,
+				method=method or"GET",
+				header=header,
+				body=body,
+			}
+			if task then
+				TASK.newNet(tick,task)
+			else
+				LOG.print("NETlib error: "..err,"warn")
+			end
+			TASK.netTaskCount=TASK.netTaskCount+1
 		end
-		TASK.netTaskCount=TASK.netTaskCount+1
-	end or
-	function()
-		LOG.print("[NO NETlib]",5,COLOR.yellow)
-	end
 
-	wsConnect=
-	client and function(tick,path,header)
-		local task,err=client.wsraw{
-			url="ws://krakens.tpddns.cn:10026"..path,
-			origin="krakens.tpddns.cn",
-			header=header,
-		}
-		if task then
-			TASK.newNet(tick,task)
-		else
-			LOG.print("NETlib error: "..err,"warn")
+		function wsConnect(tick,path,header)
+			local task,err=client.wsraw{
+				url="ws://krakens.tpddns.cn:10026"..path,
+				origin="krakens.tpddns.cn",
+				header=header,
+			}
+			if task then
+				TASK.newNet(tick,task)
+			else
+				LOG.print("NETlib error: "..err,"warn")
+			end
+			TASK.netTaskCount=TASK.netTaskCount+1
 		end
-		TASK.netTaskCount=TASK.netTaskCount+1
-	end or
-	function()
-		LOG.print("[NO NETlib]",5,COLOR.yellow)
+
+		function wsWrite(data)
+			if WSCONN then
+				local writeErr=client.write(WSCONN,data)
+				if writeErr then
+					LOG.print(writeErr,"error")
+					return
+				end
+				return true
+			else
+				LOG.print(text.wsNoConn,"warn")
+			end
+		end
+	else
+		local function noNetLib()
+			LOG.print("[NO NETlib]",5,COLOR.yellow)
+		end
+		httpRequest=noNetLib
+		wsConnect=noNetLib
+		wsWrite=noNetLib
+	end
+end
+do--wheelScroll
+	local floatWheel=0
+	function wheelScroll(y)
+		if y>0 then
+			if floatWheel<0 then floatWheel=0 end
+			floatWheel=floatWheel+y^1.2
+		elseif y<0 then
+			if floatWheel>0 then floatWheel=0 end
+			floatWheel=floatWheel-(-y)^1.2
+		end
+		while floatWheel>=1 do
+			love.keypressed("up")
+			floatWheel=floatWheel-1
+		end
+		while floatWheel<=-1 do
+			love.keypressed("down")
+			floatWheel=floatWheel+1
+		end
 	end
 end
 function copyList(org)
