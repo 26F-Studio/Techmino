@@ -101,7 +101,7 @@ function scene.sceneInit()
 	BG.set("bg2")
 end
 
-function scene.Pnt()
+function scene.draw()
 	gc.push("transform")
 	--origin pos:0,140; scale:4
 	gc.translate(280,0)

@@ -16,12 +16,12 @@ function scene.sceneInit()
 	PLY.newDemoPlayer(1,900,35,1.1)
 end
 
-function scene.Tmr(dt)
+function scene.update(dt)
 	GAME.frame=GAME.frame+1
 	PLAYERS[1]:update(dt)
 end
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 	gc.draw(IMG.title_color,60,30,nil,1.3)
 	setFont(30)

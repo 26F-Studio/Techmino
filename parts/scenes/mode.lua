@@ -133,7 +133,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	local dx,dy=0,0
 	local F
 	if not SCN.swapping then
@@ -187,7 +187,7 @@ function scene.Tmr()
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local _
 	gc.push("transform")
 	gc.translate(640,360)

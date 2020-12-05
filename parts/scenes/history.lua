@@ -47,7 +47,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(.2,.2,.2,.7)
 	gc.rectangle("fill",30,45,1000,632)
 	gc.setColor(1,1,1)

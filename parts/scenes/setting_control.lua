@@ -14,7 +14,7 @@ function scene.sceneInit()
 	BG.set("bg1")
 end
 
-function scene.Tmr()
+function scene.update()
 	local T=sceneTemp
 	if T.wait>0 then
 		T.wait=T.wait-1
@@ -54,7 +54,7 @@ function scene.Tmr()
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	--Testing grid line
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.4)

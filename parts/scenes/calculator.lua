@@ -114,7 +114,7 @@ function scene.keyDown(k)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)

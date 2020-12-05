@@ -49,7 +49,7 @@ function scene.touchDown()
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	local S=sceneTemp
 	if S.time==400 then return end
 	repeat
@@ -148,7 +148,7 @@ function scene.Tmr()
 	until not S.skip
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 
 	gc.push("transform")

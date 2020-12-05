@@ -33,14 +33,14 @@ function scene.touchDown(_,x,y)
 	scene.mouseDown(x,y)
 end
 
-function scene.Tmr()
+function scene.update()
 	local t=sceneTemp.jump
 	if t>0 then
 		sceneTemp.jump=t-1
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 	local t=Timer()
 	local _=sceneTemp.jump

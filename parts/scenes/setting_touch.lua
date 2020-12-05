@@ -81,7 +81,7 @@ local function VirtualkeyPreview()
 		end
 	end
 end
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)

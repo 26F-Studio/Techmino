@@ -39,7 +39,7 @@ function scene.keyDown(k)
 	end
 end
 
-function scene.Tmr(dt)
+function scene.update(dt)
 	local S=sceneTemp
 	if(kb.isDown("space","return")or tc.getTouches()[1])and S.v<6.26 then
 		S.v=S.v+.26
@@ -52,7 +52,7 @@ function scene.Tmr(dt)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local L=text.staff
 	local t=sceneTemp.time
 	setFont(40)

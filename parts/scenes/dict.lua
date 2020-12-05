@@ -103,7 +103,7 @@ function scene.keyDown(key)
 	S.url=(S.result[1]and S.result or S.dict)[S.select][5]
 end
 
-function scene.Tmr(dt)
+function scene.update(dt)
 	local S=sceneTemp
 	if S.waiting>0 then
 		S.waiting=S.waiting-dt
@@ -123,7 +123,7 @@ local typeColor={
 	english=COLOR.green,
 	name=COLOR.lPurple,
 }
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 
 	gc.setLineWidth(4)

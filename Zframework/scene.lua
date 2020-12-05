@@ -18,8 +18,8 @@ local SCN={
 	seq={"quit","slowFade"},--Back sequence
 
 	--Events
-	Tmr=nil,
-	Pnt=nil,
+	update=nil,
+	draw=nil,
 	mouseClick=nil,
 	touchClick=nil,
 	mouseDown=nil,
@@ -57,8 +57,8 @@ function SCN.init(s,org)
 	local S=scenes[s]
 	SCN.sceneInit=S.sceneInit
 	SCN.sceneBack=S.sceneBack
-	SCN.Tmr=S.Tmr
-	SCN.Pnt=S.Pnt
+	SCN.update=S.update
+	SCN.draw=S.draw
 	SCN.mouseClick=S.mouseClick
 	SCN.touchClick=S.touchClick
 	SCN.mouseDown=S.mouseDown

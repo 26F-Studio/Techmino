@@ -93,7 +93,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	for _,M in next,MODOPT do
 		if M.sel==0 then
 			if M.time>0 then
@@ -106,7 +106,7 @@ function scene.Tmr()
 		end
 	end
 end
-function scene.Pnt()
+function scene.draw()
 	setFont(40)
 	gc.setLineWidth(5)
 	for _,M in next,MODOPT do

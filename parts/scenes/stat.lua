@@ -45,7 +45,7 @@ function scene.sceneInit()
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local chart=sceneTemp.chart
 	setFont(25)
 	local _,__=SKIN.libColor,SETTING.skin

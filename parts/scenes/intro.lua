@@ -48,7 +48,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	local S=sceneTemp
 	S.t1=S.t1+1
 	S.t2=S.t2+1
@@ -73,7 +73,7 @@ local titleTransform={
 		gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)
 	end,
 }
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 	local T=(S.t1+110)%300
 	if T<30 then

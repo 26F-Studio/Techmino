@@ -479,7 +479,7 @@ function love.run()
 		BG.update(dt)
 		SYSFX.update(dt)
 		TEXT.update()
-		if SCN.Tmr then SCN.Tmr(dt)end--Scene Updater
+		if SCN.update then SCN.update(dt)end--Scene Updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 		LOG.update()
@@ -497,7 +497,7 @@ function love.run()
 					gc.replaceTransform(xOy)
 
 					--Draw scene contents
-					if SCN.Pnt then SCN.Pnt()end
+					if SCN.draw then SCN.draw()end
 
 					--Draw widgets
 					WIDGET.draw()

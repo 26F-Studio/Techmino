@@ -114,14 +114,14 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	local S=sceneTemp
 	if S.state==1 then
 		S.time=Timer()-S.startTime+S.error
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 
 	setFont(40)

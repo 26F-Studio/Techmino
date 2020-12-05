@@ -113,11 +113,11 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 
 	--Draw frame

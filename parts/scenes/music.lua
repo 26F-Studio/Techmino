@@ -66,7 +66,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 
 	setFont(50)

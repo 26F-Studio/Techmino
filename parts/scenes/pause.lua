@@ -143,7 +143,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Tmr(dt)
+function scene.update(dt)
 	if not GAME.result then
 		GAME.pauseTime=GAME.pauseTime+dt
 	end
@@ -156,10 +156,10 @@ local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
 for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 	local T=S.timer*.02
-	if T<1 or GAME.result then SCN.scenes.play.Pnt()end
+	if T<1 or GAME.result then SCN.scenes.play.draw()end
 
 	--Dark BG
 	local _=T

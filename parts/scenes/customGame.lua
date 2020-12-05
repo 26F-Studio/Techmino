@@ -104,7 +104,7 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	--Field content
 	if sceneTemp.initField then
 		gc.push("transform")

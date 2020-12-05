@@ -12,7 +12,7 @@ function scene.sceneBack()
 	FILE.save(SETTING,"settings")
 end
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 	gc.draw(SKIN.curText[int(Timer()*2)%16+1],740,540,Timer()%6.28319,2,nil,15,15)
 end

@@ -2,7 +2,7 @@ local gc=love.graphics
 
 local scene={}
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 	mText(drawableText.VKTchW,140+50*SETTING.VKTchW,260)
 	mText(drawableText.VKOrgW,140+50*SETTING.VKTchW+50*SETTING.VKCurW,320)

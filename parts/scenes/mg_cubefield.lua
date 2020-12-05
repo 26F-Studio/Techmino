@@ -126,7 +126,7 @@ function scene.keyUp(key)
 	end
 end
 
-function scene.Tmr(dt)
+function scene.update(dt)
 	dt=dt*600
 
 	--Update cubes' position
@@ -189,7 +189,7 @@ function scene.Tmr(dt)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	--Health bar
 	if life1>0 then
 		gc.setColor(1,0,0)

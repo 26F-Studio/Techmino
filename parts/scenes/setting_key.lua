@@ -91,7 +91,7 @@ function scene.gamepadDown(key)
 	end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 	local a=.3+sin(Timer()*15)*.1
 	if S.kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end

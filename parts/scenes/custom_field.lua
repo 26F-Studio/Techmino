@@ -152,11 +152,11 @@ function scene.keyDown(key)
 	S.x,S.y,S.pen=sx,sy,pen
 end
 
-function scene.Tmr()
+function scene.update()
 	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 	local sx,sy=S.x,S.y
 

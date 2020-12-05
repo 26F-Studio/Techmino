@@ -192,7 +192,7 @@ function scene.touchMove(_,x,y)
 	end
 end
 
-function scene.Tmr()
+function scene.update()
 	local S=sceneTemp
 	if S.state==1 then
 		S.time=Timer()-S.startTime
@@ -263,7 +263,7 @@ local backColor={
 		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
 	},--Black
 }
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 
 	setFont(40)

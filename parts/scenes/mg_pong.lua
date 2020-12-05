@@ -71,7 +71,7 @@ function scene.mouseMove(x,y)
 end
 
 --Rect Area X:150~1130 Y:20~700
-function scene.Tmr()
+function scene.update()
 	local S=sceneTemp
 
 	--Update pads
@@ -148,7 +148,7 @@ function scene.Tmr()
 	S.x,S.y,S.vx,S.vy,S.ry=x,y,vx,vy,ry
 end
 
-function scene.Pnt()
+function scene.draw()
 	local S=sceneTemp
 
 	--Draw score

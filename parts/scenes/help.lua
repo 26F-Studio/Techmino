@@ -9,7 +9,7 @@ function scene.sceneInit()
 	BG.set("space")
 end
 
-function scene.Pnt()
+function scene.draw()
 	setFont(20)
 	gc.setColor(1,1,1)
 	for i=1,#text.help do

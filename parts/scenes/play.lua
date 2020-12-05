@@ -145,7 +145,7 @@ function scene.gamepadUp(key)
 	end
 end
 
-function scene.Tmr(dt)
+function scene.update(dt)
 	local _
 	local P1=PLAYERS[1]
 	local GAME=GAME
@@ -294,7 +294,7 @@ local function drawVirtualkey()
 		end
 	end
 end
-function scene.Pnt()
+function scene.draw()
 	if MARKING then
 		setFont(25)
 		local t=Timer()

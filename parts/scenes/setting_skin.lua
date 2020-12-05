@@ -4,7 +4,7 @@ local sin=math.sin
 
 local scene={}
 
-function scene.Pnt()
+function scene.draw()
 	gc.setColor(1,1,1)
 	local texture=SKIN.curText
 	for N=1,7 do
