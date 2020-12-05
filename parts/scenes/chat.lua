@@ -8,6 +8,7 @@ local texts={}
 local remain--People in chat room
 local scroll--Bottom message no.
 local newMessasge=false--If there is a new message
+local heartBeatTimer
 
 local function sendMessage()
 	local W=WIDGET.active.text
@@ -27,6 +28,7 @@ end
 local scene={}
 
 function scene.sceneInit()
+	heartBeatTimer=0
 	remain=nil
 
 	scroll=#texts
@@ -102,6 +104,13 @@ function scene.socketRead(mes)
 	end
 end
 
+function scene.update(dt)
+	heartBeatTimer=heartBeatTimer+dt
+	if heartBeatTimer>42 then
+		heartBeatTimer=0
+		wsWrite("/ping")
+	end
+end
 function scene.draw()
 	setFont(25)
 	gc.setColor(1,1,1)
