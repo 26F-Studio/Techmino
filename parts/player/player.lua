@@ -1354,6 +1354,96 @@ function Player.loadAI(P,data)--Load AI params
 end
 --------------------------</Methods>--------------------------
 
+--------------------------<Ticks>--------------------------
+local function tick_throwBadge(ifAI,sender,time)
+	while true do
+		coroutine.yield()
+		time=time-1
+		if time%4==0 then
+			local S,R=sender,sender.lastRecv
+			local x1,y1,x2,y2
+			if S.small then
+				x1,y1=S.centerX,S.centerY
+			else
+				x1,y1=S.x+308*S.size,S.y+450*S.size
+			end
+			if R.small then
+				x2,y2=R.centerX,R.centerY
+			else
+				x2,y2=R.x+66*R.size,R.y+344*R.size
+			end
+
+			--Generate badge object
+			SYSFX.newBadge(x1,y1,x2,y2)
+
+			if not ifAI and time%8==0 then
+				SFX.play("collect")
+			end
+		end
+		if time<=0 then return end
+	end
+end
+local function tick_finish(P)
+	while true do
+		coroutine.yield()
+		P.endCounter=P.endCounter+1
+		if P.endCounter<40 then
+			--Make field visible
+			for j=1,#P.field do for i=1,10 do
+				if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
+			end end
+		elseif P.endCounter==60 then
+			return
+		end
+	end
+end
+local function tick_lose(P)
+	while true do
+		coroutine.yield()
+		P.endCounter=P.endCounter+1
+		if P.endCounter<40 then
+			--Make field visible
+			for j=1,#P.field do for i=1,10 do
+				if P.visTime[j][i]<20 then P.visTime[j][i]=P.visTime[j][i]+.5 end
+			end end
+		elseif P.endCounter>80 then
+			for i=1,#P.field do
+				for j=1,10 do
+					if P.visTime[i][j]>0 then
+						P.visTime[i][j]=P.visTime[i][j]-1
+					end
+				end
+			end
+			if P.endCounter==120 then
+				for _=#P.field,1,-1 do
+					FREEROW.discard(P.field[_])
+					FREEROW.discard(P.visTime[_])
+					P.field[_],P.visTime[_]=nil
+				end
+				return
+			end
+		end
+		if not GAME.modeEnv.royaleMode and #PLAYERS>1 then
+			P.y=P.y+P.endCounter*.26
+			P.absFieldY=P.absFieldY+P.endCounter*.26
+		end
+	end
+end
+function tick_autoPause()
+	local time=0
+	while true do
+		coroutine.yield()
+		time=time+1
+		if SCN.cur~="play"or GAME.frame<180 then
+			return
+		elseif time==120 then
+			pauseGame()
+			return
+		end
+	end
+end
+--------------------------</Ticks>--------------------------
+
 --------------------------<Events>--------------------------
 local function gameOver()--Save record
 	if GAME.replaying then return end
@@ -1453,12 +1543,12 @@ function Player.win(P,result)
 	end
 	if P.human then
 		gameOver()
-		TASK.new(TICK.autoPause)
+		TASK.new(tick_autoPause)
 		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
 	end
-	P:newTask(TICK.finish)
+	P:newTask(tick_finish)
 end
 function Player.lose(P,force)
 	if P.result then return end
@@ -1532,7 +1622,7 @@ function Player.lose(P,force)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(TICK.throwBadge,not A.human,P,max(3,P.badge)*4)
+					TASK.new(tick_throwBadge,not A.human,P,max(3,P.badge)*4)
 				end
 			end
 		else
@@ -1560,13 +1650,13 @@ function Player.lose(P,force)
 			end
 		end
 		gameOver()
-		P:newTask(#PLAYERS>1 and TICK.lose or TICK.finish)
-		TASK.new(TICK.autoPause)
+		P:newTask(#PLAYERS>1 and tick_lose or tick_finish)
+		TASK.new(tick_autoPause)
 		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
 	else
-		P:newTask(TICK.lose)
+		P:newTask(tick_lose)
 	end
 	if #PLAYERS.alive==1 then
 		PLAYERS.alive[1]:win()

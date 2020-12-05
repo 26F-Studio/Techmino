@@ -462,6 +462,21 @@ function loadGame(M,ifQuickPlay)
 		SFX.play("enter")
 	end
 end
+local function tick_showMods()
+	local time=0
+	while true do
+		coroutine.yield()
+		time=time+1
+		if time%20==0 then
+			local M=GAME.mod[time/20]
+			if M then
+				TEXT.show(M.id,700+(time-20)%120*4,36,45,"spin",.5)
+			else
+				return
+			end
+		end
+	end
+end
 function resetGameData(replaying)
 	if PLAYERS[1]and not GAME.replaying then
 		mergeStat(STAT,PLAYERS[1].stat)
@@ -489,7 +504,6 @@ function resetGameData(replaying)
 		GAME.seed=rnd(1046101471,2662622626)
 	end
 
-	TASK.removeTask_code(TICK.autoPause)
 	destroyPlayers()
 	GAME.curMode.load()
 	restoreVirtualKey()
@@ -516,8 +530,8 @@ function resetGameData(replaying)
 	end
 	STAT.game=STAT.game+1
 	FREEROW.reset(30*#PLAYERS)
-	TASK.removeTask_code(TICK.showMods)
-	TASK.new(TICK.showMods)
+	TASK.removeTask_code(tick_showMods)
+	TASK.new(tick_showMods)
 	SFX.play("ready")
 	collectgarbage()
 end

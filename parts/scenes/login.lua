@@ -1,15 +1,55 @@
-local scene={}
+local function tick_httpREQ_newLogin(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			local res=json.decode(response.body)
+			LOGIN=response.code==200
+			if res then
+				if LOGIN then
+					LOG.print(text.loginSuccessed)
+					ACCOUNT.email=res.email
+					ACCOUNT.auth_token=res.auth_token
+					FILE.save(ACCOUNT,"account","")
 
-function login()
+					httpRequest(
+						TICK.httpREQ_getAccessToken,
+						PATH.api..PATH.access,
+						"POST",
+						{["Content-Type"]="application/json"},
+						json.encode{
+							email=ACCOUNT.email,
+							auth_token=ACCOUNT.auth_token,
+						}
+					)
+				else
+					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
+				end
+			end
+			return
+		elseif request_error then
+			LOG.print(text.loginFailed..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.httpTimeout,"message")
+			return
+		end
+	end
+end
+
+local function login()
 	local email=	WIDGET.active.email.value
 	local password=	WIDGET.active.password.value
-	if #email==0 or not email:match("^[a-zA-Z0-9_]+@[a-zA-Z0-9_-]+%.[a-zA-Z0-9_]+$") then
+	if #email==0 or not email:match("^[a-zA-Z0-9_]+@[a-zA-Z0-9_-]+%.[a-zA-Z0-9_]+$")then
 		LOG.print(text.wrongEmail)return
 	elseif #password==0 then
 		LOG.print(text.noPassword)return
 	end
 	httpRequest(
-		TICK.httpREQ_newLogin,
+		tick_httpREQ_newLogin,
 		PATH.api..PATH.auth,
 		"GET",
 		{["Content-Type"]="application/json"},
@@ -19,6 +59,8 @@ function login()
 		}
 	)
 end
+
+local scene={}
 
 function scene.keyDown(key)
 	if key=="escape"then

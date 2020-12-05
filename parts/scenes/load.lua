@@ -4,6 +4,69 @@ local Timer=love.timer.getTime
 
 local max,min,sin=math.max,math.min,math.sin
 
+local function tick_httpREQ_launch(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			local res=json.decode(response.body)
+			if res then
+				if response.code==200 then
+					LOG.print(res.notice,360,COLOR.sky)
+					if VERSION_CODE>=res.version_code then
+						LOG.print(text.versionIsNew,360,COLOR.sky)
+					else
+						LOG.print(string.gsub(text.versionIsOld,"$1",res.version_name),"warn")
+					end
+				else
+					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
+				end
+			end
+			return
+		elseif request_error then
+			LOG.print(text.getNoticeFail..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.httpTimeout,"message")
+			return
+		end
+	end
+end
+function tick_httpREQ_autoLogin(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			if response.code==200 then
+				LOGIN=true
+				local res=json.decode(response.body)
+				if res then
+					LOG.print(text.loginSuccessed)
+				end
+			else
+				LOGIN=false
+				local err=json.decode(response.body)
+				if err then
+					LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")
+				end
+			end
+			return
+		elseif request_error then
+			LOG.print(text.loginFailed..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.httpTimeout,"message")
+			return
+		end
+	end
+end
+
 local scene={}
 
 function scene.sceneInit()
@@ -118,10 +181,10 @@ function scene.update()
 			LOADED=true
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
-			httpRequest(TICK.httpREQ_launch,PATH.api..PATH.appInfo)
+			httpRequest(tick_httpREQ_launch,PATH.api..PATH.appInfo)
 			if ACCOUNT.auth_token and ACCOUNT.email then
 				httpRequest(
-					TICK.httpREQ_autoLogin,
+					tick_httpREQ_autoLogin,
 					PATH.api..PATH.auth,
 					"GET",
 					{["Content-Type"]="application/json"},

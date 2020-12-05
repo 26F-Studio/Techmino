@@ -1,3 +1,30 @@
+local function tick_httpREQ_register(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			local res=json.decode(response.body)
+			if res then
+				if response.code==200 then
+					LOG.print(text.registerSuccessed..": "..res.message)
+				else
+					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
+				end
+			end
+			return
+		elseif request_error then
+			LOG.print(text.loginFailed..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.httpTimeout,"message")
+			return
+		end
+	end
+end
+
 local scene={}
 
 function scene.keyDown(key)
@@ -16,7 +43,7 @@ function scene.keyDown(key)
 			LOG.print(text.diffPassword)return
 		end
 		httpRequest(
-			TICK.httpREQ_register,
+			tick_httpREQ_register,
 			PATH.api..PATH.auth,
 			"POST",
 			{["Content-Type"]="application/json"},

@@ -1,5 +1,45 @@
 local gc=love.graphics
 
+local function tick_httpREQ_checkAccessToken(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			if response.code==200 then
+				LOG.print(text.accessSuccessed)
+				SCN.pop()
+				SCN.go("netgame")
+			elseif response.code==403 or response.code==401 then
+				httpRequest(
+					TICK.httpREQ_getAccessToken,
+					PATH.api..PATH.access,
+					"POST",
+					{["Content-Type"]="application/json"},
+					json.encode{
+						email=ACCOUNT.email,
+						auth_token=ACCOUNT.auth_token,
+					}
+				)
+			else
+				local err=json.decode(response.body)
+				if err then
+					LOG.print(text.netErrorCode..response.code..": "..err.message,"warn")
+				end
+			end
+			return
+		elseif request_error then
+			LOG.print(text.loginFailed..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.httpTimeout,"message")
+			return
+		end
+	end
+end
+
 local scene={}
 
 function scene.sceneInit()
@@ -41,7 +81,7 @@ scene.widgetList={
 		if LOGIN then
 			if ACCOUNT.access_token then
 				httpRequest(
-					TICK.httpREQ_checkAccessToken,
+					tick_httpREQ_checkAccessToken,
 					PATH.api..PATH.access,
 					"GET",
 					{["Content-Type"]="application/json"},
