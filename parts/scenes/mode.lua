@@ -119,7 +119,6 @@ function scene.keyDown(key)
 	if key=="return"then
 		if mapCam.sel then
 			mapCam.keyCtrl=false
-			SCN.push()
 			loadGame(mapCam.sel)
 		end
 	elseif key=="f1"then

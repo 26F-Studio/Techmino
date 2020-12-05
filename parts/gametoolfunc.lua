@@ -458,8 +458,7 @@ function loadGame(M,ifQuickPlay)
 		drawableText.modeName:set(text.modes[M][1])
 		drawableText.levelName:set(text.modes[M][2])
 		GAME.init=true
-		SCN.push()
-		SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
+		SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
 		SFX.play("enter")
 	end
 end
