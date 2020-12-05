@@ -6,7 +6,6 @@ local scenes={}
 
 local SCN={
 	cur="NULL",--Current scene name
-	scenes=scenes,
 	swapping=false,--If Swapping
 	stat={
 		tar=nil,	--Swapping target
@@ -16,6 +15,8 @@ local SCN={
 		draw=nil,	--Swap draw  func
 	},
 	seq={"quit","slowFade"},--Back sequence
+
+	scenes=scenes,
 
 	--Events
 	update=nil,
@@ -53,9 +54,10 @@ function SCN.swapUpdate()
 	end
 end
 function SCN.init(s,org)
+	local S=scenes[s]
 	SCN.cur=s
 	WIDGET.set(s)
-	local S=scenes[s]
+
 	SCN.sceneInit=S.sceneInit
 	SCN.sceneBack=S.sceneBack
 	SCN.update=S.update
@@ -74,7 +76,8 @@ function SCN.init(s,org)
 	SCN.gamepadDown=S.gamepadDown
 	SCN.gamepadUp=S.gamepadUp
 	SCN.socketRead=S.socketRead
-	if SCN.sceneInit then SCN.sceneInit(org)end
+
+	if S.sceneInit then S.sceneInit(org)end
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then
@@ -126,17 +129,25 @@ local swap={
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
-	local S=SCN.stat
-	if not SCN.swapping and tar~=SCN.cur then
-		if not style then style="fade"end
-		SCN.swapping=true
-		S.tar,S.style=tar,style
-		S.time,S.mid,S.draw=unpack(swap[style])
+	if scenes[tar]then
+		local S=SCN.stat
+		if not SCN.swapping and tar~=SCN.cur then
+			if not style then style="fade"end
+			SCN.swapping=true
+			S.tar,S.style=tar,style
+			S.time,S.mid,S.draw=unpack(swap[style])
+		end
+	else
+		LOG.print("No Scene: "..tar,"warn")
 	end
 end
 function SCN.go(tar,style)--Normal scene swapping, can back
-	SCN.push()
-	SCN.swapTo(tar,style)
+	if scenes[tar]then
+		SCN.push()
+		SCN.swapTo(tar,style)
+	else
+		LOG.print("No Scene: "..tar,"warn")
+	end
 end
 function SCN.back()
 	--Leave scene
