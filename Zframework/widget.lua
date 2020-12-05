@@ -8,7 +8,6 @@ local ins=table.insert
 local Timer=love.timer.getTime
 local setFont,mStr=setFont,mStr
 
-local Empty={}
 local widgetList={}
 local WIDGET={}
 local widgetMetatable={
@@ -817,24 +816,24 @@ local indexMeta={
 		end
 	end
 }
-function WIDGET.init(scene,list)
+function WIDGET.init(sceneName,list)
 	local L={}
 	for i=1,#list do
 		ins(L,list[i])
 	end
 	setmetatable(L,indexMeta)
-	widgetList[scene]=L
+	widgetList[sceneName]=L
 end
-function WIDGET.set(scene)
+function WIDGET.set(sceneName)
+	local list=widgetList[sceneName]
 	kb.setTextInput(false)
 	WIDGET.sel=nil
-	scene=widgetList[scene]
-	WIDGET.active=scene or Empty
+	WIDGET.active=list or NONE
 
 	--Reset all widgets
-	if scene then
-		for i=1,#scene do
-			scene[i]:reset()
+	if list then
+		for i=1,#list do
+			list[i]:reset()
 		end
 	end
 end
