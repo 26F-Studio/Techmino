@@ -87,9 +87,6 @@ function scene.keyDown(k)
 			FILE.save(RANKS,"unlock")
 			LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
 			SFX.play("clear_2")
-		elseif v==1379e8+2626e4+1379 then
-			S.pass=true
-			SCN.go("debug")
 		elseif v%1==0 and v>=8001 and v<=8012 then
 			love.keypressed("f"..(v-8000))
 		elseif v==670 then
