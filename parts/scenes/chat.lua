@@ -33,8 +33,8 @@ function scene.sceneInit()
 
 	scroll=#texts
 	if scroll>0 then
-		if texts[scroll][1]~=COLOR.green then
-			ins(texts,{COLOR.green,text.chatHistory})
+		if texts[scroll][1]~=COLOR.dG then
+			ins(texts,{COLOR.dG,text.chatHistory})
 			scroll=scroll+1
 		end
 	end
@@ -76,22 +76,21 @@ function scene.socketRead(mes)
 		local sep=mes:find(":")
 		local cmd=mes:sub(2,sep-1)
 		local data=mes:sub(sep+1)
-		if cmd=="J"then
-			remain=tonumber(data)
-			if remain<=10 then
-				ins(texts,{COLOR.yellow,text.chatJoin..remain})
-			end
-		elseif cmd=="L"then
-			remain=tonumber(data)
-			if remain<=10 then
-				ins(texts,{COLOR.yellow,text.chatLeave..remain})
-			end
+		if cmd=="J"or cmd=="L"then
+			sep=data:find("@")
+			local num=data:find("#")
+			remain=tonumber(data:sub(1,sep-1))
+			ins(texts,{
+				COLOR.lR,data:sub(sep+1,num-1),
+				COLOR.dY,data:sub(num).." ",
+				COLOR.Y,(cmd=="J"and text.chatJoin or text.chatLeave),
+			})
 		end
 	else--user message
 		local sep=mes:find(":")
 		local num=mes:find("#")
 		ins(texts,{
-			COLOR.white,mes:sub(1,num-1),
+			COLOR.W,mes:sub(1,num-1),
 			COLOR.dY,mes:sub(num,sep-1).." ",
 			COLOR.sky,mes:sub(sep+1),
 		})

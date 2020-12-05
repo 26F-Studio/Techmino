@@ -91,8 +91,8 @@ return{
 	-- wsDisconnected="WS连接断开",
 	-- wsNoConn="WS未连接",
 
-	-- chatJoin="有人来了,当前人数:",
-	-- chatLeave="有人离开了,当前人数:",
+	-- chatJoin="进入房间",
+	-- chatLeave="离开房间",
 	-- chatRemain="人数:",
 	-- chatHistory="------以上是历史消息------",
 
