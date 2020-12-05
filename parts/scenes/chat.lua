@@ -10,6 +10,10 @@ local scroll--Bottom message no.
 local newMessasge=false--If there is a new message
 local heartBeatTimer
 
+local function focusAtTextbox()
+	coroutine.yield()
+	WIDGET.sel=WIDGET.active.text
+end
 local function sendMessage()
 	local W=WIDGET.active.text
 	if #W.value>0 and wsWrite(W.value)then
@@ -38,7 +42,7 @@ function scene.sceneInit()
 			scroll=scroll+1
 		end
 	end
-	WIDGET.sel=WIDGET.active.text
+	TASK.new(focusAtTextbox)--Widgets are not initialized, so active after 1 frame
 	BG.set("none")
 	wsConnect(
 		TICK.wsCONN_connect,
