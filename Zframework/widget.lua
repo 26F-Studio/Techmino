@@ -807,35 +807,6 @@ function WIDGET.lnk_STPeq(k,v)		return function()	return sceneTemp[k]==v			end e
 function WIDGET.lnk_pressKey(k)		return function()	love.keypressed(k)				end end
 function WIDGET.lnk_goScene(t,s)	return function()	SCN.go(t,s)						end end
 function WIDGET.lnk_swapScene(t,s)	return function()	SCN.swapTo(t,s)					end end
-function WIDGET.lnk_goNetgame()
-	if LOGIN then
-		if ACCOUNT.access_token then
-			httpRequest(
-				TICK.httpREQ_checkAccessToken,
-				PATH.api..PATH.access,
-				"GET",
-				{["Content-Type"]="application/json"},
-				json.encode{
-					email=ACCOUNT.email,
-					access_token=ACCOUNT.access_token,
-				}
-			)
-		else
-			httpRequest(
-				TICK.httpREQ_getAccessToken,
-				PATH.api..PATH.access,
-				"POST",
-				{["Content-Type"]="application/json"},
-				json.encode{
-					email=ACCOUNT.email,
-					auth_token=ACCOUNT.auth_token,
-				}
-			)
-		end
-	else
-		SCN.go("login")
-	end
-end
 
 local indexMeta={
 	__index=function(L,k)

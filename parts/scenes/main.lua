@@ -37,7 +37,35 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=WIDGET.lnk_goScene("mode")},
-	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=WIDGET.lnk_goNetgame},
+	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
+		if LOGIN then
+			if ACCOUNT.access_token then
+				httpRequest(
+					TICK.httpREQ_checkAccessToken,
+					PATH.api..PATH.access,
+					"GET",
+					{["Content-Type"]="application/json"},
+					json.encode{
+						email=ACCOUNT.email,
+						access_token=ACCOUNT.access_token,
+					}
+				)
+			else
+				httpRequest(
+					TICK.httpREQ_getAccessToken,
+					PATH.api..PATH.access,
+					"POST",
+					{["Content-Type"]="application/json"},
+					json.encode{
+						email=ACCOUNT.email,
+						auth_token=ACCOUNT.auth_token,
+					}
+				)
+			end
+		else
+			SCN.go("login")
+		end
+	end},
 	WIDGET.newButton{name="custom",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=WIDGET.lnk_goScene("customGame")},
 	WIDGET.newButton{name="setting",x=150,y=380,w=200,h=140,color="lOrange",font=40,code=WIDGET.lnk_goScene("setting_game")},
 	WIDGET.newButton{name="stat",	x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=WIDGET.lnk_goScene("stat")},
