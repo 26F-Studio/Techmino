@@ -1,20 +1,28 @@
 local min=math.min
 
 local function fadeOut(id)
-	local src=BGM.list[id]
-	local v=src:getVolume()-.025*SETTING.bgm
-	src:setVolume(v>0 and v or 0)
-	if v<=0 then
-		src:stop()
-		return true
+	while true do
+		coroutine.yield()
+		local src=BGM.list[id]
+		local v=src:getVolume()-.025*SETTING.bgm
+		src:setVolume(v>0 and v or 0)
+		if v<=0 then
+			src:stop()
+			return true
+		end
 	end
 end
 local function fadeIn(id)
-	local src=BGM.list[id]
-	local v=SETTING.bgm
-	v=min(v,src:getVolume()+.025*v)
-	src:setVolume(v)
-	if v>=SETTING.bgm then return true end
+	while true do
+		coroutine.yield()
+		local src=BGM.list[id]
+		local v=SETTING.bgm
+		v=min(v,src:getVolume()+.025*v)
+		src:setVolume(v)
+		if v>=SETTING.bgm then
+			return true
+		end
+	end
 end
 
 local BGM={
