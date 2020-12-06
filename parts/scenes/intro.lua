@@ -27,7 +27,7 @@ function scene.mouseDown(_,_,k)
 			LOG.print("Old version detected & setting file deleted, please restart the game",600,COLOR.yellow)
 		else
 			if newVersionLaunch then
-				SCN.push("main","fade")
+				SCN.push("main")
 				SCN.swapTo("history","fade")
 				LOG.print(text.newVersion,"warn",COLOR.lBlue)
 			else

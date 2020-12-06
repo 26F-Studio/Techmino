@@ -11,12 +11,9 @@ function Tick.httpREQ_getAccessToken(task)
 					LOG.print(text.accessSuccessed)
 					ACCOUNT.access_token=res.access_token
 					FILE.save(ACCOUNT,"account","")
-					SCN.pop()
-					SCN.go("netgame")
+					SCN.swapTo("netgame")
 				else
 					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
-					SCN.pop()
-					SCN.go("main")
 				end
 			else
 				LOGIN=false
@@ -28,8 +25,6 @@ function Tick.httpREQ_getAccessToken(task)
 				else
 					LOG.print(text.loginFailed..": "..text.netErrorCode,"warn")
 				end
-				SCN.pop()
-				SCN.go("main")
 			end
 			return
 		elseif request_error then
