@@ -77,16 +77,5 @@ function Tick.wsCONN_connect(task)
 		end
 	end
 end
--- function Tick.wsCONN_write()
--- 	while true do
--- 		local message=coroutine.yield()
--- 		if message then
--- 			local writeErr=client.write(WSCONN,message)
--- 			if writeErr then
--- 				print(writeErr,"warn")
--- 			end
--- 		end
--- 	end
--- end
 
 return Tick
