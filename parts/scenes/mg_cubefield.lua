@@ -71,8 +71,6 @@ function scene.touchDown(_,x)
 		else
 			moveDir=1
 		end
-	else
-		scene.keyDown("space")
 	end
 end
 function scene.touchUp(_,x)
@@ -94,15 +92,14 @@ function scene.touchUp(_,x)
 			end
 		end
 		moveDir=0
+	else
+		scene.keyDown("space")
 	end
 end
 function scene.keyDown(key)
 	if key=="escape"then
 		SCN.back()
-		return
-	end
-
-	if play then
+	elseif play then
 		if key=="left"or key=="a"then
 			moveDir=-1
 		elseif key=="right"or key=="d"then
