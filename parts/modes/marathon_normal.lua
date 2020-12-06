@@ -41,8 +41,8 @@ return{
 		if L>=200 then
 			local T=P.stat.frame/60
 			return
-			T<=230 and 5 or
-			T<=270 and 4 or
+			T<=240 and 5 or
+			T<=360 and 4 or
 			3
 		else
 			return
