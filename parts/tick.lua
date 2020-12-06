@@ -10,7 +10,7 @@ function Tick.httpREQ_getAccessToken(task)
 				if res then
 					LOG.print(text.accessSuccessed)
 					ACCOUNT.access_token=res.access_token
-					FILE.save(ACCOUNT,"account","")
+					FILE.save(ACCOUNT,"account")
 					SCN.swapTo("netgame")
 				else
 					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")

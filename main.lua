@@ -230,7 +230,7 @@ do
 		end
 
 		S.version=VERSION_CODE
-		FILE.save(RANKS,"unlock","")
-		FILE.save(STAT,"data","")
+		FILE.save(RANKS,"unlock","q")
+		FILE.save(STAT,"data")
 	end
 end

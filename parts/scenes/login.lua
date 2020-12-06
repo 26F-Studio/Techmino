@@ -11,7 +11,7 @@ local function tick_httpREQ_newLogin(task)
 					LOG.print(text.loginSuccessed)
 					ACCOUNT.email=res.email
 					ACCOUNT.auth_token=res.auth_token
-					FILE.save(ACCOUNT,"account","")
+					FILE.save(ACCOUNT,"account","q")
 
 					httpRequest(
 						TICK.httpREQ_getAccessToken,

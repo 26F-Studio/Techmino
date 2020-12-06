@@ -26,19 +26,19 @@ function FILE.load(name)
 		end
 	end
 end
-function FILE.save(data,name,mode,luacode)
-	if not mode then mode="m"end
+function FILE.save(data,name,mode)
+	if not mode then mode=""end
 	name=name..".dat"
-	if not luacode then
-		data=json.encode(data)
-		if not data then
-			LOG.print(name.." "..text.saveError.."json error","error")
-			return
-		end
-	else
+	if mode:find("l")then
 		data=dumpTable(data)
 		if not data then
 			LOG.print(name.." "..text.saveError.."dump error","error")
+			return
+		end
+	else
+		data=json.encode(data)
+		if not data then
+			LOG.print(name.." "..text.saveError.."json error","error")
 			return
 		end
 	end
@@ -48,7 +48,7 @@ function FILE.save(data,name,mode,luacode)
 	local success,mes=F:write(data)
 	F:flush()F:close()
 	if success then
-		if mode:find("m")then
+		if mode:find("q")then
 			LOG.print(text.saveDone,COLOR.green)
 		end
 	else
