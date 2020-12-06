@@ -14,7 +14,7 @@ local SCN={
 		time=nil,	--Full swap time
 		draw=nil,	--Swap draw  func
 	},
-	seq={"quit","slowFade"},--Back sequence
+	stack={"quit","slowFade"},--Scene stack
 
 	scenes=scenes,
 
@@ -80,13 +80,13 @@ function SCN.init(s,org)
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then
-		local m=#SCN.seq
-		SCN.seq[m+1]=tar or SCN.cur
-		SCN.seq[m+2]=style or"fade"
+		local m=#SCN.stack
+		SCN.stack[m+1]=tar or SCN.cur
+		SCN.stack[m+2]=style or"fade"
 	end
 end
 function SCN.pop()
-	local _=SCN.seq
+	local _=SCN.stack
 	_[#_],_[#_-1]=nil
 end
 
@@ -153,10 +153,10 @@ function SCN.back()
 	if SCN.sceneBack then SCN.sceneBack()end
 
 	--Poll&Back to previous Scene
-	local m=#SCN.seq
+	local m=#SCN.stack
 	if m>0 then
-		SCN.swapTo(SCN.seq[m-1],SCN.seq[m])
-		SCN.seq[m],SCN.seq[m-1]=nil
+		SCN.swapTo(SCN.stack[m-1],SCN.stack[m])
+		SCN.stack[m],SCN.stack[m-1]=nil
 	end
 end
 return SCN
