@@ -2,7 +2,7 @@ local gc=love.graphics
 local Timer=love.timer.getTime
 
 local int=math.floor
-local sin,log=math.sin,math.log
+local sin,log=math.sin,math.log10
 local format=string.format
 
 local setFont=setFont
@@ -59,7 +59,7 @@ function scene.sceneInit(org)
 
 	--Normalize Values
 	for i=1,6 do
-		B[i]=B[i]*A[i]if B[i]>1.26 then B[i]=1.26+log(B[i]-.26,10)end
+		B[i]=B[i]*A[i]if B[i]>1.26 then B[i]=1.26+log(B[i]-.26)end
 	end
 
 	for i=1,6 do
