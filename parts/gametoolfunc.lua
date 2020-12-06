@@ -452,7 +452,7 @@ end
 function loadGame(M,ifQuickPlay)
 	freshDate()
 	if legalGameTime()then
-		if M.score then STAT.lastPlay=M end
+		if MODES[M].score then STAT.lastPlay=M end
 		GAME.curMode=MODES[M]
 		GAME.modeEnv=GAME.curMode.env
 		drawableText.modeName:set(text.modes[M][1])
