@@ -32,7 +32,7 @@ function scene.keyDown(k)
 			end
 		end
 	elseif k:sub(1,2)=="kp"then
-		S.keyDown(k:sub(3))
+		scene.keyDown(k:sub(3))
 	elseif k=="."then
 		if not(find(S.val,".",nil,true)or find(S.val,"e"))then
 			if S.sym and not S.reg then

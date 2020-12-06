@@ -57,7 +57,7 @@ function scene.keyDown(key)
 			rem(MISSION,S.cur)
 			S.cur=S.cur-1
 			if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
-				S.keyDown("right")
+				scene.keyDown("right")
 			end
 		end
 	elseif key=="delete"then
