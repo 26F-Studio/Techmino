@@ -171,8 +171,7 @@ end
 function love.keypressed(i)
 	mouseShow=false
 	if devMode then
-		if i=="f1"then
-			PROFILE.switch()
+		if i=="f1"then		PROFILE.switch()
 		elseif i=="f2"then
 			LOG.print("System:"..SYSTEM.."["..jit.arch.."]")
 			LOG.print("luaVer:".._VERSION)

@@ -62,14 +62,6 @@ end
 
 local scene={}
 
-function scene.keyDown(key)
-	if key=="escape"then
-		SCN.back()
-	else
-		WIDGET.keyPressed(key)
-	end
-end
-
 scene.widgetList={
 	WIDGET.newText{name="title",		x=80,	y=50,font=70,align="L"},
 	WIDGET.newButton{name="register",	x=1140,	y=100,w=170,h=80,color="green",code=function()SCN.swapTo("register","swipeR")end},
