@@ -35,10 +35,8 @@ function scene.keyDown(key)
 		end
 	elseif key=="return"or key=="space"then
 		if BGM.nowPlay~=BGM.list[S]then
-			if SETTING.bgm>0 then
-				SFX.play("click")
-				BGM.play(BGM.list[S])
-			end
+			BGM.play(BGM.list[S])
+			if SETTING.bgm>0 then SFX.play("click")end
 		else
 			BGM.stop()
 		end
@@ -79,7 +77,7 @@ scene.widgetList={
 	WIDGET.newText{name="now",		x=700,	y=500,font=50,align="R",hide=function()return not BGM.nowPlay end},
 	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,			font=35,disp=WIDGET.lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
 	WIDGET.newButton{name="up",		x=200,	y=250,w=120,		font=55,code=WIDGET.lnk_pressKey("up"),hide=function()return sceneTemp==1 end},
-	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=WIDGET.lnk_pressKey("space"),hide=function()return SETTING.bgm==0 end},
+	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=WIDGET.lnk_pressKey("space")},
 	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp==BGM.len end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
 }

@@ -28,6 +28,7 @@ function TASK.new(code,...)
 		tasks[#tasks+1]={
 			thread=thread,
 			code=code,
+			args={...},
 		}
 	end
 end
@@ -38,15 +39,9 @@ function TASK.newNet(code,...)
 		tasks[#tasks+1]={
 			thread=thread,
 			code=code,
+			args={...},
 			net=true,
 		}
-	end
-end
-function TASK.changeCode(c1,c2)
-	for i=#tasks,1,-1 do
-		if tasks[i].thread==c1 then
-			tasks[i].thread=c2
-		end
 	end
 end
 function TASK.removeTask_code(code)
@@ -56,9 +51,9 @@ function TASK.removeTask_code(code)
 		end
 	end
 end
-function TASK.removeTask_data(data)
+function TASK.removeTask_iterate(func,...)
 	for i=#tasks,1,-1 do
-		if tasks[i].data==data then
+		if func(tasks[i],...)then
 			rem(tasks,i)
 		end
 	end
