@@ -66,7 +66,7 @@ end
 function copyQuestArgs()
 	local ENV=CUSTOMENV
 	local str=""..
-		(ENV.hold>0 and"H"or"Z")..
+		ENV.holdCount..
 		(ENV.ospin and"O"or"Z")..
 		(ENV.missionKill and"M"or"Z")..
 		ENV.sequence
@@ -74,7 +74,7 @@ function copyQuestArgs()
 end
 function pasteQuestArgs(str)
 	local ENV=CUSTOMENV
-	ENV.holdCount=		byte(str,1)~=90 and 1 or 0
+	ENV.holdCount=		byte(str,1)-48
 	ENV.ospin=			byte(str,2)~=90
 	ENV.missionKill=	byte(str,3)~=90
 	ENV.sequence=		sub(str,4)
