@@ -144,7 +144,7 @@ end
 
 --Load files
 if fs.getInfo("settings.dat")then
-	SETTING=FILE.load("settings")
+	addToTable(FILE.load("settings"),SETTING)
 else
 	if MOBILE then
 		SETTING.VKSwitch=true
