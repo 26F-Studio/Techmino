@@ -21,12 +21,10 @@ local function sendMessage()
 	end
 end
 local function clearHistory()
-	if #texts>0 then
-		texts={}
-		scroll=0
-		SFX.play("fall")
-		collectgarbage()
-	end
+	texts={{COLOR.dG,text.chatHistory}}
+	scroll=1
+	SFX.play("fall")
+	collectgarbage()
 end
 
 local scene={}
@@ -35,13 +33,12 @@ function scene.sceneInit()
 	heartBeatTimer=0
 	remain=nil
 
-	scroll=#texts
-	if scroll>0 then
-		if texts[scroll][1]~=COLOR.dG then
-			ins(texts,{COLOR.dG,text.chatHistory})
-			scroll=scroll+1
-		end
+	if #texts==0 then
+		ins(texts,{COLOR.dG,text.chatStart})
+	elseif #texts>1 and texts[#texts][1]~=COLOR.dG then
+		ins(texts,{COLOR.dG,text.chatHistory})
 	end
+	scroll=#texts
 	TASK.new(focusAtTextbox)--Widgets are not initialized, so active after 1 frame
 	BG.set("none")
 	wsConnect(
@@ -122,32 +119,28 @@ function scene.draw()
 
 	setFont(30)
 	for i=max(scroll-11,1),scroll do
-		gc.printf(texts[i],40,449-39*(scroll-i),1240)
+		gc.printf(texts[i],40,416-36*(scroll-i),1240)
 	end
 
 	--Slider
 	if #texts>12 then
 		gc.setLineWidth(2)
-		gc.rectangle("line",10,30,20,450)
-		local len=450*12/#texts
-		gc.rectangle("fill",10,30+(450-len)*(scroll-12)/(#texts-12),20,len)
+		gc.rectangle("line",10,30,20,420)
+		local len=420*12/#texts
+		gc.rectangle("fill",13,33+(414-len)*(scroll-12)/(#texts-12),14,len)
 	end
 
 	--Draw
-	if scroll~=#texts then
+	if newMessasge and scroll~=#texts then
 		setFont(40)
-		if newMessasge then
-			gc.setColor(1,Timer()%.4<.2 and 1 or 0,0)
-		else
-			gc.setColor(1,1,1)
-		end
+		gc.setColor(1,Timer()%.4<.2 and 1 or 0,0)
 		gc.print("v",8,480)
 	end
 end
 
 scene.widgetList={
 	WIDGET.newTextBox{name="text",	x=40,	y=500,w=980,h=180,font=40},
-	WIDGET.newButton{name="clear",	x=1140,	y=440,w=170,h=80,font=40,code=clearHistory},
+	WIDGET.newButton{name="clear",	x=1140,	y=440,w=170,h=80,font=40,code=clearHistory,hide=function()return #texts>1 and not newMessasge end},
 	WIDGET.newButton{name="send",	x=1140,	y=540,w=170,h=80,font=40,code=sendMessage},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 }
