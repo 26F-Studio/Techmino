@@ -19,8 +19,8 @@ return{
 		bg="rainbow",bgm="push",
 	},
 	load=function()
-		PLY.newPlayer(1,340,15)
-		PLY.newAIPlayer(2,965,360,.5,AIBUILDER("CC",10,3,true,26000))
+		PLY.newPlayer(1)
+		PLY.newAIPlayer(2,AIBUILDER("CC",10,3,true,26000))
 		GAME.garbageSpeed=1e99
 	end,
 	score=function(P)return{P.stat.piece,P.stat.frame/60}end,

@@ -97,8 +97,9 @@ end
 local function updateTasks(P)
 	local L=P.tasks
 	for i=#L,1,-1 do
-		assert(ct.resume(L[i]))
-		if ct.status(L[i])=="dead"then
+		local tr=L[i].thread
+		assert(ct.resume(tr))
+		if ct.status(tr)=="dead"then
 			rem(L,i)
 		end
 	end

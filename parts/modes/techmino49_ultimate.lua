@@ -31,7 +31,7 @@ return{
 			powerUp={2,5,10,20},
 			stage={30,20,15,10,5},
 		}
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 		local L={}for i=1,49 do L[i]=true end
 		local t=CC and 6 or 0
 		while t>0 do
@@ -39,19 +39,19 @@ return{
 			if L[r]then L[r],t=false,t-1 end
 		end
 		local n=2
-		for i=1,4 do for j=1,6 do
+		for _=1,4 do for _=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AIBUILDER("9S",rnd(8,10)))
+				PLY.newAIPlayer(n,AIBUILDER("9S",rnd(8,10)),true)
 			else
-				PLY.newAIPlayer(n,78*i-54,115*j-98,.09,AIBUILDER("CC",rnd(4,7),3,true,40000))
+				PLY.newAIPlayer(n,AIBUILDER("CC",rnd(4,7),3,true,40000),true)
 			end
 			n=n+1
 		end end
-		for i=9,12 do for j=1,6 do
+		for _=9,12 do for _=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AIBUILDER("9S",rnd(8,9)))
+				PLY.newAIPlayer(n,AIBUILDER("9S",rnd(8,9)),true)
 			else
-				PLY.newAIPlayer(n,78*i+267,115*j-98,.09,AIBUILDER("CC",rnd(5,8),3,true,40000))
+				PLY.newAIPlayer(n,AIBUILDER("CC",rnd(5,8),3,true,40000),true)
 			end
 			n=n+1
 		end end

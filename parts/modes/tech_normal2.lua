@@ -22,7 +22,7 @@ return{
 		bg="matrix",bgm="new era",
 	},
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
 		setFont(45)

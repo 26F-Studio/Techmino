@@ -118,7 +118,7 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
 		bg="bg2",bgm="race",
 	},
 	load=function()--生成玩家
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)--1是玩家编号，默认用户控制1号玩家
 	end,
 	mesDisp=function(P)--40行模式需要显示的信息
 		setFont(55)

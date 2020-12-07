@@ -57,7 +57,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 		check(PLAYERS[1])
 	end,
 	mesDisp=function(P)

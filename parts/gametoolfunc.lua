@@ -462,6 +462,33 @@ function loadGame(M,ifQuickPlay)
 		SFX.play("enter")
 	end
 end
+function resetPlayerPosition()
+	local l=#PLAYERS
+	PLAYERS[1]:setPosition(340,15)
+	if l==2 then
+		PLAYERS[2]:setPosition(965,360,.5)
+	elseif l==49 then
+		local n=2
+		for i=1,4 do for j=1,6 do
+			PLAYERS[n]:setPosition(78*i-54,115*j-98,.09)
+			n=n+1
+		end end
+		for i=9,12 do for j=1,6 do
+			PLAYERS[n]:setPosition(78*i+267,115*j-98,.09)
+			n=n+1
+		end end
+	elseif l==99 then
+		local n=2
+		for i=1,7 do for j=1,7 do
+			PLAYERS[n]:setPosition(46*i-36,97*j-72,.068)
+			n=n+1
+		end end
+		for i=15,21 do for j=1,7 do
+			PLAYERS[n]:setPosition(46*i+264,97*j-72,.068)
+			n=n+1
+		end end
+	end
+end
 local function tick_showMods()
 	local time=0
 	while true do
@@ -506,6 +533,7 @@ function resetGameData(replaying)
 
 	destroyPlayers()
 	GAME.curMode.load()
+	resetPlayerPosition()
 	restoreVirtualKey()
 	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do

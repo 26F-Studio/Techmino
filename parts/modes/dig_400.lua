@@ -15,7 +15,7 @@ return{
 		bg="bg2",bgm="way",
 	},
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 		local P=PLAYERS[1]
 		for _=1,10 do
 			P:garbageRise(21,1,P:getHolePos())

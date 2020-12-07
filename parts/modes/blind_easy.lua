@@ -11,7 +11,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
 		mText(drawableText.line,69,370)

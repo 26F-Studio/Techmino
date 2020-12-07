@@ -36,7 +36,7 @@ return{
 		bg="wing",bgm="infinite",
 	},
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 		local P=PLAYERS[1]
 		for _=1,8 do
 			P:garbageRise(13,1,P:RND(10))

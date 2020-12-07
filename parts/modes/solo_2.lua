@@ -8,8 +8,8 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		PLY.newPlayer(1,340,15)
-		PLY.newAIPlayer(2,965,360,.5,AIBUILDER("9S",5))
+		PLY.newPlayer(1)
+		PLY.newAIPlayer(2,AIBUILDER("9S",5))
 	end,
 	score=function(P)return{P.stat.frame/60}end,
 	scoreDisp=function(D)return toTime(D[1])end,

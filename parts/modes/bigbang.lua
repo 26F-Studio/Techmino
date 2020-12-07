@@ -10,7 +10,7 @@ return{
 	},
 	pauseLimit=true,
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.finesseRate*25/P.stat.piece}end,
 	scoreDisp=function(D)return D[1].."Stage "..format("%.2f",D[2]).."%"end,

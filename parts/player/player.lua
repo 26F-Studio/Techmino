@@ -104,7 +104,7 @@ function Player.createClearingFX(P,y,spd)
 end
 function Player.createBeam(P,R,send,color)
 	local x1,y1,x2,y2
-	if P.small then x1,y1=P.centerX,P.centerY
+	if P.mini then x1,y1=P.centerX,P.centerY
 	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15+70)*P.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
@@ -125,11 +125,47 @@ function Player.RND(P,a,b)
 	local R=P.randGen
 	return R:random(a,b)
 end
-function Player.newTask(P,code)
-	local L=P.tasks
+function Player.newTask(P,code,...)
 	local thread=ct.create(code)
-	ct.resume(thread,P)
-	L[#L+1]=thread
+	ct.resume(thread,P,...)
+	if ct.status(thread)~="dead"then
+		P.tasks[#P.tasks+1]={
+			thread=thread,
+			code=code,
+			args={...},
+		}
+	end
+end
+
+function Player.setPosition(P,x,y,size)
+	size=size or 1
+	P.x,P.y,P.size=x,y,size
+	if P.mini or P.demo then
+		P.fieldX,P.fieldY=x,y
+		P.centerX,P.centerY=x+300*size,y+600*size
+	else
+		P.fieldX,P.fieldY=x+150*size,y+70*size
+		P.centerX,P.centerY=x+300*size,y+370*size
+		P.absFieldX,P.absFieldY=x+150*size,y+60*size
+	end
+end
+local function task_movePosition(P,x,y,size)
+	local x1,y1,size1=P.x,P.y,P.size
+	while true do
+		coroutine.yield()
+		x1=x1*.93+x*.07
+		y1=y1*.93+y*.07
+		size1=size1*.93+size*.07
+		if(x1-x)^2+(y1-y)^2<6.26 then
+			P:setPosition(x,y,size)
+			return true
+		else
+			P:setPosition(x1,y1,size1)
+		end
+	end
+end
+function Player.movePosition(P,x,y,size)
+	P:newTask(task_movePosition,x,y,size or P.size)
 end
 
 function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it

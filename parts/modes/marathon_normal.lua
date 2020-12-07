@@ -25,7 +25,7 @@ return{
 	pauseLimit=true,
 	slowMark=true,
 	load=function()
-		PLY.newPlayer(1,340,15)
+		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
 		setFont(45)

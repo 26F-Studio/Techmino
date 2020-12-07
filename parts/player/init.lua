@@ -72,7 +72,7 @@ local function releaseKey_Rec(P,keyID)
 	end
 	P.keyPressing[keyID]=false
 end
-local function newEmptyPlayer(id,x,y,size)
+local function newEmptyPlayer(id,mini)
 	local P={id=id}
 	PLAYERS[id]=P
 	PLAYERS.alive[id]=P
@@ -90,23 +90,23 @@ local function newEmptyPlayer(id,x,y,size)
 	P.update=PLY.update.alive
 
 	P.fieldOff={x=0,y=0,vx=0,vy=0}--For shake FX
-	P.x,P.y,P.size=x,y,size or 1
+	P.x,P.y,P.size=0,0,1
 	P.frameColor=0
 
-	P.small=P.size<.1--If draw in small mode
-	if P.small then
-		P.fieldX,P.fieldY=P.x,P.y
-		P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
+	P.mini=mini--If draw in small mode
+
+	--Set these at Player:setPosition()
+	-- P.fieldX,P.fieldY=...
+	-- P.centerX,P.centerY=...
+	-- P.absFieldX,P.absFieldY=...
+
+	if P.mini then
 		P.canvas=love.graphics.newCanvas(60,120)
 		P.frameWait=rnd(30,120)
 		P.draw=PLY.draw.small
 	else
 		P.keyRec=true--If calculate keySpeed
-		P.fieldX,P.fieldY=P.x+150*P.size,P.y+70*P.size
-		P.centerX,P.centerY=P.x+300*P.size,P.y+370*P.size
-		P.absFieldX,P.absFieldY=P.x+150*P.size,P.y+60*P.size
 		P.draw=PLY.draw.norm
-		P.bonus={}--Text objects
 	end
 	P.randGen=mt.newRandomGenerator(GAME.seed)
 
@@ -182,7 +182,7 @@ local function newEmptyPlayer(id,x,y,size)
 	P.finesseComboTime=0
 	P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
 	P.tasks={}--Tasks
-	P.bonus={}--Texts
+	P.bonus={}--Text objects
 
 	P.endCounter=0--Used after gameover
 	P.result=nil--String:"WIN"/"K.O."
@@ -278,13 +278,14 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
-	if P.small then
+	if P.mini then
 		ENV.lockFX=nil
 		ENV.dropFX=nil
 		ENV.moveFX=nil
 		ENV.clearFX=nil
 		ENV.splashFX=nil
 		ENV.shakeFX=nil
+		ENV.text=nil
 	else
 		if ENV.lockFX==0 then	ENV.lockFX=nil	end
 		if ENV.dropFX==0 then	ENV.dropFX=nil	end
@@ -319,14 +320,11 @@ local DemoEnv={
 	life=1e99,
 	noMod=true,
 }
-function PLY.newDemoPlayer(id,x,y,size)
-	local P=newEmptyPlayer(id,x,y,size)
+function PLY.newDemoPlayer(id)
+	local P=newEmptyPlayer(id)
 	P.sound=true
+	P.demo=true
 
-	-- rewrite some args
-	P.fieldX,P.fieldY=P.x,P.y
-	P.centerX,P.centerY=P.x+300*P.size,P.y+600*P.size
-	P.absFieldX,P.absFieldY=P.x+150*P.size,P.y+60*P.size
 	P.draw=PLY.draw.demo
 	P.control=true
 	GAME.modeEnv=DemoEnv
@@ -344,8 +342,8 @@ function PLY.newDemoPlayer(id,x,y,size)
 	}
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,x,y,size)
-	local P=newEmptyPlayer(id,x,y,size)
+function PLY.newRemotePlayer(id,mini)
+	local P=newEmptyPlayer(id,mini)
 	P.remote=true
 
 	-- P.updateAction=buildActionFunctionFromActions(P, actions)
@@ -355,8 +353,8 @@ function PLY.newRemotePlayer(id,x,y,size)
 	prepareSequence(P)
 end
 
-function PLY.newAIPlayer(id,x,y,size,AIdata)
-	local P=newEmptyPlayer(id,x,y,size)
+function PLY.newAIPlayer(id,AIdata,mini)
+	local P=newEmptyPlayer(id,mini)
 
 	loadGameEnv(P)
 	local ENV=P.gameEnv
@@ -366,8 +364,8 @@ function PLY.newAIPlayer(id,x,y,size,AIdata)
 	prepareSequence(P)
 	P:loadAI(AIdata)
 end
-function PLY.newPlayer(id,x,y,size)
-	local P=newEmptyPlayer(id,x,y,size)
+function PLY.newPlayer(id,mini)
+	local P=newEmptyPlayer(id,mini)
 	P.human=true
 	P.sound=true
 
