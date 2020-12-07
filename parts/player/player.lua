@@ -1172,8 +1172,8 @@ do--Player.drop(P)--Place piece
 									T=randomTarget(P)
 								end
 							else
-								P:freshTarget()
 								T=P.atking
+								P:freshTarget()
 							end
 						elseif #PLAYERS.alive>1 then
 							T=randomTarget(P)
