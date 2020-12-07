@@ -136,13 +136,6 @@ function scene.update()
 				M[k]=v
 			end
 			M.records=FILE.load(m.name)or M.score and{}
-			if M.score then
-				if RANKS[M.name]==6 then
-					RANKS[M.name]=0
-				end
-			else
-				RANKS[M.name]=6
-			end
 			-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
 		elseif S.phase==8 then
