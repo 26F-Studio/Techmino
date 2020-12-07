@@ -47,6 +47,9 @@ end
 function TASK.removeTask_code(code)
 	for i=#tasks,1,-1 do
 		if tasks[i].code==code then
+			if tasks[i].net then
+				TASK.netTaskCount=TASK.netTaskCount-1
+			end
 			rem(tasks,i)
 		end
 	end
@@ -54,6 +57,9 @@ end
 function TASK.removeTask_iterate(func,...)
 	for i=#tasks,1,-1 do
 		if func(tasks[i],...)then
+			if tasks[i].net then
+				TASK.netTaskCount=TASK.netTaskCount-1
+			end
 			rem(tasks,i)
 		end
 	end
