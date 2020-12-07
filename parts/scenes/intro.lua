@@ -22,9 +22,9 @@ end
 
 function scene.mouseDown(_,_,k)
 	if k~=2 then
-		if NOGAME=="delSetting"then
-			LOG.print("检测到过老版本无效设置数据,设置已经全部重置,请重启游戏完成",600,COLOR.yellow)
-			LOG.print("Old version detected & setting file deleted, please restart the game",600,COLOR.yellow)
+		if NOGAME then
+			LOG.print("检测到大版本更新,请重启游戏完成",600,COLOR.yellow)
+			LOG.print("Old version detected & saving file changed, please restart the game",600,COLOR.yellow)
 		else
 			if newVersionLaunch then
 				SCN.push("main")

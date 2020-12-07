@@ -193,8 +193,14 @@ do
 		S.bgm>1 or S.sfx>1 or S.voc>1 or
 		S.stereo>1 or S.VKSFX>1 or S.VKAlpha>1
 	then
-		NOGAME="delSetting"
+		NOGAME=true
 		fs.remove("settings.dat")
+	end
+
+	if fs.getInfo("cold_clear.dll")then
+		NOGAME=true
+		fs.remove("cold_clear.dll")
+		fs.remove("CCloader.dll")
 	end
 
 	--Update data file
