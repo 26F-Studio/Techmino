@@ -110,6 +110,9 @@ function scene.sceneInit(org)
 			S.trophyColor=COLOR.lCyan
 		end
 	end
+	if not(GAME.result or GAME.replaying)then
+		GAME.pauseCount=GAME.pauseCount+1
+	end
 	if org~="play"and GAME.prevBG then
 		BG.set(GAME.prevBG)
 	end
@@ -143,7 +146,7 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-	if not GAME.result then
+	if not(GAME.result or GAME.replaying)then
 		GAME.pauseTime=GAME.pauseTime+dt
 	end
 	if sceneTemp.timer<50 then
