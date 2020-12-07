@@ -430,19 +430,19 @@ love.draw,love.update=nil--remove default draw/update
 function love.run()
 	local SCN=SCN
 	local SETTING=SETTING
-	local DISCARD=gc.discard
-	local PRESENT=gc.present
 
 	local Timer=love.timer.getTime
 	local STEP,WAIT=love.timer.step,love.timer.sleep
-	local mini=love.window.isMinimized
+	local MINI=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
+	local DISCARD=gc.discard
+	local PRESENT=gc.present
 
 	local frameTimeList={}
 
 	local lastFrame=Timer()
 	local lastFreshPow=lastFrame
-	local FCT=0--Framedraw counter
+	local FCT=0--Framedraw counter, from 0~99
 
 	love.resize(gc.getWidth(),gc.getHeight())
 
@@ -484,7 +484,7 @@ function love.run()
 		LOG.update()
 
 		--DRAW
-		if not mini()then
+		if not MINI()then
 			FCT=FCT+SETTING.frameMul
 			if FCT>=100 then
 				FCT=FCT-100
@@ -572,7 +572,6 @@ function love.run()
 			end
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
-				LOG.print("Screen Resized",COLOR.yellow)
 			end
 		end
 
