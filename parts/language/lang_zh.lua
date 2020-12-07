@@ -97,6 +97,7 @@ return{
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
+	chatQuit="再按一次退出",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 

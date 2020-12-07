@@ -9,6 +9,7 @@ local remain--People in chat room
 local scroll--Bottom message no.
 local newMessage=false--If there is a new message
 local heartBeatTimer
+local escapeTimer=0
 
 local function focusAtTextbox()
 	coroutine.yield()
@@ -66,7 +67,12 @@ function scene.keyDown(k)
 	elseif k=="return"then
 		sendMessage()
 	elseif k=="escape"then
-		SCN.back()
+		if Timer()-escapeTimer<.6 then
+			SCN.back()
+		else
+			escapeTimer=Timer()
+			LOG.print(text.chatQuit,COLOR.orange)
+		end
 	else
 		WIDGET.keyPressed(k)
 	end

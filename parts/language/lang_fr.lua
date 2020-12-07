@@ -99,6 +99,7 @@ return{
 	-- chatRemain="人数:",
 	-- chatStart="------消息的开头------",
 	-- chatHistory="------以上是历史消息------",
+	-- chatQuit="再按一次退出",
 
 	errorMsg="Une erreur est survenue et Techmino doit redémarrer.\nDes informations concernant l'erreur ont été créées, et vous pouvez les envoyer au créateur.",
 
