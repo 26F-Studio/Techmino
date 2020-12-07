@@ -29,6 +29,8 @@ local menu,ct,play
 local score
 local sunH,color,rot
 
+local drawn=false
+
 local function near(o,t)
 	return o>t and max(o-.01,t)or o<t and min(o+.01,t)or o
 end
@@ -124,6 +126,9 @@ function scene.keyUp(key)
 end
 
 function scene.update(dt)
+	if not drawn then return end
+	drawn=false
+
 	dt=dt*600
 
 	--Update cubes' position
@@ -161,7 +166,7 @@ function scene.update(dt)
 
 	if play then
 		if inv>0 then inv=inv-1 end
-		score=score+dt*.03+life/2000
+		score=score+dt*.04+life*.0004
 		life=min(life+dt*.04,1000)
 		if score>1000*level then
 			if speed<3 then speed=speed+.2 end
@@ -187,6 +192,7 @@ function scene.update(dt)
 end
 
 function scene.draw()
+	drawn=true
 	--Health bar
 	if life1>0 then
 		gc.setColor(1,0,0)
@@ -215,7 +221,7 @@ function scene.draw()
 	--Draw direction
 	if play then
 		gc.setLineWidth(3)
-		gc.setColor(1,1,1,.2)
+		gc.setColor(1,1,1,.1)
 		gc.polygon("fill",-15,30,0,-440,15,30)
 	end
 
@@ -268,7 +274,7 @@ function scene.draw()
 		gc.setColor(1,1,1)
 		gc.rectangle("fill",-20,-20+ct,40,40)
 
-		gc.setColor(1,1,1,(1-ct/60)*.2)
+		gc.setColor(1,1,1,(1-ct/60)*.1)
 		gc.polygon("fill",-15,30,0,-440,15,30)
 
 		gc.setColor(1,1,1,ct/60)
@@ -278,7 +284,7 @@ function scene.draw()
 
 		setFont(20)
 		gc.print("Original game by Max Abernethy",40,-550)
-		gc.print("Original CX-CAS version by Par Loic Pujet",40,-525)
+		gc.print("Original CX-CAS version by Loïc Pujet",40,-525)
 		gc.print("Ported / Rewritten / Balanced by MrZ",40,-500)
 
 		setFont(45)
