@@ -80,7 +80,7 @@ function BGM.freshVolume()
 end
 function BGM.stop()
 	TASK.removeTask_code(fadeIn)
-	if BGM.nowPlay then TASK.new(fadeOut,BGM.nowPlay)end
+	if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
 	BGM.nowPlay,BGM.playing=nil
 end
 return BGM
