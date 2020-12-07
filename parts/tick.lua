@@ -45,8 +45,12 @@ local function tick_wsCONN_read()
 		if not WSCONN then return end
 		local messages,readErr=client.read(WSCONN)
 		if messages then
-			for i=1,#messages do
-				SCN.socketRead(messages[i])
+			if SCN.socketRead then
+				for i=1,#messages do
+					SCN.socketRead(messages[i])
+				end
+			else
+				return
 			end
 		elseif readErr then
 			wsWrite("/quit")
