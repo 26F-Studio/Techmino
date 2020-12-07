@@ -110,9 +110,8 @@ function scene.sceneInit(org)
 			S.trophyColor=COLOR.lCyan
 		end
 	end
-	if GAME.bg then
-		BG.set(GAME.BG)
-		GAME.prevBG=nil
+	if org~="play"and GAME.prevBG then
+		BG.set(GAME.prevBG)
 	end
 end
 function scene.sceneBack()
