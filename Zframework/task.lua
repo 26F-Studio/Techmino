@@ -23,7 +23,7 @@ function TASK.update()
 end
 function TASK.new(code,...)
 	local thread=ct.create(code)
-	if ...~=nil then ct.resume(thread,...)end
+	ct.resume(thread,...)
 	if ct.status(thread)~="dead"then
 		tasks[#tasks+1]={
 			thread=thread,
@@ -34,7 +34,7 @@ function TASK.new(code,...)
 end
 function TASK.newNet(code,...)
 	local thread=ct.create(code)
-	if ...~=nil then ct.resume(thread,...)end
+	ct.resume(thread,...)
 	if ct.status(thread)~="dead"then
 		tasks[#tasks+1]={
 			thread=thread,
