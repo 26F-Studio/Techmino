@@ -59,7 +59,7 @@ function scene.touchDown(_,x,y)
 				end
 			end
 			local O=VK_org[t]
-			local _FW,_CW=SETTING.VKTchW*.1,1-SETTING.VKCurW*.1
+			local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
 			local _OW=1-_FW-_CW
 
 			--Auto follow: finger, current, origin (weight from setting)

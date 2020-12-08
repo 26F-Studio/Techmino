@@ -277,8 +277,8 @@ SETTING={
 	VKSwitch=false,--If disp
 	VKTrack=false,--If tracked
 	VKDodge=false,--If dodge
-	VKTchW=3,--Touch-Pos Weight
-	VKCurW=4,--Cur-Pos Weight
+	VKTchW=.3,--Touch-Pos Weight
+	VKCurW=.4,--Cur-Pos Weight
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }

@@ -200,7 +200,6 @@ do--drawableTextLoad, drawableText
 		"combo","maxcmb",
 		"pc","ko",
 
-		"VKTchW","VKOrgW","VKCurW",
 		"noScore","highScore",
 	}
 	drawableText={
@@ -224,7 +223,6 @@ do--drawableTextLoad, drawableText
 		win=T(120),finish=T(120),
 		gameover=T(100),pause=T(120),
 
-		VKTchW=T(30),VKOrgW=T(30),VKCurW=T(30),
 		noScore=T(45),highScore=T(30),
 	}
 end

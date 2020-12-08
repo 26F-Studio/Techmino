@@ -210,13 +210,20 @@ do
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
 	if S.version~=VERSION_CODE then
-		if(tonumber(S.version)or 0)<1204 then
+		if type(S.version)~="number"then
+			S.version=0
+		end
+		if S.version<1204 then
 			STAT.frame=math.floor(STAT.time*60)
 			STAT.lastPlay="sprint_10"
 			RANKS.sprintFix=nil
 			RANKS.sprintLock=nil
 			fs.remove("sprintFix.dat")
 			fs.remove("sprintLock.dat")
+		end
+		if S.version<1205 then
+			SETTING.VKCurW=SETTING.VKCurW*.1
+			SETTING.VKTchW=SETTING.VKTchW*.1
 		end
 		newVersionLaunch=true
 
