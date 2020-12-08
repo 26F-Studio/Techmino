@@ -236,6 +236,9 @@ function key:draw()
 		setFont(self.font)
 		gc.setColor(r,g,b,1.2)
 		gc.printf(t,x,y+h*.5-self.font*.7,w,"center")
+	else
+		self.text=self.name or"NONAME"
+		self.color=COLOR.dPurple
 	end
 end
 function key:getInfo()
