@@ -615,7 +615,10 @@ function Player.hold(P,ifpre)
 			P:freshBlock(false,true)
 			P.dropDelay=P.gameEnv.drop
 			P.lockDelay=P.gameEnv.lock
-			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then P:lock()P:lose()end
+			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then
+				P:lock()
+				P:lose()
+			end
 		end
 
 		P.freshTime=int(min(P.freshTime+P.gameEnv.freshLimit*.25,P.gameEnv.freshLimit*((P.holdTime+1)/P.gameEnv.holdCount)))
@@ -684,7 +687,7 @@ function Player.popNext(P,ifhold)--Pop nextQueue to hand
 		end
 
 		--IHdS
-		if _[6]then
+		if _[6]and not ifhold then
 			P.act_hardDrop(P)
 			_[6]=false
 		end
