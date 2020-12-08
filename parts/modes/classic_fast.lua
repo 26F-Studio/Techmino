@@ -39,12 +39,12 @@ return{
 	mesDisp=function(P)
 		setFont(75)
 		local r=P.gameEnv.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),69,280)
-		mText(drawableText.speedLV,69,360)
+		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),69,210)
+		mText(drawableText.speedLV,69,290)
 		setFont(45)
-		mStr(P.stat.row,69,390)
-		mStr(P.gameEnv.target,69,440)
-		gc.rectangle("fill",25,445,90,4)
+		mStr(P.stat.row,69,320)
+		mStr(P.gameEnv.target,69,370)
+		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,
 	scoreDisp=function(D)return D[1].."   "..D[2].." Lines"end,

@@ -14,7 +14,7 @@ return{
 		setFont(55)
 		local r=40-P.stat.row
 		if r<0 then r=0 end
-		mStr(r,69,335)
+		mStr(r,69,265)
 		PLY.draw.drawTargetLine(P,r)
 	end,
 	getRank=function(P)

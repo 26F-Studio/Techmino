@@ -105,7 +105,7 @@ end
 function Player.createBeam(P,R,send,color)
 	local x1,y1,x2,y2
 	if P.mini then x1,y1=P.centerX,P.centerY
-	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15+70)*P.size
+	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15)*P.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
@@ -144,9 +144,9 @@ function Player.setPosition(P,x,y,size)
 		P.fieldX,P.fieldY=x,y
 		P.centerX,P.centerY=x+300*size,y+600*size
 	else
-		P.fieldX,P.fieldY=x+150*size,y+70*size
+		P.fieldX,P.fieldY=x+150*size,y
 		P.centerX,P.centerY=x+300*size,y+370*size
-		P.absFieldX,P.absFieldY=x+150*size,y+60*size
+		P.absFieldX,P.absFieldY=x+150*size,y-10*size
 	end
 end
 local function task_movePosition(P,x,y,size)

@@ -24,7 +24,7 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(55)
-		mStr(40-P.stat.dig,69,335)
+		mStr(40-P.stat.dig,69,265)
 	end,
 	score=function(P)return{P.stat.frame/60,P.stat.piece}end,
 	scoreDisp=function(D)return toTime(D[1]).."   "..D[2].." Pieces"end,

@@ -18,13 +18,13 @@ return{
 		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
-		mText(drawableText.line,69,370)
-		mText(drawableText.techrash,69,490)
+		mText(drawableText.line,69,300)
+		mText(drawableText.techrash,69,420)
 		setFont(75)
-		mStr(P.stat.row,69,290)
-		mStr(P.stat.clears[4],69,410)
+		mStr(P.stat.row,69,220)
+		mStr(P.stat.clears[4],69,340)
 		gc.setColor(1,1,1,.2)
-		gc.draw(IMG.electric,124,176,0,2.6)
+		gc.draw(IMG.electric,124,106,0,2.6)
 	end,
 	score=function(P)return{min(P.stat.row,200),P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

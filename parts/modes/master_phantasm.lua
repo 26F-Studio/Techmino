@@ -52,7 +52,7 @@ local function check_LVup(P)
 			for i=1,10 do
 				P:createClearingFX(i,1.5)
 			end
-			SYSFX.newShade(2.5,1,1,1,P.x+150*P.size,P.y+370*P.size,300*P.size,300*P.size)
+			SYSFX.newShade(2.5,1,1,1,P.absFieldX,P.y+300*P.size,300*P.size,300*P.size)
 
 			ENV.lock=13
 			ENV.wait=6
@@ -150,9 +150,9 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(P.modeData.point,69,390)
-		mStr(P.gameEnv.target,69,440)
-		gc.rectangle("fill",25,445,90,4)
+		mStr(P.modeData.point,69,320)
+		mStr(P.gameEnv.target,69,370)
+		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{P.result=="WIN"and 260 or P.modeData.point,P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].."P   "..toTime(D[2])end,

@@ -34,7 +34,7 @@ return{
 				--Frame
 				gc.setColor(.5,.5,.5)
 				gc.push("transform")
-				gc.translate(150,70)
+				gc.translate(150,0)
 				gc.rectangle("line",-1,-11,302,612)--Boarder
 				gc.rectangle("line",301,-3,15,604)--AtkBuffer boarder
 				gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
@@ -45,16 +45,16 @@ return{
 		--Figures
 		local t=Timer()
 		gc.setColor(1,1,1,.5+.2*sin(t))
-		gc.draw(IMG.hbm,-276,-16,0,1.5)
-		gc.draw(IMG.electric,476,212,0,2.6)
+		gc.draw(IMG.hbm,-276,-86,0,1.5)
+		gc.draw(IMG.electric,476,142,0,2.6)
 
 		--Texts
 		gc.setColor(.8,.8,.8)
-		mText(drawableText.line,69,370)
-		mText(drawableText.techrash,69,490)
+		mText(drawableText.line,69,300)
+		mText(drawableText.techrash,69,420)
 		setFont(75)
-		mStr(P.stat.row,69,290)
-		mStr(P.stat.clears[4],69,410)
+		mStr(P.stat.row,69,220)
+		mStr(P.stat.clears[4],69,340)
 	end,
 	score=function(P)return{min(P.stat.row,40),P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

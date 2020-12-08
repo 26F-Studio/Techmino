@@ -36,9 +36,9 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(P.stat.row,69,390)
-		mStr(P.modeData.point+10,69,440)
-		gc.rectangle("fill",25,445,90,4)
+		mStr(P.stat.row,69,320)
+		mStr(P.modeData.point+10,69,370)
+		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,

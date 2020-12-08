@@ -58,17 +58,17 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(35)
-		mStr(#PLAYERS.alive.."/99",69,245)
-		mStr(P.modeData.point,80,285)
-		gc.draw(drawableText.ko,23,295)
+		mStr(#PLAYERS.alive.."/99",69,175)
+		mStr(P.modeData.point,80,215)
+		gc.draw(drawableText.ko,23,225)
 		setFont(20)
 		gc.setColor(1,.5,0,.6)
-		gc.print(P.badge,103,297)
+		gc.print(P.badge,103,227)
 		gc.setColor(1,1,1)
 		setFont(25)
-		gc.print(powerUp[P.strength],18,360)
+		gc.print(powerUp[P.strength],18,290)
 		for i=1,P.strength do
-			gc.draw(IMG.badgeIcon,16*i+12,330)
+			gc.draw(IMG.badgeIcon,16*i+12,260)
 		end
 	end,
 	score=function(P)return{P.modeData.event,P.modeData.point}end,

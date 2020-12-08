@@ -28,8 +28,8 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(65)
-		mStr(P.modeData.event,69,380)
-		mText(drawableText.wave,69,445)
+		mStr(P.modeData.event,69,310)
+		mText(drawableText.wave,69,375)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.frame/60}end,
 	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,

@@ -12,7 +12,7 @@ return{
 		setFont(55)
 		local r=100-P.stat.row
 		if r<0 then r=0 end
-		mStr(r,69,335)
+		mStr(r,69,265)
 		PLY.draw.drawTargetLine(P,r)
 	end,
 	score=function(P)return{P.stat.frame/60,P.stat.piece}end,

@@ -38,7 +38,7 @@ local function checkClear(P)
 				P.field[_],P.visTime[_]=nil
 			end
 			setField(P,P.modeData.point+1)
-			SYSFX.newShade(1.4,.6,.8,.6,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+			SYSFX.newShade(1.4,.6,.8,.6,P.absFieldX,P.absFieldY,300*P.size,610*P.size)
 			SFX.play("blip_1")
 		else
 			P:win("finish")
@@ -75,11 +75,11 @@ return{
 	mesDisp=function(P)
 		setFont(55)
 		if P.gameEnv.target>1e10 then
-			mStr(P.stat.row,69,295)
-			mText(drawableText.line,69,360)
+			mStr(P.stat.row,69,225)
+			mText(drawableText.line,69,290)
 		else
 			local R=P.gameEnv.target-P.stat.row
-			mStr(R>=0 and R or 0,69,310)
+			mStr(R>=0 and R or 0,69,240)
 		end
 	end,
 }

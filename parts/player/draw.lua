@@ -275,7 +275,7 @@ function draw.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
 		gc.setLineWidth(4)
 		gc.setColor(1,r>10 and 0 or rnd(),.5)
-		local dx,dy=150+P.fieldOff.x,70+P.fieldOff.y+P.fieldBeneath+P.fieldUp
+		local dx,dy=150+P.fieldOff.x,P.fieldOff.y+P.fieldBeneath+P.fieldUp
 		gc.line(dx,600-30*r+dy,300+dx,600-30*r+dy)
 	end
 end
@@ -312,7 +312,7 @@ function draw.norm(P)
 
 		--Field-related things
 		gc.push("transform")
-			gc.translate(150,70)
+			gc.translate(150,0)
 
 			--Things shake with field
 			gc.push("transform")
@@ -482,20 +482,19 @@ function draw.norm(P)
 
 		--Speed dials
 		setFont(25)
-		drawDial(510,580,P.dropSpeed)
-		drawDial(555,635,P.keySpeed)
+		drawDial(510,510,P.dropSpeed)
+		drawDial(555,565,P.keySpeed)
 		gc.setColor(1,1,1)
-		gc.draw(drawableText.bpm,540,550)
-		gc.draw(drawableText.kpm,494,643)
+		gc.draw(drawableText.bpm,540,480)
+		gc.draw(drawableText.kpm,494,573)
 
 		--Score & Time
 		setFont(25)
 		gc.setColor(0,0,0,.3)
-		gc.print(P.score1,18,579)
-		gc.print(format("%.2f",P.stat.time),18,609)
-
-		gc.setColor(COLOR.lYellow)gc.print(P.score1,20,580)
-		gc.setColor(COLOR.sky)gc.print(format("%.2f",P.stat.time),20,610)
+		gc.print(P.score1,18,509)
+		gc.print(format("%.2f",P.stat.time),18,539)
+		gc.setColor(COLOR.lYellow)gc.print(P.score1,20,510)
+		gc.setColor(COLOR.sky)gc.print(format("%.2f",P.stat.time),20,540)
 
 		--FinesseCombo
 		if P.finesseCombo>2 then
@@ -503,16 +502,16 @@ function draw.norm(P)
 			local T=P.finesseCombo.."x"
 			if _>0 then
 				gc.setColor(1,1,1,_*.2)
-				gc.print(T,20,640)
+				gc.print(T,20,570)
 				gc.setColor(1,1,1,1.2-_*.1)
 				gc.push("transform")
-				gc.translate(20,670)
+				gc.translate(20,600)
 				gc.scale(1+_*.08)
 				gc.print(T,0,-30)
 				gc.pop()
 			else
 				gc.setColor(1,1,1)
-				gc.print(T,20,640)
+				gc.print(T,20,570)
 			end
 		end
 
@@ -521,13 +520,13 @@ function draw.norm(P)
 			gc.setColor(1,1,1)
 			if P.life<=3 then
 				for i=1,P.life do
-					gc.draw(IMG.lifeIcon,450+25*i,665,nil,.8)
+					gc.draw(IMG.lifeIcon,450+25*i,595,nil,.8)
 				end
 			else
-				gc.draw(IMG.lifeIcon,475,665,nil,.8)
+				gc.draw(IMG.lifeIcon,475,595,nil,.8)
 				setFont(20)
-				gc.print("x",503,665)
-				gc.print(P.life,517,665)
+				gc.print("x",503,595)
+				gc.print(P.life,517,595)
 			end
 		end
 
@@ -549,7 +548,7 @@ function draw.norm(P)
 			else
 				gc.setColor(1,1,1)
 			end
-			gc.print(missionEnum[L[P.curMission]],85,180)
+			gc.print(missionEnum[L[P.curMission]],85,110)
 
 			--Draw next mission
 			setFont(20)
@@ -557,7 +556,7 @@ function draw.norm(P)
 				local t=L[P.curMission+i]
 				if t then
 					t=missionEnum[t]
-					gc.print(t,87-28*i,187)
+					gc.print(t,87-28*i,117)
 				else
 					break
 				end
@@ -569,7 +568,7 @@ function draw.norm(P)
 		if GAME.frame<180 then
 			local count=179-GAME.frame
 			gc.push("transform")
-				gc.translate(305,290)
+				gc.translate(305,220)
 				setFont(95)
 				if count%60>45 then gc.scale(1+(count%60-45)^2*.01,1)end
 				mStr(int(count/60+1),0,0)

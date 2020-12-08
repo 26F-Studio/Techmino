@@ -22,7 +22,7 @@ local function puzzleCheck(P)
 			FREEROW.discard(P.visTime[_])
 			P.field[_],P.visTime[_]=nil
 		end
-		SYSFX.newShade(1.4,.3,1,.3,P.x+150*P.size,P.y+60*P.size,300*P.size,610*P.size)
+		SYSFX.newShade(1.4,.3,1,.3,P.absFieldX,P.absFieldY,300*P.size,610*P.size)
 		SFX.play("reach")
 		P.modeData.event=0
 	else
@@ -53,15 +53,15 @@ return{
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y
 		setFont(55)
-		mStr(P.stat.row,69,295)
-		mText(drawableText.line,69,360)
+		mStr(P.stat.row,69,225)
+		mText(drawableText.line,69,290)
 		if P.modeData.event==0 then
 			local m=puzzleMark
 			local F=FIELD[P.modeData.point+1]
 			for y=1,20 do for x=1,10 do
 				local T=F[y][x]
 				if T~=0 then
-					gc.draw(m[T],150+30*x-30+dx,70+600-30*y+dy)
+					gc.draw(m[T],150+30*x-30+dx,600-30*y+dy)
 				end
 			end end
 		end
