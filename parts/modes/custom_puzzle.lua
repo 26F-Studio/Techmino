@@ -38,19 +38,7 @@ return{
 		dropPiece=puzzleCheck,
 	},
 	load=function()
-		for k,v in next,CUSTOMENV do
-			GAME.modeEnv[k]=v
-		end
-		if BAG[1]then
-			GAME.modeEnv.bag=BAG
-		else
-			GAME.modeEnv.bag=nil
-		end
-		if MISSION[1]then
-			GAME.modeEnv.mission=MISSION
-		else
-			GAME.modeEnv.mission=nil
-		end
+		applyCustomGame()
 		PLY.newPlayer(1)
 		local L=GAME.modeEnv.opponent
 		if L~=0 then
@@ -61,8 +49,6 @@ return{
 				PLY.newAIPlayer(2,AIBUILDER("CC",2*L-11,int(L*.5-1.5),true,4000*L))
 			end
 		end
-		GAME.modeEnv.bg=CUSTOMENV.bg
-		GAME.modeEnv.bgm=CUSTOMENV.bgm
 	end,
 	mesDisp=function(P)
 		local dx,dy=P.fieldOff.x,P.fieldOff.y

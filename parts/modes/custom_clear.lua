@@ -49,23 +49,11 @@ return{
 	color=COLOR.white,
 	env={},
 	load=function()
-		for k,v in next,CUSTOMENV do
-			GAME.modeEnv[k]=v
-		end
-		if BAG[1]then
-			GAME.modeEnv.bag=BAG
-		else
-			GAME.modeEnv.bag=nil
-		end
-		if MISSION[1]then
-			GAME.modeEnv.mission=MISSION
-		else
-			GAME.modeEnv.mission=nil
-		end
+		applyCustomGame()
 		GAME.modeEnv.dropPiece=PLY.check_lineReach
 		for y=1,20 do
 			if notAir(FIELD[1][y])then
-				--Switch clear mode on
+				--Switch clear sprint mode on
 				GAME.modeEnv.dropPiece=checkClear
 				break
 			end
@@ -83,8 +71,6 @@ return{
 		for _,P in next,PLAYERS.alive do
 			setField(P,1)
 		end
-		GAME.modeEnv.bg=CUSTOMENV.bg
-		GAME.modeEnv.bgm=CUSTOMENV.bgm
 	end,
 	mesDisp=function(P)
 		setFont(55)

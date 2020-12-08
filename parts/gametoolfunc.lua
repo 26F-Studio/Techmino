@@ -446,6 +446,21 @@ end
 function resumeGame()
 	SCN.swapTo("play","none")
 end
+function applyCustomGame()
+	for k,v in next,CUSTOMENV do
+		GAME.modeEnv[k]=v
+	end
+	if BAG[1]then
+		GAME.modeEnv.bag=BAG
+	else
+		GAME.modeEnv.bag=nil
+	end
+	if MISSION[1]then
+		GAME.modeEnv.mission=MISSION
+	else
+		GAME.modeEnv.mission=nil
+	end
+end
 function loadGame(M,ifQuickPlay)
 	freshDate()
 	if legalGameTime()then
