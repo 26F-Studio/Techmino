@@ -39,6 +39,8 @@ local SCN={
 
 function SCN.add(name,scene)
 	scenes[name]=scene
+	if not scene.widgetList then scene.widgetList={}end
+	setmetatable(scene.widgetList,WIDGET.indexMeta)
 end
 
 function SCN.swapUpdate()
@@ -76,7 +78,7 @@ function SCN.init(s,org)
 	SCN.gamepadUp=S.gamepadUp
 	SCN.socketRead=S.socketRead
 	if S.sceneInit then S.sceneInit(org)end
-	WIDGET.set(s)
+	WIDGET.set(S.widgetList)
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then

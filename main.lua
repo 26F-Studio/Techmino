@@ -109,6 +109,58 @@ VOC.set{
 	"welcome_voc",
 }
 
+--Initialize language lib
+LANG.setLangList{
+	require"parts/language/lang_zh",
+	require"parts/language/lang_zh2",
+	require"parts/language/lang_en",
+	require"parts/language/lang_fr",
+	require"parts/language/lang_sp",
+	require"parts/language/lang_symbol",
+	require"parts/language/lang_yygq",
+	--Add new language file to LANG folder. Attention, new language won't show in-game when you add language
+}
+LANG.setPublicText{
+	block={
+		"Z","S","J","L","T","O","I",
+		"Z5","S5","Q","P","F","E",
+		"T5","U","V","W","X",
+		"J5","L5","R","Y","N","H","I5"
+	},
+}
+LANG.setPublicWidgetText{
+	calculator={
+		_1="1",_2="2",_3="3",
+		_4="4",_5="5",_6="6",
+		_7="7",_8="8",_9="9",
+		_0="0",["."]=".",e="e",
+		["+"]="+",["-"]="-",["*"]="*",["/"]="/",
+		["<"]="<",["="]="=",
+		play="-->",
+	},
+	custom_field={
+		b0="",b1="",b2="",b3="",b4="",b5="",b6="",b7="",
+		b8="",b9="",b10="",b11="",b12="",b13="",b14="",b15="",b16="",
+		b17="[  ]",b18="N",b19="B",b20="_",b21="_",b22="_",b23="_",b24="_",
+	},
+	lang={
+		zh="中文",
+		zh2="全中文",
+		en="English",
+		fr="Français",
+		sp="Español",
+		symbol="?????",
+		yygq="就这?",
+	},
+	staff={},
+	history={
+		prev="↑",
+		next="↓",
+	},
+	mg_cubefield={},
+}
+LANG.init()
+
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,love.filesystem.getDirectoryItems("parts/shaders")do
@@ -134,9 +186,7 @@ end
 for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
 		local sceneName=v:sub(1,-5)
-		local scene=require("parts/scenes/"..sceneName)
-		SCN.add(sceneName,scene)
-		if scene.widgetList then WIDGET.init(sceneName,scene.widgetList)end
+		SCN.add(sceneName,require("parts/scenes/"..sceneName))
 	else
 		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
 	end

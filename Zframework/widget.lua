@@ -810,7 +810,7 @@ function WIDGET.lnk_pressKey(k)		return function()	love.keypressed(k)				end end
 function WIDGET.lnk_goScene(t,s)	return function()	SCN.go(t,s)						end end
 function WIDGET.lnk_swapScene(t,s)	return function()	SCN.swapTo(t,s)					end end
 
-local indexMeta={
+WIDGET.indexMeta={
 	__index=function(L,k)
 		for i=1,#L do
 			if L[i].name==k then
@@ -819,16 +819,7 @@ local indexMeta={
 		end
 	end
 }
-function WIDGET.init(sceneName,list)
-	local L={}
-	for i=1,#list do
-		ins(L,list[i])
-	end
-	setmetatable(L,indexMeta)
-	widgetList[sceneName]=L
-end
-function WIDGET.set(sceneName)
-	local list=widgetList[sceneName]
+function WIDGET.set(list)
 	kb.setTextInput(false)
 	WIDGET.sel=nil
 	WIDGET.active=list or NONE
@@ -840,10 +831,12 @@ function WIDGET.set(sceneName)
 		end
 	end
 end
-function WIDGET.setLang(lang)
-	for S,L in next,widgetList do
-		for _,W in next,L do
-			W.text=lang[S][W.name]
+function WIDGET.setLang(widgetText)
+	for S,L in next,SCN.scenes do
+		if widgetText[S]then
+			for _,W in next,L.widgetList do
+				W.text=widgetText[S][W.name]
+			end
 		end
 	end
 end
