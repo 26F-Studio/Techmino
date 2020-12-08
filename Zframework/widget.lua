@@ -3,12 +3,10 @@ local kb=love.keyboard
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
 local sub,format=string.sub,string.format
-local ins=table.insert
 
 local Timer=love.timer.getTime
 local setFont,mStr=setFont,mStr
 
-local widgetList={}
 local WIDGET={}
 local widgetMetatable={
 	__tostring=function(self)
