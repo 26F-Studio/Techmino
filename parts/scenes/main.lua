@@ -59,6 +59,9 @@ end
 function scene.update(dt)
 	GAME.frame=GAME.frame+1
 	PLAYERS[1]:update(dt)
+	if GAME.frame>=36000 and GAME.frame%300==0 then
+		PLAYERS[1]:movePosition(math.random(800,1000),math.random(50,310),.6)
+	end
 end
 
 function scene.draw()
