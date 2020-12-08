@@ -142,7 +142,7 @@ function pasteSequence(str)
 	return true
 end
 
-function newBoard(f)
+function newBoard(f)--Generate a new board
 	if f then
 		return copyList(f)
 	else
@@ -151,7 +151,7 @@ function newBoard(f)
 		return F
 	end
 end
-function copyBoard(page)
+function copyBoard(page)--Copy the [page] board
 	local F=FIELD[page or 1]
 	local str=""
 	local H=0
@@ -177,7 +177,7 @@ function copyBoard(page)
 	end
 	return data.encode("string","base64",data.compress("string","zlib",str))
 end
-function pasteBoard(str,page)
+function pasteBoard(str,page)--Paste [str] data to [page] board
 	local F=FIELD[page or 1]
 	local _,__
 
@@ -339,6 +339,7 @@ function mergeStat(stat,delta)
 	end
 end
 
+--Functions for royale mode
 function randomTarget(P)--Return a random opponent for P
 	if #PLAYERS.alive>1 then
 		local R
@@ -461,7 +462,7 @@ function applyCustomGame()
 		GAME.modeEnv.mission=nil
 	end
 end
-function loadGame(M,ifQuickPlay)
+function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
 		if MODES[M].score then STAT.lastPlay=M end
@@ -474,7 +475,7 @@ function loadGame(M,ifQuickPlay)
 		SFX.play("enter")
 	end
 end
-function resetPlayerPosition()
+function resetPlayerPosition()--Set position & size for every players
 	local L=PLAYERS.alive
 	L[1]:setPosition(340,75)
 	if #L<=5 then
@@ -587,7 +588,7 @@ function gameStart()
 		P:popNext()
 	end
 end
-function scoreValid()
+function scoreValid()--Check if any unranked mods are activated
 	for _,M in next,GAME.mod do
 		if M.unranked then
 			return false
@@ -595,6 +596,22 @@ function scoreValid()
 	end
 	return true
 end
+--[[
+	Byte data format: (1 byte each period)
+		KeyID, dt, KeyID, dt, ......
+	KeyID range from 1 to 20, negative when release key
+	dt from 0 to infinity, 0~254 when 0~254, read next byte as dt(if there is an 255, add next byte to dt as well)
+
+	Example:
+		1,6, -1,20, 2,0, -2,255,0, 4,255,255,255,62, ......
+	This means:
+		Press key1 at 6f
+		Release key1 at 26f (6+20)
+		Press key2 at the same time(26+0)
+		Release key 2 after 255+0 frame
+		Press key 4 after 255+255+255+62 frame
+		......
+]]
 function dumpRecording(list)
 	local out=""
 	local buffer=""
