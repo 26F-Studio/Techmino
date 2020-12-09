@@ -257,12 +257,12 @@ return{
 			game="Juego→",
 
 			block="Dibujar Bloques",
-			ghost="Fantasma",
-			center="Centrar",
-
 			smooth="Caída Fluida",
-			grid="Grilla",
 			bagLine="Línea de Bag de Pzas.",
+
+			ghost="Fantasma",
+			grid="Grilla",
+			center="Centrar",
 
 			lockFX="FX Vis. de Bloqueo",
 			dropFX="FX Vis. de Caída",

@@ -277,12 +277,12 @@ return{
 			game="游戏设置→",
 
 			block="方块可见",
-			ghost="阴影透明度",
-			center="旋转中心透明度",
-
 			smooth="平滑下落",
-			grid="网格",
 			bagLine="包分界线",
+
+			ghost="阴影透明度",
+			grid="网格",
+			center="旋转中心透明度",
 
 			lockFX="锁定特效",
 			dropFX="下落特效",

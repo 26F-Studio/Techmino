@@ -240,6 +240,7 @@ do
 		type(S.spawn)~="number"or
 		type(S.ghost)~="number"or
 		type(S.center)~="number"or
+		type(S.grid)~="number"or
 		S.bgm>1 or S.sfx>1 or S.voc>1 or
 		S.stereo>1 or S.VKSFX>1 or S.VKAlpha>1
 	then

@@ -13,13 +13,13 @@ scene.widgetList={
 	WIDGET.newButton{name="sound",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_sound","swipeR")},
 	WIDGET.newButton{name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=WIDGET.lnk_swapScene("setting_game","swipeL")},
 
-	WIDGET.newSwitch{name="block",		x=360,	y=180,				disp=WIDGET.lnk_SETval("block"),				code=WIDGET.lnk_SETrev("block")},
-	WIDGET.newSlider{name="ghost",		x=260,	y=250,w=200,unit=.6,disp=WIDGET.lnk_SETval("ghost"),show="percent",	code=WIDGET.lnk_SETsto("ghost")},
-	WIDGET.newSlider{name="center",		x=260,	y=300,w=200,unit=1,	disp=WIDGET.lnk_SETval("center"),				code=WIDGET.lnk_SETsto("center")},
+	WIDGET.newSwitch{name="block",		x=340,	y=180,				disp=WIDGET.lnk_SETval("block"),	code=WIDGET.lnk_SETrev("block")},
+	WIDGET.newSwitch{name="smooth",		x=340,	y=240,				disp=WIDGET.lnk_SETval("smooth"),	code=WIDGET.lnk_SETrev("smooth")},
+	WIDGET.newSwitch{name="bagLine",	x=340,	y=300,				disp=WIDGET.lnk_SETval("bagLine"),	code=WIDGET.lnk_SETrev("bagLine")},
 
-	WIDGET.newSwitch{name="smooth",		x=700,	y=180,				disp=WIDGET.lnk_SETval("smooth"),	code=WIDGET.lnk_SETrev("smooth")},
-	WIDGET.newSwitch{name="grid",		x=700,	y=240,				disp=WIDGET.lnk_SETval("grid"),		code=WIDGET.lnk_SETrev("grid")},
-	WIDGET.newSwitch{name="bagLine",	x=700,	y=300,				disp=WIDGET.lnk_SETval("bagLine"),	code=WIDGET.lnk_SETrev("bagLine")},
+	WIDGET.newSlider{name="ghost",		x=630,	y=180,w=200,unit=.6,disp=WIDGET.lnk_SETval("ghost"),show="percent",	code=WIDGET.lnk_SETsto("ghost")},
+	WIDGET.newSlider{name="grid",		x=630,	y=240,w=200,unit=.4,disp=WIDGET.lnk_SETval("grid"),show="percent",	code=WIDGET.lnk_SETsto("grid")},
+	WIDGET.newSlider{name="center",		x=630,	y=300,w=200,unit=1,	disp=WIDGET.lnk_SETval("center"),				code=WIDGET.lnk_SETsto("center")},
 
 	WIDGET.newSlider{name="lockFX",		x=350,	y=365,w=373,unit=5,	disp=WIDGET.lnk_SETval("lockFX"),	code=WIDGET.lnk_SETsto("lockFX")},
 	WIDGET.newSlider{name="dropFX",		x=350,	y=410,w=373,unit=5,	disp=WIDGET.lnk_SETval("dropFX"),	code=WIDGET.lnk_SETsto("dropFX")},

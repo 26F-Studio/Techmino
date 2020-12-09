@@ -255,12 +255,12 @@ return{
 			game="Jeu→",
 
 			block="Dessiner le bloc",
-			ghost="Pièce fantôme",
-			center="Centre",
-
 			smooth="Chute fluide",
-			grid="Grille",
 			bagLine="Ligne du Sac",
+
+			ghost="Pièce fantôme",
+			grid="Grille",
+			center="Centre",
 
 			lockFX="Effets de verrouillage",
 			dropFX="Effets de chute",

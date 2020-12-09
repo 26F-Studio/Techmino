@@ -242,7 +242,7 @@ SETTING={
 
 	--Graphic
 	block=true,ghost=.3,center=1,
-	smooth=true,grid=false,
+	smooth=true,grid=.16,
 	bagLine=false,
 	lockFX=2,
 	dropFX=2,

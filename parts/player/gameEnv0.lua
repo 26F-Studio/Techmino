@@ -10,7 +10,7 @@ return{
 	swap=true,
 
 	ghost=.3,center=1,
-	smooth=false,grid=false,
+	smooth=false,grid=.16,
 	bagLine=false,
 	text=true,
 	score=true,

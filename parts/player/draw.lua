@@ -15,10 +15,10 @@ local frameColorList={
 	COLOR.lOrange,
 }
 --local function drawCell(y,x,id)gc.draw(SKIN.curText[id],30*x-30,-30*y)end
-local function drawGrid(P)
+local function drawGrid(P,alpha)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	gc.setLineWidth(1)
-	gc.setColor(1,1,1,.2)
+	gc.setColor(1,1,1,alpha)
 	for x=1,9 do
 		gc.line(30*x,-10,30*x,600)
 	end
@@ -323,7 +323,7 @@ function draw.norm(P)
 				gc.rectangle("fill",0,-10,300,610)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P)end
+				if ENV.grid then drawGrid(P,ENV.grid)end
 
 				--In-field things
 				gc.push("transform")

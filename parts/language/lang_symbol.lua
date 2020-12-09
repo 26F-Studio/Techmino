@@ -161,12 +161,12 @@ return{
 			game="Game→",
 
 			block="==↓==",
-			ghost="__↓__",
-			center="+",
-
 			smooth="~~↓~~",
-			grid="#",
 			bagLine="123|123",
+
+			ghost="__↓__",
+			grid="#",
+			center="+",
 
 			lockFX="↓_~",
 			dropFX="↓~",
