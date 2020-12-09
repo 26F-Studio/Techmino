@@ -531,6 +531,11 @@ function Player.resetBlock(P)
 		end
 	end
 
+	--DAS cut
+	if P.gameEnv.dascut>0 then
+		P.moving=P.moving-(P.moving>0 and 1 or -1)*P.gameEnv.dascut
+	end
+
 	--Spawn SFX
 	if P.sound and id<8 then
 		SFX.fplay(spawnSFX_name[id],SETTING.spawn)

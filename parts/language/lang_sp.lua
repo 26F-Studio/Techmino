@@ -298,7 +298,7 @@ return{
 			title="Ajustes de Controles",
 			preview="Ejemplo",
 
-			das="DAS",arr="ARR",
+			das="DAS",arr="ARR",-- dascut="DAS cut",
 			sddas="DAS de C. Ráp.",sdarr="ARR de C. Rápida",
 			ihs="Resv. Inicial",
 			irs="Rot. Inicial",

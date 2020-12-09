@@ -320,7 +320,7 @@ return{
 			title="控制设置",
 			preview="预览",
 
-			das="DAS",arr="ARR",
+			das="DAS",arr="ARR",dascut="DAS打断",
 			sddas="软降DAS",sdarr="软降ARR",
 			ihs="提前Hold",
 			irs="提前旋转",
