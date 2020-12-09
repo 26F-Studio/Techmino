@@ -264,9 +264,9 @@ SETTING={
 
 	--Sound
 	sfx=1,
-	spawn=0,
+	spawn=.3,
 	bgm=.7,
-	stereo=.6,
+	stereo=.7,
 	vib=0,
 	voc=0,
 	cv="miya",
