@@ -41,6 +41,7 @@ function FXupdate.cell(S,dt)
 	S.t=S.t+dt*S.rate
 	return S.t>1
 end
+FXupdate.line=normUpdate
 
 local FXdraw={}
 function FXdraw.badge(S)
@@ -87,6 +88,10 @@ end
 function FXdraw.cell(S)
 	setColor(1,1,1,1-S.t)
 	gc.draw(S.image,S.x,S.y,nil,S.size,nil,S.cx,S.cy)
+end
+function FXdraw.line(S)
+	setColor(1,1,1,S.a*(1-S.t))
+	gc.line(S.x1,S.y1,S.x2,S.y2)
 end
 
 local SYSFX={}
@@ -164,6 +169,17 @@ function SYSFX.newCell(rate,image,size,x,y,vx,vy,ax,ay)
 		x=x,y=y,
 		vx=vx,vy=vy,
 		ax=ax,ay=ay,
+	}
+end
+function SYSFX.newLine(rate,x1,y1,x2,y2,r,g,b,a)
+	fx[#fx+1]={
+		update=FXupdate.line,
+		draw=FXdraw.line,
+		t=0,
+		rate=rate,
+		x1=x1 or 0,y1=y1 or 0,
+		x2=x2 or x1 or 1280,y2=y2 or y1 or 720,
+		r=r or 1,g=g or 1,b=b or 1,a=a or 1,
 	}
 end
 return SYSFX
