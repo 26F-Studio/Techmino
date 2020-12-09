@@ -62,12 +62,12 @@ local function tapBoard(x,y)
 					SFX.play("reach")
 				end
 				if S.tapFX then
-					SYSFX.newShade(3,.6,.8,1,320+640/R*X,40+640/R*Y,640/R,640/R)
+					SYSFX.newShade(3,320+640/R*X,40+640/R*Y,640/R,640/R,.6,.8,1)
 				end
 			else
 				S.error=S.error+1
 				if S.tapFX then
-					SYSFX.newShade(2,1,.4,.5,320+640/R*X,40+640/R*Y,640/R,640/R)
+					SYSFX.newShade(2,320+640/R*X,40+640/R*Y,640/R,640/R,1,.4,.5)
 				end
 				SFX.play("finesseError")
 			end

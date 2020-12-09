@@ -1622,7 +1622,7 @@ function Player.lose(P,force)
 		for i=1,h do
 			P:createClearingFX(i,1.5)
 		end
-		SYSFX.newShade(1.4,1,1,1,P.fieldX,P.fieldY,300*P.size,610*P.size)
+		SYSFX.newShade(1.4,P.fieldX,P.fieldY,300*P.size,610*P.size)
 		SYSFX.newRectRipple(2,P.fieldX,P.fieldY,300*P.size,610*P.size)
 		SYSFX.newRipple(2,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
 		--300+25*i,595

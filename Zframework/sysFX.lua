@@ -143,14 +143,14 @@ function SYSFX.newRectRipple(rate,x,y,w,h)
 		x=x,y=y,w=w,h=h,
 	}
 end
-function SYSFX.newShade(rate,r,g,b,x,y,w,h)
+function SYSFX.newShade(rate,x,y,w,h,r,g,b)
 	fx[#fx+1]={
 		update=FXupdate.shade,
 		draw=FXdraw.shade,
 		t=0,
 		rate=rate,
-		r=r,g=g,b=b,
 		x=x,y=y,w=w,h=h,
+		r=r or 1,g=g or 1,b=b or 1,
 	}
 end
 function SYSFX.newCell(rate,image,size,x,y,vx,vy,ax,ay)

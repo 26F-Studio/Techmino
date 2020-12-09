@@ -22,7 +22,7 @@ local function puzzleCheck(P)
 			FREEROW.discard(P.visTime[_])
 			P.field[_],P.visTime[_]=nil
 		end
-		SYSFX.newShade(1.4,.3,1,.3,P.absFieldX,P.absFieldY,300*P.size,610*P.size)
+		SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.3,1,.3)
 		SFX.play("reach")
 		P.modeData.event=0
 	else
