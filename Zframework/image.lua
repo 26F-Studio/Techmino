@@ -1,42 +1,26 @@
-local IMG={
-	batteryImage="/mess/power.png",
-	title="mess/title.png",
-	title_color="mess/title_colored.png",
-	dialCircle="mess/dialCircle.png",
-	dialNeedle="mess/dialNeedle.png",
-	lifeIcon="mess/life.png",
-	badgeIcon="mess/badge.png",
-	spinCenter="mess/spinCenter.png",
-	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
-	speedLimit="mess/speedLimit.png",
-	pay1="mess/pay1.png",
-	pay2="mess/pay2.png",
+local IMG={}
+function IMG.init(list)
+	IMG.init=nil
+	local count=0
+	for k,v in next,list do
+		count=count+1
+		IMG[k]=v
+	end
+	function IMG.getCount()return count end
 
-	miyaCH="miya/ch.png",
-	miyaF1="miya/f1.png",
-	miyaF2="miya/f2.png",
-	miyaF3="miya/f3.png",
-	miyaF4="miya/f4.png",
+	IMG.loadOne=coroutine.wrap(function()
+		IMG.loadAll=nil
+		for k,v in next,list do
+			IMG[k]=love.graphics.newImage("media/image/"..v)
+			coroutine.yield()
+		end
+		IMG.loadOne=nil
+	end)
 
-	electric="mess/electric.png",
-	hbm="mess/hbm.png",
-}
-local list={}
-local count=0
-for k,_ in next,IMG do
-	count=count+1
-	list[count]=k
-end
-function IMG.getCount()
-	return count
-end
-function IMG.loadOne(_)
-	local N=list[_]
-	IMG[N]=love.graphics.newImage("media/image/"..IMG[N])
-end
-function IMG.loadAll()
-	for i=1,count do
-		IMG.loadOne(i)
+	function IMG.loadAll()
+		for i=1,count do
+			IMG.loadOne(i)
+		end
 	end
 end
 return IMG

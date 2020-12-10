@@ -7,7 +7,7 @@ local scene={}
 
 function scene.sceneInit()
 	if BGM.nowPlay then
-		for i=1,BGM.len do
+		for i=1,BGM.getCount()do
 			if BGM.list[i]==BGM.nowPlay then
 				sceneTemp=i--Music selected
 				return
@@ -24,7 +24,7 @@ end
 function scene.keyDown(key)
 	local S=sceneTemp
 	if key=="down"then
-		if S<BGM.len then
+		if S<BGM.getCount()then
 			sceneTemp=S+1
 			SFX.play("move",.7)
 		end
@@ -52,10 +52,10 @@ function scene.draw()
 	gc.print(BGM.list[sceneTemp],320,355)
 	setFont(35)
 	if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
-	if sceneTemp<BGM.len then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
+	if sceneTemp<BGM.getCount()then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
 	setFont(20)
 	if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
-	if sceneTemp<BGM.len-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
+	if sceneTemp<BGM.getCount()-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
 
 	gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
 	if BGM.nowPlay then
@@ -78,7 +78,7 @@ scene.widgetList={
 	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,			font=35,disp=WIDGET.lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
 	WIDGET.newButton{name="up",		x=200,	y=250,w=120,		font=55,code=WIDGET.lnk_pressKey("up"),hide=function()return sceneTemp==1 end},
 	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=WIDGET.lnk_pressKey("space")},
-	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp==BGM.len end},
+	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp==BGM.getCount()end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
 }
 

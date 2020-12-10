@@ -51,8 +51,33 @@ AIFUNC=	require"parts/ai"
 MODES=	require"parts/modes"
 TICK=	require"parts/tick"
 
+--Initialize image lib
+IMG.init{
+	batteryImage="/mess/power.png",
+	title="mess/title.png",
+	title_color="mess/title_colored.png",
+	dialCircle="mess/dialCircle.png",
+	dialNeedle="mess/dialNeedle.png",
+	lifeIcon="mess/life.png",
+	badgeIcon="mess/badge.png",
+	spinCenter="mess/spinCenter.png",
+	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
+	speedLimit="mess/speedLimit.png",
+	pay1="mess/pay1.png",
+	pay2="mess/pay2.png",
+
+	miyaCH="miya/ch.png",
+	miyaF1="miya/f1.png",
+	miyaF2="miya/f2.png",
+	miyaF3="miya/f3.png",
+	miyaF4="miya/f4.png",
+
+	electric="mess/electric.png",
+	hbm="mess/hbm.png",
+}
+
 --Initialize sound libs
-SFX.set{
+SFX.init{
 	--Stereo sfxs(cannot set position)
 	"welcome_sfx",
 	"click","enter",
@@ -74,7 +99,7 @@ SFX.set{
 	"clear",
 	"error",
 }
-BGM.set{
+BGM.init{
 	"blank",--menu
 	"race",--sprint, solo
 	"infinite",--infinite norm/dig, ultra, zen, tech-finesse
@@ -99,7 +124,7 @@ BGM.set{
 	"rockblock",--classic, 49/99
 	"cruelty","final","8-bit happiness","end","how feeling",--49/99
 }
-VOC.set{
+VOC.init{
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
 	"single","double","triple","techrash",
 	"mini","b2b","b3b",

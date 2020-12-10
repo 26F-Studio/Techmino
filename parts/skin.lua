@@ -91,7 +91,7 @@ function SKIN.loadOne(_)
 end
 function SKIN.loadAll()
 	for i=1,count do
-		SFX.loadOne(i)
+		SKIN.loadOne(i)
 	end
 end
 function SKIN.prevSet()--Prev skin_set

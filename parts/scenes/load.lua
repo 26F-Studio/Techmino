@@ -35,7 +35,7 @@ local function tick_httpREQ_launch(task)
 		end
 	end
 end
-function tick_httpREQ_autoLogin(task)
+local function tick_httpREQ_autoLogin(task)
 	local time=0
 	while true do
 		coroutine.yield()
@@ -72,13 +72,13 @@ local scene={}
 function scene.sceneInit()
 	sceneTemp={
 		time=0,--Animation timer
-		phase=1,--Loading stage
-		cur=1,--Loading timer
-		tar=#VOC.name,--Current Loading bar length
+		phase=0,--Loading stage
+		cur=0,--Loading timer
+		tar=0,--Current Loading bar length
 		list={
-			#VOC.name,
-			#BGM.list,
-			#SFX.list,
+			VOC.getCount(),
+			BGM.getCount(),
+			SFX.getCount(),
 			IMG.getCount(),
 			17,--Fontsize 20~100
 			SKIN.getCount(),
@@ -116,14 +116,15 @@ function scene.update()
 	local S=sceneTemp
 	if S.time==400 then return end
 	repeat
-		if S.phase==1 then
-			VOC.loadOne(S.cur)
+		if S.phase==0 then
+		elseif S.phase==1 then
+			VOC.loadOne()
 		elseif S.phase==2 then
-			BGM.loadOne(S.cur)
+			BGM.loadOne()
 		elseif S.phase==3 then
-			SFX.loadOne(S.cur)
+			SFX.loadOne()
 		elseif S.phase==4 then
-			IMG.loadOne(S.cur)
+			IMG.loadOne()
 		elseif S.phase==5 then
 			getFont(15+5*S.cur)
 		elseif S.phase==6 then

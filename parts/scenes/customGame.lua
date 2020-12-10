@@ -172,7 +172,7 @@ scene.widgetList={
 		disp=WIDGET.lnk_CUSval("bg"),
 		code=function(i)CUSTOMENV.bg=i BG.set(i)end
 	},
-	WIDGET.newSelector{name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.list,	disp=WIDGET.lnk_CUSval("bgm"),	code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
+	WIDGET.newSelector{name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.getList(),	disp=WIDGET.lnk_CUSval("bgm"),	code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
 
 	--Copy/Paste/Start
 	WIDGET.newButton{name="copy",	x=1070,	y=310,w=310,h=70,color="lRed",	font=25,code=WIDGET.lnk_pressKey("cC")},
