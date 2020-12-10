@@ -5,10 +5,11 @@ local sin=math.sin
 
 local scene={}
 
+local bgmList=BGM.getList()
 function scene.sceneInit()
 	if BGM.nowPlay then
 		for i=1,BGM.getCount()do
-			if BGM.list[i]==BGM.nowPlay then
+			if bgmList[i]==BGM.nowPlay then
 				sceneTemp=i--Music selected
 				return
 			end
@@ -34,8 +35,8 @@ function scene.keyDown(key)
 			SFX.play("move",.7)
 		end
 	elseif key=="return"or key=="space"then
-		if BGM.nowPlay~=BGM.list[S]then
-			BGM.play(BGM.list[S])
+		if BGM.nowPlay~=bgmList[S]then
+			BGM.play(bgmList[S])
 			if SETTING.bgm>0 then SFX.play("click")end
 		else
 			BGM.stop()
@@ -49,13 +50,13 @@ function scene.draw()
 	gc.setColor(1,1,1)
 
 	setFont(50)
-	gc.print(BGM.list[sceneTemp],320,355)
+	gc.print(bgmList[sceneTemp],320,355)
 	setFont(35)
-	if sceneTemp>1 then			gc.print(BGM.list[sceneTemp-1],320,350-30)end
-	if sceneTemp<BGM.getCount()then	gc.print(BGM.list[sceneTemp+1],320,350+65)end
+	if sceneTemp>1 then			gc.print(bgmList[sceneTemp-1],320,350-30)end
+	if sceneTemp<BGM.getCount()then	gc.print(bgmList[sceneTemp+1],320,350+65)end
 	setFont(20)
-	if sceneTemp>2 then			gc.print(BGM.list[sceneTemp-2],320,350-50)end
-	if sceneTemp<BGM.getCount()-1 then	gc.print(BGM.list[sceneTemp+2],320,350+110)end
+	if sceneTemp>2 then			gc.print(bgmList[sceneTemp-2],320,350-50)end
+	if sceneTemp<BGM.getCount()-1 then	gc.print(bgmList[sceneTemp+2],320,350+110)end
 
 	gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
 	if BGM.nowPlay then

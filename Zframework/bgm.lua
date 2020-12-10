@@ -6,7 +6,7 @@ local BGM={
 function BGM.init(list)
 	BGM.init=nil
 	local min=math.min
-	local Sources={}function BGM.getList()return Sources end
+	local Sources={}function BGM.getList()return list end
 
 	local count=#list function BGM.getCount()return count end
 	local function fadeOut(src)
