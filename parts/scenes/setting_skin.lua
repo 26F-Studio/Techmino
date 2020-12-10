@@ -9,12 +9,13 @@ function scene.draw()
 	local texture=SKIN.curText
 	for N=1,7 do
 		local face=SETTING.face[N]
+		local color=SETTING.skin[N]
 		local B=BLOCKS[N][face]
 		local x,y=-55+140*N-spinCenters[N][face][2]*30,355+spinCenters[N][face][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then
-				gc.draw(texture[SETTING.skin[N]],x+30*j,y-30*i)
+				gc.draw(texture[color],x+30*j,y-30*i)
 			end
 		end end
 		gc.circle("fill",-10+140*N,340,sin(Timer()*10)+5)
@@ -30,7 +31,7 @@ local function nextSkin(n)return function()SKIN.next(n)end end
 local function nextDir(n)return function()SKIN.rotate(n)end end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=80,y=50,font=70},
+	WIDGET.newText{name="title",	x=80,y=50,font=70,align="L"},
 
 	WIDGET.newButton{name="prev",	x=700,y=100,w=140,h=100,font=50,code=function()SKIN.prevSet()end},
 	WIDGET.newButton{name="next",	x=860,y=100,w=140,h=100,font=50,code=function()SKIN.nextSet()end},
