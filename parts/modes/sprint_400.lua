@@ -23,10 +23,10 @@ return{
 		local T=P.stat.frame/60
 		return
 		T<=300 and 5 or
-		T<=330 and 4 or
-		T<=360 and 3 or
-		T<=390 and 2 or
-		T<=420 and 1 or
+		T<=380 and 4 or
+		T<=440 and 3 or
+		T<=500 and 2 or
+		T<=640 and 1 or
 		0
 	end,
 }

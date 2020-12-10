@@ -22,11 +22,11 @@ return{
 		if P.stat.row<1000 then return end
 		local T=P.stat.frame/60
 		return
-		T<=626 and 5 or
-		T<=800 and 4 or
-		T<=900 and 3 or
-		T<=1050 and 2 or
-		T<=1200 and 1 or
+		T<=750 and 5 or
+		T<=950 and 4 or
+		T<=1100 and 3 or
+		T<=1260 and 2 or
+		T<=1600 and 1 or
 		0
 	end,
 }
