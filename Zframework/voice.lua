@@ -4,8 +4,8 @@ local VOC={
 	getFreeChannel=NULL,
 	play=NULL,
 	update=NULL,
+	reload=NULL,
 }
-
 function VOC.init(list)
 	VOC.init=nil
 	local rnd=math.random
@@ -37,9 +37,7 @@ function VOC.init(list)
 		return L[n]
 		--Load voice with string
 	end
-
-	VOC.loadOne=coroutine.wrap(function(skip)
-		VOC.loadAll=nil
+	local function load(skip)
 		for i=1,count do
 			Source[list[i]]={}
 
@@ -85,44 +83,43 @@ function VOC.init(list)
 				end
 			end
 		end
-	end)
-	function VOC.loadAll()
-		VOC.loadOne(true)
-	end
-
-	function VOC.update()
-		for i=#voiceQueue,1,-1 do
-			local Q=voiceQueue[i]
-			if Q.s==0 then--Free channel, auto delete when >3
-				if i>3 then
-					rem(voiceQueue,i)
-				end
-			elseif Q.s==1 then--Waiting load source
-				Q[1]=getVoice(Q[1])
-				Q[1]:setVolume(SETTING.voc)
-				Q[1]:play()
-				Q.s=Q[2]and 2 or 4
-			elseif Q.s==2 then--Playing 1,ready 2
-				if Q[1]:getDuration()-Q[1]:tell()<.08 then
-					Q[2]=getVoice(Q[2])
-					Q[2]:setVolume(SETTING.voc)
-					Q[2]:play()
-					Q.s=3
-				end
-			elseif Q.s==3 then--Playing 12 same time
-				if not Q[1]:isPlaying()then
-					for j=1,#Q do
-						Q[j]=Q[j+1]
+		function VOC.update()
+			for i=#voiceQueue,1,-1 do
+				local Q=voiceQueue[i]
+				if Q.s==0 then--Free channel, auto delete when >3
+					if i>3 then
+						rem(voiceQueue,i)
 					end
+				elseif Q.s==1 then--Waiting load source
+					Q[1]=getVoice(Q[1])
+					Q[1]:setVolume(SETTING.voc)
+					Q[1]:play()
 					Q.s=Q[2]and 2 or 4
-				end
-			elseif Q.s==4 then--Playing last
-				if not Q[1].isPlaying(Q[1])then
-					Q[1]=nil
-					Q.s=0
+				elseif Q.s==2 then--Playing 1,ready 2
+					if Q[1]:getDuration()-Q[1]:tell()<.08 then
+						Q[2]=getVoice(Q[2])
+						Q[2]:setVolume(SETTING.voc)
+						Q[2]:play()
+						Q.s=3
+					end
+				elseif Q.s==3 then--Playing 12 same time
+					if not Q[1]:isPlaying()then
+						for j=1,#Q do
+							Q[j]=Q[j+1]
+						end
+						Q.s=Q[2]and 2 or 4
+					end
+				elseif Q.s==4 then--Playing last
+					if not Q[1].isPlaying(Q[1])then
+						Q[1]=nil
+						Q.s=0
+					end
 				end
 			end
 		end
 	end
+
+	VOC.loadOne=coroutine.wrap(load)
+	function VOC.loadAll()load(true)end
 end
 return VOC

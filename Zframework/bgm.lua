@@ -4,10 +4,10 @@ local BGM={
 	play=NULL,
 	freshVolume=NULL,
 	stop=NULL,
+	reload=NULL,
 	--nowPlay=[str:playing ID]
 	--playing=[src:playing SRC]
 }
-
 function BGM.init(list)
 	BGM.init=nil
 	local min=math.min
@@ -39,9 +39,7 @@ function BGM.init(list)
 	local function removeCurFadeOut(task,code,src)
 		return task.code==code and task.args[1]==src
 	end
-
-	BGM.loadOne=coroutine.wrap(function(skip)
-		BGM.loadAll=nil
+	local function load(skip)
 		for i=1,count do
 			local file="media/BGM/"..list[i]..".ogg"
 			if love.filesystem.getInfo(file)then
@@ -90,9 +88,8 @@ function BGM.init(list)
 			if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
 			BGM.nowPlay,BGM.playing=nil
 		end
-	end)
-	function BGM.loadAll()
-		BGM.loadOne(true)
 	end
+	BGM.loadOne=coroutine.wrap(load)
+	function BGM.loadAll()load(true)end
 end
 return BGM

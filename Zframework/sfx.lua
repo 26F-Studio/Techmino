@@ -4,6 +4,7 @@ local SFX={
 	play=NULL,
 	fplay=NULL,
 	reset=NULL,
+	reload=NULL,
 }
 function SFX.init(list)
 	SFX.init=nil
@@ -11,10 +12,7 @@ function SFX.init(list)
 	local Sources={}
 
 	local count=#list function SFX.getCount()return count end
-
-	SFX.loadOne=coroutine.wrap(function(skip)
-		SFX.loadAll=nil
-
+	local function load(skip)
 		for i=1,count do
 			local N="media/SFX/"..list[i]..".ogg"
 			if love.filesystem.getInfo(N)then
@@ -91,9 +89,9 @@ function SFX.init(list)
 				end
 			end
 		end
-	end)
-	function SFX.loadAll()
-		SFX.loadOne(true)
 	end
+
+	SFX.loadOne=coroutine.wrap(load)
+	function SFX.loadAll()load(true)end
 end
 return SFX

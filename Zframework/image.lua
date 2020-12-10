@@ -7,9 +7,7 @@ function IMG.init(list)
 		IMG[k]=v
 	end
 	function IMG.getCount()return count end
-
-	IMG.loadOne=coroutine.wrap(function(skip)
-		IMG.loadAll=nil
+	local function load(skip)
 		for k,v in next,list do
 			IMG[k]=love.graphics.newImage("media/image/"..v)
 			if not skip and i~=count then
@@ -17,12 +15,8 @@ function IMG.init(list)
 			end
 		end
 		IMG.loadOne=nil
-	end)
-
-	function IMG.loadAll()
-		for i=1,count do
-			IMG.loadOne(i)
-		end
 	end
+	IMG.loadOne=coroutine.wrap(load)
+	function IMG.loadAll()load(true)end
 end
 return IMG
