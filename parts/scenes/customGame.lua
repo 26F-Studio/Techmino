@@ -15,14 +15,16 @@ local CUSTOMENV=CUSTOMENV
 
 local scene={}
 
+local initField
+
 function scene.sceneInit()
 	destroyPlayers()
 	BG.set(CUSTOMENV.bg)
 	BGM.play(CUSTOMENV.bgm)
-	sceneTemp={initField=false}
+	initField=false
 	for y=1,20 do
 		if notAir(FIELD[1][y])then
-			sceneTemp.initField=true
+			initField=true
 		end
 	end
 end
@@ -45,7 +47,7 @@ function scene.keyDown(key)
 			end
 		end
 		if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
-			if sceneTemp.initField then
+			if initField then
 				loadGame("custom_puzzle",true)
 			end
 		else
@@ -106,7 +108,7 @@ end
 
 function scene.draw()
 	--Field content
-	if sceneTemp.initField then
+	if initField then
 		gc.push("transform")
 		gc.translate(95,290)
 		gc.scale(.5)
@@ -129,7 +131,7 @@ function scene.draw()
 
 	--Field
 	setFont(40)
-	if sceneTemp.initField and #FIELD>1 then
+	if initField and #FIELD>1 then
 		gc.setColor(1,1,int(Timer()*6.26)%2)
 		gc.print("+",275,300)
 		gc.print(#FIELD-1,300,300)
@@ -178,7 +180,7 @@ scene.widgetList={
 	WIDGET.newButton{name="copy",	x=1070,	y=310,w=310,h=70,color="lRed",	font=25,code=WIDGET.lnk_pressKey("cC")},
 	WIDGET.newButton{name="paste",	x=1070,	y=390,w=310,h=70,color="lBlue",	font=25,code=WIDGET.lnk_pressKey("cV")},
 	WIDGET.newButton{name="clear",	x=1070,	y=470,w=310,h=70,color="lYellow",font=35,code=WIDGET.lnk_pressKey("return")},
-	WIDGET.newButton{name="puzzle",x=1070,	y=550,w=310,h=70,color="lMagenta",font=35,code=WIDGET.lnk_pressKey("return2"),hide=function()return not sceneTemp.initField end},
+	WIDGET.newButton{name="puzzle",x=1070,	y=550,w=310,h=70,color="lMagenta",font=35,code=WIDGET.lnk_pressKey("return2"),hide=function()return not initField end},
 
 	--More
 	WIDGET.newKey{name="advance",	x=730,	y=190,w=220,h=90,color="red",	font=35,code=WIDGET.lnk_goScene("custom_advance")},

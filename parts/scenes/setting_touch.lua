@@ -6,13 +6,15 @@ local int,sin=math.floor,math.sin
 
 local scene={}
 
+local defaultSetSelect
+local snapUnit
+local select--Button selected
+
 function scene.sceneInit()
 	BG.set("rainbow")
-	sceneTemp={
-		default=1,
-		snap=1,
-		sel=nil,
-	}
+	defaultSetSelect=1
+	snapUnit=1
+	select=nil
 end
 function scene.sceneBack()
 	FILE.save(VK_org,"virtualkey")
@@ -35,34 +37,34 @@ local function onVK_org(x,y)
 end
 function scene.mouseDown(x,y,k)
 	if k==2 then SCN.back()end
-	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
+	select=onVK_org(x,y)or select
 end
 function scene.mouseMove(_,_,dx,dy)
-	if sceneTemp.sel and ms.isDown(1)and not WIDGET.sel then
-		local B=VK_org[sceneTemp.sel]
+	if select and ms.isDown(1)and not WIDGET.sel then
+		local B=VK_org[select]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
 function scene.mouseUp()
-	if sceneTemp.sel then
-		local B=VK_org[sceneTemp.sel]
-		local k=sceneTemp.snap
+	if select then
+		local B=VK_org[select]
+		local k=snapUnit
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
 function scene.touchDown(_,x,y)
-	sceneTemp.sel=onVK_org(x,y)or sceneTemp.sel
+	select=onVK_org(x,y)or select
 end
 function scene.touchUp()
-	if sceneTemp.sel then
-		local B=VK_org[sceneTemp.sel]
-		local k=sceneTemp.snap
+	if select then
+		local B=VK_org[select]
+		local k=snapUnit
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
 function scene.touchMove(_,_,_,dx,dy)
-	if sceneTemp.sel and not WIDGET.sel then
-		local B=VK_org[sceneTemp.sel]
+	if select and not WIDGET.sel then
+		local B=VK_org[select]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
@@ -72,7 +74,7 @@ local function VirtualkeyPreview()
 		for i=1,#VK_org do
 			local B=VK_org[i]
 			if B.ava then
-				local c=sceneTemp.sel==i and .6 or 1
+				local c=select==i and .6 or 1
 				gc.setColor(c,1,c,SETTING.VKAlpha)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)
@@ -86,7 +88,7 @@ function scene.draw()
 	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
 	VirtualkeyPreview()
-	local d=sceneTemp.snap
+	local d=snapUnit
 	if d>=10 then
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1,sin(Timer()*4)*.1+.1)
@@ -172,9 +174,9 @@ local virtualkeySet={
 	},--PC key feedback(top&in a row)
 }
 scene.widgetList={
-	WIDGET.newButton{name="default",	x=520,y=90,w=200,h=80,font=35,
+	WIDGET.newButton{name="default",x=520,y=90,w=200,h=80,font=35,
 		code=function()
-			local D=virtualkeySet[sceneTemp.default]
+			local D=virtualkeySet[defaultSetSelect]
 			for i=1,#VK_org do
 				VK_org[i].ava=false
 			end
@@ -188,27 +190,27 @@ scene.widgetList={
 					B.x,B.y,B.r=T[2],T[3],T[4]
 				end
 			end
-			sceneTemp.default=sceneTemp.default%5+1
-			sceneTemp.sel=nil
-			LOG.print("[ "..sceneTemp.default.." ]")
+			defaultSetSelect=defaultSetSelect%5+1
+			select=nil
+			LOG.print("[ "..defaultSetSelect.." ]")
 		end},
-	WIDGET.newSelector{name="snap",		x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=WIDGET.lnk_STPval("snap"),code=WIDGET.lnk_STPsto("snap")},
+	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
 	WIDGET.newButton{name="option",	x=520,y=190,w=200,h=80,font=40,
 		code=function()
 			SCN.go("setting_touchSwitch")
 		end},
-	WIDGET.newButton{name="back",		x=760,y=190,w=200,h=80,font=35,code=WIDGET.lnk_BACK},
-	WIDGET.newSlider{name="size",		x=450,y=270,w=460,unit=19,font=40,show="vkSize",
+	WIDGET.newButton{name="back",	x=760,y=190,w=200,h=80,font=35,code=WIDGET.lnk_BACK},
+	WIDGET.newSlider{name="size",	x=450,y=270,w=460,unit=19,font=40,show="vkSize",
 		disp=function()
-			return VK_org[sceneTemp.sel].r/10-1
+			return VK_org[select].r/10-1
 		end,
 		code=function(v)
-			if sceneTemp.sel then
-				VK_org[sceneTemp.sel].r=(v+1)*10
+			if select then
+				VK_org[select].r=(v+1)*10
 			end
 		end,
 		hide=function()
-			return not sceneTemp.sel
+			return not select
 		end},
 }
 

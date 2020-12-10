@@ -6,12 +6,14 @@ local rnd=math.random
 
 local scene={}
 
+local last--Last touch time
+local jump--Animation timer(10 to 0)
+local cv
+
 function scene.sceneInit()
-	sceneTemp={
-		last=0,--Last touch time
-		jump=0,--Animation timer(10 to 0)
-		cv=SETTING.cv,
-	}
+	last=0
+	jump=0
+	cv=SETTING.cv
 	BG.set("space")
 end
 function scene.sceneBack()
@@ -19,13 +21,12 @@ function scene.sceneBack()
 end
 
 function scene.mouseDown(x,y)
-	local S=sceneTemp
-	if x>780 and x<980 and y>470 and S.jump==0 then
-		S.jump=10
-		local t=Timer()-S.last
+	if x>780 and x<980 and y>470 and jump==0 then
+		jump=10
+		local t=Timer()-last
 		if t>1 then
 			VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
-			S.last=Timer()
+			last=Timer()
 		end
 	end
 end
@@ -34,16 +35,16 @@ function scene.touchDown(_,x,y)
 end
 
 function scene.update()
-	local t=sceneTemp.jump
+	local t=jump
 	if t>0 then
-		sceneTemp.jump=t-1
+		jump=t-1
 	end
 end
 
 function scene.draw()
 	gc.setColor(1,1,1)
 	local t=Timer()
-	local _=sceneTemp.jump
+	local _=jump
 	local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
 	gc.translate(x,y)
 	gc.draw(IMG.miyaCH,0,0)
@@ -67,8 +68,8 @@ scene.widgetList={
 	WIDGET.newSlider{name="bgm",	x=180,	y=400,w=400,		font=35,										disp=WIDGET.lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
 	WIDGET.newSlider{name="vib",	x=750,	y=200,w=400,unit=5,	font=25,change=function()VIB(2)end,				disp=WIDGET.lnk_SETval("vib"),code=WIDGET.lnk_SETsto("vib")},
 	WIDGET.newSlider{name="voc",	x=750,	y=300,w=400,		font=35,change=function()VOC.play("test")end,	disp=WIDGET.lnk_SETval("voc"),code=WIDGET.lnk_SETsto("voc")},
-	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={"miya","naki"},							disp=WIDGET.lnk_STPval("cv"),code=WIDGET.lnk_STPsto("cv")},
-	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=sceneTemp.cv VOC.loadAll()end,hide=function()return SETTING.cv==sceneTemp.cv end},
+	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={"miya","naki"},							disp=function()return cv end,code=function(i)cv=i end},
+	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=cv VOC.loadAll()end,hide=function()return SETTING.cv==cv end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=WIDGET.lnk_BACK},
 }
 

@@ -8,68 +8,69 @@ local sub=string.sub
 
 local scene={}
 
+local input--Input buffer
+local cur--Cursor position
+local sure
+
 function scene.sceneInit()
-	sceneTemp={
-		input="",
-		cur=#MISSION,
-		sure=0,
-	}
+	input=""
+	cur=#MISSION
+	sure=0
 end
 
 local missionEnum=missionEnum
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 function scene.keyDown(key)
-	local S=sceneTemp
 	local MISSION=MISSION
 	if key=="left"then
-		local p=S.cur
+		local p=cur
 		if p==0 then
-			S.cur=#MISSION
+			cur=#MISSION
 		else
 			repeat
 				p=p-1
-			until MISSION[p]~=MISSION[S.cur]
-			S.cur=p
+			until MISSION[p]~=MISSION[cur]
+			cur=p
 		end
 	elseif key=="right"then
-		local p=S.cur
+		local p=cur
 		if p==#MISSION then
-			S.cur=0
+			cur=0
 		else
 			repeat
 				p=p+1
-			until MISSION[p+1]~=MISSION[S.cur+1]
-			S.cur=p
+			until MISSION[p+1]~=MISSION[cur+1]
+			cur=p
 		end
 	elseif key=="ten"then
 		for _=1,10 do
-			local p=S.cur
+			local p=cur
 			if p==#MISSION then break end
 			repeat
 				p=p+1
-			until MISSION[p+1]~=MISSION[S.cur+1]
-			S.cur=p
+			until MISSION[p+1]~=MISSION[cur+1]
+			cur=p
 		end
 	elseif key=="backspace"then
-		if #S.input>0 then
-			S.input=""
-		elseif S.cur>0 then
-			rem(MISSION,S.cur)
-			S.cur=S.cur-1
-			if S.cur>0 and MISSION[S.cur]==MISSION[S.cur+1]then
+		if #input>0 then
+			input=""
+		elseif cur>0 then
+			rem(MISSION,cur)
+			cur=cur-1
+			if cur>0 and MISSION[cur]==MISSION[cur+1]then
 				scene.keyDown("right")
 			end
 		end
 	elseif key=="delete"then
-		if S.sure>20 then
+		if sure>20 then
 			for _=1,#MISSION do
 				rem(MISSION)
 			end
-			S.cur=0
-			S.sure=0
+			cur=0
+			sure=0
 			SFX.play("finesseError",.7)
 		else
-			S.sure=50
+			sure=50
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
@@ -82,16 +83,17 @@ function scene.keyDown(key)
 		if p then str=sub(str,p+1)end
 		if pasteMission(str)then
 			LOG.print(text.importSuccess,COLOR.green)
+			cur=#MISSION
 		else
 			LOG.print(text.dataCorrupted,COLOR.red)
 		end
 	elseif key=="escape"then
 		SCN.back()
 	elseif type(key)=="number"then
-		local p=S.cur+1
+		local p=cur+1
 		while MISSION[p]==key do p=p+1 end
 		ins(MISSION,p,key)
-		S.cur=p
+		cur=p
 	else
 		if key=="space"then
 			key="_"
@@ -99,27 +101,23 @@ function scene.keyDown(key)
 			key=string.upper(key)
 		end
 
-		local input=S.input
 		input=input..key
 		if missionEnum[input]then
-			S.cur=S.cur+1
-			ins(MISSION,S.cur,missionEnum[input])
+			cur=cur+1
+			ins(MISSION,cur,missionEnum[input])
 			SFX.play("lock")
 			input=""
 		elseif #input>1 or not legalInput[input]then
 			input=""
 		end
-		S.input=input
 	end
 end
 
 function scene.update()
-	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	if sure>0 then sure=sure-1 end
 end
 
 function scene.draw()
-	local S=sceneTemp
-
 	--Draw frame
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1)
@@ -128,7 +126,7 @@ function scene.draw()
 	--Draw inputing target
 	setFont(30)
 	gc.setColor(.9,.9,.9)
-	gc.print(S.input,1200,275)
+	gc.print(input,1200,275)
 
 	--Draw targets
 	local libColor=SKIN.libColor
@@ -149,7 +147,7 @@ function scene.draw()
 				gc.print(count,x+5,y-13)
 				x=x+(count<10 and 33 or 45)
 				count=1
-				if i==S.cur+1 then
+				if i==cur+1 then
 					cx,cy=x,y
 				end
 			end
@@ -170,7 +168,7 @@ function scene.draw()
 				x=x+56
 			end
 		end
-		if i==S.cur then
+		if i==cur then
 			cx,cy=x,y
 		end
 		i=i+1
@@ -181,8 +179,8 @@ function scene.draw()
 	gc.line(cx-5,cy-20,cx-5,cy+20)
 
 	--Confirm reset
-	if S.sure>0 then
-		gc.setColor(1,1,1,S.sure*.02)
+	if sure>0 then
+		gc.setColor(1,1,1,sure*.02)
 		gc.draw(drawableText.question,980,570)
 	end
 end

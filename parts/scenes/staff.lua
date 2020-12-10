@@ -3,19 +3,19 @@ local kb,tc=love.keyboard,love.touch
 
 local scene={}
 
+local time,v
+
 function scene.sceneInit()
-	sceneTemp={
-		time=0,
-		v=1,
-	}
+	time=0
+	v=1
 	BG.set("space")
 end
 
 function scene.mouseDown(x,y)
 	if x>230 and x<1050 then
-		if math.abs(y-800+sceneTemp.time*40)<70 then
+		if math.abs(y-800+time*40)<70 then
 			loadGame("sprintLock")
-		elseif math.abs(y-2160+sceneTemp.time*40)<70 then
+		elseif math.abs(y-2160+time*40)<70 then
 			loadGame("sprintFix")
 		end
 	end
@@ -38,28 +38,23 @@ function scene.keyDown(k)
 end
 
 function scene.update(dt)
-	local S=sceneTemp
-	if(kb.isDown("space","return")or tc.getTouches()[1])and S.v<6.26 then
-		S.v=S.v+.26
-	elseif S.v>1 then
-		S.v=S.v-.26
+	if(kb.isDown("space","return")or tc.getTouches()[1])and v<6.26 then
+		v=v+.26
+	elseif v>1 then
+		v=v-.26
 	end
-	S.time=S.time+S.v*dt
-	if S.time>45 then
-		S.time=45
-	end
+	time=math.min(time+v*dt,45)
 end
 
 function scene.draw()
 	local L=text.staff
-	local t=sceneTemp.time
 	setFont(40)
 	gc.setColor(1,1,1)
 	for i=1,#L do
-		mStr(L[i],640,800+70*i-t*40)
+		mStr(L[i],640,800+70*i-time*40)
 	end
-	mDraw(IMG.title_color,640,800-t*40,nil,2)
-	mDraw(IMG.title_color,640,2160-t*40,nil,2)
+	mDraw(IMG.title_color,640,800-time*40,nil,2)
+	mDraw(IMG.title_color,640,2160-time*40,nil,2)
 end
 
 scene.widgetList={

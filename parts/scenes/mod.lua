@@ -41,18 +41,18 @@ end
 
 local scene={}
 
+local selected--Mod selected
+
 function scene.sceneInit()
-	sceneTemp={
-		sel=nil,--selected mod name
-	}
+	selected=nil
 	BG.set("tunnel")
 end
 
 function scene.mouseMove(x,y)
-	sceneTemp.sel=nil
+	selected=nil
 	for N,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
-			sceneTemp.sel=N
+			selected=N
 			break
 		end
 	end
@@ -84,7 +84,7 @@ function scene.keyDown(key)
 		for N,M in next,MODOPT do
 			if key==M.key then
 				toggleMod(M,kb.isDown("lshift","rshift"))
-				sceneTemp.sel=N
+				selected=N
 				break
 			end
 		end
@@ -144,9 +144,9 @@ function scene.draw()
 	end
 
 	gc.setColor(1,1,1)
-	if sceneTemp.sel then
+	if selected then
 		setFont(30)
-		gc.printf(text.modInfo[sceneTemp.sel],70,540,950)
+		gc.printf(text.modInfo[selected],70,540,950)
 	else
 		setFont(25)
 		gc.printf(text.modInstruction,70,540,950)

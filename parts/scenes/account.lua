@@ -3,7 +3,7 @@
 local scene={}
 
 function scene.sceneInit()
-	sceneTemp={}
+
 end
 
 scene.widgetList={

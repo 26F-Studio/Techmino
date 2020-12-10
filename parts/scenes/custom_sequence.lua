@@ -8,8 +8,12 @@ local sub=string.sub
 
 local scene={}
 
+local cur--Cursor position
+local sure
+
 function scene.sceneInit()
-	sceneTemp={cur=#BAG,sure=0}
+	cur=#BAG
+	sure=0
 end
 
 local minoKey={
@@ -23,55 +27,53 @@ local minoKey2={
 	z=8,s=9,t=14,j=19,l=20,i=25
 }
 function scene.keyDown(key)
-	local S=sceneTemp
-	local BAG=BAG
 	if key=="left"then
-		local p=S.cur
+		local p=cur
 		if p==0 then
-			S.cur=#BAG
+			cur=#BAG
 		else
 			repeat
 				p=p-1
-			until BAG[p]~=BAG[S.cur]
-			S.cur=p
+			until BAG[p]~=BAG[cur]
+			cur=p
 		end
 	elseif key=="right"then
-		local p=S.cur
+		local p=cur
 		if p==#BAG then
-			S.cur=0
+			cur=0
 		else
 			repeat
 				p=p+1
-			until BAG[p+1]~=BAG[S.cur+1]
-			S.cur=p
+			until BAG[p+1]~=BAG[cur+1]
+			cur=p
 		end
 	elseif key=="ten"then
 		for _=1,10 do
-			local p=S.cur
+			local p=cur
 			if p==#BAG then break end
 			repeat
 				p=p+1
-			until BAG[p+1]~=BAG[S.cur+1]
-			S.cur=p
+			until BAG[p+1]~=BAG[cur+1]
+			cur=p
 		end
 	elseif key=="backspace"then
-		if S.cur>0 then
-			rem(BAG,S.cur)
-			S.cur=S.cur-1
-			if S.cur>0 and BAG[S.cur]==BAG[S.cur+1]then
+		if cur>0 then
+			rem(BAG,cur)
+			cur=cur-1
+			if cur>0 and BAG[cur]==BAG[cur+1]then
 				scene.keyDown("right")
 			end
 		end
 	elseif key=="delete"then
-		if S.sure>20 then
+		if sure>20 then
 			for _=1,#BAG do
 				rem(BAG)
 			end
-			S.cur=0
-			S.sure=0
+			cur=0
+			sure=0
 			SFX.play("finesseError",.7)
 		else
-			S.sure=50
+			sure=50
 		end
 	elseif key=="tab"then
 		local W=WIDGET.active.sequence
@@ -91,33 +93,32 @@ function scene.keyDown(key)
 		if p then str=sub(str,p+1)end
 		if pasteSequence(str)then
 			LOG.print(text.importSuccess,COLOR.green)
+			cur=#BAG
 		else
 			LOG.print(text.dataCorrupted,COLOR.red)
 		end
 	elseif key=="escape"then
 		SCN.back()
 	elseif type(key)=="number"then
-		S.cur=S.cur+1
-		ins(BAG,S.cur,key)
+		cur=cur+1
+		ins(BAG,cur,key)
 	elseif #key==1 then
 		key=(kb.isDown("lshift","lalt","rshift","ralt")and minoKey2 or minoKey)[key]
 		if key then
-			local p=S.cur+1
+			local p=cur+1
 			while BAG[p]==key do p=p+1 end
 			ins(BAG,p,key)
-			S.cur=p
+			cur=p
 			SFX.play("lock")
 		end
 	end
 end
 
 function scene.update()
-	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	if sure>0 then sure=sure-1 end
 end
 
 function scene.draw()
-	local S=sceneTemp
-
 	--Draw frame
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
@@ -143,7 +144,7 @@ function scene.draw()
 				gc.print(count,x+10,y-13)
 				x=x+(count<10 and 33 or 45)
 				count=1
-				if i==S.cur+1 then
+				if i==cur+1 then
 					cx,cy=x,y
 				end
 			end
@@ -158,7 +159,7 @@ function scene.draw()
 			end
 		end
 
-		if i==S.cur then
+		if i==cur then
 			cx,cy=x,y
 		end
 		i=i+1
@@ -174,8 +175,8 @@ function scene.draw()
 	gc.line(cx-5,cy-20,cx-5,cy+20)
 
 	--Confirm reset
-	if S.sure>0 then
-		gc.setColor(1,1,1,S.sure*.02)
+	if sure>0 then
+		gc.setColor(1,1,1,sure*.02)
 		gc.draw(drawableText.question,980,570)
 	end
 end

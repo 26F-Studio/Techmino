@@ -138,7 +138,6 @@ function pasteSequence(str)
 	end
 
 	BAG=bag
-	sceneTemp.cur=#bag
 	return true
 end
 
@@ -295,7 +294,6 @@ function pasteMission(str)
 	end
 
 	MISSION=mission
-	sceneTemp.cur=#mission
 	return true
 end
 

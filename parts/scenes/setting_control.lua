@@ -3,53 +3,50 @@ local int=math.floor
 
 local scene={}
 
+local das,arr
+local pos,dir,wait
+
 function scene.sceneInit()
-	sceneTemp={
-		das=SETTING.das,
-		arr=SETTING.arr,
-		pos=0,
-		dir=1,
-		wait=30,
-	}
+	das,arr=SETTING.das,SETTING.arr
+	pos,dir,wait=0,1,30
 	BG.set("bg1")
 end
 
 function scene.update()
-	local T=sceneTemp
-	if T.wait>0 then
-		T.wait=T.wait-1
-		if T.wait==0 then
-			T.pos=T.pos+T.dir
+	if wait>0 then
+		wait=wait-1
+		if wait==0 then
+			pos=pos+dir
 		else
 			return
 		end
 	end
-	if T.das>0 then
-		T.das=T.das-1
-		if T.das==0 then
-			if T.arr==0 then
-				T.pos=T.pos+7*T.dir
-				T.das=SETTING.das+1
-				T.arr=SETTING.arr
-				T.dir=-T.dir
-				T.wait=26
+	if das>0 then
+		das=das-1
+		if das==0 then
+			if arr==0 then
+				pos=pos+7*dir
+				das=SETTING.das+1
+				arr=SETTING.arr
+				dir=-dir
+				wait=26
 			else
-				T.pos=T.pos+T.dir
+				pos=pos+dir
 			end
 		end
 	else
-		T.arr=T.arr-1
-		if T.arr==0 then
-			T.pos=T.pos+T.dir
-			T.arr=SETTING.arr
-		elseif T.arr==-1 then
-			T.pos=T.dir>0 and 8 or 0
-			T.arr=SETTING.arr
+		arr=arr-1
+		if arr==0 then
+			pos=pos+dir
+			arr=SETTING.arr
+		elseif arr==-1 then
+			pos=dir>0 and 8 or 0
+			arr=SETTING.arr
 		end
-		if T.pos%8==0 then
-			T.dir=-T.dir
-			T.wait=26
-			T.das=SETTING.das
+		if pos%8==0 then
+			dir=-dir
+			wait=26
+			das=SETTING.das
 		end
 	end
 end
@@ -70,7 +67,7 @@ function scene.draw()
 
 	--O mino animation
 	local O=SKIN.curText[SETTING.skin[6]]
-	local x=550+40*sceneTemp.pos
+	local x=550+40*pos
 	gc.draw(O,x,540,nil,40/30)
 	gc.draw(O,x,580,nil,40/30)
 	gc.draw(O,x+40,540,nil,40/30)

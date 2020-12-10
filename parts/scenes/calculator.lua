@@ -5,80 +5,82 @@ local find,sub,byte=string.find,string.sub,string.byte
 
 local scene={}
 
+local reg--register
+local val--value
+local sym--symbol
+local pass--if password correct
+
 function scene.sceneInit()
 	BG.set("none")
-	sceneTemp={
-		reg=false,
-		val="0",
-		sym=false,
-		pass=false,
-	}
+	reg=false
+	val="0"
+	sym=false
+	pass=false
 end
 
 scene.mouseDown=NULL
 function scene.keyDown(k)
-	local S=sceneTemp
 	if byte(k)>=48 and byte(k)<=57 then
-		if S.sym=="="then
-			S.val=k
-			S.sym=false
-		elseif S.sym and not S.reg then
-			S.reg=S.val
-			S.val=k
+		if sym=="="then
+			val=k
+			sym=false
+		elseif sym and not reg then
+			reg=val
+			val=k
 		else
-			if #S.val<14 then
-				if S.val=="0"then S.val=""end
-				S.val=S.val..k
+			if #val<14 then
+				if val=="0"then val=""end
+				val=val..k
 			end
 		end
 	elseif k:sub(1,2)=="kp"then
 		scene.keyDown(k:sub(3))
 	elseif k=="."then
-		if not(find(S.val,".",nil,true)or find(S.val,"e"))then
-			if S.sym and not S.reg then
-				S.reg=S.val
-				S.val="0."
+		if not(find(val,".",nil,true)or find(val,"e"))then
+			if sym and not reg then
+				reg=val
+				val="0."
 			end
-			S.val=S.val.."."
+			val=val.."."
 		end
 	elseif k=="e"then
-		if not find(S.val,"e")then
-			S.val=S.val.."e"
+		if not find(val,"e")then
+			val=val.."e"
 		end
 	elseif k=="backspace"then
-		if S.sym=="="then
-			S.val=""
-		elseif S.sym then
-			S.sym=false
+		if sym=="="then
+			val=""
+		elseif sym then
+			sym=false
 		else
-			S.val=sub(S.val,1,-2)
+			val=sub(val,1,-2)
 		end
-		if S.val==""then S.val="0"end
-	elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then S.sym="+" S.reg=false
-	elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then S.sym="*" S.reg=false
-	elseif k=="-"then S.sym="-" S.reg=false
-	elseif k=="/"then S.sym="/" S.reg=false
+		if val==""then val="0"end
+	elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then sym="+" reg=false
+	elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then sym="*" reg=false
+	elseif k=="-"then sym="-" reg=false
+	elseif k=="/"then sym="/" reg=false
 	elseif k=="return"then
-		if byte(S.val,-1)==101 then S.val=sub(S.val,1,-2)end
-		if S.sym and S.reg then
-			if byte(S.reg,-1)==101 then S.reg=sub(S.reg,1,-2)end
-			S.val=
-				S.sym=="+"and (tonumber(S.reg)or 0)+tonumber(S.val)or
-				S.sym=="-"and (tonumber(S.reg)or 0)-tonumber(S.val)or
-				S.sym=="*"and (tonumber(S.reg)or 0)*tonumber(S.val)or
-				S.sym=="/"and (tonumber(S.reg)or 0)/tonumber(S.val)or
+		if byte(val,-1)==101 then val=sub(val,1,-2)end
+		if sym and reg then
+			if byte(reg,-1)==101 then reg=sub(reg,1,-2)end
+			val=
+				sym=="+"and (tonumber(reg)or 0)+tonumber(val)or
+				sym=="-"and (tonumber(reg)or 0)-tonumber(val)or
+				sym=="*"and (tonumber(reg)or 0)*tonumber(val)or
+				sym=="/"and (tonumber(reg)or 0)/tonumber(val)or
 				-1
 		end
-		S.sym="="
-		S.reg=false
-		local v=tonumber(S.val)
-		if v==600+26 then S.pass=true
+		sym="="
+		reg=false
+		local v=tonumber(val)
+		if v==600+26 then pass=true
 		elseif v==190000+6022 then
-			S.pass,MARKING=true
+			pass,MARKING=true
 			LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 			SFX.play("clear")
 		elseif v==72943816 then
-			S.pass=true
+			pass=true
 			for name,M in next,MODES do
 				if not RANKS[name]then
 					RANKS[name]=M.score and 0 or 6
@@ -107,10 +109,10 @@ function scene.keyDown(k)
 			LOG.print("dpi: "..SCR.dpi)
 		end
 	elseif k=="escape"then
-		S.val,S.reg,S.sym="0"
+		val,reg,sym="0"
 	elseif k=="delete"then
-		S.val="0"
-	elseif k=="space"and S.pass then
+		val="0"
+	elseif k=="space"and pass then
 		if LOADED then
 			SCN.back()
 		else
@@ -120,14 +122,13 @@ function scene.keyDown(k)
 end
 
 function scene.draw()
-	local S=sceneTemp
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
 	gc.rectangle("line",100,80,650,150)
 	setFont(45)
-	if S.reg then gc.printf(S.reg,0,100,720,"right")end
-	if S.val then gc.printf(S.val,0,150,720,"right")end
-	if S.sym then setFont(50)gc.print(S.sym,126,150)end
+	if reg then gc.printf(reg,0,100,720,"right")end
+	if val then gc.printf(val,0,150,720,"right")end
+	if sym then setFont(50)gc.print(sym,126,150)end
 end
 
 scene.widgetList={
@@ -149,7 +150,7 @@ scene.widgetList={
 	WIDGET.newKey{name="/",	x=450,y=600,w=90,color="lBlue",	font=50,code=WIDGET.lnk_pressKey("/")},
 	WIDGET.newKey{name="<",	x=550,y=300,w=90,color="lRed",	font=50,code=WIDGET.lnk_pressKey("backspace")},
 	WIDGET.newKey{name="=",	x=550,y=400,w=90,color="lYellow",font=50,code=WIDGET.lnk_pressKey("return")},
-	WIDGET.newButton{name="play",x=640,y=600,w=180,h=90,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return not sceneTemp.pass end},
+	WIDGET.newButton{name="play",x=640,y=600,w=180,h=90,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return not pass end},
 }
 
 return scene

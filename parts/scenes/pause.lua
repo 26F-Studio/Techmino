@@ -22,40 +22,42 @@ local fnsRankColor={
 
 local scene={}
 
+local timer--Animation timer
+local form--Form of clear & spins
+local radar--Radar chart
+local val={1/80,1/80,1/80,1/60,1/100,1/40}--Radar chart normalizer
+
 function scene.sceneInit(org)
 	if org:find("setting")then
 		TEXT.show(text.needRestart,640,440,50,"fly",.6)
 	end
 	local P=PLAYERS[1]
 	local S=P.stat
-	sceneTemp={
-		timer=org=="play"and 0 or 50,
-		list={
-			format("%s / %s",toTime(S.frame/60),toTime(S.time)),
-			format("%d/%d/%d",S.key,S.rotate,S.hold),
-			format("%d  %.2fPPS",S.piece,S.piece/S.time),
-			format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
-			format("%d(%d)  %.2fAPM",S.atk,S.digatk,S.atk/S.time*60),
-			format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
-			format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
-			format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
-			format("%d/%d ; %d/%d",S.b2b,S.b3b,S.pc,S.hpc),
-			format("%d/%dx/%.2f%%",S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
-		},
-		--From right-down, 60 degree each
-		radar={
-			(S.off+S.dig)/S.time*60,--DefPM
-			(S.atk+S.dig)/S.time*60,--ADPM
-			S.atk/S.time*60,		--AtkPM
-			S.send/S.time*60,		--SendPM
-			S.piece/S.time*24,		--LinePM
-			S.dig/S.time*60,		--DigPM
-		},
-		val={1/80,1/80,1/80,1/60,1/100,1/40},
-		timing=org=="play",
+
+	timer=org=="play"and 0 or 50
+
+	form={
+		format("%s / %s",toTime(S.frame/60),toTime(S.time)),
+		format("%d/%d/%d",S.key,S.rotate,S.hold),
+		format("%d  %.2fPPS",S.piece,S.piece/S.time),
+		format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
+		format("%d(%d)  %.2fAPM",S.atk,S.digatk,S.atk/S.time*60),
+		format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
+		format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
+		format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
+		format("%d/%d ; %d/%d",S.b2b,S.b3b,S.pc,S.hpc),
+		format("%d/%dx/%.2f%%",S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
 	}
-	S=sceneTemp
-	local A,B=S.radar,S.val
+	--From right-down, 60 degree each
+	radar={
+		(S.off+S.dig)/S.time*60,--DefPM
+		(S.atk+S.dig)/S.time*60,--ADPM
+		S.atk/S.time*60,		--AtkPM
+		S.send/S.time*60,		--SendPM
+		S.piece/S.time*24,		--LinePM
+		S.dig/S.time*60,		--DigPM
+	}
+	local A,B=radar,val
 
 	--Normalize Values
 	for i=1,6 do
@@ -70,9 +72,9 @@ function scene.sceneInit(org)
 		if B[i]>.5 then f=2 end
 		if B[i]>1 then f=3 break end
 	end
-	if f==1 then	 S.color,f={.4,.9,.5},1.25	--Vegetable
-	elseif f==2 then S.color,f={.4,.7,.9},1		--Normal
-	elseif f==3 then S.color,f={1,.3,.3},.626	--Diao
+	if f==1 then	 color,f={.4,.9,.5},1.25	--Vegetable
+	elseif f==2 then color,f={.4,.7,.9},1		--Normal
+	elseif f==3 then color,f={1,.3,.3},.626	--Diao
 	end
 	A={
 		120*.5*f,	120*3^.5*.5*f,
@@ -82,17 +84,17 @@ function scene.sceneInit(org)
 		120*.5*f,	120*-3^.5*.5*f,
 		120*1*f,	120*0*f,
 	}
-	S.scale=f
-	S.standard=A
+	scale=f
+	standard=A
 
 	for i=6,1,-1 do
 		B[2*i-1],B[2*i]=B[i]*A[2*i-1],B[i]*A[2*i]
 	end
-	S.val=B
+	val=B
 
 	if P.result=="WIN"and P.stat.piece>4 then
 		local acc=P.stat.finesseRate*.2/P.stat.piece
-		S.rank=
+		rank=
 			acc==1. and"Z"or
 			acc>.97 and"S"or
 			acc>.94 and"A"or
@@ -101,13 +103,12 @@ function scene.sceneInit(org)
 			acc>.50 and"D"or
 			acc>.30 and"E"or
 			"F"
-		S.fnsRankColor=fnsRankColor[S.rank]
 		if acc==1 then
-			S.trophy=text.finesse_ap
-			S.trophyColor=COLOR.yellow
+			trophy=text.finesse_ap
+			trophyColor=COLOR.yellow
 		elseif P.stat.maxFinesseCombo==P.stat.piece then
-			S.trophy=text.finesse_fc
-			S.trophyColor=COLOR.lCyan
+			trophy=text.finesse_fc
+			trophyColor=COLOR.lCyan
 		end
 	end
 	if not(GAME.result or GAME.replaying)then
@@ -149,8 +150,8 @@ function scene.update(dt)
 	if not(GAME.result or GAME.replaying)then
 		GAME.pauseTime=GAME.pauseTime+dt
 	end
-	if sceneTemp.timer<50 then
-		sceneTemp.timer=sceneTemp.timer+1
+	if timer<50 then
+		timer=timer+1
 	end
 end
 
@@ -159,8 +160,7 @@ for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
 function scene.draw()
-	local S=sceneTemp
-	local T=S.timer*.02
+	local T=timer*.02
 	if T<1 or GAME.result then SCN.scenes.play.draw()end
 
 	--Dark BG
@@ -183,7 +183,7 @@ function scene.draw()
 
 	--Result Text
 	setFont(35)
-	mText(GAME.result and drawableText[GAME.result]or drawableText.pause,640,50-10*(5-sceneTemp.timer*.1)^1.5)
+	mText(GAME.result and drawableText[GAME.result]or drawableText.pause,640,50-10*(5-timer*.1)^1.5)
 
 	--Mode Info
 	_=drawableText.modeName
@@ -192,7 +192,7 @@ function scene.draw()
 
 	--Infos
 	if GAME.frame>180 then
-		_=S.list
+		_=form
 		setFont(25)
 		for i=1,10 do
 			gc.print(text.pauseStat[i],40,270+35*i)
@@ -242,15 +242,15 @@ function scene.draw()
 	end
 
 	--Finesse rank & trophy
-	if S.rank then
+	if rank then
 		setFont(60)
-		local c=S.fnsRankColor
+		local c=fnsRankColor[rank]
 		gc.setColor(c[1],c[2],c[3],T)
-		gc.print(S.rank,420,635)
-		if S.trophy then
+		gc.print(rank,420,635)
+		if trophy then
 			setFont(40)
-			gc.setColor(S.trophyColor[1],S.trophyColor[2],S.trophyColor[3],T*2-1)
-			gc.printf(S.trophy,100-120*(1-T^.5),650,300,"right")
+			gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
+			gc.printf(trophy,100-120*(1-T^.5),650,300,"right")
 		end
 	end
 
@@ -264,15 +264,15 @@ function scene.draw()
 			--Polygon
 			gc.push("transform")
 				gc.scale((3-2*T)*T)
-				gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",S.standard)
-				_=S.color
+				gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",standard)
+				_=color
 				gc.setColor(_[1],_[2],_[3],T*.626)
-				_=S.val
+				_=val
 				for i=1,9,2 do
 					gc.polygon("fill",0,0,_[i],_[i+1],_[i+2],_[i+3])
 				end
 				gc.polygon("fill",0,0,_[11],_[12],_[1],_[2])
-				gc.setColor(1,1,1,T)gc.polygon("line",S.val)
+				gc.setColor(1,1,1,T)gc.polygon("line",val)
 			gc.pop()
 
 			--Axes
@@ -292,7 +292,7 @@ function scene.draw()
 			else
 				gc.setColor(1,1,1,T*sin(_))
 				setFont(20)
-				C,_=S.radar,dataPos
+				C,_=radar,dataPos
 			end
 			for i=1,6 do
 				mStr(C[i],_[2*i-1],_[2*i])

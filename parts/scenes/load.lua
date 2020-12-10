@@ -69,27 +69,32 @@ end
 
 local scene={}
 
-function scene.sceneInit()
-	sceneTemp={
-		time=0,--Animation timer
-		phase=0,--Loading stage
-		cur=0,--Loading timer
-		tar=0,--Current Loading bar length
-		list={
-			VOC.getCount(),
-			BGM.getCount(),
-			SFX.getCount(),
-			IMG.getCount(),
-			17,--Fontsize 20~100
-			SKIN.getCount(),
-			#MODES,
-			1,
-			1,
-		},
-		skip=false,--If skipped
+local time--Animation timer
+local phase--Loading stage
+local cur--Loading timer
+local tar--Current Loading bar length
+local stageLenth
+local text
+local skip
 
-		text=gc.newText(getFont(80),"26F Studio"),
+function scene.sceneInit()
+	time=0
+	phase=0
+	cur=0
+	tar=0
+	stageLenth={
+		VOC.getCount(),
+		BGM.getCount(),
+		SFX.getCount(),
+		IMG.getCount(),
+		17,--Fontsize 20~100
+		SKIN.getCount(),
+		#MODES,
+		1,
+		1,
 	}
+	text=gc.newText(getFont(80),"26F Studio")
+	skip=false--If skipped
 end
 function scene.sceneBack()
 	love.event.quit()
@@ -97,49 +102,48 @@ end
 
 function scene.keyDown(k)
 	if k=="a"then
-		sceneTemp.skip=true
+		skip=true
 	elseif k=="s"then
-		sceneTemp.skip,MARKING=true
+		skip,MARKING=true
 	elseif k=="space"then
-		sceneTemp.time=max(sceneTemp.time-5,0)
+		time=max(time-5,0)
 	elseif k=="escape"then
 		SCN.back()
 	end
 end
 function scene.touchDown()
 	if #tc.getTouches()==2 then
-		sceneTemp.skip=true
+		skip=true
 	end
 end
 
 function scene.update()
-	local S=sceneTemp
-	if S.time==400 then return end
+	if time==400 then return end
 	repeat
-		if S.phase==0 then
-		elseif S.phase==1 then
+		if phase==0 then
+		elseif phase==1 then
 			VOC.loadOne()
-		elseif S.phase==2 then
+		elseif phase==2 then
 			BGM.loadOne()
-		elseif S.phase==3 then
+		elseif phase==3 then
 			SFX.loadOne()
-		elseif S.phase==4 then
+		elseif phase==4 then
 			IMG.loadOne()
-		elseif S.phase==5 then
-			getFont(15+5*S.cur)
-		elseif S.phase==6 then
+		elseif phase==5 then
+			getFont(15+5*cur)
+		elseif phase==6 then
 			SKIN.loadOne()
-		elseif S.phase==7 then
-			local m=MODES[S.cur]--Mode template
+		elseif phase==7 then
+			local m=MODES[cur]--Mode template
 			local M=require("parts/modes/"..m.name)--Mode file
-			MODES[m.name],MODES[S.cur]=M
+			MODES[m.name],MODES[cur]=M
 			for k,v in next,m do
 				M[k]=v
 			end
 			M.records=FILE.load(m.name)or M.score and{}
 			-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
-		elseif S.phase==8 then
+		elseif phase==8 then
 			local function C(x,y)
 				local _=gc.newCanvas(x,y)
 				gc.setCanvas(_)
@@ -165,11 +169,11 @@ function scene.update()
 			gc.line(5,5,25,25)
 			gc.line(5,25,25,5)
 			puzzleMark[-1]=C(30,30)
-			gc.setColor(1,1,1,.9)
+			gc.setColor(1,1,1,.8)
 			gc.draw(_)
 			_:release()
 			gc.setCanvas()
-		elseif S.phase==9 then
+		elseif phase==9 then
 			SKIN.change(SETTING.skinSet)
 			STAT.run=STAT.run+1
 			LOADED=true
@@ -189,33 +193,31 @@ function scene.update()
 				)
 			end
 		end
-		if S.tar then
-			S.cur=S.cur+1
-			if S.cur>S.tar then
-				S.phase=S.phase+1
-				S.cur=1
-				S.tar=S.list[S.phase]
+		if tar then
+			cur=cur+1
+			if cur>tar then
+				phase=phase+1
+				cur=1
+				tar=stageLenth[phase]
 			end
 		end
-		S.time=S.time+1
-		if S.time==400 then
+		time=time+1
+		if time==400 then
 			SCN.swapTo("intro")
 			return
 		end
-	until not S.skip
+	until not skip
 end
 
 function scene.draw()
-	local S=sceneTemp
-
 	gc.push("transform")
 	gc.translate(640,360)
 	gc.scale(2)
 
-	local Y=3250*(sin(-1.5708+min(S.time,260)/260*3.1416)+1)+200
+	local Y=3250*(sin(-1.5708+min(time,260)/260*3.1416)+1)+200
 
 	--Draw 26F Studio logo
-	if S.time>200 then
+	if time>200 then
 		gc.push("transform")
 		gc.translate(-220,Y-6840)
 
@@ -224,21 +226,21 @@ function scene.draw()
 
 		local T=Timer()
 		gc.setColor(COLOR.dCyan)
-		mDraw(S.text,220,Y*.2-1204)
-		mDraw(S.text,220,-Y*.2+1476)
+		mDraw(text,220,Y*.2-1204)
+		mDraw(text,220,-Y*.2+1476)
 
 		gc.setColor(COLOR.cyan)
-		mDraw(S.text,220+4*sin(T*10),136+4*sin(T*6))
-		mDraw(S.text,220+4*sin(T*12),136+4*sin(T*8))
+		mDraw(text,220+4*sin(T*10),136+4*sin(T*6))
+		mDraw(text,220+4*sin(T*12),136+4*sin(T*8))
 
 		gc.setColor(COLOR.dCyan)
-		mDraw(S.text,219,137)
-		mDraw(S.text,219,135)
-		mDraw(S.text,221,137)
-		mDraw(S.text,221,135)
+		mDraw(text,219,137)
+		mDraw(text,219,135)
+		mDraw(text,221,137)
+		mDraw(text,221,135)
 
 		gc.setColor(.2,.2,.2)
-		mDraw(S.text,220,136)
+		mDraw(text,220,136)
 
 		gc.pop()
 	end

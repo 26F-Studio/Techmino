@@ -8,6 +8,9 @@ local mStr=mStr
 
 local scene={}
 
+local form--Form of clear & spins
+local item--Detail datas
+
 function scene.sceneInit()
 	local S=STAT
 	local X1,X2,Y1,Y2={0,0,0,0},{0,0,0,0},{},{}
@@ -20,36 +23,33 @@ function scene.sceneInit()
 			X2[j]=X2[j]+c[j]
 		end
 	end
-	sceneTemp={
-		chart={
-			A1=S.spin,A2=S.clear,
-			X1=X1,X2=X2,
-			Y1=Y1,Y2=Y2,
-		},
-		item={
-			S.run,
-			S.game,
-			toTime(S.time),
-			S.key.."  "..S.rotate.."  "..S.hold,
-			S.piece.."  "..S.row.."  "..int(S.atk),
-			S.recv.."  "..S.off.."  "..S.pend,
-			S.dig.."  "..int(S.digatk),
-			format("%.2f  %.2f",S.atk/S.row,S.digatk/S.dig),
-			S.b2b.."  "..S.b3b,
-			S.pc.."  "..S.hpc,
-			format("%d/%.2f%%",S.extraPiece,S.finesseRate*20/S.piece),
-		},
+	form={
+		A1=S.spin,A2=S.clear,
+		X1=X1,X2=X2,
+		Y1=Y1,Y2=Y2,
+	}
+	item={
+		S.run,
+		S.game,
+		toTime(S.time),
+		S.key.."  "..S.rotate.."  "..S.hold,
+		S.piece.."  "..S.row.."  "..int(S.atk),
+		S.recv.."  "..S.off.."  "..S.pend,
+		S.dig.."  "..int(S.digatk),
+		format("%.2f  %.2f",S.atk/S.row,S.digatk/S.dig),
+		S.b2b.."  "..S.b3b,
+		S.pc.."  "..S.hpc,
+		format("%d/%.2f%%",S.extraPiece,S.finesseRate*20/S.piece),
 	}
 	for i=1,11 do
-		sceneTemp.item[i]=text.stat[i].."\t"..sceneTemp.item[i]
+		item[i]=text.stat[i].."\t"..item[i]
 	end
 end
 
 function scene.draw()
-	local chart=sceneTemp.chart
 	setFont(25)
 	local _,__=SKIN.libColor,SETTING.skin
-	local A,B=chart.A1,chart.A2
+	local A,B=form.A1,form.A2
 	for x=1,7 do
 		gc.setColor(_[__[x]])
 		mStr(text.block[x],80*x,40)
@@ -58,11 +58,11 @@ function scene.draw()
 			mStr(A[x][y],80*x,40+40*y)
 			mStr(B[x][y],80*x,280+40*y)
 		end
-		mStr(chart.Y1[x],80*x,240)
-		mStr(chart.Y2[x],80*x,480)
+		mStr(form.Y1[x],80*x,240)
+		mStr(form.Y2[x],80*x,480)
 	end
 
-	A,B=chart.X1,chart.X2
+	A,B=form.X1,form.X2
 	for y=1,4 do
 		gc.setColor(.5,.5,.5)
 		gc.print(y-1,620,40+40*y)
@@ -74,7 +74,7 @@ function scene.draw()
 
 	setFont(20)
 	for i=1,11 do
-		gc.print(sceneTemp.item[i],740,40*i+10)
+		gc.print(item[i],740,40*i+10)
 	end
 
 	gc.setLineWidth(4)

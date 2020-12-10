@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneInit()
-	sceneTemp={reset=false}
+	sure=false
 end
 function scene.keyDown(key)
 	LOG.print("keyPress: ["..key.."]")
@@ -36,7 +36,7 @@ local function parseCB()
 	end
 end
 local function HIDE()
-	return not sceneTemp.reset
+	return not sure
 end
 scene.widgetList={
 	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(RANKS)end},
@@ -81,7 +81,7 @@ scene.widgetList={
 		end
 	end},
 
-	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,code=function()sceneTemp.reset=true end,hide=function()return sceneTemp.reset end},
+	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,code=function()sure=true end,hide=function()return sure end},
 	WIDGET.newButton{name="resetUnlock",	x=340,y=460,w=280,h=100,color="red",
 		code=function()
 			love.filesystem.remove("unlock.dat")

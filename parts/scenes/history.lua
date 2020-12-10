@@ -3,15 +3,16 @@ local max,min=math.max,math.min
 
 local scene={}
 
+local texts--Text list
+local scrollPos--Scroll down length
+
 function scene.sceneInit()
 	BG.set("rainbow")
-	sceneTemp={
-		text=require"parts/updateLog",--Text list
-		pos=1,--Scroll pos
-	}
+	texts=require"parts/updateLog"
+	scrollPos=1
 	if newVersionLaunch then
 		newVersionLaunch=nil
-		sceneTemp.pos=3
+		scrollPos=3
 	end
 end
 
@@ -20,9 +21,9 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(key)
 	if key=="up"then
-		sceneTemp.pos=max(sceneTemp.pos-1,1)
+		scrollPos=max(scrollPos-1,1)
 	elseif key=="down"then
-		sceneTemp.pos=min(sceneTemp.pos+1,#sceneTemp.text)
+		scrollPos=min(scrollPos+1,#texts)
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -35,13 +36,12 @@ function scene.draw()
 	gc.setLineWidth(4)
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
-	local S=sceneTemp
-	gc.print(S.text[S.pos],40,50)
+	gc.print(texts[scrollPos],40,50)
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=WIDGET.lnk_STPeq("pos",1)},
-	WIDGET.newKey{name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return sceneTemp.pos==#sceneTemp.text end},
+	WIDGET.newKey{name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=function()return scrollPos==1 end},
+	WIDGET.newKey{name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return scrollPos==#texts end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 }
 

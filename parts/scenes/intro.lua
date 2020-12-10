@@ -7,17 +7,14 @@ local rnd=math.random
 
 local scene={}
 
+local t1,t2,r
+
 function scene.sceneInit()
 	BG.set("space")
 	BGM.play("blank")
-	sceneTemp={
-		t1=0,--Timer 1
-		t2=0,--Timer 2
-		r={},--Random animation type
-	}
-	for i=1,8 do
-		sceneTemp.r[i]=rnd(5)
-	end
+	t1,t2=0,0--Timer
+	r={}--Random animation type
+	for i=1,8 do r[i]=rnd(5)end
 end
 
 function scene.mouseDown(_,_,k)
@@ -49,9 +46,8 @@ function scene.keyDown(key)
 end
 
 function scene.update()
-	local S=sceneTemp
-	S.t1=S.t1+1
-	S.t2=S.t2+1
+	t1=t1+1
+	t2=t2+1
 end
 
 local titleTransform={
@@ -74,8 +70,7 @@ local titleTransform={
 	end,
 }
 function scene.draw()
-	local S=sceneTemp
-	local T=(S.t1+110)%300
+	local T=(t1+110)%300
 	if T<30 then
 		gc.setLineWidth(4+(30-T)^1.626/62)
 	else
@@ -85,12 +80,12 @@ function scene.draw()
 	gc.push("transform")
 	gc.translate(126,226)
 	for i=1,8 do
-		local t=S.t1-i*15
+		local t=t1-i*15
 		if t>0 then
 			gc.push("transform")
 				gc.setColor(1,1,1,min(t*.025,1))
-				titleTransform[S.r[i]](t,i)
-				local dt=(S.t1+62-5*i)%300
+				titleTransform[r[i]](t,i)
+				local dt=(t1+62-5*i)%300
 				if dt<20 then
 					gc.translate(0,abs(10-dt)-10)
 				end
@@ -99,8 +94,8 @@ function scene.draw()
 		end
 	end
 	gc.pop()
-	if S.t2>=80 then
-		gc.setColor(1,1,1,.6+sin((S.t2-80)*.0626)*.3)
+	if t2>=80 then
+		gc.setColor(1,1,1,.6+sin((t2-80)*.0626)*.3)
 		mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
 	end
 end

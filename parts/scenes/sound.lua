@@ -2,40 +2,36 @@ local int=math.floor
 
 local scene={}
 
+local mini,b2b,b3b,pc
+
 function scene.sceneInit()
-	sceneTemp={
-		mini=false,
-		b2b=false,
-		b3b=false,
-		pc=false,
-	}
+	mini,b2b,b3b,pc=false,false,false,false
 end
 
 local blockName={"z","s","j","l","t","o","i"}
 local lineCount={"single","double","triple","techrash"}
 function scene.keyDown(key)
-	local S=sceneTemp
 	if key=="1"then
-		S.mini=not S.mini
+		mini=not mini
 	elseif key=="2"then
-		S.b2b=not S.b2b
-		if S.b2b then S.b3b=false end
+		b2b=not b2b
+		if b2b then b3b=false end
 	elseif key=="3"then
-		S.b3b=not S.b3b
-		if S.b3b then S.b2b=false end
+		b3b=not b3b
+		if b3b then b2b=false end
 	elseif key=="4"then
-		S.pc=not S.pc
+		pc=not pc
 	elseif type(key)=="number"then
 		local CHN=VOC.getFreeChannel()
-		if S.mini then VOC.play("mini",CHN)end
-		if S.b2b then VOC.play("b2b",CHN)
-		elseif S.b3b then VOC.play("b3b",CHN)
+		if mini then VOC.play("mini",CHN)end
+		if b2b then VOC.play("b2b",CHN)
+		elseif b3b then VOC.play("b3b",CHN)
 		end
 		if key>=10 then
 			VOC.play(blockName[int(key/10)].."spin",CHN)
 		end
 		if lineCount[key%10]then VOC.play(lineCount[key%10],CHN)end
-		if S.pc then VOC.play("perfect_clear",CHN)end
+		if pc then VOC.play("perfect_clear",CHN)end
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -103,10 +99,10 @@ scene.widgetList={
 	WIDGET.newKey{name="l2",		x=1130,	y=335,w=140,h=50,font=20,code=WIDGET.lnk_pressKey(42)},
 	WIDGET.newKey{name="l3",		x=1130,	y=400,w=140,h=50,font=20,code=WIDGET.lnk_pressKey(43)},
 
-	WIDGET.newSwitch{name="mini",	x=515,	y=465,font=25,disp=WIDGET.lnk_STPval("mini"),code=WIDGET.lnk_pressKey("1")},
-	WIDGET.newSwitch{name="b2b",	x=515,	y=530,font=25,disp=WIDGET.lnk_STPval("b2b"),code=WIDGET.lnk_pressKey("2")},
-	WIDGET.newSwitch{name="b3b",	x=515,	y=595,font=25,disp=WIDGET.lnk_STPval("b3b"),code=WIDGET.lnk_pressKey("3")},
-	WIDGET.newSwitch{name="pc",		x=515,	y=660,font=25,disp=WIDGET.lnk_STPval("pc"),code=WIDGET.lnk_pressKey("4")},
+	WIDGET.newSwitch{name="mini",	x=515,	y=465,font=25,disp=function()return mini end,code=WIDGET.lnk_pressKey("1")},
+	WIDGET.newSwitch{name="b2b",	x=515,	y=530,font=25,disp=function()return b2b end,code=WIDGET.lnk_pressKey("2")},
+	WIDGET.newSwitch{name="b3b",	x=515,	y=595,font=25,disp=function()return b3b end,code=WIDGET.lnk_pressKey("3")},
+	WIDGET.newSwitch{name="pc",		x=515,	y=660,font=25,disp=function()return pc end,code=WIDGET.lnk_pressKey("4")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 }

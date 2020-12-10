@@ -8,40 +8,42 @@ local find,sub=string.find,string.sub
 
 local scene={}
 
+local dict--Dict list
+local input--Input string
+local result--Result Lable
+local url
+
+local waiting--Searching animation timer
+local selected--Selected option
+local scrollPos--Scroll down length
+
+local lastSearch--Last searched string
+
 function scene.sceneInit()
-	local location=({"zh","zh","en","en","en","en","zh"})[SETTING.lang]
-	sceneTemp={
-		dict=require("parts/language/dict_"..location),
-
-		input="",
-		result={},
-		url=nil,
-
-		waiting=0,
-		select=1,
-		scroll=0,
-
-		lastSearch=false,
-	}
-	local S=sceneTemp
-	S.url=(S.result[1]and S.result or S.dict)[S.select][5]
 	BG.set("rainbow")
+	local location=({"zh","zh","en","en","en","en","zh"})[SETTING.lang]
+	dict=require("parts/language/dict_"..location)
+
+	input=""
+	result={}
+	url=dict[1][5]
+
+	waiting=0
+	selected=1
+	scrollPos=0
+
+	lastSearch=false
 end
 
 local function clearResult()
-	local S=sceneTemp
-	local result=S.result
 	for _=1,#result do rem(result)end
-	S.select,S.scroll,S.waiting,S.lastSearch=1,0,0,false
+	selected,scrollPos,waiting,lastSearch=1,0,0,false
 end
 local function search()
 	clearResult()
-	local S=sceneTemp
-	local dict=S.dict
-	local result=S.result
 	local first
 	for i=1,#dict do
-		local pos=find(dict[i][2],S.input,nil,true)
+		local pos=find(dict[i][2],input,nil,true)
 		if pos==1 and not first then
 			ins(result,1,dict[i])
 			first=true
@@ -52,63 +54,61 @@ local function search()
 	if result[1]then
 		SFX.play("reach")
 	end
-	S.url=(S.result[1]and S.result or S.dict)[S.select][5]
-	S.lastSearch=S.input
+	url=(result[1]and result or dict)[selected][5]
+	lastSearch=input
 end
 
 function scene.keyDown(key)
-	local S=sceneTemp
 	if #key==1 then
-		if #S.input<15 then
-			S.input=S.input..key
-			S.waiting=.8
+		if #input<15 then
+			input=input..key
+			waiting=.8
 		end
 	elseif key=="up"then
-		if S.select and S.select>1 then
-			S.select=S.select-1
-			if S.select<S.scroll+1 then
-				S.scroll=S.scroll-1
+		if selected and selected>1 then
+			selected=selected-1
+			if selected<scrollPos+1 then
+				scrollPos=scrollPos-1
 			end
 		end
 	elseif key=="down"then
-		if S.select and S.select<#(S.result[1]and S.result or S.dict)then
-			S.select=S.select+1
-			if S.select>S.scroll+15 then
-				S.scroll=S.select-15
+		if selected and selected<#(result[1]and result or dict)then
+			selected=selected+1
+			if selected>scrollPos+15 then
+				scrollPos=selected-15
 			end
 		end
 	elseif key=="link"then
-		love.system.openURL(S.url)
+		love.system.openURL(url)
 	elseif key=="delete"then
-		if #S.input>0 then
+		if #input>0 then
 			clearResult()
-			S.input=""
+			input=""
 			SFX.play("hold")
 		end
 	elseif key=="backspace"then
-		S.input=sub(S.input,1,-2)
-		if #S.input==0 then
+		input=sub(input,1,-2)
+		if #input==0 then
 			clearResult()
 		else
-			S.waiting=.8
+			waiting=.8
 		end
 	elseif key=="escape"then
-		if #S.input>0 then
+		if #input>0 then
 			clearResult()
-			S.input=""
+			input=""
 		else
 			SCN.back()
 		end
 	end
-	S.url=(S.result[1]and S.result or S.dict)[S.select][5]
+	url=(result[1]and result or dict)[selected][5]
 end
 
 function scene.update(dt)
-	local S=sceneTemp
-	if S.waiting>0 then
-		S.waiting=S.waiting-dt
-		if S.waiting<=0 then
-			if #S.input>0 and S.input~=S.lastSearch then
+	if waiting>0 then
+		waiting=waiting-dt
+		if waiting<=0 then
+			if #input>0 and input~=lastSearch then
 				search()
 			end
 		end
@@ -124,17 +124,16 @@ local typeColor={
 	name=COLOR.lPurple,
 }
 function scene.draw()
-	local S=sceneTemp
 
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1)
 	gc.rectangle("line",20,110,726,60)
 	setFont(40)
-	gc.print(S.input,35,110)
+	gc.print(input,35,110)
 
-	local list=S.result[1]and S.result or S.dict
+	local list=result[1]and result or dict
 	gc.setColor(1,1,1)
-	local text=list[S.select][4]
+	local text=list[selected][4]
 	if #text>900 then
 		setFont(15)
 	elseif #text>600 then
@@ -148,12 +147,12 @@ function scene.draw()
 
 	setFont(30)
 	gc.setColor(1,1,1,.4+.2*sin(Timer()*4))
-	gc.rectangle("fill",20,143+35*(S.select-S.scroll),280,35)
+	gc.rectangle("fill",20,143+35*(selected-scrollPos),280,35)
 
 	setFont(30)
 	for i=1,min(#list,15)do
 		local y=142+35*i
-		i=i+S.scroll
+		i=i+scrollPos
 		local item=list[i]
 		gc.setColor(0,0,0)
 		gc.print(item[1],29,y-1)
@@ -168,7 +167,7 @@ function scene.draw()
 	gc.rectangle("line",300,180,958,526)
 	gc.rectangle("line",20,180,280,526)
 
-	if S.waiting>0 then
+	if waiting>0 then
 		local r=Timer()*2
 		local R=int(r)%7+1
 		gc.setColor(1,1,1,1-abs(r%1*2-1))
@@ -179,7 +178,7 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align="L"},
 	WIDGET.newKey{name="keyboard",	x=960,	y=60,w=200,h=80,font=35,code=function()love.keyboard.setTextInput(true,0,0,1,1)end,hide=not MOBILE},
-	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=WIDGET.lnk_pressKey("link"),hide=function()return not sceneTemp.url end},
+	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=WIDGET.lnk_pressKey("link"),hide=function()return not url end},
 	WIDGET.newKey{name="up",		x=1190,	y=440,w=100,h=100,font=35,code=WIDGET.lnk_pressKey("up"),hide=not MOBILE},
 	WIDGET.newKey{name="down",		x=1190,	y=550,w=100,h=100,font=35,code=WIDGET.lnk_pressKey("down"),hide=not MOBILE},
 	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,font=40,code=WIDGET.lnk_BACK},

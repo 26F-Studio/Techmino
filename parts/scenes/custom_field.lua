@@ -8,14 +8,18 @@ local sub=string.sub
 local FIELD=FIELD
 local scene={}
 
+local sure
+local pen--Pen type
+local px,py--Pen position
+local demo--If show x
+local page
+
 function scene.sceneInit()
-	sceneTemp={
-		sure=0,
-		pen=1,
-		x=1,y=1,
-		demo=false,
-		page=1,
-	}
+	sure=0
+	pen=1
+	px,py=1,1
+	demo=false
+	page=1
 end
 
 local penKey={
@@ -29,17 +33,15 @@ function scene.mouseDown(x,y)
 	scene.mouseMove(x,y)
 end
 function scene.mouseMove(x,y)
-	local S=sceneTemp
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
-	S.x,S.y=sx,sy
+	px,py=sx,sy
 	if sx and sy and ms.isDown(1,2,3)then
-		FIELD[S.page][sy][sx]=ms.isDown(1)and S.pen or ms.isDown(2)and -1 or 0
+		FIELD[page][sy][sx]=ms.isDown(1)and pen or ms.isDown(2)and -1 or 0
 	end
 end
 function scene.wheelMoved(_,y)
-	local pen=sceneTemp.pen
 	if y<0 then
 		pen=pen+1
 		if pen==25 then pen=1 end
@@ -47,24 +49,21 @@ function scene.wheelMoved(_,y)
 		pen=pen-1
 		if pen==0 then pen=24 end
 	end
-	sceneTemp.pen=pen
 end
 function scene.touchDown(_,x,y)
 	scene.mouseMove(x,y)
 end
 function scene.touchMove(_,x,y)
-	local S=sceneTemp
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
-	S.x,S.y=sx,sy
+	px,py=sx,sy
 	if sx and sy then
-		FIELD[S.page][sy][sx]=S.pen
+		FIELD[page][sy][sx]=pen
 	end
 end
 function scene.keyDown(key)
-	local S=sceneTemp
-	local sx,sy,pen=S.x,S.y,S.pen
+	local sx,sy=px,py
 	if key=="up"or key=="down"or key=="left"or key=="right"then
 		if not sx then sx=1 end
 		if not sy then sy=1 end
@@ -74,30 +73,30 @@ function scene.keyDown(key)
 		elseif key=="right"and sx<10 then sx=sx+1
 		end
 		if kb.isDown("space")then
-			FIELD[S.page][sy][sx]=pen
+			FIELD[page][sy][sx]=pen
 		end
 	elseif key=="delete"then
-		if S.sure>20 then
-			for y=1,20 do for x=1,10 do FIELD[S.page][y][x]=0 end end
-			S.sure=0
+		if sure>20 then
+			for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
+			sure=0
 			SFX.play("finesseError",.7)
 		else
-			S.sure=50
+			sure=50
 		end
 	elseif key=="space"then
 		if sx and sy then
-			FIELD[S.page][sy][sx]=pen
+			FIELD[page][sy][sx]=pen
 		end
 	elseif key=="escape"then
 		SCN.back()
 	elseif key=="j"then
-		S.demo=not S.demo
+		demo=not demo
 	elseif key=="k"then
-		ins(FIELD[S.page],1,{21,21,21,21,21,21,21,21,21,21})
-		FIELD[S.page][21]=nil
+		ins(FIELD[page],1,{21,21,21,21,21,21,21,21,21,21})
+		FIELD[page][21]=nil
 		SFX.play("blip")
 	elseif key=="l"then
-		local F=FIELD[S.page]
+		local F=FIELD[page]
 		for i=20,1,-1 do
 			for j=1,10 do
 				if F[i][j]<=0 then goto L end
@@ -115,31 +114,31 @@ function scene.keyDown(key)
 			SFX.play("fall",.8)
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-		sys.setClipboardText("Techmino Field:"..copyBoard(S.page))
+		sys.setClipboardText("Techmino Field:"..copyBoard(page))
 		LOG.print(text.exportSuccess,COLOR.green)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
-		if pasteBoard(str,S.page)then
+		if pasteBoard(str,page)then
 			LOG.print(text.importSuccess,COLOR.green)
 		else
 			LOG.print(text.dataCorrupted,COLOR.red)
 		end
 	elseif key=="tab"or key=="sTab"then
 		if key=="sTab"or kb.isDown("lshift","rshift")then
-			S.page=max(S.page-1,1)
+			page=max(page-1,1)
 		else
-			S.page=min(S.page+1,#FIELD)
+			page=min(page+1,#FIELD)
 		end
 	elseif key=="n"then
-		ins(FIELD,S.page+1,newBoard(FIELD[S.page]))
-		S.page=S.page+1
+		ins(FIELD,page+1,newBoard(FIELD[page]))
+		page=page+1
 		SFX.play("blip_1",.8)
 		SYSFX.newShade(3,200,60,300,600,.5,1,.5)
 	elseif key=="m"then
-		rem(FIELD,S.page)
-		S.page=max(S.page-1,1)
+		rem(FIELD,page)
+		page=max(page-1,1)
 		if not FIELD[1]then
 			ins(FIELD,newBoard())
 		end
@@ -149,16 +148,15 @@ function scene.keyDown(key)
 	else
 		pen=penKey[key]or pen
 	end
-	S.x,S.y,S.pen=sx,sy,pen
+	px,py,pen=sx,sy,pen
 end
 
 function scene.update()
-	if sceneTemp.sure>0 then sceneTemp.sure=sceneTemp.sure-1 end
+	if sure>0 then sure=sure-1 end
 end
 
 function scene.draw()
-	local S=sceneTemp
-	local sx,sy=S.x,S.y
+	local sx,sy=px,py
 
 	gc.translate(200,60)
 
@@ -174,32 +172,45 @@ function scene.draw()
 	gc.rectangle("line",-2,-2,304,604)
 	gc.setLineWidth(2)
 	local cross=puzzleMark[-1]
-	local F=FIELD[S.page]
+	local F=FIELD[page]
 	local texture=SKIN.curText
 	for y=1,20 do for x=1,10 do
 		local B=F[y][x]
 		if B>0 then
 			gc.draw(texture[B],30*x-30,600-30*y)
-		elseif B==-1 and not S.demo then
+		elseif B==-1 and not demo then
 			gc.draw(cross,30*x-30,600-30*y)
 		end
 	end end
 
 	--Draw pen
 	if sx and sy then
-		gc.setLineWidth(2)
-		gc.rectangle("line",30*sx-30,600-30*sy,30,30)
+		local x,y=30*sx,600-30*sy
+		if kb.isDown("space")or ms.isDown(1)then
+			gc.setLineWidth(5)
+			gc.rectangle("line",x-30,y,30,30,4)
+		elseif ms.isDown(3)then
+			gc.setLineWidth(3)
+			gc.line(x-15,y,x-30,y+15)
+			gc.line(x,y,x-30,y+30)
+			gc.line(x,y+15,x-15,y+30)
+		else
+			gc.setLineWidth(2)
+			gc.rectangle("line",x-30,y,30,30,3)
+			gc.setColor(1,1,1,.2)
+			gc.rectangle("fill",x-30,y,30,30,3)
+			gc.setColor(1,1,1)
+		end
 	end
 	gc.translate(-200,-60)
 
 	--Draw page
 	setFont(55)
-	mStr(S.page,100,530)
+	mStr(page,100,530)
 	mStr(#FIELD,100,600)
 	gc.rectangle("fill",50,600,100,6)
 
 	--Draw pen color
-	local pen=S.pen
 	if pen>0 then
 		gc.setLineWidth(13)
 		gc.setColor(SKIN.libColor[pen])
@@ -212,8 +223,8 @@ function scene.draw()
 	end
 
 	--Confirm reset
-	if S.sure>0 then
-		gc.setColor(1,1,1,S.sure*.02)
+	if sure>0 then
+		gc.setColor(1,1,1,sure*.02)
 		gc.draw(drawableText.question,1145,330)
 	end
 
@@ -231,7 +242,7 @@ function scene.draw()
 	end
 end
 
-local function setPen(i)return function()sceneTemp.pen=i end end
+local function setPen(i)return function()pen=i end end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=1020,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"},
@@ -271,12 +282,12 @@ scene.widgetList={
 	WIDGET.newButton{name="copy",		x=730,	y=530,w=120,color="lRed",	font=35,code=WIDGET.lnk_pressKey("cC")},
 	WIDGET.newButton{name="paste",		x=860,	y=530,w=120,color="lBlue",	font=35,code=WIDGET.lnk_pressKey("cV")},
 	WIDGET.newButton{name="clear",		x=990,	y=530,w=120,color="white",	font=40,code=WIDGET.lnk_pressKey("delete")},
-	WIDGET.newSwitch{name="demo",		x=755,	y=640,disp=WIDGET.lnk_STPval("demo"),code=WIDGET.lnk_STPrev("demo")},
+	WIDGET.newSwitch{name="demo",		x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
 
 	WIDGET.newButton{name="newPage",	x=100,	y=110,w=160,h=110,color="sky",font=20,code=WIDGET.lnk_pressKey("n")},
 	WIDGET.newButton{name="delPage",	x=100,	y=230,w=160,h=110,color="lRed",font=20,code=WIDGET.lnk_pressKey("m")},
-	WIDGET.newButton{name="prevPage",	x=100,	y=350,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("sTab"),hide=WIDGET.lnk_STPeq("page",1)},
-	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("tab"),hide=function()return sceneTemp.page==#FIELD end},
+	WIDGET.newButton{name="prevPage",	x=100,	y=350,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("sTab"),hide=function()return page==1 end},
+	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("tab"),hide=function()return page==#FIELD end},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk_BACK},
 }

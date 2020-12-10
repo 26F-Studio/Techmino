@@ -41,10 +41,10 @@ end
 
 local scene={}
 
+local tip
+
 function scene.sceneInit()
-	sceneTemp={
-		tip=text.getTip(),
-	}
+	tip=text.getTip()
 	BG.set("space")
 
 	GAME.modeEnv=NONE
@@ -70,7 +70,7 @@ function scene.draw()
 	setFont(30)
 	gc.print(SYSTEM,610,50)
 	gc.print(VERSION_NAME,610,90)
-	gc.print(sceneTemp.tip,50,660)
+	gc.print(tip,50,660)
 	local L=text.modes[STAT.lastPlay]
 	setFont(25)
 	gc.print(L[1],700,390)

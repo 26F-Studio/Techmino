@@ -7,110 +7,109 @@ local int,sin=math.floor,math.sin
 
 local scene={}
 
+local page
+local kb,js--Selected
+local kS,jS--If setting
+
 function scene.sceneInit()
-	sceneTemp={
-		board=1,
-		kb=1,js=1,
-		kS=false,jS=false,
-	}
+	page=1
+	kb,js=1,1
+	kS,jS=false,false
 end
 function scene.sceneBack()
 	FILE.save(keyMap,"key")
 end
 
 function scene.keyDown(key)
-	local S=sceneTemp
 	if key=="escape"then
-		if S.kS then
-			S.kS=false
+		if kS then
+			kS=false
 			SFX.play("finesseError",.5)
 		else
 			SCN.back()
 		end
-	elseif S.kS then
+	elseif kS then
 		if key~="\\"then
 			for y=1,20 do
 				if keyMap[1][y]==key then keyMap[1][y]=""break end
 				if keyMap[2][y]==key then keyMap[2][y]=""break end
 			end
-			keyMap[S.board][S.kb]=key
-			S.kS=false
+			keyMap[page][kb]=key
+			kS=false
 			SFX.play("reach",.5)
 		end
 	elseif key=="return"or key=="space"then
-		S.kS=true
+		kS=true
 		SFX.play("lock",.5)
 	elseif key=="up"or key=="w"then
-		if S.kb>1 then
-			S.kb=S.kb-1
+		if kb>1 then
+			kb=kb-1
 			SFX.play("move",.5)
 		end
 	elseif key=="down"or key=="s"then
-		if S.kb<20 then
-			S.kb=S.kb+1
+		if kb<20 then
+			kb=kb+1
 			SFX.play("move",.5)
 		end
 	elseif key=="left"or key=="a"or key=="right"or key=="d"then
-		S.board=3-S.board
+		page=3-page
 		SFX.play("rotate",.5)
 	end
 end
 function scene.gamepadDown(key)
-	local S=sceneTemp
 	if key=="back"then
-		if S.jS then
-			S.jS=false
+		if jS then
+			jS=false
 			SFX.play("finesseError",.5)
 		else
 			SCN.back()
 		end
-	elseif S.jS then
+	elseif jS then
 		for y=1,20 do
 			if keyMap[3][y]==key then keyMap[3][y]=""break end
 			if keyMap[4][y]==key then keyMap[4][y]=""break end
 		end
-		keyMap[2+S.board][S.js]=key
+		keyMap[2+page][js]=key
 		SFX.play("reach",.5)
-		S.jS=false
+		jS=false
 	elseif key=="start"then
-		S.jS=true
+		jS=true
 		SFX.play("lock",.5)
 	elseif key=="dpup"then
-		if S.js>1 then
-			S.js=S.js-1
+		if js>1 then
+			js=js-1
 			SFX.play("move",.5)
 		end
 	elseif key=="dpdown"then
-		if S.js<20 then
-			S.js=S.js+1
+		if js<20 then
+			js=js+1
 			SFX.play("move",.5)
 		end
 	elseif key=="dpleft"or key=="dpright"then
-		S.board=3-S.board
+		page=3-page
 		SFX.play("rotate",.5)
 	end
 end
 
 function scene.draw()
-	local S=sceneTemp
 	local a=.3+sin(Timer()*15)*.1
-	if S.kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
+	if kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
 	gc.rectangle("fill",
-		S.kb<11 and 240 or 840,
-		45*S.kb+20-450*int(S.kb/11),
+		kb<11 and 240 or 840,
+		45*kb+20-450*int(kb/11),
 		200,45
 	)
-	if S.jS then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
+	if jS then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
 	gc.rectangle("fill",
-		S.js<11 and 440 or 1040,
-		45*S.js+20-450*int(S.js/11),
+		js<11 and 440 or 1040,
+		45*js+20-450*int(js/11),
 		200,45
 	)
 	--Selection rect
 
 	gc.setColor(1,1,1)
 	setFont(25)
-	local b1,b2=keyMap[S.board],keyMap[S.board+2]
+	local b1,b2=keyMap[page],keyMap[page+2]
 	for N=1,20 do
 		if N<11 then
 			gc.printf(text.acts[N],47,45*N+22,180,"right")
@@ -130,7 +129,7 @@ function scene.draw()
 		gc.line(40,y,1240,y)
 	end
 	setFont(35)
-	gc.print(text.page..S.board,280,570)
+	gc.print(text.page..page,280,570)
 end
 
 scene.widgetList={
