@@ -21,8 +21,8 @@ return{
 						P.atkBuffer.sum=P.atkBuffer.sum+3
 						P.stat.recv=P.stat.recv+3
 						local D=P.modeData
-						if D.event<90 then
-							D.event=D.event+1
+						D.event=D.event+1
+						if D.event<=90 then
 							D.point=int(108e3/(360-D.event*2))*.1
 							if D.event==25 then
 								P:showTextF(text.great,0,-140,100,"appear",.6)
