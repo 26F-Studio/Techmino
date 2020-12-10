@@ -309,15 +309,7 @@ return{
 		},
 		setting_skin={
 			title="Layout Settings",
-
-			prev="←",next="→",
-			prev1="↑",next1="↓",spin1="R",
-			prev2="↑",next2="↓",spin2="R",
-			prev3="↑",next3="↓",spin3="R",
-			prev4="↑",next4="↓",spin4="R",
-			prev5="↑",next5="↓",spin5="R",
-			prev6="↑",next6="↓",spin6="R",
-			prev7="↑",next7="↓",spin7="R",
+			spin1="R",spin2="R",spin3="R",spin4="R",spin5="R",spin6="R",spin7="R",
 			skinR="Reset Color",
 			faceR="Reset Dir.",
 		},

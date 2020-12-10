@@ -186,6 +186,16 @@ LANG.setPublicWidgetText{
 		["<"]="<",["="]="=",
 		play="-->",
 	},
+	setting_skin={
+		prev="←",next="→",
+		prev1="↑",next1="↓",
+		prev2="↑",next2="↓",
+		prev3="↑",next3="↓",
+		prev4="↑",next4="↓",
+		prev5="↑",next5="↓",
+		prev6="↑",next6="↓",
+		prev7="↑",next7="↓",
+	},
 	custom_field={
 		b0="",b1="",b2="",b3="",b4="",b5="",b6="",b7="",
 		b8="",b9="",b10="",b11="",b12="",b13="",b14="",b15="",b16="",

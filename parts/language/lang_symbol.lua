@@ -4,7 +4,6 @@ return{
 	anykey="↓□↓",
 	newVersion="&!!!???↓↓",
 	httpTimeout="e??????x",
-	marking="Game Author:MrZ_26\nIllegal recording if see this\nAny explanation invalid",
 	holdR="→→→→R",
 
 	atkModeName={"?","(  )","!","←→"},
@@ -53,10 +52,6 @@ return{
 	highScore="__&:",
 	newRecord="^!!!^",
 
-	noUsername="Input username",
-	wrongEmail="Wrong email address",
-	noPassword="Input password",
-	diffPassword="Password don't match",
 	errorMsg="An e??o? h@s occ^__ed @nd Techmino n__ds to r_st@rt.\n&**o* in#o h@$ b==n cre@ted, @nd y0u c@n $&nd it to the @uth0r.",
 
 	acts={
@@ -217,15 +212,6 @@ return{
 		},
 		setting_skin={
 			title="%{~~}",
-
-			prev="←",next="→",
-			prev1="↑",next1="↓",spin1="R",
-			prev2="↑",next2="↓",spin2="R",
-			prev3="↑",next3="↓",spin3="R",
-			prev4="↑",next4="↓",spin4="R",
-			prev5="↑",next5="↓",spin5="R",
-			prev6="↑",next6="↓",spin6="R",
-			prev7="↑",next7="↓",spin7="R",
 			skinR="R @%&",
 			faceR="R ↑↓←→.",
 		},
@@ -268,8 +254,8 @@ return{
 			bg="{~}",
 			bgm="(~)",
 
-			copy="Copy Field+Seq+Misn",
-			paste="Paste Field+Seq+Misn",
+			copy="Field+Seq+Misn→__",
+			paste="__→Field+Seq+Misn",
 			clear="Start-Clear",
 			puzzle="Start-Puzzle",
 
@@ -361,8 +347,8 @@ return{
 			ten="→→",
 			backsp="<X",
 			reset="R",
-			copy="Copy",
-			paste="Paste",
+			copy="→__",
+			paste="__→",
 			mission="Force mission",
 		},
 		help={
@@ -406,10 +392,6 @@ return{
 			email="@",
 			password="*",
 			password2="*",
-		},
-		netgame={
-			title="Online game",
-			test="Test",
 		},
 		account={
 			title="@_@",
