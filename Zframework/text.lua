@@ -1,6 +1,5 @@
 local gc=love.graphics
-local rnd=math.random
-local rem=table.remove
+local rnd,rem=math.random,table.remove
 local setFont,mStr=setFont,mStr
 
 local texts={}
@@ -74,18 +73,6 @@ local TEXT={}
 function TEXT.clear()
 	texts={}
 end
-function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT()
-	return{
-		c=0,
-		text=text,
-		x=x or 0,
-		y=y or 0,
-		font=font or 40,
-		spd=(spd or 1)/60,
-		stop=stop,
-		draw=textFX[style]or assert(false,"unavailable type:"..style),
-	}
-end
 function TEXT.show(text,x,y,font,style,spd,stop)
 	texts[#texts+1]={
 		c=0,				--Timer
@@ -95,7 +82,19 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 		font=font or 40,	--Font
 		spd=(spd or 1)/60,	--Timing speed(1=last 1 sec)
 		stop=stop,			--Stop time(sustained text)
-		draw=textFX[style]or assert(false,"unavailable type:"..style),	--Draw method
+		draw=textFX[style]or error("unavailable type:"..style),	--Draw method
+	}
+end
+function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.show(), but only return text object, need manual management
+	return{
+		c=0,
+		text=text,
+		x=x or 0,
+		y=y or 0,
+		font=font or 40,
+		spd=(spd or 1)/60,
+		stop=stop,
+		draw=textFX[style]or error("unavailable type:"..style),
 	}
 end
 function TEXT.update(list)

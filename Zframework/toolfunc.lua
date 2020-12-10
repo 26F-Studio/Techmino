@@ -152,14 +152,14 @@ do--dumpTable
 					k=k.."="
 				end
 			elseif T=="boolean"then k="["..k.."]="
-			else assert(false,"Error key type!")
+			else error("Error key type!")
 			end
 			T=type(v)
 			if T=="number"then v=tostring(v)
 			elseif T=="string"then v="\""..v.."\""
 			elseif T=="table"then v=dumpTable(v,t+1)
 			elseif T=="boolean"then v=tostring(v)
-			else assert(false,"Error data type!")
+			else error("Error data type!")
 			end
 			s=s..tabs[t]..k..v..",\n"
 		end
@@ -167,21 +167,21 @@ do--dumpTable
 	end
 end
 do--json
-	--
+
 	-- json.lua
-	--
+
 	-- Copyright (c) 2020 rxi
-	--
+
 	-- Permission is hereby granted, free of charge, to any person obtaining a copy of
 	-- this software and associated documentation files (the "Software"), to deal in
 	-- the Software without restriction, including without limitation the rights to
 	-- use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 	-- of the Software, and to permit persons to whom the Software is furnished to do
 	-- so, subject to the following conditions:
-	--
+
 	-- The above copyright notice and this permission notice shall be included in all
 	-- copies or substantial portions of the Software.
-	--
+
 	-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 	-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 	-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -189,7 +189,7 @@ do--json
 	-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	-- SOFTWARE.
-	--
+
 
 	local char=string.char
 	json = {}
@@ -588,7 +588,7 @@ do--httpRequest & wsConnect
 		end
 	else
 		local function noNetLib()
-			LOG.print("[NO NETlib]",5,COLOR.yellow)
+			LOG.print("[NO NETlib for "..SYSTEM.."]",5,COLOR.yellow)
 		end
 		httpRequest=noNetLib
 		wsConnect=noNetLib
