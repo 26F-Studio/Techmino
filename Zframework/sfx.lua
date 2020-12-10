@@ -1,4 +1,10 @@
-local SFX={}
+local SFX={
+	getCount=function()return 0 end,
+	fieldPlay=NULL,
+	play=NULL,
+	fplay=NULL,
+	reset=NULL,
+}
 function SFX.init(list)
 	SFX.init=nil
 	local rem=table.remove

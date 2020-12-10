@@ -1,4 +1,10 @@
-local VOC={}
+local VOC={
+	getCount=function()return 0 end,
+	getQueueCount=NULL,
+	getFreeChannel=NULL,
+	play=NULL,
+	update=NULL,
+}
 
 function VOC.init(list)
 	VOC.init=nil
@@ -52,6 +58,9 @@ function VOC.init(list)
 		end
 		VOC.loadOne=nil
 
+		function VOC.getQueueCount()
+			return #voiceQueue
+		end
 		function VOC.getFreeChannel()
 			local l=#voiceQueue
 			for i=1,l do
@@ -59,9 +68,6 @@ function VOC.init(list)
 			end
 			voiceQueue[l+1]={s=0}
 			return l+1
-		end
-		function VOC.getCount()
-			return #voiceQueue
 		end
 
 		function VOC.play(s,chn)

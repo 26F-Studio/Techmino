@@ -1,4 +1,9 @@
 local BGM={
+	getList={},
+	getCount=function()return 0 end,
+	play=NULL,
+	freshVolume=NULL,
+	stop=NULL,
 	--nowPlay=[str:playing ID]
 	--playing=[src:playing SRC]
 }
