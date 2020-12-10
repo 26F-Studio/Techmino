@@ -89,6 +89,12 @@ function scene.keyDown(k)
 			SFX.play("clear_2")
 		elseif v%1==0 and v>=8001 and v<=8012 then
 			love.keypressed("f"..(v-8000))
+		elseif v==123456 then
+			gc.setWireframe(not gc.isWireframe())
+			LOG.print("Wireframe: "..(gc.isWireframe()and"on"or"off"),"warn")
+		elseif v==654321 then
+			love._setGammaCorrect(not gc.isGammaCorrect())
+			LOG.print("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"),"warn")
 		elseif v==670 then
 			LOG.print("Screen Info:")
 			LOG.print("x y: "..SCR.x.." "..SCR.y)

@@ -177,9 +177,6 @@ function love.keypressed(i)
 			LOG.print("luaVer:".._VERSION)
 			LOG.print("jitVer:"..jit.version)
 			LOG.print("jitVerNum:"..jit.version_num)
-			local r=rnd()<.5
-			love._setGammaCorrect(r)
-			LOG.print("GammaCorrect: "..(r and"on"or"off"),"warn")
 		elseif i=="f3"then
 			for _=1,8 do
 				local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
