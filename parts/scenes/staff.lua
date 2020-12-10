@@ -26,7 +26,9 @@ function scene.touchDown(_,x,y)
 end
 
 function scene.keyDown(k)
-	if kb.isDown("s")then
+	if k=="escape"then
+		SCN.back()
+	elseif kb.isDown("s")then
 		if k=="l"then
 			loadGame("sprintLock")
 		elseif k=="f"then
