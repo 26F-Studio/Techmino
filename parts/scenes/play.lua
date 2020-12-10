@@ -24,6 +24,9 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
+local noTouch
+local noKey
+
 local scene={}
 
 function scene.sceneInit()
@@ -33,10 +36,12 @@ function scene.sceneInit()
 		resetGameData()
 		GAME.init=nil
 	end
+	noKey=GAME.replaying
+	noTouch=not SETTING.VKSwitch or noKey
 end
 
 function scene.touchDown(_,x,y)
-	if not SETTING.VKSwitch or GAME.replaying then return end
+	if noTouch then return end
 
 	local t=onVirtualkey(x,y)
 	if t then
@@ -44,10 +49,10 @@ function scene.touchDown(_,x,y)
 		if SETTING.VKSFX>0 then
 			SFX.play("virtualKey",SETTING.VKSFX)
 		end
-		VK[t].isDown=true
-		VK[t].pressTime=10
+		local B=VK[t]
+		B.isDown=true
+		B.pressTime=10
 		if SETTING.VKTrack then
-			local B=VK[t]
 			if SETTING.VKDodge then--Button collision (not accurate)
 			for i=1,#VK do
 					local b=VK[i]
@@ -69,7 +74,7 @@ function scene.touchDown(_,x,y)
 	end
 end
 function scene.touchUp(_,x,y)
-	if not SETTING.VKSwitch or GAME.replaying then return end
+	if noTouch then return end
 
 	local t=onVirtualkey(x,y)
 	if t then
@@ -77,7 +82,7 @@ function scene.touchUp(_,x,y)
 	end
 end
 function scene.touchMove()
-	if not SETTING.VKSwitch or GAME.replaying then return end
+	if noTouch then return end
 
 	local l=tc.getTouches()
 	for n=1,#VK do
@@ -93,7 +98,7 @@ function scene.touchMove()
 	end
 end
 function scene.keyDown(key)
-	if not GAME.replaying then
+	if not noKey then
 		local m=keyMap
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
@@ -107,7 +112,7 @@ function scene.keyDown(key)
 	if key=="escape"then pauseGame()end
 end
 function scene.keyUp(key)
-	if GAME.replaying then return end
+	if noKey then return end
 	local m=keyMap
 	for k=1,20 do
 		if key==m[1][k]or key==m[2][k]then
@@ -118,7 +123,7 @@ function scene.keyUp(key)
 	end
 end
 function scene.gamepadDown(key)
-	if GAME.replaying then return end
+	if noKey then return end
 
 	local m=keyMap
 	for k=1,20 do
@@ -133,7 +138,7 @@ function scene.gamepadDown(key)
 	if key=="back"then pauseGame()end
 end
 function scene.gamepadUp(key)
-	if GAME.replaying then return end
+	if noKey then return end
 
 	local m=keyMap
 	for k=1,20 do
@@ -353,9 +358,8 @@ function scene.draw()
 	end
 	gc.pop()
 end
-
 scene.widgetList={
-	WIDGET.newButton{name="pause",x=1235,y=45,w=80,font=25,code=function()pauseGame()end},
+	WIDGET.newKey{name="pause",x=1235,y=45,w=80,font=25,code=function()pauseGame()end},
 }
 
 return scene
