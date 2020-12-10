@@ -11,19 +11,19 @@ return{
 			while true do
 				coroutine.yield()
 				if P.control and SCN.cur=="play"then
-					P.modeData.counter=P.modeData.counter+1
-					local t=240-2*P.modeData.event
-					if P.modeData.counter>=t then
-						P.modeData.counter=0
+					local D=P.modeData
+					D.counter=D.counter+1
+					local t=math.max(240-2*D.event,40)
+					if D.counter>=t then
+						D.counter=0
 						for _=1,4 do
 							P.atkBuffer[#P.atkBuffer+1]={pos=P:RND(10),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2}
 						end
 						P.atkBuffer.sum=P.atkBuffer.sum+4
 						P.stat.recv=P.stat.recv+4
-						local D=P.modeData
 						D.event=D.event+1
 						if D.event<=75 then
-							D.point=int(144e3/(240-2*D.event))*.1
+							D.point=int(144e3/t)*.1
 							if D.event==25 then
 								P:showTextF(text.great,0,-140,100,"appear",.6)
 								P.gameEnv.pushSpeed=3
