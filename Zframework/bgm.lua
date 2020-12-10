@@ -89,6 +89,7 @@ function BGM.init(list)
 			BGM.nowPlay,BGM.playing=nil
 		end
 	end
+
 	BGM.loadOne=coroutine.wrap(load)
 	function BGM.loadAll()load(true)end
 end

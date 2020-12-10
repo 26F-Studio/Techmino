@@ -1,4 +1,6 @@
-local IMG={}
+local IMG={
+	getCount=function()return 0 end,
+}
 function IMG.init(list)
 	IMG.init=nil
 	local count=0
@@ -16,6 +18,7 @@ function IMG.init(list)
 		end
 		IMG.loadOne=nil
 	end
+
 	IMG.loadOne=coroutine.wrap(load)
 	function IMG.loadAll()load(true)end
 end

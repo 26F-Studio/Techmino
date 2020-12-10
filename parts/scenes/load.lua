@@ -128,7 +128,7 @@ function scene.update()
 		elseif S.phase==5 then
 			getFont(15+5*S.cur)
 		elseif S.phase==6 then
-			SKIN.loadOne(S.cur)
+			SKIN.loadOne()
 		elseif S.phase==7 then
 			local m=MODES[S.cur]--Mode template
 			local M=require("parts/modes/"..m.name)--Mode file

@@ -51,7 +51,7 @@ AIFUNC=	require"parts/ai"
 MODES=	require"parts/modes"
 TICK=	require"parts/tick"
 
---Initialize image lib
+--Initialize image libs
 IMG.init{
 	batteryImage="/mess/power.png",
 	title="mess/title.png",
@@ -75,7 +75,30 @@ IMG.init{
 	electric="mess/electric.png",
 	hbm="mess/hbm.png",
 }
-
+SKIN.init{
+	"normal(mrz)",
+	"smooth(mrz)",
+	"contrast(mrz)",
+	"glow(mrz)",
+	"plastic(mrz)",
+	"jelly(miya)",
+	"steel(kulumi)",
+	"pure(mrz)",
+	"ball(shaw)",
+	"paper(mrz)",
+	"gem(notypey)",
+	"classic(_)",
+	"brick(notypey)",
+	"brick_light(notypey)",
+	"cartoon_cup(earety)",
+	"crack(earety)",
+	"retro(notypey)",
+	"retro_grey(notypey)",
+	"text_bone(mrz)",
+	"colored_bone(mrz)",
+	"white_bone(mrz)",
+	"WTF",
+}
 --Initialize sound libs
 SFX.init{
 	--Stereo sfxs(cannot set position)
