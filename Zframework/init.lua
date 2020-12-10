@@ -48,7 +48,7 @@ local function updatePowerInfo()
 		if state=="nobattery"then
 			gc.setColor(1,1,1)
 			gc.setLineWidth(2)
-			gc.line(74,5,100,22)
+			gc.line(74,SCR.safeX+5,100,22)
 		elseif pow then
 			if charging then	gc.setColor(0,1,0)
 			elseif pow>50 then	gc.setColor(1,1,1)
@@ -310,19 +310,7 @@ function love.lowmemory()
 	collectgarbage()
 end
 function love.resize(w,h)
-	SCR.w,SCR.h,SCR.dpi=w,h,gc.getDPIScale()
-	SCR.W,SCR.H=SCR.w*SCR.dpi,SCR.h*SCR.dpi
-	SCR.r=h/w
-	SCR.rad=(w^2+h^2)^.5
-
-	if SCR.r>=SCR.h0/SCR.w0 then
-		SCR.k=w/SCR.w0
-		SCR.x,SCR.y=0,(h-w*SCR.h0/SCR.w0)/2
-	else
-		SCR.k=h/SCR.h0
-		SCR.x,SCR.y=(w-h*SCR.w0/SCR.h0)/2,0
-	end
-	xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
+	SCR.resize(w,h)
 	if BG.resize then BG.resize(w,h)end
 
 	SHADER.warning:send("w",w*SCR.dpi)
@@ -515,7 +503,7 @@ function love.run()
 				--Draw power info.
 				gc.setColor(1,1,1)
 				if SETTING.powerInfo then
-					gc.draw(infoCanvas,0,0,0,SCR.k)
+					gc.draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 				end
 
 				--Draw scene swapping animation
@@ -535,16 +523,16 @@ function love.run()
 				gc.setColor(1,1,1)
 				setFont(15)
 				_=SCR.h
-				gc.print(FPS(),5,_-20)
+				gc.print(FPS(),SCR.safeX+5,_-20)
 
 				--Debug info.
 				if devMode then
 					gc.setColor(devColor[devMode])
-					gc.print("Memory:"..gcinfo(),5,_-40)
-					gc.print("Lines:"..FREEROW.getCount(),5,_-60)
-					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),5,_-80)
-					gc.print("Voices:"..VOC.getCount(),5,_-100)
-					gc.print("Tasks:"..TASK.getCount(),5,_-120)
+					gc.print("Memory:"..gcinfo(),SCR.safeX+5,_-40)
+					gc.print("Lines:"..FREEROW.getCount(),SCR.safeX+5,_-60)
+					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
+					gc.print("Voices:"..VOC.getCount(),SCR.safeX+5,_-100)
+					gc.print("Tasks:"..TASK.getCount(),SCR.safeX+5,_-120)
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
 					gc.setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
