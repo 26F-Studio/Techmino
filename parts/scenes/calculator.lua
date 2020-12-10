@@ -95,6 +95,8 @@ function scene.keyDown(k)
 		elseif v==654321 then
 			love._setGammaCorrect(not gc.isGammaCorrect())
 			LOG.print("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"),"warn")
+		elseif v==114514 or v==1919810 or v==1145141919810 then
+			error()
 		elseif v==670 then
 			LOG.print("Screen Info:")
 			LOG.print("x y: "..SCR.x.." "..SCR.y)
@@ -147,7 +149,7 @@ scene.widgetList={
 	WIDGET.newKey{name="/",	x=450,y=600,w=90,color="lBlue",	font=50,code=WIDGET.lnk_pressKey("/")},
 	WIDGET.newKey{name="<",	x=550,y=300,w=90,color="lRed",	font=50,code=WIDGET.lnk_pressKey("backspace")},
 	WIDGET.newKey{name="=",	x=550,y=400,w=90,color="lYellow",font=50,code=WIDGET.lnk_pressKey("return")},
-	WIDGET.newButton{name="play",x=640,y=600,w=180,h=90,color="lGreen",	font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return not sceneTemp.pass end},
+	WIDGET.newButton{name="play",x=640,y=600,w=180,h=90,color="lGreen",font=40,code=WIDGET.lnk_pressKey("space"),hide=function()return not sceneTemp.pass end},
 }
 
 return scene
