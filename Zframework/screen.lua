@@ -1,8 +1,10 @@
 local SCR={
 	w0=1280,h0=720,	--Default Screen Size
 	x=0,y=0,		--Up-left Coord on screen
-	w=0,h=0,		--Fullscreen w/h in gc
-	W=0,H=0,		--Fullscreen w/h in shader
+	cx=0,cy=0,		--Center Coord on screen (Center X/Y)
+	ex=0,ey=0,		--Down-right Coord on screen (End X/Y)
+	w=0,h=0,		--Fullscreen w/h for graphic functions
+	W=0,H=0,		--Fullscreen w/h for shader
 	safeX=0,safeY=0,--Safe area
 	safeW=0,safeH=0,--Safe area
 	rad=0,			--Radius
@@ -28,5 +30,11 @@ function SCR.resize(w,h)
 	end
 	SCR.safeX,SCR.safeY,SCR.safeW,SCR.safeH=love.window.getSafeArea()
 	SCR.xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
+end
+function SCR.print()
+	LOG.print("Screen Info:")
+	for k,v in next,SCR do
+		LOG.print(k..": "..v)
+	end
 end
 return SCR

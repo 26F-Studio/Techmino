@@ -100,13 +100,7 @@ function scene.keyDown(k)
 		elseif v==114514 or v==1919810 or v==1145141919810 then
 			error()
 		elseif v==670 then
-			LOG.print("Screen Info:")
-			LOG.print("x y: "..SCR.x.." "..SCR.y)
-			LOG.print("w h: "..SCR.w.." "..SCR.h)
-			LOG.print("W H: "..SCR.W.." "..SCR.H)
-			LOG.print("k: "..math.floor(SCR.k*100)*.01)
-			LOG.print("rad: "..math.floor(SCR.rad*100)*.01)
-			LOG.print("dpi: "..SCR.dpi)
+			SCR.print()
 		end
 	elseif k=="escape"then
 		val,reg,sym="0"
