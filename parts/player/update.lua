@@ -105,8 +105,7 @@ local function updateTasks(P)
 	end
 end
 
-local update={}
-function update.alive(P,dt)
+local function update_alive(P,dt)
 	if P.timing then
 		local S=P.stat
 		S.time=S.time+dt
@@ -327,6 +326,10 @@ function update.alive(P,dt)
 	updateFXs(P,dt)
 	updateTasks(P)
 end
+
+local update={
+	alive=update_alive,
+}
 function update.dead(P,dt)
 	if P.keyRec then
 		local S=P.stat
@@ -354,5 +357,25 @@ function update.dead(P,dt)
 	updateLine(P)
 	updateFXs(P,dt)
 	updateTasks(P)
+end
+function update.remote_alive(P,dt)
+	::readNext::
+	local pos=P.streamProgress
+	local tar=P.stream[pos]
+	if tar then
+		if P.stat.frame==tar then
+			local key=P.stream[pos+1]
+			if key>0 then--Press key
+				P:pressKey(key)
+			elseif key<0 then--Release key
+				P:releaseKey(-key)
+			else--Receiving garbage
+				--TODO:
+			end
+			P.streamProgress=pos+2
+			goto readNext
+		end
+		update_alive(P,dt)
+	end
 end
 return update

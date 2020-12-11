@@ -655,7 +655,7 @@ function pumpRecording(str,L)
 	local list,curFrm
 	if L then
 		list=L
-		curFrm=L[#L-1]
+		curFrm=L[#L-1]or 0
 	else
 		list={}
 		curFrm=0

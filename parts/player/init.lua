@@ -346,6 +346,9 @@ end
 function PLY.newRemotePlayer(id,mini)
 	local P=newEmptyPlayer(id,mini)
 	P.type="remote"
+	P.update=PLY.update.remote_alive
+	P.stream={}
+	P.streamProgress=1
 
 	loadGameEnv(P)
 	applyGameEnv(P)
