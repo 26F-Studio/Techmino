@@ -216,8 +216,7 @@ function scene.update(dt)
 
 	--Update players
 	for p=1,#PLAYERS do
-		local P=PLAYERS[p]
-		P:update(dt)
+		PLAYERS[p]:update(dt)
 	end
 
 	--Fresh royale target

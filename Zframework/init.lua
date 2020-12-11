@@ -172,11 +172,7 @@ function love.keypressed(i)
 	mouseShow=false
 	if devMode then
 		if i=="f1"then		PROFILE.switch()
-		elseif i=="f2"then
-			LOG.print("System:"..SYSTEM.."["..jit.arch.."]")
-			LOG.print("luaVer:".._VERSION)
-			LOG.print("jitVer:"..jit.version)
-			LOG.print("jitVerNum:"..jit.version_num)
+		elseif i=="f2"then	LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 		elseif i=="f3"then
 			for _=1,8 do
 				local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
@@ -218,16 +214,16 @@ function love.keypressed(i)
 		return
 	end
 	::NORMAL::
-	if i~="f8"then
+	if i=="f8"then
+		devMode=1
+		LOG.print("DEBUG ON",COLOR.yellow)
+	else
 		if SCN.swapping then return end
 
 		if SCN.keyDown then SCN.keyDown(i)
 		elseif i=="escape"then SCN.back()
 		else WIDGET.keyPressed(i)
 		end
-	else
-		devMode=1
-		LOG.print("DEBUG ON",COLOR.yellow)
 	end
 end
 function love.keyreleased(i)
