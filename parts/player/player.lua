@@ -116,7 +116,7 @@ function Player.createBeam(P,R,send,color)
 	local r,g,b=unpack(SKIN.libColor[color])
 	r,g,b=r*2,g*2,b*2
 
-	local a=GAME.modeEnv.royaleMode and not(P.human or R.human)and .2 or 1
+	local a=GAME.modeEnv.royaleMode and not(P.type=="human"or R.type=="human")and .2 or 1
 	SYSFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,wid,r,g,b,a*(SETTING.atkFX+2)*.0626)
 end
 --------------------------</FX>--------------------------
@@ -178,7 +178,7 @@ end
 function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
 	P._20G=if20g
 	P.keyAvailable[7]=not if20g
-	if P.human then
+	if P.type=="human"then
 		virtualkey[7].ava=not if20g
 	end
 	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
@@ -191,7 +191,7 @@ function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	end
 	P.gameEnv.holdCount=count
 	P.holdTime=count
-	if P.human then
+	if P.type=="human"then
 		virtualkey[8].ava=count>0
 	end
 	if count==0 then
@@ -389,7 +389,7 @@ function Player.changeAtkMode(P,m)
 	end
 end
 function Player.changeAtk(P,R)
-	-- if not P.human then R=PLAYERS[1]end--1vALL mode?
+	-- if P.type~="human"then R=PLAYERS[1]end--1vALL mode?
 	if P.atking then
 		local K=P.atking.atker
 		for i=1,#K do
@@ -1579,7 +1579,7 @@ function Player.win(P,result)
 		P.modeData.event=1
 		P:changeAtk()
 	end
-	if P.human then
+	if P.type=="human"then
 		GAME.result=result or"win"
 		SFX.play("win")
 		VOC.play("win")
@@ -1592,7 +1592,7 @@ function Player.win(P,result)
 	else
 		P:showTextF(text.win,0,0,90,"beat",.5,.2)
 	end
-	if P.human then
+	if P.type=="human"then
 		gameOver()
 		TASK.new(tick_autoPause)
 		if MARKING then
@@ -1673,7 +1673,7 @@ function Player.lose(P,force)
 				end
 				P.lastRecv=A
 				if P.id==1 or A.id==1 then
-					TASK.new(tick_throwBadge,not A.human,P,max(3,P.badge)*4)
+					TASK.new(tick_throwBadge,not A.type=="human",P,max(3,P.badge)*4)
 				end
 			end
 		else
@@ -1689,7 +1689,7 @@ function Player.lose(P,force)
 	end
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
 	P:showTextF(text.gameover,0,0,60,"appear",.26,.9)
-	if P.human then
+	if P.type=="human"then
 		GAME.result="gameover"
 		SFX.play("fail")
 		VOC.play("lose")

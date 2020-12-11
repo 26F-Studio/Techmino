@@ -163,7 +163,7 @@ local function newEmptyPlayer(id,mini)
 	P.ctrlCount=0--Key press time, for finesse check
 	P.pieceCount=0--Count pieces from next, for drawing bagline
 
-	P.human=false
+	P.type="none"
 	P.sound=false
 
 	-- P.newNext=nil--Call prepareSequence()to get a function to get new next
@@ -322,6 +322,7 @@ local DemoEnv={
 }
 function PLY.newDemoPlayer(id)
 	local P=newEmptyPlayer(id)
+	P.type="computer"
 	P.sound=true
 	P.demo=true
 
@@ -344,9 +345,7 @@ function PLY.newDemoPlayer(id)
 end
 function PLY.newRemotePlayer(id,mini)
 	local P=newEmptyPlayer(id,mini)
-	P.remote=true
-
-	-- P.updateAction=buildActionFunctionFromActions(P, actions)
+	P.type="remote"
 
 	loadGameEnv(P)
 	applyGameEnv(P)
@@ -355,6 +354,7 @@ end
 
 function PLY.newAIPlayer(id,AIdata,mini)
 	local P=newEmptyPlayer(id,mini)
+	P.type="computer"
 
 	loadGameEnv(P)
 	local ENV=P.gameEnv
@@ -366,7 +366,7 @@ function PLY.newAIPlayer(id,AIdata,mini)
 end
 function PLY.newPlayer(id,mini)
 	local P=newEmptyPlayer(id,mini)
-	P.human=true
+	P.type="human"
 	P.sound=true
 
 	loadGameEnv(P)

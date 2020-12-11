@@ -119,7 +119,7 @@ do
 			[31]={{ 0,-1},{ 0, 1},{-1, 0},{ 0,-2},{ 0, 2}},
 		},--T
 		function(P,d)
-			if P.human then SFX.fieldPlay("rotate",nil,P)end
+			if P.type=="human"then SFX.fieldPlay("rotate",nil,P)end
 			if not P.gameEnv.ospin then return end
 			local x,y=P.curX,P.curY
 			if y==P.imgY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
@@ -264,7 +264,7 @@ do
 			[31]={{ 0,-1},{ 1, 0}},
 		},--W
 		function(P,d)
-			if P.human then SFX.fieldPlay("rotate",nil,P)end
+			if P.type=="human"then SFX.fieldPlay("rotate",nil,P)end
 			local iki=XspinList[d]
 			for test=1,#iki do
 				local x,y=P.curX+iki[test][1],P.curY+iki[test][2]

@@ -136,7 +136,7 @@ function update.alive(P,dt)
 		end
 	end
 
-	if not P.human and P.control and P.waiting==-1 then
+	if P.type=="computer"and P.control and P.waiting==-1 then
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
