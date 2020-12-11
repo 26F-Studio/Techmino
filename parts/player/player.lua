@@ -6,6 +6,7 @@ local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min=math.max,math.min
+local lg=math.log10
 local ins,rem=table.insert,table.remove
 local ct=coroutine
 
@@ -153,19 +154,25 @@ local function task_movePosition(P,x,y,size)
 	local x1,y1,size1=P.x,P.y,P.size
 	while true do
 		coroutine.yield()
-		x1=x1*.93+x*.07
-		y1=y1*.93+y*.07
-		size1=size1*.93+size*.07
-		if(x1-x)^2+(y1-y)^2<6.26 then
+		local d=((x1-x)^2+(y1-y)^2)^.5
+		if d<.626 then
 			P:setPosition(x,y,size)
 			return true
 		else
+			d=max(.08-lg(d)*.02,.016)
+			x1=x1+(x-x1)*d
+			y1=y1+(y-y1)*d
+			size1=size1+(size-size1)*d
 			P:setPosition(x1,y1,size1)
 		end
 	end
 end
+local function checkPlayer(obj,Ptar)
+	return obj.args[1]==Ptar
+end
 function Player.movePosition(P,x,y,size)
-	P:newTask(task_movePosition,x,y,size or P.size)
+	TASK.removeTask_iterate(checkPlayer,P)
+	TASK.new(task_movePosition,P,x,y,size or P.size)
 end
 
 function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
