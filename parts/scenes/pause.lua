@@ -25,7 +25,12 @@ local scene={}
 local timer--Animation timer
 local form--Form of clear & spins
 local radar--Radar chart
-local val={1/80,1/80,1/80,1/60,1/100,1/40}--Radar chart normalizer
+local val--Radar chart normalizer
+local standard--Standard hexagon
+local chartColor--Color of radar chart
+local rank--Current rank
+local trophy--Current trophy
+local trophyColor--Current trophy color
 
 function scene.sceneInit(org)
 	if org:find("setting")then
@@ -57,26 +62,26 @@ function scene.sceneInit(org)
 		S.piece/S.time*24,		--LinePM
 		S.dig/S.time*60,		--DigPM
 	}
-	local A,B=radar,val
+	val={1/80,1/80,1/80,1/60,1/100,1/40}
 
 	--Normalize Values
 	for i=1,6 do
-		B[i]=B[i]*A[i]if B[i]>1.26 then B[i]=1.26+log(B[i]-.26)end
+		val[i]=val[i]*radar[i]if val[i]>1.26 then val[i]=1.26+log(val[i]-.26)end
 	end
 
 	for i=1,6 do
-		A[i]=format("%.2f",A[i])..text.radarData[i]
+		radar[i]=format("%.2f",radar[i])..text.radarData[i]
 	end
 	local f=1
 	for i=1,6 do
-		if B[i]>.5 then f=2 end
-		if B[i]>1 then f=3 break end
+		if val[i]>.5 then f=2 end
+		if val[i]>1 then f=3 break end
 	end
-	if f==1 then	 color,f={.4,.9,.5},1.25	--Vegetable
-	elseif f==2 then color,f={.4,.7,.9},1		--Normal
-	elseif f==3 then color,f={1,.3,.3},.626	--Diao
+	if f==1 then	 chartColor,f={.4,.9,.5},1.25	--Vegetable
+	elseif f==2 then chartColor,f={.4,.7,.9},1		--Normal
+	elseif f==3 then chartColor,f={1,.3,.3},.626	--Diao
 	end
-	A={
+	standard={
 		120*.5*f,	120*3^.5*.5*f,
 		120*-.5*f,	120*3^.5*.5*f,
 		120*-1*f,	120*0*f,
@@ -84,13 +89,10 @@ function scene.sceneInit(org)
 		120*.5*f,	120*-3^.5*.5*f,
 		120*1*f,	120*0*f,
 	}
-	scale=f
-	standard=A
 
 	for i=6,1,-1 do
-		B[2*i-1],B[2*i]=B[i]*A[2*i-1],B[i]*A[2*i]
+		val[2*i-1],val[2*i]=val[i]*standard[2*i-1],val[i]*standard[2*i]
 	end
-	val=B
 
 	if P.result=="WIN"and P.stat.piece>4 then
 		local acc=P.stat.finesseRate*.2/P.stat.piece
@@ -211,10 +213,9 @@ function scene.draw()
 		setFont(35)
 		for _,M in next,MODOPT do
 			if M.sel>0 then
-				i=M.color
-				gc.setColor(i[1],i[2],i[3],T)
-				i=M.no
-				mStr(M.id,810+i%8*60,575+int(i/8)*45)
+				_=M.color
+				gc.setColor(_[1],_[2],_[3],T)
+				mStr(M.id,810+M.no%8*60,575+int(M.no/8)*45)
 			end
 		end
 	end
@@ -265,13 +266,11 @@ function scene.draw()
 			gc.push("transform")
 				gc.scale((3-2*T)*T)
 				gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",standard)
-				_=color
-				gc.setColor(_[1],_[2],_[3],T*.626)
-				_=val
+				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T*.626)
 				for i=1,9,2 do
-					gc.polygon("fill",0,0,_[i],_[i+1],_[i+2],_[i+3])
+					gc.polygon("fill",0,0,val[i],val[i+1],val[i+2],val[i+3])
 				end
-				gc.polygon("fill",0,0,_[11],_[12],_[1],_[2])
+				gc.polygon("fill",0,0,val[11],val[12],val[1],val[2])
 				gc.setColor(1,1,1,T)gc.polygon("line",val)
 			gc.pop()
 
