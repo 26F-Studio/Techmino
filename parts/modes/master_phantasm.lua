@@ -46,7 +46,7 @@ local function check_LVup(P)
 					end
 					P.field[i][P:RND(10)]=0
 				end
-				P.field[i][11]=true
+				P.field[i].garbage=true
 			end
 			P.garbageBeneath=10
 			for i=1,10 do

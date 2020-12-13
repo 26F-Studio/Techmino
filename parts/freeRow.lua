@@ -1,37 +1,37 @@
 local FREEROW={}
 local L={}--Storage
-local _=0--Length
+local len=0--Length
 function FREEROW.reset(num)
-	if num<_ then
-		for i=_,num+1,-1 do
+	if num<len then
+		for i=len,num+1,-1 do
 			L[i]=nil
 		end
-	elseif num>_ then
-		for i=_+1,num do
+	elseif num>len then
+		for i=len+1,num do
 			L[i]={0,0,0,0,0,0,0,0,0,0}
 		end
 	end
-	_=num
+	len=num
 end
-function FREEROW.get(val,type)--type: nil=norm, true=garbage
-	if _==0 then
+function FREEROW.get(val,ifGarbage)
+	if len==0 then
 		for i=1,10 do
 			L[i]={0,0,0,0,0,0,0,0,0,0}
 		end
-		_=_+10
+		len=len+10
 	end
-	local t=L[_]
+	local t=L[len]
 	for i=1,10 do t[i]=val end
-	t[11]=type
-	L[_]=nil
-	_=_-1
+	t.garbage=ifGarbage==true
+	L[len]=nil
+	len=len-1
 	return t
 end
 function FREEROW.discard(t)
-	_=_+1
-	L[_]=t
+	len=len+1
+	L[len]=t
 end
 function FREEROW.getCount()
-	return _
+	return len
 end
 return FREEROW

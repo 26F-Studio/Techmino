@@ -988,7 +988,7 @@ do--Player.drop(P)--Place piece
 		if cc>0 then
 			for i=cc,1,-1 do
 				_=P.clearedRow[i]
-				if P.field[_][11]then
+				if P.field[_].garbage then
 					P.garbageBeneath=P.garbageBeneath-1
 					gbcc=gbcc+1
 				end
