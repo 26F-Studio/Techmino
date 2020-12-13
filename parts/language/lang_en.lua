@@ -605,8 +605,8 @@ return{
 
 			reset="RESET?",
 			resetUnlock="Reset ranks",
+			resetRecord="Reset records",
 			resetData="Reset data",
-			resetALL="Reset all",
 		},
 	},
 	modes={

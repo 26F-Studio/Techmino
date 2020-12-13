@@ -9,13 +9,13 @@ end
 
 local function dumpCB(T)
 	love.system.setClipboardText(
-			love.data.encode(
-				"string","base64",
-				love.data.compress(
-					"string","zlib",
-					dumpTable(T)
-				)
+		love.data.encode(
+			"string","base64",
+			love.data.compress(
+				"string","zlib",
+				dumpTable(T)
 			)
+		)
 	)
 	LOG.print(text.exportSuccess)
 end
@@ -84,39 +84,35 @@ scene.widgetList={
 	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,code=function()sure=true end,hide=function()return sure end},
 	WIDGET.newButton{name="resetUnlock",	x=340,y=460,w=280,h=100,color="red",
 		code=function()
-			love.filesystem.remove("unlock.dat")
+			love.filesystem.remove("conf/unlock")
 			SFX.play("finesseError_long")
 			TEXT.show("rank resetted",640,300,60,"stretch",.4)
 			LOG.print("effected after restart game","message")
-			LOG.print("fresh a rank if you regret","message")
+			LOG.print("fresh a rank to get data back","message")
 		end,
 		hide=HIDE},
-	WIDGET.newButton{name="resetData",		x=640,y=460,w=280,h=100,color="red",
+	WIDGET.newButton{name="resetRecord",	x=640,y=460,w=280,h=100,color="red",
 		code=function()
-			love.filesystem.remove("data.dat")
+			love.filesystem.remove("record")
+			for _,name in next,love.filesystem.getDirectoryItems("record")do
+				love.filesystem.remove("record/"..name)
+			end
+			SFX.play("clear_4")SFX.play("finesseError_long")
+			TEXT.show("record data resetted",640,300,60,"stretch",.4)
+			LOG.print("fresh a record list to get one list back","message")
+		end,
+		hide=HIDE},
+	WIDGET.newButton{name="resetData",		x=940,y=460,w=280,h=100,color="red",
+		code=function()
+			love.filesystem.remove("conf/data")
 			SFX.play("finesseError_long")
 			TEXT.show("game data resetted",640,300,60,"stretch",.4)
 			LOG.print("effected after restart game","message")
-			LOG.print("play one game if you regret","message")
-		end,
-		hide=HIDE},
-	WIDGET.newButton{name="resetALL",		x=940,y=460,w=280,h=100,color="red",
-		code=function()
-			local L=love.filesystem.getDirectoryItems("")
-			for i=1,#L do
-				local s=L[i]
-				if s:sub(-4)==".dat"then
-					love.filesystem.remove(s)
-				end
-			end
-			SFX.play("clear_4")SFX.play("finesseError_long")
-			TEXT.show("all file deleted",640,330,60,"stretch",.4)
-			LOG.print("effected after restart game","message")
-			SCN.back()
+			LOG.print("play one game to get data back","message")
 		end,
 		hide=HIDE},
 
-		WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=WIDGET.lnk_BACK},
 }
 
 return scene

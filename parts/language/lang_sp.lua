@@ -608,8 +608,8 @@ return{
 
 			reset="¿Reiniciar?",
 			resetUnlock="Reiniciar rangos",
+			-- resetRecord="Reset records",
 			resetData="Reiniciar datos",
-			resetALL="Reiniciar todo",
 		},
 	},
 	modes={

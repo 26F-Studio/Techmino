@@ -632,8 +632,8 @@ return{
 
 			reset="重置?",
 			resetUnlock="重置解锁/等级",
+			resetRecord="重置纪录",
 			resetData="重置统计",
-			resetALL="清空所有数据",
 		},
 	},
 	modes={

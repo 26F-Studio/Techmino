@@ -608,8 +608,8 @@ return{
 
 			reset="Réinitialiser ?",
 			resetUnlock="Réinitialiser les rangs",
+			-- resetRecord="Reset records",
 			resetData="Réinitialiser les données",
-			resetALL="Tout réinitialiser",
 		},
 	},
 	modes={
