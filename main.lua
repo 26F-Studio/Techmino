@@ -333,6 +333,7 @@ do
 		if S.version<1205 then
 			SETTING.VKCurW=SETTING.VKCurW*.1
 			SETTING.VKTchW=SETTING.VKTchW*.1
+			fs.remove("marathon_ultimate.dat")
 		end
 		newVersionLaunch=true
 

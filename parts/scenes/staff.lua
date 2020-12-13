@@ -14,9 +14,9 @@ end
 function scene.mouseDown(x,y)
 	if x>230 and x<1050 then
 		if math.abs(y-800+time*40)<70 then
-			loadGame("sprintLock")
+			loadGame("sprintLock",true)
 		elseif math.abs(y-2160+time*40)<70 then
-			loadGame("sprintFix")
+			loadGame("sprintFix",true)
 		end
 	end
 end
@@ -30,9 +30,9 @@ function scene.keyDown(k)
 		SCN.back()
 	elseif kb.isDown("s")then
 		if k=="l"then
-			loadGame("sprintLock")
+			loadGame("sprintLock",true)
 		elseif k=="f"then
-			loadGame("sprintFix")
+			loadGame("sprintFix",true)
 		end
 	end
 end

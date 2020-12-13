@@ -6,8 +6,8 @@ return{
 	{name="sprint_400",				x=-400,	y=-200,	size=35,shape=1,icon="sprint",		unlock={"sprint_1000"}},
 	{name="sprint_1000",			x=-600,	y=-200,	size=35,shape=1,icon="sprint"},
 
-	{name="sprintPenta",			x=210,	y=-370,	size=40,shape=3,icon="sprint_new"},
-	{name="sprintMPH",				x=210,	y=-230,	size=40,shape=3,icon="sprint_new"},
+	{name="sprintPenta",			x=210,	y=-370,	size=40,shape=3,icon="sprint"},
+	{name="sprintMPH",				x=210,	y=-230,	size=40,shape=3,icon="sprint"},
 
 	{name="drought_normal",			x=-400,	y=0,	size=35,shape=1,icon="noI",			unlock={"drought_lunatic"}},
 	{name="drought_lunatic",		x=-600,	y=0,	size=35,shape=1,icon="mess"},
@@ -17,9 +17,8 @@ return{
 	{name="dig_100",				x=-600,	y=-400,	size=35,shape=1,icon="dig",			unlock={"dig_400"}},
 	{name="dig_400",				x=-800,	y=-200,	size=35,shape=1,icon="dig"},
 
-	{name="marathon_normal",		x=0,	y=-600,	size=55,shape=1,icon="marathon",	unlock={"marathon_hard","marathon_ultimate","solo_1","round_1","blind_easy","classic_fast","survivor_easy","bigbang","zen"}},
+	{name="marathon_normal",		x=0,	y=-600,	size=55,shape=1,icon="marathon",	unlock={"marathon_hard","solo_1","round_1","blind_easy","classic_fast","survivor_easy","bigbang","zen"}},
 	{name="marathon_hard",			x=0,	y=-800,	size=45,shape=1,icon="marathon",	unlock={"master_beginner"}},
-	{name="marathon_ultimate",		x=-120,	y=-490,	size=35,shape=2,icon="marathon"},
 
 	{name="solo_1",					x=-300,	y=-1000,size=35,shape=1,icon="solo",		unlock={"solo_2"}},
 	{name="solo_2",					x=-500,	y=-1000,size=35,shape=1,icon="solo",		unlock={"solo_3"}},
@@ -102,6 +101,8 @@ return{
 
 	{name="sprintFix"},
 	{name="sprintLock"},
+	{name="marathon_bfmax"},
+
 	{name="custom_puzzle"},
 	{name="custom_clear"},
 }

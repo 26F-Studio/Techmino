@@ -99,6 +99,8 @@ function scene.keyDown(k)
 			LOG.print("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"),"warn")
 		elseif v==114514 or v==1919810 or v==1145141919810 then
 			error()
+		elseif v==200 then
+			loadGame("marathon_bfmax",true)
 		elseif v==670 then
 			SCR.print()
 		end
