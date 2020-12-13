@@ -10,9 +10,11 @@ function IMG.init(list)
 	end
 	function IMG.getCount()return count end
 	local function load(skip)
+		local loaded=0
 		for k,v in next,list do
 			IMG[k]=love.graphics.newImage("media/image/"..v)
-			if not skip and i~=count then
+			loaded=loaded+1
+			if not skip and loaded~=count then
 				coroutine.yield()
 			end
 		end
