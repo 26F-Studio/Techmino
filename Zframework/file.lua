@@ -1,7 +1,6 @@
 local fs=love.filesystem
 local FILE={}
 function FILE.load(name)
-	name=name..".dat"
 	local F=fs.newFile(name)
 	if F:open("r")then
 		local s=F:read()
@@ -28,7 +27,7 @@ function FILE.load(name)
 end
 function FILE.save(data,name,mode)
 	if not mode then mode=""end
-	name=name..".dat"
+	name=name
 	if mode:find("l")then
 		data=dumpTable(data)
 		if not data then

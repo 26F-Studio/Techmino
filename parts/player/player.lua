@@ -1498,7 +1498,7 @@ end
 --------------------------<Events>--------------------------
 local function gameOver()--Save record
 	if GAME.replaying then return end
-	FILE.save(STAT,"data")
+	FILE.save(STAT,"conf/data")
 	local M=GAME.curMode
 	local R=M.getRank
 	if R then
@@ -1528,7 +1528,7 @@ local function gameOver()--Save record
 					end
 				end
 				if needSave then
-					FILE.save(RANKS,"unlock","q")
+					FILE.save(RANKS,"conf/unlock","q")
 				end
 				local D=M.score(P)
 				local L=M.records
@@ -1546,7 +1546,7 @@ local function gameOver()--Save record
 					D.date=os.date("%Y/%m/%d %H:%M")
 					ins(L,p+1,D)
 					if L[11]then L[11]=nil end
-					FILE.save(L,M.name,"l")
+					FILE.save(L,"record/"..M.name,"l")
 				end
 			end
 		end

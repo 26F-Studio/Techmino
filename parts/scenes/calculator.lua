@@ -86,7 +86,7 @@ function scene.keyDown(k)
 					RANKS[name]=M.score and 0 or 6
 				end
 			end
-			FILE.save(RANKS,"unlock")
+			FILE.save(RANKS,"conf/unlock")
 			LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
 			SFX.play("clear_2")
 		elseif v%1==0 and v>=8001 and v<=8012 then

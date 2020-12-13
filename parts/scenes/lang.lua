@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneBack()
-	FILE.save(SETTING,"settings")
+	FILE.save(SETTING,"conf/settings")
 end
 
 local function setLang(n)return function()SETTING.lang=n LANG.set(n)end end

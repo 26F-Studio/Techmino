@@ -17,7 +17,7 @@ function scene.sceneInit()
 	kS,jS=false,false
 end
 function scene.sceneBack()
-	FILE.save(keyMap,"key")
+	FILE.save(keyMap,"conf/key")
 end
 
 function scene.keyDown(key)

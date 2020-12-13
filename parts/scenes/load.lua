@@ -140,7 +140,7 @@ function scene.update()
 			for k,v in next,m do
 				M[k]=v
 			end
-			M.records=FILE.load(m.name)or M.score and{}
+			M.records=FILE.load(m.name..".dat")or M.score and{}
 			-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
 		elseif phase==8 then

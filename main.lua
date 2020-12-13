@@ -250,9 +250,33 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	end
 end
 
+--Collect files
+if fs.getInfo("data.dat")then
+	fs.createDirectory("conf")
+	for _,v in next,{
+		"settings",
+		"unlock",
+		"data",
+		"key",
+		"virtualkey",
+		"account",
+	}do
+		fs.write("conf/"..v,fs.read(v..".dat"))
+		fs.remove(v..".dat")
+	end
+	fs.createDirectory("record")
+	for _,name in next,fs.getDirectoryItems("")do
+		if name:sub(-4)==".dat"then
+			fs.write("record/"..name,fs.read(name))
+			fs.remove(name)
+		end
+	end
+	fs.createDirectory("replay")
+end
+
 --Load files
-if fs.getInfo("settings.dat")then
-	addToTable(FILE.load("settings"),SETTING)
+if fs.getInfo("conf/settings")then
+	addToTable(FILE.load("conf/settings"),SETTING)
 else
 	if MOBILE then
 		SETTING.VKSwitch=true
@@ -267,11 +291,11 @@ end
 if SETTING.fullscreen then love.window.setFullscreen(true)end
 LANG.set(SETTING.lang)
 
-if fs.getInfo("unlock.dat")then RANKS=FILE.load("unlock")end
-if fs.getInfo("data.dat")then STAT=FILE.load("data")end
-if fs.getInfo("key.dat")then keyMap=FILE.load("key")end
-if fs.getInfo("virtualkey.dat")then VK_org=FILE.load("virtualkey")end
-if fs.getInfo("account.dat")then ACCOUNT=FILE.load("account")end
+if fs.getInfo("conf/unlock")then RANKS=FILE.load("conf/unlock")end
+if fs.getInfo("conf/data")then STAT=FILE.load("conf/data")end
+if fs.getInfo("conf/key")then keyMap=FILE.load("conf/key")end
+if fs.getInfo("conf/virtualkey")then VK_org=FILE.load("conf/virtualkey")end
+if fs.getInfo("conf/account")then ACCOUNT=FILE.load("conf/account")end
 
 for _,v in next,{
 	"tech_ultimate.dat",
@@ -357,7 +381,7 @@ do
 		end
 
 		S.version=VERSION_CODE
-		FILE.save(RANKS,"unlock","q")
-		FILE.save(STAT,"data")
+		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(STAT,"conf/data")
 	end
 end

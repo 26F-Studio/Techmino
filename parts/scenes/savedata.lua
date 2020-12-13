@@ -48,7 +48,7 @@ scene.widgetList={
 		local D=parseCB()
 		if D then
 			addToTable(D,RANKS)
-			FILE.save(RANKS,"unlock")
+			FILE.save(RANKS,"conf/unlock")
 		else
 			LOG.print(text.importSuccess,COLOR.green)
 		end
@@ -57,7 +57,7 @@ scene.widgetList={
 		local D=parseCB()
 		if D then
 			addToTable(D,STAT)
-			FILE.save(STAT,"data")
+			FILE.save(STAT,"conf/data")
 		else
 			LOG.print(text.importSuccess,COLOR.green)
 		end
@@ -66,7 +66,7 @@ scene.widgetList={
 		local D=parseCB()
 		if D then
 			addToTable(D,SETTING)
-			FILE.save(SETTING,"settings")
+			FILE.save(SETTING,"conf/settings")
 		else
 			LOG.print(text.importSuccess,COLOR.green)
 		end
@@ -75,7 +75,7 @@ scene.widgetList={
 		local D=parseCB()
 		if D then
 			addToTable(D,VK_org)
-			FILE.save(VK_org,"virtualkey")
+			FILE.save(VK_org,"conf/virtualkey")
 		else
 			LOG.print(text.importSuccess,COLOR.green)
 		end

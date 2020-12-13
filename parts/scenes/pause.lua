@@ -127,7 +127,7 @@ function scene.sceneBack()
 		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	end
 	if not GAME.result then
-		FILE.save(STAT,"data")
+		FILE.save(STAT,"conf/data")
 	end
 end
 

@@ -9,7 +9,7 @@ function scene.sceneInit()
 	BG.set("space")
 end
 function scene.sceneBack()
-	FILE.save(SETTING,"settings")
+	FILE.save(SETTING,"conf/settings")
 end
 
 function scene.draw()
