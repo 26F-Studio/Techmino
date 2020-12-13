@@ -71,17 +71,17 @@ local scene={}
 
 local time--Animation timer
 local phase--Loading stage
-local cur--Loading timer
-local tar--Current Loading bar length
-local stageLenth
-local text
+local loadCur--Loading timer
+local loadTar--Current Loading bar length
+local stageLenth--Length of each stage
+local studioLogo--Studio logo text object
 local skip
 
 function scene.sceneInit()
 	time=0
 	phase=0
-	cur=0
-	tar=0
+	loadCur=0
+	loadTar=0
 	stageLenth={
 		VOC.getCount(),
 		BGM.getCount(),
@@ -93,7 +93,7 @@ function scene.sceneInit()
 		1,
 		1,
 	}
-	text=gc.newText(getFont(80),"26F Studio")
+	studioLogo=gc.newText(getFont(80),"26F Studio")
 	skip=false--If skipped
 end
 function scene.sceneBack()
@@ -130,13 +130,13 @@ function scene.update()
 		elseif phase==4 then
 			IMG.loadOne()
 		elseif phase==5 then
-			getFont(15+5*cur)
+			getFont(15+5*loadCur)
 		elseif phase==6 then
 			SKIN.loadOne()
 		elseif phase==7 then
-			local m=MODES[cur]--Mode template
+			local m=MODES[loadCur]--Mode template
 			local M=require("parts/modes/"..m.name)--Mode file
-			MODES[m.name],MODES[cur]=M
+			MODES[m.name],MODES[loadCur]=M
 			for k,v in next,m do
 				M[k]=v
 			end
@@ -193,12 +193,12 @@ function scene.update()
 				)
 			end
 		end
-		if tar then
-			cur=cur+1
-			if cur>tar then
+		if loadTar then
+			loadCur=loadCur+1
+			if loadCur>loadTar then
 				phase=phase+1
-				cur=1
-				tar=stageLenth[phase]
+				loadCur=1
+				loadTar=stageLenth[phase]
 			end
 		end
 		time=time+1
@@ -226,21 +226,21 @@ function scene.draw()
 
 		local T=Timer()
 		gc.setColor(COLOR.dCyan)
-		mDraw(text,220,Y*.2-1204)
-		mDraw(text,220,-Y*.2+1476)
+		mDraw(studioLogo,220,Y*.2-1204)
+		mDraw(studioLogo,220,-Y*.2+1476)
 
 		gc.setColor(COLOR.cyan)
-		mDraw(text,220+4*sin(T*10),136+4*sin(T*6))
-		mDraw(text,220+4*sin(T*12),136+4*sin(T*8))
+		mDraw(studioLogo,220+4*sin(T*10),136+4*sin(T*6))
+		mDraw(studioLogo,220+4*sin(T*12),136+4*sin(T*8))
 
 		gc.setColor(COLOR.dCyan)
-		mDraw(text,219,137)
-		mDraw(text,219,135)
-		mDraw(text,221,137)
-		mDraw(text,221,135)
+		mDraw(studioLogo,219,137)
+		mDraw(studioLogo,219,135)
+		mDraw(studioLogo,221,137)
+		mDraw(studioLogo,221,135)
 
 		gc.setColor(.2,.2,.2)
-		mDraw(text,220,136)
+		mDraw(studioLogo,220,136)
 
 		gc.pop()
 	end
