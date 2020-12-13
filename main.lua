@@ -273,8 +273,17 @@ if fs.getInfo("key.dat")then keyMap=FILE.load("key")end
 if fs.getInfo("virtualkey.dat")then VK_org=FILE.load("virtualkey")end
 if fs.getInfo("account.dat")then ACCOUNT=FILE.load("account")end
 
-if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
-if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
+for _,v in next,{
+	"tech_ultimate.dat",
+	"tech_ultimate+.dat",
+	"sprintFix.dat",
+	"sprintLock.dat",
+	"marathon_ultimate.dat",
+	"infinite.dat",
+	"infinite_dig.dat",
+}do
+	if fs.getInfo(v)then fs.remove(v)end
+end
 
 --Update data
 do
@@ -284,8 +293,6 @@ do
 	if R.infinite and R.infinite~=6 then
 		R.infinite=6
 		R.infinite_dig=6
-		fs.remove("infinite.dat")
-		fs.remove("infinite_dig.dat")
 	end
 	if not text.modes[STAT.lastPlay]then
 		STAT.lastPlay="sprint_10"
@@ -327,13 +334,10 @@ do
 			STAT.lastPlay="sprint_10"
 			RANKS.sprintFix=nil
 			RANKS.sprintLock=nil
-			fs.remove("sprintFix.dat")
-			fs.remove("sprintLock.dat")
 		end
 		if S.version<1205 then
 			SETTING.VKCurW=SETTING.VKCurW*.1
 			SETTING.VKTchW=SETTING.VKTchW*.1
-			fs.remove("marathon_ultimate.dat")
 		end
 		newVersionLaunch=true
 
