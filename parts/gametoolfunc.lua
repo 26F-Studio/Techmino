@@ -526,7 +526,7 @@ local function tick_showMods()
 	end
 end
 function resetGameData(replaying)
-	if PLAYERS[1]and not GAME.replaying then
+	if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 		mergeStat(STAT,PLAYERS[1].stat)
 		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	end
