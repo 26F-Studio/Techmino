@@ -50,9 +50,9 @@ end
 
 function scene.mouseMove(x,y)
 	selected=nil
-	for N,M in next,MODOPT do
+	for _,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
-			selected=N
+			selected=M
 			break
 		end
 	end
@@ -81,10 +81,10 @@ function scene.keyDown(key)
 			SFX.play("hold")
 		end
 	elseif #key==1 then
-		for N,M in next,MODOPT do
+		for _,M in next,MODOPT do
 			if key==M.key then
 				toggleMod(M,kb.isDown("lshift","rshift"))
-				selected=N
+				selected=M
 				break
 			end
 		end
@@ -146,7 +146,7 @@ function scene.draw()
 	gc.setColor(1,1,1)
 	if selected then
 		setFont(30)
-		gc.printf(text.modInfo[selected],70,540,950)
+		gc.printf(text.modInfo[selected.name],70,540,950)
 	else
 		setFont(25)
 		gc.printf(text.modInstruction,70,540,950)
