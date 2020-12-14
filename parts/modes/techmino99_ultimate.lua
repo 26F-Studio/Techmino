@@ -22,6 +22,7 @@ return{
 		fall=20,
 		royaleMode=true,
 		Fkey=selectTarget,
+		garbageSpeed=.3,
 		pushSpeed=2,
 		freshLimit=15,
 		bg="rainbow",bgm="rockblock",

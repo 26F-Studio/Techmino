@@ -191,6 +191,7 @@ CUSTOMENV={--gameEnv for cutsom game
 	freshLimit=1e99,
 	opponent=0,
 	life=0,
+	garbageSpeed=1,
 	pushSpeed=3,
 
 	--Else
@@ -205,7 +206,6 @@ GAME={--Global game data
 	result=false,		--Game result (string)
 	pauseTime=0,		--Time paused
 	pauseCount=0,		--Pausing count
-	garbageSpeed=1,		--Garbage timing speed
 	warnLVL0=0,			--Warning level
 	warnLVL=0,			--Warning level (show)
 

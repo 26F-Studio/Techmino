@@ -10,7 +10,7 @@ local function updateLine(P)--Attacks, line pushing, cam moving
 		A.time=A.time+1
 		if not A.sent then
 			if A.countdown>0 then
-				A.countdown=max(A.countdown-GAME.garbageSpeed,0)
+				A.countdown=max(A.countdown-P.gameEnv.garbageSpeed,0)
 			end
 		else
 			if A.time>20 then

@@ -402,23 +402,26 @@ function royaleLevelup()
 		spd=30
 	elseif GAME.stage==3 then
 		spd=15
-		GAME.garbageSpeed=.6
+		for _,P in next,#PLAYERS.alive do
+			P.gameEnv.garbageSpeed=.6
+		end
 		if PLAYERS[1].alive then BGM.play("cruelty")end
 	elseif GAME.stage==4 then
 		spd=10
-		local _=PLAYERS.alive
-		for i=1,#_ do
-			_[i].gameEnv.pushSpeed=3
+		for _,P in next,#PLAYERS.alive do
+			P.gameEnv.pushSpeed=3
 		end
 	elseif GAME.stage==5 then
 		spd=5
-		GAME.garbageSpeed=1
+		for _,P in next,#PLAYERS.alive do
+			P.gameEnv.garbageSpeed=1
+		end
 	elseif GAME.stage==6 then
 		spd=3
 		if PLAYERS[1].alive then BGM.play("final")end
 	end
-	for i=1,#PLAYERS.alive do
-		PLAYERS.alive[i].gameEnv.drop=spd
+	for _,P in next,#PLAYERS.alive do
+		P.gameEnv.drop=spd
 	end
 	if GAME.curMode.name:find("ultimate")then
 		for i=1,#PLAYERS.alive do
@@ -539,7 +542,6 @@ function resetGameData(replaying)
 	end
 
 	GAME.result=false
-	GAME.garbageSpeed=1
 	GAME.warnLVL0=0
 	GAME.warnLVL=0
 	if replaying then
@@ -582,7 +584,6 @@ function resetGameData(replaying)
 		GAME.mostDangerous=nil
 		GAME.secDangerous=nil
 		GAME.stage=1
-		GAME.garbageSpeed=.3
 	end
 	STAT.game=STAT.game+1
 	FREEROW.reset(30*#PLAYERS)

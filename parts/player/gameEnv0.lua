@@ -39,6 +39,7 @@ return{
 	mission=NULL,
 
 	life=0,
+	garbageSpeed=1,
 	pushSpeed=3,
 	block=true,
 	noTele=false,
