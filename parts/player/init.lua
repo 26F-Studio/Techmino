@@ -51,8 +51,8 @@ end
 local function pressKey_Rec(P,keyID)
 	if P.keyAvailable[keyID]then
 		if GAME.recording then
-			ins(GAME.rec,GAME.frame+1)
-			ins(GAME.rec,keyID)
+			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,keyID)
 		end
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
@@ -67,8 +67,8 @@ local function pressKey_Rec(P,keyID)
 end
 local function releaseKey_Rec(P,keyID)
 	if GAME.recording then
-		ins(GAME.rec,GAME.frame+1)
-		ins(GAME.rec,-keyID)
+		ins(GAME.rep,GAME.frame+1)
+		ins(GAME.rep,-keyID)
 	end
 	P.keyPressing[keyID]=false
 end

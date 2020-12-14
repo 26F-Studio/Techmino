@@ -553,7 +553,7 @@ function resetGameData(replaying)
 		GAME.recording=true
 		GAME.replaying=false
 		GAME.setting=copyGameSetting()
-		GAME.rec={}
+		GAME.rep={}
 		GAME.rank=0
 		math.randomseed(tm.getTime())
 		GAME.seed=rnd(1046101471,2662622626)

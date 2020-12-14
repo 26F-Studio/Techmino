@@ -169,7 +169,7 @@ function scene.update(dt)
 	--Replay
 	if GAME.replaying then
 		_=GAME.replaying
-		local L=GAME.rec
+		local L=GAME.rep
 		while GAME.frame==L[_]do
 			local k=L[_+1]
 			if k>0 then
