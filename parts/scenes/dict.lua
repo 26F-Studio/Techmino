@@ -39,23 +39,62 @@ local function clearResult()
 	for _=1,#result do rem(result)end
 	selected,scrollPos,waiting,lastSearch=1,0,0,false
 end
+local miniGame={
+	["15"]="15p",
+	["15p"]="15p",
+	hrd="15p",
+	huarongdao="15p",
+	shuzihuarongdao="15p",
+
+	schulte="schulteG",
+	schulteg="schulteG",
+	schultegrid="schulteG",
+	shuerte="schulteG",
+	shuertefangge="schulteG",
+
+	ping="pong",
+	pong="pong",
+	tanqiu="pong",
+
+	abc="AtoZ",
+	abcde="AtoZ",
+	abcdefg="AtoZ",
+	atoz="AtoZ",
+	AtoZ="AtoZ",
+	dazi="AtoZ",
+
+	uttt="UTTT",
+	tictactoe="UTTT",
+	ultimatetictactoe="UTTT",
+	ultimateTicTacToe="UTTT",
+	jingziqi="UTTT",
+	zhanluejingziqi="UTTT",
+
+	cf="cubefield",
+	cbfd="cubefield",
+	cubefield="cubefield",
+}
 local function search()
-	clearResult()
-	local first
-	for i=1,#dict do
-		local pos=find(dict[i][2],input,nil,true)
-		if pos==1 and not first then
-			ins(result,1,dict[i])
-			first=true
-		elseif pos then
-			ins(result,dict[i])
+	if miniGame[input]then
+		SCN.go("mg_"..miniGame[input])
+	else
+		clearResult()
+		local first
+		for i=1,#dict do
+			local pos=find(dict[i][2],input,nil,true)
+			if pos==1 and not first then
+				ins(result,1,dict[i])
+				first=true
+			elseif pos then
+				ins(result,dict[i])
+			end
 		end
+		if result[1]then
+			SFX.play("reach")
+		end
+		url=(result[1]and result or dict)[selected][5]
+		lastSearch=input
 	end
-	if result[1]then
-		SFX.play("reach")
-	end
-	url=(result[1]and result or dict)[selected][5]
-	lastSearch=input
 end
 
 function scene.keyDown(key)

@@ -220,7 +220,6 @@ return{
 			quit="Exit",
 			music="Music Room",
 			sound="SE Room",
-			minigame="Mini Games",
 		},
 		mode={
 			mod="Mods (F1)",
@@ -583,14 +582,6 @@ return{
 			b2b="B2B",
 			b3b="B3B",
 			pc="PC",
-		},
-		minigame={
-			mg_15p="15 Puzzle",
-			mg_schulteG="Schulte Grid",
-			mg_pong="Pong",
-			mg_AtoZ="A to Z",
-			mg_UTTT="Ultimate Tic-Tac-Toe",
-			mg_cubefield="Cubefield",
 		},
 		mg_15p={
 			reset="Shuffle",

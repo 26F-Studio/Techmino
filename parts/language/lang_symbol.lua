@@ -110,7 +110,6 @@ return{
 			quit="X",
 			music="~~~",
 			sound="=><=",
-			minigame="^_^",
 		},
 		mode={
 			mod="?!?!?!(F1)",

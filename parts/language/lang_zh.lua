@@ -223,7 +223,6 @@ return{
 			quit="退出",
 			music="音乐室",
 			sound="音效室",
-			minigame="小游戏",
 		},
 		mode={
 			mod="Mods (F1)",
@@ -584,14 +583,6 @@ return{
 			b2b="B2B",
 			b3b="B3B",
 			pc="PC",
-		},
-		minigame={
-			mg_15p="15 Puzzle",
-			mg_schulteG="舒尔特方格",
-			mg_pong="Pong",
-			mg_AtoZ="A to Z",
-			mg_UTTT="战略井字棋",
-			mg_cubefield="Cubefield",
 		},
 		mg_15p={
 			reset="打乱",

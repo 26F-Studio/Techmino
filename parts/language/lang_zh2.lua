@@ -143,14 +143,6 @@ return{
 			b3b="大满贯",
 			pc="全清",
 		},
-		minigame={
-			mg_15p="数字华容道",
-			mg_schulteG="舒尔特方格",
-			mg_pong="弹球",
-			mg_AtoZ="打字游戏",
-			mg_UTTT="战略井字棋",
-			mg_cubefield="飞行器",
-		},
 	},
 	modes={
 		["sprint_10"]=			{"竞速",		"10行",		"消除10行"},

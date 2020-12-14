@@ -203,7 +203,6 @@ return{
 			quit="Salir",
 			music="Música",
 			sound="Sala de SE",
-			minigame="Minijuegos",
 		},
 		mode={
 			-- mod="Mods (F1)",
@@ -563,14 +562,6 @@ return{
 			-- b2b="B2B",
 			-- b3b="B3B",
 			-- pc="PC",
-		},
-		minigame={
-			mg_15p="Puzzle-15",
-			mg_schulteG="Grilla Schulte",
-			mg_pong="Pong",
-			-- mg_AtoZ="A to Z",
-			-- mg_UTTT="Ultimate Tic-Tac-Toe",
-			-- mg_cubefield="Cubefield",
 		},
 		mg_15p={
 			reset="Mezclar",

@@ -199,7 +199,6 @@ return{
 			quit="Quitter",
 			music="Salon musical",
 			sound="Salon SE",
-			minigame="Minijeux",
 		},
 		mode={
 			-- mod="Mods (F1)",
@@ -557,14 +556,6 @@ return{
 			b2b="B2B",
 			b3b="B3B",
 			pc="PC",
-		},
-		minigame={
-			mg_15p="15 Puzzle",
-			mg_schulteG="Grille de Schulte",
-			mg_pong="Pong",
-			-- mg_AtoZ="A to Z",
-			-- mg_UTTT="Ultimate Tic-Tac-Toe",
-			-- mg_cubefield="Cubefield",
 		},
 		mg_15p={
 			reset="Réinitialiser",
