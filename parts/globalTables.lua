@@ -204,6 +204,7 @@ GAME={--Global game data
 
 	frame=0,			--Frame count
 	result=false,		--Game result (string)
+	rank=nil,			--Rank reached
 	pauseTime=0,		--Time paused
 	pauseCount=0,		--Pausing count
 	warnLVL0=0,			--Warning level
@@ -211,15 +212,13 @@ GAME={--Global game data
 
 	seed=1046101471,	--Game seed
 	curMode=nil,		--Current gamemode object
+	mod={},				--List of loaded mods
 	modeEnv=nil,		--Current gamemode environment
 	setting={},			--Game settings
 	rep={},				--Recording list, key,time,key,time...
 	recording=false,	--If recording
 	replaying=false,	--If replaying
 	saved=false,		--If recording saved
-
-	mod={},				--List of loaded mods
-	rank=nil,			--Rank reached
 
 	prevBG=nil,			--Previous background, for restore BG when quit setting page
 
@@ -345,3 +344,4 @@ VK_org={--Virtualkey layout, refresh all VKs' position with this before each gam
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
 virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
+REPLAY={}

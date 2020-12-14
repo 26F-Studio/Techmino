@@ -216,6 +216,7 @@ return{
 		pause={
 			setting="Paramètres (S)",
 			replay="Replay (P)",
+			-- save="Save (O)",
 			resume="Continuer (esc)",
 			restart="Réessayer (R)",
 			quit="Quitter (Q)",

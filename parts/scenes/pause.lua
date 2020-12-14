@@ -140,9 +140,15 @@ function scene.keyDown(key)
 	elseif key=="r"then
 		resetGameData()
 		SCN.swapTo("play","none")
-	elseif key=="p"and(GAME.result or GAME.replaying)and #PLAYERS==1 then
-		resetGameData(true)
-		SCN.swapTo("play","none")
+	elseif key=="p"then
+		if(GAME.result or GAME.replaying)and #PLAYERS==1 then
+			resetGameData(true)
+			SCN.swapTo("play","none")
+		end
+	elseif key=="o"then
+		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved and saveRecording()then
+			GAME.saved=true
+		end
 	end
 end
 
@@ -300,7 +306,8 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=WIDGET.lnk_pressKey("s")},
-	WIDGET.newButton{name="replay",		x=640,	y=250,	w=240,h=100,color="lYellow",font=30,code=WIDGET.lnk_pressKey("p"),hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="replay",		x=535,	y=250,	w=200,h=100,color="lYellow",font=30,code=WIDGET.lnk_pressKey("p"),hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="save",		x=745,	y=250,	w=200,h=100,color="green",	font=30,code=WIDGET.lnk_pressKey("o"),hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
 	WIDGET.newButton{name="resume",		x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=WIDGET.lnk_pressKey("escape")},
 	WIDGET.newButton{name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=35,code=WIDGET.lnk_pressKey("r")},
 	WIDGET.newButton{name="quit",		x=640,	y=600,	w=240,h=100,font=35,code=WIDGET.lnk_BACK},

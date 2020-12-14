@@ -127,6 +127,7 @@ return{
 		pause={
 			setting="_?_ (S)",
 			replay="## (P)",
+			save="0101 (O)",
 			resume="!! (esc)",
 			restart="_→_ (R)",
 			quit="X (Q)",

@@ -1,5 +1,7 @@
 local tm=love.timer
 local data=love.data
+
+local fs=love.filesystem
 local int,rnd=math.floor,math.random
 local sub=string.sub
 local char,byte=string.char,string.byte
@@ -473,6 +475,7 @@ function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
 		if MODES[M].score then STAT.lastPlay=M end
+		GAME.curModeName=M
 		GAME.curMode=MODES[M]
 		GAME.modeEnv=GAME.curMode.env
 		drawableText.modeName:set(text.modes[M][1])
@@ -550,15 +553,16 @@ function resetGameData(replaying)
 		GAME.replaying=1
 	else
 		GAME.frame=150-SETTING.reTime*15
+		GAME.seed=rnd(1046101471,2662622626)
 		GAME.pauseTime=0
 		GAME.pauseCount=0
-		GAME.recording=true
-		GAME.replaying=false
+		GAME.saved=false
 		GAME.setting=copyGameSetting()
 		GAME.rep={}
+		GAME.recording=true
+		GAME.replaying=false
 		GAME.rank=0
 		math.randomseed(tm.getTime())
-		GAME.seed=rnd(1046101471,2662622626)
 	end
 
 	destroyPlayers()
@@ -653,10 +657,10 @@ function dumpRecording(list,ptr)
 		--Step
 		ptr=ptr+2
 	end
-	return data.encode("string","base64",out..buffer)
+	return out..buffer
 end
 function pumpRecording(str,L)
-	str=data.decode("string","base64",str)
+	-- str=data.decode("string","base64",str)
 	local len=#str
 	local p=1
 
@@ -690,4 +694,47 @@ function pumpRecording(str,L)
 		p=p+1
 	end
 	return list
+end
+
+local noRecList={"custom","solo","round","techmino"}
+local function getModList()
+	local res={}
+	for k,v in next,GAME.mod do
+		if v.sel>0 then
+			ins(res,{v.no,v.sel})
+		end
+	end
+	return res
+end
+function saveRecording()
+	--Filtering modes that cannot be saved
+	for _,v in next,noRecList do
+		if GAME.curModeName:find(v)then
+			LOG.print("Cannot save recording of this mode now!",COLOR.sky)
+			return
+		end
+	end
+
+	--File contents
+	local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
+	local fileHead=
+		os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
+		GAME.curModeName.."\n"..
+		VERSION_NAME.."\n"..
+		(USER.username or"Player")
+	local fileBody=
+		GAME.seed.."\n"..
+		json.encode(GAME.setting).."\n"..
+		json.encode(getModList()).."\n"..
+		dumpRecording(GAME.rep)
+
+	--Write file
+	if not fs.getInfo(fileName)then
+		fs.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
+		ins(REPLAY,fileName)
+		FILE.save(REPLAY,"conf/replay")
+		return true
+	else
+		LOG.print("Save failed: File already exists")
+	end
 end

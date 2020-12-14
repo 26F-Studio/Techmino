@@ -296,6 +296,7 @@ if fs.getInfo("conf/data")then STAT=FILE.load("conf/data")end
 if fs.getInfo("conf/key")then keyMap=FILE.load("conf/key")end
 if fs.getInfo("conf/virtualkey")then VK_org=FILE.load("conf/virtualkey")end
 if fs.getInfo("conf/user")then USER=FILE.load("conf/user")end
+if fs.getInfo("conf/replay")then REPLAY=FILE.load("conf/replay")end
 
 for _,v in next,{
 	"tech_ultimate.dat",

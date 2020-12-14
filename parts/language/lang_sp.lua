@@ -220,6 +220,7 @@ return{
 		pause={
 			setting="Opciones (S)",
 			replay=	"Grabación (P)",
+			-- save="Save (O)",
 			resume=	"Resumir (esc)",
 			restart="Reiniciar (R)",
 			quit=	"Finalizar (Q)",

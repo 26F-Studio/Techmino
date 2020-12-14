@@ -240,6 +240,7 @@ return{
 		pause={
 			setting="设置(S)",
 			replay=	"回放(P)",
+			save="保存(O)",
 			resume=	"继续(esc)",
 			restart="重新开始(R)",
 			quit=	"退出(Q)",
