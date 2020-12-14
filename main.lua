@@ -250,9 +250,19 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	end
 end
 
+--Create directories
+for _,v in next,{"conf","record","replay"}do
+	local info=fs.getInfo(v)
+	if info then
+		if info.type=="directory"then goto NEXT end
+		fs.remove(v)
+	end
+	fs.createDirectory(v)
+	::NEXT::
+end
+
 --Collect files
 if fs.getInfo("data.dat")then
-	fs.createDirectory("conf")
 	for k,v in next,{
 		["settings.dat"]="conf/settings",
 		["unlock.dat"]="conf/unlock",
@@ -264,14 +274,12 @@ if fs.getInfo("data.dat")then
 		fs.write(v,fs.read(k))
 		fs.remove(k)
 	end
-	fs.createDirectory("record")
 	for _,name in next,fs.getDirectoryItems("")do
 		if name:sub(-4)==".dat"then
 			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
 			fs.remove(name)
 		end
 	end
-	fs.createDirectory("replay")
 end
 
 --Load files
