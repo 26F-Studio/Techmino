@@ -122,11 +122,9 @@ function scene.sceneInit(org)
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
-	if not GAME.replaying and(GAME.frame>400 or GAME.result)then
+	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
+	if not GAME.replaying and(GAME.frame>400 or GAME.result)and not GAME.result then
 		mergeStat(STAT,PLAYERS[1].stat)
-		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-	end
-	if not GAME.result then
 		FILE.save(STAT,"conf/data")
 	end
 end
