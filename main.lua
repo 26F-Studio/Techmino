@@ -271,8 +271,10 @@ if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")th
 		["virtualkey.dat"]="conf/virtualkey",
 		["account.dat"]="conf/user",
 	}do
-		fs.write(v,fs.read(k))
-		fs.remove(k)
+		if fs.getInfo(k)then
+			fs.write(v,fs.read(k))
+			fs.remove(k)
+		end
 	end
 	for _,name in next,fs.getDirectoryItems("")do
 		if name:sub(-4)==".dat"then
