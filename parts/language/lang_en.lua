@@ -185,7 +185,7 @@ return{
 		"Program: MrZ, Particle_G, [T9972, FinnTenzor]",
 		"Art: MrZ, [Gnyar, T0722]",
 		"Music: MrZ, [T0722]",
-		"Voice & Sound: MrZ, Miya  Performance: 模电, HBM",
+		"Voice & Sound: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Test: 思竣  Net: 渣渣120",
 		"English: User670, MattMayuga",
 		"French: Mizu  Spanish: Mr.Faq",

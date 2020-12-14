@@ -168,7 +168,7 @@ return{
 		"Programación: MrZ, Particle_G, [T9972, FinnTenzor]",
 		"Artistas: MrZ, [Gnyar, T0722]",
 		"Música: MrZ, [T0722]",
-		"Voces/Sonidos: MrZ, Miya  Performance: 模电, HBM",
+		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Testeo: 思竣  Red: 渣渣120",
 		"Inglés: User670, MattMayuga",
 		"Francés: Mizu  Español: Mr.Faq",

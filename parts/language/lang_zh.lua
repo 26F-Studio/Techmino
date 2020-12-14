@@ -188,7 +188,7 @@ return{
 		"程序: MrZ, Particle_G, [T9972, FinnTenzor]",
 		"美术: MrZ, [Gnyar, T0722]",
 		"音乐: MrZ, [T0722]",
-		"音效/语音: MrZ, Miya  演出: 模电, HBM",
+		"音效/语音: Miya, Naki, MrZ  演出: 模电, HBM",
 		"测试: 思竣  官网: 渣渣120",
 		"英文: User670, MattMayuga",
 		"法文: Mizu  西文: Mr.Faq",
