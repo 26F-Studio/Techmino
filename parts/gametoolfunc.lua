@@ -475,8 +475,9 @@ function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
 end
 function initPlayerPosition()--Set initial position for every player
 	local L=PLAYERS.alive
+	local y=#L<=5 and 360 or -62
 	for i=1,#L do
-		L[i]:setPosition(640,-62,0)
+		L[i]:setPosition(640,y,0)
 	end
 	resetPlayerPosition()
 end

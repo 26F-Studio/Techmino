@@ -159,7 +159,7 @@ local function task_movePosition(P,x,y,size)
 			P:setPosition(x,y,size)
 			return true
 		else
-			d=max(.08-lg(d)*.02,.016)
+			d=max(.085-lg(d)*.02,.03)
 			x1=x1+(x-x1)*d
 			y1=y1+(y-y1)*d
 			size1=size1+(size-size1)*d
