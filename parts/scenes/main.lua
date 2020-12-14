@@ -117,7 +117,7 @@ scene.widgetList={
 	WIDGET.newButton{name="help",	x=370,y=515,w=200,h=90,color="dGreen",	font=40,code=WIDGET.lnk_goScene("help")},
 	WIDGET.newButton{name="quit",	x=590,y=515,w=200,h=90,color="grey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 	WIDGET.newKey{name="music",		x=150,y=610,w=200,h=60,color="red",				code=WIDGET.lnk_goScene("music")},
-	WIDGET.newKey{name="sound",		x=370,y=610,w=200,h=60,color="green",			code=WIDGET.lnk_goScene("sound")},
+	WIDGET.newKey{name="sound",		x=590,y=610,w=200,h=60,color="grape",			code=WIDGET.lnk_goScene("sound")},
 }
 
 return scene
