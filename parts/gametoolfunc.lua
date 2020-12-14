@@ -404,25 +404,25 @@ function royaleLevelup()
 		spd=30
 	elseif GAME.stage==3 then
 		spd=15
-		for _,P in next,#PLAYERS.alive do
+		for _,P in next,PLAYERS.alive do
 			P.gameEnv.garbageSpeed=.6
 		end
 		if PLAYERS[1].alive then BGM.play("cruelty")end
 	elseif GAME.stage==4 then
 		spd=10
-		for _,P in next,#PLAYERS.alive do
+		for _,P in next,PLAYERS.alive do
 			P.gameEnv.pushSpeed=3
 		end
 	elseif GAME.stage==5 then
 		spd=5
-		for _,P in next,#PLAYERS.alive do
+		for _,P in next,PLAYERS.alive do
 			P.gameEnv.garbageSpeed=1
 		end
 	elseif GAME.stage==6 then
 		spd=3
 		if PLAYERS[1].alive then BGM.play("final")end
 	end
-	for _,P in next,#PLAYERS.alive do
+	for _,P in next,PLAYERS.alive do
 		P.gameEnv.drop=spd
 	end
 	if GAME.curMode.name:find("ultimate")then
