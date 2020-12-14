@@ -9,7 +9,6 @@ local default_setting={
 	"das","arr",
 	"sddas","sdarr",
 	"ihs","irs","ims",
-	"maxNext",
 	"swap",
 	--"face","skin",
 }

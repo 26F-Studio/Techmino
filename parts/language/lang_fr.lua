@@ -239,7 +239,6 @@ return{
 			key="Touches",
 			touch="Boutons virtuels",
 			reTime="Délai de démarrage",
-			maxNext="Nombre de prévisualisations de pièces",
 			-- RS="Rotation System",
 			layout="Skin, orientations, etc.",
 			autoPause="Mettre en pause en cas de perte de focus",

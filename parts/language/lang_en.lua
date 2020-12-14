@@ -259,7 +259,6 @@ return{
 			key="Key Mappings",
 			touch="Touch Settings",
 			reTime="Start Delay",
-			maxNext="Next Queue Length",
 			RS="Rotation System",
 			layout="Layout",
 			autoPause="Pause when focus is lost",

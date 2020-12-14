@@ -26,7 +26,6 @@
 			ihs:提前Hold
 			irs:提前旋转
 			ims:提前移动
-			maxNext:最大next数
 
 			skin:方块颜色,包含25个整数(1~16)的table
 			face:方块朝向,包含25个整数(0~3)的table

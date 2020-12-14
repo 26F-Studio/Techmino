@@ -268,7 +268,6 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	ENV.das=max(ENV.das,ENV.mindas)
 	ENV.arr=max(ENV.arr,ENV.minarr)
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
-	ENV.nextCount=min(ENV.nextCount,SETTING.maxNext)
 
 	if ENV.sequence~="bag"and ENV.sequence~="loop"then
 		ENV.bagLine=false

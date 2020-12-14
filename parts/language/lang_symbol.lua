@@ -141,7 +141,6 @@ return{
 			key="=?",
 			touch="_?",
 			reTime="3-2-1",
-			maxNext="=123",
 			RS="''?",
 			layout="=-=-=",
 			autoPause="A||",

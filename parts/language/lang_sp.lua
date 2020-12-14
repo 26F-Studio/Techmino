@@ -242,7 +242,6 @@ return{
 			key="Teclas",
 			touch="Controles Táctiles",
 			reTime="Retraso de Inicio",
-			maxNext="Cantidad de Pzas. Siguientes",
 			-- RS="Rotation System",
 			layout="Diseño",
 			autoPause="Pausar cuando la ventana no está enfocada",

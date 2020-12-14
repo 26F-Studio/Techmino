@@ -262,7 +262,6 @@ return{
 			key="键位设置",
 			touch="触屏设置",
 			reTime="开局等待时间",
-			maxNext="最大预览数量",
 			RS="旋转系统",
 			layout="外观",
 			autoPause="失去焦点自动暂停",
