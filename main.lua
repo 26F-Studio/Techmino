@@ -267,7 +267,7 @@ if fs.getInfo("data.dat")then
 	fs.createDirectory("record")
 	for _,name in next,fs.getDirectoryItems("")do
 		if name:sub(-4)==".dat"then
-			fs.write("record/"..name,fs.read(name))
+			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
 			fs.remove(name)
 		end
 	end
