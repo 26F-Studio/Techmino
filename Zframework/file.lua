@@ -47,7 +47,7 @@ function FILE.save(data,name,mode)
 	local success,mes=F:write(data)
 	F:flush()F:close()
 	if success then
-		if mode:find("q")then
+		if not mode:find("q")then
 			LOG.print(text.saveDone,COLOR.green)
 		end
 	else
