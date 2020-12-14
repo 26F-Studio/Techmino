@@ -16,8 +16,8 @@ local function tick_httpREQ_checkAccessToken(task)
 					"POST",
 					{["Content-Type"]="application/json"},
 					json.encode{
-						email=ACCOUNT.email,
-						auth_token=ACCOUNT.auth_token,
+						email=USER.email,
+						auth_token=USER.auth_token,
 					}
 				)
 			else
@@ -82,15 +82,15 @@ scene.widgetList={
 	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=WIDGET.lnk_goScene("mode")},
 	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
 		if LOGIN then
-			if ACCOUNT.access_token then
+			if USER.access_token then
 				httpRequest(
 					tick_httpREQ_checkAccessToken,
 					PATH.api..PATH.access,
 					"GET",
 					{["Content-Type"]="application/json"},
 					json.encode{
-						email=ACCOUNT.email,
-						access_token=ACCOUNT.access_token,
+						email=USER.email,
+						access_token=USER.access_token,
 					}
 				)
 			else
@@ -100,8 +100,8 @@ scene.widgetList={
 					"POST",
 					{["Content-Type"]="application/json"},
 					json.encode{
-						email=ACCOUNT.email,
-						auth_token=ACCOUNT.auth_token,
+						email=USER.email,
+						auth_token=USER.auth_token,
 					}
 				)
 			end

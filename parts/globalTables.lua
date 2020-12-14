@@ -302,7 +302,7 @@ for i=1,25 do
 	STAT.spin[i]={0,0,0,0,0,0,0}
 end
 
-ACCOUNT={
+USER={
 	email=nil,
 	auth_token=nil,
 	access_token=nil,

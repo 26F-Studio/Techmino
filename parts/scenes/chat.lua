@@ -44,7 +44,7 @@ function scene.sceneInit()
 	BG.set("none")
 	wsConnect(
 		TICK.wsCONN_connect,
-		PATH.socket..PATH.chat.."?email="..urlEncode(ACCOUNT.email).."&access_token="..urlEncode(ACCOUNT.access_token)
+		PATH.socket..PATH.chat.."?email="..urlEncode(USER.email).."&access_token="..urlEncode(USER.access_token)
 	)
 end
 function scene.sceneBack()

@@ -253,16 +253,16 @@ end
 --Collect files
 if fs.getInfo("data.dat")then
 	fs.createDirectory("conf")
-	for _,v in next,{
-		"settings",
-		"unlock",
-		"data",
-		"key",
-		"virtualkey",
-		"account",
+	for k,v in next,{
+		["settings.dat"]="conf/settings",
+		["unlock.dat"]="conf/unlock",
+		["data.dat"]="conf/data",
+		["key.dat"]="conf/key",
+		["virtualkey.dat"]="conf/virtualkey",
+		["account.dat"]="conf/user",
 	}do
-		fs.write("conf/"..v,fs.read(v..".dat"))
-		fs.remove(v..".dat")
+		fs.write(v,fs.read(k))
+		fs.remove(k)
 	end
 	fs.createDirectory("record")
 	for _,name in next,fs.getDirectoryItems("")do
@@ -295,7 +295,7 @@ if fs.getInfo("conf/unlock")then RANKS=FILE.load("conf/unlock")end
 if fs.getInfo("conf/data")then STAT=FILE.load("conf/data")end
 if fs.getInfo("conf/key")then keyMap=FILE.load("conf/key")end
 if fs.getInfo("conf/virtualkey")then VK_org=FILE.load("conf/virtualkey")end
-if fs.getInfo("conf/account")then ACCOUNT=FILE.load("conf/account")end
+if fs.getInfo("conf/user")then USER=FILE.load("conf/user")end
 
 for _,v in next,{
 	"tech_ultimate.dat",

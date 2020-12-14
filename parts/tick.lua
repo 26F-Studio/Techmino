@@ -9,16 +9,16 @@ function Tick.httpREQ_getAccessToken(task)
 				local res=json.decode(response.body)
 				if res then
 					LOG.print(text.accessSuccessed)
-					ACCOUNT.access_token=res.access_token
-					FILE.save(ACCOUNT,"conf/account")
+					USER.access_token=res.access_token
+					FILE.save(USER,"conf/account")
 					SCN.swapTo("netgame")
 				else
 					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 				end
 			else
 				LOGIN=false
-				ACCOUNT.access_token=nil
-				ACCOUNT.auth_token=nil
+				USER.access_token=nil
+				USER.auth_token=nil
 				local err=json.decode(response.body)
 				if err then
 					LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")

@@ -9,9 +9,9 @@ local function tick_httpREQ_newLogin(task)
 			if res then
 				if LOGIN then
 					LOG.print(text.loginSuccessed)
-					ACCOUNT.email=res.email
-					ACCOUNT.auth_token=res.auth_token
-					FILE.save(ACCOUNT,"conf/account","q")
+					USER.email=res.email
+					USER.auth_token=res.auth_token
+					FILE.save(USER,"conf/account","q")
 
 					httpRequest(
 						TICK.httpREQ_getAccessToken,
@@ -19,8 +19,8 @@ local function tick_httpREQ_newLogin(task)
 						"POST",
 						{["Content-Type"]="application/json"},
 						json.encode{
-							email=ACCOUNT.email,
-							auth_token=ACCOUNT.auth_token,
+							email=USER.email,
+							auth_token=USER.auth_token,
 						}
 					)
 				else

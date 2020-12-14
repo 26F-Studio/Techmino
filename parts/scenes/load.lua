@@ -180,15 +180,15 @@ function scene.update()
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
 			httpRequest(tick_httpREQ_launch,PATH.api..PATH.appInfo)
-			if ACCOUNT.auth_token and ACCOUNT.email then
+			if USER.auth_token and USER.email then
 				httpRequest(
 					tick_httpREQ_autoLogin,
 					PATH.api..PATH.auth,
 					"GET",
 					{["Content-Type"]="application/json"},
 					json.encode{
-						email=ACCOUNT.email,
-						auth_token=ACCOUNT.auth_token,
+						email=USER.email,
+						auth_token=USER.auth_token,
 					}
 				)
 			end
