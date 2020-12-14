@@ -5,20 +5,27 @@ local sub=string.sub
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
 
-local default_setting={
-	"das","arr",
-	"sddas","sdarr",
-	"ihs","irs","ims",
-	"swap",
-	--"face","skin",
+local gameSetting={
+	--Tuning
+	"das","arr","dascut","sddas","sdarr",
+	"ihs","irs","ims","RS","swap",
+
+	--System
+	"skin","face",
+
+	--Graphic
+	"block","ghost","center","smooth","grid","bagLine",
+	"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
+	"text","score","warn","highCam","nextPos",
 }
 local function copyGameSetting()
-	local S={
-		face=copyList(SETTING.face),
-		skin=copyList(SETTING.skin),
-	}
-	for _,v in next,default_setting do
-		S[v]=SETTING[v]
+	local S={}
+	for _,key in next,gameSetting do
+		if type(SETTING[key])=="table"then
+			S[key]=copyList(SETTING[key])
+		else
+			S[key]=SETTING[key]
+		end
 	end
 	return S
 end
