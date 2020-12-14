@@ -13,7 +13,7 @@ function sceneInit.setting_sound()
 	BG.set("space")
 end
 function sceneBack.setting_sound()
-	FILE.saveSetting()
+	FILE.save(SETTING,"settings")
 end
 
 function mouseDown.setting_sound(x,y)

@@ -70,7 +70,7 @@ function Tmr.load()
 			for k,v in next,m do
 				M[k]=v
 			end
-			M.records=FILE.loadRecord(m.name)or M.score and{}
+			M.records=FILE.load(m.name)or M.score and{}
 			if M.score then
 				if RANKS[M.name]==6 then
 					RANKS[M.name]=0

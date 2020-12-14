@@ -117,7 +117,9 @@ function sceneBack.pause()
 	if not GAME.replaying then
 		mergeStat(STAT,PLAYERS[1].stat)
 	end
-	FILE.saveData()
+	if not GAME.result then
+		FILE.save(STAT,"data")
+	end
 end
 
 function keyDown.pause(key)

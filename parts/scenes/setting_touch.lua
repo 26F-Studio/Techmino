@@ -13,7 +13,7 @@ function sceneInit.setting_touch()
 	}
 end
 function sceneBack.setting_touch()
-	FILE.saveVK()
+	FILE.save(VK_org,"virtualkey")
 end
 
 local function onVK_org(x,y)

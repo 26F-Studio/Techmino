@@ -1,5 +1,5 @@
 function sceneBack.lang()
-	FILE.saveSetting()
+	FILE.save(SETTING,"settings")
 end
 
 local function setLang(n)return function()SETTING.lang=n LANG.set(n)end end

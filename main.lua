@@ -17,13 +17,13 @@ SYSTEM=love.system.getOS()
 MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
 SAVEDIR=fs.getSaveDirectory()
 
+--Global Vars & Settings
 MARKING=true
 LOADED=false
 NOGAME=false
 LOGIN=false
 EDITING=""
 
---Global Setting & Vars
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
@@ -140,7 +140,7 @@ end
 
 --Load files & settings
 if fs.getInfo("settings.dat")then
-	FILE.loadSetting()
+	SETTING=FILE.load("settings")
 else
 	if MOBILE then
 		SETTING.VKSwitch=true
@@ -155,10 +155,11 @@ end
 LANG.set(SETTING.lang)
 if SETTING.fullscreen then love.window.setFullscreen(true)end
 
-if fs.getInfo("unlock.dat")then FILE.loadUnlock()end
-if fs.getInfo("data.dat")then FILE.loadData()end
-if fs.getInfo("key.dat")then FILE.loadKeyMap()end
-if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
+if fs.getInfo("unlock.dat")then RANKS=FILE.load("unlock")end
+if fs.getInfo("data.dat")then STAT=FILE.load("data")end
+print(STAT.version)
+if fs.getInfo("key.dat")then keyMap=FILE.load("key")end
+if fs.getInfo("virtualkey.dat")then VK_org=FILE.load("virtualkey")end
 
 if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
 if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
@@ -197,21 +198,8 @@ do
 	if S.extraRate then
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
-	if S.version~=VERSION_NAME then
-		S.version=VERSION_NAME
+	if S.version~=VERSION_CODE then
 		newVersionLaunch=true
-
-		if not VERSION_NAME:find("0.12")or VERSION_NAME:find("0.12.0")then
-			local function delRecord(n)
-				if R[n]then
-					R[n]=0
-					fs.remove(n..".dat")
-				end
-			end
-			delRecord("solo_1")delRecord("solo_2")delRecord("solo_3")delRecord("solo_4")delRecord("solo_5")
-			delRecord("dig_10")delRecord("dig_40")delRecord("dig_100")delRecord("dig_400")
-			delRecord("classic_fast")
-		end
 
 		--Try unlock modes which should be unlocked
 		for name,rank in next,RANKS do
@@ -227,8 +215,10 @@ do
 				end
 			end
 		end
-		FILE.saveUnlock()
-		FILE.saveData()
+
+		S.version=VERSION_CODE
+		FILE.save(RANKS,"unlock","")
+		FILE.save(STAT,"data","")
 	end
 	if MOBILE and not SETTING.fullscreen then
 		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,COLOR.yellow)

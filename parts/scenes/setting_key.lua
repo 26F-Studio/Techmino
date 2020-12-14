@@ -13,7 +13,7 @@ function sceneInit.setting_key()
 	}
 end
 function sceneBack.setting_key()
-	FILE.saveKeyMap()
+	FILE.save(keyMap,"key")
 end
 
 function keyDown.setting_key(key)

@@ -2,7 +2,7 @@ function sceneInit.setting_video()
 	BG.set("space")
 end
 function sceneBack.setting_video()
-	FILE.saveSetting()
+	FILE.save(SETTING,"settings")
 end
 
 WIDGET.init("setting_video",{

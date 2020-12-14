@@ -7,7 +7,7 @@ function sceneInit.setting_game()
 	BG.set("space")
 end
 function sceneBack.setting_game()
-	FILE.saveSetting()
+	FILE.save(SETTING,"settings")
 end
 
 function Pnt.setting_game()
