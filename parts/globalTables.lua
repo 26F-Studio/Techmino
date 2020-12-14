@@ -1,3 +1,4 @@
+--Complex tables
 local function disableKey(P,key)
 	table.insert(P.gameEnv.keyCancel,key)
 end
@@ -135,7 +136,22 @@ for i=1,#MODOPT do
 	M.sel,M.time=0,0
 	M.color=COLOR[M.color]
 end
+PATH={--Network API paths
+	api="/tech/api/v1",
+	socket="/tech/socket/v1",
+	appInfo="/app/info",
+	users="/users",
+	auth="/auth",
+	access="/auth/access",
+	versus="/online/versus",
+	chat="/chat",
+}
 
+--Game tables
+PLAYERS={alive={}}--Players data
+FIELD={}--Field(s) for custom game
+BAG={}--Sequence for custom game
+MISSION={}--Clearing mission for custom game
 CUSTOMENV={--gameEnv for cutsom game
 	--Basic
 	drop=60,
@@ -181,11 +197,6 @@ CUSTOMENV={--gameEnv for cutsom game
 	bg="none",
 	bgm="race",
 }
-
-FIELD={}--Field(s) for custom game
-BAG={}--Sequence for custom game
-MISSION={}--Clearing mission for custom game
-
 GAME={--Global game data
 	init=false,			--If need initializing game when enter scene-play
 	restartCount=0,		--Keep +=1 if player hold restart button after game start
@@ -205,6 +216,8 @@ GAME={--Global game data
 	rec={},				--Recording list, key,time,key,time...
 	recording=false,	--If recording
 	replaying=false,	--If replaying
+	saved=false,		--If recording saved
+
 	mod={},				--List of loaded mods
 	rank=nil,			--Rank reached
 
@@ -218,11 +231,18 @@ GAME={--Global game data
 	secDangerous=nil,	--Second dangerous player
 }
 
-PLAYERS={alive={}}--Players data
+--Userdata tables
+RANKS={sprint_10=0}--Ranks of modes
+USER={--User infomation
+	email=nil,
+	auth_token=nil,
+	access_token=nil,
 
-RANKS={sprint_10=0}
-
-SETTING={
+	username=nil,
+	motto=nil,
+	avatar=nil,
+}
+SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
 	sddas=0,sdarr=2,
@@ -282,8 +302,7 @@ SETTING={
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }
-
-STAT={
+STAT={--Statistics
 	version=VERSION_CODE,
 	run=0,game=0,time=0,frame=0,
 	key=0,rotate=0,hold=0,
@@ -296,44 +315,14 @@ STAT={
 	lastPlay="sprint_10",--Last played mode ID
 	date=nil,
 	todayTime=0,
-}
-for i=1,25 do
-	STAT.clear[i]={0,0,0,0,0,0}
-	STAT.spin[i]={0,0,0,0,0,0,0}
-end
-
-USER={
-	email=nil,
-	auth_token=nil,
-	access_token=nil,
-
-	username=nil,
-	motto=nil,
-	avatar=nil,
-}
-
-PATH={
-	api="/tech/api/v1",
-	socket="/tech/socket/v1",
-	appInfo="/app/info",
-	users="/users",
-	auth="/auth",
-	access="/auth/access",
-	versus="/online/versus",
-	chat="/chat",
-}
-
-keyMap={
+}for i=1,25 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
+keyMap={--Key setting
 	{"left","right","x","z","c","up","down","space","tab","r"},{},
 	--Keyboard
 	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},{},
 	--Joystick
-}
-for i=1,#keyMap do for j=1,20 do
-	if not keyMap[i][j]then keyMap[i][j]=""end
-end end
-
-VK_org={--Original virtualkey set,for restore VKs' position before each game
+}for i=1,#keyMap do for j=1,20 do if not keyMap[i][j]then keyMap[i][j]=""end end end
+VK_org={--Virtualkey layout, refresh all VKs' position with this before each game
 	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
@@ -355,4 +344,4 @@ VK_org={--Original virtualkey set,for restore VKs' position before each game
 	{ava=false,	x=900,		y=50,		r=80},--addToLeft
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
-virtualkey={}for i=1,#VK_org do virtualkey[i]={}end
+virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
