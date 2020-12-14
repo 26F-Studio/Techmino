@@ -223,7 +223,7 @@ PLAYERS={alive={}}--Players data
 RANKS={sprint_10=0}
 
 SETTING={
-	--Game
+	--Tuning
 	das=10,arr=2,dascut=0,
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,

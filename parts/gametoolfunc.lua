@@ -617,12 +617,12 @@ end
 		Press key 4 after 255+255+255+62 frame
 		......
 ]]
-function dumpRecording(list)
+function dumpRecording(list,ptr)
 	local out=""
 	local buffer=""
 	local prevFrm=0
-	local p=1
-	while list[p]do
+	ptr=ptr or 1
+	while list[ptr]do
 		--Check buffer size
 		if #buffer>10 then
 			out=out..buffer
@@ -630,8 +630,8 @@ function dumpRecording(list)
 		end
 
 		--Encode time
-		local t=list[p]-prevFrm
-		prevFrm=list[p]
+		local t=list[ptr]-prevFrm
+		prevFrm=list[ptr]
 		while t>=255 do
 			buffer=buffer.."\255"
 			t=t-255
@@ -639,11 +639,11 @@ function dumpRecording(list)
 		buffer=buffer..char(t)
 
 		--Encode key
-		t=list[p+1]
+		t=list[ptr+1]
 		buffer=buffer..char(t>0 and t or 256+t)
 
 		--Step
-		p=p+2
+		ptr=ptr+2
 	end
 	return data.encode("string","base64",out..buffer)
 end
