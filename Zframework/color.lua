@@ -60,8 +60,8 @@ end
 function color.rainbow(phase)
 	return
 		sin(phase)*.4+.6,
-		sin(phase+6.28/3)*.4+.6,
-		sin(phase-6.28/3)*.4+.6
+		sin(phase+2.0944)*.4+.6,
+		sin(phase-2.0944)*.4+.6
 end
 
 return color

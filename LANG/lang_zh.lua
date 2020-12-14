@@ -355,7 +355,7 @@ return{
 			title="自定义游戏",
 			subTitle="场地",
 
-			b12="[  ]",
+			b17="[  ]",
 			any="不定",
 			space="×",
 			copy="复制",

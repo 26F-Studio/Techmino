@@ -33,18 +33,25 @@ local SKIN={}
 SKIN.lib={}
 SKIN.libMini={}
 SKIN.libColor={
-	color.red,
-	color.orange,
-	color.yellow,
-	color.grass,
-	color.green,
-	color.water,
-	color.cyan,
-	color.blue,
-	color.purple,
-	color.magenta,
-	color.pink,
+	{color.rainbow( 1.471)},
+	{color.rainbow( 1.078)},
+	{color.rainbow( 0.685)},
+	{color.rainbow( 0.293)},
+	{color.rainbow(-0.100)},
+	{color.rainbow(-0.493)},
+	{color.rainbow(-0.885)},
+	{color.rainbow(-1.278)},
+	{color.rainbow(-1.671)},
+	{color.rainbow(-2.063)},
+	{color.rainbow(-2.456)},
+	{color.rainbow(-2.849)},
+	{color.rainbow(-3.242)},
+	{color.rainbow(-3.634)},
+	{color.rainbow(-4.027)},
+	{color.rainbow(-4.412)},
 	color.dGrey,
+	color.black,
+	color.lYellow,
 	color.grey,
 	color.lGrey,
 	color.dPurple,
@@ -59,7 +66,7 @@ function SKIN.loadOne(_)
 	gc.origin()
 	gc.setDefaultFilter("nearest","nearest")
 	gc.setColor(1,1,1)
-	SKIN.lib[_],SKIN.libMini[_]={},{}--30/6
+	SKIN.lib[_],SKIN.libMini[_]={},{}
 	local N="/image/skin/"..list[_]..".png"
 	local I
 	if love.filesystem.getInfo(N)then
@@ -68,19 +75,14 @@ function SKIN.loadOne(_)
 		I=gc.newImage("/image/skin/"..list[1]..".png")
 		LOG.print("No skin file: "..list[_],"warn")
 	end
-	for j=1,11 do
-		SKIN.lib[_][j]=C(30,30)
-		gc.draw(I,30-30*j,0)
+	for i=0,2 do
+		for j=1,8 do
+			SKIN.lib[_][8*i+j]=C(30,30)
+			gc.draw(I,30-30*j,-30*i)
 
-		SKIN.libMini[_][j]=C(6,6)
-		gc.draw(I,6-6*j,0,nil,.2)
-	end
-	for j=1,6 do
-		SKIN.lib[_][11+j]=C(30,30)
-		gc.draw(I,30-30*j,-30)
-
-		SKIN.libMini[_][11+j]=C(6,6)
-		gc.draw(I,6-6*j,-6,nil,.2)
+			SKIN.libMini[_][j]=C(6,6)
+			gc.draw(I,6-6*j,-6*i,nil,.2)
+		end
 	end
 	I:release()
 	gc.setCanvas()
@@ -107,11 +109,11 @@ function SKIN.nextSet()--Next skin_set
 end
 function SKIN.prev(i)--Prev skin for [i]
 	local _=SETTING.skin
-	_[i]=(_[i]-2)%11+1
+	_[i]=(_[i]-2)%16+1
 end
 function SKIN.next(i)--Next skin for [i]
 	local _=SETTING.skin
-	_[i]=_[i]%11+1
+	_[i]=_[i]%16+1
 end
 function SKIN.rotate(i)--Change direction of [i]
 	SETTING.face[i]=(SETTING.face[i]+1)%4

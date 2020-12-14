@@ -211,6 +211,7 @@ do
 		if S.finesseRate<.5*S.piece then
 			S.finesseRate=10*S.finesseRate
 		end
+		SETTING.skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4}
 		FILE.saveData()
 		FILE.saveSetting()
 	end

@@ -353,7 +353,7 @@ return{
 			title="Custom Game",
 			subTitle="Field",
 
-			b12="[  ]",
+			b17="[  ]",
 			any="Erase",
 			space="×",
 			copy="Copy",

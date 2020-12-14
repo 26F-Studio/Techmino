@@ -328,7 +328,7 @@ local Widgets={
 
 		newButton({name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,
 			code=function()
-				SETTING.skin={1,5,8,2,10,3,7,1,5,5,1,8,2,10,3,7,10,7,8,2,8,2,1,5,3}
+				SETTING.skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4}
 				SFX.play("rotate")
 			end}),
 		newButton({name="faceR",	x=480,y=640,w=220,h=80,color="lRed",font=35,
@@ -495,35 +495,43 @@ local Widgets={
 		newText({name="title",		x=1020,y=5,font=70,align="R"}),
 		newText({name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"}),
 
-		newButton({name="b1",		x=500+65*1,	y=200,	w=58,	color="red",	code=setPen(1)}),--B1
-		newButton({name="b2",		x=500+65*2,	y=200,	w=58,	color="orange",	code=setPen(2)}),--B2
-		newButton({name="b3",		x=500+65*3,	y=200,	w=58,	color="yellow",	code=setPen(3)}),--B3
-		newButton({name="b4",		x=500+65*4,	y=200,	w=58,	color="grass",	code=setPen(4)}),--B4
-		newButton({name="b5",		x=500+65*5,	y=200,	w=58,	color="green",	code=setPen(5)}),--B5
-		newButton({name="b6",		x=500+65*6,	y=200,	w=58,	color="water",	code=setPen(6)}),--B6
-		newButton({name="b7",		x=500+65*7,	y=200,	w=58,	color="cyan",	code=setPen(7)}),--B7
-		newButton({name="b8",		x=500+65*8,	y=200,	w=58,	color="blue",	code=setPen(8)}),--B8
-		newButton({name="b9",		x=500+65*9,	y=200,	w=58,	color="purple",	code=setPen(9)}),--B9
-		newButton({name="b10",		x=500+65*10,y=200,	w=58,	color="magenta",code=setPen(10)}),--B10
-		newButton({name="b11",		x=500+65*11,y=200,	w=58,	color="pink",	code=setPen(11)}),--B11
+		newButton({name="b1",		x=580,	y=130,w=75,color={color.rainbow( 1.471)},code=setPen(1)}),--B1
+		newButton({name="b2",		x=660,	y=130,w=75,color={color.rainbow( 1.078)},code=setPen(2)}),--B2
+		newButton({name="b3",		x=740,	y=130,w=75,color={color.rainbow( 0.685)},code=setPen(3)}),--B3
+		newButton({name="b4",		x=820,	y=130,w=75,color={color.rainbow( 0.293)},code=setPen(4)}),--B4
+		newButton({name="b5",		x=900,	y=130,w=75,color={color.rainbow(-0.100)},code=setPen(5)}),--B5
+		newButton({name="b6",		x=980,	y=130,w=75,color={color.rainbow(-0.493)},code=setPen(6)}),--B6
+		newButton({name="b7",		x=1060,	y=130,w=75,color={color.rainbow(-0.885)},code=setPen(7)}),--B7
+		newButton({name="b8",		x=1140,	y=130,w=75,color={color.rainbow(-1.278)},code=setPen(8)}),--B8
 
-		newButton({name="b12",		x=500+65*1,	y=270,	w=58,	color="dGrey",	code=setPen(12)}),--Bone
-		newButton({name="b13",		x=500+65*2,	y=270,	w=58,	color="grey",	code=setPen(13)}),--GB1
-		newButton({name="b14",		x=500+65*3,	y=270,	w=58,	color="lGrey",	code=setPen(14)}),--GB2
-		newButton({name="b15",		x=500+65*4,	y=270,	w=58,	color="dPurple",code=setPen(15)}),--GB3
-		newButton({name="b16",		x=500+65*5,	y=270,	w=58,	color="dRed",	code=setPen(16)}),--GB4
-		newButton({name="b17",		x=500+65*6,	y=270,	w=58,	color="dGreen",	code=setPen(17)}),--GB5
+		newButton({name="b9",		x=580,	y=210,w=75,color={color.rainbow(-1.671)},code=setPen(9)}),--B9
+		newButton({name="b10",		x=660,	y=210,w=75,color={color.rainbow(-2.063)},code=setPen(10)}),--B10
+		newButton({name="b11",		x=740,	y=210,w=75,color={color.rainbow(-2.456)},code=setPen(11)}),--B11
+		newButton({name="b12",		x=820,	y=210,w=75,color={color.rainbow(-2.849)},code=setPen(12)}),--B12
+		newButton({name="b13",		x=900,	y=210,w=75,color={color.rainbow(-3.242)},code=setPen(13)}),--B13
+		newButton({name="b14",		x=980,	y=210,w=75,color={color.rainbow(-3.634)},code=setPen(14)}),--B14
+		newButton({name="b15",		x=1060,	y=210,w=75,color={color.rainbow(-4.027)},code=setPen(15)}),--B15
+		newButton({name="b16",		x=1140,	y=210,w=75,color={color.rainbow(-4.412)},code=setPen(16)}),--B16
 
-		newButton({name="any",		x=600,		y=380,	w=120,	color="lGrey",	font=40,code=setPen(0)}),
-		newButton({name="space",	x=730,		y=380,	w=120,	color="grey",	font=65,code=setPen(-1)}),
-		newButton({name="copy",		x=920,		y=380,	w=120,	color="lRed",	font=35,code=pressKey("cC")}),
-		newButton({name="paste",	x=1060,		y=380,	w=120,	color="lBlue",	font=35,code=pressKey("cV")}),
-		newButton({name="clear",	x=1200,		y=380,	w=120,	color="white",	font=40,code=pressKey("delete")}),
-		newButton({name="pushLine",	x=1060,		y=520,	w=120,	color="lYellow",font=20,code=pressKey("k")}),
-		newButton({name="delLine",	x=1200,		y=520,	w=120,	color="lYellow",font=20,code=pressKey("l")}),
-		newSwitch({name="demo",		x=755,		y=640,	disp=STPval("demo"),code=STPrev("demo")}),
+		newButton({name="b17",		x=580,	y=290,w=75,color="dGrey",	code=setPen(17)}),--BONE
+		newButton({name="b18",		x=660,	y=290,w=75,color="black",	code=setPen(18)}),--HIDE
+		newButton({name="b19",		x=740,	y=290,w=75,color="lYellow",	code=setPen(19)}),--BOMB
+		newButton({name="b20",		x=820,	y=290,w=75,color="grey",	code=setPen(20)}),--GB1
+		newButton({name="b21",		x=900,	y=290,w=75,color="lGrey",	code=setPen(21)}),--GB2
+		newButton({name="b22",		x=980,	y=290,w=75,color="dPurple",	code=setPen(22)}),--GB3
+		newButton({name="b23",		x=1060,	y=290,w=75,color="dRed",	code=setPen(23)}),--GB4
+		newButton({name="b24",		x=1140,	y=290,w=75,color="dGreen",	code=setPen(24)}),--GB5
 
-		newButton({name="back",		x=1140,		y=640,	w=170,h=80,	font=40,code=BACK}),
+		newButton({name="any",		x=600,	y=400,	w=120,	color="lGrey",	font=40,code=setPen(0)}),
+		newButton({name="space",	x=730,	y=400,	w=120,	color="grey",	font=65,code=setPen(-1)}),
+		newButton({name="copy",		x=905,	y=400,	w=120,	color="lRed",	font=35,code=pressKey("cC")}),
+		newButton({name="paste",	x=1035,	y=400,	w=120,	color="lBlue",	font=35,code=pressKey("cV")}),
+		newButton({name="clear",	x=1165,	y=400,	w=120,	color="white",	font=40,code=pressKey("delete")}),
+		newButton({name="pushLine",	x=1035,	y=530,	w=120,	color="lYellow",font=20,code=pressKey("k")}),
+		newButton({name="delLine",	x=1165,	y=530,	w=120,	color="lYellow",font=20,code=pressKey("l")}),
+		newSwitch({name="demo",		x=755,	y=640,	disp=STPval("demo"),code=STPrev("demo")}),
+
+		newButton({name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=BACK}),
 	},
 	custom_sequence={
 		newText({name="title",		x=520,y=5,font=70,align="R"}),

@@ -1579,7 +1579,7 @@ function player.garbageRelease(P)
 	while true do
 		local A=P.atkBuffer[n]
 		if A and A.countdown<=0 and not A.sent then
-			P:garbageRise(12+A.lv,A.amount,A.pos)
+			P:garbageRise(19+A.lv,A.amount,A.pos)
 			P.atkBuffer.sum=P.atkBuffer.sum-A.amount
 			A.sent,A.time=true,0
 			P.stat.pend=P.stat.pend+A.amount
@@ -1936,7 +1936,7 @@ end
 
 function player.getNext(P,n)
 	local E=P.gameEnv
-	ins(P.next,{bk=blocks[n][E.face[n]],id=n,color=E.bone and 12 or E.skin[n],name=n})
+	ins(P.next,{bk=blocks[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
 end
 function player.popNext(P)--Pop next queue to hand
 	P.holded=false
@@ -2016,14 +2016,14 @@ do--player.drop(P)--Place piece
 	local b2bATK={3,5,8,12,18}
 	local clearSCR={80,200,400}
 	local spinSCR={--[blockName][row]
-		{200,750,1300},--Z
-		{200,750,1300},--S
-		{220,700,1300},--L
-		{220,700,1300},--J
-		{250,800,1400},--T
-		{260,900,1700,4000},--O
-		{300,1200,1700,4000},--I
-		{220,800,2000,3000,8000},--Else
+		{200,750,1300,2000},--Z
+		{200,750,1300,2000},--S
+		{220,700,1300,2000},--L
+		{220,700,1300,2000},--J
+		{250,800,1400,2000},--T
+		{260,900,1700,4000,6000},--O
+		{300,1200,1700,4000,6000},--I
+		{220,800,2000,3000,8000,26000},--Else
 	}
 	--B2BMUL:1.2/2.0
 	--Techrash:1K;MUL:1.3/1.8
@@ -2100,7 +2100,21 @@ do--player.drop(P)--Place piece
 		--Clear list of cleared-rows
 		if P.clearedRow[1]then P.clearedRow={}end
 
-		--Check rows to be cleared
+		--Check bomb garbage
+		if CY>1 then
+			local L=P.field[CY-1]
+			local l=CB.bk[1]
+			for i=1,P.c do
+				if l[i]and L[CX+i-1]==19 then
+					cc=1--cc=cc+1
+					P.clearingRow[1]=CY-1--P.clearingRow[cc]=CY-1
+					P.clearedRow[1]=CY-1--P.clearedRow[cc]=CY-1
+					break
+				end
+			end
+		end
+
+		--Check rows filled
 		for i=0,P.r-1 do
 			local h=CY+i
 			if P:ckfull(h)then

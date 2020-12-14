@@ -1444,7 +1444,7 @@ do--setting_game
 
 	function Pnt.setting_game()
 		gc.setColor(1,1,1)
-		gc.draw(blockSkin[int(Timer()*2)%11+1],590,540,Timer()%6.28319,2,nil,15,15)
+		gc.draw(blockSkin[int(Timer()*2)%16+1],590,540,Timer()%6.28319,2,nil,15,15)
 	end
 end
 do--setting_video
@@ -1721,8 +1721,9 @@ do--setting_skin
 			end end
 			gc.circle("fill",-10+140*N,340,sin(Timer()*10)+5)
 		end
-		for i=1,6 do
-			gc.draw(blockSkin[11+i],570+60*i,610,nil,2)
+		gc.draw(blockSkin[17],930,610,nil,2)
+		for i=1,5 do
+			gc.draw(blockSkin[19+i],570+60*i,610,nil,2)
 		end
 	end
 end
@@ -2201,7 +2202,7 @@ do--custom_field
 		elseif key=="j"then
 			sceneTemp.demo=not sceneTemp.demo
 		elseif key=="k"then
-			ins(FIELD,1,{14,14,14,14,14,14,14,14,14,14})
+			ins(FIELD,1,{21,21,21,21,21,21,21,21,21,21})
 			FIELD[21]=nil
 			SFX.play("blip")
 		elseif key=="l"then
@@ -2278,27 +2279,31 @@ do--custom_field
 		if pen>0 then
 			gc.setLineWidth(13)
 			gc.setColor(SKIN.libColor[pen])
-			gc.rectangle("line",565,460,70,70)
+			gc.rectangle("line",565,500,70,70)
 		elseif pen==-1 then
 			gc.setLineWidth(5)
 			gc.setColor(.9,.9,.9)
-			gc.line(575,470,625,520)
-			gc.line(575,520,625,470)
+			gc.line(575,510,625,560)
+			gc.line(575,560,625,510)
 		end
 
 		--Confirm reset
 		if S.sure>0 then
 			gc.setColor(1,1,1,S.sure*.02)
-			gc.draw(drawableText.question,1180,290)
+			gc.draw(drawableText.question,1180,340)
 		end
 
 		--Block name
-		setFont(40)
+		setFont(55)
+		gc.setColor(1,1,1)
 		local _
 		for i=1,7 do
 			_=SETTING.skin[i]
-			gc.setColor(SKIN.libColor[_])
-			mStr(text.block[i],500+65*_,115)
+			if _<=8 then
+				mStr(text.block[i],500+80*_,90)
+			else
+				mStr(text.block[i],500+80*(_-8),170)
+			end
 		end
 	end
 end

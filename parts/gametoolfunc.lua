@@ -189,7 +189,7 @@ function pasteBoard(str)
 		end
 
 		__=_%32-1--Block id
-		if __>17 then return end--Illegal blockid
+		if __>26 then return end--Illegal blockid
 		_=int(_/32)--Mode id
 
 		FIELD[fY][fX]=__
