@@ -89,24 +89,17 @@ end
 function Tick.httpREQ_launch(data)
 	local response,request_error=client.poll(data.task)
 	if response then
-		if response.code==200 then
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(content.notice,360,COLOR.sky)
-				if VERSION_CODE==content.version_code then
+		local res=json.decode(response.body)
+		if res then
+			if response.code==200 then
+				LOG.print(res.notice,360,COLOR.sky)
+				if VERSION_CODE==res.version_code then
 					LOG.print(text.versionIsNew,360,COLOR.sky)
 				else
-					LOG.print(string.gsub(text.versionIsOld,"$1",content.version_name),"warn")
+					LOG.print(string.gsub(text.versionIsOld,"$1",res.version_name),"warn")
 				end
 			else
-				LOG.print(text.jsonError,"warn")
-			end
-		else
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.netErrorCode..response.code..": "..content.message,"warn")
-			else
-				LOG.print(text.netErrorCode..response.code,"warn")
+				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 			end
 		end
 		return true
@@ -123,19 +116,12 @@ end
 function Tick.httpREQ_register(data)
 	local response,request_error=client.poll(data.task)
 	if response then
-		if response.code==200 then
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.registerSuccessed..": "..content.message)
+		local res=json.decode(response.body)
+		if res then
+			if response.code==200 then
+				LOG.print(text.registerSuccessed..": "..res.message)
 			else
-				LOG.print(text.jsonError,"warn")
-			end
-		else
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.netErrorCode..response.code..": "..content.message,"warn")
-			else
-				LOG.print(text.netErrorCode..response.code,"warn")
+				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 			end
 		end
 		return true
@@ -152,24 +138,16 @@ end
 function Tick.httpREQ_newLogin(data)
 	local response,request_error=client.poll(data.task)
 	if response then
-		if response.code==200 then
-			LOGIN=true
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.loginSuccessed..": "..content.message)
-				ACCOUNT.email=_content.email
-				ACCOUNT.auth_token=content.auth_token
+		local res=json.decode(response.body)
+		LOGIN=response.code==200
+		if res then
+			if LOGIN then
+				LOG.print(text.loginSuccessed..": "..res.message)
+				ACCOUNT.email=res.email
+				ACCOUNT.auth_token=res.auth_token
 				FILE.save(ACCOUNT,"account","")
 			else
-				LOG.print(text.jsonError,"warn")
-			end
-		else
-			LOGIN=false
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.netErrorCode..response.code..": "..content.message,"warn")
-			else
-				LOG.print(text.netErrorCode..response.code,"warn")
+				LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 			end
 		end
 		return true
@@ -188,19 +166,15 @@ function Tick.httpREQ_autoLogin(data)
 	if response then
 		if response.code==200 then
 			LOGIN=true
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.loginSuccessed..": "..content.message)
-			else
-				LOG.print(text.jsonError,"warn")
+			local res=json.decode(response.body)
+			if res then
+				LOG.print(text.loginSuccessed..": "..res.message)
 			end
 		else
 			LOGIN=false
-			local success,content=json.decode(response.body)
-			if success then
-				LOG.print(text.netErrorCode..response.code..": "..content.message,"warn")
-			else
-				LOG.print(text.netErrorCode..response.code,"warn")
+			local err=json.decode(response.body)
+			if err then
+				LOG.print(text.netErrorCode..response.code..": "..err.message,"warn")
 			end
 		end
 		return true

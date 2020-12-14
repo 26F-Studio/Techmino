@@ -304,7 +304,12 @@ do--json
 
 	function json.encode(val)
 		local a,b=pcall(encode,val)
-		if a then return b else return""end
+		if a then
+			return b
+		else
+			LOG.print(text.jsonError,"warn")
+			return
+		end
 	end
 
 	-------------------------------------------------------------------------------
@@ -532,7 +537,12 @@ do--json
 	end
 	function json.decode(str)
 		local a,b=pcall(decode,str)
-		if a then return b else return""end
+		if a then
+			return b
+		else
+			LOG.print(text.jsonError,"warn")
+			return
+		end
 	end
 end
 

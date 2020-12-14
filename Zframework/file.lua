@@ -11,13 +11,15 @@ function FILE.load(name)
 			if s then
 				setfenv(s,{})
 				return s()
+			else
+				LOG.print(name.." "..text.loadError,COLOR.red)
 			end
 		else
-			local _,res=json.decode(s)
-			if _ then
+			local res=json.decode(s)
+			if res then
 				return res
 			else
-				LOG.print(name.." "..text.loadError..(mes or"unknown error"),COLOR.red)
+				LOG.print(name.." "..text.loadError,COLOR.red)
 			end
 		end
 	end
@@ -27,10 +29,9 @@ function FILE.save(data,name,mode,luacode)
 	name=name..".dat"
 	local _,mes
 	if not luacode then
-		_,data=json.encode(data)
-		if not _ then
+		res=json.encode(res)
+		if res then
 			LOG.print(name.." "..text.saveError..(mes or"json error"),"error")
-			return
 		end
 	else
 		data=dumpTable(data)

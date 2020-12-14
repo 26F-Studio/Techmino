@@ -118,19 +118,17 @@ function Tmr.load()
 			VOC.play("welcome_voc")
 			httpRequest(TICK.httpREQ_launch,"/tech/api/v1/app/info")
 			if ACCOUNT.auth_token then
-				local success,data=json.encode({
+				local res=json.encode{
 					email=ACCOUNT.email,
 					auth_token=ACCOUNT.auth_token,
-				})
-				if not success then
-					LOG.print(text.jsonError,"warn")
-				else
+				}
+				if res then
 					httpRequest(
 						TICK.httpREQ_autoLogin,
 						"/tech/api/v1/users",
 						"GET",
 						{["Content-Type"]="application/json"},
-						data
+						res
 					)
 				end
 			end

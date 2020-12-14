@@ -7,21 +7,19 @@ function keyDown.login(key)
 		elseif #password==0 then
 			LOG.print(text.noPassword)return
 		end
-		local success,data=json.encode({
+		local res=json.encode{
 			email=email,
 			password=password,
-		})
-		if not success then
-			LOG.print(text.jsonError,"warn")
-			return
+		}
+		if res then
+			httpRequest(
+				TICK.httpREQ_newLogin,
+				"/tech/api/v1/users",
+				"GET",
+				{["Content-Type"]="application/json"},
+				res
+			)
 		end
-		httpRequest(
-			TICK.httpREQ_newLogin,
-			"/tech/api/v1/users",
-			"GET",
-			{["Content-Type"]="application/json"},
-			data
-		)
 	elseif key=="escape"then
 		SCN.back()
 	else

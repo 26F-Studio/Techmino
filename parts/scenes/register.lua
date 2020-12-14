@@ -13,22 +13,20 @@ function keyDown.register(key)
 		elseif password~=password2 then
 			LOG.print(text.diffPassword)return
 		end
-		local success,data=json.encode({
+		local res=json.encode{
 			username=username,
 			email=email,
 			password=password,
-		})
-		if not success then
-			LOG.print(text.jsonError,"warn")
-			return
+		}
+		if res then
+			httpRequest(
+				TICK.httpREQ_register,
+				"/tech/api/v1/users",
+				"POST",
+				{["Content-Type"]="application/json"},
+				res
+			)
 		end
-		httpRequest(
-			TICK.httpREQ_register,
-			"/tech/api/v1/users",
-			"POST",
-			{["Content-Type"]="application/json"},
-			data
-		)
 	elseif key=="escape"then
 		SCN.back()
 	else
