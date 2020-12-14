@@ -52,6 +52,7 @@ function FILE.save(data,name,mode)
 		end
 	else
 		LOG.print(text.saveError..(mes or"unknown error"),"error")
+		LOG.print(debug.traceback(),"error")
 	end
 end
 return FILE
