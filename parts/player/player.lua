@@ -1546,7 +1546,7 @@ local function gameOver()--Save record
 					D.date=os.date("%Y/%m/%d %H:%M")
 					ins(L,p+1,D)
 					if L[11]then L[11]=nil end
-					FILE.save(L,"record/"..M.name..".rec","l")
+					FILE.save(L,"record/"..M.name..".rec","lq")
 				end
 			end
 		end
