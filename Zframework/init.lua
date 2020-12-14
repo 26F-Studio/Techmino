@@ -2,6 +2,7 @@ SCR=	require"Zframework/screen"
 COLOR=	require"Zframework/color"
 SCN=	require"Zframework/scene"
 LOG=	require"Zframework/log"
+
 require"Zframework/toolfunc"
 
 VIB=	require"Zframework/vibrate"
@@ -71,11 +72,11 @@ local function updatePowerInfo()
 		gc.draw(IMG.batteryImage,73,3)
 	end
 	setFont(25)
-	gc.print(os.date("%H:%M",os.time()),3,-5)
+	gc.print(os.date("%H:%M"),3,-5)
 	gc.pop()gc.setCanvas()
 end
 -------------------------------------------------------------
-local lastX,lastY=0,0--Last clickDown pos
+local lastX,lastY=0,0--Last click pos
 function love.mousepressed(x,y,k,touch)
 	if touch then return end
 	mouseShow=true
@@ -302,8 +303,13 @@ end
 function love.sendData(data)end
 function love.receiveData(id,data)end
 ]]
+local lastGCtime=0
 function love.lowmemory()
-	collectgarbage()
+	if love.timer.getTime()-lastGCtime>2.6 then
+		lastGCtime=love.timer.getTime
+		collectgarbage()
+		LOG.print("[Auto GC] Low Memory!","warn")
+	end
 end
 function love.resize(w,h)
 	SCR.resize(w,h)
