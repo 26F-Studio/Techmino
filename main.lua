@@ -262,7 +262,7 @@ for _,v in next,{"conf","record","replay"}do
 end
 
 --Collect files
-if fs.getInfo("data.dat")then
+if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")then
 	for k,v in next,{
 		["settings.dat"]="conf/settings",
 		["unlock.dat"]="conf/unlock",
