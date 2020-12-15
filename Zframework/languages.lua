@@ -1,25 +1,4 @@
-local function langFallback(T0,T)
-	for k,v in next,T0 do
-		if type(v)=="table"and not v.refuseCopy then--refuseCopy: just copy pointer, not contents
-			if not T[k]then T[k]={}end
-			if type(T[k])=="table"then langFallback(v,T[k])end
-		elseif not T[k]then
-			T[k]=v
-		end
-	end
-end
-local tipMeta={__call=function(L)return L[math.random(#L)]end}
-
-local langList={}
-local publicText,publicWidgetText={},{}
-local function lang_set(l)
-	text=langList[l]
-	WIDGET.setLang(text.WidgetText)
-	for _,s in next,drawableTextLoad do
-		drawableText[s]:set(text[s])
-	end
-end
-
+local langList,publicText,publicWidgetText={},{},{}
 local LANG={}
 
 --Call these before call LANG.init()
@@ -27,7 +6,19 @@ function LANG.setLangList(list)langList=list end
 function LANG.setPublicText(L)publicText=L end
 function LANG.setPublicWidgetText(L)publicWidgetText=L end
 
-function LANG.init()--Attention, calling this will DESTORY ALL METHODS, only left LANG.set()!
+function LANG.init()--Attention, calling this will destory all initializing methods, create a LANG.set()!
+	local function langFallback(T0,T)
+		for k,v in next,T0 do
+			if type(v)=="table"and not v.refuseCopy then--refuseCopy: just copy pointer, not contents
+				if not T[k]then T[k]={}end
+				if type(T[k])=="table"then langFallback(v,T[k])end
+			elseif not T[k]then
+				T[k]=v
+			end
+		end
+	end
+	local tipMeta={__call=function(L)return L[math.random(#L)]end}
+
 	for i=1,#langList do
 		local L=langList[i]
 
@@ -60,8 +51,16 @@ function LANG.init()--Attention, calling this will DESTORY ALL METHODS, only lef
 			v.back=L.back
 		end
 	end
+
 	LANG.init,LANG.setLangList,LANG.setPublicText,LANG.setPublicWidgetText=nil
-	LANG.set=lang_set
+
+	function LANG.set(l)
+		text=langList[l]
+		WIDGET.setLang(text.WidgetText)
+		for _,s in next,drawableTextLoad do
+			drawableText[s]:set(text[s])
+		end
+	end
 end
 
 return LANG

@@ -166,7 +166,10 @@ LANG.setLangList{
 	require"parts/language/lang_sp",
 	require"parts/language/lang_symbol",
 	require"parts/language/lang_yygq",
-	--Add new language file to LANG folder. Attention, new language won't show in-game when you add language
+	--1. Add language file to LANG folder;
+	--2. Require it;
+	--3. Add a button in parts/scenes/setting_lang.lua;
+	--4. Set button name at LANG.setPublicWidgetText.lang beneath.
 }
 LANG.setPublicText{
 	block={
