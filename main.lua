@@ -42,7 +42,7 @@ for _,v in next,{"conf","record","replay"}do
 	::NEXT::
 end
 
---Delete useless mode record file
+--Delete useless files
 for _,v in next,{
 	"tech_ultimate.dat",
 	"tech_ultimate+.dat",
@@ -51,6 +51,7 @@ for _,v in next,{
 	"marathon_ultimate.dat",
 	"infinite.dat",
 	"infinite_dig.dat",
+	"conf/account",
 }do
 	if fs.getInfo(v)then fs.remove(v)end
 end
