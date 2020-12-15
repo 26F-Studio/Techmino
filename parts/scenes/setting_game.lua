@@ -1,6 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
-
 local int=math.floor
 
 local scene={}
@@ -14,7 +12,7 @@ end
 
 function scene.draw()
 	gc.setColor(1,1,1)
-	gc.draw(SKIN.curText[int(Timer()*2)%16+1],740,540,Timer()%6.28319,2,nil,15,15)
+	gc.draw(SKIN.curText[int(TIME()*2)%16+1],740,540,TIME()%6.28319,2,nil,15,15)
 end
 
 scene.widgetList={

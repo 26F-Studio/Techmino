@@ -1,7 +1,6 @@
 local mt=love.math
 local gc=love.graphics
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
-local Timer=love.timer.getTime
 
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
@@ -217,7 +216,7 @@ function scene.draw()
 			if c then
 				gc.setColor(c)
 			else
-				c=.5+sin(Timer()*6.26)*.2
+				c=.5+sin(TIME()*6.26)*.2
 				gc.setColor(c,c,c)
 			end
 

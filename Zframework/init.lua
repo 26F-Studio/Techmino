@@ -29,7 +29,6 @@ local int,rnd,abs=math.floor,math.random,math.abs
 local min=math.min
 local ins,rem=table.insert,table.remove
 local SCR=SCR
-local setFont=setFont
 
 local mx,my,mouseShow=-20,-20,false
 local touching=nil--First touching ID(userdata)
@@ -418,7 +417,7 @@ function love.run()
 	local SCN=SCN
 	local SETTING=SETTING
 
-	local Timer=love.timer.getTime
+	local TIME=love.timer.getTime
 	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local MINI=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
@@ -427,7 +426,7 @@ function love.run()
 
 	local frameTimeList={}
 
-	local lastFrame=Timer()
+	local lastFrame=TIME()
 	local lastFreshPow=lastFrame
 	local FCT=0--Framedraw counter, from 0~99
 
@@ -443,9 +442,9 @@ function love.run()
 	return function()
 		local _
 
-		local T=Timer()
-		local dt=T-lastFrame
-		lastFrame=T
+		local t=TIME()
+		local dt=t-lastFrame
+		lastFrame=t
 
 		--EVENT
 		PUMP()
@@ -490,11 +489,11 @@ function love.run()
 
 					--Draw cursor
 					if mouseShow then
-						local r=T*.5
+						local r=t*.5
 						local R=int(r)%7+1
 						_=SKIN.libColor[SETTING.skin[R]]
 						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
-						gc.draw(TEXTURE.miniBlock[R],mx,my,T%3.1416*4,20,20,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+						gc.draw(TEXTURE.miniBlock[R],mx,my,t%3.1416*4,20,20,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
 						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
 					end
@@ -517,8 +516,8 @@ function love.run()
 				--Draw network working
 				if TASK.netTaskCount>0 then
 					setFont(30)
-					gc.setColor(COLOR.rainbow(T*5))
-					gc.print("E",1250,0,.26+.355*math.sin(T*6.26))
+					gc.setColor(COLOR.rainbow(t*5))
+					gc.print("E",SCR.safeW-18,17,.26+.355*math.sin(t*6.26),nil,nil,8,20)
 				end
 
 				--Draw FPS
@@ -552,10 +551,10 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if Timer()-lastFreshPow>2.6 then
+		if TIME()-lastFreshPow>2.6 then
 			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
-				lastFreshPow=Timer()
+				lastFreshPow=TIME()
 			end
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
@@ -563,8 +562,8 @@ function love.run()
 		end
 
 		--Keep 60fps
-		_=Timer()-lastFrame
+		_=TIME()-lastFrame
 		if _<.016 then WAIT(.016-_)end
-		while Timer()-lastFrame<1/60-5e-6 do WAIT(0)end
+		while TIME()-lastFrame<1/60-5e-6 do WAIT(0)end
 	end
 end

@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local int=math.floor
 local sin,log=math.sin,math.log10
@@ -269,7 +268,7 @@ function scene.draw()
 			--Polygon
 			gc.push("transform")
 				gc.scale((3-2*T)*T)
-				gc.setColor(1,1,1,T*(.5+.3*sin(Timer()*6.26)))gc.polygon("line",standard)
+				gc.setColor(1,1,1,T*(.5+.3*sin(TIME()*6.26)))gc.polygon("line",standard)
 				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T*.626)
 				for i=1,9,2 do
 					gc.polygon("fill",0,0,val[i],val[i+1],val[i+2],val[i+3])
@@ -287,7 +286,7 @@ function scene.draw()
 
 			--Texts
 			local C
-			_=Timer()%6.2832
+			_=TIME()%6.2832
 			if _>3.1416 then
 				gc.setColor(1,1,1,-T*sin(_))
 				setFont(35)

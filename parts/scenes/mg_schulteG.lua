@@ -1,14 +1,11 @@
 local gc=love.graphics
 local ms=love.mouse
-local Timer=love.timer.getTime
 
-local setFont=setFont
-local mStr=mStr
-
-local int=math.floor
-local rnd=math.random
+local int,rnd=math.floor,math.random
 local format=string.format
 local rem=table.remove
+local setFont=setFont
+local mStr=mStr
 
 local scene={}
 
@@ -52,7 +49,7 @@ local function tapBoard(x,y)
 		if state==0 then
 			newBoard()
 			state=1
-			startTime=Timer()
+			startTime=TIME()
 			progress=0
 		elseif state==1 then
 			local X=int((x-320)/640*R)
@@ -63,7 +60,7 @@ local function tapBoard(x,y)
 				if progress<R^2 then
 					SFX.play("lock")
 				else
-					time=Timer()-startTime+mistake
+					time=TIME()-startTime+mistake
 					state=2
 					SFX.play("reach")
 				end
@@ -121,7 +118,7 @@ end
 
 function scene.update()
 	if state==1 then
-		time=Timer()-startTime+mistake
+		time=TIME()-startTime+mistake
 	end
 end
 

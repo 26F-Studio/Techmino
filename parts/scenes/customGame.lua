@@ -1,6 +1,5 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
-local Timer=love.timer.getTime
 
 local int=math.floor
 local find,sub=string.find,string.sub
@@ -132,14 +131,14 @@ function scene.draw()
 	--Field
 	setFont(40)
 	if initField and #FIELD>1 then
-		gc.setColor(1,1,int(Timer()*6.26)%2)
+		gc.setColor(1,1,int(TIME()*6.26)%2)
 		gc.print("+",275,300)
 		gc.print(#FIELD-1,300,300)
 	end
 
 	--Sequence
 	if #BAG>0 then
-		gc.setColor(1,1,int(Timer()*6.26)%2)
+		gc.setColor(1,1,int(TIME()*6.26)%2)
 		gc.print("#",330,545)
 		gc.print(#BAG,360,545)
 	end
@@ -149,7 +148,7 @@ function scene.draw()
 
 	--Sequence
 	if #MISSION>0 then
-		gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(Timer()*6.26)%2)
+		gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(TIME()*6.26)%2)
 		gc.print("#",610,545)
 		gc.print(#MISSION,640,545)
 	end

@@ -1,11 +1,8 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
-local mStr=mStr
-
-local int=math.floor
-local rnd=math.random
+local int,rnd=math.floor,math.random
 local format=string.format
+local mStr=mStr
 
 local scene={}
 
@@ -120,11 +117,11 @@ local function tapBoard(x,y,key)
 			move=move+moves
 			if state==0 then
 				state=1
-				startTime=Timer()
+				startTime=TIME()
 			end
 			if checkBoard(b)then
 				state=2
-				time=Timer()-startTime
+				time=TIME()-startTime
 				if time<1 then		LOG.print("不是人",COLOR.lBlue)
 				elseif time<2 then	LOG.print("还是人",COLOR.lBlue)
 				elseif time<3 then	LOG.print("神仙",COLOR.lBlue)
@@ -203,7 +200,7 @@ end
 
 function scene.update()
 	if state==1 then
-		time=Timer()-startTime
+		time=TIME()-startTime
 	end
 end
 
