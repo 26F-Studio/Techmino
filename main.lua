@@ -30,13 +30,59 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
+--Create directories
+for _,v in next,{"conf","record","replay"}do
+	local info=fs.getInfo(v)
+	if info then
+		if info.type=="directory"then goto NEXT end
+		fs.remove(v)
+	end
+	fs.createDirectory(v)
+	::NEXT::
+end
+
+--Delete useless mode record file
+for _,v in next,{
+	"tech_ultimate.dat",
+	"tech_ultimate+.dat",
+	"sprintFix.dat",
+	"sprintLock.dat",
+	"marathon_ultimate.dat",
+	"infinite.dat",
+	"infinite_dig.dat",
+}do
+	if fs.getInfo(v)then fs.remove(v)end
+end
+
+--Collect files of old version
+if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")then
+	for k,v in next,{
+		["settings.dat"]="conf/settings",
+		["unlock.dat"]="conf/unlock",
+		["data.dat"]="conf/data",
+		["key.dat"]="conf/key",
+		["virtualkey.dat"]="conf/virtualkey",
+		["account.dat"]="conf/user",
+	}do
+		if fs.getInfo(k)then
+			fs.write(v,fs.read(k))
+			fs.remove(k)
+		end
+	end
+	for _,name in next,fs.getDirectoryItems("")do
+		if name:sub(-4)==".dat"then
+			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
+			fs.remove(name)
+		end
+	end
+end
+
 --Load modules
 require"Zframework"
 
 require"parts/list"
 require"parts/globalTables"
 require"parts/gametoolfunc"
-
 SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
@@ -50,6 +96,18 @@ PLY=	require"parts/player"
 AIFUNC=	require"parts/ai"
 MODES=	require"parts/modes"
 TICK=	require"parts/tick"
+
+--First start for phones
+if not fs.getInfo("conf/settings")and MOBILE then
+	SETTING.VKSwitch=true
+	SETTING.swap=false
+	SETTING.vib=2
+	SETTING.powerInfo=true
+	SETTING.fullscreen=true
+	love.window.setFullscreen(true)
+	love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+end
+if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
@@ -253,75 +311,7 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	end
 end
 
---Create directories
-for _,v in next,{"conf","record","replay"}do
-	local info=fs.getInfo(v)
-	if info then
-		if info.type=="directory"then goto NEXT end
-		fs.remove(v)
-	end
-	fs.createDirectory(v)
-	::NEXT::
-end
-
---Collect files
-if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")then
-	for k,v in next,{
-		["settings.dat"]="conf/settings",
-		["unlock.dat"]="conf/unlock",
-		["data.dat"]="conf/data",
-		["key.dat"]="conf/key",
-		["virtualkey.dat"]="conf/virtualkey",
-		["account.dat"]="conf/user",
-	}do
-		if fs.getInfo(k)then
-			fs.write(v,fs.read(k))
-			fs.remove(k)
-		end
-	end
-	for _,name in next,fs.getDirectoryItems("")do
-		if name:sub(-4)==".dat"then
-			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
-			fs.remove(name)
-		end
-	end
-end
-
---Load files
-if fs.getInfo("conf/settings")then
-	addToTable(FILE.load("conf/settings"),SETTING)
-else
-	if MOBILE then
-		SETTING.VKSwitch=true
-		SETTING.swap=false
-		SETTING.vib=2
-		SETTING.powerInfo=true
-		SETTING.fullscreen=true
-		love.window.setFullscreen(true)
-		love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-	end
-end
-if SETTING.fullscreen then love.window.setFullscreen(true)end
 LANG.set(SETTING.lang)
-
-if fs.getInfo("conf/unlock")then RANKS=FILE.load("conf/unlock")end
-if fs.getInfo("conf/data")then STAT=FILE.load("conf/data")end
-if fs.getInfo("conf/key")then keyMap=FILE.load("conf/key")end
-if fs.getInfo("conf/virtualkey")then VK_org=FILE.load("conf/virtualkey")end
-if fs.getInfo("conf/user")then USER=FILE.load("conf/user")end
-if fs.getInfo("conf/replay")then REPLAY=FILE.load("conf/replay")end
-
-for _,v in next,{
-	"tech_ultimate.dat",
-	"tech_ultimate+.dat",
-	"sprintFix.dat",
-	"sprintLock.dat",
-	"marathon_ultimate.dat",
-	"infinite.dat",
-	"infinite_dig.dat",
-}do
-	if fs.getInfo(v)then fs.remove(v)end
-end
 
 --Update data
 do

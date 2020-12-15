@@ -231,8 +231,8 @@ GAME={--Global game data
 }
 
 --Userdata tables
-RANKS={sprint_10=0}--Ranks of modes
-USER={--User infomation
+RANKS=FILE.load("conf/unlock")or{sprint_10=0}--Ranks of modes
+USER=FILE.load("conf/user")or{--User infomation
 	email=nil,
 	auth_token=nil,
 	access_token=nil,
@@ -240,8 +240,9 @@ USER={--User infomation
 	username=nil,
 	motto=nil,
 	avatar=nil,
+	xp=0,lv=1,
 }
-SETTING={--Settings
+SETTING=FILE.load("conf/settings")or{--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
 	sddas=0,sdarr=2,
@@ -301,7 +302,7 @@ SETTING={--Settings
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }
-STAT={--Statistics
+STAT=FILE.load("conf/data")or{--Statistics
 	version=VERSION_CODE,
 	run=0,game=0,time=0,frame=0,
 	key=0,rotate=0,hold=0,
@@ -315,13 +316,13 @@ STAT={--Statistics
 	date=nil,
 	todayTime=0,
 }for i=1,25 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
-keyMap={--Key setting
+keyMap=FILE.load("conf/key")or{--Key setting
 	{"left","right","x","z","c","up","down","space","tab","r"},{},
 	--Keyboard
 	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},{},
 	--Joystick
 }for i=1,#keyMap do for j=1,20 do if not keyMap[i][j]then keyMap[i][j]=""end end end
-VK_org={--Virtualkey layout, refresh all VKs' position with this before each game
+VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
 	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
@@ -344,4 +345,4 @@ VK_org={--Virtualkey layout, refresh all VKs' position with this before each gam
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
 virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
-REPLAY={}
+REPLAY=FILE.load("conf/replay")or{}
