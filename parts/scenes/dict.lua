@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
@@ -175,7 +174,7 @@ function scene.draw()
 	gc.printf(t,306,180,950)
 
 	setFont(30)
-	gc.setColor(1,1,1,.4+.2*sin(Timer()*4))
+	gc.setColor(1,1,1,.4+.2*sin(TIME()*4))
 	gc.rectangle("fill",20,143+35*(selected-scrollPos),280,35)
 
 	setFont(30)
@@ -197,10 +196,10 @@ function scene.draw()
 	gc.rectangle("line",20,180,280,526)
 
 	if waiting>0 then
-		local r=Timer()*2
+		local r=TIME()*2
 		local R=int(r)%7+1
 		gc.setColor(1,1,1,1-abs(r%1*2-1))
-		gc.draw(TEXTURE.miniBlock[R],785,140,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+		gc.draw(TEXTURE.miniBlock[R],785,140,TIME()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 	end
 end
 

@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local sin=math.sin
 local rnd=math.random
@@ -23,10 +22,10 @@ end
 function scene.mouseDown(x,y)
 	if x>780 and x<980 and y>470 and jump==0 then
 		jump=10
-		local t=Timer()-last
+		local t=TIME()-last
 		if t>1 then
 			VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
-			last=Timer()
+			last=TIME()
 		end
 	end
 end
@@ -43,7 +42,7 @@ end
 
 function scene.draw()
 	gc.setColor(1,1,1)
-	local t=Timer()
+	local t=TIME()
 	local _=jump
 	local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
 	gc.translate(x,y)

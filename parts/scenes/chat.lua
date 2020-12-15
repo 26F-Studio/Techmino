@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local ins,rem=table.insert,table.remove
 local max,min=math.max,math.min
@@ -67,10 +66,10 @@ function scene.keyDown(k)
 	elseif k=="return"then
 		sendMessage()
 	elseif k=="escape"then
-		if Timer()-escapeTimer<.6 then
+		if TIME()-escapeTimer<.6 then
 			SCN.back()
 		else
-			escapeTimer=Timer()
+			escapeTimer=TIME()
 			LOG.print(text.chatQuit,COLOR.orange)
 		end
 	else
@@ -139,7 +138,7 @@ function scene.draw()
 	--Draw
 	if newMessage and scrollPos~=#texts then
 		setFont(40)
-		gc.setColor(1,Timer()%.4<.2 and 1 or 0,0)
+		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
 		gc.print("v",8,480)
 	end
 end

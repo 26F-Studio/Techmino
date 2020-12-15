@@ -699,7 +699,7 @@ end
 local noRecList={"custom","solo","round","techmino"}
 local function getModList()
 	local res={}
-	for k,v in next,GAME.mod do
+	for _,v in next,GAME.mod do
 		if v.sel>0 then
 			ins(res,{v.no,v.sel})
 		end

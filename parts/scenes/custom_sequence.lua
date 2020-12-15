@@ -1,6 +1,5 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
-local Timer=love.timer.getTime
 
 local sin=math.sin
 local ins,rem=table.insert,table.remove
@@ -171,7 +170,7 @@ function scene.draw()
 	gc.print(#L,120,310)
 
 	--Draw cursor
-	gc.setColor(.5,1,.5,.6+.4*sin(Timer()*6.26))
+	gc.setColor(.5,1,.5,.6+.4*sin(TIME()*6.26))
 	gc.line(cx-5,cy-20,cx-5,cy+20)
 
 	--Confirm reset

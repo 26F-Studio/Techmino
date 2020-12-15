@@ -1,6 +1,5 @@
 local gc=love.graphics
 local sin,min=math.sin,math.min
-local Timer=love.timer.getTime
 return{
 	color=COLOR.red,
 	env={
@@ -43,7 +42,7 @@ return{
 		end
 
 		--Figures
-		local t=Timer()
+		local t=TIME()
 		gc.setColor(1,1,1,.5+.2*sin(t))
 		gc.draw(IMG.hbm,-276,-86,0,1.5)
 		gc.draw(IMG.electric,476,142,0,2.6)

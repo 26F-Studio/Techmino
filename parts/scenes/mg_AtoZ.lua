@@ -1,8 +1,6 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 local rnd=math.random
 local format=string.format
-
 local mStr=mStr
 
 local levels={
@@ -63,9 +61,9 @@ function scene.keyDown(key)
 				SFX.play("move")
 				if progress==2 then
 					state=1
-					startTime=Timer()
+					startTime=TIME()
 				elseif progress>#targetString then
-					time=Timer()-startTime
+					time=TIME()-startTime
 					state=2
 					SFX.play("reach")
 				end
@@ -87,7 +85,7 @@ end
 function scene.update()
 	if state==1 then
 		frameKeyCount=0
-		time=Timer()-startTime
+		time=TIME()-startTime
 	end
 end
 

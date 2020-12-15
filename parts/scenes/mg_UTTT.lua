@@ -1,6 +1,5 @@
 local gc=love.graphics
 local int=math.floor
-local Timer=love.timer.getTime
 
 local lines={
 	{1,2,3},
@@ -28,7 +27,7 @@ local function restart()
 	curX,curx=nil
 	round=0
 	target=false
-	placeTime=Timer()
+	placeTime=TIME()
 	gameover=false
 	for X=1,9 do
 		score[X]=false
@@ -61,7 +60,7 @@ local function place(X,x)
 	SFX.play("move")
 	lastX,lastx=X,x
 	curX,curx=nil
-	placeTime=Timer()
+	placeTime=TIME()
 	if checkBoard(board[X],round)then
 		score[X]=round
 		if checkBoard(score,round)then
@@ -112,7 +111,7 @@ function scene.draw()
 	gc.rectangle("fill",0,0,90,90)
 
 	--Draw target area
-	gc.setColor(1,1,1,math.sin((Timer()-placeTime)*5)/5+.2)
+	gc.setColor(1,1,1,math.sin((TIME()-placeTime)*5)/5+.2)
 	if target then
 		gc.rectangle("fill",(target-1)%3*30,int((target-1)/3)*30,30,30)
 	elseif not gameover then
@@ -165,7 +164,7 @@ function scene.draw()
 	--Draw last pos
 	if lastX then
 		gc.setColor(.5,1,.4,.8)
-		local r=.5+.5*math.sin(Timer()*6.26)
+		local r=.5+.5*math.sin(TIME()*6.26)
 		gc.rectangle("line",(lastX-1)%3*30+(lastx-1)%3*10-r,int((lastX-1)/3)*30+int((lastx-1)/3)*10-r,10+2*r,10+2*r)
 	end
 	gc.pop()

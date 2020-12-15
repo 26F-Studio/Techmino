@@ -1,9 +1,6 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
-
-local mStr=mStr
-
 local int,sin=math.floor,math.sin
+local mStr=mStr
 
 local scene={}
 
@@ -92,7 +89,7 @@ function scene.gamepadDown(key)
 end
 
 function scene.draw()
-	local a=.3+sin(Timer()*15)*.1
+	local a=.3+sin(TIME()*15)*.1
 	if kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
 	gc.rectangle("fill",
 		kb<11 and 240 or 840,

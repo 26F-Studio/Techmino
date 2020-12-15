@@ -1,9 +1,7 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local abs,int,sin=math.abs,math.floor,math.sin
 local format=string.format
-
 local mStr=mStr
 
 local scene={}
@@ -88,12 +86,13 @@ function scene.draw()
 		gc.line(40,240+40*y,600,240+40*y)
 	end
 
-	gc.draw(IMG.title,260,615,.2+.04*sin(Timer()*3),nil,nil,206,35)
+	local t=TIME()
+	gc.draw(IMG.title,260,615,.2+.04*sin(t*3),nil,nil,206,35)
 
-	local r=Timer()*2
+	local r=t*2
 	local R=int(r)%7+1
 	gc.setColor(1,1,1,1-abs(r%1*2-1))
-	gc.draw(TEXTURE.miniBlock[R],680,50,Timer()*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 	gc.draw(TEXTURE.miniBlock[R],680,300,0,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
 end
 

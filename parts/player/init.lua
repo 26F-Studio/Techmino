@@ -3,7 +3,7 @@ local prepareSequence=require"parts/player/prepareSequence"
 local gameEnv0=require"parts/player/gameEnv0"
 
 local mt=love.math
-local rnd,max,min=math.random,math.max,math.min
+local rnd,max=math.random,math.max
 local ins=table.insert
 
 local PLY={
@@ -216,7 +216,7 @@ local function loadGameEnv(P)--Load gameEnv
 	end
 	if not ENV.noMod then
 		for _,M in next,GAME.mod do
-			M.func(P,M)
+			M.func(P,M.list[M.sel])
 		end
 	end
 end

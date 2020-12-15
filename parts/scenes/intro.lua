@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local abs=math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
@@ -59,11 +58,11 @@ local titleTransform={
 	end,
 	function(t,i)
 		local d=max(50-t,0)
-		gc.translate(sin(Timer()*3+626*i)*d,cos(Timer()*3+626*i)*d)
+		gc.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)
 	end,
 	function(t,i)
 		local d=max(50-t,0)
-		gc.translate(sin(Timer()*3+626*i)*d,-cos(Timer()*3+626*i)*d)
+		gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)
 	end,
 	function(t)
 		gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)
@@ -96,7 +95,7 @@ function scene.draw()
 	gc.pop()
 	if t2>=80 then
 		gc.setColor(1,1,1,.6+sin((t2-80)*.0626)*.3)
-		mText(drawableText.anykey,640,615+sin(Timer()*3)*5)
+		mText(drawableText.anykey,640,615+sin(TIME()*3)*5)
 	end
 end
 

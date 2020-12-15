@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 local sin=math.sin
 
 local scene={}
@@ -18,7 +17,7 @@ function scene.draw()
 				gc.draw(texture[color],x+30*j,y-30*i)
 			end
 		end end
-		gc.circle("fill",-10+140*N,340,sin(Timer()*10)+5)
+		gc.circle("fill",-10+140*N,340,sin(TIME()*10)+5)
 	end
 	gc.draw(texture[17],930,610,nil,2)
 	for i=1,5 do
