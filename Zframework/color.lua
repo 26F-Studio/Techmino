@@ -89,5 +89,23 @@ function COLOR.rainbow(phase)
 		sin(phase+2.0944)*.4+.6,
 		sin(phase-2.0944)*.4+.6
 end
+function COLOR.rainbow_light(phase)
+	return
+		sin(phase)*.2+.7,
+		sin(phase+2.0944)*.2+.7,
+		sin(phase-2.0944)*.2+.7
+end
+function COLOR.rainbow_dark(phase)
+	return
+		sin(phase)*.2+.4,
+		sin(phase+2.0944)*.2+.4,
+		sin(phase-2.0944)*.2+.4
+end
+function COLOR.rainbow_grey(phase)
+	return
+		sin(phase)*.16+.5,
+		sin(phase+2.0944)*.16+.5,
+		sin(phase-2.0944)*.16+.5
+end
 
 return COLOR
