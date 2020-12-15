@@ -39,44 +39,30 @@ local function clearResult()
 	for _=1,#result do rem(result)end
 	selected,scrollPos,waiting,lastSearch=1,0,0,false
 end
-local miniGame={
-	["15"]="15p",
-	["15p"]="15p",
-	hrd="15p",
-	huarongdao="15p",
-	shuzihuarongdao="15p",
+local eggInput={
+	["15"]="mg_15p",["15p"]="mg_15p",
+	hrd="mg_15p",huarongdao="mg_15p",shuzihuarongdao="mg_15p",
 
-	schulte="schulteG",
-	schulteg="schulteG",
-	schultegrid="schulteG",
-	shuerte="schulteG",
-	shuertefangge="schulteG",
+	schulte="mg_schulteG",schulteg="mg_schulteG",schultegrid="mg_schulteG",
+	shuerte="mg_schulteG",shuertefangge="mg_schulteG",
 
-	ping="pong",
-	pong="pong",
-	tanqiu="pong",
+	ping="mg_pong",pong="mg_pong",tanqiu="mg_pong",
 
-	abc="AtoZ",
-	abcde="AtoZ",
-	abcdefg="AtoZ",
-	atoz="AtoZ",
-	AtoZ="AtoZ",
-	dazi="AtoZ",
+	abc="mg_AtoZ",abcde="mg_AtoZ",abcdefg="mg_AtoZ",
+	atoz="mg_AtoZ",AtoZ="mg_AtoZ",dazi="mg_AtoZ",
 
-	uttt="UTTT",
-	tictactoe="UTTT",
-	ultimatetictactoe="UTTT",
-	ultimateTicTacToe="UTTT",
-	jingziqi="UTTT",
-	zhanluejingziqi="UTTT",
+	uttt="mg_UTTT",tictactoe="mg_UTTT",ultimatetictactoe="mg_UTTT",
+	ultimateTicTacToe="mg_UTTT",jingziqi="mg_UTTT",zhanluejingziqi="mg_UTTT",
 
-	cf="cubefield",
-	cbfd="cubefield",
-	cubefield="cubefield",
+	cf="mg_cubefield",cbfd="mg_cubefield",cubefield="mg_cubefield",
 }
 local function search()
-	if miniGame[input]then
-		SCN.go("mg_"..miniGame[input])
+	if eggInput[input]then
+		if type(eggInput[input])=="string"then
+			SCN.go(eggInput[input])
+		elseif type(eggInput[input])=="function"then
+			eggInput[input]()
+		end
 	else
 		clearResult()
 		local first
