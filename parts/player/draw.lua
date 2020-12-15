@@ -303,6 +303,11 @@ local function drawDial(x,y,speed)
 	gc.setColor(1,1,1,.8)
 	gc.draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 end
+local hideBoardStencil={
+	up=function()gc.rectangle("fill",0,0,300,300)end,
+	down=function()gc.rectangle("fill",0,300,300,300)end,
+	all=function()gc.rectangle("fill",0,0,300,600)end,
+}
 function draw.norm(P)
 	local _
 	local ENV=P.gameEnv
@@ -328,6 +333,18 @@ function draw.norm(P)
 
 				--In-field things
 				gc.push("transform")
+					if ENV.flipBoard then
+						if ENV.flipBoard=="U-D"then
+							gc.translate(0,590)
+							gc.scale(1,-1)
+						elseif ENV.flipBoard=="L-R"then
+							gc.translate(300,0)
+							gc.scale(-1,1)
+						elseif ENV.flipBoard=="180"then
+							gc.translate(300,590)
+							gc.scale(-1,-1)
+						end
+					end
 					gc.translate(0,600+FBN+FUP)
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
@@ -467,6 +484,16 @@ function draw.norm(P)
 						gc.rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
 						gc.printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
 					end
+				end
+				if ENV.hideBoard then
+					gc.stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
+					gc.setStencilTest("equal",1)
+					gc.setLineWidth(20)
+					for i=0,24 do
+						gc.setColor(COLOR.rainbow_grey(t*.626+i*.1))
+						gc.line(20*i-190,-2,20*i+10,602)
+					end
+					gc.setStencilTest()
 				end
 			gc.pop()
 

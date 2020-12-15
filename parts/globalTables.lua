@@ -45,7 +45,7 @@ MODOPT={--Mod options
 	},
 	{no=8,id="FB",name="flipBoard",
 		key="p",x=1160,y=230,color="grass",
-		list={"UD","LR","180"},
+		list={"U-D","L-R","180"},
 		func=function(P,O)P.gameEnv.flipBoard=O  end,
 	},
 
@@ -172,6 +172,8 @@ CUSTOMENV={--gameEnv for cutsom game
 	highCam=false,
 	nextPos=false,
 	bone=false,
+	hideBoard=false,
+	flipBoard=false,
 
 	--Rule
 	mindas=0,
