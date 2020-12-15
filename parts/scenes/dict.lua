@@ -42,6 +42,8 @@ end
 local eggInput={
 	["15"]="mg_15p",["15p"]="mg_15p",
 	hrd="mg_15p",huarongdao="mg_15p",shuzihuarongdao="mg_15p",
+	["15puzzle"]="mg_15p",
+	slidingpuzzle="mg_15p",
 
 	schulte="mg_schulteG",schulteg="mg_schulteG",schultegrid="mg_schulteG",
 	shuerte="mg_schulteG",shuertefangge="mg_schulteG",
@@ -50,9 +52,11 @@ local eggInput={
 
 	abc="mg_AtoZ",abcde="mg_AtoZ",abcdefg="mg_AtoZ",
 	atoz="mg_AtoZ",AtoZ="mg_AtoZ",dazi="mg_AtoZ",
+	typing="mg_AtoZ",
 
 	uttt="mg_UTTT",tictactoe="mg_UTTT",ultimatetictactoe="mg_UTTT",
 	ultimateTicTacToe="mg_UTTT",jingziqi="mg_UTTT",zhanluejingziqi="mg_UTTT",
+	ultimatettt="mg_UTTT",
 
 	cf="mg_cubefield",cbfd="mg_cubefield",cubefield="mg_cubefield",
 }
