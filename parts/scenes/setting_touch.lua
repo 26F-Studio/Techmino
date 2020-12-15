@@ -1,6 +1,5 @@
 local gc=love.graphics
 local ms=love.mouse
-local Timer=love.timer.getTime
 
 local int,sin=math.floor,math.sin
 
@@ -91,7 +90,7 @@ function scene.draw()
 	local d=snapUnit
 	if d>=10 then
 		gc.setLineWidth(3)
-		gc.setColor(1,1,1,sin(Timer()*4)*.1+.1)
+		gc.setColor(1,1,1,sin(TIME()*4)*.1+.1)
 		for i=1,1280/d-1 do
 			gc.line(d*i,0,d*i,720)
 		end

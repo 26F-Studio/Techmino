@@ -1,5 +1,5 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
+local TIME=love.timer.getTime
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin=math.max,math.min,math.sin
 local format=string.format
@@ -40,7 +40,7 @@ local function drawField(P)
 						gc.setColor(1,1,1,min(V[j][i]*.05,1))
 						Draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 					elseif rep then
-						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+Timer()*4))
+						gc.setColor(1,1,1,.3+.08*sin(.5*(j-i)+TIME()*4))
 						gc.rectangle("fill",30*i-30,-30*j,30,30)
 					end
 				end
@@ -307,6 +307,7 @@ function draw.norm(P)
 	local _
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
+	local t=TIME()
 	gc.push("transform")
 		gc.translate(P.x,P.y)gc.scale(P.size)
 
@@ -338,7 +339,7 @@ function draw.norm(P)
 					drawField(P)
 
 					--Draw spawn line
-					gc.setColor(1,sin(Timer())*.4+.5,0,.5)
+					gc.setColor(1,sin(t)*.4+.5,0,.5)
 					gc.setLineWidth(4)
 					gc.line(0,-600-FBN,300,-600-FBN)
 
@@ -408,9 +409,9 @@ function draw.norm(P)
 							gc.rectangle("fill",303,599-h-bar,11,bar*(1-A.countdown/A.cd0))
 						else
 							--Warning
-							local t=math.sin((Timer()-i)*30)*.5+.5
+							local a=math.sin((t-i)*30)*.5+.5
 							local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
-							gc.setColor(c1[1]*t+c2[1]*(1-t),c1[2]*t+c2[2]*(1-t),c1[3]*t+c2[3]*(1-t))
+							gc.setColor(c1[1]*a+c2[1]*(1-a),c1[2]*a+c2[2]*(1-a),c1[3]*a+c2[3]*(1-a))
 							gc.rectangle("fill",303,599-h,11,-bar)
 						end
 					else
@@ -429,7 +430,7 @@ function draw.norm(P)
 				gc.setColor(P.b2b<40 and COLOR.white or P.b2b<=1e3 and COLOR.lRed or COLOR.lBlue)
 				gc.rectangle("fill",-14,599,11,-a*.5)
 				gc.setColor(1,1,1)
-				if Timer()%.5<.3 then
+				if t%.5<.3 then
 					gc.rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
 				end
 
@@ -499,19 +500,19 @@ function draw.norm(P)
 		--FinesseCombo
 		if P.finesseCombo>2 then
 			_=P.finesseComboTime
-			local T=P.finesseCombo.."x"
+			local str=P.finesseCombo.."x"
 			if _>0 then
 				gc.setColor(1,1,1,_*.2)
-				gc.print(T,20,570)
+				gc.print(str,20,570)
 				gc.setColor(1,1,1,1.2-_*.1)
 				gc.push("transform")
 				gc.translate(20,600)
 				gc.scale(1+_*.08)
-				gc.print(T,0,-30)
+				gc.print(str,0,-30)
 				gc.pop()
 			else
 				gc.setColor(1,1,1)
-				gc.print(T,20,570)
+				gc.print(str,20,570)
 			end
 		end
 
@@ -544,7 +545,7 @@ function draw.norm(P)
 			--Draw current mission
 			setFont(35)
 			if ENV.missionKill then
-				gc.setColor(1,.7+.2*sin(Timer()*6.26),.4)
+				gc.setColor(1,.7+.2*sin(t*6.26),.4)
 			else
 				gc.setColor(1,1,1)
 			end
@@ -553,10 +554,10 @@ function draw.norm(P)
 			--Draw next mission
 			setFont(20)
 			for i=1,3 do
-				local t=L[P.curMission+i]
-				if t then
-					t=missionEnum[t]
-					gc.print(t,87-28*i,117)
+				local m=L[P.curMission+i]
+				if m then
+					m=missionEnum[m]
+					gc.print(m,87-28*i,117)
 				else
 					break
 				end

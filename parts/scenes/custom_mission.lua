@@ -1,6 +1,5 @@
 local gc,sys=love.graphics,love.system
 local kb=love.keyboard
-local Timer=love.timer.getTime
 
 local int,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
@@ -160,7 +159,7 @@ function scene.draw()
 				if N>0 then
 					gc.setColor(libColor[set[N]])
 				elseif L[i]>4 then
-					gc.setColor(COLOR.rainbow(i+Timer()*6.26))
+					gc.setColor(COLOR.rainbow(i+TIME()*6.26))
 				else
 					gc.setColor(COLOR.grey)
 				end
@@ -175,7 +174,7 @@ function scene.draw()
 	until i>j+1
 
 	--Draw cursor
-	gc.setColor(1,1,.4,.6+.4*sin(Timer()*6.26))
+	gc.setColor(1,1,.4,.6+.4*sin(TIME()*6.26))
 	gc.line(cx-5,cy-20,cx-5,cy+20)
 
 	--Confirm reset

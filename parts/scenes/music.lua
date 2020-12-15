@@ -1,5 +1,4 @@
 local gc=love.graphics
-local Timer=love.timer.getTime
 
 local sin=math.sin
 
@@ -63,13 +62,14 @@ function scene.draw()
 	gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
 	if BGM.nowPlay then
 		setFont(50)
-		gc.setColor(sin(Timer()*.5)*.2+.8,sin(Timer()*.7)*.2+.8,sin(Timer())*.2+.8)
+		local t=TIME()
+		gc.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
 		gc.print(BGM.nowPlay,710,500)
 
-		local t=-Timer()%2.3/2
-		if t<1 then
-			gc.setColor(1,1,1,t)
-			gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*t,1.5+.3-.3*t,206,35)
+		local a=-t%2.3/2
+		if a<1 then
+			gc.setColor(1,1,1,a)
+			gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*a,1.5+.3-.3*a,206,35)
 		end
 	end
 end

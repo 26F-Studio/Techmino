@@ -1,6 +1,5 @@
 local gc=love.graphics
 local tc=love.touch
-local Timer=love.timer.getTime
 
 local max,min,sin=math.max,math.min,math.sin
 
@@ -224,14 +223,14 @@ function scene.draw()
 		gc.setColor(.4,.4,.4)
 		gc.rectangle("fill",0,0,440,260)
 
-		local T=Timer()
+		local t=TIME()
 		gc.setColor(COLOR.dCyan)
 		mDraw(studioLogo,220,Y*.2-1204)
 		mDraw(studioLogo,220,-Y*.2+1476)
 
 		gc.setColor(COLOR.cyan)
-		mDraw(studioLogo,220+4*sin(T*10),136+4*sin(T*6))
-		mDraw(studioLogo,220+4*sin(T*12),136+4*sin(T*8))
+		mDraw(studioLogo,220+4*sin(t*10),136+4*sin(t*6))
+		mDraw(studioLogo,220+4*sin(t*12),136+4*sin(t*8))
 
 		gc.setColor(COLOR.dCyan)
 		mDraw(studioLogo,219,137)

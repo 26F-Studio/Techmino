@@ -1,10 +1,9 @@
 local gc=love.graphics
 local kb=love.keyboard
+
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
 local sub,format=string.sub,string.format
-
-local Timer=love.timer.getTime
 local setFont,mStr=setFont,mStr
 
 local WIDGET={}
@@ -463,8 +462,8 @@ function slider:drag(x)
 	if p~=P then
 		self.code(P)
 	end
-	if self.change and Timer()-self.lastTime>.18 then
-		self.lastTime=Timer()
+	if self.change and TIME()-self.lastTime>.18 then
+		self.lastTime=TIME()
 		self.change()
 	end
 end
@@ -478,8 +477,8 @@ function slider:arrowKey(isLeft)
 	local P=isLeft and max(p-u,0)or min(p+u,self.unit)
 	if p==P or not P then return end
 	self.code(P)
-	if self.change and Timer()-self.lastTime>.18 then
-		self.lastTime=Timer()
+	if self.change and TIME()-self.lastTime>.18 then
+		self.lastTime=TIME()
 		self.change()
 	end
 end
@@ -584,7 +583,7 @@ function selector:draw()
 	gc.rectangle("line",x,y,w,60)
 
 	gc.setColor(1,1,1,.2+ATV*.1)
-	local t=(Timer()%.5)^.5
+	local t=(TIME()%.5)^.5
 	if self.select>1 then
 		gc.draw(drawableText.small,x+6,y+20)
 		if ATV>0 then
@@ -946,8 +945,8 @@ function WIDGET.gamepadPressed(i)
 				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
 				if p==P or not P then return end
 				W.code(P)
-				if W.change and Timer()-W.lastTime>.18 then
-					W.lastTime=Timer()
+				if W.change and TIME()-W.lastTime>.18 then
+					W.lastTime=TIME()
 					W.change()
 				end
 			end
