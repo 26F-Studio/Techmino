@@ -78,7 +78,7 @@ end
 
 local list_dark={"dRed","dFire","dOrange","dYellow","dLame","dGrass","dGreen","dWater","dCyan","dSky","dSea","dBlue","dPurple","dGrape","dMagenta","dPink"}
 local len_list_dark=#list_dark
-function COLOR.random_bright()
+function COLOR.random_dark()
 	return COLOR[list_dark[rnd(len_list_dark)]]
 end
 
