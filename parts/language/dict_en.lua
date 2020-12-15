@@ -895,7 +895,7 @@ return{
 	{"安樱奈莯Naki",
 		"naki anyingnaimu",
 		"name",
-		"Tetris Research community member, Virtual content creator.\nWe seem to have asked her to record some voice clips for this game?",
+		"Tetris Research community member, Virtual content creator.\n(One of) Voice actress of Techmino.",
 		"https://space.bilibili.com/33212649",
 	},
 	{"奏之章",
@@ -978,7 +978,7 @@ return{
 	{"喵田弥夜Miya",
 		"miya miaotianmiye",
 		"name",
-		"Tetris Research community member, Virtual content creator.\nPractically the mascot of the community. Voice actress of Techmino.",
+		"Tetris Research community member, Virtual content creator.\nPractically the mascot of the community. (One of) Voice actress of Techmino.",
 		"https://space.bilibili.com/846180",
 	},
 
