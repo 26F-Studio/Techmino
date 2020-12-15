@@ -6,7 +6,7 @@ local max,min=math.max,math.min
 
 local texts={}
 local remain--People in chat room
-local scroll--Bottom message no.
+local scrollPos--Scroll up length
 local newMessage=false--If there is a new message
 local heartBeatTimer
 local escapeTimer=0
@@ -23,7 +23,7 @@ local function sendMessage()
 end
 local function clearHistory()
 	while #texts>1 do rem(texts)end
-	scroll=1
+	scrollPos=1
 	SFX.play("fall")
 	collectgarbage()
 end
@@ -39,7 +39,7 @@ function scene.sceneInit()
 	elseif #texts>1 and texts[#texts][1]~=COLOR.dG then
 		ins(texts,{COLOR.dG,text.chatHistory})
 	end
-	scroll=#texts
+	scrollPos=#texts
 	TASK.new(focusAtTextbox)--Widgets are not initialized, so active after 1 frame
 	BG.set("none")
 	wsConnect(
@@ -58,10 +58,10 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(k)
 	if k=="up"then
-		scroll=max(scroll-1,min(#texts,12))
+		scrollPos=max(scrollPos-1,min(#texts,12))
 	elseif k=="down"then
-		scroll=min(scroll+1,#texts)
-		if scroll==#texts then
+		scrollPos=min(scrollPos+1,#texts)
+		if scrollPos==#texts then
 			newMessage=false
 		end
 	elseif k=="return"then
@@ -102,8 +102,8 @@ function scene.socketRead(mes)
 			COLOR.sky,mes:sub(sep+1),
 		})
 	end
-	if scroll==#texts-1 then
-		scroll=scroll+1
+	if scrollPos==#texts-1 then
+		scrollPos=scrollPos+1
 	else
 		SFX.play("spin_0",.8)
 		newMessage=true
@@ -124,8 +124,8 @@ function scene.draw()
 	gc.print(remain or"?",1205,10)
 
 	setFont(30)
-	for i=max(scroll-11,1),scroll do
-		gc.printf(texts[i],40,416-36*(scroll-i),1240)
+	for i=max(scrollPos-11,1),scrollPos do
+		gc.printf(texts[i],40,416-36*(scrollPos-i),1240)
 	end
 
 	--Slider
@@ -133,11 +133,11 @@ function scene.draw()
 		gc.setLineWidth(2)
 		gc.rectangle("line",10,30,20,420)
 		local len=420*12/#texts
-		gc.rectangle("fill",13,33+(414-len)*(scroll-12)/(#texts-12),14,len)
+		gc.rectangle("fill",13,33+(414-len)*(scrollPos-12)/(#texts-12),14,len)
 	end
 
 	--Draw
-	if newMessage and scroll~=#texts then
+	if newMessage and scrollPos~=#texts then
 		setFont(40)
 		gc.setColor(1,Timer()%.4<.2 and 1 or 0,0)
 		gc.print("v",8,480)

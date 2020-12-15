@@ -158,17 +158,17 @@ function scene.draw()
 
 	local list=result[1]and result or dict
 	gc.setColor(1,1,1)
-	local text=list[selected][4]
-	if #text>900 then
+	local t=list[selected][4]
+	if #t>900 then
 		setFont(15)
-	elseif #text>600 then
+	elseif #t>600 then
 		setFont(20)
-	elseif #text>400 then
+	elseif #t>400 then
 		setFont(25)
 	else
 		setFont(30)
 	end
-	gc.printf(text,306,180,950)
+	gc.printf(t,306,180,950)
 
 	setFont(30)
 	gc.setColor(1,1,1,.4+.2*sin(Timer()*4))
