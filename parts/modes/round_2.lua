@@ -16,6 +16,7 @@ return{
 		drop=300,lock=300,
 		infHold=true,
 		dropPiece=update_round,
+		pushSpeed=15,
 		garbageSpeed=1e99,
 		bg="rainbow",bgm="push",
 	},
