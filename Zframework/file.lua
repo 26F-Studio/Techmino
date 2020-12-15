@@ -12,7 +12,7 @@ function FILE.load(name)
 				return s()
 			else
 				LOG.print(name.." "..text.loadError,COLOR.red)
-				return{}
+				return
 			end
 		else
 			local res=json.decode(s)
@@ -20,7 +20,7 @@ function FILE.load(name)
 				return res
 			else
 				LOG.print(name.." "..text.loadError,COLOR.red)
-				return{}
+				return
 			end
 		end
 	end
