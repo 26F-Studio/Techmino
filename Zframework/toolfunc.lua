@@ -21,11 +21,11 @@ do--LOADLIB
 	function LOADLIB(name)
 		local libName=libs[name]
 		if SYSTEM=="Windows"or SYSTEM=="Linux"then
-			local success,message=require(libName[SYSTEM])
-			if success then
-				return success
+			local r1,r2,r3=pcall(require,libName[SYSTEM])
+			if r1 and r2 then
+				return r2
 			else
-				LOG.print("Cannot load "..name..": "..message,"warn",COLOR.red)
+				LOG.print("Cannot load "..name..": "..(r2 or r3),"warn",COLOR.red)
 			end
 		elseif SYSTEM=="Android"then
 			local fs=love.filesystem
@@ -51,7 +51,7 @@ do--LOADLIB
 				end
 			end
 			if not libFunc then
-				LOG.print("failed to load "..name,"warn",COLOR.red)
+				LOG.print("Cannot load "..name,"warn",COLOR.red)
 				return
 			end
 			return libFunc()
