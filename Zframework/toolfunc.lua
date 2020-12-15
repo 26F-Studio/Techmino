@@ -36,7 +36,7 @@ do--LOADLIB
 				if soFile then
 					local success,message=fs.write(libName.Android,soFile,size)
 					if success then
-						libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),libName.Android},"/"),libName.libFunc)
+						libFunc,message=package.loadlib(table.concat({SAVEDIR,libName.Android},"/"),libName.libFunc)
 						if libFunc then
 							LOG.print(name.." lib loaded","warn",COLOR.green)
 							break
