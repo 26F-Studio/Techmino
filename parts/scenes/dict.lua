@@ -61,7 +61,7 @@ local function search()
 		if type(eggInput[input])=="string"then
 			SCN.go(eggInput[input])
 		elseif type(eggInput[input])=="function"then
-			eggInput[input])()
+			eggInput[input]()
 		end
 	else
 		clearResult()
