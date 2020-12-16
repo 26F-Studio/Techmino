@@ -1,5 +1,5 @@
-VERSION_CODE=1206
-VERSION_NAME="Alpha V0.12.6"
+VERSION_CODE=1207
+VERSION_NAME="Alpha V0.12.7"
 love.setDeprecationOutput(false)
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
