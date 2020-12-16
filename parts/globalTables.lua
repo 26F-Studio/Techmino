@@ -244,7 +244,7 @@ USER=FILE.load("conf/user")or{--User infomation
 	avatar=nil,
 	xp=0,lv=1,
 }
-SETTING=FILE.load("conf/settings")or{--Settings
+SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
 	sddas=0,sdarr=2,
@@ -303,7 +303,7 @@ SETTING=FILE.load("conf/settings")or{--Settings
 	VKCurW=.4,--Cur-Pos Weight
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
-}
+}local S=FILE.load("conf/settings")if S then addToTable(S,SETTING)end
 STAT=FILE.load("conf/data")or{--Statistics
 	version=VERSION_CODE,
 	run=0,game=0,time=0,frame=0,
