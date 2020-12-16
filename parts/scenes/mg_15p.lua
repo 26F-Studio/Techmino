@@ -20,7 +20,7 @@ local pathVis
 local revKB
 
 function scene.sceneInit()
-	BG.set("rainbow")
+	BG.set("rainbow2")
 	BGM.play("push")
 	board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}
 	cx,cy=4,4

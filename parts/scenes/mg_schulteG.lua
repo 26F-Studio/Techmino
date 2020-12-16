@@ -20,6 +20,7 @@ local mistake
 local state
 local progress
 function scene.sceneInit()
+	BG.set("space")
 	BGM.play("way")
 	board={}
 	rank=3

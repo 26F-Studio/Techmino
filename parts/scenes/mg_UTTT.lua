@@ -97,7 +97,7 @@ local scene={}
 function scene.sceneInit()
 	restart()
 	BGM.play("truth")
-	BG.set("bg2")
+	BG.set("rainbow")
 end
 
 function scene.draw()
