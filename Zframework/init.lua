@@ -305,7 +305,7 @@ function love.receiveData(id,data)end
 local lastGCtime=0
 function love.lowmemory()
 	if love.timer.getTime()-lastGCtime>2.6 then
-		lastGCtime=love.timer.getTime
+		lastGCtime=TIME()
 		collectgarbage()
 		LOG.print("[Auto GC] Low Memory!","warn")
 	end
