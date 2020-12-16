@@ -39,21 +39,12 @@ local function clearResult()
 	selected,scrollPos,waiting,lastSearch=1,0,0,false
 end
 local eggInput={
-	["15"]="mg_15p",["15p"]="mg_15p",
-	hrd="mg_15p",huarongdao="mg_15p",shuzihuarongdao="mg_15p",
-
-	schulte="mg_schulteG",schulteg="mg_schulteG",schultegrid="mg_schulteG",
-	shuerte="mg_schulteG",shuertefangge="mg_schulteG",
-
-	ping="mg_pong",pong="mg_pong",tanqiu="mg_pong",
-
-	abc="mg_AtoZ",abcde="mg_AtoZ",abcdefg="mg_AtoZ",
-	atoz="mg_AtoZ",AtoZ="mg_AtoZ",dazi="mg_AtoZ",
-
-	uttt="mg_UTTT",tictactoe="mg_UTTT",ultimatetictactoe="mg_UTTT",
-	ultimateTicTacToe="mg_UTTT",jingziqi="mg_UTTT",zhanluejingziqi="mg_UTTT",
-
-	cf="mg_cubefield",cbfd="mg_cubefield",cubefield="mg_cubefield",
+	["15p"]="mg_15p",
+	sltg="mg_schulteG",
+	pong="mg_pong",
+	atoz="mg_AtoZ",
+	uttt="mg_UTTT",
+	cbf="mg_cubefield",
 }
 local function search()
 	if eggInput[input]then

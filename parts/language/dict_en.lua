@@ -730,11 +730,17 @@ return{
 		"http://139.199.75.237/tos",
 	},
 	{"Github Repository",
-		"githubrepository",
+		"githubrepository sourcecode",
 		"other",
 		"Techmino's Github repository. Stars are appreciated",
 		"http://github.com/26F-Studio/Techmino",
 	},
+	{"Minigame",
+		"minigame",
+		"other",
+		"Input these to play free minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf",
+	},
+
 
 	{"SFX",
 		"sfx soundeffects",
