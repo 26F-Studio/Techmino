@@ -73,8 +73,8 @@ function scene.draw()
 	gc.print(tip,50,660)
 	local L=text.modes[STAT.lastPlay]
 	setFont(25)
-	gc.print(L[1],700,390)
-	gc.print(L[2],700,420)
+	gc.print(L[1],700,230)
+	gc.print(L[2],700,260)
 	PLAYERS[1]:draw()
 end
 
@@ -109,10 +109,10 @@ scene.widgetList={
 			SCN.go("login")
 		end
 	end},
-	WIDGET.newButton{name="custom",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=WIDGET.lnk_goScene("customGame")},
+	WIDGET.newButton{name="qplay",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=function()loadGame(STAT.lastPlay,true)end},
 	WIDGET.newButton{name="setting",x=150,y=380,w=200,h=140,color="lOrange",font=40,code=WIDGET.lnk_goScene("setting_game")},
 	WIDGET.newButton{name="stat",	x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=WIDGET.lnk_goScene("stat")},
-	WIDGET.newButton{name="qplay",	x=590,y=380,w=200,h=140,color="white",	font=40,code=function()loadGame(STAT.lastPlay,true)end},
+	WIDGET.newButton{name="custom",	x=590,y=380,w=200,h=140,color="white",	font=40,code=WIDGET.lnk_goScene("customGame")},
 	WIDGET.newButton{name="lang",	x=150,y=515,w=200,h=90,color="lYellow",	font=40,code=WIDGET.lnk_goScene("lang")},
 	WIDGET.newButton{name="help",	x=370,y=515,w=200,h=90,color="dGreen",	font=40,code=WIDGET.lnk_goScene("help")},
 	WIDGET.newButton{name="quit",	x=590,y=515,w=200,h=90,color="grey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
