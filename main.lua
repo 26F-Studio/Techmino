@@ -44,6 +44,8 @@ end
 
 --Delete useless files
 for _,v in next,{
+	"cold_clear.dll",
+	"CCloader.dll",
 	"tech_ultimate.dat",
 	"tech_ultimate+.dat",
 	"sprintFix.dat",
@@ -342,13 +344,7 @@ do
 		S.stereo>1 or S.VKSFX>1 or S.VKAlpha>1
 	then
 		NOGAME=true
-		fs.remove("settings.dat")
-	end
-
-	if fs.getInfo("cold_clear.dll")then
-		NOGAME=true
-		fs.remove("cold_clear.dll")
-		fs.remove("CCloader.dll")
+		fs.remove("conf/settings")
 	end
 
 	--Update data file
