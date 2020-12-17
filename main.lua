@@ -369,17 +369,26 @@ do
 		end
 		newVersionLaunch=true
 
-		--Try unlock modes which should be unlocked
+		--Try unlock modes which should be unlocked & delete old ranks
 		for name,rank in next,RANKS do
 			if rank and rank>0 then
+				local exist
 				for _,mode in next,MODES do
-					if mode.name==name and mode.unlock then
-						for _,unlockName in next,mode.unlock do
-							if not RANKS[unlockName]then
-								RANKS[unlockName]=0
+					if mode.name==name then
+						if mode.score then
+							exist=true
+						end
+						if mode.unlock then
+							for _,unlockName in next,mode.unlock do
+								if not RANKS[unlockName]then
+									RANKS[unlockName]=0
+								end
 							end
 						end
 					end
+				end
+				if not exist then
+					RANKS[name]=nil
 				end
 			end
 		end
