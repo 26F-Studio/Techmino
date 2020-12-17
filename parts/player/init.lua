@@ -216,7 +216,7 @@ local function loadGameEnv(P)--Load gameEnv
 	end
 	if not ENV.noMod then
 		for _,M in next,GAME.mod do
-			M.func(P,M.list[M.sel])
+			M.func(P,M.list and M.list[M.sel])
 		end
 	end
 end
