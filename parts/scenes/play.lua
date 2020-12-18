@@ -3,10 +3,8 @@ local tc=love.touch
 local TIME=TIME
 
 local max,sin=math.max,math.sin
-local log=math.log
 
-local SCR=SCR--play/pause
-
+local SCR=SCR
 local VK=virtualkey
 local function onVirtualkey(x,y)
 	local dist,nearest=1e10
@@ -24,8 +22,7 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
-local noTouch
-local noKey
+local noTouch,noKey
 
 local scene={}
 
@@ -239,7 +236,7 @@ function scene.update(dt)
 					end
 				end
 			end
-			GAME.warnLVL0=log(height-15+P1.atkBuffer.sum*.8)
+			GAME.warnLVL0=math.log(height-15+P1.atkBuffer.sum*.8)
 		end
 		_=GAME.warnLVL
 		if _<GAME.warnLVL0 then
@@ -345,7 +342,6 @@ function scene.draw()
 	gc.push("transform")
 	gc.origin()
 	if GAME.warnLVL>0 then
-		gc.setColor(0,0,0,0)
 		SHADER.warning:send("level",GAME.warnLVL)
 		gc.setShader(SHADER.warning)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
