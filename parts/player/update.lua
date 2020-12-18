@@ -333,8 +333,8 @@ local update={
 function update.dead(P,dt)
 	if P.keyRec then
 		local S=P.stat
-		P.keySpeed=P.keySpeed*.96+S.key/S.frame*.04
-		P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*.04
+		P.keySpeed=P.keySpeed*.96+S.key/S.frame*144
+		P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*144
 		--Final average speeds
 		if GAME.modeEnv.royaleMode then
 			P.swappingAtkMode=min(P.swappingAtkMode+2,30)
