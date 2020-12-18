@@ -304,20 +304,25 @@ SETTING={--Settings
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }local S=FILE.load("conf/settings")if S then addToTable(S,SETTING)end
-STAT=FILE.load("conf/data")or{--Statistics
-	version=VERSION_CODE,
-	run=0,game=0,time=0,frame=0,
-	key=0,rotate=0,hold=0,
-	extraPiece=0,finesseRate=0,
-	piece=0,row=0,dig=0,
-	atk=0,digatk=0,
-	send=0,recv=0,pend=0,off=0,
-	clear={},spin={},
-	pc=0,hpc=0,b2b=0,b3b=0,score=0,
-	lastPlay="sprint_10",--Last played mode ID
-	date=nil,
-	todayTime=0,
-}for i=1,25 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
+S=FILE.load("conf/data")
+if S then--Statistics
+	STAT=S
+else
+	STAT={
+		version=VERSION_CODE,
+		run=0,game=0,time=0,frame=0,
+		key=0,rotate=0,hold=0,
+		extraPiece=0,finesseRate=0,
+		piece=0,row=0,dig=0,
+		atk=0,digatk=0,
+		send=0,recv=0,pend=0,off=0,
+		clear={},spin={},
+		pc=0,hpc=0,b2b=0,b3b=0,score=0,
+		lastPlay="sprint_10",--Last played mode ID
+		date=nil,
+		todayTime=0,
+	}for i=1,25 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
+end
 keyMap=FILE.load("conf/key")or{--Key setting
 	{"left","right","x","z","c","up","down","space","tab","r"},{},
 	--Keyboard
