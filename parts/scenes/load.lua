@@ -174,6 +174,21 @@ function scene.update()
 			gc.setCanvas()
 		elseif phase==9 then
 			SKIN.change(SETTING.skinSet)
+			if newVersionLaunch then--Delete old ranks & Unlock modes which should be unlocked
+				for name,rank in next,RANKS do
+					local M=MODES[name]
+					if M and M.unlock and rank>0 then
+						for _,unlockName in next,M.unlock do
+							if not RANKS[unlockName]then
+								RANKS[unlockName]=0
+							end
+						end
+					end
+					if not(M and M.score)then
+						RANKS[name]=nil
+					end
+				end
+			end
 			STAT.run=STAT.run+1
 			LOADED=true
 			SFX.play("welcome_sfx")
