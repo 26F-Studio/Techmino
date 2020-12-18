@@ -1196,45 +1196,42 @@ do--Player.drop(P)--Place piece
 			end
 
 			--Send Lines
+			atk=int(atk*(1+P.strength*.25))--Badge Buff
 			send=atk
-			if send>0 then
-				if exblock>0 then
-					exblock=int(exblock*(1+P.strength*.25))--Badge Buff
-					P:showText("+"..exblock,0,53,20,"fly")
-					off=off+P:cancel(exblock)
-				end
-
-				send=int(send*(1+P.strength*.25))--Badge Buff
+			if exblock>0 then
+				exblock=int(exblock*(1+P.strength*.25))--Badge Buff
+				P:showText("+"..exblock,0,53,20,"fly")
+				off=off+P:cancel(exblock)
+			end
+			if send>=1 then
+				P:showText(send,0,80,35,"zoomout")
+				_=P:cancel(send)
+				send=send-_
+				off=off+_
 				if send>0 then
-					P:showText(send,0,80,35,"zoomout")
-					_=P:cancel(send)
-					send=send-_
-					off=off+_
-					if send>0 then
-						local T
-						if GAME.modeEnv.royaleMode then
-							if P.atkMode==4 then
-								local M=#P.atker
-								if M>0 then
-									for i=1,M do
-										P:attack(P.atker[i],send,CB.color)
-									end
-								else
-									T=randomTarget(P)
+					local T
+					if GAME.modeEnv.royaleMode then
+						if P.atkMode==4 then
+							local M=#P.atker
+							if M>0 then
+								for i=1,M do
+									P:attack(P.atker[i],send,CB.color)
 								end
 							else
-								T=P.atking
-								P:freshTarget()
+								T=randomTarget(P)
 							end
-						elseif #PLAYERS.alive>1 then
-							T=randomTarget(P)
+						else
+							T=P.atking
+							P:freshTarget()
 						end
-						if T then
-							P:attack(T,send,CB.color)
-						end
+					elseif #PLAYERS.alive>1 then
+						T=randomTarget(P)
 					end
-					if P.sound and send>3 then SFX.play("emit",min(send,7)*.1)end
+					if T then
+						P:attack(T,send,CB.color)
+					end
 				end
+				if P.sound and send>3 then SFX.play("emit",min(send,7)*.1)end
 			end
 
 			--SFX & Vibrate
@@ -1342,7 +1339,9 @@ do--Player.drop(P)--Place piece
 		end
 		if gbcc>0 then
 			STAT.dig=STAT.dig+gbcc
-			STAT.digatk=STAT.digatk+atk*gbcc/cc
+			if atk>0 then
+				STAT.digatk=STAT.digatk+atk*gbcc/cc
+			end
 		end
 		local n=CB.name
 		if dospin then
