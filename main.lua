@@ -136,29 +136,25 @@ IMG.init{
 	hbm="mess/hbm.png",
 }
 SKIN.init{
-	"normal(mrz)",
-	"smooth(mrz)",
-	"contrast(mrz)",
-	"glow(mrz)",
-	"plastic(mrz)",
-	"pure(mrz)",
-	"glass(ScF)",
-	"paper(mrz)",
-	"jelly(miya)",
-	"polka_dots(ScF)",
-	"brick(notypey)",
-	"brick_light(notypey)",
-	"cartoon_cup(earety)",
-	"ball(shaw)",
-	"steel(kulumi)",
-	"gem(notypey)",
-	"classic(_)",
-	"crack(earety)",
-	"retro(notypey)",
-	"retro_grey(notypey)",
-	"text_bone(mrz)",
-	"colored_bone(mrz)",
-	"white_bone(mrz)",
+	"Normal(MrZ)",
+	"Contrast(MrZ)",
+	"PolkaDots(ScF)",
+	"Smooth(MrZ)",
+	"Glass(ScF)",
+	"Pentagon(ScF)",
+	"Pure(MrZ)",
+	"Glow(MrZ)",
+	"Plastic(MrZ)",
+	"Paper(MrZ)",
+	"CartoonCup(Earety)",
+	"Jelly(Miya)",
+	"Brick(Notypey)",
+	"Gem(Notypey)",
+	"Classic",
+	"Ball(Shaw)",
+	"Retro(Notypey)",
+	"TextBone(MrZ)",
+	"ColoredBone(MrZ)",
 	"WTF",
 }
 --Initialize sound libs
@@ -364,6 +360,9 @@ do
 		if S.version<1205 then
 			SETTING.VKCurW=SETTING.VKCurW*.1
 			SETTING.VKTchW=SETTING.VKTchW*.1
+		end
+		if S.version<1208 then
+			SETTING.skinSet=1
 		end
 		newVersionLaunch=true
 
