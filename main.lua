@@ -108,8 +108,6 @@ if not fs.getInfo("conf/settings")and MOBILE then
 	SETTING.vib=2
 	SETTING.powerInfo=true
 	SETTING.fullscreen=true
-	love.window.setFullscreen(true)
-	love.resize(love.graphics.getWidth(),love.graphics.getHeight())
 end
 if SETTING.fullscreen then love.window.setFullscreen(true)end
 
