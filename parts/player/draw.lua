@@ -444,12 +444,12 @@ function draw.norm(P)
 				--B2B indictator
 				local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
 				gc_setColor(.8,1,.2)
-				gc_rectangle("fill",-14,599,11,-b*.5)
-				gc_setColor(P.b2b<40 and COLOR.white or P.b2b<=1e3 and COLOR.lRed or COLOR.lBlue)
-				gc_rectangle("fill",-14,599,11,-a*.5)
+				gc_rectangle("fill",-14,599,11,-b*.6)
+				gc_setColor(P.b2b<40 and COLOR.white or P.b2b<=800 and COLOR.lRed or COLOR.lBlue)
+				gc_rectangle("fill",-14,599,11,-a*.6)
 				gc_setColor(1,1,1)
 				if t%.5<.3 then
-					gc_rectangle("fill",-15,b<40 and 578.5 or 98.5,13,3)
+					gc_rectangle("fill",-15,b<40 and 568.5 or 118.5,13,3)
 				end
 
 				--LockDelay indicator

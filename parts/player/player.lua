@@ -747,7 +747,7 @@ do--Player.drop(P)--Place piece
 		{300,1200,1700,4000,6000},--I
 		{220,800,2000,3000,8000,26000},--Else
 	}--B2Bmul:1.2/2.0; Mini*=.6
-	local b2bPoint={50,100,180,1000,1200,9999}
+	local b2bPoint={50,100,180,800,1000,9999}
 
 	local b2bATK={3,5,8,12,18}
 	local reAtk={0,0,1,1,1,2,2,3,3}
@@ -1052,7 +1052,7 @@ do--Player.drop(P)--Place piece
 			cmb=cmb+1
 			if dospin then
 				cscore=(spinSCR[CB.name]or spinSCR[8])[cc]
-				if P.b2b>1000 then
+				if P.b2b>800 then
 					P:showText(text.b3b..text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,35,"stretch")
 					atk=b2bATK[cc]+cc*.5
 					exblock=exblock+1
@@ -1094,7 +1094,7 @@ do--Player.drop(P)--Place piece
 				end
 			elseif cc>=4 then
 				cscore=cc==4 and 1000 or cc==5 and 1500 or 2000
-				if P.b2b>1000 then
+				if P.b2b>800 then
 					P:showText(text.b3b..text.clear[cc],0,-30,50,"fly")
 					atk=4*cc-10
 					sendTime=100
@@ -1134,7 +1134,7 @@ do--Player.drop(P)--Place piece
 				exblock=exblock+2
 				sendTime=sendTime+120
 				if STAT.row+cc>4 then
-					P.b2b=1200
+					P.b2b=1000
 					cscore=cscore+300*min(6+STAT.pc,10)
 				else
 					cscore=cscore+626
@@ -1184,7 +1184,7 @@ do--Player.drop(P)--Place piece
 				cscore=cscore+min(50*cmb,500)*(2*cc-1)
 			end
 
-			if P.b2b>1200 then P.b2b=1200 end
+			if P.b2b>1000 then P.b2b=1000 end
 
 			--Bonus atk/def when focused
 			if GAME.modeEnv.royaleMode then
@@ -1258,8 +1258,8 @@ do--Player.drop(P)--Place piece
 				cscore=30
 			end
 
-			if P.b2b>1000 then
-				P.b2b=max(P.b2b-40,1000)
+			if P.b2b>800 then
+				P.b2b=max(P.b2b-40,800)
 			end
 			P:garbageRelease()
 		end

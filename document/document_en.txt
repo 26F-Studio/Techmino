@@ -43,12 +43,12 @@ Countering:
 	Any extra blocking you didn't use will be discarded, and finally the remaining attack power will be sent to your opponent.
 
 Back to Back (B2B) gauge:
-	The B2B gauge ranges from 0 to 1,200. Special line clears are B2B if the gauge is >=40, B2B2B if >1,000.
+	The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
 	A regular line clear -250
-	Spin Single/Double/Triple/Techrash/Techrash+ +50/100/180/1000/1200 (x25% if Mini)
+	Spin Single/Double/Triple/Techrash/Techrash+ +50/100/180/800/1000 (x50% if Mini)
 	Techrash/Techrash+ +100/200
-	Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 1000 using this method.
-	When gauge is above 1,000, a drop without clearing lines decreases it by 40, but cannot drop below 1,000
+	Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
+	When gauge is above 800, a drop without clearing lines decreases it by 40, but cannot drop below 800
 
 Battle Royale modes:
 	Many players play a game at the same time (against AI bots, not real players). As players get eliminated, blocks fall faster, and garbage take effect faster, as well as rise faster. Eliminate other players to gain a badge and the player's badge to increase your attack power.
