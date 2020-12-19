@@ -8,7 +8,7 @@ function FREEROW.reset(num)
 		end
 	elseif num>len then
 		for i=len+1,num do
-			L[i]={0,0,0,0,0,0,0,0,0,0}
+			L[i]={0,0,0,0,0,0,0,0,0,0,garbage=false}
 		end
 	end
 	len=num
@@ -16,7 +16,7 @@ end
 function FREEROW.get(val,ifGarbage)
 	if len==0 then
 		for i=1,10 do
-			L[i]={0,0,0,0,0,0,0,0,0,0}
+			L[i]={0,0,0,0,0,0,0,0,0,0,garbage=false}
 		end
 		len=len+10
 	end
