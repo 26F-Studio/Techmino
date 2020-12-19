@@ -177,7 +177,9 @@ function scene.update()
 			if newVersionLaunch then--Delete old ranks & Unlock modes which should be unlocked
 				for name,rank in next,RANKS do
 					local M=MODES[name]
-					if M and M.unlock and rank>0 then
+					if type(rank)~="number"then
+						RANKS[name]=nil
+					elseif M and M.unlock and rank>0 then
 						for _,unlockName in next,M.unlock do
 							if not RANKS[unlockName]then
 								RANKS[unlockName]=0
