@@ -6,7 +6,6 @@ local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min=math.max,math.min
-local lg=math.log10
 local ins,rem=table.insert,table.remove
 local ct=coroutine
 
@@ -154,15 +153,13 @@ local function task_movePosition(P,x,y,size)
 	local x1,y1,size1=P.x,P.y,P.size
 	while true do
 		coroutine.yield()
-		local d=((x1-x)^2+(y1-y)^2)^.5
-		if d<.626 then
+		if (x1-x)^2+(y1-y)^2<1 then
 			P:setPosition(x,y,size)
 			return true
 		else
-			d=max(.085-lg(d)*.02,.03)
-			x1=x1+(x-x1)*d
-			y1=y1+(y-y1)*d
-			size1=size1+(size-size1)*d
+			x1=x1+(x-x1)*.126
+			y1=y1+(y-y1)*.126
+			size1=size1+(size-size1)*.126
 			P:setPosition(x1,y1,size1)
 		end
 	end
@@ -1279,7 +1276,7 @@ do--Player.drop(P)--Place piece
 
 		cscore=int(cscore)
 		if ENV.score then
-			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,int(8-120/(cscore+20))*5,"score",2)
+			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,40-600/(cscore+20),"score",2)
 		end
 
 		piece.row,piece.dig=cc,gbcc
