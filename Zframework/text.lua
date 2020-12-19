@@ -1,5 +1,5 @@
 local gc=love.graphics
-local rnd,rem=math.random,table.remove
+local int,rnd,rem=math.floor,math.random,table.remove
 local setFont,mStr=setFont,mStr
 
 local texts={}
@@ -79,7 +79,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 		text=text,			--String
 		x=x or 0,			--X
 		y=y or 0,			--Y
-		font=font or 40,	--Font
+		font=int(font/5)*5 or 40,	--Font
 		spd=(spd or 1)/60,	--Timing speed(1=last 1 sec)
 		stop=stop,			--Stop time(sustained text)
 		draw=textFX[style]or error("unavailable type:"..style),	--Draw method
@@ -91,7 +91,7 @@ function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.sho
 		text=text,
 		x=x or 0,
 		y=y or 0,
-		font=font or 40,
+		font=int(font/5)*5 or 40,
 		spd=(spd or 1)/60,
 		stop=stop,
 		draw=textFX[style]or error("unavailable type:"..style),
