@@ -1,28 +1,25 @@
 local fs=love.filesystem
 local FILE={}
 function FILE.load(name)
-	local F=fs.newFile(name)
-	if F:open("r")then
-		local s=F:read()
-		F:close()
-		if s:sub(1,6)=="return"then
-			s=loadstring(s)
-			if s then
-				setfenv(s,{})
-				return s()
+	if fs.getInfo(name)then
+		local F=fs.newFile(name)
+		if F:open("r")then
+			local s=F:read()
+			F:close()
+			if s:sub(1,6)=="return"then
+				s=loadstring(s)
+				if s then
+					setfenv(s,{})
+					return s()
+				end
 			else
-				LOG.print(name.." "..text.loadError,COLOR.red)
-				return
-			end
-		else
-			local res=json.decode(s)
-			if res then
-				return res
-			else
-				LOG.print(name.." "..text.loadError,COLOR.red)
-				return
+				local res=json.decode(s)
+				if res then
+					return res
+				end
 			end
 		end
+		LOG.print(name.." "..text.loadError,COLOR.red)
 	end
 end
 function FILE.save(data,name,mode)
