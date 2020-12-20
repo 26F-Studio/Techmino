@@ -137,11 +137,11 @@ function scene.keyDown(key)
 		GAME.prevBG=BG.cur
 		SCN.go("setting_sound")
 	elseif key=="r"then
-		resetGameData()
+		resetGameData(false,false)
 		SCN.swapTo("play","none")
 	elseif key=="p"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 then
-			resetGameData(true)
+			resetGameData(true,false)
 			SCN.swapTo("play","none")
 		end
 	elseif key=="o"then

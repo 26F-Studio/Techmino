@@ -1838,8 +1838,10 @@ function Player.act_func(P)
 	P.gameEnv.Fkey(P)
 end
 function Player.act_restart()
-	if GAME.frame<240 or GAME.result then
-		resetGameData()
+	if GAME.frame<240 then
+		resetGameData(false,true)
+	elseif GAME.result then
+		resetGameData(false,false)
 	else
 		LOG.print(text.holdR,20,COLOR.orange)
 	end

@@ -485,40 +485,39 @@ function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
 		SFX.play("enter")
 	end
 end
-function initPlayerPosition()--Set initial position for every player
+function initPlayerPosition(sudden)--Set initial position for every player
 	local L=PLAYERS.alive
-	local y=#L<=5 and 360 or -62
-	for i=1,#L do
-		L[i]:setPosition(640,y,0)
+	if not sudden then
+		for i=1,#L do
+			L[i]:setPosition(640,#L<=5 and 360 or -62,0)
+		end
 	end
-	resetPlayerPosition()
-end
-function resetPlayerPosition()--Set position & size for every player
-	local L=PLAYERS.alive
-	L[1]:movePosition(340,75,1)
+
+	local method=sudden and"setPosition"or"movePosition"
+	L[1][method](L[1],340,75,1)
 	if #L<=5 then
-		if L[2]then L[2]:movePosition(965,390,.5)end
-		if L[3]then L[3]:movePosition(965,30,.5)end
-		if L[4]then L[4]:movePosition(20,390,.5)end
-		if L[5]then L[5]:movePosition(20,30,.5)end
+		if L[2]then L[2][method](L[2],965,390,.5)end
+		if L[3]then L[3][method](L[3],965,30,.5)end
+		if L[4]then L[4][method](L[4],20,390,.5)end
+		if L[5]then L[5][method](L[5],20,30,.5)end
 	elseif #L==49 then
 		local n=2
 		for i=1,4 do for j=1,6 do
-			L[n]:movePosition(78*i-54,115*j-98,.09)
+			L[n][method](L[n],78*i-54,115*j-98,.09)
 			n=n+1
 		end end
 		for i=9,12 do for j=1,6 do
-			L[n]:movePosition(78*i+267,115*j-98,.09)
+			L[n][method](L[n],78*i+267,115*j-98,.09)
 			n=n+1
 		end end
 	elseif #L==99 then
 		local n=2
 		for i=1,7 do for j=1,7 do
-			L[n]:movePosition(46*i-36,97*j-72,.068)
+			L[n][method](L[n],46*i-36,97*j-72,.068)
 			n=n+1
 		end end
 		for i=15,21 do for j=1,7 do
-			L[n]:movePosition(46*i+264,97*j-72,.068)
+			L[n][method](L[n],46*i+264,97*j-72,.068)
 			n=n+1
 		end end
 	end
@@ -538,7 +537,7 @@ local function tick_showMods()
 		end
 	end
 end
-function resetGameData(replaying)
+function resetGameData(replaying,ifQuick)
 	if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 		mergeStat(STAT,PLAYERS[1].stat)
 		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
@@ -567,7 +566,7 @@ function resetGameData(replaying)
 
 	destroyPlayers()
 	GAME.curMode.load()
-	initPlayerPosition()
+	initPlayerPosition(ifQuick)
 	restoreVirtualKey()
 	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do

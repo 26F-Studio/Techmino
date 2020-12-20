@@ -30,7 +30,7 @@ function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
 	GAME.restartCount=0
 	if GAME.init then
-		resetGameData()
+		resetGameData(false,false)
 		GAME.init=nil
 	end
 	noKey=GAME.replaying
@@ -204,7 +204,7 @@ function scene.update(dt)
 	elseif P1.keyPressing[10]then
 		GAME.restartCount=GAME.restartCount+1
 		if GAME.restartCount>20 then
-			resetGameData()
+			resetGameData(false,false)
 			return
 		end
 	elseif GAME.restartCount>0 then
