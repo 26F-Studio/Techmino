@@ -79,10 +79,10 @@ function scene.keyDown(k)
 			pass,MARKING=true
 			LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 			SFX.play("clear")
-		elseif v==72943816 then
+		elseif v==7294e4+3816 then
 			pass=true
 			for name,M in next,MODES do
-				if not RANKS[name]then
+				if not RANKS[name]and M.x then
 					RANKS[name]=M.score and 0 or 6
 				end
 			end
