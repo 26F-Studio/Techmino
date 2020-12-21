@@ -419,8 +419,9 @@ return{
 		custom_sequence={
 			title="Juego Personalizado",
 			subTitle="Secuencia",
-
 			sequence="Secuencia",
+			-- reset="Reset",
+			-- rnd="Rand",
 			copy="Copiar",
 			paste="Pegar",
 		},

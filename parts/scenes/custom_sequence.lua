@@ -206,7 +206,7 @@ scene.widgetList={
 	WIDGET.newKey{name="right",	x=760,y=460,w=80,color="lGreen",font=55,code=WIDGET.lnk_pressKey("right")},
 	WIDGET.newKey{name="ten",	x=840,y=460,w=80,color="lGreen",font=40,code=WIDGET.lnk_pressKey("ten")},
 	WIDGET.newKey{name="backsp",x=920,y=460,w=80,color="lYellow",font=50,code=WIDGET.lnk_pressKey("backspace")},
-	WIDGET.newKey{name="reset",	x=1000,y=460,w=80,color="lYellow",font=50,code=WIDGET.lnk_pressKey("delete")},
+	WIDGET.newKey{name="reset",	x=1000,y=460,w=80,color="lYellow",font=25,code=WIDGET.lnk_pressKey("delete")},
 
 	WIDGET.newKey{name="Z5",	x=120,y=540,w=80,color="lGrey",font=50,code=WIDGET.lnk_pressKey(8)},
 	WIDGET.newKey{name="S5",	x=200,y=540,w=80,color="lGrey",font=50,code=WIDGET.lnk_pressKey(9)},
@@ -219,7 +219,7 @@ scene.widgetList={
 	WIDGET.newKey{name="V",		x=760,y=540,w=80,color="lGrey",font=50,code=WIDGET.lnk_pressKey(16)},
 	WIDGET.newKey{name="I3",	x=840,y=540,w=80,color="grey",font=50,code=WIDGET.lnk_pressKey(26)},
 	WIDGET.newKey{name="C",		x=920,y=540,w=80,color="grey",font=50,code=WIDGET.lnk_pressKey(27)},
-	WIDGET.newKey{name="rnd",	x=1000,y=540,w=80,color="red",font=50,code=WIDGET.lnk_pressKey("=")},
+	WIDGET.newKey{name="rnd",	x=1000,y=540,w=80,color="red",font=25,code=WIDGET.lnk_pressKey("=")},
 
 	WIDGET.newKey{name="W",		x=120,y=620,w=80,color="lGrey",font=50,code=WIDGET.lnk_pressKey(17)},
 	WIDGET.newKey{name="X",		x=200,y=620,w=80,color="lGrey",font=50,code=WIDGET.lnk_pressKey(18)},

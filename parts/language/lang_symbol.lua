@@ -319,6 +319,8 @@ return{
 			subTitle="Sequence",
 
 			sequence="$=",
+			reset="R",
+			rnd="R",
 			copy="→__",
 			paste="__→",
 		},

@@ -421,6 +421,8 @@ return{
 			subTitle="Séquence",
 
 			sequence="Séquence",
+			-- reset="Redémarrer",
+			-- rnd="Rand",
 			copy="Copier",
 			paste="Coller",
 		},
