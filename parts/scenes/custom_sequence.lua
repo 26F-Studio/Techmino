@@ -74,6 +74,9 @@ function scene.keyDown(key)
 		else
 			sure=50
 		end
+	elseif key=="="then
+		local l={1,2,3,4,5,6,7}
+		repeat scene.keyDown(rem(l,math.random(#l)))until not l[1]
 	elseif key=="tab"then
 		local W=WIDGET.active.sequence
 		if kb.isDown("lshift","rshift")then
