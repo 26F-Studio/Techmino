@@ -537,7 +537,8 @@ local function tick_showMods()
 		end
 	end
 end
-function resetGameData(replaying,ifQuick)
+function resetGameData(args)
+	if not args then args=""end
 	if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 		mergeStat(STAT,PLAYERS[1].stat)
 		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
@@ -546,7 +547,7 @@ function resetGameData(replaying,ifQuick)
 	GAME.result=false
 	GAME.warnLVL0=0
 	GAME.warnLVL=0
-	if replaying then
+	if args:find("r")then
 		GAME.frame=0
 		GAME.recording=false
 		GAME.replaying=1
@@ -566,7 +567,7 @@ function resetGameData(replaying,ifQuick)
 
 	destroyPlayers()
 	GAME.curMode.load()
-	initPlayerPosition(ifQuick)
+	initPlayerPosition(args:find("q"))
 	restoreVirtualKey()
 	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do

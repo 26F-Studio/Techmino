@@ -1839,9 +1839,9 @@ function Player.act_func(P)
 end
 function Player.act_restart()
 	if GAME.frame<240 then
-		resetGameData(false,true)
+		resetGameData("q")
 	elseif GAME.result then
-		resetGameData(false,false)
+		resetGameData()
 	else
 		LOG.print(text.holdR,20,COLOR.orange)
 	end
