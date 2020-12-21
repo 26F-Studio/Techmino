@@ -201,7 +201,8 @@ BGM.init{
 	"storm",--defender, survivor-4/5
 	"down",--dig, tech-hard/lunatic
 
-	"rockblock",--classic, 49/99
+	"rockblock",--classic
+	"magicblock",--49/99
 	"cruelty","final","8-bit happiness","end","how feeling",--49/99
 }
 VOC.init{
