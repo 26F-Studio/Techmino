@@ -17,7 +17,7 @@ for i=1,20 do
 end
 
 TEXTURE.miniBlock={}
-for i=1,25 do
+for i=1,29 do
 	local b=BLOCKS[i][0]
 	TEXTURE.miniBlock[i]=C(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do

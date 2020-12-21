@@ -90,7 +90,6 @@ require"parts/gametoolfunc"
 SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
-BLOCKS=		require"parts/mino"
 AIBUILDER=	require"parts/AITemplate"
 FREEROW=	require"parts/freeRow"
 
@@ -234,7 +233,8 @@ LANG.setPublicText{
 		"Z","S","J","L","T","O","I",
 		"Z5","S5","Q","P","F","E",
 		"T5","U","V","W","X",
-		"J5","L5","R","Y","N","H","I5"
+		"J5","L5","R","Y","N","H","I5",
+		"I3","C","I2","O1"
 	},
 }
 LANG.setPublicWidgetText{

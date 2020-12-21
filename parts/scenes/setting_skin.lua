@@ -60,12 +60,12 @@ scene.widgetList={
 
 	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,
 		code=function()
-			SETTING.skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4}
+			SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,10,2,16,8,4,10,13,2,8}
 			SFX.play("rotate")
 		end},
 	WIDGET.newButton{name="faceR",	x=480,y=640,w=220,h=80,color="lRed",font=35,
 		code=function()
-			for i=1,25 do
+			for i=1,29 do
 				SETTING.face[i]=0
 			end
 			SFX.play("hold")

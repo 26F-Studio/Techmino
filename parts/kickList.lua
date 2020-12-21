@@ -1,17 +1,28 @@
-local zero={0,0}
-local noKick,noKick_180 do
+local noKick,noKick_180,pushZero do
+	local zero={0,0}
 	local Zero={zero}
 	noKick={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
 	noKick_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
+	function pushZero(t)
+		for _,L in next,t do
+			if type(L)=="table"then
+				for _,v in next,L do
+					table.insert(v,1,zero)
+				end
+			end
+		end
+	end
 end
 
-local map={}
-for x=-3,3 do map[x]={}for y=-3,3 do map[x][y]={x,y}end end
-local function collect(T)--Make all vec point to the same vec
-	if type(T)=="table"then
-		for _,t in next,T do
-			for k,vec in next,t do
-				t[k]=map[vec[1]][vec[2]]
+local collect do
+	local map={}
+	for x=-3,3 do map[x]={}for y=-3,3 do map[x][y]={x,y}end end
+	function collect(T)--Make all vec point to the same vec
+		if type(T)=="table"then
+			for _,t in next,T do
+				for k,vec in next,t do
+					t[k]=map[vec[1]][vec[2]]
+				end
 			end
 		end
 	end
@@ -44,15 +55,6 @@ local function reflect(a)
 	b[31]=flipList(a[13])
 	b[13]=flipList(a[31])
 	return b
-end
-local function pushZero(t)
-	for _,L in next,t do
-		if type(L)=="table"then
-			for _,v in next,L do
-				table.insert(v,1,zero)
-			end
-		end
-	end
 end
 
 local TRS
@@ -329,6 +331,35 @@ do
 			[03]={{-1,-1},{-1, 0},{-1, 1},{-0, 1},{ 1, 1},{ 1, 0},{ 1,-1},{-0,-1},{-0,-2},{ 2,-1},{ 2,-2},{-2, 0},{-2,-1},{-2,-2},{-1, 2},{-2, 2},{ 1, 2},{ 2, 2}},
 			[30]={{ 1, 0},{ 1,-1},{-0,-1},{-1,-1},{ 2,-2},{ 2,-1},{ 2, 0},{ 1,-2},{-0,-2},{-1,-2},{-2,-2},{ 1, 1},{ 2, 1},{ 2, 2},{-1, 0},{-2, 0},{-2,-1},{ 0, 1},{-1,-1},{-2,-2}},
 		},--I5
+		{
+			[01]={{-1, 0},{-1,-1},{ 1, 1},{-1, 1}},
+			[10]={{-1, 0},{ 1, 0},{-1,-1},{ 1, 1}},
+			[03]={{ 1, 0},{ 1,-1},{-1, 1},{ 1, 1}},
+			[30]={{ 1, 0},{-1, 0},{ 1,-1},{-1, 1}},
+		},--I3
+		{
+			[01]={{-1, 0},{ 1, 0}},
+			[10]={{ 1, 0},{-1, 0}},
+			[03]={{ 0, 1},{ 0,-1}},
+			[30]={{ 0,-1},{ 0, 1}},
+			[12]={{ 0, 1},{ 0,-1}},
+			[21]={{ 0,-1},{ 0, 1}},
+			[32]={{-1, 0},{ 1, 0}},
+			[23]={{ 1, 0},{-1, 0}},
+			[02]={{ 0,-1},{ 1,-1},{-1,-1}},
+			[20]={{ 0, 1},{-1, 1},{ 1, 1}},
+			[13]={{ 0,-1},{-1,-1},{ 1,-1}},
+			[31]={{ 0, 1},{ 1, 1},{-1, 1}},
+		},--C
+		{
+			[01]={},[10]={},[03]={},[30]={},
+			[12]={},[21]={},[32]={},[23]={},
+			[02]={{ 0,-1}},[20]={{ 0, 1}},
+			[13]={{-1, 0}},[31]={{ 1, 0}},
+		},--I2
+		{
+			[01]={},[10]={},[03]={},[30]={},
+		},--O1
 	}
 	TRS[2]=	reflect(TRS[1])--SZ
 	TRS[4]=	reflect(TRS[3])--LJ
@@ -338,10 +369,9 @@ do
 	TRS[20]=reflect(TRS[19])--L5J5
 	TRS[22]=reflect(TRS[21])--RY
 	TRS[24]=reflect(TRS[23])--HN
-	C_sym(TRS[8])
-	C_sym(TRS[9])
-	C_sym(TRS[25])
-	for i=1,25 do collect(TRS[i])end
+	C_sym(TRS[8])C_sym(TRS[9])
+	C_sym(TRS[25])C_sym(TRS[26])C_sym(TRS[29])
+	for i=1,29 do collect(TRS[i])end
 	pushZero(TRS)
 end
 
@@ -380,7 +410,7 @@ do
 	collect(SRS[7])
 	pushZero(SRS)
 	for i=2,5 do SRS[i]=SRS[1]end
-	for i=8,25 do SRS[i]=SRS[1]end
+	for i=8,29 do SRS[i]=SRS[1]end
 end
 
 local C2
@@ -394,7 +424,7 @@ do
 		}
 	}
 	collect(C2[1])
-	for i=2,25 do C2[i]=C2[1]end
+	for i=2,29 do C2[i]=C2[1]end
 end
 
 local C2sym
@@ -417,6 +447,7 @@ do
 		Z,--T
 		noKick,--O
 		Z,--I
+
 		Z,S,--Z5,S5
 		Z,S,--P,Q
 		Z,S,--F,E
@@ -425,14 +456,17 @@ do
 		Z,S,--J5,L5
 		Z,S,--R,Y
 		Z,S,--N,H
+
+		Z,Z,--I3,C
+		Z,Z,--I2,O1
 	}
 end
 
 local Classic={}
-for i=1,25 do Classic[i]=noKick end
+for i=1,29 do Classic[i]=noKick end
 
 local None={}
-for i=1,25 do None[i]=noKick_180 end
+for i=1,29 do None[i]=noKick_180 end
 
 return{
 	TRS=TRS,

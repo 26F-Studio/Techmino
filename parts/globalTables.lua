@@ -259,8 +259,8 @@ SETTING={--Settings
 	appLock=false,
 	lang=1,
 	skinSet=1,
-	skin={1,7,11,3,14,4,9,1,7,1,7,11,3,14,4,9,14,9,11,3,11,3,1,7,4},
-	face={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,10,2,16,8,4,10,13,2,8},
+	face={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 
 	--Graphic
 	block=true,ghost=.3,center=1,
@@ -321,7 +321,7 @@ else
 		lastPlay="sprint_10",--Last played mode ID
 		date=nil,
 		todayTime=0,
-	}for i=1,25 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
+	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
 end
 keyMap=FILE.load("conf/key")or{--Key setting
 	{"left","right","x","z","c","up","down","space","tab","r"},{},

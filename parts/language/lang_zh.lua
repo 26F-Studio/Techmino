@@ -446,6 +446,7 @@ return{
 			Z="Z",S="S",J="J",L="L",T="T",O="O",I="I",
 			Z5="Z5",S5="S5",P="P",Q="Q",F="F",E="E",T5="T5",U="U",
 			V="V",W="W",X="X",J5="J5",L5="L5",R="R",Y="Y",N="N",H="H",I5="I5",
+			I3="I3",C="C",I2="I2",O1="O1",
 			left="←",
 			right="→",
 			ten="→→",

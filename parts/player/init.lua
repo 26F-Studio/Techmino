@@ -24,7 +24,7 @@ local function getNewStatTable()
 		pc=0,hpc=0,b2b=0,b3b=0,
 		maxCombo=0,maxFinesseCombo=0,
 	}
-	for i=1,25 do
+	for i=1,29 do
 		T.clear[i]={0,0,0,0,0,0}
 		T.spin[i]={0,0,0,0,0,0,0}
 		T.clears[i]=0

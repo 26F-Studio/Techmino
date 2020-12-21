@@ -232,6 +232,8 @@ do--spinCenters
 	local I1,I2,I3,I4={-.5,1.5},{1.5,-.5},{.5,1.5},{1.5,.5}
 	local V4={1.5,1.5}
 	local L1,L2={0,2},{2,0}
+	local S1,S2={-.5,.5},{.5,-.5}
+	local D={0,0}
 	spinCenters={
 		--Tetramino
 		{[0]=N1,N2,N3,N3},--Z
@@ -243,25 +245,96 @@ do--spinCenters
 		{[0]=I1,I2,I3,I4},--I
 
 		--Pentomino
-		{[0]=N3,N3,N3,N3},--Z
-		{[0]=N3,N3,N3,N3},--S
+		{[0]=N3,N3,N3,N3},--Z5
+		{[0]=N3,N3,N3,N3},--S5
 		{[0]=N1,N2,N3,N3},--P
 		{[0]=N1,N2,N3,N3},--Q
 		{[0]=N3,N3,N3,N3},--F
 		{[0]=N3,N3,N3,N3},--E
-		{[0]=N3,N3,N3,N3},--T
+		{[0]=N3,N3,N3,N3},--T5
 		{[0]=N1,N2,N3,N3},--U
 		{[0]=I3,N4,I4,V4},--V
 		{[0]=N3,N3,N3,N3},--W
 		{[0]=N3,N3,N3,N3},--X
-		{[0]=I3,I4,I3,I4},--J
-		{[0]=I3,I4,I3,I4},--L
+		{[0]=I3,I4,I3,I4},--J5
+		{[0]=I3,I4,I3,I4},--L5
 		{[0]=I3,I4,I3,I4},--R
 		{[0]=I3,I4,I3,I4},--Y
 		{[0]=I3,I4,I3,I4},--N
 		{[0]=I3,I4,I3,I4},--H
-		{[0]=L1,L2,L1,L2},--I
+		{[0]=L1,L2,L1,L2},--I5
+
+		--Trimino
+		{[0]=N1,N2,N1,N2},--I3
+		{[0]=N4,N4,N4,N4},--C
+
+		--Domino
+		{[0]=S1,S2,N4,N4},--I2
+
+		--Dot
+		{[0]=D,D,D,D},--O1
 	}
+end
+do--BLOCKS
+	local function RotCW(B)
+		local N={}
+		local r,c=#B,#B[1]--row,col
+		for x=1,c do
+			N[x]={}
+			for y=1,r do
+				N[x][y]=B[y][c-x+1]
+			end
+		end
+		return N
+	end
+	local O,_=true,false
+	BLOCKS={
+		--Tetramino
+		{{_,O,O},{O,O,_}},	--Z
+		{{O,O,_},{_,O,O}},	--S
+		{{O,O,O},{O,_,_}},	--J
+		{{O,O,O},{_,_,O}},	--L
+		{{O,O,O},{_,O,_}},	--T
+		{{O,O},{O,O}},		--O
+		{{O,O,O,O}},		--I
+
+		--Pentomino
+		{{_,O,O},{_,O,_},{O,O,_}},	--Z5
+		{{O,O,_},{_,O,_},{_,O,O}},	--S5
+		{{O,O,O},{O,O,_}},			--P
+		{{O,O,O},{_,O,O}},			--Q
+		{{_,O,_},{O,O,O},{O,_,_}},	--F
+		{{_,O,_},{O,O,O},{_,_,O}},	--E
+		{{O,O,O},{_,O,_},{_,O,_}},	--T5
+		{{O,O,O},{O,_,O}},			--U
+		{{O,O,O},{_,_,O},{_,_,O}},	--V
+		{{_,O,O},{O,O,_},{O,_,_}},	--W
+		{{_,O,_},{O,O,O},{_,O,_}},	--X
+		{{O,O,O,O},{O,_,_,_}},		--J5
+		{{O,O,O,O},{_,_,_,O}},		--L5
+		{{O,O,O,O},{_,O,_,_}},		--R
+		{{O,O,O,O},{_,_,O,_}},		--Y
+		{{_,O,O,O},{O,O,_,_}},		--N
+		{{O,O,O,_},{_,_,O,O}},		--H
+		{{O,O,O,O,O}},				--I5
+
+		--Trimino
+		{{O,O,O}},					--I3
+		{{O,O},{_,O}},				--C
+
+		--Domino
+		{{O,O}},					--I2
+
+		--Dot
+		{{O}},						--O1
+	}
+	for i=1,#BLOCKS do
+		local B=BLOCKS[i]
+		BLOCKS[i]={[0]=B}
+		B=RotCW(B)BLOCKS[i][1]=B
+		B=RotCW(B)BLOCKS[i][2]=B
+		B=RotCW(B)BLOCKS[i][3]=B
+	end
 end
 
 rankColor={
