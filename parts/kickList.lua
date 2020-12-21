@@ -122,11 +122,11 @@ do
 			if P.type=="human"then SFX.fieldPlay("rotate",nil,P)end
 			if not P.gameEnv.ospin then return end
 			local x,y=P.curX,P.curY
-			if y==P.imgY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
+			if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
 				local D=P.spinSeq%100*10+d
 				P.spinSeq=D
 				if D<100 then
-					P:freshBlock(true,true)
+					P:freshBlock("fresh")
 					return
 				end
 				for i=1,#OspinList do
@@ -144,7 +144,7 @@ do
 							P.dir,P.sc=dir,spinCenters[id][dir]
 							P.spinLast=2
 							P.stat.rotate=P.stat.rotate+1
-							P:freshBlock(false,true)
+							P:freshBlock("move")
 							P.spinSeq=0
 							SFX.fieldPlay("rotatekick",nil,P)
 							return
@@ -153,7 +153,7 @@ do
 				end
 			else
 				P.spinSeq=0
-				P:freshBlock(true,true)
+				P:freshBlock("fresh")
 			end
 		end,--O
 		{
@@ -271,12 +271,12 @@ do
 				if not P:ifoverlap(P.cur.bk,x,y)then
 					P.curX,P.curY=x,y
 					P.spinLast=1
-					P:freshBlock(false,true)
+					P:freshBlock("move")
 					P.stat.rotate=P.stat.rotate+1
 					return
 				end
 			end
-			P:freshBlock(true,true)
+			P:freshBlock("fresh")
 		end,--X
 		{
 			[01]={{-1, 0},{-1, 1},{ 0,-3},{-1, 1},{-1, 2},{ 0, 1}},

@@ -119,7 +119,7 @@ local function drawGhost(P,clr)
 	local texture=SKIN.curText
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			Draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.imgY-1))-- drawCell(i+P.imgY-1,j+P.curX-1,clr)
+			Draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))-- drawCell(i+P.ghoY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -371,7 +371,7 @@ function draw.norm(P)
 						--Draw ghost
 						if ENV.ghost then drawGhost(P,curColor)end
 
-						local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
+						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc.translate(0,-dy)
 						local trans=P.lockDelay/ENV.lock
 
@@ -390,7 +390,7 @@ function draw.norm(P)
 						gc.translate(0,dy)
 						if ENV.center and ENV.ghost then
 							gc_setColor(1,1,1,trans*ENV.center)
-							gc.draw(IMG.spinCenter,x,-30*(P.imgY+P.sc[1])+15,nil,nil,nil,4,4)
+							gc.draw(IMG.spinCenter,x,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
 						end
 					end
 
@@ -504,7 +504,7 @@ function draw.norm(P)
 			--Display Ys
 			-- gc.setLineWidth(6)
 			-- if P.curY then	gc_setColor(1,.4,0,.42)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
-			-- if P.imgY then	gc_setColor(0,1,.4,.42)gc.line(0,615-P.imgY*30,300,615-P.imgY*30)end
+			-- if P.ghoY then	gc_setColor(0,1,.4,.42)gc.line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
 			-- if P.minY then	gc_setColor(0,.4,1,.42)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
 			-- 				gc_setColor(0,.4,1,.42)gc.line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc.pop()
@@ -688,7 +688,7 @@ function draw.demo(P)
 				if P.cur and P.waiting==-1 then
 					if ENV.ghost then drawGhost(P,curColor)end
 					if ENV.block then
-						local dy=ENV.smooth and P.imgY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
+						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc.translate(0,-dy)
 						drawBlockOutline(P,SKIN.curText[curColor],P.lockDelay/ENV.lock)
 						drawBlock(P,curColor)

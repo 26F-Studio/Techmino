@@ -1,6 +1,7 @@
 local int,max,min,abs=math.floor,math.max,math.min,math.abs
 local rem=table.remove
-local ct=coroutine
+local resume=coroutine.resume
+local status=coroutine.status
 local assert=assert
 
 local function updateLine(P)--Attacks, line pushing, cam moving
@@ -29,7 +30,7 @@ local function updateLine(P)--Attacks, line pushing, cam moving
 		if not P.alive then
 			y=0
 		else
-			y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.imgY-17),0)
+			y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.ghoY-17),0)
 		end
 		if f~=y then
 			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or min(f*.97+y*.03+1,y)
@@ -98,14 +99,15 @@ local function updateTasks(P)
 	local L=P.tasks
 	for i=#L,1,-1 do
 		local tr=L[i].thread
-		assert(ct.resume(tr))
-		if ct.status(tr)=="dead"then
+		assert(resume(tr))
+		if status(tr)=="dead"then
 			rem(L,i)
 		end
 	end
 end
 
 local function update_alive(P,dt)
+	local ENV=P.gameEnv
 	if P.timing then
 		local S=P.stat
 		S.time=S.time+dt
@@ -160,7 +162,7 @@ local function update_alive(P,dt)
 
 	--Moving pressed
 	if P.movDir~=0 then
-		local das,arr=P.gameEnv.das,P.gameEnv.arr
+		local das,arr=ENV.das,ENV.arr
 		local mov=P.moving
 		if P.waiting==-1 then
 			if P.movDir==1 then
@@ -182,8 +184,8 @@ local function update_alive(P,dt)
 							mov=mov+1
 						end
 					end
-					if mov>=das and P.gameEnv.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
-						P.fieldOff.vx=P.gameEnv.shakeFX*.5
+					if mov>=das and ENV.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
+						P.fieldOff.vx=ENV.shakeFX*.5
 					end
 				else
 					P.movDir=0
@@ -207,8 +209,8 @@ local function update_alive(P,dt)
 							mov=mov+1
 						end
 					end
-					if mov>=das and P.gameEnv.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
-						P.fieldOff.vx=-P.gameEnv.shakeFX*.5
+					if mov>=das and ENV.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
+						P.fieldOff.vx=-ENV.shakeFX*.5
 					end
 				else
 					P.movDir=0
@@ -222,18 +224,18 @@ local function update_alive(P,dt)
 
 	--Drop pressed
 	if P.keyPressing[7]and not P.keyPressing[9]then
-		local d=P.downing-P.gameEnv.sddas
+		local d=P.downing-ENV.sddas
 		P.downing=P.downing+1
 		if d>1 then
-			if P.gameEnv.sdarr>0 then
-				if d%P.gameEnv.sdarr==0 then
+			if ENV.sdarr>0 then
+				if d%ENV.sdarr==0 then
 					P:act_down1()
 				end
 			else
 				P:act_insDown()
 			end
-			if P.gameEnv.shakeFX then
-				P.fieldOff.vy=P.gameEnv.shakeFX*.3
+			if ENV.shakeFX then
+				P.fieldOff.vy=ENV.shakeFX*.3
 			end
 		end
 	else
@@ -247,7 +249,7 @@ local function update_alive(P,dt)
 			goto stop
 		else
 			local L=#P.clearingRow
-			if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
+			if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
 			P.clearingRow={}
 		end
 	end
@@ -262,7 +264,7 @@ local function update_alive(P,dt)
 
 	--Natural block falling
 	if P.cur then
-		if P.curY>P.imgY then
+		if P.curY>P.ghoY then
 			local D=P.dropDelay
 			if D>1 then
 				P.dropDelay=D-1
@@ -270,14 +272,13 @@ local function update_alive(P,dt)
 			end
 
 			if D==1 then
-				if P.gameEnv.moveFX and P.gameEnv.block then
+				if ENV.moveFX and ENV.block then
 					P:createMoveFX("down")
 				end
 				P.curY=P.curY-1
 			else
-				D=1/D--Fall dist
-				if D>P.curY-P.imgY then D=P.curY-P.imgY end
-				if P.gameEnv.moveFX and P.gameEnv.block then
+				D=max(1/D,P.curY-P.ghoY)--Fall dist, max to dist between cur/gho
+				if ENV.moveFX and ENV.block then
 					for _=1,D do
 						P:createMoveFX("down")
 						P.curY=P.curY-1
@@ -286,14 +287,14 @@ local function update_alive(P,dt)
 					P.curY=P.curY-D
 				end
 			end
-			P:freshBlock(true,true)
+			P:freshBlock("fresh")
 			P.spinLast=false
 
-			if P.imgY~=P.curY then
-				P.dropDelay=P.gameEnv.drop
+			if P.ghoY~=P.curY then
+				P.dropDelay=ENV.drop
 			elseif P.AI_mode=="CC"then
 				CC.updateField(P)
-				if not P.AIdata._20G and P.gameEnv.drop<P.AI_delay0*.5 then
+				if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
 					CC.switch20G(P)
 				end
 			end
