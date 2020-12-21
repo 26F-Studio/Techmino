@@ -130,7 +130,6 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	P.dropDelay,P.lockDelay=0,0
-	P.color={}
 	P.showTime=nil
 	P.keepVisible=true
 
@@ -227,11 +226,6 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	P.dropDelay=ENV.drop
 	P.lockDelay=ENV.lock
 	P.freshTime=ENV.freshLimit
-
-	P.color={}
-	for _=1,7 do
-		P.color[_]=SKIN.libColor[ENV.skin[_]]
-	end
 
 	P.life=ENV.life
 

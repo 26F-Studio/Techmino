@@ -698,11 +698,13 @@ function draw.demo(P)
 			gc.pop()
 
 			local blockImg=TEXTURE.miniBlock
+			local libColor=SKIN.libColor
+			local skinSet=ENV.skin
 			--Draw hold
 			local N=1
 			while P.holdQueue[N]do
 				local id=P.holdQueue[N].id
-				_=P.color[id]
+				_=libColor[skinSet[id]]
 				gc_setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
 				gc.draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
@@ -713,7 +715,7 @@ function draw.demo(P)
 			N=1
 			while N<=ENV.nextCount and P.nextQueue[N]do
 				local id=P.nextQueue[N].id
-				_=P.color[id]
+				_=libColor[skinSet[id]]
 				gc_setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
 				gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
