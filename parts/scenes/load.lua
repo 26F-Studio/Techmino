@@ -29,7 +29,7 @@ local function tick_httpREQ_launch(task)
 		end
 		time=time+1
 		if time>360 then
-			LOG.print(text.httpTimeout,"message")
+			LOG.print(text.getNoticeFail..": "..text.httpTimeout,"message")
 			return
 		end
 	end
@@ -60,7 +60,7 @@ local function tick_httpREQ_autoLogin(task)
 		end
 		time=time+1
 		if time>360 then
-			LOG.print(text.httpTimeout,"message")
+			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
 			return
 		end
 	end

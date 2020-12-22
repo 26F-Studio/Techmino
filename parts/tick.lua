@@ -11,7 +11,7 @@ function Tick.httpREQ_getAccessToken(task)
 					LOG.print(text.accessSuccessed)
 					USER.access_token=res.access_token
 					FILE.save(USER,"conf/user")
-					SCN.swapTo("netgame")
+					SCN.swapTo("net_menumenu")
 				else
 					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 				end
@@ -33,7 +33,7 @@ function Tick.httpREQ_getAccessToken(task)
 		end
 		time=time+1
 		if time>360 then
-			LOG.print(text.httpTimeout,"message")
+			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
 			return
 		end
 	end
@@ -76,7 +76,7 @@ function Tick.wsCONN_connect(task)
 		end
 		time=time+1
 		if time>360 then
-			LOG.print(text.httpTimeout,"message")
+			LOG.print(text.wsFailed..": "..text.httpTimeout,"message")
 			return
 		end
 	end

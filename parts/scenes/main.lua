@@ -8,7 +8,7 @@ local function tick_httpREQ_checkAccessToken(task)
 		if response then
 			if response.code==200 then
 				LOG.print(text.accessSuccessed)
-				SCN.go("netgame")
+				SCN.go("net_menumenu")
 			elseif response.code==403 or response.code==401 then
 				httpRequest(
 					TICK.httpREQ_getAccessToken,
@@ -33,7 +33,7 @@ local function tick_httpREQ_checkAccessToken(task)
 		end
 		time=time+1
 		if time>360 then
-			LOG.print(text.httpTimeout,"message")
+			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
 			return
 		end
 	end

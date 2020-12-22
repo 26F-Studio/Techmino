@@ -34,7 +34,7 @@ local function tick_httpREQ_newLogin(task)
 		end
 		time=time+1
 		if time>360 then
-			LOG.print(text.httpTimeout,"message")
+			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
 			return
 		end
 	end

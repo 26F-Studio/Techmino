@@ -98,6 +98,8 @@ return{
 	chatHistory="------New messages below------",
 	chatQuit="Press again to exit",
 
+	roomsFetchFailed="Failed to fetch rooms",
+
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
 
 	modInstruction="Select mods (modifiers) to use!\nMods will modify the game in different ways\n(and possibly break the game in weird ways).\nSome mods will make your game unranked.",
@@ -241,7 +243,7 @@ return{
 			restart="Retry (R)",
 			quit="Quit (Q)",
 		},
-		netgame={
+		net_menumenu={
 			ffa="FFA",
 			rooms="Rooms",
 			chat="Chat",
