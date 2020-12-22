@@ -7,15 +7,15 @@ local int,abs=math.floor,math.abs
 local sin=math.sin
 
 local mapCam={
-	sel=nil,--Selected mode ID
+	sel=false,--Selected mode ID
 	xOy=mt.newTransform(0,0,0,1),--Transformation for map display
 	keyCtrl=false,--If controlling with key
 
 	--For auto zooming when enter/leave scene
-	zoomMethod=nil,
-	zoomK=nil,
+	zoomMethod=false,
+	zoomK=false,
 }
-local touchDist=nil
+local touchDist
 
 local scene={}
 
@@ -82,7 +82,7 @@ function scene.mouseClick(x,y)
 				mapCam.sel=SEL
 				SFX.play("click")
 			else
-				mapCam.sel=nil
+				mapCam.sel=false
 			end
 		elseif _ then
 			scene.keyDown("return")
@@ -91,7 +91,7 @@ function scene.mouseClick(x,y)
 	mapCam.keyCtrl=false
 end
 function scene.touchDown()
-	touchDist=nil
+	touchDist=false
 end
 function scene.touchMove(_,x,y,dx,dy)
 	local L=tc.getTouches()
@@ -124,7 +124,7 @@ function scene.keyDown(key)
 		SCN.go("mod")
 	elseif key=="escape"then
 		if mapCam.sel then
-			mapCam.sel=nil
+			mapCam.sel=false
 		else
 			SCN.back()
 		end

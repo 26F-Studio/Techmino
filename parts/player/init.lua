@@ -130,7 +130,7 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	P.dropDelay,P.lockDelay=0,0
-	P.showTime=nil
+	P.showTime=false
 	P.keepVisible=true
 
 	--P.cur={bk=matrix[2], id=shapeID, color=colorID, name=nameID}
@@ -165,7 +165,7 @@ local function newEmptyPlayer(id,mini)
 	P.type="none"
 	P.sound=false
 
-	-- P.newNext=nil--Call prepareSequence()to get a function to get new next
+	-- P.newNext=false--Call prepareSequence()to get a function to get new next
 
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
@@ -184,7 +184,7 @@ local function newEmptyPlayer(id,mini)
 	P.bonus={}--Text objects
 
 	P.endCounter=0--Used after gameover
-	P.result=nil--String:"WIN"/"K.O."
+	P.result=false--String:"WIN"/"K.O."
 
 	return P
 end
@@ -272,23 +272,23 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
 	if P.mini then
-		ENV.lockFX=nil
-		ENV.dropFX=nil
-		ENV.moveFX=nil
-		ENV.clearFX=nil
-		ENV.splashFX=nil
-		ENV.shakeFX=nil
-		ENV.text=nil
+		ENV.lockFX=false
+		ENV.dropFX=false
+		ENV.moveFX=false
+		ENV.clearFX=false
+		ENV.splashFX=false
+		ENV.shakeFX=false
+		ENV.text=false
 	else
-		if ENV.lockFX==0 then	ENV.lockFX=nil	end
-		if ENV.dropFX==0 then	ENV.dropFX=nil	end
-		if ENV.moveFX==0 then	ENV.moveFX=nil	end
-		if ENV.clearFX==0 then	ENV.clearFX=nil end
-		if ENV.splashFX==0 then	ENV.splashFX=nil end
-		if ENV.shakeFX==0 then	ENV.shakeFX=nil	end
+		if ENV.lockFX==0 then	ENV.lockFX=false	end
+		if ENV.dropFX==0 then	ENV.dropFX=false	end
+		if ENV.moveFX==0 then	ENV.moveFX=false	end
+		if ENV.clearFX==0 then	ENV.clearFX=false	end
+		if ENV.splashFX==0 then	ENV.splashFX=false	end
+		if ENV.shakeFX==0 then	ENV.shakeFX=false	end
 	end
-	if ENV.ghost==0 then	ENV.ghost=nil	end
-	if ENV.center==0 then	ENV.center=nil	end
+	if ENV.ghost==0 then	ENV.ghost=false	end
+	if ENV.center==0 then	ENV.center=false end
 end
 --------------------------</Lib Func>--------------------------
 

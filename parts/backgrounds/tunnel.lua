@@ -38,6 +38,6 @@ function back.draw()
 	end
 end
 function back.discard()
-	ring=nil
+	ring=false
 end
 return back

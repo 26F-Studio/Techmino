@@ -61,7 +61,7 @@ return{
 		PLY.newPlayer(1)
 		local L=GAME.modeEnv.opponent
 		if L~=0 then
-			GAME.modeEnv.target=nil
+			GAME.modeEnv.target=false
 			if L<6 then
 				PLY.newAIPlayer(2,AIBUILDER("9S",2*L))
 			else

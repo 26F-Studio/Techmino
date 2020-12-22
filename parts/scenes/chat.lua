@@ -31,7 +31,7 @@ local scene={}
 
 function scene.sceneInit()
 	heartBeatTimer=0
-	remain=nil
+	remain=false
 
 	if #texts==0 then
 		ins(texts,{COLOR.dG,text.chatStart})
@@ -48,7 +48,7 @@ function scene.sceneInit()
 end
 function scene.sceneBack()
 	wsWrite("/quit")
-	WSCONN=nil
+	WSCONN=false
 	LOG.print(text.wsDisconnected,"warn")
 end
 

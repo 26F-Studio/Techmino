@@ -17,8 +17,8 @@ function Tick.httpREQ_getAccessToken(task)
 				end
 			else
 				LOGIN=false
-				USER.access_token=nil
-				USER.auth_token=nil
+				USER.access_token=false
+				USER.auth_token=false
 				local err=json.decode(response.body)
 				if err then
 					LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")
@@ -54,7 +54,7 @@ local function tick_wsCONN_read()
 			end
 		elseif readErr then
 			wsWrite("/quit")
-			WSCONN=nil
+			WSCONN=false
 			LOG.print(text.wsDisconnected,"warn")
 			return
 		end

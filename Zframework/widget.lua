@@ -499,13 +499,13 @@ function WIDGET.newSlider(D)--name,x,y,w[,unit][,smooth][,font][,change],disp,co
 		},
 
 		unit=	D.unit or 1,
-		smooth=nil,
+		smooth=	false,
 		font=	D.font or 30,
 		change=	D.change,
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
-		show=	nil,
+		show=	false,
 	}
 	if D.smooth~=nil then
 		_.smooth=D.smooth
@@ -534,7 +534,7 @@ local selector={
 	type="selector",
 	ATV=8,--Activating time(0~4)
 	select=0,--Selected item ID
-	selText=nil,--Selected item name
+	selText=false,--Selected item name
 }
 function selector:reset()
 	self.ATV=0
@@ -787,7 +787,7 @@ function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 end
 
 WIDGET.active={}--Table contains all active widgets
-WIDGET.sel=nil--Selected widget
+WIDGET.sel=false--Selected widget
 
 function WIDGET.lnk_BACK()			SCN.back()end
 function WIDGET.lnk_CUSval(k)		return function()	return CUSTOMENV[k]				end end
@@ -813,7 +813,7 @@ WIDGET.indexMeta={
 }
 function WIDGET.set(list)
 	kb.setTextInput(false)
-	WIDGET.sel=nil
+	WIDGET.sel=false
 	WIDGET.active=list or NONE
 
 	--Reset all widgets
@@ -841,7 +841,7 @@ function WIDGET.moveCursor(x,y)
 		end
 	end
 	if WIDGET.sel and not WIDGET.sel.keepFocus then
-		WIDGET.sel=nil
+		WIDGET.sel=false
 	end
 end
 function WIDGET.press(x,y)
@@ -852,7 +852,7 @@ function WIDGET.press(x,y)
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
 	end
-	if W.hide and W.hide()then WIDGET.sel=nil end
+	if W.hide and W.hide()then WIDGET.sel=false end
 end
 function WIDGET.drag(x,y)
 	local W=WIDGET.sel
@@ -860,7 +860,7 @@ function WIDGET.drag(x,y)
 	if W.type=="slider"then
 		W:drag(x,y)
 	elseif not W:isAbove(x,y)then
-		WIDGET.sel=nil
+		WIDGET.sel=false
 	end
 end
 function WIDGET.release(x,y)

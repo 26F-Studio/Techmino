@@ -43,6 +43,6 @@ function back.draw()
 	gc.translate(10,10)
 end
 function back.discard()
-	stars=nil
+	stars=false
 end
 return back

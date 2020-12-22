@@ -44,12 +44,12 @@ local scene={}
 local selected--Mod selected
 
 function scene.sceneInit()
-	selected=nil
+	selected=false
 	BG.set("tunnel")
 end
 
 function scene.mouseMove(x,y)
-	selected=nil
+	selected=false
 	for _,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
 			selected=M

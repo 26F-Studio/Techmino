@@ -31,7 +31,7 @@ function scene.sceneInit()
 	GAME.restartCount=0
 	if GAME.init then
 		resetGameData()
-		GAME.init=nil
+		GAME.init=false
 	end
 	noKey=GAME.replaying
 	noTouch=not SETTING.VKSwitch or noKey

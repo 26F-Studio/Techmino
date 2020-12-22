@@ -51,6 +51,6 @@ function back.draw()
 	gc.pop()
 end
 function back.discard()
-	video=nil
+	video=false
 end
 return back

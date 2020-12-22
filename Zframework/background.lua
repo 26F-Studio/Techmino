@@ -7,11 +7,11 @@ local BGlist={
 }
 local BG={
 	cur="none",
-	init=nil,
-	resize=nil,
+	init=false,
+	resize=false,
 	update=NULL,
 	draw=BGlist.none.draw,
-	event=nil,
+	event=false,
 	discard=NULL,
 }
 

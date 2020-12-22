@@ -70,6 +70,6 @@ function back.draw()
 	gc.pop()
 end
 function back.discard()
-	petal=nil
+	petal=false
 end
 return back

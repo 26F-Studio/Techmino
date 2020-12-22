@@ -11,7 +11,7 @@ function scene.sceneInit()
 	texts=require"parts/updateLog"
 	scrollPos=1
 	if newVersionLaunch then
-		newVersionLaunch=nil
+		newVersionLaunch=false
 		scrollPos=3
 	end
 end

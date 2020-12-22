@@ -8,33 +8,33 @@ local SCN={
 	cur="NULL",--Current scene name
 	swapping=false,--If Swapping
 	stat={
-		tar=nil,	--Swapping target
-		style=nil,	--Swapping style
-		mid=nil,	--Loading point
-		time=nil,	--Full swap time
-		draw=nil,	--Swap draw  func
+		tar=false,	--Swapping target
+		style=false,--Swapping style
+		mid=false,	--Loading point
+		time=false,	--Full swap time
+		draw=false,	--Swap draw  func
 	},
 	stack={"quit","slowFade"},--Scene stack
 
 	scenes=scenes,
 
 	--Events
-	update=nil,
-	draw=nil,
-	mouseClick=nil,
-	touchClick=nil,
-	mouseDown=nil,
-	mouseMove=nil,
-	mouseUp=nil,
-	wheelMoved=nil,
-	touchDown=nil,
-	touchUp=nil,
-	touchMove=nil,
-	keyDown=nil,
-	keyUp=nil,
-	gamepadDown=nil,
-	gamepadUp=nil,
-	socketRead=nil,
+	update=false,
+	draw=false,
+	mouseClick=false,
+	touchClick=false,
+	mouseDown=false,
+	mouseMove=false,
+	mouseUp=false,
+	wheelMoved=false,
+	touchDown=false,
+	touchUp=false,
+	touchMove=false,
+	keyDown=false,
+	keyUp=false,
+	gamepadDown=false,
+	gamepadUp=false,
+	socketRead=false,
 }--Scene datas, returned
 
 function SCN.add(name,scene)

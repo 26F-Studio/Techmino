@@ -24,7 +24,7 @@ LOADED=false
 NOGAME=false
 LOGIN=false
 EDITING=""
-WSCONN=nil
+WSCONN=false
 
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)

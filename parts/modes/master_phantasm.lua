@@ -7,7 +7,7 @@ local function check_LVup(P)
 		--Stage 1: clear 3 techrash
 		if T==12 then--Stage 2: swap color of S/Z & J/L
 			P.waiting=30
-			P.curMission=nil
+			P.curMission=false
 
 			ENV.skin[1],ENV.skin[2]=ENV.skin[2],ENV.skin[1]
 			ENV.skin[3],ENV.skin[4]=ENV.skin[4],ENV.skin[3]

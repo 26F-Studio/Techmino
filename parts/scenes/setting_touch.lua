@@ -7,13 +7,13 @@ local scene={}
 
 local defaultSetSelect
 local snapUnit
-local select--Button selected
+local selected--Button selected
 
 function scene.sceneInit()
 	BG.set("rainbow")
 	defaultSetSelect=1
 	snapUnit=1
-	select=nil
+	selected=false
 end
 function scene.sceneBack()
 	FILE.save(VK_org,"conf/virtualkey")
@@ -36,34 +36,34 @@ local function onVK_org(x,y)
 end
 function scene.mouseDown(x,y,k)
 	if k==2 then SCN.back()end
-	select=onVK_org(x,y)or select
+	selected=onVK_org(x,y)or selected
 end
 function scene.mouseMove(_,_,dx,dy)
-	if select and ms.isDown(1)and not WIDGET.sel then
-		local B=VK_org[select]
+	if selected and ms.isDown(1)and not WIDGET.sel then
+		local B=VK_org[selected]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
 function scene.mouseUp()
-	if select then
-		local B=VK_org[select]
+	if selected then
+		local B=VK_org[selected]
 		local k=snapUnit
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
 function scene.touchDown(_,x,y)
-	select=onVK_org(x,y)or select
+	selected=onVK_org(x,y)or selected
 end
 function scene.touchUp()
-	if select then
-		local B=VK_org[select]
+	if selected then
+		local B=VK_org[selected]
 		local k=snapUnit
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
 function scene.touchMove(_,_,_,dx,dy)
-	if select and not WIDGET.sel then
-		local B=VK_org[select]
+	if selected and not WIDGET.sel then
+		local B=VK_org[selected]
 		B.x,B.y=B.x+dx,B.y+dy
 	end
 end
@@ -73,7 +73,7 @@ local function VirtualkeyPreview()
 		for i=1,#VK_org do
 			local B=VK_org[i]
 			if B.ava then
-				local c=select==i and .6 or 1
+				local c=selected==i and .6 or 1
 				gc.setColor(c,1,c,SETTING.VKAlpha)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)
@@ -190,7 +190,7 @@ scene.widgetList={
 				end
 			end
 			defaultSetSelect=defaultSetSelect%5+1
-			select=nil
+			selected=false
 			LOG.print("[ "..defaultSetSelect.." ]")
 		end},
 	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
@@ -201,15 +201,15 @@ scene.widgetList={
 	WIDGET.newButton{name="back",	x=760,y=190,w=200,h=80,font=35,code=WIDGET.lnk_BACK},
 	WIDGET.newSlider{name="size",	x=450,y=270,w=460,unit=19,font=40,show="vkSize",
 		disp=function()
-			return VK_org[select].r/10-1
+			return VK_org[selected].r/10-1
 		end,
 		code=function(v)
-			if select then
-				VK_org[select].r=(v+1)*10
+			if selected then
+				VK_org[selected].r=(v+1)*10
 			end
 		end,
 		hide=function()
-			return not select
+			return not selected
 		end},
 }
 

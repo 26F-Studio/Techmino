@@ -400,7 +400,7 @@ function Player.changeAtk(P,R)
 		P.atking=R
 		ins(R.atker,P)
 	else
-		P.atking=nil
+		P.atking=false
 	end
 end
 function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
@@ -1332,7 +1332,7 @@ do--Player.drop(P)--Place piece
 				P.curMission=P.curMission+1
 				SFX.play("reach")
 				if P.curMission>#ENV.mission then
-					P.curMission=nil
+					P.curMission=false
 					if not finish then finish="finish"end
 				end
 			elseif ENV.missionKill then

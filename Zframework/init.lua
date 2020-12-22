@@ -31,7 +31,7 @@ local ins,rem=table.insert,table.remove
 local SCR=SCR
 
 local mx,my,mouseShow=-20,-20,false
-local touching=nil--First touching ID(userdata)
+local touching--First touching ID(userdata)
 local xOy=SCR.xOy
 joysticks={}
 
@@ -146,7 +146,7 @@ function love.touchmoved(id,x,y,dx,dy)
 	else
 		WIDGET.moveCursor(x,y)
 		if not WIDGET.sel then
-			touching=nil
+			touching=false
 		end
 	end
 end
@@ -156,9 +156,9 @@ function love.touchreleased(id,x,y)
 	if id==touching then
 		WIDGET.press(x,y)
 		WIDGET.release(x,y)
-		touching=nil
+		touching=false
 		if WIDGET.sel and not WIDGET.sel.keepFocus then
-			WIDGET.sel=nil
+			WIDGET.sel=false
 		end
 	end
 	if SCN.touchUp then SCN.touchUp(id,x,y)end

@@ -44,7 +44,7 @@ function destroyPlayers()
 			CC.free(P.bot_opt)
 			CC.free(P.bot_wei)
 			CC.destroy(P.AI_bot)
-			P.AI_mode=nil
+			P.AI_mode=false
 		end
 		PLAYERS[i]=nil
 	end
@@ -137,7 +137,7 @@ function pasteSequence(str)
 				for _=1,b-32 do
 					ins(bag,reg)
 				end
-				reg=nil
+				reg=false
 			end
 		end
 	end
@@ -293,7 +293,7 @@ function pasteMission(str)
 				for _=1,b-113 do
 					ins(mission,reg)
 				end
-				reg=nil
+				reg=false
 			end
 		end
 	end
@@ -356,7 +356,7 @@ function randomTarget(P)--Return a random opponent for P
 	end
 end
 function freshMostDangerous()
-	GAME.mostDangerous,GAME.secDangerous=nil
+	GAME.mostDangerous,GAME.secDangerous=false,false
 	local m,m2=0,0
 	for i=1,#PLAYERS.alive do
 		local h=#PLAYERS.alive[i].field
@@ -376,7 +376,7 @@ function freshMostDangerous()
 	end
 end
 function freshMostBadge()
-	GAME.mostBadge,GAME.secBadge=nil
+	GAME.mostBadge,GAME.secBadge=false,false
 	local m,m2=0,0
 	for i=1,#PLAYERS.alive do
 		local P=PLAYERS.alive[i]
@@ -463,12 +463,12 @@ function applyCustomGame()
 	if BAG[1]then
 		GAME.modeEnv.bag=BAG
 	else
-		GAME.modeEnv.bag=nil
+		GAME.modeEnv.bag=false
 	end
 	if MISSION[1]then
 		GAME.modeEnv.mission=MISSION
 	else
-		GAME.modeEnv.mission=nil
+		GAME.modeEnv.mission=false
 	end
 end
 function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
@@ -582,11 +582,11 @@ function resetGameData(args)
 		for i=1,#PLAYERS do
 			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end
-		GAME.stage=nil
-		GAME.mostBadge=nil
-		GAME.secBadge=nil
-		GAME.mostDangerous=nil
-		GAME.secDangerous=nil
+		GAME.stage=false
+		GAME.mostBadge=false
+		GAME.secBadge=false
+		GAME.mostDangerous=false
+		GAME.secDangerous=false
 		GAME.stage=1
 	end
 	STAT.game=STAT.game+1

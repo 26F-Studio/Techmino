@@ -206,42 +206,42 @@ GAME={--Global game data
 
 	frame=0,			--Frame count
 	result=false,		--Game result (string)
-	rank=nil,			--Rank reached
+	rank=false,			--Rank reached
 	pauseTime=0,		--Time paused
 	pauseCount=0,		--Pausing count
 	warnLVL0=0,			--Warning level
 	warnLVL=0,			--Warning level (show)
 
 	seed=1046101471,	--Game seed
-	curMode=nil,		--Current gamemode object
+	curMode=false,		--Current gamemode object
 	mod={},				--List of loaded mods
-	modeEnv=nil,		--Current gamemode environment
+	modeEnv=false,		--Current gamemode environment
 	setting={},			--Game settings
 	rep={},				--Recording list, key,time,key,time...
 	recording=false,	--If recording
 	replaying=false,	--If replaying
 	saved=false,		--If recording saved
 
-	prevBG=nil,			--Previous background, for restore BG when quit setting page
+	prevBG=false,		--Previous background, for restore BG when quit setting page
 
 	--Data for royale mode
-	stage=nil,			--Game stage
-	mostBadge=nil,		--Most badge owner
-	secBadge=nil,		--Second badge owner
-	mostDangerous=nil,	--Most dangerous player
-	secDangerous=nil,	--Second dangerous player
+	stage=false,		--Game stage
+	mostBadge=false,	--Most badge owner
+	secBadge=false,		--Second badge owner
+	mostDangerous=false,--Most dangerous player
+	secDangerous=false,	--Second dangerous player
 }
 
 --Userdata tables
 RANKS=FILE.load("conf/unlock")or{sprint_10=0}--Ranks of modes
 USER=FILE.load("conf/user")or{--User infomation
-	email=nil,
-	auth_token=nil,
-	access_token=nil,
+	email=false,
+	auth_token=false,
+	access_token=false,
 
-	username=nil,
-	motto=nil,
-	avatar=nil,
+	username=false,
+	motto=false,
+	avatar=false,
 	xp=0,lv=1,
 }
 SETTING={--Settings
@@ -319,7 +319,7 @@ else
 		clear={},spin={},
 		pc=0,hpc=0,b2b=0,b3b=0,score=0,
 		lastPlay="sprint_10",--Last played mode ID
-		date=nil,
+		date=false,
 		todayTime=0,
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
 end
