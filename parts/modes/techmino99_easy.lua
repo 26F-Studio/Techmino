@@ -25,7 +25,7 @@ return{
 		garbageSpeed=.3,
 		pushSpeed=2,
 		freshLimit=15,
-		bg="rainbow",bgm="magicblock",
+		bg="rainbow",bgm="sugar fairy",
 	},
 	load=function()
 		royaleData={

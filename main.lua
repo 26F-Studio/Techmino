@@ -193,7 +193,6 @@ BGM.init{
 	"new era",--bigbang, survivor-1, tech-normal
 	"oxygen",--c4w/pc train
 	"truth",--pc challenge
-	"sugar fairy",--classic2
 
 	"distortion",--master-3
 	"far",--GM
@@ -201,8 +200,7 @@ BGM.init{
 	"storm",--defender, survivor-4/5
 	"down",--dig, tech-hard/lunatic
 
-	"rockblock",--classic
-	"magicblock",--49/99
+	"sugar fairy","rockblock","magicblock",--classic, 49/99
 	"cruelty","final","8-bit happiness","end","how feeling",--49/99
 }
 VOC.init{

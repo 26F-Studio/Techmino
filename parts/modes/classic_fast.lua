@@ -30,7 +30,7 @@ return{
 		freshLimit=0,
 		face={0,0,2,2,2,0,0},
 		target=10,dropPiece=check_LVup,
-		bg="rgb",bgm="rockblock",
+		bg="rgb",bgm="magicblock",
 	},
 	slowMark=true,
 	load=function()
