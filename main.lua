@@ -160,12 +160,12 @@ SKIN.init{
 SFX.init{
 	--Stereo sfxs(cannot set position)
 	"welcome_sfx",
-	"click","enter",
+	"button","click","enter",
 	"finesseError","finesseError_long",
 
 	--Mono sfxs
 	"virtualKey",
-	"button","swipe",
+	"swipe",
 	"ready","start","win","fail","collect",
 	"spawn_1","spawn_2","spawn_3","spawn_4","spawn_5","spawn_6","spawn_7",
 	"move","rotate","rotatekick","hold",
