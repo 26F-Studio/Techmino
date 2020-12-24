@@ -19,7 +19,7 @@ return{
 	color=COLOR.lBlue,
 	env={
 		smooth=false,
-		noTele=true,keyCancel={6},
+		noTele=true,keyCancel={5,6},
 		das=16,arr=6,sddas=2,sdarr=2,
 		irs=false,ims=false,
 		center=0,ghost=0,
