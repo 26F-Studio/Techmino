@@ -517,29 +517,40 @@ function draw.norm(P)
 		gc.draw(drawableText.bpm,540,480)
 		gc.draw(drawableText.kpm,494,573)
 
+		local S=P.stat
+
 		--Score & Time
 		setFont(25)
 		gc_setColor(0,0,0,.3)
 		gc.print(P.score1,18,509)
-		gc.print(format("%.2f",P.stat.time),18,539)
+		gc.print(format("%.2f",S.time),18,539)
 		gc_setColor(COLOR.lYellow)gc.print(P.score1,20,510)
-		gc_setColor(COLOR.sky)gc.print(format("%.2f",P.stat.time),20,540)
+		gc_setColor(COLOR.sky)gc.print(format("%.2f",S.time),20,540)
 
 		--FinesseCombo
 		if P.finesseCombo>2 then
 			_=P.finesseComboTime
 			local str=P.finesseCombo.."x"
-			if _>0 then
+			if S.finesseRate==5*S.piece then
+				gc_setColor(.9,.9,.3,_*.2)
+				gc.print(str,20,570)
+				gc_setColor(.9,.9,.3,1.2-_*.1)
+			elseif S.maxFinesseCombo==S.piece then
+				gc_setColor(.7,.7,1,_*.2)
+				gc.print(str,20,570)
+				gc_setColor(.7,.7,1,1.2-_*.1)
+			else
 				gc_setColor(1,1,1,_*.2)
 				gc.print(str,20,570)
 				gc_setColor(1,1,1,1.2-_*.1)
+			end
+			if _>0 then
 				gc.push("transform")
 				gc.translate(20,600)
 				gc.scale(1+_*.08)
 				gc.print(str,0,-30)
 				gc.pop()
 			else
-				gc_setColor(1,1,1)
 				gc.print(str,20,570)
 			end
 		end
