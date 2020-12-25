@@ -149,12 +149,12 @@ title2[5]={
 ]]
 
 do--title_fan
-	local sin,cos=math.sin,math.cos
 	title_fan={}
+	local sin,cos=math.sin,math.cos
 	for i=1,8 do
 		local L={}
 		title_fan[i]=L
-			for j=1,#title[i]do
+		for j=1,#title[i]do
 			L[j]=title[i][j]
 		end
 		for j=1,#L,2 do
@@ -179,33 +179,24 @@ do--missionEnum
 		O1=61,O2=62,O3=63,O4=64,
 		I1=71,I2=72,I3=73,I4=74,
 	}
-	local _={}
-	for k,v in next,missionEnum do _[v]=k end
-	for k,v in next,_ do missionEnum[k]=v end
+	local L={}
+	for k,v in next,missionEnum do L[v]=k end
+	for k,v in next,L do missionEnum[k]=v end
 end
 
-do--drawableTextLoad, drawableText
+do--drawableText
 	local function T(s,t)return love.graphics.newText(getFont(s),t)end
-	drawableTextLoad={
-		"anykey",
-		"replaying",
-		"next","hold",
-		"win","finish","gameover","pause",
-
-		"speedLV",
-		"line","atk","eff",
-		"rpm","tsd",
-		"grade","techrash",
-		"wave","nextWave",
-		"combo","maxcmb",
-		"pc","ko",
-
-		"noScore","highScore",
-	}
 	drawableText={
 		question=T(100,"?"),
 		small=T(30,"<"),large=T(30,">"),
 		bpm=T(15,"BPM"),kpm=T(15,"KPM"),
+		modeName=T(30),levelName=T(30),
+
+		anykey=T(40),
+		replaying=T(20),
+		next=T(40),hold=T(40),
+		win=T(120),finish=T(120),
+		gameover=T(100),pause=T(120),
 
 		speedLV=T(20),
 		line=T(25),atk=T(20),eff=T(20),
@@ -214,14 +205,6 @@ do--drawableTextLoad, drawableText
 		wave=T(30),nextWave=T(30),
 		combo=T(20),maxcmb=T(20),
 		pc=T(20),ko=T(25),
-
-		modeName=T(30),levelName=T(30),
-
-		anykey=T(40),
-		replaying=T(20),
-		next=T(40),hold=T(40),
-		win=T(120),finish=T(120),
-		gameover=T(100),pause=T(120),
 
 		noScore=T(45),highScore=T(30),
 	}

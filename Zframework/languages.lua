@@ -57,8 +57,10 @@ function LANG.init()--Attention, calling this will destory all initializing meth
 	function LANG.set(l)
 		text=langList[l]
 		WIDGET.setLang(text.WidgetText)
-		for _,s in next,drawableTextLoad do
-			drawableText[s]:set(text[s])
+		for k,v in next,drawableText do
+			if text[k]then
+				v:set(text[k])
+			end
 		end
 	end
 end
