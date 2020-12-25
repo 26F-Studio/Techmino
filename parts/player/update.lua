@@ -277,7 +277,8 @@ local function update_alive(P,dt)
 				end
 				P.curY=P.curY-1
 			else
-				D=max(1/D,P.curY-P.ghoY)--Fall dist, max to dist between cur/gho
+				D=1/D--Fall dist
+				if D>P.curY-P.ghoY then D=P.curY-P.ghoY end
 				if ENV.moveFX and ENV.block then
 					for _=1,D do
 						P:createMoveFX("down")
