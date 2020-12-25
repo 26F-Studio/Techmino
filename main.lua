@@ -206,6 +206,8 @@ BGM.init{
 
 	"sugar fairy","rockblock","magicblock",--classic, 49/99
 	"cruelty","final","8-bit happiness","end","how feeling",--49/99
+
+	"mXmas",--Festival: Xmas
 }
 VOC.init{
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
