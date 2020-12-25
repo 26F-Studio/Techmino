@@ -1,4 +1,7 @@
 local gc=love.graphics
+local gc_getColor,gc_setColor,gc_push,gc_pop,gc_translate,gc_scale,gc_rotate,gc_shear
+=gc.getColor,gc.setColor,gc.push,gc.pop,gc.translate,gc.scale,gc.rotate,gc.shear
+
 local int,rnd,rem=math.floor,math.random,table.remove
 local setFont,mStr=setFont,mStr
 
@@ -9,63 +12,63 @@ function textFX.appear(t)
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
 function textFX.sudden(t)
-	gc.setColor(1,1,1,1-t.c)
+	gc_setColor(1,1,1,1-t.c)
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
 function textFX.fly(t)
 	mStr(t.text,t.x+(t.c-.5)^3*300,t.y-t.font*.7)
 end
 function textFX.stretch(t)
-	gc.push("transform")
-		gc.translate(t.x,t.y)
-		if t.c<.3 then gc.scale((.3-t.c)*1.6+1,1)end
+	gc_push("transform")
+		gc_translate(t.x,t.y)
+		if t.c<.3 then gc_scale((.3-t.c)*1.6+1,1)end
 		mStr(t.text,0,-t.font*.7)
-	gc.pop()
+	gc_pop()
 end
 function textFX.drive(t)
-	gc.push("transform")
-		gc.translate(t.x,t.y)
-		if t.c<.3 then gc.shear((.3-t.c)*2,0)end
+	gc_push("transform")
+		gc_translate(t.x,t.y)
+		if t.c<.3 then gc_shear((.3-t.c)*2,0)end
 		mStr(t.text,0,-t.font*.7)
-	gc.pop()
+	gc_pop()
 end
 function textFX.spin(t)
-	gc.push("transform")
-		gc.translate(t.x,t.y)
+	gc_push("transform")
+		gc_translate(t.x,t.y)
 		if t.c<.3 then
-			gc.rotate((.3-t.c)^2*4)
+			gc_rotate((.3-t.c)^2*4)
 		elseif t.c>.8 then
-			gc.rotate((t.c-.8)^2*-4)
+			gc_rotate((t.c-.8)^2*-4)
 		end
 		mStr(t.text,0,-t.font*.7)
-	gc.pop()
+	gc_pop()
 end
 function textFX.flicker(t)
-	local _,_,_,T=gc.getColor()
-	gc.setColor(1,1,1,T*(rnd()+.5))
+	local _,_,_,T=gc_getColor()
+	gc_setColor(1,1,1,T*(rnd()+.5))
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
 function textFX.zoomout(t)
-	gc.push("transform")
+	gc_push("transform")
 		local k=t.c^.5*.1+1
-		gc.translate(t.x,t.y)
-		gc.scale(k,k)
+		gc_translate(t.x,t.y)
+		gc_scale(k,k)
 		mStr(t.text,0,-t.font*.7)
-	gc.pop()
+	gc_pop()
 end
 function textFX.beat(t)
-	gc.push("transform")
-		gc.translate(t.x,t.y)
+	gc_push("transform")
+		gc_translate(t.x,t.y)
 		if t.c<.3 then
 			local k=1.3-t.c^2/.3
-			gc.scale(k,k)
+			gc_scale(k,k)
 		end
 		mStr(t.text,0,-t.font*.7)
-	gc.pop()
+	gc_pop()
 end
 function textFX.score(t)
-	local _,_,_,T=gc.getColor()
-	gc.setColor(1,1,1,T*.5)
+	local _,_,_,T=gc_getColor()
+	gc_setColor(1,1,1,T*.5)
 	mStr(t.text,t.x,t.y-t.font*.7-t.c^.2*50)
 end
 
@@ -117,7 +120,7 @@ function TEXT.draw(list)
 	for i=1,#list do
 		local t=list[i]
 		local p=t.c
-		gc.setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
+		gc_setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
 		setFont(t.font)
 		t:draw()
 	end

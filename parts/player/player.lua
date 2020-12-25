@@ -12,13 +12,6 @@ local ct=coroutine
 local kickList=require"parts/kickList"
 local scs=spinCenters
 
-local function without(L,e)
-	for i=1,#L do
-		if L[i]==e then return end
-	end
-	return true
-end
-
 --------------------------<FX>--------------------------
 function Player.showText(P,text,dx,dy,font,style,spd,stop)
 	if P.gameEnv.text then
@@ -34,14 +27,17 @@ function Player.createLockFX(P)
 
 	for i=1,P.r do
 		local y=P.curY+i-1
-		if without(P.clearedRow,y)then
-			y=-30*y
-			for j=1,P.c do
-				if BK[i][j]then
-					ins(P.lockFX,{30*(P.curX+j-2),y,0,t})
-				end
+		local L=P.clearedRow
+		for i=1,#L do
+			if L[i]==y then goto continue end
+		end
+		y=-30*y
+		for j=1,P.c do
+			if BK[i][j]then
+				ins(P.lockFX,{30*(P.curX+j-2),y,0,t})
 			end
 		end
+		::continue::
 	end
 end
 function Player.createDropFX(P,x,y,w,h)

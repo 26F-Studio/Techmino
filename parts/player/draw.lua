@@ -1,12 +1,11 @@
 local gc=love.graphics
-local gc_rectangle,gc_setColor=gc.rectangle,gc.setColor
+local gc_draw,gc_print,gc_rectangle,gc_setColor=gc.draw,gc.print,gc.rectangle,gc.setColor
 local TIME=love.timer.getTime
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin=math.max,math.min,math.sin
 local format=string.format
 local SCR=SCR
-local setFont=setFont
-local Draw=gc.draw--Use to speed up gc.draw(blockTexture)
+local setFont,mStr=setFont,mStr
 
 local frameColorList={
 	[0]=COLOR.white,
@@ -15,7 +14,7 @@ local frameColorList={
 	COLOR.lPurple,
 	COLOR.lOrange,
 }
---local function drawCell(y,x,id)gc.draw(SKIN.curText[id],30*x-30,-30*y)end
+--local function drawCell(y,x,id)gc_draw(SKIN.curText[id],30*x-30,-30*y)end
 local function drawGrid(P,alpha)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	gc.setLineWidth(1)
@@ -23,10 +22,12 @@ local function drawGrid(P,alpha)
 	for x=1,9 do
 		gc.line(30*x,-10,30*x,600)
 	end
+	gc.push("transform")
+	gc.translate(0,FBN+FUP-30*int((FBN+FUP)/30))
 	for y=0,19 do
-		y=30*(y-int((FBN+FUP)/30))+FBN+FUP
-		gc.line(0,y,300,y)
+		gc.line(0,30*y,300,30*y)
 	end
+	gc.pop()
 end
 local function drawField(P)
 	local V,F=P.visTime,P.field
@@ -34,14 +35,15 @@ local function drawField(P)
 	local rep=GAME.replaying
 	local texture=SKIN.curText
 	if P.falling==-1 then--Blocks only
+		local t=TIME()*4
 		for j=start,min(start+21,#F)do
 			for i=1,10 do
 				if F[j][i]>0 then
 					if V[j][i]>0 then
 						gc_setColor(1,1,1,min(V[j][i]*.05,1))
-						Draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+						gc_draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 					elseif rep then
-						gc_setColor(1,1,1,.3+.08*sin(.5*(j-i)+TIME()*4))
+						gc_setColor(1,1,1,.3+.08*sin(.5*(j-i)+t))
 						gc_rectangle("fill",30*i-30,-30*j,30,30)
 					end
 				end
@@ -64,7 +66,7 @@ local function drawField(P)
 					if F[j][i]>0 then
 						if V[j][i]>0 then
 							gc_setColor(1,1,1,min(V[j][i]*.05,1))
-							Draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+							gc_draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
 						elseif rep then
 							gc_setColor(1,1,1,.2)
 							gc_rectangle("fill",30*i-30,-30*j,30,30)
@@ -101,7 +103,7 @@ local function drawFXs(P)
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc_setColor(1,1,1,.6-S[4]*.6)
-		Draw(texture[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
+		gc_draw(texture[S[1]],30*S[2]-30,-30*S[3])-- drawCell(S[3],S[2],S[1])
 	end
 
 	--ClearFX
@@ -119,21 +121,22 @@ local function drawGhost(P,clr)
 	local texture=SKIN.curText
 	for i=1,P.r do for j=1,P.c do
 		if P.cur.bk[i][j]then
-			Draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))-- drawCell(i+P.ghoY-1,j+P.curX-1,clr)
+			gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))-- drawCell(i+P.ghoY-1,j+P.curX-1,clr)
 		end
 	end end
 end
 local function drawBlockOutline(P,texture,trans)
 	SHADER.alpha:send("a",trans)
 	gc.setShader(SHADER.alpha)
+	local B=P.cur.bk
 	for i=1,P.r do for j=1,P.c do
-		if P.cur.bk[i][j]then
+		if B[i][j]then
 			local x=30*(j+P.curX)-60-3
 			local y=30-30*(i+P.curY)-3
-			Draw(texture,x,y)
-			Draw(texture,x+6,y+6)
-			Draw(texture,x+6,y)
-			Draw(texture,x,y+6)
+			gc_draw(texture,x,y)
+			gc_draw(texture,x+6,y+6)
+			gc_draw(texture,x+6,y)
+			gc_draw(texture,x,y+6)
 		end
 	end end
 	gc.setShader()
@@ -141,9 +144,10 @@ end
 local function drawBlock(P,clr)
 	gc_setColor(1,1,1)
 	local texture=SKIN.curText
+	local B=P.cur.bk
 	for i=1,P.r do for j=1,P.c do
-		if P.cur.bk[i][j]then
-			Draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
+		if B[i][j]then
+			gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
 		end
 	end end
 end
@@ -153,7 +157,7 @@ local function drawNextPreview(P,B)
 	local y=21+ceil(P.fieldBeneath/30)
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			Draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
+			gc_draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
 		end
 	end end
 end
@@ -174,17 +178,17 @@ function draw.drawNext_norm(P)
 			local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
 			for i=1,#bk do for j=1,#bk[1] do
 				if bk[i][j]then
-					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
+					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
 				end
 			end end
 			N=N+1
 		end
 
 		if ENV.bagLine then
-			local L=ENV.bagLen
-			local C=-P.pieceCount%L--Phase
+			local len=ENV.bagLen
+			local phase=-P.pieceCount%len
 			gc_setColor(.8,.5,.5)
-			for i=C,N-1,L do
+			for i=phase,N-1,len do
 				local y=72*i-77
 				gc.line(2+P.fieldOff.x,y,120,y)
 			end
@@ -205,17 +209,17 @@ function draw.drawNext_hidden(P)
 			local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
 			for i=1,#bk do for j=1,#bk[1] do
 				if bk[i][j]then
-					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
+					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
 				end
 			end end
 			N=N+1
 		end
 
 		if ENV.bagLine then
-			local L=ENV.bagLen
-			local C=-P.pieceCount%L--Phase
+			local len=ENV.bagLen
+			local phase=-P.pieceCount%len
 			gc_setColor(.8,.5,.5)
-			for i=C,N-1,L do
+			for i=phase,N-1,len do
 				local y=72*i-77
 				gc.line(2+P.fieldOff.x,y,120,y)
 			end
@@ -237,7 +241,7 @@ function draw.drawHold_norm(P)
 			local bk,clr=B.bk,B.color
 			for i=1,#bk do for j=1,#bk[1]do
 				if bk[i][j]then
-					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*1-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*1-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
 				end
 			end end
 		end
@@ -265,7 +269,7 @@ function draw.drawHold_multi(P)
 			local bk,clr=P.holdQueue[n].bk,P.holdQueue[n].color
 			for i=1,#bk do for j=1,#bk[1]do
 				if bk[i][j]then
-					Draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*n-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*n-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
 				end
 			end end
 		end
@@ -293,16 +297,14 @@ local function drawDial(x,y,speed)
 	gc_setColor(1,1,1)
 	mStr(int(speed),x,y-18)
 
+	gc.setLineWidth(2)
+	gc.circle("line",x,y,30,6)
+
+	gc_draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
+
 	gc.setLineWidth(4)
 	gc_setColor(1,1,1,.4)
-	gc.circle("line",x,y,30,10)
-
-	gc.setLineWidth(2)
-	gc_setColor(1,1,1,.6)
-	gc.circle("line",x,y,30,10)
-
-	gc_setColor(1,1,1,.8)
-	gc.draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
+	gc.circle("line",x,y,30,6)
 end
 local hideBoardStencil={
 	up=function()gc_rectangle("fill",0,0,300,300)end,
@@ -351,7 +353,7 @@ function draw.norm(P)
 
 					--Draw dangerous area
 					gc_setColor(1,0,0,.3)
-					gc_rectangle("fill",0,-600,300,-610-FUP-FBN)
+					gc_rectangle("fill",0,-600,300,-FUP-FBN-10)
 
 					--Draw field
 					drawField(P)
@@ -385,12 +387,12 @@ function draw.norm(P)
 						local x=30*(P.curX+P.sc[2])-15
 						if ENV.center and ENV.block then
 							gc_setColor(1,1,1,ENV.center)
-							gc.draw(IMG.spinCenter,x,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(IMG.spinCenter,x,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
 						end
 						gc.translate(0,dy)
 						if ENV.center and ENV.ghost then
 							gc_setColor(1,1,1,trans*ENV.center)
-							gc.draw(IMG.spinCenter,x,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(IMG.spinCenter,x,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
 						end
 					end
 
@@ -514,18 +516,18 @@ function draw.norm(P)
 		drawDial(510,510,P.dropSpeed)
 		drawDial(555,565,P.keySpeed)
 		gc_setColor(1,1,1)
-		gc.draw(drawableText.bpm,540,480)
-		gc.draw(drawableText.kpm,494,573)
+		gc_draw(drawableText.bpm,540,480)
+		gc_draw(drawableText.kpm,494,573)
 
 		local S=P.stat
 
 		--Score & Time
 		setFont(25)
 		gc_setColor(0,0,0,.3)
-		gc.print(P.score1,18,509)
-		gc.print(format("%.2f",S.time),18,539)
-		gc_setColor(COLOR.lYellow)gc.print(P.score1,20,510)
-		gc_setColor(COLOR.sky)gc.print(format("%.2f",S.time),20,540)
+		gc_print(P.score1,18,509)
+		gc_print(format("%.2f",S.time),18,539)
+		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
+		gc_setColor(COLOR.sky)gc_print(format("%.2f",S.time),20,540)
 
 		--FinesseCombo
 		if P.finesseCombo>2 then
@@ -533,25 +535,25 @@ function draw.norm(P)
 			local str=P.finesseCombo.."x"
 			if S.finesseRate==5*S.piece then
 				gc_setColor(.9,.9,.3,_*.2)
-				gc.print(str,20,570)
+				gc_print(str,20,570)
 				gc_setColor(.9,.9,.3,1.2-_*.1)
 			elseif S.maxFinesseCombo==S.piece then
 				gc_setColor(.7,.7,1,_*.2)
-				gc.print(str,20,570)
+				gc_print(str,20,570)
 				gc_setColor(.7,.7,1,1.2-_*.1)
 			else
 				gc_setColor(1,1,1,_*.2)
-				gc.print(str,20,570)
+				gc_print(str,20,570)
 				gc_setColor(1,1,1,1.2-_*.1)
 			end
 			if _>0 then
 				gc.push("transform")
 				gc.translate(20,600)
 				gc.scale(1+_*.08)
-				gc.print(str,0,-30)
+				gc_print(str,0,-30)
 				gc.pop()
 			else
-				gc.print(str,20,570)
+				gc_print(str,20,570)
 			end
 		end
 
@@ -560,13 +562,13 @@ function draw.norm(P)
 			gc_setColor(1,1,1)
 			if P.life<=3 then
 				for i=1,P.life do
-					gc.draw(IMG.lifeIcon,450+25*i,595,nil,.8)
+					gc_draw(IMG.lifeIcon,450+25*i,595,nil,.8)
 				end
 			else
-				gc.draw(IMG.lifeIcon,475,595,nil,.8)
+				gc_draw(IMG.lifeIcon,475,595,nil,.8)
 				setFont(20)
-				gc.print("x",503,595)
-				gc.print(P.life,517,595)
+				gc_print("x",503,595)
+				gc_print(P.life,517,595)
 			end
 		end
 
@@ -588,7 +590,7 @@ function draw.norm(P)
 			else
 				gc_setColor(1,1,1)
 			end
-			gc.print(missionEnum[L[P.curMission]],85,110)
+			gc_print(missionEnum[L[P.curMission]],85,110)
 
 			--Draw next mission
 			setFont(20)
@@ -596,7 +598,7 @@ function draw.norm(P)
 				local m=L[P.curMission+i]
 				if m then
 					m=missionEnum[m]
-					gc.print(m,87-28*i,117)
+					gc_print(m,87-28*i,117)
 				else
 					break
 				end
@@ -633,7 +635,7 @@ function draw.small(P)
 		local texture=SKIN.curTextMini
 		for j=1,#F do
 			for i=1,10 do if F[j][i]>0 then
-				Draw(texture[F[j][i]],6*i-6,120-6*j)
+				gc_draw(texture[F[j][i]],6*i-6,120-6*j)
 			end end
 		end
 
@@ -648,7 +650,7 @@ function draw.small(P)
 		if GAME.modeEnv.royaleMode then
 			gc_setColor(1,1,1)
 			for i=1,P.strength do
-				gc.draw(IMG.badgeIcon,12*i-7,4,nil,.5)
+				gc_draw(IMG.badgeIcon,12*i-7,4,nil,.5)
 			end
 		end
 
@@ -664,7 +666,7 @@ function draw.small(P)
 
 	--Draw Canvas
 	gc_setColor(1,1,1)
-	gc.draw(P.canvas,P.x,P.y,nil,P.size*10)
+	gc_draw(P.canvas,P.x,P.y,nil,P.size*10)
 	if P.killMark then
 		gc.setLineWidth(3)
 		gc_setColor(1,0,0,min(P.endCounter,25)*.04)
@@ -718,7 +720,7 @@ function draw.demo(P)
 				_=libColor[skinSet[id]]
 				gc_setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
-				gc.draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
+				gc_draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
 				N=N+1
 			end
 
@@ -729,7 +731,7 @@ function draw.demo(P)
 				_=libColor[skinSet[id]]
 				gc_setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
-				gc.draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
+				gc_draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 				N=N+1
 			end
 		gc.pop()

@@ -1,4 +1,5 @@
 local gc=love.graphics
+local gc_circle=gc.circle
 local tc=love.touch
 local TIME=TIME
 
@@ -253,47 +254,10 @@ end
 local function drawAtkPointer(x,y)
 	local t=sin(TIME()*20)
 	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
-	gc.circle("fill",x,y,25,6)
+	gc_circle("fill",x,y,25,6)
 	local a=TIME()*3%1*.8
 	gc.setColor(0,.6,1,.8-a)
-	gc.circle("line",x,y,30*(1+a),6)
-end
-local function drawVirtualkey()
-	local a=SETTING.VKAlpha
-	local _
-	if SETTING.VKIcon then
-		local icons=TEXTURE.VKIcon
-		for i=1,#VK do
-			if VK[i].ava then
-				local B=VK[i]
-				gc.setColor(1,1,1,a)
-				gc.setLineWidth(B.r*.07)
-				gc.circle("line",B.x,B.y,B.r,10)--Button outline
-				_=VK[i].pressTime
-				gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
-				if _>0 then
-					gc.setColor(1,1,1,a*_*.08)
-					gc.circle("fill",B.x,B.y,B.r*.94,10)--Glow
-					gc.circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
-				end
-			end
-		end
-	else
-		for i=1,#VK do
-			if VK[i].ava then
-				local B=VK[i]
-				gc.setColor(1,1,1,a)
-				gc.setLineWidth(B.r*.07)
-				gc.circle("line",B.x,B.y,B.r,10)
-				_=VK[i].pressTime
-				if _>0 then
-					gc.setColor(1,1,1,a*_*.08)
-					gc.circle("fill",B.x,B.y,B.r*.94,10)
-					gc.circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
-				end
-			end
-		end
-	end
+	gc_circle("line",x,y,30*(1+a),6)
 end
 function scene.draw()
 	local t=TIME()
@@ -302,13 +266,53 @@ function scene.draw()
 		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(text.marking,190,60+26*sin(t))
 	end
+
+	--Players
 	for p=1,#PLAYERS do
 		PLAYERS[p]:draw()
 	end
 
+	--Virtual keys
 	gc.setColor(1,1,1)
-	if SETTING.VKSwitch then drawVirtualkey()end
+	if SETTING.VKSwitch then
+		local a=SETTING.VKAlpha
+		local _
+		if SETTING.VKIcon then
+			local icons=TEXTURE.VKIcon
+			for i=1,#VK do
+				if VK[i].ava then
+					local B=VK[i]
+					gc.setColor(1,1,1,a)
+					gc.setLineWidth(B.r*.07)
+					gc_circle("line",B.x,B.y,B.r,10)--Button outline
+					_=VK[i].pressTime
+					gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
+					if _>0 then
+						gc.setColor(1,1,1,a*_*.08)
+						gc_circle("fill",B.x,B.y,B.r*.94,10)--Glow when press
+						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
+					end
+				end
+			end
+		else
+			for i=1,#VK do
+				if VK[i].ava then
+					local B=VK[i]
+					gc.setColor(1,1,1,a)
+					gc.setLineWidth(B.r*.07)
+					gc_circle("line",B.x,B.y,B.r,10)
+					_=VK[i].pressTime
+					if _>0 then
+						gc.setColor(1,1,1,a*_*.08)
+						gc_circle("fill",B.x,B.y,B.r*.94,10)
+						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
+					end
+				end
+			end
+		end
+	end
 
+	--Attacking & Being attacked
 	if GAME.modeEnv.royaleMode then
 		local P=PLAYERS[1]
 		gc.setLineWidth(5)
@@ -318,7 +322,9 @@ function scene.draw()
 			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+670*P.size)
 		end
 		if P.atkMode~=4 then
-			if P.atking then drawAtkPointer(P.atking.centerX,P.atking.centerY)end
+			if P.atking then
+				drawAtkPointer(P.atking.centerX,P.atking.centerY)
+			end
 		else
 			for i=1,#P.atker do
 				local p=P.atker[i]
