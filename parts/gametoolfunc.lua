@@ -463,12 +463,12 @@ function applyCustomGame()
 	if BAG[1]then
 		GAME.modeEnv.bag=BAG
 	else
-		GAME.modeEnv.bag=false
+		GAME.modeEnv.bag=nil
 	end
 	if MISSION[1]then
 		GAME.modeEnv.mission=MISSION
 	else
-		GAME.modeEnv.mission=false
+		GAME.modeEnv.mission=nil
 	end
 end
 function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
