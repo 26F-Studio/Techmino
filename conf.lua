@@ -1,5 +1,5 @@
-VERSION_CODE=1209
-VERSION_NAME="Alpha V0.12.9"
+VERSION_CODE=1225
+VERSION_NAME="Alpha V0.12.25"
 love.setDeprecationOutput(false)
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
@@ -31,8 +31,7 @@ function love.conf(t)
 
 	local M=t.modules
 	M.window,M.system,M.event=true,true,true
-	M.audio,M.sound=true,true
-	M.math,M.data=true,true
+	M.audio,M.sound,M.math,M.data=true,true,true,true
 	M.timer,M.graphics,M.font,M.image=true,true,true,true
 	M.mouse,M.touch,M.keyboard,M.joystick=true,true,true,true
 	M.physics,M.thread,M.video=false,false,false
