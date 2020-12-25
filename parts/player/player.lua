@@ -28,8 +28,8 @@ function Player.createLockFX(P)
 	for i=1,P.r do
 		local y=P.curY+i-1
 		local L=P.clearedRow
-		for i=1,#L do
-			if L[i]==y then goto continue end
+		for j=1,#L do
+			if L[j]==y then goto continue end
 		end
 		y=-30*y
 		for j=1,P.c do
@@ -1912,14 +1912,15 @@ function Player.act_insRight(P,auto)
 end
 function Player.act_insDown(P)
 	if P.cur and P.curY>P.ghoY then
-		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.ghoY-P.r>-1 then
+		local ENV=P.gameEnv
+		if ENV.dropFX and ENV.block and P.curY-P.ghoY-P.r>-1 then
 			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.ghoY-P.r+1)
 		end
-		if P.gameEnv.shakeFX then
-			P.fieldOff.vy=P.gameEnv.shakeFX*.5
+		if ENV.shakeFX then
+			P.fieldOff.vy=ENV.shakeFX*.5
 		end
 		P.curY=P.ghoY
-		P.lockDelay=P.gameEnv.lock
+		P.lockDelay=ENV.lock
 		P.spinLast=false
 		P:freshBlock("fresh")
 	end
