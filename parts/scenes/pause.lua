@@ -4,9 +4,7 @@ local int=math.floor
 local sin,log=math.sin,math.log10
 local format=string.format
 
-local setFont=setFont
-local mStr=mStr
-local SCR=SCR
+local SCR,setFont,mStr=SCR,setFont,mStr
 
 local fnsRankColor={
 	Z=COLOR.lYellow,
@@ -199,6 +197,32 @@ function scene.draw()
 
 	--Infos
 	if GAME.frame>180 then
+		gc.setLineWidth(2)
+		--Finesse rank & trophy
+		if rank then
+			gc.setColor(1,1,1,T*.2)
+			gc.rectangle("fill",35,305,465,405)
+
+			setFont(60)
+			local c=fnsRankColor[rank]
+			gc.setColor(c[1],c[2],c[3],T)
+			gc.print(rank,420,635)
+			if trophy then
+				setFont(40)
+				gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
+				gc.printf(trophy,100-120*(1-T^.5),650,300,"right")
+			end
+
+			gc.setColor(1,1,1,T)
+			gc.rectangle("line",35,305,465,405)
+			gc.line(35,620,500,620)
+		else
+			gc.setColor(1,1,1,T*.2)
+			gc.rectangle("fill",35,305,465,350)
+			gc.setColor(1,1,1,T)
+			gc.rectangle("line",35,305,465,350)
+		end
+
 		_=form
 		setFont(25)
 		for i=1,10 do
@@ -210,17 +234,22 @@ function scene.draw()
 	--Mods
 	if #GAME.mod>0 then
 		if scoreValid()then
-			gc.setColor(.7,.7,.7,T*.3)
+			gc.setColor(.7,.7,.7,T)
+			gc.rectangle("line",780,560,485,140)
+			gc.setColor(.7,.7,.7,T*.26)
+			gc.rectangle("fill",780,560,485,140)
 		else
-			gc.setColor(1,0,0,T*.3)
+			gc.setColor(1,0,0,T)
+			gc.rectangle("line",780,560,485,140)
+			gc.setColor(1,0,0,T*.26)
+			gc.rectangle("fill",780,560,485,140)
 		end
-		gc.rectangle("fill",780,575,485,140)
 		setFont(35)
 		for _,M in next,MODOPT do
 			if M.sel>0 then
 				_=M.color
 				gc.setColor(_[1],_[2],_[3],T)
-				mStr(M.id,810+M.no%8*60,575+int(M.no/8)*45)
+				mStr(M.id,810+M.no%8*60,560+int(M.no/8)*45)
 			end
 		end
 	end
@@ -247,25 +276,12 @@ function scene.draw()
 		gc.print(str,50,-10,nil,1.8)
 	end
 
-	--Finesse rank & trophy
-	if rank then
-		setFont(60)
-		local c=fnsRankColor[rank]
-		gc.setColor(c[1],c[2],c[3],T)
-		gc.print(rank,420,635)
-		if trophy then
-			setFont(40)
-			gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
-			gc.printf(trophy,100-120*(1-T^.5),650,300,"right")
-		end
-	end
-
 	--Radar Chart
 	if T>.5 and GAME.frame>180 then
 		T=T*2-1
 		gc.setLineWidth(2)
 		gc.push("transform")
-			gc.translate(1026,400)
+			gc.translate(1026,370)
 
 			--Polygon
 			gc.push("transform")
