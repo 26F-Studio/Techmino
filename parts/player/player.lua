@@ -840,7 +840,7 @@ do--Player.drop(P)--Place piece
 		},--I2
 		{
 			{1,2,2,1,0,1,2,3,2,1},
-			2,3,4
+			1,1,1
 		},--O1
 	}
 	for k,v in next,finesseList do
