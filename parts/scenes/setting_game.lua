@@ -4,7 +4,7 @@ local int=math.floor
 local scene={}
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 end
 function scene.sceneBack()
 	FILE.save(SETTING,"conf/settings")

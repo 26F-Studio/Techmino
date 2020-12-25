@@ -7,6 +7,7 @@ local BGlist={
 }
 local BG={
 	cur="none",
+	defaultBG="none",
 	init=false,
 	resize=false,
 	update=NULL,
@@ -23,7 +24,13 @@ function BG.send(...)
 		BG.event(...)
 	end
 end
+function BG.setDefaultBG(bg)
+	defaultBG=bg
+end
 function BG.set(background)
+	if not background then
+		background=defaultBG
+	end
 	if background==BG.cur or not SETTING.bg then return end
 	BG.discard()
 	BG.cur=background

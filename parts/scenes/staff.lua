@@ -8,7 +8,7 @@ local time,v
 function scene.sceneInit()
 	time=0
 	v=1
-	BG.set("space")
+	BG.set()
 end
 
 function scene.mouseDown(x,y)

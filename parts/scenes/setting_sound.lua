@@ -13,7 +13,7 @@ function scene.sceneInit()
 	last=0
 	jump=0
 	cv=SETTING.cv
-	BG.set("space")
+	BG.set()
 end
 function scene.sceneBack()
 	FILE.save(SETTING,"conf/settings")

@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 end
 function scene.sceneBack()
 	FILE.save(SETTING,"conf/settings")
@@ -51,7 +51,7 @@ scene.widgetList={
 		code=function()
 			BG.set("none")
 			SETTING.bg=not SETTING.bg
-			BG.set("space")
+			BG.set()
 		end},
 	WIDGET.newSwitch{name="power",		x=990,	y=640,font=35,disp=WIDGET.lnk_SETval("powerInfo"),
 		code=function()

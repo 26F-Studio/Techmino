@@ -5,7 +5,7 @@ local sin=math.sin
 local scene={}
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 end
 
 function scene.draw()

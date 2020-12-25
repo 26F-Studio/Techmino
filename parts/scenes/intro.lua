@@ -9,7 +9,7 @@ local scene={}
 local t1,t2,r
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 	BGM.play("blank")
 	t1,t2=0,0--Timer
 	r={}--Random animation type

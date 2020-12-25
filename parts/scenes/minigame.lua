@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 end
 
 scene.widgetList={

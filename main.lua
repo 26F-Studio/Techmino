@@ -376,3 +376,5 @@ do
 		FILE.save(STAT,"conf/data")
 	end
 end
+
+BG.setDefaultBG(FESTIVAL=="Xmas"and"snow"or"space")
