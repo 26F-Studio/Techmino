@@ -34,7 +34,9 @@ end
 function SCR.print()
 	LOG.print("Screen Info:")
 	for k,v in next,SCR do
-		LOG.print(k..": "..v)
+		if type(v)=="number"then
+			LOG.print(k..": "..v)
+		end
 	end
 end
 return SCR
