@@ -141,6 +141,8 @@ SKIN.init{
 	"Smooth(MrZ)",
 	"Glass(ScF)",
 	"Penta(ScF)",
+	"Bubble(ScF)",
+	"Shape(ScF)",
 	"Pure(MrZ)",
 	"Glow(MrZ)",
 	"Plastic(MrZ)",
