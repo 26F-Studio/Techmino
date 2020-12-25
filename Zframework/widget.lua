@@ -822,6 +822,13 @@ function WIDGET.set(list)
 			list[i]:reset()
 		end
 	end
+	if FESTIVAL=="Xmas"and SCN.cur~="custom_field"then
+		for _,W in next,list do
+			if W.color then
+				W.color=math.random()<.5 and COLOR.red or COLOR.white
+			end
+		end
+	end
 end
 function WIDGET.setLang(widgetText)
 	for S,L in next,SCN.scenes do

@@ -209,6 +209,11 @@ function scene.update()
 					}
 				)
 			end
+			if FESTIVAL=="Xmas"then
+				LOG.print("==============",COLOR.red)
+				LOG.print("Merry Christmas!",COLOR.white)
+				LOG.print("==============",COLOR.red)
+			end
 		end
 		if loadTar then
 			loadCur=loadCur+1
