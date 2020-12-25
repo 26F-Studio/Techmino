@@ -26,7 +26,7 @@ LOGIN=false
 EDITING=""
 WSCONN=false
 FESTIVAL=
-	os.date"%m"=="12"and math.abs(os.date"%d"-25)<2 and"Xmas"
+	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and"Xmas"
 
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
