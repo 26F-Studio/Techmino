@@ -371,7 +371,6 @@ do
 		newVersionLaunch=true
 
 		S.version=VERSION_CODE
-		FILE.save(RANKS,"conf/unlock","q")
 		FILE.save(STAT,"conf/data")
 	end
 end

@@ -190,6 +190,7 @@ function scene.update()
 						RANKS[name]=nil
 					end
 				end
+				FILE.save(RANKS,"conf/unlock","q")
 			end
 			STAT.run=STAT.run+1
 			LOADED=true
