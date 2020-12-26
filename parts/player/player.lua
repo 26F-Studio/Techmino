@@ -168,12 +168,18 @@ function Player.movePosition(P,x,y,size)
 	TASK.new(task_movePosition,P,x,y,size or P.size)
 end
 
+function Player.switchKey(P,id,on)
+	if P.keyAvailable[id]and not on then
+		P:releaseKey(id)
+		P.keyAvailable[id]=false
+	end
+	if P.type=="human"then
+		virtualkey[id].ava=on
+	end
+end
 function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
 	P._20G=if20g
-	P.keyAvailable[7]=not if20g
-	if P.type=="human"then
-		virtualkey[7].ava=not if20g
-	end
+	P:switchKey(7,not if20g)
 	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
 function Player.setHold(P,count)--Set hold count (false/true as 0/1)
@@ -184,9 +190,7 @@ function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	end
 	P.gameEnv.holdCount=count
 	P.holdTime=count
-	if P.type=="human"then
-		virtualkey[8].ava=count>0
-	end
+	P:switchKey(8,count>0)
 	if count==0 then
 		P.drawHold=NULL
 		while P.holdQueue[1]do rem(P.holdQueue)end
