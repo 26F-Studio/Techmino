@@ -20,7 +20,7 @@ function profile.hooker(event, line, info)
 	info = info or getInfo(2, 'fnS')
 	local f = info.func
 	-- ignore the profiler itself
-	if _internal[f] or info.what ~= "Lua" then return end
+	if _internal[f] then return end
 	-- get the function name if available
 	if info.name then _labeled[f] = info.name end
 	-- find the line definition
@@ -81,9 +81,11 @@ end
 
 --- Resets all collected data.
 function profile.reset()
-	for f in next, _ncalls do _ncalls[f] = 0 end
-	for f in next, _telapsed do _telapsed[f] = 0 end
-	for f in next, _tcalled do _tcalled[f] = nil end
+	for f in next, _ncalls do
+		_ncalls[f] = 0
+		_telapsed[f] = 0
+		_tcalled[f] = nil
+	end
 	collectgarbage('collect')
 end
 
@@ -112,21 +114,19 @@ function profile.query(limit)
 		if _tcalled[f] then
 			dt = clock() - _tcalled[f]
 		end
-		t[i] = {i, _labeled[f] or '?', _ncalls[f], _telapsed[f] + dt, _defined[f]}
+		t[i] = {i, _labeled[f] or '?', 	math.floor((_telapsed[f] + dt) * 1e6) / 1e6, _ncalls[f], _defined[f]}
 	end
 	return t
 end
 
-local cols = {3, 29, 11, 24, 32}
+local cols = {3, 20, 8, 6, 32}
 function profile.report(n)
 	local out = {}
 	local report = profile.query(n)
 	for i, row in ipairs(report) do
 		for j = 1, 5 do
-			local s = row[j]
-			local l2 = cols[j]
-			s = tostring(s)
-			local l1 = s:len()
+			local s = tostring(row[j])
+			local l1, l2 = #s, cols[j]
 			if l1 < l2 then
 				s = s .. (' '):rep(l2 - l1)
 			elseif l1 > l2 then
@@ -137,8 +137,8 @@ function profile.report(n)
 		out[i] = table.concat(row, ' | ')
 	end
 
-	local row = " +-----+-------------------------------+-------------+--------------------------+----------------------------------+ \n"
-	local col = " | #   | Function                      | Calls       | Time                     | Code                             | \n"
+	local row = " +-----+----------------------+----------+--------+----------------------------------+ \n"
+	local col = " | #   | Function             | Time     | Calls  | Code                             | \n"
 	local sz = row .. col .. row
 	if #out > 0 then
 		sz = sz .. ' | ' .. table.concat(out, ' | \n | ') .. ' | \n'
@@ -162,7 +162,7 @@ end
 
 -- store all internal profiler functions
 for _, v in next, profile do
-	if type(v) == "function" then _internal[v] = true end
+	_internal[v] = type(v) == "function"
 end
 
 return profile
