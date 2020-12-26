@@ -235,14 +235,14 @@ function scene.draw()
 	if #GAME.mod>0 then
 		if scoreValid()then
 			gc.setColor(.7,.7,.7,T)
-			gc.rectangle("line",780,560,485,140)
+			gc.rectangle("line",775,560,490,140)
 			gc.setColor(.7,.7,.7,T*.26)
-			gc.rectangle("fill",780,560,485,140)
+			gc.rectangle("fill",775,560,490,140)
 		else
 			gc.setColor(1,0,0,T)
-			gc.rectangle("line",780,560,485,140)
+			gc.rectangle("line",775,560,490,140)
 			gc.setColor(1,0,0,T*.26)
-			gc.rectangle("fill",780,560,485,140)
+			gc.rectangle("fill",775,560,490,140)
 		end
 		setFont(35)
 		for _,M in next,MODOPT do
