@@ -22,10 +22,10 @@ end
 local function onVK_org(x,y)
 	local dist,nearest=1e10
 	for K=1,#VK_org do
-		local b=VK_org[K]
-		if b.ava then
-			local d1=(x-b.x)^2+(y-b.y)^2
-			if d1<b.r^2 then
+		local B=VK_org[K]
+		if B.ava then
+			local d1=(x-B.x)^2+(y-B.y)^2
+			if d1<B.r^2 then
 				if d1<dist then
 					nearest,dist=K,d1
 				end
