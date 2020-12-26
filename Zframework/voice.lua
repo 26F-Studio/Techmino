@@ -1,6 +1,6 @@
 local VOC={
 	getCount=function()return 0 end,
-	getQueueCount=NULL,
+	getQueueCount=function()return 0 end,
 	getFreeChannel=NULL,
 	play=NULL,
 	update=NULL,
