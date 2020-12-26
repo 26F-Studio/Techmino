@@ -81,18 +81,21 @@ function scene.touchUp(_,x,y)
 end
 function scene.touchMove()
 	if noTouch then return end
-
-	local l=tc.getTouches()
+	local L=tc.getTouches()
+	for i=#L,1,-1 do
+		L[2*i-1],L[2*i]=SCR.xOy:inverseTransformPoint(tc.getPosition(L[i]))
+	end
 	for n=1,#VK do
 		local B=VK[n]
-		for i=1,#l do
-			local x,y=SCR.xOy:inverseTransformPoint(tc.getPosition(l[i]))
-			if(x-B.x)^2+(y-B.y)^2<=B.r^2 then
-				goto next
+		if B.ava then
+			for i=1,#L,2 do
+				if(L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
+					goto continue
+				end
 			end
+			PLAYERS[1]:releaseKey(n)
 		end
-		PLAYERS[1]:releaseKey(n)
-		::next::
+		::continue::
 	end
 end
 function scene.keyDown(key)
