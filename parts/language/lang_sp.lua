@@ -226,7 +226,7 @@ return{
 			restart="Reiniciar (R)",
 			quit=	"Finalizar (Q)",
 		},
-		net_menumenu={
+		net_menu={
 			-- ffa="FFA",
 			-- rooms="Rooms",
 			-- chat="Chat",

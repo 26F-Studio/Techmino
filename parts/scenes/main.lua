@@ -8,7 +8,7 @@ local function tick_httpREQ_checkAccessToken(task)
 		if response then
 			if response.code==200 then
 				LOG.print(text.accessSuccessed)
-				SCN.go("net_menumenu")
+				SCN.go("net_menu")
 			elseif response.code==403 or response.code==401 then
 				httpRequest(
 					TICK.httpREQ_getAccessToken,

@@ -143,7 +143,7 @@ PATH={--Network API paths
 	users="/users",
 	auth="/auth",
 	access="/auth/access",
-	versus="/online/versus",
+	rooms="/online/rooms",
 	chat="/chat",
 }
 

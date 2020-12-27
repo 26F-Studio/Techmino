@@ -11,7 +11,7 @@ function Tick.httpREQ_getAccessToken(task)
 					LOG.print(text.accessSuccessed)
 					USER.access_token=res.access_token
 					FILE.save(USER,"conf/user")
-					SCN.swapTo("net_menumenu")
+					SCN.swapTo("net_menu")
 				else
 					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 				end

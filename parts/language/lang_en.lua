@@ -243,7 +243,7 @@ return{
 			restart="Retry (R)",
 			quit="Quit (Q)",
 		},
-		net_menumenu={
+		net_menu={
 			ffa="FFA",
 			rooms="Rooms",
 			chat="Chat",

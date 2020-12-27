@@ -37,7 +37,7 @@ local function fresh()
 	rooms=nil
 	httpRequest(
 		task_fetchRooms,
-		PATH.api..PATH.access,
+		PATH.api..PATH.rooms,
 		"GET"
 	)
 end

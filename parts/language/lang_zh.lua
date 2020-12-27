@@ -246,7 +246,7 @@ return{
 			restart="重新开始(R)",
 			quit=	"退出(Q)",
 		},
-		net_menumenu={
+		net_menu={
 			ffa="FFA",
 			rooms="房间列表",
 			chat="聊天室",

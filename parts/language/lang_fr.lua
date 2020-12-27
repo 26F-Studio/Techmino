@@ -222,7 +222,7 @@ return{
 			restart="Réessayer (R)",
 			quit="Quitter (Q)",
 		},
-		net_menumenu={
+		net_menu={
 			-- ffa="FFA",
 			-- rooms="Rooms",
 			-- chat="Chat",
