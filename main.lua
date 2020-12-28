@@ -113,7 +113,7 @@ if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
-	batteryImage="/mess/power.png",
+	batteryImage="mess/power.png",
 	title="mess/title.png",
 	title_color="mess/title_colored.png",
 	dialCircle="mess/dialCircle.png",
@@ -160,54 +160,29 @@ SKIN.init{
 	"WTF",
 }
 --Initialize sound libs
-SFX.init{
-	--Stereo sfxs(cannot set position)
-	"welcome_sfx",
-	"button","click","enter",
-	"finesseError","finesseError_long",
+SFX.init((function()
+	local L={}
+	for _,v in next,love.filesystem.getDirectoryItems("media/SFX")do
+		if love.filesystem.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
+			L[#L+1]=v:sub(1,-5)
+		else
+			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v)
+		end
+	end
+	return L
+end)())
+BGM.init((function()
+	local L={}
+	for _,v in next,love.filesystem.getDirectoryItems("media/BGM")do
+		if love.filesystem.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
+			L[#L+1]=v:sub(1,-5)
+		else
+			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v)
+		end
+	end
+	return L
+end)())
 
-	--Mono sfxs
-	"virtualKey",
-	"swipe",
-	"ready","start","win","fail","collect",
-	"spawn_1","spawn_2","spawn_3","spawn_4","spawn_5","spawn_6","spawn_7",
-	"move","rotate","rotatekick","hold",
-	"prerotate","prehold",
-	"lock","drop","fall",
-	"reach",
-	"ren_1","ren_2","ren_3","ren_4","ren_5","ren_6","ren_7","ren_8","ren_9","ren_10","ren_11","ren_mega",
-	"clear_1","clear_2","clear_3","clear_4",
-	"spin_0","spin_1","spin_2","spin_3",
-	"emit","blip_1","blip_2",
-	"clear",
-	"error",
-}
-BGM.init{
-	"blank",--menu
-	"race",--sprint, solo
-	"infinite",--infinite norm/dig, ultra, zen, tech-finesse
-	"push",--marathon, round, tsd, blind-5/6
-	"way",--dig sprint
-	"reason",--drought, blind-1/2/3/4
-
-	"secret8th",--master-1, survivor-2
-	"secret7th",--master-2, survivor-3
-	"waterfall",--sprint Penta/MPH
-	"new era",--bigbang, survivor-1, tech-normal
-	"oxygen",--c4w/pc train
-	"truth",--pc challenge
-
-	"distortion",--master-3
-	"far",--GM
-	"shining terminal",--attacker
-	"storm",--defender, survivor-4/5
-	"down",--dig, tech-hard/lunatic
-
-	"sugar fairy","rockblock","magicblock",--classic, 49/99
-	"cruelty","final","8-bit happiness","end","how feeling",--49/99
-
-	"mXmas",--Festival: Xmas
-}
 VOC.init{
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
 	"single","double","triple","techrash",
