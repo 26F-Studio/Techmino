@@ -18,12 +18,14 @@ local text={
 	alpha=0,
 }
 function text:reset()
-	if type(self.text)=="string"then
+	if not self.plain and type(self.text)=="string"then
 		self.text=gc.newText(getFont(self.font),self.text)
 	elseif type(self.text)~="userdata"or self.text.type(self.text)~="Text"then
 		self.text=gc.newText(getFont(self.font),self.name)
-		self.color=COLOR.dPurple
-		self.font=self.font-10
+		if not self.plain then
+			self.color=COLOR.dPurple
+			self.font=self.font-10
+		end
 	end
 end
 function text:update()
@@ -48,7 +50,7 @@ function text:draw()
 		end
 	end
 end
-function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,hide]
+function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,plain=false][,hide]
 	local _={
 		name=	D.name,
 		x=		D.x,
@@ -56,6 +58,7 @@ function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,hide]
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	D.align or"M",
+		plain=	D.plain==true,
 		hideCon=D.hide,
 	}
 	for k,v in next,text do _[k]=v end
@@ -777,7 +780,7 @@ function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 		},
 
 		font=	D.font or int(D.h/7-1)*5,
-		secret=	D.secret,
+		secret=	D.secret==true,
 		regex=	D.regex,
 		hide=	D.hide,
 	}
