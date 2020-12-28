@@ -353,4 +353,4 @@ do
 	end
 end
 
-BG.setDefaultBG(FESTIVAL=="Xmas"and"snow"or"space")
+BG.setDefault(FESTIVAL=="Xmas"and"snow"or"space")

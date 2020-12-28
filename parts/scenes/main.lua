@@ -45,10 +45,7 @@ local tip
 
 function scene.sceneInit()
 	tip=text.getTip()
-	BG.set(
-		FESTIVAL=="Xmas"and"snow"or
-		"space"
-	)
+	BG.set()
 
 	GAME.modeEnv=NONE
 	--Create demo player
