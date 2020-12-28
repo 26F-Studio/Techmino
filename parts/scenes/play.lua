@@ -23,7 +23,8 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
-local noTouch,noKey
+local noTouch,noKey=false,false
+local touchMoveLastFrame=0
 
 local scene={}
 
@@ -81,6 +82,9 @@ function scene.touchUp(_,x,y)
 end
 function scene.touchMove()
 	if noTouch then return end
+	if touchMoveLastFrame>1 then return end
+	touchMoveLastFrame=touchMoveLastFrame+1
+
 	local L=tc.getTouches()
 	for i=#L,1,-1 do
 		L[2*i-1],L[2*i]=SCR.xOy:inverseTransformPoint(tc.getPosition(L[i]))
@@ -156,6 +160,8 @@ function scene.update(dt)
 	local P1=PLAYERS[1]
 	local GAME=GAME
 	GAME.frame=GAME.frame+1
+
+	touchMoveLastFrame=0
 
 	--Update virtualkey animation
 	if SETTING.VKSwitch then
