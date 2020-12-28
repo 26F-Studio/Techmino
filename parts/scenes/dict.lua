@@ -45,6 +45,26 @@ local eggInput={
 	atoz="mg_AtoZ",
 	uttt="mg_UTTT",
 	cbf="mg_cubefield",
+	flag=function()
+		BG.setDefault("none")
+		BGM.setDefault(false)
+		BG.set("none")
+		BGM.stop()
+		SFX.play("clear_4")
+		LOG.print("What are you looking for?",COLOR.G)
+	end,
+	classic=function()
+		FESTIVAL=false
+		BG.setDefault("space")
+		BGM.setDefault("blank")
+		BGM.play()
+	end,
+	xmas=function()
+		FESTIVAL="xMas"
+		BG.setDefault("snow")
+		BGM.setDefault("mXmas")
+		BGM.play()
+	end,
 }
 local function search()
 	if eggInput[input]then
