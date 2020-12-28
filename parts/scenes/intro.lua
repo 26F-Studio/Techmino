@@ -10,7 +10,7 @@ local t1,t2,r
 
 function scene.sceneInit()
 	BG.set()
-	BGM.play(FESTIVAL=="Xmas"and"mXmas"or"blank")
+	BGM.play()
 	t1,t2=0,0--Timer
 	r={}--Random animation type
 	for i=1,8 do r[i]=rnd(5)end

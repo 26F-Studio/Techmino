@@ -1,4 +1,5 @@
 local BGM={
+	default=false,
 	getList={},
 	getCount=function()return 0 end,
 	play=NULL,
@@ -8,6 +9,9 @@ local BGM={
 	--nowPlay=[str:playing ID]
 	--playing=[src:playing SRC]
 }
+function BGM.setDefault(bgm)
+	BGM.default=bgm
+end
 function BGM.init(list)
 	BGM.init=nil
 	local min=math.min
@@ -56,6 +60,7 @@ function BGM.init(list)
 		BGM.loadOne=nil
 
 		function BGM.play(s)
+			if not s then s=BGM.default end
 			if SETTING.bgm==0 then
 				BGM.nowPlay=s
 				BGM.playing=Sources[s]

@@ -28,7 +28,7 @@ function scene.sceneInit()
 	end
 end
 function scene.sceneBack()
-	BGM.play(FESTIVAL=="Xmas"and"mXmas"or"blank")
+	BGM.play()
 end
 
 function scene.keyDown(key)

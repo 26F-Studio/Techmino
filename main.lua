@@ -354,3 +354,4 @@ do
 end
 
 BG.setDefault(FESTIVAL=="Xmas"and"snow"or"space")
+BGM.setDefault(FESTIVAL=="Xmas"and"mXmas"or"blank")
