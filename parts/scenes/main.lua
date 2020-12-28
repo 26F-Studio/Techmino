@@ -69,19 +69,18 @@ end
 
 function scene.draw()
 	gc.setColor(1,1,1)
-	gc.draw(IMG.title_color,60,30,nil,1.3)
 	setFont(30)
-	gc.print(SYSTEM,610,50)
-	gc.print(VERSION_NAME,610,90)
-	gc.print(tip,50,660)
 	local L=text.modes[STAT.lastPlay]
-	setFont(25)
-	gc.print(L[1],700,230)
-	gc.print(L[2],700,260)
+	gc.print(L[1],700,210)
+	gc.print(L[2],700,250)
+	gc.print(tip,50,660)
+	gc.draw(IMG.title_color,60,30,nil,1.3)
 	PLAYERS[1]:draw()
 end
 
 scene.widgetList={
+	WIDGET.newText{name=SYSTEM,		x=610,y=50,color="white",font=30,align="L",plain=true},
+	WIDGET.newText{name=VERSION_NAME,x=610,y=90,color="white",font=30,align="L",plain=true},
 	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=WIDGET.lnk_goScene("mode")},
 	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
 		if LOGIN then
