@@ -81,6 +81,7 @@ function copyQuestArgs()
 	return str
 end
 function pasteQuestArgs(str)
+	if #str<4 then return end
 	local ENV=CUSTOMENV
 	ENV.holdCount=		byte(str,1)-48
 	ENV.ospin=			byte(str,2)~=90
@@ -184,8 +185,17 @@ function copyBoard(page)--Copy the [page] board
 	end
 	return data.encode("string","base64",data.compress("string","zlib",str))
 end
+function copyBoards()
+	local out={}
+	for i=1,#FIELD do
+		out[i]=copyBoard(i)
+	end
+	return table.concat(out,"!")
+end
 function pasteBoard(str,page)--Paste [str] data to [page] board
-	local F=FIELD[page or 1]
+	if not page then page=1 end
+	if not FIELD[page]then FIELD[page]=newBoard()end
+	local F=FIELD[page]
 	local _,__
 
 	--Decode

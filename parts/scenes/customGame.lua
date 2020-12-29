@@ -2,30 +2,31 @@ local gc,sys=love.graphics,love.system
 local kb=love.keyboard
 
 local int=math.floor
-local find,sub=string.find,string.sub
 
 local function notAir(L)
 	for i=1,10 do
 		if L[i]>0 then return true end
 	end
 end
-
 local CUSTOMENV=CUSTOMENV
 
 local scene={}
 
 local initField
-
-function scene.sceneInit()
-	destroyPlayers()
-	BG.set(CUSTOMENV.bg)
-	BGM.play(CUSTOMENV.bgm)
+local function freshMiniFieldVisible()
 	initField=false
 	for y=1,20 do
 		if notAir(FIELD[1][y])then
 			initField=true
+			return
 		end
 	end
+end
+function scene.sceneInit()
+	destroyPlayers()
+	BG.set(CUSTOMENV.bg)
+	BGM.play(CUSTOMENV.bgm)
+	freshMiniFieldVisible()
 end
 function scene.sceneBack()
 	BGM.play()
@@ -63,41 +64,26 @@ function scene.keyDown(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		local str="Techmino Quest:"..copyQuestArgs().."!"
 		if #BAG>0 then str=str..copySequence()end
-		str=str.."!"..copyBoard().."!"
+		str=str.."!"
 		if #MISSION>0 then str=str..copyMission()end
-		sys.setClipboardText(str.."!")
+		sys.setClipboardText(str.."!"..copyBoards().."!")
 		LOG.print(text.exportSuccess,COLOR.green)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p1,p2,p3,p4,p5--ptr*
-		while true do
-			p1=find(str,":")or 0
-			p2=find(str,"!",p1+1)
-			if not p2 then break end
-			p3=find(str,"!",p2+1)
-			if not p3 then break end
-			p4=find(str,"!",p3+1)
-			if not p4 then break end
-			p5=find(str,"!",p4+1)or #str+1
-
-			pasteQuestArgs(sub(str,p1+1,p2-1))
-			if p2+1~=p3 then
-				if not pasteSequence(sub(str,p2+1,p3-1))then
-					break
-				end
-			end
-			if not pasteBoard(sub(str,p3+1,p4-1))then
-				break
-			end
-			if p4+1~=p5 then
-				if not pasteMission(sub(str,p4+1,p5-1))then
-					break
-				end
-			end
-			LOG.print(text.importSuccess,COLOR.green)
-			return
+		local args=splitStr(str:sub((str:find(":")or 0)+1),"!")
+		if #args<4 then goto fail end
+		if not pasteQuestArgs(args[1])then goto fail end
+		if not pasteSequence(args[2])then goto fail end
+		if not pasteMission(args[3])then goto fail end
+		repeat table.remove(FIELD)until #FIELD==0
+		FIELD[1]=newBoard()
+		for i=4,#args do
+			if not pasteBoard(args[i],i-3)and i<#args then goto fail end
 		end
-		LOG.print(text.dataCorrupted,COLOR.red)
+		freshMiniFieldVisible()
+		LOG.print(text.importSuccess,COLOR.green)
+		do return end
+		::fail::LOG.print(text.dataCorrupted,COLOR.red)
 	elseif key=="escape"then
 		SCN.back()
 	else
