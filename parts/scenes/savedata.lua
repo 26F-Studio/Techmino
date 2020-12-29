@@ -93,7 +93,6 @@ scene.widgetList={
 		hide=HIDE},
 	WIDGET.newButton{name="resetRecord",	x=640,y=460,w=280,h=100,color="red",
 		code=function()
-			love.filesystem.remove("record")
 			for _,name in next,love.filesystem.getDirectoryItems("record")do
 				love.filesystem.remove("record/"..name)
 			end
