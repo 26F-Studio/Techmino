@@ -1,7 +1,6 @@
 local gc=love.graphics
-local gc_circle=gc.circle
+local gc_setColor,gc_circle=gc.setColor,gc.circle
 local tc=love.touch
-local TIME=TIME
 
 local max,sin=math.max,math.sin
 
@@ -261,18 +260,21 @@ function scene.update(dt)
 end
 
 local function drawAtkPointer(x,y)
-	local t=sin(TIME()*20)
-	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
+	local t=TIME()
+	local a=t*3%1*.8
+	t=sin(t*20)
+
+	gc_setColor(.2,.7+t*.2,1,.6+t*.4)
 	gc_circle("fill",x,y,25,6)
-	local a=TIME()*3%1*.8
-	gc.setColor(0,.6,1,.8-a)
+
+	gc_setColor(0,.6,1,.8-a)
 	gc_circle("line",x,y,30*(1+a),6)
 end
 function scene.draw()
 	local t=TIME()
 	if MARKING then
 		setFont(25)
-		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
+		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(text.marking,190,60+26*sin(t))
 	end
 
@@ -282,7 +284,7 @@ function scene.draw()
 	end
 
 	--Virtual keys
-	gc.setColor(1,1,1)
+	gc_setColor(1,1,1)
 	if SETTING.VKSwitch then
 		local a=SETTING.VKAlpha
 		local _
@@ -291,13 +293,13 @@ function scene.draw()
 			for i=1,#VK do
 				if VK[i].ava then
 					local B=VK[i]
-					gc.setColor(1,1,1,a)
+					gc_setColor(1,1,1,a)
 					gc.setLineWidth(B.r*.07)
 					gc_circle("line",B.x,B.y,B.r,10)--Button outline
 					_=VK[i].pressTime
 					gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
 					if _>0 then
-						gc.setColor(1,1,1,a*_*.08)
+						gc_setColor(1,1,1,a*_*.08)
 						gc_circle("fill",B.x,B.y,B.r*.94,10)--Glow when press
 						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
 					end
@@ -307,12 +309,12 @@ function scene.draw()
 			for i=1,#VK do
 				if VK[i].ava then
 					local B=VK[i]
-					gc.setColor(1,1,1,a)
+					gc_setColor(1,1,1,a)
 					gc.setLineWidth(B.r*.07)
 					gc_circle("line",B.x,B.y,B.r,10)
 					_=VK[i].pressTime
 					if _>0 then
-						gc.setColor(1,1,1,a*_*.08)
+						gc_setColor(1,1,1,a*_*.08)
 						gc_circle("fill",B.x,B.y,B.r*.94,10)
 						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
 					end
@@ -325,7 +327,7 @@ function scene.draw()
 	if GAME.modeEnv.royaleMode then
 		local P=PLAYERS[1]
 		gc.setLineWidth(5)
-		gc.setColor(.8,1,0,.2)
+		gc_setColor(.8,1,0,.2)
 		for i=1,#P.atker do
 			local p=P.atker[i]
 			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+670*P.size)
@@ -343,13 +345,13 @@ function scene.draw()
 	end
 
 	--Mode info
-	gc.setColor(1,1,1,.8)
+	gc_setColor(1,1,1,.8)
 	gc.draw(drawableText.modeName,485,10)
 	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
 
 	--Replaying
 	if GAME.replaying then
-		gc.setColor(1,1,t%1>.5 and 1 or 0)
+		gc_setColor(1,1,t%1>.5 and 1 or 0)
 		mText(drawableText.replaying,410,17)
 	end
 
@@ -363,7 +365,7 @@ function scene.draw()
 		gc.setShader()
 	end
 	if GAME.restartCount>0 then
-		gc.setColor(0,0,0,GAME.restartCount*.05)
+		gc_setColor(0,0,0,GAME.restartCount*.05)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end
 	gc.pop()

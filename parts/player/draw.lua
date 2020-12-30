@@ -1,5 +1,7 @@
 local gc=love.graphics
-local gc_draw,gc_print,gc_rectangle,gc_setColor=gc.draw,gc.print,gc.rectangle,gc.setColor
+local gc_push,gc_pop,gc_scale,gc_translate=gc.push,gc.pop,gc.scale,gc.translate
+local gc_draw,gc_print,gc_line,gc_rectangle,gc_circle=gc.draw,gc.print,gc.line,gc.rectangle,gc.circle
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local TIME=love.timer.getTime
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin=math.max,math.min,math.sin
@@ -17,17 +19,17 @@ local frameColorList={
 --local function drawCell(y,x,id)gc_draw(SKIN.curText[id],30*x-30,-30*y)end
 local function drawGrid(P,alpha)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
-	gc.setLineWidth(1)
+	gc_setLineWidth(1)
 	gc_setColor(1,1,1,alpha)
 	for x=1,9 do
-		gc.line(30*x,-10,30*x,600)
+		gc_line(30*x,-10,30*x,600)
 	end
-	gc.push("transform")
-	gc.translate(0,FBN+FUP-30*int((FBN+FUP)/30))
+	gc_push("transform")
+	gc_translate(0,FBN+FUP-30*int((FBN+FUP)/30))
 	for y=0,19 do
-		gc.line(0,30*y,300,30*y)
+		gc_line(0,30*y,300,30*y)
 	end
-	gc.pop()
+	gc_pop()
 end
 local function drawField(P)
 	local V,F=P.visTime,P.field
@@ -54,11 +56,11 @@ local function drawField(P)
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 		local A=P.falling/ENV.fall
 		local h=1
-		gc.push("transform")
+		gc_push("transform")
 			for j=start,min(start+21,#F)do
 				while j==P.clearingRow[h]do
 					h=h+1
-					gc.translate(0,-stepY)
+					gc_translate(0,-stepY)
 					gc_setColor(1,1,1,A)
 					gc_rectangle("fill",0,30-30*j,300,stepY)
 				end
@@ -74,7 +76,7 @@ local function drawField(P)
 					end
 				end
 			end
-		gc.pop()
+		gc_pop()
 	end
 end
 local function drawFXs(P)
@@ -168,8 +170,8 @@ function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local N=ENV.nextCount*72
 	local texture=SKIN.curText
-	gc.push("transform")
-	gc.translate(316,116)
+	gc_push("transform")
+	gc_translate(316,116)
 		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
 		mText(drawableText.next,62,-131)
@@ -190,17 +192,17 @@ function draw.drawNext_norm(P)
 			gc_setColor(.8,.5,.5)
 			for i=phase,N-1,len do
 				local y=72*i-77
-				gc.line(2+P.fieldOff.x,y,120,y)
+				gc_line(2+P.fieldOff.x,y,120,y)
 			end
 		end
-	gc.pop()
+	gc_pop()
 end
 function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
 	local N=ENV.nextCount*72
 	local texture=SKIN.curText
-	gc.push("transform")
-	gc.translate(316,116)
+	gc_push("transform")
+	gc_translate(316,116)
 		gc_setColor(.5,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
 		mText(drawableText.next,62,-131)
@@ -221,16 +223,16 @@ function draw.drawNext_hidden(P)
 			gc_setColor(.8,.5,.5)
 			for i=phase,N-1,len do
 				local y=72*i-77
-				gc.line(2+P.fieldOff.x,y,120,y)
+				gc_line(2+P.fieldOff.x,y,120,y)
 			end
 		end
-	gc.pop()
+	gc_pop()
 end
 
 function draw.drawHold_norm(P)
 	local texture=SKIN.curText
-	gc.push("transform")
-	gc.translate(-140,116)
+	gc_push("transform")
+	gc_translate(-140,116)
 		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,80)
 		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,80)
 		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
@@ -245,14 +247,14 @@ function draw.drawHold_norm(P)
 				end
 			end end
 		end
-	gc.pop()
+	gc_pop()
 end
 function draw.drawHold_multi(P)
 	local ENV=P.gameEnv
 	local N=ENV.holdCount*72
 	local texture=SKIN.curText
-	gc.push("transform")
-	gc.translate(-140,116)
+	gc_push("transform")
+	gc_translate(-140,116)
 		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
 		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
@@ -273,15 +275,15 @@ function draw.drawHold_multi(P)
 				end
 			end end
 		end
-	gc.pop()
+	gc_pop()
 end
 
 function draw.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
-		gc.setLineWidth(4)
+		gc_setLineWidth(4)
 		gc_setColor(1,r>10 and 0 or rnd(),.5)
 		local dx,dy=150+P.fieldOff.x,P.fieldOff.y+P.fieldBeneath+P.fieldUp
-		gc.line(dx,600-30*r+dy,300+dx,600-30*r+dy)
+		gc_line(dx,600-30*r+dy,300+dx,600-30*r+dy)
 	end
 end
 
@@ -297,14 +299,14 @@ local function drawDial(x,y,speed)
 	gc_setColor(1,1,1)
 	mStr(int(speed),x,y-18)
 
-	gc.setLineWidth(2)
-	gc.circle("line",x,y,30,6)
+	gc_setLineWidth(2)
+	gc_circle("line",x,y,30,6)
 
 	gc_draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
 
-	gc.setLineWidth(4)
+	gc_setLineWidth(4)
 	gc_setColor(1,1,1,.4)
-	gc.circle("line",x,y,30,6)
+	gc_circle("line",x,y,30,6)
 end
 local hideBoardStencil={
 	up=function()gc_rectangle("fill",0,0,300,300)end,
@@ -316,16 +318,16 @@ function draw.norm(P)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
-	gc.push("transform")
-		gc.translate(P.x,P.y)gc.scale(P.size)
+	gc_push("transform")
+		gc_translate(P.x,P.y)gc_scale(P.size)
 
 		--Field-related things
-		gc.push("transform")
-			gc.translate(150,0)
+		gc_push("transform")
+			gc_translate(150,0)
 
 			--Things shake with field
-			gc.push("transform")
-				gc.translate(P.fieldOff.x,P.fieldOff.y)
+			gc_push("transform")
+				gc_translate(P.fieldOff.x,P.fieldOff.y)
 
 				--Fill field
 				gc_setColor(0,0,0,.6)
@@ -335,20 +337,20 @@ function draw.norm(P)
 				if ENV.grid then drawGrid(P,ENV.grid)end
 
 				--In-field things
-				gc.push("transform")
+				gc_push("transform")
 					if ENV.flipBoard then
 						if ENV.flipBoard=="U-D"then
-							gc.translate(0,590)
-							gc.scale(1,-1)
+							gc_translate(0,590)
+							gc_scale(1,-1)
 						elseif ENV.flipBoard=="L-R"then
-							gc.translate(300,0)
-							gc.scale(-1,1)
+							gc_translate(300,0)
+							gc_scale(-1,1)
 						elseif ENV.flipBoard=="180"then
-							gc.translate(300,590)
-							gc.scale(-1,-1)
+							gc_translate(300,590)
+							gc_scale(-1,-1)
 						end
 					end
-					gc.translate(0,600+FBN+FUP)
+					gc_translate(0,600+FBN+FUP)
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
 					--Draw dangerous area
@@ -360,8 +362,8 @@ function draw.norm(P)
 
 					--Draw spawn line
 					gc_setColor(1,sin(t)*.4+.5,0,.5)
-					gc.setLineWidth(4)
-					gc.line(0,-600-FBN,300,-600-FBN)
+					gc_setLineWidth(4)
+					gc_line(0,-600-FBN,300,-600-FBN)
 
 					--Draw FXs
 					drawFXs(P)
@@ -374,7 +376,7 @@ function draw.norm(P)
 						if ENV.ghost then drawGhost(P,curColor)end
 
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
-						gc.translate(0,-dy)
+						gc_translate(0,-dy)
 						local trans=P.lockDelay/ENV.lock
 
 						--Draw block
@@ -389,7 +391,7 @@ function draw.norm(P)
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(IMG.spinCenter,x,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
 						end
-						gc.translate(0,dy)
+						gc_translate(0,dy)
 						if ENV.center and ENV.ghost then
 							gc_setColor(1,1,1,trans*ENV.center)
 							gc_draw(IMG.spinCenter,x,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
@@ -402,9 +404,9 @@ function draw.norm(P)
 					end
 
 					gc.setScissor()
-				gc.pop()
+				gc_pop()
 
-				gc.setLineWidth(2)
+				gc_setLineWidth(2)
 				gc_setColor(frameColorList[P.frameColor])
 				gc_rectangle("line",-1,-11,302,612)--Boarder
 				gc_rectangle("line",301,-3,15,604)--AtkBuffer boarder
@@ -491,25 +493,25 @@ function draw.norm(P)
 				if ENV.hideBoard then
 					gc.stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
 					gc.setStencilTest("equal",1)
-					gc.setLineWidth(20)
+					gc_setLineWidth(20)
 					for i=0,24 do
 						gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
-						gc.line(20*i-190,-2,20*i+10,602)
+						gc_line(20*i-190,-2,20*i+10,602)
 					end
 					gc.setStencilTest()
 				end
-			gc.pop()
+			gc_pop()
 
 			--Bonus texts
 			TEXT.draw(P.bonus)
 
 			--Display Ys
-			-- gc.setLineWidth(6)
-			-- if P.curY then	gc_setColor(1,.4,0,.42)gc.line(0,611-P.curY*30,300,611-P.curY*30)end
-			-- if P.ghoY then	gc_setColor(0,1,.4,.42)gc.line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
-			-- if P.minY then	gc_setColor(0,.4,1,.42)gc.line(0,619-P.minY*30,300,619-P.minY*30)end
-			-- 				gc_setColor(0,.4,1,.42)gc.line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
-		gc.pop()
+			-- gc_setLineWidth(6)
+			-- if P.curY then	gc_setColor(1,.4,0,.42)gc_line(0,611-P.curY*30,300,611-P.curY*30)end
+			-- if P.ghoY then	gc_setColor(0,1,.4,.42)gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
+			-- if P.minY then	gc_setColor(0,.4,1,.42)gc_line(0,619-P.minY*30,300,619-P.minY*30)end
+			-- 				gc_setColor(0,.4,1,.42)gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
+		gc_pop()
 
 		--Speed dials
 		setFont(25)
@@ -547,11 +549,11 @@ function draw.norm(P)
 				gc_setColor(1,1,1,1.2-_*.1)
 			end
 			if _>0 then
-				gc.push("transform")
-				gc.translate(20,600)
-				gc.scale(1+_*.08)
+				gc_push("transform")
+				gc_translate(20,600)
+				gc_scale(1+_*.08)
 				gc_print(str,0,-30)
-				gc.pop()
+				gc_pop()
 			else
 				gc_print(str,20,570)
 			end
@@ -609,14 +611,14 @@ function draw.norm(P)
 		gc_setColor(1,1,1)
 		if GAME.frame<180 then
 			local count=179-GAME.frame
-			gc.push("transform")
-				gc.translate(305,220)
+			gc_push("transform")
+				gc_translate(305,220)
 				setFont(95)
-				if count%60>45 then gc.scale(1+(count%60-45)^2*.01,1)end
+				if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
 				mStr(int(count/60+1),0,0)
-			gc.pop()
+			gc_pop()
 		end
-	gc.pop()
+	gc_pop()
 end
 
 function draw.small(P)
@@ -626,7 +628,7 @@ function draw.small(P)
 		P.frameWait=10
 		gc.setCanvas(P.canvas)
 		gc.clear(0,0,0,.4)
-		gc.push("transform")
+		gc_push("transform")
 		gc.origin()
 		gc_setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
 
@@ -641,7 +643,7 @@ function draw.small(P)
 
 		--Draw boarder
 		if P.alive then
-			gc.setLineWidth(2)
+			gc_setLineWidth(2)
 			gc_setColor(frameColorList[P.frameColor])
 			gc_rectangle("line",0,0,60,120)
 		end
@@ -660,7 +662,7 @@ function draw.small(P)
 			setFont(20)mStr(P.result,32,47)
 			setFont(15)mStr(P.modeData.event,30,82)
 		end
-		gc.pop()
+		gc_pop()
 		gc.setCanvas()
 	end
 
@@ -668,9 +670,9 @@ function draw.small(P)
 	gc_setColor(1,1,1)
 	gc_draw(P.canvas,P.x,P.y,nil,P.size*10)
 	if P.killMark then
-		gc.setLineWidth(3)
+		gc_setLineWidth(3)
 		gc_setColor(1,0,0,min(P.endCounter,25)*.04)
-		gc.circle("line",P.centerX,P.centerY,(840-20*min(P.endCounter,30))*P.size)
+		gc_circle("line",P.centerX,P.centerY,(840-20*min(P.endCounter,30))*P.size)
 	end
 	setFont(30)
 end
@@ -681,34 +683,34 @@ function draw.demo(P)
 	local curColor=P.cur.color
 
 	--Camera
-	gc.push("transform")
-		gc.translate(P.x,P.y)
-		gc.scale(P.size)
-		gc.push("transform")
-			gc.translate(P.fieldOff.x,P.fieldOff.y)
+	gc_push("transform")
+		gc_translate(P.x,P.y)
+		gc_scale(P.size)
+		gc_push("transform")
+			gc_translate(P.fieldOff.x,P.fieldOff.y)
 
 			--Frame
 			gc_setColor(0,0,0,.6)
 			gc_rectangle("fill",0,0,300,600)
-			gc.setLineWidth(2)
+			gc_setLineWidth(2)
 			gc_setColor(1,1,1)
 			gc_rectangle("line",-1,-1,302,602)
 
-			gc.push("transform")
-				gc.translate(0,600)
+			gc_push("transform")
+				gc_translate(0,600)
 				drawField(P)
 				drawFXs(P)
 				if P.cur and P.waiting==-1 then
 					if ENV.ghost then drawGhost(P,curColor)end
 					if ENV.block then
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
-						gc.translate(0,-dy)
+						gc_translate(0,-dy)
 						drawBlockOutline(P,SKIN.curText[curColor],P.lockDelay/ENV.lock)
 						drawBlock(P,curColor)
-						gc.translate(0,dy)
+						gc_translate(0,dy)
 					end
 				end
-			gc.pop()
+			gc_pop()
 
 			local blockImg=TEXTURE.miniBlock
 			local libColor=SKIN.libColor
@@ -734,9 +736,9 @@ function draw.demo(P)
 				gc_draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 				N=N+1
 			end
-		gc.pop()
+		gc_pop()
 		TEXT.draw(P.bonus)
-	gc.pop()
+	gc_pop()
 end
 
 return draw
