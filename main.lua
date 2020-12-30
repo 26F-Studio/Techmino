@@ -141,6 +141,7 @@ SKIN.init{
 	"PolkaDots(ScF)",
 	"Smooth(MrZ)",
 	"Glass(ScF)",
+	"Trapezoid(ScF)",
 	"Penta(ScF)",
 	"Bubble(ScF)",
 	"Shape(ScF)",
