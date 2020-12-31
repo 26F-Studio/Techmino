@@ -102,7 +102,9 @@ function scene.touchMove()
 	end
 end
 function scene.keyDown(key)
-	if not noKey then
+	if key=="escape"then
+		pauseGame()
+	elseif not noKey then
 		local m=keyMap
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
@@ -113,7 +115,6 @@ function scene.keyDown(key)
 			end
 		end
 	end
-	if key=="escape"then pauseGame()end
 end
 function scene.keyUp(key)
 	if noKey then return end

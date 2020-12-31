@@ -50,10 +50,8 @@ local function releaseKey(P,keyID)
 end
 local function pressKey_Rec(P,keyID)
 	if P.keyAvailable[keyID]then
-		if GAME.recording then
-			ins(GAME.rep,GAME.frame+1)
-			ins(GAME.rep,keyID)
-		end
+		ins(GAME.rep,GAME.frame+1)
+		ins(GAME.rep,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
@@ -66,10 +64,8 @@ local function pressKey_Rec(P,keyID)
 	end
 end
 local function releaseKey_Rec(P,keyID)
-	if GAME.recording then
-		ins(GAME.rep,GAME.frame+1)
-		ins(GAME.rep,-keyID)
-	end
+	ins(GAME.rep,GAME.frame+1)
+	ins(GAME.rep,-keyID)
 	P.keyPressing[keyID]=false
 end
 local function newEmptyPlayer(id,mini)
