@@ -1,4 +1,5 @@
-local min=math.min
+local rnd,min=math.random,math.min
+local rem=table.remove
 local function check_c4w(P)
 	if P.lastPiece.row==0 then
 		P:lose()
@@ -35,13 +36,20 @@ return{
 			P.visTime[i]=FREEROW.get(20)
 			for x=4,7 do F[i][x]=0 end
 		end
-		local r=P:RND(6)
-		if r==1 then	 F[1][5],F[1][4],F[2][4]=20,20,20
-		elseif r==2 then F[1][6],F[1][7],F[2][7]=20,20,20
-		elseif r==3 then F[1][4],F[2][4],F[2][5]=20,20,20
-		elseif r==4 then F[1][7],F[2][7],F[2][6]=20,20,20
-		elseif r==5 then F[1][4],F[1][5],F[1][6]=20,20,20
-		elseif r==6 then F[1][7],F[1][6],F[1][5]=20,20,20
+		if rnd()<.6 then
+			local initCell={11,14,12,13,21,24}
+			for _=1,3 do
+				_=rem(initCell,rnd(#initCell))
+				F[math.floor(_/10)][3+_%10]=20
+			end
+		else
+			local initCell={11,12,13,14,21,22,23,24}
+			rem(initCell,rnd(5,8))
+			rem(initCell,rnd(1,4))
+			for _=1,6 do
+				_=rem(initCell,rnd(#initCell))
+				F[math.floor(_/10)][3+_%10]=20
+			end
 		end
 	end,
 	mesDisp=function(P)
