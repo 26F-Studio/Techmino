@@ -91,6 +91,7 @@ return{
 	wsFailed="WS连接失败",
 	wsDisconnected="WS连接断开",
 	wsNoConn="WS未连接",
+	waitNetTask="正在连接,请稍候",
 
 	chatJoin="进入房间",
 	chatLeave="离开房间",
@@ -99,6 +100,7 @@ return{
 	chatHistory="------以上是历史消息------",
 	chatQuit="再按一次退出",
 
+	noRooms="一个房间都没有哎...",
 	roomsFetchFailed="拉取房间列表失败",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
@@ -250,6 +252,11 @@ return{
 			ffa="FFA",
 			rooms="房间列表",
 			chat="聊天室",
+		},
+		net_rooms={
+			fresh="刷新",
+			up="↑",
+			down="↓",
 		},
 		net_chat={
 			clear="清空",

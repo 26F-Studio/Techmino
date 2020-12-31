@@ -90,6 +90,7 @@ return{
 	wsFailed="WebSocket: connection failed",
 	wsDisconnected="WebSocket: disconnected",
 	wsNoConn="WebSocket: you are not connected",
+	waitNetTask="Connecting, please wait",
 
 	chatJoin="joined the room.",
 	chatLeave="left the room.",
@@ -98,6 +99,7 @@ return{
 	chatHistory="------New messages below------",
 	chatQuit="Press again to exit",
 
+	noRooms="No Rooms Now",
 	roomsFetchFailed="Failed to fetch rooms",
 
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
@@ -247,6 +249,11 @@ return{
 			ffa="FFA",
 			rooms="Rooms",
 			chat="Chat",
+		},
+		net_rooms={
+			fresh="Fresh",
+			up="↑",
+			down="↓",
 		},
 		net_chat={
 			clear="Clear",
