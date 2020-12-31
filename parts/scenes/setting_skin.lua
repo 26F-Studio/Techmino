@@ -4,25 +4,29 @@ local sin=math.sin
 local scene={}
 
 function scene.draw()
+	local t=TIME()
 	gc.setColor(1,1,1)
 	local texture=SKIN.curText
 	for N=1,7 do
-		local face=SETTING.face[N]
+		gc.push("transform")
+		gc.translate(-10+140*N,340)
+		gc.rotate(SETTING.face[N]*1.57+sin(t*3-N*.5)*.08)
 		local color=SETTING.skin[N]
-		local B=BLOCKS[N][face]
-		local x,y=-55+140*N-spinCenters[N][face][2]*30,355+spinCenters[N][face][1]*30
+		local B=BLOCKS[N][0]
+		local x,y=-45-spinCenters[N][0][2]*30,15+spinCenters[N][0][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then
 				gc.draw(texture[color],x+30*j,y-30*i)
 			end
 		end end
-		gc.circle("fill",-10+140*N,340,sin(TIME()*10)+5)
+		gc.circle("fill",0,0,sin(t*10)+5)
+		gc.pop()
 	end
-	gc.draw(texture[17],930,610,nil,2)
 	for i=1,5 do
-		gc.draw(texture[19+i],570+60*i,610,nil,2)
+		gc.draw(texture[19+i],570+60*i,610+sin(2.6*t-i)*5,nil,2)
 	end
+	gc.draw(texture[17],930,610+sin(2.6*t-6)*5,nil,2)
 end
 
 local function prevSkin(n)return function()SKIN.prev(n)end end
