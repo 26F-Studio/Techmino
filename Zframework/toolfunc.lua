@@ -561,6 +561,10 @@ do--httpRequest & wsConnect
 		end
 
 		function wsConnect(tick,path,header)
+			if TASK.netTaskCount>0 then
+				LOG.print(text.waitNetTask,"message")
+				return
+			end
 			local task,err=client.wsraw{
 				url="ws://krakens.tpddns.cn:10026"..path,
 				origin="krakens.tpddns.cn",
