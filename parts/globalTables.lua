@@ -138,12 +138,14 @@ for i=1,#MODOPT do
 end
 PATH={--Network API paths
 	api="/tech/api/v1",
-	socket="/tech/socket/v1",
 	appInfo="/app/info",
 	users="/users",
 	auth="/auth",
 	access="/auth/access",
 	rooms="/online/rooms",
+
+	socket="/tech/socket/v1",
+	play_room="/play_room",
 	chat_room="/chat_room",
 }
 
