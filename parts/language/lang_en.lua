@@ -248,7 +248,7 @@ return{
 			rooms="Rooms",
 			chat="Chat",
 		},
-		chat={
+		net_chat={
 			clear="Clear",
 			send="Send",
 		},

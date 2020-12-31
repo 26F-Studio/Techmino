@@ -40,11 +40,8 @@ function scene.sceneInit()
 	end
 	scrollPos=#texts
 	TASK.new(focusAtTextbox)--Widgets are not initialized, so active after 1 frame
+	TASK.new(TICK.ws_read)
 	BG.set("none")
-	wsConnect(
-		TICK.wsCONN_connect,
-		PATH.socket..PATH.chat.."?email="..urlEncode(USER.email).."&access_token="..urlEncode(USER.access_token)
-	)
 end
 function scene.sceneBack()
 	wsWrite("/quit")

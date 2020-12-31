@@ -39,7 +39,7 @@ function Tick.httpREQ_getAccessToken(task)
 	end
 end
 
-local function tick_wsCONN_read()
+function Tick.ws_read()
 	while true do
 		coroutine.yield()
 		if not WSCONN then return end
@@ -60,26 +60,4 @@ local function tick_wsCONN_read()
 		end
 	end
 end
-function Tick.wsCONN_connect(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local wsconn,connErr=client.poll(task)
-		if wsconn then
-			WSCONN=wsconn
-			TASK.new(tick_wsCONN_read)
-			LOG.print(text.wsSuccessed,"warn")
-			return
-		elseif connErr then
-			LOG.print(text.wsFailed..": "..connErr,"warn")
-			return
-		end
-		time=time+1
-		if time>360 then
-			LOG.print(text.wsFailed..": "..text.httpTimeout,"message")
-			return
-		end
-	end
-end
-
 return Tick

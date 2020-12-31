@@ -251,7 +251,7 @@ return{
 			rooms="房间列表",
 			chat="聊天室",
 		},
-		chat={
+		net_chat={
 			clear="清空",
 			send="发送",
 		},

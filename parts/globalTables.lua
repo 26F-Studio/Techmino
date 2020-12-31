@@ -144,8 +144,7 @@ PATH={--Network API paths
 	auth="/auth",
 	access="/auth/access",
 	rooms="/online/rooms",
-	enterRoom="/online/enterRoom/",
-	chat="/chat",
+	chat_room="/chat_room",
 }
 
 --Game tables
