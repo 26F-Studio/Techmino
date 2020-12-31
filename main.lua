@@ -136,12 +136,12 @@ IMG.init{
 	hbm="mess/hbm.png",
 }
 SKIN.init{
-	"Normal(MrZ)",
+	"Crystal(ScF)",
 	"Contrast(MrZ)",
 	"PolkaDots(ScF)",
+	"Toy(ScF)",
 	"Smooth(MrZ)",
 	"Glass(ScF)",
-	"Trapezoid(ScF)",
 	"Penta(ScF)",
 	"Bubble(ScF)",
 	"Shape(ScF)",
