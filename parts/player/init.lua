@@ -131,7 +131,6 @@ local function newEmptyPlayer(id,mini)
 
 	--P.cur={bk=matrix[2], id=shapeID, color=colorID, name=nameID}
 	--P.sc,P.dir={0,0},0--SpinCenterCoord, direction
-	--P.r,P.c=0,0--row, col
 	-- P.curX,P.curY,P.ghoY,P.minY=0,0,0,0--x,y,ghostY
 	P.holdQueue={}
 	P.holdTime=0

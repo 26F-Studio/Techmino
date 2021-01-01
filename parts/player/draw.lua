@@ -121,8 +121,9 @@ end
 local function drawGhost(P,clr)
 	gc_setColor(1,1,1,P.gameEnv.ghost)
 	local texture=SKIN.curText
-	for i=1,P.r do for j=1,P.c do
-		if P.cur.bk[i][j]then
+	local CB=P.cur.bk
+	for i=1,#CB do for j=1,#CB[1]do
+		if CB[i][j]then
 			gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))-- drawCell(i+P.ghoY-1,j+P.curX-1,clr)
 		end
 	end end
@@ -130,9 +131,9 @@ end
 local function drawBlockOutline(P,texture,trans)
 	SHADER.alpha:send("a",trans)
 	gc.setShader(SHADER.alpha)
-	local B=P.cur.bk
-	for i=1,P.r do for j=1,P.c do
-		if B[i][j]then
+	local CB=P.cur.bk
+	for i=1,#CB do for j=1,#CB[1]do
+		if CB[i][j]then
 			local x=30*(j+P.curX)-60-3
 			local y=30-30*(i+P.curY)-3
 			gc_draw(texture,x,y)
@@ -146,9 +147,9 @@ end
 local function drawBlock(P,clr)
 	gc_setColor(1,1,1)
 	local texture=SKIN.curText
-	local B=P.cur.bk
-	for i=1,P.r do for j=1,P.c do
-		if B[i][j]then
+	local CB=P.cur.bk
+	for i=1,#CB do for j=1,#CB[1]do
+		if CB[i][j]then
 			gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.curY-1))-- drawCell(i+P.curY-1,j+P.curX-1,clr)
 		end
 	end end

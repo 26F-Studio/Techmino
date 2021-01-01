@@ -22,18 +22,18 @@ function Player.showTextF(P,text,dx,dy,font,style,spd,stop)
 	ins(P.bonus,TEXT.getText(text,150+dx,300+dy,font*P.size,style,spd,stop))
 end
 function Player.createLockFX(P)
-	local BK=P.cur.bk
+	local CB=P.cur.bk
 	local t=12-P.gameEnv.lockFX*2
 
-	for i=1,P.r do
+	for i=1,#CB do
 		local y=P.curY+i-1
 		local L=P.clearedRow
 		for j=1,#L do
 			if L[j]==y then goto continue end
 		end
 		y=-30*y
-		for j=1,P.c do
-			if BK[i][j]then
+		for j=1,#CB[1]do
+			if CB[i][j]then
 				ins(P.lockFX,{30*(P.curX+j-2),y,0,t})
 			end
 		end
@@ -46,31 +46,32 @@ end
 function Player.createMoveFX(P,dir)
 	local T=10-1.5*P.gameEnv.moveFX
 	local C=P.cur.color
+	local CB=P.cur.bk
 	local x=P.curX-1
 	local y=P.gameEnv.smooth and P.curY+P.dropDelay/P.gameEnv.drop-2 or P.curY-1
 	if dir=="left"then
-		for i=1,P.r do for j=P.c,1,-1 do
+		for i=1,#CB do for j=#CB[1],1,-1 do
 			if P.cur.bk[i][j]then
 				ins(P.moveFX,{C,x+j,y+i,0,T})
 				break
 			end
 		end end
 	elseif dir=="right"then
-		for i=1,P.r do for j=1,P.c do
+		for i=1,#CB do for j=1,#CB[1]do
 			if P.cur.bk[i][j]then
 				ins(P.moveFX,{C,x+j,y+i,0,T})
 				break
 			end
 		end end
 	elseif dir=="down"then
-		for j=1,P.c do for i=P.r,1,-1 do
+		for j=1,#CB[1]do for i=#CB,1,-1 do
 			if P.cur.bk[i][j]then
 				ins(P.moveFX,{C,x+j,y+i,0,T})
 				break
 			end
 		end end
 	else
-		for i=1,P.r do for j=1,P.c do
+		for i=1,#CB do for j=1,#CB[1]do
 			if P.cur.bk[i][j]then
 				ins(P.moveFX,{C,x+j,y+i,0,T})
 			end
@@ -405,7 +406,7 @@ function Player.changeAtk(P,R)
 end
 function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 	local ENV=P.gameEnv
-
+	local CB=P.cur.bk
 	--Fresh ghost
 	if(mode=="push"or mode=="move"or mode=="newBlock")and P.cur then
 		P.ghoY=min(#P.field+1,P.curY)
@@ -413,7 +414,7 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 			local _=P.ghoY
 
 			--Move ghost to bottom
-			while not P:ifoverlap(P.cur.bk,P.curX,P.ghoY-1)do
+			while not P:ifoverlap(CB,P.curX,P.ghoY-1)do
 				P.ghoY=P.ghoY-1
 			end
 
@@ -424,8 +425,8 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 
 			--Create FX if dropped
 			if P.curY>P.ghoY then
-				if ENV.dropFX and ENV.block and P.curY-P.ghoY-P.r>-1 then
-					P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.ghoY-P.r+1)
+				if ENV.dropFX and ENV.block and P.curY-P.ghoY-#CB>-1 then
+					P:createDropFX(P.curX,P.curY-1,#CB[1],P.curY-P.ghoY-#CB+1)
 				end
 				if ENV.shakeFX then
 					P.fieldOff.vy=ENV.shakeFX*.5
@@ -433,7 +434,7 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 				P.curY=P.ghoY
 			end
 		else
-			while not P:ifoverlap(P.cur.bk,P.curX,P.ghoY-1)do
+			while not P:ifoverlap(CB,P.curX,P.ghoY-1)do
 				P.ghoY=P.ghoY-1
 			end
 		end
@@ -470,25 +471,24 @@ end
 function Player.lock(P)
 	local dest=P.AI_dest
 	local has_dest=dest~=nil
-	for i=1,P.r do
+	local CB=P.cur.bk
+	for i=1,#CB do
 		local y=P.curY+i-1
 		if not P.field[y]then P.field[y],P.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
-		for j=1,P.c do
-			if P.cur.bk[i][j]then
+		for j=1,#CB[1]do
+			if CB[i][j]then
 				P.field[y][P.curX+j-1]=P.cur.color
 				P.visTime[y][P.curX+j-1]=P.showTime
 				local x=P.curX+j-1
 				if dest then
-					local original_length=#dest
-					for k=1,original_length do
+					for k=1,#dest do
 						if x==dest[k][1]and y==dest[k][2]then
-							rem(dest, k)
-							break
+							rem(dest,k)
+							goto success
 						end
 					end
-					if #dest~=original_length-1 then
-						dest=nil
-					end
+					dest=nil
+					::success::
 				end
 			end
 		end
@@ -500,14 +500,13 @@ end
 
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]="spawn_"..i end
 function Player.resetBlock(P)
-	local C=P.cur
-	local id=C.id
+	local B=P.cur.bk
+	local id=P.cur.id
 	local face=P.gameEnv.face[id]
 	local sc=scs[id][face]
 	P.sc=sc					--Spin center
 	P.dir=face				--Block direction
-	P.r,P.c=#C.bk,#C.bk[1]	--Row/column
-	P.curX=int(6-P.c*.5)
+	P.curX=int(6-#B[1]*.5)
 	local y=21+ceil(P.fieldBeneath/30)
 	P.curY=y
 	P.minY=y+sc[2]
@@ -516,7 +515,7 @@ function Player.resetBlock(P)
 	--IMS
 	if P.gameEnv.ims and(_[1]and P.movDir==-1 or _[2]and P.movDir==1)and P.moving>=P.gameEnv.das then
 		local x=P.curX+P.movDir
-		if not P:ifoverlap(C.bk,x,y)then
+		if not P:ifoverlap(B,x,y)then
 			P.curX=x
 		end
 	end
@@ -555,7 +554,6 @@ function Player.spin(P,d,ifpre)
 		local idir=(P.dir+d)%4
 		local icb=BLOCKS[P.cur.id][idir]
 		local isc=scs[P.cur.id][idir]
-		local ir,ic=#icb,#icb[1]
 		local ix,iy=P.curX+P.sc[2]-isc[2],P.curY+P.sc[1]-isc[1]
 		iki=iki[P.dir*10+idir]
 		if not iki then
@@ -574,7 +572,6 @@ function Player.spin(P,d,ifpre)
 				end
 				P.curX,P.curY,P.dir=ix,iy,idir
 				P.sc,P.cur.bk=scs[P.cur.id][idir],icb
-				P.r,P.c=ir,ic
 				P.spinLast=test==2 and 0 or 1
 				if not ifpre then
 					P:freshBlock("move")
@@ -869,7 +866,7 @@ do--Player.drop(P)--Place piece
 
 		local finish
 		local cmb=P.combo
-		local CB,CX,CY=P.cur,P.curX,P.curY
+		local C,CB,CX,CY=P.cur,P.cur.bk,P.curX,P.curY
 		local clear--If clear with no line fall
 		local cc,gbcc=0,0--Row/garbage-row cleared,full-part
 		local atk,exblock=0,0--Attack & extra defense
@@ -877,12 +874,12 @@ do--Player.drop(P)--Place piece
 		local cscore,sendTime=10,0--Score & send Time
 		local dospin,mini=0
 
-		piece.id,piece.name=CB.id,CB.name
+		piece.id,piece.name=C.id,C.name
 		P.waiting=ENV.wait
 
 		--Tri-corner spin check
 		if P.spinLast then
-			if CB.id<6 then
+			if C.id<6 then
 				local x,y=CX+P.sc[2],CY+P.sc[1]
 				local c=0
 				if P:solid(x-1,y+1)then c=c+1 end
@@ -895,7 +892,7 @@ do--Player.drop(P)--Place piece
 			::NTC::
 		end
 		--Immovable spin check
-		if P:ifoverlap(CB.bk,CX,CY+1)and P:ifoverlap(CB.bk,CX-1,CY)and P:ifoverlap(CB.bk,CX+1,CY)then
+		if P:ifoverlap(CB,CX,CY+1)and P:ifoverlap(CB,CX-1,CY)and P:ifoverlap(CB,CX+1,CY)then
 			dospin=dospin+2
 		end
 
@@ -906,13 +903,14 @@ do--Player.drop(P)--Place piece
 		if P.clearedRow[1]then P.clearedRow={}end
 
 		--Check line clear
-		for i=1,P.r do
+		for i=1,#CB do
+			print("i"..i)
 			local h=CY+i-2
 
 			--Bomb trigger
 			if h>0 and P.field[h]and P.clearedRow[cc]~=h then
-				for x=1,P.c do
-					if CB.bk[i][x]and P.field[h][CX+x-1]==19 then
+				for x=1,#CB[1]do
+					if CB[i][x]and P.field[h][CX+x-1]==19 then
 						cc=cc+1
 						P.clearingRow[cc]=h-cc+1
 						P.clearedRow[cc]=h
@@ -924,6 +922,7 @@ do--Player.drop(P)--Place piece
 			h=h+1
 			--Row filled
 			for x=1,10 do
+				print("x="..x)
 				if P.field[h][x]<=0 then
 					goto notFull
 				end
@@ -965,7 +964,7 @@ do--Player.drop(P)--Place piece
 			if cc>0 then
 				dospin=dospin+(P.spinLast or 0)
 				if dospin<3 then
-					mini=CB.id<6 and cc<P.r
+					mini=C.id<6 and cc<#CB
 				end
 			end
 		else
@@ -976,12 +975,10 @@ do--Player.drop(P)--Place piece
 		local finesse
 		if CY<=18 then
 			local y0=CY
-			local c=P.c
-			local B=CB.bk
-			for x=1,c do
+			for x=1,#CB[1]do
 				local y
-				for i=#B,1,-1 do
-					if B[i][x]then
+				for i=#CB,1,-1 do
+					if CB[i][x]then
 						y=i
 						goto L1
 					end
@@ -1025,7 +1022,7 @@ do--Player.drop(P)--Place piece
 		end
 		if P.clearingRow[1]then
 			P.falling=ENV.fall
-		elseif cc==P.r then
+		elseif cc==#C.bk then
 			clear=true
 		end
 
@@ -1033,7 +1030,7 @@ do--Player.drop(P)--Place piece
 		local finePts
 		if not finesse then
 			if dospin then P.ctrlCount=P.ctrlCount-2 end--Allow 2 more step for roof-less spin
-			local id=CB.id
+			local id=C.id
 			local d=P.ctrlCount-finesseList[id][P.dir+1][CX]
 			finePts=d<=0 and 5 or max(3-d,0)
 		else
@@ -1071,9 +1068,9 @@ do--Player.drop(P)--Place piece
 		if cc>0 then--If lines cleared, about 200 lines below
 			cmb=cmb+1
 			if dospin then
-				cscore=(spinSCR[CB.name]or spinSCR[8])[cc]
+				cscore=(spinSCR[C.name]or spinSCR[8])[cc]
 				if P.b2b>800 then
-					P:showText(text.b3b..text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,35,"stretch")
+					P:showText(text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,"stretch")
 					atk=b2bATK[cc]+cc*.5
 					exblock=exblock+1
 					cscore=cscore*2
@@ -1082,7 +1079,7 @@ do--Player.drop(P)--Place piece
 						VOC.play("b3b",CHN)
 					end
 				elseif P.b2b>=50 then
-					P:showText(text.b2b..text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,35,"spin")
+					P:showText(text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,"spin")
 					atk=b2bATK[cc]
 					cscore=cscore*1.2
 					STAT.b2b=STAT.b2b+1
@@ -1090,7 +1087,7 @@ do--Player.drop(P)--Place piece
 						VOC.play("b2b",CHN)
 					end
 				else
-					P:showText(text.block[CB.name]..text.spin.." "..text.clear[cc],0,-30,45,"spin")
+					P:showText(text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,45,"spin")
 					atk=2*cc
 				end
 				sendTime=20+atk*20
@@ -1110,7 +1107,7 @@ do--Player.drop(P)--Place piece
 				piece.special=true
 				if P.sound then
 					SFX.play(spinSFX[cc]or"spin_3")
-					VOC.play(spinVoice[CB.name],CHN)
+					VOC.play(spinVoice[C.name],CHN)
 				end
 			elseif cc>=4 then
 				cscore=cc==4 and 1000 or cc==5 and 1500 or 2000
@@ -1235,7 +1232,7 @@ do--Player.drop(P)--Place piece
 							local M=#P.atker
 							if M>0 then
 								for i=1,M do
-									P:attack(P.atker[i],send,CB.color)
+									P:attack(P.atker[i],send,C.color)
 								end
 							else
 								T=randomTarget(P)
@@ -1248,7 +1245,7 @@ do--Player.drop(P)--Place piece
 						T=randomTarget(P)
 					end
 					if T then
-						P:attack(T,send,CB.color)
+						P:attack(T,send,C.color)
 					end
 				end
 				if P.sound and send>3 then SFX.play("emit",min(send,7)*.1)end
@@ -1266,11 +1263,11 @@ do--Player.drop(P)--Place piece
 
 			--Spin bonus
 			if dospin then
-				P:showText(text.block[CB.name]..text.spin,0,-30,45,"appear")
+				P:showText(text.block[C.name]..text.spin,0,-30,45,"appear")
 				P.b2b=P.b2b+20
 				if P.sound then
 					SFX.play("spin_0")
-					VOC.play(spinVoice[CB.name],CHN)
+					VOC.play(spinVoice[C.name],CHN)
 				end
 				cscore=30
 			end
@@ -1363,7 +1360,7 @@ do--Player.drop(P)--Place piece
 				STAT.digatk=STAT.digatk+atk*gbcc/cc
 			end
 		end
-		local n=CB.name
+		local n=C.name
 		if dospin then
 			_=STAT.spin[n]	_[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
 			_=STAT.spins	_[cc+1]=_[cc+1]+1--Spin[0~4]
@@ -1818,8 +1815,9 @@ function Player.act_hardDrop(P)
 		P.keyPressing[6]=false
 	elseif P.control and P.waiting==-1 and P.cur then
 		if P.curY>P.ghoY then
-			if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.ghoY-P.r>-1 then
-				P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.ghoY-P.r+1)
+			local CB=P.cur.bk
+			if P.gameEnv.dropFX and P.gameEnv.block and P.curY-P.ghoY-#CB>-1 then
+				P:createDropFX(P.curX,P.curY-1,#CB[1],P.curY-P.ghoY-#CB+1)
 			end
 			P.curY=P.ghoY
 			P.spinLast=false
@@ -1917,8 +1915,9 @@ end
 function Player.act_insDown(P)
 	if P.cur and P.curY>P.ghoY then
 		local ENV=P.gameEnv
-		if ENV.dropFX and ENV.block and P.curY-P.ghoY-P.r>-1 then
-			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-P.ghoY-P.r+1)
+		local CB=P.cur.bk
+		if ENV.dropFX and ENV.block and P.curY-P.ghoY-#CB>-1 then
+			P:createDropFX(P.curX,P.curY-1,#CB[1],P.curY-P.ghoY-#CB+1)
 		end
 		if ENV.shakeFX then
 			P.fieldOff.vy=ENV.shakeFX*.5
@@ -1942,8 +1941,9 @@ end
 function Player.act_down4(P)
 	if P.cur and P.curY>P.ghoY then
 		local y=max(P.curY-4,P.ghoY)
-		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
-			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
+		local CB=P.cur.bk
+		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-#CB>-1 then
+			P:createDropFX(P.curX,P.curY-1,#CB[1],P.curY-y-#CB+1)
 		end
 		P.curY=y
 		P:freshBlock("fresh")
@@ -1953,8 +1953,9 @@ end
 function Player.act_down10(P)
 	if P.cur and P.curY>P.ghoY then
 		local y=max(P.curY-10,P.ghoY)
-		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-P.r>-1 then
-			P:createDropFX(P.curX,P.curY-1,P.c,P.curY-y-P.r+1)
+		local CB=P.cur.bk
+		if P.gameEnv.dropFX and P.gameEnv.block and P.curY-y-#CB>-1 then
+			P:createDropFX(P.curX,P.curY-1,#CB[1],P.curY-y-#CB+1)
 		end
 		P.curY=y
 		P:freshBlock("fresh")

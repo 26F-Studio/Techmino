@@ -75,8 +75,7 @@ if _CC then
 
 		P.cur=rem(P.nextQueue,1)
 		P.sc,P.dir=spinCenters[P.cur.id][0],0
-		P.r,P.c=#P.cur.bk,#P.cur.bk[1]
-		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
+		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-#P.cur.bk+min(int(#P.field*.2),2)
 
 		P:newNext()
 		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
