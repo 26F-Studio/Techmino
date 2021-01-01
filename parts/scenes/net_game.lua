@@ -22,20 +22,19 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
-local noTouch,noKey=false,false
+local lastBackTime=0
+local noTouch=false
 local touchMoveLastFrame=false
 
 local scene={}
 
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
-	GAME.restartCount=0
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
 	end
-	noKey=GAME.replaying
-	noTouch=not SETTING.VKSwitch or noKey
+	noTouch=not SETTING.VKSwitch
 end
 
 function scene.touchDown(_,x,y)
@@ -102,8 +101,13 @@ function scene.touchMove()
 end
 function scene.keyDown(key)
 	if key=="escape"then
-		pauseGame()
-	elseif not noKey then
+		if TIME()-lastBackTime<1 then
+			WSCONN=false
+			SCN.back()
+		else
+			lastBackTime=TIME()
+		end
+	else
 		local m=keyMap
 		for k=1,20 do
 			if key==m[1][k]or key==m[2][k]then
@@ -116,7 +120,6 @@ function scene.keyDown(key)
 	end
 end
 function scene.keyUp(key)
-	if noKey then return end
 	local m=keyMap
 	for k=1,20 do
 		if key==m[1][k]or key==m[2][k]then
@@ -127,8 +130,6 @@ function scene.keyUp(key)
 	end
 end
 function scene.gamepadDown(key)
-	if noKey then return end
-
 	local m=keyMap
 	for k=1,20 do
 		if key==m[3][k]or key==m[4][k]then
@@ -142,8 +143,6 @@ function scene.gamepadDown(key)
 	if key=="back"then pauseGame()end
 end
 function scene.gamepadUp(key)
-	if noKey then return end
-
 	local m=keyMap
 	for k=1,20 do
 		if key==m[3][k]or key==m[4][k]then
@@ -208,26 +207,12 @@ function scene.update(dt)
 				P.moving=0
 			end
 		end
-		if GAME.restartCount>0 then GAME.restartCount=GAME.restartCount-1 end
 		return
-	elseif P1.keyPressing[10]then
-		GAME.restartCount=GAME.restartCount+1
-		if GAME.restartCount>20 then
-			resetGameData()
-			return
-		end
-	elseif GAME.restartCount>0 then
-		GAME.restartCount=GAME.restartCount>2 and GAME.restartCount-2 or 0
 	end
 
 	--Update players
 	for p=1,#PLAYERS do
 		PLAYERS[p]:update(dt)
-	end
-
-	--Fresh royale target
-	if GAME.modeEnv.royaleMode and GAME.frame%120==0 then
-		freshMostDangerous()
 	end
 
 	--Warning check
@@ -259,17 +244,6 @@ function scene.update(dt)
 	end
 end
 
-local function drawAtkPointer(x,y)
-	local t=TIME()
-	local a=t*3%1*.8
-	t=sin(t*20)
-
-	gc_setColor(.2,.7+t*.2,1,.6+t*.4)
-	gc_circle("fill",x,y,25,6)
-
-	gc_setColor(0,.6,1,.8-a)
-	gc_circle("line",x,y,30*(1+a),6)
-end
 function scene.draw()
 	local t=TIME()
 	if MARKING then
@@ -323,37 +297,10 @@ function scene.draw()
 		end
 	end
 
-	--Attacking & Being attacked
-	if GAME.modeEnv.royaleMode then
-		local P=PLAYERS[1]
-		gc.setLineWidth(5)
-		gc_setColor(.8,1,0,.2)
-		for i=1,#P.atker do
-			local p=P.atker[i]
-			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+670*P.size)
-		end
-		if P.atkMode~=4 then
-			if P.atking then
-				drawAtkPointer(P.atking.centerX,P.atking.centerY)
-			end
-		else
-			for i=1,#P.atker do
-				local p=P.atker[i]
-				drawAtkPointer(p.centerX,p.centerY)
-			end
-		end
-	end
-
 	--Mode info
 	gc_setColor(1,1,1,.8)
 	gc.draw(drawableText.modeName,485,10)
 	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
-
-	--Replaying
-	if GAME.replaying then
-		gc_setColor(1,1,t%1>.5 and 1 or 0)
-		mText(drawableText.replaying,410,17)
-	end
 
 	--Warning
 	gc.push("transform")
@@ -364,14 +311,10 @@ function scene.draw()
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end
-	if GAME.restartCount>0 then
-		gc_setColor(0,0,0,GAME.restartCount*.05)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
-	end
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="pause",x=1235,y=45,w=60,font=25,code=function()pauseGame()end},
+	WIDGET.newKey{name="quit",x=1235,y=45,w=80,font=25,code=WIDGET.lnk_pressKey("escape")},
 }
 
 return scene
