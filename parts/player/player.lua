@@ -406,9 +406,9 @@ function Player.changeAtk(P,R)
 end
 function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 	local ENV=P.gameEnv
-	local CB=P.cur.bk
 	--Fresh ghost
 	if(mode=="push"or mode=="move"or mode=="newBlock")and P.cur then
+		local CB=P.cur.bk
 		P.ghoY=min(#P.field+1,P.curY)
 		if P._20G or P.keyPressing[7]and ENV.sdarr==0 then
 			local _=P.ghoY
