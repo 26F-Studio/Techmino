@@ -201,6 +201,7 @@ LANG.setLangList{
 	require"parts/language/lang_en",
 	require"parts/language/lang_fr",
 	require"parts/language/lang_sp",
+	require"parts/language/lang_pt",
 	require"parts/language/lang_symbol",
 	require"parts/language/lang_yygq",
 	--1. Add language file to LANG folder;
@@ -248,6 +249,7 @@ LANG.setPublicWidgetText{
 		en="English",
 		fr="Français",
 		sp="Español",
+		pt="Português",
 		symbol="?????",
 		yygq="就这?",
 	},
