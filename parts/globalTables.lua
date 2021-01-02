@@ -82,10 +82,12 @@ MODOPT={--Mod options
 	{no=14,id="FB",name="forceB2B",
 		key="k",x=980,y=350,color="yellow",
 		func=function(P)P.gameEnv.b2bKill=true end,
+		unranked=true,
 	},
 	{no=15,id="PF",name="forceFinesse",
 		key="l",x=1100,y=350,color="yellow",
 		func=function(P)P.gameEnv.fineKill=true end,
+		unranked=true,
 	},
 
 	{no=16,id="TL",name="tele",
@@ -103,6 +105,7 @@ MODOPT={--Mod options
 			disableKey(P,4)
 			disableKey(P,5)
 		end,
+		unranked=true,
 	},
 	{no=18,id="GL",name="noMove",
 		key="c",x=440,y=470,color="lGrey",
@@ -112,6 +115,7 @@ MODOPT={--Mod options
 			disableKey(P,17)disableKey(P,18)
 			disableKey(P,19)disableKey(P,20)
 		end,
+		unranked=true,
 	},
 	{no=19,id="CS",name="customSeq",
 		key="b",x=680,y=470,color="blue",
