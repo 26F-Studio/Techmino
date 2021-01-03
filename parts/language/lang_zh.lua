@@ -193,13 +193,12 @@ return{
 		"美术: MrZ, [Gnyar, T0722]",
 		"音乐: MrZ, [T0722]",
 		"音效/语音: Miya, Naki, MrZ  演出: 模电, HBM",
-		"测试: 思竣  官网: 渣渣120",
-		"英文: User670, MattMayuga",
-		"法文: Mizu  西文: Mr.Faq",
+		"测试: 思竣",
+		"翻译: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"特别感谢:",
-		"Flyz, Farter, 蕴空之灵,",
-		"茶管, [所有内测人员]",
+		"User670, Flyz, Farter, 蕴空之灵,",
+		"Teatube, [所有内测人员]",
 	},
 	used=[[
 	使用工具:

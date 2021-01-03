@@ -173,13 +173,12 @@ return{
 		"Artistas: MrZ, [Gnyar, T0722]",
 		"Música: MrZ, [T0722]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
-		"Testeo: 思竣  Red: 渣渣120",
-		"Inglés: User670, MattMayuga",
-		"Francés: Mizu  Español: Mr.Faq",
+		"Testeo: 思竣",
+		"Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Agradecimientos:",
-		"Flyz, Farter, 蕴空之灵,",
-		"茶管, [Todo el Staff de Testeo]",
+		"User670, Flyz, Farter, 蕴空之灵,",
+		"Teatube, [Todo el Staff de Testeo]",
 	},
 	used=[[
 	Herramientas utilizadas:
