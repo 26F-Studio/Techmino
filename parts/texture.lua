@@ -9,7 +9,7 @@ local TEXTURE={}
 
 gc.setDefaultFilter("nearest","nearest")
 gc.setColor(1,1,1)
-local VKI=gc.newImage("/image/virtualkey.png")
+local VKI=gc.newImage("media/image/virtualkey.png")
 TEXTURE.VKIcon={}
 for i=1,20 do
 	TEXTURE.VKIcon[i]=C(36,36)
@@ -17,8 +17,8 @@ for i=1,20 do
 end
 
 TEXTURE.miniBlock={}
-for i=1,25 do
-	local b=blocks[i][0]
+for i=1,29 do
+	local b=BLOCKS[i][0]
 	TEXTURE.miniBlock[i]=C(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do
 		if b[y][x]then

@@ -1,0 +1,19 @@
+local format=string.format
+return{
+	color=COLOR.white,
+	env={
+		drop=1e99,lock=1e99,
+		infHold=true,
+		bg="glow",bgm="infinite",
+	},
+	load=function()
+		PLY.newPlayer(1)
+	end,
+	mesDisp=function(P)
+		setFont(45)
+		mStr(format("%.1f",P.stat.atk),69,190)
+		mStr(format("%.2f",P.stat.atk/P.stat.row),69,310)
+		mText(drawableText.atk,69,243)
+		mText(drawableText.eff,69,363)
+	end,
+}

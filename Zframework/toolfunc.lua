@@ -1,6 +1,7 @@
 local gc=love.graphics
 local int=math.floor
 local sub,find,format=string.sub,string.find,string.format
+local ins=table.insert
 
 do--LOADLIB
 	local libs={
@@ -20,11 +21,11 @@ do--LOADLIB
 	function LOADLIB(name)
 		local libName=libs[name]
 		if SYSTEM=="Windows"or SYSTEM=="Linux"then
-			local success,message=require(libName[SYSTEM])
-			if success then
-				return success
+			local r1,r2,r3=pcall(require,libName[SYSTEM])
+			if r1 and r2 then
+				return r2
 			else
-				LOG.print("Cannot load "..name..": "..message,"warn",color.red)
+				LOG.print("Cannot load "..name..": "..(r2 or r3),"warn",COLOR.red)
 			end
 		elseif SYSTEM=="Android"then
 			local fs=love.filesystem
@@ -35,27 +36,27 @@ do--LOADLIB
 				if soFile then
 					local success,message=fs.write(libName.Android,soFile,size)
 					if success then
-						libFunc,message=package.loadlib(table.concat({fs.getSaveDirectory(),libName.Android},"/"),libName.libFunc)
+						libFunc,message=package.loadlib(table.concat({SAVEDIR,libName.Android},"/"),libName.libFunc)
 						if libFunc then
-							LOG.print(name.." lib loaded","warn",color.green)
+							LOG.print(name.." lib loaded","warn",COLOR.green)
 							break
 						else
-							LOG.print("Cannot load "..name..": "..message,"warn",color.red)
+							LOG.print("Cannot load "..name..": "..message,"warn",COLOR.red)
 						end
 					else
-						LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",color.red)
+						LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",COLOR.red)
 					end
 				else
-					LOG.print("Read "..name.."-"..platform[i].." failed","warn",color.red)
+					LOG.print("Read "..name.."-"..platform[i].." failed","warn",COLOR.red)
 				end
 			end
 			if not libFunc then
-				LOG.print("failed to load "..name,"warn",color.red)
+				LOG.print("Cannot load "..name,"warn",COLOR.red)
 				return
 			end
 			return libFunc()
 		else
-			LOG.print("No "..name.." for "..SYSTEM,"warn",color.red)
+			LOG.print("No "..name.." for "..SYSTEM,"warn",COLOR.red)
 			return
 		end
 		return true
@@ -130,6 +131,9 @@ do--dumpTable
 		else
 			s="return{\n"
 			t=1
+			if type(L)~="table"then
+				return
+			end
 		end
 		local count=1
 		for k,v in next,L do
@@ -148,57 +152,36 @@ do--dumpTable
 					k=k.."="
 				end
 			elseif T=="boolean"then k="["..k.."]="
-			else assert(false,"Error key type!")
+			else error("Error key type!")
 			end
 			T=type(v)
 			if T=="number"then v=tostring(v)
 			elseif T=="string"then v="\""..v.."\""
 			elseif T=="table"then v=dumpTable(v,t+1)
 			elseif T=="boolean"then v=tostring(v)
-			else assert(false,"Error data type!")
+			else error("Error data type!")
 			end
 			s=s..tabs[t]..k..v..",\n"
 		end
 		return s..tabs[t-1].."}"
 	end
 end
-do--httpRequest
-	client=LOADLIB("NETlib")
-	httpRequest=
-	client and function(tick,api,method,header,body)
-		local task,err=client.httpraw{
-			url="http://47.103.200.40/"..api,
-			method=method or"GET",
-			header=header,
-			body=body,
-		}
-		if task then
-			TASK.new(tick,{task=task,time=0,net=true})
-		else
-			LOG.print("NETlib error: "..err,"warn")
-		end
-		TASK.netTaskCount=TASK.netTaskCount+1
-	end or
-	function()
-		LOG.print("[NO NETlib]",5,color.yellow)
-	end
-end
 do--json
-	--
+
 	-- json.lua
-	--
+
 	-- Copyright (c) 2020 rxi
-	--
+
 	-- Permission is hereby granted, free of charge, to any person obtaining a copy of
 	-- this software and associated documentation files (the "Software"), to deal in
 	-- the Software without restriction, including without limitation the rights to
 	-- use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
 	-- of the Software, and to permit persons to whom the Software is furnished to do
 	-- so, subject to the following conditions:
-	--
+
 	-- The above copyright notice and this permission notice shall be included in all
 	-- copies or substantial portions of the Software.
-	--
+
 	-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 	-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 	-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -206,9 +189,9 @@ do--json
 	-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	-- SOFTWARE.
-	--
 
-	local chr=string.char
+
+	local char=string.char
 	json = {}
 
 	-------------------------------------------------------------------------------
@@ -256,7 +239,7 @@ do--json
 			end
 			if n ~= #val then error("invalid table: sparse array") end
 			-- Encode
-			for _, v in ipairs(val) do table.insert(res, encode(v, stack)) end
+			for _, v in ipairs(val) do ins(res, encode(v, stack)) end
 			stack[val] = nil
 			return "[" .. table.concat(res, ",") .. "]"
 
@@ -266,7 +249,7 @@ do--json
 				if type(k) ~= "string" then
 					error("invalid table: mixed or invalid key types")
 				end
-				table.insert(res, encode(k, stack) .. ":" .. encode(v, stack))
+				ins(res, encode(k, stack) .. ":" .. encode(v, stack))
 			end
 			stack[val] = nil
 			return "{" .. table.concat(res, ",") .. "}"
@@ -300,7 +283,15 @@ do--json
 		error("unexpected type '" .. t .. "'")
 	end
 
-	function json.encode(val) return encode(val) end
+	function json.encode(val)
+		local a,b=pcall(encode,val)
+		if a then
+			return b
+		else
+			LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
+			return
+		end
+	end
 
 	-------------------------------------------------------------------------------
 	-- Decode
@@ -343,14 +334,14 @@ do--json
 		-- http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=iws-appendixa
 		local f = math.floor
 		if n <= 0x7f then
-			return chr(n)
+			return char(n)
 		elseif n <= 0x7ff then
-			return chr(f(n / 64) + 192, n % 64 + 128)
+			return char(f(n / 64) + 192, n % 64 + 128)
 		elseif n <= 0xffff then
-			return chr(f(n / 4096) + 224, f(n % 4096 / 64) + 128,
+			return char(f(n / 4096) + 224, f(n % 4096 / 64) + 128,
 							n % 64 + 128)
 		elseif n <= 0x10ffff then
-			return chr(f(n / 262144) + 240, f(n % 262144 / 4096) + 128,
+			return char(f(n / 262144) + 240, f(n % 262144 / 4096) + 128,
 							f(n % 4096 / 64) + 128, n % 64 + 128)
 		end
 		error(string.format("invalid unicode codepoint '%x'", n))
@@ -516,7 +507,7 @@ do--json
 		decode_error(str, idx, "unexpected character '" .. chr .. "'")
 	end
 
-	function json.decode(str)
+	local function decode(str)
 		if type(str) ~= "string" then
 			error("expected argument of type string, got " .. type(str))
 		end
@@ -525,8 +516,132 @@ do--json
 		if idx <= #str then decode_error(str, idx, "trailing garbage") end
 		return res
 	end
+	function json.decode(str)
+		local a,b=pcall(decode,str)
+		if a then
+			return b
+		else
+			LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
+			return
+		end
+	end
 end
-function addToTable(G,base)--Refresh default base with G-values
+do--urlencode
+	local rshift=bit.rshift
+	local b16={[0]="0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"}
+	function urlEncode(str)
+		local out=""
+		for i=1,#str do
+			if str:sub(i,i):match("[a-zA-Z0-9]")then
+				out=out..str:sub(i,i)
+			else
+				local b=str:byte(i)
+				out=out.."%"..b16[rshift(b,4)]..b16[b%16]
+			end
+		end
+		return out
+	end
+end
+do--httpRequest & wsConnect
+	client=LOADLIB("NETlib")
+	if client then
+		function httpRequest(tick,path,method,header,body)
+			local task,err=client.httpraw{
+				url="http://krakens.tpddns.cn:10026"..path,
+				method=method or"GET",
+				header=header,
+				body=body,
+			}
+			if task then
+				TASK.newNet(tick,task)
+			else
+				LOG.print("NETlib error: "..err,"warn")
+			end
+			TASK.netTaskCount=TASK.netTaskCount+1
+		end
+
+		function wsConnect(tick,path,header)
+			if TASK.netTaskCount>0 then
+				LOG.print(text.waitNetTask,"message")
+				return
+			end
+			local task,err=client.wsraw{
+				url="ws://krakens.tpddns.cn:10026"..path,
+				origin="krakens.tpddns.cn",
+				header=header,
+			}
+			if task then
+				TASK.newNet(tick,task)
+			else
+				LOG.print("NETlib error: "..err,"warn")
+			end
+			TASK.netTaskCount=TASK.netTaskCount+1
+		end
+
+		function wsWrite(data)
+			if WSCONN then
+				local writeErr=client.write(WSCONN,data)
+				if writeErr then
+					LOG.print(writeErr,"error")
+					return
+				end
+				return true
+			else
+				LOG.print(text.wsNoConn,"warn")
+			end
+		end
+	else
+		local function noNetLib()
+			LOG.print("[NO NETlib for "..SYSTEM.."]",5,COLOR.yellow)
+		end
+		httpRequest=noNetLib
+		wsConnect=noNetLib
+		wsWrite=noNetLib
+	end
+end
+do--wheelScroll
+	local floatWheel=0
+	function wheelScroll(y)
+		if y>0 then
+			if floatWheel<0 then floatWheel=0 end
+			floatWheel=floatWheel+y^1.2
+		elseif y<0 then
+			if floatWheel>0 then floatWheel=0 end
+			floatWheel=floatWheel-(-y)^1.2
+		end
+		while floatWheel>=1 do
+			love.keypressed("up")
+			floatWheel=floatWheel-1
+		end
+		while floatWheel<=-1 do
+			love.keypressed("down")
+			floatWheel=floatWheel+1
+		end
+	end
+end
+function copyList(org)
+	local L={}
+	for i=1,#org do
+		if type(org[i])~="table"then
+			L[i]=org[i]
+		else
+			L[i]=copyList(org[i])
+		end
+	end
+	return L
+end
+function copyTable(org)
+	local L={}
+	for k,v in next,org do
+		if type(v)~="table"then
+			L[k]=v
+		else
+			L[k]=copyTable(v)
+		end
+	end
+	return L
+end
+function addToTable(G,base)--For all things in G if same type in base, push to base
 	for k,v in next,G do
 		if type(v)==type(base[k])then
 			if type(v)=="table"then
@@ -534,6 +649,15 @@ function addToTable(G,base)--Refresh default base with G-values
 			else
 				base[k]=v
 			end
+		end
+	end
+end
+function completeTable(G,base)--For all things in G if no val in base, push to base
+	for k,v in next,G do
+		if base[k]==nil then
+			base[k]=v
+		elseif type(v)=="table"and type(base[k])=="table"then
+			completeTable(v,base[k])
 		end
 	end
 end
@@ -558,7 +682,7 @@ function toTime(s)
 	end
 end
 function mStr(s,x,y)
-	gc.printf(s,x-450,y,900,"center")
+	gc.printf(s,x-626,y,1252,"center")
 end
 function mText(s,x,y)
 	gc.draw(s,x-s:getWidth()*.5,y)

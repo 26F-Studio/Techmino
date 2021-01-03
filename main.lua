@@ -8,172 +8,299 @@
 	optimization is welcomed if you also love tetromino game
 ]]--
 
+local fs=love.filesystem
+
 --?
-NULL=function()end
-DBP=print--use this if need debugging print
+NONE={}function NULL()end
+DBP=print--Use this in permanent code
+TIME=love.timer.getTime
 SYSTEM=love.system.getOS()
 MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
+SAVEDIR=fs.getSaveDirectory()
+
+--Global Vars & Settings
 MARKING=true
 LOADED=false
 NOGAME=false
 LOGIN=false
 EDITING=""
+WSCONN=false
+FESTIVAL=
+	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and"Xmas"
 
---Global Setting & Vars
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
-SCR={
-	x=0,y=0,--Up-left Coord on screen
-	w=0,h=0,--Fullscreen w/h in gc
-	W=0,H=0,--Fullscreen w/h in shader
-	rad=0,--Radius
-	k=1,--Scale size
-	dpi=1--DPI from gc.getDPIScale()
-}--1280:720-Rect Screen Info
+--Create directories
+for _,v in next,{"conf","record","replay"}do
+	local info=fs.getInfo(v)
+	if info then
+		if info.type=="directory"then goto NEXT end
+		fs.remove(v)
+	end
+	fs.createDirectory(v)
+	::NEXT::
+end
 
-customEnv={
-	--Basic
-	drop=60,
-	lock=60,
-	wait=0,
-	fall=0,
+--Delete useless files
+for _,v in next,{
+	"cold_clear.dll",
+	"CCloader.dll",
+	"tech_ultimate.dat",
+	"tech_ultimate+.dat",
+	"sprintFix.dat",
+	"sprintLock.dat",
+	"marathon_ultimate.dat",
+	"infinite.dat",
+	"infinite_dig.dat",
+	"conf/account",
+}do
+	if fs.getInfo(v)then fs.remove(v)end
+end
 
-	next=6,
-	hold=true,
-	oncehold=true,
-
-	--Visual
-	block=true,
-	ghost=.3,
-	center=1,
-	bagLine=false,
-	highCam=false,
-	nextPos=false,
-	bone=false,
-
-	--Rule
-	mindas=0,
-	minarr=0,
-	minsdarr=0,
-	sequence="bag",
-	ospin=false,
-	noTele=false,
-	fineKill=false,
-	missionKill=false,
-	easyFresh=true,
-	visible="show",
-	target=1e99,
-	freshLimit=1e99,
-	opponent=0,
-	life=0,
-	pushSpeed=3,
-
-	--Else
-	bg="none",
-	bgm="race"
-}
-FIELD={h=20}for i=1,20 do FIELD[i]={0,0,0,0,0,0,0,0,0,0}end--Field for custom game
-BAG={}--Sequence for custom game
-MISSION={}--Clearing mission for custom game
-
-GAME={
-	frame=0,			--Frame count
-	result=false,		--Game result (string)
-	pauseTime=0,		--Time paused
-	pauseCount=0,		--Pausing count
-	garbageSpeed=1,		--Garbage timing speed
-	warnLVL0=0,			--Warning level
-	warnLVL=0,			--Warning level (show)
-	recording=false,	--If recording
-	replaying=false,	--If replaying
-	seed=math.random(2e6),--Game seed
-	setting={},			--Game settings
-	rec={},				--Recording list, key,time,key,time...
-
-	--Data for royale mode
-	stage=nil,			--Game stage
-	mostBadge=nil,		--Most badge owner
-	secBadge=nil,		--Second badge owner
-	mostDangerous=nil,	--Most dangerous player
-	secDangerous=nil,	--Second dangerous player
-}--Global game data
-PLAYERS={alive={}}--Players data
-CURMODE=nil--Current mode object
---blockSkin,blockSkinMini={},{}--Redefined in SKIN.change
-
-
---Load modules
-require("Zframework")--Load Zframework
-blocks=		require("parts/mino")
-AITemplate=	require("parts/AITemplate")
-freeRow=	require("parts/freeRow")
-
-require("parts/list")
-require("parts/gametoolfunc")
-require("parts/default_data")
-
-TEXTURE=require("parts/texture")
-SKIN=	require("parts/skin")
-PLY=	require("parts/player")
-AIfunc=	require("parts/ai")
-Modes=	require("parts/modes")
-TICK=	require("parts/tick")
-
-require("parts/scenes")
-
---Load files & settings
-modeRanks={sprint_10=0}
-
-local fs=love.filesystem
-if fs.getInfo("keymap.dat")then fs.remove("keymap.dat")end
-if fs.getInfo("setting.dat")then fs.remove("setting.dat")end
-
-if fs.getInfo("settings.dat")then
-	FILE.loadSetting()
-else
-	-- firstRun=true
-	if MOBILE then
-		SETTING.VKSwitch=true
-		SETTING.swap=false
-		SETTING.vib=2
-		SETTING.powerInfo=true
-		SETTING.fullscreen=true
-		love.window.setFullscreen(true)
-		love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+--Collect files of old version
+if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")then
+	for k,v in next,{
+		["settings.dat"]="conf/settings",
+		["unlock.dat"]="conf/unlock",
+		["data.dat"]="conf/data",
+		["key.dat"]="conf/key",
+		["virtualkey.dat"]="conf/virtualkey",
+		["account.dat"]="conf/user",
+	}do
+		if fs.getInfo(k)then
+			fs.write(v,fs.read(k))
+			fs.remove(k)
+		end
+	end
+	for _,name in next,fs.getDirectoryItems("")do
+		if name:sub(-4)==".dat"then
+			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
+			fs.remove(name)
+		end
 	end
 end
-LANG.set(SETTING.lang)
+
+--Load modules
+require"Zframework"
+
+require"parts/list"
+require"parts/globalTables"
+require"parts/gametoolfunc"
+SCR.setSize(1280,720)--Initialize Screen size
+FIELD[1]=newBoard()--Initialize field[1]
+
+AIBUILDER=	require"parts/AITemplate"
+FREEROW=	require"parts/freeRow"
+
+TEXTURE=require"parts/texture"
+SKIN=	require"parts/skin"
+PLY=	require"parts/player"
+AIFUNC=	require"parts/ai"
+MODES=	require"parts/modes"
+TICK=	require"parts/tick"
+
+--First start for phones
+if not fs.getInfo("conf/settings")and MOBILE then
+	SETTING.VKSwitch=true
+	SETTING.swap=false
+	SETTING.powerInfo=true
+	SETTING.fullscreen=true
+end
 if SETTING.fullscreen then love.window.setFullscreen(true)end
 
-if fs.getInfo("unlock.dat")then FILE.loadUnlock()end
-if fs.getInfo("data.dat")then FILE.loadData()end
-if fs.getInfo("key.dat")then FILE.loadKeyMap()end
-if fs.getInfo("virtualkey.dat")then FILE.loadVK()end
+--Initialize image libs
+IMG.init{
+	batteryImage="mess/power.png",
+	title="mess/title.png",
+	title_color="mess/title_colored.png",
+	dialCircle="mess/dialCircle.png",
+	dialNeedle="mess/dialNeedle.png",
+	lifeIcon="mess/life.png",
+	badgeIcon="mess/badge.png",
+	spinCenter="mess/spinCenter.png",
+	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
+	speedLimit="mess/speedLimit.png",
+	pay1="mess/pay1.png",
+	pay2="mess/pay2.png",
 
-if fs.getInfo("tech_ultimate.dat")then fs.remove("tech_ultimate.dat")end
-if fs.getInfo("tech_ultimate+.dat")then fs.remove("tech_ultimate+.dat")end
+	miyaCH="miya/ch.png",
+	miyaF1="miya/f1.png",
+	miyaF2="miya/f2.png",
+	miyaF3="miya/f3.png",
+	miyaF4="miya/f4.png",
+
+	electric="mess/electric.png",
+	hbm="mess/hbm.png",
+}
+SKIN.init{
+	"Crystal(ScF)",
+	"Contrast(MrZ)",
+	"PolkaDots(ScF)",
+	"Toy(ScF)",
+	"Smooth(MrZ)",
+	"Glass(ScF)",
+	"Penta(ScF)",
+	"Bubble(ScF)",
+	"Shape(ScF)",
+	"Pure(MrZ)",
+	"Glow(MrZ)",
+	"Plastic(MrZ)",
+	"Paper(MrZ)",
+	"CartoonCup(Earety)",
+	"Jelly(Miya)",
+	"Brick(Notypey)",
+	"Gem(Notypey)",
+	"Classic",
+	"Ball(Shaw)",
+	"Retro(Notypey)",
+	"TextBone(MrZ)",
+	"ColoredBone(MrZ)",
+	"WTF",
+}
+--Initialize sound libs
+SFX.init((function()
+	local L={}
+	for _,v in next,love.filesystem.getDirectoryItems("media/SFX")do
+		if love.filesystem.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
+			L[#L+1]=v:sub(1,-5)
+		else
+			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v)
+		end
+	end
+	return L
+end)())
+BGM.init((function()
+	local L={}
+	for _,v in next,love.filesystem.getDirectoryItems("media/BGM")do
+		if love.filesystem.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
+			L[#L+1]=v:sub(1,-5)
+		else
+			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v)
+		end
+	end
+	return L
+end)())
+
+VOC.init{
+	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
+	"single","double","triple","techrash",
+	"mini","b2b","b3b",
+	"perfect_clear","half_clear",
+	"win","lose","bye",
+	"test","happy","doubt","sad","egg",
+	"welcome_voc",
+}
+
+--Initialize language lib
+LANG.setLangList{
+	require"parts/language/lang_zh",
+	require"parts/language/lang_zh2",
+	require"parts/language/lang_en",
+	require"parts/language/lang_fr",
+	require"parts/language/lang_sp",
+	require"parts/language/lang_symbol",
+	require"parts/language/lang_yygq",
+	--1. Add language file to LANG folder;
+	--2. Require it;
+	--3. Add a button in parts/scenes/setting_lang.lua;
+	--4. Set button name at LANG.setPublicWidgetText.lang beneath.
+}
+LANG.setPublicText{
+	block={
+		"Z","S","J","L","T","O","I",
+		"Z5","S5","Q","P","F","E",
+		"T5","U","V","W","X",
+		"J5","L5","R","Y","N","H","I5",
+		"I3","C","I2","O1"
+	},
+}
+LANG.setPublicWidgetText{
+	calculator={
+		_1="1",_2="2",_3="3",
+		_4="4",_5="5",_6="6",
+		_7="7",_8="8",_9="9",
+		_0="0",["."]=".",e="e",
+		["+"]="+",["-"]="-",["*"]="*",["/"]="/",
+		["<"]="<",["="]="=",
+		play="-->",
+	},
+	setting_skin={
+		prev="←",next="→",
+		prev1="↑",next1="↓",
+		prev2="↑",next2="↓",
+		prev3="↑",next3="↓",
+		prev4="↑",next4="↓",
+		prev5="↑",next5="↓",
+		prev6="↑",next6="↓",
+		prev7="↑",next7="↓",
+	},
+	custom_field={
+		b0="",b1="",b2="",b3="",b4="",b5="",b6="",b7="",
+		b8="",b9="",b10="",b11="",b12="",b13="",b14="",b15="",b16="",
+		b17="[  ]",b18="N",b19="B",b20="_",b21="_",b22="_",b23="_",b24="_",
+	},
+	lang={
+		zh="中文",
+		zh2="全中文",
+		en="English",
+		fr="Français",
+		sp="Español",
+		symbol="?????",
+		yygq="就这?",
+	},
+	staff={},
+	history={
+		prev="↑",
+		next="↓",
+	},
+	mg_cubefield={},
+}
+LANG.init()
+
+--Load shader files from SOURCE ONLY
+SHADER={}
+for _,v in next,love.filesystem.getDirectoryItems("parts/shaders")do
+	if love.filesystem.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
+		local name=v:sub(1,-6)
+		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
+	else
+		LOG.print("Dangerous file : %SAVE%/parts/shaders/"..v)
+	end
+end
+
+--Load background files from SOURCE ONLY
+for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do
+	if love.filesystem.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
+		local name=v:sub(1,-5)
+		BG.add(name,require("parts/backgrounds/"..name))
+	else
+		LOG.print("Dangerous file : %SAVE%/parts/backgrounds/"..v)
+	end
+end
+
+--Load scene files from SOURCE ONLY
+for _,v in next,fs.getDirectoryItems("parts/scenes")do
+	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
+		local sceneName=v:sub(1,-5)
+		SCN.add(sceneName,require("parts/scenes/"..sceneName))
+	else
+		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
+	end
+end
+
+LANG.set(SETTING.lang)
 
 --Update data
 do
-	local R=modeRanks
+	--Check Ranks
+	local R=RANKS
 	R.sprint_10=R.sprint_10 or 0
-	for k,_ in next,R do
-		if type(k)=="number"then
-			R[k]=nil
-		end
-	end
-	if R.master_adavnce then
-		R.master_advance,R.master_adavnce=R.master_adavnce
-	end
-	if R["tech_normal+"]then
-		R.tech_normal2=R["tech_normal+"]
-		R.tech_hard2=R["tech_hard+"]
-		R.tech_lunatic2=R["tech_lunatic+"]
-		R.tech_finesse2=R["tech_finesse+"]
-		R["tech_normal+"],R["tech_hard+"],R["tech_lunatic+"],R["tech_finesse+"]=nil
+	if R.infinite and R.infinite~=6 then
+		R.infinite=6
+		R.infinite_dig=6
 	end
 	if not text.modes[STAT.lastPlay]then
 		STAT.lastPlay="sprint_10"
@@ -186,35 +313,46 @@ do
 		type(S.spawn)~="number"or
 		type(S.ghost)~="number"or
 		type(S.center)~="number"or
+		type(S.grid)~="number"or
 		S.bgm>1 or S.sfx>1 or S.voc>1 or
 		S.stereo>1 or S.VKSFX>1 or S.VKAlpha>1
 	then
-		NOGAME="delSetting"
-		fs.remove("settings.dat")
+		NOGAME=true
+		fs.remove("conf/settings")
 	end
 
 	--Update data file
 	S=STAT
-	if not S.spin[1][6]then
-		for i=1,25 do
-			S.spin[i][6]=0
-		end
-	end
+	freshDate()
 	if S.extraRate then
 		S.finesseRate=5*(S.piece-S.extraRate)
 	end
-	if fs.getInfo("bigbang.dat")then fs.remove("bigbang.dat")end
-	if S.version~=gameVersion then
-		S.version=gameVersion
-		newVersionLaunch=true
-		if S.finesseRate<.5*S.piece then
-			S.finesseRate=10*S.finesseRate
+	if S.version~=VERSION_CODE then
+		if type(S.version)~="number"then
+			S.version=0
 		end
-		FILE.saveData()
-		FILE.saveSetting()
-	end
-	if MOBILE and not SETTING.fullscreen then
-		LOG.print("如果手机上方状态栏不消失,请到设置界面开启全屏",300,color.yellow)
-		LOG.print("Switch fullscreen on if titleBar don't disappear",300,color.yellow)
+		if S.version<1204 then
+			STAT.frame=math.floor(STAT.time*60)
+			STAT.lastPlay="sprint_10"
+			RANKS.sprintFix=nil
+			RANKS.sprintLock=nil
+		end
+		if S.version<1205 then
+			SETTING.VKCurW=SETTING.VKCurW*.1
+			SETTING.VKTchW=SETTING.VKTchW*.1
+		end
+		if S.version<1208 then
+			SETTING.skinSet=1
+		end
+		if S.version<1225 then
+			SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,12,2,16,8,4,10,13,2,8}
+		end
+		newVersionLaunch=true
+
+		S.version=VERSION_CODE
+		FILE.save(STAT,"conf/data")
 	end
 end
+
+BG.setDefault(FESTIVAL=="Xmas"and"snow"or"space")
+BGM.setDefault(FESTIVAL=="Xmas"and"mXmas"or"blank")

@@ -2,22 +2,46 @@ local gc=love.graphics
 local abs=math.abs
 local SCR=SCR
 
-sceneInit,sceneBack={},{}
-local sceneInit,sceneBack=sceneInit,sceneBack
-sceneInit.quit=love.event.quit
+local scenes={}
 
 local SCN={
-	cur="load",--Current scene
+	cur="NULL",--Current scene name
 	swapping=false,--If Swapping
 	stat={
-		tar=nil,	--Swapping target
-		style=nil,	--Swapping style
-		mid=nil,	--Loading point
-		time=nil,	--Full swap time
-		draw=nil,	--Swap draw  func
+		tar=false,	--Swapping target
+		style=false,--Swapping style
+		mid=false,	--Loading point
+		time=false,	--Full swap time
+		draw=false,	--Swap draw  func
 	},
-	seq={"quit","slowFade"},--Back sequence
+	stack={"quit","slowFade"},--Scene stack
+
+	scenes=scenes,
+
+	--Events
+	update=false,
+	draw=false,
+	mouseClick=false,
+	touchClick=false,
+	mouseDown=false,
+	mouseMove=false,
+	mouseUp=false,
+	wheelMoved=false,
+	touchDown=false,
+	touchUp=false,
+	touchMove=false,
+	keyDown=false,
+	keyUp=false,
+	gamepadDown=false,
+	gamepadUp=false,
+	socketRead=false,
 }--Scene datas, returned
+
+function SCN.add(name,scene)
+	scenes[name]=scene
+	if not scene.widgetList then scene.widgetList={}end
+	setmetatable(scene.widgetList,WIDGET.indexMeta)
+end
 
 function SCN.swapUpdate()
 	local S=SCN.stat
@@ -32,19 +56,39 @@ function SCN.swapUpdate()
 	end
 end
 function SCN.init(s,org)
-	if sceneInit[s]then sceneInit[s](org)end
+	local S=scenes[s]
 	SCN.cur=s
-	WIDGET.set(Widgets[s])
+
+	SCN.sceneInit=S.sceneInit
+	SCN.sceneBack=S.sceneBack
+	SCN.update=S.update
+	SCN.draw=S.draw
+	SCN.mouseClick=S.mouseClick
+	SCN.touchClick=S.touchClick
+	SCN.mouseDown=S.mouseDown
+	SCN.mouseMove=S.mouseMove
+	SCN.mouseUp=S.mouseUp
+	SCN.wheelMoved=S.wheelMoved
+	SCN.touchDown=S.touchDown
+	SCN.touchUp=S.touchUp
+	SCN.touchMove=S.touchMove
+	SCN.keyDown=S.keyDown
+	SCN.keyUp=S.keyUp
+	SCN.gamepadDown=S.gamepadDown
+	SCN.gamepadUp=S.gamepadUp
+	SCN.socketRead=S.socketRead
+	if S.sceneInit then S.sceneInit(org)end
+	WIDGET.set(S.widgetList)
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then
-		local m=#SCN.seq
-		SCN.seq[m+1]=tar or SCN.cur
-		SCN.seq[m+2]=style or"fade"
+		local m=#SCN.stack
+		SCN.stack[m+1]=tar or SCN.cur
+		SCN.stack[m+2]=style or"fade"
 	end
 end
 function SCN.pop()
-	local _=SCN.seq
+	local _=SCN.stack
 	_[#_],_[#_-1]=nil
 end
 
@@ -52,17 +96,17 @@ local swap={
 	none={1,0,NULL},--swapTime, changeTime, drawFunction
 	flash={8,1,function()gc.clear(1,1,1)end},
 	fade={30,15,function(t)
-		local t=t>15 and 2-t/15 or t/15
+		t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	fade_togame={120,20,function(t)
-		local t=t>20 and(120-t)/100 or t/20
+		t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
 	slowFade={180,90,function(t)
-		local t=t>90 and 2-t/90 or t/90
+		t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 	end},
@@ -86,27 +130,35 @@ local swap={
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
-	local S=SCN.stat
-	if not SCN.swapping and tar~=SCN.cur then
-		if not style then style="fade"end
-		SCN.swapping=true
-		S.tar,S.style=tar,style
-		S.time,S.mid,S.draw=unpack(swap[style])
+	if scenes[tar]then
+		local S=SCN.stat
+		if not SCN.swapping and tar~=SCN.cur then
+			if not style then style="fade"end
+			SCN.swapping=true
+			S.tar,S.style=tar,style
+			S.time,S.mid,S.draw=unpack(swap[style])
+		end
+	else
+		LOG.print("No Scene: "..tar,"warn")
 	end
 end
 function SCN.go(tar,style)--Normal scene swapping, can back
-	SCN.push()
-	SCN.swapTo(tar,style)
+	if scenes[tar]then
+		SCN.push()
+		SCN.swapTo(tar,style)
+	else
+		LOG.print("No Scene: "..tar,"warn")
+	end
 end
 function SCN.back()
 	--Leave scene
-	if sceneBack[SCN.cur] then sceneBack[SCN.cur]()end
+	if SCN.sceneBack then SCN.sceneBack()end
 
 	--Poll&Back to previous Scene
-	local m=#SCN.seq
+	local m=#SCN.stack
 	if m>0 then
-		SCN.swapTo(SCN.seq[m-1],SCN.seq[m])
-		SCN.seq[m],SCN.seq[m-1]=nil
+		SCN.swapTo(SCN.stack[m-1],SCN.stack[m])
+		SCN.stack[m],SCN.stack[m-1]=nil
 	end
 end
 return SCN

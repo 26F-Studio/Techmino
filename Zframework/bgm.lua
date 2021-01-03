@@ -1,108 +1,101 @@
-local min=math.min
-
-local function fadeOut(id)
-	local src=BGM.list[id]
-	local v=src:getVolume()-.025*SETTING.bgm
-	src:setVolume(v>0 and v or 0)
-	if v<=0 then
-		src:stop()
-		return true
-	end
-end
-local function fadeIn(id)
-	local src=BGM.list[id]
-	local v=SETTING.bgm
-	v=min(v,src:getVolume()+.025*v)
-	src:setVolume(v)
-	if v>=SETTING.bgm then return true end
-end
-
 local BGM={
+	default=false,
+	getList={},
+	getCount=function()return 0 end,
+	play=NULL,
+	freshVolume=NULL,
+	stop=NULL,
+	reload=NULL,
 	--nowPlay=[str:playing ID]
-	--suspend=[str:pausing ID]
 	--playing=[src:playing SRC]
 }
-BGM.list={
-	"blank",--menu
-	"race",--sprint, solo
-	"infinite",--infinite norm/dig, ultra, zen, tech-finesse
-	"push",--marathon, round, tsd, blind-5/6
-	"way",--dig sprint
-	"reason",--drought, blind-1/2/3/4
-
-	"secret8th",--master-1, survivor-2
-	"secret7th",--master-2, survivor-3
-	"waterfall",--sprint Penta/MPH
-	"newera",--bigbang, pc challenge, survivor-1, tech-normal
-	"oxygen",--c4w/pc train
-
-	"distortion",--master-3
-	"far",--GM
-	"shining terminal",--attacker
-	"storm",--defender, survivor-4/5
-	"down",--dig, tech-hard/lunatic
-
-	"rockblock",--classic, 49/99
-	"cruelty","final","8-bit happiness","end","how feeling",--49/99
-}
-BGM.len=#BGM.list
-function BGM.loadOne(N)
-	N=BGM.list[N]
-	local file="/BGM/"..N..".ogg"
-	if love.filesystem.getInfo(file)then
-		BGM.list[N]=love.audio.newSource(file,"stream")
-		BGM.list[N]:setLooping(true)
-		BGM.list[N]:setVolume(0)
-	else
-		LOG.print("No BGM file: "..N,5,color.orange)
-	end
+function BGM.setDefault(bgm)
+	BGM.default=bgm
 end
-function BGM.loadAll()
-	for i=1,#BGM.list do
-		BGM.loadOne(i)
-	end
-end
-function BGM.play(s)
-	if SETTING.bgm==0 then
-		BGM.playing=BGM.list[s]
-		BGM.suspend,BGM.nowPlay=s
-		return
-	elseif not(s and BGM.list[s])then
-		return
-	end
-	if BGM.nowPlay~=s then
-		if BGM.nowPlay then TASK.new(fadeOut,BGM.nowPlay)end
-		TASK.changeCode(fadeIn,fadeOut)
-		TASK.removeTask_data(s)
+function BGM.init(list)
+	BGM.init=nil
+	local min=math.min
+	local Sources={}function BGM.getList()return list end
 
-		BGM.nowPlay,BGM.suspend=s
-		TASK.new(fadeIn,s)
-		BGM.playing=BGM.list[s]
-		BGM.playing:play()
-	end
-end
-function BGM.freshVolume()
-	if BGM.playing then
-		local v=SETTING.bgm
-		if v>0 then
-			BGM.playing:setVolume(v)
-			if BGM.suspend then
-				BGM.playing:play()
-				BGM.nowPlay,BGM.suspend=BGM.suspend
-			end
-		else
-			if BGM.nowPlay then
-				BGM.playing:pause()
-				BGM.suspend,BGM.nowPlay=BGM.nowPlay
+	local count=#list function BGM.getCount()return count end
+	local function fadeOut(src)
+		while true do
+			coroutine.yield()
+			local v=src:getVolume()-.025*SETTING.bgm
+			src:setVolume(v>0 and v or 0)
+			if v<=0 then
+				src:stop()
+				return true
 			end
 		end
 	end
-end
-function BGM.stop()
-	if BGM.nowPlay then
-		TASK.new(fadeOut,BGM.nowPlay)
+	local function fadeIn(src)
+		while true do
+			coroutine.yield()
+			local v=SETTING.bgm
+			v=min(v,src:getVolume()+.025*v)
+			src:setVolume(v)
+			if v>=SETTING.bgm then
+				return true
+			end
+		end
 	end
-	TASK.changeCode(fadeIn,fadeOut)
-	BGM.playing,BGM.nowPlay=nil
+	local function removeCurFadeOut(task,code,src)
+		return task.code==code and task.args[1]==src
+	end
+	local function load(skip)
+		for i=1,count do
+			local file="media/BGM/"..list[i]..".ogg"
+			if love.filesystem.getInfo(file)then
+				Sources[list[i]]=love.audio.newSource(file,"stream")
+				Sources[list[i]]:setLooping(true)
+				Sources[list[i]]:setVolume(0)
+			else
+				LOG.print("No BGM file: "..list[i],5,COLOR.orange)
+			end
+			if not skip and i~=count then
+				coroutine.yield()
+			end
+		end
+		BGM.loadOne=nil
+
+		function BGM.play(s)
+			if not s then s=BGM.default end
+			if SETTING.bgm==0 then
+				BGM.nowPlay=s
+				BGM.playing=Sources[s]
+				return
+			end
+			if s and Sources[s]and BGM.nowPlay~=s then
+				if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
+				TASK.removeTask_iterate(removeCurFadeOut,fadeOut,Sources[s])
+				TASK.removeTask_code(fadeIn)
+
+				TASK.new(fadeIn,Sources[s])
+				BGM.nowPlay=s
+				BGM.playing=Sources[s]
+				BGM.playing:play()
+			end
+		end
+		function BGM.freshVolume()
+			if BGM.playing then
+				local v=SETTING.bgm
+				if v>0 then
+					BGM.playing:setVolume(v)
+					BGM.playing:play()
+				elseif BGM.nowPlay then
+					BGM.playing:pause()
+				end
+			end
+		end
+		function BGM.stop()
+			TASK.removeTask_code(fadeIn)
+			if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
+			BGM.nowPlay,BGM.playing=nil
+		end
+	end
+
+	BGM.loadOne=coroutine.wrap(load)
+	function BGM.loadAll()load(true)end
 end
 return BGM

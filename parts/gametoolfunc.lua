@@ -1,25 +1,33 @@
 local tm=love.timer
 local data=love.data
+
+local fs=love.filesystem
 local int,rnd=math.floor,math.random
 local sub=string.sub
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
 
-local default_setting={
-	"das","arr",
-	"sddas","sdarr",
-	"ihs","irs","ims",
-	"maxNext",
-	"swap",
-	-- "face",
+local gameSetting={
+	--Tuning
+	"das","arr","dascut","sddas","sdarr",
+	"ihs","irs","ims","RS","swap",
+
+	--System
+	"skin","face",
+
+	--Graphic
+	"block","ghost","center","smooth","grid","bagLine",
+	"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
+	"text","score","warn","highCam","nextPos",
 }
 local function copyGameSetting()
-	local S={face={}}
-	for _,v in next,default_setting do
-		S[v]=SETTING[v]
-	end
-	for i=1,25 do
-		S.face[i]=SETTING.face[i]
+	local S={}
+	for _,key in next,gameSetting do
+		if type(SETTING[key])=="table"then
+			S[key]=copyList(SETTING[key])
+		else
+			S[key]=SETTING[key]
+		end
 	end
 	return S
 end
@@ -29,14 +37,14 @@ function destroyPlayers()
 		local P=PLAYERS[i]
 		if P.canvas then P.canvas:release()end
 		while P.field[1]do
-			freeRow.discard(rem(P.field))
-			freeRow.discard(rem(P.visTime))
+			FREEROW.discard(rem(P.field))
+			FREEROW.discard(rem(P.visTime))
 		end
 		if P.AI_mode=="CC"then
 			CC.free(P.bot_opt)
 			CC.free(P.bot_wei)
 			CC.destroy(P.AI_bot)
-			P.AI_mode=nil
+			P.AI_mode=false
 		end
 		PLAYERS[i]=nil
 	end
@@ -56,23 +64,26 @@ function restoreVirtualKey()
 		B.isDown=false
 		B.pressTime=0
 	end
-	if not modeEnv.Fkey then
-		virtualkey[9].ava=false
+	for k,v in next,PLAYERS[1].keyAvailable do
+		if not v then
+			virtualkey[k].ava=false
+		end
 	end
 end
 
 function copyQuestArgs()
-	local ENV=customEnv
-	local str=""
-	str=str..(ENV.hold and"H"or"Z")
-	str=str..(ENV.ospin and"O"or"Z")
-	str=str..(ENV.missionKill and"M"or"Z")
-	str=str..ENV.sequence
+	local ENV=CUSTOMENV
+	local str=""..
+		ENV.holdCount..
+		(ENV.ospin and"O"or"Z")..
+		(ENV.missionKill and"M"or"Z")..
+		ENV.sequence
 	return str
 end
 function pasteQuestArgs(str)
-	local ENV=customEnv
-	ENV.hold=			byte(str,1)~=90
+	if #str<4 then return end
+	local ENV=CUSTOMENV
+	ENV.holdCount=		byte(str,1)-48
 	ENV.ospin=			byte(str,2)~=90
 	ENV.missionKill=	byte(str,3)~=90
 	ENV.sequence=		sub(str,4)
@@ -84,7 +95,7 @@ end
 --[[
 	Count: 34~96
 	Block: 97~125
-	Encode: [A] or [AB] sequence, A = block ID, B = repeat times, no B means do not repeat.
+	Encode: A[B] sequence, A = block ID, B = repeat times, no B means do not repeat.
 	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
 ]]
 function copySequence()
@@ -127,7 +138,7 @@ function pasteSequence(str)
 				for _=1,b-32 do
 					ins(bag,reg)
 				end
-				reg=nil
+				reg=false
 			end
 		end
 	end
@@ -136,17 +147,26 @@ function pasteSequence(str)
 	end
 
 	BAG=bag
-	sceneTemp.cur=#bag
 	return true
 end
 
-function copyBoard()
+function newBoard(f)--Generate a new board
+	if f then
+		return copyList(f)
+	else
+		local F={}
+		for i=1,20 do F[i]={0,0,0,0,0,0,0,0,0,0}end
+		return F
+	end
+end
+function copyBoard(page)--Copy the [page] board
+	local F=FIELD[page or 1]
 	local str=""
 	local H=0
 
 	for y=20,1,-1 do
 		for x=1,10 do
-			if FIELD[y][x]~=0 then
+			if F[y][x]~=0 then
 				H=y
 				goto topFound
 			end
@@ -157,7 +177,7 @@ function copyBoard()
 	--Encode field
 	for y=1,H do
 		local S=""
-		local L=FIELD[y]
+		local L=F[y]
 		for x=1,10 do
 			S=S..char(L[x]+1)
 		end
@@ -165,7 +185,17 @@ function copyBoard()
 	end
 	return data.encode("string","base64",data.compress("string","zlib",str))
 end
-function pasteBoard(str)
+function copyBoards()
+	local out={}
+	for i=1,#FIELD do
+		out[i]=copyBoard(i)
+	end
+	return table.concat(out,"!")
+end
+function pasteBoard(str,page)--Paste [str] data to [page] board
+	if not page then page=1 end
+	if not FIELD[page]then FIELD[page]=newBoard()end
+	local F=FIELD[page]
 	local _,__
 
 	--Decode
@@ -189,10 +219,10 @@ function pasteBoard(str)
 		end
 
 		__=_%32-1--Block id
-		if __>17 then return end--Illegal blockid
+		if __>26 then return end--Illegal blockid
 		_=int(_/32)--Mode id
 
-		FIELD[fY][fX]=__
+		F[fY][fX]=__
 		if fX<10 then
 			fX=fX+1
 		else
@@ -205,7 +235,7 @@ function pasteBoard(str)
 
 	for y=fY,20 do
 		for x=1,10 do
-			FIELD[y][x]=0
+			F[y][x]=0
 		end
 	end
 
@@ -273,7 +303,7 @@ function pasteMission(str)
 				for _=1,b-113 do
 					ins(mission,reg)
 				end
-				reg=nil
+				reg=false
 			end
 		end
 	end
@@ -282,10 +312,35 @@ function pasteMission(str)
 	end
 
 	MISSION=mission
-	sceneTemp.cur=#mission
 	return true
 end
 
+function freshDate()
+	local date=os.date("%Y/%m/%d")
+	if STAT.date~=date then
+		STAT.date=date
+		STAT.todayTime=0
+		LOG.print(text.newDay,"message")
+	end
+end
+function legalGameTime()
+	if
+		(SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
+		RANKS.sprint_10<4 and
+		(not RANKS.sprint_40 or RANKS.sprint_40<3)
+	then
+		if STAT.todayTime<14400 then
+			return true
+		elseif STAT.todayTime<21600 then
+			LOG.print(text.playedLong,"warning")
+			return true
+		else
+			LOG.print(text.playedTooMuch,"warning")
+			return false
+		end
+	end
+	return true
+end
 function mergeStat(stat,delta)
 	for k,v in next,delta do
 		if type(v)=="table"then
@@ -300,6 +355,7 @@ function mergeStat(stat,delta)
 	end
 end
 
+--Functions for royale mode
 function randomTarget(P)--Return a random opponent for P
 	if #PLAYERS.alive>1 then
 		local R
@@ -310,7 +366,7 @@ function randomTarget(P)--Return a random opponent for P
 	end
 end
 function freshMostDangerous()
-	GAME.mostDangerous,GAME.secDangerous=nil
+	GAME.mostDangerous,GAME.secDangerous=false,false
 	local m,m2=0,0
 	for i=1,#PLAYERS.alive do
 		local h=#PLAYERS.alive[i].field
@@ -330,7 +386,7 @@ function freshMostDangerous()
 	end
 end
 function freshMostBadge()
-	GAME.mostBadge,GAME.secBadge=nil
+	GAME.mostBadge,GAME.secBadge=false,false
 	local m,m2=0,0
 	for i=1,#PLAYERS.alive do
 		local P=PLAYERS.alive[i]
@@ -353,37 +409,39 @@ end
 function royaleLevelup()
 	GAME.stage=GAME.stage+1
 	local spd
-	TEXT.show(text.royale_remain(#PLAYERS.alive),640,200,40,"beat",.3)
+	TEXT.show(text.royale_remain:gsub("$1",#PLAYERS.alive),640,200,40,"beat",.3)
 	if GAME.stage==2 then
 		spd=30
 	elseif GAME.stage==3 then
 		spd=15
-		GAME.garbageSpeed=.6
+		for _,P in next,PLAYERS.alive do
+			P.gameEnv.garbageSpeed=.6
+		end
 		if PLAYERS[1].alive then BGM.play("cruelty")end
 	elseif GAME.stage==4 then
 		spd=10
-		local _=PLAYERS.alive
-		for i=1,#_ do
-			_[i].gameEnv.pushSpeed=3
+		for _,P in next,PLAYERS.alive do
+			P.gameEnv.pushSpeed=3
 		end
 	elseif GAME.stage==5 then
 		spd=5
-		GAME.garbageSpeed=1
+		for _,P in next,PLAYERS.alive do
+			P.gameEnv.garbageSpeed=1
+		end
 	elseif GAME.stage==6 then
 		spd=3
 		if PLAYERS[1].alive then BGM.play("final")end
 	end
-	for i=1,#PLAYERS.alive do
-		PLAYERS.alive[i].gameEnv.drop=spd
+	for _,P in next,PLAYERS.alive do
+		P.gameEnv.drop=spd
 	end
-	if CURMODE.lv==3 then
+	if GAME.curMode.name:find("ultimate")then
 		for i=1,#PLAYERS.alive do
 			local P=PLAYERS.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
-				P.curY=P.imgY
-				P._20G=true
-				if P.AI_mode=="CC"then CC.switch20G(P)end
+				P.curY=P.ghoY
+				P:set20G(true)
 			end
 		end
 	end
@@ -391,10 +449,7 @@ end
 
 function pauseGame()
 	if not SCN.swapping then
-		restartCount=0--Avoid strange darkness
-		if not GAME.result then
-			GAME.pauseCount=GAME.pauseCount+1
-		end
+		GAME.restartCount=0--Avoid strange darkness
 		if not GAME.replaying then
 			for i=1,#PLAYERS do
 				local l=PLAYERS[i].keyPressing
@@ -411,115 +466,144 @@ end
 function resumeGame()
 	SCN.swapTo("play","none")
 end
-function loadGame(M,ifQuickPlay)
-	STAT.lastPlay=M
-	CURMODE=Modes[M]
-	drawableText.modeName:set(text.modes[M][1])
-	drawableText.levelName:set(text.modes[M][2])
-	needResetGameData=true
-	SCN.swapTo("play",ifQuickPlay and"swipeD"or"fade_togame")
-	SFX.play("enter")
-end
-function resetGameData()
-	if PLAYERS[1]and not GAME.replaying then
-		mergeStat(STAT,PLAYERS[1].stat)
+function applyCustomGame()
+	for k,v in next,CUSTOMENV do
+		GAME.modeEnv[k]=v
 	end
-
-	GAME.frame=150-SETTING.reTime*15
-	GAME.result=false
-	GAME.pauseTime=0
-	GAME.pauseCount=0
-	GAME.garbageSpeed=1
-	GAME.warnLVL0=0
-	GAME.warnLVL=0
-	GAME.recording=true
-	GAME.replaying=false
-	GAME.setting=copyGameSetting()
-	GAME.rec={}
-	math.randomseed(tm.getTime())
-	GAME.seed=rnd(261046101471026)
-
-	destroyPlayers()
-	modeEnv=CURMODE.env
-	restoreVirtualKey()
-	CURMODE.load()
-	if modeEnv.task then
-		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(modeEnv.task)
+	if BAG[1]then
+		GAME.modeEnv.bag=BAG
+	else
+		GAME.modeEnv.bag=nil
+	end
+	if MISSION[1]then
+		GAME.modeEnv.mission=MISSION
+	else
+		GAME.modeEnv.mission=nil
+	end
+end
+function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
+	freshDate()
+	if legalGameTime()then
+		if MODES[M].score then STAT.lastPlay=M end
+		GAME.curModeName=M
+		GAME.curMode=MODES[M]
+		GAME.modeEnv=GAME.curMode.env
+		drawableText.modeName:set(text.modes[M][1])
+		drawableText.levelName:set(text.modes[M][2])
+		GAME.init=true
+		SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
+		SFX.play("enter")
+	end
+end
+function initPlayerPosition(sudden)--Set initial position for every player
+	local L=PLAYERS.alive
+	if not sudden then
+		for i=1,#L do
+			L[i]:setPosition(640,#L<=5 and 360 or -62,0)
 		end
 	end
-	BG.set(modeEnv.bg)
-	BGM.play(modeEnv.bgm)
 
-	TEXT.clear()
-	if modeEnv.royaleMode then
-		for i=1,#PLAYERS do
-			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
-		end
-		GAME.stage=nil
-		GAME.mostBadge=nil
-		GAME.secBadge=nil
-		GAME.mostDangerous=nil
-		GAME.secDangerous=nil
-		GAME.stage=1
-		GAME.garbageSpeed=.3
+	local method=sudden and"setPosition"or"movePosition"
+	L[1][method](L[1],340,75,1)
+	if #L<=5 then
+		if L[2]then L[2][method](L[2],965,390,.5)end
+		if L[3]then L[3][method](L[3],965,30,.5)end
+		if L[4]then L[4][method](L[4],20,390,.5)end
+		if L[5]then L[5][method](L[5],20,30,.5)end
+	elseif #L==49 then
+		local n=2
+		for i=1,4 do for j=1,6 do
+			L[n][method](L[n],78*i-54,115*j-98,.09)
+			n=n+1
+		end end
+		for i=9,12 do for j=1,6 do
+			L[n][method](L[n],78*i+267,115*j-98,.09)
+			n=n+1
+		end end
+	elseif #L==99 then
+		local n=2
+		for i=1,7 do for j=1,7 do
+			L[n][method](L[n],46*i-36,97*j-72,.068)
+			n=n+1
+		end end
+		for i=15,21 do for j=1,7 do
+			L[n][method](L[n],46*i+264,97*j-72,.068)
+			n=n+1
+		end end
 	end
-	STAT.game=STAT.game+1
-	freeRow.reset(30*#PLAYERS)
-	SFX.play("ready")
-	collectgarbage()
 end
-function resetPartGameData(replaying)
-	TASK.removeTask_code(TICK.autoPause)
-	if PLAYERS[1]and not GAME.replaying then
+local function tick_showMods()
+	local time=0
+	while true do
+		coroutine.yield()
+		time=time+1
+		if time%20==0 then
+			local M=GAME.mod[time/20]
+			if M then
+				TEXT.show(M.id,700+(time-20)%120*4,36,45,"spin",.5)
+			else
+				return
+			end
+		end
+	end
+end
+function resetGameData(args)
+	if not args then args=""end
+	if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 		mergeStat(STAT,PLAYERS[1].stat)
+		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	end
 
 	GAME.result=false
-	GAME.garbageSpeed=1
 	GAME.warnLVL0=0
 	GAME.warnLVL=0
-	if replaying then
+	if args:find("r")then
 		GAME.frame=0
 		GAME.recording=false
 		GAME.replaying=1
 	else
 		GAME.frame=150-SETTING.reTime*15
+		GAME.seed=rnd(1046101471,2662622626)
 		GAME.pauseTime=0
 		GAME.pauseCount=0
+		GAME.saved=false
+		GAME.setting=copyGameSetting()
+		GAME.rep={}
 		GAME.recording=true
 		GAME.replaying=false
-		GAME.setting=copyGameSetting()
-		GAME.rec={}
+		GAME.rank=0
 		math.randomseed(tm.getTime())
-		GAME.seed=rnd(1046101471,2662622626)
 	end
 
 	destroyPlayers()
-	modeEnv=CURMODE.env
+	GAME.curMode.load()
+	initPlayerPosition(args:find("q"))
 	restoreVirtualKey()
-	CURMODE.load()
-	if modeEnv.task then
+	if GAME.modeEnv.task then
 		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(modeEnv.task)
+			PLAYERS[i]:newTask(GAME.modeEnv.task)
 		end
 	end
-	BG.set(modeEnv.bg)
-	BGM.play(modeEnv.bgm)
+	BG.set(GAME.modeEnv.bg)
+	BGM.play(GAME.modeEnv.bgm)
 
 	TEXT.clear()
-	if modeEnv.royaleMode then
+	if GAME.modeEnv.royaleMode then
 		for i=1,#PLAYERS do
 			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
 		end
-		GAME.stage=nil
-		GAME.mostBadge=nil
-		GAME.secBadge=nil
-		GAME.mostDangerous=nil
-		GAME.secDangerous=nil
+		GAME.stage=false
+		GAME.mostBadge=false
+		GAME.secBadge=false
+		GAME.mostDangerous=false
+		GAME.secDangerous=false
 		GAME.stage=1
-		GAME.garbageSpeed=.3
 	end
+	STAT.game=STAT.game+1
+	FREEROW.reset(30*#PLAYERS)
+	TASK.removeTask_code(tick_showMods)
+	TASK.new(tick_showMods)
+	SFX.play("ready")
 	collectgarbage()
 end
 function gameStart()
@@ -529,5 +613,138 @@ function gameStart()
 		P.control=true
 		P.timing=true
 		P:popNext()
+	end
+end
+function scoreValid()--Check if any unranked mods are activated
+	for _,M in next,GAME.mod do
+		if M.unranked then
+			return false
+		end
+	end
+	return true
+end
+--[[
+	Byte data format: (1 byte each period)
+		KeyID, dt, KeyID, dt, ......
+	KeyID range from 1 to 20, negative when release key
+	dt from 0 to infinity, 0~254 when 0~254, read next byte as dt(if there is an 255, add next byte to dt as well)
+
+	Example:
+		1,6, -1,20, 2,0, -2,255,0, 4,255,255,255,62, ......
+	This means:
+		Press key1 at 6f
+		Release key1 at 26f (6+20)
+		Press key2 at the same time(26+0)
+		Release key 2 after 255+0 frame
+		Press key 4 after 255+255+255+62 frame
+		......
+]]
+function dumpRecording(list,ptr)
+	local out=""
+	local buffer=""
+	local prevFrm=0
+	ptr=ptr or 1
+	while list[ptr]do
+		--Check buffer size
+		if #buffer>10 then
+			out=out..buffer
+			buffer=""
+		end
+
+		--Encode time
+		local t=list[ptr]-prevFrm
+		prevFrm=list[ptr]
+		while t>=255 do
+			buffer=buffer.."\255"
+			t=t-255
+		end
+		buffer=buffer..char(t)
+
+		--Encode key
+		t=list[ptr+1]
+		buffer=buffer..char(t>0 and t or 256+t)
+
+		--Step
+		ptr=ptr+2
+	end
+	return out..buffer
+end
+function pumpRecording(str,L)
+	-- str=data.decode("string","base64",str)
+	local len=#str
+	local p=1
+
+	local list,curFrm
+	if L then
+		list=L
+		curFrm=L[#L-1]or 0
+	else
+		list={}
+		curFrm=0
+	end
+
+	while p<=len do
+		--Read delta time
+		::nextByte::
+		local b=byte(str,p)
+		if b==255 then
+			curFrm=curFrm+255
+			p=p+1
+			goto nextByte
+		end
+		curFrm=curFrm+b
+		list[#list+1]=curFrm
+		p=p+1
+
+		b=byte(str,p)
+		if b>127 then
+			b=b-256
+		end
+		list[#list+1]=b
+		p=p+1
+	end
+	return list
+end
+
+local noRecList={"custom","solo","round","techmino"}
+local function getModList()
+	local res={}
+	for _,v in next,GAME.mod do
+		if v.sel>0 then
+			ins(res,{v.no,v.sel})
+		end
+	end
+	return res
+end
+function saveRecording()
+	--Filtering modes that cannot be saved
+	for _,v in next,noRecList do
+		if GAME.curModeName:find(v)then
+			LOG.print("Cannot save recording of this mode now!",COLOR.sky)
+			return
+		end
+	end
+
+	--File contents
+	local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
+	local fileHead=
+		os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
+		GAME.curModeName.."\n"..
+		VERSION_NAME.."\n"..
+		(USER.username or"Player")
+	local fileBody=
+		GAME.seed.."\n"..
+		json.encode(GAME.setting).."\n"..
+		json.encode(getModList()).."\n"..
+		dumpRecording(GAME.rep)
+
+	--Write file
+	if not fs.getInfo(fileName)then
+		fs.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
+		ins(REPLAY,fileName)
+		FILE.save(REPLAY,"conf/replay")
+		return true
+	else
+		LOG.print("Save failed: File already exists")
 	end
 end

@@ -1,4 +1,5 @@
-gameVersion="Alpha V0.11.5"
+VERSION_CODE=1226
+VERSION_NAME="Alpha V0.12.X"
 love.setDeprecationOutput(false)
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
@@ -6,11 +7,14 @@ function love.conf(t)
 	t.gammacorrect=false
 	t.appendidentity=true--Search files in source then in save directory
 	t.accelerometerjoystick=false--Accelerometer=joystick on ios/android
-	if t.audio then t.audio.mixwithsystem=true end
+	if t.audio then
+		t.audio.mic=false
+		t.audio.mixwithsystem=true
+	end
 
 	local W=t.window
-	W.title="Techmino "..gameVersion
-	W.icon="/image/icon.png"
+	W.title="Techmino "..VERSION_NAME
+	W.icon="media/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360
 	W.borderless=false
@@ -27,8 +31,7 @@ function love.conf(t)
 
 	local M=t.modules
 	M.window,M.system,M.event=true,true,true
-	M.audio,M.sound=true,true
-	M.math,M.data=true,true
+	M.audio,M.sound,M.math,M.data=true,true,true,true
 	M.timer,M.graphics,M.font,M.image=true,true,true,true
 	M.mouse,M.touch,M.keyboard,M.joystick=true,true,true,true
 	M.physics,M.thread,M.video=false,false,false

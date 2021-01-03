@@ -8,34 +8,33 @@
 ]]
 local int,ceil,min,abs,rnd=math.floor,math.ceil,math.min,math.abs,math.random
 local ins,rem=table.insert,table.remove
-local Timer=love.timer.getTime
 -- controlname:
 -- 1~5:mL,mR,rR,rL,rF,
 -- 6~10:hD,sD,H,A,R,
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
 -------------------------------------------------Cold clear
-CC=LOADLIB("CC")
-if CC then
+local _CC=LOADLIB("CC")cc=nil
+if _CC then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
-		getConf=	CC.get_default_config	,--()options,weights
-		fastWeights=CC.fast_weights			,--(weights)
-		--setConf=	CC.set_options			,--(options,hold,20g,bag7)
+		getConf=	_CC.get_default_config	,--()options,weights
+		fastWeights=_CC.fast_weights			,--(weights)
+		--setConf=	_CC.set_options			,--(options,hold,20g,bag7)
 
-		new=		CC.launch_async			,--(options,weights)bot
-		addNext=	CC.add_next_piece_async	,--(bot,piece)
-		update=		CC.reset_async			,--(bot,field,b2b,combo)
-		think=		CC.request_next_move	,--(bot)
-		getMove=	CC.poll_next_move		,--(bot)success,dest,hold,move
-		destroy=	CC.destroy_async		,--(bot)
+		new=		_CC.launch_async			,--(options,weights)bot
+		addNext=	function(bot,id)_CC.add_next_piece_async(bot,CCblockID[id])end	,--(bot,piece)
+		update=		_CC.reset_async			,--(bot,field,b2b,combo)
+		think=		_CC.request_next_move	,--(bot)
+		getMove=	_CC.poll_next_move		,--(bot)success,dest,hold,move
+		destroy=	_CC.destroy_async		,--(bot)
 
-		setHold=	CC.set_hold				,--(opt,bool)
-		set20G=		CC.set_20g				,--(opt,bool)
-		-- setPCLoop=	CC.set_pcloop			,--(opt,bool)
-		setBag=		CC.set_bag7				,--(opt,bool)
-		setNode=	CC.set_max_nodes		,--(opt,bool)
-		free=		CC.free					,--(opt/wei)
+		setHold=	_CC.set_hold				,--(opt,bool)
+		set20G=		_CC.set_20g				,--(opt,bool)
+		-- setPCLoop=	_CC.set_pcloop			,--(opt,bool)
+		setBag=		_CC.set_bag7				,--(opt,bool)
+		setNode=	_CC.set_max_nodes		,--(opt,bool)
+		free=		_CC.free					,--(opt/wei)
 	}
 	function CC.updateField(P)
 		local F,i={},1
@@ -67,18 +66,20 @@ if CC then
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
 		for i=1,P.AIdata.next do
-			CC.addNext(P.AI_bot,CCblockID[P.next[i].id])
+			CC.addNext(P.AI_bot,CCblockID[P.nextQueue[i].id])
 		end
 		CC.updateField(P)
-		P.hd=nil
-		P.holded=false
-		P.cur=rem(P.next,1)
+
+		while P.holdQueue[1]do rem(P.holdQueue)end
+		P.holdTime=P.gameEnv.holdCount
+
+		P.cur=rem(P.nextQueue,1)
 		P.sc,P.dir=spinCenters[P.cur.id][0],0
 		P.r,P.c=#P.cur.bk,#P.cur.bk[1]
 		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-P.r+min(int(#P.field*.2),2)
 
 		P:newNext()
-		local id=CCblockID[P.next[P.AIdata.next].id]
+		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
 		if id then
 			CC.addNext(P.AI_bot,id)
 		end
@@ -113,8 +114,8 @@ local function ifoverlapAI(f,bk,x,y)
 		if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
-local discardRow=freeRow.discard
-local getRow=freeRow.get
+local discardRow=FREEROW.discard
+local getRow=FREEROW.get
 local function resetField(f0,f,start)
 	for _=#f,start,-1 do
 		discardRow(f[_])
@@ -151,8 +152,8 @@ local function getScore(field,cb,cy)
 		height[x]=h
 		if x>3 and x<8 and h>highest then highest=h end
 		if h>1 then
-			for h=h-1,1,-1 do
-				if field[h][x]==0 then
+			for h1=h-1,1,-1 do
+				if field[h1][x]==0 then
 					hole=hole+1
 					if hole==5 then break end
 				end
@@ -204,18 +205,18 @@ return{
 				end
 			end
 
-			for ifhold=0,P.gameEnv.hold and 1 or 0 do
+			for ifhold=0,P.gameEnv.holdCount>0 and 1 or 0 do
 				--Get block id
 				local bn
 				if ifhold==0 then
 					bn=P.cur and P.cur.id
 				else
-					bn=P.hd and P.hd.id or P.next[1]and P.next[1].id
+					bn=P.holdQueue[1]and P.holdQueue[1].id or P.nextQueue[1]and P.nextQueue[1].id
 				end
 				if not bn then goto CTN end
 
 				for dir=0,dirCount[bn]do--Each dir
-					local cb=blocks[bn][dir]
+					local cb=BLOCKS[bn][dir]
 					for cx=1,11-#cb[1]do--Each pos
 						local cy=#Tfield+1
 
@@ -268,10 +269,7 @@ return{
 			return 2
 		end,
 		function(P)
-			P.AI_delay=P.AI_delay0
-			if Timer()-P.modeData.point>P.modeData.event then
-				P.modeData.point=Timer()
-				P.modeData.event=P.AI_delay0+rnd(5,15)
+			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1
@@ -320,10 +318,7 @@ return{
 			end
 		end,
 		function(P)--Check if time to change target
-			P.AI_delay=P.AI_delay0
-			if Timer()-P.modeData.point>P.modeData.event then
-				P.modeData.point=Timer()
-				P.modeData.event=P.AI_delay0+rnd(5,15)
+			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 			return 1

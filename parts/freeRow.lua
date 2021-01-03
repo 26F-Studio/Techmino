@@ -1,36 +1,37 @@
-local freeRow={}
+local FREEROW={}
 local L={}--Storage
-local _=0--Length
-function freeRow.reset(num)
-	if num<_ then
-		for i=_,num+1,-1 do
+local len=0--Length
+function FREEROW.reset(num)
+	if num<len then
+		for i=len,num+1,-1 do
 			L[i]=nil
 		end
-	elseif num>_ then
-		for i=_+1,num do
-			L[i]={0,0,0,0,0,0,0,0,0,0}
+	elseif num>len then
+		for i=len+1,num do
+			L[i]={0,0,0,0,0,0,0,0,0,0,garbage=false}
 		end
 	end
-	_=num
+	len=num
 end
-function freeRow.get(val)
-	if _==0 then
+function FREEROW.get(val,ifGarbage)
+	if len==0 then
 		for i=1,10 do
-			L[i]={0,0,0,0,0,0,0,0,0,0}
+			L[i]={0,0,0,0,0,0,0,0,0,0,garbage=false}
 		end
-		_=_+10
+		len=len+10
 	end
-	local t=L[_]
+	local t=L[len]
 	for i=1,10 do t[i]=val end
-	L[_]=nil
-	_=_-1
+	t.garbage=ifGarbage==true
+	L[len]=nil
+	len=len-1
 	return t
 end
-function freeRow.discard(t)
-	_=_+1
-	L[_]=t
+function FREEROW.discard(t)
+	len=len+1
+	L[len]=t
 end
-function freeRow.getCount()
-	return _
+function FREEROW.getCount()
+	return len
 end
-return freeRow
+return FREEROW
