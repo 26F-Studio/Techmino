@@ -1,5 +1,6 @@
 --UUZ's fan
 local gc=love.graphics
+local polygon,ellipse=gc.polygon,gc.ellipse
 local rnd=math.random
 local max,min,sin=math.max,math.min,math.sin
 local ins,rem=table.insert,table.remove
@@ -57,7 +58,7 @@ function back.draw()
 	gc.setLineWidth(6)
 	gc.setColor(.55,.5,.6)
 	for i=1,8 do
-		gc.polygon("line",fan[i])
+		polygon("line",fan[i])
 	end
 
 	gc.setLineWidth(2)
@@ -65,11 +66,11 @@ function back.draw()
 	gc.origin()
 	for i=1,#petal do
 		local P=petal[i]
-		gc.ellipse("fill",P.x,P.y,P.rx,P.ry)
+		ellipse("fill",P.x,P.y,P.rx,P.ry)
 	end
 	gc.pop()
 end
 function back.discard()
-	petal=false
+	petal=nil
 end
 return back

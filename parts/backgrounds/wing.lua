@@ -68,6 +68,6 @@ function back.event(level)
 	end
 end
 function back.discard()
-	bar,crystal=false,false
+	bar,crystal=nil
 end
 return back

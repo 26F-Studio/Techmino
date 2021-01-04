@@ -1,5 +1,6 @@
 --Space with stars
 local gc=love.graphics
+local rectangle=gc.rectangle
 local rnd=math.random
 local back={}
 
@@ -35,14 +36,11 @@ function back.draw()
 	gc.translate(-10,-10)
 	gc.setColor(.8,.8,.8)
 	for i=1,1260,5 do
-		local s=stars
-		local x,y=s[i+1],s[i+2]
-		s=s[i]
-		gc.rectangle("fill",x,y,s,s)
+		rectangle("fill",stars[i+1],stars[i+2],stars[i],stars[i])
 	end
 	gc.translate(10,10)
 end
 function back.discard()
-	stars=false
+	stars=nil
 end
 return back

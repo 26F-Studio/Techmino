@@ -1,5 +1,6 @@
 --Snow
 local gc=love.graphics
+local ellipse=gc.ellipse
 local rnd=math.random
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
@@ -44,11 +45,11 @@ function back.draw()
 	gc.origin()
 	for i=1,#snow do
 		local P=snow[i]
-		gc.ellipse("fill",P.x,P.y,P.rx,P.ry)
+		ellipse("fill",P.x,P.y,P.rx,P.ry)
 	end
 	gc.pop()
 end
 function back.discard()
-	snow=false
+	snow=nil
 end
 return back

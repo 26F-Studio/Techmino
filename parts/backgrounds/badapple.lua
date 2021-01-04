@@ -1,5 +1,6 @@
 --Bad Apple!! (128x96, 10fps, 2192f)
 local gc=love.graphics
+local rectangle=gc.rectangle
 local int=math.floor
 local back={}
 
@@ -43,7 +44,7 @@ function back.draw()
 		for j=7,0,-1 do
 			local p=8*i+j
 			if bAnd(B,1)==0 then
-				gc.rectangle("fill",p%128,int(p/128),1,1)
+				rectangle("fill",p%128,int(p/128),1,1)
 			end
 			B=bRshift(B,1)
 		end
@@ -51,6 +52,6 @@ function back.draw()
 	gc.pop()
 end
 function back.discard()
-	video=false
+	video=nil
 end
 return back
