@@ -829,6 +829,8 @@ function WIDGET.set(list)
 		local c1,c2,c3
 		if FESTIVAL=="Xmas"then
 			c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
+		elseif FESTIVAL=="sprFes"then
+			c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
 		end
 		for _,W in next,list do
 			if W.color then
