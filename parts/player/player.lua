@@ -904,7 +904,6 @@ do--Player.drop(P)--Place piece
 
 		--Check line clear
 		for i=1,#CB do
-			print("i"..i)
 			local h=CY+i-2
 
 			--Bomb trigger
@@ -922,7 +921,6 @@ do--Player.drop(P)--Place piece
 			h=h+1
 			--Row filled
 			for x=1,10 do
-				print("x="..x)
 				if P.field[h][x]<=0 then
 					goto notFull
 				end
