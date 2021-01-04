@@ -1,23 +1,28 @@
-local BGlist={
+local BGs={
 	none={
 		draw=function()
 			love.graphics.clear(.15,.15,.15)
 		end
 	}
 }
+local BGlist={"none"}
 local BG={
 	cur="none",
 	default="none",
 	init=false,
 	resize=false,
 	update=NULL,
-	draw=BGlist.none.draw,
+	draw=BGs.none.draw,
 	event=false,
 	discard=NULL,
 }
 
 function BG.add(name,bg)
-	BGlist[name]=bg
+	BGs[name]=bg
+	BGlist[#BGlist+1]=name
+end
+function BG.getList()
+	return BGlist
 end
 function BG.send(...)
 	if BG.event then
@@ -34,7 +39,7 @@ function BG.set(background)
 	if background==BG.cur or not SETTING.bg then return end
 	BG.discard()
 	BG.cur=background
-	background=BGlist[background]
+	background=BGs[background]
 	if not background then
 		LOG.print("No BG called"..background,"warn")
 		return

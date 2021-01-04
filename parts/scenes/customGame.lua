@@ -153,12 +153,7 @@ scene.widgetList={
 	WIDGET.newSelector{name="fall",	x=410,	y=230,w=220,color="yellow",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=WIDGET.lnk_CUSval("fall"),code=WIDGET.lnk_CUSsto("fall")},
 
 	--Else
-	WIDGET.newSelector{name="bg",
-		x=1070,	y=150,w=250,color="yellow",
-		list={"none","grey","glow","rgb","flink","wing","fan","badapple","welcome","aura","bg1","bg2","rainbow","rainbow2","tunnel","lightning","lightning2","matrix","space","snow"},
-		disp=WIDGET.lnk_CUSval("bg"),
-		code=function(i)CUSTOMENV.bg=i BG.set(i)end
-	},
+	WIDGET.newSelector{name="bg",	x=1070,	y=150,w=250,color="yellow",list=BG.getList(),disp=WIDGET.lnk_CUSval("bg"),		code=function(i)CUSTOMENV.bg=i BG.set(i)end},
 	WIDGET.newSelector{name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.getList(),	disp=WIDGET.lnk_CUSval("bgm"),	code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
 
 	--Copy/Paste/Start
