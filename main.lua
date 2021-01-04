@@ -150,6 +150,7 @@ SKIN.init{
 	"PolkaDots(ScF)",
 	"Toy(ScF)",
 	"Smooth(MrZ)",
+	"Simple(ScF)",
 	"Glass(ScF)",
 	"Penta(ScF)",
 	"Bubble(ScF)",
