@@ -65,7 +65,7 @@ local eggInput={
 		BGM.setDefault("mXmas")
 		BGM.play()
 	end,
-}
+}for k,v in next,eggInput do if type(v)=="string"then eggInput[k]=eggInput[v]end end
 local function search()
 	if eggInput[input]then
 		if type(eggInput[input])=="string"then
