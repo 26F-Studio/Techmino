@@ -1,6 +1,6 @@
 local BGM={
 	default=false,
-	getList={},
+	getList=function()error("Can't getList before initialized!")end,
 	getCount=function()return 0 end,
 	play=NULL,
 	freshVolume=NULL,
