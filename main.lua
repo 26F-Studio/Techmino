@@ -285,8 +285,10 @@ end
 --Load background files from SOURCE ONLY
 for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do
 	if love.filesystem.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
-		local name=v:sub(1,-5)
-		BG.add(name,require("parts/backgrounds/"..name))
+		if v:sub(-3)=="lua"then
+			local name=v:sub(1,-5)
+			BG.add(name,require("parts/backgrounds/"..name))
+		end
 	else
 		LOG.print("Dangerous file : %SAVE%/parts/backgrounds/"..v)
 	end
