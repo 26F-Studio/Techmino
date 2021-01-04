@@ -825,10 +825,14 @@ function WIDGET.set(list)
 			list[i]:reset()
 		end
 	end
-	if FESTIVAL=="Xmas"and SCN.cur~="custom_field"then
+	if FESTIVAL and SCN.cur~="custom_field"then
+		local c1,c2,c3
+		if FESTIVAL=="Xmas"then
+			c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
+		end
 		for _,W in next,list do
 			if W.color then
-				W.color=math.random()<.5 and COLOR.red or COLOR.white
+				W.color=math.random()<.3 and c1 or math.random()<.5 and c2 or c3
 			end
 		end
 	end
