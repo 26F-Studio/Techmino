@@ -33,9 +33,8 @@ function BG.setDefault(bg)
 	BG.default=bg
 end
 function BG.set(background)
-	if not background then
-		background=BG.default
-	end
+	if not background then background=BG.default end
+	if not BGs[background]then LOG.print("No BGM file: "..background,10,COLOR.orange)end
 	if background==BG.cur or not SETTING.bg then return end
 	BG.discard()
 	BG.cur=background
