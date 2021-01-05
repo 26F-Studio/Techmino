@@ -7,7 +7,7 @@ local shader=SHADER.grad1
 local t
 function back.init()
 	t=rnd()*2600
-	BG.resize()
+	back.resize()
 end
 function back.resize()
 	shader:send("w",SCR.W)

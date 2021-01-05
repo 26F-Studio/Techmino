@@ -26,7 +26,7 @@ function back.init()
 	end
 	gc.pop()
 	gc.setCanvas()
-	BG.resize()
+	back.resize()
 end
 function back.resize()
 	crystal={}

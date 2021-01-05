@@ -25,14 +25,10 @@ local levels={
 
 local scene={}
 
-local levelName
-local targetString
-local progress
-local frameKeyCount
-local mistake
-local startTime
-local time
-local state
+local levelName,targetString
+local startTime,time
+local state,progress
+local frameKeyCount,mistake
 
 function scene.sceneInit()
 	BG.set("bg2")

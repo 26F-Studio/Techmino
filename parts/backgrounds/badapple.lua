@@ -13,7 +13,7 @@ function back.init()
 		video=love.data.decompress("string","zlib",love.filesystem.read("parts/backgrounds/badapple.dat"))
 	end
 	t=0
-	BG.resize()
+	back.resize()
 end
 function back.resize()
 	local W,H=SCR.w,SCR.h

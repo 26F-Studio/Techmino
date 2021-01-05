@@ -9,16 +9,11 @@ local mStr=mStr
 
 local scene={}
 
-local board
-local rank
-local blind
-local disappear
-local tapFX
-local startTime
-local time
-local mistake
-local state
-local progress
+local board,rank
+local blind,disappear
+local startTime,time
+local state,progress
+local tapFX,mistake
 function scene.sceneInit()
 	BG.set("space")
 	BGM.play("way")

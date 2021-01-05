@@ -11,7 +11,7 @@ local snow
 function back.init()
 	t=0
 	snow={}
-	BG.resize()
+	back.resize()
 end
 function back.update()
 	t=t+1

@@ -6,18 +6,12 @@ local mStr=mStr
 
 local scene={}
 
-local board
-local cx,cy
-local startTime
-local time
-local move
-local state
+local board,cx,cy
+local startTime,time
+local move,state
 
-local color
-local blind
-local slide
-local pathVis
-local revKB
+local color,blind
+local slide,pathVis,revKB
 
 function scene.sceneInit()
 	BG.set("rainbow2")

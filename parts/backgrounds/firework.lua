@@ -10,7 +10,6 @@ local firework,particle
 function back.init()
 	t=26
 	firework,particle={},{}
-	BG.resize()
 end
 function back.update(dt)
 	t=t-1
