@@ -7,88 +7,6 @@ local sub=string.sub
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
 
-local gameSetting={
-	--Tuning
-	"das","arr","dascut","sddas","sdarr",
-	"ihs","irs","ims","RS","swap",
-
-	--System
-	"skin","face",
-
-	--Graphic
-	"block","ghost","center","smooth","grid","bagLine",
-	"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
-	"text","score","warn","highCam","nextPos",
-}
-local function copyGameSetting()
-	local S={}
-	for _,key in next,gameSetting do
-		if type(SETTING[key])=="table"then
-			S[key]=copyList(SETTING[key])
-		else
-			S[key]=SETTING[key]
-		end
-	end
-	return S
-end
-
-function destroyPlayers()
-	for i=#PLAYERS,1,-1 do
-		local P=PLAYERS[i]
-		if P.canvas then P.canvas:release()end
-		while P.field[1]do
-			FREEROW.discard(rem(P.field))
-			FREEROW.discard(rem(P.visTime))
-		end
-		if P.AI_mode=="CC"then
-			CC.free(P.bot_opt)
-			CC.free(P.bot_wei)
-			CC.destroy(P.AI_bot)
-			P.AI_mode=false
-		end
-		PLAYERS[i]=nil
-	end
-	for i=#PLAYERS.alive,1,-1 do
-		PLAYERS.alive[i]=nil
-	end
-	collectgarbage()
-end
-
-function restoreVirtualKey()
-	for i=1,#VK_org do
-		local B,O=virtualkey[i],VK_org[i]
-		B.ava=O.ava
-		B.x=O.x
-		B.y=O.y
-		B.r=O.r
-		B.isDown=false
-		B.pressTime=0
-	end
-	for k,v in next,PLAYERS[1].keyAvailable do
-		if not v then
-			virtualkey[k].ava=false
-		end
-	end
-end
-
-function copyQuestArgs()
-	local ENV=CUSTOMENV
-	local str=""..
-		ENV.holdCount..
-		(ENV.ospin and"O"or"Z")..
-		(ENV.missionKill and"M"or"Z")..
-		ENV.sequence
-	return str
-end
-function pasteQuestArgs(str)
-	if #str<4 then return end
-	local ENV=CUSTOMENV
-	ENV.holdCount=		byte(str,1)-48
-	ENV.ospin=			byte(str,2)~=90
-	ENV.missionKill=	byte(str,3)~=90
-	ENV.sequence=		sub(str,4)
-end
-
 --Encoding Functions
 --Sep symbol: 33 (!)
 --Safe char: 34~126
@@ -315,47 +233,26 @@ function pasteMission(str)
 	return true
 end
 
-function freshDate()
-	local date=os.date("%Y/%m/%d")
-	if STAT.date~=date then
-		STAT.date=date
-		STAT.todayTime=0
-		LOG.print(text.newDay,"message")
-	end
+function copyQuestArgs()
+	local ENV=CUSTOMENV
+	local str=""..
+		ENV.holdCount..
+		(ENV.ospin and"O"or"Z")..
+		(ENV.missionKill and"M"or"Z")..
+		ENV.sequence
+	return str
 end
-function legalGameTime()
-	if
-		(SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
-		RANKS.sprint_10<4 and
-		(not RANKS.sprint_40 or RANKS.sprint_40<3)
-	then
-		if STAT.todayTime<14400 then
-			return true
-		elseif STAT.todayTime<21600 then
-			LOG.print(text.playedLong,"warning")
-			return true
-		else
-			LOG.print(text.playedTooMuch,"warning")
-			return false
-		end
-	end
-	return true
-end
-function mergeStat(stat,delta)
-	for k,v in next,delta do
-		if type(v)=="table"then
-			if type(stat[k])=="table"then
-				mergeStat(stat[k],v)
-			end
-		else
-			if stat[k]then
-				stat[k]=stat[k]+v
-			end
-		end
-	end
+function pasteQuestArgs(str)
+	if #str<4 then return end
+	local ENV=CUSTOMENV
+	ENV.holdCount=		byte(str,1)-48
+	ENV.ospin=			byte(str,2)~=90
+	ENV.missionKill=	byte(str,3)~=90
+	ENV.sequence=		sub(str,4)
 end
 
---Functions for royale mode
+
+--Royale mode
 function randomTarget(P)--Return a random opponent for P
 	if #PLAYERS.alive>1 then
 		local R
@@ -447,6 +344,91 @@ function royaleLevelup()
 	end
 end
 
+--Game
+function freshDate()
+	local date=os.date("%Y/%m/%d")
+	if STAT.date~=date then
+		STAT.date=date
+		STAT.todayTime=0
+		LOG.print(text.newDay,"message")
+	end
+end
+function legalGameTime()--Check if today's playtime is legal
+	if
+		(SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
+		RANKS.sprint_10<4 and
+		(not RANKS.sprint_40 or RANKS.sprint_40<3)
+	then
+		if STAT.todayTime<14400 then
+			return true
+		elseif STAT.todayTime<21600 then
+			LOG.print(text.playedLong,"warning")
+			return true
+		else
+			LOG.print(text.playedTooMuch,"warning")
+			return false
+		end
+	end
+	return true
+end
+function mergeStat(stat,delta)--Merge delta stat. to global stat.
+	for k,v in next,delta do
+		if type(v)=="table"then
+			if type(stat[k])=="table"then
+				mergeStat(stat[k],v)
+			end
+		else
+			if stat[k]then
+				stat[k]=stat[k]+v
+			end
+		end
+	end
+end
+function scoreValid()--Check if any unranked mods are activated
+	for _,M in next,GAME.mod do
+		if M.unranked then
+			return false
+		end
+	end
+	return true
+end
+function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
+	for i=#PLAYERS,1,-1 do
+		local P=PLAYERS[i]
+		if P.canvas then P.canvas:release()end
+		while P.field[1]do
+			FREEROW.discard(rem(P.field))
+			FREEROW.discard(rem(P.visTime))
+		end
+		if P.AI_mode=="CC"then
+			CC.free(P.bot_opt)
+			CC.free(P.bot_wei)
+			CC.destroy(P.AI_bot)
+			P.AI_mode=false
+		end
+		PLAYERS[i]=nil
+	end
+	for i=#PLAYERS.alive,1,-1 do
+		PLAYERS.alive[i]=nil
+	end
+	collectgarbage()
+end
+function restoreVirtualKey()
+	for i=1,#VK_org do
+		local B,O=virtualkey[i],VK_org[i]
+		B.ava=O.ava
+		B.x=O.x
+		B.y=O.y
+		B.r=O.r
+		B.isDown=false
+		B.pressTime=0
+	end
+	for k,v in next,PLAYERS[1].keyAvailable do
+		if not v then
+			virtualkey[k].ava=false
+		end
+	end
+end
 function pauseGame()
 	if not SCN.swapping then
 		GAME.restartCount=0--Avoid strange darkness
@@ -466,7 +448,7 @@ end
 function resumeGame()
 	SCN.swapTo("play","none")
 end
-function applyCustomGame()
+function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 	for k,v in next,CUSTOMENV do
 		GAME.modeEnv[k]=v
 	end
@@ -532,81 +514,107 @@ function initPlayerPosition(sudden)--Set initial position for every player
 		end end
 	end
 end
-local function tick_showMods()
-	local time=0
-	while true do
-		coroutine.yield()
-		time=time+1
-		if time%20==0 then
-			local M=GAME.mod[time/20]
-			if M then
-				TEXT.show(M.id,700+(time-20)%120*4,36,45,"spin",.5)
-			else
-				return
+do--function resetGameData(args)
+	local function tick_showMods()
+		local time=0
+		while true do
+			coroutine.yield()
+			time=time+1
+			if time%20==0 then
+				local M=GAME.mod[time/20]
+				if M then
+					TEXT.show(M.id,700+(time-20)%120*4,36,45,"spin",.5)
+				else
+					return
+				end
 			end
 		end
 	end
-end
-function resetGameData(args)
-	if not args then args=""end
-	if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
-		mergeStat(STAT,PLAYERS[1].stat)
-		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-	end
+	local gameSetting={
+		--Tuning
+		"das","arr","dascut","sddas","sdarr",
+		"ihs","irs","ims","RS","swap",
 
-	GAME.result=false
-	GAME.warnLVL0=0
-	GAME.warnLVL=0
-	if args:find("r")then
-		GAME.frame=0
-		GAME.recording=false
-		GAME.replaying=1
-	else
-		GAME.frame=150-SETTING.reTime*15
-		GAME.seed=rnd(1046101471,2662622626)
-		GAME.pauseTime=0
-		GAME.pauseCount=0
-		GAME.saved=false
-		GAME.setting=copyGameSetting()
-		GAME.rep={}
-		GAME.recording=true
-		GAME.replaying=false
-		GAME.rank=0
-		math.randomseed(tm.getTime())
-	end
+		--System
+		"skin","face",
 
-	destroyPlayers()
-	GAME.curMode.load()
-	initPlayerPosition(args:find("q"))
-	restoreVirtualKey()
-	if GAME.modeEnv.task then
-		for i=1,#PLAYERS do
-			PLAYERS[i]:newTask(GAME.modeEnv.task)
+		--Graphic
+		"block","ghost","center","smooth","grid","bagLine",
+		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
+		"text","score","warn","highCam","nextPos",
+	}
+	local function copyGameSetting()
+		local S={}
+		for _,key in next,gameSetting do
+			if type(SETTING[key])=="table"then
+				S[key]=copyList(SETTING[key])
+			else
+				S[key]=SETTING[key]
+			end
 		end
+		return S
 	end
-	BG.set(GAME.modeEnv.bg)
-	BGM.play(GAME.modeEnv.bgm)
-
-	TEXT.clear()
-	if GAME.modeEnv.royaleMode then
-		for i=1,#PLAYERS do
-			PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
+	function resetGameData(args)
+		if not args then args=""end
+		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
+			mergeStat(STAT,PLAYERS[1].stat)
+			STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 		end
-		GAME.stage=false
-		GAME.mostBadge=false
-		GAME.secBadge=false
-		GAME.mostDangerous=false
-		GAME.secDangerous=false
-		GAME.stage=1
+
+		GAME.result=false
+		GAME.warnLVL0=0
+		GAME.warnLVL=0
+		if args:find("r")then
+			GAME.frame=0
+			GAME.recording=false
+			GAME.replaying=1
+		else
+			GAME.frame=150-SETTING.reTime*15
+			GAME.seed=rnd(1046101471,2662622626)
+			GAME.pauseTime=0
+			GAME.pauseCount=0
+			GAME.saved=false
+			GAME.setting=copyGameSetting()
+			GAME.rep={}
+			GAME.recording=true
+			GAME.replaying=false
+			GAME.rank=0
+			math.randomseed(tm.getTime())
+		end
+
+		destroyPlayers()
+		GAME.curMode.load()
+		initPlayerPosition(args:find("q"))
+		restoreVirtualKey()
+		if GAME.modeEnv.task then
+			for i=1,#PLAYERS do
+				PLAYERS[i]:newTask(GAME.modeEnv.task)
+			end
+		end
+		BG.set(GAME.modeEnv.bg)
+		BGM.play(GAME.modeEnv.bgm)
+
+		TEXT.clear()
+		if GAME.modeEnv.royaleMode then
+			for i=1,#PLAYERS do
+				PLAYERS[i]:changeAtk(randomTarget(PLAYERS[i]))
+			end
+			GAME.stage=false
+			GAME.mostBadge=false
+			GAME.secBadge=false
+			GAME.mostDangerous=false
+			GAME.secDangerous=false
+			GAME.stage=1
+		end
+		STAT.game=STAT.game+1
+		FREEROW.reset(30*#PLAYERS)
+		TASK.removeTask_code(tick_showMods)
+		TASK.new(tick_showMods)
+		SFX.play("ready")
+		collectgarbage()
 	end
-	STAT.game=STAT.game+1
-	FREEROW.reset(30*#PLAYERS)
-	TASK.removeTask_code(tick_showMods)
-	TASK.new(tick_showMods)
-	SFX.play("ready")
-	collectgarbage()
 end
-function gameStart()
+function gameStart()--Call when countdown finish (GAME.frame==180)
 	SFX.play("start")
 	for P=1,#PLAYERS do
 		P=PLAYERS[P]
@@ -615,14 +623,7 @@ function gameStart()
 		P:popNext()
 	end
 end
-function scoreValid()--Check if any unranked mods are activated
-	for _,M in next,GAME.mod do
-		if M.unranked then
-			return false
-		end
-	end
-	return true
-end
+
 --[[
 	Byte data format: (1 byte each period)
 		KeyID, dt, KeyID, dt, ......
@@ -705,7 +706,6 @@ function pumpRecording(str,L)
 	end
 	return list
 end
-
 do--function saveRecording()
 	local noRecList={"custom","solo","round","techmino"}
 	local function getModList()
@@ -751,6 +751,9 @@ do--function saveRecording()
 	end
 end
 
+
+
+--Widget function shortcuts
 function backScene()SCN.back()end
 do--function goScene(name,style)
 	local cache={}
