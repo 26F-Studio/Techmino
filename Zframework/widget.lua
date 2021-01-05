@@ -792,19 +792,6 @@ end
 WIDGET.active={}--Table contains all active widgets
 WIDGET.sel=false--Selected widget
 
-function WIDGET.lnk_BACK()			SCN.back()end
-function WIDGET.lnk_CUSval(k)		return function()	return CUSTOMENV[k]				end end
-function WIDGET.lnk_CUSrev(k)		return function()	CUSTOMENV[k]=not CUSTOMENV[k]	end end
-function WIDGET.lnk_CUSsto(k)		return function(i)	CUSTOMENV[k]=i					end end
-
-function WIDGET.lnk_SETval(k)		return function()	return SETTING[k]				end end
-function WIDGET.lnk_SETrev(k)		return function()	SETTING[k]=not SETTING[k]		end end
-function WIDGET.lnk_SETsto(k)		return function(i)	SETTING[k]=i					end end
-
-function WIDGET.lnk_pressKey(k)		return function()	love.keypressed(k)				end end
-function WIDGET.lnk_goScene(t,s)	return function()	SCN.go(t,s)						end end
-function WIDGET.lnk_swapScene(t,s)	return function()	SCN.swapTo(t,s)					end end
-
 WIDGET.indexMeta={
 	__index=function(L,k)
 		for i=1,#L do

@@ -111,7 +111,7 @@ scene.widgetList={
 		end,
 		hide=HIDE},
 
-	WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=backScene},
 }
 
 return scene

@@ -39,12 +39,12 @@ local function clearResult()
 	selected,scrollPos,waiting,lastSearch=1,0,0,false
 end
 local eggInput={
-	["15p"]="mg_15p",
-	sltg="mg_schulteG",
-	pong="mg_pong",
-	atoz="mg_AtoZ",
-	uttt="mg_UTTT",
-	cbf="mg_cubefield",
+	["15p"]=goScene"mg_15p",
+	sltg=goScene"mg_schulteG",
+	pong=goScene"mg_pong",
+	atoz=goScene"mg_AtoZ",
+	uttt=goScene"mg_UTTT",
+	cbf=goScene"mg_cubefield",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)
@@ -75,11 +75,7 @@ local eggInput={
 }for k,v in next,eggInput do if type(v)=="string"then eggInput[k]=eggInput[v]end end
 local function search()
 	if eggInput[input]then
-		if type(eggInput[input])=="string"then
-			SCN.go(eggInput[input])
-		elseif type(eggInput[input])=="function"then
-			eggInput[input]()
-		end
+		eggInput[input]()
 	else
 		clearResult()
 		local first
@@ -220,10 +216,10 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align="L"},
 	WIDGET.newKey{name="keyboard",	x=960,	y=60,w=200,h=80,font=35,code=function()love.keyboard.setTextInput(true,0,0,1,1)end,hide=not MOBILE},
-	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=WIDGET.lnk_pressKey("link"),hide=function()return not url end},
-	WIDGET.newKey{name="up",		x=1190,	y=440,w=100,h=100,font=35,code=WIDGET.lnk_pressKey("up"),hide=not MOBILE},
-	WIDGET.newKey{name="down",		x=1190,	y=550,w=100,h=100,font=35,code=WIDGET.lnk_pressKey("down"),hide=not MOBILE},
-	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
+	WIDGET.newKey{name="up",		x=1190,	y=440,w=100,h=100,font=35,code=pressKey"up",hide=not MOBILE},
+	WIDGET.newKey{name="down",		x=1190,	y=550,w=100,h=100,font=35,code=pressKey"down",hide=not MOBILE},
+	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,font=40,code=backScene},
 }
 
 return scene

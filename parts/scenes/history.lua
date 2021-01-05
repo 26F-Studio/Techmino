@@ -40,9 +40,9 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="prev",		x=1155,	y=170,w=180,font=65,code=WIDGET.lnk_pressKey("up"),hide=function()return scrollPos==1 end},
-	WIDGET.newKey{name="next",		x=1155,	y=400,w=180,font=65,code=WIDGET.lnk_pressKey("down"),hide=function()return scrollPos==#texts end},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newKey{name="prev",		x=1155,	y=170,w=180,font=65,code=pressKey"up",hide=function()return scrollPos==1 end},
+	WIDGET.newKey{name="next",		x=1155,	y=400,w=180,font=65,code=pressKey"down",hide=function()return scrollPos==#texts end},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 
 return scene

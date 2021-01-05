@@ -198,7 +198,7 @@ scene.widgetList={
 		code=function()
 			SCN.go("setting_touchSwitch")
 		end},
-	WIDGET.newButton{name="back",	x=760,y=190,w=200,h=80,font=35,code=WIDGET.lnk_BACK},
+	WIDGET.newButton{name="back",	x=760,y=190,w=200,h=80,font=35,code=backScene},
 	WIDGET.newSlider{name="size",	x=450,y=270,w=460,unit=19,font=40,show="vkSize",
 		disp=function()
 			return VK_org[selected].r/10-1

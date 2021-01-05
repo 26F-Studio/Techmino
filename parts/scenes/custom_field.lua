@@ -276,20 +276,20 @@ scene.widgetList={
 
 	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lGrey",	font=40,code=setPen(0)},
 	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="grey",	font=65,code=setPen(-1)},
-	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lYellow",font=20,code=WIDGET.lnk_pressKey("k")},
-	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lYellow",font=20,code=WIDGET.lnk_pressKey("l")},
+	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"k"},
+	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"l"},
 
-	WIDGET.newButton{name="copy",		x=730,	y=530,w=120,color="lRed",	font=35,code=WIDGET.lnk_pressKey("cC")},
-	WIDGET.newButton{name="paste",		x=860,	y=530,w=120,color="lBlue",	font=35,code=WIDGET.lnk_pressKey("cV")},
-	WIDGET.newButton{name="clear",		x=990,	y=530,w=120,color="white",	font=40,code=WIDGET.lnk_pressKey("delete")},
+	WIDGET.newButton{name="copy",		x=730,	y=530,w=120,color="lRed",	font=35,code=pressKey"cC"},
+	WIDGET.newButton{name="paste",		x=860,	y=530,w=120,color="lBlue",	font=35,code=pressKey"cV"},
+	WIDGET.newButton{name="clear",		x=990,	y=530,w=120,color="white",	font=40,code=pressKey"delete"},
 	WIDGET.newSwitch{name="demo",		x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
 
-	WIDGET.newButton{name="newPage",	x=100,	y=110,w=160,h=110,color="sky",font=20,code=WIDGET.lnk_pressKey("n")},
-	WIDGET.newButton{name="delPage",	x=100,	y=230,w=160,h=110,color="lRed",font=20,code=WIDGET.lnk_pressKey("m")},
-	WIDGET.newButton{name="prevPage",	x=100,	y=350,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("sTab"),hide=function()return page==1 end},
-	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lGreen",font=20,code=WIDGET.lnk_pressKey("tab"),hide=function()return page==#FIELD end},
+	WIDGET.newButton{name="newPage",	x=100,	y=110,w=160,h=110,color="sky",font=20,code=pressKey"n"},
+	WIDGET.newButton{name="delPage",	x=100,	y=230,w=160,h=110,color="lRed",font=20,code=pressKey"m"},
+	WIDGET.newButton{name="prevPage",	x=100,	y=350,w=160,h=110,color="lGreen",font=20,code=pressKey"sTab",hide=function()return page==1 end},
+	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lGreen",font=20,code=pressKey"tab",hide=function()return page==#FIELD end},
 
-	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
 }
 
 return scene

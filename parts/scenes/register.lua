@@ -67,7 +67,7 @@ scene.widgetList={
 	WIDGET.newTextBox{name="email",		x=380,	y=300,w=626,h=60,regex="[0-9A-Za-z@._-]"},
 	WIDGET.newTextBox{name="password",	x=380,	y=400,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newTextBox{name="password2",	x=380,	y=500,w=626,h=60,secret=true,regex="[ -~]"},
-	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 
 return scene

@@ -706,45 +706,85 @@ function pumpRecording(str,L)
 	return list
 end
 
-local noRecList={"custom","solo","round","techmino"}
-local function getModList()
-	local res={}
-	for _,v in next,GAME.mod do
-		if v.sel>0 then
-			ins(res,{v.no,v.sel})
+do--function saveRecording()
+	local noRecList={"custom","solo","round","techmino"}
+	local function getModList()
+		local res={}
+		for _,v in next,GAME.mod do
+			if v.sel>0 then
+				ins(res,{v.no,v.sel})
+			end
+		end
+		return res
+	end
+	function saveRecording()
+		--Filtering modes that cannot be saved
+		for _,v in next,noRecList do
+			if GAME.curModeName:find(v)then
+				LOG.print("Cannot save recording of this mode now!",COLOR.sky)
+				return
+			end
+		end
+
+		--File contents
+		local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
+		local fileHead=
+			os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
+			GAME.curModeName.."\n"..
+			VERSION_NAME.."\n"..
+			(USER.username or"Player")
+		local fileBody=
+			GAME.seed.."\n"..
+			json.encode(GAME.setting).."\n"..
+			json.encode(getModList()).."\n"..
+			dumpRecording(GAME.rep)
+
+		--Write file
+		if not fs.getInfo(fileName)then
+			fs.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
+			ins(REPLAY,fileName)
+			FILE.save(REPLAY,"conf/replay")
+			return true
+		else
+			LOG.print("Save failed: File already exists")
 		end
 	end
-	return res
 end
-function saveRecording()
-	--Filtering modes that cannot be saved
-	for _,v in next,noRecList do
-		if GAME.curModeName:find(v)then
-			LOG.print("Cannot save recording of this mode now!",COLOR.sky)
-			return
+
+function backScene()SCN.back()end
+do--function goScene(name,style)
+	local cache={}
+	function goScene(name,style)
+		if not cache[name]then
+			cache[name]=function()SCN.go(name,style)end
 		end
+		return cache[name]
 	end
-
-	--File contents
-	local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
-	local fileHead=
-		os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
-		GAME.curModeName.."\n"..
-		VERSION_NAME.."\n"..
-		(USER.username or"Player")
-	local fileBody=
-		GAME.seed.."\n"..
-		json.encode(GAME.setting).."\n"..
-		json.encode(getModList()).."\n"..
-		dumpRecording(GAME.rep)
-
-	--Write file
-	if not fs.getInfo(fileName)then
-		fs.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
-		ins(REPLAY,fileName)
-		FILE.save(REPLAY,"conf/replay")
-		return true
-	else
-		LOG.print("Save failed: File already exists")
+end
+do--function swapScene(name,style)
+	local cache={}
+	function swapScene(name,style)
+		if not cache[name]then
+			cache[name]=function()SCN.swapTo(name,style)end
+		end
+		return cache[name]
 	end
+end
+do--function pressKey(k)
+	local cache={}
+	function pressKey(k)
+		if not cache[k]then
+			cache[k]=function()love.keypressed(k)end
+		end
+		return cache[k]
+	end
+end
+do--lnk_CUS/SETXXX(k)
+	local c,s=CUSTOMENV,SETTING
+	function lnk_CUSval(k)return function()return c[k]	end end
+	function lnk_SETval(k)return function()return s[k]	end end
+	function lnk_CUSrev(k)return function()c[k]=not c[k]end end
+	function lnk_SETrev(k)return function()s[k]=not s[k]end end
+	function lnk_CUSsto(k)return function(i)c[k]=i		end end
+	function lnk_SETsto(k)return function(i)s[k]=i		end end
 end

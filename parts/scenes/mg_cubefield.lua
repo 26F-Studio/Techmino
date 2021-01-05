@@ -298,7 +298,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="back",x=1140,y=80,w=170,h=80,font=40,code=WIDGET.lnk_BACK},
+	WIDGET.newKey{name="back",x=1140,y=80,w=170,h=80,font=40,code=backScene},
 }
 
 return scene
