@@ -17,10 +17,10 @@ function back.update(dt)
 	if t==0 then
 		ins(firework,{
 			x=nil,y=nil,
-			x0=SCR.W*(rnd()*1.2-.1),
-			y0=SCR.H*1.5,
-			x1=SCR.W*(.15+rnd()*.7),
-			y1=SCR.H*(.15+rnd()*.4),
+			x0=SCR.w*(rnd()*1.2-.1),
+			y0=SCR.h*1.5,
+			x1=SCR.w*(.15+rnd()*.7),
+			y1=SCR.h*(.15+rnd()*.4),
 			t=0,
 			v=.5+rnd(),
 			color=COLOR.random_bright(),
