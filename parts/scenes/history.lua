@@ -7,7 +7,7 @@ local texts--Text list
 local scrollPos--Scroll down length
 
 function scene.sceneInit()
-	BG.set("rainbow")
+	BG.set("cubes")
 	texts=require"parts/updateLog"
 	scrollPos=1
 	if newVersionLaunch then
