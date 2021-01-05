@@ -314,7 +314,7 @@ function scene.draw()
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="quit",x=1235,y=45,w=80,font=25,code=pressKey"escape"},
+	WIDGET.newKey{name="quit",x=1235,y=45,w=80,font=20,code=pressKey"escape"},
 }
 
 return scene

@@ -371,7 +371,7 @@ function scene.draw()
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="pause",x=1235,y=45,w=60,font=25,code=function()pauseGame()end},
+	WIDGET.newKey{name="pause",x=1235,y=45,w=60,font=20,code=function()pauseGame()end},
 }
 
 return scene
