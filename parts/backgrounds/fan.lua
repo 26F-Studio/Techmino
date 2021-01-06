@@ -12,7 +12,6 @@ function back.init()
 	t=rnd(2600)
 	fan=title_fan
 	petal={}
-	back.resize()
 end
 function back.update()
 	t=t+1
