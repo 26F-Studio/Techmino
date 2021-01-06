@@ -114,7 +114,7 @@ local function check_LVup(P)
 			for i=1,7 do ENV.skin[i]=math.random(16)end
 
 			P:setInvisible(40)
-			ENV.lock=150
+			ENV.lock=15
 			P.curMission=1
 			ENV.mission={4,4,4,4,4,4,4,4}
 			ENV.missionKill=false
