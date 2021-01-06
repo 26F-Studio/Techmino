@@ -323,7 +323,7 @@ function switch:draw()
 	--Text
 	local t=self.text
 	if t then
-		gc.setColor(1,1,1)
+		gc.setColor(self.color)
 		setFont(self.font)
 		gc.printf(t,x-412-ATV,y+20-self.font*.7,400,"right")
 	end
@@ -335,7 +335,7 @@ function switch:press()
 	self.code()
 	SFX.play("move")
 end
-function WIDGET.newSwitch(D)--name,x,y[,font][,disp],code,hide
+function WIDGET.newSwitch(D)--name,x,y[,color][,font][,disp],code,hide
 	local _={
 		name=	D.name,
 
@@ -346,6 +346,7 @@ function WIDGET.newSwitch(D)--name,x,y[,font][,disp],code,hide
 			D.x+25,D.y,
 		},
 
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		disp=	D.disp,
 		code=	D.code,
@@ -446,7 +447,7 @@ function slider:draw()
 	--Text
 	local t=self.text
 	if t then
-		gc.setColor(1,1,1)
+		gc.setColor(self.color)
 		setFont(self.font)
 		gc.printf(t,x-312-ATV,y-self.font*.7,300,"right")
 	end
@@ -485,7 +486,7 @@ function slider:arrowKey(isLeft)
 		self.change()
 	end
 end
-function WIDGET.newSlider(D)--name,x,y,w[,unit][,smooth][,font][,change],disp,code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,color][,unit][,smooth][,font][,change],disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -501,6 +502,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,unit][,smooth][,font][,change],disp,co
 			D.x+D.w,D.y,
 		},
 
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		unit=	D.unit or 1,
 		smooth=	false,
 		font=	D.font or 30,
@@ -577,7 +579,6 @@ function selector:update()
 end
 function selector:draw()
 	local x,y=self.x,self.y
-	local r,g,b=unpack(self.color)
 	local w=self.w
 	local ATV=self.ATV
 
@@ -607,7 +608,7 @@ function selector:draw()
 	setFont(30)
 	t=self.text
 	if t then
-		gc.setColor(r,g,b)
+		gc.setColor(self.color)
 		mStr(self.text,x+w*.5,y+17-21)
 	end
 	gc.setColor(1,1,1)
@@ -814,14 +815,15 @@ function WIDGET.set(list)
 	end
 	if FESTIVAL and SCN.cur~="custom_field"then
 		local c1,c2,c3
-		if FESTIVAL=="Xmas"then
+		if FESTIVAL=="xMas"then
 			c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
 		elseif FESTIVAL=="sprFes"then
 			c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
 		end
+		local rnd=math.random
 		for _,W in next,list do
 			if W.color then
-				W.color=math.random()<.3 and c1 or math.random()<.5 and c2 or c3
+				W.color=rnd()<.3 and c1 or rnd()<.5 and c2 or c3
 			end
 		end
 	end
