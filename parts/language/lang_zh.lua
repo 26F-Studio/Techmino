@@ -254,6 +254,7 @@ return{
 		},
 		net_rooms={
 			fresh="刷新",
+			join="加入",
 			up="↑",
 			down="↓",
 		},

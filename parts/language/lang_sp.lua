@@ -234,6 +234,7 @@ return{
 		},
 		net_rooms={
 			-- fresh="Fresh",
+			-- join="Join",
 			up="↑",
 			down="↓",
 		},
