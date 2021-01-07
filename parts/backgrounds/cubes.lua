@@ -53,7 +53,7 @@ function back.update(dt)
 			S.vy>0 and S.y>SCR.h or
 			S.vy<0 and S.y+S.size<0
 		then
-			rem(S,i)
+			rem(squares,i)
 		else
 			S.x=S.x+S.vx*dt
 			S.y=S.y+S.vy*dt
