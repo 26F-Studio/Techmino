@@ -108,6 +108,8 @@ function scene.sceneInit(org)
 		elseif P.stat.maxFinesseCombo==P.stat.piece then
 			trophy=text.finesse_fc
 			trophyColor=COLOR.lCyan
+		else
+			trophy=nil
 		end
 	else
 		rank,trophy=nil
