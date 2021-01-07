@@ -1,6 +1,9 @@
 return splitStr([=[
+"Patron"(time ordered, may not accurate)         Thanks!!!
 						<<<<<<<<<<rmb1000+>>>>>>>>>>
-											★☆白羽☆★
+										★★☆☆☆☆★★
+									★☆☆★白羽★☆☆★
+										★★☆☆☆☆★★
 				<<<rmb100+>>>
 						\那没事了(T6300)/           \加油啊,钉钉动了的大哥哥(T3228)/
 						\弥佑瑶/                             \Alan/               \幽灵3383/
@@ -19,8 +22,6 @@ return splitStr([=[
 				cnDD    红桃老给    昭庭玲秋    旋树墩    火花工作室    Cosine    沁音的芝麻王
 				SuperJH    天上_飞    uiro    宇酱    [W*N]    [Z*.]    [*之]    白衣    给虫
 				我永远喜欢樱花小姐    xb    flaribbit    工口发动机    金海星    tatianyi
-		Thanks!!!
-
 未来计划:
 		新模式:
 				无尽PC挑战; 简单极简练习; 任务生存
