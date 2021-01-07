@@ -1,5 +1,4 @@
-local S=[=[
-"Patron"(time ordered, may not accurate):
+return splitStr([=[
 						<<<<<<<<<<rmb1000+>>>>>>>>>>
 											★☆白羽☆★
 				<<<rmb100+>>>
@@ -1357,20 +1356,4 @@ local S=[=[
 		GUI position editted
 		grid BG changed
 		smarter AI
-]=]
-
-local find,sub=string.find,string.sub
-local L,c={},0--List, \n counter,
-local p,p1=1,0--Cut start/end pos
-local EOF=#S
-
-while true do
-	p1=find(S,"\n",p1+1)
-	c=c+1
-	if c==23 or p1==EOF then
-		L[#L+1]=sub(S,p,p1-1)
-		if p1==EOF then return L end
-		p=p1+1
-		c=0
-	end
-end
+]=],"\n")

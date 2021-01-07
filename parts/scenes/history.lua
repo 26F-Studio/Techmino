@@ -21,9 +21,9 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(key)
 	if key=="up"then
-		scrollPos=max(scrollPos-1,1)
+		scrollPos=max(scrollPos-6,1)
 	elseif key=="down"then
-		scrollPos=min(scrollPos+1,#texts)
+		scrollPos=min(scrollPos+6,#texts-22)
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -36,7 +36,9 @@ function scene.draw()
 	gc.setLineWidth(4)
 	gc.rectangle("line",30,45,1000,632)
 	setFont(20)
-	gc.print(texts[scrollPos],40,50)
+	for i=0,22 do
+		gc.print(texts[scrollPos+i],40,50+27*i)
+	end
 end
 
 scene.widgetList={
