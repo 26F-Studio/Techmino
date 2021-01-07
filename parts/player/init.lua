@@ -33,7 +33,7 @@ local function getNewStatTable()
 	return T
 end
 local function pressKey(P,keyID)
-	if P.keyAvailable[keyID]then
+	if P.keyAvailable[keyID]and P.alive then
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
@@ -49,7 +49,7 @@ local function releaseKey(P,keyID)
 	P.keyPressing[keyID]=false
 end
 local function pressKey_Rec(P,keyID)
-	if P.keyAvailable[keyID]then
+	if P.keyAvailable[keyID]and P.alive then
 		ins(GAME.rep,GAME.frame+1)
 		ins(GAME.rep,keyID)
 		P.keyPressing[keyID]=true
