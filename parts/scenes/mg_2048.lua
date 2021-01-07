@@ -112,7 +112,7 @@ local function newTile()
 end
 local function freshMaxTile()
 	maxTile=maxTile+1
-	if maxTile==7 then skipCD=0 end
+	if maxTile==12 then skipCD=0 end
 	SFX.play("reach")
 	ins(progress,format("%s - %.3fs",tileName[maxTile],TIME()-startTime))
 end
@@ -202,7 +202,7 @@ end
 local function skip()
 	if state==1 and skipCD==0 then
 		if airExist()then
-			skipCD=32
+			skipCD=1024
 			skipUsed=true
 			newTile()
 			SFX.play("hold")
