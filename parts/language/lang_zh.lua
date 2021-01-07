@@ -615,6 +615,12 @@ return{
 		},
 		mg_2048={
 			blind="盲打",
+			tapControl="点击操作",
+
+			up="↑",
+			down="↓",
+			left="←",
+			right="→",
 			skip="跳过回合",
 			reset="重置",
 		},

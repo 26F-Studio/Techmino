@@ -1,5 +1,5 @@
 local gc=love.graphics
-local rectangle=gc.rectangle
+local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,abs=math.floor,math.abs
 local rnd,min=math.random,math.min
@@ -12,6 +12,7 @@ local scene={}
 
 local board
 local blind
+local tapControl
 local startTime,time
 local state,progress
 local skipCD,skipUsed
@@ -61,6 +62,7 @@ local function airExist()
 	end
 end
 local function newTile()
+	--Select position & generate number
 	nextPos=(nextPos+6)%16+1
 	local p=nextPos
 	while board[p]do
@@ -70,6 +72,11 @@ local function newTile()
 	prevPos=p
 	prevSpawnTime=0
 
+	--Fresh score
+	score=score+2^nextTile
+	TEXT.show("+"..2^nextTile,1130+rnd(-60,60),555+rnd(-40,40),30,"score",1.5)
+
+	--Generate next number
 	nextCD=nextCD-1
 	if nextCD>0 then
 		nextTile=1
@@ -77,15 +84,6 @@ local function newTile()
 		nextTile=rnd()>.1 and 2 or rnd()>.1 and 3 or 4
 		nextCD=rnd(8,12)
 	end
-
-	--Fresh score
-	score=0
-	for i=1,16 do
-		if board[i]and board[i]>0 then
-			score=score+2^board[i]
-		end
-	end
-	TEXT.show("+"..2^nextTile,1130+rnd(-60,60),555+rnd(-40,40),30,"score",1.5)
 
 	--Check if board is full
 	if airExist()then return end
@@ -218,21 +216,24 @@ function scene.sceneInit()
 	board={}
 
 	blind=false
+	tapControl=true
 	startTime,time=0,0
 	state=0
 	reset()
 end
 
 function scene.mouseDown(x,y,k)
-	if k==2 then
-		skip()
-	else
-		local dx,dy=x-640,y-360
-		if abs(dx)<320 and abs(dy)<320 and(abs(dx)>60 or abs(dy)>60)then
-			scene.keyDown(abs(dx)-abs(dy)>0 and
-				(dx>0 and"right"or"left")or
-				(dy>0 and"down"or"up")
-			)
+	if tapControl then
+		if k==2 then
+			skip()
+		else
+			local dx,dy=x-640,y-360
+			if abs(dx)<320 and abs(dy)<320 and(abs(dx)>60 or abs(dy)>60)then
+				scene.keyDown(abs(dx)-abs(dy)>0 and
+					(dx>0 and"right"or"left")or
+					(dy>0 and"down"or"up")
+				)
+			end
 		end
 	end
 end
@@ -264,6 +265,7 @@ function scene.keyDown(key)
 	elseif key=="space"then skip()
 	elseif key=="r"then reset()
 	elseif key=="q"then if state==0 then blind=not blind end
+	elseif key=="w"then if state==0 then tapControl=not tapControl end
 	elseif key=="escape"then SCN.back()
 	end
 end
@@ -279,32 +281,32 @@ end
 
 function scene.draw()
 	setFont(40)
-	gc.setColor(1,1,1)
+	setColor(1,1,1)
 	gc.print(format("%.3f",time),1026,80)
 
 	--Progress time list
 	setFont(30)
-	gc.setColor(.7,.7,.7)
+	setColor(.7,.7,.7)
 	for i=1,#progress do
 		gc.print(progress[i],1000,130+32*i)
 	end
 
 	--Score
 	setFont(40)
-	gc.setColor(1,.7,.7)
+	setColor(1,.7,.7)
 	mStr(score,1130,490)
 
 	--Messages
 	if state==2 then
 		--Draw no-setting area
-		gc.setColor(1,0,0,.3)
-		rectangle("fill",15,335,285,250)
+		setColor(1,0,0,.3)
+		rectangle("fill",15,335,285,140)
 
-		gc.setColor(.9,.9,0)--win
+		setColor(.9,.9,0)--win
 	elseif state==1 then
-		gc.setColor(.9,.9,.9)--game
+		setColor(.9,.9,.9)--game
 	elseif state==0 then
-		gc.setColor(.2,.8,.2)--ready
+		setColor(.2,.8,.2)--ready
 	end
 	gc.setLineWidth(10)
 	rectangle("line",310,30,660,660)
@@ -315,20 +317,20 @@ function scene.draw()
 			local x,y=1+(i-1)%4,int((i+3)/4)
 			local N=board[i]
 			if i~=prevPos or prevSpawnTime==1 then
-				gc.setColor(tileColor[N]or COLOR.black)
+				setColor(tileColor[N]or COLOR.black)
 				rectangle("fill",x*160+163,y*160-117,154,154,15)
 				if N>=0 and not blind or i==prevPos then
-					gc.setColor(N<3 and COLOR.black or COLOR.W)
+					setColor(N<3 and COLOR.black or COLOR.W)
 					local fontSize=tileFont[N]
 					setFont(fontSize)
 					mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-7*(fontSize/5+1)/2)
 				end
 			else
 				local c=tileColor[N]
-				gc.setColor(c[1],c[2],c[3],prevSpawnTime)
+				setColor(c[1],c[2],c[3],prevSpawnTime)
 				rectangle("fill",x*160+163,y*160-117,154,154,15)
 				c=N<3 and 0 or 1
-				gc.setColor(c,c,c,prevSpawnTime)
+				setColor(c,c,c,prevSpawnTime)
 				local fontSize=tileFont[N]
 				setFont(fontSize)
 				mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-7*(fontSize/5+1)/2)
@@ -337,7 +339,7 @@ function scene.draw()
 	end
 
 	--Next indicator
-	gc.setColor(1,1,1)
+	setColor(1,1,1)
 	if nextCD<=12 then
 		for i=1,nextCD do
 			rectangle("fill",140+i*16-nextCD*8,170,12,12)
@@ -346,38 +348,55 @@ function scene.draw()
 
 	--Next
 	setFont(40)
-	mStr("Next",153,185)
+	mStr("Next",155,185)
 	if nextTile>1 then
-		gc.setColor(1,.5,.4)
+		setColor(1,.5,.4)
 	end
 	setFont(70)
-	mStr(tileName[nextTile],153,220)
+	mStr(tileName[nextTile],155,220)
 
 	--Skip CoolDown
 	if skipCD and skipCD>0 then
 		setFont(50)
-		gc.setColor(1,1,.5)
-		mStr(skipCD,160,600)
+		setColor(1,1,.5)
+		mStr(skipCD,155,600)
 	end
 
 	--Skip mark
 	if skipUsed then
-		gc.setColor(1,1,.5)
+		setColor(1,1,.5)
 		gc.circle("fill",280,675,10)
 	end
 
 	--New tile position
 	local x,y=1+(prevPos-1)%4,int((prevPos+3)/4)
 	gc.setLineWidth(8)
-	gc.setColor(.2,.8,0,prevSpawnTime)
+	setColor(.2,.8,0,prevSpawnTime)
 	local d=25-prevSpawnTime*25
 	rectangle("line",x*160+163-d,y*160-117-d,154+2*d,154+2*d,15)
+
+	--Touch control boarder line
+	if tapControl then
+		gc.setLineWidth(6)
+		setColor(1,1,1,.2)
+		gc.line(310,30,580,300)
+		gc.line(970,30,700,300)
+		gc.line(310,690,580,420)
+		gc.line(970,690,700,420)
+		rectangle("line",580,300,120,120,10)
+	end
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
-	WIDGET.newKey{name="skip",			x=160,y=640,w=180,h=100,color="lYellow",font=40,code=pressKey"space",hide=function()return state~=1 or not skipCD or skipCD>0 end},
+	WIDGET.newButton{name="reset",		x=155,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
 	WIDGET.newSwitch{name="blind",		x=240,y=370,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="tapControl",	x=240,y=440,w=60,		font=40,disp=function()return tapControl end,	code=pressKey"w",hide=function()return state==1 end},
+
+	WIDGET.newKey{name="up",			x=155,y=600-50,w=100,h=100,font=50,color="yellow",code=pressKey"up",hide=function()return tapControl end},
+	WIDGET.newKey{name="down",			x=155,y=600+50,w=100,h=100,font=50,color="yellow",code=pressKey"down",hide=function()return tapControl end},
+	WIDGET.newKey{name="left",			x=155-100,y=600,w=100,h=100,font=50,color="yellow",code=pressKey"left",hide=function()return tapControl end},
+	WIDGET.newKey{name="right",			x=155+100,y=600,w=100,h=100,font=50,color="yellow",code=pressKey"right",hide=function()return tapControl end},
+	WIDGET.newKey{name="skip",			x=155,y=400,w=100,h=100,font=20,color="yellow",code=pressKey"space",hide=function()return state~=1 or not skipCD or skipCD>0 end},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

@@ -611,6 +611,12 @@ return{
 		},
 		mg_2048={
 			blind="Blind",
+			tapControl="Tap control",
+
+			up="↑",
+			down="↓",
+			left="←",
+			right="→",
 			skip="Skip Round",
 			reset="Reset",
 		},
