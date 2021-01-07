@@ -612,6 +612,11 @@ return{
 		mg_UTTT={
 			reset="重置",
 		},
+		mg_2048={
+			blind="盲打",
+			skip="跳过回合",
+			reset="重置",
+		},
 		savedata={
 			exportUnlock="导出地图进度",
 			exportData="导出统计数据",

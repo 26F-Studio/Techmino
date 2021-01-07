@@ -608,6 +608,11 @@ return{
 			keyboard="Keyboard",
 			reset="Reset",
 		},
+		mg_2048={
+			blind="Blind",
+			skip="Skip Round",
+			reset="Reset",
+		},
 		savedata={
 			exportUnlock="Export progress",
 			exportData="Export statistics",

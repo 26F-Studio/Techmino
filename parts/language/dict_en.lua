@@ -738,7 +738,7 @@ return{
 	{"Minigame",
 		"minigame",
 		"other",
-		"Input these to play free minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf",
+		"Input these to play free minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf\n2048: 2048",
 	},
 
 
