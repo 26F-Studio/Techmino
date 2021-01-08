@@ -109,7 +109,6 @@ SKIN=	require"parts/skin"
 PLY=	require"parts/player"
 AIFUNC=	require"parts/ai"
 MODES=	require"parts/modes"
-TICK=	require"parts/tick"
 
 --First start for phones
 if not fs.getInfo("conf/settings")and MOBILE then

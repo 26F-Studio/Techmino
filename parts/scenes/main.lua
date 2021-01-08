@@ -11,7 +11,7 @@ local function tick_httpREQ_checkAccessToken(task)
 				SCN.go("net_menu")
 			elseif response.code==403 or response.code==401 then
 				httpRequest(
-					TICK.httpREQ_getAccessToken,
+					TICK_httpREQ_getAccessToken,
 					PATH.api..PATH.access,
 					"POST",
 					{["Content-Type"]="application/json"},
@@ -94,7 +94,7 @@ scene.widgetList={
 				)
 			else
 				httpRequest(
-					TICK.httpREQ_getAccessToken,
+					TICK_httpREQ_getAccessToken,
 					PATH.api..PATH.access,
 					"POST",
 					{["Content-Type"]="application/json"},

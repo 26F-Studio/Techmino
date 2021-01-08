@@ -14,7 +14,7 @@ local function tick_httpREQ_newLogin(task)
 					FILE.save(USER,"conf/user","q")
 
 					httpRequest(
-						TICK.httpREQ_getAccessToken,
+						TICK_httpREQ_getAccessToken,
 						PATH.api..PATH.access,
 						"POST",
 						{["Content-Type"]="application/json"},

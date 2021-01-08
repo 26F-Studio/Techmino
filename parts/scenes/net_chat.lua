@@ -40,7 +40,7 @@ function scene.sceneInit()
 	end
 	scrollPos=#texts
 	TASK.new(focusAtTextbox)--Widgets are not initialized, so active after 1 frame
-	TASK.new(TICK.ws_read)
+	TASK.new(TICK_wsRead)
 	BG.set("none")
 end
 function scene.sceneBack()
