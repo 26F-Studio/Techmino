@@ -90,6 +90,7 @@ return{
 	wsFailed="WebSocket: falha na conexão",
 	wsDisconnected="WebSocket: desconectado",
 	wsNoConn="WebSocket: você não está conectado",
+	wsError="WebSocket error: ",
 	waitNetTask="Conectando, aguarde",
 
 	chatJoin="Entrou a sala.",

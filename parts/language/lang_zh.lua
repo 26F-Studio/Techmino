@@ -91,6 +91,7 @@ return{
 	wsFailed="WS连接失败",
 	wsDisconnected="WS连接断开",
 	wsNoConn="WS未连接",
+	wsError="WS错误: ",
 	waitNetTask="正在连接,请稍候",
 
 	chatJoin="进入房间",
