@@ -85,7 +85,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 		font=int(font/5)*5 or 40,	--Font
 		spd=(spd or 1)/60,	--Timing speed(1=last 1 sec)
 		stop=stop,			--Stop time(sustained text)
-		draw=textFX[style]or error("unavailable type:"..style),	--Draw method
+		draw=textFX[style or"appear"]or error("unavailable type:"..style),	--Draw method
 	}
 end
 function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.show(), but only return text object, need manual management
@@ -97,7 +97,7 @@ function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.sho
 		font=int(font/5)*5 or 40,
 		spd=(spd or 1)/60,
 		stop=stop,
-		draw=textFX[style]or error("unavailable type:"..style),
+		draw=textFX[style or"appear"]or error("unavailable type:"..style),
 	}
 end
 function TEXT.update(list)
