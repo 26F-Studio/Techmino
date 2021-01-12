@@ -10,16 +10,27 @@ local mStr=mStr
 
 local scene={}
 
+local blind,tapControl
+
 local board
-local blind
-local tapControl
 local startTime,time
 local state,progress
-local skipCD,skipUsed
+local move
+
 local nextTile,nextCD
 local nextPos,prevPos
 local prevSpawnTime=0
 local maxTile
+
+local skipper={
+	used=false,
+	cd=0,
+}
+local repeater={
+	focus=false,
+	seq="",
+	last="X",
+}
 local score
 
 --[[Tiles' value:
@@ -74,7 +85,7 @@ local function newTile()
 
 	--Fresh score
 	score=score+2^nextTile
-	TEXT.show("+"..2^nextTile,1130+rnd(-60,60),555+rnd(-40,40),30,"score",1.5)
+	TEXT.show("+"..2^nextTile,1130+rnd(-60,60),565+rnd(-40,40),30,"score",1.5)
 
 	--Generate next number
 	nextCD=nextCD-1
@@ -110,7 +121,7 @@ local function newTile()
 end
 local function freshMaxTile()
 	maxTile=maxTile+1
-	if maxTile==12 then skipCD=0 end
+	if maxTile==12 then skipper.cd=0 end
 	SFX.play("reach")
 	ins(progress,format("%s - %.3fs",tileName[maxTile],TIME()-startTime))
 end
@@ -154,10 +165,12 @@ local function reset()
 	state=0
 	score=0
 	time=0
+	move=0
 	maxTile=6
 	nextTile,nextPos=1,rnd(16)
 	nextCD=32
-	skipCD,skipUsed=false,false
+	skipper.cd,skipper.used=false,false
+	repeater.seq=""
 	newTile()
 end
 
@@ -198,10 +211,10 @@ local function moveRight()
 	return moved
 end
 local function skip()
-	if state==1 and skipCD==0 then
+	if state==1 and skipper.cd==0 then
 		if airExist()then
-			skipCD=1024
-			skipUsed=true
+			skipper.cd=1024
+			skipper.used=true
 			newTile()
 			SFX.play("hold")
 		else
@@ -216,7 +229,7 @@ function scene.sceneInit()
 	board={}
 
 	blind=false
-	tapControl=true
+	tapControl=false
 	startTime,time=0,0
 	state=0
 	reset()
@@ -246,26 +259,63 @@ local moveFunc={
 	left=moveLeft,
 	right=moveRight,
 }
-function scene.keyDown(key)
+local arrows={
+	up="↑",down="↓",left="←",right="→",
+	["↑"]="up",["↓"]="down",["←"]="left",["→"]="right",
+}
+function scene.keyDown(key,auto)
 	if key=="up"or key=="down"or key=="left"or key=="right"then
-		if moveFunc[key]()then
-			if state==0 then
-				startTime=TIME()
-				state=1
+		if repeater.focus then
+			if #repeater.seq<24 then
+				repeater.seq=repeater.seq..arrows[key]
 			end
-			if skipCD and skipCD>0 then
-				skipCD=skipCD-1
-				if skipCD==0 then
-					SFX.play("spin_0")
+		else
+			if moveFunc[key]()then
+				if state==0 then
+					startTime=TIME()
+					state=1
+				end
+				if skipper.cd and skipper.cd>0 then
+					skipper.cd=skipper.cd-1
+					if skipper.cd==0 then
+						SFX.play("spin_0")
+					end
+				end
+				newTile()
+				TEXT.show(arrows[key],640,360,80,"beat",3)
+				move=move+1
+				if not auto then
+					SFX.play("move")
 				end
 			end
-			newTile()
-			SFX.play("move")
 		end
 	elseif key=="space"then skip()
 	elseif key=="r"then reset()
 	elseif key=="q"then if state==0 then blind=not blind end
 	elseif key=="w"then if state==0 then tapControl=not tapControl end
+	elseif key=="o"then
+		if state~=2 then
+			repeater.focus=not repeater.focus
+			if repeater.focus then
+				repeater.seq=""
+			end
+		end
+	elseif key=="p"then
+		if state~=2 and #repeater.seq>0 then
+			repeater.focus=false
+			local move0=move
+			for i=1,#repeater.seq,3 do
+				scene.keyDown(arrows[repeater.seq:sub(i,i+2)],true)
+			end
+			if move~=move0 then
+				if repeater.seq~=repeater.last then
+					repeater.last=repeater.seq
+					move=move0+#repeater.seq/3+1
+				else
+					move=move0+1
+				end
+			end
+		end
 	elseif key=="escape"then SCN.back()
 	end
 end
@@ -280,21 +330,33 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	setFont(40)
+	setFont(35)
 	setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(format("%.3f",time),1000,10)
+	gc.print(move,1000,45)
 
 	--Progress time list
-	setFont(30)
-	setColor(.7,.7,.7)
+	setFont(20)
+	setColor(.6,.6,.6)
 	for i=1,#progress do
-		gc.print(progress[i],1000,130+32*i)
+		gc.print(progress[i],1000,65+20*i)
 	end
+
+	--Repeater
+	if repeater.focus then
+		setColor(1,TIME()%.5>.25 and 1 or 0,.2)
+	else
+		setColor(COLOR[repeater.seq==repeater.last and"grey"or"white"])
+	end
+	gc.setLineWidth(3)
+	gc.rectangle("line",990,410,280,50)
+	setFont(35)
+	gc.print(repeater.seq,995,412)
 
 	--Score
 	setFont(40)
 	setColor(1,.7,.7)
-	mStr(score,1130,490)
+	mStr(score,1130,500)
 
 	--Messages
 	if state==2 then
@@ -356,14 +418,14 @@ function scene.draw()
 	mStr(tileName[nextTile],155,220)
 
 	--Skip CoolDown
-	if skipCD and skipCD>0 then
+	if skipper.cd and skipper.cd>0 then
 		setFont(50)
 		setColor(1,1,.5)
-		mStr(skipCD,155,600)
+		mStr(skipper.cd,155,600)
 	end
 
 	--Skip mark
-	if skipUsed then
+	if skipper.used then
 		setColor(1,1,.5)
 		gc.circle("fill",280,675,10)
 	end
@@ -392,11 +454,13 @@ scene.widgetList={
 	WIDGET.newSwitch{name="blind",		x=240,y=370,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="tapControl",	x=240,y=440,w=60,		font=40,disp=function()return tapControl end,	code=pressKey"w",hide=function()return state==1 end},
 
-	WIDGET.newKey{name="up",			x=155,y=600-50,w=100,h=100,font=50,color="yellow",code=pressKey"up",hide=function()return tapControl end},
-	WIDGET.newKey{name="down",			x=155,y=600+50,w=100,h=100,font=50,color="yellow",code=pressKey"down",hide=function()return tapControl end},
-	WIDGET.newKey{name="left",			x=155-100,y=600,w=100,h=100,font=50,color="yellow",code=pressKey"left",hide=function()return tapControl end},
-	WIDGET.newKey{name="right",			x=155+100,y=600,w=100,h=100,font=50,color="yellow",code=pressKey"right",hide=function()return tapControl end},
-	WIDGET.newKey{name="skip",			x=155,y=400,w=100,h=100,font=20,color="yellow",code=pressKey"space",hide=function()return state~=1 or not skipCD or skipCD>0 end},
+	WIDGET.newKey{name="up",			x=155,y=600-50,w=100,font=50,color="yellow",code=pressKey"up",hide=function()return tapControl end},
+	WIDGET.newKey{name="down",			x=155,y=600+50,w=100,font=50,color="yellow",code=pressKey"down",hide=function()return tapControl end},
+	WIDGET.newKey{name="left",			x=155-100,y=600,w=100,font=50,color="yellow",code=pressKey"left",hide=function()return tapControl end},
+	WIDGET.newKey{name="right",			x=155+100,y=600,w=100,font=50,color="yellow",code=pressKey"right",hide=function()return tapControl end},
+	WIDGET.newKey{name="skip",			x=155,y=400,w=100,font=20,color="yellow",code=pressKey"space",hide=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
+	WIDGET.newKey{name="record",		x=1055,y=360,w=130,h=60,font=20,color="yellow",code=pressKey"o",hide=function()return state==2 end},
+	WIDGET.newKey{name="replay",		x=1205,y=360,w=130,h=60,font=20,color="yellow",code=pressKey"p",hide=function()return state==2 end},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

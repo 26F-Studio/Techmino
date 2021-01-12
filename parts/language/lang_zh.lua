@@ -615,15 +615,14 @@ return{
 			reset="重置",
 		},
 		mg_2048={
+			reset="重置",
 			blind="盲打",
 			tapControl="点击操作",
 
-			up="↑",
-			down="↓",
-			left="←",
-			right="→",
+			up="↑",down="↓",left="←",right="→",
 			skip="跳过回合",
-			reset="重置",
+			record="录制",
+			replay="播放",
 		},
 		savedata={
 			exportUnlock="导出地图进度",

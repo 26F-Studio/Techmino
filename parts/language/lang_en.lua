@@ -611,15 +611,14 @@ return{
 			reset="Reset",
 		},
 		mg_2048={
+			reset="Reset",
 			blind="Blind",
 			tapControl="Tap control",
 
-			up="↑",
-			down="↓",
-			left="←",
-			right="→",
+			up="↑",down="↓",left="←",right="→",
 			skip="Skip Round",
-			reset="Reset",
+			record="record",
+			replay="replay",
 		},
 		savedata={
 			exportUnlock="Export progress",
