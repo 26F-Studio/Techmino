@@ -50,11 +50,13 @@ function text:draw()
 		end
 	end
 end
-function WIDGET.newText(D)--name,x,y[,color][,font=30][,align="M"][,plain=false][,hide]
+function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,plain=false][,hide]
 	local _={
 		name=	D.name,
 		x=		D.x,
 		y=		D.y,
+
+		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	D.align or"M",
@@ -166,7 +168,7 @@ function button:press()
 	self:FX()
 	SFX.play("button")
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,color][,font],code[,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -184,6 +186,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,color][,font],code[,hide]
 			D.x+D.w*.35,D.y+D.h*.35,
 		},
 
+		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		code=	D.code,
@@ -247,7 +250,7 @@ end
 function key:press()
 	self.code()
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,color][,font],code[,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -265,6 +268,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,color][,font],code[,hide]
 			D.x+D.w*.35,D.y+D.h*.35,
 		},
 
+		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		code=	D.code,
@@ -335,7 +339,7 @@ function switch:press()
 	self.code()
 	SFX.play("move")
 end
-function WIDGET.newSwitch(D)--name,x,y[,color][,font][,disp],code,hide
+function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
 	local _={
 		name=	D.name,
 
@@ -346,6 +350,7 @@ function WIDGET.newSwitch(D)--name,x,y[,color][,font][,disp],code,hide
 			D.x+25,D.y,
 		},
 
+		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		disp=	D.disp,
@@ -486,7 +491,7 @@ function slider:arrowKey(isLeft)
 		self.change()
 	end
 end
-function WIDGET.newSlider(D)--name,x,y,w[,color][,unit][,smooth][,font][,change],disp,code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font][,change],disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -502,6 +507,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,color][,unit][,smooth][,font][,change]
 			D.x+D.w,D.y,
 		},
 
+		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		unit=	D.unit or 1,
 		smooth=	false,
@@ -654,7 +660,7 @@ function selector:arrowKey(isLeft)
 	self.selText=self.list[s]
 	SFX.play("prerotate")
 end
-function WIDGET.newSelector(D)--name,x,y,w[,color],list,disp,code,hide
+function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -670,6 +676,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,color],list,disp,code,hide
 			D.x+D.w,D.y,
 		},
 
+		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		list=	D.list,
 		disp=	D.disp,
@@ -832,7 +839,7 @@ function WIDGET.setLang(widgetText)
 	for S,L in next,SCN.scenes do
 		if widgetText[S]then
 			for _,W in next,L.widgetList do
-				W.text=widgetText[S][W.name]
+				W.text=W.fText or widgetText[S][W.name]
 			end
 		end
 	end
