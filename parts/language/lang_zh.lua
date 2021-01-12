@@ -621,8 +621,8 @@ return{
 
 			up="↑",down="↓",left="←",right="→",
 			skip="跳过回合",
-			record="录制",
-			replay="播放",
+			replay1="P",
+			replay2="P",
 		},
 		savedata={
 			exportUnlock="导出地图进度",

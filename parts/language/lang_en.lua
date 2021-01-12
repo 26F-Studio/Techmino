@@ -617,8 +617,8 @@ return{
 
 			up="↑",down="↓",left="←",right="→",
 			skip="Skip Round",
-			record="record",
-			replay="replay",
+			replay1="P",
+			replay2="P",
 		},
 		savedata={
 			exportUnlock="Export progress",
