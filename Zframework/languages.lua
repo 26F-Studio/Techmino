@@ -1,10 +1,10 @@
-local langList,publicText,publicWidgetText={},{},{}
+local lang = require "parts.scenes.lang"
+local langList,publicText={},{}
 local LANG={}
 
 --Call these before call LANG.init()
 function LANG.setLangList(list)langList=list end
 function LANG.setPublicText(L)publicText=L end
-function LANG.setPublicWidgetText(L)publicWidgetText=L end
 
 function LANG.init()--Attention, calling this will destory all initializing methods, create a LANG.set()!
 	local function langFallback(T0,T)
@@ -27,15 +27,6 @@ function LANG.init()--Attention, calling this will destory all initializing meth
 			L[key]=list
 		end
 
-		--Set public widget text
-		for key,list in next,publicWidgetText do
-			local WT=L.WidgetText
-			if not WT[key]then WT[key]={}end
-			for k,v in next,list do
-				WT[key][k]=v
-			end
-		end
-
 		--Fallback to other language, default zh
 		if i>1 then
 			langFallback(langList[L.fallback or 1],L)
@@ -52,7 +43,7 @@ function LANG.init()--Attention, calling this will destory all initializing meth
 		end
 	end
 
-	LANG.init,LANG.setLangList,LANG.setPublicText,LANG.setPublicWidgetText=nil
+	LANG.init,LANG.setLangList,LANG.setPublicText=nil
 
 	function LANG.set(l)
 		text=langList[l]
@@ -60,6 +51,14 @@ function LANG.init()--Attention, calling this will destory all initializing meth
 		for k,v in next,drawableText do
 			if text[k]then
 				v:set(text[k])
+			end
+		end
+	end
+
+	function LANG.addScene(name)
+		for i=1,#langList do
+			if langList[i].WidgetText and not langList[i].WidgetText[name]then
+				langList[i].WidgetText[name]={back=langList[i].back}
 			end
 		end
 	end

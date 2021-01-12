@@ -216,7 +216,6 @@ LANG.setLangList{
 	--1. Add language file to LANG folder;
 	--2. Require it;
 	--3. Add a button in parts/scenes/setting_lang.lua;
-	--4. Set button name at LANG.setPublicWidgetText.lang beneath.
 }
 LANG.setPublicText{
 	block={
@@ -226,48 +225,6 @@ LANG.setPublicText{
 		"J5","L5","R","Y","N","H","I5",
 		"I3","C","I2","O1"
 	},
-}
-LANG.setPublicWidgetText{
-	calculator={
-		_1="1",_2="2",_3="3",
-		_4="4",_5="5",_6="6",
-		_7="7",_8="8",_9="9",
-		_0="0",["."]=".",e="e",
-		["+"]="+",["-"]="-",["*"]="*",["/"]="/",
-		["<"]="<",["="]="=",
-		play="-->",
-	},
-	setting_skin={
-		prev="←",next="→",
-		prev1="↑",next1="↓",
-		prev2="↑",next2="↓",
-		prev3="↑",next3="↓",
-		prev4="↑",next4="↓",
-		prev5="↑",next5="↓",
-		prev6="↑",next6="↓",
-		prev7="↑",next7="↓",
-	},
-	custom_field={
-		b0="",b1="",b2="",b3="",b4="",b5="",b6="",b7="",
-		b8="",b9="",b10="",b11="",b12="",b13="",b14="",b15="",b16="",
-		b17="[  ]",b18="N",b19="B",b20="_",b21="_",b22="_",b23="_",b24="_",
-	},
-	lang={
-		zh="中文",
-		zh2="全中文",
-		en="English",
-		fr="Français",
-		sp="Español",
-		pt="Português",
-		symbol="?????",
-		yygq="就这?",
-	},
-	staff={},
-	history={
-		prev="↑",
-		next="↓",
-	},
-	mg_cubefield={},
 }
 LANG.init()
 
@@ -299,6 +256,7 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
 		local sceneName=v:sub(1,-5)
 		SCN.add(sceneName,require("parts/scenes/"..sceneName))
+		LANG.addScene(sceneName)
 	else
 		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
 	end
