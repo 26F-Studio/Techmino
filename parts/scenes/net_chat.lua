@@ -16,15 +16,17 @@ local function focusAtTextbox()
 end
 local function sendMessage()
 	local W=WIDGET.active.text
-	if #W.value>0 and wsWrite(W.value)then
+	if #W.value>0 and wsWrite("T"..W.value)then
 		W.value=""
 	end
+end
+local function pushText(t)
+	ins(texts,t)
 end
 local function clearHistory()
 	while #texts>1 do rem(texts)end
 	scrollPos=1
 	SFX.play("fall")
-	collectgarbage()
 end
 
 local scene={}
@@ -34,9 +36,9 @@ function scene.sceneInit()
 	remain=false
 
 	if #texts==0 then
-		ins(texts,{COLOR.dG,text.chatStart})
+		pushText{COLOR.dG,text.chatStart}
 	elseif #texts>1 and texts[#texts][1]~=COLOR.dG then
-		ins(texts,{COLOR.dG,text.chatHistory})
+		pushText{COLOR.dG,text.chatHistory}
 	end
 	scrollPos=#texts
 	TASK.new(focusAtTextbox)--Widgets are not initialized, so active after 1 frame
@@ -44,7 +46,7 @@ function scene.sceneInit()
 	BG.set("none")
 end
 function scene.sceneBack()
-	wsWrite("/quit")
+	wsWrite("Q")
 	WSCONN=false
 	LOG.print(text.wsDisconnected,"warn")
 end
@@ -75,28 +77,24 @@ function scene.keyDown(k)
 end
 
 function scene.socketRead(mes)
-	if mes:byte()==35 then--system message
-		local sep=mes:find(":")
-		local cmd=mes:sub(2,sep-1)
-		local data=mes:sub(sep+1)
-		if cmd=="J"or cmd=="L"then
-			sep=data:find("@")
-			local num=data:find("#")
-			remain=tonumber(data:sub(1,sep-1))
-			ins(texts,{
-				COLOR.lR,data:sub(sep+1,num-1),
-				COLOR.dY,data:sub(num).." ",
-				COLOR.Y,(cmd=="J"and text.chatJoin or text.chatLeave),
-			})
-		end
-	else--user message
-		local sep=mes:find(":")
-		local num=mes:find("#")
-		ins(texts,{
-			COLOR.W,mes:sub(1,num-1),
-			COLOR.dY,mes:sub(num,sep-1).." ",
-			COLOR.sky,mes:sub(sep+1),
-		})
+	local cmd=mes:sub(1,1)
+	local args=splitStr(mes:sub(2),":")
+	if cmd=="J"or cmd=="L"then
+		pushText{
+			COLOR.lR,args[1],
+			COLOR.dY,args[2].." ",
+			COLOR.Y,text[cmd=="J"and"chatJoin"or"chatLeave"]
+		}
+		remain=tonumber(args[3])
+	elseif cmd=="T"then
+		pushText{
+			COLOR.W,args[1],
+			COLOR.dY,args[2].." ",
+			COLOR.sky,args[3]
+		}
+	else
+		LOG.print("Illegal message: "..mes,30,COLOR.green)
+		return
 	end
 	if scrollPos==#texts-1 then
 		scrollPos=scrollPos+1
@@ -110,7 +108,7 @@ function scene.update(dt)
 	heartBeatTimer=heartBeatTimer+dt
 	if heartBeatTimer>42 then
 		heartBeatTimer=0
-		wsWrite("/ping")
+		wsWrite("P")
 	end
 end
 function scene.draw()
