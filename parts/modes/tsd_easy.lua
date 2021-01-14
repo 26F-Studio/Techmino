@@ -16,7 +16,7 @@ return{
 		infHold=true,
 		dropPiece=check_tsd,
 		ospin=false,
-		bg="matrix",bgm="push",
+		bg="matrix",bgm="vapor",
 	},
 	load=function()
 		PLY.newPlayer(1)
