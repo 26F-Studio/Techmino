@@ -31,7 +31,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="easyFresh",	x=910,	y=620,	font=20,disp=lnk_CUSval("easyFresh"),code=lnk_CUSrev("easyFresh")},
 
 	WIDGET.newSelector{name="RS",		x=410,	y=370,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=lnk_CUSval("RS"),code=lnk_CUSsto("RS")},
-	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list={"show","time","fast","none"},		disp=lnk_CUSval("visible"),	code=lnk_CUSsto("visible")},
+	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list={"easy","slow","medium","fast","none"},disp=lnk_CUSval("visible"),	code=lnk_CUSsto("visible")},
 	WIDGET.newSelector{name="target",	x=840,	y=160,	w=260,color="green",list={10,20,40,100,200,500,1000,1e99},	disp=lnk_CUSval("target"),	code=lnk_CUSsto("target")},
 	WIDGET.newSelector{name="freshLimit",x=840,	y=260,	w=260,color="purple",list={0,8,15,1e99},					disp=lnk_CUSval("freshLimit"),code=lnk_CUSsto("freshLimit")},
 	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list={0,1,2,3,4,5,6,7,8,9,10},			disp=lnk_CUSval("opponent"),code=lnk_CUSsto("opponent")},

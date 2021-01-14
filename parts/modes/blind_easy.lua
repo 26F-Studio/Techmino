@@ -3,7 +3,7 @@ return{
 	color=COLOR.cyan,
 	env={
 		drop=30,lock=45,
-		visible="time",
+		visible="easy",
 		dropPiece=PLY.check_lineReach,
 		freshLimit=10,
 		target=200,

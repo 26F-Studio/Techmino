@@ -241,7 +241,9 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	P:setInvisible(
 		ENV.visible=="show"and -1 or
-		ENV.visible=="time"and 300 or
+		ENV.visible=="easy"and 300 or
+		ENV.visible=="slow"and 100 or
+		ENV.visible=="medium"and 60 or
 		ENV.visible=="fast"and 20 or
 		ENV.visible=="none"and 0
 	)

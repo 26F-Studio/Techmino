@@ -34,7 +34,7 @@ MODOPT={--Mod options
 	},
 	{no=6,id="HD",name="hidden",
 		key="i",x=920,y=230,color="grape",
-		list={"time","fast","none"},
+		list={"easy","slow","medium","fast","none"},
 		func=function(P,O)P.gameEnv.visible=O end,
 		unranked=true,
 	},
