@@ -153,7 +153,7 @@ SKIN.init{
 	"Glass(ScF)",
 	"Penta(ScF)",
 	"Bubble(ScF)",
-	"Shape(ScF)",
+	"Minoes(ScF)",
 	"Pure(MrZ)",
 	"Glow(MrZ)",
 	"Plastic(MrZ)",
@@ -317,6 +317,10 @@ do
 		end
 		if S.version<1225 then
 			SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,12,2,16,8,4,10,13,2,8}
+		end
+		if S.version<1226 then
+			NOGAME=true
+			fs.remove("conf/virtualkey")
 		end
 		newVersionLaunch=true
 
