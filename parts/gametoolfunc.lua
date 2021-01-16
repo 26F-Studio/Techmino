@@ -425,6 +425,7 @@ function restoreVirtualKey()
 		B.x=O.x
 		B.y=O.y
 		B.r=O.r
+		B.color=O.color
 		B.isDown=false
 		B.pressTime=0
 	end

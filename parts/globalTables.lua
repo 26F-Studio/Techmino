@@ -340,26 +340,26 @@ keyMap=FILE.load("conf/key")or{--Key setting
 	--Joystick
 }for i=1,#keyMap do for j=1,20 do if not keyMap[i][j]then keyMap[i][j]=""end end end
 VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
-	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
-	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
-	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
-	{ava=true,	x=1280-200,	y=720-80,	r=80},--rotLeft
-	{ava=true,	x=1280-200,	y=720-320,	r=80},--rot180
-	{ava=true,	x=200,		y=720-320,	r=80},--hardDrop
-	{ava=true,	x=200,		y=720-80,	r=80},--softDrop
-	{ava=true,	x=1280-320,	y=720-200,	r=80},--hold
-	{ava=true,	x=1280-80,	y=280,		r=80},--func
-	{ava=true,	x=80,		y=280,		r=80},--restart
-	{ava=false,	x=100,		y=50,		r=80},--insLeft
-	{ava=false,	x=200,		y=50,		r=80},--insRight
-	{ava=false,	x=300,		y=50,		r=80},--insDown
-	{ava=false,	x=400,		y=50,		r=80},--down1
-	{ava=false,	x=500,		y=50,		r=80},--down4
-	{ava=false,	x=600,		y=50,		r=80},--down10
-	{ava=false,	x=700,		y=50,		r=80},--dropLeft
-	{ava=false,	x=800,		y=50,		r=80},--dropRight
-	{ava=false,	x=900,		y=50,		r=80},--addToLeft
-	{ava=false,	x=1000,		y=50,		r=80},--addToRight
+	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.lame},--moveLeft
+	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.lame},--moveRight
+	{ava=true,	x=1280-80,	y=720-200,	r=80,color=COLOR.red},--rotRight
+	{ava=true,	x=1280-200,	y=720-80,	r=80,color=COLOR.orange},--rotLeft
+	{ava=true,	x=1280-200,	y=720-320,	r=80,color=COLOR.magenta},--rot180
+	{ava=true,	x=200,		y=720-320,	r=80,color=COLOR.cyan},--hardDrop
+	{ava=true,	x=200,		y=720-80,	r=80,color=COLOR.sea},--softDrop
+	{ava=true,	x=1280-320,	y=720-200,	r=80,color=COLOR.yellow},--hold
+	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lRed},--func
+	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lMagenta},--restart
+	{ava=false,	x=100,		y=50,		r=80,color=COLOR.water},--insLeft
+	{ava=false,	x=200,		y=50,		r=80,color=COLOR.water},--insRight
+	{ava=false,	x=300,		y=50,		r=80,color={COLOR.rainbow(3.5)}},--insDown
+	{ava=false,	x=400,		y=50,		r=80,color={COLOR.rainbow(3.3)}},--down1
+	{ava=false,	x=500,		y=50,		r=80,color={COLOR.rainbow(3.1)}},--down4
+	{ava=false,	x=600,		y=50,		r=80,color={COLOR.rainbow(2.9)}},--down10
+	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lLame},--dropLeft
+	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lLame},--dropRight
+	{ava=false,	x=900,		y=50,		r=80,color=COLOR.lWater},--addToLeft
+	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.lWater},--addToRight
 }
 virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
 REPLAY=FILE.load("conf/replay")or{}

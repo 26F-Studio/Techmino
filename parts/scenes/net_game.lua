@@ -258,7 +258,6 @@ function scene.draw()
 	end
 
 	--Virtual keys
-	gc_setColor(1,1,1)
 	if SETTING.VKSwitch then
 		local a=SETTING.VKAlpha
 		local _
@@ -271,6 +270,7 @@ function scene.draw()
 					gc.setLineWidth(B.r*.07)
 					gc_circle("line",B.x,B.y,B.r,10)--Button outline
 					_=VK[i].pressTime
+					gc_setColor(B.color[1],B.color[2],B.color[3],a)
 					gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
 					if _>0 then
 						gc_setColor(1,1,1,a*_*.08)

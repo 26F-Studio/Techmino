@@ -73,11 +73,17 @@ local function VirtualkeyPreview()
 		for i=1,#VK_org do
 			local B=VK_org[i]
 			if B.ava then
-				local c=selected==i and .6 or 1
-				gc.setColor(c,1,c,SETTING.VKAlpha)
+				gc.setColor(1,1,1,SETTING.VKAlpha)
 				gc.setLineWidth(B.r*.07)
 				gc.circle("line",B.x,B.y,B.r,10)
-				if SETTING.VKIcon then gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)end
+				if selected==i and TIME()%.26<.13 then
+					gc.setColor(1,1,1,SETTING.VKAlpha*.62)
+					gc.circle("fill",B.x,B.y,B.r,10)
+				end
+				if SETTING.VKIcon then
+					gc.setColor(B.color[1],B.color[2],B.color[3],SETTING.VKAlpha)
+					gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)
+				end
 			end
 		end
 	end
