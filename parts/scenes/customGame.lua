@@ -72,9 +72,11 @@ function scene.keyDown(key)
 		local str=sys.getClipboardText()
 		local args=splitStr(str:sub((str:find(":")or 0)+1),"!")
 		if #args<4 then goto fail end
-		if not pasteQuestArgs(args[1])then goto fail end
-		if not pasteSequence(args[2])then goto fail end
-		if not pasteMission(args[3])then goto fail end
+		if not(
+			pasteQuestArgs(args[1])and
+			pasteSequence(args[2])and
+			pasteMission(args[3])
+		)then goto fail end
 		repeat table.remove(FIELD)until #FIELD==0
 		FIELD[1]=newBoard()
 		for i=4,#args do

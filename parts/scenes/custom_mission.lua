@@ -20,7 +20,6 @@ end
 local missionEnum=missionEnum
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}
 function scene.keyDown(key)
-	local MISSION=MISSION
 	if key=="left"then
 		local p=cur
 		if p==0 then
