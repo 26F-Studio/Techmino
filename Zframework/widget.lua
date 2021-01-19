@@ -837,8 +837,10 @@ function WIDGET.set(list)
 end
 function WIDGET.setLang(widgetText)
 	for S,L in next,SCN.scenes do
-		for _,W in next,L.widgetList do
-			W.text=W.fText or widgetText[S][W.name]
+		if L.widgetList then
+			for _,W in next,L.widgetList do
+				W.text=W.fText or widgetText[S][W.name]
+			end
 		end
 	end
 end

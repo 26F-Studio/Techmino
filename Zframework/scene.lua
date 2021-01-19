@@ -39,8 +39,9 @@ local SCN={
 
 function SCN.add(name,scene)
 	scenes[name]=scene
-	if not scene.widgetList then scene.widgetList={}end
-	setmetatable(scene.widgetList,WIDGET.indexMeta)
+	if scene.widgetList then
+		setmetatable(scene.widgetList,WIDGET.indexMeta)
+	end
 end
 
 function SCN.swapUpdate()
