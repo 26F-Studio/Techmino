@@ -38,6 +38,7 @@ function scene.sceneInit()
 	noTouch=not SETTING.VKSwitch or noKey
 end
 
+scene.mouseDown=NULL
 function scene.touchDown(_,x,y)
 	if noTouch then return end
 
