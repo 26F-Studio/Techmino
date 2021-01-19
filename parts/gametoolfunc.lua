@@ -451,9 +451,6 @@ function pauseGame()
 		SCN.swapTo("pause","none")
 	end
 end
-function resumeGame()
-	SCN.swapTo("play","none")
-end
 function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 	for k,v in next,CUSTOMENV do
 		GAME.modeEnv[k]=v
