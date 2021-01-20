@@ -1,6 +1,7 @@
 return{
 	back="Voltar",
 	anykey="Pressione qualquer tecla",
+	sureQuit="Aparte novamente para sair",
 	newVersion="Obrigado por atualizar! Veja as mudanças abaixo.",
 	httpTimeout="Conexão de rede expirou",
 	marking="Autor do jogo: MrZ_26\nSe puder ver isso a gravação e illegal\nQualquer explicação é invalida",
@@ -98,7 +99,6 @@ return{
 	chatRemain="Online: ",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",
-	chatQuit="Aparte novamente para sair",
 
 	noRooms="Nenhuma sala agora",
 	roomsFetchFailed="Falha ao buscar salas",

@@ -2,6 +2,7 @@ local c=COLOR
 return{
 	back="Back",
 	anykey="Press any button",
+	sureQuit="Press again to exit",
 	newVersion="Thanks for updating! Check out the updates below.",
 	httpTimeout="Network connection timed out",
 	marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
@@ -99,7 +100,6 @@ return{
 	chatRemain="Online: ",
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
-	chatQuit="Press again to exit",
 
 	noRooms="No Rooms Now",
 	roomsFetchFailed="Failed to fetch rooms",

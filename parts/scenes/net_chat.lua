@@ -69,7 +69,7 @@ function scene.keyDown(k)
 			SCN.back()
 		else
 			escapeTimer=TIME()
-			LOG.print(text.chatQuit,COLOR.orange)
+			LOG.print(text.sureQuit,COLOR.orange)
 		end
 	else
 		WIDGET.keyPressed(k)

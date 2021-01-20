@@ -2,6 +2,7 @@ local c=COLOR
 return{
 	back="返回",
 	anykey="按任意键继续",
+	sureQuit="再按一次退出",
 	newVersion="感谢更新!更新内容如下",
 	httpTimeout="网络连接超时!",
 	marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
@@ -100,7 +101,6 @@ return{
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
-	chatQuit="再按一次退出",
 
 	noRooms="一个房间都没有哎...",
 	roomsFetchFailed="拉取房间列表失败",

@@ -2,6 +2,7 @@ return{
 	fallback=3,
 	back="Volver",
 	anykey="Pulsa cualquier tecla",
+	-- sureQuit="Press again to exit",
 	newVersion="¡Gracias por actualizar! Detalles a continuación:",
 	httpTimeout="¡Tiempo de espera de conexión agotado!",
 	marking="Autor:MrZ_26\nEsta grabación es ilegal si ves esto\nNo se aceptan excusas",
@@ -102,7 +103,6 @@ return{
 	-- chatRemain="Online: ",
 	-- chatStart="------Beginning of log------",
 	-- chatHistory="------New messages below------",
-	-- chatQuit="Press again to exit",
 
 	-- noRooms="No Rooms Now",
 	-- roomsFetchFailed="Failed to fetch rooms",

@@ -2,6 +2,7 @@ return{
 	fallback=3,
 	back="Retour",
 	anykey="Appuyez sur n'importe quelle touche",
+	-- sureQuit="Press again to exit",
 	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
 	marking="Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide.",
@@ -101,7 +102,6 @@ return{
 	-- chatRemain="Online: ",
 	-- chatStart="------Beginning of log------",
 	-- chatHistory="------New messages below------",
-	-- chatQuit="Press again to exit",
 
 	-- noRooms="No Rooms Now",
 	-- roomsFetchFailed="Failed to fetch rooms",
