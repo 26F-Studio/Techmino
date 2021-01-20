@@ -20,8 +20,7 @@ local lastSearch--Last searched string
 
 function scene.sceneInit()
 	BG.set("rainbow")
-	local location=({"zh","zh","en","en","en","en","zh"})[SETTING.lang]
-	dict=require("parts/language/dict_"..location)
+	dict=require("parts/language/dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
 
 	input=""
 	result={}

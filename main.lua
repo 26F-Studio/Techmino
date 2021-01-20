@@ -207,12 +207,12 @@ VOC.init{
 LANG.setLangList{
 	require"parts/language/lang_zh",
 	require"parts/language/lang_zh2",
+	require"parts/language/lang_yygq",
 	require"parts/language/lang_en",
 	require"parts/language/lang_fr",
 	require"parts/language/lang_sp",
 	require"parts/language/lang_pt",
 	require"parts/language/lang_symbol",
-	require"parts/language/lang_yygq",
 	--1. Add language file to LANG folder;
 	--2. Require it;
 	--3. Add a button in parts/scenes/setting_lang.lua;

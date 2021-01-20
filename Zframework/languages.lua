@@ -1,4 +1,3 @@
-local lang = require "parts.scenes.lang"
 local langList,publicText={},{}
 local LANG={}
 
