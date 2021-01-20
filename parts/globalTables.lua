@@ -239,7 +239,7 @@ GAME={--Global game data
 }
 
 --Userdata tables
-RANKS=FILE.load("conf/unlock")or{sprint_10=0}--Ranks of modes
+RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
 USER=FILE.load("conf/user")or{--User infomation
 	email=false,
 	auth_token=false,
@@ -328,7 +328,7 @@ else
 		send=0,recv=0,pend=0,off=0,
 		clear={},spin={},
 		pc=0,hpc=0,b2b=0,b3b=0,score=0,
-		lastPlay="sprint_10",--Last played mode ID
+		lastPlay="sprint_10l",--Last played mode ID
 		date=false,
 		todayTime=0,
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end

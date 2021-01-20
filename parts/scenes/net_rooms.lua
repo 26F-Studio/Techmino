@@ -39,7 +39,7 @@ local function task_enterRoom(task)
 		if wsconn then
 			WSCONN=wsconn
 			SCN.go("net_game")
-			loadGame("sprint_40")
+			loadGame("sprint_40l")
 			LOG.print(text.wsSuccessed,"warn")
 			return
 		elseif connErr then

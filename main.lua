@@ -57,11 +57,11 @@ end
 for _,v in next,{
 	"cold_clear.dll",
 	"CCloader.dll",
-	"tech_ultimate.dat",
-	"tech_ultimate+.dat",
+	"tech_u.dat",
+	"tech_u+.dat",
 	"sprintFix.dat",
 	"sprintLock.dat",
-	"marathon_ultimate.dat",
+	"marathon_u.dat",
 	"infinite.dat",
 	"infinite_dig.dat",
 	"conf/account",
@@ -268,13 +268,13 @@ LANG.set(SETTING.lang)
 do
 	--Check Ranks
 	local R=RANKS
-	R.sprint_10=R.sprint_10 or 0
+	R.sprint_10l=R.sprint_10l or 0
 	if R.infinite and R.infinite~=6 then
 		R.infinite=6
 		R.infinite_dig=6
 	end
 	if not text.modes[STAT.lastPlay]then
-		STAT.lastPlay="sprint_10"
+		STAT.lastPlay="sprint_10l"
 	end
 
 	--Check setting file
@@ -304,7 +304,7 @@ do
 		end
 		if S.version<1204 then
 			STAT.frame=math.floor(STAT.time*60)
-			STAT.lastPlay="sprint_10"
+			STAT.lastPlay="sprint_10l"
 			RANKS.sprintFix=nil
 			RANKS.sprintLock=nil
 		end
@@ -321,6 +321,12 @@ do
 		if S.version<1226 then
 			NOGAME=true
 			fs.remove("conf/virtualkey")
+		end
+		if S.version<1300 then
+			for k,v in next,{attacker_h="attacker_hard",attacker_u="attacker_ultimate",blind_e="blind_easy",blind_h="blind_hard",blind_l="blind_lunatic",blind_n="blind_normal",blind_u="blind_ultimate",c4wtrain_l="c4wtrain_lunatic",c4wtrain_n="c4wtrain_normal",defender_l="defender_lunatic",defender_n="defender_normal",dig_100l="dig_10",dig_10l="dig_100",dig_400l="dig_40",dig_40l="dig_400",dig_h="dig_hard",dig_u="dig_ultimate",drought_l="drought_lunatic",drought_n="drought_normal",marathon_h="marathon_hard",marathon_n="marathon_normal",pc_h="pcchallenge_hard",pc_l="pcchallenge_lunatic",pc_n="pcchallenge_normal",pctrain_l="pctrain_lunatic",pctrain_n="pctrain_normal",round_e="round_1",round_h="round_2",round_l="round_3",round_n="round_4",round_u="round_5",solo_e="solo_1",solo_h="solo_2",solo_l="solo_3",solo_n="solo_4",solo_u="solo_5",sprint_1000l="sprint_10",sprint_100l="sprint_100",sprint_10l="sprint_1000",sprint_20l="sprint_20",sprint_400l="sprint_40",sprint_40l="sprint_400",survivor_e="survivor_easy",survivor_h="survivor_hard",survivor_l="survivor_lunatic",survivor_n="survivor_normal",survivor_u="survivor_ultimate",tech_finesse_f="tech_finesse2",tech_h_plus="tech_hard2",tech_h="tech_hard",tech_l_plus="tech_lunatic2",tech_l="tech_lunatic",tech_n_plus="tech_normal2",tech_n="tech_normal",techmino49_e="techmino49_easy",techmino49_h="techmino49_hard",techmino49_u="techmino49_ultimate",techmino99_e="techmino99_easy",techmino99_h="techmino99_hard",techmino99_u="techmino99_ultimate",tsd_e="tsd_easy",tsd_h="tsd_hard",tsd_u="tsd_ultimate"}do
+				RANKS[k]=RANKS[v]
+				RANKS[v]=nil
+			end
 		end
 		newVersionLaunch=true
 

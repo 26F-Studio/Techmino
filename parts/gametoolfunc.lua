@@ -361,8 +361,8 @@ end
 function legalGameTime()--Check if today's playtime is legal
 	if
 		(SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
-		RANKS.sprint_10<4 and
-		(not RANKS.sprint_40 or RANKS.sprint_40<3)
+		RANKS.sprint_10l<4 and
+		(not RANKS.sprint_40l or RANKS.sprint_40l<3)
 	then
 		if STAT.todayTime<14400 then
 			return true
