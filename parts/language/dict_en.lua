@@ -884,7 +884,7 @@ return{
 	{"gggf",
 		"gggf kissne",
 		"name",
-		"Tetris Research community member.\nPersonal bests: Sprint 22.831 seconds, MPH Sprint 56 seconds, U rank on Tetr.io\nOne of the top players of 20G in China, achieved almost every achievement in TGM3.",
+		"Tetris Research community member.\nPersonal bests: Sprint 22.831 seconds (25.483 seconds on mobile), MPH Sprint 56 seconds, U rank on Tetr.io\nOne of the top players of 20G in China, achieved almost every achievement in TGM3.",
 		"https://space.bilibili.com/287769888",
 	},
 	{"xb",
