@@ -607,7 +607,7 @@ return{
 		["c4wtrain_n"]=			{"Entrenar C4W",	"Normal",		"Combos infinitos."},
 		["c4wtrain_l"]=			{"Entrenar C4W",	"Lunático",		"Combos infinitos."},
 		["pctrain_n"]=			{"Entrenar PC",		"Normal",		"Modo sencillo para practicar Perfect Clears."},
-		["pctrain_l"]=			{"Entrenar PC",		"Lunático",		"Modo sencillo para practicar Perfect Clears."},
+		["pctrain_l"]=			{"Entrenar PC",		"Lunático",		"Modo duro para practicar Perfect Clears."},
 		["pc_n"]=				{"Desafío de PCs",	"Normal",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		["pc_h"]=				{"Desafío de PCs",	"Difícil",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		["pc_l"]=				{"Desafío de PCs",	"Lunático",		"¡Consigue los PCs que puedas en 100 líneas!"},

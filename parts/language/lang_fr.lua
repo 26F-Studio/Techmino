@@ -610,7 +610,7 @@ return{
 		["c4wtrain_n"]=			{"Mode essai C4W",	"NORMAL",		"Combos infinis."},
 		["c4wtrain_l"]=			{"Mode essai C4W",	"LUNATIQUE",	"Combos infinis."},
 		["pctrain_n"]=			{"Mode essai PC",	"NORMAL",		"Mode Perfect Clear simple"},
-		["pctrain_l"]=			{"Mode essai PC",	"LUNATIQUE",	"Mode Perfect Clear simple"},
+		["pctrain_l"]=			{"Mode essai PC",	"LUNATIQUE",	"Mode Perfect Clear dur"},
 		["pc_n"]=				{"PC Challenge",	"NORMAL",		"Obtenez un PC dans les prochaines 100 lignes !"},
 		["pc_h"]=				{"PC Challenge",	"DIFFICILE",	"Obtenez un PC dans les prochaines 100 lignes !"},
 		["pc_l"]=				{"PC Challenge",	"LUNATIQUE",	"Obtenez un PC dans les prochaines 100 lignes !"},

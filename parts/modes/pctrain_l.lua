@@ -1,10 +1,9 @@
 local int=math.floor
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
-local pc_lock={55,50,45,40,36,32,30}
-local pc_fall={18,16,14,12,10,9,8,7,6}
+local pc_lock={55,50,46,42,39,36,33,31,29,27}
+local pc_fall={18,16,14,12,10,9,8,7,6,5}
 local PCbase=require"parts/modes/PCbase"
 local PClist=require"parts/modes/PClist"
-local PCtype={[0]=1,2,3,2,3}
 
 local function task_PC(P)
 	local D=P.modeData
@@ -26,7 +25,7 @@ local function check(P)
 		if c<5 then P:lose()end
 	end
 	if #P.field==0 then
-		local type=PCtype[P.stat.pc]or P:RND(2,3)
+		local type=P.stat.pc<10 and 4 or 5
 		local L=PClist[type][P:RND(#PClist[1])]
 		local symmetry=P:RND()>.5
 		P.modeData.type=type
@@ -38,12 +37,10 @@ local function check(P)
 		local s=P.stat.pc*.25
 		if int(s)==s and s>0 then
 			P.gameEnv.drop=pc_drop[s]or 10
-			P.gameEnv.lock=pc_lock[s]or 20
-			P.gameEnv.fall=pc_fall[s]or 5
+			P.gameEnv.lock=pc_lock[s]or 25
+			P.gameEnv.fall=pc_fall[s]or 4
 			if s==10 then
 				P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
-			else
-				P:showTextF(text.speedup,0,-140,40,"appear",.8)
 			end
 		end
 	end
@@ -52,7 +49,7 @@ end
 return{
 	color=COLOR.red,
 	env={
-		nextCount=4,
+		nextCount=5,
 		holdCount=0,
 		drop=60,lock=60,
 		fall=20,
@@ -79,11 +76,11 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=62 and 5 or
+		L>=50 and 5 or
 		L>=42 and 4 or
 		L>=26 and 3 or
 		L>=18 and 2 or
 		L>=10 and 1 or
-		L>=2 and 0
+		L>=3 and 0
 	end,
 }

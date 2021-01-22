@@ -688,7 +688,7 @@ return{
 		["c4wtrain_n"]=			{"Treinamento C4W",	"NORMAL",		"Combos infinitos."},
 		["c4wtrain_l"]=			{"Treinamento C4W",	"LUNÁTICO",		"Combos infinitos."},
 		["pctrain_n"]=			{"Treinamento PC",	"NORMAL",		"Modo simples de limpeza perfeita."},
-		["pctrain_l"]=			{"Treinamento PC",	"LUNÁTICO",		"Modo simples de limpeza perfeita."},
+		["pctrain_l"]=			{"Treinamento PC",	"LUNÁTICO",		"Modo duro de limpeza perfeita."},
 		["pc_n"]=				{"Desafio PC",		"NORMAL",		"Obtenha PCs em 100 linhas!"},
 		["pc_h"]=				{"Desafio PC",		"DIFÍCIL",		"Obtenha PCs em 100 linhas!"},
 		["pc_l"]=				{"Desafio PC",		"LUNÁTICO",		"Obteha PCs em 100 linhas!"},

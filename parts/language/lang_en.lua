@@ -699,7 +699,7 @@ return{
 		["c4wtrain_n"]=			{"C4W Training",	"NORMAL",		"Infinite combos."},
 		["c4wtrain_l"]=			{"C4W Training",	"LUNATIC",		"Infinite combos."},
 		["pctrain_n"]=			{"PC Training",		"NORMAL",		"Simple Perfect Clear mode."},
-		["pctrain_l"]=			{"PC Training",		"LUNATIC",		"Simple Perfect Clear mode."},
+		["pctrain_l"]=			{"PC Training",		"LUNATIC",		"Hard Perfect Clear mode."},
 		["pc_n"]=				{"PC Challenge",	"NORMAL",		"Get PCs within 100 lines!"},
 		["pc_h"]=				{"PC Challenge",	"HARD",			"Get PCs within 100 lines!"},
 		["pc_l"]=				{"PC Challenge",	"LUNATIC",		"Get PCs within 100 lines!"},

@@ -1,16 +1,11 @@
 local PCbase=require"parts/modes/PCbase"
 local PClist=require"parts/modes/PClist"
 local PCtype={
-[0]=1,1,1,1,2,
+	1,1,1,1,2,
 	1,1,1,1,3,
 	1,1,1,2,
-	1,1,1,3,
-	1,1,2,
-	1,1,3,
-	1,2,
-	1,3,
-	2,
-	3,
+	1,2,1,3,
+	1,2,3,
 }
 local function task_PC(P)
 	local D=P.modeData
@@ -32,7 +27,7 @@ local function check(P)
 		if c<5 then P:lose()end
 	end
 	if #P.field==0 then
-		local type=PCtype[P.stat.pc]or P:RND(2,3)
+		local type=PCtype[P.stat.pc+1]or 3
 		local L=PClist[type][P:RND(#PClist[1])]
 		local symmetry=P:RND()>.5
 		P.modeData.type=type
@@ -71,11 +66,11 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=126 and 5 or
-		L>=62 and 4 or
-		L>=42 and 3 or
-		L>=26 and 2 or
-		L>=12 and 1 or
+		L>=62 and 5 or
+		L>=42 and 4 or
+		L>=26 and 3 or
+		L>=18 and 2 or
+		L>=10 and 1 or
 		L>=2 and 0
 	end,
 }
