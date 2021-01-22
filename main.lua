@@ -329,6 +329,9 @@ do
 				RANKS[k]=RANKS[v]
 				RANKS[v]=nil
 			end
+			if RANKS.pctrain_n then RANKS.pctrain_n=0 end
+			if RANKS.pctrain_l then RANKS.pctrain_l=0 end
+			FILE.save(RANKS,"conf/unlock")
 		end
 		newVersionLaunch=true
 
