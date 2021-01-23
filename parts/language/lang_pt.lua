@@ -257,7 +257,6 @@ return{
 			down="↓",
 		},
 		net_chat={
-			clear="Limpar",
 			send="Mandar",
 		},
 		setting_game={

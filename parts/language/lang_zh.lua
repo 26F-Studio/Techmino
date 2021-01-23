@@ -261,7 +261,6 @@ return{
 			down="↓",
 		},
 		net_chat={
-			clear="清空",
 			send="发送",
 		},
 		setting_game={

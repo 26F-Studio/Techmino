@@ -4,6 +4,7 @@ local kb=love.keyboard
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
 local sub,format=string.sub,string.format
+local ins=table.insert
 local setFont,mStr=setFont,mStr
 
 local WIDGET={}
@@ -793,6 +794,94 @@ function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 		hide=	D.hide,
 	}
 	for k,v in next,textBox do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
+
+local chatBox={
+	type="chatBox",
+	scrollPos=0,
+	new=false,
+	-- texts={},
+}
+function chatBox:reset()
+	if not self.texts then
+		self.texts={}
+	end
+end
+function chatBox:push(t)
+	ins(self.texts,t)
+	if self.scrollPos==#self.texts-1 then
+		self.scrollPos=self.scrollPos+1
+	else
+		SFX.play("spin_0",.8)
+		self.new=true
+	end
+end
+function chatBox:scroll(n)
+	if n<0 then
+		self.scrollPos=max(self.scrollPos+n,min(#self.texts,self.capacity))
+	else
+		self.scrollPos=min(self.scrollPos+n,#self.texts)
+		if self.scrollPos==#self.texts then
+			self.new=false
+		end
+	end
+end
+function chatBox:clear()
+	self.texts={}
+	SFX.play("fall")
+end
+function chatBox:draw()
+	local x,y,w,h=self.x,self.y,self.w,self.h
+	local texts=self.texts
+	local scroll=self.scrollPos
+	local cap=self.capacity
+
+	--Frame
+	gc.setLineWidth(4)
+	gc.setColor(0,0,0,.3)
+	gc.rectangle("fill",x,y,w,h)
+	gc.setColor(1,1,1)
+	gc.rectangle("line",x,y,w,h)
+
+	--Texts
+	setFont(30)
+	for i=max(scroll-cap+1,1),scroll do
+		gc.printf(texts[i],x+8,y+h-10-30*(scroll-i+1),w)
+	end
+
+	--Slider
+	if #texts>cap then
+		gc.setLineWidth(2)
+		gc.rectangle("line",x-25,y,20,h)
+		local len=h*cap/#texts
+		gc.rectangle("fill",x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
+	end
+
+	--Draw
+	if self.new and scroll~=#texts then
+		setFont(40)
+		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
+		gc.print("v",8,480)
+	end
+end
+function chatBox:getInfo()
+	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+end
+function WIDGET.newChatBox(D)--name,x,y,w[,h][,font],hide
+	local _={
+		name=	D.name,
+
+		x=		D.x,
+		y=		D.y,
+		w=		D.w,
+		h=		D.h,
+
+		capacity=int((D.h-10)/30),
+		hide=	D.hide,
+	}
+	for k,v in next,chatBox do _[k]=v end
 	setmetatable(_,widgetMetatable)
 	return _
 end

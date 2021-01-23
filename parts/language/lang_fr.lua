@@ -236,7 +236,6 @@ return{
 			down="↓",
 		},
 		net_chat={
-			-- clear="Clear",
 			-- send="Send",
 		},
 		setting_game={
