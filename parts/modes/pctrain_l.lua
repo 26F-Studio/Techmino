@@ -17,14 +17,12 @@ local function task_PC(P)
 	end
 end
 local function check(P)
-	local r=P.field
-	if r[1]then
-		r=r[#r]
-		local c=0
-		for i=1,10 do if r[i]>0 then c=c+1 end end
-		if c<5 then P:lose()end
-	end
-	if #P.field==0 then
+	local f=P.field
+	if #f>0 then
+		if #f+P.stat.row%4>4 then
+			P:lose()
+		end
+	else
 		local type=P.stat.pc<10 and 4 or 5
 		local L=PClist[type][P:RND(#PClist[1])]
 		local symmetry=P:RND()>.5
