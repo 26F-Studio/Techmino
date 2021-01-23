@@ -154,11 +154,13 @@ function scene.update(dt)
 end
 
 local typeColor={
-	help=COLOR.lGrey,
+	help=COLOR.yellow,
 	other=COLOR.lOrange,
 	game=COLOR.lCyan,
 	term=COLOR.lRed,
-	english=COLOR.green,
+	setup=COLOR.lYellow,
+	pattern=COLOR.lGrass,
+	english=COLOR.blue,
 	name=COLOR.lPurple,
 }
 function scene.draw()
