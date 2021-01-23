@@ -304,7 +304,11 @@ return{
 		"term",
 		"In most cases, it's a meme.\nThe O Tetrimino (a.k.a. the Square) does not change upon rotation, thus making it lack interesting spins/kicks that other Tetriminoes have, or be stuck in a place unable to get out.\nAs a joke, some people have made heavily edited videos or even programmed games where the O piece can change shape and \"spin\" into different positions.\nTechmino also supports O-Spin in most modes.",
 	},
-	--{"Wall-Kick"},
+	{"Rotation Systems",
+		"wallkick rotationsystem",
+		"term",
+		"Systems that determine how pieces rotate.\n\nRotation systems usually handle two things: basic rotation and kicks.\n\nBasic rotation refers to how pieces rotate in an open area. Because rotating pieces on their geometric center will usually cause the piece to be misaligned from the grid, rotation systems need to specify alternative rotation centers or rotation offsets in order to align rotated pieces back to the grid.\n\nKicks refer to offsets applied if the rotated piece overlaps with the border of the matrix or other blocks. While older games, like the ones on NES and Gameboy, lack kicks, people soon realized that if a piece is too close to the wall, the floor or other pieces, the piece can (unintuitively) fail to rotate due to overlapping. Games started to implement systems that allow pieces close to walls/floors to rotate, and move them away from the wall/floor into a valid position (\"kicking off the wall/floor\"), and such movements, or offsets used in said movements, are referred to as (wall/floor) kicks.\n\nWhile Super Rotation System (SRS) is the current standard for modern official Tetris games, older games and unofficial games may have their own rotation systems, implementing different basic rotations and kicks.",
+	},
 	{"SRS",
 		"srs superrotationsystem",
 		"term",
@@ -574,10 +578,10 @@ return{
 	},
 
 	--Setups
-	{"Setup",
-		"setup opening",
+	{"Openers",
+		"setup openers",
 		"setup",
-		"Good setups often satisfy two to three of the following:\n- Can adapt to many piece orders,\n- Strong attack, minimal waste of the T piece,\n- require minimal soft dropping for more fast placement and using finesse,\n- has clear follow-up strategies with few branches.",--Edited
+		"Openers are setups that can be build when a game begins. You can still make these setups mid-game, but will often require a different set of piece placements.\n\nGood setups often satisfy two to three of the following:\n- Can adapt to many piece orders,\n- Strong attack, minimal waste of the T piece,\n- require minimal soft dropping for more fast placement and using finesse,\n- has clear follow-up strategies with few branches.\n\nMost openers make use of the Random Generator (bag-7 generator) and exploit the fact that it gives one of every piece for every 7 pieces. This element of predictability makes it possible to have reliable setups.",
 	},
 	{"DT Cannon",
 		"dtcannon doubletriplecannon",
@@ -659,10 +663,18 @@ return{
 		"setup",
 		"An Albatross-ish opener to use when the piece orders do not support that",
 	},
-	--{"7-piece puzzle"},
+	{"7-piece Puzzle",
+		"7piecepuzzle",
+		"setup",
+		"An All Clear opener with a high success rate. In Techmino's PC Practice modes, the setup that leaves an irregular opening is this setup.",
+	},
 
 	--Pattern
-	-- {"Pattern"},
+	{"Mid-game Setups",
+		"midgamesetups",
+		"pattern",
+		"Refers to some setups usually used to send a lot of garbage mid-game. Some of them can also be openers, though it is usually unnecessary.",
+	},
 	{"C-spin",
 		"cspin",
 		"pattern",
@@ -742,7 +754,7 @@ return{
 	{"Minigame",
 		"minigame",
 		"other",
-		"Input these to play free minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf\n2048: 2048",
+		"Type the following codes in the search bar of this dictionary for some fun minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf\n2048: 2048",
 	},
 
 	--English
