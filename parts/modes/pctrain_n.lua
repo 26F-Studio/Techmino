@@ -26,7 +26,7 @@ local function check(P)
 		end
 	else
 		local type=PCtype[P.stat.pc+1]or 3
-		local L=PClist[type][P:RND(#PClist[1])]
+		local L=PClist[type][P:RND(#PClist[type])]
 		local symmetry=P:RND()>.5
 		P.modeData.type=type
 		P.modeData.symmetry=symmetry
