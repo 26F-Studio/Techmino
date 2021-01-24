@@ -268,63 +268,69 @@ LANG.set(SETTING.lang)
 
 --Update data
 do
-	--Check Ranks
-	local R=RANKS
-	R.sprint_10l=R.sprint_10l or 0
-	if R.infinite and R.infinite~=6 then
-		R.infinite=6
-		R.infinite_dig=6
-	end
-	if not text.modes[STAT.lastPlay]then
-		STAT.lastPlay="sprint_10l"
-	end
-
 	--Check setting file
-	local S=SETTING
 	if
-		type(S.block)~="boolean"or
-		type(S.spawn)~="number"or
-		type(S.ghost)~="number"or
-		type(S.center)~="number"or
-		type(S.grid)~="number"or
-		S.bgm>1 or S.sfx>1 or S.voc>1 or
-		S.stereo>1 or S.VKSFX>1 or S.VKAlpha>1
+		type(SETTING.block)~="boolean"or
+		type(SETTING.spawn)~="number"or
+		type(SETTING.ghost)~="number"or
+		type(SETTING.center)~="number"or
+		type(SETTING.grid)~="number"or
+		SETTING.bgm>1 or SETTING.sfx>1 or SETTING.voc>1 or
+		SETTING.stereo>1 or SETTING.VKSFX>1 or SETTING.VKAlpha>1
 	then
 		NOGAME=true
 		fs.remove("conf/settings")
 	end
 
-	--Update data file
-	S=STAT
 	freshDate()
-	if S.extraRate then
-		S.finesseRate=5*(S.piece-S.extraRate)
+	if STAT.extraRate then
+		STAT.finesseRate=5*(STAT.piece-STAT.extraRate)
 	end
-	if type(S.version)~="number"then
-		S.version=0
+	if type(STAT.version)~="number"then
+		STAT.version=0
 	end
-	if S.version<1204 then
+	if STAT.version<1204 then
 		STAT.frame=math.floor(STAT.time*60)
 		STAT.lastPlay="sprint_10l"
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 	end
-	if S.version<1205 then
+	if STAT.version<1205 then
 		SETTING.VKCurW=SETTING.VKCurW*.1
 		SETTING.VKTchW=SETTING.VKTchW*.1
 	end
-	if S.version<1208 then
+	if STAT.version<1208 then
 		SETTING.skinSet=1
 	end
-	if S.version<1225 then
+	if STAT.version<1225 then
 		SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,12,2,16,8,4,10,13,2,8}
 	end
+
+	if STAT.version<1300 then
+		STAT.lastPlay="sprint_10l"
+	end
+
 	for _,v in next,VK_org do
 		if not v.color then
 			NOGAME=true
 			fs.remove("conf/virtualkey")
 			break
 		end
+	end
+
+	if RANKS.infinite and RANKS.infinite~=6 then
+		RANKS.infinite=6
+		RANKS.infinite_dig=6
+	end
+
+	local needSaveRank
+	if RANKS[1]then
+		for k in next,RANKS do
+			if type(k)=="number"then
+				RANKS[k]=nil
+			end
+		end
+		needSaveRank=true
 	end
 	if RANKS["blind_easy"]then
 		for k,v in next,{attacker_h="attacker_hard",attacker_u="attacker_ultimate",blind_e="blind_easy",blind_h="blind_hard",blind_l="blind_lunatic",blind_n="blind_normal",blind_u="blind_ultimate",c4wtrain_l="c4wtrain_lunatic",c4wtrain_n="c4wtrain_normal",defender_l="defender_lunatic",defender_n="defender_normal",dig_100l="dig_10",dig_10l="dig_100",dig_400l="dig_40",dig_40l="dig_400",dig_h="dig_hard",dig_u="dig_ultimate",drought_l="drought_lunatic",drought_n="drought_normal",marathon_h="marathon_hard",marathon_n="marathon_normal",pc_h="pcchallenge_hard",pc_l="pcchallenge_lunatic",pc_n="pcchallenge_normal",pctrain_l="pctrain_lunatic",pctrain_n="pctrain_normal",round_e="round_1",round_h="round_2",round_l="round_3",round_n="round_4",round_u="round_5",solo_e="solo_1",solo_h="solo_2",solo_l="solo_3",solo_n="solo_4",solo_u="solo_5",sprint_1000l="sprint_10",sprint_100l="sprint_100",sprint_10l="sprint_1000",sprint_20l="sprint_20",sprint_400l="sprint_40",sprint_40l="sprint_400",survivor_e="survivor_easy",survivor_h="survivor_hard",survivor_l="survivor_lunatic",survivor_n="survivor_normal",survivor_u="survivor_ultimate",tech_finesse_f="tech_finesse2",tech_h_plus="tech_hard2",tech_h="tech_hard",tech_l_plus="tech_lunatic2",tech_l="tech_lunatic",tech_n_plus="tech_normal2",tech_n="tech_normal",techmino49_e="techmino49_easy",techmino49_h="techmino49_hard",techmino49_u="techmino49_ultimate",techmino99_e="techmino99_easy",techmino99_h="techmino99_hard",techmino99_u="techmino99_ultimate",tsd_e="tsd_easy",tsd_h="tsd_hard",tsd_u="tsd_ultimate"}do
@@ -333,11 +339,18 @@ do
 		end
 		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
 		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
+		needSaveRank=true
+	end
+	if not RANKS.sprint_10l then
+		RANKS.sprint_10l=0
+		needSaveRank=true
+	end
+	if needSaveRank then
 		FILE.save(RANKS,"conf/unlock")
 	end
-	if S.version~=VERSION_CODE then
+	if STAT.version~=VERSION_CODE then
 		newVersionLaunch=true
-		S.version=VERSION_CODE
+		STAT.version=VERSION_CODE
 		FILE.save(STAT,"conf/data")
 	end
 end
