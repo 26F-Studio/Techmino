@@ -116,8 +116,8 @@ local virtualkeySet={
 		{6,	200,		720-320,	80},--hardDrop
 		{7,	200,		720-80,		80},--softDrop
 		{8,	1280-320,	720-200,	80},--hold
-		{9,	1280-80,	280,		80},--func
-		{10,80,			280,		80},--restart
+		{9,	80,			280,		80},--func1
+		{10,1280-80,	280,		80},--func2
 	},--Farter's tetr.js set
 	{
 		{1,	1280-320,	720-200,	80},--moveLeft
@@ -128,8 +128,8 @@ local virtualkeySet={
 		{6,	1280-200,	720-320,	80},--hardDrop
 		{7,	1280-200,	720-80,		80},--softDrop
 		{8,	320,		720-200,	80},--hold
-		{9,	80,			280,		80},--func
-		{10,1280-80,	280,		80},--restart
+		{9,	1280-80,	280,		80},--func1
+		{10,80,			280,		80},--func2
 	},--Mirrored tetr.js set
 	{
 		{1,	80,			720-80,		80},--moveLeft
@@ -140,8 +140,8 @@ local virtualkeySet={
 		{6,	1280-80,	720-80,		80},--hardDrop
 		{7,	1280-80,	720-240,	80},--softDrop
 		{8,	1280-80,	720-400,	80},--hold
-		{9,	80,			360,		80},--func
-		{10,80,			80,			80},--restart
+		{9,	80,			720-240,	80},--func1
+		{10,240,		720-240,	80},--func2
 	},--Author's set, not recommend
 	{
 		{1,	1280-400,	720-80,		80},--moveLeft
@@ -151,13 +151,13 @@ local virtualkeySet={
 		{5,	240,		720-240,	80},--rot180
 		{6,	1280-240,	720-240,	80},--hardDrop
 		{7,	1280-240,	720-80,		80},--softDrop
-		{8,	1280-80,	720-240,	80},--hold
-		{9,	80,			720-240,	80},--func
-		{10,80,			320,		80},--restart
+		{8,	400,		720-80,		80},--hold
+		{9,	80,			720-240,	80},--func1
+		{10,80,			720-400,	80},--func2
 	},--Keyboard set
 	{
-		{10,70,		50,30},--restart
-		{9,	130,	50,30},--func
+		{9,	70,		50,30},--func1
+		{10,130,	50,30},--func2
 		{4,	190,	50,30},--rotLeft
 		{3,	250,	50,30},--rotRight
 		{5,	310,	50,30},--rot180
@@ -195,9 +195,9 @@ scene.widgetList={
 					B.x,B.y,B.r=T[2],T[3],T[4]
 				end
 			end
+			LOG.print("[ "..defaultSetSelect.." ]")
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
-			LOG.print("[ "..defaultSetSelect.." ]")
 		end},
 	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
 	WIDGET.newButton{name="option",	x=520,y=190,w=200,h=80,font=40,

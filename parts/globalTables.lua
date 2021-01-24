@@ -347,8 +347,8 @@ VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' posi
 	{ava=true,	x=200,		y=720-320,	r=80,color=COLOR.cyan},--hardDrop
 	{ava=true,	x=200,		y=720-80,	r=80,color=COLOR.sea},--softDrop
 	{ava=true,	x=1280-320,	y=720-200,	r=80,color=COLOR.yellow},--hold
-	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lRed},--func
-	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lMagenta},--restart
+	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lRed},--func1
+	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lMagenta},--func2
 	{ava=false,	x=100,		y=50,		r=80,color=COLOR.water},--insLeft
 	{ava=false,	x=200,		y=50,		r=80,color=COLOR.water},--insRight
 	{ava=false,	x=300,		y=50,		r=80,color={COLOR.rainbow(3.5)}},--insDown
