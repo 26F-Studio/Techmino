@@ -60,6 +60,7 @@ function SCN.init(s,org)
 	local S=scenes[s]
 	SCN.cur=s
 
+	WIDGET.set(S.widgetList)
 	SCN.sceneInit=S.sceneInit
 	SCN.sceneBack=S.sceneBack
 	SCN.update=S.update
@@ -79,7 +80,6 @@ function SCN.init(s,org)
 	SCN.gamepadUp=S.gamepadUp
 	SCN.socketRead=S.socketRead
 	if S.sceneInit then S.sceneInit(org)end
-	WIDGET.set(S.widgetList)
 end
 function SCN.push(tar,style)
 	if not SCN.swapping then

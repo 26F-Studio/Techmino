@@ -7,7 +7,7 @@ local scene={}
 
 local last--Last touch time
 local jump--Animation timer(10 to 0)
-local cv
+local cv=SETTING.cv
 
 function scene.sceneInit()
 	last=0
