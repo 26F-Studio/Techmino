@@ -235,7 +235,7 @@ function love.textedited(text)
 end
 function love.textinput(text)
 	local W=WIDGET.sel
-	if W and W.type=="textBox"then
+	if W and W.type=="inputBox"then
 		if not W.regex or text:match(W.regex)then
 			WIDGET.sel.value=WIDGET.sel.value..text
 			SFX.play("move")

@@ -1,23 +1,16 @@
 local gc=love.graphics
 
-local chatBox=WIDGET.newChatBox{name="texts",x=50,y=50,w=1200,h=430}
+local textBox=WIDGET.newTextBox{name="texts",x=40,y=50,w=1200,h=430}
 local remain--People in chat room
 local heartBeatTimer
 local escapeTimer=0
 
 local function _init()
 	coroutine.yield()
-	WIDGET.sel=WIDGET.active.text
-	local texts=chatBox.texts
-	if #texts==0 then
-		chatBox:push{COLOR.dG,text.chatStart}
-	elseif #texts>1 and texts[#texts][1]~=COLOR.dG then
-		chatBox:push{COLOR.dG,text.chatHistory}
-	end
-	chatBox:scroll(1)
+	WIDGET.sel=WIDGET.active.input
 end
 local function sendMessage()
-	local W=WIDGET.active.text
+	local W=WIDGET.active.input
 	if #W.value>0 and wsWrite("T"..W.value)then
 		W.value=""
 	end
@@ -29,6 +22,13 @@ function scene.sceneInit()
 	heartBeatTimer=0
 	remain=false
 
+	local texts=textBox.texts
+	if #texts==0 then
+		textBox:push{COLOR.dG,text.chatStart}
+	elseif #texts>1 and texts[#texts][1]~=COLOR.dG then
+		textBox:push{COLOR.dG,text.chatHistory}
+	end
+	textBox:scroll(1)
 	TASK.new(_init)--Widgets are not initialized, so active after 1 frame
 	TASK.new(TICK_wsRead)
 	BG.set("none")
@@ -44,9 +44,9 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(k)
 	if k=="up"then
-		chatBox:scroll(-1)
+		textBox:scroll(-1)
 	elseif k=="down"then
-		chatBox:scroll(1)
+		textBox:scroll(1)
 	elseif k=="return"then
 		sendMessage()
 	elseif k=="escape"then
@@ -65,14 +65,14 @@ function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
 	local args=splitStr(mes:sub(2),":")
 	if cmd=="J"or cmd=="L"then
-		chatBox:push{
+		textBox:push{
 			COLOR.lR,args[1],
 			COLOR.dY,args[2].." ",
 			COLOR.Y,text[cmd=="J"and"chatJoin"or"chatLeave"]
 		}
 		remain=tonumber(args[3])
 	elseif cmd=="T"then
-		chatBox:push{
+		textBox:push{
 			COLOR.W,args[1],
 			COLOR.dY,args[2].." ",
 			COLOR.sky,args[3]
@@ -98,7 +98,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	chatBox,
+	textBox,
+	WIDGET.newInputBox{name="input",x=40,	y=500,w=980,h=180,font=40},
 	WIDGET.newButton{name="send",	x=1140,	y=540,w=170,h=80,font=40,code=sendMessage},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }

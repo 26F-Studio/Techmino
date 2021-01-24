@@ -689,29 +689,29 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 	return _
 end
 
-local textBox={
-	type="textBox",
+local inputBox={
+	type="inputBox",
 	keepFocus=true,
 	ATV=0,--Activating time(0~4)
 	value="",--Text contained
 }
-function textBox:reset()
+function inputBox:reset()
 	self.ATV=0
 	if not MOBILE then
 		kb.setTextInput(true)
 	end
 end
-function textBox:isAbove(x,y)
+function inputBox:isAbove(x,y)
 	return
 		x>self.x and
 		y>self.y and
 		x<self.x+self.w and
 		y<self.y+self.h
 end
-function textBox:getCenter()
+function inputBox:getCenter()
 	return self.x+self.w*.5,self.y
 end
-function textBox:update()
+function inputBox:update()
 	local ATV=self.ATV
 	if WIDGET.sel==self then
 		if ATV<3 then self.ATV=ATV+1 end
@@ -719,7 +719,7 @@ function textBox:update()
 		if ATV>0 then self.ATV=ATV-.25 end
 	end
 end
-function textBox:draw()
+function inputBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
 
@@ -748,16 +748,16 @@ function textBox:draw()
 		end
 	end
 end
-function textBox:getInfo()
+function inputBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function textBox:press()
+function inputBox:press()
 	if MOBILE then
 		local _,y1=SCR.xOy:transformPoint(0,self.y+self.h)
 		kb.setTextInput(true,0,y1,1,1)
 	end
 end
-function textBox:keypress(k)
+function inputBox:keypress(k)
 	local t=self.value
 	if #t>0 and EDITING==""then
 		if k=="backspace"then
@@ -773,7 +773,7 @@ function textBox:keypress(k)
 		self.value=t
 	end
 end
-function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
+function WIDGET.newInputBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 	local _={
 		name=	D.name,
 
@@ -793,38 +793,42 @@ function WIDGET.newTextBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 		regex=	D.regex,
 		hide=	D.hide,
 	}
-	for k,v in next,textBox do _[k]=v end
+	for k,v in next,inputBox do _[k]=v end
 	setmetatable(_,widgetMetatable)
 	return _
 end
 
-local chatBox={
-	type="chatBox",
+local textBox={
+	type="textBox",
 	scrollPos=0,
 	scrollPix=0,
 	sure=0,
 	new=false,
 	-- texts={},
 }
-function chatBox:reset()
+function textBox:reset()
 	--haha nothing here, but techmino is fun!
 end
-function chatBox:isAbove(x,y)
+function textBox:setTexts(t)
+	self.texts=t
+	self.scrollPos=min(#self.texts,self.capacity)
+end
+function textBox:isAbove(x,y)
 	return
 		x>self.x and
 		y>self.y and
 		x<self.x+self.w and
 		y<self.y+self.h
 end
-function chatBox:getCenter()
+function textBox:getCenter()
 	return self.x+self.w*.5,self.y+self.w
 end
-function chatBox:update()
+function textBox:update()
 	if self.sure>0 then
 		self.sure=self.sure-1
 	end
 end
-function chatBox:push(t)
+function textBox:push(t)
 	ins(self.texts,t)
 	if self.scrollPos==#self.texts-1 then
 		self.scrollPos=self.scrollPos+1
@@ -833,19 +837,17 @@ function chatBox:push(t)
 		self.new=true
 	end
 end
-function chatBox:drag(_,_,_,dy)
+function textBox:drag(_,_,_,dy)
 	_=self.scrollPix+dy
-	if _>30 then
-		_=_-30
-		self:scroll(-1)
-	elseif _<-30 then
-		_=_+30
-		self:scroll(1)
+	local sign=_>0 and 1 or -1
+	while abs(_)>30 do
+		_=_-30*sign
+		self:scroll(-sign)
 	end
 	self.scrollPix=_
 end
-function chatBox:press(x,y)
-	if x>self.x+self.w-40 and y<self.y+40 then
+function textBox:press(x,y)
+	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
 			self:clear()
 			self.sure=0
@@ -854,7 +856,7 @@ function chatBox:press(x,y)
 		end
 	end
 end
-function chatBox:scroll(n)
+function textBox:scroll(n)
 	if n<0 then
 		self.scrollPos=max(self.scrollPos+n,min(#self.texts,self.capacity))
 	else
@@ -864,16 +866,19 @@ function chatBox:scroll(n)
 		end
 	end
 end
-function chatBox:clear()
-	self.texts={}
-	self.scrollPos=0
-	SFX.play("fall")
+function textBox:clear()
+	if not self.fix then
+		self.texts={}
+		self.scrollPos=0
+		SFX.play("fall")
+	end
 end
-function chatBox:draw()
+function textBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local texts=self.texts
 	local scroll=self.scrollPos
 	local cap=self.capacity
+
 
 	--Frame
 	gc.setLineWidth(4)
@@ -882,34 +887,38 @@ function chatBox:draw()
 	gc.setColor(1,1,1)
 	gc.rectangle("line",x,y,w,h)
 
-	--Clear button
-	setFont(30)
-	mStr(self.sure>0 and"?"or"X",x+w-20,y-1)
-	gc.rectangle("line",x+w-40,y,40,40)
-
-	--Texts
-	for i=max(scroll-cap+1,1),scroll do
-		gc.printf(texts[i],x+8,y+h-10-30*(scroll-i+1),w)
-	end
-
 	--Slider
 	if #texts>cap then
 		gc.setLineWidth(2)
 		gc.rectangle("line",x-25,y,20,h)
 		local len=h*cap/#texts
+		gc.setColor(COLOR[WIDGET.sel==self and"Y"or"W"])
 		gc.rectangle("fill",x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
 
-	--Draw
+	setFont(30)
+	gc.setColor(1,1,1)
+	--Clear button
+	if not self.fix then
+		mStr(self.sure>0 and"?"or"X",x+w-20,y-1)
+		gc.rectangle("line",x+w-40,y,40,40)
+	end
+	--New message
 	if self.new and self.scrollPos~=#texts then
 		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
 		gc.print("v",x+w-25,y+h-40)
 	end
+
+	--Texts
+	setFont(self.font)
+	for i=max(scroll-cap+1,1),scroll do
+		gc.printf(texts[i],x+8,y+h-10-self.lineH*(scroll-i+1),w)
+	end
 end
-function chatBox:getInfo()
+function textBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newChatBox(D)--name,x,y,w[,h][,font],hide
+function WIDGET.newTextBox(D)--name,x,y,w,h[,font][,fix],hide
 	local _={
 		name=	D.name,
 
@@ -930,11 +939,15 @@ function WIDGET.newChatBox(D)--name,x,y,w[,h][,font],hide
 		w=		D.w,
 		h=		D.h,
 
-		capacity=int((D.h-10)/30),
+		font=	D.font or 30,
+		fix=D.fix,
 		texts={},
 		hide=	D.hide,
 	}
-	for k,v in next,chatBox do _[k]=v end
+	_.lineH=7*(_.font/5)
+	_.capacity=int((D.h-10)/_.lineH)
+
+	for k,v in next,textBox do _[k]=v end
 	setmetatable(_,widgetMetatable)
 	return _
 end
@@ -1001,7 +1014,7 @@ end
 function WIDGET.press(x,y)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="textBox"or W.type=="chatBox"then
+	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="inputBox"or W.type=="textBox"then
 		W:press(x,y)
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
@@ -1011,7 +1024,7 @@ end
 function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="slider"or W.type=="chatBox"then
+	if W.type=="slider"or W.type=="textBox"then
 		W:drag(x,y,dx,dy)
 	elseif not W:isAbove(x,y)then
 		WIDGET.sel=false
@@ -1073,7 +1086,7 @@ function WIDGET.keyPressed(k)
 		end
 	else
 		local W=WIDGET.sel
-		if W and W.type=="textBox"then
+		if W and W.type=="inputBox"then
 			W:keypress(k)
 		end
 	end
