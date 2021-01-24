@@ -105,7 +105,7 @@ function love.mousemoved(x,y,dx,dy,t)
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
 	if ms.isDown(1) then
-		WIDGET.drag(mx,my)
+		WIDGET.drag(mx,my,dx,dy)
 	else
 		WIDGET.moveCursor(mx,my)
 	end
@@ -141,7 +141,7 @@ function love.touchmoved(id,x,y,dx,dy)
 	if SCN.touchMove then SCN.touchMove(id,x,y,dx/SCR.k,dy/SCR.k)end
 	if WIDGET.sel then
 		if touching then
-			WIDGET.drag(x,y)
+			WIDGET.drag(x,y,dx,dy)
 		end
 	else
 		WIDGET.moveCursor(x,y)

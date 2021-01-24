@@ -801,12 +801,27 @@ end
 local chatBox={
 	type="chatBox",
 	scrollPos=0,
+	scrollPix=0,
+	sure=0,
 	new=false,
 	-- texts={},
 }
 function chatBox:reset()
-	if not self.texts then
-		self.texts={}
+	--haha nothing here, but techmino is fun!
+end
+function chatBox:isAbove(x,y)
+	return
+		x>self.x and
+		y>self.y and
+		x<self.x+self.w and
+		y<self.y+self.h
+end
+function chatBox:getCenter()
+	return self.x+self.w*.5,self.y+self.w
+end
+function chatBox:update()
+	if self.sure>0 then
+		self.sure=self.sure-1
 	end
 end
 function chatBox:push(t)
@@ -816,6 +831,27 @@ function chatBox:push(t)
 	else
 		SFX.play("spin_0",.8)
 		self.new=true
+	end
+end
+function chatBox:drag(_,_,_,dy)
+	_=self.scrollPix+dy
+	if _>30 then
+		_=_-30
+		self:scroll(-1)
+	elseif _<-30 then
+		_=_+30
+		self:scroll(1)
+	end
+	self.scrollPix=_
+end
+function chatBox:press(x,y)
+	if x>self.x+self.w-40 and y<self.y+40 then
+		if self.sure>0 then
+			self:clear()
+			self.sure=0
+		else
+			self.sure=60
+		end
 	end
 end
 function chatBox:scroll(n)
@@ -830,6 +866,7 @@ function chatBox:scroll(n)
 end
 function chatBox:clear()
 	self.texts={}
+	self.scrollPos=0
 	SFX.play("fall")
 end
 function chatBox:draw()
@@ -845,8 +882,12 @@ function chatBox:draw()
 	gc.setColor(1,1,1)
 	gc.rectangle("line",x,y,w,h)
 
-	--Texts
+	--Clear button
 	setFont(30)
+	mStr(self.sure>0 and"?"or"X",x+w-20,y-1)
+	gc.rectangle("line",x+w-40,y,40,40)
+
+	--Texts
 	for i=max(scroll-cap+1,1),scroll do
 		gc.printf(texts[i],x+8,y+h-10-30*(scroll-i+1),w)
 	end
@@ -860,10 +901,9 @@ function chatBox:draw()
 	end
 
 	--Draw
-	if self.new and scroll~=#texts then
-		setFont(40)
+	if self.new and self.scrollPos~=#texts then
 		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
-		gc.print("v",8,480)
+		gc.print("v",x+w-25,y+h-40)
 	end
 end
 function chatBox:getInfo()
@@ -873,12 +913,25 @@ function WIDGET.newChatBox(D)--name,x,y,w[,h][,font],hide
 	local _={
 		name=	D.name,
 
+		resCtr={
+			D.x+D.w*.5,D.y+D.h*.5,
+			D.x+D.w*.5,D.y,
+			D.x-D.w*.5,D.y,
+			D.x,D.y+D.h*.5,
+			D.x,D.y-D.h*.5,
+			D.x,D.y,
+			D.x+D.w,D.y,
+			D.x,D.y+D.h,
+			D.x+D.w,D.y+D.h,
+		},
+
 		x=		D.x,
 		y=		D.y,
 		w=		D.w,
 		h=		D.h,
 
 		capacity=int((D.h-10)/30),
+		texts={},
 		hide=	D.hide,
 	}
 	for k,v in next,chatBox do _[k]=v end
@@ -948,18 +1001,18 @@ end
 function WIDGET.press(x,y)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="textBox"then
+	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="textBox"or W.type=="chatBox"then
 		W:press(x,y)
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
 	end
 	if W.hide and W.hide()then WIDGET.sel=false end
 end
-function WIDGET.drag(x,y)
+function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="slider"then
-		W:drag(x,y)
+	if W.type=="slider"or W.type=="chatBox"then
+		W:drag(x,y,dx,dy)
 	elseif not W:isAbove(x,y)then
 		WIDGET.sel=false
 	end
