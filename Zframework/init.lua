@@ -217,6 +217,8 @@ function love.keypressed(i)
 	if i=="f8"then
 		devMode=1
 		LOG.print("DEBUG ON",COLOR.yellow)
+	elseif i=="f11"then
+		switchFullscreen()
 	else
 		if SCN.swapping then return end
 

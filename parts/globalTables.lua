@@ -290,7 +290,7 @@ SETTING={--Settings
 	warn=true,
 	highCam=false,
 	nextPos=false,
-	fullscreen=true,
+	fullscreen=false,
 	bg=true,
 	powerInfo=false,
 

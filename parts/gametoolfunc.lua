@@ -9,6 +9,15 @@ local ins,rem=table.insert,table.remove
 
 
 
+--System
+function switchFullscreen()
+	SETTING.fullscreen=not SETTING.fullscreen
+	love.window.setFullscreen(SETTING.fullscreen)
+	love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+end
+
+
+
 --Encoding Functions
 --Sep symbol: 33 (!)
 --Safe char: 34~126

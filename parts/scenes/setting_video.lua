@@ -41,12 +41,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="warn",		x=1100,	y=300,font=35,disp=lnk_SETval("warn"),	code=lnk_SETrev("warn")},
 	WIDGET.newSwitch{name="highCam",	x=1100,	y=360,font=35,disp=lnk_SETval("highCam"),code=lnk_SETrev("highCam")},
 	WIDGET.newSwitch{name="nextPos",	x=1100,	y=420,font=35,disp=lnk_SETval("nextPos"),code=lnk_SETrev("nextPos")},
-	WIDGET.newSwitch{name="fullscreen",x=1100,	y=480,disp=lnk_SETval("fullscreen"),
-		code=function()
-			SETTING.fullscreen=not SETTING.fullscreen
-			love.window.setFullscreen(SETTING.fullscreen)
-			love.resize(love.graphics.getWidth(),love.graphics.getHeight())
-		end},
+	WIDGET.newSwitch{name="fullscreen",x=1100,	y=480,disp=lnk_SETval("fullscreen"),	code=switchFullscreen},
 	WIDGET.newSwitch{name="bg",		x=1100,	y=540,font=35,disp=lnk_SETval("bg"),
 		code=function()
 			BG.set("none")
