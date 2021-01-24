@@ -1853,17 +1853,11 @@ function Player.act_hold(P)
 		P:hold()
 	end
 end
-function Player.act_func(P)
-	P.gameEnv.Fkey(P)
+function Player.act_func1(P)
+	P.gameEnv.fkey1(P)
 end
-function Player.act_restart()
-	if GAME.frame<240 then
-		resetGameData("q")
-	elseif GAME.result then
-		resetGameData()
-	else
-		LOG.print(text.holdR,20,COLOR.orange)
-	end
+function Player.act_func2(P)
+	P.gameEnv.fkey2(P)
 end
 
 function Player.act_insLeft(P,auto)
@@ -1993,8 +1987,8 @@ Player.actList={
 	Player.act_hardDrop,	--6
 	Player.act_softDrop,	--7
 	Player.act_hold,		--8
-	Player.act_func,		--9
-	Player.act_restart,		--10
+	Player.act_func1,		--9
+	Player.act_func2,		--10
 	Player.act_insLeft,		--11
 	Player.act_insRight,	--12
 	Player.act_insDown,		--13

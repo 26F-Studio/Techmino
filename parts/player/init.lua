@@ -232,9 +232,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 			end
 		end
 	end
-	if not ENV.Fkey then
-		P.keyAvailable[9]=false
-	end
+	if not ENV.fkey1 then P.keyAvailable[9]=false end
+	if not ENV.fkey2 then P.keyAvailable[10]=false end
 	for _,v in next,ENV.keyCancel do
 		P.keyAvailable[v]=false
 	end

@@ -21,7 +21,7 @@ return{
 		drop=60,lock=60,
 		fall=20,
 		royaleMode=true,
-		Fkey=selectTarget,
+		fkey1=selectTarget,
 		garbageSpeed=.3,
 		pushSpeed=2,
 		freshLimit=15,

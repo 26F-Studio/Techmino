@@ -446,7 +446,6 @@ function restoreVirtualKey()
 end
 function pauseGame()
 	if not SCN.swapping then
-		GAME.restartCount=0--Avoid strange darkness
 		if not GAME.replaying then
 			for i=1,#PLAYERS do
 				local l=PLAYERS[i].keyPressing

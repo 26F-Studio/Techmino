@@ -48,7 +48,7 @@ return{
 	visible="show",
 	freshLimit=1e99,easyFresh=true,
 
-	Fkey=false,
+	fkey1=false,
 	keyCancel={},
 	fine=false,fineKill=false,
 	b2bKill=false,

@@ -6,7 +6,6 @@ return{
 	newVersion="¡Gracias por actualizar! Detalles a continuación:",
 	httpTimeout="¡Tiempo de espera de conexión agotado!",
 	marking="Autor:MrZ_26\nEsta grabación es ilegal si ves esto\nNo se aceptan excusas",
-	holdR="Mantén presionado para reiniciar",
 	-- newDay="[Anti-addiction] New day, new beginning!",
 	-- playedLong="[Anti-addiction] You've been playing quite a bit today. Make sure to take breaks.",
 	-- playedTooMuch="[Anti-addiction] You've been playing too much today! You can't play any more.",
@@ -115,8 +114,7 @@ return{
 		"Mover a Izq.:","Mover a Der.:",
 		"Rotar Der.:","Rotar Izq.:","Rotar 180°:",
 		"Caída Instantánea:","Caída Rápida:",
-		"Reserva:","Función (para Tech99/49):",
-		"Reiniciar:",
+		"Reserva:","Función1:","Función2:",
 		"Izq. Instant.:","Der. Instant.:","Sonic Drop:","Abajo 1:","Abajo 4:","Abajo 10:",
 		"Caída a Izq.:","Caída a Der.:","Zangi a Izq.:","Zangi a Der.:",
 	},
@@ -216,9 +214,6 @@ return{
 			-- title="Mods",
 			-- reset="Reset (tab)",
 			-- unranked="Unranked",
-		},
-		play={
-			pause="Pausa",
 		},
 		pause={
 			setting="Opciones (S)",
@@ -332,7 +327,7 @@ return{
 		setting_touchSwitch={
 			b1=	"Mover Izq.:",b2="Mover Der.:",b3="Rotar Der.:",b4="Rotar Izq.:",
 			b5=	"Rotar 180°:",b6="Caída Inst.:",b7="Caída Ráp.:",b8="Reserva:",
-			b9=	"Función:",b10="Reiniciar:",b11="Izq. Instant.:",b12="Der. Instant.:",
+			b9=	"Función1:",b10="Función2:",b11="Izq. Instant.:",b12="Der. Instant.:",
 			b13="Sonic Drop:",b14="Abajo 1:",b15="Abajo 4:",b16="Abajo 10:",
 			b17="Soltar a Izq.:",b18="Soltar a Der.:",b19="Zangi a Izq.:",b20="Zangi a Der.:",
 			norm="Normal",

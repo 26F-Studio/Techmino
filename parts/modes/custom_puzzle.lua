@@ -34,7 +34,7 @@ end
 return{
 	color=COLOR.white,
 	env={
-		Fkey=function(P)P.modeData.event=1-P.modeData.event end,
+		fkey1=function(P)P.modeData.event=1-P.modeData.event end,
 		dropPiece=puzzleCheck,
 	},
 	load=function()

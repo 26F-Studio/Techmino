@@ -208,7 +208,6 @@ CUSTOMENV={--gameEnv for cutsom game
 }
 GAME={--Global game data
 	init=false,			--If need initializing game when enter scene-play
-	restartCount=0,		--Keep +=1 if player hold restart button after game start
 
 	frame=0,			--Frame count
 	result=false,		--Game result (string)
@@ -334,7 +333,7 @@ else
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
 end
 keyMap=FILE.load("conf/key")or{--Key setting
-	{"left","right","x","z","c","up","down","space","tab","r"},{},
+	{"left","right","x","z","c","up","down","space","a","s"},{},
 	--Keyboard
 	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},{},
 	--Joystick

@@ -6,7 +6,6 @@ return{
 	newVersion="Thanks for updating! Check out the updates below.",
 	httpTimeout="Network connection timed out",
 	marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
-	holdR="Keep holding to retry",
 	newDay="[Anti-addiction] New day, new beginning!",
 	playedLong="[Anti-addiction] You've been playing quite a bit today. Make sure to take breaks.",
 	playedTooMuch="[Anti-addiction] You've been playing too much today! You can't play any more.",
@@ -134,7 +133,7 @@ return{
 	acts={
 		"Move Left:","Move Right:",
 		"Rotate Right:","Rotate Left:","Rotate 180°:",
-		"Hard Drop:","Soft Drop:","Hold:","Function:","Restart:",
+		"Hard Drop:","Soft Drop:","Hold:","Function1:","Function2:",
 		"Instant Left:","Instant Right:","Sonic Drop:","Down 1:","Down 4:","Down 10:",
 		"Left Drop:","Right Drop:","Left Zangi:","Right Zangi:",
 	},
@@ -234,9 +233,6 @@ return{
 			title="Mods",
 			reset="Reset (tab)",
 			unranked="Unranked",
-		},
-		play={
-			pause="Pause",
 		},
 		pause={
 			setting="Settings (S)",
@@ -354,7 +350,7 @@ return{
 		setting_touchSwitch={
 			b1=	"Move Left:",	b2="Move Right:",	b3="Rotate Right:",	b4="Rotate Left:",
 			b5=	"Rotate 180°:",	b6="Hard Drop:",	b7="Soft Drop:",	b8="Hold:",
-			b9=	"Function:",	b10="Restart Game:",		b11="Instant Left:",b12="Instant Right:",
+			b9=	"Function1:",	b10="Function2:",	b11="Instant Left:",b12="Instant Right:",
 			b13="Sonic Drop:",	b14="Down 1:",		b15="Down 4:",		b16="Down 10:",
 			b17="Left Drop:",	b18="Right Drop:",	b19="Left Zangi:",	b20="Right Zangi:",
 			norm="Normal",

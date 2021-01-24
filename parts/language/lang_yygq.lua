@@ -2,7 +2,6 @@ return{
 	anykey="您开始了",
 	newVersion="感谢更新,请看看更新了些啥",
 	httpTimeout="没网或者网不好?",
-	holdR="长按重开",
 	playedLong="今天已经玩很久了,你小心点",
 	playedTooMuch="你他妈再玩小心眼睛瞎掉,爬",
 

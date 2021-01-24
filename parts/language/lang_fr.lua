@@ -6,7 +6,6 @@ return{
 	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
 	marking="Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide.",
-	holdR="Hold to restart",
 	-- newDay="[Anti-addiction] New day, new beginning!",
 	-- playedLong="[Anti-addiction] You've been playing quite a bit today. Make sure to take breaks.",
 	-- playedTooMuch="[Anti-addiction] You've been playing too much today! You can't play any more.",
@@ -113,7 +112,7 @@ return{
 	acts={
 		"Déplacement vers la gauche :","Déplacement vers la droite :",
 		"Rotation vers la droite:","Rotation vers la gauche :","180° :",
-		"Chute instantanée :","Chute rapide :","Réserve :","Fonction :","Réessayer:",
+		"Chute instantanée :","Chute rapide :","Réserve :","Fonction1 :","Fonction2 :",
 		"Déplacement instantané vers la gauche :","Déplacement instantané vers la droite : ","Chute sonique :","Descendre de 1 :","Descendre de 4 :","Descendre de 10 :",
 		"Chute à gauche :","Chute à droite :","Zangi gauche :","Zangi droite :",
 	},
@@ -212,9 +211,6 @@ return{
 			-- title="Mods",
 			-- reset="Reset (tab)",
 			-- unranked="Unranked",
-		},
-		play={
-			pause="Pause",
 		},
 		pause={
 			setting="Paramètres (S)",
@@ -333,7 +329,7 @@ return{
 			b1=	"Déplacement vers la gauche :",b2="Déplacement vers la droite:",
 			b3="Rotation vers la droite :",b4="Rotation vers la gauche :",
 			b5=	"180° :",b6="Chute instantanée :",b7="Chute rapide :",b8="Réserve :",
-			b9=	"Fonction :",b10="Redémarrer :",
+			b9=	"Fonction1 :",b10="Fonction2 :",
 			b11="Déplacement instantané vers la gauche :",b12="Déplacement instantané vers la droite :",
 			b13="Chute sonique :",b14="Descendre de 1 :",b15="Descendre de 4 :",b16="Descendre de 10:",
 			b17="Chute à gauche :",b18="Chute à droite :",b19="Zangi Gauche :",b20="Zangi Droite :",

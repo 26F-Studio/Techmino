@@ -62,7 +62,8 @@
 			freshLimit:锁延刷新次数限制
 			easyFresh:是否使用简单锁延刷新规则
 
-			Fkey:按下功能键后执行的函数
+			fkey1:按下功能键1后执行的函数
+			fkey2:按下功能键2后执行的函数
 			keyCancel:包含禁止使用的按键的id们的table
 			fineKill:是否开启非极简即死
 			b2bKill:是否开启断b2b即死

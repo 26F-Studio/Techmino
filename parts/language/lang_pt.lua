@@ -5,7 +5,6 @@ return{
 	newVersion="Obrigado por atualizar! Veja as mudanças abaixo.",
 	httpTimeout="Conexão de rede expirou",
 	marking="Autor do jogo: MrZ_26\nSe puder ver isso a gravação e illegal\nQualquer explicação é invalida",
-	holdR="Segure pra tentar novamente",
 	newDay="[Anti-vício] Novo dia, um começo novo!",
 	playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
 	playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",
@@ -133,7 +132,7 @@ return{
 	acts={
 		"Esquerda:","Direita:",
 		"Gira direita:","Gira esquerda:","Gire 180°:",
-		"Queda dura:","Queda leve:","Segurar:","Função:","Reiniciar:",
+		"Queda dura:","Queda leve:","Segurar:","Função1:","Função2:",
 		"Esquerda imediata:","Direita imediata:","Queda sonic:","Queda 1:","Queda 4:","Queda 10:",
 		"Queda esquerda:","Queda direita:"," Zangi esquerda:","Zangi direita:",
 	},
@@ -233,9 +232,6 @@ return{
 			title="Mods",
 			reset="Reset (tab)",
 			unranked="Unranked",
-		},
-		play={
-			pause="Pausa",
 		},
 		pause={
 			setting="Config. (S)",

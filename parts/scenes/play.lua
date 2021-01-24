@@ -29,7 +29,6 @@ local scene={}
 
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
-	GAME.restartCount=0
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
@@ -209,16 +208,7 @@ function scene.update(dt)
 				P.moving=0
 			end
 		end
-		if GAME.restartCount>0 then GAME.restartCount=GAME.restartCount-1 end
 		return
-	elseif P1.keyPressing[10]then
-		GAME.restartCount=GAME.restartCount+1
-		if GAME.restartCount>20 then
-			resetGameData()
-			return
-		end
-	elseif GAME.restartCount>0 then
-		GAME.restartCount=GAME.restartCount>2 and GAME.restartCount-2 or 0
 	end
 
 	--Update players
@@ -365,14 +355,11 @@ function scene.draw()
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.setShader()
 	end
-	if GAME.restartCount>0 then
-		gc_setColor(0,0,0,GAME.restartCount*.05)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
-	end
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="pause",x=1235,y=45,w=60,font=20,code=function()pauseGame()end},
+	WIDGET.newKey{name="restart",fText="R",x=45,y=45,w=60,font=40,code=function()resetGameData(GAME.frame<240 and"q")end},
+	WIDGET.newKey{name="pause",fText="II",x=1235,y=45,w=60,font=40,code=function()pauseGame()end},
 }
 
 return scene
