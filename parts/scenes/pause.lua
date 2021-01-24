@@ -150,6 +150,8 @@ function scene.keyDown(key)
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved and saveRecording()then
 			GAME.saved=true
 		end
+	else
+		WIDGET.keyPressed(key)
 	end
 end
 
