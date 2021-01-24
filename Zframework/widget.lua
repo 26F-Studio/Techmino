@@ -1019,7 +1019,7 @@ function WIDGET.press(x,y)
 	elseif W.type=="slider"then
 		WIDGET.drag(x,y)
 	end
-	if W.hide and W.hide()then WIDGET.sel=false end
+	if W.hide==true or W.hide and W.hide()then WIDGET.sel=false end
 end
 function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
@@ -1049,7 +1049,7 @@ function WIDGET.keyPressed(k)
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
 		if not WIDGET.sel then
 			for _,v in next,WIDGET.active do
-				if v.isAbove then
+				if not(W.hide==true or W.hide and W.hide())and v.isAbove then
 					WIDGET.sel=v
 					return
 				end
@@ -1065,7 +1065,7 @@ function WIDGET.keyPressed(k)
 		local swap_xy=k=="up"or k=="down"
 		if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
 		for _,W1 in ipairs(WIDGET.active)do
-			if W~=W1 and W1.resCtr then
+			if W~=W1 and W1.resCtr and not(W.hide==true or W.hide and W.hide())then
 				local L=W1.resCtr
 				for j=1,#L,2 do
 					local x,y=L[j],L[j+1]
