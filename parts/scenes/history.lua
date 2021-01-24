@@ -21,10 +21,12 @@ function scene.keyDown(k)
 		WIDGET.active.texts:scroll(-5)
 	elseif k=="down"then
 		WIDGET.active.texts:scroll(5)
-	elseif k=="pgup"then
+	elseif k=="pageup"then
 		WIDGET.active.texts:scroll(-20)
-	elseif k=="pgdown"then
+	elseif k=="pagedown"then
 		WIDGET.active.texts:scroll(20)
+	elseif k=="escape"then
+		SCN.back()
 	end
 end
 
