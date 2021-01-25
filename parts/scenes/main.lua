@@ -41,15 +41,18 @@ end
 
 local scene={}
 
-local tip
+local tip=gc.newText(getFont(30),"")
+local scrollX
 
 function scene.sceneInit()
-	tip=text.getTip()
+	tip:set(text.getTip())
+	scrollX=640
+
 	BG.set()
 
-	GAME.modeEnv=NONE
 	--Create demo player
 	destroyPlayers()
+	GAME.modeEnv=NONE
 	GAME.frame=0
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
@@ -62,16 +65,41 @@ function scene.update(dt)
 	if GAME.frame>=36000 and GAME.frame%300==0 then
 		PLAYERS[1]:movePosition(math.random(800,1000),math.random(50,310),.6)
 	end
+	scrollX=scrollX-1.626
+	if scrollX<-tip:getWidth()then
+		scrollX=640
+		tip:set(text.getTip())
+	end
 end
 
+local function tipStencil()
+	gc.rectangle("fill",0,0,640,42)
+end
 function scene.draw()
 	gc.setColor(1,1,1)
+
+	--Title
+	gc.draw(IMG.title_color,60,30,nil,1.3)
+
+	--Quick play
 	setFont(30)
 	local L=text.modes[STAT.lastPlay]
 	gc.print(L[1],700,210)
 	gc.print(L[2],700,250)
-	gc.print(tip,50,660)
-	gc.draw(IMG.title_color,60,30,nil,1.3)
+
+	--Tip
+	gc.push("transform")
+		gc.translate(50,660)
+		gc.setLineWidth(2)
+		gc.rectangle("line",0,0,640,42)
+		gc.stencil(tipStencil,"replace",1)
+		gc.setStencilTest("equal",1)
+		gc.draw(tip,0+scrollX,0)
+		gc.setColor(1,1,1,.2)
+		gc.setStencilTest()
+	gc.pop()
+
+	--Player
 	PLAYERS[1]:draw()
 end
 
