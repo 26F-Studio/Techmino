@@ -1048,9 +1048,9 @@ function WIDGET.keyPressed(k)
 		end
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
 		if not WIDGET.sel then
-			for _,v in next,WIDGET.active do
-				if not(W.hide==true or W.hide and W.hide())and v.isAbove then
-					WIDGET.sel=v
+			for _,W in next,WIDGET.active do
+				if not(W.hide==true or W.hide and W.hide())and W.isAbove then
+					WIDGET.sel=W
 					return
 				end
 			end
