@@ -406,7 +406,7 @@ function scene.draw()
 					setColor(N<3 and COLOR.black or COLOR.W)
 					local fontSize=tileFont[N]
 					setFont(fontSize)
-					mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-7*(fontSize/5+1)/2)
+					mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
 				end
 			else
 				local c=tileColor[N]
@@ -416,7 +416,7 @@ function scene.draw()
 				setColor(c,c,c,prevSpawnTime)
 				local fontSize=tileFont[N]
 				setFont(fontSize)
-				mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-7*(fontSize/5+1)/2)
+				mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
 			end
 		end
 	end

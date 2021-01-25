@@ -290,7 +290,7 @@ function scene.draw()
 					local s=#t
 					local f=int((30-s*.4)/5)*5
 					setFont(f)
-					gc.print(t,955,275+25*i+17-7*(f/5+1)*.5)
+					gc.print(t,955,275+25*i+17-f*.7)
 					setFont(10)
 					_=L[i].date
 					if _ then gc.print(_,1155,284+25*i)end
