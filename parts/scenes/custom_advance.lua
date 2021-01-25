@@ -31,11 +31,11 @@ scene.widgetList={
 	WIDGET.newSwitch{name="easyFresh",	x=910,	y=620,	font=20,disp=lnk_CUSval("easyFresh"),code=lnk_CUSrev("easyFresh")},
 
 	WIDGET.newSelector{name="RS",		x=410,	y=370,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=lnk_CUSval("RS"),code=lnk_CUSsto("RS")},
-	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list={"show","easy","slow","medium","fast","none"},disp=lnk_CUSval("visible"),	code=lnk_CUSsto("visible")},
-	WIDGET.newSelector{name="target",	x=840,	y=160,	w=260,color="green",list={10,20,40,100,200,500,1000,1e99},	disp=lnk_CUSval("target"),	code=lnk_CUSsto("target")},
+	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list={"show","easy","slow","medium","fast","none"},disp=lnk_CUSval("visible"),code=lnk_CUSsto("visible")},
+	WIDGET.newSelector{name="target",	x=840,	y=160,	w=260,color="green",list={10,20,40,100,200,500,1000,1e99},	disp=lnk_CUSval("target"),code=lnk_CUSsto("target")},
 	WIDGET.newSelector{name="freshLimit",x=840,	y=260,	w=260,color="purple",list={0,8,15,1e99},					disp=lnk_CUSval("freshLimit"),code=lnk_CUSsto("freshLimit")},
-	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list={0,1,2,3,4,5,6,7,8,9,10},			disp=lnk_CUSval("opponent"),code=lnk_CUSsto("opponent")},
-	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="red",	list={0,1,2,3,5,10,15,26,42,87,500},	disp=lnk_CUSval("life"),	code=lnk_CUSsto("life")},
+	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list={"X","9S Lv.1","9S Lv.2","9S Lv.3","9S Lv.4","9S Lv.5","CC Lv.1","CC Lv.2","CC Lv.3","CC Lv.4","CC Lv.5"},disp=lnk_CUSval("opponent"),code=lnk_CUSsto("opponent")},
+	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="red",	list={0,1,2,3,5,10,15,26,42,87,500},	disp=lnk_CUSval("life"),code=lnk_CUSsto("life")},
 	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list={1,2,3,5,15},						disp=lnk_CUSval("pushSpeed"),code=lnk_CUSsto("pushSpeed")},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=backScene},

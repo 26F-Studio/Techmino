@@ -50,24 +50,28 @@ return{
 	env={},
 	load=function()
 		applyCustomGame()
-		GAME.modeEnv.dropPiece=PLY.check_lineReach
+
+		local ENV=GAME.modeEnv
+		ENV.dropPiece=PLY.check_lineReach
 		for y=1,20 do
 			if notAir(FIELD[1][y])then
 				--Switch clear sprint mode on
-				GAME.modeEnv.dropPiece=checkClear
+				ENV.dropPiece=checkClear
 				break
 			end
 		end
+
 		PLY.newPlayer(1)
-		local L=GAME.modeEnv.opponent
-		if L~=0 then
-			GAME.modeEnv.target=nil
-			if L<6 then
-				PLY.newAIPlayer(2,AIBUILDER("9S",2*L))
-			else
-				PLY.newAIPlayer(2,AIBUILDER("CC",2*L-11,int(L*.5-1.5),true,4000*L))
-			end
+		local AItype=ENV.opponent:sub(1,2)
+		local AIlevel=tonumber(ENV.opponent:sub(-1))
+		if AItype=="9S"then
+			ENV.target=nil
+			PLY.newAIPlayer(2,AIBUILDER("9S",2*AIlevel))
+		elseif AItype=="CC"then
+			ENV.target=nil
+			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,int(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
+
 		for _,P in next,PLAYERS.alive do
 			setField(P,1)
 		end

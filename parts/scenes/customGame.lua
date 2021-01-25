@@ -34,14 +34,14 @@ end
 
 function scene.keyDown(key)
 	if key=="return"or key=="return2"then
-		if CUSTOMENV.opponent>0 then
-			if CUSTOMENV.opponent>5 and CUSTOMENV.sequence=="fixed"then
+		if CUSTOMENV.opponent~="X"then
+			if CUSTOMENV.opponent:sub(1,2)=="CC"and CUSTOMENV.sequence=="fixed"then
 				LOG.print(text.ai_fixed,"warn")
 				return
-			elseif CUSTOMENV.opponent>0 and #BAG>0 then
+			elseif #BAG>0 then
 				LOG.print(text.ai_prebag,"warn")
 				return
-			elseif CUSTOMENV.opponent>0 and #MISSION>0 then
+			elseif #MISSION>0 then
 				LOG.print(text.ai_mission,"warn")
 				return
 			end
