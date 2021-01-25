@@ -176,8 +176,8 @@ return{
 		"Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Agradecimientos:",
-		"User670, Flyz, Farter, 蕴空之灵,",
-		"Teatube, [Todo el Staff de Testeo]",
+		"User670, Big_True, Flyz, Farter,",
+		"蕴空之灵, Teatube, [Todo el Staff de Testeo]",
 	},
 	used=[[
 	Herramientas utilizadas:

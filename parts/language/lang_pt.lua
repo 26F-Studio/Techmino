@@ -194,8 +194,8 @@ return{
 		"Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Special Thanks:",
-		"User670, Flyz, Farter, 蕴空之灵,",
-		"Teatube, [All test staff]",
+		"User670, Big_True, Flyz, Farter,",
+		"蕴空之灵, Teatube, [All test staff]",
 	},
 	used=[[
 	Ferramentas usadas:

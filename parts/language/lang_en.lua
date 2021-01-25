@@ -195,8 +195,8 @@ return{
 		"Translate: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Special Thanks:",
-		"User670, Flyz, Farter, 蕴空之灵,",
-		"Teatube, [All test staff]",
+		"User670, Big_True, Flyz, Farter,",
+		"蕴空之灵, Teatube, [All test staff]",
 	},
 	used=[[
 	Tools used:
@@ -747,6 +747,7 @@ return{
 		"Bridge clear coming soon!",
 		"Change logs in English can be found on Discord.",
 		"Cheap UI & Music",
+		"Color clear coming soon!",
 		"COOL!!",
 		"cos(α+β)=CαCβ-SβSα",
 		"cos²α-cos²β=-S(α+β)S(α-β)",
@@ -774,6 +775,7 @@ return{
 		"Let-The-Bass-Kick!",
 		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
 		"Lua No.1",
+		"Mix clear coming soon!",
 		"Music too distracting? You can turn it off.",
 		"Musics are made with beepbox",
 		"Nobody can get all S rank",
