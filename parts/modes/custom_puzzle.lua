@@ -40,6 +40,7 @@ return{
 	load=function()
 		applyCustomGame()
 		PLY.newPlayer(1)
+		local ENV=GAME.modeEnv
 		local AItype=ENV.opponent:sub(1,2)
 		local AIlevel=tonumber(ENV.opponent:sub(-1))
 		if AItype=="9S"then
