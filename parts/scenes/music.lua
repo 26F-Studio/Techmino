@@ -71,6 +71,12 @@ function scene.draw()
 			gc.setColor(1,1,1,a)
 			gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*a,1.5+.3-.3*a,206,35)
 		end
+
+		gc.setColor(1,1,1,.4)
+		gc.setLineWidth(4)
+		gc.line(500,600,900,600)
+		gc.setColor(1,1,1)
+		gc.circle("fill",500+400*BGM.playing:tell()/BGM.playing:getDuration(),600,6)
 	end
 end
 
