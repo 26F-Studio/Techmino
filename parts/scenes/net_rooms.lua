@@ -81,7 +81,13 @@ function scene.wheelMoved(_,y)
 	wheelScroll(y)
 end
 function scene.keyDown(k)
-	if rooms and #rooms>0 then
+	if k=="r"then
+		if TIME()-lastfreshTime>1 then
+			fresh()
+		end
+	elseif k=="escape"then
+		SCN.back()
+	elseif rooms and #rooms>0 then
 		if k=="down"then
 			if selected<#rooms then
 				selected=selected+1
@@ -105,12 +111,6 @@ function scene.keyDown(k)
 				"&room_id="..urlEncode(rooms[selected].room_id)
 				-- "&password="..urlEncode(password),
 			)
-		elseif k=="r"then
-			if TIME()-lastfreshTime>1 then
-				fresh()
-			end
-		elseif k=="escape"then
-			SCN.back()
 		end
 	end
 end
