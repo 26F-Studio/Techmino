@@ -544,7 +544,7 @@ function Player.resetBlock(P)
 
 	--Spawn SFX
 	if P.sound and id<8 then
-		SFX.fplay(spawnSFX_name[id],SETTING.spawn)
+		SFX.fplay(spawnSFX_name[id],SETTING.sfx_spawn)
 	end
 end
 
@@ -1651,7 +1651,6 @@ function Player.lose(P,force)
 		SYSFX.newShade(1.4,P.fieldX,P.fieldY,300*P.size,610*P.size)
 		SYSFX.newRectRipple(2,P.fieldX,P.fieldY,300*P.size,610*P.size)
 		SYSFX.newRipple(2,P.x+(475+25*(P.life<3 and P.life or 0)+12)*P.size,P.y+(665+12)*P.size,20)
-		--300+25*i,595
 		SFX.play("clear_3")
 		SFX.play("emit")
 

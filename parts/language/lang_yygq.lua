@@ -86,6 +86,7 @@ return{
 			graphic="改画面→",
 
 			spawn="出块",
+			warn="警告",
 			bgm="曲",
 			vib="嗡嗡",
 			cv="谁",

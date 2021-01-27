@@ -312,9 +312,10 @@ return{
 			graphic="画面设置→",
 
 			sfx="音效",
-			stereo="立体声",
 			spawn="方块生成",
+			warn="危险警告",
 			bgm="音乐",
+			stereo="立体声",
 			vib="振动",
 			voc="语音",
 			cv="语音包",

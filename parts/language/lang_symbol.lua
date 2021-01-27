@@ -183,9 +183,10 @@ return{
 			graphic="Video→",
 
 			sfx="#!#",
-			stereo="←~→",
 			spawn="#[]#",
+			warn="!↑↑↑!",
 			bgm="#~#",
+			stereo="←~→",
 			vib="=~=",
 			voc="~~~",
 		},

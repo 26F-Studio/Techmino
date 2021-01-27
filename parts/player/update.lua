@@ -1,8 +1,5 @@
 local int,max,min,abs=math.floor,math.max,math.min,math.abs
 local rem=table.remove
-local resume=coroutine.resume
-local status=coroutine.status
-local assert=assert
 
 local function updateLine(P)--Attacks, line pushing, cam moving
 	local bf=P.atkBuffer
@@ -95,13 +92,18 @@ local function updateFXs(P,dt)
 		TEXT.update(P.bonus)
 	end
 end
-local function updateTasks(P)
-	local L=P.tasks
-	for i=#L,1,-1 do
-		local tr=L[i].thread
-		assert(resume(tr))
-		if status(tr)=="dead"then
-			rem(L,i)
+local updateTasks do--updateTasks(P)
+	local resume=coroutine.resume
+	local status=coroutine.status
+	local assert=assert
+	function updateTasks(P)
+		local L=P.tasks
+		for i=#L,1,-1 do
+			local tr=L[i].thread
+			assert(resume(tr))
+			if status(tr)=="dead"then
+				rem(L,i)
+			end
 		end
 	end
 end

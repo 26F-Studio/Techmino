@@ -16,7 +16,7 @@ return{
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1)
-		if SETTING.spawn==0 then
+		if SETTING.sfx_spawn==0 then
 			LOG.print(text.switchSpawnSFX,COLOR.yellow)
 		end
 	end,

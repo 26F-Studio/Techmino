@@ -62,9 +62,10 @@ scene.widgetList={
 	WIDGET.newButton{name="graphic",x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=swapScene"setting_video","swipeL"},
 
 	WIDGET.newSlider{name="sfx",	x=180,	y=200,w=400,		font=35,change=function()SFX.play("blip_1")end,	disp=lnk_SETval("sfx"),code=lnk_SETsto("sfx")},
-	WIDGET.newSlider{name="stereo",	x=180,	y=500,w=400,		font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=lnk_SETval("stereo"),code=lnk_SETsto("stereo"),hide=function()return SETTING.sx==0 end},
-	WIDGET.newSlider{name="spawn",	x=180,	y=300,w=400,		font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.spawn)end,disp=lnk_SETval("spawn"),code=lnk_SETsto("spawn")},
-	WIDGET.newSlider{name="bgm",	x=180,	y=400,w=400,		font=35,										disp=lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+	WIDGET.newSlider{name="spawn",	x=180,	y=300,w=400,		font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.sfx_spawn)end,disp=lnk_SETval("sfx_spawn"),code=lnk_SETsto("sfx_spawn")},
+	WIDGET.newSlider{name="warn",	x=180,	y=400,w=400,		font=30,change=function()SFX.fplay("warning",SETTING.sfx_warn)end,disp=lnk_SETval("sfx_warn"),code=lnk_SETsto("sfx_warn")},
+	WIDGET.newSlider{name="bgm",	x=180,	y=500,w=400,		font=35,										disp=lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+	WIDGET.newSlider{name="stereo",	x=180,	y=600,w=400,		font=35,change=function()SFX.play("move",1,-1)SFX.play("lock",1,1)end,disp=lnk_SETval("stereo"),code=lnk_SETsto("stereo"),hide=function()return SETTING.sx==0 end},
 	WIDGET.newSlider{name="vib",	x=750,	y=200,w=400,unit=5,	font=25,change=function()VIB(2)end,				disp=lnk_SETval("vib"),code=lnk_SETsto("vib")},
 	WIDGET.newSlider{name="voc",	x=750,	y=300,w=400,		font=35,change=function()VOC.play("test")end,	disp=lnk_SETval("voc"),code=lnk_SETsto("voc")},
 	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={"miya","naki"},							disp=function()return cv end,code=function(i)cv=i end},

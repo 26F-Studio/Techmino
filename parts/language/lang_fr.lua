@@ -291,9 +291,10 @@ return{
 			graphic="Vidéo→",
 
 			sfx="Sons",
-			stereo="Stéréo",
 			spawn="Apparition",
+			warn="Alerte de danger",
 			bgm="Musique",
+			stereo="Stéréo",
 			vib="Vibration",
 			voc="Voix",
 		},

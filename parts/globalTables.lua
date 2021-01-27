@@ -295,7 +295,8 @@ SETTING={--Settings
 
 	--Sound
 	sfx=1,
-	spawn=.3,
+	sfx_spawn=.3,
+	sfx_warn=.3,
 	bgm=.7,
 	stereo=.7,
 	vib=0,

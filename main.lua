@@ -271,7 +271,7 @@ do
 	--Check setting file
 	if
 		type(SETTING.block)~="boolean"or
-		type(SETTING.spawn)~="number"or
+		type(SETTING.sfx_spawn)~="number"or
 		type(SETTING.ghost)~="number"or
 		type(SETTING.center)~="number"or
 		type(SETTING.grid)~="number"or

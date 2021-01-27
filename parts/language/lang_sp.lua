@@ -291,9 +291,10 @@ return{
 			graphic="Video→",
 
 			sfx="SFX",
-			stereo="Estéreo",
 			spawn="Spawn de Pzas.",
+			warn="Alerta de Peligro",
 			bgm="BGM",
+			stereo="Estéreo",
 			vib="Vibración",
 			voc="Voces",
 		},

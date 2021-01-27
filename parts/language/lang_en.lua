@@ -311,9 +311,10 @@ return{
 			graphic="Video→",
 
 			sfx="SFX",
-			stereo="Stereo",
 			spawn="Spawning",
+			warn="Warning",
 			bgm="BGM",
+			stereo="Stereo",
 			vib="Vibration",
 			voc="Voice",
 			cv="Voice Pack",

@@ -248,6 +248,9 @@ function scene.update(dt)
 	elseif GAME.warnLVL>0 then
 		GAME.warnLVL=max(GAME.warnLVL-.026,0)
 	end
+	if GAME.warnLVL>1.126 and GAME.frame%30==0 then
+		SFX.fplay("warning",SETTING.sfx_warn)
+	end
 end
 
 local function drawAtkPointer(x,y)

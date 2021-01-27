@@ -310,9 +310,10 @@ return{
 			graphic="Vídeo→",
 
 			sfx="SFX",
-			stereo="Stereo",
 			spawn="Nascida",
+			warn="Alerta de perigo",
 			bgm="BGM",
+			stereo="Stereo",
 			vib="Vibração",
 			voc="Voz",
 			cv="Pacote de voz",
