@@ -456,6 +456,9 @@ function pauseGame()
 				end
 			end
 		end
+		if not(GAME.result or GAME.replaying)then
+			GAME.pauseCount=GAME.pauseCount+1
+		end
 		SCN.swapTo("pause","none")
 	end
 end

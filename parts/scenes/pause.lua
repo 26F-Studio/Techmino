@@ -114,9 +114,6 @@ function scene.sceneInit(org)
 	else
 		rank,trophy=nil
 	end
-	if not(GAME.result or GAME.replaying)then
-		GAME.pauseCount=GAME.pauseCount+1
-	end
 	if org~="play"and GAME.prevBG then
 		BG.set(GAME.prevBG)
 	end
