@@ -891,7 +891,7 @@ function textBox:draw()
 	if #texts>cap then
 		gc.setLineWidth(2)
 		gc.rectangle("line",x-25,y,20,h)
-		local len=h*cap/#texts
+		local len=max(h*cap/#texts,26)
 		gc.setColor(COLOR[WIDGET.sel==self and"Y"or"W"])
 		gc.rectangle("fill",x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
