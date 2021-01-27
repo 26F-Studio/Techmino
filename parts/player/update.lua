@@ -222,6 +222,12 @@ local function update_alive(P,dt)
 			mov=mov+1
 		end
 		P.moving=mov
+	elseif P.keyPressing[1]then
+		P.movDir=-1
+		P.moving=0
+	elseif P.keyPressing[2]then
+		P.movDir=1
+		P.moving=0
 	end
 
 	--Drop pressed
