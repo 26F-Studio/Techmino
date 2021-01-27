@@ -76,7 +76,7 @@ local function tapBoard(x,y,key)
 	if state<2 then
 		if not key then
 			if pathVis then
-				SYSFX.newRipple(6,x,y,10)
+				SYSFX.newShade(6,x-5,y-5,11,11,1,1,1)
 			end
 			x,y=int((x-320)/160)+1,int((y-40)/160)+1
 		end

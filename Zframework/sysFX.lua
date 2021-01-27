@@ -26,6 +26,7 @@ function FXupdate.badge(S,dt)
 	return S.t>=1
 end
 FXupdate.attack=normUpdate
+FXupdate.tap=normUpdate
 FXupdate.ripple=normUpdate
 FXupdate.rectRipple=normUpdate
 FXupdate.shade=normUpdate
@@ -68,6 +69,16 @@ function FXdraw.attack(S)
 		S.x1*(1-t2)+S.x2*t2,
 		S.y1*(1-t2)+S.y2*t2
 	)
+end
+function FXdraw.tap(S)
+	local t=S.t
+	setWidth(2)
+	setColor(1,1,1,1-t)
+	gc.circle("line",S.x,S.y,t*(2-t)*30)
+	setColor(1,1,1,(1-t)*.5)
+	gc.circle("fill",S.x,S.y,t*30)
+	setColor(1,1,1,(1-t)*.2)
+	gc.circle("fill",S.x,S.y,(t*(1-t)*2)*30)
 end
 function FXdraw.ripple(S)
 	local t=S.t
@@ -128,6 +139,15 @@ function SYSFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 		x2=x2,y2=y2,--End pos
 		wid=wid,--Line width
 		r=r,g=g,b=b,a=a,
+	}
+end
+function SYSFX.newTap(rate,x,y)
+	fx[#fx+1]={
+		update=FXupdate.tap,
+		draw=FXdraw.tap,
+		t=0,
+		rate=rate,
+		x=x,y=y,
 	}
 end
 function SYSFX.newRipple(rate,x,y,r)
