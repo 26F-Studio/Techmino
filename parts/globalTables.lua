@@ -334,11 +334,17 @@ else
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
 end
 keyMap=FILE.load("conf/key")or{--Key setting
-	{"left","right","x","z","c","up","down","space","a","s"},{},
-	--Keyboard
-	{"dpleft","dpright","a","b","y","dpup","dpdown","rightshoulder","x","leftshoulder"},{},
-	--Joystick
-}for i=1,#keyMap do for j=1,20 do if not keyMap[i][j]then keyMap[i][j]=""end end end
+	keyboard={
+		left=1,right=2,x=3,z=4,c=5,
+		up=6,down=7,space=8,a=9,s=10,
+		r=0,
+	},
+	joystick={
+		dpleft=1,dpright=2,a=3,b=4,y=5,
+		dpup=6,dpdown=7,rightshoulder=8,x=9,
+		leftshoulder=0,
+	},
+}
 VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
 	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.lame},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.lame},--moveRight

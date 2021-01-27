@@ -38,6 +38,9 @@ function scene.sceneInit()
 end
 
 scene.mouseDown=NULL
+local function restart()
+	resetGameData(GAME.frame<240 and"q")
+end
 function scene.touchDown(_,x,y)
 	if noTouch then return end
 
@@ -101,56 +104,56 @@ function scene.touchMove()
 	end
 end
 function scene.keyDown(key)
-	if key=="escape"then
-		pauseGame()
-	elseif not noKey then
-		local m=keyMap
-		for k=1,20 do
-			if key==m[1][k]or key==m[2][k]then
-				PLAYERS[1]:pressKey(k)
-				VK[k].isDown=true
-				VK[k].pressTime=10
-				return
-			end
+	local k=keyMap.keyboard[key]
+	if k then
+		if k>0 then
+			PLAYERS[1]:pressKey(k)
+			VK[k].isDown=true
+			VK[k].pressTime=10
+		else
+			restart()
 		end
+	elseif key=="escape"then
+		pauseGame()
 	end
 end
 function scene.keyUp(key)
 	if noKey then return end
-	local m=keyMap
-	for k=1,20 do
-		if key==m[1][k]or key==m[2][k]then
+	local k=keyMap.keyboard[key]
+	if k then
+		if k>0 then
 			PLAYERS[1]:releaseKey(k)
 			VK[k].isDown=false
-			return
 		end
+	elseif key=="back"then
+		pauseGame()
 	end
 end
 function scene.gamepadDown(key)
 	if noKey then return end
-
-	local m=keyMap
-	for k=1,20 do
-		if key==m[3][k]or key==m[4][k]then
+	local k=keyMap.joystick[key]
+	if k then
+		if k>0 then
 			PLAYERS[1]:pressKey(k)
 			VK[k].isDown=true
 			VK[k].pressTime=10
-			return
+		else
+			restart()
 		end
+	elseif key=="back"then
+		pauseGame()
 	end
-
-	if key=="back"then pauseGame()end
 end
 function scene.gamepadUp(key)
 	if noKey then return end
-
-	local m=keyMap
-	for k=1,20 do
-		if key==m[3][k]or key==m[4][k]then
+	local k=keyMap.joystick[key]
+	if k then
+		if k>0 then
 			PLAYERS[1]:releaseKey(k)
 			VK[k].isDown=false
-			return
 		end
+	elseif key=="back"then
+		pauseGame()
 	end
 end
 
@@ -361,7 +364,7 @@ function scene.draw()
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="restart",fText="R",x=45,y=45,w=60,font=40,code=function()resetGameData(GAME.frame<240 and"q")end},
+	WIDGET.newKey{name="restart",fText="R",x=45,y=45,w=60,font=40,code=restart},
 	WIDGET.newKey{name="pause",fText="II",x=1235,y=45,w=60,font=40,code=function()pauseGame()end},
 }
 

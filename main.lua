@@ -348,6 +348,10 @@ do
 	if needSaveRank then
 		FILE.save(RANKS,"conf/unlock")
 	end
+	if keyMap[1]then
+		NOGAME=true
+		fs.remove("conf/key")
+	end
 	if STAT.version~=VERSION_CODE then
 		newVersionLaunch=true
 		STAT.version=VERSION_CODE

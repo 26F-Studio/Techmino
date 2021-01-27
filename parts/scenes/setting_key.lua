@@ -1,17 +1,26 @@
 local gc=love.graphics
-local int,sin=math.floor,math.sin
 local mStr=mStr
+local ins=table.insert
 
 local scene={}
 
-local page
-local kb,js--Selected
-local kS,jS--If setting
+local selected--if waiting for key
+local keyList
+
+local function freshKeyList()
+	keyList={}for i=0,20 do keyList[i]={}end
+	for k,v in next,keyMap.keyboard do
+		ins(keyList[v],{COLOR.lB,k})
+	end
+	for k,v in next,keyMap.joystick do
+		ins(keyList[v],{COLOR.lR,k})
+	end
+end
 
 function scene.sceneInit()
-	page=1
-	kb,js=1,1
-	kS,jS=false,false
+	selected=false
+	freshKeyList()
+	BG.set("none")
 end
 function scene.sceneBack()
 	FILE.save(keyMap,"conf/key")
@@ -19,123 +28,114 @@ end
 
 function scene.keyDown(key)
 	if key=="escape"then
-		if kS then
-			kS=false
+		if selected then
+			for k,v in next,keyMap.keyboard do
+				if v==selected then
+					keyMap.keyboard[k]=nil
+				end
+			end
+			freshKeyList()
+			selected=false
 			SFX.play("finesseError",.5)
 		else
 			SCN.back()
 		end
-	elseif kS then
+	elseif selected then
 		if key~="\\"then
-			for y=1,20 do
-				if keyMap[1][y]==key then keyMap[1][y]=""break end
-				if keyMap[2][y]==key then keyMap[2][y]=""break end
-			end
-			keyMap[page][kb]=key
-			kS=false
+			keyMap.keyboard[key]=selected
+			freshKeyList()
+			selected=false
 			SFX.play("reach",.5)
 		end
-	elseif key=="return"or key=="space"then
-		kS=true
-		SFX.play("lock",.5)
-	elseif key=="up"or key=="w"then
-		if kb>1 then
-			kb=kb-1
-			SFX.play("move",.5)
-		end
-	elseif key=="down"or key=="s"then
-		if kb<20 then
-			kb=kb+1
-			SFX.play("move",.5)
-		end
-	elseif key=="left"or key=="a"or key=="right"or key=="d"then
-		page=3-page
-		SFX.play("rotate",.5)
+	else
+		WIDGET.keyPressed(key)
 	end
 end
 function scene.gamepadDown(key)
 	if key=="back"then
-		if jS then
-			jS=false
+		if selected then
+			for k,v in next,keyMap.joystick do
+				if v==selected then
+					keyMap.joystick[k]=nil
+				end
+			end
+			freshKeyList()
+			selected=false
 			SFX.play("finesseError",.5)
 		else
 			SCN.back()
 		end
-	elseif jS then
-		for y=1,20 do
-			if keyMap[3][y]==key then keyMap[3][y]=""break end
-			if keyMap[4][y]==key then keyMap[4][y]=""break end
-		end
-		keyMap[2+page][js]=key
+	elseif selected then
+		keyMap.joystick[key]=selected
+		freshKeyList()
+		selected=false
 		SFX.play("reach",.5)
-		jS=false
-	elseif key=="start"then
-		jS=true
-		SFX.play("lock",.5)
-	elseif key=="dpup"then
-		if js>1 then
-			js=js-1
-			SFX.play("move",.5)
-		end
-	elseif key=="dpdown"then
-		if js<20 then
-			js=js+1
-			SFX.play("move",.5)
-		end
-	elseif key=="dpleft"or key=="dpright"then
-		page=3-page
-		SFX.play("rotate",.5)
+	else
+		WIDGET.gamepadPressed(key)
 	end
 end
 
 function scene.draw()
-	local a=.3+sin(TIME()*15)*.1
-	if kS then gc.setColor(1,.3,.3,a)else gc.setColor(1,.7,.7,a)end
-	gc.rectangle("fill",
-		kb<11 and 240 or 840,
-		45*kb+20-450*int(kb/11),
-		200,45
-	)
-	if jS then gc.setColor(.3,.3,.1,a)else gc.setColor(.7,.7,1,a)end
-	gc.rectangle("fill",
-		js<11 and 440 or 1040,
-		45*js+20-450*int(js/11),
-		200,45
-	)
-	--Selection rect
-
+	setFont(15)
 	gc.setColor(1,1,1)
-	setFont(25)
-	local b1,b2=keyMap[page],keyMap[page+2]
-	for N=1,20 do
-		if N<11 then
-			gc.printf(text.acts[N],47,45*N+22,180,"right")
-			mStr(b1[N],340,45*N+24)
-			mStr(b2[N],540,45*N+24)
-		else
-			gc.printf(text.acts[N],647,45*N-428,180,"right")
-			mStr(b1[N],940,45*N-426)
-			mStr(b2[N],1040,45*N-426)
+
+	for i=0,20 do
+		for j=1,#keyList[i]do
+			local key=keyList[i][j]
+			local font=#key[2]==1 and 40 or #key[2]<6 and 30 or 15
+			setFont(font)
+			mStr(key,
+				(i>10 and 940 or 210)+100*j,
+				i>10 and 60*(i-10)-23-font*.7 or
+				i>0 and 60*i-23-font*.7 or
+				667-font*.7
+			)
 		end
 	end
-	gc.setLineWidth(2)
-	for x=40,1240,200 do
-		gc.line(x,65,x,515)
+
+	if selected then
+		gc.setColor(COLOR[TIME()%.26<.13 and"R"or"Y"])
+		local x,y=selected>10 and 910 or 270, selected>10 and 60*(selected-10)-50 or selected>0 and 60*selected-50 or 630
+		setFont(40)gc.print("=",x,y)
+		setFont(10)gc.print("esc?",x,y+40)
 	end
-	for y=65,515,45 do
-		gc.line(40,y,1240,y)
-	end
-	setFont(35)
-	gc.print(text.page..page,280,570)
 end
 
+local function setSel(i)
+	if selected==i then
+		selected=false
+		SFX.play("rotate",.5)
+	else
+		selected=i
+		SFX.play("lock",.5)
+	end
+end
 scene.widgetList={
-	WIDGET.newText{name="keyboard",	x=340,y=30,font=25,color="lRed"},
-	WIDGET.newText{name="keyboard",	x=940,y=30,font=25,color="lRed"},
-	WIDGET.newText{name="joystick",	x=540,y=30,font=25,color="lBlue"},
-	WIDGET.newText{name="joystick",	x=1140,y=30,font=25,color="lBlue"},
-	WIDGET.newText{name="help",		x=50,y=650,font=30,align="L"},
-	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newKey{name="a1",	x=160,y=40,w=200,h=60,code=function()setSel(1)end},
+	WIDGET.newKey{name="a2",	x=160,y=100,w=200,h=60,code=function()setSel(2)end},
+	WIDGET.newKey{name="a3",	x=160,y=160,w=200,h=60,code=function()setSel(3)end},
+	WIDGET.newKey{name="a4",	x=160,y=220,w=200,h=60,code=function()setSel(4)end},
+	WIDGET.newKey{name="a5",	x=160,y=280,w=200,h=60,code=function()setSel(5)end},
+	WIDGET.newKey{name="a6",	x=160,y=340,w=200,h=60,code=function()setSel(6)end},
+	WIDGET.newKey{name="a7",	x=160,y=400,w=200,h=60,code=function()setSel(7)end},
+	WIDGET.newKey{name="a8",	x=160,y=460,w=200,h=60,code=function()setSel(8)end},
+	WIDGET.newKey{name="a9",	x=160,y=520,w=200,h=60,code=function()setSel(9)end},
+	WIDGET.newKey{name="a10",	x=160,y=580,w=200,h=60,code=function()setSel(10)end},
+
+	WIDGET.newKey{name="a11",	x=800,y=40,w=200,h=60,code=function()setSel(11)end},
+	WIDGET.newKey{name="a12",	x=800,y=100,w=200,h=60,code=function()setSel(12)end},
+	WIDGET.newKey{name="a13",	x=800,y=160,w=200,h=60,code=function()setSel(13)end},
+	WIDGET.newKey{name="a14",	x=800,y=220,w=200,h=60,code=function()setSel(14)end},
+	WIDGET.newKey{name="a15",	x=800,y=280,w=200,h=60,code=function()setSel(15)end},
+	WIDGET.newKey{name="a16",	x=800,y=340,w=200,h=60,code=function()setSel(16)end},
+	WIDGET.newKey{name="a17",	x=800,y=400,w=200,h=60,code=function()setSel(17)end},
+	WIDGET.newKey{name="a18",	x=800,y=460,w=200,h=60,code=function()setSel(18)end},
+	WIDGET.newKey{name="a19",	x=800,y=520,w=200,h=60,code=function()setSel(19)end},
+	WIDGET.newKey{name="a20",	x=800,y=580,w=200,h=60,code=function()setSel(20)end},
+
+	WIDGET.newKey{name="restart",x=160,y=670,w=200,h=60,code=function()setSel(0)end},
+
+	WIDGET.newButton{name="back",x=1140,y=640,w=190,h=80,font=40,code=backScene},
 }
 
 return scene
