@@ -547,7 +547,7 @@ do--httpRequest & wsConnect
 	if client then
 		function httpRequest(tick,path,method,header,body)
 			local task,err=client.httpraw{
-				url="http://krakens.tpddns.cn:10026"..path,
+				url="http://"..PATH.url..":"..PATH.port..path,
 				method=method or"GET",
 				header=header,
 				body=body,
@@ -566,8 +566,8 @@ do--httpRequest & wsConnect
 				return
 			end
 			local task,err=client.wsraw{
-				url="ws://krakens.tpddns.cn:10026"..path,
-				origin="krakens.tpddns.cn",
+				url="ws://"..PATH.url..":"..PATH.port..path,
+				origin=PATH.url,
 				header=header,
 			}
 			if task then

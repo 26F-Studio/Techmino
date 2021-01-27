@@ -141,6 +141,9 @@ for i=1,#MODOPT do
 	M.color=COLOR[M.color]
 end
 PATH={--Network API paths
+	url="hdustea.3322.org",
+	port="10026",
+
 	api="/tech/api/v1",
 	appInfo="/app/info",
 	users="/users",
