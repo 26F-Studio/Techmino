@@ -364,8 +364,8 @@ function scene.draw()
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="restart",fText="R",x=45,y=45,w=60,font=40,code=restart},
-	WIDGET.newKey{name="pause",fText="II",x=1235,y=45,w=60,font=40,code=function()pauseGame()end},
+	WIDGET.newKey{name="restart",fText="R",x=410,y=40,w=60,font=40,code=restart},
+	WIDGET.newKey{name="pause",fText="II",x=870,y=40,w=60,font=40,code=function()pauseGame()end},
 }
 
 return scene
