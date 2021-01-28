@@ -386,30 +386,28 @@ function draw.norm(P)
 					if P.cur and P.waiting==-1 then
 						local curColor=P.cur.color
 
-						--Draw ghost
+						local trans=P.lockDelay/ENV.lock
+						local centerX=30*(P.curX+P.sc[2])-15
+
+						--Draw ghost & rotation center
 						if ENV.ghost then drawGhost(P,curColor)end
+						if ENV.center and ENV.ghost then
+							gc_setColor(1,1,1,trans*ENV.center)
+							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
+						end
 
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc_translate(0,-dy)
-						local trans=P.lockDelay/ENV.lock
-
-						--Draw block
-						if ENV.block then
-							drawBlockOutline(P,SKIN.curText[curColor],trans)
-							drawBlock(P,curColor)
-						end
-
-						--Draw rotate center
-						local x=30*(P.curX+P.sc[2])-15
-						if ENV.center and ENV.block then
-							gc_setColor(1,1,1,ENV.center)
-							gc_draw(IMG.spinCenter,x,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
-						end
+							--Draw block & rotation center
+							if ENV.block then
+								drawBlockOutline(P,SKIN.curText[curColor],trans)
+								drawBlock(P,curColor)
+							end
+							if ENV.center and ENV.block then
+								gc_setColor(1,1,1,ENV.center)
+								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+							end
 						gc_translate(0,dy)
-						if ENV.center and ENV.ghost then
-							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,x,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
-						end
 					end
 
 					--Draw next preview
