@@ -166,33 +166,39 @@ local function drawNextPreview(P,B)
 end
 
 local draw={}
-
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
-	local N=ENV.nextCount*72
 	local texture=SKIN.curText
 	gc_push("transform")
-	gc_translate(316,116)
-		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
-		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
-		mText(drawableText.next,62,-131)
+	gc_translate(316,36)
+		local N=ENV.nextCount*72
+		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,0,124,N+8)
+		gc_setColor(1,1,1)gc_rectangle("line",0,0,124,N+8)
+		mText(drawableText.next,62,-51)
 		N=1
-		while N<=ENV.nextCount and P.nextQueue[N]do
-			local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
-			for i=1,#bk do for j=1,#bk[1] do
-				if bk[i][j]then
-					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
-				end
-			end end
-			N=N+1
-		end
+		gc_push("transform")
+		gc_translate(62,40)
+			while N<=ENV.nextCount and P.nextQueue[N]do
+				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
+				local k=#bk>2 and 2.2/#bk or 1
+				gc_scale(k)
+				for i=1,#bk do for j=1,#bk[1] do
+					if bk[i][j]then
+						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i-#bk*.5,j-#bk[1]*.5,clr)
+					end
+				end end
+				gc_scale(1/k)
+				N=N+1
+				gc_translate(0,72)
+			end
+		gc_pop()
 
 		if ENV.bagLine then
 			local len=ENV.bagLen
 			local phase=-P.pieceCount%len
 			gc_setColor(.8,.5,.5)
 			for i=phase,N-1,len do
-				local y=72*i-77
+				local y=72*i+3
 				gc_line(2+P.fieldOff.x,y,120,y)
 			end
 		end
@@ -200,30 +206,37 @@ function draw.drawNext_norm(P)
 end
 function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
-	local N=ENV.nextCount*72
 	local texture=SKIN.curText
 	gc_push("transform")
-	gc_translate(316,116)
-		gc_setColor(.5,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
-		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
-		mText(drawableText.next,62,-131)
+	gc_translate(316,36)
+		local N=ENV.nextCount*72
+		gc_setColor(.5,0,0,.4)gc_rectangle("fill",0,0,124,N+8)
+		gc_setColor(1,1,1)gc_rectangle("line",0,0,124,N+8)
+		mText(drawableText.next,62,-51)
 		N=min(ENV.nextStartPos,P.pieceCount+1)
-		while N<=ENV.nextCount and P.nextQueue[N]do
-			local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
-			for i=1,#bk do for j=1,#bk[1] do
-				if bk[i][j]then
-					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*N-#bk*.5))-- drawCell(i-2.4*N-#bk*.5,j+12.6-#bk[1]*.5,clr)
-				end
-			end end
-			N=N+1
-		end
+		gc_push("transform")
+		gc_translate(62,40)
+			while N<=ENV.nextCount and P.nextQueue[N]do
+				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
+				local k=#bk>2 and 2.2/#bk or 1
+				gc_scale(k)
+				for i=1,#bk do for j=1,#bk[1] do
+					if bk[i][j]then
+						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i-#bk*.5,j-#bk[1]*.5,clr)
+					end
+				end end
+				gc_scale(1/k)
+				N=N+1
+				gc_translate(0,72)
+			end
+		gc_pop()
 
 		if ENV.bagLine then
 			local len=ENV.bagLen
 			local phase=-P.pieceCount%len
 			gc_setColor(.8,.5,.5)
 			for i=phase,N-1,len do
-				local y=72*i-77
+				local y=72*i+3
 				gc_line(2+P.fieldOff.x,y,120,y)
 			end
 		end
