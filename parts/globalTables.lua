@@ -211,6 +211,7 @@ CUSTOMENV={--gameEnv for cutsom game
 }
 GAME={--Global game data
 	init=false,			--If need initializing game when enter scene-play
+	net=false,			--If play net game
 
 	frame=0,			--Frame count
 	result=false,		--Game result (string)

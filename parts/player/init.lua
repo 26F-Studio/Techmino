@@ -332,10 +332,12 @@ function PLY.newDemoPlayer(id)
 	}
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,mini)
+function PLY.newRemotePlayer(id,mini,userInfo)
 	local P=newEmptyPlayer(id,mini)
 	P.type="remote"
 	P.update=PLY.update.remote_alive
+	P.userName=userInfo.name
+	P.userID=userInfo.id
 	P.stream={}
 	P.streamProgress=1
 

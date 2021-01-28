@@ -105,4 +105,6 @@ return{
 
 	{name="custom_puzzle"},
 	{name="custom_clear"},
+
+	{name="netBattle"},
 }

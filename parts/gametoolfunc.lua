@@ -477,18 +477,23 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 		GAME.modeEnv.mission=nil
 	end
 end
-function loadGame(M,ifQuickPlay)--Load a mode and go to game scene
+function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
 		if MODES[M].score then STAT.lastPlay=M end
 		GAME.curModeName=M
 		GAME.curMode=MODES[M]
 		GAME.modeEnv=GAME.curMode.env
-		drawableText.modeName:set(text.modes[M][1])
-		drawableText.levelName:set(text.modes[M][2])
 		GAME.init=true
-		SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
-		SFX.play("enter")
+		GAME.net=ifNet
+		if ifNet then
+			SCN.go("net_game","swipeD")
+		else
+			drawableText.modeName:set(text.modes[M][1])
+			drawableText.levelName:set(text.modes[M][2])
+			SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
+			SFX.play("enter")
+		end
 	end
 end
 function initPlayerPosition(sudden)--Set initial position for every player
@@ -506,26 +511,32 @@ function initPlayerPosition(sudden)--Set initial position for every player
 		if L[3]then L[3][method](L[3],965,30,.5)end
 		if L[4]then L[4][method](L[4],20,390,.5)end
 		if L[5]then L[5][method](L[5],20,30,.5)end
-	elseif #L==49 then
+	elseif #L<=49 then
 		local n=2
 		for i=1,4 do for j=1,6 do
+			if not L[n]then return end
 			L[n][method](L[n],78*i-54,115*j-98,.09)
 			n=n+1
 		end end
 		for i=9,12 do for j=1,6 do
+			if not L[n]then return end
 			L[n][method](L[n],78*i+267,115*j-98,.09)
 			n=n+1
 		end end
-	elseif #L==99 then
+	elseif #L<=99 then
 		local n=2
 		for i=1,7 do for j=1,7 do
+			if not L[n]then return end
 			L[n][method](L[n],46*i-36,97*j-72,.068)
 			n=n+1
 		end end
 		for i=15,21 do for j=1,7 do
+			if not L[n]then return end
 			L[n][method](L[n],46*i+264,97*j-72,.068)
 			n=n+1
 		end end
+	else
+		error("TOO MANY PLAYERS!")
 	end
 end
 do--function resetGameData(args)
@@ -568,7 +579,7 @@ do--function resetGameData(args)
 		end
 		return S
 	end
-	function resetGameData(args)
+	function resetGameData(args,playerData)
 		if not args then args=""end
 		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
@@ -583,7 +594,7 @@ do--function resetGameData(args)
 			GAME.recording=false
 			GAME.replaying=1
 		else
-			GAME.frame=150-SETTING.reTime*15
+			GAME.frame=args:find("n")and 0 or 150-SETTING.reTime*15
 			GAME.seed=rnd(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
@@ -597,7 +608,7 @@ do--function resetGameData(args)
 		end
 
 		destroyPlayers()
-		GAME.curMode.load()
+		GAME.curMode.load(playerData)
 		initPlayerPosition(args:find("q"))
 		restoreVirtualKey()
 		if GAME.modeEnv.task then
@@ -685,19 +696,11 @@ function dumpRecording(list,ptr)
 	return out..buffer
 end
 function pumpRecording(str,L)
-	-- str=data.decode("string","base64",str)
+	str=data.decode("string","base64",str)
 	local len=#str
 	local p=1
 
-	local list,curFrm
-	if L then
-		list=L
-		curFrm=L[#L-1]or 0
-	else
-		list={}
-		curFrm=0
-	end
-
+	local curFrm=L[#L-1]or 0
 	while p<=len do
 		--Read delta time
 		::nextByte::
@@ -708,17 +711,16 @@ function pumpRecording(str,L)
 			goto nextByte
 		end
 		curFrm=curFrm+b
-		list[#list+1]=curFrm
+		L[#L+1]=curFrm
 		p=p+1
 
 		b=byte(str,p)
 		if b>127 then
 			b=b-256
 		end
-		list[#list+1]=b
+		L[#L+1]=b
 		p=p+1
 	end
-	return list
 end
 do--function saveRecording()
 	local noRecList={"custom","solo","round","techmino"}

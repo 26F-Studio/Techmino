@@ -2,6 +2,8 @@ local gc=love.graphics
 local gc_setColor,gc_circle=gc.setColor,gc.circle
 local tc=love.touch
 
+local playerData
+local ins,rem=table.insert,table.remove
 local max,sin=math.max,math.sin
 
 local SCR=SCR
@@ -22,19 +24,29 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
+local hideChatBox=false
+local textBox=WIDGET.newTextBox{name="texts",x=980,y=20,w=290,h=300,hide=function()return hideChatBox end}
+
+local playing
 local lastBackTime=0
-local noTouch=false
+local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
 local scene={}
 
+function scene.sceneBack()
+	wsWrite("Q")
+	WSCONN=false
+	LOG.print(text.wsDisconnected,"warn")
+end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
-	if GAME.init then
-		resetGameData()
-		GAME.init=false
-	end
+	TASK.new(TICK_wsRead)
+	textBox:clear()
+
+	playerData={}
 	noTouch=not SETTING.VKSwitch
+	playing=false
 end
 
 function scene.touchDown(_,x,y)
@@ -102,54 +114,119 @@ end
 function scene.keyDown(key)
 	if key=="escape"then
 		if TIME()-lastBackTime<1 then
-			WSCONN=false
 			SCN.back()
 		else
 			lastBackTime=TIME()
+			LOG.print(text.sureQuit,COLOR.orange)
 		end
 	else
-		local m=keyMap
-		for k=1,20 do
-			if key==m[1][k]or key==m[2][k]then
-				PLAYERS[1]:pressKey(k)
-				VK[k].isDown=true
-				VK[k].pressTime=10
-				return
-			end
+		if noKey then return end
+		local k=keyMap.keyboard[key]
+		if k and k>0 then
+			PLAYERS[1]:pressKey(k)
+			VK[k].isDown=true
+			VK[k].pressTime=10
 		end
 	end
 end
 function scene.keyUp(key)
-	local m=keyMap
-	for k=1,20 do
-		if key==m[1][k]or key==m[2][k]then
-			PLAYERS[1]:releaseKey(k)
-			VK[k].isDown=false
-			return
-		end
+	if noKey then return end
+	local k=keyMap.keyboard[key]
+	if k and k>0 then
+		PLAYERS[1]:releaseKey(k)
+		VK[k].isDown=false
 	end
 end
 function scene.gamepadDown(key)
-	local m=keyMap
-	for k=1,20 do
-		if key==m[3][k]or key==m[4][k]then
+	if key=="back"then
+		if TIME()-lastBackTime<1 then
+			WSCONN=false
+			SCN.back()
+		else
+			lastBackTime=TIME()
+			LOG.print(text.sureQuit,COLOR.orange)
+		end
+	else
+		if noKey then return end
+		local k=keyMap.joystick[key]
+		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
 			VK[k].isDown=true
 			VK[k].pressTime=10
-			return
 		end
 	end
-
-	if key=="back"then pauseGame()end
 end
 function scene.gamepadUp(key)
-	local m=keyMap
-	for k=1,20 do
-		if key==m[3][k]or key==m[4][k]then
-			PLAYERS[1]:releaseKey(k)
-			VK[k].isDown=false
-			return
+	if noKey then return end
+	local k=keyMap.joystick[key]
+	if k and k>0 then
+		PLAYERS[1]:releaseKey(k)
+		VK[k].isDown=false
+		return
+	end
+end
+
+function scene.socketRead(mes)
+	local cmd=mes:sub(1,1)
+	local args=splitStr(mes:sub(2),":")
+				LOG.print(cmd,table.concat(args, " ; "))-------DEBUG PRINT
+	if cmd=="J"or cmd=="L"then
+		textBox:push{
+			COLOR.lR,args[1],
+			COLOR.dY,args[2].." ",
+			COLOR.Y,text[cmd=="J"and"chatJoin"or"chatLeave"]
+		}
+		if cmd=="J"then
+			ins(playerData,{name=args[1],id=args[2],conf=false})
+			if not playing then
+				resetGameData("n",playerData)
+			end
+		else
+			for i=1,#playerData do
+				if playerData[i].id==args[2]then
+					rem(playerData,i)
+					break
+				end
+			end
+			for i=1,#PLAYERS do
+				if PLAYERS[i].userID==args[2]then
+					rem(PLAYERS,i)
+					break
+				end
+			end
+			for i=1,#PLAYERS.alive do
+				if PLAYERS.alive[i].userID==args[2]then
+					rem(PLAYERS,i)
+					break
+				end
+			end
 		end
+	elseif cmd=="T"then
+		textBox:push{
+			COLOR.W,args[1],
+			COLOR.dY,args[2].." ",
+			COLOR.sky,args[3]
+		}
+	elseif cmd=="C"then
+		for i=1,#playerData do
+			if playerData[i].id==args[1]then
+				playerData[i].conf=args[2]
+				return
+			end
+		end
+	elseif cmd=="S"then
+		for _,P in next,PLAYERS do
+			if P.userID==args[1]then
+				pumpRecording(args[2],P.stream)
+			end
+		end
+	elseif cmd=="B"then
+		playing=true
+		resetGameData("n",playerData)
+	elseif cmd=="F"then
+		playing=false
+	else
+		LOG.print("Illegal message: ["..mes.."]",30,COLOR.green)
 	end
 end
 
@@ -157,7 +234,6 @@ function scene.update(dt)
 	local _
 	local P1=PLAYERS[1]
 	local GAME=GAME
-	GAME.frame=GAME.frame+1
 
 	touchMoveLastFrame=false
 
@@ -171,26 +247,10 @@ function scene.update(dt)
 		end
 	end
 
-	--Replay
-	if GAME.replaying then
-		_=GAME.replaying
-		local L=GAME.rep
-		while GAME.frame==L[_]do
-			local k=L[_+1]
-			if k>0 then
-				P1:pressKey(k)
-				VK[k].isDown=true
-				VK[k].pressTime=10
-			else
-				VK[-k].isDown=false
-				P1:releaseKey(-k)
-			end
-			_=_+2
-		end
-		GAME.replaying=_
-	end
+	if not playing then return end
 
 	--Counting,include pre-das,directy RETURN,or restart counting
+	GAME.frame=GAME.frame+1
 	if GAME.frame<180 then
 		if GAME.frame==179 then
 			gameStart()
@@ -297,11 +357,6 @@ function scene.draw()
 		end
 	end
 
-	--Mode info
-	gc_setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,485,10)
-	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
-
 	--Warning
 	gc.push("transform")
 	gc.origin()
@@ -314,7 +369,9 @@ function scene.draw()
 	gc.pop()
 end
 scene.widgetList={
-	WIDGET.newKey{name="quit",x=1235,y=45,w=80,font=20,code=pressKey"escape"},
+	textBox,
+	WIDGET.newKey{name="hideChat",fText="[..]",x=410,y=40,w=60,font=35,code=function()hideChatBox=not hideChatBox end},
+	WIDGET.newKey{name="quit",fText="X",x=870,y=40,w=60,font=40,code=pressKey"escape"},
 }
 
 return scene

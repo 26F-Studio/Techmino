@@ -38,8 +38,7 @@ local function task_enterRoom(task)
 		local wsconn,connErr=client.poll(task)
 		if wsconn then
 			WSCONN=wsconn
-			SCN.go("net_game")
-			loadGame("sprint_40l")
+			loadGame("netBattle",true,true)
 			LOG.print(text.wsSuccessed,"warn")
 			return
 		elseif connErr then
@@ -103,6 +102,10 @@ function scene.keyDown(k)
 				end
 			end
 		elseif k=="return"then
+			if rooms[selected].private then
+				LOG.print("Can't enter private room now")
+				return
+			end
 			wsConnect(
 				task_enterRoom,
 				PATH.socket..PATH.play_room..
