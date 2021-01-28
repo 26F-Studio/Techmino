@@ -1,5 +1,5 @@
 return{
-	fallback=3,
+	fallback=4,
 	back="X",
 	anykey="↓□↓",
 	newVersion="&!!!???↓↓",

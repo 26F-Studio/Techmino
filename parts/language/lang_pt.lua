@@ -1,4 +1,5 @@
 return{
+	fallback=4,
 	back="Voltar",
 	anykey="Pressione qualquer tecla",
 	sureQuit="Aparte novamente para sair",

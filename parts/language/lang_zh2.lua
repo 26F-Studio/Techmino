@@ -230,5 +230,4 @@ return{
 		["custom_clear"]=		{"自定义",		"普通"},
 		["custom_puzzle"]=		{"自定义",		"拼图"},
 	},
-	getTip=nil,
 }

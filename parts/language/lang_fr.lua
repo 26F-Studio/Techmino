@@ -1,5 +1,5 @@
 return{
-	fallback=3,
+	fallback=4,
 	back="Retour",
 	anykey="Appuyez sur n'importe quelle touche",
 	-- sureQuit="Press again to exit",
