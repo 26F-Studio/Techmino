@@ -486,7 +486,8 @@ return{
 			mission="Forçar Missão",
 		},
 		help={
-			dict="little Z",
+			manual="Manual",
+			dict="Little Z",
 			staff="Staff",
 			his="History",
 			qq="Author's qq",

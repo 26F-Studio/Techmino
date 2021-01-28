@@ -450,6 +450,7 @@ return{
 			mission="Forzar misión",
 		},
 		help={
+			manual="Manual",
 			dict="Little Z",
 			staff="Staff",
 			his="Hist. de Acts.",

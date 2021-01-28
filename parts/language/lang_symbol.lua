@@ -343,6 +343,7 @@ return{
 			mission="Force mission",
 		},
 		help={
+			manual="?",
 			dict="z",
 			staff="Orz",
 			his="_&_",

@@ -537,7 +537,8 @@ return{
 			reset="Redémarrer",
 		},
 		help={
-			dict="little Z",
+			manual="Manuel",
+			dict="Little Z",
 			staff="Staff",
 			his="History",
 			qq="QQ du créateur",

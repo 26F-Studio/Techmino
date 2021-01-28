@@ -41,10 +41,11 @@ end
 scene.widgetList={
 	WIDGET.newImage{name="pay1",	x=20,	y=20},
 	WIDGET.newImage{name="pay2",	x=1014,	y=20},
-	WIDGET.newButton{name="dict",	x=1140,	y=410,w=220,h=70,font=35,code=goScene"dict"},
-	WIDGET.newButton{name="staff",	x=1140,	y=490,w=220,h=70,font=35,code=goScene"staff"},
-	WIDGET.newButton{name="his",	x=1140,	y=570,w=220,h=70,font=35,code=goScene"history"},
-	WIDGET.newButton{name="qq",		x=1140,	y=650,w=220,h=70,font=35,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=MOBILE},
+	WIDGET.newButton{name="manual",	x=1140,	y=350,w=220,h=70,font=35,code=goScene"manual"},
+	WIDGET.newButton{name="dict",	x=1140,	y=430,w=220,h=70,font=35,code=goScene"dict"},
+	WIDGET.newButton{name="staff",	x=1140,	y=510,w=220,h=70,font=35,code=goScene"staff"},
+	WIDGET.newButton{name="his",	x=1140,	y=590,w=220,h=70,font=35,code=goScene"history"},
+	WIDGET.newButton{name="qq",		x=1140,	y=670,w=220,h=70,font=35,code=function()love.system.openURL("tencent://message/?uin=1046101471&Site=&Menu=yes")end,hide=MOBILE},
 	WIDGET.newButton{name="back",	x=640,	y=600,w=170,h=80,font=35,code=backScene},
 }
 

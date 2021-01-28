@@ -496,6 +496,7 @@ return{
 			down="↓",
 		},
 		help={
+			manual="说明书",
 			dict="小Z词典",
 			staff="制作人员",
 			his="更新历史",
