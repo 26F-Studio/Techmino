@@ -145,6 +145,7 @@ return{
 
 			block="==↓==",
 			smooth="~~↓~~",
+			upEdge="[]`",
 			bagLine="123|123",
 
 			ghost="__↓__",
@@ -282,6 +283,7 @@ return{
 			block="==↓==",
 			ghost="__↓__",
 			center="+",
+			upEdge="[]`",
 			bagLine="123|123",
 			highCam="↑__↑",
 			nextPos="???←",

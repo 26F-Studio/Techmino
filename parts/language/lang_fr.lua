@@ -253,6 +253,7 @@ return{
 
 			block="Dessiner le bloc",
 			smooth="Chute fluide",
+			upEdge="3D bloc",
 			bagLine="Ligne du Sac",
 
 			ghost="Pièce fantôme",
@@ -393,6 +394,7 @@ return{
 			block="Dessiner le bloc",
 			ghost="Pièce fantôme",
 			center="Centre",
+			upEdge="3D bloc",
 			bagLine="Ligne du Sac",
 			highCam="Vue d'oiseau",
 			nextPos="Prévisualisation de position",

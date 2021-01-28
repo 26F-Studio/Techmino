@@ -276,6 +276,7 @@ return{
 
 			smooth="Queda suave",
 			grid="Rede",
+			upEdge="3D bloco",
 			bagLine="Linha da bolsa",
 
 			lockFX="Nível FX Trava",
@@ -412,6 +413,7 @@ return{
 			block="Mostrar bloco",
 			ghost="Fantasma",
 			center="Centro",
+			upEdge="3D bloco",
 			bagLine="Linha De Bolsa",
 			highCam="Vista Olho-De-Pássaro",
 			nextPos="Próxima pos.",

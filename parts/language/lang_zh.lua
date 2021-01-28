@@ -274,6 +274,7 @@ return{
 
 			block="方块可见",
 			smooth="平滑下落",
+			upEdge="3D方块",
 			bagLine="包分界线",
 
 			ghost="阴影透明度",
@@ -413,6 +414,7 @@ return{
 			block="方块可见",
 			ghost="阴影透明度",
 			center="中心透明度",
+			upEdge="3D方块",
 			bagLine="包分界线",
 			highCam="超屏视野",
 			nextPos="生成预览",

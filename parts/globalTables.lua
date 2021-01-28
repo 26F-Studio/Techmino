@@ -277,6 +277,7 @@ SETTING={--Settings
 	--Graphic
 	block=true,ghost=.3,center=1,
 	smooth=true,grid=.16,
+	upEdge=true,
 	bagLine=false,
 	lockFX=2,
 	dropFX=2,

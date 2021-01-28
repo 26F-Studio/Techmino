@@ -277,6 +277,7 @@ return{
 
 			smooth="Smooth Drop",
 			grid="Grid",
+			upEdge="3D Block",
 			bagLine="Bag Line",
 
 			lockFX="Lock FX Level",
@@ -413,6 +414,7 @@ return{
 			block="Draw Block",
 			ghost="Ghost",
 			center="Center",
+			upEdge="3D Block",
 			bagLine="Bag Line",
 			highCam="Birds-eye View",
 			nextPos="Next Preview",

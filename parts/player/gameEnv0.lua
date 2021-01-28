@@ -11,7 +11,8 @@ return{
 
 	ghost=.3,center=1,
 	smooth=false,grid=.16,
-	bagLine=false,
+	upEdge=true,
+	bagLine=true,
 	text=true,
 	score=true,
 	lockFX=2,

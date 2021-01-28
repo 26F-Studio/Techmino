@@ -253,6 +253,7 @@ return{
 
 			block="Dibujar Bloques",
 			smooth="Caída Fluida",
+			upEdge="3D Bloques",
 			bagLine="Línea de Bag de Pzas.",
 
 			ghost="Fantasma",
@@ -389,6 +390,7 @@ return{
 			block="Dibujar Bloques",
 			ghost="Fantasma",
 			center="Centrar",
+			upEdge="3D Bloques",
 			bagLine="Línea de Bag de Pzas.",
 			highCam="Vista Aérea",
 			nextPos="Nro. de Pzas. Siguientes",

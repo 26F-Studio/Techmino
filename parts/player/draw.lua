@@ -34,6 +34,7 @@ end
 local function drawField(P)
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
+	local edge=P.gameEnv.upEdge
 	local rep=GAME.replaying
 	local texture=SKIN.curText
 	if P.falling==-1 then--Blocks only
@@ -42,8 +43,13 @@ local function drawField(P)
 			for i=1,10 do
 				if F[j][i]>0 then
 					if V[j][i]>0 then
-						gc_setColor(1,1,1,min(V[j][i]*.05,1))
+						gc_setColor(1,1,1,V[j][i]*.05)
 						gc_draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+						if edge and(not F[j+1]or F[j+1][i]<=0)then
+							local r,g,b=unpack(SKIN.libColor[F[j][i]])
+							gc_setColor((r+2)/3,(g+2)/3,(b+2)/3,V[j][i]*.05)
+							gc_rectangle("fill",30*i-30,-30*j,30,-4)
+						end
 					elseif rep then
 						gc_setColor(1,1,1,.3+.08*sin(.5*(j-i)+t))
 						gc_rectangle("fill",30*i-30,-30*j,30,30)
@@ -67,8 +73,13 @@ local function drawField(P)
 				for i=1,10 do
 					if F[j][i]>0 then
 						if V[j][i]>0 then
-							gc_setColor(1,1,1,min(V[j][i]*.05,1))
+							gc_setColor(1,1,1,V[j][i]*.05)
 							gc_draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
+							if edge and(not F[j+1]or F[j+1][i]<=0)then
+								local r,g,b=unpack(SKIN.libColor[F[j][i]])
+								gc_setColor((r+2)/3,(g+2)/3,(b+2)/3,V[j][i]*.05)
+								gc_rectangle("fill",30*i-30,-30*j,30,-4)
+							end
 						elseif rep then
 							gc_setColor(1,1,1,.2)
 							gc_rectangle("fill",30*i-30,-30*j,30,30)
