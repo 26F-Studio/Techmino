@@ -4,14 +4,18 @@ local function tick_httpREQ_newLogin(task)
 		coroutine.yield()
 		local response,request_error=client.poll(task)
 		if response then
-			local res=json.decode(response.body)
-			LOGIN=response.code==200
-			if res then
-				if LOGIN then
-					LOG.print(text.loginSuccessed)
+			if response.code==200 then
+				local res=json.decode(response.body)
+				if res.message=="OK"then
+					LOGIN=true
 					USER.email=res.email
 					USER.auth_token=res.auth_token
+					USER.name=res.name
+					USER.id=res.id
+					USER.motto=res.motto
+					USER.avatar=res.avatar
 					FILE.save(USER,"conf/user","q")
+					LOG.print(text.loginSuccessed)
 
 					httpRequest(
 						TICK_httpREQ_getAccessToken,

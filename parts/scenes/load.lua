@@ -10,7 +10,7 @@ local function tick_httpREQ_launch(task)
 		local response,request_error=client.poll(task)
 		if response then
 			local res=json.decode(response.body)
-			if res then
+			if res.message=="OK"then
 				if response.code==200 then
 					LOG.print(res.notice,360,COLOR.sky)
 					if VERSION_CODE>=res.version_code then
@@ -41,10 +41,12 @@ local function tick_httpREQ_autoLogin(task)
 		local response,request_error=client.poll(task)
 		if response then
 			if response.code==200 then
-				LOGIN=true
 				local res=json.decode(response.body)
-				if res then
+				if res.message=="OK"then
+					LOGIN=true
 					LOG.print(text.loginSuccessed)
+				else
+					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
 				end
 			else
 				LOGIN=false
@@ -213,6 +215,10 @@ function scene.update()
 				LOG.print("==============",COLOR.red)
 				LOG.print("Merry Christmas!",COLOR.white)
 				LOG.print("==============",COLOR.red)
+			elseif FESTIVAL=="sprFes"then
+				LOG.print("=======",COLOR.red)
+				LOG.print("新年快乐!",COLOR.white)
+				LOG.print("=======",COLOR.red)
 			end
 		end
 		if loadTar then

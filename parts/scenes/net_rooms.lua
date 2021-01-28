@@ -11,9 +11,9 @@ local function task_fetchRooms(task)
 		coroutine.yield()
 		local response,request_error=client.poll(task)
 		if response then
-			local res=json.decode(response.body)
-			if res then
-				if response.code==200 then
+			if response.code==200 then
+				local res=json.decode(response.body)
+				if res.message=="OK"then
 					rooms=res.room_list
 				else
 					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
