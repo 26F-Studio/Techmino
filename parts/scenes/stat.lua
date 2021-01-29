@@ -87,7 +87,7 @@ function scene.draw()
 	end
 
 	local t=TIME()
-	gc.draw(IMG.title,260,615,.2+.04*sin(t*3),nil,nil,206,35)
+	gc.draw(TEXTURE.title,260,615,.2+.04*sin(t*3),.4,nil,580,118)
 
 	local r=t*2
 	local R=int(r)%7+1

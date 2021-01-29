@@ -22,7 +22,7 @@ function scene.draw()
 
 	local t=TIME()
 	--Sponsor code
-	gc.draw(IMG.title,280,610,.1,1+.05*sin(t*2.6),nil,206,35)
+	gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(t*2.6),nil,580,118)
 	gc.setLineWidth(3)
 	gc.rectangle("line",18,18,263,263)
 	gc.rectangle("line",1012,18,250,250)

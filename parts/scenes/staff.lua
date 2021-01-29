@@ -55,8 +55,8 @@ function scene.draw()
 	for i=1,#L do
 		mStr(L[i],640,800+70*i-T)
 	end
-	mDraw(IMG.title_color,640,800-T,nil,2)
-	mDraw(IMG.title_color,640,2160-T,nil,2)
+	mDraw(TEXTURE.title_color,640,800-T,nil,.6)
+	mDraw(TEXTURE.title_color,640,2160-T,nil,.6)
 	if time>55 then gc.print("CLICK ME →",50,550,-.5)end
 end
 

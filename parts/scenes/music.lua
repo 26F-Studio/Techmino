@@ -59,7 +59,7 @@ function scene.draw()
 	if selected>2 then			gc.print(bgmList[selected-2],320,350-50)end
 	if selected<BGM.getCount()-1 then	gc.print(bgmList[selected+2],320,350+110)end
 
-	gc.draw(IMG.title,840,220,nil,1.5,nil,206,35)
+	gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
 	if BGM.nowPlay then
 		setFont(50)
 		local t=TIME()
@@ -69,7 +69,7 @@ function scene.draw()
 		local a=-t%2.3/2
 		if a<1 then
 			gc.setColor(1,1,1,a)
-			gc.draw(IMG.title_color,840,220,nil,1.5+.1-.1*a,1.5+.3-.3*a,206,35)
+			gc.draw(TEXTURE.title_color,840,220,nil,.5+.062-.062*a,.5+.126-.126*a,580,118)
 		end
 
 		gc.setColor(1,1,1,.4)

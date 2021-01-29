@@ -79,7 +79,7 @@ function scene.draw()
 	gc.setColor(1,1,1)
 
 	--Title
-	gc.draw(IMG.title_color,60,30,nil,1.3)
+	gc.draw(TEXTURE.title_color,20,20,nil,.5)
 
 	--Quick play
 	setFont(30)

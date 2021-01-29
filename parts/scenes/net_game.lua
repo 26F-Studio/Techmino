@@ -25,7 +25,7 @@ local function onVirtualkey(x,y)
 end
 
 local hideChatBox=false
-local textBox=WIDGET.newTextBox{name="texts",x=980,y=20,w=290,h=300,hide=function()return hideChatBox end}
+local textBox=WIDGET.newTextBox{name="texts",x=300,y=80,w=680,h=620,hide=function()return hideChatBox end}
 
 local playing
 local lastBackTime=0
@@ -313,7 +313,7 @@ function scene.draw()
 	end
 
 	--Players
-	for p=1,#PLAYERS do
+	for p=hideChatBox and 1 or 2,#PLAYERS do
 		PLAYERS[p]:draw()
 	end
 

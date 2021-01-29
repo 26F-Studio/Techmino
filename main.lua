@@ -122,8 +122,6 @@ if SETTING.fullscreen then love.window.setFullscreen(true)end
 --Initialize image libs
 IMG.init{
 	batteryImage="mess/power.png",
-	title="mess/title.png",
-	title_color="mess/title_colored.png",
 	lock="mess/lock.png",
 	dialCircle="mess/dialCircle.png",
 	dialNeedle="mess/dialNeedle.png",
