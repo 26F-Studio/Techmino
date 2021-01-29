@@ -1,19 +1,17 @@
 local gc=love.graphics
 
-local abs=math.abs
 local max,min,sin,cos=math.max,math.min,math.sin,math.cos
 local rnd=math.random
 
 local scene={}
 
-local t1,t2,r
+local t1,t2,animateType
 
 function scene.sceneInit()
 	BG.set()
 	BGM.play()
 	t1,t2=0,0--Timer
-	r={}--Random animation type
-	for i=1,8 do r[i]=rnd(5)end
+	animateType={rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5)}--Random animation type
 end
 
 function scene.mouseDown(_,_,k)
@@ -83,10 +81,10 @@ function scene.draw()
 		if t>0 then
 			gc.push("transform")
 				gc.setColor(1,1,1,min(t*.025,1))
-				titleTransform[r[i]](t,i)
+				titleTransform[animateType[i]](t,i)
 				local dt=(t1+62-5*i)%300
 				if dt<20 then
-					gc.translate(0,abs(10-dt)-10)
+					gc.translate(0,math.abs(10-dt)-10)
 				end
 				gc.polygon("line",L[i])
 			gc.pop()
