@@ -1,6 +1,6 @@
 local gc=love.graphics
 
-local function tick_httpREQ_checkAccessToken(task)
+local function tick_httpREQ_manualAutoLogin(task)
 	local time=0
 	while true do
 		coroutine.yield()
@@ -23,7 +23,7 @@ local function tick_httpREQ_checkAccessToken(task)
 			else
 				local err=json.decode(response.body)
 				if err then
-					LOG.print(text.netErrorCode..response.code..": "..err.message,"warn")
+					LOG.print(text.httpCode..response.code..": "..err.message,"warn")
 				end
 			end
 			return
@@ -111,7 +111,7 @@ scene.widgetList={
 		if LOGIN then
 			if USER.access_token then
 				httpRequest(
-					tick_httpREQ_checkAccessToken,
+					tick_httpREQ_manualAutoLogin,
 					PATH.api..PATH.access,
 					"GET",
 					{["Content-Type"]="application/json"},

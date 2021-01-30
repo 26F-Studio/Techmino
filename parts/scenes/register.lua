@@ -4,19 +4,17 @@ local function tick_httpREQ_register(task)
 		coroutine.yield()
 		local response,request_error=client.poll(task)
 		if response then
-			if response.code==200 then
-				local res=json.decode(response.body)
-				if res.message=="OK"then
-					LOGIN=true
-					USER.name=res.name
-					USER.id=res.id
-					USER.motto=res.motto
-					USER.avatar=res.avatar
-					FILE.save(USER,"conf/user","q")
-					LOG.print(text.registerSuccessed..": "..res.message)
-				else
-					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
-				end
+			local res=json.decode(response.body)
+			if response.code==200 and res.message=="OK"then
+				LOGIN=true
+				USER.name=res.name
+				USER.id=res.id
+				USER.motto=res.motto
+				USER.avatar=res.avatar
+				FILE.save(USER,"conf/user","q")
+				LOG.print(text.registerSuccessed..": "..res.message)
+			else
+				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
 			end
 			return
 		elseif request_error then

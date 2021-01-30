@@ -816,26 +816,17 @@ function TICK_httpREQ_getAccessToken(task)
 		coroutine.yield()
 		local response,request_error=client.poll(task)
 		if response then
-			if response.code==200 then
-				local res=json.decode(response.body)
-				if res.message=="OK"then
-					LOG.print(text.accessSuccessed)
-					USER.access_token=res.access_token
-					FILE.save(USER,"conf/user")
-					SCN.swapTo("net_menu")
-				else
-					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
-				end
+			local res=json.decode(response.body)
+			if response.code==200 and res.message=="OK"then
+				LOG.print(text.accessSuccessed)
+				USER.access_token=res.access_token
+				FILE.save(USER,"conf/user")
+				SCN.swapTo("net_menu")
 			else
 				LOGIN=false
 				USER.access_token=false
 				USER.auth_token=false
-				local err=json.decode(response.body)
-				if err then
-					LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")
-				else
-					LOG.print(text.loginFailed..": "..text.netErrorCode,"warn")
-				end
+				LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")
 			end
 			return
 		elseif request_error then

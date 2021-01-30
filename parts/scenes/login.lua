@@ -4,32 +4,30 @@ local function tick_httpREQ_newLogin(task)
 		coroutine.yield()
 		local response,request_error=client.poll(task)
 		if response then
-			if response.code==200 then
-				local res=json.decode(response.body)
-				if res.message=="OK"then
-					LOGIN=true
-					USER.email=res.email
-					USER.auth_token=res.auth_token
-					USER.name=res.name
-					USER.id=res.id
-					USER.motto=res.motto
-					USER.avatar=res.avatar
-					FILE.save(USER,"conf/user","q")
-					LOG.print(text.loginSuccessed)
+			local res=json.decode(response.body)
+			if response.code==200 and res.message=="OK"then
+				LOGIN=true
+				USER.email=res.email
+				USER.auth_token=res.auth_token
+				USER.name=res.name
+				USER.id=res.id
+				USER.motto=res.motto
+				USER.avatar=res.avatar
+				FILE.save(USER,"conf/user","q")
+				LOG.print(text.loginSuccessed)
 
-					httpRequest(
-						TICK_httpREQ_getAccessToken,
-						PATH.api..PATH.access,
-						"POST",
-						{["Content-Type"]="application/json"},
-						json.encode{
-							email=USER.email,
-							auth_token=USER.auth_token,
-						}
-					)
-				else
-					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
-				end
+				httpRequest(
+					TICK_httpREQ_getAccessToken,
+					PATH.api..PATH.access,
+					"POST",
+					{["Content-Type"]="application/json"},
+					json.encode{
+						email=USER.email,
+						auth_token=USER.auth_token,
+					}
+				)
+			else
+				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
 			end
 			return
 		elseif request_error then

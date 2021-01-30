@@ -10,17 +10,15 @@ local function tick_httpREQ_launch(task)
 		local response,request_error=client.poll(task)
 		if response then
 			local res=json.decode(response.body)
-			if res.message=="OK"then
-				if response.code==200 then
-					LOG.print(res.notice,360,COLOR.sky)
-					if VERSION_CODE>=res.version_code then
-						LOG.print(text.versionIsNew,360,COLOR.sky)
-					else
-						LOG.print(string.gsub(text.versionIsOld,"$1",res.version_name),"warn")
-					end
+			if res.message=="OK"and response.code==200 then
+				LOG.print(res.notice,360,COLOR.sky)
+				if VERSION_CODE>=res.version_code then
+					LOG.print(text.versionIsNew,360,COLOR.sky)
 				else
-					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
+					LOG.print(string.gsub(text.versionIsOld,"$1",res.version_name),"warn")
 				end
+			else
+				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
 			end
 			return
 		elseif request_error then
@@ -40,20 +38,13 @@ local function tick_httpREQ_autoLogin(task)
 		coroutine.yield()
 		local response,request_error=client.poll(task)
 		if response then
-			if response.code==200 then
-				local res=json.decode(response.body)
-				if res.message=="OK"then
-					LOGIN=true
-					LOG.print(text.loginSuccessed)
-				else
-					LOG.print(text.netErrorCode..response.code..": "..res.message,"warn")
-				end
+			local res=json.decode(response.body)
+			if response.code==200 and res.message=="OK"then
+				LOGIN=true
+				LOG.print(text.loginSuccessed)
 			else
 				LOGIN=false
-				local err=json.decode(response.body)
-				if err then
-					LOG.print(text.loginFailed..": "..text.netErrorCode..response.code.."-"..err.message,"warn")
-				end
+				LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")
 			end
 			return
 		elseif request_error then

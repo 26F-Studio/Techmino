@@ -74,7 +74,7 @@ return{
 	versionIsNew="Você esta na versão mais nova.",
 	versionIsOld="Versão $1 esta disponível agora!",
 
-	netErrorCode="Network error code",
+	-- httpCode="Http status code",
 	jsonError="Json error",
 
 	noUsername="Insira seu nome de usuário",
@@ -101,6 +101,7 @@ return{
 	chatHistory="------Novas mensagens abaixo------",
 
 	noRooms="Nenhuma sala agora",
+	-- roomsCreateFailed="Failed to create room",
 	roomsFetchFailed="Falha ao buscar salas",
 
 	errorMsg="Um erro ocorreu e Techmino precisa reiniciar.\nInformação do erro foi criada, e você pode mandar ao autor.",

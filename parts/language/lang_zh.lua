@@ -75,7 +75,7 @@ return{
 	versionIsNew="游戏已是最新版本",
 	versionIsOld="最新版本$1可以下载了!",
 
-	netErrorCode="网络错误码",
+	httpCode="Http码",
 	jsonError="json错误",
 
 	noUsername="请填写用户名",
@@ -102,6 +102,7 @@ return{
 	chatHistory="------以上是历史消息------",
 
 	noRooms="一个房间都没有哎...",
+	roomsCreateFailed="创建房间失败",
 	roomsFetchFailed="拉取房间列表失败",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",

@@ -74,7 +74,7 @@ return{
 	versionIsNew="You are now on the latest version.",
 	versionIsOld="Version $1 is available now!",
 
-	netErrorCode="Network error code",
+	httpCode="Http status code",
 	jsonError="Json error",
 
 	noUsername="Please enter your username",
@@ -101,6 +101,7 @@ return{
 	chatHistory="------New messages below------",
 
 	noRooms="No Rooms Now",
+	roomsCreateFailed="Failed to create room",
 	roomsFetchFailed="Failed to fetch rooms",
 
 	errorMsg="An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author.",
