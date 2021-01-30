@@ -182,9 +182,9 @@ function love.keypressed(i)
 				end
 			end
 		elseif i=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
-		elseif i=="f5"then	if love._openConsole then love._openConsole()end
-		elseif i=="f6"then	if WIDGET.sel then DBP(WIDGET.sel)end
-		elseif i=="f7"then	for k,v in next,_G do DBP(k,v)end
+		elseif i=="f5"then	if WIDGET.sel then DBP(WIDGET.sel)end
+		elseif i=="f6"then	for k,v in next,_G do DBP(k,v)end
+		elseif i=="f7"then	if love._openConsole then love._openConsole()end
 		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.yellow)
 		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.yellow)
 		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.yellow)
