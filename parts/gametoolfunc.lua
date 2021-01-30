@@ -696,7 +696,6 @@ function dumpRecording(list,ptr)
 	return out..buffer
 end
 function pumpRecording(str,L)
-	str=data.decode("string","base64",str)
 	local len=#str
 	local p=1
 
