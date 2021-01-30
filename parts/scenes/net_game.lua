@@ -24,8 +24,8 @@ local function onVirtualkey(x,y)
 	return nearest
 end
 
-local hideChatBox=false
-local textBox=WIDGET.newTextBox{name="texts",x=300,y=80,w=680,h=620,hide=function()return hideChatBox end}
+local hideChatBox
+local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
 
 local playing
 local lastBackTime=0
@@ -42,6 +42,7 @@ end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
 	TASK.new(TICK_wsRead)
+	hideChatBox=true
 	textBox:clear()
 
 	playerData={}
@@ -367,10 +368,17 @@ function scene.draw()
 		gc.setShader()
 	end
 	gc.pop()
+
+	--New message
+	if textBox.new and hideChatBox then
+		setFont(30)
+		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
+		gc.print("M",460,15)
+	end
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="hideChat",fText="[..]",x=410,y=40,w=60,font=35,code=function()hideChatBox=not hideChatBox end},
+	WIDGET.newKey{name="hideChat",fText="...",x=410,y=40,w=60,font=35,code=function()hideChatBox=not hideChatBox end},
 	WIDGET.newKey{name="quit",fText="X",x=870,y=40,w=60,font=40,code=pressKey"escape"},
 }
 
