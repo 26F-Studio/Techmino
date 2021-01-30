@@ -368,7 +368,7 @@ local slider={
 	ATV=0,--Activating time(0~8)
 	TAT=0,--Text activating time(0~180)
 	pos=0,--Position shown
-	lastTime=0,
+	lastTime=0,--Last value changing time
 }
 local sliderShowFunc={
 	int=function(S)
@@ -800,10 +800,10 @@ end
 
 local textBox={
 	type="textBox",
-	scrollPos=0,
-	scrollPix=0,
-	sure=0,
-	new=false,
+	scrollPos=0,--Which line display at bottom
+	scrollPix=0,--Hidden wheel move value
+	sure=0,--Sure-timer for clear history
+	new=false,--If there is a new message
 	-- texts={},
 }
 function textBox:reset()
