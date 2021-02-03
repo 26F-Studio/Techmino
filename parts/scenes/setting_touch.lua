@@ -6,13 +6,12 @@ local int,sin=math.floor,math.sin
 local scene={}
 
 local defaultSetSelect
-local snapUnit
+local snapUnit=1
 local selected--Button selected
 
 function scene.sceneInit()
 	BG.set("rainbow")
 	defaultSetSelect=1
-	snapUnit=1
 	selected=false
 end
 function scene.sceneBack()
