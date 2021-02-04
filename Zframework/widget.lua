@@ -974,18 +974,18 @@ function WIDGET.set(list)
 		for i=1,#list do
 			list[i]:reset()
 		end
-	end
-	if FESTIVAL and SCN.cur~="custom_field"then
-		local c1,c2,c3
-		if FESTIVAL=="xMas"then
-			c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
-		elseif FESTIVAL=="sprFes"then
-			c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
-		end
-		local rnd=math.random
-		for _,W in next,list do
-			if W.color then
-				W.color=rnd()<.3 and c1 or rnd()<.5 and c2 or c3
+		if FESTIVAL and SCN.cur~="custom_field"then
+			local c1,c2,c3
+			if FESTIVAL=="xMas"then
+				c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
+			elseif FESTIVAL=="sprFes"then
+				c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
+			end
+			local rnd=math.random
+			for _,W in next,list do
+				if W.color then
+					W.color=rnd()<.3 and c1 or rnd()<.5 and c2 or c3
+				end
 			end
 		end
 	end
