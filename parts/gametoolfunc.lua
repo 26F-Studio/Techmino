@@ -359,6 +359,10 @@ end
 
 
 --Game
+function generateLine(hole)
+	-- return 2^10-1-2^(hole-1)
+	return 1023-2^(hole-1)
+end
 function freshDate()
 	local date=os.date("%Y/%m/%d")
 	if STAT.date~=date then
@@ -694,7 +698,7 @@ end
 ]]
 function dumpRecording(list,ptr)
 	local out=""
-	local buffer=""
+	local buffer,buffer2=""
 	if not ptr then ptr=1 end
 	local prevFrm=list[ptr-2]or 0
 	while list[ptr]do
@@ -707,19 +711,31 @@ function dumpRecording(list,ptr)
 		--Encode time
 		local t=list[ptr]-prevFrm
 		prevFrm=list[ptr]
-		while t>=255 do
-			buffer=buffer.."\255"
-			t=t-255
+		if t>=128 then
+			buffer2=char(t%128)
+			t=int(t/128)
+			while t>=128 do
+				buffer2=char(128+t%128)..buffer2
+				t=int(t/128)
+			end
+			buffer=buffer..char(128+t)..buffer2
+		else
+			buffer=buffer..char(t)
 		end
-		buffer=buffer..char(t)
 
 		--Encode event
 		t=list[ptr+1]
-		while t>=255 do
-			buffer=buffer.."\255"
-			t=t-255
+		if t>=128 then
+			buffer2=char(t%128)
+			t=int(t/128)
+			while t>=128 do
+				buffer2=char(128+t%128)..buffer2
+				t=int(t/128)
+			end
+			buffer=buffer..char(128+t)..buffer2
+		else
+			buffer=buffer..char(t)
 		end
-		buffer=buffer..char(t)
 
 		--Step
 		ptr=ptr+2
@@ -731,29 +747,30 @@ function pumpRecording(str,L)
 	local p=1
 
 	local curFrm=L[#L-1]or 0
+	local code
 	while p<=len do
 		--Read delta time
+		code=0
 		::nextByte1::
 		local b=byte(str,p)
-		if b==255 then
-			curFrm=curFrm+255
+		if b>=128 then
+			code=code*128+b-128
 			p=p+1
 			goto nextByte1
 		end
-		curFrm=curFrm+b
+		curFrm=curFrm+code*128+b
 		L[#L+1]=curFrm
 		p=p+1
 
+		local event=0
 		::nextByte2::
 		b=byte(str,p)
-		local event=0
-		if b==255 then
-			event=event+255
+		if b>=128 then
+			event=event*128+b-128
 			p=p+1
 			goto nextByte2
 		end
-		event=event+b
-		L[#L+1]=event
+		L[#L+1]=event*128+b
 		p=p+1
 	end
 end

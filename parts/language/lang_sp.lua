@@ -99,6 +99,7 @@ return{
 
 	-- joinRoom="joined the room.",
 	-- leaveRoom="left the room.",
+	-- waiting="Waiting",
 	-- chatRemain="Online: ",
 	-- chatStart="------Beginning of log------",
 	-- chatHistory="------New messages below------",

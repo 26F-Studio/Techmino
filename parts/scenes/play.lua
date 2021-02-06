@@ -191,14 +191,6 @@ function scene.update(dt)
 			elseif key<=64 then--Release key
 				VK[key-32].isDown=false
 				P1:releaseKey(key-32)
-			elseif key>1023 then--Receiving garbage
-				local sid=key%256
-				local amount=int(key/256)%256
-				local time=int(key/4194304)%16384
-				local line=int(key/274877906944)%65536
-				local color=int(key/70368744177664)%256
-				P1:receive(sid,amount,time,line,color)
-				--TODO
 			end
 			_=_+2
 		end
@@ -206,8 +198,8 @@ function scene.update(dt)
 	end
 
 	--Counting,include pre-das,directy RETURN,or restart counting
-	if GAME.frame<180 then
-		if GAME.frame==179 then
+	if GAME.frame<=180 then
+		if GAME.frame==180 then
 			gameStart()
 		elseif GAME.frame==60 or GAME.frame==120 then
 			SFX.play("ready")

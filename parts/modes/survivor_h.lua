@@ -12,9 +12,9 @@ return{
 					if P.modeData.counter>=math.max(60,180-2*P.modeData.event)and B.sum<15 then
 						B[#B+1]=
 							P.modeData.event%3<2 and
-								{pos=P:RND(10),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1}
+								{line=generateLine(P:RND(10)),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1}
 							or
-								{pos=P:RND(10),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2}
+								{line=generateLine(P:RND(10)),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2}
 						local R=(P.modeData.event%3<2 and 1 or 3)
 						B.sum=B.sum+R
 						P.stat.recv=P.stat.recv+R

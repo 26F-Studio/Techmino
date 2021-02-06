@@ -40,6 +40,7 @@ return{
 	diffPassword="字不认识?",
 
 	ranks={"菜","可","好","强","您"},
+	waiting="歇着",
 
 	stat={
 		"开了几次:",

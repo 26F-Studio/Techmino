@@ -380,20 +380,41 @@ function update.remote_alive(P,dt)
 	local eventTime=P.stream[pos]
 	if eventTime then
 		if P.stat.frame==eventTime then
-			local key=P.stream[pos+1]
-			if key==0 then--Just wait
-			elseif key<=32 then--Press key
-				P:pressKey(key)
-			elseif key<=64 then--Release key
-				P:releaseKey(key-32)
-			elseif key>1023 then--Receiving garbage
-				local line=key%1024
-				local amount=int(key/1024)%256
-				local color=int(key/262144)%256
-				local sid=int(key/67108864)%256
-				local time=int(key/17179869184)%256
-				P:receive()
-				--TODO
+			local event=P.stream[pos+1]
+			if event==0 then--Just wait
+			elseif event<=32 then--Press key
+				P:pressKey(event)
+			elseif event<=64 then--Release key
+				P:releaseKey(event-32)
+			elseif event>0x2000000000000 then--Sending lines
+				local sid=event%0x100
+				local amount=int(event/0x100)%0x100
+				local time=int(event/0x10000)%0x10000
+				local line=int(event/0x100000000)%0x10000
+				local L=PLAYERS.alive
+				for i=1,#L do
+					if L[i].subID==sid then
+						P:attack(L[i],amount,time,line,true)
+						if SETTING.atkFX>0 then
+							P:createBeam(L[i],amount,P.cur.color)
+						end
+						break
+					end
+				end
+			elseif event>0x1000000000000 then--Receiving lines
+				local L=PLAYERS.alive
+				local sid=event%0x100
+				for i=1,#L do
+					if L[i].subID==sid then
+						P:receive(
+							L[i],
+							int(event/0x100)%0x100,--amount
+							int(event/0x10000)%0x10000,--time
+							int(event/0x100000000)%0x10000--line
+						)
+						break
+					end
+				end
 			end
 			P.streamProgress=pos+2
 			goto readNext

@@ -14,12 +14,12 @@ return{
 					local t
 					if D.event<20 then
 						t=1500-30*D.event--1500~900
-						B[p]=	{pos=P:RND(4,7),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=3}
-						B[p+1]=	{pos=P:RND(3,8),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
+						B[p]=	{line=generateLine(P:RND(4,7)),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=3}
+						B[p+1]=	{line=generateLine(P:RND(3,8)),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
 					else
 						t=900-10*(D.event-20)--900~600
-						B[p]=	{pos=P:RND(10),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=4}
-						B[p+1]=	{pos=P:RND(4,7),amount=8,countdown=t,cd0=t,time=0,sent=false,lv=5}
+						B[p]=	{line=generateLine(P:RND(10)),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=4}
+						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=8,countdown=t,cd0=t,time=0,sent=false,lv=5}
 					end
 					B.sum=B.sum+22
 					P.stat.recv=P.stat.recv+22

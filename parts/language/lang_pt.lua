@@ -96,6 +96,7 @@ return{
 
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
+	-- waiting="Waiting",
 	chatRemain="Online: ",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",

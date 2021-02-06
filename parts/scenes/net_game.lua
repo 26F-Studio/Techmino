@@ -188,7 +188,6 @@ end
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
 	local args=splitStr(mes:sub(2),":")
-				print(cmd.." "..table.concat(args, " ; "))-------DEBUG PRINT
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
@@ -198,8 +197,10 @@ function scene.socketRead(mes)
 		if cmd=="J"then
 			if tostring(USER.id)~=args[2]then
 				wsWrite("C"..dumpBasicConfig())
-				ins(playerData,{name=args[1],id=args[2]})
+				ins(playerData,{name=args[1],id=args[2],sid=tonumber(args[3])})
 				resetGameData("qn",playerData)
+			else
+				ins(playerData,1,{name=args[1],id=args[2],sid=tonumber(args[3])})
 			end
 		else
 			for i=1,#playerData do
@@ -230,7 +231,7 @@ function scene.socketRead(mes)
 		}
 	elseif cmd=="C"then
 		if tostring(USER.id)~=args[2]then
-			local ENV=json.decode(data.decode("string","base64",args[3]))
+			local ENV=json.decode(data.decode("string","base64",args[4]))
 			for i=1,#playerData do
 				if playerData[i].id==args[2]then
 					playerData[i].conf=ENV
@@ -238,7 +239,7 @@ function scene.socketRead(mes)
 					return
 				end
 			end
-			ins(playerData,{name=args[1],id=args[2],conf=ENV})
+			ins(playerData,{name=args[1],id=args[2],sid=tonumber(args[3]),conf=ENV})
 			resetGameData("qn",playerData)
 		end
 	elseif cmd=="S"then

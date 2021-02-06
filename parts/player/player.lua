@@ -234,11 +234,11 @@ end
 
 function Player.getHolePos(P)--Get a good garbage-line hole position
 	if P.garbageBeneath==0 then
-		return P:RND(10)
+		return generateLine(P:RND(10))
 	else
 		local p=P:RND(10)
 		if P.field[1][p]<=0 then
-			return P:RND(10)
+			return generateLine(P:RND(10))
 		end
 		return p
 	end
@@ -248,7 +248,7 @@ function Player.garbageRelease(P)--Check garbage buffer and try to release them
 	while true do
 		local A=P.atkBuffer[n]
 		if A and A.countdown<=0 and not A.sent then
-			P:garbageRise(19+A.lv,A.amount,A.pos)
+			P:garbageRise(19+A.lv,A.amount,A.line)
 			P.atkBuffer.sum=P.atkBuffer.sum-A.amount
 			A.sent,A.time=true,0
 			P.stat.pend=P.stat.pend+A.amount
@@ -260,13 +260,15 @@ function Player.garbageRelease(P)--Check garbage buffer and try to release them
 	end
 	if flag and P.AI_mode=="CC"then CC.updateField(P)end
 end
-function Player.garbageRise(P,color,amount,pos)--Release n-lines garbage to field
+function Player.garbageRise(P,color,amount,line)--Release n-lines garbage to field
 	local _
 	local t=P.showTime*2
 	for _=1,amount do
-		ins(P.field,1,FREEROW.get(color,true))
+		ins(P.field,1,FREEROW.get(0,true))
 		ins(P.visTime,1,FREEROW.get(t))
-		P.field[1][pos]=0
+		for i=1,10 do
+			P.field[1][i]=bit.rshift(line,i-1)%2==1 and color or 0
+		end
 	end
 	P.fieldBeneath=P.fieldBeneath+amount*30
 	if P.cur then
@@ -336,22 +338,36 @@ function Player.ifoverlap(P,bk,x,y)
 		end
 	end
 end
-function Player.attack(P,R,send,time,...)
-	if SETTING.atkFX>0 then
-		P:createBeam(R,send,time,...)
-	end
+function Player.attack(P,R,send,time,line,fromStream)
+	print(string.format("P%d attack P%d with %d lines, %d frames, line data:%d",P.id,R.id,send,time,line))
 	if GAME.net then
-		if P.type=="human"then
-			--TODO
+		if P.type=="human"then--Local player attack others
+			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,
+				R.subID+
+				send*0x100+
+				time*0x10000+
+				line*0x100000000+
+				0x2000000000000
+			)
 		end
-		if R.type=="human"then
-			--TODO
+		if fromStream and R.type=="human"then--Local player receiving lines
+			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,
+				P.subID+
+				send*0x100+
+				time*0x10000+
+				line*0x100000000+
+				0x1000000000000
+			)
+			R:receive(P,send,time,line)
 		end
 	else
-		R:receive(P,send,time)
+		R:receive(P,send,time,line)
 	end
 end
-function Player.receive(P,A,send,time)
+function Player.receive(P,A,send,time,line)
+	print(string.format("P%d was attacked by P%d's %d lines, %d frames, line data:%d",P.id,A.id,send,time,line))
 	P.lastRecv=A
 	local B=P.atkBuffer
 	if B.sum<26 then
@@ -362,7 +378,7 @@ function Player.receive(P,A,send,time)
 			B[i+1]=B[i]
 		end
 		B[k]={
-			pos=A:RND(10),
+			line=line,
 			amount=send,
 			countdown=time,
 			cd0=time,
@@ -1204,7 +1220,7 @@ do--Player.drop(P)--Place piece
 				end
 				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
 				atk=cc-.5
-				sendTime=20+atk*20
+				sendTime=20+int(atk*20)
 				cscore=cscore+clearSCR[cc]
 			end
 
@@ -1250,7 +1266,10 @@ do--Player.drop(P)--Place piece
 							local M=#P.atker
 							if M>0 then
 								for i=1,M do
-									P:attack(P.atker[i],send,C.color)
+									P:attack(P.atker[i],send,sendTime,generateLine(P:RND(10)))
+									if SETTING.atkFX>0 then
+										P:createBeam(P.atker[i],send,C.color)
+									end
 								end
 							else
 								T=randomTarget(P)
@@ -1263,7 +1282,10 @@ do--Player.drop(P)--Place piece
 						T=randomTarget(P)
 					end
 					if T then
-						P:attack(T,send,C.color)
+						P:attack(T,send,sendTime,generateLine(P:RND(10)))
+						if SETTING.atkFX>0 then
+							P:createBeam(T,send,C.color)
+						end
 					end
 				end
 				if P.sound and send>3 then SFX.play("emit",min(send,7)*.1)end

@@ -358,12 +358,15 @@ function PLY.newRemotePlayer(id,mini,playerData)
 	P.type="remote"
 	P.update=PLY.update.remote_alive
 
+	P.draw=PLY.draw.remote_norm
+
 	P.stream={}
 	P.streamProgress=1
 
 	playerData.p=P
 	P.userName=playerData.name
 	P.userID=playerData.id
+	P.subID=playerData.sid
 
 	loadRemoteEnv(P,playerData.conf or{})
 	applyGameEnv(P)
