@@ -68,7 +68,7 @@ function scene.socketRead(mes)
 		textBox:push{
 			COLOR.lR,args[1],
 			COLOR.dY,args[2].." ",
-			COLOR.Y,text[cmd=="J"and"chatJoin"or"chatLeave"]
+			COLOR.Y,text[cmd=="J"and"joinRoom"or"leaveRoom"]
 		}
 		remain=tonumber(args[3])
 	elseif cmd=="T"then

@@ -42,6 +42,16 @@ local function tick_httpREQ_autoLogin(task)
 			if response.code==200 and res.message=="OK"then
 				LOGIN=true
 				LOG.print(text.loginSuccessed)
+				httpRequest(
+					TICK_httpREQ_getUserInfo,
+					PATH.api..PATH.users,
+					"GET",
+					{["Content-Type"]="application/json"},
+					json.encode{
+						email=USER.email,
+						auth_token=USER.auth_token,
+					}
+				)
 			else
 				LOGIN=false
 				LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")

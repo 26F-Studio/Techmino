@@ -245,16 +245,15 @@ GAME={--Global game data
 RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
 USER=FILE.load("conf/user")or{--User infomation
 	--Network infos
-	name=false,
+	username=false,
 	id=false,
 	email=false,
+	motto=false,
+	avatar=false,
 	auth_token=false,
 	access_token=false,
 
 	--Local data
-	username=false,
-	motto=false,
-	avatar=false,
 	xp=0,lv=1,
 }
 SETTING={--Settings

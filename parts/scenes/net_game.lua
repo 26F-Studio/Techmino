@@ -1,3 +1,4 @@
+local data=love.data
 local gc=love.graphics
 local gc_setColor,gc_circle=gc.setColor,gc.circle
 local tc=love.touch
@@ -26,8 +27,15 @@ end
 
 local hideChatBox
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
+local function switchChat()
+	hideChatBox=not hideChatBox
+end
+
 
 local playing
+local heartBeatTimer
+local lastUpstreamTime
+local upstreamProgress
 local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
@@ -38,16 +46,22 @@ function scene.sceneBack()
 	wsWrite("Q")
 	WSCONN=false
 	LOG.print(text.wsDisconnected,"warn")
+	love.keyboard.setKeyRepeat(true)
 end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
+	wsWrite("C"..dumpBasicConfig())
 	TASK.new(TICK_wsRead)
 	hideChatBox=true
 	textBox:clear()
 
 	playerData={}
+	resetGameData("n",playerData)
 	noTouch=not SETTING.VKSwitch
 	playing=false
+	lastUpstreamTime=0
+	upstreamProgress=1
+	heartBeatTimer=0
 end
 
 function scene.touchDown(_,x,y)
@@ -120,6 +134,10 @@ function scene.keyDown(key)
 			lastBackTime=TIME()
 			LOG.print(text.sureQuit,COLOR.orange)
 		end
+	elseif key=="b"then
+		wsWrite("B")
+	elseif key=="\\"then
+		switchChat()
 	else
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -170,17 +188,18 @@ end
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
 	local args=splitStr(mes:sub(2),":")
-				LOG.print(cmd,table.concat(args, " ; "))-------DEBUG PRINT
+				print(cmd.." "..table.concat(args, " ; "))-------DEBUG PRINT
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
 			COLOR.dY,args[2].." ",
-			COLOR.Y,text[cmd=="J"and"chatJoin"or"chatLeave"]
+			COLOR.Y,text[cmd=="J"and"joinRoom"or"leaveRoom"]
 		}
 		if cmd=="J"then
-			ins(playerData,{name=args[1],id=args[2],conf=false})
-			if not playing then
-				resetGameData("n",playerData)
+			if tostring(USER.id)~=args[2]then
+				wsWrite("C"..dumpBasicConfig())
+				ins(playerData,{name=args[1],id=args[2]})
+				resetGameData("qn",playerData)
 			end
 		else
 			for i=1,#playerData do
@@ -197,8 +216,9 @@ function scene.socketRead(mes)
 			end
 			for i=1,#PLAYERS.alive do
 				if PLAYERS.alive[i].userID==args[2]then
-					rem(PLAYERS,i)
-					break
+					rem(PLAYERS.alive,i)
+					initPlayerPosition(true)
+					return
 				end
 			end
 		end
@@ -209,23 +229,36 @@ function scene.socketRead(mes)
 			COLOR.sky,args[3]
 		}
 	elseif cmd=="C"then
-		for i=1,#playerData do
-			if playerData[i].id==args[1]then
-				playerData[i].conf=args[2]
-				return
+		if tostring(USER.id)~=args[2]then
+			local ENV=json.decode(data.decode("string","base64",args[3]))
+			for i=1,#playerData do
+				if playerData[i].id==args[2]then
+					playerData[i].conf=ENV
+					playerData[i].p:setConf(ENV)
+					return
+				end
 			end
+			ins(playerData,{name=args[1],id=args[2],conf=ENV})
+			resetGameData("qn",playerData)
 		end
 	elseif cmd=="S"then
-		for _,P in next,PLAYERS do
-			if P.userID==args[1]then
-				pumpRecording(args[2],P.stream)
+		if args[1]~=tostring(USER.id)then
+			for _,P in next,PLAYERS do
+				if P.userID==args[1]then
+					pumpRecording(data.decode("string","base64",args[2]),P.stream)
+				end
 			end
 		end
 	elseif cmd=="B"then
-		playing=true
-		resetGameData("n",playerData)
+		if not playing then
+			playing=true
+			resetGameData("n",playerData,tonumber(args[1]))
+		else
+			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
+		end
 	elseif cmd=="F"then
 		playing=false
+		LOG.print(text.gameover,30,COLOR.green)
 	else
 		LOG.print("Illegal message: ["..mes.."]",30,COLOR.green)
 	end
@@ -248,10 +281,27 @@ function scene.update(dt)
 		end
 	end
 
-	if not playing then return end
+	if not playing then
+		heartBeatTimer=heartBeatTimer+dt
+		if heartBeatTimer>42 then
+			heartBeatTimer=0
+			wsWrite("P")
+		end
+		return
+	end
+
+	GAME.frame=GAME.frame+1
+
+	if GAME.frame-lastUpstreamTime>10 then
+		local stream
+		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
+		if #stream>0 then
+			wsWrite("S"..data.encode("string","base64",stream))
+		end
+		lastUpstreamTime=PLAYERS[1].alive and GAME.frame or 1e99
+	end
 
 	--Counting,include pre-das,directy RETURN,or restart counting
-	GAME.frame=GAME.frame+1
 	if GAME.frame<180 then
 		if GAME.frame==179 then
 			gameStart()
@@ -302,6 +352,9 @@ function scene.update(dt)
 		GAME.warnLVL=_
 	elseif GAME.warnLVL>0 then
 		GAME.warnLVL=max(GAME.warnLVL-.026,0)
+	end
+	if GAME.warnLVL>1.126 and GAME.frame%30==0 then
+		SFX.fplay("warning",SETTING.sfx_warn)
 	end
 end
 
@@ -378,7 +431,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="hideChat",fText="...",x=410,y=40,w=60,font=35,code=function()hideChatBox=not hideChatBox end},
+	WIDGET.newKey{name="hideChat",fText="...",x=410,y=40,w=60,font=35,code=switchChat},
 	WIDGET.newKey{name="quit",fText="X",x=870,y=40,w=60,font=40,code=pressKey"escape"},
 }
 

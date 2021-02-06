@@ -2,6 +2,7 @@ local gc=love.graphics
 local gc_setColor,gc_circle=gc.setColor,gc.circle
 local tc=love.touch
 
+local int=math.floor
 local max,sin=math.max,math.sin
 
 local SCR=SCR
@@ -181,14 +182,23 @@ function scene.update(dt)
 		_=GAME.replaying
 		local L=GAME.rep
 		while GAME.frame==L[_]do
-			local k=L[_+1]
-			if k>0 then
-				P1:pressKey(k)
-				VK[k].isDown=true
-				VK[k].pressTime=10
-			else
-				VK[-k].isDown=false
-				P1:releaseKey(-k)
+			local key=L[_+1]
+			if key==0 then--Just wait
+			elseif key<=32 then--Press key
+				P1:pressKey(key)
+				VK[key].isDown=true
+				VK[key].pressTime=10
+			elseif key<=64 then--Release key
+				VK[key-32].isDown=false
+				P1:releaseKey(key-32)
+			elseif key>1023 then--Receiving garbage
+				local sid=key%256
+				local amount=int(key/256)%256
+				local time=int(key/4194304)%16384
+				local line=int(key/274877906944)%65536
+				local color=int(key/70368744177664)%256
+				P1:receive(sid,amount,time,line,color)
+				--TODO
 			end
 			_=_+2
 		end

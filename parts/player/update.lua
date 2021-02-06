@@ -1,4 +1,5 @@
-local int,max,min,abs=math.floor,math.max,math.min,math.abs
+local max,min=math.max,math.min
+local int,abs,rnd=math.floor,math.abs,math.random
 local rem=table.remove
 
 local function updateLine(P)--Attacks, line pushing, cam moving
@@ -108,7 +109,9 @@ local updateTasks do--updateTasks(P)
 	end
 end
 
-local function update_alive(P,dt)
+local update={
+}
+function update.alive(P,dt)
 	local ENV=P.gameEnv
 	if P.timing then
 		local S=P.stat
@@ -336,10 +339,6 @@ local function update_alive(P,dt)
 	updateFXs(P,dt)
 	updateTasks(P)
 end
-
-local update={
-	alive=update_alive,
-}
 function update.dead(P,dt)
 	if P.keyRec then
 		local S=P.stat
@@ -369,23 +368,41 @@ function update.dead(P,dt)
 	updateTasks(P)
 end
 function update.remote_alive(P,dt)
+	local frmStep=GAME.frame-P.stat.frame
+	frmStep=
+		frmStep<60 and 1 or
+		frmStep<120 and rnd(2)or
+		frmStep<240 and 2 or
+		frmStep<480 and rnd(2,3) or
+		3
 	::readNext::
 	local pos=P.streamProgress
-	local tar=P.stream[pos]
-	if tar then
-		if P.stat.frame==tar then
+	local eventTime=P.stream[pos]
+	if eventTime then
+		if P.stat.frame==eventTime then
 			local key=P.stream[pos+1]
-			if key>0 then--Press key
+			if key==0 then--Just wait
+			elseif key<=32 then--Press key
 				P:pressKey(key)
-			elseif key<0 then--Release key
-				P:releaseKey(-key)
-			else--Receiving garbage
-				--TODO:
+			elseif key<=64 then--Release key
+				P:releaseKey(key-32)
+			elseif key>1023 then--Receiving garbage
+				local line=key%1024
+				local amount=int(key/1024)%256
+				local color=int(key/262144)%256
+				local sid=int(key/67108864)%256
+				local time=int(key/17179869184)%256
+				P:receive()
+				--TODO
 			end
 			P.streamProgress=pos+2
 			goto readNext
 		end
-		update_alive(P,dt)
+		update.alive(P,dt)
+	end
+	if frmStep>1 then
+		frmStep=frmStep-1
+		goto readNext
 	end
 end
 return update

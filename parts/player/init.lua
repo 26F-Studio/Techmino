@@ -50,8 +50,9 @@ local function releaseKey(P,keyID)
 end
 local function pressKey_Rec(P,keyID)
 	if P.keyAvailable[keyID]and P.alive then
-		ins(GAME.rep,GAME.frame+1)
-		ins(GAME.rep,keyID)
+		local L=GAME.rep
+		ins(L,GAME.frame+1)
+		ins(L,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
@@ -64,8 +65,9 @@ local function pressKey_Rec(P,keyID)
 	end
 end
 local function releaseKey_Rec(P,keyID)
-	ins(GAME.rep,GAME.frame+1)
-	ins(GAME.rep,-keyID)
+	local L=GAME.rep
+	ins(L,GAME.frame+1)
+	ins(L,32+keyID)
 	P.keyPressing[keyID]=false
 end
 local function newEmptyPlayer(id,mini)
@@ -186,8 +188,7 @@ end
 local function loadGameEnv(P)--Load gameEnv
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
-	local GAME=GAME
-	local SETTING=SETTING
+	local GAME,SETTING=GAME,SETTING
 	--Load game settings
 	for k,v in next,gameEnv0 do
 		if GAME.modeEnv[k]~=nil then
@@ -211,6 +212,26 @@ local function loadGameEnv(P)--Load gameEnv
 	if not ENV.noMod then
 		for _,M in next,GAME.mod do
 			M.func(P,M.list and M.list[M.sel])
+		end
+	end
+end
+local function loadRemoteEnv(P,conf)--Load gameEnv
+	P.gameEnv={}--Current game setting environment
+	local ENV=P.gameEnv
+	local GAME,SETTING=GAME,SETTING
+	--Load game settings
+	for k,v in next,gameEnv0 do
+		if GAME.modeEnv[k]~=nil then
+			v=GAME.modeEnv[k]	--Mode setting
+		elseif conf[k]~=nil then
+			v=conf[k]			--Game setting
+		elseif SETTING[k]~=nil then
+			v=SETTING[k]		--Global setting
+		end
+		if type(v)~="table"then--Default setting
+			ENV[k]=v
+		else
+			ENV[k]=copyTable(v)
 		end
 	end
 end
@@ -332,16 +353,19 @@ function PLY.newDemoPlayer(id)
 	}
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,mini,userInfo)
+function PLY.newRemotePlayer(id,mini,playerData)
 	local P=newEmptyPlayer(id,mini)
 	P.type="remote"
 	P.update=PLY.update.remote_alive
-	P.userName=userInfo.name
-	P.userID=userInfo.id
+
 	P.stream={}
 	P.streamProgress=1
 
-	loadGameEnv(P)
+	playerData.p=P
+	P.userName=playerData.name
+	P.userID=playerData.id
+
+	loadRemoteEnv(P,playerData.conf or{})
 	applyGameEnv(P)
 	prepareSequence(P)
 end

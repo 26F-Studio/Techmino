@@ -224,6 +224,14 @@ function Player.setRS(P,RSname)
 	P.RS=kickList[RSname]
 end
 
+function Player.setConf(P,conf)
+	for k,v in next,conf do
+		if not GAME.modeEnv[k]then
+			P.gameEnv[k]=v
+		end
+	end
+end
+
 function Player.getHolePos(P)--Get a good garbage-line hole position
 	if P.garbageBeneath==0 then
 		return P:RND(10)
@@ -332,9 +340,21 @@ function Player.attack(P,R,send,time,...)
 	if SETTING.atkFX>0 then
 		P:createBeam(R,send,time,...)
 	end
-	R.lastRecv=P
-	if R.atkBuffer.sum<26 then
-		local B=R.atkBuffer
+	if GAME.net then
+		if P.type=="human"then
+			--TODO
+		end
+		if R.type=="human"then
+			--TODO
+		end
+	else
+		R:receive(P,send,time)
+	end
+end
+function Player.receive(P,A,send,time)
+	P.lastRecv=A
+	local B=P.atkBuffer
+	if B.sum<26 then
 		if send>26-B.sum then send=26-B.sum end
 		local m,k=#B,1
 		while k<=m and time>B[k].countdown do k=k+1 end
@@ -342,7 +362,7 @@ function Player.attack(P,R,send,time,...)
 			B[i+1]=B[i]
 		end
 		B[k]={
-			pos=P:RND(10),
+			pos=A:RND(10),
 			amount=send,
 			countdown=time,
 			cd0=time,
@@ -351,8 +371,8 @@ function Player.attack(P,R,send,time,...)
 			lv=min(int(send^.69),5),
 		}--Sorted insert(by time)
 		B.sum=B.sum+send
-		R.stat.recv=R.stat.recv+send
-		if R.sound then
+		P.stat.recv=P.stat.recv+send
+		if P.sound then
 			SFX.play(send<4 and"blip_1"or"blip_2",min(send+1,5)*.1)
 		end
 	end

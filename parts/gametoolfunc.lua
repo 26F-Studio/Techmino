@@ -539,6 +539,28 @@ function initPlayerPosition(sudden)--Set initial position for every player
 		error("TOO MANY PLAYERS!")
 	end
 end
+do--function dumpBasicConfig()
+	local gameSetting={
+		--Tuning
+		"das","arr","dascut","sddas","sdarr",
+		"ihs","irs","ims","RS","swap",
+
+		--System
+		"skin","face",
+
+		--Graphic
+		"block","ghost","center","smooth","grid","bagLine",
+		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
+		"text","score","warn","highCam","nextPos",
+	}
+	function dumpBasicConfig()
+		local S={}
+		for _,key in next,gameSetting do
+			S[key]=SETTING[key]
+		end
+		return data.encode("string","base64",json.encode(S))
+	end
+end
 do--function resetGameData(args)
 	local function tick_showMods()
 		local time=0
@@ -579,7 +601,7 @@ do--function resetGameData(args)
 		end
 		return S
 	end
-	function resetGameData(args,playerData)
+	function resetGameData(args,playerData,seed)
 		if not args then args=""end
 		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
@@ -595,7 +617,7 @@ do--function resetGameData(args)
 			GAME.replaying=1
 		else
 			GAME.frame=args:find("n")and 0 or 150-SETTING.reTime*15
-			GAME.seed=rnd(1046101471,2662622626)
+			GAME.seed=seed or rnd(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
 			GAME.saved=false
@@ -650,28 +672,33 @@ function gameStart()--Call when countdown finish (GAME.frame==180)
 end
 
 --[[
+	Table data format:
+		{frame,event, frame,event, ...}
+
 	Byte data format: (1 byte each period)
-		KeyID, dt, KeyID, dt, ......
-	KeyID range from 1 to 20, negative when release key
+		dt, event, dt, event, ...
+	event range from 1 to 20, negative when release key
 	dt from 0 to infinity, 0~254 when 0~254, read next byte as dt(if there is an 255, add next byte to dt as well)
 
 	Example:
-		1,6, -1,20, 2,0, -2,255,0, 4,255,255,255,62, ......
+		6,1, 20,-1, 0,2, 255,0,-2, 255,255,255,62,4 ...
+	Translate:
+		(6,1)(20,-1)(0,2)(255,0,-2)(255,255,255,62,4) ...
 	This means:
 		Press key1 at 6f
 		Release key1 at 26f (6+20)
-		Press key2 at the same time(26+0)
-		Release key 2 after 255+0 frame
-		Press key 4 after 255+255+255+62 frame
-		......
+		Press key2 at the same time (26+0)
+		Release key 2 after 255+0 frame (26+0+255+0)
+		Press key 4 after 255+255+255+62 frame (26+0+255+0+255+255+255+62)
+		...
 ]]
 function dumpRecording(list,ptr)
 	local out=""
 	local buffer=""
-	local prevFrm=0
-	ptr=ptr or 1
+	if not ptr then ptr=1 end
+	local prevFrm=list[ptr-2]or 0
 	while list[ptr]do
-		--Check buffer size
+		--Flush buffer
 		if #buffer>10 then
 			out=out..buffer
 			buffer=""
@@ -686,14 +713,18 @@ function dumpRecording(list,ptr)
 		end
 		buffer=buffer..char(t)
 
-		--Encode key
+		--Encode event
 		t=list[ptr+1]
-		buffer=buffer..char(t>0 and t or 256+t)
+		while t>=255 do
+			buffer=buffer.."\255"
+			t=t-255
+		end
+		buffer=buffer..char(t)
 
 		--Step
 		ptr=ptr+2
 	end
-	return out..buffer
+	return out..buffer,ptr
 end
 function pumpRecording(str,L)
 	local len=#str
@@ -702,22 +733,27 @@ function pumpRecording(str,L)
 	local curFrm=L[#L-1]or 0
 	while p<=len do
 		--Read delta time
-		::nextByte::
+		::nextByte1::
 		local b=byte(str,p)
 		if b==255 then
 			curFrm=curFrm+255
 			p=p+1
-			goto nextByte
+			goto nextByte1
 		end
 		curFrm=curFrm+b
 		L[#L+1]=curFrm
 		p=p+1
 
+		::nextByte2::
 		b=byte(str,p)
-		if b>127 then
-			b=b-256
+		local event=0
+		if b==255 then
+			event=event+255
+			p=p+1
+			goto nextByte2
 		end
-		L[#L+1]=b
+		event=event+b
+		L[#L+1]=event
 		p=p+1
 	end
 end
@@ -827,6 +863,34 @@ function TICK_httpREQ_getAccessToken(task)
 				USER.access_token=false
 				USER.auth_token=false
 				LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")
+			end
+			return
+		elseif request_error then
+			LOG.print(text.loginFailed..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
+			return
+		end
+	end
+end
+function TICK_httpREQ_getUserInfo(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			local res=json.decode(response.body)
+			if response.code==200 and res.message=="OK"then
+				-- LOG.print(text.accessSuccessed)
+				USER.username=res.username
+				USER.motto=res.motto
+				USER.avatar=res.avatar
+				FILE.save(USER,"conf/user")
+			else
+				-- LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")
 			end
 			return
 		elseif request_error then

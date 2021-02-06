@@ -94,8 +94,8 @@ return{
 	wsError="WebSocket error: ",
 	waitNetTask="Conectando, aguarde",
 
-	chatJoin="Entrou a sala.",
-	chatLeave="Saiu da sala.",
+	joinRoom="Entrou a sala.",
+	leaveRoom="Saiu da sala.",
 	chatRemain="Online: ",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",

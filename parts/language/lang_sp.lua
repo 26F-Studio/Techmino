@@ -97,8 +97,8 @@ return{
 	-- wsError="WebSocket error: ",
 	-- waitNetTask="Connecting, please wait",
 
-	-- chatJoin="joined the room.",
-	-- chatLeave="left the room.",
+	-- joinRoom="joined the room.",
+	-- leaveRoom="left the room.",
 	-- chatRemain="Online: ",
 	-- chatStart="------Beginning of log------",
 	-- chatHistory="------New messages below------",
@@ -184,7 +184,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="Apoyen al Autor",
-	group="Grupo Oficial de QQ (si no lo hackean):1127702001",
+	group="Grupo Oficial de QQ (si no lo hackean) : 913154753",
 	WidgetText={
 		main={
 			-- offline="Single",

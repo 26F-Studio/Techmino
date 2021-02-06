@@ -29,6 +29,30 @@ local function task_fetchRooms(task)
 		end
 	end
 end
+local function task_createRooms(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local response,request_error=client.poll(task)
+		if response then
+			local res=json.decode(response.body)
+			if response.code==200 and res.message=="OK"then
+				LOG.print("OK")
+			else
+				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
+			end
+			return
+		elseif request_error then
+			LOG.print(text.roomsCreateFailed..": "..request_error,"warn")
+			return
+		end
+		time=time+1
+		if time>210 then
+			LOG.print(text.roomsCreateFailed..": "..text.httpTimeout,"warn")
+			return
+		end
+	end
+end
 local function task_enterRoom(task)
 	local time=0
 	while true do
@@ -82,6 +106,19 @@ function scene.keyDown(k)
 		if TIME()-lastfreshTime>1 then
 			fresh()
 		end
+	elseif k=="n"then
+		httpRequest(
+			task_createRooms,
+			PATH.api..PATH.rooms.."/classic",
+			"POST",
+			{["Content-Type"]="application/json"},
+			json.encode{
+				email=USER.email,
+				access_token=USER.access_token,
+				room_name="Test Room "..math.random(26,626),
+				room_password=nil,
+			}
+		)
 	elseif k=="escape"then
 		SCN.back()
 	elseif rooms and #rooms>0 then

@@ -86,8 +86,8 @@ return{
 	registerFailed="注册失败",
 	loginSuccessed="登录成功",
 	loginFailed="登录失败",
-	accessSuccessed="授权成功",
-	accessFailed="授权失败",
+	accessSuccessed="身份验证成功",
+	accessFailed="身份验证失败",
 	wsSuccessed="WS连接成功",
 	wsFailed="WS连接失败",
 	wsDisconnected="WS连接断开",
@@ -95,8 +95,8 @@ return{
 	wsError="WS错误: ",
 	waitNetTask="正在连接,请稍候",
 
-	chatJoin="进入房间",
-	chatLeave="离开房间",
+	joinRoom="进入房间",
+	leaveRoom="离开房间",
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
@@ -205,7 +205,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="支持作者",
-	group="官方QQ群(如果没有被暗改的话就是这个):1127702001",
+	group="官方QQ群(如果没有被暗改的话就是这个):913154753",
 	WidgetText={
 		main={
 			offline="单机游戏",

@@ -349,6 +349,11 @@ function draw.norm(P)
 		--Field-related things
 		gc_push("transform")
 			gc_translate(150,0)
+			if P.userName then
+				setFont(30)
+				gc_setColor(1,1,1)
+				mStr(P.userName,150,-60)
+			end
 
 			--Things shake with field
 			gc_push("transform")
