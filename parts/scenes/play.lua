@@ -107,6 +107,7 @@ function scene.keyDown(key)
 	local k=keyMap.keyboard[key]
 	if k then
 		if k>0 then
+			if noKey then return end
 			PLAYERS[1]:pressKey(k)
 			VK[k].isDown=true
 			VK[k].pressTime=10
