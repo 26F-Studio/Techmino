@@ -761,10 +761,11 @@ function inputBox:keypress(k)
 	local t=self.value
 	if #t>0 and EDITING==""then
 		if k=="backspace"then
-			while t:byte(#t)>=128 and t:byte(#t)<192 do
-				t=sub(t,1,-2)
+			local p=#t
+			while t:byte(p)>=128 and t:byte(p)<192 do
+				p=p-1
 			end
-			t=sub(t,1,-2)
+			t=sub(t,1,p-1)
 			SFX.play("lock")
 		elseif k=="delete"then
 			t=""
