@@ -144,16 +144,14 @@ PATH={--Network API paths
 	url="hdustea.3322.org",
 	port="10026",
 
-	api="/tech/api/v1",
-	appInfo="/app/info",
-	users="/users",
-	auth="/auth",
-	access="/auth/access",
-	rooms="/online/rooms",
-
+	http="/tech/api/v1",
 	socket="/tech/socket/v1",
-	play_room="/play_room",
-	chat_room="/chat_room",
+	appInfo="/app/info",
+	user="/user",
+	auth="/auth/auth",
+	access="/auth/access",
+	onlineChat="/online/chat",
+	onlinePlay="/online/play",	
 }
 
 --Game tables

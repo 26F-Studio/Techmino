@@ -15,7 +15,7 @@ local function tick_httpREQ_newLogin(task)
 
 				httpRequest(
 					TICK_httpREQ_getUserInfo,
-					PATH.api..PATH.users,
+					PATH.http..PATH.user,
 					"GET",
 					{["Content-Type"]="application/json"},
 					json.encode{
@@ -26,7 +26,7 @@ local function tick_httpREQ_newLogin(task)
 
 				httpRequest(
 					TICK_httpREQ_getAccessToken,
-					PATH.api..PATH.access,
+					PATH.http..PATH.access,
 					"POST",
 					{["Content-Type"]="application/json"},
 					json.encode{
@@ -60,8 +60,8 @@ local function login()
 	end
 	httpRequest(
 		tick_httpREQ_newLogin,
-		PATH.api..PATH.auth,
-		"GET",
+		PATH.http..PATH.auth,
+		"POST",
 		{["Content-Type"]="application/json"},
 		json.encode{
 			email=email,

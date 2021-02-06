@@ -12,7 +12,7 @@ local function tick_httpREQ_manualAutoLogin(task)
 			elseif response.code==403 or response.code==401 then
 				httpRequest(
 					TICK_httpREQ_getAccessToken,
-					PATH.api..PATH.access,
+					PATH.http..PATH.access,
 					"POST",
 					{["Content-Type"]="application/json"},
 					json.encode{
@@ -112,7 +112,7 @@ scene.widgetList={
 			if USER.access_token then
 				httpRequest(
 					tick_httpREQ_manualAutoLogin,
-					PATH.api..PATH.access,
+					PATH.http..PATH.access,
 					"GET",
 					{["Content-Type"]="application/json"},
 					json.encode{
@@ -123,7 +123,7 @@ scene.widgetList={
 			else
 				httpRequest(
 					TICK_httpREQ_getAccessToken,
-					PATH.api..PATH.access,
+					PATH.http..PATH.access,
 					"POST",
 					{["Content-Type"]="application/json"},
 					json.encode{

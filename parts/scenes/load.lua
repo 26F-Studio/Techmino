@@ -44,7 +44,7 @@ local function tick_httpREQ_autoLogin(task)
 				LOG.print(text.loginSuccessed)
 				httpRequest(
 					TICK_httpREQ_getUserInfo,
-					PATH.api..PATH.users,
+					PATH.http..PATH.user,
 					"GET",
 					{["Content-Type"]="application/json"},
 					json.encode{
@@ -199,11 +199,11 @@ function scene.update()
 			LOADED=true
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
-			httpRequest(tick_httpREQ_launch,PATH.api..PATH.appInfo)
+			httpRequest(tick_httpREQ_launch,PATH.http..PATH.appInfo)
 			if USER.auth_token and USER.email then
 				httpRequest(
 					tick_httpREQ_autoLogin,
-					PATH.api..PATH.auth,
+					PATH.http..PATH.auth,
 					"GET",
 					{["Content-Type"]="application/json"},
 					json.encode{

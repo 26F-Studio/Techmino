@@ -48,7 +48,7 @@ function scene.keyDown(key)
 		end
 		httpRequest(
 			tick_httpREQ_register,
-			PATH.api..PATH.auth,
+			PATH.http..PATH.auth,
 			"POST",
 			{["Content-Type"]="application/json"},
 			json.encode{

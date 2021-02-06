@@ -79,7 +79,7 @@ local function fresh()
 	rooms=nil
 	httpRequest(
 		task_fetchRooms,
-		PATH.api..PATH.rooms,
+		PATH.http..PATH.onlinePlay,
 		"GET",
 		{["Content-Type"]="application/json"},
 		json.encode{
@@ -109,7 +109,7 @@ function scene.keyDown(k)
 	elseif k=="n"then
 		httpRequest(
 			task_createRooms,
-			PATH.api..PATH.rooms.."/classic",
+			PATH.http..PATH.onlinePlay.."/classic",
 			"POST",
 			{["Content-Type"]="application/json"},
 			json.encode{
@@ -143,7 +143,7 @@ function scene.keyDown(k)
 			end
 			wsConnect(
 				task_enterRoom,
-				PATH.socket..PATH.play_room..
+				PATH.socket..PATH.onlinePlay..
 				"?email="..urlEncode(USER.email)..
 				"&access_token="..urlEncode(USER.access_token)..
 				"&id="..urlEncode(rooms[selected].id)
