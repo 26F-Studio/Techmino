@@ -350,7 +350,7 @@ function scene.draw()
 	--Replaying
 	if GAME.replaying then
 		gc_setColor(1,1,t%1>.5 and 1 or 0)
-		mText(drawableText.replaying,410,17)
+		mText(drawableText.replaying,770,17)
 	end
 
 	--Warning
