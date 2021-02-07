@@ -53,7 +53,7 @@ for _,v in next,{"conf","record","replay"}do
 	::NEXT::
 end
 
---Delete useless files
+--Delete some useless files
 for _,v in next,{
 	"cold_clear.dll",
 	"CCloader.dll",
@@ -89,6 +89,13 @@ if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")th
 			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
 			fs.remove(name)
 		end
+	end
+end
+
+--Force delete all useless files
+for _,name in next,fs.getDirectoryItems("")do
+	if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type=="file"then
+		fs.remove(name)
 	end
 end
 
@@ -173,8 +180,8 @@ SKIN.init{
 --Initialize sound libs
 SFX.init((function()
 	local L={}
-	for _,v in next,love.filesystem.getDirectoryItems("media/SFX")do
-		if love.filesystem.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
+	for _,v in next,fs.getDirectoryItems("media/SFX")do
+		if fs.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
 			L[#L+1]=v:sub(1,-5)
 		else
 			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v)
@@ -184,8 +191,8 @@ SFX.init((function()
 end)())
 BGM.init((function()
 	local L={}
-	for _,v in next,love.filesystem.getDirectoryItems("media/BGM")do
-		if love.filesystem.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
+	for _,v in next,fs.getDirectoryItems("media/BGM")do
+		if fs.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
 			L[#L+1]=v:sub(1,-5)
 		else
 			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v)
@@ -231,8 +238,8 @@ LANG.init()
 
 --Load shader files from SOURCE ONLY
 SHADER={}
-for _,v in next,love.filesystem.getDirectoryItems("parts/shaders")do
-	if love.filesystem.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
+for _,v in next,fs.getDirectoryItems("parts/shaders")do
+	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
 		local name=v:sub(1,-6)
 		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
 	else
@@ -241,8 +248,8 @@ for _,v in next,love.filesystem.getDirectoryItems("parts/shaders")do
 end
 
 --Load background files from SOURCE ONLY
-for _,v in next,love.filesystem.getDirectoryItems("parts/backgrounds")do
-	if love.filesystem.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
+for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
+	if fs.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
 		if v:sub(-3)=="lua"then
 			local name=v:sub(1,-5)
 			BG.add(name,require("parts/backgrounds/"..name))
