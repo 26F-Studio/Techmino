@@ -97,7 +97,8 @@ return{
 
 	joinRoom="进入房间",
 	leaveRoom="离开房间",
-	waiting="等待中",
+	notReady="等待中",
+	beReady="准备",
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",

@@ -127,6 +127,9 @@ local function newEmptyPlayer(id,mini)
 	P.atkMode,P.swappingAtkMode=1,20
 	P.atker,P.atking,P.lastRecv={}
 
+	--Network-related
+	P.ready=false
+
 	P.dropDelay,P.lockDelay=0,0
 	P.showTime=false
 	P.keepVisible=true
@@ -358,7 +361,7 @@ function PLY.newRemotePlayer(id,mini,playerData)
 	P.type="remote"
 	P.update=PLY.update.remote_alive
 
-	P.draw=PLY.draw.remote_norm
+	P.draw=PLY.draw.norm_remote
 
 	P.stream={}
 	P.streamProgress=1

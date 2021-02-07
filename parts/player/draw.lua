@@ -5,7 +5,6 @@ local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local TIME=love.timer.getTime
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin=math.max,math.min,math.sin
-local format=string.format
 local SCR=SCR
 local setFont,mStr=setFont,mStr
 
@@ -17,19 +16,33 @@ local frameColorList={
 	COLOR.lOrange,
 }
 --local function drawCell(y,x,id)gc_draw(SKIN.curText[id],30*x-30,-30*y)end
-local function drawGrid(P,alpha)
-	local FBN,FUP=P.fieldBeneath,P.fieldUp
+local function drawGrid(P)
+	local d=P.fieldBeneath+P.fieldUp
 	gc_setLineWidth(1)
-	gc_setColor(1,1,1,alpha)
+	gc_setColor(1,1,1,P.gameEnv.grid)
 	for x=1,9 do
 		gc_line(30*x,-10,30*x,600)
 	end
 	gc_push("transform")
-	gc_translate(0,FBN+FUP-30*int((FBN+FUP)/30))
+	gc_translate(0,d-30*int(d/30))
 	for y=0,19 do
 		gc_line(0,30*y,300,30*y)
 	end
 	gc_pop()
+end
+local function boardTransform(mode)
+	if mode then
+		if mode=="U-D"then
+			gc_translate(0,590)
+			gc_scale(1,-1)
+		elseif mode=="L-R"then
+			gc_translate(300,0)
+			gc_scale(-1,1)
+		elseif mode=="180"then
+			gc_translate(300,590)
+			gc_scale(-1,-1)
+		end
+	end
 end
 local function drawField(P)
 	local V,F=P.visTime,P.field
@@ -175,6 +188,173 @@ local function drawNextPreview(P,B)
 		end
 	end end
 end
+local attackColor={
+	{COLOR.dGrey,COLOR.white},
+	{COLOR.grey,COLOR.white},
+	{COLOR.lPurple,COLOR.white},
+	{COLOR.lRed,COLOR.white},
+	{COLOR.dGreen,COLOR.cyan},
+}
+local function drawBuffer(P)
+	local h=0
+	for i=1,#P.atkBuffer do
+		local A=P.atkBuffer[i]
+		local bar=A.amount*30
+		if h+bar>600 then bar=600-h end
+		if not A.sent then
+			--Appear
+			if A.time<20 then
+				bar=bar*(20*A.time)^.5*.05
+			end
+			if A.countdown>0 then
+				--Timing
+				gc_setColor(attackColor[A.lv][1])
+				gc_rectangle("fill",303,599-h,11,-bar)
+				gc_setColor(attackColor[A.lv][2])
+				gc_rectangle("fill",303,599-h-bar,11,bar*(1-A.countdown/A.cd0))
+			else
+				--Warning
+				local a=math.sin((TIME()-i)*30)*.5+.5
+				local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
+				gc_setColor(c1[1]*a+c2[1]*(1-a),c1[2]*a+c2[2]*(1-a),c1[3]*a+c2[3]*(1-a))
+				gc_rectangle("fill",303,599-h,11,-bar)
+			end
+		else
+			gc_setColor(attackColor[A.lv][1])
+			bar=bar*(20-A.time)*.05
+			gc_rectangle("fill",303,599-h,11,-bar)
+			--Disappear
+		end
+		h=h+bar
+	end
+end
+local function drawB2Bbar(P)
+	local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
+	gc_setColor(.8,1,.2)
+	gc_rectangle("fill",-14,599,11,-b*.6)
+	gc_setColor(P.b2b<40 and COLOR.white or P.b2b<=800 and COLOR.lRed or COLOR.lBlue)
+	gc_rectangle("fill",-14,599,11,-a*.6)
+	if TIME()%.5<.3 then
+		gc_setColor(1,1,1)
+		gc_rectangle("fill",-15,b<40 and 568.5 or 118.5,13,3)
+	end
+
+	--LockDelay indicator
+	if P.gameEnv.easyFresh then
+		gc_setColor(1,1,1)
+	else
+		gc_setColor(1,.26,.26)
+	end
+	if P.lockDelay>=0 then
+		gc_rectangle("fill",0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
+	end
+	local x=3
+	for _=1,min(P.freshTime,15)do
+		gc_rectangle("fill",x,615,14,5)
+		x=x+20
+	end
+end
+local function drawFinesseCombo_norm(P)
+	if P.finesseCombo>2 then
+		local S=P.stat
+		local _=P.finesseComboTime
+		local str=P.finesseCombo.."x"
+		if S.finesseRate==5*S.piece then
+			gc_setColor(.9,.9,.3,_*.2)
+			gc_print(str,20,570)
+			gc_setColor(.9,.9,.3,1.2-_*.1)
+		elseif S.maxFinesseCombo==S.piece then
+			gc_setColor(.7,.7,1,_*.2)
+			gc_print(str,20,570)
+			gc_setColor(.7,.7,1,1.2-_*.1)
+		else
+			gc_setColor(1,1,1,_*.2)
+			gc_print(str,20,570)
+			gc_setColor(1,1,1,1.2-_*.1)
+		end
+		if _>0 then
+			gc_push("transform")
+			gc_translate(20,600)
+			gc_scale(1+_*.08)
+			gc_print(str,0,-30)
+			gc_pop()
+		else
+			gc_print(str,20,570)
+		end
+	end
+end
+local function drawFinesseCombo_remote(P)
+	if P.finesseCombo>2 then
+		local S=P.stat
+		local str=P.finesseCombo.."x"
+		if S.finesseRate==5*S.piece then
+			gc_setColor(.9,.9,.3)
+		elseif S.maxFinesseCombo==S.piece then
+			gc_setColor(.7,.7,1)
+		else
+			gc_setColor(1,1,1)
+		end
+		gc_print(str,20,570)
+	end
+end
+local function drawLife(life)
+	if life>3 then
+		gc_setColor(1,1,1)
+		gc_draw(IMG.lifeIcon,475,595,nil,.8)
+		setFont(20)
+		gc_print("x",503,595)
+		gc_print(life,517,595)
+	elseif life>0 then
+		gc_setColor(1,1,1)
+		for i=1,life do
+			gc_draw(IMG.lifeIcon,450+25*i,595,nil,.8)
+		end
+	end
+end
+local function drawMission(P)
+	if not P.curMission then return end
+	local missionEnum=missionEnum
+	local L=P.gameEnv.mission
+	local cur=P.curMission
+
+	--Draw current mission
+	setFont(35)
+	if P.gameEnv.missionkill then
+		gc_setColor(1,.7+.2*sin(TIME()*6.26),.4)
+	else
+		gc_setColor(1,1,1)
+	end
+	gc_print(missionEnum[L[cur]],85,110)
+
+	--Draw next mission
+	setFont(20)
+	for i=1,3 do
+		local m=L[cur+i]
+		if m then
+			m=missionEnum[m]
+			gc_print(m,87-28*i,117)
+		else
+			break
+		end
+	end
+end
+local function drawStartCounter(P)
+	gc_setColor(1,1,1)
+	if GAME.frame<180 then
+		if GAME.frame==0 then
+			setFont(70)
+			mStr(P.ready and text.beReady or text.notReady,305,220)
+		else
+			local count=179-GAME.frame
+			gc_push("transform")
+				gc_translate(305,220)
+				setFont(95)
+				if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
+				mStr(int(count/60+1),0,0)
+			gc_pop()
+		end
+	end
+end
 
 local draw={}
 function draw.drawNext_norm(P)
@@ -312,16 +492,10 @@ function draw.drawTargetLine(P,r)
 	end
 end
 
-local attackColor={
-	{COLOR.dGrey,COLOR.white},
-	{COLOR.grey,COLOR.white},
-	{COLOR.lPurple,COLOR.white},
-	{COLOR.lRed,COLOR.white},
-	{COLOR.dGreen,COLOR.cyan},
-}
 local RCPB={5,33,195,33,100,5,100,60}
 local function drawDial(x,y,speed)
 	gc_setColor(1,1,1)
+	setFont(25)
 	mStr(int(speed),x,y-18)
 
 	gc_setLineWidth(2)
@@ -339,7 +513,6 @@ local hideBoardStencil={
 	all=function()gc_rectangle("fill",0,0,300,600)end,
 }
 function draw.norm(P)
-	local _
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
@@ -359,22 +532,12 @@ function draw.norm(P)
 				gc_rectangle("fill",0,-10,300,610)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P,ENV.grid)end
+				if ENV.grid then drawGrid(P)end
 
 				--In-field things
 				gc_push("transform")
-					if ENV.flipBoard then
-						if ENV.flipBoard=="U-D"then
-							gc_translate(0,590)
-							gc_scale(1,-1)
-						elseif ENV.flipBoard=="L-R"then
-							gc_translate(300,0)
-							gc_scale(-1,1)
-						elseif ENV.flipBoard=="180"then
-							gc_translate(300,590)
-							gc_scale(-1,-1)
-						end
-					end
+					boardTransform(ENV.flipBoard)
+
 					gc_translate(0,600+FBN+FUP)
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
@@ -413,10 +576,10 @@ function draw.norm(P)
 							if ENV.block then
 								drawBlockOutline(P,SKIN.curText[curColor],trans)
 								drawBlock(P,curColor)
-							end
-							if ENV.center and ENV.block then
-								gc_setColor(1,1,1,ENV.center)
-								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+								if ENV.center then
+									gc_setColor(1,1,1,ENV.center)
+									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+								end
 							end
 						gc_translate(0,dy)
 					end
@@ -435,69 +598,9 @@ function draw.norm(P)
 				gc_rectangle("line",301,-3,15,604)--AtkBuffer boarder
 				gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
 
-				--Buffer line
-				local h=0
-				for i=1,#P.atkBuffer do
-					local A=P.atkBuffer[i]
-					local bar=A.amount*30
-					if h+bar>600 then bar=600-h end
-					if not A.sent then
-						--Appear
-						if A.time<20 then
-							bar=bar*(20*A.time)^.5*.05
-						end
-						if A.countdown>0 then
-							--Timing
-							gc_setColor(attackColor[A.lv][1])
-							gc_rectangle("fill",303,599-h,11,-bar)
-							gc_setColor(attackColor[A.lv][2])
-							gc_rectangle("fill",303,599-h-bar,11,bar*(1-A.countdown/A.cd0))
-						else
-							--Warning
-							local a=math.sin((t-i)*30)*.5+.5
-							local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
-							gc_setColor(c1[1]*a+c2[1]*(1-a),c1[2]*a+c2[2]*(1-a),c1[3]*a+c2[3]*(1-a))
-							gc_rectangle("fill",303,599-h,11,-bar)
-						end
-					else
-						gc_setColor(attackColor[A.lv][1])
-						bar=bar*(20-A.time)*.05
-						gc_rectangle("fill",303,599-h,11,-bar)
-						--Disappear
-					end
-					h=h+bar
-				end
-
-				--B2B indictator
-				local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
-				gc_setColor(.8,1,.2)
-				gc_rectangle("fill",-14,599,11,-b*.6)
-				gc_setColor(P.b2b<40 and COLOR.white or P.b2b<=800 and COLOR.lRed or COLOR.lBlue)
-				gc_rectangle("fill",-14,599,11,-a*.6)
-				if t%.5<.3 then
-					gc_setColor(1,1,1)
-					gc_rectangle("fill",-15,b<40 and 568.5 or 118.5,13,3)
-				end
-
-				--LockDelay indicator
-				if ENV.easyFresh then
-					gc_setColor(1,1,1)
-				else
-					gc_setColor(1,.26,.26)
-				end
-				if P.lockDelay>=0 then
-					gc_rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
-				end
-				local x=3
-				for _=1,min(P.freshTime,15)do
-					gc_rectangle("fill",x,615,14,5)
-					x=x+20
-				end
-
-				--Draw Hold
+				drawBuffer(P)
+				drawB2Bbar(P)
 				P:drawHold()
-
-				--Draw Next(s)
 				P:drawNext()
 
 				--Draw target selecting pad
@@ -533,123 +636,37 @@ function draw.norm(P)
 			-- if P.curY then	gc_setColor(1,.4,0,.42)gc_line(0,611-P.curY*30,300,611-P.curY*30)end
 			-- if P.ghoY then	gc_setColor(0,1,.4,.42)gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
 			-- if P.minY then	gc_setColor(0,.4,1,.42)gc_line(0,619-P.minY*30,300,619-P.minY*30)end
-			-- 				gc_setColor(0,.4,1,.42)gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
+			-- 					gc_setColor(0,.4,1,.42)gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
 
 		--Speed dials
-		setFont(25)
 		drawDial(510,510,P.dropSpeed)
 		drawDial(555,565,P.keySpeed)
-		gc_setColor(1,1,1)
 		gc_draw(drawableText.bpm,540,480)
 		gc_draw(drawableText.kpm,494,573)
 
-		local S=P.stat
-
 		--Score & Time
 		setFont(25)
+		local tm=int(P.stat.time*100)*.01
 		gc_setColor(0,0,0,.3)
 		gc_print(P.score1,18,509)
-		gc_print(format("%.2f",S.time),18,539)
+		gc_print(tm,18,539)
 		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
-		gc_setColor(COLOR.sky)gc_print(format("%.2f",S.time),20,540)
+		gc_setColor(COLOR.sky)gc_print(tm,20,540)
 
-		--FinesseCombo
-		if P.finesseCombo>2 then
-			_=P.finesseComboTime
-			local str=P.finesseCombo.."x"
-			if S.finesseRate==5*S.piece then
-				gc_setColor(.9,.9,.3,_*.2)
-				gc_print(str,20,570)
-				gc_setColor(.9,.9,.3,1.2-_*.1)
-			elseif S.maxFinesseCombo==S.piece then
-				gc_setColor(.7,.7,1,_*.2)
-				gc_print(str,20,570)
-				gc_setColor(.7,.7,1,1.2-_*.1)
-			else
-				gc_setColor(1,1,1,_*.2)
-				gc_print(str,20,570)
-				gc_setColor(1,1,1,1.2-_*.1)
-			end
-			if _>0 then
-				gc_push("transform")
-				gc_translate(20,600)
-				gc_scale(1+_*.08)
-				gc_print(str,0,-30)
-				gc_pop()
-			else
-				gc_print(str,20,570)
-			end
-		end
-
-		--Lives
-		if P.life>0 then
-			gc_setColor(1,1,1)
-			if P.life<=3 then
-				for i=1,P.life do
-					gc_draw(IMG.lifeIcon,450+25*i,595,nil,.8)
-				end
-			else
-				gc_draw(IMG.lifeIcon,475,595,nil,.8)
-				setFont(20)
-				gc_print("x",503,595)
-				gc_print(P.life,517,595)
-			end
-		end
-
-		--Other messages
-		gc_setColor(1,1,1)
+		--Mode informations
 		if GAME.curMode.mesDisp then
+			gc_setColor(1,1,1)
 			GAME.curMode.mesDisp(P)
 		end
 
-		--Missions
-		if P.curMission then
-			local missionEnum=missionEnum
-			local L=ENV.mission
-
-			--Draw current mission
-			setFont(35)
-			if ENV.missionKill then
-				gc_setColor(1,.7+.2*sin(t*6.26),.4)
-			else
-				gc_setColor(1,1,1)
-			end
-			gc_print(missionEnum[L[P.curMission]],85,110)
-
-			--Draw next mission
-			setFont(20)
-			for i=1,3 do
-				local m=L[P.curMission+i]
-				if m then
-					m=missionEnum[m]
-					gc_print(m,87-28*i,117)
-				else
-					break
-				end
-			end
-		end
-
-		--Draw starting counter
-		gc_setColor(1,1,1)
-		if GAME.frame<180 then
-			if GAME.net and GAME.frame==0 then
-				setFont(70)
-				mStr(text.waiting,305,220)
-			else
-				local count=179-GAME.frame
-				gc_push("transform")
-					gc_translate(305,220)
-					setFont(95)
-					if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
-					mStr(int(count/60+1),0,0)
-				gc_pop()
-			end
-		end
+		drawFinesseCombo_norm(P)
+		drawLife(P.life)
+		drawMission(P)
+		drawStartCounter(P)
 	gc_pop()
 end
-function draw.remote_norm(P)
-	local _
+function draw.norm_remote(P)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
@@ -674,22 +691,12 @@ function draw.remote_norm(P)
 				gc_rectangle("fill",0,-10,300,610)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P,ENV.grid)end
+				if ENV.grid then drawGrid(P)end
 
 				--In-field things
 				gc_push("transform")
-					if ENV.flipBoard then
-						if ENV.flipBoard=="U-D"then
-							gc_translate(0,590)
-							gc_scale(1,-1)
-						elseif ENV.flipBoard=="L-R"then
-							gc_translate(300,0)
-							gc_scale(-1,1)
-						elseif ENV.flipBoard=="180"then
-							gc_translate(300,590)
-							gc_scale(-1,-1)
-						end
-					end
+					boardTransform(ENV.flipBoard)
+
 					gc_translate(0,600+FBN+FUP)
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
@@ -728,10 +735,10 @@ function draw.remote_norm(P)
 							if ENV.block then
 								drawBlockOutline(P,SKIN.curText[curColor],trans)
 								drawBlock(P,curColor)
-							end
-							if ENV.center and ENV.block then
-								gc_setColor(1,1,1,ENV.center)
-								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+								if ENV.center then
+									gc_setColor(1,1,1,ENV.center)
+									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+								end
 							end
 						gc_translate(0,dy)
 					end
@@ -750,69 +757,9 @@ function draw.remote_norm(P)
 				gc_rectangle("line",301,-3,15,604)--AtkBuffer boarder
 				gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
 
-				--Buffer line
-				local h=0
-				for i=1,#P.atkBuffer do
-					local A=P.atkBuffer[i]
-					local bar=A.amount*30
-					if h+bar>600 then bar=600-h end
-					if not A.sent then
-						--Appear
-						if A.time<20 then
-							bar=bar*(20*A.time)^.5*.05
-						end
-						if A.countdown>0 then
-							--Timing
-							gc_setColor(attackColor[A.lv][1])
-							gc_rectangle("fill",303,599-h,11,-bar)
-							gc_setColor(attackColor[A.lv][2])
-							gc_rectangle("fill",303,599-h-bar,11,bar*(1-A.countdown/A.cd0))
-						else
-							--Warning
-							local a=math.sin((t-i)*30)*.5+.5
-							local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
-							gc_setColor(c1[1]*a+c2[1]*(1-a),c1[2]*a+c2[2]*(1-a),c1[3]*a+c2[3]*(1-a))
-							gc_rectangle("fill",303,599-h,11,-bar)
-						end
-					else
-						gc_setColor(attackColor[A.lv][1])
-						bar=bar*(20-A.time)*.05
-						gc_rectangle("fill",303,599-h,11,-bar)
-						--Disappear
-					end
-					h=h+bar
-				end
-
-				--B2B indictator
-				local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
-				gc_setColor(.8,1,.2)
-				gc_rectangle("fill",-14,599,11,-b*.6)
-				gc_setColor(P.b2b<40 and COLOR.white or P.b2b<=800 and COLOR.lRed or COLOR.lBlue)
-				gc_rectangle("fill",-14,599,11,-a*.6)
-				if t%.5<.3 then
-					gc_setColor(1,1,1)
-					gc_rectangle("fill",-15,b<40 and 568.5 or 118.5,13,3)
-				end
-
-				--LockDelay indicator
-				if ENV.easyFresh then
-					gc_setColor(1,1,1)
-				else
-					gc_setColor(1,.26,.26)
-				end
-				if P.lockDelay>=0 then
-					gc_rectangle("fill",0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
-				end
-				local x=3
-				for _=1,min(P.freshTime,15)do
-					gc_rectangle("fill",x,615,14,5)
-					x=x+20
-				end
-
-				--Draw Hold
+				drawBuffer(P)
+				drawB2Bbar(P)
 				P:drawHold()
-
-				--Draw Next(s)
 				P:drawNext()
 
 				--Draw target selecting pad
@@ -845,101 +792,29 @@ function draw.remote_norm(P)
 		gc_pop()
 
 		--Speed dials
-		setFont(25)
-		drawDial(510,510,P.dropSpeed)
-		drawDial(555,565,P.keySpeed)
-
-		local S=P.stat
+		drawDial(530,535,P.dropSpeed)
 
 		--Score & Time
 		setFont(25)
+		local tm=int(P.stat.time*100)*.01
 		gc_setColor(0,0,0,.3)
 		gc_print(P.score1,18,509)
-		gc_print(format("%.2f",S.time),18,539)
+		gc_print(tm,18,539)
 		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
-		gc_setColor(COLOR.sky)gc_print(format("%.2f",S.time),20,540)
+		gc_setColor(COLOR.sky)gc_print(tm,20,540)
 
-		--FinesseCombo
-		if P.finesseCombo>2 then
-			_=P.finesseComboTime
-			local str=P.finesseCombo.."x"
-			if S.finesseRate==5*S.piece then
-				gc_setColor(.9,.9,.3,_*.2)
-			elseif S.maxFinesseCombo==S.piece then
-				gc_setColor(.7,.7,1,_*.2)
-			else
-				gc_setColor(1,1,1,_*.2)
-			end
-			gc_print(str,20,570)
-		end
-
-		--Lives
-		if P.life>0 then
-			gc_setColor(1,1,1)
-			if P.life<=3 then
-				for i=1,P.life do
-					gc_draw(IMG.lifeIcon,450+25*i,595,nil,.8)
-				end
-			else
-				gc_draw(IMG.lifeIcon,475,595,nil,.8)
-				setFont(20)
-				gc_print("x",503,595)
-				gc_print(P.life,517,595)
-			end
-		end
-
-		--Other messages
-		gc_setColor(1,1,1)
+		--Mode informations
 		if GAME.curMode.mesDisp then
+			gc_setColor(1,1,1)
 			GAME.curMode.mesDisp(P)
 		end
 
-		--Missions
-		if P.curMission then
-			local missionEnum=missionEnum
-			local L=ENV.mission
-
-			--Draw current mission
-			setFont(35)
-			if ENV.missionKill then
-				gc_setColor(1,.7+.2*sin(t*6.26),.4)
-			else
-				gc_setColor(1,1,1)
-			end
-			gc_print(missionEnum[L[P.curMission]],85,110)
-
-			--Draw next mission
-			setFont(20)
-			for i=1,3 do
-				local m=L[P.curMission+i]
-				if m then
-					m=missionEnum[m]
-					gc_print(m,87-28*i,117)
-				else
-					break
-				end
-			end
-		end
-
-		--Draw starting counter
-		gc_setColor(1,1,1)
-		if GAME.frame<180 then
-			if GAME.frame==0 then
-				setFont(70)
-				mStr(text.waiting,305,220)
-			else
-				local count=179-GAME.frame
-				gc_push("transform")
-					gc_translate(305,220)
-					setFont(95)
-					if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
-					mStr(int(count/60+1),0,0)
-				gc_pop()
-			end
-		end
+		drawFinesseCombo_remote(P)
+		drawLife(P.life)
+		drawMission(P)
+		drawStartCounter(P)
 	gc_pop()
 end
-
 function draw.small(P)
 	--Draw content
 	P.frameWait=P.frameWait-1
@@ -995,7 +870,6 @@ function draw.small(P)
 	end
 	setFont(30)
 end
-
 function draw.demo(P)
 	local _
 	local ENV=P.gameEnv
