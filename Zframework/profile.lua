@@ -2,27 +2,19 @@ local clock = os.clock
 
 local profile = {}
 
--- function labels
-local _labeled = {}
--- function definitions
-local _defined = {}
--- time of last call
-local _tcalled = {}
--- total execution time
-local _telapsed = {}
--- number of calls
-local _ncalls = {}
--- list of internal profiler functions
-local _internal = {}
+local _labeled = {}	-- function labels
+local _defined = {}	-- function definitions
+local _tcalled = {}	-- time of last call
+local _telapsed = {}-- total execution time
+local _ncalls = {}	-- number of calls
+local _internal = {}-- list of internal profiler functions
 
 local getInfo = debug.getinfo
 function profile.hooker(event, line, info)
 	info = info or getInfo(2, 'fnS')
 	local f = info.func
-	-- ignore the profiler itself
-	if _internal[f] then return end
-	-- get the function name if available
-	if info.name then _labeled[f] = info.name end
+	if _internal[f] then return end-- ignore the profiler itself
+	if info.name then _labeled[f] = info.name end-- get the function name if available
 	-- find the line definition
 	if not _defined[f] then
 		_defined[f] = info.short_src .. ":" .. info.linedefined
@@ -95,7 +87,6 @@ function profile.comp(a, b)
 end
 
 --- Iterates all functions that have been called since the profile was started.
--- @param n Number of results (optional)
 function profile.query(limit)
 	local t = {}
 	for f, n in next, _ncalls do
