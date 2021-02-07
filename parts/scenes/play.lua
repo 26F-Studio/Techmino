@@ -2,7 +2,6 @@ local gc=love.graphics
 local gc_setColor,gc_circle=gc.setColor,gc.circle
 local tc=love.touch
 
-local int=math.floor
 local max,sin=math.max,math.sin
 
 local SCR=SCR
@@ -41,6 +40,7 @@ end
 scene.mouseDown=NULL
 local function restart()
 	resetGameData(GAME.frame<240 and"q")
+	noKey=GAME.replaying
 end
 function scene.touchDown(_,x,y)
 	if noTouch then return end
