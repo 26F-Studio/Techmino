@@ -71,8 +71,7 @@ return{
 
 	getNoticeFail="Couldn't get announcements",
 	getVersionFail="Unable to detect a new version",
-	versionIsNew="You are now on the latest version.",
-	versionIsOld="Version $1 is available now!",
+	oldVersion="Version $1 is available now!",
 
 	httpCode="Http status code",
 	jsonError="Json error",

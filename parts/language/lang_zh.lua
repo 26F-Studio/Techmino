@@ -72,8 +72,7 @@ return{
 
 	getNoticeFail="拉取公告失败",
 	getVersionFail="检测新版本失败",
-	versionIsNew="游戏已是最新版本",
-	versionIsOld="最新版本$1可以下载了!",
+	oldVersion="最新版本$1可以下载了!",
 
 	httpCode="Http码",
 	jsonError="json错误",

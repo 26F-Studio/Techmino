@@ -135,7 +135,7 @@ scene.widgetList={
 		else
 			SCN.go("login")
 		end
-	end},
+	end,hide=function()return not LATEST_VERSION end},
 	WIDGET.newButton{name="qplay",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=function()loadGame(STAT.lastPlay,true)end},
 	WIDGET.newButton{name="setting",x=150,y=380,w=200,h=140,color="lOrange",font=40,code=goScene"setting_game"},
 	WIDGET.newButton{name="stat",	x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=goScene"stat"},

@@ -145,8 +145,9 @@ function scene.keyDown(k)
 				task_enterRoom,
 				PATH.socket..PATH.onlinePlay..
 				"?email="..urlEncode(USER.email)..
-				"&access_token="..urlEncode(USER.access_token)..
-				"&id="..urlEncode(rooms[selected].id)
+				"&token="..urlEncode(USER.access_token)..
+				"&id="..urlEncode(rooms[selected].id)..
+				"&conf="..urlEncode(dumpBasicConfig())
 				-- "&password="..urlEncode(password),
 			)
 		end

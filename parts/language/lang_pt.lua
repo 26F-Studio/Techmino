@@ -71,8 +71,7 @@ return{
 
 	getNoticeFail="Não conseguiu ter anúncios",
 	getVersionFail="Falha ao detectar uma versão nova",
-	versionIsNew="Você esta na versão mais nova.",
-	versionIsOld="Versão $1 esta disponível agora!",
+	oldVersion="Versão $1 esta disponível agora!",
 
 	-- httpCode="Http status code",
 	jsonError="Json error",

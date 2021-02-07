@@ -25,6 +25,7 @@ NOGAME=false
 LOGIN=false
 EDITING=""
 WSCONN=false
+LATEST_VERSION=false
 FESTIVAL=
 	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and"Xmas"or
 	os.date"%m"<"03"and math.abs(({--Spring festival dates, 1.2=2, 2.1=32, etc.

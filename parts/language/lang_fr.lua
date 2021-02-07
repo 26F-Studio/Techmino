@@ -73,8 +73,7 @@ return{
 
 	getNoticeFail="Echec de l'obtention de la notice",
 	getVersionFail="Echec d'obtention de la dernière version",
-	versionIsNew="Vous êtes sur la dernière version",
-	versionIsOld="La version $1 est disponible !",
+	oldVersion="La version $1 est disponible !",
 
 	-- httpCode="Http status code",
 	jsonError="Erreur json",

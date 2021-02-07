@@ -370,6 +370,7 @@ function PLY.newRemotePlayer(id,mini,playerData)
 	P.userName=playerData.name
 	P.userID=playerData.id
 	P.subID=playerData.sid
+	P.ready=playerData.ready
 
 	loadRemoteEnv(P,playerData.conf or{})
 	applyGameEnv(P)

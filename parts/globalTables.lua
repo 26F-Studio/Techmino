@@ -151,7 +151,7 @@ PATH={--Network API paths
 	auth="/auth/auth",
 	access="/auth/access",
 	onlineChat="/online/chat",
-	onlinePlay="/online/play",	
+	onlinePlay="/online/play",
 }
 
 --Game tables

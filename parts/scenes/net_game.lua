@@ -50,7 +50,6 @@ function scene.sceneBack()
 end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
-	wsWrite("C"..dumpBasicConfig())
 	TASK.new(TICK_wsRead)
 	hideChatBox=true
 	textBox:clear()
@@ -134,17 +133,19 @@ function scene.keyDown(key)
 			lastBackTime=TIME()
 			LOG.print(text.sureQuit,COLOR.orange)
 		end
-	elseif key=="b"then
-		wsWrite("B")
 	elseif key=="\\"then
 		switchChat()
-	else
+	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
 			VK[k].isDown=true
 			VK[k].pressTime=10
+		end
+	elseif key=="space"then
+		if not PLAYERS[1].ready then
+			wsWrite("R")
 		end
 	end
 end
@@ -187,7 +188,7 @@ end
 
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
-	local args=splitStr(mes:sub(2),":")
+	local args=splitStr(mes:sub(2),";")
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
@@ -195,13 +196,16 @@ function scene.socketRead(mes)
 			COLOR.Y,text[cmd=="J"and"joinRoom"or"leaveRoom"]
 		}
 		if cmd=="J"then
-			if tostring(USER.id)~=args[2]then
-				wsWrite("C"..dumpBasicConfig())
-				ins(playerData,{name=args[1],id=args[2],sid=tonumber(args[3])})
-				resetGameData("qn",playerData)
-			else
-				ins(playerData,1,{name=args[1],id=args[2],sid=tonumber(args[3])})
+			for i=1,#args do
+				local L=splitStr(args[i],",")
+				L={name=L[1],id=L[2],sid=tonumber(L[3]),conf=L[4],ready=L[5]=="1"}
+				if tostring(USER.id)~=L[2]then
+					ins(playerData,L)
+				else
+					ins(playerData,1,L)
+				end
 			end
+			resetGameData("qn",playerData)
 		else
 			for i=1,#playerData do
 				if playerData[i].id==args[2]then
@@ -243,11 +247,20 @@ function scene.socketRead(mes)
 			resetGameData("qn",playerData)
 		end
 	elseif cmd=="S"then
-		if args[1]~=tostring(USER.id)then
+		if args[1]~=tostring(PLAYERS[1].sid)then
 			for _,P in next,PLAYERS do
-				if P.userID==args[1]then
+				if P.subID==args[1]then
 					pumpRecording(data.decode("string","base64",args[2]),P.stream)
 				end
+			end
+		end
+	elseif cmd=="R"then
+		local L=PLAYERS.alive
+		for i=1,#L do
+			if L[i].subID==args[1]then
+				L[i].ready=true
+				SFX.play("reach",.6)
+				break
 			end
 		end
 	elseif cmd=="B"then

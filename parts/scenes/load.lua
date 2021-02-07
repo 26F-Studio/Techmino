@@ -13,9 +13,9 @@ local function tick_httpREQ_launch(task)
 			if res.message=="OK"and response.code==200 then
 				LOG.print(res.notice,360,COLOR.sky)
 				if VERSION_CODE>=res.version_code then
-					LOG.print(text.versionIsNew,360,COLOR.sky)
+					LATEST_VERSION=true
 				else
-					LOG.print(string.gsub(text.versionIsOld,"$1",res.version_name),"warn")
+					LOG.print(string.gsub(text.oldVersion,"$1",res.version_name),"warn")
 				end
 			else
 				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
