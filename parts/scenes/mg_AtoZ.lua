@@ -25,7 +25,8 @@ local levels={
 
 local scene={}
 
-local levelName,targetString
+local levelName="A_Z"
+local targetString
 local startTime,time
 local state,progress
 local frameKeyCount,mistake
