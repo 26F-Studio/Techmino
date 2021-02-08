@@ -2,7 +2,6 @@ local Player=require"parts/player/player"
 local prepareSequence=require"parts/player/prepareSequence"
 local gameEnv0=require"parts/player/gameEnv0"
 
-local mt=love.math
 local rnd,max=math.random,math.max
 local ins=table.insert
 
@@ -106,7 +105,7 @@ local function newEmptyPlayer(id,mini)
 		P.keyRec=true--If calculate keySpeed
 		P.draw=PLY.draw.norm
 	end
-	P.randGen=mt.newRandomGenerator(GAME.seed)
+	P.randGen=love.math.newRandomGenerator(GAME.seed)
 
 	P.alive=true
 	P.control=false
@@ -219,6 +218,7 @@ local function loadGameEnv(P)--Load gameEnv
 	end
 end
 local function loadRemoteEnv(P,conf)--Load gameEnv
+	conf=conf and json.decode(love.data.decode("string","base64",conf))or{}
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
 	local GAME,SETTING=GAME,SETTING
@@ -372,7 +372,7 @@ function PLY.newRemotePlayer(id,mini,playerData)
 	P.subID=playerData.sid
 	P.ready=playerData.ready
 
-	loadRemoteEnv(P,playerData.conf or{})
+	loadRemoteEnv(P,playerData.conf)
 	applyGameEnv(P)
 	prepareSequence(P)
 end

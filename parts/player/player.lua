@@ -225,6 +225,7 @@ function Player.setRS(P,RSname)
 end
 
 function Player.setConf(P,conf)
+	conf=json.decode(love.data.decode("string","base64",conf))
 	for k,v in next,conf do
 		if not GAME.modeEnv[k]then
 			P.gameEnv[k]=v
@@ -339,7 +340,6 @@ function Player.ifoverlap(P,bk,x,y)
 	end
 end
 function Player.attack(P,R,send,time,line,fromStream)
-	print(string.format("P%d attack P%d with %d lines, %d frames, line data:%d",P.id,R.id,send,time,line))
 	if GAME.net then
 		if P.type=="human"then--Local player attack others
 			ins(GAME.rep,GAME.frame+1)
@@ -367,7 +367,6 @@ function Player.attack(P,R,send,time,line,fromStream)
 	end
 end
 function Player.receive(P,A,send,time,line)
-	print(string.format("P%d was attacked by P%d's %d lines, %d frames, line data:%d",P.id,A.id,send,time,line))
 	P.lastRecv=A
 	local B=P.atkBuffer
 	if B.sum<26 then

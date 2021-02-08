@@ -32,6 +32,7 @@ local function switchChat()
 end
 
 
+local playerInitialized
 local playing
 local heartBeatTimer
 local lastUpstreamTime
@@ -52,6 +53,7 @@ function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
 	TASK.new(TICK_wsRead)
 	hideChatBox=true
+	playerInitialized=false
 	textBox:clear()
 
 	playerData={}
@@ -189,44 +191,51 @@ end
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
 	local args=splitStr(mes:sub(2),";")
-	if cmd=="J"or cmd=="L"then
+	if cmd=="J"then
+		if playerInitialized then
+			local L=splitStr(args[1],",")
+			textBox:push{
+				COLOR.lR,L[1],
+				COLOR.dY,L[2].." ",
+				COLOR.Y,text.joinRoom,
+			}
+		end
+		for i=1,#args do
+			local L=splitStr(args[i],",")
+			L={name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"}
+			if tostring(USER.id)~=L.id then
+				ins(playerData,L)
+			else
+				ins(playerData,1,L)
+			end
+		end
+		playerInitialized=true
+		resetGameData("qn",playerData)
+	elseif cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
 			COLOR.dY,args[2].." ",
-			COLOR.Y,text[cmd=="J"and"joinRoom"or"leaveRoom"]
+			COLOR.Y,text.leaveRoom,
 		}
-		if cmd=="J"then
-			for i=1,#args do
-				local L=splitStr(args[i],",")
-				L={name=L[1],id=L[2],sid=tonumber(L[3]),conf=L[4],ready=L[5]=="1"}
-				if tostring(USER.id)~=L[2]then
-					ins(playerData,L)
-				else
-					ins(playerData,1,L)
-				end
-			end
-			resetGameData("qn",playerData)
-		else
-			for i=1,#playerData do
-				if playerData[i].id==args[2]then
-					rem(playerData,i)
-					break
-				end
-			end
-			for i=1,#PLAYERS do
-				if PLAYERS[i].userID==args[2]then
-					rem(PLAYERS,i)
-					break
-				end
-			end
-			for i=1,#PLAYERS.alive do
-				if PLAYERS.alive[i].userID==args[2]then
-					rem(PLAYERS.alive,i)
-					initPlayerPosition(true)
-					return
-				end
+		for i=1,#playerData do
+			if playerData[i].id==args[2]then
+				rem(playerData,i)
+				break
 			end
 		end
+		for i=1,#PLAYERS do
+			if PLAYERS[i].userID==args[2]then
+				rem(PLAYERS,i)
+				break
+			end
+		end
+		for i=1,#PLAYERS.alive do
+			if PLAYERS.alive[i].userID==args[2]then
+				rem(PLAYERS.alive,i)
+				break
+			end
+		end
+		initPlayerPosition(true)
 	elseif cmd=="T"then
 		textBox:push{
 			COLOR.W,args[1],
@@ -235,19 +244,17 @@ function scene.socketRead(mes)
 		}
 	elseif cmd=="C"then
 		if tostring(USER.id)~=args[2]then
-			local ENV=json.decode(data.decode("string","base64",args[4]))
 			for i=1,#playerData do
 				if playerData[i].id==args[2]then
-					playerData[i].conf=ENV
-					playerData[i].p:setConf(ENV)
+					playerData[i].conf=args[4]
+					playerData[i].p:setConf(args[4])
 					return
 				end
 			end
-			ins(playerData,{name=args[1],id=args[2],sid=tonumber(args[3]),conf=ENV})
 			resetGameData("qn",playerData)
 		end
 	elseif cmd=="S"then
-		if args[1]~=tostring(PLAYERS[1].sid)then
+		if args[1]~=PLAYERS[1].subID then
 			for _,P in next,PLAYERS do
 				if P.subID==args[1]then
 					pumpRecording(data.decode("string","base64",args[2]),P.stream)
