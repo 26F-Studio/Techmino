@@ -93,6 +93,8 @@ return{
 	wsError="WebSocket error: ",
 	waitNetTask="Conectando, aguarde",
 
+	-- createRoomTooFast="Create room too fast!",
+	-- createRoomSuccessed="Room successfully created!",
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
 	-- notReady="Waiting",
@@ -244,9 +246,13 @@ return{
 		},
 		net_rooms={
 			fresh="Fresh",
+			-- new="New room",
 			-- join="Join",
 			up="↑",
 			down="↓",
+		},
+		net_game={
+			-- ready="Ready",
 		},
 		net_chat={
 			send="Mandar",

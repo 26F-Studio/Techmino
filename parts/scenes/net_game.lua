@@ -452,6 +452,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
+	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey("space"),hide=function()return playing or PLAYERS[1].ready end},
 	WIDGET.newKey{name="hideChat",fText="...",x=410,y=40,w=60,font=35,code=switchChat},
 	WIDGET.newKey{name="quit",fText="X",x=870,y=40,w=60,font=40,code=pressKey"escape"},
 }

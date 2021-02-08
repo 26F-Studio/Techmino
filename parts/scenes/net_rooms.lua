@@ -4,7 +4,41 @@ local min=math.min
 local rooms
 local scrollPos,selected
 local lastfreshTime
+local lastCreateRoomTime=0
 
+local function task_enterRoom(task)
+	local time=0
+	while true do
+		coroutine.yield()
+		local wsconn,connErr=client.poll(task)
+		if wsconn then
+			WSCONN=wsconn
+			loadGame("netBattle",true,true)
+			LOG.print(text.wsSuccessed,"warn")
+			return
+		elseif connErr then
+			LOG.print(text.wsFailed..": "..connErr,"warn")
+			return
+		end
+		time=time+1
+		if time>360 then
+			LOG.print(text.wsFailed..": "..text.httpTimeout,"message")
+			return
+		end
+	end
+end
+local function enterRoom(roomID)
+	coroutine.yield()
+	wsConnect(
+		task_enterRoom,
+		PATH.socket..PATH.onlinePlay..
+		"?email="..urlEncode(USER.email)..
+		"&token="..urlEncode(USER.access_token)..
+		"&id="..urlEncode(roomID)..
+		"&conf="..urlEncode(dumpBasicConfig())
+		-- "&password="..urlEncode(password),
+	)
+end
 local function task_fetchRooms(task)
 	local time=0
 	while true do
@@ -29,7 +63,7 @@ local function task_fetchRooms(task)
 		end
 	end
 end
-local function task_createRooms(task)
+local function task_createRoom(task)
 	local time=0
 	while true do
 		coroutine.yield()
@@ -37,7 +71,8 @@ local function task_createRooms(task)
 		if response then
 			local res=json.decode(response.body)
 			if response.code==200 and res.message=="OK"then
-				LOG.print("OK")
+				LOG.print(text.createRoomSuccessed)
+				TASK.newNet(enterRoom,res.room.id)
 			else
 				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
 			end
@@ -49,27 +84,6 @@ local function task_createRooms(task)
 		time=time+1
 		if time>210 then
 			LOG.print(text.roomsCreateFailed..": "..text.httpTimeout,"warn")
-			return
-		end
-	end
-end
-local function task_enterRoom(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local wsconn,connErr=client.poll(task)
-		if wsconn then
-			WSCONN=wsconn
-			loadGame("netBattle",true,true)
-			LOG.print(text.wsSuccessed,"warn")
-			return
-		elseif connErr then
-			LOG.print(text.wsFailed..": "..connErr,"warn")
-			return
-		end
-		time=time+1
-		if time>360 then
-			LOG.print(text.wsFailed..": "..text.httpTimeout,"message")
 			return
 		end
 	end
@@ -107,18 +121,23 @@ function scene.keyDown(k)
 			fresh()
 		end
 	elseif k=="n"then
-		httpRequest(
-			task_createRooms,
-			PATH.http..PATH.onlinePlay.."/classic",
-			"POST",
-			{["Content-Type"]="application/json"},
-			json.encode{
-				email=USER.email,
-				access_token=USER.access_token,
-				room_name="Test Room "..math.random(26,626),
-				room_password=nil,
-			}
-		)
+		if TIME()-lastCreateRoomTime>26 then
+			httpRequest(
+				task_createRoom,
+				PATH.http..PATH.onlinePlay.."/classic",
+				"POST",
+				{["Content-Type"]="application/json"},
+				json.encode{
+					email=USER.email,
+					access_token=USER.access_token,
+					room_name="Test Room "..math.random(26,626),
+					room_password=nil,
+				}
+			)
+			lastCreateRoomTime=TIME()
+		else
+			LOG.print(text.createRoomTooFast,"warn")
+		end
 	elseif k=="escape"then
 		SCN.back()
 	elseif rooms and #rooms>0 then
@@ -141,15 +160,7 @@ function scene.keyDown(k)
 				LOG.print("Can't enter private room now")
 				return
 			end
-			wsConnect(
-				task_enterRoom,
-				PATH.socket..PATH.onlinePlay..
-				"?email="..urlEncode(USER.email)..
-				"&token="..urlEncode(USER.access_token)..
-				"&id="..urlEncode(rooms[selected].id)..
-				"&conf="..urlEncode(dumpBasicConfig())
-				-- "&password="..urlEncode(password),
-			)
+			enterRoom(rooms[selected].id)
 		end
 	end
 end
@@ -162,7 +173,7 @@ end
 
 function scene.draw()
 	gc.setColor(1,1,1,.26)
-	gc.arc("fill","pie",440,620,60,-1.5708,-1.5708+1.2566*(TIME()-lastfreshTime))
+	gc.arc("fill","pie",240,620,60,-1.5708,-1.5708+1.2566*(TIME()-lastfreshTime))
 	if rooms then
 		gc.setColor(1,1,1)
 		if #rooms>0 then
@@ -193,7 +204,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="fresh",		x=440,y=620,w=140,h=140,font=40,code=fresh,hide=function()return TIME()-lastfreshTime<1.26 end},
+	WIDGET.newKey{name="fresh",		x=240,y=620,w=140,h=140,font=40,code=fresh,hide=function()return TIME()-lastfreshTime<1.26 end},
+	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey("n")},
 	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",hide=function()return not rooms end},
 	WIDGET.newKey{name="up",		x=840,y=585,w=140,h=70,font=40,code=pressKey"up",hide=function()return not rooms end},
 	WIDGET.newKey{name="down",		x=840,y=655,w=140,h=70,font=40,code=pressKey"down",hide=function()return not rooms end},

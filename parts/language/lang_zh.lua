@@ -94,6 +94,8 @@ return{
 	wsError="WS错误: ",
 	waitNetTask="正在连接,请稍候",
 
+	createRoomTooFast="创建房间太快啦,等等吧",
+	createRoomSuccessed="创建房间成功!",
 	joinRoom="进入房间",
 	leaveRoom="离开房间",
 	notReady="等待中",
@@ -245,9 +247,13 @@ return{
 		},
 		net_rooms={
 			fresh="刷新",
+			new="创建房间",
 			join="加入",
 			up="↑",
 			down="↓",
+		},
+		net_game={
+			ready="准备",
 		},
 		net_chat={
 			send="发送",
