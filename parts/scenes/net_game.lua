@@ -280,6 +280,7 @@ function scene.socketRead(mes)
 	elseif cmd=="F"then
 		playing=false
 		LOG.print(text.gameover,30,COLOR.green)
+		resetGameData("n",playerData)
 	else
 		LOG.print("Illegal message: ["..mes.."]",30,COLOR.green)
 	end

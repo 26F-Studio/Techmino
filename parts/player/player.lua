@@ -1756,7 +1756,11 @@ function Player.lose(P,force)
 		end
 		gameOver()
 		P:newTask(#PLAYERS>1 and tick_lose or tick_finish)
-		TASK.new(tick_autoPause)
+		if GAME.net then
+			wsWrite("D")
+		else
+			TASK.new(tick_autoPause)
+		end
 		if MARKING then
 			P:showTextF(text.marking,0,-226,25,"appear",.4,.0626)
 		end
