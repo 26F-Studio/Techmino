@@ -261,11 +261,11 @@ local function drawHold(P)
 	local N=ENV.holdCount*72
 	local texture=SKIN.curText
 	gc_push("transform")
-	gc_translate(-140,116)
-		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
-		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
+	gc_translate(-140,36)
+		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,0,124,N+8)
+		gc_setColor(1,1,1)gc_rectangle("line",0,0,124,N+8)
 		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
-		mText(drawableText.hold,62,-131)
+		mText(drawableText.hold,62,-51)
 
 		gc_setColor(1,1,1)
 		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then
@@ -273,15 +273,22 @@ local function drawHold(P)
 		else
 			N=P.holdTime+1
 		end
-		for n=1,#P.holdQueue do
-			if n==N then gc_setColor(.6,.4,.4)end
-			local bk,clr=P.holdQueue[n].bk,P.holdQueue[n].color
-			for i=1,#bk do for j=1,#bk[1]do
-				if bk[i][j]then
-					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*n-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
-				end
-			end end
-		end
+		gc_push("transform")
+		gc_translate(62,40)
+			for n=1,#P.holdQueue do
+				if n==N then gc_setColor(.6,.4,.4)end
+				local bk,clr=P.holdQueue[n].bk,P.holdQueue[n].color
+				local k=#bk>2 and 2.2/#bk or 1
+				gc_scale(k)
+				for i=1,#bk do for j=1,#bk[1]do
+					if bk[i][j]then
+						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+					end
+				end end
+				gc_scale(1/k)
+				gc_translate(0,72)
+			end
+		gc_pop()
 	gc_pop()
 end
 local function drawFinesseCombo_norm(P)
