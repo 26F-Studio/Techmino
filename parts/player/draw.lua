@@ -254,6 +254,36 @@ local function drawB2Bbar(P)
 		x=x+20
 	end
 end
+local function drawHold(P)
+	local ENV=P.gameEnv
+	if ENV.holdCount==0 then return end
+
+	local N=ENV.holdCount*72
+	local texture=SKIN.curText
+	gc_push("transform")
+	gc_translate(-140,116)
+		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
+		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
+		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
+		mText(drawableText.hold,62,-131)
+
+		gc_setColor(1,1,1)
+		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then
+			N=1
+		else
+			N=P.holdTime+1
+		end
+		for n=1,#P.holdQueue do
+			if n==N then gc_setColor(.6,.4,.4)end
+			local bk,clr=P.holdQueue[n].bk,P.holdQueue[n].color
+			for i=1,#bk do for j=1,#bk[1]do
+				if bk[i][j]then
+					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*n-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
+				end
+			end end
+		end
+	gc_pop()
+end
 local function drawFinesseCombo_norm(P)
 	if P.finesseCombo>2 then
 		local S=P.stat
@@ -434,55 +464,6 @@ function draw.drawNext_hidden(P)
 	gc_pop()
 end
 
-function draw.drawHold_norm(P)
-	local texture=SKIN.curText
-	gc_push("transform")
-	gc_translate(-140,116)
-		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,80)
-		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,80)
-		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
-		mText(drawableText.hold,62,-131)
-
-		local B=P.holdQueue[1]
-		if B then
-			local bk,clr=B.bk,B.color
-			for i=1,#bk do for j=1,#bk[1]do
-				if bk[i][j]then
-					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*1-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
-				end
-			end end
-		end
-	gc_pop()
-end
-function draw.drawHold_multi(P)
-	local ENV=P.gameEnv
-	local N=ENV.holdCount*72
-	local texture=SKIN.curText
-	gc_push("transform")
-	gc_translate(-140,116)
-		gc_setColor(0,0,0,.4)gc_rectangle("fill",0,-80,124,N+8)
-		gc_setColor(1,1,1)gc_rectangle("line",0,-80,124,N+8)
-		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
-		mText(drawableText.hold,62,-131)
-
-		gc_setColor(1,1,1)
-		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then
-			N=1
-		else
-			N=P.holdTime+1
-		end
-		for n=1,#P.holdQueue do
-			if n==N then gc_setColor(.6,.4,.4)end
-			local bk,clr=P.holdQueue[n].bk,P.holdQueue[n].color
-			for i=1,#bk do for j=1,#bk[1]do
-				if bk[i][j]then
-					gc_draw(texture[clr],30*(j+2.06-#bk[1]*.5)-30,-30*(i+3.76-2.4*n-#bk*.5))-- drawCell(i+1.36-#B*.5,j+2.06-#B[1]*.5,clr)
-				end
-			end end
-		end
-	gc_pop()
-end
-
 function draw.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
 		gc_setLineWidth(4)
@@ -600,7 +581,7 @@ function draw.norm(P)
 
 				drawBuffer(P)
 				drawB2Bbar(P)
-				P:drawHold()
+				drawHold(P)
 				P:drawNext()
 
 				--Draw target selecting pad
@@ -645,6 +626,12 @@ function draw.norm(P)
 		gc_draw(drawableText.bpm,540,480)
 		gc_draw(drawableText.kpm,494,573)
 
+		--Mode informations
+		if GAME.curMode.mesDisp then
+			gc_setColor(1,1,1)
+			GAME.curMode.mesDisp(P)
+		end
+
 		--Score & Time
 		setFont(25)
 		local tm=int(P.stat.time*100)*.01
@@ -653,12 +640,6 @@ function draw.norm(P)
 		gc_print(tm,18,539)
 		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
 		gc_setColor(COLOR.sky)gc_print(tm,20,540)
-
-		--Mode informations
-		if GAME.curMode.mesDisp then
-			gc_setColor(1,1,1)
-			GAME.curMode.mesDisp(P)
-		end
 
 		drawFinesseCombo_norm(P)
 		drawLife(P.life)
@@ -759,7 +740,7 @@ function draw.norm_remote(P)
 
 				drawBuffer(P)
 				drawB2Bbar(P)
-				P:drawHold()
+				drawHold(P)
 				P:drawNext()
 
 				--Draw target selecting pad
@@ -794,6 +775,12 @@ function draw.norm_remote(P)
 		--Speed dials
 		drawDial(530,535,P.dropSpeed)
 
+		--Mode informations
+		if GAME.curMode.mesDisp then
+			gc_setColor(1,1,1)
+			GAME.curMode.mesDisp(P)
+		end
+
 		--Score & Time
 		setFont(25)
 		local tm=int(P.stat.time*100)*.01
@@ -802,12 +789,6 @@ function draw.norm_remote(P)
 		gc_print(tm,18,539)
 		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
 		gc_setColor(COLOR.sky)gc_print(tm,20,540)
-
-		--Mode informations
-		if GAME.curMode.mesDisp then
-			gc_setColor(1,1,1)
-			GAME.curMode.mesDisp(P)
-		end
 
 		drawFinesseCombo_remote(P)
 		drawLife(P.life)

@@ -192,14 +192,7 @@ function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	P.gameEnv.holdCount=count
 	P.holdTime=count
 	P:switchKey(8,count>0)
-	if count==0 then
-		P.drawHold=NULL
-		while P.holdQueue[1]do rem(P.holdQueue)end
-	elseif count==1 then
-		P.drawHold=PLY.draw.drawHold_norm
-	else
-		P.drawHold=PLY.draw.drawHold_multi
-	end
+	while P.holdQueue[count]do rem(P.holdQueue)end
 end
 function Player.setNext(P,next,hidden)--Set next count　(use hidden=true if set env.nextStartPos>1)
 	P.gameEnv.nextCount=next
