@@ -44,62 +44,93 @@ local function boardTransform(mode)
 		end
 	end
 end
-local function drawField(P)
-	local V,F=P.visTime,P.field
-	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
-	local edge=P.gameEnv.upEdge
-	local rep=GAME.replaying
+local function drawRow(h,V,L)
 	local texture=SKIN.curText
-	if P.falling==-1 then--Blocks only
-		local t=TIME()*4
-		for j=start,min(start+21,#F)do
-			for i=1,10 do
-				if F[j][i]>0 then
-					if V[j][i]>0 then
-						gc_setColor(1,1,1,V[j][i]*.05)
-						gc_draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
-						if edge and(not F[j+1]or F[j+1][i]<=0)then
-							local r,g,b=unpack(SKIN.libColor[F[j][i]])
-							gc_setColor((r+2)/3,(g+2)/3,(b+2)/3,V[j][i]*.05)
-							gc_rectangle("fill",30*i-30,-30*j,30,-4)
-						end
-					elseif rep then
-						gc_setColor(1,1,1,.3+.08*sin(.5*(j-i)+t))
-						gc_rectangle("fill",30*i-30,-30*j,30,30)
-					end
-				end
+	local t=TIME()*4
+	for i=1,10 do
+		if L[i]>0 then
+			if V[i]>0 then
+				local a=V[i]*.05
+				gc_setColor(1,1,1,a)
+				gc_draw(texture[L[i]],30*i-30,-30*h)-- drawCell(j,i,L[i])
+			elseif GAME.replaying then
+				gc_setColor(1,1,1,.3+.08*sin(.5*(h-i)+t))
+				gc_rectangle("fill",30*i-30,-30*h,30,30)
 			end
 		end
+	end
+end
+local function drawField(P)
+	local ENV=P.gameEnv
+	local V,F=P.visTime,P.field
+	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
+
+	--Sorry, I think using FLAG & GOTO is the easiest way to make this simple.
+	--I just want reuse the for-block without using function, because this
+	--is called EXTREME FREQUENTLY, and PASSING VARIABLES IS TOO COMPLEX.
+	--[[
+		Normal style:
+			if ENV.upEdge then
+				{set shader and coords};
+				<< draw field block >> (FOR-block)
+				{restore shader and coords};
+			end
+			<< draw field block >> (FOR-block)
+
+		Simplified by me:
+			flag=ENV.upEdge
+			if flag then
+				{set shader and coords};
+			end
+			::label::
+			<< draw field block >> (FOR-block)
+			if flag then
+				{restore shader and coords};
+				flag=false
+				goto label
+			end
+	]]
+	local flag=ENV.upEdge
+	if P.falling==-1 then--Blocks only
+		if flag then
+			gc.setShader(SHADER.lighter)
+			gc.translate(0,-4)
+		end
+		::edgeFinished::
+		for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
+		if flag then
+			gc.setShader()
+			gc.translate(0,4)
+			flag=false
+			goto edgeFinished
+		end
 	else--With falling animation
-		local ENV=P.gameEnv
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 		local A=P.falling/ENV.fall
 		local h=1
 		gc_push("transform")
-			for j=start,min(start+21,#F)do
-				while j==P.clearingRow[h]do
-					h=h+1
-					gc_translate(0,-stepY)
-					gc_setColor(1,1,1,A)
-					gc_rectangle("fill",0,30-30*j,300,stepY)
-				end
-				for i=1,10 do
-					if F[j][i]>0 then
-						if V[j][i]>0 then
-							gc_setColor(1,1,1,V[j][i]*.05)
-							gc_draw(texture[F[j][i]],30*i-30,-30*j)-- drawCell(j,i,F[j][i])
-							if edge and(not F[j+1]or F[j+1][i]<=0)then
-								local r,g,b=unpack(SKIN.libColor[F[j][i]])
-								gc_setColor((r+2)/3,(g+2)/3,(b+2)/3,V[j][i]*.05)
-								gc_rectangle("fill",30*i-30,-30*j,30,-4)
-							end
-						elseif rep then
-							gc_setColor(1,1,1,.2)
-							gc_rectangle("fill",30*i-30,-30*j,30,30)
-						end
-					end
-				end
+		if flag then
+			gc_push("transform")
+			gc.setShader(SHADER.lighter)
+			gc.translate(0,-4)
+		end
+		::edgeFinished::
+		for j=start,min(start+21,#F)do
+			while j==P.clearingRow[h]do
+				h=h+1
+				gc_translate(0,-stepY)
+				gc_setColor(1,1,1,A)
+				gc_rectangle("fill",0,30-30*j,300,stepY)
 			end
+			drawRow(j,V[j],F[j])
+		end
+		if flag then
+			gc_pop()
+			gc.setShader()
+			flag=false
+			h=1
+			goto edgeFinished
+		end
 		gc_pop()
 	end
 end

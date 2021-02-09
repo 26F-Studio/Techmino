@@ -1,9 +1,9 @@
 #define PI 3.1415926535897932384626
 extern float w,h;
 extern float t;
-vec4 effect(vec4 color,Image text,vec2 pos,vec2 scr_pos){
-	float x=scr_pos.x/w;
-	float y=scr_pos.y/h;
+vec4 effect(vec4 color,Image tex,vec2 tex_coords,vec2 scr_coords){
+	float x=scr_coords.x/w;
+	float y=scr_coords.y/h;
 	float dx,dy;
 	vec3 V=vec3(0.);
 
