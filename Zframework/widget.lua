@@ -839,7 +839,7 @@ function textBox:push(t)
 	end
 end
 function textBox:drag(_,_,_,dy)
-	_=self.scrollPix+dy
+	_=self.scrollPix+dy*SCR.dpi
 	local sign=_>0 and 1 or -1
 	while abs(_)>30 do
 		_=_-30*sign
