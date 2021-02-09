@@ -47,13 +47,14 @@ end
 local function drawRow(h,V,L)
 	local texture=SKIN.curText
 	local t=TIME()*4
+	local rep=GAME.replaying
 	for i=1,10 do
 		if L[i]>0 then
 			if V[i]>0 then
 				local a=V[i]*.05
 				gc_setColor(1,1,1,a)
 				gc_draw(texture[L[i]],30*i-30,-30*h)-- drawCell(j,i,L[i])
-			elseif GAME.replaying then
+			elseif rep then
 				gc_setColor(1,1,1,.3+.08*sin(.5*(h-i)+t))
 				gc_rectangle("fill",30*i-30,-30*h,30,30)
 			end

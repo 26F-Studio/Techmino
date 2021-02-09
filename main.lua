@@ -112,11 +112,11 @@ FIELD[1]=newBoard()--Initialize field[1]
 AIBUILDER=	require"parts/AITemplate"
 FREEROW=	require"parts/freeRow"
 
-TEXTURE=require"parts/texture"
-SKIN=	require"parts/skin"
-PLY=	require"parts/player"
-AIFUNC=	require"parts/ai"
-MODES=	require"parts/modes"
+TEXTURE=	require"parts/texture"
+SKIN=		require"parts/skin"
+PLY=		require"parts/player"
+AIFUNC=		require"parts/ai"
+MODES=		require"parts/modes"
 
 --First start for phones
 if not fs.getInfo("conf/settings")and MOBILE then

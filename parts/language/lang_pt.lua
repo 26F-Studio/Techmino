@@ -185,7 +185,7 @@ return{
 		"Powered by LOVE2D",
 		"",
 		"Programa: MrZ, Particle_G, [T9972, FinnTenzor]",
-		"Art: MrZ, [ScF, Gnyar, T0722]",
+		"Art: MrZ, ScF, [Gnyar, T0722]",
 		"Music: MrZ, [T0722]",
 		"Voice & Sound: Miya, Naki, MrZ",
 		"Test: 思竣  Performance: 模电, HBM",
