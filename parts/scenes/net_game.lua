@@ -1,6 +1,5 @@
 local data=love.data
 local gc=love.graphics
-local gc_setColor,gc_circle=gc.setColor,gc.circle
 local tc=love.touch
 
 local playerData
@@ -384,7 +383,7 @@ function scene.draw()
 	local t=TIME()
 	if MARKING then
 		setFont(25)
-		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
+		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(text.marking,190,60+26*sin(t))
 	end
 
@@ -394,44 +393,7 @@ function scene.draw()
 	end
 
 	--Virtual keys
-	if SETTING.VKSwitch then
-		local a=SETTING.VKAlpha
-		local _
-		if SETTING.VKIcon then
-			local icons=TEXTURE.VKIcon
-			for i=1,#VK do
-				if VK[i].ava then
-					local B=VK[i]
-					gc_setColor(1,1,1,a)
-					gc.setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)--Button outline
-					_=VK[i].pressTime
-					gc_setColor(B.color[1],B.color[2],B.color[3],a)
-					gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
-					if _>0 then
-						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)--Glow when press
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
-					end
-				end
-			end
-		else
-			for i=1,#VK do
-				if VK[i].ava then
-					local B=VK[i]
-					gc_setColor(1,1,1,a)
-					gc.setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)
-					_=VK[i].pressTime
-					if _>0 then
-						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
-					end
-				end
-			end
-		end
-	end
+	drawVirtualKeys()
 
 	--Warning
 	gc.push("transform")

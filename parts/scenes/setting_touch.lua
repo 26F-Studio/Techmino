@@ -67,7 +67,7 @@ function scene.touchMove(_,_,_,dx,dy)
 	end
 end
 
-local function VirtualkeyPreview()
+local function virtualkeyPreview()
 	if SETTING.VKSwitch then
 		for i=1,#VK_org do
 			local B=VK_org[i]
@@ -80,7 +80,8 @@ local function VirtualkeyPreview()
 					gc.circle("fill",B.x,B.y,B.r,10)
 				end
 				if SETTING.VKIcon then
-					gc.setColor(B.color[1],B.color[2],B.color[3],SETTING.VKAlpha)
+					local c=B.color
+					gc.setColor(c[1],c[2],c[3],SETTING.VKAlpha)
 					gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)
 				end
 			end
@@ -91,7 +92,7 @@ function scene.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
-	VirtualkeyPreview()
+	virtualkeyPreview()
 	local d=snapUnit
 	if d>=10 then
 		gc.setLineWidth(3)
