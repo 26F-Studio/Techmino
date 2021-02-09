@@ -340,17 +340,20 @@ do
 			needSaveRank=true
 		end
 	end
-	if fs.getInfo("record/blind_easy.rec")then
-		for k,v in next,{attacker_h="attacker_hard",attacker_u="attacker_ultimate",blind_e="blind_easy",blind_h="blind_hard",blind_l="blind_lunatic",blind_n="blind_normal",blind_u="blind_ultimate",c4wtrain_l="c4wtrain_lunatic",c4wtrain_n="c4wtrain_normal",defender_l="defender_lunatic",defender_n="defender_normal",dig_100l="dig_10",dig_10l="dig_100",dig_400l="dig_40",dig_40l="dig_400",dig_h="dig_hard",dig_u="dig_ultimate",drought_l="drought_lunatic",drought_n="drought_normal",marathon_h="marathon_hard",marathon_n="marathon_normal",pc_h="pcchallenge_hard",pc_l="pcchallenge_lunatic",pc_n="pcchallenge_normal",pctrain_l="pctrain_lunatic",pctrain_n="pctrain_normal",round_e="round_1",round_h="round_2",round_l="round_3",round_n="round_4",round_u="round_5",solo_e="solo_1",solo_h="solo_2",solo_l="solo_3",solo_n="solo_4",solo_u="solo_5",sprint_1000l="sprint_10",sprint_100l="sprint_100",sprint_10l="sprint_1000",sprint_20l="sprint_20",sprint_400l="sprint_400",sprint_40l="sprint_40",survivor_e="survivor_easy",survivor_h="survivor_hard",survivor_l="survivor_lunatic",survivor_n="survivor_normal",survivor_u="survivor_ultimate",tech_finesse_f="tech_finesse2",tech_h_plus="tech_hard2",tech_h="tech_hard",tech_l_plus="tech_lunatic2",tech_l="tech_lunatic",tech_n_plus="tech_normal2",tech_n="tech_normal",techmino49_e="techmino49_easy",techmino49_h="techmino49_hard",techmino49_u="techmino49_ultimate",techmino99_e="techmino99_easy",techmino99_h="techmino99_hard",techmino99_u="techmino99_ultimate",tsd_e="tsd_easy",tsd_h="tsd_hard",tsd_u="tsd_ultimate"}do
-			v="record/"..v
-			if fs.getInfo(v)then
-				fs.write("record/"..k,fs.read(v))
-				fs.remove(v)
-			end
+	local modeTable={attacker_h="attacker_hard",attacker_u="attacker_ultimate",blind_e="blind_easy",blind_h="blind_hard",blind_l="blind_lunatic",blind_n="blind_normal",blind_u="blind_ultimate",c4wtrain_l="c4wtrain_lunatic",c4wtrain_n="c4wtrain_normal",defender_l="defender_lunatic",defender_n="defender_normal",dig_100l="dig_10",dig_10l="dig_100",dig_400l="dig_40",dig_40l="dig_400",dig_h="dig_hard",dig_u="dig_ultimate",drought_l="drought_lunatic",drought_n="drought_normal",marathon_h="marathon_hard",marathon_n="marathon_normal",pc_h="pcchallenge_hard",pc_l="pcchallenge_lunatic",pc_n="pcchallenge_normal",pctrain_l="pctrain_lunatic",pctrain_n="pctrain_normal",round_e="round_1",round_h="round_2",round_l="round_3",round_n="round_4",round_u="round_5",solo_e="solo_1",solo_h="solo_2",solo_l="solo_3",solo_n="solo_4",solo_u="solo_5",sprint_1000l="sprint_10",sprint_100l="sprint_100",sprint_10l="sprint_1000",sprint_20l="sprint_20",sprint_400l="sprint_400",sprint_40l="sprint_40",survivor_e="survivor_easy",survivor_h="survivor_hard",survivor_l="survivor_lunatic",survivor_n="survivor_normal",survivor_u="survivor_ultimate",tech_finesse_f="tech_finesse2",tech_h_plus="tech_hard2",tech_h="tech_hard",tech_l_plus="tech_lunatic2",tech_l="tech_lunatic",tech_n_plus="tech_normal2",tech_n="tech_normal",techmino49_e="techmino49_easy",techmino49_h="techmino49_hard",techmino49_u="techmino49_ultimate",techmino99_e="techmino99_easy",techmino99_h="techmino99_hard",techmino99_u="techmino99_ultimate",tsd_e="tsd_easy",tsd_h="tsd_hard",tsd_u="tsd_ultimate"}
+	for k,v in next,modeTable do
+		v="record/"..v
+		if fs.getInfo(v.."dat")then
+			fs.write("record/"..k.."rec",fs.read(v.."dat"))
+			fs.remove(v.."dat")
+		end
+		if fs.getInfo(v.."rec")then
+			fs.write("record/"..k.."rec",fs.read(v.."rec"))
+			fs.remove(v.."rec")
 		end
 	end
 	if RANKS["blind_easy"]then
-		for k,v in next,{attacker_h="attacker_hard",attacker_u="attacker_ultimate",blind_e="blind_easy",blind_h="blind_hard",blind_l="blind_lunatic",blind_n="blind_normal",blind_u="blind_ultimate",c4wtrain_l="c4wtrain_lunatic",c4wtrain_n="c4wtrain_normal",defender_l="defender_lunatic",defender_n="defender_normal",dig_100l="dig_10",dig_10l="dig_100",dig_400l="dig_40",dig_40l="dig_400",dig_h="dig_hard",dig_u="dig_ultimate",drought_l="drought_lunatic",drought_n="drought_normal",marathon_h="marathon_hard",marathon_n="marathon_normal",pc_h="pcchallenge_hard",pc_l="pcchallenge_lunatic",pc_n="pcchallenge_normal",pctrain_l="pctrain_lunatic",pctrain_n="pctrain_normal",round_e="round_1",round_h="round_2",round_l="round_3",round_n="round_4",round_u="round_5",solo_e="solo_1",solo_h="solo_2",solo_l="solo_3",solo_n="solo_4",solo_u="solo_5",sprint_1000l="sprint_10",sprint_100l="sprint_100",sprint_10l="sprint_1000",sprint_20l="sprint_20",sprint_400l="sprint_400",sprint_40l="sprint_40",survivor_e="survivor_easy",survivor_h="survivor_hard",survivor_l="survivor_lunatic",survivor_n="survivor_normal",survivor_u="survivor_ultimate",tech_finesse_f="tech_finesse2",tech_h_plus="tech_hard2",tech_h="tech_hard",tech_l_plus="tech_lunatic2",tech_l="tech_lunatic",tech_n_plus="tech_normal2",tech_n="tech_normal",techmino49_e="techmino49_easy",techmino49_h="techmino49_hard",techmino49_u="techmino49_ultimate",techmino99_e="techmino99_easy",techmino99_h="techmino99_hard",techmino99_u="techmino99_ultimate",tsd_e="tsd_easy",tsd_h="tsd_hard",tsd_u="tsd_ultimate"}do
+		for k,v in next,modeTable do
 			RANKS[k]=RANKS[v]
 			RANKS[v]=nil
 		end
