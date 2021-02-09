@@ -559,7 +559,7 @@ do--httpRequest & wsConnect
 		end
 
 		function wsConnect(tick,path,header)
-			if TASK.netTaskCount>0 then
+			if TASK.wsConnecting then
 				LOG.print(text.waitNetTask,"message")
 				return
 			end
@@ -569,7 +569,7 @@ do--httpRequest & wsConnect
 				header=header,
 			}
 			if task then
-				TASK.newNet(tick,task)
+				TASK.newWS(tick,task)
 			else
 				LOG.print("NETlib error: "..err,"warn")
 			end

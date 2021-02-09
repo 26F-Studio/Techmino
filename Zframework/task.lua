@@ -5,6 +5,7 @@ local tasks={}
 
 local TASK={
 	netTaskCount=0,
+	wsConnecting=false,
 }
 function TASK.getCount()
 	return #tasks
@@ -17,7 +18,10 @@ function TASK.update()
 			if T.net then
 				TASK.netTaskCount=TASK.netTaskCount-1
 			end
-			rem(tasks,i)
+			if T.ws then
+				TASK.wsConnecting=false
+			end
+		rem(tasks,i)
 		end
 	end
 end
@@ -41,6 +45,20 @@ function TASK.newNet(code,...)
 			code=code,
 			args={...},
 			net=true,
+		}
+	end
+end
+function TASK.newWS(code,...)
+	TASK.wsConnecting=true
+	local thread=ct.create(code)
+	ct.resume(thread,...)
+	if ct.status(thread)~="dead"then
+		tasks[#tasks+1]={
+			thread=thread,
+			code=code,
+			args={...},
+			net=true,
+			ws=true,
 		}
 	end
 end

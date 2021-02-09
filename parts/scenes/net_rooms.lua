@@ -28,7 +28,6 @@ local function task_enterRoom(task)
 	end
 end
 local function enterRoom(roomID)
-	coroutine.yield()
 	wsConnect(
 		task_enterRoom,
 		PATH.socket..PATH.onlinePlay..
@@ -72,7 +71,7 @@ local function task_createRoom(task)
 			local res=json.decode(response.body)
 			if response.code==200 and res.message=="OK"then
 				LOG.print(text.createRoomSuccessed)
-				TASK.newNet(enterRoom,res.room.id)
+				enterRoom(res.room.id)
 			else
 				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
 			end
