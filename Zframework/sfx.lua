@@ -30,7 +30,7 @@ function SFX.init(list)
 			SFX.play(s,v,(P.curX+P.sc[2]-5.5)*.15)
 		end
 		function SFX.play(s,vol,pos)
-			if SETTING.sfx==0 then return end
+			if SETTING.sfx==0 or vol==0 then return end
 			local S=Sources[s]--Source list
 			if not S then return end
 			local n=1
