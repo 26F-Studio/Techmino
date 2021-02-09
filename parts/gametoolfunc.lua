@@ -363,7 +363,7 @@ end
 
 --Game draw
 local VK=virtualkey
-function drawVirtualKeys()
+function drawVirtualkeys()
 	if SETTING.VKSwitch then
 		local a=SETTING.VKAlpha
 		local _
@@ -403,6 +403,57 @@ function drawVirtualKeys()
 		end
 	end
 end
+function onVirtualkey(x,y)
+	local dist,nearest=1e10
+	for K=1,#VK do
+		local B=VK[K]
+		if B.ava then
+			local d1=(x-B.x)^2+(y-B.y)^2
+			if d1<B.r^2 then
+				if d1<dist then
+					nearest,dist=K,d1
+				end
+			end
+		end
+	end
+	return nearest
+end
+function pressVirtualkey(t,x,y)
+	local B=VK[t]
+	B.isDown=true
+	B.pressTime=10
+	if SETTING.VKTrack then
+		if SETTING.VKDodge then--Button collision (not accurate)
+		for i=1,#VK do
+				local b=VK[i]
+				local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
+				if d>0 then
+					b.x=b.x+(b.x-B.x)*d*b.r*5e-4
+					b.y=b.y+(b.y-B.y)*d*b.r*5e-4
+				end
+			end
+		end
+		local O=VK_org[t]
+		local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
+		local _OW=1-_FW-_CW
+
+		--Auto follow: finger, current, origin (weight from setting)
+		B.x,B.y=x*_FW+B.x*_CW+O.x*_OW,y*_FW+B.y*_CW+O.y*_OW
+	end
+	SFX.play("virtualKey",SETTING.VKSFX)
+	VIB(SETTING.VKVIB)
+end
+function updateVirtualkey()
+	if SETTING.VKSwitch then
+		for i=1,#VK do
+			_=VK[i]
+			if _.pressTime>0 then
+				_.pressTime=_.pressTime-1
+			end
+		end
+	end
+end
+
 
 
 --Game
@@ -478,7 +529,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 	end
 	collectgarbage()
 end
-function restoreVirtualKey()
+function restoreVirtualkey()
 	for i=1,#VK_org do
 		local B,O=virtualkey[i],VK_org[i]
 		B.ava=O.ava
@@ -683,7 +734,7 @@ do--function resetGameData(args)
 		destroyPlayers()
 		GAME.curMode.load(playerData)
 		initPlayerPosition(args:find("q"))
-		restoreVirtualKey()
+		restoreVirtualkey()
 		if GAME.modeEnv.task then
 			for i=1,#PLAYERS do
 				PLAYERS[i]:newTask(GAME.modeEnv.task)
