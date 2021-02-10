@@ -173,7 +173,10 @@ function scene.socketRead(mes)
 			end
 		end
 		playerInitialized=true
-		resetGameData("qn",playerData)
+		SFX.play("click")
+		if not playing then
+			resetGameData("qn",playerData)
+		end
 	elseif cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
@@ -217,7 +220,7 @@ function scene.socketRead(mes)
 			resetGameData("qn",playerData)
 		end
 	elseif cmd=="S"then
-		if args[1]~=PLAYERS[1].subID then
+		if playing and args[1]~=PLAYERS[1].subID then
 			for _,P in next,PLAYERS do
 				if P.subID==args[1]then
 					pumpRecording(data.decode("string","base64",args[2]),P.stream)
