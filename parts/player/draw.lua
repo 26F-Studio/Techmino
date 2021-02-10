@@ -660,14 +660,14 @@ function draw.norm(P)
 		gc_pop()
 
 		--Speed dials
-		drawDial(510,510,P.dropSpeed)
-		drawDial(555,565,P.keySpeed)
-		gc_draw(drawableText.bpm,540,480)
-		gc_draw(drawableText.kpm,494,573)
+		drawDial(510,515,P.dropSpeed)
+		drawDial(555,570,P.keySpeed)
+		gc_setColor(1,1,1)
+		gc_draw(drawableText.bpm,540,485)
+		gc_draw(drawableText.kpm,494,578)
 
 		--Mode informations
 		if GAME.curMode.mesDisp then
-			gc_setColor(1,1,1)
 			GAME.curMode.mesDisp(P)
 		end
 
@@ -812,7 +812,7 @@ function draw.norm_remote(P)
 		gc_pop()
 
 		--Speed dials
-		drawDial(530,535,P.dropSpeed)
+		drawDial(535,545,P.dropSpeed)
 
 		--Mode informations
 		if GAME.curMode.mesDisp then
