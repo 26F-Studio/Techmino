@@ -170,13 +170,8 @@ function scene.update()
 				end
 				if noNewTile then
 					fallingTimer=false
-					for i=1,4 do
-						for j=1,4 do
-							if board[i][j]==board[i+1][j]or board[i][j]==board[i][j+1]then
-								return
-							end
-						end
-					end
+					for i=1,4 do for j=1,5 do if board[i][j]==board[i+1][j]then return end end end
+					for i=1,5 do for j=1,4 do if board[i][j]==board[i][j+1]then return end end end
 					state=2
 					SFX.play("fail")
 				else
