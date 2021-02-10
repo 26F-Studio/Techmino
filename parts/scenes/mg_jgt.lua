@@ -22,12 +22,8 @@ local tileColor={
 	{.78, .31, .00},
 	{.78, .55, .04},
 	{.12, .12, .51},
-	{.78, .78, .78},
-	{.40, .40, .40},
-	{.20, .20, .20},
-	{.00, .00, .00},
 }
-local newTile={0,2,2,2,3,3,3,3,4,4,4,5,5}
+local newTile={0,2,2,2,3,3,3,3,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5}
 
 local board,cx,cy
 local startTime,time
@@ -147,15 +143,9 @@ function scene.mouseDown(x,y)
 	merge()
 end
 
-function scene.touchDown(x,y)
-	scene.mouseMove(x,y)
-end
-function scene.touchMove(x,y)
-	scene.mouseMove(x,y)
-end
-function scene.touchClick(x,y)
-	scene.mouseDown(x,y)
-end
+scene.touchDown=scene.mouseMove
+scene.touchMove=scene.mouseMove
+scene.touchClick=scene.mouseDown
 
 function scene.update()
 	if state==1 then
@@ -215,17 +205,22 @@ function scene.draw()
 
 	gc.setLineWidth(4)
 	setFont(70)
+	local hide=blind and state==1
 	for i=1,5 do
 		for j=1,5 do
 			local N=board[i][j]
 			if N>0 then
-				if blind and state==1 and N>newTile[maxTile]then
+				if hide and N>newTile[maxTile]then
 					setColor(COLOR.dGrey)
 					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.3)
 					mStr("?",j*128+256,i*128-75)
 				else
-					setColor(tileColor[N])
+					if N<=13 then
+						setColor(tileColor[N])
+					else
+						setColor(COLOR.rainbow(4*TIME()-i-j))
+					end
 					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.9)
 					mStr(N,j*128+256,i*128-75)
@@ -240,7 +235,7 @@ function scene.draw()
 	end
 	setFont(50)
 	setColor(1,1,1)
-	mStr("Just Get 10",160,580)
+	mStr("Just Get Ten",160,580)
 end
 
 scene.widgetList={

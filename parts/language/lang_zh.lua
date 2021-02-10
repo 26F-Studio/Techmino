@@ -641,7 +641,7 @@ return{
 			replay1="P",
 			replay2="P",
 		},
-		mg_get10={
+		mg_jgt={
 			reset="重置",
 			blind="盲打",
 		},

@@ -552,7 +552,7 @@ return{
 			-- tapControl="Tap control",
 			-- skip="Skip Round",
 		},
-		mg_get10={
+		mg_jgt={
 			reset="Reiniciar",
 			blind="A ciegas",
 		},

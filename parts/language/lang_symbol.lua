@@ -483,7 +483,7 @@ return{
 			tapControl="_↓",
 			skip=">>",
 		},
-		mg_get10={
+		mg_jgt={
 			reset="R",
 			blind="???",
 		},

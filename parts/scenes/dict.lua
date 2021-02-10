@@ -45,8 +45,7 @@ local eggInput={
 	uttt=goScene"mg_UTTT",
 	cbf=goScene"mg_cubefield",
 	["2048"]=goScene"mg_2048",
-	gtt=goScene"mg_get10",
-	get10="gtt",
+	jgt=goScene"mg_jgt",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)
