@@ -263,6 +263,7 @@ function scene.update(dt)
 	local _
 	local GAME=GAME
 
+	if not WSCONN and not SCN.swapping then SCN.back()end
 	if not playing then
 		heartBeatTimer=heartBeatTimer+dt
 		if heartBeatTimer>42 then
