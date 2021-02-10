@@ -641,6 +641,10 @@ return{
 			replay1="P",
 			replay2="P",
 		},
+		mg_get10={
+			reset="重置",
+			blind="盲打",
+		},
 		savedata={
 			exportUnlock="导出地图进度",
 			exportData="导出统计数据",

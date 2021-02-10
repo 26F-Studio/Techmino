@@ -759,7 +759,7 @@ return{
 	{"Minigame",
 		"minigame",
 		"other",
-		"Type the following codes in the search bar of this dictionary for some fun minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf\n2048: 2048",
+		"Type the following codes in the search bar of this dictionary for some fun minigames!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\ncubefield: cbf\n2048: 2048\nGet the ten: gtt",
 	},
 
 	--English

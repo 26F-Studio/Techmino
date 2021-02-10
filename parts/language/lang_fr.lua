@@ -544,6 +544,16 @@ return{
 			keyboard="Clavier",
 			reset="Redémarrer",
 		},
+		mg_2048={
+			reset="Réinitialiser",
+			blind="Aveugler",
+			-- tapControl="Tap control",
+			-- skip="Skip Round",
+		},
+		mg_get10={
+			reset="Réinitialiser",
+			blind="Aveugler",
+		},
 		help={
 			manual="Manuel",
 			dict="Little Z",

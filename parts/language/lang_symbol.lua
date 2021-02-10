@@ -477,6 +477,16 @@ return{
 			keyboard="[##]",
 			reset="R",
 		},
+		mg_2048={
+			reset="R",
+			blind="???",
+			tapControl="_↓",
+			skip=">>",
+		},
+		mg_get10={
+			reset="R",
+			blind="???",
+		},
 	},
 	getTip=function()
 		local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"

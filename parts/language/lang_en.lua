@@ -639,6 +639,10 @@ return{
 			replay1="P",
 			replay2="P",
 		},
+		mg_get10={
+			reset="Reset",
+			blind="Blind",
+		},
 		savedata={
 			exportUnlock="Export progress",
 			exportData="Export statistics",

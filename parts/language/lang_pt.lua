@@ -629,6 +629,16 @@ return{
 			keyboard="Teclado",
 			reset="Reiniciar",
 		},
+		mg_2048={
+			reset="Resetar",
+			blind="Cego",
+			-- tapControl="Tap control",
+			-- skip="Skip Round",
+		},
+		mg_get10={
+			reset="Resetar",
+			blind="Cego",
+		},
 		savedata={
 			exportUnlock="Exportar progresso",
 			exportData="Exportar estatística",
