@@ -234,7 +234,7 @@ function Player.getHolePos(P)--Get a good garbage-line hole position
 		if P.field[1][p]<=0 then
 			return generateLine(P:RND(10))
 		end
-		return p
+		return generateLine(p)
 	end
 end
 function Player.garbageRelease(P)--Check garbage buffer and try to release them
