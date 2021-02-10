@@ -282,6 +282,9 @@ function scene.update(dt)
 		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
 			wsWrite("S"..data.encode("string","base64",stream))
+		else
+			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,0)
 		end
 		lastUpstreamTime=PLAYERS[1].alive and GAME.frame or 1e99
 	end
