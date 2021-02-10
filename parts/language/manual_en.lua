@@ -36,7 +36,7 @@ Attack system:
 				Attack +2, Extra Blocking +2
 
 		Perfect Clear (aka All Clear):
-				half the sum of the damage above, plus additional 8 to 20 attack (increasing by 2 in a single round for each PC)
+				take the greater of 8 to 20 attack (increasing by 2 in a single round for each PC) and the sum of the damage above
 				then +2 extra blocking.(note: if lines cleared in this round >4, then B2B gauge will be filled)
 
 		Combos: All damage above will be given a (combo x25%) bonus, or (combo x15% for Single clear) (capped at 12 combo),

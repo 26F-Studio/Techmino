@@ -1170,10 +1170,33 @@ do--Player.drop(P)--Place piece
 				VOC.play(clearVoice[cc],CHN)
 			end
 
-			--PC/HPC bonus
+			--Normal clear, reduce B2B point
+			if not piece.special then
+				P.b2b=max(P.b2b-250,0)
+				if P.b2b<50 and ENV.b2bKill then
+					finish=true
+				end
+				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
+				atk=cc-.5
+				sendTime=20+int(atk*20)
+				cscore=cscore+clearSCR[cc]
+			end
+
+			--Combo bonus
+			sendTime=sendTime+25*cmb
+			if cmb>1 then
+				atk=atk*(1+(cc==1 and .15 or .25)*min(cmb-1,12))
+				if cmb>=3 then
+					atk=atk+1
+				end
+				P:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and"appear"or"flicker")
+				cscore=cscore+min(50*cmb,500)*(2*cc-1)
+			end
+
+			--PC/HPC
 			if clear and #P.field==0 then
 				P:showText(text.PC,0,-80,50,"flicker")
-				atk=atk*.5+min(8+STAT.pc*2,20)
+				atk=max(atk,min(8+STAT.pc*2,16))
 				exblock=exblock+2
 				sendTime=sendTime+120
 				if STAT.row+cc>4 then
@@ -1202,29 +1225,6 @@ do--Player.drop(P)--Place piece
 				end
 				piece.hpc=true
 				piece.special=true
-			end
-
-			--Normal clear, reduce B2B point
-			if not piece.special then
-				P.b2b=max(P.b2b-250,0)
-				if P.b2b<50 and ENV.b2bKill then
-					finish=true
-				end
-				P:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
-				atk=cc-.5
-				sendTime=20+int(atk*20)
-				cscore=cscore+clearSCR[cc]
-			end
-
-			--Combo bonus
-			sendTime=sendTime+25*cmb
-			if cmb>1 then
-				atk=atk*(1+(cc==1 and .15 or .25)*min(cmb-1,12))
-				if cmb>=3 then
-					atk=atk+1
-				end
-				P:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and"appear"or"flicker")
-				cscore=cscore+min(50*cmb,500)*(2*cc-1)
 			end
 
 			if P.b2b>1000 then P.b2b=1000 end
