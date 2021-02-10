@@ -147,13 +147,13 @@ function scene.mouseDown(x,y)
 	merge()
 end
 
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	scene.mouseMove(x,y)
 end
-function scene.touchMove(_,x,y)
+function scene.touchMove(x,y)
 	scene.mouseMove(x,y)
 end
-function scene.touchClick(_,x,y)
+function scene.touchClick(x,y)
 	scene.mouseDown(x,y)
 end
 

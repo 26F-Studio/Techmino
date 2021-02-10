@@ -61,11 +61,11 @@ function scene.keyDown(key)
 		SCN.back()
 	end
 end
-function scene.touchDown(id,x,y)
-	scene.touchMove(id,x,y)
+function scene.touchDown(x,y)
+	scene.touchMove(x,y)
 	if state==0 then start()end
 end
-function scene.touchMove(_,x,y)(x<640 and p1 or p2).y0=y end
+function scene.touchMove(x,y)(x<640 and p1 or p2).y0=y end
 function scene.mouseMove(x,y)(x<640 and p1 or p2).y0=y end
 
 --Rect Area X:150~1130 Y:20~700

@@ -22,7 +22,7 @@ function scene.mouseDown(x,y)
 	end
 end
 
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	scene.mouseDown(x,y)
 end
 

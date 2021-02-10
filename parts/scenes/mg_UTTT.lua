@@ -202,15 +202,15 @@ function scene.draw()
 	end
 end
 
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	scene.mouseMove(x,y)
 end
 
-function scene.touchMove(_,x,y)
+function scene.touchMove(x,y)
 	scene.mouseMove(x,y)
 end
 
-function scene.touchUp(_,x,y)
+function scene.touchUp(x,y)
 	scene.mouseDown(x,y)
 end
 

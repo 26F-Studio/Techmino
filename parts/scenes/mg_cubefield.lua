@@ -66,7 +66,7 @@ function scene.sceneInit()
 	BG.set("none")
 end
 
-function scene.touchDown(_,x)
+function scene.touchDown(x)
 	if play then
 		if x<640 then
 			moveDir=-1
@@ -75,7 +75,7 @@ function scene.touchDown(_,x)
 		end
 	end
 end
-function scene.touchUp(_,x)
+function scene.touchUp(x)
 	if play then
 		local L=tc.getTouches()
 		if x<640 then

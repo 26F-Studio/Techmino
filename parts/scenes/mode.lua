@@ -93,7 +93,7 @@ end
 function scene.touchDown()
 	touchDist=false
 end
-function scene.touchMove(_,x,y,dx,dy)
+function scene.touchMove(x,y,dx,dy)
 	local L=tc.getTouches()
 	if not L[2]then
 		moveMap(dx,dy)

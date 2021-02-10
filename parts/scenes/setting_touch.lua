@@ -50,7 +50,7 @@ function scene.mouseUp()
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	selected=onVK_org(x,y)or selected
 end
 function scene.touchUp()
@@ -60,7 +60,7 @@ function scene.touchUp()
 		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
 	end
 end
-function scene.touchMove(_,_,_,dx,dy)
+function scene.touchMove(_,_,dx,dy)
 	if selected and not WIDGET.sel then
 		local B=VK_org[selected]
 		B.x,B.y=B.x+dx,B.y+dy

@@ -50,10 +50,10 @@ function scene.wheelMoved(_,y)
 		if pen==0 then pen=24 end
 	end
 end
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	scene.mouseMove(x,y)
 end
-function scene.touchMove(_,x,y)
+function scene.touchMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end

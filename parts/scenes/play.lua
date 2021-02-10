@@ -30,7 +30,7 @@ local function restart()
 	resetGameData(GAME.frame<240 and"q")
 	noKey=GAME.replaying
 end
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	if noTouch then return end
 
 	local t=onVirtualkey(x,y)
@@ -39,7 +39,7 @@ function scene.touchDown(_,x,y)
 		pressVirtualkey(t,x,y)
 	end
 end
-function scene.touchUp(_,x,y)
+function scene.touchUp(x,y)
 	if noTouch then return end
 
 	local t=onVirtualkey(x,y)

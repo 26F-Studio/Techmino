@@ -183,10 +183,10 @@ function scene.mouseMove(x,y)
 		tapBoard(x,y)
 	end
 end
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	tapBoard(x,y)
 end
-function scene.touchMove(_,x,y)
+function scene.touchMove(x,y)
 	if slide then
 		tapBoard(x,y)
 	end

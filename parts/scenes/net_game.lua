@@ -52,7 +52,7 @@ function scene.sceneInit()
 	heartBeatTimer=0
 end
 
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	if noTouch then return end
 
 	local t=onVirtualkey(x,y)
@@ -61,7 +61,7 @@ function scene.touchDown(_,x,y)
 		pressVirtualkey(t,x,y)
 	end
 end
-function scene.touchUp(_,x,y)
+function scene.touchUp(x,y)
 	if noTouch then return end
 
 	local t=onVirtualkey(x,y)

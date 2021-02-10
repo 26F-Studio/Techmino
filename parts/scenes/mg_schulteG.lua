@@ -77,7 +77,7 @@ end
 function scene.mouseDown(x,y)
 	tapBoard(x,y)
 end
-function scene.touchDown(_,x,y)
+function scene.touchDown(x,y)
 	tapBoard(x,y)
 end
 function scene.keyDown(key)
