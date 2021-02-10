@@ -132,10 +132,10 @@ local swap={
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 	if scenes[tar]then
-		local S=SCN.stat
 		if not SCN.swapping and tar~=SCN.cur then
 			if not style then style="fade"end
 			SCN.swapping=true
+			local S=SCN.stat
 			S.tar,S.style=tar,style
 			S.time,S.mid,S.draw=unpack(swap[style])
 		end
