@@ -419,7 +419,7 @@ function love.run()
 	local SCN=SCN
 	local SETTING=SETTING
 
-	local TIME=love.timer.getTime
+	local TIME=TIME
 	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local MINI=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll

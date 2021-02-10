@@ -984,7 +984,7 @@ function WIDGET.set(list)
 			end
 			local rnd=math.random
 			for _,W in next,list do
-				if W.color then
+				if W.color and not W.fText then
 					W.color=rnd()<.3 and c1 or rnd()<.5 and c2 or c3
 				end
 			end
