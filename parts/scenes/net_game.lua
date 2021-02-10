@@ -236,6 +236,8 @@ function scene.socketRead(mes)
 	elseif cmd=="B"then
 		if not playing then
 			playing=true
+			lastUpstreamTime=0
+			upstreamProgress=1
 			resetGameData("n",playerData,tonumber(args[1]))
 		else
 			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
