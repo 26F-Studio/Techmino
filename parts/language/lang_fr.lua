@@ -101,6 +101,7 @@ return{
 	-- leaveRoom="left the room.",
 	-- notReady="Waiting",
 	-- beReady="Ready",
+	-- champion="$1 won",
 	-- chatRemain="Online: ",
 	-- chatStart="------Beginning of log------",
 	-- chatHistory="------New messages below------",

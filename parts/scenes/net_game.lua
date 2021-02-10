@@ -244,8 +244,13 @@ function scene.socketRead(mes)
 		end
 	elseif cmd=="F"then
 		playing=false
-		LOG.print(text.gameover,30,COLOR.green)
 		resetGameData("n",playerData)
+		for i=1,#playerData do
+			if playerData[i].sid==args[1]then
+				TEXT.show(text.champion:gsub("$1",playerData[i].name.."#"..playerData[i].id),640,260,80,"zoomout",.26)
+				break
+			end
+		end
 	else
 		LOG.print("Illegal message: ["..mes.."]",30,COLOR.green)
 	end

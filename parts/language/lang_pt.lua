@@ -99,6 +99,7 @@ return{
 	leaveRoom="Saiu da sala.",
 	-- notReady="Waiting",
 	-- beReady="Ready",
+	-- champion="$1 won",
 	chatRemain="Online: ",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",
