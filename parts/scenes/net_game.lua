@@ -165,12 +165,7 @@ function scene.socketRead(mes)
 		end
 		for i=1,#args do
 			local L=splitStr(args[i],",")
-			L={name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"}
-			if tostring(USER.id)~=L.id then
-				ins(playerData,L)
-			else
-				ins(playerData,1,L)
-			end
+			ins(playerData,{name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"})
 		end
 		playerInitialized=true
 		SFX.play("click")
