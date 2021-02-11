@@ -1,5 +1,5 @@
-VERSION_CODE=1226
-VERSION_NAME="Alpha V0.12.X"
+VERSION_CODE=1300
+VERSION_NAME="Alpha V0.13.0"
 love.setDeprecationOutput(false)
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
@@ -21,7 +21,7 @@ function love.conf(t)
 	W.resizable=true
 	W.fullscreentype="desktop"--"exclusive"
 	W.fullscreen=false
-	W.vsync=0--Do not limit FPS
+	W.vsync=0--Unlimited FPS
 	W.msaa=false--Num of samples to use with multi-sampled antialiasing
 	W.depth=0--Bits/samp of depth buffer
 	W.stencil=1--Bits/samp of stencil buffer
