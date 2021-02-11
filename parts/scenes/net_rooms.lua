@@ -129,7 +129,7 @@ function scene.keyDown(k)
 				json.encode{
 					email=USER.email,
 					access_token=USER.access_token,
-					room_name="Test Room "..math.random(26,626),
+					room_name=(USER.name or"???").."'s room",
 					room_password=nil,
 				}
 			)
