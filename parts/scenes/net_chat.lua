@@ -1,4 +1,5 @@
 local gc=love.graphics
+local data=love.data
 
 local textBox=WIDGET.newTextBox{name="texts",x=40,y=50,w=1200,h=430}
 local remain--People in chat room
@@ -11,7 +12,7 @@ local function _init()
 end
 local function sendMessage()
 	local W=WIDGET.active.input
-	if #W.value>0 and wsWrite("T"..W.value)then
+	if #W.value>0 and wsWrite("T"..data.encode("string","base64",W.value))then
 		W.value=""
 	end
 end
@@ -75,7 +76,7 @@ function scene.socketRead(mes)
 		textBox:push{
 			COLOR.W,args[1],
 			COLOR.dY,args[2].." ",
-			COLOR.sky,args[3]
+			data.decode("string","base64",COLOR.sky,args[3])
 		}
 	else
 		LOG.print("Illegal message: "..mes,30,COLOR.green)
