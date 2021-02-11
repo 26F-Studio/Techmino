@@ -7,6 +7,7 @@ local rnd=math.random
 
 local scene={}
 
+local state
 local bx,by=640,360--Ball posotion
 local vx,vy=0,0--Ball velocity
 local ry=0--Rotation Y

@@ -1,5 +1,7 @@
 local scene={}
 
+local sure
+
 function scene.sceneInit()
 	sure=false
 end
