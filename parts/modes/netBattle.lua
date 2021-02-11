@@ -1,7 +1,9 @@
 return{
 	color=COLOR.white,
 	env={
-		--TODO: ?
+		drop=30,
+		freshLimit=15,
+		noMod=true,
 	},
 	load=function(playerData)
 		PLY.newPlayer(1)
