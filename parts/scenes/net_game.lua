@@ -201,7 +201,7 @@ function scene.socketRead(mes)
 		textBox:push{
 			COLOR.W,args[1],
 			COLOR.dY,"#"..args[2].." ",
-			data.decode("string","base64",COLOR.sky,args[3])
+			COLOR.sky,data.decode("string","base64",args[3])
 		}
 	elseif cmd=="C"then
 		if tostring(USER.id)~=args[2]then

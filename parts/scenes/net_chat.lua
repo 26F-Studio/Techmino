@@ -76,7 +76,7 @@ function scene.socketRead(mes)
 		textBox:push{
 			COLOR.W,args[1],
 			COLOR.dY,"#"..args[2].." ",
-			data.decode("string","base64",COLOR.sky,args[3])
+			COLOR.sky,data.decode("string","base64",args[3])
 		}
 	else
 		LOG.print("Illegal message: "..mes,30,COLOR.green)
