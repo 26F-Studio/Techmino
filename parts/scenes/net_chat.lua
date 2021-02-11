@@ -68,14 +68,14 @@ function scene.socketRead(mes)
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
-			COLOR.dY,args[2].." ",
+			COLOR.dY,"#"..args[2].." ",
 			COLOR.Y,text[cmd=="J"and"joinRoom"or"leaveRoom"]
 		}
 		remain=tonumber(args[3])
 	elseif cmd=="T"then
 		textBox:push{
 			COLOR.W,args[1],
-			COLOR.dY,args[2].." ",
+			COLOR.dY,"#"..args[2].." ",
 			data.decode("string","base64",COLOR.sky,args[3])
 		}
 	else
