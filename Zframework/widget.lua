@@ -19,14 +19,12 @@ local text={
 	alpha=0,
 }
 function text:reset()
-	if not self.plain and type(self.text)=="string"then
+	if type(self.text)=="string"then
 		self.text=gc.newText(getFont(self.font),self.text)
 	elseif type(self.text)~="userdata"or self.text.type(self.text)~="Text"then
 		self.text=gc.newText(getFont(self.font),self.name)
-		if not self.plain then
-			self.color=COLOR.dPurple
-			self.font=self.font-10
-		end
+		self.color=COLOR.dPurple
+		self.font=self.font-10
 	end
 end
 function text:update()
@@ -51,7 +49,7 @@ function text:draw()
 		end
 	end
 end
-function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,plain=false][,hide]
+function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,hide]
 	local _={
 		name=	D.name,
 		x=		D.x,
@@ -61,7 +59,6 @@ function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,plai
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	D.align or"M",
-		plain=	D.plain==true,
 		hideCon=D.hide,
 	}
 	for k,v in next,text do _[k]=v end

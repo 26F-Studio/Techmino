@@ -104,8 +104,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name=SYSTEM,		x=610,y=50,color="white",font=30,align="L",plain=true},
-	WIDGET.newText{name=VERSION_NAME,x=610,y=90,color="white",font=30,align="L",plain=true},
+	WIDGET.newText{name="system",	x=610,y=50,fText=SYSTEM,color="white",font=30,align="L"},
+	WIDGET.newText{name="version",	x=610,y=90,fText=VERSION_NAME,color="white",font=30,align="L"},
 	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=goScene"mode"},
 	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
 		if LOGIN then
