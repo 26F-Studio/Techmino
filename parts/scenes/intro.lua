@@ -21,11 +21,11 @@ function scene.mouseDown(_,_,k)
 			LOG.print("Old version detected & saving file changed, please restart the game",600,COLOR.yellow)
 		else
 			if newVersionLaunch then
-				SCN.push("main")
+				SCN.push(SETTING.simpMode and"main_simple"or"main")
 				SCN.swapTo("history","fade")
 				LOG.print(text.newVersion,"warn",COLOR.lBlue)
 			else
-				SCN.go("main")
+				SCN.go(SETTING.simpMode and"main_simple"or"main")
 			end
 		end
 	end

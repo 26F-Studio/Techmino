@@ -223,6 +223,10 @@ return{
 			music="Music Room",
 			sound="SE Room",
 		},
+		main_simple={
+			sprint="Sprint",
+			marathon="Marathon",
+		},
 		mode={
 			mod="Mods (F1)",
 			start="Start",
@@ -273,6 +277,7 @@ return{
 			swap="Key Combination (Change Atk. Mode)",
 			fine="Finesse Error Sound",
 			appLock="App Lock (Password: 626)",
+			simpMode="Simple mode",
 			calc="App Lock",
 		},
 		setting_video={

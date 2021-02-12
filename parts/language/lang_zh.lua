@@ -224,6 +224,10 @@ return{
 			music="音乐室",
 			sound="音效室",
 		},
+		main_simple={
+			sprint="40行",
+			marathon="马拉松",
+		},
 		mode={
 			mod="Mods (F1)",
 			start="开始",
@@ -274,6 +278,7 @@ return{
 			swap="组合键切换攻击模式",
 			fine="极简操作提示音",
 			appLock="软件锁(密码626)",
+			simpMode="简洁模式",
 			calc="软件锁",
 		},
 		setting_video={

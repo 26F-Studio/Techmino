@@ -136,6 +136,7 @@ return{
 			swap="=+=+=",
 			fine="12 X 21",
 			appLock="?XX(=626)",
+			-- simpMode="_",
 			calc="?XX",
 		},
 		setting_video={

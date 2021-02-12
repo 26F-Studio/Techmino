@@ -223,6 +223,10 @@ return{
 			music="Música",
 			sound="SFX",
 		},
+		main_simple={
+			sprint="Sprint",
+			marathon="Maratona",
+		},
 		mode={
 			mod="Mods (F1)",
 			start="Começar",
@@ -273,6 +277,7 @@ return{
 			swap="Combinação de tecla(Mudar modo de atk)",
 			fine="Som Falha de destreza",
 			appLock="App Lock (Senha: 626)",
+			-- simpMode="Simple mode",
 			calc="App Lock",
 		},
 		setting_video={

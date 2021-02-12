@@ -267,6 +267,7 @@ SETTING={--Settings
 	autoPause=true,
 	fine=false,
 	appLock=false,
+	simpMode=false,
 	lang=1,
 	skinSet=1,
 	skin={

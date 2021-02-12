@@ -201,6 +201,10 @@ return{
 			music="Salon musical",
 			sound="Salon SE",
 		},
+		main_simple={
+			sprint="Sprint",
+			marathon="Marathon",
+		},
 		mode={
 			-- mod="Mods (F1)",
 			start="Démarrer",
@@ -252,6 +256,7 @@ return{
 			swap="Combinaison de touches (changer le mode d'attaque)",
 			fine="Son d'erreur de Finesse",
 			appLock="Verrouillage d'appli (MDP : 626)",
+			-- simpMode="Simple mode",
 			calc="Verrouillage d'appli",
 		},
 		setting_video={

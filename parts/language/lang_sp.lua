@@ -203,6 +203,10 @@ return{
 			music="Música",
 			sound="Sala de SE",
 		},
+		main_simple={
+			sprint="Sprint",
+			marathon="Maratón",
+		},
 		mode={
 			-- mod="Mods (F1)",
 			start="Empezar",
@@ -253,6 +257,7 @@ return{
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
 			fine="Sonido de Error de Finesse",
 			appLock="Bloqueo de App (Contraseña: 626)",
+			-- simpMode="Simple mode",
 			calc="Bloqueo de App",
 		},
 		setting_video={
