@@ -371,6 +371,8 @@ do
 		NOGAME=true
 		fs.remove("conf/key")
 	end
+	USER.username=nil
+
 	if STAT.version~=VERSION_CODE then
 		newVersionLaunch=true
 		STAT.version=VERSION_CODE

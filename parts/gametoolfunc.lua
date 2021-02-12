@@ -950,7 +950,7 @@ do--function saveRecording()
 			os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
 			GAME.curModeName.."\n"..
 			VERSION_NAME.."\n"..
-			(USER.username or"Player")
+			(USER.name or"Player")
 		local fileBody=
 			GAME.seed.."\n"..
 			json.encode(GAME.setting).."\n"..
@@ -1051,13 +1051,12 @@ function TICK_httpREQ_getUserInfo(task)
 		if response then
 			local res=json.decode(response.body)
 			if response.code==200 and res.message=="OK"then
-				-- LOG.print(text.accessSuccessed)
-				USER.username=res.username
+				USER.name=res.username
 				USER.motto=res.motto
 				USER.avatar=res.avatar
 				FILE.save(USER,"conf/user")
 			else
-				-- LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")
+				LOG.print("Get user info failed: "..text.httpCode..response.code.."-"..res.message,"warn")
 			end
 			return
 		elseif request_error then
