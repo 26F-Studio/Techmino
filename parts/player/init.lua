@@ -36,10 +36,8 @@ local function pressKey(P,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
-			if P.keyRec then
-				ins(P.keyTime,1,GAME.frame)
-				P.keyTime[11]=nil
-			end
+			ins(P.keyTime,1,GAME.frame)
+			P.keyTime[11]=nil
 		end
 		P.stat.key=P.stat.key+1
 	end
@@ -50,22 +48,20 @@ end
 local function pressKey_Rec(P,keyID)
 	if P.keyAvailable[keyID]and P.alive then
 		local L=GAME.rep
-		ins(L,GAME.frame+1)
+		ins(L,GAME.frame)
 		ins(L,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
-			if P.keyRec then
-				ins(P.keyTime,1,GAME.frame)
-				P.keyTime[11]=nil
-			end
+			ins(P.keyTime,1,GAME.frame)
+			P.keyTime[11]=nil
 		end
 		P.stat.key=P.stat.key+1
 	end
 end
 local function releaseKey_Rec(P,keyID)
 	local L=GAME.rep
-	ins(L,GAME.frame+1)
+	ins(L,GAME.frame)
 	ins(L,32+keyID)
 	P.keyPressing[keyID]=false
 end
@@ -102,7 +98,6 @@ local function newEmptyPlayer(id,mini)
 		P.frameWait=rnd(30,120)
 		P.draw=PLY.draw.small
 	else
-		P.keyRec=true--If calculate keySpeed
 		P.draw=PLY.draw.norm
 	end
 	P.randGen=love.math.newRandomGenerator(GAME.seed)

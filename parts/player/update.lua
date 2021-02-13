@@ -118,26 +118,25 @@ function update.alive(P,dt)
 		S.time=S.time+dt
 		S.frame=S.frame+1
 	end
-	if P.keyRec then--Update speeds
-		local frame=GAME.frame
 
+	--Calculate key speed
+	do
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.keyTime[i]+1)end
+		for i=2,10 do v=v+i*(i-1)*7.2/(GAME.frame-P.keyTime[i]+1)end
 		P.keySpeed=P.keySpeed*.99+v*.1
-
 		v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(frame-P.dropTime[i])end
+		for i=2,10 do v=v+i*(i-1)*7.2/(GAME.frame-P.dropTime[i])end
 		P.dropSpeed=P.dropSpeed*.99+v*.1
+	end
 
-		if GAME.modeEnv.royaleMode then
-			v=P.swappingAtkMode
-			if P.keyPressing[9]then
-				P.swappingAtkMode=min(v+2,30)
-			else
-				local tar=#P.field>15 and 4 or 8
-				if v~=tar then
-					P.swappingAtkMode=v+(v<tar and 1 or -1)
-				end
+	if GAME.modeEnv.royaleMode then
+		v=P.swappingAtkMode
+		if P.keyPressing[9]then
+			P.swappingAtkMode=min(v+2,30)
+		else
+			local tar=#P.field>15 and 4 or 8
+			if v~=tar then
+				P.swappingAtkMode=v+(v<tar and 1 or -1)
 			end
 		end
 	end
@@ -340,15 +339,16 @@ function update.alive(P,dt)
 	updateTasks(P)
 end
 function update.dead(P,dt)
-	if P.keyRec then
-		local S=P.stat
-		P.keySpeed=P.keySpeed*.96+S.key/S.frame*144
-		P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*144
-		--Final average speeds
-		if GAME.modeEnv.royaleMode then
-			P.swappingAtkMode=min(P.swappingAtkMode+2,30)
-		end
+	local S=P.stat
+
+	--Final average key speed
+	P.keySpeed=P.keySpeed*.96+S.key/S.frame*144
+	P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*144
+
+	if GAME.modeEnv.royaleMode then
+		P.swappingAtkMode=min(P.swappingAtkMode+2,30)
 	end
+
 	if P.falling>=0 then
 		P.falling=P.falling-1
 		if P.falling<0 then

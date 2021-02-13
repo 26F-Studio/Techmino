@@ -125,16 +125,12 @@ end
 
 function scene.update(dt)
 	local _
-	local P1=PLAYERS[1]
 	local GAME=GAME
-
-	touchMoveLastFrame=false
-	updateVirtualkey()
-	GAME.frame=GAME.frame+1
 
 	--Replay
 	if GAME.replaying then
 		_=GAME.replaying
+		local P1=PLAYERS[1]
 		local L=GAME.rep
 		while GAME.frame==L[_]do
 			local key=L[_+1]
@@ -151,21 +147,23 @@ function scene.update(dt)
 		GAME.replaying=_
 	end
 
+	touchMoveLastFrame=false
+	updateVirtualkey()
+	GAME.frame=GAME.frame+1
+
 	--Counting, include pre-das
 	if checkStart()then return end
 
 	--Update players
-	for p=1,#PLAYERS do
-		PLAYERS[p]:update(dt)
-	end
+	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
+
+	--Warning check
+	checkWarning()
 
 	--Fresh royale target
 	if GAME.modeEnv.royaleMode and GAME.frame%120==0 then
 		freshMostDangerous()
 	end
-
-	--Warning check
-	checkWarning()
 end
 
 local function drawAtkPointer(x,y)

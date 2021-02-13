@@ -270,30 +270,29 @@ function scene.update(dt)
 
 	touchMoveLastFrame=false
 	updateVirtualkey()
-
 	GAME.frame=GAME.frame+1
+
+	--Counting, include pre-das
+	if checkStart()then return end
+
+	--Update players
+	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
+
+	--Warning check
+	checkWarning()
+
+	--Upload stream
 	if GAME.frame-lastUpstreamTime>8 then
 		local stream
 		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
 			wsWrite("S"..data.encode("string","base64",stream))
 		else
-			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,0)
 		end
 		lastUpstreamTime=PLAYERS[1].alive and GAME.frame or 1e99
 	end
-
-	--Counting, include pre-das
-	if checkStart()then return end
-
-	--Update players
-	for p=1,#PLAYERS do
-		PLAYERS[p]:update(dt)
-	end
-
-	--Warning check
-	checkWarning()
 end
 
 function scene.draw()
