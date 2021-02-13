@@ -4,10 +4,12 @@
 
 	usage:
 		local client = require("websocket").new()
+		client:settimeout(1)
 		client:connect("127.0.0.1", 5000)
 		client:settimeout(0)
 		client:send("hello from love2d")
-		print(client:read())
+		res, opcode = client:read()
+		print(res)
 		client:close()
 ]]
 
@@ -32,15 +34,14 @@ local _M = {
 _M.__index = _M
 
 function _M.new()
-	local m = {}
+	local m = {socket = socket.tcp()}
 	setmetatable(m, _M)
 	return m
 end
 
 local seckey = "osT3F7mvlojIvf3/8uIsJQ=="
-function _M.connect(self, host, port, path)
-	local SOCK = socket.tcp()
-	self.socket = SOCK
+function _M:connect(host, port, path)
+	local SOCK = self.socket
 	local res, err = SOCK:connect(host, port)
 	if res~=1 then return res, err end
 	-- debug_print("[handshake] connected")
@@ -51,12 +52,16 @@ function _M.connect(self, host, port, path)
 	-- debug_print("[handshake] succeed")
 end
 
-function _M.send(self, message)
-	local SOCK = self.socket
+local function send(SOCK, opcode, message)
 	local mask_key = {1, 14, 5, 14}
 
 	-- message type
-	SOCK:send(string.char(bor(0x80, OPCODES.BINARY)))
+	SOCK:send(string.char(bor(0x80, opcode)))
+
+	if message==nil then
+		SOCK:send(string.char(0x80, unpack(mask_key)))
+		return 0
+	end
 
 	-- length
 	local length = #message
@@ -80,18 +85,30 @@ function _M.send(self, message)
 	for i = 1, length do
 		msgbyte[i] = bxor(msgbyte[i], mask_key[(i-1)%4+1])
 	end
-	SOCK:send(string.char(unpack(msgbyte)))
+	return SOCK:send(string.char(unpack(msgbyte)))
 	-- debug_print("[encode] end")
 end
 
-function _M.read(self)
+function _M:send(message)
+	send(self.socket, OPCODES.BINARY, message)
+end
+
+function _M:ping(message)
+	send(self.socket, OPCODES.PING, message)
+end
+
+function _M:pong(message)
+	send(self.socket, OPCODES.PONG, message)
+end
+
+function _M:read()
 	-- byte 0-1
 	local SOCK = self.socket
 	local res, err = SOCK:receive(2)
 	if res==nil then return res, err end
 
 	-- local flag_FIN = res:byte()>=0x80
-	-- local OPCODE = band(res:byte(), 0x0f)
+	local OPCODE = band(res:byte(), 0x0f)
 	-- local flag_MASK = res:byte(2)>=0x80
 	-- debug_print("[decode] FIN="..tostring(flag_FIN)..", OPCODE="..OPCODE..", MASK="..tostring(flag_MASK))
 
@@ -111,13 +128,18 @@ function _M.read(self)
 
 	-- data
 	res = SOCK:receive(length)
+	if OPCODE==OPCODES.PING then
+		self:pong(res)
+	elseif OPCODE==OPCODES.CLOSE then
+		self:close()
+	end
 	-- debug_print("[decode] string length: "..#res)
 	-- debug_print("[decode] end")
-	return res
+	return res, OPCODE
 end
 
-function _M.close(self) self.socket:close() end
+function _M:close() self.socket:close() end
 
-function _M.settimeout(self, t) self.socket:settimeout(t) end
+function _M:settimeout(t) self.socket:settimeout(t) end
 
 return _M
