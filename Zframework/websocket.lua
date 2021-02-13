@@ -15,7 +15,6 @@
 
 -- local debug_print=print
 local socket = require"socket"
-local bit = require"bit"
 local band, bor, bxor = bit.band, bit.bor, bit.bxor
 local shl, shr = bit.lshift, bit.rshift
 
