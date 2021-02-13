@@ -127,7 +127,9 @@ function love.mousereleased(x,y,k,touch)
 	WIDGET.release(mx,my)
 	WIDGET.moveCursor(mx,my)
 	if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
-	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<26 then SCN.mouseClick(mx,my,k)end
+	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<42 then
+		SCN.mouseClick(mx,my,k)
+	end
 end
 function love.wheelmoved(x,y)
 	if SCN.swapping then return end
@@ -173,7 +175,7 @@ function love.touchreleased(id,x,y)
 		end
 	end
 	if SCN.touchUp then SCN.touchUp(x,y)end
-	if(x-lastX)^2+(y-lastY)^2<26 then
+	if(x-lastX)^2+(y-lastY)^2<62 then
 		if SCN.touchClick then SCN.touchClick(x,y)end
 		SYSFX.newTap(3,x,y,30)
 	end
