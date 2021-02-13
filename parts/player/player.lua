@@ -169,9 +169,9 @@ function Player.movePosition(P,x,y,size)
 end
 
 function Player.switchKey(P,id,on)
-	if P.keyAvailable[id]and not on then
+	P.keyAvailable[id]=on
+	if not on then
 		P:releaseKey(id)
-		P.keyAvailable[id]=false
 	end
 	if P.type=="human"then
 		virtualkey[id].ava=on
@@ -190,8 +190,7 @@ function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	end
 	P.gameEnv.holdCount=count
 	P.holdTime=count
-	P:switchKey(8,count>0)
-	while P.holdQueue[count]do rem(P.holdQueue)end
+	while P.holdQueue[count+1]do rem(P.holdQueue)end
 end
 function Player.setNext(P,next,hidden)--Set next count　(use hidden=true if set env.nextStartPos>1)
 	P.gameEnv.nextCount=next
