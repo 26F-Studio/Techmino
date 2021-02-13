@@ -52,13 +52,12 @@ function _M:connect(host, port, path)
 	-- debug_print("[handshake] succeed")
 end
 
+local mask_key = {1, 14, 5, 14}
 local function send(SOCK, opcode, message)
-	local mask_key = {1, 14, 5, 14}
-
 	-- message type
 	SOCK:send(string.char(bor(0x80, opcode)))
 
-	if message==nil then
+	if not message then
 		SOCK:send(string.char(0x80, unpack(mask_key)))
 		return 0
 	end
@@ -105,10 +104,10 @@ function _M:read()
 	-- byte 0-1
 	local SOCK = self.socket
 	local res, err = SOCK:receive(2)
-	if res==nil then return res, err end
+	if not res then return res, err end
 
-	-- local flag_FIN = res:byte()>=0x80
 	local OPCODE = band(res:byte(), 0x0f)
+	-- local flag_FIN = res:byte()>=0x80
 	-- local flag_MASK = res:byte(2)>=0x80
 	-- debug_print("[decode] FIN="..tostring(flag_FIN)..", OPCODE="..OPCODE..", MASK="..tostring(flag_MASK))
 
