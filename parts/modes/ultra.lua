@@ -11,7 +11,7 @@ return{
 			while true do
 				coroutine.yield()
 				local _=P.modeData.counter+1
-				if P.stat.frame>=warnTime[_]*60 then
+				if P.stat.time>=warnTime[_]then
 					if _<9 then
 						P.modeData.counter=_
 						SFX.play("ready",.7+_*.03)
@@ -33,7 +33,7 @@ return{
 	mesDisp=function(P)
 		gc.setLineWidth(2)
 		gc.rectangle("line",55,120,32,402)
-		local T=P.stat.frame/7200
+		local T=P.stat.time/120
 		gc.setColor(2*T,2-2*T,.2)
 		gc.rectangle("fill",56,521,30,(T-1)*400)
 	end,

@@ -43,7 +43,7 @@ return{
 	getRank=function(P)
 		local L=P.stat.row
 		if L>=200 then
-			local T=P.stat.frame/60
+			local T=P.stat.time
 			return
 			T<=400 and 5 or
 			T<=600 and 4 or

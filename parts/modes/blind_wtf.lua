@@ -55,7 +55,7 @@ return{
 		mStr(P.stat.row,69,220)
 		mStr(P.stat.clears[4],69,340)
 	end,
-	score=function(P)return{min(P.stat.row,40),P.stat.frame/60}end,
+	score=function(P)return{min(P.stat.row,40),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
