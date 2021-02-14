@@ -1,24 +1,23 @@
 local gc=love.graphics
-local dropSpeed={[0]=60,50,40,30,25,20,15,12,9,7,5,4,3,2,1,1,.5,.5,.25,.25}
-local function check_LVup(P)
-	local T=P.modeData.point+10
-	if P.stat.row>=T then
-		if T==200 then
-			P:win("finish")
-		else
-			P.gameEnv.drop=dropSpeed[T/10]
-			P.modeData.point=T
-			SFX.play("reach")
-		end
-	end
-end
+local dropSpeed={[0]=60,50,40,30,24,18,14,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{
 	color=COLOR.green,
 	env={
 		noTele=true,
 		wait=8,fall=20,
-		dropPiece=check_LVup,
+		dropPiece=function(P)
+			local T=P.modeData.point+10
+			if P.stat.row>=T then
+				if T==200 then
+					P:win("finish")
+				else
+					P.gameEnv.drop=dropSpeed[T/10]
+					P.modeData.point=T
+					SFX.play("reach")
+				end
+			end
+		end,
 		mindas=7,minarr=1,minsdarr=1,
 		bg="bg2",bgm="push",
 	},

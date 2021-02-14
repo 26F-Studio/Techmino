@@ -1,19 +1,5 @@
 local gc=love.graphics
 local format=string.format
-local function check_LVup(P)
-	if P.stat.row>=P.gameEnv.target then
-		P.gameEnv.target=P.gameEnv.target+10
-		if P.gameEnv.target==110 then
-			P.gameEnv.drop,P.gameEnv.lock=2,2
-			SFX.play("blip_1")
-		elseif P.gameEnv.target==200 then
-			P.gameEnv.drop,P.gameEnv.lock=1,1
-			SFX.play("blip_1")
-		else
-			SFX.play("reach")
-		end
-	end
-end
 
 return{
 	color=COLOR.lBlue,
@@ -29,7 +15,20 @@ return{
 		RS="Classic",
 		freshLimit=0,
 		face={0,0,2,2,2,0,0},
-		target=10,dropPiece=check_LVup,
+		target=10,dropPiece=function(P)
+			if P.stat.row>=P.gameEnv.target then
+				P.gameEnv.target=P.gameEnv.target+10
+				if P.gameEnv.target==110 then
+					P.gameEnv.drop,P.gameEnv.lock=2,2
+					SFX.play("blip_1")
+				elseif P.gameEnv.target==200 then
+					P.gameEnv.drop,P.gameEnv.lock=1,1
+					SFX.play("blip_1")
+				else
+					SFX.play("reach")
+				end
+			end
+		end,
 		bg="rgb",bgm="magicblock",
 	},
 	slowMark=true,
