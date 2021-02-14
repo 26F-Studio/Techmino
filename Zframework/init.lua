@@ -4,14 +4,18 @@ SCN=	require"Zframework/scene"
 LOG=	require"Zframework/log"
 
 require"Zframework/loadLib"
+require"Zframework/wheelScroll"
 require"Zframework/network"
+-- require"Zframework/websocket"
+
 require"Zframework/setFont"
 require"Zframework/mDraw"
--- require"Zframework/upperChar"
+
 require"Zframework/json"
-require"Zframework/urlEncode"
-require"Zframework/wheelScroll"
 require"Zframework/dumpTable"
+require"Zframework/urlEncode"
+
+-- require"Zframework/upperChar"
 require"Zframework/copyTable"
 require"Zframework/splitStr"
 require"Zframework/toTime"
@@ -92,8 +96,12 @@ function love.mousepressed(x,y,k,touch)
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if devMode==1 then
-		local dx,dy=mx-lastX,my-lastY
-		DBP(("(%d,%d), D=(%d,%d)~~(%d,%d)(%d,%d)"):format(mx,my,dx,dy,int(mx/10)*10,int(my/10)*10,int(dx/10)*10,int(dy/10)*10))
+		DBP(("(%d,%d), D=(%d,%d)~~(%d,%d)(%d,%d)"):format(
+			mx,my,
+			mx-lastX,my-lastY,
+			int(mx/10)*10,int(my/10)*10,
+			int((mx-lastX)/10)*10,int((my-lastY)/10)*10
+		))
 	end
 	if not SCN.swapping then
 		if SCN.mouseDown then
@@ -234,7 +242,6 @@ function love.keypressed(i)
 		switchFullscreen()
 	else
 		if SCN.swapping then return end
-
 		if SCN.keyDown then SCN.keyDown(i)
 		elseif i=="escape"then SCN.back()
 		else WIDGET.keyPressed(i)
@@ -245,6 +252,7 @@ function love.keyreleased(i)
 	if SCN.swapping then return end
 	if SCN.keyUp then SCN.keyUp(i)end
 end
+
 function love.textedited(text)
 	EDITING=text
 end
@@ -544,11 +552,11 @@ function love.run()
 				--Debug info.
 				if devMode then
 					gc.setColor(devColor[devMode])
-					gc.print("Memory:"..gcinfo(),SCR.safeX+5,_-40)
-					gc.print("Lines:"..FREEROW.getCount(),SCR.safeX+5,_-60)
-					gc.print("Cursor:"..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
-					gc.print("Voices:"..VOC.getQueueCount(),SCR.safeX+5,_-100)
-					gc.print("Tasks:"..TASK.getCount(),SCR.safeX+5,_-120)
+					gc.print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
+					gc.print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
+					gc.print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
+					gc.print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
+					gc.print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
 					gc.setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
