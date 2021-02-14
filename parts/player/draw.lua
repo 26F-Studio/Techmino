@@ -44,7 +44,7 @@ local function boardTransform(mode)
 		end
 	end
 end
-local function drawRow(h,V,L)
+local function drawRow(h,V,L,flag)
 	local texture=SKIN.curText
 	local t=TIME()*4
 	local rep=GAME.replaying
@@ -54,7 +54,7 @@ local function drawRow(h,V,L)
 				local a=V[i]*.05
 				gc_setColor(1,1,1,a)
 				gc_draw(texture[L[i]],30*i-30,-30*h)-- drawCell(j,i,L[i])
-			elseif rep then
+			elseif rep and not flag then
 				gc_setColor(1,1,1,.3+.08*sin(.5*(h-i)+t))
 				gc_rectangle("fill",30*i-30,-30*h,30,30)
 			end
@@ -98,7 +98,7 @@ local function drawField(P)
 			gc.translate(0,-4)
 		end
 		::edgeFinished::
-		for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
+		for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],flag)end
 		if flag then
 			gc.setShader()
 			gc.translate(0,4)
@@ -107,7 +107,7 @@ local function drawField(P)
 		end
 	else--With falling animation
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
-		local A=P.falling/ENV.fall
+		local alpha=P.falling/ENV.fall
 		local h=1
 		gc_push("transform")
 		if flag then
@@ -120,10 +120,10 @@ local function drawField(P)
 			while j==P.clearingRow[h]do
 				h=h+1
 				gc_translate(0,-stepY)
-				gc_setColor(1,1,1,A)
+				gc_setColor(1,1,1,alpha)
 				gc_rectangle("fill",0,30-30*j,300,stepY)
 			end
-			drawRow(j,V[j],F[j])
+			drawRow(j,V[j],F[j],flag)
 		end
 		if flag then
 			gc_pop()
