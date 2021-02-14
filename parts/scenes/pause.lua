@@ -38,8 +38,9 @@ function scene.sceneInit(org)
 
 	timer=org=="play"and 0 or 50
 
+	local frameLost=100-S.frame/S.time*5/3
 	form={
-		format("%s / %s",toTime(S.frame/60),toTime(S.time)),
+		{COLOR.white,toTime(S.time),COLOR[frameLost>10 and"red"or frameLost>3 and"yellow"or"grey"],format(" (-%.2f%%)",frameLost)},
 		format("%d/%d/%d",S.key,S.rotate,S.hold),
 		format("%d  %.2fPPS",S.piece,S.piece/S.time),
 		format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
