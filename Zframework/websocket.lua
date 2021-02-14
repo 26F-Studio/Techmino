@@ -17,7 +17,7 @@ local socket = require "socket"
 local band, bor, bxor = bit.band, bit.bor, bit.bxor
 local shl, shr = bit.lshift, bit.rshift
 
-OPCODES = {
+local OPCODES = {
 	CONTINUE = 0,
 	TEXT = 1,
 	BINARY = 2,
@@ -86,14 +86,8 @@ local function _send(SOCK, opcode, message)
 	-- debug_print("[encode] end")
 end
 
-function _M:send(message, type)
-	local tempType = OPCODES.BINARY
-	for _, opcode in pairs(_M.OPCODES) do
-		if type == opcode then
-			tempType = type
-		end
-	end
-	_send(self.socket, tempType, message)
+function _M:send(type, message)
+	_send(self.socket, OPCODES[type or "BINARY"] or OPCODES.BINARY, message)
 end
 
 function _M:read()
@@ -125,7 +119,7 @@ function _M:read()
 
 	-- data
 	res = SOCK:receive(length)
-	local closeCode = nil
+	local closeCode
 	if OPCODE == OPCODES.PING then
 		self:pong(res)
 	elseif OPCODE == OPCODES.CLOSE then
