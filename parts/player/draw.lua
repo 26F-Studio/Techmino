@@ -220,6 +220,13 @@ local function drawNextPreview(P,B)
 		end
 	end end
 end
+local function drawBoarders(P)
+	gc_setLineWidth(2)
+	gc_setColor(frameColorList[P.frameColor])
+	gc_rectangle("line",-1,-11,302,612)--Bis Boarder
+	gc_rectangle("line",301,-3,15,604)--AtkBuffer boarder
+	gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
+end
 local attackColor={
 	{COLOR.dGrey,COLOR.white},
 	{COLOR.grey,COLOR.white},
@@ -551,14 +558,17 @@ function draw.norm(P)
 				gc_setColor(0,0,0,.6)
 				gc_rectangle("fill",0,-10,300,610)
 
-				--Draw grid
-				if ENV.grid then drawGrid(P)end
-
 				--In-field things
 				gc_push("transform")
 					boardTransform(ENV.flipBoard)
 
+					--Draw grid
+					if ENV.grid then drawGrid(P)end
+
+					--Move camera
 					gc_translate(0,600+FBN+FUP)
+
+					--Set scissor
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
 					--Draw dangerous area
@@ -612,12 +622,7 @@ function draw.norm(P)
 					gc.setScissor()
 				gc_pop()
 
-				gc_setLineWidth(2)
-				gc_setColor(frameColorList[P.frameColor])
-				gc_rectangle("line",-1,-11,302,612)--Boarder
-				gc_rectangle("line",301,-3,15,604)--AtkBuffer boarder
-				gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
-
+				drawBoarders(P)
 				drawBuffer(P)
 				drawB2Bbar(P)
 				drawHold(P)
@@ -710,14 +715,17 @@ function draw.norm_remote(P)
 				gc_setColor(0,0,0,.6)
 				gc_rectangle("fill",0,-10,300,610)
 
-				--Draw grid
-				if ENV.grid then drawGrid(P)end
-
 				--In-field things
 				gc_push("transform")
 					boardTransform(ENV.flipBoard)
 
+					--Draw grid
+					if ENV.grid then drawGrid(P)end
+
+					--Move camera
 					gc_translate(0,600+FBN+FUP)
+
+					--Set scissor
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
 					--Draw dangerous area
@@ -771,12 +779,7 @@ function draw.norm_remote(P)
 					gc.setScissor()
 				gc_pop()
 
-				gc_setLineWidth(2)
-				gc_setColor(frameColorList[P.frameColor])
-				gc_rectangle("line",-1,-11,302,612)--Boarder
-				gc_rectangle("line",301,-3,15,604)--AtkBuffer boarder
-				gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
-
+				drawBoarders(P)
 				drawBuffer(P)
 				drawB2Bbar(P)
 				drawHold(P)
