@@ -27,13 +27,14 @@ local tileColor={
 local board,cx,cy
 local startTime,time
 local maxTile,maxNew
-local state
+local state,progress
 local fallingTimer
 local score
 
 local blind
 
 local function reset()
+	progress={}
 	state=0
 	score=0
 	time=0
@@ -51,14 +52,8 @@ function scene.sceneInit()
 	board={{},{},{},{},{}}
 	cx,cy=3,3
 	startTime=0
-	time=0
-	score=0
-	state=2
-
 	blind=false
-	for i=1,5 do for j=1,5 do
-		board[i][j]=(i+j)%2+1
-	end end
+	reset()
 end
 
 local function merge()
@@ -90,6 +85,9 @@ local function merge()
 		SFX.play("lock")
 		if chosen==maxTile then
 			maxTile=chosen+1
+			if maxTile>=6 then
+				ins(progress,format("%s - %.3fs",maxTile,TIME()-startTime))
+			end
 			maxNew=
 				maxTile<=4 and 2 or
 				maxTile<=8 and 3 or
@@ -198,6 +196,13 @@ function scene.draw()
 	setColor(1,1,1)
 	gc.print(format("%.3f",time),1026,50)
 	gc.print(score,1026,100)
+
+	--Progress time list
+	setFont(25)
+	setColor(.7,.7,.7)
+	for i=1,#progress do
+		gc.print(progress[i],1000,140+30*i)
+	end
 
 	if state==2 then
 		--Draw no-setting area
