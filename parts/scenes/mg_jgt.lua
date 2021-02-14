@@ -23,11 +23,11 @@ local tileColor={
 	{.78, .55, .04},
 	{.12, .12, .51},
 }
-local newTile={0,2,2,2,3,3,3,3,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5}
 
 local board,cx,cy
 local startTime,time
-local maxTile,state
+local maxTile,maxNew
+local state
 local fallingTimer
 local score
 
@@ -38,6 +38,7 @@ local function reset()
 	score=0
 	time=0
 	maxTile=2
+	maxNew=2
 	for i=1,5 do for j=1,5 do
 		board[i][j]=rnd(2)
 	end end
@@ -89,6 +90,11 @@ local function merge()
 		SFX.play("lock")
 		if chosen==maxTile then
 			maxTile=chosen+1
+			maxNew=
+				maxTile<=4 and 2 or
+				maxTile<=8 and 3 or
+				maxTile<=11 and 4 or
+				5
 			SFX.play("reach")
 		end
 		if chosen>=5 then
@@ -164,7 +170,11 @@ function scene.update()
 				local noNewTile=true
 				for i=1,5 do
 					if board[1][i]==0 then
-						board[1][i]=rnd(newTile[maxTile])
+						board[1][i]=
+							maxTile<=4 and rnd(2)or
+							maxTile<=8 and rnd(3)or
+							maxTile<=11 and rnd(4)or
+							rnd(3+rnd(2))
 						noNewTile=false
 					end
 				end
@@ -205,7 +215,7 @@ function scene.draw()
 		for j=1,5 do
 			local N=board[i][j]
 			if N>0 then
-				if hide and N>newTile[maxTile]then
+				if hide and N>maxNew then
 					setColor(COLOR.dGrey)
 					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.3)
