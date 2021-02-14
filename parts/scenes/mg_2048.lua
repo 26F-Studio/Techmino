@@ -230,8 +230,7 @@ function scene.sceneInit()
 
 	blind=false
 	tapControl=false
-	startTime,time=0,0
-	state=0
+	startTime=0
 	reset()
 end
 
@@ -370,7 +369,7 @@ function scene.draw()
 				"white"
 			)
 		])
-		gc.rectangle("line",990,305+60*i,220,50)
+		rectangle("line",990,305+60*i,220,50)
 		gc.print(repeater.seq[i],1000,313+60*i)
 	end
 
@@ -400,13 +399,18 @@ function scene.draw()
 			local x,y=1+(i-1)%4,int((i+3)/4)
 			local N=board[i]
 			if i~=prevPos or prevSpawnTime==1 then
-				setColor(tileColor[N]or COLOR.black)
-				rectangle("fill",x*160+163,y*160-117,154,154,15)
-				if N>=0 and not blind or i==prevPos then
-					setColor(N<3 and COLOR.black or COLOR.W)
-					local fontSize=tileFont[N]
-					setFont(fontSize)
-					mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
+				if not blind or i==prevPos then
+					setColor(tileColor[N]or COLOR.black)
+					rectangle("fill",x*160+163,y*160-117,154,154,15)
+					if N>=0 then
+						setColor(N<3 and COLOR.black or COLOR.W)
+						local fontSize=tileFont[N]
+						setFont(fontSize)
+						mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
+					end
+				else
+					setColor(COLOR.grey)
+					rectangle("fill",x*160+163,y*160-117,154,154,15)
 				end
 			else
 				local c=tileColor[N]
