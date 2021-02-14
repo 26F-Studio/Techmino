@@ -617,6 +617,8 @@ return{
 		["master_advance"]=		{"Master",			"Supremo",		"¡Desafío profesional de 20G!"},
 		["master_final"]=		{"Master",			"FINAL",		"El verdadero 20G Supremo: el final es inalcanzable."},
 		["GM"]=					{"GrandMaster",		"GM",			"Para ser un gran maestro, acepta este desafío"},
+		-- ["rhythm_h"]=			{"Rhythm",			"HARD",			"200-line marathon with accelerating rhythm."},
+		-- ["rhythm_u"]=			{"Rhythm",			"ULTIMATE",		"200-line high-speed rhythm marathon."},
 		["blind_e"]=			{"A Ciegas",		"Parcial",		"Para novatos."},
 		["blind_n"]=			{"A Ciegas",		"Total",		"Para jugadores intermedios."},
 		["blind_h"]=			{"A Ciegas",		"Inmediato",	"Para jugadores experimentados"},

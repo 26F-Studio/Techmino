@@ -705,6 +705,8 @@ return{
 		["master_final"]=		{"Master",			"FINAL",		"20G: Unreachable end point!"},
 		["master_phantasm"]=	{"Master",			"PHANTASM",		"20G: ???"},
 		["GM"]=					{"GrandMaster",		"GM",			"To be a Grand Master, take \nthis challenge."},
+		["rhythm_h"]=			{"Rhythm",			"HARD",			"200-line marathon with accelerating rhythm."},
+		["rhythm_u"]=			{"Rhythm",			"ULTIMATE",		"200-line high-speed rhythm marathon."},
 		["blind_e"]=			{"Blind",			"HALF",			"For novice players."},
 		["blind_n"]=			{"Blind",			"ALL",			"For intermediate players."},
 		["blind_h"]=			{"Blind",			"SUDDEN",		"For experienced players."},

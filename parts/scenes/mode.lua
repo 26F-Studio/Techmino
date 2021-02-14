@@ -52,7 +52,7 @@ end
 local function moveMap(dx,dy)
 	local k=getK()
 	local x,y=getPos()
-	if x>1300 and dx<0 or x<-1200 and dx>0 then dx=0 end
+	if x>1300 and dx<0 or x<-1500 and dx>0 then dx=0 end
 	if y>420 and dy<0 or y<-1900 and dy>0 then dy=0 end
 	mapCam.xOy:translate(dx/k,dy/k)
 end

@@ -622,6 +622,8 @@ return{
 		["master_advance"]=		{"Master",			"ULTIME",		"Challenge 20G pro !"},
 		["master_final"]=		{"Master",			"FINAL",		"20G : Un point final impossible à atteindre !"},
 		["GM"]=					{"GrandMaster",		"GM",			"Tentez de devenir un Grandmaster."},
+		-- ["rhythm_h"]=			{"Rhythm",			"HARD",			"200-line marathon with accelerating rhythm."},
+		-- ["rhythm_u"]=			{"Rhythm",			"ULTIMATE",		"200-line high-speed rhythm marathon."},
 		["blind_e"]=			{"Aveugle",			"MOITIE",		"Pour les novices."},
 		["blind_n"]=			{"Aveugle",			"TOUT",			"Pour les joueurs intermédiaires."},
 		["blind_h"]=			{"Aveugle",			"SOUDAIN",		"Pour les bons jooeurs."},
