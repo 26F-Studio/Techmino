@@ -6,7 +6,7 @@ return{
 		noTele=true,
 		lock=1e99,
 		drop=.5,
-		wait=4,fall=8,
+		wait=5,fall=30,
 		das=6,minarr=1,minsdarr=1,
 		keyCancel={6},
 		dropPiece=function(P)
@@ -16,8 +16,8 @@ return{
 				else
 					P.modeData.bpm=120+2*P.modeData.target/10
 					P.modeData.beatFrame=math.floor(3600/P.modeData.bpm)
+					P.gameEnv.fall=P.modeData.beatFrame
 					P.gameEnv.wait=math.max(P.gameEnv.wait-1,0)
-					P.gameEnv.fall=math.max(P.gameEnv.fall-1,0)
 					if P.modeData.target==50 then
 						P.gameEnv.das=5
 						P.gameEnv.drop=.25
