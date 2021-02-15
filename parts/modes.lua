@@ -45,7 +45,7 @@ return{
 	{name="master_phantasm",x=-150,	y=-1500,size=40,shape=2,icon="master"},
 	{name="GM",				x=150,	y=-1500,size=40,shape=2,icon="master"},
 
-	{name="rhythm_e",		x=-350,	y=-1000,size=40,shape=3,icon="rhythm",	unlock={"rhythm_h"}},
+	{name="rhythm_e",		x=-350,	y=-1000,size=40,shape=1,icon="rhythm",	unlock={"rhythm_h"}},
 	{name="rhythm_h",		x=-350,	y=-1200,size=40,shape=3,icon="rhythm",	unlock={"rhythm_u"}},
 	{name="rhythm_u",		x=-350,	y=-1400,size=40,shape=2,icon="rhythm"},
 

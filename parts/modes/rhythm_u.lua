@@ -47,7 +47,7 @@ return{
 				end
 			end
 		end,
-		bg="bg2",bgm="push",
+		bg="bg2",bgm="secret7th",
 	},
 	pauseLimit=true,
 	slowMark=true,
