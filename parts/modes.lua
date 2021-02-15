@@ -17,7 +17,7 @@ return{
 	{name="dig_100l",		x=-600,	y=-400,	size=40,shape=1,icon="dig",		unlock={"dig_400l"}},
 	{name="dig_400l",		x=-800,	y=-200,	size=40,shape=1,icon="dig"},
 
-	{name="marathon_n",		x=0,	y=-600,	size=60,shape=1,icon="marathon",unlock={"marathon_h","rhythm_h","solo_e","round_e","blind_e","classic_fast","survivor_e","bigbang","zen"}},
+	{name="marathon_n",		x=0,	y=-600,	size=60,shape=1,icon="marathon",unlock={"marathon_h","rhythm_e","solo_e","round_e","blind_e","classic_fast","survivor_e","bigbang","zen"}},
 	{name="marathon_h",		x=0,	y=-800,	size=50,shape=1,icon="marathon",unlock={"master_beginner"}},
 
 	{name="solo_e",			x=-600,	y=-1000,size=40,shape=1,icon="solo",	unlock={"solo_n"}},
@@ -45,8 +45,9 @@ return{
 	{name="master_phantasm",x=-150,	y=-1500,size=40,shape=2,icon="master"},
 	{name="GM",				x=150,	y=-1500,size=40,shape=2,icon="master"},
 
-	{name="rhythm_h",		x=-500,	y=-1200,size=40,shape=3,icon="rhythm",	unlock={"rhythm_u"}},
-	{name="rhythm_u",		x=-500,	y=-1500,size=40,shape=2,icon="rhythm"},
+	{name="rhythm_e",		x=-350,	y=-1000,size=40,shape=3,icon="rhythm",	unlock={"rhythm_h"}},
+	{name="rhythm_h",		x=-350,	y=-1200,size=40,shape=3,icon="rhythm",	unlock={"rhythm_u"}},
+	{name="rhythm_u",		x=-350,	y=-1400,size=40,shape=2,icon="rhythm"},
 
 	{name="blind_e",		x=150,	y=-700,	size=40,shape=1,icon="blind",	unlock={"blind_n"}},
 	{name="blind_n",		x=150,	y=-800,	size=40,shape=1,icon="blind",	unlock={"blind_h"}},
