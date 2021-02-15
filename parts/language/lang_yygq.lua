@@ -109,7 +109,7 @@ return{
 			pro="阴间",
 		},
 		help={
-			manual="聪明人都不看的",
+			manual="聪明人不用看",
 			dict="词典",
 			staff="游戏谁做的",
 			his="黑历史",
