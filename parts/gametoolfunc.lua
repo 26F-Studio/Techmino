@@ -831,19 +831,17 @@ end
 
 	Byte data format: (1 byte each period)
 		dt, event, dt, event, ...
-	event range from 1 to 20, negative when release key
-	dt from 0 to infinity, 0~254 when 0~254, read next byte as dt(if there is an 255, add next byte to dt as well)
+	all data range from 0 to 127
+	large value will be encoded as 1xxxxxxx(high)-1xxxxxxx-...-0xxxxxxx(low)
 
-	Example:
-		6,1, 20,-1, 0,2, 255,0,-2, 255,255,255,62,4 ...
-	Translate:
-		(6,1)(20,-1)(0,2)(255,0,-2)(255,255,255,62,4) ...
+	Example (decoded):
+		6,1, 20,-1, 0,2, 26,-2, 872,4, ...
 	This means:
 		Press key1 at 6f
 		Release key1 at 26f (6+20)
 		Press key2 at the same time (26+0)
-		Release key 2 after 255+0 frame (26+0+255+0)
-		Press key 4 after 255+255+255+62 frame (26+0+255+0+255+255+255+62)
+		Release key 2 after 26 frame (26+26)
+		Press key 4 after 872 frame (52+872)
 		...
 ]]
 function dumpRecording(list,ptr)
