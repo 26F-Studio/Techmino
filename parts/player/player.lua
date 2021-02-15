@@ -333,7 +333,7 @@ end
 function Player.attack(P,R,send,time,line,fromStream)
 	if GAME.net then
 		if P.type=="human"then--Local player attack others
-			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,
 				R.subID+
 				send*0x100+
@@ -343,7 +343,7 @@ function Player.attack(P,R,send,time,line,fromStream)
 			)
 		end
 		if fromStream and R.type=="human"then--Local player receiving lines
-			ins(GAME.rep,GAME.frame+1)
+			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,
 				P.subID+
 				send*0x100+
