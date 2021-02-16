@@ -642,10 +642,7 @@ return{
 			blind="盲打",
 			tapControl="点击操作",
 
-			up="↑",down="↓",left="←",right="→",
 			skip="跳过回合",
-			replay1="P",
-			replay2="P",
 		},
 		mg_jgt={
 			reset="重置",

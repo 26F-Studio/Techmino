@@ -640,10 +640,7 @@ return{
 			blind="Blind",
 			tapControl="Tap control",
 
-			up="↑",down="↓",left="←",right="→",
 			skip="Skip Round",
-			replay1="P",
-			replay2="P",
 		},
 		mg_jgt={
 			reset="Reset",
