@@ -6,7 +6,6 @@ WS=		require"Zframework/websocket"
 
 loadLib=require"Zframework/loadLib"
 require"Zframework/wheelScroll"
-require"Zframework/network"
 
 require"Zframework/setFont"
 require"Zframework/mDraw"
