@@ -15,7 +15,7 @@
 ]]
 
 local socket=require"socket"
-local char,sub=string.char,string.sub
+local char=string.char
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
@@ -82,27 +82,34 @@ local OPcode={
 	binary=2,
 	close=8,
 	ping=9,
-	pong=10
+	pong=10,
 }
 function WS:send(message,op)
-	_send(self.socket,OPcode[op] or 2--[[binary]],message)
+	_send(self.socket,op and OPcode[op] or 2--[[binary]],message)
 end
 
+local OPname={
+	[0]="continue",
+	[1]="text",
+	[2]="binary",
+	[8]="close",
+	[9]="ping",
+	[10]="pong",
+
+}
 function WS:read()
 	--Byte 0-1
 	local SOCK=self.socket
 	local res,err=SOCK:receive(2)
 	if not res then return res,err end
 
-	local OPCODE=band(res:byte(),0x0f)
+	local op=band(res:byte(),0x0f)
 
 	--Length
-	local byte=res:byte(2)
-	local length=band(byte,0x7f)
+	local length=band(res:byte(2),0x7f)
 	if length==126 then
 		res=SOCK:receive(2)
-		local b1,b2=res:byte(1,2)
-		length=shl(b1,8)+b2
+		length=shl(res:byte(1),8)+res:byte(2)
 	elseif length==127 then
 		res=SOCK:receive(8)
 		local b={res:byte(1,8)}
@@ -111,16 +118,15 @@ function WS:read()
 
 	--Data
 	res=SOCK:receive(length)
-	local closeCode
-	if OPCODE==9 then--ping
+	if op==9 then--ping
 		self:send(res,10--[[pong]])
-	elseif OPCODE==8 then--close
-		closeCode=shl(res:byte(1),8)+res:byte(2)
-		res=sub(res,3,-3)
+		return "ping",res
+	elseif op==8 then--close
 		self:close()
+		return "close",string.format("%d-%s",shl(res:byte(1),8)+res:byte(2).."-"..res:sub(3,-3))
+	else
+		return OPname[op],res
 	end
-
-	return OPCODE,res,closeCode
 end
 
 function WS:close()
