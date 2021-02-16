@@ -215,12 +215,16 @@ function Player.setRS(P,RSname)
 	P.RS=kickList[RSname]
 end
 
-function Player.setConf(P,conf)
-	conf=json.decode(love.data.decode("string","base64",conf))
-	for k,v in next,conf do
-		if not GAME.modeEnv[k]then
-			P.gameEnv[k]=v
+function Player.setConf(P,confStr)
+	local _,conf=pcall(love.data.decode,"string","base64",confStr)
+	if _ then
+		for k,v in next,conf do
+			if not GAME.modeEnv[k]then
+				P.gameEnv[k]=v
+			end
 		end
+	else
+		LOG.print("Bad conf from "..P.userName.."#"..P.userID)
 	end
 end
 

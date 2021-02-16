@@ -212,8 +212,15 @@ local function loadGameEnv(P)--Load gameEnv
 		end
 	end
 end
-local function loadRemoteEnv(P,conf)--Load gameEnv
-	conf=conf and json.decode(love.data.decode("string","base64",conf))or{}
+local function loadRemoteEnv(P,confStr)--Load gameEnv
+	local _,conf=pcall(love.data.decode,"string","base64",confStr)
+	if _ then
+		conf=json.decode(conf)
+	else
+		conf={}
+		LOG.print("Bad conf from "..P.userName.."#"..P.userID)
+	end
+
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
 	local GAME,SETTING=GAME,SETTING

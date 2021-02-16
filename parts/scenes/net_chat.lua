@@ -73,10 +73,12 @@ function scene.socketRead(mes)
 		}
 		remain=tonumber(args[3])
 	elseif cmd=="T"then
+		local _,text=pcall(data.decode,"string","base64",args[3])
+		if not _ then text=args[3]end
 		textBox:push{
 			COLOR.W,args[1],
 			COLOR.dY,"#"..args[2].." ",
-			COLOR.sky,data.decode("string","base64",args[3])
+			COLOR.sky,text
 		}
 	else
 		LOG.print("Illegal message: "..mes,30,COLOR.green)

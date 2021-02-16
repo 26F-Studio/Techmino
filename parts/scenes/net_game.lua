@@ -198,10 +198,12 @@ function scene.socketRead(mes)
 		end
 		initPlayerPosition(true)
 	elseif cmd=="T"then
+		local _,text=pcall(data.decode,"string","base64",args[3])
+		if not _ then text=args[3]end
 		textBox:push{
 			COLOR.W,args[1],
 			COLOR.dY,"#"..args[2].." ",
-			COLOR.sky,data.decode("string","base64",args[3])
+			COLOR.sky,text
 		}
 	elseif cmd=="C"then
 		if tostring(USER.id)~=args[2]then
@@ -218,7 +220,12 @@ function scene.socketRead(mes)
 		if playing and args[1]~=PLAYERS[1].subID then
 			for _,P in next,PLAYERS do
 				if P.subID==args[1]then
-					pumpRecording(data.decode("string","base64",args[2]),P.stream)
+					local _,stream=pcall(data.decode,"string","base64",args[2])
+					if _ then
+						pumpRecording(stream,P.stream)
+					else
+						LOG.print("Bad stream from "..P.userName.."#"..P.userID)
+					end
 				end
 			end
 		end
