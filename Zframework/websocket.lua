@@ -27,8 +27,7 @@ function WS.new()
 	return m
 end
 
-local seckey="osT3F7mvlojIvf3/8uIsJQ=="
-function WS:connect(server,path,head,body)
+function WS:connect(server,path,body)
 	local host,port=unpack(splitStr(server,":"))
 	local SOCK=self.socket
 	local res,err=SOCK:connect(host,port or 80)
@@ -44,8 +43,7 @@ function WS:connect(server,path,head,body)
 		"Content-Type: application/json\r\n"..
 		"Content-Length: "..#body.."\r\n"..
 		"Sec-WebSocket-Version: 13\r\n"..
-		"Sec-WebSocket-Key: "..seckey.."\r\n"..
-		(head or"").."\r\n"..
+		"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
 		body
 	)
 	repeat res=SOCK:receive("*l")until res==""
@@ -86,8 +84,8 @@ local OPcode={
 	ping=9,
 	pong=10
 }
-function WS:send(message,type)
-	_send(self.socket,OPcode[type] or 2--[[binary]],message)
+function WS:send(message,op)
+	_send(self.socket,OPcode[op] or 2--[[binary]],message)
 end
 
 function WS:read()
@@ -115,7 +113,7 @@ function WS:read()
 	res=SOCK:receive(length)
 	local closeCode
 	if OPCODE==9 then--ping
-		self:pong(res)
+		self:send(res,10--[[pong]])
 	elseif OPCODE==8 then--close
 		closeCode=shl(res:byte(1),8)+res:byte(2)
 		res=sub(res,3,-3)
