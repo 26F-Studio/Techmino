@@ -2,12 +2,14 @@ local rem=table.remove
 local ct=coroutine
 local assert=assert
 local tasks={}
+local netTaskCount=0
 
-local TASK={
-	netTaskCount=0,
-}
+local TASK={}
 function TASK.getCount()
 	return #tasks
+end
+function TASK.netTaskCount()
+	return netTaskCount
 end
 function TASK.update()
 	for i=#tasks,1,-1 do
@@ -15,7 +17,7 @@ function TASK.update()
 		assert(ct.resume(T.thread))
 		if ct.status(T.thread)=="dead"then
 			if T.net then
-				TASK.netTaskCount=TASK.netTaskCount-1
+				netTaskCount=netTaskCount-1
 			end
 		rem(tasks,i)
 		end
@@ -43,12 +45,13 @@ function TASK.newNet(code,...)
 			net=true,
 		}
 	end
+	netTaskCount=netTaskCount+1
 end
 function TASK.removeTask_code(code)
 	for i=#tasks,1,-1 do
 		if tasks[i].code==code then
 			if tasks[i].net then
-				TASK.netTaskCount=TASK.netTaskCount-1
+				netTaskCount=netTaskCount-1
 			end
 			rem(tasks,i)
 		end
@@ -58,7 +61,7 @@ function TASK.removeTask_iterate(func,...)
 	for i=#tasks,1,-1 do
 		if func(tasks[i],...)then
 			if tasks[i].net then
-				TASK.netTaskCount=TASK.netTaskCount-1
+				netTaskCount=netTaskCount-1
 			end
 			rem(tasks,i)
 		end

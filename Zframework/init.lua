@@ -538,7 +538,7 @@ function love.run()
 				end
 
 				--Draw network working
-				if TASK.netTaskCount>0 then
+				if TASK.netTaskCount()>0 then
 					setFont(30)
 					gc.setColor(COLOR.rainbow(t*5))
 					gc.print("E",SCR.safeW-18,17,.26+.355*math.sin(t*6.26),nil,nil,8,20)
