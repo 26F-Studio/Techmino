@@ -1,34 +1,3 @@
-local function tick_httpREQ_register(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local response,request_error=client.poll(task)
-		if response then
-			local res=json.decode(response.body)
-			if response.code==200 and res.message=="OK"then
-				LOGIN=true
-				USER.name=res.name
-				USER.id=res.id
-				USER.motto=res.motto
-				USER.avatar=res.avatar
-				FILE.save(USER,"conf/user","q")
-				LOG.print(text.registerSuccessed..": "..res.message)
-			else
-				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-			end
-			return
-		elseif request_error then
-			LOG.print(text.loginFailed..": "..request_error,"warn")
-			return
-		end
-		time=time+1
-		if time>360 then
-			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
-			return
-		end
-	end
-end
-
 local scene={}
 
 function scene.keyDown(key)
@@ -46,17 +15,13 @@ function scene.keyDown(key)
 		elseif password~=password2 then
 			LOG.print(text.diffPassword)return
 		end
-		httpRequest(
-			tick_httpREQ_register,
-			PATH.http..PATH.auth,
-			"POST",
-			{["Content-Type"]="application/json"},
+		--[[
 			json.encode{
 				username=username,
 				email=email,
 				password=password,
 			}
-		)
+		]]
 	elseif key=="escape"then
 		SCN.back()
 	else

@@ -1,44 +1,5 @@
 local gc=love.graphics
 
-local function tick_httpREQ_manualAutoLogin(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local response,request_error=client.poll(task)
-		if response then
-			if response.code==200 then
-				LOG.print(text.accessSuccessed)
-				SCN.go("net_menu")
-			elseif response.code==403 or response.code==401 then
-				httpRequest(
-					TICK_httpREQ_getAccessToken,
-					PATH.http..PATH.access,
-					"POST",
-					{["Content-Type"]="application/json"},
-					json.encode{
-						email=USER.email,
-						auth_token=USER.auth_token,
-					}
-				)
-			else
-				local err=json.decode(response.body)
-				if err then
-					LOG.print(text.httpCode..response.code..": "..err.message,"warn")
-				end
-			end
-			return
-		elseif request_error then
-			LOG.print(text.loginFailed..": "..request_error,"warn")
-			return
-		end
-		time=time+1
-		if time>360 then
-			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
-			return
-		end
-	end
-end
-
 local scene={}
 
 local tip=gc.newText(getFont(30),"")

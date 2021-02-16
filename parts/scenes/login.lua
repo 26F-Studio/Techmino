@@ -1,55 +1,3 @@
-local function tick_httpREQ_newLogin(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local response,request_error=client.poll(task)
-		if response then
-			local res=json.decode(response.body)
-			if response.code==200 and res.message=="OK"then
-				LOGIN=true
-				USER.email=res.email
-				USER.auth_token=res.auth_token
-				USER.id=res.id
-				FILE.save(USER,"conf/user","q")
-				LOG.print(text.loginSuccessed)
-
-				httpRequest(
-					TICK_httpREQ_getUserInfo,
-					PATH.http..PATH.user,
-					"GET",
-					{["Content-Type"]="application/json"},
-					json.encode{
-						email=USER.email,
-						auth_token=USER.auth_token,
-					}
-				)
-
-				httpRequest(
-					TICK_httpREQ_getAccessToken,
-					PATH.http..PATH.access,
-					"POST",
-					{["Content-Type"]="application/json"},
-					json.encode{
-						email=USER.email,
-						auth_token=USER.auth_token,
-					}
-				)
-			else
-				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-			end
-			return
-		elseif request_error then
-			LOG.print(text.loginFailed..": "..request_error,"warn")
-			return
-		end
-		time=time+1
-		if time>360 then
-			LOG.print(text.loginFailed..": "..text.httpTimeout,"message")
-			return
-		end
-	end
-end
-
 local function login()
 	local email=	WIDGET.active.email.value
 	local password=	WIDGET.active.password.value
@@ -59,16 +7,10 @@ local function login()
 		LOG.print(text.noPassword)return
 	end
 	--[[TODO
-	httpRequest(
-		tick_httpREQ_newLogin,
-		PATH.http..PATH.auth,
-		"POST",
-		{["Content-Type"]="application/json"},
 		json.encode{
 			email=email,
 			password=password,
 		}
-	)
 	]]
 end
 

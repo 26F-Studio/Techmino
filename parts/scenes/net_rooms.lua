@@ -6,100 +6,26 @@ local scrollPos,selected
 local lastfreshTime
 local lastCreateRoomTime=0
 
-local function task_enterRoom(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local wsconn,connErr=client.poll(task)
-		if wsconn then
-			WSCONN=wsconn
-			loadGame("netBattle",true,true)
-			LOG.print(text.wsSuccessed,"warn")
-			return
-		elseif connErr then
-			LOG.print(text.wsFailed..": "..connErr,"warn")
-			return
-		end
-		time=time+1
-		if time>360 then
-			LOG.print(text.wsFailed..": "..text.httpTimeout,"message")
-			return
-		end
-	end
-end
 local function enterRoom(roomID)
-	wsConnect(
-		task_enterRoom,
-		PATH.socket..PATH.onlinePlay..
-		"?email="..urlEncode(USER.email)..
-		"&token="..urlEncode(USER.access_token)..
-		"&id="..urlEncode(roomID)..
-		"&conf="..urlEncode(dumpBasicConfig())
-		-- "&password="..urlEncode(password),
-	)
-end
-local function task_fetchRooms(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local response,request_error=client.poll(task)
-		if response then
-			local res=json.decode(response.body)
-			if response.code==200 and res.message=="OK"then
-				rooms=res.room_list
-			else
-				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-			end
-			return
-		elseif request_error then
-			LOG.print(text.roomsFetchFailed..": "..request_error,"warn")
-			return
-		end
-		time=time+1
-		if time>210 then
-			LOG.print(text.roomsFetchFailed..": "..text.httpTimeout,"warn")
-			return
-		end
-	end
-end
-local function task_createRoom(task)
-	local time=0
-	while true do
-		coroutine.yield()
-		local response,request_error=client.poll(task)
-		if response then
-			local res=json.decode(response.body)
-			if response.code==200 and res.message=="OK"then
-				LOG.print(text.createRoomSuccessed)
-				enterRoom(res.room.id)
-			else
-				LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-			end
-			return
-		elseif request_error then
-			LOG.print(text.roomsCreateFailed..": "..request_error,"warn")
-			return
-		end
-		time=time+1
-		if time>210 then
-			LOG.print(text.roomsCreateFailed..": "..text.httpTimeout,"warn")
-			return
-		end
-	end
+	--[[TODO
+	wsWrite("???",json.encode{
+		email=USER.email,
+		token=USER.access_token,
+		id=roomID,
+		conf=dumpBasicConfig(),
+		-- password=password,
+	})
+	]]
 end
 local function fresh()
 	lastfreshTime=TIME()
 	rooms=nil
-	httpRequest(
-		task_fetchRooms,
-		PATH.http..PATH.onlinePlay,
-		"GET",
-		{["Content-Type"]="application/json"},
-		json.encode{
-			email=USER.email,
-			access_token=USER.access_token,
-		}
-	)
+	--[[TODO
+	wsWrite("???",json.encode{
+		email=USER.email,
+		access_token=USER.access_token,
+	})
+	]]
 end
 
 local scene={}
@@ -121,18 +47,14 @@ function scene.keyDown(k)
 		end
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>26 then
-			httpRequest(
-				task_createRoom,
-				PATH.http..PATH.onlinePlay.."/classic",
-				"POST",
-				{["Content-Type"]="application/json"},
-				json.encode{
-					email=USER.email,
-					access_token=USER.access_token,
-					room_name=(USER.name or"???").."'s room",
-					room_password=nil,
-				}
-			)
+			--[[TODO
+			wsWrite("???",json.encode{
+				email=USER.email,
+				access_token=USER.access_token,
+				room_name=(USER.name or"???").."'s room",
+				room_password=nil,
+			})
+			]]
 			lastCreateRoomTime=TIME()
 		else
 			LOG.print(text.createRoomTooFast,"warn")
