@@ -312,15 +312,7 @@ function scene.draw()
 	drawVirtualkeys()
 
 	--Warning
-	gc.push("transform")
-	gc.origin()
-	if GAME.warnLVL>0 then
-		SHADER.warning:send("level",GAME.warnLVL)
-		gc.setShader(SHADER.warning)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
-		gc.setShader()
-	end
-	gc.pop()
+	drawWarning()
 
 	--New message
 	if textBox.new and hideChatBox then

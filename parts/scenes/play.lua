@@ -226,15 +226,7 @@ function scene.draw()
 	end
 
 	--Warning
-	gc.push("transform")
-	gc.origin()
-	if GAME.warnLVL>0 then
-		SHADER.warning:send("level",GAME.warnLVL)
-		gc.setShader(SHADER.warning)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
-		gc.setShader()
-	end
-	gc.pop()
+	drawWarning()
 end
 scene.widgetList={
 	WIDGET.newKey{name="restart",fText="R",x=380,y=35,w=60,font=40,code=restart},

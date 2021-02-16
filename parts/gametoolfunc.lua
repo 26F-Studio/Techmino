@@ -3,8 +3,9 @@ local data=love.data
 
 local fs=love.filesystem
 local gc=love.graphics
-local gc_setColor,gc_circle=gc.setColor,gc.circle
-
+local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
+local gc_push,gc_pop,gc_origin=gc.push,gc.pop,gc.origin
+local gc_draw,gc_rectangle,gc_circle=gc.draw,gc.rectangle,gc.circle
 local max,int,rnd=math.max,math.floor,math.random
 local sub=string.sub
 local char,byte=string.char,string.byte
@@ -361,7 +362,7 @@ end
 
 
 
---Game draw
+--Virtualkey
 local VK=virtualkey
 function drawVirtualkeys()
 	if SETTING.VKSwitch then
@@ -373,11 +374,11 @@ function drawVirtualkeys()
 				if VK[i].ava then
 					local B=VK[i]
 					gc_setColor(1,1,1,a)
-					gc.setLineWidth(B.r*.07)
+					gc_setLineWidth(B.r*.07)
 					gc_circle("line",B.x,B.y,B.r,10)--Button outline
 					_=VK[i].pressTime
 					gc_setColor(B.color[1],B.color[2],B.color[3],a)
-					gc.draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
+					gc_draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
 					if _>0 then
 						gc_setColor(1,1,1,a*_*.08)
 						gc_circle("fill",B.x,B.y,B.r*.94,10)--Glow when press
@@ -390,7 +391,7 @@ function drawVirtualkeys()
 				if VK[i].ava then
 					local B=VK[i]
 					gc_setColor(1,1,1,a)
-					gc.setLineWidth(B.r*.07)
+					gc_setLineWidth(B.r*.07)
 					gc_circle("line",B.x,B.y,B.r,10)
 					_=VK[i].pressTime
 					if _>0 then
@@ -446,7 +447,7 @@ end
 function updateVirtualkey()
 	if SETTING.VKSwitch then
 		for i=1,#VK do
-			_=VK[i]
+			local _=VK[i]
 			if _.pressTime>0 then
 				_.pressTime=_.pressTime-1
 			end
@@ -795,7 +796,7 @@ end
 function checkWarning()
 	local P1=PLAYERS[1]
 	if P1.alive then
-		if GAME.frame%26==0 and SETTING.warn then
+		if GAME.frame%26==0 then
 			local F=P1.field
 			local height=0--Max height of row 4~7
 			for x=4,7 do
@@ -810,7 +811,7 @@ function checkWarning()
 			end
 			GAME.warnLVL0=math.log(height-15+P1.atkBuffer.sum*.8)
 		end
-		_=GAME.warnLVL
+		local _=GAME.warnLVL
 		if _<GAME.warnLVL0 then
 			_=_*.95+GAME.warnLVL0*.05
 		elseif _>0 then
@@ -964,6 +965,21 @@ do--function saveRecording()
 		else
 			LOG.print("Save failed: File already exists")
 		end
+	end
+end
+
+
+
+--Game draw
+function drawWarning()
+	if SETTING.warn and GAME.warnLVL>0 then
+		gc_push("transform")
+		gc_origin()
+		SHADER.warning:send("level",GAME.warnLVL)
+		gc_setShader(SHADER.warning)
+		gc_rectangle("fill",0,0,SCR.w,SCR.h)
+		gc_setShader()
+		gc_pop()
 	end
 end
 
