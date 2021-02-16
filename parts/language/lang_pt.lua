@@ -90,7 +90,7 @@ return{
 	wsFailed="WebSocket: falha na conexão",
 	wsDisconnected="WebSocket: desconectado",
 	wsNoConn="WebSocket: você não está conectado",
-	wsError="WebSocket error: ",
+	wsClose="WebSocket closed: ",
 	waitNetTask="Conectando, aguarde",
 
 	-- createRoomTooFast="Create room too fast!",

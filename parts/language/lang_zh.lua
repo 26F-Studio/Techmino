@@ -91,7 +91,7 @@ return{
 	wsFailed="WS连接失败",
 	wsDisconnected="WS连接断开",
 	wsNoConn="WS未连接",
-	wsError="WS错误: ",
+	wsClose="WS被断开: ",
 	waitNetTask="正在连接,请稍候",
 
 	createRoomTooFast="创建房间太快啦,等等吧",
