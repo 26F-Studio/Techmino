@@ -2,11 +2,11 @@ SCR=	require"Zframework/screen"
 COLOR=	require"Zframework/color"
 SCN=	require"Zframework/scene"
 LOG=	require"Zframework/log"
+WS=		require"Zframework/websocket"
 
-require"Zframework/loadLib"
+loadLib=require"Zframework/loadLib"
 require"Zframework/wheelScroll"
 require"Zframework/network"
--- require"Zframework/websocket"
 
 require"Zframework/setFont"
 require"Zframework/mDraw"

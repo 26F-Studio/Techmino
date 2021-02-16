@@ -1,19 +1,4 @@
-local libs={
-	CC={
-		Windows="CCloader",
-		Linux="CCloader",
-		Android="libCCloader.so",
-		libFunc="luaopen_CCloader",
-	},
-	NETlib={
-		Windows="client",
-		Linux="client",
-		Android="client.so",
-		libFunc="luaopen_client",
-	},
-}
-function loadLib(name)
-	local libName=libs[name]
+return function(name,libName)
 	if SYSTEM=="Windows"or SYSTEM=="Linux"then
 		local r1,r2,r3=pcall(require,libName[SYSTEM])
 		if r1 and r2 then
