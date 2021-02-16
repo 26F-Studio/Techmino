@@ -103,10 +103,8 @@ function scene.sceneBack()
 end
 
 function scene.keyDown(k)
-	if k=="a"then
+	if k=="s"then
 		skip=true
-	elseif k=="s"then
-		skip,MARKING=true
 	elseif k=="space"then
 		time=max(time-5,0)
 	elseif k=="escape"then
@@ -114,7 +112,7 @@ function scene.keyDown(k)
 	end
 end
 function scene.touchDown()
-	if #tc.getTouches()==2 then
+	if #tc.getTouches()==3 then
 		skip=true
 	end
 end

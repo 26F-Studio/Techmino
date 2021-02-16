@@ -211,6 +211,7 @@ function love.keypressed(i)
 		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.yellow)
 		elseif i=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.yellow)
 		elseif i=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.yellow)
+		elseif i=="\\"then	MARKING=nil
 		elseif devMode==2 then
 			if WIDGET.sel then
 				local W=WIDGET.sel
