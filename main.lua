@@ -26,9 +26,20 @@ LOGIN=false
 EDITING=""
 WSCONN=false
 LATEST_VERSION=false
-FESTIVAL=
-	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and"Xmas"or
-	os.date"%m"<"03"and math.abs(({--Spring festival dates, 1.2=2, 2.1=32, etc.
+FESTIVAL=nil
+local _date_year=0+os.date("%Y") --4-digit year
+local _date_month=0+os.date("%m")
+local _date_day=0+os.date("%d")
+
+if _date_month==12 and (_date_day==24 or _date_day==25) then
+	FESTIVAL="Xmas"
+end
+
+if _date_year>=2001 and _date_year<=2062 and _date_month<3 then
+	local _sprint_festival_days={
+		--Spring festival dates as number of days since Jan 1 of the Gregorian
+		--calendar, i.e. Jan 2 = 2, Feb 1 = 32, etc.
+		--Index in the table is Gregorian year -2000.
 		24,43,32,22,40,29,49,38,26,45,
 		34,23,41,31,50,39,28,47,36,25,
 		43,32,22,41,29,48,37,26,44,34,
@@ -36,7 +47,13 @@ FESTIVAL=
 		32,22,41,30,48,37,26,45,33,23,
 		42,32,50,39,28,46,35,24,43,33,
 		21,40,
-	})[0+os.date"%y"]-((os.date"%m"=="01"and 0 or 31)+os.date"%d"))<8 and"sprFes"
+	}
+	local _date_days_since_jan_1=(_date_month==1 and 0 or 31) + _date_day
+	if math.abs(_sprint_festival_days[_date_year-2000] 
+	  - _date_days_since_jan_1)<=1 then
+		FESTIVAL="sprFes"
+	end
+end
 
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
