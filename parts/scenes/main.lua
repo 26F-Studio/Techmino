@@ -109,6 +109,7 @@ scene.widgetList={
 	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=goScene"mode"},
 	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
 		if LOGIN then
+			--[[TODO
 			if USER.access_token then
 				httpRequest(
 					tick_httpREQ_manualAutoLogin,
@@ -132,6 +133,7 @@ scene.widgetList={
 					}
 				)
 			end
+			]]
 		else
 			SCN.go("login")
 		end

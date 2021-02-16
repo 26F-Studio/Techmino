@@ -197,6 +197,7 @@ function scene.update()
 			LOADED=true
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
+			--[[TODO
 			httpRequest(tick_httpREQ_launch,PATH.http..PATH.appInfo)
 			if USER.auth_token and USER.email then
 				httpRequest(
@@ -210,6 +211,7 @@ function scene.update()
 					}
 				)
 			end
+			]]
 			if FESTIVAL=="Xmas"then
 				LOG.print("==============",COLOR.red)
 				LOG.print("Merry Christmas!",COLOR.white)

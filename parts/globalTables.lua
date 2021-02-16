@@ -140,19 +140,6 @@ for i=1,#MODOPT do
 	M.sel,M.time=0,0
 	M.color=COLOR[M.color]
 end
-PATH={--Network API paths
-	url="hdustea.3322.org",
-	port="10026",
-
-	http="/tech/api/v1",
-	socket="/tech/socket/v1",
-	appInfo="/app/info",
-	user="/user",
-	auth="/auth/auth",
-	access="/auth/access",
-	onlineChat="/online/chat",
-	onlinePlay="/online/play",
-}
 
 --Game tables
 PLAYERS={alive={}}--Players data

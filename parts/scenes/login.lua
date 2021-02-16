@@ -58,6 +58,7 @@ local function login()
 	elseif #password==0 then
 		LOG.print(text.noPassword)return
 	end
+	--[[TODO
 	httpRequest(
 		tick_httpREQ_newLogin,
 		PATH.http..PATH.auth,
@@ -68,6 +69,7 @@ local function login()
 			password=password,
 		}
 	)
+	]]
 end
 
 local scene={}
