@@ -26,9 +26,16 @@ LOGIN=false
 EDITING=""
 WSCONN=false
 LATEST_VERSION=false
-FESTIVAL=
-	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and"Xmas"or
-	os.date"%m"<"03"and math.abs(({--Spring festival dates, 1.2=2, 2.1=32, etc.
+
+--Festival check within one statement
+FESTIVAL=(
+	--Christmas
+	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and
+	"Xmas"or
+
+	--Spring festival
+	os.date"%m"<"03"and math.abs((({
+		--Festival days. Jan 26=26, Feb 1=32, etc.
 		24,43,32,22,40,29,49,38,26,45,
 		34,23,41,31,50,39,28,47,36,25,
 		43,32,22,41,29,48,37,26,44,34,
@@ -36,7 +43,9 @@ FESTIVAL=
 		32,22,41,30,48,37,26,45,33,23,
 		42,32,50,39,28,46,35,24,43,33,
 		21,40,
-	})[0+os.date"%y"]-((os.date"%m"=="01"and 0 or 31)+os.date"%d"))<8 and"sprFes"
+	})[os.date"%Y"-2000]or -26)-((os.date"%m"-1)*31+os.date"%d"))<6 and
+	"sprFes"
+)
 
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
