@@ -82,7 +82,7 @@ function scene.keyDown(k)
 		elseif v==7294e4+3816 then
 			pass=true
 			for name,M in next,MODES do
-				if not RANKS[name]and M.x then
+				if type(name)=="string"and not RANKS[name]and M.x then
 					RANKS[name]=M.score and 0 or 6
 				end
 			end
