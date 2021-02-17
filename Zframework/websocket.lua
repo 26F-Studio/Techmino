@@ -15,7 +15,7 @@
 ]]
 
 local socket=require"socket"
-local char=string.char
+local byte,char=string.byte,string.char
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
@@ -69,7 +69,7 @@ local function _send(SOCK,opcode,message)
 		SOCK:send(char(bor(length,0x80)))
 	end
 	SOCK:send(char(unpack(mask_key)))
-	local msgbyte={message:byte(1,length)}
+	local msgbyte={byte(message,1,length)}
 	for i=1,length do
 		msgbyte[i]=bxor(msgbyte[i],mask_key[(i-1)%4+1])
 	end
@@ -103,16 +103,16 @@ function WS:read()
 	local res,err=SOCK:receive(2)
 	if not res then return res,err end
 
-	local op=band(res:byte(),0x0f)
+	local op=band(byte(res,1),0x0f)
 
 	--Length
-	local length=band(res:byte(2),0x7f)
+	local length=band(byte(res,2),0x7f)
 	if length==126 then
 		res=SOCK:receive(2)
-		length=shl(res:byte(1),8)+res:byte(2)
+		length=shl(byte(res,1),8)+byte(res,2)
 	elseif length==127 then
 		res=SOCK:receive(8)
-		local b={res:byte(1,8)}
+		local b={byte(res,1,8)}
 		length=shl(b[5],32)+shl(b[6],24)+shl(b[7],8)+b[8]
 	end
 
@@ -123,7 +123,7 @@ function WS:read()
 		return "ping",res
 	elseif op==8 then--close
 		self:close()
-		return "close",string.format("%d-%s",shl(res:byte(1),8)+res:byte(2).."-"..res:sub(3,-3))
+		return "close",string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3))
 	else
 		return OPname[op],res
 	end
