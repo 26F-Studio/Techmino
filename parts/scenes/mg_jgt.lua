@@ -226,7 +226,7 @@ function scene.draw()
 					setColor(1,1,1,.3)
 					mStr("?",j*128+256,i*128-75)
 				else
-					if N<=13 then
+					if N<=12 then
 						setColor(tileColor[N])
 					else
 						setColor(COLOR.rainbow(4*TIME()-i-j))
