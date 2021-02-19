@@ -646,6 +646,7 @@ return{
 		},
 		mg_jgt={
 			reset="重置",
+			next="预览",
 			blind="盲打",
 		},
 		savedata={

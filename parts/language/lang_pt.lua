@@ -643,6 +643,7 @@ return{
 		},
 		mg_jgt={
 			reset="Resetar",
+			next="Próxima",
 			blind="Cego",
 		},
 		savedata={

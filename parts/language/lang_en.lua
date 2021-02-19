@@ -644,6 +644,7 @@ return{
 		},
 		mg_jgt={
 			reset="Reset",
+			next="Next",
 			blind="Blind",
 		},
 		savedata={

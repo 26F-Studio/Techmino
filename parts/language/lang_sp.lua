@@ -560,6 +560,7 @@ return{
 		},
 		mg_jgt={
 			reset="Reiniciar",
+			next="Siguiente",
 			blind="A ciegas",
 		},
 		savedata={

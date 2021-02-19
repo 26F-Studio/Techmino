@@ -2,13 +2,13 @@ local gc=love.graphics
 local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,rnd=math.floor,math.random
-local min=math.min
 local format=string.format
 local ins,rem=table.insert,table.remove
 local mStr=mStr
 
 local scene={}
 
+local previewX={245,186,129,78,35}
 local tileColor={
 	{.39, 1.0, .39},
 	{.39, .39, 1.0},
@@ -24,13 +24,14 @@ local tileColor={
 	{.12, .12, .51},
 }
 
-local board,cx,cy
+local board,preview,cx,cy
 local startTime,time
 local maxTile,maxNew
 local state,progress
 local fallingTimer
 local score
 
+local nexts
 local blind
 
 local function reset()
@@ -40,6 +41,9 @@ local function reset()
 	time=0
 	maxTile=2
 	maxNew=2
+	for i=1,5 do
+		preview[i]=rnd(2)
+	end
 	for i=1,5 do for j=1,5 do
 		board[i][j]=rnd(2)
 	end end
@@ -49,10 +53,12 @@ end
 function scene.sceneInit()
 	BG.set("rainbow2")
 	BGM.play("truth")
+	preview={}
 	board={{},{},{},{},{}}
 	cx,cy=3,3
 	startTime=0
 	blind=false
+	nexts=true
 	reset()
 end
 
@@ -78,7 +84,7 @@ local function merge()
 	until not connected[1]
 	if count>1 then
 		board[cy][cx]=chosen+1
-		local getScore=3^(chosen-1)*min(int(1+count/3),4)
+		local getScore=3^(chosen-1)*math.min(int(.5+count/2),4)
 		score=score+getScore
 		TEXT.show(getScore,cx*128+256,cy*128-40,40,"score")
 		SYSFX.newRectRipple(2,320+cx*128-128,40+cy*128-128,128,128)
@@ -131,6 +137,10 @@ function scene.keyDown(key)
 		reset()
 	elseif key=="q"then
 		if state==0 then
+			nexts=not nexts
+		end
+	elseif key=="w"then
+		if state==0 then
 			blind=not blind
 		end
 	elseif key=="escape"then
@@ -138,8 +148,7 @@ function scene.keyDown(key)
 	end
 end
 function scene.mouseMove(x,y)
-	cx=int((x-192)/128)
-	cy=int((y+88)/128)
+	cx,cy=int((x-192)/128),int((y+88)/128)
 	if cx<1 or cx>5 or cy<1 or cy>5 then cx,cy=false end
 end
 function scene.mouseDown(x,y)
@@ -168,11 +177,12 @@ function scene.update()
 				local noNewTile=true
 				for i=1,5 do
 					if board[1][i]==0 then
-						board[1][i]=
+						board[1][i]=rem(preview,1)
+						preview[5]=
 							maxTile<=4 and rnd(2)or
-							maxTile<=8 and rnd(3)or
-							maxTile<=11 and rnd(4)or
-							rnd(3+rnd(2))
+							maxTile<=8 and rnd(1+rnd(2))or
+							maxTile<=11 and rnd(2+rnd(2))or
+							rnd(2+rnd(3))
 						noNewTile=false
 					end
 				end
@@ -204,14 +214,28 @@ function scene.draw()
 		gc.print(progress[i],1000,140+30*i)
 	end
 
+	--Previews
+	if nexts then
+		gc.setColor(0,0,0,.2)
+		rectangle("fill",20,450,280,75)
+		gc.setLineWidth(6)
+		setColor(1,1,1)
+		rectangle("line",20,450,280,75)
+		for i=1,5 do
+			setFont(85-10*i)
+			gc.setColor(tileColor[preview[i]])
+			gc.print(preview[i],previewX[i],428+i*7)
+		end
+	end
+
 	if state==2 then
 		--Draw no-setting area
 		setColor(1,0,0,.3)
-		gc.rectangle("fill",15,295,285,70)
+		rectangle("fill",15,295,285,70)
 	end
 	gc.setLineWidth(10)
 	setColor(1,1,1)
-	gc.rectangle("line",315,35,650,650)
+	rectangle("line",315,35,650,650)
 
 	gc.setLineWidth(4)
 	setFont(70)
@@ -241,7 +265,7 @@ function scene.draw()
 	if state<2 and cx then
 		setColor(1,1,1,.6)
 		gc.setLineWidth(10)
-		gc.rectangle("line",325+cx*128-128,45+cy*128-128,118,118)
+		rectangle("line",325+cx*128-128,45+cy*128-128,118,118)
 	end
 	setFont(50)
 	setColor(1,1,1)
@@ -250,7 +274,8 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
-	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,font=40,disp=function()return blind end,code=pressKey"q",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="next",	x=240,y=280,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="blind",	x=240,y=340,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

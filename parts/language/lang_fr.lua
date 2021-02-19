@@ -558,6 +558,7 @@ return{
 		},
 		mg_jgt={
 			reset="Réinitialiser",
+			next="Prévisualisations",
 			blind="Aveugler",
 		},
 		help={

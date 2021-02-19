@@ -486,6 +486,7 @@ return{
 		},
 		mg_jgt={
 			reset="R",
+			next="→",
 			blind="???",
 		},
 	},
