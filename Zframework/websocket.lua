@@ -1,56 +1,28 @@
---[[
-	websocket client pure lua implement for love2d
-	by flaribbit and Particle_G and MrZ_26
+local host="hdustea.3322.org"
+local port="10026"
+local path="/tech/socket/v1"
 
-	usage:
-		local client=require("websocket").new()
-		client:settimeout(1)
-		client:connect("127.0.0.1:5000","/test",'{"foo":"bar"}')
-		client:settimeout(0)
-		client:send("hello from love2d","text")
-		love.timer.sleep(0.2)
-		opcode,res,closeCode=client:read()
-		print(res)
-		client:send("Goodbye from love2d","close")
-]]
+local wsThread=[[
+-- lua + love2d threading websocket client
+-- original pure lua ver. by flaribbit and Particle_G and MrZ_26
+-- threading version by MrZ_26
 
-local socket=require"socket"
+local triggerCHN,sendCHN,readCHN=...
+
+
+
 local byte,char=string.byte,string.char
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
-local WS={}
 
-function WS.new()
-	local m={socket=socket.tcp()}
-	for k,v in next,WS do m[k]=v end
-	return m
-end
 
-function WS:connect(server,path,body)
-	local host,port=unpack(splitStr(server,":"))
-	local SOCK=self.socket
-	local res,err=SOCK:connect(host,port or 80)
-	if res~=1 then return res,err end
+local SOCK=require"socket".tcp()
 
-	--WebSocket handshake
-	if not body then body=""end
-	res,err=SOCK:send(
-		"GET "..(path or"/").." HTTP/1.1\r\n"..
-		"Host: "..server.."\r\n"..
-		"Connection: Upgrade\r\n"..
-		"Upgrade: websocket\r\n"..
-		"Content-Type: application/json\r\n"..
-		"Content-Length: "..#body.."\r\n"..
-		"Sec-WebSocket-Version: 13\r\n"..
-		"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
-		body
-	)
-	repeat res=SOCK:receive("*l")until res==""
-end
+
 
 local mask_key={1,14,5,14}
-local function _send(SOCK,opcode,message)
+local function _send(opcode,message)
 	--Message type
 	SOCK:send(char(bor(0x80,opcode)))
 
@@ -76,6 +48,108 @@ local function _send(SOCK,opcode,message)
 	return SOCK:send(char(unpack(msgbyte)))
 end
 
+
+
+do--Connect
+	local host=sendCHN:demand()
+	local port=sendCHN:demand()
+	local path=sendCHN:demand()
+	local body=sendCHN:demand()
+
+	local res,err=SOCK:connect(host,port)
+	if res~=1 then error(res,err)end
+
+	--WebSocket handshake
+	if not body then body=""end
+	SOCK:send(
+		"GET "..path.." HTTP/1.1\r\n"..
+		"Host: "..host..":"..port.."\r\n"..
+		"Connection: Upgrade\r\n"..
+		"Upgrade: websocket\r\n"..
+		"Content-Type: application/json\r\n"..
+		"Content-Length: "..#body.."\r\n"..
+		"Sec-WebSocket-Version: 13\r\n"..
+		"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
+		body
+	)
+	readCHN:push("success")
+end
+
+
+
+while true do
+	triggerCHN:demond()
+	while sendCHN:getCount()>=2 do
+		local op=sendCHN:pop()
+		local message=sendCHN:pop()
+		_send(op,message)
+	end
+
+	while true do--Read
+		--Byte 0-1
+		local res,err=SOCK:receive(2)
+		if not res then break end
+
+		local op=band(byte(res,1),0x0f)
+
+		--Calculating data length
+		local length=band(byte(res,2),0x7f)
+		if length==126 then
+			res=SOCK:receive(2)
+			length=shl(byte(res,1),8)+byte(res,2)
+		elseif length==127 then
+			res=SOCK:receive(8)
+			local b={byte(res,1,8)}
+			length=shl(b[5],32)+shl(b[6],24)+shl(b[7],8)+b[8]
+		end
+
+		--Receive data
+		res=SOCK:receive(length)
+
+		--React
+		readCHN:push(op)
+		if op==8 then--close
+			SOCK:close()
+			readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3)))
+		else
+			readCHN:push(res)
+		end
+	end
+end
+]]
+
+local timer=love.timer.getTime
+local WS={}
+local wsList={}
+
+function WS.connect(name,subPath,body)
+	local ws={
+		thread=love.thread.newThread(wsThread),
+		triggerCHN=love.thread.newChannel(),
+		sendCHN=love.thread.newChannel(),
+		readCHN=love.thread.newChannel(),
+		lastPingTime=0,
+		lastPongTime=timer(),
+		pingInterval=26,
+		status="connecting",--connecting, running, dead
+	}
+	wsList[name]=ws
+	ws.thread:start(ws.triggerCHN,ws.sendCHN,ws.readCHN)
+	ws.sendCHN:push(host)
+	ws.sendCHN:push(port)
+	ws.sendCHN:push(path..subPath)
+	ws.sendCHN:push(body or"")
+end
+
+function WS.status(name)
+	return wsList[name]and wsList[name].status or"dead"
+end
+
+function WS.setPingInterval(name,time)
+	local ws=wsList[name]
+	ws.pingInterval=math.max(time or 1,2.6)
+end
+
 local OPcode={
 	continue=0,
 	text=1,
@@ -84,57 +158,48 @@ local OPcode={
 	ping=9,
 	pong=10,
 }
-function WS:send(message,op)
-	_send(self.socket,op and OPcode[op] or 2--[[binary]],message)
+function WS.send(name,op,message)
+	local ws=wsList[name]
+	ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
+	ws.sendCHN:push(message)
+	ws.lastPingTime=timer()
 end
 
-local OPname={
-	[0]="continue",
-	[1]="text",
-	[2]="binary",
-	[8]="close",
-	[9]="ping",
-	[10]="pong",
-
-}
-function WS:read()
-	--Byte 0-1
-	local SOCK=self.socket
-	local res,err=SOCK:receive(2)
-	if not res then return res,err end
-
-	local op=band(byte(res,1),0x0f)
-
-	--Length
-	local length=band(byte(res,2),0x7f)
-	if length==126 then
-		res=SOCK:receive(2)
-		length=shl(byte(res,1),8)+byte(res,2)
-	elseif length==127 then
-		res=SOCK:receive(8)
-		local b={byte(res,1,8)}
-		length=shl(b[5],32)+shl(b[6],24)+shl(b[7],8)+b[8]
-	end
-
-	--Data
-	res=SOCK:receive(length)
-	if op==9 then--ping
-		self:send(res,10--[[pong]])
-		return "ping",res
-	elseif op==8 then--close
-		self:close()
-		return "close",string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3))
-	else
-		return OPname[op],res
+function WS.read(name)
+	local ws=wsList[name]
+	if ws.readCHN:getCount()>=2 then
+		local op=ws.readCHN.pop()
+		local message=ws.readCHN.pop()
+		if op==8 then ws.status="dead"end
+		ws.lastPongTime=timer()
+		return op,message
 	end
 end
 
-function WS:close()
-	self.socket:close()
+function WS.close(name)
+	local ws=wsList[name]
+	ws.sendCHN:push(8)
+	ws.sendCHN:push("")
+	ws.status="dead"
 end
 
-function WS:settimeout(t)
-	self.socket:settimeout(t)
+function WS.update()
+	local time=timer()
+	for name,ws in next,wsList do
+		ws.triggerCHN:push(0)
+		if ws.status=="connecting"then
+			if ws.readCHN:pop()=="success"then
+				ws.status="running"
+			end
+		elseif time-ws.lastPingTime>ws.pingInterval then
+			ws.sendCHN:push(9)
+			ws.sendCHN:push("")
+			ws.lastPingTime=time
+		end
+		if time-ws.lastPongTime>10+3*ws.pingInterval then
+			WS.close(name)
+		end
+	end
 end
 
 return WS
