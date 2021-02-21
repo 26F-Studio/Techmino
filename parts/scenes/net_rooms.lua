@@ -8,7 +8,7 @@ local lastCreateRoomTime=0
 
 local function enterRoom(roomID)
 	--[[TODO
-	wsWrite("???",json.encode{
+	WS.connect("play","/play",json.encode{
 		email=USER.email,
 		token=USER.access_token,
 		id=roomID,
@@ -21,7 +21,7 @@ local function fresh()
 	lastfreshTime=TIME()
 	rooms=nil
 	--[[TODO
-	wsWrite("???",json.encode{
+	WS.connect("play","/play",json.encode{
 		email=USER.email,
 		access_token=USER.access_token,
 	})
@@ -48,7 +48,7 @@ function scene.keyDown(k)
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>26 then
 			--[[TODO
-			wsWrite("???",json.encode{
+			WS.send("room",json.encode{
 				email=USER.email,
 				access_token=USER.access_token,
 				room_name=(USER.name or"???").."'s room",

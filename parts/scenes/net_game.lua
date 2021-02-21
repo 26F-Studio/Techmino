@@ -31,14 +31,13 @@ local touchMoveLastFrame=false
 local scene={}
 
 function scene.sceneBack()
-	wsWrite("Q")
+	WS.send("play","Q")
 	WSCONN=false
 	LOG.print(text.wsDisconnected,"warn")
 	love.keyboard.setKeyRepeat(true)
 end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
-	TASK.new(TICK_wsRead)
 	hideChatBox=true
 	playerInitialized=false
 	textBox:clear()
@@ -110,7 +109,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		if not PLAYERS[1].ready then
-			wsWrite("R")
+			WS.send("play","R")
 		end
 	end
 end
@@ -270,7 +269,7 @@ function scene.update(dt)
 		heartBeatTimer=heartBeatTimer+dt
 		if heartBeatTimer>42 then
 			heartBeatTimer=0
-			wsWrite("P")
+			WS.send("play","P")
 		end
 		return
 	end
@@ -293,7 +292,7 @@ function scene.update(dt)
 		local stream
 		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
-			wsWrite("S"..data.encode("string","base64",stream))
+			WS.send("stream",data.encode("string","base64",stream))
 		else
 			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,0)

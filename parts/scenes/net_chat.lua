@@ -12,7 +12,7 @@ local function _init()
 end
 local function sendMessage()
 	local W=WIDGET.active.input
-	if #W.value>0 and wsWrite("T"..data.encode("string","base64",W.value))then
+	if #W.value>0 and WS.send("chat","T"..data.encode("string","base64",W.value))then
 		W.value=""
 	end
 end
@@ -31,11 +31,10 @@ function scene.sceneInit()
 	end
 	textBox:scroll(1)
 	TASK.new(_init)--Widgets are not initialized, so active after 1 frame
-	TASK.new(TICK_wsRead)
 	BG.set("none")
 end
 function scene.sceneBack()
-	wsWrite("Q")
+	WS.send("chat","Q")
 	WSCONN=false
 	LOG.print(text.wsDisconnected,"warn")
 end
@@ -90,7 +89,7 @@ function scene.update(dt)
 	heartBeatTimer=heartBeatTimer+dt
 	if heartBeatTimer>42 then
 		heartBeatTimer=0
-		wsWrite("P")
+		WS.send("chat","P")
 	end
 end
 function scene.draw()

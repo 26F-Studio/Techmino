@@ -1752,7 +1752,7 @@ function Player.lose(P,force)
 		gameOver()
 		P:newTask(#PLAYERS>1 and tick_lose or tick_finish)
 		if GAME.net then
-			wsWrite("D")
+			WS.send("play","D")
 		else
 			TASK.new(tick_autoPause)
 		end
