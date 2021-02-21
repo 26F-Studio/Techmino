@@ -311,7 +311,7 @@ do
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 	end
-	if STAT.version<1205 then
+	while STAT.version<1205 or SETTING.VKCurW>1 or SETTING.VKCurW>1 do
 		SETTING.VKCurW=SETTING.VKCurW*.1
 		SETTING.VKTchW=SETTING.VKTchW*.1
 	end
