@@ -35,19 +35,14 @@ local function onVK_org(x,y)
 end
 function scene.mouseDown(x,y,k)
 	if k==2 then SCN.back()end
-	selected=onVK_org(x,y)or selected
-end
-function scene.mouseMove(_,_,dx,dy)
-	if selected and ms.isDown(1)and not WIDGET.sel then
-		local B=VK_org[selected]
-		B.x,B.y=B.x+dx,B.y+dy
-	end
+	scene.touchDown(x,y)
 end
 function scene.mouseUp()
-	if selected then
-		local B=VK_org[selected]
-		local k=snapUnit
-		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
+	scene.touchUp()
+end
+function scene.mouseMove(_,_,dx,dy)
+	if ms.isDown(1)then
+		scene.touchMove(nil,nil,dx,dy)
 	end
 end
 function scene.touchDown(x,y)
