@@ -327,10 +327,10 @@ function love.receiveData(id,data)end
 ]]
 local lastGCtime=0
 function love.lowmemory()
-	if love.timer.getTime()-lastGCtime>2.6 then
-		lastGCtime=TIME()
+	if TIME()-lastGCtime>6.26 then
 		collectgarbage()
-		LOG.print("[Auto GC] Low Memory!","warn")
+		lastGCtime=TIME()
+		LOG.print("[auto GC] low memory 设备内存过低","warn")
 	end
 end
 function love.resize(w,h)
@@ -434,7 +434,6 @@ local devColor={
 	COLOR.lGreen,
 	COLOR.lBlue,
 }
-local FPS=love.timer.getFPS
 love.draw,love.update=nil--remove default draw/update
 function love.run()
 	local SCN=SCN
@@ -442,6 +441,7 @@ function love.run()
 
 	local TIME=TIME
 	local STEP,WAIT=love.timer.step,love.timer.sleep
+	local FPS=love.timer.getFPS
 	local MINI=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 	local DISCARD=gc.discard
@@ -456,11 +456,7 @@ function love.run()
 	love.resize(gc.getWidth(),gc.getHeight())
 
 	--Scene Launch
-	if SETTING.appLock then
-		SCN.init("calculator")
-	else
-		SCN.init("load")
-	end
+	SCN.init(SETTING.appLock and"calculator"or"load")
 
 	return function()
 		local _
@@ -574,10 +570,10 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if TIME()-lastFreshPow>2.6 then
+		if t-lastFreshPow>2.6 then
 			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
-				lastFreshPow=TIME()
+				lastFreshPow=t
 			end
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
