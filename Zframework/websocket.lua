@@ -158,7 +158,7 @@ local OPcode={
 	ping=9,
 	pong=10,
 }
-function WS.send(name,op,message)
+function WS.send(name,message,op)
 	local ws=wsList[name]
 	ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
 	ws.sendCHN:push(message)
@@ -172,7 +172,7 @@ function WS.read(name)
 		local message=ws.readCHN.pop()
 		if op==8 then ws.status="dead"end
 		ws.lastPongTime=timer()
-		return op,message
+		return message,op
 	end
 end
 
