@@ -354,10 +354,10 @@ function love.errorhandler(msg)
 	local err={"Error:"..msg}
 	local trace=debug.traceback("",2)
 	local c=2
-	for l in string.gmatch(trace,"(.-)\n")do
+	for l in trace:gmatch("(.-)\n")do
 		if c>2 then
-			if not string.find(l,"boot")then
-				err[c]=string.gsub(l,"^\t*","")
+			if not l:find("boot")then
+				err[c]=l:gsub("^\t*","")
 				c=c+1
 			end
 		else
@@ -508,13 +508,13 @@ function love.run()
 
 					--Draw cursor
 					if mouseShow then
-						local r=t*.5
-						local R=int(r)%7+1
+						local R=int((t+1)/2)%7+1
 						_=SKIN.libColor[SETTING.skin[R]]
-						gc.setColor(_[1],_[2],_[3],min(1-abs(1-r%1*2),.3))
-						gc.draw(TEXTURE.miniBlock[R],mx,my,t%3.1416*4,20,20,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
-						gc.setColor(1,1,1,.5)gc.circle("fill",mx,my,5)
-						gc.setColor(1,1,1)gc.circle("fill",mx,my,3)
+						gc.setColor(_[1],_[2],_[3],min(abs(1-t%2),.3))
+						_=spinCenters[R][0]
+						gc.draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+						gc.setColor(1,1,1)
+						gc.draw(TEXTURE.cursor,mx,my,nil,nil,nil,6,6)
 					end
 					SYSFX.draw()
 					TEXT.draw()

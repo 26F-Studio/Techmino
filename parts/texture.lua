@@ -34,6 +34,13 @@ gc.line(0,20,40,20)
 gc.line(20,0,20,40)
 
 
+TEXTURE.cursor=C(12,12)
+gc.setColor(1,1,1,.7)
+gc.circle("fill",6,6,6)
+gc.setColor(1,1,1)
+gc.circle("fill",6,6,3)
+
+
 gc.setDefaultFilter("linear","linear")
 
 
