@@ -178,7 +178,7 @@ end
 
 function WS.close(name)
 	local ws=wsList[name]
-	ws.sendCHN:push(8)
+	ws.sendCHN:push(8)--close
 	ws.sendCHN:push("")
 	ws.status="dead"
 end
@@ -190,10 +190,12 @@ function WS.update()
 		if ws.status=="connecting"then
 			if ws.readCHN:pop()=="success"then
 				ws.status="running"
+				ws.lastPingTime=time
+				ws.lastPongTime=time
 			end
 		elseif time-ws.lastPingTime>ws.pingInterval then
 			ws.sendCHN:push(9)
-			ws.sendCHN:push("")
+			ws.sendCHN:push("")--ping
 			ws.lastPingTime=time
 		end
 		if time-ws.lastPongTime>10+3*ws.pingInterval then
