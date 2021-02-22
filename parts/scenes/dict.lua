@@ -39,13 +39,14 @@ local function clearResult()
 end
 local eggInput={
 	["15p"]=goScene"mg_15p",
-	sltg=goScene"mg_schulteG",
+	grid=goScene"mg_schulteG",
 	pong=goScene"mg_pong",
 	atoz=goScene"mg_AtoZ",
 	uttt=goScene"mg_UTTT",
-	cbf=goScene"mg_cubefield",
+	cube=goScene"mg_cubefield",
 	["2048"]=goScene"mg_2048",
-	jgt=goScene"mg_jgt",
+	ten=goScene"mg_ten",
+	tap=goScene"mg_tap",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)

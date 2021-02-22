@@ -484,7 +484,7 @@ return{
 			tapControl="_↓",
 			skip=">>",
 		},
-		mg_jgt={
+		mg_ten={
 			reset="R",
 			next="→",
 			blind="???",

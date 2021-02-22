@@ -641,7 +641,7 @@ return{
 
 			skip="Skip Round",
 		},
-		mg_jgt={
+		mg_ten={
 			reset="Reset",
 			next="Next",
 			blind="Blind",

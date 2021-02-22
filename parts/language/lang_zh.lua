@@ -643,7 +643,7 @@ return{
 
 			skip="跳过回合",
 		},
-		mg_jgt={
+		mg_ten={
 			reset="重置",
 			next="预览",
 			blind="盲打",

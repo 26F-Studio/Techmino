@@ -770,7 +770,7 @@ return{
 	{"小游戏",
 		"minigame xiaoyouxi",
 		"other",
-		"输入以下词语，小游戏免费玩!\n\n15-Puzzle: 15p\nSchulte Grid: sltg\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\nCubefield: cbf\n2048: 2048\nJust get ten: jgt",
+		"输入以下词语，小游戏免费玩!\n\n15-Puzzle: 15p\nSchulte Grid: grid\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\nCubefield: cube\n2048: 2048\nJust get ten: ten\nTapping speed test: tap",
 	},
 
 	--英文

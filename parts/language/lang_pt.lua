@@ -640,7 +640,7 @@ return{
 			-- tapControl="Tap control",
 			-- skip="Skip Round",
 		},
-		mg_jgt={
+		mg_ten={
 			reset="Resetar",
 			next="Próxima",
 			blind="Cego",
