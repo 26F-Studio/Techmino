@@ -189,9 +189,8 @@ function scene.draw()
 	local _
 	gc.push("transform")
 	gc.translate(640,360)
-	gc.scale(mapCam.zoomK)
-	gc.rotate((mapCam.zoomK^.8-1)*.6)
-	gc.shear((mapCam.zoomK-1)*.0626,0)
+	gc.rotate((mapCam.zoomK^.6-1))
+	gc.scale(mapCam.zoomK^.7)
 	gc.applyTransform(mapCam.xOy);
 
 	local R=RANKS
