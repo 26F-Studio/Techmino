@@ -21,7 +21,7 @@ return{
 						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
 						s=24
 					else
-						B[p]=	{line=generateLine(P:RND(2)*9)-8,amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
+						B[p]=	{line=generateLine(P:RND(2)*9-8),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
 						B[p+1]=	{line=generateLine(P:RND(3,8)),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
 						s=28
 					end
