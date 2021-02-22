@@ -97,6 +97,18 @@ for i=1,8 do
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
 
+setFont(20)
+TEXTURE.ws_dead=C(20,20)
+gc.setColor(1,.4,.3)
+gc.print("X",3,-4)
+TEXTURE.ws_connecting=C(20,20)
+gc.setLineWidth(3)
+gc.setColor(1,1,1)
+gc.arc("line","open",11.5,10,6.26,1,5.28)
+TEXTURE.ws_running=C(20,20)
+gc.setColor(0,.9,0)
+gc.print("R",3,-4)
+
 
 gc.setCanvas()
 return TEXTURE

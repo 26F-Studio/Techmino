@@ -38,9 +38,16 @@ FILE=	require"Zframework/file"
 PROFILE=require"Zframework/profile"
 
 local ms,kb=love.mouse,love.keyboard
+
 local gc=love.graphics
+local gc_push,gc_pop=gc.push,gc.pop
+local gc_discard,gc_present=gc.discard,gc.present
+local gc_setColor,gc_draw,gc_rectangle=gc.setColor,gc.draw,gc.rectangle
+local gc_print,gc_printf=gc.print,gc.printf
+local setFont=setFont
+
 local int,rnd,abs=math.floor,math.random,math.abs
-local min=math.min
+local min,sin=math.min,math.sin
 local ins,rem=table.insert,table.remove
 local SCR=SCR
 
@@ -54,39 +61,39 @@ local devMode
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
 	local state,pow=love.system.getPowerInfo()
-	gc.setCanvas(infoCanvas)gc.push("transform")gc.origin()
+	gc.setCanvas(infoCanvas)gc_push("transform")gc.origin()
 	gc.clear(0,0,0,.25)
 	if state~="unknown"then
 		gc.setLineWidth(4)
 		local charging=state=="charging"
 		if state=="nobattery"then
-			gc.setColor(1,1,1)
+			gc_setColor(1,1,1)
 			gc.setLineWidth(2)
 			gc.line(74,SCR.safeX+5,100,22)
 		elseif pow then
-			if charging then	gc.setColor(0,1,0)
-			elseif pow>50 then	gc.setColor(1,1,1)
-			elseif pow>26 then	gc.setColor(1,1,0)
-			elseif pow<26 then	gc.setColor(1,0,0)
-			else				gc.setColor(.5,0,1)
+			if charging then	gc_setColor(0,1,0)
+			elseif pow>50 then	gc_setColor(1,1,1)
+			elseif pow>26 then	gc_setColor(1,1,0)
+			elseif pow<26 then	gc_setColor(1,0,0)
+			else				gc_setColor(.5,0,1)
 			end
-			gc.rectangle("fill",76,6,pow*.22,14)
+			gc_rectangle("fill",76,6,pow*.22,14)
 			if pow<100 then
 				setFont(15)
-				gc.setColor(0,0,0)
-				gc.print(pow,77,1)
-				gc.print(pow,77,3)
-				gc.print(pow,79,1)
-				gc.print(pow,79,3)
-				gc.setColor(1,1,1)
-				gc.print(pow,78,2)
+				gc_setColor(0,0,0)
+				gc_print(pow,77,1)
+				gc_print(pow,77,3)
+				gc_print(pow,79,1)
+				gc_print(pow,79,3)
+				gc_setColor(1,1,1)
+				gc_print(pow,78,2)
 			end
 		end
-		gc.draw(IMG.batteryImage,73,3)
+		gc_draw(IMG.batteryImage,73,3)
 	end
 	setFont(25)
-	gc.print(os.date("%H:%M"),3,-5)
-	gc.pop()gc.setCanvas()
+	gc_print(os.date("%H:%M"),3,-5)
+	gc_pop()gc.setCanvas()
 end
 -------------------------------------------------------------
 local lastX,lastY=0,0--Last click pos
@@ -405,29 +412,36 @@ function love.errorhandler(msg)
 			end
 		end
 		if needDraw then
-			gc.discard()
+			gc_discard()
 			gc.clear(BGcolor)
-			gc.setColor(1,1,1)
-			gc.push("transform")
+			gc_setColor(1,1,1)
+			gc_push("transform")
 			gc.replaceTransform(xOy)
-			gc.draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
-			setFont(100)gc.print(":(",100,40,0,1.2)
-			setFont(40)gc.printf(text.errorMsg,100,200,SCR.w0-100)
+			gc_draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
+			setFont(100)gc_print(":(",100,40,0,1.2)
+			setFont(40)gc_printf(text.errorMsg,100,200,SCR.w0-100)
 			setFont(20)
-			gc.print(SYSTEM.."-"..VERSION_NAME,100,660)
-			gc.print("scene:"..SCN.cur,400,660)
-			gc.printf(err[1],626,360,1260-626)
-			gc.print("TRACEBACK",626,426)
+			gc_print(SYSTEM.."-"..VERSION_NAME,100,660)
+			gc_print("scene:"..SCN.cur,400,660)
+			gc_printf(err[1],626,360,1260-626)
+			gc_print("TRACEBACK",626,426)
 			for i=4,#err-2 do
-				gc.print(err[i],626,370+20*i)
+				gc_print(err[i],626,370+20*i)
 			end
-			gc.pop()
-			gc.present()
+			gc_pop()
+			gc_present()
 			needDraw=false
 		end
 		love.timer.sleep(.26)
 	end
 end
+local WSnames={"app","chat","play","stream"}
+local WScolor={
+	{1,0,0,.26},
+	{0,.7,1,.26},
+	{0,1,0,.26},
+	{1,1,0,.26}
+}
 local devColor={
 	COLOR.white,
 	COLOR.lMagenta,
@@ -444,8 +458,6 @@ function love.run()
 	local FPS=love.timer.getFPS
 	local MINI=love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
-	local DISCARD=gc.discard
-	local PRESENT=gc.present
 
 	local frameTimeList={}
 
@@ -497,7 +509,7 @@ function love.run()
 				--Draw background
 				BG.draw()
 
-				gc.push("transform")
+				gc_push("transform")
 					gc.replaceTransform(xOy)
 
 					--Draw scene contents
@@ -510,20 +522,20 @@ function love.run()
 					if mouseShow then
 						local R=int((t+1)/2)%7+1
 						_=SKIN.libColor[SETTING.skin[R]]
-						gc.setColor(_[1],_[2],_[3],min(abs(1-t%2),.3))
+						gc_setColor(_[1],_[2],_[3],min(abs(1-t%2),.3))
 						_=spinCenters[R][0]
-						gc.draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
-						gc.setColor(1,1,1)
-						gc.draw(TEXTURE.cursor,mx,my,nil,nil,nil,6,6)
+						gc_draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+						gc_setColor(1,1,1)
+						gc_draw(TEXTURE.cursor,mx,my,nil,nil,nil,6,6)
 					end
 					SYSFX.draw()
 					TEXT.draw()
-				gc.pop()
+				gc_pop()
 
 				--Draw power info.
-				gc.setColor(1,1,1)
+				gc_setColor(1,1,1)
 				if SETTING.powerInfo then
-					gc.draw(infoCanvas,SCR.safeX,0,0,SCR.k)
+					gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 				end
 
 				--Draw scene swapping animation
@@ -532,31 +544,45 @@ function love.run()
 					_.draw(_.time)
 				end
 
-				--Draw network working
-				if TASK.netTaskCount()>0 then
-					setFont(30)
-					gc.setColor(COLOR.rainbow(t*5))
-					gc.print("E",SCR.safeW-18,17,.26+.355*math.sin(t*6.26),nil,nil,8,20)
+				--Draw network working status
+				gc_push("transform")
+				gc.translate(SCR.w,0)
+				gc.scale(SCR.k)
+				for i=1,4 do
+					local status=WS.status(WSnames[i])
+					gc_setColor(WScolor[i])
+					gc_rectangle("fill",0,20*i,-20,-20)
+					if status=="dead"then
+						gc_setColor(.8,.8,.8)
+						gc_draw(TEXTURE.ws_dead,-20,20*i-20)
+					elseif status=="connecting"then
+						gc_setColor(.8,.8,.8,.5+.3*sin(t*6.26))
+						gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
+					elseif status=="running"then
+						gc_setColor(.8,.8,.8)
+						gc_draw(TEXTURE.ws_running,-20,20*i-20)
+					end
 				end
+				gc_pop()
 
 				--Draw FPS
-				gc.setColor(1,1,1)
+				gc_setColor(1,1,1)
 				setFont(15)
 				_=SCR.h
-				gc.print(FPS(),SCR.safeX+5,_-20)
+				gc_print(FPS(),SCR.safeX+5,_-20)
 
 				--Debug info.
 				if devMode then
-					gc.setColor(devColor[devMode])
-					gc.print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
-					gc.print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
-					gc.print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
-					gc.print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
-					gc.print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
+					gc_setColor(devColor[devMode])
+					gc_print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
+					gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
+					gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
+					gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
+					gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
-					gc.setColor(1,1,1,.3)
+					gc_setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
-						gc.rectangle("fill",150+2*i,_-20,2,-frameTimeList[i]*4000)
+						gc_rectangle("fill",150+2*i,_-20,2,-frameTimeList[i]*4000)
 					end
 					if devMode==3 then WAIT(.1)
 					elseif devMode==4 then WAIT(.5)
@@ -564,8 +590,8 @@ function love.run()
 				end
 				LOG.draw()
 
-				PRESENT()
-				DISCARD()--SPEED UPUPUP!
+				gc_present()
+				gc_discard()--SPEED UPUPUP!
 			end
 		end
 
