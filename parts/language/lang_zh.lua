@@ -5,7 +5,6 @@ return{
 	sureQuit="再按一次退出",
 	newVersion="感谢更新!更新内容如下",
 	httpTimeout="网络连接超时!",
-	marking="游戏作者:MrZ_26\n任何视频/直播不得出现此水印\n任何转述声明无效",
 	newDay="新的一天,新的开始~",
 	playedLong="已经玩很久了!注意休息!",
 	playedTooMuch="今天玩太久啦!打块好玩但也要适可而止哦~",

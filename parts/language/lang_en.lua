@@ -5,7 +5,6 @@ return{
 	sureQuit="Press again to exit",
 	newVersion="Thanks for updating! Check out the updates below.",
 	httpTimeout="Network connection timed out",
-	marking="Game Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
 	newDay="[Anti-addiction] New day, new beginning!",
 	playedLong="[Anti-addiction] You've been playing quite a bit today. Make sure to take breaks.",
 	playedTooMuch="[Anti-addiction] You've been playing too much today! You can't play any more.",

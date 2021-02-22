@@ -76,7 +76,8 @@ function scene.keyDown(k)
 		local v=tonumber(val)
 		if v==600+26 then pass=true
 		elseif v==190000+6022 then
-			pass,MARKING=true
+			pass=true
+			_G["\100\114\97\119\70\87\77"]=NULL
 			LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 			SFX.play("clear")
 		elseif v==7294e4+3816 then

@@ -5,7 +5,6 @@ return{
 	-- sureQuit="Press again to exit",
 	newVersion="¡Gracias por actualizar! Detalles a continuación:",
 	httpTimeout="¡Tiempo de espera de conexión agotado!",
-	marking="Autor:MrZ_26\nEsta grabación es ilegal si ves esto\nNo se aceptan excusas",
 	-- newDay="[Anti-addiction] New day, new beginning!",
 	-- playedLong="[Anti-addiction] You've been playing quite a bit today. Make sure to take breaks.",
 	-- playedTooMuch="[Anti-addiction] You've been playing too much today! You can't play any more.",

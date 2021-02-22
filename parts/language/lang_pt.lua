@@ -5,7 +5,6 @@ return{
 	sureQuit="Aparte novamente para sair",
 	newVersion="Obrigado por atualizar! Veja as mudanças abaixo.",
 	httpTimeout="Conexão de rede expirou",
-	marking="Autor do jogo: MrZ_26\nSe puder ver isso a gravação e illegal\nQualquer explicação é invalida",
 	newDay="[Anti-vício] Novo dia, um começo novo!",
 	playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
 	playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",

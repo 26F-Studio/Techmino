@@ -19,7 +19,6 @@ MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
-MARKING=true
 LOADED=false
 NOGAME=false
 LOGIN=false

@@ -5,7 +5,6 @@ return{
 	-- sureQuit="Press again to exit",
 	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
-	marking="Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide.",
 	-- newDay="[Anti-addiction] New day, new beginning!",
 	-- playedLong="[Anti-addiction] You've been playing quite a bit today. Make sure to take breaks.",
 	-- playedTooMuch="[Anti-addiction] You've been playing too much today! You can't play any more.",

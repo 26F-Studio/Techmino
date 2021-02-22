@@ -178,12 +178,7 @@ local function drawAtkPointer(x,y)
 	gc.circle("line",x,y,30*(1+a),6)
 end
 function scene.draw()
-	local t=TIME()
-	if MARKING then
-		setFont(25)
-		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
-		mStr(text.marking,190,60+26*sin(t))
-	end
+	drawFWM()
 
 	--Players
 	for p=1,#PLAYERS do
@@ -221,7 +216,7 @@ function scene.draw()
 
 	--Replaying
 	if GAME.replaying then
-		gc_setColor(1,1,t%1>.5 and 1 or 0)
+		gc_setColor(1,1,TIME()%1>.5 and 1 or 0)
 		mText(drawableText.replaying,770,17)
 	end
 

@@ -7,6 +7,7 @@ local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.se
 local gc_push,gc_pop,gc_origin=gc.push,gc.pop,gc.origin
 local gc_draw,gc_rectangle,gc_circle=gc.draw,gc.rectangle,gc.circle
 local max,int,rnd=math.max,math.floor,math.random
+local sin=math.sin
 local sub=string.sub
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
@@ -975,6 +976,34 @@ end
 
 
 --Game draw
+do--function drawFWM()
+	local zh=table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"}
+	local marks={
+		zh,
+		zh,
+		zh,
+		"Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
+		"Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide",
+		"Autor: MrZ_26\nEsta grabación es ilegal si ves esto\nNo se aceptan excusas",
+		"Autor do jogo: MrZ_26\nSe puder ver isso a gravação e illegal\nQualquer explicação é invalida",
+		"Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
+	}
+	function drawFWM()
+		local t=TIME()
+		setFont(25)
+		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
+		mStr(marks[SETTING.lang],240,60+26*sin(t))
+		--你竟然找到了这里！那么在动手之前读读下面这些吧。
+		--千万不要因为想在网络公共场合发视频而擅自删除这部分代码！
+		--录制视频上传到公共场合(包括但不限于任何视频平台/论坛/几十个人以上的社区群等)很可能会对Techmino未来的发展有负面影响
+		--如果被TTC发现，TTC随时可以用DMCA从法律层面强迫游戏停止开发，到时候谁都没得玩。这是真的，已经有几个方块游戏这么死了…
+		--水印限制可以减少低质量视频泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
+		--想发视频的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭水印
+		--在techmino发展到一定程度之后会解除这个限制(啧啧…)
+		--最后，别把这里藏的这些话截图/复制出去哦~
+		--最后的最后，感谢您对Techmino的支持！！！
+	end
+end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then
 		gc_push("transform")

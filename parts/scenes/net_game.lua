@@ -4,7 +4,6 @@ local tc=love.touch
 
 local playerData
 local ins,rem=table.insert,table.remove
-local sin=math.sin
 
 local SCR=SCR
 local VK=virtualkey
@@ -302,12 +301,7 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	local t=TIME()
-	if MARKING then
-		setFont(25)
-		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
-		mStr(text.marking,190,60+26*sin(t))
-	end
+	drawFWM()
 
 	--Players
 	for p=hideChatBox and 1 or 2,#PLAYERS do
