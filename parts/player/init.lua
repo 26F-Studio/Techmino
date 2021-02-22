@@ -110,8 +110,8 @@ local function newEmptyPlayer(id,mini)
 	P.modeData={point=0,event=0,counter=0}--Data use by mode
 	P.keyTime={}P.keySpeed=0
 	P.dropTime={}P.dropSpeed=0
-	for i=1,10 do P.keyTime[i]=-1e5 end
-	for i=1,10 do P.dropTime[i]=-1e5 end
+	for i=1,10 do P.keyTime[i]=-1e99 end
+	for i=1,10 do P.dropTime[i]=-1e99 end
 
 	P.field,P.visTime={},{}
 	P.atkBuffer={sum=0}

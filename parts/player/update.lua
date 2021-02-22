@@ -122,11 +122,11 @@ function update.alive(P,dt)
 	--Calculate key speed
 	do
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(GAME.frame-P.keyTime[i]+1)end
-		P.keySpeed=P.keySpeed*.99+v*.1
+		for i=2,10 do v=v+i*(i-1)*72/(GAME.frame-P.keyTime[i]+1)end
+		P.keySpeed=P.keySpeed*.99+v*.01
 		v=0
-		for i=2,10 do v=v+i*(i-1)*7.2/(GAME.frame-P.dropTime[i])end
-		P.dropSpeed=P.dropSpeed*.99+v*.1
+		for i=2,10 do v=v+i*(i-1)*72/(GAME.frame-P.dropTime[i])end
+		P.dropSpeed=P.dropSpeed*.99+v*.01
 	end
 
 	if GAME.modeEnv.royaleMode then
