@@ -1050,7 +1050,7 @@ do--Player.drop(P)--Place piece
 		end
 		if P.clearingRow[1]then
 			P.falling=ENV.fall
-		elseif cc==#C.bk then
+		elseif cc>=#C.bk then
 			clear=true
 		end
 
