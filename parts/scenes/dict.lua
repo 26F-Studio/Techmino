@@ -47,6 +47,7 @@ local eggInput={
 	["2048"]=goScene"mg_2048",
 	ten=goScene"mg_ten",
 	tap=goScene"mg_tap",
+	dtw=goScene"mg_dtw",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)

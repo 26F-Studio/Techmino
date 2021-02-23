@@ -560,6 +560,10 @@ return{
 			next="Prévisualisations",
 			blind="Aveugler",
 		},
+		mg_dtw={
+			reset="Réinitialiser",
+			-- mode="Mode",
+		},
 		help={
 			manual="Manuel",
 			dict="Little Z",

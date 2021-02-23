@@ -645,6 +645,10 @@ return{
 			next="Próxima",
 			blind="Cego",
 		},
+		mg_dtw={
+			reset="Resetar",
+			-- mode="Mode",
+		},
 		savedata={
 			exportUnlock="Exportar progresso",
 			exportData="Exportar estatística",

@@ -489,6 +489,10 @@ return{
 			next="→",
 			blind="???",
 		},
+		mg_dtw={
+			reset="R",
+			mode="?",
+		},
 	},
 	getTip=function()
 		local L="!@#$%^&*()-=_+[]{}\\|;:\'\",<.>/?"

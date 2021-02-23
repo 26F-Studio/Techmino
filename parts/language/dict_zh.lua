@@ -131,7 +131,7 @@ return{
 	{"Tetris Effect",
 		"tec tetriseffectconnect",
 		"game",
-		"一个win/ps4平台方块，特效方块游戏，只有单机模式，手感不算太好，想看特效的可以一试，只是去玩方块的不是很建议\n有一个拓展版本Tetris Effect: Connect增加了联网对战，包含普通对战，zone对战，经典对战和boss战四个模式",
+		"一个win/ps4平台方块，特效方块游戏，只有单机模式，手感不算太好，想看特效的可以一试，只是去玩方块的不是很建议\n有一个拓展版本Tetris Effect: Connected增加了联网对战，包含普通对战，zone对战，经典对战和boss战四个模式",
 	},
 	{"Techmino",
 		"techmino tieke",
@@ -770,7 +770,7 @@ return{
 	{"小游戏",
 		"minigame xiaoyouxi",
 		"other",
-		"输入以下词语，小游戏免费玩!\n\n15-Puzzle: 15p\nSchulte Grid: grid\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\nCubefield: cube\n2048: 2048\nJust get ten: ten\nTapping speed test: tap",
+		"输入以下词语，小游戏免费玩!\n\n15-Puzzle: 15p\nSchulte Grid: grid\nPong: pong\nAtoZ: atoz\nUltimate Tic-tac-toe: uttt\nCubefield: cube\n2048: 2048\nJust get ten: ten\nTapping speed test: tap\nDon't touch white: dtw",
 	},
 
 	--英文

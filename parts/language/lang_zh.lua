@@ -648,6 +648,10 @@ return{
 			next="预览",
 			blind="盲打",
 		},
+		mg_dtw={
+			reset="重置",
+			mode="模式",
+		},
 		savedata={
 			exportUnlock="导出地图进度",
 			exportData="导出统计数据",

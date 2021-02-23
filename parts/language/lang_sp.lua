@@ -562,6 +562,10 @@ return{
 			next="Siguiente",
 			blind="A ciegas",
 		},
+		mg_dtw={
+			reset="Reiniciar",
+			-- mode="Mode",
+		},
 		savedata={
 			-- exportUnlock="Export Unlock",
 			-- exportData="Export Data",
