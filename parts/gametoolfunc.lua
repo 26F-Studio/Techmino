@@ -265,6 +265,7 @@ function pasteQuestArgs(str)
 	ENV.ospin=			byte(str,2)~=90
 	ENV.missionKill=	byte(str,3)~=90
 	ENV.sequence=		sub(str,4)
+	return true
 end
 
 
