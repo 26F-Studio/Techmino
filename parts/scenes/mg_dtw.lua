@@ -83,10 +83,10 @@ end
 local scene={}
 
 function scene.sceneInit()
-	BG.set("grey")
-	BGM.play("way")
 	mode=1
 	reset()
+	BG.set("grey")
+	BGM.play("way")
 end
 
 local function touch(n)
@@ -114,7 +114,7 @@ local function touch(n)
 			end
 		end
 		height=height+120
-		SFX.play("lock")
+		SFX.play("move")
 	else
 		time=TIME()-startTime
 		state=2
@@ -130,7 +130,7 @@ function scene.keyDown(key)
 		elseif	key=="f"or key=="v"then touch(2)
 		elseif	key=="j"or key=="n"then touch(3)
 		elseif	key=="k"or key=="m"then touch(4)
-		elseif	key=="q"and state==0 then
+		elseif(key=="q"or key=="tab")and state==0 then
 			mode=mode%#modeName+1
 			reset()
 		end

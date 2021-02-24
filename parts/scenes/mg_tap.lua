@@ -12,13 +12,12 @@ local speed=0
 local maxSpeed=260
 
 function scene.sceneInit()
-	BG.set("grey")
-	BGM.play("push")
-	love.keyboard.setKeyRepeat(false)
-
 	lastKey=nil
 	speed=0
 	keyTime={}for i=1,20 do keyTime[i]=-1e99 end
+	love.keyboard.setKeyRepeat(false)
+	BG.set("grey")
+	BGM.play("push")
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
