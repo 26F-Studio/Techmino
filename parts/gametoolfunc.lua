@@ -426,29 +426,32 @@ function pressVirtualkey(t,x,y)
 	local B=VK[t]
 	B.isDown=true
 	B.pressTime=10
-	if SETTING.VKTrack then
-		--Auto follow
-		local O=VK_org[t]
-		local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
-		local _OW=1-_FW-_CW
-		--(finger+current+origin)
-		B.x=x*_FW+B.x*_CW+O.x*_OW
-		B.y=y*_FW+B.y*_CW+O.y*_OW
 
-		--Button collision (not accurate)
-		if SETTING.VKDodge then
-			for i=1,#VK do
-				local b=VK[i]
-				local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
-				if d>0 then
-					b.x=b.x+(b.x-B.x)*d*b.r*6.2e-5
-					b.y=b.y+(b.y-B.y)*d*b.r*6.2e-5
+	if x then
+		if SETTING.VKTrack then
+			--Auto follow
+			local O=VK_org[t]
+			local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
+			local _OW=1-_FW-_CW
+			--(finger+current+origin)
+			B.x=x*_FW+B.x*_CW+O.x*_OW
+			B.y=y*_FW+B.y*_CW+O.y*_OW
+
+			--Button collision (not accurate)
+			if SETTING.VKDodge then
+				for i=1,#VK do
+					local b=VK[i]
+					local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
+					if d>0 then
+						b.x=b.x+(b.x-B.x)*d*b.r*6.2e-5
+						b.y=b.y+(b.y-B.y)*d*b.r*6.2e-5
+					end
 				end
 			end
 		end
+		SFX.play("virtualKey",SETTING.VKSFX)
+		VIB(SETTING.VKVIB)
 	end
-	SFX.play("virtualKey",SETTING.VKSFX)
-	VIB(SETTING.VKVIB)
 end
 function updateVirtualkey()
 	if SETTING.VKSwitch then
