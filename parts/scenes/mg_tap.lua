@@ -1,5 +1,5 @@
 local gc=love.graphics
-local int,max=math.floor,math.max
+local max=math.max
 local format=string.format
 local ins=table.insert
 local mStr=mStr
@@ -18,7 +18,7 @@ function scene.sceneInit()
 
 	lastKey=nil
 	speed=0
-	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
+	keyTime={}for i=1,20 do keyTime[i]=-1e99 end
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
@@ -39,9 +39,9 @@ function scene.keyDown(key)
 end
 
 function scene.update()
-	local time=TIME()
+	local t=TIME()
 	local v=0
-	for i=2,40 do v=v+i*(i-1)*.075/(time-keyTime[i])end
+	for i=2,40 do v=v+i*(i-1)*.075/(t-keyTime[i])end
 	speed=speed*.99+v*.01
 	if speed>maxSpeed then maxSpeed=speed end
 end
