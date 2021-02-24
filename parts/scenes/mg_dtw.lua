@@ -19,7 +19,17 @@ local targets={
 
 local state,progress
 local startTime,time
+local keyTime
+local speed,maxSpeed
 
+
+local tileColor={
+	COLOR.black,
+	COLOR.dRed,
+	COLOR.dG,
+	COLOR.dB,
+	COLOR.dY,
+}
 local modeName={
 	"Normal",
 	"Split",
@@ -59,6 +69,8 @@ local function newTile()
 	ins(pos,r)
 end
 local function reset()
+	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
+	speed,maxSpeed=0,0
 	progress={}
 	state,time=0,0
 	score=0
@@ -85,6 +97,8 @@ local function touch(n)
 	if n==pos[1]then
 		rem(pos,1)
 		newTile()
+		ins(keyTime,1,TIME())
+		keyTime[21]=nil
 		score=score+1
 		if targets[score]then
 			ins(progress,format("%s - %.3fs",score,TIME()-startTime))
@@ -105,7 +119,7 @@ local function touch(n)
 		time=TIME()-startTime
 		state=2
 		diePos=n
-		SFX.play("fail")
+		SFX.play("clear_2")
 	end
 end
 function scene.keyDown(key)
@@ -136,6 +150,11 @@ end
 function scene.update()
 	if state==1 then
 		time=TIME()-startTime
+		local t=TIME()
+		local v=0
+		for i=2,20 do v=v+i*(i-1)*.3/(t-keyTime[i])end
+		speed=speed*.99+v*.01
+		if speed>maxSpeed then maxSpeed=speed end
 	end
 	height=height*.6
 end
@@ -144,14 +163,21 @@ function scene.draw()
 	--Draw mode
 	gc.setColor(1,1,1)
 	setFont(50)
-	mStr(modeName[mode],155,320)
+	mStr(modeName[mode],155,300)
+
+	--Draw speed
+	setFont(45)
+	gc.setColor(1,.6,.6)
+	mStr(format("%.2f",maxSpeed/60),155,400)
+	gc.setColor(1,1,1)
+	mStr(format("%.2f",speed/60),155,460)
 
 	--Draw time
-	setFont(40)
+	setFont(45)
 	gc.print(format("%.3f",time),1030,70)
 
 	--Progress time list
-	setFont(25)
+	setFont(30)
 	gc.setColor(.6,.6,.6)
 	for i=1,#progress do
 		gc.print(progress[i],1030,120+25*i)
@@ -160,12 +186,13 @@ function scene.draw()
 	--Draw tiles
 	gc.setColor(1,1,1)
 	gc.rectangle("fill",300,0,680,720)
-	gc.setColor(0,0,0)
+	gc.setColor(tileColor[mode])
 	for i=1,#pos do
 		gc.rectangle("fill",130+170*pos[i]+8,720-i*120-height+8,170-16,120-16)
 	end
 
 	--Draw track line
+	gc.setColor(0,0,0)
 	gc.setLineWidth(4)
 	for x=1,5 do
 		x=130+170*x
@@ -179,7 +206,7 @@ function scene.draw()
 	--Draw red tile
 	if diePos then
 		gc.setColor(1,.2,.2)
-		gc.rectangle("fill",130+170*diePos+6,600-height+6,170-12,120-12)
+		gc.rectangle("fill",130+170*diePos+8,600-height+8,170-16,120-16)
 	end
 
 	--Draw score
