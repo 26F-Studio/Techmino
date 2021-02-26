@@ -440,7 +440,7 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 	if(mode=="push"or mode=="move"or mode=="newBlock")and P.cur then
 		local CB=P.cur.bk
 		P.ghoY=min(#P.field+1,P.curY)
-		if P._20G or P.keyPressing[7]and ENV.sdarr==0 then
+		if P._20G or ENV.sdarr==0 and P.keyPressing[7]and P.downing>ENV.sddas then
 			local _=P.ghoY
 
 			--Move ghost to bottom
