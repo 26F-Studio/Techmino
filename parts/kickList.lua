@@ -121,40 +121,40 @@ do
 			[31]={{ 0,-1},{ 0, 1},{-1, 0},{ 0,-2},{ 0, 2}},
 		},--T
 		function(P,d)
-			if P.type=="human"then SFX.fieldPlay("rotate",nil,P)end
-			if not P.gameEnv.ospin then return end
-			local x,y=P.curX,P.curY
-			if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
-				local D=P.spinSeq%100*10+d
-				P.spinSeq=D
-				if D<100 then
-					P:freshBlock("fresh")
-					return
-				end
-				for i=1,#OspinList do
-					local L=OspinList[i]
-					if D==L[1]then
-						local id,dir=L[2],L[3]
-						local bk=BLOCKS[id][dir]
-						x,y=P.curX+L[4],P.curY+L[5]
-						if not P:ifoverlap(bk,x,y)and(L[6]>0 or P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))and(L[6]==2 or P:ifoverlap(bk,x,y-1))and P:ifoverlap(bk,x,y+1)then
-							local C=P.cur
-							C.id=id
-							C.bk=bk
-							P.curX,P.curY=x,y
-							P.dir,P.sc=dir,spinCenters[id][dir]
-							P.spinLast=2
-							P.stat.rotate=P.stat.rotate+1
-							P:freshBlock("move")
-							P.spinSeq=0
-							SFX.fieldPlay("rotatekick",nil,P)
-							return
+			P:freshBlock("fresh")
+			if P.gameEnv.ospin then
+				local x,y=P.curX,P.curY
+				if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
+					if P.sound then SFX.fieldPlay("rotatekick",nil,P)end
+					local D=P.spinSeq%100*10+d
+					P.spinSeq=D
+					if D<100 then return end
+					for i=1,#OspinList do
+						local L=OspinList[i]
+						if D==L[1]then
+							local id,dir=L[2],L[3]
+							local bk=BLOCKS[id][dir]
+							x,y=P.curX+L[4],P.curY+L[5]
+							if not P:ifoverlap(bk,x,y)and(L[6]>0 or P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))and(L[6]==2 or P:ifoverlap(bk,x,y-1))and P:ifoverlap(bk,x,y+1)then
+								local C=P.cur
+								C.id=id
+								C.bk=bk
+								P.curX,P.curY=x,y
+								P.dir,P.sc=dir,spinCenters[id][dir]
+								P.spinLast=2
+								P.stat.rotate=P.stat.rotate+1
+								P:freshBlock("move")
+								P.spinSeq=0
+								return
+							end
 						end
 					end
+				else
+					if P.sound then SFX.fieldPlay("rotate",nil,P)end
+					P.spinSeq=0
 				end
 			else
-				P.spinSeq=0
-				P:freshBlock("fresh")
+				if P.sound then SFX.fieldPlay("rotate",nil,P)end
 			end
 		end,--O
 		{
