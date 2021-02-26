@@ -33,7 +33,7 @@ return{
 	bone=false,
 	nextCount=6,nextStartPos=1,
 	holdCount=1,infHold=false,
-	ospin=true,
+	ospin=true,deepDrop=false,
 	RS="TRS",
 	sequence="bag",
 	freshMethod=NULL,

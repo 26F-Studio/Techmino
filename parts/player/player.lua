@@ -1877,6 +1877,16 @@ function Player.act_softDrop(P)
 				P.curY=P.curY-1
 				P:freshBlock("fresh")
 				P.spinLast=false
+			elseif P.gameEnv.deepDrop then
+				local y=P.curY-1
+				while P:ifoverlap(P.cur.bk,P.curX,y)and y>0 do
+					y=y-1
+				end
+				if y>0 then
+					P.curY=y
+					P:freshBlock("move")
+					SFX.play("swipe")
+				end
 			end
 		end
 	end
