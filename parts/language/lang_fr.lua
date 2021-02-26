@@ -419,6 +419,7 @@ return{
 			noTele="Pas de téléportation",
 			-- RS="Rotation System",
 			ospin="O-spin",
+			-- deepDrop="Deep Drop",
 			target="But",
 			visible="Visibilité",
 			freshLimit="Limite de réinit. du délai de verrouillage",

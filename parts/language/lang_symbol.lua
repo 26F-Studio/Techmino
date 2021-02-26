@@ -296,6 +296,7 @@ return{
 			noTele="X→→X",
 			RS="''?",
 			ospin="O→Any",
+			deepDrop="\\↓↓/",
 			target="&=",
 			visible="?=",
 			freshLimit="@",

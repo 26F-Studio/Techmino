@@ -29,6 +29,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="fineKill",	x=910,	y=480,	font=20,disp=lnk_CUSval("fineKill"),	code=lnk_CUSrev("fineKill")},
 	WIDGET.newSwitch{name="b2bKill",	x=910,	y=550,	font=20,disp=lnk_CUSval("b2bKill"),	code=lnk_CUSrev("b2bKill")},
 	WIDGET.newSwitch{name="easyFresh",	x=910,	y=620,	font=20,disp=lnk_CUSval("easyFresh"),code=lnk_CUSrev("easyFresh")},
+	WIDGET.newSwitch{name="deepDrop",	x=910,	y=690,	font=20,disp=lnk_CUSval("deepDrop"),code=lnk_CUSrev("deepDrop")},
 
 	WIDGET.newSelector{name="RS",		x=410,	y=370,	w=260,color="sea",	list={"TRS","SRS","C2","C2sym","Classic","None"},disp=lnk_CUSval("RS"),code=lnk_CUSsto("RS")},
 	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list={"show","easy","slow","medium","fast","none"},disp=lnk_CUSval("visible"),code=lnk_CUSsto("visible")},

@@ -439,6 +439,7 @@ return{
 			noTele="禁止瞬移",
 			RS="旋转系统",
 			ospin="O-spin",
+			deepDrop="穿墙软降",
 			target="目标行数",
 			visible="能见度",
 			freshLimit="锁延刷新限制",

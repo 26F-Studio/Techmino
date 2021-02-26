@@ -415,6 +415,7 @@ return{
 			noTele="Sin Teleport",
 			-- RS="Rotation System",
 			ospin="O-Spin",
+			-- deepDrop="Deep Drop",
 			target="Objetivo",
 			visible="Visibilidad",
 			freshLimit="Límite de Reinicio LD",

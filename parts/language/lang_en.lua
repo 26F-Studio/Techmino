@@ -439,6 +439,7 @@ return{
 			noTele="No Teleportation",
 			RS="Rotation System",
 			ospin="O-Spin",
+			deepDrop="Deep Drop",
 			target="Target",
 			visible="Visibility",
 			freshLimit="Lock Reset Limit",

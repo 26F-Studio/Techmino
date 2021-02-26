@@ -439,6 +439,7 @@ return{
 			noTele="Sem teleporte",
 			RS="Sistema de rotação",
 			ospin="O-Spin",
+			-- deepDrop="Deep Drop",
 			target="Alvo",
 			visible="Visibilidade",
 			freshLimit="Limite Reset de Trava",
