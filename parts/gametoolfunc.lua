@@ -443,8 +443,8 @@ function pressVirtualkey(t,x,y)
 					local b=VK[i]
 					local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
 					if d>0 then
-						b.x=b.x+(b.x-B.x)*d*b.r*6.2e-5
-						b.y=b.y+(b.y-B.y)*d*b.r*6.2e-5
+						b.x=b.x+(b.x-B.x)*d*b.r*2.6e-5
+						b.y=b.y+(b.y-B.y)*d*b.r*2.6e-5
 					end
 				end
 			end
