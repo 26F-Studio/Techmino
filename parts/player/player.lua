@@ -1866,8 +1866,9 @@ function Player.act_hardDrop(P)
 	end
 end
 function Player.act_softDrop(P)
+	local ENV=P.gameEnv
 	if P.keyPressing[9]then
-		if P.gameEnv.swap then
+		if ENV.swap then
 			P:changeAtkMode(4)
 		end
 	else
@@ -1877,12 +1878,16 @@ function Player.act_softDrop(P)
 				P.curY=P.curY-1
 				P:freshBlock("fresh")
 				P.spinLast=false
-			elseif P.gameEnv.deepDrop then
+			elseif ENV.deepDrop then
+				local CB=P.cur.bk
 				local y=P.curY-1
-				while P:ifoverlap(P.cur.bk,P.curX,y)and y>0 do
+				while P:ifoverlap(CB,P.curX,y)and y>0 do
 					y=y-1
 				end
 				if y>0 then
+					if ENV.dropFX and ENV.block and P.curY-y-#CB>-1 then
+						P:createDropFX(P.curX,P.curY-1,#CB[1],P.curY-y-#CB+1)
+					end
 					P.curY=y
 					P:freshBlock("move")
 					SFX.play("swipe")
