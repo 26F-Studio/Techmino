@@ -9,7 +9,7 @@ return{
 		b2bKill=true,
 		target=200,
 		dropPiece=PLY.check_attackReach,
-		bg="matrix",bgm="down",
+		bg="matrix",bgm="warped",
 	},
 	load=function()
 		PLY.newPlayer(1)

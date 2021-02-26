@@ -23,7 +23,7 @@ return{
 				end
 			end
 		end,
-		bg="fan",bgm="infinite",
+		bg="fan",bgm="warped",
 	},
 	slowMark=true,
 	pauseLimit=true,

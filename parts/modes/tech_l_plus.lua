@@ -19,7 +19,7 @@ return{
 		drop=0,lock=60,
 		freshLimit=15,
 		dropPiece=tech_check_hard,
-		bg="matrix",bgm="down",
+		bg="matrix",bgm="warped",
 	},
 	load=function()
 		PLY.newPlayer(1)
