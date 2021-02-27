@@ -6,15 +6,13 @@ local mStr=mStr
 
 local scene={}
 
-local lastKey
-local keyTime
-local speed=0
-local maxSpeed=260
+local lastKey,keyTime
+local speed,maxSpeed=0,260
 
 function scene.sceneInit()
 	lastKey=nil
 	speed=0
-	keyTime={}for i=1,20 do keyTime[i]=-1e99 end
+	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
 	love.keyboard.setKeyRepeat(false)
 	BG.set("grey")
 	BGM.play("push")
@@ -49,13 +47,13 @@ function scene.draw()
 	setFont(70)gc.setColor(1,.6,.6)
 	mStr(format("%.2f",maxSpeed),640,20)
 
-	setFont(35)gc.setColor(.7,.7,1)
-	mStr(format("%.2f",maxSpeed/60),640,95)
-
 	setFont(100)gc.setColor(1,1,1)
 	mStr(format("%.2f",speed),640,150)
 
-	setFont(35)gc.setColor(1,1,1)
+	setFont(35)
+	gc.setColor(.6,.6,.9)
+	mStr(format("%.2f",maxSpeed/60),640,95)
+	gc.setColor(.8,.8,.8)
 	mStr(format("%.2f",speed/60),640,255)
 
 	setFont(60)gc.setColor(.7,.7,.7)
