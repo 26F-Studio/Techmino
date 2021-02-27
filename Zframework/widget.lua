@@ -698,6 +698,9 @@ function inputBox:reset()
 		kb.setTextInput(true)
 	end
 end
+function inputBox:clear()
+	self.value=""
+end
 function inputBox:isAbove(x,y)
 	return
 		x>self.x and
@@ -878,11 +881,13 @@ function textBox:draw()
 	local cap=self.capacity
 
 
-	--Frame
-	gc.setLineWidth(4)
+	--Background
 	gc.setColor(0,0,0,.3)
 	gc.rectangle("fill",x,y,w,h)
-	gc.setColor(1,1,1)
+
+	--Frame
+	gc.setLineWidth(4)
+	gc.setColor(COLOR[WIDGET.sel==self and"Y"or"W"])
 	gc.rectangle("line",x,y,w,h)
 
 	--Slider
@@ -890,7 +895,6 @@ function textBox:draw()
 		gc.setLineWidth(2)
 		gc.rectangle("line",x-25,y,20,h)
 		local len=max(h*cap/#texts,26)
-		gc.setColor(COLOR[WIDGET.sel==self and"Y"or"W"])
 		gc.rectangle("fill",x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
 
@@ -1086,6 +1090,17 @@ function WIDGET.keyPressed(k)
 		local W=WIDGET.sel
 		if W and W.type=="inputBox"then
 			W:keypress(k)
+		end
+	end
+end
+function WIDGET.textinput(texts)
+	local W=WIDGET.sel
+	if W and W.type=="inputBox"then
+		if not W.regex or texts:match(W.regex)then
+			WIDGET.sel.value=WIDGET.sel.value..texts
+			SFX.play("move")
+		else
+			SFX.play("finesseError",.3)
 		end
 	end
 end

@@ -260,19 +260,11 @@ function love.keyreleased(i)
 	if SCN.keyUp then SCN.keyUp(i)end
 end
 
-function love.textedited(text)
-	EDITING=text
+function love.textedited(texts)
+	EDITING=texts
 end
-function love.textinput(text)
-	local W=WIDGET.sel
-	if W and W.type=="inputBox"then
-		if not W.regex or text:match(W.regex)then
-			WIDGET.sel.value=WIDGET.sel.value..text
-			SFX.play("move")
-		else
-			SFX.play("finesseError",.3)
-		end
-	end
+function love.textinput(texts)
+	WIDGET.textinput(texts)
 end
 
 function love.joystickadded(JS)
