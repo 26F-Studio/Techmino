@@ -472,7 +472,6 @@ return{
 		},
 		dict={
 			title="TetroDictionary",
-			keyboard="Teclado",
 			link="Abrir URL",
 			up="↑",
 			down="↓",

@@ -518,7 +518,6 @@ return{
 		},
 		dict={
 			title="小Z方块词典",
-			keyboard="键盘",
 			link="打开链接",
 			up="↑",
 			down="↓",

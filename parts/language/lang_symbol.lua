@@ -353,7 +353,6 @@ return{
 		},
 		dict={
 			title="TetroDictionary",
-			keyboard="[##]",
 			link="~~e>>",
 			up="↑",
 			down="↓",
