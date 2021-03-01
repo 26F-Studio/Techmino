@@ -818,7 +818,7 @@ function checkWarning()
 					end
 				end
 			end
-			GAME.warnLVL0=math.log(height-15+P1.atkBuffer.sum*.8)
+			GAME.warnLVL0=math.log(height-(P1.gameEnv.fieldH-5)+P1.atkBuffer.sum*.8)
 		end
 		local _=GAME.warnLVL
 		if _<GAME.warnLVL0 then

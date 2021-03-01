@@ -212,7 +212,7 @@ local function drawBlock(P,clr)
 end
 local function drawNextPreview(P,B)
 	gc_setColor(1,1,1,.8)
-	local y=int(21-modf(B.sc[1]))+ceil(P.fieldBeneath/30)
+	local y=int(P.gameEnv.fieldH+1-modf(B.sc[1]))+ceil(P.fieldBeneath/30)
 	B=B.bk
 	local x=int(6-#B[1]*.5)
 	for i=1,#B do for j=1,#B[1]do
@@ -572,9 +572,10 @@ function draw.norm(P)
 					--Set scissor
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
+					local fieldTop=-ENV.fieldH*30
 					--Draw dangerous area
 					gc_setColor(1,0,0,.3)
-					gc_rectangle("fill",0,-600,300,-FUP-FBN-10)
+					gc_rectangle("fill",0,fieldTop,300,-FUP-FBN-fieldTop-620)
 
 					--Draw field
 					drawField(P)
@@ -582,7 +583,7 @@ function draw.norm(P)
 					--Draw spawn line
 					gc_setColor(1,sin(t)*.4+.5,0,.5)
 					gc_setLineWidth(4)
-					gc_line(0,-600-FBN,300,-600-FBN)
+					gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
 
 					--Draw FXs
 					drawFXs(P)
@@ -729,9 +730,10 @@ function draw.norm_remote(P)
 					--Set scissor
 					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
+					local fieldTop=-ENV.fieldH*30
 					--Draw dangerous area
 					gc_setColor(1,0,0,.3)
-					gc_rectangle("fill",0,-600,300,-FUP-FBN-10)
+					gc_rectangle("fill",0,fieldTop,300,-FUP-FBN-fieldTop-620)
 
 					--Draw field
 					drawField(P)
@@ -739,7 +741,7 @@ function draw.norm_remote(P)
 					--Draw spawn line
 					gc_setColor(1,sin(t)*.4+.5,0,.5)
 					gc_setLineWidth(4)
-					gc_line(0,-600-FBN,300,-600-FBN)
+					gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
 
 					--Draw FXs
 					drawFXs(P)

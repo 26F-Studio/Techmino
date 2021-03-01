@@ -533,7 +533,7 @@ function Player.resetBlock(P)
 	local sc=P.cur.sc
 	local id=P.cur.id
 	P.curX=int(6-#B[1]*.5)
-	local y=int(21-modf(sc[1]))+ceil(P.fieldBeneath/30)
+	local y=int(P.gameEnv.fieldH+1-modf(sc[1]))+ceil(P.fieldBeneath/30)
 	P.curY=y
 	P.minY=y+sc[1]
 

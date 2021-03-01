@@ -1,4 +1,5 @@
 return{
+	fieldH=20,
 	das=10,
 	arr=2,
 	dascut=0,
