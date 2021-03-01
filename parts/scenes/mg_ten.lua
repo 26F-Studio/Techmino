@@ -231,7 +231,7 @@ function scene.draw()
 	if state==2 then
 		--Draw no-setting area
 		setColor(1,0,0,.3)
-		rectangle("fill",15,295,285,70)
+		rectangle("fill",15,245,285,140)
 	end
 	gc.setLineWidth(10)
 	setColor(1,1,1)
@@ -275,7 +275,7 @@ end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
 	WIDGET.newSwitch{name="next",	x=240,y=280,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="blind",	x=240,y=340,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="blind",	x=240,y=350,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 
