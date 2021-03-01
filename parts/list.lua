@@ -181,14 +181,14 @@ do--drawableText
 	}
 end
 
-do--spinCenters
+do--SCS(spinCenters)
 	local N1,N2,N3,N4={0,1},{1,0},{1,1},{.5,.5}
 	local I1,I2,I3,I4={-.5,1.5},{1.5,-.5},{.5,1.5},{1.5,.5}
 	local V4={1.5,1.5}
 	local L1,L2={0,2},{2,0}
 	local S1,S2={-.5,.5},{.5,-.5}
 	local D={0,0}
-	spinCenters={
+	SCS={
 		--Tetramino
 		{[0]=N1,N2,N3,N3},--Z
 		{[0]=N1,N2,N3,N3},--S

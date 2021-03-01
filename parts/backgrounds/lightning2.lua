@@ -10,7 +10,7 @@ local scs
 function back.init()
 	colorLib=SKIN.libColor
 	blocks=BLOCKS
-	scs=spinCenters
+	scs=SCS
 	t=rnd()*2600
 end
 function back.update(dt)

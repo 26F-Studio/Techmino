@@ -92,8 +92,8 @@ function scene.draw()
 	local r=t*2
 	local R=int(r)%7+1
 	gc.setColor(1,1,1,1-abs(r%1*2-1))
-	gc.draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
-	gc.draw(TEXTURE.miniBlock[R],680,300,0,15,15,spinCenters[R][0][2]+.5,#BLOCKS[R][0]-spinCenters[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],680,300,0,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
 end
 
 scene.widgetList={

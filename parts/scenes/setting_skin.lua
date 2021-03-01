@@ -13,7 +13,7 @@ function scene.draw()
 		gc.rotate(SETTING.face[N]*1.57+sin(t*3-N*.5)*.08)
 		local color=SETTING.skin[N]
 		local B=BLOCKS[N][0]
-		local x,y=-45-spinCenters[N][0][2]*30,15+spinCenters[N][0][1]*30
+		local x,y=-45-SCS[N][0][2]*30,15+SCS[N][0][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then

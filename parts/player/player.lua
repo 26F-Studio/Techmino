@@ -10,7 +10,6 @@ local ins,rem=table.insert,table.remove
 local ct=coroutine
 
 local kickList=require"parts/kickList"
-local scs=spinCenters
 
 --------------------------<FX>--------------------------
 function Player.showText(P,text,dx,dy,font,style,spd,stop)
@@ -580,7 +579,7 @@ function Player.spin(P,d,ifpre)
 	if type(iki)=="table"then
 		local idir=(P.cur.dir+d)%4
 		local icb=BLOCKS[P.cur.id][idir]
-		local isc=scs[P.cur.id][idir]
+		local isc=SCS[P.cur.id][idir]
 		local ix,iy=P.curX+P.cur.sc[2]-isc[2],P.curY+P.cur.sc[1]-isc[1]
 		iki=iki[P.cur.dir*10+idir]
 		for test=1,#iki do
@@ -677,7 +676,7 @@ function Player.getBlock(P,n)--Get a block(id=n) object
 	return{
 		id=n,
 		bk=BLOCKS[n][dir],
-		sc=scs[n][dir],
+		sc=SCS[n][dir],
 		dir=dir,
 		name=n,
 		color=E.bone and 17 or E.skin[n],
@@ -689,7 +688,7 @@ function Player.getNext(P,n)--Push a block(id=n) to nextQueue
 	ins(P.nextQueue,{
 		id=n,
 		bk=BLOCKS[n][dir],
-		sc=scs[n][dir],
+		sc=SCS[n][dir],
 		dir=dir,
 		name=n,
 		color=E.bone and 17 or E.skin[n],

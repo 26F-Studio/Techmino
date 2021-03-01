@@ -142,7 +142,7 @@ do
 								C.id=id
 								C.bk=bk
 								P.curX,P.curY=x,y
-								P.cur.dir,P.cur.sc=dir,spinCenters[id][dir]
+								P.cur.dir,P.cur.sc=dir,SCS[id][dir]
 								P.spinLast=2
 								P.stat.rotate=P.stat.rotate+1
 								P:freshBlock("move")
