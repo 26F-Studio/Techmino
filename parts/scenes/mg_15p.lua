@@ -8,7 +8,7 @@ local scene={}
 
 local board,cx,cy
 local startTime,time
-local move,state
+local move,push,state
 
 local color,blind
 local slide,pathVis,revKB
@@ -20,7 +20,7 @@ function scene.sceneInit()
 	cx,cy=4,4
 	startTime=0
 	time=0
-	move=0
+	move,push=0,0
 	state=2
 
 	color=0
@@ -108,6 +108,7 @@ local function tapBoard(x,y,key)
 			end
 		end
 		if moves>0 then
+			push=push+1
 			move=move+moves
 			if state==0 then
 				state=1
@@ -147,7 +148,7 @@ function scene.keyDown(key)
 		shuffleBoard()
 		state=0
 		time=0
-		move=0
+		move,push=0,0
 	elseif key=="q"then
 		if state~=1 then
 			color=(color+1)%5
@@ -264,9 +265,11 @@ local backColor={
 }
 function scene.draw()
 	setFont(40)
-	gc.setColor(1,1,1)
 	gc.print(format("%.3f",time),1026,80)
-	gc.print(move,1026,150)
+	gc.setColor(1,.8,.8)
+	gc.print(move,1026,130)
+	gc.setColor(.8,.8,1)
+	gc.print(push,1026,180)
 
 	if state==2 then
 		--Draw no-setting area
