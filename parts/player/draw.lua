@@ -4,7 +4,7 @@ local gc_draw,gc_print,gc_line,gc_rectangle,gc_circle=gc.draw,gc.print,gc.line,g
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local TIME=TIME
 local int,ceil,rnd=math.floor,math.ceil,math.random
-local max,min,sin=math.max,math.min,math.sin
+local max,min,sin,modf=math.max,math.min,math.sin,math.modf
 local SCR=SCR
 local setFont,mStr=setFont,mStr
 
@@ -212,8 +212,9 @@ local function drawBlock(P,clr)
 end
 local function drawNextPreview(P,B)
 	gc_setColor(1,1,1,.8)
+	local y=int(21-modf(B.sc[1]))+ceil(P.fieldBeneath/30)
+	B=B.bk
 	local x=int(6-#B[1]*.5)
-	local y=21+ceil(P.fieldBeneath/30)
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
 			gc_draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
@@ -591,13 +592,13 @@ function draw.norm(P)
 						local curColor=P.cur.color
 
 						local trans=P.lockDelay/ENV.lock
-						local centerX=30*(P.curX+P.sc[2])-15
+						local centerX=30*(P.curX+P.cur.sc[2])-15
 
 						--Draw ghost & rotation center
 						if ENV.ghost then drawGhost(P,curColor)end
 						if ENV.center and ENV.ghost then
 							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
 
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
@@ -608,7 +609,7 @@ function draw.norm(P)
 								drawBlock(P,curColor)
 								if ENV.center then
 									gc_setColor(1,1,1,ENV.center)
-									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 								end
 							end
 						gc_translate(0,dy)
@@ -616,7 +617,7 @@ function draw.norm(P)
 
 					--Draw next preview
 					if ENV.nextPos and P.nextQueue[1]then
-						drawNextPreview(P,P.nextQueue[1].bk)
+						drawNextPreview(P,P.nextQueue[1])
 					end
 
 					gc.setScissor()
@@ -748,13 +749,13 @@ function draw.norm_remote(P)
 						local curColor=P.cur.color
 
 						local trans=P.lockDelay/ENV.lock
-						local centerX=30*(P.curX+P.sc[2])-15
+						local centerX=30*(P.curX+P.cur.sc[2])-15
 
 						--Draw ghost & rotation center
 						if ENV.ghost then drawGhost(P,curColor)end
 						if ENV.center and ENV.ghost then
 							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
 
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
@@ -765,7 +766,7 @@ function draw.norm_remote(P)
 								drawBlock(P,curColor)
 								if ENV.center then
 									gc_setColor(1,1,1,ENV.center)
-									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.sc[1])+15,nil,nil,nil,4,4)
+									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 								end
 							end
 						gc_translate(0,dy)
@@ -773,7 +774,7 @@ function draw.norm_remote(P)
 
 					--Draw next preview
 					if ENV.nextPos and P.nextQueue[1]then
-						drawNextPreview(P,P.nextQueue[1].bk)
+						drawNextPreview(P,P.nextQueue[1])
 					end
 
 					gc.setScissor()

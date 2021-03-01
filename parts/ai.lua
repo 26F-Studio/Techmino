@@ -79,7 +79,7 @@ if _CC then
 		P.holdTime=P.gameEnv.holdCount
 
 		P.cur=rem(P.nextQueue,1)
-		P.sc,P.dir=spinCenters[P.cur.id][0],0
+		P.cur.sc,P.cur.dir=spinCenters[P.cur.id][0],0--TODO
 		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-#P.cur.bk+min(int(#P.field*.2),2)
 
 		P:newNext()

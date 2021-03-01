@@ -27,7 +27,7 @@ function SFX.init(list)
 		SFX.loadOne=nil
 
 		function SFX.fieldPlay(s,v,P)
-			SFX.play(s,v,(P.curX+P.sc[2]-5.5)*.15)
+			SFX.play(s,v,(P.curX+P.cur.sc[2]-5.5)*.15)
 		end
 		function SFX.play(s,vol,pos)
 			if SETTING.sfx==0 or vol==0 then return end

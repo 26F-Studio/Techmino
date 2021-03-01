@@ -128,8 +128,16 @@ local function newEmptyPlayer(id,mini)
 	P.showTime=false
 	P.keepVisible=true
 
-	--P.cur={bk=matrix[2], id=shapeID, color=colorID, name=nameID}
-	--P.sc,P.dir={0,0},0--SpinCenterCoord, direction
+	--[[
+	P.cur={
+		id=shapeID,
+		bk=matrix[2],
+		sc=table[2],
+		dir=direction,
+		name=nameID
+		color=colorID,
+	}
+	]]
 	-- P.curX,P.curY,P.ghoY,P.minY=0,0,0,0--x,y,ghostY
 	P.holdQueue={}
 	P.holdTime=0

@@ -121,7 +121,9 @@ do
 			[31]={{ 0,-1},{ 0, 1},{-1, 0},{ 0,-2},{ 0, 2}},
 		},--T
 		function(P,d)
-			P:freshBlock("fresh")
+			if P.gameEnv.easyFresh then
+				P:freshBlock("fresh")
+			end
 			if P.gameEnv.ospin then
 				local x,y=P.curX,P.curY
 				if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
@@ -140,7 +142,7 @@ do
 								C.id=id
 								C.bk=bk
 								P.curX,P.curY=x,y
-								P.dir,P.sc=dir,spinCenters[id][dir]
+								P.cur.dir,P.cur.sc=dir,spinCenters[id][dir]
 								P.spinLast=2
 								P.stat.rotate=P.stat.rotate+1
 								P:freshBlock("move")

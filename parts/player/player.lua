@@ -5,7 +5,7 @@
 local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
-local max,min=math.max,math.min
+local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local ct=coroutine
 
@@ -102,7 +102,7 @@ end
 function Player.createBeam(P,R,send,color)
 	local x1,y1,x2,y2
 	if P.mini then x1,y1=P.centerX,P.centerY
-	else x1,y1=P.x+(30*(P.curX+P.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.sc[1])+15)*P.size
+	else x1,y1=P.x+(30*(P.curX+P.cur.sc[2])-30+15+150)*P.size,P.y+(600-30*(P.curY+P.cur.sc[1])+15)*P.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
@@ -437,7 +437,7 @@ end
 function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 	local ENV=P.gameEnv
 	--Fresh ghost
-	if(mode=="push"or mode=="move"or mode=="newBlock")and P.cur then
+	if(mode=="move"or mode=="newBlock"or mode=="push")and P.cur then
 		local CB=P.cur.bk
 		P.ghoY=min(#P.field+1,P.curY)
 		if P._20G or ENV.sdarr==0 and P.keyPressing[7]and P.downing>ENV.sddas then
@@ -471,7 +471,7 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 	end
 
 	--Fresh delays
-	if mode=="move"or mode=="fresh"or mode=="newBlock"then
+	if mode=="move"or mode=="newBlock"or P.gameEnv.easyFresh and mode=="fresh"then
 		local d0,l0=ENV.drop,ENV.lock
 		if ENV.easyFresh then
 			if P.lockDelay<l0 and P.freshTime>0 then
@@ -531,15 +531,12 @@ end
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]="spawn_"..i end
 function Player.resetBlock(P)
 	local B=P.cur.bk
+	local sc=P.cur.sc
 	local id=P.cur.id
-	local face=P.gameEnv.face[id]
-	local sc=scs[id][face]
-	P.sc=sc					--Spin center
-	P.dir=face				--Block direction
 	P.curX=int(6-#B[1]*.5)
-	local y=21+ceil(P.fieldBeneath/30)
+	local y=int(21-modf(sc[1]))+ceil(P.fieldBeneath/30)
 	P.curY=y
-	P.minY=y+sc[2]
+	P.minY=y+sc[1]
 
 	local _=P.keyPressing
 	--IMS
@@ -581,18 +578,11 @@ end
 function Player.spin(P,d,ifpre)
 	local iki=P.RS[P.cur.id]
 	if type(iki)=="table"then
-		local idir=(P.dir+d)%4
+		local idir=(P.cur.dir+d)%4
 		local icb=BLOCKS[P.cur.id][idir]
 		local isc=scs[P.cur.id][idir]
-		local ix,iy=P.curX+P.sc[2]-isc[2],P.curY+P.sc[1]-isc[1]
-		iki=iki[P.dir*10+idir]
-		if not iki then
-			if P.gameEnv.easyFresh then
-				P:freshBlock("move")
-			end
-			SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
-			return
-		end
+		local ix,iy=P.curX+P.cur.sc[2]-isc[2],P.curY+P.cur.sc[1]-isc[1]
+		iki=iki[P.cur.dir*10+idir]
 		for test=1,#iki do
 			local x,y=ix+iki[test][1],iy+iki[test][2]
 			if not P:ifoverlap(icb,x,y)and(P.freshTime>=0 or iki[test][2]<0)then
@@ -600,13 +590,13 @@ function Player.spin(P,d,ifpre)
 				if P.gameEnv.moveFX and P.gameEnv.block then
 					P:createMoveFX()
 				end
-				P.curX,P.curY,P.dir=ix,iy,idir
-				P.sc,P.cur.bk=scs[P.cur.id][idir],icb
+				P.curX,P.curY,P.cur.dir=ix,iy,idir
+				P.cur.sc,P.cur.bk=isc,icb
 				P.spinLast=test==2 and 0 or 1
 				if not ifpre then
 					P:freshBlock("move")
 				end
-				if iki[test][2]>0 and not P.gameEnv.easyFresh then
+				if iki[test][2]>0 and P.curY~=P.imgY then
 					P.freshTime=P.freshTime-1
 				end
 
@@ -619,14 +609,15 @@ function Player.spin(P,d,ifpre)
 		end
 	elseif iki then
 		iki(P,d)
+	else
+		P:freshBlock("move")
+		SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
 	end
 end
 function Player.hold(P,ifpre)
 	if P.holdTime>0 and(ifpre or P.waiting==-1)then
 		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then--Skip
-			local C=P.cur
-			C.bk=BLOCKS[C.id][P.gameEnv.face[C.id]]
-			ins(P.holdQueue,C)
+			ins(P.holdQueue,P:getBlock(P.cur.id))
 
 			local t=P.holdTime
 			P:popNext(true)
@@ -646,7 +637,7 @@ function Player.hold(P,ifpre)
 
 			if C then
 				C.bk=BLOCKS[C.id][P.gameEnv.face[C.id]]
-				ins(P.holdQueue,C)
+				ins(P.holdQueue,P:getBlock(C.id))
 			end
 			P.cur=rem(P.holdQueue,1)
 
@@ -680,9 +671,29 @@ function Player.hold(P,ifpre)
 	end
 end
 
+function Player.getBlock(P,n)--Get a block(id=n) object
+	local E=P.gameEnv
+	local dir=E.face[n]
+	return{
+		id=n,
+		bk=BLOCKS[n][dir],
+		sc=scs[n][dir],
+		dir=dir,
+		name=n,
+		color=E.bone and 17 or E.skin[n],
+	}
+end
 function Player.getNext(P,n)--Push a block(id=n) to nextQueue
 	local E=P.gameEnv
-	ins(P.nextQueue,{bk=BLOCKS[n][E.face[n]],id=n,color=E.bone and 17 or E.skin[n],name=n})
+	local dir=E.face[n]
+	ins(P.nextQueue,{
+		id=n,
+		bk=BLOCKS[n][dir],
+		sc=scs[n][dir],
+		dir=dir,
+		name=n,
+		color=E.bone and 17 or E.skin[n],
+	})
 end
 function Player.popNext(P,ifhold)--Pop nextQueue to hand
 	if not ifhold then
@@ -910,7 +921,7 @@ do--Player.drop(P)--Place piece
 		--Tri-corner spin check
 		if P.spinLast then
 			if C.id<6 then
-				local x,y=CX+P.sc[2],CY+P.sc[1]
+				local x,y=CX+P.cur.sc[2],CY+P.cur.sc[1]
 				local c=0
 				if P:solid(x-1,y+1)then c=c+1 end
 				if P:solid(x+1,y+1)then c=c+1 end
@@ -1059,7 +1070,7 @@ do--Player.drop(P)--Place piece
 		if not finesse then
 			if dospin then P.ctrlCount=P.ctrlCount-2 end--Allow 2 more step for roof-less spin
 			local id=C.id
-			local d=P.ctrlCount-finesseList[id][P.dir+1][CX]
+			local d=P.ctrlCount-finesseList[id][P.cur.dir+1][CX]
 			finePts=d<=0 and 5 or max(3-d,0)
 		else
 			finePts=5
@@ -1330,7 +1341,7 @@ do--Player.drop(P)--Place piece
 
 		cscore=int(cscore)
 		if ENV.score then
-			P:showText(cscore,(P.curX+P.sc[2]-5.5)*30,(10-P.curY-P.sc[1])*30+P.fieldBeneath+P.fieldUp,40-600/(cscore+20),"score",2)
+			P:showText(cscore,(P.curX+P.cur.sc[2]-5.5)*30,(10-P.curY-P.cur.sc[1])*30+P.fieldBeneath+P.fieldUp,40-600/(cscore+20),"score",2)
 		end
 
 		piece.row,piece.dig=cc,gbcc
