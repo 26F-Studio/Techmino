@@ -176,10 +176,10 @@ function Player.switchKey(P,id,on)
 		virtualkey[id].ava=on
 	end
 end
-function Player.set20G(P,if20g,init)--Only set init=true when initialize CC, do not use it
+function Player.set20G(P,if20g)
 	P._20G=if20g
 	P:switchKey(7,not if20g)
-	if init and if20g and P.AI_mode=="CC"then CC.switch20G(P)end
+	if if20g and P.AI_mode=="CC"then CC.switch20G(P)end
 end
 function Player.setHold(P,count)--Set hold count (false/true as 0/1)
 	if not count then
