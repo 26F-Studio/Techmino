@@ -236,8 +236,8 @@ USER=FILE.load("conf/user")or{--User infomation
 	email=false,
 	motto=false,
 	avatar=false,
-	auth_token=false,
-	access_token=false,
+	authToken=false,
+	accessToken=false,
 
 	--Local data
 	xp=0,lv=1,

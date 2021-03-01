@@ -132,19 +132,10 @@ function scene.update()
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
 			--[[TODO
-			httpRequest(tick_httpREQ_launch,PATH.http..PATH.appInfo)
-			if USER.auth_token and USER.email then
-				httpRequest(
-					tick_httpREQ_autoLogin,
-					PATH.http..PATH.auth,
-					"GET",
-					{["Content-Type"]="application/json"},
-					json.encode{
-						email=USER.email,
-						auth_token=USER.auth_token,
-					}
-				)
-			end
+				WS.send("user",json.encode{
+					id=USER.id,
+					authToken=USER.authToken,
+				})
 			]]
 			if FESTIVAL=="Xmas"then
 				LOG.print("==============",COLOR.red)

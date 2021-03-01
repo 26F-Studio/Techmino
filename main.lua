@@ -328,6 +328,11 @@ do
 		end
 	end
 
+	if STAT.version<1301 then
+		fs.remove("conf/user")
+		NOGAME=true
+	end
+
 	for _,v in next,VK_org do
 		if not v.color then
 			NOGAME=true

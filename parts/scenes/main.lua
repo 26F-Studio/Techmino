@@ -71,28 +71,18 @@ scene.widgetList={
 	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
 		if LOGIN then
 			--[[TODO
-			if USER.access_token then
-				httpRequest(
-					tick_httpREQ_manualAutoLogin,
-					PATH.http..PATH.access,
-					"GET",
-					{["Content-Type"]="application/json"},
-					json.encode{
-						email=USER.email,
-						access_token=USER.access_token,
-					}
-				)
+			if USER.accessToken then
+				WS.send("app",json.encode{
+					opration="access",
+					email=USER.email,
+					accessToken=USER.accessToken,
+				})
 			else
-				httpRequest(
-					TICK_httpREQ_getAccessToken,
-					PATH.http..PATH.access,
-					"POST",
-					{["Content-Type"]="application/json"},
-					json.encode{
-						email=USER.email,
-						auth_token=USER.auth_token,
-					}
-				)
+				WS.send("app",json.encode{
+					opration="access",
+					email=USER.email,
+						authToken=USER.authToken,
+				})
 			end
 			]]
 		else

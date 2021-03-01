@@ -427,9 +427,10 @@ function love.errorhandler(msg)
 		love.timer.sleep(.26)
 	end
 end
-local WSnames={"app","chat","play","stream"}
+local WSnames={"app","user","chat","play","stream"}
 local WScolor={
 	{1,0,0,.26},
+	{1,.7,0,.26},
 	{0,.7,1,.26},
 	{0,1,0,.26},
 	{1,1,0,.26}
@@ -540,7 +541,7 @@ function love.run()
 				gc_push("transform")
 				gc.translate(SCR.w,0)
 				gc.scale(SCR.k)
-				for i=1,4 do
+				for i=1,5 do
 					local status=WS.status(WSnames[i])
 					gc_setColor(WScolor[i])
 					gc_rectangle("fill",0,20*i,-20,-20)

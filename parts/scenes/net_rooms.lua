@@ -8,23 +8,23 @@ local lastCreateRoomTime=0
 
 local function enterRoom(roomID)
 	--[[TODO
-	WS.connect("play","/play",json.encode{
-		email=USER.email,
-		token=USER.access_token,
-		id=roomID,
-		conf=dumpBasicConfig(),
-		-- password=password,
-	})
+		WS.connect("play","/play",json.encode{
+			email=USER.email,
+			token=USER.accessToken,
+			id=roomID,
+			conf=dumpBasicConfig(),
+			-- password=password,
+		})
 	]]
 end
 local function fresh()
 	lastfreshTime=TIME()
 	rooms=nil
 	--[[TODO
-	WS.connect("play","/play",json.encode{
-		email=USER.email,
-		access_token=USER.access_token,
-	})
+		WS.connect("play","/play",json.encode{
+			email=USER.email,
+			accessToken=USER.accessToken,
+		})
 	]]
 end
 
@@ -48,12 +48,12 @@ function scene.keyDown(k)
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>26 then
 			--[[TODO
-			WS.send("room",json.encode{
-				email=USER.email,
-				access_token=USER.access_token,
-				room_name=(USER.name or"???").."'s room",
-				room_password=nil,
-			})
+				WS.send("room",json.encode{
+					email=USER.email,
+					accessToken=USER.accessToken,
+					room_name=(USER.name or"???").."'s room",
+					room_password=nil,
+				})
 			]]
 			lastCreateRoomTime=TIME()
 		else
