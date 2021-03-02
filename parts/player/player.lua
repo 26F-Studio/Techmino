@@ -470,7 +470,7 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 	end
 
 	--Fresh delays
-	if mode=="move"or mode=="newBlock"or P.gameEnv.easyFresh and mode=="fresh"then
+	if mode=="move"or mode=="newBlock"or mode=="fresh"then
 		local d0,l0=ENV.drop,ENV.lock
 		if ENV.easyFresh then
 			if P.lockDelay<l0 and P.freshTime>0 then
@@ -480,14 +480,14 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 				P.lockDelay=l0
 				P.dropDelay=d0
 			end
-			if P.curY<P.minY then
-				P.minY=P.curY
+			if P.curY+P.cur.sc[1]<P.minY then
+				P.minY=P.curY+P.cur.sc[1]
 				P.dropDelay=d0
 				P.lockDelay=l0
 			end
 		else
-			if P.curY<P.minY then
-				P.minY=P.curY
+			if P.curY+P.cur.sc[1]<P.minY then
+				P.minY=P.curY+P.cur.sc[1]
 				if P.lockDelay<l0 and P.freshTime>0 then
 					P.freshTime=P.freshTime-1
 					P.dropDelay=d0
