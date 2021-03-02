@@ -660,10 +660,10 @@ function draw.norm(P)
 
 			--Display Ys
 			-- gc_setLineWidth(6)
-			-- if P.curY then	gc_setColor(1,.4,0,.42)gc_line(0,611-P.curY*30,300,611-P.curY*30)end
-			-- if P.ghoY then	gc_setColor(0,1,.4,.42)gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
-			-- if P.minY then	gc_setColor(0,.4,1,.42)gc_line(0,619-P.minY*30,300,619-P.minY*30)end
-			-- 					gc_setColor(0,.4,1,.42)gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
+			-- if P.curY then	gc_setColor(COLOR.R)gc_line(0,611-P.curY*30,300,610-P.curY*30)end
+			-- if P.ghoY then	gc_setColor(COLOR.G)gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
+			-- if P.minY then	gc_setColor(COLOR.B)gc_line(0,619-P.minY*30,300,620-P.minY*30)end
+			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
 
 		--Speed dials
