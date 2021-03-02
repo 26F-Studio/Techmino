@@ -337,6 +337,7 @@ function update.alive(P,dt)
 	updateLine(P)
 	updateFXs(P,dt)
 	updateTasks(P)
+	-- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
 end
 function update.dead(P,dt)
 	local S=P.stat
