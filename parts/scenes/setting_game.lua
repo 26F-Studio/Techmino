@@ -11,8 +11,12 @@ function scene.sceneBack()
 end
 
 function scene.draw()
+	local t=TIME()
+	local b=int(t*2)%16+1
 	gc.setColor(1,1,1)
-	gc.draw(SKIN.curText[int(TIME()*2)%16+1],710,540,TIME()%6.28319,2,nil,15,15)
+	gc.draw(SKIN.curText[b],710,540,t%6.28319,2,nil,15,15)
+	gc.setColor(1,1,1,t*2%1)
+	gc.draw(SKIN.curText[b%16+1],710,540,t%6.28319,2,nil,15,15)
 end
 
 scene.widgetList={
