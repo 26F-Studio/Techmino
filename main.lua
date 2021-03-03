@@ -157,6 +157,15 @@ IMG.init{
 
 	electric="mess/electric.png",
 	hbm="mess/hbm.png",
+
+	lanterns={
+		"lanterns/1.png",
+		"lanterns/2.png",
+		"lanterns/3.png",
+		"lanterns/4.png",
+		"lanterns/5.png",
+		"lanterns/6.png",
+	},
 }
 SKIN.init{
 	"crystal_scf",
@@ -328,7 +337,7 @@ do
 		end
 	end
 
-	if STAT.version<1301 then
+	if STAT.version<1302 then
 		fs.remove("conf/user")
 		NOGAME=true
 	end
