@@ -12,6 +12,11 @@ function back.init()
 	end
 	back.resize()
 end
+function back.update()
+	if not video:isPlaying()then
+		video:seek(0)
+	end
+end
 function back.resize()
 	local W,H=SCR.w,SCR.h
 	if H/W>=36/48 then
