@@ -437,6 +437,7 @@ return{
 			minarr="Min. ARR",
 			minsdarr="Min. SDARR",
 			noTele="No Teleportation",
+			fieldH="Field height",
 			RS="Rotation System",
 			ospin="O-Spin",
 			deepDrop="Deep Drop",

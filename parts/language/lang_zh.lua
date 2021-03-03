@@ -437,6 +437,7 @@ return{
 			minarr="最小ARR",
 			minsdarr="最小软降ARR",
 			noTele="禁止瞬移",
+			fieldH="场地高度",
 			RS="旋转系统",
 			ospin="O-spin",
 			deepDrop="穿墙软降",

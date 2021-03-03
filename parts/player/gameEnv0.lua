@@ -1,5 +1,4 @@
 return{
-	fieldH=20,
 	das=10,
 	arr=2,
 	dascut=0,
@@ -32,6 +31,7 @@ return{
 	drop=60,lock=60,
 	wait=0,fall=0,
 	bone=false,
+	fieldH=20,
 	nextCount=6,nextStartPos=1,
 	holdCount=1,infHold=false,
 	ospin=true,deepDrop=false,

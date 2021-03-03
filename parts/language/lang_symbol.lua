@@ -294,6 +294,7 @@ return{
 			minarr="mARR",
 			minsdarr="msdARR",
 			noTele="X→→X",
+			fieldH="↑[]↓",
 			RS="''?",
 			ospin="O→Any",
 			deepDrop="\\↓↓/",

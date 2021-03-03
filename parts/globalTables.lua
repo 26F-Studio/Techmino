@@ -176,6 +176,7 @@ CUSTOMENV={--gameEnv for cutsom game
 	sequence="bag",
 	ospin=true,
 	deepDrop=false,
+	fieldH=20,
 	RS="TRS",
 
 	noTele=false,
