@@ -17,7 +17,7 @@ function back.update(dt)
 		local size=SCR.rad*(2+rnd()*3)/5/2000
 		local L={
 			x=SCR.w*rnd(),
-			y=H*1.05,
+			y=H*1.1,
 			vy=size*2,
 			size=size,
 			phase=rnd(),
@@ -30,7 +30,7 @@ function back.update(dt)
 		local L=lanterns[i]
 		L.y=L.y-L.vy*dt*60
 		L.phase=(L.phase+L.vp*dt*60)%1
-		if L.y<.05*H then
+		if L.y<-.1*H then
 			rem(lanterns,i)
 		end
 	end
