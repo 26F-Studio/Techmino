@@ -21,7 +21,7 @@ function back.update(dt)
 			vy=size*2,
 			size=size,
 			phase=rnd(),
-			vp=.02+.02*rnd(),
+			vp=(.02+.02*rnd())*(rnd(2)*2-3),
 		}
 		ins(lanterns,L)
 		t=rnd(.626,1.626)
