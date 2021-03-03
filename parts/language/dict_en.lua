@@ -506,6 +506,15 @@ return{
 		"term",
 		"Imagine you are typing, and you hold down a letter. Say you hold down \"O\".\nYou get a long string of O's.\nOn the time line, it kinda looks like: O--------------O-O-O-O-O-O-O-O-O\nThe -------------- is DAS, the - is ARR.",
 	},
+	{"DAS cut",
+		"dascut",
+		"term",
+		"本游戏中在放了一个方块后会取消/重置/减小das计时器，让自动移动不会立刻生效，减少移动键松开晚了导致下一块一出现就立即开始移动的情况\n注:别的游戏中das打断可能和本游戏这个机制有区别，仅供参考",	},--TODO
+	{"SDF",
+		"sdf softdropfactor",
+		"term",
+		"Soft Drop Factor",--TODO
+	},
 	{"Bag7 generator",
 		"bag7bag randomgenerator",
 		"term",
