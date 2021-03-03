@@ -77,6 +77,12 @@ local eggInput={
 		BGM.play()
 	end,
 	spring="sprfes",
+	zday=function()
+		FESTIVAL="zDay"
+		BG.setDefault("lanterns")
+		BGM.setDefault("overzero")
+		BGM.play()
+	end,
 }for k,v in next,eggInput do if type(v)=="string"then eggInput[k]=eggInput[v]end end
 local function search()
 	local input=WIDGET.active.input.value
