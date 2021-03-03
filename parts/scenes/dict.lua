@@ -63,6 +63,7 @@ local eggInput={
 		BGM.setDefault("blank")
 		BGM.play()
 	end,
+	normal="classic",
 	xmas=function()
 		FESTIVAL="xMas"
 		BG.setDefault("snow")

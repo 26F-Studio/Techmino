@@ -982,6 +982,8 @@ function WIDGET.set(list)
 				c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
 			elseif FESTIVAL=="sprFes"then
 				c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
+			else
+				return
 			end
 			local rnd=math.random
 			for _,W in next,list do

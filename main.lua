@@ -43,7 +43,13 @@ FESTIVAL=(
 		42,32,50,39,28,46,35,24,43,33,
 		21,40,
 	})[os.date"%Y"-2000]or -26)-((os.date"%m"-1)*31+os.date"%d"))<6 and
-	"sprFes"
+	"sprFes"or
+
+	--Z day (Feb./Mar./Apr./May./June 26)
+	math.abs(os.date"%m"-4)<=2 and os.date"%d"+0==26 and
+	"zDay"or
+
+	false
 )
 
 math.randomseed(os.time()*626)
@@ -408,6 +414,9 @@ if FESTIVAL=="Xmas"then
 elseif FESTIVAL=="sprFes"then
 	BG.setDefault("firework")
 	BGM.setDefault("spring festival")
+elseif FESTIVAL=="zDay"then
+	BG.setDefault("lanterns")
+	BGM.setDefault("overzero")
 else
 	BG.setDefault("space")
 	BGM.setDefault("blank")
