@@ -6,7 +6,7 @@
 	4deepShape
 	BlockedWells
 ]]
-local int,ceil,min,abs,rnd=math.floor,math.ceil,math.min,math.abs,math.random
+local int,ceil,min,abs,rnd,modf=math.floor,math.ceil,math.min,math.abs,math.random,math.modf
 local ins,rem=table.insert,table.remove
 -- controlname:
 -- 1~5:mL,mR,rR,rL,rF,
@@ -79,8 +79,7 @@ if _CC then
 		P.holdTime=P.gameEnv.holdCount
 
 		P.cur=rem(P.nextQueue,1)
-		P.cur.sc,P.cur.dir=SCS[P.cur.id][0],0--TODO
-		P.curX,P.curY=blockPos[P.cur.id],21+ceil(P.fieldBeneath/30)-#P.cur.bk+min(int(#P.field*.2),2)
+		P.curX,P.curY=blockPos[P.cur.id],int(P.gameEnv.fieldH+1-modf(P.cur.sc[1]))+ceil(P.fieldBeneath/30)
 
 		P:newNext()
 		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
