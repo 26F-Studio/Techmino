@@ -27,7 +27,6 @@ function scene.sceneInit()
 		SKIN.getCount(),
 		#MODES,
 		1,
-		1,
 	}
 	studioLogo=gc.newText(getFont(80),"26F Studio")
 	skip=false--If skipped
@@ -78,36 +77,6 @@ function scene.update()
 			-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
 			-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
 		elseif phase==8 then
-			local function C(x,y)
-				local _=gc.newCanvas(x,y)
-				gc.setCanvas(_)
-				return _
-			end
-
-			puzzleMark={}
-			gc.setLineWidth(3)
-			for i=1,17 do
-				puzzleMark[i]=C(30,30)
-				local _=SKIN.libColor[i]
-				gc.setColor(_[1],_[2],_[3],.6)
-				gc.rectangle("line",5,5,20,20)
-				gc.rectangle("line",10,10,10,10)
-			end
-			for i=18,24 do
-				puzzleMark[i]=C(30,30)
-				gc.setColor(SKIN.libColor[i])
-				gc.rectangle("line",7,7,16,16)
-			end
-			local _=C(30,30)
-			gc.setColor(1,1,1)
-			gc.line(5,5,25,25)
-			gc.line(5,25,25,5)
-			puzzleMark[-1]=C(30,30)
-			gc.setColor(1,1,1,.8)
-			gc.draw(_)
-			_:release()
-			gc.setCanvas()
-		elseif phase==9 then
 			SKIN.change(SETTING.skinSet)
 			if newVersionLaunch then--Delete old ranks & Unlock modes which should be unlocked
 				for name,rank in next,RANKS do

@@ -27,6 +27,30 @@ for i=1,29 do
 	end end
 end
 
+TEXTURE.puzzleMark={}
+gc.setLineWidth(3)
+for i=1,17 do
+	TEXTURE.puzzleMark[i]=C(30,30)
+	local _=SKIN.libColor[i]
+	gc.setColor(_[1],_[2],_[3],.6)
+	gc.rectangle("line",5,5,20,20)
+	gc.rectangle("line",10,10,10,10)
+end
+for i=18,24 do
+	TEXTURE.puzzleMark[i]=C(30,30)
+	gc.setColor(SKIN.libColor[i])
+	gc.rectangle("line",7,7,16,16)
+end
+local _=C(30,30)
+gc.setColor(1,1,1)
+gc.line(5,5,25,25)
+gc.line(5,25,25,5)
+TEXTURE.puzzleMark[-1]=C(30,30)
+gc.setColor(1,1,1,.8)
+gc.draw(_)
+_:release()
+gc.setCanvas()
+
 TEXTURE.mapCross=C(40,40)
 gc.setColor(1,1,1)
 gc.setLineWidth(4)

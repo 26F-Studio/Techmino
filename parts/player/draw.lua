@@ -215,9 +215,10 @@ local function drawNextPreview(P,B)
 	local y=int(P.gameEnv.fieldH+1-modf(B.sc[1]))+ceil(P.fieldBeneath/30)
 	B=B.bk
 	local x=int(6-#B[1]*.5)
+	local cross=TEXTURE.puzzleMark[-1]
 	for i=1,#B do for j=1,#B[1]do
 		if B[i][j]then
-			gc_draw(puzzleMark[-1],30*(x+j-2),30*(1-y-i))
+			gc_draw(cross,30*(x+j-2),30*(1-y-i))
 		end
 	end end
 end

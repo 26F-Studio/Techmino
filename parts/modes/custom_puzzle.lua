@@ -57,12 +57,12 @@ return{
 		mStr(P.stat.row,69,225)
 		mText(drawableText.line,69,290)
 		if P.modeData.event==0 then
-			local m=puzzleMark
+			local mark=TEXTURE.puzzleMark
 			local F=FIELD[P.modeData.point+1]
 			for y=1,20 do for x=1,10 do
 				local T=F[y][x]
 				if T~=0 then
-					gc.draw(m[T],150+30*x-30+dx,600-30*y+dy)
+					gc.draw(mark[T],150+30*x-30+dx,600-30*y+dy)
 				end
 			end end
 		end

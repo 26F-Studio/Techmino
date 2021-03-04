@@ -171,7 +171,7 @@ function scene.draw()
 	gc.setLineWidth(3)
 	gc.rectangle("line",-2,-2,304,604)
 	gc.setLineWidth(2)
-	local cross=puzzleMark[-1]
+	local cross=TEXTURE.puzzleMark[-1]
 	local F=FIELD[page]
 	local texture=SKIN.curText
 	for y=1,20 do for x=1,10 do
