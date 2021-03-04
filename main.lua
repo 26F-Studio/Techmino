@@ -312,7 +312,6 @@ do
 		fs.remove("conf/settings")
 	end
 
-	freshDate()
 	if STAT.extraRate then
 		STAT.finesseRate=5*(STAT.piece-STAT.extraRate)
 	end

@@ -96,6 +96,7 @@ function scene.update()
 				end
 				FILE.save(RANKS,"conf/unlock","q")
 			end
+			freshDate()
 			STAT.run=STAT.run+1
 			LOADED=true
 			SFX.play("welcome_sfx")
