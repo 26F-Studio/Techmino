@@ -471,12 +471,16 @@ function generateLine(hole)
 	-- return 2^10-1-2^(hole-1)
 	return 1023-2^(hole-1)
 end
-function freshDate()
+function freshDate(mode)
+	if not mode then mode=""end
 	local date=os.date("%Y/%m/%d")
 	if STAT.date~=date then
 		STAT.date=date
 		STAT.todayTime=0
-		LOG.print(text.newDay,"message")
+		if not mode:find("q")then
+			LOG.print(text.newDay,"message")
+		end
+		return true
 	end
 end
 function legalGameTime()--Check if today's playtime is legal
