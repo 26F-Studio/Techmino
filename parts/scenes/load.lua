@@ -1,196 +1,283 @@
 local gc=love.graphics
-local tc=love.touch
 
-local max,min,sin=math.max,math.min,math.sin
+local int,sin=math.floor,math.sin
 
 local scene={}
 
-local time--Animation timer
-local phase--Loading stage
-local loadCur--Loading timer
-local loadTar--Current Loading bar length
-local stageLenth--Length of each stage
+local blackTime,openTime
+local shadePhase1,shadePhase2
+local progress=0
 local studioLogo--Studio logo text object
+local logoColor1,logoColor2
 local skip
 
+local loadingThread=coroutine.create(function()
+	for _=1,VOC.getCount()do
+		VOC.loadOne()
+		if _%3==0 then coroutine.yield()end
+	end
+
+	progress=1
+	for i=1,BGM.getCount()do
+		BGM.loadOne()
+		if i%2==0 then coroutine.yield()end
+	end
+
+	progress=2
+	for i=1,SFX.getCount()do
+		SFX.loadOne()
+		if i%2==0 then coroutine.yield()end
+	end
+
+	progress=3
+	for i=1,IMG.getCount()do
+		IMG.loadOne()
+		if i%2==0 then coroutine.yield()end
+	end
+
+	progress=4
+	for i=1,SKIN.getCount()do
+		SKIN.loadOne()
+		if i%2==0 then coroutine.yield()end
+	end
+
+	progress=5
+	for i=1,17 do
+		getFont(15+5*i)
+		if i%3==0 then coroutine.yield()end
+	end
+
+	progress=6
+	for i=1,#MODES do
+		local m=MODES[i]--Mode template
+		local M=require("parts/modes/"..m.name)--Mode file
+		MODES[m.name],MODES[i]=M
+		for k,v in next,m do
+			M[k]=v
+		end
+		M.records=FILE.load("record/"..m.name..".rec")or M.score and{}
+		-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
+		-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
+		if i%5==0 then coroutine.yield()end
+	end
+
+	progress=7
+	SKIN.change(SETTING.skinSet)
+	if newVersionLaunch then--Delete old ranks & Unlock modes which should be unlocked
+		for name,rank in next,RANKS do
+			local M=MODES[name]
+			if type(rank)~="number"then
+				RANKS[name]=nil
+			elseif M and M.unlock and rank>0 then
+				for _,unlockName in next,M.unlock do
+					if not RANKS[unlockName]then
+						RANKS[unlockName]=0
+					end
+				end
+			end
+			if not(M and M.score)then
+				RANKS[name]=nil
+			end
+		end
+		FILE.save(RANKS,"conf/unlock","q")
+	end
+
+	DAILYLAUNCH=freshDate("q")
+	if DAILYLAUNCH then
+		logoColor1=COLOR.sea
+		logoColor2=COLOR.lSea
+	else
+		local r=math.random()*6.2832
+		logoColor1={COLOR.rainbow(r)}
+		logoColor2={COLOR.rainbow_light(r)}
+	end
+	STAT.run=STAT.run+1
+	LOADED=true
+	--[[TODO
+		WS.send("user",json.encode{
+			id=USER.id,
+			authToken=USER.authToken,
+		})
+	]]
+	if FESTIVAL=="Xmas"then
+		LOG.print("==============",COLOR.red)
+		LOG.print("Merry Christmas!",COLOR.white)
+		LOG.print("==============",COLOR.red)
+	elseif FESTIVAL=="sprFes"then
+		LOG.print(" ★☆☆★",COLOR.red)
+		LOG.print("新年快乐!",COLOR.white)
+		LOG.print(" ★☆☆★",COLOR.red)
+	end
+	while true do
+		if math.random()<.26 then
+			progress=progress+1
+		end
+		if progress==25 then
+			loadingThread=false
+			SFX.play("welcome_sfx")
+			VOC.play("welcome_voc")
+			return
+		end
+		coroutine.yield()
+	end
+end)
+
 function scene.sceneInit()
-	time=0
-	phase=0
-	loadCur=0
-	loadTar=0
-	stageLenth={
-		VOC.getCount(),
-		BGM.getCount(),
-		SFX.getCount(),
-		IMG.getCount(),
-		17,--Fontsize 20~100
-		SKIN.getCount(),
-		#MODES,
-		1,
-	}
 	studioLogo=gc.newText(getFont(80),"26F Studio")
-	skip=false--If skipped
+	blackTime=1
+	openTime=0
+	shadePhase1=6.26*math.random()
+	shadePhase2=6.26*math.random()
+	skip=0--Skip time
 end
 function scene.sceneBack()
 	love.event.quit()
 end
 
 function scene.keyDown(k)
-	if k=="s"then
-		skip=true
-	elseif k=="space"then
-		time=max(time-5,0)
-	elseif k=="escape"then
+	if k=="escape"then
 		SCN.back()
+	elseif k=="s"then
+		skip=999
+	else
+		skip=skip+1
 	end
+end
+function scene.mouseDown()
+	scene.keyDown()
 end
 function scene.touchDown()
-	if #tc.getTouches()==3 then
-		skip=true
-	end
+	scene.keyDown()
 end
-
-function scene.update()
-	if time==400 then return end
-	repeat
-		if phase==0 then
-		elseif phase==1 then
-			VOC.loadOne()
-		elseif phase==2 then
-			BGM.loadOne()
-		elseif phase==3 then
-			SFX.loadOne()
-		elseif phase==4 then
-			IMG.loadOne()
-		elseif phase==5 then
-			getFont(15+5*loadCur)
-		elseif phase==6 then
-			SKIN.loadOne()
-		elseif phase==7 then
-			local m=MODES[loadCur]--Mode template
-			local M=require("parts/modes/"..m.name)--Mode file
-			MODES[m.name],MODES[loadCur]=M
-			for k,v in next,m do
-				M[k]=v
-			end
-			M.records=FILE.load("record/"..m.name..".rec")or M.score and{}
-			-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
-			-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
-		elseif phase==8 then
-			SKIN.change(SETTING.skinSet)
-			if newVersionLaunch then--Delete old ranks & Unlock modes which should be unlocked
-				for name,rank in next,RANKS do
-					local M=MODES[name]
-					if type(rank)~="number"then
-						RANKS[name]=nil
-					elseif M and M.unlock and rank>0 then
-						for _,unlockName in next,M.unlock do
-							if not RANKS[unlockName]then
-								RANKS[unlockName]=0
-							end
-						end
-					end
-					if not(M and M.score)then
-						RANKS[name]=nil
-					end
-				end
-				FILE.save(RANKS,"conf/unlock","q")
-			end
-			freshDate()
-			STAT.run=STAT.run+1
-			LOADED=true
-			SFX.play("welcome_sfx")
-			VOC.play("welcome_voc")
-			--[[TODO
-				WS.send("user",json.encode{
-					id=USER.id,
-					authToken=USER.authToken,
-				})
-			]]
-			if FESTIVAL=="Xmas"then
-				LOG.print("==============",COLOR.red)
-				LOG.print("Merry Christmas!",COLOR.white)
-				LOG.print("==============",COLOR.red)
-			elseif FESTIVAL=="sprFes"then
-				LOG.print("=======",COLOR.red)
-				LOG.print("新年快乐!",COLOR.white)
-				LOG.print("=======",COLOR.red)
-			end
-		end
-		if loadTar then
-			loadCur=loadCur+1
-			if loadCur>loadTar then
-				phase=phase+1
-				loadCur=1
-				loadTar=stageLenth[phase]
-			end
-		end
-		time=time+1
-		if time==400 then
-			SCN.swapTo("intro")
+function scene.update(dt)
+	shadePhase1=shadePhase1+dt*2*(3.26-openTime)
+	shadePhase2=shadePhase2+dt*3*(3.26-openTime)
+	if blackTime>0 then
+		blackTime=blackTime-dt
+	end
+	if progress<25 then
+		local p=progress
+		::again::
+		if loadingThread then
+			coroutine.resume(loadingThread)
+		else
 			return
 		end
-	until not skip
+		if skip>0 then
+			if progress==p then
+				goto again
+			else
+				skip=skip-1
+			end
+		end
+	else
+		openTime=openTime+dt
+		if skip>0 then
+			openTime=openTime+.26
+			skip=skip-1
+		end
+		if openTime>=3.26 then
+			openTime=3.26
+			SCN.swapTo("intro")
+		end
+	end
 end
 
 function scene.draw()
-	gc.push("transform")
-	gc.translate(640,360)
-	gc.scale(2)
-
-	local Y=3250*(sin(-1.5708+min(time,260)/260*3.1416)+1)+200
-
-	--Draw 26F Studio logo
-	if time>200 then
+	--Logo
+	if progress==25 then
 		gc.push("transform")
-		gc.translate(-220,Y-6840)
+		--Cool camera
+		gc.translate(640,360)
+		gc.rotate(.2/openTime)
+		gc.scale(1.2+.5/openTime)
 
-		gc.setColor(.4,.4,.4)
-		gc.rectangle("fill",0,0,440,260)
+		--Logo layer 1
+		gc.setColor(logoColor1)
+		mDraw(studioLogo,0,(5+(3.26-openTime))*sin(shadePhase1))
+		mDraw(studioLogo,(7+(3.26-openTime))*sin(shadePhase2),0)
 
-		local t=TIME()
-		gc.setColor(COLOR.dCyan)
-		mDraw(studioLogo,220,Y*.2-1204)
-		mDraw(studioLogo,220,-Y*.2+1476)
+		--Logo layer 2
+		gc.setColor(logoColor2)
+		mDraw(studioLogo,-2,2)
+		mDraw(studioLogo,-2,-2)
+		mDraw(studioLogo,2,2)
+		mDraw(studioLogo,2,-2)
 
-		gc.setColor(COLOR.cyan)
-		mDraw(studioLogo,220+4*sin(t*10),136+4*sin(t*6))
-		mDraw(studioLogo,220+4*sin(t*12),136+4*sin(t*8))
-
-		gc.setColor(COLOR.dCyan)
-		mDraw(studioLogo,219,137)
-		mDraw(studioLogo,219,135)
-		mDraw(studioLogo,221,137)
-		mDraw(studioLogo,221,135)
-
+		--Logo layer 3
 		gc.setColor(.2,.2,.2)
-		mDraw(studioLogo,220,136)
+		mDraw(studioLogo,0,0)
+		gc.pop()
 
+		--Cool light
+		if openTime>.3 and openTime<1.6 then
+			local w=(1.6-openTime)/1.3
+			gc.setColor(1,1,1,w^2)
+			gc.rectangle("fill",340,360*w^2,600,720*(1-w^2))
+		end
+	end
+
+	--Side coverer
+	gc.setColor(.5,.5,.5)
+	gc.rectangle("fill",340,0,-340,720)
+	gc.rectangle("fill",940,0,340,720)
+
+	--Floor info frame
+	gc.setColor(.1,.1,.1)
+	gc.rectangle("fill",1110-80,25,160,100)
+	gc.setColor(.7,.7,.7)
+	gc.setLineWidth(4)
+	gc.rectangle("line",1110-80,25,160,100)
+
+	--Floor info
+	local d1=(progress+1)%10
+	local d2=int((progress+1)/10)
+	gc.setColor(.6,.6,.6)
+	gc.draw(TEXTURE.pixelNum[d2],1060-3,40-3,nil,14)
+	gc.draw(TEXTURE.pixelNum[d1],1120-3,40-3,nil,14)
+	gc.setColor(1,1,1)
+	gc.draw(TEXTURE.pixelNum[d2],1060,40,nil,14)
+	gc.draw(TEXTURE.pixelNum[d1],1120,40,nil,14)
+
+	--Elevator buttons
+	gc.setLineWidth(3)
+	setFont(25)
+	for i=0,25 do
+		local x,y=1050+60*int(i/9),180+i%9*60
+		gc.setColor(COLOR[i==progress and"dOrange"or"dGrey"])
+		gc.circle("fill",x,y,23)
+		gc.setColor(.16,.16,.16)
+		gc.circle("line",x,y,23)
+		gc.setColor(1,1,1)
+		mStr(i+1,x,y-18)
+	end
+
+	--Elevator door
+	for i=1,0,-1 do
+		gc.setColor(.3,.3,.3)
+		local dx=300*(1-math.min((openTime-i*.1)/1.26-1,0)^2)
+		gc.rectangle("fill",340,0,300-dx,720)
+		gc.rectangle("fill",940,0,dx-300,720)
+
+		gc.setColor(.16,.16,.16)
+		gc.setLineWidth(4)
+		gc.line(640-dx,0,640-dx,720)
+		gc.line(640+dx,0,640+dx,720)
+	end
+
+	--Doorframe
+	gc.setColor(0,0,0)
+	gc.line(340,0,340,720)
+	gc.line(940,0,940,720)
+
+	--Black screen
+	if blackTime>0 then
+		gc.push("transform")
+		gc.origin()
+		gc.setColor(0,0,0,blackTime)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.pop()
 	end
-
-	--Draw floors
-	setFont(50)
-	gc.setLineWidth(4)
-	for i=1,27 do
-		if i<26 then
-			local r,g,b=COLOR.rainbow(i+3.5)
-			gc.setColor(r*.26,g*.26,b*.26)
-			gc.rectangle("fill",-220,Y-260*i-80,440,260)
-			gc.setColor(r*1.6,g*1.6,b*1.6)
-			gc.printf(i.."F",100,Y-260*i-70,100,"right")
-			gc.setColor(1,1,1)
-			gc.rectangle("line",-160,Y-260*i,80,50)
-		end
-		gc.line(-220,Y-260*i+180,220,Y-260*i+180)
-	end
-
-	--Draw side line
-	gc.setColor(1,1,1)
-	gc.line(-220,Y-80,-220,Y-6840)
-	gc.line(220,Y-80,220,Y-6840)
-
-	gc.pop()
 end
 
 return scene
