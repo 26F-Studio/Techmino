@@ -117,9 +117,8 @@ function json.encode(val)
 	local a,b=pcall(encode,val)
 	if a then
 		return b
-	else
+	elseif LOG then
 		LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
-		return
 	end
 end
 
@@ -348,8 +347,7 @@ function json.decode(str)
 	local a,b=pcall(decode,str)
 	if a then
 		return b
-	else
+	elseif LOG then
 		LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
-		return
 	end
 end
