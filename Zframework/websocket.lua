@@ -15,11 +15,8 @@ local byte,char=string.byte,string.char
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
-
-
 local SOCK=require"socket".tcp()
-
-
+require"Zframework/json"
 
 local mask_key={1,14,5,14}
 local function _send(opcode,message)
@@ -56,29 +53,47 @@ do--Connect
 	local path=sendCHN:demand()
 	local body=sendCHN:demand()
 
+	SOCK:settimeout(2.6)
 	local res,err=SOCK:connect(host,port)
-	if res~=1 then error(res,err)end
+	if res then
+		--WebSocket handshake
+		if not body then body=""end
+		SOCK:send(
+			"GET "..path.." HTTP/1.1\r\n"..
+			"Host: "..host..":"..port.."\r\n"..
+			"Connection: Upgrade\r\n"..
+			"Upgrade: websocket\r\n"..
+			"Content-Type: application/json\r\n"..
+			"Content-Length: "..#body.."\r\n"..
+			"Sec-WebSocket-Version: 13\r\n"..
+			"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
+			body
+		)
 
-	--WebSocket handshake
-	if not body then body=""end
-	SOCK:send(
-		"GET "..path.." HTTP/1.1\r\n"..
-		"Host: "..host..":"..port.."\r\n"..
-		"Connection: Upgrade\r\n"..
-		"Upgrade: websocket\r\n"..
-		"Content-Type: application/json\r\n"..
-		"Content-Length: "..#body.."\r\n"..
-		"Sec-WebSocket-Version: 13\r\n"..
-		"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
-		body
-	)
-	readCHN:push("success")
+		--First line of HTTP
+		local l=SOCK:receive("*l")
+		local code=l:find(" "); code=l:sub(code+1,code+3)
+
+		if code=="200"then
+			readCHN:push("success")
+		else
+			repeat
+				l=SOCK:receive("*l")
+			until l==""
+			l=SOCK:receive("*l")
+			local reason=json.decode(l)if reason then reason=reason.message end
+			readCHN:push(code.."-"..(reason or l))
+		end
+	else
+		readCHN:push(err)
+	end
+	SOCK:settimeout(0)
 end
 
 
 
 while true do
-	triggerCHN:demond()
+	triggerCHN:demand()
 	while sendCHN:getCount()>=2 do
 		local op=sendCHN:pop()
 		local message=sendCHN:pop()
@@ -110,7 +125,15 @@ while true do
 		readCHN:push(op)
 		if op==8 then--close
 			SOCK:close()
-			readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3)))
+			if res:sub(1,4)=="HTTP"then
+				local code=res:find(" ")
+				code=res:sub(code+1,code+3)
+				local res=res:sub(res:find("\n\n")+1)
+				reason=json.decode(res)if reason then reason=reason.message end
+				readCHN:push(code.."-"..(reason or res))
+			else
+				readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3)))
+			end
 		else
 			readCHN:push(res)
 		end
@@ -188,10 +211,16 @@ function WS.update()
 	for name,ws in next,wsList do
 		ws.triggerCHN:push(0)
 		if ws.status=="connecting"then
-			if ws.readCHN:pop()=="success"then
-				ws.status="running"
-				ws.lastPingTime=time
-				ws.lastPongTime=time
+			local mes=ws.readCHN:pop()
+			if mes then
+				if mes=="success"then
+					ws.status="running"
+					ws.lastPingTime=time
+					ws.lastPongTime=time
+				else
+					ws.status="dead"
+					LOG.print(text.wsFailed,"warn")
+				end
 			end
 		elseif time-ws.lastPingTime>ws.pingInterval then
 			ws.sendCHN:push(9)
