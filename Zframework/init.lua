@@ -514,7 +514,7 @@ function love.run()
 					--Draw cursor
 					if mouseShow then
 						local R=int((t+1)/2)%7+1
-						_=SKIN.libColor[SETTING.skin[R]]
+						_=minoColor[SETTING.skin[R]]
 						gc_setColor(_[1],_[2],_[3],min(abs(1-t%2),.3))
 						_=SCS[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)

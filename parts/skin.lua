@@ -18,32 +18,6 @@ function SKIN.init(list)
 	local count=#list function SKIN.getCount()return count end
 	SKIN.lib={}
 	SKIN.libMini={}
-	SKIN.libColor={
-		COLOR.red,
-		COLOR.fire,
-		COLOR.orange,
-		COLOR.yellow,
-		COLOR.lame,
-		COLOR.grass,
-		COLOR.green,
-		COLOR.water,
-		COLOR.cyan,
-		COLOR.sky,
-		COLOR.sea,
-		COLOR.blue,
-		COLOR.purple,
-		COLOR.grape,
-		COLOR.magenta,
-		COLOR.pink,
-		COLOR.dGrey,
-		COLOR.black,
-		COLOR.lYellow,
-		COLOR.grey,
-		COLOR.lGrey,
-		COLOR.dPurple,
-		COLOR.dRed,
-		COLOR.dGreen,
-	}
 
 	local function load(skip)
 		for i=1,count do

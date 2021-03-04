@@ -107,7 +107,7 @@ function Player.createBeam(P,R,send,color)
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
 	end
 
-	local r,g,b=unpack(SKIN.libColor[color])
+	local r,g,b=unpack(minoColor[color])
 	r,g,b=r*2,g*2,b*2
 
 	local a=GAME.modeEnv.royaleMode and not(P.type=="human"or R.type=="human")and .2 or 1

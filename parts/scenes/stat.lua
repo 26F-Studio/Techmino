@@ -46,7 +46,7 @@ end
 
 function scene.draw()
 	setFont(25)
-	local _,__=SKIN.libColor,SETTING.skin
+	local _,__=minoColor,SETTING.skin
 	local A,B=form.A1,form.A2
 	for x=1,7 do
 		gc.setColor(_[__[x]])

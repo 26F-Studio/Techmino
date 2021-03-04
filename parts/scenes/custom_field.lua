@@ -213,7 +213,7 @@ function scene.draw()
 	--Draw pen color
 	if pen>0 then
 		gc.setLineWidth(13)
-		gc.setColor(SKIN.libColor[pen])
+		gc.setColor(minoColor[pen])
 		gc.rectangle("line",565,495,70,70)
 	elseif pen==-1 then
 		gc.setLineWidth(5)

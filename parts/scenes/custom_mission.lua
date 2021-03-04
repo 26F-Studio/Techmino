@@ -127,7 +127,7 @@ function scene.draw()
 	gc.print(input,1200,275)
 
 	--Draw targets
-	local libColor=SKIN.libColor
+	local libColor=minoColor
 	local set=SETTING.skin
 	local L=MISSION
 	local x,y=100,136--Next block pos

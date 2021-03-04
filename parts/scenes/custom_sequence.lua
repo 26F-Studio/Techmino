@@ -129,7 +129,7 @@ function scene.draw()
 
 	--Draw sequence
 	local miniBlock=TEXTURE.miniBlock
-	local libColor=SKIN.libColor
+	local libColor=minoColor
 	local set=SETTING.skin
 	local L=BAG
 	local x,y=120,136--Next block pos

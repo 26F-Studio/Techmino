@@ -31,14 +31,14 @@ TEXTURE.puzzleMark={}
 gc.setLineWidth(3)
 for i=1,17 do
 	TEXTURE.puzzleMark[i]=C(30,30)
-	local _=SKIN.libColor[i]
+	local _=minoColor[i]
 	gc.setColor(_[1],_[2],_[3],.6)
 	gc.rectangle("line",5,5,20,20)
 	gc.rectangle("line",10,10,10,10)
 end
 for i=18,24 do
 	TEXTURE.puzzleMark[i]=C(30,30)
-	gc.setColor(SKIN.libColor[i])
+	gc.setColor(minoColor[i])
 	gc.rectangle("line",7,7,16,16)
 end
 local _=C(30,30)

@@ -8,7 +8,7 @@ local colorLib
 local blocks
 local scs
 function back.init()
-	colorLib=SKIN.libColor
+	colorLib=minoColor
 	blocks=BLOCKS
 	scs=SCS
 	t=rnd()*2600

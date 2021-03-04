@@ -299,3 +299,30 @@ rankColor={
 	COLOR.lCyan,	--S
 	COLOR.lGreen,	--Special
 }
+
+minoColor={
+	COLOR.red,
+	COLOR.fire,
+	COLOR.orange,
+	COLOR.yellow,
+	COLOR.lame,
+	COLOR.grass,
+	COLOR.green,
+	COLOR.water,
+	COLOR.cyan,
+	COLOR.sky,
+	COLOR.sea,
+	COLOR.blue,
+	COLOR.purple,
+	COLOR.grape,
+	COLOR.magenta,
+	COLOR.pink,
+	COLOR.dGrey,
+	COLOR.black,
+	COLOR.lYellow,
+	COLOR.grey,
+	COLOR.lGrey,
+	COLOR.dPurple,
+	COLOR.dRed,
+	COLOR.dGreen,
+}

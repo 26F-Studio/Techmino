@@ -933,7 +933,7 @@ function draw.demo(P)
 			gc_pop()
 
 			local blockImg=TEXTURE.miniBlock
-			local libColor=SKIN.libColor
+			local libColor=minoColor
 			local skinSet=ENV.skin
 			--Draw hold
 			local N=1
