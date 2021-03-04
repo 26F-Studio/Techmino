@@ -8,7 +8,7 @@ local lastCreateRoomTime=0
 
 local function enterRoom(roomID)
 	--[[TODO
-		WS.connect("play","/play",json.encode{
+		WS.connect("play","/play",JSON.encode{
 			email=USER.email,
 			token=USER.accessToken,
 			id=roomID,
@@ -21,7 +21,7 @@ local function fresh()
 	lastfreshTime=TIME()
 	rooms=nil
 	--[[TODO
-		WS.connect("play","/play",json.encode{
+		WS.connect("play","/play",JSON.encode{
 			email=USER.email,
 			accessToken=USER.accessToken,
 		})
@@ -38,7 +38,7 @@ function scene.sceneInit()
 end
 
 function scene.wheelMoved(_,y)
-	wheelScroll(y)
+	WHEELMOV(y)
 end
 function scene.keyDown(k)
 	if k=="r"then
@@ -48,7 +48,7 @@ function scene.keyDown(k)
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>26 then
 			--[[TODO
-				WS.send("room",json.encode{
+				WS.send("room",JSON.encode{
 					email=USER.email,
 					accessToken=USER.accessToken,
 					room_name=(USER.name or"???").."'s room",

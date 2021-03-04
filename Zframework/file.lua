@@ -13,7 +13,7 @@ function FILE.load(name)
 					return s()
 				end
 			else
-				local res=json.decode(s)
+				local res=JSON.decode(s)
 				if res then
 					return res
 				end
@@ -26,13 +26,13 @@ function FILE.save(data,name,mode)
 	if not mode then mode=""end
 	name=name
 	if mode:find("l")then
-		data=dumpTable(data)
+		data=DUMPTABLE(data)
 		if not data then
 			LOG.print(name.." "..text.saveError.."dump error","error")
 			return
 		end
 	else
-		data=json.encode(data)
+		data=JSON.encode(data)
 		if not data then
 			LOG.print(name.." "..text.saveError.."json error","error")
 			return

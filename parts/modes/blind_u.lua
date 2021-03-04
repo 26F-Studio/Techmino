@@ -27,7 +27,7 @@ return{
 		gc.draw(IMG.electric,124,106,0,2.6)
 	end,
 	score=function(P)return{min(P.stat.row,100),P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Lines   "..toTime(D[2])end,
+	scoreDisp=function(D)return D[1].." Lines   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row

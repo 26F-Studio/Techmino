@@ -36,7 +36,7 @@ return{
 		mText(drawableText.wave,69,375)
 	end,
 	score=function(P)return{P.modeData.event,P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Waves   "..toTime(D[2])end,
+	scoreDisp=function(D)return D[1].." Waves   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local W=P.modeData.event

@@ -16,7 +16,7 @@ local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
 local SOCK=require"socket".tcp()
-require"Zframework/json"
+local JSON=require"Zframework/json"
 
 local mask_key={1,14,5,14}
 local function _send(opcode,message)
@@ -81,7 +81,7 @@ do--Connect
 				l=SOCK:receive("*l")
 			until l==""
 			l=SOCK:receive("*l")
-			local reason=json.decode(l)if reason then reason=reason.message end
+			local reason=JSON.decode(l)if reason then reason=reason.message end
 			readCHN:push(code.."-"..(reason or l))
 		end
 	else
@@ -129,7 +129,7 @@ while true do
 				local code=res:find(" ")
 				code=res:sub(code+1,code+3)
 				local res=res:sub(res:find("\n\n")+1)
-				reason=json.decode(res)if reason then reason=reason.message end
+				reason=JSON.decode(res)if reason then reason=reason.message end
 				readCHN:push(code.."-"..(reason or res))
 			else
 				readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3)))

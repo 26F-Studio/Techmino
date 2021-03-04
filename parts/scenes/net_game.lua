@@ -151,10 +151,10 @@ end
 
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
-	local args=splitStr(mes:sub(2),";")
+	local args=SPLITSTR(mes:sub(2),";")
 	if cmd=="J"then
 		if playerInitialized then
-			local L=splitStr(args[1],",")
+			local L=SPLITSTR(args[1],",")
 			textBox:push{
 				COLOR.lR,L[1],
 				COLOR.dY,"#"..L[2].." ",
@@ -162,7 +162,7 @@ function scene.socketRead(mes)
 			}
 		end
 		for i=1,#args do
-			local L=splitStr(args[i],",")
+			local L=SPLITSTR(args[i],",")
 			ins(playerData,{name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"})
 		end
 		playerInitialized=true

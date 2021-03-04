@@ -1,4 +1,4 @@
-return splitStr([=[
+return SPLITSTR([=[
 Gameplay:
 		The system will provide you with tetrominoes (4-block pieces),
 		with a total of 7 types, and the player needs to control them

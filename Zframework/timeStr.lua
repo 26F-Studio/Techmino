@@ -1,5 +1,5 @@
 local int,format=math.floor,string.format
-function toTime(s)
+return function(s)
 	if s<60 then
 		return format("%.3fs",s)
 	elseif s<3600 then

@@ -1,5 +1,5 @@
 local floatWheel=0
-function wheelScroll(y)
+return function(y)
 	if y>0 then
 		if floatWheel<0 then floatWheel=0 end
 		floatWheel=floatWheel+y^1.2

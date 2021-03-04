@@ -12,7 +12,7 @@ return{
 		PLY.newAIPlayer(2,AIBUILDER("9S",6))
 	end,
 	score=function(P)return{P.stat.time}end,
-	scoreDisp=function(D)return toTime(D[1])end,
+	scoreDisp=function(D)return TIMESTR(D[1])end,
 	comp=function(a,b)return a[1]<b[1]end,
 	getRank=function(P)
 		if P.result=="WIN"then

@@ -6,7 +6,7 @@ function scene.sceneInit()
 end
 
 function scene.wheelMoved(_,y)
-	wheelScroll(y)
+	WHEELMOV(y)
 end
 function scene.keyDown(k)
 	if k=="up"then

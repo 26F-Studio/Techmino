@@ -4,20 +4,20 @@ SCN=	require"Zframework/scene"
 LOG=	require"Zframework/log"
 WS=		require"Zframework/websocket"
 
-loadLib=require"Zframework/loadLib"
-require"Zframework/wheelScroll"
+LOADLIB=require"Zframework/loadLib"
+WHEELMOV=require"Zframework/wheelScroll"
 
 require"Zframework/setFont"
 require"Zframework/mDraw"
 
-require"Zframework/json"
-require"Zframework/dumpTable"
-require"Zframework/urlEncode"
+JSON=require"Zframework/json"
+DUMPTABLE=require"Zframework/dumpTable"
+URLENCODE=require"Zframework/urlEncode"
 
--- require"Zframework/upperChar"
+-- UPPERCHAR=require"Zframework/upperChar"
 require"Zframework/copyTable"
-require"Zframework/splitStr"
-require"Zframework/toTime"
+SPLITSTR=require"Zframework/splitStr"
+TIMESTR=require"Zframework/timeStr"
 
 VIB=	require"Zframework/vibrate"
 SFX=	require"Zframework/sfx"

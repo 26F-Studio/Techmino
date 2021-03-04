@@ -1,10 +1,11 @@
-local gc=love.graphics
+local printf=love.graphics.printf
+local draw=love.graphics.draw
 function mStr(s,x,y)
-	gc.printf(s,x-626,y,1252,"center")
+	printf(s,x-626,y,1252,"center")
 end
 function mText(s,x,y)
-	gc.draw(s,x-s:getWidth()*.5,y)
+	draw(s,x-s:getWidth()*.5,y)
 end
 function mDraw(s,x,y,a,k)
-	gc.draw(s,x,y,a,k,nil,s:getWidth()*.5,s:getHeight()*.5)
+	draw(s,x,y,a,k,nil,s:getWidth()*.5,s:getHeight()*.5)
 end

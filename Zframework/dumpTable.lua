@@ -7,7 +7,7 @@ local tabs={
 	"\t\t\t\t",
 	"\t\t\t\t\t",
 }
-function dumpTable(L,t)
+return function(L,t)
 	local s
 	if t then
 		s="{\n"
@@ -40,7 +40,7 @@ function dumpTable(L,t)
 		T=type(v)
 		if T=="number"then v=tostring(v)
 		elseif T=="string"then v="\""..v.."\""
-		elseif T=="table"then v=dumpTable(v,t+1)
+		elseif T=="table"then v=DUMPTABLE(v,t+1)
 		elseif T=="boolean"then v=tostring(v)
 		else error("Error data type!")
 		end

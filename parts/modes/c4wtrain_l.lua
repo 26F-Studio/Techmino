@@ -60,7 +60,7 @@ return{
 		mText(drawableText.maxcmb,69,450)
 	end,
 	score=function(P)return{min(P.modeData.point,100),P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Combo   "..toTime(D[2])end,
+	scoreDisp=function(D)return D[1].." Combo   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.modeData.point

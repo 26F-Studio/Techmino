@@ -1,4 +1,4 @@
-return splitStr([=[
+return SPLITSTR([=[
 "Patron"(time ordered, may not accurate)         Thanks!!!
 						<<<<<<<<<<rmb1000+>>>>>>>>>>
 									☆★★☆☆☆☆★★☆

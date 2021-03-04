@@ -20,9 +20,10 @@
 -- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 -- SOFTWARE.
 
+-- Editted by MrZ
 
 local ins,char=table.insert,string.char
-json = {}
+local json = {}
 
 -------------------------------------------------------------------------------
 -- Encode
@@ -351,3 +352,4 @@ function json.decode(str)
 		LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
 	end
 end
+return json

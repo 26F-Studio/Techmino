@@ -40,7 +40,7 @@ function scene.sceneBack()
 end
 
 function scene.wheelMoved(_,y)
-	wheelScroll(y)
+	WHEELMOV(y)
 end
 function scene.keyDown(k)
 	if k=="up"then
@@ -63,7 +63,7 @@ end
 
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
-	local args=splitStr(mes:sub(2),";")
+	local args=SPLITSTR(mes:sub(2),";")
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],

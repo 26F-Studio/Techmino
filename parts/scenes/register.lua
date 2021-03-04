@@ -16,7 +16,7 @@ function scene.keyDown(key)
 			LOG.print(text.diffPassword)return
 		end
 		--[[
-			json.encode{
+			JSON.encode{
 				username=username,
 				email=email,
 				password=password,

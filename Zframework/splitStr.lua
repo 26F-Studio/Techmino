@@ -1,5 +1,5 @@
 local find,sub=string.find,string.sub
-function splitStr(s,sep)
+return function(s,sep)
 	local L={}
 	local p1,p2=1--start,target
 	while p1<=#s do

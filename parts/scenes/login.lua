@@ -7,7 +7,7 @@ local function login()
 		LOG.print(text.noPassword)return
 	end
 	--[[TODO
-		WS.send("user",json.encode{
+		WS.send("user",JSON.encode{
 			email=email,
 			password=password,
 		})

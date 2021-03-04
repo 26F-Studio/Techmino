@@ -7,6 +7,6 @@ local upperList={
 	[";"]=":",["'"]="\"",
 	[","]="<",["."]=">",["/"]="?",
 }
-function upperChar(c)
+return function(c)
 	return upperList[c]or upper(c)
 end

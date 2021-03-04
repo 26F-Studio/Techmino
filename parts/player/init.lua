@@ -223,7 +223,7 @@ end
 local function loadRemoteEnv(P,confStr)--Load gameEnv
 	local _,conf=pcall(love.data.decode,"string","base64",confStr)
 	if _ then
-		conf=json.decode(conf)
+		conf=JSON.decode(conf)
 	else
 		conf={}
 		LOG.print("Bad conf from "..P.userName.."#"..P.userID)

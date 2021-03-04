@@ -72,13 +72,13 @@ scene.widgetList={
 		if LOGIN then
 			--[[TODO
 			if USER.accessToken then
-				WS.send("app",json.encode{
+				WS.send("app",JSON.encode{
 					opration="access",
 					email=USER.email,
 					accessToken=USER.accessToken,
 				})
 			else
-				WS.send("app",json.encode{
+				WS.send("app",JSON.encode{
 					opration="access",
 					email=USER.email,
 						authToken=USER.authToken,

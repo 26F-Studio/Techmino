@@ -14,7 +14,7 @@ local ins,rem=table.insert,table.remove
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
 -------------------------------------------------Cold clear
-local _CC=loadLib("CC",{
+local _CC=LOADLIB("CC",{
 	Windows="CCloader",
 	Linux="CCloader",
 	Android="libCCloader.so",

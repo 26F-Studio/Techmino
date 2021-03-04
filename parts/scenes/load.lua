@@ -94,7 +94,7 @@ local loadingThread=coroutine.create(function()
 	STAT.run=STAT.run+1
 	LOADED=true
 	--[[TODO
-		WS.send("user",json.encode{
+		WS.send("user",JSON.encode{
 			id=USER.id,
 			authToken=USER.authToken,
 		})

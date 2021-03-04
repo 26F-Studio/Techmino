@@ -674,7 +674,7 @@ do--function dumpBasicConfig()
 		for _,key in next,gameSetting do
 			S[key]=SETTING[key]
 		end
-		return data.encode("string","base64",json.encode(S))
+		return data.encode("string","base64",JSON.encode(S))
 	end
 end
 do--function resetGameData(args)
@@ -965,8 +965,8 @@ do--function saveRecording()
 			(USER.name or"Player")
 		local fileBody=
 			GAME.seed.."\n"..
-			json.encode(GAME.setting).."\n"..
-			json.encode(getModList()).."\n"..
+			JSON.encode(GAME.setting).."\n"..
+			JSON.encode(getModList()).."\n"..
 			dumpRecording(GAME.rep)
 
 		--Write file
@@ -1071,7 +1071,7 @@ end
 do
 	--[[
 	launch:
-		local res=json.decode(res.body)
+		local res=JSON.decode(res.body)
 		if res.message=="OK"then
 			LOG.print(res.notice,360,COLOR.sky)
 			if VERSION_CODE>=res.version_code then
@@ -1105,7 +1105,7 @@ do
 				PATH.http..PATH.user,
 				"GET",
 				{["Content-Type"]="application/json"},
-				json.encode{
+				JSON.encode{
 					email=USER.email,
 					authToken=USER.authToken,
 				}
@@ -1126,13 +1126,13 @@ do
 			LOG.print(text.loginSuccessed)
 
 			--TODO:getUserInfo
-				json.encode{
+				JSON.encode{
 					email=USER.email,
 					authToken=USER.authToken,
 				}
 
 			--TODO:getAccessToken
-				json.encode{
+				JSON.encode{
 					email=USER.email,
 					authToken=USER.authToken,
 				}
@@ -1150,13 +1150,13 @@ do
 				PATH.http..PATH.access,
 				"POST",
 				{["Content-Type"]="application/json"},
-				json.encode{
+				JSON.encode{
 					email=USER.email,
 					authToken=USER.authToken,
 				}
 			)
 		else
-			local err=json.decode(res.body)
+			local err=JSON.decode(res.body)
 			if err then
 				LOG.print(text.httpCode..res.code..": "..err.message,"warn")
 			end
@@ -1233,7 +1233,7 @@ do
 						LOG.print(text.wsClose..message,"warn")
 						return
 					else
-						message=json.decode(message)
+						message=JSON.decode(message)
 					end
 				end
 			elseif status~="connecting"then
@@ -1256,7 +1256,7 @@ do
 						LOG.print(text.wsClose..message,"warn")
 						return
 					else
-						message=json.decode(message)
+						message=JSON.decode(message)
 					end
 				end
 			end
