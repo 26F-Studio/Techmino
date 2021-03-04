@@ -20,6 +20,7 @@ SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
 LOADED=false
+DAILYLAUNCH=false
 NOGAME=false
 LOGIN=false
 EDITING=""
