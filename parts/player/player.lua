@@ -511,7 +511,7 @@ function Player.lock(P)
 				local x=P.curX+j-1
 				if dest then
 					for k=1,#dest do
-						if x==dest[k][1]and y==dest[k][2]then
+						if x==dest[k][1]+1 and y==dest[k][2]+1 then
 							rem(dest,k)
 							goto success
 						end

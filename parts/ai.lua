@@ -285,16 +285,11 @@ return{
 			repeat
 				YIELD()
 				success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
-			until not success or result == 0 or result == 2
+			until not success or result==0 or result==2
 			if not success then break end
 			if result==2 then
 				ins(keys,6)
 			elseif result==0 then
-				for i=1,#dest do
-					for j=1,#dest[i]do
-						dest[i][j]=dest[i][j]+1
-					end
-				end
 				P.AI_dest=dest
 				if hold then keys[1]=8 end--Hold
 				while move[1]do
