@@ -145,8 +145,8 @@ function update.alive(P,dt)
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
-			if P.AI_stage then
-				P.AI_stage=AIFUNC[P.AI_mode][P.AI_stage](P,C)
+			if coroutine.status(P.AI_thread)=="suspended"then
+				coroutine.resume(P.AI_thread)
 			end
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])

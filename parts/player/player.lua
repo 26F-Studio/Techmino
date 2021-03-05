@@ -1424,7 +1424,6 @@ do--Player.drop(P)--Place piece
 end
 function Player.loadAI(P,data)--Load AI params
 	P.AI_mode=data.type
-	P.AI_stage=1
 	P.AI_keys={}
 	P.AI_delay=min(int(P.gameEnv.drop*.8),data.delta*rnd()*4)
 	P.AI_delay0=data.delta
@@ -1462,6 +1461,8 @@ function Player.loadAI(P,data)--Load AI params
 	else
 		P:setRS("TRS")
 	end
+	P.AI_thread=coroutine.create(AIFUNC[data.type])
+	coroutine.resume(P.AI_thread,P,P.AI_keys)
 end
 --------------------------</Methods>--------------------------
 

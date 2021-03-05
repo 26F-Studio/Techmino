@@ -8,6 +8,7 @@
 ]]
 local int,ceil,min,abs,rnd,modf=math.floor,math.ceil,math.min,math.abs,math.random,math.modf
 local ins,rem=table.insert,table.remove
+local YIELD=YIELD
 -- controlname:
 -- 1~5:mL,mR,rR,rL,rF,
 -- 6~10:hD,sD,H,A,R,
@@ -24,23 +25,24 @@ if _CC then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
 		getConf=	_CC.get_default_config	,--()options,weights
-		fastWeights=_CC.fast_weights			,--(weights)
+		fastWeights=_CC.fast_weights		,--(weights)
 		--setConf=	_CC.set_options			,--(options,hold,20g,bag7)
 
-		new=		_CC.launch_async			,--(options,weights)bot
+		new=		_CC.launch_async		,--(options,weights)bot
 		addNext=	function(bot,id)_CC.add_next_piece_async(bot,CCblockID[id])end	,--(bot,piece)
 		update=		_CC.reset_async			,--(bot,field,b2b,combo)
 		think=		_CC.request_next_move	,--(bot)
 		getMove=	_CC.poll_next_move		,--(bot)success,dest,hold,move
 		destroy=	_CC.destroy_async		,--(bot)
 
-		setHold=	_CC.set_hold				,--(opt,bool)
+		setHold=	_CC.set_hold			,--(opt,bool)
 		set20G=		_CC.set_20g				,--(opt,bool)
 		-- setPCLoop=	_CC.set_pcloop			,--(opt,bool)
-		setBag=		_CC.set_bag7				,--(opt,bool)
+		setBag=		_CC.set_bag7			,--(opt,bool)
 		setNode=	_CC.set_max_nodes		,--(opt,bool)
-		free=		_CC.free					,--(opt/wei)
+		free=		_CC.free				,--(opt/wei)
 	}
+	local CC=CC
 	function CC.updateField(P)
 		local F,i={},1
 		for y=1,#P.field do
@@ -196,8 +198,10 @@ local function getScore(field,cb,cy)
 end
 -------------------------------------------------
 return{
-	["9S"]={
-		function(P,ctrl)
+	["9S"]=function(P,keys)
+		while true do
+			--Thinking
+			YIELD()
 			local Tfield={}--Test field
 			local best={x=1,dir=0,hold=false,score=-1e99}--Best method
 			local field_org=P.field
@@ -224,22 +228,18 @@ return{
 						local cy=#Tfield+1
 
 						--Move to bottom
-						while true do
-							if cy==1 then break end
-							if not ifoverlapAI(Tfield,cb,cx,cy-1)then
-								cy=cy-1
-							else
-								break
-							end
+						while cy>1 and not ifoverlapAI(Tfield,cb,cx,cy-1)do
+							cy=cy-1
 						end
 
 						--Simulate lock
 						for i=1,#cb do
 							local y=cy+i-1
 							if not Tfield[y]then Tfield[y]=getRow(0)end
+							local L=Tfield[y]
 							for j=1,#cb[1]do
 								if cb[i][j]then
-									Tfield[y][cx+j-1]=1
+									L[cx+j-1]=1
 								end
 							end
 						end
@@ -258,73 +258,67 @@ return{
 			while #Tfield>0 do
 				discardRow(rem(Tfield,1))
 			end
-			local p=#ctrl+1
 			if best.hold then
-				ctrl[p]=8
-				p=p+1
+				ins(keys,8)
 			end
 			local l=FCL[best.bn][best.dir+1][best.x]
 			for i=1,#l do
-				ctrl[p]=l[i]
-				p=p+1
+				ins(keys,l[i])
 			end
-			ctrl[p]=6
-			return 2
-		end,
-		function(P)
+			ins(keys,6)
+
+			--Check if time to change target
+			YIELD()
 			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
-			return 1
-		end,
-	},
-	["CC"]=CC and{
-		[0]=function(P)
-			LOG.print("CC is dead ("..P.id..")","error")
-		end,
-		function(P)--Start thinking
-			if not pcall(CC.think,P.AI_bot)then
-				return 0
-			end
-			return 2
-		end,
-		function(P,ctrl)--Poll keys
-			local success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
-			if success then
-				if result==2 then
-					ins(ctrl,6)
-					return 3
-				elseif result==0 then
-					for i=1,#dest do
-						for j=1,#dest[i]do
-							dest[i][j]=dest[i][j]+1
+		end
+	end,
+	["CC"]=CC and function(P,keys)
+		while true do
+			--Start thinking
+			YIELD()
+			if not pcall(CC.think,P.AI_bot)then goto ERR end
+
+			--Poll keys
+			YIELD()
+			while true do
+				local success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
+				if success then
+					if result==2 then
+						ins(keys,6)
+						break
+					elseif result==0 then
+						for i=1,#dest do
+							for j=1,#dest[i]do
+								dest[i][j]=dest[i][j]+1
+							end
 						end
-					end
-					P.AI_dest=dest
-					if hold then ctrl[1]=8 end--Hold
-					while move[1]do
-						local m=rem(move,1)
-						if m<4 then
-							ins(ctrl,m+1)
-						elseif not P.AIdata._20G then
-							ins(ctrl,13)
+						P.AI_dest=dest
+						if hold then keys[1]=8 end--Hold
+						while move[1]do
+							local m=rem(move,1)
+							if m<4 then
+								ins(keys,m+1)
+							elseif not P.AIdata._20G then
+								ins(keys,13)
+							end
 						end
+						ins(keys,6)
+						break
 					end
-					ins(ctrl,6)
-					return 3
 				else
-					--Stay this stage
-					return 2
+					goto ERR
 				end
-			else
-				return 0
 			end
-		end,
-		function(P)--Check if time to change target
+
+			--Check if time to change target
+			YIELD()
 			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
-			return 1
-		end,
-	},
-}--AI think stage
+		end
+		::ERR::
+		LOG.print("CC is dead ("..P.id..")","error")
+	end,
+}--AI brains
