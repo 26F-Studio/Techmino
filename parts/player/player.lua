@@ -508,11 +508,11 @@ function Player.lock(P)
 			if CB[i][j]then
 				P.field[y][P.curX+j-1]=P.cur.color
 				P.visTime[y][P.curX+j-1]=P.showTime
-				local x=P.curX+j-1
 				if dest then
-					for k=1,#dest do
-						if x==dest[k][1]+1 and y==dest[k][2]+1 then
-							rem(dest,k)
+					local x=P.curX+j--[[-1]]
+					for k=1,#dest,2 do
+						if x==dest[k]--[[+1]]and y==dest[k+1]+1 then
+							rem(dest,k)rem(dest,k)
 							goto success
 						end
 					end

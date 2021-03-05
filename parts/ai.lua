@@ -290,6 +290,10 @@ return{
 			if result==2 then
 				ins(keys,6)
 			elseif result==0 then
+				dest[5],dest[6]=dest[1][1],dest[1][2]
+				dest[7],dest[8]=dest[2][1],dest[2][2]
+				dest[1],dest[2]=dest[3][1],dest[3][2]
+				dest[3],dest[4]=dest[4][1],dest[4][2]
 				P.AI_dest=dest
 				if hold then keys[1]=8 end--Hold
 				while move[1]do

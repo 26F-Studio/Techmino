@@ -622,6 +622,15 @@ function draw.norm(P)
 						drawNextPreview(P,P.nextQueue[1])
 					end
 
+					--Draw AI's drop destination
+					if P.AI_dest then
+						local texture=TEXTURE.puzzleMark[21]
+						local L=P.AI_dest
+						for i=1,#L,2 do
+							gc_draw(texture,30*L[i],-30*L[i+1]-30)
+						end
+					end
+
 					gc.setScissor()
 				gc_pop()
 
