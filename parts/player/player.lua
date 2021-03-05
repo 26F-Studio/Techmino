@@ -509,9 +509,9 @@ function Player.lock(P)
 				P.field[y][P.curX+j-1]=P.cur.color
 				P.visTime[y][P.curX+j-1]=P.showTime
 				if dest then
-					local x=P.curX+j--[[-1]]
+					local x=P.curX+j-1
 					for k=1,#dest,2 do
-						if x==dest[k]--[[+1]]and y==dest[k+1]+1 then
+						if x==dest[k]+1 and y==dest[k+1]+1 then
 							rem(dest,k)rem(dest,k)
 							goto success
 						end
@@ -1423,6 +1423,10 @@ do--Player.drop(P)--Place piece
 	end
 end
 function Player.loadAI(P,data)--Load AI params
+	if not CC then
+		data.type="9S"
+		data.delta=int(data.delta*.3)
+	end
 	P.AI_mode=data.type
 	P.AI_keys={}
 	P.AI_delay=min(int(P.gameEnv.drop*.8),data.delta*rnd()*4)
@@ -1438,10 +1442,6 @@ function Player.loadAI(P,data)--Load AI params
 		bag=data.bag,
 		node=data.node,
 	}
-	if not CC then
-		P.AI_mode="9S"
-		P.AI_delay0=int(P.AI_delay0*.3)
-	end
 	if P.AI_mode=="CC"then
 		P:setRS("SRS")
 		local opt,wei=CC.getConf()
