@@ -281,9 +281,11 @@ return{
 			if not pcall(CC.think,P.AI_bot)then break end
 
 			--Poll keys
-			::AGAIN::
-			YIELD()
-			local success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
+			local success,result,dest,hold,move
+			repeat
+				YIELD()
+				success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
+			until not success or result == 0 or result == 2
 			if not success then break end
 			if result==2 then
 				ins(keys,6)
@@ -304,9 +306,6 @@ return{
 					end
 				end
 				ins(keys,6)
-			else
-				--Stay this stage until get keys
-				goto AGAIN
 			end
 
 			--Check if time to change target
