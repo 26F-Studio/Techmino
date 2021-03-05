@@ -1,5 +1,7 @@
 local gc=love.graphics
+local rect=gc.rectangle
 local int=math.floor
+local byte=string.byte
 local function C(x,y)
 	local _=gc.newCanvas(x,y)
 	gc.setCanvas(_)
@@ -22,7 +24,7 @@ for i=1,29 do
 	TEXTURE.miniBlock[i]=C(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do
 		if b[y][x]then
-			gc.rectangle("fill",x-1,#b-y,1,1)
+			rect("fill",x-1,#b-y,1,1)
 		end
 	end end
 end
@@ -33,13 +35,13 @@ for i=1,17 do
 	TEXTURE.puzzleMark[i]=C(30,30)
 	local _=minoColor[i]
 	gc.setColor(_[1],_[2],_[3],.6)
-	gc.rectangle("line",5,5,20,20)
-	gc.rectangle("line",10,10,10,10)
+	rect("line",5,5,20,20)
+	rect("line",10,10,10,10)
 end
 for i=18,24 do
 	TEXTURE.puzzleMark[i]=C(30,30)
 	gc.setColor(minoColor[i])
-	gc.rectangle("line",7,7,16,16)
+	rect("line",7,7,16,16)
 end
 local _=C(30,30)
 gc.setColor(1,1,1)
@@ -58,30 +60,16 @@ gc.line(0,20,40,20)
 gc.line(20,0,20,40)
 
 TEXTURE.pixelNum={}
+gc.setLineWidth(4)
 for i=0,9 do
 	TEXTURE.pixelNum[i]=C(5,9)
-	gc.setLineWidth(4)
-	if i~=1 and i~=4 then
-		gc.rectangle("fill",1,0,3,1)
-	end
-	if i~=0 and i~=1 and i~=7 then
-		gc.rectangle("fill",1,4,3,1)
-	end
-	if i~=1 and i~=4 and i~=7 then
-		gc.rectangle("fill",1,8,3,1)
-	end
-	if i~=1 and i~=2 and i~=3 and i~=7 then
-		gc.rectangle("fill",0,1,1,3)
-	end
-	if i~=1 and i~=3 and i~=4 and i~=5 and i~=7 and i~=9 then
-		gc.rectangle("fill",0,5,1,3)
-	end
-	if i~=5 and i~=6 then
-		gc.rectangle("fill",4,1,1,3)
-	end
-	if i~=2 then
-		gc.rectangle("fill",4,5,1,3)
-	end
+	if byte("1011011111",i+1)==49 then rect("fill",1,0,3,1)end--up
+	if byte("0011111011",i+1)==49 then rect("fill",1,4,3,1)end--middle
+	if byte("1011011011",i+1)==49 then rect("fill",1,8,3,1)end--down
+	if byte("1000111011",i+1)==49 then rect("fill",0,1,1,3)end--up-left
+	if byte("1111100111",i+1)==49 then rect("fill",4,1,1,3)end--up-right
+	if byte("1010001010",i+1)==49 then rect("fill",0,5,1,3)end--down-left
+	if byte("1101111111",i+1)==49 then rect("fill",4,5,1,3)end--down-right
 end
 
 TEXTURE.cursor=C(12,12)
