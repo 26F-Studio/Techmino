@@ -74,14 +74,19 @@ do--Connect
 		local l=SOCK:receive("*l")
 		local code=l:find(" "); code=l:sub(code+1,code+3)
 
-		if code=="200"then
+		if code=="101"then
 			readCHN:push("success")
 		else
+			local ctLen
 			repeat
 				l=SOCK:receive("*l")
+				if not ctLen and l:find"Length"then
+					ctLen=tonumber(l:match"%d+")
+				end
 			until l==""
-			l=SOCK:receive("*l")
-			local reason=JSON.decode(l)if reason then reason=reason.message end
+			l=SOCK:receive(ctLen)
+			local reason=JSON.decode(l)
+			if reason then reason=reason.message end
 			readCHN:push(code.."-"..(reason or l))
 		end
 	else
