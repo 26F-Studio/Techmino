@@ -278,38 +278,35 @@ return{
 		while true do
 			--Start thinking
 			YIELD()
-			if not pcall(CC.think,P.AI_bot)then goto ERR end
+			if not pcall(CC.think,P.AI_bot)then break end
 
 			--Poll keys
+			::AGAIN::
 			YIELD()
-			while true do
-				local success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
-				if success then
-					if result==2 then
-						ins(keys,6)
-						break
-					elseif result==0 then
-						for i=1,#dest do
-							for j=1,#dest[i]do
-								dest[i][j]=dest[i][j]+1
-							end
-						end
-						P.AI_dest=dest
-						if hold then keys[1]=8 end--Hold
-						while move[1]do
-							local m=rem(move,1)
-							if m<4 then
-								ins(keys,m+1)
-							elseif not P.AIdata._20G then
-								ins(keys,13)
-							end
-						end
-						ins(keys,6)
-						break
+			local success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
+			if not success then break end
+			if result==2 then
+				ins(keys,6)
+			elseif result==0 then
+				for i=1,#dest do
+					for j=1,#dest[i]do
+						dest[i][j]=dest[i][j]+1
 					end
-				else
-					goto ERR
 				end
+				P.AI_dest=dest
+				if hold then keys[1]=8 end--Hold
+				while move[1]do
+					local m=rem(move,1)
+					if m<4 then
+						ins(keys,m+1)
+					elseif not P.AIdata._20G then
+						ins(keys,13)
+					end
+				end
+				ins(keys,6)
+			else
+				--Stay this stage until get keys
+				goto AGAIN
 			end
 
 			--Check if time to change target
@@ -318,7 +315,6 @@ return{
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 		end
-		::ERR::
 		LOG.print("CC is dead ("..P.id..")","error")
 	end,
 }--AI brains
