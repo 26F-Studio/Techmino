@@ -279,10 +279,11 @@ return{
 		end,
 	},
 	["CC"]=CC and{
-		[0]=NULL,
+		[0]=function(P)
+			LOG.print("CC is dead ("..P.id..")","error")
+		end,
 		function(P)--Start thinking
 			if not pcall(CC.think,P.AI_bot)then
-				LOG.print("CC is dead ("..P.id..")","error")
 				return 0
 			end
 			return 2
@@ -316,7 +317,6 @@ return{
 					return 2
 				end
 			else
-				LOG.print("CC is dead ("..P.id..")","error")
 				return 0
 			end
 		end,
