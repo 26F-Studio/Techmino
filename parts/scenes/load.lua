@@ -233,11 +233,11 @@ function scene.draw()
 	local d1=(progress+1)%10
 	local d2=int((progress+1)/10)
 	gc.setColor(.6,.6,.6)
-	gc.draw(TEXTURE.pixelNum[d2],1060-3,40-3,nil,14)
-	gc.draw(TEXTURE.pixelNum[d1],1120-3,40-3,nil,14)
+	gc.draw(TEXTURE.pixelNum[d2],1060,40-3,nil,8)
+	gc.draw(TEXTURE.pixelNum[d1],1120,40-3,nil,8)
 	gc.setColor(1,1,1)
-	gc.draw(TEXTURE.pixelNum[d2],1060,40,nil,14)
-	gc.draw(TEXTURE.pixelNum[d1],1120,40,nil,14)
+	gc.draw(TEXTURE.pixelNum[d2],1060,40,nil,8)
+	gc.draw(TEXTURE.pixelNum[d1],1120,40,nil,8)
 
 	--Elevator buttons
 	gc.setLineWidth(3)

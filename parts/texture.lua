@@ -59,28 +59,28 @@ gc.line(20,0,20,40)
 
 TEXTURE.pixelNum={}
 for i=0,9 do
-	TEXTURE.pixelNum[i]=C(3,5)
+	TEXTURE.pixelNum[i]=C(5,9)
 	gc.setLineWidth(4)
 	if i~=1 and i~=4 then
-		gc.rectangle("fill",0,0,3,1)
+		gc.rectangle("fill",1,0,3,1)
 	end
 	if i~=0 and i~=1 and i~=7 then
-		gc.rectangle("fill",0,2,3,1)
+		gc.rectangle("fill",1,4,3,1)
 	end
 	if i~=1 and i~=4 and i~=7 then
-		gc.rectangle("fill",0,4,3,1)
+		gc.rectangle("fill",1,8,3,1)
 	end
 	if i~=1 and i~=2 and i~=3 and i~=7 then
-		gc.rectangle("fill",0,0,1,3)
+		gc.rectangle("fill",0,1,1,3)
 	end
 	if i~=1 and i~=3 and i~=4 and i~=5 and i~=7 and i~=9 then
-		gc.rectangle("fill",0,2,1,3)
+		gc.rectangle("fill",0,5,1,3)
 	end
 	if i~=5 and i~=6 then
-		gc.rectangle("fill",2,0,1,3)
+		gc.rectangle("fill",4,1,1,3)
 	end
 	if i~=2 then
-		gc.rectangle("fill",2,2,1,3)
+		gc.rectangle("fill",4,5,1,3)
 	end
 end
 
