@@ -15,7 +15,7 @@ DUMPTABLE=require"Zframework/dumpTable"
 URLENCODE=require"Zframework/urlEncode"
 
 -- UPPERCHAR=require"Zframework/upperChar"
-require"Zframework/copyTable"
+TABLE=require"Zframework/tableExtend"
 SPLITSTR=require"Zframework/splitStr"
 TIMESTR=require"Zframework/timeStr"
 

@@ -211,7 +211,7 @@ local function loadGameEnv(P)--Load gameEnv
 		if type(v)~="table"then--Default setting
 			ENV[k]=v
 		else
-			ENV[k]=copyTable(v)
+			ENV[k]=TABLE.copy(v)
 		end
 	end
 	if not ENV.noMod then
@@ -244,7 +244,7 @@ local function loadRemoteEnv(P,confStr)--Load gameEnv
 		if type(v)~="table"then--Default setting
 			ENV[k]=v
 		else
-			ENV[k]=copyTable(v)
+			ENV[k]=TABLE.copy(v)
 		end
 	end
 end

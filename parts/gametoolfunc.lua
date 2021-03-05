@@ -86,7 +86,7 @@ end
 
 function newBoard(f)--Generate a new board
 	if f then
-		return copyList(f)
+		return TABLE.shift(f)
 	else
 		local F={}
 		for i=1,20 do F[i]={0,0,0,0,0,0,0,0,0,0}end
@@ -710,7 +710,7 @@ do--function resetGameData(args)
 		local S={}
 		for _,key in next,gameSetting do
 			if type(SETTING[key])=="table"then
-				S[key]=copyList(SETTING[key])
+				S[key]=TABLE.shift(SETTING[key])
 			else
 				S[key]=SETTING[key]
 			end

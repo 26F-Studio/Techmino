@@ -309,7 +309,9 @@ SETTING={--Settings
 	VKCurW=.4,--Cur-Pos Weight
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
-}local S=FILE.load("conf/settings")if S then addToTable(S,SETTING)end
+}
+local S=FILE.load("conf/settings")
+if S then TABLE.add(S,SETTING)end
 S=FILE.load("conf/data")
 if S then--Statistics
 	STAT=S

@@ -4,8 +4,8 @@ local path="/tech/socket/v1"
 
 local wsThread=[[
 -- lua + love2d threading websocket client
--- original pure lua ver. by flaribbit and Particle_G and MrZ_26
--- threading version by MrZ_26
+-- Original pure lua ver. by flaribbit and Particle_G and MrZ
+-- Threading version by MrZ
 
 local triggerCHN,sendCHN,readCHN=...
 
