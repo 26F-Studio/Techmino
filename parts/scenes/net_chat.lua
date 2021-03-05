@@ -7,7 +7,7 @@ local heartBeatTimer
 local escapeTimer=0
 
 local function _init()
-	coroutine.yield()
+	YIELD()
 	WIDGET.sel=WIDGET.active.input
 end
 local function sendMessage()

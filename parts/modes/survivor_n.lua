@@ -5,7 +5,7 @@ return{
 		freshLimit=10,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				if P.control and SCN.cur=="play"then
 					P.modeData.counter=P.modeData.counter+1
 					if P.modeData.counter>=math.max(90,180-2*P.modeData.event)and P.atkBuffer.sum<8 then

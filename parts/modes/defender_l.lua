@@ -9,7 +9,7 @@ return{
 		pushSpeed=2,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				if P.control and SCN.cur=="play"then
 					local D=P.modeData
 					D.counter=D.counter+1

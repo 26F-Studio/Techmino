@@ -7,7 +7,7 @@ return{
 		pushSpeed=2,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				if P.control and SCN.cur=="play"then
 					P.modeData.counter=P.modeData.counter+1
 					if P.modeData.counter>=math.max(300,600-10*P.modeData.event)and P.atkBuffer.sum<20 then

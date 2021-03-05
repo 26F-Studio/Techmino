@@ -7,7 +7,7 @@ local Player={}--Player class
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
-local ct=coroutine
+local YIELD=YIELD
 
 local kickList=require"parts/kickList"
 
@@ -121,9 +121,9 @@ function Player.RND(P,a,b)
 	return R:random(a,b)
 end
 function Player.newTask(P,code,...)
-	local thread=ct.create(code)
-	ct.resume(thread,P,...)
-	if ct.status(thread)~="dead"then
+	local thread=coroutine.create(code)
+	coroutine.resume(thread,P,...)
+	if coroutine.status(thread)~="dead"then
 		P.tasks[#P.tasks+1]={
 			thread=thread,
 			code=code,
@@ -147,7 +147,7 @@ end
 local function task_movePosition(P,x,y,size)
 	local x1,y1,size1=P.x,P.y,P.size
 	while true do
-		coroutine.yield()
+		YIELD()
 		if (x1-x)^2+(y1-y)^2<1 then
 			P:setPosition(x,y,size)
 			return true
@@ -1469,7 +1469,7 @@ end
 --------------------------<Ticks>--------------------------
 local function tick_throwBadge(ifAI,sender,time)
 	while true do
-		coroutine.yield()
+		YIELD()
 		time=time-1
 		if time%4==0 then
 			local S,R=sender,sender.lastRecv
@@ -1497,7 +1497,7 @@ local function tick_throwBadge(ifAI,sender,time)
 end
 local function tick_finish(P)
 	while true do
-		coroutine.yield()
+		YIELD()
 		P.endCounter=P.endCounter+1
 		if P.endCounter<40 then
 			--Make field visible
@@ -1511,7 +1511,7 @@ local function tick_finish(P)
 end
 local function tick_lose(P)
 	while true do
-		coroutine.yield()
+		YIELD()
 		P.endCounter=P.endCounter+1
 		if P.endCounter<40 then
 			--Make field visible
@@ -1544,7 +1544,7 @@ end
 function tick_autoPause()
 	local time=0
 	while true do
-		coroutine.yield()
+		YIELD()
 		time=time+1
 		if SCN.cur~="play"or GAME.frame<180 then
 			return

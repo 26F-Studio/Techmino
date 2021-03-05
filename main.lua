@@ -14,6 +14,7 @@ local fs=love.filesystem
 NONE={}function NULL()end
 DBP=print--Use this in permanent code
 TIME=love.timer.getTime
+YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
 MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
 SAVEDIR=fs.getSaveDirectory()

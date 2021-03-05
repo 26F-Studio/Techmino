@@ -7,7 +7,7 @@ return{
 		pushSpeed=2,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				if P.control and SCN.cur=="play"and P.atkBuffer.sum==0 then
 					local p=#P.atkBuffer+1
 					local B,D=P.atkBuffer,P.modeData

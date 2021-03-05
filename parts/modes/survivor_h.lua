@@ -5,7 +5,7 @@ return{
 		freshLimit=10,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				if P.control and SCN.cur=="play"then
 					P.modeData.counter=P.modeData.counter+1
 					local B=P.atkBuffer

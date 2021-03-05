@@ -9,7 +9,7 @@ return{
 		fall=20,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				local _=P.modeData.counter+1
 				if P.stat.time>=warnTime[_]then
 					if _<9 then

@@ -24,7 +24,7 @@ return{
 		dropPiece=score,
 		task=function(P)
 			while true do
-				coroutine.yield()
+				YIELD()
 				if P.stat.time>=53.5 then
 					P.modeData.point=min(P.modeData.point+16,80)
 					P.modeData.event=sectionName[int(P.modeData.point*.1)+1]

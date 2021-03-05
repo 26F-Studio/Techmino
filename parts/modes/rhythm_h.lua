@@ -30,7 +30,7 @@ return{
 			P.modeData.beatFrame=60
 			P.modeData.counter=60
 			while true do
-				coroutine.yield()
+				YIELD()
 				P.modeData.counter=P.modeData.counter-1
 				if P.modeData.counter==0 then
 					P.modeData.counter=P.modeData.beatFrame

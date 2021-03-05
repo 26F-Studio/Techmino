@@ -14,37 +14,37 @@ local skip
 local loadingThread=coroutine.create(function()
 	for _=1,VOC.getCount()do
 		VOC.loadOne()
-		if _%3==0 then coroutine.yield()end
+		if _%3==0 then YIELD()end
 	end
 
 	progress=1
 	for i=1,BGM.getCount()do
 		BGM.loadOne()
-		if i%2==0 then coroutine.yield()end
+		if i%2==0 then YIELD()end
 	end
 
 	progress=2
 	for i=1,SFX.getCount()do
 		SFX.loadOne()
-		if i%2==0 then coroutine.yield()end
+		if i%2==0 then YIELD()end
 	end
 
 	progress=3
 	for i=1,IMG.getCount()do
 		IMG.loadOne()
-		if i%2==0 then coroutine.yield()end
+		if i%2==0 then YIELD()end
 	end
 
 	progress=4
 	for i=1,SKIN.getCount()do
 		SKIN.loadOne()
-		if i%2==0 then coroutine.yield()end
+		if i%2==0 then YIELD()end
 	end
 
 	progress=5
 	for i=1,17 do
 		getFont(15+5*i)
-		if i%3==0 then coroutine.yield()end
+		if i%3==0 then YIELD()end
 	end
 
 	progress=6
@@ -58,7 +58,7 @@ local loadingThread=coroutine.create(function()
 		M.records=FILE.load("record/"..m.name..".rec")or M.score and{}
 		-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
 		-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
-		if i%5==0 then coroutine.yield()end
+		if i%5==0 then YIELD()end
 	end
 
 	progress=7
@@ -118,7 +118,7 @@ local loadingThread=coroutine.create(function()
 			VOC.play("welcome_voc")
 			return
 		end
-		coroutine.yield()
+		YIELD()
 	end
 end)
 

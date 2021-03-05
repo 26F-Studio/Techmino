@@ -8,7 +8,7 @@ local PClist=require"parts/modes/PClist"
 local function task_PC(P)
 	local D=P.modeData
 	while true do
-		coroutine.yield()
+		YIELD()
 		D.counter=D.counter+1
 		if D.counter==26 then
 			local base=PCbase[D.type]

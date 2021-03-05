@@ -15,7 +15,7 @@ local function task_PC(P)
 			local base=PCbase[D.type]
 			P:pushLineList(base[P:RND(#base)],D.symmetry)
 		end
-		coroutine.yield()
+		YIELD()
 	end
 end
 local function check(P)

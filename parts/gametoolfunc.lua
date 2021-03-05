@@ -681,7 +681,7 @@ do--function resetGameData(args)
 	local function tick_showMods()
 		local time=0
 		while true do
-			coroutine.yield()
+			YIELD()
 			time=time+1
 			if time%20==0 then
 				local M=GAME.mod[time/20]
@@ -1220,7 +1220,7 @@ do
 
 	function TICK_WS_app()
 		while true do
-			coroutine.yield()
+			YIELD()
 			local status=WS.status("app")
 			if status=="running"then
 				local message,op=WS.read("app")
@@ -1243,7 +1243,7 @@ do
 	end
 	function TICK_WS_chat()
 		while true do
-			coroutine.yield()
+			YIELD()
 			local status=WS.status("chat")
 			if status=="running"then
 				local message,op=WS.read("chat")
