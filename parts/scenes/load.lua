@@ -183,10 +183,17 @@ function scene.update(dt)
 	end
 end
 
+local function doorStencil()
+	local dx=300*(1-math.min(openTime/1.26-1,0)^2)
+	gc.rectangle("fill",640-dx,0,2*dx,720)
+end
 function scene.draw()
 	--Logo
 	if progress==25 then
+		gc.stencil(doorStencil,"replace",1)
+		gc.setStencilTest("equal",1)
 		gc.push("transform")
+
 		--Cool camera
 		gc.translate(640,360)
 		gc.rotate(.2/openTime)
@@ -215,6 +222,7 @@ function scene.draw()
 			gc.setColor(1,1,1,w^2)
 			gc.rectangle("fill",340,360*w^2,600,720*(1-w^2))
 		end
+		gc.setStencilTest()
 	end
 
 	--Side coverer
@@ -255,7 +263,7 @@ function scene.draw()
 	--Elevator door
 	for i=1,0,-1 do
 		gc.setColor(.3,.3,.3)
-		local dx=300*(1-math.min((openTime-i*.1)/1.26-1,0)^2)
+		local dx=300*(1-math.min(math.max(openTime-i*.1,0)/1.26-1,0)^2)
 		gc.rectangle("fill",340,0,300-dx,720)
 		gc.rectangle("fill",940,0,dx-300,720)
 
