@@ -188,8 +188,15 @@ local function doorStencil()
 	gc.rectangle("fill",640-dx,0,2*dx,720)
 end
 function scene.draw()
+	--Wall
+	gc.clear(.5,.5,.5)
+
 	--Logo
 	if progress==25 then
+		--Outside background
+		gc.setColor(.15,.15,.15)
+		gc.rectangle("fill",340,0,600,720)
+
 		gc.stencil(doorStencil,"replace",1)
 		gc.setStencilTest("equal",1)
 		gc.push("transform")
@@ -224,11 +231,6 @@ function scene.draw()
 		end
 		gc.setStencilTest()
 	end
-
-	--Side coverer
-	gc.setColor(.5,.5,.5)
-	gc.rectangle("fill",340,0,-340,720)
-	gc.rectangle("fill",940,0,340,720)
 
 	--Floor info frame
 	gc.setColor(.1,.1,.1)
@@ -275,8 +277,7 @@ function scene.draw()
 
 	--Doorframe
 	gc.setColor(0,0,0)
-	gc.line(340,0,340,720)
-	gc.line(940,0,940,720)
+	gc.rectangle("line",340,0,600,720)
 
 	--Black screen
 	if blackTime>0 then
