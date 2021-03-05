@@ -8,13 +8,16 @@ LOADLIB=require"Zframework/loadLib"
 WHEELMOV=require"Zframework/wheelScroll"
 
 require"Zframework/setFont"
-require"Zframework/mDraw"
+MDRAW=require"Zframework/mDraw"
+	mStr=MDRAW.str
+	mText=MDRAW.simpX
+	mDraw=MDRAW.draw
 
+-- UPPERCHAR=require"Zframework/upperChar"
 JSON=require"Zframework/json"
 DUMPTABLE=require"Zframework/dumpTable"
 URLENCODE=require"Zframework/urlEncode"
 
--- UPPERCHAR=require"Zframework/upperChar"
 TABLE=require"Zframework/tableExtend"
 SPLITSTR=require"Zframework/splitStr"
 TIMESTR=require"Zframework/timeStr"
