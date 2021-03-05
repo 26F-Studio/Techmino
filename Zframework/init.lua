@@ -390,17 +390,17 @@ function love.errorhandler(msg)
 				needDraw=true
 			elseif E=="focus"then
 				needDraw=true
-			elseif E=="touchpressed"and b<100 or E=="mousepressed" and a==2 or E=="keypressed"and a=="space"then
+			elseif E=="touchpressed"and b<26 or E=="mousepressed" and a==2 or E=="keypressed"and a=="z"then
 				if count<3 then
 					count=count+1
-					SFX.play("ready")
+					SFX.play("ready",.5)
 				else
 					local code=loadstring(love.system.getClipboardText())
 					if code then
 						code()
-						SFX.play("reach")
+						SFX.play("reach",.5)
 					else
-						SFX.play("finesseError")
+						SFX.play("finesseError",.5)
 					end
 					count=0
 				end
