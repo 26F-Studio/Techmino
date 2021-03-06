@@ -302,13 +302,16 @@ LANG.set(SETTING.lang)
 do
 	--Check setting file
 	if
+		type(STAT.version)~="number"or
 		type(SETTING.block)~="boolean"or
 		type(SETTING.sfx_spawn)~="number"or
 		type(SETTING.ghost)~="number"or
 		type(SETTING.center)~="number"or
 		type(SETTING.grid)~="number"or
+		#SETTING.skin<29 or
 		SETTING.bgm>1 or SETTING.sfx>1 or SETTING.voc>1 or
-		SETTING.stereo>1 or SETTING.VKSFX>1 or SETTING.VKAlpha>1
+		SETTING.stereo>1 or SETTING.VKSFX>1 or SETTING.VKAlpha>1 or
+		SETTING.VKCurW>1 or SETTING.VKCurW>1
 	then
 		NOGAME=true
 		fs.remove("conf/settings")
@@ -326,17 +329,8 @@ do
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 	end
-	if STAT.version<1205 then
-		while SETTING.VKCurW>1 or SETTING.VKCurW>1 do
-			SETTING.VKCurW=SETTING.VKCurW*.1
-			SETTING.VKTchW=SETTING.VKTchW*.1
-		end
-	end
 	if STAT.version<1208 then
 		SETTING.skinSet=1
-	end
-	if STAT.version<1225 then
-		SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,12,2,16,8,4,10,13,2,8}
 	end
 
 	if STAT.version<1300 then
@@ -347,6 +341,8 @@ do
 	end
 
 	if STAT.version<1302 then
+		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
+		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
 		fs.remove("conf/user")
 		NOGAME=true
 	end
@@ -361,8 +357,6 @@ do
 
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
-	if RANKS.pctrain_n then RANKS.pctrain_n=0 end
-	if RANKS.pctrain_l then RANKS.pctrain_l=0 end
 
 	local needSaveRank
 	for k in next,RANKS do
