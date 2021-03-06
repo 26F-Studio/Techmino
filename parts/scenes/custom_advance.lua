@@ -11,6 +11,7 @@ scene.widgetList={
 	WIDGET.newSlider{name="nextCount",	x=180,	y=380,w=200,unit=6,	disp=lnk_CUSval("nextCount"),code=lnk_CUSsto("nextCount")},
 	WIDGET.newSlider{name="holdCount",	x=180,	y=450,w=200,unit=6,	disp=lnk_CUSval("holdCount"),code=lnk_CUSsto("holdCount")},
 	WIDGET.newSwitch{name="infHold",	x=280,	y=530,				disp=lnk_CUSval("infHold"),	code=lnk_CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSwitch{name="phyHold",	x=280,	y=620,				disp=lnk_CUSval("phyHold"),	code=lnk_CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
 
 	--Rule
 	WIDGET.newSelector{name="fieldH",	x=550,	y=520,	w=260,color="sky",	list={1,2,3,4,6,8,10,15,20,30,50,100},disp=lnk_CUSval("fieldH"),code=lnk_CUSsto("fieldH")},

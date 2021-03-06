@@ -400,6 +400,7 @@ return{
 			nextCount="Siguiente",
 			holdCount="Reserva",
 			-- infHold="Hold Único",
+			-- phyHold="Physical Hold",
 			bone="Bone Block",
 
 			mindas="DAS Mínimo",

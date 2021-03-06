@@ -424,6 +424,7 @@ return{
 			nextCount="Prox.",
 			holdCount="Segurar",
 			infHold="Segurar Infinito",
+			-- phyHold="Physical Hold",
 			bone="Bone Blocks",
 
 			mindas="Min. DAS",

@@ -400,6 +400,7 @@ return{
 			nextCount="Prévisualisations de pièces",
 			holdCount="Réserve",
 			infHold="Réserver une fois",
+			-- phyHold="Physical Hold",
 			bone="Crochets",
 
 			mindas="DAS minimum",

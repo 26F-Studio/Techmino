@@ -424,6 +424,7 @@ return{
 			nextCount="Next",
 			holdCount="Hold",
 			infHold="无限Hold",
+			phyHold="物理Hold",
 			bone="骨块",
 
 			mindas="最小DAS",

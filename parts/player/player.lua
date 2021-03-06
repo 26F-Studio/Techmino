@@ -624,23 +624,50 @@ function Player.hold(P,ifpre)
 		else--Hold
 			local C,H=P.cur,P.holdQueue[1]
 
-			--Finesse check
-			if H and C and H.id==C.id and H.name==C.name then
-				P.ctrlCount=P.ctrlCount+1
-			elseif P.ctrlCount<=1 then
-				P.ctrlCount=0
+			if P.gameEnv.phyHold and C and not ifpre then--Physical hold
+				local success
+				local x,y=P.curX,P.curY
+				x=x+(#C.bk[1]-#H.bk[1])*.5
+				y=y+(#C.bk-#H.bk)*.5
+				for X=int(x-.5),ceil(x+.5)do
+					for Y=int(y),ceil(y)do
+						if not P:ifoverlap(H.bk,X,Y)then
+							x,y=X,Y
+							success=true
+							goto BREAK
+						end
+					end
+				end
+				::BREAK::
+				if success then
+					P.spinLast=false
+					P.spinSeq=0
+
+					ins(P.holdQueue,P:getBlock(C.id))
+					P.cur=rem(P.holdQueue,1)
+					P.curX,P.curY=x,y
+				else
+					SFX.play("finesseError")
+					return
+				end
+			else--Normal hold
+				--Finesse check
+				if H and C and H.id==C.id and H.name==C.name then
+					P.ctrlCount=P.ctrlCount+1
+				elseif P.ctrlCount<=1 then
+					P.ctrlCount=0
+				end
+
+				P.spinLast=false
+				P.spinSeq=0
+
+				if C then
+					ins(P.holdQueue,P:getBlock(C.id))
+				end
+				P.cur=rem(P.holdQueue,1)
+
+				P:resetBlock()
 			end
-
-			P.spinLast=false
-			P.spinSeq=0
-
-			if C then
-				C.bk=BLOCKS[C.id][P.gameEnv.face[C.id]]
-				ins(P.holdQueue,P:getBlock(C.id))
-			end
-			P.cur=rem(P.holdQueue,1)
-
-			P:resetBlock()
 			P:freshBlock("move")
 			P.dropDelay=P.gameEnv.drop
 			P.lockDelay=P.gameEnv.lock

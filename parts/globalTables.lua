@@ -160,6 +160,7 @@ CUSTOMENV={--gameEnv for cutsom game
 	nextCount=6,
 	holdCount=1,
 	infHold=false,
+	phyHold=false,
 
 	--Visual
 	bone=false,

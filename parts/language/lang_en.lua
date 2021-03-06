@@ -424,6 +424,7 @@ return{
 			nextCount="Next",
 			holdCount="Hold",
 			infHold="Infinite Hold",
+			phyHold="Physical Hold",
 			bone="Bone Blocks",
 
 			mindas="Min. DAS",

@@ -281,6 +281,7 @@ return{
 			nextCount="→",
 			holdCount="[ ]",
 			infHold="∞*[ ]",
+			phyHold="P-[ ]",
 			bone="[]",
 
 			mindas="mDAS",
