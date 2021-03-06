@@ -153,44 +153,37 @@ CUSTOMENV={--gameEnv for cutsom game
 	wait=0,
 	fall=0,
 
+	--Control
+	mindas=0,
+	minarr=0,
+	minsdarr=0,
 	nextCount=6,
-	nextStartPos=1,
 	holdCount=1,
 	infHold=false,
 
 	--Visual
-	block=true,
-	ghost=.3,
-	center=1,
-	bagLine=false,
-	highCam=false,
-	nextPos=false,
 	bone=false,
-	hideBoard=false,
-	flipBoard=false,
 
 	--Rule
-	mindas=0,
-	minarr=0,
-	minsdarr=0,
 	sequence="bag",
-	ospin=true,
-	deepDrop=false,
 	fieldH=20,
-	RS="TRS",
 
+	ospin=true,
 	noTele=false,
 	fineKill=false,
 	b2bKill=false,
-	missionKill=false,
 	easyFresh=true,
+	deepDrop=false,
 	visible="show",
 	target=1e99,
 	freshLimit=1e99,
+
+
 	opponent="X",
 	life=0,
 	garbageSpeed=1,
 	pushSpeed=3,
+	missionKill=false,
 
 	--Else
 	bg="none",
