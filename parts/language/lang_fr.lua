@@ -549,6 +549,7 @@ return{
 			reset="Réinitialiser",
 			next="Prévisualisations",
 			blind="Aveugler",
+			-- fast="Fast",
 		},
 		mg_dtw={
 			reset="Réinitialiser",

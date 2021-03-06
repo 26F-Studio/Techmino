@@ -1,4 +1,5 @@
 local gc=love.graphics
+local msIsDown,kbIsDown,tcTouches=love.mouse.isDown,love.keyboard.isDown,love.touch.getTouches
 local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,rnd=math.floor,math.random
@@ -33,6 +34,7 @@ local score
 
 local nexts
 local blind
+local fast
 
 local function reset()
 	progress={}
@@ -110,7 +112,7 @@ local function merge()
 				"spin_0"
 			)
 		end
-		fallingTimer=15
+		fallingTimer=fast and 8 or 12
 	else
 		board[cy][cx]=chosen
 	end
@@ -143,6 +145,10 @@ function scene.keyDown(key)
 		if state==0 then
 			blind=not blind
 		end
+	elseif key=="e"then
+		if state==0 then
+			fast=not fast
+		end
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -156,9 +162,11 @@ function scene.mouseDown(x,y)
 	merge()
 end
 
-scene.touchDown=scene.mouseMove
 scene.touchMove=scene.mouseMove
-scene.touchClick=scene.mouseDown
+scene.touchDown=scene.mouseMove
+function scene.touchClick(x,y)
+	scene.mouseDown(x,y)
+end
 
 function scene.update()
 	if state==1 then
@@ -193,10 +201,16 @@ function scene.update()
 					state=2
 					SFX.play("fail")
 				else
-					fallingTimer=6
+					fallingTimer=fast and 4 or 5
 					SFX.play("move")
 				end
 			end
+		elseif fast and(
+			msIsDown(1)or
+			#tcTouches()>0 or
+			kbIsDown("space")
+		)then
+			merge()
 		end
 	end
 end
@@ -231,7 +245,7 @@ function scene.draw()
 	if state==2 then
 		--Draw no-setting area
 		setColor(1,0,0,.3)
-		rectangle("fill",15,245,285,140)
+		rectangle("fill",15,200,285,210)
 	end
 	gc.setLineWidth(10)
 	setColor(1,1,1)
@@ -274,8 +288,9 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
-	WIDGET.newSwitch{name="next",	x=240,y=280,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="blind",	x=240,y=350,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="next",	x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="blind",	x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="fast",	x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hide=function()return state==1 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

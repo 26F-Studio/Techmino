@@ -641,6 +641,7 @@ return{
 			reset="重置",
 			next="预览",
 			blind="盲打",
+			fast="速打",
 		},
 		mg_dtw={
 			reset="重置",

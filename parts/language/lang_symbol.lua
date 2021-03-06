@@ -482,6 +482,7 @@ return{
 			reset="R",
 			next="→",
 			blind="???",
+			fast="~~→",
 		},
 		mg_dtw={
 			reset="R",

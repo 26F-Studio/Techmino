@@ -638,6 +638,7 @@ return{
 			reset="Resetar",
 			next="Próxima",
 			blind="Cego",
+			-- fast="Fast",
 		},
 		mg_dtw={
 			reset="Resetar",

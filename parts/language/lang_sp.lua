@@ -555,6 +555,7 @@ return{
 			reset="Reiniciar",
 			next="Siguiente",
 			blind="A ciegas",
+			-- fast="Fast",
 		},
 		mg_dtw={
 			reset="Reiniciar",
