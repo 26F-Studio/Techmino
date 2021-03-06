@@ -528,14 +528,12 @@ function Player.lock(P)
 end
 
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]="spawn_"..i end
-function Player.resetBlock(P)
+function Player.resetBlock(P)--Reset Block's position and execute I*S
 	local B=P.cur.bk
-	local sc=P.cur.sc
-	local id=P.cur.id
 	P.curX=int(6-#B[1]*.5)
-	local y=int(P.gameEnv.fieldH+1-modf(sc[1]))+ceil(P.fieldBeneath/30)
+	local y=int(P.gameEnv.fieldH+1-modf(P.cur.sc[1]))+ceil(P.fieldBeneath/30)
 	P.curY=y
-	P.minY=y+sc[1]
+	P.minY=y+P.cur.sc[1]
 
 	local _=P.keyPressing
 	--IMS
@@ -569,8 +567,8 @@ function Player.resetBlock(P)
 	end
 
 	--Spawn SFX
-	if P.sound and id<8 then
-		SFX.fplay(spawnSFX_name[id],SETTING.sfx_spawn)
+	if P.sound and P.cur.id<8 then
+		SFX.fplay(spawnSFX_name[P.cur.id],SETTING.sfx_spawn)
 	end
 end
 
