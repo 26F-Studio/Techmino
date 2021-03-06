@@ -33,6 +33,16 @@ function scene.keyDown(key)
 		SCN.back()
 	end
 end
+function scene.mouseDown(k)
+	if k==1 then
+		scene.keyDown("space")
+	elseif k==2 then
+		SCN.back()
+	end
+end
+function scene.touchDown()
+	scene.keyDown("space")
+end
 
 function scene.update()
 	timer=timer+1
