@@ -326,9 +326,11 @@ do
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 	end
-	while STAT.version<1205 or SETTING.VKCurW>1 or SETTING.VKCurW>1 do
-		SETTING.VKCurW=SETTING.VKCurW*.1
-		SETTING.VKTchW=SETTING.VKTchW*.1
+	if STAT.version<1205 then
+		while SETTING.VKCurW>1 or SETTING.VKCurW>1 do
+			SETTING.VKCurW=SETTING.VKCurW*.1
+			SETTING.VKTchW=SETTING.VKTchW*.1
+		end
 	end
 	if STAT.version<1208 then
 		SETTING.skinSet=1
