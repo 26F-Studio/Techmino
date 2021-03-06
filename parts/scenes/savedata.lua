@@ -51,17 +51,19 @@ scene.widgetList={
 		if D then
 			TABLE.add(D,RANKS)
 			FILE.save(RANKS,"conf/unlock")
+			LOG.print(text.importSuccess,"message")
 		else
-			LOG.print(text.importSuccess,COLOR.green)
+			LOG.print(text.dataCorrupted,"warn")
 		end
 	end},
 	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,code=function()
 		local D=parseCB()
-		if D then
+		if D and D.version==STAT.version then
 			TABLE.add(D,STAT)
 			FILE.save(STAT,"conf/data")
+			LOG.print(text.importSuccess,"message")
 		else
-			LOG.print(text.importSuccess,COLOR.green)
+			LOG.print(text.dataCorrupted,"warn")
 		end
 	end},
 	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,code=function()
@@ -69,8 +71,9 @@ scene.widgetList={
 		if D then
 			TABLE.add(D,SETTING)
 			FILE.save(SETTING,"conf/settings")
+			LOG.print(text.importSuccess,"message")
 		else
-			LOG.print(text.importSuccess,COLOR.green)
+			LOG.print(text.dataCorrupted,"warn")
 		end
 	end},
 	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,code=function()
@@ -78,8 +81,9 @@ scene.widgetList={
 		if D then
 			TABLE.add(D,VK_org)
 			FILE.save(VK_org,"conf/virtualkey")
+			LOG.print(text.importSuccess,"message")
 		else
-			LOG.print(text.importSuccess,COLOR.green)
+			LOG.print(text.dataCorrupted,"warn")
 		end
 	end},
 
