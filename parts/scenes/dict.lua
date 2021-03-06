@@ -18,8 +18,11 @@ local scrollPos--Scroll down length
 
 local lastSearch--Last searched string
 
+local function _init()
+	YIELD()
+	WIDGET.sel=WIDGET.active.input
+end
 function scene.sceneInit()
-	BG.set("rainbow")
 	dict=require("parts/language/dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
 
 	WIDGET.active.input:clear()
@@ -31,6 +34,8 @@ function scene.sceneInit()
 	scrollPos=0
 
 	lastSearch=false
+	TASK.new(_init)
+	BG.set("rainbow")
 end
 
 local function clearResult()
@@ -49,6 +54,7 @@ local eggInput={
 	ten=goScene"mg_ten",
 	tap=goScene"mg_tap",
 	dtw=goScene"mg_dtw",
+	can=goScene"mg_cannon",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)
