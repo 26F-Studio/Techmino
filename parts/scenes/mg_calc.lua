@@ -71,33 +71,6 @@ function scene.keyDown(k)
 		end
 		sym="="
 		reg=false
-		local v=tonumber(val)
-		if v==190000+6022 then
-			_G["\100\114\97\119\70\87\77"]=NULL
-			LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
-			SFX.play("clear")
-		elseif v==7294e4+3816 then
-			for name,M in next,MODES do
-				if type(name)=="string"and not RANKS[name]and M.x then
-					RANKS[name]=M.score and 0 or 6
-				end
-			end
-			FILE.save(RANKS,"conf/unlock")
-			LOG.print("\68\69\86\58\85\78\76\79\67\75\65\76\76","message")
-			SFX.play("clear_2")
-		elseif v%1==0 and v>=8001 and v<=8012 then
-			love.keypressed("f"..(v-8000))
-		elseif v==123456 then
-			gc.setWireframe(not gc.isWireframe())
-			LOG.print("Wireframe: "..(gc.isWireframe()and"on"or"off"),"warn")
-		elseif v==654321 then
-			love._setGammaCorrect(not gc.isGammaCorrect())
-			LOG.print("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"),"warn")
-		elseif v==200 then
-			loadGame("marathon_bfmax",true)
-		elseif v==670 then
-			SCR.print()
-		end
 	elseif k=="escape"then
 		if val~="0"then
 			val,reg,sym="0"
