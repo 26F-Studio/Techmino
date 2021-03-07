@@ -1,5 +1,6 @@
 local gc=love.graphics
 
+local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=726,h=60,font=40}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
 local ins,rem=table.insert,table.remove
@@ -18,14 +19,10 @@ local scrollPos--Scroll down length
 
 local lastSearch--Last searched string
 
-local function _init()
-	YIELD()
-	WIDGET.sel=WIDGET.active.input
-end
 function scene.sceneInit()
 	dict=require("parts/language/dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
 
-	WIDGET.active.input:clear()
+	inputBox:clear()
 	result={}
 	url=dict[1][5]
 
@@ -34,7 +31,7 @@ function scene.sceneInit()
 	scrollPos=0
 
 	lastSearch=false
-	TASK.new(_init)
+	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
 	BG.set("rainbow")
 end
 
@@ -57,6 +54,7 @@ local eggInput={
 	can=goScene"mg_cannon",
 	drp=goScene"mg_dropper",
 	calc=goScene"mg_calc",
+	cmd=goScene"mg_cmd",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)
@@ -93,7 +91,7 @@ local eggInput={
 	end,
 }for k,v in next,eggInput do if type(v)=="string"then eggInput[k]=eggInput[v]end end
 local function search()
-	local input=WIDGET.active.input.value
+	local input=inputBox.value
 	if eggInput[input]then
 		eggInput[input]()
 	else
@@ -134,15 +132,15 @@ function scene.keyDown(key)
 	elseif key=="link"then
 		love.system.openURL(url)
 	elseif key=="delete"then
-		if #WIDGET.active.input.value>0 then
+		if #inputBox.value>0 then
 			clearResult()
-			WIDGET.active.input:clear()
+			inputBox:clear()
 			SFX.play("hold")
 		end
 	elseif key=="backspace"then
 		WIDGET.keyPressed("backspace")
 	elseif key=="escape"then
-		if #WIDGET.active.input.value>0 then
+		if #inputBox.value>0 then
 			scene.keyDown("delete")
 		else
 			SCN.back()
@@ -152,7 +150,7 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-	local input=WIDGET.active.input.value
+	local input=inputBox.value
 	if input~=lastTickInput then
 		if #input==0 then
 			clearResult()
@@ -229,7 +227,7 @@ end
 
 scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align="L"},
-	WIDGET.newInputBox{name="input",x=20,	y=110,w=726,h=60,font=40},
+	inputBox,
 	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
 	WIDGET.newKey{name="up",		x=1190,	y=440,w=100,h=100,font=35,code=pressKey"up",hide=not MOBILE},
 	WIDGET.newKey{name="down",		x=1190,	y=550,w=100,h=100,font=35,code=pressKey"down",hide=not MOBILE},

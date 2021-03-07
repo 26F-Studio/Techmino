@@ -6,10 +6,6 @@ local remain--People in chat room
 local heartBeatTimer
 local escapeTimer=0
 
-local function _init()
-	YIELD()
-	WIDGET.sel=WIDGET.active.input
-end
 local function sendMessage()
 	local W=WIDGET.active.input
 	if #W.value>0 and WS.send("chat","T"..data.encode("string","base64",W.value))then
@@ -30,7 +26,7 @@ function scene.sceneInit()
 		textBox:push{COLOR.dG,text.chatHistory}
 	end
 	textBox:scroll(1)
-	TASK.new(_init)--Widgets are not initialized, so active after 1 frame
+	TASK.new(function()YIELD()WIDGET.sel=WIDGET.active.input end)
 	BG.set("none")
 end
 function scene.sceneBack()
