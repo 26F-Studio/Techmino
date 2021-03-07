@@ -57,7 +57,7 @@ function scene.draw()
 	end
 	mDraw(TEXTURE.title_color,640,800-T,nil,.6)
 	mDraw(TEXTURE.title_color,640,2160-T,nil,.6)
-	if time>55 then gc.print("CLICK ME →",50,550,-.5)end
+	if time>50 then gc.print("CLICK ME →",50,550,-.5)end
 end
 
 scene.widgetList={

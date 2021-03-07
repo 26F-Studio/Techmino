@@ -164,7 +164,7 @@ return{
 		"Autor:MrZ  Email: 1046101471@qq.com",
 		"Creado con LOVE2D",
 		"",
-		"Programación: MrZ, Particle_G, [T9972, FinnTenzor]",
+		"Programación: MrZ, Particle_G, [FinnTenzor]",
 		"Artistas: MrZ, ScF, [Gnyar, T0722]",
 		"Música: MrZ, [T0722]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
@@ -172,7 +172,7 @@ return{
 		"Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Agradecimientos:",
-		"User670, Big_True, Flyz, Farter,",
+		"User670, Big_True, Flyz, Farter, T9972",
 		"蕴空之灵, Teatube, [Todo el Staff de Testeo]",
 	},
 	used=[[
