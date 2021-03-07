@@ -271,9 +271,9 @@ do
 		},--W
 		function(P,d)
 			if P.type=="human"then SFX.fieldPlay("rotate",nil,P)end
-			local iki=XspinList[d]
-			for test=1,#iki do
-				local x,y=P.curX+iki[test][1],P.curY+iki[test][2]
+			local kickData=XspinList[d]
+			for test=1,#kickData do
+				local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
 				if not P:ifoverlap(P.cur.bk,x,y)then
 					P.curX,P.curY=x,y
 					P.spinLast=1
