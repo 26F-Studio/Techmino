@@ -5,7 +5,7 @@ local ins=table.insert
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 outputBox:push("Techmino Shell")
-outputBox:push("By MrZ_26")
+outputBox:push("©2020 26F Studio All rights reserved")
 local history,hisPtr={"help"}
 
 local scene={}
@@ -48,7 +48,7 @@ local commands={
 		if tonumber(n)then
 			n=int(tonumber(n))
 			if n>=1 and n<=12 then
-				love.keypressed("f"..v)
+				love.keypressed("f"..n)
 				return
 			end
 		end
