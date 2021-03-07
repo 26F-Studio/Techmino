@@ -448,7 +448,7 @@ return{
 			b3b="^^",
 			pc="#<>#",
 		},
-		mg_15p={
+		app_15p={
 			reset="!@#$%",
 			color="~~~",
 			blind="???",
@@ -456,34 +456,34 @@ return{
 			pathVis="--==>",
 			revKB="Reverse",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="!@#$%",
 			rank="←?→",
 			blind="???",
 			disappear="=X=",
 			tapFX="↓ !",
 		},
-		mg_pong={
+		app_pong={
 			reset="R",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			level="_ _ _",
 			keyboard="[##]",
 			reset="R",
 		},
-		mg_2048={
+		app_2048={
 			reset="R",
 			blind="???",
 			tapControl="_↓",
 			skip=">>",
 		},
-		mg_ten={
+		app_ten={
 			reset="R",
 			next="→",
 			blind="???",
 			fast="~~→",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="R",
 			mode="?",
 		},

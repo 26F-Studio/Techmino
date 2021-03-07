@@ -573,16 +573,21 @@ function Player.resetBlock(P)--Reset Block's position and execute I*S
 end
 
 function Player.spin(P,d,ifpre)
-	local iki=P.RS[P.cur.id]
-	if type(iki)=="table"then
+	local kickData=P.RS[P.cur.id]
+	if type(kickData)=="table"then
 		local idir=(P.cur.dir+d)%4
+		kickData=kickData[P.cur.dir*10+idir]
+		if not kickData then
+			P:freshBlock("move")
+			SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
+			return
+		end
 		local icb=BLOCKS[P.cur.id][idir]
 		local isc=SCS[P.cur.id][idir]
 		local ix,iy=P.curX+P.cur.sc[2]-isc[2],P.curY+P.cur.sc[1]-isc[1]
-		iki=iki[P.cur.dir*10+idir]
-		for test=1,#iki do
-			local x,y=ix+iki[test][1],iy+iki[test][2]
-			if not P:ifoverlap(icb,x,y)and(P.freshTime>=0 or iki[test][2]<0)then
+		for test=1,#kickData do
+			local x,y=ix+kickData[test][1],iy+kickData[test][2]
+			if not P:ifoverlap(icb,x,y)and(P.freshTime>=0 or kickData[test][2]<0)then
 				ix,iy=x,y
 				if P.gameEnv.moveFX and P.gameEnv.block then
 					P:createMoveFX()
@@ -590,10 +595,12 @@ function Player.spin(P,d,ifpre)
 				P.curX,P.curY,P.cur.dir=ix,iy,idir
 				P.cur.sc,P.cur.bk=isc,icb
 				P.spinLast=test==2 and 0 or 1
+
+				local t=P.freshTime
 				if not ifpre then
 					P:freshBlock("move")
 				end
-				if iki[test][2]>0 and P.curY~=P.imgY then
+				if kickData[test][2]>0 and P.freshTime~=t and P.curY~=P.imgY then
 					P.freshTime=P.freshTime-1
 				end
 
@@ -604,8 +611,8 @@ function Player.spin(P,d,ifpre)
 				return
 			end
 		end
-	elseif iki then
-		iki(P,d)
+	elseif kickData then
+		kickData(P,d)
 	else
 		P:freshBlock("move")
 		SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)

@@ -342,6 +342,7 @@ local DemoEnv={
 	highCam=false,
 	life=1e99,
 	noMod=true,
+	fine=false,
 }
 function PLY.newDemoPlayer(id)
 	local P=newEmptyPlayer(id)

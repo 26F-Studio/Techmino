@@ -164,7 +164,7 @@ return{
 		"Autor:MrZ  Email: 1046101471@qq.com",
 		"Creado con LOVE2D",
 		"",
-		"Programación: MrZ, Particle_G, [T9972, FinnTenzor]",
+		"Programación: MrZ, Particle_G, [FinnTenzor]",
 		"Artistas: MrZ, ScF, [Gnyar, T0722]",
 		"Música: MrZ, [T0722]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
@@ -172,7 +172,7 @@ return{
 		"Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Agradecimientos:",
-		"User670, Big_True, Flyz, Farter,",
+		"User670, Big_True, Flyz, Farter, T9972",
 		"蕴空之灵, Teatube, [Todo el Staff de Testeo]",
 	},
 	used=[[
@@ -521,7 +521,7 @@ return{
 			_3="Triple",
 			_4="Techrash",
 		},
-		mg_15p={
+		app_15p={
 			reset="Mezclar",
 			color="Color",
 			blind="A ciegas",
@@ -529,34 +529,34 @@ return{
 			pathVis="Mostrar Movs.",
 			revKB="Deshacer",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="Reiniciar",
 			rank="Tamaño",
 			blind="A ciegas",
 			disappear="No mostrar",
 			tapFX="Sonido al pulsar",
 		},
-		mg_pong={
+		app_pong={
 			reset="Reiniciar",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			-- level="Level",
 			-- keyboard="Keyboard",
 			reset="Reiniciar",
 		},
-		mg_2048={
+		app_2048={
 			reset="Reiniciar",
 			blind="A ciegas",
 			-- tapControl="Tap control",
 			-- skip="Skip Round",
 		},
-		mg_ten={
+		app_ten={
 			reset="Reiniciar",
 			next="Siguiente",
 			blind="A ciegas",
 			-- fast="Fast",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="Reiniciar",
 			-- mode="Mode",
 		},

@@ -5,7 +5,6 @@ return{
 	sureQuit="Appuyez à nouveau pour sortir",
 	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
-	marking="Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide.",
 	newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
 	playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
 	playedTooMuch="[Anti-addiction] Vous avez joué trop longtemps ! Vous ne pouvez plus jouer.",
@@ -163,7 +162,7 @@ return{
 		"Author: MrZ  E-mail: 1046101471@qq.com",
 		"Powered by LOVE2D",
 		"",
-		"Programme : MrZ, Particle_G, [T9972, FinnTenzor]",
+		"Programme : MrZ, Particle_G, [FinnTenzor]",
 		"Art : MrZ, ScF, [Gnyar, T0722]",
 		"Musique : MrZ, [T0722]",
 		"Voix & Sons: Miya, Naki, MrZ  Performance: 模电, HBM",
@@ -171,7 +170,7 @@ return{
 		"Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Merci à:",
-		"User670, Big_True, Flyz, Farter,",
+		"User670, Big_True, Flyz, Farter, T9972",
 		"蕴空之灵, Teatube, [All test staff]",
 	},
 	used=[[
@@ -516,7 +515,7 @@ return{
 			_3="Triple",
 			_4="Techrash",
 		},
-		mg_15p={
+		app_15p={
 			reset="Réinitialiser",
 			color="Couleur",
 			blind="Aveugler",
@@ -524,34 +523,34 @@ return{
 			pathVis="Montrer le tracé",
 			revKB="Inverser",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="Réinitialiser",
             rank="Taille",
 			blind="Aveugler",
 			disappear="Cacher",
 			tapFX="Effet quand tapé",
 		},
-		mg_pong={
+		app_pong={
 			reset="Redémarrer",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			level="niveau",
 			keyboard="Clavier",
 			reset="Redémarrer",
 		},
-		mg_2048={
+		app_2048={
 			reset="Réinitialiser",
 			blind="Aveugler",
 			tapControl="Contrôle par toucher",
 			skip="Passer Round",
 		},
-		mg_ten={
+		app_ten={
 			reset="Réinitialiser",
 			next="Prévisualisations",
 			blind="Aveugler",
 			-- fast="Fast",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="Réinitialiser",
 			-- mode="Mode",
 		},

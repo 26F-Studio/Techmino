@@ -41,20 +41,20 @@ local function clearResult()
 	waiting,lastSearch=0,false
 end
 local eggInput={
-	["15p"]=goScene"mg_15p",
-	grid=goScene"mg_schulteG",
-	pong=goScene"mg_pong",
-	atoz=goScene"mg_AtoZ",
-	uttt=goScene"mg_UTTT",
-	cube=goScene"mg_cubefield",
-	["2048"]=goScene"mg_2048",
-	ten=goScene"mg_ten",
-	tap=goScene"mg_tap",
-	dtw=goScene"mg_dtw",
-	can=goScene"mg_cannon",
-	drp=goScene"mg_dropper",
-	calc=goScene"mg_calc",
-	cmd=goScene"mg_cmd",
+	["15p"]=goScene"app_15p",
+	grid=goScene"app_schulteG",
+	pong=goScene"app_pong",
+	atoz=goScene"app_AtoZ",
+	uttt=goScene"app_UTTT",
+	cube=goScene"app_cubefield",
+	["2048"]=goScene"app_2048",
+	ten=goScene"app_ten",
+	tap=goScene"app_tap",
+	dtw=goScene"app_dtw",
+	can=goScene"app_cannon",
+	drp=goScene"app_dropper",
+	calc=goScene"app_calc",
+	cmd=goScene"app_cmd",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)
