@@ -292,7 +292,7 @@ function scene.draw()
 			mStr("Score : "..score,0,-350)
 		end
 
-		mStr(MOBILE and"Touch to Start"or"Press space",0,-160)
+		mStr(MOBILE and"Touch to Start"or"Press space to Start",0,-160)
 	end
 	gc.pop()
 end

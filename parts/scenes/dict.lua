@@ -55,6 +55,7 @@ local eggInput={
 	tap=goScene"mg_tap",
 	dtw=goScene"mg_dtw",
 	can=goScene"mg_cannon",
+	drp=goScene"mg_dropper",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)
