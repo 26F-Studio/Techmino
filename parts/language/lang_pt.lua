@@ -604,7 +604,7 @@ return{
 			b3b="B3B",
 			pc="PC",
 		},
-		mg_15p={
+		app_15p={
 			reset="Embaralhar",
 			color="Cor",
 			blind="Cego",
@@ -612,34 +612,34 @@ return{
 			pathVis="Mostrar caminho",
 			revKB="Reverso",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="Resetar",
 			rank="Tamanho",
 			blind="Cego",
 			disappear="Escond.",
 			tapFX="FX De Toque",
 		},
-		mg_pong={
+		app_pong={
 			reset="Reiniciar",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			level="Nivel",
 			keyboard="Teclado",
 			reset="Reiniciar",
 		},
-		mg_2048={
+		app_2048={
 			reset="Resetar",
 			blind="Cego",
 			-- tapControl="Tap control",
 			-- skip="Skip Round",
 		},
-		mg_ten={
+		app_ten={
 			reset="Resetar",
 			next="Próxima",
 			blind="Cego",
 			-- fast="Fast",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="Resetar",
 			-- mode="Mode",
 		},

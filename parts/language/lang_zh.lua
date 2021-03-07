@@ -603,7 +603,7 @@ return{
 			b3b="B3B",
 			pc="PC",
 		},
-		mg_15p={
+		app_15p={
 			reset="打乱",
 			color="颜色",
 			blind="盲打",
@@ -611,38 +611,38 @@ return{
 			pathVis="路径显示",
 			revKB="键盘反向",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="重来",
 			rank="尺寸",
 			blind="盲打",
 			disappear="消失",
 			tapFX="点击动画",
 		},
-		mg_pong={
+		app_pong={
 			reset="重置",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			level="关卡",
 			keyboard="键盘",
 			reset="重置",
 		},
-		mg_UTTT={
+		app_UTTT={
 			reset="重置",
 		},
-		mg_2048={
+		app_2048={
 			reset="重置",
 			blind="盲打",
 			tapControl="点击操作",
 
 			skip="跳过回合",
 		},
-		mg_ten={
+		app_ten={
 			reset="重置",
 			next="预览",
 			blind="盲打",
 			fast="速打",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="重置",
 			mode="模式",
 		},

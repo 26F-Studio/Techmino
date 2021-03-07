@@ -515,7 +515,7 @@ return{
 			_3="Triple",
 			_4="Techrash",
 		},
-		mg_15p={
+		app_15p={
 			reset="Réinitialiser",
 			color="Couleur",
 			blind="Aveugler",
@@ -523,34 +523,34 @@ return{
 			pathVis="Montrer le tracé",
 			revKB="Inverser",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="Réinitialiser",
             rank="Taille",
 			blind="Aveugler",
 			disappear="Cacher",
 			tapFX="Effet quand tapé",
 		},
-		mg_pong={
+		app_pong={
 			reset="Redémarrer",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			level="niveau",
 			keyboard="Clavier",
 			reset="Redémarrer",
 		},
-		mg_2048={
+		app_2048={
 			reset="Réinitialiser",
 			blind="Aveugler",
 			tapControl="Contrôle par toucher",
 			skip="Passer Round",
 		},
-		mg_ten={
+		app_ten={
 			reset="Réinitialiser",
 			next="Prévisualisations",
 			blind="Aveugler",
 			-- fast="Fast",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="Réinitialiser",
 			-- mode="Mode",
 		},

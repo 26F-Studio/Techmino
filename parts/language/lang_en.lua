@@ -604,7 +604,7 @@ return{
 			b3b="B3B",
 			pc="PC",
 		},
-		mg_15p={
+		app_15p={
 			reset="Shuffle",
 			color="Color",
 			blind="Blind",
@@ -612,35 +612,35 @@ return{
 			pathVis="Show Path",
 			revKB="Reverse",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="Reset",
 			rank="Size",
 			blind="Blind",
 			disappear="Hide",
 			tapFX="Tap FX",
 		},
-		mg_pong={
+		app_pong={
 			reset="Restart",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			level="Level",
 			keyboard="Keyboard",
 			reset="Reset",
 		},
-		mg_2048={
+		app_2048={
 			reset="Reset",
 			blind="Blind",
 			tapControl="Tap control",
 
 			skip="Skip Round",
 		},
-		mg_ten={
+		app_ten={
 			reset="Reset",
 			next="Next",
 			blind="Blind",
 			fast="Fast",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="Reset",
 			mode="Mode",
 		},

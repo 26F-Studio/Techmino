@@ -521,7 +521,7 @@ return{
 			_3="Triple",
 			_4="Techrash",
 		},
-		mg_15p={
+		app_15p={
 			reset="Mezclar",
 			color="Color",
 			blind="A ciegas",
@@ -529,34 +529,34 @@ return{
 			pathVis="Mostrar Movs.",
 			revKB="Deshacer",
 		},
-		mg_schulteG={
+		app_schulteG={
 			reset="Reiniciar",
 			rank="Tamaño",
 			blind="A ciegas",
 			disappear="No mostrar",
 			tapFX="Sonido al pulsar",
 		},
-		mg_pong={
+		app_pong={
 			reset="Reiniciar",
 		},
-		mg_AtoZ={
+		app_AtoZ={
 			-- level="Level",
 			-- keyboard="Keyboard",
 			reset="Reiniciar",
 		},
-		mg_2048={
+		app_2048={
 			reset="Reiniciar",
 			blind="A ciegas",
 			-- tapControl="Tap control",
 			-- skip="Skip Round",
 		},
-		mg_ten={
+		app_ten={
 			reset="Reiniciar",
 			next="Siguiente",
 			blind="A ciegas",
 			-- fast="Fast",
 		},
-		mg_dtw={
+		app_dtw={
 			reset="Reiniciar",
 			-- mode="Mode",
 		},
