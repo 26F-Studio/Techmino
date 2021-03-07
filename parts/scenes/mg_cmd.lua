@@ -56,7 +56,7 @@ local command_help_messages={
 			"print() can be used to print text into this window."
 		}
 	},
-	exit={
+	["exit"]={
 		description="Return to the previous menu.",
 		details={
 			"Return to the previous menu.",
@@ -110,8 +110,8 @@ local command_help_messages={
 	shutdown={
 		description="(Attempt to) shutdown your machine.",
 		details={
-			"(Attempt to) shutdown your machine. Arguments to this command will be passed on to",
-			"the system shutdown command."
+			"(Attempt to) shutdown your machine. Arguments to this command",
+			"will be passed on to the system shutdown command.",
 			"",
 			"Usage:",
 			"shutdown",
@@ -121,8 +121,8 @@ local command_help_messages={
 	fn={
 		description="Simulates a Function key press.",
 		details={
-			"Acts as if you have pressed a function key (i.e. F1 through F12) on a keyboard.",
-			"Useful if you are on a mobile device without access to these keys."
+			"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
+			"Useful if you are on a mobile device without access to these keys.",
 			"",
 			"Usage:",
 			"fn <1-12>"
@@ -132,30 +132,6 @@ local command_help_messages={
 		description="Display information about your screen.",
 		details={
 			"Display information about your screen.",
-			"",
-			"Aliases: scrinfo screen screeninfo",
-			"",
-			"Usage:",
-			"scrinfo"
-		}
-	},
-	screen={
-		description="Display information about your screen.",
-		details={
-			"Display information about your screen.",
-			"",
-			"Aliases: scrinfo screen screeninfo",
-			"",
-			"Usage:",
-			"scrinfo"
-		}
-	},
-	screeninfo={
-		description="Display information about your screen.",
-		details={
-			"Display information about your screen.",
-			"",
-			"Aliases: scrinfo screen screeninfo",
 			"",
 			"Usage:",
 			"scrinfo"
@@ -183,7 +159,7 @@ local command_help_messages={
 		description="Remove the \"no recording\" watermark.",
 		details={
 			"Remove the \"no recording\" watermark.",
-			"You will need a password to do that."
+			"You will need a password to do that.",
 			"",
 			"Usage:",
 			"rmwtm <password>"
@@ -225,7 +201,7 @@ local command_help_list={
 	"gammacorrect",
 	"rmwtm",
 	"unlockall",
-	"play"
+	"play",
 }
 
 local command_help_page_size=10
@@ -249,6 +225,10 @@ local commands={
 			log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
 			return
 		end
+		log("Use help [page] to view more commands,")
+		log("or help [command_name] for more info on a command.")
+		log("")
+		log("Page "..arg.." of "..total_pages)
 		for i=(arg-1)*10+1,math.min(arg*10,#command_help_list) do
 			local _c=command_help_list[i]
 			log("".._c.." - "..command_help_messages[_c]["description"])
@@ -272,8 +252,6 @@ local commands={
 		end
 		log"Usage: fn [1~12]"
 	end,
-	screeninfo=function()for _,v in next,SCR.info()do log(v)end end,
-	screen=function()for _,v in next,SCR.info()do log(v)end end,
 	scrinfo=function()for _,v in next,SCR.info()do log(v)end end,
 	wireframe=function(bool)
 		if bool=="true"or bool=="false"then
