@@ -920,7 +920,7 @@ end
 function textBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newTextBox(D)--name,x,y,w,h[,font][,fix],hide
+function WIDGET.newTextBox(D)--name,x,y,w,h[,font][,lineH][,fix],hide
 	local _={
 		name=	D.name,
 
@@ -942,11 +942,11 @@ function WIDGET.newTextBox(D)--name,x,y,w,h[,font][,fix],hide
 		h=		D.h,
 
 		font=	D.font or 30,
-		fix=D.fix,
-		texts={},
+		fix=	D.fix,
+		texts=	{},
 		hide=	D.hide,
 	}
-	_.lineH=7*(_.font/5)
+	_.lineH=D.lineH or _.font*7/5
 	_.capacity=int((D.h-10)/_.lineH)
 
 	for k,v in next,textBox do _[k]=v end
