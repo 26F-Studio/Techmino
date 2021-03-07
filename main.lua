@@ -72,6 +72,7 @@ end
 
 --Delete some useless files
 for _,v in next,{
+	"client.so",
 	"cold_clear.dll",
 	"CCloader.dll",
 	"tech_u.dat",
