@@ -6,48 +6,61 @@ local scene={}
 
 local blackTime,openTime
 local shadePhase1,shadePhase2
-local progress=0
+local progress=-1
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
 local skip
+local locked
 
+local light={}
+for i=0,26 do
+	table.insert(light,1050+60*int(i/9))
+	table.insert(light,660-i%9*60)
+	table.insert(light,math.random()<.26)
+end
+light[2*3],light[6*3],light[26*3],light[27*3]=false,false,true,false
+
+local function upFloor()
+	progress=progress+1
+	light[3*progress+3]=false
+end
 local loadingThread=coroutine.create(function()
 	for _=1,VOC.getCount()do
 		VOC.loadOne()
 		if _%3==0 then YIELD()end
 	end
 
-	progress=1
+	upFloor()
 	for i=1,BGM.getCount()do
 		BGM.loadOne()
 		if i%2==0 then YIELD()end
 	end
 
-	progress=2
+	upFloor()
 	for i=1,SFX.getCount()do
 		SFX.loadOne()
 		if i%2==0 then YIELD()end
 	end
 
-	progress=3
+	upFloor()
 	for i=1,IMG.getCount()do
 		IMG.loadOne()
 		if i%2==0 then YIELD()end
 	end
 
-	progress=4
+	upFloor()
 	for i=1,SKIN.getCount()do
 		SKIN.loadOne()
 		if i%2==0 then YIELD()end
 	end
 
-	progress=5
+	upFloor()
 	for i=1,17 do
 		getFont(15+5*i)
 		if i%3==0 then YIELD()end
 	end
 
-	progress=6
+	upFloor()
 	for i=1,#MODES do
 		local m=MODES[i]--Mode template
 		local M=require("parts/modes/"..m.name)--Mode file
@@ -61,9 +74,9 @@ local loadingThread=coroutine.create(function()
 		if i%5==0 then YIELD()end
 	end
 
-	progress=7
+	upFloor()
 	SKIN.change(SETTING.skinSet)
-	if newVersionLaunch then--Delete old ranks & Unlock modes which should be unlocked
+	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked
 		for name,rank in next,RANKS do
 			local M=MODES[name]
 			if type(rank)~="number"then
@@ -109,8 +122,8 @@ local loadingThread=coroutine.create(function()
 		LOG.print(" ★☆☆★",COLOR.red)
 	end
 	while true do
-		if math.random()<.26 then
-			progress=progress+1
+		if math.random()<.126 then
+			upFloor()
 		end
 		if progress==25 then
 			loadingThread=false
@@ -129,6 +142,7 @@ function scene.sceneInit()
 	shadePhase1=6.26*math.random()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
+	locked=SETTING.appLock
 end
 function scene.sceneBack()
 	love.event.quit()
@@ -139,46 +153,64 @@ function scene.keyDown(k)
 		SCN.back()
 	elseif k=="s"then
 		skip=999
+	elseif locked and("12345679"):match(k)then
+		k=tonumber(k)
+		light[3*k]=not light[3*k]
+		if light[6]and light[18]then
+			locked=false
+		end
 	else
 		skip=skip+1
 	end
 end
-function scene.mouseDown()
+function scene.mouseDown(x,y)
+	if locked then
+		for i=1,27 do
+			if(x-light[3*i-2])^2+(y-light[3*i-1])^2<=626 then
+				light[3*i]=not light[3*i]
+				if light[6]and light[18]then
+					locked=false
+				end
+				return
+			end
+		end
+	end
 	scene.keyDown()
 end
-function scene.touchDown()
-	scene.keyDown()
-end
+scene.touchDown=scene.mouseDown
+
 function scene.update(dt)
 	shadePhase1=shadePhase1+dt*2*(3.26-openTime)
 	shadePhase2=shadePhase2+dt*3*(3.26-openTime)
 	if blackTime>0 then
 		blackTime=blackTime-dt
 	end
-	if progress<25 then
-		local p=progress
-		::again::
-		if loadingThread then
-			coroutine.resume(loadingThread)
-		else
-			return
-		end
-		if skip>0 then
-			if progress==p then
-				goto again
+	if not locked then
+		if progress<25 then
+			local p=progress
+			::again::
+			if loadingThread then
+				coroutine.resume(loadingThread)
 			else
+				return
+			end
+			if skip>0 then
+				if progress==p then
+					goto again
+				else
+					skip=skip-1
+				end
+			end
+		else
+			openTime=openTime+dt
+			if skip>0 then
+				openTime=openTime+.26
 				skip=skip-1
 			end
-		end
-	else
-		openTime=openTime+dt
-		if skip>0 then
-			openTime=openTime+.26
-			skip=skip-1
-		end
-		if openTime>=3.26 then
-			openTime=3.26
-			SCN.swapTo("intro")
+			if openTime>=3.26 then
+				openTime=3.26
+				SCN.swapTo("intro")
+			end
 		end
 	end
 end
@@ -241,27 +273,34 @@ function scene.draw()
 
 	--Floor info frame
 	gc.setColor(.1,.1,.1)
-	gc.rectangle("fill",1110-80,25,160,100)
+	gc.rectangle("fill",1020,25,180,100)
 	gc.setColor(.7,.7,.7)
 	gc.setLineWidth(4)
-	gc.rectangle("line",1110-80,25,160,100)
+	gc.rectangle("line",1020,25,180,100)
 
 	--Floor info
-	local d1=(progress+1)%10
-	local d2=int((progress+1)/10)
-	gc.setColor(.6,.6,.6)
-	gc.draw(TEXTURE.pixelNum[d2],1060,40-3,nil,8)
-	gc.draw(TEXTURE.pixelNum[d1],1120,40-3,nil,8)
-	gc.setColor(1,1,1)
-	gc.draw(TEXTURE.pixelNum[d2],1060,40,nil,8)
-	gc.draw(TEXTURE.pixelNum[d1],1120,40,nil,8)
+	if progress>=0 then
+		local d1=(progress+1)%10
+		local d2=int((progress+1)/10)
+		gc.setColor(.6,.6,.6)
+		gc.draw(TEXTURE.pixelNum[d2],1040,40-3,nil,8)
+		gc.draw(TEXTURE.pixelNum[d1],1100,40-3,nil,8)
+		gc.setColor(1,1,1)
+		gc.draw(TEXTURE.pixelNum[d2],1040,40,nil,8)
+		gc.draw(TEXTURE.pixelNum[d1],1100,40,nil,8)
+		if not locked and progress~=25 then
+			setFont(40)
+			gc.setColor(1,.9,.8)
+			gc.print("↑",1150,26)
+		end
+	end
 
 	--Elevator buttons
 	gc.setLineWidth(3)
 	setFont(25)
-	for i=0,25 do
-		local x,y=1050+60*int(i/9),180+i%9*60
-		gc.setColor(COLOR[i==progress and"dOrange"or"dGrey"])
+	for i=0,26 do
+		local x,y=light[3*i+1],light[3*i+2]
+		gc.setColor(COLOR[i==progress and"grey"or light[3*i+3]and"dOrange"or"dGrey"])
 		gc.circle("fill",x,y,23)
 		gc.setColor(.16,.16,.16)
 		gc.circle("line",x,y,23)
