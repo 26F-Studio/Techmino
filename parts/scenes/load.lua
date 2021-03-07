@@ -191,6 +191,13 @@ function scene.draw()
 	--Wall
 	gc.clear(.5,.5,.5)
 
+	gc.push("transform")
+	if openTime>2.26 then
+		gc.translate(640,360)
+		gc.scale(1+(openTime-2.26)^1.8)
+		gc.translate(-640,-360)
+	end
+
 	--Logo
 	if progress==25 then
 		--Outside background
@@ -280,13 +287,14 @@ function scene.draw()
 	gc.rectangle("line",340,0,600,720)
 
 	--Black screen
-	if blackTime>0 then
+	if blackTime>0 or openTime>3 then
 		gc.push("transform")
 		gc.origin()
-		gc.setColor(0,0,0,blackTime)
+		gc.setColor(0,0,0,blackTime+(openTime-3)*4)
 		gc.rectangle("fill",0,0,SCR.w,SCR.h)
 		gc.pop()
 	end
+	gc.pop()
 end
 
 return scene
