@@ -239,7 +239,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="back",x=1140,y=60,w=170,h=80,font=40,code=pressKey("escape")},
+	WIDGET.newButton{name="back",x=1140,y=60,w=170,h=80,font=40,code=pressKey("escape")},
 }
 
 return scene
