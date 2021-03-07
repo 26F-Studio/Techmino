@@ -868,11 +868,9 @@ function textBox:scroll(n)
 	end
 end
 function textBox:clear()
-	if not self.fix then
-		self.texts={}
-		self.scrollPos=0
-		SFX.play("fall")
-	end
+	self.texts={}
+	self.scrollPos=0
+	SFX.play("fall")
 end
 function textBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
