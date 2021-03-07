@@ -185,6 +185,16 @@ local command_help_messages={
 			"play <mode_name>"
 		}
 	},
+	festival={
+		description="Load a festival theme.",
+		details={
+			"Load a festival theme.",
+			"",
+			"Usage:",
+			"festival list",
+			"festival <festival_name>"
+		}
+	},
 }
 
 -- while I could have used a for loop to get this... the order at which the
@@ -204,6 +214,7 @@ local command_help_list={
 	"rmwtm",
 	"unlockall",
 	"play",
+	"festival"
 }
 
 local command_help_page_size=10
@@ -305,13 +316,9 @@ function commands.play(m)--marathon_bfmax can only entered through here
 	end
 end
 function commands.festival(name)
-	if name=="flag"then
-		BG.setDefault("none")
-		BGM.setDefault(false)
-		BG.set("none")
-		BGM.stop()
-		SFX.play("clear_4")
-		LOG.print("What are you looking for?",COLOR.G)
+	if name=="list" then
+		log("Available festivals:")
+		log("classic xmas sprfes zday")
 	elseif name=="classic"then
 		FESTIVAL=false
 		BG.setDefault("space")
@@ -332,7 +339,7 @@ function commands.festival(name)
 		BG.setDefault("lanterns")
 		BGM.setDefault("overzero")
 		BGM.play()
-	elseif name then
+	elseif name~="" then
 		log("No festival called "..name)
 	else
 		log"Usage: festival [festivalName]"
