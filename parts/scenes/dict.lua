@@ -55,40 +55,6 @@ local eggInput={
 	drp=goScene"app_dropper",
 	calc=goScene"app_calc",
 	cmd=goScene"app_cmd",
-	flag=function()
-		BG.setDefault("none")
-		BGM.setDefault(false)
-		BG.set("none")
-		BGM.stop()
-		SFX.play("clear_4")
-		LOG.print("What are you looking for?",COLOR.G)
-	end,
-	classic=function()
-		FESTIVAL=false
-		BG.setDefault("space")
-		BGM.setDefault("blank")
-		BGM.play()
-	end,
-	normal="classic",
-	xmas=function()
-		FESTIVAL="xMas"
-		BG.setDefault("snow")
-		BGM.setDefault("mXmas")
-		BGM.play()
-	end,
-	sprfes=function()
-		FESTIVAL="sprFes"
-		BG.setDefault("firework")
-		BGM.setDefault("spring festival")
-		BGM.play()
-	end,
-	spring="sprfes",
-	zday=function()
-		FESTIVAL="zDay"
-		BG.setDefault("lanterns")
-		BGM.setDefault("overzero")
-		BGM.play()
-	end,
 }for k,v in next,eggInput do if type(v)=="string"then eggInput[k]=eggInput[v]end end
 local function search()
 	local input=inputBox.value

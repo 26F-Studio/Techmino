@@ -295,13 +295,47 @@ function commands.unlockall(bool)
 		log"Type: unlockall sure"
 	end
 end
-function commands.play(m)--marathon_bfmax can only played here
+function commands.play(m)--marathon_bfmax can only entered through here
 	if MODES[m]then
 		loadGame(m)
 	elseif m then
 		log("No mode called "..m)
 	else
 		log"Usage: play [modeName]"
+	end
+end
+function commands.festival(name)
+	if name=="flag"then
+		BG.setDefault("none")
+		BGM.setDefault(false)
+		BG.set("none")
+		BGM.stop()
+		SFX.play("clear_4")
+		LOG.print("What are you looking for?",COLOR.G)
+	elseif name=="classic"then
+		FESTIVAL=false
+		BG.setDefault("space")
+		BGM.setDefault("blank")
+		BGM.play()
+	elseif name=="xmas"then
+		FESTIVAL="xMas"
+		BG.setDefault("snow")
+		BGM.setDefault("mXmas")
+		BGM.play()
+	elseif name=="sprfes"then
+		FESTIVAL="sprFes"
+		BG.setDefault("firework")
+		BGM.setDefault("spring festival")
+		BGM.play()
+	elseif name=="zday"then
+		FESTIVAL="zDay"
+		BG.setDefault("lanterns")
+		BGM.setDefault("overzero")
+		BGM.play()
+	elseif name then
+		log("No festival called "..name)
+	else
+		log"Usage: festival [festivalName]"
 	end
 end
 
