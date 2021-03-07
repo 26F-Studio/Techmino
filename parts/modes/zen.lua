@@ -4,7 +4,7 @@ return{
 		drop=120,lock=120,
 		infHold=true,
 		target=200,dropPiece=PLY.check_lineReach,
-		bg="bg2",bgm="infinite",
+		bg="bg2",bgm="venus",
 	},
 	load=function()
 		PLY.newPlayer(1)
