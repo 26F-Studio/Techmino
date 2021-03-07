@@ -25,6 +25,8 @@ function scene.sceneInit()
 	BG.set("none")
 end
 
+
+
 -- command_help_messages format:
 -- command_help_messages is a table
 --     key: the command
@@ -56,7 +58,7 @@ local command_help_messages={
 			"print() can be used to print text into this window."
 		}
 	},
-	["exit"]={
+	exit={
 		description="Return to the previous menu.",
 		details={
 			"Return to the previous menu.",
@@ -206,103 +208,105 @@ local command_help_list={
 
 local command_help_page_size=10
 
-local commands={
-	--Basic commands
-	help=function(arg)
-		if command_help_messages[arg] then -- help [command]
-			for i,v in pairs(command_help_messages[arg]["details"]) do
-				log(v)
-			end
-			return
+local commands={}
+--Basic commands
+function commands.help(arg)
+	if command_help_messages[arg]then -- help [command]
+		for _,v in pairs(command_help_messages[arg].details)do
+			log(v)
 		end
-		if tonumber(arg) then
-			arg=int(tonumber(arg))
-		else
-			arg=1
-		end -- help or help [page]
-		local total_pages=math.ceil(#command_help_list/command_help_page_size)
-		if arg<=0 or arg>total_pages then
-			log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
-			return
-		end
-		log("Use help [page] to view more commands,")
-		log("or help [command_name] for more info on a command.")
-		log("")
-		log("Page "..arg.." of "..total_pages)
-		for i=(arg-1)*10+1,math.min(arg*10,#command_help_list) do
-			local _c=command_help_list[i]
-			log("".._c.." - "..command_help_messages[_c]["description"])
-		end
-	end,
-	shutdown=function(arg)os.execute("shutdown "..arg)end,
-	cls=function()outputBox:clear()end,
-	echo=log,
-	exit=backScene,
-	quit=backScene,
-	bye=backScene,
+		return
+	end
+	if tonumber(arg)then
+		arg=int(tonumber(arg))
+	else
+		arg=1
+	end -- help or help [page]
+	local total_pages=math.ceil(#command_help_list/command_help_page_size)
+	if arg<=0 or arg>total_pages then
+		log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
+		return
+	end
+	log"Use help [page] to view more commands,"
+	log"or help [command_name] for more info on a command."
+	log""
+	log("Page "..arg.." of "..total_pages)
+	for i=(arg-1)*10+1,math.min(arg*10,#command_help_list)do
+		local _c=command_help_list[i]
+		log("".._c.." - "..command_help_messages[_c].description)
+	end
+end
+function commands.shutdown(arg)os.execute("shutdown "..arg)end
+function commands.cls()outputBox:clear()end
+commands.echo=log
+commands.exit=backScene
+commands.quit=backScene
+commands.bye=backScene
 
-	--Game commands
-	fn=function(n)
-		if tonumber(n)then
-			n=int(tonumber(n))
-			if n>=1 and n<=12 then
-				love.keypressed("f"..n)
-				return
+--Game commands
+function commands.fn(n)
+	if tonumber(n)then
+		n=int(tonumber(n))
+		if n>=1 and n<=12 then
+			love.keypressed("f"..n)
+			return
+		end
+	end
+	log"Usage: fn [1~12]"
+end
+function commands.scrinfo()for _,v in next,SCR.info()do log(v)end end
+function commands.wireframe(bool)
+	if bool=="true"or bool=="false"then
+		gc.setWireframe(bool=="true")
+		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
+	else
+		log"Usage: wireframe [true|false]"
+	end
+end
+function commands.gammacorrect(bool)
+	if bool=="true"or bool=="false"then
+		love._setGammaCorrect(bool=="true")
+		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
+	else
+		log"Usage: gammacorrect [true|false]"
+	end
+end
+function commands.rmwtm(password)
+	if password==(14^2*10)..(2*11)then
+		_G["\100\114\97\119\70\87\77"]=NULL
+		log("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
+		SFX.play("clear")
+	else
+		log"Usage: None."
+	end
+end
+function commands.unlockall(bool)
+	if bool=="sure"then
+		for name,M in next,MODES do
+			if type(name)=="string"and not RANKS[name]and M.x then
+				RANKS[name]=M.score and 0 or 6
 			end
 		end
-		log"Usage: fn [1~12]"
-	end,
-	scrinfo=function()for _,v in next,SCR.info()do log(v)end end,
-	wireframe=function(bool)
-		if bool=="true"or bool=="false"then
-			gc.setWireframe(bool=="true")
-			log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
-		else
-			log"Usage: wireframe [true|false]"
-		end
-	end,
-	gammacorrect=function(bool)
-		if bool=="true"or bool=="false"then
-			love._setGammaCorrect(bool=="true")
-			log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
-		else
-			log"Usage: gammacorrect [true|false]"
-		end
-	end,
-	rmwtm=function(password)
-		if password=="196022"then
-			_G["\100\114\97\119\70\87\77"]=NULL
-			log("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
-			SFX.play("clear")
-		else
-			log"Usage: None."
-		end
-	end,
-	unlockall=function(bool)
-		if bool=="sure"then
-			for name,M in next,MODES do
-				if type(name)=="string"and not RANKS[name]and M.x then
-					RANKS[name]=M.score and 0 or 6
-				end
-			end
-			FILE.save(RANKS,"conf/unlock")
-			log("\68\69\86\58\85\78\76\79\67\75\65\76\76")
-			SFX.play("clear_2")
-		else
-			log"Are you sure to unlock all modes?"
-			log"Type: unlockall sure"
-		end
-	end,
-	play=function(m)--marathon_bfmax can only played here
-		if MODES[m]then
-			loadGame(m)
-		elseif m then
-			log("No mode called "..m)
-		else
-			log"Usage: play [modeName]"
-		end
-	end,
-}
+		FILE.save(RANKS,"conf/unlock")
+		log("\68\69\86\58\85\78\76\79\67\75\65\76\76")
+		SFX.play("clear_2")
+	else
+		log"Are you sure to unlock all modes?"
+		log"Type: unlockall sure"
+	end
+end
+function commands.play(m)--marathon_bfmax can only played here
+	if MODES[m]then
+		loadGame(m)
+	elseif m then
+		log("No mode called "..m)
+	else
+		log"Usage: play [modeName]"
+	end
+end
+
+
+
 function scene.keyDown(k)
 	if k=="return"then
 		local input=inputBox.value
