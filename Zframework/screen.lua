@@ -31,12 +31,18 @@ function SCR.resize(w,h)
 	SCR.safeX,SCR.safeY,SCR.safeW,SCR.safeH=love.window.getSafeArea()
 	SCR.xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
 end
-function SCR.print()
-	LOG.print("Screen Info:")
-	for k,v in next,SCR do
-		if type(v)=="number"then
-			LOG.print(k..": "..v)
-		end
-	end
+function SCR.info()
+	return{
+		"Screen info:",
+		("w0,h0 : %d, %d"):format(SCR.w0,SCR.h0),
+		("x,y : %d, %d"):format(SCR.x,SCR.y),
+		("cx,cy : %d, %d"):format(SCR.cx,SCR.cy),
+		("ex,ey : %d, %d"):format(SCR.ex,SCR.ey),
+		("w,h : %d, %d"):format(SCR.w,SCR.h),
+		("W,H : %d, %d"):format(SCR.W,SCR.H),
+		("safeX,safeY : %d, %d"):format(SCR.safeX,SCR.safeY),
+		("safeW,safeH : %d, %d"):format(SCR.safeW,SCR.safeH),
+		("k,dpi,rad : %d, %d, %.4f"):format(SCR.k,SCR.dpi,SCR.rad),
+	}
 end
 return SCR
