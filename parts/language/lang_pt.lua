@@ -275,9 +275,8 @@ return{
 			autoPause="Pausar quando foco for perco",
 			swap="Combinação de tecla(Mudar modo de atk)",
 			fine="Som Falha de destreza",
-			appLock="App Lock (Senha: 626)",
+			appLock="App Lock (Senha: 2+6)",
 			-- simpMode="Simple mode",
-			calc="App Lock",
 		},
 		setting_video={
 			title="Config. de vídeo",

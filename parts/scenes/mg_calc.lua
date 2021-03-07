@@ -6,16 +6,14 @@ local find,sub,byte=string.find,string.sub,string.byte
 local scene={}
 
 local reg--register
-local val--value
+local val--result value
 local sym--symbol
-local pass--if password correct
 
 function scene.sceneInit()
 	BG.set("none")
 	reg=false
 	val="0"
 	sym=false
-	pass=false
 end
 
 scene.mouseDown=NULL
@@ -74,14 +72,11 @@ function scene.keyDown(k)
 		sym="="
 		reg=false
 		local v=tonumber(val)
-		if v==600+26 then pass=true
-		elseif v==190000+6022 then
-			pass=true
+		if v==190000+6022 then
 			_G["\100\114\97\119\70\87\77"]=NULL
 			LOG.print("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100","message")
 			SFX.play("clear")
 		elseif v==7294e4+3816 then
-			pass=true
 			for name,M in next,MODES do
 				if type(name)=="string"and not RANKS[name]and M.x then
 					RANKS[name]=M.score and 0 or 6
@@ -98,23 +93,21 @@ function scene.keyDown(k)
 		elseif v==654321 then
 			love._setGammaCorrect(not gc.isGammaCorrect())
 			LOG.print("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"),"warn")
-		elseif v==114514 or v==1919810 or v==1145141919810 then
-			error()
 		elseif v==200 then
 			loadGame("marathon_bfmax",true)
 		elseif v==670 then
 			SCR.print()
 		end
 	elseif k=="escape"then
-		val,reg,sym="0"
+		if val~="0"then
+			val,reg,sym="0"
+		else
+			scene.keyDown("quit")
+		end
 	elseif k=="delete"then
 		val="0"
-	elseif k=="space"and pass then
-		if LOADED then
-			SCN.back()
-		else
-			SCN.swapTo("load","swipeD")
-		end
+	elseif k=="quit"then
+		SCN.back()
 	end
 end
 
@@ -139,15 +132,15 @@ scene.widgetList={
 	WIDGET.newKey{name="_8",x=250,y=500,w=90,fText="8",font=50,code=pressKey"8"},
 	WIDGET.newKey{name="_9",x=350,y=500,w=90,fText="9",font=50,code=pressKey"9"},
 	WIDGET.newKey{name="_0",x=150,y=600,w=90,fText="0",font=50,code=pressKey"0"},
-	WIDGET.newKey{name=".",	x=250,y=600,w=90,fText=".",color="lPurple",	font=50,code=pressKey"."},
-	WIDGET.newKey{name="e",	x=350,y=600,w=90,fText="e",color="lPurple",	font=50,code=pressKey"e"},
-	WIDGET.newKey{name="+",	x=450,y=300,w=90,fText="+",color="lBlue",	font=50,code=pressKey"+"},
-	WIDGET.newKey{name="-",	x=450,y=400,w=90,fText="-",color="lBlue",	font=50,code=pressKey"-"},
-	WIDGET.newKey{name="*",	x=450,y=500,w=90,fText="*",color="lBlue",	font=50,code=pressKey"*"},
-	WIDGET.newKey{name="/",	x=450,y=600,w=90,fText="/",color="lBlue",	font=50,code=pressKey"/"},
-	WIDGET.newKey{name="<",	x=550,y=300,w=90,fText="<",color="lRed",	font=50,code=pressKey"backspace"},
-	WIDGET.newKey{name="=",	x=550,y=400,w=90,fText="=",color="lYellow",font=50,code=pressKey"return"},
-	WIDGET.newButton{name="play",x=640,y=600,w=180,h=90,fText="-->",color="lGreen",font=40,code=pressKey"space",hide=function()return not pass end},
+	WIDGET.newKey{name=".",	x=250,y=600,w=90,fText=".",color="lM",font=50,code=pressKey"."},
+	WIDGET.newKey{name="e",	x=350,y=600,w=90,fText="e",color="lM",font=50,code=pressKey"e"},
+	WIDGET.newKey{name="+",	x=450,y=300,w=90,fText="+",color="lB",font=50,code=pressKey"+"},
+	WIDGET.newKey{name="-",	x=450,y=400,w=90,fText="-",color="lB",font=50,code=pressKey"-"},
+	WIDGET.newKey{name="*",	x=450,y=500,w=90,fText="*",color="lB",font=50,code=pressKey"*"},
+	WIDGET.newKey{name="/",	x=450,y=600,w=90,fText="/",color="lB",font=50,code=pressKey"/"},
+	WIDGET.newKey{name="<",	x=550,y=300,w=90,fText="<",color="lR",font=50,code=pressKey"backspace"},
+	WIDGET.newKey{name="=",	x=550,y=400,w=90,fText="=",color="lY",font=50,code=pressKey"return"},
+	WIDGET.newKey{name="back",x=1140,y=640,w=170,h=80,font=40,code=pressKey"quit"},
 }
 
 return scene

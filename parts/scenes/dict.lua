@@ -56,6 +56,7 @@ local eggInput={
 	dtw=goScene"mg_dtw",
 	can=goScene"mg_cannon",
 	drp=goScene"mg_dropper",
+	calc=goScene"mg_calc",
 	flag=function()
 		BG.setDefault("none")
 		BGM.setDefault(false)

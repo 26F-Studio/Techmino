@@ -70,7 +70,6 @@ return{
 			ctrl="改控制",
 			key="改键位",
 			touch="改触屏",
-			calc="家长锁",
 		},
 		setting_video={
 			title="改画面",

@@ -464,7 +464,7 @@ function love.run()
 	love.resize(gc.getWidth(),gc.getHeight())
 
 	--Scene Launch
-	SCN.init(SETTING.appLock and"calculator"or"load")
+	SCN.init("load")
 
 	return function()
 		local _
