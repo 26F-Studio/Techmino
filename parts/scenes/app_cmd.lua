@@ -25,16 +25,214 @@ function scene.sceneInit()
 	BG.set("none")
 end
 
+-- command_help_messages format:
+-- command_help_messages is a table
+--     key: the command
+--     value: a table containing the following two elements:
+--         description: a string that shows when user types `help` or
+--                      `help [page]`.
+--         details: an array of strings, each representing a line, that shows
+--                  when user types `help [command]`.
+local command_help_messages={
+	help={
+		description="Display help messages.",
+		details={
+			"Display help messages.",
+			"",
+			"Usage:",
+			"help",
+			"help [page]",
+			"help [command_name]"
+		}
+	},
+	["#"]={
+		description="Run arbitrary Lua code.",
+		details={
+			"Run arbitrary Lua code.",
+			"",
+			"Usage:",
+			"#<lua_source_code>",
+			"",
+			"print() can be used to print text into this window."
+		}
+	},
+	["exit"]={
+		description="Return to the previous menu.",
+		details={
+			"Return to the previous menu.",
+			"",
+			"Aliases: exit quit bye",
+			"",
+			"Usage:",
+			"exit"
+		}
+	},
+	quit={
+		description="Return to the previous menu.",
+		details={
+			"Return to the previous menu.",
+			"",
+			"Aliases: exit quit bye",
+			"",
+			"Usage:",
+			"exit"
+		}
+	},
+	bye={
+		description="Return to the previous menu.",
+		details={
+			"Return to the previous menu.",
+			"",
+			"Aliases: exit quit bye",
+			"",
+			"Usage:",
+			"exit"
+		}
+	},
+	echo={
+		description="Print a message to this window.",
+		details={
+			"Print a message to this window.",
+			"",
+			"Usage:",
+			"echo <message>"
+		}
+	},
+	cls={
+		description="Clear the log output.",
+		details={
+			"Clear the log output.",
+			"",
+			"Usage:",
+			"cls"
+		}
+	},
+	shutdown={
+		description="(Attempt to) shutdown your machine.",
+		details={
+			"(Attempt to) shutdown your machine. Arguments to this command",
+			"will be passed on to the system shutdown command.",
+			"",
+			"Usage:",
+			"shutdown",
+			"shutdown [args]"
+		}
+	},
+	fn={
+		description="Simulates a Function key press.",
+		details={
+			"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
+			"Useful if you are on a mobile device without access to these keys.",
+			"",
+			"Usage:",
+			"fn <1-12>"
+		}
+	},
+	scrinfo={
+		description="Display information about your screen.",
+		details={
+			"Display information about your screen.",
+			"",
+			"Usage:",
+			"scrinfo"
+		}
+	},
+	wireframe={
+		description="Enable or disable wireframe.",
+		details={
+			"Enable or disable wireframe.",
+			"",
+			"Usage:",
+			"wireframe <true|false>"
+		}
+	},
+	gammacorrect={
+		description="Enable or disable gamma correction.",
+		details={
+			"Enable or disable gamma correction.",
+			"",
+			"Usage:",
+			"gammacorrect <true|false>"
+		}
+	},
+	rmwtm={
+		description="Remove the \"no recording\" watermark.",
+		details={
+			"Remove the \"no recording\" watermark.",
+			"You will need a password to do that.",
+			"",
+			"Usage:",
+			"rmwtm <password>"
+		}
+	},
+	unlockall={
+		description="Unlock all modes on the map.",
+		details={
+			"Unlock all modes on the map.",
+			"",
+			"Usage:",
+			"unlockall"
+		}
+	},
+	play={
+		description="Load a game mode, including those that are not on the map.",
+		details={
+			"Load a game mode, including those that are not on the map.",
+			"",
+			"Usage:",
+			"play <mode_name>"
+		}
+	},
+}
+
+-- while I could have used a for loop to get this... the order at which the
+-- table elements turn up in the loop is not quite ideal. Doing this manually
+-- so that at least the most basic commands are on page 1.
+local command_help_list={
+	"help",
+	"#",
+	"exit",
+	"echo",
+	"cls",
+	"shutdown",
+	"fn",
+	"scrinfo",
+	"wireframe",
+	"gammacorrect",
+	"rmwtm",
+	"unlockall",
+	"play",
+}
+
+local command_help_page_size=10
+
 local commands={
 	--Basic commands
-	help=function()
-		log"1.Type in commands and press enter"
-		log"e.g. echo hihihi"
-		log"e.g. cls"
-		log""
-		log"2.Run LUA code with #..."
-		log"e.g. #print(\"hello world\")"
-		log"e.g. #for i=1,5 do print(i) end"
+	help=function(arg)
+		if command_help_messages[arg] then -- help [command]
+			for i,v in pairs(command_help_messages[arg]["details"]) do
+				log(v)
+			end
+			return
+		end
+		if tonumber(arg) then
+			arg=int(tonumber(arg))
+		else
+			arg=1
+		end -- help or help [page]
+		local total_pages=math.ceil(#command_help_list/command_help_page_size)
+		if arg<=0 or arg>total_pages then
+			log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
+			return
+		end
+		log("Use help [page] to view more commands,")
+		log("or help [command_name] for more info on a command.")
+		log("")
+		log("Page "..arg.." of "..total_pages)
+		for i=(arg-1)*10+1,math.min(arg*10,#command_help_list) do
+			local _c=command_help_list[i]
+			log("".._c.." - "..command_help_messages[_c]["description"])
+		end
 	end,
 	shutdown=function(arg)os.execute("shutdown "..arg)end,
 	cls=function()outputBox:clear()end,
@@ -92,7 +290,7 @@ local commands={
 			SFX.play("clear_2")
 		else
 			log"Are you sure to unlock all modes?"
-			log"Usage: unlockall sure"
+			log"Type: unlockall sure"
 		end
 	end,
 	play=function(m)--marathon_bfmax can only played here
@@ -108,6 +306,7 @@ local commands={
 function scene.keyDown(k)
 	if k=="return"then
 		local input=inputBox.value
+		log("> "..input)
 		if input:byte()==35 then
 			--Execute code
 			local code=loadstring(input:sub(2))
