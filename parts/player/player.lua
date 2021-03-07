@@ -576,10 +576,15 @@ function Player.spin(P,d,ifpre)
 	local iki=P.RS[P.cur.id]
 	if type(iki)=="table"then
 		local idir=(P.cur.dir+d)%4
+		iki=iki[P.cur.dir*10+idir]
+		if not iki then
+			P:freshBlock("move")
+			SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
+			return
+		end
 		local icb=BLOCKS[P.cur.id][idir]
 		local isc=SCS[P.cur.id][idir]
 		local ix,iy=P.curX+P.cur.sc[2]-isc[2],P.curY+P.cur.sc[1]-isc[1]
-		iki=iki[P.cur.dir*10+idir]
 		for test=1,#iki do
 			local x,y=ix+iki[test][1],iy+iki[test][2]
 			if not P:ifoverlap(icb,x,y)and(P.freshTime>=0 or iki[test][2]<0)then

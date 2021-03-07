@@ -7,7 +7,9 @@ local noKick,noKick_180,pushZero do
 		for _,L in next,t do
 			if type(L)=="table"then
 				for _,v in next,L do
-					table.insert(v,1,zero)
+					if not v[1]or v[1][1]~=0 or v[1][2]~=0 then
+						table.insert(v,1,zero)
+					end
 				end
 			end
 		end
@@ -31,6 +33,7 @@ end
 local function C_sym(L)--Use this if the block is centrosymmetry, *PTR!!!
 	L[23]=L[01]L[32]=L[10]
 	L[21]=L[03]L[12]=L[30]
+	L[20]=L[02]L[31]=L[13]
 end
 local function flipList(O)--Use this to copy a symmetry list
 	if not O then return end
@@ -366,9 +369,7 @@ do
 			[13]={{-1, 0},{ 1, 0}},
 			[31]={{ 1, 0},{-1, 0}},
 		},--I2
-		{
-			[01]={},[10]={},[03]={},[30]={},
-		},--O1
+		nil,--O1
 	}
 	TRS[2]=	reflect(TRS[1])--SZ
 	TRS[4]=	reflect(TRS[3])--LJ
@@ -377,9 +378,9 @@ do
 	TRS[13]=reflect(TRS[12])--FE
 	TRS[20]=reflect(TRS[19])--L5J5
 	TRS[22]=reflect(TRS[21])--RY
-	TRS[24]=reflect(TRS[23])--HN
-	C_sym(TRS[8])C_sym(TRS[9])
-	C_sym(TRS[25])C_sym(TRS[26])C_sym(TRS[29])
+	TRS[24]=reflect(TRS[23])--NH
+	C_sym(TRS[8])C_sym(TRS[9])--S5Z5
+	C_sym(TRS[25])C_sym(TRS[26])--I5I3
 	for i=1,29 do collect(TRS[i])end
 	pushZero(TRS)
 end
