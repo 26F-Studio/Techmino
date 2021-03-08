@@ -1,4 +1,5 @@
 local gc=love.graphics
+local kb=love.keyboard
 
 local int,sin=math.floor,math.sin
 
@@ -148,6 +149,7 @@ function scene.sceneInit()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
 	locked=SETTING.appLock
+	kb.setKeyRepeat(false)
 end
 function scene.sceneBack()
 	love.event.quit()
@@ -213,9 +215,14 @@ function scene.update(dt)
 				openTime=openTime+.26
 				skip=skip-1
 			end
-			if openTime>=3.26 then
-				openTime=3.26
-				SCN.swapTo("intro")
+			if openTime>=3.26 and not SCN.swapping then
+				if kb.isDown("r")then
+					SCN.push("intro")
+					SCN.swapTo("app_cmd")
+				else
+					SCN.swapTo("intro")
+				end
+				love.keyboard.setKeyRepeat(true)
 			end
 		end
 	end
