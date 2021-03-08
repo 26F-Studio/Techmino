@@ -6,7 +6,7 @@ local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
 log{COLOR.lGrape,"Techmino Shell"}
-log{COLOR.lY,"©2020 26F Studio   some rights reserved"}
+log{COLOR.lBlue,"©2020 26F Studio   some rights reserved"}
 
 local history,hisPtr={"?"}
 
@@ -242,9 +242,10 @@ do--commands.help(arg)
 		"rmwtm",
 		"unlockall",
 		"play",
-		"theme"
+		"theme",
 	}
-	local total_pages=math.ceil(#command_help_list/10)
+	local pageSize=10
+	local maxPage=math.ceil(#command_help_list/pageSize)
 	function commands.help(arg)
 		-- help [command]
 		if command_help_messages[arg]then
@@ -255,24 +256,29 @@ do--commands.help(arg)
 		end
 
 		-- help or help [page]
-		arg=tonumber(arg)and int(tonumber(arg))or 1
-		if arg>0 and arg<=total_pages then
+		arg=tonumber(arg)
+		if arg and arg>=1 and arg<=maxPage then
 			log"Use help [page] to view more commands,"
-			log"or help [command_name] for more info on a command."
+			log"or help [command_name] for details of a command."
 			log""
-			log("Page "..arg.." of "..total_pages)
-			for i=(arg-1)*10+1,math.min(arg*10,#command_help_list)do
-				local _c=command_help_list[i]
-				log("".._c.." - "..command_help_messages[_c].description)
+			log{COLOR.lPink,"Page ",COLOR.lG,arg,COLOR.lPink," of ",COLOR.lG,maxPage}
+			for i=pageSize*(arg-1)+1,math.min(pageSize*arg,#command_help_list)do
+				local cmd=command_help_list[i]
+				log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
 			end
 		else
-			log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
+			log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 		end
 	end
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
 function commands.cls()outputBox:clear()end
 function commands.rst()history,hisPtr={}end
+function commands.echo(str)
+	if str~=""then
+		outputBox:push(str)
+	end
+end
 function commands.url(url)
 	if url~=""then
 		local res,err=pcall(love.system.openURL,url)
@@ -393,6 +399,7 @@ end
 function scene.keyDown(k)
 	if k=="return"then
 		local input=inputBox.value
+		if input==""then return end
 
 		--Write History
 		ins(history,input)
@@ -402,9 +409,10 @@ function scene.keyDown(k)
 		log""
 
 		--Execute
+		input=input:sub((input:find("%S")))
 		if input:byte()==35 then
-			log{COLOR.grass,"> "..input}
 			--Execute lua code
+			log{COLOR.lC,"> "..input}
 			local code,err=loadstring(input:sub(2))
 			if code then
 				setfenv(code,userG)
@@ -415,14 +423,14 @@ function scene.keyDown(k)
 			else
 				log{COLOR.R,"[SYNTAX ERR] ",COLOR.W,err}
 			end
-		elseif input~=""then
-			log{COLOR.sky,"> "..input}
+		else
 			--Execute builtin command
+			log{COLOR.lSea,"> "..input}
 			local p=input:find(" ")
 			local cmd,arg
 			if p then
 				cmd=input:sub(1,p-1):lower()
-				arg=input:sub(p+1)
+				arg=input:sub(input:find("%S",p+1)or -1)
 			else
 				cmd=input
 				arg=""
