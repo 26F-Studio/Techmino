@@ -260,22 +260,10 @@ function scene.draw()
 	if GAME.rank>0 then
 		local str=text.ranks[GAME.rank]
 		setFont(80)
-
-		gc.setColor(0,0,0,T*.3)
-		gc.print(str,46,-14,nil,1.8)
-		gc.print(str,46,-6,nil,1.8)
-		gc.print(str,54,-14,nil,1.8)
-		gc.print(str,54,-6,nil,1.8)
-
-		gc.setColor(0,0,0,T*.15)
-		gc.print(str,46,-10,nil,1.8)
-		gc.print(str,54,-10,nil,1.8)
-		gc.print(str,50,-14,nil,1.8)
-		gc.print(str,50,-6,nil,1.8)
-
-		local L=rankColor[GAME.rank]
-		gc.setColor(L[1],L[2],L[3],T)
-		gc.print(str,50,-10,nil,1.8)
+		gc.setColor(0,0,0,T*.7)
+		gc.print(str,100*T^.5-5,-14,nil,1.8)
+		gc.setColor(1,1,1,T)
+		gc.print(str,100*T^.5,-10,nil,1.8)
 	end
 
 	--Radar Chart

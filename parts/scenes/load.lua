@@ -67,6 +67,7 @@ local loadingThread=coroutine.create(function()
 	end
 
 	upFloor()
+	local modeIcons={}
 	for i=1,#MODES do
 		local m=MODES[i]--Mode template
 		local M=require("parts/modes/"..m.name)--Mode file
@@ -75,11 +76,14 @@ local loadingThread=coroutine.create(function()
 			M[k]=v
 		end
 		M.records=FILE.load("record/"..m.name..".rec")or M.score and{}
-		-- M.icon=gc.newImage("media/image/modeIcon/"..m.icon..".png")
-		-- M.icon=gc.newImage("media/image/modeIcon/custom.png")
+		if m.icon then
+			if not modeIcons[m.icon]then
+				modeIcons[m.icon]=gc.newImage("media/image/modeicon/"..m.icon..".png")
+			end
+			M.icon=modeIcons[m.icon]
+		end
 		if i%5==0 then YIELD()end
 	end
-
 	upFloor()
 	SKIN.change(SETTING.skinSet)
 	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked

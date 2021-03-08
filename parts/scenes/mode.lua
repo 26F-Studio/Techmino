@@ -4,7 +4,7 @@ local ms,kb,tc=love.mouse,love.keyboard,love.touch
 
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
-local sin=math.sin
+local sin,cos=math.sin,math.cos
 
 local mapCam={
 	sel=false,--Selected mode ID
@@ -42,9 +42,9 @@ local function onMode(x,y)
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
 			elseif M.shape==2 then
-				if abs(x-M.x)+abs(y-M.y)<s then return name end
+				if abs(x-M.x)+abs(y-M.y)+12<s then return name end
 			elseif M.shape==3 then
-				if(x-M.x)^2+(y-M.y)^2<s^2 then return name end
+				if(x-M.x)^2+(y-M.y)^2<(s+6)^2 then return name end
 			end
 		end
 	end
@@ -185,6 +185,14 @@ function scene.update()
 	end
 end
 
+local rankColor={
+	{.4,.1,.1},		--D
+	{.4,.35,.3},	--C
+	{.6,.4,.2},		--B
+	{.7,.75,.85},	--A
+	{.95,.9,.3},	--S
+	{.2,.7,.2},		--Special
+}
 function scene.draw()
 	local _
 	gc.push("transform")
@@ -196,7 +204,7 @@ function scene.draw()
 	local R=RANKS
 	local sel=mapCam.sel
 
-	--Draw lines connecting modes
+	--Lines connecting modes
 	gc.setLineWidth(8)
 	gc.setColor(1,1,1,.2)
 	for name,M in next,MODES do
@@ -208,63 +216,61 @@ function scene.draw()
 		end
 	end
 
-	setFont(60)
+	--Modes
+	setFont(80)
 	for name,M in next,MODES do
 		if R[name]then
-			local c=rankColor[R[M.name]]
-			if c then
-				gc.setColor(c)
-			else
-				c=.5+sin(TIME()*6.26)*.2
-				gc.setColor(c,c,c)
+			local S=M.size
+			gc.setColor(1,1,1)
+			gc.setLineWidth(4)
+
+			--Frame & fill
+			local drawType="line"
+			::again::
+			if M.shape==1 then--Rectangle
+				gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
+			elseif M.shape==2 then--Diamond
+				gc.circle(drawType,M.x,M.y,S+12,4)
+			elseif M.shape==3 then--Octagon
+				gc.circle(drawType,M.x,M.y,S+6,8)
+			end
+			if sel==name and drawType=="line"then
+				gc.setColor(1,1,1,.42)
+				drawType="fill"
+				goto again
 			end
 
-			local S=M.size
-			if M.shape==1 then--Rectangle
-				gc.rectangle("fill",M.x-S,M.y-S,2*S,2*S)
-				if sel==name then
-					gc.setColor(1,1,1)
-					gc.setLineWidth(10)
-					gc.rectangle("line",M.x-S+5,M.y-S+5,2*S-10,2*S-10)
+			--Icon
+			local icon=M.icon
+			if icon then
+				local length=icon:getWidth()*.5
+				local k=S/length
+				if R[M.name]>0 then
+					gc.setColor(.95,.95,.95)
+					for j=1,4 do
+						local t=TIME()*3+1.57*j
+						gc.draw(icon,M.x+2.6*cos(t),M.y+2.6*sin(t),nil,k,nil,length,length)
+					end
+					gc.setColor(rankColor[R[M.name]])
+				else
+					gc.setColor(.6,.6,.6)
 				end
-			elseif M.shape==2 then--Diamond
-				gc.circle("fill",M.x,M.y,S+5,4)
-				if sel==name then
-					gc.setColor(1,1,1)
-					gc.setLineWidth(10)
-					gc.circle("line",M.x,M.y,S+5,4)
-				end
-			elseif M.shape==3 then--Octagon
-				gc.circle("fill",M.x,M.y,S,8)
-				if sel==name then
-					gc.setColor(1,1,1)
-					gc.setLineWidth(10)
-					gc.circle("line",M.x,M.y,S,8)
-				end
+				gc.draw(icon,M.x,M.y,nil,k,nil,length,length)
 			end
+
+			--Rank
 			name=text.ranks[R[M.name]]
 			if name then
-				gc.setColor(0,0,0,.26)
-				mStr(name,M.x,M.y-40)
+				gc.setColor(0,0,0,.8)
+				mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
+				gc.setColor(.9,.9,.9)
+				mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
 			end
-			--[[
-			if M.icon then
-				local i=M.icon
-				local l=i:getWidth()*.5
-				local k=S/l*.8
-				gc.setColor(0,0,0,2)
-				gc.draw(i,M.x-1,M.y-1,nil,k,nil,l,l)
-				gc.draw(i,M.x-1,M.y+1,nil,k,nil,l,l)
-				gc.draw(i,M.x+1,M.y-1,nil,k,nil,l,l)
-				gc.draw(i,M.x+1,M.y+1,nil,k,nil,l,l)
-				gc.setColor(1,1,1)
-				gc.draw(i,M.x,M.y,nil,k,nil,l,l)
-			end
-			]]
 		end
 	end
 	gc.pop()
 
+	--Score board
 	if sel then
 		local M=MODES[sel]
 		gc.setColor(.7,.7,.7,.5)

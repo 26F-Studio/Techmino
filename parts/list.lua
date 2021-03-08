@@ -291,15 +291,6 @@ do--BLOCKS
 	end
 end
 
-rankColor={
-	COLOR.dRed,		--D
-	COLOR.dOrange,	--C
-	COLOR.lYellow,	--B
-	COLOR.lBlue,	--A
-	COLOR.lCyan,	--S
-	COLOR.lGreen,	--Special
-}
-
 minoColor={
 	COLOR.red,
 	COLOR.fire,
