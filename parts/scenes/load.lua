@@ -148,14 +148,14 @@ function scene.sceneBack()
 	love.event.quit()
 end
 
-function scene.keyDown(k)
-	if k=="escape"then
+function scene.keyDown(key)
+	if key=="escape"then
 		SCN.back()
-	elseif k=="s"then
+	elseif key=="s"then
 		skip=999
-	elseif locked and("12345679"):match(k)then
-		k=tonumber(k)
-		light[3*k]=not light[3*k]
+	elseif locked and("12345679"):match(key,nil,false)then
+		key=tonumber(key)
+		light[3*key]=not light[3*key]
 		if light[6]and light[18]then
 			locked=false
 		end
@@ -175,7 +175,7 @@ function scene.mouseDown(x,y)
 			end
 		end
 	end
-	scene.keyDown()
+	scene.keyDown("mouse")
 end
 scene.touchDown=scene.mouseDown
 
