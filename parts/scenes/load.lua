@@ -6,7 +6,7 @@ local scene={}
 
 local blackTime,openTime
 local shadePhase1,shadePhase2
-local progress=-1
+local progress=0
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
 local skip
@@ -16,29 +16,28 @@ local light={}
 for i=0,26 do
 	table.insert(light,1050+60*int(i/9))
 	table.insert(light,660-i%9*60)
-	table.insert(light,math.random()<.26)
+	table.insert(light,false)
 end
-light[2*3],light[6*3],light[26*3],light[27*3]=false,false,true,false
+light[math.random(10,18)*3]=true
+light[math.random(19,25)*3]=true
+light[26*3]=true
 
 local function upFloor()
 	progress=progress+1
-	light[3*progress+3]=false
+	if light[3*progress+3]then
+		light[3*progress+3]=false
+		SFX.play("click",.3)
+	end
 end
 local loadingThread=coroutine.create(function()
-	for _=1,VOC.getCount()do
-		VOC.loadOne()
-		if _%3==0 then YIELD()end
+	for i=1,SFX.getCount()do
+		SFX.loadOne()
+		if i%2==0 then YIELD()end
 	end
 
 	upFloor()
 	for i=1,BGM.getCount()do
 		BGM.loadOne()
-		if i%2==0 then YIELD()end
-	end
-
-	upFloor()
-	for i=1,SFX.getCount()do
-		SFX.loadOne()
 		if i%2==0 then YIELD()end
 	end
 
@@ -51,7 +50,13 @@ local loadingThread=coroutine.create(function()
 	upFloor()
 	for i=1,SKIN.getCount()do
 		SKIN.loadOne()
-		if i%2==0 then YIELD()end
+		if i%3==0 then YIELD()end
+	end
+
+	upFloor()
+	for _=1,VOC.getCount()do
+		VOC.loadOne()
+		if _%3==0 then YIELD()end
 	end
 
 	upFloor()
@@ -158,6 +163,7 @@ function scene.keyDown(key)
 		light[3*key]=not light[3*key]
 		if light[6]and light[18]then
 			locked=false
+			skip=0
 		end
 	else
 		skip=skip+1
