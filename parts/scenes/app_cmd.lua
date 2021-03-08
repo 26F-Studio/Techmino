@@ -161,9 +161,9 @@ do--commands.help(arg)
 			},
 		},
 		scrinfo={
-			description="Display information about game window'.",
+			description="Display information about the game window.",
 			details={
-				"Display information about game window'.",
+				"Display information about the game window.",
 				"",
 				"Usage: scrinfo",
 			},
@@ -249,8 +249,8 @@ do--commands.help(arg)
 		end
 
 		--help or help [page]
-		arg=tonumber(arg)
-		if arg and arg>=1 and arg<=maxPage then
+		if arg==""then arg=1 else arg=tonumber(arg)end
+		if arg and arg==int(arg)and arg>=1 and arg<=maxPage then
 			log"Use help [page] to view more commands,"
 			log"or help [command_name] for details of a command."
 			log""
