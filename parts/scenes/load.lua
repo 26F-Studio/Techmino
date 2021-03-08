@@ -33,7 +33,7 @@ end
 local loadingThread=coroutine.create(function()
 	for i=1,SFX.getCount()do
 		SFX.loadOne()
-		if i%2==0 then YIELD()end
+		if i%3==0 then YIELD()end
 	end
 
 	upFloor()
@@ -51,19 +51,19 @@ local loadingThread=coroutine.create(function()
 	upFloor()
 	for i=1,SKIN.getCount()do
 		SKIN.loadOne()
-		if i%3==0 then YIELD()end
+		if i%4==0 then YIELD()end
 	end
 
 	upFloor()
 	for _=1,VOC.getCount()do
 		VOC.loadOne()
-		if _%3==0 then YIELD()end
+		if _%5==0 then YIELD()end
 	end
 
 	upFloor()
 	for i=1,17 do
 		getFont(15+5*i)
-		if i%3==0 then YIELD()end
+		if i%2==0 then YIELD()end
 	end
 
 	upFloor()
