@@ -29,7 +29,7 @@ WSCONN=false
 LATEST_VERSION=false
 
 --Festival check within one statement
-FESTIVAL=(
+THEME=(
 	--Christmas
 	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and
 	"Xmas"or
@@ -406,13 +406,13 @@ do
 	end
 end
 
-if FESTIVAL=="Xmas"then
+if THEME=="Xmas"then
 	BG.setDefault("snow")
 	BGM.setDefault("mXmas")
-elseif FESTIVAL=="sprFes"then
+elseif THEME=="sprFes"then
 	BG.setDefault("firework")
 	BGM.setDefault("spring festival")
-elseif FESTIVAL=="zDay"then
+elseif THEME=="zDay"then
 	BG.setDefault("lanterns")
 	BGM.setDefault("overzero")
 else

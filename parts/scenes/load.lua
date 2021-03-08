@@ -117,11 +117,11 @@ local loadingThread=coroutine.create(function()
 			authToken=USER.authToken,
 		})
 	]]
-	if FESTIVAL=="Xmas"then
+	if THEME=="Xmas"then
 		LOG.print("==============",COLOR.red)
 		LOG.print("Merry Christmas!",COLOR.white)
 		LOG.print("==============",COLOR.red)
-	elseif FESTIVAL=="sprFes"then
+	elseif THEME=="sprFes"then
 		LOG.print(" ★☆☆★",COLOR.red)
 		LOG.print("新年快乐!",COLOR.white)
 		LOG.print(" ★☆☆★",COLOR.red)

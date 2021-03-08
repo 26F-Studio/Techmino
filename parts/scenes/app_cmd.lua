@@ -205,14 +205,14 @@ do--commands.help(arg)
 				"Usage: play [mode_name]",
 			},
 		},
-		festival={
-			description="Load a festival theme.",
+		theme={
+			description="Load a theme.",
 			details={
-				"Load a festival theme.",
+				"Load a theme.",
 				"",
-				"Usage: festival [festival_name]",
+				"Usage: theme [theme_name]",
 				"",
-				"Available festivals:",
+				"Available themes:",
 				"classic|xmas|sprfes|zday",
 			},
 		},
@@ -233,7 +233,7 @@ do--commands.help(arg)
 		"rmwtm",
 		"unlockall",
 		"play",
-		"festival"
+		"theme"
 	}
 	local total_pages=math.ceil(#command_help_list/10)
 	function commands.help(arg)
@@ -334,32 +334,32 @@ function commands.play(m)--marathon_bfmax can only entered through here
 		log{COLOR.water,"Usage: play [modeName]"}
 	end
 end
-function commands.festival(name)
+function commands.theme(name)
 	if name=="classic"then
-		FESTIVAL=false
+		THEME=false
 		BG.setDefault("space")
 		BGM.setDefault("blank")
 		BGM.play()
 	elseif name=="xmas"then
-		FESTIVAL="xMas"
+		THEME="xMas"
 		BG.setDefault("snow")
 		BGM.setDefault("mXmas")
 		BGM.play()
 	elseif name=="sprfes"then
-		FESTIVAL="sprFes"
+		THEME="sprFes"
 		BG.setDefault("firework")
 		BGM.setDefault("spring festival")
 		BGM.play()
 	elseif name=="zday"then
-		FESTIVAL="zDay"
+		THEME="zDay"
 		BG.setDefault("lanterns")
 		BGM.setDefault("overzero")
 		BGM.play()
 	else
 		if name~=""then
-			log("No festival called "..name)
+			log("No theme called "..name)
 		end
-		log{COLOR.water,"Usage: festival [fesitivalName]"}
+		log{COLOR.water,"Usage: theme [themeName]"}
 	end
 end
 

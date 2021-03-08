@@ -974,11 +974,11 @@ function WIDGET.set(list)
 		for i=1,#list do
 			list[i]:reset()
 		end
-		if FESTIVAL and SCN.cur~="custom_field"then
+		if THEME and SCN.cur~="custom_field"then
 			local c1,c2,c3
-			if FESTIVAL=="xMas"then
+			if THEME=="xMas"then
 				c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
-			elseif FESTIVAL=="sprFes"then
+			elseif THEME=="sprFes"then
 				c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
 			else
 				return
