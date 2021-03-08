@@ -6,245 +6,305 @@ local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 outputBox:push("Techmino Shell")
 outputBox:push("©2020 26F Studio   some rights reserved")
-local history,hisPtr={"help"}
+local history,hisPtr={"?"}
 
-local scene={}
-
+local noLog=false
 local function log(str)
-	outputBox:push(str)
+	if noLog then return end
+	outputBox:push(tostring(str))
 end
+
+--Environment for user's function
 local userEnv={
-	print=log,
-	math=math,
-	table=table,
-	string=string,
-}
+	assert=assert,error=error,
+	tonumber=tonumber,tostring=tostring,
+	select=select,next=next,
+	ipairs=ipairs,pairs=pairs,
+	print=log,type=type,
+	pcall=pcall,xpcall=xpcall,
+	rawget=rawget,rawset=rawset,rawlen=rawlen,rawequal=rawequal,
+	setfenv=setfenv,setmetatable=setmetatable,
+	-- load=load,loadfile=loadfile,dofile=dofile,
+	-- getfenv=getfenv,getmetatable=getmetatable,
+	-- collectgarbage=collectgarbage,
 
-function scene.sceneInit()
-	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	BG.set("none")
+	math={},
+	table={},
+	string={},
+	coroutine={},
+	bit32={},
+	debug={"No way."},
+	package={"No way."},
+	io={"No way."},
+	os={"No way."},
+	_VERSION=VERSION_CODE,
+}userEnv._G=userEnv
+TABLE.complete(math,		userEnv.math)
+TABLE.complete(table,		userEnv.table)
+TABLE.complete(string,		userEnv.string)
+TABLE.complete(coroutine,	userEnv.coroutine)
+TABLE.complete(bit,			userEnv.bit)
+
+--Puzzle box
+local first_key={}
+local fleg={
+	pw=(14^2*10)..(2*11),
+	second_box="Coming soon",
+}setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
+local function first_box(k,f)
+	if k~=first_key then log"Usage:"log"?"return end
+	if not f then log"Two keys needed"return end
+	if type(f):byte()~=102 then log"Function need"return end
+	noLog=true
+	if not f()then noLog=false log"There are something in the void."return end
+	if f()~=f then noLog=false log"It is itself."return end
+	if f(26)~=math.huge then noLog=false log"26 can create the huge"return end
+	noLog=false
+	log"You lose."
+	return fleg
 end
+userEnv.the_key=first_key
+userEnv.the_box=first_box
 
 
-
--- command_help_messages format:
--- command_help_messages is a table
---     key: the command
---     value: a table containing the following two elements:
---         description: a string that shows when user types `help` or
---                      `help [page]`.
---         details: an array of strings, each representing a line, that shows
---                  when user types `help [command]`.
-local command_help_messages={
-	help={
-		description="Display help messages.",
-		details={
-			"Display help messages.",
-			"",
-			"Usage:",
-			"help",
-			"help [page]",
-			"help [command_name]"
-		}
-	},
-	["#"]={
-		description="Run arbitrary Lua code.",
-		details={
-			"Run arbitrary Lua code.",
-			"",
-			"Usage:",
-			"#<lua_source_code>",
-			"",
-			"print() can be used to print text into this window."
-		}
-	},
-	exit={
-		description="Return to the previous menu.",
-		details={
-			"Return to the previous menu.",
-			"",
-			"Aliases: exit quit bye",
-			"",
-			"Usage:",
-			"exit"
-		}
-	},
-	quit={
-		description="Return to the previous menu.",
-		details={
-			"Return to the previous menu.",
-			"",
-			"Aliases: exit quit bye",
-			"",
-			"Usage:",
-			"exit"
-		}
-	},
-	bye={
-		description="Return to the previous menu.",
-		details={
-			"Return to the previous menu.",
-			"",
-			"Aliases: exit quit bye",
-			"",
-			"Usage:",
-			"exit"
-		}
-	},
-	echo={
-		description="Print a message to this window.",
-		details={
-			"Print a message to this window.",
-			"",
-			"Usage:",
-			"echo <message>"
-		}
-	},
-	cls={
-		description="Clear the log output.",
-		details={
-			"Clear the log output.",
-			"",
-			"Usage:",
-			"cls"
-		}
-	},
-	shutdown={
-		description="(Attempt to) shutdown your machine.",
-		details={
-			"(Attempt to) shutdown your machine. Arguments to this command",
-			"will be passed on to the system shutdown command.",
-			"",
-			"Usage:",
-			"shutdown",
-			"shutdown [args]"
-		}
-	},
-	fn={
-		description="Simulates a Function key press.",
-		details={
-			"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
-			"Useful if you are on a mobile device without access to these keys.",
-			"",
-			"Usage:",
-			"fn <1-12>"
-		}
-	},
-	scrinfo={
-		description="Display information about your screen.",
-		details={
-			"Display information about your screen.",
-			"",
-			"Usage:",
-			"scrinfo"
-		}
-	},
-	wireframe={
-		description="Enable or disable wireframe.",
-		details={
-			"Enable or disable wireframe.",
-			"",
-			"Usage:",
-			"wireframe <true|false>"
-		}
-	},
-	gammacorrect={
-		description="Enable or disable gamma correction.",
-		details={
-			"Enable or disable gamma correction.",
-			"",
-			"Usage:",
-			"gammacorrect <true|false>"
-		}
-	},
-	rmwtm={
-		description="Remove the \"no recording\" watermark.",
-		details={
-			"Remove the \"no recording\" watermark.",
-			"You will need a password to do that.",
-			"",
-			"Usage:",
-			"rmwtm <password>"
-		}
-	},
-	unlockall={
-		description="Unlock all modes on the map.",
-		details={
-			"Unlock all modes on the map.",
-			"",
-			"Usage:",
-			"unlockall"
-		}
-	},
-	play={
-		description="Load a game mode, including those that are not on the map.",
-		details={
-			"Load a game mode, including those that are not on the map.",
-			"",
-			"Usage:",
-			"play <mode_name>"
-		}
-	},
-	festival={
-		description="Load a festival theme.",
-		details={
-			"Load a festival theme.",
-			"",
-			"Usage:",
-			"festival list",
-			"festival <festival_name>"
-		}
-	},
-}
-
--- while I could have used a for loop to get this... the order at which the
--- table elements turn up in the loop is not quite ideal. Doing this manually
--- so that at least the most basic commands are on page 1.
-local command_help_list={
-	"help",
-	"#",
-	"exit",
-	"echo",
-	"cls",
-	"shutdown",
-	"fn",
-	"scrinfo",
-	"wireframe",
-	"gammacorrect",
-	"rmwtm",
-	"unlockall",
-	"play",
-	"festival"
-}
-
-local command_help_page_size=10
 
 local commands={}
 --Basic commands
-function commands.help(arg)
-	if command_help_messages[arg]then -- help [command]
-		for _,v in pairs(command_help_messages[arg].details)do
-			log(v)
+do--commands.help(arg)
+	-- command_help_messages format:
+	-- command_help_messages is a table
+	--     key: the command
+	--     value: a table containing the following two elements:
+	--         description: a string that shows when user types `help` or
+	--                      `help [page]`.
+	--         details: an array of strings, each representing a line, that shows
+	--                  when user types `help [command]`.
+	local command_help_messages={
+		help={
+			description="Display help messages.",
+			details={
+				"Display help messages.",
+				"",
+				"Aliases: help ?",
+				"",
+				"Usage:",
+				"help",
+				"help [page]",
+				"help [command_name]",
+			},
+		},
+		["?"]={
+			description="Display help messages.",
+			details={
+				"Display help messages.",
+				"",
+				"Aliases: help ?",
+				"",
+				"Usage:",
+				"help",
+				"help [page]",
+				"help [command_name]",
+			},
+		},
+		["#"]={
+			description="Run arbitrary Lua code.",
+			details={
+				"Run arbitrary Lua code.",
+				"",
+				"Usage:",
+				"#[lua_source_code]",
+				"",
+				"print() can be used to print text into this window.",
+				"There is a strange box.",
+			},
+		},
+		exit={
+			description="Return to the previous menu.",
+			details={
+				"Return to the previous menu.",
+				"",
+				"Aliases: exit quit bye",
+				"",
+				"Usage:",
+				"exit",
+			},
+		},
+		quit={
+			description="Return to the previous menu.",
+			details={
+				"Return to the previous menu.",
+				"",
+				"Aliases: exit quit bye",
+				"",
+				"Usage:",
+				"exit",
+			},
+		},
+		bye={
+			description="Return to the previous menu.",
+			details={
+				"Return to the previous menu.",
+				"",
+				"Aliases: exit quit bye",
+				"",
+				"Usage:",
+				"exit",
+			},
+		},
+		echo={
+			description="Print a message to this window.",
+			details={
+				"Print a message to this window.",
+				"",
+				"Usage:",
+				"echo [message]",
+			},
+		},
+		cls={
+			description="Clear the log output.",
+			details={
+				"Clear the log output.",
+				"",
+				"Usage:",
+				"cls",
+			},
+		},
+		shutdown={
+			description="(Attempt to) shutdown your machine.",
+			details={
+				"(Attempt to) shutdown your machine. Arguments to this command",
+				"will be passed on to the system shutdown command.",
+				"",
+				"Usage:",
+				"shutdown",
+				"shutdown [args]",
+			},
+		},
+		fn={
+			description="Simulates a Function key press.",
+			details={
+				"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
+				"Useful if you are on a mobile device without access to these keys.",
+				"",
+				"Usage:",
+				"fn <1-12>",
+			},
+		},
+		scrinfo={
+			description="Display information about your screen.",
+			details={
+				"Display information about your screen.",
+				"",
+				"Usage:",
+				"scrinfo",
+			},
+		},
+		wireframe={
+			description="Enable or disable wireframe.",
+			details={
+				"Enable or disable wireframe.",
+				"",
+				"Usage:",
+				"wireframe <true|false>",
+			},
+		},
+		gammacorrect={
+			description="Enable or disable gamma correction.",
+			details={
+				"Enable or disable gamma correction.",
+				"",
+				"Usage:",
+				"gammacorrect <true|false>",
+			},
+		},
+		rmwtm={
+			description="Remove the \"no recording\" watermark.",
+			details={
+				"Remove the \"no recording\" watermark.",
+				"You will need a password to do that.",
+				"",
+				"Usage:",
+				"rmwtm [password]",
+			},
+		},
+		unlockall={
+			description="Unlock all modes on the map.",
+			details={
+				"Unlock all modes on the map.",
+				"",
+				"Usage:",
+				"unlockall",
+			},
+		},
+		play={
+			description="Load a game mode, including those that are not on the map.",
+			details={
+				"Load a game mode, including those that are not on the map.",
+				"",
+				"Usage:",
+				"play [mode_name]",
+			},
+		},
+		festival={
+			description="Load a festival theme.",
+			details={
+				"Load a festival theme.",
+				"",
+				"Usage:",
+				"festival [festival_name]",
+				"",
+				"Available festivals:",
+				"classic|xmas|sprfes|zday",
+			},
+		},
+	}
+
+	-- while I could have used a for loop to get this... the order at which the
+	-- table elements turn up in the loop is not quite ideal. Doing this manually
+	-- so that at least the most basic commands are on page 1.
+	local command_help_list={
+		"help",
+		"#",
+		"exit",
+		"echo",
+		"cls",
+		"shutdown",
+		"fn",
+		"scrinfo",
+		"wireframe",
+		"gammacorrect",
+		"rmwtm",
+		"unlockall",
+		"play",
+		"festival"
+	}
+
+	local command_help_page_size=10
+	function commands.help(arg)
+		if command_help_messages[arg]then -- help [command]
+			for _,v in ipairs(command_help_messages[arg].details)do
+				log(v)
+			end
+			return
 		end
-		return
-	end
-	if tonumber(arg)then
-		arg=int(tonumber(arg))
-	else
-		arg=1
-	end -- help or help [page]
-	local total_pages=math.ceil(#command_help_list/command_help_page_size)
-	if arg<=0 or arg>total_pages then
-		log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
-		return
-	end
-	log"Use help [page] to view more commands,"
-	log"or help [command_name] for more info on a command."
-	log""
-	log("Page "..arg.." of "..total_pages)
-	for i=(arg-1)*10+1,math.min(arg*10,#command_help_list)do
-		local _c=command_help_list[i]
-		log("".._c.." - "..command_help_messages[_c].description)
+		if tonumber(arg)then
+			arg=int(tonumber(arg))
+		else
+			arg=1
+		end -- help or help [page]
+		local total_pages=math.ceil(#command_help_list/command_help_page_size)
+		if arg<=0 or arg>total_pages then
+			log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
+			return
+		end
+		log"Use help [page] to view more commands,"
+		log"or help [command_name] for more info on a command."
+		log""
+		log("Page "..arg.." of "..total_pages)
+		for i=(arg-1)*10+1,math.min(arg*10,#command_help_list)do
+			local _c=command_help_list[i]
+			log("".._c.." - "..command_help_messages[_c].description)
+		end
 	end
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
@@ -282,8 +342,8 @@ function commands.gammacorrect(bool)
 		log"Usage: gammacorrect [true|false]"
 	end
 end
-function commands.rmwtm(password)
-	if password==(14^2*10)..(2*11)then
+function commands.rmwtm(pw)
+	if pw==fleg.pw then
 		_G["\100\114\97\119\70\87\77"]=NULL
 		log("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
 		SFX.play("clear")
@@ -316,10 +376,7 @@ function commands.play(m)--marathon_bfmax can only entered through here
 	end
 end
 function commands.festival(name)
-	if name=="list" then
-		log("Available festivals:")
-		log("classic xmas sprfes zday")
-	elseif name=="classic"then
+	if name=="classic"then
 		FESTIVAL=false
 		BG.setDefault("space")
 		BGM.setDefault("blank")
@@ -339,29 +396,42 @@ function commands.festival(name)
 		BG.setDefault("lanterns")
 		BGM.setDefault("overzero")
 		BGM.play()
-	elseif name~="" then
-		log("No festival called "..name)
 	else
-		log"Usage: festival [festivalName]"
+		if name~=""then
+			log("No festival called "..name)
+		end
+		log"Usage: festival [fesitivalName]"
 	end
 end
 
 
 
+local scene={}
+
+function scene.sceneInit()
+	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+	BG.set("none")
+end
+
 function scene.keyDown(k)
 	if k=="return"then
 		local input=inputBox.value
+		log""
 		log("> "..input)
 		if input:byte()==35 then
 			--Execute code
-			local code=loadstring(input:sub(2))
+			local code,err=loadstring(input:sub(2))
 			if code then
 				setfenv(code,userEnv)
-				ins(history,input)
-				code()
+				code,err=pcall(code)
+				if not code then
+					log("[ERR] "..err)
+				end
 			else
-				log"Syntax error"
+				log("[SYNTAX ERR] "..err)
 			end
+			ins(history,input)
+			hisPtr=nil
 		elseif input~=""then
 			--Load command
 			local p=input:find(" ")
