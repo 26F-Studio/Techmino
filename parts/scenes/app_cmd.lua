@@ -120,6 +120,14 @@ do--commands.help(arg)
 				"Usage: echo [message]",
 			},
 		},
+		url={
+			description="Attempt to open a URL with your device.",
+			details={
+				"Attempt to open a URL with your device.",
+				"",
+				"Usage: url [url]",
+			},
+		},
 		cls={
 			description="Clear the log output.",
 			details={
@@ -223,6 +231,7 @@ do--commands.help(arg)
 		"#",
 		"exit",
 		"echo",
+		"url",
 		"cls",
 		"rst",
 		"shutdown",
@@ -264,7 +273,16 @@ end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
 function commands.cls()outputBox:clear()end
 function commands.rst()history,hisPtr={}end
-commands.echo=log
+function commands.url(url)
+	if url~=""then
+		local res,err=pcall(love.system.openURL,url)
+		if not res then
+			log{COLOR.R,"[ERR] ",COLOR.W,err}
+		end
+	else
+		log{COLOR.water,"Usage: url [url]"}
+	end
+end
 commands.exit=backScene
 commands.quit=backScene
 commands.bye=backScene
