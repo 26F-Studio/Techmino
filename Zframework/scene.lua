@@ -14,7 +14,7 @@ local SCN={
 		time=false,	--Full swap time
 		draw=false,	--Swap draw  func
 	},
-	stack={"quit","slowFade"},--Scene stack
+	stack={},--Scene stack
 
 	scenes=scenes,
 

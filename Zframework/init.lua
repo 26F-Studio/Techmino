@@ -464,6 +464,7 @@ function love.run()
 	love.resize(gc.getWidth(),gc.getHeight())
 
 	--Scene Launch
+	SCN.push("quit","slowFade")
 	SCN.init("load")
 
 	return function()
