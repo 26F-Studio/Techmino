@@ -68,14 +68,11 @@ userG.the_box=first_box
 local commands={}
 --Basic commands
 do--commands.help(arg)
-	-- command_help_messages format:
-	-- command_help_messages is a table
-	--     key: the command
-	--     value: a table containing the following two elements:
-	--         description: a string that shows when user types `help` or
-	--                      `help [page]`.
-	--         details: an array of strings, each representing a line, that shows
-	--                  when user types `help [command]`.
+	--format of table command_help_messages:
+	--	key: the command
+	--	value: a table containing the following two elements:
+	--		description: a string that shows when user types `help` or `help [page]`.
+	--		details: an array of strings containing documents, shows when user types `help [command]`.
 	local command_help_messages={
 		help={
 			description="Display help messages.",
@@ -86,8 +83,7 @@ do--commands.help(arg)
 				"",
 				"Usage:",
 				"help",
-				"help [page]",
-				"help [command_name]",
+				"help [page|command_name]",
 			},
 		},
 		["?"]="help",
@@ -218,10 +214,7 @@ do--commands.help(arg)
 			details={
 				"Load a theme.",
 				"",
-				"Usage: theme [theme_name]",
-				"",
-				"Available themes:",
-				"classic|xmas|sprfes|zday",
+				"Usage: theme <classic|xmas|sprfes|zday>",
 			},
 		},
 	}TABLE.reIndex(command_help_messages)
@@ -247,7 +240,7 @@ do--commands.help(arg)
 	local pageSize=10
 	local maxPage=math.ceil(#command_help_list/pageSize)
 	function commands.help(arg)
-		-- help [command]
+		--help [command]
 		if command_help_messages[arg]then
 			for _,v in ipairs(command_help_messages[arg].details)do
 				log(v)
@@ -255,7 +248,7 @@ do--commands.help(arg)
 			return
 		end
 
-		-- help or help [page]
+		--help or help [page]
 		arg=tonumber(arg)
 		if arg and arg>=1 and arg<=maxPage then
 			log"Use help [page] to view more commands,"
@@ -266,9 +259,11 @@ do--commands.help(arg)
 				local cmd=command_help_list[i]
 				log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
 			end
-		else
-			log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
+			return
 		end
+
+		--Else
+		log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 	end
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
