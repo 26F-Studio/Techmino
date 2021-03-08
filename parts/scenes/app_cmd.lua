@@ -4,12 +4,14 @@ local ins=table.insert
 
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
-outputBox:push("Techmino Shell")
-outputBox:push("©2020 26F Studio   some rights reserved")
+local function log(str)outputBox:push(str)end
+log{COLOR.lGrape,"Techmino Shell"}
+log{COLOR.lY,"©2020 26F Studio   some rights reserved"}
+
 local history,hisPtr={"?"}
 
 local noLog=false
-local function log(str)
+local function log_user(str)
 	if noLog then return end
 	outputBox:push(tostring(str))
 end
@@ -21,24 +23,17 @@ local userG={
 	tonumber=tonumber,tostring=tostring,
 	select=select,next=next,
 	ipairs=ipairs,pairs=pairs,
-	print=log,type=type,
+	print=log_user,type=type,
 	pcall=pcall,xpcall=xpcall,
 	rawget=rawget,rawset=rawset,rawlen=rawlen,rawequal=rawequal,
 	setfenv=setfenv,setmetatable=setmetatable,
+	-- require=require,
 	-- load=load,loadfile=loadfile,dofile=dofile,
 	-- getfenv=getfenv,getmetatable=getmetatable,
 	-- collectgarbage=collectgarbage,
 
-	math={},
-	table={},
-	string={},
-	coroutine={},
-	bit={},
-
-	debug={"No way."},
-	package={"No way."},
-	io={"No way."},
-	os={"No way."},
+	math={},string={},table={},bit={},coroutine={},
+	debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
 }userG._G=userG
 TABLE.complete(math,		userG.math)
 TABLE.complete(string,		userG.string)
@@ -46,6 +41,7 @@ userG.string.dump=nil
 TABLE.complete(table,		userG.table)
 TABLE.complete(bit,			userG.bit)
 TABLE.complete(coroutine,	userG.coroutine)
+
 --Puzzle box
 local first_key={}
 local fleg={
@@ -100,8 +96,7 @@ do--commands.help(arg)
 			details={
 				"Run arbitrary Lua code.",
 				"",
-				"Usage:",
-				"#[lua_source_code]",
+				"Usage: #[lua_source_code]",
 				"",
 				"print() can be used to print text into this window.",
 				"There is a strange box.",
@@ -114,19 +109,15 @@ do--commands.help(arg)
 				"",
 				"Aliases: exit quit bye",
 				"",
-				"Usage:",
-				"exit",
+				"Usage: exit",
 			},
-		},
-		quit="exit",
-		bye="exit",
+		},quit="exit",bye="exit",
 		echo={
 			description="Print a message to this window.",
 			details={
 				"Print a message to this window.",
 				"",
-				"Usage:",
-				"echo [message]",
+				"Usage: echo [message]",
 			},
 		},
 		cls={
@@ -134,8 +125,15 @@ do--commands.help(arg)
 			details={
 				"Clear the log output.",
 				"",
-				"Usage:",
-				"cls",
+				"Usage: cls",
+			},
+		},
+		rst={
+			description="Clear the command history.",
+			details={
+				"Clear the command history.",
+				"",
+				"Usage: rst",
 			},
 		},
 		shutdown={
@@ -155,17 +153,15 @@ do--commands.help(arg)
 				"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
 				"Useful if you are on a mobile device without access to these keys.",
 				"",
-				"Usage:",
-				"fn <1-12>",
+				"Usage: fn <1-12>",
 			},
 		},
 		scrinfo={
-			description="Display information about your screen.",
+			description="Display information about game window'.",
 			details={
-				"Display information about your screen.",
+				"Display information about game window'.",
 				"",
-				"Usage:",
-				"scrinfo",
+				"Usage: scrinfo",
 			},
 		},
 		wireframe={
@@ -173,8 +169,7 @@ do--commands.help(arg)
 			details={
 				"Enable or disable wireframe.",
 				"",
-				"Usage:",
-				"wireframe <true|false>",
+				"Usage: wireframe <true|false>",
 			},
 		},
 		gammacorrect={
@@ -182,8 +177,7 @@ do--commands.help(arg)
 			details={
 				"Enable or disable gamma correction.",
 				"",
-				"Usage:",
-				"gammacorrect <true|false>",
+				"Usage: gammacorrect <true|false>",
 			},
 		},
 		rmwtm={
@@ -192,8 +186,7 @@ do--commands.help(arg)
 				"Remove the \"no recording\" watermark.",
 				"You will need a password to do that.",
 				"",
-				"Usage:",
-				"rmwtm [password]",
+				"Usage: rmwtm [password]",
 			},
 		},
 		unlockall={
@@ -201,8 +194,7 @@ do--commands.help(arg)
 			details={
 				"Unlock all modes on the map.",
 				"",
-				"Usage:",
-				"unlockall",
+				"Usage: unlockall",
 			},
 		},
 		play={
@@ -210,8 +202,7 @@ do--commands.help(arg)
 			details={
 				"Load a game mode, including those that are not on the map.",
 				"",
-				"Usage:",
-				"play [mode_name]",
+				"Usage: play [mode_name]",
 			},
 		},
 		festival={
@@ -219,8 +210,7 @@ do--commands.help(arg)
 			details={
 				"Load a festival theme.",
 				"",
-				"Usage:",
-				"festival [festival_name]",
+				"Usage: festival [festival_name]",
 				"",
 				"Available festivals:",
 				"classic|xmas|sprfes|zday",
@@ -228,15 +218,13 @@ do--commands.help(arg)
 		},
 	}TABLE.reIndex(command_help_messages)
 
-	-- while I could have used a for loop to get this... the order at which the
-	-- table elements turn up in the loop is not quite ideal. Doing this manually
-	-- so that at least the most basic commands are on page 1.
 	local command_help_list={
 		"help",
 		"#",
 		"exit",
 		"echo",
 		"cls",
+		"rst",
 		"shutdown",
 		"fn",
 		"scrinfo",
@@ -247,37 +235,35 @@ do--commands.help(arg)
 		"play",
 		"festival"
 	}
-
-	local command_help_page_size=10
+	local total_pages=math.ceil(#command_help_list/10)
 	function commands.help(arg)
-		if command_help_messages[arg]then -- help [command]
+		-- help [command]
+		if command_help_messages[arg]then
 			for _,v in ipairs(command_help_messages[arg].details)do
 				log(v)
 			end
 			return
 		end
-		if tonumber(arg)then
-			arg=int(tonumber(arg))
+
+		-- help or help [page]
+		arg=tonumber(arg)and int(tonumber(arg))or 1
+		if arg>0 and arg<=total_pages then
+			log"Use help [page] to view more commands,"
+			log"or help [command_name] for more info on a command."
+			log""
+			log("Page "..arg.." of "..total_pages)
+			for i=(arg-1)*10+1,math.min(arg*10,#command_help_list)do
+				local _c=command_help_list[i]
+				log("".._c.." - "..command_help_messages[_c].description)
+			end
 		else
-			arg=1
-		end -- help or help [page]
-		local total_pages=math.ceil(#command_help_list/command_help_page_size)
-		if arg<=0 or arg>total_pages then
 			log("Invalid page number. Must be between 1 and "..total_pages.." (inclusive).")
-			return
-		end
-		log"Use help [page] to view more commands,"
-		log"or help [command_name] for more info on a command."
-		log""
-		log("Page "..arg.." of "..total_pages)
-		for i=(arg-1)*10+1,math.min(arg*10,#command_help_list)do
-			local _c=command_help_list[i]
-			log("".._c.." - "..command_help_messages[_c].description)
 		end
 	end
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
 function commands.cls()outputBox:clear()end
+function commands.rst()history,hisPtr={}end
 commands.echo=log
 commands.exit=backScene
 commands.quit=backScene
@@ -292,15 +278,19 @@ function commands.fn(n)
 			return
 		end
 	end
-	log"Usage: fn [1~12]"
+	log{COLOR.water,"Usage: fn [1~12]"}
 end
-function commands.scrinfo()for _,v in next,SCR.info()do log(v)end end
+function commands.scrinfo()
+	for _,v in next,SCR.info()do
+		log(v)
+	end
+end
 function commands.wireframe(bool)
 	if bool=="true"or bool=="false"then
 		gc.setWireframe(bool=="true")
 		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 	else
-		log"Usage: wireframe [true|false]"
+		log{COLOR.water,"Usage: wireframe [true|false]"}
 	end
 end
 function commands.gammacorrect(bool)
@@ -308,7 +298,7 @@ function commands.gammacorrect(bool)
 		love._setGammaCorrect(bool=="true")
 		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 	else
-		log"Usage: gammacorrect [true|false]"
+		log{COLOR.water,"Usage: gammacorrect [true|false]"}
 	end
 end
 function commands.rmwtm(pw)
@@ -317,7 +307,7 @@ function commands.rmwtm(pw)
 		log("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
 		SFX.play("clear")
 	else
-		log"Usage: None."
+		log{COLOR.water,"Usage: rmwtm [password]"}
 	end
 end
 function commands.unlockall(bool)
@@ -341,7 +331,7 @@ function commands.play(m)--marathon_bfmax can only entered through here
 	elseif m then
 		log("No mode called "..m)
 	else
-		log"Usage: play [modeName]"
+		log{COLOR.water,"Usage: play [modeName]"}
 	end
 end
 function commands.festival(name)
@@ -369,7 +359,7 @@ function commands.festival(name)
 		if name~=""then
 			log("No festival called "..name)
 		end
-		log"Usage: festival [fesitivalName]"
+		log{COLOR.water,"Usage: festival [fesitivalName]"}
 	end
 end
 
@@ -385,24 +375,31 @@ end
 function scene.keyDown(k)
 	if k=="return"then
 		local input=inputBox.value
+
+		--Write History
+		ins(history,input)
+		hisPtr=nil
+
+		--Insert empty line
 		log""
-		log("> "..input)
+
+		--Execute
 		if input:byte()==35 then
-			--Execute code
+			log{COLOR.grass,"> "..input}
+			--Execute lua code
 			local code,err=loadstring(input:sub(2))
 			if code then
 				setfenv(code,userG)
 				code,err=pcall(code)
 				if not code then
-					log("[ERR] "..err)
+					log{COLOR.R,"[ERR] ",COLOR.W,err}
 				end
 			else
-				log("[SYNTAX ERR] "..err)
+				log{COLOR.R,"[SYNTAX ERR] ",COLOR.W,err}
 			end
-			ins(history,input)
-			hisPtr=nil
 		elseif input~=""then
-			--Load command
+			log{COLOR.sky,"> "..input}
+			--Execute builtin command
 			local p=input:find(" ")
 			local cmd,arg
 			if p then
@@ -415,10 +412,8 @@ function scene.keyDown(k)
 			if commands[cmd]then
 				commands[cmd](arg)
 			else
-				log("No command called "..cmd)
+				log{COLOR.R,"No command called "..cmd}
 			end
-			ins(history,input)
-			hisPtr=nil
 		end
 		inputBox:clear()
 	elseif k=="up"then
