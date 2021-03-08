@@ -350,7 +350,7 @@ function royaleLevelup()
 	for _,P in next,PLAYERS.alive do
 		P.gameEnv.drop=spd
 	end
-	if GAME.curMode.name:find("ultimate")then
+	if GAME.curMode.name:find("_u")then
 		for i=1,#PLAYERS.alive do
 			local P=PLAYERS.alive[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
