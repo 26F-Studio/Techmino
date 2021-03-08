@@ -33,7 +33,6 @@ function SCR.resize(w,h)
 end
 function SCR.info()
 	return{
-		"Screen info:",
 		("w0,h0 : %d, %d"):format(SCR.w0,SCR.h0),
 		("x,y : %d, %d"):format(SCR.x,SCR.y),
 		("cx,cy : %d, %d"):format(SCR.cx,SCR.cy),
