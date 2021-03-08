@@ -15,7 +15,8 @@ local function log(str)
 end
 
 --Environment for user's function
-local userEnv={
+local userG={
+	_VERSION=VERSION_CODE,
 	assert=assert,error=error,
 	tonumber=tonumber,tostring=tostring,
 	select=select,next=next,
@@ -32,19 +33,19 @@ local userEnv={
 	table={},
 	string={},
 	coroutine={},
-	bit32={},
+	bit={},
+
 	debug={"No way."},
 	package={"No way."},
 	io={"No way."},
 	os={"No way."},
-	_VERSION=VERSION_CODE,
-}userEnv._G=userEnv
-TABLE.complete(math,		userEnv.math)
-TABLE.complete(table,		userEnv.table)
-TABLE.complete(string,		userEnv.string)
-TABLE.complete(coroutine,	userEnv.coroutine)
-TABLE.complete(bit,			userEnv.bit)
-
+}userG._G=userG
+TABLE.complete(math,		userG.math)
+TABLE.complete(string,		userG.string)
+userG.string.dump=nil
+TABLE.complete(table,		userG.table)
+TABLE.complete(bit,			userG.bit)
+TABLE.complete(coroutine,	userG.coroutine)
 --Puzzle box
 local first_key={}
 local fleg={
@@ -63,8 +64,8 @@ local function first_box(k,f)
 	log"You lose."
 	return fleg
 end
-userEnv.the_key=first_key
-userEnv.the_box=first_box
+userG.the_key=first_key
+userG.the_box=first_box
 
 
 
@@ -93,19 +94,7 @@ do--commands.help(arg)
 				"help [command_name]",
 			},
 		},
-		["?"]={
-			description="Display help messages.",
-			details={
-				"Display help messages.",
-				"",
-				"Aliases: help ?",
-				"",
-				"Usage:",
-				"help",
-				"help [page]",
-				"help [command_name]",
-			},
-		},
+		["?"]="help",
 		["#"]={
 			description="Run arbitrary Lua code.",
 			details={
@@ -129,28 +118,8 @@ do--commands.help(arg)
 				"exit",
 			},
 		},
-		quit={
-			description="Return to the previous menu.",
-			details={
-				"Return to the previous menu.",
-				"",
-				"Aliases: exit quit bye",
-				"",
-				"Usage:",
-				"exit",
-			},
-		},
-		bye={
-			description="Return to the previous menu.",
-			details={
-				"Return to the previous menu.",
-				"",
-				"Aliases: exit quit bye",
-				"",
-				"Usage:",
-				"exit",
-			},
-		},
+		quit="exit",
+		bye="exit",
 		echo={
 			description="Print a message to this window.",
 			details={
@@ -257,7 +226,7 @@ do--commands.help(arg)
 				"classic|xmas|sprfes|zday",
 			},
 		},
-	}
+	}TABLE.reIndex(command_help_messages)
 
 	-- while I could have used a for loop to get this... the order at which the
 	-- table elements turn up in the loop is not quite ideal. Doing this manually
@@ -422,7 +391,7 @@ function scene.keyDown(k)
 			--Execute code
 			local code,err=loadstring(input:sub(2))
 			if code then
-				setfenv(code,userEnv)
+				setfenv(code,userG)
 				code,err=pcall(code)
 				if not code then
 					log("[ERR] "..err)

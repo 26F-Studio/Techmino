@@ -55,7 +55,7 @@ local eggInput={
 	drp=goScene"app_dropper",
 	calc=goScene"app_calc",
 	cmd=goScene"app_cmd",
-}for k,v in next,eggInput do if type(v)=="string"then eggInput[k]=eggInput[v]end end
+}TABLE.reIndex(eggInput)
 local function search()
 	local input=inputBox.value
 	if eggInput[input]then
