@@ -165,7 +165,7 @@ return{
 		"Creado con LOVE2D",
 		"",
 		"Programación: MrZ, Particle_G, [FinnTenzor]",
-		"Artistas: MrZ, ScF, [Gnyar, T0722]",
+		"Artistas: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
 		"Música: MrZ, [T0722]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Testeo: 思竣  Performance: 模电, HBM",

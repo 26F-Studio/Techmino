@@ -186,7 +186,7 @@ return{
 		"使用LOVE2D引擎",
 		"",
 		"程序: MrZ, Particle_G, [FinnTenzor]",
-		"美术: MrZ, ScF, [Gnyar, T0722]",
+		"美术: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
 		"音乐: MrZ, [T0722]",
 		"音效/语音: Miya, Naki, MrZ",
 		"测试: 思竣  演出: 模电, HBM",
