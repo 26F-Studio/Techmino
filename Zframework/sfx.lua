@@ -4,7 +4,6 @@ local SFX={
 	play=NULL,
 	fplay=NULL,
 	reset=NULL,
-	reload=NULL,
 }
 function SFX.init(list)
 	SFX.init=nil

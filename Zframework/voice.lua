@@ -4,7 +4,6 @@ local VOC={
 	getFreeChannel=NULL,
 	play=NULL,
 	update=NULL,
-	reload=NULL,
 }
 function VOC.init(list)
 	VOC.init=nil

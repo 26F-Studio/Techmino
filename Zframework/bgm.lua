@@ -5,7 +5,6 @@ local BGM={
 	play=NULL,
 	freshVolume=NULL,
 	stop=NULL,
-	reload=NULL,
 	--nowPlay=[str:playing ID]
 	--playing=[src:playing SRC]
 }
