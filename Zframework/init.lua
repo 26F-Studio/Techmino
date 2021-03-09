@@ -380,7 +380,7 @@ function love.errorhandler(msg)
 	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
 	local needDraw=true
 	local count=0
-	local errorMsg=text.errorMsg or"An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author."
+	local errorMsg=text and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
 	return function()
 		love.event.pump()
 		for E,a,b in love.event.poll()do
