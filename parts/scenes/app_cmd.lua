@@ -209,6 +209,14 @@ do--commands.help(arg)
 				"Usage: play [mode_name]",
 			},
 		},
+		playbgm={
+			description="Play a BGM.",
+			details={
+				"Play a BGM.",
+				"",
+				"Usage: playbgm [bgmName]"
+			},
+		},
 		theme={
 			description="Load a theme.",
 			details={
@@ -235,6 +243,7 @@ do--commands.help(arg)
 		"rmwtm",
 		"unlockall",
 		"play",
+		"playbgm",
 		"theme",
 	}
 	local pageSize=10
@@ -347,10 +356,25 @@ end
 function commands.play(m)--marathon_bfmax can only entered through here
 	if MODES[m]then
 		loadGame(m)
-	elseif m then
+	elseif m~=""then
 		log("No mode called "..m)
 	else
 		log{COLOR.water,"Usage: play [modeName]"}
+	end
+end
+function commands.playbgm(bgm)
+	if bgm~=""then
+		if bgm~=BGM.nowPlay then
+			local t=BGM.nowPlay
+			BGM.play(bgm)
+			if t==BGM.nowPlay then
+				log("No BGM called "..bgm)
+			else
+				log("Now playing: "..bgm)
+			end
+		end
+	else
+		log{COLOR.water,"Usage: playbgm [bgmName]"}
 	end
 end
 function commands.theme(name)
