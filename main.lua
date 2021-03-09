@@ -227,7 +227,6 @@ BGM.init((function()
 	end
 	return L
 end)())
-
 VOC.init{
 	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
 	"single","double","triple","techrash",
@@ -237,31 +236,31 @@ VOC.init{
 	"test","happy","doubt","sad","egg",
 	"welcome_voc",
 }
-
 --Initialize language lib
-LANG.setLangList{
-	require"parts/language/lang_zh",
-	require"parts/language/lang_zh2",
-	require"parts/language/lang_yygq",
-	require"parts/language/lang_en",
-	require"parts/language/lang_fr",
-	require"parts/language/lang_sp",
-	require"parts/language/lang_pt",
-	require"parts/language/lang_symbol",
-	--1. Add language file to LANG folder;
-	--2. Require it;
-	--3. Add a button in parts/scenes/setting_lang.lua;
-}
-LANG.setPublicText{
-	block={
-		"Z","S","J","L","T","O","I",
-		"Z5","S5","Q","P","F","E",
-		"T5","U","V","W","X",
-		"J5","L5","R","Y","N","H","I5",
-		"I3","C","I2","O1"
+LANG.init(
+	{
+		require"parts/language/lang_zh",
+		require"parts/language/lang_zh2",
+		require"parts/language/lang_yygq",
+		require"parts/language/lang_en",
+		require"parts/language/lang_fr",
+		require"parts/language/lang_sp",
+		require"parts/language/lang_pt",
+		require"parts/language/lang_symbol",
+		--1. Add language file to LANG folder;
+		--2. Require it;
+		--3. Add a button in parts/scenes/setting_lang.lua;
 	},
-}
-LANG.init()
+	{
+		block={
+			"Z","S","J","L","T","O","I",
+			"Z5","S5","Q","P","F","E",
+			"T5","U","V","W","X",
+			"J5","L5","R","Y","N","H","I5",
+			"I3","C","I2","O1"
+		},
+	}
+)
 
 --Load shader files from SOURCE ONLY
 SHADER={}

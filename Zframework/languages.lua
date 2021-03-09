@@ -1,11 +1,5 @@
-local langList,publicText={},{}
 local LANG={}
-
---Call these before call LANG.init()
-function LANG.setLangList(list)langList=list end
-function LANG.setPublicText(L)publicText=L end
-
-function LANG.init()--Attention, calling this will destory all initializing methods, create a LANG.set()!
+function LANG.init(langList,publicText)--Attention, calling this will destory all initializing methods, create a LANG.set()!
 	local function langFallback(T0,T)
 		for k,v in next,T0 do
 			if type(v)=="table"and not v.refuseCopy then--refuseCopy: just copy pointer, not contents
@@ -62,5 +56,4 @@ function LANG.init()--Attention, calling this will destory all initializing meth
 		end
 	end
 end
-
 return LANG
