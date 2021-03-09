@@ -92,6 +92,28 @@ local loadingThread=coroutine.create(function()
 		{"rect","fill",52,30,4,4},
 		{"rect","fill",30,52,4,4},
 	}
+	modeIcons.t49=DOGC{64,64,
+		{"wid",2},
+		{"rect","line",05,05,10,20},{"rect","line",49,05,10,20},
+		{"rect","line",05,39,10,20},{"rect","line",49,39,10,20},
+		{"rect","line",20,10,23,43},
+		{"rgb",1,1,1,.7},
+		{"rect","fill",20,10,23,43},
+	}
+	modeIcons.t99=DOGC{64,64,
+		{"wid",2},
+		{"rect","line",02,02,6,12},{"rect","line",11,02,6,12},
+		{"rect","line",02,18,6,12},{"rect","line",11,18,6,12},
+		{"rect","line",02,34,6,12},{"rect","line",11,34,6,12},
+		{"rect","line",02,50,6,12},{"rect","line",11,50,6,12},
+		{"rect","line",47,02,6,12},{"rect","line",56,02,6,12},
+		{"rect","line",47,18,6,12},{"rect","line",56,18,6,12},
+		{"rect","line",47,34,6,12},{"rect","line",56,34,6,12},
+		{"rect","line",47,50,6,12},{"rect","line",56,50,6,12},
+		{"rect","line",20,10,23,43},
+		{"rgb",1,1,1,.7},
+		{"rect","fill",20,10,23,43},
+	}
 
 	upFloor()
 	for i=1,#MODES do
