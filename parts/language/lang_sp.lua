@@ -164,7 +164,7 @@ return{
 		"Autor:MrZ  Email: 1046101471@qq.com",
 		"Creado con LOVE2D",
 		"",
-		"Programación: MrZ, Particle_G, [FinnTenzor]",
+		"Programación: MrZ, Particle_G, [蓝绿, FinnTenzor]",
 		"Artistas: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
 		"Música: MrZ, [T0722]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
