@@ -41,7 +41,7 @@ local function onMode(x,y)
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
 			elseif M.shape==2 then
-				if abs(x-M.x)+abs(y-M.y)+12<s then return name end
+				if abs(x-M.x)+abs(y-M.y)<s+12 then return name end
 			elseif M.shape==3 then
 				if(x-M.x)^2+(y-M.y)^2<(s+6)^2 then return name end
 			end
