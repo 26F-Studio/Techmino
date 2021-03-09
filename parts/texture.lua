@@ -1,8 +1,6 @@
 local gc=love.graphics
-local rect=gc.rectangle
 local int=math.floor
-local byte=string.byte
-local function C(x,y)
+local function NSC(x,y)--New & Set Canvas
 	local _=gc.newCanvas(x,y)
 	gc.setCanvas(_)
 	return _
@@ -14,17 +12,17 @@ gc.setColor(1,1,1)
 local VKI=gc.newImage("media/image/virtualkey.png")
 TEXTURE.VKIcon={}
 for i=1,20 do
-	TEXTURE.VKIcon[i]=C(36,36)
+	TEXTURE.VKIcon[i]=NSC(36,36)
 	gc.draw(VKI,(i-1)%5*-36,int((i-1)*.2)*-36)
 end
 
 TEXTURE.miniBlock={}
 for i=1,29 do
 	local b=BLOCKS[i][0]
-	TEXTURE.miniBlock[i]=C(#b[1],#b)
+	TEXTURE.miniBlock[i]=NSC(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do
 		if b[y][x]then
-			rect("fill",x-1,#b-y,1,1)
+			gc.rectangle("fill",x-1,#b-y,1,1)
 		end
 	end end
 end
@@ -32,28 +30,28 @@ end
 TEXTURE.puzzleMark={}
 gc.setLineWidth(3)
 for i=1,17 do
-	TEXTURE.puzzleMark[i]=C(30,30)
+	TEXTURE.puzzleMark[i]=NSC(30,30)
 	local _=minoColor[i]
 	gc.setColor(_[1],_[2],_[3],.6)
-	rect("line",5,5,20,20)
-	rect("line",10,10,10,10)
+	gc.rectangle("line",5,5,20,20)
+	gc.rectangle("line",10,10,10,10)
 end
 for i=18,24 do
-	TEXTURE.puzzleMark[i]=C(30,30)
+	TEXTURE.puzzleMark[i]=NSC(30,30)
 	gc.setColor(minoColor[i])
-	rect("line",7,7,16,16)
+	gc.rectangle("line",7,7,16,16)
 end
-local _=C(30,30)
+local _=NSC(30,30)
 gc.setColor(1,1,1)
 gc.line(5,5,25,25)
 gc.line(5,25,25,5)
-TEXTURE.puzzleMark[-1]=C(30,30)
+TEXTURE.puzzleMark[-1]=NSC(30,30)
 gc.setColor(1,1,1,.8)
 gc.draw(_)
 _:release()
 gc.setCanvas()
 
-TEXTURE.mapCross=C(40,40)
+TEXTURE.mapCross=NSC(40,40)
 gc.setColor(1,1,1)
 gc.setLineWidth(4)
 gc.line(0,20,40,20)
@@ -62,17 +60,17 @@ gc.line(20,0,20,40)
 TEXTURE.pixelNum={}
 gc.setLineWidth(4)
 for i=0,9 do
-	TEXTURE.pixelNum[i]=C(5,9)
-	if byte("1011011111",i+1)==49 then rect("fill",1,0,3,1)end--up
-	if byte("0011111011",i+1)==49 then rect("fill",1,4,3,1)end--middle
-	if byte("1011011011",i+1)==49 then rect("fill",1,8,3,1)end--down
-	if byte("1000111011",i+1)==49 then rect("fill",0,1,1,3)end--up-left
-	if byte("1111100111",i+1)==49 then rect("fill",4,1,1,3)end--up-right
-	if byte("1010001010",i+1)==49 then rect("fill",0,5,1,3)end--down-left
-	if byte("1101111111",i+1)==49 then rect("fill",4,5,1,3)end--down-right
+	TEXTURE.pixelNum[i]=NSC(5,9)
+	if("1011011111"):byte(i+1)==49 then gc.rectangle("fill",1,0,3,1)end--up
+	if("0011111011"):byte(i+1)==49 then gc.rectangle("fill",1,4,3,1)end--middle
+	if("1011011011"):byte(i+1)==49 then gc.rectangle("fill",1,8,3,1)end--down
+	if("1000111011"):byte(i+1)==49 then gc.rectangle("fill",0,1,1,3)end--up-left
+	if("1111100111"):byte(i+1)==49 then gc.rectangle("fill",4,1,1,3)end--up-right
+	if("1010001010"):byte(i+1)==49 then gc.rectangle("fill",0,5,1,3)end--down-left
+	if("1101111111"):byte(i+1)==49 then gc.rectangle("fill",4,5,1,3)end--down-right
 end
 
-TEXTURE.cursor=C(12,12)
+TEXTURE.cursor=NSC(12,12)
 gc.setColor(1,1,1,.7)
 gc.circle("fill",6,6,6)
 gc.setColor(1,1,1)
@@ -86,7 +84,7 @@ local titleTriangles={}
 for i=1,8 do titleTriangles[i]=love.math.triangulate(title[i])end
 
 --Middle: 580,118
-TEXTURE.title=C(1160,236)
+TEXTURE.title=NSC(1160,236)
 for i=1,8 do
 	gc.translate(12*i,i==1 and 8 or 14)
 
@@ -101,7 +99,7 @@ for i=1,8 do
 
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
-TEXTURE.title_color=C(1160,236)
+TEXTURE.title_color=NSC(1160,236)
 local titleColor={
 	COLOR.lGrape,
 	COLOR.lCyan,
@@ -136,14 +134,14 @@ for i=1,8 do
 end
 
 setFont(20)
-TEXTURE.ws_dead=C(20,20)
+TEXTURE.ws_dead=NSC(20,20)
 gc.setColor(1,.4,.3)
 gc.print("X",3,-4)
-TEXTURE.ws_connecting=C(20,20)
+TEXTURE.ws_connecting=NSC(20,20)
 gc.setLineWidth(3)
 gc.setColor(1,1,1)
 gc.arc("line","open",11.5,10,6.26,1,5.28)
-TEXTURE.ws_running=C(20,20)
+TEXTURE.ws_running=NSC(20,20)
 gc.setColor(0,.9,0)
 gc.print("R",3,-4)
 

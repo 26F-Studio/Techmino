@@ -26,6 +26,7 @@ VIB=	require"Zframework/vibrate"
 SFX=	require"Zframework/sfx"
 
 LIGHT=	require"Zframework/light"
+DOGC=	require"Zframework/doGC"
 BG=		require"Zframework/background"
 WIDGET=	require"Zframework/widget"
 TEXT=	require"Zframework/text"

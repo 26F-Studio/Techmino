@@ -68,6 +68,32 @@ local loadingThread=coroutine.create(function()
 
 	upFloor()
 	local modeIcons={}
+	modeIcons.marathon=DOGC{32,32,
+		{"move",3,1},
+		{"rect","fill",10,4,-2,23},
+		{"poly","fill",10,4,24,10,10,16.5},
+		{"rect","fill",4,24,10,3},
+	}
+	modeIcons.tsd=DOGC{64,64,
+		{"rect","fill",7,7,16,16},
+		{"rect","fill",7,41,16,16},
+		{"rect","fill",41,41,16,16},
+		{"move",.5,.5},
+		{"poly","line",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
+	}
+	modeIcons.infinite=DOGC{64,64,
+		{"wid",4},
+		{"circ","line",32,32,28},
+		{"line",32,32,32,14},
+		{"line",32,32,41,41},
+		{"move",.5,.5},
+		{"rect","fill",30,7,4,4},
+		{"rect","fill",7,30,4,4},
+		{"rect","fill",52,30,4,4},
+		{"rect","fill",30,52,4,4},
+	}
+
+	upFloor()
 	for i=1,#MODES do
 		local m=MODES[i]--Mode template
 		local M=require("parts/modes/"..m.name)--Mode file
@@ -202,7 +228,7 @@ function scene.update(dt)
 			local p=progress
 			::again::
 			if loadingThread then
-				coroutine.resume(loadingThread)
+				assert(coroutine.resume(loadingThread))
 			else
 				return
 			end
