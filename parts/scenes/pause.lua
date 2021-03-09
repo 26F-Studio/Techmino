@@ -262,7 +262,8 @@ function scene.draw()
 		setFont(80)
 		gc.setColor(0,0,0,T*.7)
 		gc.print(str,100*T^.5-5,-14,nil,1.8)
-		gc.setColor(1,1,1,T)
+		local L=rankColor[GAME.rank]
+		gc.setColor(L[1],L[2],L[3],T)
 		gc.print(str,100*T^.5,-10,nil,1.8)
 	end
 

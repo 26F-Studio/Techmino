@@ -291,6 +291,14 @@ do--BLOCKS
 	end
 end
 
+rankColor={
+	{.6,.3,.3,.9},
+	{.7,.5,.3,.9},
+	{.9,.7,.6,.9},
+	{.7,.9,1,.9},
+	{.9,.9,.7,.9},
+}
+
 minoColor={
 	COLOR.red,
 	COLOR.fire,

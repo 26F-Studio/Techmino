@@ -4,7 +4,6 @@ local ms,kb,tc=love.mouse,love.keyboard,love.touch
 
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
-local sin,cos=math.sin,math.cos
 
 local mapCam={
 	sel=false,--Selected mode ID
@@ -185,13 +184,15 @@ function scene.update()
 	end
 end
 
-local rankColor={
-	{.4,.1,.1},		--D
-	{.4,.35,.3},	--C
-	{.6,.4,.2},		--B
-	{.7,.75,.85},	--A
-	{.95,.9,.3},	--S
-	{.2,.7,.2},		--Special
+--D/C/B/A/S/special
+local baseRankColor={
+	[0]={0,0,0,.3},
+	{.4,.1,.1,.3},
+	{.4,.35,.3,.3},
+	{.6,.4,.2,.3},
+	{.7,.75,.85,.3},
+	{.85,.8,.3,.3},
+	{.4,.7,.4,.3},
 }
 function scene.draw()
 	local _
@@ -218,14 +219,15 @@ function scene.draw()
 
 	--Modes
 	setFont(80)
+	gc.setLineWidth(6)
 	for name,M in next,MODES do
 		if R[name]then
+			local rank=R[name]
 			local S=M.size
-			gc.setColor(1,1,1)
-			gc.setLineWidth(4)
 
 			--Frame & fill
-			local drawType="line"
+			gc.setColor(baseRankColor[rank])
+			local drawType="fill"
 			::again::
 			if M.shape==1 then--Rectangle
 				gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
@@ -234,36 +236,26 @@ function scene.draw()
 			elseif M.shape==3 then--Octagon
 				gc.circle(drawType,M.x,M.y,S+6,8)
 			end
-			if sel==name and drawType=="line"then
-				gc.setColor(1,1,1,.42)
-				drawType="fill"
+			if drawType=="fill"then
+				gc.setColor(1,1,sel==name and 0 or 1)
+				drawType="line"
 				goto again
 			end
 
 			--Icon
 			local icon=M.icon
 			if icon then
+				gc.setColor(.8,.8,.8)
 				local length=icon:getWidth()*.5
-				local k=S/length
-				if R[M.name]>0 then
-					gc.setColor(.95,.95,.95)
-					for j=1,4 do
-						local t=TIME()*3+1.57*j
-						gc.draw(icon,M.x+2.6*cos(t),M.y+2.6*sin(t),nil,k,nil,length,length)
-					end
-					gc.setColor(rankColor[R[M.name]])
-				else
-					gc.setColor(.6,.6,.6)
-				end
-				gc.draw(icon,M.x,M.y,nil,k,nil,length,length)
+				gc.draw(icon,M.x,M.y,nil,S/length,nil,length,length)
 			end
 
 			--Rank
-			name=text.ranks[R[M.name]]
+			name=text.ranks[rank]
 			if name then
 				gc.setColor(0,0,0,.8)
 				mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
-				gc.setColor(.9,.9,.9)
+				gc.setColor(rankColor[rank])
 				mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
 			end
 		end
