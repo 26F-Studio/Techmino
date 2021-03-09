@@ -120,20 +120,20 @@ end
 --Load modules
 require"Zframework"
 
-require"parts/list"
-require"parts/globalTables"
-require"parts/gametoolfunc"
+require"parts.list"
+require"parts.globalTables"
+require"parts.gametoolfunc"
 SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
-AIBUILDER=	require"parts/AITemplate"
-FREEROW=	require"parts/freeRow"
+AIBUILDER=	require"parts.AITemplate"
+FREEROW=	require"parts.freeRow"
 
-TEXTURE=	require"parts/texture"
-SKIN=		require"parts/skin"
-PLY=		require"parts/player"
-AIFUNC=		require"parts/ai"
-MODES=		require"parts/modes"
+TEXTURE=	require"parts.texture"
+SKIN=		require"parts.skin"
+PLY=		require"parts.player"
+AIFUNC=		require"parts.ai"
+MODES=		require"parts.modes"
 
 --First start for phones
 if not fs.getInfo("conf/settings")and MOBILE then
@@ -239,14 +239,14 @@ VOC.init{
 --Initialize language lib
 LANG.init(
 	{
-		require"parts/language/lang_zh",
-		require"parts/language/lang_zh2",
-		require"parts/language/lang_yygq",
-		require"parts/language/lang_en",
-		require"parts/language/lang_fr",
-		require"parts/language/lang_sp",
-		require"parts/language/lang_pt",
-		require"parts/language/lang_symbol",
+		require"parts.language.lang_zh",
+		require"parts.language.lang_zh2",
+		require"parts.language.lang_yygq",
+		require"parts.language.lang_en",
+		require"parts.language.lang_fr",
+		require"parts.language.lang_sp",
+		require"parts.language.lang_pt",
+		require"parts.language.lang_symbol",
 		--1. Add language file to LANG folder;
 		--2. Require it;
 		--3. Add a button in parts/scenes/setting_lang.lua;
@@ -278,7 +278,7 @@ for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
 	if fs.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
 		if v:sub(-3)=="lua"then
 			local name=v:sub(1,-5)
-			BG.add(name,require("parts/backgrounds/"..name))
+			BG.add(name,require("parts.backgrounds."..name))
 		end
 	else
 		LOG.print("Dangerous file : %SAVE%/parts/backgrounds/"..v)
@@ -289,7 +289,7 @@ end
 for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
 		local sceneName=v:sub(1,-5)
-		SCN.add(sceneName,require("parts/scenes/"..sceneName))
+		SCN.add(sceneName,require("parts.scenes."..sceneName))
 		LANG.addScene(sceneName)
 	else
 		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)

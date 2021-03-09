@@ -6,7 +6,7 @@ function scene.sceneInit()
 	BG.set("cubes")
 	if not inited then
 		inited=true
-		WIDGET.active.texts:setTexts(require"parts/updateLog")
+		WIDGET.active.texts:setTexts(require"parts.updateLog")
 	end
 	if newVersionLaunch then
 		newVersionLaunch=false

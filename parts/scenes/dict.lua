@@ -20,7 +20,7 @@ local scrollPos--Scroll down length
 local lastSearch--Last searched string
 
 function scene.sceneInit()
-	dict=require("parts/language/dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
+	dict=require("parts.language.dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
 
 	inputBox:clear()
 	result={}

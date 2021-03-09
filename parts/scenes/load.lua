@@ -118,7 +118,7 @@ local loadingThread=coroutine.create(function()
 	upFloor()
 	for i=1,#MODES do
 		local m=MODES[i]--Mode template
-		local M=require("parts/modes/"..m.name)--Mode file
+		local M=require("parts.modes."..m.name)--Mode file
 		MODES[m.name],MODES[i]=M
 		for k,v in next,m do
 			M[k]=v

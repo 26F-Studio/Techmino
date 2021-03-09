@@ -9,7 +9,7 @@ local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local YIELD=YIELD
 
-local kickList=require"parts/kickList"
+local kickList=require"parts.kickList"
 
 --------------------------<FX>--------------------------
 function Player.showText(P,text,dx,dy,font,style,spd,stop)

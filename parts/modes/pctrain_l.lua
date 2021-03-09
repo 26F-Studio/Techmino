@@ -2,8 +2,8 @@ local int=math.floor
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,46,42,39,36,33,31,29,27}
 local pc_fall={18,16,14,12,10,9,8,7,6,5}
-local PCbase=require"parts/modes/PCbase"
-local PClist=require"parts/modes/PClist"
+local PCbase=require"parts.modes.PCbase"
+local PClist=require"parts.modes.PClist"
 
 local function task_PC(P)
 	local D=P.modeData

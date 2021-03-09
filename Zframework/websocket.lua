@@ -16,7 +16,7 @@ local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
 local SOCK=require"socket".tcp()
-local JSON=require"Zframework/json"
+local JSON=require"Zframework.json"
 
 local mask_key={1,14,5,14}
 local function _send(opcode,message)

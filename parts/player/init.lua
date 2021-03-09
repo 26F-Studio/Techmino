@@ -1,13 +1,13 @@
-local Player=require"parts/player/player"
-local prepareSequence=require"parts/player/prepareSequence"
-local gameEnv0=require"parts/player/gameEnv0"
+local Player=require"parts.player.player"
+local prepareSequence=require"parts.player.prepareSequence"
+local gameEnv0=require"parts.player.gameEnv0"
 
 local rnd,max=math.random,math.max
 local ins=table.insert
 
 local PLY={
-	update=require"parts/player/update",
-	draw=require"parts/player/draw",
+	update=require"parts.player.update",
+	draw=require"parts.player.draw",
 }
 
 --------------------------<Lib Func>--------------------------

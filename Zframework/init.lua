@@ -1,45 +1,45 @@
-SCR=	require"Zframework/screen"
-COLOR=	require"Zframework/color"
-SCN=	require"Zframework/scene"
-LOG=	require"Zframework/log"
-WS=		require"Zframework/websocket"
+SCR=	require"Zframework.screen"
+COLOR=	require"Zframework.color"
+SCN=	require"Zframework.scene"
+LOG=	require"Zframework.log"
+WS=		require"Zframework.websocket"
 
-LOADLIB=require"Zframework/loadLib"
-WHEELMOV=require"Zframework/wheelScroll"
+LOADLIB=require"Zframework.loadLib"
+WHEELMOV=require"Zframework.wheelScroll"
 
-require"Zframework/setFont"
-MDRAW=require"Zframework/mDraw"
+require"Zframework.setFont"
+MDRAW=require"Zframework.mDraw"
 	mStr=MDRAW.str
 	mText=MDRAW.simpX
 	mDraw=MDRAW.draw
 
--- UPPERCHAR=require"Zframework/upperChar"
-JSON=require"Zframework/json"
-DUMPTABLE=require"Zframework/dumpTable"
-URLENCODE=require"Zframework/urlEncode"
+-- UPPERCHAR=require"Zframework.upperChar"
+JSON=require"Zframework.json"
+DUMPTABLE=require"Zframework.dumpTable"
+URLENCODE=require"Zframework.urlEncode"
 
-TABLE=require"Zframework/tableExtend"
-SPLITSTR=require"Zframework/splitStr"
-TIMESTR=require"Zframework/timeStr"
+TABLE=require"Zframework.tableExtend"
+SPLITSTR=require"Zframework.splitStr"
+TIMESTR=require"Zframework.timeStr"
 
-VIB=	require"Zframework/vibrate"
-SFX=	require"Zframework/sfx"
+VIB=	require"Zframework.vibrate"
+SFX=	require"Zframework.sfx"
 
-LIGHT=	require"Zframework/light"
-DOGC=	require"Zframework/doGC"
-BG=		require"Zframework/background"
-WIDGET=	require"Zframework/widget"
-TEXT=	require"Zframework/text"
-SYSFX=	require"Zframework/sysFX"
+LIGHT=	require"Zframework.light"
+DOGC=	require"Zframework.doGC"
+BG=		require"Zframework.background"
+WIDGET=	require"Zframework.widget"
+TEXT=	require"Zframework.text"
+SYSFX=	require"Zframework.sysFX"
 
-IMG=	require"Zframework/image"
-BGM=	require"Zframework/bgm"
-VOC=	require"Zframework/voice"
+IMG=	require"Zframework.image"
+BGM=	require"Zframework.bgm"
+VOC=	require"Zframework.voice"
 
-LANG=	require"Zframework/languages"
-TASK=	require"Zframework/task"
-FILE=	require"Zframework/file"
-PROFILE=require"Zframework/profile"
+LANG=	require"Zframework.languages"
+TASK=	require"Zframework.task"
+FILE=	require"Zframework.file"
+PROFILE=require"Zframework.profile"
 
 local ms,kb=love.mouse,love.keyboard
 
