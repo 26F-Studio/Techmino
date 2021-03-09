@@ -54,6 +54,7 @@ THEME=(
 	false
 )
 
+--System setting
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
@@ -204,6 +205,7 @@ SKIN.init{
 	"coloredbone_mrz",
 	"wtf",
 }
+
 --Initialize sound libs
 SFX.init((function()
 	local L={}
@@ -236,6 +238,7 @@ VOC.init{
 	"test","happy","doubt","sad","egg",
 	"welcome_voc",
 }
+
 --Initialize language lib
 LANG.init(
 	{
@@ -295,7 +298,6 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
 	end
 end
-
 LANG.set(SETTING.lang)
 
 --Update data

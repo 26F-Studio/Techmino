@@ -1,11 +1,3 @@
---[[
-	HighestBlock
-	BlockedCells
-	Wells
-	FilledLines
-	4deepShape
-	BlockedWells
-]]
 local int,ceil,min,abs,rnd,modf=math.floor,math.ceil,math.min,math.abs,math.random,math.modf
 local ins,rem=table.insert,table.remove
 local YIELD=YIELD
@@ -92,6 +84,14 @@ if _CC then
 	end
 end
 -------------------------------------------------9 Stack setup
+--[[Future:
+	HighestBlock
+	BlockedCells
+	Wells
+	FilledLines
+	4deepShape
+	BlockedWells
+]]
 local dirCount={1,1,3,3,3,0,1}
 local FCL={
 	[1]={

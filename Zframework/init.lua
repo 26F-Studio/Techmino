@@ -380,6 +380,7 @@ function love.errorhandler(msg)
 	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
 	local needDraw=true
 	local count=0
+	local errorMsg=text.errorMsg or"An error has occurred and Techmino needs to restart.\nError info has been created, and you can send it to the author."
 	return function()
 		love.event.pump()
 		for E,a,b in love.event.poll()do
@@ -415,7 +416,7 @@ function love.errorhandler(msg)
 			gc.replaceTransform(xOy)
 			gc_draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
 			setFont(100)gc_print(":(",100,40,0,1.2)
-			setFont(40)gc_printf(text.errorMsg,100,200,SCR.w0-100)
+			setFont(40)gc_printf(errorMsg,100,200,SCR.w0-100)
 			setFont(20)
 			gc_print(SYSTEM.."-"..VERSION_NAME,100,660)
 			gc_print("scene:"..SCN.cur,400,660)
