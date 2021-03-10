@@ -1,6 +1,6 @@
 local gc=love.graphics
 local int=math.floor
-local ins=table.insert
+local ins,rem=table.insert,table.remove
 
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
@@ -163,6 +163,14 @@ do--commands.help(arg)
 				"Usage: playbgm [bgmName]"
 			},
 		},
+		stopbgm={
+			description="Stop the BGM.",
+			details={
+				"Stop the BGM.",
+				"",
+				"Usage: stopbgm"
+			},
+		},
 		theme={
 			description="Load a theme.",
 			details={
@@ -190,6 +198,7 @@ do--commands.help(arg)
 		"unlockall",
 		"play",
 		"playbgm",
+		"stopbgm",
 		"theme",
 	}
 	local pageSize=10
@@ -223,7 +232,10 @@ do--commands.help(arg)
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
 function commands.cls()outputBox:clear()end
-function commands.rst()history,hisPtr={}end
+function commands.rst()
+	history,hisPtr={}
+	log"History cleared"
+end
 function commands.echo(str)
 	if str~=""then
 		outputBox:push(str)
@@ -322,6 +334,9 @@ function commands.playbgm(bgm)
 	else
 		log{COLOR.water,"Usage: playbgm [bgmName]"}
 	end
+end
+function commands.stopbgm()
+	BGM.stop()
 end
 function commands.theme(name)
 	if name=="classic"then
@@ -422,6 +437,7 @@ function scene.keyDown(k)
 
 		--Write History
 		ins(history,input)
+		if history[27]then rem(history,1)end
 		hisPtr=nil
 
 		--Insert empty line
