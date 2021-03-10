@@ -213,21 +213,25 @@ do--commands.help(arg)
 		end
 
 		--help or help [page]
-		if arg==""then arg=1 else arg=tonumber(arg)end
-		if arg and arg==int(arg)and arg>=1 and arg<=maxPage then
-			log"Use help [page] to view more commands,"
-			log"or help [command_name] for details of a command."
-			log""
-			log{COLOR.lPink,"Page ",COLOR.lG,arg,COLOR.lPink," of ",COLOR.lG,maxPage}
-			for i=pageSize*(arg-1)+1,math.min(pageSize*arg,#command_help_list)do
-				local cmd=command_help_list[i]
-				log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
+		local page=arg==""and 1 or tonumber(arg)
+		if page then
+			if arg==int(arg)and arg>=1 and arg<=maxPage then
+				log"Use help [page] to view more commands,"
+				log"or help [command_name] for details of a command."
+				log""
+				log{COLOR.lPink,"Page ",COLOR.lG,arg,COLOR.lPink," of ",COLOR.lG,maxPage}
+				for i=pageSize*(arg-1)+1,math.min(pageSize*arg,#command_help_list)do
+					local cmd=command_help_list[i]
+					log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
+				end
+			else
+				log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 			end
-			return
+		else
+			log{COLOR.red,"No cammand called "..arg}
 		end
 
 		--Else
-		log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 	end
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
