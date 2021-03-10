@@ -497,6 +497,8 @@ function scene.keyDown(k)
 				inputBox.value=""
 			end
 		end
+	elseif k=="escape"then
+		WIDGET.sel=inputBox
 	else
 		WIDGET.keyPressed(k)
 	end
