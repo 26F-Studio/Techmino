@@ -20,6 +20,20 @@ function scene.sceneInit()
 	PLAYERS[1]:setPosition(900,30,1.1)
 end
 
+function scene.keyDown(key)
+	if key=="application"then
+		SCN.go("dict")
+	elseif key=="f1"then
+		SCN.go("help")
+	elseif key=="f2"then
+		SCN.go("setting_game")
+	elseif key=="q"then
+		loadGame(STAT.lastPlay,true)
+	else
+		WIDGET.keyPressed(key)
+	end
+end
+
 function scene.update(dt)
 	GAME.frame=GAME.frame+1
 	PLAYERS[1]:update(dt)
@@ -89,7 +103,7 @@ scene.widgetList={
 			SCN.go("login")
 		end
 	end,hide=function()return not LATEST_VERSION end},
-	WIDGET.newButton{name="qplay",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=function()loadGame(STAT.lastPlay,true)end},
+	WIDGET.newButton{name="qplay",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=pressKey"q"},
 	WIDGET.newButton{name="setting",x=150,y=380,w=200,h=140,color="lOrange",font=40,code=goScene"setting_game"},
 	WIDGET.newButton{name="stat",	x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=goScene"stat"},
 	WIDGET.newButton{name="custom",	x=590,y=380,w=200,h=140,color="white",	font=40,code=goScene"customGame"},
