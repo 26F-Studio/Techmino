@@ -54,6 +54,7 @@ local eggInput={
 	can=goScene"app_cannon",
 	drp=goScene"app_dropper",
 	calc=goScene"app_calc",
+	refl=goScene"app_reflect",
 	cmd=goScene"app_cmd",
 }TABLE.reIndex(eggInput)
 local function search()
