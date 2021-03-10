@@ -9,61 +9,7 @@ log{COLOR.lGrape,"Techmino Shell"}
 log{COLOR.lBlue,"©2020 26F Studio   some rights reserved"}
 
 local history,hisPtr={"?"}
-
-local noLog=false
-local function log_user(str)
-	if noLog then return end
-	outputBox:push(tostring(str))
-end
-
---Environment for user's function
-local userG={
-	_VERSION=VERSION_CODE,
-	assert=assert,error=error,
-	tonumber=tonumber,tostring=tostring,
-	select=select,next=next,
-	ipairs=ipairs,pairs=pairs,
-	print=log_user,type=type,
-	pcall=pcall,xpcall=xpcall,
-	rawget=rawget,rawset=rawset,rawlen=rawlen,rawequal=rawequal,
-	setfenv=setfenv,setmetatable=setmetatable,
-	-- require=require,
-	-- load=load,loadfile=loadfile,dofile=dofile,
-	-- getfenv=getfenv,getmetatable=getmetatable,
-	-- collectgarbage=collectgarbage,
-
-	math={},string={},table={},bit={},coroutine={},
-	debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
-}userG._G=userG
-TABLE.complete(math,		userG.math)
-TABLE.complete(string,		userG.string)
-userG.string.dump=nil
-TABLE.complete(table,		userG.table)
-TABLE.complete(bit,			userG.bit)
-TABLE.complete(coroutine,	userG.coroutine)
-
---Puzzle box
-local first_key={}
-local fleg={
-	pw=(14^2*10)..(2*11),
-	second_box="Coming soon",
-}setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
-local function first_box(k,f)
-	if k~=first_key then log"Usage:"log"?"return end
-	if not f then log"Two keys needed"return end
-	if type(f):byte()~=102 then log"Function need"return end
-	noLog=true
-	if not f()then noLog=false log"There are something in the void."return end
-	if f()~=f then noLog=false log"It is itself."return end
-	if f(26)~=math.huge then noLog=false log"26 can create the huge"return end
-	noLog=false
-	log"You lose."
-	return fleg
-end
-userG.the_key=first_key
-userG.the_box=first_box
-
-
+local the_secret=(14^2*10)..(2*11)
 
 local commands={}
 --Basic commands
@@ -330,9 +276,9 @@ function commands.gammacorrect(bool)
 	end
 end
 function commands.rmwtm(pw)
-	if pw==fleg.pw then
+	if pw==the_secret then
 		_G["\100\114\97\119\70\87\77"]=NULL
-		log("\68\69\86\58\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
+		log("\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
 		SFX.play("clear")
 	else
 		log{COLOR.water,"Usage: rmwtm [password]"}
@@ -346,7 +292,7 @@ function commands.unlockall(bool)
 			end
 		end
 		FILE.save(RANKS,"conf/unlock")
-		log("\68\69\86\58\85\78\76\79\67\75\65\76\76")
+		log("\85\78\76\79\67\75\65\76\76")
 		SFX.play("clear_2")
 	else
 		log"Are you sure to unlock all modes?"
@@ -405,6 +351,60 @@ function commands.theme(name)
 		log{COLOR.water,"Usage: theme [themeName]"}
 	end
 end
+
+
+
+--Environment for user's function
+local noLog=false
+local function log_user(str)
+	if noLog then return end
+	outputBox:push(tostring(str))
+end
+local userG={
+	_VERSION=VERSION_CODE,
+	assert=assert,error=error,
+	tonumber=tonumber,tostring=tostring,
+	select=select,next=next,
+	ipairs=ipairs,pairs=pairs,
+	print=log_user,type=type,
+	pcall=pcall,xpcall=xpcall,
+	rawget=rawget,rawset=rawset,rawlen=rawlen,rawequal=rawequal,
+	setfenv=setfenv,setmetatable=setmetatable,
+	-- require=require,
+	-- load=load,loadfile=loadfile,dofile=dofile,
+	-- getfenv=getfenv,getmetatable=getmetatable,
+	-- collectgarbage=collectgarbage,
+
+	math={},string={},table={},bit={},coroutine={},
+	debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
+}userG._G=userG
+TABLE.complete(math,		userG.math)
+TABLE.complete(string,		userG.string)
+userG.string.dump=nil
+TABLE.complete(table,		userG.table)
+TABLE.complete(bit,			userG.bit)
+TABLE.complete(coroutine,	userG.coroutine)
+
+--Puzzle box
+local first_key={}
+local fleg={
+	pw=the_secret,
+	second_box="Coming soon",
+}setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
+local function first_box(k,f)
+	if k~=first_key then log"Usage:"log"?"return end
+	if not f then log"Two keys needed"return end
+	if type(f):byte()~=102 then log"Function need"return end
+	noLog=true
+	if not f()then noLog=false log"There are something in the void."return end
+	if f()~=f then noLog=false log"It is itself."return end
+	if f(26)~=math.huge then noLog=false log"26 can create the huge"return end
+	noLog=false
+	log"You lose."
+	return fleg
+end
+userG.the_key=first_key
+userG.the_box=first_box
 
 
 
