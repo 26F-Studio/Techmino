@@ -28,7 +28,7 @@ local function updateLine(P)--Attacks, line pushing, cam moving
 		if not P.alive then
 			y=0
 		else
-			y=30*max(min(#P.field-19.5-P.fieldBeneath/30,P.ghoY-17),0)
+			y=30*max(min(#P.field-18.5-P.fieldBeneath/30,P.ghoY-17),0)
 		end
 		if f~=y then
 			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or min(f*.97+y*.03+1,y)
