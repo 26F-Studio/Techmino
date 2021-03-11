@@ -619,8 +619,9 @@ function Player.spin(P,d,ifpre)
 	end
 end
 function Player.hold(P,ifpre)
+	local ENV=P.gameEnv
 	if P.holdTime>0 and(ifpre or P.waiting==-1)then
-		if #P.holdQueue<P.gameEnv.holdCount and P.nextQueue[1]then--Skip
+		if #P.holdQueue<ENV.holdCount and P.nextQueue[1]then--Skip
 			ins(P.holdQueue,P:getBlock(P.cur.id))
 
 			local t=P.holdTime
@@ -629,18 +630,26 @@ function Player.hold(P,ifpre)
 		else--Hold
 			local C,H=P.cur,P.holdQueue[1]
 
-			if P.gameEnv.phyHold and C and not ifpre then--Physical hold
+			if ENV.phyHold and C and not ifpre then--Physical hold
 				local success
 				local x,y=P.curX,P.curY
 				x=x+(#C.bk[1]-#H.bk[1])*.5
 				y=y+(#C.bk-#H.bk)*.5
-				for X=int(x-.5),ceil(x+.5)do
+
+				local X=x
+				while X<=x do
+					X=int(x)
 					for Y=int(y),ceil(y)do
 						if not P:ifoverlap(H.bk,X,Y)then
 							x,y=X,Y
 							success=true
 							goto BREAK
 						end
+					end
+					if X==x then
+						X=X-1
+					elseif X<x then
+						X=2*x-X
 					end
 				end
 				::BREAK::
@@ -674,16 +683,16 @@ function Player.hold(P,ifpre)
 				P:resetBlock()
 			end
 			P:freshBlock("move")
-			P.dropDelay=P.gameEnv.drop
-			P.lockDelay=P.gameEnv.lock
+			P.dropDelay=ENV.drop
+			P.lockDelay=ENV.lock
 			if P:ifoverlap(P.cur.bk,P.curX,P.curY)then
 				P:lock()
 				P:lose()
 			end
 		end
 
-		P.freshTime=int(min(P.freshTime+P.gameEnv.freshLimit*.25,P.gameEnv.freshLimit*((P.holdTime+1)/P.gameEnv.holdCount)))
-		if not P.gameEnv.infHold then
+		P.freshTime=int(min(P.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((P.holdTime+1)/ENV.holdCount)))
+		if not ENV.infHold then
 			P.holdTime=P.holdTime-1
 		end
 
