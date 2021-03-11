@@ -33,7 +33,7 @@ return{
 		infHold=true,
 		dropPiece=check_rise,
 		pushSpeed=1.2,
-		bg="wing",bgm="infinite",
+		bg="wing",bgm="dream",
 	},
 	load=function()
 		PLY.newPlayer(1)
