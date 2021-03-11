@@ -7,6 +7,7 @@ local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,l
 local function log(str)outputBox:push(str)end
 log{COLOR.lGrape,"Techmino Shell"}
 log{COLOR.lBlue,"©2020 26F Studio   some rights reserved"}
+log{COLOR.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
 local the_secret=(14^2*10)..(2*11)
