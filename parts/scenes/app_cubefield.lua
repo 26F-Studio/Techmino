@@ -64,6 +64,10 @@ function scene.sceneInit()
 	gc.setLineJoin("bevel")
 	BGM.play("push")
 	BG.set("none")
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.touchDown(x)

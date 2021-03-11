@@ -17,6 +17,10 @@ end
 function scene.sceneInit()
 	reset()
 	BG.set("none")
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.keyDown(key)

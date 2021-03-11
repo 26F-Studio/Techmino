@@ -13,9 +13,9 @@ function scene.sceneInit()
 	lastKey=nil
 	speed=0
 	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
-	love.keyboard.setKeyRepeat(false)
 	BG.set("grey")
 	BGM.play("push")
+	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)

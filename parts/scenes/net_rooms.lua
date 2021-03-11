@@ -126,7 +126,7 @@ end
 
 scene.widgetList={
 	WIDGET.newKey{name="fresh",		x=240,y=620,w=140,h=140,font=40,code=fresh,hide=function()return TIME()-lastfreshTime<1.26 end},
-	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey("n")},
+	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey"n"},
 	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",hide=function()return not rooms end},
 	WIDGET.newKey{name="up",		x=840,y=585,w=140,h=70,font=40,code=pressKey"up",hide=function()return not rooms end},
 	WIDGET.newKey{name="down",		x=840,y=655,w=140,h=70,font=40,code=pressKey"down",hide=function()return not rooms end},

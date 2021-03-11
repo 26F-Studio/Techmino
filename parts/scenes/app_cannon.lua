@@ -18,6 +18,10 @@ function scene.sceneInit()
 	ex,ey=626,260
 	BG.set("matrix")
 	BGM.play("way")
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.keyDown(key)

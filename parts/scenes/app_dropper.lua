@@ -34,6 +34,10 @@ function scene.sceneInit()
 	state="menu"
 	BGM.play("new era")
 	BG.set("space")
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.keyDown(key)
@@ -239,7 +243,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="back",x=1140,y=60,w=170,h=80,font=40,code=pressKey("escape")},
+	WIDGET.newButton{name="back",x=1140,y=60,w=170,h=80,font=40,code=pressKey"escape"},
 }
 
 return scene

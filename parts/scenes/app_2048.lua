@@ -231,6 +231,10 @@ function scene.sceneInit()
 	tapControl=false
 	startTime=0
 	reset()
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.mouseDown(x,y,k)

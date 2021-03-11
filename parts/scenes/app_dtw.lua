@@ -87,6 +87,10 @@ function scene.sceneInit()
 	reset()
 	BG.set("grey")
 	BGM.play("way")
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 local function touch(n)
