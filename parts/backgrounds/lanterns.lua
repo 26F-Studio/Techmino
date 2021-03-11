@@ -1,12 +1,12 @@
---Cool liquid background
+--A lantern background which is full of festive atmosphere. Lantern image by ScF
 local gc=love.graphics
 local int,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
 local mDraw=mDraw
 local back={}
+
 local lanterns
 local t
-
 function back.init()
 	lanterns={}
 	t=0
@@ -41,9 +41,10 @@ function back.draw()
 	gc.push("transform")
 	gc.origin()
 	gc.setColor(1,1,1)
+	local img=IMG.lanterns
 	for i=1,#lanterns do
 		local L=lanterns[i]
-		mDraw(IMG.lanterns[int(L.phase*6)+1],L.x,L.y,nil,L.size)
+		mDraw(img[int(L.phase*6)+1],L.x,L.y,nil,L.size)
 	end
 	gc.pop()
 end
