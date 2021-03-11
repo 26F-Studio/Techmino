@@ -10,8 +10,7 @@ local shadePhase1,shadePhase2
 local progress=0
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
-local skip
-local locked
+local skip,locked,cmdLaunchKey
 
 local light={}
 for i=0,26 do
@@ -201,6 +200,7 @@ function scene.sceneInit()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
 	locked=SETTING.appLock
+	cmdLaunchKey=0
 	kb.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -212,6 +212,8 @@ function scene.keyDown(key)
 		SCN.back()
 	elseif key=="s"then
 		skip=999
+	elseif key=="r"then
+		cmdLaunchKey=cmdLaunchKey+1
 	elseif locked and("12345679"):match(key,nil,false)then
 		key=tonumber(key)
 		light[3*key]=not light[3*key]
@@ -268,7 +270,7 @@ function scene.update(dt)
 				skip=skip-1
 			end
 			if openTime>=3.26 and not SCN.swapping then
-				if kb.isDown("r")then
+				if cmdLaunchKey==2 then
 					SCN.push("intro")
 					SCN.swapTo("app_cmd")
 				else
