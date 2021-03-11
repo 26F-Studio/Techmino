@@ -19,6 +19,11 @@ return{
 		"俄罗斯方块中文维基，由一群来自俄罗斯方块研究群及下属群的方块同好建立的关于俄罗斯方块的中文百科全书。\n当前大部分页面翻译和参考来自Harddrop wiki和Tetris Wiki",
 		"https://tetris.huijiwiki.com",
 	},
+	{"小程序",
+		"小程序 applets",
+		"help",
+		"输入以下词语打开小程序:\n15-Puzzle: 15p;  Schulte Grid: grid\nPong: pong;  AtoZ: atoz;  2048: 2048\nCubefield: cube;  Just get ten: ten\nUltimate Tic-tac-toe: uttt\nTapping speed test: tap\nDon't touch white: dtw\nCannon: can;  Dropper: drp\nCalculater: calc\nReflect: refl\nPolyforge: poly\nCommand Line: cmd",
+	},
 
 	--游戏(题库)
 	{"TTT",
@@ -771,11 +776,6 @@ return{
 		"other",
 		"Techmino的github仓库地址，欢迎star",
 		"https://github.com/26F-Studio/Techmino",
-	},
-	{"小程序",
-		"小程序 小游戏 applets minigame",
-		"other",
-		"输入以下词语打开小程序:\n15-Puzzle: 15p;  Schulte Grid: grid\nPong: pong;  AtoZ: atoz;  2048: 2048\nCubefield: cube;  Just get ten: ten\nUltimate Tic-tac-toe: uttt\nTapping speed test: tap\nDon't touch white: dtw\nCannon: can;  Dropper: drp\nCalculater: calc\nCommand Line: cmd",
 	},
 
 	--英文

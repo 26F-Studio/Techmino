@@ -25,6 +25,11 @@ return{
 		"Chinese: 灰机wiki\nA Chinese Tetris wiki, written by Tetris fans from the Tetris Research community.\nCurrently, most of its pages are translated from Hard Drop Wiki and Tetris Wiki.\n(Link is in Chinese.)",
 		"https://tetris.huijiwiki.com",
 	},
+	{"Applets",
+		"applets",
+		"help",
+		"Type the following codes for some fun applets!\n15-Puzzle: 15p;  Schulte Grid: grid\nPong: pong;  AtoZ: atoz;  2048: 2048\nCubefield: cube;  Just get ten: ten\nUltimate Tic-tac-toe: uttt\nTapping speed test: tap\nDon't touch white: dtw\nCannon: can;  Dropper: drp\nCalculater: calc\nReflect: refl\nPolyforge: poly\nCommand Line: cmd",
+	},
 
 	--Games
 	{"TTT",
@@ -764,11 +769,6 @@ return{
 		"other",
 		"Techmino's Github repository. Stars are appreciated",
 		"https://github.com/26F-Studio/Techmino",
-	},
-	{"Applets",
-		"applets minigame",
-		"other",
-		"Type the following codes for some fun applets!\n15-Puzzle: 15p;  Schulte Grid: grid\nPong: pong;  AtoZ: atoz;  2048: 2048\nCubefield: cube;  Just get ten: ten\nUltimate Tic-tac-toe: uttt\nTapping speed test: tap\nDon't touch white: dtw\nCannon: can;  Dropper: drp\nCalculater: calc\nCommand Line: cmd",
 	},
 
 	--English
