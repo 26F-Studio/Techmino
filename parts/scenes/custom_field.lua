@@ -10,17 +10,9 @@ local scene={}
 
 local sure
 local pen--Pen type
-local px,py--Pen position
+local penX,penY--Pen position
 local demo--If show x
 local page
-
-function scene.sceneInit()
-	sure=0
-	pen=1
-	px,py=1,1
-	demo=false
-	page=1
-end
 
 local penKey={
 	["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,["8"]=8,
@@ -28,19 +20,127 @@ local penKey={
 	a=17,s=18,d=19,f=20,g=21,h=22,j=23,k=24,
 	z=0,x=-1,
 }
-
-function scene.mouseDown(x,y)
-	scene.mouseMove(x,y)
+local minoPosCode={
+	[102]=1,[1121]=1,--Z
+	[195]=2,[610]=2,--S
+	[39]=3,[1569]=3,[228]=3,[1091]=3,--J
+	[135]=4,[547]=4,[225]=4,[1602]=4,--L
+	[71]=5,[609]=5,[226]=5,[1122]=5,--T
+	[99]=6,--O
+	[15]=7,[4641]=7,--I
+	[1606]=8,[2273]=8,--Z5
+	[3139]=9,[740]=9,--S5
+	[103]=10,[1633]=10,[230]=10,[1123]=10,--P
+	[199]=11,[611]=11,[227]=11,[1634]=11,--Q
+	[738]=12,[3170]=12,[1252]=12,[1219]=12,--F
+	[2274]=13,[1126]=13,[1249]=13,[1730]=13,--E
+	[1095]=14,[737]=14,[3650]=14,[2276]=14,--T5
+	[167]=15,[1571]=15,[229]=15,[1603]=15,--U
+	[2183]=16,[551]=16,[3617]=16,[3716]=16,--V
+	[614]=17,[3169]=17,[1732]=17,[2243]=17,--W
+	[1250]=18,--X
+	[47]=19,[12833]=19,[488]=19,[9283]=19,--J5
+	[271]=20,[4643]=20,[481]=20,[13378]=20,--L5
+	[79]=21,[5665]=21,[484]=21,[9314]=21,--R
+	[143]=22,[4705]=22,[482]=22,[9794]=22,--Y
+	[110]=23,[9761]=23,[236]=23,[9313]=23,--N
+	[391]=24,[4706]=24,[451]=24,[5698]=24,--H
+	[31]=25,[21025]=25,--I5
+	[7]=26,[545]=26,--I3
+	[67]=27,[35]=27,[97]=27,[98]=27,--C
+	[3]=28,[33]=28,--I2
+	[1]=29,--O1
+}
+local SPmode
+local SPlist={}--Smart pen path list
+local function SPpath(x,y)
+	for i=1,#SPlist do
+		if x==SPlist[i][1]and y==SPlist[i][2]then
+			return
+		end
+	end
+	ins(SPlist,{x,y})
+	if #SPlist==1 then
+		local start=FIELD[page][y][x]
+		SPmode=start<=0 and 0 or 1
+	end
 end
+local function SPdraw()
+	local l=#SPlist
+	local C--color
+	if SPmode==0 then
+		if l<=5 then
+			local sum=0
+			local x,y={},{}
+			for i=1,l do
+				ins(x,SPlist[i][1])
+				ins(y,SPlist[i][2])
+			end
+			local minY,minX=min(unpack(y)),min(unpack(x))
+			for i=1,#y do
+				sum=sum+2^((11-(y[i]-minY))*(y[i]-minY)/2+(x[i]-minX))
+			end
+			if minoPosCode[sum]then
+				C=SETTING.skin[minoPosCode[sum]]
+			end
+		else
+			C=20
+		end
+	elseif SPmode==1 then
+		C=0
+	end
+
+	if C then
+		for i=1,l do
+			FIELD[page][SPlist[i][2]][SPlist[i][1]]=C
+		end
+	end
+	SPlist={}
+end
+
+function scene.sceneInit()
+	sure=0
+	pen=1
+	penX,penY=1,1
+	demo=false
+	page=1
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
+end
+
 function scene.mouseMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
-	px,py=sx,sy
-	if sx and sy and ms.isDown(1,2,3)then
-		FIELD[page][sy][sx]=ms.isDown(1)and pen or ms.isDown(2)and -1 or 0
+	penX,penY=sx,sy
+	if ms.isDown(1,2,3)then
+		if sx and sy then
+			if pen==-2 then
+				if ms.isDown(1)then
+					SPpath(sx,sy)
+				end
+			else
+				FIELD[page][sy][sx]=
+					ms.isDown(1)and pen or
+					ms.isDown(2)and -1
+					or 0
+			end
+		end
+	else
+		if pen==-2 then SPdraw()end
 	end
 end
+function scene.mouseDown(x,y,k)
+	if k==2 and pen==-2 then
+		SPlist={}
+	else
+		scene.mouseMove(x,y)
+	end
+end
+scene.mouseUp=scene.mouseMove
+
 function scene.wheelMoved(_,y)
 	if y<0 then
 		pen=pen+1
@@ -57,13 +157,19 @@ function scene.touchMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx<1 or sx>10 then sx=nil end
 	if sy<1 or sy>20 then sy=nil end
-	px,py=sx,sy
+	penX,penY=sx,sy
 	if sx and sy then
-		FIELD[page][sy][sx]=pen
+		if pen==-2 then
+			SPpath(sx,sy)
+		else
+			FIELD[page][sy][sx]=pen
+		end
 	end
 end
+scene.touchUp=scene.touchMove
+
 function scene.keyDown(key)
-	local sx,sy=px,py
+	local sx,sy=penX,penY
 	if key=="up"or key=="down"or key=="left"or key=="right"then
 		if not sx then sx=1 end
 		if not sy then sy=1 end
@@ -85,7 +191,11 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		if sx and sy then
-			FIELD[page][sy][sx]=pen
+			if pen==-2 then
+				SPpath(sx,sy)
+			else
+				FIELD[page][sy][sx]=pen
+			end
 		end
 	elseif key=="escape"then
 		SCN.back()
@@ -148,7 +258,12 @@ function scene.keyDown(key)
 	else
 		pen=penKey[key]or pen
 	end
-	px,py,pen=sx,sy,pen
+	penX,penY,pen=sx,sy,pen
+end
+function scene.keyUp()
+	if not kb.isDown("space")and pen==-2 then
+		SPdraw()
+	end
 end
 
 function scene.update()
@@ -156,8 +271,6 @@ function scene.update()
 end
 
 function scene.draw()
-	local sx,sy=px,py
-
 	gc.translate(200,60)
 
 	--Draw grid
@@ -184,8 +297,8 @@ function scene.draw()
 	end end
 
 	--Draw pen
-	if sx and sy then
-		local x,y=30*sx,600-30*sy
+	if penX and penY then
+		local x,y=30*penX,600-30*penY
 		if kb.isDown("space")or ms.isDown(1)then
 			gc.setLineWidth(5)
 			gc.rectangle("line",x-30,y,30,30,4)
@@ -199,13 +312,32 @@ function scene.draw()
 			gc.rectangle("line",x-30,y,30,30,3)
 			gc.setColor(1,1,1,.2)
 			gc.rectangle("fill",x-30,y,30,30,3)
-			gc.setColor(1,1,1)
+		end
+	end
+
+	--Draw smart pen path
+	if #SPlist>0 then
+		gc.setLineWidth(4)
+		if SPmode==0 then
+			if #SPlist<=5 then
+				gc.setColor(COLOR.rainbow_light(TIME()*6.2))
+			else
+				gc.setColor(COLOR.grey)
+			end
+			for i=1,#SPlist do
+				gc.rectangle("line",30*SPlist[i][1]-30+2,600-30*SPlist[i][2]+2,30-4,30-4,3)
+			end
+		elseif SPmode==1 then
+			for i=1,#SPlist do
+				gc.rectangle("line",30*SPlist[i][1]-30+2,600-30*SPlist[i][2]+2,30-4,30-4,3)
+			end
 		end
 	end
 	gc.translate(-200,-60)
 
 	--Draw page
 	setFont(55)
+	gc.setColor(1,1,1)
 	mStr(page,100,530)
 	mStr(#FIELD,100,600)
 	gc.rectangle("fill",50,600,100,6)
@@ -220,6 +352,10 @@ function scene.draw()
 		gc.setColor(.9,.9,.9)
 		gc.line(575,505,625,555)
 		gc.line(575,555,625,505)
+	elseif pen==-2 then
+		gc.setLineWidth(13)
+		gc.setColor(COLOR.rainbow(TIME()*6.2))
+		gc.rectangle("line",565,495,70,70)
 	end
 
 	--Confirm reset
@@ -276,6 +412,7 @@ scene.widgetList={
 
 	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lGrey",	font=40,code=setPen(0)},
 	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="grey",	font=65,code=setPen(-1)},
+	WIDGET.newButton{name="smartPen",	x=860,	y=400,w=120,color="grey",	font=30,code=setPen(-2)},
 	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"k"},
 	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"l"},
 

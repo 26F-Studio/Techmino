@@ -449,6 +449,8 @@ return{
 
 			any="不定",
 			space="×",
+			smartPen="智能",
+
 			pushLine="增加一行(K)",
 			delLine="消除行(L)",
 

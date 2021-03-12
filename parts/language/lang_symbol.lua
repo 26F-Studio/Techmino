@@ -306,6 +306,8 @@ return{
 
 			any="_",
 			space="×",
+			smartPen="~",
+
 			pushLine="↑↑↑↑↑(K)",
 			delLine="==X==(L)",
 

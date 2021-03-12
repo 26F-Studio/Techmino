@@ -449,6 +449,7 @@ return{
 
 			any="Erase",
 			space="×",
+			smartPen="Smart",
 
 			pushLine="Add Line(K)",
 			delLine="Del Line(L)",

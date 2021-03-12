@@ -425,6 +425,8 @@ return{
 
 			any="Effacer",
 			space="×",
+			-- smartPen="Smart",
+
 			pushLine="Ajouter ligne (K)",
 			delLine="Supprimer ligne (L)",
 
