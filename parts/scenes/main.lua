@@ -29,6 +29,8 @@ function scene.keyDown(key)
 		SCN.go("setting_game")
 	elseif key=="q"then
 		loadGame(STAT.lastPlay,true)
+	elseif key=="escape"then
+		SCN.back()
 	else
 		WIDGET.keyPressed(key)
 	end
