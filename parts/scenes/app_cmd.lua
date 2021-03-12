@@ -216,12 +216,12 @@ do--commands.help(arg)
 		--help or help [page]
 		local page=arg==""and 1 or tonumber(arg)
 		if page then
-			if arg==int(arg)and arg>=1 and arg<=maxPage then
+			if page==int(page)and page>=1 and page<=maxPage then
 				log"Use help [page] to view more commands,"
 				log"or help [command_name] for details of a command."
 				log""
-				log{COLOR.lPink,"Page ",COLOR.lG,arg,COLOR.lPink," of ",COLOR.lG,maxPage}
-				for i=pageSize*(arg-1)+1,math.min(pageSize*arg,#command_help_list)do
+				log{COLOR.lPink,"Page ",COLOR.lG,page,COLOR.lPink," of ",COLOR.lG,maxPage}
+				for i=pageSize*(page-1)+1,math.min(pageSize*page,#command_help_list)do
 					local cmd=command_help_list[i]
 					log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
 				end
@@ -229,7 +229,7 @@ do--commands.help(arg)
 				log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 			end
 		else
-			log{COLOR.red,"No cammand called "..arg}
+			log{COLOR.red,"No command called "..arg}
 		end
 
 		--Else
