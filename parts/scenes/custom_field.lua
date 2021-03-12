@@ -412,7 +412,7 @@ scene.widgetList={
 
 	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lGrey",	font=40,code=setPen(0)},
 	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="grey",	font=65,code=setPen(-1)},
-	WIDGET.newButton{name="smartPen",	x=860,	y=400,w=120,color="grey",	font=30,code=setPen(-2)},
+	WIDGET.newButton{name="smartPen",	x=860,	y=400,w=120,color="lGreen",	font=30,code=setPen(-2)},
 	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"k"},
 	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"l"},
 
