@@ -349,6 +349,10 @@ do
 		NOGAME=true
 	end
 
+	if STAT.version<1303 then
+		SETTING.appLock=false
+	end
+
 	for _,v in next,VK_org do
 		if not v.color then
 			NOGAME=true
