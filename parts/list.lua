@@ -230,17 +230,6 @@ do--SCS(spinCenters)
 	}
 end
 do--BLOCKS
-	local function RotCW(B)
-		local N={}
-		local r,c=#B,#B[1]--row,col
-		for x=1,c do
-			N[x]={}
-			for y=1,r do
-				N[x][y]=B[y][c-x+1]
-			end
-		end
-		return N
-	end
 	local O,_=true,false
 	BLOCKS={
 		--Tetramino
@@ -282,12 +271,24 @@ do--BLOCKS
 		--Dot
 		{{O}},						--O1
 	}
+	local function RotCW(B)
+		local N={}
+		local r,c=#B,#B[1]--row,col
+		for x=1,c do
+			N[x]={}
+			for y=1,r do
+				N[x][y]=B[y][c-x+1]
+			end
+		end
+		return N
+	end
 	for i=1,#BLOCKS do
 		local B=BLOCKS[i]
 		BLOCKS[i]={[0]=B}
-		B=RotCW(B)BLOCKS[i][1]=B
-		B=RotCW(B)BLOCKS[i][2]=B
-		B=RotCW(B)BLOCKS[i][3]=B
+		for j=1,3 do
+			B=RotCW(B)
+			BLOCKS[i][j]=B
+		end
 	end
 end
 
