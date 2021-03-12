@@ -26,6 +26,7 @@ local tileColor={
 }
 
 local board,preview,cx,cy
+local failPos
 local startTime,time
 local maxTile,maxNew
 local state,progress
@@ -70,6 +71,7 @@ local function merge()
 		state=1
 		startTime=TIME()
 	end
+	if failPos==cy*10+cx then return end
 	local chosen=board[cy][cx]
 	local connected={{cy,cx}}
 	local count=1
@@ -113,8 +115,10 @@ local function merge()
 			)
 		end
 		fallingTimer=fast and 8 or 12
+		failPos=false
 	else
 		board[cy][cx]=chosen
+		failPos=cy*10+cx
 	end
 end
 function scene.keyDown(key)
@@ -248,7 +252,11 @@ function scene.draw()
 		rectangle("fill",15,200,285,210)
 	end
 	gc.setLineWidth(10)
-	setColor(1,1,1)
+	setColor(COLOR[
+		state==0 and"G"or
+		state==1 and(fast and"R"or"W")or
+		state==2 and"Y"
+	])
 	rectangle("line",315,35,650,650)
 
 	gc.setLineWidth(4)
