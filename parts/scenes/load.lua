@@ -18,9 +18,16 @@ for i=0,26 do
 	table.insert(light,660-i%9*60)
 	table.insert(light,false)
 end
-light[math.random(10,18)*3]=true
-light[math.random(19,25)*3]=true
-light[26*3]=true
+for _=1,3 do
+	light[math.random(7,25)*3]=true
+end
+local function switchLight(i)
+	light[3*i]=not light[3*i]
+	if light[6*3]and light[26*3]then
+		locked=false
+		skip=0
+	end
+end
 
 local function upFloor()
 	progress=progress+1
@@ -201,6 +208,7 @@ function scene.sceneInit()
 	skip=0--Skip time
 	locked=SETTING.appLock
 	cmdLaunchKey=0
+	if not locked then light[6*3],light[26*3]=true,true end
 	kb.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -214,13 +222,8 @@ function scene.keyDown(key)
 		skip=999
 	elseif key=="r"then
 		cmdLaunchKey=cmdLaunchKey+1
-	elseif locked and("12345679"):match(key,nil,false)then
-		key=tonumber(key)
-		light[3*key]=not light[3*key]
-		if light[6]and light[18]then
-			locked=false
-			skip=0
-		end
+	elseif locked and key:byte()>=97 and key:byte()<=122 then
+		switchLight(key:byte()-96)
 	else
 		skip=skip+1
 	end
@@ -229,10 +232,7 @@ function scene.mouseDown(x,y)
 	if locked then
 		for i=1,27 do
 			if(x-light[3*i-2])^2+(y-light[3*i-1])^2<=626 then
-				light[3*i]=not light[3*i]
-				if light[6]and light[18]then
-					locked=false
-				end
+				switchLight(i)
 				return
 			end
 		end

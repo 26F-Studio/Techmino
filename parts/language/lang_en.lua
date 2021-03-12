@@ -275,7 +275,7 @@ return{
 			autoPause="Pause when focus is lost",
 			swap="Key Combination (Change Atk. Mode)",
 			fine="Finesse Error Sound",
-			appLock="App Lock (Password: 2+6)",
+			appLock="App Lock (Password: 6+26)",
 			simpMode="Simple mode",
 		},
 		setting_video={

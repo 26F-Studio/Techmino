@@ -135,7 +135,7 @@ return{
 			autoPause="A||",
 			swap="=+=+=",
 			fine="12 X 21",
-			appLock="?XX(=2+6)",
+			appLock="?XX(=6+26)",
 			simpMode=".",
 		},
 		setting_video={

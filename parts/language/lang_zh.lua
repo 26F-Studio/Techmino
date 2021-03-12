@@ -276,7 +276,7 @@ return{
 			autoPause="失去焦点自动暂停",
 			swap="组合键切换攻击模式",
 			fine="极简操作提示音",
-			appLock="软件锁(密码2+6)",
+			appLock="软件锁(密码6+26)",
 			simpMode="简洁模式",
 		},
 		setting_video={

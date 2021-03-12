@@ -255,7 +255,7 @@ return{
 			autoPause="Pausar cuando la ventana no está enfocada",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
 			fine="Sonido de Error de Finesse",
-			appLock="Bloqueo de App (Contraseña: 2+6)",
+			appLock="Bloqueo de App (Contraseña: 6+26)",
 			-- simpMode="Simple mode",
 		},
 		setting_video={

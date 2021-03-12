@@ -250,7 +250,7 @@ return{
 			autoPause="Mettre en pause en cas de perte de focus",
 			swap="Combinaison de touches (changer le mode d'attaque)",
 			fine="Son d'erreur de Finesse",
-			appLock="Verrouillage d'appli (MDP : 2+6)",
+			appLock="Verrouillage d'appli (MDP : 6+26)",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
