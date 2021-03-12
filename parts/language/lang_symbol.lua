@@ -283,10 +283,6 @@ return{
 			phyHold="P-[ ]",
 			bone="[]",
 
-			mindas="mDAS",
-			minarr="mARR",
-			minsdarr="msdARR",
-			noTele="X→→X",
 			fieldH="↑[]↓",
 			ospin="O→Any",
 			deepDrop="\\↓↓/",

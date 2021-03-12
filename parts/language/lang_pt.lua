@@ -426,10 +426,6 @@ return{
 			-- phyHold="Physical Hold",
 			bone="Bone Blocks",
 
-			mindas="Min. DAS",
-			minarr="Min. ARR",
-			minsdarr="Min. SDARR",
-			noTele="Sem teleporte",
 			-- fieldH="Field height",
 			ospin="O-Spin",
 			-- deepDrop="Deep Drop",

@@ -85,10 +85,6 @@ return{
 			holdCount="暂存个数",
 			infHold="无限暂存",
 			phyHold="物理暂存",
-
-			mindas="最小首次移动延迟",
-			minarr="最小移动重复延迟",
-			minsdarr="最小软降重复延迟",
 		},
 		music={
 			bgm="音乐",

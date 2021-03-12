@@ -426,10 +426,6 @@ return{
 			phyHold="物理Hold",
 			bone="骨块",
 
-			mindas="最小DAS",
-			minarr="最小ARR",
-			minsdarr="最小软降ARR",
-			noTele="禁止瞬移",
 			fieldH="场地高度",
 			ospin="O-spin",
 			deepDrop="穿墙软降",

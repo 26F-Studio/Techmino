@@ -402,10 +402,6 @@ return{
 			-- phyHold="Physical Hold",
 			bone="Crochets",
 
-			mindas="DAS minimum",
-			minarr="ARR minimum",
-			minsdarr="SDARR minimum",
-			noTele="Pas de téléportation",
 			-- fieldH="Field height",
 			ospin="O-spin",
 			-- deepDrop="Deep Drop",

@@ -154,9 +154,6 @@ CUSTOMENV={--gameEnv for cutsom game
 	fall=0,
 
 	--Control
-	mindas=0,
-	minarr=0,
-	minsdarr=0,
 	nextCount=6,
 	holdCount=1,
 	infHold=false,
@@ -170,7 +167,6 @@ CUSTOMENV={--gameEnv for cutsom game
 	fieldH=20,
 
 	ospin=true,
-	noTele=false,
 	fineKill=false,
 	b2bKill=false,
 	easyFresh=true,
@@ -182,7 +178,6 @@ CUSTOMENV={--gameEnv for cutsom game
 
 	opponent="X",
 	life=0,
-	garbageSpeed=1,
 	pushSpeed=3,
 	missionKill=false,
 
