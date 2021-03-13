@@ -69,9 +69,10 @@ function scene.keyDown(key)
 end
 function scene.touchDown(x,y)
 	scene.keyDown(
+		state==0 and "space"or
 		x<640 and
-		(y<360 and"q"or"a")or
-		(y<360 and"p"or"l")
+			(y<360 and"q"or"a")or
+			(y<360 and"p"or"l")
 	)
 end
 function scene.update()
@@ -109,10 +110,9 @@ function scene.draw()
 	gc.setColor(1,1,1,.9)
 	gc.line(640,0,640,720)
 	gc.setColor(1,1,1,.3)
-	gc.line(0,360,1280,360)
+	gc.line(500,360,780,360)
 
 	--Help
-	gc.setColor(1,1,1)
 	setFont(100)
 	mStr("Q",80,100)
 	mStr("A",80,480)
@@ -149,5 +149,9 @@ function scene.draw()
 		end
 	end
 end
+
+scene.widgetList={
+	WIDGET.newKey{name="back",x=640,y=675,w=150,h=50,font=35,code=backScene},
+}
 
 return scene
