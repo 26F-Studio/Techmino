@@ -1067,7 +1067,7 @@ function WIDGET.keyPressed(k)
 		local swap_xy=k=="up"or k=="down"
 		if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
 		for _,W1 in ipairs(WIDGET.active)do
-			if W~=W1 and W1.resCtr and not(W.hide==true or W.hide and W.hide())then
+			if W~=W1 and W1.resCtr and not(W1.hide==true or W1.hide and W1.hide())then
 				local L=W1.resCtr
 				for j=1,#L,2 do
 					local x,y=L[j],L[j+1]
