@@ -657,7 +657,10 @@ function Player.hold(P,ifpre)
 					P.spinLast=false
 					P.spinSeq=0
 
-					ins(P.holdQueue,P:getBlock(C.id))
+					local hb=P:getBlock(C.id)
+					hb.name=C.name
+					hb.color=C.color
+					ins(P.holdQueue,hb)
 					P.cur=rem(P.holdQueue,1)
 					P.curX,P.curY=x,y
 				else
@@ -676,7 +679,10 @@ function Player.hold(P,ifpre)
 				P.spinSeq=0
 
 				if C then
-					ins(P.holdQueue,P:getBlock(C.id))
+					local hb=P:getBlock(C.id)
+					hb.color=C.color
+					hb.name=C.name
+					ins(P.holdQueue,hb)
 				end
 				P.cur=rem(P.holdQueue,1)
 
