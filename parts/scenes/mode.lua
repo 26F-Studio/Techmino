@@ -265,7 +265,7 @@ function scene.draw()
 	--Score board
 	if sel then
 		local M=MODES[sel]
-		gc.setColor(.7,.7,.7,.5)
+		gc.setColor(.5,.5,.5,.8)
 		gc.rectangle("fill",920,0,360,720)--Info board
 		gc.setColor(M.color)
 		setFont(40)mStr(text.modes[sel][1],1100,5)
@@ -277,7 +277,7 @@ function scene.draw()
 		end
 		if M.score then
 			mText(drawableText.highScore,1100,240)
-			gc.setColor(.4,.4,.4,.8)
+			gc.setColor(.3,.3,.3,.7)
 			gc.rectangle("fill",940,290,320,280)--Highscore board
 			local L=M.records
 			gc.setColor(1,1,1)
