@@ -29,6 +29,7 @@ scene.mouseDown=NULL
 local function restart()
 	resetGameData(GAME.frame<240 and"q")
 	noKey=GAME.replaying
+	noTouch=noKey
 end
 function scene.touchDown(x,y)
 	if noTouch then return end
