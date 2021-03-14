@@ -228,7 +228,7 @@ function scene.keyDown(key)
 		skip=999
 	elseif key=="r"then
 		cmdLaunchKey=cmdLaunchKey+1
-	elseif locked and key:byte()>=97 and key:byte()<=122 then
+	elseif locked and #key==1 and key:byte()>=97 and key:byte()<=122 then
 		switchLight(key:byte()-96)
 	else
 		skip=skip+1
