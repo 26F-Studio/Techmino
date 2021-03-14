@@ -62,7 +62,7 @@ local function SPpath(x,y)
 	ins(SPlist,{x,y})
 	if #SPlist==1 then
 		local start=FIELD[page][y][x]
-		SPmode=start<=0 and 0 or 1
+		SPmode=start==0 and 0 or 1
 	end
 end
 local function SPdraw()
@@ -120,6 +120,8 @@ function scene.mouseMove(x,y)
 			if pen==-2 then
 				if ms.isDown(1)then
 					SPpath(sx,sy)
+				else
+					FIELD[page][sy][sx]=-1
 				end
 			else
 				FIELD[page][sy][sx]=
