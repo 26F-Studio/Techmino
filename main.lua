@@ -336,7 +336,6 @@ do
 	end
 
 	if STAT.version<1300 then
-		STAT.lastPlay="sprint_10l"
 		for _,name in next,fs.getDirectoryItems("replay")do
 			fs.remove("replay/"..name)
 		end

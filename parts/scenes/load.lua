@@ -138,6 +138,12 @@ local loadingThread=coroutine.create(function()
 		end
 		if i%5==0 then YIELD()end
 	end
+
+	upFloor()
+	if not MODES[STAT.lastPlay]then
+		STAT.lastPlay="sprint_10l"
+	end
+
 	upFloor()
 	SKIN.change(SETTING.skinSet)
 	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked
