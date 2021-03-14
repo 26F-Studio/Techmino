@@ -514,7 +514,7 @@ return{
 	{"DAS cut",
 		"dascut",
 		"term",
-		"Techmino exclusive: in Techmino, the DAS timer can be cleared or partically charged when a piece spawns while holding a direction button. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",	},
+		"Techmino exclusive: in Techmino, the DAS timer can be cleared or discharged for a short time when player start to control a new piece. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",	},
 	{"SDF",
 		"sdf softdropfactor",
 		"term",
