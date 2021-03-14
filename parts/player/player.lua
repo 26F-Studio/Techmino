@@ -637,8 +637,8 @@ function Player.hold(P,ifpre)
 				y=y+(#C.bk-#H.bk)*.5
 
 				local X=x
-				while X<=x do
-					X=int(x)
+				while X<=x+1 do
+					X=int(X)
 					for Y=int(y),ceil(y)do
 						if not P:ifoverlap(H.bk,X,Y)then
 							x,y=X,Y
