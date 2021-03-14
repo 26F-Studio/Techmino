@@ -13,7 +13,7 @@ return SPLITSTR([=[
 						\HitachiMako/                \我慌死了/            \PESWGGL/
 						\Ghost princess/                 \zzz/                    \猫宫/
 		<rmb10+>
-				八零哥    蕴空之灵    gggf127    solainu    ThTsOd    Fireboos    金巧    10元
+				八零哥    蕴空之灵    gggf127    solainu    ThTsOd    Fireboos    星月千雪    10元
 				立斐    Deep_Sea    时雪    yyangdid    sfqr    心痕    Sasoric    夏小亚
 				仁参    乐↗乐↘    喜欢c4w的ztcjoin    面包    蠢熏    潘一栗    Lied    星街书婉
 				祝西    829    e m*12    我永远爱白银诺艾尔(鹏    PCX    kagura77    呆喂
