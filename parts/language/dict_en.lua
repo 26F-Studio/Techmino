@@ -518,7 +518,7 @@ return{
 	{"SDF",
 		"sdf softdropfactor",
 		"term",
-		"Soft Drop Factor\n\nA way to define soft drop speed as a multiple of natural falling speed. In guideline games, soft drop is 20x the speed of natural falling, i.e. it has a SDF of 20. Techmino does not use SDF to define soft drop speed.",
+		"Soft Drop Factor\n\nA way to define soft drop speed as a multiple of natural falling speed. In guideline games, soft drop is 20x the speed of natural falling, i.e. it has an SDF of 20. Techmino does not use SDF to define soft drop speed.",
 	},
 	{"Bag7 generator",
 		"bag7bag randomgenerator",
