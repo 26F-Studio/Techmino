@@ -389,7 +389,7 @@ return{
 	{"Hold",
 		"hold",
 		"term",
-		"Save your current piece for later use, and take out a previously held piece (or next piece in the next queue, if no piece was held) to place instead. You can only perform this once per piece.",--TODO
+		"Save your current piece for later use, and take out a previously held piece (or next piece in the next queue, if no piece was held) to place instead. You can only perform this once per piece.\n\nTechmino Exclusive: Techmino has a \"In-place hold\" feature. When enabled, piece that spawn from the Hold queue will spawn at where your currently-controlling piece is, instead of at the top of the matrix.",
 	},
 	{"Misdrop",
 		"md misdrop",
@@ -514,11 +514,11 @@ return{
 	{"DAS cut",
 		"dascut",
 		"term",
-		"本游戏中在放了一个方块后会取消/重置/减小das计时器，让自动移动不会立刻生效，减少移动键松开晚了导致下一块一出现就立即开始移动的情况\n注:别的游戏中das打断可能和本游戏这个机制有区别，仅供参考",	},--TODO
+		"Techmino exclusive: in Techmino, the DAS timer can be cleared or partically charged when a piece spawns while holding a direction button. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",	},
 	{"SDF",
 		"sdf softdropfactor",
 		"term",
-		"Soft Drop Factor",--TODO
+		"Soft Drop Factor\n\nA way to define soft drop speed as a multiple of natural falling speed. In guideline games, soft drop is 20x the speed of natural falling, i.e. it has an SDF of 20. Techmino does not use SDF to define soft drop speed.",
 	},
 	{"Bag7 generator",
 		"bag7bag randomgenerator",

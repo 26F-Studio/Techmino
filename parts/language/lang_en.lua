@@ -423,7 +423,7 @@ return{
 			nextCount="Next",
 			holdCount="Hold",
 			infHold="Infinite Hold",
-			phyHold="Physical Hold",
+			phyHold="In-place Hold",
 			bone="Bone Blocks",
 
 			fieldH="Field height",
