@@ -61,22 +61,12 @@ function scene.keyDown(key)
 			state="move"
 		end
 	elseif key=="escape"then
-		if state=="menu"or state=="dead"then
-			SCN.back()
-		else
-			move.x,move.y,move.l=1e99,0,0
-			highScore=max(score,highScore)
-			highFloor=max(floor,floor)
-			SFX.play("lose")
-			state="dead"
-		end
+		SCN.back()
 	end
 end
-function scene.mouseDown(k)
+function scene.mouseDown(_,_,k)
 	if k==1 then
 		scene.keyDown("space")
-	elseif k==2 then
-		scene.keyDown("escape")
 	end
 end
 function scene.touchDown()

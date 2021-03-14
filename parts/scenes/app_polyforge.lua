@@ -47,34 +47,32 @@ end
 function scene.keyDown(k)
 	if k=="escape"then
 		SCN.back()
-	else
-
-	end
-	if k~="space"then return end
-	if state==0 then--main
-		if timer==0 then
-			state=1
-		end
-	elseif state==3 then--play
-		local c=(math.floor((pos-ang)*side/tau)-1)%side+1
-		if hit[c]==0 then
-			hit[c]=1
-			count=count+1
-			SFX.play(side<26 and"ren_"..rnd(5)or"ren_"..rnd(6,11))
-			if count>=12 then
-				SFX.play("ren_mega",(count-11)/15)
-			end
-			if count==side then
+	elseif k=="space"then
+		if state==0 then--main
+			if timer==0 then
 				state=1
-				SFX.play("spin_0")
-			else
-				SFX.play("lock")
 			end
-		else
-			hit[c]=2
-			SFX.play("emit")
-			needReset=true
-			state=1
+		elseif state==3 then--play
+			local c=(math.floor((pos-ang)*side/tau)-1)%side+1
+			if hit[c]==0 then
+				hit[c]=1
+				count=count+1
+				SFX.play(side<26 and"ren_"..rnd(5)or"ren_"..rnd(6,11))
+				if count>=12 then
+					SFX.play("ren_mega",(count-11)/15)
+				end
+				if count==side then
+					state=1
+					SFX.play("spin_0")
+				else
+					SFX.play("lock")
+				end
+			else
+				hit[c]=2
+				SFX.play("emit")
+				needReset=true
+				state=1
+			end
 		end
 	end
 end
