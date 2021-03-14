@@ -389,7 +389,7 @@ return{
 	{"Hold",
 		"hold",
 		"term",
-		"Save your current piece for later use, and take out a previously held piece (or next piece in the next queue, if no piece was held) to place instead. You can only perform this once per piece.",
+		"Save your current piece for later use, and take out a previously held piece (or next piece in the next queue, if no piece was held) to place instead. You can only perform this once per piece.",--TODO
 	},
 	{"Misdrop",
 		"md misdrop",
