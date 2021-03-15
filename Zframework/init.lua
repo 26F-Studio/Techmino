@@ -375,7 +375,7 @@ function love.errorhandler(msg)
 	gc.captureScreenshot(function(_)errScrShot=gc.newImage(_)end)
 	gc.present()
 
-	SFX.fplay("error",SETTING.voc*.8)
+	SFX.fplay("error",SETTING and SETTING.voc*.8 or 0)
 
 	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
 	local needDraw=true
@@ -383,7 +383,7 @@ function love.errorhandler(msg)
 	local errorMsg=text and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
 	return function()
 		love.event.pump()
-		for E,a,b in love.event.poll()do
+		for E,a,b,k in love.event.poll()do
 			if E=="quit"or a=="escape"then
 				destroyPlayers()
 				return 1
@@ -392,7 +392,7 @@ function love.errorhandler(msg)
 				needDraw=true
 			elseif E=="focus"then
 				needDraw=true
-			elseif E=="touchpressed"and b<26 or E=="mousepressed" and a==2 or E=="keypressed"and a=="z"then
+			elseif E=="touchpressed"and b<26 or E=="mousepressed"and k==2 or E=="keypressed"and a=="z"then
 				if count<3 then
 					count=count+1
 					SFX.play("ready",.5)
