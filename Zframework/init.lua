@@ -590,7 +590,9 @@ function love.run()
 				LOG.draw()
 
 				gc_present()
-				gc_discard()--SPEED UPUPUP!
+
+				--SPEED UPUPUP!
+				if SETTING.cleanCanvas then gc_discard()end
 			end
 		end
 

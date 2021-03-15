@@ -169,6 +169,7 @@ return{
 			fullscreen="|←→|",
 			bg="__?__",
 			power="+.",
+			clean="[]→→O",
 		},
 		setting_sound={
 			title="(~~)",

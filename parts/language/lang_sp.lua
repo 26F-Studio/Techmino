@@ -289,6 +289,7 @@ return{
 			fullscreen="Pant. Completa",
 			bg="Fondo",
 			power="Inf. de Batería",
+			-- clean="Fast Draw",
 		},
 		setting_sound={
 			title="Ajustes de Sonido",

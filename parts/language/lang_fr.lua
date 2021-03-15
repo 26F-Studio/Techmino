@@ -285,6 +285,7 @@ return{
 			fullscreen="Plein écran",
 			bg="Arrière-plan",
 			power="Infos d'alimentation",
+			-- clean="Fast Draw",
 		},
 		setting_sound={
 			title="Paramètres du son",

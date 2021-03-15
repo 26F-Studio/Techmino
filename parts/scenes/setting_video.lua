@@ -43,16 +43,14 @@ scene.widgetList={
 	WIDGET.newSwitch{name="highCam",	x=1100,	y=360,font=35,disp=lnk_SETval("highCam"),code=lnk_SETrev("highCam")},
 	WIDGET.newSwitch{name="nextPos",	x=1100,	y=420,font=35,disp=lnk_SETval("nextPos"),code=lnk_SETrev("nextPos")},
 	WIDGET.newSwitch{name="fullscreen",x=1100,	y=480,disp=lnk_SETval("fullscreen"),	code=switchFullscreen},
-	WIDGET.newSwitch{name="bg",		x=1100,	y=540,font=35,disp=lnk_SETval("bg"),
+	WIDGET.newSwitch{name="bg",			x=1100,	y=540,font=35,disp=lnk_SETval("bg"),
 		code=function()
 			BG.set("none")
 			SETTING.bg=not SETTING.bg
 			BG.set()
 		end},
-	WIDGET.newSwitch{name="power",		x=990,	y=640,font=35,disp=lnk_SETval("powerInfo"),
-		code=function()
-			SETTING.powerInfo=not SETTING.powerInfo
-		end},
+	WIDGET.newSwitch{name="power",		x=990,	y=610,font=35,disp=lnk_SETval("powerInfo"),code=lnk_SETrev("powerInfo")},
+	WIDGET.newSwitch{name="clean",		x=990,	y=670,font=35,disp=lnk_SETval("cleanCanvas"),code=lnk_SETrev("cleanCanvas")},
 	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 

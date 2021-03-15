@@ -268,6 +268,7 @@ SETTING={--Settings
 	shakeFX=2,
 	atkFX=2,
 	frameMul=100,
+	cleanCanvas=true,
 
 	text=true,
 	score=true,

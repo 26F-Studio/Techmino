@@ -310,6 +310,7 @@ return{
 			fullscreen="全屏",
 			bg="背景",
 			power="电量显示",
+			clean="绘制优化",
 		},
 		setting_sound={
 			title="声音设置",

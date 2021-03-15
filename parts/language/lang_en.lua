@@ -309,6 +309,7 @@ return{
 			fullscreen="Full Screen",
 			bg="Background",
 			power="Power Info",
+			clean="Fast Draw",
 		},
 		setting_sound={
 			title="Sound Settings",

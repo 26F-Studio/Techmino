@@ -309,6 +309,7 @@ return{
 			fullscreen="Tela cheia",
 			bg="Fundo",
 			power="Informação bateria",
+			-- clean="Fast Draw",
 		},
 		setting_sound={
 			title="Config. de sons",
