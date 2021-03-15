@@ -576,6 +576,10 @@ return{
 			resetRecord="Réinitialiser les records",
 			resetData="Réinitialiser les données",
 		},
+		error={
+			cmd="CMD",
+			quit="Quit",
+		},
 	},
 	modes={
 		["sprint_10l"]=			{"Sprint",			"10L",			"Nettoyez 10 lignes !"},

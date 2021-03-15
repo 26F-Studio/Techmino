@@ -657,6 +657,10 @@ return{
 			resetRecord="Reset records",
 			resetData="Reset data",
 		},
+		error={
+			cmd="CMD",
+			quit="Quit",
+		},
 	},
 	modes={
 		["sprint_10l"]=			{"Sprint",			"10L",			"Limpe 10 linhas!"},

@@ -661,6 +661,10 @@ return{
 			resetRecord="重置纪录",
 			resetData="重置统计",
 		},
+		error={
+			cmd="命令行",
+			quit="退出",
+		},
 	},
 	modes={
 		["sprint_10l"]=			{"竞速",		"10L",		"消除10行"},

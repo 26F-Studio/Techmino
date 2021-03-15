@@ -47,7 +47,7 @@ local gc=love.graphics
 local gc_push,gc_pop=gc.push,gc.pop
 local gc_discard,gc_present=gc.discard,gc.present
 local gc_setColor,gc_draw,gc_rectangle=gc.setColor,gc.draw,gc.rectangle
-local gc_print,gc_printf=gc.print,gc.printf
+local gc_print=gc.print
 local setFont=setFont
 
 local int,rnd,abs=math.floor,math.random,math.abs
@@ -350,87 +350,47 @@ function love.focus(f)
 		pauseGame()
 	end
 end
-function love.errorhandler(msg)
-	ms.setVisible(true)
-	love.audio.stop()
 
-	local err={"Error:"..msg}
-	local trace=debug.traceback("",2)
+local yield=coroutine.yield
+local function secondLoopThread()
+	local mainLoop=love.run()
+	repeat yield()until mainLoop()
+end
+function love.errorhandler(msg)
+	--Generate error message
+	local errData={}
+	errData.mes={"Error:"..msg}
 	local c=2
-	for l in trace:gmatch("(.-)\n")do
+	for l in debug.traceback("",2):gmatch("(.-)\n")do
 		if c>2 then
 			if not l:find("boot")then
-				err[c]=l:gsub("^\t*","")
+				errData.mes[c]=l:gsub("^\t*","")
 				c=c+1
 			end
 		else
-			err[2]="Traceback"
+			errData.mes[2]="Traceback"
 			c=3
 		end
 	end
-	DBP(table.concat(err,"\n"),1,c-2)
-	gc.reset()
+	DBP(table.concat(errData.mes,"\n"),1,c-2)
+	ins(ERRDATA,errData)
 
-	local errScrShot
-	gc.captureScreenshot(function(_)errScrShot=gc.newImage(_)end)
+	--Get screencapture
+	love.audio.stop()
+	gc.reset()
+	gc.captureScreenshot(function(_)errData.shot=gc.newImage(_)end)
 	gc.present()
 
-	SFX.fplay("error",SETTING and SETTING.voc*.8 or 0)
-
-	local BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
-	local needDraw=true
-	local count=0
-	local errorMsg=text and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
-	return function()
-		love.event.pump()
-		for E,a,b,k in love.event.poll()do
-			if E=="quit"or a=="escape"then
-				destroyPlayers()
-				return 1
-			elseif E=="resize"then
-				love.resize(a,b)
-				needDraw=true
-			elseif E=="focus"then
-				needDraw=true
-			elseif E=="touchpressed"and b<26 or E=="mousepressed"and k==2 or E=="keypressed"and a=="z"then
-				if count<3 then
-					count=count+1
-					SFX.play("ready",.5)
-				else
-					local code=loadstring(love.system.getClipboardText())
-					if code then
-						code()
-						SFX.play("reach",.5)
-					else
-						SFX.play("finesseError",.5)
-					end
-					count=0
-				end
-			end
+	--Create a new mainLoop thread to keep game alive
+	local status,resume=coroutine.status,coroutine.resume
+	local loopThread=coroutine.create(secondLoopThread)
+	repeat
+		local res,err=resume(loopThread)
+		if not res then
+			love.errorhandler(err)
+			return
 		end
-		if needDraw then
-			gc_discard()
-			gc.clear(BGcolor)
-			gc_setColor(1,1,1)
-			gc_push("transform")
-			gc.replaceTransform(xOy)
-			gc_draw(errScrShot,100,365,nil,512/errScrShot:getWidth(),288/errScrShot:getHeight())
-			setFont(100)gc_print(":(",100,40,0,1.2)
-			setFont(40)gc_printf(errorMsg,100,200,SCR.w0-100)
-			setFont(20)
-			gc_print(SYSTEM.."-"..VERSION_NAME,100,660)
-			gc_print("scene:"..SCN.cur,400,660)
-			gc_printf(err[1],626,360,1260-626)
-			gc_print("TRACEBACK",626,426)
-			for i=4,#err-2 do
-				gc_print(err[i],626,370+20*i)
-			end
-			gc_pop()
-			gc_present()
-			needDraw=false
-		end
-		love.timer.sleep(.26)
-	end
+	until status(loopThread)=="dead"
 end
 local WSnames={"app","user","chat","play","stream"}
 local WScolor={
@@ -466,8 +426,9 @@ function love.run()
 	love.resize(gc.getWidth(),gc.getHeight())
 
 	--Scene Launch
+	while #SCN.stack>0 do SCN.pop()end
 	SCN.push("quit","slowFade")
-	SCN.init("load")
+	SCN.init(#ERRDATA==0 and"load"or"error")
 
 	return function()
 		local _

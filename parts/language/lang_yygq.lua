@@ -183,6 +183,10 @@ return{
 			disappear="消失",
 			tapFX="动画",
 		},
+		error={
+			cmd="CMD",
+			quit="Quit",
+		},
 	},
 	modes={
 		["sprint_10l"]=			{"竞速",		"10L",		"消10行"},

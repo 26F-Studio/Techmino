@@ -258,6 +258,7 @@ do--commands.help(arg)
 	end
 end
 function commands.shutdown(arg)os.execute("shutdown "..arg)end
+function commands.error(mes)error(mes)end
 function commands.cls()outputBox:clear()end
 function commands.rst()
 	history,hisPtr={}

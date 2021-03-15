@@ -27,6 +27,7 @@ LOGIN=false
 EDITING=""
 WSCONN=false
 LATEST_VERSION=false
+ERRDATA={}
 
 --Festival check within one statement
 THEME=(
