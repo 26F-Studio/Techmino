@@ -985,16 +985,15 @@ end
 
 --Game draw
 do--function drawFWM()
-	local zh=table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"}
 	local marks={
-		zh,
-		zh,
-		zh,
-		"Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
-		"Créateur du jeu: MrZ_26\nSi vous pouvez voir ceci, cet enregistrement est illégal\nToute explication est fausse et invalide",
-		"Autor: MrZ_26\nEsta grabación es ilegal si ves esto\nNo se aceptan excusas",
-		"Autor do jogo: MrZ_26\nSe puder ver isso a gravação e illegal\nQualquer explicação é invalida",
-		"Author: MrZ_26\nIllegal recording if you can see this\nAny explanation is invalid",
+		table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"},
+		table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"},
+		table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"},
+		table.concat{"Au","tho","r: M","rZ_","26\n","Ill","egal"," re","cor","ding"," i","f y","ou ","can ","see ","th","is\n","Any"," ex","plan","ati","on i","s i","nva","li","d"},
+		table.concat{"Cr","éat","eur ","du ","jeu:"," Mr","Z_26","\nS","i v","ous ","po","uve","z v","oir ","ceci",", ","cet ","enr","egi","stre","men","t es","t i","llé","ga","l\nT","out","e ","ex","pl","ica","tion"," es","t f","auss","e et in","val","ide"},
+		table.concat{"Au","tor",": Mr","Z_2","6\nE","sta"," gra","bac","ión"," es ","il","ega","l s","i ve","s es","to","\nNo"," se"," ac","epta","n e","xcus","as"},
+		table.concat{"Au","tor"," do ","jog","o: M","rZ_","26\n","Se ","pud","er v","er"," is","so ","a gr","avaç","ão"," e i","lle","gal","\nQu","alq","uer ","exp","lic","aç","ão é"," in","va","li","da"},
+		table.concat{"Au","tho","r: M","rZ_","26\n","Ill","egal"," re","cor","ding"," i","f y","ou ","can ","see ","th","is\n","Any"," ex","plan","ati","on i","s i","nva","li","d"},
 	}
 	function drawFWM()
 		local t=TIME()
