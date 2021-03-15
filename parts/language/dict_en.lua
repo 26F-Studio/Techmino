@@ -548,7 +548,7 @@ return{
 	{"C2 Generator",
 		"cultris2generator cultrisiigenerator c2generator",
 		"term",
-		"All Tetriminoes have a initial weight of 0.\nEvery time, multiply all weights by 2, add a random number between 0 and 1, pick the piece with the highest weight, and divide this piece's weight by 3.5.",
+		"All Tetriminoes have a initial weight of 0.\nEvery time, divide all weights by 2, add a random number between 0 and 1, pick the piece with the highest weight, and divide this piece's weight by 3.5.",
 	},
 	{"C2 wall kicks",
 		"cultris2wallkicks cultrisiiwallkicks c2wallkicks cultris2kicks cultrisiikicks c2kicks",
