@@ -12,6 +12,8 @@ log{COLOR.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 local history,hisPtr={"?"}
 local the_secret=(14^2*10)..(2*11)
 
+
+
 local commands={}
 --Basic commands
 do--commands.help(arg)
@@ -69,6 +71,14 @@ do--commands.help(arg)
 				"Attempt to open a URL with your device.",
 				"",
 				"Usage: url [url]",
+			},
+		},
+		tree={
+			description="List all files & directories in the save directory",
+			details={
+				"List all files & directories in the save directory",
+				"",
+				"Usage: tree",
 			},
 		},
 		cls={
@@ -188,6 +198,7 @@ do--commands.help(arg)
 		"exit",
 		"echo",
 		"url",
+		"tree",
 		"cls",
 		"rst",
 		"shutdown",
@@ -254,6 +265,28 @@ function commands.url(url)
 		end
 	else
 		log{COLOR.water,"Usage: url [url]"}
+	end
+end
+local function tree(path,name,depth)
+	local info=love.filesystem.getInfo(path..name)
+	if info.type=="file"then
+		log(string.rep("\t\t",depth)..name)
+	elseif info.type=="directory"then
+		log(string.rep("\t\t",depth)..name..">")
+		local L=love.filesystem.getDirectoryItems(path..name)
+		for _,subName in next,L do
+			tree(path..name.."/",subName,depth+1)
+		end
+	else
+		log("Unkown item type: %s (%s)"):format(name,info.type)
+	end
+end
+function commands.tree()
+	local L=love.filesystem.getDirectoryItems("")
+	for _,name in next,L do
+		if love.filesystem.getRealDirectory(name)==SAVEDIR then
+			tree("",name,0)
+		end
 	end
 end
 commands.exit=backScene
