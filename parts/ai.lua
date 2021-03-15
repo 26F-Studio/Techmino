@@ -13,7 +13,7 @@ local _CC=LOADLIB("CC",{
 	Android="libCCloader.so",
 	libFunc="luaopen_CCloader",
 })cc=nil
-if _CC then
+if type(_CC)=="table"then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
 		getConf=	_CC.get_default_config	,--()options,weights
