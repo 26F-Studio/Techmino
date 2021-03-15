@@ -4,7 +4,7 @@ return{
 	env={
 		drop=20,lock=60,
 		sequence="bag",
-		bag={1,1,2,2,3,3,4,4,5,5,6,6},
+		seqData={1,1,2,2,3,3,4,4,5,5,6,6},
 		target=100,dropPiece=PLY.check_lineReach,
 		nextCount=3,
 		ospin=false,

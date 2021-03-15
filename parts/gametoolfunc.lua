@@ -583,9 +583,9 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 		GAME.modeEnv[k]=v
 	end
 	if BAG[1]then
-		GAME.modeEnv.bag=BAG
+		GAME.modeEnv.seqData=BAG
 	else
-		GAME.modeEnv.bag=nil
+		GAME.modeEnv.seqData=nil
 	end
 	if MISSION[1]then
 		GAME.modeEnv.mission=MISSION

@@ -142,7 +142,6 @@ local function newEmptyPlayer(id,mini)
 	P.holdQueue={}
 	P.holdTime=0
 	P.nextQueue={}
-	P.seqData={}
 
 	P.freshTime=0
 	P.spinLast=false
@@ -296,10 +295,11 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.sequence~="bag"and ENV.sequence~="loop"then
 		ENV.bagLine=false
 	else
-		ENV.bagLen=#ENV.bag
+		ENV.bagLen=#ENV.seqData
 	end
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
+	prepareSequence(P)
 
 	if P.mini then
 		ENV.lockFX=false
@@ -355,7 +355,6 @@ function PLY.newDemoPlayer(id)
 	GAME.modeEnv=DemoEnv
 	loadGameEnv(P)
 	applyGameEnv(P)
-	prepareSequence(P)
 	P:loadAI{
 		type="CC",
 		next=5,
@@ -385,7 +384,6 @@ function PLY.newRemotePlayer(id,mini,playerData)
 
 	loadRemoteEnv(P,playerData.conf)
 	applyGameEnv(P)
-	prepareSequence(P)
 end
 
 function PLY.newAIPlayer(id,AIdata,mini)
@@ -397,7 +395,6 @@ function PLY.newAIPlayer(id,AIdata,mini)
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,7,11,3,14,4,9}
 	applyGameEnv(P)
-	prepareSequence(P)
 	P:loadAI(AIdata)
 end
 function PLY.newPlayer(id,mini)
@@ -407,7 +404,6 @@ function PLY.newPlayer(id,mini)
 
 	loadGameEnv(P)
 	applyGameEnv(P)
-	prepareSequence(P)
 end
 --------------------------</Public>--------------------------
 return PLY

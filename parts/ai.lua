@@ -1,6 +1,6 @@
 local int,ceil,min,abs,rnd,modf=math.floor,math.ceil,math.min,math.abs,math.random,math.modf
 local ins,rem=table.insert,table.remove
-local YIELD=YIELD
+local resume,yield=coroutine.resume,coroutine.yield
 -- controlname:
 -- 1~5:mL,mR,rR,rL,rF,
 -- 6~10:hD,sD,H,A,R,
@@ -75,7 +75,7 @@ if _CC then
 		P.cur=rem(P.nextQueue,1)
 		P.curX,P.curY=blockPos[P.cur.id],int(P.gameEnv.fieldH+1-modf(P.cur.sc[1]))+ceil(P.fieldBeneath/30)
 
-		P:newNext()
+		assert(resume(P.newNext))
 		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
 		if id then
 			CC.addNext(P.AI_bot,id)
@@ -201,7 +201,7 @@ return{
 	["9S"]=function(P,keys)
 		while true do
 			--Thinking
-			YIELD()
+			yield()
 			local Tfield={}--Test field
 			local best={x=1,dir=0,hold=false,score=-1e99}--Best method
 			local field_org=P.field
@@ -268,7 +268,7 @@ return{
 			ins(keys,6)
 
 			--Check if time to change target
-			YIELD()
+			yield()
 			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
@@ -277,13 +277,13 @@ return{
 	["CC"]=CC and function(P,keys)
 		while true do
 			--Start thinking
-			YIELD()
+			yield()
 			if not pcall(CC.think,P.AI_bot)then break end
 
 			--Poll keys
 			local success,result,dest,hold,move
 			repeat
-				YIELD()
+				yield()
 				success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
 			until not success or result==0 or result==2
 			if not success then break end
@@ -308,7 +308,7 @@ return{
 			end
 
 			--Check if time to change target
-			YIELD()
+			yield()
 			if P:RND()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end

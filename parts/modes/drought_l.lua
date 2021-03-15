@@ -5,90 +5,91 @@ return{
 		drop=20,lock=60,
 		sequence=function(P)
 			for _=1,3 do P:getNext(7)end
-		end,
-		freshMethod=function(P)
-			if not P.nextQueue[1] then
-				local height=FREEROW.get(0)
-				local max=#P.field
-				if max>0 then
-					--Get heights
-					for x=1,10 do
-						local h=max
-						while P.field[h][x]==0 and h>1 do
-							h=h-1
+			while true do
+				YIELD()
+				if not P.nextQueue[1] then
+					local height=FREEROW.get(0)
+					local max=#P.field
+					if max>0 then
+						--Get heights
+						for x=1,10 do
+							local h=max
+							while P.field[h][x]==0 and h>1 do
+								h=h-1
+							end
+							height[x]=h
 						end
-						height[x]=h
+					else
+						for x=1,10 do
+							height[x]=0
+						end
 					end
-				else
-					for x=1,10 do
-						height[x]=0
-					end
-				end
-				height[11]=999
+					height[11]=999
 
-				local res={1,1,2,2,3,4}
-				local d=0
-				local A
-				for i=1,10 do
-					d=d+height[i]
-				end
-				if d<40 or P.stat.row>2*42 then
-					A=#res+1
-					for _=1,4 do
-						res[A]=1
-						res[A+1]=2
+					local res={1,1,2,2,3,4}
+					local d=0
+					local A
+					for i=1,10 do
+						d=d+height[i]
+					end
+					if d<40 or P.stat.row>2*42 then
+						A=#res+1
+						for _=1,4 do
+							res[A]=1
+							res[A+1]=2
+							res[A+2]=6
+							A=A+3
+						end
+						goto END
+					end
+
+					--Give I when no hole
+					d=-999--Height difference
+					--A=hole mark
+					for x=2,11 do
+						local _=height[x]-height[x-1]
+						if d<-2 and _>2 then
+							A=true
+						end
+						d=_
+					end
+					if not A then
+						A=#res+1
+						res[A]=7
+						res[A+1]=7
+						res[A+2]=7
+					end
+
+					--Give O when no d=0/give T when no d=1
+					d=0--d=0 count
+					A=0--d=1 count
+					for x=2,10 do
+						local _=height[x]-height[x-1]
+						if _==0 then
+							d=d+1
+						elseif _==1 or _==-1 then
+							A=A+1
+						end
+					end
+					if d<3 then
+						A=#res+1
+						res[A]=6
+						res[A+1]=6
 						res[A+2]=6
-						A=A+3
 					end
-					goto END
-				end
-
-				--Give I when no hole
-				d=-999--Height difference
-				--A=hole mark
-				for x=2,11 do
-					local _=height[x]-height[x-1]
-					if d<-2 and _>2 then
-						A=true
+					if A<3 then
+						A=#res+1
+						res[A]=5
+						res[A+1]=5
+						res[A+2]=5
+						res[A+3]=5
+						res[A+4]=5
 					end
-					d=_
-				end
-				if not A then
-					A=#res+1
-					res[A]=7
-					res[A+1]=7
-					res[A+2]=7
-				end
 
-				--Give O when no d=0/give T when no d=1
-				d=0--d=0 count
-				A=0--d=1 count
-				for x=2,10 do
-					local _=height[x]-height[x-1]
-					if _==0 then
-						d=d+1
-					elseif _==1 or _==-1 then
-						A=A+1
-					end
+					::END::
+					FREEROW.discard(height)
+					P:getNext(res[P:RND(#res)])
 				end
-				if d<3 then
-					A=#res+1
-					res[A]=6
-					res[A+1]=6
-					res[A+2]=6
-				end
-				if A<3 then
-					A=#res+1
-					res[A]=5
-					res[A+1]=5
-					res[A+2]=5
-					res[A+3]=5
-					res[A+4]=5
-				end
-
-				::END::
-				FREEROW.discard(height)
-				P:getNext(res[P:RND(#res)])
 			end
 		end,
 		target=100,dropPiece=PLY.check_lineReach,

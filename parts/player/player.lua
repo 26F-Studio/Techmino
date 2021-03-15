@@ -1,13 +1,13 @@
 ------------------------------------------------------
 --Notice: anything in this file or in any other file,
---var P stands for Player object. Don't forget that.
+--local var P stands for Player object. Don't forget it.
 ------------------------------------------------------
 local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
-local YIELD=YIELD
+local resume,yield=coroutine.resume,coroutine.yield
 
 local kickList=require"parts.kickList"
 
@@ -147,7 +147,7 @@ end
 local function task_movePosition(P,x,y,size)
 	local x1,y1,size1=P.x,P.y,P.size
 	while true do
-		YIELD()
+		yield()
 		if (x1-x)^2+(y1-y)^2<1 then
 			P:setPosition(x,y,size)
 			return true
@@ -750,7 +750,7 @@ function Player.popNext(P,ifhold)--Pop nextQueue to hand
 	P.ctrlCount=0
 
 	P.cur=rem(P.nextQueue,1)
-	P:newNext()
+	assert(resume(P.newNext))
 	if P.cur then
 		P.pieceCount=P.pieceCount+1
 		if P.AI_mode=="CC"then
@@ -1516,7 +1516,7 @@ end
 --------------------------<Ticks>--------------------------
 local function tick_throwBadge(ifAI,sender,time)
 	while true do
-		YIELD()
+		yield()
 		time=time-1
 		if time%4==0 then
 			local S,R=sender,sender.lastRecv
@@ -1544,7 +1544,7 @@ local function tick_throwBadge(ifAI,sender,time)
 end
 local function tick_finish(P)
 	while true do
-		YIELD()
+		yield()
 		P.endCounter=P.endCounter+1
 		if P.endCounter<40 then
 			--Make field visible
@@ -1558,7 +1558,7 @@ local function tick_finish(P)
 end
 local function tick_lose(P)
 	while true do
-		YIELD()
+		yield()
 		P.endCounter=P.endCounter+1
 		if P.endCounter<40 then
 			--Make field visible
@@ -1591,7 +1591,7 @@ end
 function tick_autoPause()
 	local time=0
 	while true do
-		YIELD()
+		yield()
 		time=time+1
 		if SCN.cur~="play"or GAME.frame<180 then
 			return
