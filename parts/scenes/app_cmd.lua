@@ -1,13 +1,14 @@
 local gc=love.graphics
 local int=math.floor
 local ins,rem=table.insert,table.remove
+local C=COLOR
 
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
-log{COLOR.lGrape,"Techmino Shell"}
-log{COLOR.lBlue,"©2020 26F Studio   some rights reserved"}
-log{COLOR.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
+log{C.lGrape,"Techmino Shell"}
+log{C.lBlue,"©2020 26F Studio   some rights reserved"}
+log{C.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
 local the_secret=(14^2*10)..(2*11)
@@ -62,9 +63,11 @@ do--commands.help(arg)
 			details={
 				"Print a message to this window.",
 				"",
+				"Aliases: echo print",
+				"",
 				"Usage: echo [message]",
 			},
-		},
+		},print="echo",
 		url={
 			description="Attempt to open a URL with your device.",
 			details={
@@ -181,9 +184,11 @@ do--commands.help(arg)
 			details={
 				"Play a BGM.",
 				"",
+				"Aliases: playbgm music",
+				"",
 				"Usage: playbgm [bgmName]"
 			},
-		},
+		},music="playbgm",
 		stopbgm={
 			description="Stop the BGM.",
 			details={
@@ -242,16 +247,16 @@ do--commands.help(arg)
 				log"Use help [page] to view more commands,"
 				log"or help [command_name] for details of a command."
 				log""
-				log{COLOR.lPink,"Page ",COLOR.lG,page,COLOR.lPink," of ",COLOR.lG,maxPage}
+				log{C.lPink,"Page ",C.lG,page,C.lPink," of ",C.lG,maxPage}
 				for i=pageSize*(page-1)+1,math.min(pageSize*page,#command_help_list)do
 					local cmd=command_help_list[i]
-					log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
+					log{C.W,cmd,C.grey,"    "..command_help_messages[cmd].description}
 				end
 			else
-				log{COLOR.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
+				log{C.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 			end
 		else
-			log{COLOR.R,"No command called "..arg}
+			log{C.R,"No command called "..arg}
 		end
 
 		--Else
@@ -273,10 +278,10 @@ function commands.url(url)
 	if url~=""then
 		local res,err=pcall(love.system.openURL,url)
 		if not res then
-			log{COLOR.R,"[ERR] ",COLOR.W,err}
+			log{C.R,"[ERR] ",C.W,err}
 		end
 	else
-		log{COLOR.water,"Usage: url [url]"}
+		log{C.water,"Usage: url [url]"}
 	end
 end
 local function tree(path,name,depth)
@@ -307,28 +312,28 @@ function commands.del(name)
 		if info then
 			if info.type=="file"then
 				if love.filesystem.remove(name)then
-					log({COLOR.Y,"Succesfully deleted"})
+					log({C.Y,"Succesfully deleted"})
 				else
-					log({COLOR.R,"Failed to delete"})
+					log({C.R,"Failed to delete"})
 				end
 			elseif info.type=="directory"then
 				if #love.filesystem.getDirectoryItems(name)==0 then
 					if love.filesystem.remove(name)then
-						log({COLOR.Y,"Succesfully deleted file '"..name.."'"})
+						log({C.Y,"Succesfully deleted file '"..name.."'"})
 					else
-						log({COLOR.R,"Failed to delete file '"..name.."'"})
+						log({C.R,"Failed to delete file '"..name.."'"})
 					end
 				else
-					log{COLOR.R,"Directory '"..name.."' is not empty"}
+					log{C.R,"Directory '"..name.."' is not empty"}
 				end
 			else
 				log("Unkown item type: %s (%s)"):format(name,info.type)
 			end
 		else
-			log{COLOR.R,"No file called '"..name.."'"}
+			log{C.R,"No file called '"..name.."'"}
 		end
 	else
-		log{COLOR.water,"Usage: del [filename]"}
+		log{C.water,"Usage: del [filename]"}
 	end
 end
 commands.exit=backScene
@@ -344,7 +349,7 @@ function commands.fn(n)
 			return
 		end
 	end
-	log{COLOR.water,"Usage: fn [1~12]"}
+	log{C.water,"Usage: fn [1~12]"}
 end
 function commands.scrinfo()
 	for _,v in next,SCR.info()do
@@ -356,7 +361,7 @@ function commands.wireframe(bool)
 		gc.setWireframe(bool=="true")
 		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 	else
-		log{COLOR.water,"Usage: wireframe [true|false]"}
+		log{C.water,"Usage: wireframe [true|false]"}
 	end
 end
 function commands.gammacorrect(bool)
@@ -364,16 +369,16 @@ function commands.gammacorrect(bool)
 		love._setGammaCorrect(bool=="true")
 		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 	else
-		log{COLOR.water,"Usage: gammacorrect [true|false]"}
+		log{C.water,"Usage: gammacorrect [true|false]"}
 	end
 end
 function commands.rmwtm(pw)
 	if pw==the_secret then
 		_G["\100\114\97\119\70\87\77"]=NULL
-		log("\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100")
+		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
 		SFX.play("clear")
 	else
-		log{COLOR.water,"Usage: rmwtm [password]"}
+		log{C.water,"Usage: rmwtm [password]"}
 	end
 end
 function commands.unlockall(bool)
@@ -384,7 +389,7 @@ function commands.unlockall(bool)
 			end
 		end
 		FILE.save(RANKS,"conf/unlock")
-		log("\85\78\76\79\67\75\65\76\76")
+		log{C.lC,"\85\78\76\79\67\75\65\76\76"}
 		SFX.play("clear_2")
 	else
 		log"Are you sure to unlock all modes?"
@@ -395,9 +400,9 @@ function commands.play(m)--marathon_bfmax can only entered through here
 	if MODES[m]then
 		loadGame(m)
 	elseif m~=""then
-		log("No mode called "..m)
+		log{C.R,"No mode called "..m}
 	else
-		log{COLOR.water,"Usage: play [modeName]"}
+		log{C.water,"Usage: play [modeName]"}
 	end
 end
 function commands.playbgm(bgm)
@@ -412,7 +417,7 @@ function commands.playbgm(bgm)
 			end
 		end
 	else
-		log{COLOR.water,"Usage: playbgm [bgmName]"}
+		log{C.water,"Usage: playbgm [bgmName]"}
 	end
 end
 function commands.stopbgm()
@@ -443,7 +448,7 @@ function commands.theme(name)
 		if name~=""then
 			log("No theme called "..name)
 		end
-		log{COLOR.water,"Usage: theme [themeName]"}
+		log{C.water,"Usage: theme [themeName]"}
 	end
 end
 
@@ -527,20 +532,20 @@ function scene.keyDown(k)
 		input=input:sub((input:find("%S")))
 		if input:byte()==35 then
 			--Execute lua code
-			log{COLOR.lC,"> "..input}
+			log{C.lC,"> "..input}
 			local code,err=loadstring(input:sub(2))
 			if code then
 				setfenv(code,userG)
 				code,err=pcall(code)
 				if not code then
-					log{COLOR.R,"[ERR] ",COLOR.W,err}
+					log{C.R,"[ERR] ",C.W,err}
 				end
 			else
-				log{COLOR.R,"[SYNTAX ERR] ",COLOR.W,err}
+				log{C.R,"[SYNTAX ERR] ",C.W,err}
 			end
 		else
 			--Execute builtin command
-			log{COLOR.lSea,"> "..input}
+			log{C.lSea,"> "..input}
 			local p=input:find(" ")
 			local cmd,arg
 			if p then
@@ -553,7 +558,7 @@ function scene.keyDown(k)
 			if commands[cmd]then
 				commands[cmd](arg)
 			else
-				log{COLOR.R,"No command called "..cmd}
+				log{C.R,"No command called "..cmd}
 			end
 		end
 		inputBox:clear()
