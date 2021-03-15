@@ -74,13 +74,23 @@ do--commands.help(arg)
 			},
 		},
 		tree={
-			description="List all files & directories in the save directory",
+			description="List all files & directories in saving directory",
 			details={
-				"List all files & directories in the save directory",
+				"List all files & directories in saving directory",
 				"",
 				"Usage: tree",
 			},
 		},
+		del={
+			description="Attempt to delete a file (in saving directory)",
+			details={
+				"Attempt to delete a file (in saving directory)",
+				"",
+				"Aliases: rem delete remove",
+				"",
+				"Usage: del [filename]",
+			},
+		},rem="del",delete="del",remove="del",
 		cls={
 			description="Clear the log output.",
 			details={
@@ -199,6 +209,7 @@ do--commands.help(arg)
 		"echo",
 		"url",
 		"tree",
+		"del",
 		"cls",
 		"rst",
 		"shutdown",
@@ -237,10 +248,10 @@ do--commands.help(arg)
 					log{COLOR.W,cmd,COLOR.grey,"    "..command_help_messages[cmd].description}
 				end
 			else
-				log{COLOR.red,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
+				log{COLOR.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
 			end
 		else
-			log{COLOR.red,"No command called "..arg}
+			log{COLOR.R,"No command called "..arg}
 		end
 
 		--Else
@@ -287,6 +298,36 @@ function commands.tree()
 		if love.filesystem.getRealDirectory(name)==SAVEDIR then
 			tree("",name,0)
 		end
+	end
+end
+function commands.del(name)
+	if name then
+		local info=love.filesystem.getInfo(name)
+		if info then
+			if info.type=="file"then
+				if love.filesystem.remove(name)then
+					log({COLOR.Y,"Succesfully deleted"})
+				else
+					log({COLOR.R,"Failed to delete"})
+				end
+			elseif info.type=="directory"then
+				if #love.filesystem.getDirectoryItems(name)==0 then
+					if love.filesystem.remove(name)then
+						log({COLOR.Y,"Succesfully deleted"})
+					else
+						log({COLOR.R,"Failed to delete"})
+					end
+				else
+					log{COLOR.R,"Directory is not empty"}
+				end
+			else
+				log("Unkown item type: %s (%s)"):format(name,info.type)
+			end
+		else
+			log{COLOR.R,"No file called "..name}
+		end
+	else
+		log{COLOR.water,"Usage: del [filename]"}
 	end
 end
 commands.exit=backScene
