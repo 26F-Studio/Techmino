@@ -282,9 +282,9 @@ end
 local function tree(path,name,depth)
 	local info=love.filesystem.getInfo(path..name)
 	if info.type=="file"then
-		log(string.rep("\t\t",depth)..name)
+		log(("\t\t"):rep(depth)..name)
 	elseif info.type=="directory"then
-		log(string.rep("\t\t",depth)..name..">")
+		log(("\t\t"):rep(depth)..name..">")
 		local L=love.filesystem.getDirectoryItems(path..name)
 		for _,subName in next,L do
 			tree(path..name.."/",subName,depth+1)
@@ -302,7 +302,7 @@ function commands.tree()
 	end
 end
 function commands.del(name)
-	if name then
+	if name~=""then
 		local info=love.filesystem.getInfo(name)
 		if info then
 			if info.type=="file"then
@@ -314,18 +314,18 @@ function commands.del(name)
 			elseif info.type=="directory"then
 				if #love.filesystem.getDirectoryItems(name)==0 then
 					if love.filesystem.remove(name)then
-						log({COLOR.Y,"Succesfully deleted"})
+						log({COLOR.Y,"Succesfully deleted file '"..name.."'"})
 					else
-						log({COLOR.R,"Failed to delete"})
+						log({COLOR.R,"Failed to delete file '"..name.."'"})
 					end
 				else
-					log{COLOR.R,"Directory is not empty"}
+					log{COLOR.R,"Directory '"..name.."' is not empty"}
 				end
 			else
 				log("Unkown item type: %s (%s)"):format(name,info.type)
 			end
 		else
-			log{COLOR.R,"No file called "..name}
+			log{COLOR.R,"No file called '"..name.."'"}
 		end
 	else
 		log{COLOR.water,"Usage: del [filename]"}
