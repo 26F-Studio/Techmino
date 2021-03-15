@@ -36,6 +36,26 @@ local sequenceModes={
 			yield()
 		end
 	end,
+	c2=function(P,seq0)
+		local len=#seq0
+		local weight={}
+		for i=1,len do weight[i]=0 end
+
+		while true do
+			while #P.nextQueue<6 do
+				local maxK=1
+				for i=1,len do
+					weight[i]=weight[i]*.5+P:RND()
+					if weight[i]>weight[maxK]then
+						maxK=i
+					end
+				end
+				weight[maxK]=weight[maxK]/3.5
+				P:getNext(seq0[maxK])
+			end
+			yield()
+		end
+	end,
 	rnd=function(P,seq0)
 		P:getNext(seq0[rnd(#seq0)])
 		while true do
