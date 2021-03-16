@@ -1,6 +1,5 @@
 --Blackhole
 local gc=love.graphics
-local rectangle=gc.rectangle
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 local back={}
@@ -18,9 +17,10 @@ function back.update()
 		local S={
 			x=(SCR.w-size)*rnd()-SCR.w/2,
 			y=(SCR.h-size)*rnd()-SCR.h/2,
-			ang=6.28*rnd(),
+			ang=6.2832*rnd(),
+			va=.05-rnd()*.1,
 			size=size,
-			color=COLOR.random_dark(),
+			texture=rnd(16),
 		}
 		if rnd()<.5 then
 			S.x=rnd()<.5 and
@@ -42,6 +42,7 @@ function back.update()
 		if d>0 then
 			S.x=d*math.cos(ang)
 			S.y=d*math.sin(ang)
+			S.ang=S.ang+S.va
 		else
 			rem(squares,i)
 		end
@@ -54,23 +55,22 @@ function back.draw()
 	gc.translate(SCR.w/2,SCR.h/2)
 
 	--Squares
-	gc.setLineWidth(6)
+	gc.setColor(.5,.5,.5)
 	for i=1,#squares do
 		local S=squares[i]
-		local c=S.color
-		gc.setColor(c[1],c[2],c[3],.6)
-		rectangle("line",S.x,S.y,S.size,S.size)
-		gc.setColor(c)
-		rectangle("fill",S.x,S.y,S.size,S.size)
+		gc.draw(SKIN.curText[S.texture],S.x,S.y,S.ang,S.size*.026,nil,15,15)
 	end
 
 	--Blackhole
+	gc.scale(SCR.rad/1260)
 	gc.setColor(0,0,0)
-	gc.circle("fill",0,0,156)
-	gc.setLineWidth(8)
-	for i=0,10 do
-		gc.setColor(0,0,0,1-i*.1)gc.circle("line",0,0,160+8*i)
+	gc.circle("fill",0,0,157)
+	gc.setLineWidth(6)
+	for i=0,15 do
+		gc.setColor(0,0,0,1-i*.0666)
+		gc.circle("line",0,0,160+6*i)
 	end
+	gc.scale(1260/SCR.rad)
 	gc.pop()
 end
 function back.discard()
