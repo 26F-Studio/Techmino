@@ -1,12 +1,11 @@
 --Horizonal red-blue gradient
 local gc=love.graphics
-local rnd=math.random
 local back={}
 local shader=SHADER.grad1
 
 local t
 function back.init()
-	t=rnd()*2600
+	t=math.random()*2600
 	back.resize()
 end
 function back.resize()

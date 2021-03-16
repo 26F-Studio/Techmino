@@ -1,11 +1,11 @@
 --Light-dark
 local gc=love.graphics
-local rnd,sin=math.random,math.sin
+local sin=math.sin
 local back={}
 
 local t
 function back.init()
-	t=rnd()*2600
+	t=math.random()*2600
 end
 function back.update(dt)
 	t=t+dt

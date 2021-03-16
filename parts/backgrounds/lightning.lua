@@ -1,11 +1,10 @@
 --Lightning
 local gc=love.graphics
-local rnd=math.random
 local back={}
 
 local t
 function back.init()
-	t=rnd()*2600
+	t=math.random()*2600
 end
 function back.update(dt)
 	t=t+dt

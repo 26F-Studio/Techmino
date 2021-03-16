@@ -1,12 +1,12 @@
 --Welcome to Techmino
 local gc=love.graphics
-local rnd,sin=math.random,math.sin
+local sin=math.sin
 local back={}
 
 local t
 local txt
 function back.init()
-	t=rnd()*2600
+	t=math.random()*2600
 	txt=gc.newText(getFont(80),"Welcome To Techmino")
 end
 function back.update(dt)

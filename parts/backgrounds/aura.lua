@@ -1,12 +1,11 @@
 --Cool liquid background
 local gc=love.graphics
-local rnd=math.random
 local back={}
 local shader=SHADER.aura
 local t
 
 function back.init()
-	t=rnd()*2600
+	t=math.random()*2600
 	BG.resize(SCR.w,SCR.h)
 end
 function back.resize(_,h)

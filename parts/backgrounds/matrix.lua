@@ -1,13 +1,13 @@
 --Black-White grid
 local gc=love.graphics
-local rnd,sin=math.random,math.sin
+local sin=math.sin
 local ceil=math.ceil
 local back={}
 
 local t
 local matrixT={}for i=1,50 do matrixT[i]={}for j=1,50 do matrixT[i][j]=love.math.noise(i,j)+2 end end
 function back.init()
-	t=rnd()*2600
+	t=math.random()*2600
 end
 function back.update(dt)
 	t=t+dt
