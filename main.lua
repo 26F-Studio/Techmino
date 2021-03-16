@@ -303,6 +303,7 @@ LANG.set(SETTING.lang)
 
 --Update data
 do
+	local needSave
 	--Check setting file
 	if
 		type(STAT.version)~="number"or
@@ -331,9 +332,11 @@ do
 		STAT.lastPlay="sprint_10l"
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
+		needSave=true
 	end
 	if STAT.version<1208 then
 		SETTING.skinSet=1
+		needSave=true
 	end
 
 	if STAT.version<1300 then
@@ -351,6 +354,7 @@ do
 
 	if STAT.version<1303 then
 		SETTING.appLock=false
+		needSave=true
 	end
 
 	for _,v in next,VK_org do
@@ -364,11 +368,10 @@ do
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
 
-	local needSaveRank
 	for k in next,RANKS do
 		if type(k)=="number"then
 			RANKS[k]=nil
-			needSaveRank=true
+			needSave=true
 		end
 	end
 	local modeTable={attacker_h="attacker_hard",attacker_u="attacker_ultimate",blind_e="blind_easy",blind_h="blind_hard",blind_l="blind_lunatic",blind_n="blind_normal",blind_u="blind_ultimate",c4wtrain_l="c4wtrain_lunatic",c4wtrain_n="c4wtrain_normal",defender_l="defender_lunatic",defender_n="defender_normal",dig_100l="dig_10",dig_10l="dig_100",dig_400l="dig_40",dig_40l="dig_400",dig_h="dig_hard",dig_u="dig_ultimate",drought_l="drought_lunatic",drought_n="drought_normal",marathon_h="marathon_hard",marathon_n="marathon_normal",pc_h="pcchallenge_hard",pc_l="pcchallenge_lunatic",pc_n="pcchallenge_normal",pctrain_l="pctrain_lunatic",pctrain_n="pctrain_normal",round_e="round_1",round_h="round_2",round_l="round_3",round_n="round_4",round_u="round_5",solo_e="solo_1",solo_h="solo_2",solo_l="solo_3",solo_n="solo_4",solo_u="solo_5",sprint_10l="sprint_10",sprint_20l="sprint_20",sprint_40l="sprint_40",sprint_400l="sprint_400",sprint_100l="sprint_100",sprint_1000l="sprint_1000",survivor_e="survivor_easy",survivor_h="survivor_hard",survivor_l="survivor_lunatic",survivor_n="survivor_normal",survivor_u="survivor_ultimate",tech_finesse_f="tech_finesse2",tech_h_plus="tech_hard2",tech_h="tech_hard",tech_l_plus="tech_lunatic2",tech_l="tech_lunatic",tech_n_plus="tech_normal2",tech_n="tech_normal",techmino49_e="techmino49_easy",techmino49_h="techmino49_hard",techmino49_u="techmino49_ultimate",techmino99_e="techmino99_easy",techmino99_h="techmino99_hard",techmino99_u="techmino99_ultimate",tsd_e="tsd_easy",tsd_h="tsd_hard",tsd_u="tsd_ultimate"}
@@ -388,14 +391,15 @@ do
 			RANKS[k]=RANKS[v]
 			RANKS[v]=nil
 		end
-		needSaveRank=true
+		needSave=true
 	end
 	if not RANKS.sprint_10l then
 		RANKS.sprint_10l=0
-		needSaveRank=true
+		needSave=true
 	end
-	if needSaveRank then
-		FILE.save(RANKS,"conf/unlock")
+	if needSave then
+		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(SETTING,"conf/settings","q")
 	end
 
 	if keyMap[1]then
@@ -407,7 +411,7 @@ do
 	if STAT.version~=VERSION_CODE then
 		newVersionLaunch=true
 		STAT.version=VERSION_CODE
-		FILE.save(STAT,"conf/data")
+		FILE.save(STAT,"conf/data","q")
 	end
 end
 
