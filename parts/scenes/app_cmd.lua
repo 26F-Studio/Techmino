@@ -1,4 +1,5 @@
 local gc=love.graphics
+local kb=love.keyboard
 local int=math.floor
 local ins,rem=table.insert,table.remove
 local C=COLOR
@@ -584,6 +585,28 @@ function scene.keyDown(k)
 		end
 	elseif k=="escape"then
 		WIDGET.sel=inputBox
+	elseif k=="tab"then
+		local str=inputBox.value
+		if str~=""and not str:find("%s")then
+			local res={}
+			for c in next,commands do
+				if c:find(str,nil,true)==1 then
+					ins(res,c)
+				end
+			end
+
+			if #res>1 then
+				log(">Commands start with '"..str.."' :")
+				table.sort(res)
+				for i=1,#res do
+					log{COLOR.lGrey,res[i]}
+				end
+			elseif #res==1 then
+				inputBox.value=res[1]
+			end
+		end
+	elseif k=="v"and kb.isDown("lctrl","rctrl")then
+		inputBox.value=inputBox.value..love.system.getClipboardText()
 	else
 		WIDGET.keyPressed(k)
 	end
