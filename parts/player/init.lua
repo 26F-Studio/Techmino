@@ -1,5 +1,5 @@
 local Player=require"parts.player.player"
-local prepareSequence=require"parts.player.prepareSequence"
+local sequenceGenerator=require"parts.player.sequenceGenerator"
 local gameEnv0=require"parts.player.gameEnv0"
 
 local rnd,max=math.random,math.max
@@ -166,7 +166,7 @@ local function newEmptyPlayer(id,mini)
 	P.type="none"
 	P.sound=false
 
-	-- P.newNext=false--Call prepareSequence()to get a function to get new next
+	-- P.newNext=false--Coroutine to get new next, loaded in applyGameEnv()
 
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
@@ -299,7 +299,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	end
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
-	prepareSequence(P)
+	sequenceGenerator(P)
 
 	if P.mini then
 		ENV.lockFX=false

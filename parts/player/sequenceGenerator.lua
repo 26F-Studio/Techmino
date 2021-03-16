@@ -1,4 +1,3 @@
-local rnd=math.random
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 
@@ -14,7 +13,7 @@ local sequenceModes={
 						bag[i]=seq0[len-i+1]
 					end
 				end
-				P:getNext(rem(bag,rnd(#bag)))
+				P:getNext(rem(bag,P:RND(#bag)))
 			end
 			yield()
 		end
@@ -57,7 +56,7 @@ local sequenceModes={
 		end
 	end,
 	rnd=function(P,seq0)
-		P:getNext(seq0[rnd(#seq0)])
+		P:getNext(seq0[P:RND(#seq0)])
 		while true do
 			while #P.nextQueue<6 do
 				local len=#seq0
@@ -91,7 +90,7 @@ local sequenceModes={
 						bufferSeq[i]=bag[i]
 					end
 				end
-				P:getNext(rem(bag,rnd(#bag)))
+				P:getNext(rem(bag,P:RND(#bag)))
 			end
 			yield()
 		end
