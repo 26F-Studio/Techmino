@@ -1,7 +1,7 @@
 return{
 	color=COLOR.green,
 	env={
-		drop=30,lock=45,
+		drop=30,lock=60,
 		freshLimit=10,
 		task=function(P)
 			while true do
