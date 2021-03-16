@@ -85,7 +85,7 @@ return{
 	{name="pc_l",			x=1200,	y=-100,	size=40,shape=2,icon="pc"},
 
 	{name="tech_n",			x=400,	y=-150,	size=40,shape=1,icon="tech",	unlock={"tech_n_plus","tech_h","tech_finesse"}},
-	{name="tech_n_plus",	x=650,	y=150,	size=40,shape=3,icon="tech",	unlock={"tsd_e"}},
+	{name="tech_n_plus",	x=600,	y=160,	size=40,shape=3,icon="tech",	unlock={"tsd_e","backfire_n"}},
 	{name="tech_h",			x=400,	y=40,	size=40,shape=1,icon="tech",	unlock={"tech_h_plus","tech_l"}},
 	{name="tech_h_plus",	x=200,	y=70,	size=35,shape=3,icon="tech"},
 	{name="tech_l",			x=400,	y=200,	size=40,shape=1,icon="tech",	unlock={"tech_l_plus"}},
@@ -94,9 +94,14 @@ return{
 	{name="tech_finesse",	x=800,	y=50,	size=40,shape=1,icon="tech",	unlock={"tech_finesse_f"}},
 	{name="tech_finesse_f",	x=1000,	y=50,	size=40,shape=1,icon="tech"},
 
-	{name="tsd_e",			x=800,	y=250,	size=40,shape=1,icon="tsd",		unlock={"tsd_h"}},
-	{name="tsd_h",			x=1000,	y=250,	size=40,shape=1,icon="tsd",		unlock={"tsd_u"}},
-	{name="tsd_u",			x=1200,	y=250,	size=40,shape=1,icon="tsd"},
+	{name="tsd_e",			x=800,	y=200,	size=40,shape=1,icon="tsd",		unlock={"tsd_h"}},
+	{name="tsd_h",			x=1000,	y=200,	size=40,shape=1,icon="tsd",		unlock={"tsd_u"}},
+	{name="tsd_u",			x=1200,	y=200,	size=40,shape=1,icon="tsd"},
+
+	{name="backfire_n",		x=800,	y=350,	size=40,shape=1,icon="backfire",unlock={"backfire_h"}},
+	{name="backfire_h",		x=950,	y=350,	size=40,shape=1,icon="backfire",unlock={"backfire_l"}},
+	{name="backfire_l",		x=1100,	y=350,	size=40,shape=3,icon="backfire",unlock={"backfire_u"}},
+	{name="backfire_u",		x=1250,	y=350,	size=35,shape=2,icon="backfire"},
 
 	{name="zen",			x=-800,	y=-600,	size=40,shape=1,icon="zen",		unlock={"ultra","infinite","infinite_dig"}},
 	{name="ultra",			x=-1000,y=-400,	size=40,shape=1,icon="ultra"},
