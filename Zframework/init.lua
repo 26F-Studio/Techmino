@@ -376,6 +376,7 @@ function love.errorhandler(msg)
 	ins(ERRDATA,errData)
 
 	--Get screencapture
+	BG.set("none")
 	love.audio.stop()
 	gc.reset()
 	gc.captureScreenshot(function(_)errData.shot=gc.newImage(_)end)
