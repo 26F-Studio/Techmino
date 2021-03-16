@@ -455,6 +455,23 @@ end
 
 
 
+local combKey={}
+function combKey.x()
+	love.system.setClipboardText(inputBox.value)
+	inputBox.value=""
+	SFX.play("reach")
+end
+function combKey.c()
+	love.system.setClipboardText(inputBox.value)
+	SFX.play("reach")
+end
+function combKey.v()
+	inputBox.value=inputBox.value..love.system.getClipboardText()
+	SFX.play("reach")
+end
+
+
+
 --Environment for user's function
 local noLog=false
 local function log_user(str)
@@ -583,8 +600,6 @@ function scene.keyDown(k)
 				inputBox.value=""
 			end
 		end
-	elseif k=="escape"then
-		WIDGET.sel=inputBox
 	elseif k=="tab"then
 		local str=inputBox.value
 		if str~=""and not str:find("%s")then
@@ -605,8 +620,10 @@ function scene.keyDown(k)
 				inputBox.value=res[1]
 			end
 		end
-	elseif k=="v"and kb.isDown("lctrl","rctrl")then
-		inputBox.value=inputBox.value..love.system.getClipboardText()
+	elseif combKey[k]and kb.isDown("lctrl","rctrl")then
+		combKey[k]()
+	elseif k=="escape"then
+		WIDGET.sel=inputBox
 	else
 		WIDGET.keyPressed(k)
 	end
