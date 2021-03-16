@@ -1,7 +1,5 @@
-local tm=love.timer
 local data=love.data
 
-local fs=love.filesystem
 local gc=love.graphics
 local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
 local gc_push,gc_pop,gc_origin=gc.push,gc.pop,gc.origin
@@ -742,7 +740,7 @@ do--function resetGameData(args)
 			GAME.recording=true
 			GAME.replaying=false
 			GAME.rank=0
-			math.randomseed(tm.getTime())
+			math.randomseed(TIME())
 		end
 
 		destroyPlayers()
@@ -970,8 +968,8 @@ do--function saveRecording()
 			dumpRecording(GAME.rep)
 
 		--Write file
-		if not fs.getInfo(fileName)then
-			fs.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
+		if not love.filesystem.getInfo(fileName)then
+			love.filesystem.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
 			ins(REPLAY,fileName)
 			FILE.save(REPLAY,"conf/replay")
 			return true
@@ -989,26 +987,26 @@ do--function drawFWM()
 		table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"},
 		table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"},
 		table.concat{"游","戏作","者:Mr","Z_2","6\n任","何视","频/直","播不","得出","现此水","印\n任","何转","述声","明无","效"},
-		table.concat{"Au","tho","r: M","rZ_","26\n","Ill","egal"," re","cor","ding"," i","f y","ou ","can ","see ","th","is\n","Any"," ex","plan","ati","on i","s i","nva","li","d"},
-		table.concat{"Cr","éat","eur ","du ","jeu:"," Mr","Z_26","\nS","i v","ous ","po","uve","z v","oir ","ceci",", ","cet ","enr","egi","stre","men","t es","t i","llé","ga","l\nT","out","e ","ex","pl","ica","tion"," es","t f","auss","e et in","val","ide"},
-		table.concat{"Au","tor",": Mr","Z_2","6\nE","sta"," gra","bac","ión"," es ","il","ega","l s","i ve","s es","to","\nNo"," se"," ac","epta","n e","xcus","as"},
-		table.concat{"Au","tor"," do ","jog","o: M","rZ_","26\n","Se ","pud","er v","er"," is","so ","a gr","avaç","ão"," e i","lle","gal","\nQu","alq","uer ","exp","lic","aç","ão é"," in","va","li","da"},
-		table.concat{"Au","tho","r: M","rZ_","26\n","Ill","egal"," re","cor","ding"," i","f y","ou ","can ","see ","th","is\n","Any"," ex","plan","ati","on i","s i","nva","li","d"},
+		table.concat{"Au","tho","r: M","rZ_","26\n","Rec","or","di","ngs"," co","nt","aini","ng ","th","is\n","wa","ter","ma","rk a","re ","una","uth","ori","zed"},
+		table.concat{"Cr","éat","eur ","du ","jeu:"," Mr","Z_","26","\nE","nre","gi","stre","men","t ","non"," a","uto","ri","sé\nc","ont","ena","nt ","ce ","f","ili","gra","ne"},
+		table.concat{"Au","tor",": Mr","Z_2","6\nG","rab","ac","ió","n n","o a","ut","oriz","ada"," q","ue\n","co","nti","en","e es","ta ","mar","ca ","de ","a","gua"},
+		table.concat{"Au","tor"," do ","jog","o: M","rZ_","26","\n","Gra","vaç","õe","s co","nte","nd","o e","st","a M","ar","ca\nd","e á","gua"," nã","o s","ão"," aut","ori","za","das"},
+		table.concat{"Au","tho","r: M","rZ_","26\n","Rec","or","di","ngs"," co","nt","aini","ng ","th","is\n","wa","ter","ma","rk a","re ","una","uth","ori","zed"},
 	}
+	--你竟然找到了这里！那么在动手之前读读下面这些吧。
+	--千万不要为了在网络公共场合发视频或者直播需要而擅自删除这部分代码！
+	--录制视频上传到公共场合(包括但不限于任何视频平台/论坛/几十个人以上的社区群等)很可能会对Techmino未来的发展有负面影响
+	--如果被TTC发现，TTC随时可以用DMCA从法律层面强迫游戏停止开发，到时候谁都没得玩。这是真的，已经有几个方块游戏这么死了…
+	--水印限制可以减少低质量视频泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
+	--想发视频的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭水印
+	--等Techmino发展到一定程度之后会解除这个限制
+	--最后，别把藏在这里的东西截图/复制出去哦~
+	--感谢您对Techmino的支持！！！
 	function drawFWM()
 		local t=TIME()
 		setFont(25)
 		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
-		mStr(marks[SETTING.lang],240,60+26*sin(t))
-		--你竟然找到了这里！那么在动手之前读读下面这些吧。
-		--千万不要因为想在网络公共场合发视频而擅自删除这部分代码！
-		--录制视频上传到公共场合(包括但不限于任何视频平台/论坛/几十个人以上的社区群等)很可能会对Techmino未来的发展有负面影响
-		--如果被TTC发现，TTC随时可以用DMCA从法律层面强迫游戏停止开发，到时候谁都没得玩。这是真的，已经有几个方块游戏这么死了…
-		--水印限制可以减少低质量视频泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
-		--想发视频的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭水印
-		--在techmino发展到一定程度之后会解除这个限制(啧啧…)
-		--最后，别把这里藏的这些话截图/复制出去哦~
-		--最后的最后，感谢您对Techmino的支持！！！
+		mStr(marks[SETTING.lang]or marks[1],240,60+26*sin(t))
 	end
 end
 function drawWarning()
