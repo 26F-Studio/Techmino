@@ -13,6 +13,7 @@ return{
 	mini="v",b2b="^ ",b3b="^^ ",
 	PC="#<>#",HPC="<>",
 	hold="[ ]",next="→",
+	replaying="[R]",
 
 	stage="::$1::",
 	great="!~",
