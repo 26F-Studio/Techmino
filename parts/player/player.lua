@@ -636,20 +636,22 @@ function Player.hold(P,ifpre)
 				x=x+(#C.bk[1]-#H.bk[1])*.5
 				y=y+(#C.bk-#H.bk)*.5
 
-				local X=x
-				while X<=x+1 do
-					X=int(X)
-					for Y=int(y),ceil(y)do
+				for Y=int(y),ceil(y+.5)do
+					local X=x
+					while true do
+						X=int(X)
 						if not P:ifoverlap(H.bk,X,Y)then
 							x,y=X,Y
 							success=true
 							goto BREAK
 						end
-					end
-					if X==x then
-						X=X-1
-					elseif X<x then
-						X=2*x-X
+						if X==x then
+							X=X-1
+						elseif X<x then
+							X=2*x-X
+						else
+							break
+						end
 					end
 				end
 				::BREAK::
