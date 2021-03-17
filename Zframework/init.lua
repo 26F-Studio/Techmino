@@ -376,14 +376,14 @@ function love.errorhandler(msg)
 	--Write messages to log file
 	love.filesystem.append("conf/error.log",
 		os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
-		SYSTEM.."-"..VERSION_NAME.."  scene: "..(SCN and SCN.cur or"NULL").."\n"..
+		#ERRDATA.." crash(es) "..SYSTEM.."-"..VERSION_NAME.."  scene: "..(SCN and SCN.cur or"NULL").."\n"..
 		errData.mes.."\n\n"
 	)
 
 	ins(ERRDATA,errData)
 
 	--Force quit if error too much
-	if #ERRDATA>=6 then return end
+	if #ERRDATA>=5 then return end
 
 	--Get screencapture
 	BG.set("none")
