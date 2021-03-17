@@ -485,7 +485,7 @@ function love.run()
 						_=SCS[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
-						gc_draw(TEXTURE.cursor,mx,my,nil,nil,nil,6,6)
+						gc_draw(TEXTURE[ms.isDown(1)and"cursor_hold"or"cursor"],mx,my,nil,nil,nil,8,8)
 					end
 					SYSFX.draw()
 					TEXT.draw()

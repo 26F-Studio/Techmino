@@ -70,11 +70,16 @@ for i=0,9 do
 	if("1101111111"):byte(i+1)==49 then gc.rectangle("fill",4,5,1,3)end--down-right
 end
 
-TEXTURE.cursor=NSC(12,12)
+TEXTURE.cursor=NSC(16,16)
 gc.setColor(1,1,1,.7)
-gc.circle("fill",6,6,6)
+gc.circle("fill",8,8,6)
 gc.setColor(1,1,1)
-gc.circle("fill",6,6,3)
+gc.circle("fill",8,8,4)
+TEXTURE.cursor_hold=NSC(16,16)
+gc.setLineWidth(2)
+gc.setColor(1,1,1)
+gc.circle("line",8,8,7)
+gc.circle("fill",8,8,3)
 
 
 gc.setDefaultFilter("linear","linear")
