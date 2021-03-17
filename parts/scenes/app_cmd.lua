@@ -46,7 +46,7 @@ do--commands.help(arg)
 				"Usage: #[lua_source_code]",
 				"",
 				"print() can be used to print text into this window.",
-				"There is a strange box.",
+				"[A secret can be found]",
 			},
 		},
 		exit={
@@ -64,11 +64,17 @@ do--commands.help(arg)
 			details={
 				"Print a message to this window.",
 				"",
-				"Aliases: echo print",
-				"",
 				"Usage: echo [message]",
 			},
-		},print="echo",
+		},
+		print={
+			description="Print a file to this window.",
+			details={
+				"Print a file to this window.",
+				"",
+				"Usage: print [filename]",
+			},
+		},
 		url={
 			description="Attempt to open a URL with your device.",
 			details={
@@ -213,6 +219,7 @@ do--commands.help(arg)
 		"#",
 		"exit",
 		"echo",
+		"print",
 		"url",
 		"tree",
 		"del",
@@ -273,6 +280,26 @@ end
 function commands.echo(str)
 	if str~=""then
 		outputBox:push(str)
+	end
+end
+function commands.print(name)
+	if name~=""then
+		local info=love.filesystem.getInfo(name)
+		if info then
+			if info.type=="file"then
+				log{COLOR.lC,"/* "..name.." */"}
+				for l in love.filesystem.lines(name)do
+					log(l)
+				end
+				log{COLOR.lC,"/* END */"}
+			else
+				log("Unprintable item: %s (%s)"):format(name,info.type)
+			end
+		else
+			log{C.R,"No file called '"..name.."'"}
+		end
+	else
+		log{C.water,"Usage: del [filename]"}
 	end
 end
 function commands.url(url)
