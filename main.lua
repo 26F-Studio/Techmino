@@ -112,13 +112,6 @@ if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")th
 	end
 end
 
---Force delete all useless files
-for _,name in next,fs.getDirectoryItems("")do
-	if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type=="file"then
-		fs.remove(name)
-	end
-end
-
 --Load modules
 require"Zframework"
 
