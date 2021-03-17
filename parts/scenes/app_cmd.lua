@@ -117,17 +117,6 @@ do--commands.help(arg)
 				"Usage: rst",
 			},
 		},
-		shutdown={
-			description="(Attempt to) shutdown your machine.",
-			details={
-				"(Attempt to) shutdown your machine. Arguments to this command",
-				"will be passed on to the system shutdown command.",
-				"",
-				"Usage:",
-				"shutdown",
-				"shutdown [args]",
-			},
-		},
 		fn={
 			description="Simulates a Function key press.",
 			details={
@@ -225,7 +214,6 @@ do--commands.help(arg)
 		"del",
 		"cls",
 		"rst",
-		"shutdown",
 		"fn",
 		"scrinfo",
 		"wireframe",
@@ -266,11 +254,8 @@ do--commands.help(arg)
 		else
 			log{C.R,"No command called "..arg}
 		end
-
-		--Else
 	end
 end
-function commands.shutdown(arg)os.execute("shutdown "..arg)end
 function commands.error(mes)error(mes)end
 function commands.cls()outputBox:clear()end
 function commands.rst()
@@ -299,7 +284,7 @@ function commands.print(name)
 			log{C.R,"No file called '"..name.."'"}
 		end
 	else
-		log{C.water,"Usage: del [filename]"}
+		log{C.water,"Usage: print [filename]"}
 	end
 end
 function commands.url(url)
