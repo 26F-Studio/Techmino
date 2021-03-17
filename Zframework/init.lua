@@ -370,8 +370,20 @@ function love.errorhandler(msg)
 			c=3
 		end
 	end
-	DBP(table.concat(errData.mes,"\n"),1,c-2)
+	errData.mes=table.concat(errData.mes,"\n",1,c-2)
+	DBP(errData.mes)
+
+	--Write messages to log file
+	love.filesystem.append("conf/error.log",
+		os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
+		SYSTEM.."-"..VERSION_NAME.."  scene: "..(SCN and SCN.cur or"NULL").."\n"..
+		errData.mes.."\n\n"
+	)
+
 	ins(ERRDATA,errData)
+
+	--Force quit if error too much
+	if #ERRDATA>=6 then return end
 
 	--Get screencapture
 	BG.set("none")
