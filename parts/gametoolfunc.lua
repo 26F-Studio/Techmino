@@ -1198,7 +1198,7 @@ do
 		end
 
 	createRoom:
-		if res.message=="OK" then
+		if res.message=="OK"then
 			LOG.print(text.createRoomSuccessed)
 			enterRoom(res.room.id)
 		else

@@ -1002,7 +1002,7 @@ function WIDGET.setLang(widgetText)
 	end
 end
 
-function WIDGET.moveCursor(x,y)
+function WIDGET.cursorMove(x,y)
 	for _,W in next,WIDGET.active do
 		if not(W.hide==true or W.hide and W.hide())and W.resCtr and W:isAbove(x,y)then
 			WIDGET.sel=W

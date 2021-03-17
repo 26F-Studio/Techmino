@@ -106,28 +106,27 @@ function love.mousepressed(x,y,k,touch)
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if devMode==1 then
-		DBP(("(%d,%d), D=(%d,%d)~~(%d,%d)(%d,%d)"):format(
+		DBP(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
 			mx,my,
 			mx-lastX,my-lastY,
 			int(mx/10)*10,int(my/10)*10,
 			int((mx-lastX)/10)*10,int((my-lastY)/10)*10
 		))
 	end
-	if not SCN.swapping then
-		if SCN.mouseDown then
-			SCN.mouseDown(mx,my,k)
-		elseif k==2 then
-			SCN.back()
-		end
-		if k==1 then
-			WIDGET.press(mx,my)
-		end
-		lastX,lastY=mx,my
-		SYSFX.newTap(3,mx,my,30)
+	if SCN.swapping then return end
+	if SCN.mouseDown then
+		SCN.mouseDown(mx,my,k)
+	elseif k==2 then
+		SCN.back()
 	end
+	if k==1 then
+		WIDGET.press(mx,my)
+	end
+	lastX,lastY=mx,my
+	SYSFX.newTap(3,mx,my,30)
 end
-function love.mousemoved(x,y,dx,dy,t)
-	if t then return end
+function love.mousemoved(x,y,dx,dy,touch)
+	if touch then return end
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if SCN.swapping then return end
@@ -136,16 +135,15 @@ function love.mousemoved(x,y,dx,dy,t)
 	if ms.isDown(1) then
 		WIDGET.drag(mx,my,dx,dy)
 	else
-		WIDGET.moveCursor(mx,my)
+		WIDGET.cursorMove(mx,my)
 	end
 end
 function love.mousereleased(x,y,k,touch)
 	if touch or SCN.swapping then return end
 	mx,my=xOy:inverseTransformPoint(x,y)
 	WIDGET.release(mx,my)
-	WIDGET.moveCursor(mx,my)
 	if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
-	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<42 then
+	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<62 then
 		SCN.mouseClick(mx,my,k)
 	end
 end
@@ -175,7 +173,7 @@ function love.touchmoved(id,x,y,dx,dy)
 			WIDGET.drag(x,y,dx,dy)
 		end
 	else
-		WIDGET.moveCursor(x,y)
+		WIDGET.cursorMove(x,y)
 		if not WIDGET.sel then
 			touching=false
 		end
