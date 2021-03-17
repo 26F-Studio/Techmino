@@ -130,8 +130,6 @@ function scene.mouseMove(x,y)
 					or 0
 			end
 		end
-	else
-		if pen==-2 then SPdraw()end
 	end
 end
 function scene.mouseDown(x,y,k)
@@ -141,7 +139,9 @@ function scene.mouseDown(x,y,k)
 		scene.mouseMove(x,y)
 	end
 end
-scene.mouseUp=scene.mouseMove
+function scene.mouseUp()
+	if pen==-2 then SPdraw()end
+end
 
 function scene.wheelMoved(_,y)
 	if y<0 then
@@ -168,7 +168,7 @@ function scene.touchMove(x,y)
 		end
 	end
 end
-scene.touchUp=scene.touchMove
+scene.touchUp=scene.mouseUp
 
 function scene.keyDown(key)
 	local sx,sy=penX,penY
@@ -181,15 +181,7 @@ function scene.keyDown(key)
 		elseif key=="right"and sx<10 then sx=sx+1
 		end
 		if kb.isDown("space")then
-			FIELD[page][sy][sx]=pen
-		end
-	elseif key=="delete"then
-		if sure>20 then
-			for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
-			sure=0
-			SFX.play("finesseError",.7)
-		else
-			sure=50
+			scene.keyDown("space")
 		end
 	elseif key=="space"then
 		if sx and sy then
@@ -199,8 +191,14 @@ function scene.keyDown(key)
 				FIELD[page][sy][sx]=pen
 			end
 		end
-	elseif key=="escape"then
-		SCN.back()
+	elseif key=="delete"then
+		if sure>20 then
+			for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
+			sure=0
+			SFX.play("finesseError",.7)
+		else
+			sure=50
+		end
 	elseif key=="j"then
 		demo=not demo
 	elseif key=="k"then
@@ -211,12 +209,12 @@ function scene.keyDown(key)
 		local F=FIELD[page]
 		for i=20,1,-1 do
 			for j=1,10 do
-				if F[i][j]<=0 then goto L end
+				if F[i][j]<=0 then goto nextLine end
 			end
 			SYSFX.newShade(3,200,660-30*i,300,30)
 			SYSFX.newRectRipple(3,200,660-30*i,300,30)
 			rem(F,i)
-			::L::
+			::nextLine::
 		end
 		if #F~=20 then
 			repeat
@@ -225,6 +223,20 @@ function scene.keyDown(key)
 			SFX.play("clear_3",.8)
 			SFX.play("fall",.8)
 		end
+	elseif key=="n"then
+		ins(FIELD,page+1,newBoard(FIELD[page]))
+		page=page+1
+		SFX.play("blip_1",.8)
+		SYSFX.newShade(3,200,60,300,600,.5,1,.5)
+	elseif key=="m"then
+		rem(FIELD,page)
+		page=max(page-1,1)
+		if not FIELD[1]then
+			ins(FIELD,newBoard())
+		end
+		SYSFX.newShade(3,200,60,300,600,1,.5,.5)
+		SFX.play("clear_4",.8)
+		SFX.play("fall",.8)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		sys.setClipboardText("Techmino Field:"..copyBoard(page))
 		LOG.print(text.exportSuccess,COLOR.green)
@@ -243,27 +255,15 @@ function scene.keyDown(key)
 		else
 			page=min(page+1,#FIELD)
 		end
-	elseif key=="n"then
-		ins(FIELD,page+1,newBoard(FIELD[page]))
-		page=page+1
-		SFX.play("blip_1",.8)
-		SYSFX.newShade(3,200,60,300,600,.5,1,.5)
-	elseif key=="m"then
-		rem(FIELD,page)
-		page=max(page-1,1)
-		if not FIELD[1]then
-			ins(FIELD,newBoard())
-		end
-		SYSFX.newShade(3,200,60,300,600,1,.5,.5)
-		SFX.play("clear_4",.8)
-		SFX.play("fall",.8)
+	elseif key=="escape"then
+		SCN.back()
 	else
 		pen=penKey[key]or pen
 	end
 	penX,penY,pen=sx,sy,pen
 end
-function scene.keyUp()
-	if not kb.isDown("space")and pen==-2 then
+function scene.keyUp(key)
+	if key=="space"and pen==-2 then
 		SPdraw()
 	end
 end
