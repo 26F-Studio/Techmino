@@ -957,7 +957,7 @@ do--function saveRecording()
 		--File contents
 		local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
 		local fileHead=
-			os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
+			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			GAME.curModeName.."\n"..
 			VERSION_NAME.."\n"..
 			(USER.name or"Player")

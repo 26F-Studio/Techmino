@@ -376,7 +376,7 @@ function love.errorhandler(msg)
 
 	--Write messages to log file
 	love.filesystem.append("conf/error.log",
-		os.date("%Y/%m/%d_%A_%H:%M:%S\n")..
+		os.date("%Y/%m/%d %A %H:%M:%S\n")..
 		#ERRDATA.." crash(es) "..SYSTEM.."-"..VERSION_NAME.."  scene: "..(SCN and SCN.cur or"NULL").."\n"..
 		errMes.."\n\n"
 	)
