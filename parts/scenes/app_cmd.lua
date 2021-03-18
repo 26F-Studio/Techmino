@@ -653,9 +653,8 @@ function scene.keyDown(k)
 		end
 	elseif combKey[k]and kb.isDown("lctrl","rctrl")then
 		combKey[k]()
-	elseif k=="escape"then
-		WIDGET.sel=inputBox
 	else
+		if WIDGET.sel~=inputBox then WIDGET.sel=inputBox end
 		WIDGET.keyPressed(k)
 	end
 end
