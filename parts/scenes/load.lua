@@ -182,7 +182,6 @@ local loadingThread=coroutine.create(function()
 			authToken=USER.authToken,
 		})
 	]]
-	THEME.fresh()
 	while true do
 		if math.random()<.126 then
 			upFloor()
@@ -191,6 +190,7 @@ local loadingThread=coroutine.create(function()
 			loadingThread=false
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
+			THEME.fresh()
 			return
 		end
 		YIELD()
