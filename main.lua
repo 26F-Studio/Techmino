@@ -109,7 +109,7 @@ if not fs.getInfo("conf/settings")and MOBILE then
 	SETTING.VKSwitch=true
 	SETTING.swap=false
 	SETTING.powerInfo=true
-	SETTING.fullscreen=true
+	SETTING.cleanCanvas=true
 end
 if SETTING.fullscreen then love.window.setFullscreen(true)end
 

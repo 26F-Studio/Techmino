@@ -268,14 +268,14 @@ SETTING={--Settings
 	shakeFX=2,
 	atkFX=2,
 	frameMul=100,
-	cleanCanvas=true,
+	cleanCanvas=false,
 
 	text=true,
 	score=true,
 	warn=true,
 	highCam=false,
 	nextPos=false,
-	fullscreen=false,
+	fullscreen=true,
 	bg=true,
 	powerInfo=false,
 
