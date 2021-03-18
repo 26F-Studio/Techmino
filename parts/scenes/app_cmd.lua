@@ -439,14 +439,14 @@ end
 function commands.playbgm(bgm)
 	if bgm~=""then
 		if bgm~=BGM.nowPlay then
-			local t=BGM.nowPlay
-			BGM.play(bgm)
-			if t==BGM.nowPlay then
-				log("No BGM called "..bgm)
-			else
+			if BGM.play(bgm)then
 				log("Now playing: "..bgm)
+			else
+				log("No BGM called "..bgm)
 			end
-		end
+			else
+			log("Already playing: "..bgm)
+			end
 	else
 		log{C.water,"Usage: playbgm [bgmName]"}
 	end
@@ -457,13 +457,13 @@ end
 function commands.setbg(name)
 	if name~=""then
 		if name~=BG.cur then
-			local t=BG.cur
-			BG.set(name)
-			if t==BG.cur then
-				log("No background called "..name)
+			if BG.set(name)then
+				log("Background set to '"..name.."'")
 			else
-				log("Background set to: "..name)
+				log("No background called '"..name.."'")
 			end
+		else
+			log("Background already set to '"..name.."'")
 		end
 	else
 		log{C.water,"Usage: setbg [bgName]"}
