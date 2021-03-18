@@ -209,6 +209,14 @@ do--commands.help(arg)
 				"Usage: theme <classic|xmas|sprfes|zday>",
 			},
 		},
+		demo={
+			description="Go to an empty demo scene",
+			details={
+				"Go to an empty demo scene",
+				"",
+				"Usage: demo",
+			},
+		},
 	}TABLE.reIndex(command_help_messages)
 
 	local command_help_list={
@@ -233,6 +241,7 @@ do--commands.help(arg)
 		"stopbgm",
 		"setbg",
 		"theme",
+		"demo",
 	}
 	local pageSize=10
 	local maxPage=math.ceil(#command_help_list/pageSize)
@@ -487,6 +496,9 @@ function commands.theme(name)
 		end
 		log{C.water,"Usage: theme [themeName]"}
 	end
+end
+function commands.demo()
+	SCN.go("empty","none")
 end
 
 
