@@ -34,17 +34,20 @@ function BG.setDefault(bg)
 end
 function BG.set(background)
 	if not background then background=BG.default end
-	if not BGs[background]or background==BG.cur or not SETTING.bg then return end
-	BG.discard()
-	BG.cur=background
-	background=BGs[background]
+	if not BGs[background]or not SETTING.bg then return end
+	if background~=BG.cur then
+		BG.discard()
+		BG.cur=background
+		background=BGs[background]
 
-	BG.init=	background.init or NULL
-	BG.resize=	background.resize or NULL
-	BG.update=	background.update or NULL
-	BG.draw=	background.draw or NULL
-	BG.event=	background.event or NULL
-	BG.discard=	background.discard or NULL
-	BG.init()
+		BG.init=	background.init or NULL
+		BG.resize=	background.resize or NULL
+		BG.update=	background.update or NULL
+		BG.draw=	background.draw or NULL
+		BG.event=	background.event or NULL
+		BG.discard=	background.discard or NULL
+		BG.init()
+	end
+	return true
 end
 return BG

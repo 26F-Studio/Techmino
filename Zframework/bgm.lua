@@ -63,17 +63,20 @@ function BGM.init(list)
 			if SETTING.bgm==0 then
 				BGM.nowPlay=s
 				BGM.playing=Sources[s]
-				return
+				return true
 			end
-			if s and Sources[s]and BGM.nowPlay~=s then
-				if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
-				TASK.removeTask_iterate(removeCurFadeOut,fadeOut,Sources[s])
-				TASK.removeTask_code(fadeIn)
+			if s and Sources[s]then
+				if BGM.nowPlay~=s then
+					if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
+					TASK.removeTask_iterate(removeCurFadeOut,fadeOut,Sources[s])
+					TASK.removeTask_code(fadeIn)
 
-				TASK.new(fadeIn,Sources[s])
-				BGM.nowPlay=s
-				BGM.playing=Sources[s]
-				BGM.playing:play()
+					TASK.new(fadeIn,Sources[s])
+					BGM.nowPlay=s
+					BGM.playing=Sources[s]
+					BGM.playing:play()
+				end
+				return true
 			end
 		end
 		function BGM.freshVolume()
