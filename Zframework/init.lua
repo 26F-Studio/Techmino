@@ -40,6 +40,7 @@ LANG=	require"Zframework.languages"
 TASK=	require"Zframework.task"
 FILE=	require"Zframework.file"
 PROFILE=require"Zframework.profile"
+THEME=	require"Zframework.theme"
 
 local ms,kb=love.mouse,love.keyboard
 

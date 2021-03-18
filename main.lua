@@ -29,32 +29,6 @@ WSCONN=false
 LATEST_VERSION=false
 ERRDATA={}
 
---Festival check within one statement
-THEME=(
-	--Christmas
-	os.date"%m"=="12"and math.abs(os.date"%d"-25)<4 and
-	"Xmas"or
-
-	--Spring festival
-	os.date"%m"<"03"and math.abs((({
-		--Festival days. Jan 26=26, Feb 1=32, etc.
-		24,43,32,22,40,29,49,38,26,45,
-		34,23,41,31,50,39,28,47,36,25,
-		43,32,22,41,29,48,37,26,44,34,
-		23,42,31,50,39,28,46,35,24,43,
-		32,22,41,30,48,37,26,45,33,23,
-		42,32,50,39,28,46,35,24,43,33,
-		21,40,
-	})[os.date"%Y"-2000]or -26)-((os.date"%m"-1)*31+os.date"%d"))<6 and
-	"sprFes"or
-
-	--Z day (Feb./Mar./Apr./May./June 26)
-	math.abs(os.date"%m"-4)<=2 and os.date"%d"+0==26 and
-	"zDay"or
-
-	false
-)
-
 --System setting
 math.randomseed(os.time()*626)
 love.keyboard.setKeyRepeat(true)
@@ -406,18 +380,4 @@ do
 		STAT.version=VERSION_CODE
 		FILE.save(STAT,"conf/data","q")
 	end
-end
-
-if THEME=="Xmas"then
-	BG.setDefault("snow")
-	BGM.setDefault("mXmas")
-elseif THEME=="sprFes"then
-	BG.setDefault("firework")
-	BGM.setDefault("spring festival")
-elseif THEME=="zDay"then
-	BG.setDefault("lanterns")
-	BGM.setDefault("overzero")
-else
-	BG.setDefault("space")
-	BGM.setDefault("blank")
 end

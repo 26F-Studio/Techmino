@@ -470,30 +470,13 @@ function commands.setbg(name)
 	end
 end
 function commands.theme(name)
-	if name=="classic"then
-		THEME=false
-		BG.setDefault("space")
-		BGM.setDefault("blank")
-		BGM.play()
-	elseif name=="xmas"then
-		THEME="xMas"
-		BG.setDefault("snow")
-		BGM.setDefault("mXmas")
-		BGM.play()
-	elseif name=="sprfes"then
-		THEME="sprFes"
-		BG.setDefault("firework")
-		BGM.setDefault("spring festival")
-		BGM.play()
-	elseif name=="zday"then
-		THEME="zDay"
-		BG.setDefault("lanterns")
-		BGM.setDefault("overzero")
-		BGM.play()
-	else
-		if name~=""then
+	if name~=""then
+		if THEME.set(name)then
+			log("Theme set to: "..name)
+		else
 			log("No theme called "..name)
 		end
+	else
 		log{C.water,"Usage: theme [themeName]"}
 	end
 end

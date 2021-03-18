@@ -182,15 +182,7 @@ local loadingThread=coroutine.create(function()
 			authToken=USER.authToken,
 		})
 	]]
-	if THEME=="Xmas"then
-		LOG.print("==============",COLOR.red)
-		LOG.print("Merry Christmas!",COLOR.white)
-		LOG.print("==============",COLOR.red)
-	elseif THEME=="sprFes"then
-		LOG.print(" ★☆☆★",COLOR.red)
-		LOG.print("新年快乐!",COLOR.white)
-		LOG.print(" ★☆☆★",COLOR.red)
-	end
+	THEME.fresh()
 	while true do
 		if math.random()<.126 then
 			upFloor()

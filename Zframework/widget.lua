@@ -974,19 +974,13 @@ function WIDGET.set(list)
 		for i=1,#list do
 			list[i]:reset()
 		end
-		if THEME and SCN.cur~="custom_field"then
-			local c1,c2,c3
-			if THEME=="xMas"then
-				c1,c2,c3=COLOR.red,COLOR.white,COLOR.green
-			elseif THEME=="sprFes"then
-				c1,c2,c3=COLOR.red,COLOR.orange,COLOR.yellow
-			else
-				return
-			end
+		if SCN.cur~="custom_field"then
+			local colorList=THEME.getThemeColor()
+			if not colorList then return end
 			local rnd=math.random
 			for _,W in next,list do
 				if W.color and not W.fText then
-					W.color=rnd()<.3 and c1 or rnd()<.5 and c2 or c3
+					W.color=colorList[rnd(#colorList)]
 				end
 			end
 		end

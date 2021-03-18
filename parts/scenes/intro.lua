@@ -8,8 +8,6 @@ local scene={}
 local t1,t2,animateType
 
 function scene.sceneInit()
-	BG.set()
-	BGM.play()
 	t1,t2=0,0--Timer
 	animateType={rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5)}--Random animation type
 end
