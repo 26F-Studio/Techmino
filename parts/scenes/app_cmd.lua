@@ -193,6 +193,14 @@ do--commands.help(arg)
 				"Usage: stopbgm"
 			},
 		},
+		setbg={
+			description="Set background.",
+			details={
+				"Set background.",
+				"",
+				"Usage: setbg <classic|xmas|sprfes|zday>",
+			},
+		},
 		theme={
 			description="Load a theme.",
 			details={
@@ -223,6 +231,7 @@ do--commands.help(arg)
 		"play",
 		"playbgm",
 		"stopbgm",
+		"setbg",
 		"theme",
 	}
 	local pageSize=10
@@ -435,6 +444,21 @@ function commands.playbgm(bgm)
 end
 function commands.stopbgm()
 	BGM.stop()
+end
+function commands.setbg(name)
+	if name~=""then
+		if name~=BG.cur then
+			local t=BG.cur
+			BG.set(name)
+			if t==BG.cur then
+				log("No background called "..name)
+			else
+				log("Background set to: "..name)
+			end
+		end
+	else
+		log{C.water,"Usage: setbg [bgName]"}
+	end
 end
 function commands.theme(name)
 	if name=="classic"then
