@@ -1,7 +1,7 @@
 local int,format=math.floor,string.format
 return function(s)
 	if s<60 then
-		return format("%.3fs\"",s)
+		return format("%.3f\"",s)
 	elseif s<3600 then
 		return format("%d'%05.2f\"",int(s/60),s%60)
 	else

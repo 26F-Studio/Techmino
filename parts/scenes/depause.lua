@@ -1,13 +1,10 @@
 local gc=love.graphics
-local int=math.floor
 
 local scene={}
 
 local timer
 
-function scene.sceneInit()
-	timer=1
-end
+function scene.sceneInit()timer=1 end
 
 scene.keyDown=NULL
 scene.mouseDown=NULL
