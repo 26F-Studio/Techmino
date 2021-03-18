@@ -46,7 +46,6 @@ do--commands.help(arg)
 				"Usage: #[lua_source_code]",
 				"",
 				"print() can be used to print text into this window.",
-				"[A secret can be found]",
 			},
 		},
 		exit={
