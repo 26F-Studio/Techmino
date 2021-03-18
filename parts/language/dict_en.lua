@@ -132,7 +132,7 @@ return{
 	{"Tetris Effect",
 		"te tetriseffect",
 		"game",
-		"*PS4, Windows, (upcoming) XBox | Single player*\nFancy graphics and soundtrack that react to your actions. Not-so-good controls. You can have a go if you are into the visuals, but not exactly worth it if you are just trying to play some Tetris.",
+		"*PS4, Windows, XBox | Single player*\nFancy graphics and soundtrack that react to your actions. Not-so-good controls. You can have a go if you are into the visuals, but not exactly worth it if you are just trying to play some Tetris.",
 	},
 	{"Techmino",
 		"techmino",
