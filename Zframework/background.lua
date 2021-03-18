@@ -34,15 +34,10 @@ function BG.setDefault(bg)
 end
 function BG.set(background)
 	if not background then background=BG.default end
-	if not BGs[background]then LOG.print("No BG file: "..background,10,COLOR.orange)return end
-	if background==BG.cur or not SETTING.bg then return end
+	if not BGs[background]or background==BG.cur or not SETTING.bg then return end
 	BG.discard()
 	BG.cur=background
 	background=BGs[background]
-	if not background then
-		LOG.print("No BG called"..background,"warn")
-		return
-	end
 
 	BG.init=	background.init or NULL
 	BG.resize=	background.resize or NULL
