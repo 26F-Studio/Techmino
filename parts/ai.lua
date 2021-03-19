@@ -142,11 +142,11 @@ local function getScore(field,cb,cy)
 
 	for i=cy+#cb-1,cy,-1 do
 		for j=1,10 do
-			if field[i][j]==0 then goto L end
+			if field[i][j]==0 then goto continue end
 		end
 		discardRow(rem(field,i))
 		clear=clear+1
-		::L::
+		::continue::
 	end
 	if #field==0 then return 1e99 end--PC
 	for x=1,10 do
@@ -220,7 +220,7 @@ return{
 				else
 					bn=P.holdQueue[1]and P.holdQueue[1].id or P.nextQueue[1]and P.nextQueue[1].id
 				end
-				if not bn then goto CTN end
+				if not bn then goto continue end
 
 				for dir=0,dirCount[bn]do--Each dir
 					local cb=BLOCKS[bn][dir]
@@ -250,7 +250,7 @@ return{
 						resetField(field_org,Tfield,cy)
 					end
 				end
-				::CTN::
+				::continue::
 			end
 			if not best.bn then return 1 end
 
