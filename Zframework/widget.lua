@@ -832,7 +832,7 @@ end
 function textBox:push(t)
 	ins(self.texts,t)
 	if self.scrollPos==#self.texts-1 then
-		self.scrollPos=self.scrollPos+1
+		self.scrollPos=#self.texts
 	else
 		SFX.play("spin_0",.8)
 		self.new=true
@@ -896,23 +896,24 @@ function textBox:draw()
 		gc.rectangle("fill",x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
 
-	setFont(30)
 	gc.setColor(1,1,1)
+	setFont(30)
 	--Clear button
 	if not self.fix then
 		mStr(self.sure>0 and"?"or"X",x+w-20,y-1)
 		gc.rectangle("line",x+w-40,y,40,40)
-	end
-	--New message
-	if self.new and self.scrollPos~=#texts then
-		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
-		gc.print("v",x+w-25,y+h-40)
 	end
 
 	--Texts
 	setFont(self.font)
 	for i=max(scroll-cap+1,1),scroll do
 		gc.printf(texts[i],x+8,y+h-10-self.lineH*(scroll-i+1),w)
+	end
+
+	--New message
+	if self.new and self.scrollPos~=#texts then
+		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
+		gc.print("v",x+w-25,y+h-40)
 	end
 end
 function textBox:getInfo()
