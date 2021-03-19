@@ -15,17 +15,12 @@ end
 
 function scene.mouseDown(_,_,k)
 	if k~=2 then
-		if NOGAME then
-			LOG.print("检测到大版本更新,请重启游戏完成",600,COLOR.yellow)
-			LOG.print("Old version detected & saving file changed, please restart the game",600,COLOR.yellow)
+		if newVersionLaunch then
+			SCN.push(SETTING.simpMode and"main_simple"or"main")
+			SCN.swapTo("history","fade")
+			LOG.print(text.newVersion,"warn",COLOR.lBlue)
 		else
-			if newVersionLaunch then
-				SCN.push(SETTING.simpMode and"main_simple"or"main")
-				SCN.swapTo("history","fade")
-				LOG.print(text.newVersion,"warn",COLOR.lBlue)
-			else
-				SCN.go(SETTING.simpMode and"main_simple"or"main")
-			end
+			SCN.go(SETTING.simpMode and"main_simple"or"main")
 		end
 	end
 end

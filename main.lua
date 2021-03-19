@@ -22,7 +22,6 @@ SAVEDIR=fs.getSaveDirectory()
 --Global Vars & Settings
 LOADED=false
 DAILYLAUNCH=false
-NOGAME=false
 LOGIN=false
 EDITING=""
 WSCONN=false
@@ -271,22 +270,7 @@ LANG.set(SETTING.lang)
 --Update data
 do
 	local needSave
-	--Check setting file
-	if
-		type(STAT.version)~="number"or
-		type(SETTING.block)~="boolean"or
-		type(SETTING.sfx_spawn)~="number"or
-		type(SETTING.ghost)~="number"or
-		type(SETTING.center)~="number"or
-		type(SETTING.grid)~="number"or
-		#SETTING.skin<29 or
-		SETTING.bgm>1 or SETTING.sfx>1 or SETTING.voc>1 or
-		SETTING.stereo>1 or SETTING.VKSFX>1 or SETTING.VKAlpha>1 or
-		SETTING.VKCurW>1 or SETTING.VKCurW>1
-	then
-		NOGAME=true
-		fs.remove("conf/settings")
-	end
+	local noGame
 
 	if STAT.extraRate then
 		STAT.finesseRate=5*(STAT.piece-STAT.extraRate)
@@ -301,24 +285,18 @@ do
 		RANKS.sprintLock=nil
 		needSave=true
 	end
-	if STAT.version<1208 then
-		SETTING.skinSet=1
-		needSave=true
-	end
-
 	if STAT.version<1300 then
 		for _,name in next,fs.getDirectoryItems("replay")do
 			fs.remove("replay/"..name)
 		end
 	end
-
 	if STAT.version<1302 then
 		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
 		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
 		fs.remove("conf/user")
-		NOGAME=true
+		fs.remove("conf/settings")
+		noGame=true
 	end
-
 	if STAT.version<1303 then
 		SETTING.appLock=false
 		needSave=true
@@ -326,7 +304,7 @@ do
 
 	for _,v in next,VK_org do
 		if not v.color then
-			NOGAME=true
+			noGame=true
 			fs.remove("conf/virtualkey")
 			break
 		end
@@ -334,7 +312,6 @@ do
 
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
-
 	for k in next,RANKS do
 		if type(k)=="number"then
 			RANKS[k]=nil
@@ -370,7 +347,7 @@ do
 	end
 
 	if keyMap[1]then
-		NOGAME=true
+		noGame=true
 		fs.remove("conf/key")
 	end
 	USER.username=nil
@@ -379,5 +356,10 @@ do
 		newVersionLaunch=true
 		STAT.version=VERSION_CODE
 		FILE.save(STAT,"conf/data","q")
+	end
+
+	if noGame then
+		love.window.showMessageBox("重启更新 Restart to Update","检测到大版本更新,请重启游戏完成\nOld version detected & saving file changed, please restart the game",{"Get it!"},"info",true)
+		love.event.quit()
 	end
 end
