@@ -356,80 +356,61 @@ local function secondLoopThread()
 	repeat yield()until mainLoop()
 end
 function love.errorhandler(msg)
-	if LOADED then
-		--Generate error message
-		local errData={}
-		errData.mes={"Error:"..msg}
-		local c=2
-		for l in debug.traceback("",2):gmatch("(.-)\n")do
-			if c>2 then
-				if not l:find("boot")then
-					errData.mes[c]=l:gsub("^\t*","")
-					c=c+1
-				end
-			else
-				errData.mes[2]="Traceback"
-				c=3
+	--Generate error message
+	local err={"Error:"..msg}
+	local c=2
+	for l in debug.traceback("",2):gmatch("(.-)\n")do
+		if c>2 then
+			if not l:find("boot")then
+				err[c]=l:gsub("^\t*","")
+				c=c+1
 			end
+		else
+			err[2]="Traceback"
+			c=3
 		end
-		local errMes=table.concat(errData.mes,"\n",1,c-2)
-		DBP(errMes)
+	end
+	DBP(table.concat(err,"\n",1,c-2))
+
+	--Reset something
+	love.audio.stop()
+	gc.reset()
+
+	if LOADED and #ERRDATA<5 then
+		BG.set("none")
+		ERRDATA[#ERRDATA+1]={mes=err}
 
 		--Write messages to log file
 		love.filesystem.append("conf/error.log",
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			#ERRDATA.." crash(es) "..SYSTEM.."-"..VERSION_NAME.."  scene: "..(SCN and SCN.cur or"NULL").."\n"..
-			errMes.."\n\n"
+			table.concat(err,"\n",1,c-2).."\n\n"
 		)
 
-		ins(ERRDATA,errData)
-
-		--Force quit if error too much
-		if #ERRDATA>=5 then return end
-
 		--Get screencapture
-		BG.set("none")
-		love.audio.stop()
-		gc.reset()
-		gc.captureScreenshot(function(_)errData.shot=gc.newImage(_)end)
+		gc.captureScreenshot(function(_)ERRDATA[#ERRDATA].shot=gc.newImage(_)end)
 		gc.present()
 
 		--Create a new mainLoop thread to keep game alive
 		local status,resume=coroutine.status,coroutine.resume
 		local loopThread=coroutine.create(secondLoopThread)
+		local res,threadErr
 		repeat
-			local res,err=resume(loopThread)
-			if not res then
-				love.errorhandler(err)
-				return
-			end
+			res,threadErr=resume(loopThread)
 		until status(loopThread)=="dead"
+		if not res then
+			love.errorhandler(threadErr)
+			return
+		end
 	else
 		ms.setVisible(true)
-		love.audio.stop()
-
-		local err={"Error:"..msg}
-		local trace=debug.traceback("",2)
-		local c=2
-		for l in trace:gmatch("(.-)\n")do
-			if c>2 then
-				if not l:find("boot")then
-					err[c]=l:gsub("^\t*","")
-					c=c+1
-				end
-			else
-				err[2]="Traceback"
-				c=3
-			end
-		end
-		DBP(table.concat(err,"\n"),1,c-2)
-		gc.reset()
 		gc_setColor(1,1,1)
 
-		SFX.fplay("error",SETTING and SETTING.voc*.8 or 0)
-
-		local errorMsg=text and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
-		return function()
+		local errorMsg
+		errorMsg=LOADED and
+			"An error has occurred during loading.\nError info has been created, and you can send it to the author."or
+			"Much errors occured"
+		while true do
 			love.event.pump()
 			for E,a,b in love.event.poll()do
 				if E=="quit"or a=="escape"then
@@ -442,14 +423,14 @@ function love.errorhandler(msg)
 			gc.clear(.3,.5,.9)
 			gc_push("transform")
 			gc.replaceTransform(xOy)
-			setFont(100)gc_print(":(",100,40,0,1.2)
-			setFont(40)gc.printf(errorMsg,100,200,SCR.w0-100)
+			setFont(100)gc_print(":(",100,0,0,1.2)
+			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
 			gc_print(SYSTEM.."-"..VERSION_NAME,100,660)
-			gc.printf(err[1],626,380,1260-626)
-			gc_print("TRACEBACK",626,450)
+			gc.printf(err[1],450,380,1260-626)
+			gc_print("TRACEBACK",450,450)
 			for i=4,#err-2 do
-				gc_print(err[i],626,400+20*i)
+				gc_print(err[i],450,400+20*i)
 			end
 			gc_pop()
 			gc_present()
