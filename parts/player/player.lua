@@ -795,28 +795,23 @@ function Player.popNext(P,ifhold)--Pop nextQueue to hand
 end
 
 function Player.cancel(P,N)--Cancel Garbage
-	local k=0	--Pointer, attack bar selected
 	local off=0	--Lines offseted
 	local bf=P.atkBuffer
-	::R::
-	if bf.sum>0 then
-		local A
-		repeat
-			k=k+1
-			A=bf[k]
-			if not A then return off end
-		until not A.sent
-		if N>=A.amount then
-			local O=A.amount--Cur Offset
-			N=N-O
-			off=off+O
-			bf.sum=bf.sum-O
-			A.sent,A.time=true,0
-			if N>0 then goto R end
-		else
-			off=off+N
-			A.amount=A.amount-N
-			bf.sum=bf.sum-N
+	for _, A in ipairs(bf) do
+		if bf.sum <= 0 then break end
+		if not A.sent then
+			local O = min(A.amount, N) -- Cur Offset
+			off, bf.sum = off + O, bf.sum - O
+			if N >= A.amount then
+				A.sent, A.time = true, 0
+			else
+				A.amount = A.amount - O
+			end
+			if N <= A.amount then
+				break
+			else
+				N = N - O
+			end
 		end
 	end
 	return off
@@ -973,12 +968,12 @@ do--Player.drop(P)--Place piece
 				local c=0
 				if P:solid(x-1,y+1)then c=c+1 end
 				if P:solid(x+1,y+1)then c=c+1 end
-				if c==0 then goto NTC end
-				if P:solid(x-1,y-1)then c=c+1 end
-				if P:solid(x+1,y-1)then c=c+1 end
-				if c>2 then dospin=dospin+2 end
+				if c~=0 then
+					if P:solid(x-1,y-1)then c=c+1 end
+					if P:solid(x+1,y-1)then c=c+1 end
+					if c>2 then dospin=dospin+2 end
+				end
 			end
-			::NTC::
 		end
 		--Immovable spin check
 		if P:ifoverlap(CB,CX,CY+1)and P:ifoverlap(CB,CX-1,CY)and P:ifoverlap(CB,CX+1,CY)then
