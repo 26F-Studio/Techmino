@@ -40,53 +40,52 @@ return{
 							res[A+2]=6
 							A=A+3
 						end
-						goto END
-					end
+					else
 
-					--Give I when no hole
-					d=-999--Height difference
-					--A=hole mark
-					for x=2,11 do
-						local _=height[x]-height[x-1]
-						if d<-2 and _>2 then
-							A=true
+						--Give I when no hole
+						d=-999--Height difference
+						--A=hole mark
+						for x=2,11 do
+							local _=height[x]-height[x-1]
+							if d<-2 and _>2 then
+								A=true
+							end
+							d=_
 						end
-						d=_
-					end
-					if not A then
-						A=#res+1
-						res[A]=7
-						res[A+1]=7
-						res[A+2]=7
-					end
-
-					--Give O when no d=0/give T when no d=1
-					d=0--d=0 count
-					A=0--d=1 count
-					for x=2,10 do
-						local _=height[x]-height[x-1]
-						if _==0 then
-							d=d+1
-						elseif _==1 or _==-1 then
-							A=A+1
+						if not A then
+							A=#res+1
+							res[A]=7
+							res[A+1]=7
+							res[A+2]=7
 						end
-					end
-					if d<3 then
-						A=#res+1
-						res[A]=6
-						res[A+1]=6
-						res[A+2]=6
-					end
-					if A<3 then
-						A=#res+1
-						res[A]=5
-						res[A+1]=5
-						res[A+2]=5
-						res[A+3]=5
-						res[A+4]=5
-					end
 
-					::END::
+						--Give O when no d=0/give T when no d=1
+						d=0--d=0 count
+						A=0--d=1 count
+						for x=2,10 do
+							local _=height[x]-height[x-1]
+							if _==0 then
+								d=d+1
+							elseif _==1 or _==-1 then
+								A=A+1
+							end
+						end
+						if d<3 then
+							A=#res+1
+							res[A]=6
+							res[A+1]=6
+							res[A+2]=6
+						end
+						if A<3 then
+							A=#res+1
+							res[A]=5
+							res[A+1]=5
+							res[A+2]=5
+							res[A+3]=5
+							res[A+4]=5
+						end
+
+					end
 					FREEROW.discard(height)
 					P:getNext(res[P:RND(#res)])
 				end
