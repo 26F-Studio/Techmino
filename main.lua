@@ -11,6 +11,7 @@
 local fs=love.filesystem
 
 --?
+goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 NONE={}function NULL()end
 DBP=print--Use this in permanent code
 TIME=love.timer.getTime
