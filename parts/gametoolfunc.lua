@@ -911,24 +911,22 @@ function pumpRecording(str,L)
 	while p<=len do
 		--Read delta time
 		code=0
-		::nextByte1::
 		local b=byte(str,p)
-		if b>=128 then
+		while b>=128 do
 			code=code*128+b-128
 			p=p+1
-			goto nextByte1
+			b=byte(str,p)
 		end
 		curFrm=curFrm+code*128+b
 		L[#L+1]=curFrm
 		p=p+1
 
 		local event=0
-		::nextByte2::
 		b=byte(str,p)
-		if b>=128 then
+		while b>=128 do
 			event=event*128+b-128
 			p=p+1
-			goto nextByte2
+			b=byte(str,p)
 		end
 		L[#L+1]=event*128+b
 		p=p+1
