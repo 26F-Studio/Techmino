@@ -1,14 +1,21 @@
 local gc=love.graphics
 local kb,tc=love.keyboard,love.touch
+local rnd=math.random
+local ins,rem=table.insert,table.remove
 
 local scene={}
 
 local time,v
+local patron=require"parts.patron"
+local names
+local counter
 
 function scene.sceneInit()
 	time=0
 	v=1
 	BG.set()
+	names={}
+	counter=26
 end
 
 function scene.mouseDown(x,y)
@@ -45,13 +52,45 @@ function scene.update(dt)
 		v=v-.26
 	end
 	time=time+v*dt
+	counter=counter-1
+	if counter==0 then
+		local N=patron[rnd(#patron)]
+		local T=gc.newText(getFont(N.font),N.name)
+		local r=rnd()<.5
+		ins(names,{
+			text=T,
+			color=N.color,
+			x=r and -T:getWidth()or SCR.w,
+			y=rnd()*(SCR.h-T:getHeight()),
+			w=T:getWidth(),
+			vx=(r and 1 or -1)*(1.626+rnd())*(SCR.w+T:getWidth())/SCR.w,
+		})
+		counter=26
+	end
+	for i=#names,1,-1 do
+		local N=names[i]
+		N.x=N.x+N.vx
+		if N.vx>0 and N.x>SCR.w or N.vx<0 and N.x<-N.w then
+			rem(names,i)
+		end
+	end
 end
 
 function scene.draw()
+	for i=1,#names do
+		local N=names[i]
+		if type(N.color)=="table"then
+			gc.setColor(N.color)
+		else
+			gc.setColor(N.color(TIME()+N.w))
+		end
+		gc.draw(N.text,N.x,N.y)
+	end
+
+	gc.setColor(1,1,1)
 	local T=40*math.min(time,45)
 	local L=text.staff
 	setFont(40)
-	gc.setColor(1,1,1)
 	for i=1,#L do
 		mStr(L[i],640,800+70*i-T)
 	end

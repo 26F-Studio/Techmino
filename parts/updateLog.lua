@@ -1,29 +1,4 @@
 return SPLITSTR([=[
-"Patron"(time ordered, may not accurate)         Thanks!!!
-						<<<<<<<<<<rmb1000+>>>>>>>>>>
-									☆★★☆☆☆☆★★☆
-									★☆☆★白羽★☆☆★
-									☆★★☆☆☆☆★★☆
-				<<<rmb100+>>>
-						\那没事了(T6300)/           \加油啊,钉钉动了的大哥哥(T3228)/
-						\弥佑瑶/                             \Alan/               \幽灵3383/
-						\靏鸖龘龘/                          \込余/                   \saki/
-						\模电/                              \吃水榴莲/             \世界沃德/
-						\Petris/                            \Zakeru/                   \镝/
-						\HitachiMako/                \我慌死了/            \PESWGGL/
-						\Ghost princess/                 \zzz/                    \猫宫/
-		<rmb10+>
-				八零哥    蕴空之灵    gggf127    solainu    ThTsOd    Fireboos    星月千雪    10元
-				立斐    Deep_Sea    时雪    yyangdid    sfqr    心痕    Sasoric    夏小亚
-				仁参    乐↗乐↘    喜欢c4w的ztcjoin    面包    蠢熏    潘一栗    Lied    星街书婉
-				祝西    829    e m*12    我永远爱白银诺艾尔(鹏    PCX    kagura77    呆喂
-				GlowingEmbers    轩辕辚    HimuroAki    TCV100    tech有养成系统了@7065
-				HAGE KANOBU    闪电和拐棍    葡萄味的曼妥思    蓝绿    天生的魔法师    琳雨空
-				T8779.易缄    诗情画意    星姐阿夸双推Man暗炎    [*炎]    [*Y]    aaa222    [**城]
-				cnDD    红桃老给    昭庭玲秋    旋树墩    火花工作室    Cosine    沁音的芝麻王
-				SuperJH    天上_飞    uiro    宇酱    [W*N]    [Z*.]    [*之]    白衣    给虫
-				我永远喜欢樱花小姐    xb    flaribbit    工口发动机    金海星    tatianyi    [*瞳]
-				彼方云城    pm250    nanaya    黑红蓝白    细胞    流光梦    George2003    竹月可安
 未来计划:
 		新模式:
 				无尽PC挑战; 简单极简练习; 任务生存; 对称; 跑酷; 教学; 术语问答; 无摩擦
