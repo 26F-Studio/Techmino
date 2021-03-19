@@ -404,18 +404,17 @@ function love.errorhandler(msg)
 		end
 	else
 		ms.setVisible(true)
-		gc_setColor(1,1,1)
 
 		local errorMsg
 		errorMsg=LOADED and
-			"An error has occurred during loading.\nError info has been created, and you can send it to the author."or
-			"Much errors occured"
+			"Too many errors or fatal error occured.\nPlease restart the game."or
+			"An error has occurred during loading.\nError info has been created, and you can send it to the author."
 		while true do
 			love.event.pump()
 			for E,a,b in love.event.poll()do
 				if E=="quit"or a=="escape"then
 					destroyPlayers()
-					return 1
+					return true
 				elseif E=="resize"then
 					SCR.resize(a,b)
 				end
@@ -426,11 +425,11 @@ function love.errorhandler(msg)
 			setFont(100)gc_print(":(",100,0,0,1.2)
 			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
-			gc_print(SYSTEM.."-"..VERSION_NAME,100,660)
-			gc.printf(err[1],450,380,1260-626)
-			gc_print("TRACEBACK",450,450)
+			gc_print(SYSTEM.."-"..VERSION_NAME.."                          scene:"..(SCN and SCN.cur or"NULL"),100,660)
+			gc.printf(err[1],100,360,1260-626)
+			gc_print("TRACEBACK",100,450)
 			for i=4,#err-2 do
-				gc_print(err[i],450,400+20*i)
+				gc_print(err[i],100,400+20*i)
 			end
 			gc_pop()
 			gc_present()
