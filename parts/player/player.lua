@@ -795,23 +795,21 @@ function Player.popNext(P,ifhold)--Pop nextQueue to hand
 end
 
 function Player.cancel(P,N)--Cancel Garbage
-	local off=0	--Lines offseted
+	local off=0--Lines offseted
 	local bf=P.atkBuffer
-	for _, A in ipairs(bf) do
-		if bf.sum <= 0 then break end
+	for i=1,#bf do
+		if bf.sum==0 or N==0 then break end
+		local A=bf[i]
 		if not A.sent then
-			local O = min(A.amount, N) -- Cur Offset
-			off, bf.sum = off + O, bf.sum - O
-			if N >= A.amount then
-				A.sent, A.time = true, 0
+			local O=min(A.amount,N)--Cur Offset
+			if N<A.amount then
+				A.amount=A.amount-O
 			else
-				A.amount = A.amount - O
+				A.sent,A.time=true,0
 			end
-			if N <= A.amount then
-				break
-			else
-				N = N - O
-			end
+			off=off+O
+			bf.sum=bf.sum-O
+			N=N-O
 		end
 	end
 	return off
@@ -1147,7 +1145,7 @@ do--Player.drop(P)--Place piece
 		piece.spin,piece.mini=dospin,false
 		piece.pc,piece.hpc=false,false
 		piece.special=false
-		if cc>0 then--If lines cleared, about 200 lines below
+		if cc>0 then--If lines cleared,about 200 lines below
 			cmb=cmb+1
 			if dospin then
 				cscore=(spinSCR[C.name]or spinSCR[8])[cc]
@@ -1226,7 +1224,7 @@ do--Player.drop(P)--Place piece
 				VOC.play(clearVoice[cc],CHN)
 			end
 
-			--Normal clear, reduce B2B point
+			--Normal clear,reduce B2B point
 			if not piece.special then
 				P.b2b=max(P.b2b-250,0)
 				if P.b2b<50 and ENV.b2bKill then
