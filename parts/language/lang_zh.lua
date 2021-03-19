@@ -289,9 +289,9 @@ return{
 			upEdge="3D方块",
 			bagLine="包分界线",
 
-			ghost="阴影透明度",
+			ghost="阴影不透明度",
 			grid="网格",
-			center="旋转中心透明度",
+			center="旋转中心不透明度",
 
 			lockFX="锁定特效",
 			dropFX="下落特效",
@@ -387,7 +387,7 @@ return{
 			vib="按键振动",
 			icon="图标",
 			tkset="跟踪设置",
-			alpha="透明度",
+			alpha="不透明度",
 		},
 		setting_trackSetting={
 			VKDodge="自动避让",

@@ -211,12 +211,12 @@ return{
 	group="Join our Discord: discord.gg/f9pUvkh",
 	WidgetText={
 		main={
-			offline="Singleplayer",
-			online="Multiplayer",
+			offline="Single",
+			online="Multi",
 			custom="Custom",
 			stat="Stats",
 			setting="Settings",
-			qplay="Quick Start",
+			qplay="Quick",
 			lang="言/A",
 			help="Help",
 			quit="Exit",
