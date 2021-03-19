@@ -1022,7 +1022,7 @@ return{
 	{"蓝绿",
 		"lanlv gompyn imple lee blari'o blariho",
 		"name",
-		"Tetris Research community member.\nParticipant of Techmino backend",
+		"Tetris Research community member.\nParticipant of",--Techmino backend
 	},
 	{"喵田弥夜Miya",
 		"miya miaotianmiye",

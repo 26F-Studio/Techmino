@@ -1030,7 +1030,7 @@ return{
 	{"蓝绿",
 		"蓝绿 lanlv gompyn imple lee blari'o blariho t3182",
 		"name",
-		"【研究群】「T3182」\n高技术力，参与了Techmino后端开发",
+		"【研究群】「T3182」\n高技术力，参与了",--Techmino后端开发
 	},
 	{"喵田弥夜",
 		"喵田弥夜 miya miaotianmiye mao t7023",
