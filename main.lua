@@ -38,12 +38,12 @@ love.mouse.setVisible(false)
 --Create directories
 for _,v in next,{"conf","record","replay"}do
 	local info=fs.getInfo(v)
-	if info then
-		if info.type=="directory"then goto NEXT end
+	if not info then
+		fs.createDirectory(v)
+	elseif info.type ~= 'directory' then
 		fs.remove(v)
+		fs.createDirectory(v)
 	end
-	fs.createDirectory(v)
-	::NEXT::
 end
 
 --Delete some useless files
