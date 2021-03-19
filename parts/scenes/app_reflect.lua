@@ -30,38 +30,20 @@ function scene.keyDown(key)
 			state=1
 			ct=60
 		end
-	elseif state==2 then
-		if key=="q"or key=="a"or key=="p"or key=="l"then
-			if ct>6 then
-				SFX.play("finesseError")
-				if key=="q"or key=="a"then goto P2 else goto P1 end
+	elseif state==2 and #key==1 then
+		key=("qapl"):find(key)
+		if key then
+			--BEAUTIFUL LOGIC BELOW:
+
+			--early = error, [UP-key]==[target is up] = correct sfx, else = wrong sfx
+			SFX.play(ct>6 and"finesseError"or key%2==1==up and"reach"or"fail")
+
+			--(early && P2-key || not early && [P1-key]==[target is up]) = P1 win, else P2 win
+			if ct>6 and key>2 or ct<=6 and key%4<2==up then
+				winner=1;s1=s1+1
 			else
-				if key=="q"then
-					if up then SFX.play("reach")goto P1
-					else SFX.play("fail")goto P2
-					end
-				elseif key=="a"then
-					if up then SFX.play("fail")goto P2
-					else SFX.play("reach")goto P1
-					end
-				elseif key=="p"then
-					if up then SFX.play("reach")goto P2
-					else SFX.play("fail")goto P1
-					end
-				else
-					if up then SFX.play("fail")goto P1
-					else SFX.play("reach")goto P2
-					end
-				end
+				winner=2;s2=s2+1
 			end
-			::P1::
-				winner=1
-				s1=s1+1
-				goto END
-			::P2::
-				winner=2
-				s2=s2+1
-			::END::
 			state=3
 			ct=60
 		end
