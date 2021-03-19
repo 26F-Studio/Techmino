@@ -275,15 +275,8 @@ do--commands.help(arg)
 end
 function commands.error(mes)error(mes)end
 function commands.cls()outputBox:clear()end
-function commands.rst()
-	history,hisPtr={}
-	log"History cleared"
-end
-function commands.echo(str)
-	if str~=""then
-		outputBox:push(str)
-	end
-end
+function commands.rst()history,hisPtr={}log"History cleared"end
+function commands.echo(str)if str~=""then log(str)end end
 function commands.print(name)
 	if name~=""then
 		local info=love.filesystem.getInfo(name)
@@ -505,8 +498,7 @@ end
 --Environment for user's function
 local noLog=false
 local function log_user(str)
-	if noLog then return end
-	outputBox:push(tostring(str))
+	log(noLog and"CHEATER."or tostring(str))
 end
 local userG={
 	_VERSION=VERSION_CODE,
@@ -544,9 +536,9 @@ local function first_box(k,f)
 	if not f then log"Two keys needed"return end
 	if type(f):byte()~=102 then log"Function need"return end
 	noLog=true
-	if not f()then noLog=false log"There are something in the void."return end
-	if f()~=f then noLog=false log"It is itself."return end
-	if f(26)~=math.huge then noLog=false log"26 can create the huge"return end
+	if not f()then noLog=false log"Give me something"return end
+	if f()~=f then noLog=false log"No, yourself."return end
+	if f(26)~=math.huge then noLog=false log"Infinity for the lucky number"return end
 	noLog=false
 	log"You lose."
 	return fleg
