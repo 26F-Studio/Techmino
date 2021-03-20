@@ -630,6 +630,13 @@ function Player.hold(P,ifpre)
 		else--Hold
 			local C,H=P.cur,P.holdQueue[1]
 
+			--Finesse check
+			if H and C and H.id==C.id and H.name==C.name then
+				P.ctrlCount=P.ctrlCount+1
+			elseif P.ctrlCount<=1 then
+				P.ctrlCount=0
+			end
+
 			if ENV.phyHold and C and not ifpre then--Physical hold
 				local success
 				local x,y=P.curX,P.curY
@@ -670,13 +677,6 @@ function Player.hold(P,ifpre)
 					return
 				end
 			else--Normal hold
-				--Finesse check
-				if H and C and H.id==C.id and H.name==C.name then
-					P.ctrlCount=P.ctrlCount+1
-				elseif P.ctrlCount<=1 then
-					P.ctrlCount=0
-				end
-
 				P.spinLast=false
 				P.spinSeq=0
 
