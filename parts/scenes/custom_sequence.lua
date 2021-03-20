@@ -190,7 +190,7 @@ scene.widgetList={
 
 	WIDGET.newSelector{name="sequence",
 		x=1080,y=60,w=200,color="yellow",
-		list={"bag","his4","c2","rnd","reverb","loop","fixed"},
+		list={"bag","his4","c2","rnd","mess","reverb","loop","fixed"},
 		disp=lnk_CUSval("sequence"),
 		code=lnk_CUSsto("sequence")
 	},

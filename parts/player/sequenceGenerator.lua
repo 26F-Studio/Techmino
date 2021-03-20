@@ -72,6 +72,14 @@ local sequenceModes={
 			yield()
 		end
 	end,
+	mess=function(P,seq0)
+		while true do
+			while #P.nextQueue<6 do
+				P:getNext(seq0[P:RND(#seq0)])
+			end
+			yield()
+		end
+	end,
 	reverb=function(P,seq0)
 		local bufferSeq,bag={},{}
 		while true do

@@ -119,7 +119,7 @@ MODOPT={--Mod options
 	},
 	{no=19,id="CS",name="customSeq",
 		key="b",x=680,y=470,color="blue",
-		list={"bag","his4","c2","rnd","reverb"},
+		list={"bag","his4","c2","rnd","mess","reverb"},
 		func=function(P,O)P.gameEnv.sequence=O end,
 		unranked=true,
 	},
