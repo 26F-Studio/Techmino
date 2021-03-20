@@ -44,17 +44,16 @@ local function boardTransform(mode)
 		end
 	end
 end
-local function drawRow(h,V,L,flag)
+local function drawRow(h,V,L,showInvis)
 	local texture=SKIN.curText
 	local t=TIME()*4
-	local rep=GAME.replaying
 	for i=1,10 do
 		if L[i]>0 then
 			if V[i]>0 then
 				local a=V[i]*.05
 				gc_setColor(1,1,1,a)
 				gc_draw(texture[L[i]],30*i-30,-30*h)-- drawCell(j,i,L[i])
-			elseif rep and not flag then
+			elseif showInvis then
 				gc_setColor(1,1,1,.3+.08*sin(.5*(h-i)+t))
 				gc_rectangle("fill",30*i-30,-30*h,30,30)
 			end
@@ -66,72 +65,54 @@ local function drawField(P)
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
 
-	--Sorry, I think using FLAG & GOTO is the easiest way to make this simple.
-	--I just want reuse the for-block without using function, because this
-	--is called EXTREME FREQUENTLY, and PASSING VARIABLES IS TOO COMPLEX.
-	--[[
-		Normal style:
-			if ENV.upEdge then
-				{set shader and coords};
-				<< draw field block >> (FOR-block)
-				{restore shader and coords};
-			end
-			<< draw field block >> (FOR-block)
-
-		Simplified by me:
-			flag=ENV.upEdge
-			if flag then
-				{set shader and coords};
-			end
-			::label::
-			<< draw field block >> (FOR-block)
-			if flag then
-				{restore shader and coords};
-				flag=false
-				goto label
-			end
-	]]
-	local flag=ENV.upEdge
 	if P.falling==-1 then--Blocks only
-		if flag then
+		if ENV.upEdge then
 			gc.setShader(SHADER.lighter)
 			gc.translate(0,-4)
-		end
-		::edgeFinished::
-		for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],flag)end
-		if flag then
+			--<draw field>
+				for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
+			--</draw field>
 			gc.setShader()
 			gc.translate(0,4)
-			flag=false
-			goto edgeFinished
 		end
+		--<draw field>
+			for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],GAME.replaying)end
+		--</draw field>
 	else--With falling animation
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 		local alpha=P.falling/ENV.fall
 		local h=1
 		gc_push("transform")
-		if flag then
+		if ENV.upEdge then
 			gc_push("transform")
 			gc.setShader(SHADER.lighter)
 			gc.translate(0,-4)
-		end
-		::edgeFinished::
-		for j=start,min(start+21,#F)do
-			while j==P.clearingRow[h]do
-				h=h+1
-				gc_translate(0,-stepY)
-				gc_setColor(1,1,1,alpha)
-				gc_rectangle("fill",0,30-30*j,300,stepY)
-			end
-			drawRow(j,V[j],F[j],flag)
-		end
-		if flag then
+			--<draw field>
+				for j=start,min(start+21,#F)do
+					while j==P.clearingRow[h]do
+						h=h+1
+						gc_translate(0,-stepY)
+						gc_setColor(1,1,1,alpha)
+						gc_rectangle("fill",0,30-30*j,300,stepY)
+					end
+					drawRow(j,V[j],F[j])
+				end
+			--</draw field>
 			gc_pop()
 			gc.setShader()
-			flag=false
 			h=1
-			goto edgeFinished
 		end
+		--<draw field>
+			for j=start,min(start+21,#F)do
+				while j==P.clearingRow[h]do
+					h=h+1
+					gc_translate(0,-stepY)
+					gc_setColor(1,1,1,alpha)
+					gc_rectangle("fill",0,30-30*j,300,stepY)
+				end
+				drawRow(j,V[j],F[j],GAME.replaying)
+			end
+		--</draw field>
 		gc_pop()
 	end
 end
