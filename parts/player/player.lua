@@ -1053,33 +1053,27 @@ do--Player.drop(P)--Place piece
 
 		--Finesse: roof check
 		local finesse
-		if CY<=18 then
-			local y0=CY
+		if CY>ENV.fieldH-2 then
+			finesse=true
+		else
 			for x=1,#CB[1]do
-				local y
-				for i=#CB,1,-1 do
-					if CB[i][x]then
-						y=i
-						goto L1
-					end
-				end
-				goto L2
-				::L1::
-				if y then
-					x=CX+x-1
-					for y1=y0+y,#P.field do
-						--Roof=finesse
-						if P:solid(x,y1)then
-							finesse=true
-							goto L2
-						end
+				local y=#CB
+
+				--Find the highest y of blocks' x-th column
+				while not CB[y][x]do y=y-1 end
+
+				local testX=CX+x-1--Optimize
+
+				--Test the whole column of field to find roof
+				for testY=CY+y,#P.field do
+					if P:solid(testX,testY)then
+						finesse=true
+						goto BERAK
 					end
 				end
 			end
-		else
-			finesse=true
+			::BERAK::
 		end
-		::L2::
 
 		--Remove rows need to be cleared
 		if cc>0 then
