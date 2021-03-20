@@ -429,7 +429,7 @@ return{
 
 			fieldH="场地高度",
 			ospin="O-spin",
-			deepDrop="穿墙软降",
+			deepDrop="深降",
 			target="目标行数",
 			visible="能见度",
 			freshLimit="锁延刷新限制",
