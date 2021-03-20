@@ -69,25 +69,25 @@ local function drawField(P)
 		if ENV.upEdge then
 			gc.setShader(SHADER.lighter)
 			gc.translate(0,-4)
-			--<draw field>
+			--<drawRow>
 				for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
-			--</draw field>
+			--</drawRow>
 			gc.setShader()
 			gc.translate(0,4)
 		end
-		--<draw field>
+
+		--<drawRow>
 			for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],GAME.replaying)end
-		--</draw field>
+		--</drawRow>
 	else--With falling animation
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
 		local alpha=P.falling/ENV.fall
 		local h=1
-		gc_push("transform")
 		if ENV.upEdge then
 			gc_push("transform")
 			gc.setShader(SHADER.lighter)
 			gc.translate(0,-4)
-			--<draw field>
+			--<drawRow>
 				for j=start,min(start+21,#F)do
 					while j==P.clearingRow[h]do
 						h=h+1
@@ -97,12 +97,14 @@ local function drawField(P)
 					end
 					drawRow(j,V[j],F[j])
 				end
-			--</draw field>
-			gc_pop()
+			--</drawRow>
 			gc.setShader()
+			gc_pop()
 			h=1
 		end
-		--<draw field>
+
+		gc_push("transform")
+		--<drawRow>
 			for j=start,min(start+21,#F)do
 				while j==P.clearingRow[h]do
 					h=h+1
@@ -112,7 +114,7 @@ local function drawField(P)
 				end
 				drawRow(j,V[j],F[j],GAME.replaying)
 			end
-		--</draw field>
+		--</drawRow>
 		gc_pop()
 	end
 end
