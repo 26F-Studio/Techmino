@@ -378,55 +378,55 @@ function update.remote_alive(P,dt)
 		frmStep<240 and 2 or
 		frmStep<480 and rnd(2,3) or
 		3
-	::readNext::
-	local pos=P.streamProgress
-	local eventTime=P.stream[pos]
-	if eventTime then
-		if P.stat.frame==eventTime then
-			local event=P.stream[pos+1]
-			if event==0 then--Just wait
-			elseif event<=32 then--Press key
-				P:pressKey(event)
-			elseif event<=64 then--Release key
-				P:releaseKey(event-32)
-			elseif event>0x2000000000000 then--Sending lines
-				local sid=tostring(event%0x100)
-				local amount=int(event/0x100)%0x100
-				local time=int(event/0x10000)%0x10000
-				local line=int(event/0x100000000)%0x10000
-				local L=PLAYERS.alive
-				for i=1,#L do
-					if L[i].subID==sid then
-						P:attack(L[i],amount,time,line,true)
-						if SETTING.atkFX>0 then
-							P:createBeam(L[i],amount,P.cur.color)
+	repeat
+		local pos=P.streamProgress
+		local eventTime=P.stream[pos]
+		if eventTime then
+			if P.stat.frame==eventTime then
+				local event=P.stream[pos+1]
+				if event==0 then--Just wait
+				elseif event<=32 then--Press key
+					P:pressKey(event)
+				elseif event<=64 then--Release key
+					P:releaseKey(event-32)
+				elseif event>0x2000000000000 then--Sending lines
+					local sid=tostring(event%0x100)
+					local amount=int(event/0x100)%0x100
+					local time=int(event/0x10000)%0x10000
+					local line=int(event/0x100000000)%0x10000
+					local L=PLAYERS.alive
+					for i=1,#L do
+						if L[i].subID==sid then
+							P:attack(L[i],amount,time,line,true)
+							if SETTING.atkFX>0 then
+								P:createBeam(L[i],amount,P.cur.color)
+							end
+							break
 						end
-						break
+					end
+				elseif event>0x1000000000000 then--Receiving lines
+					local L=PLAYERS.alive
+					local sid=tostring(event%0x100)
+					for i=1,#L do
+						if L[i].subID==sid then
+							P:receive(
+								L[i],
+								int(event/0x100)%0x100,--amount
+								int(event/0x10000)%0x10000,--time
+								int(event/0x100000000)%0x10000--line
+							)
+							break
+						end
 					end
 				end
-			elseif event>0x1000000000000 then--Receiving lines
-				local L=PLAYERS.alive
-				local sid=tostring(event%0x100)
-				for i=1,#L do
-					if L[i].subID==sid then
-						P:receive(
-							L[i],
-							int(event/0x100)%0x100,--amount
-							int(event/0x10000)%0x10000,--time
-							int(event/0x100000000)%0x10000--line
-						)
-						break
-					end
-				end
+				P.streamProgress=pos+2
+			else
+				update.alive(P,dt)
+				frmStep=frmStep-1
 			end
-			P.streamProgress=pos+2
-			goto readNext
+		else
+			frmStep=frmStep-1
 		end
-		update.alive(P,dt)
-	end
-	if frmStep>1 then
-		frmStep=frmStep-1
-		goto readNext
-	end
+	until frmStep<=0
 end
 return update
