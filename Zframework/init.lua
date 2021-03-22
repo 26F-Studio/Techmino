@@ -356,6 +356,8 @@ local function secondLoopThread()
 	repeat yield()until mainLoop()
 end
 function love.errorhandler(msg)
+	if not msg then msg="Unknown error" end
+
 	--Generate error message
 	local err={"Error:"..msg}
 	local c=2
@@ -426,7 +428,7 @@ function love.errorhandler(msg)
 			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
 			gc_print(SYSTEM.."-"..VERSION_NAME.."                          scene:"..(SCN and SCN.cur or"NULL"),100,660)
-			gc.printf(err[1],100,360,1260-626)
+			gc.printf(err[1],100,360,1260-100)
 			gc_print("TRACEBACK",100,450)
 			for i=4,#err-2 do
 				gc_print(err[i],100,400+20*i)
