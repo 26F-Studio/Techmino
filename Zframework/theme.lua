@@ -40,7 +40,7 @@ function THEME.set(theme)
 		BGM.setDefault("blank")
 	elseif theme=="xmas"then
 		BG.setDefault("snow")
-		BGM.setDefault("mXmas")
+		BGM.setDefault("xmas")
 		LOG.print("==============",COLOR.red)
 		LOG.print("Merry Christmas!",COLOR.white)
 		LOG.print("==============",COLOR.red)
