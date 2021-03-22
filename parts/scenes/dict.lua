@@ -59,7 +59,7 @@ local eggInput={
 	cmd=goScene"app_cmd",
 }TABLE.reIndex(eggInput)
 local function search()
-	local input=inputBox.value
+	local input=inputBox.value:lower()
 	if eggInput[input]then
 		eggInput[input]()
 	else
