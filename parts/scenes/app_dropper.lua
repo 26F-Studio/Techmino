@@ -32,7 +32,7 @@ end
 function scene.sceneInit()
 	restart()
 	state="menu"
-	BGM.play("new era")
+	BGM.play("hang out")
 	BG.set("space")
 	love.keyboard.setKeyRepeat(false)
 end

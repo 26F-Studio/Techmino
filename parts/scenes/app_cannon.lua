@@ -17,7 +17,7 @@ function scene.sceneInit()
 	x,y=160,500
 	ex,ey=626,260
 	BG.set("matrix")
-	BGM.play("way")
+	BGM.play("hang out")
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
