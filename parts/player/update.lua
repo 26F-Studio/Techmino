@@ -379,11 +379,10 @@ function update.remote_alive(P,dt)
 		frmStep<480 and rnd(2,3) or
 		3
 	repeat
-		local pos=P.streamProgress
-		local eventTime=P.stream[pos]
-		if eventTime then
-			if P.stat.frame==eventTime then
-				local event=P.stream[pos+1]
+		local eventTime=P.stream[P.streamProgress]
+		if eventTime then--Normal state, event forward
+			if P.stat.frame==eventTime then--Event time, execute action, read next so don't update immediately
+				local event=P.stream[P.streamProgress+1]
 				if event==0 then--Just wait
 				elseif event<=32 then--Press key
 					P:pressKey(event)
@@ -419,13 +418,13 @@ function update.remote_alive(P,dt)
 						end
 					end
 				end
-				P.streamProgress=pos+2
-			else
+				P.streamProgress=P.streamProgress+2
+			else--No event now, run one frame
 				update.alive(P,dt)
 				frmStep=frmStep-1
 			end
-		else
-			frmStep=frmStep-1
+		else--Pause state, no actions, quit loop
+			break
 		end
 	until frmStep<=0
 end
