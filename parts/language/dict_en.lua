@@ -1,8 +1,7 @@
 local HDsearch="https://harddrop.com/wiki?search="
 local HDwiki="\nVisit HD Wiki for more information"
 return{
-	{
-		"Translator Note 1",
+	{"Translator Note 1",
 		"",
 		"help",
 		"This translation of the TetroDictionary is provided by me, User670 (Discord: User670#9501).\n\nThe translation may not completely reflect the contents of the original Chinese text."
@@ -13,11 +12,23 @@ return{
 		"To new players that want to get better at the game:\n\tTwo principles:\n\t1. find a version with good controls (for example, Techmino, Tetr.io, Tetris Online, Jstris, Tetr.js). Do not use programming practice versions (they are garbage).\n\t2. Build foundations in your skills (stable Tetrises using next queue to aid decisions), don't go for fancy T-Spins from the start.\n\n\tTwo main techniques:\n\t1. familiarize yourself with spawn locations of pieces, and the controls to move the piece into each location\n\t2. Plan ahead of where to put pieces\nWe recommend that you read this article titled \"Words to newbies from a Tetris Pro\" (Click \"Open URL\". This article is in Chinese.)",
 		"https://bilibili.com/read/cv2352939",
 	},
+	{"Tetris Wiki",
+		"tetris wiki",
+		"help",
+		"Tetris.wiki is a wiki focused on creating Tetris related content. It was started by Myndzi in 2015. Over the years, thousands of contributions have been made documenting official and fan games in the series, uncovering game mechanics, and creating guides to improve playing.",
+		"https://tetris.wiki",
+	},
 	{"Hard Drop Wiki",
 		"harddrop hd wiki",
 		"help",
 		"A wiki hosted on the Hard Drop community.",
 		"https://harddrop.com/wiki/Tetris_Wiki",
+	},
+	{"Tetris Wiki Fandom",
+		"tetris wiki fandom",
+		"help",
+		"A tetris wiki.",
+		"https://tetris.fandom.com/wiki/Tetris_Wiki",
 	},
 	{"Huiji Wiki",
 		"huiji wiki",
@@ -171,8 +182,7 @@ return{
 	},
 
 	--Terms
-	{
-		"Translator Note 2",
+	{"Translator Note 2",
 		"",
 		"help",
 		"Translator's note on those per-minute and per-second values\n\nNot all of them are commonly used in the communities, and not all terms mean the same thing across all contexts. They mostly apply to Techmino."
@@ -864,8 +874,7 @@ return{
 		"name",
 		"One of the top players.\nFamous for fancy T-Spins. When in combat but not in danger, he could often pull off some fancy donations very high on the field. Third place on the speed leaderboards of Jstris's 20TSD mode, and didn't use setups (the first and second place both used LST setup).",
 	},
-	{
-		"Translator Note 3",
+	{"Translator Note 3",
 		"",
 		"help",
 		"Starting from here, all but one terms are China-specific (the not-China term is Diao), and are less relevant for the global community. Read at your own risk.\n\"Virtual content creator\" refers to people who produce content online under a fictional persona, and appear as a motion-controlled animated character on screens. Basically \"Virtual YouTuber\" but not platform-specific."
@@ -1022,7 +1031,7 @@ return{
 	{"蓝绿",
 		"lanlv gompyn imple lee blari'o blariho",
 		"name",
-		"Tetris Research community member.\nParticipant of",--Techmino backend
+		"Tetris Research community member.\nParticipant of $1",--Techmino backend
 	},
 	{"喵田弥夜Miya",
 		"miya miaotianmiye",
