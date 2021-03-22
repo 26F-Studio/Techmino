@@ -299,7 +299,11 @@ function scene.draw()
 	end
 	if mapCam.keyCtrl then
 		gc.setColor(1,1,1)
-		gc.draw(TEXTURE.mapCross,640-20,360-20)
+		gc.setLineWidth(4)
+		gc.translate(640,360)
+		gc.line(-20,0,20,0)
+		gc.line(0,-20,0,20)
+		gc.translate(-640,-360)
 	end
 end
 

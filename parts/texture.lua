@@ -1,5 +1,4 @@
 local gc=love.graphics
-local int=math.floor
 local function NSC(x,y)--New & Set Canvas
 	local _=gc.newCanvas(x,y)
 	gc.setCanvas(_)
@@ -7,15 +6,21 @@ local function NSC(x,y)--New & Set Canvas
 end
 local TEXTURE={}
 
+
 gc.setDefaultFilter("nearest","nearest")
+
+
+--Virtualkey icons
 gc.setColor(1,1,1)
 local VKI=gc.newImage("media/image/virtualkey.png")
 TEXTURE.VKIcon={}
 for i=1,20 do
 	TEXTURE.VKIcon[i]=NSC(36,36)
-	gc.draw(VKI,(i-1)%5*-36,int((i-1)*.2)*-36)
+	gc.draw(VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36)
 end
 
+--Mini blocks
+gc.setColor(1,1,1)
 TEXTURE.miniBlock={}
 for i=1,29 do
 	local b=BLOCKS[i][0]
@@ -27,6 +32,7 @@ for i=1,29 do
 	end end
 end
 
+--Texture of puzzle mode
 TEXTURE.puzzleMark={}
 gc.setLineWidth(3)
 for i=1,17 do
@@ -51,14 +57,9 @@ gc.draw(_)
 _:release()
 gc.setCanvas()
 
-TEXTURE.mapCross=NSC(40,40)
-gc.setColor(1,1,1)
-gc.setLineWidth(4)
-gc.line(0,20,40,20)
-gc.line(20,0,20,40)
-
+--A simple pixel font
 TEXTURE.pixelNum={}
-gc.setLineWidth(4)
+gc.setColor(1,1,1)
 for i=0,9 do
 	TEXTURE.pixelNum[i]=NSC(5,9)
 	if("1011011111"):byte(i+1)==49 then gc.rectangle("fill",1,0,3,1)end--up
@@ -70,11 +71,14 @@ for i=0,9 do
 	if("1101111111"):byte(i+1)==49 then gc.rectangle("fill",4,5,1,3)end--down-right
 end
 
+--Cursor
 TEXTURE.cursor=NSC(16,16)
 gc.setColor(1,1,1,.7)
 gc.circle("fill",8,8,6)
 gc.setColor(1,1,1)
 gc.circle("fill",8,8,4)
+
+--Cursor while hold
 TEXTURE.cursor_hold=NSC(16,16)
 gc.setLineWidth(2)
 gc.setColor(1,1,1)
@@ -85,11 +89,10 @@ gc.circle("fill",8,8,3)
 gc.setDefaultFilter("linear","linear")
 
 
+--Title image
 local titleTriangles={}
 for i=1,8 do titleTriangles[i]=love.math.triangulate(title[i])end
-
---Middle: 580,118
-TEXTURE.title=NSC(1160,236)
+TEXTURE.title=NSC(1160,236)--Middle: 580,118
 for i=1,8 do
 	gc.translate(12*i,i==1 and 8 or 14)
 
@@ -138,6 +141,7 @@ for i=1,8 do
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
 
+--WS icons
 setFont(20)
 TEXTURE.ws_dead=NSC(20,20)
 gc.setColor(1,.4,.3)
