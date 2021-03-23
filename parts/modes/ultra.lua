@@ -8,13 +8,13 @@ return{
 		drop=60,lock=60,
 		fall=20,
 		task=function(P)
+			P.modeData.stage=1
 			while true do
 				YIELD()
-				local _=P.modeData.counter+1
-				if P.stat.time>=warnTime[_]then
-					if _<9 then
-						P.modeData.counter=_
-						SFX.play("ready",.7+_*.03)
+				if P.stat.time>=warnTime[P.modeData.stage]then
+					if P.modeData.stage<9 then
+						P.modeData.stage=P.modeData.stage+1
+						SFX.play("ready",.7+P.modeData.stage*.03)
 					else
 						SFX.play("start")
 						P:win("finish")

@@ -1,14 +1,15 @@
-local rnd,min=math.random,math.min
+local rnd=math.random
 local rem=table.remove
 local function check_c4w(P)
 	if P.lastPiece.row>0 then
 		for _=1,#P.clearedRow do
-			P.field[#P.field+1]=FREEROW.get(20)
-			P.visTime[#P.visTime+1]=FREEROW.get(20)
-			for i=4,7 do P.field[#P.field][i]=0 end
+			local h=#P.field
+			P.field[h+1]=FREEROW.get(20)
+			P.visTime[h+1]=FREEROW.get(20)
+			for i=4,7 do P.field[h][i]=0 end
 		end
-		if P.combo>P.modeData.point then
-			P.modeData.point=P.combo
+		if P.combo>P.modeData.maxCombo then
+			P.modeData.maxCombo=P.combo
 		end
 		if P.stat.row>=100 then
 			P:win("finish")
@@ -20,6 +21,7 @@ return{
 	color=COLOR.green,
 	env={
 		drop=30,lock=60,infHold=true,
+		task=function(P)P.modeData.maxCombo=0 end,
 		dropPiece=check_c4w,
 		freshLimit=15,ospin=false,
 		bg="rgb",bgm="oxygen",
@@ -53,11 +55,11 @@ return{
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.combo,69,310)
-		mStr(P.modeData.point,69,400)
+		mStr(P.modeData.maxCombo,69,400)
 		mText(drawableText.combo,69,358)
 		mText(drawableText.maxcmb,69,450)
 	end,
-	score=function(P)return{min(P.modeData.point,100),P.stat.time}end,
+	score=function(P)return{math.min(P.modeData.maxCombo,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Combo   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)

@@ -1,6 +1,4 @@
 local gc=love.graphics
-
-local int=math.floor
 local sin,log=math.sin,math.log10
 local format=string.format
 
@@ -251,7 +249,7 @@ function scene.draw()
 			if M.sel>0 then
 				_=M.color
 				gc.setColor(_[1],_[2],_[3],T)
-				mStr(M.id,810+M.no%8*60,560+int(M.no/8)*45)
+				mStr(M.id,810+M.no%8*60,560+math.floor(M.no/8)*45)
 			end
 		end
 	end

@@ -1,5 +1,3 @@
-local int=math.floor
-
 local function notAir(L)
 	for i=1,10 do
 		if L[i]>0 then return true end
@@ -29,15 +27,16 @@ local function setField(P,page)
 end
 local function checkClear(P)
 	if P.garbageBeneath==0 then
-		P.modeData.point=P.modeData.point+1
-		if FIELD[P.modeData.point+1]then
+		local D=P.modeData
+		D.finished=D.finished+1
+		if FIELD[D.finished+1]then
 			P.waiting=26
 			for _=#P.field,1,-1 do
 				FREEROW.discard(P.field[_])
 				FREEROW.discard(P.visTime[_])
 				P.field[_],P.visTime[_]=nil
 			end
-			setField(P,P.modeData.point+1)
+			setField(P,D.finished+1)
 			SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.6,.8,.6)
 			SFX.play("blip_1")
 		else
@@ -69,7 +68,7 @@ return{
 			PLY.newAIPlayer(2,AIBUILDER("9S",2*AIlevel))
 		elseif AItype=="CC"then
 			ENV.target=nil
-			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,int(AIlevel*.5+1),true,20000+5000*AIlevel))
+			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
 
 		for _,P in next,PLAYERS.alive do
@@ -78,11 +77,11 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(55)
-		if P.gameEnv.target>1e10 then
+		if P.modeData.target>1e10 then
 			mStr(P.stat.row,69,225)
 			mText(drawableText.line,69,290)
 		else
-			local R=P.gameEnv.target-P.stat.row
+			local R=P.modeData.target-P.stat.row
 			mStr(R>=0 and R or 0,69,240)
 		end
 	end,

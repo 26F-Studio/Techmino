@@ -3,7 +3,7 @@ return{
 	env={
 		drop=20,lock=60,
 		fall=20,
-		target=100,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
 		freshLimit=15,
 		ospin=false,
 		bg="rgb",bgm="truth",

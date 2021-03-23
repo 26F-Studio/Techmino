@@ -172,7 +172,6 @@ CUSTOMENV={--gameEnv for cutsom game
 	easyFresh=true,
 	deepDrop=false,
 	visible="show",
-	target=1e99,
 	freshLimit=1e99,
 
 

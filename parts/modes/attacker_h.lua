@@ -12,23 +12,23 @@ return{
 					local p=#P.atkBuffer+1
 					local B,D=P.atkBuffer,P.modeData
 					local t
-					if D.event<20 then
-						t=1500-30*D.event--1500~900
+					if D.wave<20 then
+						t=1500-30*D.wave--1500~900
 						B[p]=	{line=generateLine(P:RND(4,7)),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=3}
 						B[p+1]=	{line=generateLine(P:RND(3,8)),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
 					else
-						t=900-10*(D.event-20)--900~600
+						t=900-10*(D.wave-20)--900~600
 						B[p]=	{line=generateLine(P:RND(10)),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=4}
 						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=8,countdown=t,cd0=t,time=0,sent=false,lv=5}
 					end
 					B.sum=B.sum+22
 					P.stat.recv=P.stat.recv+22
-					D.event=D.event+1
-					if D.event%10==0 then
-						if D.event==20 then
+					D.wave=D.wave+1
+					if D.wave%10==0 then
+						if D.wave==20 then
 							P:showTextF(text.great,0,-140,100,"appear",.6)
 							P.gameEnv.pushSpeed=3
-						elseif D.event==50 then
+						elseif D.wave==50 then
 							P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
 						end
 					end
@@ -43,16 +43,16 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(55)
-		mStr(P.modeData.event,69,200)
+		mStr(P.modeData.wave,69,200)
 		mStr("22",69,320)
 		mText(drawableText.wave,69,260)
 		mText(drawableText.nextWave,69,380)
 	end,
-	score=function(P)return{P.modeData.event,P.stat.time}end,
+	score=function(P)return{P.modeData.wave,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local W=P.modeData.event
+		local W=P.modeData.wave
 		return
 		W>=50 and 5 or
 		W>=40 and 4 or

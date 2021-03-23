@@ -873,7 +873,7 @@ function draw.small(P)
 		if P.result then
 			gc_setColor(1,1,1,min(P.endCounter,60)*.01)
 			setFont(20)mStr(P.result,32,47)
-			setFont(15)mStr(P.modeData.event,30,82)
+			setFont(15)mStr(P.modeData.place,30,82)
 		end
 		gc_pop()
 		gc.setCanvas()

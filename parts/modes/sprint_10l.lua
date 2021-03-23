@@ -2,7 +2,7 @@ return{
 	color=COLOR.cyan,
 	env={
 		drop=60,lock=60,
-		target=10,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=10 then P:win("finish")end end,
 		bg="bg2",bgm="race",
 	},
 	load=function()

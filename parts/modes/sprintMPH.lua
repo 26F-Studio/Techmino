@@ -4,7 +4,7 @@ return{
 		drop=60,lock=60,
 		nextCount=0,holdCount=0,
 		sequence="rnd",
-		target=40,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
 		bg="aura",bgm="waterfall",
 	},
 	load=function()

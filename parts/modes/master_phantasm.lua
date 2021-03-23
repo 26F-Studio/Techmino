@@ -9,9 +9,10 @@ return{
 		wait=10,fall=10,
 		nextCount=2,
 		sequence="his4",
-		target=12,dropPiece=function(P)
-			local p=P.modeData.point+P.lastPiece.row
-			if p>=P.gameEnv.target then
+		task=function(P)P.modeData.target=12 end,
+		dropPiece=function(P)
+			local p=P.modeData.pt+P.lastPiece.row
+			if p>=P.modeData.target then
 				local ENV=P.gameEnv
 				local T=ENV.target
 				--Stage 1: clear 3 techrash
@@ -136,7 +137,7 @@ return{
 					p=260
 				end
 			end
-			P.modeData.point=p
+			P.modeData.pt=p
 		end,
 		mission={4,4,4,64},
 		missionKill=true,
@@ -149,15 +150,15 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(P.modeData.point,69,320)
-		mStr(P.gameEnv.target,69,370)
+		mStr(P.modeData.pt,69,320)
+		mStr(P.modeData.target,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
-	score=function(P)return{P.result=="WIN"and 260 or P.modeData.point,P.stat.time}end,
+	score=function(P)return{P.result=="WIN"and 260 or P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local p=P.modeData.point
+		local p=P.modeData.pt
 		return
 		P.result=="WIN"and 5 or
 		p>=226 and 4 or

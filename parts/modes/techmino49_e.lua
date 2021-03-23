@@ -60,7 +60,7 @@ return{
 	mesDisp=function(P)
 		setFont(35)
 		mStr(#PLAYERS.alive.."/49",69,175)
-		mStr(P.modeData.point,80,215)
+		mStr(P.modeData.ko,80,215)
 		gc.draw(drawableText.ko,23,225)
 		setFont(20)
 		gc.setColor(1,.5,0,.6)
@@ -72,11 +72,11 @@ return{
 			gc.draw(IMG.badgeIcon,16*i+12,260)
 		end
 	end,
-	score=function(P)return{P.modeData.event,P.modeData.point}end,
+	score=function(P)return{P.modeData.place,P.modeData.ko}end,
 	scoreDisp=function(D)return"NO."..D[1].."   KO:"..D[2]end,
 	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]>b[2]end,
 	getRank=function(P)
-		local R=P.modeData.event
+		local R=P.modeData.place
 		return
 		R==1 and 5 or
 		R<=3 and 4 or

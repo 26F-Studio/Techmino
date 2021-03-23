@@ -5,7 +5,7 @@ return{
 		drop=20,lock=60,
 		sequence="bag",
 		seqData={1,1,2,2,3,3,4,4,5,5,6,6},
-		target=100,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
 		nextCount=3,
 		ospin=false,
 		freshLimit=15,

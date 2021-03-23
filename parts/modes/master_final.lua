@@ -1,21 +1,19 @@
 local gc=love.graphics
-local int=math.floor
 local function score(P)
-	local MD=P.modeData
+	local D=P.modeData
 
 	local c=#P.clearedRow
-	if c==0 and MD.point%100==99 then return end
+	if c==0 and D.pt%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
 	elseif P.combo>3 then s=s+1
 	end
-	MD.point=MD.point+s
+	D.pt=D.pt+s
 
-	if MD.point%100==99 then SFX.play("blip_1")end
-	if int(MD.point*.01)>MD.event then
-		--Level up!
-		s=MD.event+1
-		MD.event=s
+	if D.pt%100==99 then
+		SFX.play("blip_1")
+	elseif D.pt>=D.target then--Level up!
+		s=D.target/100
 		local E=P.gameEnv
 		if s<4 then
 			P:showTextF(text.stage:gsub("$1",s),0,-120,80,"fly")
@@ -23,6 +21,7 @@ local function score(P)
 			if s~=1 then E.lock=E.lock-1 end
 			if s~=2 then E.wait=E.wait-1 end
 			if s~=3 then E.fall=E.fall-1 end
+			D.target=D.target+100
 		elseif s<10 then
 			P:showTextF(text.stage:gsub("$1",s),0,-120,60,"fly",1.26)
 			if s==4 or s==7 then E.das=E.das-1 end
@@ -31,8 +30,9 @@ local function score(P)
 			elseif s==1 then E.wait=E.wait-1
 			elseif s==2 then E.fall=E.fall-1
 			end
+			D.target=D.target+100
 		else
-			MD.point,MD.event=1000,9
+			D.pt=1000
 			P:win("finish")
 		end
 		SFX.play("reach")
@@ -47,6 +47,10 @@ return{
 		drop=0,lock=12,
 		wait=10,fall=10,
 		dropPiece=score,
+		task=function(P)
+			P.modeData.pt=0
+			P.modeData.target=100
+		end,
 		freshLimit=15,
 		easyFresh=false,bone=true,
 		bg="lightning",bgm="distortion",
@@ -57,15 +61,15 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(P.modeData.point,69,320)
-		mStr((P.modeData.event+1)*100,69,370)
+		mStr(P.modeData.pt,69,320)
+		mStr(P.modeData.target,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
-	score=function(P)return{P.modeData.point,P.stat.time}end,
+	score=function(P)return{P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local S=P.modeData.point
+		local S=P.modeData.pt
 		return
 		S>=1000 and 5 or
 		S>=800 and 4 or

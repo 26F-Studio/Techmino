@@ -2,7 +2,7 @@ local function check_tsd(P)
 	local C=P.lastPiece
 	if C.row>0 then
 		if C.id==5 and C.row==2 and C.spin then
-			P.modeData.event=P.modeData.event+1
+			P.modeData.tsd=P.modeData.tsd+1
 		else
 			P:lose()
 		end
@@ -23,14 +23,14 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(65)
-		mStr(P.modeData.event,69,250)
+		mStr(P.modeData.tsd,69,250)
 		mText(drawableText.tsd,69,315)
 	end,
-	score=function(P)return{P.modeData.event,P.stat.time}end,
+	score=function(P)return{P.modeData.tsd,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."TSD   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local T=P.modeData.event
+		local T=P.modeData.tsd
 		return
 		T>=20 and 5 or
 		T>=18 and 4 or

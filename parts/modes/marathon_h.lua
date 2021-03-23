@@ -1,20 +1,4 @@
 local gc=love.graphics
-local function check(P)
-	if P.stat.row>=P.gameEnv.target then
-		local T=P.gameEnv.target
-		if T==50 then
-			P.gameEnv.drop=.25
-			P.gameEnv.target=100
-			SFX.play("reach")
-		elseif T==100 then
-			P:set20G(true)
-			P.gameEnv.target=200
-			SFX.play("reach")
-		else
-			P:win("finish")
-		end
-	end
-end
 
 return{
 	color=COLOR.magenta,
@@ -22,7 +6,24 @@ return{
 		noTele=true,
 		mindas=7,minarr=1,minsdarr=1,
 		drop=.5,wait=8,fall=20,
-		target=50,dropPiece=check,
+		task=function(P)P.modeData.target=50 end,
+		dropPiece=function(P)
+			if P.stat.row>=P.modeData.target then
+				local T=P.modeData.target
+				if T==50 then
+					P.gameEnv.drop=.25
+					P.modeData.target=100
+					SFX.play("reach")
+				elseif T==100 then
+					P:set20G(true)
+					P.modeData.target=200
+					SFX.play("reach")
+				else
+					P.stat.row=200
+					P:win("finish")
+				end
+			end
+		end,
 		bg="cubes",bgm="push",
 	},
 	pauseLimit=true,
@@ -33,7 +34,7 @@ return{
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.stat.row,69,320)
-		mStr(P.gameEnv.target,69,370)
+		mStr(P.modeData.target,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,

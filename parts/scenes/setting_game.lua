@@ -1,5 +1,4 @@
 local gc=love.graphics
-local int=math.floor
 
 local scene={}
 
@@ -12,7 +11,7 @@ end
 
 function scene.draw()
 	local t=TIME()
-	local b=int(t*2)%16+1
+	local b=math.floor(t*2)%16+1
 	gc.setColor(1,1,1)
 	gc.draw(SKIN.curText[b],710,540,t%6.28319,2,nil,15,15)
 	gc.setColor(1,1,1,t*2%1)

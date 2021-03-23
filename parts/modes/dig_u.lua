@@ -8,12 +8,12 @@ return{
 				YIELD()
 				if P.control and SCN.cur=="play"then
 					local D=P.modeData
-					D.counter=D.counter+1
-					if D.counter>=math.max(30,80-.3*D.event)then
-						P:garbageRise(20+D.event%5,1,P:getHolePos())
+					D.timer=D.timer+1
+					if D.timer>=math.max(30,80-.3*D.wave)then
+						P:garbageRise(20+D.wave%5,1,P:getHolePos())
 						P.stat.recv=P.stat.recv+1
-						D.counter=0
-						D.event=D.event+1
+						D.timer=0
+						D.wave=D.wave+1
 					end
 				end
 			end
@@ -26,14 +26,14 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(65)
-		mStr(P.modeData.event,69,310)
+		mStr(P.modeData.wave,69,310)
 		mText(drawableText.wave,69,375)
 	end,
-	score=function(P)return{P.modeData.event,P.stat.row}end,
+	score=function(P)return{P.modeData.wave,P.stat.row}end,
 	scoreDisp=function(D)return D[1].." Waves   "..D[2].." Lines"end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local W=P.modeData.event
+		local W=P.modeData.wave
 		return
 		W>=150 and 5 or
 		W>=110 and 4 or

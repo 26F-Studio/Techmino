@@ -3,22 +3,20 @@ local rush_lock={20,18,16,15,14}
 local rush_wait={12,10,9,8,7}
 local rush_fall={18,16,14,13,12}
 local function score(P)
-	local MD=P.modeData
+	local D=P.modeData
 
 	local c=#P.clearedRow
-	if c==0 and MD.point%100==99 then return end
+	if c==0 and D.pt%100==99 then return end
 	local s=c<3 and c+1 or c==3 and 5 or 7
 	if P.combo>7 then s=s+2
 	elseif P.combo>3 then s=s+1
 	end
-	MD.point=MD.point+s
+	D.pt=D.pt+s
 
-	if MD.point%100==99 then
+	if D.pt%100==99 then
 		SFX.play("blip_1")
-	elseif MD.point>=100*(MD.event+1)then
-		--Level up!
-		s=MD.event+1
-		MD.event=s
+	elseif D.pt>=D.target then--Level up!
+		s=D.target/100
 		local E=P.gameEnv
 		BG.set(s==1 and"bg1"or s==2 and"bg2"or s==3 and"rainbow"or "rainbow2")
 		E.lock=rush_lock[s]
@@ -26,15 +24,16 @@ local function score(P)
 		E.fall=rush_fall[s]
 		E.das=10-s
 		if s==2 then
-			P.gameEnv.arr=2
+			E.arr=2
 		elseif s==4 then
-			P.gameEnv.bone=true
+			E.bone=true
 		end
 
 		if s==5 then
-			MD.point,MD.event=500,4
+			D.pt=500
 			P:win("finish")
 		else
+			D.target=D.target+100
 			P:showTextF(text.stage:gsub("$1",s),0,-120,80,"fly")
 		end
 		SFX.play("reach")
@@ -51,6 +50,10 @@ return{
 		wait=rush_wait[1],
 		fall=rush_fall[1],
 		dropPiece=score,
+		task=function(P)
+			P.modeData.pt=0
+			P.modeData.target=100
+		end,
 		freshLimit=15,
 		bg="bg1",bgm="secret8th",
 	},
@@ -60,17 +63,17 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(P.modeData.point,69,320)
-		mStr((P.modeData.event+1)*100,69,370)
+		mStr(P.modeData.pt,69,320)
+		mStr(P.modeData.target,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
-	score=function(P)return{P.modeData.point,P.stat.time}end,
+	score=function(P)return{P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..TIMESTR(D[2])end,
 	comp=function(a,b)
 		return a[1]>b[1]or(a[1]==b[1]and a[2]<b[2])
 	end,
 	getRank=function(P)
-		local S=P.modeData.point
+		local S=P.modeData.pt
 		if S==500 then
 			local T=P.stat.time
 			return

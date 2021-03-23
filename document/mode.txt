@@ -69,7 +69,6 @@
 			fineKill:是否开启非极简即死
 			b2bKill:是否开启断b2b即死
 			missionKill:是否开启强制任务
-			target:目标行数，如果dropPiece使用了默认的几个通用通关函数或者自己有一个目标数字就要写
 			dropPiece:放一块后要执行的函数，输入玩家对象
 
 			bg:背景，只能填写内置背景的名字
@@ -116,7 +115,7 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
 	color=COLOR.green,--颜色
 	env={--模式环境变量
 		drop=60,lock=60,
-		target=40,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=40 then P:win("finish")end end,
 		bg="bg2",bgm="race",
 	},
 	load=function()--生成玩家

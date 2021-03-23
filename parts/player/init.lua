@@ -10,7 +10,14 @@ local PLY={
 	draw=require"parts.player.draw",
 }
 
---------------------------<Lib Func>--------------------------
+--------------------------<Libs>--------------------------
+local modeDataMeta do
+	local rawset=rawset
+	modeDataMeta={
+		__index=function(self,k)rawset(self,k,0)return 0 end,
+		__newindex=function(self,k,v)rawset(self,k,v)end,
+	}
+end
 local function getNewStatTable()
 	local T={
 		time=0,frame=0,score=0,
@@ -107,7 +114,8 @@ local function newEmptyPlayer(id,mini)
 	P.timing=false
 	P.stat=getNewStatTable()
 
-	P.modeData={point=0,event=0,counter=0}--Data use by mode
+	P.modeData=setmetatable({},modeDataMeta)--Data use by mode
+
 	P.keyTime={}P.keySpeed=0
 	P.dropTime={}P.dropSpeed=0
 	for i=1,10 do P.keyTime[i]=-1e99 end
@@ -320,20 +328,9 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.ghost==0 then	ENV.ghost=false	end
 	if ENV.center==0 then	ENV.center=false end
 end
---------------------------</Lib Func>--------------------------
+--------------------------</Libs>--------------------------
 
 --------------------------<Public>--------------------------
-function PLY.check_lineReach(P)
-	if P.stat.row>=P.gameEnv.target then
-		P:win("finish")
-	end
-end
-function PLY.check_attackReach(P)
-	if P.stat.atk>=P.gameEnv.target then
-		P:win("finish")
-	end
-end
-
 local DemoEnv={
 	face={0,0,0,0,0,0,0},
 	das=10,arr=2,sddas=2,sdarr=2,

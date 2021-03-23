@@ -4,9 +4,8 @@ return{
 	env={
 		drop=30,lock=45,
 		visible="easy",
-		dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=20 then P:win("finish")end end,
 		freshLimit=10,
-		target=200,
 		bg="glow",bgm="reason",
 	},
 	pauseLimit=true,

@@ -1,5 +1,3 @@
-local int=math.floor
-
 local scene={}
 
 local mini,b2b,b3b,pc
@@ -28,7 +26,7 @@ function scene.keyDown(key)
 		elseif b3b then VOC.play("b3b",CHN)
 		end
 		if key>=10 then
-			VOC.play(blockName[int(key/10)].."spin",CHN)
+			VOC.play(blockName[math.floor(key/10)].."spin",CHN)
 		end
 		if lineCount[key%10]then VOC.play(lineCount[key%10],CHN)end
 		if pc then VOC.play("perfect_clear",CHN)end

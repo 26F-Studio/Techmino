@@ -3,7 +3,7 @@ return{
 	env={
 		drop=60,lock=180,
 		keyCancel={3,4,5},
-		target=40,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
 		bg="aura",bgm="waterfall",
 	},
 	load=function()

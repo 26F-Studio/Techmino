@@ -1,4 +1,3 @@
-local int=math.floor
 local pc_drop={50,45,40,35,30,26,22,18,15,12}
 local pc_lock={55,50,46,42,39,36,33,31,29,27}
 local pc_fall={18,16,14,12,10,9,8,7,6,5}
@@ -33,7 +32,7 @@ local function check(P)
 		P:newTask(task_PC)
 
 		local s=P.stat.pc*.25
-		if int(s)==s and s>0 then
+		if math.floor(s)==s and s>0 then
 			P.gameEnv.drop=pc_drop[s]or 10
 			P.gameEnv.lock=pc_lock[s]or 25
 			P.gameEnv.fall=pc_fall[s]or 4

@@ -2,8 +2,7 @@ return{
 	color=COLOR.lGrey,
 	env={
 		drop=60,lock=60,
-		target=1000,dropPiece=PLY.check_lineReach,
-		bg="rainbow",bgm="push",
+		dropPiece=function(P)if P.stat.row>=1000 then P:win("finish")end end,		bg="rainbow",bgm="push",
 	},
 	load=function()
 		PLY.newPlayer(1)

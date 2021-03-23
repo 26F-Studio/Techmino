@@ -92,7 +92,7 @@ return{
 				end
 			end
 		end,
-		target=100,dropPiece=PLY.check_lineReach,
+		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
 		nextCount=1,holdCount=0,
 		ospin=false,
 		freshLimit=15,

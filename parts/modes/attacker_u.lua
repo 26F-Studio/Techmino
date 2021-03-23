@@ -11,12 +11,12 @@ return{
 					local p=#P.atkBuffer+1
 					local B,D=P.atkBuffer,P.modeData
 					local s
-					local t=800-10*D.event--800~700~600~500
-					if D.event<10 then
+					local t=800-10*D.wave--800~700~600~500
+					if D.wave<10 then
 						B[p]=	{line=generateLine(P:RND(5,6)),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
 						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
 						s=20
-					elseif D.event<20 then
+					elseif D.wave<20 then
 						B[p]=	{line=generateLine(P:RND(3,8)),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
 						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
 						s=24
@@ -27,15 +27,15 @@ return{
 					end
 					B.sum=B.sum+s
 					P.stat.recv=P.stat.recv+s
-					D.event=D.event+1
-					if D.event%10==0 then
-						if D.event==10 then
+					D.wave=D.wave+1
+					if D.wave%10==0 then
+						if D.wave==10 then
 							P:showTextF(text.great,0,-140,100,"appear",.6)
 							P.gameEnv.pushSpeed=4
-						elseif D.event==20 then
+						elseif D.wave==20 then
 							P:showTextF(text.awesome,0,-140,100,"appear",.6)
 							P.gameEnv.pushSpeed=5
-						elseif D.event==30 then
+						elseif D.wave==30 then
 							P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
 						end
 					end
@@ -50,20 +50,16 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(55)
-		mStr(P.modeData.event,69,200)
-		mStr(
-			P.modeData.event<10 and 20
-			or P.modeData.event<20 and 24
-			or 28
-		,69,320)
+		mStr(P.modeData.wave,69,200)
+		mStr(20+4*math.min(math.floor(P.modeData.wave/10),2),69,320)
 		mText(drawableText.wave,69,260)
 		mText(drawableText.nextWave,69,380)
 	end,
-	score=function(P)return{P.modeData.event,P.stat.time}end,
+	score=function(P)return{P.modeData.wave,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Waves   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
-		local W=P.modeData.event
+		local W=P.modeData.wave
 		return
 		W>=50 and 5 or
 		W>=40 and 4 or

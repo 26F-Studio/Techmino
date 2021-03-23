@@ -1677,7 +1677,7 @@ function Player.win(P,result)
 	P:die()
 	P.result="WIN"
 	if GAME.modeEnv.royaleMode then
-		P.modeData.event=1
+		P.modeData.place=1
 		P:changeAtk()
 	end
 	if P.type=="human"then
@@ -1750,7 +1750,7 @@ function Player.lose(P,force)
 	P.result="K.O."
 	if GAME.modeEnv.royaleMode then
 		P:changeAtk()
-		P.modeData.event=#PLAYERS.alive+1
+		P.modeData.place=#PLAYERS.alive+1
 		P.strength=0
 		if P.lastRecv then
 			local A,i=P,0
@@ -1761,7 +1761,7 @@ function Player.lose(P,force)
 				if P.id==1 or A.id==1 then
 					P.killMark=A.id==1
 				end
-				A.modeData.point,A.badge=A.modeData.point+1,A.badge+P.badge+1
+				A.modeData.ko,A.badge=A.modeData.ko+1,A.badge+P.badge+1
 				for j=A.strength+1,4 do
 					if A.badge>=royaleData.powerUp[j]then
 						A.strength=j
@@ -1782,7 +1782,7 @@ function Player.lose(P,force)
 		if #PLAYERS.alive==royaleData.stage[GAME.stage]then
 			royaleLevelup()
 		end
-		P:showTextF(P.modeData.event,0,120,60,"appear",.26,.9)
+		P:showTextF(P.modeData.place,0,120,60,"appear",.26,.9)
 	end
 	P.gameEnv.keepVisible=P.gameEnv.visible~="show"
 	P:showTextF(text.gameover,0,0,60,"appear",.26,.9)
@@ -1791,7 +1791,7 @@ function Player.lose(P,force)
 		SFX.play("fail")
 		VOC.play("lose")
 		if GAME.modeEnv.royaleMode then
-			if P.modeData.event==2 then
+			if P.modeData.place==2 then
 				BGM.play("hay what kind of feeling")
 			else
 				BGM.play("end")

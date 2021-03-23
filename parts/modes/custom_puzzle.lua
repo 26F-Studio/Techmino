@@ -1,7 +1,7 @@
 local gc=love.graphics
-local int=math.floor
 local function puzzleCheck(P)
-	local F=FIELD[P.modeData.point+1]
+	local D=P.modeData
+	local F=FIELD[D.finished+1]
 	for y=1,20 do
 		local L=P.field[y]
 		for x=1,10 do
@@ -14,8 +14,8 @@ local function puzzleCheck(P)
 			end
 		end
 	end
-	P.modeData.point=P.modeData.point+1
-	if FIELD[P.modeData.point+1]then
+	D.finished=D.finished+1
+	if FIELD[D.finished+1]then
 		P.waiting=26
 		for _=#P.field,1,-1 do
 			FREEROW.discard(P.field[_])
@@ -24,9 +24,9 @@ local function puzzleCheck(P)
 		end
 		SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.3,1,.3)
 		SFX.play("reach")
-		P.modeData.event=0
+		D.showMark=0
 	else
-		P.modeData.event=1
+		D.showMark=1
 		P:win("finish")
 	end
 end
@@ -34,7 +34,7 @@ end
 return{
 	color=COLOR.white,
 	env={
-		fkey1=function(P)P.modeData.event=1-P.modeData.event end,
+		fkey1=function(P)P.modeData.showMark=1-P.modeData.showMark end,
 		dropPiece=puzzleCheck,
 	},
 	load=function()
@@ -44,11 +44,9 @@ return{
 		local AItype=ENV.opponent:sub(1,2)
 		local AIlevel=tonumber(ENV.opponent:sub(-1))
 		if AItype=="9S"then
-			ENV.target=nil
 			PLY.newAIPlayer(2,AIBUILDER("9S",2*AIlevel))
 		elseif AItype=="CC"then
-			ENV.target=nil
-			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,int(AIlevel*.5+1),true,20000+5000*AIlevel))
+			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
 	end,
 	mesDisp=function(P)
@@ -56,9 +54,9 @@ return{
 		setFont(55)
 		mStr(P.stat.row,69,225)
 		mText(drawableText.line,69,290)
-		if P.modeData.event==0 then
+		if P.modeData.showMark==0 then
 			local mark=TEXTURE.puzzleMark
-			local F=FIELD[P.modeData.point+1]
+			local F=FIELD[P.modeData.finished+1]
 			for y=1,20 do for x=1,10 do
 				local T=F[y][x]
 				if T~=0 then

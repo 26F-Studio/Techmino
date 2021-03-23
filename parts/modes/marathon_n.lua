@@ -1,19 +1,21 @@
 local gc=love.graphics
-local dropSpeed={[0]=60,50,40,30,24,18,14,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
+local dropSpeed={50,40,30,24,18,14,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{
 	color=COLOR.green,
 	env={
 		noTele=true,
-		wait=8,fall=20,
+		drop=60,wait=8,fall=20,
+		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
-			local T=P.modeData.point+10
+			local T=P.modeData.target
 			if P.stat.row>=T then
 				if T==200 then
 					P:win("finish")
 				else
+					T=T+10
 					P.gameEnv.drop=dropSpeed[T/10]
-					P.modeData.point=T
+					P.modeData.target=T
 					SFX.play("reach")
 				end
 			end
@@ -29,7 +31,7 @@ return{
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.stat.row,69,320)
-		mStr(P.modeData.point+10,69,370)
+		mStr(P.modeData.target+10,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,

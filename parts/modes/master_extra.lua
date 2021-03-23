@@ -1,4 +1,3 @@
-local int,min=math.floor,math.min
 local sectionName={"D","C","B","A","A+","S-","S","S+","SS","SS","SS","U","U","U","X"}
 local function score(P)
 	--If Less then MM
@@ -6,8 +5,8 @@ local function score(P)
 		local R=#P.clearedRow
 		if R>0 then
 			if R==4 then R=10 end--Techrash bonus
-			P.modeData.rankScore=min(P.modeData.rankScore+R,120)
-			P.modeData.rankName=sectionName[int(P.modeData.rankScore/10)+1]
+			P.modeData.rankScore=math.min(P.modeData.rankScore+R,120)
+			P.modeData.rankName=sectionName[math.floor(P.modeData.rankScore/10)+1]
 		end
 	end
 end
@@ -29,8 +28,8 @@ return{
 			while true do
 				YIELD()
 				if P.stat.frame>=3600 then
-					P.modeData.rankScore=min(P.modeData.rankScore+16,140)
-					P.modeData.rankName=sectionName[int(P.modeData.rankScore*.1)+1]
+					P.modeData.rankScore=math.min(P.modeData.rankScore+16,140)
+					P.modeData.rankName=sectionName[math.floor(P.modeData.rankScore*.1)+1]
 					P:win("finish")
 					return
 				end
@@ -53,7 +52,7 @@ return{
 		mStr(P.stat.clears[4],69,340)
 	end,
 	score=function(P)return{P.modeData.rankScore,P.stat.score}end,
-	scoreDisp=function(D)return sectionName[int(D[1]*.1)+1].."   "..D[2]end,
+	scoreDisp=function(D)return sectionName[math.floor(D[1]*.1)+1].."   "..D[2]end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]>b[2]end,
 	getRank=function(P)
 		P=P.modeData.rankScore

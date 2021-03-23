@@ -1,6 +1,5 @@
 local gc=love.graphics
 local kb=love.keyboard
-local int=math.floor
 local ins,rem=table.insert,table.remove
 local C=COLOR
 
@@ -256,7 +255,7 @@ do--commands.help(arg)
 		--help or help [page]
 		local page=arg==""and 1 or tonumber(arg)
 		if page then
-			if page==int(page)and page>=1 and page<=maxPage then
+			if page==math.floor(page)and page>=1 and page<=maxPage then
 				log"Use help [page] to view more commands,"
 				log"or help [command_name] for details of a command."
 				log""
@@ -366,7 +365,7 @@ commands.bye=backScene
 --Game commands
 function commands.fn(n)
 	if tonumber(n)then
-		n=int(tonumber(n))
+		n=math.floor(tonumber(n))
 		if n>=1 and n<=12 then
 			love.keypressed("f"..n)
 			return

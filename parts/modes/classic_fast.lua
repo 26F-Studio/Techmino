@@ -15,13 +15,15 @@ return{
 		RS="Classic",
 		freshLimit=0,
 		face={0,0,2,2,2,0,0},
-		target=10,dropPiece=function(P)
-			if P.stat.row>=P.gameEnv.target then
-				P.gameEnv.target=P.gameEnv.target+10
-				if P.gameEnv.target==110 then
+		task=function(P)P.modeData.target=10 end,
+		dropPiece=function(P)
+			local D=P.modeData
+			if P.stat.row>=D.target then
+				D.target=D.target+10
+				if D.target==110 then
 					P.gameEnv.drop,P.gameEnv.lock=2,2
 					SFX.play("blip_1")
-				elseif P.gameEnv.target==200 then
+				elseif D.target==200 then
 					P.gameEnv.drop,P.gameEnv.lock=1,1
 					SFX.play("blip_1")
 				else
@@ -37,12 +39,12 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(75)
-		local r=P.gameEnv.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or r==22 and"00"or r==23 and"0a"or format("%x",r*10-220),69,210)
+		local r=P.modeData.target*.1
+		mStr(r<11 and 18 or r<22 and r+8 or format("%02x",r*10-220),69,210)
 		mText(drawableText.speedLV,69,290)
 		setFont(45)
 		mStr(P.stat.row,69,320)
-		mStr(P.gameEnv.target,69,370)
+		mStr(P.modeData.target,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,

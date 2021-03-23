@@ -1,5 +1,4 @@
 local gc=love.graphics
-local int=math.floor
 
 local scene={}
 
@@ -76,7 +75,7 @@ end
 
 local function sliderShow(S)
 	S=S.disp()
-	return S.."F "..int(S*16.67).."ms"
+	return S.."F "..math.floor(S*16.67).."ms"
 end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=80,	y=50,font=70,align="L"},

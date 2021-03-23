@@ -54,7 +54,7 @@ return{
 	fine=false,fineKill=false,
 	b2bKill=false,
 	missionKill=false,
-	target=1e99,dropPiece=NULL,
+	dropPiece=NULL,
 	mindas=0,minarr=0,minsdarr=0,
 
 	bg="none",bgm="race",
