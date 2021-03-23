@@ -125,11 +125,14 @@ local sequenceModes={
 		end
 		while true do
 			while #P.nextQueue<6 do
-				if not(seq[1]or P.cur or P.holdQueue[1])then
-					P:lose(true)
+				if seq[1]then
+					P:getNext(rem(seq))
+				else
+					if not(P.cur or P.nextQueue[1]or P.holdQueue[1])then
+						P:lose(true)
+					end
 					break
 				end
-				P:getNext(rem(seq))
 			end
 			yield()
 		end
