@@ -189,12 +189,12 @@ return{
 		"Art: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
 		"Music: MrZ, [T0722]",
 		"Voice & Sound: Miya, Naki, MrZ",
-		"Test: 思竣  Performance: 模电, HBM",
+		"Performance: 模电, HBM",
 		"Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Special Thanks:",
-		"User670, Big_True, Flyz, Farter, T9972",
-		"蕴空之灵, Teatube, [All test staff]",
+		"User670, Big_True, Flyz, Farter, 思竣",
+		"T9972, 蕴空之灵, Teatube, [All test staff]",
 	},
 	used=[[
 	Ferramentas usadas:
