@@ -1610,26 +1610,27 @@ local function gameOver()--Save record
 				GAME.rank=R
 			end
 			if scoreValid()and M.score then
-				local r=RANKS[M.name]--Old rank
-				local needSave
-				if R>r then
-					RANKS[M.name]=R
-					needSave=true
-				end
-				if R>0 then
-					if M.unlock then
-						for i=1,#M.unlock do
-							local m=M.unlock[i]
-							local n=MODES[m].name
-							if not RANKS[n]then
-								RANKS[n]=MODES[m].getRank and 0 or 6
-								needSave=true
+				if RANKS[M.name]then--Old rank exist
+					local needSave
+					if R>RANKS[M.name]then
+						RANKS[M.name]=R
+						needSave=true
+					end
+					if R>0 then
+						if M.unlock then
+							for i=1,#M.unlock do
+								local m=M.unlock[i]
+								local n=MODES[m].name
+								if not RANKS[n]then
+									RANKS[n]=MODES[m].getRank and 0 or 6
+									needSave=true
+								end
 							end
 						end
 					end
-				end
-				if needSave then
-					FILE.save(RANKS,"conf/unlock","q")
+					if needSave then
+						FILE.save(RANKS,"conf/unlock","q")
+					end
 				end
 				local D=M.score(P)
 				local L=M.records
