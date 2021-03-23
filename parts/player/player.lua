@@ -1123,9 +1123,14 @@ do--Player.drop(P)--Place piece
 					SFX.play("finesseError_long",.6)
 				elseif ENV.fine then
 					SFX.play("finesseError",.8)
+				else
+					SFX.fieldPlay("lock",nil,P)
 				end
 			end
+		elseif P.sound then
+			SFX.fieldPlay("lock",nil,P)
 		end
+
 		if finePts<=1 then
 			P.finesseCombo=0
 		else
@@ -1133,7 +1138,6 @@ do--Player.drop(P)--Place piece
 			if P.finesseCombo>2 then
 				P.finesseComboTime=12
 			end
-			if P.sound then SFX.fieldPlay("lock",nil,P)end
 		end
 
 		piece.spin,piece.mini=dospin,false
