@@ -702,7 +702,7 @@ return{
 		["master_advance"]=		{"Master",			"ULTIMATE",		"For 20G pro."},
 		["master_final"]=		{"Master",			"FINAL",		"20G and beyond."},
 		["master_phantasm"]=	{"Master",			"PHANTASM",		"???"},
-		["GM"]=					{"GrandMaster",		"GM",			"An eternity shorter than an instant."},
+		["master_extra"]=		{"GrandMaster",		"EXTRA",		"An eternity shorter than an instant."},
 		["rhythm_e"]=			{"Rhythm",			"EASY",			"200-line low-bpm rhythm marathon."},
 		["rhythm_h"]=			{"Rhythm",			"HARD",			"200-line medium-bpm rhythm marathon"},
 		["rhythm_u"]=			{"Rhythm",			"ULTIMATE",		"200-line high-bpm rhythm marathon."},

@@ -615,7 +615,7 @@ return{
 		["master_beginner"]=	{"Master",			"Lunático",		"Para principiantes en 20G"},
 		["master_advance"]=		{"Master",			"Supremo",		"¡Desafío profesional de 20G!"},
 		["master_final"]=		{"Master",			"FINAL",		"El verdadero 20G Supremo: el final es inalcanzable."},
-		["GM"]=					{"GrandMaster",		"GM",			"Para ser un gran maestro, acepta este desafío"},
+		["master_extra"]=		{"GrandMaster",		"EXTRA",		"Para ser un gran maestro, acepta este desafío"},
 		-- ["rhythm_e"]=			{"Rhythm",			"EASY",			"200-line low-bpm rhythm marathon."},
 		-- ["rhythm_h"]=			{"Rhythm",			"HARD",			"200-line medium-bpm rhythm marathon"},
 		-- ["rhythm_u"]=			{"Rhythm",			"ULTIMATE",		"200-line high-bpm rhythm marathon."},

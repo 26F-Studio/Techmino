@@ -701,7 +701,7 @@ return{
 		["master_advance"]=		{"Mestre",			"ULTIMATE",		"Desafio 20G profissional!"},
 		["master_final"]=		{"Mestre",			"FINAL",		"20G: Final inalcançável!"},
 		["master_phantasm"]=	{"Mestre",			"FANTASMA",		"20G: ???"},
-		["GM"]=					{"GrandMaster",		"GM",			"Para ser um Grand Master, aceite \nesse desafio."},
+		["master_extra"]=		{"GrandMaster",		"EXTRA",		"Para ser um Grand Master, aceite \nesse desafio."},
 		-- ["rhythm_e"]=			{"Rhythm",			"EASY",			"200-line low-bpm rhythm marathon."},
 		-- ["rhythm_h"]=			{"Rhythm",			"HARD",			"200-line medium-bpm rhythm marathon"},
 		-- ["rhythm_u"]=			{"Rhythm",			"ULTIMATE",		"200-line high-bpm rhythm marathon."},

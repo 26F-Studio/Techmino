@@ -40,10 +40,10 @@ return{
 	{name="round_u",		x=-1400,y=-800,	size=40,shape=1,icon="round"},
 
 	{name="master_beginner",x=0,	y=-1000,size=40,shape=1,icon="master",	unlock={"master_advance"}},
-	{name="master_advance",	x=0,	y=-1200,size=40,shape=3,icon="master",	unlock={"master_final","GM","master_phantasm"}},
+	{name="master_advance",	x=0,	y=-1200,size=40,shape=3,icon="master",	unlock={"master_final","master_extra","master_phantasm"}},
 	{name="master_final",	x=0,	y=-1600,size=40,shape=2,icon="master"},
 	{name="master_phantasm",x=-150,	y=-1500,size=40,shape=2,icon="master"},
-	{name="GM",				x=150,	y=-1500,size=40,shape=2,icon="gm"},
+	{name="master_extra",	x=150,	y=-1500,size=40,shape=2,icon="master_ex"},
 
 	{name="rhythm_e",		x=-350,	y=-1000,size=40,shape=1,icon="rhythm",	unlock={"rhythm_h"}},
 	{name="rhythm_h",		x=-350,	y=-1200,size=40,shape=3,icon="rhythm",	unlock={"rhythm_u"}},
