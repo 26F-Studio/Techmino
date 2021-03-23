@@ -23,6 +23,7 @@ function SKIN.init(list)
 		for i=1,count do
 			gc.push()
 			gc.origin()
+			gc.setDefaultFilter("nearest","nearest")
 			gc.setColor(1,1,1)
 			SKIN.lib[i],SKIN.libMini[i]={},{}
 			local N="media/image/skin/"..list[i]..".png"
