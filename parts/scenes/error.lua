@@ -9,7 +9,7 @@ local scene={}
 
 function scene.sceneInit()
 	BGcolor=rnd()>.026 and{.3,.5,.9}or{.62,.3,.926}
-	stateInfo=SYSTEM.."-"..VERSION_NAME.."                          scene:"..SCN.cur
+	stateInfo=SYSTEM.."-"..VERSION_NAME.."                          scene:"..ERRDATA[#ERRDATA].scene
 	errorText=LOADED and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
 	errorShot,errorInfo=ERRDATA[#ERRDATA].shot,ERRDATA[#ERRDATA].mes
 	if SETTING then SFX.fplay("error",SETTING.voc*.8 or 0)end

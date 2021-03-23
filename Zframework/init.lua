@@ -380,12 +380,13 @@ function love.errorhandler(msg)
 
 	if LOADED and #ERRDATA<5 then
 		BG.set("none")
-		ERRDATA[#ERRDATA+1]={mes=err}
+		local scn=SCN and SCN.cur or"NULL"
+		ERRDATA[#ERRDATA+1]={mes=err,scene=scn}
 
 		--Write messages to log file
 		love.filesystem.append("conf/error.log",
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
-			#ERRDATA.." crash(es) "..SYSTEM.."-"..VERSION_NAME.."  scene: "..(SCN and SCN.cur or"NULL").."\n"..
+			#ERRDATA.." crash(es) "..SYSTEM.."-"..VERSION_NAME.."  scene: "..scn.."\n"..
 			table.concat(err,"\n",1,c-2).."\n\n"
 		)
 
