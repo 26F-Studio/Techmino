@@ -67,7 +67,9 @@ local function SPpath(x,y)
 end
 local function SPdraw()
 	local l=#SPlist
-	local C--color
+	if l==0 then return end
+
+	local C--pen color
 	if SPmode==0 then
 		if l<=5 then
 			local sum=0
