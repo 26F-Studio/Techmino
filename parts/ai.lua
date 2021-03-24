@@ -24,7 +24,7 @@ if type(_CC)=="table"then
 		addNext=	function(bot,id)_CC.add_next_piece_async(bot,CCblockID[id])end	,--(bot,piece)
 		update=		_CC.reset_async			,--(bot,field,b2b,combo)
 		think=		_CC.request_next_move	,--(bot)
-		getMove=	_CC.poll_next_move		,--(bot)success,dest,hold,move
+		getMove=	_CC.poll_next_move		,--(bot)success,result,dest,hold,move
 		destroy=	_CC.destroy_async		,--(bot)
 
 		setHold=	_CC.set_hold			,--(opt,bool)
@@ -36,22 +36,26 @@ if type(_CC)=="table"then
 	}
 	local CC=CC
 	function CC.updateField(P)
-		local F,i={},1
-		for y=1,#P.field do
+		local F,n={},1
+		for y=1,min(#P.field,40)do
 			for x=1,10 do
-				F[i],i=P.field[y][x]>0,i+1
+				F[n]=P.field[y][x]>0
+				n=n+1
 			end
 		end
-		while i<=400 do
-			F[i],i=false,i+1
+		while n<=400 do
+			F[n]=false
+			n=n+1
 		end
 		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
 			LOG.print("CC is dead ("..P.id..")","error")
+			P.AI_bot=nil
 		end
 	end
 	function CC.switch20G(P)
 		if not pcall(CC.destroy,P.AI_bot)then
 			LOG.print("CC is dead ("..P.id..")","error")
+			P.AI_bot=nil
 			return
 		end
 		P.AIdata._20G=true
@@ -288,7 +292,10 @@ return{
 			until not success or result==0 or result==2
 			if not success then break end
 			if result==2 then
-				ins(keys,6)
+				while true do
+					yield()
+					ins(keys,6)
+				end
 			elseif result==0 then
 				dest[5],dest[6]=dest[1][1],dest[1][2]
 				dest[7],dest[8]=dest[2][1],dest[2][2]

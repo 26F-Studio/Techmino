@@ -253,7 +253,7 @@ function Player.garbageRelease(P)--Check garbage buffer and try to release them
 			break
 		end
 	end
-	if flag and P.AI_mode=="CC"then CC.updateField(P)end
+	if flag and P.AI_mode=="CC"and P.AI_bot then CC.updateField(P)end
 end
 function Player.garbageRise(P,color,amount,line)--Release n-lines garbage to field
 	local _
@@ -522,7 +522,7 @@ function Player.lock(P)
 			end
 		end
 	end
-	if has_dest and not dest then
+	if has_dest and not dest and P.AI_mode=="CC"and P.AI_bot then
 		CC.updateField(P)
 	end
 end

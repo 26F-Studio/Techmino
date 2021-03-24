@@ -305,7 +305,7 @@ function update.alive(P,dt)
 
 			if P.ghoY~=P.curY then
 				P.dropDelay=ENV.drop
-			elseif P.AI_mode=="CC"then
+			elseif P.AI_mode=="CC"and P.AI_bot then
 				CC.updateField(P)
 				if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
 					CC.switch20G(P)
@@ -315,7 +315,7 @@ function update.alive(P,dt)
 			P.lockDelay=P.lockDelay-1
 			if P.lockDelay>=0 then goto stop end
 			P:drop()
-			if P.AI_mode=="CC"then
+			if P.AI_mode=="CC"and P.AI_bot then
 				CC.updateField(P)
 			end
 		end
