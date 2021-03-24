@@ -161,7 +161,7 @@ do--drawableText
 		question=T(100,"?"),
 		small=T(30,"<"),large=T(30,">"),
 		bpm=T(15,"BPM"),kpm=T(15,"KPM"),
-		modeName=T(30),levelName=T(30),
+		modeName=T(30),
 
 		anykey=T(40),
 		replaying=T(20),

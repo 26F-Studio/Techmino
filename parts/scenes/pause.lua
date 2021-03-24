@@ -191,9 +191,7 @@ function scene.draw()
 	mText(GAME.result and drawableText[GAME.result]or drawableText.pause,640,50-10*(5-timer*.1)^1.5)
 
 	--Mode Info
-	_=drawableText.modeName
-	gc.draw(_,40,240)
-	gc.draw(drawableText.levelName,60+_:getWidth(),240)
+	gc.draw(drawableText.modeName,40,240)
 
 	--Infos
 	if GAME.frame>180 then

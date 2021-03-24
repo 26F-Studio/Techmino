@@ -213,7 +213,6 @@ function scene.draw()
 	--Mode info
 	gc_setColor(1,1,1,.8)
 	gc.draw(drawableText.modeName,485,10)
-	gc.draw(drawableText.levelName,511+drawableText.modeName:getWidth(),10)
 
 	--Replaying
 	if GAME.replaying then

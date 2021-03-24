@@ -603,8 +603,7 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 		if ifNet then
 			SCN.go("net_game","swipeD")
 		else
-			drawableText.modeName:set(text.modes[M][1])
-			drawableText.levelName:set(text.modes[M][2])
+			drawableText.modeName:set(text.modes[M][1].."   "..text.modes[M][2])
 			SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
 			SFX.play("enter")
 		end
