@@ -194,6 +194,15 @@ local baseRankColor={
 	{.85,.8,.3,.3},
 	{.4,.7,.4,.3},
 }
+local function drawModeShape(M,S,drawType)
+	if M.shape==1 then--Rectangle
+		gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
+	elseif M.shape==2 then--Diamond
+		gc.circle(drawType,M.x,M.y,S+12,4)
+	elseif M.shape==3 then--Octagon
+		gc.circle(drawType,M.x,M.y,S+6,8)
+	end
+end
 function scene.draw()
 	local _
 	gc.push("transform")
@@ -225,22 +234,11 @@ function scene.draw()
 			local rank=R[name]
 			local S=M.size
 
-			--Frame & fill
+			--Draw shapes on map
 			gc.setColor(baseRankColor[rank])
-			local drawType="fill"
-			::again::
-			if M.shape==1 then--Rectangle
-				gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
-			elseif M.shape==2 then--Diamond
-				gc.circle(drawType,M.x,M.y,S+12,4)
-			elseif M.shape==3 then--Octagon
-				gc.circle(drawType,M.x,M.y,S+6,8)
-			end
-			if drawType=="fill"then
-				gc.setColor(1,1,sel==name and 0 or 1)
-				drawType="line"
-				goto again
-			end
+			drawModeShape(M,S,"fill")
+			gc.setColor(1,1,sel==name and 0 or 1)
+			drawModeShape(M,S,"line")
 
 			--Icon
 			local icon=M.icon

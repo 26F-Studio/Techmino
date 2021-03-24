@@ -224,37 +224,36 @@ return{
 				else
 					bn=P.holdQueue[1]and P.holdQueue[1].id or P.nextQueue[1]and P.nextQueue[1].id
 				end
-				if not bn then goto continue end
+				if bn then
+					for dir=0,dirCount[bn]do--Each dir
+						local cb=BLOCKS[bn][dir]
+						for cx=1,11-#cb[1]do--Each pos
+							local cy=#Tfield+1
 
-				for dir=0,dirCount[bn]do--Each dir
-					local cb=BLOCKS[bn][dir]
-					for cx=1,11-#cb[1]do--Each pos
-						local cy=#Tfield+1
+							--Move to bottom
+							while cy>1 and not ifoverlapAI(Tfield,cb,cx,cy-1)do
+								cy=cy-1
+							end
 
-						--Move to bottom
-						while cy>1 and not ifoverlapAI(Tfield,cb,cx,cy-1)do
-							cy=cy-1
-						end
-
-						--Simulate lock
-						for i=1,#cb do
-							local y=cy+i-1
-							if not Tfield[y]then Tfield[y]=getRow(0)end
-							local L=Tfield[y]
-							for j=1,#cb[1]do
-								if cb[i][j]then
-									L[cx+j-1]=1
+							--Simulate lock
+							for i=1,#cb do
+								local y=cy+i-1
+								if not Tfield[y]then Tfield[y]=getRow(0)end
+								local L=Tfield[y]
+								for j=1,#cb[1]do
+									if cb[i][j]then
+										L[cx+j-1]=1
+									end
 								end
 							end
+							local score=getScore(Tfield,cb,cy)
+							if score>best.score then
+								best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
+							end
+							resetField(field_org,Tfield,cy)
 						end
-						local score=getScore(Tfield,cb,cy)
-						if score>best.score then
-							best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
-						end
-						resetField(field_org,Tfield,cy)
 					end
 				end
-				::continue::
 			end
 			if not best.bn then return 1 end
 

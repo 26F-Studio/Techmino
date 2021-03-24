@@ -79,14 +79,14 @@ local loadingThread=coroutine.create(function()
 		{"rect","fill",10,4,-2,23},
 		{"poly","fill",10,4,24,10,10,16.5},
 		{"rect","fill",4,24,10,3},
-	}
+	}YIELD()
 	modeIcons.tsd=DOGC{64,64,
 		{"rect","fill",7,7,16,16},
 		{"rect","fill",7,41,16,16},
 		{"rect","fill",41,41,16,16},
 		{"move",.5,.5},
 		{"poly","line",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
-	}
+	}YIELD()
 	modeIcons.infinite=DOGC{64,64,
 		{"wid",4},
 		{"circ","line",32,32,28},
@@ -97,7 +97,7 @@ local loadingThread=coroutine.create(function()
 		{"rect","fill",7,30,4,4},
 		{"rect","fill",52,30,4,4},
 		{"rect","fill",30,52,4,4},
-	}
+	}YIELD()
 	modeIcons.t49=DOGC{64,64,
 		{"wid",2},
 		{"rect","line",05,05,10,20},{"rect","line",49,05,10,20},
@@ -105,7 +105,7 @@ local loadingThread=coroutine.create(function()
 		{"rect","line",20,10,23,43},
 		{"rgb",1,1,1,.7},
 		{"rect","fill",20,10,23,43},
-	}
+	}YIELD()
 	modeIcons.t99=DOGC{64,64,
 		{"wid",2},
 		{"rect","line",02,02,6,12},{"rect","line",11,02,6,12},
@@ -119,7 +119,7 @@ local loadingThread=coroutine.create(function()
 		{"rect","line",20,10,23,43},
 		{"rgb",1,1,1,.7},
 		{"rect","fill",20,10,23,43},
-	}
+	}YIELD()
 
 	upFloor()
 	for i=1,#MODES do
@@ -248,19 +248,10 @@ function scene.update(dt)
 	if not locked then
 		if progress<25 then
 			local p=progress
-			::again::
-			if loadingThread then
+			repeat
 				assert(coroutine.resume(loadingThread))
-			else
-				return
-			end
-			if skip>0 then
-				if progress==p then
-					goto again
-				else
-					skip=skip-1
-				end
-			end
+			until not loadingThread or skip<=0 or progress~=p
+			if skip>0 then skip=skip-1 end
 		else
 			openTime=openTime+dt
 			if skip>0 then

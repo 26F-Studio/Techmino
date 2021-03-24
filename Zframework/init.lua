@@ -198,63 +198,67 @@ function love.touchreleased(id,x,y)
 	end
 end
 
-function love.keypressed(i)
-	mouseShow=false
-	if devMode then
-		if i=="f1"then		PROFILE.switch()
-		elseif i=="f2"then	LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
-		elseif i=="f3"then
-			for _=1,8 do
-				local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
-				if P~=PLAYERS[1]then
-					P.lastRecv=PLAYERS[1]
-					P:lose()
-				end
+local function noDevkeyPressed(key)
+	if key=="f1"then
+		PROFILE.switch()
+	elseif key=="f2"then
+		LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
+	elseif key=="f3"then
+		for _=1,8 do
+			local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
+			if P~=PLAYERS[1]then
+				P.lastRecv=PLAYERS[1]
+				P:lose()
 			end
-		elseif i=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
-		elseif i=="f5"then	if WIDGET.sel then DBP(WIDGET.sel)end
-		elseif i=="f6"then	for k,v in next,_G do DBP(k,v)end
-		elseif i=="f7"then	if love._openConsole then love._openConsole()end
-		elseif i=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.yellow)
-		elseif i=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.yellow)
-		elseif i=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.yellow)
-		elseif i=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.yellow)
-		elseif i=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.yellow)
-		elseif i=="\\"then	_G["\100\114\97\119\70\87\77"]=NULL
-		elseif devMode==2 then
-			if WIDGET.sel then
-				local W=WIDGET.sel
-				if i=="left"then W.x=W.x-10
-				elseif i=="right"then W.x=W.x+10
-				elseif i=="up"then W.y=W.y-10
-				elseif i=="down"then W.y=W.y+10
-				elseif i==","then W.w=W.w-10
-				elseif i=="."then W.w=W.w+10
-				elseif i=="/"then W.h=W.h-10
-				elseif i=="'"then W.h=W.h+10
-				elseif i=="["then W.font=W.font-1
-				elseif i=="]"then W.font=W.font+1
-				else goto NORMAL
-				end
-			else
-				goto NORMAL
+		end
+	elseif key=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
+	elseif key=="f5"then	if WIDGET.sel then DBP(WIDGET.sel)end
+	elseif key=="f6"then	for k,v in next,_G do DBP(k,v)end
+	elseif key=="f7"then	if love._openConsole then love._openConsole()end
+	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.yellow)
+	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.yellow)
+	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.yellow)
+	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.yellow)
+	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.yellow)
+	elseif key=="\\"then	_G["\100\114\97\119\70\87\77"]=NULL
+	elseif devMode==2 then
+		if WIDGET.sel then
+			local W=WIDGET.sel
+			if key=="left"then W.x=W.x-10
+			elseif key=="right"then W.x=W.x+10
+			elseif key=="up"then W.y=W.y-10
+			elseif key=="down"then W.y=W.y+10
+			elseif key==","then W.w=W.w-10
+			elseif key=="."then W.w=W.w+10
+			elseif key=="/"then W.h=W.h-10
+			elseif key=="'"then W.h=W.h+10
+			elseif key=="["then W.font=W.font-1
+			elseif key=="]"then W.font=W.font+1
+			else return true
 			end
 		else
-			goto NORMAL
+			return true
 		end
-		return
+	else
+		return true
 	end
-	::NORMAL::
-	if i=="f8"then
+end
+function love.keypressed(key)
+	mouseShow=false
+	if devMode and not noDevkeyPressed(key)then
+		return
+	elseif key=="f8"then
 		devMode=1
 		LOG.print("DEBUG ON",COLOR.yellow)
-	elseif i=="f11"then
+	elseif key=="f11"then
 		switchFullscreen()
-	else
-		if SCN.swapping then return end
-		if SCN.keyDown then SCN.keyDown(i)
-		elseif i=="escape"then SCN.back()
-		else WIDGET.keyPressed(i)
+	elseif not SCN.swapping then
+		if SCN.keyDown then
+			SCN.keyDown(key)
+		elseif key=="escape"then
+			SCN.back()
+		else
+			WIDGET.keyPressed(key)
 		end
 	end
 end
