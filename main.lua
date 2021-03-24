@@ -271,7 +271,7 @@ LANG.set(SETTING.lang)
 --Update data
 do
 	local needSave
-	local noGame
+	local autoRestart
 
 	if STAT.extraRate then
 		STAT.finesseRate=5*(STAT.piece-STAT.extraRate)
@@ -296,7 +296,7 @@ do
 		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
 		fs.remove("conf/user")
 		fs.remove("conf/settings")
-		noGame=true
+		autoRestart=true
 	end
 	if STAT.version<1303 then
 		SETTING.appLock=false
@@ -305,7 +305,7 @@ do
 
 	for _,v in next,VK_org do
 		if not v.color then
-			noGame=true
+			autoRestart=true
 			fs.remove("conf/virtualkey")
 			break
 		end
@@ -345,7 +345,7 @@ do
 	end
 
 	if keyMap[1]then
-		noGame=true
+		autoRestart=true
 		fs.remove("conf/key")
 	end
 	USER.username=nil
@@ -356,8 +356,8 @@ do
 		FILE.save(STAT,"conf/data","q")
 	end
 
-	if noGame then
-		love.window.showMessageBox("重启更新 Restart to Update","检测到大版本更新,请重启游戏完成\nOld version detected & saving file changed, please restart the game",{"Get it!"},"info",true)
-		love.event.quit()
+	if autoRestart then
+		-- love.window.showMessageBox("重启更新 Restart to Update","检测到大版本更新,请重启游戏完成\nOld version detected & saving file changed, please restart the game",{"Get it!"},"info",true)
+		love.event.quit("restart")
 	end
 end

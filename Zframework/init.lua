@@ -492,7 +492,7 @@ function love.run()
 				love[N](a,b,c,d,e)
 			elseif N=="quit"then
 				destroyPlayers()
-				return true
+				return a or true
 			end
 		end
 
