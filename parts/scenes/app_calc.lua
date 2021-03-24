@@ -75,12 +75,10 @@ function scene.keyDown(k)
 		if val~="0"then
 			val,reg,sym="0"
 		else
-			scene.keyDown("quit")
+			SCN.back()
 		end
 	elseif k=="delete"then
 		val="0"
-	elseif k=="quit"then
-		SCN.back()
 	end
 end
 
@@ -113,7 +111,7 @@ scene.widgetList={
 	WIDGET.newKey{name="/",	x=450,y=600,w=90,fText="/",color="lB",font=50,code=pressKey"/"},
 	WIDGET.newKey{name="<",	x=550,y=300,w=90,fText="<",color="lR",font=50,code=pressKey"backspace"},
 	WIDGET.newKey{name="=",	x=550,y=400,w=90,fText="=",color="lY",font=50,code=pressKey"return"},
-	WIDGET.newKey{name="back",x=1140,y=640,w=170,h=80,font=40,code=pressKey"quit"},
+	WIDGET.newKey{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 
 return scene
