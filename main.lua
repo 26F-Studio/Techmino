@@ -311,6 +311,7 @@ do
 		end
 	end
 
+	if RANKS.GM then RANKS.GM=0 end
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
 	for k in next,RANKS do
