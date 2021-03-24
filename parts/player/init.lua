@@ -1,5 +1,5 @@
 local Player=require"parts.player.player"
-local sequenceGenerator=require"parts.player.sequenceGenerator"
+local getSeqGen=require"parts.player.getSeqGen"
 local gameEnv0=require"parts.player.gameEnv0"
 
 local rnd,max=math.random,math.max
@@ -307,7 +307,9 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	end
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
-	sequenceGenerator(P)
+
+	P.newNext=coroutine.create(getSeqGen(P))
+	assert(coroutine.resume(P.newNext,P,P.gameEnv.seqData))
 
 	if P.mini then
 		ENV.lockFX=false

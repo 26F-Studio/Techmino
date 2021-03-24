@@ -1,7 +1,7 @@
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 
-local sequenceModes={
+local seqGens={
 	none=function() while true do yield()end end,
 	bag=function(P,seq0)
 		local len=#seq0
@@ -139,22 +139,18 @@ local sequenceModes={
 	end,
 }
 return function(P)--Set newNext funtion for player P
-	local ENV=P.gameEnv
-	::tryAgain::
-	if type(ENV.sequence)=="string"then
-		if sequenceModes[ENV.sequence]then
-			P.newNext=coroutine.create(sequenceModes[ENV.sequence])
-		else
-			LOG.print("No sequence mode called "..ENV.sequence,"warn")
-			ENV.sequence="bag"
-			goto tryAgain
-		end
-	elseif type(ENV.sequence)=="function"then
-		P.newNext=coroutine.create(ENV.sequence)
+	local s=P.gameEnv.sequence
+	if type(s)=="function"then
+		return s
+	elseif type(s)=="string"and seqGens[s]then
+		return seqGens[s]
 	else
-		LOG.print("Wrong sequence generator","warn")
-		ENV.sequence="bag"
-		goto tryAgain
+		LOG.print(
+			type(s)=="string"and
+			"No sequence mode called "..s or
+			"Wrong sequence generator",
+		"warn")
+		P.gameEnv.sequence="bag"
+		return seqGens.bag
 	end
-	assert(coroutine.resume(P.newNext,P,ENV.seqData))
 end
