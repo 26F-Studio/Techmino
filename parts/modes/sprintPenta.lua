@@ -3,7 +3,7 @@ return{
 	env={
 		drop=60,lock=60,
 		sequence="bag",seqData={8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
-		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
+		dropPiece=function(P)if P.stat.row>=40 then P:win("finish")end end,
 		bg="aura",bgm="waterfall",
 	},
 	load=function()
