@@ -5,7 +5,7 @@
 local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
-local max,min,modf=math.max,math.min,math.modf
+local max,min,abs,modf=math.max,math.min,math.abs,math.modf
 local ins,rem=table.insert,table.remove
 local resume,yield=coroutine.resume,coroutine.yield
 
@@ -462,7 +462,6 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 				end
 				if ENV.shakeFX then
 					P.fieldOff.vy=ENV.shakeFX*.5
-					P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*5e-4
 				end
 				P.curY=P.ghoY
 			end
@@ -609,7 +608,20 @@ function Player.spin(P,d,ifpre)
 				end
 
 				if P.sound then
-					SFX.play(ifpre and"prerotate"or P:ifoverlap(P.cur.bk,P.curX,P.curY+1)and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,P:getCenterX()*.15)
+					local sfx
+					if ifpre then
+						sfx="prerotate"
+					elseif P:ifoverlap(icb,ix,iy+1)and P:ifoverlap(icb,ix-1,iy)and P:ifoverlap(icb,ix+1,iy)then
+						sfx="rotatekick"
+						if abs(d)==1 then
+							P.fieldOff.va=P.fieldOff.va+d*P.gameEnv.shakeFX*6e-3
+						else
+							P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
+						end
+					else
+						sfx="rotate"
+					end
+					SFX.play(sfx,nil,P:getCenterX()*.15)
 				end
 				P.stat.rotate=P.stat.rotate+1
 				return
@@ -1877,7 +1889,7 @@ end
 function Player.act_rotLeft(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
-		P:spin(3)
+		P:spin(-1)
 		P.keyPressing[4]=false
 	end
 end
@@ -1902,14 +1914,14 @@ function Player.act_hardDrop(P)
 			end
 			P.curY=P.ghoY
 			P.spinLast=false
-			if P.gameEnv.shakeFX then
-				P.fieldOff.vy=P.gameEnv.shakeFX*.6
-				P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*6e-4
-			end
 			if P.sound then
 				SFX.play("drop",nil,P:getCenterX()*.15)
 				VIB(1)
 			end
+		end
+		if P.gameEnv.shakeFX then
+			P.fieldOff.vy=P.gameEnv.shakeFX*.6
+			P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*6e-4
 		end
 		P.lockDelay=-1
 		P:drop()
@@ -2012,7 +2024,7 @@ function Player.act_insDown(P)
 		end
 		if ENV.shakeFX then
 			P.fieldOff.vy=ENV.shakeFX*.5
-			P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*5e-4
+			-- P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*5e-4
 		end
 		P.curY=P.ghoY
 		P.lockDelay=ENV.lock
