@@ -520,10 +520,8 @@ function draw.drawNext_hidden(P)
 	gc_pop()
 end
 
-function draw.applyFieldxOy()
-	gc_translate(150,0)
-end
-function draw.applyFieldOffset(P)
+function draw.applyFieldOffset(P,notNorm)
+	if not notNorm then gc_translate(150,0)end
 	local O=P.fieldOff
 	gc_translate(O.x,O.y)
 	gc_translate(150,300)
@@ -535,7 +533,6 @@ function draw.drawTargetLine(P,r)
 		gc_setLineWidth(4)
 		gc_setColor(1,r>10 and 0 or rnd(),.5)
 		gc_push("transform")
-		draw.applyFieldxOy(P)
 		draw.applyFieldOffset(P)
 		gc_line(0,600-30*r,300,600-30*r)
 		gc_pop()
@@ -551,119 +548,113 @@ function draw.norm(P)
 
 		--Field-related things
 		gc_push("transform")
-			draw.applyFieldxOy(P)
+			draw.applyFieldOffset(P)
 
-			--Things shake with field
+			--Fill field
+			gc_setColor(0,0,0,.6)
+			gc_rectangle("fill",0,-10,300,610)
+
+			--Stenciled in-field things
+			gc_stencil(stencilBoard,"replace",1)
+			gc_setStencilTest("equal",1)
 			gc_push("transform")
-				draw.applyFieldOffset(P)
+				boardTransform(ENV.flipBoard)
 
-				--Fill field
-				gc_setColor(0,0,0,.6)
-				gc_rectangle("fill",0,-10,300,610)
+				--Draw grid
+				if ENV.grid then drawGrid(P)end
 
-				--Stenciled in-field things
-				gc_stencil(stencilBoard,"replace",1)
-				gc_setStencilTest("equal",1)
-				gc_push("transform")
-					boardTransform(ENV.flipBoard)
+				--Move camera
+				gc_translate(0,600+FBN+FUP)
 
-					--Draw grid
-					if ENV.grid then drawGrid(P)end
+				local fieldTop=-ENV.fieldH*30
+				--Draw dangerous area
+				gc_setColor(1,0,0,.3)
+				gc_rectangle("fill",0,fieldTop,300,-FUP-FBN-fieldTop-620)
 
-					--Move camera
-					gc_translate(0,600+FBN+FUP)
+				--Draw field
+				drawField(P)
 
-					local fieldTop=-ENV.fieldH*30
-					--Draw dangerous area
-					gc_setColor(1,0,0,.3)
-					gc_rectangle("fill",0,fieldTop,300,-FUP-FBN-fieldTop-620)
+				--Draw spawn line
+				gc_setColor(1,sin(t)*.4+.5,0,.5)
+				gc_setLineWidth(4)
+				gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
 
-					--Draw field
-					drawField(P)
+				--Draw FXs
+				drawFXs(P)
 
-					--Draw spawn line
-					gc_setColor(1,sin(t)*.4+.5,0,.5)
-					gc_setLineWidth(4)
-					gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
+				--Draw current block
+				if P.cur and P.waiting==-1 then
+					local curColor=P.cur.color
 
-					--Draw FXs
-					drawFXs(P)
+					local trans=P.lockDelay/ENV.lock
+					local centerX=30*(P.curX+P.cur.sc[2])-15
 
-					--Draw current block
-					if P.cur and P.waiting==-1 then
-						local curColor=P.cur.color
+					--Draw ghost & rotation center
+					if ENV.ghost then drawGhost(P,curColor)end
+					if ENV.center and ENV.ghost then
+						gc_setColor(1,1,1,trans*ENV.center)
+						gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+					end
 
-						local trans=P.lockDelay/ENV.lock
-						local centerX=30*(P.curX+P.cur.sc[2])-15
-
-						--Draw ghost & rotation center
-						if ENV.ghost then drawGhost(P,curColor)end
-						if ENV.center and ENV.ghost then
-							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
-						end
-
-						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
-						gc_translate(0,-dy)
-							--Draw block & rotation center
-							if ENV.block then
-								drawBlockOutline(P,SKIN.curText[curColor],trans)
-								drawBlock(P,curColor)
-								if ENV.center then
-									gc_setColor(1,1,1,ENV.center)
-									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
-								end
+					local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
+					gc_translate(0,-dy)
+						--Draw block & rotation center
+						if ENV.block then
+							drawBlockOutline(P,SKIN.curText[curColor],trans)
+							drawBlock(P,curColor)
+							if ENV.center then
+								gc_setColor(1,1,1,ENV.center)
+								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end
-						gc_translate(0,dy)
-					end
-
-					--Draw next preview
-					if ENV.nextPos and P.nextQueue[1]then
-						drawNextPreview(P,P.nextQueue[1])
-					end
-
-					--Draw AI's drop destination
-					if P.AI_dest then
-						local texture=TEXTURE.puzzleMark[21]
-						local L=P.AI_dest
-						for i=1,#L,2 do
-							gc_draw(texture,30*L[i],-30*L[i+1]-30)
 						end
-					end
-				gc_pop()
-				gc_setStencilTest()
-
-				drawBoarders(P)
-				drawBuffer(P)
-				drawB2Bbar(P)
-				drawHold(P)
-				P:drawNext()
-
-				--Draw target selecting pad
-				if GAME.modeEnv.royaleMode then
-					if P.atkMode then
-						gc_setColor(1,.8,0,P.swappingAtkMode*.02)
-						gc_rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
-					end
-					gc_setColor(1,1,1,P.swappingAtkMode*.025)
-					setFont(35)
-					for i=1,4 do
-						gc_rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-						gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
-					end
+					gc_translate(0,dy)
 				end
-				if ENV.hideBoard then
-					gc_stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
-					gc_setStencilTest("equal",1)
-					gc_setLineWidth(20)
-					for i=0,24 do
-						gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
-						gc_line(20*i-190,-2,20*i+10,602)
+
+				--Draw next preview
+				if ENV.nextPos and P.nextQueue[1]then
+					drawNextPreview(P,P.nextQueue[1])
+				end
+
+				--Draw AI's drop destination
+				if P.AI_dest then
+					local texture=TEXTURE.puzzleMark[21]
+					local L=P.AI_dest
+					for i=1,#L,2 do
+						gc_draw(texture,30*L[i],-30*L[i+1]-30)
 					end
-					gc_setStencilTest()
 				end
 			gc_pop()
+			gc_setStencilTest()
 
+			drawBoarders(P)
+			drawBuffer(P)
+			drawB2Bbar(P)
+			drawHold(P)
+			P:drawNext()
+
+			--Draw target selecting pad
+			if GAME.modeEnv.royaleMode then
+				if P.atkMode then
+					gc_setColor(1,.8,0,P.swappingAtkMode*.02)
+					gc_rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
+				end
+				gc_setColor(1,1,1,P.swappingAtkMode*.025)
+				setFont(35)
+				for i=1,4 do
+					gc_rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
+					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
+				end
+			end
+			if ENV.hideBoard then
+				gc_stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
+				gc_setStencilTest("equal",1)
+				gc_setLineWidth(20)
+				for i=0,24 do
+					gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
+					gc_line(20*i-190,-2,20*i+10,602)
+				end
+				gc_setStencilTest()
+			end
 			--Bonus texts
 			TEXT.draw(P.bonus)
 
@@ -711,114 +702,109 @@ function draw.norm_remote(P)
 
 		--Field-related things
 		gc_push("transform")
-			draw.applyFieldxOy(P)
+			draw.applyFieldOffset(P)
 
 			--Draw username
 			setFont(30)
 			gc_setColor(1,1,1)
 			mStr(P.userName,150,-60)
 
-			--Things shake with field
+			--Fill field
+			gc_setColor(0,0,0,.6)
+			gc_rectangle("fill",0,-10,300,610)
+
+			--Stenciled in-field things
+			gc_stencil(stencilBoard,"replace",1)
+			gc_setStencilTest("equal",1)
 			gc_push("transform")
-				draw.applyFieldOffset(P)
+				boardTransform(ENV.flipBoard)
 
-				--Fill field
-				gc_setColor(0,0,0,.6)
-				gc_rectangle("fill",0,-10,300,610)
+				--Draw grid
+				if ENV.grid then drawGrid(P)end
 
-				--Stenciled in-field things
-				gc_stencil(stencilBoard,"replace",1)
-				gc_setStencilTest("equal",1)
-				gc_push("transform")
-					boardTransform(ENV.flipBoard)
+				--Move camera
+				gc_translate(0,600+FBN+FUP)
 
-					--Draw grid
-					if ENV.grid then drawGrid(P)end
+				local fieldTop=-ENV.fieldH*30
+				--Draw dangerous area
+				gc_setColor(1,0,0,.3)
+				gc_rectangle("fill",0,fieldTop,300,-FUP-FBN-fieldTop-620)
 
-					--Move camera
-					gc_translate(0,600+FBN+FUP)
+				--Draw field
+				drawField(P)
 
-					local fieldTop=-ENV.fieldH*30
-					--Draw dangerous area
-					gc_setColor(1,0,0,.3)
-					gc_rectangle("fill",0,fieldTop,300,-FUP-FBN-fieldTop-620)
+				--Draw spawn line
+				gc_setColor(1,sin(t)*.4+.5,0,.5)
+				gc_setLineWidth(4)
+				gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
 
-					--Draw field
-					drawField(P)
+				--Draw FXs
+				drawFXs(P)
 
-					--Draw spawn line
-					gc_setColor(1,sin(t)*.4+.5,0,.5)
-					gc_setLineWidth(4)
-					gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
+				--Draw current block
+				if P.cur and P.waiting==-1 then
+					local curColor=P.cur.color
 
-					--Draw FXs
-					drawFXs(P)
+					local trans=P.lockDelay/ENV.lock
+					local centerX=30*(P.curX+P.cur.sc[2])-15
 
-					--Draw current block
-					if P.cur and P.waiting==-1 then
-						local curColor=P.cur.color
+					--Draw ghost & rotation center
+					if ENV.ghost then drawGhost(P,curColor)end
+					if ENV.center and ENV.ghost then
+						gc_setColor(1,1,1,trans*ENV.center)
+						gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+					end
 
-						local trans=P.lockDelay/ENV.lock
-						local centerX=30*(P.curX+P.cur.sc[2])-15
-
-						--Draw ghost & rotation center
-						if ENV.ghost then drawGhost(P,curColor)end
-						if ENV.center and ENV.ghost then
-							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
-						end
-
-						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
-						gc_translate(0,-dy)
-							--Draw block & rotation center
-							if ENV.block then
-								drawBlockOutline(P,SKIN.curText[curColor],trans)
-								drawBlock(P,curColor)
-								if ENV.center then
-									gc_setColor(1,1,1,ENV.center)
-									gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
-								end
+					local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
+					gc_translate(0,-dy)
+						--Draw block & rotation center
+						if ENV.block then
+							drawBlockOutline(P,SKIN.curText[curColor],trans)
+							drawBlock(P,curColor)
+							if ENV.center then
+								gc_setColor(1,1,1,ENV.center)
+								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end
-						gc_translate(0,dy)
-					end
-
-					--Draw next preview
-					if ENV.nextPos and P.nextQueue[1]then
-						drawNextPreview(P,P.nextQueue[1])
-					end
-				gc_pop()
-				gc_setStencilTest()
-
-				drawBoarders(P)
-				drawBuffer(P)
-				drawB2Bbar(P)
-				drawHold(P)
-				P:drawNext()
-
-				--Draw target selecting pad
-				if GAME.modeEnv.royaleMode then
-					if P.atkMode then
-						gc_setColor(1,.8,0,P.swappingAtkMode*.02)
-						gc_rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
-					end
-					gc_setColor(1,1,1,P.swappingAtkMode*.025)
-					setFont(35)
-					for i=1,4 do
-						gc_rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-						gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
-					end
+						end
+					gc_translate(0,dy)
 				end
-				if ENV.hideBoard then
-					gc_stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
-					gc_setStencilTest("equal",1)
-					gc_setLineWidth(20)
-					for i=0,24 do
-						gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
-						gc_line(20*i-190,-2,20*i+10,602)
-					end
-					gc_setStencilTest()
+
+				--Draw next preview
+				if ENV.nextPos and P.nextQueue[1]then
+					drawNextPreview(P,P.nextQueue[1])
 				end
 			gc_pop()
+			gc_setStencilTest()
+
+			drawBoarders(P)
+			drawBuffer(P)
+			drawB2Bbar(P)
+			drawHold(P)
+			P:drawNext()
+
+			--Draw target selecting pad
+			if GAME.modeEnv.royaleMode then
+				if P.atkMode then
+					gc_setColor(1,.8,0,P.swappingAtkMode*.02)
+					gc_rectangle("fill",RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
+				end
+				gc_setColor(1,1,1,P.swappingAtkMode*.025)
+				setFont(35)
+				for i=1,4 do
+					gc_rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
+					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
+				end
+			end
+			if ENV.hideBoard then
+				gc_stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
+				gc_setStencilTest("equal",1)
+				gc_setLineWidth(20)
+				for i=0,24 do
+					gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
+					gc_line(20*i-190,-2,20*i+10,602)
+				end
+				gc_setStencilTest()
+			end
 
 			--Bonus texts
 			TEXT.draw(P.bonus)
@@ -913,7 +899,7 @@ function draw.demo(P)
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
 		gc_push("transform")
-			draw.applyFieldOffset(P)
+			draw.applyFieldOffset(P,true)
 
 			--Frame
 			gc_setColor(0,0,0,.6)

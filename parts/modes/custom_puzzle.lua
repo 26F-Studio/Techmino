@@ -54,7 +54,6 @@ return{
 		mStr(P.stat.row,69,225)
 		mText(drawableText.line,69,290)
 		gc.push("transform")
-		PLY.draw.applyFieldxOy(P)
 		PLY.draw.applyFieldOffset(P)
 		if P.modeData.showMark==0 then
 			local mark=TEXTURE.puzzleMark
@@ -62,7 +61,7 @@ return{
 			for y=1,20 do for x=1,10 do
 				local T=F[y][x]
 				if T~=0 then
-					gc.draw(mark[T],150+30*x-30,600-30*y)
+					gc.draw(mark[T],30*x-30,600-30*y)
 				end
 			end end
 		end
