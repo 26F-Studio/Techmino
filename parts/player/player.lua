@@ -462,6 +462,7 @@ function Player.freshBlock(P,mode)--string mode: push/move/fresh/newBlock
 				end
 				if ENV.shakeFX then
 					P.fieldOff.vy=ENV.shakeFX*.5
+					P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*5e-4
 				end
 				P.curY=P.ghoY
 			end
@@ -1903,6 +1904,7 @@ function Player.act_hardDrop(P)
 			P.spinLast=false
 			if P.gameEnv.shakeFX then
 				P.fieldOff.vy=P.gameEnv.shakeFX*.6
+				P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*6e-4
 			end
 			if P.sound then
 				SFX.play("drop",nil,P:getCenterX()*.15)
@@ -2010,6 +2012,7 @@ function Player.act_insDown(P)
 		end
 		if ENV.shakeFX then
 			P.fieldOff.vy=ENV.shakeFX*.5
+			P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*5e-4
 		end
 		P.curY=P.ghoY
 		P.lockDelay=ENV.lock

@@ -1,6 +1,6 @@
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_translate,gc_scale,gc_rotate=gc.translate,gc.scale,gc.rotate
 local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
 local gc_draw,gc_line,gc_rectangle,gc_circle=gc.draw,gc.line,gc.rectangle,gc.circle
 local gc_print,gc_printf=gc.print,gc.printf
@@ -520,12 +520,25 @@ function draw.drawNext_hidden(P)
 	gc_pop()
 end
 
+function draw.applyFieldxOy()
+	gc_translate(150,0)
+end
+function draw.applyFieldOffset(P)
+	local O=P.fieldOff
+	gc_translate(O.x,O.y)
+	gc_translate(150,300)
+	gc_rotate(O.a)
+	gc_translate(-150,-300)
+end
 function draw.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
 		gc_setLineWidth(4)
 		gc_setColor(1,r>10 and 0 or rnd(),.5)
-		local dx,dy=150+P.fieldOff.x,P.fieldOff.y+P.fieldBeneath+P.fieldUp
-		gc_line(dx,600-30*r+dy,300+dx,600-30*r+dy)
+		gc_push("transform")
+		draw.applyFieldxOy(P)
+		draw.applyFieldOffset(P)
+		gc_line(0,600-30*r,300,600-30*r)
+		gc_pop()
 	end
 end
 
@@ -538,11 +551,11 @@ function draw.norm(P)
 
 		--Field-related things
 		gc_push("transform")
-			gc_translate(150,0)
+			draw.applyFieldxOy(P)
 
 			--Things shake with field
 			gc_push("transform")
-				gc_translate(P.fieldOff.x,P.fieldOff.y)
+				draw.applyFieldOffset(P)
 
 				--Fill field
 				gc_setColor(0,0,0,.6)
@@ -698,7 +711,7 @@ function draw.norm_remote(P)
 
 		--Field-related things
 		gc_push("transform")
-			gc_translate(150,0)
+			draw.applyFieldxOy(P)
 
 			--Draw username
 			setFont(30)
@@ -707,7 +720,7 @@ function draw.norm_remote(P)
 
 			--Things shake with field
 			gc_push("transform")
-				gc_translate(P.fieldOff.x,P.fieldOff.y)
+				draw.applyFieldOffset(P)
 
 				--Fill field
 				gc_setColor(0,0,0,.6)
@@ -900,7 +913,7 @@ function draw.demo(P)
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
 		gc_push("transform")
-			gc_translate(P.fieldOff.x,P.fieldOff.y)
+			draw.applyFieldOffset(P)
 
 			--Frame
 			gc_setColor(0,0,0,.6)

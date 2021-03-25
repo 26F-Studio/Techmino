@@ -89,7 +89,11 @@ local function newEmptyPlayer(id,mini)
 	end
 	P.update=PLY.update.alive
 
-	P.fieldOff={x=0,y=0,vx=0,vy=0}--For shake FX
+	P.fieldOff={--Shake FX
+		x=0,y=0,
+		vx=0,vy=0,
+		a=0,va=0,
+	}
 	P.x,P.y,P.size=0,0,1
 	P.frameColor=0
 

@@ -85,10 +85,17 @@ local function updateFXs(P,dt)
 	--Field shaking
 	if P.gameEnv.shakeFX then
 		local O=P.fieldOff
-		O.vx,O.vy=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .1 or -.1),O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
-		O.x,O.y=O.x+O.vx,O.y+O.vy
-		if abs(O.x)<.3 then O.x=0 end
-		if abs(O.y)<.3 then O.y=0 end
+		O.vx=O.vx*.8-abs(O.x)^1.2*(O.x>0 and .1 or -.1)
+		O.x=O.x+O.vx
+		if abs(O.x)<.3 then O.x,O.vx=0,0 end
+
+		O.vy=O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
+		O.y=O.y+O.vy
+		if abs(O.y)<.3 then O.y,O.vy=0,0 end
+
+		O.va=O.va*.8-abs(O.a)^1.2*(O.a>0 and .1 or -.1)
+		O.a=O.a+O.va
+		-- if abs(O.a)<.3 then O.a,O.va=0,0 end
 	end
 
 	if P.bonus then
@@ -247,7 +254,8 @@ function update.alive(P,dt)
 				P:act_insDown()
 			end
 			if ENV.shakeFX then
-				P.fieldOff.vy=ENV.shakeFX*.3
+				P.fieldOff.vy=ENV.shakeFX*.2
+				P.fieldOff.va=P:getCenterX()*P.gameEnv.shakeFX*2e-4
 			end
 		end
 	else
