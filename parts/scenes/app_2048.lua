@@ -125,37 +125,38 @@ local function freshMaxTile()
 end
 local function squash(L)
 	local p1,p2=1
-	local moved
-	while p1<4 do
+	local moved=false
+	while true do
 		p2=p1+1
 		while not L[p2]do
 			p2=p2+1
 			if p2==5 then
 				p1=p1+1
-				goto continue
+				if p1==4 then
+					return L[1],L[2],L[3],L[4],moved
+				end
+				break
 			end
 		end
 		if not L[p1]then--air←2
-			L[p1]=L[p2]
+			L[p1],L[p2]=L[p2],false
 			moved=true
 		elseif L[p1]==L[p2]then--2←2
-			L[p1]=L[p1]+1
+			L[p1],L[p2]=L[p1]+1,false
 			if L[p1]>maxTile then
 				freshMaxTile()
 			end
-			moved=true
+			L[p2]=false
 			p1=p1+1
+			moved=true
 		elseif p1+1~=p2 then--2←4
-			L[p1+1]=L[p2]
-			moved=true
+			L[p1+1],L[p2]=L[p2],false
 			p1=p1+1
+			moved=true
 		else--2,4
 			p1=p1+1
 		end
-		if moved then L[p2]=false end
-		::continue::
 	end
-	return L[1],L[2],L[3],L[4],moved
 end
 local function reset()
 	for i=1,16 do board[i]=false end

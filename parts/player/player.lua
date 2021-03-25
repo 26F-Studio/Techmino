@@ -618,6 +618,10 @@ function Player.spin(P,d,ifpre)
 		SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
 	end
 end
+local phyHoldKickX={
+	[true]={0,-1,1},--X==?.0 tests
+	[false]={-.5,.5},--X==?.5 tests
+}
 function Player.hold(P,ifpre)
 	local ENV=P.gameEnv
 	if P.holdTime>0 and(ifpre or P.waiting==-1)then
@@ -638,44 +642,34 @@ function Player.hold(P,ifpre)
 			end
 
 			if ENV.phyHold and C and not ifpre then--Physical hold
-				local success
 				local x,y=P.curX,P.curY
 				x=x+(#C.bk[1]-#H.bk[1])*.5
 				y=y+(#C.bk-#H.bk)*.5
 
+				local iki=phyHoldKickX[x==int(x)]
 				for Y=int(y),ceil(y+.5)do
-					local X=x
-					while true do
-						X=int(X)
+					for i=1,#iki do
+						local X=x+iki[i]
 						if not P:ifoverlap(H.bk,X,Y)then
 							x,y=X,Y
-							success=true
-							goto BREAK
-						end
-						if X==x then
-							X=X-1
-						elseif X<x then
-							X=2*x-X
-						else
-							break
+							goto BREAK_success
 						end
 					end
 				end
-				::BREAK::
-				if success then
-					P.spinLast=false
-					P.spinSeq=0
-
-					local hb=P:getBlock(C.id)
-					hb.name=C.name
-					hb.color=C.color
-					ins(P.holdQueue,hb)
-					P.cur=rem(P.holdQueue,1)
-					P.curX,P.curY=x,y
-				else
+				--<for-else> All test failed, interrupt with sound
 					SFX.play("finesseError")
-					return
-				end
+					do return end
+				--<for-end>
+
+				::BREAK_success::
+				P.spinLast=false
+				P.spinSeq=0
+				local hb=P:getBlock(C.id)
+				hb.name=C.name
+				hb.color=C.color
+				ins(P.holdQueue,hb)
+				P.cur=rem(P.holdQueue,1)
+				P.curX,P.curY=x,y
 			else--Normal hold
 				P.spinLast=false
 				P.spinSeq=0

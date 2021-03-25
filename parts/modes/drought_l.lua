@@ -1,4 +1,4 @@
-local min=math.min
+local ins=table.insert
 return{
 	color=COLOR.red,
 	env={
@@ -26,69 +26,52 @@ return{
 					end
 					height[11]=999
 
-					local res={1,1,2,2,3,4}
+					local wei={1,1,2,2,3,4}
 					local d=0
-					local A
 					for i=1,10 do
 						d=d+height[i]
 					end
-					if d<40 or P.stat.row>2*42 then
-						A=#res+1
+					if d<40 or P.stat.row>2*42 then--Low field or almost win, give SZO
 						for _=1,4 do
-							res[A]=1
-							res[A+1]=2
-							res[A+2]=6
-							A=A+3
+							ins(wei,1)
+							ins(wei,2)
+							ins(wei,6)
 						end
-						goto END
+					else
+						--Give I when no hole
+						local tempDeltaHei=-999--Height difference
+						for x=2,11 do
+							local deltaHei=height[x]-height[x-1]
+							if tempDeltaHei<-2 and deltaHei>2 then
+								break
+							elseif x==11 then
+								for _=1,3 do ins(wei,7)end
+							else
+								tempDeltaHei=deltaHei
+							end
+						end
+
+						--Give O when no d=0/give T when no d=1
+						local flatCount=0--d=0 count
+						local stairCount=0--d=1 count
+						for x=2,10 do
+							local _=height[x]-height[x-1]
+							if _==0 then
+								flatCount=flatCount+1
+							elseif _==1 or _==-1 then
+								stairCount=stairCount+1
+							end
+						end
+						if flatCount<3 then
+							for _=1,3 do ins(wei,6)end
+						end
+						if stairCount<3 then
+							for _=1,4 do ins(wei,5)end
+						end
 					end
 
-					--Give I when no hole
-					d=-999--Height difference
-					--A=hole mark
-					for x=2,11 do
-						local _=height[x]-height[x-1]
-						if d<-2 and _>2 then
-							A=true
-						end
-						d=_
-					end
-					if not A then
-						A=#res+1
-						res[A]=7
-						res[A+1]=7
-						res[A+2]=7
-					end
-
-					--Give O when no d=0/give T when no d=1
-					d=0--d=0 count
-					A=0--d=1 count
-					for x=2,10 do
-						local _=height[x]-height[x-1]
-						if _==0 then
-							d=d+1
-						elseif _==1 or _==-1 then
-							A=A+1
-						end
-					end
-					if d<3 then
-						A=#res+1
-						res[A]=6
-						res[A+1]=6
-						res[A+2]=6
-					end
-					if A<3 then
-						A=#res+1
-						res[A]=5
-						res[A+1]=5
-						res[A+2]=5
-						res[A+3]=5
-						res[A+4]=5
-					end
-
-					::END::
 					FREEROW.discard(height)
-					P:getNext(res[P:RND(#res)])
+					P:getNext(wei[P:RND(#wei)])
 				end
 			end
 		end,
@@ -107,7 +90,7 @@ return{
 		local R=100-P.stat.row
 		mStr(R>=0 and R or 0,69,265)
 	end,
-	score=function(P)return{min(P.stat.row,100),P.stat.time}end,
+	score=function(P)return{math.min(P.stat.row,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..TIMESTR(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
