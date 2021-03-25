@@ -61,8 +61,8 @@ function scene.draw()
 	--Quick play
 	setFont(30)
 	local L=text.modes[STAT.lastPlay]
-	gc.print(L[1],700,210)
-	gc.print(L[2],700,250)
+	gc.print(L[1],700,250)
+	gc.print(L[2],700,290)
 
 	--Tip
 	gc.push("transform")
@@ -81,11 +81,14 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="system",	x=610,y=50,fText=SYSTEM,color="white",font=30,align="L"},
-	WIDGET.newText{name="version",	x=610,y=90,fText=VERSION_NAME,color="white",font=30,align="L"},
-	WIDGET.newButton{name="offline",x=150,y=220,w=200,h=140,color="lRed",	font=40,code=goScene"mode"},
-	WIDGET.newButton{name="online",	x=370,y=220,w=200,h=140,color="lCyan",	font=40,code=function()
-		if LOGIN then
+	WIDGET.newText{name="system",	x=610,y=50,fText=SYSTEM,		color="white",font=30,align="L"},
+	WIDGET.newText{name="version",	x=610,y=90,fText=VERSION_NAME,	color="white",font=30,align="L"},
+	WIDGET.newKey{name="offline",	x=150,y=260,w=200,h=160,color="lRed",	font=40,code=goScene"mode"},
+	WIDGET.newKey{name="online",	x=370,y=260,w=200,h=160,color="lCyan",	font=40,code=function()
+		if not LATEST_VERSION then
+			TEXT.show(text.notFinished,370,380,60,"flicker")
+			SFX.play("finesseError")
+		elseif LOGIN then
 			--[[TODO
 			if USER.accessToken then
 				WS.send("app",JSON.encode{
@@ -104,16 +107,16 @@ scene.widgetList={
 		else
 			SCN.go("login")
 		end
-	end,hide=function()return not LATEST_VERSION end},
-	WIDGET.newButton{name="qplay",	x=590,y=220,w=200,h=140,color="lBlue",	font=40,code=pressKey"q"},
-	WIDGET.newButton{name="setting",x=150,y=380,w=200,h=140,color="lOrange",font=40,code=goScene"setting_game"},
-	WIDGET.newButton{name="stat",	x=370,y=380,w=200,h=140,color="lGreen",	font=40,code=goScene"stat"},
-	WIDGET.newButton{name="custom",	x=590,y=380,w=200,h=140,color="white",	font=40,code=goScene"customGame"},
-	WIDGET.newButton{name="lang",	x=150,y=515,w=200,h=90,color="lYellow",	font=40,code=goScene"lang"},
-	WIDGET.newButton{name="help",	x=370,y=515,w=200,h=90,color="dGreen",	font=40,code=goScene"help"},
-	WIDGET.newButton{name="quit",	x=590,y=515,w=200,h=90,color="grey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
-	WIDGET.newKey{name="music",		x=150,y=610,w=200,h=60,color="red",				code=goScene"music"},
-	WIDGET.newKey{name="sound",		x=590,y=610,w=200,h=60,color="grape",			code=goScene"sound"},
+	end},
+	WIDGET.newKey{name="qplay",		x=590,y=260,w=200,h=160,color="lBlue",	font=40,code=pressKey"q"},
+	WIDGET.newKey{name="setting",	x=150,y=480,w=200,h=110,color="lOrange",font=40,code=goScene"setting_game"},
+	WIDGET.newKey{name="custom",	x=370,y=455,w=200,h=160,color="white",	font=40,code=goScene"customGame"},
+	WIDGET.newKey{name="stat",		x=590,y=480,w=200,h=110,color="lGreen",	font=40,code=goScene"stat"},
+	WIDGET.newKey{name="music",		x=150,y=600,w=200,h=60,color="red",				code=goScene"music"},
+	WIDGET.newKey{name="sound",		x=370,y=600,w=200,h=60,color="grape",			code=goScene"sound"},
+	WIDGET.newKey{name="help",		x=590,y=600,w=200,h=60,color="blue",			code=goScene"help"},
+	WIDGET.newButton{name="lang",	x=795,y=560,w=170,h=80,color="white",	font=40,code=goScene"lang"},
+	WIDGET.newButton{name="quit",	x=795,y=660,w=170,h=80,color="grey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }
 
 return scene

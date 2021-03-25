@@ -72,6 +72,7 @@ return{
 	getNoticeFail="拉取公告失败",
 	getVersionFail="检测新版本失败",
 	oldVersion="最新版本$1可以下载了!",
+	notFinished="暂未完成,敬请期待!",
 
 	httpCode="Http码",
 	jsonError="json错误",
