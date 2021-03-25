@@ -21,16 +21,20 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-	if key=="application"then
-		SCN.go("dict")
-	elseif key=="f1"then
-		SCN.go("help")
-	elseif key=="f2"then
-		SCN.go("setting_game")
-	elseif key=="q"then
+	if key=="q"then
 		loadGame(STAT.lastPlay,true)
+	elseif key=="p"then
+		SCN.go("mode")
 	elseif key=="escape"then
 		SCN.back()
+	elseif key=="application"then
+		SCN.go("dict")
+	elseif key=="f1"then
+		SCN.go("manual")
+	elseif key=="c"then
+		SCN.go("customGame")
+	elseif key=="s"then
+		SCN.go("setting_game")
 	else
 		WIDGET.keyPressed(key)
 	end
@@ -83,7 +87,7 @@ end
 scene.widgetList={
 	WIDGET.newText{name="system",	x=610,y=50,fText=SYSTEM,		color="white",font=30,align="L"},
 	WIDGET.newText{name="version",	x=610,y=90,fText=VERSION_NAME,	color="white",font=30,align="L"},
-	WIDGET.newKey{name="offline",	x=150,y=260,w=200,h=160,color="lRed",	font=40,code=goScene"mode"},
+	WIDGET.newKey{name="offline",	x=150,y=260,w=200,h=160,color="lRed",	font=40,code=pressKey"p"},
 	WIDGET.newKey{name="online",	x=370,y=260,w=200,h=160,color="lCyan",	font=40,code=function()
 		if not LATEST_VERSION then
 			TEXT.show(text.notFinished,370,380,60,"flicker")
@@ -109,14 +113,14 @@ scene.widgetList={
 		end
 	end},
 	WIDGET.newKey{name="qplay",		x=590,y=260,w=200,h=160,color="lBlue",	font=40,code=pressKey"q"},
-	WIDGET.newKey{name="setting",	x=150,y=480,w=200,h=110,color="lOrange",font=40,code=goScene"setting_game"},
-	WIDGET.newKey{name="custom",	x=370,y=455,w=200,h=160,color="white",	font=40,code=goScene"customGame"},
-	WIDGET.newKey{name="stat",		x=590,y=480,w=200,h=110,color="lGreen",	font=40,code=goScene"stat"},
+	WIDGET.newKey{name="custom",	x=370,y=440,w=200,h=160,color="white",	font=40,code=pressKey"c"},
+	WIDGET.newKey{name="setting",	x=150,y=490,w=200,h=110,color="lOrange",font=40,code=pressKey"s"},
+	WIDGET.newKey{name="stat",		x=590,y=490,w=200,h=110,color="lGreen",	font=40,code=goScene"stat"},
 	WIDGET.newKey{name="music",		x=150,y=600,w=200,h=60,color="red",				code=goScene"music"},
 	WIDGET.newKey{name="sound",		x=370,y=600,w=200,h=60,color="grape",			code=goScene"sound"},
 	WIDGET.newKey{name="help",		x=590,y=600,w=200,h=60,color="blue",			code=goScene"help"},
 	WIDGET.newButton{name="lang",	x=795,y=560,w=170,h=80,color="white",	font=40,code=goScene"lang"},
-	WIDGET.newButton{name="quit",	x=795,y=660,w=170,h=80,color="grey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
+	WIDGET.newButton{name="quit",	x=795,y=660,w=170,h=80,color="dGrey",	font=40,code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }
 
 return scene
