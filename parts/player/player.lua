@@ -315,6 +315,9 @@ function Player.pushNextList(P,L,mir)--Push some nexts to nextQueue
 	end
 end
 
+function Player.getCenterX(P)
+	return P.curX+P.cur.sc[2]-5.5
+end
 function Player.solid(P,x,y)
 	if x<1 or x>10 or y<1 then return true end
 	if y>#P.field then return false end
@@ -579,7 +582,7 @@ function Player.spin(P,d,ifpre)
 		kickData=kickData[P.cur.dir*10+idir]
 		if not kickData then
 			P:freshBlock("move")
-			SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
+			SFX.play(ifpre and"prerotate"or"rotate",nil,P:getCenterX()*.15)
 			return
 		end
 		local icb=BLOCKS[P.cur.id][idir]
@@ -605,7 +608,7 @@ function Player.spin(P,d,ifpre)
 				end
 
 				if P.sound then
-					SFX.fieldPlay(ifpre and"prerotate"or P:ifoverlap(P.cur.bk,P.curX,P.curY+1)and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,P)
+					SFX.play(ifpre and"prerotate"or P:ifoverlap(P.cur.bk,P.curX,P.curY+1)and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)and"rotatekick"or"rotate",nil,P:getCenterX()*.15)
 				end
 				P.stat.rotate=P.stat.rotate+1
 				return
@@ -615,7 +618,7 @@ function Player.spin(P,d,ifpre)
 		kickData(P,d)
 	else
 		P:freshBlock("move")
-		SFX.fieldPlay(ifpre and"prerotate"or"rotate",nil,P)
+		SFX.play(ifpre and"prerotate"or"rotate",nil,P:getCenterX()*.15)
 	end
 end
 local phyHoldKickX={
@@ -1118,11 +1121,11 @@ do--Player.drop(P)--Place piece
 				elseif ENV.fine then
 					SFX.play("finesseError",.8)
 				else
-					SFX.fieldPlay("lock",nil,P)
+					SFX.play("lock",nil,P:getCenterX()*.15)
 				end
 			end
 		elseif P.sound then
-			SFX.fieldPlay("lock",nil,P)
+			SFX.play("lock",nil,P:getCenterX()*.15)
 		end
 
 		if finePts<=1 then
@@ -1902,7 +1905,7 @@ function Player.act_hardDrop(P)
 				P.fieldOff.vy=P.gameEnv.shakeFX*.6
 			end
 			if P.sound then
-				SFX.fieldPlay("drop",nil,P)
+				SFX.play("drop",nil,P:getCenterX()*.15)
 				VIB(1)
 			end
 		end

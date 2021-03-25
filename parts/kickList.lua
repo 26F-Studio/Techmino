@@ -130,7 +130,7 @@ do
 			if P.gameEnv.ospin then
 				local x,y=P.curX,P.curY
 				if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
-					if P.sound then SFX.fieldPlay("rotatekick",nil,P)end
+					if P.sound then SFX.play("rotatekick",nil,P:getCenterX()*.15)end
 					local D=P.spinSeq%100*10+d
 					P.spinSeq=D
 					if D<100 then return end
@@ -155,11 +155,11 @@ do
 						end
 					end
 				else
-					if P.sound then SFX.fieldPlay("rotate",nil,P)end
+					if P.sound then SFX.play("rotate",nil,P:getCenterX()*.15)end
 					P.spinSeq=0
 				end
 			else
-				if P.sound then SFX.fieldPlay("rotate",nil,P)end
+				if P.sound then SFX.play("rotate",nil,P:getCenterX()*.15)end
 			end
 		end,--O
 		{
@@ -270,7 +270,7 @@ do
 			[31]={{ 0,-1},{ 1, 0}},
 		},--W
 		function(P,d)
-			if P.type=="human"then SFX.fieldPlay("rotate",nil,P)end
+			if P.type=="human"then SFX.play("rotate",nil,P:getCenterX()*.15)end
 			local kickData=XspinList[d]
 			for test=1,#kickData do
 				local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
