@@ -1,12 +1,16 @@
 local gc=love.graphics
-local gc_push,gc_pop,gc_scale,gc_translate=gc.push,gc.pop,gc.scale,gc.translate
-local gc_draw,gc_print,gc_line,gc_rectangle,gc_circle=gc.draw,gc.print,gc.line,gc.rectangle,gc.circle
+local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
+local gc_draw,gc_line,gc_rectangle,gc_circle=gc.draw,gc.line,gc.rectangle,gc.circle
+local gc_print,gc_printf=gc.print,gc.printf
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local TIME=TIME
+local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
+
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
-local SCR=SCR
 local setFont,mStr=setFont,mStr
+local TIME=TIME
 
 local frameColorList={
 	[0]=COLOR.white,
@@ -16,6 +20,7 @@ local frameColorList={
 	COLOR.lOrange,
 }
 --local function drawCell(y,x,id)gc_draw(SKIN.curText[id],30*x-30,-30*y)end
+local function stencilBoard()gc_rectangle("fill",0,-10,300,610)end
 local function drawGrid(P)
 	local d=P.fieldBeneath+P.fieldUp
 	gc_setLineWidth(1)
@@ -67,13 +72,13 @@ local function drawField(P)
 
 	if P.falling==-1 then--Blocks only
 		if ENV.upEdge then
-			gc.setShader(SHADER.lighter)
-			gc.translate(0,-4)
+			gc_setShader(SHADER.lighter)
+			gc_translate(0,-4)
 			--<drawRow>
 				for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
 			--</drawRow>
-			gc.setShader()
-			gc.translate(0,4)
+			gc_setShader()
+			gc_translate(0,4)
 		end
 
 		--<drawRow>
@@ -85,8 +90,8 @@ local function drawField(P)
 		local h=1
 		if ENV.upEdge then
 			gc_push("transform")
-			gc.setShader(SHADER.lighter)
-			gc.translate(0,-4)
+			gc_setShader(SHADER.lighter)
+			gc_translate(0,-4)
 			--<drawRow>
 				for j=start,min(start+21,#F)do
 					while j==P.clearingRow[h]do
@@ -98,7 +103,7 @@ local function drawField(P)
 					drawRow(j,V[j],F[j])
 				end
 			--</drawRow>
-			gc.setShader()
+			gc_setShader()
 			gc_pop()
 			h=1
 		end
@@ -169,7 +174,7 @@ local function drawGhost(P,clr)
 end
 local function drawBlockOutline(P,texture,trans)
 	SHADER.alpha:send("a",trans)
-	gc.setShader(SHADER.alpha)
+	gc_setShader(SHADER.alpha)
 	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
 		if CB[i][j]then
@@ -181,7 +186,7 @@ local function drawBlockOutline(P,texture,trans)
 			gc_draw(texture,x,y+6)
 		end
 	end end
-	gc.setShader()
+	gc_setShader()
 end
 local function drawBlock(P,clr)
 	gc_setColor(1,1,1)
@@ -314,6 +319,26 @@ local function drawHold(P)
 			end
 		gc_pop()
 	gc_pop()
+end
+local RCPB={5,33,195,33,100,5,100,60}
+local hideBoardStencil={
+	up=function()gc_rectangle("fill",0,0,300,300)end,
+	down=function()gc_rectangle("fill",0,300,300,300)end,
+	all=function()gc_rectangle("fill",0,0,300,600)end,
+}
+local function drawDial(x,y,speed)
+	gc_setColor(1,1,1)
+	setFont(25)
+	mStr(int(speed),x,y-18)
+
+	gc_setLineWidth(2)
+	gc_circle("line",x,y,30,6)
+
+	gc_draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
+
+	gc_setLineWidth(4)
+	gc_setColor(1,1,1,.4)
+	gc_circle("line",x,y,30,6)
 end
 local function drawFinesseCombo_norm(P)
 	if P.finesseCombo>2 then
@@ -504,26 +529,6 @@ function draw.drawTargetLine(P,r)
 	end
 end
 
-local RCPB={5,33,195,33,100,5,100,60}
-local function drawDial(x,y,speed)
-	gc_setColor(1,1,1)
-	setFont(25)
-	mStr(int(speed),x,y-18)
-
-	gc_setLineWidth(2)
-	gc_circle("line",x,y,30,6)
-
-	gc_draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
-
-	gc_setLineWidth(4)
-	gc_setColor(1,1,1,.4)
-	gc_circle("line",x,y,30,6)
-end
-local hideBoardStencil={
-	up=function()gc_rectangle("fill",0,0,300,300)end,
-	down=function()gc_rectangle("fill",0,300,300,300)end,
-	all=function()gc_rectangle("fill",0,0,300,600)end,
-}
 function draw.norm(P)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
@@ -543,7 +548,9 @@ function draw.norm(P)
 				gc_setColor(0,0,0,.6)
 				gc_rectangle("fill",0,-10,300,610)
 
-				--In-field things
+				--Stenciled in-field things
+				gc_stencil(stencilBoard,"replace",1)
+				gc_setStencilTest("equal",1)
 				gc_push("transform")
 					boardTransform(ENV.flipBoard)
 
@@ -552,9 +559,6 @@ function draw.norm(P)
 
 					--Move camera
 					gc_translate(0,600+FBN+FUP)
-
-					--Set scissor
-					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
 					local fieldTop=-ENV.fieldH*30
 					--Draw dangerous area
@@ -613,9 +617,8 @@ function draw.norm(P)
 							gc_draw(texture,30*L[i],-30*L[i+1]-30)
 						end
 					end
-
-					gc.setScissor()
 				gc_pop()
+				gc_setStencilTest()
 
 				drawBoarders(P)
 				drawBuffer(P)
@@ -633,18 +636,18 @@ function draw.norm(P)
 					setFont(35)
 					for i=1,4 do
 						gc_rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-						gc.printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
+						gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
 					end
 				end
 				if ENV.hideBoard then
-					gc.stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
-					gc.setStencilTest("equal",1)
+					gc_stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
+					gc_setStencilTest("equal",1)
 					gc_setLineWidth(20)
 					for i=0,24 do
 						gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
 						gc_line(20*i-190,-2,20*i+10,602)
 					end
-					gc.setStencilTest()
+					gc_setStencilTest()
 				end
 			gc_pop()
 
@@ -710,7 +713,9 @@ function draw.norm_remote(P)
 				gc_setColor(0,0,0,.6)
 				gc_rectangle("fill",0,-10,300,610)
 
-				--In-field things
+				--Stenciled in-field things
+				gc_stencil(stencilBoard,"replace",1)
+				gc_setStencilTest("equal",1)
 				gc_push("transform")
 					boardTransform(ENV.flipBoard)
 
@@ -719,9 +724,6 @@ function draw.norm_remote(P)
 
 					--Move camera
 					gc_translate(0,600+FBN+FUP)
-
-					--Set scissor
-					gc.setScissor(SCR.x+(P.absFieldX+P.fieldOff.x)*SCR.k,SCR.y+(P.absFieldY+P.fieldOff.y)*SCR.k,300*P.size*SCR.k,610*P.size*SCR.k)
 
 					local fieldTop=-ENV.fieldH*30
 					--Draw dangerous area
@@ -771,9 +773,8 @@ function draw.norm_remote(P)
 					if ENV.nextPos and P.nextQueue[1]then
 						drawNextPreview(P,P.nextQueue[1])
 					end
-
-					gc.setScissor()
 				gc_pop()
+				gc_setStencilTest()
 
 				drawBoarders(P)
 				drawBuffer(P)
@@ -791,18 +792,18 @@ function draw.norm_remote(P)
 					setFont(35)
 					for i=1,4 do
 						gc_rectangle("line",RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-						gc.printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
+						gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
 					end
 				end
 				if ENV.hideBoard then
-					gc.stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
-					gc.setStencilTest("equal",1)
+					gc_stencil(hideBoardStencil[ENV.hideBoard],"replace",1)
+					gc_setStencilTest("equal",1)
 					gc_setLineWidth(20)
 					for i=0,24 do
 						gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
 						gc_line(20*i-190,-2,20*i+10,602)
 					end
-					gc.setStencilTest()
+					gc_setStencilTest()
 				end
 			gc_pop()
 
@@ -839,10 +840,10 @@ function draw.small(P)
 	P.frameWait=P.frameWait-1
 	if P.frameWait==0 then
 		P.frameWait=10
-		gc.setCanvas(P.canvas)
-		gc.clear(0,0,0,.4)
+		gc_setCanvas(P.canvas)
+		gc_clear(0,0,0,.4)
 		gc_push("transform")
-		gc.origin()
+		gc_origin()
 		gc_setColor(1,1,1,P.result and max(20-P.endCounter,0)*.05 or 1)
 
 		--Field
@@ -876,7 +877,7 @@ function draw.small(P)
 			setFont(15)mStr(P.modeData.place,30,82)
 		end
 		gc_pop()
-		gc.setCanvas()
+		gc_setCanvas()
 	end
 
 	--Draw Canvas
