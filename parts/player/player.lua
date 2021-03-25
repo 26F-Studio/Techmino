@@ -5,7 +5,7 @@
 local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
-local max,min,abs,modf=math.max,math.min,math.abs,math.modf
+local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local resume,yield=coroutine.resume,coroutine.yield
 
@@ -613,8 +613,8 @@ function Player.spin(P,d,ifpre)
 						sfx="prerotate"
 					elseif P:ifoverlap(icb,ix,iy+1)and P:ifoverlap(icb,ix-1,iy)and P:ifoverlap(icb,ix+1,iy)then
 						sfx="rotatekick"
-						if abs(d)==1 then
-							P.fieldOff.va=P.fieldOff.va+d*P.gameEnv.shakeFX*6e-3
+						if d==1 or d==3 then
+							P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
 						else
 							P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
 						end
@@ -1889,7 +1889,7 @@ end
 function Player.act_rotLeft(P)
 	if P.control and P.waiting==-1 and P.cur then
 		P.ctrlCount=P.ctrlCount+1
-		P:spin(-1)
+		P:spin(3)
 		P.keyPressing[4]=false
 	end
 end

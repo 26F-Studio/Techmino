@@ -253,7 +253,6 @@ function update.alive(P,dt)
 			end
 			if ENV.shakeFX then
 				P.fieldOff.vy=ENV.shakeFX*.2
-				P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*4e-5
 			end
 		end
 	else

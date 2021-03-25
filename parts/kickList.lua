@@ -131,12 +131,11 @@ do
 				local x,y=P.curX,P.curY
 				if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
 					if P.sound then SFX.play("rotatekick",nil,P:getCenterX()*.15)end
-					local D=P.spinSeq%100*10+d
-					P.spinSeq=D
-					if D<100 then return end
+					P.spinSeq=P.spinSeq%100*10+d
+					if P.spinSeq<100 then return end
 					for i=1,#OspinList do
 						local L=OspinList[i]
-						if D==L[1]then
+						if P.spinSeq==L[1]then
 							local id,dir=L[2],L[3]
 							local bk=BLOCKS[id][dir]
 							x,y=P.curX+L[4],P.curY+L[5]
