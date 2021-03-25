@@ -211,12 +211,12 @@ function scene.keyDown(key)
 		local F=FIELD[page]
 		for i=20,1,-1 do
 			for j=1,10 do
-				if F[i][j]<=0 then goto nextLine end
+				if F[i][j]<=0 then goto CONTINUE_notFull end
 			end
 			SYSFX.newShade(3,200,660-30*i,300,30)
 			SYSFX.newRectRipple(3,200,660-30*i,300,30)
 			rem(F,i)
-			::nextLine::
+			::CONTINUE_notFull::
 		end
 		if #F~=20 then
 			repeat

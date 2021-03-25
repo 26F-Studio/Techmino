@@ -40,11 +40,11 @@ local function checkBoard(b,p)
 	for i=1,8 do
 		for j=1,3 do
 			if b[lines[i][j]]~=p then
-				goto nextLine
+				goto CONTINUE_testNextLine
 			end
 		end
 		do return true end
-		::nextLine::
+		::CONTINUE_testNextLine::
 	end
 end
 local function full(L)

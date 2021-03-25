@@ -146,11 +146,11 @@ local function getScore(field,cb,cy)
 
 	for i=cy+#cb-1,cy,-1 do
 		for j=1,10 do
-			if field[i][j]==0 then goto continue end
+			if field[i][j]==0 then goto CONTINUE_notFull end
 		end
 		discardRow(rem(field,i))
 		clear=clear+1
-		::continue::
+		::CONTINUE_notFull::
 	end
 	if #field==0 then return 1e99 end--PC
 	for x=1,10 do

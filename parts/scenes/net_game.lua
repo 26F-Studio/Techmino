@@ -80,12 +80,12 @@ function scene.touchMove()
 		if B.ava then
 			for i=1,#L,2 do
 				if(L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
-					goto continue
+					goto CONTINUE_nextKey
 				end
 			end
 			PLAYERS[1]:releaseKey(n)
 		end
-		::continue::
+		::CONTINUE_nextKey::
 	end
 end
 function scene.keyDown(key)

@@ -28,7 +28,7 @@ function Player.createLockFX(P)
 		local y=P.curY+i-1
 		local L=P.clearedRow
 		for j=1,#L do
-			if L[j]==y then goto continue end
+			if L[j]==y then goto CONTINUE_skip end
 		end
 		y=-30*y
 		for j=1,#CB[1]do
@@ -36,7 +36,7 @@ function Player.createLockFX(P)
 				ins(P.lockFX,{30*(P.curX+j-2),y,0,t})
 			end
 		end
-		::continue::
+		::CONTINUE_skip::
 	end
 end
 function Player.createDropFX(P,x,y,w,h)
@@ -513,11 +513,11 @@ function Player.lock(P)
 					for k=1,#dest,2 do
 						if x==dest[k]+1 and y==dest[k+1]+1 then
 							rem(dest,k)rem(dest,k)
-							goto success
+							goto BREAK_success
 						end
 					end
 					dest=nil
-					::success::
+					::BREAK_success::
 				end
 			end
 		end
@@ -660,8 +660,8 @@ function Player.hold(P,ifpre)
 					SFX.play("finesseError")
 					do return end
 				--<for-end>
-
 				::BREAK_success::
+
 				P.spinLast=false
 				P.spinSeq=0
 				local hb=P:getBlock(C.id)
@@ -998,13 +998,13 @@ do--Player.drop(P)--Place piece
 			--Row filled
 			for x=1,10 do
 				if P.field[h][x]<=0 then
-					goto notFull
+					goto CONTINUE_notFull
 				end
 			end
-				cc=cc+1
-				P.clearingRow[cc]=h-cc+1
-				P.clearedRow[cc]=h
-			::notFull::
+			cc=cc+1
+			P.clearingRow[cc]=h-cc+1
+			P.clearedRow[cc]=h
+			::CONTINUE_notFull::
 		end
 
 		--Create clearing FX
@@ -1062,11 +1062,11 @@ do--Player.drop(P)--Place piece
 				for testY=CY+y,#P.field do
 					if P:solid(testX,testY)then
 						finesse=true
-						goto BERAK
+						goto BERAK_roofFound
 					end
 				end
 			end
-			::BERAK::
+			::BERAK_roofFound::
 		end
 
 		--Remove rows need to be cleared

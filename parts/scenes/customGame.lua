@@ -71,21 +71,21 @@ function scene.keyDown(key)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local args=SPLITSTR(str:sub((str:find(":")or 0)+1),"!")
-		if #args<4 then goto fail end
+		if #args<4 then goto THROW_fail end
 		if not(
 			pasteQuestArgs(args[1])and
 			pasteSequence(args[2])and
 			pasteMission(args[3])
-		)then goto fail end
+		)then goto THROW_fail end
 		repeat table.remove(FIELD)until #FIELD==0
 		FIELD[1]=newBoard()
 		for i=4,#args do
-			if not pasteBoard(args[i],i-3)and i<#args then goto fail end
+			if not pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
 		end
 		freshMiniFieldVisible()
 		LOG.print(text.importSuccess,COLOR.green)
 		do return end
-		::fail::LOG.print(text.dataCorrupted,COLOR.red)
+		::THROW_fail::LOG.print(text.dataCorrupted,COLOR.red)
 	elseif key=="escape"then
 		SCN.back()
 	else

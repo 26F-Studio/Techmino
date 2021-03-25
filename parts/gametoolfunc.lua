@@ -100,11 +100,11 @@ function copyBoard(page)--Copy the [page] board
 		for x=1,10 do
 			if F[y][x]~=0 then
 				H=y
-				goto topFound
+				goto BREAK_topFound
 			end
 		end
 	end
-	::topFound::
+	::BREAK_topFound::
 
 	--Encode field
 	for y=1,H do
