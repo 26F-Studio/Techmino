@@ -154,12 +154,13 @@ function button:draw()
 		setFont(self.font)
 		local y0=y+h*.5-self.font*.7-ATV*.5
 		gc.setColor(1,1,1,.2+ATV*.05)
-		gc.printf(t,x+20-2,y0-2,w-40,self.align)
-		gc.printf(t,x+20-2,y0+2,w-40,self.align)
-		gc.printf(t,x+20+2,y0-2,w-40,self.align)
-		gc.printf(t,x+20+2,y0+2,w-40,self.align)
+		local edge=self.edge
+		gc.printf(t,x+edge-2,y0-2,w-2*edge,self.align)
+		gc.printf(t,x+edge-2,y0+2,w-2*edge,self.align)
+		gc.printf(t,x+edge+2,y0-2,w-2*edge,self.align)
+		gc.printf(t,x+edge+2,y0+2,w-2*edge,self.align)
 		gc.setColor(r*.5,g*.5,b*.5)
-		gc.printf(t,x+20,y0,w-40,self.align)
+		gc.printf(t,x+edge,y0,w-2*edge,self.align)
 	else
 		self.text=self.name or"###"
 		self.color=COLOR.dPurple
@@ -173,7 +174,7 @@ function button:press()
 	self:FX()
 	SFX.play("button")
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align],code[,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edge]],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -195,6 +196,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align],code
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	alignModes[D.align or"M"]or"center",
+		edge=	D.edge or 0,
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -244,7 +246,7 @@ function key:draw()
 	if t then
 		setFont(self.font)
 		gc.setColor(r,g,b,1.2)
-		gc.printf(t,x+20,y+h*.5-self.font*.7,w-40,self.align)
+		gc.printf(t,x+self.edge,y+h*.5-self.font*.7,w-2*self.edge,self.align)
 	else
 		self.text=self.name or"###"
 		self.color=COLOR.dPurple
@@ -256,7 +258,7 @@ end
 function key:press()
 	self.code()
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align],code[,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edge]],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -278,6 +280,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align],code[,h
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
 		align=	alignModes[D.align or"M"]or"center",
+		edge=	D.edge or 0,
 		code=	D.code,
 		hide=	D.hide,
 	}
