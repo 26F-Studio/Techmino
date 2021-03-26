@@ -7,6 +7,13 @@ local sub,format=string.sub,string.format
 local ins=table.insert
 local setFont,mStr=setFont,mStr
 
+local alignModes={
+	M="center",
+	L="left",
+	R="right",
+	F="justify",
+}
+
 local WIDGET={}
 local widgetMetatable={
 	__tostring=function(self)
@@ -147,14 +154,14 @@ function button:draw()
 		setFont(self.font)
 		local y0=y+h*.5-self.font*.7-ATV*.5
 		gc.setColor(1,1,1,.2+ATV*.05)
-		gc.printf(t,x-2,y0-2,w,"center")
-		gc.printf(t,x-2,y0+2,w,"center")
-		gc.printf(t,x+2,y0-2,w,"center")
-		gc.printf(t,x+2,y0+2,w,"center")
+		gc.printf(t,x+20-2,y0-2,w-40,self.align)
+		gc.printf(t,x+20-2,y0+2,w-40,self.align)
+		gc.printf(t,x+20+2,y0-2,w-40,self.align)
+		gc.printf(t,x+20+2,y0+2,w-40,self.align)
 		gc.setColor(r*.5,g*.5,b*.5)
-		gc.printf(t,x,y0,w,"center")
+		gc.printf(t,x+20,y0,w-40,self.align)
 	else
-		self.text=self.name or"NONAME"
+		self.text=self.name or"###"
 		self.color=COLOR.dPurple
 	end
 end
@@ -166,7 +173,7 @@ function button:press()
 	self:FX()
 	SFX.play("button")
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font],code[,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -187,6 +194,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font],code[,hide]
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
+		align=	alignModes[D.align or"M"],
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -236,9 +244,9 @@ function key:draw()
 	if t then
 		setFont(self.font)
 		gc.setColor(r,g,b,1.2)
-		gc.printf(t,x,y+h*.5-self.font*.7,w,"center")
+		gc.printf(t,x+20,y+h*.5-self.font*.7,w-40,self.align)
 	else
-		self.text=self.name or"NONAME"
+		self.text=self.name or"###"
 		self.color=COLOR.dPurple
 	end
 end
@@ -248,7 +256,7 @@ end
 function key:press()
 	self.code()
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font],code[,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
