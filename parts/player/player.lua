@@ -613,10 +613,12 @@ function Player.spin(P,d,ifpre)
 						sfx="prerotate"
 					elseif P:ifoverlap(icb,ix,iy+1)and P:ifoverlap(icb,ix-1,iy)and P:ifoverlap(icb,ix+1,iy)then
 						sfx="rotatekick"
-						if d==1 or d==3 then
-							P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
-						else
-							P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
+						if P.gameEnv.shakeFX then
+							if d==1 or d==3 then
+								P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
+							else
+								P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
+							end
 						end
 					else
 						sfx="rotate"
@@ -2024,7 +2026,6 @@ function Player.act_insDown(P)
 		end
 		if ENV.shakeFX then
 			P.fieldOff.vy=ENV.shakeFX*.5
-			-- P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*5e-4
 		end
 		P.curY=P.ghoY
 		P.lockDelay=ENV.lock
