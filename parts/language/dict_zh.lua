@@ -34,7 +34,7 @@ return{
 	{"小程序",
 		"小程序 applets",
 		"help",
-		"输入以下词语打开小程序:\n15-Puzzle: 15p;  Schulte Grid: grid\nPong: pong;  AtoZ: atoz;  2048: 2048\nCubefield: cube;  Just get ten: ten\nUltimate Tic-tac-toe: uttt\nTapping speed test: tap\nDon't touch white: dtw\nCannon: can;  Dropper: drp\nCalculater: calc\nReflect: refl\nPolyforge: poly\nCommand Line: cmd",
+		"[小程序入口已移动至命令行]",
 	},
 
 	--游戏(题库)

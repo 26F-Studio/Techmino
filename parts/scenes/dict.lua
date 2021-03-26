@@ -40,46 +40,24 @@ local function clearResult()
 	selected,scrollPos=1,0
 	waiting,lastSearch=0,false
 end
-local eggInput={
-	["15p"]=goScene"app_15p",
-	grid=goScene"app_schulteG",
-	pong=goScene"app_pong",
-	atoz=goScene"app_AtoZ",
-	uttt=goScene"app_UTTT",
-	cube=goScene"app_cubefield",
-	["2048"]=goScene"app_2048",
-	ten=goScene"app_ten",
-	tap=goScene"app_tap",
-	dtw=goScene"app_dtw",
-	can=goScene"app_cannon",
-	drp=goScene"app_dropper",
-	calc=goScene"app_calc",
-	refl=goScene"app_reflect",
-	poly=goScene"app_polyforge",
-	cmd=goScene"app_cmd",
-}TABLE.reIndex(eggInput)
 local function search()
 	local input=inputBox.value:lower()
-	if eggInput[input]then
-		eggInput[input]()
-	else
-		clearResult()
-		local first
-		for i=1,#dict do
-			local pos=find(dict[i][2],input,nil,true)
-			if pos==1 and not first then
-				ins(result,1,dict[i])
-				first=true
-			elseif pos then
-				ins(result,dict[i])
-			end
+	clearResult()
+	local first
+	for i=1,#dict do
+		local pos=find(dict[i][2],input,nil,true)
+		if pos==1 and not first then
+			ins(result,1,dict[i])
+			first=true
+		elseif pos then
+			ins(result,dict[i])
 		end
-		if #result>0 then
-			SFX.play("reach")
-		end
-		url=(result[1]and result or dict)[selected][5]
-		lastSearch=input
 	end
+	if #result>0 then
+		SFX.play("reach")
+	end
+	url=(result[1]and result or dict)[selected][5]
+	lastSearch=input
 end
 
 function scene.keyDown(key)

@@ -39,7 +39,7 @@ return{
 	{"Applets",
 		"applets",
 		"help",
-		"Type the following codes for some fun applets!\n15-Puzzle: 15p;  Schulte Grid: grid\nPong: pong;  AtoZ: atoz;  2048: 2048\nCubefield: cube;  Just get ten: ten\nUltimate Tic-tac-toe: uttt\nTapping speed test: tap\nDon't touch white: dtw\nCannon: can;  Dropper: drp\nCalculater: calc\nReflect: refl\nPolyforge: poly\nCommand Line: cmd",
+		"[Entrance of applets has been moved to command line]",
 	},
 
 	--Games
