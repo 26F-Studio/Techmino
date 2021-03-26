@@ -2,9 +2,10 @@ local gc=love.graphics
 
 local scene={}
 
+local verName=SYSTEM.."  "..VERSION_NAME
 local tipLength=540
 local tip=gc.newText(getFont(30),"")
-local scrollX
+local scrollX--Tip scroll position
 
 local cmdEntryThread=coroutine.create(function()
 	while true do
@@ -14,8 +15,6 @@ local cmdEntryThread=coroutine.create(function()
 			if YIELD()~="m"then break end
 			SFX.play("ren_9")
 			if YIELD()~="d"then break end
-			SFX.play("ren_10")
-			if YIELD()~="k"then break end
 			SFX.play("ren_11")
 			SCN.go("app_cmd")
 		end
@@ -28,25 +27,31 @@ function scene.sceneInit()
 	BG.set()
 	coroutine.resume(cmdEntryThread)
 
+	--Set quick-play-button text
+	scene.widgetList[2].text=text.modes[STAT.lastPlay][1].."-"..text.modes[STAT.lastPlay][2]
+
 	--Create demo player
 	destroyPlayers()
 	GAME.modeEnv=NONE
 	GAME.frame=0
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
-	PLAYERS[1]:setPosition(600,165,.75)
+	PLAYERS[1]:setPosition(520,140,.8)
+	love.keyboard.setKeyRepeat(false)
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.mouseDown(x,y)
-	if x>=600 and x<=825 and y>=165 and y<=615 then
+	if x>=520 and x<=760 and y>=140 and y<=620 then
 		coroutine.resume(cmdEntryThread,
-			x<680 and y>535 and"c"or
-			x>745 and y>535 and"m"or
-			x<680 and y<245 and"d"
+			x<520+80 and y>620-80 and"c"or
+			x>760-80 and y>620-80 and"m"or
+			x<520+80 and y<140+80 and"d"
 		)
 	end
 end
-scene.touchDown=scene.mouseDown
 function scene.keyDown(key)
 	if key=="1"then
 		SCN.go("mode")
@@ -106,6 +111,10 @@ function scene.update(dt)
 		scrollX=tipLength
 		tip:set(text.getTip())
 	end
+	local L=scene.widgetList
+	for i=1,8 do
+		L[i].x=L[i].x*.9+((i<5 and 40 or 1240)-350+(WIDGET.sel==L[i]and(i<5 and 100 or -100)or 0))*.1
+	end
 end
 
 local function tipStencil()
@@ -113,19 +122,13 @@ local function tipStencil()
 end
 function scene.draw()
 	--Version
-	setFont(30)
+	setFont(20)
 	gc.setColor(.6,.6,.6)
-	gc.print(SYSTEM,535,40)
-	gc.print(VERSION_NAME,535,80)
+	mStr(verName,640,110)
 
 	--Title
 	gc.setColor(1,1,1)
-	gc.draw(TEXTURE.title_color,20,20,nil,.43)
-
-	--Quick play
-	local L=text.modes[STAT.lastPlay]
-	gc.print(L[1],365,300)
-	gc.print(L[2],365,340)
+	mDraw(TEXTURE.title_color,640,60,nil,.43)
 
 	--Tip
 	gc.push("transform")
@@ -144,19 +147,19 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="offline",x=20,y=210,w=600,h=100,		color="lR",		font=45,align="R",edge=30,	code=pressKey"1"},
-	WIDGET.newButton{name="qplay",	x=50,y=330,w=600,h=100,		color="lM",		font=45,align="R",edge=30,	code=pressKey"q"},
-	WIDGET.newButton{name="online",	x=80,y=450,w=600,h=100,		color="lPurple",font=45,align="R",edge=30,	code=pressKey"a"},
-	WIDGET.newButton{name="custom",	x=110,y=570,w=600,h=100,	color="lSea",	font=45,align="R",edge=30,	code=pressKey"z"},
+	WIDGET.newButton{name="offline",x=-1200,y=210,w=700,h=100,	color="lR",		font=45,align="R",edge=30,	code=pressKey"1"},
+	WIDGET.newButton{name="qplay",	x=-1200,y=330,w=700,h=100,	color="lM",		font=40,align="R",edge=30,	code=pressKey"q"},
+	WIDGET.newButton{name="online",	x=-1200,y=450,w=700,h=100,	color="lPurple",font=45,align="R",edge=30,	code=pressKey"a"},
+	WIDGET.newButton{name="custom",	x=-1200,y=570,w=700,h=100,	color="lSea",	font=45,align="R",edge=30,	code=pressKey"z"},
 
-	WIDGET.newButton{name="setting",x=1170,y=210,w=600,h=100,	color="lOrange",font=40,align="L",edge=30,	code=pressKey"-"},
-	WIDGET.newButton{name="stat",	x=1200,y=330,w=600,h=100,	color="lLame",	font=40,align="L",edge=30,	code=pressKey"p"},
-	WIDGET.newButton{name="music",	x=1230,y=450,w=600,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
-	WIDGET.newButton{name="help",	x=1260,y=570,w=600,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
+	WIDGET.newButton{name="setting",x=2480,y=210,w=700,h=100,	color="lOrange",font=40,align="L",edge=30,	code=pressKey"-"},
+	WIDGET.newButton{name="stat",	x=2480,y=330,w=700,h=100,	color="lLame",	font=40,align="L",edge=30,	code=pressKey"p"},
+	WIDGET.newButton{name="music",	x=2480,y=450,w=700,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
+	WIDGET.newButton{name="help",	x=2480,y=570,w=700,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
 
-	WIDGET.newButton{name="lang",	x=720,y=670,w=200,h=70,		color="Y",		font=40,					code=goScene"lang"},
-	WIDGET.newButton{name="dict",	x=940,y=670,w=200,h=70,		color="orange",	font=35,					code=goScene"dict"},
-	WIDGET.newButton{name="quit",	x=1160,y=670,w=200,h=70,	color="R",		font=40,					code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
+	WIDGET.newButton{name="lang",	x=720,y=680,w=200,h=100,	color="Y",		font=40,					code=goScene"lang"},
+	WIDGET.newButton{name="dict",	x=940,y=680,w=200,h=100,	color="orange",	font=35,					code=goScene"dict"},
+	WIDGET.newButton{name="quit",	x=1160,y=680,w=200,h=100,	color="R",		font=40,					code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }
 
 return scene
