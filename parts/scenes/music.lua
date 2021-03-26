@@ -7,6 +7,9 @@ local scene={}
 local selected--Music selected
 
 local bgmList=BGM.getList()
+if #bgmList==0 then
+	bgmList={"[NO BGM]"}
+end
 function scene.sceneInit()
 	if BGM.nowPlay then
 		for i=1,BGM.getCount()do
@@ -15,9 +18,8 @@ function scene.sceneInit()
 				return
 			end
 		end
-	else
-		selected=1
 	end
+	selected=1
 end
 
 function scene.wheelMoved(_,y)
@@ -56,10 +58,10 @@ function scene.draw()
 	gc.print(bgmList[selected],320,355)
 	setFont(35)
 	if selected>1 then			gc.print(bgmList[selected-1],320,350-30)end
-	if selected<BGM.getCount()then	gc.print(bgmList[selected+1],320,350+65)end
+	if selected<#bgmList then	gc.print(bgmList[selected+1],320,350+65)end
 	setFont(20)
 	if selected>2 then			gc.print(bgmList[selected-2],320,350-50)end
-	if selected<BGM.getCount()-1 then	gc.print(bgmList[selected+2],320,350+110)end
+	if selected<#bgmList-1 then	gc.print(bgmList[selected+2],320,350+110)end
 
 	gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
 	if BGM.nowPlay then
@@ -89,7 +91,7 @@ scene.widgetList={
 	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,			font=35,disp=lnk_SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
 	WIDGET.newButton{name="up",		x=200,	y=250,w=120,		font=55,code=pressKey"up",hide=function()return selected==1 end},
 	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=pressKey"space"},
-	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=pressKey"down",hide=function()return selected==BGM.getCount()end},
+	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=pressKey"down",hide=function()return selected==#bgmList end},
 	WIDGET.newButton{name="sound",	x=1140,	y=540,w=170,h=80,	font=40,code=pressKey"tab"},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=backScene},
 }
