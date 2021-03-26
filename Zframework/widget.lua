@@ -194,7 +194,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align],code
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
-		align=	alignModes[D.align or"M"],
+		align=	alignModes[D.align or"M"]or"center",
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -277,6 +277,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align],code[,h
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
+		align=	alignModes[D.align or"M"]or"center",
 		code=	D.code,
 		hide=	D.hide,
 	}
