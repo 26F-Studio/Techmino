@@ -215,6 +215,18 @@ do--commands.help(arg)
 				"Usage: demo",
 			},
 		},
+		applet={
+			description="Go to an applet scene",
+			details={
+				"Go to an applet scene",
+				"",
+				"Aliases: applet app",
+				"",
+				"Usage:",
+				"applet -list",
+				"applet [appName]",
+			},
+		},
 	}TABLE.reIndex(command_help_messages)
 
 	local command_help_list={
@@ -240,6 +252,7 @@ do--commands.help(arg)
 		"setbg",
 		"theme",
 		"demo",
+		"applet",
 	}
 	local pageSize=10
 	local maxPage=math.ceil(#command_help_list/pageSize)
@@ -473,6 +486,29 @@ function commands.theme(name)
 end
 function commands.demo()
 	SCN.go("empty","none")
+do--commands.applet(name)
+	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","drppper","calc","reflect","polyforge"}
+	local appScene={"app_15p","app_schulteG","app_pong","app_AtoZ","app_UTTT","app_cubefield","app_2048","app_ten","app_tap","app_dtw","app_cannon","app_dropper","app_calc","app_reflect","app_polyforge"}
+	function commands.applet(name)
+		if name=="-list"then
+			for i=1,#appList do
+				log(appList[i].." -> "..appScene[i]:sub(5))
+			end
+		elseif name~=""then
+			for i=1,#appList do
+				if appList[i]==name then
+					SCN.go(appScene[i])
+					return
+				end
+			end
+			log{C.water,"No this applet"}
+		else
+			log{C.water,"Usage:"}
+			log{C.water,"applet -list"}
+			log{C.water,"applet [appName]"}
+		end
+	end
+	commands.app=commands.applet
 end
 
 
