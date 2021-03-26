@@ -42,6 +42,8 @@ function scene.keyDown(key)
 		else
 			BGM.stop()
 		end
+	elseif key=="tab"then
+		SCN.swapTo("sound","none")
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -88,6 +90,7 @@ scene.widgetList={
 	WIDGET.newButton{name="up",		x=200,	y=250,w=120,		font=55,code=pressKey"up",hide=function()return selected==1 end},
 	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=pressKey"space"},
 	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=pressKey"down",hide=function()return selected==BGM.getCount()end},
+	WIDGET.newButton{name="sound",	x=1140,	y=540,w=170,h=80,	font=40,code=pressKey"tab"},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=backScene},
 }
 
