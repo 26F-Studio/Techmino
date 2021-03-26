@@ -86,9 +86,6 @@ return{
 			infHold="无限暂存",
 			phyHold="物理暂存",
 		},
-		music={
-			bgm="音乐",
-		},
 		sound={
 			clear1="消一",
 			clear2="消二",

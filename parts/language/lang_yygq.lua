@@ -109,7 +109,6 @@ return{
 		},
 		help={
 			manual="聪明人不用看",
-			dict="词典",
 			staff="游戏谁做的",
 			his="黑历史",
 			qq="QQ对线",
