@@ -192,9 +192,9 @@ return{
 	WidgetText={
 		main={
 			-- offline="Single",
-			-- online="Multi",
 			qplay="P. Rápida",
-			custom="Person.",
+			-- online="Multi",
+			-- custom="Person.",
 			setting="Opciones",
 			stat="Estadísticas",
 			music="Música",

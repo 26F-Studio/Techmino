@@ -93,8 +93,8 @@ return{
 	WidgetText={
 		main={
 			offline="!",
-			online="!!!",
 			qplay="!",
+			online="!!!",
 			custom="_?!",
 			setting="_?_",
 			stat="=___",

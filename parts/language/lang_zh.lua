@@ -213,8 +213,8 @@ return{
 	WidgetText={
 		main={
 			offline="单机游戏",
-			online="联网游戏",
 			qplay="快速开始",
+			online="联网游戏",
 			custom="自定义",
 			setting="设置",
 			stat="统计信息",

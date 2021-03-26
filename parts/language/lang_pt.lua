@@ -213,8 +213,8 @@ return{
 	WidgetText={
 		main={
 			offline="Solo",
-			online="Multi",
 			qplay="Jogo R.",
+			online="Multi",
 			custom="Custom",
 			setting="Config.",
 			stat="Stats",

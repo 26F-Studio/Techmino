@@ -189,13 +189,13 @@ return{
 	group="Groupe QQ officiel (si non piraté) : 913154753",
 	WidgetText={
 		main={
-			offline="Solo",
-			online="Multi",
+			-- offline="Solo",
 			qplay="Partie rapide",
-			custom="Mode perso.",
+			-- online="Multi",
+			-- custom="Mode perso.",
 			setting="Paramètres",
 			stat="Statistiques",
-			music="Salon musical",
+			music="Musicologie",
 			sound="Salon SE",
 			help="Aide",
 			lang="言/A",
