@@ -34,17 +34,15 @@ function scene.sceneInit()
 	GAME.frame=0
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
-	PLAYERS[1]:setPosition(560,50,.95)
+	PLAYERS[1]:setPosition(600,165,.75)
 end
 
 function scene.mouseDown(x,y)
-	if x>=550 and x<=840 and y>=50 and y<=620 then
+	if x>=600 and x<=825 and y>=165 and y<=615 then
 		coroutine.resume(cmdEntryThread,
-			x<610 and y>560 and"c"or
-			x>780 and y>560 and"m"or
-			x<610 and y<110 and"d"or
-			x>780 and y<110 and"k"or
-			"x"
+			x<680 and y>535 and"c"or
+			x>745 and y>535 and"m"or
+			x<680 and y<245 and"d"
 		)
 	end
 end
@@ -56,7 +54,7 @@ function scene.keyDown(key)
 		loadGame(STAT.lastPlay,true)
 	elseif key=="a"then
 		if not LATEST_VERSION then
-			TEXT.show(text.notFinished,370,380,60,"flicker")
+			TEXT.show(text.notFinished,640,450,60,"flicker")
 			SFX.play("finesseError")
 		elseif LOGIN then
 			--[[TODO
@@ -95,7 +93,7 @@ function scene.keyDown(key)
 		SCN.go("manual")
 	elseif key=="escape"then
 		SCN.back()
-	elseif key=="c"or key=="m"or key=="d"or key=="k"or key=="x"then
+	else
 		coroutine.resume(cmdEntryThread,key)
 	end
 end
@@ -117,8 +115,8 @@ function scene.draw()
 	--Version
 	setFont(30)
 	gc.setColor(.6,.6,.6)
-	gc.printf(SYSTEM,640,30,600,"right")
-	gc.printf(VERSION_NAME,640,70,600,"right")
+	gc.print(SYSTEM,535,40)
+	gc.print(VERSION_NAME,535,80)
 
 	--Title
 	gc.setColor(1,1,1)
