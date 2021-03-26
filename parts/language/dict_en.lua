@@ -879,10 +879,10 @@ return{
 		"help",
 		"Starting from here, all but one terms are China-specific (the not-China term is Diao), and are less relevant for the global community. Read at your own risk.\n\"Virtual content creator\" refers to people who produce content online under a fictional persona, and appear as a motion-controlled animated character on screens. Basically \"Virtual YouTuber\" but not platform-specific."
 	},
-	{"Little Z",
-		"littlez",
+	{"TetroDictionary",
+		"zict tetrodictionary littlez",
 		"name",
-		"The name of this thing... except it's also called TetroDictionary?\nUsed to be a chat bot that serves for the same function, and mostly uses the same list of keywords.",
+		"The name of this thing... or Zictionary/Zict for short.\nUsed to be a chat bot that serves for the same function, and mostly uses the same list of keywords.",
 	},
 	{"MrZ",
 		"mrz626",

@@ -220,7 +220,7 @@ return{
 			stat="Statistics",
 			music="Music & SE",
 			help="Help",
-			dict="Little Z",
+			dict="Zict",
 			lang="言/A",
 			quit="Exit",
 		},
