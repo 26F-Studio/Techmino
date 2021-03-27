@@ -77,16 +77,16 @@ do--Connect
 			code=l:find(" "); code=l:sub(code+1,code+3)
 		end
 
+		local ctLen
+		repeat
+			l=SOCK:receive("*l")
+			if not ctLen and l:find"Length"then
+				ctLen=tonumber(l:match"%d+")
+			end
+		until l==""
 		if code=="101"then
 			readCHN:push("success")
 		else
-			local ctLen
-			repeat
-				l=SOCK:receive("*l")
-				if not ctLen and l:find"Length"then
-					ctLen=tonumber(l:match"%d+")
-				end
-			until l==""
 			local reason=JSON.decode(SOCK:receive(ctLen))
 			readCHN:push(code..":"..(reason and reason.message or"Server Error"))
 		end
