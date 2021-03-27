@@ -223,7 +223,7 @@ function WS.update()
 					ws.lastPongTime=time
 				else
 					ws.status="dead"
-					LOG.print(text.wsFailed,"warn")
+					LOG.print(text.wsFailed.." "..mes,"warn")
 				end
 			end
 		elseif time-ws.lastPingTime>ws.pingInterval then
