@@ -179,13 +179,15 @@ local loadingThread=coroutine.create(function()
 
 	--Connect to server
 	TASK.new(TICK_WS_app)
-
-	--[[TODO
-		WS.send("user",JSON.encode{
+	TASK.new(TICK_WS_user)
+	TASK.new(TICK_WS_chat)
+	if USER.authToken then
+		WS.connect("user","/user",JSON.encode{
 			id=USER.id,
 			authToken=USER.authToken,
 		})
-	]]
+	end
+
 	while true do
 		if math.random()<.126 then
 			upFloor()
