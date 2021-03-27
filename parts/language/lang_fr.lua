@@ -197,7 +197,7 @@ return{
 			stat="Statistiques",
 			-- music="Music & SE",
 			help="Aide",
-			dict="Zict",
+			dict="Zictionary",
 			lang="言/A",
 			quit="Quitter",
 		},

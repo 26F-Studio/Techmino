@@ -890,9 +890,9 @@ return{
 	},
 
 	{"小Z",
-		"小Z z xiaoz",
+		"小Z xiaoz zictionary tetrodictionary littlez",
 		"name",
-		"这个百科的名字!曾经是群里的答疑机器人，此词典数据库也沿用了机器人的问答库~",
+		"这个词典的名字!曾经是群里的答疑机器人，此词典数据库也沿用了机器人的问答库~",
 	},
 	{"MrZ",
 		"mrz zjiang ddd 026 t626",

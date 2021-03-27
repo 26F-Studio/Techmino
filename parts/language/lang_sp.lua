@@ -199,7 +199,7 @@ return{
 			stat="Estadísticas",
 			-- music="Music & SE",
 			help="Ayuda",
-			dict="Zict",
+			dict="Zictionary",
 			lang="言/A",
 			quit="Salir",
 		},

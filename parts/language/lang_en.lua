@@ -220,7 +220,7 @@ return{
 			stat="Statistics",
 			music="Music & SE",
 			help="Help",
-			dict="Zict",
+			dict="Zictionary",
 			lang="言/A",
 			quit="Exit",
 		},
@@ -500,7 +500,7 @@ return{
 			qq="Author's qq",
 		},
 		dict={
-			title="TetroDict",
+			title="TetroDictionary",
 			link="Open URL",
 			up="↑",
 			down="↓",
