@@ -1,5 +1,5 @@
 local ins,rem=table.insert,table.remove
-local yield=coroutine.yield
+local yield=YIELD
 
 local seqGens={
 	none=function() while true do yield()end end,
@@ -138,7 +138,7 @@ local seqGens={
 		end
 	end,
 }
-return function(P)--Set newNext funtion for player P
+return function(P)--Return a piece-generating funtion for player P
 	local s=P.gameEnv.sequence
 	if type(s)=="function"then
 		return s
