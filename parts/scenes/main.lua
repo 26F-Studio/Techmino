@@ -203,8 +203,8 @@ scene.widgetList={
 
 	WIDGET.newButton{name="music",	x=160,y=80,w=200,h=90,		color="lOrange",font=35,					code=pressKey"f2"},
 	WIDGET.newButton{name="lang",	x=1120,y=80,w=200,h=90,		color="lY",		font=40,					code=pressKey"f3"},
-	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color="B",		font=35,align="R",edge=30,	code=pressKey"f1"},
-	WIDGET.newButton{name="quit",	x=1390,y=670,w=600,h=70,	color="R",		font=40,align="L",edge=30,	code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
+	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color="lB",		font=35,align="R",edge=30,	code=pressKey"f1"},
+	WIDGET.newButton{name="quit",	x=1390,y=670,w=600,h=70,	color="lR",		font=40,align="L",edge=30,	code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }
 
 return scene
