@@ -1112,7 +1112,6 @@ do
 	]]
 
 	function TICK_WS_app()
-		local initial=true
 		local retryTime=5
 		while true do
 			YIELD()
@@ -1142,10 +1141,7 @@ do
 			elseif status=="dead"then
 				retryTime=retryTime-1
 				if retryTime==0 then return end
-				if initial then
-					for _=1,120 do YIELD()end
-					initial=false
-				end
+				for _=1,120 do YIELD()end
 				WS.connect("app","/app")
 			end
 		end
