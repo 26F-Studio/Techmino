@@ -598,6 +598,11 @@ function love.run()
 							gc_setColor(.8,.8,.8)
 							gc_draw(TEXTURE.ws_running,-20,20*i-20)
 						end
+						local lastPongTime=WS.lastPongTime(WSnames[i])
+						if lastPongTime<1 then
+							gc_setColor(1,1,1,1-lastPongTime)
+							gc_rectangle("fill",0,20*i,-20,-20)
+						end
 					end
 					gc_pop()
 

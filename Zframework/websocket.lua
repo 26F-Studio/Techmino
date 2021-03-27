@@ -174,6 +174,10 @@ function WS.status(name)
 	return wsList[name]and wsList[name].status or"dead"
 end
 
+function WS.lastPongTime(name)
+	return wsList[name]and timer()-wsList[name].lastPongTime or 999
+end
+
 function WS.setPingInterval(name,time)
 	local ws=wsList[name]
 	ws.pingInterval=math.max(time or 1,2.6)
