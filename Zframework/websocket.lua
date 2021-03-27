@@ -72,18 +72,16 @@ do--Connect
 
 		--First line of HTTP
 		local l=SOCK:receive("*l")
-		local code
+		local code,ctLen
 		if l then
 			code=l:find(" "); code=l:sub(code+1,code+3)
+			repeat
+				l=SOCK:receive("*l")
+				if not ctLen and l:find"Length"then
+					ctLen=tonumber(l:match"%d+")
+				end
+			until l==""
 		end
-
-		local ctLen
-		repeat
-			l=SOCK:receive("*l")
-			if not ctLen and l:find"Length"then
-				ctLen=tonumber(l:match"%d+")
-			end
-		until l==""
 		if code=="101"then
 			readCHN:push("success")
 		else
