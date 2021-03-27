@@ -1234,6 +1234,7 @@ do
 						if VERSION_CODE<message.newestCode then
 							LOG.print(text.oldVersion:gsub("$1",message.newestName),180,COLOR.sky)
 						end
+						LOG.print(message.notice,300,COLOR.sky)
 					end
 				end
 			elseif status=="dead"then
