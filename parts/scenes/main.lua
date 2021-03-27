@@ -7,8 +7,6 @@ local tipLength=760
 local tip=gc.newText(getFont(30),"")
 local scrollX--Tip scroll position
 
-local quickSure
-
 local widgetX0={
 	-10,-10,-10,-10,
 	1290,1290,1290,1290,
@@ -35,7 +33,7 @@ function scene.sceneInit()
 	coroutine.resume(cmdEntryThread)
 
 	--Set quick-play-button text
-	scene.widgetList[2].text=text.WidgetText.main.qplay
+	scene.widgetList[2].text=text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1]
 	quickSure=false
 
 	--Create demo player
@@ -74,11 +72,7 @@ function scene.keyDown(key)
 			SCN.go("mode")
 		end
 	elseif key=="q"then
-		if not quickSure then
-			scene.widgetList[2].text=text.modes[STAT.lastPlay][1].."-"..text.modes[STAT.lastPlay][2]
-			quickSure=true
-			testButton(2)
-		elseif testButton(2)then
+		if testButton(2)then
 			loadGame(STAT.lastPlay,true)
 		end
 	elseif key=="a"then
