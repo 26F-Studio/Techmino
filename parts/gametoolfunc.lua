@@ -1066,19 +1066,6 @@ end
 --Network funcs
 do
 	--[[
-	launch:
-		local res=JSON.decode(res.body)
-		if res.message=="OK"then
-			LOG.print(res.notice,360,COLOR.sky)
-			if VERSION_CODE>=res.version_code then
-				LATEST_VERSION=true
-			else
-				LOG.print(string.gsub(text.oldVersion,"$1",res.version_name),"warn")
-			end
-		else
-			LOG.print(text.httpCode..res.code..": "..res.message,"warn")
-		end
-
 	register:
 		if response.message=="OK"then
 			LOGIN=true
@@ -1090,95 +1077,6 @@ do
 			LOG.print(text.registerSuccessed..": "..res.message)
 		else
 			LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-		end
-
-	autoLogin:
-		if res.message=="OK"then
-			LOGIN=true
-			LOG.print(text.loginSuccessed)
-			httpRequest(
-				TICK_httpREQ_getUserInfo,
-				PATH.http..PATH.user,
-				"GET",
-				{["Content-Type"]="application/json"},
-				JSON.encode{
-					email=USER.email,
-					authToken=USER.authToken,
-				}
-			)
-		else
-			LOGIN=false
-			LOG.print(text.loginFailed..": "..text.httpCode..res.code.."-"..res.message,"warn")
-		end
-		return
-
-	newLogin:
-		if res.message=="OK"then
-			LOGIN=true
-			USER.email=res.email
-			USER.authToken=res.authToken
-			USER.id=res.id
-			FILE.save(USER,"conf/user","q")
-			LOG.print(text.loginSuccessed)
-
-			--TODO:getUserInfo
-				JSON.encode{
-					email=USER.email,
-					authToken=USER.authToken,
-				}
-
-			--TODO:getAccessToken
-				JSON.encode{
-					email=USER.email,
-					authToken=USER.authToken,
-				}
-		else
-			LOG.print(text.httpCode..res.code..": "..res.message,"warn")
-		end
-
-	manualAutoLogin:
-		if res.message=="OK"then
-			LOG.print(text.accessSuccessed)
-			SCN.go("net_menu")
-		elseif res.code==403 or res.code==401 then
-			httpRequest(
-				TICK_httpREQ_getAccessToken,
-				PATH.http..PATH.access,
-				"POST",
-				{["Content-Type"]="application/json"},
-				JSON.encode{
-					email=USER.email,
-					authToken=USER.authToken,
-				}
-			)
-		else
-			local err=JSON.decode(res.body)
-			if err then
-				LOG.print(text.httpCode..res.code..": "..err.message,"warn")
-			end
-		end
-
-	getAccessToken:
-		if res.message=="OK"then
-			LOG.print(text.accessSuccessed)
-			USER.accessToken=res.accessToken
-			FILE.save(USER,"conf/user")
-			SCN.swapTo("net_menu")
-		else
-			LOGIN=false
-			USER.accessToken=false
-			USER.authToken=false
-			LOG.print(text.loginFailed..": "..text.httpCode..response.code.."-"..res.message,"warn")
-		end
-
-	getUserInfo:
-		if res.message=="OK"then
-			USER.name=res.username
-			USER.motto=res.motto
-			USER.avatar=res.avatar
-			FILE.save(USER,"conf/user")
-		else
-			LOG.print("Get user info failed: "..text.httpCode..response.code.."-"..res.message,"warn")
 		end
 
 	goChatRoom:
@@ -1204,7 +1102,6 @@ do
 			LOG.print(text.httpCode..res.code..": "..res.message,"warn")
 		end
 
-
 	enterRoom:
 		if res.message=="OK"then
 			loadGame("netBattle",true,true)
@@ -1215,6 +1112,7 @@ do
 	]]
 
 	function TICK_WS_app()
+		local retryTime=5
 		while true do
 			YIELD()
 			local status=WS.status("app")
@@ -1223,20 +1121,76 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("app",message,"pong")
-						--TODO: ping animation
-						--TODO: what to do with res?
 					elseif op=="close"then
-						LOG.print(text.wsClose..message,"warn")
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
 						return
 					else
-						message=JSON.decode(message)
+						local res=JSON.decode(message)
+						if VERSION_CODE>=res.lowest then
+							ALLOW_ONLINE=true
+						end
+						if VERSION_CODE<res.newestCode then
+							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+						end
+						LOG.print(res.notice,300,COLOR.sky)
 					end
 				end
 			elseif status=="dead"then
-				for _=1,60 do YIELD()end
-				WS.connect("app","/app",JSON.encode{
-					version=VERSION_CODE,
-				})
+				retryTime=retryTime-1
+				if retryTime==0 then return end
+				for _=1,120 do YIELD()end
+				WS.connect("app","/app")
+			end
+		end
+	end
+	function TICK_WS_user()
+		while true do
+			YIELD()
+			local status=WS.status("user")
+			if status=="running"then
+				local message,op=WS.read("user")
+				if message then
+					if op=="ping"then
+						WS.send("user",message,"pong")
+					elseif op=="close"then
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
+						return
+					else
+						local res=JSON.decode(message)
+						if res.message=="Connected"then
+							LOGIN=true
+							if res.id then
+								USER.id=res.id
+								USER.authToken=res.authToken
+								SCN.go("net_menu")
+							end
+							FILE.save(USER,"conf/user","q")
+							LOG.print(text.loginSuccessed)
+
+							--Get self infos
+							WS.send("user",JSON.encode{
+								action=1,
+								data={
+									id=USER.id,
+								},
+							})
+						elseif res.action==0 then
+							USER.accessToken=res.accessToken
+							LOG.print(text.accessSuccessed)
+						elseif res.action==1 then
+							USER.name=res.username
+							USER.motto=res.motto
+							USER.avatar=res.avatar
+							FILE.save(USER,"conf/user")
+						end
+					end
+				end
 			end
 		end
 	end
@@ -1249,22 +1203,64 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("chat",message,"pong")
-						--TODO: ping animation
-						--TODO: what to do with res?
 					elseif op=="close"then
-						LOG.print(text.wsClose..message,"warn")
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
 						return
 					else
-						message=JSON.decode(message)
+						local res=JSON.decode(message)
+						--TODO
 					end
 				end
-			elseif status=="dead"then
-				for _=1,60 do YIELD()end
-				WS.connect("chat","/chat",JSON.encode{
-					version=VERSION_CODE,
-				})
 			end
 		end
 	end
-	--TODO: more WSs
+	function TICK_WS_play()
+		while true do
+			YIELD()
+			local status=WS.status("play")
+			if status=="running"then
+				local message,op=WS.read("play")
+				if message then
+					if op=="ping"then
+						WS.send("play",message,"pong")
+					elseif op=="close"then
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
+						return
+					else
+						local res=JSON.decode(message)
+						--TODO
+					end
+				end
+			end
+		end
+	end
+	function TICK_WS_stream()
+		while true do
+			YIELD()
+			local status=WS.status("stream")
+			if status=="running"then
+				local message,op=WS.read("stream")
+				if message then
+					if op=="ping"then
+						WS.send("stream",message,"pong")
+					elseif op=="close"then
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
+						return
+					else
+						local res=JSON.decode(message)
+						--TODO
+					end
+				end
+			end
+		end
+	end
 end

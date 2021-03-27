@@ -511,6 +511,7 @@ function love.run()
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 		LOG.update()
+		WS.update()
 
 		--DRAW
 		if not MINI()then
@@ -556,27 +557,6 @@ function love.run()
 					_.draw(_.time)
 				end
 
-				--Draw network working status
-				gc_push("transform")
-				gc.translate(SCR.w,0)
-				gc.scale(SCR.k)
-				for i=1,5 do
-					local status=WS.status(WSnames[i])
-					gc_setColor(WScolor[i])
-					gc_rectangle("fill",0,20*i,-20,-20)
-					if status=="dead"then
-						gc_setColor(.8,.8,.8)
-						gc_draw(TEXTURE.ws_dead,-20,20*i-20)
-					elseif status=="connecting"then
-						gc_setColor(.8,.8,.8,.5+.3*sin(t*6.26))
-						gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
-					elseif status=="running"then
-						gc_setColor(.8,.8,.8)
-						gc_draw(TEXTURE.ws_running,-20,20*i-20)
-					end
-				end
-				gc_pop()
-
 				--Draw FPS
 				gc_setColor(1,1,1)
 				setFont(15)
@@ -585,17 +565,43 @@ function love.run()
 
 				--Debug info.
 				if devMode then
+					--Left-down infos
 					gc_setColor(devColor[devMode])
 					gc_print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
 					gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
 					gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
 					gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
 					gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
+
+					--Update & draw frame time
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
 					gc_setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
 						gc_rectangle("fill",150+2*i,_-20,2,-frameTimeList[i]*4000)
 					end
+
+					--Websocket status
+					gc_push("transform")
+					gc.translate(SCR.w,0)
+					gc.scale(SCR.k)
+					for i=1,5 do
+						local status=WS.status(WSnames[i])
+						gc_setColor(WScolor[i])
+						gc_rectangle("fill",0,20*i,-20,-20)
+						if status=="dead"then
+							gc_setColor(.8,.8,.8)
+							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
+						elseif status=="connecting"then
+							gc_setColor(.8,.8,.8,.5+.3*sin(t*6.26))
+							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
+						elseif status=="running"then
+							gc_setColor(.8,.8,.8)
+							gc_draw(TEXTURE.ws_running,-20,20*i-20)
+						end
+					end
+					gc_pop()
+
+					--Slow devmode
 					if devMode==3 then WAIT(.1)
 					elseif devMode==4 then WAIT(.5)
 					end

@@ -72,18 +72,19 @@ do--Connect
 
 		--First line of HTTP
 		local l=SOCK:receive("*l")
-		local code=l:find(" "); code=l:sub(code+1,code+3)
-
-		if code=="101"then
-			readCHN:push("success")
-		else
-			local ctLen
+		local code,ctLen
+		if l then
+			code=l:find(" "); code=l:sub(code+1,code+3)
 			repeat
 				l=SOCK:receive("*l")
 				if not ctLen and l:find"Length"then
 					ctLen=tonumber(l:match"%d+")
 				end
 			until l==""
+		end
+		if code=="101"then
+			readCHN:push("success")
+		else
 			local reason=JSON.decode(SOCK:receive(ctLen))
 			readCHN:push(code..":"..(reason and reason.message or"Server Error"))
 		end
@@ -222,7 +223,7 @@ function WS.update()
 					ws.lastPongTime=time
 				else
 					ws.status="dead"
-					LOG.print(text.wsFailed,"warn")
+					LOG.print(text.wsFailed.." "..mes,"warn")
 				end
 			end
 		elseif time-ws.lastPingTime>ws.pingInterval then

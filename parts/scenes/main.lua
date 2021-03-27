@@ -77,25 +77,14 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if not LATEST_VERSION then
+			if not ALLOW_ONLINE then
 				TEXT.show(text.notFinished,640,450,60,"flicker")
 				SFX.play("finesseError")
 			elseif LOGIN then
-				--[[TODO
-				if USER.accessToken then
-					WS.send("app",JSON.encode{
-						opration="access",
-						email=USER.email,
-						accessToken=USER.accessToken,
-					})
-				else
-					WS.send("app",JSON.encode{
-						opration="access",
-						email=USER.email,
-							authToken=USER.authToken,
-					})
-				end
-				]]
+				SCN.go("net_menu")
+				WS.send("user",JSON.encode{
+					action=0,
+				})
 			else
 				SCN.go("login")
 			end
