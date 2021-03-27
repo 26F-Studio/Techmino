@@ -6,12 +6,11 @@ local function login()
 	elseif #password==0 then
 		LOG.print(text.noPassword)return
 	end
-	--[[TODO
-		WS.send("user",JSON.encode{
-			email=email,
-			password=password,
-		})
-	]]
+	USER.email=email
+	WS.send("user",JSON.encode{
+		email=email,
+		password=password,
+	})
 end
 
 local scene={}
