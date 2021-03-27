@@ -1149,12 +1149,12 @@ do
 	function TICK_WS_user()
 		while true do
 			YIELD()
-			local status=WS.status("chat")
+			local status=WS.status("user")
 			if status=="running"then
-				local message,op=WS.read("chat")
+				local message,op=WS.read("user")
 				if message then
 					if op=="ping"then
-						WS.send("chat",message,"pong")
+						WS.send("user",message,"pong")
 					elseif op=="close"then
 						message=JSON.decode(message)
 						if message then
