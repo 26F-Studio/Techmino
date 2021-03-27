@@ -9,6 +9,7 @@ local sin=math.sin
 local sub=string.sub
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
+local YIELD=YIELD
 
 
 
@@ -1231,8 +1232,11 @@ do
 						message=JSON.decode(message)
 					end
 				end
-			elseif status~="connecting"then
-				WS.connect("app","/app")
+			elseif status=="dead"then
+				for _=1,60 do YIELD()end
+				WS.connect("app","/app",JSON.encode{
+					version=VERSION_CODE,
+				})
 			end
 		end
 	end
@@ -1254,6 +1258,11 @@ do
 						message=JSON.decode(message)
 					end
 				end
+			elseif status=="dead"then
+				for _=1,60 do YIELD()end
+				WS.connect("chat","/chat",JSON.encode{
+					version=VERSION_CODE,
+				})
 			end
 		end
 	end
