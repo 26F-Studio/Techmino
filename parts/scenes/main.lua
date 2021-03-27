@@ -44,6 +44,9 @@ function scene.sceneInit()
 	PLY.newDemoPlayer(1)
 	PLAYERS[1]:setPosition(520,140,.8)
 	love.keyboard.setKeyRepeat(false)
+
+	--Connect to server
+	TASK.new(TICK_WS_app)
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
@@ -81,7 +84,6 @@ function scene.keyDown(key)
 				TEXT.show(text.notFinished,640,450,60,"flicker")
 				SFX.play("finesseError")
 			elseif LOGIN then
-				--[[TODO
 				if USER.accessToken then
 					WS.send("app",JSON.encode{
 						opration="access",
@@ -92,10 +94,9 @@ function scene.keyDown(key)
 					WS.send("app",JSON.encode{
 						opration="access",
 						email=USER.email,
-							authToken=USER.authToken,
+						authToken=USER.authToken,
 					})
 				end
-				]]
 			else
 				SCN.go("login")
 			end

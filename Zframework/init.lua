@@ -511,6 +511,7 @@ function love.run()
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 		LOG.update()
+		WS.update()
 
 		--DRAW
 		if not MINI()then
