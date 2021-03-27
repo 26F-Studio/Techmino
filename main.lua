@@ -26,7 +26,7 @@ DAILYLAUNCH=false
 LOGIN=false
 EDITING=""
 WSCONN=false
-LATEST_VERSION=false
+ALLOW_ONLINE=false
 ERRDATA={}
 
 --System setting

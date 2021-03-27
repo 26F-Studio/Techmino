@@ -77,7 +77,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if not LATEST_VERSION then
+			if not ALLOW_ONLINE then
 				TEXT.show(text.notFinished,640,450,60,"flicker")
 				SFX.play("finesseError")
 			elseif LOGIN then

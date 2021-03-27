@@ -1223,20 +1223,22 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("app",message,"pong")
-						--TODO: ping animation
-						--TODO: what to do with res?
 					elseif op=="close"then
 						LOG.print(text.wsClose..message,"warn")
 						return
 					else
 						message=JSON.decode(message)
+						if VERSION_CODE>=message.lowest then
+							ALLOW_ONLINE=true
+						end
+						if VERSION_CODE<message.newestCode then
+							LOG.print(text.oldVersion:gsub("$1",message.newestName),180,COLOR.sky)
+						end
 					end
 				end
 			elseif status=="dead"then
 				for _=1,60 do YIELD()end
-				WS.connect("app","/app",JSON.encode{
-					version=VERSION_CODE,
-				})
+				WS.connect("app","/app")
 			end
 		end
 	end
@@ -1249,8 +1251,6 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("chat",message,"pong")
-						--TODO: ping animation
-						--TODO: what to do with res?
 					elseif op=="close"then
 						LOG.print(text.wsClose..message,"warn")
 						return
