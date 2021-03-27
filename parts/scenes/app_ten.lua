@@ -274,8 +274,10 @@ function scene.draw()
 				else
 					if N<=12 then
 						setColor(tileColor[N])
-					else
+					elseif N<=14 then
 						setColor(COLOR.rainbow(4*TIME()-i-j))
+					else
+						setColor(0,0,0,1-math.abs(TIME()%.5-.25)*6-.25)
 					end
 					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.9)
