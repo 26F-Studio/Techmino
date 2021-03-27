@@ -150,7 +150,6 @@ return{
 		"Err.Fns./RatioFns:",
 	},
 	help={
-		"Ahora que sabes jugar a este juego, no necesitas ayuda, ¿o sí?",
 		"Este es simplemente un juego de puzzle ordinario, no pienses de él como un juego promedio.",
 		"Está inspirado en otros como TO/C2/KoS/TGM3/JS.",
 		"",
@@ -192,15 +191,16 @@ return{
 	WidgetText={
 		main={
 			-- offline="Single",
-			qplay="P. Rápida",
+			-- qplay="Last Play",
 			-- online="Multi",
 			-- custom="Person.",
 			setting="Opciones",
 			stat="Estadísticas",
 			-- music="Music & SE",
-			help="Ayuda",
+			-- about="About",
 			dict="Zictionary",
 			lang="言/A",
+			manual="Manual",
 			quit="Salir",
 		},
 		main_simple={
@@ -454,8 +454,7 @@ return{
 			paste="Pegar",
 			mission="Forzar misión",
 		},
-		help={
-			manual="Manual",
+		about={
 			staff="Staff",
 			his="Hist. de Acts.",
 			qq="QQ del Autor",

@@ -171,7 +171,6 @@ return{
 		"FalhaDestreza/TaxaDestreza:",
 	},
 	help={
-		"Agora você pode jogar - você provavelmente nao precisa de \"ajuda\"?",
 		"Isso é apenas um jogo de blocos, nada de especial.",
 		"Joga como TO/C2/KOS/TGM3 e outros.",
 		"",
@@ -213,15 +212,16 @@ return{
 	WidgetText={
 		main={
 			offline="Solo",
-			qplay="Jogo R.",
+			-- qplay="Last Play",
 			online="Multi",
 			custom="Custom",
 			setting="Config.",
 			stat="Stats",
 			-- music="Music & SE",
-			help="Ajuda",
+			-- about="About",
 			dict="Zictionary",
 			lang="言/A",
+			manual="Manual",
 			quit="Saída",
 		},
 		main_simple={
@@ -493,8 +493,7 @@ return{
 			paste="Colar",
 			mission="Forçar Missão",
 		},
-		help={
-			manual="Manual",
+		about={
 			staff="Staff",
 			his="History",
 			qq="Author's qq",

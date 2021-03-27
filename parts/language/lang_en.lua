@@ -171,7 +171,6 @@ return{
 		"FnsErrs./FnsRate:",
 	},
 	help={
-		"I'd assume you wouldn't need any \"help\" thus far?",
 		"This is just an *ordinary* block stacker. Really. That's it.",
 		"With inspirations from TO/C2/KOS/TGM3 etc.",
 		"",
@@ -213,15 +212,16 @@ return{
 	WidgetText={
 		main={
 			offline="Single Player",
-			qplay="Quick Play",
+			qplay="Last Play",
 			online="Multiplayer",
 			custom="Custom Game",
 			setting="Settings",
 			stat="Statistics",
 			music="Music & SE",
-			help="Help",
+			about="About",
 			dict="Zictionary",
 			lang="言/A",
+			manual="Manual",
 			quit="Exit",
 		},
 		main_simple={
@@ -493,8 +493,7 @@ return{
 			paste="Paste",
 			mission="Force Mission",
 		},
-		help={
-			manual="Manual",
+		about={
 			staff="Staff",
 			his="History",
 			qq="Author's qq",

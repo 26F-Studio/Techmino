@@ -171,7 +171,6 @@ return{
 		"多余操作/极简率:",
 	},
 	help={
-		"既然你能玩到这个游戏,应该也不需要什么帮助吧?",
 		"这只是一个普通的方块游戏,请勿称此游戏为某某某方块",
 		"从TO/C2/KOS/TGM3/JS等方块获得过灵感",
 		"",
@@ -219,9 +218,10 @@ return{
 			setting="设置",
 			stat="统计信息",
 			music="音乐&音效",
-			help="帮助",
+			about="关于",
 			dict="小Z词典",
 			lang="言/A",
+			manual="说明书",
 			quit="退出",
 		},
 		main_simple={
@@ -570,8 +570,7 @@ return{
 			pc="PC",
 			music="音乐",
 		},
-		help={
-			manual="说明书",
+		about={
 			staff="制作人员",
 			his="更新历史",
 			qq="作者QQ",

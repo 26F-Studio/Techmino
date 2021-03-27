@@ -80,7 +80,6 @@ return{
 		"!#!X/%:",
 	},
 	help={
-		"□□□□~~~, ?_?x ?",
 		"□!!~~~,□□□□X",
 		"□!!==*/*/*/*~",
 		"",
@@ -93,15 +92,16 @@ return{
 	WidgetText={
 		main={
 			offline="!",
-			qplay="!",
+			qplay="(!)",
 			online="!!!",
 			custom="_?!",
 			setting="_?_",
 			stat="=___",
 			music="~~~ & =><=",
-			help="???",
+			about="?",
 			dict="z",
 			lang="言/A",
+			manual="???",
 			quit="X",
 		},
 		mode={
@@ -337,8 +337,7 @@ return{
 			paste="__→",
 			mission="Force mission",
 		},
-		help={
-			manual="?",
+		about={
 			staff="Orz",
 			his="_&_",
 			qq="_@_",

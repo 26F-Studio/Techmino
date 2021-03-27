@@ -149,7 +149,6 @@ return{
 		"Errs. Finesse/Finesse :",
 	},
 	help={
-		"Vous pouvez jouer à ceci, vous n'avez probablement pas besoin d'\"aide\"?",
 		"Ceci est un simple jeu de blocs.",
 		"On y joue comme sur TO/C2/KOS/TGM3 et autres.",
 		"",
@@ -190,15 +189,16 @@ return{
 	WidgetText={
 		main={
 			-- offline="Solo",
-			qplay="Partie rapide",
+			-- qplay="Last Play",
 			-- online="Multi",
 			-- custom="Mode perso.",
 			setting="Paramètres",
 			stat="Statistiques",
 			-- music="Music & SE",
-			help="Aide",
+			-- about="About",
 			dict="Zictionary",
 			lang="言/A",
+			manual="Manuel",
 			quit="Quitter",
 		},
 		mode={
@@ -556,8 +556,7 @@ return{
 			reset="Réinitialiser",
 			-- mode="Mode",
 		},
-		help={
-			manual="Manuel",
+		about={
 			staff="Staff",
 			his="History",
 			qq="QQ du créateur",

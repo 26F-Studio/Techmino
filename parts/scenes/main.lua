@@ -3,9 +3,16 @@ local gc=love.graphics
 local scene={}
 
 local verName=SYSTEM.."  "..VERSION_NAME
-local tipLength=540
+local tipLength=760
 local tip=gc.newText(getFont(30),"")
 local scrollX--Tip scroll position
+
+local quickSure
+
+local widgetX0={
+	-10,-10,-10,-10,
+	1290,1290,1290,1290,
+}
 
 local cmdEntryThread=coroutine.create(function()
 	while true do
@@ -28,7 +35,8 @@ function scene.sceneInit()
 	coroutine.resume(cmdEntryThread)
 
 	--Set quick-play-button text
-	scene.widgetList[2].text=text.modes[STAT.lastPlay][1].."-"..text.modes[STAT.lastPlay][2]
+	scene.widgetList[2].text=text.WidgetText.main.qplay
+	quickSure=false
 
 	--Create demo player
 	destroyPlayers()
@@ -52,52 +60,88 @@ function scene.mouseDown(x,y)
 		)
 	end
 end
+scene.touchDown=scene.mouseDown
+local function testButton(n)
+	if WIDGET.sel==scene.widgetList[n]then
+		return true
+	else
+		WIDGET.sel=scene.widgetList[n]
+	end
+end
 function scene.keyDown(key)
 	if key=="1"then
-		SCN.go("mode")
+		if testButton(1)then
+			SCN.go("mode")
+		end
 	elseif key=="q"then
-		loadGame(STAT.lastPlay,true)
+		if not quickSure then
+			scene.widgetList[2].text=text.modes[STAT.lastPlay][1].."-"..text.modes[STAT.lastPlay][2]
+			quickSure=true
+			testButton(2)
+		elseif testButton(2)then
+			loadGame(STAT.lastPlay,true)
+		end
 	elseif key=="a"then
-		if not LATEST_VERSION then
-			TEXT.show(text.notFinished,640,450,60,"flicker")
-			SFX.play("finesseError")
-		elseif LOGIN then
-			--[[TODO
-			if USER.accessToken then
-				WS.send("app",JSON.encode{
-					opration="access",
-					email=USER.email,
-					accessToken=USER.accessToken,
-				})
+		if testButton(3)then
+			if not LATEST_VERSION then
+				TEXT.show(text.notFinished,640,450,60,"flicker")
+				SFX.play("finesseError")
+			elseif LOGIN then
+				--[[TODO
+				if USER.accessToken then
+					WS.send("app",JSON.encode{
+						opration="access",
+						email=USER.email,
+						accessToken=USER.accessToken,
+					})
+				else
+					WS.send("app",JSON.encode{
+						opration="access",
+						email=USER.email,
+							authToken=USER.authToken,
+					})
+				end
+				]]
 			else
-				WS.send("app",JSON.encode{
-					opration="access",
-					email=USER.email,
-						authToken=USER.authToken,
-				})
+				SCN.go("login")
 			end
-			]]
-		else
-			SCN.go("login")
 		end
 	elseif key=="z"then
-		SCN.go("customGame")
+		if testButton(4)then
+			SCN.go("customGame")
+		end
 	elseif key=="-"then
-		SCN.go("setting_game")
+		if testButton(5)then
+			SCN.go("setting_game")
+		end
 	elseif key=="p"then
-		SCN.go("stat")
+		if testButton(6)then
+			SCN.go("stat")
+		end
 	elseif key=="l"then
-		SCN.go("music")
+		if testButton(7)then
+			SCN.go("dict")
+		end
 	elseif key==","then
-		SCN.go("help")
-	elseif key=="application"then
-		SCN.go("dict")
-	elseif key=="ralt"then
-		SCN.go("lang")
+		if testButton(8)then
+			SCN.go("manual")
+		end
 	elseif key=="f1"then
-		SCN.go("manual")
+		if testButton(11)then
+			SCN.go("about")
+		end
+	elseif key=="f2"then
+		if testButton(9)then
+			SCN.go("music")
+		end
+	elseif key=="f3"then
+		if testButton(10)then
+			SCN.go("lang")
+		end
 	elseif key=="escape"then
-		SCN.back()
+		if testButton(12)then
+			SCN.back()
+		end
 	else
 		coroutine.resume(cmdEntryThread,key)
 	end
@@ -113,7 +157,7 @@ function scene.update(dt)
 	end
 	local L=scene.widgetList
 	for i=1,8 do
-		L[i].x=L[i].x*.9+((i<5 and 40 or 1240)-350+(WIDGET.sel==L[i]and(i<5 and 100 or -100)or 0))*.1
+		L[i].x=L[i].x*.9+(widgetX0[i]-400+(WIDGET.sel==L[i]and(i<5 and 100 or -100)or 0))*.1
 	end
 end
 
@@ -132,7 +176,7 @@ function scene.draw()
 
 	--Tip
 	gc.push("transform")
-		gc.translate(40,650)
+		gc.translate(260,650)
 		gc.setLineWidth(2)
 		gc.rectangle("line",0,0,tipLength,42)
 		gc.stencil(tipStencil,"replace",1)
@@ -147,19 +191,20 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="offline",x=-1200,y=210,w=700,h=100,	color="lR",		font=45,align="R",edge=30,	code=pressKey"1"},
-	WIDGET.newButton{name="qplay",	x=-1200,y=330,w=700,h=100,	color="lM",		font=40,align="R",edge=30,	code=pressKey"q"},
-	WIDGET.newButton{name="online",	x=-1200,y=450,w=700,h=100,	color="lPurple",font=45,align="R",edge=30,	code=pressKey"a"},
-	WIDGET.newButton{name="custom",	x=-1200,y=570,w=700,h=100,	color="lSea",	font=45,align="R",edge=30,	code=pressKey"z"},
+	WIDGET.newButton{name="offline",x=-1200,y=210,w=800,h=100,	color="lR",		font=45,align="R",edge=30,	code=pressKey"1"},
+	WIDGET.newButton{name="qplay",	x=-1200,y=330,w=800,h=100,	color="lM",		font=40,align="R",edge=30,	code=pressKey"q"},
+	WIDGET.newButton{name="online",	x=-1200,y=450,w=800,h=100,	color="lPurple",font=45,align="R",edge=30,	code=pressKey"a"},
+	WIDGET.newButton{name="custom",	x=-1200,y=570,w=800,h=100,	color="lSea",	font=45,align="R",edge=30,	code=pressKey"z"},
 
-	WIDGET.newButton{name="setting",x=2480,y=210,w=700,h=100,	color="lOrange",font=40,align="L",edge=30,	code=pressKey"-"},
-	WIDGET.newButton{name="stat",	x=2480,y=330,w=700,h=100,	color="lLame",	font=40,align="L",edge=30,	code=pressKey"p"},
-	WIDGET.newButton{name="music",	x=2480,y=450,w=700,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
-	WIDGET.newButton{name="help",	x=2480,y=570,w=700,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
+	WIDGET.newButton{name="setting",x=2480,y=210,w=800,h=100,	color="lOrange",font=40,align="L",edge=30,	code=pressKey"-"},
+	WIDGET.newButton{name="stat",	x=2480,y=330,w=800,h=100,	color="lLame",	font=40,align="L",edge=30,	code=pressKey"p"},
+	WIDGET.newButton{name="dict",	x=2480,y=450,w=800,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
+	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
 
-	WIDGET.newButton{name="lang",	x=720,y=680,w=200,h=100,	color="Y",		font=40,					code=goScene"lang"},
-	WIDGET.newButton{name="dict",	x=940,y=680,w=200,h=100,	color="orange",	font=35,					code=goScene"dict"},
-	WIDGET.newButton{name="quit",	x=1160,y=680,w=200,h=100,	color="R",		font=40,					code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
+	WIDGET.newButton{name="music",	x=160,y=80,w=200,h=90,		color="lOrange",font=35,					code=pressKey"f2"},
+	WIDGET.newButton{name="lang",	x=1120,y=80,w=200,h=90,		color="lY",		font=40,					code=pressKey"f3"},
+	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color="B",		font=35,align="R",edge=30,	code=pressKey"f1"},
+	WIDGET.newButton{name="quit",	x=1390,y=670,w=600,h=70,	color="R",		font=40,align="L",edge=30,	code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }
 
 return scene
