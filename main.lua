@@ -8,10 +8,10 @@
 	optimization is welcomed if you also love tetromino game
 ]]--
 
-local fs=love.filesystem
 
---?
+--Declaration
 goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
+local fs=love.filesystem
 NONE={}function NULL()end
 DBP=print--Use this in permanent code
 TIME=love.timer.getTime
@@ -31,6 +31,7 @@ ERRDATA={}
 
 --System setting
 math.randomseed(os.time()*626)
+love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
@@ -44,23 +45,6 @@ for _,v in next,{"conf","record","replay"}do
 		fs.remove(v)
 		fs.createDirectory(v)
 	end
-end
-
---Delete some useless files
-for _,v in next,{
-	"client.so",
-	"cold_clear.dll",
-	"CCloader.dll",
-	"tech_u.dat",
-	"tech_u+.dat",
-	"sprintFix.dat",
-	"sprintLock.dat",
-	"marathon_u.dat",
-	"infinite.dat",
-	"infinite_dig.dat",
-	"conf/account",
-}do
-	if fs.getInfo(v)then fs.remove(v)end
 end
 
 --Collect files of old version
@@ -239,8 +223,6 @@ for _,v in next,fs.getDirectoryItems("parts/shaders")do
 	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
 		local name=v:sub(1,-6)
 		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
-	else
-		LOG.print("Dangerous file : %SAVE%/parts/shaders/"..v)
 	end
 end
 
@@ -251,8 +233,6 @@ for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
 			local name=v:sub(1,-5)
 			BG.add(name,require("parts.backgrounds."..name))
 		end
-	else
-		LOG.print("Dangerous file : %SAVE%/parts/backgrounds/"..v)
 	end
 end
 
@@ -262,8 +242,6 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 		local sceneName=v:sub(1,-5)
 		SCN.add(sceneName,require("parts.scenes."..sceneName))
 		LANG.addScene(sceneName)
-	else
-		LOG.print("Dangerous file : %SAVE%/parts/scenes/"..v)
 	end
 end
 LANG.set(SETTING.lang)
@@ -358,7 +336,6 @@ do
 	end
 
 	if autoRestart then
-		-- love.window.showMessageBox("重启更新 Restart to Update","检测到大版本更新,请重启游戏完成\nOld version detected & saving file changed, please restart the game",{"Get it!"},"info",true)
 		love.event.quit("restart")
 	end
 end
