@@ -31,7 +31,6 @@ local scene={}
 
 function scene.sceneBack()
 	WS.send("play","Q")
-	WSCONN=false
 	LOG.print(text.wsDisconnected,"warn")
 	love.keyboard.setKeyRepeat(true)
 end
@@ -123,7 +122,6 @@ end
 function scene.gamepadDown(key)
 	if key=="back"then
 		if TIME()-lastBackTime<1 then
-			WSCONN=false
 			SCN.back()
 		else
 			lastBackTime=TIME()
@@ -263,7 +261,7 @@ function scene.update(dt)
 	local _
 	local GAME=GAME
 
-	if not WSCONN and not SCN.swapping then SCN.back()end
+	if WS.status("play")~="running"and not SCN.swapping then SCN.back()end
 	if not playing then
 		heartBeatTimer=heartBeatTimer+dt
 		if heartBeatTimer>42 then

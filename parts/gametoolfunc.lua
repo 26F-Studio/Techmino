@@ -1130,7 +1130,7 @@ do
 					else
 						local res=JSON.decode(message)
 						if VERSION_CODE>=res.lowest then
-							ALLOW_ONLINE=true
+							NET.allow_online=true
 						end
 						if VERSION_CODE<res.newestCode then
 							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
@@ -1168,7 +1168,8 @@ do
 							if res.id then
 								USER.id=res.id
 								USER.authToken=res.authToken
-								SCN.go("net_menu")
+								NET.try_enter_netmenu=true
+								WS.send("user",JSON.encode{action=0})
 							end
 							FILE.save(USER,"conf/user","q")
 							LOG.print(text.loginSuccessed)
@@ -1183,6 +1184,10 @@ do
 						elseif res.action==0 then
 							USER.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
+							if NET.try_enter_netmenu then
+								NET.try_enter_netmenu=false
+								SCN.go("net_menu")
+							end
 						elseif res.action==1 then
 							USER.name=res.username
 							USER.motto=res.motto

@@ -25,8 +25,10 @@ LOADED=false
 DAILYLAUNCH=false
 LOGIN=false
 EDITING=""
-WSCONN=false
-ALLOW_ONLINE=false
+NET={
+	allow_online=false,
+	try_enter_netmenu=false,
+}
 ERRDATA={}
 
 --System setting

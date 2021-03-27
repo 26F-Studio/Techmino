@@ -77,14 +77,13 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if not ALLOW_ONLINE then
-				TEXT.show(text.notFinished,640,450,60,"flicker")
-				SFX.play("finesseError")
-			elseif LOGIN then
-				SCN.go("net_menu")
-				WS.send("user",JSON.encode{
-					action=0,
-				})
+			if LOGIN then
+				if not NET.allow_online then
+					TEXT.show(text.needUpdate,640,450,60,"flicker")
+					SFX.play("finesseError")
+				else
+					WS.send("user",JSON.encode{action=0})
+				end
 			else
 				SCN.go("login")
 			end
@@ -109,17 +108,17 @@ function scene.keyDown(key)
 		if testButton(8)then
 			SCN.go("manual")
 		end
-	elseif key=="f1"then
-		if testButton(11)then
-			SCN.go("about")
-		end
-	elseif key=="f2"then
+	elseif key=="2"then
 		if testButton(9)then
 			SCN.go("music")
 		end
-	elseif key=="f3"then
+	elseif key=="0"then
 		if testButton(10)then
 			SCN.go("lang")
+		end
+	elseif key=="x"then
+		if testButton(11)then
+			SCN.go("about")
 		end
 	elseif key=="escape"then
 		if testButton(12)then

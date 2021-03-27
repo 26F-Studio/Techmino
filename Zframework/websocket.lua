@@ -1,3 +1,5 @@
+-- local host="192.168.114.102"
+-- local host="127.0.0.1"
 local host="hdustea.3322.org"
 local port="10026"
 local path="/tech/socket/v1"
