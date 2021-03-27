@@ -72,6 +72,7 @@ return{
 	getNoticeFail="Failed fetching announcements...",
 	getVersionFail="Update detection failed",
 	oldVersion="Version $1 is now available!",
+	needUpdate="Newer version required!",
 	notFinished="Coming soon!",
 
 	httpCode="HTTP status code",

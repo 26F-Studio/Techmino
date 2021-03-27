@@ -73,6 +73,7 @@ return{
 	getNoticeFail="Error al buscar novedades.",
 	getVersionFail="Error al buscar nuevas versiones.",
 	oldVersion="¡Está disponible la nueva versión $1!",
+	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 
 	-- httpCode="Http status code",

@@ -73,6 +73,7 @@ return{
 	getNoticeFail="Echec de l'obtention de la notice",
 	getVersionFail="Echec d'obtention de la dernière version",
 	oldVersion="La version $1 est disponible !",
+	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 
 	httpCode="Code de statut Http",
