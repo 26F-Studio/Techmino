@@ -4,7 +4,7 @@ return{
 	env={
 		drop=30,lock=45,
 		visible="easy",
-		dropPiece=function(P)if P.stat.row>=20 then P:win("finish")end end,
+		dropPiece=function(P)if P.stat.row>=200 then P:win("finish")end end,
 		freshLimit=10,
 		bg="glow",bgm="reason",
 	},
