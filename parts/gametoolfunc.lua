@@ -1168,7 +1168,6 @@ do
 							if res.id then
 								USER.id=res.id
 								USER.authToken=res.authToken
-								NET.try_enter_netmenu=true
 								WS.send("user",JSON.encode{action=0})
 							end
 							FILE.save(USER,"conf/user","q")
@@ -1184,10 +1183,10 @@ do
 						elseif res.action==0 then
 							USER.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
-							if NET.try_enter_netmenu then
-								NET.try_enter_netmenu=false
-								SCN.go("net_menu")
-							end
+							WS.connect("play","/play",JSON.encode{
+								id=USER.id,
+								accessToken=USER.accessToken,
+							})
 						elseif res.action==1 then
 							USER.name=res.username
 							USER.motto=res.motto
@@ -1239,7 +1238,9 @@ do
 						return
 					else
 						local res=JSON.decode(message)
-						--TODO
+						if res.message=="Connected"then
+							SCN.go("net_menu")
+						end
 					end
 				end
 			end

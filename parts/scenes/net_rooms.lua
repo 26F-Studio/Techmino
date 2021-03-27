@@ -6,26 +6,27 @@ local scrollPos,selected
 local lastfreshTime
 local lastCreateRoomTime=0
 
-local function enterRoom(roomID)
-	--[[TODO
-		WS.connect("play","/play",JSON.encode{
-			email=USER.email,
-			token=USER.accessToken,
-			id=roomID,
-			conf=dumpBasicConfig(),
-			-- password=password,
-		})
-	]]
-end
 local function fresh()
 	lastfreshTime=TIME()
 	rooms=nil
-	--[[TODO
-		WS.connect("play","/play",JSON.encode{
-			email=USER.email,
-			accessToken=USER.accessToken,
-		})
-	]]
+	WS.send("play","/play",JSON.encode{
+		action=0,
+		data={
+			type=nil,
+			begin=0,
+			count=10,
+		}
+	})
+end
+local function enterRoom(roomID,password)
+	WS.send("play","/play",JSON.encode{
+		action=2,
+		data={
+			rid=roomID,
+			conf=dumpBasicConfig(),
+			password=password,
+		}
+	})
 end
 
 local scene={}
@@ -47,14 +48,15 @@ function scene.keyDown(k)
 		end
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>26 then
-			--[[TODO
-				WS.send("room",JSON.encode{
-					email=USER.email,
-					accessToken=USER.accessToken,
-					room_name=(USER.name or"???").."'s room",
-					room_password=nil,
-				})
-			]]
+			WS.send("play",JSON.encode{
+				action=1,
+				data={
+					type=nil,
+					name=(USER.name or"???").."'s room",
+					password=nil,
+					conf=dumpBasicConfig(),
+				}
+			})
 			lastCreateRoomTime=TIME()
 		else
 			LOG.print(text.createRoomTooFast,"warn")

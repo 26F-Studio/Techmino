@@ -27,7 +27,6 @@ LOGIN=false
 EDITING=""
 NET={
 	allow_online=false,
-	try_enter_netmenu=false,
 }
 ERRDATA={}
 
