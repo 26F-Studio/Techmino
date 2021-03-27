@@ -84,10 +84,8 @@ do--Connect
 					ctLen=tonumber(l:match"%d+")
 				end
 			until l==""
-			l=SOCK:receive(ctLen)
-			local reason=JSON.decode(l)
-			if reason then reason=reason.message end
-			readCHN:push(code.."-"..(reason or l))
+			local reason=JSON.decode(SOCK:receive(ctLen))
+			readCHN:push(code..":"..(reason and reason.message or"Server Error"))
 		end
 	else
 		readCHN:push(err)
@@ -97,7 +95,7 @@ end
 
 
 
-while true do
+while true do--Running
 	triggerCHN:demand()
 	while sendCHN:getCount()>=2 do
 		local op=sendCHN:pop()
@@ -137,7 +135,7 @@ while true do
 				reason=JSON.decode(res)if reason then reason=reason.message end
 				readCHN:push(code.."-"..(reason or res))
 			else
-				readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2).."-"..res:sub(3,-3)))
+				readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2),res:sub(3,-3)))
 			end
 		else
 			readCHN:push(res)
@@ -196,8 +194,8 @@ end
 function WS.read(name)
 	local ws=wsList[name]
 	if ws.readCHN:getCount()>=2 then
-		local op=ws.readCHN.pop()
-		local message=ws.readCHN.pop()
+		local op=ws.readCHN:pop()
+		local message=ws.readCHN:pop()
 		if op==8 then ws.status="dead"end
 		ws.lastPongTime=timer()
 		return message,op
