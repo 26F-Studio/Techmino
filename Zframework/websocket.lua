@@ -79,7 +79,7 @@ do--Connect
 			code=l:find(" "); code=l:sub(code+1,code+3)
 			repeat
 				l=SOCK:receive("*l")
-				if not ctLen and l:find"Length"then
+				if not ctLen and l:find"length"then
 					ctLen=tonumber(l:match"%d+")
 				end
 			until l==""
