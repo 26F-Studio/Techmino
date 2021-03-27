@@ -1163,15 +1163,17 @@ do
 						return
 					else
 						local res=JSON.decode(message)
-						if res.messages=="Connected"then
+						if res.message=="Connected"then
 							LOGIN=true
-							USER.authToken=res.authToken
-							USER.id=res.id
+							if res.id then
+								USER.id=res.id
+								USER.authToken=res.authToken
+								SCN.go("net_menu")
+							end
 							FILE.save(USER,"conf/user","q")
 							LOG.print(text.loginSuccessed)
-							WS.send("user",JSON.encode{
-								action=0,
-							})
+
+							--Get self infos
 							WS.send("user",JSON.encode{
 								action=1,
 								data={
@@ -1180,7 +1182,7 @@ do
 							})
 						elseif res.action==0 then
 							USER.accessToken=res.accessToken
-							FILE.save(USER,"conf/user")
+							LOG.print(text.accessSuccessed)
 						elseif res.action==1 then
 							USER.name=res.username
 							USER.motto=res.motto
