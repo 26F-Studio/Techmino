@@ -176,6 +176,10 @@ local loadingThread=coroutine.create(function()
 	end
 	STAT.run=STAT.run+1
 	LOADED=true
+
+	--Connect to server
+	TASK.new(TICK_WS_app)
+
 	--[[TODO
 		WS.send("user",JSON.encode{
 			id=USER.id,

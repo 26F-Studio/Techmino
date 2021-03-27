@@ -44,9 +44,6 @@ function scene.sceneInit()
 	PLY.newDemoPlayer(1)
 	PLAYERS[1]:setPosition(520,140,.8)
 	love.keyboard.setKeyRepeat(false)
-
-	--Connect to server
-	TASK.new(TICK_WS_app)
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
