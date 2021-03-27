@@ -131,14 +131,11 @@ while true do--Running
 		readCHN:push(op)
 		if op==8 then--close
 			SOCK:close()
-			if res:sub(1,4)=="HTTP"then
-				local code=res:find(" ")
-				code=res:sub(code+1,code+3)
-				local res=res:sub(res:find("\n\n")+1)
-				reason=JSON.decode(res)if reason then reason=reason.message end
-				readCHN:push(code.."-"..(reason or res))
+			if type(res)=="string"then
+				local reason=JSON.decode(res)
+				readCHN:push(reason and reason.message or"Server Error")
 			else
-				readCHN:push(string.format("%d-%s",shl(byte(res,1),8)+byte(res,2),res:sub(3,-3)))
+				readCHN:push("Server Error")
 			end
 		else
 			readCHN:push(res)
