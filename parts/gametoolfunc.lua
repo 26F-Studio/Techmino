@@ -1165,6 +1165,7 @@ do
 						return
 					else
 						local res=JSON.decode(message)
+						if not res then return end
 						if res.message=="Connected"then
 							LOGIN=true
 							if res.id then
