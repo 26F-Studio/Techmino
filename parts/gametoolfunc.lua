@@ -1121,6 +1121,7 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("app",message,"pong")
+					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
 						if message then
@@ -1155,6 +1156,7 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("user",message,"pong")
+					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
 						if message then
@@ -1207,6 +1209,7 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("chat",message,"pong")
+					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
 						if message then
@@ -1230,6 +1233,7 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("play",message,"pong")
+					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
 						if message then
@@ -1255,6 +1259,7 @@ do
 				if message then
 					if op=="ping"then
 						WS.send("stream",message,"pong")
+					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
 						if message then
