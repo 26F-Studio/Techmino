@@ -97,7 +97,7 @@ do--Connect
 end
 
 
-
+local buffer
 while true do--Running
 	triggerCHN:demand()
 	while sendCHN:getCount()>=2 do
@@ -112,6 +112,7 @@ while true do--Running
 		if not res then break end
 
 		local op=band(byte(res,1),0x0f)
+		local fin=band(byte(res,1),0x80)==0x80
 
 		--Calculating data length
 		local length=band(byte(res,2),0x7f)
@@ -128,8 +129,8 @@ while true do--Running
 		res=SOCK:receive(length)
 
 		--React
-		readCHN:push(op)
-		if op==8 then--close
+		if op==8 then--8=close
+			readCHN:push(op)
 			SOCK:close()
 			if type(res)=="string"then
 				local reason=JSON.decode(res)
@@ -137,8 +138,19 @@ while true do--Running
 			else
 				readCHN:push("Server Error")
 			end
+		elseif op==0 then
+			buffer=buffer..res
+			if fin then
+				readCHN:push(buffer)
+				buffer=""
+			end
 		else
-			readCHN:push(res)
+			readCHN:push(op)
+			if fin then
+				readCHN:push(res)
+			else
+				buffer=res
+			end
 		end
 	end
 end
@@ -208,7 +220,7 @@ function WS.read(name)
 	if ws.readCHN:getCount()>=2 then
 		local op=ws.readCHN:pop()
 		local message=ws.readCHN:pop()
-		if op==8 then ws.status="dead"end
+		if op==8 then ws.status="dead"end--8=close
 		ws.lastPongTime=timer()
 		return message,OPname[op]or op
 	end
