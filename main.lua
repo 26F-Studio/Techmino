@@ -23,9 +23,9 @@ SAVEDIR=fs.getSaveDirectory()
 --Global Vars & Settings
 LOADED=false
 DAILYLAUNCH=false
-LOGIN=false
 EDITING=""
 NET={
+	login=false,
 	allow_online=false,
 }
 ERRDATA={}

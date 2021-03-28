@@ -1068,7 +1068,7 @@ do
 	--[[
 	register:
 		if response.message=="OK"then
-			LOGIN=true
+			NET.login=true
 			USER.name=res.name
 			USER.id=res.id
 			USER.motto=res.motto
@@ -1167,7 +1167,7 @@ do
 						local res=JSON.decode(message)
 						if not res then return end
 						if res.message=="Connected"then
-							LOGIN=true
+							NET.login=true
 							if res.id then
 								USER.id=res.id
 								USER.authToken=res.authToken
