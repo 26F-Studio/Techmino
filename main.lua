@@ -24,10 +24,6 @@ SAVEDIR=fs.getSaveDirectory()
 LOADED=false
 DAILYLAUNCH=false
 EDITING=""
-NET={
-	login=false,
-	allow_online=false,
-}
 ERRDATA={}
 
 --System setting
@@ -80,6 +76,7 @@ require"parts.gametoolfunc"
 SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
+NET=		require"parts.net"
 AIBUILDER=	require"parts.AITemplate"
 FREEROW=	require"parts.freeRow"
 

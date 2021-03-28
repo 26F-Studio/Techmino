@@ -20,7 +20,6 @@ end
 
 local playerInitialized
 local playing
-local heartBeatTimer
 local lastUpstreamTime
 local upstreamProgress
 local lastBackTime=0
@@ -30,7 +29,7 @@ local touchMoveLastFrame=false
 local scene={}
 
 function scene.sceneBack()
-	WS.send("play","Q")
+	NET.signal_quit()
 	LOG.print(text.wsDisconnected,"warn")
 	love.keyboard.setKeyRepeat(true)
 end
@@ -107,7 +106,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		if not PLAYERS[1].ready then
-			WS.send("play","R")
+			NET.signal_ready()
 		end
 	end
 end
@@ -262,14 +261,7 @@ function scene.update(dt)
 	local GAME=GAME
 
 	if WS.status("play")~="running"and not SCN.swapping then SCN.back()end
-	if not playing then
-		heartBeatTimer=heartBeatTimer+dt
-		if heartBeatTimer>42 then
-			heartBeatTimer=0
-			WS.send("play","P")
-		end
-		return
-	end
+	if not playing then return end
 
 	touchMoveLastFrame=false
 	updateVirtualkey()
@@ -289,7 +281,7 @@ function scene.update(dt)
 		local stream
 		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
-			WS.send("stream",data.encode("string","base64",stream))
+			NET.uploadRecStream(stream)
 		else
 			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,0)

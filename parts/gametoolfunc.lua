@@ -1120,7 +1120,7 @@ do
 				local message,op=WS.read("app")
 				if message then
 					if op=="ping"then
-						WS.send("app",message,"pong")
+						NET.pong("app",message)
 					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
@@ -1155,7 +1155,7 @@ do
 				local message,op=WS.read("user")
 				if message then
 					if op=="ping"then
-						WS.send("user",message,"pong")
+						NET.pong("user",message)
 					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
@@ -1171,25 +1171,17 @@ do
 							if res.id then
 								USER.id=res.id
 								USER.authToken=res.authToken
-								WS.send("user",JSON.encode{action=0})
+								NET.getAccessToken()
 							end
 							FILE.save(USER,"conf/user","q")
 							LOG.print(text.loginSuccessed)
 
 							--Get self infos
-							WS.send("user",JSON.encode{
-								action=1,
-								data={
-									id=USER.id,
-								},
-							})
+							NET.getSelfInfo()
 						elseif res.action==0 then
 							USER.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
-							WS.connect("play","/play",JSON.encode{
-								id=USER.id,
-								accessToken=USER.accessToken,
-							})
+							NET.wsConnectPlay()
 						elseif res.action==1 then
 							USER.name=res.username
 							USER.motto=res.motto
@@ -1209,7 +1201,7 @@ do
 				local message,op=WS.read("chat")
 				if message then
 					if op=="ping"then
-						WS.send("chat",message,"pong")
+						NET.pong("chat",message)
 					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
@@ -1233,7 +1225,7 @@ do
 				local message,op=WS.read("play")
 				if message then
 					if op=="ping"then
-						WS.send("play",message,"pong")
+						NET.pong("play",message)
 					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)
@@ -1259,7 +1251,7 @@ do
 				local message,op=WS.read("stream")
 				if message then
 					if op=="ping"then
-						WS.send("stream",message,"pong")
+						NET.pong("stream",message)
 					elseif op=="pong"then
 					elseif op=="close"then
 						message=JSON.decode(message)

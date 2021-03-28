@@ -82,7 +82,7 @@ function scene.keyDown(key)
 					TEXT.show(text.needUpdate,640,450,60,"flicker")
 					SFX.play("finesseError")
 				else
-					WS.send("user",JSON.encode{action=0})
+					NET.getAccessToken()
 				end
 			else
 				SCN.go("login")

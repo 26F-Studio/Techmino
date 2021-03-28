@@ -9,24 +9,7 @@ local lastCreateRoomTime=0
 local function fresh()
 	lastfreshTime=TIME()
 	rooms=nil
-	WS.send("play","/play",JSON.encode{
-		action=0,
-		data={
-			type=nil,
-			begin=0,
-			count=10,
-		}
-	})
-end
-local function enterRoom(roomID,password)
-	WS.send("play","/play",JSON.encode{
-		action=2,
-		data={
-			rid=roomID,
-			conf=dumpBasicConfig(),
-			password=password,
-		}
-	})
+	NET.freshRoom()
 end
 
 local scene={}
@@ -48,15 +31,7 @@ function scene.keyDown(k)
 		end
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>26 then
-			WS.send("play",JSON.encode{
-				action=1,
-				data={
-					type=nil,
-					name=(USER.name or"???").."'s room",
-					password=nil,
-					conf=dumpBasicConfig(),
-				}
-			})
+			NET.createRoom()
 			lastCreateRoomTime=TIME()
 		else
 			LOG.print(text.createRoomTooFast,"warn")
@@ -83,7 +58,7 @@ function scene.keyDown(k)
 				LOG.print("Can't enter private room now")
 				return
 			end
-			enterRoom(rooms[selected].id)
+			NET.enterRoom(rooms[selected].id)--,password
 		end
 	end
 end
