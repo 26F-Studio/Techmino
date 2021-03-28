@@ -1130,13 +1130,17 @@ do
 						return
 					else
 						local res=JSON.decode(message)
-						if VERSION_CODE>=res.lowest then
-							NET.allow_online=true
+						if res then
+							if VERSION_CODE>=res.lowest then
+								NET.allow_online=true
+							end
+							if VERSION_CODE<res.newestCode then
+								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+							end
+							LOG.print(res.notice,300,COLOR.sky)
+						else
+							WS.alert("app")
 						end
-						if VERSION_CODE<res.newestCode then
-							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
-						end
-						LOG.print(res.notice,300,COLOR.sky)
 					end
 				end
 			elseif status=="dead"then
@@ -1165,28 +1169,31 @@ do
 						return
 					else
 						local res=JSON.decode(message)
-						if not res then return end
-						if res.message=="Connected"then
-							NET.login=true
-							if res.id then
-								USER.id=res.id
-								USER.authToken=res.authToken
-								NET.getAccessToken()
-							end
-							FILE.save(USER,"conf/user","q")
-							LOG.print(text.loginSuccessed)
+						if res then
+							if res.message=="Connected"then
+								NET.login=true
+								if res.id then
+									USER.id=res.id
+									USER.authToken=res.authToken
+									NET.getAccessToken()
+								end
+								FILE.save(USER,"conf/user","q")
+								LOG.print(text.loginSuccessed)
 
-							--Get self infos
-							NET.getSelfInfo()
-						elseif res.action==0 then
-							USER.accessToken=res.accessToken
-							LOG.print(text.accessSuccessed)
-							NET.wsConnectPlay()
-						elseif res.action==1 then
-							USER.name=res.username
-							USER.motto=res.motto
-							USER.avatar=res.avatar
-							FILE.save(USER,"conf/user")
+								--Get self infos
+								NET.getSelfInfo()
+							elseif res.action==0 then
+								USER.accessToken=res.accessToken
+								LOG.print(text.accessSuccessed)
+								NET.wsConnectPlay()
+							elseif res.action==1 then
+								USER.name=res.username
+								USER.motto=res.motto
+								USER.avatar=res.avatar
+								FILE.save(USER,"conf/user")
+							end
+						else
+							WS.alert("user")
 						end
 					end
 				end
@@ -1211,7 +1218,11 @@ do
 						return
 					else
 						local res=JSON.decode(message)
-						--TODO
+						if res then
+							--TODO
+						else
+							WS.alert("chat")
+						end
 					end
 				end
 			end
@@ -1235,8 +1246,12 @@ do
 						return
 					else
 						local res=JSON.decode(message)
-						if res.message=="Connected"then
-							SCN.go("net_menu")
+						if res then
+							if res.message=="Connected"then
+								SCN.go("net_menu")
+							end
+						else
+							WS.alert("play")
 						end
 					end
 				end
@@ -1260,7 +1275,6 @@ do
 						end
 						return
 					else
-						local res=JSON.decode(message)
 						--TODO
 					end
 				end
