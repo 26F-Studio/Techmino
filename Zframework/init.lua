@@ -511,7 +511,7 @@ function love.run()
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 		LOG.update()
-		WS.update()
+		WS.update(dt)
 
 		--DRAW
 		if not MINI()then
@@ -598,11 +598,8 @@ function love.run()
 							gc_setColor(.8,.8,.8)
 							gc_draw(TEXTURE.ws_running,-20,20*i-20)
 						end
-						local lastPongTime=WS.lastPongTime(WSnames[i])
-						if lastPongTime<1 then
-							gc_setColor(1,1,1,1-lastPongTime)
-							gc_rectangle("fill",0,20*i,-20,-20)
-						end
+						gc_setColor(1,1,1,WS.getPongTimer(WSnames[i]))gc_rectangle("fill",0,20*i,-20,-20)
+						gc_setColor(1,0,0,WS.getPongTimer(WSnames[i]))gc_rectangle("fill",-4,20*i-4,-12,-12)
 					end
 					gc_pop()
 

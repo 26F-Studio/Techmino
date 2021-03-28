@@ -158,10 +158,23 @@ end
 
 local timer=love.timer.getTime
 local WS={}
-local wsList={}
+local wsList=setmetatable({},{
+	__index=function(l,k)
+		local ws={
+			real=false,
+			status="dead",
+			lastPongTime=timer(),
+			pongTimer=0,
+			alertTimer=0,
+		}
+		l[k]=ws
+		return ws
+	end
+})
 
 function WS.connect(name,subPath,body)
 	local ws={
+		real=true,
 		thread=love.thread.newThread(wsThread),
 		triggerCHN=love.thread.newChannel(),
 		sendCHN=love.thread.newChannel(),
@@ -170,6 +183,8 @@ function WS.connect(name,subPath,body)
 		lastPongTime=timer(),
 		pingInterval=26,
 		status="connecting",--connecting, running, dead
+		pongTimer=0,
+		alertTimer=0,
 	}
 	wsList[name]=ws
 	ws.thread:start(ws.triggerCHN,ws.sendCHN,ws.readCHN)
@@ -180,16 +195,26 @@ function WS.connect(name,subPath,body)
 end
 
 function WS.status(name)
-	return wsList[name]and wsList[name].status or"dead"
+	local ws=wsList[name]
+	return ws.status or"dead"
 end
 
-function WS.lastPongTime(name)
-	return wsList[name]and timer()-wsList[name].lastPongTime or 999
+function WS.getPongTimer(name)
+	return wsList[name].pongTimer
+end
+
+function WS.getAlertTimer(name)
+	return wsList[name].alertTimer
 end
 
 function WS.setPingInterval(name,time)
 	local ws=wsList[name]
 	ws.pingInterval=math.max(time or 1,2.6)
+end
+
+function WS.alert(name)
+	local ws=wsList[name]
+	ws.alertTimer=1
 end
 
 local OPcode={
@@ -210,52 +235,62 @@ local OPname={
 }
 function WS.send(name,message,op)
 	local ws=wsList[name]
-	ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
-	ws.sendCHN:push(message)
-	ws.lastPingTime=timer()
+	if ws.real then
+		ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
+		ws.sendCHN:push(message)
+		ws.lastPingTime=timer()
+	end
 end
 
 function WS.read(name)
 	local ws=wsList[name]
-	if ws.readCHN:getCount()>=2 then
+	if ws.real and ws.readCHN:getCount()>=2 then
 		local op=ws.readCHN:pop()
 		local message=ws.readCHN:pop()
 		if op==8 then ws.status="dead"end--8=close
 		ws.lastPongTime=timer()
+		ws.pongTimer=1
 		return message,OPname[op]or op
 	end
 end
 
 function WS.close(name)
 	local ws=wsList[name]
-	ws.sendCHN:push(8)--close
-	ws.sendCHN:push("")
-	ws.status="dead"
+	if ws.real then
+		ws.sendCHN:push(8)--close
+		ws.sendCHN:push("")
+		ws.status="dead"
+	end
 end
 
-function WS.update()
+function WS.update(dt)
 	local time=timer()
 	for name,ws in next,wsList do
-		ws.triggerCHN:push(0)
-		if ws.status=="connecting"then
-			local mes=ws.readCHN:pop()
-			if mes then
-				if mes=="success"then
-					ws.status="running"
-					ws.lastPingTime=time
-					ws.lastPongTime=time
-				else
-					ws.status="dead"
-					LOG.print(text.wsFailed.." "..mes,"warn")
+		if ws.real then
+			ws.triggerCHN:push(0)
+			if ws.status=="connecting"then
+				local mes=ws.readCHN:pop()
+				if mes then
+					if mes=="success"then
+						ws.status="running"
+						ws.lastPingTime=time
+						ws.lastPongTime=time
+						ws.pongTimer=1
+					else
+						ws.status="dead"
+						LOG.print(text.wsFailed.." "..mes,"warn")
+					end
 				end
+			elseif time-ws.lastPingTime>ws.pingInterval then
+				ws.sendCHN:push(9)
+				ws.sendCHN:push("")--ping
+				ws.lastPingTime=time
 			end
-		elseif time-ws.lastPingTime>ws.pingInterval then
-			ws.sendCHN:push(9)
-			ws.sendCHN:push("")--ping
-			ws.lastPingTime=time
-		end
-		if time-ws.lastPongTime>10+3*ws.pingInterval then
-			WS.close(name)
+			if time-ws.lastPongTime>10+3*ws.pingInterval then
+				WS.close(name)
+			end
+			if ws.pongTimer>0 then ws.pongTimer=ws.pongTimer-dt end
+			if ws.alertTimer>0 then ws.alertTimer=ws.alertTimer-dt end
 		end
 	end
 end
