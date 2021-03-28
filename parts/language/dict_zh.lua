@@ -235,7 +235,7 @@ return{
 	{"APL",
 		"apl xiaolv",
 		"term",
-		"Attack per Line\n攻击每行，也叫效率，体现玩家攻击的的行利用率。",
+		"Attack per Line\n攻击每行，也叫效率，体现玩家攻击的行利用率。",
 	},
 
 	--术语(消除名)
