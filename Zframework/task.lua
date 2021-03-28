@@ -1,6 +1,6 @@
 local rem=table.remove
-local ct=coroutine
 local assert=assert
+local resume,status=coroutine.resume,coroutine.status
 local tasks={}
 
 local TASK={}
@@ -10,16 +10,17 @@ end
 function TASK.update()
 	for i=#tasks,1,-1 do
 		local T=tasks[i]
-		assert(ct.resume(T.thread))
-		if ct.status(T.thread)=="dead"then
-		rem(tasks,i)
+		if status(T.thread)=="dead"then
+			rem(tasks,i)
+		else
+			assert(resume(T.thread))
 		end
 	end
 end
 function TASK.new(code,...)
-	local thread=ct.create(code)
-	ct.resume(thread,...)
-	if ct.status(thread)~="dead"then
+	local thread=coroutine.create(code)
+	resume(thread,...)
+	if status(thread)~="dead"then
 		tasks[#tasks+1]={
 			thread=thread,
 			code=code,
