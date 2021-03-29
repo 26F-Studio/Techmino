@@ -1087,29 +1087,6 @@ do
 		else
 			LOG.print(text.wsFailed..": "..connErr,"warn")
 		end
-
-	fetchRooms:
-		if res.message=="OK"then
-			rooms=res.room_list
-		else
-			LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-		end
-
-	createRoom:
-		if res.message=="OK"then
-			LOG.print(text.createRoomSuccessed)
-			enterRoom(res.room.id)
-		else
-			LOG.print(text.httpCode..res.code..": "..res.message,"warn")
-		end
-
-	enterRoom:
-		if res.message=="OK"then
-			loadGame("netBattle",true,true)
-			LOG.print(text.wsSuccessed,"warn")
-		else
-			LOG.print(text.wsFailed..": "..connErr,"warn")
-		end
 	]]
 
 	function TICK_WS_app()
@@ -1183,19 +1160,82 @@ do
 
 								--Get self infos
 								NET.getSelfInfo()
-							elseif res.action==0 then
+							elseif res.action==0 then--Get accessToken
 								USER.accessToken=res.accessToken
 								LOG.print(text.accessSuccessed)
 								NET.wsConnectPlay()
-							elseif res.action==1 then
-								USER.name=res.username
-								USER.motto=res.motto
-								USER.avatar=res.avatar
-								FILE.save(USER,"conf/user")
+							elseif res.action==1 then--Get userInfo
+								if res.id==USER.id then--Own
+									USER.name=res.username
+									USER.motto=res.motto
+									USER.avatar=res.avatar
+									FILE.save(USER,"conf/user")
+								else--Others
+									LOG.print("Get user info: "..USER.id)
+								end
 							end
 						else
 							WS.alert("user")
 						end
+					end
+				end
+			end
+		end
+	end
+	function TICK_WS_play()
+		while true do
+			YIELD()
+			local status=WS.status("play")
+			if status=="running"then
+				local message,op=WS.read("play")
+				if message then
+					if op=="ping"then
+						NET.pong("play",message)
+					elseif op=="pong"then
+					elseif op=="close"then
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
+						return
+					else
+						local res=JSON.decode(message)
+						if res then
+							if res.message=="Connected"then
+								SCN.go("net_menu")
+							elseif res.action==0 then--Fetch rooms
+								NET.roomList=res.roomList
+							elseif res.action==2 then--Join room
+								loadGame("netBattle",true,true)
+							elseif res.action==3 then--Leave room
+								SCN.back()
+							end
+						else
+							WS.alert("play")
+						end
+					end
+				end
+			end
+		end
+	end
+	function TICK_WS_stream()
+		while true do
+			YIELD()
+			local status=WS.status("stream")
+			if status=="running"then
+				local message,op=WS.read("stream")
+				if message then
+					if op=="ping"then
+						NET.pong("stream",message)
+					elseif op=="pong"then
+					elseif op=="close"then
+						message=JSON.decode(message)
+						if message then
+							LOG.print(text.wsClose..message.message,"warn")
+						end
+						return
+					else
+						--TODO
 					end
 				end
 			end
@@ -1224,59 +1264,6 @@ do
 						else
 							WS.alert("chat")
 						end
-					end
-				end
-			end
-		end
-	end
-	function TICK_WS_play()
-		while true do
-			YIELD()
-			local status=WS.status("play")
-			if status=="running"then
-				local message,op=WS.read("play")
-				if message then
-					if op=="ping"then
-						NET.pong("play",message)
-					elseif op=="pong"then
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						local res=JSON.decode(message)
-						if res then
-							if res.message=="Connected"then
-								SCN.go("net_menu")
-							end
-						else
-							WS.alert("play")
-						end
-					end
-				end
-			end
-		end
-	end
-	function TICK_WS_stream()
-		while true do
-			YIELD()
-			local status=WS.status("stream")
-			if status=="running"then
-				local message,op=WS.read("stream")
-				if message then
-					if op=="ping"then
-						NET.pong("stream",message)
-					elseif op=="pong"then
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						--TODO
 					end
 				end
 			end
