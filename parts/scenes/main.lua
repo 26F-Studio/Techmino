@@ -43,10 +43,6 @@ function scene.sceneInit()
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
 	PLAYERS[1]:setPosition(520,140,.8)
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.mouseDown(x,y)
