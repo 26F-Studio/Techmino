@@ -180,6 +180,7 @@ local loadingThread=coroutine.create(function()
 	--Connect to server
 	TASK.new(TICK_WS_app)
 	TASK.new(TICK_WS_user)
+	TASK.new(TICK_WS_play)
 	WS.connect("app","/app")
 	if USER.authToken then
 		WS.connect("user","/user",JSON.encode{
