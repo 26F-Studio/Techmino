@@ -444,13 +444,13 @@ function love.errorhandler(msg)
 		end
 	end
 end
-local WSnames={"app","user","chat","play","stream"}
+local WSnames={"app","user","play","stream","chat"}
 local WScolor={
-	{1,0,0,.26},
-	{1,.7,0,.26},
-	{0,.7,1,.26},
-	{0,1,0,.26},
-	{1,1,0,.26}
+	{1,.5,.5,.7},
+	{1,.8,.3,.7},
+	{1,1,.4,.7},
+	{.4,1,.7,.7},
+	{.5,.8,1,.7},
 }
 local devColor={
 	COLOR.white,
@@ -587,19 +587,21 @@ function love.run()
 					for i=1,5 do
 						local status=WS.status(WSnames[i])
 						gc_setColor(WScolor[i])
-						gc_rectangle("fill",0,20*i,-20,-20)
+						gc_rectangle("fill",0,20*i,-80,-20)
 						if status=="dead"then
-							gc_setColor(.8,.8,.8)
+							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
 						elseif status=="connecting"then
-							gc_setColor(.8,.8,.8,.5+.3*sin(t*6.26))
+							gc_setColor(1,1,1,.5+.3*sin(t*6.26))
 							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
 						elseif status=="running"then
-							gc_setColor(.8,.8,.8)
+							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_running,-20,20*i-20)
 						end
-						gc_setColor(1,1,1,WS.getPongTimer(WSnames[i]))gc_rectangle("fill",0,20*i,-20,-20)
-						gc_setColor(1,0,0,WS.getAlertTimer(WSnames[i]))gc_rectangle("fill",-4,20*i-4,-12,-12)
+						local t1,t2,t3=WS.getTimers(WSnames[i])
+						gc_setColor(1,1,1,t1)gc_rectangle("fill",-60,20*i,-20,-20)
+						gc_setColor(0,1,0,t2)gc_rectangle("fill",-40,20*i,-20,-20)
+						gc_setColor(1,0,0,t3)gc_rectangle("fill",-20,20*i,-20,-20)
 					end
 					gc_pop()
 

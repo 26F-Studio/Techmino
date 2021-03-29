@@ -164,8 +164,9 @@ local wsList=setmetatable({},{
 			real=false,
 			status="dead",
 			lastPongTime=timer(),
-			pongTimer=0,
+			sendTimer=0,
 			alertTimer=0,
+			pongTimer=0,
 		}
 		l[k]=ws
 		return ws
@@ -183,8 +184,9 @@ function WS.connect(name,subPath,body)
 		lastPongTime=timer(),
 		pingInterval=26,
 		status="connecting",--connecting, running, dead
-		pongTimer=0,
+		sendTimer=0,
 		alertTimer=0,
+		pongTimer=0,
 	}
 	wsList[name]=ws
 	ws.thread:start(ws.triggerCHN,ws.sendCHN,ws.readCHN)
@@ -199,12 +201,9 @@ function WS.status(name)
 	return ws.status or"dead"
 end
 
-function WS.getPongTimer(name)
-	return wsList[name].pongTimer
-end
-
-function WS.getAlertTimer(name)
-	return wsList[name].alertTimer
+function WS.getTimers(name)
+	local ws=wsList[name]
+	return ws.pongTimer,ws.sendTimer,ws.alertTimer
 end
 
 function WS.setPingInterval(name,time)
@@ -239,6 +238,7 @@ function WS.send(name,message,op)
 		ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
 		ws.sendCHN:push(message)
 		ws.lastPingTime=timer()
+		ws.sendTimer=1
 	end
 end
 
@@ -289,6 +289,7 @@ function WS.update(dt)
 			if time-ws.lastPongTime>10+3*ws.pingInterval then
 				WS.close(name)
 			end
+			if ws.sendTimer>0 then ws.sendTimer=ws.sendTimer-dt end
 			if ws.pongTimer>0 then ws.pongTimer=ws.pongTimer-dt end
 			if ws.alertTimer>0 then ws.alertTimer=ws.alertTimer-dt end
 		end
