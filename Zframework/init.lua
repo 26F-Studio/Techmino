@@ -599,7 +599,7 @@ function love.run()
 							gc_draw(TEXTURE.ws_running,-20,20*i-20)
 						end
 						gc_setColor(1,1,1,WS.getPongTimer(WSnames[i]))gc_rectangle("fill",0,20*i,-20,-20)
-						gc_setColor(1,0,0,WS.getPongTimer(WSnames[i]))gc_rectangle("fill",-4,20*i-4,-12,-12)
+						gc_setColor(1,0,0,WS.getAlertTimer(WSnames[i]))gc_rectangle("fill",-4,20*i-4,-12,-12)
 					end
 					gc_pop()
 
