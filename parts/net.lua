@@ -2,6 +2,7 @@ local data=love.data
 local NET={
 	login=false,
 	allow_online=false,
+	roomList=false,
 }
 
 --Account
