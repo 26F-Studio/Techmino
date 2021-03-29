@@ -260,7 +260,7 @@ function scene.update(dt)
 	local _
 	local GAME=GAME
 
-	if WS.status("play")~="running"and not SCN.swapping then SCN.back()end
+	if WS.status("play")~="running"then SCN.back()end
 	if not playing then return end
 
 	touchMoveLastFrame=false

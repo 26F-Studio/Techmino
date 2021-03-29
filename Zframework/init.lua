@@ -165,7 +165,7 @@ function love.touchpressed(id,x,y)
 	if SCN.touchDown then SCN.touchDown(x,y)end
 	if kb.hasTextInput()then kb.setTextInput(false)end
 end
-function love.touchmoved(id,x,y,dx,dy)
+function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
