@@ -152,6 +152,8 @@ function SCN.go(tar,style)--Normal scene swapping, can back
 	end
 end
 function SCN.back()
+	if SCN.swapping then return end
+
 	--Leave scene
 	if SCN.sceneBack then SCN.sceneBack()end
 
