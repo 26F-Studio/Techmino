@@ -11,9 +11,9 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newSwitch{name="VKDodge",x=400,	y=530,			font=35,disp=lnk_SETval("VKDodge"),code=lnk_SETrev("VKDodge")},
-	WIDGET.newSlider{name="VKTchW",	x=140,	y=320,w=1000,	font=35,disp=lnk_SETval("VKTchW"),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end},
-	WIDGET.newSlider{name="VKCurW",	x=140,	y=390,w=1000,	font=35,disp=lnk_SETval("VKCurW"),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end},
+	WIDGET.newSwitch{name="VKDodge",x=400,	y=530,			font=35,disp=SETval("VKDodge"),code=SETrev("VKDodge")},
+	WIDGET.newSlider{name="VKTchW",	x=140,	y=320,w=1000,	font=35,disp=SETval("VKTchW"),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end},
+	WIDGET.newSlider{name="VKCurW",	x=140,	y=390,w=1000,	font=35,disp=SETval("VKCurW"),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 

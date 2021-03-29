@@ -81,14 +81,14 @@ scene.widgetList={
 	WIDGET.newText{name="title",	x=80,	y=50,font=70,align="L"},
 	WIDGET.newText{name="preview",	x=520,	y=540,font=40,align="R"},
 
-	WIDGET.newSlider{name="das",	x=250,	y=190,w=600,unit=20,disp=lnk_SETval("das"),	show=sliderShow,code=lnk_SETsto("das")},
-	WIDGET.newSlider{name="arr",	x=250,	y=260,w=525,unit=15,disp=lnk_SETval("arr"),	show=sliderShow,code=lnk_SETsto("arr")},
-	WIDGET.newSlider{name="sddas",	x=250,	y=330,w=350,unit=10,disp=lnk_SETval("sddas"),show=sliderShow,code=lnk_SETsto("sddas")},
-	WIDGET.newSlider{name="sdarr",	x=250,	y=400,w=140,unit=4,	disp=lnk_SETval("sdarr"),show=sliderShow,code=lnk_SETsto("sdarr")},
-	WIDGET.newSlider{name="dascut",	x=250,	y=470,w=600,unit=20,disp=lnk_SETval("dascut"),show=sliderShow,code=lnk_SETsto("dascut")},
-	WIDGET.newSwitch{name="ihs",	x=1100,	y=260,				disp=lnk_SETval("ihs"),	code=lnk_SETrev("ihs")},
-	WIDGET.newSwitch{name="irs",	x=1100,	y=330,				disp=lnk_SETval("irs"),	code=lnk_SETrev("irs")},
-	WIDGET.newSwitch{name="ims",	x=1100,	y=400,				disp=lnk_SETval("ims"),	code=lnk_SETrev("ims")},
+	WIDGET.newSlider{name="das",	x=250,	y=190,w=600,unit=20,disp=SETval("das"),	show=sliderShow,code=SETsto("das")},
+	WIDGET.newSlider{name="arr",	x=250,	y=260,w=525,unit=15,disp=SETval("arr"),	show=sliderShow,code=SETsto("arr")},
+	WIDGET.newSlider{name="sddas",	x=250,	y=330,w=350,unit=10,disp=SETval("sddas"),show=sliderShow,code=SETsto("sddas")},
+	WIDGET.newSlider{name="sdarr",	x=250,	y=400,w=140,unit=4,	disp=SETval("sdarr"),show=sliderShow,code=SETsto("sdarr")},
+	WIDGET.newSlider{name="dascut",	x=250,	y=470,w=600,unit=20,disp=SETval("dascut"),show=sliderShow,code=SETsto("dascut")},
+	WIDGET.newSwitch{name="ihs",	x=1100,	y=260,				disp=SETval("ihs"),	code=SETrev("ihs")},
+	WIDGET.newSwitch{name="irs",	x=1100,	y=330,				disp=SETval("irs"),	code=SETrev("irs")},
+	WIDGET.newSwitch{name="ims",	x=1100,	y=400,				disp=SETval("ims"),	code=SETrev("ims")},
 	WIDGET.newButton{name="reset",	x=160,	y=580,w=200,h=100,color="lRed",font=40,
 		code=function()
 			local _=SETTING

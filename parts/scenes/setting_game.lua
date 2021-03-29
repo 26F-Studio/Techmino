@@ -27,14 +27,14 @@ scene.widgetList={
 	WIDGET.newButton{name="ctrl",		x=290,	y=220,	w=320,h=80,	color="lYellow",font=35,code=goScene"setting_control"},
 	WIDGET.newButton{name="key",		x=640,	y=220,	w=320,h=80,	color="lGreen",	font=35,code=goScene"setting_key"},
 	WIDGET.newButton{name="touch",		x=990,	y=220,	w=320,h=80,	color="lBlue",	font=35,code=goScene"setting_touch"},
-	WIDGET.newSlider{name="reTime",		x=350,	y=340,	w=300,unit=10,disp=lnk_SETval("reTime"),code=lnk_SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end},
-	WIDGET.newSelector{name="RS",		x=500,	y=420,	w=300,color="sea",list={"TRS","SRS","C2","C2sym","Classic","None"},disp=lnk_SETval("RS"),code=lnk_SETsto("RS")},
+	WIDGET.newSlider{name="reTime",		x=350,	y=340,	w=300,unit=10,disp=SETval("reTime"),code=SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end},
+	WIDGET.newSelector{name="RS",		x=500,	y=420,	w=300,color="sea",list={"TRS","SRS","C2","C2sym","Classic","None"},disp=SETval("RS"),code=SETsto("RS")},
 	WIDGET.newButton{name="layout",		x=550,	y=540,	w=200,h=70,					font=35,code=goScene"setting_skin"},
-	WIDGET.newSwitch{name="autoPause",	x=1060,	y=310,	font=20,disp=lnk_SETval("autoPause"),code=lnk_SETrev("autoPause")},
-	WIDGET.newSwitch{name="swap",		x=1060,	y=370,	font=20,disp=lnk_SETval("swap"),	code=lnk_SETrev("swap")},
-	WIDGET.newSwitch{name="fine",		x=1060,	y=430,	font=20,disp=lnk_SETval("fine"),	code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6) end end},
-	WIDGET.newSwitch{name="appLock",	x=1060,	y=490,	font=20,disp=lnk_SETval("appLock"),	code=lnk_SETrev("appLock")},
-	WIDGET.newSwitch{name="simpMode",	x=1060,	y=550,	font=25,disp=lnk_SETval("simpMode"),code=function()
+	WIDGET.newSwitch{name="autoPause",	x=1060,	y=310,	font=20,disp=SETval("autoPause"),code=SETrev("autoPause")},
+	WIDGET.newSwitch{name="swap",		x=1060,	y=370,	font=20,disp=SETval("swap"),	code=SETrev("swap")},
+	WIDGET.newSwitch{name="fine",		x=1060,	y=430,	font=20,disp=SETval("fine"),	code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6) end end},
+	WIDGET.newSwitch{name="appLock",	x=1060,	y=490,	font=20,disp=SETval("appLock"),	code=SETrev("appLock")},
+	WIDGET.newSwitch{name="simpMode",	x=1060,	y=550,	font=25,disp=SETval("simpMode"),code=function()
 		SETTING.simpMode=not SETTING.simpMode
 		for i=1,#SCN.stack,2 do
 			if SCN.stack[i]=="main"or SCN.stack[i]=="main_simple"then

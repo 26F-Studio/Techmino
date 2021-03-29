@@ -231,7 +231,7 @@ scene.widgetList={
 	WIDGET.newKey{name="reset",		x=1000,	y=640,	w=90,		color="lYellow",font=50,code=pressKey"delete"},
 	WIDGET.newButton{name="copy",	x=1140,	y=440,	w=170,h=80,	color="lRed",	font=40,code=pressKey"cC",hide=function()return #MISSION==0 end},
 	WIDGET.newButton{name="paste",	x=1140,	y=540,	w=170,h=80,	color="lBlue",	font=40,code=pressKey"cV"},
-	WIDGET.newSwitch{name="mission",x=1150, y=350,	disp=lnk_CUSval("missionKill"),code=lnk_CUSrev("missionKill")},
+	WIDGET.newSwitch{name="mission",x=1150, y=350,	disp=CUSval("missionKill"),code=CUSrev("missionKill")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,	font=40,code=backScene},
 }
