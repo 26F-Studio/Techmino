@@ -93,7 +93,7 @@ do--Connect
 	else
 		readCHN:push(err)
 	end
-	SOCK:settimeout(0)
+	SOCK:settimeout(6.26)
 end
 
 
@@ -125,31 +125,54 @@ while true do--Running
 		end
 
 		--Receive data
-		res=SOCK:receive(length)
+		res=""
+		while length>0 do
+			local t=SOCK:receive(length)
+			if t then
+				res=res..t
+				length=length-#t
+			else--Time out!
+				res=false
+				break
+			end
+		end
 
 		--React
-		if op==8 then--8=close
-			readCHN:push(op)
-			SOCK:close()
-			if type(res)=="string"then
-				local reason=JSON.decode(res)
-				readCHN:push(reason and reason.message or"Server Error")
+		if res then
+			if op==8 then--8=close
+				readCHN:push(op)
+				SOCK:close()
+				if type(res)=="string"then
+					local reason=JSON.decode(res)
+					readCHN:push(reason and reason.message or"Server Error")
+				else
+					readCHN:push("Server Error")
+				end
+			elseif op==0 then--0=continue
+				buffer=buffer..res
+				if fin then
+								-- print("FIN=1 (c")
+					readCHN:push(buffer)
+					buffer=""
+				else
+								-- print("FIN=0 (c")
+				end
 			else
-				readCHN:push("Server Error")
-			end
-		elseif op==0 then
-			buffer=buffer..res
-			if fin then
-				readCHN:push(buffer)
-				buffer=""
+				readCHN:push(op)
+				if fin then
+								-- print("OP: "..op.."\tFIN=1")
+					readCHN:push(res)
+				else
+								-- print("OP: "..op.."\tFIN=0")
+					buffer=res
+								-- print("START pack: "..res)
+				end
 			end
 		else
-			readCHN:push(op)
-			if fin then
-				readCHN:push(res)
-			else
-				buffer=res
-			end
+			--TIMEOUT
+			SOCK:close()
+			readCHN:push(8)
+			readCHN:push("WS time out")
 		end
 	end
 end
