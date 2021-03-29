@@ -120,9 +120,8 @@ while true do--Running
 			res=SOCK:receive(2)
 			length=shl(byte(res,1),8)+byte(res,2)
 		elseif length==127 then
-			res=SOCK:receive(8)
-			local b={byte(res,1,8)}
-			length=shl(b[5],32)+shl(b[6],24)+shl(b[7],8)+b[8]
+			local b={byte(SOCK:receive(8),1,8)}
+			length=shl(b[5],24)+shl(b[6],16)+shl(b[7],8)+b[8]
 		end
 
 		--Receive data
