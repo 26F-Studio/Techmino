@@ -1153,8 +1153,6 @@ do
 								if res.id then
 									USER.id=res.id
 									USER.authToken=res.authToken
-									NET.getAccessToken()
-								else
 									SCN.back()
 								end
 								FILE.save(USER,"conf/user","q")
