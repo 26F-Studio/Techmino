@@ -1154,6 +1154,8 @@ do
 									USER.id=res.id
 									USER.authToken=res.authToken
 									NET.getAccessToken()
+								else
+									SCN.back()
 								end
 								FILE.save(USER,"conf/user","q")
 								LOG.print(text.loginSuccessed)
@@ -1164,12 +1166,14 @@ do
 								USER.accessToken=res.accessToken
 								LOG.print(text.accessSuccessed)
 								NET.wsConnectPlay()
+								NET.unlock("accessToken")
 							elseif res.action==1 then--Get userInfo
 								if res.id==USER.id then--Own
 									USER.name=res.username
 									USER.motto=res.motto
 									USER.avatar=res.avatar
 									FILE.save(USER,"conf/user")
+									NET.unlock("getSelfInfo")
 								else--Others
 									LOG.print("Get user info: "..USER.id)
 								end
@@ -1202,11 +1206,13 @@ do
 						local res=JSON.decode(message)
 						if res then
 							if res.message=="Connected"then
+								NET.unlock("connectPlay")
 								SCN.go("net_menu")
 							elseif res.action==0 then--Fetch rooms
 								NET.roomList=res.roomList
 							elseif res.action==2 then--Join room
 								loadGame("netBattle",true,true)
+								NET.unlock("enterRoom")
 							elseif res.action==3 then--Leave room
 								SCN.back()
 							end

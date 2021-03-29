@@ -5,28 +5,48 @@ local NET={
 	roomList=false,
 }
 
+--Lock & Unlock submodule
+local locks={}
+function NET.lock(name,T)
+	if locks[name]and TIME()<locks[name]then
+		return false
+	else
+		locks[name]=TIME()+(T or 1e99)
+		return true
+	end
+end
+function NET.unlock(name)
+	locks[name]=false
+end
+
 --Account
 function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")
 end
 function NET.getAccessToken()
-	WS.send("user",JSON.encode{action=0})
+	if NET.lock("accessToken")then
+		WS.send("user",JSON.encode{action=0})
+	end
 end
 function NET.getSelfInfo()
-	WS.send("user",JSON.encode{
-		action=1,
-		data={
-			id=USER.id,
-		},
-	})
+	if NET.lock("getSelfInfo")then
+		WS.send("user",JSON.encode{
+			action=1,
+			data={
+				id=USER.id,
+			},
+		})
+	end
 end
 
 --Play
 function NET.wsConnectPlay()
-	WS.connect("play","/play",JSON.encode{
-		id=USER.id,
-		accessToken=USER.accessToken,
-	})
+	if NET.lock("connectPlay")then
+		WS.connect("play","/play",JSON.encode{
+			id=USER.id,
+			accessToken=USER.accessToken,
+		})
+	end
 end
 function NET.signal_ready()
 	WS.send("play","R")
@@ -56,7 +76,7 @@ function NET.createRoom()
 	WS.send("play",JSON.encode{
 		action=1,
 		data={
-			type=nil,
+			type="classic",
 			name=(USER.name or"???").."'s room",
 			password=nil,
 			conf=dumpBasicConfig(),
@@ -64,14 +84,16 @@ function NET.createRoom()
 	})
 end
 function NET.enterRoom(roomID,password)
-	WS.send("play","/play",JSON.encode{
-		action=2,
-		data={
-			rid=roomID,
-			conf=dumpBasicConfig(),
-			password=password,
-		}
-	})
+	if NET.lock("enterRoom")then
+		WS.send("play","/play",JSON.encode{
+			action=2,
+			data={
+				rid=roomID,
+				conf=dumpBasicConfig(),
+				password=password,
+			}
+		})
+	end
 end
 
 --Chat
