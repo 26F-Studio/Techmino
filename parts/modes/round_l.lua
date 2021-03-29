@@ -1,5 +1,5 @@
 local function update_round(P)
-	if #PLAYERS.alive>1 then
+	if #PLY_ALIVE>1 then
 		P.control=false
 		local ID=P.id
 		repeat

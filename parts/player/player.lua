@@ -1333,7 +1333,7 @@ do--Player.drop(self)--Place piece
 							T=self.atking
 							self:freshTarget()
 						end
-					elseif #PLAYERS.alive>1 then
+					elseif #PLY_ALIVE>1 then
 						T=randomTarget(self)
 					end
 					if T then
@@ -1753,16 +1753,16 @@ function Player:lose(force)
 		return
 	end
 	self:die()
-	for i=1,#PLAYERS.alive do
-		if PLAYERS.alive[i]==self then
-			rem(PLAYERS.alive,i)
+	for i=1,#PLY_ALIVE do
+		if PLY_ALIVE[i]==self then
+			rem(PLY_ALIVE,i)
 			break
 		end
 	end
 	self.result="K.O."
 	if GAME.modeEnv.royaleMode then
 		self:changeAtk()
-		self.modeData.place=#PLAYERS.alive+1
+		self.modeData.place=#PLY_ALIVE+1
 		self.strength=0
 		if self.lastRecv then
 			local A,i=self,0
@@ -1791,7 +1791,7 @@ function Player:lose(force)
 
 		freshMostBadge()
 		freshMostDangerous()
-		if #PLAYERS.alive==royaleData.stage[GAME.stage]then
+		if #PLY_ALIVE==royaleData.stage[GAME.stage]then
 			royaleLevelup()
 		end
 		self:showTextF(self.modeData.place,0,120,60,"appear",.26,.9)
@@ -1819,8 +1819,8 @@ function Player:lose(force)
 	else
 		self:newTask(tick_lose)
 	end
-	if #PLAYERS.alive==1 then
-		PLAYERS.alive[1]:win()
+	if #PLY_ALIVE==1 then
+		PLY_ALIVE[1]:win()
 	end
 end
 --------------------------<\Events>--------------------------

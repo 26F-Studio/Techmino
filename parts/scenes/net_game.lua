@@ -185,9 +185,9 @@ function scene.socketRead(mes)
 				break
 			end
 		end
-		for i=1,#PLAYERS.alive do
-			if PLAYERS.alive[i].userID==args[2]then
-				rem(PLAYERS.alive,i)
+		for i=1,#PLY_ALIVE do
+			if PLY_ALIVE[i].userID==args[2]then
+				rem(PLY_ALIVE,i)
 				break
 			end
 		end
@@ -225,7 +225,7 @@ function scene.socketRead(mes)
 			end
 		end
 	elseif cmd=="R"then
-		local L=PLAYERS.alive
+		local L=PLY_ALIVE
 		for i=1,#L do
 			if L[i].subID==args[1]then
 				L[i].ready=true

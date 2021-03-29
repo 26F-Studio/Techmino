@@ -205,7 +205,7 @@ local function noDevkeyPressed(key)
 		LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
 		for _=1,8 do
-			local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
+			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
 			if P~=PLAYERS[1]then
 				P.lastRecv=PLAYERS[1]
 				P:lose()

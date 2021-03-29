@@ -398,7 +398,7 @@ function update.remote_alive(P,dt)
 					local amount=int(event/0x100)%0x100
 					local time=int(event/0x10000)%0x10000
 					local line=int(event/0x100000000)%0x10000
-					local L=PLAYERS.alive
+					local L=PLY_ALIVE
 					for i=1,#L do
 						if L[i].subID==sid then
 							P:attack(L[i],amount,time,line,true)
@@ -409,7 +409,7 @@ function update.remote_alive(P,dt)
 						end
 					end
 				elseif event>0x1000000000000 then--Receiving lines
-					local L=PLAYERS.alive
+					local L=PLY_ALIVE
 					local sid=tostring(event%0x100)
 					for i=1,#L do
 						if L[i].subID==sid then

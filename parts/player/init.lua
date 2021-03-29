@@ -75,7 +75,7 @@ end
 local function newEmptyPlayer(id,mini)
 	local P={id=id}
 	PLAYERS[id]=P
-	PLAYERS.alive[id]=P
+	PLY_ALIVE[id]=P
 
 	--Inherit functions of Player class
 	for k,v in next,Player do P[k]=v end

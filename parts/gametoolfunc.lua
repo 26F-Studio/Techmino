@@ -271,10 +271,10 @@ end
 
 --Royale mode
 function randomTarget(P)--Return a random opponent for P
-	if #PLAYERS.alive>1 then
+	if #PLY_ALIVE>1 then
 		local R
 		repeat
-			R=PLAYERS.alive[rnd(#PLAYERS.alive)]
+			R=PLY_ALIVE[rnd(#PLY_ALIVE)]
 		until R~=P
 		return R
 	end
@@ -282,28 +282,28 @@ end
 function freshMostDangerous()
 	GAME.mostDangerous,GAME.secDangerous=false,false
 	local m,m2=0,0
-	for i=1,#PLAYERS.alive do
-		local h=#PLAYERS.alive[i].field
+	for i=1,#PLY_ALIVE do
+		local h=#PLY_ALIVE[i].field
 		if h>=m then
-			GAME.mostDangerous,GAME.secDangerous=PLAYERS.alive[i],GAME.mostDangerous
+			GAME.mostDangerous,GAME.secDangerous=PLY_ALIVE[i],GAME.mostDangerous
 			m,m2=h,m
 		elseif h>=m2 then
-			GAME.secDangerous=PLAYERS.alive[i]
+			GAME.secDangerous=PLY_ALIVE[i]
 			m2=h
 		end
 	end
 
-	for i=1,#PLAYERS.alive do
-		if PLAYERS.alive[i].atkMode==3 then
-			PLAYERS.alive[i]:freshTarget()
+	for i=1,#PLY_ALIVE do
+		if PLY_ALIVE[i].atkMode==3 then
+			PLY_ALIVE[i]:freshTarget()
 		end
 	end
 end
 function freshMostBadge()
 	GAME.mostBadge,GAME.secBadge=false,false
 	local m,m2=0,0
-	for i=1,#PLAYERS.alive do
-		local P=PLAYERS.alive[i]
+	for i=1,#PLY_ALIVE do
+		local P=PLY_ALIVE[i]
 		local b=P.badge
 		if b>=m then
 			GAME.mostBadge,GAME.secBadge=P,GAME.mostBadge
@@ -314,44 +314,44 @@ function freshMostBadge()
 		end
 	end
 
-	for i=1,#PLAYERS.alive do
-		if PLAYERS.alive[i].atkMode==4 then
-			PLAYERS.alive[i]:freshTarget()
+	for i=1,#PLY_ALIVE do
+		if PLY_ALIVE[i].atkMode==4 then
+			PLY_ALIVE[i]:freshTarget()
 		end
 	end
 end
 function royaleLevelup()
 	GAME.stage=GAME.stage+1
 	local spd
-	TEXT.show(text.royale_remain:gsub("$1",#PLAYERS.alive),640,200,40,"beat",.3)
+	TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,"beat",.3)
 	if GAME.stage==2 then
 		spd=30
 	elseif GAME.stage==3 then
 		spd=15
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			P.gameEnv.garbageSpeed=.6
 		end
 		if PLAYERS[1].alive then BGM.play("cruelty")end
 	elseif GAME.stage==4 then
 		spd=10
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			P.gameEnv.pushSpeed=3
 		end
 	elseif GAME.stage==5 then
 		spd=5
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			P.gameEnv.garbageSpeed=1
 		end
 	elseif GAME.stage==6 then
 		spd=3
 		if PLAYERS[1].alive then BGM.play("final")end
 	end
-	for _,P in next,PLAYERS.alive do
+	for _,P in next,PLY_ALIVE do
 		P.gameEnv.drop=spd
 	end
 	if GAME.curMode.name:find("_u")then
-		for i=1,#PLAYERS.alive do
-			local P=PLAYERS.alive[i]
+		for i=1,#PLY_ALIVE do
+			local P=PLY_ALIVE[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.ghoY
@@ -537,8 +537,8 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 		end
 		PLAYERS[i]=nil
 	end
-	for i=#PLAYERS.alive,1,-1 do
-		PLAYERS.alive[i]=nil
+	for i=#PLY_ALIVE,1,-1 do
+		PLY_ALIVE[i]=nil
 	end
 	collectgarbage()
 end
@@ -611,7 +611,7 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	end
 end
 function initPlayerPosition(sudden)--Set initial position for every player
-	local L=PLAYERS.alive
+	local L=PLY_ALIVE
 	if not sudden then
 		for i=1,#L do
 			L[i]:setPosition(640,#L<=5 and 360 or -62,0)

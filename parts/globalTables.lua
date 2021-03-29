@@ -142,7 +142,8 @@ for i=1,#MODOPT do
 end
 
 --Game tables
-PLAYERS={alive={}}--Players data
+PLAYERS={}--Players data
+PLY_ALIVE={}
 FIELD={}--Field(s) for custom game
 BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
