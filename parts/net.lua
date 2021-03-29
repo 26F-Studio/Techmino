@@ -19,6 +19,16 @@ function NET.unlock(name)
 	locks[name]=false
 end
 
+--wsEvent
+function NET.wsCloseMessage(message)
+	if message:sub(1,1)=="{"then
+		local mes=JSON.decode(message)
+		LOG.print(text.wsClose..mes.message,"warn")
+	else
+		LOG.print(text.wsClose..message,"warn")
+	end
+end
+
 --Account
 function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")

@@ -1101,10 +1101,7 @@ do
 						NET.pong("app",message)
 					elseif op=="pong"then
 					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
+						NET.wsCloseMessage(message)
 						return
 					else
 						local res=JSON.decode(message)
@@ -1140,10 +1137,7 @@ do
 						NET.pong("user",message)
 					elseif op=="pong"then
 					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
+						NET.wsCloseMessage(message)
 						return
 					else
 						local res=JSON.decode(message)
@@ -1195,10 +1189,7 @@ do
 						NET.pong("play",message)
 					elseif op=="pong"then
 					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
+						NET.wsCloseMessage(message)
 						return
 					else
 						local res=JSON.decode(message)
@@ -1233,10 +1224,7 @@ do
 						NET.pong("stream",message)
 					elseif op=="pong"then
 					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
+						NET.wsCloseMessage(message)
 						return
 					else
 						--TODO
@@ -1256,10 +1244,7 @@ do
 						NET.pong("chat",message)
 					elseif op=="pong"then
 					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
+						NET.wsCloseMessage(message)
 						return
 					else
 						local res=JSON.decode(message)
