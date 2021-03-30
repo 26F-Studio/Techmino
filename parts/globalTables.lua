@@ -224,14 +224,13 @@ USER=FILE.load("conf/user")or{--User infomation
 	name=false,
 	id=false,
 	email=false,
-	motto=false,
-	avatar=false,
 	authToken=false,
 	accessToken=false,
 
 	--Local data
 	xp=0,lv=1,
 }
+USERS=FILE.load("conf/users")or{}
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,

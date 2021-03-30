@@ -38,15 +38,28 @@ function NET.getAccessToken()
 		WS.send("user",JSON.encode{action=0})
 	end
 end
-function NET.getSelfInfo()
-	if NET.lock("getSelfInfo")then
-		WS.send("user",JSON.encode{
-			action=1,
-			data={
-				id=USER.id,
-			},
-		})
+function NET.getUserInfo(id,ifDetail)
+	WS.send("user",JSON.encode{
+		action=1,
+		data={
+			id=id or USER.id,
+			detailed=ifDetail or false,
+		},
+	})
+end
+function NET.storeUserInfo(res)
+	local user
+	if not USERS[res.id]then
+		user={}
+		user.email=res.email
+		user.name=res.username
+		USERS[res.id]=user
+	else
+		user=USERS[res.id]
+		if not user.motto then user.motto=res.motto end
+		if not user.avatar then user.avatar=res.avatar end
 	end
+	-- FILE.save(USERS,"conf/users")
 end
 
 --Play
@@ -114,6 +127,170 @@ function NET.sendChatMes(mes)
 end
 function NET.quitChat()
 	WS.send("chat","Q")
+end
+
+--WS tick funcs
+function NET.TICK_WS_app()
+	local retryTime=5
+	while true do
+		YIELD()
+		local status=WS.status("app")
+		if status=="running"then
+			local message,op=WS.read("app")
+			if message then
+				if op=="ping"then
+					NET.pong("app",message)
+				elseif op=="pong"then
+				elseif op=="close"then
+					NET.wsCloseMessage(message)
+					return
+				else
+					local res=JSON.decode(message)
+					if res then
+						if VERSION_CODE>=res.lowest then
+							NET.allow_online=true
+						end
+						if VERSION_CODE<res.newestCode then
+							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+						end
+						LOG.print(res.notice,300,COLOR.sky)
+					else
+						WS.alert("app")
+					end
+				end
+			end
+		elseif status=="dead"then
+			retryTime=retryTime-1
+			if retryTime==0 then return end
+			for _=1,120 do YIELD()end
+			WS.connect("app","/app")
+		end
+	end
+end
+function NET.TICK_WS_user()
+	while true do
+		YIELD()
+		local status=WS.status("user")
+		if status=="running"then
+			local message,op=WS.read("user")
+			if message then
+				if op=="ping"then
+					NET.pong("user",message)
+				elseif op=="pong"then
+				elseif op=="close"then
+					NET.wsCloseMessage(message)
+					return
+				else
+					local res=JSON.decode(message)
+					if res then
+						if res.message=="Connected"then
+							NET.login=true
+							if res.id then
+								USER.id=res.id
+								USER.authToken=res.authToken
+								SCN.back()
+							end
+							FILE.save(USER,"conf/user","q")
+							LOG.print(text.loginSuccessed)
+
+							--Get self infos
+							NET.getUserInfo()
+						elseif res.action==0 then--Get accessToken
+							USER.accessToken=res.accessToken
+							LOG.print(text.accessSuccessed)
+							NET.wsConnectPlay()
+							NET.unlock("accessToken")
+						elseif res.action==1 then--Get userInfo
+							NET.storeUserInfo(res)
+							FILE.save(USER,"conf/user")
+						end
+					else
+						WS.alert("user")
+					end
+				end
+			end
+		end
+	end
+end
+function NET.TICK_WS_play()
+	while true do
+		YIELD()
+		local status=WS.status("play")
+		if status=="running"then
+			local message,op=WS.read("play")
+			if message then
+				if op=="ping"then
+					NET.pong("play",message)
+				elseif op=="pong"then
+				elseif op=="close"then
+					NET.wsCloseMessage(message)
+					return
+				else
+					local res=JSON.decode(message)
+					if res then
+						if res.message=="Connected"then
+							NET.unlock("connectPlay")
+							SCN.go("net_menu")
+						elseif res.action==0 then--Fetch rooms
+							NET.roomList=res.roomList
+						elseif res.action==2 then--Join(create) room
+							loadGame("netBattle",true,true)
+							NET.unlock("enterRoom")
+						elseif res.action==3 then--Leave room
+							SCN.back()
+						end
+					else
+						WS.alert("play")
+					end
+				end
+			end
+		end
+	end
+end
+function NET.TICK_WS_stream()
+	while true do
+		YIELD()
+		local status=WS.status("stream")
+		if status=="running"then
+			local message,op=WS.read("stream")
+			if message then
+				if op=="ping"then
+					NET.pong("stream",message)
+				elseif op=="pong"then
+				elseif op=="close"then
+					NET.wsCloseMessage(message)
+					return
+				else
+					--TODO
+				end
+			end
+		end
+	end
+end
+function NET.TICK_WS_chat()
+	while true do
+		YIELD()
+		local status=WS.status("chat")
+		if status=="running"then
+			local message,op=WS.read("chat")
+			if message then
+				if op=="ping"then
+					NET.pong("chat",message)
+				elseif op=="pong"then
+				elseif op=="close"then
+					NET.wsCloseMessage(message)
+					return
+				else
+					local res=JSON.decode(message)
+					if res then
+						--TODO
+					else
+						WS.alert("chat")
+					end
+				end
+			end
+		end
+	end
 end
 
 return NET
