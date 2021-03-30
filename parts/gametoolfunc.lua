@@ -1199,7 +1199,7 @@ do
 								SCN.go("net_menu")
 							elseif res.action==0 then--Fetch rooms
 								NET.roomList=res.roomList
-							elseif res.action==2 then--Join room
+							elseif res.action==2 then--Join(create) room
 								loadGame("netBattle",true,true)
 								NET.unlock("enterRoom")
 							elseif res.action==3 then--Leave room

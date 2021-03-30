@@ -83,15 +83,17 @@ function NET.freshRoom()
 	})
 end
 function NET.createRoom()
-	WS.send("play",JSON.encode{
-		action=1,
-		data={
-			type="classic",
-			name=(USER.name or"???").."'s room",
-			password=nil,
-			conf=dumpBasicConfig(),
-		}
-	})
+	if NET.lock("enterRoom")then
+		WS.send("play",JSON.encode{
+			action=1,
+			data={
+				type="classic",
+				name=(USER.name or"???").."'s room",
+				password=nil,
+				config=dumpBasicConfig(),
+			}
+		})
+	end
 end
 function NET.enterRoom(roomID,password)
 	if NET.lock("enterRoom")then
@@ -99,7 +101,7 @@ function NET.enterRoom(roomID,password)
 			action=2,
 			data={
 				rid=roomID,
-				conf=dumpBasicConfig(),
+				config=dumpBasicConfig(),
 				password=password,
 			}
 		})
