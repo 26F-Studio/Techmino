@@ -235,7 +235,7 @@ end
 
 function WS.alert(name)
 	local ws=wsList[name]
-	ws.alertTimer=1
+	ws.alertTimer=2
 end
 
 local OPcode={
