@@ -6,9 +6,16 @@ local NET={
 	accessToken=false,
 }
 
+local mesType={
+	OK=true,
+	Connected=true,
+	Server=true,
+	Broadcast=true,
+}
+
 --Lock & Unlock submodule
 local locks={}
-function NET.lock(name,T)
+local function _lock(name,T)
 	if locks[name]and TIME()<locks[name]then
 		return false
 	else
@@ -16,18 +23,24 @@ function NET.lock(name,T)
 		return true
 	end
 end
-function NET.unlock(name)
+local function _unlock(name)
 	locks[name]=false
 end
 
---messageParse
-function NET.parse(res)
+--Parse json message
+local function _parse(res)
 	res=JSON.decode(res)
 	if res then
-		if res.message=="OK"or res.message=="Connected"then
+		if mesType[res.message]then
 			return res
 		else
-			LOG.print(res.message and res.message..": "..(res.reason or"[NO reason]")or"[NO Message]","warning")
+			LOG.print(
+				res.message and(
+					res.reason and res.message..": "..res.reason or
+					res.message
+				)or
+				"[NO Message]",
+			"warning")
 		end
 	end
 end
@@ -47,7 +60,7 @@ function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")
 end
 function NET.getAccessToken()
-	if NET.lock("accessToken")then
+	if _lock("accessToken")then
 		WS.send("user",JSON.encode{action=0})
 	end
 end
@@ -85,7 +98,7 @@ end
 
 --Play
 function NET.wsConnectPlay()
-	if NET.lock("connectPlay")then
+	if _lock("connectPlay")then
 		WS.connect("play","/play",JSON.encode{
 			id=USER.id,
 			accessToken=NET.accessToken,
@@ -117,7 +130,7 @@ function NET.freshRoom()
 	})
 end
 function NET.createRoom()
-	if NET.lock("enterRoom")then
+	if _lock("enterRoom")then
 		WS.send("play",JSON.encode{
 			action=1,
 			data={
@@ -130,7 +143,7 @@ function NET.createRoom()
 	end
 end
 function NET.enterRoom(roomID,password)
-	if NET.lock("enterRoom")then
+	if _lock("enterRoom")then
 		WS.send("play",JSON.encode{
 			action=2,
 			data={
@@ -166,7 +179,7 @@ function NET.TICK_WS_app()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=NET.parse(message)
+					local res=_parse(message)
 					if res then
 						if VERSION_CODE>=res.lowest then
 							NET.allow_online=true
@@ -202,7 +215,7 @@ function NET.TICK_WS_user()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=NET.parse(message)
+					local res=_parse(message)
 					if res then
 						if res.message=="Connected"then
 							NET.login=true
@@ -220,7 +233,7 @@ function NET.TICK_WS_user()
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
 							NET.wsConnectPlay()
-							NET.unlock("accessToken")
+							_unlock("accessToken")
 						elseif res.action==1 then--Get userInfo
 							NET.storeUserInfo(res)
 						end
@@ -246,16 +259,16 @@ function NET.TICK_WS_play()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=NET.parse(message)
+					local res=_parse(message)
 					if res then
 						if res.message=="Connected"then
-							NET.unlock("connectPlay")
+							_unlock("connectPlay")
 							SCN.go("net_menu")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 						elseif res.action==2 then--Join(create) room
 							-- loadGame("netBattle",true,true)
-							NET.unlock("enterRoom")
+							_unlock("enterRoom")
 						elseif res.action==3 then--Leave room
 							SCN.back()
 						end
@@ -301,7 +314,7 @@ function NET.TICK_WS_chat()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=NET.parse(message)
+					local res=_parse(message)
 					if res then
 						--TODO
 					else
