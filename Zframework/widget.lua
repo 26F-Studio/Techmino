@@ -141,7 +141,8 @@ end
 function button:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
-	local r,g,b=unpack(self.color)
+	local c=self.color
+	local r,g,b=c[1],c[2],c[3]
 	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
 	gc.rectangle("fill",x-ATV,y-ATV,w+2*ATV,h+2*ATV)
 	if ATV>0 then
@@ -233,7 +234,8 @@ end
 function key:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
-	local r,g,b=unpack(self.color)
+	local c=self.color
+	local r,g,b=c[1],c[2],c[3]
 
 	gc.setColor(1,1,1,ATV*.125)
 	gc.rectangle("fill",x,y,w,h)

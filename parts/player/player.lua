@@ -106,8 +106,8 @@ function Player:createBeam(R,send,color)
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
 	end
 
-	local r,g,b=unpack(minoColor[color])
-	r,g,b=r*2,g*2,b*2
+	local c=minoColor[color]
+	local r,g,b=c[1]*2,c[2]*2,c[3]*2
 
 	local a=GAME.modeEnv.royaleMode and not(self.type=="human"or R.type=="human")and .2 or 1
 	SYSFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,int(send^.7*(4+SETTING.atkFX)),r,g,b,a*(SETTING.atkFX+2)*.0626)

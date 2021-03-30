@@ -76,7 +76,8 @@ local function merge()
 	local connected={{cy,cx}}
 	local count=1
 	repeat
-		local y,x=unpack(rem(connected))
+		local c=rem(connected)
+		local y,x=c[1],c[2]
 		if board[y][x]~=0 then
 			board[y][x]=0
 			SYSFX.newShade(2,320+x*128-128,40+y*128-128,128,128)
