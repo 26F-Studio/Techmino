@@ -223,9 +223,7 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Network infos
 	name=false,
 	id=false,
-	email=false,
 	authToken=false,
-	accessToken=false,
 
 	--Local data
 	xp=0,lv=1,

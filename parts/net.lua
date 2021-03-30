@@ -3,6 +3,7 @@ local NET={
 	login=false,
 	allow_online=false,
 	roomList=false,
+	accessToken=false,
 }
 
 --Lock & Unlock submodule
@@ -48,17 +49,25 @@ function NET.getUserInfo(id,ifDetail)
 	})
 end
 function NET.storeUserInfo(res)
-	local user
-	if not USERS[res.id]then
+	local user=USERS[res.id]
+	if not user then
 		user={}
 		user.email=res.email
 		user.name=res.username
 		USERS[res.id]=user
 	else
-		user=USERS[res.id]
+		user.email=res.email
+		user.name=res.username
 		if not user.motto then user.motto=res.motto end
 		if not user.avatar then user.avatar=res.avatar end
 	end
+
+	--Get own name
+	if res.id==USER.id then
+		USER.name=res.name
+		FILE.save(USER,"conf/user")
+	end
+
 	-- FILE.save(USERS,"conf/users")
 end
 
@@ -67,7 +76,7 @@ function NET.wsConnectPlay()
 	if NET.lock("connectPlay")then
 		WS.connect("play","/play",JSON.encode{
 			id=USER.id,
-			accessToken=USER.accessToken,
+			accessToken=NET.accessToken,
 		})
 	end
 end
@@ -188,21 +197,20 @@ function NET.TICK_WS_user()
 							if res.id then
 								USER.id=res.id
 								USER.authToken=res.authToken
+								FILE.save(USER,"conf/user","q")
 								SCN.back()
 							end
-							FILE.save(USER,"conf/user","q")
 							LOG.print(text.loginSuccessed)
 
 							--Get self infos
-							NET.getUserInfo()
+							NET.getUserInfo(USER.id)
 						elseif res.action==0 then--Get accessToken
-							USER.accessToken=res.accessToken
+							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
 							NET.wsConnectPlay()
 							NET.unlock("accessToken")
 						elseif res.action==1 then--Get userInfo
 							NET.storeUserInfo(res)
-							FILE.save(USER,"conf/user")
 						end
 					else
 						WS.alert("user")
