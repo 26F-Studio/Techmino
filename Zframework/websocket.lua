@@ -88,7 +88,7 @@ do--Connect
 			readCHN:push("success")
 		else
 			local reason=JSON.decode(SOCK:receive(ctLen))
-			readCHN:push(code..":"..(reason and reason.message or"Server Error"))
+			readCHN:push((code or"???")..":"..(reason and reason.message or"Server Error"))
 		end
 	else
 		readCHN:push(err)
