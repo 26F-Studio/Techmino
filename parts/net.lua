@@ -20,6 +20,18 @@ function NET.unlock(name)
 	locks[name]=false
 end
 
+--messageParse
+function NET.parse(res)
+	res=JSON.decode(res)
+	if res then
+		if res.message=="OK"or res.message=="Connected"then
+			return res
+		else
+			LOG.print(res.message and res.message..": "..(res.reason or"[NO reason]")or"[NO Message]","warning")
+		end
+	end
+end
+
 --wsEvent
 function NET.wsCloseMessage(message)
 	if message:sub(1,1)=="{"then
@@ -95,7 +107,7 @@ end
 
 --Room
 function NET.freshRoom()
-	WS.send("play","/play",JSON.encode{
+	WS.send("play",JSON.encode{
 		action=0,
 		data={
 			type=nil,
@@ -119,7 +131,7 @@ function NET.createRoom()
 end
 function NET.enterRoom(roomID,password)
 	if NET.lock("enterRoom")then
-		WS.send("play","/play",JSON.encode{
+		WS.send("play",JSON.encode{
 			action=2,
 			data={
 				rid=roomID,
@@ -154,7 +166,7 @@ function NET.TICK_WS_app()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=JSON.decode(message)
+					local res=NET.parse(message)
 					if res then
 						if VERSION_CODE>=res.lowest then
 							NET.allow_online=true
@@ -190,7 +202,7 @@ function NET.TICK_WS_user()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=JSON.decode(message)
+					local res=NET.parse(message)
 					if res then
 						if res.message=="Connected"then
 							NET.login=true
@@ -234,7 +246,7 @@ function NET.TICK_WS_play()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=JSON.decode(message)
+					local res=NET.parse(message)
 					if res then
 						if res.message=="Connected"then
 							NET.unlock("connectPlay")
@@ -242,7 +254,7 @@ function NET.TICK_WS_play()
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 						elseif res.action==2 then--Join(create) room
-							loadGame("netBattle",true,true)
+							-- loadGame("netBattle",true,true)
 							NET.unlock("enterRoom")
 						elseif res.action==3 then--Leave room
 							SCN.back()
@@ -289,7 +301,7 @@ function NET.TICK_WS_chat()
 					NET.wsCloseMessage(message)
 					return
 				else
-					local res=JSON.decode(message)
+					local res=NET.parse(message)
 					if res then
 						--TODO
 					else
