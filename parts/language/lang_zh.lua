@@ -106,7 +106,6 @@ return{
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
 
-	noRooms="一个房间都没有哎...",
 	roomsCreateFailed="创建房间失败",
 	roomsFetchFailed="拉取房间列表失败",
 
@@ -252,6 +251,8 @@ return{
 			chat="聊天室",
 		},
 		net_rooms={
+			refreshing="刷新房间列表中",
+			noRooms="一个房间都没有哎...",
 			refresh="刷新",
 			new="创建房间",
 			join="加入",

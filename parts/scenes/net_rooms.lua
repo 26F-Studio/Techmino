@@ -3,11 +3,11 @@ local min=math.min
 
 local NET=NET
 local scrollPos,selected
-local lastFetchTime
+local fetchTimer
 local lastCreateRoomTime=0
 
 local function fetchRoom()
-	lastFetchTime=TIME()
+	fetchTimer=5
 	NET.fetchRoom()
 end
 
@@ -25,7 +25,7 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(k)
 	if k=="r"then
-		if TIME()-lastFetchTime>1 then
+		if fetchTimer<=0 then
 			fetchRoom()
 		end
 	elseif k=="n"then
@@ -63,16 +63,19 @@ function scene.keyDown(k)
 	end
 end
 
-function scene.update()
-	if TIME()-lastFetchTime>5 then
-		fetchRoom()
+function scene.update(dt)
+	if not NET.getLock("fetchRoom")then
+		fetchTimer=fetchTimer-dt
+		if fetchTimer<=0 then
+			fetchRoom()
+		end
 	end
 end
 
 function scene.draw()
 	--Fetching timer
 	gc.setColor(1,1,1,.26)
-	gc.arc("fill","pie",240,620,60,-1.5708,-1.5708+1.2566*(TIME()-lastFetchTime))
+	gc.arc("fill","pie",240,620,60,-1.5708,-1.5708-1.2566*fetchTimer)
 
 	--Room list
 	gc.setColor(1,1,1)
@@ -95,16 +98,12 @@ function scene.draw()
 		gc.printf(R.type,500,66+40*i,500,"right")
 		gc.print(R.count.."/"..R.capacity,1050,66+40*i)
 	end
-
-	--No room message
-	if #NET.roomList==0 then
-		setFont(60)
-		mStr(text.noRooms,640,315)
-	end
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=40,code=fetchRoom,			hide=function()return TIME()-lastFetchTime<1.26 end},
+	WIDGET.newText{name="refreshing",x=640,y=260,font=65,hide=function()return not NET.getLock("fetchRoom")end},
+	WIDGET.newText{name="noRoom",	x=640,y=260,font=65,hide=function()return #NET.roomList>0 or NET.getLock("fetchRoom")end},
+	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=40,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey"n"},
 	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=function()return #NET.roomList==0 end},
 	WIDGET.newKey{name="up",		x=840,y=585,w=140,h=70,font=40,code=pressKey"up",		hide=function()return #NET.roomList==0 end},

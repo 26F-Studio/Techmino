@@ -106,7 +106,6 @@ return{
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",
 
-	noRooms="Nenhuma sala agora",
 	-- roomsCreateFailed="Failed to create room",
 	roomsFetchFailed="Falha ao buscar salas",
 
@@ -252,6 +251,8 @@ return{
 			chat="Chat",
 		},
 		net_rooms={
+			-- refreshing="Refreshing Rooms",
+			noRooms="Nenhuma sala agora",
 			-- refresh="Refresh",
 			-- new="New room",
 			-- join="Join",

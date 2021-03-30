@@ -106,7 +106,6 @@ return{
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
 
-	noRooms="Such emptiness much void, come back later?",
 	roomsCreateFailed="Failed to create room.",
 	roomsFetchFailed="Failed to fetch room list.",
 
@@ -252,6 +251,8 @@ return{
 			chat="Chat",
 		},
 		net_rooms={
+			refreshing="Refreshing Rooms",
+			noRooms="Such emptiness much void, come back later?",
 			refresh="Refresh",
 			new="New Room",
 			join="Join",
