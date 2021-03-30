@@ -252,7 +252,7 @@ return{
 			chat="Chat",
 		},
 		net_rooms={
-			fresh="Reresh",
+			refresh="Refresh",
 			new="New Room",
 			join="Join",
 			up="↑",

@@ -252,7 +252,7 @@ return{
 			chat="聊天室",
 		},
 		net_rooms={
-			fresh="刷新",
+			refresh="刷新",
 			new="创建房间",
 			join="加入",
 			up="↑",

@@ -2,7 +2,7 @@ local data=love.data
 local NET={
 	login=false,
 	allow_online=false,
-	roomList=false,
+	roomList={},
 	accessToken=false,
 }
 
@@ -25,6 +25,9 @@ local function _lock(name,T)
 end
 local function _unlock(name)
 	locks[name]=false
+end
+function NET.getLock(name)
+	return locks[name]
 end
 
 --Parse json message
@@ -119,15 +122,17 @@ function NET.signal_quit()
 end
 
 --Room
-function NET.freshRoom()
-	WS.send("play",JSON.encode{
-		action=0,
-		data={
-			type=nil,
-			begin=0,
-			count=10,
-		}
-	})
+function NET.fetchRoom()
+	if _lock("fetchRoom")then
+		WS.send("play",JSON.encode{
+			action=0,
+			data={
+				type=nil,
+				begin=0,
+				count=10,
+			}
+		})
+	end
 end
 function NET.createRoom()
 	if _lock("enterRoom")then
@@ -266,6 +271,7 @@ function NET.TICK_WS_play()
 							SCN.go("net_menu")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
+							_unlock("fetchRoom")
 						elseif res.action==2 then--Join(create) room
 							-- loadGame("netBattle",true,true)
 							_unlock("enterRoom")
