@@ -60,6 +60,9 @@ local function search()
 	lastSearch=input
 end
 
+function scene.wheelMoved(_,y)
+	WHEELMOV(y)
+end
 function scene.keyDown(key)
 	if key=="up"then
 		if selected and selected>1 then
@@ -75,6 +78,10 @@ function scene.keyDown(key)
 				scrollPos=selected-15
 			end
 		end
+	elseif key=="pageup"then
+		for _=1,12 do scene.keyDown("up")end
+	elseif key=="pagedown"then
+		for _=1,12 do scene.keyDown("down")end
 	elseif key=="link"then
 		love.system.openURL(url)
 	elseif key=="delete"then
