@@ -1,5 +1,7 @@
 local next,type=next,type
 local TABLE={}
+
+--Copy [1~#] elements
 function TABLE.shift(org)
 	local L={}
 	for i=1,#org do
@@ -11,6 +13,8 @@ function TABLE.shift(org)
 	end
 	return L
 end
+
+--Copy all elements
 function TABLE.copy(org)
 	local L={}
 	for k,v in next,org do
@@ -22,7 +26,9 @@ function TABLE.copy(org)
 	end
 	return L
 end
-function TABLE.add(G,base)--For all things in G if same type in base, push to base
+
+--For all things in G if same type in base, push to base
+function TABLE.add(G,base)
 	for k,v in next,G do
 		if type(v)==type(base[k])then
 			if type(v)=="table"then
@@ -33,7 +39,9 @@ function TABLE.add(G,base)--For all things in G if same type in base, push to ba
 		end
 	end
 end
-function TABLE.complete(G,base)--For all things in G if no val in base, push to base
+
+--For all things in G if no val in base, push to base
+function TABLE.complete(G,base)
 	for k,v in next,G do
 		if base[k]==nil then
 			base[k]=v
@@ -42,6 +50,8 @@ function TABLE.complete(G,base)--For all things in G if no val in base, push to 
 		end
 	end
 end
+
+--Re-index string value of a table
 function TABLE.reIndex(org)
 	for k,v in next,org do
 		if type(v)=="string"then
