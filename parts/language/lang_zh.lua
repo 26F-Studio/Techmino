@@ -252,7 +252,7 @@ return{
 		},
 		net_rooms={
 			refreshing="刷新房间列表中",
-			noRooms="一个房间都没有哎...",
+			noRoom="一个房间都没有哎...",
 			refresh="刷新",
 			new="创建房间",
 			join="加入",

@@ -25,7 +25,7 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(k)
 	if k=="r"then
-		if fetchTimer<=0 then
+		if fetchTimer<=3.26 then
 			fetchRoom()
 		end
 	elseif k=="n"then

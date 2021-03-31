@@ -252,7 +252,7 @@ return{
 		},
 		net_rooms={
 			refreshing="Refreshing Rooms",
-			noRooms="Such emptiness much void, come back later?",
+			noRoom="Such emptiness much void, come back later?",
 			refresh="Refresh",
 			new="New Room",
 			join="Join",

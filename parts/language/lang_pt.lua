@@ -252,7 +252,7 @@ return{
 		},
 		net_rooms={
 			-- refreshing="Refreshing Rooms",
-			noRooms="Nenhuma sala agora",
+			noRoom="Nenhuma sala agora",
 			-- refresh="Refresh",
 			-- new="New room",
 			-- join="Join",
