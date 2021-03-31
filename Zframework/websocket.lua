@@ -6,17 +6,17 @@ local path="/tech/socket/v1"
 
 local wsThread=[[
 -- lua + love2d threading websocket client
--- Original pure lua ver. by flaribbit and Particle_G and MrZ
+-- Original pure lua ver. by flaribbit and Particle_G
 -- Threading version by MrZ
 
-local triggerCHN,sendCHN,readCHN=...
-
+local triggerCHN,sendCHN,readCHN,threadName=...
 
 
 local byte,char=string.byte,string.char
 local band,bor,bxor=bit.band,bit.bor,bit.bxor
 local shl,shr=bit.lshift,bit.rshift
 
+local RESUME,YIELD=coroutine.resume,coroutine.yield
 local SOCK=require"socket".tcp()
 local JSON=require"Zframework.json"
 
@@ -47,8 +47,6 @@ local function _send(opcode,message)
 	return SOCK:send(char(unpack(msgbyte)))
 end
 
-
-
 do--Connect
 	local host=sendCHN:demand()
 	local port=sendCHN:demand()
@@ -57,48 +55,58 @@ do--Connect
 
 	SOCK:settimeout(2.6)
 	local res,err=SOCK:connect(host,port)
-	if res then
-		--WebSocket handshake
-		if not body then body=""end
-		SOCK:send(
-			"GET "..path.." HTTP/1.1\r\n"..
-			"Host: "..host..":"..port.."\r\n"..
-			"Connection: Upgrade\r\n"..
-			"Upgrade: websocket\r\n"..
-			"Content-Type: application/json\r\n"..
-			"Content-Length: "..#body.."\r\n"..
-			"Sec-WebSocket-Version: 13\r\n"..
-			"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
-			body
-		)
+	if not res then readCHN:push(err)return end
 
-		--First line of HTTP
-		local l=SOCK:receive("*l")
-		local code,ctLen
-		if l then
-			code=l:find(" "); code=l:sub(code+1,code+3)
-			repeat
-				l=SOCK:receive("*l")
-				if not ctLen and l:find"length"then
-					ctLen=tonumber(l:match"%d+")
-				end
-			until l==""
+	--WebSocket handshake
+	if not body then body=""end
+	SOCK:send(
+		"GET "..path.." HTTP/1.1\r\n"..
+		"Host: "..host..":"..port.."\r\n"..
+		"Connection: Upgrade\r\n"..
+		"Upgrade: websocket\r\n"..
+		"Content-Type: application/json\r\n"..
+		"Content-Length: "..#body.."\r\n"..
+		"Sec-WebSocket-Version: 13\r\n"..
+		"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
+		body
+	)
+
+	--First line of HTTP
+	res,err=SOCK:receive("*l")
+	if not res then readCHN:push(err)return end
+	local code,ctLen
+	code=res:find(" ")
+	code=res:sub(code+1,code+3)
+
+	--Get body length from headers and remove headers
+	repeat
+		res,err=SOCK:receive("*l")
+		if not res then readCHN:push(err)return end
+		if not ctLen and res:find"length"then
+			ctLen=tonumber(res:match"%d+")
 		end
+	until res==""
+
+	--Result
+	if ctLen then
 		if code=="101"then
 			readCHN:push("success")
 		else
-			local reason=JSON.decode(SOCK:receive(ctLen))
-			readCHN:push((code or"???")..":"..(reason and reason.message or"Server Error"))
+			res,err=SOCK:receive(ctLen)
+			if not res then readCHN:push(err)return end
+			local reason=JSON.decode(res)
+			readCHN:push((code or"XXX")..":"..(reason and reason.message or"Server Error"))
 		end
-	else
-		readCHN:push(err)
 	end
-	SOCK:settimeout(6.26)
+	SOCK:settimeout(0)
 end
 
-
-local buffer
+local length
+local lBuffer=""--Multi-data buffer
+local unfinishedFrame--Multi-frame buffer
+local sBuffer=""
 while true do--Running
+	--Send
 	triggerCHN:demand()
 	while sendCHN:getCount()>=2 do
 		local op=sendCHN:pop()
@@ -106,54 +114,72 @@ while true do--Running
 		_send(op,message)
 	end
 
-	while true do--Read
-		--Byte 0-1
-		local res,err=SOCK:receive(2)
-		if not res then break end
-
-		local op=band(byte(res,1),0x0f)
-		local fin=band(byte(res,1),0x80)==0x80
-
-		--Calculating data length
-		local length=band(byte(res,2),0x7f)
-		if length==126 then
-			res=SOCK:receive(2)
-			length=shl(byte(res,1),8)+byte(res,2)
-		elseif length==127 then
-			local b={byte(SOCK:receive(8),1,8)}
-			length=shl(b[5],24)+shl(b[6],16)+shl(b[7],8)+b[8]
-		end
-
-		--Receive data
-		res=""
-		while length>0 do
-			local t=SOCK:receive(length)
-			if t then
-				res=res..t
-				length=length-#t
-			else--Time out!
-				res=false
-				break
+	--Read
+	while true do
+		if unfinishedFrame then--UNF process
+			local s,e,p=SOCK:receive(length)
+			if s then
+				sBuffer=sBuffer..s
+			elseif p then
+				sBuffer=sBuffer..p
+				length=length-#p
 			end
-		end
+			unfinishedFrame=s or length==0
+		else
+			--Byte 0-1
+			local res,err=SOCK:receive(2)
+			if err then break end
 
-		--React
-		if res then
+			local op=band(byte(res,1),0x0f)
+			local fin=band(byte(res,1),0x80)==0x80
+
+			--Calculating data length
+			length=band(byte(res,2),0x7f)
+			if length==126 then
+				res=SOCK:receive(2)
+				length=shl(byte(res,1),8)+byte(res,2)
+			elseif length==127 then
+				local b={byte(SOCK:receive(8),1,8)}
+				length=shl(b[5],24)+shl(b[6],16)+shl(b[7],8)+b[8]
+			end
+
+			if length>0 then
+				--Receive data
+				local s,e,p=SOCK:receive(length)
+				if s then
+					print(("%s[%d]:%s"):format(threadName,length,s))
+					res=s
+				elseif p then--UNF head
+					print(("%s[%d/%d]:%s"):format(threadName,#p,length,p))
+					unfinishedFrame=true
+					sBuffer=sBuffer..p
+					length=length-#p
+					break
+				end
+				-- elseif e then
+				-- 	readCHN:push(8)
+				-- 	readCHN:push(e)
+				-- 	return
+			else
+				res=""
+			end
+
+			--React
 			if op==8 then--8=close
 				readCHN:push(op)
 				SOCK:close()
 				if type(res)=="string"then
 					local reason=JSON.decode(res)
-					readCHN:push(reason and reason.message or"Server Error")
+					readCHN:push(reason and reason.message or"WS Error")
 				else
-					readCHN:push("Server Error")
+					readCHN:push("WS Error")
 				end
 			elseif op==0 then--0=continue
-				buffer=buffer..res
+				lBuffer=lBuffer..res
 				if fin then
 								-- print("FIN=1 (c")
-					readCHN:push(buffer)
-					buffer=""
+					readCHN:push(lBuffer)
+					lBuffer=""
 				else
 								-- print("FIN=0 (c")
 				end
@@ -164,15 +190,10 @@ while true do--Running
 					readCHN:push(res)
 				else
 								-- print("OP: "..op.."\tFIN=0")
-					buffer=res
+					sBuffer=res
 								-- print("START pack: "..res)
 				end
 			end
-		else
-			--TIMEOUT
-			SOCK:close()
-			readCHN:push(8)
-			readCHN:push("WS time out")
 		end
 	end
 end
@@ -211,7 +232,7 @@ function WS.connect(name,subPath,body)
 		pongTimer=0,
 	}
 	wsList[name]=ws
-	ws.thread:start(ws.triggerCHN,ws.sendCHN,ws.readCHN)
+	ws.thread:start(ws.triggerCHN,ws.sendCHN,ws.readCHN,name)
 	ws.sendCHN:push(host)
 	ws.sendCHN:push(port)
 	ws.sendCHN:push(path..subPath)
@@ -303,13 +324,15 @@ function WS.update(dt)
 						LOG.print(text.wsFailed.." "..mes,"warn")
 					end
 				end
-			elseif time-ws.lastPingTime>ws.pingInterval then
-				ws.sendCHN:push(9)
-				ws.sendCHN:push("")--ping
-				ws.lastPingTime=time
-			end
-			if time-ws.lastPongTime>10+3*ws.pingInterval then
-				WS.close(name)
+			elseif ws.status=="running"then
+				if time-ws.lastPingTime>ws.pingInterval then
+					ws.sendCHN:push(9)
+					ws.sendCHN:push("")--ping
+					ws.lastPingTime=time
+				end
+				if time-ws.lastPongTime>10+3*ws.pingInterval then
+					WS.close(name)
+				end
 			end
 			if ws.sendTimer>0 then ws.sendTimer=ws.sendTimer-dt end
 			if ws.pongTimer>0 then ws.pongTimer=ws.pongTimer-dt end
