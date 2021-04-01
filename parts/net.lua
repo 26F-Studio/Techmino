@@ -273,7 +273,7 @@ function NET.TICK_WS_play()
 							NET.roomList=res.roomList
 							_unlock("fetchRoom")
 						elseif res.action==2 then--Join(create) room
-							-- loadGame("netBattle",true,true)
+							loadGame("netBattle",true,true)
 							_unlock("enterRoom")
 						elseif res.action==3 then--Leave room
 							SCN.back()
