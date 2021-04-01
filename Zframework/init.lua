@@ -382,7 +382,7 @@ function love.errorhandler(msg)
 	love.audio.stop()
 	gc.reset()
 
-	if LOADED and #ERRDATA<5 then
+	if LOADED and #ERRDATA<3 then
 		BG.set("none")
 		local scn=SCN and SCN.cur or"NULL"
 		ERRDATA[#ERRDATA+1]={mes=err,scene=scn}
