@@ -1803,11 +1803,7 @@ function Player:lose(force)
 		SFX.play("fail")
 		VOC.play("lose")
 		if GAME.modeEnv.royaleMode then
-			if self.modeData.place==2 then
-				BGM.play("hay what kind of feeling")
-			else
-				BGM.play("end")
-			end
+			BGM.play("end")
 		end
 		gameOver()
 		self:newTask(#PLAYERS>1 and tick_lose or tick_finish)
