@@ -109,14 +109,14 @@ IMG.init{
 	pay1="mess/pay1.png",
 	pay2="mess/pay2.png",
 
-	miyaCH="miya/ch.png",
-	miyaF1="miya/f1.png",
-	miyaF2="miya/f2.png",
-	miyaF3="miya/f3.png",
-	miyaF4="miya/f4.png",
-
-	electric="mess/electric.png",
-	hbm="mess/hbm.png",
+	nakiCH="characters/naki.png",
+	miyaCH="characters/miya.png",
+	miyaF1="characters/miya_f1.png",
+	miyaF2="characters/miya_f2.png",
+	miyaF3="characters/miya_f3.png",
+	miyaF4="characters/miya_f4.png",
+	electric="characters/electric.png",
+	hbm="characters/hbm.png",
 
 	lanterns={
 		"lanterns/1.png",

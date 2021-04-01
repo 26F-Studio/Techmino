@@ -10,8 +10,7 @@ local jump--Animation timer(10 to 0)
 local cv=SETTING.cv
 
 function scene.sceneInit()
-	last=0
-	jump=0
+	last,jump=0,0
 	cv=SETTING.cv
 	BG.set()
 end
@@ -34,24 +33,24 @@ function scene.touchDown(x,y)
 end
 
 function scene.update()
-	local t=jump
-	if t>0 then
-		jump=t-1
-	end
+	if jump>0 then jump=jump-1 end
 end
 
 function scene.draw()
 	gc.setColor(1,1,1)
 	local t=TIME()
-	local _=jump
-	local x,y=800,340+10*sin(t*.5)+(_-10)*_*.3
+	local x,y=800,340+10*sin(t*.5)+(jump-10)*jump*.3
 	gc.translate(x,y)
-	gc.draw(IMG.miyaCH,0,0)
-	gc.setColor(1,1,1,.7)
-	gc.draw(IMG.miyaF1,4,47+4*sin(t*.9))
-	gc.draw(IMG.miyaF2,42,107+5*sin(t))
-	gc.draw(IMG.miyaF3,93,126+3*sin(t*.7))
-	gc.draw(IMG.miyaF4,129,98+3*sin(t*.7))
+	if cv=="miya"then
+		gc.draw(IMG.miyaCH)
+		gc.setColor(1,1,1,.7)
+		gc.draw(IMG.miyaF1,4,47+4*sin(t*.9))
+		gc.draw(IMG.miyaF2,42,107+5*sin(t))
+		gc.draw(IMG.miyaF3,93,126+3*sin(t*.7))
+		gc.draw(IMG.miyaF4,129,98+3*sin(t*.5))
+	elseif cv=="naki"then
+		gc.draw(IMG.nakiCH)
+	end
 	gc.translate(-x,-y)
 end
 
