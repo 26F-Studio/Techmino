@@ -12,40 +12,8 @@ local wsThread=[[
 local triggerCHN,sendCHN,readCHN,threadName=...
 
 
-local byte,char=string.byte,string.char
-local band,bor,bxor=bit.band,bit.bor,bit.bxor
-local shl,shr=bit.lshift,bit.rshift
-
-local RESUME,YIELD=coroutine.resume,coroutine.yield
 local SOCK=require"socket".tcp()
 local JSON=require"Zframework.json"
-
-local mask_key={1,14,5,14}
-local function _send(opcode,message)
-	--Message type
-	SOCK:send(char(bor(0x80,opcode)))
-
-	if not message then
-		SOCK:send(char(0x80,unpack(mask_key)))
-		return 0
-	end
-
-	--Length
-	local length=#message
-	if length>65535 then
-		SOCK:send(char(bor(127,0x80),0,0,0,0,band(shr(length,24),0xff),band(shr(length,16),0xff),band(shr(length,8),0xff),band(length,0xff)))
-	elseif length>125 then
-		SOCK:send(char(bor(126,0x80),band(shr(length,8),0xff),band(length,0xff)))
-	else
-		SOCK:send(char(bor(length,0x80)))
-	end
-	SOCK:send(char(unpack(mask_key)))
-	local msgbyte={byte(message,1,length)}
-	for i=1,length do
-		msgbyte[i]=bxor(msgbyte[i],mask_key[(i-1)%4+1])
-	end
-	return SOCK:send(char(unpack(msgbyte)))
-end
 
 do--Connect
 	local host=sendCHN:demand()
@@ -101,10 +69,47 @@ do--Connect
 	SOCK:settimeout(0)
 end
 
+
+
+local byte=string.byte
+local band,shl=bit.band,bit.lshift
+
+local _send do
+	local char=string.char
+	local bor,bxor=bit.bor,bit.bxor
+	local shr=bit.rshift
+
+	local mask_key={1,14,5,14}
+	function _send(opcode,message)
+		--Message type
+		SOCK:send(char(bor(0x80,opcode)))
+
+		if not message then
+			SOCK:send(char(0x80,unpack(mask_key)))
+			return 0
+		end
+
+		--Length
+		local length=#message
+		if length>65535 then
+			SOCK:send(char(bor(127,0x80),0,0,0,0,band(shr(length,24),0xff),band(shr(length,16),0xff),band(shr(length,8),0xff),band(length,0xff)))
+		elseif length>125 then
+			SOCK:send(char(bor(126,0x80),band(shr(length,8),0xff),band(length,0xff)))
+		else
+			SOCK:send(char(bor(length,0x80)))
+		end
+		SOCK:send(char(unpack(mask_key)))
+		local msgbyte={byte(message,1,length)}
+		for i=1,length do
+			msgbyte[i]=bxor(msgbyte[i],mask_key[(i-1)%4+1])
+		end
+		return SOCK:send(char(unpack(msgbyte)))
+	end
+end
 local length
-local lBuffer=""--Multi-data buffer
-local unfinishedFrame--Multi-frame buffer
-local sBuffer=""
+local lBuffer=""--Long multi-data buffer
+local UFF--Un-finished-frame mode
+local sBuffer=""--Short multi-frame buffer
 while true do--Running
 	--Send
 	triggerCHN:demand()
@@ -116,15 +121,18 @@ while true do--Running
 
 	--Read
 	while true do
-		if unfinishedFrame then--UNF process
+		if UFF then--UNF process
 			local s,e,p=SOCK:receive(length)
 			if s then
 				sBuffer=sBuffer..s
+				UFF=false
 			elseif p then
 				sBuffer=sBuffer..p
 				length=length-#p
+				if length==0 then
+					UFF=false
+				end
 			end
-			unfinishedFrame=s or length==0
 		else
 			--Byte 0-1
 			local res,err=SOCK:receive(2)
@@ -145,21 +153,17 @@ while true do--Running
 
 			if length>0 then
 				--Receive data
-				local s,e,p=SOCK:receive(length)
+				local s,_,p=SOCK:receive(length)
 				if s then
 					print(("%s[%d]:%s"):format(threadName,length,s))
 					res=s
 				elseif p then--UNF head
 					print(("%s[%d/%d]:%s"):format(threadName,#p,length,p))
-					unfinishedFrame=true
+					UFF=true
 					sBuffer=sBuffer..p
 					length=length-#p
 					break
 				end
-				-- elseif e then
-				-- 	readCHN:push(8)
-				-- 	readCHN:push(e)
-				-- 	return
 			else
 				res=""
 			end
