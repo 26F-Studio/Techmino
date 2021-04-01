@@ -1,6 +1,6 @@
 local int,ceil,min,abs,rnd,modf=math.floor,math.ceil,math.min,math.abs,math.random,math.modf
 local ins,rem=table.insert,table.remove
-local resume,yield=coroutine.resume,coroutine.yield
+local yield=coroutine.yield
 -- controlname:
 -- 1~5:mL,mR,rR,rL,rF,
 -- 6~10:hD,sD,H,A,R,
@@ -79,7 +79,7 @@ if type(_CC)=="table"then
 		P.cur=rem(P.nextQueue,1)
 		P.curX,P.curY=blockPos[P.cur.id],int(P.gameEnv.fieldH+1-modf(P.cur.sc[1]))+ceil(P.fieldBeneath/30)
 
-		assert(resume(P.newNext))
+		P.newNext()
 		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
 		if id then
 			CC.addNext(P.AI_bot,id)

@@ -6,7 +6,7 @@ local Player={}--Player class
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
-local resume,yield=coroutine.resume,coroutine.yield
+local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
 
 local kickList=require"parts.kickList"
 
@@ -121,8 +121,8 @@ function Player:RND(a,b)
 end
 function Player:newTask(code,...)
 	local thread=coroutine.create(code)
-	coroutine.resume(thread,self,...)
-	if coroutine.status(thread)~="dead"then
+	resume(thread,self,...)
+	if status(thread)~="dead"then
 		self.tasks[#self.tasks+1]={
 			thread=thread,
 			code=code,
@@ -763,7 +763,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 	self.ctrlCount=0
 
 	self.cur=rem(self.nextQueue,1)
-	assert(resume(self.newNext))
+	self.newNext()
 	if self.cur then
 		self.pieceCount=self.pieceCount+1
 		if self.AI_mode=="CC"then
@@ -1512,8 +1512,8 @@ function Player:loadAI(data)--Load AI params
 	else
 		self:setRS("TRS")
 	end
-	self.AI_thread=coroutine.create(AIFUNC[data.type])
-	coroutine.resume(self.AI_thread,self,self.AI_keys)
+	self.AI_thread=coroutine.wrap(AIFUNC[data.type])
+	self.AI_thread(self,self.AI_keys)
 end
 --------------------------</Methods>--------------------------
 

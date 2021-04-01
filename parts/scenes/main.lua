@@ -12,15 +12,13 @@ local widgetX0={
 	1290,1290,1290,1290,
 }
 
-local cmdEntryThread=coroutine.create(function()
+local cmdEntryThread=coroutine.wrap(function()
 	while true do
-		while true do
-			if YIELD()~="c"then break end
-			SFX.play("ren_6")
-			if YIELD()~="m"then break end
-			SFX.play("ren_9")
-			if YIELD()~="d"then break end
-			SFX.play("ren_11")
+		if
+			YIELD()=="c"and(SFX.play("ren_6")or 1)and
+			YIELD()=="m"and(SFX.play("ren_9")or 1)and
+			YIELD()=="d"and(SFX.play("ren_11")or 1)
+		then
 			SCN.go("app_cmd")
 		end
 	end
@@ -30,7 +28,7 @@ function scene.sceneInit()
 	scrollX=tipLength
 
 	BG.set()
-	coroutine.resume(cmdEntryThread)
+	cmdEntryThread()
 
 	--Set quick-play-button text
 	scene.widgetList[2].text=text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1]
@@ -47,7 +45,7 @@ end
 
 function scene.mouseDown(x,y)
 	if x>=520 and x<=760 and y>=140 and y<=620 then
-		coroutine.resume(cmdEntryThread,
+		cmdEntryThread(
 			x<520+80 and y>620-80 and"c"or
 			x>760-80 and y>620-80 and"m"or
 			x<520+80 and y<140+80 and"d"
@@ -121,7 +119,7 @@ function scene.keyDown(key)
 			SCN.back()
 		end
 	else
-		coroutine.resume(cmdEntryThread,key)
+		cmdEntryThread(key)
 	end
 end
 

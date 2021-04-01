@@ -1,6 +1,5 @@
 local rem=table.remove
-local assert=assert
-local resume,status=coroutine.resume,coroutine.status
+local assert,resume,status=assert,coroutine.resume,coroutine.status
 local tasks={}
 
 local TASK={}

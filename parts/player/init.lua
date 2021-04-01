@@ -178,7 +178,7 @@ local function newEmptyPlayer(id,mini)
 	P.type="none"
 	P.sound=false
 
-	-- P.newNext=false--Coroutine to get new next, loaded in applyGameEnv()
+	-- P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
 
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
@@ -312,8 +312,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
-	P.newNext=coroutine.create(getSeqGen(P))
-	assert(coroutine.resume(P.newNext,P,P.gameEnv.seqData))
+	P.newNext=coroutine.wrap(getSeqGen(P))
+	P.newNext(P,P.gameEnv.seqData)
 
 	if P.mini then
 		ENV.lockFX=false

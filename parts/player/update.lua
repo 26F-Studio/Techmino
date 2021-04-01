@@ -1,8 +1,7 @@
 local max,min=math.max,math.min
 local int,abs,rnd=math.floor,math.abs,math.random
 local rem=table.remove
-local resume=coroutine.resume
-local status=coroutine.status
+local assert,resume,status=assert,coroutine.resume,coroutine.status
 
 local function updateLine(P)--Attacks, line pushing, cam moving
 	local bf=P.atkBuffer
@@ -100,16 +99,13 @@ local function updateFXs(P,dt)
 		TEXT.update(P.bonus)
 	end
 end
-local updateTasks do--updateTasks(P)
-	local assert=assert
-	function updateTasks(P)
-		local L=P.tasks
-		for i=#L,1,-1 do
-			local tr=L[i].thread
-			assert(resume(tr))
-			if status(tr)=="dead"then
-				rem(L,i)
-			end
+local function updateTasks(P)
+	local L=P.tasks
+	for i=#L,1,-1 do
+		local tr=L[i].thread
+		assert(resume(tr))
+		if status(tr)=="dead"then
+			rem(L,i)
 		end
 	end
 end
@@ -150,8 +146,8 @@ function update.alive(P,dt)
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
-			if status(P.AI_thread)=="suspended"then
-				resume(P.AI_thread)
+			if P.AI_thread and not pcall(P.AI_thread)then
+				P.AI_thread=false
 			end
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])
