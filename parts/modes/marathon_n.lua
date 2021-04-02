@@ -8,14 +8,15 @@ return{
 		drop=60,wait=8,fall=20,
 		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
-			local T=P.modeData.target
-			if P.stat.row>=T then
-				if T==200 then
+			if P.stat.row<180 then
+				P.stat.row=180
+			end
+			if P.stat.row>=P.modeData.target then
+				if P.modeData.target==200 then
 					P:win("finish")
 				else
-					T=T+10
-					P.gameEnv.drop=dropSpeed[T/10]
-					P.modeData.target=T
+					P.gameEnv.drop=dropSpeed[P.modeData.target/10]
+					P.modeData.target=P.modeData.target+10
 					SFX.play("reach")
 				end
 			end
@@ -31,7 +32,7 @@ return{
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.stat.row,69,320)
-		mStr(P.modeData.target+10,69,370)
+		mStr(P.modeData.target,69,370)
 		gc.rectangle("fill",25,375,90,4)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
