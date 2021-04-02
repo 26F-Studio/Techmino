@@ -52,6 +52,7 @@ local function reset()
 	end end
 	board[rnd(5)][rnd(5)]=2
 	fallingTimer=false
+	failPos=false
 end
 function scene.sceneInit()
 	BG.set("rainbow2")
