@@ -102,7 +102,7 @@ function scene.keyDown(key)
 			VK[k].pressTime=10
 		end
 	elseif key=="space"then
-		if not PLAYERS[1].ready then
+		if not NET.getLock("ready")then
 			NET.signal_ready()
 		end
 	end
@@ -143,10 +143,8 @@ function scene.gamepadUp(key)
 	end
 end
 
-function scene.socketRead(mes)
-	local cmd=mes:sub(1,1)
-	local args=SPLITSTR(mes:sub(2),";")
-	if cmd=="J"then
+function scene.socketRead(cmd,args)
+	if cmd=="Join"then
 		if playerInitialized then
 			local L=SPLITSTR(args[1],",")
 			textBox:push{
@@ -164,7 +162,7 @@ function scene.socketRead(mes)
 		if not playing then
 			resetGameData("qn")
 		end
-	elseif cmd=="L"then
+	elseif cmd=="Leave"then
 		textBox:push{
 			COLOR.lR,args[1],
 			COLOR.dY,"#"..args[2].." ",
@@ -189,7 +187,7 @@ function scene.socketRead(mes)
 			end
 		end
 		initPlayerPosition(true)
-	elseif cmd=="T"then
+	elseif cmd=="Talk"then
 		local _,text=pcall(data.decode,"string","base64",args[3])
 		if not _ then text=args[3]end
 		textBox:push{
@@ -197,7 +195,7 @@ function scene.socketRead(mes)
 			COLOR.dY,"#"..args[2].." ",
 			COLOR.sky,text
 		}
-	elseif cmd=="C"then
+	elseif cmd=="Config"then
 		if tostring(USER.id)~=args[2]then
 			for i=1,#PLY_NET do
 				if PLY_NET[i].id==args[2]then
@@ -208,7 +206,7 @@ function scene.socketRead(mes)
 			end
 			resetGameData("qn")
 		end
-	elseif cmd=="S"then
+	elseif cmd=="Stream"then
 		if playing and args[1]~=PLAYERS[1].subID then
 			for _,P in next,PLAYERS do
 				if P.subID==args[1]then
@@ -221,7 +219,7 @@ function scene.socketRead(mes)
 				end
 			end
 		end
-	elseif cmd=="R"then
+	elseif cmd=="Ready"then
 		local L=PLY_ALIVE
 		for i=1,#L do
 			if L[i].subID==args[1]then
@@ -230,7 +228,7 @@ function scene.socketRead(mes)
 				break
 			end
 		end
-	elseif cmd=="B"then
+	elseif cmd=="Begin"then
 		if not playing then
 			playing=true
 			lastUpstreamTime=0
@@ -239,7 +237,7 @@ function scene.socketRead(mes)
 		else
 			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
 		end
-	elseif cmd=="F"then
+	elseif cmd=="Finish"then
 		playing=false
 		resetGameData("n")
 		for i=1,#PLY_NET do
@@ -248,8 +246,6 @@ function scene.socketRead(mes)
 				break
 			end
 		end
-	else
-		LOG.print("Illegal message: ["..mes.."]",30,COLOR.green)
 	end
 end
 

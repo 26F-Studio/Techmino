@@ -7,10 +7,11 @@ local NET={
 }
 
 local mesType={
-	OK=true,
 	Connected=true,
-	Server=true,
+	Self=true,
 	Broadcast=true,
+	Private=true,
+	Server=true,
 }
 
 --Lock & Unlock submodule
@@ -34,15 +35,17 @@ end
 local function _parse(res)
 	res=JSON.decode(res)
 	if res then
-		if mesType[res.message]then
+		if mesType[res.type]then
 			return res
 		else
 			LOG.print(
-				res.message and(
-					res.reason and res.message..": "..res.reason or
-					res.message
-				)or
-				"[NO Message]",
+				"WS error:"..(
+					res.type and(
+						res.reason and res.type..": "..res.reason or
+						res.type
+					)or
+					"[NO Message]"
+				),
 			"warning")
 		end
 	end
@@ -52,9 +55,9 @@ end
 function NET.wsCloseMessage(message)
 	if message:sub(1,1)=="{"then
 		local mes=JSON.decode(message)
-		LOG.print(text.wsClose..mes.message,"warn")
+		LOG.print(text.wsClose..mes.type,"warn")
 	else
-		LOG.print(text.wsClose..message,"warn")
+		LOG.print(text.wsClose..type,"warn")
 	end
 end
 
@@ -109,16 +112,19 @@ function NET.wsConnectPlay()
 	end
 end
 function NET.signal_ready()
-	WS.send("play","R")
-end
-function NET.uploadRecStream(stream)
-	WS.send("stream",data.encode("string","base64",stream))
-end
-function NET.signal_die()
-	WS.send("play","D")
+	if _lock("ready")then
+		WS.send("play",'{"action":6,"data":{"ready":true}}')
+	end
 end
 function NET.signal_quit()
-	WS.send("play","Q")
+	WS.send("play",'{"action":3}')
+end
+function NET.uploadRecStream(stream)
+	stream=data.encode("string","base64",stream)
+	WS.send("stream",'{"action":2,"data":{"stream":"'..stream..'"}}')
+end
+function NET.signal_die()
+	WS.send("stream",'{"action":3,"data":{"score":0,"survivalTime":0}}')
 end
 
 --Room
@@ -222,7 +228,7 @@ function NET.TICK_WS_user()
 				else
 					local res=_parse(message)
 					if res then
-						if res.message=="Connected"then
+						if res.type=="Connected"then
 							NET.login=true
 							if res.id then
 								USER.id=res.id
@@ -266,17 +272,31 @@ function NET.TICK_WS_play()
 				else
 					local res=_parse(message)
 					if res then
-						if res.message=="Connected"then
-							_unlock("connectPlay")
+						if res.type=="Connected"then
 							SCN.go("net_menu")
+							_unlock("connectPlay")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 							_unlock("fetchRoom")
-						elseif res.action==2 then--Join(create) room
-							loadGame("netBattle",true,true)
-							_unlock("enterRoom")
-						elseif res.action==3 then--Leave room
-							SCN.back()
+						-- elseif res.action==1 then
+						elseif res.action==2 then--Player join
+							if res.type=="Self"then
+								--Create room
+								loadGame("netBattle",true,true)
+								_unlock("enterRoom")
+							else
+								--Others join room
+								SCN.socketRead("Join",res.data)
+							end
+						elseif res.action==3 then--Player leave
+							SCN.socketRead("Leave",res.data)
+						elseif res.action==4 then--Player talk
+							SCN.socketRead("Talk",res.data)
+						elseif res.action==5 then--Player change settings
+							SCN.socketRead("Config",res.data)
+						elseif res.action==6 then--Player ready
+							SCN.socketRead("Ready",res.data)
+							_unlock("ready")
 						end
 					else
 						WS.alert("play")
@@ -300,7 +320,26 @@ function NET.TICK_WS_stream()
 					NET.wsCloseMessage(message)
 					return
 				else
-					--TODO
+					local res=_parse(message)
+					if res then
+						if res.type=="Connected"then
+							--?
+						elseif res.action==0 then--Game start
+							SCN.socketRead("Begin",res.data)
+						elseif res.action==1 then--Game finished
+							SCN.socketRead("Finish",res.data)
+						elseif res.action==2 then--Player join
+							SCN.socketRead("J",res.data)
+						elseif res.action==3 then--Player leave
+							SCN.socketRead("L",res.data)
+						elseif res.action==4 then--Player died
+							SCN.socketRead("Die",res.data)
+						elseif res.action==5 then--Receive stream
+							SCN.socketRead("S",res.data)
+						end
+					else
+						WS.alert("stream")
+					end
 				end
 			end
 		end
