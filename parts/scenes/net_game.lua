@@ -14,10 +14,6 @@ local PLY_NET=PLY_NET
 
 local hideChatBox
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
-local function switchChat()
-	hideChatBox=not hideChatBox
-end
-
 
 local playerInitialized
 local playing
@@ -96,7 +92,7 @@ function scene.keyDown(key)
 			LOG.print(text.sureQuit,COLOR.orange)
 		end
 	elseif key=="\\"then
-		switchChat()
+		hideChatBox=not hideChatBox
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -315,7 +311,7 @@ end
 scene.widgetList={
 	textBox,
 	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey"space",hide=function()return playing or not hideChatBox or PLAYERS[1].ready end},
-	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=switchChat},
+	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
 }
 
