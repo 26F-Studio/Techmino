@@ -715,7 +715,7 @@ do--function resetGameData(args)
 		end
 		return S
 	end
-	function resetGameData(args,playerData,seed)
+	function resetGameData(args,seed)
 		if not args then args=""end
 		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
@@ -744,7 +744,7 @@ do--function resetGameData(args)
 		end
 
 		destroyPlayers()
-		GAME.curMode.load(playerData)
+		GAME.curMode.load()
 		initPlayerPosition(args:find("q"))
 		restoreVirtualkey()
 		if GAME.modeEnv.task then

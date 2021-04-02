@@ -2,7 +2,6 @@ local data=love.data
 local gc=love.graphics
 local tc=love.touch
 
-local playerData
 local ins,rem=table.insert,table.remove
 
 local SCR=SCR
@@ -10,6 +9,8 @@ local VK=virtualkey
 local onVirtualkey=onVirtualkey
 local pressVirtualkey=pressVirtualkey
 local updateVirtualkey=updateVirtualkey
+
+local PLY_NET=PLY_NET
 
 local hideChatBox
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
@@ -39,8 +40,8 @@ function scene.sceneInit()
 	playerInitialized=false
 	textBox:clear()
 
-	playerData={}
-	resetGameData("n",playerData)
+	while #PLY_NET>0 do rem(PLY_NET)end
+	resetGameData("n")
 	noTouch=not SETTING.VKSwitch
 	playing=false
 	lastUpstreamTime=0
@@ -160,12 +161,12 @@ function scene.socketRead(mes)
 		end
 		for i=1,#args do
 			local L=SPLITSTR(args[i],",")
-			ins(playerData,{name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"})
+			ins(PLY_NET,{name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"})
 		end
 		playerInitialized=true
 		SFX.play("click")
 		if not playing then
-			resetGameData("qn",playerData)
+			resetGameData("qn")
 		end
 	elseif cmd=="L"then
 		textBox:push{
@@ -173,9 +174,9 @@ function scene.socketRead(mes)
 			COLOR.dY,"#"..args[2].." ",
 			COLOR.Y,text.leaveRoom,
 		}
-		for i=1,#playerData do
-			if playerData[i].id==args[2]then
-				rem(playerData,i)
+		for i=1,#PLY_NET do
+			if PLY_NET[i].id==args[2]then
+				rem(PLY_NET,i)
 				break
 			end
 		end
@@ -202,14 +203,14 @@ function scene.socketRead(mes)
 		}
 	elseif cmd=="C"then
 		if tostring(USER.id)~=args[2]then
-			for i=1,#playerData do
-				if playerData[i].id==args[2]then
-					playerData[i].conf=args[4]
-					playerData[i].p:setConf(args[4])
+			for i=1,#PLY_NET do
+				if PLY_NET[i].id==args[2]then
+					PLY_NET[i].conf=args[4]
+					PLY_NET[i].p:setConf(args[4])
 					return
 				end
 			end
-			resetGameData("qn",playerData)
+			resetGameData("qn")
 		end
 	elseif cmd=="S"then
 		if playing and args[1]~=PLAYERS[1].subID then
@@ -238,16 +239,16 @@ function scene.socketRead(mes)
 			playing=true
 			lastUpstreamTime=0
 			upstreamProgress=1
-			resetGameData("n",playerData,tonumber(args[1]))
+			resetGameData("n",tonumber(args[1]))
 		else
 			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
 		end
 	elseif cmd=="F"then
 		playing=false
-		resetGameData("n",playerData)
-		for i=1,#playerData do
-			if playerData[i].sid==args[1]then
-				TEXT.show(text.champion:gsub("$1",playerData[i].name.."#"..playerData[i].id),640,260,80,"zoomout",.26)
+		resetGameData("n")
+		for i=1,#PLY_NET do
+			if PLY_NET[i].sid==args[1]then
+				TEXT.show(text.champion:gsub("$1",PLY_NET[i].name.."#"..PLY_NET[i].id),640,260,80,"zoomout",.26)
 				break
 			end
 		end

@@ -144,6 +144,7 @@ end
 --Game tables
 PLAYERS={}--Players data
 PLY_ALIVE={}
+PLY_NET={}
 FIELD={}--Field(s) for custom game
 BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
