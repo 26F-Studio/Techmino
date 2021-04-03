@@ -29,6 +29,8 @@ local tileColor={
 	COLOR.dG,
 	COLOR.dB,
 	COLOR.dY,
+	COLOR.dSky,
+	COLOR.dPurple,
 }
 local modeName={
 	"Normal",
@@ -36,6 +38,8 @@ local modeName={
 	"Mess",
 	"Short",
 	"Stairs",
+	"Double",
+	"Mixed",
 }
 local mode=1
 local score
@@ -64,6 +68,24 @@ local function newTile()
 			r=r+2
 		elseif r>4 then
 			r=r-2
+		end
+	elseif mode==6 then
+		local i=rnd(4)
+		r=rnd(3)
+		if r>=i then
+			r=r+1
+		end
+		r=10*i+r
+	elseif mode==7 then
+		if rnd()<.126 then
+			local i=rnd(4)
+			r=rnd(3)
+			if r>=i then
+				r=r+1
+			end
+			r=10*i+r
+		else
+			r=rnd(4)
 		end
 	end
 	ins(pos,r)
@@ -98,27 +120,33 @@ local function touch(n)
 		state=1
 		startTime=TIME()
 	end
-	if n==pos[1]then
-		rem(pos,1)
-		newTile()
-		ins(keyTime,1,TIME())
-		keyTime[21]=nil
-		score=score+1
-		if targets[score]then
-			ins(progress,format("%s - %.3fs",score,TIME()-startTime))
-			if score==26000 then
-				for i=1,#pos do
-					pos[i]=626
+	local a,b=pos[1]%10,int(pos[1]/10)
+	if n==a or n==b then
+		if a>0 and b>0 then
+			pos[1]=n==a and b or a
+			SFX.play("move")
+		else
+			rem(pos,1)
+			newTile()
+			ins(keyTime,1,TIME())
+			keyTime[21]=nil
+			score=score+1
+			if targets[score]then
+				ins(progress,format("%s - %.3fs",score,TIME()-startTime))
+				if score==26000 then
+					for i=1,#pos do
+						pos[i]=626
+					end
+					time=TIME()-startTime
+					state=2
+					SFX.play("win")
+				else
+					SFX.play("reach",.5)
 				end
-				time=TIME()-startTime
-				state=2
-				SFX.play("win")
-			else
-				SFX.play("reach",.5)
 			end
+			height=height+120
+			SFX.play("move")
 		end
-		height=height+120
-		SFX.play("move")
 	else
 		time=TIME()-startTime
 		state=2
@@ -192,7 +220,12 @@ function scene.draw()
 	gc.rectangle("fill",300,0,680,720)
 	gc.setColor(tileColor[mode])
 	for i=1,#pos do
-		gc.rectangle("fill",130+170*pos[i]+8,720-i*120-height+8,170-16,120-16)
+		if pos[i]<10 then
+			gc.rectangle("fill",130+170*pos[i]+8,720-i*120-height+8,170-16,120-16)
+		else
+			gc.rectangle("fill",130+170*(pos[i]%10)+8,720-i*120-height+8,170-16,120-16)
+			gc.rectangle("fill",130+170*int(pos[i]/10)+8,720-i*120-height+8,170-16,120-16)
+		end
 	end
 
 	--Draw track line
