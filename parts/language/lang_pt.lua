@@ -75,7 +75,6 @@ return{
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 
-	-- httpCode="Http status code",
 	jsonError="Json error",
 
 	noUsername="Insira seu nome de usuário",

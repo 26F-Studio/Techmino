@@ -75,7 +75,6 @@ return{
 	needUpdate="Newer version required!",
 	notFinished="Coming soon!",
 
-	httpCode="HTTP status code",
 	jsonError="JSON error",
 
 	noUsername="Please specify a username.",

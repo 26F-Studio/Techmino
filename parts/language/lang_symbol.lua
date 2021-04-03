@@ -83,11 +83,12 @@ return{
 		"□!!~~~,□□□□X",
 		"□!!==*/*/*/*~",
 		"",
-		"bug reports/suggestions, sent to the author's testing group or email ~",
-		"This is a free download available only through discord.gg/f9pUvkh",
-		"The game downloaded from other sources may contain viruses,",
-		"and only vibration & networking permissions are needed for mobile versions!",
-		"The author is not responsible for any losses from modifying the game.",
+		"Powered by LÖVE/love2d",
+		"Any suggestions or bug reports are appreciated!",
+		"Make sure to only obtain the game from official sources;",
+		"We can't make sure you're safe if you got it elsewhere.",
+		"The author is not responsible for any modified binaries.",
+		"While the game is free, donations are appreciated."
 	},
 	WidgetText={
 		main={

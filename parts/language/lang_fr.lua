@@ -76,7 +76,6 @@ return{
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 
-	httpCode="Code de statut Http",
 	jsonError="Erreur json",
 
 	noUsername="Entrez votre nom d'utilisateur",
@@ -183,7 +182,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="Aider le créateur",
-	group="Groupe QQ officiel (si non piraté) : 913154753",
+	group="Groupe QQ officiel : 913154753",
 	WidgetText={
 		main={
 			-- offline="Solo",

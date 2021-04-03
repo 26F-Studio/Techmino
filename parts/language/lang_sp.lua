@@ -76,11 +76,9 @@ return{
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 
-	-- httpCode="Http status code",
 	-- jsonError="Json error",
 
 	noUsername="Por favor ingresa un nombre de usuario",
-
 	-- wrongEmail="Wrong email address",
 	noPassword="Por favor ingresa una contraseña",
 	diffPassword="Las contraseñas no coinciden",
@@ -185,7 +183,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="Apoyen al Autor",
-	group="Grupo Oficial de QQ (si no lo hackean) : 913154753",
+	group="Grupo Oficial de QQ : 913154753",
 	WidgetText={
 		main={
 			-- offline="Single",
