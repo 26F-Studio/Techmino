@@ -63,8 +63,7 @@ local function SPpath(x,y)
 	end
 	ins(SPlist,{x,y})
 	if #SPlist==1 then
-		local start=FIELD[page][y][x]
-		SPmode=start==0 and 0 or 1
+		SPmode=FIELD[page][y][x]==0 and 0 or 1
 	end
 end
 local function SPdraw()
@@ -100,6 +99,7 @@ local function SPdraw()
 		end
 	end
 	SPlist={}
+	SPmode=0
 end
 
 function scene.sceneInit()
@@ -152,13 +152,7 @@ end
 
 function scene.wheelMoved(_,y)
 	if penColor>0 then
-		if y<0 then
-			penColor=penColor+1
-			if penColor==25 then penColor=1 end
-		else
-			penColor=penColor-1
-			if penColor==0 then penColor=24 end
-		end
+		penColor=(penColor+(y<0 and 1 or -1)-1)%24+1
 	end
 end
 function scene.touchDown(x,y)scene.mouseDown(x,y,1)end
@@ -329,9 +323,9 @@ function scene.draw()
 				gc.rectangle("line",30*SPlist[i][1]-30+2,600-30*SPlist[i][2]+2,30-4,30-4,3)
 			end
 		else
-			gc.setColor(1,1,1)
+			gc.setColor(1,0,0)
 			for i=1,#SPlist do
-				gc.draw(cross,30*SPlist[i][1]-30,600-30*SPlist[i][2])
+				gc.draw(cross,30*SPlist[i][1]-30+math.random(-1,1),600-30*SPlist[i][2]+math.random(-1,1))
 			end
 		end
 	end
@@ -345,20 +339,38 @@ function scene.draw()
 	gc.rectangle("fill",50,600,100,6)
 
 	--Draw pen color
-	if penColor>0 then
-		gc.setLineWidth(13)
-		gc.setColor(minoColor[penColor])
-		gc.rectangle("line",565,495,70,70)
-	elseif penColor==-1 then
-		gc.setLineWidth(5)
-		gc.setColor(.9,.9,.9)
-		gc.line(575,505,625,555)
-		gc.line(575,555,625,505)
-	elseif penColor==-2 then
-		gc.setLineWidth(13)
-		gc.setColor(COLOR.rainbow(TIME()*6.2))
-		gc.rectangle("line",565,495,70,70)
-	end
+	gc.translate(560,475)
+		--Right mouse button
+		gc.setLineWidth(3)
+		gc.setColor(1,1,1,.9)
+		gc.line(52,5,75,35)
+		gc.line(75,5,52,35)
+		--Left mouse button
+		if penColor>0 then
+			gc.setColor(minoColor[penColor])
+			gc.rectangle("fill",5,5,23,30)
+		elseif penColor==-1 then
+			gc.line(5,5,28,35)
+			gc.line(28,5,5,35)
+		elseif penColor==-2 then
+			if SPmode==1 then
+				gc.setColor(1,0,0)
+				gc.line(5,5,28,35)
+				gc.line(28,5,5,35)
+			else
+				gc.setLineWidth(13)
+				gc.setColor(COLOR.rainbow(TIME()*12.6))
+				gc.rectangle("fill",5,5,23,30)
+			end
+		end
+		--Draw mouse
+		gc.setLineWidth(2)
+		gc.setColor(1,1,1)
+		gc.rectangle("line",0,0,80,110,5)
+		gc.line(0,40,80,40)
+		gc.line(33,0,33,40)
+		gc.line(47,0,47,40)
+	gc.translate(-560,-475)
 
 	--Confirm reset
 	if sure>0 then
