@@ -90,10 +90,8 @@ return{
 	accessFailed="Falha na autorização",
 	wsSuccessed="WebSocket: conectado",
 	wsFailed="WebSocket: falha na conexão",
-	wsDisconnected="WebSocket: desconectado",
-	wsNoConn="WebSocket: você não está conectado",
 	wsClose="WebSocket closed: ",
-	waitNetTask="Conectando, aguarde",
+	-- netTimeout="Network connection timeout",
 
 	-- createRoomTooFast="Create room too fast!",
 	-- createRoomSuccessed="Room successfully created!",

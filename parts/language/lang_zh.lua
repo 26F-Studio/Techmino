@@ -90,10 +90,8 @@ return{
 	accessFailed="身份验证失败",
 	wsSuccessed="WS连接成功",
 	wsFailed="WS连接失败",
-	wsDisconnected="WS连接断开",
-	wsNoConn="WS未连接",
 	wsClose="WS被断开: ",
-	waitNetTask="正在连接,请稍候",
+	netTimeout="网络连接超时",
 
 	createRoomTooFast="创建房间太快啦,等等吧",
 	createRoomSuccessed="创建房间成功!",

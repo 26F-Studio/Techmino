@@ -27,7 +27,6 @@ local scene={}
 
 function scene.sceneBack()
 	NET.signal_quit()
-	LOG.print(text.wsDisconnected,"warn")
 	love.keyboard.setKeyRepeat(true)
 end
 function scene.sceneInit()

@@ -91,10 +91,8 @@ return{
 	accessFailed="Autorisation échouée",
 	wsSuccessed="WebSocket: connecté",
 	wsFailed="WebSocket: connection échouée",
-	wsDisconnected="WebSocket: déconnecté",
-	wsNoConn="WebSocket: vous n'êtes pas connecté",
-	wsError="Erreur WebSocket : ",
-	waitNetTask="Connexion, veuillez patienter",
+	-- wsClose="WebSocket Closed: ",
+	-- netTimeout="Network connection timeout",
 
 	createRoomTooFast="Vous avez créé un salon trop rapidement !",
 	createRoomSuccessed="Salon créé avec succès !",

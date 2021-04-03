@@ -23,7 +23,7 @@ do--Connect
 
 	SOCK:settimeout(2.6)
 	local res,err=SOCK:connect(host,port)
-	if not res then readCHN:push(err)return end
+	if err then readCHN:push(err)return end
 
 	--WebSocket handshake
 	if not body then body=""end
@@ -327,7 +327,7 @@ function WS.update(dt)
 						ws.pongTimer=1
 					else
 						ws.status="dead"
-						LOG.print(text.wsFailed.." "..mes,"warn")
+						LOG.print(text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes),"warn")
 					end
 				end
 			elseif ws.status=="running"then

@@ -90,10 +90,8 @@ return{
 	accessFailed="Access Denied.",
 	wsSuccessed="WebSocket: Connected.",
 	wsFailed="WebSocket: Connection Failed.",
-	wsDisconnected="WebSocket: Disconnected.",
-	wsNoConn="WebSocket: Not Connected.",
 	wsClose="WebSocket Closed: ",
-	waitNetTask="Connecting. Please wait...",
+	netTimeout="Network connection timeout",
 
 	createRoomTooFast="Hold on there! We can't handle this fast!",
 	createRoomSuccessed="Room successfully created!",

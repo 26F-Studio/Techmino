@@ -30,7 +30,6 @@ function scene.sceneInit()
 end
 function scene.sceneBack()
 	NET.quitChat()
-	LOG.print(text.wsDisconnected,"warn")
 end
 
 function scene.wheelMoved(_,y)

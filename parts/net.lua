@@ -53,11 +53,11 @@ end
 
 --wsEvent
 function NET.wsCloseMessage(message)
-	if message:sub(1,1)=="{"then
-		local mes=JSON.decode(message)
-		LOG.print(text.wsClose..mes.type,"warn")
+	local mes=JSON.decode(message)
+	if mes then
+		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),"warn")
 	else
-		LOG.print(text.wsClose..type,"warn")
+		LOG.print(text.wsClose.."","warn")
 	end
 end
 
