@@ -265,6 +265,7 @@ local backColor={
 }
 function scene.draw()
 	setFont(40)
+	gc.setColor(1,1,1)
 	gc.print(format("%.3f",time),1026,80)
 	gc.setColor(1,.8,.8)
 	gc.print(move,1026,130)
