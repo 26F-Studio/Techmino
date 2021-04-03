@@ -4,6 +4,7 @@ return{
 		drop=30,
 		freshLimit=15,
 		noMod=true,
+		bg="space",
 	},
 	load=function()
 		PLY.newPlayer(1)

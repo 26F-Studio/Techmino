@@ -7,7 +7,7 @@ local NET={
 }
 
 local mesType={
-	Connected=true,
+	Connect=true,
 	Self=true,
 	Broadcast=true,
 	Private=true,
@@ -175,7 +175,7 @@ function NET.quitChat()
 end
 
 --WS tick funcs
-function NET.TICK_WS_app()
+function NET.updateWS_app()
 	local retryTime=5
 	while true do
 		YIELD()
@@ -212,7 +212,7 @@ function NET.TICK_WS_app()
 		end
 	end
 end
-function NET.TICK_WS_user()
+function NET.updateWS_user()
 	while true do
 		YIELD()
 		local status=WS.status("user")
@@ -228,7 +228,7 @@ function NET.TICK_WS_user()
 				else
 					local res=_parse(message)
 					if res then
-						if res.type=="Connected"then
+						if res.type=="Connect"then
 							NET.login=true
 							if res.id then
 								USER.id=res.id
@@ -256,7 +256,7 @@ function NET.TICK_WS_user()
 		end
 	end
 end
-function NET.TICK_WS_play()
+function NET.updateWS_play()
 	while true do
 		YIELD()
 		local status=WS.status("play")
@@ -272,7 +272,7 @@ function NET.TICK_WS_play()
 				else
 					local res=_parse(message)
 					if res then
-						if res.type=="Connected"then
+						if res.type=="Connect"then
 							SCN.go("net_menu")
 							_unlock("connectPlay")
 						elseif res.action==0 then--Fetch rooms
@@ -306,7 +306,7 @@ function NET.TICK_WS_play()
 		end
 	end
 end
-function NET.TICK_WS_stream()
+function NET.updateWS_stream()
 	while true do
 		YIELD()
 		local status=WS.status("stream")
@@ -322,7 +322,7 @@ function NET.TICK_WS_stream()
 				else
 					local res=_parse(message)
 					if res then
-						if res.type=="Connected"then
+						if res.type=="Connect"then
 							--?
 						elseif res.action==0 then--Game start
 							SCN.socketRead("Begin",res.data)
@@ -345,7 +345,7 @@ function NET.TICK_WS_stream()
 		end
 	end
 end
-function NET.TICK_WS_chat()
+function NET.updateWS_chat()
 	while true do
 		YIELD()
 		local status=WS.status("chat")

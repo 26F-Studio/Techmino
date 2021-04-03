@@ -177,9 +177,9 @@ local loadingThread=coroutine.wrap(function()
 	STAT.run=STAT.run+1
 
 	--Connect to server
-	TASK.new(NET.TICK_WS_app)
-	TASK.new(NET.TICK_WS_user)
-	TASK.new(NET.TICK_WS_play)
+	TASK.new(NET.updateWS_app)
+	TASK.new(NET.updateWS_user)
+	TASK.new(NET.updateWS_play)
 	WS.connect("app","/app")
 	if USER.authToken then
 		WS.connect("user","/user",JSON.encode{
