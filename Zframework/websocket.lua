@@ -80,30 +80,32 @@ local _send do
 	local shr=bit.rshift
 
 	local mask_key={1,14,5,14}
+	local mask_str=char(unpack(mask_key))
+
 	function _send(opcode,message)
 		--Message type
 		SOCK:send(char(bor(0x80,opcode)))
 
-		if not message then
-			SOCK:send(char(0x80,unpack(mask_key)))
+		if message then
+			--Length
+			local length=#message
+			if length>65535 then
+				SOCK:send(char(bor(127,0x80),0,0,0,0,band(shr(length,24),0xff),band(shr(length,16),0xff),band(shr(length,8),0xff),band(length,0xff)))
+			elseif length>125 then
+				SOCK:send(char(bor(126,0x80),band(shr(length,8),0xff),band(length,0xff)))
+			else
+				SOCK:send(char(bor(length,0x80)))
+			end
+			SOCK:send(mask_str)
+			local msgbyte={byte(message,1,length)}
+			for i=1,length do
+				msgbyte[i]=bxor(msgbyte[i],mask_key[(i-1)%4+1])
+			end
+			return SOCK:send(char(unpack(msgbyte)))
+		else
+			SOCK:send("\128"..mask_str)
 			return 0
 		end
-
-		--Length
-		local length=#message
-		if length>65535 then
-			SOCK:send(char(bor(127,0x80),0,0,0,0,band(shr(length,24),0xff),band(shr(length,16),0xff),band(shr(length,8),0xff),band(length,0xff)))
-		elseif length>125 then
-			SOCK:send(char(bor(126,0x80),band(shr(length,8),0xff),band(length,0xff)))
-		else
-			SOCK:send(char(bor(length,0x80)))
-		end
-		SOCK:send(char(unpack(mask_key)))
-		local msgbyte={byte(message,1,length)}
-		for i=1,length do
-			msgbyte[i]=bxor(msgbyte[i],mask_key[(i-1)%4+1])
-		end
-		return SOCK:send(char(unpack(msgbyte)))
 	end
 end
 local length
