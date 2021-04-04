@@ -4,6 +4,7 @@ local NET={
 	allow_online=false,
 	roomList={},
 	accessToken=false,
+	rid=false,
 }
 
 local mesType={
@@ -102,31 +103,6 @@ function NET.storeUserInfo(res)
 	-- FILE.save(USERS,"conf/users")
 end
 
---Play
-function NET.wsConnectPlay()
-	if _lock("connectPlay")then
-		WS.connect("play","/play",JSON.encode{
-			id=USER.id,
-			accessToken=NET.accessToken,
-		})
-	end
-end
-function NET.signal_ready()
-	if _lock("ready")then
-		WS.send("play",'{"action":6,"data":{"ready":true}}')
-	end
-end
-function NET.signal_quit()
-	WS.send("play",'{"action":3}')
-end
-function NET.uploadRecStream(stream)
-	stream=data.encode("string","base64",stream)
-	WS.send("stream",'{"action":2,"data":{"stream":"'..stream..'"}}')
-end
-function NET.signal_die()
-	WS.send("stream",'{"action":3,"data":{"score":0,"survivalTime":0}}')
-end
-
 --Room
 function NET.fetchRoom()
 	if _lock("fetchRoom")then
@@ -155,6 +131,7 @@ function NET.createRoom()
 end
 function NET.enterRoom(roomID,password)
 	if _lock("enterRoom")then
+		NET.rid=roomID
 		WS.send("play",JSON.encode{
 			action=2,
 			data={
@@ -164,6 +141,39 @@ function NET.enterRoom(roomID,password)
 			}
 		})
 	end
+end
+
+--Play
+function NET.wsConnectPlay()
+	if _lock("connectPlay")then
+		WS.connect("play","/play",JSON.encode{
+			id=USER.id,
+			accessToken=NET.accessToken,
+		})
+	end
+end
+function NET.signal_ready()
+	if _lock("ready")then
+		WS.send("play",'{"action":6,"data":{"ready":true}}')
+	end
+end
+function NET.signal_quit()
+	WS.send("play",'{"action":3}')
+end
+function NET.wsConnectStream()
+	if _lock("connectStream")then
+		WS.connect("stream","/stream",JSON.encode{
+			id=USER.id,
+			accessToken=NET.accessToken,
+			rid=NET.rid,
+		})
+	end
+end
+function NET.uploadRecStream(stream)
+	WS.send("stream",'{"action":2,"data":{"stream":"'..data.encode("string","base64",stream)..'"}}')
+end
+function NET.signal_die()
+	WS.send("stream",'{"action":3,"data":{"score":0,"survivalTime":0}}')
 end
 
 --Chat
@@ -297,6 +307,8 @@ function NET.updateWS_play()
 						elseif res.action==6 then--Player ready
 							SCN.socketRead("Ready",res.data)
 							_unlock("ready")
+						elseif res.action==7 then--All ready
+							SCN.socketRead("Set",res.data)
 						end
 					else
 						WS.alert("play")
@@ -328,14 +340,10 @@ function NET.updateWS_stream()
 							SCN.socketRead("Begin",res.data)
 						elseif res.action==1 then--Game finished
 							SCN.socketRead("Finish",res.data)
-						elseif res.action==2 then--Player join
-							SCN.socketRead("J",res.data)
-						elseif res.action==3 then--Player leave
-							SCN.socketRead("L",res.data)
-						elseif res.action==4 then--Player died
+						elseif res.action==2 then--Player died
 							SCN.socketRead("Die",res.data)
-						elseif res.action==5 then--Receive stream
-							SCN.socketRead("S",res.data)
+						elseif res.action==3 then--Receive stream
+							SCN.socketRead("Stream",res.data)
 						end
 					else
 						WS.alert("stream")

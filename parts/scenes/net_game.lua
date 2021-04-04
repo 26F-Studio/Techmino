@@ -227,6 +227,8 @@ function scene.socketRead(cmd,args)
 				break
 			end
 		end
+	elseif cmd=="Set"then
+		NET.wsConnectStream()
 	elseif cmd=="Begin"then
 		if not playing then
 			playing=true
