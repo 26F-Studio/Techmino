@@ -80,29 +80,31 @@ function scene.draw()
 	--Room list
 	gc.setColor(1,1,1)
 	gc.setLineWidth(2)
-	gc.rectangle("line",55,110,1100,400)
-	gc.setColor(1,1,1,.3)
-	gc.rectangle("fill",55,40*(1+selected-scrollPos)+30,1100,40)
-	setFont(35)
-	for i=1,min(10,#NET.roomList-scrollPos)do
-		local R=NET.roomList[scrollPos+i]
-		if R.private then
+	gc.rectangle("line",50,110,1180,400)
+	if #NET.roomList>0 then
+		gc.setColor(1,1,1,.3)
+		gc.rectangle("fill",50,40*(1+selected-scrollPos)+30,1180,40)
+		setFont(35)
+		for i=1,min(10,#NET.roomList-scrollPos)do
+			local R=NET.roomList[scrollPos+i]
+			if R.private then
+				gc.setColor(1,1,1)
+				gc.draw(IMG.lock,59,75+40*i)
+			end
+			gc.setColor(.9,.9,1)
+			gc.print(scrollPos+i,95,66+40*i)
+			gc.setColor(1,1,.7)
+			gc.print(R.name,250,66+40*i)
 			gc.setColor(1,1,1)
-			gc.draw(IMG.lock,64,75+40*i)
+			gc.printf(R.type,550,66+40*i,500,"right")
+			gc.print(R.count.."/"..R.capacity,1100,66+40*i)
 		end
-		gc.setColor(.9,.9,1)
-		gc.print(scrollPos+i,100,66+40*i)
-		gc.setColor(1,1,.7)
-		gc.print(R.name,200,66+40*i)
-		gc.setColor(1,1,1)
-		gc.printf(R.type,500,66+40*i,500,"right")
-		gc.print(R.count.."/"..R.capacity,1050,66+40*i)
 	end
 end
 
 scene.widgetList={
 	WIDGET.newText{name="refreshing",x=640,y=260,font=65,hide=function()return not NET.getLock("fetchRoom")end},
-	WIDGET.newText{name="noRoom",	x=640,y=260,font=65,hide=function()return #NET.roomList>0 or NET.getLock("fetchRoom")end},
+	WIDGET.newText{name="noRoom",	x=640,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getLock("fetchRoom")end},
 	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=40,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey"n"},
 	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=function()return #NET.roomList==0 end},
