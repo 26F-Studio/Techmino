@@ -208,17 +208,22 @@ function scene.socketRead(cmd,data)
 			resetGameData("qn")
 		end
 	elseif cmd=="Ready"then
-		local L=PLY_ALIVE
-		for i=1,#L do
-			if L[i].subID==data.uid then
-				L[i].ready=true
-				SFX.play("reach",.6)
-				break
+		if data.uid==USER.id then
+			PLAYERS[1].ready=true
+			SFX.play("reach",.6)
+		else
+			for i=1,#PLAYERS do
+				if PLAYERS[i].userID==data.uid then
+					PLAYERS[i].ready=true
+					SFX.play("reach",.6)
+					break
+				end
 			end
 		end
 	elseif cmd=="Set"then
 		NET.rsid=data.rid
 		NET.wsConnectStream()
+		TASK.new(NET.updateWS_stream)
 	elseif cmd=="Begin"then
 		if not playing then
 			playing=true
@@ -235,9 +240,13 @@ function scene.socketRead(cmd,data)
 	elseif cmd=="Die"then
 		LOG.print("One player failed",COLOR.sky)
 	elseif cmd=="Stream"then
-		if playing and data.uid~=PLAYERS[1].subID then
+		if data.uid==USER.id then
+			LOG.print("SELF STREAM")
+			return
+		end
+		if playing then
 			for _,P in next,PLAYERS do
-				if P.subID==data.uid then
+				if P.userID==data.uid then
 					local res,stream=pcall(love.data.decode,"string","base64",data.stream)
 					if res then
 						pumpRecording(stream,P.stream)
