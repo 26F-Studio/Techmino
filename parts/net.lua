@@ -297,7 +297,7 @@ function NET.updateWS_play()
 								local d=res.data
 								table.insert(PLY_NET,{
 									conf=dumpBasicConfig(),
-									username=USER.name,
+									name=USER.name,
 									uid=USER.id,
 									sid=d.sid,
 									ready=d.ready,

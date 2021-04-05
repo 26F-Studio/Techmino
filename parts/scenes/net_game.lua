@@ -155,7 +155,7 @@ function scene.socketRead(cmd,data)
 				ins(PLY_NET,{
 					sid=p.sid,
 					uid=p.uid,
-					username=p.username,
+					name=p.username,
 					conf=p.config,
 					ready=p.ready,
 				})
@@ -164,7 +164,7 @@ function scene.socketRead(cmd,data)
 			ins(PLY_NET,{
 				sid=data.sid,
 				uid=data.uid,
-				username=data.username,
+				name=data.username,
 				conf=data.config,
 				ready=data.ready,
 			})
