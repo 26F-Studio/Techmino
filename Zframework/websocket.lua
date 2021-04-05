@@ -4,6 +4,8 @@ local host="hdustea.3322.org"
 local port="10026"
 local path="/tech/socket/v1"
 
+local debug=false
+
 local wsThread=[[
 -- lua + love2d threading websocket client
 -- Original pure lua ver. by flaribbit and Particle_G
@@ -157,10 +159,10 @@ while true do--Running
 				--Receive data
 				local s,_,p=SOCK:receive(length)
 				if s then
-					-- print(("%s[%d]:%s"):format(threadName,length,s))
+					]]..(debug==1 and""or"--")..[[print(("%s[%d]:%s"):format(threadName,length,s))
 					res=s
 				elseif p then--UNF head
-					-- print(("%s[%d/%d]:%s"):format(threadName,#p,length,p))
+					]]..(debug==1 and""or"--")..[[print(("%s[%d/%d]:%s"):format(threadName,#p,length,p))
 					UFF=true
 					sBuffer=sBuffer..p
 					length=length-#p
@@ -183,21 +185,21 @@ while true do--Running
 			elseif op==0 then--0=continue
 				lBuffer=lBuffer..res
 				if fin then
-							-- print("FIN=1 (c")
+					]]..(debug==2 and""or"--")..[[print("FIN=1 (c")
 					readCHN:push(lBuffer)
 					lBuffer=""
 				else
-							-- print("FIN=0 (c")
+					]]..(debug==2 and""or"--")..[[print("FIN=0 (c")
 				end
 			else
 				readCHN:push(op)
 				if fin then
-							-- print("OP: "..op.."\tFIN=1")
+					]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=1")
 					readCHN:push(res)
 				else
-							-- print("OP: "..op.."\tFIN=0")
+					]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=0")
 					sBuffer=res
-							-- print("START pack: "..res)
+					]]..(debug==2 and""or"--")..[[print("START pack: "..res)
 				end
 			end
 		end
