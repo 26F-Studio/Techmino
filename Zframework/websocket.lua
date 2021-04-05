@@ -62,8 +62,8 @@ do--Connect
 		else
 			res,err=SOCK:receive(ctLen)
 			if not res then readCHN:push(err)return end
-			local reason=JSON.decode(res)
-			readCHN:push((code or"XXX")..":"..(reason and reason.message or"Server Error"))
+			res=JSON.decode(res)
+			readCHN:push((code or"XXX")..":"..(res and res.reason or"Server Error"))
 		end
 	end
 	SOCK:settimeout(0)
@@ -175,8 +175,8 @@ while true do--Running
 				readCHN:push(op)
 				SOCK:close()
 				if type(res)=="string"then
-					local reason=JSON.decode(res)
-					readCHN:push(reason and reason.message or"WS Error")
+					res=JSON.decode(res)
+					readCHN:push(res and res.reason or"WS Error")
 				else
 					readCHN:push("WS Error")
 				end

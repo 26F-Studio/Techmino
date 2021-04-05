@@ -5,6 +5,7 @@ local NET={
 	roomList={},
 	accessToken=false,
 	rid=false,
+	rsid=false,
 }
 
 local mesType={
@@ -163,9 +164,9 @@ end
 function NET.wsConnectStream()
 	if _lock("connectStream")then
 		WS.connect("stream","/stream",JSON.encode{
-			id=USER.id,
+			uid=USER.id,
 			accessToken=NET.accessToken,
-			rid=NET.rid,
+			rid=NET.rsid,
 		})
 	end
 end
@@ -288,7 +289,7 @@ function NET.updateWS_play()
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 							_unlock("fetchRoom")
-						-- elseif res.action==1 then
+						elseif res.action==1 then--Create room (not used)
 						elseif res.action==2 then--Player join
 							if res.type=="Self"then
 								--Create room
@@ -308,6 +309,7 @@ function NET.updateWS_play()
 							SCN.socketRead("Ready",res.data)
 							_unlock("ready")
 						elseif res.action==7 then--All ready
+						elseif res.action==8 then--Sure ready
 							SCN.socketRead("Set",res.data)
 						end
 					else
@@ -340,9 +342,13 @@ function NET.updateWS_stream()
 							SCN.socketRead("Begin",res.data)
 						elseif res.action==1 then--Game finished
 							SCN.socketRead("Finish",res.data)
-						elseif res.action==2 then--Player died
+						elseif res.action==2 then--Player join
+							--?
+						elseif res.action==3 then--Player leave
+							--?
+						elseif res.action==4 then--Player died
 							SCN.socketRead("Die",res.data)
-						elseif res.action==3 then--Receive stream
+						elseif res.action==5 then--Receive stream
 							SCN.socketRead("Stream",res.data)
 						end
 					else

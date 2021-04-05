@@ -1,4 +1,3 @@
-local data=love.data
 local gc=love.graphics
 local tc=love.touch
 
@@ -142,19 +141,24 @@ function scene.gamepadUp(key)
 	end
 end
 
-function scene.socketRead(cmd,args)
+function scene.socketRead(cmd,data)
 	if cmd=="Join"then
 		if playerInitialized then
-			local L=SPLITSTR(args[1],",")
 			textBox:push{
-				COLOR.lR,L[1],
-				COLOR.dY,"#"..L[2].." ",
+				COLOR.lR,data.username,
+				COLOR.dY,"#"..data.uid.." ",
 				COLOR.Y,text.joinRoom,
 			}
 		end
-		for i=1,#args do
-			local L=SPLITSTR(args[i],",")
-			ins(PLY_NET,{name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"})
+		local L=data.players
+		for i=1,#L do
+			ins(PLY_NET,{
+				sid=L[i].sid,
+				uid=L[i].uid,
+				username=L[i].username,
+				conf=L[i].config,
+				ready=L[i].ready,
+			})
 		end
 		playerInitialized=true
 		SFX.play("click")
@@ -163,88 +167,84 @@ function scene.socketRead(cmd,args)
 		end
 	elseif cmd=="Leave"then
 		textBox:push{
-			COLOR.lR,args[1],
-			COLOR.dY,"#"..args[2].." ",
+			COLOR.lR,data.username,
+			COLOR.dY,"#"..data.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
 		for i=1,#PLY_NET do
-			if PLY_NET[i].id==args[2]then
+			if PLY_NET[i].id==data.uid then
 				rem(PLY_NET,i)
 				break
 			end
 		end
 		for i=1,#PLAYERS do
-			if PLAYERS[i].userID==args[2]then
+			if PLAYERS[i].userID==data.uid then
 				rem(PLAYERS,i)
 				break
 			end
 		end
 		for i=1,#PLY_ALIVE do
-			if PLY_ALIVE[i].userID==args[2]then
+			if PLY_ALIVE[i].userID==data.uid then
 				rem(PLY_ALIVE,i)
 				break
 			end
 		end
 		initPlayerPosition(true)
 	elseif cmd=="Talk"then
-		local _,text=pcall(data.decode,"string","base64",args[3])
-		if not _ then text=args[3]end
 		textBox:push{
-			COLOR.W,args[1],
-			COLOR.dY,"#"..args[2].." ",
-			COLOR.sky,text
+			COLOR.W,data.username,
+			COLOR.dY,"#"..data.uid.." ",
+			COLOR.sky,data.message or"[_]",
 		}
 	elseif cmd=="Config"then
-		if tostring(USER.id)~=args[2]then
+		if tostring(USER.id)~=data.uid then
 			for i=1,#PLY_NET do
-				if PLY_NET[i].id==args[2]then
-					PLY_NET[i].conf=args[4]
-					PLY_NET[i].p:setConf(args[4])
+				if PLY_NET[i].id==data.uid then
+					PLY_NET[i].conf=data.config
+					PLY_NET[i].p:setConf(data.config)
 					return
 				end
 			end
 			resetGameData("qn")
 		end
-	elseif cmd=="Stream"then
-		if playing and args[1]~=PLAYERS[1].subID then
-			for _,P in next,PLAYERS do
-				if P.subID==args[1]then
-					local _,stream=pcall(data.decode,"string","base64",args[2])
-					if _ then
-						pumpRecording(stream,P.stream)
-					else
-						LOG.print("Bad stream from "..P.userName.."#"..P.userID)
-					end
-				end
-			end
-		end
 	elseif cmd=="Ready"then
 		local L=PLY_ALIVE
 		for i=1,#L do
-			if L[i].subID==args[1]then
+			if L[i].subID==data.uid then
 				L[i].ready=true
 				SFX.play("reach",.6)
 				break
 			end
 		end
 	elseif cmd=="Set"then
+		NET.rsid=data.rid
 		NET.wsConnectStream()
 	elseif cmd=="Begin"then
 		if not playing then
 			playing=true
 			lastUpstreamTime=0
 			upstreamProgress=1
-			resetGameData("n",tonumber(args[1]))
+			resetGameData("n",data.seed)
 		else
 			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
 		end
 	elseif cmd=="Finish"then
 		playing=false
 		resetGameData("n")
-		for i=1,#PLY_NET do
-			if PLY_NET[i].sid==args[1]then
-				TEXT.show(text.champion:gsub("$1",PLY_NET[i].name.."#"..PLY_NET[i].id),640,260,80,"zoomout",.26)
-				break
+		TEXT.show(text.champion:gsub("$1","SOMEBODY"),640,260,80,"zoomout",.26)
+	elseif cmd=="Die"then
+		LOG.print("One player failed",COLOR.sky)
+	elseif cmd=="Stream"then
+		if playing and data.uid~=PLAYERS[1].subID then
+			for _,P in next,PLAYERS do
+				if P.subID==data.uid then
+					local res,stream=pcall(love.data.decode,"string","base64",data.stream)
+					if res then
+						pumpRecording(stream,P.stream)
+					else
+						LOG.print("Bad stream from "..P.userName.."#"..P.userID)
+					end
+				end
 			end
 		end
 	end
