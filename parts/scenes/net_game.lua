@@ -14,7 +14,6 @@ local PLY_NET=PLY_NET
 local hideChatBox
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
 
-local playerInitialized
 local playing
 local lastUpstreamTime
 local upstreamProgress
@@ -31,16 +30,13 @@ end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
 	hideChatBox=true
-	playerInitialized=false
 	textBox:clear()
 
-	while #PLY_NET>0 do rem(PLY_NET)end
 	resetGameData("n")
 	noTouch=not SETTING.VKSwitch
 	playing=false
 	lastUpstreamTime=0
 	upstreamProgress=1
-	heartBeatTimer=0
 end
 
 function scene.touchDown(x,y)

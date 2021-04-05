@@ -537,9 +537,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 		end
 		PLAYERS[i]=nil
 	end
-	for i=#PLY_ALIVE,1,-1 do
-		PLY_ALIVE[i]=nil
-	end
+	TABLE.clear(PLY_ALIVE)
 	collectgarbage()
 end
 function restoreVirtualkey()

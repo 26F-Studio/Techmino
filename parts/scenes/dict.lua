@@ -36,7 +36,7 @@ function scene.sceneInit()
 end
 
 local function clearResult()
-	for _=1,#result do rem(result)end
+	TABLE.clear(result)
 	selected,scrollPos=1,0
 	waiting,lastSearch=0,false
 end
