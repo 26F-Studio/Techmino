@@ -97,7 +97,7 @@ function NET.storeUserInfo(res)
 
 	--Get own name
 	if res.id==USER.id then
-		USER.name=res.name
+		USER.name=res.username
 		FILE.save(USER,"conf/user")
 	end
 
@@ -293,6 +293,15 @@ function NET.updateWS_play()
 						elseif res.action==2 then--Player join
 							if res.type=="Self"then
 								--Create room
+								TABLE.clear(PLY_NET)
+								local d=res.data
+								table.insert(PLY_NET,{
+									conf=dumpBasicConfig(),
+									username=USER.name,
+									uid=USER.id,
+									sid=d.sid,
+									ready=d.ready,
+								})
 								loadGame("netBattle",true,true)
 								_unlock("enterRoom")
 							else

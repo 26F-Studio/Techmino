@@ -150,14 +150,23 @@ function scene.socketRead(cmd,data)
 				COLOR.Y,text.joinRoom,
 			}
 		end
-		local L=data.players
-		for i=1,#L do
+		if data.players then
+			for _,p in next,data.players do
+				ins(PLY_NET,{
+					sid=p.sid,
+					uid=p.uid,
+					username=p.username,
+					conf=p.config,
+					ready=p.ready,
+				})
+			end
+		else
 			ins(PLY_NET,{
-				sid=L[i].sid,
-				uid=L[i].uid,
-				username=L[i].username,
-				conf=L[i].config,
-				ready=L[i].ready,
+				sid=data.sid,
+				uid=data.uid,
+				username=data.username,
+				conf=data.config,
+				ready=data.ready,
 			})
 		end
 		playerInitialized=true

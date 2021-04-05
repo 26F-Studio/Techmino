@@ -134,6 +134,9 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	--Network-related
+	P.userName="_"
+	P.userID=-1
+	P.subID=-1
 	P.ready=false
 
 	P.dropDelay,P.lockDelay=0,0
@@ -404,6 +407,9 @@ function PLY.newPlayer(id,mini)
 	local P=newEmptyPlayer(id,mini)
 	P.type="human"
 	P.sound=true
+
+	P.userID=USER.id
+	P.subID=-1
 
 	loadGameEnv(P)
 	applyGameEnv(P)
