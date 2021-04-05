@@ -40,6 +40,13 @@ function TABLE.add(G,base)
 	end
 end
 
+--Clear the table
+function TABLE.clear(G)
+	for k in next,G do
+		G[k]=nil
+	end
+end
+
 --For all things in G if no val in base, push to base
 function TABLE.complete(G,base)
 	for k,v in next,G do
