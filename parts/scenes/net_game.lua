@@ -1,15 +1,13 @@
 local gc=love.graphics
 local tc=love.touch
 
-local ins,rem=table.insert,table.remove
+local ins=table.insert
 
 local SCR=SCR
 local VK=virtualkey
 local onVirtualkey=onVirtualkey
 local pressVirtualkey=pressVirtualkey
 local updateVirtualkey=updateVirtualkey
-
-local PLY_NET=PLY_NET
 
 local hideChatBox
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
@@ -139,33 +137,11 @@ end
 
 function scene.socketRead(cmd,data)
 	if cmd=="Join"then
-		if playerInitialized then
-			textBox:push{
-				COLOR.lR,data.username,
-				COLOR.dY,"#"..data.uid.." ",
-				COLOR.Y,text.joinRoom,
-			}
-		end
-		if data.players then
-			for _,p in next,data.players do
-				ins(PLY_NET,{
-					sid=p.sid,
-					uid=p.uid,
-					name=p.username,
-					conf=p.config,
-					ready=p.ready,
-				})
-			end
-		else
-			ins(PLY_NET,{
-				sid=data.sid,
-				uid=data.uid,
-				name=data.username,
-				conf=data.config,
-				ready=data.ready,
-			})
-		end
-		playerInitialized=true
+		textBox:push{
+			COLOR.lR,data.username,
+			COLOR.dY,"#"..data.uid.." ",
+			COLOR.Y,text.joinRoom,
+		}
 		SFX.play("click")
 		if not playing then
 			resetGameData("qn")
@@ -176,25 +152,9 @@ function scene.socketRead(cmd,data)
 			COLOR.dY,"#"..data.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
-		for i=1,#PLY_NET do
-			if PLY_NET[i].id==data.uid then
-				rem(PLY_NET,i)
-				break
-			end
+		if not playing then
+			initPlayerPosition(true)
 		end
-		for i=1,#PLAYERS do
-			if PLAYERS[i].userID==data.uid then
-				rem(PLAYERS,i)
-				break
-			end
-		end
-		for i=1,#PLY_ALIVE do
-			if PLY_ALIVE[i].userID==data.uid then
-				rem(PLY_ALIVE,i)
-				break
-			end
-		end
-		initPlayerPosition(true)
 	elseif cmd=="Talk"then
 		textBox:push{
 			COLOR.W,data.username,

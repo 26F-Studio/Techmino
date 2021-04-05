@@ -1,4 +1,5 @@
 local data=love.data
+local ins,rem=table.insert,table.remove
 local NET={
 	login=false,
 	allow_online=false,
@@ -294,21 +295,49 @@ function NET.updateWS_play()
 							if res.type=="Self"then
 								--Create room
 								TABLE.clear(PLY_NET)
-								local d=res.data
-								table.insert(PLY_NET,{
-									conf=dumpBasicConfig(),
-									name=USER.name,
-									uid=USER.id,
-									sid=d.sid,
-									ready=d.ready,
-								})
+								if data.players then
+									for _,p in next,data.players do
+										ins(PLY_NET,{
+											sid=p.sid,
+											uid=p.uid,
+											name=p.username,
+											conf=p.config,
+											ready=p.ready,
+										})
+									end
+								end
 								loadGame("netBattle",true,true)
 								_unlock("enterRoom")
 							else
-								--Others join room
+								--Load other players
+								ins(PLY_NET,{
+									sid=data.sid,
+									uid=data.uid,
+									name=data.username,
+									conf=data.config,
+									ready=data.ready,
+								})
 								SCN.socketRead("Join",res.data)
 							end
 						elseif res.action==3 then--Player leave
+							for i=1,#PLY_NET do
+								if PLY_NET[i].id==data.uid then
+									rem(PLY_NET,i)
+									break
+								end
+							end
+							for i=1,#PLAYERS do
+								if PLAYERS[i].userID==data.uid then
+									rem(PLAYERS,i)
+									break
+								end
+							end
+							for i=1,#PLY_ALIVE do
+								if PLY_ALIVE[i].userID==data.uid then
+									rem(PLY_ALIVE,i)
+									break
+								end
+							end
 							SCN.socketRead("Leave",res.data)
 						elseif res.action==4 then--Player talk
 							SCN.socketRead("Talk",res.data)
