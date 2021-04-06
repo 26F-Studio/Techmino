@@ -292,18 +292,19 @@ function NET.updateWS_play()
 							_unlock("fetchRoom")
 						elseif res.action==1 then--Create room (not used)
 						elseif res.action==2 then--Player join
+							local d=res.data
 							if res.type=="Self"then
 								--Create room
 								TABLE.clear(PLY_NET)
 								ins(PLY_NET,{
 									uid=USER.uid,
 									username=USER.username,
-									sid=data.sid,
-									ready=data.ready,
+									sid=d.sid,
+									ready=d.ready,
 									conf=dumpBasicConfig(),
 								})
-								if data.players then
-									for _,p in next,data.players do
+								if d.players then
+									for _,p in next,d.players do
 										ins(PLY_NET,{
 											uid=p.uid,
 											username=p.username,
@@ -318,11 +319,11 @@ function NET.updateWS_play()
 							else
 								--Load other players
 								ins(PLY_NET,{
-									uid=data.uid,
-									username=data.username,
-									sid=data.sid,
-									ready=data.ready,
-									conf=data.config,
+									uid=d.uid,
+									username=d.username,
+									sid=d.sid,
+									ready=d.ready,
+									conf=d.config,
 								})
 								SCN.socketRead("Join",res.data)
 							end
