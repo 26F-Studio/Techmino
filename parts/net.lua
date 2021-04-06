@@ -295,6 +295,13 @@ function NET.updateWS_play()
 							if res.type=="Self"then
 								--Create room
 								TABLE.clear(PLY_NET)
+								ins(PLY_NET,{
+									uid=USER.id,
+									name=USER.name,
+									conf=dumpBasicConfig(),
+									sid=data.sid,
+									ready=data.ready,
+								})
 								if data.players then
 									for _,p in next,data.players do
 										ins(PLY_NET,{
@@ -321,7 +328,7 @@ function NET.updateWS_play()
 							end
 						elseif res.action==3 then--Player leave
 							for i=1,#PLY_NET do
-								if PLY_NET[i].id==data.uid then
+								if PLY_NET[i].uid==data.uid then
 									rem(PLY_NET,i)
 									break
 								end

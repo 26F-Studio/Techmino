@@ -10,7 +10,7 @@ return{
 		PLY.newPlayer(1)
 		local N=2
 		for i=1,#PLY_NET do
-			if PLY_NET[i].id==tostring(USER.id)then
+			if PLY_NET[i].uid==USER.id then
 				PLAYERS[1].subID=PLY_NET[1].sid
 			else
 				PLY.newRemotePlayer(N,false,PLY_NET[i])

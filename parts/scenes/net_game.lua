@@ -164,7 +164,7 @@ function scene.socketRead(cmd,data)
 	elseif cmd=="Config"then
 		if tostring(USER.id)~=data.uid then
 			for i=1,#PLY_NET do
-				if PLY_NET[i].id==data.uid then
+				if PLY_NET[i].uid==data.uid then
 					PLY_NET[i].conf=data.config
 					PLY_NET[i].p:setConf(data.config)
 					return
