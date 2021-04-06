@@ -956,7 +956,7 @@ do--function saveRecording()
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			GAME.curModeName.."\n"..
 			VERSION_NAME.."\n"..
-			(USER.name or"Player")
+			(USER.username or"Player")
 		local fileBody=
 			GAME.seed.."\n"..
 			JSON.encode(GAME.setting).."\n"..

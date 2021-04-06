@@ -222,8 +222,8 @@ GAME={--Global game data
 RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
 USER=FILE.load("conf/user")or{--User infomation
 	--Network infos
-	name=false,
-	id=false,
+	username=false,
+	uid=false,
 	authToken=false,
 
 	--Local data

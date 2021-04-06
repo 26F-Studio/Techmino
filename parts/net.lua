@@ -77,7 +77,7 @@ function NET.getUserInfo(id,ifDetail)
 	WS.send("user",JSON.encode{
 		action=1,
 		data={
-			id=id or USER.id,
+			id=id or USER.uid,
 			detailed=ifDetail or false,
 		},
 	})
@@ -97,8 +97,8 @@ function NET.storeUserInfo(res)
 	end
 
 	--Get own name
-	if res.id==USER.id then
-		USER.name=res.username
+	if res.id==USER.uid then
+		USER.username=res.username
 		FILE.save(USER,"conf/user")
 	end
 
@@ -124,7 +124,7 @@ function NET.createRoom()
 			action=1,
 			data={
 				type="classic",
-				name=(USER.name or"???").."'s room",
+				name=(USER.username or"???").."'s room",
 				password=nil,
 				config=dumpBasicConfig(),
 			}
@@ -149,7 +149,7 @@ end
 function NET.wsConnectPlay()
 	if _lock("connectPlay")then
 		WS.connect("play","/play",JSON.encode{
-			id=USER.id,
+			id=USER.uid,
 			accessToken=NET.accessToken,
 		})
 	end
@@ -165,7 +165,7 @@ end
 function NET.wsConnectStream()
 	if _lock("connectStream")then
 		WS.connect("stream","/stream",JSON.encode{
-			uid=USER.id,
+			uid=USER.uid,
 			accessToken=NET.accessToken,
 			rid=NET.rsid,
 		})
@@ -243,7 +243,7 @@ function NET.updateWS_user()
 						if res.type=="Connect"then
 							NET.login=true
 							if res.id then
-								USER.id=res.id
+								USER.uid=res.id
 								USER.authToken=res.authToken
 								FILE.save(USER,"conf/user","q")
 								SCN.back()
@@ -251,7 +251,7 @@ function NET.updateWS_user()
 							LOG.print(text.loginSuccessed)
 
 							--Get self infos
-							NET.getUserInfo(USER.id)
+							NET.getUserInfo(USER.uid)
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
@@ -296,8 +296,8 @@ function NET.updateWS_play()
 								--Create room
 								TABLE.clear(PLY_NET)
 								ins(PLY_NET,{
-									uid=USER.id,
-									name=USER.name,
+									uid=USER.uid,
+									name=USER.username,
 									conf=dumpBasicConfig(),
 									sid=data.sid,
 									ready=data.ready,

@@ -408,7 +408,7 @@ function PLY.newPlayer(id,mini)
 	P.type="human"
 	P.sound=true
 
-	P.userID=USER.id
+	P.userID=USER.uid
 	P.subID=-1
 
 	loadGameEnv(P)

@@ -162,7 +162,7 @@ function scene.socketRead(cmd,data)
 			COLOR.sky,data.message or"[_]",
 		}
 	elseif cmd=="Config"then
-		if tostring(USER.id)~=data.uid then
+		if tostring(USER.uid)~=data.uid then
 			for i=1,#PLY_NET do
 				if PLY_NET[i].uid==data.uid then
 					PLY_NET[i].conf=data.config
@@ -173,7 +173,7 @@ function scene.socketRead(cmd,data)
 			resetGameData("qn")
 		end
 	elseif cmd=="Ready"then
-		if data.uid==USER.id then
+		if data.uid==USER.uid then
 			PLAYERS[1].ready=true
 			SFX.play("reach",.6)
 		else
@@ -205,7 +205,7 @@ function scene.socketRead(cmd,data)
 	elseif cmd=="Die"then
 		LOG.print("One player failed",COLOR.sky)
 	elseif cmd=="Stream"then
-		if data.uid==USER.id then
+		if data.uid==USER.uid then
 			LOG.print("SELF STREAM")
 			return
 		end
