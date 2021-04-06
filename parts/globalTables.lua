@@ -299,7 +299,7 @@ SETTING={--Settings
 	VKAlpha=.3,
 }
 local S=FILE.load("conf/settings")
-if S then TABLE.add(S,SETTING)end
+if S then TABLE.update(S,SETTING)end
 S=FILE.load("conf/data")
 if S then--Statistics
 	STAT=S

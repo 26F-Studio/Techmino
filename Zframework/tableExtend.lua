@@ -28,22 +28,15 @@ function TABLE.copy(org)
 end
 
 --For all things in G if same type in base, push to base
-function TABLE.add(G,base)
+function TABLE.update(G,base)
 	for k,v in next,G do
 		if type(v)==type(base[k])then
 			if type(v)=="table"then
-				TABLE.add(v,base[k])
+				TABLE.update(v,base[k])
 			else
 				base[k]=v
 			end
 		end
-	end
-end
-
---Clear the table
-function TABLE.clear(G)
-	for k in next,G do
-		G[k]=nil
 	end
 end
 
@@ -55,6 +48,20 @@ function TABLE.complete(G,base)
 		elseif type(v)=="table"and type(base[k])=="table"then
 			TABLE.complete(v,base[k])
 		end
+	end
+end
+
+--Remove positive integer index of table
+function TABLE.cut(G)
+	for i=#G,1,-1 do
+		G[i]=nil
+	end
+end
+
+--Clear table
+function TABLE.clear(G)
+	for k in next,G do
+		G[k]=nil
 	end
 end
 
