@@ -149,7 +149,7 @@ end
 function NET.wsConnectPlay()
 	if _lock("connectPlay")then
 		WS.connect("play","/play",JSON.encode{
-			id=USER.uid,
+			uid=USER.uid,
 			accessToken=NET.accessToken,
 		})
 	end

@@ -183,7 +183,7 @@ local loadingThread=coroutine.wrap(function()
 	WS.connect("app","/app")
 	if USER.authToken then
 		WS.connect("user","/user",JSON.encode{
-			id=USER.uid,
+			uid=USER.uid,
 			authToken=USER.authToken,
 		})
 	end
