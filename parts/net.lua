@@ -297,19 +297,19 @@ function NET.updateWS_play()
 								TABLE.clear(PLY_NET)
 								ins(PLY_NET,{
 									uid=USER.uid,
-									name=USER.username,
-									conf=dumpBasicConfig(),
+									username=USER.username,
 									sid=data.sid,
 									ready=data.ready,
+									conf=dumpBasicConfig(),
 								})
 								if data.players then
 									for _,p in next,data.players do
 										ins(PLY_NET,{
-											sid=p.sid,
 											uid=p.uid,
-											name=p.username,
-											conf=p.config,
+											username=p.username,
+											sid=p.sid,
 											ready=p.ready,
+											conf=p.config,
 										})
 									end
 								end
@@ -318,11 +318,11 @@ function NET.updateWS_play()
 							else
 								--Load other players
 								ins(PLY_NET,{
-									sid=data.sid,
 									uid=data.uid,
-									name=data.username,
-									conf=data.config,
+									username=data.username,
+									sid=data.sid,
 									ready=data.ready,
+									conf=data.config,
 								})
 								SCN.socketRead("Join",res.data)
 							end

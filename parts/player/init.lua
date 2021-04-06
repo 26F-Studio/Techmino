@@ -383,12 +383,12 @@ function PLY.newRemotePlayer(id,mini,data)
 	P.streamProgress=1
 
 	data.p=P
-	P.userName=data.name
 	P.userID=data.uid
+	P.userName=data.username
 	P.subID=data.sid
 	P.ready=data.ready
-
 	loadRemoteEnv(P,data.conf)
+
 	applyGameEnv(P)
 end
 
