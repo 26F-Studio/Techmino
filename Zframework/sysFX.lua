@@ -1,5 +1,6 @@
 local gc=love.graphics
 local setColor,setWidth=gc.setColor,gc.setLineWidth
+local sin,cos=math.sin,math.cos
 local max,min=math.max,math.min
 local rnd=math.random
 local rem=table.remove
@@ -77,8 +78,13 @@ function FXdraw.tap(S)
 	gc.circle("line",S.x,S.y,t*(2-t)*30)
 	setColor(1,1,1,(1-t)*.5)
 	gc.circle("fill",S.x,S.y,t*30)
-	setColor(1,1,1,(1-t)*.2)
-	gc.circle("fill",S.x,S.y,(t*(1-t)*2)*30)
+
+	setColor(1,1,1,1-t)
+	for i=1,10 do
+		local p=S.ptc[i]
+		local T=t^.5
+		gc.rectangle("fill",p[1]*(1-T)+p[3]*T-5,p[2]*(1-T)+p[4]*T-5,11,11)
+	end
 end
 function FXdraw.ripple(S)
 	local t=S.t
@@ -142,13 +148,21 @@ function SYSFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 	}
 end
 function SYSFX.newTap(rate,x,y)
-	fx[#fx+1]={
+	local T=
+	{
 		update=FXupdate.tap,
 		draw=FXdraw.tap,
 		t=0,
 		rate=rate,
 		x=x,y=y,
+		ptc={},
 	}
+	for i=1,10 do
+		local d=40+50*rnd()
+		local ang=rnd()*6.2832
+		T.ptc[i]={x,y,x+d*cos(ang),y+d*sin(ang)}
+	end
+	fx[#fx+1]=T
 end
 function SYSFX.newRipple(rate,x,y,r)
 	fx[#fx+1]={
