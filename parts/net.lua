@@ -83,12 +83,12 @@ function NET.getUserInfo(id,ifDetail)
 	})
 end
 function NET.storeUserInfo(res)
-	local user=USERS[res.id]
+	local user=USERS[res.uid]
 	if not user then
 		user={}
 		user.email=res.email
 		user.name=res.username
-		USERS[res.id]=user
+		USERS[res.uid]=user
 	else
 		user.email=res.email
 		user.name=res.username
@@ -97,7 +97,7 @@ function NET.storeUserInfo(res)
 	end
 
 	--Get own name
-	if res.id==USER.uid then
+	if res.uid==USER.uid then
 		USER.username=res.username
 		FILE.save(USER,"conf/user")
 	end
@@ -242,8 +242,8 @@ function NET.updateWS_user()
 					if res then
 						if res.type=="Connect"then
 							NET.login=true
-							if res.id then
-								USER.uid=res.id
+							if res.uid then
+								USER.uid=res.uid
 								USER.authToken=res.authToken
 								FILE.save(USER,"conf/user","q")
 								SCN.back()
