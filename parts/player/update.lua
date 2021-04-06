@@ -131,7 +131,7 @@ function update.alive(P,dt)
 	end
 
 	if GAME.modeEnv.royaleMode then
-		v=P.swappingAtkMode
+		local v=P.swappingAtkMode
 		if P.keyPressing[9]then
 			P.swappingAtkMode=min(v+2,30)
 		else
