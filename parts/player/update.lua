@@ -406,7 +406,7 @@ function update.remote_alive(P,dt)
 					end
 				elseif event>0x1000000000000 then--Receiving lines
 					local L=PLY_ALIVE
-					local sid=tostring(event%0x100)
+					local sid=event%0x100
 					for i=1,#L do
 						if L[i].subID==sid then
 							P:receive(
