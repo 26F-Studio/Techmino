@@ -23,12 +23,7 @@ SAVEDIR=fs.getSaveDirectory()
 --Global Vars & Settings
 LOADED=false
 DAILYLAUNCH=false
-LOGIN=false
 EDITING=""
-NET={
-	allow_online=false,
-	try_enter_netmenu=false,
-}
 ERRDATA={}
 
 --System setting
@@ -81,6 +76,7 @@ require"parts.gametoolfunc"
 SCR.setSize(1280,720)--Initialize Screen size
 FIELD[1]=newBoard()--Initialize field[1]
 
+NET=		require"parts.net"
 AIBUILDER=	require"parts.AITemplate"
 FREEROW=	require"parts.freeRow"
 
@@ -113,14 +109,14 @@ IMG.init{
 	pay1="mess/pay1.png",
 	pay2="mess/pay2.png",
 
-	miyaCH="miya/ch.png",
-	miyaF1="miya/f1.png",
-	miyaF2="miya/f2.png",
-	miyaF3="miya/f3.png",
-	miyaF4="miya/f4.png",
-
-	electric="mess/electric.png",
-	hbm="mess/hbm.png",
+	nakiCH="characters/naki.png",
+	miyaCH="characters/miya.png",
+	miyaF1="characters/miya_f1.png",
+	miyaF2="characters/miya_f2.png",
+	miyaF3="characters/miya_f3.png",
+	miyaF4="characters/miya_f4.png",
+	electric="characters/electric.png",
+	hbm="characters/hbm.png",
 
 	lanterns={
 		"lanterns/1.png",
@@ -259,14 +255,12 @@ do
 	if type(STAT.version)~="number"then
 		STAT.version=0
 	end
-	if STAT.version<1204 then
+	if STAT.version<1300 then
 		STAT.frame=math.floor(STAT.time*60)
 		STAT.lastPlay="sprint_10l"
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 		needSave=true
-	end
-	if STAT.version<1300 then
 		for _,name in next,fs.getDirectoryItems("replay")do
 			fs.remove("replay/"..name)
 		end
@@ -274,13 +268,15 @@ do
 	if STAT.version<1302 then
 		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
 		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
-		fs.remove("conf/user")
 		fs.remove("conf/settings")
+		needSave=true
 		autoRestart=true
 	end
-	if STAT.version<1303 then
+	if STAT.version<1400 then
+		fs.remove("conf/user")
 		SETTING.appLock=false
 		needSave=true
+		autoRestart=true
 	end
 
 	for _,v in next,VK_org do

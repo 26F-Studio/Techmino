@@ -75,7 +75,6 @@ return{
 	needUpdate="此功能需要更新游戏!",
 	notFinished="暂未完成,敬请期待!",
 
-	httpCode="Http码",
 	jsonError="json错误",
 
 	noUsername="请填写用户名",
@@ -90,10 +89,8 @@ return{
 	accessFailed="身份验证失败",
 	wsSuccessed="WS连接成功",
 	wsFailed="WS连接失败",
-	wsDisconnected="WS连接断开",
-	wsNoConn="WS未连接",
 	wsClose="WS被断开: ",
-	waitNetTask="正在连接,请稍候",
+	netTimeout="网络连接超时",
 
 	createRoomTooFast="创建房间太快啦,等等吧",
 	createRoomSuccessed="创建房间成功!",
@@ -106,7 +103,6 @@ return{
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
 
-	noRooms="一个房间都没有哎...",
 	roomsCreateFailed="创建房间失败",
 	roomsFetchFailed="拉取房间列表失败",
 
@@ -177,7 +173,7 @@ return{
 		"",
 		"使用LOVE2D引擎",
 		"错误或者建议请附带截图发送到内测群或者作者邮箱~",
-		"仅通过内测群1127702001进行免费下载/更新",
+		"仅通过内测qq群/discord群进行免费下载/更新",
 		"其他渠道获得游戏皆有被修改/加广告/植入病毒的风险,程序只申请了振动&联网权限!",
 		"若由于被修改的本游戏产生的各种损失作者不负责(我怎么负责啊跟我有啥关系)",
 		"请从正规途径获得最新版,游戏现为免费,不过有打赏当然感谢啦~",
@@ -209,7 +205,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="支持作者",
-	group="官方QQ群(如果没有被暗改的话就是这个):913154753",
+	group="官方QQ群:913154753",
 	WidgetText={
 		main={
 			offline="单机游戏",
@@ -252,7 +248,9 @@ return{
 			chat="聊天室",
 		},
 		net_rooms={
-			fresh="刷新",
+			refreshing="刷新房间列表中",
+			noRoom="一个房间都没有哎...",
+			refresh="刷新",
 			new="创建房间",
 			join="加入",
 			up="↑",

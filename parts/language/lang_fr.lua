@@ -76,7 +76,6 @@ return{
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 
-	httpCode="Code de statut Http",
 	jsonError="Erreur json",
 
 	noUsername="Entrez votre nom d'utilisateur",
@@ -91,10 +90,8 @@ return{
 	accessFailed="Autorisation échouée",
 	wsSuccessed="WebSocket: connecté",
 	wsFailed="WebSocket: connection échouée",
-	wsDisconnected="WebSocket: déconnecté",
-	wsNoConn="WebSocket: vous n'êtes pas connecté",
-	wsError="Erreur WebSocket : ",
-	waitNetTask="Connexion, veuillez patienter",
+	-- wsClose="WebSocket Closed: ",
+	-- netTimeout="Network connection timeout",
 
 	createRoomTooFast="Vous avez créé un salon trop rapidement !",
 	createRoomSuccessed="Salon créé avec succès !",
@@ -107,7 +104,6 @@ return{
 	chatStart="--------Début des logs--------",
 	chatHistory="-Nouveaux messages en dessous-",
 
-	noRooms="Aucun salon actuellement",
 	roomsCreateFailed="Echec de la création du salon",
 	roomsFetchFailed="Echec de la récupération des salons",
 
@@ -186,7 +182,7 @@ return{
 		simple-love-lights [dylhunn]
 	]],
 	support="Aider le créateur",
-	group="Groupe QQ officiel (si non piraté) : 913154753",
+	group="Groupe QQ officiel : 913154753",
 	WidgetText={
 		main={
 			-- offline="Solo",
@@ -225,8 +221,9 @@ return{
 			chat="Chat",
 		},
 		net_rooms={
-			fresh="Fresh",
-			new="Nouveau salon",
+			-- refreshing="Refreshing Rooms",
+			noRoom="Aucun salon actuellement",
+			-- refresh="Refresh",
 			join="Rejoindre",
 			up="↑",
 			down="↓",

@@ -165,7 +165,7 @@ function love.touchpressed(id,x,y)
 	if SCN.touchDown then SCN.touchDown(x,y)end
 	if kb.hasTextInput()then kb.setTextInput(false)end
 end
-function love.touchmoved(id,x,y,dx,dy)
+function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
@@ -205,7 +205,7 @@ local function noDevkeyPressed(key)
 		LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
 		for _=1,8 do
-			local P=PLAYERS.alive[rnd(#PLAYERS.alive)]
+			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
 			if P~=PLAYERS[1]then
 				P.lastRecv=PLAYERS[1]
 				P:lose()
@@ -382,7 +382,7 @@ function love.errorhandler(msg)
 	love.audio.stop()
 	gc.reset()
 
-	if LOADED and #ERRDATA<5 then
+	if LOADED and #ERRDATA<3 then
 		BG.set("none")
 		local scn=SCN and SCN.cur or"NULL"
 		ERRDATA[#ERRDATA+1]={mes=err,scene=scn}
@@ -444,13 +444,13 @@ function love.errorhandler(msg)
 		end
 	end
 end
-local WSnames={"app","user","chat","play","stream"}
+local WSnames={"app","user","play","stream","chat"}
 local WScolor={
-	{1,0,0,.26},
-	{1,.7,0,.26},
-	{0,.7,1,.26},
-	{0,1,0,.26},
-	{1,1,0,.26}
+	{1,.5,.5,.7},
+	{1,.8,.3,.7},
+	{1,1,.4,.7},
+	{.4,1,.7,.7},
+	{.5,.8,1,.7},
 }
 local devColor={
 	COLOR.white,
@@ -511,7 +511,7 @@ function love.run()
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
 		WIDGET.update()--Widgets animation
 		LOG.update()
-		WS.update()
+		WS.update(dt)
 
 		--DRAW
 		if not MINI()then
@@ -587,22 +587,21 @@ function love.run()
 					for i=1,5 do
 						local status=WS.status(WSnames[i])
 						gc_setColor(WScolor[i])
-						gc_rectangle("fill",0,20*i,-20,-20)
+						gc_rectangle("fill",0,20*i,-80,-20)
 						if status=="dead"then
-							gc_setColor(.8,.8,.8)
+							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
 						elseif status=="connecting"then
-							gc_setColor(.8,.8,.8,.5+.3*sin(t*6.26))
+							gc_setColor(1,1,1,.5+.3*sin(t*6.26))
 							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
 						elseif status=="running"then
-							gc_setColor(.8,.8,.8)
+							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_running,-20,20*i-20)
 						end
-						local lastPongTime=WS.lastPongTime(WSnames[i])
-						if lastPongTime<1 then
-							gc_setColor(1,1,1,1-lastPongTime)
-							gc_rectangle("fill",0,20*i,-20,-20)
-						end
+						local t1,t2,t3=WS.getTimers(WSnames[i])
+						gc_setColor(1,1,1,t1)gc_rectangle("fill",-60,20*i,-20,-20)
+						gc_setColor(0,1,0,t2)gc_rectangle("fill",-40,20*i,-20,-20)
+						gc_setColor(1,0,0,t3)gc_rectangle("fill",-20,20*i,-20,-20)
 					end
 					gc_pop()
 

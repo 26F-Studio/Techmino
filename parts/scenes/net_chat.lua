@@ -3,12 +3,12 @@ local data=love.data
 
 local textBox=WIDGET.newTextBox{name="texts",x=40,y=50,w=1200,h=430}
 local remain--People in chat room
-local heartBeatTimer
 local escapeTimer=0
 
 local function sendMessage()
 	local W=WIDGET.active.input
-	if #W.value>0 and WS.send("chat","T"..data.encode("string","base64",W.value))then
+	if #W.value>0 then
+		NET.sendChatMes(W.value)
 		W.value=""
 	end
 end
@@ -16,7 +16,6 @@ end
 local scene={}
 
 function scene.sceneInit()
-	heartBeatTimer=0
 	remain=false
 
 	local texts=textBox.texts
@@ -30,8 +29,7 @@ function scene.sceneInit()
 	BG.set("none")
 end
 function scene.sceneBack()
-	WS.send("chat","Q")
-	LOG.print(text.wsDisconnected,"warn")
+	NET.quitChat()
 end
 
 function scene.wheelMoved(_,y)
@@ -80,13 +78,6 @@ function scene.socketRead(mes)
 	end
 end
 
-function scene.update(dt)
-	heartBeatTimer=heartBeatTimer+dt
-	if heartBeatTimer>42 then
-		heartBeatTimer=0
-		WS.send("chat","P")
-	end
-end
 function scene.draw()
 	setFont(25)
 	gc.setColor(1,1,1)

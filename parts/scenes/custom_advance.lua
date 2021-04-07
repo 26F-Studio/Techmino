@@ -15,26 +15,26 @@ scene.widgetList={
 	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="grey"},
 
 	--Control
-	WIDGET.newSlider{name="nextCount",	x=200,	y=150,	w=200,unit=6,disp=lnk_CUSval("nextCount"),code=lnk_CUSsto("nextCount")},
-	WIDGET.newSlider{name="holdCount",	x=200,	y=240,	w=200,unit=6,disp=lnk_CUSval("holdCount"),code=lnk_CUSsto("holdCount")},
-	WIDGET.newSwitch{name="infHold",	x=350,	y=340,				disp=lnk_CUSval("infHold"),	code=lnk_CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end},
-	WIDGET.newSwitch{name="phyHold",	x=350,	y=430,				disp=lnk_CUSval("phyHold"),	code=lnk_CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSlider{name="nextCount",	x=200,	y=150,	w=200,unit=6,disp=CUSval("nextCount"),code=CUSsto("nextCount")},
+	WIDGET.newSlider{name="holdCount",	x=200,	y=240,	w=200,unit=6,disp=CUSval("holdCount"),code=CUSsto("holdCount")},
+	WIDGET.newSwitch{name="infHold",	x=350,	y=340,				disp=CUSval("infHold"),	code=CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSwitch{name="phyHold",	x=350,	y=430,				disp=CUSval("phyHold"),	code=CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
 
 	--Rule
-	WIDGET.newSelector{name="fieldH",	x=270,	y=520,	w=260,color="sky",	list=sList.fieldH,		disp=lnk_CUSval("fieldH"),code=lnk_CUSsto("fieldH")},
-	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list=sList.visible,		disp=lnk_CUSval("visible"),code=lnk_CUSsto("visible")},
-	WIDGET.newSelector{name="target",	x=840,	y=160,	w=260,color="green",list=sList.target,		disp=lnk_CUSval("target"),code=lnk_CUSsto("target")},
-	WIDGET.newSelector{name="freshLimit",x=840,	y=260,	w=260,color="purple",list=sList.freshLimit,	disp=lnk_CUSval("freshLimit"),code=lnk_CUSsto("freshLimit")},
-	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list=sList.opponent,	disp=lnk_CUSval("opponent"),code=lnk_CUSsto("opponent")},
-	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="red",	list=sList.life,		disp=lnk_CUSval("life"),code=lnk_CUSsto("life")},
-	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list=sList.pushSpeed,	disp=lnk_CUSval("pushSpeed"),code=lnk_CUSsto("pushSpeed")},
+	WIDGET.newSelector{name="fieldH",	x=270,	y=520,	w=260,color="sky",	list=sList.fieldH,		disp=CUSval("fieldH"),code=CUSsto("fieldH")},
+	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list=sList.visible,		disp=CUSval("visible"),code=CUSsto("visible")},
+	WIDGET.newSelector{name="target",	x=840,	y=160,	w=260,color="green",list=sList.target,		disp=CUSval("target"),code=CUSsto("target")},
+	WIDGET.newSelector{name="freshLimit",x=840,	y=260,	w=260,color="purple",list=sList.freshLimit,	disp=CUSval("freshLimit"),code=CUSsto("freshLimit")},
+	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list=sList.opponent,	disp=CUSval("opponent"),code=CUSsto("opponent")},
+	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="red",	list=sList.life,		disp=CUSval("life"),code=CUSsto("life")},
+	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list=sList.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")},
 
-	WIDGET.newSwitch{name="ospin",		x=870,	y=350,	font=30,disp=lnk_CUSval("ospin"),	code=lnk_CUSrev("ospin")},
-	WIDGET.newSwitch{name="fineKill",	x=870,	y=530,	font=20,disp=lnk_CUSval("fineKill"),code=lnk_CUSrev("fineKill")},
-	WIDGET.newSwitch{name="b2bKill",	x=870,	y=620,	font=20,disp=lnk_CUSval("b2bKill"),	code=lnk_CUSrev("b2bKill")},
-	WIDGET.newSwitch{name="easyFresh",	x=1160,	y=350,	font=20,disp=lnk_CUSval("easyFresh"),code=lnk_CUSrev("easyFresh")},
-	WIDGET.newSwitch{name="deepDrop",	x=1160,	y=440,	font=30,disp=lnk_CUSval("deepDrop"),code=lnk_CUSrev("deepDrop")},
-	WIDGET.newSwitch{name="bone",		x=1160,	y=530,	disp=lnk_CUSval("bone"),			code=lnk_CUSrev("bone")},
+	WIDGET.newSwitch{name="ospin",		x=870,	y=350,	font=30,disp=CUSval("ospin"),	code=CUSrev("ospin")},
+	WIDGET.newSwitch{name="fineKill",	x=870,	y=530,	font=20,disp=CUSval("fineKill"),code=CUSrev("fineKill")},
+	WIDGET.newSwitch{name="b2bKill",	x=870,	y=620,	font=20,disp=CUSval("b2bKill"),	code=CUSrev("b2bKill")},
+	WIDGET.newSwitch{name="easyFresh",	x=1160,	y=350,	font=20,disp=CUSval("easyFresh"),code=CUSrev("easyFresh")},
+	WIDGET.newSwitch{name="deepDrop",	x=1160,	y=440,	font=30,disp=CUSval("deepDrop"),code=CUSrev("deepDrop")},
+	WIDGET.newSwitch{name="bone",		x=1160,	y=530,	disp=CUSval("bone"),			code=CUSrev("bone")},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=backScene},
 }

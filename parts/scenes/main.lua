@@ -12,15 +12,13 @@ local widgetX0={
 	1290,1290,1290,1290,
 }
 
-local cmdEntryThread=coroutine.create(function()
+local cmdEntryThread=coroutine.wrap(function()
 	while true do
-		while true do
-			if YIELD()~="c"then break end
-			SFX.play("ren_6")
-			if YIELD()~="m"then break end
-			SFX.play("ren_9")
-			if YIELD()~="d"then break end
-			SFX.play("ren_11")
+		if
+			YIELD()=="c"and(SFX.play("ren_6")or 1)and
+			YIELD()=="m"and(SFX.play("ren_9")or 1)and
+			YIELD()=="d"and(SFX.play("ren_11")or 1)
+		then
 			SCN.go("app_cmd")
 		end
 	end
@@ -30,7 +28,7 @@ function scene.sceneInit()
 	scrollX=tipLength
 
 	BG.set()
-	coroutine.resume(cmdEntryThread)
+	cmdEntryThread()
 
 	--Set quick-play-button text
 	scene.widgetList[2].text=text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1]
@@ -43,15 +41,11 @@ function scene.sceneInit()
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
 	PLAYERS[1]:setPosition(520,140,.8)
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.mouseDown(x,y)
 	if x>=520 and x<=760 and y>=140 and y<=620 then
-		coroutine.resume(cmdEntryThread,
+		cmdEntryThread(
 			x<520+80 and y>620-80 and"c"or
 			x>760-80 and y>620-80 and"m"or
 			x<520+80 and y<140+80 and"d"
@@ -77,12 +71,12 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if LOGIN then
+			if NET.login then
 				if not NET.allow_online then
 					TEXT.show(text.needUpdate,640,450,60,"flicker")
 					SFX.play("finesseError")
 				else
-					WS.send("user",JSON.encode{action=0})
+					NET.getAccessToken()
 				end
 			else
 				SCN.go("login")
@@ -125,7 +119,7 @@ function scene.keyDown(key)
 			SCN.back()
 		end
 	else
-		coroutine.resume(cmdEntryThread,key)
+		cmdEntryThread(key)
 	end
 end
 
@@ -183,9 +177,9 @@ scene.widgetList={
 	WIDGET.newButton{name="dict",	x=2480,y=450,w=800,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
 	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
 
-	WIDGET.newButton{name="music",	x=160,y=80,w=200,h=90,		color="lOrange",font=35,					code=pressKey"f2"},
-	WIDGET.newButton{name="lang",	x=1120,y=80,w=200,h=90,		color="lY",		font=40,					code=pressKey"f3"},
-	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color="lB",		font=35,align="R",edge=30,	code=pressKey"f1"},
+	WIDGET.newButton{name="music",	x=160,y=80,w=200,h=90,		color="lOrange",font=35,					code=pressKey"2"},
+	WIDGET.newButton{name="lang",	x=1120,y=80,w=200,h=90,		color="lY",		font=40,					code=pressKey"0"},
+	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color="lB",		font=35,align="R",edge=30,	code=pressKey"x"},
 	WIDGET.newButton{name="quit",	x=1390,y=670,w=600,h=70,	color="lR",		font=40,align="L",edge=30,	code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }
 

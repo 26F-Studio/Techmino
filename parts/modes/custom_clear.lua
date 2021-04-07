@@ -71,7 +71,7 @@ return{
 			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
 
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			setField(P,1)
 		end
 	end,

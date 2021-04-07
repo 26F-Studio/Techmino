@@ -75,7 +75,6 @@ return{
 	needUpdate="Newer version required!",
 	notFinished="Coming soon!",
 
-	httpCode="HTTP status code",
 	jsonError="JSON error",
 
 	noUsername="Please specify a username.",
@@ -90,10 +89,8 @@ return{
 	accessFailed="Access Denied.",
 	wsSuccessed="WebSocket: Connected.",
 	wsFailed="WebSocket: Connection Failed.",
-	wsDisconnected="WebSocket: Disconnected.",
-	wsNoConn="WebSocket: Not Connected.",
 	wsClose="WebSocket Closed: ",
-	waitNetTask="Connecting. Please wait...",
+	netTimeout="Network connection timeout",
 
 	createRoomTooFast="Hold on there! We can't handle this fast!",
 	createRoomSuccessed="Room successfully created!",
@@ -106,7 +103,6 @@ return{
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
 
-	noRooms="Such emptiness much void, come back later?",
 	roomsCreateFailed="Failed to create room.",
 	roomsFetchFailed="Failed to fetch room list.",
 
@@ -252,7 +248,9 @@ return{
 			chat="Chat",
 		},
 		net_rooms={
-			fresh="Reresh",
+			refreshing="Refreshing Rooms",
+			noRoom="Such emptiness much void, come back later?",
+			refresh="Refresh",
 			new="New Room",
 			join="Join",
 			up="↑",

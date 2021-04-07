@@ -75,7 +75,7 @@ end
 local function newEmptyPlayer(id,mini)
 	local P={id=id}
 	PLAYERS[id]=P
-	PLAYERS.alive[id]=P
+	PLY_ALIVE[id]=P
 
 	--Inherit functions of Player class
 	for k,v in next,Player do P[k]=v end
@@ -134,6 +134,9 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	--Network-related
+	P.userName="_"
+	P.userID=-1
+	P.subID=-1
 	P.ready=false
 
 	P.dropDelay,P.lockDelay=0,0
@@ -178,7 +181,7 @@ local function newEmptyPlayer(id,mini)
 	P.type="none"
 	P.sound=false
 
-	-- P.newNext=false--Coroutine to get new next, loaded in applyGameEnv()
+	-- P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
 
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
@@ -312,8 +315,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
-	P.newNext=coroutine.create(getSeqGen(P))
-	assert(coroutine.resume(P.newNext,P,P.gameEnv.seqData))
+	P.newNext=coroutine.wrap(getSeqGen(P))
+	P.newNext(P,P.gameEnv.seqData)
 
 	if P.mini then
 		ENV.lockFX=false
@@ -369,7 +372,7 @@ function PLY.newDemoPlayer(id)
 	}
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,mini,playerData)
+function PLY.newRemotePlayer(id,mini,data)
 	local P=newEmptyPlayer(id,mini)
 	P.type="remote"
 	P.update=PLY.update.remote_alive
@@ -379,13 +382,13 @@ function PLY.newRemotePlayer(id,mini,playerData)
 	P.stream={}
 	P.streamProgress=1
 
-	playerData.p=P
-	P.userName=playerData.name
-	P.userID=playerData.id
-	P.subID=playerData.sid
-	P.ready=playerData.ready
+	data.p=P
+	P.userID=data.uid
+	P.userName=data.username
+	P.subID=data.sid
+	P.ready=data.ready
+	loadRemoteEnv(P,data.conf)
 
-	loadRemoteEnv(P,playerData.conf)
 	applyGameEnv(P)
 end
 
@@ -404,6 +407,9 @@ function PLY.newPlayer(id,mini)
 	local P=newEmptyPlayer(id,mini)
 	P.type="human"
 	P.sound=true
+
+	P.userID=USER.uid
+	P.subID=-1
 
 	loadGameEnv(P)
 	applyGameEnv(P)

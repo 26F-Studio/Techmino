@@ -137,7 +137,8 @@ function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 			SCN.swapping=true
 			local S=SCN.stat
 			S.tar,S.style=tar,style
-			S.time,S.mid,S.draw=unpack(swap[style])
+			local s=swap[style]
+			S.time,S.mid,S.draw=s[1],s[2],s[3]
 		end
 	else
 		LOG.print("No Scene: "..tar,"warn")
@@ -152,6 +153,8 @@ function SCN.go(tar,style)--Normal scene swapping, can back
 	end
 end
 function SCN.back()
+	if SCN.swapping then return end
+
 	--Leave scene
 	if SCN.sceneBack then SCN.sceneBack()end
 

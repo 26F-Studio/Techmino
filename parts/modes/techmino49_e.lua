@@ -59,7 +59,7 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(35)
-		mStr(#PLAYERS.alive.."/49",69,175)
+		mStr(#PLY_ALIVE.."/49",69,175)
 		mStr(P.modeData.ko,80,215)
 		gc.draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
 		setFont(20)

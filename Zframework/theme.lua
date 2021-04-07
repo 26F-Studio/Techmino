@@ -27,6 +27,10 @@ function THEME.calculate(Y,M,D)
 		})[Y-2000]or -26)-((M-1)*31+D))<6 and
 		"sprfes"or
 
+		--April fool's day
+		M=="04"and D=="01"and
+		"fool"or
+
 		--Z day (Feb./Mar./Apr./May./June 26)
 		math.abs(M-4)<=2 and D+0==26 and
 		"zday"or
@@ -53,6 +57,9 @@ function THEME.set(theme)
 	elseif theme=="zday"then
 		BG.setDefault("lanterns")
 		BGM.setDefault("overzero")
+	elseif theme=="fool"then
+		BG.setDefault("blockrain")
+		BGM.setDefault("how feeling")
 	else
 		return
 	end

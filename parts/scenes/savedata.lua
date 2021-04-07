@@ -49,7 +49,7 @@ scene.widgetList={
 	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lBlue",font=25,code=function()
 		local D=parseCB()
 		if D then
-			TABLE.add(D,RANKS)
+			TABLE.update(D,RANKS)
 			FILE.save(RANKS,"conf/unlock")
 			LOG.print(text.importSuccess,"message")
 		else
@@ -59,7 +59,7 @@ scene.widgetList={
 	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,code=function()
 		local D=parseCB()
 		if D and D.version==STAT.version then
-			TABLE.add(D,STAT)
+			TABLE.update(D,STAT)
 			FILE.save(STAT,"conf/data")
 			LOG.print(text.importSuccess,"message")
 		else
@@ -69,7 +69,7 @@ scene.widgetList={
 	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,code=function()
 		local D=parseCB()
 		if D then
-			TABLE.add(D,SETTING)
+			TABLE.update(D,SETTING)
 			FILE.save(SETTING,"conf/settings")
 			LOG.print(text.importSuccess,"message")
 		else
@@ -79,7 +79,7 @@ scene.widgetList={
 	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,code=function()
 		local D=parseCB()
 		if D then
-			TABLE.add(D,VK_org)
+			TABLE.update(D,VK_org)
 			FILE.save(VK_org,"conf/virtualkey")
 			LOG.print(text.importSuccess,"message")
 		else

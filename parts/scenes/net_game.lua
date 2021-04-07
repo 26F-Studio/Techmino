@@ -1,9 +1,7 @@
-local data=love.data
 local gc=love.graphics
 local tc=love.touch
 
-local playerData
-local ins,rem=table.insert,table.remove
+local ins=table.insert
 
 local SCR=SCR
 local VK=virtualkey
@@ -13,14 +11,8 @@ local updateVirtualkey=updateVirtualkey
 
 local hideChatBox
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
-local function switchChat()
-	hideChatBox=not hideChatBox
-end
 
-
-local playerInitialized
 local playing
-local heartBeatTimer
 local lastUpstreamTime
 local upstreamProgress
 local lastBackTime=0
@@ -30,23 +22,19 @@ local touchMoveLastFrame=false
 local scene={}
 
 function scene.sceneBack()
-	WS.send("play","Q")
-	LOG.print(text.wsDisconnected,"warn")
+	NET.signal_quit()
 	love.keyboard.setKeyRepeat(true)
 end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
 	hideChatBox=true
-	playerInitialized=false
 	textBox:clear()
 
-	playerData={}
-	resetGameData("n",playerData)
+	resetGameData("n")
 	noTouch=not SETTING.VKSwitch
 	playing=false
 	lastUpstreamTime=0
 	upstreamProgress=1
-	heartBeatTimer=0
 end
 
 function scene.touchDown(x,y)
@@ -96,7 +84,7 @@ function scene.keyDown(key)
 			LOG.print(text.sureQuit,COLOR.orange)
 		end
 	elseif key=="\\"then
-		switchChat()
+		hideChatBox=not hideChatBox
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -106,8 +94,8 @@ function scene.keyDown(key)
 			VK[k].pressTime=10
 		end
 	elseif key=="space"then
-		if not PLAYERS[1].ready then
-			WS.send("play","R")
+		if not NET.getLock("ready")then
+			NET.signal_ready()
 		end
 	end
 end
@@ -147,77 +135,85 @@ function scene.gamepadUp(key)
 	end
 end
 
-function scene.socketRead(mes)
-	local cmd=mes:sub(1,1)
-	local args=SPLITSTR(mes:sub(2),";")
-	if cmd=="J"then
-		if playerInitialized then
-			local L=SPLITSTR(args[1],",")
-			textBox:push{
-				COLOR.lR,L[1],
-				COLOR.dY,"#"..L[2].." ",
-				COLOR.Y,text.joinRoom,
-			}
-		end
-		for i=1,#args do
-			local L=SPLITSTR(args[i],",")
-			ins(playerData,{name=L[1],id=L[2],sid=L[3],conf=L[4],ready=L[5]=="1"})
-		end
-		playerInitialized=true
+function scene.socketRead(cmd,data)
+	if cmd=="Join"then
+		textBox:push{
+			COLOR.lR,data.username,
+			COLOR.dY,"#"..data.uid.." ",
+			COLOR.Y,text.joinRoom,
+		}
 		SFX.play("click")
 		if not playing then
-			resetGameData("qn",playerData)
+			resetGameData("qn")
 		end
-	elseif cmd=="L"then
+	elseif cmd=="Leave"then
 		textBox:push{
-			COLOR.lR,args[1],
-			COLOR.dY,"#"..args[2].." ",
+			COLOR.lR,data.username,
+			COLOR.dY,"#"..data.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
-		for i=1,#playerData do
-			if playerData[i].id==args[2]then
-				rem(playerData,i)
-				break
-			end
+		if not playing then
+			initPlayerPosition(true)
 		end
-		for i=1,#PLAYERS do
-			if PLAYERS[i].userID==args[2]then
-				rem(PLAYERS,i)
-				break
-			end
-		end
-		for i=1,#PLAYERS.alive do
-			if PLAYERS.alive[i].userID==args[2]then
-				rem(PLAYERS.alive,i)
-				break
-			end
-		end
-		initPlayerPosition(true)
-	elseif cmd=="T"then
-		local _,text=pcall(data.decode,"string","base64",args[3])
-		if not _ then text=args[3]end
+	elseif cmd=="Talk"then
 		textBox:push{
-			COLOR.W,args[1],
-			COLOR.dY,"#"..args[2].." ",
-			COLOR.sky,text
+			COLOR.W,data.username,
+			COLOR.dY,"#"..data.uid.." ",
+			COLOR.sky,data.message or"[_]",
 		}
-	elseif cmd=="C"then
-		if tostring(USER.id)~=args[2]then
-			for i=1,#playerData do
-				if playerData[i].id==args[2]then
-					playerData[i].conf=args[4]
-					playerData[i].p:setConf(args[4])
+	elseif cmd=="Config"then
+		if tostring(USER.uid)~=data.uid then
+			for i=1,#PLY_NET do
+				if PLY_NET[i].uid==data.uid then
+					PLY_NET[i].conf=data.config
+					PLY_NET[i].p:setConf(data.config)
 					return
 				end
 			end
-			resetGameData("qn",playerData)
+			resetGameData("qn")
 		end
-	elseif cmd=="S"then
-		if playing and args[1]~=PLAYERS[1].subID then
+	elseif cmd=="Ready"then
+		if data.uid==USER.uid then
+			PLAYERS[1].ready=true
+			SFX.play("reach",.6)
+		else
+			for i=1,#PLAYERS do
+				if PLAYERS[i].userID==data.uid then
+					PLAYERS[i].ready=true
+					SFX.play("reach",.6)
+					break
+				end
+			end
+		end
+	elseif cmd=="Set"then
+		NET.rsid=data.rid
+		NET.wsConnectStream()
+		TASK.new(NET.updateWS_stream)
+	elseif cmd=="Begin"then
+		if not playing then
+			playing=true
+			lastUpstreamTime=0
+			upstreamProgress=1
+			resetGameData("n",data.seed)
+		else
+			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
+		end
+	elseif cmd=="Finish"then
+		playing=false
+		resetGameData("n")
+		TEXT.show(text.champion:gsub("$1","SOMEBODY"),640,260,80,"zoomout",.26)
+	elseif cmd=="Die"then
+		LOG.print("One player failed",COLOR.sky)
+	elseif cmd=="Stream"then
+		if data.uid==USER.uid then
+			LOG.print("SELF STREAM")
+			return
+		end
+		if playing then
 			for _,P in next,PLAYERS do
-				if P.subID==args[1]then
-					local _,stream=pcall(data.decode,"string","base64",args[2])
-					if _ then
+				if P.userID==data.uid then
+					local res,stream=pcall(love.data.decode,"string","base64",data.stream)
+					if res then
 						pumpRecording(stream,P.stream)
 					else
 						LOG.print("Bad stream from "..P.userName.."#"..P.userID)
@@ -225,35 +221,6 @@ function scene.socketRead(mes)
 				end
 			end
 		end
-	elseif cmd=="R"then
-		local L=PLAYERS.alive
-		for i=1,#L do
-			if L[i].subID==args[1]then
-				L[i].ready=true
-				SFX.play("reach",.6)
-				break
-			end
-		end
-	elseif cmd=="B"then
-		if not playing then
-			playing=true
-			lastUpstreamTime=0
-			upstreamProgress=1
-			resetGameData("n",playerData,tonumber(args[1]))
-		else
-			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
-		end
-	elseif cmd=="F"then
-		playing=false
-		resetGameData("n",playerData)
-		for i=1,#playerData do
-			if playerData[i].sid==args[1]then
-				TEXT.show(text.champion:gsub("$1",playerData[i].name.."#"..playerData[i].id),640,260,80,"zoomout",.26)
-				break
-			end
-		end
-	else
-		LOG.print("Illegal message: ["..mes.."]",30,COLOR.green)
 	end
 end
 
@@ -261,15 +228,8 @@ function scene.update(dt)
 	local _
 	local GAME=GAME
 
-	if WS.status("play")~="running"and not SCN.swapping then SCN.back()end
-	if not playing then
-		heartBeatTimer=heartBeatTimer+dt
-		if heartBeatTimer>42 then
-			heartBeatTimer=0
-			WS.send("play","P")
-		end
-		return
-	end
+	if WS.status("play")~="running"then SCN.back()end
+	if not playing then return end
 
 	touchMoveLastFrame=false
 	updateVirtualkey()
@@ -289,7 +249,7 @@ function scene.update(dt)
 		local stream
 		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
-			WS.send("stream",data.encode("string","base64",stream))
+			NET.uploadRecStream(stream)
 		else
 			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,0)
@@ -322,7 +282,7 @@ end
 scene.widgetList={
 	textBox,
 	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey"space",hide=function()return playing or not hideChatBox or PLAYERS[1].ready end},
-	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=switchChat},
+	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
 }
 

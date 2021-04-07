@@ -191,8 +191,8 @@ scene.widgetList={
 	WIDGET.newSelector{name="sequence",
 		x=1080,y=60,w=200,color="yellow",
 		list={"bag","his4","c2","rnd","mess","reverb","loop","fixed"},
-		disp=lnk_CUSval("sequence"),
-		code=lnk_CUSsto("sequence")
+		disp=CUSval("sequence"),
+		code=CUSsto("sequence")
 	},
 
 	WIDGET.newKey{name="Z",		x=120,y=460,w=80,font=50,code=pressKey(1)},

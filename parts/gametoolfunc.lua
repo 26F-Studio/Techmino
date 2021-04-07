@@ -271,10 +271,10 @@ end
 
 --Royale mode
 function randomTarget(P)--Return a random opponent for P
-	if #PLAYERS.alive>1 then
+	if #PLY_ALIVE>1 then
 		local R
 		repeat
-			R=PLAYERS.alive[rnd(#PLAYERS.alive)]
+			R=PLY_ALIVE[rnd(#PLY_ALIVE)]
 		until R~=P
 		return R
 	end
@@ -282,28 +282,28 @@ end
 function freshMostDangerous()
 	GAME.mostDangerous,GAME.secDangerous=false,false
 	local m,m2=0,0
-	for i=1,#PLAYERS.alive do
-		local h=#PLAYERS.alive[i].field
+	for i=1,#PLY_ALIVE do
+		local h=#PLY_ALIVE[i].field
 		if h>=m then
-			GAME.mostDangerous,GAME.secDangerous=PLAYERS.alive[i],GAME.mostDangerous
+			GAME.mostDangerous,GAME.secDangerous=PLY_ALIVE[i],GAME.mostDangerous
 			m,m2=h,m
 		elseif h>=m2 then
-			GAME.secDangerous=PLAYERS.alive[i]
+			GAME.secDangerous=PLY_ALIVE[i]
 			m2=h
 		end
 	end
 
-	for i=1,#PLAYERS.alive do
-		if PLAYERS.alive[i].atkMode==3 then
-			PLAYERS.alive[i]:freshTarget()
+	for i=1,#PLY_ALIVE do
+		if PLY_ALIVE[i].atkMode==3 then
+			PLY_ALIVE[i]:freshTarget()
 		end
 	end
 end
 function freshMostBadge()
 	GAME.mostBadge,GAME.secBadge=false,false
 	local m,m2=0,0
-	for i=1,#PLAYERS.alive do
-		local P=PLAYERS.alive[i]
+	for i=1,#PLY_ALIVE do
+		local P=PLY_ALIVE[i]
 		local b=P.badge
 		if b>=m then
 			GAME.mostBadge,GAME.secBadge=P,GAME.mostBadge
@@ -314,44 +314,44 @@ function freshMostBadge()
 		end
 	end
 
-	for i=1,#PLAYERS.alive do
-		if PLAYERS.alive[i].atkMode==4 then
-			PLAYERS.alive[i]:freshTarget()
+	for i=1,#PLY_ALIVE do
+		if PLY_ALIVE[i].atkMode==4 then
+			PLY_ALIVE[i]:freshTarget()
 		end
 	end
 end
 function royaleLevelup()
 	GAME.stage=GAME.stage+1
 	local spd
-	TEXT.show(text.royale_remain:gsub("$1",#PLAYERS.alive),640,200,40,"beat",.3)
+	TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,"beat",.3)
 	if GAME.stage==2 then
 		spd=30
 	elseif GAME.stage==3 then
 		spd=15
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			P.gameEnv.garbageSpeed=.6
 		end
 		if PLAYERS[1].alive then BGM.play("cruelty")end
 	elseif GAME.stage==4 then
 		spd=10
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			P.gameEnv.pushSpeed=3
 		end
 	elseif GAME.stage==5 then
 		spd=5
-		for _,P in next,PLAYERS.alive do
+		for _,P in next,PLY_ALIVE do
 			P.gameEnv.garbageSpeed=1
 		end
 	elseif GAME.stage==6 then
 		spd=3
 		if PLAYERS[1].alive then BGM.play("final")end
 	end
-	for _,P in next,PLAYERS.alive do
+	for _,P in next,PLY_ALIVE do
 		P.gameEnv.drop=spd
 	end
 	if GAME.curMode.name:find("_u")then
-		for i=1,#PLAYERS.alive do
-			local P=PLAYERS.alive[i]
+		for i=1,#PLY_ALIVE do
+			local P=PLY_ALIVE[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.ghoY
@@ -537,9 +537,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 		end
 		PLAYERS[i]=nil
 	end
-	for i=#PLAYERS.alive,1,-1 do
-		PLAYERS.alive[i]=nil
-	end
+	TABLE.clear(PLY_ALIVE)
 	collectgarbage()
 end
 function restoreVirtualkey()
@@ -611,7 +609,7 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	end
 end
 function initPlayerPosition(sudden)--Set initial position for every player
-	local L=PLAYERS.alive
+	local L=PLY_ALIVE
 	if not sudden then
 		for i=1,#L do
 			L[i]:setPosition(640,#L<=5 and 360 or -62,0)
@@ -715,7 +713,7 @@ do--function resetGameData(args)
 		end
 		return S
 	end
-	function resetGameData(args,playerData,seed)
+	function resetGameData(args,seed)
 		if not args then args=""end
 		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
@@ -744,7 +742,7 @@ do--function resetGameData(args)
 		end
 
 		destroyPlayers()
-		GAME.curMode.load(playerData)
+		GAME.curMode.load()
 		initPlayerPosition(args:find("q"))
 		restoreVirtualkey()
 		if GAME.modeEnv.task then
@@ -958,7 +956,7 @@ do--function saveRecording()
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			GAME.curModeName.."\n"..
 			VERSION_NAME.."\n"..
-			(USER.name or"Player")
+			(USER.username or"Player")
 		local fileBody=
 			GAME.seed.."\n"..
 			JSON.encode(GAME.setting).."\n"..
@@ -982,25 +980,26 @@ end
 --Game draw
 do--function drawFWM()
 	local m={
-		"\230\184\184\230\136\143\228\189\156\232\128\133\58\77\114\90\95\50\54\10\228\187\187\228\189\149\232\167\134\233\162\145\47\231\155\180\230\146\173\228\184\141\229\190\151\229\135\186\231\142\176\230\173\164\230\176\180\229\141\176\10\228\187\187\228\189\149\232\189\172\232\191\176\229\163\176\230\152\142\230\151\160\230\149\136",
-		"\230\184\184\230\136\143\228\189\156\232\128\133\58\77\114\90\95\50\54\10\228\187\187\228\189\149\232\167\134\233\162\145\47\231\155\180\230\146\173\228\184\141\229\190\151\229\135\186\231\142\176\230\173\164\230\176\180\229\141\176\10\228\187\187\228\189\149\232\189\172\232\191\176\229\163\176\230\152\142\230\151\160\230\149\136",
-		"\230\184\184\230\136\143\228\189\156\232\128\133\58\77\114\90\95\50\54\10\228\187\187\228\189\149\232\167\134\233\162\145\47\231\155\180\230\146\173\228\184\141\229\190\151\229\135\186\231\142\176\230\173\164\230\176\180\229\141\176\10\228\187\187\228\189\149\232\189\172\232\191\176\229\163\176\230\152\142\230\151\160\230\149\136",
-		"\65\117\116\104\111\114\58\32\77\114\90\95\50\54\n\82\101\99\111\114\100\105\110\103\115\32\99\111\110\116\97\105\110\105\110\103\32\116\104\105\115\n\119\97\116\101\114\109\97\114\107\32\97\114\101\32\117\110\97\117\116\104\111\114\105\122\101\100",
-		"\67\114\195\169\97\116\101\117\114\32\100\117\32\106\101\117\58\32\77\114\90\95\50\54\10\69\110\114\101\103\105\115\116\114\101\109\101\110\116\32\110\111\110\32\97\117\116\111\114\105\115\195\169\10\99\111\110\116\101\110\97\110\116\32\99\101\32\102\105\108\105\103\114\97\110\101",
-		"\65\117\116\111\114\58\32\77\114\90\95\50\54\10\71\114\97\98\97\99\105\195\179\110\32\110\111\32\97\117\116\111\114\105\122\97\100\97\32\113\117\101\10\99\111\110\116\105\101\110\101\32\101\115\116\97\32\109\97\114\99\97\32\100\101\32\97\103\117\97",
-		"\65\117\116\111\114\32\100\111\32\106\111\103\111\58\32\77\114\90\95\50\54\10\71\114\97\118\97\195\167\195\181\101\115\32\99\111\110\116\101\110\100\111\32\101\115\116\97\32\77\97\114\99\97\10\100\101\32\195\161\103\117\97\32\110\195\163\111\32\115\195\163\111\32\97\117\116\111\114\105\122\97\100\97\115",
-		"\65\117\116\104\111\114\58\32\77\114\90\95\50\54\10\82\101\99\111\114\100\105\110\103\115\32\99\111\110\116\97\105\110\105\110\103\32\116\104\105\115\10\119\97\116\101\114\109\97\114\107\32\97\114\101\32\117\110\97\117\116\104\111\114\105\122\101\100",
+		string.char(230,184,184,230,136,143,228,189,156,232,128,133,58,77,114,90,95,50,54,10,228,187,187,228,189,149,232,167,134,233,162,145,47,231,155,180,230,146,173,228,184,141,229,190,151,229,135,186,231,142,176,230,173,164,230,176,180,229,141,176,10,228,187,187,228,189,149,232,189,172,232,191,176,229,163,176,230,152,142,230,151,160,230,149,136),
+		string.char(230,184,184,230,136,143,228,189,156,232,128,133,58,77,114,90,95,50,54,10,228,187,187,228,189,149,232,167,134,233,162,145,47,231,155,180,230,146,173,228,184,141,229,190,151,229,135,186,231,142,176,230,173,164,230,176,180,229,141,176,10,228,187,187,228,189,149,232,189,172,232,191,176,229,163,176,230,152,142,230,151,160,230,149,136),
+		string.char(230,184,184,230,136,143,228,189,156,232,128,133,58,77,114,90,95,50,54,10,228,187,187,228,189,149,232,167,134,233,162,145,47,231,155,180,230,146,173,228,184,141,229,190,151,229,135,186,231,142,176,230,173,164,230,176,180,229,141,176,10,228,187,187,228,189,149,232,189,172,232,191,176,229,163,176,230,152,142,230,151,160,230,149,136),
+		string.char(65,117,116,104,111,114,58,32,77,114,90,95,50,54,10,82,101,99,111,114,100,105,110,103,115,32,99,111,110,116,97,105,110,105,110,103,32,116,104,105,115,10,119,97,116,101,114,109,97,114,107,32,97,114,101,32,117,110,97,117,116,104,111,114,105,122,101,100),
+		string.char(67,114,195,169,97,116,101,117,114,32,100,117,32,106,101,117,58,32,77,114,90,95,50,54,10,69,110,114,101,103,105,115,116,114,101,109,101,110,116,32,110,111,110,32,97,117,116,111,114,105,115,195,169,10,99,111,110,116,101,110,97,110,116,32,99,101,32,102,105,108,105,103,114,97,110,101),
+		string.char(65,117,116,111,114,58,32,77,114,90,95,50,54,10,71,114,97,98,97,99,105,195,179,110,32,110,111,32,97,117,116,111,114,105,122,97,100,97,32,113,117,101,10,99,111,110,116,105,101,110,101,32,101,115,116,97,32,109,97,114,99,97,32,100,101,32,97,103,117,97),
+		string.char(65,117,116,111,114,32,100,111,32,106,111,103,111,58,32,77,114,90,95,50,54,10,71,114,97,118,97,195,167,195,181,101,115,32,99,111,110,116,101,110,100,111,32,101,115,116,97,32,77,97,114,99,97,10,100,101,32,195,161,103,117,97,32,110,195,163,111,32,115,195,163,111,32,97,117,116,111,114,105,122,97,100,97,115),
+		string.char(65,117,116,104,111,114,58,32,77,114,90,95,50,54,10,82,101,99,111,114,100,105,110,103,115,32,99,111,110,116,97,105,110,105,110,103,32,116,104,105,115,10,119,97,116,101,114,109,97,114,107,32,97,114,101,32,117,110,97,117,116,104,111,114,105,122,101,100),
 	}
 	--你竟然找到了这里！那么在动手之前读读下面这些吧。
-	--千万不要为了在网络公共场合发视 频或者直播需要而擅自删除这部分代码！
-	--录制视 频上传到公共场合(包括但不限于任何视 频平台/论坛/几十个人以上的社区群等)很可能会对Techmino未来的发展有负面影响
+	--【魔幻躲关键字搜索警告，看得懂就行】
+	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码！
+	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/几十个人以上的社区群等)很可能会对Techmino未来的发展有负面影响
 	--如果被TTC发现，TTC随时可以用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
-	--水 印限制还可以减少低质量视 频泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
-	--想发视 频的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭水 印
+	--氵印限制还可以减少低质量视屏泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
+	--想发视屏的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭氵印
 	--等Techmino发展到一定程度之后会解除这个限制
 	--最后，别把藏在这里的东西截图/复制出去哦~
 	--感谢您对Techmino的支持！！！
-	local setFont=setFont
+	local setFont,TIME,mStr=setFont,TIME,mStr
 	function drawFWM()
 		local t=TIME()
 		setFont(25)
@@ -1051,221 +1050,12 @@ do--function pressKey(k)
 		return cache[k]
 	end
 end
-do--lnk_CUS/SETXXX(k)
+do--CUS/SETXXX(k)
 	local c,s=CUSTOMENV,SETTING
-	function lnk_CUSval(k)return function()return c[k]	end end
-	function lnk_SETval(k)return function()return s[k]	end end
-	function lnk_CUSrev(k)return function()c[k]=not c[k]end end
-	function lnk_SETrev(k)return function()s[k]=not s[k]end end
-	function lnk_CUSsto(k)return function(i)c[k]=i		end end
-	function lnk_SETsto(k)return function(i)s[k]=i		end end
-end
-
-
-
---Network funcs
-do
-	--[[
-	register:
-		if response.message=="OK"then
-			LOGIN=true
-			USER.name=res.name
-			USER.id=res.id
-			USER.motto=res.motto
-			USER.avatar=res.avatar
-			FILE.save(USER,"conf/user","q")
-			LOG.print(text.registerSuccessed..": "..res.message)
-		else
-			LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-		end
-
-	goChatRoom:
-		if res.message=="OK"then
-			SCN.go("net_chat")
-			LOG.print(text.wsSuccessed,"warn")
-		else
-			LOG.print(text.wsFailed..": "..connErr,"warn")
-		end
-
-	fetchRooms:
-		if res.message=="OK"then
-			rooms=res.room_list
-		else
-			LOG.print(text.httpCode..response.code..": "..res.message,"warn")
-		end
-
-	createRoom:
-		if res.message=="OK"then
-			LOG.print(text.createRoomSuccessed)
-			enterRoom(res.room.id)
-		else
-			LOG.print(text.httpCode..res.code..": "..res.message,"warn")
-		end
-
-	enterRoom:
-		if res.message=="OK"then
-			loadGame("netBattle",true,true)
-			LOG.print(text.wsSuccessed,"warn")
-		else
-			LOG.print(text.wsFailed..": "..connErr,"warn")
-		end
-	]]
-
-	function TICK_WS_app()
-		local retryTime=5
-		while true do
-			YIELD()
-			local status=WS.status("app")
-			if status=="running"then
-				local message,op=WS.read("app")
-				if message then
-					if op=="ping"then
-						WS.send("app",message,"pong")
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						local res=JSON.decode(message)
-						if VERSION_CODE>=res.lowest then
-							NET.allow_online=true
-						end
-						if VERSION_CODE<res.newestCode then
-							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
-						end
-						LOG.print(res.notice,300,COLOR.sky)
-					end
-				end
-			elseif status=="dead"then
-				retryTime=retryTime-1
-				if retryTime==0 then return end
-				for _=1,120 do YIELD()end
-				WS.connect("app","/app")
-			end
-		end
-	end
-	function TICK_WS_user()
-		while true do
-			YIELD()
-			local status=WS.status("user")
-			if status=="running"then
-				local message,op=WS.read("user")
-				if message then
-					if op=="ping"then
-						WS.send("user",message,"pong")
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						local res=JSON.decode(message)
-						if res.message=="Connected"then
-							LOGIN=true
-							if res.id then
-								USER.id=res.id
-								USER.authToken=res.authToken
-								NET.try_enter_netmenu=true
-								WS.send("user",JSON.encode{action=0})
-							end
-							FILE.save(USER,"conf/user","q")
-							LOG.print(text.loginSuccessed)
-
-							--Get self infos
-							WS.send("user",JSON.encode{
-								action=1,
-								data={
-									id=USER.id,
-								},
-							})
-						elseif res.action==0 then
-							USER.accessToken=res.accessToken
-							LOG.print(text.accessSuccessed)
-							if NET.try_enter_netmenu then
-								NET.try_enter_netmenu=false
-								SCN.go("net_menu")
-							end
-						elseif res.action==1 then
-							USER.name=res.username
-							USER.motto=res.motto
-							USER.avatar=res.avatar
-							FILE.save(USER,"conf/user")
-						end
-					end
-				end
-			end
-		end
-	end
-	function TICK_WS_chat()
-		while true do
-			YIELD()
-			local status=WS.status("chat")
-			if status=="running"then
-				local message,op=WS.read("chat")
-				if message then
-					if op=="ping"then
-						WS.send("chat",message,"pong")
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						local res=JSON.decode(message)
-						--TODO
-					end
-				end
-			end
-		end
-	end
-	function TICK_WS_play()
-		while true do
-			YIELD()
-			local status=WS.status("play")
-			if status=="running"then
-				local message,op=WS.read("play")
-				if message then
-					if op=="ping"then
-						WS.send("play",message,"pong")
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						local res=JSON.decode(message)
-						--TODO
-					end
-				end
-			end
-		end
-	end
-	function TICK_WS_stream()
-		while true do
-			YIELD()
-			local status=WS.status("stream")
-			if status=="running"then
-				local message,op=WS.read("stream")
-				if message then
-					if op=="ping"then
-						WS.send("stream",message,"pong")
-					elseif op=="close"then
-						message=JSON.decode(message)
-						if message then
-							LOG.print(text.wsClose..message.message,"warn")
-						end
-						return
-					else
-						local res=JSON.decode(message)
-						--TODO
-					end
-				end
-			end
-		end
-	end
+	function CUSval(k)return function()return c[k]end end
+	function SETval(k)return function()return s[k]end end
+	function CUSrev(k)return function()c[k]=not c[k]end end
+	function SETrev(k)return function()s[k]=not s[k]end end
+	function CUSsto(k)return function(i)c[k]=i end end
+	function SETsto(k)return function(i)s[k]=i end end
 end

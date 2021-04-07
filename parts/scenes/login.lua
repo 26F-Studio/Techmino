@@ -6,7 +6,6 @@ local function login()
 	elseif #password==0 then
 		LOG.print(text.noPassword)return
 	end
-	USER.email=email
 	WS.connect("user","/user",JSON.encode{
 		email=email,
 		password=password,

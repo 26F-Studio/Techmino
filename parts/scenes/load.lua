@@ -36,7 +36,7 @@ local function upFloor()
 		SFX.play("click",.3)
 	end
 end
-local loadingThread=coroutine.create(function()
+local loadingThread=coroutine.wrap(function()
 	for i=1,SFX.getCount()do
 		SFX.loadOne()
 		if i%3==0 then YIELD()end
@@ -175,15 +175,15 @@ local loadingThread=coroutine.create(function()
 		logoColor2={COLOR.rainbow_light(r)}
 	end
 	STAT.run=STAT.run+1
-	LOADED=true
 
 	--Connect to server
-	TASK.new(TICK_WS_app)
-	TASK.new(TICK_WS_user)
+	TASK.new(NET.updateWS_app)
+	TASK.new(NET.updateWS_user)
+	TASK.new(NET.updateWS_play)
 	WS.connect("app","/app")
 	if USER.authToken then
 		WS.connect("user","/user",JSON.encode{
-			id=USER.id,
+			uid=USER.uid,
 			authToken=USER.authToken,
 		})
 	end
@@ -193,10 +193,10 @@ local loadingThread=coroutine.create(function()
 			upFloor()
 		end
 		if progress==25 then
-			loadingThread=false
 			SFX.play("welcome_sfx")
 			VOC.play("welcome_voc")
 			THEME.fresh()
+			LOADED=true
 			return
 		end
 		YIELD()
@@ -255,8 +255,8 @@ function scene.update(dt)
 		if progress<25 then
 			local p=progress
 			repeat
-				assert(coroutine.resume(loadingThread))
-			until not loadingThread or skip<=0 or progress~=p
+				loadingThread()
+			until LOADED or skip<=0 or progress~=p
 			if skip>0 then skip=skip-1 end
 		else
 			openTime=openTime+dt

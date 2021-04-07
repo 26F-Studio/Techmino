@@ -149,14 +149,14 @@ scene.widgetList={
 	WIDGET.newText{name="noMsn",	x=610,	y=550,align="L",color="grey",hide=function()return MISSION[1]end},
 
 	--Basic
-	WIDGET.newSelector{name="drop",	x=170,	y=150,w=220,color="orange",	list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=lnk_CUSval("drop"),code=lnk_CUSsto("drop")},
-	WIDGET.newSelector{name="lock",	x=170,	y=230,w=220,color="red",	list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},			disp=lnk_CUSval("lock"),code=lnk_CUSsto("lock")},
-	WIDGET.newSelector{name="wait",	x=410,	y=150,w=220,color="green",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=lnk_CUSval("wait"),code=lnk_CUSsto("wait")},
-	WIDGET.newSelector{name="fall",	x=410,	y=230,w=220,color="yellow",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=lnk_CUSval("fall"),code=lnk_CUSsto("fall")},
+	WIDGET.newSelector{name="drop",	x=170,	y=150,w=220,color="orange",	list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("drop"),code=CUSsto("drop")},
+	WIDGET.newSelector{name="lock",	x=170,	y=230,w=220,color="red",	list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},			disp=CUSval("lock"),code=CUSsto("lock")},
+	WIDGET.newSelector{name="wait",	x=410,	y=150,w=220,color="green",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=CUSval("wait"),code=CUSsto("wait")},
+	WIDGET.newSelector{name="fall",	x=410,	y=230,w=220,color="yellow",	list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},									disp=CUSval("fall"),code=CUSsto("fall")},
 
 	--Else
-	WIDGET.newSelector{name="bg",	x=1070,	y=150,w=250,color="yellow",list=BG.getList(),disp=lnk_CUSval("bg"),		code=function(i)CUSTOMENV.bg=i BG.set(i)end},
-	WIDGET.newSelector{name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.getList(),	disp=lnk_CUSval("bgm"),	code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
+	WIDGET.newSelector{name="bg",	x=1070,	y=150,w=250,color="yellow",list=BG.getList(),disp=CUSval("bg"),		code=function(i)CUSTOMENV.bg=i BG.set(i)end},
+	WIDGET.newSelector{name="bgm",	x=1070,	y=230,w=250,color="yellow",	list=BGM.getList(),	disp=CUSval("bgm"),	code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
 
 	--Copy/Paste/Start
 	WIDGET.newButton{name="copy",	x=1070,	y=310,w=310,h=70,color="lRed",	font=25,code=pressKey"cC"},

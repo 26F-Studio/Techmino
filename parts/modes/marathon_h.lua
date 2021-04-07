@@ -9,17 +9,15 @@ return{
 		task=function(P)P.modeData.target=50 end,
 		dropPiece=function(P)
 			if P.stat.row>=P.modeData.target then
-				local T=P.modeData.target
-				if T==50 then
+				if P.modeData.target==50 then
 					P.gameEnv.drop=.25
 					P.modeData.target=100
 					SFX.play("reach")
-				elseif T==100 then
+				elseif P.modeData.target==100 then
 					P:set20G(true)
 					P.modeData.target=200
 					SFX.play("reach")
 				else
-					P.stat.row=200
 					P:win("finish")
 				end
 			end

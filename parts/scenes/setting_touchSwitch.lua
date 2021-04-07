@@ -30,11 +30,11 @@ scene.widgetList={
 	WIDGET.newSwitch{name="b20",	x=580,	y=620,	font=35,disp=VKAdisp(20),code=VKAcode(20)},
 	WIDGET.newButton{name="norm",	x=840,	y=100,	w=240,h=80,		font=35,code=function()for i=1,20 do VK_org[i].ava=i<11 end end},
 	WIDGET.newButton{name="pro",	x=1120,	y=100,	w=240,h=80,		font=35,code=function()for i=1,20 do VK_org[i].ava=true end end},
-	WIDGET.newSwitch{name="hide",	x=1170,	y=200,					font=40,disp=lnk_SETval("VKSwitch"),code=lnk_SETrev("VKSwitch")},
-	WIDGET.newSwitch{name="track",	x=1170,	y=300,					font=35,disp=lnk_SETval("VKTrack"),code=lnk_SETrev("VKTrack")},
-	WIDGET.newSlider{name="sfx",	x=800,	y=380,	w=180,			font=35,change=function()SFX.play("virtualKey",SETTING.VKSFX)end,disp=lnk_SETval("VKSFX"),code=lnk_SETsto("VKSFX")},
-	WIDGET.newSlider{name="vib",	x=800,	y=460,	w=180,unit=2,	font=35,change=function()VIB(SETTING.VKVIB)end,disp=lnk_SETval("VKVIB"),code=lnk_SETsto("VKVIB")},
-	WIDGET.newSwitch{name="icon",	x=850,	y=300,	font=40,disp=lnk_SETval("VKIcon"),code=lnk_SETrev("VKIcon")},
+	WIDGET.newSwitch{name="hide",	x=1170,	y=200,					font=40,disp=SETval("VKSwitch"),code=SETrev("VKSwitch")},
+	WIDGET.newSwitch{name="track",	x=1170,	y=300,					font=35,disp=SETval("VKTrack"),code=SETrev("VKTrack")},
+	WIDGET.newSlider{name="sfx",	x=800,	y=380,	w=180,			font=35,change=function()SFX.play("virtualKey",SETTING.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")},
+	WIDGET.newSlider{name="vib",	x=800,	y=460,	w=180,unit=2,	font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")},
+	WIDGET.newSwitch{name="icon",	x=850,	y=300,	font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon")},
 	WIDGET.newButton{name="tkset",	x=1120,	y=420,	w=240,h=80,
 		code=function()
 			SCN.go("setting_trackSetting")
@@ -42,7 +42,7 @@ scene.widgetList={
 		hide=function()
 			return not SETTING.VKTrack
 		end},
-	WIDGET.newSlider{name="alpha",	x=840,	y=540,	w=400,font=40,disp=lnk_SETval("VKAlpha"),code=lnk_SETsto("VKAlpha")},
+	WIDGET.newSlider{name="alpha",	x=840,	y=540,	w=400,font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha")},
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
 }
 
