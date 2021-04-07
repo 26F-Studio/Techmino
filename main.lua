@@ -255,14 +255,12 @@ do
 	if type(STAT.version)~="number"then
 		STAT.version=0
 	end
-	if STAT.version<1204 then
+	if STAT.version<1300 then
 		STAT.frame=math.floor(STAT.time*60)
 		STAT.lastPlay="sprint_10l"
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 		needSave=true
-	end
-	if STAT.version<1300 then
 		for _,name in next,fs.getDirectoryItems("replay")do
 			fs.remove("replay/"..name)
 		end
@@ -270,13 +268,15 @@ do
 	if STAT.version<1302 then
 		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
 		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
-		fs.remove("conf/user")
 		fs.remove("conf/settings")
+		needSave=true
 		autoRestart=true
 	end
-	if STAT.version<1303 then
+	if STAT.version<1400 then
+		fs.remove("conf/user")
 		SETTING.appLock=false
 		needSave=true
+		autoRestart=true
 	end
 
 	for _,v in next,VK_org do

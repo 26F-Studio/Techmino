@@ -1,5 +1,5 @@
-VERSION_CODE=1303
-VERSION_NAME="Alpha V0.13.3"
+VERSION_CODE=1400
+VERSION_NAME="Alpha V0.14.0"
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
 	t.version="11.1"
