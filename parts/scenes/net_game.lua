@@ -203,7 +203,7 @@ function scene.socketRead(cmd,data)
 		resetGameData("n")
 		TEXT.show(text.champion:gsub("$1","SOMEBODY"),640,260,80,"zoomout",.26)
 	elseif cmd=="Die"then
-		LOG.print("One player failed",COLOR.sky)
+		--?
 	elseif cmd=="Stream"then
 		if data.uid==USER.uid then
 			LOG.print("SELF STREAM")
