@@ -1,5 +1,4 @@
 local gc=love.graphics
-local min=math.min
 
 local NET=NET
 local scrollPos,selected
@@ -29,7 +28,7 @@ function scene.keyDown(k)
 			fetchRoom()
 		end
 	elseif k=="n"then
-		if TIME()-lastCreateRoomTime>26 then
+		if TIME()-lastCreateRoomTime>16.2 then
 			NET.createRoom()
 			lastCreateRoomTime=TIME()
 		else
@@ -85,7 +84,7 @@ function scene.draw()
 		gc.setColor(1,1,1,.3)
 		gc.rectangle("fill",50,40*(1+selected-scrollPos)+30,1180,40)
 		setFont(35)
-		for i=1,min(10,#NET.roomList-scrollPos)do
+		for i=1,math.min(10,#NET.roomList-scrollPos)do
 			local R=NET.roomList[scrollPos+i]
 			if R.private then
 				gc.setColor(1,1,1)
@@ -102,14 +101,15 @@ function scene.draw()
 	end
 end
 
+local function hide_noRoom()return #NET.roomList==0 end
 scene.widgetList={
-	WIDGET.newText{name="refreshing",x=640,y=260,font=65,hide=function()return not NET.getLock("fetchRoom")end},
+	WIDGET.newText{name="refreshing",x=640,y=255,font=45,hide=function()return not NET.getLock("fetchRoom")end},
 	WIDGET.newText{name="noRoom",	x=640,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getLock("fetchRoom")end},
-	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=40,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
+	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=35,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey"n"},
-	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=function()return #NET.roomList==0 end},
-	WIDGET.newKey{name="up",		x=840,y=585,w=140,h=70,font=40,code=pressKey"up",		hide=function()return #NET.roomList==0 end},
-	WIDGET.newKey{name="down",		x=840,y=655,w=140,h=70,font=40,code=pressKey"down",		hide=function()return #NET.roomList==0 end},
+	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=hide_noRoom},
+	WIDGET.newKey{name="up",		x=840,y=585,w=140,h=70,font=40,code=pressKey"up",		hide=hide_noRoom},
+	WIDGET.newKey{name="down",		x=840,y=655,w=140,h=70,font=40,code=pressKey"down",		hide=hide_noRoom},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 
