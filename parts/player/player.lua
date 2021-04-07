@@ -1683,6 +1683,10 @@ function Player:die()--Called both when win/lose!
 			self.visTime[i][j]=min(self.visTime[i][j],20)
 		end
 	end
+	if GAME.NET and self.id==1 then
+		ins(GAME.rep,GAME.frame+260)
+		ins(GAME.rep,0)
+	end
 end
 function Player:win(result)
 	if self.result then return end
