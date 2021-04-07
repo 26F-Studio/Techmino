@@ -390,7 +390,7 @@ function update.remote_alive(P,dt)
 				elseif event<=64 then--Release key
 					P:releaseKey(event-32)
 				elseif event>0x2000000000000 then--Sending lines
-					local sid=tostring(event%0x100)
+					local sid=event%0x100
 					local amount=int(event/0x100)%0x100
 					local time=int(event/0x10000)%0x10000
 					local line=int(event/0x100000000)%0x10000

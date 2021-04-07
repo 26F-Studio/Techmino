@@ -328,20 +328,21 @@ function NET.updateWS_play()
 								SCN.socketRead("Join",res.data)
 							end
 						elseif res.action==3 then--Player leave
+							local d=res.data
 							for i=1,#PLY_NET do
-								if PLY_NET[i].uid==data.uid then
+								if PLY_NET[i].uid==d.uid then
 									rem(PLY_NET,i)
 									break
 								end
 							end
 							for i=1,#PLAYERS do
-								if PLAYERS[i].userID==data.uid then
+								if PLAYERS[i].userID==d.uid then
 									rem(PLAYERS,i)
 									break
 								end
 							end
 							for i=1,#PLY_ALIVE do
-								if PLY_ALIVE[i].userID==data.uid then
+								if PLY_ALIVE[i].userID==d.uid then
 									rem(PLY_ALIVE,i)
 									break
 								end
