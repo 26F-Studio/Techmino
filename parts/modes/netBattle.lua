@@ -5,6 +5,7 @@ return{
 		freshLimit=15,
 		noMod=true,
 		bg="space",
+		bgm={"race","push","secret8th","secret7th","waterfall","oxygen","shining terminal","storm","rockblock","magicblock","cruelty"},
 	},
 	load=function()
 		PLY.newPlayer(1)

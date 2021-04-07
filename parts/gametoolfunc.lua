@@ -751,7 +751,8 @@ do--function resetGameData(args)
 			end
 		end
 		BG.set(GAME.modeEnv.bg)
-		BGM.play(GAME.modeEnv.bgm)
+		local bgm=GAME.modeEnv.bgm
+		BGM.play(type(bgm)=="string"and bgm or type(bgm)=="table"and bgm[rnd(#bgm)])
 
 		TEXT.clear()
 		if GAME.modeEnv.royaleMode then
