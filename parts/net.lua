@@ -70,7 +70,7 @@ function NET.wsconn_app()
 	WS.connect("app","/app")
 end
 function NET.wsconn_user_pswd(email,password)
-	if _lock("wsc_user")then
+	if _lock("wsc_user",5)then
 		WS.connect("user","/user",JSON.encode{
 			email=email,
 			password=password,
@@ -78,7 +78,7 @@ function NET.wsconn_user_pswd(email,password)
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
-	if _lock("wsc_user")then
+	if _lock("wsc_user",5)then
 		WS.connect("user","/user",JSON.encode{
 			uid=uid,
 			authToken=authToken,
@@ -166,7 +166,7 @@ function NET.fetchRoom()
 	end
 end
 function NET.createRoom()
-	if _lock("enterRoom")then
+	if _lock("enterRoom",5)then
 		WS.send("play",JSON.encode{
 			action=1,
 			data={
@@ -179,7 +179,7 @@ function NET.createRoom()
 	end
 end
 function NET.enterRoom(roomID,password)
-	if _lock("enterRoom")then
+	if _lock("enterRoom",5)then
 		NET.rid=roomID
 		WS.send("play",JSON.encode{
 			action=2,
