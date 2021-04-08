@@ -336,7 +336,7 @@ function love.lowmemory()
 	if TIME()-lastGCtime>6.26 then
 		collectgarbage()
 		lastGCtime=TIME()
-		LOG.print("[auto GC] low memory 设备内存过低","warn")
+		LOG.print("[auto GC] low MEM 设备内存过低","warn")
 	end
 end
 function love.resize(w,h)

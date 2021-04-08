@@ -164,7 +164,7 @@ function scene.socketRead(cmd,d)
 			upstreamProgress=1
 			resetGameData("n",d.seed)
 		else
-			LOG.print("Redundant signal: Begin",30,COLOR.green)
+			LOG.print("Redundant [Go]",30,COLOR.green)
 		end
 	elseif cmd=="Finish"then
 		playing=false

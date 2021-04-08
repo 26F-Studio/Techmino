@@ -48,13 +48,11 @@ if type(_CC)=="table"then
 			n=n+1
 		end
 		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
-			LOG.print("CC is dead ("..P.id..")","error")
 			P.AI_bot=nil
 		end
 	end
 	function CC.switch20G(P)
 		if not pcall(CC.destroy,P.AI_bot)then
-			LOG.print("CC is dead ("..P.id..")","error")
 			P.AI_bot=nil
 			return
 		end
@@ -319,6 +317,5 @@ return{
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 		end
-		LOG.print("CC is dead ("..P.id..")","error")
 	end,
 }--AI brains
