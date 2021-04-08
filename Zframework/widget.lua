@@ -420,7 +420,7 @@ function slider:update()
 			self.ATV=atv
 		end
 	end
-	if not(self.hide and self.hide())then
+	if not(self.hide==true or self.hide and self.hide())then
 		self.pos=self.pos*.7+self.disp()*.3
 	end
 end
@@ -845,7 +845,7 @@ function textBox:update()
 end
 function textBox:push(t)
 	ins(self.texts,t)
-	if self.scrollPos==#self.texts-1 and not(self.hide and self.hide())then
+	if self.scrollPos==#self.texts-1 and not(self.hide==true or self.hide and self.hide())then
 		self.scrollPos=#self.texts
 	else
 		SFX.play("spin_0",.8)
