@@ -86,7 +86,7 @@ function NET.wsconn_user_token(uid,authToken)
 	end
 end
 function NET.wsconn_play()
-	if _lock("wsc_play")then
+	if _lock("wsc_play",5)then
 		WS.connect("play","/play",JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -94,7 +94,7 @@ function NET.wsconn_play()
 	end
 end
 function NET.wsconn_stream()
-	if _lock("wsc_stream")then
+	if _lock("wsc_stream",5)then
 		WS.connect("stream","/stream",JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -116,7 +116,7 @@ function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")
 end
 function NET.getAccessToken()
-	if _lock("accessToken")then
+	if _lock("accessToken",3)then
 		WS.send("user",JSON.encode{action=0})
 	end
 end
@@ -154,7 +154,7 @@ end
 
 --Room
 function NET.fetchRoom()
-	if _lock("fetchRoom")then
+	if _lock("fetchRoom",3)then
 		WS.send("play",JSON.encode{
 			action=0,
 			data={
@@ -166,7 +166,7 @@ function NET.fetchRoom()
 	end
 end
 function NET.createRoom()
-	if _lock("enterRoom",5)then
+	if _lock("enterRoom",3)then
 		WS.send("play",JSON.encode{
 			action=1,
 			data={
@@ -179,7 +179,7 @@ function NET.createRoom()
 	end
 end
 function NET.enterRoom(roomID,password)
-	if _lock("enterRoom",5)then
+	if _lock("enterRoom",3)then
 		NET.rid=roomID
 		WS.send("play",JSON.encode{
 			action=2,
@@ -197,12 +197,14 @@ function NET.checkPlayDisconn()
 	return WS.status("play")~="running"
 end
 function NET.signal_ready(ready)
-	if _lock("ready")then
+	if _lock("ready",3)then
 		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
 function NET.signal_quit()
-	WS.send("play",'{"action":3}')
+	if _lock("quit",3)then
+		WS.send("play",'{"action":3}')
+	end
 end
 function NET.signal_die()
 	WS.send("stream",'{"action":4,"data":{"score":0,"survivalTime":0}}')
@@ -363,25 +365,31 @@ function NET.updateWS_play()
 								SCN.socketRead("Join",res.data)
 							end
 						elseif res.action==3 then--Player leave
-							for i=1,#PLY_NET do
-								if PLY_NET[i].uid==d.uid then
-									rem(PLY_NET,i)
-									break
+							if not d.uid then
+								NET.wsclose_stream()
+								SCN.back()
+								_unlock("quit")
+							else
+								for i=1,#PLY_NET do
+									if PLY_NET[i].uid==d.uid then
+										rem(PLY_NET,i)
+										break
+									end
 								end
-							end
-							for i=1,#PLAYERS do
-								if PLAYERS[i].userID==d.uid then
-									rem(PLAYERS,i)
-									break
+								for i=1,#PLAYERS do
+									if PLAYERS[i].userID==d.uid then
+										rem(PLAYERS,i)
+										break
+									end
 								end
-							end
-							for i=1,#PLY_ALIVE do
-								if PLY_ALIVE[i].userID==d.uid then
-									rem(PLY_ALIVE,i)
-									break
+								for i=1,#PLY_ALIVE do
+									if PLY_ALIVE[i].userID==d.uid then
+										rem(PLY_ALIVE,i)
+										break
+									end
 								end
+								SCN.socketRead("Leave",res.data)
 							end
-							SCN.socketRead("Leave",res.data)
 						elseif res.action==4 then--Player talk
 							SCN.socketRead("Talk",res.data)
 						elseif res.action==5 then--Player change settings

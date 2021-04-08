@@ -21,8 +21,6 @@ local touchMoveLastFrame=false
 local scene={}
 
 function scene.sceneBack()
-	NET.signal_quit()
-	NET.wsclose_stream()
 	love.keyboard.setKeyRepeat(true)
 end
 function scene.sceneInit()
@@ -78,6 +76,7 @@ end
 function scene.keyDown(key)
 	if key=="escape"then
 		if TIME()-lastBackTime<1 then
+			NET.signal_quit()
 			SCN.back()
 		else
 			lastBackTime=TIME()
