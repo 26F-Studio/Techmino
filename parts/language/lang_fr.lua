@@ -405,7 +405,6 @@ return{
 			-- fieldH="Field height",
 			ospin="O-spin",
 			-- deepDrop="Deep Drop",
-			target="But",
 			visible="Visibilité",
 			freshLimit="Limite de réinit. du délai de verrouillage",
 			easyFresh="Réinit. de verrouillage normale",

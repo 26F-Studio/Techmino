@@ -289,7 +289,6 @@ return{
 			fieldH="↑[]↓",
 			ospin="O→Any",
 			deepDrop="\\↓↓/",
-			target="&=",
 			visible="?=",
 			freshLimit="@",
 			easyFresh="↓_↓_↓_",

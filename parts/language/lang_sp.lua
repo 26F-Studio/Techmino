@@ -405,7 +405,6 @@ return{
 			-- fieldH="Field height",
 			ospin="O-Spin",
 			-- deepDrop="Deep Drop",
-			target="Objetivo",
 			visible="Visibilidad",
 			freshLimit="Límite de Reinicio LD",
 			easyFresh="Reinicio de Bloqueo Normal",

@@ -1,7 +1,6 @@
 local sList={
 	fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
 	visible={"show","easy","slow","medium","fast","none"},
-	target={10,20,40,100,200,500,1000,1e99},
 	freshLimit={0,8,15,1e99},
 	opponent={"X","9S Lv.1","9S Lv.2","9S Lv.3","9S Lv.4","9S Lv.5","CC Lv.1","CC Lv.2","CC Lv.3","CC Lv.4","CC Lv.5"},
 	life={0,1,2,3,5,10,15,26,42,87,500},
@@ -23,8 +22,7 @@ scene.widgetList={
 	--Rule
 	WIDGET.newSelector{name="fieldH",	x=270,	y=520,	w=260,color="sky",	list=sList.fieldH,		disp=CUSval("fieldH"),code=CUSsto("fieldH")},
 	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list=sList.visible,		disp=CUSval("visible"),code=CUSsto("visible")},
-	WIDGET.newSelector{name="target",	x=840,	y=160,	w=260,color="green",list=sList.target,		disp=CUSval("target"),code=CUSsto("target")},
-	WIDGET.newSelector{name="freshLimit",x=840,	y=260,	w=260,color="purple",list=sList.freshLimit,	disp=CUSval("freshLimit"),code=CUSsto("freshLimit")},
+	WIDGET.newSelector{name="freshLimit",x=840,	y=160,	w=260,color="purple",list=sList.freshLimit,	disp=CUSval("freshLimit"),code=CUSsto("freshLimit")},
 	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list=sList.opponent,	disp=CUSval("opponent"),code=CUSsto("opponent")},
 	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="red",	list=sList.life,		disp=CUSval("life"),code=CUSsto("life")},
 	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list=sList.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")},

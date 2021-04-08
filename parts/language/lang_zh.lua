@@ -430,7 +430,6 @@ return{
 			fieldH="场地高度",
 			ospin="O-spin",
 			deepDrop="深降",
-			target="目标行数",
 			visible="能见度",
 			freshLimit="锁延刷新限制",
 			easyFresh="普通刷新锁延",

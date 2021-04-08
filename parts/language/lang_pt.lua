@@ -431,7 +431,6 @@ return{
 			-- fieldH="Field height",
 			ospin="O-Spin",
 			-- deepDrop="Deep Drop",
-			target="Alvo",
 			visible="Visibilidade",
 			freshLimit="Limite Reset de Trava",
 			easyFresh="Reset De Trava Normal",
