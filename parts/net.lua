@@ -318,6 +318,7 @@ function NET.updateWS_play()
 				else
 					local res=_parse(message)
 					if res then
+						local d=res.data
 						if res.type=="Connect"then
 							SCN.go("net_menu")
 							_unlock("wsc_play")
@@ -327,7 +328,6 @@ function NET.updateWS_play()
 						elseif res.action==1 then--Create room (not used)
 							--?
 						elseif res.action==2 then--Player join
-							local d=res.data
 							if res.type=="Self"then
 								--Create room
 								TABLE.clear(PLY_NET)
@@ -363,7 +363,6 @@ function NET.updateWS_play()
 								SCN.socketRead("Join",res.data)
 							end
 						elseif res.action==3 then--Player leave
-							local d=res.data
 							for i=1,#PLY_NET do
 								if PLY_NET[i].uid==d.uid then
 									rem(PLY_NET,i)
@@ -386,14 +385,40 @@ function NET.updateWS_play()
 						elseif res.action==4 then--Player talk
 							SCN.socketRead("Talk",res.data)
 						elseif res.action==5 then--Player change settings
-							SCN.socketRead("Config",res.data)
-						elseif res.action==6 then--Player ready
-							SCN.socketRead("Ready",res.data)
-							_unlock("ready")
-						elseif res.action==7 then--All ready
+							if tostring(USER.uid)~=d.uid then
+								for i=1,#PLY_NET do
+									if PLY_NET[i].uid==d.uid then
+										PLY_NET[i].conf=d.config
+										PLY_NET[i].p:setConf(d.config)
+										return
+									end
+								end
+								resetGameData("qn")
+							end
+						elseif res.action==6 then--One ready
+							if d.uid==USER.uid then
+								if PLAYERS[1].ready~=d.ready then
+									PLAYERS[1].ready=d.ready
+									SFX.play("reach",.6)
+								end
+								_unlock("ready")
+							else
+								for i=1,#PLAYERS do
+									if PLAYERS[i].userID==d.uid then
+										if PLAYERS[i].ready~=d.ready then
+											PLAYERS[i].ready=d.ready
+											SFX.play("reach",.6)
+										end
+										break
+									end
+								end
+							end
+						elseif res.action==7 then--Ready
 							--?
-						elseif res.action==8 then--Sure ready
-							SCN.socketRead("Set",res.data)
+						elseif res.action==8 then--Set
+							NET.rsid=d.rid
+							NET.wsconn_stream()
+							TASK.new(NET.updateWS_stream)
 						elseif res.action==9 then--Game finished
 							SCN.socketRead("Finish",res.data)
 							NET.wsclose_stream()
@@ -425,7 +450,7 @@ function NET.updateWS_stream()
 						if res.type=="Connect"then
 							_unlock("wsc_stream")
 						elseif res.action==0 then--Game start
-							SCN.socketRead("Begin",res.data)
+							SCN.socketRead("Go",res.data)
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join

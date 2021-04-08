@@ -135,11 +135,11 @@ function scene.gamepadUp(key)
 	end
 end
 
-function scene.socketRead(cmd,data)
+function scene.socketRead(cmd,d)
 	if cmd=="Join"then
 		textBox:push{
-			COLOR.lR,data.username,
-			COLOR.dY,"#"..data.uid.." ",
+			COLOR.lR,d.username,
+			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.joinRoom,
 		}
 		SFX.play("click")
@@ -148,8 +148,8 @@ function scene.socketRead(cmd,data)
 		end
 	elseif cmd=="Leave"then
 		textBox:push{
-			COLOR.lR,data.username,
-			COLOR.dY,"#"..data.uid.." ",
+			COLOR.lR,d.username,
+			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
 		if not playing then
@@ -157,48 +157,16 @@ function scene.socketRead(cmd,data)
 		end
 	elseif cmd=="Talk"then
 		textBox:push{
-			COLOR.W,data.username,
-			COLOR.dY,"#"..data.uid.." ",
-			COLOR.sky,data.message or"[_]",
+			COLOR.W,d.username,
+			COLOR.dY,"#"..d.uid.." ",
+			COLOR.sky,d.message or"[_]",
 		}
-	elseif cmd=="Config"then
-		if tostring(USER.uid)~=data.uid then
-			for i=1,#PLY_NET do
-				if PLY_NET[i].uid==data.uid then
-					PLY_NET[i].conf=data.config
-					PLY_NET[i].p:setConf(data.config)
-					return
-				end
-			end
-			resetGameData("qn")
-		end
-	elseif cmd=="Ready"then
-		if data.uid==USER.uid then
-			if PLAYERS[1].ready~=data.ready then
-				PLAYERS[1].ready=data.ready
-				SFX.play("reach",.6)
-			end
-		else
-			for i=1,#PLAYERS do
-				if PLAYERS[i].userID==data.uid then
-					if PLAYERS[i].ready~=data.ready then
-						PLAYERS[i].ready=data.ready
-						SFX.play("reach",.6)
-					end
-					break
-				end
-			end
-		end
-	elseif cmd=="Set"then
-		NET.rsid=data.rid
-		NET.wsconn_stream()
-		TASK.new(NET.updateWS_stream)
-	elseif cmd=="Begin"then
+	elseif cmd=="Go"then
 		if not playing then
 			playing=true
 			lastUpstreamTime=0
 			upstreamProgress=1
-			resetGameData("n",data.seed)
+			resetGameData("n",d.seed)
 		else
 			LOG.print("Redundant signal: Begin",30,COLOR.green)
 		end
@@ -206,24 +174,24 @@ function scene.socketRead(cmd,data)
 		playing=false
 		resetGameData("n")
 		local winnerUID
-		for _,p in next,data.result do
+		for _,p in next,d.result do
 			if p.place==1 then
 				winnerUID=p.uid
 				break
 			end
 		end
 		if not winnerUID then return end
-		for _,d in next,PLY_NET do
-			if d.uid==winnerUID then
-				TEXT.show(text.champion:gsub("$1",d.username),640,260,80,"zoomout",.26)
+		for _,p in next,PLY_NET do
+			if p.uid==winnerUID then
+				TEXT.show(text.champion:gsub("$1",p.username),640,260,80,"zoomout",.26)
 				break
 			end
 		end
 	elseif cmd=="Stream"then
-		if data.uid~=USER.uid and playing then
+		if d.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do
-				if P.userID==data.uid then
-					local res,stream=pcall(love.data.decode,"string","base64",data.stream)
+				if P.userID==d.uid then
+					local res,stream=pcall(love.data.decode,"string","base64",d.stream)
 					if res then
 						pumpRecording(stream,P.stream)
 					else
