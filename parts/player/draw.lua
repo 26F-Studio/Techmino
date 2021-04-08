@@ -707,7 +707,7 @@ function draw.norm_remote(P)
 			--Draw username
 			setFont(30)
 			gc_setColor(1,1,1)
-			mStr(P.userName,150,-60)
+			mStr(P.username,150,-60)
 
 			--Fill field
 			gc_setColor(0,0,0,.6)

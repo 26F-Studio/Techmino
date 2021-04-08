@@ -396,7 +396,7 @@ function update.remote_alive(P,dt)
 					local line=int(event/0x100000000)%0x10000
 					local L=PLY_ALIVE
 					for i=1,#L do
-						if L[i].subID==sid then
+						if L[i].sid==sid then
 							P:attack(L[i],amount,time,line,true)
 							if SETTING.atkFX>0 then
 								P:createBeam(L[i],amount,P.cur.color)
@@ -408,7 +408,7 @@ function update.remote_alive(P,dt)
 					local L=PLY_ALIVE
 					local sid=event%0x100
 					for i=1,#L do
-						if L[i].subID==sid then
+						if L[i].sid==sid then
 							P:receive(
 								L[i],
 								int(event/0x100)%0x100,--amount

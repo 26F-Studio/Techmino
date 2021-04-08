@@ -222,7 +222,7 @@ function Player:setConf(confStr)
 			end
 		end
 	else
-		LOG.print("Bad conf from "..self.userName.."#"..self.userID)
+		LOG.print("Bad conf from "..self.username.."#"..self.uid)
 	end
 end
 
@@ -340,7 +340,7 @@ function Player:attack(R,send,time,line,fromStream)
 		if self.type=="human"then--Local player attack others
 			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,
-				R.subID+
+				R.sid+
 				send*0x100+
 				time*0x10000+
 				line*0x100000000+
@@ -350,7 +350,7 @@ function Player:attack(R,send,time,line,fromStream)
 		if fromStream and R.type=="human"then--Local player receiving lines
 			ins(GAME.rep,GAME.frame)
 			ins(GAME.rep,
-				self.subID+
+				self.sid+
 				send*0x100+
 				time*0x10000+
 				line*0x100000000+

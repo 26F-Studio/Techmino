@@ -1,6 +1,6 @@
-local WS=WS
 local data=love.data
 local ins,rem=table.insert,table.remove
+local WS,TIME=WS,TIME
 local NET={
 	login=false,
 	allow_online=false,
@@ -19,20 +19,26 @@ local mesType={
 }
 
 --Lock & Unlock submodule
-local locks={}
-local function _lock(name,T)
-	if locks[name]and TIME()<locks[name]then
-		return false
-	else
+local locks do
+	local rawset=rawset
+	locks=setmetatable({},{
+		__index=function(self,k)rawset(self,k,-1e99)return -1e99 end,
+		__newindex=function(self,k)rawset(self,k,-1e99)end,
+	})
+end
+function NET.lock(name,T)
+	if TIME()>=locks[name]then
 		locks[name]=TIME()+(T or 1e99)
 		return true
+	else
+		return false
 	end
 end
-local function _unlock(name)
-	locks[name]=false
+function NET.unlock(name)
+	locks[name]=-1e99
 end
-function NET.getLock(name)
-	return locks[name]
+function NET.getlock(name)
+	return TIME()<locks[name]
 end
 
 --Parse json message
@@ -70,7 +76,7 @@ function NET.wsconn_app()
 	WS.connect("app","/app")
 end
 function NET.wsconn_user_pswd(email,password)
-	if _lock("wsc_user",5)then
+	if NET.lock("wsc_user",5)then
 		WS.connect("user","/user",JSON.encode{
 			email=email,
 			password=password,
@@ -78,7 +84,7 @@ function NET.wsconn_user_pswd(email,password)
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
-	if _lock("wsc_user",5)then
+	if NET.lock("wsc_user",5)then
 		WS.connect("user","/user",JSON.encode{
 			uid=uid,
 			authToken=authToken,
@@ -86,7 +92,7 @@ function NET.wsconn_user_token(uid,authToken)
 	end
 end
 function NET.wsconn_play()
-	if _lock("wsc_play",5)then
+	if NET.lock("wsc_play",5)then
 		WS.connect("play","/play",JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -94,7 +100,7 @@ function NET.wsconn_play()
 	end
 end
 function NET.wsconn_stream()
-	if _lock("wsc_stream",5)then
+	if NET.lock("wsc_stream",5)then
 		WS.connect("stream","/stream",JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -116,7 +122,7 @@ function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")
 end
 function NET.getAccessToken()
-	if _lock("accessToken",3)then
+	if NET.lock("accessToken",3)then
 		WS.send("user",JSON.encode{action=0})
 	end
 end
@@ -154,7 +160,7 @@ end
 
 --Room
 function NET.fetchRoom()
-	if _lock("fetchRoom",3)then
+	if NET.lock("fetchRoom",3)then
 		WS.send("play",JSON.encode{
 			action=0,
 			data={
@@ -166,7 +172,7 @@ function NET.fetchRoom()
 	end
 end
 function NET.createRoom()
-	if _lock("enterRoom",3)then
+	if NET.lock("enterRoom",3)then
 		WS.send("play",JSON.encode{
 			action=1,
 			data={
@@ -179,7 +185,7 @@ function NET.createRoom()
 	end
 end
 function NET.enterRoom(roomID,password)
-	if _lock("enterRoom",3)then
+	if NET.lock("enterRoom",3)then
 		NET.rid=roomID
 		WS.send("play",JSON.encode{
 			action=2,
@@ -197,12 +203,12 @@ function NET.checkPlayDisconn()
 	return WS.status("play")~="running"
 end
 function NET.signal_ready(ready)
-	if _lock("ready",3)then
+	if NET.lock("ready",3)then
 		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
 function NET.signal_quit()
-	if _lock("quit",3)then
+	if NET.lock("quit",3)then
 		WS.send("play",'{"action":3}')
 	end
 end
@@ -287,12 +293,12 @@ function NET.updateWS_user()
 
 							--Get self infos
 							NET.getUserInfo(USER.uid)
-							_unlock("wsc_user")
+							NET.unlock("wsc_user")
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
 							NET.wsconn_play()
-							_unlock("accessToken")
+							NET.unlock("accessToken")
 						elseif res.action==1 then--Get userInfo
 							NET.storeUserInfo(res)
 						end
@@ -323,26 +329,19 @@ function NET.updateWS_play()
 						local d=res.data
 						if res.type=="Connect"then
 							SCN.go("net_menu")
-							_unlock("wsc_play")
+							NET.unlock("wsc_play")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
-							_unlock("fetchRoom")
+							NET.unlock("fetchRoom")
 						elseif res.action==1 then--Create room (not used)
 							--?
 						elseif res.action==2 then--Player join
 							if res.type=="Self"then
 								--Create room
 								TABLE.clear(PLY_NET)
-								ins(PLY_NET,{
-									uid=USER.uid,
-									username=USER.username,
-									sid=d.sid,
-									ready=d.ready,
-									conf=dumpBasicConfig(),
-								})
 								if d.players then
 									for _,p in next,d.players do
-										ins(PLY_NET,{
+										ins(PLY_NET,p.uid==USER.uid and 1 or #PLY_NET+1,{
 											uid=p.uid,
 											username=p.username,
 											sid=p.sid,
@@ -352,7 +351,7 @@ function NET.updateWS_play()
 									end
 								end
 								loadGame("netBattle",true,true)
-								_unlock("enterRoom")
+								NET.unlock("enterRoom")
 							else
 								--Load other players
 								ins(PLY_NET,{
@@ -368,22 +367,22 @@ function NET.updateWS_play()
 							if not d.uid then
 								NET.wsclose_stream()
 								SCN.back()
-								_unlock("quit")
+								NET.unlock("quit")
 							else
 								for i=1,#PLY_NET do
-									if PLY_NET[i].uid==d.uid then
+									if PLY_NET[i].sid==d.sid then
 										rem(PLY_NET,i)
 										break
 									end
 								end
 								for i=1,#PLAYERS do
-									if PLAYERS[i].userID==d.uid then
+									if PLAYERS[i].sid==d.sid then
 										rem(PLAYERS,i)
 										break
 									end
 								end
 								for i=1,#PLY_ALIVE do
-									if PLY_ALIVE[i].userID==d.uid then
+									if PLY_ALIVE[i].sid==d.sid then
 										rem(PLY_ALIVE,i)
 										break
 									end
@@ -404,23 +403,16 @@ function NET.updateWS_play()
 								resetGameData("qn")
 							end
 						elseif res.action==6 then--One ready
-							if d.uid==USER.uid then
-								if PLAYERS[1].ready~=d.ready then
-									PLAYERS[1].ready=d.ready
-									SFX.play("reach",.6)
-								end
-								_unlock("ready")
-							else
-								for i=1,#PLAYERS do
-									if PLAYERS[i].userID==d.uid then
-										if PLAYERS[i].ready~=d.ready then
-											PLAYERS[i].ready=d.ready
-											SFX.play("reach",.6)
-										end
-										break
+							for i=1,#PLY_NET do
+								if PLY_NET[i].uid==d.uid then
+									if PLY_NET[i].ready~=d.ready then
+										PLY_NET[i].ready=d.ready
+										SFX.play("reach",.6)
 									end
+									break
 								end
 							end
+							NET.unlock("ready")
 						elseif res.action==7 then--Ready
 							--?
 						elseif res.action==8 then--Set
@@ -456,7 +448,7 @@ function NET.updateWS_stream()
 					local res=_parse(message)
 					if res then
 						if res.type=="Connect"then
-							_unlock("wsc_stream")
+							NET.unlock("wsc_stream")
 						elseif res.action==0 then--Game start
 							SCN.socketRead("Go",res.data)
 						elseif res.action==1 then--Game finished

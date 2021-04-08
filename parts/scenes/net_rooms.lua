@@ -52,7 +52,7 @@ function scene.keyDown(k)
 				end
 			end
 		elseif k=="return"then
-			if NET.getLock("fetchRoom")then return end
+			if NET.getlock("fetchRoom")then return end
 			if NET.roomList[selected].private then
 				LOG.print("Can't enter private room now")
 				return
@@ -63,7 +63,7 @@ function scene.keyDown(k)
 end
 
 function scene.update(dt)
-	if not NET.getLock("fetchRoom")then
+	if not NET.getlock("fetchRoom")then
 		fetchTimer=fetchTimer-dt
 		if fetchTimer<=0 then
 			fetchRoom()
@@ -103,8 +103,8 @@ end
 
 local function hide_noRoom()return #NET.roomList==0 end
 scene.widgetList={
-	WIDGET.newText{name="refreshing",x=640,y=255,font=45,hide=function()return not NET.getLock("fetchRoom")end},
-	WIDGET.newText{name="noRoom",	x=640,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getLock("fetchRoom")end},
+	WIDGET.newText{name="refreshing",x=640,y=255,font=45,hide=function()return not NET.getlock("fetchRoom")end},
+	WIDGET.newText{name="noRoom",	x=640,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getlock("fetchRoom")end},
 	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=35,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey"n"},
 	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=hide_noRoom},

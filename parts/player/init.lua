@@ -134,10 +134,9 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	--Network-related
-	P.userName="_"
-	P.userID=-1
-	P.subID=-1
-	P.ready=false
+	P.username="_"
+	P.uid=-1
+	P.sid=-1
 
 	P.dropDelay,P.lockDelay=0,0
 	P.showTime=false
@@ -240,7 +239,7 @@ local function loadRemoteEnv(P,confStr)--Load gameEnv
 		conf=JSON.decode(conf)
 	else
 		conf={}
-		LOG.print("Bad conf from "..P.userName.."#"..P.userID)
+		LOG.print("Bad conf from "..P.username.."#"..P.uid)
 	end
 
 	P.gameEnv={}--Current game setting environment
@@ -383,10 +382,9 @@ function PLY.newRemotePlayer(id,mini,data)
 	P.streamProgress=1
 
 	data.p=P
-	P.userID=data.uid
-	P.userName=data.username
-	P.subID=data.sid
-	P.ready=data.ready
+	P.uid=data.uid
+	P.username=data.username
+	P.sid=data.sid
 	loadRemoteEnv(P,data.conf)
 
 	applyGameEnv(P)
@@ -408,8 +406,8 @@ function PLY.newPlayer(id,mini)
 	P.type="human"
 	P.sound=true
 
-	P.userID=USER.uid
-	P.subID=-1
+	P.uid=USER.uid
+	P.sid=-1
 
 	loadGameEnv(P)
 	applyGameEnv(P)

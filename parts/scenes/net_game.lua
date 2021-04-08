@@ -28,7 +28,6 @@ function scene.sceneInit()
 	textBox.hide=true
 	textBox:clear()
 
-	resetGameData("n")
 	noTouch=not SETTING.VKSwitch
 	playing=false
 	lastUpstreamTime=0
@@ -36,7 +35,7 @@ function scene.sceneInit()
 end
 
 function scene.touchDown(x,y)
-	if noTouch then return end
+	if noTouch or not playing then return end
 
 	local t=onVirtualkey(x,y)
 	if t then
@@ -45,7 +44,7 @@ function scene.touchDown(x,y)
 	end
 end
 function scene.touchUp(x,y)
-	if noTouch then return end
+	if noTouch or not playing then return end
 
 	local t=onVirtualkey(x,y)
 	if t then
@@ -53,7 +52,7 @@ function scene.touchUp(x,y)
 	end
 end
 function scene.touchMove()
-	if noTouch or touchMoveLastFrame then return end
+	if noTouch or touchMoveLastFrame or not playing then return end
 	touchMoveLastFrame=true
 
 	local L=tc.getTouches()
@@ -93,9 +92,7 @@ function scene.keyDown(key)
 			VK[k].pressTime=10
 		end
 	elseif key=="space"then
-		if not NET.getLock("ready")then
-			NET.signal_ready(not PLAYERS[1].ready)
-		end
+		NET.signal_ready(not PLY_NET[1].ready)
 	end
 end
 function scene.keyUp(key)
@@ -142,9 +139,6 @@ function scene.socketRead(cmd,d)
 			COLOR.Y,text.joinRoom,
 		}
 		SFX.play("click")
-		if not playing then
-			resetGameData("qn")
-		end
 	elseif cmd=="Leave"then
 		textBox:push{
 			COLOR.lR,d.username,
@@ -163,6 +157,9 @@ function scene.socketRead(cmd,d)
 	elseif cmd=="Go"then
 		if not playing then
 			playing=true
+			for i=1,#PLY_NET do
+				PLY_NET[i].ready=false
+			end
 			lastUpstreamTime=0
 			upstreamProgress=1
 			resetGameData("n",d.seed)
@@ -171,7 +168,6 @@ function scene.socketRead(cmd,d)
 		end
 	elseif cmd=="Finish"then
 		playing=false
-		resetGameData("n")
 		local winnerUID
 		for _,p in next,d.result do
 			if p.place==1 then
@@ -189,12 +185,12 @@ function scene.socketRead(cmd,d)
 	elseif cmd=="Stream"then
 		if d.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do
-				if P.userID==d.uid then
+				if P.uid==d.uid then
 					local res,stream=pcall(love.data.decode,"string","base64",d.stream)
 					if res then
 						pumpRecording(stream,P.stream)
 					else
-						LOG.print("Bad stream from "..P.userName.."#"..P.userID)
+						LOG.print("Bad stream from "..P.username.."#"..P.uid)
 					end
 				end
 			end
@@ -237,19 +233,37 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	drawFWM()
+	if playing then
+		drawFWM()
 
-	--Players
-	for p=textBox.hide and 1 or 2,#PLAYERS do
-		PLAYERS[p]:draw()
+		--Players
+		for p=textBox.hide and 1 or 2,#PLAYERS do
+			PLAYERS[p]:draw()
+		end
+
+		--Virtual keys
+		drawVirtualkeys()
+
+		--Warning
+		drawWarning()
+	else
+		setFont(40)
+		for i=1,#PLY_NET do
+			local p=PLY_NET[i]
+
+			if p.ready then
+				gc.setColor(.4,1,.4)
+			else
+				gc.setColor(1,1,1)
+			end
+			gc.rectangle("fill",50,60+50*i+14,30,30)
+
+			gc.setColor(.5,.5,.5)
+			gc.print("#"..p.uid,90,60+50*i)
+			gc.setColor(1,1,1)
+			gc.print(p.username,230,60+50*i)
+		end
 	end
-
-	--Virtual keys
-	drawVirtualkeys()
-
-	--Warning
-	drawWarning()
-
 	--New message
 	if textBox.new and textBox.hide then
 		setFont(30)
@@ -259,11 +273,11 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey"space",hide=function()
+	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="yellow",font=40,code=pressKey"space",hide=function()
 		return
 			playing or
 			not textBox.hide or
-			NET.getLock("ready")
+			NET.getlock("ready")
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
