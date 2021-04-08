@@ -69,25 +69,8 @@ end
 function NET.wsconn_app()
 	WS.connect("app","/app")
 end
-function NET.wsconn_play()
-	if _lock("conn_play")then
-		WS.connect("play","/play",JSON.encode{
-			uid=USER.uid,
-			accessToken=NET.accessToken,
-		})
-	end
-end
-function NET.wsconn_stream()
-	if _lock("connectStream")then
-		WS.connect("stream","/stream",JSON.encode{
-			uid=USER.uid,
-			accessToken=NET.accessToken,
-			rid=NET.rsid,
-		})
-	end
-end
 function NET.wsconn_user_pswd(email,password)
-	if _lock("conn_user")then
+	if _lock("wsc_user")then
 		WS.connect("user","/user",JSON.encode{
 			email=email,
 			password=password,
@@ -95,10 +78,27 @@ function NET.wsconn_user_pswd(email,password)
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
-	if _lock("conn_user")then
+	if _lock("wsc_user")then
 		WS.connect("user","/user",JSON.encode{
 			uid=uid,
 			authToken=authToken,
+		})
+	end
+end
+function NET.wsconn_play()
+	if _lock("wsc_play")then
+		WS.connect("play","/play",JSON.encode{
+			uid=USER.uid,
+			accessToken=NET.accessToken,
+		})
+	end
+end
+function NET.wsconn_stream()
+	if _lock("wsc_stream")then
+		WS.connect("stream","/stream",JSON.encode{
+			uid=USER.uid,
+			accessToken=NET.accessToken,
+			rid=NET.rsid,
 		})
 	end
 end
@@ -109,9 +109,6 @@ function NET.wsclose_play()
 end
 function NET.wsclose_stream()
 	WS.close("stream")
-end
-function NET.wsclose_user()
-	WS.close("user")
 end
 
 --Account
@@ -288,7 +285,7 @@ function NET.updateWS_user()
 
 							--Get self infos
 							NET.getUserInfo(USER.uid)
-							_unlock("conn_user")
+							_unlock("wsc_user")
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
@@ -323,7 +320,7 @@ function NET.updateWS_play()
 					if res then
 						if res.type=="Connect"then
 							SCN.go("net_menu")
-							_unlock("conn_play")
+							_unlock("wsc_play")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 							_unlock("fetchRoom")
@@ -426,7 +423,7 @@ function NET.updateWS_stream()
 					local res=_parse(message)
 					if res then
 						if res.type=="Connect"then
-							--?
+							_unlock("wsc_stream")
 						elseif res.action==0 then--Game start
 							SCN.socketRead("Begin",res.data)
 						elseif res.action==1 then--Game finished

@@ -9,8 +9,7 @@ local onVirtualkey=onVirtualkey
 local pressVirtualkey=pressVirtualkey
 local updateVirtualkey=updateVirtualkey
 
-local hideChatBox
-local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=function()return hideChatBox end}
+local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=false}
 
 local playing
 local lastUpstreamTime
@@ -28,7 +27,7 @@ function scene.sceneBack()
 end
 function scene.sceneInit()
 	love.keyboard.setKeyRepeat(false)
-	hideChatBox=true
+	textBox.hide=true
 	textBox:clear()
 
 	resetGameData("n")
@@ -85,7 +84,7 @@ function scene.keyDown(key)
 			LOG.print(text.sureQuit,COLOR.orange)
 		end
 	elseif key=="\\"then
-		hideChatBox=not hideChatBox
+		textBox.hide=not textBox.hide
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -274,7 +273,7 @@ function scene.draw()
 	drawFWM()
 
 	--Players
-	for p=hideChatBox and 1 or 2,#PLAYERS do
+	for p=textBox.hide and 1 or 2,#PLAYERS do
 		PLAYERS[p]:draw()
 	end
 
@@ -285,7 +284,7 @@ function scene.draw()
 	drawWarning()
 
 	--New message
-	if textBox.new and hideChatBox then
+	if textBox.new and textBox.hide then
 		setFont(30)
 		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
 		gc.print("M",460,15)
@@ -296,7 +295,7 @@ scene.widgetList={
 	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey"space",hide=function()
 		return
 			playing or
-			not hideChatBox or
+			not textBox.hide or
 			NET.getLock("ready")
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
