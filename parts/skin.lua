@@ -66,18 +66,6 @@ function SKIN.init(list)
 			_=list[_]
 			TEXT.show(_,1100,100,int(300/#_)+5,"fly")
 		end
-		function SKIN.prev(i)--Prev skin for [i]
-			local _=SETTING.skin
-			_[i]=(_[i]-2)%16+1
-		end
-		function SKIN.next(i)--Next skin for [i]
-			local _=SETTING.skin
-			_[i]=_[i]%16+1
-		end
-		function SKIN.rotate(i)--Change direction of [i]
-			SETTING.face[i]=(SETTING.face[i]+1)%4
-			SFX.play("rotate")
-		end
 		function SKIN.change(i)--Change to skin_set[i]
 			SKIN.curText=SKIN.lib[i]
 			SKIN.curTextMini=SKIN.libMini[i]
