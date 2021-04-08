@@ -199,9 +199,9 @@ end
 function NET.checkPlayDisconn()
 	return WS.status("play")~="running"
 end
-function NET.signal_ready()
+function NET.signal_ready(ready)
 	if _lock("ready")then
-		WS.send("play",'{"action":6,"data":{"ready":true}}')
+		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
 function NET.signal_quit()

@@ -96,7 +96,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		if not NET.getLock("ready")then
-			NET.signal_ready()
+			NET.signal_ready(not PLAYERS[1].ready)
 		end
 	end
 end
@@ -175,13 +175,17 @@ function scene.socketRead(cmd,data)
 		end
 	elseif cmd=="Ready"then
 		if data.uid==USER.uid then
-			PLAYERS[1].ready=true
-			SFX.play("reach",.6)
+			if PLAYERS[1].ready~=data.ready then
+				PLAYERS[1].ready=data.ready
+				SFX.play("reach",.6)
+			end
 		else
 			for i=1,#PLAYERS do
 				if PLAYERS[i].userID==data.uid then
-					PLAYERS[i].ready=true
-					SFX.play("reach",.6)
+					if PLAYERS[i].ready~=data.ready then
+						PLAYERS[i].ready=data.ready
+						SFX.play("reach",.6)
+					end
 					break
 				end
 			end
@@ -289,7 +293,12 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey"space",hide=function()return playing or not hideChatBox or PLAYERS[1].ready end},
+	WIDGET.newKey{name="ready",x=640,y=440,w=200,h=80,color="yellow",font=40,code=pressKey"space",hide=function()
+		return
+			playing or
+			not hideChatBox or
+			NET.getLock("ready")
+		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
 }
