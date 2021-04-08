@@ -56,7 +56,7 @@ local function _parse(res)
 					)or
 					"[NO Message]"
 				),
-			"warning")
+			"warn")
 		end
 	end
 end

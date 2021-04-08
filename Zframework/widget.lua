@@ -845,10 +845,10 @@ function textBox:update()
 end
 function textBox:push(t)
 	ins(self.texts,t)
-	if self.scrollPos==#self.texts-1 and not(self.hide==true or self.hide and self.hide())then
+	if self.scrollPos==#self.texts-1 then
 		self.scrollPos=#self.texts
 	else
-		SFX.play("spin_0",.8)
+		SFX.play("spin_0",.6)
 		self.new=true
 	end
 end

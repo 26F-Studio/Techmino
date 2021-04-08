@@ -145,9 +145,6 @@ function scene.socketRead(cmd,d)
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
-		if not playing then
-			initPlayerPosition(true)
-		end
 	elseif cmd=="Talk"then
 		textBox:push{
 			COLOR.W,d.username,
