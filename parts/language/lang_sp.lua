@@ -235,7 +235,7 @@ return{
 			down="↓",
 		},
 		net_game={
-			-- ready="Ready",
+			-- ready="Ready/Cancel",
 		},
 		net_chat={
 			-- send="Send",

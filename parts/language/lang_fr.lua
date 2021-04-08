@@ -229,7 +229,7 @@ return{
 			down="↓",
 		},
 		net_game={
-			ready="Prêt",
+			-- ready="Ready/Cancel",
 		},
 		net_chat={
 			send="Envoyer",

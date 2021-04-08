@@ -257,7 +257,7 @@ return{
 			down="↓",
 		},
 		net_game={
-			ready="准备",
+			ready="准备/取消",
 		},
 		net_chat={
 			send="发送",
