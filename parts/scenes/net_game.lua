@@ -203,7 +203,7 @@ function scene.socketRead(cmd,data)
 		playing=false
 		resetGameData("n")
 		local winnerUID
-		for _,p in data.result do
+		for _,p in next,data.result do
 			if p.place==1 then
 				winnerUID=p.uid
 				break
