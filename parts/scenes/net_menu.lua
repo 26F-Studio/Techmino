@@ -3,6 +3,9 @@ local scene={}
 function scene.sceneInit()
 	BG.set("space")
 end
+function scene.sceneBack()
+	NET.wsclose_play()
+end
 
 scene.widgetList={
 	-- WIDGET.newButton{name="ffa",	x=640,	y=200,w=350,h=120,font=40,code=NULL},

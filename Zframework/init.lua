@@ -444,6 +444,7 @@ function love.errorhandler(msg)
 		end
 	end
 end
+local WS=WS
 local WSnames={"app","user","play","stream","chat"}
 local WScolor={
 	{1,.5,.5,.7},

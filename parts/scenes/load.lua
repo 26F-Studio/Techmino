@@ -180,12 +180,9 @@ local loadingThread=coroutine.wrap(function()
 	TASK.new(NET.updateWS_app)
 	TASK.new(NET.updateWS_user)
 	TASK.new(NET.updateWS_play)
-	WS.connect("app","/app")
+	NET.wsconn_app()
 	if USER.authToken then
-		WS.connect("user","/user",JSON.encode{
-			uid=USER.uid,
-			authToken=USER.authToken,
-		})
+		NET.wsconn_user_token(USER.uid,USER.authToken)
 	end
 
 	while true do

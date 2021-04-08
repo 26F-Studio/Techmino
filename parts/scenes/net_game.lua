@@ -23,6 +23,7 @@ local scene={}
 
 function scene.sceneBack()
 	NET.signal_quit()
+	NET.wsclose_stream()
 	love.keyboard.setKeyRepeat(true)
 end
 function scene.sceneInit()
@@ -187,7 +188,7 @@ function scene.socketRead(cmd,data)
 		end
 	elseif cmd=="Set"then
 		NET.rsid=data.rid
-		NET.wsConnectStream()
+		NET.wsconn_stream()
 		TASK.new(NET.updateWS_stream)
 	elseif cmd=="Begin"then
 		if not playing then
@@ -196,20 +197,27 @@ function scene.socketRead(cmd,data)
 			upstreamProgress=1
 			resetGameData("n",data.seed)
 		else
-			LOG.print("Redundant signal: B(begin)",30,COLOR.green)
+			LOG.print("Redundant signal: Begin",30,COLOR.green)
 		end
 	elseif cmd=="Finish"then
 		playing=false
 		resetGameData("n")
-		TEXT.show(text.champion:gsub("$1","SOMEBODY"),640,260,80,"zoomout",.26)
-	elseif cmd=="Die"then
-		--?
-	elseif cmd=="Stream"then
-		if data.uid==USER.uid then
-			LOG.print("SELF STREAM")
-			return
+		local winnerUID
+		for _,p in data.result do
+			if p.place==1 then
+				winnerUID=p.uid
+				break
+			end
 		end
-		if playing then
+		if not winnerUID then return end
+		for _,d in next,PLY_NET do
+			if d.uid==winnerUID then
+				TEXT.show(text.champion:gsub("$1",d.username),640,260,80,"zoomout",.26)
+				break
+			end
+		end
+	elseif cmd=="Stream"then
+		if data.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do
 				if P.userID==data.uid then
 					local res,stream=pcall(love.data.decode,"string","base64",data.stream)
@@ -225,11 +233,11 @@ function scene.socketRead(cmd,data)
 end
 
 function scene.update(dt)
+	if NET.checkPlayDisconn()then SCN.back()end
+	if not playing then return end
+
 	local _
 	local GAME=GAME
-
-	if WS.status("play")~="running"then SCN.back()end
-	if not playing then return end
 
 	touchMoveLastFrame=false
 	updateVirtualkey()

@@ -1,3 +1,4 @@
+local WS=WS
 local data=love.data
 local ins,rem=table.insert,table.remove
 local NET={
@@ -54,14 +55,63 @@ local function _parse(res)
 	end
 end
 
---wsEvent
-function NET.wsCloseMessage(message)
+--WS close message
+local function wsCloseMessage(message)
 	local mes=JSON.decode(message)
 	if mes then
 		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),"warn")
 	else
 		LOG.print(text.wsClose.."","warn")
 	end
+end
+
+--Connect
+function NET.wsconn_app()
+	WS.connect("app","/app")
+end
+function NET.wsconn_play()
+	if _lock("conn_play")then
+		WS.connect("play","/play",JSON.encode{
+			uid=USER.uid,
+			accessToken=NET.accessToken,
+		})
+	end
+end
+function NET.wsconn_stream()
+	if _lock("connectStream")then
+		WS.connect("stream","/stream",JSON.encode{
+			uid=USER.uid,
+			accessToken=NET.accessToken,
+			rid=NET.rsid,
+		})
+	end
+end
+function NET.wsconn_user_pswd(email,password)
+	if _lock("conn_user")then
+		WS.connect("user","/user",JSON.encode{
+			email=email,
+			password=password,
+		})
+	end
+end
+function NET.wsconn_user_token(uid,authToken)
+	if _lock("conn_user")then
+		WS.connect("user","/user",JSON.encode{
+			uid=uid,
+			authToken=authToken,
+		})
+	end
+end
+
+--Disconnect
+function NET.wsclose_play()
+	WS.close("play")
+end
+function NET.wsclose_stream()
+	WS.close("stream")
+end
+function NET.wsclose_user()
+	WS.close("user")
 end
 
 --Account
@@ -146,13 +196,8 @@ function NET.enterRoom(roomID,password)
 end
 
 --Play
-function NET.wsConnectPlay()
-	if _lock("connectPlay")then
-		WS.connect("play","/play",JSON.encode{
-			uid=USER.uid,
-			accessToken=NET.accessToken,
-		})
-	end
+function NET.checkPlayDisconn()
+	return WS.status("play")~="running"
 end
 function NET.signal_ready()
 	if _lock("ready")then
@@ -162,20 +207,11 @@ end
 function NET.signal_quit()
 	WS.send("play",'{"action":3}')
 end
-function NET.wsConnectStream()
-	if _lock("connectStream")then
-		WS.connect("stream","/stream",JSON.encode{
-			uid=USER.uid,
-			accessToken=NET.accessToken,
-			rid=NET.rsid,
-		})
-	end
+function NET.signal_die()
+	WS.send("stream",'{"action":4,"data":{"score":0,"survivalTime":0}}')
 end
 function NET.uploadRecStream(stream)
-	WS.send("stream",'{"action":2,"data":{"stream":"'..data.encode("string","base64",stream)..'"}}')
-end
-function NET.signal_die()
-	WS.send("stream",'{"action":3,"data":{"score":0,"survivalTime":0}}')
+	WS.send("stream",'{"action":5,"data":{"stream":"'..data.encode("string","base64",stream)..'"}}')
 end
 
 --Chat
@@ -199,7 +235,7 @@ function NET.updateWS_app()
 					NET.pong("app",message)
 				elseif op=="pong"then
 				elseif op=="close"then
-					NET.wsCloseMessage(message)
+					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
@@ -235,7 +271,7 @@ function NET.updateWS_user()
 					NET.pong("user",message)
 				elseif op=="pong"then
 				elseif op=="close"then
-					NET.wsCloseMessage(message)
+					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
@@ -252,10 +288,11 @@ function NET.updateWS_user()
 
 							--Get self infos
 							NET.getUserInfo(USER.uid)
+							_unlock("conn_user")
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
-							NET.wsConnectPlay()
+							NET.wsconn_play()
 							_unlock("accessToken")
 						elseif res.action==1 then--Get userInfo
 							NET.storeUserInfo(res)
@@ -279,18 +316,19 @@ function NET.updateWS_play()
 					NET.pong("play",message)
 				elseif op=="pong"then
 				elseif op=="close"then
-					NET.wsCloseMessage(message)
+					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
 					if res then
 						if res.type=="Connect"then
 							SCN.go("net_menu")
-							_unlock("connectPlay")
+							_unlock("conn_play")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 							_unlock("fetchRoom")
 						elseif res.action==1 then--Create room (not used)
+							--?
 						elseif res.action==2 then--Player join
 							local d=res.data
 							if res.type=="Self"then
@@ -356,8 +394,12 @@ function NET.updateWS_play()
 							SCN.socketRead("Ready",res.data)
 							_unlock("ready")
 						elseif res.action==7 then--All ready
+							--?
 						elseif res.action==8 then--Sure ready
 							SCN.socketRead("Set",res.data)
+						elseif res.action==9 then--Game finished
+							SCN.socketRead("Finish",res.data)
+							NET.wsclose_stream()
 						end
 					else
 						WS.alert("play")
@@ -378,7 +420,7 @@ function NET.updateWS_stream()
 					NET.pong("stream",message)
 				elseif op=="pong"then
 				elseif op=="close"then
-					NET.wsCloseMessage(message)
+					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
@@ -388,13 +430,13 @@ function NET.updateWS_stream()
 						elseif res.action==0 then--Game start
 							SCN.socketRead("Begin",res.data)
 						elseif res.action==1 then--Game finished
-							SCN.socketRead("Finish",res.data)
+							--?
 						elseif res.action==2 then--Player join
 							--?
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died
-							SCN.socketRead("Die",res.data)
+							--?
 						elseif res.action==5 then--Receive stream
 							SCN.socketRead("Stream",res.data)
 						end
@@ -417,7 +459,7 @@ function NET.updateWS_chat()
 					NET.pong("chat",message)
 				elseif op=="pong"then
 				elseif op=="close"then
-					NET.wsCloseMessage(message)
+					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)

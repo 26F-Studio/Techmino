@@ -6,10 +6,7 @@ local function login()
 	elseif #password==0 then
 		LOG.print(text.noPassword)return
 	end
-	WS.connect("user","/user",JSON.encode{
-		email=email,
-		password=password,
-	})
+	NET.wsconn_user_pswd(email,password)
 end
 
 local scene={}
