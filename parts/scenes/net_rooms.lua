@@ -57,6 +57,9 @@ function scene.keyDown(k)
 				LOG.print("Can't enter private room now")
 				return
 			end
+			if NET.roomList[selected].start then
+				LOG.print("Can't enter room after start")
+			end
 			NET.enterRoom(NET.roomList[selected].rid)--,password
 		end
 	end
@@ -89,6 +92,10 @@ function scene.draw()
 			if R.private then
 				gc.setColor(1,1,1)
 				gc.draw(IMG.lock,59,75+40*i)
+			end
+			if R.start then
+				gc.setColor(0,1,0)
+				gc.print("S",800,66+40*i)
 			end
 			gc.setColor(.9,.9,1)
 			gc.print(scrollPos+i,95,66+40*i)
