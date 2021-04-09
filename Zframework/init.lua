@@ -504,15 +504,15 @@ function love.run()
 		--UPDATE
 		STEP()
 		TASK.update()
+		WS.update(dt)
 		VOC.update()
 		BG.update(dt)
 		SYSFX.update(dt)
-		TEXT.update()
+		WIDGET.update()--Widgets animation
 		if SCN.update then SCN.update(dt)end--Scene Updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
-		WIDGET.update()--Widgets animation
+		TEXT.update()
 		LOG.update()
-		WS.update(dt)
 
 		--DRAW
 		if not MINI()then
