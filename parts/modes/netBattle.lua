@@ -3,6 +3,7 @@ return{
 	env={
 		drop=30,
 		freshLimit=15,
+		garbageSpeed=2,
 		noMod=true,
 		bg="space",
 		bgm={"race","push","secret8th","secret7th","waterfall","oxygen","shining terminal","storm","rockblock","magicblock","cruelty"},
