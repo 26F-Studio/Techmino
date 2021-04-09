@@ -110,6 +110,8 @@ local _send do
 		end
 	end
 end
+local res,err
+local op,fin
 local length
 local lBuffer=""--Long multi-data buffer
 local UFF--Un-finished-frame mode
@@ -125,25 +127,13 @@ while true do--Running
 
 	--Read
 	while true do
-		if UFF then--UNF process
-			local s,e,p=SOCK:receive(length)
-			if s then
-				sBuffer=sBuffer..s
-				UFF=false
-			elseif p then
-				sBuffer=sBuffer..p
-				length=length-#p
-				if length==0 then
-					UFF=false
-				end
-			end
-		else
+		if not UFF then--UNF process
 			--Byte 0-1
-			local res,err=SOCK:receive(2)
+			res,err=SOCK:receive(2)
 			if err then break end
 
-			local op=band(byte(res,1),0x0f)
-			local fin=band(byte(res,1),0x80)==0x80
+			op=band(byte(res,1),0x0f)
+			fin=band(byte(res,1),0x80)==0x80
 
 			--Calculating data length
 			length=band(byte(res,2),0x7f)
@@ -171,36 +161,54 @@ while true do--Running
 			else
 				res=""
 			end
-
-			--React
-			if op==8 then--8=close
-				readCHN:push(op)
-				SOCK:close()
-				if type(res)=="string"then
-					res=JSON.decode(res)
-					readCHN:push(res and res.reason or"WS Error")
-				else
-					readCHN:push("WS Error")
-				end
-			elseif op==0 then--0=continue
-				lBuffer=lBuffer..res
-				if fin then
-					]]..(debug==2 and""or"--")..[[print("FIN=1 (c")
-					readCHN:push(lBuffer)
-					lBuffer=""
-				else
-					]]..(debug==2 and""or"--")..[[print("FIN=0 (c")
-				end
+		else
+			local s,e,p=SOCK:receive(length)
+			if s then
+				]]..(debug==1 and""or"--")..[[print(("%s<%d>:%s"):format(threadName,length,s))
+				sBuffer=sBuffer..s
+				length=length-#s
+			elseif p then
+				]]..(debug==1 and""or"--")..[[print(("%s<%d>:%s"):format(threadName,length,p))
+				sBuffer=sBuffer..p
+				length=length-#p
+			end
+			if length==0 then
+				res,sBuffer=sBuffer,""
+				UFF=false
 			else
-				readCHN:push(op)
-				if fin then
-					]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=1")
-					readCHN:push(res)
-				else
-					]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=0")
-					sBuffer=res
-					]]..(debug==2 and""or"--")..[[print("START pack: "..res)
-				end
+				break
+			end
+		end
+		]]..(debug==1 and""or"--")..[[print(("%s<[%d]>:%s"):format(threadName,#res,res))
+
+		--React
+		if op==8 then--8=close
+			readCHN:push(op)
+			SOCK:close()
+			if type(res)=="string"then
+				res=JSON.decode(res)
+				readCHN:push(res and res.reason or"WS Error")
+			else
+				readCHN:push("WS Error")
+			end
+		elseif op==0 then--0=continue
+			lBuffer=lBuffer..res
+			if fin then
+				]]..(debug==2 and""or"--")..[[print("FIN=1 (c")
+				readCHN:push(lBuffer)
+				lBuffer=""
+			else
+				]]..(debug==2 and""or"--")..[[print("FIN=0 (c")
+			end
+		else
+			readCHN:push(op)
+			if fin then
+				]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=1")
+				readCHN:push(res)
+			else
+				]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=0")
+				sBuffer=res
+				]]..(debug==2 and""or"--")..[[print("START pack: "..res)
 			end
 		end
 	end
