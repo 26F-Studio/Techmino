@@ -26,6 +26,7 @@ scene.widgetList={
 				SCN.back()
 			end
 		else
+			LOG.print(text.sureQuit,COLOR.orange)
 			lastLogoutTime=TIME()
 		end
 	end},
