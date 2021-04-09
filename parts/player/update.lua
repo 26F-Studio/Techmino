@@ -374,10 +374,10 @@ end
 function update.remote_alive(P,dt)
 	local frmStep=GAME.frame-P.stat.frame
 	frmStep=
-		frmStep<60 and 1 or
-		frmStep<120 and rnd(2)or
-		frmStep<240 and 2 or
-		frmStep<480 and rnd(2,3) or
+		frmStep<20 and 1 or
+		frmStep<45 and rnd(2)or
+		frmStep<90 and 2 or
+		frmStep<180 and rnd(2,3) or
 		3
 	repeat
 		local eventTime=P.stream[P.streamProgress]
