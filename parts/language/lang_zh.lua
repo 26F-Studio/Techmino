@@ -246,6 +246,7 @@ return{
 			ffa="FFA",
 			rooms="房间列表",
 			chat="聊天室",
+			logout="退出登录",
 		},
 		net_rooms={
 			refreshing="刷新房间列表中",

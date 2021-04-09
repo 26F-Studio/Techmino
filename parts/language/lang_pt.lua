@@ -246,6 +246,7 @@ return{
 			ffa="FFA",
 			rooms="Salas",
 			chat="Chat",
+			-- logout="Log out",
 		},
 		net_rooms={
 			-- refreshing="Refreshing Rooms",

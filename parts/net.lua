@@ -2,7 +2,6 @@ local data=love.data
 local ins,rem=table.insert,table.remove
 local WS,TIME=WS,TIME
 local NET={
-	login=false,
 	allow_online=false,
 	roomList={},
 	accessToken=false,
@@ -110,6 +109,9 @@ function NET.wsconn_stream()
 end
 
 --Disconnect
+function NET.wsclose_user()
+	WS.close("user")
+end
 function NET.wsclose_play()
 	WS.close("play")
 end
@@ -152,7 +154,7 @@ function NET.storeUserInfo(res)
 	--Get own name
 	if res.uid==USER.uid then
 		USER.username=res.username
-		FILE.save(USER,"conf/user")
+		FILE.save(USER,"conf/user","q")
 	end
 
 	-- FILE.save(USERS,"conf/users")
@@ -282,10 +284,11 @@ function NET.updateWS_user()
 					local res=_parse(message)
 					if res then
 						if res.type=="Connect"then
-							NET.login=true
 							if res.uid then
 								USER.uid=res.uid
 								USER.authToken=res.authToken
+								WIDGET.active.email:clear()
+								WIDGET.active.password:clear()
 								FILE.save(USER,"conf/user","q")
 								SCN.back()
 							end
