@@ -76,7 +76,6 @@ function scene.keyDown(key)
 	if key=="escape"then
 		if TIME()-lastBackTime<1 then
 			NET.signal_quit()
-			SCN.back()
 		else
 			lastBackTime=TIME()
 			LOG.print(text.sureQuit,COLOR.orange)
