@@ -173,13 +173,13 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom()
+function NET.createRoom(roomType,name)
 	if NET.lock("enterRoom",3)then
 		WS.send("play",JSON.encode{
 			action=1,
 			data={
-				type="classic",
-				name=(USER.username or"???").."'s room",
+				type=roomType,
+				name=name,
 				password=nil,
 				config=dumpBasicConfig(),
 			}

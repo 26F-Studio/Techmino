@@ -1,4 +1,5 @@
 local gc=love.graphics
+local kb=love.keyboard
 
 local NET=NET
 local scrollPos,selected
@@ -29,7 +30,16 @@ function scene.keyDown(k)
 		end
 	elseif k=="n"then
 		if TIME()-lastCreateRoomTime>16.2 then
-			NET.createRoom()
+			NET.createRoom(
+				kb.isDown("1")and"solo"or
+				kb.isDown("2")and"classic"or
+				tonumber(USER.uid)<100 and(
+					kb.isDown("3")and"r49"or
+					kb.isDown("4")and"r99"or
+					kb.isDown("5")and"unlimited"
+				)or"solo'",
+				(USER.username or"???").."'s room"
+			)
 			lastCreateRoomTime=TIME()
 		else
 			LOG.print(text.createRoomTooFast,"warn")
