@@ -3,6 +3,7 @@ return{
 	env={
 		drop=30,
 		freshLimit=15,
+		pushSpeed=5,
 		garbageSpeed=2,
 		noMod=true,
 		bg="space",
