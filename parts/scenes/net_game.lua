@@ -244,9 +244,21 @@ function scene.draw()
 		--Warning
 		drawWarning()
 	else
-		setFont(40)
 		for i=1,#PLY_NET do
 			local p=PLY_NET[i]
+			gc.setColor(1,1,1)
+
+			--Rectangle
+			gc.setLineWidth(4)
+			gc.rectangle("line",40,65+50*i,1200,50)
+
+			--Username
+			setFont(40)
+			gc.print(p.username,230,60+50*i)
+
+			--UID
+			gc.setColor(.5,.5,.5)
+			gc.print("#"..p.uid,90,60+50*i)
 
 			if p.ready then
 				gc.setColor(.4,1,.4)
@@ -254,11 +266,6 @@ function scene.draw()
 				gc.setColor(1,1,1)
 			end
 			gc.rectangle("fill",50,60+50*i+14,30,30)
-
-			gc.setColor(.5,.5,.5)
-			gc.print("#"..p.uid,90,60+50*i)
-			gc.setColor(1,1,1)
-			gc.print(p.username,230,60+50*i)
 		end
 	end
 	--New message
@@ -270,7 +277,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="yellow",font=40,code=pressKey"space",hide=function()
+	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="lG",font=40,code=pressKey"space",hide=function()
 		return
 			playing or
 			not textBox.hide or
