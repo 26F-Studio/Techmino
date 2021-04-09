@@ -406,6 +406,9 @@ function NET.updateWS_play()
 							for i=1,#PLY_NET do
 								if PLY_NET[i].uid==d.uid then
 									if PLY_NET[i].ready~=d.ready then
+										if i==1 then
+											WIDGET.active.ready.color=COLOR[d.ready and"lY"or"lG"]
+										end
 										PLY_NET[i].ready=d.ready
 										SFX.play("reach",.6)
 									end
