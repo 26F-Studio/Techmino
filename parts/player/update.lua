@@ -373,13 +373,13 @@ function update.dead(P,dt)
 end
 function update.remote_alive(P,dt)
 	local frmStep=GAME.frame-P.stat.frame
-	frmStep=
+	for _=1,
 		frmStep<20 and 1 or
 		frmStep<45 and rnd(2)or
 		frmStep<90 and 2 or
 		frmStep<180 and rnd(2,3) or
 		3
-	repeat
+	do
 		local eventTime=P.stream[P.streamProgress]
 		if eventTime then--Normal state, event forward
 			if P.stat.frame==eventTime then--Event time, execute action, read next so don't update immediately
@@ -394,23 +394,21 @@ function update.remote_alive(P,dt)
 					local amount=int(event/0x100)%0x100
 					local time=int(event/0x10000)%0x10000
 					local line=int(event/0x100000000)%0x10000
-					local L=PLY_ALIVE
-					for i=1,#L do
-						if L[i].sid==sid then
-							P:attack(L[i],amount,time,line,true)
+					for _,p in next,PLY_ALIVE do
+						if p.sid==sid then
+							P:attack(p,amount,time,line,true)
 							if P.gameEnv.atkFX then
-								P:createBeam(L[i],amount,P.gameEnv.atkFX,P.cur.color)
+								P:createBeam(p,amount,P.gameEnv.atkFX,P.cur.color)
 							end
 							break
 						end
 					end
 				elseif event>0x1000000000000 then--Receiving lines
-					local L=PLY_ALIVE
 					local sid=event%0x100
-					for i=1,#L do
-						if L[i].sid==sid then
+					for _,p in next,PLY_ALIVE do
+						if p.sid==sid then
 							P:receive(
-								L[i],
+								p,
 								int(event/0x100)%0x100,--amount
 								int(event/0x10000)%0x10000,--time
 								int(event/0x100000000)%0x10000--line
@@ -422,11 +420,10 @@ function update.remote_alive(P,dt)
 				P.streamProgress=P.streamProgress+2
 			else--No event now, run one frame
 				update.alive(P,dt)
-				frmStep=frmStep-1
 			end
 		else--Pause state, no actions, quit loop
 			break
 		end
-	until frmStep<=0
+	end
 end
 return update
