@@ -661,9 +661,14 @@ do--function dumpBasicConfig()
 		"skin","face",
 
 		--Graphic
-		"block","ghost","center","smooth","grid","bagLine",
-		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
-		"text","score","warn","highCam","nextPos",
+		"block","ghost","center","bagLine",
+		"dropFX","moveFX","shakeFX",
+		"text","highCam","nextPos",
+
+		--Not necessary graphic
+		-- "grid","smooth",
+		-- "lockFX","clearFX","splashFX","atkFX",
+		-- "score",
 	}
 	function dumpBasicConfig()
 		local S={}
