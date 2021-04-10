@@ -138,21 +138,20 @@ function NET.getUserInfo(id,ifDetail)
 		},
 	})
 end
-function NET.storeUserInfo(res)
-	local user=USERS[res.uid]
+function NET.storeUserInfo(d)
+	local user=USERS[d.uid]
 	if not user then
 		user={}
-		USERS[res.uid]=user
+		USERS[d.uid]=user
 	end
-	user.uid=res.uid
-	user.email=res.email
-	user.username=res.username
-	user.motto=res.motto
-	user.avatar=res.avatar
+	user.uid=d.uid
+	user.username=d.username
+	user.motto=d.motto
+	user.avatar=d.avatar
 
 	--Get own name
-	if res.uid==USER.uid then
-		USER.username=res.username
+	if d.uid==USER.uid then
+		USER.username=d.username
 		FILE.save(USER,"conf/user","q")
 	end
 
@@ -301,7 +300,7 @@ function NET.updateWS_user()
 							NET.wsconn_play()
 							NET.unlock("accessToken")
 						elseif res.action==1 then--Get userInfo
-							NET.storeUserInfo(res)
+							NET.storeUserInfo(res.data)
 						end
 					else
 						WS.alert("user")
