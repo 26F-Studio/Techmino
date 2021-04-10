@@ -148,7 +148,7 @@ return{
 	{"Techmino",
 		"techmino",
 		"game",
-		"*Windows, MacOS, Android | Single player*\nA game with many modes and loads of customization. Low input delay, decent controls.",
+		"*Windows, MacOS, Android | Single player and multiplyer*\nA game with many modes and loads of customization. Low input delay, decent controls.",
 	},
 	{"Cultris II",
 		"c2 cultris2 cultrisii",
