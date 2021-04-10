@@ -34,7 +34,7 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 --Create directories
-for _,v in next,{"conf","record","replay"}do
+for _,v in next,{"conf","record","replay","cache"}do
 	local info=fs.getInfo(v)
 	if not info then
 		fs.createDirectory(v)

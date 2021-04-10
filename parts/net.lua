@@ -141,15 +141,13 @@ function NET.storeUserInfo(res)
 	local user=USERS[res.uid]
 	if not user then
 		user={}
-		user.email=res.email
-		user.name=res.username
 		USERS[res.uid]=user
-	else
-		user.email=res.email
-		user.name=res.username
-		if not user.motto then user.motto=res.motto end
-		if not user.avatar then user.avatar=res.avatar end
 	end
+	user.uid=res.uid
+	user.email=res.email
+	user.username=res.username
+	user.motto=res.motto
+	user.avatar=res.avatar
 
 	--Get own name
 	if res.uid==USER.uid then
