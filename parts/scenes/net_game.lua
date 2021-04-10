@@ -248,8 +248,8 @@ function scene.draw()
 
 			--Rectangle
 			gc.setColor(COLOR[p.ready and"G"or"white"])
-			gc.setLineWidth(4)
-			gc.rectangle("line",40,67+50*i,1200,42)
+			gc.setLineWidth(3)
+			gc.rectangle("line",40,67+50*i,800,42)
 
 			--Username
 			gc.setColor(1,1,1)
