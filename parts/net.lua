@@ -361,7 +361,7 @@ function NET.updateWS_play()
 									ready=d.ready,
 									config=d.config,
 								})
-								SCN.socketRead("Join",res.data)
+								SCN.socketRead("Join",d)
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
@@ -387,10 +387,10 @@ function NET.updateWS_play()
 										break
 									end
 								end
-								SCN.socketRead("Leave",res.data)
+								SCN.socketRead("Leave",d)
 							end
 						elseif res.action==4 then--Player talk
-							SCN.socketRead("Talk",res.data)
+							SCN.socketRead("Talk",d)
 						elseif res.action==5 then--Player change settings
 							if tostring(USER.uid)~=d.uid then
 								for i=1,#PLY_NET do
@@ -423,7 +423,7 @@ function NET.updateWS_play()
 							NET.wsconn_stream()
 							TASK.new(NET.updateWS_stream)
 						elseif res.action==9 then--Game finished
-							SCN.socketRead("Finish",res.data)
+							SCN.socketRead("Finish",d)
 							NET.wsclose_stream()
 						end
 					else
@@ -450,10 +450,11 @@ function NET.updateWS_stream()
 				else
 					local res=_parse(message)
 					if res then
+						local d=res.data
 						if res.type=="Connect"then
 							NET.unlock("wsc_stream")
 						elseif res.action==0 then--Game start
-							SCN.socketRead("Go",res.data)
+							SCN.socketRead("Go",d)
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
@@ -463,7 +464,7 @@ function NET.updateWS_stream()
 						elseif res.action==4 then--Player died
 							--?
 						elseif res.action==5 then--Receive stream
-							SCN.socketRead("Stream",res.data)
+							SCN.socketRead("Stream",d)
 						end
 					else
 						WS.alert("stream")
