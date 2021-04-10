@@ -245,26 +245,20 @@ function scene.draw()
 	else
 		for i=1,#PLY_NET do
 			local p=PLY_NET[i]
-			gc.setColor(1,1,1)
 
 			--Rectangle
+			gc.setColor(COLOR[p.ready and"G"or"white"])
 			gc.setLineWidth(4)
-			gc.rectangle("line",40,65+50*i,1200,50)
+			gc.rectangle("line",40,67+50*i,1200,42)
 
 			--Username
+			gc.setColor(1,1,1)
 			setFont(40)
-			gc.print(p.username,230,60+50*i)
+			gc.print(p.username,200,60+50*i)
 
 			--UID
 			gc.setColor(.5,.5,.5)
-			gc.print("#"..p.uid,90,60+50*i)
-
-			if p.ready then
-				gc.setColor(.4,1,.4)
-			else
-				gc.setColor(1,1,1)
-			end
-			gc.rectangle("fill",50,60+50*i+14,30,30)
+			gc.print("#"..p.uid,50,60+50*i)
 		end
 	end
 	--New message
