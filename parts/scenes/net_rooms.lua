@@ -67,9 +67,6 @@ function scene.keyDown(k)
 				LOG.print("Can't enter private room now")
 				return
 			end
-			if NET.roomList[selected].start then
-				LOG.print("Can't enter room after start")
-			end
 			NET.enterRoom(NET.roomList[selected].rid)--,password
 		end
 	end
