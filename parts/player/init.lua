@@ -330,6 +330,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		if ENV.clearFX==0 then	ENV.clearFX=false	end
 		if ENV.splashFX==0 then	ENV.splashFX=false	end
 		if ENV.shakeFX==0 then	ENV.shakeFX=false	end
+		if ENV.atkFX==0 then	ENV.atkFX=false		end
 	end
 	if ENV.ghost==0 then	ENV.ghost=false	end
 	if ENV.center==0 then	ENV.center=false end

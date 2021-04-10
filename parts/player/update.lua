@@ -398,8 +398,8 @@ function update.remote_alive(P,dt)
 					for i=1,#L do
 						if L[i].sid==sid then
 							P:attack(L[i],amount,time,line,true)
-							if SETTING.atkFX>0 then
-								P:createBeam(L[i],amount,P.cur.color)
+							if P.gameEnv.atkFX then
+								P:createBeam(L[i],amount,P.gameEnv.atkFX,P.cur.color)
 							end
 							break
 						end

@@ -97,7 +97,7 @@ end
 function Player:createClearingFX(y,spd)
 	ins(self.clearFX,{y,0,spd})
 end
-function Player:createBeam(R,send,color)
+function Player:createBeam(R,send,power,color)
 	local x1,y1,x2,y2
 	if self.mini then x1,y1=self.centerX,self.centerY
 	else x1,y1=self.x+(30*(self.curX+self.cur.sc[2])-30+15+150)*self.size,self.y+(600-30*(self.curY+self.cur.sc[1])+15)*self.size
@@ -110,7 +110,7 @@ function Player:createBeam(R,send,color)
 	local r,g,b=c[1]*2,c[2]*2,c[3]*2
 
 	local a=GAME.modeEnv.royaleMode and not(self.type=="human"or R.type=="human")and .2 or 1
-	SYSFX.newAttack(1-SETTING.atkFX*.1,x1,y1,x2,y2,int(send^.7*(4+SETTING.atkFX)),r,g,b,a*(SETTING.atkFX+2)*.0626)
+	SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a*(power+2)*.0626)
 end
 --------------------------</FX>--------------------------
 
@@ -1322,8 +1322,8 @@ do--Player.drop(self)--Place piece
 							if M>0 then
 								for i=1,M do
 									self:attack(self.atker[i],send,sendTime,generateLine(self:RND(10)))
-									if SETTING.atkFX>0 then
-										self:createBeam(self.atker[i],send,C.color)
+									if ENV.atkFX then
+										self:createBeam(self.atker[i],send,ENV.atkFX,C.color)
 									end
 								end
 							else
@@ -1338,8 +1338,8 @@ do--Player.drop(self)--Place piece
 					end
 					if T then
 						self:attack(T,send,sendTime,generateLine(self:RND(10)))
-						if SETTING.atkFX>0 then
-							self:createBeam(T,send,C.color)
+						if ENV.atkFX then
+							self:createBeam(T,send,ENV.atkFX,C.color)
 						end
 					end
 				end
