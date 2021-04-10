@@ -8,9 +8,6 @@ return{
 		drop=60,wait=8,fall=20,
 		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
-			if P.stat.row<180 then
-				P.stat.row=180
-			end
 			if P.stat.row>=P.modeData.target then
 				if P.modeData.target==200 then
 					P:win("finish")
