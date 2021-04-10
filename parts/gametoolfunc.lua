@@ -665,7 +665,7 @@ do--function dumpBasicConfig()
 		"dropFX","moveFX","shakeFX",
 		"text","highCam","nextPos",
 
-		--Not necessary graphic
+		--Unnecessary graphic
 		-- "grid","smooth",
 		-- "lockFX","clearFX","splashFX","atkFX",
 		-- "score",
@@ -675,7 +675,7 @@ do--function dumpBasicConfig()
 		for _,key in next,gameSetting do
 			S[key]=SETTING[key]
 		end
-		return data.encode("string","base64",JSON.encode(S))
+		return JSON.encode(S)
 	end
 end
 do--function resetGameData(args)

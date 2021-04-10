@@ -214,9 +214,9 @@ function Player:setRS(RSname)
 end
 
 function Player:setConf(confStr)
-	local _,conf=pcall(love.data.decode,"string","base64",confStr)
-	if _ then
-		for k,v in next,conf do
+	confStr=JSON.decode(confStr)
+	if confStr then
+		for k,v in next,confStr do
 			if not GAME.modeEnv[k]then
 				self.gameEnv[k]=v
 			end

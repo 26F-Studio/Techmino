@@ -346,7 +346,7 @@ function NET.updateWS_play()
 											username=p.username,
 											sid=p.sid,
 											ready=p.ready,
-											conf=p.config,
+											config=p.config,
 										})
 									end
 								end
@@ -359,7 +359,7 @@ function NET.updateWS_play()
 									username=d.username,
 									sid=d.sid,
 									ready=d.ready,
-									conf=d.config,
+									config=d.config,
 								})
 								SCN.socketRead("Join",res.data)
 							end
@@ -395,7 +395,7 @@ function NET.updateWS_play()
 							if tostring(USER.uid)~=d.uid then
 								for i=1,#PLY_NET do
 									if PLY_NET[i].uid==d.uid then
-										PLY_NET[i].conf=d.config
+										PLY_NET[i].config=d.config
 										PLY_NET[i].p:setConf(d.config)
 										return
 									end

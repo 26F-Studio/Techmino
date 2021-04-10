@@ -234,11 +234,9 @@ local function loadGameEnv(P)--Load gameEnv
 	end
 end
 local function loadRemoteEnv(P,confStr)--Load gameEnv
-	local _,conf=pcall(love.data.decode,"string","base64",confStr)
-	if _ then
-		conf=JSON.decode(conf)
-	else
-		conf={}
+	confStr=JSON.decode(confStr)
+	if not confStr then
+		confStr={}
 		LOG.print("Bad conf from "..P.username.."#"..P.uid)
 	end
 
@@ -249,8 +247,8 @@ local function loadRemoteEnv(P,confStr)--Load gameEnv
 	for k,v in next,gameEnv0 do
 		if GAME.modeEnv[k]~=nil then
 			v=GAME.modeEnv[k]	--Mode setting
-		elseif conf[k]~=nil then
-			v=conf[k]			--Game setting
+		elseif confStr[k]~=nil then
+			v=confStr[k]			--Game setting
 		elseif SETTING[k]~=nil then
 			v=SETTING[k]		--Global setting
 		end
@@ -385,7 +383,7 @@ function PLY.newRemotePlayer(id,mini,data)
 	P.uid=data.uid
 	P.username=data.username
 	P.sid=data.sid
-	loadRemoteEnv(P,data.conf)
+	loadRemoteEnv(P,data.config)
 
 	applyGameEnv(P)
 end
