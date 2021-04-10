@@ -537,7 +537,7 @@ local function log_user(str)
 	log(noLog and"CHEATER."or tostring(str))
 end
 local userG={
-	_VERSION=VERSION_CODE,
+	_VERSION=VERSION.code,
 	assert=assert,error=error,
 	tonumber=tonumber,tostring=tostring,
 	select=select,next=next,

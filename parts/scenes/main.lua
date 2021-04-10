@@ -2,7 +2,7 @@ local gc=love.graphics
 
 local scene={}
 
-local verName=SYSTEM.."  "..VERSION_NAME
+local verName=("%s  %s  %s"):format(SYSTEM,VERSION.string,VERSION.name)
 local tipLength=760
 local tip=gc.newText(getFont(30),"")
 local scrollX--Tip scroll position

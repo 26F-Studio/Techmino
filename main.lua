@@ -327,9 +327,9 @@ do
 	end
 	USER.username=nil
 
-	if STAT.version~=VERSION_CODE then
+	if STAT.version~=VERSION.code then
 		newVersionLaunch=true
-		STAT.version=VERSION_CODE
+		STAT.version=VERSION.code
 		FILE.save(STAT,"conf/data","q")
 	end
 

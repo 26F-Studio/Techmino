@@ -1,5 +1,8 @@
-VERSION_CODE=1401
-VERSION_NAME="Alpha V0.14.1 黎明 Dawn"
+VERSION={
+	code=1401,
+	string="Alpha V0.14.1",
+	name="黎明 Dawn",
+}
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
 	t.version="11.1"
@@ -12,7 +15,7 @@ function love.conf(t)
 	end
 
 	local W=t.window
-	W.title="Techmino "..VERSION_NAME
+	W.title="Techmino "..VERSION.string
 	W.icon="media/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360

@@ -247,8 +247,8 @@ function NET.updateWS_app()
 					local res=_parse(message)
 					if res then
 						NET.connected=true
-						NET.allow_online=VERSION_CODE>=res.lowest
-						if VERSION_CODE<res.newestCode then
+						NET.allow_online=VERSION.code>=res.lowest
+						if VERSION.code<res.newestCode then
 							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
 						end
 						LOG.print(res.notice,300,COLOR.sky)

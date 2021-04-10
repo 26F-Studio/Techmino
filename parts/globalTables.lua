@@ -305,7 +305,7 @@ if S then--Statistics
 	STAT=S
 else
 	STAT={
-		version=VERSION_CODE,
+		version=VERSION.code,
 		run=0,game=0,time=0,frame=0,
 		key=0,rotate=0,hold=0,
 		extraPiece=0,finesseRate=0,

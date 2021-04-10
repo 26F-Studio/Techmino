@@ -4,7 +4,7 @@ local ins,rem=table.insert,table.remove
 
 local debugMesList={}
 local debugMesHistory={
-	"Version: "..VERSION_NAME,
+	"Version: "..VERSION.string,
 	os.date("Launched at %Y/%m/%d %H:%M"),
 }
 local LOG={}
