@@ -72,7 +72,10 @@ function scene.keyDown(key)
 	elseif key=="a"then
 		if testButton(3)then
 			if WS.status("user")=="running"then
-				if not NET.allow_online then
+				if not NET.connected then
+					TEXT.show(text.noInternet,640,450,60,"flicker")
+					SFX.play("finesseError")
+				elseif not NET.allow_online then
 					TEXT.show(text.needUpdate,640,450,60,"flicker")
 					SFX.play("finesseError")
 				else

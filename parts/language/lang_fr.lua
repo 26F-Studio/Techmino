@@ -74,6 +74,7 @@ return{
 	getVersionFail="Echec d'obtention de la dernière version",
 	oldVersion="La version $1 est disponible !",
 	-- needUpdate="Newer version required!",
+	-- noInternet="Not connected to the network",
 	-- notFinished="Coming soon!",
 
 	jsonError="Erreur json",

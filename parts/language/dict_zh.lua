@@ -934,7 +934,7 @@ return{
 	{"gggf",
 		"gggf kissne t127",
 		"name",
-		"【研究群】「T127」\n40行22.831秒(手机25.483)，MPH40行56秒，tetr.io段位U，top数据约60L85A\n20G规则国内一流玩家，拿到了TGM3几乎全部的最终成就(全世界都没几个)\n其他名称:小柒 kissne 127\n还是车车人，几个正作成绩:永EX NM 1B FS 风L NM",
+		"【研究群】「T127」\n40行22.831秒(手机25.483)，MPH40行56秒，tetr.io段位X，数据约60L95A\n20G规则国内一流玩家，拿到了TGM3几乎全部的最终成就(全世界都没几个)\n其他名称:小柒 kissne 127\n还是车车人，几个正作成绩:永EX NM 1B FS 风L NM",
 		"https://space.bilibili.com/287769888",
 	},
 	{"xb",

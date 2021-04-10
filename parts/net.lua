@@ -2,6 +2,7 @@ local data=love.data
 local ins,rem=table.insert,table.remove
 local WS,TIME=WS,TIME
 local NET={
+	connected=false,
 	allow_online=false,
 	roomList={},
 	accessToken=false,
@@ -245,9 +246,8 @@ function NET.updateWS_app()
 				else
 					local res=_parse(message)
 					if res then
-						if VERSION_CODE>=res.lowest then
-							NET.allow_online=true
-						end
+						NET.connected=true
+						NET.allow_online=VERSION_CODE>=res.lowest
 						if VERSION_CODE<res.newestCode then
 							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
 						end

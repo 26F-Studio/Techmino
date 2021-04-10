@@ -72,7 +72,8 @@ return{
 	getNoticeFail="拉取公告失败",
 	getVersionFail="检测新版本失败",
 	oldVersion="最新版本$1可以下载了!",
-	needUpdate="此功能需要更新游戏!",
+	needUpdate="请更新游戏!",
+	noInternet="还未连接到网络",
 	notFinished="暂未完成,敬请期待!",
 
 	jsonError="json错误",

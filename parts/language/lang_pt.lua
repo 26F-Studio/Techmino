@@ -73,6 +73,7 @@ return{
 	getVersionFail="Falha ao detectar uma versão nova",
 	oldVersion="Versão $1 esta disponível agora!",
 	-- needUpdate="Newer version required!",
+	-- noInternet="Not connected to the network",
 	-- notFinished="Coming soon!",
 
 	jsonError="Json error",
