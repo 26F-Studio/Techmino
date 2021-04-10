@@ -1,6 +1,8 @@
--- local host="192.168.114.102"
 -- local host="127.0.0.1"
-local host="hdustea.3322.org"
+-- local host="192.168.114.102"
+-- local host="krakens.tpddns.cn"
+-- local host="hdustea.3322.org"
+local host="game.techmino.org"
 local port="10026"
 local path="/tech/socket/v1"
 
