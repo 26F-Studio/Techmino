@@ -434,7 +434,7 @@ function NET.updateWS_play()
 										SFX.play("spin_0",.6)
 										if i==1 then
 											NET.unlock("ready")
-										else
+										elseif not PLY_NET[1].ready then
 											for j=2,#PLY_NET do
 												if not PLY_NET[j].ready then
 													break
