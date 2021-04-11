@@ -848,7 +848,6 @@ function textBox:push(t)
 	if self.scrollPos==#self.texts-1 then
 		self.scrollPos=#self.texts
 	else
-		SFX.play("spin_0",.6)
 		self.new=true
 	end
 end
