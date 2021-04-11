@@ -151,7 +151,6 @@ while true do--Running
 				--Receive data
 				local s,_,p=SOCK:receive(length)
 				if s then
-					]]..(debug==1 and""or"--")..[[print(("%s[%d]:%s"):format(threadName,length,s))
 					res=s
 				elseif p then--UNF head
 					]]..(debug==1 and""or"--")..[[print(("%s[%d/%d]:%s"):format(threadName,#p,length,p))
