@@ -181,9 +181,6 @@ local loadingThread=coroutine.wrap(function()
 	TASK.new(NET.updateWS_user)
 	TASK.new(NET.updateWS_play)
 	NET.wsconn_app()
-	if USER.authToken then
-		NET.wsconn_user_token(USER.uid,USER.authToken)
-	end
 
 	while true do
 		if math.random()<.126 then

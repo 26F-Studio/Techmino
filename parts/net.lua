@@ -259,7 +259,12 @@ function NET.updateWS_app()
 					if res then
 						if res.type=="Connect"then
 							NET.connected=true
-							NET.allow_online=VERSION.code>=res.lowest
+							if VERSION.code>=res.lowest then
+								NET.allow_online=true
+								if USER.authToken then
+									NET.wsconn_user_token(USER.uid,USER.authToken)
+								end
+							end
 							if VERSION.code<res.newestCode then
 								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
 							end
