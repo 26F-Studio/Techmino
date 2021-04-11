@@ -1,5 +1,16 @@
 local scene={}
 
+local function legalEmail(e)
+	e=SPLITSTR(e,"@")
+	if #e~=2 then return false end
+	if e[1]:sub(-1)=="."or e[2]:sub(-1)=="."then return false end
+	local e1,e2=SPLITSTR(e[1],"."),SPLITSTR(e[2],".")
+	if #e1*#e2==0 then return false end
+	for _,v in next,e1 do if #v==0 then return false end end
+	for _,v in next,e2 do if #v==0 then return false end end
+	return true
+end
+
 local function register()
 	local username=	WIDGET.active.username.value
 	local email=	WIDGET.active.email.value
@@ -7,7 +18,7 @@ local function register()
 	local password2=WIDGET.active.password2.value
 	if #username==0 then
 		LOG.print(text.noUsername)return
-	elseif not email:match("^[a-zA-Z0-9_]+@[a-zA-Z0-9_-]+%.[a-zA-Z0-9_]+$")then
+	elseif not legalEmail(email)then
 		LOG.print(text.wrongEmail)return
 	elseif #password==0 or #password2==0 then
 		LOG.print(text.noPassword)return
