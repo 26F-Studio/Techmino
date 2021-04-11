@@ -498,12 +498,17 @@ return{
 		color=C.dSky,
 	},
 	{
-		name="George2503",
+		name="George2003",
 		font=25,
 		color=C.grey,
 	},
 	{
 		name="竹月可安",
+		font=25,
+		color=C.grey,
+	},
+	{
+		name="T7887库德里尔",
 		font=25,
 		color=C.grey,
 	},
