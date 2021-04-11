@@ -1,11 +1,19 @@
 local find,sub=string.find,string.sub
-return function(s,sep)
+return function(s,sep,regex)
 	local L={}
 	local p1,p2=1--start,target
-	while p1<=#s do
-		p2=find(s,sep,p1)or #s+1
-		L[#L+1]=sub(s,p1,p2-1)
-		p1=p2+#sep
+	if regex then
+		while p1<=#s do
+			p2=find(s,sep,p1)or #s+1
+			L[#L+1]=sub(s,p1,p2-1)
+			p1=p2+#sep
+		end
+	else
+		while p1<=#s do
+			p2=find(s,sep,p1,true)or #s+1
+			L[#L+1]=sub(s,p1,p2-1)
+			p1=p2+#sep
+		end
 	end
 	return L
 end
