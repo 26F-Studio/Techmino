@@ -184,7 +184,7 @@ function NET.fetchRoom()
 	end
 end
 function NET.createRoom(roomType,name)
-	if NET.lock("enterRoom",3)then
+	if NET.lock("enterRoom",1.26)then
 		WS.send("play",JSON.encode{
 			action=1,
 			data={
@@ -197,7 +197,7 @@ function NET.createRoom(roomType,name)
 	end
 end
 function NET.enterRoom(roomID,password)
-	if NET.lock("enterRoom",3)then
+	if NET.lock("enterRoom",1.26)then
 		NET.rid=roomID
 		WS.send("play",JSON.encode{
 			action=2,
@@ -370,7 +370,6 @@ function NET.updateWS_play()
 									end
 								end
 								loadGame("netBattle",true,true)
-								NET.unlock("enterRoom")
 							else
 								--Load other players
 								ins(PLY_NET,{
