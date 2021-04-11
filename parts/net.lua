@@ -305,8 +305,6 @@ function NET.updateWS_user()
 							if res.uid then
 								USER.uid=res.uid
 								USER.authToken=res.authToken
-								WIDGET.active.email:clear()
-								WIDGET.active.password:clear()
 								FILE.save(USER,"conf/user","q")
 								SCN.back()
 							end
