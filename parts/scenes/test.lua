@@ -48,7 +48,7 @@ function scene.touchClick(x,y)
 end
 function scene.touchDown(x,y)
 	SYSFX.newRipple(.5,x,y,50)
-	push(("[touchDown] <%d: %d, %d>"):format(x,y))
+	push(("[touchDown] <%d, %d>"):format(x,y))
 end
 function scene.touchMove(x,y)
 	SYSFX.newRipple(.5,x,y,50)
