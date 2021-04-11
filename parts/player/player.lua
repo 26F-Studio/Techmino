@@ -643,7 +643,8 @@ function Player:hold(ifpre)
 	local ENV=self.gameEnv
 	if self.holdTime>0 and(ifpre or self.waiting==-1)then
 		if #self.holdQueue<ENV.holdCount and self.nextQueue[1]then--Skip
-			ins(self.holdQueue,self:getBlock(self.cur.id))
+			local C=self.cur
+			ins(self.holdQueue,self:getBlock(C.id,C.name,C.color))
 
 			local t=self.holdTime
 			self:popNext(true)
@@ -730,16 +731,16 @@ function Player:hold(ifpre)
 	end
 end
 
-function Player:getBlock(n)--Get a block(id=n) object
+function Player:getBlock(id,name,color)--Get a block(id=n) object
 	local E=self.gameEnv
-	local dir=E.face[n]
+	local dir=E.face[id]
 	return{
-		id=n,
-		bk=BLOCKS[n][dir],
-		sc=SCS[n][dir],
+		id=id,
 		dir=dir,
-		name=n,
-		color=E.bone and 17 or E.skin[n],
+		bk=BLOCKS[id][dir],
+		sc=SCS[id][dir],
+		name=name or id,
+		color=E.bone and 17 or color or E.skin[id],
 	}
 end
 function Player:getNext(n)--Push a block(id=n) to nextQueue
