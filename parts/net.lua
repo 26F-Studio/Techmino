@@ -137,7 +137,7 @@ function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")
 end
 function NET.getAccessToken()
-	if NET.lock("accessToken",3)then
+	if NET.lock("access_and_login",10)then
 		WS.send("user",JSON.encode{action=0})
 	end
 end
@@ -318,7 +318,6 @@ function NET.updateWS_user()
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
 							NET.wsconn_play()
-							NET.unlock("accessToken")
 						elseif res.action==1 then--Get userInfo
 							NET.storeUserInfo(res.data)
 						end
@@ -350,6 +349,7 @@ function NET.updateWS_play()
 						if res.type=="Connect"then
 							SCN.go("net_menu")
 							NET.unlock("wsc_play")
+							NET.unlock("access_and_login")
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 							NET.unlock("fetchRoom")
