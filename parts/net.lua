@@ -270,6 +270,7 @@ function NET.updateWS_app()
 							--?
 						elseif res.action==2 then--Register
 							LOG.print(res.data.message,300,COLOR.sky)
+							if SCN.cur=="register"then SCN.back()end
 							NET.unlock("register")
 						end
 					else
