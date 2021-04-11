@@ -104,7 +104,7 @@ end
 
 function scene.sceneInit()
 	sure=0
-	penColor=1
+	penColor=-2
 	penMode=false
 	penX,penY=1,1
 	demo=false
