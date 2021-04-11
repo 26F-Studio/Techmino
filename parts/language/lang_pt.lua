@@ -595,11 +595,12 @@ return{
 		},
 		register={
 			title="Registrar",
-			login="Registrar",
+			login="Log in",
 			username="Nome De Usuário",
 			email="Endereço De Email",
 			password="Senha",
 			password2="Entre Senha Novamente",
+			register="Registrar",
 		},
 		account={
 			title="Conta",

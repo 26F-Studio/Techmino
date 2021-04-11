@@ -512,6 +512,7 @@ return{
 			email="E-mail",
 			password="Mot de passe",
 			password2="Confirmer le mot de passe",
+			register="Enregistrement",
 		},
 		account={
 			title="Compte",

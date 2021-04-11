@@ -515,6 +515,7 @@ return{
 			email="Correo Elec.",
 			password="Contraseña",
 			password2="Repetir Contr.",
+			register="Registrarse",
 		},
 		account={
 			title="Cuenta",

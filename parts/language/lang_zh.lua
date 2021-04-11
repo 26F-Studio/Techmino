@@ -599,6 +599,7 @@ return{
 			email="邮箱",
 			password="密码",
 			password2="确认密码",
+			register="注册",
 		},
 		account={
 			title="账户",

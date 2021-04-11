@@ -444,6 +444,7 @@ return{
 			email="@",
 			password="*",
 			password2="*",
+			register="Sign up",
 		},
 		account={
 			title="@_@",

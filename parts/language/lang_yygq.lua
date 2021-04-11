@@ -113,7 +113,7 @@ return{
 			qq="QQ对线",
 		},
 		register={
-			password2="你觉得应该填啥",
+			password2="你猜该填啥",
 		},
 		sound={
 			title="音效室",

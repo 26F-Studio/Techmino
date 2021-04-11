@@ -601,6 +601,7 @@ return{
 			email="Email Address",
 			password="Password",
 			password2="Re-enter Password",
+			register="Register",
 		},
 		account={
 			title="Account",

@@ -121,6 +121,18 @@ function NET.wsclose_stream()
 end
 
 --Account
+function NET.register(username,email,password)
+	if NET.lock("register")then
+		WS.send("app",JSON.encode{
+			action=2,
+			data={
+				username=username,
+				email=email,
+				password=password,
+			}
+		})
+	end
+end
 function NET.pong(wsName,message)
 	WS.send(wsName,message,"pong")
 end
@@ -245,12 +257,21 @@ function NET.updateWS_app()
 				else
 					local res=_parse(message)
 					if res then
-						NET.connected=true
-						NET.allow_online=VERSION.code>=res.lowest
-						if VERSION.code<res.newestCode then
-							LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+						if res.type=="Connect"then
+							NET.connected=true
+							NET.allow_online=VERSION.code>=res.lowest
+							if VERSION.code<res.newestCode then
+								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+							end
+							LOG.print(res.notice,300,COLOR.sky)
+						elseif res.action==0 then--Get new version info
+							--?
+						elseif res.action==1 then--Get notice
+							--?
+						elseif res.action==2 then--Register
+							LOG.print(res.data.message,300,COLOR.sky)
+							NET.unlock("register")
 						end
-						LOG.print(res.notice,300,COLOR.sky)
 					else
 						WS.alert("app")
 					end
