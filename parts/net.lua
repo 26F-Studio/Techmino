@@ -422,21 +422,28 @@ function NET.updateWS_play()
 								resetGameData("qn")
 							end
 						elseif res.action==6 then--One ready
-							for i=1,#PLY_NET do
-								if PLY_NET[i].uid==d.uid then
-									if PLY_NET[i].ready~=d.ready then
+							for i,p in next,PLY_NET do
+								if p.uid==d.uid then
+									if p.ready~=d.ready then
+										p.ready=d.ready
+										SFX.play("spin_0",.6)
 										if i==1 then
-											WIDGET.active.ready.color=COLOR[d.ready and"lY"or"lG"]
+											NET.unlock("ready")
+										else
+											for j=2,#PLY_NET do
+												if not PLY_NET[j].ready then
+													break
+												elseif j==#PLY_NET then
+													SFX.play("warning",.5)
+												end
+											end
 										end
-										PLY_NET[i].ready=d.ready
-										SFX.play("reach",.6)
 									end
 									break
 								end
 							end
-							NET.unlock("ready")
 						elseif res.action==7 then--Ready
-							--?
+							SFX.play("reach",.6)
 						elseif res.action==8 then--Set
 							NET.rsid=d.rid
 							NET.wsconn_stream()

@@ -270,7 +270,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="lG",font=40,code=pressKey"space",hide=function()
+	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="lB",font=40,code=pressKey"space",hide=function()
 		return
 			playing or
 			not textBox.hide or
