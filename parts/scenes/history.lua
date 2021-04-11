@@ -1,13 +1,8 @@
 local scene={}
 
-local inited
-
 function scene.sceneInit()
 	BG.set("cubes")
-	if not inited then
-		inited=true
-		WIDGET.active.texts:setTexts(require"parts.updateLog")
-	end
+	WIDGET.active.texts:setTexts(require"parts.updateLog")
 	if newVersionLaunch then
 		newVersionLaunch=false
 	end
