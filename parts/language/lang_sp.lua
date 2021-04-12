@@ -288,8 +288,9 @@ return{
 			highCam="Cám. Vista Aérea",
 			nextPos="Ver Spawn de Pza. Sig.",
 			fullscreen="Pant. Completa",
-			bg="Fondo",
 			power="Inf. de Batería",
+			-- clickFX="Click FX",
+			bg="Fondo",
 			clean="Fast Draw",
 		},
 		setting_sound={

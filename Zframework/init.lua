@@ -124,7 +124,7 @@ function love.mousepressed(x,y,k,touch)
 		WIDGET.press(mx,my)
 	end
 	lastX,lastY=mx,my
-	SYSFX.newTap(3,mx,my,30)
+	if SETTING.clickFX then SYSFX.newTap(3,mx,my,30)end
 end
 function love.mousemoved(x,y,dx,dy,touch)
 	if touch then return end
@@ -194,7 +194,7 @@ function love.touchreleased(id,x,y)
 	if SCN.touchUp then SCN.touchUp(x,y)end
 	if(x-lastX)^2+(y-lastY)^2<62 then
 		if SCN.touchClick then SCN.touchClick(x,y)end
-		SYSFX.newTap(3,x,y,30)
+		if SETTING.clickFX then SYSFX.newTap(3,x,y,30)end
 	end
 end
 

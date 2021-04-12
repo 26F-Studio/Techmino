@@ -310,8 +310,9 @@ return{
 			highCam="超屏视野",
 			nextPos="生成预览",
 			fullscreen="全屏",
-			bg="背景",
 			power="电量显示",
+			clickFX="点按特效",
+			bg="背景",
 			clean="绘制优化",
 		},
 		setting_sound={

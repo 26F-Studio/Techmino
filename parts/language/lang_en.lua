@@ -310,8 +310,9 @@ return{
 			highCam="Screen Scrolling",
 			nextPos="Next Preview",
 			fullscreen="Full Screen",
-			bg="Background",
 			power="Power Info",
+			clickFX="Click FX",
+			bg="Background",
 			clean="Fast Draw",
 		},
 		setting_sound={

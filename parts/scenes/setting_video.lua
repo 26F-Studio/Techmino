@@ -37,20 +37,21 @@ scene.widgetList={
 			SETTING.frameMul=i<5 and 5*i+20 or 10*i
 		end},
 
-	WIDGET.newSwitch{name="text",		x=1160,	y=180,font=35,disp=SETval("text"),	code=SETrev("text")},
-	WIDGET.newSwitch{name="score",		x=1160,	y=230,font=35,disp=SETval("score"),	code=SETrev("score")},
-	WIDGET.newSwitch{name="warn",		x=1160,	y=280,font=35,disp=SETval("warn"),	code=SETrev("warn")},
-	WIDGET.newSwitch{name="highCam",	x=1160,	y=330,font=35,disp=SETval("highCam"),code=SETrev("highCam")},
-	WIDGET.newSwitch{name="nextPos",	x=1160,	y=380,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")},
-	WIDGET.newSwitch{name="fullscreen",	x=1160,	y=430,disp=SETval("fullscreen"),	code=switchFullscreen},
-	WIDGET.newSwitch{name="bg",			x=1160,	y=480,font=35,disp=SETval("bg"),
+	WIDGET.newSwitch{name="text",		x=1140,	y=160,font=35,disp=SETval("text"),	code=SETrev("text")},
+	WIDGET.newSwitch{name="score",		x=1140,	y=210,font=35,disp=SETval("score"),	code=SETrev("score")},
+	WIDGET.newSwitch{name="warn",		x=1140,	y=260,font=35,disp=SETval("warn"),	code=SETrev("warn")},
+	WIDGET.newSwitch{name="highCam",	x=1140,	y=310,font=35,disp=SETval("highCam"),code=SETrev("highCam")},
+	WIDGET.newSwitch{name="nextPos",	x=1140,	y=360,font=35,disp=SETval("nextPos"),code=SETrev("nextPos")},
+	WIDGET.newSwitch{name="fullscreen",	x=1140,	y=410,disp=SETval("fullscreen"),	code=switchFullscreen},
+	WIDGET.newSwitch{name="power",		x=1140,	y=460,font=35,disp=SETval("powerInfo"),code=SETrev("powerInfo")},
+	WIDGET.newSwitch{name="clickFX",	x=1140,	y=510,font=35,disp=SETval("clickFX"),code=SETrev("clickFX")},
+	WIDGET.newSwitch{name="bg",			x=1140,	y=560,font=35,disp=SETval("bg"),
 		code=function()
 			BG.set("none")
 			SETTING.bg=not SETTING.bg
 			BG.set()
 		end},
-	WIDGET.newSwitch{name="power",		x=990,	y=610,font=35,disp=SETval("powerInfo"),code=SETrev("powerInfo")},
-	WIDGET.newSwitch{name="clean",		x=990,	y=670,font=35,disp=SETval("cleanCanvas"),code=SETrev("cleanCanvas")},
+	WIDGET.newSwitch{name="clean",		x=990,	y=640,font=35,disp=SETval("cleanCanvas"),code=SETrev("cleanCanvas")},
 	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 
