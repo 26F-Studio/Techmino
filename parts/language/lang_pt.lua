@@ -185,7 +185,7 @@ return{
 		"",
 		"Programa: MrZ, Particle_G, [FinnTenzor]",
 		"Art: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Music: MrZ, [T0722]",
+		"Music: MrZ, ERM, [T0722]",
 		"Voice & Sound: Miya, Naki, MrZ",
 		"Performance: 模电, HBM",
 		"Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",

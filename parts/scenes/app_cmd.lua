@@ -196,7 +196,7 @@ do--commands.help(arg)
 			details={
 				"Set background.",
 				"",
-				"Usage: setbg <classic|xmas|sprfes|zday1|zday2>",
+				"Usage: setbg <classic|xmas|sprfes|zday1/2/3>",
 			},
 		},
 		theme={
@@ -204,7 +204,7 @@ do--commands.help(arg)
 			details={
 				"Load a theme.",
 				"",
-				"Usage: theme <classic|xmas|sprfes|zday1|zday2>",
+				"Usage: theme <classic|xmas|sprfes|zday1/2/3>",
 			},
 		},
 		demo={
