@@ -20,6 +20,7 @@ local seqGens={
 	end,
 	his4=function(P,seq0)
 		local len=#seq0
+		local his={0,0,0,0}
 		while true do
 			while #P.nextQueue<6 do
 				for n=1,4 do
@@ -27,8 +28,8 @@ local seqGens={
 					repeat
 						i=seq0[P:RND(len)]
 						j=j+1
-					until i~=seq0[1]and i~=seq0[2]and i~=seq0[3]and i~=seq0[4]or j==4
-					seq0[n]=i
+					until i~=his[1]and i~=his[2]and i~=his[3]and i~=his[4]or j==4
+					his[n]=i
 					P:getNext(i)
 				end
 			end
