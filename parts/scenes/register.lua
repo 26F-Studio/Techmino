@@ -1,16 +1,5 @@
 local scene={}
 
-local function legalEmail(e)
-	e=SPLITSTR(e,"@")
-	if #e~=2 then return false end
-	if e[1]:sub(-1)=="."or e[2]:sub(-1)=="."then return false end
-	local e1,e2=SPLITSTR(e[1],"."),SPLITSTR(e[2],".")
-	if #e1*#e2==0 then return false end
-	for _,v in next,e1 do if #v==0 then return false end end
-	for _,v in next,e2 do if #v==0 then return false end end
-	return true
-end
-
 local function register()
 	local username=	WIDGET.active.username.value
 	local email=	WIDGET.active.email.value
@@ -32,7 +21,7 @@ scene.widgetList={
 	WIDGET.newText{name="title",		x=80,	y=50,font=70,align="L"},
 	WIDGET.newButton{name="login",		x=1140,	y=100,w=170,h=80,color="lY",code=function()SCN.swapTo("login","swipeL")end},
 	WIDGET.newInputBox{name="username",	x=380,	y=200,w=500,h=60,regex="[0-9A-Za-z_]"},
-	WIDGET.newInputBox{name="email",	x=380,	y=300,w=626,h=60,regex="[0-9A-Za-z@._-]"},
+	WIDGET.newInputBox{name="email",	x=380,	y=300,w=626,h=60},
 	WIDGET.newInputBox{name="password",	x=380,	y=400,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newInputBox{name="password2",x=380,	y=500,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newKey{name="register",		x=1140,	y=540,w=170,h=80,font=40,code=register},
