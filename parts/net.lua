@@ -134,7 +134,7 @@ function NET.register(username,email,password)
 	end
 end
 function NET.pong(wsName,message)
-	WS.send(wsName,message,"pong")
+	WS.send(wsName,type(message)=="string"and message or"","pong")
 end
 function NET.getAccessToken()
 	if NET.lock("access_and_login",10)then
