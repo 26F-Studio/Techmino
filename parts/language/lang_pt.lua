@@ -259,7 +259,8 @@ return{
 			down="↓",
 		},
 		net_game={
-			-- ready="Ready/Cancel",
+			-- ready="Ready",
+			-- cancel="Cancel",
 		},
 		net_chat={
 			send="Mandar",

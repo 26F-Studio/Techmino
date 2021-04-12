@@ -275,6 +275,14 @@ scene.widgetList={
 		return
 			playing or
 			not textBox.hide or
+			PLY_NET[1].ready or
+			NET.getlock("ready")
+		end},
+	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color="grey",font=40,code=pressKey"space",hide=function()
+		return
+			playing or
+			not textBox.hide or
+			not PLY_NET[1].ready or
 			NET.getlock("ready")
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},

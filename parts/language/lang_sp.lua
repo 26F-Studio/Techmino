@@ -238,6 +238,7 @@ return{
 		},
 		net_game={
 			ready="Estoy Listo",
+			-- cancel="Cancel",
 		},
 		net_chat={
 			send="Enviar",
