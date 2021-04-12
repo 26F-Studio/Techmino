@@ -493,7 +493,13 @@ function NET.updateWS_stream()
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died
-							--?
+							local uid=res.data.uid
+							for _,P in next,PLY_ALIVE do
+								if P.uid==uid then
+									P:lose(true)
+									break
+								end
+							end
 						elseif res.action==5 then--Receive stream
 							SCN.socketRead("Stream",d)
 						end
