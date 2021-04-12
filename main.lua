@@ -258,6 +258,7 @@ do
 	end
 	if STAT.version<1400 then
 		fs.remove("conf/user")
+		fs.remove("conf/key")
 		SETTING.appLock=false
 		needSave=true
 		autoRestart=true
@@ -300,16 +301,6 @@ do
 		RANKS.sprint_10l=0
 		needSave=true
 	end
-	if needSave then
-		FILE.save(RANKS,"conf/unlock","q")
-		FILE.save(SETTING,"conf/settings","q")
-	end
-
-	if keyMap[1]then
-		autoRestart=true
-		fs.remove("conf/key")
-	end
-	USER.username=nil
 
 	if STAT.version~=VERSION.code then
 		newVersionLaunch=true
@@ -317,6 +308,10 @@ do
 		FILE.save(STAT,"conf/data","q")
 	end
 
+	if needSave then
+		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(SETTING,"conf/settings","q")
+	end
 	if autoRestart then
 		love.event.quit("restart")
 	end
