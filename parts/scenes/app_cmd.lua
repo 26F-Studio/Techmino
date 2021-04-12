@@ -488,12 +488,29 @@ function commands.demo()
 	SCN.go("test","none")
 end
 do--commands.applet(name)
-	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","drppper","calc","reflect","polyforge"}
+	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","dropper","calc","reflect","polyforge"}
 	local appScene={"app_15p","app_schulteG","app_pong","app_AtoZ","app_UTTT","app_cubefield","app_2048","app_ten","app_tap","app_dtw","app_cannon","app_dropper","app_calc","app_reflect","app_polyforge"}
+	local appDescription={
+		"15 Puzzle, a.k.a. sliding puzzle",
+		"Schulte Grid",
+		"Pong (2P minigame)",
+		"A to Z, a.k.a. typing",
+		"Ultimate Tic-Tac-Toe (2P minigame)",
+		"Cubefield",
+		"2048",
+		"Just Get Ten",
+		"Tapping speed test",
+		"Don't Touch White, a.k.a. Piano Tiles",
+		"Cannon",
+		"Dropper",
+		"Calculator",
+		"Reflect (2P minigame)",
+		"Polyforge"
+	}
 	function commands.applet(name)
 		if name=="-list"then
 			for i=1,#appList do
-				log(appList[i].." -> "..appScene[i]:sub(5))
+				log(appList[i]..": "..appDescription[i])
 			end
 		elseif name~=""then
 			for i=1,#appList do
