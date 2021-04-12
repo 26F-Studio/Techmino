@@ -134,7 +134,7 @@ function NET.register(username,email,password)
 	end
 end
 function NET.pong(wsName,message)
-	WS.send(wsName,message,"pong")
+	WS.send(wsName,type(message)=="string"and message or"","pong")
 end
 function NET.getAccessToken()
 	if NET.lock("access_and_login",10)then
@@ -439,7 +439,7 @@ function NET.updateWS_play()
 												if not PLY_NET[j].ready then
 													break
 												elseif j==#PLY_NET then
-													SFX.play("warning",.5)
+													SFX.play("blip_2",.5)
 												end
 											end
 										end
@@ -493,7 +493,13 @@ function NET.updateWS_stream()
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died
-							--?
+							local uid=res.data.uid
+							for _,P in next,PLY_ALIVE do
+								if P.uid==uid then
+									P:lose(true)
+									break
+								end
+							end
 						elseif res.action==5 then--Receive stream
 							SCN.socketRead("Stream",d)
 						end

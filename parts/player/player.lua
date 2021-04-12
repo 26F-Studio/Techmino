@@ -1724,6 +1724,7 @@ function Player:win(result)
 end
 function Player:lose(force)
 	if self.result then return end
+	if self.type=="remote"and not force then self.waiting=1e99 return end
 	if self.life>0 and not force then
 		self.waiting=62
 		local h=#self.field

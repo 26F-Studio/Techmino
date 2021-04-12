@@ -86,9 +86,9 @@ local _send do
 	local mask_key={1,14,5,14}
 	local mask_str=char(unpack(mask_key))
 
-	function _send(opcode,message)
+	function _send(op,message)
 		--Message type
-		SOCK:send(char(bor(0x80,opcode)))
+		SOCK:send(char(bor(0x80,op)))
 
 		if message then
 			--Length

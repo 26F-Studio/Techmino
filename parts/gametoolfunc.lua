@@ -500,6 +500,17 @@ function legalGameTime()--Check if today's playtime is legal
 	end
 	return true
 end
+function legalEmail(e)
+	e=SPLITSTR(e,"@")
+	if #e~=2 then return false end
+	if e[1]:sub(-1)=="."or e[2]:sub(-1)=="."then return false end
+	local e1,e2=SPLITSTR(e[1],"."),SPLITSTR(e[2],".")
+	if #e1*#e2==0 then return false end
+	for _,v in next,e1 do if #v==0 then return false end end
+	for _,v in next,e2 do if #v==0 then return false end end
+	return true
+end
+
 function mergeStat(stat,delta)--Merge delta stat. to global stat.
 	for k,v in next,delta do
 		if type(v)=="table"then

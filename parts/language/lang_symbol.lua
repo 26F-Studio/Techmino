@@ -169,8 +169,9 @@ return{
 			highCam="↑__↑",
 			nextPos="???←",
 			fullscreen="|←→|",
-			bg="__?__",
 			power="+.",
+			clickFX="_.~",
+			bg="__?__",
 			clean="[]→→O",
 		},
 		setting_sound={

@@ -293,14 +293,11 @@ function scene.draw()
 		for j=1,4 do
 			if cx~=j or cy~=i then
 				local N=board[i][j]
+				local C=mono and 3 or color
 
-				local C=mono and 1 or color
-				local back=backColor[C]
-				local front=frontColor[C]
-
-				gc.setColor(back[N])
+				gc.setColor(backColor[C][N])
 				gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
-				gc.setColor(front[N])
+				gc.setColor(frontColor[C][N])
 				gc.rectangle("line",j*160+163,i*160-117,154,154,8)
 				if not mono then
 					gc.setColor(.1,.1,.1)

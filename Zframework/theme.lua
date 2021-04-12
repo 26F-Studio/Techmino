@@ -31,9 +31,13 @@ function THEME.calculate(Y,M,D)
 		M=="04"and D=="01"and
 		"fool"or
 
-		--Z day (Feb./Mar./Apr./May./June 26)
-		math.abs(M-4)<=2 and D+0==26 and
-		"zday"or
+		--Z day (1) (Feb./Mar./Apr. 26)
+		math.abs(M-3)<=1 and D=="26"and
+		"zday1"or
+
+		--Z day (2) (May./June 26)
+		math.abs(M-5.5)<=1 and D=="26"and
+		"zday2"or
 
 		"classic"
 end
@@ -54,9 +58,12 @@ function THEME.set(theme)
 		LOG.print(" ★☆☆★",COLOR.red)
 		LOG.print("新年快乐!",COLOR.white)
 		LOG.print(" ★☆☆★",COLOR.red)
-	elseif theme=="zday"then
+	elseif theme=="zday1"then
 		BG.setDefault("lanterns")
 		BGM.setDefault("overzero")
+	elseif theme=="zday2"then
+		BG.setDefault("lanterns")
+		BGM.setDefault("vacuum")
 	elseif theme=="fool"then
 		BG.setDefault("blockrain")
 		BGM.setDefault("how feeling")

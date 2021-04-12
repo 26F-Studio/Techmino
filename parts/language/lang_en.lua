@@ -259,7 +259,8 @@ return{
 			down="↓",
 		},
 		net_game={
-			ready="Ready/Cancel",
+			ready="Ready",
+			cancel="Cancel",
 		},
 		net_chat={
 			send="Send",
@@ -310,8 +311,9 @@ return{
 			highCam="Screen Scrolling",
 			nextPos="Next Preview",
 			fullscreen="Full Screen",
-			bg="Background",
 			power="Power Info",
+			clickFX="Click FX",
+			bg="Background",
 			clean="Fast Draw",
 		},
 		setting_sound={

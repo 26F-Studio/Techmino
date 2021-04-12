@@ -259,7 +259,8 @@ return{
 			down="↓",
 		},
 		net_game={
-			-- ready="Ready/Cancel",
+			-- ready="Ready",
+			-- cancel="Cancel",
 		},
 		net_chat={
 			send="Mandar",
@@ -310,8 +311,9 @@ return{
 			highCam="Vista Olho-de-pássaro",
 			nextPos="Próxima Pos.",
 			fullscreen="Tela cheia",
-			bg="Fundo",
 			power="Informação bateria",
+			-- clickFX="Click FX",
+			bg="Fundo",
 			-- clean="Fast Draw",
 		},
 		setting_sound={

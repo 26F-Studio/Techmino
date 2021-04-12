@@ -259,7 +259,8 @@ return{
 			down="↓",
 		},
 		net_game={
-			ready="准备/取消",
+			ready="准备",
+			cancel="取消",
 		},
 		net_chat={
 			send="发送",
@@ -310,8 +311,9 @@ return{
 			highCam="超屏视野",
 			nextPos="生成预览",
 			fullscreen="全屏",
-			bg="背景",
 			power="电量显示",
+			clickFX="点按特效",
+			bg="背景",
 			clean="绘制优化",
 		},
 		setting_sound={

@@ -276,6 +276,7 @@ SETTING={--Settings
 	fullscreen=true,
 	bg=true,
 	powerInfo=false,
+	clickFX=true,
 
 	--Sound
 	sfx=1,

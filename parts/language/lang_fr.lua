@@ -231,7 +231,8 @@ return{
 			down="↓",
 		},
 		net_game={
-			-- ready="Ready/Cancel",
+			-- ready="Ready",
+			-- cancel="Cancel",
 		},
 		net_chat={
 			send="Envoyer",
@@ -284,8 +285,9 @@ return{
 			highCam="Vue d'oiseau",
 			nextPos="Prévisualisation de position",
 			fullscreen="Plein écran",
-			bg="Arrière-plan",
 			power="Infos d'alimentation",
+			-- clickFX="Click FX",
+			bg="Arrière-plan",
 			-- clean="Fast Draw",
 		},
 		setting_sound={
