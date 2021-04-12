@@ -34,6 +34,7 @@ function scene.sceneInit()
 	upstreamProgress=1
 end
 
+scene.mouseDown=NULL
 function scene.touchDown(x,y)
 	if noTouch or not playing then return end
 
