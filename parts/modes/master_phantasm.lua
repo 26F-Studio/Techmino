@@ -14,7 +14,7 @@ return{
 			local p=P.modeData.pt+P.lastPiece.row
 			if p>=P.modeData.target then
 				local ENV=P.gameEnv
-				local T=ENV.target
+				local T=P.modeData.target
 				--Stage 1: clear 3 techrash
 				if T==12 then--Stage 2: swap color of S/Z & J/L
 					P.waiting=30
@@ -28,7 +28,7 @@ return{
 					ENV.fall=7
 					P:setNext(4)
 
-					ENV.target=26
+					P.modeData.target=26
 					SFX.play("reach")
 				elseif T==26 then--Stage 3: dig to bottom
 					if not P.holdQueue[1]then P.life=P.life+1 end--1 up if ban hold
@@ -70,7 +70,7 @@ return{
 					ENV.fall=6
 					P:setNext(5)
 
-					ENV.target=42
+					P.modeData.target=42
 					SFX.play("reach")
 				elseif T==42 then--Stage 4: survive in high speed
 					if P.garbageBeneath==0 then
@@ -80,7 +80,7 @@ return{
 						P:setHold(false)
 						ENV.bone=true
 
-						ENV.target=62
+						P.modeData.target=62
 					else
 						p=41
 					end
@@ -92,7 +92,7 @@ return{
 
 					ENV.easyFresh=false
 
-					ENV.target=126
+					P.modeData.target=126
 					SFX.play("reach")
 				elseif T==126 then--Stage 6: speed up
 					P.life=P.life+1
@@ -101,7 +101,7 @@ return{
 					ENV.wait=4
 					ENV.fall=4
 
-					ENV.target=162
+					P.modeData.target=162
 				elseif T==162 then--Stage 7: speed up+++
 					P.life=P.life+1
 
@@ -110,7 +110,7 @@ return{
 					P:setHold(true)
 					P:setInvisible(180)
 
-					ENV.target=226
+					P.modeData.target=226
 					SFX.play("reach")
 				elseif T==226 then--Stage 8: final invisible
 					P.life=P.life+2
@@ -118,7 +118,7 @@ return{
 					ENV.bone=false
 					P:setInvisible(90)
 
-					ENV.target=259
+					P.modeData.target=259
 					SFX.play("reach")
 				elseif T==259 then--Stage 9: ending
 					P.life=P.life+1
@@ -130,7 +130,7 @@ return{
 					ENV.mission={4,4,4,4,4,4,4,4}
 					ENV.missionKill=false
 
-					ENV.target=260
+					P.modeData.target=260
 					p=260
 					SFX.play("blip_2")
 				else
@@ -142,7 +142,7 @@ return{
 		mission={4,4,4,64},
 		missionKill=true,
 		freshLimit=12,
-		bg="none",bgm="distortion",
+		bg="none",bgm="super7th",
 	},
 	slowMark=true,
 	load=function()
