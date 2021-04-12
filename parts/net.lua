@@ -439,7 +439,7 @@ function NET.updateWS_play()
 												if not PLY_NET[j].ready then
 													break
 												elseif j==#PLY_NET then
-													SFX.play("warning",.5)
+													SFX.play("blip_2",.5)
 												end
 											end
 										end
