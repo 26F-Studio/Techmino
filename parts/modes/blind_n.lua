@@ -7,7 +7,7 @@ return{
 		freshLimit=10,
 		visible="fast",
 		dropPiece=function(P)if P.stat.row>=200 then P:win("finish")end end,
-		bg="glow",bgm="reason",
+		bg="glow",bgm="push",
 	},
 	pauseLimit=true,
 	load=function()

@@ -10,7 +10,7 @@ return{
 		score=false,
 		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
 		freshLimit=15,
-		bg="rgb",bgm="push",
+		bg="rgb",bgm="far",
 	},
 	pauseLimit=true,
 	load=function()
