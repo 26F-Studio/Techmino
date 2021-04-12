@@ -33,37 +33,21 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
+--Delete all files from too old version
+for _,name in next,fs.getDirectoryItems("")do
+	if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~="directory"then
+		fs.remove(name)
+	end
+end
+
 --Create directories
 for _,v in next,{"conf","record","replay","cache"}do
 	local info=fs.getInfo(v)
 	if not info then
 		fs.createDirectory(v)
-	elseif info.type ~= 'directory' then
+	elseif info.type~="directory"then
 		fs.remove(v)
 		fs.createDirectory(v)
-	end
-end
-
---Collect files of old version
-if fs.getInfo("data.dat")or fs.getInfo("key.dat")or fs.getInfo("settings.dat")then
-	for k,v in next,{
-		["settings.dat"]="conf/settings",
-		["unlock.dat"]="conf/unlock",
-		["data.dat"]="conf/data",
-		["key.dat"]="conf/key",
-		["virtualkey.dat"]="conf/virtualkey",
-		["account.dat"]="conf/user",
-	}do
-		if fs.getInfo(k)then
-			fs.write(v,fs.read(k))
-			fs.remove(k)
-		end
-	end
-	for _,name in next,fs.getDirectoryItems("")do
-		if name:sub(-4)==".dat"then
-			fs.write("record/"..name:sub(1,-4).."rec",fs.read(name))
-			fs.remove(name)
-		end
 	end
 end
 
