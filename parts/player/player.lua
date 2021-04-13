@@ -1155,7 +1155,7 @@ do--Player.drop(self)--Place piece
 		piece.spin,piece.mini=dospin,false
 		piece.pc,piece.hpc=false,false
 		piece.special=false
-		if cc>0 then--If lines cleared,about 200 lines below
+		if cc>0 then--If lines cleared,about 200 lines of codes below
 			cmb=cmb+1
 			if dospin then
 				cscore=(spinSCR[C.name]or spinSCR[8])[cc]
@@ -1225,7 +1225,7 @@ do--Player.drop(self)--Place piece
 					sendTime=60
 					atk=2*cc-4
 				end
-				self.b2b=self.b2b+cc*100-300
+				self.b2b=self.b2b+cc*50-50
 				piece.special=true
 			else
 				piece.special=false

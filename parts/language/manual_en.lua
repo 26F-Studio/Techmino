@@ -62,7 +62,7 @@ Back to Back (B2B) gauge:
 		The B2B gauge ranges from 0 to 1,000. Special line clears are B2B if the gauge is >=50, B2B2B if >800.
 		A regular line clear -250
 		Spin Single/Double/Triple/Techrash/Techrash+ + 50/100/180/800/1000 (x50% if Mini)
-		Techrash/Techrash+ + 100/200
+		Techrash/Techrash+ + 150/200/...
 		Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
 		When gauge is above 800, a drop without clearing lines decreases it by 40, but cannot drop below 800
 
