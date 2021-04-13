@@ -241,7 +241,7 @@ end
 
 --WS tick funcs
 function NET.updateWS_app()
-	local retryTime=5
+	local retryTime=3
 	while true do
 		YIELD()
 		local status=WS.status("app")
@@ -286,7 +286,7 @@ function NET.updateWS_app()
 		elseif status=="dead"then
 			retryTime=retryTime-1
 			if retryTime==0 then return end
-			for _=1,120 do YIELD()end
+			for _=1,180 do YIELD()end
 			WS.connect("app","/app")
 		end
 	end
@@ -294,8 +294,7 @@ end
 function NET.updateWS_user()
 	while true do
 		YIELD()
-		local status=WS.status("user")
-		if status=="running"then
+		if WS.status("user")=="running"then
 			local message,op=WS.read("user")
 			if message then
 				if op=="ping"then
@@ -312,7 +311,7 @@ function NET.updateWS_user()
 								USER.uid=res.uid
 								USER.authToken=res.authToken
 								FILE.save(USER,"conf/user","q")
-								SCN.back()
+								if SCN.cur=="login"then SCN.back()end
 							end
 							LOG.print(text.loginSuccessed)
 
@@ -337,8 +336,7 @@ end
 function NET.updateWS_play()
 	while true do
 		YIELD()
-		local status=WS.status("play")
-		if status=="running"then
+		if WS.status("play")=="running"then
 			local message,op=WS.read("play")
 			if message then
 				if op=="ping"then
@@ -468,8 +466,7 @@ end
 function NET.updateWS_stream()
 	while true do
 		YIELD()
-		local status=WS.status("stream")
-		if status=="running"then
+		if WS.status("stream")=="running"then
 			local message,op=WS.read("stream")
 			if message then
 				if op=="ping"then
@@ -514,8 +511,7 @@ end
 function NET.updateWS_chat()
 	while true do
 		YIELD()
-		local status=WS.status("chat")
-		if status=="running"then
+		if WS.status("chat")=="running"then
 			local message,op=WS.read("chat")
 			if message then
 				if op=="ping"then
