@@ -9,9 +9,11 @@ local FIELD=FIELD
 local scene={}
 
 local sure
-local penColor--Pen color
-local penMode--Pen mode (false=unavailable, else=mouse button)
-local penX,penY--Pen position
+local keyHold
+local penType--Color, air, or smart
+local penMode
+local penPath={}
+local penX,penY
 local demo--If show x
 local page
 
@@ -52,60 +54,72 @@ local minoPosCode={
 	[3]=28,[33]=28,--I2
 	[1]=29,--O1
 }
-local SPmode
-local SPlist={}--Smart pen path list
-local function SPpath(x,y)
-	if not penMode then return end
-	for i=1,#SPlist do
-		if x==SPlist[i][1]and y==SPlist[i][2]then
+local function pTouch(x,y)
+	if not keyHold then return end
+	for i=1,#penPath do
+		if x==penPath[i][1]and y==penPath[i][2]then
 			return
 		end
 	end
-	ins(SPlist,{x,y})
-	if #SPlist==1 then
-		SPmode=FIELD[page][y][x]==0 and 0 or 1
+	if #penPath==0 then
+		penMode=
+			penType>0 and(FIELD[page][y][x]~=penType and 0 or 1)or
+			penType==0 and 1 or
+			penType==-1 and 0 or
+			penType==-2 and (FIELD[page][y][x]<=0 and 0 or 1)
 	end
+	ins(penPath,{x,y})
 end
-local function SPdraw()
-	local l=#SPlist
+local function pDraw()
+	local l=#penPath
 	if l==0 then return end
 
-	local C--pen color
-	if SPmode==0 then
-		if l<=5 then
-			local sum=0
-			local x,y={},{}
-			for i=1,l do
-				ins(x,SPlist[i][1])
-				ins(y,SPlist[i][2])
-			end
-			local minY,minX=min(unpack(y)),min(unpack(x))
-			for i=1,#y do
-				sum=sum+2^((11-(y[i]-minY))*(y[i]-minY)/2+(x[i]-minX))
-			end
-			if minoPosCode[sum]then
-				C=SETTING.skin[minoPosCode[sum]]
+	local C--Color
+	if keyHold==1 then
+		if penMode==0 then
+			if penType==-2 then
+				if l<=5 then
+					local sum=0
+					local x,y={},{}
+					for i=1,l do
+						ins(x,penPath[i][1])
+						ins(y,penPath[i][2])
+					end
+					local minY,minX=min(unpack(y)),min(unpack(x))
+					for i=1,#y do
+						sum=sum+2^((11-(y[i]-minY))*(y[i]-minY)/2+(x[i]-minX))
+					end
+					if minoPosCode[sum]then
+						C=SETTING.skin[minoPosCode[sum]]
+					end
+				else
+					C=20
+				end
+			else
+				C=penType
 			end
 		else
-			C=20
+			C=0
 		end
-	elseif SPmode==1 then
+	elseif keyHold==2 then
+		C=-1
+	elseif keyHold==3 then
 		C=0
 	end
 
 	if C then
 		for i=1,l do
-			FIELD[page][SPlist[i][2]][SPlist[i][1]]=C
+			FIELD[page][penPath[i][2]][penPath[i][1]]=C
 		end
 	end
-	SPlist={}
-	SPmode=0
+	penPath={}
+	penMode=0
 end
 
 function scene.sceneInit()
 	sure=0
-	penColor=-2
-	penMode=false
+	keyHold=false
+	penType,penMode=-2,0
 	penX,penY=1,1
 	demo=false
 	page=1
@@ -115,44 +129,30 @@ function scene.mouseMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
 		penX,penY=sx,sy
-		if penMode then
-			if penColor==-2 and penMode==1 then
-				SPpath(sx,sy)
-			else
-				FIELD[page][sy][sx]=
-					penMode==1 and penColor or
-					penMode==2 and -1 or
-					-- penMode==3 and 0
-					0
-			end
-		end
+		if keyHold then pTouch(sx,sy)end
 	else
 		penX,penY=nil
 	end
 end
 function scene.mouseDown(x,y,k)
-	if not penMode then
-		penMode=k
-	elseif penMode~=k then
-		penMode=false
-		if penColor==-2 then
-			SPlist={}
-		end
+	if not keyHold then
+		keyHold=k
+	elseif keyHold~=k then
+		keyHold=false
+		penPath={}
 	end
 	scene.mouseMove(x,y)
 end
 function scene.mouseUp(_,_,k)
-	if penMode==k then
-		penMode=false
-		if penColor==-2 then
-			SPdraw()
-		end
+	if keyHold==k then
+		pDraw()
+		keyHold=false
 	end
 end
 
 function scene.wheelMoved(_,y)
-	if penColor>0 then
-		penColor=(penColor+(y<0 and 1 or -1)-1)%24+1
+	if penType>0 then
+		penType=(penType+(y<0 and 1 or -1)-1)%24+1
 	end
 end
 function scene.touchDown(x,y)scene.mouseDown(x,y,1)end
@@ -176,12 +176,8 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		if penX and penY then
-			penMode=1
-			if penColor==-2 then
-				SPpath(penX,penY)
-			else
-				FIELD[page][penY][penX]=penColor
-			end
+			keyHold=1
+			pTouch(penX,penY)
 		end
 	elseif key=="delete"then
 		if sure>20 then
@@ -248,17 +244,20 @@ function scene.keyDown(key)
 			page=min(page+1,#FIELD)
 		end
 	elseif key=="escape"then
-		SCN.back()
+		if keyHold then
+			keyHold=false
+			penPath={}
+		else
+			SCN.back()
+		end
 	else
-		penColor=penKey[key]or penColor
+		penType=penKey[key]or penType
 	end
 end
 function scene.keyUp(key)
 	if key=="space"then
-		if penColor==-2 then
-			SPdraw()
-		end
-		penMode=false
+		pDraw()
+		keyHold=false
 	end
 end
 
@@ -295,10 +294,10 @@ function scene.draw()
 	--Draw pen
 	if penX and penY then
 		local x,y=30*penX,600-30*penY
-		if penMode==1 or penMode==2 then
+		if keyHold==1 or keyHold==2 then
 			gc.setLineWidth(5)
 			gc.rectangle("line",x-30,y,30,30,4)
-		elseif penMode==3 then
+		elseif keyHold==3 then
 			gc.setLineWidth(3)
 			gc.line(x-15,y,x-30,y+15)
 			gc.line(x,y,x-30,y+30)
@@ -311,21 +310,51 @@ function scene.draw()
 	end
 
 	--Draw smart pen path
-	if #SPlist>0 then
+	if #penPath>0 then
 		gc.setLineWidth(4)
-		if SPmode==0 then
-			if #SPlist<=5 then
-				gc.setColor(COLOR.rainbow_light(TIME()*6.2))
+		if keyHold==1 then
+			if penMode==0 then
+				if penType==-2 then
+					if #penPath<=5 then
+						gc.setColor(COLOR.rainbow_light(TIME()*6.2))
+					else
+						gc.setColor(.9,.9,.9,.7+.2*math.sin(TIME()*12.6))
+					end
+					for i=1,#penPath do
+						gc.rectangle("line",30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
+					end
+				elseif penType==-1 then
+					gc.setColor(1,1,0,.7+.3*math.sin(TIME()*12.6))
+					for i=1,#penPath do
+						gc.draw(cross,30*penPath[i][1]-30,600-30*penPath[i][2])
+					end
+				elseif penType==0 then
+					gc.setColor(1,0,0)
+					for i=1,#penPath do
+						gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
+					end
+				else
+					local c=minoColor[penType]
+					gc.setColor(c[1],c[2],c[3],.7+.2*math.sin(TIME()*12.6))
+					for i=1,#penPath do
+						gc.rectangle("line",30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
+					end
+				end
 			else
-				gc.setColor(.9,.9,.9,.7+.2*math.sin(TIME()*12.6))
+				gc.setColor(1,0,0)
+				for i=1,#penPath do
+					gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
+				end
 			end
-			for i=1,#SPlist do
-				gc.rectangle("line",30*SPlist[i][1]-30+2,600-30*SPlist[i][2]+2,30-4,30-4,3)
+		elseif keyHold==2 then
+			gc.setColor(1,1,0,.7+.3*math.sin(TIME()*12.6))
+			for i=1,#penPath do
+				gc.draw(cross,30*penPath[i][1]-30,600-30*penPath[i][2])
 			end
-		else
+		elseif keyHold==3 then
 			gc.setColor(1,0,0)
-			for i=1,#SPlist do
-				gc.draw(cross,30*SPlist[i][1]-30+math.random(-1,1),600-30*SPlist[i][2]+math.random(-1,1))
+			for i=1,#penPath do
+				gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
 			end
 		end
 	end
@@ -346,21 +375,21 @@ function scene.draw()
 		gc.line(52,5,75,35)
 		gc.line(75,5,52,35)
 		--Left mouse button
-		if penColor>0 then
-			gc.setColor(minoColor[penColor])
+		if penType>0 then
+			gc.setColor(minoColor[penType])
 			gc.rectangle("fill",5,5,23,30)
-		elseif penColor==-1 then
+		elseif penType==-1 then
 			gc.line(5,5,28,35)
 			gc.line(28,5,5,35)
-		elseif penColor==-2 then
-			if SPmode==1 then
-				gc.setColor(1,0,0)
-				gc.line(5,5,28,35)
-				gc.line(28,5,5,35)
-			else
+		elseif penType==-2 then
+			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
 				gc.rectangle("fill",5,5,23,30)
+			else
+				gc.setColor(1,0,0)
+				gc.line(5,5,28,35)
+				gc.line(28,5,5,35)
 			end
 		end
 		--Draw mouse
@@ -392,7 +421,7 @@ function scene.draw()
 	end
 end
 
-local function setPen(i)return function()penColor=i end end
+local function setPen(i)return function()penType=i end end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=1020,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"},
