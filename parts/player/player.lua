@@ -955,7 +955,7 @@ do--Player.drop(self)--Place piece
 		local CHN=VOC.getFreeChannel()
 		self.dropTime[11]=ins(self.dropTime,1,GAME.frame)--Update speed dial
 		local ENV=self.gameEnv
-		local STAT=self.stat
+		local Stat=self.stat
 		local piece=self.lastPiece
 
 		local finish
@@ -974,7 +974,7 @@ do--Player.drop(self)--Place piece
 		--Tri-corner spin check
 		if self.spinLast then
 			if C.id<6 then
-				local x,y=CX+self.cur.sc[2],CY+self.cur.sc[1]
+				local x,y=CX+C.sc[2],CY+C.sc[1]
 				local c=0
 				if self:solid(x-1,y+1)then c=c+1 end
 				if self:solid(x+1,y+1)then c=c+1 end
@@ -1100,15 +1100,17 @@ do--Player.drop(self)--Place piece
 			end
 		end
 
-		--Cancel no-sense clearing FX
-		_=#self.clearingRow
-		while _>0 and self.clearingRow[_]>#self.field do
-			self.clearingRow[_]=nil
-			_=_-1
+		--Cancel top clearing FX
+		for i=#self.clearingRow,1,-1 do
+			if self.clearingRow[i]>#self.field then
+				rem(self.clearingRow)
+			else
+				break
+			end
 		end
 		if self.clearingRow[1]then
 			self.falling=ENV.fall
-		elseif cc>=#C.bk then
+		else
 			clear=true
 		end
 
@@ -1117,16 +1119,16 @@ do--Player.drop(self)--Place piece
 		if not finesse then
 			if dospin then self.ctrlCount=self.ctrlCount-2 end--Allow 2 more step for roof-less spin
 			local id=C.id
-			local d=self.ctrlCount-finesseList[id][self.cur.dir+1][CX]
+			local d=self.ctrlCount-finesseList[id][C.dir+1][CX]
 			finePts=d<=0 and 5 or max(3-d,0)
 		else
 			finePts=5
 		end
 		piece.finePts=finePts
 
-		STAT.finesseRate=STAT.finesseRate+finePts
+		Stat.finesseRate=Stat.finesseRate+finePts
 		if finePts<5 then
-			STAT.extraPiece=STAT.extraPiece+1
+			Stat.extraPiece=Stat.extraPiece+1
 			if ENV.fineKill then
 				finish=true
 			end
@@ -1164,7 +1166,7 @@ do--Player.drop(self)--Place piece
 					atk=b2bATK[cc]+cc*.5
 					exblock=exblock+1
 					cscore=cscore*2
-					STAT.b3b=STAT.b3b+1
+					Stat.b3b=Stat.b3b+1
 					if self.sound then
 						VOC.play("b3b",CHN)
 					end
@@ -1172,7 +1174,7 @@ do--Player.drop(self)--Place piece
 					self:showText(text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,"spin")
 					atk=b2bATK[cc]
 					cscore=cscore*1.2
-					STAT.b2b=STAT.b2b+1
+					Stat.b2b=Stat.b2b+1
 					if self.sound then
 						VOC.play("b2b",CHN)
 					end
@@ -1207,7 +1209,7 @@ do--Player.drop(self)--Place piece
 					sendTime=100
 					exblock=exblock+1
 					cscore=cscore*1.8
-					STAT.b3b=STAT.b3b+1
+					Stat.b3b=Stat.b3b+1
 					if self.sound then
 						VOC.play("b3b",CHN)
 					end
@@ -1216,7 +1218,7 @@ do--Player.drop(self)--Place piece
 					sendTime=80
 					atk=3*cc-7
 					cscore=cscore*1.3
-					STAT.b2b=STAT.b2b+1
+					Stat.b2b=Stat.b2b+1
 					if self.sound then
 						VOC.play("b2b",CHN)
 					end
@@ -1258,37 +1260,39 @@ do--Player.drop(self)--Place piece
 			end
 
 			--PC/HPC
-			if clear and #self.field==0 then
-				self:showText(text.PC,0,-80,50,"flicker")
-				atk=max(atk,min(8+STAT.pc*2,16))
-				exblock=exblock+2
-				sendTime=sendTime+120
-				if STAT.row+cc>4 then
-					self.b2b=1000
-					cscore=cscore+300*min(6+STAT.pc,10)
-				else
+			if clear then
+				if #self.field==0 then
+					self:showText(text.PC,0,-80,50,"flicker")
+					atk=max(atk,min(8+Stat.pc*2,16))
+					exblock=exblock+2
+					sendTime=sendTime+120
+					if Stat.row+cc>4 then
+						self.b2b=1000
+						cscore=cscore+300*min(6+Stat.pc,10)
+					else
+						cscore=cscore+626
+					end
+					Stat.pc=Stat.pc+1
+					if self.sound then
+						SFX.play("clear")
+						VOC.play("perfect_clear",CHN)
+					end
+					piece.pc=true
+					piece.special=true
+				elseif cc>=#C.bk and(cc>1 or #self.field==self.garbageBeneath)then
+					self:showText(text.HPC,0,-80,50,"fly")
+					atk=atk+4
+					exblock=exblock+2
+					sendTime=sendTime+60
 					cscore=cscore+626
+					Stat.hpc=Stat.hpc+1
+					if self.sound then
+						SFX.play("clear")
+						VOC.play("half_clear",CHN)
+					end
+					piece.hpc=true
+					piece.special=true
 				end
-				STAT.pc=STAT.pc+1
-				if self.sound then
-					SFX.play("clear")
-					VOC.play("perfect_clear",CHN)
-				end
-				piece.pc=true
-				piece.special=true
-			elseif clear and(cc>1 or #self.field==self.garbageBeneath)then
-				self:showText(text.HPC,0,-80,50,"fly")
-				atk=atk+2
-				exblock=exblock+2
-				sendTime=sendTime+60
-				cscore=cscore+626
-				STAT.hpc=STAT.hpc+1
-				if self.sound then
-					SFX.play("clear")
-					VOC.play("half_clear",CHN)
-				end
-				piece.hpc=true
-				piece.special=true
 			end
 
 			if self.b2b>1000 then self.b2b=1000 end
@@ -1386,13 +1390,18 @@ do--Player.drop(self)--Place piece
 		end
 
 		--Speed bonus
-		if self.dropSpeed>60 then
-			cscore=cscore*(.9+self.dropSpeed/600)
-		end
+		if self.dropSpeed>60 then cscore=cscore*(.9+self.dropSpeed/600)end
 
 		cscore=int(cscore)
 		if ENV.score then
-			self:showText(cscore,(self.curX+self.cur.sc[2]-5.5)*30,(10-self.curY-self.cur.sc[1])*30+self.fieldBeneath+self.fieldUp,40-600/(cscore+20),"score",2)
+			self:showText(
+				cscore,
+				(self.curX+C.sc[2]-5.5)*30,
+				(10-self.curY-C.sc[1])*30+self.fieldBeneath+self.fieldUp,
+				40-600/(cscore+20),
+				"score",
+				2
+			)
 		end
 
 		piece.row,piece.dig=cc,gbcc
@@ -1436,33 +1445,33 @@ do--Player.drop(self)--Place piece
 		end
 
 		--Update stat
-		STAT.score=STAT.score+cscore
-		STAT.piece=STAT.piece+1
-		STAT.row=STAT.row+cc
-		STAT.maxFinesseCombo=max(STAT.maxFinesseCombo,self.finesseCombo)
-		STAT.maxCombo=max(STAT.maxCombo,self.combo)
+		Stat.score=Stat.score+cscore
+		Stat.piece=Stat.piece+1
+		Stat.row=Stat.row+cc
+		Stat.maxFinesseCombo=max(Stat.maxFinesseCombo,self.finesseCombo)
+		Stat.maxCombo=max(Stat.maxCombo,self.combo)
 		if atk>0 then
-			STAT.atk=STAT.atk+atk
+			Stat.atk=Stat.atk+atk
 			if send>0 then
-				STAT.send=STAT.send+int(send)
+				Stat.send=Stat.send+int(send)
 			end
 			if off>0 then
-				STAT.off=STAT.off+off
+				Stat.off=Stat.off+off
 			end
 		end
 		if gbcc>0 then
-			STAT.dig=STAT.dig+gbcc
+			Stat.dig=Stat.dig+gbcc
 			if atk>0 then
-				STAT.digatk=STAT.digatk+atk*gbcc/cc
+				Stat.digatk=Stat.digatk+atk*gbcc/cc
 			end
 		end
 		local n=C.name
 		if dospin then
-			_=STAT.spin[n]	_[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
-			_=STAT.spins	_[cc+1]=_[cc+1]+1--Spin[0~4]
+			_=Stat.spin[n]	_[cc+1]=_[cc+1]+1--Spin[1~25][0~4]
+			_=Stat.spins	_[cc+1]=_[cc+1]+1--Spin[0~4]
 		elseif cc>0 then
-			_=STAT.clear[n]	_[cc]=_[cc]+1--Clear[1~25][1~5]
-			_=STAT.clears	_[cc]=_[cc]+1--Clear[1~5]
+			_=Stat.clear[n]	_[cc]=_[cc]+1--Clear[1~25][1~5]
+			_=Stat.clears	_[cc]=_[cc]+1--Clear[1~5]
 		end
 
 		if finish then

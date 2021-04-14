@@ -33,7 +33,7 @@ Attack system:
 		Special line clears will the increase B2B gauge, making later special line clears have either a B2B or B2B2B bonus (see below)
 
 		Half Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
-				Attack +2, Extra Blocking +2
+				Attack +4, Extra Blocking +2
 
 		Perfect Clear (aka All Clear):
 				Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
