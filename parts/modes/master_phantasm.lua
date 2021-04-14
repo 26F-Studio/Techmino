@@ -85,7 +85,7 @@ return{
 						p=41
 					end
 				elseif T==62 then--Stage 5: survive without easy-fresh rule
-					P.life=1
+					P.life=P.life+1
 					ENV.lock=13
 					ENV.wait=5
 					ENV.fall=5
@@ -113,7 +113,7 @@ return{
 					P.modeData.target=226
 					SFX.play("reach")
 				elseif T==226 then--Stage 8: final invisible
-					P.life=P.life+2
+					P.life=P.life+1
 
 					ENV.bone=false
 					P:setInvisible(90)
