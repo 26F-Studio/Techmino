@@ -45,7 +45,7 @@ return{
 	createRoomSuccessed="创好了",
 	notReady="没有准备好",
 	beReady="准备好了",
-	champion="爷爷是 $1",
+	champion="神仙是 $1",
 
 	stat={
 		"开了几次:",
