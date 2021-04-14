@@ -283,7 +283,7 @@ return{
 		color=C.grey,
 	},
 	{
-		name="tech有养成系统了@6565",
+		name="tech有养成系统了@7065",
 		font=25,
 		color=C.grey,
 	},
