@@ -12,11 +12,13 @@ function FILE.load(name)
 					setfenv(s,{})
 					return s()
 				end
-			else
+			elseif s:sub(1,1)=="["or s:sub(1,1)=="{"then
 				local res=JSON.decode(s)
 				if res then
 					return res
 				end
+			else
+				return s
 			end
 		end
 		LOG.print(name.." "..text.loadError,COLOR.red)
@@ -24,19 +26,22 @@ function FILE.load(name)
 end
 function FILE.save(data,name,mode)
 	if not mode then mode=""end
-	name=name
-	if mode:find("l")then
-		data=DUMPTABLE(data)
-		if not data then
-			LOG.print(name.." "..text.saveError.."dump error","error")
-			return
+	if type(data)=="table"then
+		if mode:find("l")then
+			data=DUMPTABLE(data)
+			if not data then
+				LOG.print(name.." "..text.saveError.."dump error","error")
+				return
+			end
+		else
+			data=JSON.encode(data)
+			if not data then
+				LOG.print(name.." "..text.saveError.."json error","error")
+				return
+			end
 		end
 	else
-		data=JSON.encode(data)
-		if not data then
-			LOG.print(name.." "..text.saveError.."json error","error")
-			return
-		end
+		data=tostring(data)
 	end
 
 	local F=fs.newFile(name)
