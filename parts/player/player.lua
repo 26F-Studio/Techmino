@@ -1267,7 +1267,7 @@ do--Player.drop(self)--Place piece
 					exblock=exblock+2
 					sendTime=sendTime+120
 					if Stat.row+cc>4 then
-						self.b2b=1000
+						self.b2b=self.b2b+800
 						cscore=cscore+300*min(6+Stat.pc,10)
 					else
 						cscore=cscore+626
@@ -1284,6 +1284,7 @@ do--Player.drop(self)--Place piece
 					atk=atk+4
 					exblock=exblock+2
 					sendTime=sendTime+60
+					self.b2b=self.b2b+100
 					cscore=cscore+626
 					Stat.hpc=Stat.hpc+1
 					if self.sound then

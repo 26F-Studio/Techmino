@@ -32,12 +32,12 @@ Attack system:
 
 		Special line clears will the increase B2B gauge, making later special line clears have either a B2B or B2B2B bonus (see below)
 
-		Half Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
+		Hemi Perfect Clear (a P.C. "with blocks left below". If it's an I clearing 1 line, the remaining blocks must not be player-placed):
 				Attack +4, Extra Blocking +2
 
 		Perfect Clear (aka All Clear):
 				Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
-				and +2 extra blocking. (note: if lines cleared in this round >4, then B2B gauge will be completely filled)
+				and +2 extra blocking.
 
 		Combos: All damage above will be given a (combo x25%) bonus, or (combo x15% for Single clear) (capped at 12 combo),
 		+1 more attack for 3 Combo or more.
@@ -63,6 +63,8 @@ Back to Back (B2B) gauge:
 		A regular line clear -250
 		Spin Single/Double/Triple/Techrash/Techrash+ + 50/100/180/800/1000 (x50% if Mini)
 		Techrash/Techrash+ + 150/200/...
+		PC when lines cleared in this round >4, +800
+		Hemi-PC, +100
 		Spin (0 lines) +20. Do note that the B2B gauge cannot exceed 800 using this method.
 		When gauge is above 800, a drop without clearing lines decreases it by 40, but cannot drop below 800
 
