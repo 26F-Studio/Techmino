@@ -97,20 +97,21 @@ local function newEmptyPlayer(id,mini)
 	P.x,P.y,P.size=0,0,1
 	P.frameColor=0
 
-	P.mini=mini--If draw in small mode
-
 	--Set these at Player:setPosition()
 	-- P.fieldX,P.fieldY=...
 	-- P.centerX,P.centerY=...
 	-- P.absFieldX,P.absFieldY=...
 
-	if P.mini then
+	--If draw in small mode
+	P.mini=mini
+	if mini then
 		P.canvas=love.graphics.newCanvas(60,120)
-		P.frameWait=rnd(30,120)
+		P.frameWait=rnd(26,62)
 		P.draw=PLY.draw.small
 	else
 		P.draw=PLY.draw.norm
 	end
+
 	P.randGen=love.math.newRandomGenerator(GAME.seed)
 
 	P.alive=true
@@ -323,15 +324,14 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		ENV.splashFX=false
 		ENV.shakeFX=false
 		ENV.text=false
-	else
-		if ENV.lockFX==0 then	ENV.lockFX=false	end
-		if ENV.dropFX==0 then	ENV.dropFX=false	end
-		if ENV.moveFX==0 then	ENV.moveFX=false	end
-		if ENV.clearFX==0 then	ENV.clearFX=false	end
-		if ENV.splashFX==0 then	ENV.splashFX=false	end
-		if ENV.shakeFX==0 then	ENV.shakeFX=false	end
-		if ENV.atkFX==0 then	ENV.atkFX=false		end
 	end
+	if ENV.lockFX==0 then	ENV.lockFX=false	end
+	if ENV.dropFX==0 then	ENV.dropFX=false	end
+	if ENV.moveFX==0 then	ENV.moveFX=false	end
+	if ENV.clearFX==0 then	ENV.clearFX=false	end
+	if ENV.splashFX==0 then	ENV.splashFX=false	end
+	if ENV.shakeFX==0 then	ENV.shakeFX=false	end
+	if ENV.atkFX==0 then	ENV.atkFX=false		end
 	if ENV.ghost==0 then	ENV.ghost=false	end
 	if ENV.center==0 then	ENV.center=false end
 end
