@@ -11,7 +11,7 @@ function scene.sceneBack()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="ffa",	x=640,	y=200,w=350,h=120,color="black",font=40,code=NULL},
+	WIDGET.newButton{name="ffa",	x=640,	y=200,w=350,h=120,font=40,code=function()NET.enterRoom("ffa")end},
 	WIDGET.newButton{name="rooms",	x=640,	y=360,w=350,h=120,font=40,code=goScene"net_rooms"},
 	WIDGET.newButton{name="chat",	x=640,	y=540,w=350,h=120,color="black",font=40,code=NULL},
 	WIDGET.newButton{name="logout",	x=1140,	y=70,w=180,h=70,color="dR",
