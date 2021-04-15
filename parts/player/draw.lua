@@ -459,7 +459,7 @@ function draw.drawNext_norm(P)
 				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
-				for i=1,#bk do for j=1,#bk[1] do
+				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
 						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i-#bk*.5,j-#bk[1]*.5,clr)
 					end
@@ -497,7 +497,7 @@ function draw.drawNext_hidden(P)
 				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
-				for i=1,#bk do for j=1,#bk[1] do
+				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
 						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i-#bk*.5,j-#bk[1]*.5,clr)
 					end
