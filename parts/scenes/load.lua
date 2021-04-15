@@ -88,7 +88,7 @@ local loadingThread=coroutine.wrap(function()
 		{"poly","line",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}YIELD()
 	modeIcons.infinite=DOGC{64,64,
-		{"wid",4},
+		{"lwid",4},
 		{"circ","line",32,32,28},
 		{"line",32,32,32,14},
 		{"line",32,32,41,41},
@@ -99,15 +99,15 @@ local loadingThread=coroutine.wrap(function()
 		{"rect","fill",30,52,4,4},
 	}YIELD()
 	modeIcons.t49=DOGC{64,64,
-		{"wid",2},
+		{"lwid",2},
 		{"rect","line",05,05,10,20},{"rect","line",49,05,10,20},
 		{"rect","line",05,39,10,20},{"rect","line",49,39,10,20},
 		{"rect","line",20,10,23,43},
-		{"rgb",1,1,1,.7},
+		{"setc",1,1,1,.7},
 		{"rect","fill",20,10,23,43},
 	}YIELD()
 	modeIcons.t99=DOGC{64,64,
-		{"wid",2},
+		{"lwid",2},
 		{"rect","line",02,02,6,12},{"rect","line",11,02,6,12},
 		{"rect","line",02,18,6,12},{"rect","line",11,18,6,12},
 		{"rect","line",02,34,6,12},{"rect","line",11,34,6,12},
@@ -117,7 +117,7 @@ local loadingThread=coroutine.wrap(function()
 		{"rect","line",47,34,6,12},{"rect","line",56,34,6,12},
 		{"rect","line",47,50,6,12},{"rect","line",56,50,6,12},
 		{"rect","line",20,10,23,43},
-		{"rgb",1,1,1,.7},
+		{"setc",1,1,1,.7},
 		{"rect","fill",20,10,23,43},
 	}YIELD()
 

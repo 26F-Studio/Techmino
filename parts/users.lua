@@ -4,10 +4,10 @@ local fs=love.filesystem
 local ins=table.insert
 
 local texture_noImage=DOGC{32,32,
-	{"rgb",0,0,0},
+	{"setc",0,0,0},
 	{"rect","fill",0,0,32,32},
-	{"rgb",1,1,1},
-	{"wid",3},
+	{"setc",1,1,1},
+	{"lwid",3},
 	{"line",0,0,31,31},
 	{"line",0,31,31,0},
 }
