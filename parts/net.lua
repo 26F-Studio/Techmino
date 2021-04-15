@@ -145,29 +145,10 @@ function NET.getUserInfo(id,ifDetail)
 	WS.send("user",JSON.encode{
 		action=1,
 		data={
-			id=id or USER.uid,
+			id=id,
 			detailed=ifDetail or false,
 		},
 	})
-end
-function NET.storeUserInfo(d)
-	local user=USERS[d.uid]
-	if not user then
-		user={}
-		USERS[d.uid]=user
-	end
-	user.uid=d.uid
-	user.username=d.username
-	user.motto=d.motto
-	user.avatar=d.avatar
-
-	--Get own name
-	if d.uid==USER.uid then
-		USER.username=d.username
-		FILE.save(USER,"conf/user","q")
-	end
-
-	-- FILE.save(USERS,"conf/users")
 end
 
 --Room
@@ -316,14 +297,14 @@ function NET.updateWS_user()
 							LOG.print(text.loginSuccessed)
 
 							--Get self infos
-							NET.getUserInfo(USER.uid)
+							NET.getUserInfo()
 							NET.unlock("wsc_user")
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
 							NET.wsconn_play()
 						elseif res.action==1 then--Get userInfo
-							NET.storeUserInfo(res.data)
+							USERS.updateUserData(res.data)
 						end
 					else
 						WS.alert("user")
@@ -490,9 +471,8 @@ function NET.updateWS_stream()
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died
-							local uid=res.data.uid
 							for _,P in next,PLY_ALIVE do
-								if P.uid==uid then
+								if P.uid==d.uid then
 									P:lose(true)
 									break
 								end

@@ -222,14 +222,12 @@ GAME={--Global game data
 RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
 USER=FILE.load("conf/user")or{--User infomation
 	--Network infos
-	username=false,
 	uid=false,
 	authToken=false,
 
 	--Local data
 	xp=0,lv=1,
 }
-USERS=FILE.load("conf/users")or{}
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,

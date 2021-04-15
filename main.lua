@@ -63,6 +63,7 @@ FIELD[1]=newBoard()--Initialize field[1]
 NET=		require"parts.net"
 AIBUILDER=	require"parts.AITemplate"
 FREEROW=	require"parts.freeRow"
+USERS=		require"parts.users"
 
 TEXTURE=	require"parts.texture"
 SKIN=		require"parts.skin"

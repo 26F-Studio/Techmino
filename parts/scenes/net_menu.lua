@@ -20,7 +20,6 @@ scene.widgetList={
 				if USER.uid then
 					NET.wsclose_play()
 					NET.wsclose_user()
-					USER.username=false
 					USER.uid=false
 					USER.authToken=false
 					FILE.save(USER,"conf/user","q")

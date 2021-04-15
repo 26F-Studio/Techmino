@@ -973,7 +973,7 @@ do--function saveRecording()
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			GAME.curModeName.."\n"..
 			VERSION.string.."\n"..
-			(USER.username or"Player")
+			"Local Player"
 		local fileBody=
 			GAME.seed.."\n"..
 			JSON.encode(GAME.setting).."\n"..
@@ -1021,7 +1021,7 @@ do--function drawFWM()
 		local t=TIME()
 		setFont(25)
 		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
-		mStr(m[SETTING.lang]or m[1],240,60+26*sin(t))
+		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
 function drawWarning()

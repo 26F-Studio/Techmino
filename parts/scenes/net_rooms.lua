@@ -38,7 +38,7 @@ function scene.keyDown(k)
 					kb.isDown("4")and"r99"or
 					kb.isDown("5")and"unlimited"
 				)or"solo",
-				(USER.username or"???").."'s room"
+				(USERS.getName(USER.uid)or"???").."'s room"
 			)
 			lastCreateRoomTime=TIME()
 		else
