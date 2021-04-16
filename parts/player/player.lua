@@ -781,12 +781,12 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 			end
 		end
 
-		local _=self.keyPressing
+		local pressing=self.keyPressing
 
 		--IHS
-		if not ifhold and _[8]and self.gameEnv.ihs then
+		if not ifhold and pressing[8]and self.gameEnv.ihs and self.holdTime>0 then
 			self:hold(true)
-			_[8]=false
+			pressing[8]=false
 		else
 			self:resetBlock()
 		end
@@ -804,9 +804,9 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 		end
 
 		--IHdS
-		if _[6]and not ifhold then
+		if pressing[6]and not ifhold then
 			self.act_hardDrop(self)
-			_[6]=false
+			pressing[6]=false
 		end
 	else
 		self:hold()
