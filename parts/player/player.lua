@@ -602,7 +602,7 @@ function Player:spin(d,ifpre)
 				if not ifpre then
 					self:freshBlock("move")
 				end
-				if kickData[test][2]>0 and self.freshTime~=t and self.curY~=self.imgY then
+				if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
 					self.freshTime=self.freshTime-1
 				end
 
