@@ -426,12 +426,12 @@ local function drawMission(P)
 end
 local function drawStartCounter(P)
 	gc_setColor(1,1,1)
-	if GAME.frame<180 then
-		if GAME.frame==0 then
+	if P.frameRun<180 then
+		if P.frameRun==0 then
 			setFont(70)
 			mStr(P.ready and text.beReady or text.notReady,305,220)
 		else
-			local count=179-GAME.frame
+			local count=179-P.frameRun
 			gc_push("transform")
 				gc_translate(305,220)
 				setFont(95)

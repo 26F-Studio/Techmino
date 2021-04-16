@@ -339,7 +339,7 @@ function Player:attack(R,send,time,line,fromStream)
 	local atkFX=self.gameEnv.atkFX
 	if GAME.net then
 		if self.type=="human"then--Local player attack others
-			ins(GAME.rep,GAME.frame)
+			ins(GAME.rep,self.frameRun)
 			ins(GAME.rep,
 				R.sid+
 				send*0x100+
@@ -352,7 +352,7 @@ function Player:attack(R,send,time,line,fromStream)
 			end
 		end
 		if fromStream and R.type=="human"then--Local player receiving lines
-			ins(GAME.rep,GAME.frame)
+			ins(GAME.rep,self.frameRun)
 			ins(GAME.rep,
 				self.sid+
 				send*0x100+
@@ -960,7 +960,7 @@ do--Player.drop(self)--Place piece
 	function Player:drop()
 		local _
 		local CHN=VOC.getFreeChannel()
-		self.dropTime[11]=ins(self.dropTime,1,GAME.frame)--Update speed dial
+		self.dropTime[11]=ins(self.dropTime,1,self.frameRun)--Update speed dial
 		local ENV=self.gameEnv
 		local Stat=self.stat
 		local piece=self.lastPiece
@@ -1609,7 +1609,7 @@ function tick_autoPause()
 	while true do
 		yield()
 		time=time+1
-		if SCN.cur~="play"or GAME.frame<180 then
+		if SCN.cur~="game"or PLAYERS[1].frameRun<180 then
 			return
 		elseif time==120 then
 			pauseGame()
@@ -1697,7 +1697,7 @@ function Player:die()--Called both when win/lose!
 	end
 	if GAME.net then
 		if self.id==1 then
-			ins(GAME.rep,GAME.frame)
+			ins(GAME.rep,self.frameRun)
 			ins(GAME.rep,0)
 		else
 			if self.lastRecv and self.lastRecv.id==1 then

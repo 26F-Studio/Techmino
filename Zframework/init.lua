@@ -349,7 +349,7 @@ end
 function love.focus(f)
 	if f then
 		love.timer.step()
-	elseif SCN.cur=="play"and SETTING.autoPause then
+	elseif SCN.cur=="game"and SETTING.autoPause then
 		pauseGame()
 	end
 end

@@ -199,15 +199,11 @@ function scene.update(dt)
 	if NET.checkPlayDisconn()then SCN.back()end
 	if not playing then return end
 
-	local _
+	local P1=PLAYERS[1]
 	local GAME=GAME
 
 	touchMoveLastFrame=false
 	updateVirtualkey()
-	GAME.frame=GAME.frame+1
-
-	--Counting, include pre-das
-	if checkStart()then return end
 
 	--Update players
 	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
@@ -216,16 +212,16 @@ function scene.update(dt)
 	checkWarning()
 
 	--Upload stream
-	if GAME.frame-lastUpstreamTime>8 then
+	if P1.frameRun-lastUpstreamTime>8 then
 		local stream
 		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
 			NET.uploadRecStream(stream)
 		else
-			ins(GAME.rep,GAME.frame)
+			ins(GAME.rep,P1.frameRun)
 			ins(GAME.rep,0)
 		end
-		lastUpstreamTime=PLAYERS[1].alive and GAME.frame or 1e99
+		lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
 	end
 end
 

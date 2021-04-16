@@ -14,14 +14,14 @@ function scene.update(dt)
 	timer=timer-dt*.8
 	if timer<0 then
 		SFX.play("click")
-		SCN.swapTo("play","none")
+		SCN.swapTo("game","none")
 	end
 end
 
 function scene.draw()
 	--Game scene
 	if timer*1.26<1 then
-		SCN.scenes.play.draw()
+		SCN.scenes.game.draw()
 	end
 
 	--Grey screen cover

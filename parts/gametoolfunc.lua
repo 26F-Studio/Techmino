@@ -614,7 +614,7 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 			SCN.go("net_game","swipeD")
 		else
 			drawableText.modeName:set(text.modes[M][1].."   "..text.modes[M][2])
-			SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
+			SCN.go("game",ifQuickPlay and"swipeD"or"fade_togame")
 			SFX.play("enter")
 		end
 	end
@@ -731,7 +731,7 @@ do--function resetGameData(args)
 	end
 	function resetGameData(args,seed)
 		if not args then args=""end
-		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
+		if PLAYERS[1]and not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
 			STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 		end
@@ -740,11 +740,11 @@ do--function resetGameData(args)
 		GAME.warnLVL0=0
 		GAME.warnLVL=0
 		if args:find("r")then
-			GAME.frame=0
+			GAME.frameStart=0
 			GAME.recording=false
 			GAME.replaying=1
 		else
-			GAME.frame=args:find("n")and 0 or 150-SETTING.reTime*15
+			GAME.frameStart=args:find("n")and 0 or 150-SETTING.reTime*15
 			GAME.seed=seed or rnd(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
@@ -790,39 +790,10 @@ do--function resetGameData(args)
 		collectgarbage()
 	end
 end
-function gameStart()--Call when countdown finish (GAME.frame==180)
-	SFX.play("start")
-	for P=1,#PLAYERS do
-		P=PLAYERS[P]
-		P.control=true
-		P.timing=true
-		P:popNext()
-	end
-end
-function checkStart()
-	if GAME.frame<=180 then
-		if GAME.frame==180 then
-			gameStart()
-		elseif GAME.frame==60 or GAME.frame==120 then
-			SFX.play("ready")
-		end
-		for p=1,#PLAYERS do
-			local P=PLAYERS[p]
-			if P.movDir~=0 then
-				if P.moving<P.gameEnv.das then
-					P.moving=P.moving+1
-				end
-			else
-				P.moving=0
-			end
-		end
-		return true
-	end
-end
 function checkWarning()
 	local P1=PLAYERS[1]
 	if P1.alive then
-		if GAME.frame%26==0 then
+		if P1.frameRun%26==0 then
 			local F=P1.field
 			local height=0--Max height of row 4~7
 			for x=4,7 do
@@ -847,7 +818,7 @@ function checkWarning()
 	elseif GAME.warnLVL>0 then
 		GAME.warnLVL=max(GAME.warnLVL-.026,0)
 	end
-	if GAME.warnLVL>1.126 and GAME.frame%30==0 then
+	if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
 		SFX.fplay("warning",SETTING.sfx_warn)
 	end
 end

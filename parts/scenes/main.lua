@@ -37,7 +37,6 @@ function scene.sceneInit()
 	--Create demo player
 	destroyPlayers()
 	GAME.modeEnv=NONE
-	GAME.frame=0
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
 	PLAYERS[1]:setPosition(520,140,.8)
@@ -127,7 +126,6 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-	GAME.frame=GAME.frame+1
 	PLAYERS[1]:update(dt)
 	scrollX=scrollX-2.6
 	if scrollX<-tip:getWidth()then

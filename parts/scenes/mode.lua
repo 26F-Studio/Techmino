@@ -173,7 +173,7 @@ function scene.update()
 	end
 
 	local _=SCN.stat.tar
-	mapCam.zoomMethod=_=="play"and 1 or _=="mode"and 2
+	mapCam.zoomMethod=_=="game"and 1 or _=="mode"and 2
 	if mapCam.zoomMethod==1 then
 		_=mapCam.zoomK
 		if _<.8 then _=_*1.05 end

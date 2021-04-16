@@ -9,7 +9,7 @@ return{
 		task=function(P)
 			while true do
 				YIELD()
-				if P.control and SCN.cur=="play"then
+				if P.control then
 					local D=P.modeData
 					D.counter=D.counter+1
 					local t=math.max(360-D.wave*2,60)

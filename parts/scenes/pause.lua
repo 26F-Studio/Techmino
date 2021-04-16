@@ -34,7 +34,7 @@ function scene.sceneInit(org)
 	local P=PLAYERS[1]
 	local S=P.stat
 
-	timer=org=="play"and 0 or 50
+	timer=org=="game"and 0 or 50
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
@@ -113,14 +113,14 @@ function scene.sceneInit(org)
 	else
 		rank,trophy=nil
 	end
-	if org~="play"and GAME.prevBG then
+	if org~="game"and GAME.prevBG then
 		BG.set(GAME.prevBG)
 	end
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
 	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-	if not GAME.replaying and(GAME.frame>400 or GAME.result)and not GAME.result then
+	if not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)and not GAME.result then
 		mergeStat(STAT,PLAYERS[1].stat)
 		FILE.save(STAT,"conf/data")
 	end
@@ -130,17 +130,17 @@ function scene.keyDown(key)
 	if key=="q"then
 		SCN.back()
 	elseif key=="escape"then
-		SCN.swapTo(GAME.result and"play"or"depause","none")
+		SCN.swapTo(GAME.result and"game"or"depause","none")
 	elseif key=="s"then
 		GAME.prevBG=BG.cur
 		SCN.go("setting_sound")
 	elseif key=="r"then
 		resetGameData()
-		SCN.swapTo("play","none")
+		SCN.swapTo("game","none")
 	elseif key=="p"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 then
 			resetGameData("r")
-			SCN.swapTo("play","none")
+			SCN.swapTo("game","none")
 		end
 	elseif key=="o"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved and saveRecording()then
@@ -166,7 +166,7 @@ local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
 function scene.draw()
 	local T=timer*.02
-	if T<1 or GAME.result then SCN.scenes.play.draw()end
+	if T<1 or GAME.result then SCN.scenes.game.draw()end
 
 	--Dark BG
 	local _=T
@@ -194,7 +194,7 @@ function scene.draw()
 	gc.draw(drawableText.modeName,40,240)
 
 	--Infos
-	if GAME.frame>180 then
+	if PLAYERS[1].frameRun>180 then
 		gc.setLineWidth(2)
 		--Finesse rank & trophy
 		if rank then
@@ -264,7 +264,7 @@ function scene.draw()
 	end
 
 	--Radar Chart
-	if T>.5 and GAME.frame>180 then
+	if T>.5 and PLAYERS[1].frameRun>180 then
 		T=T*2-1
 		gc.setLineWidth(2)
 		gc.push("transform")

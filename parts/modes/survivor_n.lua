@@ -6,7 +6,7 @@ return{
 		task=function(P)
 			while true do
 				YIELD()
-				if P.control and SCN.cur=="play"then
+				if P.control then
 					local D=P.modeData
 					D.timer=D.timer+1
 					if D.timer>=math.max(90,180-2*D.wave)and P.atkBuffer.sum<8 then
