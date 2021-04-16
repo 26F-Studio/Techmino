@@ -14,7 +14,7 @@ end
 local scene={}
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 	scrollPos=0
 	selected=1
 	fetchRoom()

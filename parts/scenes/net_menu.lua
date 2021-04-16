@@ -4,7 +4,7 @@ local scene={}
 
 function scene.sceneInit()
 	lastLogoutTime=-1e99
-	BG.set("space")
+	BG.set()
 end
 function scene.sceneBack()
 	NET.wsclose_play()
