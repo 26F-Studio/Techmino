@@ -336,6 +336,7 @@ function Player:ifoverlap(bk,x,y)
 	end
 end
 function Player:attack(R,send,time,line,fromStream)
+	local atkFX=self.gameEnv.atkFX
 	if GAME.net then
 		if self.type=="human"then--Local player attack others
 			ins(GAME.rep,GAME.frame)
@@ -346,6 +347,9 @@ function Player:attack(R,send,time,line,fromStream)
 				line*0x100000000+
 				0x2000000000000
 			)
+			if atkFX then
+				self:createBeam(R,send,atkFX,self.cur.color)
+			end
 		end
 		if fromStream and R.type=="human"then--Local player receiving lines
 			ins(GAME.rep,GAME.frame)
@@ -360,6 +364,9 @@ function Player:attack(R,send,time,line,fromStream)
 		end
 	else
 		R:receive(self,send,time,line)
+		if atkFX then
+			self:createBeam(R,send,atkFX,self.cur.color)
+		end
 	end
 end
 function Player:receive(A,send,time,line)
@@ -1328,9 +1335,6 @@ do--Player.drop(self)--Place piece
 							if M>0 then
 								for i=1,M do
 									self:attack(self.atker[i],send,sendTime,generateLine(self:RND(10)))
-									if ENV.atkFX then
-										self:createBeam(self.atker[i],send,ENV.atkFX,C.color)
-									end
 								end
 							else
 								T=randomTarget(self)
@@ -1344,9 +1348,6 @@ do--Player.drop(self)--Place piece
 					end
 					if T then
 						self:attack(T,send,sendTime,generateLine(self:RND(10)))
-						if ENV.atkFX then
-							self:createBeam(T,send,ENV.atkFX,C.color)
-						end
 					end
 				end
 				if self.sound and send>3 then SFX.play("emit",min(send,7)*.1)end
