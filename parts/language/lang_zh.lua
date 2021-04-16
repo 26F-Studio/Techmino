@@ -996,6 +996,8 @@ return{
 		"Techmino shell了解一下",
 		"Techmino安卓下载",
 		"Techmino好玩!",
+		"Techmino 好玩!",
+		"Techmino 濂界帺锛",
 		"Techmino有一个Nspire-CX版本!",
 		"Techmino在哪里下载",
 		"Techminohaowan",
