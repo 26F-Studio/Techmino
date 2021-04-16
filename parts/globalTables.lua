@@ -250,6 +250,7 @@ SETTING={--Settings
 		10,13,2,8
 	},
 	face={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	dataSaving=false,
 
 	--Graphic
 	block=true,ghost=.3,center=1,

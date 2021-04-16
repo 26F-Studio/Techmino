@@ -1,8 +1,6 @@
 local loadImage=love.graphics.newImage
 local fs=love.filesystem
 
-local ins=table.insert
-
 local texture_noImage=DOGC{32,32,
 	{"setc",0,0,0},
 	{"rect","fill",0,0,32,32},
@@ -14,27 +12,22 @@ local texture_noImage=DOGC{32,32,
 
 local function _getEmptyUser()
 	return{
-		uid=-1,
 		username="[X]",
 		motto="Techmino haowan",
-		hash=false,
+		hash="",
 		new=false,
 	}
 end
 
-local imgReqSeq={}
 local db_img={}
 local db=setmetatable({},{__index=function(self,k)
 	local file="cache/user"..k..".dat"
-	if fs.getInfo(file)then
-		rawset(self,k,JSON.decode(fs.read(file)))
-		if fs.getInfo(self[k].hash)then
-			db_img[k].avatar=loadImage(self[k].hash)
-		end
-	else
-		rawset(self,k,_getEmptyUser())
+	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or _getEmptyUser()
+	rawset(self,k,d)
+	if type(d.hash)=="string"and #d.hash>0 and fs.getInfo(d.hash)then
+		db_img[k].avatar=loadImage(d.hash)
 	end
-	return self[k]
+	return d
 end})
 
 local USERS={}
@@ -51,30 +44,23 @@ function USERS.updateUserData(data)
 	if data.avatar then
 		fs.write("cache/"..data.hash,data.avatar:sub(data.avatar:find","+1))
 		db_img[uid].avatar=loadImage("cache/"..data.hash)
-		db[uid].hash=data.hash
+		db[uid].hash=type(data.hash)=="string"and data.hash>0 and data.hash
 		db[uid].new=true
 	end
-	needSave=true
 end
 
 function USERS.getUsername(uid)return db[uid].username end
 function USERS.getMotto(uid)return db[uid].motto end
+function USERS.getHash(uid)return db[uid].hash end
 function USERS.getAvatar(uid)
 	if db_img[uid]then
 		return db_img[uid]
 	else
 		if not db[uid].new then
-			ins(imgReqSeq,uid)
+			NET.getUserInfo(uid)
 			db[uid].new=true
 		end
 		return texture_noImage
-	end
-end
-
-function USERS.update()
-	if #imgReqSeq>0 and WS.status("user")=="running"then
-		NET.getUserInfo(imgReqSeq[#imgReqSeq],true)
-		imgReqSeq[#imgReqSeq]=nil
 	end
 end
 

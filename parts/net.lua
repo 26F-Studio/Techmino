@@ -120,7 +120,7 @@ function NET.wsclose_stream()
 	WS.close("stream")
 end
 
---Account
+--Account & User
 function NET.register(username,email,password)
 	if NET.lock("register")then
 		WS.send("app",JSON.encode{
@@ -141,12 +141,13 @@ function NET.getAccessToken()
 		WS.send("user",JSON.encode{action=0})
 	end
 end
-function NET.getUserInfo(id,ifDetail)
+function NET.getUserInfo(uid)
+	local hash=not SETTING.dataSaving and USERS.getHash(uid)
 	WS.send("user",JSON.encode{
 		action=1,
 		data={
-			id=id,
-			detailed=ifDetail or false,
+			id=uid,
+			hash=hash,
 		},
 	})
 end
@@ -297,7 +298,7 @@ function NET.updateWS_user()
 							LOG.print(text.loginSuccessed)
 
 							--Get self infos
-							NET.getUserInfo()
+							NET.getUserInfo(USER.uid)
 							NET.unlock("wsc_user")
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
