@@ -645,6 +645,7 @@ return{
 		},
 		app_dtw={
 			reset="Resetar",
+			-- arcade="Arcade",
 			-- mode="Mode",
 		},
 		savedata={

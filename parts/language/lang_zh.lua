@@ -648,6 +648,7 @@ return{
 		},
 		app_dtw={
 			reset="重置",
+			arcade="街机",
 			mode="模式",
 		},
 		savedata={

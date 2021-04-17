@@ -21,16 +21,17 @@ local state,progress
 local startTime,time
 local keyTime
 local speed,maxSpeed
+local arcade,rollSpeed
 
 
 local tileColor={
-	COLOR.black,
-	COLOR.dRed,
-	COLOR.dG,
-	COLOR.dB,
-	COLOR.dY,
-	COLOR.dSky,
-	COLOR.dPurple,
+	{0,0,0},
+	{.3,0,0},
+	{0,.3,0},
+	{0,0,.3},
+	{.3,.3,0},
+	{0,.1,.3},
+	{.2,0,.3},
 }
 local modeName={
 	"Normal",
@@ -96,8 +97,9 @@ local function reset()
 	progress={}
 	state,time=0,0
 	score=0
+	rollSpeed=8
 
-	pos={rnd(4)}for _=1,5 do newTile()end
+	pos={rnd(4)}for _=1,6 do newTile()end
 	height=0
 	diePos=false
 end
@@ -106,6 +108,7 @@ local scene={}
 
 function scene.sceneInit()
 	mode=1
+	arcade=true
 	reset()
 	BG.set("grey")
 	BGM.play("way")
@@ -165,6 +168,8 @@ function scene.keyDown(key)
 		elseif(key=="q"or key=="tab")and state==0 then
 			mode=mode%#modeName+1
 			reset()
+		elseif key=="w"and state==0 then
+			arcade=not arcade
 		end
 	end
 end
@@ -181,62 +186,80 @@ end
 
 function scene.update()
 	if state==1 then
-		time=TIME()-startTime
 		local t=TIME()
+		time=t-startTime
 		local v=0
 		for i=2,20 do v=v+i*(i-1)*.3/(t-keyTime[i])end
 		speed=speed*.99+v*.01
 		if speed>maxSpeed then maxSpeed=speed end
+
+		if arcade then
+			height=height-rollSpeed
+			rollSpeed=rollSpeed+.00355
+			if height<-120 then
+				state=2
+			end
+		else
+			height=height*.6
+		end
 	end
-	height=height*.6
 end
 
 function scene.draw()
 	--Draw mode
 	gc.setColor(1,1,1)
 	setFont(50)
-	mStr(modeName[mode],155,300)
+	mStr(modeName[mode],155,380)
 
-	--Draw speed
-	setFont(45)
-	gc.setColor(1,.6,.6)
-	mStr(format("%.2f",maxSpeed/60),155,400)
-	gc.setColor(1,1,1)
-	mStr(format("%.2f",speed/60),155,460)
+	if arcade then
+		--Draw rolling speed
+		mStr(format("%.2f/s",rollSpeed/2),155,490)
+	else
+		--Draw speed
+		setFont(45)
+		gc.setColor(1,.6,.6)
+		mStr(format("%.2f",maxSpeed/60),155,460)
+		gc.setColor(1,1,1)
+		mStr(format("%.2f",speed/60),155,520)
+
+		--Progress time list
+		setFont(30)
+		gc.setColor(.6,.6,.6)
+		for i=1,#progress do
+			gc.print(progress[i],1030,120+25*i)
+		end
+	end
 
 	--Draw time
 	setFont(45)
 	gc.print(format("%.3f",time),1030,70)
 
-	--Progress time list
-	setFont(30)
-	gc.setColor(.6,.6,.6)
-	for i=1,#progress do
-		gc.print(progress[i],1030,120+25*i)
-	end
 
 	--Draw tiles
 	gc.setColor(1,1,1)
 	gc.rectangle("fill",300,0,680,720)
 	gc.setColor(tileColor[mode])
-	for i=1,#pos do
-		if pos[i]<10 then
-			gc.rectangle("fill",130+170*pos[i]+8,720-i*120-height+8,170-16,120-16)
-		else
-			gc.rectangle("fill",130+170*(pos[i]%10)+8,720-i*120-height+8,170-16,120-16)
-			gc.rectangle("fill",130+170*int(pos[i]/10)+8,720-i*120-height+8,170-16,120-16)
+	gc.push("transform")
+		gc.translate(0,720-height+8)
+		for i=1,#pos do
+			if pos[i]<10 then
+				gc.rectangle("fill",130+170*pos[i]+8,-i*120,170-16,120-16)
+			else
+				gc.rectangle("fill",130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
+				gc.rectangle("fill",130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
+			end
 		end
-	end
+	gc.pop()
 
 	--Draw track line
 	gc.setColor(0,0,0)
-	gc.setLineWidth(4)
+	gc.setLineWidth(2)
 	for x=1,5 do
 		x=130+170*x
 		gc.line(x,0,x,720)
 	end
 	for y=0,6 do
-		y=720-120*y-height
+		y=720-120*y-height%120
 		gc.line(300,y,980,y)
 	end
 
@@ -259,6 +282,7 @@ end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
 	WIDGET.newButton{name="mode",	x=155,y=220,w=180,h=100,font=40,code=pressKey"q",hide=function()return state~=0 end},
+	WIDGET.newSwitch{name="arcade",	x=230,y=330,font=40,disp=function()return arcade end,code=pressKey"w",hide=function()return state~=0 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

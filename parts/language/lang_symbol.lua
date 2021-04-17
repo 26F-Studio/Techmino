@@ -487,6 +487,7 @@ return{
 		},
 		app_dtw={
 			reset="R",
+			arcade="↓↓",
 			mode="?",
 		},
 	},

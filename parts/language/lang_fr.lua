@@ -556,6 +556,7 @@ return{
 		},
 		app_dtw={
 			reset="Réinitialiser",
+			-- arcade="Arcade",
 			-- mode="Mode",
 		},
 		about={
