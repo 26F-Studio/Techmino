@@ -4,6 +4,7 @@ local cmds={
 	zoom="scale",
 	setc="setColor",
 	lwid="setLineWidth",
+	draw="draw",
 	line="line",
 	rect="rectangle",
 	circ="circle",
