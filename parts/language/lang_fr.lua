@@ -96,6 +96,7 @@ return{
 
 	createRoomTooFast="Vous avez créé un salon trop rapidement !",
 	createRoomSuccessed="Salon créé avec succès !",
+	-- started="Playing",
 	joinRoom="a rejoint le salon.",
 	leaveRoom="a quitté le salon.",
 	notReady="Attente",

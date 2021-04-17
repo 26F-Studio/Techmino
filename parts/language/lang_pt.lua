@@ -95,6 +95,7 @@ return{
 
 	-- createRoomTooFast="Create room too fast!",
 	-- createRoomSuccessed="Room successfully created!",
+	-- started="Playing",
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
 	-- notReady="Waiting",

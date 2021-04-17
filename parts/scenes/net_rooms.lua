@@ -104,7 +104,7 @@ function scene.draw()
 			end
 			if R.start then
 				gc.setColor(0,1,0)
-				gc.print("S",800,66+40*i)
+				gc.print(text.started,800,66+40*i)
 			end
 			gc.setColor(.9,.9,1)
 			gc.print(scrollPos+i,95,66+40*i)

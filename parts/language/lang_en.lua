@@ -95,6 +95,7 @@ return{
 
 	createRoomTooFast="Hold on there! We can't handle this fast!",
 	createRoomSuccessed="Room successfully created!",
+	started="Playing",
 	joinRoom="joined the room.",
 	leaveRoom="left the room.",
 	notReady="Waiting",

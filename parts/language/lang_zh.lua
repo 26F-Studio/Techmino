@@ -95,6 +95,7 @@ return{
 
 	createRoomTooFast="创建房间太快啦,等等吧",
 	createRoomSuccessed="创建房间成功!",
+	started="游戏中",
 	joinRoom="进入房间",
 	leaveRoom="离开房间",
 	notReady="等待中",
