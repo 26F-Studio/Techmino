@@ -29,7 +29,7 @@ function scene.keyDown(k)
 			fetchRoom()
 		end
 	elseif k=="m"or k=="n"then
-		if TIME()-lastCreateRoomTime>16.2 then
+		if TIME()-lastCreateRoomTime>6.26 then
 			NET.createRoom(
 				k=="m"and"classic"or
 				tonumber(USER.uid)<100 and(
