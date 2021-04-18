@@ -70,18 +70,21 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if WS.status("user")=="running"then
-				if not NET.connected then
-					TEXT.show(text.noInternet,640,450,60,"flicker")
-					SFX.play("finesseError")
-				elseif not NET.allow_online then
+			if NET.connected then
+				if NET.allow_online then
+					if WS.status("user")=="running"then
+						NET.getAccessToken()
+					else
+						SCN.go("login")
+					end
+				else
 					TEXT.show(text.needUpdate,640,450,60,"flicker")
 					SFX.play("finesseError")
-				else
-					NET.getAccessToken()
 				end
 			else
-				SCN.go("login")
+				TEXT.show(text.noInternet,640,450,60,"flicker")
+				NET.wsconn_app()
+				SFX.play("finesseError")
 			end
 		end
 	elseif key=="z"then
