@@ -12,9 +12,6 @@ local targets={
 	[620]=true,
 	[1000]=true,
 	[2600]=true,
-	[5000]=true,
-	[10000]=true,
-	[26000]=true,
 }
 
 local state,progress
@@ -25,13 +22,13 @@ local arcade,rollSpeed
 
 
 local tileColor={
-	{0,0,0},
-	{.3,0,0},
-	{0,.3,0},
-	{0,0,.3},
-	{.3,.3,0},
-	{0,.1,.3},
-	{.2,0,.3},
+	{.0,.0,.0},
+	{.3,.0,.0},
+	{.0,.3,.0},
+	{.0,.0,.3},
+	{.3,.3,.0},
+	{.0,.1,.3},
+	{.2,.0,.3},
 }
 local modeName={
 	"Normal",
@@ -97,7 +94,7 @@ local function reset()
 	progress={}
 	state,time=0,0
 	score=0
-	rollSpeed=8
+	rollSpeed=6.26
 
 	pos={rnd(4)}for _=1,6 do newTile()end
 	height=0
@@ -134,9 +131,9 @@ local function touch(n)
 			ins(keyTime,1,TIME())
 			keyTime[21]=nil
 			score=score+1
-			if targets[score]then
+			if not arcade and targets[score]then
 				ins(progress,format("%s - %.3fs",score,TIME()-startTime))
-				if score==26000 then
+				if score==2600 then
 					for i=1,#pos do
 						pos[i]=626
 					end
@@ -161,10 +158,10 @@ function scene.keyDown(key)
 	if key=="r"then reset()
 	elseif key=="escape"then SCN.back()
 	elseif state~=2 then
-		if		key=="d"or key=="c"then touch(1)
-		elseif	key=="f"or key=="v"then touch(2)
-		elseif	key=="j"or key=="n"then touch(3)
-		elseif	key=="k"or key=="m"then touch(4)
+		if key=="d"or key=="c"then touch(1)
+		elseif key=="f"or key=="v"then touch(2)
+		elseif key=="j"or key=="n"then touch(3)
+		elseif key=="k"or key=="m"then touch(4)
 		elseif(key=="q"or key=="tab")and state==0 then
 			mode=mode%#modeName+1
 			reset()
@@ -198,6 +195,7 @@ function scene.update()
 			rollSpeed=rollSpeed+.00355
 			if height<-120 then
 				state=2
+				SFX.play("clear_2")
 			end
 		else
 			height=height*.6
@@ -228,15 +226,14 @@ function scene.draw()
 		for i=1,#progress do
 			gc.print(progress[i],1030,120+25*i)
 		end
+
+		--Draw time
+		gc.setColor(1,1,1)
+		setFont(45)
+		gc.print(format("%.3f",time),1030,70)
 	end
 
-	--Draw time
-	setFont(45)
-	gc.print(format("%.3f",time),1030,70)
-
-
 	--Draw tiles
-	gc.setColor(1,1,1)
 	gc.rectangle("fill",300,0,680,720)
 	gc.setColor(tileColor[mode])
 	gc.push("transform")
