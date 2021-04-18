@@ -352,7 +352,7 @@ function Player:attack(R,send,time,line,fromStream)
 			end
 		end
 		if fromStream and R.type=="human"then--Local player receiving lines
-			ins(GAME.rep,self.frameRun)
+			ins(GAME.rep,R.frameRun)
 			ins(GAME.rep,
 				self.sid+
 				send*0x100+
