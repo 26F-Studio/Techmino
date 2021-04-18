@@ -2,9 +2,9 @@ local loadImage=love.graphics.newImage
 local fs=love.filesystem
 
 local texture_noImage=DOGC{32,32,
-	{"setc",0,0,0},
+	{"rgba",0,0,0},
 	{"rect","fill",0,0,32,32},
-	{"setc",1,1,1},
+	{"rgba",1,1,1},
 	{"lwid",3},
 	{"line",0,0,31,31},
 	{"line",0,31,31,0},

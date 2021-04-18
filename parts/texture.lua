@@ -47,7 +47,7 @@ for i=18,24 do
 	gc.rectangle("line",7,7,16,16)
 end
 TEXTURE.puzzleMark[-1]=DOGC{30,30,
-	{"setc",1,1,1,.8},
+	{"rgba",1,1,1,.8},
 	{"draw",DOGC{30,30,
 		{"lwid",3},
 		{"line",5,5,25,25},

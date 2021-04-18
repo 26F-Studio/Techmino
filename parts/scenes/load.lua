@@ -103,7 +103,7 @@ local loadingThread=coroutine.wrap(function()
 		{"rect","line",05,05,10,20},{"rect","line",49,05,10,20},
 		{"rect","line",05,39,10,20},{"rect","line",49,39,10,20},
 		{"rect","line",20,10,23,43},
-		{"setc",1,1,1,.7},
+		{"rgba",1,1,1,.7},
 		{"rect","fill",20,10,23,43},
 	}YIELD()
 	modeIcons.t99=DOGC{64,64,
@@ -117,7 +117,7 @@ local loadingThread=coroutine.wrap(function()
 		{"rect","line",47,34,6,12},{"rect","line",56,34,6,12},
 		{"rect","line",47,50,6,12},{"rect","line",56,50,6,12},
 		{"rect","line",20,10,23,43},
-		{"setc",1,1,1,.7},
+		{"rgba",1,1,1,.7},
 		{"rect","fill",20,10,23,43},
 	}YIELD()
 
