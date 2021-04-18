@@ -110,15 +110,10 @@ function NET.wsconn_stream()
 end
 
 --Disconnect
-function NET.wsclose_user()
-	WS.close("user")
-end
-function NET.wsclose_play()
-	WS.close("play")
-end
-function NET.wsclose_stream()
-	WS.close("stream")
-end
+function NET.wsclose_app()WS.close("app")end
+function NET.wsclose_user()WS.close("user")end
+function NET.wsclose_play()WS.close("play")end
+function NET.wsclose_stream()WS.close("stream")end
 
 --Account & User
 function NET.register(username,email,password)
