@@ -2,12 +2,12 @@ local loadImage=love.graphics.newImage
 local fs=love.filesystem
 
 local texture_noImage=DOGC{32,32,
-	{"rgba",0,0,0},
-	{"rect","fill",0,0,32,32},
-	{"rgba",1,1,1},
-	{"lwid",3},
-	{"line",0,0,31,31},
-	{"line",0,31,31,0},
+	{"setCL",0,0,0},
+	{"fRect",0,0,32,32},
+	{"setCL",1,1,1},
+	{"setLW",3},
+	{"dLine",0,0,31,31},
+	{"dLine",0,31,31,0},
 }
 
 local function _getEmptyUser()
