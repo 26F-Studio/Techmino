@@ -107,7 +107,7 @@ function scene.sceneInit()
 	mode=1
 	arcade=true
 	reset()
-	BG.set("grey")
+	BG.set("gray")
 	BGM.play("way")
 	love.keyboard.setKeyRepeat(false)
 end

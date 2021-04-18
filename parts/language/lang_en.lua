@@ -864,7 +864,7 @@ return{
 		{c.fire,"Also try Tetr.js"},
 		{c.fire,"Also try Tetralegends"},
 		{c.grape,"T-spin!"},
-		{c.grey,"REGRET!!"},
+		{c.gray,"REGRET!!"},
 		{c.lR,"Z ",c.lG,"S ",c.lSea,"J ",c.lOrange,"L ",c.lGrape,"T ",c.lY,"O ",c.lC,"I"},
 		{c.lY,"COOL!!"},
 		{c.R,"\"DMCA abusing\""},

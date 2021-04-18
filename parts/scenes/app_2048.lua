@@ -370,7 +370,7 @@ function scene.draw()
 				"Y"
 			)or(
 				repeater.seq[i]==repeater.last[i]and
-				"grey"or
+				"gray"or
 				"white"
 			)
 		])
@@ -414,7 +414,7 @@ function scene.draw()
 						mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
 					end
 				else
-					setColor(COLOR.grey)
+					setColor(COLOR.gray)
 					rectangle("fill",x*160+163,y*160-117,154,154,15)
 				end
 			else
@@ -489,8 +489,8 @@ scene.widgetList={
 	WIDGET.newKey{name="left",			x=55,y=560,w=100,fText="←",font=50,color="yellow",code=pressKey"left",hide=function()return tapControl end},
 	WIDGET.newKey{name="right",			x=255,y=560,w=100,fText="→",font=50,color="yellow",code=pressKey"right",hide=function()return tapControl end},
 	WIDGET.newKey{name="skip",			x=155,y=400,w=100,font=20,color="yellow",code=pressKey"space",hide=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
-	WIDGET.newKey{name="record1",		x=1100,y=390,w=220,h=50,fText="",color="grey",code=pressKey"1",hide=function()return state==2 end},
-	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",color="grey",code=pressKey"2",hide=function()return state==2 end},
+	WIDGET.newKey{name="record1",		x=1100,y=390,w=220,h=50,fText="",color="gray",code=pressKey"1",hide=function()return state==2 end},
+	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",color="gray",code=pressKey"2",hide=function()return state==2 end},
 	WIDGET.newKey{name="replay1",		x=1245,y=390,w=50,fText="!",color="green",code=pressKey"c1",hide=function()return state==2 or #repeater.seq[1]==0 end},
 	WIDGET.newKey{name="replay2",		x=1245,y=450,w=50,fText="!",color="green",code=pressKey"c2",hide=function()return state==2 or #repeater.seq[2]==0 end},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},

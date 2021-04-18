@@ -177,7 +177,7 @@ scene.widgetList={
 	WIDGET.newButton{name="custom",	x=-1200,y=570,w=800,h=100,	color="lSea",	font=45,align="R",edge=30,	code=pressKey"z"},
 
 	WIDGET.newButton{name="setting",x=2480,y=210,w=800,h=100,	color="lOrange",font=40,align="L",edge=30,	code=pressKey"-"},
-	WIDGET.newButton{name="stat",	x=2480,y=330,w=800,h=100,	color="lLame",	font=40,align="L",edge=30,	code=pressKey"p"},
+	WIDGET.newButton{name="stat",	x=2480,y=330,w=800,h=100,	color="lLime",	font=40,align="L",edge=30,	code=pressKey"p"},
 	WIDGET.newButton{name="dict",	x=2480,y=450,w=800,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
 	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
 

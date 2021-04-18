@@ -11,7 +11,7 @@ local scene={}
 
 scene.widgetList={
 	WIDGET.newText{name="title",		x=520,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="grey"},
+	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="gray"},
 
 	--Control
 	WIDGET.newSlider{name="nextCount",	x=200,	y=150,	w=200,unit=6,disp=CUSval("nextCount"),code=CUSsto("nextCount")},

@@ -356,7 +356,7 @@ function scene.draw()
 	setFont(25)
 	for i=0,26 do
 		local x,y=light[3*i+1],light[3*i+2]
-		gc.setColor(COLOR[i==progress and"grey"or light[3*i+3]and"dOrange"or"dGrey"])
+		gc.setColor(COLOR[i==progress and"gray"or light[3*i+3]and"dOrange"or"dGray"])
 		gc.circle("fill",x,y,23)
 		gc.setColor(.16,.16,.16)
 		gc.circle("line",x,y,23)

@@ -144,9 +144,9 @@ end
 
 scene.widgetList={
 	WIDGET.newText{name="title",	x=520,	y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",	x=530,	y=50,font=35,align="L",color="grey"},
-	WIDGET.newText{name="defSeq",	x=330,	y=550,align="L",color="grey",hide=function()return BAG[1]end},
-	WIDGET.newText{name="noMsn",	x=610,	y=550,align="L",color="grey",hide=function()return MISSION[1]end},
+	WIDGET.newText{name="subTitle",	x=530,	y=50,font=35,align="L",color="gray"},
+	WIDGET.newText{name="defSeq",	x=330,	y=550,align="L",color="gray",hide=function()return BAG[1]end},
+	WIDGET.newText{name="noMsn",	x=610,	y=550,align="L",color="gray",hide=function()return MISSION[1]end},
 
 	--Basic
 	WIDGET.newSelector{name="drop",	x=170,	y=150,w=220,color="orange",	list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("drop"),code=CUSsto("drop")},
@@ -167,7 +167,7 @@ scene.widgetList={
 	--More
 	WIDGET.newKey{name="advance",	x=730,	y=190,w=220,h=90,color="red",	font=35,code=goScene"custom_advance"},
 	WIDGET.newKey{name="mod",		x=730,	y=310,w=220,h=90,color="white",	font=35,code=goScene"mod"},
-	WIDGET.newKey{name="field",		x=170,	y=640,w=240,h=80,color="water",	font=25,code=goScene"custom_field"},
+	WIDGET.newKey{name="field",		x=170,	y=640,w=240,h=80,color="aqua",	font=25,code=goScene"custom_field"},
 	WIDGET.newKey{name="sequence",	x=450,	y=640,w=240,h=80,color="pink",	font=25,code=goScene"custom_sequence"},
 	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color="sky",	font=25,code=goScene"custom_mission"},
 

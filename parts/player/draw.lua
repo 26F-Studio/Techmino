@@ -218,8 +218,8 @@ local function drawBoarders(P)
 	gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
 end
 local attackColor={
-	{COLOR.dGrey,COLOR.white},
-	{COLOR.grey,COLOR.white},
+	{COLOR.dGray,COLOR.white},
+	{COLOR.gray,COLOR.white},
 	{COLOR.lPurple,COLOR.white},
 	{COLOR.lRed,COLOR.white},
 	{COLOR.dGreen,COLOR.cyan},
@@ -650,7 +650,7 @@ function draw.norm(P)
 				gc_setStencilTest("equal",1)
 				gc_setLineWidth(20)
 				for i=0,24 do
-					gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
+					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1))
 					gc_line(20*i-190,-2,20*i+10,602)
 				end
 				gc_setStencilTest()
@@ -800,7 +800,7 @@ function draw.norm_remote(P)
 				gc_setStencilTest("equal",1)
 				gc_setLineWidth(20)
 				for i=0,24 do
-					gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
+					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1))
 					gc_line(20*i-190,-2,20*i+10,602)
 				end
 				gc_setStencilTest()

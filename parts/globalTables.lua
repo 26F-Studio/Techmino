@@ -15,12 +15,12 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=2,id="FL",name="hideNext",
-		key="e",x=320,y=230,color="water",
+		key="e",x=320,y=230,color="aqua",
 		list={1,2,3,4,5},
 		func=function(P,O)P.gameEnv.nextStartPos=O +1 end,
 	},
 	{no=3,id="IH",name="infHold",
-		key="r",x=440,y=230,color="water",
+		key="r",x=440,y=230,color="aqua",
 		func=function(P)P.gameEnv.infHold=true end,
 		unranked=true,
 	},
@@ -91,7 +91,7 @@ MODOPT={--Mod options
 	},
 
 	{no=16,id="TL",name="tele",
-		key="z",x=200,y=470,color="lGrey",
+		key="z",x=200,y=470,color="lGray",
 		func=function(P)
 			P.gameEnv.das,P.gameEnv.arr=0,0
 			P.gameEnv.sddas,P.gameEnv.sdarr=0,0
@@ -99,7 +99,7 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=17,id="FX",name="noRotation",
-		key="x",x=320,y=470,color="lGrey",
+		key="x",x=320,y=470,color="lGray",
 		func=function(P)
 			disableKey(P,3)
 			disableKey(P,4)
@@ -108,7 +108,7 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=18,id="GL",name="noMove",
-		key="c",x=440,y=470,color="lGrey",
+		key="c",x=440,y=470,color="lGray",
 		func=function(P)
 			disableKey(P,1)disableKey(P,2)
 			disableKey(P,11)disableKey(P,12)
@@ -331,8 +331,8 @@ keyMap=FILE.load("conf/key")or{--Key setting
 	},
 }
 VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
-	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.lame},--moveLeft
-	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.lame},--moveRight
+	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.lime},--moveLeft
+	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.lime},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80,color=COLOR.red},--rotRight
 	{ava=true,	x=1280-200,	y=720-80,	r=80,color=COLOR.orange},--rotLeft
 	{ava=true,	x=1280-200,	y=720-320,	r=80,color=COLOR.magenta},--rot180
@@ -341,16 +341,16 @@ VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' posi
 	{ava=true,	x=1280-320,	y=720-200,	r=80,color=COLOR.yellow},--hold
 	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lRed},--func1
 	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lMagenta},--func2
-	{ava=false,	x=100,		y=50,		r=80,color=COLOR.water},--insLeft
-	{ava=false,	x=200,		y=50,		r=80,color=COLOR.water},--insRight
+	{ava=false,	x=100,		y=50,		r=80,color=COLOR.aqua},--insLeft
+	{ava=false,	x=200,		y=50,		r=80,color=COLOR.aqua},--insRight
 	{ava=false,	x=300,		y=50,		r=80,color={COLOR.rainbow(3.5)}},--insDown
 	{ava=false,	x=400,		y=50,		r=80,color={COLOR.rainbow(3.3)}},--down1
 	{ava=false,	x=500,		y=50,		r=80,color={COLOR.rainbow(3.1)}},--down4
 	{ava=false,	x=600,		y=50,		r=80,color={COLOR.rainbow(2.9)}},--down10
-	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lLame},--dropLeft
-	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lLame},--dropRight
-	{ava=false,	x=900,		y=50,		r=80,color=COLOR.lWater},--addToLeft
-	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.lWater},--addToRight
+	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lLime},--dropLeft
+	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lLime},--dropRight
+	{ava=false,	x=900,		y=50,		r=80,color=COLOR.laqua},--addToLeft
+	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.laqua},--addToRight
 }
 virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
 REPLAY=FILE.load("conf/replay")or{}

@@ -269,7 +269,7 @@ function scene.draw()
 			local N=board[i][j]
 			if N>0 then
 				if hide and N>maxNew then
-					setColor(COLOR.dGrey)
+					setColor(COLOR.dGray)
 					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.3)
 					mStr("?",j*128+256,i*128-75)

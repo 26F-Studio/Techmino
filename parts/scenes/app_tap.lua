@@ -13,7 +13,7 @@ function scene.sceneInit()
 	lastKey=nil
 	speed=0
 	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
-	BG.set("grey")
+	BG.set("gray")
 	BGM.play("push")
 	love.keyboard.setKeyRepeat(false)
 end

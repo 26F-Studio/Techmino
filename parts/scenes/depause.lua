@@ -24,7 +24,7 @@ function scene.draw()
 		SCN.scenes.game.draw()
 	end
 
-	--Grey screen cover
+	--Gray screen cover
 	gc.setColor(.15,.15,.15,timer*1.26)
 	gc.push("transform")
 		gc.origin()

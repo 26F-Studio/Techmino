@@ -275,7 +275,7 @@ scene.widgetList={
 				PLY_NET[1].ready or
 				NET.getlock("ready")
 		end},
-	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color="grey",font=40,code=pressKey"space",
+	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color="gray",font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or

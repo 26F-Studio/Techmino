@@ -302,7 +302,7 @@ rankColor={
 }
 
 minoColor={
-	COLOR.red,	COLOR.fire,	COLOR.orange,	COLOR.yellow,	COLOR.lame,		COLOR.grass,	COLOR.green,	COLOR.water,
+	COLOR.red,	COLOR.fire,	COLOR.orange,	COLOR.yellow,	COLOR.lime,		COLOR.grass,	COLOR.green,	COLOR.aqua,
 	COLOR.cyan,	COLOR.sky,	COLOR.sea,		COLOR.blue,		COLOR.purple,	COLOR.grape,	COLOR.magenta,	COLOR.pink,
-	COLOR.dGrey,COLOR.black,COLOR.lYellow,	COLOR.grey,		COLOR.lGrey,	COLOR.dPurple,	COLOR.dRed,		COLOR.dGreen,
+	COLOR.dGray,COLOR.black,COLOR.lYellow,	COLOR.gray,		COLOR.lGray,	COLOR.dPurple,	COLOR.dRed,		COLOR.dGreen,
 }
