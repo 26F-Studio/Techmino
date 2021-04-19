@@ -103,7 +103,8 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,41,16,16},
 		{"fRect",41,41,16,16},
 		{"trans",.5,.5},
-		{"fPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
+		{"setLW",1},
+		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}YIELD()
 	modeIcons.t49=DOGC{64,64,
 		{"setLW",2},
