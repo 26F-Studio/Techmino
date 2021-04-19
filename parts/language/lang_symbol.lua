@@ -346,8 +346,6 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="~~e>>",
-			up="↑",
-			down="↓",
 		},
 		stat={
 			path="%$%",

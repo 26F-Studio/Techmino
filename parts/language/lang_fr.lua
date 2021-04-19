@@ -461,8 +461,6 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Ouvrir URL",
-			up="↑",
-			down="↓",
 		},
 		stat={
 			path="Ouvrir dossier des données",

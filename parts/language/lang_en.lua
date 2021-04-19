@@ -505,8 +505,8 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Open URL",
-			up="↑",
-			down="↓",
+			up="↑",down="↓",
+			pageup="↑↑",pagedown="↓↓",
 		},
 		stat={
 			path="Open Data Folder",
