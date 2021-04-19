@@ -1,10 +1,10 @@
 local printf=love.graphics.printf
 local draw=love.graphics.draw
 local mDraw={}
-function mDraw.str(str,x,y)printf(str,x-626,y,1252,"center")end
-function mDraw.simpX(str,x,y)draw(str,x-str:getWidth()*.5,y)end
-function mDraw.simpY(str,x,y)draw(str,x,y-str:getHeight()*.5)end
-function mDraw.X(str,x,y,a,k)draw(str,x,y,a,k,nil,str:getWidth()*.5,0)end
-function mDraw.Y(str,x,y,a,k)draw(str,x,y,a,k,nil,0,str:getHeight()*.5)end
-function mDraw.draw(str,x,y,a,k)draw(str,x,y,a,k,nil,str:getWidth()*.5,str:getHeight()*.5)end
+function mDraw.str(obj,x,y)printf(obj,x-626,y,1252,"center")end
+function mDraw.simpX(obj,x,y)draw(obj,x-obj:getWidth()*.5,y)end
+function mDraw.simpY(obj,x,y)draw(obj,x,y-obj:getHeight()*.5)end
+function mDraw.X(obj,x,y,a,k)draw(obj,x,y,a,k,nil,obj:getWidth()*.5,0)end
+function mDraw.Y(obj,x,y,a,k)draw(obj,x,y,a,k,nil,0,obj:getHeight()*.5)end
+function mDraw.draw(obj,x,y,a,k)draw(obj,x,y,a,k,nil,obj:getWidth()*.5,obj:getHeight()*.5)end
 return mDraw
