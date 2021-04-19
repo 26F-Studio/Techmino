@@ -28,7 +28,7 @@ return{
 	{"灰机wiki",
 		"灰机wiki huiji wiki",
 		"help",
-		"俄罗斯方块中文维基，由一群来自俄罗斯方块研究群及下属群的方块同好建立的关于俄罗斯方块的中文百科全书。\n当前大部分页面翻译和参考来自Harddrop wiki和Tetris Wiki",
+		"俄罗斯方块中文维基，由一群来自俄罗斯方块研究群及下属群的方块同好建立的关于俄罗斯方块的中文百科全书。\n目前其大部分页面翻译和参考来自Harddrop wiki和Tetris Wiki",
 		"https://tetris.huijiwiki.com",
 	},
 	{"小程序",
