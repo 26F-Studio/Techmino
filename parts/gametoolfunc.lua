@@ -2,7 +2,7 @@ local data=love.data
 
 local gc=love.graphics
 local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
-local gc_push,gc_pop,gc_origin=gc.push,gc.pop,gc.origin
+local gc_push,gc_pop,gc_origin,gc_translate=gc.push,gc.pop,gc.origin,gc.translate
 local gc_draw,gc_rectangle,gc_circle=gc.draw,gc.rectangle,gc.circle
 local max,int,rnd=math.max,math.floor,math.random
 local sin=math.sin
@@ -993,6 +993,22 @@ do--function drawFWM()
 		setFont(25)
 		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
+	end
+end
+do--function drawSelfProfile()
+	function drawSelfProfile()
+		local selfAvatar=USERS.getAvatar(USER.uid)
+		gc_push("transform")
+		gc_translate(1280,0)
+
+		--Draw avatar
+		gc_setLineWidth(2)
+		gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
+		gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
+		gc_rectangle("line",-73,7,66,66,2)
+		gc_draw(selfAvatar,-72,8,nil,.5)
+
+		gc_pop()
 	end
 end
 function drawWarning()

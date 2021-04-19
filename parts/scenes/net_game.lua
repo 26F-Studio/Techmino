@@ -257,6 +257,9 @@ function scene.draw()
 			gc.setColor(.5,.5,.5)
 			gc.print("#"..p.uid,50,60+50*i)
 		end
+
+		--Profile
+		drawSelfProfile()
 	end
 	--New message
 	if textBox.new and textBox.hide then
