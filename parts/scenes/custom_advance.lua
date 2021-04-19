@@ -28,8 +28,8 @@ scene.widgetList={
 	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list=sList.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")},
 
 	WIDGET.newSwitch{name="ospin",		x=870,	y=350,	font=30,disp=CUSval("ospin"),	code=CUSrev("ospin")},
-	WIDGET.newSwitch{name="fineKill",	x=870,	y=530,	font=20,disp=CUSval("fineKill"),code=CUSrev("fineKill")},
-	WIDGET.newSwitch{name="b2bKill",	x=870,	y=620,	font=20,disp=CUSval("b2bKill"),	code=CUSrev("b2bKill")},
+	WIDGET.newSwitch{name="fineKill",	x=870,	y=440,	font=20,disp=CUSval("fineKill"),code=CUSrev("fineKill")},
+	WIDGET.newSwitch{name="b2bKill",	x=870,	y=530,	font=20,disp=CUSval("b2bKill"),	code=CUSrev("b2bKill")},
 	WIDGET.newSwitch{name="easyFresh",	x=1160,	y=350,	font=20,disp=CUSval("easyFresh"),code=CUSrev("easyFresh")},
 	WIDGET.newSwitch{name="deepDrop",	x=1160,	y=440,	font=30,disp=CUSval("deepDrop"),code=CUSrev("deepDrop")},
 	WIDGET.newSwitch{name="bone",		x=1160,	y=530,	disp=CUSval("bone"),			code=CUSrev("bone")},
