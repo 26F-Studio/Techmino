@@ -6,12 +6,12 @@ local max,min=math.max,math.min
 local sub,format=string.sub,string.format
 local ins=table.insert
 local setFont,mStr=setFont,mStr
+local mDraw_Y=MDRAW.simpY
 
-local alignModes={
-	M="center",
-	L="left",
-	R="right",
-	F="justify",
+local allowNoText={
+	image=true,
+	inputBox=true,
+	textBox=true,
 }
 
 local WIDGET={}
@@ -25,15 +25,7 @@ local text={
 	type="text",
 	alpha=0,
 }
-function text:reset()
-	if type(self.text)=="string"then
-		self.text=gc.newText(getFont(self.font),self.text)
-	elseif type(self.text)~="userdata"or self.text.type(self.text)~="Text"then
-		self.text=gc.newText(getFont(self.font),self.name)
-		self.color=COLOR.dPurple
-		self.font=self.font-10
-	end
-end
+function text:reset()end
 function text:update()
 	if self.hideCon and self.hideCon()then
 		if self.alpha>0 then
@@ -47,12 +39,13 @@ function text:draw()
 	if self.alpha>0 then
 		local c=self.color
 		gc.setColor(c[1],c[2],c[3],self.alpha)
+		local obj=self.obj
 		if self.align=="M"then
-			gc.draw(self.text,self.x-self.text:getWidth()*.5,self.y)
+			gc.draw(obj,self.x-obj:getWidth()*.5,self.y)
 		elseif self.align=="L"then
-			gc.draw(self.text,self.x,self.y)
+			gc.draw(obj,self.x,self.y)
 		elseif self.align=="R"then
-			gc.draw(self.text,self.x-self.text:getWidth(),self.y)
+			gc.draw(obj,self.x-obj:getWidth(),self.y)
 		end
 	end
 end
@@ -150,21 +143,33 @@ function button:draw()
 		gc.setColor(1,1,1,ATV*.125)
 		gc.rectangle("line",x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
 	end
-	local t=self.text
-	if t then
-		setFont(self.font)
-		local y0=y+h*.5-self.font*.7-ATV*.5
-		gc.setColor(1,1,1,.2+ATV*.05)
-		local edge=self.edge
-		gc.printf(t,x+edge-2,y0-2,w-2*edge,self.align)
-		gc.printf(t,x+edge-2,y0+2,w-2*edge,self.align)
-		gc.printf(t,x+edge+2,y0-2,w-2*edge,self.align)
-		gc.printf(t,x+edge+2,y0+2,w-2*edge,self.align)
+	local obj=self.obj
+	local y0=y+h*.5-ATV*.5
+	gc.setColor(1,1,1,.2+ATV*.05)
+	if self.align=="M"then
+		local x0=x+w*.5
+		mDraw(obj,x0-2,y0-2)
+		mDraw(obj,x0-2,y0+2)
+		mDraw(obj,x0+2,y0-2)
+		mDraw(obj,x0+2,y0+2)
 		gc.setColor(r*.5,g*.5,b*.5)
-		gc.printf(t,x+edge,y0,w-2*edge,self.align)
-	else
-		self.text=self.name or"###"
-		self.color=COLOR.dPurple
+		mDraw(obj,x0,y0)
+	elseif self.align=="L"then
+		local edge=self.edge
+		mDraw_Y(obj,x+edge-2,y0-2)
+		mDraw_Y(obj,x+edge-2,y0+2)
+		mDraw_Y(obj,x+edge+2,y0-2)
+		mDraw_Y(obj,x+edge+2,y0+2)
+		gc.setColor(r*.5,g*.5,b*.5)
+		mDraw_Y(obj,x+edge,y0)
+	elseif self.align=="R"then
+		local x0=x+w-self.edge-obj:getWidth()
+		mDraw_Y(obj,x0-2,y0-2)
+		mDraw_Y(obj,x0-2,y0+2)
+		mDraw_Y(obj,x0+2,y0-2)
+		mDraw_Y(obj,x0+2,y0+2)
+		gc.setColor(r*.5,g*.5,b*.5)
+		mDraw_Y(obj,x0,y0)
 	end
 end
 function button:getInfo()
@@ -196,7 +201,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
-		align=	alignModes[D.align or"M"]or"center",
+		align=	D.align or"M",
 		edge=	D.edge or 0,
 		code=	D.code,
 		hide=	D.hide,
@@ -244,14 +249,13 @@ function key:draw()
 	gc.setLineWidth(4)
 	gc.rectangle("line",x,y,w,h)
 
-	local t=self.text
-	if t then
-		setFont(self.font)
-		gc.setColor(r,g,b,1.2)
-		gc.printf(t,x+self.edge,y+h*.5-self.font*.7,w-2*self.edge,self.align)
-	else
-		self.text=self.name or"###"
-		self.color=COLOR.dPurple
+	gc.setColor(r,g,b,1.2)
+	if self.align=="M"then
+		mDraw(self.obj,x+w*.5,y+h*.5)
+	elseif self.align=="L"then
+		mDraw_Y(self.obj,x+self.edge,y+h*.5)
+	elseif self.align=="R"then
+		mDraw_Y(self.obj,x+w*.5,y+h*.5)
 	end
 end
 function key:getInfo()
@@ -281,7 +285,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edg
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
 		font=	D.font or 30,
-		align=	alignModes[D.align or"M"]or"center",
+		align=	D.align or"M",
 		edge=	D.edge or 0,
 		code=	D.code,
 		hide=	D.hide,
@@ -336,13 +340,10 @@ function switch:draw()
 	gc.setColor(1,1,1,.6+ATV*.05)
 	gc.rectangle("line",x,y,50,50)
 
-	--Text
-	local t=self.text
-	if t then
-		gc.setColor(self.color)
-		setFont(self.font)
-		gc.printf(t,x-412-ATV,y+20-self.font*.7,400,"right")
-	end
+	--Drawable
+	local obj=self.obj
+	gc.setColor(self.color)
+	mDraw_Y(obj,x-12-ATV-obj:getWidth(),y+25)
 end
 function switch:getInfo()
 	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
@@ -461,13 +462,10 @@ function slider:draw()
 		mStr(self:show(),cx,by-30)
 	end
 
-	--Text
-	local t=self.text
-	if t then
-		gc.setColor(self.color)
-		setFont(self.font)
-		gc.printf(t,x-312-ATV,y-self.font*.7,300,"right")
-	end
+	--Drawable
+	local obj=self.obj
+	gc.setColor(self.color)
+	mDraw_Y(obj,x-12-ATV-obj:getWidth(),y)
 end
 function slider:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
@@ -622,14 +620,11 @@ function selector:draw()
 		end
 	end
 
-	--Text
-	setFont(30)
-	t=self.text
-	if t then
-		gc.setColor(self.color)
-		mStr(self.text,x+w*.5,y+17-21)
-	end
+	--Drawable
+	gc.setColor(self.color)
+	MDRAW.simpX(self.obj,x+w*.5,y+17-21)
 	gc.setColor(1,1,1)
+	setFont(30)
 	mStr(self.selText,x+w*.5,y+43-21)
 end
 function selector:getInfo()
@@ -690,6 +685,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		font=	30,
 		list=	D.list,
 		disp=	D.disp,
 		code=	D.code,
@@ -744,11 +740,11 @@ function inputBox:draw()
 	gc.setLineWidth(4)
 	gc.rectangle("line",x,y,w,h)
 
-	--Text
+	--Drawable
 	setFont(self.font)
-	local t=self.text
-	if t then
-		gc.printf(t,x-412,y+h*.5-self.font*.7,400,"right")
+	local obj=self.obj
+	if obj then
+		mDraw_Y(obj,x-12-obj:getWidth(),y+h*.5)
 	end
 	if self.secret then
 		for i=1,#self.value do
@@ -1004,7 +1000,15 @@ function WIDGET.setLang(widgetText)
 	for S,L in next,SCN.scenes do
 		if L.widgetList then
 			for _,W in next,L.widgetList do
-				W.text=W.fText or widgetText[S][W.name]
+				local t=W.fText or widgetText[S][W.name]
+				if not t and not allowNoText[W.type]then
+					t=W.name or"##"
+					W.color=COLOR.dPurple
+				end
+				if type(t)=="string"and W.font then
+					t=gc.newText(getFont(W.font),t)
+				end
+				W.obj=t
 			end
 		end
 	end
