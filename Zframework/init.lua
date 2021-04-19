@@ -588,7 +588,7 @@ function love.run()
 
 					--Websocket status
 					gc_push("transform")
-					gc.translate(SCR.w,0)
+					gc.translate(SCR.w,SCR.h-100)
 					gc.scale(SCR.k)
 					for i=1,5 do
 						local status=WS.status(WSnames[i])
