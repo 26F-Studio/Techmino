@@ -1,16 +1,23 @@
 local gc=love.graphics
 local cmds={
+	reset="origin",
 	trans="translate",
 	scale="scale",
+	rotat="rotate",
+
 	setCL="setColor",
+	setCM="setColorMask",
 	setLW="setLineWidth",
+	setLS="setLineStyle",
+	setLJ="setLineJoin",
+
 	draw="draw",
 	dLine="line",
 	fRect=function(...)gc.rectangle("fill",...)end,
 	dRect=function(...)gc.rectangle("line",...)end,
 	fCirc=function(...)gc.circle("fill",...)end,
 	dCirc=function(...)gc.circle("line",...)end,
-	fPoly=function(...)gc.polygon("line",...)end,
+	fPoly=function(...)gc.polygon("fill",...)end,
 	dPoly=function(...)gc.polygon("line",...)end,
 }
 return function(L)

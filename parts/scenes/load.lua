@@ -80,13 +80,6 @@ local loadingThread=coroutine.wrap(function()
 		{"fPoly",10,4,24,10,10,16.5},
 		{"fRect",4,24,10,3},
 	}YIELD()
-	modeIcons.tsd=DOGC{64,64,
-		{"fRect",7,7,16,16},
-		{"fRect",7,41,16,16},
-		{"fRect",41,41,16,16},
-		{"trans",.5,.5},
-		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
-	}YIELD()
 	modeIcons.infinite=DOGC{64,64,
 		{"setLW",4},
 		{"dCirc",32,32,28},
@@ -97,6 +90,20 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,30,4,4},
 		{"fRect",52,30,4,4},
 		{"fRect",30,52,4,4},
+	}YIELD()
+	modeIcons.classic=DOGC{64,64,
+		{"setLW",6},
+		{"dRect",10,24,12,12},
+		{"dRect",26,24,12,12},
+		{"dRect",42,24,12,12},
+		{"dRect",26,40,12,12},
+	}YIELD()
+	modeIcons.tsd=DOGC{64,64,
+		{"fRect",7,7,16,16},
+		{"fRect",7,41,16,16},
+		{"fRect",41,41,16,16},
+		{"trans",.5,.5},
+		{"fPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}YIELD()
 	modeIcons.t49=DOGC{64,64,
 		{"setLW",2},
