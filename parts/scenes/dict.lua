@@ -3,7 +3,7 @@ local gc=love.graphics
 local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=726,h=60,font=40}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
-local ins,rem=table.insert,table.remove
+local ins=table.insert
 local find=string.find
 
 local scene={}
@@ -78,9 +78,9 @@ function scene.keyDown(key)
 				scrollPos=selected-15
 			end
 		end
-	elseif key=="pageup"then
+	elseif key=="left"or key=="pageup"then
 		for _=1,12 do scene.keyDown("up")end
-	elseif key=="pagedown"then
+	elseif key=="right"or key=="pagedown"then
 		for _=1,12 do scene.keyDown("down")end
 	elseif key=="link"then
 		love.system.openURL(url)
