@@ -150,15 +150,15 @@ BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
 CUSTOMENV={--gameEnv for cutsom game
 	--Basic
-	drop=60,
-	lock=60,
+	drop=1e99,
+	lock=1e99,
 	wait=0,
 	fall=0,
 
 	--Control
 	nextCount=6,
 	holdCount=1,
-	infHold=false,
+	infHold=true,
 	phyHold=false,
 
 	--Visual
@@ -184,7 +184,7 @@ CUSTOMENV={--gameEnv for cutsom game
 
 	--Else
 	bg="none",
-	bgm="race",
+	bgm="infinite",
 }
 GAME={--Global game data
 	init=false,			--If need initializing game when enter scene-play
