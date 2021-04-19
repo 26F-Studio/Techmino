@@ -106,6 +106,11 @@ return{
 		font=65,
 		color=C.rainbow_dark,
 	},
+	{
+		name="Notypey",
+		font=65,
+		color=C.rainbow_dark,
+	},
 
 	{
 		name="八零哥",
