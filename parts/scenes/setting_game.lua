@@ -34,15 +34,16 @@ scene.widgetList={
 	WIDGET.newSwitch{name="swap",		x=1060,	y=370,	font=20,disp=SETval("swap"),	code=SETrev("swap")},
 	WIDGET.newSwitch{name="fine",		x=1060,	y=430,	font=20,disp=SETval("fine"),	code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6) end end},
 	WIDGET.newSwitch{name="appLock",	x=1060,	y=490,	font=20,disp=SETval("appLock"),	code=SETrev("appLock")},
-	WIDGET.newSwitch{name="simpMode",	x=1060,	y=550,	font=25,disp=SETval("simpMode"),code=function()
-		SETTING.simpMode=not SETTING.simpMode
-		for i=1,#SCN.stack,2 do
-			if SCN.stack[i]=="main"or SCN.stack[i]=="main_simple"then
-				SCN.stack[i]=SETTING.simpMode and"main_simple"or"main"
-				break
+	WIDGET.newSwitch{name="simpMode",	x=1060,	y=550,	font=25,disp=SETval("simpMode"),
+		code=function()
+			SETTING.simpMode=not SETTING.simpMode
+			for i=1,#SCN.stack,2 do
+				if SCN.stack[i]=="main"or SCN.stack[i]=="main_simple"then
+					SCN.stack[i]=SETTING.simpMode and"main_simple"or"main"
+					break
+				end
 			end
-		end
-	end},
+		end},
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,					font=40,code=backScene},
 }
 

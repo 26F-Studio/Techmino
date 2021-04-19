@@ -96,6 +96,7 @@ return{
 
 	createRoomTooFast="¡Creas salas muy rápido, párale we!",
 	createRoomSuccessed="¡Sala creada con éxito!",
+	-- started="Playing",
 	joinRoom="entró a la sala.",
 	leaveRoom="salió de la sala.",
 	notReady="En espera",
@@ -231,7 +232,8 @@ return{
 			-- refreshing="Refreshing Rooms",
 			noRoom="No Hay Salas Actualmente",
 			refresh="Refrescar",
-			new="Sala Nueva",
+			new="Sala Nueva(2)",
+			new2="Sala Nueva(5)",
 			join="Unirse",
 			up="↑",
 			down="↓",
@@ -464,8 +466,6 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Abrir URL",
-			up="↑",
-			down="↓",
 		},
 		stat={
 			path="Abrir carpeta del juego",
@@ -559,6 +559,7 @@ return{
 		},
 		app_dtw={
 			reset="Reiniciar",
+			-- arcade="Arcade",
 			mode="Modo",
 		},
 		savedata={
@@ -578,7 +579,7 @@ return{
 			resetData="Reiniciar datos",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Salir",
 		},
 	},

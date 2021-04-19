@@ -349,7 +349,7 @@ end
 function love.focus(f)
 	if f then
 		love.timer.step()
-	elseif SCN.cur=="play"and SETTING.autoPause then
+	elseif SCN.cur=="game"and SETTING.autoPause then
 		pauseGame()
 	end
 end
@@ -461,10 +461,15 @@ local devColor={
 }
 love.draw,love.update=nil--remove default draw/update
 function love.run()
-	local SCN=SCN
-	local SETTING=SETTING
+	local love=love
 
+	local SCN,WIDGET=SCN,WIDGET
+	local VOC,BG,SYSFX=VOC,BG,SYSFX
+	local TASK,LOG,TEXT=TASK,LOG,TEXT
+
+	local SETTING=SETTING
 	local TIME=TIME
+
 	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local FPS=love.timer.getFPS
 	local MINI=love.window.isMinimized
@@ -506,12 +511,12 @@ function love.run()
 		TASK.update()
 		WS.update(dt)
 		VOC.update()
-		BG.update(dt)
+		BG.update(dt)--BG animation
 		SYSFX.update(dt)
 		WIDGET.update()--Widgets animation
-		if SCN.update then SCN.update(dt)end--Scene Updater
+		if SCN.update then SCN.update(dt)end--Scene updater
 		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
-		TEXT.update()
+		TEXT.update()--Update global texts animation
 		LOG.update()
 
 		--DRAW

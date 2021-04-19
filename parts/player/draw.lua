@@ -218,8 +218,8 @@ local function drawBoarders(P)
 	gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
 end
 local attackColor={
-	{COLOR.dGrey,COLOR.white},
-	{COLOR.grey,COLOR.white},
+	{COLOR.dGray,COLOR.white},
+	{COLOR.gray,COLOR.white},
 	{COLOR.lPurple,COLOR.white},
 	{COLOR.lRed,COLOR.white},
 	{COLOR.dGreen,COLOR.cyan},
@@ -426,12 +426,12 @@ local function drawMission(P)
 end
 local function drawStartCounter(P)
 	gc_setColor(1,1,1)
-	if GAME.frame<180 then
-		if GAME.frame==0 then
+	if P.frameRun<180 then
+		if P.frameRun==0 then
 			setFont(70)
 			mStr(P.ready and text.beReady or text.notReady,305,220)
 		else
-			local count=179-GAME.frame
+			local count=179-P.frameRun
 			gc_push("transform")
 				gc_translate(305,220)
 				setFont(95)
@@ -459,7 +459,7 @@ function draw.drawNext_norm(P)
 				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
-				for i=1,#bk do for j=1,#bk[1] do
+				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
 						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i-#bk*.5,j-#bk[1]*.5,clr)
 					end
@@ -497,7 +497,7 @@ function draw.drawNext_hidden(P)
 				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
-				for i=1,#bk do for j=1,#bk[1] do
+				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
 						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))-- drawCell(i-#bk*.5,j-#bk[1]*.5,clr)
 					end
@@ -650,7 +650,7 @@ function draw.norm(P)
 				gc_setStencilTest("equal",1)
 				gc_setLineWidth(20)
 				for i=0,24 do
-					gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
+					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1))
 					gc_line(20*i-190,-2,20*i+10,602)
 				end
 				gc_setStencilTest()
@@ -800,7 +800,7 @@ function draw.norm_remote(P)
 				gc_setStencilTest("equal",1)
 				gc_setLineWidth(20)
 				for i=0,24 do
-					gc_setColor(COLOR.rainbow_grey(t*.626+i*.1))
+					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1))
 					gc_line(20*i-190,-2,20*i+10,602)
 				end
 				gc_setStencilTest()

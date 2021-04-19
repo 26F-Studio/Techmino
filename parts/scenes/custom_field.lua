@@ -424,16 +424,16 @@ end
 local function setPen(i)return function()penType=i end end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=1020,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="grey"},
+	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="gray"},
 
 	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color=COLOR.red,	code=setPen(1)},--B1
 	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color=COLOR.fire,	code=setPen(2)},--B2
 	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color=COLOR.orange,	code=setPen(3)},--B3
 	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color=COLOR.yellow,	code=setPen(4)},--B4
-	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color=COLOR.lame,	code=setPen(5)},--B5
+	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color=COLOR.lime,	code=setPen(5)},--B5
 	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color=COLOR.grass,	code=setPen(6)},--B6
 	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color=COLOR.green,	code=setPen(7)},--B7
-	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color=COLOR.water,	code=setPen(8)},--B8
+	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color=COLOR.aqua,	code=setPen(8)},--B8
 
 	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color=COLOR.cyan,	code=setPen(9)},--B9
 	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color=COLOR.sky,	code=setPen(10)},--B10
@@ -444,17 +444,17 @@ scene.widgetList={
 	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color=COLOR.magenta,code=setPen(15)},--B15
 	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color=COLOR.pink,	code=setPen(16)},--B16
 
-	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color="dGrey",	code=setPen(17)},--BONE
+	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color="dGray",	code=setPen(17)},--BONE
 	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color="black",	code=setPen(18)},--HIDE
 	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color="lYellow",code=setPen(19)},--BOMB
-	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color="grey",	code=setPen(20)},--GB1
-	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color="lGrey",	code=setPen(21)},--GB2
+	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color="gray",	code=setPen(20)},--GB1
+	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color="lGray",	code=setPen(21)},--GB2
 	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color="dPurple",code=setPen(22)},--GB3
 	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color="dRed",	code=setPen(23)},--GB4
 	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color="dGreen",	code=setPen(24)},--GB5
 
-	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lGrey",	font=40,code=setPen(0)},
-	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="grey",	font=65,code=setPen(-1)},
+	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lGray",	font=40,code=setPen(0)},
+	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="gray",	font=65,code=setPen(-1)},
 	WIDGET.newButton{name="smartPen",	x=860,	y=400,w=120,color="lGreen",	font=30,code=setPen(-2)},
 	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"k"},
 	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lYellow",font=20,code=pressKey"l"},

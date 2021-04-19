@@ -12,6 +12,10 @@ function scene.sceneInit()
 	stateInfo=SYSTEM.."-"..VERSION.string.."                          scene:"..ERRDATA[#ERRDATA].scene
 	errorText=LOADED and text.errorMsg or"An error has occurred during loading.\nError info has been created, and you can send it to the author."
 	errorShot,errorInfo=ERRDATA[#ERRDATA].shot,ERRDATA[#ERRDATA].mes
+	NET.wsclose_app()
+	NET.wsclose_user()
+	NET.wsclose_play()
+	NET.wsclose_stream()
 	if SETTING then SFX.fplay("error",SETTING.voc*.8 or 0)end
 end
 

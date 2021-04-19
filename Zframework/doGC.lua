@@ -1,13 +1,24 @@
 local gc=love.graphics
 local cmds={
-	move="translate",
-	zoom="scale",
-	rgb="setColor",
-	wid="setLineWidth",
-	line="line",
-	rect="rectangle",
-	circ="circle",
-	poly="polygon",
+	reset="origin",
+	trans="translate",
+	scale="scale",
+	rotat="rotate",
+
+	setCL="setColor",
+	setCM="setColorMask",
+	setLW="setLineWidth",
+	setLS="setLineStyle",
+	setLJ="setLineJoin",
+
+	draw="draw",
+	dLine="line",
+	fRect=function(...)gc.rectangle("fill",...)end,
+	dRect=function(...)gc.rectangle("line",...)end,
+	fCirc=function(...)gc.circle("fill",...)end,
+	dCirc=function(...)gc.circle("line",...)end,
+	fPoly=function(...)gc.polygon("fill",...)end,
+	dPoly=function(...)gc.polygon("line",...)end,
 }
 return function(L)
 	gc.push()
@@ -17,7 +28,14 @@ return function(L)
 			gc.setColor(1,1,1)
 			gc.setLineWidth(1)
 			for i=3,#L do
-				gc[cmds[L[i][1]]](unpack(L[i],2))
+				print(L[i][1])
+				local cmd=cmds[L[i][1]]
+				print(L[i][1])
+				if type(cmd)=="string"then
+					gc[cmd](unpack(L[i],2))
+				else
+					cmd(unpack(L[i],2))
+				end
 			end
 		gc.setCanvas()
 	gc.pop()

@@ -34,53 +34,57 @@ scene.widgetList={
 	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(SETTING)end},
 	WIDGET.newButton{name="exportVK",		x=1090,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(VK_org)end},
 
-	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lBlue",font=25,code=function()
-		local D=parseCB()
-		if D then
-			TABLE.update(D,RANKS)
-			FILE.save(RANKS,"conf/unlock")
-			LOG.print(text.importSuccess,"message")
-		else
-			LOG.print(text.dataCorrupted,"warn")
-		end
-	end},
-	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,code=function()
-		local D=parseCB()
-		if D and D.version==STAT.version then
-			TABLE.update(D,STAT)
-			FILE.save(STAT,"conf/data")
-			LOG.print(text.importSuccess,"message")
-		else
-			LOG.print(text.dataCorrupted,"warn")
-		end
-	end},
-	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,code=function()
-		local D=parseCB()
-		if D then
-			TABLE.update(D,SETTING)
-			FILE.save(SETTING,"conf/settings")
-			LOG.print(text.importSuccess,"message")
-		else
-			LOG.print(text.dataCorrupted,"warn")
-		end
-	end},
-	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,code=function()
-		local D=parseCB()
-		if D then
-			TABLE.update(D,VK_org)
-			FILE.save(VK_org,"conf/virtualkey")
-			LOG.print(text.importSuccess,"message")
-		else
-			LOG.print(text.dataCorrupted,"warn")
-		end
-	end},
-
-	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,code=function()
-		scene.widgetList.reset.hide=true
-		scene.widgetList.resetUnlock.hide=false
-		scene.widgetList.resetRecord.hide=false
-		scene.widgetList.resetData.hide=false
-	end},
+	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lBlue",font=25,
+		code=function()
+			local D=parseCB()
+			if D then
+				TABLE.update(D,RANKS)
+				FILE.save(RANKS,"conf/unlock")
+				LOG.print(text.importSuccess,"message")
+			else
+				LOG.print(text.dataCorrupted,"warn")
+			end
+		end},
+	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,
+		code=function()
+			local D=parseCB()
+			if D and D.version==STAT.version then
+				TABLE.update(D,STAT)
+				FILE.save(STAT,"conf/data")
+				LOG.print(text.importSuccess,"message")
+			else
+				LOG.print(text.dataCorrupted,"warn")
+			end
+		end},
+	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,
+		code=function()
+			local D=parseCB()
+			if D then
+				TABLE.update(D,SETTING)
+				FILE.save(SETTING,"conf/settings")
+				LOG.print(text.importSuccess,"message")
+			else
+				LOG.print(text.dataCorrupted,"warn")
+			end
+		end},
+	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,
+		code=function()
+			local D=parseCB()
+			if D then
+				TABLE.update(D,VK_org)
+				FILE.save(VK_org,"conf/virtualkey")
+				LOG.print(text.importSuccess,"message")
+			else
+				LOG.print(text.dataCorrupted,"warn")
+			end
+		end},
+	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,
+		code=function()
+			scene.widgetList.reset.hide=true
+			scene.widgetList.resetUnlock.hide=false
+			scene.widgetList.resetRecord.hide=false
+			scene.widgetList.resetData.hide=false
+		end},
 	WIDGET.newButton{name="resetUnlock",	x=340,y=460,w=280,h=100,color="red",
 		code=function()
 			love.filesystem.remove("conf/unlock")
@@ -106,7 +110,6 @@ scene.widgetList={
 			LOG.print("effected after restart game","message")
 			LOG.print("play one game to get data back","message")
 		end,hide=true},
-
 	WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=backScene},
 }
 

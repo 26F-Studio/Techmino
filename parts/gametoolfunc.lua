@@ -614,7 +614,7 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 			SCN.go("net_game","swipeD")
 		else
 			drawableText.modeName:set(text.modes[M][1].."   "..text.modes[M][2])
-			SCN.go("play",ifQuickPlay and"swipeD"or"fade_togame")
+			SCN.go("game",ifQuickPlay and"swipeD"or"fade_togame")
 			SFX.play("enter")
 		end
 	end
@@ -731,7 +731,7 @@ do--function resetGameData(args)
 	end
 	function resetGameData(args,seed)
 		if not args then args=""end
-		if PLAYERS[1]and not GAME.replaying and(GAME.frame>400 or GAME.result)then
+		if PLAYERS[1]and not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
 			STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 		end
@@ -740,11 +740,11 @@ do--function resetGameData(args)
 		GAME.warnLVL0=0
 		GAME.warnLVL=0
 		if args:find("r")then
-			GAME.frame=0
+			GAME.frameStart=0
 			GAME.recording=false
 			GAME.replaying=1
 		else
-			GAME.frame=args:find("n")and 0 or 150-SETTING.reTime*15
+			GAME.frameStart=args:find("n")and 0 or 150-SETTING.reTime*15
 			GAME.seed=seed or rnd(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
@@ -790,39 +790,10 @@ do--function resetGameData(args)
 		collectgarbage()
 	end
 end
-function gameStart()--Call when countdown finish (GAME.frame==180)
-	SFX.play("start")
-	for P=1,#PLAYERS do
-		P=PLAYERS[P]
-		P.control=true
-		P.timing=true
-		P:popNext()
-	end
-end
-function checkStart()
-	if GAME.frame<=180 then
-		if GAME.frame==180 then
-			gameStart()
-		elseif GAME.frame==60 or GAME.frame==120 then
-			SFX.play("ready")
-		end
-		for p=1,#PLAYERS do
-			local P=PLAYERS[p]
-			if P.movDir~=0 then
-				if P.moving<P.gameEnv.das then
-					P.moving=P.moving+1
-				end
-			else
-				P.moving=0
-			end
-		end
-		return true
-	end
-end
 function checkWarning()
 	local P1=PLAYERS[1]
 	if P1.alive then
-		if GAME.frame%26==0 then
+		if P1.frameRun%26==0 then
 			local F=P1.field
 			local height=0--Max height of row 4~7
 			for x=4,7 do
@@ -847,7 +818,7 @@ function checkWarning()
 	elseif GAME.warnLVL>0 then
 		GAME.warnLVL=max(GAME.warnLVL-.026,0)
 	end
-	if GAME.warnLVL>1.126 and GAME.frame%30==0 then
+	if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
 		SFX.fplay("warning",SETTING.sfx_warn)
 	end
 end
@@ -973,7 +944,7 @@ do--function saveRecording()
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			GAME.curModeName.."\n"..
 			VERSION.string.."\n"..
-			(USER.username or"Player")
+			"Local Player"
 		local fileBody=
 			GAME.seed.."\n"..
 			JSON.encode(GAME.setting).."\n"..
@@ -1006,22 +977,22 @@ do--function drawFWM()
 		string.char(65,117,116,111,114,32,100,111,32,106,111,103,111,58,32,77,114,90,95,50,54,10,71,114,97,118,97,195,167,195,181,101,115,32,99,111,110,116,101,110,100,111,32,101,115,116,97,32,77,97,114,99,97,10,100,101,32,195,161,103,117,97,32,110,195,163,111,32,115,195,163,111,32,97,117,116,111,114,105,122,97,100,97,115),
 		string.char(65,117,116,104,111,114,58,32,77,114,90,95,50,54,10,82,101,99,111,114,100,105,110,103,115,32,99,111,110,116,97,105,110,105,110,103,32,116,104,105,115,10,119,97,116,101,114,109,97,114,107,32,97,114,101,32,117,110,97,117,116,104,111,114,105,122,101,100),
 	}
-	--你竟然找到了这里！那么在动手之前读读下面这些吧。
-	--【魔幻躲关键字搜索警告，看得懂就行】
-	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码！
-	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/几十个人以上的社区群等)很可能会对Techmino未来的发展有负面影响
-	--如果被TTC发现，TTC随时可以用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
+	--你竟然找到了这里!那么在动手之前读读下面这些吧。
+	--【魔幻错别字躲关键字搜索警告，看得懂就行】
+	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码!
+	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/好几十个人及以上的非方块社区/群等)很可能会对Techmino未来的发展有负面影响
+	--如果被TTC发现，随时可能被他们用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
 	--氵印限制还可以减少低质量视屏泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
 	--想发视屏的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭氵印
 	--等Techmino发展到一定程度之后会解除这个限制
 	--最后，别把藏在这里的东西截图/复制出去哦~
-	--感谢您对Techmino的支持！！！
+	--感谢您对Techmino的支持!!!
 	local setFont,TIME,mStr=setFont,TIME,mStr
 	function drawFWM()
 		local t=TIME()
 		setFont(25)
 		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
-		mStr(m[SETTING.lang]or m[1],240,60+26*sin(t))
+		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
 function drawWarning()

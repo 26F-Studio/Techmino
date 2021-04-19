@@ -114,8 +114,29 @@ local update={
 }
 function update.alive(P,dt)
 	local ENV=P.gameEnv
+	local S=P.stat
+
+	P.frameRun=P.frameRun+1
+	if P.frameRun<=180 then
+		if P.frameRun==180 then
+			if P.id==1 then SFX.play("start")end
+			P.control=true
+			P.timing=true
+			P:popNext()
+		elseif P.frameRun==60 or P.frameRun==120 then
+			if P.id==1 then SFX.play("ready")end
+		end
+		if P.movDir~=0 then
+			if P.moving<P.gameEnv.das then
+				P.moving=P.moving+1
+			end
+		else
+			P.moving=0
+		end
+		return true
+	end
+
 	if P.timing then
-		local S=P.stat
 		S.time=S.time+dt
 		S.frame=S.frame+1
 	end
@@ -123,10 +144,10 @@ function update.alive(P,dt)
 	--Calculate key speed
 	do
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*72/(GAME.frame-P.keyTime[i]+1)end
+		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.keyTime[i]+1)end
 		P.keySpeed=P.keySpeed*.99+v*.01
 		v=0
-		for i=2,10 do v=v+i*(i-1)*72/(GAME.frame-P.dropTime[i])end
+		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.dropTime[i])end
 		P.dropSpeed=P.dropSpeed*.99+v*.01
 	end
 
@@ -372,17 +393,17 @@ function update.dead(P,dt)
 	updateTasks(P)
 end
 function update.remote_alive(P,dt)
-	local frmStep=GAME.frame-P.stat.frame
+	local frmDelta=PLAYERS[1].frameRun-P.frameRun
 	for _=1,
-		frmStep<20 and 1 or
-		frmStep<45 and rnd(2)or
-		frmStep<90 and 2 or
-		frmStep<180 and rnd(2,3) or
+		frmDelta<20 and 1 or
+		frmDelta<45 and rnd(2)or
+		frmDelta<90 and 2 or
+		frmDelta<180 and rnd(2,3) or
 		3
 	do
 		local eventTime=P.stream[P.streamProgress]
 		if eventTime then--Normal state, event forward
-			if P.stat.frame==eventTime then--Event time, execute action, read next so don't update immediately
+			if P.frameRun==eventTime then--Event time, execute action, read next so don't update immediately
 				local event=P.stream[P.streamProgress+1]
 				if event==0 then--Just wait
 				elseif event<=32 then--Press key

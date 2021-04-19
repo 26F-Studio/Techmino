@@ -23,7 +23,7 @@ return{
 		local T=P.stat.time
 		return
 		T<=26 and 5 or
-		T<=32.6 and 4 or
+		T<=36 and 4 or
 		T<=52.6 and 3 or
 		T<=92.9 and 2 or
 		T<=183 and 1 or

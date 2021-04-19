@@ -160,7 +160,7 @@ function scene.draw()
 				elseif L[i]>4 then
 					gc.setColor(COLOR.rainbow(i+TIME()*6.26))
 				else
-					gc.setColor(COLOR.grey)
+					gc.setColor(COLOR.gray)
 				end
 				gc.print(missionEnum[L[i]],x,y-25)
 				x=x+56
@@ -185,7 +185,7 @@ end
 
 scene.widgetList={
 	WIDGET.newText{name="title",	x=520,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",	x=530,y=50,font=35,align="L",color="grey"},
+	WIDGET.newText{name="subTitle",	x=530,y=50,font=35,align="L",color="gray"},
 
 	WIDGET.newKey{name="_1",	x=800,	y=540,	w=90,	font=50,code=pressKey(01)},
 	WIDGET.newKey{name="_2",	x=900,	y=540,	w=90,	font=50,code=pressKey(02)},

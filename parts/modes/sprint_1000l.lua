@@ -1,5 +1,5 @@
 return{
-	color=COLOR.lGrey,
+	color=COLOR.lGray,
 	env={
 		drop=60,lock=60,
 		dropPiece=function(P)if P.stat.row>=1000 then P:win("finish")end end,		bg="rainbow",bgm="push",
@@ -22,10 +22,10 @@ return{
 		local T=P.stat.time
 		return
 		T<=750 and 5 or
-		T<=950 and 4 or
-		T<=1100 and 3 or
-		T<=1260 and 2 or
-		T<=1600 and 1 or
+		T<=900 and 4 or
+		T<=1260 and 3 or
+		T<=1620 and 2 or
+		T<=2000 and 1 or
 		0
 	end,
 }

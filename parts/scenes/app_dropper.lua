@@ -188,7 +188,7 @@ function scene.draw()
 		gc.setColor(COLOR.rainbow_light(TIME()*2.6))
 		mStr("DROPPER",640,120)
 
-		gc.setColor(COLOR.rainbow_grey(TIME()*1.626))
+		gc.setColor(COLOR.rainbow_gray(TIME()*1.626))
 		setFont(55)
 		mStr("Score - "..score,640,290)
 		mStr("High Score - "..highScore,640,370)

@@ -6,7 +6,7 @@ local C=COLOR
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
-log{C.lGrape,"Techmino Shell"}
+log{C.lGrape,"Techmino Console"}
 log{C.lBlue,"©2020 26F Studio   some rights reserved"}
 log{C.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
@@ -275,7 +275,7 @@ do--commands.help(arg)
 				log{C.lPink,"Page ",C.lG,page,C.lPink," of ",C.lG,maxPage}
 				for i=pageSize*(page-1)+1,math.min(pageSize*page,#command_help_list)do
 					local cmd=command_help_list[i]
-					log{C.W,cmd,C.grey,"    "..command_help_messages[cmd].description}
+					log{C.W,cmd,C.gray,"    "..command_help_messages[cmd].description}
 				end
 			else
 				log{C.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
@@ -306,7 +306,7 @@ function commands.print(name)
 			log{C.R,"No file called '"..name.."'"}
 		end
 	else
-		log{C.water,"Usage: print [filename]"}
+		log{C.aqua,"Usage: print [filename]"}
 	end
 end
 function commands.url(url)
@@ -316,7 +316,7 @@ function commands.url(url)
 			log{C.R,"[ERR] ",C.W,err}
 		end
 	else
-		log{C.water,"Usage: url [url]"}
+		log{C.aqua,"Usage: url [url]"}
 	end
 end
 local function tree(path,name,depth)
@@ -368,7 +368,7 @@ function commands.del(name)
 			log{C.R,"No file called '"..name.."'"}
 		end
 	else
-		log{C.water,"Usage: del [filename]"}
+		log{C.aqua,"Usage: del [filename]"}
 	end
 end
 commands.exit=backScene
@@ -384,7 +384,7 @@ function commands.fn(n)
 			return
 		end
 	end
-	log{C.water,"Usage: fn [1~12]"}
+	log{C.aqua,"Usage: fn [1~12]"}
 end
 function commands.scrinfo()
 	for _,v in next,SCR.info()do
@@ -396,7 +396,7 @@ function commands.wireframe(bool)
 		gc.setWireframe(bool=="true")
 		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 	else
-		log{C.water,"Usage: wireframe [true|false]"}
+		log{C.aqua,"Usage: wireframe [true|false]"}
 	end
 end
 function commands.gammacorrect(bool)
@@ -404,7 +404,7 @@ function commands.gammacorrect(bool)
 		love._setGammaCorrect(bool=="true")
 		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 	else
-		log{C.water,"Usage: gammacorrect [true|false]"}
+		log{C.aqua,"Usage: gammacorrect [true|false]"}
 	end
 end
 function commands.rmwtm(pw)
@@ -413,7 +413,7 @@ function commands.rmwtm(pw)
 		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
 		SFX.play("clear")
 	else
-		log{C.water,"Usage: rmwtm [password]"}
+		log{C.aqua,"Usage: rmwtm [password]"}
 	end
 end
 function commands.unlockall(bool)
@@ -437,7 +437,7 @@ function commands.play(m)--marathon_bfmax can only entered through here
 	elseif m~=""then
 		log{C.R,"No mode called "..m}
 	else
-		log{C.water,"Usage: play [modeName]"}
+		log{C.aqua,"Usage: play [modeName]"}
 	end
 end
 function commands.playbgm(bgm)
@@ -452,7 +452,7 @@ function commands.playbgm(bgm)
 			log("Already playing: "..bgm)
 			end
 	else
-		log{C.water,"Usage: playbgm [bgmName]"}
+		log{C.aqua,"Usage: playbgm [bgmName]"}
 	end
 end
 function commands.stopbgm()
@@ -470,7 +470,7 @@ function commands.setbg(name)
 			log("Background already set to '"..name.."'")
 		end
 	else
-		log{C.water,"Usage: setbg [bgName]"}
+		log{C.aqua,"Usage: setbg [bgName]"}
 	end
 end
 function commands.theme(name)
@@ -481,7 +481,7 @@ function commands.theme(name)
 			log("No theme called "..name)
 		end
 	else
-		log{C.water,"Usage: theme [themeName]"}
+		log{C.aqua,"Usage: theme [themeName]"}
 	end
 end
 function commands.demo()
@@ -519,11 +519,11 @@ do--commands.applet(name)
 					return
 				end
 			end
-			log{C.water,"No this applet"}
+			log{C.aqua,"No this applet"}
 		else
-			log{C.water,"Usage:"}
-			log{C.water,"applet -list"}
-			log{C.water,"applet [appName]"}
+			log{C.aqua,"Usage:"}
+			log{C.aqua,"applet -list"}
+			log{C.aqua,"applet [appName]"}
 		end
 	end
 	commands.app=commands.applet
@@ -689,7 +689,7 @@ function scene.keyDown(k)
 				log(">Commands start with '"..str.."' :")
 				table.sort(res)
 				for i=1,#res do
-					log{COLOR.lGrey,res[i]}
+					log{COLOR.lGray,res[i]}
 				end
 			elseif #res==1 then
 				inputBox.value=res[1]

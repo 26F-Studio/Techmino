@@ -27,7 +27,7 @@ end
 
 scene.mouseDown=NULL
 local function restart()
-	resetGameData(GAME.frame<240 and"q")
+	resetGameData(PLAYERS[1].frameRun<240 and"q")
 	noKey=GAME.replaying
 	noTouch=noKey
 end
@@ -133,7 +133,7 @@ function scene.update(dt)
 		_=GAME.replaying
 		local P1=PLAYERS[1]
 		local L=GAME.rep
-		while GAME.frame==L[_]do
+		while P1.frameRun==L[_]do
 			local key=L[_+1]
 			if key==0 then--Just wait
 			elseif key<=32 then--Press key
@@ -150,10 +150,6 @@ function scene.update(dt)
 
 	touchMoveLastFrame=false
 	updateVirtualkey()
-	GAME.frame=GAME.frame+1
-
-	--Counting, include pre-das
-	if checkStart()then return end
 
 	--Update players
 	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
@@ -162,7 +158,7 @@ function scene.update(dt)
 	checkWarning()
 
 	--Fresh royale target
-	if GAME.modeEnv.royaleMode and GAME.frame%120==0 then
+	if GAME.modeEnv.royaleMode and PLAYERS[1].frameRun%120==0 then
 		freshMostDangerous()
 	end
 end

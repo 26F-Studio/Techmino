@@ -34,7 +34,6 @@ end
 
 --Texture of puzzle mode
 TEXTURE.puzzleMark={}
-gc.setLineWidth(3)
 for i=1,17 do
 	TEXTURE.puzzleMark[i]=NSC(30,30)
 	local _=minoColor[i]
@@ -47,15 +46,14 @@ for i=18,24 do
 	gc.setColor(minoColor[i])
 	gc.rectangle("line",7,7,16,16)
 end
-local _=NSC(30,30)
-gc.setColor(1,1,1)
-gc.line(5,5,25,25)
-gc.line(5,25,25,5)
-TEXTURE.puzzleMark[-1]=NSC(30,30)
-gc.setColor(1,1,1,.8)
-gc.draw(_)
-_:release()
-gc.setCanvas()
+TEXTURE.puzzleMark[-1]=DOGC{30,30,
+	{"setCL",1,1,1,.8},
+	{"draw",DOGC{30,30,
+		{"setLW",3},
+		{"dLine",5,5,25,25},
+		{"dLine",5,25,25,5},
+	}}
+}
 
 --A simple pixel font
 TEXTURE.pixelNum={}

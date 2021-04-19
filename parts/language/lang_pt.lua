@@ -95,6 +95,7 @@ return{
 
 	-- createRoomTooFast="Create room too fast!",
 	-- createRoomSuccessed="Room successfully created!",
+	-- started="Playing",
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
 	-- notReady="Waiting",
@@ -253,7 +254,8 @@ return{
 			-- refreshing="Refreshing Rooms",
 			noRoom="Nenhuma sala agora",
 			-- refresh="Refresh",
-			-- new="New room",
+			-- new="New Room(2)",
+			-- new2="New Room(5)",
 			-- join="Join",
 			up="↑",
 			down="↓",
@@ -503,8 +505,6 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Abrir URL",
-			up="↑",
-			down="↓",
 		},
 		stat={
 			path="Abrir Pasta De Data",
@@ -644,6 +644,7 @@ return{
 		},
 		app_dtw={
 			reset="Resetar",
+			-- arcade="Arcade",
 			-- mode="Mode",
 		},
 		savedata={
@@ -663,7 +664,7 @@ return{
 			resetData="Reset data",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Quit",
 		},
 	},
@@ -857,8 +858,8 @@ return{
 		{COLOR.fire,"Tente também Tetr.js"},
 		{COLOR.fire,"Tente também Tetralegends"},
 		{COLOR.grape,"T-spin!"},
-		{COLOR.grey,"暫定段位:9"},
-		{COLOR.grey,"REGRET!!"},
+		{COLOR.gray,"暫定段位:9"},
+		{COLOR.gray,"REGRET!!"},
 		{COLOR.lR,"Z ",COLOR.lG,"S ",COLOR.lSea,"J ",COLOR.lOrange,"L ",COLOR.lGrape,"T ",COLOR.lY,"O ",COLOR.lC,"I"},
 		{COLOR.lY,"LEGAL!!"},
 		{COLOR.R,"\"DMCA abusing\""},

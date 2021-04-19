@@ -6,7 +6,7 @@ return{
 		task=function(P)
 			while true do
 				YIELD()
-				if P.control and SCN.cur=="play"then
+				if P.control then
 					local D=P.modeData
 					D.timer=D.timer+1
 					local B=P.atkBuffer

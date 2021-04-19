@@ -3,7 +3,7 @@ local gc=love.graphics
 local inputBox=WIDGET.newInputBox{name="input",x=20,y=110,w=726,h=60,font=40}
 local int,abs=math.floor,math.abs
 local min,sin=math.min,math.sin
-local ins,rem=table.insert,table.remove
+local ins=table.insert
 local find=string.find
 
 local scene={}
@@ -19,22 +19,17 @@ local scrollPos--Scroll down length
 
 local lastSearch--Last searched string
 
-function scene.sceneInit()
-	dict=require("parts.language.dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
-
-	inputBox:clear()
-	result={}
-	url=dict[1][5]
-
-	waiting=0
-	selected=1
-	scrollPos=0
-
-	lastSearch=false
-	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	BG.set("rainbow")
-end
-
+local typeColor={
+	help=COLOR.Y,
+	other=COLOR.lOrange,
+	game=COLOR.lC,
+	term=COLOR.lR,
+	setup=COLOR.lY,
+	pattern=COLOR.lGrass,
+	english=COLOR.B,
+	name=COLOR.lPurple,
+}
+local function getList()return result[1]and result or dict end
 local function clearResult()
 	TABLE.clear(result)
 	selected,scrollPos=1,0
@@ -56,8 +51,24 @@ local function search()
 	if #result>0 then
 		SFX.play("reach")
 	end
-	url=(result[1]and result or dict)[selected][5]
+	url=getList()[selected][5]
 	lastSearch=input
+end
+
+function scene.sceneInit()
+	dict=require("parts.language.dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
+
+	inputBox:clear()
+	result={}
+	url=dict[1][5]
+
+	waiting=0
+	selected=1
+	scrollPos=0
+
+	lastSearch=false
+	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+	BG.set("rainbow")
 end
 
 function scene.wheelMoved(_,y)
@@ -72,15 +83,15 @@ function scene.keyDown(key)
 			end
 		end
 	elseif key=="down"then
-		if selected and selected<#(result[1]and result or dict)then
+		if selected and selected<#getList()then
 			selected=selected+1
 			if selected>scrollPos+15 then
 				scrollPos=selected-15
 			end
 		end
-	elseif key=="pageup"then
+	elseif key=="left"or key=="pageup"then
 		for _=1,12 do scene.keyDown("up")end
-	elseif key=="pagedown"then
+	elseif key=="right"or key=="pagedown"then
 		for _=1,12 do scene.keyDown("down")end
 	elseif key=="link"then
 		love.system.openURL(url)
@@ -99,7 +110,7 @@ function scene.keyDown(key)
 			SCN.back()
 		end
 	end
-	url=(result[1]and result or dict)[selected][5]
+	url=getList()[selected][5]
 end
 
 function scene.update(dt)
@@ -122,18 +133,8 @@ function scene.update(dt)
 	end
 end
 
-local typeColor={
-	help=COLOR.yellow,
-	other=COLOR.lOrange,
-	game=COLOR.lCyan,
-	term=COLOR.lRed,
-	setup=COLOR.lYellow,
-	pattern=COLOR.lGrass,
-	english=COLOR.blue,
-	name=COLOR.lPurple,
-}
 function scene.draw()
-	local list=result[1]and result or dict
+	local list=getList()
 	gc.setColor(1,1,1)
 	local t=list[selected][4]
 	if #t>900 then
@@ -181,9 +182,11 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align="L"},
 	inputBox,
-	WIDGET.newKey{name="link",		x=1140,	y=650,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
-	WIDGET.newKey{name="up",		x=1190,	y=440,w=100,h=100,font=35,code=pressKey"up",hide=not MOBILE},
-	WIDGET.newKey{name="down",		x=1190,	y=550,w=100,h=100,font=35,code=pressKey"down",hide=not MOBILE},
+	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
+	WIDGET.newKey{name="up",		x=1130,	y=460,w=60,h=90,font=35,code=pressKey"up",hide=not MOBILE},
+	WIDGET.newKey{name="down",		x=1130,	y=560,w=60,h=90,font=35,code=pressKey"down",hide=not MOBILE},
+	WIDGET.newKey{name="pageup",	x=1210,	y=460,w=80,h=90,font=35,code=pressKey"pageup",hide=not MOBILE},
+	WIDGET.newKey{name="pagedown",	x=1210,	y=560,w=80,h=90,font=35,code=pressKey"pagedown",hide=not MOBILE},
 	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,font=40,code=backScene},
 }
 

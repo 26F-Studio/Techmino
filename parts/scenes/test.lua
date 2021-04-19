@@ -24,13 +24,13 @@ function scene.gamepadDown(key)
 	push("[gamepadDown] <"..key..">")
 end
 function scene.gamepadUp(key)
-	push{COLOR.grey,"[gamepadUp] <"..key..">"}
+	push{COLOR.gray,"[gamepadUp] <"..key..">"}
 end
 function scene.keyDown(key)
 	push("[keyDown] <"..key..">")
 end
 function scene.keyUp(key)
-	push{COLOR.grey,"[keyUp] <"..key..">"}
+	push{COLOR.gray,"[keyUp] <"..key..">"}
 end
 function scene.mouseDown(x,y,k)
 	push(("[mouseDown] <%d: %d, %d>"):format(k,x,y))
@@ -40,7 +40,7 @@ function scene.mouseMove(x,y)
 end
 function scene.mouseUp(x,y,k)
 	SYSFX.newRectRipple(1,x-10,y-10,21,21)
-	push{COLOR.grey,"[mouseUp] <"..k..">"}
+	push{COLOR.gray,"[mouseUp] <"..k..">"}
 end
 function scene.touchClick(x,y)
 	SYSFX.newRipple(.5,x,y,50)
@@ -55,7 +55,7 @@ function scene.touchMove(x,y)
 end
 function scene.touchUp(x,y)
 	SYSFX.newRipple(.5,x,y,50)
-	push{COLOR.grey,"[touchUp]"}
+	push{COLOR.gray,"[touchUp]"}
 end
 function scene.wheelMoved(dx,dy)
 	push(("[wheelMoved] <%d, %d>"):format(dx,dy))

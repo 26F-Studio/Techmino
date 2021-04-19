@@ -96,6 +96,7 @@ return{
 
 	createRoomTooFast="Vous avez créé un salon trop rapidement !",
 	createRoomSuccessed="Salon créé avec succès !",
+	-- started="Playing",
 	joinRoom="a rejoint le salon.",
 	leaveRoom="a quitté le salon.",
 	notReady="Attente",
@@ -460,8 +461,6 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Ouvrir URL",
-			up="↑",
-			down="↓",
 		},
 		stat={
 			path="Ouvrir dossier des données",
@@ -556,6 +555,7 @@ return{
 		},
 		app_dtw={
 			reset="Réinitialiser",
+			-- arcade="Arcade",
 			-- mode="Mode",
 		},
 		about={
@@ -580,7 +580,7 @@ return{
 			resetData="Réinitialiser les données",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Quit",
 		},
 	},

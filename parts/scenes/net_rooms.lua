@@ -14,7 +14,7 @@ end
 local scene={}
 
 function scene.sceneInit()
-	BG.set("space")
+	BG.set()
 	scrollPos=0
 	selected=1
 	fetchRoom()
@@ -28,17 +28,16 @@ function scene.keyDown(k)
 		if fetchTimer<=3.26 then
 			fetchRoom()
 		end
-	elseif k=="n"then
-		if TIME()-lastCreateRoomTime>16.2 then
+	elseif k=="m"or k=="n"then
+		if TIME()-lastCreateRoomTime>6.26 then
 			NET.createRoom(
-				kb.isDown("1")and"solo"or
-				kb.isDown("2")and"classic"or
+				k=="m"and"classic"or
 				tonumber(USER.uid)<100 and(
-					kb.isDown("3")and"r49"or
-					kb.isDown("4")and"r99"or
-					kb.isDown("5")and"unlimited"
+					kb.isDown("q")and"r49"or
+					kb.isDown("w")and"r99"or
+					kb.isDown("e")and"unlimited"
 				)or"solo",
-				(USER.username or"???").."'s room"
+				(USERS.getUsername(USER.uid)or"???").."'s room"
 			)
 			lastCreateRoomTime=TIME()
 		else
@@ -87,7 +86,7 @@ end
 function scene.draw()
 	--Fetching timer
 	gc.setColor(1,1,1,.26)
-	gc.arc("fill","pie",240,620,60,-1.5708,-1.5708-1.2566*fetchTimer)
+	gc.arc("fill","pie",130,620,60,-1.5708,-1.5708-1.2566*fetchTimer)
 
 	--Room list
 	gc.setColor(1,1,1)
@@ -105,7 +104,7 @@ function scene.draw()
 			end
 			if R.start then
 				gc.setColor(0,1,0)
-				gc.print("S",800,66+40*i)
+				gc.print(text.started,800,66+40*i)
 			end
 			gc.setColor(.9,.9,1)
 			gc.print(scrollPos+i,95,66+40*i)
@@ -122,11 +121,12 @@ local function hide_noRoom()return #NET.roomList==0 end
 scene.widgetList={
 	WIDGET.newText{name="refreshing",x=640,y=255,font=45,hide=function()return not NET.getlock("fetchRoom")end},
 	WIDGET.newText{name="noRoom",	x=640,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getlock("fetchRoom")end},
-	WIDGET.newKey{name="refresh",	x=240,y=620,w=140,h=140,font=35,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
-	WIDGET.newKey{name="new",		x=440,y=620,w=140,h=140,font=25,code=pressKey"n"},
-	WIDGET.newKey{name="join",		x=640,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=hide_noRoom},
-	WIDGET.newKey{name="up",		x=840,y=585,w=140,h=70,font=40,code=pressKey"up",		hide=hide_noRoom},
-	WIDGET.newKey{name="down",		x=840,y=655,w=140,h=70,font=40,code=pressKey"down",		hide=hide_noRoom},
+	WIDGET.newKey{name="refresh",	x=130,y=620,w=140,h=140,font=35,code=fetchRoom,			hide=function()return fetchTimer>3.26 end},
+	WIDGET.newKey{name="new",		x=330,y=620,w=140,h=140,font=20,code=pressKey"n"},
+	WIDGET.newKey{name="new2",		x=530,y=620,w=140,h=140,font=20,code=pressKey"m"},
+	WIDGET.newKey{name="join",		x=730,y=620,w=140,h=140,font=40,code=pressKey"return",	hide=hide_noRoom},
+	WIDGET.newKey{name="up",		x=930,y=585,w=140,h=70,font=40,code=pressKey"up",		hide=hide_noRoom},
+	WIDGET.newKey{name="down",		x=930,y=655,w=140,h=70,font=40,code=pressKey"down",		hide=hide_noRoom},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

@@ -110,17 +110,12 @@ function NET.wsconn_stream()
 end
 
 --Disconnect
-function NET.wsclose_user()
-	WS.close("user")
-end
-function NET.wsclose_play()
-	WS.close("play")
-end
-function NET.wsclose_stream()
-	WS.close("stream")
-end
+function NET.wsclose_app()WS.close("app")end
+function NET.wsclose_user()WS.close("user")end
+function NET.wsclose_play()WS.close("play")end
+function NET.wsclose_stream()WS.close("stream")end
 
---Account
+--Account & User
 function NET.register(username,email,password)
 	if NET.lock("register")then
 		WS.send("app",JSON.encode{
@@ -141,33 +136,15 @@ function NET.getAccessToken()
 		WS.send("user",JSON.encode{action=0})
 	end
 end
-function NET.getUserInfo(id,ifDetail)
+function NET.getUserInfo(uid)
+	local hash=not SETTING.dataSaving and USERS.getHash(uid)
 	WS.send("user",JSON.encode{
 		action=1,
 		data={
-			id=id or USER.uid,
-			detailed=ifDetail or false,
+			id=uid,
+			hash=hash,
 		},
 	})
-end
-function NET.storeUserInfo(d)
-	local user=USERS[d.uid]
-	if not user then
-		user={}
-		USERS[d.uid]=user
-	end
-	user.uid=d.uid
-	user.username=d.username
-	user.motto=d.motto
-	user.avatar=d.avatar
-
-	--Get own name
-	if d.uid==USER.uid then
-		USER.username=d.username
-		FILE.save(USER,"conf/user","q")
-	end
-
-	-- FILE.save(USERS,"conf/users")
 end
 
 --Room
@@ -323,7 +300,7 @@ function NET.updateWS_user()
 							LOG.print(text.accessSuccessed)
 							NET.wsconn_play()
 						elseif res.action==1 then--Get userInfo
-							NET.storeUserInfo(res.data)
+							USERS.updateUserData(res.data)
 						end
 					else
 						WS.alert("user")
@@ -490,9 +467,8 @@ function NET.updateWS_stream()
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died
-							local uid=res.data.uid
 							for _,P in next,PLY_ALIVE do
-								if P.uid==uid then
+								if P.uid==d.uid then
 									P:lose(true)
 									break
 								end

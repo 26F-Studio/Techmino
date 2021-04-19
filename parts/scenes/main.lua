@@ -37,7 +37,6 @@ function scene.sceneInit()
 	--Create demo player
 	destroyPlayers()
 	GAME.modeEnv=NONE
-	GAME.frame=0
 	GAME.seed=math.random(2e6)
 	PLY.newDemoPlayer(1)
 	PLAYERS[1]:setPosition(520,140,.8)
@@ -71,18 +70,21 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if WS.status("user")=="running"then
-				if not NET.connected then
-					TEXT.show(text.noInternet,640,450,60,"flicker")
-					SFX.play("finesseError")
-				elseif not NET.allow_online then
+			if NET.connected then
+				if NET.allow_online then
+					if WS.status("user")=="running"then
+						NET.getAccessToken()
+					else
+						SCN.go("login")
+					end
+				else
 					TEXT.show(text.needUpdate,640,450,60,"flicker")
 					SFX.play("finesseError")
-				else
-					NET.getAccessToken()
 				end
 			else
-				SCN.go("login")
+				TEXT.show(text.noInternet,640,450,60,"flicker")
+				NET.wsconn_app()
+				SFX.play("finesseError")
 			end
 		end
 	elseif key=="z"then
@@ -127,7 +129,6 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-	GAME.frame=GAME.frame+1
 	PLAYERS[1]:update(dt)
 	scrollX=scrollX-2.6
 	if scrollX<-tip:getWidth()then
@@ -176,7 +177,7 @@ scene.widgetList={
 	WIDGET.newButton{name="custom",	x=-1200,y=570,w=800,h=100,	color="lSea",	font=45,align="R",edge=30,	code=pressKey"z"},
 
 	WIDGET.newButton{name="setting",x=2480,y=210,w=800,h=100,	color="lOrange",font=40,align="L",edge=30,	code=pressKey"-"},
-	WIDGET.newButton{name="stat",	x=2480,y=330,w=800,h=100,	color="lLame",	font=40,align="L",edge=30,	code=pressKey"p"},
+	WIDGET.newButton{name="stat",	x=2480,y=330,w=800,h=100,	color="lLime",	font=40,align="L",edge=30,	code=pressKey"p"},
 	WIDGET.newButton{name="dict",	x=2480,y=450,w=800,h=100,	color="lGreen",	font=40,align="L",edge=30,	code=pressKey"l"},
 	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
 

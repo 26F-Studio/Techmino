@@ -223,7 +223,7 @@ local frontColor={
 		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
 		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
 		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-	},--Grey
+	},--Gray
 	{
 		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
 		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
@@ -251,11 +251,11 @@ local backColor={
 		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
 	},--Colored(row)
 	{
-		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
-		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
-		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
-		COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,COLOR.dGrey,
-	},--Grey
+		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
+		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
+		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
+		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
+	},--Gray
 	{
 		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
 		COLOR.black,COLOR.black,COLOR.black,COLOR.black,

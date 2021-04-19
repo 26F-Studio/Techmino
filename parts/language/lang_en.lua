@@ -95,6 +95,7 @@ return{
 
 	createRoomTooFast="You are creating a room too fast!",
 	createRoomSuccessed="Room successfully created!",
+  started="Playing",
 	joinRoom="has joined the room.",
 	leaveRoom="has left the room.",
 	notReady="Waiting",
@@ -253,7 +254,8 @@ return{
 			refreshing="Refreshing rooms",
 			noRoom="There aren't any rooms right now...",
 			refresh="Refresh",
-			new="New Room",
+			new="New Room(2)",
+			new2="New Room(5)",
 			join="Join",
 			up="↑",
 			down="↓",
@@ -503,8 +505,8 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Open URL",
-			up="↑",
-			down="↓",
+			up="↑",down="↓",
+			pageup="↑↑",pagedown="↓↓",
 		},
 		stat={
 			path="Open Data Folder",
@@ -646,6 +648,7 @@ return{
 		},
 		app_dtw={
 			reset="Reset",
+			arcade="Arcade",
 			mode="Mode",
 		},
 		savedata={
@@ -665,7 +668,7 @@ return{
 			resetData="Reset Data",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Quit",
 		},
 	},
@@ -867,7 +870,7 @@ return{
 		{c.fire,"Also try Tetr.js!"},
 		{c.fire,"Also try Tetra Legends!"},
 		{c.grape,"T-spin!"},
-		{c.grey,"REGRET!!"},
+		{c.gray,"REGRET!!"},
 		{c.lR,"Z ",c.lG,"S ",c.lSea,"J ",c.lOrange,"L ",c.lGrape,"T ",c.lY,"O ",c.lC,"I"},
 		{c.lY,"COOL!!"},
 		{c.R,"\"DMCA abusing\""},

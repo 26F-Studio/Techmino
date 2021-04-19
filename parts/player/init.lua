@@ -43,7 +43,7 @@ local function pressKey(P,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
-			ins(P.keyTime,1,GAME.frame)
+			ins(P.keyTime,1,P.frameRun)
 			P.keyTime[11]=nil
 		end
 		P.stat.key=P.stat.key+1
@@ -55,12 +55,12 @@ end
 local function pressKey_Rec(P,keyID)
 	if P.keyAvailable[keyID]and P.alive then
 		local L=GAME.rep
-		ins(L,GAME.frame)
+		ins(L,P.frameRun)
 		ins(L,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		if P.control then
-			ins(P.keyTime,1,GAME.frame)
+			ins(P.keyTime,1,P.frameRun)
 			P.keyTime[11]=nil
 		end
 		P.stat.key=P.stat.key+1
@@ -68,7 +68,7 @@ local function pressKey_Rec(P,keyID)
 end
 local function releaseKey_Rec(P,keyID)
 	local L=GAME.rep
-	ins(L,GAME.frame)
+	ins(L,P.frameRun)
 	ins(L,32+keyID)
 	P.keyPressing[keyID]=false
 end
@@ -97,22 +97,24 @@ local function newEmptyPlayer(id,mini)
 	P.x,P.y,P.size=0,0,1
 	P.frameColor=0
 
-	P.mini=mini--If draw in small mode
-
 	--Set these at Player:setPosition()
 	-- P.fieldX,P.fieldY=...
 	-- P.centerX,P.centerY=...
 	-- P.absFieldX,P.absFieldY=...
 
-	if P.mini then
+	--If draw in small mode
+	P.mini=mini
+	if mini then
 		P.canvas=love.graphics.newCanvas(60,120)
-		P.frameWait=rnd(30,120)
+		P.frameWait=rnd(26,62)
 		P.draw=PLY.draw.small
 	else
 		P.draw=PLY.draw.norm
 	end
+
 	P.randGen=love.math.newRandomGenerator(GAME.seed)
 
+	P.frameRun=GAME.frameStart
 	P.alive=true
 	P.control=false
 	P.timing=false
@@ -323,15 +325,14 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		ENV.splashFX=false
 		ENV.shakeFX=false
 		ENV.text=false
-	else
-		if ENV.lockFX==0 then	ENV.lockFX=false	end
-		if ENV.dropFX==0 then	ENV.dropFX=false	end
-		if ENV.moveFX==0 then	ENV.moveFX=false	end
-		if ENV.clearFX==0 then	ENV.clearFX=false	end
-		if ENV.splashFX==0 then	ENV.splashFX=false	end
-		if ENV.shakeFX==0 then	ENV.shakeFX=false	end
-		if ENV.atkFX==0 then	ENV.atkFX=false		end
 	end
+	if ENV.lockFX==0 then	ENV.lockFX=false	end
+	if ENV.dropFX==0 then	ENV.dropFX=false	end
+	if ENV.moveFX==0 then	ENV.moveFX=false	end
+	if ENV.clearFX==0 then	ENV.clearFX=false	end
+	if ENV.splashFX==0 then	ENV.splashFX=false	end
+	if ENV.shakeFX==0 then	ENV.shakeFX=false	end
+	if ENV.atkFX==0 then	ENV.atkFX=false		end
 	if ENV.ghost==0 then	ENV.ghost=false	end
 	if ENV.center==0 then	ENV.center=false end
 end
@@ -354,6 +355,7 @@ function PLY.newDemoPlayer(id)
 	P.sound=true
 	P.demo=true
 
+	P.frameRun=180
 	P.draw=PLY.draw.demo
 	P.control=true
 	GAME.modeEnv=DemoEnv
