@@ -218,11 +218,9 @@ end
 
 --WS tick funcs
 function NET.updateWS_app()
-	local retryTime=3
 	while true do
 		YIELD()
-		local status=WS.status("app")
-		if status=="running"then
+		if WS.status("app")=="running"then
 			local message,op=WS.read("app")
 			if message then
 				if op=="ping"then
@@ -260,11 +258,6 @@ function NET.updateWS_app()
 					end
 				end
 			end
-		elseif status=="dead"then
-			retryTime=retryTime-1
-			if retryTime==0 then return end
-			for _=1,180 do YIELD()end
-			WS.connect("app","/app")
 		end
 	end
 end
