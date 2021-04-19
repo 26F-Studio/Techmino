@@ -1,4 +1,4 @@
-﻿local c=COLOR
+local c=COLOR
 return{
 	back="Back",
 	anykey="Press a key!",
@@ -100,7 +100,7 @@ return{
 	leaveRoom="has left the room.",
 	notReady="Waiting",
 	beReady="Ready",
-	champion="$1 has won the match.",
+	champion="$1 won",
 	chatRemain="Online: ",
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
@@ -110,10 +110,10 @@ return{
 
 	errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the devs.",
 
-	modInstruction="Choose your modifiers!\nMods allow you to change the game\n(and possibly break it in weird ways).\nMake new ways to enjoy gameplay or challenge yourself!",
+	modInstruction="Choose your modifiers!\nMods allow you to change the game\n(and possibly break it in weird ways).\nBeware! Some mods unrank your game.",
 	modInfo={
-		next="NEXT\nOverrides the amount of next pieces.",
-		hold="HOLD\nOverrides the number of Hold Queues.",
+		next="NEXT\nOverrides the number of Next pieces.",
+		hold="HOLD\nOverrides the number of Hold pieces.",
 		hideNext="Hidden NEXT\nHides a specific amount of pieces on the Next Queue.",
 		infHold="InfiniHold\nAllows you to hold pieces infinitely.",
 		hideBlock="Hide Current Piece:\nMakes the piece you are controlling invisible.",
@@ -788,7 +788,6 @@ return{
 		"B2B2B2B does not exist..",
 		"B2B2B2B exists?",
 		"Back-to-Back Techrash, 10 Combo, PC!",
-		"Bass Bass Kick Kick Bass Kick Kick",
 		"Bridge clear coming soon!",
 		"Certainly within this heart lies my M@STERPIECE.",
 		"Changelogs in English can be found on Discord.",
@@ -800,7 +799,6 @@ return{
 		"Enjoy the Techmino rotation system!",
 		"Excellent, but let's go better next time...",
 		"Find out what's in the settings!",
-		"GO MY WAY!!",
 		"Got any suggestions? Post them in our Discord!",
 		"Headphones recommended for a better experience.",
 		"Hello world!",
@@ -816,7 +814,6 @@ return{
 		"Let the bass kick!",
 		"LrL RlR LLr RRl RRR LLL FFF RfR RRf rFF",
 		"Lua No.1",
-		"M@STER PEACE!!",
 		"Mix clear coming soon!",
 		"Music of this game is made using Beepbox.",
 		"Music too distracting? You can turn it off.",
