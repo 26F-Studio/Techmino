@@ -7,7 +7,7 @@ local function tech_check_hard(P)
 			return
 		end
 	end
-	if P.stat.atk>=200 then
+	if P.stat.atk>=100 then
 		P:win("finish")
 	end
 end

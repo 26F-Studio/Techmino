@@ -6,7 +6,7 @@ return{
 		drop=0,lock=60,
 		freshLimit=15,
 		b2bKill=true,
-		function(P)if P.stat.atk>=200 then P:win("finish")end end,
+		function(P)if P.stat.atk>=100 then P:win("finish")end end,
 		bg="matrix",bgm="warped",
 	},
 	load=function()
