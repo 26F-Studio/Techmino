@@ -148,44 +148,6 @@ PLY_NET={}
 FIELD={}--Field(s) for custom game
 BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
-CUSTOMENV={--gameEnv for cutsom game
-	--Basic
-	drop=1e99,
-	lock=1e99,
-	wait=0,
-	fall=0,
-
-	--Control
-	nextCount=6,
-	holdCount=1,
-	infHold=true,
-	phyHold=false,
-
-	--Visual
-	bone=false,
-
-	--Rule
-	sequence="bag",
-	fieldH=20,
-
-	ospin=true,
-	fineKill=false,
-	b2bKill=false,
-	easyFresh=true,
-	deepDrop=false,
-	visible="show",
-	freshLimit=1e99,
-
-
-	opponent="X",
-	life=0,
-	pushSpeed=3,
-	missionKill=false,
-
-	--Else
-	bg="none",
-	bgm="infinite",
-}
 GAME={--Global game data
 	init=false,			--If need initializing game when enter scene-play
 	net=false,			--If play net game
@@ -227,6 +189,47 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Local data
 	xp=0,lv=1,
 }
+CUSTOMENV=FILE.load("conf/customEnv")
+if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv for cutsom game
+	version=VERSION.code,
+
+	--Basic
+	drop=1e99,
+	lock=1e99,
+	wait=0,
+	fall=0,
+
+	--Control
+	nextCount=6,
+	holdCount=1,
+	infHold=true,
+	phyHold=false,
+
+	--Visual
+	bone=false,
+
+	--Rule
+	sequence="bag",
+	fieldH=20,
+
+	ospin=true,
+	fineKill=false,
+	b2bKill=false,
+	easyFresh=true,
+	deepDrop=false,
+	visible="show",
+	freshLimit=1e99,
+
+
+	opponent="X",
+	life=0,
+	pushSpeed=3,
+	missionKill=false,
+
+	--Else
+	bg="none",
+	bgm="infinite",
+}end
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,

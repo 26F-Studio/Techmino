@@ -48,9 +48,11 @@ function scene.keyDown(key)
 		end
 		if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
 			if initField then
+				FILE.save(CUSTOMENV,"conf/customEnv","q")
 				loadGame("custom_puzzle",true)
 			end
 		else
+			FILE.save(CUSTOMENV,"conf/customEnv","q")
 			loadGame("custom_clear",true)
 		end
 	elseif key=="f"then
@@ -87,6 +89,7 @@ function scene.keyDown(key)
 		do return end
 		::THROW_fail::LOG.print(text.dataCorrupted,COLOR.red)
 	elseif key=="escape"then
+		FILE.save(CUSTOMENV,"conf/customEnv","q")
 		SCN.back()
 	else
 		WIDGET.keyPressed(key)
@@ -171,7 +174,7 @@ scene.widgetList={
 	WIDGET.newKey{name="sequence",	x=450,	y=640,w=240,h=80,color="pink",	font=25,code=goScene"custom_sequence"},
 	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color="sky",	font=25,code=goScene"custom_mission"},
 
-	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=pressKey"escape"},
 }
 
 return scene
