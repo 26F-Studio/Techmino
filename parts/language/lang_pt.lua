@@ -219,7 +219,6 @@ return{
 			-- music="Music & SE",
 			-- about="About",
 			dict="Zictionary",
-			lang="言/A",
 			manual="Manual",
 			quit="Saída",
 		},

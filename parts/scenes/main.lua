@@ -168,6 +168,9 @@ function scene.draw()
 
 	--Player
 	PLAYERS[1]:draw()
+
+	--Profile
+	drawSelfProfile()
 end
 
 scene.widgetList={
@@ -182,7 +185,14 @@ scene.widgetList={
 	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color="lC",		font=40,align="L",edge=30,	code=pressKey","},
 
 	WIDGET.newButton{name="music",	x=160,y=80,w=200,h=90,		color="lOrange",font=35,					code=pressKey"2"},
-	WIDGET.newButton{name="lang",	x=1120,y=80,w=200,h=90,		color="lY",		font=40,					code=pressKey"0"},
+	WIDGET.newButton{name="lang",	x=960,y=80,w=90,h=90,		color="lY",		font=40,					code=pressKey"0",fText=DOGC{64,64,
+		{"setLW",4},
+		{"dCirc",32,32,30},
+		{"dLine",2,31,62,31},
+		{"dLine",31,2,31,62},
+		{"doArc",10,31,40,-.8,.8},
+		{"doArc",53,31,40,2.3,3.9},
+		}},
 	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color="lB",		font=35,align="R",edge=30,	code=pressKey"x"},
 	WIDGET.newButton{name="quit",	x=1390,y=670,w=600,h=70,	color="lR",		font=40,align="L",edge=30,	code=function()VOC.play("bye")SCN.swapTo("quit","slowFade")end},
 }

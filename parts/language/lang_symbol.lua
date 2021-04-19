@@ -101,7 +101,6 @@ return{
 			music="~~~ & =><=",
 			about="?",
 			dict="z",
-			lang="言/A",
 			manual="???",
 			quit="X",
 		},

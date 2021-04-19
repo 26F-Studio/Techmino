@@ -197,7 +197,6 @@ return{
 			music="Música y SFX",
 			about="Acerca del Juego",
 			dict="Zictionary",
-			lang="言/A",
 			manual="Manual",
 			quit="Salir",
 		},

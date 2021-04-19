@@ -219,7 +219,6 @@ return{
 			music="音乐&音效",
 			about="关于",
 			dict="小Z词典",
-			lang="言/A",
 			manual="说明书",
 			quit="退出",
 		},
