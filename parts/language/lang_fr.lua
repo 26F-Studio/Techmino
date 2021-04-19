@@ -582,7 +582,7 @@ return{
 			resetData="Réinitialiser les données",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Quit",
 		},
 	},

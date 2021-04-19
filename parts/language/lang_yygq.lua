@@ -183,7 +183,7 @@ return{
 			tapFX="动画",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Quit",
 		},
 	},

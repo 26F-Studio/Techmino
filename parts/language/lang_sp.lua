@@ -581,7 +581,7 @@ return{
 			resetData="Reiniciar datos",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Salir",
 		},
 	},

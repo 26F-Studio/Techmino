@@ -669,7 +669,7 @@ return{
 			resetData="重置统计",
 		},
 		error={
-			cmd="命令行",
+			cmd="控制台",
 			quit="退出",
 		},
 	},
@@ -999,7 +999,7 @@ return{
 		"Tech也有节日主题了哦",
 		"Techmino = Technique + tetromino",
 		"Techmino n.铁壳米诺(游戏名)",
-		"Techmino shell了解一下",
+		"Techmino console了解一下",
 		"Techmino安卓下载",
 		"Techmino好玩!",
 		"Techmino 好玩!",

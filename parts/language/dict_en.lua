@@ -39,7 +39,7 @@ return{
 	{"Applets",
 		"applets",
 		"help",
-		"[Entrance of applets has been moved to command line]",
+		"[Entrance of applets has been moved to console]",
 	},
 
 	--Games

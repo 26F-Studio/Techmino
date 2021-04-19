@@ -6,7 +6,7 @@ local C=COLOR
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
-log{C.lGrape,"Techmino Shell"}
+log{C.lGrape,"Techmino Console"}
 log{C.lBlue,"©2020 26F Studio   some rights reserved"}
 log{C.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 

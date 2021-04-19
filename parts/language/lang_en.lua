@@ -668,7 +668,7 @@ return{
 			resetData="Reset Data",
 		},
 		error={
-			cmd="CMD",
+			cmd="Console",
 			quit="Quit",
 		},
 	},
