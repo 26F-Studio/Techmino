@@ -196,7 +196,7 @@ do--commands.help(arg)
 			details={
 				"Set background.",
 				"",
-				"Usage: setbg <classic|xmas|sprfes|zday1/2/3>",
+				"Usage: setbg [bgName]",
 			},
 		},
 		theme={
