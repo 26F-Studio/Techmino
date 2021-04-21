@@ -228,9 +228,9 @@ return{
 		"Dig/Defend per Minute\n挖掘每分，即玩家每分钟向下挖掘的垃圾行数。\n某些时候可以体现玩家生存能力\n\n或:防御(抵消+挖掘)每分",
 	},
 	{"ADPM",
-		"adpm attack defend",
+		"adpm attack defend vs",
 		"term",
-		"Atk+Dig per Minute\n攻击+挖掘每分，用于在同一局游戏内对比玩家间水平差距，比apm更准确一些。\n在TETR.IO中有一个叫vs的数据就是ADPM(调整了比例)",--TODO
+		"Atk+Dig per Minute\n攻击+挖掘每分，用于在同一局游戏内对比玩家间水平差距，比apm更准确一些。\n在TETR.IO中叫vs的数据就是ADPM(调整过比例，具体是Atk+Dig per 100s)",
 	},
 	{"APL",
 		"apl xiaolv",
