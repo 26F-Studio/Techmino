@@ -352,8 +352,8 @@ VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' posi
 	{ava=false,	x=600,		y=50,		r=80,color={COLOR.rainbow(2.9)}},--down10
 	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lLime},--dropLeft
 	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lLime},--dropRight
-	{ava=false,	x=900,		y=50,		r=80,color=COLOR.laqua},--addToLeft
-	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.laqua},--addToRight
+	{ava=false,	x=900,		y=50,		r=80,color=COLOR.lAqua},--addToLeft
+	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.lAqua},--addToRight
 }
 virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
 REPLAY=FILE.load("conf/replay")or{}
