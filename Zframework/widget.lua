@@ -103,6 +103,13 @@ local button={
 function button:reset()
 	self.ATV=0
 end
+function button:setObject(obj)
+	if type(obj)=="string"or type(obj)=="number"then
+		self.obj=gc.newText(getFont(self.font),obj)
+	elseif obj then
+		self.obj=obj
+	end
+end
 function button:isAbove(x,y)
 	local ATV=self.ATV
 	return
@@ -219,6 +226,13 @@ local key={
 function key:reset()
 	self.ATV=0
 end
+function key:setObject(obj)
+	if type(obj)=="string"or type(obj)=="number"then
+		self.obj=gc.newText(getFont(self.font),obj)
+	elseif obj then
+		self.obj=obj
+	end
+end
 function key:isAbove(x,y)
 	return
 		x>self.x and
@@ -256,7 +270,7 @@ function key:draw()
 	elseif self.align=="L"then
 		mDraw_Y(self.obj,x+self.edge,y+h*.5)
 	elseif self.align=="R"then
-		mDraw_Y(self.obj,x+w*.5,y+h*.5)
+		mDraw_Y(self.obj,self.x-self.edge-self.obj:getWidth(),y+h*.5)
 	end
 end
 function key:getInfo()

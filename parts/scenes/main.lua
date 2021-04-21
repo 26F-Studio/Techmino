@@ -31,7 +31,7 @@ function scene.sceneInit()
 	cmdEntryThread()
 
 	--Set quick-play-button text
-	scene.widgetList[2].text=gc.newText(getFont(scene.widgetList[2].font),text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
+	scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
 	quickSure=false
 
 	--Create demo player
