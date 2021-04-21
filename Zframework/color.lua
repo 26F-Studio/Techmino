@@ -65,6 +65,9 @@ for k,v in next,{
 }do
 	COLOR[k]=COLOR[v]
 end
+setmetatable(COLOR,{__index=function(_,k)
+	error("No color: "..tostring(k))
+end})
 
 
 do--Random generators
