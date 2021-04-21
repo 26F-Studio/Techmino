@@ -33,6 +33,7 @@ for i=1,29 do
 end
 
 --Texture of puzzle mode
+gc.setLineWidth(2)
 TEXTURE.puzzleMark={}
 for i=1,17 do
 	TEXTURE.puzzleMark[i]=NSC(30,30)
