@@ -174,12 +174,12 @@ setmetatable(backColor,backColor)
 function scene.draw()
 	--Background
 	local lv,height=int(camY/700),camY%700
-	gc.setColor(backColor[lv+1]or COLOR.black)
+	gc.setColor(backColor[lv+1]or COLOR.D)
 	gc.rectangle("fill",0,720,1280,height-700)
-	gc.setColor(backColor[lv+2]or COLOR.black)
+	gc.setColor(backColor[lv+2]or COLOR.D)
 	gc.rectangle("fill",0,height+20,1280,-height-20)
 	if height-680>0 then
-		gc.setColor(backColor[lv+3]or COLOR.black)
+		gc.setColor(backColor[lv+3]or COLOR.D)
 		gc.rectangle("fill",0,height-680,1280,680-height)
 	end
 

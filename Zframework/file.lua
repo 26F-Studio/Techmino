@@ -21,7 +21,7 @@ function FILE.load(name)
 				return s
 			end
 		end
-		LOG.print(name.." "..text.loadError,COLOR.red)
+		LOG.print(name.." "..text.loadError,COLOR.R)
 	end
 end
 function FILE.save(data,name,mode)
@@ -50,7 +50,7 @@ function FILE.save(data,name,mode)
 	F:flush()F:close()
 	if success then
 		if not mode:find("q")then
-			LOG.print(text.saveDone,COLOR.green)
+			LOG.print(text.saveDone,COLOR.G)
 		end
 	else
 		LOG.print(text.saveError..(mes or"unknown error"),"error")

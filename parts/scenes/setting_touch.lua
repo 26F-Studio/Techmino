@@ -194,7 +194,7 @@ scene.widgetList={
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
 		end},
-	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color="yellow",list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
+	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color="Y",list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
 	WIDGET.newButton{name="option",	x=520,y=190,w=200,h=80,font=40,
 		code=function()
 			SCN.go("setting_touchSwitch")

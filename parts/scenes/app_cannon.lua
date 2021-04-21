@@ -83,15 +83,15 @@ end
 local scoreColor={
 	"white",--0
 	"aqua",--20
-	"sky",--40
+	"navy",--40
 	"blue",--60
-	"grape",--80
-	"pink",--100
+	"purple",--80
+	"wine",--100
 	"red","fire","orange","yellow","lAqua",--200
-	"lSky","lBlue","lGrape","lPink","lRed",--300
-	"lFire","lOrange","lYellow","dAqua","dSky",--400
-	"dBlue","dGrape","dPink","dRed","dFire",--500
-	"dYellow","lGray","gray","dGray",--before 600, black after
+	"lNavy","lBlue","lPurple","lWine","lRed",--300
+	"lFire","lOrange","lYellow","dAqua","dNavy",--400
+	"dBlue","dPurple","dWine","dRed","dFire",--500
+	"dYellow","lH","H","dH",--before 600, black after
 }
 function scene.draw()
 	--Spawn area

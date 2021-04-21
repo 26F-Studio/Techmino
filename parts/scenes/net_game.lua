@@ -79,7 +79,7 @@ function scene.keyDown(key)
 			NET.signal_quit()
 		else
 			lastBackTime=TIME()
-			LOG.print(text.sureQuit,COLOR.orange)
+			LOG.print(text.sureQuit,COLOR.O)
 		end
 	elseif key=="\\"then
 		textBox.hide=not textBox.hide
@@ -109,7 +109,7 @@ function scene.gamepadDown(key)
 			SCN.back()
 		else
 			lastBackTime=TIME()
-			LOG.print(text.sureQuit,COLOR.orange)
+			LOG.print(text.sureQuit,COLOR.O)
 		end
 	else
 		if noKey then return end
@@ -147,9 +147,9 @@ function scene.socketRead(cmd,d)
 		}
 	elseif cmd=="Talk"then
 		textBox:push{
-			COLOR.W,d.username,
+			COLOR.Z,d.username,
 			COLOR.dY,"#"..d.uid.." ",
-			COLOR.sky,d.message or"[_]",
+			COLOR.N,d.message or"[_]",
 		}
 	elseif cmd=="Go"then
 		if not playing then
@@ -161,7 +161,7 @@ function scene.socketRead(cmd,d)
 			upstreamProgress=1
 			resetGameData("n",d.seed)
 		else
-			LOG.print("Redundant [Go]",30,COLOR.green)
+			LOG.print("Redundant [Go]",30,COLOR.G)
 		end
 	elseif cmd=="Finish"then
 		playing=false
@@ -278,7 +278,7 @@ scene.widgetList={
 				PLY_NET[1].ready or
 				NET.getlock("ready")
 		end},
-	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color="gray",font=40,code=pressKey"space",
+	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color="H",font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or

@@ -1,5 +1,5 @@
 return{
-	color=COLOR.lGray,
+	color=COLOR.lH,
 	env={
 		drop=60,lock=60,
 		dropPiece=function(P)if P.stat.row>=1000 then P:win("finish")end end,		bg="rainbow",bgm="push",

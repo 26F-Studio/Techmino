@@ -11,7 +11,7 @@ local scene={}
 
 scene.widgetList={
 	WIDGET.newText{name="title",		x=520,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="gray"},
+	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="H"},
 
 	--Control
 	WIDGET.newSlider{name="nextCount",	x=200,	y=150,	w=200,unit=6,disp=CUSval("nextCount"),code=CUSsto("nextCount")},
@@ -20,12 +20,12 @@ scene.widgetList={
 	WIDGET.newSwitch{name="phyHold",	x=350,	y=430,				disp=CUSval("phyHold"),	code=CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
 
 	--Rule
-	WIDGET.newSelector{name="fieldH",	x=270,	y=520,	w=260,color="sky",	list=sList.fieldH,		disp=CUSval("fieldH"),code=CUSsto("fieldH")},
-	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lBlue",list=sList.visible,		disp=CUSval("visible"),code=CUSsto("visible")},
-	WIDGET.newSelector{name="freshLimit",x=840,	y=160,	w=260,color="purple",list=sList.freshLimit,	disp=CUSval("freshLimit"),code=CUSsto("freshLimit")},
-	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="red",	list=sList.opponent,	disp=CUSval("opponent"),code=CUSsto("opponent")},
-	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="red",	list=sList.life,		disp=CUSval("life"),code=CUSsto("life")},
-	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="red",	list=sList.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")},
+	WIDGET.newSelector{name="fieldH",	x=270,	y=520,	w=260,color="N",list=sList.fieldH,		disp=CUSval("fieldH"),code=CUSsto("fieldH")},
+	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lB",list=sList.visible,		disp=CUSval("visible"),code=CUSsto("visible")},
+	WIDGET.newSelector{name="freshLimit",x=840,	y=160,	w=260,color="V",list=sList.freshLimit,	disp=CUSval("freshLimit"),code=CUSsto("freshLimit")},
+	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="R",list=sList.opponent,	disp=CUSval("opponent"),code=CUSsto("opponent")},
+	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="R",list=sList.life,		disp=CUSval("life"),code=CUSsto("life")},
+	WIDGET.newSelector{name="pushSpeed",x=1120,	y=260,	w=260,color="R",list=sList.pushSpeed,	disp=CUSval("pushSpeed"),code=CUSsto("pushSpeed")},
 
 	WIDGET.newSwitch{name="ospin",		x=870,	y=350,	font=30,disp=CUSval("ospin"),	code=CUSrev("ospin")},
 	WIDGET.newSwitch{name="fineKill",	x=870,	y=440,	font=20,disp=CUSval("fineKill"),code=CUSrev("fineKill")},

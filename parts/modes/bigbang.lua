@@ -1,6 +1,6 @@
 local format=string.format
 return{
-	color=COLOR.lGray,
+	color=COLOR.lH,
 	env={
 		drop=1e99,lock=1e99,
 		holdCount=0,

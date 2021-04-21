@@ -5,14 +5,14 @@ local format=string.format
 local SCR,setFont,mStr=SCR,setFont,mStr
 
 local fnsRankColor={
-	Z=COLOR.lYellow,
-	S=COLOR.lGray,
-	A=COLOR.sky,
-	B=COLOR.lGreen,
-	C=COLOR.magenta,
-	D=COLOR.dGreen,
-	E=COLOR.red,
-	F=COLOR.dRed,
+	Z=COLOR.lY,
+	S=COLOR.lG,
+	A=COLOR.N,
+	B=COLOR.lG,
+	C=COLOR.M,
+	D=COLOR.dG,
+	E=COLOR.R,
+	F=COLOR.dR,
 }
 
 local scene={}
@@ -38,7 +38,7 @@ function scene.sceneInit(org)
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
-		{COLOR.white,TIMESTR(S.time),COLOR[frameLostRate>10 and"red"or frameLostRate>3 and"yellow"or"gray"],format(" (%.2f%%)",frameLostRate)},
+		{COLOR.Z,TIMESTR(S.time),COLOR[frameLostRate>10 and"R"or frameLostRate>3 and"Y"or"H"],format(" (%.2f%%)",frameLostRate)},
 		format("%d/%d/%d",S.key,S.rotate,S.hold),
 		format("%d  %.2fPPS",S.piece,S.piece/S.time),
 		format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
@@ -103,10 +103,10 @@ function scene.sceneInit(org)
 			"F"
 		if acc==1 then
 			trophy=text.finesse_ap
-			trophyColor=COLOR.yellow
+			trophyColor=COLOR.Y
 		elseif P.stat.maxFinesseCombo==P.stat.piece then
 			trophy=text.finesse_fc
-			trophyColor=COLOR.lCyan
+			trophyColor=COLOR.lC
 		else
 			trophy=nil
 		end
@@ -309,11 +309,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="setting",	x=1120,	y=70,	w=240,h=90,	color="lBlue",	font=35,code=pressKey"s"},
-	WIDGET.newButton{name="replay",		x=535,	y=250,	w=200,h=100,color="lYellow",font=30,code=pressKey"p",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newButton{name="save",		x=745,	y=250,	w=200,h=100,color="green",	font=30,code=pressKey"o",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
-	WIDGET.newButton{name="resume",		x=640,	y=367,	w=240,h=100,color="lGreen",	font=30,code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,	y=483,	w=240,h=100,color="lRed",	font=35,code=pressKey"r"},
+	WIDGET.newButton{name="setting",	x=1120,	y=70,	w=240,h=90,	color="lB",font=35,code=pressKey"s"},
+	WIDGET.newButton{name="replay",		x=535,	y=250,	w=200,h=100,color="lY",font=30,code=pressKey"p",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="save",		x=745,	y=250,	w=200,h=100,color="G",font=30,code=pressKey"o",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+	WIDGET.newButton{name="resume",		x=640,	y=367,	w=240,h=100,color="lG",font=30,code=pressKey"escape"},
+	WIDGET.newButton{name="restart",	x=640,	y=483,	w=240,h=100,color="lR",font=35,code=pressKey"r"},
 	WIDGET.newButton{name="quit",		x=640,	y=600,	w=240,h=100,font=35,code=backScene},
 }
 

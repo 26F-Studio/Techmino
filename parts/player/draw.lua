@@ -13,11 +13,11 @@ local setFont,mStr=setFont,mStr
 local TIME=TIME
 
 local frameColorList={
-	[0]=COLOR.white,
-	COLOR.lGreen,
-	COLOR.lBlue,
-	COLOR.lPurple,
-	COLOR.lOrange,
+	[0]=COLOR.Z,
+	COLOR.lG,
+	COLOR.lB,
+	COLOR.lV,
+	COLOR.lO,
 }
 --local function drawCell(y,x,id)gc_draw(SKIN.curText[id],30*x-30,-30*y)end
 local function stencilBoard()gc_rectangle("fill",0,-10,300,610)end
@@ -218,11 +218,11 @@ local function drawBoarders(P)
 	gc_rectangle("line",-16,-3,15,604)--B2b bar boarder
 end
 local attackColor={
-	{COLOR.dGray,COLOR.white},
-	{COLOR.gray,COLOR.white},
-	{COLOR.lPurple,COLOR.white},
-	{COLOR.lRed,COLOR.white},
-	{COLOR.dGreen,COLOR.cyan},
+	{COLOR.dH,COLOR.Z},
+	{COLOR.H,COLOR.Z},
+	{COLOR.lV,COLOR.Z},
+	{COLOR.lR,COLOR.Z},
+	{COLOR.dG,COLOR.C},
 }
 local function drawBuffer(P)
 	local h=0
@@ -261,7 +261,7 @@ local function drawB2Bbar(P)
 	local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
 	gc_setColor(.8,1,.2)
 	gc_rectangle("fill",-14,599,11,-b*.6)
-	gc_setColor(P.b2b<40 and COLOR.white or P.b2b<=800 and COLOR.lRed or COLOR.lBlue)
+	gc_setColor(P.b2b<40 and COLOR.Z or P.b2b<=800 and COLOR.lR or COLOR.lB)
 	gc_rectangle("fill",-14,599,11,-a*.6)
 	if TIME()%.5<.3 then
 		gc_setColor(1,1,1)
@@ -684,8 +684,8 @@ function draw.norm(P)
 		gc_setColor(0,0,0,.3)
 		gc_print(P.score1,18,509)
 		gc_print(tm,18,539)
-		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
-		gc_setColor(COLOR.sky)gc_print(tm,20,540)
+		gc_setColor(COLOR.lY)gc_print(P.score1,20,510)
+		gc_setColor(COLOR.N)gc_print(tm,20,540)
 
 		drawFinesseCombo_norm(P)
 		drawLife(P.life)
@@ -825,8 +825,8 @@ function draw.norm_remote(P)
 		gc_setColor(0,0,0,.3)
 		gc_print(P.score1,18,509)
 		gc_print(tm,18,539)
-		gc_setColor(COLOR.lYellow)gc_print(P.score1,20,510)
-		gc_setColor(COLOR.sky)gc_print(tm,20,540)
+		gc_setColor(COLOR.lY)gc_print(P.score1,20,510)
+		gc_setColor(COLOR.N)gc_print(tm,20,540)
 
 		drawFinesseCombo_remote(P)
 		drawLife(P.life)

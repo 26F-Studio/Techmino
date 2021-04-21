@@ -18,7 +18,7 @@ function scene.mouseDown(_,_,k)
 		if newVersionLaunch then
 			SCN.push(SETTING.simpMode and"main_simple"or"main")
 			SCN.swapTo("history","fade")
-			LOG.print(text.newVersion,"warn",COLOR.lBlue)
+			LOG.print(text.newVersion,"warn",COLOR.lB)
 		else
 			SCN.go(SETTING.simpMode and"main_simple"or"main")
 		end

@@ -107,14 +107,14 @@ for i=1,8 do
 end
 TEXTURE.title_color=NSC(1160,236)
 local titleColor={
-	COLOR.lGrape,
-	COLOR.lCyan,
-	COLOR.lBlue,
-	COLOR.lOrange,
-	COLOR.lFire,
-	COLOR.lMagenta,
-	COLOR.lGreen,
-	COLOR.lYellow,
+	COLOR.lP,
+	COLOR.lC,
+	COLOR.lB,
+	COLOR.lO,
+	COLOR.lF,
+	COLOR.lM,
+	COLOR.lG,
+	COLOR.lY,
 }
 for i=1,8 do
 	gc.translate(12*i,i==1 and 8 or 14)

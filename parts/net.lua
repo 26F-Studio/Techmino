@@ -241,15 +241,15 @@ function NET.updateWS_app()
 								end
 							end
 							if VERSION.code<res.newestCode then
-								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.N)
 							end
-							LOG.print(res.notice,300,COLOR.sky)
+							LOG.print(res.notice,300,COLOR.N)
 						elseif res.action==0 then--Get new version info
 							--?
 						elseif res.action==1 then--Get notice
 							--?
 						elseif res.action==2 then--Register
-							LOG.print(res.data.message,300,COLOR.sky)
+							LOG.print(res.data.message,300,COLOR.N)
 							if SCN.cur=="register"then SCN.back()end
 							NET.unlock("register")
 						end

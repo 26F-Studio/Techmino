@@ -38,7 +38,7 @@ local score
 	1/2/3/...: 2/4/8/... tile
 ]]
 local tileColor={
-	[-1]=COLOR.black,
+	[-1]=COLOR.D,
 	[0]={.5,.3,.3},
 	{.93,.89,.85},
 	{.93,.88,.78},
@@ -370,8 +370,8 @@ function scene.draw()
 				"Y"
 			)or(
 				repeater.seq[i]==repeater.last[i]and
-				"gray"or
-				"white"
+				"H"or
+				"Z"
 			)
 		])
 		rectangle("line",990,305+60*i,220,50)
@@ -405,16 +405,16 @@ function scene.draw()
 			local N=board[i]
 			if i~=prevPos or prevSpawnTime==1 then
 				if not blind or i==prevPos then
-					setColor(tileColor[N]or COLOR.black)
+					setColor(tileColor[N]or COLOR.D)
 					rectangle("fill",x*160+163,y*160-117,154,154,15)
 					if N>=0 then
-						setColor(N<3 and COLOR.black or COLOR.W)
+						setColor(N<3 and COLOR.D or COLOR.Z)
 						local fontSize=tileFont[N]
 						setFont(fontSize)
 						mStr(tileName[N],320+(x-.5)*160,40+(y-.5)*160-fontSize*.7)
 					end
 				else
-					setColor(COLOR.gray)
+					setColor(COLOR.H)
 					rectangle("fill",x*160+163,y*160-117,154,154,15)
 				end
 			else
@@ -480,19 +480,19 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",		x=155,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
+	WIDGET.newButton{name="reset",		x=155,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
 	WIDGET.newSwitch{name="blind",		x=240,y=300,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="tapControl",	x=240,y=370,w=60,		font=40,disp=function()return tapControl end,	code=pressKey"w",hide=function()return state==1 end},
 
-	WIDGET.newKey{name="up",			x=155,y=460,w=100,fText="↑",font=50,color="yellow",code=pressKey"up",hide=function()return tapControl end},
-	WIDGET.newKey{name="down",			x=155,y=660,w=100,fText="↓",font=50,color="yellow",code=pressKey"down",hide=function()return tapControl end},
-	WIDGET.newKey{name="left",			x=55,y=560,w=100,fText="←",font=50,color="yellow",code=pressKey"left",hide=function()return tapControl end},
-	WIDGET.newKey{name="right",			x=255,y=560,w=100,fText="→",font=50,color="yellow",code=pressKey"right",hide=function()return tapControl end},
-	WIDGET.newKey{name="skip",			x=155,y=400,w=100,font=20,color="yellow",code=pressKey"space",hide=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
-	WIDGET.newKey{name="record1",		x=1100,y=390,w=220,h=50,fText="",color="gray",code=pressKey"1",hide=function()return state==2 end},
-	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",color="gray",code=pressKey"2",hide=function()return state==2 end},
-	WIDGET.newKey{name="replay1",		x=1245,y=390,w=50,fText="!",color="green",code=pressKey"c1",hide=function()return state==2 or #repeater.seq[1]==0 end},
-	WIDGET.newKey{name="replay2",		x=1245,y=450,w=50,fText="!",color="green",code=pressKey"c2",hide=function()return state==2 or #repeater.seq[2]==0 end},
+	WIDGET.newKey{name="up",			x=155,y=460,w=100,fText="↑",font=50,color="Y",code=pressKey"up",hide=function()return tapControl end},
+	WIDGET.newKey{name="down",			x=155,y=660,w=100,fText="↓",font=50,color="Y",code=pressKey"down",hide=function()return tapControl end},
+	WIDGET.newKey{name="left",			x=55,y=560,w=100,fText="←",font=50,color="Y",code=pressKey"left",hide=function()return tapControl end},
+	WIDGET.newKey{name="right",			x=255,y=560,w=100,fText="→",font=50,color="Y",code=pressKey"right",hide=function()return tapControl end},
+	WIDGET.newKey{name="skip",			x=155,y=400,w=100,font=20,color="Y",code=pressKey"space",hide=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
+	WIDGET.newKey{name="record1",		x=1100,y=390,w=220,h=50,fText="",color="H",code=pressKey"1",hide=function()return state==2 end},
+	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",color="H",code=pressKey"2",hide=function()return state==2 end},
+	WIDGET.newKey{name="replay1",		x=1245,y=390,w=50,fText="!",color="G",code=pressKey"c1",hide=function()return state==2 or #repeater.seq[1]==0 end},
+	WIDGET.newKey{name="replay2",		x=1245,y=450,w=50,fText="!",color="G",code=pressKey"c2",hide=function()return state==2 or #repeater.seq[2]==0 end},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

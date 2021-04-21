@@ -85,12 +85,12 @@ scene.widgetList={
 	--WIDGET.newButton{name="spin6",x=825,y=540,w=90,h=65,code=function()nextDir(6)end},--Cannot rotate O
 	WIDGET.newButton{name="spin7",	x=970,y=540,w=90,h=65,code=function()nextDir(7)end},
 
-	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color="lPurple",font=35,
+	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color="lV",font=35,
 		code=function()
 			SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,10,2,16,8,4,10,13,2,8}
 			SFX.play("rotate")
 		end},
-	WIDGET.newButton{name="faceR",	x=480,y=640,w=220,h=80,color="lRed",font=35,
+	WIDGET.newButton{name="faceR",	x=480,y=640,w=220,h=80,color="lR",font=35,
 		code=function()
 			for i=1,29 do
 				SETTING.face[i]=0

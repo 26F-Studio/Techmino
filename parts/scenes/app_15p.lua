@@ -117,16 +117,16 @@ local function tapBoard(x,y,key)
 			if checkBoard(b)then
 				state=2
 				time=TIME()-startTime
-				if time<1 then		LOG.print("不是人",COLOR.lBlue)
-				elseif time<2 then	LOG.print("还是人",COLOR.lBlue)
-				elseif time<3 then	LOG.print("神仙",COLOR.lBlue)
-				elseif time<5 then	LOG.print("太强了",COLOR.lBlue)
-				elseif time<7.5 then LOG.print("很强",COLOR.lBlue)
-				elseif time<10 then	LOG.print("可以的",COLOR.lBlue)
-				elseif time<20 then	LOG.print("马上入门了",COLOR.lBlue)
-				elseif time<30 then	LOG.print("入门不远了",COLOR.lBlue)
-				elseif time<60 then	LOG.print("多加练习",COLOR.lBlue)
-				else				LOG.print("第一次玩?加油",COLOR.lBlue)
+				if time<1 then		LOG.print("不是人",COLOR.lB)
+				elseif time<2 then	LOG.print("还是人",COLOR.lB)
+				elseif time<3 then	LOG.print("神仙",COLOR.lB)
+				elseif time<5 then	LOG.print("太强了",COLOR.lB)
+				elseif time<7.5 then LOG.print("很强",COLOR.lB)
+				elseif time<10 then	LOG.print("可以的",COLOR.lB)
+				elseif time<20 then	LOG.print("马上入门了",COLOR.lB)
+				elseif time<30 then	LOG.print("入门不远了",COLOR.lB)
+				elseif time<60 then	LOG.print("多加练习",COLOR.lB)
+				else				LOG.print("第一次玩?加油",COLOR.lB)
 				end
 				SFX.play("win")
 				return
@@ -201,66 +201,66 @@ end
 
 local frontColor={
 	[0]={
-		COLOR.lRed,COLOR.lRed,COLOR.lRed,COLOR.lRed,
-		COLOR.lGreen,COLOR.lBlue,COLOR.lBlue,COLOR.lBlue,
-		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
-		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
+		COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
+		COLOR.lG,COLOR.lB,COLOR.lB,COLOR.lB,
+		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
+		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
 	},--Colored(rank)
 	{
-		COLOR.lRed,COLOR.lRed,COLOR.lRed,COLOR.lRed,
-		COLOR.lOrange,COLOR.lYellow,COLOR.lYellow,COLOR.lYellow,
-		COLOR.lOrange,COLOR.lGreen,COLOR.lBlue,COLOR.lBlue,
-		COLOR.lOrange,COLOR.lGreen,COLOR.lBlue,COLOR.lBlue,
+		COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
+		COLOR.lO,COLOR.lY,COLOR.lY,COLOR.lY,
+		COLOR.lO,COLOR.lG,COLOR.lB,COLOR.lB,
+		COLOR.lO,COLOR.lG,COLOR.lB,COLOR.lB,
 	},--Rainbow(rank)
 	{
-		COLOR.lRed,COLOR.lRed,COLOR.lRed,COLOR.lRed,
-		COLOR.lBlue,COLOR.lBlue,COLOR.lBlue,COLOR.lBlue,
-		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
-		COLOR.lGreen,COLOR.lYellow,COLOR.lPurple,COLOR.lPurple,
+		COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
+		COLOR.lB,COLOR.lB,COLOR.lB,COLOR.lB,
+		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
+		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
 	},--Colored(row)
 	{
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 	},--Gray
 	{
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
-		COLOR.white,COLOR.white,COLOR.white,COLOR.white,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
+		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 	},--Black
 }
 local backColor={
 	[0]={
-		COLOR.dRed,COLOR.dRed,COLOR.dRed,COLOR.dRed,
-		COLOR.dGreen,COLOR.dBlue,COLOR.dBlue,COLOR.dBlue,
-		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
-		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
+		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
+		COLOR.dG,COLOR.dB,COLOR.dB,COLOR.dB,
+		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
+		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
 	},--Colored(rank)
 	{
-		COLOR.dRed,COLOR.dRed,COLOR.dRed,COLOR.dRed,
-		COLOR.dOrange,COLOR.dYellow,COLOR.dYellow,COLOR.dYellow,
-		COLOR.dOrange,COLOR.dGreen,COLOR.dBlue,COLOR.dBlue,
-		COLOR.dOrange,COLOR.dGreen,COLOR.dBlue,COLOR.dBlue,
+		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
+		COLOR.dO,COLOR.dY,COLOR.dY,COLOR.dY,
+		COLOR.dO,COLOR.dG,COLOR.dB,COLOR.dB,
+		COLOR.dO,COLOR.dG,COLOR.dB,COLOR.dB,
 	},--Rainbow(rank)
 	{
-		COLOR.dRed,COLOR.dRed,COLOR.dRed,COLOR.dRed,
-		COLOR.dBlue,COLOR.dBlue,COLOR.dBlue,COLOR.dBlue,
-		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
-		COLOR.dGreen,COLOR.dYellow,COLOR.dPurple,COLOR.dPurple,
+		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
+		COLOR.dB,COLOR.dB,COLOR.dB,COLOR.dB,
+		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
+		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
 	},--Colored(row)
 	{
-		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
-		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
-		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
-		COLOR.dGray,COLOR.dGray,COLOR.dGray,COLOR.dGray,
+		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
+		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
+		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
+		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
 	},--Gray
 	{
-		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
-		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
-		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
-		COLOR.black,COLOR.black,COLOR.black,COLOR.black,
+		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
+		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
+		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
+		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
 	},--Black
 }
 function scene.draw()
@@ -316,7 +316,7 @@ end
 
 local function Gaming()return state==1 end
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"space"},
+	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lG",	font=40,code=pressKey"space"},
 	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hide=Gaming},
 	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",	hide=Gaming},
 	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",	hide=Gaming},

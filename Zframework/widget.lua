@@ -5,6 +5,7 @@ local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
 local sub,format=string.sub,string.format
 local ins=table.insert
+local COLOR=COLOR
 local setFont,mStr=setFont,mStr
 local mDraw_Y=MDRAW.simpY
 
@@ -56,7 +57,7 @@ function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,hide
 		y=		D.y,
 
 		fText=	D.fText,
-		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		align=	D.align or"M",
 		hideCon=D.hide,
@@ -199,7 +200,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,
 		},
 
 		fText=	D.fText,
-		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		align=	D.align or"M",
 		edge=	D.edge or 0,
@@ -283,7 +284,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edg
 		},
 
 		fText=	D.fText,
-		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		align=	D.align or"M",
 		edge=	D.edge or 0,
@@ -364,7 +365,7 @@ function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
 		},
 
 		fText=	D.fText,
-		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		disp=	D.disp,
 		code=	D.code,
@@ -518,7 +519,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font][
 		},
 
 		fText=	D.fText,
-		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		unit=	D.unit or 1,
 		smooth=	false,
 		font=	D.font or 30,
@@ -684,7 +685,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 		},
 
 		fText=	D.fText,
-		color=	D.color and(COLOR[D.color]or D.color)or COLOR.white,
+		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	30,
 		list=	D.list,
 		disp=	D.disp,
@@ -1003,7 +1004,7 @@ function WIDGET.setLang(widgetText)
 				local t=W.fText or widgetText[S][W.name]
 				if not t and not allowNoText[W.type]then
 					t=W.name or"##"
-					W.color=COLOR.dPurple
+					W.color=COLOR.dV
 				end
 				if type(t)=="string"and W.font then
 					t=gc.newText(getFont(W.font),t)

@@ -933,7 +933,7 @@ do--function saveRecording()
 		--Filtering modes that cannot be saved
 		for _,v in next,noRecList do
 			if GAME.curModeName:find(v)then
-				LOG.print("Cannot save recording of this mode now!",COLOR.sky)
+				LOG.print("Cannot save recording of this mode now!",COLOR.N)
 				return
 			end
 		end

@@ -269,7 +269,7 @@ function scene.draw()
 			local N=board[i][j]
 			if N>0 then
 				if hide and N>maxNew then
-					setColor(COLOR.dGray)
+					setColor(COLOR.dH)
 					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.3)
 					mStr("?",j*128+256,i*128-75)
@@ -299,7 +299,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
+	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
 	WIDGET.newSwitch{name="next",	x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="blind",	x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="fast",	x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hide=function()return state==1 end},

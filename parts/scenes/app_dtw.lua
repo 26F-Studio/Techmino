@@ -277,7 +277,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color="lGreen",font=40,code=pressKey"r"},
+	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
 	WIDGET.newButton{name="mode",	x=155,y=220,w=180,h=100,font=40,code=pressKey"q",hide=function()return state~=0 end},
 	WIDGET.newSwitch{name="arcade",	x=230,y=330,font=40,disp=function()return arcade end,code=pressKey"w",hide=function()return state~=0 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},

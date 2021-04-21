@@ -215,11 +215,11 @@ local function noDevkeyPressed(key)
 	elseif key=="f5"then	if WIDGET.sel then DBP(WIDGET.sel)end
 	elseif key=="f6"then	for k,v in next,_G do DBP(k,v)end
 	elseif key=="f7"then	if love._openConsole then love._openConsole()end
-	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.yellow)
-	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.yellow)
-	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.yellow)
-	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.yellow)
-	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.yellow)
+	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.Y)
+	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.Y)
+	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.Y)
+	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.Y)
+	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.Y)
 	elseif key=="\\"then	_G["\100\114\97\119\70\87\77"]=NULL
 	elseif devMode==2 then
 		if WIDGET.sel then
@@ -249,7 +249,7 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		LOG.print("DEBUG ON",COLOR.yellow)
+		LOG.print("DEBUG ON",COLOR.Y)
 	elseif key=="f11"then
 		switchFullscreen()
 	elseif not SCN.swapping then
@@ -281,7 +281,7 @@ function love.joystickremoved(JS)
 	for i=1,#joysticks do
 		if joysticks[i]==JS then
 			rem(joysticks,i)
-			LOG.print("Joystick removed",COLOR.yellow)
+			LOG.print("Joystick removed",COLOR.Y)
 			return
 		end
 	end
@@ -454,10 +454,10 @@ local WScolor={
 	{.5,.8,1,.7},
 }
 local devColor={
-	COLOR.white,
-	COLOR.lMagenta,
-	COLOR.lGreen,
-	COLOR.lBlue,
+	COLOR.Z,
+	COLOR.lM,
+	COLOR.lG,
+	COLOR.lB,
 }
 love.draw,love.update=nil--remove default draw/update
 function love.run()

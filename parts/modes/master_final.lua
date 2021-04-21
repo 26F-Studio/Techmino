@@ -40,7 +40,7 @@ local function score(P)
 end
 
 return{
-	color=COLOR.lGray,
+	color=COLOR.lH,
 	env={
 		noTele=true,
 		das=5,arr=1,
