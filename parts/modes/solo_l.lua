@@ -4,7 +4,7 @@ return{
 		life=2,
 		drop=60,lock=60,
 		freshLimit=15,
-		bg="bg2",bgm="race",
+		bg="bg2",bgm="battle",
 	},
 	pauseLimit=true,
 	load=function()

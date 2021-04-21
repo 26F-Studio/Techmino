@@ -267,8 +267,8 @@ do
 
 	for _,v in next,VK_org do
 		if not v.color then
-			autoRestart=true
 			fs.remove("conf/virtualkey")
+			autoRestart=true
 			break
 		end
 	end
