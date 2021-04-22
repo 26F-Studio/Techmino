@@ -56,7 +56,7 @@ end
 
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
-	local args=SPLITSTR(mes:sub(2),";")
+	local args=STRING.split(mes:sub(2),";")
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],

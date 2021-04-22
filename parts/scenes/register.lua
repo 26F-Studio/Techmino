@@ -7,7 +7,7 @@ local function register()
 	local password2=WIDGET.active.password2.value
 	if #username==0 then
 		LOG.print(text.noUsername)return
-	elseif not legalEmail(email)then
+	elseif not STRING.simpEmailCheck(email)then
 		LOG.print(text.wrongEmail)return
 	elseif #password==0 or #password2==0 then
 		LOG.print(text.noPassword)return

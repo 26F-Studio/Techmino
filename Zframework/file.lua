@@ -28,7 +28,7 @@ function FILE.save(data,name,mode)
 	if not mode then mode=""end
 	if type(data)=="table"then
 		if mode:find("l")then
-			data=DUMPTABLE(data)
+			data=TABLE.dump(data)
 			if not data then
 				LOG.print(name.." "..text.saveError.."dump error","error")
 				return

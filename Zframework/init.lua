@@ -13,14 +13,10 @@ MDRAW=require"Zframework.mDraw"
 	mText=MDRAW.simpX
 	mDraw=MDRAW.draw
 
--- UPPERCHAR=require"Zframework.upperChar"
 JSON=require"Zframework.json"
-DUMPTABLE=require"Zframework.dumpTable"
-URLENCODE=require"Zframework.urlEncode"
 
 TABLE=require"Zframework.tableExtend"
-SPLITSTR=require"Zframework.splitStr"
-TIMESTR=require"Zframework.timeStr"
+STRING=require"Zframework.stringExtend"
 
 VIB=	require"Zframework.vibrate"
 SFX=	require"Zframework.sfx"

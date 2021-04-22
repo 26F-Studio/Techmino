@@ -29,7 +29,7 @@ function scene.sceneInit()
 	item={
 		S.run,
 		S.game,
-		TIMESTR(S.time),
+		STRING.time(S.time),
 		S.key.."  "..S.rotate.."  "..S.hold,
 		S.piece.."  "..S.row.."  "..int(S.atk),
 		S.recv.."  "..S.off.."  "..S.pend,

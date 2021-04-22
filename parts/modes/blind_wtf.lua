@@ -55,7 +55,7 @@ return{
 		mStr(P.stat.clears[4],69,340)
 	end,
 	score=function(P)return{min(P.stat.row,40),P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Lines   "..TIMESTR(D[2])end,
+	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local L=P.stat.row

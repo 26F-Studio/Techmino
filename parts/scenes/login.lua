@@ -1,7 +1,7 @@
 local function login()
 	local email=	WIDGET.active.email.value
 	local password=	WIDGET.active.password.value
-	if not legalEmail(email)then
+	if not STRING.simpEmailCheck(email)then
 		LOG.print(text.wrongEmail)return
 	elseif #password==0 then
 		LOG.print(text.noPassword)return

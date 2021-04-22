@@ -72,7 +72,7 @@ function scene.keyDown(key)
 		LOG.print(text.exportSuccess,COLOR.G)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local args=SPLITSTR(str:sub((str:find(":")or 0)+1),"!")
+		local args=STRING.split(str:sub((str:find(":")or 0)+1),"!")
 		if #args<4 then goto THROW_fail end
 		if not(
 			pasteQuestArgs(args[1])and

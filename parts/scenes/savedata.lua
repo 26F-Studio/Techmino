@@ -6,7 +6,7 @@ local function dumpCB(T)
 			"string","base64",
 			love.data.compress(
 				"string","zlib",
-				DUMPTABLE(T)
+				TABLE.dump(T)
 			)
 		)
 	)
