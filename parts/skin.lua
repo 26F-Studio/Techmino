@@ -34,6 +34,7 @@ function SKIN.init(list)
 				I=gc.newImage("media/image/skin/"..list[1]..".png")
 				LOG.print("No skin file: "..list[i],"warn")
 			end
+			gc.setDefaultFilter("linear","linear")
 			for y=0,2 do
 				for x=1,8 do
 					SKIN.lib[i][8*y+x]=C(30,30)
