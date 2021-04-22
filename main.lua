@@ -321,3 +321,6 @@ do
 		love.event.quit("restart")
 	end
 end
+
+--Var leak check
+-- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k,tostring(v))rawset(self,k,v)end})
