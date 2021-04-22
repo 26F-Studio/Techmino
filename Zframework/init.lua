@@ -8,10 +8,10 @@ LOADLIB=require"Zframework.loadLib"
 WHEELMOV=require"Zframework.wheelScroll"
 
 require"Zframework.setFont"
-MDRAW=require"Zframework.mDraw"
-	mStr=MDRAW.str
-	mText=MDRAW.simpX
-	mDraw=MDRAW.draw
+ADRAW=require"Zframework.aDraw"
+	mStr=ADRAW.str
+	mText=ADRAW.simpX
+	mDraw=ADRAW.draw
 
 JSON=require"Zframework.json"
 

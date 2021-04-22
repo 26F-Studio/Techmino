@@ -1,5 +1,5 @@
-local gc=love.graphics
 local kb=love.keyboard
+local gc=love.graphics
 
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
@@ -7,7 +7,7 @@ local sub,format=string.sub,string.format
 local ins=table.insert
 local COLOR=COLOR
 local setFont,mStr=setFont,mStr
-local mDraw_Y=MDRAW.simpY
+local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
 
 local allowNoText={
 	image=true,
@@ -42,7 +42,7 @@ function text:draw()
 		gc.setColor(c[1],c[2],c[3],self.alpha)
 		local obj=self.obj
 		if self.align=="M"then
-			gc.draw(obj,self.x-obj:getWidth()*.5,self.y)
+			mDraw_X(obj,self.x,self.y)
 		elseif self.align=="L"then
 			gc.draw(obj,self.x,self.y)
 		elseif self.align=="R"then
@@ -637,7 +637,7 @@ function selector:draw()
 
 	--Drawable
 	gc.setColor(self.color)
-	MDRAW.simpX(self.obj,x+w*.5,y+17-21)
+	ADRAW.simpX(self.obj,x+w*.5,y+17-21)
 	gc.setColor(1,1,1)
 	setFont(30)
 	mStr(self.selText,x+w*.5,y+43-21)
