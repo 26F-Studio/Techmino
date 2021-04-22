@@ -909,7 +909,7 @@ function textBox:draw()
 
 	--Frame
 	gc.setLineWidth(4)
-	gc.setColor(COLOR[WIDGET.sel==self and"Y"or"W"])
+	gc.setColor(COLOR[WIDGET.sel==self and"Y"or"Z"])
 	gc.rectangle("line",x,y,w,h)
 
 	--Slider
