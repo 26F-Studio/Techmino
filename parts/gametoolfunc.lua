@@ -478,21 +478,19 @@ do--function drawFWM()
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
-do--function drawSelfProfile()
-	function drawSelfProfile()
-		local selfAvatar=USERS.getAvatar(USER.uid)
-		gc_push("transform")
-		gc_translate(1280,0)
+function drawSelfProfile()
+	local selfAvatar=USERS.getAvatar(USER.uid)
+	gc_push("transform")
+	gc_translate(1280,0)
 
-		--Draw avatar
-		gc_setLineWidth(2)
-		gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
-		gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
-		gc_rectangle("line",-73,7,66,66,2)
-		gc_draw(selfAvatar,-72,8,nil,.5)
+	--Draw avatar
+	gc_setLineWidth(2)
+	gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
+	gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
+	gc_rectangle("line",-73,7,66,66,2)
+	gc_draw(selfAvatar,-72,8,nil,.5)
 
-		gc_pop()
-	end
+	gc_pop()
 end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then

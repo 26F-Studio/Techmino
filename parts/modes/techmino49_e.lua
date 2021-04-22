@@ -28,10 +28,8 @@ return{
 		bg="rainbow",bgm="sugar fairy",
 	},
 	load=function()
-		royaleData={
-			powerUp={2,5,10,20},
-			stage={30,20,15,10,5},
-		}
+		ROYALEDATA.powerUp={2,5,10,20}
+		ROYALEDATA.stage={30,20,15,10,5}
 		PLY.newPlayer(1)
 		local L={}for i=1,49 do L[i]=true end
 		local t=CC and 2 or 0

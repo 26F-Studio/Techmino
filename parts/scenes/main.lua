@@ -32,7 +32,6 @@ function scene.sceneInit()
 
 	--Set quick-play-button text
 	scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
-	quickSure=false
 
 	--Create demo player
 	destroyPlayers()

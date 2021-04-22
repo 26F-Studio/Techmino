@@ -178,6 +178,10 @@ GAME={--Global game data
 	mostDangerous=false,--Most dangerous player
 	secDangerous=false,	--Second dangerous player
 }
+ROYALEDATA={
+	powerUp=false,
+	stage=false,
+}
 
 --Userdata tables
 RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
