@@ -51,8 +51,7 @@ end
 function scene.touchUp()
 	if selected then
 		local B=VK_org[selected]
-		local k=snapUnit
-		B.x,B.y=int(B.x/k+.5)*k,int(B.y/k+.5)*k
+		B.x,B.y=int(B.x/snapUnit+.5)*snapUnit,int(B.y/snapUnit+.5)*snapUnit
 	end
 end
 function scene.touchMove(_,_,dx,dy)
@@ -62,41 +61,19 @@ function scene.touchMove(_,_,dx,dy)
 	end
 end
 
-local function virtualkeyPreview()
-	if SETTING.VKSwitch then
-		for i=1,#VK_org do
-			local B=VK_org[i]
-			if B.ava then
-				gc.setColor(1,1,1,SETTING.VKAlpha)
-				gc.setLineWidth(B.r*.07)
-				gc.circle("line",B.x,B.y,B.r,10)
-				if selected==i and TIME()%.26<.13 then
-					gc.setColor(1,1,1,SETTING.VKAlpha*.62)
-					gc.circle("fill",B.x,B.y,B.r,10)
-				end
-				if SETTING.VKIcon then
-					local c=B.color
-					gc.setColor(c[1],c[2],c[3],SETTING.VKAlpha)
-					gc.draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)
-				end
-			end
-		end
-	end
-end
 function scene.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
 	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
-	virtualkeyPreview()
-	local d=snapUnit
-	if d>=10 then
+	VK.preview(selected)
+	if snapUnit>=10 then
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1,sin(TIME()*4)*.1+.1)
-		for i=1,1280/d-1 do
-			gc.line(d*i,0,d*i,720)
+		for i=1,1280/snapUnit-1 do
+			gc.line(snapUnit*i,0,snapUnit*i,720)
 		end
-		for i=1,720/d-1 do
-			gc.line(0,d*i,1280,d*i)
+		for i=1,720/snapUnit-1 do
+			gc.line(0,snapUnit*i,1280,snapUnit*i)
 		end
 	end
 end

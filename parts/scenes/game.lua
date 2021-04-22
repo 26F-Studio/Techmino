@@ -5,10 +5,7 @@ local tc=love.touch
 local sin=math.sin
 
 local SCR=SCR
-local VK=virtualkey
-local onVirtualkey=onVirtualkey
-local pressVirtualkey=pressVirtualkey
-local updateVirtualkey=updateVirtualkey
+local VK=VK
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
@@ -34,16 +31,16 @@ end
 function scene.touchDown(x,y)
 	if noTouch then return end
 
-	local t=onVirtualkey(x,y)
+	local t=VK.on(x,y)
 	if t then
 		PLAYERS[1]:pressKey(t)
-		pressVirtualkey(t,x,y)
+		VK.touch(t,x,y)
 	end
 end
 function scene.touchUp(x,y)
 	if noTouch then return end
 
-	local t=onVirtualkey(x,y)
+	local t=VK.on(x,y)
 	if t then
 		PLAYERS[1]:releaseKey(t)
 	end
@@ -56,8 +53,9 @@ function scene.touchMove()
 	for i=#L,1,-1 do
 		L[2*i-1],L[2*i]=SCR.xOy:inverseTransformPoint(tc.getPosition(L[i]))
 	end
-	for n=1,#VK do
-		local B=VK[n]
+	local keys=VK.getKeys
+	for n=1,#keys do
+		local B=keys[n]
 		if B.ava then
 			for i=1,#L,2 do
 				if(L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
@@ -75,8 +73,9 @@ function scene.keyDown(key)
 		if k>0 then
 			if noKey then return end
 			PLAYERS[1]:pressKey(k)
-			VK[k].isDown=true
-			VK[k].pressTime=10
+			local vk=VK.getKeys()[k]
+			vk.isDown=true
+			vk.pressTime=10
 		else
 			restart()
 		end
@@ -90,7 +89,7 @@ function scene.keyUp(key)
 	if k then
 		if k>0 then
 			PLAYERS[1]:releaseKey(k)
-			VK[k].isDown=false
+			VK.release(k)
 		end
 	elseif key=="back"then
 		pauseGame()
@@ -102,8 +101,7 @@ function scene.gamepadDown(key)
 	if k then
 		if k>0 then
 			PLAYERS[1]:pressKey(k)
-			VK[k].isDown=true
-			VK[k].pressTime=10
+			VK.press(k)
 		else
 			restart()
 		end
@@ -117,7 +115,7 @@ function scene.gamepadUp(key)
 	if k then
 		if k>0 then
 			PLAYERS[1]:releaseKey(k)
-			VK[k].isDown=false
+			VK.release(k)
 		end
 	elseif key=="back"then
 		pauseGame()
@@ -138,10 +136,10 @@ function scene.update(dt)
 			if key==0 then--Just wait
 			elseif key<=32 then--Press key
 				P1:pressKey(key)
-				pressVirtualkey(key)
+				VK.press(key)
 			elseif key<=64 then--Release key
 				P1:releaseKey(key-32)
-				VK[key-32].isDown=false
+				VK.release(key-32)
 			end
 			_=_+2
 		end
@@ -149,7 +147,7 @@ function scene.update(dt)
 	end
 
 	touchMoveLastFrame=false
-	updateVirtualkey()
+	VK.update()
 
 	--Update players
 	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
@@ -183,7 +181,7 @@ function scene.draw()
 	end
 
 	--Virtual keys
-	drawVirtualkeys()
+	VK.draw()
 
 	--Attacking & Being attacked
 	if GAME.modeEnv.royaleMode then

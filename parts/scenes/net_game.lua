@@ -4,10 +4,7 @@ local tc=love.touch
 local ins=table.insert
 
 local SCR=SCR
-local VK=virtualkey
-local onVirtualkey=onVirtualkey
-local pressVirtualkey=pressVirtualkey
-local updateVirtualkey=updateVirtualkey
+local VK=VK
 
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=false}
 
@@ -38,16 +35,16 @@ scene.mouseDown=NULL
 function scene.touchDown(x,y)
 	if noTouch or not playing then return end
 
-	local t=onVirtualkey(x,y)
+	local t=VK.on(x,y)
 	if t then
 		PLAYERS[1]:pressKey(t)
-		pressVirtualkey(t,x,y)
+		VK.touch(t,x,y)
 	end
 end
 function scene.touchUp(x,y)
 	if noTouch or not playing then return end
 
-	local t=onVirtualkey(x,y)
+	local t=VK.on(x,y)
 	if t then
 		PLAYERS[1]:releaseKey(t)
 	end
@@ -60,8 +57,9 @@ function scene.touchMove()
 	for i=#L,1,-1 do
 		L[2*i-1],L[2*i]=SCR.xOy:inverseTransformPoint(tc.getPosition(L[i]))
 	end
-	for n=1,#VK do
-		local B=VK[n]
+	local keys=VK.getKeys
+	for n=1,#keys do
+		local B=keys[n]
 		if B.ava then
 			for i=1,#L,2 do
 				if(L[i]-B.x)^2+(L[i+1]-B.y)^2<=B.r^2 then
@@ -88,8 +86,9 @@ function scene.keyDown(key)
 		local k=keyMap.keyboard[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
-			VK[k].isDown=true
-			VK[k].pressTime=10
+			local vk=VK.getKeys()[k]
+			vk.isDown=true
+			vk.pressTime=10
 		end
 	elseif key=="space"then
 		NET.signal_ready(not PLY_NET[1].ready)
@@ -100,7 +99,7 @@ function scene.keyUp(key)
 	local k=keyMap.keyboard[key]
 	if k and k>0 then
 		PLAYERS[1]:releaseKey(k)
-		VK[k].isDown=false
+		VK.release(k)
 	end
 end
 function scene.gamepadDown(key)
@@ -116,8 +115,7 @@ function scene.gamepadDown(key)
 		local k=keyMap.joystick[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
-			VK[k].isDown=true
-			VK[k].pressTime=10
+			VK.press(k)
 		end
 	end
 end
@@ -126,7 +124,7 @@ function scene.gamepadUp(key)
 	local k=keyMap.joystick[key]
 	if k and k>0 then
 		PLAYERS[1]:releaseKey(k)
-		VK[k].isDown=false
+		VK.release(k)
 		return
 	end
 end
@@ -185,7 +183,7 @@ function scene.socketRead(cmd,d)
 				if P.uid==d.uid then
 					local res,stream=pcall(love.data.decode,"string","base64",d.stream)
 					if res then
-						pumpRecording(stream,P.stream)
+						DATA.pumpRecording(stream,P.stream)
 					else
 						LOG.print("Bad stream from "..P.username.."#"..P.uid)
 					end
@@ -203,7 +201,7 @@ function scene.update(dt)
 	local GAME=GAME
 
 	touchMoveLastFrame=false
-	updateVirtualkey()
+	VK.update()
 
 	--Update players
 	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
@@ -214,7 +212,7 @@ function scene.update(dt)
 	--Upload stream
 	if P1.frameRun-lastUpstreamTime>8 then
 		local stream
-		stream,upstreamProgress=dumpRecording(GAME.rep,upstreamProgress)
+		stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
 		if #stream>0 then
 			NET.uploadRecStream(stream)
 		else
@@ -235,7 +233,7 @@ function scene.draw()
 		end
 
 		--Virtual keys
-		drawVirtualkeys()
+		VK.draw()
 
 		--Warning
 		drawWarning()

@@ -52,6 +52,7 @@ return STRING.split([=[
 				新增users模块用来管理网络用户缓存信息
 				play场景改名game
 				重构GAME.frame相关内容
+				大规模整理代码
 		修复:
 				登录界面邮箱格式判定错误
 				调整主菜单点击联网游戏按钮代码的逻辑

@@ -239,7 +239,7 @@ function DATA.copyQuestArgs()
 		ENV.sequence
 	return str
 end
-do--function pasteQuestArgs(str)
+do--function DATA.pasteQuestArgs(str)
 	local sub=string.sub
 	function pasteQuestArgs(str)
 		if #str<4 then return end
@@ -249,6 +249,145 @@ do--function pasteQuestArgs(str)
 		ENV.missionKill=	byte(str,3)~=90
 		ENV.sequence=		sub(str,4)
 		return true
+	end
+end
+
+--[[
+	Table data format:
+		{frame,event, frame,event, ...}
+
+	Byte data format: (1 byte each period)
+		dt, event, dt, event, ...
+	all data range from 0 to 127
+	large value will be encoded as 1xxxxxxx(high)-1xxxxxxx-...-0xxxxxxx(low)
+
+	Example (decoded):
+		6,1, 20,-1, 0,2, 26,-2, 872,4, ...
+	This means:
+		Press key1 at 6f
+		Release key1 at 26f (6+20)
+		Press key2 at the same time (26+0)
+		Release key 2 after 26 frame (26+26)
+		Press key 4 after 872 frame (52+872)
+		...
+]]
+function DATA.dumpRecording(list,ptr)
+	local out=""
+	local buffer,buffer2=""
+	if not ptr then ptr=1 end
+	local prevFrm=list[ptr-2]or 0
+	while list[ptr]do
+		--Flush buffer
+		if #buffer>10 then
+			out=out..buffer
+			buffer=""
+		end
+
+		--Encode time
+		local t=list[ptr]-prevFrm
+		prevFrm=list[ptr]
+		if t>=128 then
+			buffer2=char(t%128)
+			t=int(t/128)
+			while t>=128 do
+				buffer2=char(128+t%128)..buffer2
+				t=int(t/128)
+			end
+			buffer=buffer..char(128+t)..buffer2
+		else
+			buffer=buffer..char(t)
+		end
+
+		--Encode event
+		t=list[ptr+1]
+		if t>=128 then
+			buffer2=char(t%128)
+			t=int(t/128)
+			while t>=128 do
+				buffer2=char(128+t%128)..buffer2
+				t=int(t/128)
+			end
+			buffer=buffer..char(128+t)..buffer2
+		else
+			buffer=buffer..char(t)
+		end
+
+		--Step
+		ptr=ptr+2
+	end
+	return out..buffer,ptr
+end
+function DATA.pumpRecording(str,L)
+	local len=#str
+	local p=1
+
+	local curFrm=L[#L-1]or 0
+	local code
+	while p<=len do
+		--Read delta time
+		code=0
+		local b=byte(str,p)
+		while b>=128 do
+			code=code*128+b-128
+			p=p+1
+			b=byte(str,p)
+		end
+		curFrm=curFrm+code*128+b
+		L[#L+1]=curFrm
+		p=p+1
+
+		local event=0
+		b=byte(str,p)
+		while b>=128 do
+			event=event*128+b-128
+			p=p+1
+			b=byte(str,p)
+		end
+		L[#L+1]=event*128+b
+		p=p+1
+	end
+end
+do--function DATA.saveRecording()
+	local noRecList={"custom","solo","round","techmino"}
+	local function getModList()
+		local res={}
+		for _,v in next,GAME.mod do
+			if v.sel>0 then
+				ins(res,{v.no,v.sel})
+			end
+		end
+		return res
+	end
+	function DATA.saveRecording()
+		--Filtering modes that cannot be saved
+		for _,v in next,noRecList do
+			if GAME.curModeName:find(v)then
+				LOG.print("Cannot save recording of this mode now!",COLOR.N)
+				return
+			end
+		end
+
+		--Write file
+		local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
+		if not love.filesystem.getInfo(fileName)then
+			local fileHead=
+				os.date("%Y/%m/%d %A %H:%M:%S\n")..
+				GAME.curModeName.."\n"..
+				VERSION.string.."\n"..
+				"Local Player"
+			local fileBody=
+				GAME.seed.."\n"..
+				JSON.encode(GAME.setting).."\n"..
+				JSON.encode(getModList()).."\n"..
+				DATA.dumpRecording(GAME.rep)
+
+			love.filesystem.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
+			ins(REPLAY,fileName)
+			FILE.save(REPLAY,"conf/replay")
+			return true
+		else
+			LOG.print("Save failed: File already exists")
+		end
 	end
 end
 

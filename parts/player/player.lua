@@ -172,7 +172,7 @@ function Player:switchKey(id,on)
 		self:releaseKey(id)
 	end
 	if self.type=="human"then
-		virtualkey[id].ava=on
+		VK.switchKey(id,on)
 	end
 end
 function Player:set20G(if20g)
