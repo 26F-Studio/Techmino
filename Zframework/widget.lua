@@ -9,10 +9,12 @@ local COLOR=COLOR
 local setFont,mStr=setFont,mStr
 local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
 
-local allowNoText={
-	image=true,
-	inputBox=true,
-	textBox=true,
+local mustHaveText={
+	text=true,
+	button=true,
+	key=true,
+	switch=true,
+	selector=true,
 }
 
 local WIDGET={}
@@ -40,13 +42,12 @@ function text:draw()
 	if self.alpha>0 then
 		local c=self.color
 		gc.setColor(c[1],c[2],c[3],self.alpha)
-		local obj=self.obj
 		if self.align=="M"then
-			mDraw_X(obj,self.x,self.y)
+			mDraw_X(self.obj,self.x,self.y)
 		elseif self.align=="L"then
-			gc.draw(obj,self.x,self.y)
+			gc.draw(self.obj,self.x,self.y)
 		elseif self.align=="R"then
-			gc.draw(obj,self.x-obj:getWidth(),self.y)
+			gc.draw(self.obj,self.x-self.obj:getWidth(),self.y)
 		end
 	end
 end
@@ -270,7 +271,7 @@ function key:draw()
 	elseif self.align=="L"then
 		mDraw_Y(self.obj,x+self.edge,y+h*.5)
 	elseif self.align=="R"then
-		mDraw_Y(self.obj,self.x-self.edge-self.obj:getWidth(),y+h*.5)
+		mDraw_Y(self.obj,x+w-self.edge-self.obj:getWidth(),y+h*.5)
 	end
 end
 function key:getInfo()
@@ -356,9 +357,8 @@ function switch:draw()
 	gc.rectangle("line",x,y,50,50)
 
 	--Drawable
-	local obj=self.obj
 	gc.setColor(self.color)
-	mDraw_Y(obj,x-12-ATV-obj:getWidth(),y+25)
+	mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y+25)
 end
 function switch:getInfo()
 	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
@@ -478,9 +478,10 @@ function slider:draw()
 	end
 
 	--Drawable
-	local obj=self.obj
-	gc.setColor(self.color)
-	mDraw_Y(obj,x-12-ATV-obj:getWidth(),y)
+	if self.obj then
+		gc.setColor(self.color)
+		mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y)
+	end
 end
 function slider:getInfo()
 	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
@@ -757,9 +758,8 @@ function inputBox:draw()
 
 	--Drawable
 	setFont(self.font)
-	local obj=self.obj
-	if obj then
-		mDraw_Y(obj,x-12-obj:getWidth(),y+h*.5)
+	if self.obj then
+		mDraw_Y(self.obj,x-12-self.obj:getWidth(),y+h*.5)
 	end
 	if self.secret then
 		for i=1,#self.value do
@@ -1016,7 +1016,7 @@ function WIDGET.setLang(widgetText)
 		if L.widgetList then
 			for _,W in next,L.widgetList do
 				local t=W.fText or widgetText[S][W.name]
-				if not t and not allowNoText[W.type]then
+				if not t and mustHaveText[W.type]then
 					t=W.name or"##"
 					W.color=COLOR.dV
 				end
