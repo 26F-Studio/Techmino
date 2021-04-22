@@ -47,7 +47,7 @@ function scene.keyDown(k)
 			SCN.back()
 		else
 			escapeTimer=TIME()
-			LOG.print(text.sureQuit,COLOR.orange)
+			LOG.print(text.sureQuit,COLOR.O)
 		end
 	else
 		WIDGET.keyPressed(k)
@@ -56,7 +56,7 @@ end
 
 function scene.socketRead(mes)
 	local cmd=mes:sub(1,1)
-	local args=SPLITSTR(mes:sub(2),";")
+	local args=STRING.split(mes:sub(2),";")
 	if cmd=="J"or cmd=="L"then
 		textBox:push{
 			COLOR.lR,args[1],
@@ -68,12 +68,12 @@ function scene.socketRead(mes)
 		local _,text=pcall(data.decode,"string","base64",args[3])
 		if not _ then text=args[3]end
 		textBox:push{
-			COLOR.W,args[1],
+			COLOR.Z,args[1],
 			COLOR.dY,"#"..args[2].." ",
-			COLOR.sky,text
+			COLOR.N,text
 		}
 	else
-		LOG.print("Illegal message: "..mes,30,COLOR.green)
+		LOG.print("Illegal message: "..mes,30,COLOR.G)
 		return
 	end
 end

@@ -21,14 +21,14 @@ function FILE.load(name)
 				return s
 			end
 		end
-		LOG.print(name.." "..text.loadError,COLOR.red)
+		LOG.print(name.." "..text.loadError,COLOR.R)
 	end
 end
 function FILE.save(data,name,mode)
 	if not mode then mode=""end
 	if type(data)=="table"then
 		if mode:find("l")then
-			data=DUMPTABLE(data)
+			data=TABLE.dump(data)
 			if not data then
 				LOG.print(name.." "..text.saveError.."dump error","error")
 				return
@@ -50,7 +50,7 @@ function FILE.save(data,name,mode)
 	F:flush()F:close()
 	if success then
 		if not mode:find("q")then
-			LOG.print(text.saveDone,COLOR.green)
+			LOG.print(text.saveDone,COLOR.G)
 		end
 	else
 		LOG.print(text.saveError..(mes or"unknown error"),"error")

@@ -25,7 +25,7 @@ return{
 		PLY.newAIPlayer(2,AIBUILDER("CC",7,3,true,40000))
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
-	scoreDisp=function(D)return D[1].." Pieces   "..TIMESTR(D[2])end,
+	scoreDisp=function(D)return D[1].." Pieces   "..STRING.time(D[2])end,
 	comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		if P.result=="WIN"then

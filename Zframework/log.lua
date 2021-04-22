@@ -39,23 +39,23 @@ function LOG.print(text,T,C)--text,type/time,color
 	local time
 	local his
 	if T=="warn"then
-		C=C or COLOR.yellow
+		C=C or COLOR.Y
 		his=true
 		time=180
 	elseif T=="error"then
-		C=C or COLOR.red
+		C=C or COLOR.R
 		his=true
 		time=210
 	elseif T=="message"then
-		C=C or COLOR.sky
+		C=C or COLOR.N
 		his=true
 	elseif type(T)=="number"then
-		C=C or COLOR.white
+		C=C or COLOR.Z
 		time=T
 	elseif type(T)=="table"then
 		C=T
 	elseif not C then
-		C=COLOR.white
+		C=COLOR.Z
 	end
 	if his then
 		ins(debugMesHistory,SCN.cur..": "..tostring(text))
@@ -65,6 +65,6 @@ end
 function LOG.copy()
 	local str=table.concat(debugMesHistory,"\n")
 	love.system.setClipboardText(str)
-	LOG.print("Log copied",COLOR.blue)
+	LOG.print("Log copied",COLOR.B)
 end
 return LOG

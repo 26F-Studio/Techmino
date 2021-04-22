@@ -218,11 +218,9 @@ end
 
 --WS tick funcs
 function NET.updateWS_app()
-	local retryTime=3
 	while true do
 		YIELD()
-		local status=WS.status("app")
-		if status=="running"then
+		if WS.status("app")=="running"then
 			local message,op=WS.read("app")
 			if message then
 				if op=="ping"then
@@ -243,15 +241,15 @@ function NET.updateWS_app()
 								end
 							end
 							if VERSION.code<res.newestCode then
-								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.sky)
+								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.N)
 							end
-							LOG.print(res.notice,300,COLOR.sky)
+							LOG.print(res.notice,300,COLOR.N)
 						elseif res.action==0 then--Get new version info
 							--?
 						elseif res.action==1 then--Get notice
 							--?
 						elseif res.action==2 then--Register
-							LOG.print(res.data.message,300,COLOR.sky)
+							LOG.print(res.data.message,300,COLOR.N)
 							if SCN.cur=="register"then SCN.back()end
 							NET.unlock("register")
 						end
@@ -260,11 +258,6 @@ function NET.updateWS_app()
 					end
 				end
 			end
-		elseif status=="dead"then
-			retryTime=retryTime-1
-			if retryTime==0 then return end
-			for _=1,180 do YIELD()end
-			WS.connect("app","/app")
 		end
 	end
 end

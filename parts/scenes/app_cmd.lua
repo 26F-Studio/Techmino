@@ -6,9 +6,9 @@ local C=COLOR
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
-log{C.lGrape,"Techmino Console"}
-log{C.lBlue,"©2020 26F Studio   some rights reserved"}
-log{C.dRed,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
+log{C.lP,"Techmino Console"}
+log{C.lB,"©2020 26F Studio   some rights reserved"}
+log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
 local the_secret=(14^2*10)..(2*11)
@@ -196,7 +196,7 @@ do--commands.help(arg)
 			details={
 				"Set background.",
 				"",
-				"Usage: setbg <classic|xmas|sprfes|zday1/2/3>",
+				"Usage: setbg [bgName]",
 			},
 		},
 		theme={
@@ -272,10 +272,10 @@ do--commands.help(arg)
 				log"Use help [page] to view more commands,"
 				log"or help [command_name] for details of a command."
 				log""
-				log{C.lPink,"Page ",C.lG,page,C.lPink," of ",C.lG,maxPage}
+				log{C.lW,"Page ",C.lG,page,C.lW," of ",C.lG,maxPage}
 				for i=pageSize*(page-1)+1,math.min(pageSize*page,#command_help_list)do
 					local cmd=command_help_list[i]
-					log{C.W,cmd,C.gray,"    "..command_help_messages[cmd].description}
+					log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
 				end
 			else
 				log{C.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
@@ -313,7 +313,7 @@ function commands.url(url)
 	if url~=""then
 		local res,err=pcall(love.system.openURL,url)
 		if not res then
-			log{C.R,"[ERR] ",C.W,err}
+			log{C.R,"[ERR] ",C.Z,err}
 		end
 	else
 		log{C.aqua,"Usage: url [url]"}
@@ -631,14 +631,14 @@ function scene.keyDown(k)
 				setfenv(code,userG)
 				code,err=pcall(code)
 				if not code then
-					log{C.R,"[ERR] ",C.W,err}
+					log{C.R,"[ERR] ",C.Z,err}
 				end
 			else
-				log{C.R,"[SYNTAX ERR] ",C.W,err}
+				log{C.R,"[SYNTAX ERR] ",C.Z,err}
 			end
 		else
 			--Execute builtin command
-			log{C.lSea,"> "..input}
+			log{C.lS,"> "..input}
 			local p=input:find(" ")
 			local cmd,arg
 			if p then
@@ -689,7 +689,7 @@ function scene.keyDown(k)
 				log(">Commands start with '"..str.."' :")
 				table.sort(res)
 				for i=1,#res do
-					log{COLOR.lGray,res[i]}
+					log{COLOR.lH,res[i]}
 				end
 			elseif #res==1 then
 				inputBox.value=res[1]

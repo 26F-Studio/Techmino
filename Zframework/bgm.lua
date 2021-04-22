@@ -50,7 +50,7 @@ function BGM.init(list)
 				Sources[list[i]]:setLooping(true)
 				Sources[list[i]]:setVolume(0)
 			else
-				LOG.print("No BGM file: "..list[i],5,COLOR.orange)
+				LOG.print("No BGM file: "..list[i],5,COLOR.O)
 			end
 			if not skip and i~=count then
 				coroutine.yield()

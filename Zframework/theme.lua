@@ -2,8 +2,8 @@ local THEME={
 	cur=false,--Current theme
 }
 local themeColor={
-	xmas={COLOR.red,COLOR.white,COLOR.green},
-	sprfes={COLOR.red,COLOR.orange,COLOR.yellow},
+	xmas={COLOR.R,COLOR.Z,COLOR.G},
+	sprfes={COLOR.R,COLOR.O,COLOR.Y},
 }
 
 function THEME.calculate(Y,M,D)
@@ -48,15 +48,15 @@ function THEME.set(theme)
 	elseif theme=="xmas"then
 		BG.setDefault("snow")
 		BGM.setDefault("xmas")
-		LOG.print("==============",COLOR.red)
-		LOG.print("Merry Christmas!",COLOR.white)
-		LOG.print("==============",COLOR.red)
+		LOG.print("==============",COLOR.R)
+		LOG.print("Merry Christmas!",COLOR.Z)
+		LOG.print("==============",COLOR.R)
 	elseif theme=="sprfes"then
 		BG.setDefault("firework")
 		BGM.setDefault("spring festival")
-		LOG.print(" ★☆☆★",COLOR.red)
-		LOG.print("新年快乐!",COLOR.white)
-		LOG.print(" ★☆☆★",COLOR.red)
+		LOG.print(" ★☆☆★",COLOR.R)
+		LOG.print("新年快乐!",COLOR.Z)
+		LOG.print(" ★☆☆★",COLOR.R)
 	elseif theme=="zday1"then
 		BG.setDefault("lanterns")
 		BGM.setDefault("empty")

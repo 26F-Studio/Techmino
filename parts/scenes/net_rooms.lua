@@ -115,6 +115,9 @@ function scene.draw()
 			gc.print(R.count.."/"..R.capacity,1100,66+40*i)
 		end
 	end
+
+	--Profile
+	drawSelfProfile()
 end
 
 local function hide_noRoom()return #NET.roomList==0 end

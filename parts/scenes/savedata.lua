@@ -6,7 +6,7 @@ local function dumpCB(T)
 			"string","base64",
 			love.data.compress(
 				"string","zlib",
-				DUMPTABLE(T)
+				TABLE.dump(T)
 			)
 		)
 	)
@@ -18,9 +18,9 @@ local function parseCB()
 
 	--Decode
 	_,s=pcall(love.data.decode,"string","base64",s)
-	if not _ then LOG.print(text.dataCorrupted,COLOR.red)return end
+	if not _ then LOG.print(text.dataCorrupted,COLOR.R)return end
 	_,s=pcall(love.data.decompress,"string","zlib",s)
-	if not _ then LOG.print(text.dataCorrupted,COLOR.red)return end
+	if not _ then LOG.print(text.dataCorrupted,COLOR.R)return end
 
 	s=loadstring(s)
 	if s then
@@ -29,12 +29,12 @@ local function parseCB()
 	end
 end
 scene.widgetList={
-	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(RANKS)end},
-	WIDGET.newButton{name="exportData",		x=490,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(STAT)end},
-	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(SETTING)end},
-	WIDGET.newButton{name="exportVK",		x=1090,y=150,w=280,h=100,color="lGreen",font=25,code=function()dumpCB(VK_org)end},
+	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color="lG",font=25,code=function()dumpCB(RANKS)end},
+	WIDGET.newButton{name="exportData",		x=490,y=150,w=280,h=100,color="lG",font=25,code=function()dumpCB(STAT)end},
+	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color="lG",font=25,code=function()dumpCB(SETTING)end},
+	WIDGET.newButton{name="exportVK",		x=1090,y=150,w=280,h=100,color="lG",font=25,code=function()dumpCB(VK_org)end},
 
-	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lBlue",font=25,
+	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color="lB",font=25,
 		code=function()
 			local D=parseCB()
 			if D then
@@ -45,7 +45,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,"warn")
 			end
 		end},
-	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lBlue",font=25,
+	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color="lB",font=25,
 		code=function()
 			local D=parseCB()
 			if D and D.version==STAT.version then
@@ -56,7 +56,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,"warn")
 			end
 		end},
-	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lBlue",font=25,
+	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color="lB",font=25,
 		code=function()
 			local D=parseCB()
 			if D then
@@ -67,7 +67,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,"warn")
 			end
 		end},
-	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lBlue",font=25,
+	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color="lB",font=25,
 		code=function()
 			local D=parseCB()
 			if D then
@@ -78,14 +78,14 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,"warn")
 			end
 		end},
-	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lRed",font=40,
+	WIDGET.newButton{name="reset",			x=640,y=460,w=280,h=100,color="lR",font=40,
 		code=function()
 			scene.widgetList.reset.hide=true
 			scene.widgetList.resetUnlock.hide=false
 			scene.widgetList.resetRecord.hide=false
 			scene.widgetList.resetData.hide=false
 		end},
-	WIDGET.newButton{name="resetUnlock",	x=340,y=460,w=280,h=100,color="red",
+	WIDGET.newButton{name="resetUnlock",	x=340,y=460,w=280,h=100,color="R",
 		code=function()
 			love.filesystem.remove("conf/unlock")
 			SFX.play("finesseError_long")
@@ -93,7 +93,7 @@ scene.widgetList={
 			LOG.print("effected after restart game","message")
 			LOG.print("fresh a rank to get data back","message")
 		end,hide=true},
-	WIDGET.newButton{name="resetRecord",	x=640,y=460,w=280,h=100,color="red",
+	WIDGET.newButton{name="resetRecord",	x=640,y=460,w=280,h=100,color="R",
 		code=function()
 			for _,name in next,love.filesystem.getDirectoryItems("record")do
 				love.filesystem.remove("record/"..name)
@@ -102,7 +102,7 @@ scene.widgetList={
 			TEXT.show("record data resetted",640,300,60,"stretch",.4)
 			LOG.print("fresh a record list to get one list back","message")
 		end,hide=true},
-	WIDGET.newButton{name="resetData",		x=940,y=460,w=280,h=100,color="red",
+	WIDGET.newButton{name="resetData",		x=940,y=460,w=280,h=100,color="R",
 		code=function()
 			love.filesystem.remove("conf/data")
 			SFX.play("finesseError_long")

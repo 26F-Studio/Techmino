@@ -10,8 +10,8 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",		x=640,	y=15,font=80},
 
-	WIDGET.newButton{name="sound",		x=200,	y=80,w=240,h=80,color="lCyan",font=35,code=swapScene"setting_sound","swipeR"},
-	WIDGET.newButton{name="game",		x=1080,	y=80,w=240,h=80,color="lCyan",font=35,code=swapScene"setting_game","swipeL"},
+	WIDGET.newButton{name="sound",		x=200,	y=80,w=240,h=80,color="lC",font=35,code=swapScene"setting_sound","swipeR"},
+	WIDGET.newButton{name="game",		x=1080,	y=80,w=240,h=80,color="lC",font=35,code=swapScene"setting_game","swipeL"},
 
 	WIDGET.newSwitch{name="block",		x=290,	y=165,	disp=SETval("block"),	code=SETrev("block")},
 	WIDGET.newSwitch{name="smooth",		x=290,	y=215,	disp=SETval("smooth"),	code=SETrev("smooth")},

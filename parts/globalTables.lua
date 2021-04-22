@@ -4,94 +4,94 @@ local function disableKey(P,key)
 end
 MODOPT={--Mod options
 	{no=0,id="NX",name="next",
-		key="q",x=80,y=230,color="orange",
+		key="q",x=80,y=230,color="O",
 		list={0,1,2,3,4,5,6},
 		func=function(P,O)P.gameEnv.nextCount=O end,
 	},
 	{no=1,id="HL",name="hold",
-		key="w",x=200,y=230,color="orange",
+		key="w",x=200,y=230,color="O",
 		list={0,1,2,3,4,5,6},
 		func=function(P,O)P.gameEnv.holdCount=O end,
 		unranked=true,
 	},
 	{no=2,id="FL",name="hideNext",
-		key="e",x=320,y=230,color="aqua",
+		key="e",x=320,y=230,color="A",
 		list={1,2,3,4,5},
 		func=function(P,O)P.gameEnv.nextStartPos=O +1 end,
 	},
 	{no=3,id="IH",name="infHold",
-		key="r",x=440,y=230,color="aqua",
+		key="r",x=440,y=230,color="A",
 		func=function(P)P.gameEnv.infHold=true end,
 		unranked=true,
 	},
 	{no=4,id="HB",name="hideBlock",
-		key="y",x=680,y=230,color="purple",
+		key="y",x=680,y=230,color="V",
 		func=function(P)P.gameEnv.block=false end,
 	},
 	{no=5,id="HG",name="hideGhost",
-		key="u",x=800,y=230,color="purple",
+		key="u",x=800,y=230,color="V",
 		func=function(P)P.gameEnv.ghost=false end,
 	},
 	{no=6,id="HD",name="hidden",
-		key="i",x=920,y=230,color="grape",
+		key="i",x=920,y=230,color="P",
 		list={"easy","slow","medium","fast","none"},
 		func=function(P,O)P.gameEnv.visible=O end,
 		unranked=true,
 	},
 	{no=7,id="HB",name="hideBoard",
-		key="o",x=1040,y=230,color="grape",
+		key="o",x=1040,y=230,color="P",
 		list={"down","up","all"},
 		func=function(P,O)P.gameEnv.hideBoard=O  end,
 	},
 	{no=8,id="FB",name="flipBoard",
-		key="p",x=1160,y=230,color="grass",
+		key="p",x=1160,y=230,color="J",
 		list={"U-D","L-R","180"},
 		func=function(P,O)P.gameEnv.flipBoard=O  end,
 	},
 
 	{no=9,id="DT",name="dropDelay",
-		key="a",x=140,y=350,color="red",
+		key="a",x=140,y=350,color="R",
 		list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 		func=function(P,O)P.gameEnv.drop=O end,
 		unranked=true,
 	},
 	{no=10,id="LT",name="lockDelay",
-		key="s",x=260,y=350,color="red",
+		key="s",x=260,y=350,color="R",
 		list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 		func=function(P,O)P.gameEnv.lock=O end,
 		unranked=true,
 	},
 	{no=11,id="ST",name="waitDelay",
-		key="d",x=380,y=350,color="red",
+		key="d",x=380,y=350,color="R",
 		list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
 		func=function(P,O)P.gameEnv.wait=O end,
 		unranked=true,
 	},
 	{no=12,id="CT",name="fallDelay",
-		key="f",x=500,y=350,color="red",
+		key="f",x=500,y=350,color="R",
 		list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
 		func=function(P,O)P.gameEnv.fall=O end,
 		unranked=true,
 	},
 	{no=13,id="LF",name="life",
-		key="j",x=860,y=350,color="yellow",
+		key="j",x=860,y=350,color="Y",
 		list={0,1,2,3,5,10,15,26,42,87,500},
 		func=function(P,O)P.gameEnv.life=O end,
 		unranked=true,
 	},
 	{no=14,id="FB",name="forceB2B",
-		key="k",x=980,y=350,color="yellow",
+		key="k",x=980,y=350,color="Y",
 		func=function(P)P.gameEnv.b2bKill=true end,
 		unranked=true,
 	},
 	{no=15,id="PF",name="forceFinesse",
-		key="l",x=1100,y=350,color="yellow",
+		key="l",x=1100,y=350,color="Y",
 		func=function(P)P.gameEnv.fineKill=true end,
 		unranked=true,
 	},
 
 	{no=16,id="TL",name="tele",
-		key="z",x=200,y=470,color="lGray",
+		key="z",x=200,y=470,color="lH",
 		func=function(P)
 			P.gameEnv.das,P.gameEnv.arr=0,0
 			P.gameEnv.sddas,P.gameEnv.sdarr=0,0
@@ -99,7 +99,7 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=17,id="FX",name="noRotation",
-		key="x",x=320,y=470,color="lGray",
+		key="x",x=320,y=470,color="lH",
 		func=function(P)
 			disableKey(P,3)
 			disableKey(P,4)
@@ -108,7 +108,7 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=18,id="GL",name="noMove",
-		key="c",x=440,y=470,color="lGray",
+		key="c",x=440,y=470,color="lH",
 		func=function(P)
 			disableKey(P,1)disableKey(P,2)
 			disableKey(P,11)disableKey(P,12)
@@ -118,19 +118,19 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=19,id="CS",name="customSeq",
-		key="b",x=680,y=470,color="blue",
+		key="b",x=680,y=470,color="B",
 		list={"bag","his4","c2","rnd","mess","reverb"},
 		func=function(P,O)P.gameEnv.sequence=O end,
 		unranked=true,
 	},
 	{no=20,id="PS",name="pushSpeed",
-		key="n",x=800,y=470,color="blue",
+		key="n",x=800,y=470,color="B",
 		list={.5,1,2,3,5,15,1e99},
 		func=function(P,O)P.gameEnv.pushSpeed=O end,
 		unranked=true,
 	},
 	{no=21,id="BN",name="boneBlock",
-		key="m",x=920,y=470,color="blue",
+		key="m",x=920,y=470,color="B",
 		list={"on","off"},
 		func=function(P,O)P.gameEnv.bone=O=="on"end,
 	},
@@ -148,44 +148,6 @@ PLY_NET={}
 FIELD={}--Field(s) for custom game
 BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
-CUSTOMENV={--gameEnv for cutsom game
-	--Basic
-	drop=60,
-	lock=60,
-	wait=0,
-	fall=0,
-
-	--Control
-	nextCount=6,
-	holdCount=1,
-	infHold=false,
-	phyHold=false,
-
-	--Visual
-	bone=false,
-
-	--Rule
-	sequence="bag",
-	fieldH=20,
-
-	ospin=true,
-	fineKill=false,
-	b2bKill=false,
-	easyFresh=true,
-	deepDrop=false,
-	visible="show",
-	freshLimit=1e99,
-
-
-	opponent="X",
-	life=0,
-	pushSpeed=3,
-	missionKill=false,
-
-	--Else
-	bg="none",
-	bgm="race",
-}
 GAME={--Global game data
 	init=false,			--If need initializing game when enter scene-play
 	net=false,			--If play net game
@@ -227,6 +189,47 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Local data
 	xp=0,lv=1,
 }
+CUSTOMENV=FILE.load("conf/customEnv")
+if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv for cutsom game
+	version=VERSION.code,
+
+	--Basic
+	drop=1e99,
+	lock=1e99,
+	wait=0,
+	fall=0,
+
+	--Control
+	nextCount=6,
+	holdCount=1,
+	infHold=true,
+	phyHold=false,
+
+	--Visual
+	bone=false,
+
+	--Rule
+	sequence="bag",
+	fieldH=20,
+
+	ospin=true,
+	fineKill=false,
+	b2bKill=false,
+	easyFresh=true,
+	deepDrop=false,
+	visible="show",
+	freshLimit=1e99,
+
+
+	opponent="X",
+	life=0,
+	pushSpeed=3,
+	missionKill=false,
+
+	--Else
+	bg="none",
+	bgm="infinite",
+}end
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
@@ -331,26 +334,26 @@ keyMap=FILE.load("conf/key")or{--Key setting
 	},
 }
 VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
-	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.lime},--moveLeft
-	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.lime},--moveRight
-	{ava=true,	x=1280-80,	y=720-200,	r=80,color=COLOR.red},--rotRight
-	{ava=true,	x=1280-200,	y=720-80,	r=80,color=COLOR.orange},--rotLeft
-	{ava=true,	x=1280-200,	y=720-320,	r=80,color=COLOR.magenta},--rot180
-	{ava=true,	x=200,		y=720-320,	r=80,color=COLOR.cyan},--hardDrop
-	{ava=true,	x=200,		y=720-80,	r=80,color=COLOR.sea},--softDrop
-	{ava=true,	x=1280-320,	y=720-200,	r=80,color=COLOR.yellow},--hold
-	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lRed},--func1
-	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lMagenta},--func2
-	{ava=false,	x=100,		y=50,		r=80,color=COLOR.aqua},--insLeft
-	{ava=false,	x=200,		y=50,		r=80,color=COLOR.aqua},--insRight
+	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.L},--moveLeft
+	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.L},--moveRight
+	{ava=true,	x=1280-80,	y=720-200,	r=80,color=COLOR.R},--rotRight
+	{ava=true,	x=1280-200,	y=720-80,	r=80,color=COLOR.O},--rotLeft
+	{ava=true,	x=1280-200,	y=720-320,	r=80,color=COLOR.M},--rot180
+	{ava=true,	x=200,		y=720-320,	r=80,color=COLOR.C},--hardDrop
+	{ava=true,	x=200,		y=720-80,	r=80,color=COLOR.S},--softDrop
+	{ava=true,	x=1280-320,	y=720-200,	r=80,color=COLOR.Y},--hold
+	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lR},--func1
+	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lM},--func2
+	{ava=false,	x=100,		y=50,		r=80,color=COLOR.A},--insLeft
+	{ava=false,	x=200,		y=50,		r=80,color=COLOR.A},--insRight
 	{ava=false,	x=300,		y=50,		r=80,color={COLOR.rainbow(3.5)}},--insDown
 	{ava=false,	x=400,		y=50,		r=80,color={COLOR.rainbow(3.3)}},--down1
 	{ava=false,	x=500,		y=50,		r=80,color={COLOR.rainbow(3.1)}},--down4
 	{ava=false,	x=600,		y=50,		r=80,color={COLOR.rainbow(2.9)}},--down10
-	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lLime},--dropLeft
-	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lLime},--dropRight
-	{ava=false,	x=900,		y=50,		r=80,color=COLOR.laqua},--addToLeft
-	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.laqua},--addToRight
+	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lL},--dropLeft
+	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lL},--dropRight
+	{ava=false,	x=900,		y=50,		r=80,color=COLOR.lA},--addToLeft
+	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.lA},--addToRight
 }
 virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
 REPLAY=FILE.load("conf/replay")or{}

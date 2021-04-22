@@ -103,7 +103,8 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,41,16,16},
 		{"fRect",41,41,16,16},
 		{"trans",.5,.5},
-		{"fPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
+		{"setLW",1},
+		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}YIELD()
 	modeIcons.t49=DOGC{64,64,
 		{"setLW",2},
@@ -174,8 +175,8 @@ local loadingThread=coroutine.wrap(function()
 
 	DAILYLAUNCH=freshDate("q")
 	if DAILYLAUNCH then
-		logoColor1=COLOR.sea
-		logoColor2=COLOR.lSea
+		logoColor1=COLOR.S
+		logoColor2=COLOR.lS
 	else
 		local r=math.random()*6.2832
 		logoColor1={COLOR.rainbow(r)}
@@ -363,7 +364,7 @@ function scene.draw()
 	setFont(25)
 	for i=0,26 do
 		local x,y=light[3*i+1],light[3*i+2]
-		gc.setColor(COLOR[i==progress and"gray"or light[3*i+3]and"dOrange"or"dGray"])
+		gc.setColor(COLOR[i==progress and"H"or light[3*i+3]and"dO"or"dH"])
 		gc.circle("fill",x,y,23)
 		gc.setColor(.16,.16,.16)
 		gc.circle("line",x,y,23)

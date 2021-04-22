@@ -2,14 +2,11 @@ local data=love.data
 
 local gc=love.graphics
 local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
-local gc_push,gc_pop,gc_origin=gc.push,gc.pop,gc.origin
+local gc_push,gc_pop,gc_origin,gc_translate=gc.push,gc.pop,gc.origin,gc.translate
 local gc_draw,gc_rectangle,gc_circle=gc.draw,gc.rectangle,gc.circle
-local max,int,rnd=math.max,math.floor,math.random
-local sin=math.sin
-local sub=string.sub
+local int,rnd=math.floor,math.random
 local char,byte=string.char,string.byte
 local ins,rem=table.insert,table.remove
-local YIELD=YIELD
 
 
 
@@ -257,14 +254,17 @@ function copyQuestArgs()
 		ENV.sequence
 	return str
 end
-function pasteQuestArgs(str)
-	if #str<4 then return end
-	local ENV=CUSTOMENV
-	ENV.holdCount=		byte(str,1)-48
-	ENV.ospin=			byte(str,2)~=90
-	ENV.missionKill=	byte(str,3)~=90
-	ENV.sequence=		sub(str,4)
-	return true
+do--function pasteQuestArgs(str)
+	local sub=string.sub
+	function pasteQuestArgs(str)
+		if #str<4 then return end
+		local ENV=CUSTOMENV
+		ENV.holdCount=		byte(str,1)-48
+		ENV.ospin=			byte(str,2)~=90
+		ENV.missionKill=	byte(str,3)~=90
+		ENV.sequence=		sub(str,4)
+		return true
+	end
 end
 
 
@@ -467,7 +467,6 @@ end
 
 --Game
 function generateLine(hole)
-	-- return 2^10-1-2^(hole-1)
 	return 1023-2^(hole-1)
 end
 function freshDate(mode)
@@ -498,16 +497,6 @@ function legalGameTime()--Check if today's playtime is legal
 			return false
 		end
 	end
-	return true
-end
-function legalEmail(e)
-	e=SPLITSTR(e,"@")
-	if #e~=2 then return false end
-	if e[1]:sub(-1)=="."or e[2]:sub(-1)=="."then return false end
-	local e1,e2=SPLITSTR(e[1],"."),SPLITSTR(e[2],".")
-	if #e1*#e2==0 then return false end
-	for _,v in next,e1 do if #v==0 then return false end end
-	for _,v in next,e2 do if #v==0 then return false end end
 	return true
 end
 
@@ -690,6 +679,7 @@ do--function dumpBasicConfig()
 	end
 end
 do--function resetGameData(args)
+	local YIELD=YIELD
 	local function tick_showMods()
 		local time=0
 		while true do
@@ -790,36 +780,39 @@ do--function resetGameData(args)
 		collectgarbage()
 	end
 end
-function checkWarning()
-	local P1=PLAYERS[1]
-	if P1.alive then
-		if P1.frameRun%26==0 then
-			local F=P1.field
-			local height=0--Max height of row 4~7
-			for x=4,7 do
-				for y=#F,1,-1 do
-					if F[y][x]>0 then
-						if y>height then
-							height=y
+do--function checkWarning()
+	local max=math.max
+	function checkWarning()
+		local P1=PLAYERS[1]
+		if P1.alive then
+			if P1.frameRun%26==0 then
+				local F=P1.field
+				local height=0--Max height of row 4~7
+				for x=4,7 do
+					for y=#F,1,-1 do
+						if F[y][x]>0 then
+							if y>height then
+								height=y
+							end
+							break
 						end
-						break
 					end
 				end
+				GAME.warnLVL0=math.log(height-(P1.gameEnv.fieldH-5)+P1.atkBuffer.sum*.8)
 			end
-			GAME.warnLVL0=math.log(height-(P1.gameEnv.fieldH-5)+P1.atkBuffer.sum*.8)
+			local _=GAME.warnLVL
+			if _<GAME.warnLVL0 then
+				_=_*.95+GAME.warnLVL0*.05
+			elseif _>0 then
+				_=max(_-.026,0)
+			end
+			GAME.warnLVL=_
+		elseif GAME.warnLVL>0 then
+			GAME.warnLVL=max(GAME.warnLVL-.026,0)
 		end
-		local _=GAME.warnLVL
-		if _<GAME.warnLVL0 then
-			_=_*.95+GAME.warnLVL0*.05
-		elseif _>0 then
-			_=max(_-.026,0)
+		if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
+			SFX.fplay("warning",SETTING.sfx_warn)
 		end
-		GAME.warnLVL=_
-	elseif GAME.warnLVL>0 then
-		GAME.warnLVL=max(GAME.warnLVL-.026,0)
-	end
-	if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
-		SFX.fplay("warning",SETTING.sfx_warn)
 	end
 end
 
@@ -933,7 +926,7 @@ do--function saveRecording()
 		--Filtering modes that cannot be saved
 		for _,v in next,noRecList do
 			if GAME.curModeName:find(v)then
-				LOG.print("Cannot save recording of this mode now!",COLOR.sky)
+				LOG.print("Cannot save recording of this mode now!",COLOR.N)
 				return
 			end
 		end
@@ -987,12 +980,29 @@ do--function drawFWM()
 	--等Techmino发展到一定程度之后会解除这个限制
 	--最后，别把藏在这里的东西截图/复制出去哦~
 	--感谢您对Techmino的支持!!!
+	local sin=math.sin
 	local setFont,TIME,mStr=setFont,TIME,mStr
 	function drawFWM()
 		local t=TIME()
 		setFont(25)
 		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
+	end
+end
+do--function drawSelfProfile()
+	function drawSelfProfile()
+		local selfAvatar=USERS.getAvatar(USER.uid)
+		gc_push("transform")
+		gc_translate(1280,0)
+
+		--Draw avatar
+		gc_setLineWidth(2)
+		gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
+		gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
+		gc_rectangle("line",-73,7,66,66,2)
+		gc_draw(selfAvatar,-72,8,nil,.5)
+
+		gc_pop()
 	end
 end
 function drawWarning()

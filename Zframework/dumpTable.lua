@@ -40,7 +40,7 @@ return function(L,t)
 		T=type(v)
 		if T=="number"then v=tostring(v)
 		elseif T=="string"then v="\""..v.."\""
-		elseif T=="table"then v=DUMPTABLE(v,t+1)
+		elseif T=="table"then v=TABLE.dump(v,t+1)
 		elseif T=="boolean"then v=tostring(v)
 		else error("Error data type!")
 		end

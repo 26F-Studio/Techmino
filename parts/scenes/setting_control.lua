@@ -89,7 +89,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="ihs",	x=1100,	y=260,				disp=SETval("ihs"),	code=SETrev("ihs")},
 	WIDGET.newSwitch{name="irs",	x=1100,	y=330,				disp=SETval("irs"),	code=SETrev("irs")},
 	WIDGET.newSwitch{name="ims",	x=1100,	y=400,				disp=SETval("ims"),	code=SETrev("ims")},
-	WIDGET.newButton{name="reset",	x=160,	y=580,w=200,h=100,color="lRed",font=40,
+	WIDGET.newButton{name="reset",	x=160,	y=580,w=200,h=100,color="lR",font=40,
 		code=function()
 			local _=SETTING
 			_.das,_.arr,_.dascut=10,2,0

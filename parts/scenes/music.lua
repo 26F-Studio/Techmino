@@ -2,6 +2,7 @@ local gc=love.graphics
 local sin=math.sin
 
 local author={
+	battle="Aether",
 	empty="ERM",
 	["how feeling"]="????",
 }

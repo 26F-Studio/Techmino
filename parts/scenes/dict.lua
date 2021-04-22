@@ -21,13 +21,13 @@ local lastSearch--Last searched string
 
 local typeColor={
 	help=COLOR.Y,
-	other=COLOR.lOrange,
+	other=COLOR.lO,
 	game=COLOR.lC,
 	term=COLOR.lR,
 	setup=COLOR.lY,
-	pattern=COLOR.lGrass,
+	pattern=COLOR.lJ,
 	english=COLOR.B,
-	name=COLOR.lPurple,
+	name=COLOR.lV,
 }
 local function getList()return result[1]and result or dict end
 local function clearResult()
