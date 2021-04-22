@@ -249,8 +249,14 @@ function NET.updateWS_app()
 						elseif res.action==1 then--Get notice
 							--?
 						elseif res.action==2 then--Register
-							LOG.print(res.data.message,300,COLOR.N)
-							if SCN.cur=="register"then SCN.back()end
+							if res.type=="Self"or res.type=="Server"then
+								LOG.print(res.data.message,300,COLOR.N)
+								if SCN.cur=="register"then
+									SCN.back()
+								end
+							else
+								LOG.print(res.reason or"Registration failed",300,COLOR.N)
+							end
 							NET.unlock("register")
 						end
 					else
