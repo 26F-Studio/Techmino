@@ -72,14 +72,14 @@ function scene.keyDown(key)
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
-			sys.setClipboardText("Techmino Target:"..copyMission())
+			sys.setClipboardText("Techmino Target:"..DATA.copyMission())
 			LOG.print(text.exportSuccess,COLOR.G)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
-		if pasteMission(str)then
+		if DATA.pasteMission(str)then
 			LOG.print(text.importSuccess,COLOR.G)
 			cur=#MISSION
 		else

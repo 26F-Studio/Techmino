@@ -64,11 +64,11 @@ function scene.keyDown(key)
 	elseif key=="a"then
 		SCN.go("custom_advance","swipeD")
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-		local str="Techmino Quest:"..copyQuestArgs().."!"
-		if #BAG>0 then str=str..copySequence()end
+		local str="Techmino Quest:"..DATA.copyQuestArgs().."!"
+		if #BAG>0 then str=str..DATA.copySequence()end
 		str=str.."!"
-		if #MISSION>0 then str=str..copyMission()end
-		sys.setClipboardText(str.."!"..copyBoards().."!")
+		if #MISSION>0 then str=str..DATA.copyMission()end
+		sys.setClipboardText(str.."!"..DATA.copyBoards().."!")
 		LOG.print(text.exportSuccess,COLOR.G)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
@@ -76,13 +76,13 @@ function scene.keyDown(key)
 		if #args<4 then goto THROW_fail end
 		if not(
 			pasteQuestArgs(args[1])and
-			pasteSequence(args[2])and
-			pasteMission(args[3])
+			DATA.pasteSequence(args[2])and
+			DATA.pasteMission(args[3])
 		)then goto THROW_fail end
 		repeat table.remove(FIELD)until #FIELD==0
-		FIELD[1]=newBoard()
+		FIELD[1]=DATA.newBoard()
 		for i=4,#args do
-			if not pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
+			if not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
 		end
 		freshMiniFieldVisible()
 		LOG.print(text.importSuccess,COLOR.G)

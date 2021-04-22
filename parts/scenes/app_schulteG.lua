@@ -14,6 +14,7 @@ local blind,disappear
 local startTime,time
 local state,progress
 local tapFX,mistake
+
 function scene.sceneInit()
 	BG.set("space")
 	BGM.play("way")

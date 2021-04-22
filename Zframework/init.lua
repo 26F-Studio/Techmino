@@ -14,7 +14,6 @@ ADRAW=require"Zframework.aDraw"
 	mDraw=ADRAW.draw
 
 JSON=require"Zframework.json"
-
 TABLE=require"Zframework.tableExtend"
 STRING=require"Zframework.stringExtend"
 
@@ -103,7 +102,7 @@ function love.mousepressed(x,y,k,touch)
 	mouseShow=true
 	mx,my=xOy:inverseTransformPoint(x,y)
 	if devMode==1 then
-		DBP(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
+		print(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
 			mx,my,
 			mx-lastX,my-lastY,
 			int(mx/10)*10,int(my/10)*10,
@@ -208,8 +207,8 @@ local function noDevkeyPressed(key)
 			end
 		end
 	elseif key=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
-	elseif key=="f5"then	if WIDGET.sel then DBP(WIDGET.sel)end
-	elseif key=="f6"then	for k,v in next,_G do DBP(k,v)end
+	elseif key=="f5"then	if WIDGET.sel then print(WIDGET.sel)end
+	elseif key=="f6"then	for k,v in next,_G do print(k,v)end
 	elseif key=="f7"then	if love._openConsole then love._openConsole()end
 	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.Y)
 	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.Y)
@@ -372,7 +371,7 @@ function love.errorhandler(msg)
 			c=3
 		end
 	end
-	DBP(table.concat(err,"\n",1,c-2))
+	print(table.concat(err,"\n",1,c-2))
 
 	--Reset something
 	love.audio.stop()

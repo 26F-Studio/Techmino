@@ -13,7 +13,7 @@
 goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 local fs=love.filesystem
 NONE={}function NULL()end
-DBP=print--Use this in permanent code
+DBP=print--Use this in temporary code, easy to find and remove
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
@@ -53,23 +53,26 @@ end
 
 --Load modules
 require"Zframework"
+SCR.setSize(1280,720)--Initialize Screen size
 
 require"parts.list"
 require"parts.globalTables"
 require"parts.gametoolfunc"
-SCR.setSize(1280,720)--Initialize Screen size
-FIELD[1]=newBoard()--Initialize field[1]
 
-NET=		require"parts.net"
-AIBUILDER=	require"parts.AITemplate"
 FREEROW=	require"parts.freeRow"
-USERS=		require"parts.users"
+DATA=		require"parts.data"
 
+USERS=		require"parts.users"
 TEXTURE=	require"parts.texture"
 SKIN=		require"parts.skin"
+NET=		require"parts.net"
 PLY=		require"parts.player"
 AIFUNC=		require"parts.ai"
+AIBUILDER=	require"parts.AITemplate"
 MODES=		require"parts.modes"
+
+--Initialize field[1]
+FIELD[1]=DATA.newBoard()
 
 --First start for phones
 if not fs.getInfo("conf/settings")and MOBILE then

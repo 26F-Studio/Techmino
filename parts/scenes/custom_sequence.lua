@@ -87,14 +87,14 @@ function scene.keyDown(key)
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #BAG>0 then
-			sys.setClipboardText("Techmino SEQ:"..copySequence())
+			sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
 			LOG.print(text.exportSuccess,COLOR.G)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
-		if pasteSequence(str)then
+		if DATA.pasteSequence(str)then
 			LOG.print(text.importSuccess,COLOR.G)
 			cur=#BAG
 		else

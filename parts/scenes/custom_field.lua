@@ -212,7 +212,7 @@ function scene.keyDown(key)
 			SFX.play("fall",.8)
 		end
 	elseif key=="n"then
-		ins(FIELD,page+1,newBoard(FIELD[page]))
+		ins(FIELD,page+1,DATA.newBoard(FIELD[page]))
 		page=page+1
 		SFX.play("blip_1",.8)
 		SYSFX.newShade(3,200,60,300,600,.5,1,.5)
@@ -220,19 +220,19 @@ function scene.keyDown(key)
 		rem(FIELD,page)
 		page=max(page-1,1)
 		if not FIELD[1]then
-			ins(FIELD,newBoard())
+			ins(FIELD,DATA.newBoard())
 		end
 		SYSFX.newShade(3,200,60,300,600,1,.5,.5)
 		SFX.play("clear_4",.8)
 		SFX.play("fall",.8)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
-		sys.setClipboardText("Techmino Field:"..copyBoard(page))
+		sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
 		LOG.print(text.exportSuccess,COLOR.G)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=string.find(str,":")--ptr*
 		if p then str=sub(str,p+1)end
-		if pasteBoard(str,page)then
+		if DATA.pasteBoard(str,page)then
 			LOG.print(text.importSuccess,COLOR.G)
 		else
 			LOG.print(text.dataCorrupted,COLOR.R)
