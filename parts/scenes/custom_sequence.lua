@@ -185,11 +185,10 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=520,y=5,font=70,align="R"},
+	WIDGET.newText{name="title",x=520,y=5,font=70,align="R"},
 	WIDGET.newText{name="subTitle",x=530,y=50,font=35,align="L",color="H"},
 
-	WIDGET.newSelector{name="sequence",
-		x=1080,y=60,w=200,color="Y",
+	WIDGET.newSelector{name="sequence",x=1080,y=60,w=200,color="Y",
 		list={"bag","his4","c2","rnd","mess","reverb","loop","fixed"},
 		disp=CUSval("sequence"),
 		code=CUSsto("sequence")
