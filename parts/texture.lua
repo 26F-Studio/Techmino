@@ -1,4 +1,6 @@
 local gc=love.graphics
+local ins=table.insert
+
 local function NSC(x,y)--New & Set Canvas
 	local _=gc.newCanvas(x,y)
 	gc.setCanvas(_)
@@ -83,6 +85,21 @@ gc.setLineWidth(2)
 gc.setColor(1,1,1)
 gc.circle("line",8,8,7)
 gc.circle("fill",8,8,3)
+
+TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
+	local img={25,25}
+
+	ins(img,{"clear",0,0,0})
+	ins(img,{"setLW",4})
+	ins(img,{"setCL",COLOR.lN})
+	ins(img,{"dRect",2,2,21,21})
+	--TODO: draw with lv
+
+	img=DOGC(img)
+	rawset(self,lv,img)
+	return img
+end})
+
 
 
 gc.setDefaultFilter("linear","linear")
