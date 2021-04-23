@@ -221,7 +221,6 @@ return{
 			-- about="About",
 			dict="Zictionary",
 			manual="Manual",
-			quit="Saída",
 		},
 		main_simple={
 			sprint="Sprint",

@@ -198,7 +198,6 @@ return{
 			about="Acerca del Juego",
 			dict="Zictionary",
 			manual="Manual",
-			quit="Salir",
 		},
 		main_simple={
 			sprint="Sprint",

@@ -22,6 +22,8 @@ function scene.mouseDown(_,_,k)
 		else
 			SCN.go(SETTING.simpMode and"main_simple"or"main")
 		end
+	else
+		SCN.swapTo("quit","slowFade")
 	end
 end
 function scene.touchDown()
@@ -30,7 +32,7 @@ end
 function scene.keyDown(key)
 	if key=="escape"then
 		VOC.play("bye")
-		SCN.back()
+		SCN.swapTo("quit","slowFade")
 	else
 		scene.mouseDown()
 	end

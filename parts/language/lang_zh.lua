@@ -220,7 +220,6 @@ return{
 			about="关于",
 			dict="小Z词典",
 			manual="说明书",
-			quit="退出",
 		},
 		main_simple={
 			sprint="40行",
