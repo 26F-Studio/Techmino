@@ -874,6 +874,6 @@ return{
 		{C.R,"DT",C.Z," Cannon=",C.P,"TS",C.R,"D",C.Z,"+",C.P,"TS",C.R,"T",C.Z," Cannon"},
 		{C.R,"LrL ",C.G,"RlR ",C.B,"LLr ",C.O,"RRl ",C.P,"RRR ",C.P,"LLL ",C.C,"FFF ",C.Y,"RfR ",C.Y,"RRf ",C.Y,"rFF"},
 		{C.Y,"O-Spin Triple!"},
-		{C.Z,"What is an ",C.lC,"X-Spin"?},
+		{C.Z,"What is an ",C.lC,"X-Spin?"},
 	}
 }
