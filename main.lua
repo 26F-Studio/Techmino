@@ -41,7 +41,7 @@ for _,name in next,fs.getDirectoryItems("")do
 end
 
 --Create directories
-for _,v in next,{"conf","record","replay","cache"}do
+for _,v in next,{"conf","record","replay","cache","lib"}do
 	local info=fs.getInfo(v)
 	if not info then
 		fs.createDirectory(v)
@@ -266,6 +266,10 @@ do
 		fs.remove("conf/key")
 		SETTING.appLock=false
 		needSave=true
+		autoRestart=true
+	end
+	if STAT.version<1405 then
+		fs.remove("conf/user")
 		autoRestart=true
 	end
 
