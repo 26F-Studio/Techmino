@@ -5,9 +5,7 @@ for i=1,#VK_org do keys[i]={}end--In-game virtualkey layout
 
 local VK={}
 
-function VK.getKeys()
-	return keys
-end
+VK.keys=keys
 
 function VK.on(x,y)
 	local dist,nearest=1e10
@@ -108,16 +106,28 @@ function VK.draw()
 			for i=1,#keys do
 				if keys[i].ava then
 					local B=keys[i]
+
+					--Button outline
 					gc_setColor(1,1,1,a)
 					gc_setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)--Button outline
+					gc_circle("line",B.x,B.y,B.r,10)
+
+					--Icon
 					_=keys[i].pressTime
-					gc_setColor(B.color[1],B.color[2],B.color[3],a)
-					gc_draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
+					local c=B.color
+					gc_setColor(c[1],c[2],c[3],a)
+					gc_draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)
+
+					--Ripple
 					if _>0 then
 						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)--Glow when press
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
+						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
+					end
+
+					--Glow when press
+					if B.isDown then
+						gc_setColor(1,1,1,a*.4)
+						gc_circle("fill",B.x,B.y,B.r*.94,10)
 					end
 				end
 			end

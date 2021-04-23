@@ -53,7 +53,7 @@ function scene.touchMove()
 	for i=#L,1,-1 do
 		L[2*i-1],L[2*i]=SCR.xOy:inverseTransformPoint(tc.getPosition(L[i]))
 	end
-	local keys=VK.getKeys
+	local keys=VK.keys
 	for n=1,#keys do
 		local B=keys[n]
 		if B.ava then
@@ -73,7 +73,7 @@ function scene.keyDown(key)
 		if k>0 then
 			if noKey then return end
 			PLAYERS[1]:pressKey(k)
-			local vk=VK.getKeys()[k]
+			local vk=VK.keys[k]
 			vk.isDown=true
 			vk.pressTime=10
 		else
