@@ -12,17 +12,24 @@ local function loadAvatar(path)
 	return canvas
 end
 
-local texture_noImage=DOGC{120,120,
-	{"setCL",0,0,0},
-	{"fRect",0,0,120,120},
+local emptyUser={
+	username="_",
+	motto="",
+	hash=false,
+	new=true,
+}
+local texture_noImage=DOGC{128,128,
+	{"setCL",.1,.1,.1},
+	{"fRect",0,0,128,128},
 	{"setCL",1,1,1},
 	{"setLW",6},
-	{"dLine",9,9,110,110},
-	{"dLine",9,110,110,9},
+	{"dLine",9,9,118,118},
+	{"dLine",9,118,118,9},
 }
 
 local db_img={}
 local db=setmetatable({},{__index=function(self,k)
+	if not k then return emptyUser end
 	local file="cache/user"..k..".dat"
 	local d=
 		fs.getInfo(file)and JSON.decode(fs.read(file))or
