@@ -40,9 +40,10 @@ end
 function scene.touchUp(x,y)
 	if noTouch then return end
 
-	local t=VK.on(x,y)
-	if t then
-		PLAYERS[1]:releaseKey(t)
+	local n=VK.on(x,y)
+	if n then
+		PLAYERS[1]:releaseKey(n)
+		VK.release(n)
 	end
 end
 function scene.touchMove()
@@ -63,6 +64,7 @@ function scene.touchMove()
 				end
 			end
 			PLAYERS[1]:releaseKey(n)
+			VK.release(n)
 		end
 		::CONTINUE_nextKey::
 	end
@@ -73,9 +75,7 @@ function scene.keyDown(key)
 		if k>0 then
 			if noKey then return end
 			PLAYERS[1]:pressKey(k)
-			local vk=VK.keys[k]
-			vk.isDown=true
-			vk.pressTime=10
+			VK.press(k)
 		else
 			restart()
 		end
