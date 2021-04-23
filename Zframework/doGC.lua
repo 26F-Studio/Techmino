@@ -4,6 +4,7 @@ local cmds={
 	trans="translate",
 	scale="scale",
 	rotat="rotate",
+	clear="clear",
 
 	setCL="setColor",
 	setCM="setColorMask",

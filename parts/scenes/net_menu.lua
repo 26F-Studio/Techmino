@@ -25,6 +25,7 @@ scene.widgetList={
 					NET.wsclose_play()
 					NET.wsclose_user()
 					USER.uid=false
+					USER.username=false
 					USER.authToken=false
 					FILE.save(USER,"conf/user","q")
 					SCN.back()
@@ -34,7 +35,7 @@ scene.widgetList={
 				lastLogoutTime=TIME()
 			end
 		end},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,				font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 
 return scene

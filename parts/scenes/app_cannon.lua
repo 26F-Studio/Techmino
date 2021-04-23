@@ -2,11 +2,8 @@ local gc=love.graphics
 local int,rnd,abs,sin,cos=math.floor,math.random,math.abs,math.sin,math.cos
 
 local pow,ang
-local state,timer
-local score,combo
-local x,y
-local vx,vy
-local ex,ey
+local state,timer,score,combo
+local x,y,vx,vy,ex,ey
 
 local scene={}
 function scene.sceneInit()
@@ -81,17 +78,17 @@ function scene.update()
 end
 
 local scoreColor={
-	"white",--0
-	"aqua",--20
-	"navy",--40
-	"blue",--60
-	"purple",--80
-	"wine",--100
-	"red","fire","orange","yellow","lAqua",--200
-	"lNavy","lBlue","lPurple","lWine","lRed",--300
-	"lFire","lOrange","lYellow","dAqua","dNavy",--400
-	"dBlue","dPurple","dWine","dRed","dFire",--500
-	"dYellow","lH","H","dH",--before 600, black after
+	"Z",--0
+	"A",--20
+	"N",--40
+	"B",--60
+	"P",--80
+	"W",--100
+	"R","F","O","Y","lA",--200
+	"lN","lB","lP","lW","lR",--300
+	"lF","lO","lY","dA","dN",--400
+	"dB","dP","dW","dR","dF",--500
+	"dY","lH","H","dH",--before 600, black after
 }
 function scene.draw()
 	--Spawn area
@@ -116,7 +113,7 @@ function scene.draw()
 		gc.setColor(1,1,.6)
 		gc.print("x"..combo,300,80)
 	end
-	gc.setColor(COLOR[scoreColor[int(score/20)+1]or"black"])
+	gc.setColor(COLOR[scoreColor[int(score/20)+1]or"D"])
 	gc.print(score,300,30)
 
 	--Cannon ball

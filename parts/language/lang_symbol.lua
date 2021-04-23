@@ -102,7 +102,6 @@ return{
 			about="?",
 			dict="z",
 			manual="???",
-			quit="X",
 		},
 		mode={
 			mod="?!?!?!(F1)",

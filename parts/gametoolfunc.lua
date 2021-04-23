@@ -1,12 +1,7 @@
-local data=love.data
-
 local gc=love.graphics
 local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
 local gc_push,gc_pop,gc_origin,gc_translate=gc.push,gc.pop,gc.origin,gc.translate
-local gc_draw,gc_rectangle,gc_circle=gc.draw,gc.rectangle,gc.circle
-local int,rnd=math.floor,math.random
-local char,byte=string.char,string.byte
-local ins,rem=table.insert,table.remove
+local gc_draw,gc_printf,gc_line,gc_rectangle=gc.draw,gc.printf,gc.line,gc.rectangle
 
 
 
@@ -19,258 +14,9 @@ end
 
 
 
---Encoding Functions
---Sep symbol: 33 (!)
---Safe char: 34~126
---[[
-	Count: 34~96
-	Block: 97~125
-	Encode: A[B] sequence, A = block ID, B = repeat times, no B means do not repeat.
-	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
-]]
-function copySequence()
-	local BAG=BAG
-	local str=""
-
-	local count=1
-	for i=1,#BAG+1 do
-		if BAG[i+1]~=BAG[i]or count==64 then
-			str=str..char(96+BAG[i])
-			if count>1 then
-				str=str..char(32+count)
-				count=1
-			end
-		else
-			count=count+1
-		end
-	end
-
-	return str
-end
-function pasteSequence(str)
-	local b
-
-	local bag={}
-	local reg
-	for i=1,#str do
-		b=byte(str,i)
-		if not reg then
-			if b>=97 and b<=125 then
-				reg=b-96
-			else
-				return
-			end
-		else
-			if b>=97 and b<=125 then
-				ins(bag,reg)
-				reg=b-96
-			elseif b>=34 and b<=96 then
-				for _=1,b-32 do
-					ins(bag,reg)
-				end
-				reg=false
-			end
-		end
-	end
-	if reg then
-		ins(bag,reg)
-	end
-
-	BAG=bag
-	return true
-end
-
-function newBoard(f)--Generate a new board
-	if f then
-		return TABLE.shift(f)
-	else
-		local F={}
-		for i=1,20 do F[i]={0,0,0,0,0,0,0,0,0,0}end
-		return F
-	end
-end
-function copyBoard(page)--Copy the [page] board
-	local F=FIELD[page or 1]
-	local str=""
-	local H=0
-
-	for y=20,1,-1 do
-		for x=1,10 do
-			if F[y][x]~=0 then
-				H=y
-				goto BREAK_topFound
-			end
-		end
-	end
-	::BREAK_topFound::
-
-	--Encode field
-	for y=1,H do
-		local S=""
-		local L=F[y]
-		for x=1,10 do
-			S=S..char(L[x]+1)
-		end
-		str=str..S
-	end
-	return data.encode("string","base64",data.compress("string","zlib",str))
-end
-function copyBoards()
-	local out={}
-	for i=1,#FIELD do
-		out[i]=copyBoard(i)
-	end
-	return table.concat(out,"!")
-end
-function pasteBoard(str,page)--Paste [str] data to [page] board
-	if not page then page=1 end
-	if not FIELD[page]then FIELD[page]=newBoard()end
-	local F=FIELD[page]
-	local _,__
-
-	--Decode
-	_,str=pcall(data.decode,"string","base64",str)
-	if not _ then return end
-	_,str=pcall(data.decompress,"string","zlib",str)
-	if not _ then return end
-
-	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
-	local p=1
-	while true do
-		_=byte(str,p)--1byte
-
-		--Str end
-		if not _ then
-			if fX~=1 then
-				return
-			else
-				break
-			end
-		end
-
-		__=_%32-1--Block id
-		if __>26 then return end--Illegal blockid
-		_=int(_/32)--Mode id
-
-		F[fY][fX]=__
-		if fX<10 then
-			fX=fX+1
-		else
-			fY=fY+1
-			if fY>20 then break end
-			fX=1
-		end
-		p=p+1
-	end
-
-	for y=fY,20 do
-		for x=1,10 do
-			F[y][x]=0
-		end
-	end
-
-	return true
-end
-
---[[
-	Mission: 34~114
-	Count: 115~126
-	Encode: [A] or [AB] sequence, A = mission ID, B = repeat times, no B means do not repeat.
-
-	_1=01,_2=02,_3=03,_4=04,
-	A1=05,A2=06,A3=07,A4=08,
-	PC=09,
-	Z1=11,Z2=12,Z3=13,
-	S1=21,S2=22,S3=23,
-	J1=31,J2=32,J3=33,
-	L1=41,L2=42,L3=43,
-	T1=51,T2=52,T3=53,
-	O1=61,O2=62,O3=63,O4=64,
-	I1=71,I2=72,I3=73,I4=74,
-]]
-function copyMission()
-	local _
-	local MISSION=MISSION
-	local str=""
-
-	local count=1
-	for i=1,#MISSION+1 do
-		if MISSION[i+1]~=MISSION[i]or count==13 then
-			_=33+MISSION[i]
-			str=str..char(_)
-			if count>1 then
-				str=str..char(113+count)
-				count=1
-			end
-		else
-			count=count+1
-		end
-	end
-
-	return str
-end
-function pasteMission(str)
-	local b
-	local mission={}
-	local reg
-	for i=1,#str do
-		b=byte(str,i)
-		if not reg then
-			if b>=34 and b<=114 then
-				reg=b-33
-			else
-				return
-			end
-		else
-			if b>=34 and b<=114 then
-				if missionEnum[reg]then
-					ins(mission,reg)
-					reg=b-33
-				else
-					return
-				end
-			elseif b>=115 and b<=126 then
-				for _=1,b-113 do
-					ins(mission,reg)
-				end
-				reg=false
-			end
-		end
-	end
-	if reg then
-		ins(mission,reg)
-	end
-
-	MISSION=mission
-	return true
-end
-
-function copyQuestArgs()
-	local ENV=CUSTOMENV
-	local str=""..
-		ENV.holdCount..
-		(ENV.ospin and"O"or"Z")..
-		(ENV.missionKill and"M"or"Z")..
-		ENV.sequence
-	return str
-end
-do--function pasteQuestArgs(str)
-	local sub=string.sub
-	function pasteQuestArgs(str)
-		if #str<4 then return end
-		local ENV=CUSTOMENV
-		ENV.holdCount=		byte(str,1)-48
-		ENV.ospin=			byte(str,2)~=90
-		ENV.missionKill=	byte(str,3)~=90
-		ENV.sequence=		sub(str,4)
-		return true
-	end
-end
-
-
-
 --Royale mode
 function randomTarget(P)--Return a random opponent for P
+	local rnd=math.random
 	if #PLY_ALIVE>1 then
 		local R
 		repeat
@@ -350,114 +96,13 @@ function royaleLevelup()
 		P.gameEnv.drop=spd
 	end
 	if GAME.curMode.name:find("_u")then
+		local int=math.floor
 		for i=1,#PLY_ALIVE do
 			local P=PLY_ALIVE[i]
 			P.gameEnv.drop=int(P.gameEnv.drop*.3)
 			if P.gameEnv.drop==0 then
 				P.curY=P.ghoY
 				P:set20G(true)
-			end
-		end
-	end
-end
-
-
-
---Virtualkey
-local VK=virtualkey
-function drawVirtualkeys()
-	if SETTING.VKSwitch then
-		local a=SETTING.VKAlpha
-		local _
-		if SETTING.VKIcon then
-			local icons=TEXTURE.VKIcon
-			for i=1,#VK do
-				if VK[i].ava then
-					local B=VK[i]
-					gc_setColor(1,1,1,a)
-					gc_setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)--Button outline
-					_=VK[i].pressTime
-					gc_setColor(B.color[1],B.color[2],B.color[3],a)
-					gc_draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)--Icon
-					if _>0 then
-						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)--Glow when press
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)--Ripple
-					end
-				end
-			end
-		else
-			for i=1,#VK do
-				if VK[i].ava then
-					local B=VK[i]
-					gc_setColor(1,1,1,a)
-					gc_setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)
-					_=VK[i].pressTime
-					if _>0 then
-						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
-					end
-				end
-			end
-		end
-	end
-end
-function onVirtualkey(x,y)
-	local dist,nearest=1e10
-	for K=1,#VK do
-		local B=VK[K]
-		if B.ava then
-			local d1=(x-B.x)^2+(y-B.y)^2
-			if d1<B.r^2 then
-				if d1<dist then
-					nearest,dist=K,d1
-				end
-			end
-		end
-	end
-	return nearest
-end
-function pressVirtualkey(t,x,y)
-	local SETTING=SETTING
-	local B=VK[t]
-	B.isDown=true
-	B.pressTime=10
-
-	if x then
-		if SETTING.VKTrack then
-			--Auto follow
-			local O=VK_org[t]
-			local _FW,_CW=SETTING.VKTchW,1-SETTING.VKCurW
-			local _OW=1-_FW-_CW
-			--(finger+current+origin)
-			B.x=x*_FW+B.x*_CW+O.x*_OW
-			B.y=y*_FW+B.y*_CW+O.y*_OW
-
-			--Button collision (not accurate)
-			if SETTING.VKDodge then
-				for i=1,#VK do
-					local b=VK[i]
-					local d=B.r+b.r-((B.x-b.x)^2+(B.y-b.y)^2)^.5--Hit depth(Neg means distance)
-					if d>0 then
-						b.x=b.x+(b.x-B.x)*d*b.r*2.6e-5
-						b.y=b.y+(b.y-B.y)*d*b.r*2.6e-5
-					end
-				end
-			end
-		end
-		SFX.play("virtualKey",SETTING.VKSFX)
-		VIB(SETTING.VKVIB)
-	end
-end
-function updateVirtualkey()
-	if SETTING.VKSwitch then
-		for i=1,#VK do
-			local _=VK[i]
-			if _.pressTime>0 then
-				_.pressTime=_.pressTime-1
 			end
 		end
 	end
@@ -522,6 +167,7 @@ function scoreValid()--Check if any unranked mods are activated
 	return true
 end
 function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
+	local rem=table.remove
 	for i=#PLAYERS,1,-1 do
 		local P=PLAYERS[i]
 		if P.canvas then P.canvas:release()end
@@ -539,23 +185,6 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 	end
 	TABLE.clear(PLY_ALIVE)
 	collectgarbage()
-end
-function restoreVirtualkey()
-	for i=1,#VK_org do
-		local B,O=virtualkey[i],VK_org[i]
-		B.ava=O.ava
-		B.x=O.x
-		B.y=O.y
-		B.r=O.r
-		B.color=O.color
-		B.isDown=false
-		B.pressTime=0
-	end
-	for k,v in next,PLAYERS[1].keyAvailable do
-		if not v then
-			virtualkey[k].ava=false
-		end
-	end
 end
 function pauseGame()
 	if not SCN.swapping then
@@ -735,7 +364,7 @@ do--function resetGameData(args)
 			GAME.replaying=1
 		else
 			GAME.frameStart=args:find("n")and 0 or 150-SETTING.reTime*15
-			GAME.seed=seed or rnd(1046101471,2662622626)
+			GAME.seed=seed or math.random(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
 			GAME.saved=false
@@ -750,7 +379,7 @@ do--function resetGameData(args)
 		destroyPlayers()
 		GAME.curMode.load()
 		initPlayerPosition(args:find("q"))
-		restoreVirtualkey()
+		VK.restore()
 		if GAME.modeEnv.task then
 			for i=1,#PLAYERS do
 				PLAYERS[i]:newTask(GAME.modeEnv.task)
@@ -758,7 +387,7 @@ do--function resetGameData(args)
 		end
 		BG.set(GAME.modeEnv.bg)
 		local bgm=GAME.modeEnv.bgm
-		BGM.play(type(bgm)=="string"and bgm or type(bgm)=="table"and bgm[rnd(#bgm)])
+		BGM.play(type(bgm)=="string"and bgm or type(bgm)=="table"and bgm[math.random(#bgm)])
 
 		TEXT.clear()
 		if GAME.modeEnv.royaleMode then
@@ -816,146 +445,6 @@ do--function checkWarning()
 	end
 end
 
---[[
-	Table data format:
-		{frame,event, frame,event, ...}
-
-	Byte data format: (1 byte each period)
-		dt, event, dt, event, ...
-	all data range from 0 to 127
-	large value will be encoded as 1xxxxxxx(high)-1xxxxxxx-...-0xxxxxxx(low)
-
-	Example (decoded):
-		6,1, 20,-1, 0,2, 26,-2, 872,4, ...
-	This means:
-		Press key1 at 6f
-		Release key1 at 26f (6+20)
-		Press key2 at the same time (26+0)
-		Release key 2 after 26 frame (26+26)
-		Press key 4 after 872 frame (52+872)
-		...
-]]
-function dumpRecording(list,ptr)
-	local out=""
-	local buffer,buffer2=""
-	if not ptr then ptr=1 end
-	local prevFrm=list[ptr-2]or 0
-	while list[ptr]do
-		--Flush buffer
-		if #buffer>10 then
-			out=out..buffer
-			buffer=""
-		end
-
-		--Encode time
-		local t=list[ptr]-prevFrm
-		prevFrm=list[ptr]
-		if t>=128 then
-			buffer2=char(t%128)
-			t=int(t/128)
-			while t>=128 do
-				buffer2=char(128+t%128)..buffer2
-				t=int(t/128)
-			end
-			buffer=buffer..char(128+t)..buffer2
-		else
-			buffer=buffer..char(t)
-		end
-
-		--Encode event
-		t=list[ptr+1]
-		if t>=128 then
-			buffer2=char(t%128)
-			t=int(t/128)
-			while t>=128 do
-				buffer2=char(128+t%128)..buffer2
-				t=int(t/128)
-			end
-			buffer=buffer..char(128+t)..buffer2
-		else
-			buffer=buffer..char(t)
-		end
-
-		--Step
-		ptr=ptr+2
-	end
-	return out..buffer,ptr
-end
-function pumpRecording(str,L)
-	local len=#str
-	local p=1
-
-	local curFrm=L[#L-1]or 0
-	local code
-	while p<=len do
-		--Read delta time
-		code=0
-		local b=byte(str,p)
-		while b>=128 do
-			code=code*128+b-128
-			p=p+1
-			b=byte(str,p)
-		end
-		curFrm=curFrm+code*128+b
-		L[#L+1]=curFrm
-		p=p+1
-
-		local event=0
-		b=byte(str,p)
-		while b>=128 do
-			event=event*128+b-128
-			p=p+1
-			b=byte(str,p)
-		end
-		L[#L+1]=event*128+b
-		p=p+1
-	end
-end
-do--function saveRecording()
-	local noRecList={"custom","solo","round","techmino"}
-	local function getModList()
-		local res={}
-		for _,v in next,GAME.mod do
-			if v.sel>0 then
-				ins(res,{v.no,v.sel})
-			end
-		end
-		return res
-	end
-	function saveRecording()
-		--Filtering modes that cannot be saved
-		for _,v in next,noRecList do
-			if GAME.curModeName:find(v)then
-				LOG.print("Cannot save recording of this mode now!",COLOR.N)
-				return
-			end
-		end
-
-		--File contents
-		local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
-		local fileHead=
-			os.date("%Y/%m/%d %A %H:%M:%S\n")..
-			GAME.curModeName.."\n"..
-			VERSION.string.."\n"..
-			"Local Player"
-		local fileBody=
-			GAME.seed.."\n"..
-			JSON.encode(GAME.setting).."\n"..
-			JSON.encode(getModList()).."\n"..
-			dumpRecording(GAME.rep)
-
-		--Write file
-		if not love.filesystem.getInfo(fileName)then
-			love.filesystem.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
-			ins(REPLAY,fileName)
-			FILE.save(REPLAY,"conf/replay")
-			return true
-		else
-			LOG.print("Save failed: File already exists")
-		end
-	end
-end
-
 
 
 --Game draw
@@ -989,21 +478,28 @@ do--function drawFWM()
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
-do--function drawSelfProfile()
-	function drawSelfProfile()
-		local selfAvatar=USERS.getAvatar(USER.uid)
-		gc_push("transform")
-		gc_translate(1280,0)
+function drawSelfProfile()
+	local selfAvatar=USERS.getAvatar(USER.uid)
+	gc_push("transform")
+	gc_translate(1280,0)
 
-		--Draw avatar
-		gc_setLineWidth(2)
-		gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
-		gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
-		gc_rectangle("line",-73,7,66,66,2)
-		gc_draw(selfAvatar,-72,8,nil,.5)
+	--Draw avatar
+	gc_setLineWidth(2)
+	gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
+	gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
+	gc_rectangle("line",-73,7,66,66,2)
+	gc_draw(selfAvatar,-72,8,nil,.5)
 
-		gc_pop()
-	end
+	--Draw username
+	setFont(30)
+	gc_printf(USERS.getUsername(USER.uid),-342,5,260,"right")
+
+	--Draw lv. & xp.
+	gc_draw(TEXTURE.lvIcon[USER.lv],-255,50)
+	gc_line(-230,55,-80,55,-80,70,-230,70)
+	gc_rectangle("fill",-230,55,150*USER.xp/USER.lv/USER.lv,15)
+
+	gc_pop()
 end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then

@@ -13,7 +13,7 @@
 goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 local fs=love.filesystem
 NONE={}function NULL()end
-DBP=print--Use this in permanent code
+DBP=print--Use this in temporary code, easy to find and remove
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
@@ -34,14 +34,16 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 --Delete all files from too old version
-for _,name in next,fs.getDirectoryItems("")do
-	if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~="directory"then
-		fs.remove(name)
+function CLEAR(root)
+	for _,name in next,fs.getDirectoryItems(root or"")do
+		if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~="directory"then
+			fs.remove(name)
+		end
 	end
-end
+end CLEAR()
 
 --Create directories
-for _,v in next,{"conf","record","replay","cache"}do
+for _,v in next,{"conf","record","replay","cache","lib"}do
 	local info=fs.getInfo(v)
 	if not info then
 		fs.createDirectory(v)
@@ -53,23 +55,27 @@ end
 
 --Load modules
 require"Zframework"
+SCR.setSize(1280,720)--Initialize Screen size
 
 require"parts.list"
 require"parts.globalTables"
 require"parts.gametoolfunc"
-SCR.setSize(1280,720)--Initialize Screen size
-FIELD[1]=newBoard()--Initialize field[1]
 
-NET=		require"parts.net"
-AIBUILDER=	require"parts.AITemplate"
 FREEROW=	require"parts.freeRow"
-USERS=		require"parts.users"
+DATA=		require"parts.data"
 
+USERS=		require"parts.users"
 TEXTURE=	require"parts.texture"
 SKIN=		require"parts.skin"
+NET=		require"parts.net"
+VK=			require"parts.virtualKey"
 PLY=		require"parts.player"
 AIFUNC=		require"parts.ai"
+AIBUILDER=	require"parts.AITemplate"
 MODES=		require"parts.modes"
+
+--Initialize field[1]
+FIELD[1]=DATA.newBoard()
 
 --First start for phones
 if not fs.getInfo("conf/settings")and MOBILE then
@@ -234,11 +240,9 @@ do
 	local needSave
 	local autoRestart
 
-	if STAT.extraRate then
-		STAT.finesseRate=5*(STAT.piece-STAT.extraRate)
-	end
 	if type(STAT.version)~="number"then
 		STAT.version=0
+		needSave=true
 	end
 	if STAT.version<1300 then
 		STAT.frame=math.floor(STAT.time*60)
@@ -264,6 +268,10 @@ do
 		needSave=true
 		autoRestart=true
 	end
+	if STAT.version<1405 then
+		fs.remove("conf/user")
+		autoRestart=true
+	end
 
 	for _,v in next,VK_org do
 		if not v.color then
@@ -271,6 +279,14 @@ do
 			autoRestart=true
 			break
 		end
+	end
+
+	if STAT.version~=VERSION.code then
+		newVersionLaunch=true
+		STAT.version=VERSION.code
+		CLEAR("lib")
+		needSave=true
+		autoRestart=true
 	end
 
 	if RANKS.GM then RANKS.GM=0 end
@@ -303,17 +319,15 @@ do
 		needSave=true
 	end
 
-	if STAT.version~=VERSION.code then
-		newVersionLaunch=true
-		STAT.version=VERSION.code
-		FILE.save(STAT,"conf/data","q")
-	end
-
 	if needSave then
-		FILE.save(RANKS,"conf/unlock","q")
 		FILE.save(SETTING,"conf/settings","q")
+		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(STAT,"conf/data","q")
 	end
 	if autoRestart then
 		love.event.quit("restart")
 	end
 end
+
+--Var leak check
+-- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k,tostring(v))rawset(self,k,v)end})

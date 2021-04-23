@@ -481,18 +481,18 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="reset",		x=155,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
-	WIDGET.newSwitch{name="blind",		x=240,y=300,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="tapControl",	x=240,y=370,w=60,		font=40,disp=function()return tapControl end,	code=pressKey"w",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="blind",		x=240,y=300,w=60,font=40,disp=function()return blind end,code=pressKey"q",hide=function()return state==1 end},
+	WIDGET.newSwitch{name="tapControl",	x=240,y=370,w=60,font=40,disp=function()return tapControl end,code=pressKey"w",hide=function()return state==1 end},
 
 	WIDGET.newKey{name="up",			x=155,y=460,w=100,fText="↑",font=50,color="Y",code=pressKey"up",hide=function()return tapControl end},
 	WIDGET.newKey{name="down",			x=155,y=660,w=100,fText="↓",font=50,color="Y",code=pressKey"down",hide=function()return tapControl end},
 	WIDGET.newKey{name="left",			x=55,y=560,w=100,fText="←",font=50,color="Y",code=pressKey"left",hide=function()return tapControl end},
 	WIDGET.newKey{name="right",			x=255,y=560,w=100,fText="→",font=50,color="Y",code=pressKey"right",hide=function()return tapControl end},
-	WIDGET.newKey{name="skip",			x=155,y=400,w=100,font=20,color="Y",code=pressKey"space",hide=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
-	WIDGET.newKey{name="record1",		x=1100,y=390,w=220,h=50,fText="",color="H",code=pressKey"1",hide=function()return state==2 end},
-	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",color="H",code=pressKey"2",hide=function()return state==2 end},
-	WIDGET.newKey{name="replay1",		x=1245,y=390,w=50,fText="!",color="G",code=pressKey"c1",hide=function()return state==2 or #repeater.seq[1]==0 end},
-	WIDGET.newKey{name="replay2",		x=1245,y=450,w=50,fText="!",color="G",code=pressKey"c2",hide=function()return state==2 or #repeater.seq[2]==0 end},
+	WIDGET.newKey{name="skip",			x=155,y=400,w=100,font=20,			color="Y",code=pressKey"space",hide=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
+	WIDGET.newKey{name="record1",		x=1100,y=390,w=220,h=50,fText="",	color="H",code=pressKey"1",hide=function()return state==2 end},
+	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",	color="H",code=pressKey"2",hide=function()return state==2 end},
+	WIDGET.newKey{name="replay1",		x=1245,y=390,w=50,fText="!",		color="G",code=pressKey"c1",hide=function()return state==2 or #repeater.seq[1]==0 end},
+	WIDGET.newKey{name="replay2",		x=1245,y=450,w=50,fText="!",		color="G",code=pressKey"c2",hide=function()return state==2 or #repeater.seq[2]==0 end},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

@@ -178,6 +178,10 @@ GAME={--Global game data
 	mostDangerous=false,--Most dangerous player
 	secDangerous=false,	--Second dangerous player
 }
+ROYALEDATA={
+	powerUp=false,
+	stage=false,
+}
 
 --Userdata tables
 RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
@@ -355,5 +359,4 @@ VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' posi
 	{ava=false,	x=900,		y=50,		r=80,color=COLOR.lA},--addToLeft
 	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.lA},--addToRight
 }
-virtualkey={}for i=1,#VK_org do virtualkey[i]={}end--In-game virtualkey layout
 REPLAY=FILE.load("conf/replay")or{}

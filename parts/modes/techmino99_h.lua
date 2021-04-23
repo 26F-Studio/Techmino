@@ -28,10 +28,8 @@ return{
 		bg="rainbow",bgm="rockblock",
 	},
 	load=function()
-		royaleData={
-			powerUp={2,6,14,30},
-			stage={75,50,35,20,10},
-		}
+		ROYALEDATA.powerUp={2,6,14,30}
+		ROYALEDATA.stage={75,50,35,20,10}
 		PLY.newPlayer(1)
 		local L={}for i=1,100 do L[i]=true end
 		local t=CC and 4 or 0

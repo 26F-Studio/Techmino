@@ -172,7 +172,7 @@ function Player:switchKey(id,on)
 		self:releaseKey(id)
 	end
 	if self.type=="human"then
-		virtualkey[id].ava=on
+		VK.switchKey(id,on)
 	end
 end
 function Player:set20G(if20g)
@@ -1798,7 +1798,7 @@ function Player:lose(force)
 				end
 				A.modeData.ko,A.badge=A.modeData.ko+1,A.badge+self.badge+1
 				for j=A.strength+1,4 do
-					if A.badge>=royaleData.powerUp[j]then
+					if A.badge>=ROYALEDATA.powerUp[j]then
 						A.strength=j
 						A.frameColor=A.strength
 					end
@@ -1814,7 +1814,7 @@ function Player:lose(force)
 
 		freshMostBadge()
 		freshMostDangerous()
-		if #PLY_ALIVE==royaleData.stage[GAME.stage]then
+		if #PLY_ALIVE==ROYALEDATA.stage[GAME.stage]then
 			royaleLevelup()
 		end
 		self:showTextF(self.modeData.place,0,120,60,"appear",.26,.9)

@@ -9,29 +9,34 @@ return function(name,libName)
 	elseif SYSTEM=="Android"then
 		local fs=love.filesystem
 		local platform={"arm64-v8a","armeabi-v7a"}
-		local libFunc
-		for i=1,#platform do
-			local soFile,size=fs.read("data","libAndroid/"..platform[i].."/"..libName.Android)
-			if soFile then
-				local success,message=fs.write(libName.Android,soFile,size)
-				if success then
-					libFunc,message=package.loadlib(table.concat({SAVEDIR,libName.Android},"/"),libName.libFunc)
-					if libFunc then
-						LOG.print(name.." lib loaded","warn",COLOR.G)
-						break
+
+		local libFunc=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
+		if libFunc then
+			LOG.print(name.." lib loaded","warn",COLOR.G)
+		else
+			for i=1,#platform do
+				local soFile=fs.read("data","libAndroid/"..platform[i].."/"..libName.Android)
+				if soFile then
+					local success,message=fs.write("lib/"..libName.Android,soFile)
+					if success then
+						libFunc,message=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
+						if libFunc then
+							LOG.print(name.." lib loaded","warn",COLOR.G)
+							break
+						else
+							LOG.print("Cannot load "..name..": "..message,"warn",COLOR.R)
+						end
 					else
-						LOG.print("Cannot load "..name..": "..message,"warn",COLOR.R)
+						LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",COLOR.R)
 					end
 				else
-					LOG.print("Write "..name.."-"..platform[i].." to saving failed: "..message,"warn",COLOR.R)
+					LOG.print("Read "..name.."-"..platform[i].." failed","warn",COLOR.R)
 				end
-			else
-				LOG.print("Read "..name.."-"..platform[i].." failed","warn",COLOR.R)
 			end
-		end
-		if not libFunc then
-			LOG.print("Cannot load "..name,"warn",COLOR.R)
-			return
+			if not libFunc then
+				LOG.print("Cannot load "..name,"warn",COLOR.R)
+				return
+			end
 		end
 		return libFunc()
 	else

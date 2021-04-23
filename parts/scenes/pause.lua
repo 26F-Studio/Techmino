@@ -143,8 +143,10 @@ function scene.keyDown(key)
 			SCN.swapTo("game","none")
 		end
 	elseif key=="o"then
-		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved and saveRecording()then
-			GAME.saved=true
+		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved then
+			if DATA.saveRecording()then
+				GAME.saved=true
+			end
 		end
 	else
 		WIDGET.keyPressed(key)

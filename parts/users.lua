@@ -12,26 +12,26 @@ local function loadAvatar(path)
 	return canvas
 end
 
-local texture_noImage=DOGC{120,120,
-	{"setCL",0,0,0},
-	{"fRect",0,0,120,120},
+local emptyUser={
+	username="Player",
+	motto="",
+	hash="",
+	new=true,
+}
+local texture_noImage=DOGC{128,128,
+	{"setCL",.1,.1,.1},
+	{"fRect",0,0,128,128},
 	{"setCL",1,1,1},
 	{"setLW",6},
-	{"dLine",9,9,110,110},
-	{"dLine",9,110,110,9},
+	{"dLine",9,9,118,118},
+	{"dLine",9,118,118,9},
 }
 
 local db_img={}
 local db=setmetatable({},{__index=function(self,k)
+	if not k then return emptyUser end
 	local file="cache/user"..k..".dat"
-	local d=
-		fs.getInfo(file)and JSON.decode(fs.read(file))or
-		{
-			username="[X]",
-			motto="Techmino haowan",
-			hash="",
-			new=false,
-		}
+	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
 	rawset(self,k,d)
 	if type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)then
 		db_img[k]=loadAvatar("cache/"..d.hash)
@@ -54,7 +54,6 @@ function USERS.updateUserData(data)
 		fs.write("cache/"..data.hash,love.data.decode("string","base64",data.avatar:sub(data.avatar:find","+1)))
 		db_img[uid]=loadAvatar("cache/"..data.hash)
 		db[uid].hash=type(data.hash)=="string"and #data.hash>0 and data.hash
-		db[uid].new=true
 	end
 end
 

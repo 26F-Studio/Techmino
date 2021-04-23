@@ -197,7 +197,6 @@ return{
 			-- about="About",
 			dict="Zictionary",
 			manual="Manuel",
-			quit="Quitter",
 		},
 		mode={
 			mod="Mods (F1)",

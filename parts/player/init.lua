@@ -213,15 +213,15 @@ local function loadGameEnv(P)--Load gameEnv
 	for k,v in next,gameEnv0 do
 		if GAME.modeEnv[k]~=nil then
 			v=GAME.modeEnv[k]	--Mode setting
-			-- DBP("mode-"..k..":"..tostring(v))
+			-- print("mode-"..k..":"..tostring(v))
 		elseif GAME.setting[k]~=nil then
 			v=GAME.setting[k]	--Game setting
-			-- DBP("game-"..k..":"..tostring(v))
+			-- print("game-"..k..":"..tostring(v))
 		elseif SETTING[k]~=nil then
 			v=SETTING[k]		--Global setting
-			-- DBP("global-"..k..":"..tostring(v))
+			-- print("global-"..k..":"..tostring(v))
 		-- else
-			-- DBP("default-"..k..":"..tostring(v))
+			-- print("default-"..k..":"..tostring(v))
 		end
 		if type(v)~="table"then--Default setting
 			ENV[k]=v

@@ -6,7 +6,7 @@ local host="game.techmino.org"
 local port="10026"
 local path="/tech/socket/v1"
 
-local debug=false
+local debug=""--S:send, R:receive, M=mark
 
 local wsThread=[[
 -- lua + love2d threading websocket client
@@ -87,6 +87,7 @@ local _send do
 	local mask_str=char(unpack(mask_key))
 
 	function _send(op,message)
+		]]..(debug:find"S"and""or"--")..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
 		--Message type
 		SOCK:send(char(bor(0x80,op)))
 
@@ -153,7 +154,7 @@ while true do--Running
 				if s then
 					res=s
 				elseif p then--UNF head
-					]]..(debug==1 and""or"--")..[[print(("%s[%d/%d]:%s"):format(threadName,#p,length,p))
+					]]..(debug:find"R"and""or"--")..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
 					UFF=true
 					sBuffer=sBuffer..p
 					length=length-#p
@@ -165,11 +166,11 @@ while true do--Running
 		else
 			local s,e,p=SOCK:receive(length)
 			if s then
-				]]..(debug==1 and""or"--")..[[print(("%s<%d>:%s"):format(threadName,length,s))
+				]]..(debug:find"R"and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
 				sBuffer=sBuffer..s
 				length=length-#s
 			elseif p then
-				]]..(debug==1 and""or"--")..[[print(("%s<%d>:%s"):format(threadName,length,p))
+				]]..(debug:find"R"and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
 				sBuffer=sBuffer..p
 				length=length-#p
 			end
@@ -180,7 +181,7 @@ while true do--Running
 				break
 			end
 		end
-		]]..(debug==1 and""or"--")..[[print(("%s<[%d]>:%s"):format(threadName,#res,res))
+		]]..(debug:find"R"and""or"--")..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
 
 		--React
 		if op==8 then--8=close
@@ -195,21 +196,21 @@ while true do--Running
 		elseif op==0 then--0=continue
 			lBuffer=lBuffer..res
 			if fin then
-				]]..(debug==2 and""or"--")..[[print("FIN=1 (c")
+				]]..(debug:find"M"and""or"--")..[[print("FIN=1 (c")
 				readCHN:push(lBuffer)
 				lBuffer=""
 			else
-				]]..(debug==2 and""or"--")..[[print("FIN=0 (c")
+				]]..(debug:find"M"and""or"--")..[[print("FIN=0 (c")
 			end
 		else
 			readCHN:push(op)
 			if fin then
-				]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=1")
+				]]..(debug:find"M"and""or"--")..[[print("OP: "..op.."\tFIN=1")
 				readCHN:push(res)
 			else
-				]]..(debug==2 and""or"--")..[[print("OP: "..op.."\tFIN=0")
+				]]..(debug:find"M"and""or"--")..[[print("OP: "..op.."\tFIN=0")
 				sBuffer=res
-				]]..(debug==2 and""or"--")..[[print("START pack: "..res)
+				]]..(debug:find"M"and""or"--")..[[print("START pack: "..res)
 			end
 		end
 	end
