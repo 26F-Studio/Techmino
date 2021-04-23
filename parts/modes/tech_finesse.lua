@@ -6,7 +6,7 @@ return{
 		arr=0,
 		drop=1e99,lock=60,
 		freshLimit=15,
-		function(P)if P.stat.atk>=100 then P:win("finish")end end,
+		dropPiece=function(P)if P.stat.atk>=100 then P:win("finish")end end,
 		fineKill=true,
 		bg="flink",bgm="infinite",
 	},
