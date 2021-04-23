@@ -246,14 +246,17 @@ function scene.draw()
 			gc.setLineWidth(3)
 			gc.rectangle("line",40,67+50*i,800,42)
 
-			--Username
-			gc.setColor(1,1,1)
-			setFont(40)
-			gc.print(p.username,200,60+50*i)
-
 			--UID
+			setFont(40)
 			gc.setColor(.5,.5,.5)
 			gc.print("#"..p.uid,50,60+50*i)
+
+			--Avatar
+			gc.setColor(1,1,1)
+			gc.draw(USERS.getAvatar(p.uid),200,72+50*i,nil,.25)
+
+			--Username
+			gc.print(p.username,240,60+50*i)
 		end
 
 		--Profile
