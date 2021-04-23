@@ -34,11 +34,13 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 --Delete all files from too old version
-for _,name in next,fs.getDirectoryItems("")do
-	if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~="directory"then
-		fs.remove(name)
+function CLEAR(root)
+	for _,name in next,fs.getDirectoryItems(root or"")do
+		if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~="directory"then
+			fs.remove(name)
+		end
 	end
-end
+end CLEAR()
 
 --Create directories
 for _,v in next,{"conf","record","replay","cache","lib"}do
@@ -238,11 +240,9 @@ do
 	local needSave
 	local autoRestart
 
-	if STAT.extraRate then
-		STAT.finesseRate=5*(STAT.piece-STAT.extraRate)
-	end
 	if type(STAT.version)~="number"then
 		STAT.version=0
+		needSave=true
 	end
 	if STAT.version<1300 then
 		STAT.frame=math.floor(STAT.time*60)
@@ -281,6 +281,14 @@ do
 		end
 	end
 
+	if STAT.version~=VERSION.code then
+		newVersionLaunch=true
+		STAT.version=VERSION.code
+		CLEAR("lib")
+		needSave=true
+		autoRestart=true
+	end
+
 	if RANKS.GM then RANKS.GM=0 end
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
@@ -311,15 +319,10 @@ do
 		needSave=true
 	end
 
-	if STAT.version~=VERSION.code then
-		newVersionLaunch=true
-		STAT.version=VERSION.code
-		FILE.save(STAT,"conf/data","q")
-	end
-
 	if needSave then
-		FILE.save(RANKS,"conf/unlock","q")
 		FILE.save(SETTING,"conf/settings","q")
+		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(STAT,"conf/data","q")
 	end
 	if autoRestart then
 		love.event.quit("restart")
