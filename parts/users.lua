@@ -13,9 +13,9 @@ local function loadAvatar(path)
 end
 
 local emptyUser={
-	username="_",
+	username="Player",
 	motto="",
-	hash=false,
+	hash="",
 	new=true,
 }
 local texture_noImage=DOGC{128,128,
@@ -31,14 +31,7 @@ local db_img={}
 local db=setmetatable({},{__index=function(self,k)
 	if not k then return emptyUser end
 	local file="cache/user"..k..".dat"
-	local d=
-		fs.getInfo(file)and JSON.decode(fs.read(file))or
-		{
-			username="[X]",
-			motto="Techmino haowan",
-			hash="_",
-			new=false,
-		}
+	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
 	rawset(self,k,d)
 	if type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)then
 		db_img[k]=loadAvatar("cache/"..d.hash)

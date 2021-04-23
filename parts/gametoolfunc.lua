@@ -1,7 +1,7 @@
 local gc=love.graphics
 local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
 local gc_push,gc_pop,gc_origin,gc_translate=gc.push,gc.pop,gc.origin,gc.translate
-local gc_draw,gc_rectangle=gc.draw,gc.rectangle
+local gc_draw,gc_printf,gc_line,gc_rectangle=gc.draw,gc.printf,gc.line,gc.rectangle
 
 
 
@@ -489,6 +489,15 @@ function drawSelfProfile()
 	gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
 	gc_rectangle("line",-73,7,66,66,2)
 	gc_draw(selfAvatar,-72,8,nil,.5)
+
+	--Draw username
+	setFont(30)
+	gc_printf(USERS.getUsername(USER.uid),-342,5,260,"right")
+
+	--Draw lv. & xp.
+	gc_draw(TEXTURE.lvIcon[USER.lv],-255,50)
+	gc_line(-230,55,-80,55,-80,70,-230,70)
+	gc_rectangle("fill",-230,55,150*USER.xp/USER.lv/USER.lv,15)
 
 	gc_pop()
 end

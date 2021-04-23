@@ -253,7 +253,7 @@ function scene.draw()
 
 			--Avatar
 			gc.setColor(1,1,1)
-			gc.draw(USERS.getAvatar(p.uid),200,72+50*i,nil,.25)
+			gc.draw(USERS.getAvatar(p.uid),200,68+50*i,nil,.3125)
 
 			--Username
 			gc.print(p.username,240,60+50*i)
