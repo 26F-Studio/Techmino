@@ -36,7 +36,7 @@ local db=setmetatable({},{__index=function(self,k)
 		{
 			username="[X]",
 			motto="Techmino haowan",
-			hash="",
+			hash="_",
 			new=false,
 		}
 	rawset(self,k,d)
@@ -61,7 +61,6 @@ function USERS.updateUserData(data)
 		fs.write("cache/"..data.hash,love.data.decode("string","base64",data.avatar:sub(data.avatar:find","+1)))
 		db_img[uid]=loadAvatar("cache/"..data.hash)
 		db[uid].hash=type(data.hash)=="string"and #data.hash>0 and data.hash
-		db[uid].new=true
 	end
 end
 

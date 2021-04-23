@@ -141,7 +141,7 @@ function NET.getUserInfo(uid)
 	WS.send("user",JSON.encode{
 		action=1,
 		data={
-			id=uid,
+			uid=uid,
 			hash=hash,
 		},
 	})
