@@ -1,10 +1,6 @@
-local gc=love.graphics
-local tc=love.touch
-
+local gc,tc=love.graphics,love.touch
 local ins=table.insert
-
-local SCR=SCR
-local VK=VK
+local SCR,VK,NET=SCR,VK,NET
 
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=false}
 
@@ -275,6 +271,7 @@ scene.widgetList={
 		hide=function()
 			return
 				playing or
+				NET.serverGaming or
 				not textBox.hide or
 				PLY_NET[1].ready or
 				NET.getlock("ready")
@@ -283,6 +280,7 @@ scene.widgetList={
 		hide=function()
 			return
 				playing or
+				NET.serverGaming or
 				not textBox.hide or
 				not PLY_NET[1].ready or
 				NET.getlock("ready")

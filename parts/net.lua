@@ -4,6 +4,7 @@ local WS,TIME=WS,TIME
 local NET={
 	connected=false,
 	allow_online=false,
+	serverGaming=false,
 	roomList={},
 	accessToken=false,
 	rid=false,
@@ -101,11 +102,13 @@ function NET.wsconn_play()
 end
 function NET.wsconn_stream()
 	if NET.lock("wsc_stream",5)then
+		NET.serverGaming=true
 		WS.connect("stream","/stream",JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
 			rid=NET.rsid,
 		})
+		TASK.new(NET.updateWS_stream)
 	end
 end
 
@@ -113,7 +116,10 @@ end
 function NET.wsclose_app()WS.close("app")end
 function NET.wsclose_user()WS.close("user")end
 function NET.wsclose_play()WS.close("play")end
-function NET.wsclose_stream()WS.close("stream")end
+function NET.wsclose_stream()
+	NET.serverGaming=false
+	WS.close("stream")
+end
 
 --Account & User
 function NET.register(username,email,password)
@@ -192,7 +198,7 @@ function NET.checkPlayDisconn()
 	return WS.status("play")~="running"
 end
 function NET.signal_ready(ready)
-	if NET.lock("ready",3)then
+	if NET.lock("ready",3)and not NET.serverGaming then
 		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
@@ -421,12 +427,11 @@ function NET.updateWS_play()
 									break
 								end
 							end
-						elseif res.action==7 then--Ready
+						elseif res.action==7 then--All Ready
 							SFX.play("reach",.6)
 						elseif res.action==8 then--Set
 							NET.rsid=d.rid
 							NET.wsconn_stream()
-							TASK.new(NET.updateWS_stream)
 						elseif res.action==9 then--Game finished
 							NET.wsclose_stream()
 							if SCN.socketRead then SCN.socketRead("Finish",d)end
