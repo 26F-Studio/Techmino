@@ -1,11 +1,6 @@
-local gc=love.graphics
-local gc_setColor=gc.setColor
-local tc=love.touch
-
+local gc,tc=love.graphics,love.touch
 local sin=math.sin
-
-local SCR=SCR
-local VK=VK
+local SCR,VK=SCR,VK
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
@@ -166,10 +161,10 @@ local function drawAtkPointer(x,y)
 	local a=t*3%1*.8
 	t=sin(t*20)
 
-	gc_setColor(.2,.7+t*.2,1,.6+t*.4)
+	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
 	gc.circle("fill",x,y,25,6)
 
-	gc_setColor(0,.6,1,.8-a)
+	gc.setColor(0,.6,1,.8-a)
 	gc.circle("line",x,y,30*(1+a),6)
 end
 function scene.draw()
@@ -187,7 +182,7 @@ function scene.draw()
 	if GAME.modeEnv.royaleMode then
 		local P=PLAYERS[1]
 		gc.setLineWidth(5)
-		gc_setColor(.8,1,0,.2)
+		gc.setColor(.8,1,0,.2)
 		for i=1,#P.atker do
 			local p=P.atker[i]
 			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+670*P.size)
@@ -205,12 +200,12 @@ function scene.draw()
 	end
 
 	--Mode info
-	gc_setColor(1,1,1,.8)
+	gc.setColor(1,1,1,.8)
 	gc.draw(drawableText.modeName,485,10)
 
 	--Replaying
 	if GAME.replaying then
-		gc_setColor(1,1,TIME()%1>.5 and 1 or 0)
+		gc.setColor(1,1,TIME()%1>.5 and 1 or 0)
 		mText(drawableText.replaying,770,17)
 	end
 

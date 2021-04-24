@@ -1,7 +1,4 @@
 local gc=love.graphics
-local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
-local gc_push,gc_pop,gc_origin,gc_translate=gc.push,gc.pop,gc.origin,gc.translate
-local gc_draw,gc_printf,gc_line,gc_rectangle=gc.draw,gc.printf,gc.line,gc.rectangle
 
 
 
@@ -474,42 +471,42 @@ do--function drawFWM()
 	function drawFWM()
 		local t=TIME()
 		setFont(25)
-		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
+		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
 function drawSelfProfile()
 	local selfAvatar=USERS.getAvatar(USER.uid)
-	gc_push("transform")
-	gc_translate(1280,0)
+	gc.push("transform")
+	gc.translate(1280,0)
 
 	--Draw avatar
-	gc_setLineWidth(2)
-	gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
-	gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
-	gc_rectangle("line",-73,7,66,66,2)
-	gc_draw(selfAvatar,-72,8,nil,.5)
+	gc.setLineWidth(2)
+	gc.setColor(.3,.3,.3,.8)gc.rectangle("fill",-260,0,260,80)
+	gc.setColor(1,1,1)gc.rectangle("line",-260,0,260,80)
+	gc.rectangle("line",-73,7,66,66,2)
+	gc.draw(selfAvatar,-72,8,nil,.5)
 
 	--Draw username
 	setFont(30)
-	gc_printf(USERS.getUsername(USER.uid),-342,5,260,"right")
+	gc.printf(USERS.getUsername(USER.uid),-342,5,260,"right")
 
 	--Draw lv. & xp.
-	gc_draw(TEXTURE.lvIcon[USER.lv],-255,50)
-	gc_line(-230,55,-80,55,-80,70,-230,70)
-	gc_rectangle("fill",-230,55,150*USER.xp/USER.lv/USER.lv,15)
+	gc.draw(TEXTURE.lvIcon[USER.lv],-255,50)
+	gc.line(-230,55,-80,55,-80,70,-230,70)
+	gc.rectangle("fill",-230,55,150*USER.xp/USER.lv/USER.lv,15)
 
-	gc_pop()
+	gc.pop()
 end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then
-		gc_push("transform")
-		gc_origin()
+		gc.push("transform")
+		gc.origin()
 		SHADER.warning:send("level",GAME.warnLVL)
-		gc_setShader(SHADER.warning)
-		gc_rectangle("fill",0,0,SCR.w,SCR.h)
-		gc_setShader()
-		gc_pop()
+		gc.setShader(SHADER.warning)
+		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.setShader()
+		gc.pop()
 	end
 end
 
