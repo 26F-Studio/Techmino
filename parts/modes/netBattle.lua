@@ -5,7 +5,7 @@ return{
 		freshLimit=15,
 		pushSpeed=5,
 		garbageSpeed=2,
-		noMod=true,
+		allowMod=false,
 		bgm={"race","battle","push","secret8th","secret7th","waterfall","oxygen","shining terminal","storm","rockblock","magicblock","cruelty"},
 	},
 	load=function()

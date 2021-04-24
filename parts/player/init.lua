@@ -229,7 +229,7 @@ local function loadGameEnv(P)--Load gameEnv
 			ENV[k]=TABLE.copy(v)
 		end
 	end
-	if not ENV.noMod then
+	if ENV.allowMod then
 		for _,M in next,GAME.mod do
 			M.func(P,M.list and M.list[M.sel])
 		end
@@ -346,7 +346,7 @@ local DemoEnv={
 	wait=10,fall=20,
 	highCam=false,
 	life=1e99,
-	noMod=true,
+	allowMod=false,
 	fine=false,
 }
 function PLY.newDemoPlayer(id)

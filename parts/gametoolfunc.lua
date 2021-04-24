@@ -401,7 +401,9 @@ do--function resetGameData(args)
 		STAT.game=STAT.game+1
 		FREEROW.reset(30*#PLAYERS)
 		TASK.removeTask_code(tick_showMods)
-		TASK.new(tick_showMods)
+		if GAME.setting.allowMod then
+			TASK.new(tick_showMods)
+		end
 		SFX.play("ready")
 		collectgarbage()
 	end

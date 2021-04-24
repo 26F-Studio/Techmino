@@ -58,5 +58,5 @@ return{
 	mindas=0,minarr=0,minsdarr=0,
 
 	bg="none",bgm="race",
-	noMod=false,
+	allowMod=true,
 }
