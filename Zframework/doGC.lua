@@ -1,9 +1,9 @@
 local gc=love.graphics
 local cmds={
-	reset="origin",
-	trans="translate",
+	origin="origin",
+	move="translate",
 	scale="scale",
-	rotat="rotate",
+	rotate="rotate",
 	clear="clear",
 
 	setCL="setColor",
@@ -26,14 +26,12 @@ local cmds={
 	fPoly=function(...)gc.polygon("fill",...)end,
 	dPoly=function(...)gc.polygon("line",...)end,
 
-	drArc=function(...)gc.arc("line",...)end,
-	flArc=function(...)gc.arc("fill",...)end,
-	dpArc=function(...)gc.arc("line","pie",...)end,
-	doArc=function(...)gc.arc("line","open",...)end,
-	dcArc=function(...)gc.arc("line","closed",...)end,
-	fpArc=function(...)gc.arc("fill","pie",...)end,
-	foArc=function(...)gc.arc("fill","open",...)end,
-	fcArc=function(...)gc.arc("fill","closed",...)end,
+	dPie=function(...)gc.arc("line",...)end,
+	dArc=function(...)gc.arc("line","open",...)end,
+	dBow=function(...)gc.arc("line","closed",...)end,
+	fPie=function(...)gc.arc("fill",...)end,
+	fArc=function(...)gc.arc("fill","open",...)end,
+	fBow=function(...)gc.arc("fill","closed",...)end,
 }
 return function(L)
 	gc.push()
@@ -46,8 +44,10 @@ return function(L)
 				local cmd=cmds[L[i][1]]
 				if type(cmd)=="string"then
 					gc[cmd](unpack(L[i],2))
-				else
+				elseif cmd then
 					cmd(unpack(L[i],2))
+				else
+					error("No gc command: "..(L[i][1]or"[nil]"))
 				end
 			end
 		gc.setCanvas()

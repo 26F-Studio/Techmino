@@ -75,7 +75,7 @@ local loadingThread=coroutine.wrap(function()
 	upFloor()
 	local modeIcons={}
 	modeIcons.marathon=DOGC{32,32,
-		{"trans",3,1},
+		{"move",3,1},
 		{"fRect",10,4,-2,23},
 		{"fPoly",10,4,24,10,10,16.5},
 		{"fRect",4,24,10,3},
@@ -85,7 +85,7 @@ local loadingThread=coroutine.wrap(function()
 		{"dCirc",32,32,28},
 		{"dLine",32,32,32,14},
 		{"dLine",32,32,41,41},
-		{"trans",.5,.5},
+		{"move",.5,.5},
 		{"fRect",30,7,4,4},
 		{"fRect",7,30,4,4},
 		{"fRect",52,30,4,4},
@@ -102,7 +102,7 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,7,16,16},
 		{"fRect",7,41,16,16},
 		{"fRect",41,41,16,16},
-		{"trans",.5,.5},
+		{"move",.5,.5},
 		{"setLW",1},
 		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}YIELD()
