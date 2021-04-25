@@ -4,6 +4,7 @@ local WS,TIME=WS,TIME
 local NET={
 	connected=false,
 	allow_online=false,
+	allReady=false,
 	serverGaming=false,
 	roomList={},
 	accessToken=false,
@@ -401,7 +402,7 @@ function NET.updateWS_play()
 									if PLY_NET[i].uid==d.uid then
 										PLY_NET[i].config=d.config
 										PLY_NET[i].p:setConf(d.config)
-										return
+										break
 									end
 								end
 								resetGameData("qn")
@@ -411,17 +412,18 @@ function NET.updateWS_play()
 								if p.uid==d.uid then
 									if p.ready~=d.ready then
 										p.ready=d.ready
+										if not d.ready then NET.allReady=false end
 										SFX.play("spin_0",.6)
 										if i==1 then
 											NET.unlock("ready")
 										elseif not PLY_NET[1].ready then
 											for j=2,#PLY_NET do
 												if not PLY_NET[j].ready then
-													break
-												elseif j==#PLY_NET then
-													SFX.play("blip_2",.5)
+													goto BREAK_notAllReady
 												end
 											end
+											SFX.play("blip_2",.5)
+											::BREAK_notAllReady::
 										end
 									end
 									break
@@ -429,10 +431,12 @@ function NET.updateWS_play()
 							end
 						elseif res.action==7 then--All Ready
 							SFX.play("reach",.6)
+							NET.allReady=true
 						elseif res.action==8 then--Set
 							NET.rsid=d.rid
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
+							NET.allReady=false
 							NET.wsclose_stream()
 							if SCN.socketRead then SCN.socketRead("Finish",d)end
 						end

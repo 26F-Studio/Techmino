@@ -239,8 +239,8 @@ function scene.draw()
 
 			--Rectangle
 			gc.setColor(COLOR[p.ready and"G"or"white"])
-			gc.setLineWidth(3)
-			gc.rectangle("line",40,67+50*i,800,42)
+			gc.setLineWidth(2)
+			gc.rectangle("line",40,65+50*i,1000,46)
 
 			--UID
 			setFont(40)
@@ -253,6 +253,13 @@ function scene.draw()
 
 			--Username
 			gc.print(p.username,240,60+50*i)
+		end
+
+		--All-ready mark
+		if NET.allReady then
+			gc.setColor(0,1,.2,.8)
+			gc.setLineWidth(10)
+			gc.rectangle("line",610,25,60,60)
 		end
 
 		--Profile
