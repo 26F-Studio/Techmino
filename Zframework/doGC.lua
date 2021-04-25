@@ -13,7 +13,7 @@ local cmds={
 	setLJ="setLineJoin",
 
 	setFT=function(...)setFont(...)end,
-	dText="print",
+	print="print",
 	mText=function(...)ADRAW.str(...)end,
 	mDraw=function(...)ADRAW.draw(...)end,
 
@@ -41,13 +41,19 @@ return function(L)
 			gc.setColor(1,1,1)
 			gc.setLineWidth(1)
 			for i=3,#L do
-				local cmd=cmds[L[i][1]]
+				local cmd=L[i][1]
+				if type(cmd)=="boolean"and cmd then
+					table.remove(L[i],1)
+					cmd=L[i][1]
+				end
 				if type(cmd)=="string"then
-					gc[cmd](unpack(L[i],2))
-				elseif cmd then
-					cmd(unpack(L[i],2))
-				else
-					error("No gc command: "..(L[i][1]or"[nil]"))
+					local func=cmds[cmd]
+					if type(func)=="string"then func=gc[func]end
+					if func then
+						func(unpack(L[i],2))
+					else
+						error("No gc command: "..cmd)
+					end
 				end
 			end
 		gc.setCanvas()
