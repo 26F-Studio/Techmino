@@ -9,6 +9,9 @@
 ]]--
 
 
+--Var leak check
+-- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match"\n.-\n\t(.-): ")rawset(self,k,v)end})
+
 --Declaration
 goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 local fs=love.filesystem
@@ -328,6 +331,3 @@ do
 		love.event.quit("restart")
 	end
 end
-
---Var leak check
--- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k,tostring(v))rawset(self,k,v)end})
