@@ -12,14 +12,6 @@ local TEXTURE={}
 gc.setDefaultFilter("nearest","nearest")
 
 
---Virtualkey icons
-gc.setColor(1,1,1)
-local VKI=gc.newImage("media/image/virtualkey.png")
-TEXTURE.VKIcon={}
-for i=1,20 do
-	TEXTURE.VKIcon[i]=NSC(36,36)
-	gc.draw(VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36)
-end
 
 --Mini blocks
 gc.setColor(1,1,1)

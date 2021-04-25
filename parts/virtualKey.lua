@@ -1,11 +1,19 @@
+local gc=love.graphics
+
 local SETTING=SETTING
 
-local keys={}
-for i=1,#VK_org do keys[i]={}end--In-game virtualkey layout
+--Virtualkey icons
+local VKIcon={}
+gc.setDefaultFilter("nearest","nearest")
+local VKI=gc.newImage("media/image/virtualkey.png")
+for i=1,20 do VKIcon[i]=DOGC{36,36,{"draw",VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36}}end
+gc.setDefaultFilter("linear","linear")
 
-local VK={}
+--In-game virtualkey layout data
+local keys={}for i=1,#VK_org do keys[i]={}end
 
-VK.keys=keys
+local VK={keys=keys}
+
 
 function VK.on(x,y)
 	local dist,nearest=1e10
@@ -95,14 +103,11 @@ function VK.update()
 	end
 end
 
-local gc=love.graphics
 local gc_circle,gc_draw,gc_setColor,gc_setLineWidth=gc.circle,gc.draw,gc.setColor,gc.setLineWidth
 function VK.draw()
 	if SETTING.VKSwitch then
 		local a=SETTING.VKAlpha
-		local _
 		if SETTING.VKIcon then
-			local icons=TEXTURE.VKIcon
 			for i=1,#keys do
 				if keys[i].ava then
 					local B=keys[i]
@@ -113,10 +118,10 @@ function VK.draw()
 					gc_circle("line",B.x,B.y,B.r,10)
 
 					--Icon
-					_=keys[i].pressTime
+					local _=keys[i].pressTime
 					local c=B.color
 					gc_setColor(c[1],c[2],c[3],a)
-					gc_draw(icons[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)
+					gc_draw(VKIcon[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)
 
 					--Ripple
 					if _>0 then
@@ -138,7 +143,7 @@ function VK.draw()
 					gc_setColor(1,1,1,a)
 					gc_setLineWidth(B.r*.07)
 					gc_circle("line",B.x,B.y,B.r,10)
-					_=keys[i].pressTime
+					local _=keys[i].pressTime
 					if _>0 then
 						gc_setColor(1,1,1,a*_*.08)
 						gc_circle("fill",B.x,B.y,B.r*.94,10)
@@ -164,7 +169,7 @@ function VK.preview(selected)
 				if SETTING.VKIcon then
 					local c=B.color
 					gc_setColor(c[1],c[2],c[3],SETTING.VKAlpha)
-					gc_draw(TEXTURE.VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)
+					gc_draw(VKIcon[i],B.x,B.y,nil,B.r*.025,nil,18,18)
 				end
 			end
 		end
