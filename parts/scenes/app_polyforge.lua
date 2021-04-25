@@ -23,7 +23,7 @@ local function new()
 	end
 end
 
-scene={}
+local scene={}
 
 function scene.sceneInit()
 	state=0

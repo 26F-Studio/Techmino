@@ -1604,7 +1604,7 @@ local function tick_lose(self)
 		end
 	end
 end
-function tick_autoPause()
+local function tick_autoPause()
 	local time=0
 	while true do
 		yield()

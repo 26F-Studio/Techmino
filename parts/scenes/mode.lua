@@ -194,6 +194,7 @@ local baseRankColor={
 	{.85,.8,.3,.3},
 	{.4,.7,.4,.3},
 }
+local rankColor=rankColor
 local function drawModeShape(M,S,drawType)
 	if M.shape==1 then--Rectangle
 		gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)

@@ -75,7 +75,7 @@ function scene.keyDown(key)
 		local args=STRING.split(str:sub((str:find(":")or 0)+1),"!")
 		if #args<4 then goto THROW_fail end
 		if not(
-			pasteQuestArgs(args[1])and
+			DATA.pasteQuestArgs(args[1])and
 			DATA.pasteSequence(args[2])and
 			DATA.pasteMission(args[3])
 		)then goto THROW_fail end

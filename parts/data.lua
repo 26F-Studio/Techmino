@@ -241,7 +241,7 @@ function DATA.copyQuestArgs()
 end
 do--function DATA.pasteQuestArgs(str)
 	local sub=string.sub
-	function pasteQuestArgs(str)
+	function DATA.pasteQuestArgs(str)
 		if #str<4 then return end
 		local ENV=CUSTOMENV
 		ENV.holdCount=		byte(str,1)-48
