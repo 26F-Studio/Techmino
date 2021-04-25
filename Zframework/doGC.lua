@@ -12,6 +12,11 @@ local cmds={
 	setLS="setLineStyle",
 	setLJ="setLineJoin",
 
+	setFT=function(...)setFont(...)end,
+	dText="print",
+	mText=function(...)ADRAW.str(...)end,
+	mDraw=function(...)ADRAW.draw(...)end,
+
 	draw="draw",
 	dLine="line",
 	fRect=function(...)gc.rectangle("fill",...)end,
