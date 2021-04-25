@@ -22,9 +22,8 @@ local texture_noImage=DOGC{128,128,
 	{"setCL",.1,.1,.1},
 	{"fRect",0,0,128,128},
 	{"setCL",1,1,1},
-	{"setLW",6},
-	{"dLine",9,9,118,118},
-	{"dLine",9,118,118,9},
+	{"setFT",100},
+	{"mText","?",64,-6},
 }
 
 local db_img={}
