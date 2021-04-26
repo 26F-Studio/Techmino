@@ -255,8 +255,6 @@ return{
 			new="创建房间(2)",
 			new2="创建房间(5)",
 			join="加入",
-			up="↑",
-			down="↓",
 		},
 		net_game={
 			ready="准备",

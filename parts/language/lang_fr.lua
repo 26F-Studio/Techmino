@@ -226,8 +226,6 @@ return{
 			noRoom="Aucun salon actuellement",
 			-- refresh="Refresh",
 			join="Rejoindre",
-			up="↑",
-			down="↓",
 		},
 		net_game={
 			-- ready="Ready",

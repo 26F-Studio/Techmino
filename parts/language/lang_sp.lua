@@ -233,8 +233,6 @@ return{
 			new="Sala Nueva(2)",
 			new2="Sala Nueva(5)",
 			join="Unirse",
-			up="↑",
-			down="↓",
 		},
 		net_game={
 			ready="Estoy Listo",

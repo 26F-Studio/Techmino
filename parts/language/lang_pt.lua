@@ -256,8 +256,6 @@ return{
 			-- new="New Room(2)",
 			-- new2="New Room(5)",
 			-- join="Join",
-			up="↑",
-			down="↓",
 		},
 		net_game={
 			-- ready="Ready",
