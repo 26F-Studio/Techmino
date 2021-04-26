@@ -16,7 +16,7 @@ local scene={}
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
 end
-function scene.sceneInit()
+function scene.sceneInit(org)
 	love.keyboard.setKeyRepeat(false)
 	textBox.hide=true
 	textBox:clear()
@@ -25,6 +25,10 @@ function scene.sceneInit()
 	playing=false
 	lastUpstreamTime=0
 	upstreamProgress=1
+
+	if org=="setting_game"then
+		NET.changeConfig()
+	end
 end
 
 scene.mouseDown=NULL
@@ -88,6 +92,10 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		NET.signal_ready(not PLY_NET[1].ready)
+	elseif key=="s"then
+		if not PLY_NET[1].ready then
+			SCN.go("setting_game")
+		end
 	end
 end
 function scene.keyUp(key)
@@ -274,6 +282,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return PLY_NET[1].ready end},
 	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="lB",font=40,code=pressKey"space",
 		hide=function()
 			return

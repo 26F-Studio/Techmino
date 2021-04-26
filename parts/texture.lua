@@ -79,6 +79,7 @@ TEXTURE.cursor_hold=DOGC{16,16,
 	{"fCirc",8,8,3},
 }
 
+--Level icons
 TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
 	local img={25,25}
 
@@ -93,6 +94,20 @@ TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
 	return img
 end})
 
+--Setting icon
+TEXTURE.setting=DOGC{64,64,
+	{"setLW",8},
+	{"dCirc",32,32,18},
+	{"setLW",10},
+	{"dLine",52,32,64,32},
+	{"dLine",32,52,32,64},
+	{"dLine",12,32,0,32},
+	{"dLine",32,12,32,0},
+	{"dLine",45,45,55,55},
+	{"dLine",19,45,9,55},
+	{"dLine",19,19,9,9},
+	{"dLine",45,19,55,9},
+}
 
 
 gc.setDefaultFilter("linear","linear")

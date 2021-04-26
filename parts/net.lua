@@ -198,14 +198,20 @@ end
 function NET.checkPlayDisconn()
 	return WS.status("play")~="running"
 end
-function NET.signal_ready(ready)
-	if NET.lock("ready",3)and not NET.serverGaming then
-		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
-	end
-end
 function NET.signal_quit()
 	if NET.lock("quit",3)then
 		WS.send("play",'{"action":3}')
+	end
+end
+function NET.sendMessage(mes)
+	WS.send("play",'{"action":4,"data":{"message":'..mes..'}}')
+end
+function NET.changeConfig()
+	WS.send("play",'{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
+end
+function NET.signal_ready(ready)
+	if NET.lock("ready",3)and not NET.serverGaming then
+		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
 function NET.signal_die()
