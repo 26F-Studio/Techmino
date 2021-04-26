@@ -1,7 +1,7 @@
 VERSION={
-	code=1405,
-	string="Alpha V0.14.5",
-	name="晨 Morn",
+	code=1406,
+	string="Alpha V0.14.6",
+	name="午 Noon",
 }
 function love.conf(t)
 	t.identity="Techmino"--Saving folder
