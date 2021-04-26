@@ -109,6 +109,15 @@ TEXTURE.setting=DOGC{64,64,
 	{"dLine",45,19,55,9},
 }
 
+--Earth icon
+TEXTURE.earth=DOGC{64,64,
+	{"setLW",4},
+	{"dCirc",32,32,30},
+	{"dLine",2,31,62,31},
+	{"dLine",31,2,31,62},
+	{"dArc",10,31,40,-.8,.8},
+	{"dArc",53,31,40,2.3,3.9},
+}
 
 gc.setDefaultFilter("linear","linear")
 
