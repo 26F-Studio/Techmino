@@ -16,7 +16,7 @@ local emptyUser={
 	username="Player",
 	motto="",
 	hash="",
-	new=true,
+	new=false,
 }
 local texture_noImage=DOGC{128,128,
 	{"setCL",.1,.1,.1},
