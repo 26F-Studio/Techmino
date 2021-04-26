@@ -902,7 +902,7 @@ return{
 	{"MrZ",
 		"mrz zjiang ddd 026 t626",
 		"name",
-		"【研究群】「T026」\n40行25.95秒， MPH40行57秒排世界第8(jstris)，tetr.io段位U，top数据约40L50A TGM3(W)shirase金1300通关\n这个游戏的作者!",
+		"【研究群】「T026」\n40行25.95秒， MPH40行57秒排世界第8(jstris)，tetr.io段位U，top数据约50L60A TGM3(W)shirase金1300通关\n这个游戏的作者!",
 		"https://space.bilibili.com/225238922",
 	},
 
