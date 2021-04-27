@@ -182,6 +182,7 @@ function NET.createRoom(roomType,name)
 end
 function NET.enterRoom(roomID,password)
 	if NET.lock("enterRoom",1.26)then
+		SFX.play("reach",.6)
 		NET.rid=roomID
 		WS.send("play",JSON.encode{
 			action=2,

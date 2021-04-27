@@ -84,10 +84,13 @@ function scene.mouseClick(x,y)
 		y=int((y-70)/40)
 		if y>=1 and y<=10 then
 			local s=int(y+scrollPos)
-			if selected~=s then
-				selected=s
-			else
-				scene.keyDown("return")
+			if NET.roomList[s]then
+				if selected~=s then
+					selected=s
+					SFX.play("click",.4)
+				else
+					scene.keyDown("return")
+				end
 			end
 		end
 	end
