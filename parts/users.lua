@@ -36,7 +36,7 @@ local db=setmetatable({},{__index=function(self,k)
 	db_img[k]=
 		type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
 		loadAvatar("cache/"..d.hash)or
-		defaultAvatar[math.random(29)]
+		defaultAvatar[k%28+1]
 	return d
 end})
 
