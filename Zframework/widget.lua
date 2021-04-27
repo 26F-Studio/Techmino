@@ -187,9 +187,9 @@ end
 function button:press()
 	self.code()
 	self:FX()
-	SFX.play("button")
+	if self.sound then SFX.play("button")end
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edge]],code[,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align="M"][,edge=0],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -212,6 +212,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,
 		font=	D.font or 30,
 		align=	D.align or"M",
 		edge=	D.edge or 0,
+		sound=	D.sound~=false,
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -279,8 +280,9 @@ function key:getInfo()
 end
 function key:press()
 	self.code()
+	if self.sound then SFX.play("key")end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edge]],code[,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align="M"][,edge=0],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -301,6 +303,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edg
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
+		sound=	D.sound~=false,
 		align=	D.align or"M",
 		edge=	D.edge or 0,
 		code=	D.code,
@@ -365,9 +368,9 @@ function switch:getInfo()
 end
 function switch:press()
 	self.code()
-	SFX.play("move")
+	if self.sound then SFX.play("move")end
 end
-function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
+function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code,hide
 	local _={
 		name=	D.name,
 
@@ -381,6 +384,7 @@ function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
+		sound=	D.sound~=false,
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
@@ -517,7 +521,7 @@ function slider:arrowKey(isLeft)
 		self.change()
 	end
 end
-function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font][,change],disp,code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -664,7 +668,7 @@ function selector:press(x)
 			self.code(self.list[s])
 			self.select=s
 			self.selText=self.list[s]
-			SFX.play("prerotate")
+			if self.sound then SFX.play("prerotate")end
 		end
 	end
 end
@@ -681,9 +685,9 @@ function selector:arrowKey(isLeft)
 	self.code(self.list[s])
 	self.select=s
 	self.selText=self.list[s]
-	SFX.play("prerotate")
+	if self.sound then SFX.play("prerotate")end
 end
-function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
+function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -701,6 +705,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
+		sound=	D.sound~=false,
 		font=	30,
 		list=	D.list,
 		disp=	D.disp,
@@ -799,7 +804,7 @@ function inputBox:keypress(k)
 		self.value=t
 	end
 end
-function WIDGET.newInputBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
+function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex],hide
 	local _={
 		name=	D.name,
 
@@ -943,7 +948,7 @@ end
 function textBox:getInfo()
 	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newTextBox(D)--name,x,y,w,h[,font][,lineH][,fix],hide
+function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 	local _={
 		name=	D.name,
 
