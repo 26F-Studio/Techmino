@@ -246,6 +246,7 @@ return{
 			reTime="Délai de démarrage",
 			RS="Système de rotation",
 			layout="Disposition",
+			-- dataSaving="Data saving",
 			autoPause="Mettre en pause en cas de perte de focus",
 			swap="Combinaison de touches (changer le mode d'attaque)",
 			fine="Son d'erreur de Finesse",

@@ -252,6 +252,7 @@ return{
 			reTime="Retraso de Inicio",
 			RS="Sistema de Rotación",
 			layout="Diseño",
+			-- dataSaving="Data saving",
 			autoPause="Pausar cuando la ventana no está enfocada",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
 			fine="Sonido de Error de Finesse",

@@ -274,6 +274,7 @@ return{
 			reTime="开局等待时间",
 			RS="旋转系统",
 			layout="外观",
+			dataSaving="省流模式",
 			autoPause="失去焦点自动暂停",
 			swap="组合键切换攻击模式",
 			fine="极简操作提示音",

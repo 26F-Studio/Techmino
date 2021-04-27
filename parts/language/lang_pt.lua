@@ -275,6 +275,7 @@ return{
 			reTime="Demora iniciação",
 			RS="Sistema de rotação",
 			layout="Layout",
+			-- dataSaving="Data saving",
 			autoPause="Pausar quando foco for perco",
 			swap="Combinação de tecla(Mudar modo de atk)",
 			fine="Som Falha de destreza",

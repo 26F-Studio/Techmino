@@ -132,6 +132,7 @@ return{
 			reTime="3-2-1",
 			RS="''?",
 			layout="=-=-=",
+			dataSaving="XX.",
 			autoPause="A||",
 			swap="=+=+=",
 			fine="12 X 21",

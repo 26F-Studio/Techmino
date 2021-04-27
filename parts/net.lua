@@ -144,7 +144,7 @@ function NET.getAccessToken()
 	end
 end
 function NET.getUserInfo(uid)
-	local hash=not SETTING.dataSaving and USERS.getHash(uid)
+	local hash=(not SETTING.dataSaving or nil)and USERS.getHash(uid)
 	WS.send("user",JSON.encode{
 		action=1,
 		data={

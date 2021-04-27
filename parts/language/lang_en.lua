@@ -274,6 +274,7 @@ return{
 			reTime="Start Delay",
 			RS="Rotation System",
 			layout="Layout",
+			dataSaving="Data saving",
 			autoPause="Pause while unfocused",
 			swap="Key Combination (Change Atk. Mode)",
 			fine="Finesse Error SFX",
