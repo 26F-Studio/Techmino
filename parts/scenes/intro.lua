@@ -5,25 +5,21 @@ local rnd=math.random
 
 local scene={}
 
-local t1,t2,animateType
+local t1,t2,animeType
 
 function scene.sceneInit()
 	BG.set()
 	t1,t2=0,0--Timer
-	animateType={rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5),rnd(5)}--Random animation type
+	animeType={}for i=1,8 do animeType[i]=rnd(5)end--Random animation type
 end
 
 function scene.mouseDown(_,_,k)
-	if k~=2 then
-		if newVersionLaunch then
-			SCN.push(SETTING.simpMode and"main_simple"or"main")
-			SCN.swapTo("history","fade")
-			LOG.print(text.newVersion,"warn",COLOR.lB)
-		else
-			SCN.go(SETTING.simpMode and"main_simple"or"main")
-		end
+	if newVersionLaunch then
+		SCN.push(SETTING.simpMode and"main_simple"or"main")
+		SCN.swapTo("history","fade")
+		LOG.print(text.newVersion,"warn",COLOR.lB)
 	else
-		SCN.swapTo("quit","slowFade")
+		SCN.go(SETTING.simpMode and"main_simple"or"main")
 	end
 end
 function scene.touchDown()
@@ -39,28 +35,15 @@ function scene.keyDown(key)
 end
 
 function scene.update()
-	t1=t1+1
-	t2=t2+1
+	t1,t2=t1+1,t2+1
 end
 
 local titleTransform={
-	function(t)
-		gc.translate(0,max(50-t,0)^2/25)
-	end,
-	function(t)
-		gc.translate(0,-max(50-t,0)^2/25)
-	end,
-	function(t,i)
-		local d=max(50-t,0)
-		gc.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)
-	end,
-	function(t,i)
-		local d=max(50-t,0)
-		gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)
-	end,
-	function(t)
-		gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)
-	end,
+	function(t)gc.translate(0,max(50-t,0)^2/25)end,
+	function(t)gc.translate(0,-max(50-t,0)^2/25)end,
+	function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)end,
+	function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)end,
+	function(t)gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)end,
 }
 function scene.draw()
 	local T=(t1+110)%300
@@ -77,7 +60,7 @@ function scene.draw()
 		if t>0 then
 			gc.push("transform")
 				gc.setColor(1,1,1,min(t*.025,1))
-				titleTransform[animateType[i]](t,i)
+				titleTransform[animeType[i]](t,i)
 				local dt=(t1+62-5*i)%300
 				if dt<20 then
 					gc.translate(0,math.abs(10-dt)-10)

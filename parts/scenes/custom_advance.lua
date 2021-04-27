@@ -14,14 +14,14 @@ scene.widgetList={
 	WIDGET.newText{name="subTitle",		x=530,y=50,font=35,align="L",color="H"},
 
 	--Control
-	WIDGET.newSlider{name="nextCount",	x=200,	y=150,	w=200,unit=6,disp=CUSval("nextCount"),code=CUSsto("nextCount")},
-	WIDGET.newSlider{name="holdCount",	x=200,	y=240,	w=200,unit=6,disp=CUSval("holdCount"),code=CUSsto("holdCount")},
-	WIDGET.newSwitch{name="infHold",	x=350,	y=340,				disp=CUSval("infHold"),	code=CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end},
-	WIDGET.newSwitch{name="phyHold",	x=350,	y=430,				disp=CUSval("phyHold"),	code=CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSlider{name="nextCount",	x=200,	y=150,	w=200,unit=6,	disp=CUSval("nextCount"),code=CUSsto("nextCount")},
+	WIDGET.newSlider{name="holdCount",	x=200,	y=240,	w=200,unit=6,	disp=CUSval("holdCount"),code=CUSsto("holdCount")},
+	WIDGET.newSwitch{name="infHold",	x=350,	y=340,					disp=CUSval("infHold"),	code=CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSwitch{name="phyHold",	x=350,	y=430,					disp=CUSval("phyHold"),	code=CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
 
 	--Rule
 	WIDGET.newSelector{name="fieldH",	x=270,	y=520,	w=260,color="N",list=sList.fieldH,		disp=CUSval("fieldH"),code=CUSsto("fieldH")},
-	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lB",list=sList.visible,		disp=CUSval("visible"),code=CUSsto("visible")},
+	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color="lB",list=sList.visible,	disp=CUSval("visible"),code=CUSsto("visible")},
 	WIDGET.newSelector{name="freshLimit",x=840,	y=160,	w=260,color="V",list=sList.freshLimit,	disp=CUSval("freshLimit"),code=CUSsto("freshLimit")},
 	WIDGET.newSelector{name="opponent",	x=1120,	y=60,	w=260,color="R",list=sList.opponent,	disp=CUSval("opponent"),code=CUSsto("opponent")},
 	WIDGET.newSelector{name="life",		x=1120,	y=160,	w=260,color="R",list=sList.life,		disp=CUSval("life"),code=CUSsto("life")},

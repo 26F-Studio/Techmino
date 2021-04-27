@@ -87,9 +87,9 @@ end
 
 scene.widgetList={
 	textBox,
-	WIDGET.newInputBox{name="input",x=40,	y=500,w=980,h=180,font=40},
-	WIDGET.newButton{name="send",	x=1140,	y=540,w=170,h=80,font=40,code=sendMessage},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newInputBox{name="input",x=40,y=500,w=980,h=180,font=40},
+	WIDGET.newButton{name="send",x=1140,y=540,w=170,h=80,font=40,code=sendMessage},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 
 return scene
