@@ -265,9 +265,9 @@ function scene.draw()
 
 		--All-ready mark
 		if NET.allReady then
-			gc.setColor(0,1,.2,.8)
-			gc.setLineWidth(10)
-			gc.rectangle("line",610,25,60,60)
+			gc.setColor(.1,1,0,.9)
+			setFont(60)
+			mStr(text.ready,640,10)
 		end
 
 		--Profile

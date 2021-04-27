@@ -427,18 +427,13 @@ end
 local function drawStartCounter(P)
 	gc_setColor(1,1,1)
 	if P.frameRun<180 then
-		if P.frameRun==0 then
-			setFont(70)
-			mStr(P.ready and text.beReady or text.notReady,305,220)
-		else
-			local count=179-P.frameRun
-			gc_push("transform")
-				gc_translate(305,220)
-				setFont(95)
-				if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
-				mStr(int(count/60+1),0,0)
-			gc_pop()
-		end
+		local count=179-P.frameRun
+		gc_push("transform")
+			gc_translate(305,220)
+			setFont(95)
+			if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
+			mStr(int(count/60+1),0,0)
+		gc_pop()
 	end
 end
 
