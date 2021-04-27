@@ -114,6 +114,7 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
 	local _,__
 
 	--Decode
+	str=str:sub(str:find"%S",str:find".%s-$")
 	_,str=pcall(data.decode,"string","base64",str)
 	if not _ then return end
 	_,str=pcall(data.decompress,"string","zlib",str)

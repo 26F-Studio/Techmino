@@ -82,7 +82,7 @@ function scene.keyDown(key)
 		repeat table.remove(FIELD)until #FIELD==0
 		FIELD[1]=DATA.newBoard()
 		for i=4,#args do
-			if not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
+			if args[i]:find"%S"and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
 		end
 		freshMiniFieldVisible()
 		LOG.print(text.importSuccess,COLOR.G)
