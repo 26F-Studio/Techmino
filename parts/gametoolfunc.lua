@@ -477,28 +477,38 @@ do--function drawFWM()
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
-function drawSelfProfile()
-	local selfAvatar=USERS.getAvatar(USER.uid)
-	gc.push("transform")
-	gc.translate(1280,0)
+do--function drawSelfProfile()
+	local name
+	local textObject,scaleK,width,offY
+	function drawSelfProfile()
+		local selfAvatar=USERS.getAvatar(USER.uid)
+		gc.push("transform")
+		gc.translate(1280,0)
 
-	--Draw avatar
-	gc.setLineWidth(2)
-	gc.setColor(.3,.3,.3,.8)gc.rectangle("fill",-260,0,260,80)
-	gc.setColor(1,1,1)gc.rectangle("line",-260,0,260,80)
-	gc.rectangle("line",-73,7,66,66,2)
-	gc.draw(selfAvatar,-72,8,nil,.5)
+		--Draw avatar
+		gc.setLineWidth(2)
+		gc.setColor(.3,.3,.3,.8)gc.rectangle("fill",-300,0,300,80)
+		gc.setColor(1,1,1)gc.rectangle("line",-300,0,300,80)
+		gc.rectangle("line",-73,7,66,66,2)
+		gc.draw(selfAvatar,-72,8,nil,.5)
 
-	--Draw username
-	setFont(30)
-	gc.printf(USERS.getUsername(USER.uid),-342,5,260,"right")
+		--Draw username
+		if name~=USERS.getUsername(USER.uid)then
+			name=USERS.getUsername(USER.uid)
+			textObject=gc.newText(getFont(30),name)
+			width=textObject:getWidth()
+			scaleK=210/math.max(width,210)
+			offY=textObject:getHeight()/2
+		end
+		gc.draw(textObject,-82,26,nil,scaleK,nil,width,offY)
 
-	--Draw lv. & xp.
-	gc.draw(TEXTURE.lvIcon[USER.lv],-255,50)
-	gc.line(-230,55,-80,55,-80,70,-230,70)
-	gc.rectangle("fill",-230,55,150*USER.xp/USER.lv/USER.lv,15)
+		--Draw lv. & xp.
+		gc.draw(TEXTURE.lvIcon[USER.lv],-295,50)
+		gc.line(-270,55,-80,55,-80,70,-270,70)
+		gc.rectangle("fill",-210,55,150*USER.xp/USER.lv/USER.lv,15)
 
-	gc.pop()
+		gc.pop()
+	end
 end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then
