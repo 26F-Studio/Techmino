@@ -596,7 +596,7 @@ function Player:spin(d,ifpre)
 		local ix,iy=self.curX+self.cur.sc[2]-isc[2],self.curY+self.cur.sc[1]-isc[1]
 		for test=1,#kickData do
 			local x,y=ix+kickData[test][1],iy+kickData[test][2]
-			if not self:ifoverlap(icb,x,y)and(self.freshTime>0 or kickData[test][2]<0)then
+			if not self:ifoverlap(icb,x,y)and(self.freshTime>0 or kickData[test][2]<=0)then
 				ix,iy=x,y
 				if self.gameEnv.moveFX and self.gameEnv.block then
 					self:createMoveFX()
