@@ -11,16 +11,14 @@ local widgetX0={
 	-10,-10,-10,-10,
 	1290,1290,1290,1290,
 }
-
 local cmdEntryThread=coroutine.wrap(function()
 	while true do
-		if
-			YIELD()=="c"and(SFX.play("ren_6")or 1)and
-			YIELD()=="m"and(SFX.play("ren_9")or 1)and
-			YIELD()=="d"and(SFX.play("ren_11")or 1)
-		then
-			SCN.go("app_cmd")
-		end
+		SFX.play("ren_"..math.random(5,6))YIELD()
+		SFX.play("ren_"..math.random(7,8))YIELD()
+		SFX.play("ren_"..math.random(9,10))YIELD()
+		SFX.play("ren_9")SFX.play("ren_11")SFX.play("ren_mega")
+		SCN.go("app_cmd")
+		YIELD()
 	end
 end)
 function scene.sceneInit()
@@ -28,7 +26,6 @@ function scene.sceneInit()
 	scrollX=tipLength
 
 	BG.set()
-	cmdEntryThread()
 
 	--Set quick-play-button text
 	scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
@@ -42,12 +39,8 @@ function scene.sceneInit()
 end
 
 function scene.mouseDown(x,y)
-	if x>=520 and x<=760 and y>=140 and y<=620 then
-		cmdEntryThread(
-			x<520+80 and y>620-80 and"c"or
-			x>760-80 and y>620-80 and"m"or
-			x<520+80 and y<140+80 and"d"
-		)
+	if x>=400 and x<=880 and y>=10 and y<=110 then
+		cmdEntryThread()
 	end
 end
 scene.touchDown=scene.mouseDown
@@ -122,8 +115,8 @@ function scene.keyDown(key)
 		if testButton(12)then
 			SCN.back()
 		end
-	else
-		cmdEntryThread(key)
+	elseif key=="c"then
+		cmdEntryThread()
 	end
 end
 
