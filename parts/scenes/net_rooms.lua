@@ -22,23 +22,8 @@ function scene.sceneInit()
 	fetchRoom()
 end
 
-local floatWheel=0
 function scene.wheelMoved(_,y)
-	if y>0 then
-		if floatWheel<0 then floatWheel=0 end
-		floatWheel=floatWheel+y^1.2
-	elseif y<0 then
-		if floatWheel>0 then floatWheel=0 end
-		floatWheel=floatWheel-(-y)^1.2
-	end
-	while floatWheel>=1 do
-		scrollPos=max(0,min(scrollPos-1,#NET.roomList-10))
-		floatWheel=floatWheel-1
-	end
-	while floatWheel<=-1 do
-		scrollPos=max(0,min(scrollPos+1,#NET.roomList-10))
-		floatWheel=floatWheel+1
-	end
+	scrollPos=max(0,min(scrollPos-y,#NET.roomList-10))
 end
 function scene.keyDown(k)
 	if k=="r"then
@@ -84,22 +69,28 @@ function scene.keyDown(k)
 	end
 end
 
-function scene.mouseMove(_,_,_,dy)
-	if ms.isDown(1)then
-		scene.wheelMoved(0,dy/30)
+function scene.mouseMove(x,y,_,dy)
+	if ms.isDown(1)and x>50 and x<1230 and y>110 and y<510 then
+		scene.wheelMoved(0,dy/40)
+	end
+end
+function scene.touchMove(x,y,_,dy)
+	if x>50 and x<1230 and y>110 and y<510 then
+		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.mouseClick(x,y)
 	if x>50 and x<1230 then
 		y=int((y-70)/40)
 		if y>=1 and y<=10 then
-			print(y+scrollPos)
-			selected=y+scrollPos
+			local s=int(y+scrollPos)
+			if selected~=s then
+				selected=s
+			else
+				scene.keyDown("return")
+			end
 		end
 	end
-end
-function scene.touchMove(_,_,_,dy)
-	scene.wheelMoved(0,dy/30)
 end
 scene.touchClick=scene.mouseClick
 
@@ -110,11 +101,12 @@ function scene.update(dt)
 			fetchRoom()
 		end
 	end
-	if #NET.roomList>0 and not NET.roomList[selected]then
-		selected=#NET.roomList
-	end
+	selected=min(selected,#NET.roomList)
 end
 
+local function roomListStencil()
+	gc.rectangle("fill",50,110,1180,400)
+end
 function scene.draw()
 	--Fetching timer
 	gc.setColor(1,1,1,.12)
@@ -124,29 +116,40 @@ function scene.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(2)
 	gc.rectangle("line",50,110,1180,400)
-	if #NET.roomList>0 then
+	local roomCount=#NET.roomList
+	if roomCount>0 then
 		setFont(35)
-		for i=1,math.min(10,#NET.roomList-scrollPos)do
-			local R=NET.roomList[scrollPos+i]
-			if scrollPos+i==selected then
+		gc.push("transform")
+		gc.stencil(roomListStencil,"replace",1)
+		gc.setStencilTest("equal",1)
+		gc.translate(0,scrollPos%1*-40)
+		local pos=int(scrollPos)
+		for i=1,math.min(11,roomCount-pos)do
+			local R=NET.roomList[pos+i]
+			if pos+i==selected then
 				gc.setColor(1,1,1,.3)
 				gc.rectangle("fill",50,70+40*i,1180,40)
-			end
-			if R.private then
-				gc.setColor(1,1,1)
-				gc.draw(IMG.lock,59,75+40*i)
 			end
 			if R.start then
 				gc.setColor(0,1,0)
 				gc.print(text.started,800,66+40*i)
 			end
 			gc.setColor(.9,.9,1)
-			gc.print(scrollPos+i,95,66+40*i)
+			gc.print(pos+i,95,66+40*i)
 			gc.setColor(1,1,.7)
 			gc.print(R.name,250,66+40*i)
 			gc.setColor(1,1,1)
 			gc.printf(R.type,550,66+40*i,500,"right")
 			gc.print(R.count.."/"..R.capacity,1100,66+40*i)
+			if R.private then
+				gc.draw(IMG.lock,59,75+40*i)
+			end
+		end
+		gc.setStencilTest()
+		gc.pop()
+		if roomCount>10 then
+			local len=400*10/roomCount
+			gc.rectangle("fill",1218,110+(400-len)*scrollPos/(roomCount-10),12,len)
 		end
 	end
 
