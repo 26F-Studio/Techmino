@@ -18,13 +18,14 @@ local emptyUser={
 	hash="",
 	new=false,
 }
-local texture_noImage=DOGC{128,128,
-	{"setCL",.1,.1,.1},
-	{"fRect",0,0,128,128},
-	{"setCL",1,1,1},
-	{"setFT",100},
-	{"mText","?",64,-6},
-}
+local defaultAvatar={}
+for i=1,29 do
+	local img=TEXTURE.miniBlock[i]
+	defaultAvatar[i]=DOGC{128,128,
+		{"clear",.1,.1,.1},
+		{"draw",img,63,63,.2,30,30,img:getWidth()/2,img:getHeight()/2},
+	}
+end
 
 local db_img={}
 local db=setmetatable({},{__index=function(self,k)
@@ -32,9 +33,10 @@ local db=setmetatable({},{__index=function(self,k)
 	local file="cache/user"..k..".dat"
 	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
 	rawset(self,k,d)
-	if type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)then
-		db_img[k]=loadAvatar("cache/"..d.hash)
-	end
+	db_img[k]=
+		type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
+		loadAvatar("cache/"..d.hash)or
+		defaultAvatar[math.random(29)]
 	return d
 end})
 
@@ -60,15 +62,11 @@ function USERS.getUsername(uid)return db[uid].username end
 function USERS.getMotto(uid)return db[uid].motto end
 function USERS.getHash(uid)return db[uid].hash end
 function USERS.getAvatar(uid)
-	if db_img[uid]then
-		return db_img[uid]
-	else
-		if not db[uid].new then
-			NET.getUserInfo(uid)
-			db[uid].new=true
-		end
-		return texture_noImage
+	if not db[uid].new then
+		NET.getUserInfo(uid)
+		db[uid].new=true
 	end
+	return db_img[uid]
 end
 
 return USERS
