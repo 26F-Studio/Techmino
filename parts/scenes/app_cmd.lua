@@ -4,7 +4,7 @@ local ins,rem=table.insert,table.remove
 local C=COLOR
 
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
-local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
+local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
 log{C.lB,"©2020 26F Studio   some rights reserved"}
@@ -21,7 +21,7 @@ do--commands.help(arg)
 	--format of table command_help_messages:
 	--	key: the command
 	--	value: a table containing the following two elements:
-	--		description: a string that shows when user types `help` or `help [page]`.
+	--		description: a string that shows when user types `help`.
 	--		details: an array of strings containing documents, shows when user types `help [command]`.
 	local command_help_messages={
 		help={
@@ -33,7 +33,7 @@ do--commands.help(arg)
 				"",
 				"Usage:",
 				"help",
-				"help [page|command_name]",
+				"help [command_name]",
 			},
 		},
 		["?"]="help",
@@ -254,36 +254,19 @@ do--commands.help(arg)
 		"demo",
 		"applet",
 	}
-	local pageSize=10
-	local maxPage=math.ceil(#command_help_list/pageSize)
 	function commands.help(arg)
 		--help [command]
 		if command_help_messages[arg]then
-			for _,v in ipairs(command_help_messages[arg].details)do
-				log(v)
-			end
+			for _,v in ipairs(command_help_messages[arg].details)do log(v)end
 			return
 		end
 
-		--help or help [page]
-		local page=arg==""and 1 or tonumber(arg)
-		if page then
-			if page==math.floor(page)and page>=1 and page<=maxPage then
-				log"Use help [page] to view more commands,"
-				log"or help [command_name] for details of a command."
-				log""
-				log{C.lW,"Page ",C.lG,page,C.lW," of ",C.lG,maxPage}
-				for i=pageSize*(page-1)+1,math.min(pageSize*page,#command_help_list)do
-					local cmd=command_help_list[i]
-					log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
-				end
-			else
-				log{C.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
-			end
-		else
-			log{C.R,"No command called "..arg}
+		--help
+		for i=1,#command_help_list do
+			local cmd=command_help_list[i]
+			log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
 		end
-	end
+end
 end
 function commands.error(mes)error(mes)end
 function commands.cls()outputBox:clear()end
