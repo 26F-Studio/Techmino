@@ -29,14 +29,17 @@ end
 
 local db_img={}
 local db=setmetatable({},{__index=function(self,k)
-	if not k then return emptyUser end
+	if not k then
+		db_img[k]=defaultAvatar[(k-26)%29+1]
+		return emptyUser
+	end
 	local file="cache/user"..k..".dat"
 	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
 	rawset(self,k,d)
 	db_img[k]=
 		type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
 		loadAvatar("cache/"..d.hash)or
-		defaultAvatar[k%28+1]
+		defaultAvatar[(k-26)%29+1]
 	return d
 end})
 
