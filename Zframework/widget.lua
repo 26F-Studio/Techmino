@@ -5,17 +5,8 @@ local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
 local sub=string.sub
 local ins=table.insert
-local COLOR=COLOR
 local setFont,mStr=setFont,mStr
 local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
-
-local mustHaveText={
-	text=true,
-	button=true,
-	key=true,
-	switch=true,
-	selector=true,
-}
 
 local WIDGET={}
 local widgetMetatable={
@@ -26,6 +17,7 @@ local widgetMetatable={
 
 local text={
 	type="text",
+	mustHaveText=true,
 	alpha=0,
 }
 function text:reset()end
@@ -99,6 +91,7 @@ end
 
 local button={
 	type="button",
+	mustHaveText=true,
 	ATV=0,--Activating time(0~8)
 }
 function button:reset()
@@ -184,8 +177,8 @@ end
 function button:getInfo()
 	return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
-function button:press()
-	self.code()
+function button:press(_,_,k)
+	self.code(k)
 	self:FX()
 	if self.sound then SFX.play("button")end
 end
@@ -223,6 +216,7 @@ end
 
 local key={
 	type="key",
+	mustHaveText=true,
 	ATV=0,--Activating time(0~4)
 }
 function key:reset()
@@ -278,8 +272,8 @@ end
 function key:getInfo()
 	return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
-function key:press()
-	self.code()
+function key:press(_,_,k)
+	self.code(k)
 	if self.sound then SFX.play("key")end
 end
 function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align="M"][,edge=0],code[,hide]
@@ -316,6 +310,7 @@ end
 
 local switch={
 	type="switch",
+	mustHaveText=true,
 	ATV=0,--Activating time(0~8)
 	CHK=0,--Check alpha(0~6)
 }
@@ -490,6 +485,9 @@ end
 function slider:getInfo()
 	return("x=%d,y=%d,w=%d"):format(self.x,self.y,self.w)
 end
+function slider:press(x)
+	self:drag(x)
+end
 function slider:drag(x)
 	if not x then return end
 	x=x-self.x
@@ -573,6 +571,7 @@ end
 
 local selector={
 	type="selector",
+	mustHaveText=true,
 	ATV=8,--Activating time(0~4)
 	select=0,--Selected item ID
 	selText=false,--Selected item name
@@ -867,16 +866,8 @@ function textBox:push(t)
 		self.new=true
 	end
 end
-function textBox:drag(_,_,_,dy)
-	_=self.scrollPix+dy*SCR.dpi
-	local sign=_>0 and 1 or -1
-	while abs(_)>30 do
-		_=_-30*sign
-		self:scroll(-sign)
-	end
-	self.scrollPix=_
-end
 function textBox:press(x,y)
+	self:drag(nil,nil,nil,0)
 	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
 			self:clear()
@@ -885,6 +876,15 @@ function textBox:press(x,y)
 			self.sure=60
 		end
 	end
+end
+function textBox:drag(_,_,_,dy)
+	_=self.scrollPix+dy*SCR.dpi
+	local sign=_>0 and 1 or -1
+	while abs(_)>30 do
+		_=_-30*sign
+		self:scroll(-sign)
+	end
+	self.scrollPix=_
 end
 function textBox:scroll(n)
 	if n<0 then
@@ -914,7 +914,7 @@ function textBox:draw()
 
 	--Frame
 	gc.setLineWidth(4)
-	gc.setColor(COLOR[WIDGET.sel==self and"Y"or"Z"])
+	gc.setColor(1,1,WIDGET.sel==self and 0 or 1)
 	gc.rectangle("line",x,y,w,h)
 
 	--Slider
@@ -1021,7 +1021,7 @@ function WIDGET.setLang(widgetText)
 		if L.widgetList then
 			for _,W in next,L.widgetList do
 				local t=W.fText or widgetText[S][W.name]
-				if not t and mustHaveText[W.type]then
+				if not t and W.mustHaveText then
 					t=W.name or"##"
 					W.color=COLOR.dV
 				end
@@ -1045,14 +1045,10 @@ function WIDGET.cursorMove(x,y)
 		WIDGET.sel=false
 	end
 end
-function WIDGET.press(x,y)
+function WIDGET.press(x,y,k)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="inputBox"or W.type=="textBox"then
-		W:press(x,y)
-	elseif W.type=="slider"then
-		WIDGET.drag(x,y)
-	end
+	W:press(x,y,k)
 	if W.hide==true or W.hide and W.hide()then WIDGET.sel=false end
 end
 function WIDGET.drag(x,y,dx,dy)

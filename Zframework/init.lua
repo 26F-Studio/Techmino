@@ -115,14 +115,8 @@ function love.mousepressed(x,y,k,touch)
 		))
 	end
 	if SCN.swapping then return end
-	if SCN.mouseDown then
-		SCN.mouseDown(mx,my,k)
-	elseif k==2 then
-		SCN.back()
-	end
-	if k==1 then
-		WIDGET.press(mx,my)
-	end
+	if SCN.mouseDown then SCN.mouseDown(mx,my,k)end
+	WIDGET.press(mx,my,k)
 	lastX,lastY=mx,my
 	if SETTING.clickFX then SYSFX.newTap(3,mx,my,30)end
 end
@@ -184,7 +178,7 @@ function love.touchreleased(id,x,y)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if id==touching then
-		WIDGET.press(x,y)
+		WIDGET.press(x,y,1)
 		WIDGET.release(x,y)
 		touching=false
 		if WIDGET.sel and not WIDGET.sel.keepFocus then
