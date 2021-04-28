@@ -408,11 +408,9 @@ function NET.updateWS_play()
 								for i=1,#PLY_NET do
 									if PLY_NET[i].uid==d.uid then
 										PLY_NET[i].config=d.config
-										PLY_NET[i].p:setConf(d.config)
 										break
 									end
 								end
-								resetGameData("qn")
 							end
 						elseif res.action==6 then--One ready
 							for i,p in next,PLY_NET do

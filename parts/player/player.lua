@@ -213,19 +213,6 @@ function Player:setRS(RSname)
 	self.RS=kickList[RSname]
 end
 
-function Player:setConf(confStr)
-	confStr=JSON.decode(confStr)
-	if confStr then
-		for k,v in next,confStr do
-			if not GAME.modeEnv[k]then
-				self.gameEnv[k]=v
-			end
-		end
-	else
-		LOG.print("Bad conf from "..self.username.."#"..self.uid)
-	end
-end
-
 function Player:getHolePos()--Get a good garbage-line hole position
 	if self.garbageBeneath==0 then
 		return generateLine(self:RND(10))
