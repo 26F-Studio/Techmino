@@ -233,9 +233,9 @@ return{
 			size="←→",
 		},
 		setting_touchSwitch={
-			b1=	"←:",    b2="→:",   b3="R→:",   b4="←R:",
-			b5=	"R↑↓:",   b6="↓↓:",   b7="↓:",     b8="□←:",
-			b9=	"F1:",    b10="F2:",  b11="←←:",  b12="→→:",
+			b1="←:",    b2="→:",   b3="R→:",   b4="←R:",
+			b5="R↑↓:",   b6="↓↓:",   b7="↓:",     b8="□←:",
+			b9="F1:",    b10="F2:",  b11="←←:",  b12="→→:",
 			b13="↓_:",   b14="↓1:",  b15="↓4:",   b16="↓10:",
 			b17="←↓→↓:", b18="→↓↓:", b19="←↓→↓:",b20="→↓←↓:",
 			norm="-",
@@ -270,8 +270,9 @@ return{
 			clear="Start-Clear",
 			puzzle="Start-Puzzle",
 
+			reset="Reset (Del)",
 			advance="More (A)",
-			mod="?!?!?!",
+			mod="?!?!?! (F1)",
 			field="Edit Field (F)",
 			sequence="Edit Sequence (S)",
 			mission="Edit Mission (M)",

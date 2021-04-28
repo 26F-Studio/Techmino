@@ -78,7 +78,7 @@ return{
 			spin7="转",
 		},
 		customGame={
-			mod="模组",
+			mod="模组(F1)",
 		},
 		custom_advance={
 			nextCount="预览个数",

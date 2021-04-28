@@ -414,8 +414,9 @@ return{
 			clear="Start-Clear",
 			puzzle="Start-Puzzle",
 
+			reset="Reset (Del)",
 			advance="More (A)",
-			mod="Mods",
+			mod="Mods (F1)",
 			field="Edit Field (F)",
 			sequence="Edit Sequence (S)",
 			mission="Edit Mission (M)",

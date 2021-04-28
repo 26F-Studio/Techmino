@@ -235,11 +235,11 @@ return{
 		},
 		pause={
 			setting="设置(S)",
-			replay=	"回放(P)",
+			replay="回放(P)",
 			save="保存(O)",
-			resume=	"继续(esc)",
+			resume="继续(esc)",
 			restart="重新开始(R)",
-			quit=	"退出(Q)",
+			quit="退出(Q)",
 		},
 		net_menu={
 			ffa="FFA",
@@ -413,8 +413,9 @@ return{
 			clear="开始-消除",
 			puzzle="开始-拼图",
 
+			reset="重置所有(Del)",
 			advance="更多设置(A)",
-			mod="Mods",
+			mod="Mods (F1)",
 			field="场地编辑(F)",
 			sequence="序列编辑(S)",
 			mission="任务编辑(M)",

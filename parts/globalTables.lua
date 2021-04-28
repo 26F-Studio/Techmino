@@ -193,8 +193,7 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Local data
 	xp=0,lv=1,
 }
-CUSTOMENV=FILE.load("conf/customEnv")
-if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv for cutsom game
+customEnv0={
 	version=VERSION.code,
 
 	--Basic
@@ -233,7 +232,9 @@ if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv fo
 	--Else
 	bg="none",
 	bgm="infinite",
-}end
+}
+CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game
+if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV=TABLE.copy(customEnv0)end
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,

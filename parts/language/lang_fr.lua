@@ -387,8 +387,9 @@ return{
 			clear="Démarrer Clear",
 			puzzle="Démarrer Puzzle",
 
+			-- reset="Reset (Del)",
 			advance="Plus (A)",
-			mod="Mods",
+			mod="Mods (F1)",
 			field="Modifier la matrice (F)",
 			sequence="Modifier la séquence (S)",
 			mission="Modifier la mission(M)",

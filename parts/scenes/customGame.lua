@@ -12,6 +12,7 @@ local CUSTOMENV=CUSTOMENV
 
 local scene={}
 
+local sure
 local initField
 local function freshMiniFieldVisible()
 	initField=false
@@ -23,6 +24,7 @@ local function freshMiniFieldVisible()
 	end
 end
 function scene.sceneInit()
+	sure=0
 	destroyPlayers()
 	BG.set(CUSTOMENV.bg)
 	BGM.play(CUSTOMENV.bgm)
@@ -61,8 +63,19 @@ function scene.keyDown(key)
 		SCN.go("custom_sequence","swipeD")
 	elseif key=="m"then
 		SCN.go("custom_mission","swipeD")
+	elseif key=="delete"then
+		if sure>20 then
+			TABLE.update(customEnv0,CUSTOMENV)
+			for _,W in next,scene.widgetList do W:reset()end
+			sure=0
+			SFX.play("finesseError",.7)
+		else
+			sure=50
+		end
 	elseif key=="a"then
 		SCN.go("custom_advance","swipeD")
+	elseif key=="f1"then
+		SCN.go("mod","swipeD")
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		local str="Techmino Quest:"..DATA.copyQuestArgs().."!"
 		if #BAG>0 then str=str..DATA.copySequence()end
@@ -94,6 +107,10 @@ function scene.keyDown(key)
 	else
 		WIDGET.keyPressed(key)
 	end
+end
+
+function scene.update()
+	if sure>0 then sure=sure-1 end
 end
 
 function scene.draw()
@@ -143,6 +160,12 @@ function scene.draw()
 		gc.print("#",610,545)
 		gc.print(#MISSION,640,545)
 	end
+
+	--Confirm reset
+	if sure>0 then
+		gc.setColor(1,1,1,sure*.02)
+		gc.draw(drawableText.question,850,80)
+	end
 end
 
 scene.widgetList={
@@ -168,11 +191,12 @@ scene.widgetList={
 	WIDGET.newButton{name="puzzle",	x=1070,	y=550,w=310,h=70,color="lM",font=35,code=pressKey"return2",hide=function()return not initField end},
 
 	--More
-	WIDGET.newKey{name="advance",	x=730,	y=190,w=220,h=90,color="R",font=35,code=goScene"custom_advance"},
-	WIDGET.newKey{name="mod",		x=730,	y=310,w=220,h=90,color="Z",font=35,code=goScene"mod"},
-	WIDGET.newKey{name="field",		x=170,	y=640,w=240,h=80,color="A",font=25,code=goScene"custom_field"},
-	WIDGET.newKey{name="sequence",	x=450,	y=640,w=240,h=80,color="W",font=25,code=goScene"custom_sequence"},
-	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color="N",font=25,code=goScene"custom_mission"},
+	WIDGET.newKey{name="reset",		x=730,	y=150,w=220,h=90,color="R",font=30,code=pressKey"delete"},
+	WIDGET.newKey{name="advance",	x=730,	y=270,w=220,h=90,color="F",font=35,code=pressKey"a"},
+	WIDGET.newKey{name="mod",		x=730,	y=390,w=220,h=90,color="Z",font=35,code=pressKey"f1"},
+	WIDGET.newKey{name="field",		x=170,	y=640,w=240,h=80,color="A",font=25,code=pressKey"f"},
+	WIDGET.newKey{name="sequence",	x=450,	y=640,w=240,h=80,color="W",font=25,code=pressKey"s"},
+	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color="N",font=25,code=pressKey"m"},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=pressKey"escape"},
 }

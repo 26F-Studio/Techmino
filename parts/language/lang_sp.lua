@@ -213,11 +213,11 @@ return{
 		},
 		pause={
 			setting="Opciones (S)",
-			replay=	"Grabación (P)",
+			replay="Grabación (P)",
 			save="Guardar (O)",
-			resume=	"Resumir (esc)",
+			resume="Resumir (esc)",
 			restart="Reiniciar (R)",
-			quit=	"Finalizar (Q)",
+			quit="Finalizar (Q)",
 		},
 		net_menu={
 			ffa="FFA",
@@ -388,8 +388,9 @@ return{
 			clear="Inicio-Fin",
 			puzzle="Inicio-Puzzle",
 
+			-- reset="Reset (Del)",
 			advance="Más opciones (A)",
-			mod="Mods",
+			mod="Mods (F1)",
 			field="Editar Tablero (F)",
 			sequence="Editar Secuencia (S)",
 			mission="Editar Misiones (M)",
