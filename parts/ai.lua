@@ -71,7 +71,7 @@ if type(_CC)=="table"then
 		end
 		CC.updateField(P)
 
-		TABLE.clear(P.holdQueue)
+		TABLE.cut(P.holdQueue)
 		P.holdTime=P.gameEnv.holdCount
 
 		P.cur=rem(P.nextQueue,1)

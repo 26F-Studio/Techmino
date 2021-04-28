@@ -31,7 +31,7 @@ local typeColor={
 }
 local function getList()return result[1]and result or dict end
 local function clearResult()
-	TABLE.clear(result)
+	TABLE.cut(result)
 	selected,scrollPos=1,0
 	waiting,lastSearch=0,false
 end

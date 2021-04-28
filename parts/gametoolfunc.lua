@@ -180,7 +180,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 		end
 		PLAYERS[i]=nil
 	end
-	TABLE.clear(PLY_ALIVE)
+	TABLE.cut(PLY_ALIVE)
 	collectgarbage()
 end
 function pauseGame()

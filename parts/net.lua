@@ -351,7 +351,7 @@ function NET.updateWS_play()
 						elseif res.action==2 then--Player join
 							if res.type=="Self"then
 								--Create room
-								TABLE.clear(PLY_NET)
+								TABLE.cut(PLY_NET)
 								if d.players then
 									for _,p in next,d.players do
 										ins(PLY_NET,p.uid==USER.uid and 1 or #PLY_NET+1,{

@@ -1748,7 +1748,7 @@ function Player:lose(force)
 
 		if self.AI_mode=="CC"then
 			CC.destroy(self.AI_bot)
-			TABLE.clear(self.holdQueue)
+			TABLE.cut(self.holdQueue)
 			self:loadAI(self.AIdata)
 		end
 

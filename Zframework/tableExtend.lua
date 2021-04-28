@@ -1,7 +1,7 @@
 local next,type=next,type
 local TABLE={}
 
---Copy [1~#] elements
+--Get a copy of [1~#] elements
 function TABLE.shift(org)
 	local L={}
 	for i=1,#org do
@@ -14,7 +14,7 @@ function TABLE.shift(org)
 	return L
 end
 
---Copy all elements
+--Get a full copy of a table
 function TABLE.copy(org)
 	local L={}
 	for k,v in next,org do
@@ -28,25 +28,25 @@ function TABLE.copy(org)
 end
 
 --For all things in G if same type in base, push to base
-function TABLE.update(G,base)
-	for k,v in next,G do
-		if type(v)==type(base[k])then
+function TABLE.update(new,old)
+	for k,v in next,new do
+		if type(v)==type(old[k])then
 			if type(v)=="table"then
-				TABLE.update(v,base[k])
+				TABLE.update(v,old[k])
 			else
-				base[k]=v
+				old[k]=v
 			end
 		end
 	end
 end
 
 --For all things in G if no val in base, push to base
-function TABLE.complete(G,base)
-	for k,v in next,G do
-		if base[k]==nil then
-			base[k]=v
-		elseif type(v)=="table"and type(base[k])=="table"then
-			TABLE.complete(v,base[k])
+function TABLE.complete(new,old)
+	for k,v in next,new do
+		if old[k]==nil then
+			old[k]=v
+		elseif type(v)=="table"and type(old[k])=="table"then
+			TABLE.complete(v,old[k])
 		end
 	end
 end
