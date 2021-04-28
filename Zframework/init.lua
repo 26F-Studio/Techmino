@@ -1,3 +1,8 @@
+NONE={}function NULL()end
+EDITING=""
+LOADED=false
+ERRDATA={}
+
 SCR=	require"Zframework.screen"
 COLOR=	require"Zframework.color"
 SCN=	require"Zframework.scene"
@@ -128,7 +133,7 @@ function love.mousemoved(x,y,dx,dy,touch)
 	if SCN.swapping then return end
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
-	if ms.isDown(1) then
+	if ms.isDown(1)then
 		WIDGET.drag(mx,my,dx,dy)
 	else
 		WIDGET.cursorMove(mx,my)

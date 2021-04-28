@@ -2,7 +2,7 @@ local ins,rem=table.insert,table.remove
 local yield=YIELD
 
 local seqGens={
-	none=function() while true do yield()end end,
+	none=function()while true do yield()end end,
 	bag=function(P,seq0)
 		local len=#seq0
 		local bag={}

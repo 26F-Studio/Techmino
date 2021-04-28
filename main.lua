@@ -15,7 +15,6 @@
 --Declaration
 goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 local fs=love.filesystem
-NONE={}function NULL()end
 DBP=print--Use this in temporary code, easy to find and remove
 TIME=love.timer.getTime
 YIELD=coroutine.yield
@@ -24,10 +23,7 @@ MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
-LOADED=false
 DAILYLAUNCH=false
-EDITING=""
-ERRDATA={}
 
 --System setting
 math.randomseed(os.time()*626)

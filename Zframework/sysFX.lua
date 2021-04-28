@@ -114,7 +114,7 @@ end
 local SYSFX={}
 function SYSFX.update(dt)
 	for i=#fx,1,-1 do
-		if fx[i]:update(dt) then
+		if fx[i]:update(dt)then
 			rem(fx,i)
 		end
 	end

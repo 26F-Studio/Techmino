@@ -398,7 +398,7 @@ function update.remote_alive(P,dt)
 		frmDelta<20 and 1 or
 		frmDelta<45 and rnd(2)or
 		frmDelta<90 and 2 or
-		frmDelta<180 and rnd(2,3) or
+		frmDelta<180 and rnd(2,3)or
 		3
 	do
 		local eventTime=P.stream[P.streamProgress]

@@ -33,7 +33,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="dataSaving",	x=750,	y=550,	font=20,disp=SETval("dataSaving"),	code=SETrev("dataSaving")},
 	WIDGET.newSwitch{name="autoPause",	x=1060,	y=310,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")},
 	WIDGET.newSwitch{name="swap",		x=1060,	y=370,	font=20,disp=SETval("swap"),		code=SETrev("swap")},
-	WIDGET.newSwitch{name="fine",		x=1060,	y=430,	font=20,disp=SETval("fine"),		code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6) end end},
+	WIDGET.newSwitch{name="fine",		x=1060,	y=430,	font=20,disp=SETval("fine"),		code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6)end end},
 	WIDGET.newSwitch{name="appLock",	x=1060,	y=490,	font=20,disp=SETval("appLock"),		code=SETrev("appLock")},
 	WIDGET.newSwitch{name="simpMode",	x=1060,	y=550,	font=25,disp=SETval("simpMode"),
 		code=function()
