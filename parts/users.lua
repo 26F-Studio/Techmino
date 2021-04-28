@@ -71,5 +71,10 @@ function USERS.getAvatar(uid)
 	end
 	return db_img[uid]
 end
+function USERS.forceFreshAvatar()
+	for _,U in next,db do
+		U.new=false
+	end
+end
 
 return USERS

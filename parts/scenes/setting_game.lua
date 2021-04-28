@@ -30,7 +30,7 @@ scene.widgetList={
 	WIDGET.newSlider{name="reTime",		x=350,	y=340,	w=300,unit=10,disp=SETval("reTime"),code=SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end},
 	WIDGET.newSelector{name="RS",		x=500,	y=420,	w=300,color="S",list={"TRS","SRS","C2","C2sym","Classic","None"},disp=SETval("RS"),code=SETsto("RS")},
 	WIDGET.newButton{name="layout",		x=250,	y=540,	w=200,h=70,font=35,					code=goScene"setting_skin"},
-	WIDGET.newSwitch{name="dataSaving",	x=750,	y=550,	font=20,disp=SETval("dataSaving"),	code=SETrev("dataSaving")},
+	WIDGET.newSwitch{name="dataSaving",	x=750,	y=550,	font=20,disp=SETval("dataSaving"),	code=function()SETTING.dataSaving=not SETTING.dataSaving if not SETTING.dataSaving then USERS.forceFreshAvatar()end end},
 	WIDGET.newSwitch{name="autoPause",	x=1060,	y=310,	font=20,disp=SETval("autoPause"),	code=SETrev("autoPause")},
 	WIDGET.newSwitch{name="swap",		x=1060,	y=370,	font=20,disp=SETval("swap"),		code=SETrev("swap")},
 	WIDGET.newSwitch{name="fine",		x=1060,	y=430,	font=20,disp=SETval("fine"),		code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play("finesseError",.6)end end},
