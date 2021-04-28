@@ -1,4 +1,3 @@
-local format=string.format
 local function check_rise(P)
 	local L=P.garbageBeneath
 	if #P.clearedRow==0 then
@@ -47,7 +46,7 @@ return{
 		setFont(45)
 		mStr(P.stat.dig,69,190)
 		mStr(P.stat.atk,69,310)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),69,420)
+		mStr(("%.2f"):format(P.stat.atk/P.stat.row),69,420)
 		mText(drawableText.line,69,243)
 		mText(drawableText.atk,69,363)
 		mText(drawableText.eff,69,475)

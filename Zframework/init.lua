@@ -197,7 +197,7 @@ local function noDevkeyPressed(key)
 	if key=="f1"then
 		PROFILE.switch()
 	elseif key=="f2"then
-		LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
+		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]

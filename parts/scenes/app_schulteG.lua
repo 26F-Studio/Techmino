@@ -2,7 +2,6 @@ local gc=love.graphics
 local ms=love.mouse
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local rem=table.remove
 local setFont=setFont
 local mStr=mStr
@@ -122,7 +121,7 @@ end
 function scene.draw()
 	setFont(40)
 	gc.setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(("%.3f"):format(time),1026,80)
 	gc.print(mistake,1026,150)
 
 	setFont(70)

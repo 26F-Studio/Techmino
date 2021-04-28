@@ -241,14 +241,13 @@ function DATA.copyQuestArgs()
 	return str
 end
 do--function DATA.pasteQuestArgs(str)
-	local sub=string.sub
 	function DATA.pasteQuestArgs(str)
 		if #str<4 then return end
 		local ENV=CUSTOMENV
-		ENV.holdCount=		byte(str,1)-48
-		ENV.ospin=			byte(str,2)~=90
-		ENV.missionKill=	byte(str,3)~=90
-		ENV.sequence=		sub(str,4)
+		ENV.holdCount=		str:byte(1)-48
+		ENV.ospin=			str:byte(2)~=90
+		ENV.missionKill=	str:byte(3)~=90
+		ENV.sequence=		str:sub(4)
 		return true
 	end
 end

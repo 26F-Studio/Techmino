@@ -1,8 +1,6 @@
 local gc=love.graphics
 local kb=love.keyboard
 
-local find,sub,byte=string.find,string.sub,string.byte
-
 local scene={}
 
 local reg--register
@@ -18,7 +16,7 @@ end
 
 scene.mouseDown=NULL
 function scene.keyDown(k)
-	if byte(k)>=48 and byte(k)<=57 then
+	if k:byte()>=48 and k:byte()<=57 then
 		if sym=="="then
 			val=k
 			sym=false
@@ -34,7 +32,7 @@ function scene.keyDown(k)
 	elseif k:sub(1,2)=="kp"then
 		scene.keyDown(k:sub(3))
 	elseif k=="."then
-		if not(find(val,".",nil,true)or find(val,"e"))then
+		if not(val:find(".",nil,true)or val:find"e")then
 			if sym and not reg then
 				reg=val
 				val="0."
@@ -42,7 +40,7 @@ function scene.keyDown(k)
 			val=val.."."
 		end
 	elseif k=="e"then
-		if not find(val,"e")then
+		if not val:find"e"then
 			val=val.."e"
 		end
 	elseif k=="backspace"then
@@ -51,7 +49,7 @@ function scene.keyDown(k)
 		elseif sym then
 			sym=false
 		else
-			val=sub(val,1,-2)
+			val=val:sub(1,-2)
 		end
 		if val==""then val="0"end
 	elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then sym="+" reg=false
@@ -59,9 +57,9 @@ function scene.keyDown(k)
 	elseif k=="-"then sym="-" reg=false
 	elseif k=="/"then sym="/" reg=false
 	elseif k=="return"then
-		if byte(val,-1)==101 then val=sub(val,1,-2)end
+		if val:byte(-1)==101 then val=val:sub(1,-2)end
 		if sym and reg then
-			if byte(reg,-1)==101 then reg=sub(reg,1,-2)end
+			if reg:byte(-1)==101 then reg=reg:sub(1,-2)end
 			val=
 				sym=="+"and (tonumber(reg)or 0)+tonumber(val)or
 				sym=="-"and (tonumber(reg)or 0)-tonumber(val)or

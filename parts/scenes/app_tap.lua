@@ -1,6 +1,5 @@
 local gc=love.graphics
 local max=math.max
-local format=string.format
 local ins=table.insert
 local mStr=mStr
 
@@ -45,16 +44,16 @@ end
 
 function scene.draw()
 	setFont(70)gc.setColor(1,.6,.6)
-	mStr(format("%.2f",maxSpeed),640,20)
+	mStr(("%.2f"):format(maxSpeed),640,20)
 
 	setFont(100)gc.setColor(1,1,1)
-	mStr(format("%.2f",speed),640,150)
+	mStr(("%.2f"):format(speed),640,150)
 
 	setFont(35)
 	gc.setColor(.6,.6,.9)
-	mStr(format("%.2f",maxSpeed/60),640,95)
+	mStr(("%.2f"):format(maxSpeed/60),640,95)
 	gc.setColor(.8,.8,.8)
-	mStr(format("%.2f",speed/60),640,255)
+	mStr(("%.2f"):format(speed/60),640,255)
 
 	setFont(60)gc.setColor(.7,.7,.7)
 	mStr("/min",640,310)

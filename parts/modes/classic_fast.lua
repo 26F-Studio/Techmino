@@ -1,5 +1,4 @@
 local gc=love.graphics
-local format=string.format
 
 return{
 	color=COLOR.lBlue,
@@ -40,7 +39,7 @@ return{
 	mesDisp=function(P)
 		setFont(75)
 		local r=P.modeData.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or format("%02x",r*10-220),69,210)
+		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),69,210)
 		mText(drawableText.speedLV,69,290)
 		setFont(45)
 		mStr(P.stat.row,69,320)

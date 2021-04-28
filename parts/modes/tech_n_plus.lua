@@ -1,4 +1,3 @@
-local format=string.format
 local function tech_check_hard(P)
 	local C=P.lastPiece
 	if C.row>0 then
@@ -25,8 +24,8 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(format("%.1f",P.stat.atk),69,190)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),69,310)
+		mStr(("%.1f"):format(P.stat.atk),69,190)
+		mStr(("%.2f"):format(P.stat.atk/P.stat.row),69,310)
 		mText(drawableText.atk,69,243)
 		mText(drawableText.eff,69,363)
 	end,

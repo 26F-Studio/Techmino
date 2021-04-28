@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local mStr=mStr
 
 local scene={}
@@ -266,7 +265,7 @@ local backColor={
 function scene.draw()
 	setFont(40)
 	gc.setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(("%.3f"):format(time),1026,80)
 	gc.setColor(1,.8,.8)
 	gc.print(move,1026,130)
 	gc.setColor(.8,.8,1)

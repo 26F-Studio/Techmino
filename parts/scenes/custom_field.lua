@@ -230,8 +230,13 @@ function scene.keyDown(key)
 		LOG.print(text.exportSuccess,COLOR.G)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p=string.find(str,":")--ptr*
-		if p then str=sub(str,p+1)end
+		local p=str:find":"--ptr*
+		if p then
+			if not str:sub(1,p-1):find"Field"then
+				LOG.print(text.pasteWrongPlace)
+			end
+			str=str:sub(p+1)
+		end
 		if DATA.pasteBoard(str,page)then
 			LOG.print(text.importSuccess,COLOR.G)
 		else

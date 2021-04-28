@@ -3,7 +3,6 @@ local msIsDown,kbIsDown,tcTouches=love.mouse.isDown,love.keyboard.isDown,love.to
 local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local ins,rem=table.insert,table.remove
 local mStr=mStr
 
@@ -98,7 +97,7 @@ local function merge()
 		if chosen==maxTile then
 			maxTile=chosen+1
 			if maxTile>=6 then
-				ins(progress,format("%s - %.3fs",maxTile,TIME()-startTime))
+				ins(progress,("%s - %.3fs"):format(maxTile,TIME()-startTime))
 			end
 			maxNew=
 				maxTile<=4 and 2 or
@@ -224,7 +223,7 @@ end
 function scene.draw()
 	setFont(40)
 	setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,50)
+	gc.print(("%.3f"):format(time),1026,50)
 	gc.print(score,1026,100)
 
 	--Progress time list

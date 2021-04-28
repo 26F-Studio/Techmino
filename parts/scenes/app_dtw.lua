@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local ins,rem=table.insert,table.remove
 
 local targets={
@@ -132,7 +131,7 @@ local function touch(n)
 			keyTime[21]=nil
 			score=score+1
 			if not arcade and targets[score]then
-				ins(progress,format("%s - %.3fs",score,TIME()-startTime))
+				ins(progress,("%s - %.3fs"):format(score,TIME()-startTime))
 				if score==2600 then
 					for i=1,#pos do
 						pos[i]=626
@@ -211,14 +210,14 @@ function scene.draw()
 
 	if arcade then
 		--Draw rolling speed
-		mStr(format("%.2f/s",rollSpeed/2),155,490)
+		mStr(("%.2f/s"):format(rollSpeed/2),155,490)
 	else
 		--Draw speed
 		setFont(45)
 		gc.setColor(1,.6,.6)
-		mStr(format("%.2f",maxSpeed/60),155,460)
+		mStr(("%.2f"):format(maxSpeed/60),155,460)
 		gc.setColor(1,1,1)
-		mStr(format("%.2f",speed/60),155,520)
+		mStr(("%.2f"):format(speed/60),155,520)
 
 		--Progress time list
 		setFont(30)
@@ -230,7 +229,7 @@ function scene.draw()
 		--Draw time
 		gc.setColor(1,1,1)
 		setFont(45)
-		gc.print(format("%.3f",time),1030,70)
+		gc.print(("%.3f"):format(time),1030,70)
 	end
 
 	--Draw tiles

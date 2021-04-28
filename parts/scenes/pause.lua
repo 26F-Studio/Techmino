@@ -1,6 +1,5 @@
 local gc=love.graphics
 local sin,log=math.sin,math.log10
-local format=string.format
 
 local GAME,SCR=GAME,SCR
 local setFont,mStr=setFont,mStr
@@ -39,16 +38,16 @@ function scene.sceneInit(org)
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
-		{COLOR.Z,STRING.time(S.time),COLOR[frameLostRate>10 and"R"or frameLostRate>3 and"Y"or"H"],format(" (%.2f%%)",frameLostRate)},
-		format("%d/%d/%d",S.key,S.rotate,S.hold),
-		format("%d  %.2fPPS",S.piece,S.piece/S.time),
-		format("%d(%d)  %.2fLPM",S.row,S.dig,S.row/S.time*60),
-		format("%d(%d)  %.2fAPM",S.atk,S.digatk,S.atk/S.time*60),
-		format("%d(%d-%d)",S.pend,S.recv,S.recv-S.pend),
-		format("%d/%d/%d/%d",S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
-		format("(%d)/%d/%d/%d",S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
-		format("%d/%d ; %d/%d",S.b2b,S.b3b,S.pc,S.hpc),
-		format("%d/%dx/%.2f%%",S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
+		{COLOR.Z,STRING.time(S.time),COLOR[frameLostRate>10 and"R"or frameLostRate>3 and"Y"or"H"],(" (%.2f%%)"):format(frameLostRate)},
+		("%d/%d/%d"):format(S.key,S.rotate,S.hold),
+		("%d  %.2fPPS"):format(S.piece,S.piece/S.time),
+		("%d(%d)  %.2fLPM"):format(S.row,S.dig,S.row/S.time*60),
+		("%d(%d)  %.2fAPM"):format(S.atk,S.digatk,S.atk/S.time*60),
+		("%d(%d-%d)"):format(S.pend,S.recv,S.recv-S.pend),
+		("%d/%d/%d/%d"):format(S.clears[1],S.clears[2],S.clears[3],S.clears[4]),
+		("(%d)/%d/%d/%d"):format(S.spins[1],S.spins[2],S.spins[3],S.spins[4]),
+		("%d/%d ; %d/%d"):format(S.b2b,S.b3b,S.pc,S.hpc),
+		("%d/%dx/%.2f%%"):format(S.extraPiece,S.maxFinesseCombo,S.finesseRate*20/S.piece),
 	}
 	--From right-down, 60 degree each
 	radar={
@@ -67,7 +66,7 @@ function scene.sceneInit(org)
 	end
 
 	for i=1,6 do
-		radar[i]=format("%.2f",radar[i])..text.radarData[i]
+		radar[i]=("%.2f%s"):format(radar[i],text.radarData[i])
 	end
 	local f=1
 	for i=1,6 do
@@ -184,7 +183,7 @@ function scene.draw()
 	setFont(25)
 	if GAME.pauseCount>0 then
 		gc.setColor(1,.4,.4,T)
-		gc.print(text.pauseCount..":["..GAME.pauseCount.."] "..format("%.2f",GAME.pauseTime).."s",40,180)
+		gc.print(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),40,180)
 	end
 
 	gc.setColor(1,1,1,T)

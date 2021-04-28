@@ -3,7 +3,7 @@ local gc=love.graphics
 
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
-local sub,format=string.sub,string.format
+local sub=string.sub
 local ins=table.insert
 local COLOR=COLOR
 local setFont,mStr=setFont,mStr
@@ -182,7 +182,7 @@ function button:draw()
 	end
 end
 function button:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+	return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
 function button:press()
 	self.code()
@@ -276,7 +276,7 @@ function key:draw()
 	end
 end
 function key:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+	return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
 function key:press()
 	self.code()
@@ -364,7 +364,7 @@ function switch:draw()
 	mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y+25)
 end
 function switch:getInfo()
-	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
+	return("x=%d,y=%d,font=%d"):format(self.x,self.y,self.font)
 end
 function switch:press()
 	self.code()
@@ -488,7 +488,7 @@ function slider:draw()
 	end
 end
 function slider:getInfo()
-	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
+	return("x=%d,y=%d,w=%d"):format(self.x,self.y,self.w)
 end
 function slider:drag(x)
 	if not x then return end
@@ -648,7 +648,7 @@ function selector:draw()
 	mStr(self.selText,x+w*.5,y+43-21)
 end
 function selector:getInfo()
-	return format("x=%d,y=%d,w=%d",self.x+self.w*.5,self.y+30,self.w)
+	return("x=%d,y=%d,w=%d"):format(self.x+self.w*.5,self.y+30,self.w)
 end
 function selector:press(x)
 	if x then
@@ -779,7 +779,7 @@ function inputBox:draw()
 	end
 end
 function inputBox:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
 function inputBox:press()
 	if MOBILE then
@@ -946,7 +946,7 @@ function textBox:draw()
 	end
 end
 function textBox:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
 function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 	local _={

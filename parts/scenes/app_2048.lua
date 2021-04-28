@@ -3,7 +3,6 @@ local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,abs=math.floor,math.abs
 local rnd,min=math.random,math.min
-local format=string.format
 local ins=table.insert
 local setFont=setFont
 local mStr=mStr
@@ -121,7 +120,7 @@ local function freshMaxTile()
 	maxTile=maxTile+1
 	if maxTile==12 then skipper.cd=0 end
 	SFX.play("reach")
-	ins(progress,format("%s - %.3fs",tileName[maxTile],TIME()-startTime))
+	ins(progress,("%s - %.3fs"):format(tileName[maxTile],TIME()-startTime))
 end
 local function squash(L)
 	local p1,p2=1
@@ -349,7 +348,7 @@ end
 function scene.draw()
 	setFont(35)
 	setColor(1,1,1)
-	gc.print(format("%.3f",time),1000,10)
+	gc.print(("%.3f"):format(time),1000,10)
 	gc.print(move,1000,45)
 
 	--Progress time list

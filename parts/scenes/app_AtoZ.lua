@@ -1,6 +1,5 @@
 local gc=love.graphics
 local rnd=math.random
-local format=string.format
 local mStr=mStr
 
 local levels={
@@ -89,11 +88,11 @@ end
 function scene.draw()
 	setFont(40)
 	gc.setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(("%.3f"):format(time),1026,80)
 	gc.print(mistake,1026,150)
 
 	if state>0 then
-		gc.print(format("%.3f/s",(progress-1)/time),1026,220)
+		gc.print(("%.3f/s"):format((progress-1)/time),1026,220)
 	end
 
 	if state==2 then
