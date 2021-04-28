@@ -304,20 +304,20 @@ return{
 
 			any="_",
 			space="×",
-			smartPen="~",
+			smart="~",
 
-			pushLine="↑↑↑↑↑(K)",
-			delLine="==X==(L)",
+			push="↑↑↑↑↑(K)",
+			del="==X==(L)",
 
 			copy="→__",
 			paste="__→",
 			clear="XXX",
 			demo="X ×",
 
-			newPage="+[_](N)",
-			delPage="x[_](M)",
-			prevPage="←[_]",
-			nextPage="[_]→",
+			newPg="+[_](N)",
+			delPg="x[_](M)",
+			prevPg="←[_]",
+			nextPg="[_]→",
 		},
 		custom_sequence={
 			title="!@#$%^&*",

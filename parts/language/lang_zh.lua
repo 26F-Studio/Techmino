@@ -447,20 +447,20 @@ return{
 
 			any="不定",
 			space="×",
-			smartPen="智能",
+			smart="智能",
 
-			pushLine="增加一行(K)",
-			delLine="消除行(L)",
+			push="增加一行(K)",
+			del="消除行(L)",
 
 			copy="复制",
 			paste="粘贴",
 			clear="清除",
 			demo="不显示×",
 
-			newPage="新页面(N)",
-			delPage="删除页面(M)",
-			prevPage="上一页面",
-			nextPage="下一页面",
+			newPg="新页面(N)",
+			delPg="删除页面(M)",
+			prevPg="上一页面",
+			nextPg="下一页面",
 		},
 		custom_sequence={
 			title="自定义游戏",

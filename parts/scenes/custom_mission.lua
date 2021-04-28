@@ -77,7 +77,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p=string.find(str,":")--ptr*
+		local p=str:find":"--ptr*
 		if p then str=sub(str,p+1)end
 		if DATA.pasteMission(str)then
 			LOG.print(text.importSuccess,COLOR.G)

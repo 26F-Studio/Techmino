@@ -449,20 +449,20 @@ return{
 
 			any="Apagar",
 			space="×",
-			-- smartPen="Smart",
+			-- smart="Smart",
 
-			pushLine="Add Linha(K)",
-			delLine="Del Linha(L)",
+			push="Add Linha(K)",
+			del="Del Linha(L)",
 
 			copy="Copiar",
 			paste="Colar",
 			clear="Limpar",
 			demo="Não mostrar ×",
 
-			newPage="Nova Página(N)",
-			delPage="Del Página(M)",
-			prevPage="Página Ant.",
-			nextPage="Prox. Página",
+			newPg="Nova Página(N)",
+			delPg="Del Página(M)",
+			prevPg="Página Ant.",
+			nextPg="Prox. Página",
 		},
 		custom_sequence={
 			title="Jogo Custom",

@@ -448,20 +448,20 @@ return{
 
 			any="Erase",
 			space="×",
-			smartPen="Smart",
+			smart="Smart",
 
-			pushLine="Add Line(K)",
-			delLine="Del Line(L)",
+			push="Add Line(K)",
+			del="Del Line(L)",
 
 			copy="Copy",
 			paste="Paste",
 			clear="Clear",
 			demo="Don't Show ×",
 
-			newPage="New Page(N)",
-			delPage="Del Page(M)",
-			prevPage="Prev Page",
-			nextPage="Next Page",
+			newPg="New Page(N)",
+			delPg="Del Page(M)",
+			prevPg="Prev Page",
+			nextPg="Next Page",
 		},
 		custom_sequence={
 			title="Custom Game",

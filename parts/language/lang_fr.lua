@@ -421,20 +421,20 @@ return{
 
 			any="Effacer",
 			space="×",
-			-- smartPen="Smart",
+			-- smart="Smart",
 
-			pushLine="Ajouter ligne (K)",
-			delLine="Supprimer ligne (L)",
+			push="Ajouter ligne (K)",
+			del="Supprimer ligne (L)",
 
 			copy="Copier",
 			paste="Coller",
 			clear="Nettoyer",
 			demo="Masquer les ×",
 
-			newPage="Nouvelle Page(N)",
-			delPage="Supp. Page(M)",
-			prevPage="Page Préc.",
-			nextPage="Page Suiv.",
+			newPg="Nouvelle Page(N)",
+			delPg="Supp. Page(M)",
+			prevPg="Page Préc.",
+			nextPg="Page Suiv.",
 		},
 		custom_sequence={
 			title="Mode personnalisée",

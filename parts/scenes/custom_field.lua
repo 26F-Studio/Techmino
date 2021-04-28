@@ -10,7 +10,7 @@ local scene={}
 
 local sure
 local keyHold
-local penType--Color, air, or smart
+local penType--Color (air/smart)
 local penMode
 local penPath={}
 local penX,penY
@@ -237,12 +237,10 @@ function scene.keyDown(key)
 		else
 			LOG.print(text.dataCorrupted,COLOR.R)
 		end
-	elseif key=="tab"or key=="sTab"then
-		if key=="sTab"or kb.isDown("lshift","rshift")then
-			page=max(page-1,1)
-		else
-			page=min(page+1,#FIELD)
-		end
+	elseif key=="pageup"then
+		page=max(page-1,1)
+	elseif key=="pagedown"then
+		page=min(page+1,#FIELD)
 	elseif key=="escape"then
 		if keyHold then
 			keyHold=false
@@ -404,20 +402,15 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(drawableText.question,1145,330)
+		gc.draw(drawableText.question,1090,460)
 	end
 
 	--Block name
 	setFont(55)
 	gc.setColor(1,1,1)
-	local _
 	for i=1,7 do
-		_=SETTING.skin[i]
-		if _<=8 then
-			mStr(text.block[i],500+80*_,90)
-		else
-			mStr(text.block[i],500+80*(_-8),170)
-		end
+		local skin=SETTING.skin[i]
+		mStr(text.block[i],500+skin%8*80,90+80*int(skin/8))
 	end
 end
 
@@ -453,21 +446,21 @@ scene.widgetList={
 	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color="dR",	code=setPen(23)},--GB4
 	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color="dG",	code=setPen(24)},--GB5
 
-	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lH",		font=40,code=setPen(0)},
-	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="H",		font=65,code=setPen(-1)},
-	WIDGET.newButton{name="smartPen",	x=860,	y=400,w=120,color="lG",		font=30,code=setPen(-2)},
-	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"k"},
-	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"l"},
+	WIDGET.newButton{name="any",	x=600,	y=400,w=120,color="lH",		font=40,code=setPen(0)},
+	WIDGET.newButton{name="space",	x=730,	y=400,w=120,color="H",		font=65,code=setPen(-1)},
+	WIDGET.newButton{name="smart",	x=860,	y=400,w=120,color="lG",		font=30,code=setPen(-2)},
+	WIDGET.newButton{name="push",	x=990,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"k"},
+	WIDGET.newButton{name="del",	x=1120,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"l"},
 
-	WIDGET.newButton{name="copy",		x=730,	y=530,w=120,color="lR",		font=35,code=pressKey"cC"},
-	WIDGET.newButton{name="paste",		x=860,	y=530,w=120,color="lB",		font=35,code=pressKey"cV"},
-	WIDGET.newButton{name="clear",		x=990,	y=530,w=120,color="Z",		font=40,code=pressKey"delete"},
-	WIDGET.newSwitch{name="demo",		x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
+	WIDGET.newButton{name="copy",	x=730,	y=530,w=120,color="lR",		font=35,code=pressKey"cC"},
+	WIDGET.newButton{name="paste",	x=860,	y=530,w=120,color="lB",		font=35,code=pressKey"cV"},
+	WIDGET.newButton{name="clear",	x=990,	y=530,w=120,color="Z",		font=40,code=pressKey"delete"},
+	WIDGET.newSwitch{name="demo",	x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
 
-	WIDGET.newButton{name="newPage",	x=100,	y=110,w=160,h=110,color="N",font=20,code=pressKey"n"},
-	WIDGET.newButton{name="delPage",	x=100,	y=230,w=160,h=110,color="lR",font=20,code=pressKey"m"},
-	WIDGET.newButton{name="prevPage",	x=100,	y=350,w=160,h=110,color="lG",font=20,code=pressKey"sTab",hide=function()return page==1 end},
-	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lG",font=20,code=pressKey"tab",hide=function()return page==#FIELD end},
+	WIDGET.newButton{name="newPg",	x=100,	y=110,w=160,h=110,color="N",font=20,code=pressKey"n"},
+	WIDGET.newButton{name="delPg",	x=100,	y=230,w=160,h=110,color="lR",font=20,code=pressKey"m"},
+	WIDGET.newButton{name="prevPg",	x=100,	y=350,w=160,h=110,color="lG",font=20,code=pressKey"pageup",hide=function()return page==1 end},
+	WIDGET.newButton{name="nextPg",	x=100,	y=470,w=160,h=110,color="lG",font=20,code=pressKey"pagedown",hide=function()return page==#FIELD end},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
 }
