@@ -30,6 +30,8 @@ function scene.keyDown(k)
 		if fetchTimer<=3.26 then
 			fetchRoom()
 		end
+	elseif k=="s"then
+		SCN.go("setting_game")
 	elseif k=="m"or k=="n"then
 		if TIME()-lastCreateRoomTime>6.26 then
 			NET.createRoom(
@@ -70,17 +72,17 @@ function scene.keyDown(k)
 end
 
 function scene.mouseMove(x,y,_,dy)
-	if ms.isDown(1)and x>50 and x<1230 and y>110 and y<510 then
+	if ms.isDown(1)and x>50 and x<1110 and y>110 and y<510 then
 		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.touchMove(x,y,_,dy)
-	if x>50 and x<1230 and y>110 and y<510 then
+	if x>50 and x<1110 and y>110 and y<510 then
 		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.mouseClick(x,y)
-	if x>50 and x<1230 then
+	if x>50 and x<1110 then
 		y=int((y-70)/40)
 		if y>=1 and y<=10 then
 			local s=int(y+scrollPos)
@@ -118,7 +120,7 @@ function scene.draw()
 	--Room list
 	gc.setColor(1,1,1)
 	gc.setLineWidth(2)
-	gc.rectangle("line",50,110,1180,400)
+	gc.rectangle("line",50,110,1060,400)
 	local roomCount=#NET.roomList
 	if roomCount>0 then
 		setFont(35)
@@ -131,19 +133,19 @@ function scene.draw()
 			local R=NET.roomList[pos+i]
 			if pos+i==selected then
 				gc.setColor(1,1,1,.3)
-				gc.rectangle("fill",50,70+40*i,1180,40)
+				gc.rectangle("fill",50,70+40*i,1060,40)
 			end
 			if R.start then
 				gc.setColor(0,1,0)
-				gc.print(text.started,800,66+40*i)
+				gc.print(text.started,620,66+40*i)
 			end
 			gc.setColor(.9,.9,1)
 			gc.print(pos+i,95,66+40*i)
 			gc.setColor(1,1,.7)
 			gc.print(R.name,250,66+40*i)
 			gc.setColor(1,1,1)
-			gc.printf(R.type,550,66+40*i,500,"right")
-			gc.print(R.count.."/"..R.capacity,1100,66+40*i)
+			gc.printf(R.type,430,66+40*i,500,"right")
+			gc.print(R.count.."/"..R.capacity,980,66+40*i)
 			if R.private then
 				gc.draw(IMG.lock,59,75+40*i)
 			end
@@ -161,8 +163,9 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="refreshing",x=640,y=255,font=45,hide=function()return not NET.getlock("fetchRoom")end},
-	WIDGET.newText{name="noRoom",	x=640,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getlock("fetchRoom")end},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
+	WIDGET.newText{name="refreshing",x=580,y=255,font=45,hide=function()return not NET.getlock("fetchRoom")end},
+	WIDGET.newText{name="noRoom",	x=580,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getlock("fetchRoom")end},
 	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hide=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=500,y=620,w=140,h=140,font=20,code=pressKey"n"},
 	WIDGET.newKey{name="new2",		x=700,y=620,w=140,h=140,font=20,code=pressKey"m"},

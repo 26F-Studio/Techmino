@@ -93,7 +93,7 @@ function scene.keyDown(key)
 	elseif key=="space"then
 		NET.signal_ready(not PLY_NET[1].ready)
 	elseif key=="s"then
-		if not PLY_NET[1].ready then
+		if not(PLY_NET[1].ready or NET.getlock("ready"))then
 			SCN.go("setting_game")
 		end
 	end
@@ -282,7 +282,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return PLY_NET[1].ready end},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or PLY_NET[1].ready or NET.getlock("ready")end},
 	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="lB",font=40,code=pressKey"space",
 		hide=function()
 			return
