@@ -38,7 +38,7 @@ function back.update()
 		local S=squares[i]
 		local ang=math.atan2(S.y,S.x)
 		local d=(S.x^2+S.y^2)^.5
-		d=d-2000/(d+60)
+		d=d-SCR.rad/(d+60)
 		if d>0 then
 			S.x=d*math.cos(ang)
 			S.y=d*math.sin(ang)
