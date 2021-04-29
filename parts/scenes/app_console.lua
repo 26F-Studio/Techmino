@@ -94,12 +94,12 @@ do--commands.help(arg)
 			details={
 				"Attempt to delete a file (in saving directory)",
 				"",
-				"Aliases: rm delete remove",
+				"Aliases: rm",
 				"",
 				"Usage: del [filename|dirname]",
 				"Usage: del -s [dirname]",
 			},
-		},rm="del",delete="del",remove="del",
+		},rm="del",
 		cls={
 			description="Clear the log output.",
 			details={
@@ -267,7 +267,8 @@ do--commands.help(arg)
 			local cmd=command_help_list[i]
 			log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
 		end
-end
+	end
+	commands["?"]=commands.help
 end
 function commands.error(mes)error(mes)end
 function commands.cls()outputBox:clear()end
@@ -327,7 +328,7 @@ do--function commands.tree()
 		end
 	end
 end
-do
+do--function commands.del(name)
 	local function delFile(name)
 		if love.filesystem.remove(name)then
 			log{C.Y,("Deleted: '%s'"):format(name)}
@@ -397,6 +398,7 @@ do
 			log{C.aqua,"Usage: del -s [dirname]"}
 		end
 	end
+	commands.rm=commands.del
 end
 commands.exit=backScene
 commands.quit=backScene
@@ -482,6 +484,7 @@ function commands.playbgm(bgm)
 		log{C.aqua,"Usage: playbgm [bgmName]"}
 	end
 end
+commands.music=commands.playbgm
 function commands.stopbgm()
 	BGM.stop()
 end
