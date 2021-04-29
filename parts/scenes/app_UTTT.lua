@@ -57,7 +57,7 @@ local function full(L)
 end
 local function place(X,x)
 	board[X][x]=round
-	SFX.play("move")
+	SFX.play('move')
 	lastX,lastx=X,x
 	curX,curx=nil
 	placeTime=TIME()
@@ -65,7 +65,7 @@ local function place(X,x)
 		score[X]=round
 		if checkBoard(score,round)then
 			gameover=round
-			SFX.play("win")
+			SFX.play('win')
 			return
 		else
 			if full(score)then
@@ -73,10 +73,10 @@ local function place(X,x)
 				return
 			end
 		end
-		SFX.play("reach")
+		SFX.play('reach')
 	else
 		if full(board[X])then
-			SFX.play("emit")
+			SFX.play('emit')
 			score[X]=true
 			if full(score)then
 				gameover=true
@@ -96,32 +96,32 @@ local scene={}
 
 function scene.sceneInit()
 	restart()
-	BGM.play("truth")
-	BG.set("rainbow")
+	BGM.play('truth')
+	BG.set('rainbow')
 end
 
 function scene.draw()
-	gc.push("transform")
+	gc.push('transform')
 	--origin pos:0,140; scale:4
 	gc.translate(280,0)
 	gc.scale(8)
 
 	--Draw board
 	gc.setColor(0,0,0,.4)
-	gc.rectangle("fill",0,0,90,90)
+	gc.rectangle('fill',0,0,90,90)
 
 	--Draw target area
 	gc.setColor(1,1,1,math.sin((TIME()-placeTime)*5)/5+.2)
 	if target then
-		gc.rectangle("fill",(target-1)%3*30,int((target-1)/3)*30,30,30)
+		gc.rectangle('fill',(target-1)%3*30,int((target-1)/3)*30,30,30)
 	elseif not gameover then
-		gc.rectangle("fill",0,0,90,90)
+		gc.rectangle('fill',0,0,90,90)
 	end
 
 	--Draw cursor
 	if curX then
 		gc.setColor(1,1,1,.3)
-		gc.rectangle("fill",(curX-1)%3*30+(curx-1)%3*10-.5,int((curX-1)/3)*30+int((curx-1)/3)*10-.5,11,11)
+		gc.rectangle('fill',(curX-1)%3*30+(curx-1)%3*10-.5,int((curX-1)/3)*30+int((curx-1)/3)*10-.5,11,11)
 	end
 
 	gc.setLineWidth(.8)
@@ -134,7 +134,7 @@ function scene.draw()
 			else
 				gc.setColor(0,0,0)
 			end
-			gc.rectangle("fill",(X-1)%3*30,int((X-1)/3)*30,30,30)
+			gc.rectangle('fill',(X-1)%3*30,int((X-1)/3)*30,30,30)
 		end
 		for x=1,9 do
 			local c=board[X][x]
@@ -143,7 +143,7 @@ function scene.draw()
 				local _y=int((X-1)/3)*30+int((x-1)/3)*10
 				if c==0 then
 					gc.setColor(1,.2,.2)
-					gc.rectangle("line",_x+2.25,_y+2.25,5.5,5.5)
+					gc.rectangle('line',_x+2.25,_y+2.25,5.5,5.5)
 				else
 					gc.setColor(.3,.3,1)
 					gc.line(_x+2,_y+2,_x+8,_y+8)
@@ -165,7 +165,7 @@ function scene.draw()
 	if lastX then
 		gc.setColor(.5,1,.4,.8)
 		local r=.5+.5*math.sin(TIME()*6.26)
-		gc.rectangle("line",(lastX-1)%3*30+(lastx-1)%3*10-r,int((lastX-1)/3)*30+int((lastx-1)/3)*10-r,10+2*r,10+2*r)
+		gc.rectangle('line',(lastX-1)%3*30+(lastx-1)%3*10-r,int((lastX-1)/3)*30+int((lastx-1)/3)*10-r,10+2*r,10+2*r)
 	end
 	gc.pop()
 
@@ -185,15 +185,15 @@ function scene.draw()
 	else
 		--Draw current round mark
 		gc.setColor(.8,.8,.8,.8)
-		gc.rectangle("fill",80,80,160,160)
+		gc.rectangle('fill',80,80,160,160)
 		gc.setColor(1,1,1)
 		gc.setLineWidth(6)
-		gc.rectangle("line",80,80,160,160)
+		gc.rectangle('line',80,80,160,160)
 
 		gc.setLineWidth(10)
 		if round==0 then
 			gc.setColor(1,0,0)
-			gc.rectangle("line",160-40,160-40,80,80)
+			gc.rectangle('line',160-40,160-40,80,80)
 		else
 			gc.setColor(0,0,1)
 			gc.line(160-45,160-45,160+45,160+45)
@@ -235,7 +235,7 @@ function scene.mouseDown(x,y)
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",x=1140,y=540,w=170,h=80,font=40,color="lG",code=restart},
+	WIDGET.newButton{name="reset",x=1140,y=540,w=170,h=80,font=40,color='lG',code=restart},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

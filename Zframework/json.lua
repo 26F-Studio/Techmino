@@ -63,7 +63,7 @@ local function encode_table(val, stack)
 		-- Treat as array -- check keys are valid and it is not sparse
 		local n = 0
 		for k in pairs(val) do
-			if type(k) ~= "number" then
+			if type(k) ~= 'number' then
 				error("invalid table: mixed or invalid key types")
 			end
 			n = n + 1
@@ -77,7 +77,7 @@ local function encode_table(val, stack)
 	else
 		-- Treat as an object
 		for k, v in pairs(val) do
-			if type(k) ~= "string" then
+			if type(k) ~= 'string' then
 				error("invalid table: mixed or invalid key types")
 			end
 			ins(res, encode(k, stack) .. ":" .. encode(v, stack))
@@ -100,11 +100,11 @@ local function encode_number(val)
 end
 
 local type_func_map = {
-	["nil"] = encode_nil,
-	["table"] = encode_table,
-	["string"] = encode_string,
-	["number"] = encode_number,
-	["boolean"] = tostring
+	['nil'] = encode_nil,
+	['table'] = encode_table,
+	['string'] = encode_string,
+	['number'] = encode_number,
+	['boolean'] = tostring
 }
 
 encode = function(val, stack)
@@ -119,7 +119,7 @@ function json.encode(val)
 	if a then
 		return b
 	elseif LOG then
-		LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
+		LOG.print(text.jsonError..": "..(b or"uknErr"),'warn')
 	end
 end
 
@@ -336,7 +336,7 @@ function parse(str, idx)
 end
 
 local function decode(str)
-	if type(str) ~= "string" then
+	if type(str) ~= 'string' then
 		error("expected argument of type string, got " .. type(str))
 	end
 	local res, idx = parse(str, next_char(str, 1, space_chars, true))
@@ -349,7 +349,7 @@ function json.decode(str)
 	if a then
 		return b
 	elseif LOG then
-		LOG.print(text.jsonError..": "..(b or"uknErr"),"warn")
+		LOG.print(text.jsonError..": "..(b or"uknErr"),'warn')
 	end
 end
 return json

@@ -4,7 +4,7 @@ return{
 		drop=1e99,lock=1e99,
 		holdCount=0,
 		dropPiece=function(P)P:lose()end,
-		bg="bg1",bgm="new era",
+		bg='bg1',bgm='new era',
 	},
 	pauseLimit=true,
 	load=function()

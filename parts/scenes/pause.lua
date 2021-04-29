@@ -29,7 +29,7 @@ local trophyColor--Current trophy color
 
 function scene.sceneInit(org)
 	if org:find("setting")then
-		TEXT.show(text.needRestart,640,440,50,"fly",.6)
+		TEXT.show(text.needRestart,640,440,50,'fly',.6)
 	end
 	local P=PLAYERS[1]
 	local S=P.stat
@@ -38,7 +38,7 @@ function scene.sceneInit(org)
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
-		{COLOR.Z,STRING.time(S.time),COLOR[frameLostRate>10 and"R"or frameLostRate>3 and"Y"or"H"],(" (%.2f%%)"):format(frameLostRate)},
+		{COLOR.Z,STRING.time(S.time),COLOR[frameLostRate>10 and'R'or frameLostRate>3 and'Y'or'H'],(" (%.2f%%)"):format(frameLostRate)},
 		("%d/%d/%d"):format(S.key,S.rotate,S.hold),
 		("%d  %.2fPPS"):format(S.piece,S.piece/S.time),
 		("%d(%d)  %.2fLPM"):format(S.row,S.dig,S.row/S.time*60),
@@ -90,7 +90,7 @@ function scene.sceneInit(org)
 		val[2*i-1],val[2*i]=val[i]*standard[2*i-1],val[i]*standard[2*i]
 	end
 
-	if P.result=="WIN"and P.stat.piece>4 then
+	if P.result=='win'and P.stat.piece>4 then
 		local acc=P.stat.finesseRate*.2/P.stat.piece
 		rank=
 			acc==1. and"Z"or
@@ -130,17 +130,17 @@ function scene.keyDown(key)
 	if key=="q"then
 		SCN.back()
 	elseif key=="escape"then
-		SCN.swapTo(GAME.result and"game"or"depause","none")
+		SCN.swapTo(GAME.result and"game"or"depause",'none')
 	elseif key=="s"then
 		GAME.prevBG=BG.cur
-		SCN.go("setting_sound")
+		SCN.go('setting_sound')
 	elseif key=="r"then
 		resetGameData()
-		SCN.swapTo("game","none")
+		SCN.swapTo('game','none')
 	elseif key=="p"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 then
-			resetGameData("r")
-			SCN.swapTo("game","none")
+			resetGameData('r')
+			SCN.swapTo('game','none')
 		end
 	elseif key=="o"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved then
@@ -174,9 +174,9 @@ function scene.draw()
 	local _=T
 	if GAME.result then _=_*.7 end
 	gc.setColor(.15,.15,.15,_)
-	gc.push("transform")
+	gc.push('transform')
 		gc.origin()
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.pop()
 
 	--Pause Info
@@ -201,7 +201,7 @@ function scene.draw()
 		--Finesse rank & trophy
 		if rank then
 			gc.setColor(1,1,1,T*.2)
-			gc.rectangle("fill",35,305,465,405)
+			gc.rectangle('fill',35,305,465,405)
 
 			setFont(60)
 			local c=fnsRankColor[rank]
@@ -210,24 +210,24 @@ function scene.draw()
 			if trophy then
 				setFont(40)
 				gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
-				gc.printf(trophy,100-120*(1-T^.5),650,300,"right")
+				gc.printf(trophy,100-120*(1-T^.5),650,300,'right')
 			end
 
 			gc.setColor(1,1,1,T)
-			gc.rectangle("line",35,305,465,405)
+			gc.rectangle('line',35,305,465,405)
 			gc.line(35,620,500,620)
 		else
 			gc.setColor(1,1,1,T*.2)
-			gc.rectangle("fill",35,305,465,350)
+			gc.rectangle('fill',35,305,465,350)
 			gc.setColor(1,1,1,T)
-			gc.rectangle("line",35,305,465,350)
+			gc.rectangle('line',35,305,465,350)
 		end
 
 		_=form
 		setFont(25)
 		for i=1,10 do
 			gc.print(text.pauseStat[i],40,270+35*i)
-			gc.printf(_[i],195,270+35*i,300,"right")
+			gc.printf(_[i],195,270+35*i,300,'right')
 		end
 	end
 
@@ -235,14 +235,14 @@ function scene.draw()
 	if #GAME.mod>0 then
 		if scoreValid()then
 			gc.setColor(.7,.7,.7,T)
-			gc.rectangle("line",775,560,490,140)
+			gc.rectangle('line',775,560,490,140)
 			gc.setColor(.7,.7,.7,T*.26)
-			gc.rectangle("fill",775,560,490,140)
+			gc.rectangle('fill',775,560,490,140)
 		else
 			gc.setColor(1,0,0,T)
-			gc.rectangle("line",775,560,490,140)
+			gc.rectangle('line',775,560,490,140)
 			gc.setColor(1,0,0,T*.26)
-			gc.rectangle("fill",775,560,490,140)
+			gc.rectangle('fill',775,560,490,140)
 		end
 		setFont(35)
 		for _,M in next,MODOPT do
@@ -269,19 +269,19 @@ function scene.draw()
 	if T>.5 and PLAYERS[1].frameRun>180 then
 		T=T*2-1
 		gc.setLineWidth(2)
-		gc.push("transform")
+		gc.push('transform')
 			gc.translate(1026,370)
 
 			--Polygon
-			gc.push("transform")
+			gc.push('transform')
 				gc.scale((3-2*T)*T)
-				gc.setColor(1,1,1,T*(.5+.3*sin(TIME()*6.26)))gc.polygon("line",standard)
+				gc.setColor(1,1,1,T*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
 				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T*.626)
 				for i=1,9,2 do
-					gc.polygon("fill",0,0,val[i],val[i+1],val[i+2],val[i+3])
+					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
 				end
-				gc.polygon("fill",0,0,val[11],val[12],val[1],val[2])
-				gc.setColor(1,1,1,T)gc.polygon("line",val)
+				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
+				gc.setColor(1,1,1,T)gc.polygon('line',val)
 			gc.pop()
 
 			--Axes
@@ -311,11 +311,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color="lB",font=35,code=pressKey"s"},
-	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color="lY",font=30,code=pressKey"p",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color="G",font=30,code=pressKey"o",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
-	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color="lG",font=30,code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color="lR",font=35,code=pressKey"r"},
+	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',font=35,code=pressKey"s"},
+	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',font=30,code=pressKey"p",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='G',font=30,code=pressKey"o",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',font=30,code=pressKey"escape"},
+	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',font=35,code=pressKey"r"},
 	WIDGET.newButton{name="quit",		x=640,y=600,w=240,h=100,font=35,code=backScene},
 }
 

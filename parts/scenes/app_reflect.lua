@@ -16,7 +16,7 @@ end
 
 function scene.sceneInit()
 	reset()
-	BG.set("none")
+	BG.set('none')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -36,7 +36,7 @@ function scene.keyDown(key)
 			--BEAUTIFUL LOGIC BELOW:
 
 			--early = error, [UP-key]==[target is up] = correct sfx, else = wrong sfx
-			SFX.play(ct>6 and"finesseError"or key%2==1==up and"reach"or"fail")
+			SFX.play(ct>6 and'finesseError'or key%2==1==up and'reach'or'fail')
 
 			--(early && P2-key || not early && [P1-key]==[target is up]) = P1 win, else P2 win
 			if ct>6 and key>2 or ct<=6 and key%4<2==up then
@@ -103,8 +103,8 @@ function scene.draw()
 
 	--Score
 	setFont(80)
-	gc.printf(s1,50,300,200,"left")
-	gc.printf(s2,1030,300,200,"right")
+	gc.printf(s1,50,300,200)
+	gc.printf(s2,1030,300,200,'right')
 
 	if state==0 then
 		setFont(40)
@@ -117,17 +117,17 @@ function scene.draw()
 		end
 	elseif state==1 then
 		gc.setColor(.2,.7,.4,math.min((60-ct)/10,ct/10)*.8)
-		gc.arc("fill",640,360,260,-1.5708,-1.5708+(ct/60)*6.2832)
+		gc.arc('fill',640,360,260,-1.5708,-1.5708+(ct/60)*6.2832)
 	elseif state==2 and ct<5 then
 		gc.setColor(1,ct>2 and 1 or 0,0)
-		gc.rectangle("fill",640-100,(up and 180 or 540)-100,200,200,10)
+		gc.rectangle('fill',640-100,(up and 180 or 540)-100,200,200,10)
 	elseif state==3 then
 		local x=(60-ct)*62
 		gc.setColor(.4,1,.4,ct/100)
 		if winner==1 then
-			gc.rectangle("fill",0,0,x,720)
+			gc.rectangle('fill',0,0,x,720)
 		else
-			gc.rectangle("fill",1280,0,-x,720)
+			gc.rectangle('fill',1280,0,-x,720)
 		end
 	end
 end

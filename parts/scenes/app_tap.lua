@@ -12,8 +12,8 @@ function scene.sceneInit()
 	lastKey=nil
 	speed=0
 	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
-	BG.set("gray")
-	BGM.play("push")
+	BG.set('gray')
+	BGM.play('push')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -29,7 +29,7 @@ function scene.keyDown(key)
 		else
 			ins(keyTime,1,TIME())
 			keyTime[41]=nil
-			SFX.play("click",.3)
+			SFX.play('click',.3)
 		end
 	end
 end
@@ -66,13 +66,13 @@ function scene.draw()
 	else
 		gc.setColor(max(speed/maxSpeed*10-9,0),1-max(speed/maxSpeed*8-7,0),1-max(speed/maxSpeed*4-3,0))
 	end
-	gc.rectangle("fill",960,360,30,-320*max(speed/maxSpeed*4-3,0))
+	gc.rectangle('fill',960,360,30,-320*max(speed/maxSpeed*4-3,0))
 	gc.setColor(1,1,1)
-	gc.rectangle("line",960,360,30,-320)
+	gc.rectangle('line',960,360,30,-320)
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="tap",x=640,y=540,w=626,h=260,fText="TAP",color="Z",font=100,code=pressKey"button"},
+	WIDGET.newKey{name="tap",x=640,y=540,w=626,h=260,fText="TAP",color='Z',font=100,code=pressKey"button"},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

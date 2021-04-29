@@ -36,7 +36,7 @@ return{
 	holdCount=1,infHold=false,phyHold=false,
 	ospin=true,deepDrop=false,
 	RS="TRS",
-	sequence="bag",
+	sequence='bag',
 	seqData={1,2,3,4,5,6,7},
 	face=NULL,skin=NULL,
 	mission=NULL,
@@ -46,7 +46,7 @@ return{
 	pushSpeed=3,
 	block=true,
 	noTele=false,
-	visible="show",
+	visible='show',
 	freshLimit=1e99,easyFresh=true,
 
 	fkey1=false,
@@ -57,6 +57,6 @@ return{
 	dropPiece=NULL,
 	mindas=0,minarr=0,minsdarr=0,
 
-	bg="none",bgm="race",
+	bg='none',bgm='race',
 	allowMod=true,
 }

@@ -37,7 +37,7 @@ local db=setmetatable({},{__index=function(self,uid)
 	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
 	rawset(self,uid,d)
 	db_img[uid]=
-		type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
+		type(d.hash)=='string'and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
 		loadAvatar("cache/"..d.hash)or
 		defaultAvatar[(uid-26)%29+1]
 	return d
@@ -55,9 +55,9 @@ function USERS.updateUserData(data)
 		hash=data.hash or db[uid].hash,
 	})
 	if data.avatar then
-		fs.write("cache/"..data.hash,love.data.decode("string","base64",data.avatar:sub(data.avatar:find","+1)))
+		fs.write("cache/"..data.hash,love.data.decode('string','base64',data.avatar:sub(data.avatar:find(",")+1)))
 		db_img[uid]=loadAvatar("cache/"..data.hash)
-		db[uid].hash=type(data.hash)=="string"and #data.hash>0 and data.hash
+		db[uid].hash=type(data.hash)=='string'and #data.hash>0 and data.hash
 	end
 end
 

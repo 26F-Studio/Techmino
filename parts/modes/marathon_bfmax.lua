@@ -9,26 +9,26 @@ return{
 		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
 			if P.combo>1 or P.b2b>0 or P.lastPiece.row>1 then
-				if P.combo>1 then 			P:showText("2x",0,-220,40,"flicker",.3)end
-				if P.b2b>0 then 			P:showText("spin",0,-160,40,"flicker",.3)end
-				if P.lastPiece.row>1 then 	P:showText("1+",0,-100,40,"flicker",.3)end
+				if P.combo>1 then 			P:showText("2x",0,-220,40,'flicker',.3)end
+				if P.b2b>0 then 			P:showText("spin",0,-160,40,'flicker',.3)end
+				if P.lastPiece.row>1 then 	P:showText("1+",0,-100,40,'flicker',.3)end
 				P:lose()
 				return
 			end
 			local T=P.modeData.target
 			if P.stat.row>=T then
 				if T==200 then
-					P:win("finish")
+					P:win('finish')
 				else
 					T=T+10
 					P.gameEnv.drop=dropSpeed[T/10]
 					P.modeData.target=T
-					SFX.play("reach")
+					SFX.play('reach')
 				end
 			end
 		end,
 		mindas=7,minarr=1,minsdarr=1,
-		bg="bg2",bgm="sugar fairy",
+		bg='bg2',bgm='sugar fairy',
 	},
 	pauseLimit=true,
 	slowMark=true,
@@ -39,7 +39,7 @@ return{
 		setFont(45)
 		mStr(P.stat.row,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 	end,
 	getRank=function(P)
 		local L=P.stat.row

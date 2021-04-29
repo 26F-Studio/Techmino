@@ -7,7 +7,7 @@ local function tech_check_hard(P)
 		end
 	end
 	if P.stat.atk>=100 then
-		P:win("finish")
+		P:win('finish')
 	end
 end
 
@@ -17,7 +17,7 @@ return{
 		infHold=true,
 		drop=1e99,lock=1e99,
 		dropPiece=tech_check_hard,
-		bg="matrix",bgm="new era",
+		bg='matrix',bgm='new era',
 	},
 	load=function()
 		PLY.newPlayer(1)

@@ -10,8 +10,8 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",		x=640,y=15,font=80},
 
-	WIDGET.newButton{name="sound",		x=200,y=80,w=240,h=80,color="lC",font=35,code=swapScene"setting_sound","swipeR"},
-	WIDGET.newButton{name="game",		x=1080,y=80,w=240,h=80,color="lC",font=35,code=swapScene"setting_game","swipeL"},
+	WIDGET.newButton{name="sound",		x=200,y=80,w=240,h=80,color='lC',font=35,code=swapScene"setting_sound","swipeR"},
+	WIDGET.newButton{name="game",		x=1080,y=80,w=240,h=80,color='lC',font=35,code=swapScene"setting_game","swipeL"},
 
 	WIDGET.newSwitch{name="block",		x=290,y=165,disp=SETval("block"),code=SETrev("block")},
 	WIDGET.newSwitch{name="smooth",		x=290,y=215,disp=SETval("smooth"),code=SETrev("smooth")},
@@ -39,7 +39,7 @@ scene.widgetList={
 
 	WIDGET.newSwitch{name="text",		x=1140,y=160,font=35,disp=SETval("text"),		code=SETrev("text")},
 	WIDGET.newSwitch{name="score",		x=1140,y=210,font=35,disp=SETval("score"),		code=SETrev("score")},
-	WIDGET.newSwitch{name="warn",		x=1140,y=260,font=35,disp=SETval("warn"),		code=SETrev("warn")},
+	WIDGET.newSwitch{name='warn',		x=1140,y=260,font=35,disp=SETval('warn'),		code=SETrev('warn')},
 	WIDGET.newSwitch{name="highCam",	x=1140,y=310,font=35,disp=SETval("highCam"),	code=SETrev("highCam")},
 	WIDGET.newSwitch{name="nextPos",	x=1140,y=360,font=35,disp=SETval("nextPos"),	code=SETrev("nextPos")},
 	WIDGET.newSwitch{name="fullscreen",	x=1140,y=410,disp=SETval("fullscreen"),			code=switchFullscreen},
@@ -47,7 +47,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="clickFX",	x=1140,y=510,font=35,disp=SETval("clickFX"),	code=SETrev("clickFX")},
 	WIDGET.newSwitch{name="bg",			x=1140,y=560,font=35,disp=SETval("bg"),
 		code=function()
-			BG.set("none")
+			BG.set('none')
 			SETTING.bg=not SETTING.bg
 			BG.set()
 		end},

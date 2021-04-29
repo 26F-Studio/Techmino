@@ -13,7 +13,7 @@ function scene.draw()
 	setFont(20)
 	gc.setColor(1,1,1)
 	for i=1,#text.help do
-		gc.printf(text.help[i],150,35*i+40,1000,"center")
+		gc.printf(text.help[i],150,35*i+40,1000,'center')
 	end
 
 	--Lib used
@@ -24,8 +24,8 @@ function scene.draw()
 	--Sponsor code
 	gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(t*2.6),nil,580,118)
 	gc.setLineWidth(3)
-	gc.rectangle("line",18,18,263,263)
-	gc.rectangle("line",1012,18,250,250)
+	gc.rectangle('line',18,18,263,263)
+	gc.rectangle('line',1012,18,250,250)
 
 	--Group code
 	setFont(20)

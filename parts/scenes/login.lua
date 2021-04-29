@@ -12,8 +12,8 @@ end
 local scene={}
 
 scene.widgetList={
-	WIDGET.newText{name="title",		x=80,	y=50,font=70,align="L"},
-	WIDGET.newButton{name="register",	x=1140,	y=100,w=170,h=80,color="lY",code=function()SCN.swapTo("register","swipeR")end},
+	WIDGET.newText{name="title",		x=80,	y=50,font=70,align='L'},
+	WIDGET.newButton{name="register",	x=1140,	y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('register','swipeR')end},
 	WIDGET.newInputBox{name="email",	x=380,	y=200,w=500,h=60},
 	WIDGET.newInputBox{name="password",	x=380,	y=300,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newKey{name="login",			x=1140,	y=540,w=170,h=80,font=40,code=login},

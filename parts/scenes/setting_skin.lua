@@ -23,7 +23,7 @@ function scene.draw()
 	gc.setColor(1,1,1)
 	local texture=SKIN.curText
 	for n=1,7 do
-		gc.push("transform")
+		gc.push('transform')
 		gc.translate(-10+140*n,340)
 		gc.rotate(minoRot[n]+sin(t*3-n*.5)*.08)
 		local color=SETTING.skin[n]
@@ -35,7 +35,7 @@ function scene.draw()
 				gc.draw(texture[color],x+30*j,y-30*i)
 			end
 		end end
-		gc.circle("fill",0,0,sin(t*10)+5)
+		gc.circle('fill',0,0,sin(t*10)+5)
 		gc.pop()
 	end
 	for i=1,5 do
@@ -53,11 +53,11 @@ end
 local function nextDir(i)
 	SETTING.face[i]=(SETTING.face[i]+1)%4
 	minoRot0[i]=minoRot0[i]+1.5707963
-	SFX.play("rotate")
+	SFX.play('rotate')
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=80,y=50,font=70,align="L"},
+	WIDGET.newText{name="title",	x=80,y=50,font=70,align='L'},
 
 	WIDGET.newButton{name="prev",	x=700,y=100,w=140,h=100,fText="←",font=50,code=function()SKIN.prevSet()end},
 	WIDGET.newButton{name="next",	x=860,y=100,w=140,h=100,fText="→",font=50,code=function()SKIN.nextSet()end},
@@ -85,12 +85,12 @@ scene.widgetList={
 	--WIDGET.newButton{name="spin6",x=825,y=540,w=90,h=65,code=function()nextDir(6)end},--Cannot rotate O
 	WIDGET.newButton{name="spin7",	x=970,y=540,w=90,h=65,code=function()nextDir(7)end},
 
-	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color="lV",font=35,
+	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color='lV',font=35,
 		code=function()
 			SETTING.skin={1,7,11,3,14,4,9,1,7,2,6,10,2,13,5,9,15,10,11,3,10,2,16,8,4,10,13,2,8}
-			SFX.play("rotate")
+			SFX.play('rotate')
 		end},
-	WIDGET.newButton{name="faceR",	x=480,y=640,w=220,h=80,color="lR",font=35,
+	WIDGET.newButton{name="faceR",	x=480,y=640,w=220,h=80,color='lR',font=35,
 		code=function()
 			for i=1,29 do
 				SETTING.face[i]=0
@@ -98,7 +98,7 @@ scene.widgetList={
 			for i=1,7 do
 				minoRot0[i]=(int(minoRot0[i]/6.2831853)+(minoRot0[i]%6.2831853>4 and 1 or 0))*6.2831853
 			end
-			SFX.play("hold")
+			SFX.play('hold')
 		end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }

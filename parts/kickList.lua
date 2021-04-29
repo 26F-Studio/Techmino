@@ -6,7 +6,7 @@ local noKickSet,noKickSet_180,pushZero do
 	noKickSet_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 	function pushZero(t)
 		for _,L in next,t do
-			if type(L)=="table"then
+			if type(L)=='table'then
 				for _,v in next,L do
 					if not v[1]or v[1][1]~=0 or v[1][2]~=0 then
 						table.insert(v,1,map[0][0])
@@ -26,9 +26,9 @@ end
 
 --Make all vec point to the same vec
 local function collectSet(set)
-	if type(set)~="table"then return end
+	if type(set)~='table'then return end
 	for _,list in next,set do
-		if type(list[1])=="string"then
+		if type(list[1])=='string'then
 			vecStrConv(list)
 		end
 	end
@@ -136,12 +136,12 @@ do
 		},--T
 		function(P,d)
 			if P.gameEnv.easyFresh then
-				P:freshBlock("fresh")
+				P:freshBlock('fresh')
 			end
 			if P.gameEnv.ospin then
 				local x,y=P.curX,P.curY
 				if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
-					if P.sound then SFX.play("rotatekick",nil,P:getCenterX()*.15)end
+					if P.sound then SFX.play('rotatekick',nil,P:getCenterX()*.15)end
 					P.spinSeq=P.spinSeq%100*10+d
 					if P.spinSeq<100 then return end
 					for i=1,#OspinList do
@@ -164,18 +164,18 @@ do
 								P.cur.dir,P.cur.sc=dir,SCS[id][dir]
 								P.spinLast=2
 								P.stat.rotate=P.stat.rotate+1
-								P:freshBlock("move")
+								P:freshBlock('move')
 								P.spinSeq=0
 								return
 							end
 						end
 					end
 				else
-					if P.sound then SFX.play("rotate",nil,P:getCenterX()*.15)end
+					if P.sound then SFX.play('rotate',nil,P:getCenterX()*.15)end
 					P.spinSeq=0
 				end
 			else
-				if P.sound then SFX.play("rotate",nil,P:getCenterX()*.15)end
+				if P.sound then SFX.play('rotate',nil,P:getCenterX()*.15)end
 			end
 		end,--O
 		{
@@ -286,19 +286,19 @@ do
 			[31]={"+0-1","+1+0"},
 		},--W
 		function(P,d)
-			if P.type=="human"then SFX.play("rotate",nil,P:getCenterX()*.15)end
+			if P.type=='human'then SFX.play('rotate',nil,P:getCenterX()*.15)end
 			local kickData=XspinList[d]
 			for test=1,#kickData do
 				local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
 				if not P:ifoverlap(P.cur.bk,x,y)then
 					P.curX,P.curY=x,y
 					P.spinLast=1
-					P:freshBlock("move")
+					P:freshBlock('move')
 					P.stat.rotate=P.stat.rotate+1
 					return
 				end
 			end
-			P:freshBlock("fresh")
+			P:freshBlock('fresh')
 		end,--X
 		{
 			[01]={"-1+0","-1+1","+0-3","-1+1","-1+2","+0+1"},

@@ -8,7 +8,7 @@ local pos,dir,wait
 function scene.sceneInit()
 	das,arr=SETTING.das,SETTING.arr
 	pos,dir,wait=0,1,30
-	BG.set("bg1")
+	BG.set('bg1')
 end
 
 function scene.update()
@@ -78,8 +78,8 @@ local function sliderShow(S)
 	return S.."F "..math.floor(S*16.67).."ms"
 end
 scene.widgetList={
-	WIDGET.newText{name="title",	x=80,	y=50,font=70,align="L"},
-	WIDGET.newText{name="preview",	x=520,	y=540,font=40,align="R"},
+	WIDGET.newText{name="title",	x=80,	y=50,font=70,align='L'},
+	WIDGET.newText{name="preview",	x=520,	y=540,font=40,align='R'},
 
 	WIDGET.newSlider{name="das",	x=250,	y=190,w=600,unit=20,disp=SETval("das"),	show=sliderShow,code=SETsto("das")},
 	WIDGET.newSlider{name="arr",	x=250,	y=260,w=525,unit=15,disp=SETval("arr"),	show=sliderShow,code=SETsto("arr")},
@@ -89,7 +89,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="ihs",	x=1100,	y=260,				disp=SETval("ihs"),	code=SETrev("ihs")},
 	WIDGET.newSwitch{name="irs",	x=1100,	y=330,				disp=SETval("irs"),	code=SETrev("irs")},
 	WIDGET.newSwitch{name="ims",	x=1100,	y=400,				disp=SETval("ims"),	code=SETrev("ims")},
-	WIDGET.newButton{name="reset",	x=160,	y=580,w=200,h=100,color="lR",font=40,
+	WIDGET.newButton{name="reset",	x=160,	y=580,w=200,h=100,color='lR',font=40,
 		code=function()
 			local _=SETTING
 			_.das,_.arr,_.dascut=10,2,0

@@ -22,9 +22,9 @@ function scene.mouseDown(x,y)
 	local T=40*math.min(time,45)
 	if x>230 and x<1050 then
 		if math.abs(y-800+T)<70 then
-			loadGame("sprintLock",true)
+			loadGame('sprintLock',true)
 		elseif math.abs(y-2160+T)<70 then
-			loadGame("sprintFix",true)
+			loadGame('sprintFix',true)
 		end
 	end
 end
@@ -36,11 +36,11 @@ end
 function scene.keyDown(k)
 	if k=="escape"then
 		SCN.back()
-	elseif kb.isDown("s")then
+	elseif kb.isDown"s"then
 		if k=="l"then
-			loadGame("sprintLock",true)
+			loadGame('sprintLock',true)
 		elseif k=="f"then
-			loadGame("sprintFix",true)
+			loadGame('sprintFix',true)
 		end
 	end
 end
@@ -77,11 +77,11 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
 	for i=1,#names do
 		local N=names[i]
-		if type(N.color)=="table"then
+		if type(N.color)=='table'then
 			gc.setColor(N.color)
 		else
 			gc.setColor(N.color(TIME()+N.w))

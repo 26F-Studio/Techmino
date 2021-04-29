@@ -20,7 +20,7 @@ end
 function scene.sceneInit()
 	selected=false
 	freshKeyList()
-	BG.set("none")
+	BG.set('none')
 end
 function scene.sceneBack()
 	FILE.save(keyMap,"conf/key")
@@ -36,7 +36,7 @@ function scene.keyDown(key)
 			end
 			freshKeyList()
 			selected=false
-			SFX.play("finesseError",.5)
+			SFX.play('finesseError',.5)
 		else
 			SCN.back()
 		end
@@ -45,7 +45,7 @@ function scene.keyDown(key)
 			keyMap.keyboard[key]=selected
 			freshKeyList()
 			selected=false
-			SFX.play("reach",.5)
+			SFX.play('reach',.5)
 		end
 	else
 		WIDGET.keyPressed(key)
@@ -61,7 +61,7 @@ function scene.gamepadDown(key)
 			end
 			freshKeyList()
 			selected=false
-			SFX.play("finesseError",.5)
+			SFX.play('finesseError',.5)
 		else
 			SCN.back()
 		end
@@ -69,7 +69,7 @@ function scene.gamepadDown(key)
 		keyMap.joystick[key]=selected
 		freshKeyList()
 		selected=false
-		SFX.play("reach",.5)
+		SFX.play('reach',.5)
 	else
 		WIDGET.gamepadPressed(key)
 	end
@@ -94,7 +94,7 @@ function scene.draw()
 	end
 
 	if selected then
-		gc.setColor(COLOR[TIME()%.26<.13 and"R"or"Y"])
+		gc.setColor(COLOR[TIME()%.26<.13 and'R'or'Y'])
 		local x,y=selected>10 and 910 or 270, selected>10 and 60*(selected-10)-50 or selected>0 and 60*selected-50 or 630
 		setFont(40)gc.print("=",x,y)
 		setFont(10)gc.print("esc?",x,y+40)
@@ -104,10 +104,10 @@ end
 local function setSel(i)
 	if selected==i then
 		selected=false
-		SFX.play("rotate",.5)
+		SFX.play('rotate',.5)
 	else
 		selected=i
-		SFX.play("lock",.5)
+		SFX.play('lock',.5)
 	end
 end
 scene.widgetList={

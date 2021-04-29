@@ -46,7 +46,7 @@ function BGM.init(list)
 		for i=1,count do
 			local file="media/BGM/"..list[i]..".ogg"
 			if love.filesystem.getInfo(file)then
-				Sources[list[i]]=love.audio.newSource(file,"stream")
+				Sources[list[i]]=love.audio.newSource(file,'stream')
 				Sources[list[i]]:setLooping(true)
 				Sources[list[i]]:setVolume(0)
 			else

@@ -8,7 +8,7 @@ local val--result value
 local sym--symbol
 
 function scene.sceneInit()
-	BG.set("none")
+	BG.set('none')
 	reg=false
 	val="0"
 	sym=false
@@ -32,7 +32,7 @@ function scene.keyDown(k)
 	elseif k:sub(1,2)=="kp"then
 		scene.keyDown(k:sub(3))
 	elseif k=="."then
-		if not(val:find(".",nil,true)or val:find"e")then
+		if not(val:find(".",nil,true)or val:find("e"))then
 			if sym and not reg then
 				reg=val
 				val="0."
@@ -40,7 +40,7 @@ function scene.keyDown(k)
 			val=val.."."
 		end
 	elseif k=="e"then
-		if not val:find"e"then
+		if not val:find("e")then
 			val=val.."e"
 		end
 	elseif k=="backspace"then
@@ -83,10 +83,10 @@ end
 function scene.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
-	gc.rectangle("line",100,80,650,150)
+	gc.rectangle('line',100,80,650,150)
 	setFont(45)
-	if reg then gc.printf(reg,0,100,720,"right")end
-	if val then gc.printf(val,0,150,720,"right")end
+	if reg then gc.printf(reg,0,100,720,'right')end
+	if val then gc.printf(val,0,150,720,'right')end
 	if sym then setFont(50)gc.print(sym,126,150)end
 end
 
@@ -101,14 +101,14 @@ scene.widgetList={
 	WIDGET.newKey{name="_8",x=250,y=500,w=90,fText="8",font=50,code=pressKey"8"},
 	WIDGET.newKey{name="_9",x=350,y=500,w=90,fText="9",font=50,code=pressKey"9"},
 	WIDGET.newKey{name="_0",x=150,y=600,w=90,fText="0",font=50,code=pressKey"0"},
-	WIDGET.newKey{name=".",x=250,y=600,w=90,fText=".",color="lM",font=50,code=pressKey"."},
-	WIDGET.newKey{name="e",x=350,y=600,w=90,fText="e",color="lM",font=50,code=pressKey"e"},
-	WIDGET.newKey{name="+",x=450,y=300,w=90,fText="+",color="lB",font=50,code=pressKey"+"},
-	WIDGET.newKey{name="-",x=450,y=400,w=90,fText="-",color="lB",font=50,code=pressKey"-"},
-	WIDGET.newKey{name="*",x=450,y=500,w=90,fText="*",color="lB",font=50,code=pressKey"*"},
-	WIDGET.newKey{name="/",x=450,y=600,w=90,fText="/",color="lB",font=50,code=pressKey"/"},
-	WIDGET.newKey{name="<",x=550,y=300,w=90,fText="<",color="lR",font=50,code=pressKey"backspace"},
-	WIDGET.newKey{name="=",x=550,y=400,w=90,fText="=",color="lY",font=50,code=pressKey"return"},
+	WIDGET.newKey{name=".",x=250,y=600,w=90,fText=".",color='lM',font=50,code=pressKey"."},
+	WIDGET.newKey{name="e",x=350,y=600,w=90,fText="e",color='lM',font=50,code=pressKey"e"},
+	WIDGET.newKey{name="+",x=450,y=300,w=90,fText="+",color='lB',font=50,code=pressKey"+"},
+	WIDGET.newKey{name="-",x=450,y=400,w=90,fText="-",color='lB',font=50,code=pressKey"-"},
+	WIDGET.newKey{name="*",x=450,y=500,w=90,fText="*",color='lB',font=50,code=pressKey"*"},
+	WIDGET.newKey{name="/",x=450,y=600,w=90,fText="/",color='lB',font=50,code=pressKey"/"},
+	WIDGET.newKey{name="<",x=550,y=300,w=90,fText="<",color='lR',font=50,code=pressKey"backspace"},
+	WIDGET.newKey{name="=",x=550,y=400,w=90,fText="=",color='lY',font=50,code=pressKey"return"},
 	WIDGET.newKey{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

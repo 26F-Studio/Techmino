@@ -9,7 +9,7 @@ end
 local TEXTURE={}
 
 
-gc.setDefaultFilter("nearest","nearest")
+gc.setDefaultFilter('nearest','nearest')
 
 
 
@@ -21,7 +21,7 @@ for i=1,29 do
 	TEXTURE.miniBlock[i]=NSC(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do
 		if b[y][x]then
-			gc.rectangle("fill",x-1,#b-y,1,1)
+			gc.rectangle('fill',x-1,#b-y,1,1)
 		end
 	end end
 end
@@ -119,7 +119,7 @@ TEXTURE.earth=DOGC{64,64,
 	{"dArc",53,31,40,2.3,3.9},
 }
 
-gc.setDefaultFilter("linear","linear")
+gc.setDefaultFilter('linear','linear')
 
 
 --Title image
@@ -131,11 +131,11 @@ for i=1,8 do
 
 	gc.setLineWidth(16)
 	gc.setColor(1,1,1)
-	gc.polygon("line",title[i])
+	gc.polygon('line',title[i])
 
 	gc.setColor(0,0,0)
 	for j=1,#titleTriangles[i]do
-		gc.polygon("fill",titleTriangles[i][j])
+		gc.polygon('fill',titleTriangles[i][j])
 	end
 
 	gc.translate(-12*i,i==1 and -8 or -14)
@@ -147,18 +147,18 @@ for i=1,8 do
 
 	gc.setLineWidth(16)
 	gc.setColor(1,1,1)
-	gc.polygon("line",title[i])
+	gc.polygon('line',title[i])
 
 	gc.setLineWidth(4)
 	gc.setColor(0,0,0)
 	for j=1,#titleTriangles[i]do
-		gc.polygon("fill",titleTriangles[i][j])
+		gc.polygon('fill',titleTriangles[i][j])
 	end
 
 	gc.setColor(titleColor[i])
 	gc.translate(-4,-4)
 	for j=1,#titleTriangles[i]do
-		gc.polygon("fill",titleTriangles[i][j])
+		gc.polygon('fill',titleTriangles[i][j])
 	end
 	gc.translate(4,4)
 

@@ -38,21 +38,21 @@ end
 function LOG.print(text,T,C)--text,type/time,color
 	local time
 	local his
-	if T=="warn"then
+	if T=='warn'then
 		C=C or COLOR.Y
 		his=true
 		time=180
-	elseif T=="error"then
+	elseif T=='error'then
 		C=C or COLOR.R
 		his=true
 		time=210
-	elseif T=="message"then
+	elseif T=='message'then
 		C=C or COLOR.N
 		his=true
-	elseif type(T)=="number"then
+	elseif type(T)=='number'then
 		C=C or COLOR.Z
 		time=T
-	elseif type(T)=="table"then
+	elseif type(T)=='table'then
 		C=T
 	elseif not C then
 		C=COLOR.Z

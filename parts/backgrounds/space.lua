@@ -36,7 +36,7 @@ function back.draw()
 	gc.translate(-10,-10)
 	gc.setColor(.8,.8,.8)
 	for i=1,1260,5 do
-		rectangle("fill",stars[i+1],stars[i+2],stars[i],stars[i])
+		rectangle('fill',stars[i+1],stars[i+2],stars[i],stars[i])
 	end
 	gc.translate(10,10)
 end

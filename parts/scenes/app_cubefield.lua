@@ -42,9 +42,9 @@ local function hurt(i)
 		speed=speed*.5
 		moveDir=0
 		score=int(score)
-		SFX.play("clear_4")
+		SFX.play('clear_4')
 	else
-		SFX.play("clear_2")
+		SFX.play('clear_2')
 	end
 end
 
@@ -61,9 +61,9 @@ function scene.sceneInit()
 	score=0
 	sunH,color,rot=0,{.878,.752,0},0
 
-	gc.setLineJoin("bevel")
-	BGM.play("push")
-	BG.set("none")
+	gc.setLineJoin('bevel')
+	BGM.play('push')
+	BG.set('none')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -175,7 +175,7 @@ function scene.update(dt)
 		if score>1000*level then
 			if speed<3 then speed=speed+.2 end
 			level=level+1
-			SFX.play("blip_1")
+			SFX.play('blip_1')
 		end
 		sunH=sunH+.01
 	elseif menu==1 then
@@ -200,33 +200,33 @@ function scene.draw()
 	--Health bar
 	if life1>0 then
 		gc.setColor(1,0,0)
-		gc.rectangle("fill",640-life1*.64,710,life1*1.28,10)
+		gc.rectangle('fill',640-life1*.64,710,life1*1.28,10)
 	end
 
 	--Draw player
 	if play and inv%8<4 then
 		gc.setColor(1,1,1)
-		gc.rectangle("fill",620,670,40,40)
+		gc.rectangle('fill',620,670,40,40)
 	end
 
 	--Set screen rotation
-	gc.push("transform")
+	gc.push('transform')
 	gc.translate(640,690)
 	gc.rotate(rot)
 
 	--Draw sun
 	gc.setColor(.7,.5,.3)
-	gc.circle("fill",0,-380-sunH,60)
+	gc.circle('fill',0,-380-sunH,60)
 
 	--Draw sun-board
 	gc.setColor(.15,.15,.15)
-	gc.rectangle("fill",-60,-440,120,120)
+	gc.rectangle('fill',-60,-440,120,120)
 
 	--Draw direction
 	if play then
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1,.1)
-		gc.polygon("fill",-15,30,0,-440,15,30)
+		gc.polygon('fill',-15,30,0,-440,15,30)
 	end
 
 	--Draw Horizon/Direction
@@ -243,10 +243,10 @@ function scene.draw()
 			local y=5/(10-Y)*150-50
 			if Y>1 then
 				gc.setColor(color)
-				gc.rectangle("fill",x,y-485,size,size)
+				gc.rectangle('fill',x,y-485,size,size)
 				gc.setLineWidth(size*.05)
 				gc.setColor(1,1,1)
-				gc.rectangle("line",x,y-485,size,size)
+				gc.rectangle('line',x,y-485,size,size)
 			end
 
 			if play and y>420 and y<480 and x<8 and x+size>-8 and inv==0 then
@@ -276,10 +276,10 @@ function scene.draw()
 		end
 	else
 		gc.setColor(1,1,1)
-		gc.rectangle("fill",-20,-20+ct,40,40)
+		gc.rectangle('fill',-20,-20+ct,40,40)
 
 		gc.setColor(1,1,1,(1-ct/60)*.1)
-		gc.polygon("fill",-15,30,0,-440,15,30)
+		gc.polygon('fill',-15,30,0,-440,15,30)
 
 		gc.setColor(1,1,1,ct/60)
 

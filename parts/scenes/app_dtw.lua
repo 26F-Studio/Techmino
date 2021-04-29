@@ -106,8 +106,8 @@ function scene.sceneInit()
 	mode=1
 	arcade=true
 	reset()
-	BG.set("gray")
-	BGM.play("way")
+	BG.set('gray')
+	BGM.play('way')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -123,7 +123,7 @@ local function touch(n)
 	if n==a or n==b then
 		if a>0 and b>0 then
 			pos[1]=n==a and b or a
-			SFX.play("move")
+			SFX.play('move')
 		else
 			rem(pos,1)
 			newTile()
@@ -138,19 +138,19 @@ local function touch(n)
 					end
 					time=TIME()-startTime
 					state=2
-					SFX.play("win")
+					SFX.play('win')
 				else
-					SFX.play("reach",.5)
+					SFX.play('reach',.5)
 				end
 			end
 			height=height+120
-			SFX.play("move")
+			SFX.play('move')
 		end
 	else
 		time=TIME()-startTime
 		state=2
 		diePos=n
-		SFX.play("clear_2")
+		SFX.play('clear_2')
 	end
 end
 function scene.keyDown(key)
@@ -194,7 +194,7 @@ function scene.update()
 			rollSpeed=rollSpeed+.00355
 			if height<-120 then
 				state=2
-				SFX.play("clear_2")
+				SFX.play('clear_2')
 			end
 		else
 			height=height*.6
@@ -233,16 +233,16 @@ function scene.draw()
 	end
 
 	--Draw tiles
-	gc.rectangle("fill",300,0,680,720)
+	gc.rectangle('fill',300,0,680,720)
 	gc.setColor(tileColor[mode])
-	gc.push("transform")
+	gc.push('transform')
 		gc.translate(0,720-height+8)
 		for i=1,#pos do
 			if pos[i]<10 then
-				gc.rectangle("fill",130+170*pos[i]+8,-i*120,170-16,120-16)
+				gc.rectangle('fill',130+170*pos[i]+8,-i*120,170-16,120-16)
 			else
-				gc.rectangle("fill",130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
-				gc.rectangle("fill",130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
+				gc.rectangle('fill',130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
+				gc.rectangle('fill',130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
 			end
 		end
 	gc.pop()
@@ -262,12 +262,12 @@ function scene.draw()
 	--Draw red tile
 	if diePos then
 		gc.setColor(1,.2,.2)
-		gc.rectangle("fill",130+170*diePos+8,600-height+8,170-16,120-16)
+		gc.rectangle('fill',130+170*diePos+8,600-height+8,170-16,120-16)
 	end
 
 	--Draw score
 	setFont(100)
-	gc.push("transform")
+	gc.push('transform')
 	gc.translate(640,26)
 	gc.scale(1.6)
 	gc.setColor(.5,.5,.5,.6)
@@ -276,7 +276,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
+	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
 	WIDGET.newButton{name="mode",	x=155,y=220,w=180,h=100,font=40,code=pressKey"q",hide=function()return state~=0 end},
 	WIDGET.newSwitch{name="arcade",	x=230,y=330,font=40,disp=function()return arcade end,code=pressKey"w",hide=function()return state~=0 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},

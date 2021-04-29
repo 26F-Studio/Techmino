@@ -3,10 +3,10 @@ return{
 	env={
 		drop=60,lock=120,
 		fall=10,
-		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
+		dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
 		freshLimit=15,
 		ospin=false,
-		bg="rgb",bgm="truth",
+		bg='rgb',bgm='truth',
 	},
 	pauseLimit=true,
 	load=function()

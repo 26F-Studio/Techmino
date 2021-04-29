@@ -4,8 +4,8 @@ return{
 		drop=0,lock=60,
 		freshLimit=15,
 		b2bKill=true,
-		dropPiece=function(P)if P.stat.atk>=100 then P:win("finish")end end,
-		bg="matrix",bgm="warped",
+		dropPiece=function(P)if P.stat.atk>=100 then P:win('finish')end end,
+		bg='matrix',bgm='warped',
 	},
 	load=function()
 		PLY.newPlayer(1)

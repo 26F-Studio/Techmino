@@ -18,14 +18,14 @@ return{
 							d%4==3 and{line=generateLine(P:RND(10)),amount=4,countdown=90,cd0=90,time=0,sent=false,lv=3}
 						P.atkBuffer.sum=P.atkBuffer.sum+d%4+1
 						P.stat.recv=P.stat.recv+d%4+1
-						if D.wave==45 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end
+						if D.wave==45 then P:showTextF(text.maxspeed,0,-140,100,'appear',.6)end
 						D.timer=0
 						D.wave=d
 					end
 				end
 			end
 		end,
-		bg="glow",bgm="secret8th",
+		bg='glow',bgm='secret8th',
 	},
 	pauseLimit=true,
 	load=function()

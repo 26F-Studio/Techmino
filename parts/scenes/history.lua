@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneInit()
-	BG.set("cubes")
+	BG.set('cubes')
 	WIDGET.active.texts:setTexts(require"parts.updateLog")
 	if newVersionLaunch then
 		newVersionLaunch=false

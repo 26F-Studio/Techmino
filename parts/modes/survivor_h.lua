@@ -19,14 +19,14 @@ return{
 						local R=(D.wave%3<2 and 1 or 3)
 						B.sum=B.sum+R
 						P.stat.recv=P.stat.recv+R
-						if D.wave==60 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end
+						if D.wave==60 then P:showTextF(text.maxspeed,0,-140,100,'appear',.6)end
 						D.timer=0
 						D.wave=D.wave+1
 					end
 				end
 			end
 		end,
-		bg="glow",bgm="secret7th",
+		bg='glow',bgm='secret7th',
 	},
 	pauseLimit=true,
 	load=function()

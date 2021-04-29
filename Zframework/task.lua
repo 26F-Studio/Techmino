@@ -9,7 +9,7 @@ end
 function TASK.update()
 	for i=#tasks,1,-1 do
 		local T=tasks[i]
-		if status(T.thread)=="dead"then
+		if status(T.thread)=='dead'then
 			rem(tasks,i)
 		else
 			assert(resume(T.thread))
@@ -19,7 +19,7 @@ end
 function TASK.new(code,...)
 	local thread=coroutine.create(code)
 	resume(thread,...)
-	if status(thread)~="dead"then
+	if status(thread)~='dead'then
 		tasks[#tasks+1]={
 			thread=thread,
 			code=code,

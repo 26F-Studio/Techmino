@@ -7,7 +7,7 @@ local function tech_check_hard(P)
 		end
 	end
 	if P.stat.atk>=100 then
-		P:win("finish")
+		P:win('finish')
 	end
 end
 
@@ -19,7 +19,7 @@ return{
 		freshLimit=15,
 		fineKill=true,
 		dropPiece=tech_check_hard,
-		bg="flink",bgm="infinite",
+		bg='flink',bgm='infinite',
 	},
 	slowMark=true,
 	load=function()

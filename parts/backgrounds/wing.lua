@@ -17,12 +17,12 @@ local W,H
 function back.init()
 	bar=gc.newCanvas(41,1)
 	gc.setCanvas(bar)
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
 	for x=0,20 do
 		gc.setColor(1,1,1,x/11)
-		gc.rectangle("fill",x,0,1,1)
-		gc.rectangle("fill",41-x,0,1,1)
+		gc.rectangle('fill',x,0,1,1)
+		gc.rectangle('fill',41-x,0,1,1)
 	end
 	gc.pop()
 	gc.setCanvas()

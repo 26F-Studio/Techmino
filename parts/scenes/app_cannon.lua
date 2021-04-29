@@ -13,8 +13,8 @@ function scene.sceneInit()
 	score,combo=0,0
 	x,y=160,500
 	ex,ey=626,260
-	BG.set("matrix")
-	BGM.play("hang out")
+	BG.set('matrix')
+	BGM.play('hang out')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -57,14 +57,14 @@ function scene.update()
 			score=math.min(score+4+combo*2,626)
 			combo=combo+1
 			ex,ey=rnd(626,1100),rnd(26,700)
-			SFX.play("reach")
+			SFX.play('reach')
 			e=true
 		end
 		if x>1280 or y>720 then
 			if score>0 then
 				score=score-int(score/10)
 			end
-			SFX.play("finesseError")
+			SFX.play('finesseError')
 			combo=0
 			e=true
 		end
@@ -76,29 +76,29 @@ function scene.update()
 end
 
 local scoreColor={
-	"Z",--0
-	"A",--20
-	"N",--40
-	"B",--60
-	"P",--80
-	"W",--100
-	"R","F","O","Y","lA",--200
-	"lN","lB","lP","lW","lR",--300
-	"lF","lO","lY","dA","dN",--400
-	"dB","dP","dW","dR","dF",--500
-	"dY","lH","H","dH",--before 600, black after
+	'Z',--0
+	'A',--20
+	'N',--40
+	'B',--60
+	'P',--80
+	'W',--100
+	'R','F','O','Y','lA',--200
+	'lN','lB','lP','lW','lR',--300
+	'lF','lO','lY','dA','dN',--400
+	'dB','dP','dW','dR','dF',--500
+	'dY','lH','H','dH',--before 600, black after
 }
 function scene.draw()
 	--Spawn area
 	gc.setColor(1,1,1,.2)
-	gc.rectangle("fill",85,0,190,720)
+	gc.rectangle('fill',85,0,190,720)
 
 	--Power & Angle
 	gc.setColor(1,1,1)
 	if state~=2 then
 		gc.setLineWidth(2)
-		gc.rectangle("fill",x-80,y+20,pow*1.6,16)
-		gc.rectangle("line",x-80,y+20,160,15)
+		gc.rectangle('fill',x-80,y+20,pow*1.6,16)
+		gc.rectangle('line',x-80,y+20,160,15)
 		if state==1 then
 			gc.setLineWidth(5)
 			gc.line(x,y,x+(20+2*pow)*cos(ang),y-(20+2*pow)*sin(ang))
@@ -111,11 +111,11 @@ function scene.draw()
 		gc.setColor(1,1,.6)
 		gc.print("x"..combo,300,80)
 	end
-	gc.setColor(COLOR[scoreColor[int(score/20)+1]or"D"])
+	gc.setColor(COLOR[scoreColor[int(score/20)+1]or'D'])
 	gc.print(score,300,30)
 
 	--Cannon ball
-	gc.circle("fill",x,y,15)
+	gc.circle('fill',x,y,15)
 
 	--Arrow
 	if y<-15 then
@@ -124,7 +124,7 @@ function scene.draw()
 
 	--Target
 	gc.setColor(1,1,.4)
-	gc.circle("fill",ex,ey,15)
+	gc.circle('fill',ex,ey,15)
 end
 
 scene.widgetList={

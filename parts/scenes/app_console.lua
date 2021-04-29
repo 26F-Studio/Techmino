@@ -278,7 +278,7 @@ function commands.print(name)
 	if name~=""then
 		local info=love.filesystem.getInfo(name)
 		if info then
-			if info.type=="file"then
+			if info.type=='file'then
 				log{COLOR.lC,"/* "..name.." */"}
 				for l in love.filesystem.lines(name)do
 					log(l)
@@ -307,9 +307,9 @@ end
 do--function commands.tree()
 	local function tree(path,name,depth)
 		local info=love.filesystem.getInfo(path..name)
-		if info.type=="file"then
+		if info.type=='file'then
 			log(("\t\t"):rep(depth)..name)
-		elseif info.type=="directory"then
+		elseif info.type=='directory'then
 			log(("\t\t"):rep(depth)..name..">")
 			local L=love.filesystem.getDirectoryItems(path..name)
 			for _,subName in next,L do
@@ -320,7 +320,7 @@ do--function commands.tree()
 		end
 	end
 	function commands.tree()
-		local L=love.filesystem.getDirectoryItems("")
+		local L=love.filesystem.getDirectoryItems""
 		for _,name in next,L do
 			if love.filesystem.getRealDirectory(name)==SAVEDIR then
 				tree("",name,0)
@@ -360,9 +360,9 @@ do--function commands.del(name)
 				local path=dir.."/"..name
 				local info=love.filesystem.getInfo(path)
 				if info then
-					if info.type=="file"then
+					if info.type=='file'then
 						delFile(path)
-					elseif info.type=="directory"then
+					elseif info.type=='directory'then
 						recursiveDelDir(path)
 					else
 						log("Unkown item type: %s (%s)"):format(name,info.type)
@@ -379,13 +379,13 @@ do--function commands.del(name)
 		if name~=""then
 			local info=love.filesystem.getInfo(name)
 			if info then
-				if info.type=="file"then
+				if info.type=='file'then
 					if recursive then
 						log{C.R,name.." is not a directory."}
 					else
 						delFile(name)
 					end
-				elseif info.type=="directory"then
+				elseif info.type=='directory'then
 					(recursive and recursiveDelDir or delDir)(name)
 				else
 					log("Unkown item type: %s (%s)"):format(name,info.type)
@@ -440,7 +440,7 @@ function commands.rmwtm(pw)
 	if pw==the_secret then
 		_G["\100\114\97\119\70\87\77"]=NULL
 		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
-		SFX.play("clear")
+		SFX.play('clear')
 	else
 		log{C.aqua,"Usage: rmwtm [password]"}
 	end
@@ -448,13 +448,13 @@ end
 function commands.unlockall(bool)
 	if bool=="sure"then
 		for name,M in next,MODES do
-			if type(name)=="string"and not RANKS[name]and M.x then
+			if type(name)=='string'and not RANKS[name]and M.x then
 				RANKS[name]=M.score and 0 or 6
 			end
 		end
 		FILE.save(RANKS,"conf/unlock")
 		log{C.lC,"\85\78\76\79\67\75\65\76\76"}
-		SFX.play("clear_2")
+		SFX.play('clear_2')
 	else
 		log"Are you sure to unlock all modes?"
 		log"Type: unlockall sure"
@@ -515,7 +515,7 @@ function commands.theme(name)
 	end
 end
 function commands.demo()
-	SCN.go("test","none")
+	SCN.go('test','none')
 end
 do--commands.applet(name)
 	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","dropper","calc","reflect","polyforge"}
@@ -565,15 +565,15 @@ local combKey={}
 function combKey.x()
 	love.system.setClipboardText(inputBox.value)
 	inputBox.value=""
-	SFX.play("reach")
+	SFX.play('reach')
 end
 function combKey.c()
 	love.system.setClipboardText(inputBox.value)
-	SFX.play("reach")
+	SFX.play('reach')
 end
 function combKey.v()
 	inputBox.value=inputBox.value..love.system.getClipboardText()
-	SFX.play("reach")
+	SFX.play('reach')
 end
 
 
@@ -635,7 +635,7 @@ local scene={}
 
 function scene.sceneInit()
 	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	BG.set("none")
+	BG.set('none')
 end
 
 function scene.keyDown(k)

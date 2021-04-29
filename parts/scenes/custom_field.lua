@@ -172,7 +172,7 @@ function scene.keyDown(key)
 		if sure>20 then
 			for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
 			sure=0
-			SFX.play("finesseError",.7)
+			SFX.play('finesseError',.7)
 		else
 			sure=50
 		end
@@ -181,7 +181,7 @@ function scene.keyDown(key)
 	elseif key=="k"then
 		ins(FIELD[page],1,{21,21,21,21,21,21,21,21,21,21})
 		FIELD[page][21]=nil
-		SFX.play("blip")
+		SFX.play('blip')
 	elseif key=="l"then
 		local F=FIELD[page]
 		for i=20,1,-1 do
@@ -197,13 +197,13 @@ function scene.keyDown(key)
 			repeat
 				F[#F+1]={0,0,0,0,0,0,0,0,0,0}
 			until#F==20
-			SFX.play("clear_3",.8)
-			SFX.play("fall",.8)
+			SFX.play('clear_3',.8)
+			SFX.play('fall',.8)
 		end
 	elseif key=="n"then
 		ins(FIELD,page+1,DATA.newBoard(FIELD[page]))
 		page=page+1
-		SFX.play("blip_1",.8)
+		SFX.play('blip_1',.8)
 		SYSFX.newShade(3,200,60,300,600,.5,1,.5)
 	elseif key=="m"then
 		rem(FIELD,page)
@@ -212,16 +212,16 @@ function scene.keyDown(key)
 			ins(FIELD,DATA.newBoard())
 		end
 		SYSFX.newShade(3,200,60,300,600,1,.5,.5)
-		SFX.play("clear_4",.8)
-		SFX.play("fall",.8)
+		SFX.play('clear_4',.8)
+		SFX.play('fall',.8)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
 		LOG.print(text.exportSuccess,COLOR.G)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p=str:find":"--ptr*
+		local p=str:find(":")--ptr*
 		if p then
-			if not str:sub(1,p-1):find"Field"then
+			if not str:sub(1,p-1):find("Field")then
 				LOG.print(text.pasteWrongPlace)
 			end
 			str=str:sub(p+1)
@@ -269,7 +269,7 @@ function scene.draw()
 	--Draw field
 	gc.setColor(1,1,1)
 	gc.setLineWidth(3)
-	gc.rectangle("line",-2,-2,304,604)
+	gc.rectangle('line',-2,-2,304,604)
 	gc.setLineWidth(2)
 	local cross=TEXTURE.puzzleMark[-1]
 	local F=FIELD[page]
@@ -288,7 +288,7 @@ function scene.draw()
 		local x,y=30*penX,600-30*penY
 		if curPen==1 or curPen==2 then
 			gc.setLineWidth(5)
-			gc.rectangle("line",x-30,y,30,30,4)
+			gc.rectangle('line',x-30,y,30,30,4)
 		elseif curPen==3 then
 			gc.setLineWidth(3)
 			gc.line(x-15,y,x-30,y+15)
@@ -296,9 +296,9 @@ function scene.draw()
 			gc.line(x,y+15,x-15,y+30)
 		end
 		gc.setLineWidth(2)
-		gc.rectangle("line",x-30,y,30,30,3)
+		gc.rectangle('line',x-30,y,30,30,3)
 		gc.setColor(1,1,1,.2)
-		gc.rectangle("fill",x-30,y,30,30,3)
+		gc.rectangle('fill',x-30,y,30,30,3)
 	end
 
 	--Draw smart pen path
@@ -312,7 +312,7 @@ function scene.draw()
 					gc.setColor(.9,.9,.9,.7+.2*math.sin(TIME()*12.6))
 				end
 				for i=1,#penPath do
-					gc.rectangle("line",30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
+					gc.rectangle('line',30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
 				end
 			elseif pens[curPen]==-1 then
 				gc.setColor(1,1,0,.7+.3*math.sin(TIME()*12.6))
@@ -328,7 +328,7 @@ function scene.draw()
 				local c=minoColor[pens[curPen]]
 				gc.setColor(c[1],c[2],c[3],.7+.2*math.sin(TIME()*12.6))
 				for i=1,#penPath do
-					gc.rectangle("line",30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
+					gc.rectangle('line',30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
 				end
 			end
 		else
@@ -345,13 +345,13 @@ function scene.draw()
 	gc.setColor(1,1,1)
 	mStr(page,100,530)
 	mStr(#FIELD,100,600)
-	gc.rectangle("fill",50,600,100,6)
+	gc.rectangle('fill',50,600,100,6)
 
 	--Draw mouse & pen color
 	gc.translate(560,475)
 		--Mouse
 		gc.setLineWidth(2)
-		gc.rectangle("line",0,0,80,110,5)
+		gc.rectangle('line',0,0,80,110,5)
 		gc.line(0,40,80,40)
 		gc.line(33,0,33,25,47,25,47,0)
 		gc.line(40,25,40,40)
@@ -359,7 +359,7 @@ function scene.draw()
 		--Left button
 		if pens[1]>0 then
 			gc.setColor(minoColor[pens[1]])
-			gc.rectangle("fill",5,5,23,30)
+			gc.rectangle('fill',5,5,23,30)
 		elseif pens[1]==-1 then
 			gc.setColor(1,1,1)
 			gc.line(5,5,28,35)
@@ -368,7 +368,7 @@ function scene.draw()
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle("fill",5,5,23,30)
+				gc.rectangle('fill',5,5,23,30)
 			else
 				gc.setLineWidth(3)
 				gc.setColor(1,0,0)
@@ -380,7 +380,7 @@ function scene.draw()
 		--Right button
 		if pens[2]>0 then
 			gc.setColor(minoColor[pens[2]])
-			gc.rectangle("fill",52,5,23,30)
+			gc.rectangle('fill',52,5,23,30)
 		elseif pens[2]==-1 then
 			gc.setColor(1,1,1)
 			gc.setLineWidth(3)
@@ -390,7 +390,7 @@ function scene.draw()
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle("fill",52,5,23,30)
+				gc.rectangle('fill',52,5,23,30)
 			else
 				gc.setLineWidth(3)
 				gc.setColor(1,0,0)
@@ -402,7 +402,7 @@ function scene.draw()
 		--Middle button
 		if pens[3]>0 then
 			gc.setColor(minoColor[pens[3]])
-			gc.rectangle("fill",35,2,10,21)
+			gc.rectangle('fill',35,2,10,21)
 		elseif pens[3]==-1 then
 			gc.setColor(1,1,1)
 			gc.setLineWidth(2)
@@ -412,7 +412,7 @@ function scene.draw()
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle("fill",35,2,10,21)
+				gc.rectangle('fill',35,2,10,21)
 			else
 				gc.setLineWidth(3)
 				gc.setColor(1,0,0)
@@ -439,51 +439,51 @@ end
 
 local function setPen(i)return function(k)pens[k]=i end end
 scene.widgetList={
-	WIDGET.newText{name="title",	x=1020,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="H"},
+	WIDGET.newText{name="title",	x=1020,y=5,font=70,align='R'},
+	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align='L',color='H'},
 
-	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color="R",code=setPen(1)},--B1
-	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color="F",code=setPen(2)},--B2
-	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color="O",code=setPen(3)},--B3
-	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color="Y",code=setPen(4)},--B4
-	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color="L",code=setPen(5)},--B5
-	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color="J",code=setPen(6)},--B6
-	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color="G",code=setPen(7)},--B7
-	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color="A",code=setPen(8)},--B8
+	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color='R',code=setPen(1)},--B1
+	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color='F',code=setPen(2)},--B2
+	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color='O',code=setPen(3)},--B3
+	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color='Y',code=setPen(4)},--B4
+	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color='L',code=setPen(5)},--B5
+	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color='J',code=setPen(6)},--B6
+	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color='G',code=setPen(7)},--B7
+	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color='A',code=setPen(8)},--B8
 
-	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color="C",code=setPen(9)},--B9
-	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color="N",code=setPen(10)},--B10
-	WIDGET.newButton{name="b11",	x=740,	y=210,w=75,fText="",color="S",code=setPen(11)},--B11
-	WIDGET.newButton{name="b12",	x=820,	y=210,w=75,fText="",color="B",code=setPen(12)},--B12
-	WIDGET.newButton{name="b13",	x=900,	y=210,w=75,fText="",color="V",code=setPen(13)},--B13
-	WIDGET.newButton{name="b14",	x=980,	y=210,w=75,fText="",color="P",code=setPen(14)},--B14
-	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color="M",code=setPen(15)},--B15
-	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color="W",code=setPen(16)},--B16
+	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color='C',code=setPen(9)},--B9
+	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color='N',code=setPen(10)},--B10
+	WIDGET.newButton{name="b11",	x=740,	y=210,w=75,fText="",color='S',code=setPen(11)},--B11
+	WIDGET.newButton{name="b12",	x=820,	y=210,w=75,fText="",color='B',code=setPen(12)},--B12
+	WIDGET.newButton{name="b13",	x=900,	y=210,w=75,fText="",color='V',code=setPen(13)},--B13
+	WIDGET.newButton{name="b14",	x=980,	y=210,w=75,fText="",color='P',code=setPen(14)},--B14
+	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color='M',code=setPen(15)},--B15
+	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color='W',code=setPen(16)},--B16
 
-	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color="dH",	code=setPen(17)},--BONE
-	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color="D",	code=setPen(18)},--HIDE
-	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color="lY",	code=setPen(19)},--BOMB
-	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color="H",	code=setPen(20)},--GB1
-	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color="lH",	code=setPen(21)},--GB2
-	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color="dV",	code=setPen(22)},--GB3
-	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color="dR",	code=setPen(23)},--GB4
-	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color="dG",	code=setPen(24)},--GB5
+	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color='dH',	code=setPen(17)},--BONE
+	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color='D',	code=setPen(18)},--HIDE
+	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color='lY',	code=setPen(19)},--BOMB
+	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color='H',	code=setPen(20)},--GB1
+	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color='lH',	code=setPen(21)},--GB2
+	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color='dV',	code=setPen(22)},--GB3
+	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color='dR',	code=setPen(23)},--GB4
+	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color='dG',	code=setPen(24)},--GB5
 
-	WIDGET.newButton{name="any",	x=600,	y=400,w=120,color="lH",		font=40,code=setPen(0)},
-	WIDGET.newButton{name="space",	x=730,	y=400,w=120,color="H",		font=65,code=setPen(-1)},
-	WIDGET.newButton{name="smart",	x=860,	y=400,w=120,color="lG",		font=30,code=setPen(-2)},
-	WIDGET.newButton{name="push",	x=990,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"k"},
-	WIDGET.newButton{name="del",	x=1120,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"l"},
+	WIDGET.newButton{name="any",	x=600,	y=400,w=120,color='lH',		font=40,code=setPen(0)},
+	WIDGET.newButton{name="space",	x=730,	y=400,w=120,color='H',		font=65,code=setPen(-1)},
+	WIDGET.newButton{name="smart",	x=860,	y=400,w=120,color='lG',		font=30,code=setPen(-2)},
+	WIDGET.newButton{name="push",	x=990,	y=400,w=120,h=120,color='lY',font=20,code=pressKey"k"},
+	WIDGET.newButton{name="del",	x=1120,	y=400,w=120,h=120,color='lY',font=20,code=pressKey"l"},
 
-	WIDGET.newButton{name="copy",	x=730,	y=530,w=120,color="lR",		font=35,code=pressKey"cC"},
-	WIDGET.newButton{name="paste",	x=860,	y=530,w=120,color="lB",		font=35,code=pressKey"cV"},
-	WIDGET.newButton{name="clear",	x=990,	y=530,w=120,color="Z",		font=40,code=pressKey"delete"},
+	WIDGET.newButton{name="copy",	x=730,	y=530,w=120,color='lR',		font=35,code=pressKey"cC"},
+	WIDGET.newButton{name="paste",	x=860,	y=530,w=120,color='lB',		font=35,code=pressKey"cV"},
+	WIDGET.newButton{name="clear",	x=990,	y=530,w=120,color='Z',		font=40,code=pressKey"delete"},
 	WIDGET.newSwitch{name="demo",	x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
 
-	WIDGET.newButton{name="newPg",	x=100,	y=110,w=160,h=110,color="N",font=20,code=pressKey"n"},
-	WIDGET.newButton{name="delPg",	x=100,	y=230,w=160,h=110,color="lR",font=20,code=pressKey"m"},
-	WIDGET.newButton{name="prevPg",	x=100,	y=350,w=160,h=110,color="lG",font=20,code=pressKey"pageup",hide=function()return page==1 end},
-	WIDGET.newButton{name="nextPg",	x=100,	y=470,w=160,h=110,color="lG",font=20,code=pressKey"pagedown",hide=function()return page==#FIELD end},
+	WIDGET.newButton{name="newPg",	x=100,	y=110,w=160,h=110,color='N',font=20,code=pressKey"n"},
+	WIDGET.newButton{name="delPg",	x=100,	y=230,w=160,h=110,color='lR',font=20,code=pressKey"m"},
+	WIDGET.newButton{name="prevPg",	x=100,	y=350,w=160,h=110,color='lG',font=20,code=pressKey"pageup",hide=function()return page==1 end},
+	WIDGET.newButton{name="nextPg",	x=100,	y=470,w=160,h=110,color='lG',font=20,code=pressKey"pagedown",hide=function()return page==#FIELD end},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
 }

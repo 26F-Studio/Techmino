@@ -66,7 +66,7 @@ function scene.keyDown(key)
 			end
 			cur=0
 			sure=0
-			SFX.play("finesseError",.7)
+			SFX.play('finesseError',.7)
 		else
 			sure=50
 		end
@@ -77,9 +77,9 @@ function scene.keyDown(key)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p=str:find":"--ptr*
+		local p=str:find(":")--ptr*
 		if p then
-			if not str:sub(1,p-1):find"Target"then
+			if not str:sub(1,p-1):find("Target")then
 				LOG.print(text.pasteWrongPlace)
 			end
 			str=str:sub(p+1)
@@ -92,7 +92,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="escape"then
 		SCN.back()
-	elseif type(key)=="number"then
+	elseif type(key)=='number'then
 		local p=cur+1
 		while MISSION[p]==key do p=p+1 end
 		ins(MISSION,p,key)
@@ -108,7 +108,7 @@ function scene.keyDown(key)
 		if missionEnum[input]then
 			cur=cur+1
 			ins(MISSION,cur,missionEnum[input])
-			SFX.play("lock")
+			SFX.play('lock')
 			input=""
 		elseif #input>1 or not legalInput[input]then
 			input=""
@@ -124,7 +124,7 @@ function scene.draw()
 	--Draw frame
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1)
-	gc.rectangle("line",60,110,1160,170)
+	gc.rectangle('line',60,110,1160,170)
 
 	--Draw inputing target
 	setFont(30)
@@ -189,8 +189,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=520,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",	x=530,y=50,font=35,align="L",color="H"},
+	WIDGET.newText{name="title",	x=520,y=5,font=70,align='R'},
+	WIDGET.newText{name="subTitle",	x=530,y=50,font=35,align='L',color='H'},
 
 	WIDGET.newKey{name="_1",	x=800,y=540,w=90,font=50,code=pressKey(01)},
 	WIDGET.newKey{name="_2",	x=900,y=540,w=90,font=50,code=pressKey(02)},
@@ -229,13 +229,13 @@ scene.widgetList={
 	WIDGET.newKey{name="O4",	x=600,y=640,w=90,font=50,code=pressKey(64)},
 	WIDGET.newKey{name="I4",	x=700,y=640,w=90,font=50,code=pressKey(74)},
 
-	WIDGET.newKey{name="left",		x=800,	y=440,w=90,			color="lG",font=55,code=pressKey"left"},
-	WIDGET.newKey{name="right",		x=900,	y=440,w=90,			color="lG",font=55,code=pressKey"right"},
-	WIDGET.newKey{name="ten",		x=1000,	y=440,w=90,			color="lG",font=40,code=pressKey"ten"},
-	WIDGET.newKey{name="backsp",	x=1000,	y=540,w=90,			color="lY",font=50,code=pressKey"backspace"},
-	WIDGET.newKey{name="reset",		x=1000,	y=640,w=90,			color="lY",font=50,code=pressKey"delete"},
-	WIDGET.newButton{name="copy",	x=1140,	y=440,w=170,h=80,	color="lR",font=40,code=pressKey"cC",hide=function()return #MISSION==0 end},
-	WIDGET.newButton{name="paste",	x=1140,	y=540,w=170,h=80,	color="lB",font=40,code=pressKey"cV"},
+	WIDGET.newKey{name="left",		x=800,	y=440,w=90,			color='lG',font=55,code=pressKey"left"},
+	WIDGET.newKey{name="right",		x=900,	y=440,w=90,			color='lG',font=55,code=pressKey"right"},
+	WIDGET.newKey{name="ten",		x=1000,	y=440,w=90,			color='lG',font=40,code=pressKey"ten"},
+	WIDGET.newKey{name="backsp",	x=1000,	y=540,w=90,			color='lY',font=50,code=pressKey"backspace"},
+	WIDGET.newKey{name="reset",		x=1000,	y=640,w=90,			color='lY',font=50,code=pressKey"delete"},
+	WIDGET.newButton{name="copy",	x=1140,	y=440,w=170,h=80,	color='lR',font=40,code=pressKey"cC",hide=function()return #MISSION==0 end},
+	WIDGET.newButton{name="paste",	x=1140,	y=540,w=170,h=80,	color='lB',font=40,code=pressKey"cV"},
 	WIDGET.newSwitch{name="mission",x=1150, y=350,disp=CUSval("missionKill"),code=CUSrev("missionKill")},
 
 	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,	font=40,code=backScene},

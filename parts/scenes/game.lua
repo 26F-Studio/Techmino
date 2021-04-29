@@ -19,7 +19,7 @@ end
 
 scene.mouseDown=NULL
 local function restart()
-	resetGameData(PLAYERS[1].frameRun<240 and"q")
+	resetGameData(PLAYERS[1].frameRun<240 and'q')
 	noKey=GAME.replaying
 	noTouch=noKey
 end
@@ -162,10 +162,10 @@ local function drawAtkPointer(x,y)
 	t=sin(t*20)
 
 	gc.setColor(.2,.7+t*.2,1,.6+t*.4)
-	gc.circle("fill",x,y,25,6)
+	gc.circle('fill',x,y,25,6)
 
 	gc.setColor(0,.6,1,.8-a)
-	gc.circle("line",x,y,30*(1+a),6)
+	gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
 	drawFWM()

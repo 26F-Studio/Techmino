@@ -54,8 +54,8 @@ local function reset()
 	failPos=false
 end
 function scene.sceneInit()
-	BG.set("rainbow2")
-	BGM.play("truth")
+	BG.set('rainbow2')
+	BGM.play('truth')
 	preview={}
 	board={{},{},{},{},{}}
 	cx,cy=3,3
@@ -91,9 +91,9 @@ local function merge()
 		board[cy][cx]=chosen+1
 		local getScore=3^(chosen-1)*math.min(int(.5+count/2),4)
 		score=score+getScore
-		TEXT.show(getScore,cx*128+256,cy*128-40,40,"score")
+		TEXT.show(getScore,cx*128+256,cy*128-40,40,'score')
 		SYSFX.newRectRipple(2,320+cx*128-128,40+cy*128-128,128,128)
-		SFX.play("lock")
+		SFX.play('lock')
 		if chosen==maxTile then
 			maxTile=chosen+1
 			if maxTile>=6 then
@@ -104,7 +104,7 @@ local function merge()
 				maxTile<=8 and 3 or
 				maxTile<=11 and 4 or
 				5
-			SFX.play("reach")
+			SFX.play('reach')
 		end
 		if chosen>=5 then
 			SFX.play(
@@ -204,10 +204,10 @@ function scene.update()
 					for i=1,4 do for j=1,5 do if board[i][j]==board[i+1][j]then return end end end
 					for i=1,5 do for j=1,4 do if board[i][j]==board[i][j+1]then return end end end
 					state=2
-					SFX.play("fail")
+					SFX.play('fail')
 				else
 					fallingTimer=fast and 4 or 5
-					SFX.play("move")
+					SFX.play('move')
 				end
 			end
 		elseif fast and(
@@ -236,10 +236,10 @@ function scene.draw()
 	--Previews
 	if nexts then
 		gc.setColor(0,0,0,.2)
-		rectangle("fill",20,450,280,75)
+		rectangle('fill',20,450,280,75)
 		gc.setLineWidth(6)
 		setColor(1,1,1)
-		rectangle("line",20,450,280,75)
+		rectangle('line',20,450,280,75)
 		for i=1,5 do
 			setFont(85-10*i)
 			gc.setColor(tileColor[preview[i]])
@@ -250,15 +250,15 @@ function scene.draw()
 	if state==2 then
 		--Draw no-setting area
 		setColor(1,0,0,.3)
-		rectangle("fill",15,200,285,210)
+		rectangle('fill',15,200,285,210)
 	end
 	gc.setLineWidth(10)
 	setColor(COLOR[
-		state==0 and"G"or
-		state==1 and(fast and"R"or"W")or
-		state==2 and"Y"
+		state==0 and'G'or
+		state==1 and(fast and'R'or'W')or
+		state==2 and'Y'
 	])
-	rectangle("line",315,35,650,650)
+	rectangle('line',315,35,650,650)
 
 	gc.setLineWidth(4)
 	setFont(70)
@@ -269,7 +269,7 @@ function scene.draw()
 			if N>0 then
 				if hide and N>maxNew then
 					setColor(COLOR.dH)
-					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
+					rectangle('fill',320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.3)
 					mStr("?",j*128+256,i*128-75)
 				else
@@ -280,7 +280,7 @@ function scene.draw()
 					else
 						setColor(0,0,0,1-math.abs(TIME()%.5-.25)*6-.25)
 					end
-					rectangle("fill",320+j*128-128,40+i*128-128,128,128)
+					rectangle('fill',320+j*128-128,40+i*128-128,128,128)
 					setColor(1,1,1,.9)
 					mStr(N,j*128+256,i*128-75)
 				end
@@ -290,7 +290,7 @@ function scene.draw()
 	if state<2 and cx then
 		setColor(1,1,1,.6)
 		gc.setLineWidth(10)
-		rectangle("line",325+cx*128-128,45+cy*128-128,118,118)
+		rectangle('line',325+cx*128-128,45+cy*128-128,118,118)
 	end
 	setFont(50)
 	setColor(1,1,1)
@@ -298,7 +298,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
+	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
 	WIDGET.newSwitch{name="next",	x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="blind",	x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="fast",	x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hide=function()return state==1 end},

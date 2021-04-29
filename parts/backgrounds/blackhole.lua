@@ -38,7 +38,7 @@ function back.update()
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
 	gc.translate(SCR.w/2,SCR.h/2)
 
@@ -52,11 +52,11 @@ function back.draw()
 	--Blackhole
 	gc.scale(SCR.rad/1600)
 	gc.setColor(0,0,0)
-	gc.circle("fill",0,0,157)
+	gc.circle('fill',0,0,157)
 	gc.setLineWidth(6)
 	for i=0,15 do
 		gc.setColor(0,0,0,1-i*.0666)
-		gc.circle("line",0,0,160+6*i)
+		gc.circle('line',0,0,160+6*i)
 	end
 	gc.scale(1600/SCR.rad)
 	gc.pop()

@@ -115,8 +115,8 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
 	color=COLOR.green,--颜色
 	env={--模式环境变量
 		drop=60,lock=60,
-		dropPiece=function(P)if P.stat.row>=40 then P:win("finish")end end,
-		bg="bg2",bgm="race",
+		dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
+		bg='bg2',bgm='race',
 	},
 	load=function()--生成玩家
 		PLY.newPlayer(1)--1是玩家编号，默认用户控制1号玩家

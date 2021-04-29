@@ -18,7 +18,7 @@ end
 function back.draw()
 	shader:send("t",t)
 	gc.setShader(shader)
-	gc.rectangle("fill",0,0,SCR.w,SCR.h)
+	gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.setShader()
 end
 return back

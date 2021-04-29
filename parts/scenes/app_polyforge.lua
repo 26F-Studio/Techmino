@@ -36,8 +36,8 @@ function scene.sceneInit()
 		hit[c],hit[c+1]=rnd(2),rnd(2)
 		dist[c],dist[c+1]=226,126
 	end
-	BG.set("light")
-	BGM.play("dream")
+	BG.set('light')
+	BGM.play('dream')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -57,19 +57,19 @@ function scene.keyDown(k)
 			if hit[c]==0 then
 				hit[c]=1
 				count=count+1
-				SFX.play(side<26 and"ren_"..rnd(5)or"ren_"..rnd(6,11))
+				SFX.play(side<26 and'ren_'..rnd(5)or'ren_'..rnd(6,11))
 				if count>=12 then
-					SFX.play("ren_mega",(count-11)/15)
+					SFX.play('ren_mega',(count-11)/15)
 				end
 				if count==side then
 					state=1
-					SFX.play("spin_0")
+					SFX.play('spin_0')
 				else
-					SFX.play("lock")
+					SFX.play('lock')
 				end
 			else
 				hit[c]=2
-				SFX.play("emit")
+				SFX.play('emit')
 				needReset=true
 				state=1
 			end
@@ -130,7 +130,7 @@ function scene.draw()
 	gc.setColor(0,0,0,1-timer/50)
 	setFont(80)
 	mStr(side,640,300)
-	gc.polygon("fill",
+	gc.polygon('fill',
 		640+cos(pos-.03)*300,360+sin(pos-.03)*300,
 		640+cos(pos)*285,360+sin(pos)*285,
 		640+cos(pos+.03)*300,360+sin(pos+.03)*300
@@ -163,7 +163,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="back",x=1140,y=60,w=170,h=80,color="D",font=40,code=pressKey"escape"},
+	WIDGET.newKey{name="back",x=1140,y=60,w=170,h=80,color='D',font=40,code=pressKey"escape"},
 }
 
 return scene

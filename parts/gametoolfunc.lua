@@ -66,7 +66,7 @@ end
 function royaleLevelup()
 	GAME.stage=GAME.stage+1
 	local spd
-	TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,"beat",.3)
+	TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,'beat',.3)
 	if GAME.stage==2 then
 		spd=30
 	elseif GAME.stage==3 then
@@ -74,7 +74,7 @@ function royaleLevelup()
 		for _,P in next,PLY_ALIVE do
 			P.gameEnv.garbageSpeed=.6
 		end
-		if PLAYERS[1].alive then BGM.play("cruelty")end
+		if PLAYERS[1].alive then BGM.play('cruelty')end
 	elseif GAME.stage==4 then
 		spd=10
 		for _,P in next,PLY_ALIVE do
@@ -87,7 +87,7 @@ function royaleLevelup()
 		end
 	elseif GAME.stage==6 then
 		spd=3
-		if PLAYERS[1].alive then BGM.play("final")end
+		if PLAYERS[1].alive then BGM.play('final')end
 	end
 	for _,P in next,PLY_ALIVE do
 		P.gameEnv.drop=spd
@@ -113,12 +113,12 @@ function generateLine(hole)
 end
 function freshDate(mode)
 	if not mode then mode=""end
-	local date=os.date("%Y/%m/%d")
+	local date=os.date"%Y/%m/%d"
 	if STAT.date~=date then
 		STAT.date=date
 		STAT.todayTime=0
-		if not mode:find("q")then
-			LOG.print(text.newDay,"message")
+		if not mode:find'q'then
+			LOG.print(text.newDay,'message')
 		end
 		return true
 	end
@@ -132,10 +132,10 @@ function legalGameTime()--Check if today's playtime is legal
 		if STAT.todayTime<14400 then
 			return true
 		elseif STAT.todayTime<21600 then
-			LOG.print(text.playedLong,"warning")
+			LOG.print(text.playedLong,'warn')
 			return true
 		else
-			LOG.print(text.playedTooMuch,"warning")
+			LOG.print(text.playedTooMuch,'warn')
 			return false
 		end
 	end
@@ -144,8 +144,8 @@ end
 
 function mergeStat(stat,delta)--Merge delta stat. to global stat.
 	for k,v in next,delta do
-		if type(v)=="table"then
-			if type(stat[k])=="table"then
+		if type(v)=='table'then
+			if type(stat[k])=='table'then
 				mergeStat(stat[k],v)
 			end
 		else
@@ -172,7 +172,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 			FREEROW.discard(rem(P.field))
 			FREEROW.discard(rem(P.visTime))
 		end
-		if P.AI_mode=="CC"then
+		if P.AI_mode=='CC'then
 			CC.free(P.bot_opt)
 			CC.free(P.bot_wei)
 			CC.destroy(P.AI_bot)
@@ -198,7 +198,7 @@ function pauseGame()
 		if not(GAME.result or GAME.replaying)then
 			GAME.pauseCount=GAME.pauseCount+1
 		end
-		SCN.swapTo("pause","none")
+		SCN.swapTo('pause','none')
 	end
 end
 function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
@@ -226,11 +226,11 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 		GAME.init=true
 		GAME.net=ifNet
 		if ifNet then
-			SCN.go("net_game","swipeD")
+			SCN.go('net_game','swipeD')
 		else
 			drawableText.modeName:set(text.modes[M][1].."   "..text.modes[M][2])
-			SCN.go("game",ifQuickPlay and"swipeD"or"fade_togame")
-			SFX.play("enter")
+			SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
+			SFX.play('enter')
 		end
 	end
 end
@@ -242,7 +242,7 @@ function initPlayerPosition(sudden)--Set initial position for every player
 		end
 	end
 
-	local method=sudden and"setPosition"or"movePosition"
+	local method=sudden and'setPosition'or'movePosition'
 	L[1][method](L[1],340,75,1)
 	if #L<=5 then
 		if L[2]then L[2][method](L[2],965,390,.5)end
@@ -314,7 +314,7 @@ do--function resetGameData(args)
 			if time%20==0 then
 				local M=GAME.mod[time/20]
 				if M then
-					TEXT.show(M.id,700+(time-20)%120*4,36,45,"spin",.5)
+					TEXT.show(M.id,700+(time-20)%120*4,36,45,'spin',.5)
 				else
 					return
 				end
@@ -332,12 +332,12 @@ do--function resetGameData(args)
 		--Graphic
 		"block","ghost","center","smooth","grid","bagLine",
 		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
-		"text","score","warn","highCam","nextPos",
+		"text","score",'warn',"highCam","nextPos",
 	}
 	local function copyGameSetting()
 		local S={}
 		for _,key in next,gameSetting do
-			if type(SETTING[key])=="table"then
+			if type(SETTING[key])=='table'then
 				S[key]=TABLE.shift(SETTING[key])
 			else
 				S[key]=SETTING[key]
@@ -355,12 +355,12 @@ do--function resetGameData(args)
 		GAME.result=false
 		GAME.warnLVL0=0
 		GAME.warnLVL=0
-		if args:find("r")then
+		if args:find'r'then
 			GAME.frameStart=0
 			GAME.recording=false
 			GAME.replaying=1
 		else
-			GAME.frameStart=args:find("n")and 0 or 150-SETTING.reTime*15
+			GAME.frameStart=args:find'n'and 0 or 150-SETTING.reTime*15
 			GAME.seed=seed or math.random(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
@@ -375,7 +375,7 @@ do--function resetGameData(args)
 
 		destroyPlayers()
 		GAME.curMode.load()
-		initPlayerPosition(args:find("q"))
+		initPlayerPosition(args:find'q')
 		VK.restore()
 		if GAME.modeEnv.task then
 			for i=1,#PLAYERS do
@@ -384,7 +384,7 @@ do--function resetGameData(args)
 		end
 		BG.set(GAME.modeEnv.bg)
 		local bgm=GAME.modeEnv.bgm
-		BGM.play(type(bgm)=="string"and bgm or type(bgm)=="table"and bgm[math.random(#bgm)])
+		BGM.play(type(bgm)=='string'and bgm or type(bgm)=='table'and bgm[math.random(#bgm)])
 
 		TEXT.clear()
 		if GAME.modeEnv.royaleMode then
@@ -404,7 +404,7 @@ do--function resetGameData(args)
 		if GAME.setting.allowMod then
 			TASK.new(tick_showMods)
 		end
-		SFX.play("ready")
+		SFX.play('ready')
 		collectgarbage()
 	end
 end
@@ -482,14 +482,14 @@ do--function drawSelfProfile()
 	local textObject,scaleK,width,offY
 	function drawSelfProfile()
 		local selfAvatar=USERS.getAvatar(USER.uid)
-		gc.push("transform")
+		gc.push('transform')
 		gc.translate(1280,0)
 
 		--Draw avatar
 		gc.setLineWidth(2)
-		gc.setColor(.3,.3,.3,.8)gc.rectangle("fill",-300,0,300,80)
-		gc.setColor(1,1,1)gc.rectangle("line",-300,0,300,80)
-		gc.rectangle("line",-73,7,66,66,2)
+		gc.setColor(.3,.3,.3,.8)gc.rectangle('fill',-300,0,300,80)
+		gc.setColor(1,1,1)gc.rectangle('line',-300,0,300,80)
+		gc.rectangle('line',-73,7,66,66,2)
 		gc.draw(selfAvatar,-72,8,nil,.5)
 
 		--Draw username
@@ -505,18 +505,18 @@ do--function drawSelfProfile()
 		--Draw lv. & xp.
 		gc.draw(TEXTURE.lvIcon[USER.lv],-295,50)
 		gc.line(-270,55,-80,55,-80,70,-270,70)
-		gc.rectangle("fill",-210,55,150*USER.xp/USER.lv/USER.lv,15)
+		gc.rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
 
 		gc.pop()
 	end
 end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then
-		gc.push("transform")
+		gc.push('transform')
 		gc.origin()
 		SHADER.warning:send("level",GAME.warnLVL)
 		gc.setShader(SHADER.warning)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 		gc.setShader()
 		gc.pop()
 	end

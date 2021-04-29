@@ -98,7 +98,7 @@ function DATA.copyBoard(page)--Copy the [page] board
 		end
 		str=str..S
 	end
-	return data.encode("string","base64",data.compress("string","zlib",str))
+	return data.encode('string','base64',data.compress('string','zlib',str))
 end
 function DATA.copyBoards()
 	local out={}
@@ -114,10 +114,10 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
 	local _,__
 
 	--Decode
-	str=str:sub(str:find"%S",str:find".%s-$")
-	_,str=pcall(data.decode,"string","base64",str)
+	str=str:sub(str:find("%S"),str:find(".%s-$"))
+	_,str=pcall(data.decode,'string','base64',str)
 	if not _ then return end
-	_,str=pcall(data.decompress,"string","zlib",str)
+	_,str=pcall(data.decompress,'string','zlib',str)
 	if not _ then return end
 
 	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
@@ -381,7 +381,7 @@ do--function DATA.saveRecording()
 				JSON.encode(getModList()).."\n"..
 				DATA.dumpRecording(GAME.rep)
 
-			love.filesystem.write(fileName,fileHead.."\n"..data.compress("string","zlib",fileBody))
+			love.filesystem.write(fileName,fileHead.."\n"..data.compress('string','zlib',fileBody))
 			ins(REPLAY,fileName)
 			FILE.save(REPLAY,"conf/replay")
 			return true

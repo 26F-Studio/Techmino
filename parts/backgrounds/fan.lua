@@ -39,25 +39,25 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.push("transform")
+	gc.push('transform')
 	gc.translate(SCR.w/2,SCR.h/2+20*sin(t*.02))
 	gc.scale(SCR.k)
 	gc.clear(.1,.1,.1)
 	gc.setLineWidth(320)
 	gc.setColor(.3,.2,.3)
-	gc.arc("line","open",0,420,500,-.8*3.1416,-.2*3.1416)
+	gc.arc('line','open',0,420,500,-.8*3.1416,-.2*3.1416)
 
 	gc.setLineWidth(4)
 	gc.setColor(.7,.5,.65)
-	gc.arc("line","open",0,420,660,-.799*3.1416,-.201*3.1416)
-	gc.arc("line","open",0,420,340,-.808*3.1416,-.192*3.1416)
+	gc.arc('line','open',0,420,660,-.799*3.1416,-.201*3.1416)
+	gc.arc('line','open',0,420,340,-.808*3.1416,-.192*3.1416)
 	gc.line(-281,224,-530,30.5)
 	gc.line(281,224,530,30.5)
 
 	gc.setLineWidth(6)
 	gc.setColor(.55,.5,.6)
 	for i=1,8 do
-		polygon("line",fan[i])
+		polygon('line',fan[i])
 	end
 
 	gc.setLineWidth(2)
@@ -65,7 +65,7 @@ function back.draw()
 	gc.origin()
 	for i=1,#petal do
 		local P=petal[i]
-		ellipse("fill",P.x,P.y,P.rx,P.ry)
+		ellipse('fill',P.x,P.y,P.rx,P.ry)
 	end
 	gc.pop()
 end

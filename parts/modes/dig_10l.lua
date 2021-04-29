@@ -1,6 +1,6 @@
 local function check_rise(P)
 	if P.stat.dig==10 then
-		P:win("finish")
+		P:win('finish')
 	end
 end
 
@@ -9,7 +9,7 @@ return{
 	env={
 		pushSpeed=6,
 		dropPiece=check_rise,
-		bg="bg1",bgm="way",
+		bg='bg1',bgm='way',
 	},
 	load=function()
 		PLY.newPlayer(1)

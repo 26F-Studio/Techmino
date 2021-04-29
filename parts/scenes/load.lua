@@ -33,7 +33,7 @@ local function upFloor()
 	progress=progress+1
 	if light[3*progress+3]then
 		light[3*progress+3]=false
-		SFX.play("click",.3)
+		SFX.play('click',.3)
 	end
 end
 local loadingThread=coroutine.wrap(function()
@@ -149,7 +149,7 @@ local loadingThread=coroutine.wrap(function()
 
 	upFloor()
 	if not MODES[STAT.lastPlay]then
-		STAT.lastPlay="sprint_10l"
+		STAT.lastPlay='sprint_10l'
 	end
 
 	upFloor()
@@ -157,7 +157,7 @@ local loadingThread=coroutine.wrap(function()
 	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked
 		for name,rank in next,RANKS do
 			local M=MODES[name]
-			if type(rank)~="number"then
+			if type(rank)~='number'then
 				RANKS[name]=nil
 			elseif M and M.unlock and rank>0 then
 				for _,unlockName in next,M.unlock do
@@ -170,10 +170,10 @@ local loadingThread=coroutine.wrap(function()
 				RANKS[name]=nil
 			end
 		end
-		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(RANKS,"conf/unlock",'q')
 	end
 
-	DAILYLAUNCH=freshDate("q")
+	DAILYLAUNCH=freshDate'q'
 	if DAILYLAUNCH then
 		logoColor1=COLOR.S
 		logoColor2=COLOR.lS
@@ -195,8 +195,8 @@ local loadingThread=coroutine.wrap(function()
 			upFloor()
 		end
 		if progress==25 then
-			SFX.play("welcome_sfx")
-			VOC.play("welcome_voc")
+			SFX.play('welcome_sfx')
+			VOC.play('welcome_voc')
 			THEME.fresh()
 			LOADED=true
 			return
@@ -265,7 +265,7 @@ function scene.update(dt)
 				skip=skip-1
 			end
 			if openTime>=3.26 and not SCN.swapping then
-				SCN.swapTo("intro")
+				SCN.swapTo('intro')
 				love.keyboard.setKeyRepeat(true)
 			end
 		end
@@ -274,13 +274,13 @@ end
 
 local function doorStencil()
 	local dx=300*(1-math.min(openTime/1.26-1,0)^2)
-	gc.rectangle("fill",640-dx,0,2*dx,720)
+	gc.rectangle('fill',640-dx,0,2*dx,720)
 end
 function scene.draw()
 	--Wall
 	gc.clear(.5,.5,.5)
 
-	gc.push("transform")
+	gc.push('transform')
 	if openTime>2.26 then
 		gc.translate(640,360)
 		gc.scale(1+(openTime-2.26)^1.8)
@@ -291,11 +291,11 @@ function scene.draw()
 	if progress==25 then
 		--Outside background
 		gc.setColor(.15,.15,.15)
-		gc.rectangle("fill",340,0,600,720)
+		gc.rectangle('fill',340,0,600,720)
 
-		gc.stencil(doorStencil,"replace",1)
-		gc.setStencilTest("equal",1)
-		gc.push("transform")
+		gc.stencil(doorStencil,'replace',1)
+		gc.setStencilTest('equal',1)
+		gc.push('transform')
 
 		--Cool camera
 		gc.translate(640,360)
@@ -323,17 +323,17 @@ function scene.draw()
 		if openTime>.3 and openTime<1.6 then
 			local w=(1.6-openTime)/1.3
 			gc.setColor(1,1,1,w^2)
-			gc.rectangle("fill",340,360*w^2,600,720*(1-w^2))
+			gc.rectangle('fill',340,360*w^2,600,720*(1-w^2))
 		end
 		gc.setStencilTest()
 	end
 
 	--Floor info frame
 	gc.setColor(.1,.1,.1)
-	gc.rectangle("fill",1020,25,180,100)
+	gc.rectangle('fill',1020,25,180,100)
 	gc.setColor(.7,.7,.7)
 	gc.setLineWidth(4)
-	gc.rectangle("line",1020,25,180,100)
+	gc.rectangle('line',1020,25,180,100)
 
 	--Floor info
 	if progress>=0 then
@@ -357,10 +357,10 @@ function scene.draw()
 	setFont(25)
 	for i=0,26 do
 		local x,y=light[3*i+1],light[3*i+2]
-		gc.setColor(COLOR[i==progress and"H"or light[3*i+3]and"dO"or"dH"])
-		gc.circle("fill",x,y,23)
+		gc.setColor(COLOR[i==progress and'H'or light[3*i+3]and'dO'or'dH'])
+		gc.circle('fill',x,y,23)
 		gc.setColor(.16,.16,.16)
-		gc.circle("line",x,y,23)
+		gc.circle('line',x,y,23)
 		gc.setColor(1,1,1)
 		mStr(i+1,x,y-18)
 	end
@@ -369,8 +369,8 @@ function scene.draw()
 	for i=1,0,-1 do
 		gc.setColor(.3,.3,.3)
 		local dx=300*(1-math.min(math.max(openTime-i*.1,0)/1.26-1,0)^2)
-		gc.rectangle("fill",340,0,300-dx,720)
-		gc.rectangle("fill",940,0,dx-300,720)
+		gc.rectangle('fill',340,0,300-dx,720)
+		gc.rectangle('fill',940,0,dx-300,720)
 
 		gc.setColor(.16,.16,.16)
 		gc.setLineWidth(4)
@@ -380,14 +380,14 @@ function scene.draw()
 
 	--Doorframe
 	gc.setColor(0,0,0)
-	gc.rectangle("line",340,0,600,720)
+	gc.rectangle('line',340,0,600,720)
 
 	--Black screen
 	if blackTime>0 or openTime>3 then
-		gc.push("transform")
+		gc.push('transform')
 		gc.origin()
 		gc.setColor(0,0,0,blackTime+(openTime-3)*4)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 		gc.pop()
 	end
 	gc.pop()

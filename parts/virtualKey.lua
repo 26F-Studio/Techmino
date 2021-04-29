@@ -4,10 +4,10 @@ local SETTING=SETTING
 
 --Virtualkey icons
 local VKIcon={}
-gc.setDefaultFilter("nearest","nearest")
+gc.setDefaultFilter('nearest','nearest')
 local VKI=gc.newImage("media/image/virtualkey.png")
 for i=1,20 do VKIcon[i]=DOGC{36,36,{"draw",VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36}}end
-gc.setDefaultFilter("linear","linear")
+gc.setDefaultFilter('linear','linear')
 
 --In-game virtualkey layout data
 local keys={}for i=1,#VK_org do keys[i]={}end
@@ -57,7 +57,7 @@ function VK.touch(id,x,y)
 			end
 		end
 	end
-	SFX.play("virtualKey",SETTING.VKSFX)
+	SFX.play('virtualKey',SETTING.VKSFX)
 	VIB(SETTING.VKVIB)
 end
 
@@ -115,7 +115,7 @@ function VK.draw()
 					--Button outline
 					gc_setColor(1,1,1,a)
 					gc_setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)
+					gc_circle('line',B.x,B.y,B.r,10)
 
 					--Icon
 					local _=keys[i].pressTime
@@ -126,13 +126,13 @@ function VK.draw()
 					--Ripple
 					if _>0 then
 						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
+						gc_circle('line',B.x,B.y,B.r*(1.4-_*.04),10)
 					end
 
 					--Glow when press
 					if B.isDown then
 						gc_setColor(1,1,1,a*.4)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)
+						gc_circle('fill',B.x,B.y,B.r*.94,10)
 					end
 				end
 			end
@@ -142,12 +142,12 @@ function VK.draw()
 					local B=keys[i]
 					gc_setColor(1,1,1,a)
 					gc_setLineWidth(B.r*.07)
-					gc_circle("line",B.x,B.y,B.r,10)
+					gc_circle('line',B.x,B.y,B.r,10)
 					local _=keys[i].pressTime
 					if _>0 then
 						gc_setColor(1,1,1,a*_*.08)
-						gc_circle("fill",B.x,B.y,B.r*.94,10)
-						gc_circle("line",B.x,B.y,B.r*(1.4-_*.04),10)
+						gc_circle('fill',B.x,B.y,B.r*.94,10)
+						gc_circle('line',B.x,B.y,B.r*(1.4-_*.04),10)
 					end
 				end
 			end
@@ -161,10 +161,10 @@ function VK.preview(selected)
 			if B.ava then
 				gc_setColor(1,1,1,SETTING.VKAlpha)
 				gc_setLineWidth(B.r*.07)
-				gc_circle("line",B.x,B.y,B.r,10)
+				gc_circle('line',B.x,B.y,B.r,10)
 				if selected==i and TIME()%.26<.13 then
 					gc_setColor(1,1,1,SETTING.VKAlpha*.62)
-					gc_circle("fill",B.x,B.y,B.r,10)
+					gc_circle('fill',B.x,B.y,B.r,10)
 				end
 				if SETTING.VKIcon then
 					local c=B.color

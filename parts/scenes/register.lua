@@ -18,8 +18,8 @@ local function register()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",		x=80,	y=50,font=70,align="L"},
-	WIDGET.newButton{name="login",		x=1140,	y=100,w=170,h=80,color="lY",code=function()SCN.swapTo("login","swipeL")end},
+	WIDGET.newText{name="title",		x=80,	y=50,font=70,align='L'},
+	WIDGET.newButton{name="login",		x=1140,	y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('login','swipeL')end},
 	WIDGET.newInputBox{name="username",	x=380,	y=200,w=500,h=60,regex="[0-9A-Za-z_]"},
 	WIDGET.newInputBox{name="email",	x=380,	y=300,w=626,h=60},
 	WIDGET.newInputBox{name="password",	x=380,	y=400,w=626,h=60,secret=true,regex="[ -~]"},

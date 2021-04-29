@@ -93,8 +93,8 @@ function scene.keyDown(key)
 	elseif key=="space"then
 		NET.signal_ready(not PLY_NET[1].ready)
 	elseif key=="s"then
-		if not(PLY_NET[1].ready or NET.getlock("ready"))then
-			SCN.go("setting_game")
+		if not(PLY_NET[1].ready or NET.getlock('ready'))then
+			SCN.go('setting_game')
 		end
 	end
 end
@@ -140,7 +140,7 @@ function scene.socketRead(cmd,d)
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.joinRoom,
 		}
-		SFX.play("click")
+		SFX.play('click')
 	elseif cmd=="Leave"then
 		textBox:push{
 			COLOR.lR,d.username,
@@ -161,7 +161,7 @@ function scene.socketRead(cmd,d)
 			end
 			lastUpstreamTime=0
 			upstreamProgress=1
-			resetGameData("n",d.seed)
+			resetGameData('n',d.seed)
 		else
 			LOG.print("Redundant [Go]",30,COLOR.G)
 		end
@@ -177,7 +177,7 @@ function scene.socketRead(cmd,d)
 		if not winnerUID then return end
 		for _,p in next,PLY_NET do
 			if p.uid==winnerUID then
-				TEXT.show(text.champion:gsub("$1",p.username),640,260,80,"zoomout",.26)
+				TEXT.show(text.champion:gsub("$1",p.username),640,260,80,'zoomout',.26)
 				break
 			end
 		end
@@ -185,7 +185,7 @@ function scene.socketRead(cmd,d)
 		if d.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do
 				if P.uid==d.uid then
-					local res,stream=pcall(love.data.decode,"string","base64",d.stream)
+					local res,stream=pcall(love.data.decode,'string','base64',d.stream)
 					if res then
 						DATA.pumpRecording(stream,P.stream)
 					else
@@ -246,9 +246,9 @@ function scene.draw()
 			local p=PLY_NET[i]
 
 			--Rectangle
-			gc.setColor(COLOR[p.ready and"G"or"white"])
+			gc.setColor(COLOR[p.ready and'G'or'Z'])
 			gc.setLineWidth(2)
-			gc.rectangle("line",40,65+50*i,1000,46)
+			gc.rectangle('line',40,65+50*i,1000,46)
 
 			--UID
 			setFont(40)
@@ -282,24 +282,24 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or PLY_NET[1].ready or NET.getlock("ready")end},
-	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color="lB",font=40,code=pressKey"space",
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or PLY_NET[1].ready or NET.getlock('ready')end},
+	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color='lB',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
 				NET.serverGaming or
 				not textBox.hide or
 				PLY_NET[1].ready or
-				NET.getlock("ready")
+				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color="H",font=40,code=pressKey"space",
+	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color='H',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
 				NET.serverGaming or
 				not textBox.hide or
 				not PLY_NET[1].ready or
-				NET.getlock("ready")
+				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},

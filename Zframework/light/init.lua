@@ -49,14 +49,14 @@ local function draw(L)
 	render(L.shadowCanvas,0,0,0,1,L.size)
 
 	--Ready to final render
-	setShader()setCanvas()gc.setBlendMode("add")
+	setShader()setCanvas()gc.setBlendMode('add')
 
 	--Render to screes
 	gc.setColor(r,g,b,a)
 	render(L.renderCanvas,X,Y+L.size,0,1,-1)
 
 	--Reset
-	gc.setBlendMode("alpha")
+	gc.setBlendMode('alpha')
 end
 
 local LIGHT={}

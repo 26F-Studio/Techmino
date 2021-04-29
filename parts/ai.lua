@@ -7,13 +7,13 @@ local yield=coroutine.yield
 -- 11~13:LL,RR,DD
 local blockPos={4,4,4,4,4,5,4}
 -------------------------------------------------Cold clear
-local _CC=LOADLIB("CC",{
+local _CC=LOADLIB('CC',{
 	Windows="CCloader",
 	Linux="CCloader",
 	Android="libCCloader.so",
 	libFunc="luaopen_CCloader",
 })cc=nil
-if type(_CC)=="table"then
+if type(_CC)=='table'then
 	local CCblockID={6,5,4,3,2,1,0}
 	CC={
 		getConf=	_CC.get_default_config	,--()options,weights
@@ -62,7 +62,7 @@ if type(_CC)=="table"then
 			CC.fastWeights(wei)
 			CC.setHold(opt,P.AIdata.hold)
 			CC.set20G(opt,P.AIdata._20G)
-			CC.setBag(opt,P.AIdata.bag=="bag")
+			CC.setBag(opt,P.AIdata.bag=='bag')
 			CC.setNode(opt,P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
@@ -200,7 +200,7 @@ local function getScore(field,cb,cy)
 end
 -------------------------------------------------
 return{
-	["9S"]=function(P,keys)
+	['9S']=function(P,keys)
 		while true do
 			--Thinking
 			yield()
@@ -275,7 +275,7 @@ return{
 			end
 		end
 	end,
-	["CC"]=CC and function(P,keys)
+	['CC']=CC and function(P,keys)
 		while true do
 			--Start thinking
 			yield()

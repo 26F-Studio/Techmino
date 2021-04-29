@@ -38,7 +38,7 @@ function back.update(dt)
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
 	gc.setColor(1,1,1)
 	local img=IMG.lanterns

@@ -1,7 +1,7 @@
 local scene={}
 
 function scene.sceneInit()
-	BG.set("matrix")
+	BG.set('matrix')
 end
 
 local function VKAdisp(n)return function()return VK_org[n].ava end end
@@ -32,12 +32,12 @@ scene.widgetList={
 	WIDGET.newButton{name="pro",	x=1120,	y=100,	w=240,h=80,	font=35,code=function()for i=1,20 do VK_org[i].ava=true end end},
 	WIDGET.newSwitch{name="hide",	x=1170,	y=200,				font=40,disp=SETval("VKSwitch"),code=SETrev("VKSwitch")},
 	WIDGET.newSwitch{name="track",	x=1170,	y=300,				font=35,disp=SETval("VKTrack"),code=SETrev("VKTrack")},
-	WIDGET.newSlider{name="sfx",	x=800,	y=380,	w=180,		font=35,change=function()SFX.play("virtualKey",SETTING.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")},
+	WIDGET.newSlider{name="sfx",	x=800,	y=380,	w=180,		font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX")},
 	WIDGET.newSlider{name="vib",	x=800,	y=460,	w=180,unit=2,font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB")},
 	WIDGET.newSwitch{name="icon",	x=850,	y=300,	font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon")},
 	WIDGET.newButton{name="tkset",	x=1120,	y=420,	w=240,h=80,
 		code=function()
-			SCN.go("setting_trackSetting")
+			SCN.go('setting_trackSetting')
 		end,
 		hide=function()
 			return not SETTING.VKTrack

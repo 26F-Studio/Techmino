@@ -23,11 +23,11 @@ local function puzzleCheck(P)
 			P.field[_],P.visTime[_]=nil
 		end
 		SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.3,1,.3)
-		SFX.play("reach")
+		SFX.play('reach')
 		D.showMark=0
 	else
 		D.showMark=1
-		P:win("finish")
+		P:win('finish')
 	end
 end
 
@@ -43,17 +43,17 @@ return{
 		local ENV=GAME.modeEnv
 		local AItype=ENV.opponent:sub(1,2)
 		local AIlevel=tonumber(ENV.opponent:sub(-1))
-		if AItype=="9S"then
-			PLY.newAIPlayer(2,AIBUILDER("9S",2*AIlevel))
-		elseif AItype=="CC"then
-			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
+		if AItype=='9S'then
+			PLY.newAIPlayer(2,AIBUILDER('9S',2*AIlevel))
+		elseif AItype=='CC'then
+			PLY.newAIPlayer(2,AIBUILDER('CC',2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
 	end,
 	mesDisp=function(P)
 		setFont(55)
 		mStr(P.stat.row,69,225)
 		mText(drawableText.line,69,290)
-		gc.push("transform")
+		gc.push('transform')
 		PLY.draw.applyFieldOffset(P)
 		if P.modeData.showMark==0 then
 			local mark=TEXTURE.puzzleMark

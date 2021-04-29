@@ -42,11 +42,11 @@ return{
 		holdCount=0,
 		drop=120,lock=180,
 		fall=20,
-		sequence="none",
+		sequence='none',
 		dropPiece=check,
 		RS="SRS",
 		ospin=false,
-		bg="rgb",bgm="oxygen",
+		bg='rgb',bgm='oxygen',
 	},
 	pauseLimit=true,
 	load=function()

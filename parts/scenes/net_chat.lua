@@ -26,7 +26,7 @@ function scene.sceneInit()
 	end
 	textBox:scroll(1)
 	TASK.new(function()YIELD()WIDGET.sel=WIDGET.active.input end)
-	BG.set("none")
+	BG.set('none')
 end
 function scene.sceneBack()
 	NET.quitChat()
@@ -65,7 +65,7 @@ function scene.socketRead(mes)
 		}
 		remain=tonumber(args[3])
 	elseif cmd=="T"then
-		local _,text=pcall(data.decode,"string","base64",args[3])
+		local _,text=pcall(data.decode,'string','base64',args[3])
 		if not _ then text=args[3]end
 		textBox:push{
 			COLOR.Z,args[1],
@@ -81,7 +81,7 @@ end
 function scene.draw()
 	setFont(25)
 	gc.setColor(1,1,1)
-	gc.printf(text.chatRemain,800,10,400,"right")
+	gc.printf(text.chatRemain,800,10,400,'right')
 	gc.print(remain or"?",1205,10)
 end
 

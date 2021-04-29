@@ -104,7 +104,7 @@ local function updateTasks(P)
 	for i=#L,1,-1 do
 		local tr=L[i].thread
 		assert(resume(tr))
-		if status(tr)=="dead"then
+		if status(tr)=='dead'then
 			rem(L,i)
 		end
 	end
@@ -119,12 +119,12 @@ function update.alive(P,dt)
 	P.frameRun=P.frameRun+1
 	if P.frameRun<=180 then
 		if P.frameRun==180 then
-			if P.id==1 then SFX.play("start")end
+			if P.id==1 then SFX.play('start')end
 			P.control=true
 			P.timing=true
 			P:popNext()
 		elseif P.frameRun==60 or P.frameRun==120 then
-			if P.id==1 then SFX.play("ready")end
+			if P.id==1 then SFX.play('ready')end
 		end
 		if P.movDir~=0 then
 			if P.moving<P.gameEnv.das then
@@ -163,7 +163,7 @@ function update.alive(P,dt)
 		end
 	end
 
-	if P.type=="computer"and P.control and P.waiting==-1 then
+	if P.type=='computer'and P.control and P.waiting==-1 then
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
@@ -172,7 +172,7 @@ function update.alive(P,dt)
 			end
 		elseif P.AI_delay<=0 then
 			P:pressKey(C[1])P:releaseKey(C[1])
-			if P.AI_mode~="CC"or C[1]>3 then
+			if P.AI_mode~='CC'or C[1]>3 then
 				P.AI_delay=P.AI_delay0*2
 			else
 				P.AI_delay=P.AI_delay0*.5
@@ -283,7 +283,7 @@ function update.alive(P,dt)
 			goto stop
 		else
 			local L=#P.clearingRow
-			if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
+			if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
 			P.clearingRow={}
 		end
 	end
@@ -307,7 +307,7 @@ function update.alive(P,dt)
 
 			if D==1 then
 				if ENV.moveFX and ENV.block then
-					P:createMoveFX("down")
+					P:createMoveFX('down')
 				end
 				P.curY=P.curY-1
 			else
@@ -315,19 +315,19 @@ function update.alive(P,dt)
 				if D>P.curY-P.ghoY then D=P.curY-P.ghoY end
 				if ENV.moveFX and ENV.block then
 					for _=1,D do
-						P:createMoveFX("down")
+						P:createMoveFX('down')
 						P.curY=P.curY-1
 					end
 				else
 					P.curY=P.curY-D
 				end
 			end
-			P:freshBlock("fresh")
+			P:freshBlock('fresh')
 			P.spinLast=false
 
 			if P.ghoY~=P.curY then
 				P.dropDelay=ENV.drop
-			elseif P.AI_mode=="CC"and P.AI_bot then
+			elseif P.AI_mode=='CC'and P.AI_bot then
 				CC.updateField(P)
 				if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
 					CC.switch20G(P)
@@ -337,7 +337,7 @@ function update.alive(P,dt)
 			P.lockDelay=P.lockDelay-1
 			if P.lockDelay>=0 then goto stop end
 			P:drop()
-			if P.AI_mode=="CC"and P.AI_bot then
+			if P.AI_mode=='CC'and P.AI_bot then
 				CC.updateField(P)
 			end
 		end
@@ -378,7 +378,7 @@ function update.dead(P,dt)
 		P.falling=P.falling-1
 		if P.falling<0 then
 			local L=#P.clearingRow
-			if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play("fall")end
+			if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
 			P.clearingRow={}
 		end
 	end

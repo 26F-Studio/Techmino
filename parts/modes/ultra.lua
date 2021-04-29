@@ -14,16 +14,16 @@ return{
 				if P.stat.time>=warnTime[P.modeData.stage]then
 					if P.modeData.stage<9 then
 						P.modeData.stage=P.modeData.stage+1
-						SFX.play("ready",.7+P.modeData.stage*.03)
+						SFX.play('ready',.7+P.modeData.stage*.03)
 					else
-						SFX.play("start")
-						P:win("finish")
+						SFX.play('start')
+						P:win('finish')
 						return
 					end
 				end
 			end
 		end,
-		bg="fan",bgm="warped",
+		bg='fan',bgm='warped',
 	},
 	slowMark=true,
 	pauseLimit=true,
@@ -32,10 +32,10 @@ return{
 	end,
 	mesDisp=function(P)
 		gc.setLineWidth(2)
-		gc.rectangle("line",55,120,32,402)
+		gc.rectangle('line',55,120,32,402)
 		local T=P.stat.time/120
 		gc.setColor(2*T,2-2*T,.2)
-		gc.rectangle("fill",56,521,30,(T-1)*400)
+		gc.rectangle('fill',56,521,30,(T-1)*400)
 	end,
 	score=function(P)return{P.stat.score}end,
 	scoreDisp=function(D)return tostring(D[1])end,

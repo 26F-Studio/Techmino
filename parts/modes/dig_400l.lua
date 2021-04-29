@@ -3,7 +3,7 @@ local function check_rise(P)
 		P:garbageRise(21,1,P:getHolePos())
 	end
 	if P.stat.dig==400 then
-		P:win("finish")
+		P:win('finish')
 	end
 end
 
@@ -12,7 +12,7 @@ return{
 	env={
 		pushSpeed=6,
 		dropPiece=check_rise,
-		bg="bg2",bgm="way",
+		bg='bg2',bgm='way',
 	},
 	load=function()
 		PLY.newPlayer(1)

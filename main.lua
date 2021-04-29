@@ -35,7 +35,7 @@ love.mouse.setVisible(false)
 --Delete all files from too old version
 function CLEAR(root)
 	for _,name in next,fs.getDirectoryItems(root or"")do
-		if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~="directory"then
+		if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~='directory'then
 			fs.remove(name)
 		end
 	end
@@ -46,7 +46,7 @@ for _,v in next,{"conf","record","replay","cache","lib"}do
 	local info=fs.getInfo(v)
 	if not info then
 		fs.createDirectory(v)
-	elseif info.type~="directory"then
+	elseif info.type~='directory'then
 		fs.remove(v)
 		fs.createDirectory(v)
 	end
@@ -239,13 +239,13 @@ do
 	local needSave
 	local autoRestart
 
-	if type(STAT.version)~="number"then
+	if type(STAT.version)~='number'then
 		STAT.version=0
 		needSave=true
 	end
 	if STAT.version<1300 then
 		STAT.frame=math.floor(STAT.time*60)
-		STAT.lastPlay="sprint_10l"
+		STAT.lastPlay='sprint_10l'
 		RANKS.sprintFix=nil
 		RANKS.sprintLock=nil
 		needSave=true
@@ -292,7 +292,7 @@ do
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
 	for k in next,RANKS do
-		if type(k)=="number"then
+		if type(k)=='number'then
 			RANKS[k]=nil
 			needSave=true
 		end
@@ -305,7 +305,7 @@ do
 		end
 		v="record/"..v
 		if fs.getInfo(v..".dat")then
-			fs.write("record/"..k.."rec",fs.read(v..".dat"))
+			fs.write("record/"..k..".rec",fs.read(v..".dat"))
 			fs.remove(v..".dat")
 		end
 		if fs.getInfo(v..".rec")then
@@ -319,11 +319,11 @@ do
 	end
 
 	if needSave then
-		FILE.save(SETTING,"conf/settings","q")
-		FILE.save(RANKS,"conf/unlock","q")
-		FILE.save(STAT,"conf/data","q")
+		FILE.save(SETTING,"conf/settings",'q')
+		FILE.save(RANKS,"conf/unlock",'q')
+		FILE.save(STAT,"conf/data",'q')
 	end
 	if autoRestart then
-		love.event.quit("restart")
+		love.event.quit('restart')
 	end
 end

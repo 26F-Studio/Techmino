@@ -12,7 +12,7 @@ return{
 		dropPiece=function(P)
 			if P.stat.row>=P.modeData.target then
 				if P.modeData.target==200 then
-					P:win("finish")
+					P:win('finish')
 				else
 					P.modeData.bpm=120+2*P.modeData.target/10
 					P.modeData.beatFrame=math.floor(3600/P.modeData.bpm)
@@ -26,7 +26,7 @@ return{
 						P:set20G(true)
 					end
 					P.modeData.target=P.modeData.target+10
-					SFX.play("reach")
+					SFX.play('reach')
 				end
 			end
 		end,
@@ -40,14 +40,14 @@ return{
 				P.modeData.counter=P.modeData.counter-1
 				if P.modeData.counter==0 then
 					P.modeData.counter=P.modeData.beatFrame
-					SFX.play("click",.3)
+					SFX.play('click',.3)
 					P:switchKey(6,true)
 					P:pressKey(6)
 					P:switchKey(6,false)
 				end
 			end
 		end,
-		bg="bg2",bgm="secret7th",
+		bg='bg2',bgm='secret7th',
 	},
 	pauseLimit=true,
 	slowMark=true,
@@ -58,18 +58,18 @@ return{
 		setFont(45)
 		mStr(P.stat.row,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 
 		setFont(30)
 		mStr(P.modeData.bpm,69,178)
 
 		gc.setLineWidth(4)
-		gc.circle("line",69,200,30)
+		gc.circle('line',69,200,30)
 
 		local beat=P.modeData.counter/P.modeData.beatFrame
 		gc.setColor(1,1,1,1-beat)
 		gc.setLineWidth(3)
-		gc.circle("line",69,200,30+45*beat)
+		gc.circle('line',69,200,30+45*beat)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

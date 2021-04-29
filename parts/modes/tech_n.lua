@@ -4,8 +4,8 @@ return{
 		infHold=true,
 		drop=1e99,lock=1e99,
 		b2bKill=true,
-		dropPiece=function(P)if P.stat.atk>=100 then P:win("finish")end end,
-		bg="matrix",bgm="new era",
+		dropPiece=function(P)if P.stat.atk>=100 then P:win('finish')end end,
+		bg='matrix',bgm='new era',
 	},
 	load=function()
 		PLY.newPlayer(1)

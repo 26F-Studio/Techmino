@@ -12,7 +12,7 @@ function IMG.init(list)
 	local function load(skip)
 		local loaded=0
 		for k,v in next,list do
-			if type(v)=="string"then
+			if type(v)=='string'then
 				IMG[k]=love.graphics.newImage("media/image/"..v)
 			else
 				for i=1,#v do
