@@ -94,11 +94,11 @@ do--commands.help(arg)
 			details={
 				"Attempt to delete a file (in saving directory)",
 				"",
-				"Aliases: rem delete remove",
+				"Aliases: rm delete remove",
 				"",
 				"Usage: del [filename]",
 			},
-		},rem="del",delete="del",remove="del",
+		},rm="del",delete="del",remove="del",
 		cls={
 			description="Clear the log output.",
 			details={
