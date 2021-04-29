@@ -286,7 +286,7 @@ function commands.print(name)
 				log("Unprintable item: %s (%s)"):format(name,info.type)
 			end
 		else
-			log{C.R,"No file called '"..name.."'"}
+			log{C.R,("No file called '%s'"):format(name)}
 		end
 	else
 		log{C.aqua,"Usage: print [filename]"}
@@ -302,56 +302,98 @@ function commands.url(url)
 		log{C.aqua,"Usage: url [url]"}
 	end
 end
-local function tree(path,name,depth)
-	local info=love.filesystem.getInfo(path..name)
-	if info.type=="file"then
-		log(("\t\t"):rep(depth)..name)
-	elseif info.type=="directory"then
-		log(("\t\t"):rep(depth)..name..">")
-		local L=love.filesystem.getDirectoryItems(path..name)
-		for _,subName in next,L do
-			tree(path..name.."/",subName,depth+1)
-		end
-	else
-		log("Unkown item type: %s (%s)"):format(name,info.type)
-	end
-end
-function commands.tree()
-	local L=love.filesystem.getDirectoryItems("")
-	for _,name in next,L do
-		if love.filesystem.getRealDirectory(name)==SAVEDIR then
-			tree("",name,0)
-		end
-	end
-end
-function commands.del(name)
-	if name~=""then
-		local info=love.filesystem.getInfo(name)
-		if info then
-			if info.type=="file"then
-				if love.filesystem.remove(name)then
-					log({C.Y,"Succesfully deleted"})
-				else
-					log({C.R,"Failed to delete"})
-				end
-			elseif info.type=="directory"then
-				if #love.filesystem.getDirectoryItems(name)==0 then
-					if love.filesystem.remove(name)then
-						log({C.Y,"Succesfully deleted file '"..name.."'"})
-					else
-						log({C.R,"Failed to delete file '"..name.."'"})
-					end
-				else
-					log{C.R,"Directory '"..name.."' is not empty"}
-				end
-			else
-				log("Unkown item type: %s (%s)"):format(name,info.type)
+do--function commands.tree()
+	local function tree(path,name,depth)
+		local info=love.filesystem.getInfo(path..name)
+		if info.type=="file"then
+			log(("\t\t"):rep(depth)..name)
+		elseif info.type=="directory"then
+			log(("\t\t"):rep(depth)..name..">")
+			local L=love.filesystem.getDirectoryItems(path..name)
+			for _,subName in next,L do
+				tree(path..name.."/",subName,depth+1)
 			end
 		else
-			log{C.R,"No file called '"..name.."'"}
+			log("Unkown item type: %s (%s)"):format(name,info.type)
 		end
-	else
-		log{C.aqua,"Usage: del [filename]"}
+	end
+	function commands.tree()
+		local L=love.filesystem.getDirectoryItems("")
+		for _,name in next,L do
+			if love.filesystem.getRealDirectory(name)==SAVEDIR then
+				tree("",name,0)
+			end
+		end
+	end
+end
+do
+	local function delFile(name)
+		if love.filesystem.remove(name)then
+			log{C.Y,("Deleted: '%s'"):format(name)}
+		else
+			log{C.R,("Failed to delete: '%s'"):format(name)}
+		end
+	end
+	local function delDir(name)
+		if #love.filesystem.getDirectoryItems(name)==0 then
+			if love.filesystem.remove(name)then
+				log{C.Y,("Directory deleted: '%s'"):format(name)}
+			else
+				log{C.R,("Failed to delete directory '%s'"):format(name)}
+			end
+		else
+			log{C.R,"Directory '"..name.."' is not empty"}
+		end
+	end
+	local function recursiveDelDir(dir)
+		local containing=love.filesystem.getDirectoryItems(dir)
+		if #containing==0 then
+			if love.filesystem.remove(dir)then
+				log{C.Y,("Succesfully deleted directory '%s'"):format(dir)}
+			else
+				log{C.R,("Failed to delete directory '%s'"):format(dir)}
+			end
+		else
+			for _,name in next,containing do
+				local path=dir.."/"..name
+				local info=love.filesystem.getInfo(path)
+				if info then
+					if info.type=="file"then
+						delFile(path)
+					elseif info.type=="directory"then
+						recursiveDelDir(path)
+					else
+						log("Unkown item type: %s (%s)"):format(name,info.type)
+					end
+				end
+			end
+			delDir(dir)
+		end
+	end
+	function commands.del(name)
+		local recursive=name:sub(1,3)=="/s "
+		if recursive then name=name:sub(4)end
+
+		if name~=""then
+			local info=love.filesystem.getInfo(name)
+			if info then
+				if info.type=="file"then
+					if recursive then
+						log{C.R,name.." is not a directory."}
+					else
+						delFile(name)
+					end
+				elseif info.type=="directory"then
+					(recursive and recursiveDelDir or delDir)(name)
+				else
+					log("Unkown item type: %s (%s)"):format(name,info.type)
+				end
+			else
+				log{C.R,("No file called '%s'"):format(name)}
+			end
+		else
+			log{C.aqua,"Usage: del [filename]"}
+		end
 	end
 end
 commands.exit=backScene
@@ -445,12 +487,12 @@ function commands.setbg(name)
 	if name~=""then
 		if name~=BG.cur then
 			if BG.set(name)then
-				log("Background set to '"..name.."'")
+				log(("Background set to '%s'"):format(name))
 			else
-				log("No background called '"..name.."'")
+				log(("No background called '%s'"):format(name))
 			end
 		else
-			log("Background already set to '"..name.."'")
+			log(("Background already set to '%s'"):format(name))
 		end
 	else
 		log{C.aqua,"Usage: setbg [bgName]"}
