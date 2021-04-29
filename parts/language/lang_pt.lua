@@ -655,11 +655,6 @@ return{
 			importData="Importar estatística",
 			importSetting="Importar config.",
 			importVK="Importar layout de hud",
-
-			reset="RESET?",
-			resetUnlock="Reset ranks",
-			resetRecord="Reset records",
-			resetData="Reset data",
 		},
 		error={
 			cmd="Console",

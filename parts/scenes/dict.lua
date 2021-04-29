@@ -26,6 +26,7 @@ local typeColor={
 	term=COLOR.lR,
 	setup=COLOR.lY,
 	pattern=COLOR.lJ,
+	command=COLOR.lN,
 	english=COLOR.B,
 	name=COLOR.lV,
 }

@@ -659,11 +659,6 @@ return{
 			importData="导入统计数据",
 			importSetting="导入设置",
 			importVK="导入虚拟按键布局",
-
-			reset="重置?",
-			resetUnlock="重置解锁/等级",
-			resetRecord="重置纪录",
-			resetData="重置统计",
 		},
 		error={
 			cmd="控制台",

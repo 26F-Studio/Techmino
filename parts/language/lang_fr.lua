@@ -570,11 +570,6 @@ return{
 			importData="Importer les Données",
 			importSetting="Importer les Paramètres",
 			importVK="Importer VK",
-
-			reset="Réinitialiser ?",
-			resetUnlock="Réinitialiser les rangs",
-			resetRecord="Réinitialiser les records",
-			resetData="Réinitialiser les données",
 		},
 		error={
 			cmd="Console",

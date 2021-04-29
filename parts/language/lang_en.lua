@@ -658,11 +658,6 @@ return{
 			importData="Import Stats",
 			importSetting="Import Settings",
 			importVK="Import Virtual Key Layout",
-
-			reset="Reset?",
-			resetUnlock="Reset Ranks",
-			resetRecord="Reset Records",
-			resetData="Reset Data",
 		},
 		error={
 			cmd="Console",

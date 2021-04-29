@@ -795,6 +795,28 @@ return{
 		"https://github.com/26F-Studio/Techmino",
 	},
 
+	--存档管理
+	{"控制台",
+		"console cmd commamd minglinghang kongzhitai",
+		"command",
+		"目前进入控制台的方式是在主菜单点击特定位置/按键盘某个键数次",
+	},
+	{"重置解锁状态",
+		"reset unlock chongzhi qingkong jiesuo",
+		"command",
+		"前往控制台输入\"rm conf/unlock\"并回车\n需要重启游戏生效,若反悔,刷新任意一个模式在地图上的状态即可恢复文件",
+	},
+	{"重置本地排行榜",
+		"reset chongzhi paihangbang",
+		"command",
+		"前往控制台输入\"rm /s record\"并回车\n需要重启游戏生效,若反悔,玩一局并更新模式排行榜即可恢复保存对应模式的单个排行榜文件",
+	},
+	{"重置统计数据",
+		"reset statistic data chongzhi tongji shuju",
+		"command",
+		"前往控制台输入\"rm conf/data\"并回车\n需要重启游戏生效,若反悔,玩一局并触发结算即可恢复文件",
+	},
+
 	--英文
 	{"SFX",
 		"sfx",

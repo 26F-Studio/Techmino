@@ -569,11 +569,6 @@ return{
 			importData="Importar Datos",
 			importSetting="Importar Ajustes",
 			importVK="Importar VK",
-
-			reset="¿Reiniciar?",
-			resetUnlock="Reiniciar rangos",
-			resetRecord="Reiniciar récords",
-			resetData="Reiniciar datos",
 		},
 		error={
 			cmd="Console",
