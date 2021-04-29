@@ -33,9 +33,9 @@ function THEME.calculate(Y,M,D)
 
 		--Z day (Feb./Mar./Apr./May./June. 26)
 		D=="26"and(
-			M=="1"or M=="2"and"zday1"or
-			M=="3"or M=="4"and"zday2"or
-			M=="5"or M=="6"and"zday3"
+			M=="01"or M=="02"and"zday1"or
+			M=="03"or M=="04"and"zday2"or
+			M=="05"or M=="06"and"zday3"
 		)or
 
 		"classic"
