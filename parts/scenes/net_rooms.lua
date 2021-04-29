@@ -106,7 +106,9 @@ function scene.update(dt)
 			fetchRoom()
 		end
 	end
-	selected=min(selected,#NET.roomList)
+	if #NET.roomList>0 then
+		selected=min(selected,#NET.roomList)
+	end
 end
 
 local function roomListStencil()
@@ -169,7 +171,7 @@ scene.widgetList={
 	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hide=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=500,y=620,w=140,h=140,font=20,code=pressKey"n"},
 	WIDGET.newKey{name="new2",		x=700,y=620,w=140,h=140,font=20,code=pressKey"m"},
-	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hide=function()return #NET.roomList==0 end},
+	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hide=function()return #NET.roomList==0 or NET.getlock("enterRoom") end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

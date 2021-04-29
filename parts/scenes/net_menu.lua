@@ -15,7 +15,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=goScene"setting_game"},
 	WIDGET.newButton{name="ffa",	x=640,	y=200,w=350,h=120,font=40,code=function()NET.enterRoom("ffa")end},
 	WIDGET.newButton{name="rooms",	x=640,	y=360,w=350,h=120,font=40,code=goScene"net_rooms"},
 	WIDGET.newButton{name="chat",	x=640,	y=540,w=350,h=120,color="D",font=40,code=NULL},
