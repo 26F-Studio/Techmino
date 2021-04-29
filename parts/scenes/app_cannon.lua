@@ -37,8 +37,6 @@ end
 function scene.mouseDown(k)
 	if k==1 then
 		scene.keyDown("space")
-	elseif k==2 then
-		SCN.back()
 	end
 end
 function scene.touchDown()

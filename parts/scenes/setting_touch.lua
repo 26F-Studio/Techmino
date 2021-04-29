@@ -34,8 +34,7 @@ local function onVK_org(x,y)
 	return nearest
 end
 function scene.mouseDown(x,y,k)
-	if k==2 then SCN.back()end
-	scene.touchDown(x,y)
+	if k==1 then scene.touchDown(x,y)end
 end
 function scene.mouseUp()
 	scene.touchUp()

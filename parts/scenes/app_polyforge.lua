@@ -79,8 +79,6 @@ end
 function scene.mouseDown(_,_,k)
 	if k==1 then
 		scene.keyDown("space")
-	elseif k==2 then
-		scene.keyDown("escape")
 	end
 end
 function scene.touchDown()
