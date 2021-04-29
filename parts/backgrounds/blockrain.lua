@@ -21,7 +21,7 @@ function back.update()
 			x=SCR.w*rnd(),
 			y=SCR.h*-.05,
 			k=SCR.rad/100,
-			a=rnd()*6.2832,
+			ang=rnd()*6.2832,
 			vy=.5+rnd()*.4,
 			vx=rnd()*.4-.2,
 			va=rnd()*.04-.02,
@@ -34,7 +34,7 @@ function back.update()
 			rem(mino,i)
 		else
 			P.x=P.x+P.vx
-			P.a=P.a+P.va
+			P.ang=P.ang+P.va
 			P.vx=P.vx-.01+rnd()*.02
 		end
 	end
@@ -47,7 +47,7 @@ function back.draw()
 		local C=mino[i]
 		local c=C.color
 		gc.setColor(c[1],c[2],c[3],.5)
-		gc.draw(C.block,C.x,C.y,C.a,C.k,C.k,C.block:getWidth()/2,C.block:getHeight()/2)
+		gc.draw(C.block,C.x,C.y,C.ang,C.k,C.k,C.block:getWidth()/2,C.block:getHeight()/2)
 	end
 	gc.pop()
 end

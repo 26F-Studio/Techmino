@@ -1,4 +1,4 @@
---Block rain
+--Large falling tetrominoes
 local gc=love.graphics
 local rnd=math.random
 local ins,rem=table.insert,table.remove
@@ -17,12 +17,12 @@ function back.update()
 		local B=BLOCKS[r][rnd(0,3)]
 		local k=(1+rnd()*2)*SCR.rad/1000
 		ins(mino,{
-			block=B,
-			texture=SKIN.curText[SETTING.skin[r]],
-			k=k,
 			x=(SCR.w)*rnd()-15*#B[1],
 			y=0,
+			k=k,
 			vy=k*2,
+			block=B,
+			texture=SKIN.curText[SETTING.skin[r]],
 		})
 	end
 	for i=#mino,1,-1 do
