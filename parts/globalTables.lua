@@ -230,7 +230,7 @@ customEnv0={
 	missionKill=false,
 
 	--Else
-	bg="none",
+	bg="blockfall",
 	bgm="infinite",
 }
 CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game

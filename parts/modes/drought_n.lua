@@ -9,7 +9,7 @@ return{
 		nextCount=3,
 		ospin=false,
 		freshLimit=15,
-		bg="glow",bgm="reason",
+		bg="blockfall",bgm="reason",
 	},
 	pauseLimit=true,
 	load=function()

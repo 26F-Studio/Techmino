@@ -3,7 +3,7 @@ return{
 	env={
 		drop=1e99,lock=1e99,
 		infHold=true,
-		bg="glow",bgm="infinite",
+		bg="blockfall",bgm="infinite",
 	},
 	load=function()
 		PLY.newPlayer(1)

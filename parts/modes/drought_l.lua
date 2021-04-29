@@ -79,7 +79,7 @@ return{
 		nextCount=1,holdCount=0,
 		ospin=false,
 		freshLimit=15,
-		bg="glow",bgm="reason",
+		bg="blockfall",bgm="reason",
 	},
 	pauseLimit=true,
 	load=function()
