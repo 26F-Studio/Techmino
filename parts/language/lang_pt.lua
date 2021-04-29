@@ -657,7 +657,7 @@ return{
 			importVK="Importar layout de hud",
 		},
 		error={
-			cmd="Console",
+			console="Console",
 			quit="Quit",
 		},
 	},

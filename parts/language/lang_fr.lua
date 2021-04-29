@@ -572,7 +572,7 @@ return{
 			importVK="Importer VK",
 		},
 		error={
-			cmd="Console",
+			console="Console",
 			quit="Quit",
 		},
 	},

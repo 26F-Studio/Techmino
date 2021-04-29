@@ -660,7 +660,7 @@ return{
 			importVK="Import Virtual Key Layout",
 		},
 		error={
-			cmd="Console",
+			console="Console",
 			quit="Quit",
 		},
 	},

@@ -96,7 +96,8 @@ do--commands.help(arg)
 				"",
 				"Aliases: rm delete remove",
 				"",
-				"Usage: del [filename]",
+				"Usage: del [filename|dirname]",
+				"Usage: del -s [dirname]",
 			},
 		},rm="del",delete="del",remove="del",
 		cls={
@@ -371,7 +372,7 @@ do
 		end
 	end
 	function commands.del(name)
-		local recursive=name:sub(1,3)=="/s "
+		local recursive=name:sub(1,3)=="-s "
 		if recursive then name=name:sub(4)end
 
 		if name~=""then
@@ -392,7 +393,8 @@ do
 				log{C.R,("No file called '%s'"):format(name)}
 			end
 		else
-			log{C.aqua,"Usage: del [filename]"}
+			log{C.aqua,"Usage: del [filename|dirname]"}
+			log{C.aqua,"Usage: del -s [dirname]"}
 		end
 	end
 end
@@ -421,7 +423,7 @@ function commands.wireframe(bool)
 		gc.setWireframe(bool=="true")
 		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 	else
-		log{C.aqua,"Usage: wireframe [true|false]"}
+		log{C.aqua,"Usage: wireframe <true|false>"}
 	end
 end
 function commands.gammacorrect(bool)
@@ -429,7 +431,7 @@ function commands.gammacorrect(bool)
 		love._setGammaCorrect(bool=="true")
 		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 	else
-		log{C.aqua,"Usage: gammacorrect [true|false]"}
+		log{C.aqua,"Usage: gammacorrect <true|false>"}
 	end
 end
 function commands.rmwtm(pw)

@@ -661,7 +661,7 @@ return{
 			importVK="导入虚拟按键布局",
 		},
 		error={
-			cmd="控制台",
+			console="控制台",
 			quit="退出",
 		},
 	},

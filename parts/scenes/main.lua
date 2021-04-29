@@ -11,13 +11,13 @@ local widgetX0={
 	-10,-10,-10,-10,
 	1290,1290,1290,1290,
 }
-local cmdEntryThread=coroutine.wrap(function()
+local consoleEntryThread=coroutine.wrap(function()
 	while true do
 		SFX.play("ren_"..math.random(5,6))YIELD()
 		SFX.play("ren_"..math.random(7,8))YIELD()
 		SFX.play("ren_"..math.random(9,10))YIELD()
 		SFX.play("ren_9")SFX.play("ren_11")SFX.play("ren_mega")
-		SCN.go("app_cmd")
+		SCN.go("app_console")
 		YIELD()
 	end
 end)
@@ -40,7 +40,7 @@ end
 
 function scene.mouseDown(x,y)
 	if x>=400 and x<=880 and y>=10 and y<=110 then
-		cmdEntryThread()
+		consoleEntryThread()
 	end
 end
 scene.touchDown=scene.mouseDown
@@ -116,7 +116,7 @@ function scene.keyDown(key)
 			SCN.back()
 		end
 	elseif key=="c"then
-		cmdEntryThread()
+		consoleEntryThread()
 	end
 end
 

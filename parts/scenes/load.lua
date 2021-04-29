@@ -10,7 +10,7 @@ local shadePhase1,shadePhase2
 local progress=0
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
-local skip,locked,cmdLaunchKey
+local skip,locked
 
 local light={}
 for i=0,26 do
@@ -213,7 +213,7 @@ function scene.sceneInit()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
 	locked=SETTING.appLock
-	cmdLaunchKey=0
+	consoleLaunchKey=0
 	if not locked then light[6*3],light[26*3]=true,true end
 	kb.setKeyRepeat(false)
 end
@@ -226,8 +226,6 @@ function scene.keyDown(key)
 		SCN.back()
 	elseif key=="s"then
 		skip=999
-	elseif key=="r"then
-		cmdLaunchKey=cmdLaunchKey+1
 	elseif locked and #key==1 and key:byte()>=97 and key:byte()<=122 then
 		switchLight(key:byte()-96)
 	else
@@ -267,12 +265,7 @@ function scene.update(dt)
 				skip=skip-1
 			end
 			if openTime>=3.26 and not SCN.swapping then
-				if cmdLaunchKey==2 then
-					SCN.push("intro")
-					SCN.swapTo("app_cmd")
-				else
-					SCN.swapTo("intro")
-				end
+				SCN.swapTo("intro")
 				love.keyboard.setKeyRepeat(true)
 			end
 		end
