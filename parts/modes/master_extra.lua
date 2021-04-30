@@ -35,7 +35,7 @@ return{
 				end
 			end
 		end,
-		bg='blockspace',bgm='far',
+		bg='blockspace',bgm='hope',
 	},
 	slowMark=true,
 	load=function()
