@@ -28,20 +28,24 @@ return STRING.split([=[
 				联网对战房间内添加设置入口,未准备就能修改设置
 				房间列表界面支持点选和平滑滚动
 				未获取到用户头像时显示默认方块头像,设置添加省流开关(不加载头像)
+				新BGM:Hope(用于master-ex)
 				新背景:Blockfall(用于无尽和自定义游戏默认)
+				新背景:Blockspace(用于master-ex)
 				自定义游戏菜单新增重置按钮
 				自定义场地三个鼠标键均可自定义颜色
 		改动:
+				存档管理功能移至命令行改为手动删文件清除,说明位于词典内
 				微调网战房间内ui,全员准备后会有提示
 				自定义场地三个鼠标键均可自定义颜色
-				更改游戏图标
 				未知用户头像使用和uid对应的方块图标
 				简化进入控制台的方法
 				取消鼠标右键返回
+				更改游戏图标
 				Ospin
 		代码:
 				升级doGC模块,调整命令集
 				升级控件模块,支持给部分控件开关声音,属性配置代码整理
+				整理代码习惯,常量字符串全部改用单引号
 		修复:
 				触屏虚拟按键松开后按钮还亮着
 				旋转机制的一个错误设计导致高速经典转不动
@@ -50,6 +54,7 @@ return STRING.split([=[
 				模式禁止mod也会显示开了什么mod
 				谜题数据解析时错误解析最后的空白符
 				blackhole和blockrain背景不适配大小屏幕
+				游戏结束相关文本问题
 				Ospin
 
 0.14.5: 晨 Morn
@@ -1267,7 +1272,7 @@ return STRING.split([=[
 
 0.8.8: Space BG Update
 		new:
-				background now is cool space with "planets" and "stars", instead of falling tetrominos
+				background now is cool space with "planets" and "stars", instead of falling tetrominoes
 				no black side in any screen size
 				adjustable waiting time before start
 				ajustable maxnext count

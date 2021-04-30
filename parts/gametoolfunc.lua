@@ -113,7 +113,7 @@ function generateLine(hole)
 end
 function freshDate(mode)
 	if not mode then mode=""end
-	local date=os.date"%Y/%m/%d"
+	local date=os.date("%Y/%m/%d")
 	if STAT.date~=date then
 		STAT.date=date
 		STAT.todayTime=0

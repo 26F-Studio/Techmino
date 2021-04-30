@@ -10,12 +10,11 @@
 
 
 --Var leak check
--- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match"\n.-\n\t(.-): ")rawset(self,k,v)end})
+-- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
 
 --Declaration
 goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 local fs=love.filesystem
-DBP=print--Use this in temporary code, easy to find and remove
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()

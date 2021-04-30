@@ -103,7 +103,7 @@ function scene.keyDown(key)
 		if testButton(9)then
 			SCN.go('music')
 		end
-	elseif key=="0"then
+	elseif key=="3"then
 		if testButton(10)then
 			SCN.go('lang')
 		end
@@ -185,7 +185,7 @@ scene.widgetList={
 	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color='lC',font=40,align='L',edge=30,code=pressKey","},
 
 	WIDGET.newButton{name="music",	x=130,y=80,w=200,h=90,		color='lO',font=35,code=pressKey"2"},
-	WIDGET.newButton{name="lang",	x=300,y=80,w=90,h=90,		color='lN',font=40,code=pressKey"0",fText=TEXTURE.earth},
+	WIDGET.newButton{name="lang",	x=300,y=80,w=90,h=90,		color='lN',font=40,code=pressKey"3",fText=TEXTURE.earth},
 	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',font=35,align='R',edge=30,code=pressKey"x"},
 	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',font=40,align='L',edge=30,code=backScene},
 }

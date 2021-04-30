@@ -7,7 +7,7 @@ local themeColor={
 }
 
 function THEME.calculate(Y,M,D)
-	if not Y then Y,M,D=os.date"%Y",os.date"%m",os.date"%d"end
+	if not Y then Y,M,D=os.date("%Y"),os.date("%m"),os.date("%d")end
 	--Festival calculate within one statement
 	return
 		--Christmas
@@ -84,7 +84,7 @@ function THEME.getThemeColor(theme)
 end
 
 function THEME.fresh()
-	THEME.set(THEME.calculate(os.date"%Y",os.date"%m",os.date"%d"))
+	THEME.set(THEME.calculate(os.date("%Y"),os.date("%m"),os.date("%d")))
 end
 
 return THEME

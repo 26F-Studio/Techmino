@@ -132,7 +132,7 @@ function profile.report(n)
 	if #out>0 then
 		sz=sz.." | "..table.concat(out," | \n | ").." | \n"
 	end
-	return"\n"..sz..row
+	return "\n"..sz..row
 end
 
 local switch=false

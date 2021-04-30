@@ -55,7 +55,7 @@ do--Connect
 		res,err=SOCK:receive("*l")
 		if not res then readCHN:push(err)return end
 		if not ctLen and res:find("length")then
-			ctLen=tonumber(res:match"%d+")
+			ctLen=tonumber(res:match("%d+"))
 		end
 	until res==""
 
