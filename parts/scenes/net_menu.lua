@@ -28,7 +28,7 @@ scene.widgetList={
 					USER.uid=false
 					USER.username=false
 					USER.authToken=false
-					FILE.save(USER,"conf/user",'q')
+					FILE.save(USER,'conf/user','q')
 					SCN.back()
 				end
 			else

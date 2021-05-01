@@ -50,11 +50,11 @@ function scene.keyDown(key)
 		end
 		if key=="return2"or kb.isDown("lalt","lctrl","lshift")then
 			if initField then
-				FILE.save(CUSTOMENV,"conf/customEnv",'q')
+				FILE.save(CUSTOMENV,'conf/customEnv','q')
 				loadGame('custom_puzzle',true)
 			end
 		else
-			FILE.save(CUSTOMENV,"conf/customEnv",'q')
+			FILE.save(CUSTOMENV,'conf/customEnv','q')
 			loadGame('custom_clear',true)
 		end
 	elseif key=="f"then
@@ -102,7 +102,7 @@ function scene.keyDown(key)
 		do return end
 		::THROW_fail::LOG.print(text.dataCorrupted,COLOR.R)
 	elseif key=="escape"then
-		FILE.save(CUSTOMENV,"conf/customEnv",'q')
+		FILE.save(CUSTOMENV,'conf/customEnv','q')
 		SCN.back()
 	else
 		WIDGET.keyPressed(key)

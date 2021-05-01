@@ -23,7 +23,7 @@ function scene.sceneInit()
 	BG.set('none')
 end
 function scene.sceneBack()
-	FILE.save(keyMap,"conf/key")
+	FILE.save(keyMap,'conf/key')
 end
 
 function scene.keyDown(key)

@@ -300,7 +300,7 @@ function NET.updateWS_user()
 							if res.uid then
 								USER.uid=res.uid
 								USER.authToken=res.authToken
-								FILE.save(USER,"conf/user",'q')
+								FILE.save(USER,'conf/user','q')
 								if SCN.cur=='login'then SCN.back()end
 							end
 							LOG.print(text.loginSuccessed)
@@ -350,7 +350,7 @@ function NET.updateWS_play()
 							--?
 						elseif res.action==2 then--Player join
 							if res.type=='Self'then
-								--Create room
+								--Enter new room
 								TABLE.cut(PLY_NET)
 								if d.players then
 									for _,p in next,d.players do
@@ -373,7 +373,7 @@ function NET.updateWS_play()
 									ready=d.ready,
 									config=d.config,
 								})
-								if SCN.socketRead then SCN.socketRead("Join",d)end
+								if SCN.socketRead then SCN.socketRead('Join',d)end
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
@@ -399,10 +399,10 @@ function NET.updateWS_play()
 										break
 									end
 								end
-								if SCN.socketRead then SCN.socketRead("Leave",d)end
+								if SCN.socketRead then SCN.socketRead('Leave',d)end
 							end
 						elseif res.action==4 then--Player talk
-							if SCN.socketRead then SCN.socketRead("Talk",d)end
+							if SCN.socketRead then SCN.socketRead('Talk',d)end
 						elseif res.action==5 then--Player change settings
 							if tostring(USER.uid)~=d.uid then
 								for i=1,#PLY_NET do
@@ -443,7 +443,7 @@ function NET.updateWS_play()
 						elseif res.action==9 then--Game finished
 							NET.allReady=false
 							NET.wsclose_stream()
-							if SCN.socketRead then SCN.socketRead("Finish",d)end
+							if SCN.socketRead then SCN.socketRead('Finish',d)end
 						end
 					else
 						WS.alert('play')
@@ -472,7 +472,7 @@ function NET.updateWS_stream()
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
 						elseif res.action==0 then--Game start
-							SCN.socketRead("Go",d)
+							SCN.socketRead('Go',d)
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
@@ -487,7 +487,7 @@ function NET.updateWS_stream()
 								end
 							end
 						elseif res.action==5 then--Receive stream
-							SCN.socketRead("Stream",d)
+							SCN.socketRead('Stream',d)
 						end
 					else
 						WS.alert('stream')

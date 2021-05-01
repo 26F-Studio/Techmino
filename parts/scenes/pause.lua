@@ -122,7 +122,7 @@ function scene.sceneBack()
 	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	if not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)and not GAME.result then
 		mergeStat(STAT,PLAYERS[1].stat)
-		FILE.save(STAT,"conf/data")
+		FILE.save(STAT,'conf/data')
 	end
 end
 

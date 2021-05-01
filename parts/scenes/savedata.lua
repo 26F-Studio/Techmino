@@ -39,7 +39,7 @@ scene.widgetList={
 			local D=parseCB()
 			if D then
 				TABLE.update(D,RANKS)
-				FILE.save(RANKS,"conf/unlock")
+				FILE.save(RANKS,'conf/unlock')
 				LOG.print(text.importSuccess,'message')
 			else
 				LOG.print(text.dataCorrupted,'warn')
@@ -50,7 +50,7 @@ scene.widgetList={
 			local D=parseCB()
 			if D and D.version==STAT.version then
 				TABLE.update(D,STAT)
-				FILE.save(STAT,"conf/data")
+				FILE.save(STAT,'conf/data')
 				LOG.print(text.importSuccess,'message')
 			else
 				LOG.print(text.dataCorrupted,'warn')
@@ -61,7 +61,7 @@ scene.widgetList={
 			local D=parseCB()
 			if D then
 				TABLE.update(D,SETTING)
-				FILE.save(SETTING,"conf/settings")
+				FILE.save(SETTING,'conf/settings')
 				LOG.print(text.importSuccess,'message')
 			else
 				LOG.print(text.dataCorrupted,'warn')
@@ -72,7 +72,7 @@ scene.widgetList={
 			local D=parseCB()
 			if D then
 				TABLE.update(D,VK_org)
-				FILE.save(VK_org,"conf/virtualkey")
+				FILE.save(VK_org,'conf/virtualkey')
 				LOG.print(text.importSuccess,'message')
 			else
 				LOG.print(text.dataCorrupted,'warn')

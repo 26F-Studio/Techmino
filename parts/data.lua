@@ -383,7 +383,7 @@ do--function DATA.saveRecording()
 
 			love.filesystem.write(fileName,fileHead.."\n"..data.compress('string','zlib',fileBody))
 			ins(REPLAY,fileName)
-			FILE.save(REPLAY,"conf/replay")
+			FILE.save(REPLAY,'conf/replay')
 			return true
 		else
 			LOG.print("Save failed: File already exists")

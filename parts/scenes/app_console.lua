@@ -493,7 +493,7 @@ function commands.unlockall(bool)
 				RANKS[name]=M.score and 0 or 6
 			end
 		end
-		FILE.save(RANKS,"conf/unlock")
+		FILE.save(RANKS,'conf/unlock')
 		log{C.lC,"\85\78\76\79\67\75\65\76\76"}
 		SFX.play('clear_2')
 	else

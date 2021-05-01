@@ -170,7 +170,7 @@ local loadingThread=coroutine.wrap(function()
 				RANKS[name]=nil
 			end
 		end
-		FILE.save(RANKS,"conf/unlock",'q')
+		FILE.save(RANKS,'conf/unlock','q')
 	end
 
 	DAILYLAUNCH=freshDate'q'

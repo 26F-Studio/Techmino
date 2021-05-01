@@ -15,7 +15,7 @@ function scene.sceneInit()
 	selected=false
 end
 function scene.sceneBack()
-	FILE.save(VK_org,"conf/virtualkey")
+	FILE.save(VK_org,'conf/virtualkey')
 end
 
 local function onVK_org(x,y)

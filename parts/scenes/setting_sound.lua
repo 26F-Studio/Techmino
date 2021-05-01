@@ -15,7 +15,7 @@ function scene.sceneInit()
 	BG.set()
 end
 function scene.sceneBack()
-	FILE.save(SETTING,"conf/settings")
+	FILE.save(SETTING,'conf/settings')
 end
 
 function scene.mouseDown(x,y)
