@@ -118,6 +118,7 @@ IMG.init{
 }
 SKIN.init{
 	"crystal_scf",
+	"matte_mrz",
 	"contrast_mrz",
 	"polkadots_scf",
 	"toy_scf",
