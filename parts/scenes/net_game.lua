@@ -112,7 +112,7 @@ end
 function scene.gamepadDown(key)
 	if key=="back"then
 		if TIME()-lastBackTime<1 then
-			SCN.back()
+			NET.signal_quit()
 		else
 			lastBackTime=TIME()
 			LOG.print(text.sureQuit,COLOR.O)
@@ -201,7 +201,10 @@ function scene.socketRead(cmd,d)
 end
 
 function scene.update(dt)
-	if NET.checkPlayDisconn()then SCN.back()end
+	if NET.checkPlayDisconn()then
+		NET.wsclose_stream()
+		SCN.back()
+	end
 	if not playing then return end
 
 	local P1=PLAYERS[1]
