@@ -16,7 +16,7 @@ return{
 		freshLimit=15,
 		dropPiece=check_tsd,
 		ospin=false,
-		bg="matrix",bgm="vapor",
+		bg='matrix',bgm='vapor',
 	},
 	pauseLimit=true,
 	load=function()

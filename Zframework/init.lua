@@ -1,3 +1,8 @@
+NONE={}function NULL()end
+EDITING=""
+LOADED=false
+ERRDATA={}
+
 SCR=	require"Zframework.screen"
 COLOR=	require"Zframework.color"
 SCN=	require"Zframework.scene"
@@ -61,12 +66,12 @@ local devMode
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
 	local state,pow=love.system.getPowerInfo()
-	gc.setCanvas(infoCanvas)gc_push("transform")gc.origin()
+	gc.setCanvas(infoCanvas)gc_push('transform')gc.origin()
 	gc.clear(0,0,0,.25)
-	if state~="unknown"then
+	if state~='unknown'then
 		gc.setLineWidth(4)
-		local charging=state=="charging"
-		if state=="nobattery"then
+		local charging=state=='charging'
+		if state=='nobattery'then
 			gc_setColor(1,1,1)
 			gc.setLineWidth(2)
 			gc.line(74,SCR.safeX+5,100,22)
@@ -77,7 +82,7 @@ local function updatePowerInfo()
 			elseif pow<26 then	gc_setColor(1,0,0)
 			else				gc_setColor(.5,0,1)
 			end
-			gc_rectangle("fill",76,6,pow*.22,14)
+			gc_rectangle('fill',76,6,pow*.22,14)
 			if pow<100 then
 				setFont(15)
 				gc_setColor(0,0,0)
@@ -110,14 +115,8 @@ function love.mousepressed(x,y,k,touch)
 		))
 	end
 	if SCN.swapping then return end
-	if SCN.mouseDown then
-		SCN.mouseDown(mx,my,k)
-	elseif k==2 then
-		SCN.back()
-	end
-	if k==1 then
-		WIDGET.press(mx,my)
-	end
+	if SCN.mouseDown then SCN.mouseDown(mx,my,k)end
+	WIDGET.press(mx,my,k)
 	lastX,lastY=mx,my
 	if SETTING.clickFX then SYSFX.newTap(3,mx,my,30)end
 end
@@ -128,7 +127,7 @@ function love.mousemoved(x,y,dx,dy,touch)
 	if SCN.swapping then return end
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
-	if ms.isDown(1) then
+	if ms.isDown(1)then
 		WIDGET.drag(mx,my,dx,dy)
 	else
 		WIDGET.cursorMove(mx,my)
@@ -179,7 +178,7 @@ function love.touchreleased(id,x,y)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if id==touching then
-		WIDGET.press(x,y)
+		WIDGET.press(x,y,1)
 		WIDGET.release(x,y)
 		touching=false
 		if WIDGET.sel and not WIDGET.sel.keepFocus then
@@ -197,7 +196,7 @@ local function noDevkeyPressed(key)
 	if key=="f1"then
 		PROFILE.switch()
 	elseif key=="f2"then
-		LOG.print(string.format("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s",SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
+		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
@@ -282,12 +281,12 @@ function love.joystickremoved(JS)
 	end
 end
 local keyMirror={
-	dpup="up",
-	dpdown="down",
-	dpleft="left",
-	dpright="right",
-	start="return",
-	back="escape",
+	dpup='up',
+	dpdown='down',
+	dpleft='left',
+	dpright='right',
+	start='return',
+	back='escape',
 }
 function love.gamepadpressed(_,i)
 	mouseShow=false
@@ -331,7 +330,7 @@ function love.lowmemory()
 	if TIME()-lastGCtime>6.26 then
 		collectgarbage()
 		lastGCtime=TIME()
-		LOG.print("[auto GC] low MEM 设备内存过低","warn")
+		LOG.print("[auto GC] low MEM 设备内存过低",'warn')
 	end
 end
 function love.resize(w,h)
@@ -344,7 +343,7 @@ end
 function love.focus(f)
 	if f then
 		love.timer.step()
-	elseif SCN.cur=="game"and SETTING.autoPause then
+	elseif SCN.cur=='game'and SETTING.autoPause then
 		pauseGame()
 	end
 end
@@ -378,7 +377,7 @@ function love.errorhandler(msg)
 	gc.reset()
 
 	if LOADED and #ERRDATA<3 then
-		BG.set("none")
+		BG.set('none')
 		local scn=SCN and SCN.cur or"NULL"
 		ERRDATA[#ERRDATA+1]={mes=err,scene=scn}
 
@@ -399,7 +398,7 @@ function love.errorhandler(msg)
 		local res,threadErr
 		repeat
 			res,threadErr=resume(loopThread)
-		until status(loopThread)=="dead"
+		until status(loopThread)=='dead'
 		if not res then
 			love.errorhandler(threadErr)
 			return
@@ -414,15 +413,15 @@ function love.errorhandler(msg)
 		while true do
 			love.event.pump()
 			for E,a,b in love.event.poll()do
-				if E=="quit"or a=="escape"then
+				if E=='quit'or a=='escape'then
 					destroyPlayers()
 					return true
-				elseif E=="resize"then
+				elseif E=='resize'then
 					SCR.resize(a,b)
 				end
 			end
 			gc.clear(.3,.5,.9)
-			gc_push("transform")
+			gc_push('transform')
 			gc.replaceTransform(xOy)
 			setFont(100)gc_print(":(",100,0,0,1.2)
 			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
@@ -440,7 +439,7 @@ function love.errorhandler(msg)
 	end
 end
 local WS=WS
-local WSnames={"app","user","play","stream","chat"}
+local WSnames={'app','user','play','stream','chat'}
 local WScolor={
 	{1,.5,.5,.7},
 	{1,.8,.3,.7},
@@ -480,8 +479,8 @@ function love.run()
 
 	--Scene Launch
 	while #SCN.stack>0 do SCN.pop()end
-	SCN.push("quit","slowFade")
-	SCN.init(#ERRDATA==0 and"load"or"error")
+	SCN.push('quit','slowFade')
+	SCN.init(#ERRDATA==0 and'load'or'error')
 
 	return function()
 		local _
@@ -495,7 +494,7 @@ function love.run()
 		for N,a,b,c,d,e in POLL()do
 			if love[N]then
 				love[N](a,b,c,d,e)
-			elseif N=="quit"then
+			elseif N=='quit'then
 				destroyPlayers()
 				return a or true
 			end
@@ -523,7 +522,7 @@ function love.run()
 				--Draw background
 				BG.draw()
 
-				gc_push("transform")
+				gc_push('transform')
 					gc.replaceTransform(xOy)
 
 					--Draw scene contents
@@ -540,7 +539,7 @@ function love.run()
 						_=SCS[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
-						gc_draw(TEXTURE[ms.isDown(1)and"cursor_hold"or"cursor"],mx,my,nil,nil,nil,8,8)
+						gc_draw(TEXTURE[ms.isDown(1)and'cursor_hold'or'cursor'],mx,my,nil,nil,nil,8,8)
 					end
 					SYSFX.draw()
 					TEXT.draw()
@@ -578,31 +577,31 @@ function love.run()
 					ins(frameTimeList,1,dt)rem(frameTimeList,126)
 					gc_setColor(1,1,1,.3)
 					for i=1,#frameTimeList do
-						gc_rectangle("fill",150+2*i,_-20,2,-frameTimeList[i]*4000)
+						gc_rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
 					end
 
 					--Websocket status
-					gc_push("transform")
+					gc_push('transform')
 					gc.translate(SCR.w,SCR.h-100)
 					gc.scale(SCR.k)
 					for i=1,5 do
 						local status=WS.status(WSnames[i])
 						gc_setColor(WScolor[i])
-						gc_rectangle("fill",0,20*i,-80,-20)
-						if status=="dead"then
+						gc_rectangle('fill',0,20*i,-80,-20)
+						if status=='dead'then
 							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
-						elseif status=="connecting"then
+						elseif status=='connecting'then
 							gc_setColor(1,1,1,.5+.3*sin(t*6.26))
 							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
-						elseif status=="running"then
+						elseif status=='running'then
 							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_running,-20,20*i-20)
 						end
 						local t1,t2,t3=WS.getTimers(WSnames[i])
-						gc_setColor(1,1,1,t1)gc_rectangle("fill",-60,20*i,-20,-20)
-						gc_setColor(0,1,0,t2)gc_rectangle("fill",-40,20*i,-20,-20)
-						gc_setColor(1,0,0,t3)gc_rectangle("fill",-20,20*i,-20,-20)
+						gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i,-20,-20)
+						gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i,-20,-20)
+						gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i,-20,-20)
 					end
 					gc_pop()
 

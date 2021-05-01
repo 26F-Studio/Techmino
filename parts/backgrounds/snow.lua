@@ -39,12 +39,12 @@ function back.update()
 end
 function back.draw()
 	gc.clear(.2,.2,.2)
-	gc.push("transform")
+	gc.push('transform')
 	gc.setColor(.7,.7,.7)
 	gc.origin()
 	for i=1,#snow do
 		local P=snow[i]
-		ellipse("fill",P.x,P.y,P.rx,P.ry)
+		ellipse('fill',P.x,P.y,P.rx,P.ry)
 	end
 	gc.pop()
 end

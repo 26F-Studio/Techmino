@@ -1,7 +1,4 @@
 local gc=love.graphics
-local gc_setColor,gc_setLineWidth,gc_setShader=gc.setColor,gc.setLineWidth,gc.setShader
-local gc_push,gc_pop,gc_origin,gc_translate=gc.push,gc.pop,gc.origin,gc.translate
-local gc_draw,gc_printf,gc_line,gc_rectangle=gc.draw,gc.printf,gc.line,gc.rectangle
 
 
 
@@ -69,7 +66,7 @@ end
 function royaleLevelup()
 	GAME.stage=GAME.stage+1
 	local spd
-	TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,"beat",.3)
+	TEXT.show(text.royale_remain:gsub("$1",#PLY_ALIVE),640,200,40,'beat',.3)
 	if GAME.stage==2 then
 		spd=30
 	elseif GAME.stage==3 then
@@ -77,7 +74,7 @@ function royaleLevelup()
 		for _,P in next,PLY_ALIVE do
 			P.gameEnv.garbageSpeed=.6
 		end
-		if PLAYERS[1].alive then BGM.play("cruelty")end
+		if PLAYERS[1].alive then BGM.play('cruelty')end
 	elseif GAME.stage==4 then
 		spd=10
 		for _,P in next,PLY_ALIVE do
@@ -90,7 +87,7 @@ function royaleLevelup()
 		end
 	elseif GAME.stage==6 then
 		spd=3
-		if PLAYERS[1].alive then BGM.play("final")end
+		if PLAYERS[1].alive then BGM.play('final')end
 	end
 	for _,P in next,PLY_ALIVE do
 		P.gameEnv.drop=spd
@@ -120,8 +117,8 @@ function freshDate(mode)
 	if STAT.date~=date then
 		STAT.date=date
 		STAT.todayTime=0
-		if not mode:find("q")then
-			LOG.print(text.newDay,"message")
+		if not mode:find'q'then
+			LOG.print(text.newDay,'message')
 		end
 		return true
 	end
@@ -135,10 +132,10 @@ function legalGameTime()--Check if today's playtime is legal
 		if STAT.todayTime<14400 then
 			return true
 		elseif STAT.todayTime<21600 then
-			LOG.print(text.playedLong,"warning")
+			LOG.print(text.playedLong,'warn')
 			return true
 		else
-			LOG.print(text.playedTooMuch,"warning")
+			LOG.print(text.playedTooMuch,'warn')
 			return false
 		end
 	end
@@ -147,8 +144,8 @@ end
 
 function mergeStat(stat,delta)--Merge delta stat. to global stat.
 	for k,v in next,delta do
-		if type(v)=="table"then
-			if type(stat[k])=="table"then
+		if type(v)=='table'then
+			if type(stat[k])=='table'then
 				mergeStat(stat[k],v)
 			end
 		else
@@ -175,7 +172,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 			FREEROW.discard(rem(P.field))
 			FREEROW.discard(rem(P.visTime))
 		end
-		if P.AI_mode=="CC"then
+		if P.AI_mode=='CC'then
 			CC.free(P.bot_opt)
 			CC.free(P.bot_wei)
 			CC.destroy(P.AI_bot)
@@ -183,7 +180,7 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 		end
 		PLAYERS[i]=nil
 	end
-	TABLE.clear(PLY_ALIVE)
+	TABLE.cut(PLY_ALIVE)
 	collectgarbage()
 end
 function pauseGame()
@@ -201,7 +198,7 @@ function pauseGame()
 		if not(GAME.result or GAME.replaying)then
 			GAME.pauseCount=GAME.pauseCount+1
 		end
-		SCN.swapTo("pause","none")
+		SCN.swapTo('pause','none')
 	end
 end
 function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
@@ -229,11 +226,11 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 		GAME.init=true
 		GAME.net=ifNet
 		if ifNet then
-			SCN.go("net_game","swipeD")
+			SCN.go('net_game','swipeD')
 		else
 			drawableText.modeName:set(text.modes[M][1].."   "..text.modes[M][2])
-			SCN.go("game",ifQuickPlay and"swipeD"or"fade_togame")
-			SFX.play("enter")
+			SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
+			SFX.play('enter')
 		end
 	end
 end
@@ -245,13 +242,25 @@ function initPlayerPosition(sudden)--Set initial position for every player
 		end
 	end
 
-	local method=sudden and"setPosition"or"movePosition"
+	local method=sudden and'setPosition'or'movePosition'
 	L[1][method](L[1],340,75,1)
 	if #L<=5 then
 		if L[2]then L[2][method](L[2],965,390,.5)end
-		if L[3]then L[3][method](L[3],965,30,.5)end
-		if L[4]then L[4][method](L[4],20,390,.5)end
-		if L[5]then L[5][method](L[5],20,30,.5)end
+		if L[3]then L[3][method](L[3],965, 30,.5)end
+		if L[4]then L[4][method](L[4], 20,390,.5)end
+		if L[5]then L[5][method](L[5], 20, 30,.5)end
+	elseif #L<=17 then
+		for i=1,4 do if L[i+1]then	L[i+1][method](L[i+1],	15,	-160+180*i,.25)else return end end
+		for i=1,4 do if L[i+5]then	L[i+5][method](L[i+5],	180,-160+180*i,.25)else return end end
+		for i=1,4 do if L[i+9]then	L[i+9][method](L[i+9],	950,-160+180*i,.25)else return end end
+		for i=1,4 do if L[i+13]then	L[i+13][method](L[i+13],1120,-160+180*i,.25)else return end end
+	elseif #L<=31 then
+		for i=1,5 do if L[i+1]then	L[i+1][method](L[i+1],	10,	-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+6]then	L[i+6][method](L[i+6],	120,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+11]then	L[i+11][method](L[i+11],230,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+16]then	L[i+16][method](L[i+16],940,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+21]then	L[i+21][method](L[i+21],1050,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+26]then	L[i+26][method](L[i+26],1160,-100+135*i,.18)else return end end
 	elseif #L<=49 then
 		local n=2
 		for i=1,4 do for j=1,6 do
@@ -317,7 +326,7 @@ do--function resetGameData(args)
 			if time%20==0 then
 				local M=GAME.mod[time/20]
 				if M then
-					TEXT.show(M.id,700+(time-20)%120*4,36,45,"spin",.5)
+					TEXT.show(M.id,700+(time-20)%120*4,36,45,'spin',.5)
 				else
 					return
 				end
@@ -335,12 +344,12 @@ do--function resetGameData(args)
 		--Graphic
 		"block","ghost","center","smooth","grid","bagLine",
 		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
-		"text","score","warn","highCam","nextPos",
+		"text","score",'warn',"highCam","nextPos",
 	}
 	local function copyGameSetting()
 		local S={}
 		for _,key in next,gameSetting do
-			if type(SETTING[key])=="table"then
+			if type(SETTING[key])=='table'then
 				S[key]=TABLE.shift(SETTING[key])
 			else
 				S[key]=SETTING[key]
@@ -358,12 +367,12 @@ do--function resetGameData(args)
 		GAME.result=false
 		GAME.warnLVL0=0
 		GAME.warnLVL=0
-		if args:find("r")then
+		if args:find'r'then
 			GAME.frameStart=0
 			GAME.recording=false
 			GAME.replaying=1
 		else
-			GAME.frameStart=args:find("n")and 0 or 150-SETTING.reTime*15
+			GAME.frameStart=args:find'n'and 0 or 150-SETTING.reTime*15
 			GAME.seed=seed or math.random(1046101471,2662622626)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
@@ -378,7 +387,7 @@ do--function resetGameData(args)
 
 		destroyPlayers()
 		GAME.curMode.load()
-		initPlayerPosition(args:find("q"))
+		initPlayerPosition(args:find'q')
 		VK.restore()
 		if GAME.modeEnv.task then
 			for i=1,#PLAYERS do
@@ -387,7 +396,7 @@ do--function resetGameData(args)
 		end
 		BG.set(GAME.modeEnv.bg)
 		local bgm=GAME.modeEnv.bgm
-		BGM.play(type(bgm)=="string"and bgm or type(bgm)=="table"and bgm[math.random(#bgm)])
+		BGM.play(type(bgm)=='string'and bgm or type(bgm)=='table'and bgm[math.random(#bgm)])
 
 		TEXT.clear()
 		if GAME.modeEnv.royaleMode then
@@ -404,8 +413,10 @@ do--function resetGameData(args)
 		STAT.game=STAT.game+1
 		FREEROW.reset(30*#PLAYERS)
 		TASK.removeTask_code(tick_showMods)
-		TASK.new(tick_showMods)
-		SFX.play("ready")
+		if GAME.setting.allowMod then
+			TASK.new(tick_showMods)
+		end
+		SFX.play('ready')
 		collectgarbage()
 	end
 end
@@ -474,42 +485,52 @@ do--function drawFWM()
 	function drawFWM()
 		local t=TIME()
 		setFont(25)
-		gc_setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
+		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
 		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
 	end
 end
-function drawSelfProfile()
-	local selfAvatar=USERS.getAvatar(USER.uid)
-	gc_push("transform")
-	gc_translate(1280,0)
+do--function drawSelfProfile()
+	local name
+	local textObject,scaleK,width,offY
+	function drawSelfProfile()
+		local selfAvatar=USERS.getAvatar(USER.uid)
+		gc.push('transform')
+		gc.translate(1280,0)
 
-	--Draw avatar
-	gc_setLineWidth(2)
-	gc_setColor(.3,.3,.3,.8)gc_rectangle("fill",-260,0,260,80)
-	gc_setColor(1,1,1)gc_rectangle("line",-260,0,260,80)
-	gc_rectangle("line",-73,7,66,66,2)
-	gc_draw(selfAvatar,-72,8,nil,.5)
+		--Draw avatar
+		gc.setLineWidth(2)
+		gc.setColor(.3,.3,.3,.8)gc.rectangle('fill',-300,0,300,80)
+		gc.setColor(1,1,1)gc.rectangle('line',-300,0,300,80)
+		gc.rectangle('line',-73,7,66,66,2)
+		gc.draw(selfAvatar,-72,8,nil,.5)
 
-	--Draw username
-	setFont(30)
-	gc_printf(USERS.getUsername(USER.uid),-342,5,260,"right")
+		--Draw username
+		if name~=USERS.getUsername(USER.uid)then
+			name=USERS.getUsername(USER.uid)
+			textObject=gc.newText(getFont(30),name)
+			width=textObject:getWidth()
+			scaleK=210/math.max(width,210)
+			offY=textObject:getHeight()/2
+		end
+		gc.draw(textObject,-82,26,nil,scaleK,nil,width,offY)
 
-	--Draw lv. & xp.
-	gc_draw(TEXTURE.lvIcon[USER.lv],-255,50)
-	gc_line(-230,55,-80,55,-80,70,-230,70)
-	gc_rectangle("fill",-230,55,150*USER.xp/USER.lv/USER.lv,15)
+		--Draw lv. & xp.
+		gc.draw(TEXTURE.lvIcon[USER.lv],-295,50)
+		gc.line(-270,55,-80,55,-80,70,-270,70)
+		gc.rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
 
-	gc_pop()
+		gc.pop()
+	end
 end
 function drawWarning()
 	if SETTING.warn and GAME.warnLVL>0 then
-		gc_push("transform")
-		gc_origin()
+		gc.push('transform')
+		gc.origin()
 		SHADER.warning:send("level",GAME.warnLVL)
-		gc_setShader(SHADER.warning)
-		gc_rectangle("fill",0,0,SCR.w,SCR.h)
-		gc_setShader()
-		gc_pop()
+		gc.setShader(SHADER.warning)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
+		gc.setShader()
+		gc.pop()
 	end
 end
 

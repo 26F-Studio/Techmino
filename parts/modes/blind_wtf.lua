@@ -7,10 +7,10 @@ return{
 		nextCount=1,
 		block=false,center=0,ghost=0,
 		dropFX=0,lockFX=0,
-		visible="none",
-		dropPiece=function(P)if P.stat.row>=40 then P:win("finish")end end,
+		visible='none',
+		dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
 		freshLimit=15,
-		bg="none",bgm="far",
+		bg='none',bgm='far',
 	},
 	pauseLimit=true,
 	load=function()
@@ -23,19 +23,19 @@ return{
 		if not GAME.result then
 			if GAME.replaying then
 				gc.setColor(.3,.3,.3,.7)
-				gc.push("transform")
+				gc.push('transform')
 				gc.origin()
-				gc.rectangle("fill",0,0,SCR.w,SCR.h)
+				gc.rectangle('fill',0,0,SCR.w,SCR.h)
 				gc.pop()
 			else
 				gc.clear(.26,.26,.26)
 				--Frame
 				gc.setColor(.5,.5,.5)
-				gc.push("transform")
+				gc.push('transform')
 				gc.translate(150,0)
-				gc.rectangle("line",-1,-11,302,612)--Boarder
-				gc.rectangle("line",301,-3,15,604)--AtkBuffer boarder
-				gc.rectangle("line",-16,-3,15,604)--B2b bar boarder
+				gc.rectangle('line',-1,-11,302,612)--Boarder
+				gc.rectangle('line',301,-3,15,604)--AtkBuffer boarder
+				gc.rectangle('line',-16,-3,15,604)--B2b bar boarder
 				gc.pop()
 			end
 		end

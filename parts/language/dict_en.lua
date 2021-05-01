@@ -786,6 +786,28 @@ return{
 		"https://github.com/26F-Studio/Techmino",
 	},
 
+	--Savedata managing
+	{"Console",
+		"console cmd commamd minglinghang kongzhitai",
+		"command",
+		"Now the way to enter console is in the main menu, clicking a specific area or pressing a speciao key on the keyboard several times",
+	},
+	{"Reset unlock",
+		"reset unlock chongzhi qingkong jiesuo",
+		"command",
+		"Go to console and type \"rm conf/unlock\" then press enter.\nEffected after restart game\nfresh a rank to get data back",
+	},
+	{"Reset record",
+		"reset chongzhi paihangbang",
+		"command",
+		"Go to console and type \"rm /s record\" then press enter.\nEffected after restart game\nfresh a record list to get one list back",
+	},
+	{"Reset stat.",
+		"reset statistic data chongzhi tongji shuju",
+		"command",
+		"Go to console and type \"rm conf/data\" then press enter.\nEffected after restart game\nplay one game to get data back",
+	},
+
 	--English
 	{"SFX",
 		"sfx soundeffects",

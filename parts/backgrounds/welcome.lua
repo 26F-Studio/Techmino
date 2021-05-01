@@ -18,7 +18,7 @@ function back.draw()
 	else
 		gc.clear(.1,.1,.1)
 	end
-	gc.push("transform")
+	gc.push('transform')
 	gc.translate(SCR.w/2,SCR.h/2+20*sin(t*.02))
 	gc.scale(SCR.k)
 	gc.scale(1.1626,1.26)

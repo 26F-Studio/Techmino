@@ -3,14 +3,13 @@ local kb=love.keyboard
 
 local max,min,int=math.max,math.min,math.floor
 local ins,rem=table.insert,table.remove
-local sub=string.sub
 
 local FIELD=FIELD
 local scene={}
 
 local sure
-local keyHold
-local penType--Color, air, or smart
+local curPen
+local pens--Color (air/smart)
 local penMode
 local penPath={}
 local penX,penY
@@ -55,7 +54,7 @@ local minoPosCode={
 	[1]=29,--O1
 }
 local function pTouch(x,y)
-	if not keyHold then return end
+	if not curPen then return end
 	for i=1,#penPath do
 		if x==penPath[i][1]and y==penPath[i][2]then
 			return
@@ -63,10 +62,10 @@ local function pTouch(x,y)
 	end
 	if #penPath==0 then
 		penMode=
-			penType>0 and(FIELD[page][y][x]~=penType and 0 or 1)or
-			penType==0 and 1 or
-			penType==-1 and 0 or
-			penType==-2 and (FIELD[page][y][x]<=0 and 0 or 1)
+			pens[curPen]>0 and(FIELD[page][y][x]~=pens[curPen] and 0 or 1)or
+			pens[curPen]==0 and 1 or
+			pens[curPen]==-1 and 0 or
+			pens[curPen]==-2 and (FIELD[page][y][x]<=0 and 0 or 1)
 	end
 	ins(penPath,{x,y})
 end
@@ -75,35 +74,29 @@ local function pDraw()
 	if l==0 then return end
 
 	local C--Color
-	if keyHold==1 then
-		if penMode==0 then
-			if penType==-2 then
-				if l<=5 then
-					local sum=0
-					local x,y={},{}
-					for i=1,l do
-						ins(x,penPath[i][1])
-						ins(y,penPath[i][2])
-					end
-					local minY,minX=min(unpack(y)),min(unpack(x))
-					for i=1,#y do
-						sum=sum+2^((11-(y[i]-minY))*(y[i]-minY)/2+(x[i]-minX))
-					end
-					if minoPosCode[sum]then
-						C=SETTING.skin[minoPosCode[sum]]
-					end
-				else
-					C=20
+	if penMode==0 then
+		if pens[curPen]==-2 then
+			if l<=5 then
+				local sum=0
+				local x,y={},{}
+				for i=1,l do
+					ins(x,penPath[i][1])
+					ins(y,penPath[i][2])
+				end
+				local minY,minX=min(unpack(y)),min(unpack(x))
+				for i=1,#y do
+					sum=sum+2^((11-(y[i]-minY))*(y[i]-minY)/2+(x[i]-minX))
+				end
+				if minoPosCode[sum]then
+					C=SETTING.skin[minoPosCode[sum]]
 				end
 			else
-				C=penType
+				C=20
 			end
 		else
-			C=0
+			C=pens[curPen]
 		end
-	elseif keyHold==2 then
-		C=-1
-	elseif keyHold==3 then
+	else
 		C=0
 	end
 
@@ -118,8 +111,9 @@ end
 
 function scene.sceneInit()
 	sure=0
-	keyHold=false
-	penType,penMode=-2,0
+	curPen=false
+	pens={-2,0,-1,[false]=false}
+	penMode=0
 	penX,penY=1,1
 	demo=false
 	page=1
@@ -129,32 +123,27 @@ function scene.mouseMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
 		penX,penY=sx,sy
-		if keyHold then pTouch(sx,sy)end
+		if curPen then pTouch(sx,sy)end
 	else
 		penX,penY=nil
 	end
 end
 function scene.mouseDown(x,y,k)
-	if not keyHold then
-		keyHold=k
-	elseif keyHold~=k then
-		keyHold=false
+	if not curPen then
+		curPen=k
+	elseif curPen~=k then
+		curPen=false
 		penPath={}
 	end
 	scene.mouseMove(x,y)
 end
 function scene.mouseUp(_,_,k)
-	if keyHold==k then
+	if curPen==k then
 		pDraw()
-		keyHold=false
+		curPen=false
 	end
 end
 
-function scene.wheelMoved(_,y)
-	if penType>0 then
-		penType=(penType+(y<0 and 1 or -1)-1)%24+1
-	end
-end
 function scene.touchDown(x,y)scene.mouseDown(x,y,1)end
 function scene.touchMove(x,y)scene.mouseMove(x,y)end
 function scene.touchUp(x,y)scene.mouseUp(x,y,1)end
@@ -176,14 +165,14 @@ function scene.keyDown(key)
 		end
 	elseif key=="space"then
 		if penX and penY then
-			keyHold=1
+			curPen=1
 			pTouch(penX,penY)
 		end
 	elseif key=="delete"then
 		if sure>20 then
 			for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
 			sure=0
-			SFX.play("finesseError",.7)
+			SFX.play('finesseError',.7)
 		else
 			sure=50
 		end
@@ -192,7 +181,7 @@ function scene.keyDown(key)
 	elseif key=="k"then
 		ins(FIELD[page],1,{21,21,21,21,21,21,21,21,21,21})
 		FIELD[page][21]=nil
-		SFX.play("blip")
+		SFX.play('blip')
 	elseif key=="l"then
 		local F=FIELD[page]
 		for i=20,1,-1 do
@@ -208,13 +197,13 @@ function scene.keyDown(key)
 			repeat
 				F[#F+1]={0,0,0,0,0,0,0,0,0,0}
 			until#F==20
-			SFX.play("clear_3",.8)
-			SFX.play("fall",.8)
+			SFX.play('clear_3',.8)
+			SFX.play('fall',.8)
 		end
 	elseif key=="n"then
 		ins(FIELD,page+1,DATA.newBoard(FIELD[page]))
 		page=page+1
-		SFX.play("blip_1",.8)
+		SFX.play('blip_1',.8)
 		SYSFX.newShade(3,200,60,300,600,.5,1,.5)
 	elseif key=="m"then
 		rem(FIELD,page)
@@ -223,41 +212,44 @@ function scene.keyDown(key)
 			ins(FIELD,DATA.newBoard())
 		end
 		SYSFX.newShade(3,200,60,300,600,1,.5,.5)
-		SFX.play("clear_4",.8)
-		SFX.play("fall",.8)
+		SFX.play('clear_4',.8)
+		SFX.play('fall',.8)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
 		LOG.print(text.exportSuccess,COLOR.G)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p=string.find(str,":")--ptr*
-		if p then str=sub(str,p+1)end
+		local p=str:find(":")--ptr*
+		if p then
+			if not str:sub(1,p-1):find("Field")then
+				LOG.print(text.pasteWrongPlace)
+			end
+			str=str:sub(p+1)
+		end
 		if DATA.pasteBoard(str,page)then
 			LOG.print(text.importSuccess,COLOR.G)
 		else
 			LOG.print(text.dataCorrupted,COLOR.R)
 		end
-	elseif key=="tab"or key=="sTab"then
-		if key=="sTab"or kb.isDown("lshift","rshift")then
-			page=max(page-1,1)
-		else
-			page=min(page+1,#FIELD)
-		end
+	elseif key=="pageup"then
+		page=max(page-1,1)
+	elseif key=="pagedown"then
+		page=min(page+1,#FIELD)
 	elseif key=="escape"then
-		if keyHold then
-			keyHold=false
+		if curPen then
+			curPen=false
 			penPath={}
 		else
 			SCN.back()
 		end
 	else
-		penType=penKey[key]or penType
+		pens[curPen]=penKey[key]or pens[curPen]
 	end
 end
 function scene.keyUp(key)
 	if key=="space"then
 		pDraw()
-		keyHold=false
+		curPen=false
 	end
 end
 
@@ -277,7 +269,7 @@ function scene.draw()
 	--Draw field
 	gc.setColor(1,1,1)
 	gc.setLineWidth(3)
-	gc.rectangle("line",-2,-2,304,604)
+	gc.rectangle('line',-2,-2,304,604)
 	gc.setLineWidth(2)
 	local cross=TEXTURE.puzzleMark[-1]
 	local F=FIELD[page]
@@ -294,64 +286,52 @@ function scene.draw()
 	--Draw pen
 	if penX and penY then
 		local x,y=30*penX,600-30*penY
-		if keyHold==1 or keyHold==2 then
+		if curPen==1 or curPen==2 then
 			gc.setLineWidth(5)
-			gc.rectangle("line",x-30,y,30,30,4)
-		elseif keyHold==3 then
+			gc.rectangle('line',x-30,y,30,30,4)
+		elseif curPen==3 then
 			gc.setLineWidth(3)
 			gc.line(x-15,y,x-30,y+15)
 			gc.line(x,y,x-30,y+30)
 			gc.line(x,y+15,x-15,y+30)
 		end
 		gc.setLineWidth(2)
-		gc.rectangle("line",x-30,y,30,30,3)
+		gc.rectangle('line',x-30,y,30,30,3)
 		gc.setColor(1,1,1,.2)
-		gc.rectangle("fill",x-30,y,30,30,3)
+		gc.rectangle('fill',x-30,y,30,30,3)
 	end
 
 	--Draw smart pen path
 	if #penPath>0 then
 		gc.setLineWidth(4)
-		if keyHold==1 then
-			if penMode==0 then
-				if penType==-2 then
-					if #penPath<=5 then
-						gc.setColor(COLOR.rainbow_light(TIME()*6.2))
-					else
-						gc.setColor(.9,.9,.9,.7+.2*math.sin(TIME()*12.6))
-					end
-					for i=1,#penPath do
-						gc.rectangle("line",30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
-					end
-				elseif penType==-1 then
-					gc.setColor(1,1,0,.7+.3*math.sin(TIME()*12.6))
-					for i=1,#penPath do
-						gc.draw(cross,30*penPath[i][1]-30,600-30*penPath[i][2])
-					end
-				elseif penType==0 then
-					gc.setColor(1,0,0)
-					for i=1,#penPath do
-						gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
-					end
+		if penMode==0 then
+			if pens[curPen]==-2 then
+				if #penPath<=5 then
+					gc.setColor(COLOR.rainbow_light(TIME()*6.2))
 				else
-					local c=minoColor[penType]
-					gc.setColor(c[1],c[2],c[3],.7+.2*math.sin(TIME()*12.6))
-					for i=1,#penPath do
-						gc.rectangle("line",30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
-					end
+					gc.setColor(.9,.9,.9,.7+.2*math.sin(TIME()*12.6))
 				end
-			else
+				for i=1,#penPath do
+					gc.rectangle('line',30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
+				end
+			elseif pens[curPen]==-1 then
+				gc.setColor(1,1,0,.7+.3*math.sin(TIME()*12.6))
+				for i=1,#penPath do
+					gc.draw(cross,30*penPath[i][1]-30,600-30*penPath[i][2])
+				end
+			elseif pens[curPen]==0 then
 				gc.setColor(1,0,0)
 				for i=1,#penPath do
 					gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
 				end
+			else
+				local c=minoColor[pens[curPen]]
+				gc.setColor(c[1],c[2],c[3],.7+.2*math.sin(TIME()*12.6))
+				for i=1,#penPath do
+					gc.rectangle('line',30*penPath[i][1]-30+2,600-30*penPath[i][2]+2,30-4,30-4,3)
+				end
 			end
-		elseif keyHold==2 then
-			gc.setColor(1,1,0,.7+.3*math.sin(TIME()*12.6))
-			for i=1,#penPath do
-				gc.draw(cross,30*penPath[i][1]-30,600-30*penPath[i][2])
-			end
-		elseif keyHold==3 then
+		else
 			gc.setColor(1,0,0)
 			for i=1,#penPath do
 				gc.draw(cross,30*penPath[i][1]-30+math.random(-1,1),600-30*penPath[i][2]+math.random(-1,1))
@@ -365,109 +345,145 @@ function scene.draw()
 	gc.setColor(1,1,1)
 	mStr(page,100,530)
 	mStr(#FIELD,100,600)
-	gc.rectangle("fill",50,600,100,6)
+	gc.rectangle('fill',50,600,100,6)
 
-	--Draw pen color
+	--Draw mouse & pen color
 	gc.translate(560,475)
-		--Right mouse button
-		gc.setLineWidth(3)
-		gc.setColor(1,1,1,.9)
-		gc.line(52,5,75,35)
-		gc.line(75,5,52,35)
-		--Left mouse button
-		if penType>0 then
-			gc.setColor(minoColor[penType])
-			gc.rectangle("fill",5,5,23,30)
-		elseif penType==-1 then
+		--Mouse
+		gc.setLineWidth(2)
+		gc.rectangle('line',0,0,80,110,5)
+		gc.line(0,40,80,40)
+		gc.line(33,0,33,25,47,25,47,0)
+		gc.line(40,25,40,40)
+
+		--Left button
+		if pens[1]>0 then
+			gc.setColor(minoColor[pens[1]])
+			gc.rectangle('fill',5,5,23,30)
+		elseif pens[1]==-1 then
+			gc.setColor(1,1,1)
 			gc.line(5,5,28,35)
 			gc.line(28,5,5,35)
-		elseif penType==-2 then
+		elseif pens[1]==-2 then
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle("fill",5,5,23,30)
+				gc.rectangle('fill',5,5,23,30)
 			else
+				gc.setLineWidth(3)
 				gc.setColor(1,0,0)
 				gc.line(5,5,28,35)
 				gc.line(28,5,5,35)
 			end
 		end
-		--Draw mouse
-		gc.setLineWidth(2)
-		gc.setColor(1,1,1)
-		gc.rectangle("line",0,0,80,110,5)
-		gc.line(0,40,80,40)
-		gc.line(33,0,33,40)
-		gc.line(47,0,47,40)
+
+		--Right button
+		if pens[2]>0 then
+			gc.setColor(minoColor[pens[2]])
+			gc.rectangle('fill',52,5,23,30)
+		elseif pens[2]==-1 then
+			gc.setColor(1,1,1)
+			gc.setLineWidth(3)
+			gc.line(52,5,75,35)
+			gc.line(75,5,52,35)
+		elseif pens[2]==-2 then
+			if penMode==0 then
+				gc.setLineWidth(13)
+				gc.setColor(COLOR.rainbow(TIME()*12.6))
+				gc.rectangle('fill',52,5,23,30)
+			else
+				gc.setLineWidth(3)
+				gc.setColor(1,0,0)
+				gc.line(52,5,75,35)
+				gc.line(75,5,52,35)
+			end
+		end
+
+		--Middle button
+		if pens[3]>0 then
+			gc.setColor(minoColor[pens[3]])
+			gc.rectangle('fill',35,2,10,21)
+		elseif pens[3]==-1 then
+			gc.setColor(1,1,1)
+			gc.setLineWidth(2)
+			gc.line(35,2,45,23)
+			gc.line(45,2,35,23)
+		elseif pens[3]==-2 then
+			if penMode==0 then
+				gc.setLineWidth(13)
+				gc.setColor(COLOR.rainbow(TIME()*12.6))
+				gc.rectangle('fill',35,2,10,21)
+			else
+				gc.setLineWidth(3)
+				gc.setColor(1,0,0)
+				gc.line(35,2,45,23)
+				gc.line(45,2,35,23)
+			end
+		end
 	gc.translate(-560,-475)
 
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(drawableText.question,1145,330)
+		gc.draw(drawableText.question,1090,460)
 	end
 
 	--Block name
 	setFont(55)
 	gc.setColor(1,1,1)
-	local _
 	for i=1,7 do
-		_=SETTING.skin[i]
-		if _<=8 then
-			mStr(text.block[i],500+80*_,90)
-		else
-			mStr(text.block[i],500+80*(_-8),170)
-		end
+		local skin=SETTING.skin[i]
+		mStr(text.block[i],500+skin%8*80,90+80*int(skin/8))
 	end
 end
 
-local function setPen(i)return function()penType=i end end
+local function setPen(i)return function(k)pens[k]=i end end
 scene.widgetList={
-	WIDGET.newText{name="title",	x=1020,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align="L",color="H"},
+	WIDGET.newText{name="title",	x=1020,y=5,font=70,align='R'},
+	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align='L',color='H'},
 
-	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color="R",code=setPen(1)},--B1
-	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color="F",code=setPen(2)},--B2
-	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color="O",code=setPen(3)},--B3
-	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color="Y",code=setPen(4)},--B4
-	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color="L",code=setPen(5)},--B5
-	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color="J",code=setPen(6)},--B6
-	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color="G",code=setPen(7)},--B7
-	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color="A",code=setPen(8)},--B8
+	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color='R',code=setPen(1)},--B1
+	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color='F',code=setPen(2)},--B2
+	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color='O',code=setPen(3)},--B3
+	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color='Y',code=setPen(4)},--B4
+	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color='L',code=setPen(5)},--B5
+	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color='J',code=setPen(6)},--B6
+	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color='G',code=setPen(7)},--B7
+	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color='A',code=setPen(8)},--B8
 
-	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color="C",code=setPen(9)},--B9
-	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color="N",code=setPen(10)},--B10
-	WIDGET.newButton{name="b11",	x=740,	y=210,w=75,fText="",color="S",code=setPen(11)},--B11
-	WIDGET.newButton{name="b12",	x=820,	y=210,w=75,fText="",color="B",code=setPen(12)},--B12
-	WIDGET.newButton{name="b13",	x=900,	y=210,w=75,fText="",color="V",code=setPen(13)},--B13
-	WIDGET.newButton{name="b14",	x=980,	y=210,w=75,fText="",color="P",code=setPen(14)},--B14
-	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color="M",code=setPen(15)},--B15
-	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color="W",code=setPen(16)},--B16
+	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color='C',code=setPen(9)},--B9
+	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color='N',code=setPen(10)},--B10
+	WIDGET.newButton{name="b11",	x=740,	y=210,w=75,fText="",color='S',code=setPen(11)},--B11
+	WIDGET.newButton{name="b12",	x=820,	y=210,w=75,fText="",color='B',code=setPen(12)},--B12
+	WIDGET.newButton{name="b13",	x=900,	y=210,w=75,fText="",color='V',code=setPen(13)},--B13
+	WIDGET.newButton{name="b14",	x=980,	y=210,w=75,fText="",color='P',code=setPen(14)},--B14
+	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color='M',code=setPen(15)},--B15
+	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color='W',code=setPen(16)},--B16
 
-	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color="dH",	code=setPen(17)},--BONE
-	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color="D",	code=setPen(18)},--HIDE
-	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color="lY",	code=setPen(19)},--BOMB
-	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color="H",	code=setPen(20)},--GB1
-	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color="lH",	code=setPen(21)},--GB2
-	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color="dV",	code=setPen(22)},--GB3
-	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color="dR",	code=setPen(23)},--GB4
-	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color="dG",	code=setPen(24)},--GB5
+	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color='dH',	code=setPen(17)},--BONE
+	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color='D',	code=setPen(18)},--HIDE
+	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color='lY',	code=setPen(19)},--BOMB
+	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color='H',	code=setPen(20)},--GB1
+	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color='lH',	code=setPen(21)},--GB2
+	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color='dV',	code=setPen(22)},--GB3
+	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color='dR',	code=setPen(23)},--GB4
+	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color='dG',	code=setPen(24)},--GB5
 
-	WIDGET.newButton{name="any",		x=600,	y=400,w=120,color="lH",		font=40,code=setPen(0)},
-	WIDGET.newButton{name="space",		x=730,	y=400,w=120,color="H",		font=65,code=setPen(-1)},
-	WIDGET.newButton{name="smartPen",	x=860,	y=400,w=120,color="lG",		font=30,code=setPen(-2)},
-	WIDGET.newButton{name="pushLine",	x=990,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"k"},
-	WIDGET.newButton{name="delLine",	x=1120,	y=400,w=120,h=120,color="lY",font=20,code=pressKey"l"},
+	WIDGET.newButton{name="any",	x=600,	y=400,w=120,color='lH',		font=40,code=setPen(0)},
+	WIDGET.newButton{name="space",	x=730,	y=400,w=120,color='H',		font=65,code=setPen(-1)},
+	WIDGET.newButton{name="smart",	x=860,	y=400,w=120,color='lG',		font=30,code=setPen(-2)},
+	WIDGET.newButton{name="push",	x=990,	y=400,w=120,h=120,color='lY',font=20,code=pressKey"k"},
+	WIDGET.newButton{name="del",	x=1120,	y=400,w=120,h=120,color='lY',font=20,code=pressKey"l"},
 
-	WIDGET.newButton{name="copy",		x=730,	y=530,w=120,color="lR",		font=35,code=pressKey"cC"},
-	WIDGET.newButton{name="paste",		x=860,	y=530,w=120,color="lB",		font=35,code=pressKey"cV"},
-	WIDGET.newButton{name="clear",		x=990,	y=530,w=120,color="Z",		font=40,code=pressKey"delete"},
-	WIDGET.newSwitch{name="demo",		x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
+	WIDGET.newButton{name="copy",	x=730,	y=530,w=120,color='lR',		font=35,code=pressKey"cC"},
+	WIDGET.newButton{name="paste",	x=860,	y=530,w=120,color='lB',		font=35,code=pressKey"cV"},
+	WIDGET.newButton{name="clear",	x=990,	y=530,w=120,color='Z',		font=40,code=pressKey"delete"},
+	WIDGET.newSwitch{name="demo",	x=755,	y=640,disp=function()return demo end,code=function()demo=not demo end},
 
-	WIDGET.newButton{name="newPage",	x=100,	y=110,w=160,h=110,color="N",font=20,code=pressKey"n"},
-	WIDGET.newButton{name="delPage",	x=100,	y=230,w=160,h=110,color="lR",font=20,code=pressKey"m"},
-	WIDGET.newButton{name="prevPage",	x=100,	y=350,w=160,h=110,color="lG",font=20,code=pressKey"sTab",hide=function()return page==1 end},
-	WIDGET.newButton{name="nextPage",	x=100,	y=470,w=160,h=110,color="lG",font=20,code=pressKey"tab",hide=function()return page==#FIELD end},
+	WIDGET.newButton{name="newPg",	x=100,	y=110,w=160,h=110,color='N',font=20,code=pressKey"n"},
+	WIDGET.newButton{name="delPg",	x=100,	y=230,w=160,h=110,color='lR',font=20,code=pressKey"m"},
+	WIDGET.newButton{name="prevPg",	x=100,	y=350,w=160,h=110,color='lG',font=20,code=pressKey"pageup",hide=function()return page==1 end},
+	WIDGET.newButton{name="nextPg",	x=100,	y=470,w=160,h=110,color='lG',font=20,code=pressKey"pagedown",hide=function()return page==#FIELD end},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
 }

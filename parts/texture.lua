@@ -9,17 +9,9 @@ end
 local TEXTURE={}
 
 
-gc.setDefaultFilter("nearest","nearest")
+gc.setDefaultFilter('nearest','nearest')
 
 
---Virtualkey icons
-gc.setColor(1,1,1)
-local VKI=gc.newImage("media/image/virtualkey.png")
-TEXTURE.VKIcon={}
-for i=1,20 do
-	TEXTURE.VKIcon[i]=NSC(36,36)
-	gc.draw(VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36)
-end
 
 --Mini blocks
 gc.setColor(1,1,1)
@@ -29,7 +21,7 @@ for i=1,29 do
 	TEXTURE.miniBlock[i]=NSC(#b[1],#b)
 	for y=1,#b do for x=1,#b[1]do
 		if b[y][x]then
-			gc.rectangle("fill",x-1,#b-y,1,1)
+			gc.rectangle('fill',x-1,#b-y,1,1)
 		end
 	end end
 end
@@ -38,60 +30,62 @@ end
 gc.setLineWidth(2)
 TEXTURE.puzzleMark={}
 for i=1,17 do
-	TEXTURE.puzzleMark[i]=NSC(30,30)
-	local _=minoColor[i]
-	gc.setColor(_[1],_[2],_[3],.6)
-	gc.rectangle("line",5,5,20,20)
-	gc.rectangle("line",10,10,10,10)
+	TEXTURE.puzzleMark[i]=DOGC{30,30,
+		{"setCL",minoColor[i][1],minoColor[i][2],minoColor[i][3],.6},
+		{"dRect",5,5,20,20},
+		{"dRect",10,10,10,10},
+	}
 end
 for i=18,24 do
-	TEXTURE.puzzleMark[i]=NSC(30,30)
-	gc.setColor(minoColor[i])
-	gc.rectangle("line",7,7,16,16)
+	TEXTURE.puzzleMark[i]=DOGC{30,30,
+		{"setCL",minoColor[i]},
+		{"dRect",7,7,16,16},
+	}
 end
 TEXTURE.puzzleMark[-1]=DOGC{30,30,
 	{"setCL",1,1,1,.8},
 	{"draw",DOGC{30,30,
 		{"setLW",3},
-		{"dLine",5,5,25,25},
-		{"dLine",5,25,25,5},
+		{"line",5,5,25,25},
+		{"line",5,25,25,5},
 	}}
 }
 
 --A simple pixel font
 TEXTURE.pixelNum={}
-gc.setColor(1,1,1)
 for i=0,9 do
-	TEXTURE.pixelNum[i]=NSC(5,9)
-	if("1011011111"):byte(i+1)==49 then gc.rectangle("fill",1,0,3,1)end--up
-	if("0011111011"):byte(i+1)==49 then gc.rectangle("fill",1,4,3,1)end--middle
-	if("1011011011"):byte(i+1)==49 then gc.rectangle("fill",1,8,3,1)end--down
-	if("1000111011"):byte(i+1)==49 then gc.rectangle("fill",0,1,1,3)end--up-left
-	if("1111100111"):byte(i+1)==49 then gc.rectangle("fill",4,1,1,3)end--up-right
-	if("1010001010"):byte(i+1)==49 then gc.rectangle("fill",0,5,1,3)end--down-left
-	if("1101111111"):byte(i+1)==49 then gc.rectangle("fill",4,5,1,3)end--down-right
+	TEXTURE.pixelNum[i]=DOGC{5,9,
+		{("1011011111"):byte(i+1)==49,"fRect",1,0,3,1},--up
+		{("0011111011"):byte(i+1)==49,"fRect",1,4,3,1},--middle
+		{("1011011011"):byte(i+1)==49,"fRect",1,8,3,1},--down
+		{("1000111011"):byte(i+1)==49,"fRect",0,1,1,3},--up-left
+		{("1111100111"):byte(i+1)==49,"fRect",4,1,1,3},--up-right
+		{("1010001010"):byte(i+1)==49,"fRect",0,5,1,3},--down-left
+		{("1101111111"):byte(i+1)==49,"fRect",4,5,1,3},--down-right
+	}
 end
 
 --Cursor
-TEXTURE.cursor=NSC(16,16)
-gc.setColor(1,1,1,.7)
-gc.circle("fill",8,8,6)
-gc.setColor(1,1,1)
-gc.circle("fill",8,8,4)
+TEXTURE.cursor=DOGC{16,16,
+	{"fCirc",8,8,4},
+	{"setCL",1,1,1,.7},
+	{"fCirc",8,8,6},
+}
 
 --Cursor while hold
-TEXTURE.cursor_hold=NSC(16,16)
-gc.setLineWidth(2)
-gc.setColor(1,1,1)
-gc.circle("line",8,8,7)
-gc.circle("fill",8,8,3)
+TEXTURE.cursor_hold=DOGC{16,16,
+	{"setLW",2},
+	{"dCirc",8,8,7},
+	{"fCirc",8,8,3},
+}
 
+--Level icons
 TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
 	local img={25,25}
 
 	ins(img,{"clear",0,0,0})
 	ins(img,{"setLW",4})
-	ins(img,{"setCL",COLOR.lN})
+	ins(img,{"setCL",.5,.8,1})
 	ins(img,{"dRect",2,2,21,21})
 	--TODO: draw with lv
 
@@ -100,9 +94,32 @@ TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
 	return img
 end})
 
+--Setting icon
+TEXTURE.setting=DOGC{64,64,
+	{"setLW",8},
+	{"dCirc",32,32,18},
+	{"setLW",10},
+	{"line",52,32,64,32},
+	{"line",32,52,32,64},
+	{"line",12,32,0,32},
+	{"line",32,12,32,0},
+	{"line",45,45,55,55},
+	{"line",19,45,9,55},
+	{"line",19,19,9,9},
+	{"line",45,19,55,9},
+}
 
+--Earth icon
+TEXTURE.earth=DOGC{64,64,
+	{"setLW",4},
+	{"dCirc",32,32,30},
+	{"line",2,31,62,31},
+	{"line",31,2,31,62},
+	{"dArc",10,31,40,-.8,.8},
+	{"dArc",53,31,40,2.3,3.9},
+}
 
-gc.setDefaultFilter("linear","linear")
+gc.setDefaultFilter('linear','linear')
 
 
 --Title image
@@ -114,43 +131,34 @@ for i=1,8 do
 
 	gc.setLineWidth(16)
 	gc.setColor(1,1,1)
-	gc.polygon("line",title[i])
+	gc.polygon('line',title[i])
 
 	gc.setColor(0,0,0)
 	for j=1,#titleTriangles[i]do
-		gc.polygon("fill",titleTriangles[i][j])
+		gc.polygon('fill',titleTriangles[i][j])
 	end
 
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
+local titleColor={COLOR.lP,COLOR.lC,COLOR.lB,COLOR.lO,COLOR.lF,COLOR.lM,COLOR.lG,COLOR.lY}
 TEXTURE.title_color=NSC(1160,236)
-local titleColor={
-	COLOR.lP,
-	COLOR.lC,
-	COLOR.lB,
-	COLOR.lO,
-	COLOR.lF,
-	COLOR.lM,
-	COLOR.lG,
-	COLOR.lY,
-}
 for i=1,8 do
 	gc.translate(12*i,i==1 and 8 or 14)
 
 	gc.setLineWidth(16)
 	gc.setColor(1,1,1)
-	gc.polygon("line",title[i])
+	gc.polygon('line',title[i])
 
 	gc.setLineWidth(4)
 	gc.setColor(0,0,0)
 	for j=1,#titleTriangles[i]do
-		gc.polygon("fill",titleTriangles[i][j])
+		gc.polygon('fill',titleTriangles[i][j])
 	end
 
 	gc.setColor(titleColor[i])
 	gc.translate(-4,-4)
 	for j=1,#titleTriangles[i]do
-		gc.polygon("fill",titleTriangles[i][j])
+		gc.polygon('fill',titleTriangles[i][j])
 	end
 	gc.translate(4,4)
 
@@ -159,16 +167,18 @@ end
 
 --WS icons
 setFont(20)
-TEXTURE.ws_dead=NSC(20,20)
-gc.setColor(1,.3,.3)
-gc.print("X",3,-4)
-TEXTURE.ws_connecting=NSC(20,20)
-gc.setLineWidth(3)
-gc.setColor(1,1,1)
-gc.arc("line","open",11.5,10,6.26,1,5.28)
-TEXTURE.ws_running=NSC(20,20)
-gc.setColor(.5,1,0)
-gc.print("R",3,-4)
+TEXTURE.ws_dead=DOGC{20,20,
+	{"setCL",1,.3,.3},
+	{"print","X",3,-4},
+}
+TEXTURE.ws_connecting=DOGC{20,20,
+	{"setLW",3},
+	{"dArc",11.5,10,6.26,1,5.28},
+}
+TEXTURE.ws_running=DOGC{20,20,
+	{"setCL",.5,1,0},
+	{"print","R",3,-4},
+}
 
 
 gc.setCanvas()

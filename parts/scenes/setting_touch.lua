@@ -10,12 +10,12 @@ local snapUnit=1
 local selected--Button selected
 
 function scene.sceneInit()
-	BG.set("rainbow")
+	BG.set('rainbow')
 	defaultSetSelect=1
 	selected=false
 end
 function scene.sceneBack()
-	FILE.save(VK_org,"conf/virtualkey")
+	FILE.save(VK_org,'conf/virtualkey')
 end
 
 local function onVK_org(x,y)
@@ -34,8 +34,7 @@ local function onVK_org(x,y)
 	return nearest
 end
 function scene.mouseDown(x,y,k)
-	if k==2 then SCN.back()end
-	scene.touchDown(x,y)
+	if k==1 then scene.touchDown(x,y)end
 end
 function scene.mouseUp()
 	scene.touchUp()
@@ -63,8 +62,8 @@ end
 
 function scene.draw()
 	gc.setColor(1,1,1)
-	gc.setLineWidth(7)gc.rectangle("line",340,15,600,690)
-	gc.setLineWidth(3)gc.rectangle("line",490,85,300,600)
+	gc.setLineWidth(7)gc.rectangle('line',340,15,600,690)
+	gc.setLineWidth(3)gc.rectangle('line',490,85,300,600)
 	VK.preview(selected)
 	if snapUnit>=10 then
 		gc.setLineWidth(3)
@@ -171,10 +170,10 @@ scene.widgetList={
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
 		end},
-	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color="Y",list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
+	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color='Y',list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
 	WIDGET.newButton{name="option",	x=520,y=190,w=200,h=80,font=40,
 		code=function()
-			SCN.go("setting_touchSwitch")
+			SCN.go('setting_touchSwitch')
 		end},
 	WIDGET.newButton{name="back",	x=760,y=190,w=200,h=80,font=35,code=backScene},
 	WIDGET.newSlider{name="size",	x=450,y=270,w=460,unit=19,font=40,show="vkSize",

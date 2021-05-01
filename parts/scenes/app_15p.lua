@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local mStr=mStr
 
 local scene={}
@@ -14,8 +13,8 @@ local color,blind
 local slide,pathVis,revKB
 
 function scene.sceneInit()
-	BG.set("rainbow2")
-	BGM.play("push")
+	BG.set('rainbow2')
+	BGM.play('push')
 	board={{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}}
 	cx,cy=4,4
 	startTime=0
@@ -128,10 +127,10 @@ local function tapBoard(x,y,key)
 				elseif time<60 then	LOG.print("多加练习",COLOR.lB)
 				else				LOG.print("第一次玩?加油",COLOR.lB)
 				end
-				SFX.play("win")
+				SFX.play('win')
 				return
 			end
-			SFX.play("move")
+			SFX.play('move')
 		end
 	end
 end
@@ -266,7 +265,7 @@ local backColor={
 function scene.draw()
 	setFont(40)
 	gc.setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(("%.3f"):format(time),1026,80)
 	gc.setColor(1,.8,.8)
 	gc.print(move,1026,130)
 	gc.setColor(.8,.8,1)
@@ -275,7 +274,7 @@ function scene.draw()
 	if state==2 then
 		--Draw no-setting area
 		gc.setColor(1,0,0,.3)
-		gc.rectangle("fill",15,295,285,340)
+		gc.rectangle('fill',15,295,285,340)
 
 		gc.setColor(.9,.9,0)--win
 	elseif state==1 then
@@ -284,7 +283,7 @@ function scene.draw()
 		gc.setColor(.2,.8,.2)--ready
 	end
 	gc.setLineWidth(10)
-	gc.rectangle("line",313,33,654,654,18)
+	gc.rectangle('line',313,33,654,654,18)
 
 	gc.setLineWidth(4)
 	local mono=blind and state==1
@@ -296,9 +295,9 @@ function scene.draw()
 				local C=mono and 3 or color
 
 				gc.setColor(backColor[C][N])
-				gc.rectangle("fill",j*160+163,i*160-117,154,154,8)
+				gc.rectangle('fill',j*160+163,i*160-117,154,154,8)
 				gc.setColor(frontColor[C][N])
-				gc.rectangle("line",j*160+163,i*160-117,154,154,8)
+				gc.rectangle('line',j*160+163,i*160-117,154,154,8)
 				if not mono then
 					gc.setColor(.1,.1,.1)
 					mStr(N,j*160+240,i*160-96)
@@ -311,12 +310,12 @@ function scene.draw()
 	end
 	gc.setColor(0,0,0,.3)
 	gc.setLineWidth(10)
-	gc.rectangle("line",cx*160+173,cy*160-107,134,134,50)
+	gc.rectangle('line',cx*160+173,cy*160-107,134,134,50)
 end
 
 local function Gaming()return state==1 end
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color="lG",	font=40,code=pressKey"space"},
+	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',	font=40,code=pressKey"space"},
 	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hide=Gaming},
 	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",	hide=Gaming},
 	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",	hide=Gaming},

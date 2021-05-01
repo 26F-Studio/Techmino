@@ -10,16 +10,16 @@ return{
 		dropPiece=function(P)
 			if P.stat.row>=P.modeData.target then
 				if P.modeData.target==200 then
-					P:win("finish")
+					P:win('finish')
 				else
 					P.gameEnv.drop=dropSpeed[P.modeData.target/10]
 					P.modeData.target=P.modeData.target+10
-					SFX.play("reach")
+					SFX.play('reach')
 				end
 			end
 		end,
 		mindas=7,minarr=1,minsdarr=1,
-		bg="bg2",bgm="push",
+		bg='bg2',bgm='push',
 	},
 	pauseLimit=true,
 	slowMark=true,
@@ -30,7 +30,7 @@ return{
 		setFont(45)
 		mStr(P.stat.row,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

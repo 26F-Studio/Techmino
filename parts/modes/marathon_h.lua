@@ -12,17 +12,17 @@ return{
 				if P.modeData.target==50 then
 					P.gameEnv.drop=.25
 					P.modeData.target=100
-					SFX.play("reach")
+					SFX.play('reach')
 				elseif P.modeData.target==100 then
 					P:set20G(true)
 					P.modeData.target=200
-					SFX.play("reach")
+					SFX.play('reach')
 				else
-					P:win("finish")
+					P:win('finish')
 				end
 			end
 		end,
-		bg="cubes",bgm="push",
+		bg='cubes',bgm='push',
 	},
 	pauseLimit=true,
 	slowMark=true,
@@ -33,7 +33,7 @@ return{
 		setFont(45)
 		mStr(P.stat.row,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

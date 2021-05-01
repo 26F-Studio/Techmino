@@ -13,7 +13,7 @@ local function check_c4w(P)
 			P.modeData.maxCombo=P.combo
 		end
 		if P.stat.row>=100 then
-			P:win("finish")
+			P:win('finish')
 		end
 	end
 end
@@ -25,7 +25,7 @@ return{
 		task=function(P)P.modeData.maxCombo=0 end,
 		dropPiece=check_c4w,
 		freshLimit=15,ospin=false,
-		bg="rgb",bgm="oxygen",
+		bg='rgb',bgm='oxygen',
 	},
 	pauseLimit=true,
 	load=function()

@@ -1,5 +1,4 @@
 local gc=love.graphics
-local format=string.format
 
 return{
 	color=COLOR.lBlue,
@@ -11,8 +10,8 @@ return{
 		center=0,ghost=0,
 		drop=3,lock=3,wait=10,fall=25,
 		nextCount=1,holdCount=false,
-		sequence="rnd",
-		RS="Classic",
+		sequence='rnd',
+		RS='Classic',
 		freshLimit=0,
 		face={0,0,2,2,2,0,0},
 		task=function(P)P.modeData.target=10 end,
@@ -22,16 +21,16 @@ return{
 				D.target=D.target+10
 				if D.target==110 then
 					P.gameEnv.drop,P.gameEnv.lock=2,2
-					SFX.play("blip_1")
+					SFX.play('blip_1')
 				elseif D.target==200 then
 					P.gameEnv.drop,P.gameEnv.lock=1,1
-					SFX.play("blip_1")
+					SFX.play('blip_1')
 				else
-					SFX.play("reach")
+					SFX.play('reach')
 				end
 			end
 		end,
-		bg="rgb",bgm="magicblock",
+		bg='rgb',bgm='magicblock',
 	},
 	slowMark=true,
 	load=function()
@@ -40,12 +39,12 @@ return{
 	mesDisp=function(P)
 		setFont(75)
 		local r=P.modeData.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or format("%02x",r*10-220),69,210)
+		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),69,210)
 		mText(drawableText.speedLV,69,290)
 		setFont(45)
 		mStr(P.stat.row,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,
 	scoreDisp=function(D)return D[1].."   "..D[2].." Lines"end,

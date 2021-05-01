@@ -2,7 +2,6 @@ local gc=love.graphics
 local ms=love.mouse
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local rem=table.remove
 local setFont=setFont
 local mStr=mStr
@@ -16,8 +15,8 @@ local state,progress
 local tapFX,mistake
 
 function scene.sceneInit()
-	BG.set("space")
-	BGM.play("way")
+	BG.set('space')
+	BGM.play('way')
 	board={}
 	rank=3
 	blind=false
@@ -55,11 +54,11 @@ local function tapBoard(x,y)
 			if board[x]==progress+1 then
 				progress=progress+1
 				if progress<R^2 then
-					SFX.play("lock")
+					SFX.play('lock')
 				else
 					time=TIME()-startTime+mistake
 					state=2
-					SFX.play("reach")
+					SFX.play('reach')
 				end
 				if tapFX then
 					SYSFX.newShade(3,320+640/R*X,40+640/R*Y,640/R,640/R,.6,.8,1)
@@ -69,7 +68,7 @@ local function tapBoard(x,y)
 				if tapFX then
 					SYSFX.newShade(2,320+640/R*X,40+640/R*Y,640/R,640/R,1,.4,.5)
 				end
-				SFX.play("finesseError")
+				SFX.play('finesseError')
 			end
 		end
 	end
@@ -122,7 +121,7 @@ end
 function scene.draw()
 	setFont(40)
 	gc.setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(("%.3f"):format(time),1026,80)
 	gc.print(mistake,1026,150)
 
 	setFont(70)
@@ -131,7 +130,7 @@ function scene.draw()
 	if state==2 then
 		--Draw no-setting area
 		gc.setColor(1,0,0,.3)
-		gc.rectangle("fill",15,295,285,250)
+		gc.rectangle('fill',15,295,285,250)
 
 		gc.setColor(.9,.9,0)--win
 	elseif state==1 then
@@ -140,7 +139,7 @@ function scene.draw()
 		gc.setColor(.2,.8,.2)--ready
 	end
 	gc.setLineWidth(10)
-	gc.rectangle("line",310,30,660,660)
+	gc.rectangle('line',310,30,660,660)
 
 	local width=640/rank
 	local mono=state==0 or blind and state==1 and progress>0
@@ -152,9 +151,9 @@ function scene.draw()
 			local N=board[rank*(i-1)+j]
 			if not(state==1 and disappear and N<=progress)then
 				gc.setColor(.4,.5,.6)
-				gc.rectangle("fill",320+(j-1)*width,(i-1)*width+40,width,width)
+				gc.rectangle('fill',320+(j-1)*width,(i-1)*width+40,width,width)
 				gc.setColor(1,1,1)
-				gc.rectangle("line",320+(j-1)*width,(i-1)*width+40,width,width)
+				gc.rectangle('line',320+(j-1)*width,(i-1)*width+40,width,width)
 				if not mono then
 					local x,y=320+(j-.5)*width,40+(i-.5)*width-f*.67
 					gc.setColor(.1,.1,.1)
@@ -169,7 +168,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color="lG",font=40,code=pressKey"space",hide=function()return state==0 end},
+	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space",hide=function()return state==0 end},
 	WIDGET.newSlider{name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return rank-3 end,code=function(v)rank=v+3 end,hide=function()return state>0 end},
 	WIDGET.newSwitch{name="blind",		x=240,y=330,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hide=function()return state==1 end},
 	WIDGET.newSwitch{name="disappear",	x=240,y=420,w=60,		font=40,disp=function()return disappear end,code=pressKey"w",hide=function()return state==1 end},

@@ -2,7 +2,8 @@ return{
 	color=COLOR.dRed,
 	env={
 		drop=60,lock=60,
-		dropPiece=function(P)if P.stat.row>=400 then P:win("finish")end end,		bg="rainbow",bgm="push",
+		dropPiece=function(P)if P.stat.row>=400 then P:win('finish')end end,
+		bg='rainbow',bgm='push',
 	},
 	load=function()
 		PLY.newPlayer(1)

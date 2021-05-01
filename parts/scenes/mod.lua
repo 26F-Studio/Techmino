@@ -31,11 +31,11 @@ local function toggleMod(M,back)
 		remMod(M)
 	end
 	if M.unranked then
-		SFX.play("move",.6)
-		SFX.play("lock")
+		SFX.play('move',.6)
+		SFX.play('lock')
 	else
-		SFX.play("move")
-		SFX.play("lock",.6)
+		SFX.play('move')
+		SFX.play('lock',.6)
 	end
 end
 
@@ -45,7 +45,7 @@ local selected--Mod selected
 
 function scene.sceneInit()
 	selected=false
-	BG.set("tunnel")
+	BG.set('tunnel')
 end
 
 function scene.mouseMove(x,y)
@@ -78,7 +78,7 @@ function scene.keyDown(key)
 			while GAME.mod[1]do
 				rem(GAME.mod).sel=0
 			end
-			SFX.play("hold")
+			SFX.play('hold')
 		end
 	elseif #key==1 then
 		for _,M in next,MODOPT do
@@ -110,7 +110,7 @@ function scene.draw()
 	setFont(40)
 	gc.setLineWidth(5)
 	for _,M in next,MODOPT do
-		gc.push("transform")
+		gc.push('transform')
 		gc.translate(M.x,M.y)
 		local t=M.time*.01--t range:0~0.1
 		gc.scale(1+3*t)
@@ -123,10 +123,10 @@ function scene.draw()
 			end
 			local color=M.color
 			gc.setColor(color[1],color[2],color[3],5*t)
-			gc.circle("fill",0,0,rad,side)
+			gc.circle('fill',0,0,rad,side)
 
 			gc.setColor(color)
-			gc.circle("line",0,0,rad,side)
+			gc.circle('line',0,0,rad,side)
 			gc.setColor(1,1,1)
 			mStr(M.id,0,-28)
 			if M.sel>0 and M.list then
@@ -138,7 +138,7 @@ function scene.draw()
 
 			if M.list then
 				gc.setColor(1,1,1,t*6)
-				gc.arc("line","open",0,0,rad+6,0,(M.sel/#M.list)*6.2832)
+				gc.arc('line','open',0,0,rad+6,0,(M.sel/#M.list)*6.2832)
 			end
 		gc.pop()
 	end
@@ -154,8 +154,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=80,y=50,font=70,align="L"},
-	WIDGET.newText{name="unranked",	x=1200,y=60,color="Y",font=50,align="R",hide=function()return scoreValid()end},
+	WIDGET.newText{name="title",	x=80,y=50,font=70,align='L'},
+	WIDGET.newText{name="unranked",	x=1200,y=60,color='Y',font=50,align='R',hide=function()return scoreValid()end},
 	WIDGET.newButton{name="reset",	x=1140,y=540,w=170,h=80,font=25,code=pressKey"tab"},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }

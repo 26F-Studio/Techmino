@@ -136,7 +136,7 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	--Network-related
-	P.username="_"
+	P.username='_'
 	P.uid=-1
 	P.sid=-1
 
@@ -179,7 +179,7 @@ local function newEmptyPlayer(id,mini)
 	P.ctrlCount=0--Key press time, for finesse check
 	P.pieceCount=0--Count pieces from next, for drawing bagline
 
-	P.type="none"
+	P.type='none'
 	P.sound=false
 
 	-- P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
@@ -201,7 +201,7 @@ local function newEmptyPlayer(id,mini)
 	P.bonus={}--Text objects
 
 	P.endCounter=0--Used after gameover
-	P.result=false--String:"WIN"/"K.O."
+	P.result=false--String: 'finish'|'win'|'lose'
 
 	return P
 end
@@ -223,13 +223,13 @@ local function loadGameEnv(P)--Load gameEnv
 		-- else
 			-- print("default-"..k..":"..tostring(v))
 		end
-		if type(v)~="table"then--Default setting
+		if type(v)~='table'then--Default setting
 			ENV[k]=v
 		else
 			ENV[k]=TABLE.copy(v)
 		end
 	end
-	if not ENV.noMod then
+	if ENV.allowMod then
 		for _,M in next,GAME.mod do
 			M.func(P,M.list and M.list[M.sel])
 		end
@@ -254,7 +254,7 @@ local function loadRemoteEnv(P,confStr)--Load gameEnv
 		elseif SETTING[k]~=nil then
 			v=SETTING[k]		--Global setting
 		end
-		if type(v)~="table"then--Default setting
+		if type(v)~='table'then--Default setting
 			ENV[k]=v
 		else
 			ENV[k]=TABLE.copy(v)
@@ -286,19 +286,19 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	end
 
 	P:setInvisible(
-		ENV.visible=="show"and -1 or
-		ENV.visible=="easy"and 300 or
-		ENV.visible=="slow"and 100 or
-		ENV.visible=="medium"and 60 or
-		ENV.visible=="fast"and 20 or
-		ENV.visible=="none"and 0
+		ENV.visible=='show'and -1 or
+		ENV.visible=='easy'and 300 or
+		ENV.visible=='slow'and 100 or
+		ENV.visible=='medium'and 60 or
+		ENV.visible=='fast'and 20 or
+		ENV.visible=='none'and 0
 	)
 	P:set20G(P._20G)
 	P:setHold(ENV.holdCount)
 	P:setNext(ENV.nextCount,ENV.nextStartPos>1)
 	P:setRS(ENV.RS)
 
-	if type(ENV.mission)=="table"then
+	if type(ENV.mission)=='table'then
 		P.curMission=1
 	end
 
@@ -306,7 +306,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	ENV.arr=max(ENV.arr,ENV.minarr)
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 
-	if ENV.sequence~="bag"and ENV.sequence~="loop"then
+	if ENV.sequence~='bag'and ENV.sequence~='loop'then
 		ENV.bagLine=false
 	else
 		ENV.bagLen=#ENV.seqData
@@ -346,12 +346,12 @@ local DemoEnv={
 	wait=10,fall=20,
 	highCam=false,
 	life=1e99,
-	noMod=true,
+	allowMod=false,
 	fine=false,
 }
 function PLY.newDemoPlayer(id)
 	local P=newEmptyPlayer(id)
-	P.type="computer"
+	P.type='computer'
 	P.sound=true
 	P.demo=true
 
@@ -362,19 +362,19 @@ function PLY.newDemoPlayer(id)
 	loadGameEnv(P)
 	applyGameEnv(P)
 	P:loadAI{
-		type="CC",
+		type='CC',
 		next=5,
 		hold=true,
 		delay=30,
 		delta=6,
-		bag="bag",
+		bag='bag',
 		node=100000,
 	}
 	P:popNext()
 end
 function PLY.newRemotePlayer(id,mini,data)
 	local P=newEmptyPlayer(id,mini)
-	P.type="remote"
+	P.type='remote'
 	P.update=PLY.update.remote_alive
 
 	P.draw=PLY.draw.norm_remote
@@ -393,7 +393,7 @@ end
 
 function PLY.newAIPlayer(id,AIdata,mini)
 	local P=newEmptyPlayer(id,mini)
-	P.type="computer"
+	P.type='computer'
 
 	loadGameEnv(P)
 	local ENV=P.gameEnv
@@ -404,7 +404,7 @@ function PLY.newAIPlayer(id,AIdata,mini)
 end
 function PLY.newPlayer(id,mini)
 	local P=newEmptyPlayer(id,mini)
-	P.type="human"
+	P.type='human'
 	P.sound=true
 
 	P.uid=USER.uid

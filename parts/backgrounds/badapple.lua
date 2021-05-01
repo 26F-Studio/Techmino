@@ -7,7 +7,7 @@ local X,Y,K
 function back.init()
 	if not video then
 		video=gc.newVideo("parts/backgrounds/badapple.ogv",{false})
-		video:setFilter("linear","linear")
+		video:setFilter('linear','linear')
 		video:play()
 	end
 	back.resize()

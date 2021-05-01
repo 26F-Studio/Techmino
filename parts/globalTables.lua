@@ -4,94 +4,94 @@ local function disableKey(P,key)
 end
 MODOPT={--Mod options
 	{no=0,id="NX",name="next",
-		key="q",x=80,y=230,color="O",
+		key="q",x=80,y=230,color='O',
 		list={0,1,2,3,4,5,6},
 		func=function(P,O)P.gameEnv.nextCount=O end,
 	},
 	{no=1,id="HL",name="hold",
-		key="w",x=200,y=230,color="O",
+		key="w",x=200,y=230,color='O',
 		list={0,1,2,3,4,5,6},
 		func=function(P,O)P.gameEnv.holdCount=O end,
 		unranked=true,
 	},
 	{no=2,id="FL",name="hideNext",
-		key="e",x=320,y=230,color="A",
+		key="e",x=320,y=230,color='A',
 		list={1,2,3,4,5},
 		func=function(P,O)P.gameEnv.nextStartPos=O +1 end,
 	},
 	{no=3,id="IH",name="infHold",
-		key="r",x=440,y=230,color="A",
+		key="r",x=440,y=230,color='A',
 		func=function(P)P.gameEnv.infHold=true end,
 		unranked=true,
 	},
 	{no=4,id="HB",name="hideBlock",
-		key="y",x=680,y=230,color="V",
+		key="y",x=680,y=230,color='V',
 		func=function(P)P.gameEnv.block=false end,
 	},
 	{no=5,id="HG",name="hideGhost",
-		key="u",x=800,y=230,color="V",
+		key="u",x=800,y=230,color='V',
 		func=function(P)P.gameEnv.ghost=false end,
 	},
 	{no=6,id="HD",name="hidden",
-		key="i",x=920,y=230,color="P",
-		list={"easy","slow","medium","fast","none"},
+		key="i",x=920,y=230,color='P',
+		list={'easy','slow','medium','fast','none'},
 		func=function(P,O)P.gameEnv.visible=O end,
 		unranked=true,
 	},
 	{no=7,id="HB",name="hideBoard",
-		key="o",x=1040,y=230,color="P",
-		list={"down","up","all"},
+		key="o",x=1040,y=230,color='P',
+		list={'down','up','all'},
 		func=function(P,O)P.gameEnv.hideBoard=O  end,
 	},
 	{no=8,id="FB",name="flipBoard",
-		key="p",x=1160,y=230,color="J",
-		list={"U-D","L-R","180"},
+		key="p",x=1160,y=230,color='J',
+		list={'U-D','L-R','180'},
 		func=function(P,O)P.gameEnv.flipBoard=O  end,
 	},
 
 	{no=9,id="DT",name="dropDelay",
-		key="a",x=140,y=350,color="R",
+		key="a",x=140,y=350,color='R',
 		list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 		func=function(P,O)P.gameEnv.drop=O end,
 		unranked=true,
 	},
 	{no=10,id="LT",name="lockDelay",
-		key="s",x=260,y=350,color="R",
+		key="s",x=260,y=350,color='R',
 		list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
 		func=function(P,O)P.gameEnv.lock=O end,
 		unranked=true,
 	},
 	{no=11,id="ST",name="waitDelay",
-		key="d",x=380,y=350,color="R",
+		key="d",x=380,y=350,color='R',
 		list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
 		func=function(P,O)P.gameEnv.wait=O end,
 		unranked=true,
 	},
 	{no=12,id="CT",name="fallDelay",
-		key="f",x=500,y=350,color="R",
+		key="f",x=500,y=350,color='R',
 		list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
 		func=function(P,O)P.gameEnv.fall=O end,
 		unranked=true,
 	},
 	{no=13,id="LF",name="life",
-		key="j",x=860,y=350,color="Y",
+		key="j",x=860,y=350,color='Y',
 		list={0,1,2,3,5,10,15,26,42,87,500},
 		func=function(P,O)P.gameEnv.life=O end,
 		unranked=true,
 	},
 	{no=14,id="FB",name="forceB2B",
-		key="k",x=980,y=350,color="Y",
+		key="k",x=980,y=350,color='Y',
 		func=function(P)P.gameEnv.b2bKill=true end,
 		unranked=true,
 	},
 	{no=15,id="PF",name="forceFinesse",
-		key="l",x=1100,y=350,color="Y",
+		key="l",x=1100,y=350,color='Y',
 		func=function(P)P.gameEnv.fineKill=true end,
 		unranked=true,
 	},
 
 	{no=16,id="TL",name="tele",
-		key="z",x=200,y=470,color="lH",
+		key="z",x=200,y=470,color='lH',
 		func=function(P)
 			P.gameEnv.das,P.gameEnv.arr=0,0
 			P.gameEnv.sddas,P.gameEnv.sdarr=0,0
@@ -99,7 +99,7 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=17,id="FX",name="noRotation",
-		key="x",x=320,y=470,color="lH",
+		key="x",x=320,y=470,color='lH',
 		func=function(P)
 			disableKey(P,3)
 			disableKey(P,4)
@@ -108,7 +108,7 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=18,id="GL",name="noMove",
-		key="c",x=440,y=470,color="lH",
+		key="c",x=440,y=470,color='lH',
 		func=function(P)
 			disableKey(P,1)disableKey(P,2)
 			disableKey(P,11)disableKey(P,12)
@@ -118,21 +118,21 @@ MODOPT={--Mod options
 		unranked=true,
 	},
 	{no=19,id="CS",name="customSeq",
-		key="b",x=680,y=470,color="B",
-		list={"bag","his4","c2","rnd","mess","reverb"},
+		key="b",x=680,y=470,color='B',
+		list={'bag','his4','c2','rnd','mess','reverb'},
 		func=function(P,O)P.gameEnv.sequence=O end,
 		unranked=true,
 	},
 	{no=20,id="PS",name="pushSpeed",
-		key="n",x=800,y=470,color="B",
+		key="n",x=800,y=470,color='B',
 		list={.5,1,2,3,5,15,1e99},
 		func=function(P,O)P.gameEnv.pushSpeed=O end,
 		unranked=true,
 	},
 	{no=21,id="BN",name="boneBlock",
-		key="m",x=920,y=470,color="B",
-		list={"on","off"},
-		func=function(P,O)P.gameEnv.bone=O=="on"end,
+		key="m",x=920,y=470,color='B',
+		list={'on','off'},
+		func=function(P,O)P.gameEnv.bone=O=='on'end,
 	},
 }
 for i=1,#MODOPT do
@@ -193,8 +193,7 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Local data
 	xp=0,lv=1,
 }
-CUSTOMENV=FILE.load("conf/customEnv")
-if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv for cutsom game
+customEnv0={
 	version=VERSION.code,
 
 	--Basic
@@ -213,7 +212,7 @@ if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv fo
 	bone=false,
 
 	--Rule
-	sequence="bag",
+	sequence='bag',
 	fieldH=20,
 
 	ospin=true,
@@ -221,7 +220,7 @@ if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv fo
 	b2bKill=false,
 	easyFresh=true,
 	deepDrop=false,
-	visible="show",
+	visible='show',
 	freshLimit=1e99,
 
 
@@ -231,15 +230,17 @@ if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV={--gameEnv fo
 	missionKill=false,
 
 	--Else
-	bg="none",
-	bgm="infinite",
-}end
+	bg='blockfall',
+	bgm='infinite',
+}
+CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game
+if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV=TABLE.copy(customEnv0)end
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
 	sddas=0,sdarr=2,
 	ihs=true,irs=true,ims=true,
-	RS="TRS",
+	RS='TRS',
 	swap=true,
 
 	--System
@@ -291,7 +292,7 @@ SETTING={--Settings
 	stereo=.7,
 	vib=0,
 	voc=0,
-	cv="miya",
+	cv='miya',
 
 	--Virtualkey
 	VKSFX=.2,--SFX volume
@@ -320,7 +321,7 @@ else
 		send=0,recv=0,pend=0,off=0,
 		clear={},spin={},
 		pc=0,hpc=0,b2b=0,b3b=0,score=0,
-		lastPlay="sprint_10l",--Last played mode ID
+		lastPlay='sprint_10l',--Last played mode ID
 		date=false,
 		todayTime=0,
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end

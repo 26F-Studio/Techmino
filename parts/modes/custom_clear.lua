@@ -38,9 +38,9 @@ local function checkClear(P)
 			end
 			setField(P,D.finished+1)
 			SYSFX.newShade(1.4,P.absFieldX,P.absFieldY,300*P.size,610*P.size,.6,.8,.6)
-			SFX.play("blip_1")
+			SFX.play('blip_1')
 		else
-			P:win("finish")
+			P:win('finish')
 		end
 	end
 end
@@ -63,12 +63,12 @@ return{
 		PLY.newPlayer(1)
 		local AItype=ENV.opponent:sub(1,2)
 		local AIlevel=tonumber(ENV.opponent:sub(-1))
-		if AItype=="9S"then
+		if AItype=='9S'then
 			ENV.target=nil
-			PLY.newAIPlayer(2,AIBUILDER("9S",2*AIlevel))
-		elseif AItype=="CC"then
+			PLY.newAIPlayer(2,AIBUILDER('9S',2*AIlevel))
+		elseif AItype=='CC'then
 			ENV.target=nil
-			PLY.newAIPlayer(2,AIBUILDER("CC",2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
+			PLY.newAIPlayer(2,AIBUILDER('CC',2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
 
 		for _,P in next,PLY_ALIVE do

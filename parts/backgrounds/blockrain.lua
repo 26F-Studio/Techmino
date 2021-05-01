@@ -5,52 +5,53 @@ local ins,rem=table.insert,table.remove
 local back={}
 
 local t
-local cell
+local mino
 function back.init()
 	t=0
-	cell={}
+	mino={}
 end
 function back.update()
 	t=t+1
 	if t%10==0 then
-		ins(cell,{
-			bid=rnd(29),
+		local r=rnd(29)
+		ins(mino,{
+			bid=r,
+			block=TEXTURE.miniBlock[r],
+			color=minoColor[SETTING.skin[r]],
 			x=SCR.w*rnd(),
-			y=-25,
-			a=rnd()*6.2832,
+			y=SCR.h*-.05,
+			k=SCR.rad/100,
+			ang=rnd()*6.2832,
 			vy=.5+rnd()*.4,
 			vx=rnd()*.4-.2,
 			va=rnd()*.04-.02,
 		})
 	end
-	for i=#cell,1,-1 do
-		local P=cell[i]
+	for i=#mino,1,-1 do
+		local P=mino[i]
 		P.y=P.y+P.vy
 		if P.y>SCR.h+25 then
-			rem(cell,i)
+			rem(mino,i)
 		else
 			P.x=P.x+P.vx
-			P.a=P.a+P.va
+			P.ang=P.ang+P.va
 			P.vx=P.vx-.01+rnd()*.02
 		end
 	end
 end
 function back.draw()
 	gc.clear(.15,.15,.15)
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
-	local texture=TEXTURE.miniBlock
-	local minoColor=minoColor
-	for i=1,#cell do
-		local C=cell[i]
-		local tex=texture[C.bid]
-		local c=minoColor[SETTING.skin[C.bid]]
+	for i=1,#mino do
+		local C=mino[i]
+		local c=C.color
 		gc.setColor(c[1],c[2],c[3],.5)
-		gc.draw(tex,C.x,C.y,C.a,10,10,tex:getWidth()/2,tex:getHeight()/2)
+		gc.draw(C.block,C.x,C.y,C.ang,C.k,C.k,C.block:getWidth()/2,C.block:getHeight()/2)
 	end
 	gc.pop()
 end
 function back.discard()
-	cell=nil
+	mino=nil
 end
 return back

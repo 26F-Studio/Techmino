@@ -23,7 +23,7 @@ function SKIN.init(list)
 		for i=1,count do
 			gc.push()
 			gc.origin()
-			gc.setDefaultFilter("nearest","nearest")
+			gc.setDefaultFilter('nearest','nearest')
 			gc.setColor(1,1,1)
 			SKIN.lib[i],SKIN.libMini[i]={},{}
 			local N="media/image/skin/"..list[i]..".png"
@@ -32,9 +32,9 @@ function SKIN.init(list)
 				I=gc.newImage(N)
 			else
 				I=gc.newImage("media/image/skin/"..list[1]..".png")
-				LOG.print("No skin file: "..list[i],"warn")
+				LOG.print("No skin file: "..list[i],'warn')
 			end
-			gc.setDefaultFilter("linear","linear")
+			gc.setDefaultFilter('linear','linear')
 			for y=0,2 do
 				for x=1,8 do
 					SKIN.lib[i][8*y+x]=C(30,30)
@@ -58,14 +58,14 @@ function SKIN.init(list)
 			SETTING.skinSet=_
 			SKIN.change(_)
 			_=list[_]
-			TEXT.show(_,1100,100,int(300/#_)+5,"fly")
+			TEXT.show(_,1100,100,int(300/#_)+5,'fly')
 		end
 		function SKIN.nextSet()--Next skin_set
 			local _=SETTING.skinSet%count+1
 			SETTING.skinSet=_
 			SKIN.change(_)
 			_=list[_]
-			TEXT.show(_,1100,100,int(300/#_)+5,"fly")
+			TEXT.show(_,1100,100,int(300/#_)+5,'fly')
 		end
 		function SKIN.change(i)--Change to skin_set[i]
 			SKIN.curText=SKIN.lib[i]

@@ -54,8 +54,8 @@ do--Connect
 	repeat
 		res,err=SOCK:receive("*l")
 		if not res then readCHN:push(err)return end
-		if not ctLen and res:find"length"then
-			ctLen=tonumber(res:match"%d+")
+		if not ctLen and res:find("length")then
+			ctLen=tonumber(res:match("%d+"))
 		end
 	until res==""
 
@@ -87,7 +87,7 @@ local _send do
 	local mask_str=char(unpack(mask_key))
 
 	function _send(op,message)
-		]]..(debug:find"S"and""or"--")..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
+		]]..(debug:find'S'and""or"--")..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
 		--Message type
 		SOCK:send(char(bor(0x80,op)))
 
@@ -154,7 +154,7 @@ while true do--Running
 				if s then
 					res=s
 				elseif p then--UNF head
-					]]..(debug:find"R"and""or"--")..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
+					]]..(debug:find'R'and""or"--")..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
 					UFF=true
 					sBuffer=sBuffer..p
 					length=length-#p
@@ -166,11 +166,11 @@ while true do--Running
 		else
 			local s,e,p=SOCK:receive(length)
 			if s then
-				]]..(debug:find"R"and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
+				]]..(debug:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
 				sBuffer=sBuffer..s
 				length=length-#s
 			elseif p then
-				]]..(debug:find"R"and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
+				]]..(debug:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
 				sBuffer=sBuffer..p
 				length=length-#p
 			end
@@ -181,13 +181,13 @@ while true do--Running
 				break
 			end
 		end
-		]]..(debug:find"R"and""or"--")..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
+		]]..(debug:find'R'and""or"--")..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
 
 		--React
 		if op==8 then--8=close
 			readCHN:push(op)
 			SOCK:close()
-			if type(res)=="string"then
+			if type(res)=='string'then
 				res=JSON.decode(res)
 				readCHN:push(res and res.reason or"WS Error")
 			else
@@ -196,21 +196,21 @@ while true do--Running
 		elseif op==0 then--0=continue
 			lBuffer=lBuffer..res
 			if fin then
-				]]..(debug:find"M"and""or"--")..[[print("FIN=1 (c")
+				]]..(debug:find'M'and""or"--")..[[print("FIN=1 (c")
 				readCHN:push(lBuffer)
 				lBuffer=""
 			else
-				]]..(debug:find"M"and""or"--")..[[print("FIN=0 (c")
+				]]..(debug:find'M'and""or"--")..[[print("FIN=0 (c")
 			end
 		else
 			readCHN:push(op)
 			if fin then
-				]]..(debug:find"M"and""or"--")..[[print("OP: "..op.."\tFIN=1")
+				]]..(debug:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=1")
 				readCHN:push(res)
 			else
-				]]..(debug:find"M"and""or"--")..[[print("OP: "..op.."\tFIN=0")
+				]]..(debug:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=0")
 				sBuffer=res
-				]]..(debug:find"M"and""or"--")..[[print("START pack: "..res)
+				]]..(debug:find'M'and""or"--")..[[print("START pack: "..res)
 			end
 		end
 	end
@@ -223,7 +223,7 @@ local wsList=setmetatable({},{
 	__index=function(l,k)
 		local ws={
 			real=false,
-			status="dead",
+			status='dead',
 			lastPongTime=timer(),
 			sendTimer=0,
 			alertTimer=0,
@@ -244,7 +244,7 @@ function WS.connect(name,subPath,body)
 		lastPingTime=0,
 		lastPongTime=timer(),
 		pingInterval=26,
-		status="connecting",--connecting, running, dead
+		status='connecting',--connecting, running, dead
 		sendTimer=0,
 		alertTimer=0,
 		pongTimer=0,
@@ -259,7 +259,7 @@ end
 
 function WS.status(name)
 	local ws=wsList[name]
-	return ws.status or"dead"
+	return ws.status or'dead'
 end
 
 function WS.getTimers(name)
@@ -286,12 +286,12 @@ local OPcode={
 	pong=10,
 }
 local OPname={
-	[0]="continue",
-	[1]="text",
-	[2]="binary",
-	[8]="close",
-	[9]="ping",
-	[10]="pong",
+	[0]='continue',
+	[1]='text',
+	[2]='binary',
+	[8]='close',
+	[9]='ping',
+	[10]='pong',
 }
 function WS.send(name,message,op)
 	local ws=wsList[name]
@@ -308,7 +308,7 @@ function WS.read(name)
 	if ws.real and ws.readCHN:getCount()>=2 then
 		local op=ws.readCHN:pop()
 		local message=ws.readCHN:pop()
-		if op==8 then ws.status="dead"end--8=close
+		if op==8 then ws.status='dead'end--8=close
 		ws.lastPongTime=timer()
 		ws.pongTimer=1
 		return message,OPname[op]or op
@@ -320,7 +320,7 @@ function WS.close(name)
 	if ws.real then
 		ws.sendCHN:push(8)--close
 		ws.sendCHN:push("")
-		ws.status="dead"
+		ws.status='dead'
 	end
 end
 
@@ -329,20 +329,20 @@ function WS.update(dt)
 	for name,ws in next,wsList do
 		if ws.real then
 			ws.triggerCHN:push(0)
-			if ws.status=="connecting"then
+			if ws.status=='connecting'then
 				local mes=ws.readCHN:pop()
 				if mes then
 					if mes=="success"then
-						ws.status="running"
+						ws.status='running'
 						ws.lastPingTime=time
 						ws.lastPongTime=time
 						ws.pongTimer=1
 					else
-						ws.status="dead"
-						LOG.print(text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes),"warn")
+						ws.status='dead'
+						LOG.print(text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes),'warn')
 					end
 				end
-			elseif ws.status=="running"then
+			elseif ws.status=='running'then
 				if time-ws.lastPingTime>ws.pingInterval then
 					ws.sendCHN:push(9)
 					ws.sendCHN:push("")--ping

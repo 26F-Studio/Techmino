@@ -35,22 +35,22 @@ function scene.keyDown(key)
 	if key=="down"then
 		if S<BGM.getCount()then
 			selected=S+1
-			SFX.play("move",.7)
+			SFX.play('move',.7)
 		end
 	elseif key=="up"then
 		if S>1 then
 			selected=S-1
-			SFX.play("move",.7)
+			SFX.play('move',.7)
 		end
 	elseif key=="return"or key=="space"then
 		if BGM.nowPlay~=bgmList[S]then
 			BGM.play(bgmList[S])
-			if SETTING.bgm>0 then SFX.play("click")end
+			if SETTING.bgm>0 then SFX.play('click')end
 		else
 			BGM.stop()
 		end
 	elseif key=="tab"then
-		SCN.swapTo("sound","none")
+		SCN.swapTo('sound','none')
 	elseif key=="escape"then
 		SCN.back()
 	end
@@ -88,20 +88,20 @@ function scene.draw()
 		gc.setLineWidth(4)
 		gc.line(500,600,900,600)
 		gc.setColor(1,1,1)
-		gc.circle("fill",500+400*BGM.playing:tell()/BGM.playing:getDuration(),600,6)
+		gc.circle('fill',500+400*BGM.playing:tell()/BGM.playing:getDuration(),600,6)
 	end
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=30,	y=30,font=80,align="L"},
-	WIDGET.newText{name="arrow",	x=270,	y=360,font=45,align="L"},
-	WIDGET.newText{name="now",		x=700,	y=500,font=50,align="R",hide=function()return not BGM.nowPlay end},
-	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,			font=35,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-	WIDGET.newButton{name="up",		x=200,	y=250,w=120,		font=55,code=pressKey"up",hide=function()return selected==1 end},
-	WIDGET.newButton{name="play",	x=200,	y=390,w=120,		font=35,code=pressKey"space"},
-	WIDGET.newButton{name="down",	x=200,	y=530,w=120,		font=55,code=pressKey"down",hide=function()return selected==#bgmList end},
-	WIDGET.newButton{name="sound",	x=1140,	y=540,w=170,h=80,	font=40,code=pressKey"tab"},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=backScene},
+	WIDGET.newText{name="title",	x=30,	y=30,font=80,align='L'},
+	WIDGET.newText{name="arrow",	x=270,	y=360,font=45,align='L'},
+	WIDGET.newText{name="now",		x=700,	y=500,font=50,align='R',hide=function()return not BGM.nowPlay end},
+	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,		font=35,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+	WIDGET.newButton{name="up",		x=200,	y=250,w=120,	font=55,code=pressKey"up",hide=function()return selected==1 end},
+	WIDGET.newButton{name="play",	x=200,	y=390,w=120,	font=35,code=pressKey"space"},
+	WIDGET.newButton{name="down",	x=200,	y=530,w=120,	font=55,code=pressKey"down",hide=function()return selected==#bgmList end},
+	WIDGET.newButton{name="sound",	x=1140,	y=540,w=170,h=80,font=40,code=pressKey"tab"},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }
 
 return scene

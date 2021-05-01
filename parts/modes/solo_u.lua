@@ -4,18 +4,18 @@ return{
 		life=2,
 		drop=60,lock=60,
 		freshLimit=15,
-		bg="bg2",bgm="battle",
+		bg='bg2',bgm='battle',
 	},
 	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1)
-		PLY.newAIPlayer(2,AIBUILDER("CC",7,3,true,50000))
+		PLY.newAIPlayer(2,AIBUILDER('CC',7,3,true,50000))
 	end,
 	score=function(P)return{P.stat.time}end,
 	scoreDisp=function(D)return STRING.time(D[1])end,
 	comp=function(a,b)return a[1]<b[1]end,
 	getRank=function(P)
-		if P.result=="WIN"then
+		if P.result=='win'then
 			local T=P.stat.time
 			return
 			T<=80 and 5 or

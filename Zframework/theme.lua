@@ -7,12 +7,12 @@ local themeColor={
 }
 
 function THEME.calculate(Y,M,D)
-	if not Y then Y,M,D=os.date"%Y",os.date"%m",os.date"%d"end
+	if not Y then Y,M,D=os.date("%Y"),os.date("%m"),os.date("%d")end
 	--Festival calculate within one statement
 	return
 		--Christmas
 		M=="12"and math.abs(D-25)<4 and
-		"xmas"or
+		'xmas'or
 
 		--Spring festival
 		M<"03"and math.abs((({
@@ -25,49 +25,49 @@ function THEME.calculate(Y,M,D)
 			42,32,50,39,28,46,35,24,43,33,
 			21,40,
 		})[Y-2000]or -26)-((M-1)*31+D))<6 and
-		"sprfes"or
+		'sprfes'or
 
 		--April fool's day
 		M=="04"and D=="01"and
-		"fool"or
+		'fool'or
 
 		--Z day (Feb./Mar./Apr./May./June. 26)
 		D=="26"and(
-			M=="1"or M=="2"and"zday1"or
-			M=="3"or M=="4"and"zday2"or
-			M=="5"or M=="6"and"zday3"
+			M=="01"or M=="02"and'zday1'or
+			M=="03"or M=="04"and'zday2'or
+			M=="05"or M=="06"and'zday3'
 		)or
 
-		"classic"
+		'classic'
 end
 
 function THEME.set(theme)
-	if theme=="classic"then
-		BG.setDefault("space")
+	if theme=='classic'then
+		BG.setDefault('space')
 		BGM.setDefault("blank")
-	elseif theme=="xmas"then
-		BG.setDefault("snow")
-		BGM.setDefault("xmas")
+	elseif theme=='xmas'then
+		BG.setDefault('snow')
+		BGM.setDefault('xmas')
 		LOG.print("==============",COLOR.R)
 		LOG.print("Merry Christmas!",COLOR.Z)
 		LOG.print("==============",COLOR.R)
-	elseif theme=="sprfes"then
-		BG.setDefault("firework")
+	elseif theme=='sprfes'then
+		BG.setDefault('firework')
 		BGM.setDefault("spring festival")
 		LOG.print(" ★☆☆★",COLOR.R)
 		LOG.print("新年快乐!",COLOR.Z)
 		LOG.print(" ★☆☆★",COLOR.R)
-	elseif theme=="zday1"then
-		BG.setDefault("lanterns")
+	elseif theme=='zday1'then
+		BG.setDefault('lanterns')
 		BGM.setDefault("empty")
-	elseif theme=="zday2"then
-		BG.setDefault("lanterns")
+	elseif theme=='zday2'then
+		BG.setDefault('lanterns')
 		BGM.setDefault("overzero")
-	elseif theme=="zday3"then
-		BG.setDefault("lanterns")
+	elseif theme=='zday3'then
+		BG.setDefault('lanterns')
 		BGM.setDefault("vacuum")
-	elseif theme=="fool"then
-		BG.setDefault("blockrain")
+	elseif theme=='fool'then
+		BG.setDefault('blockrain')
 		BGM.setDefault("how feeling")
 	else
 		return
@@ -84,7 +84,7 @@ function THEME.getThemeColor(theme)
 end
 
 function THEME.fresh()
-	THEME.set(THEME.calculate(os.date"%Y",os.date"%m",os.date"%d"))
+	THEME.set(THEME.calculate(os.date("%Y"),os.date("%m"),os.date("%d")))
 end
 
 return THEME

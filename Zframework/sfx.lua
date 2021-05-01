@@ -15,7 +15,7 @@ function SFX.init(list)
 		for i=1,count do
 			local N="media/SFX/"..list[i]..".ogg"
 			if love.filesystem.getInfo(N)then
-				Sources[list[i]]={love.audio.newSource(N,"static")}
+				Sources[list[i]]={love.audio.newSource(N,'static')}
 			else
 				LOG.print("No SFX file: "..N,5,COLOR.O)
 			end
@@ -76,7 +76,7 @@ function SFX.init(list)
 		end
 		function SFX.reset()
 			for _,L in next,Sources do
-				if type(L)=="table"then
+				if type(L)=='table'then
 					for i=#L,1,-1 do
 						if not L[i]:isPlaying()then
 							rem(L,i)

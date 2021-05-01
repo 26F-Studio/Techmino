@@ -75,11 +75,11 @@ return{
 				end
 			end
 		end,
-		dropPiece=function(P)if P.stat.row>=100 then P:win("finish")end end,
+		dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
 		nextCount=1,holdCount=0,
 		ospin=false,
 		freshLimit=15,
-		bg="glow",bgm="reason",
+		bg='blockfall',bgm='reason',
 	},
 	pauseLimit=true,
 	load=function()

@@ -1,6 +1,5 @@
 local gc=love.graphics
 local rnd=math.random
-local format=string.format
 local mStr=mStr
 
 local levels={
@@ -32,8 +31,8 @@ local state,progress
 local frameKeyCount,mistake
 
 function scene.sceneInit()
-	BG.set("bg2")
-	BGM.play("way")
+	BG.set('bg2')
+	BGM.play('way')
 	levelName="A_Z"
 	targetString=levels.A_Z
 	progress=1
@@ -54,19 +53,19 @@ function scene.keyDown(key)
 			if key:upper():byte()==targetString:byte(progress)then
 				progress=progress+1
 				frameKeyCount=frameKeyCount+1
-				TEXT.show(key:upper(),rnd(320,960),rnd(100,240),90,"score",2.6)
-				SFX.play("move")
+				TEXT.show(key:upper(),rnd(320,960),rnd(100,240),90,'score',2.6)
+				SFX.play('move')
 				if progress==2 then
 					state=1
 					startTime=TIME()
 				elseif progress>#targetString then
 					time=TIME()-startTime
 					state=2
-					SFX.play("reach")
+					SFX.play('reach')
 				end
 			elseif progress>1 then
 				mistake=mistake+1
-				SFX.play("finesseError")
+				SFX.play('finesseError')
 			end
 		end
 	elseif key=="space"then
@@ -89,11 +88,11 @@ end
 function scene.draw()
 	setFont(40)
 	gc.setColor(1,1,1)
-	gc.print(format("%.3f",time),1026,80)
+	gc.print(("%.3f"):format(time),1026,80)
 	gc.print(mistake,1026,150)
 
 	if state>0 then
-		gc.print(format("%.3f/s",(progress-1)/time),1026,220)
+		gc.print(("%.3f/s"):format((progress-1)/time),1026,220)
 	end
 
 	if state==2 then
@@ -117,8 +116,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newSelector{name="level",	x=640,y=640,w=200,list={"A_Z","Z_A","Tech1","Tech2","KeyTest1","KeyTest2","Hello","Roll1","Roll2","Roll3","ZZZ","ZXZX","ZMZM","Stair","Stair2","Stair3","BPW"},disp=function()return levelName end,code=function(i)levelName=i;targetString=levels[i]end,hide=function()return state>0 end},
-	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color="lG",font=40,code=pressKey"space"},
+	WIDGET.newSelector{name="level",	x=640,y=640,w=200,list={'A_Z','Z_A','Tech1','Tech2','KeyTest1','KeyTest2','Hello','Roll1','Roll2','Roll3','ZZZ','ZXZX','ZMZM','Stair','Stair2','Stair3','BPW'},disp=function()return levelName end,code=function(i)levelName=i;targetString=levels[i]end,hide=function()return state>0 end},
+	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
 	WIDGET.newButton{name="keyboard",	x=160,y=210,w=180,h=100,code=function()love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1)end,hide=not MOBILE},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }

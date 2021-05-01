@@ -71,7 +71,7 @@ function scene.keyDown(key)
 			end
 			cur=0
 			sure=0
-			SFX.play("finesseError",.7)
+			SFX.play('finesseError',.7)
 		else
 			sure=50
 		end
@@ -92,8 +92,13 @@ function scene.keyDown(key)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
-		local p=string.find(str,":")--ptr*
-		if p then str=sub(str,p+1)end
+		local p=str:find(":")--ptr*
+		if p then
+			if not str:sub(1,p-1):find("SEQ")then
+				LOG.print(text.pasteWrongPlace)
+			end
+			str=str:sub(p+1)
+		end
 		if DATA.pasteSequence(str)then
 			LOG.print(text.importSuccess,COLOR.G)
 			cur=#BAG
@@ -102,7 +107,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="escape"then
 		SCN.back()
-	elseif type(key)=="number"then
+	elseif type(key)=='number'then
 		cur=cur+1
 		ins(BAG,cur,key)
 	elseif #key==1 then
@@ -112,7 +117,7 @@ function scene.keyDown(key)
 			while BAG[p]==key do p=p+1 end
 			ins(BAG,p,key)
 			cur=p
-			SFX.play("lock")
+			SFX.play('lock')
 		end
 	end
 end
@@ -125,7 +130,7 @@ function scene.draw()
 	--Draw frame
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
-	gc.rectangle("line",100,110,1080,260)
+	gc.rectangle('line',100,110,1080,260)
 
 	--Draw sequence
 	local miniBlock=TEXTURE.miniBlock
@@ -185,11 +190,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",x=520,y=5,font=70,align="R"},
-	WIDGET.newText{name="subTitle",x=530,y=50,font=35,align="L",color="H"},
+	WIDGET.newText{name="title",x=520,y=5,font=70,align='R'},
+	WIDGET.newText{name="subTitle",x=530,y=50,font=35,align='L',color='H'},
 
-	WIDGET.newSelector{name="sequence",x=1080,y=60,w=200,color="Y",
-		list={"bag","his4","c2","rnd","mess","reverb","loop","fixed"},
+	WIDGET.newSelector{name="sequence",x=1080,y=60,w=200,color='Y',
+		list={'bag','his4','c2','rnd','mess','reverb','loop','fixed'},
 		disp=CUSval("sequence"),
 		code=CUSsto("sequence")
 	},
@@ -201,40 +206,40 @@ scene.widgetList={
 	WIDGET.newKey{name="T",		x=440,y=460,w=80,font=50,code=pressKey(5)},
 	WIDGET.newKey{name="O",		x=520,y=460,w=80,font=50,code=pressKey(6)},
 	WIDGET.newKey{name="I",		x=600,y=460,w=80,font=50,code=pressKey(7)},
-	WIDGET.newKey{name="left",	x=680,y=460,w=80,color="lG",font=55,code=pressKey"left"},
-	WIDGET.newKey{name="right",	x=760,y=460,w=80,color="lG",font=55,code=pressKey"right"},
-	WIDGET.newKey{name="ten",	x=840,y=460,w=80,color="lG",font=40,code=pressKey"ten"},
-	WIDGET.newKey{name="backsp",x=920,y=460,w=80,color="lY",font=50,code=pressKey"backspace"},
-	WIDGET.newKey{name="reset",	x=1000,y=460,w=80,color="lY",font=25,code=pressKey"delete"},
+	WIDGET.newKey{name="left",	x=680,y=460,w=80,color='lG',font=55,code=pressKey"left"},
+	WIDGET.newKey{name="right",	x=760,y=460,w=80,color='lG',font=55,code=pressKey"right"},
+	WIDGET.newKey{name="ten",	x=840,y=460,w=80,color='lG',font=40,code=pressKey"ten"},
+	WIDGET.newKey{name="backsp",x=920,y=460,w=80,color='lY',font=50,code=pressKey"backspace"},
+	WIDGET.newKey{name="reset",	x=1000,y=460,w=80,color='lY',font=25,code=pressKey"delete"},
 
-	WIDGET.newKey{name="Z5",	x=120,y=540,w=80,color="lH",font=50,code=pressKey(8)},
-	WIDGET.newKey{name="S5",	x=200,y=540,w=80,color="lH",font=50,code=pressKey(9)},
-	WIDGET.newKey{name="P",		x=280,y=540,w=80,color="lH",font=50,code=pressKey(10)},
-	WIDGET.newKey{name="Q",		x=360,y=540,w=80,color="lH",font=50,code=pressKey(11)},
-	WIDGET.newKey{name="F",		x=440,y=540,w=80,color="lH",font=50,code=pressKey(12)},
-	WIDGET.newKey{name="E",		x=520,y=540,w=80,color="lH",font=50,code=pressKey(13)},
-	WIDGET.newKey{name="T5",	x=600,y=540,w=80,color="lH",font=50,code=pressKey(14)},
-	WIDGET.newKey{name="U",		x=680,y=540,w=80,color="lH",font=50,code=pressKey(15)},
-	WIDGET.newKey{name="V",		x=760,y=540,w=80,color="lH",font=50,code=pressKey(16)},
-	WIDGET.newKey{name="I3",	x=840,y=540,w=80,color="H",font=50,code=pressKey(26)},
-	WIDGET.newKey{name="C",		x=920,y=540,w=80,color="H",font=50,code=pressKey(27)},
-	WIDGET.newKey{name="rnd",	x=1000,y=540,w=80,color="R",font=25,code=pressKey"="},
+	WIDGET.newKey{name="Z5",	x=120,y=540,w=80,color='lH',font=50,code=pressKey(8)},
+	WIDGET.newKey{name="S5",	x=200,y=540,w=80,color='lH',font=50,code=pressKey(9)},
+	WIDGET.newKey{name="P",		x=280,y=540,w=80,color='lH',font=50,code=pressKey(10)},
+	WIDGET.newKey{name="Q",		x=360,y=540,w=80,color='lH',font=50,code=pressKey(11)},
+	WIDGET.newKey{name="F",		x=440,y=540,w=80,color='lH',font=50,code=pressKey(12)},
+	WIDGET.newKey{name="E",		x=520,y=540,w=80,color='lH',font=50,code=pressKey(13)},
+	WIDGET.newKey{name="T5",	x=600,y=540,w=80,color='lH',font=50,code=pressKey(14)},
+	WIDGET.newKey{name="U",		x=680,y=540,w=80,color='lH',font=50,code=pressKey(15)},
+	WIDGET.newKey{name="V",		x=760,y=540,w=80,color='lH',font=50,code=pressKey(16)},
+	WIDGET.newKey{name="I3",	x=840,y=540,w=80,color='H',font=50,code=pressKey(26)},
+	WIDGET.newKey{name="C",		x=920,y=540,w=80,color='H',font=50,code=pressKey(27)},
+	WIDGET.newKey{name="rnd",	x=1000,y=540,w=80,color='R',font=25,code=pressKey"="},
 
-	WIDGET.newKey{name="W",		x=120,y=620,w=80,color="lH",font=50,code=pressKey(17)},
-	WIDGET.newKey{name="X",		x=200,y=620,w=80,color="lH",font=50,code=pressKey(18)},
-	WIDGET.newKey{name="J5",	x=280,y=620,w=80,color="lH",font=50,code=pressKey(19)},
-	WIDGET.newKey{name="L5",	x=360,y=620,w=80,color="lH",font=50,code=pressKey(20)},
-	WIDGET.newKey{name="R",		x=440,y=620,w=80,color="lH",font=50,code=pressKey(21)},
-	WIDGET.newKey{name="Y",		x=520,y=620,w=80,color="lH",font=50,code=pressKey(22)},
-	WIDGET.newKey{name="N",		x=600,y=620,w=80,color="lH",font=50,code=pressKey(23)},
-	WIDGET.newKey{name="H",		x=680,y=620,w=80,color="lH",font=50,code=pressKey(24)},
-	WIDGET.newKey{name="I5",	x=760,y=620,w=80,color="lH",font=50,code=pressKey(25)},
-	WIDGET.newKey{name="I2",	x=840,y=620,w=80,color="dH",font=50,code=pressKey(28)},
-	WIDGET.newKey{name="O1",	x=920,y=620,w=80,color="dH",font=50,code=pressKey(29)},
+	WIDGET.newKey{name="W",		x=120,y=620,w=80,color='lH',font=50,code=pressKey(17)},
+	WIDGET.newKey{name="X",		x=200,y=620,w=80,color='lH',font=50,code=pressKey(18)},
+	WIDGET.newKey{name="J5",	x=280,y=620,w=80,color='lH',font=50,code=pressKey(19)},
+	WIDGET.newKey{name="L5",	x=360,y=620,w=80,color='lH',font=50,code=pressKey(20)},
+	WIDGET.newKey{name="R",		x=440,y=620,w=80,color='lH',font=50,code=pressKey(21)},
+	WIDGET.newKey{name="Y",		x=520,y=620,w=80,color='lH',font=50,code=pressKey(22)},
+	WIDGET.newKey{name="N",		x=600,y=620,w=80,color='lH',font=50,code=pressKey(23)},
+	WIDGET.newKey{name="H",		x=680,y=620,w=80,color='lH',font=50,code=pressKey(24)},
+	WIDGET.newKey{name="I5",	x=760,y=620,w=80,color='lH',font=50,code=pressKey(25)},
+	WIDGET.newKey{name="I2",	x=840,y=620,w=80,color='dH',font=50,code=pressKey(28)},
+	WIDGET.newKey{name="O1",	x=920,y=620,w=80,color='dH',font=50,code=pressKey(29)},
 
 
-	WIDGET.newButton{name="copy",x=1140,y=460,w=170,h=80,color="lR",font=40,code=pressKey"cC",hide=function()return #BAG==0 end},
-	WIDGET.newButton{name="paste",x=1140,y=550,w=170,h=80,color="lB",font=40,code=pressKey"cV"},
+	WIDGET.newButton{name="copy",x=1140,y=460,w=170,h=80,color='lR',font=40,code=pressKey"cC",hide=function()return #BAG==0 end},
+	WIDGET.newButton{name="paste",x=1140,y=550,w=170,h=80,color='lB',font=40,code=pressKey"cV"},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

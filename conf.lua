@@ -1,10 +1,10 @@
 VERSION={
-	code=1405,
-	string="Alpha V0.14.5",
-	name="晨 Morn",
+	code=1406,
+	string="Alpha V0.14.6",
+	name="午 Noon",
 }
 function love.conf(t)
-	t.identity="Techmino"--Saving folder
+	t.identity='Techmino'--Saving folder
 	t.version="11.1"
 	t.gammacorrect=false
 	t.appendidentity=true--Search files in source then in save directory
@@ -21,7 +21,7 @@ function love.conf(t)
 	W.minwidth,W.minheight=640,360
 	W.borderless=false
 	W.resizable=true
-	W.fullscreentype="desktop"--"exclusive"
+	W.fullscreentype='desktop'--'exclusive'
 	W.fullscreen=false
 	W.vsync=0--Unlimited FPS
 	W.msaa=false--Num of samples to use with multi-sampled antialiasing

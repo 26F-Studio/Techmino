@@ -85,7 +85,7 @@ function SCN.push(tar,style)
 	if not SCN.swapping then
 		local m=#SCN.stack
 		SCN.stack[m+1]=tar or SCN.cur
-		SCN.stack[m+2]=style or"fade"
+		SCN.stack[m+2]=style or'fade'
 	end
 end
 function SCN.pop()
@@ -94,46 +94,46 @@ function SCN.pop()
 end
 
 local swap={
-	none={1,0,NULL},--swapTime, changeTime, drawFunction
+	none={1,0,function()end},--swapTime, changeTime, drawFunction
 	flash={8,1,function()gc.clear(1,1,1)end},
 	fade={30,15,function(t)
 		t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	end},
 	fade_togame={120,20,function(t)
 		t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	end},
 	slowFade={180,90,function(t)
 		t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	end},
 	swipeL={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(3-2*t)*2-1
-		gc.rectangle("fill",t*SCR.w,0,SCR.w,SCR.h)
+		gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
 	end},
 	swipeR={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(2*t-3)*2+1
-		gc.rectangle("fill",t*SCR.w,0,SCR.w,SCR.h)
+		gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
 	end},
 	swipeD={30,15,function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(2*t-3)*2+1
-		gc.rectangle("fill",0,t*SCR.h,SCR.w,SCR.h)
+		gc.rectangle('fill',0,t*SCR.h,SCR.w,SCR.h)
 	end},
 }--Scene swapping animations
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 	if scenes[tar]then
 		if not SCN.swapping and tar~=SCN.cur then
-			if not style then style="fade"end
+			if not style then style='fade'end
 			SCN.swapping=true
 			local S=SCN.stat
 			S.tar,S.style=tar,style
@@ -141,7 +141,7 @@ function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 			S.time,S.mid,S.draw=s[1],s[2],s[3]
 		end
 	else
-		LOG.print("No Scene: "..tar,"warn")
+		LOG.print("No Scene: "..tar,'warn')
 	end
 end
 function SCN.go(tar,style)--Normal scene swapping, can back
@@ -149,7 +149,7 @@ function SCN.go(tar,style)--Normal scene swapping, can back
 		SCN.push()
 		SCN.swapTo(tar,style)
 	else
-		LOG.print("No Scene: "..tar,"warn")
+		LOG.print("No Scene: "..tar,'warn')
 	end
 end
 function SCN.back()

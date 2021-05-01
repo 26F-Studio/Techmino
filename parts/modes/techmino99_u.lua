@@ -25,7 +25,7 @@ return{
 		garbageSpeed=.3,
 		pushSpeed=2,
 		freshLimit=15,
-		bg="rainbow",bgm="magicblock",
+		bg='rainbow',bgm='magicblock',
 	},
 	load=function()
 		ROYALEDATA.powerUp={2,6,14,30}
@@ -40,17 +40,17 @@ return{
 		local n=2
 		for _=1,7 do for _=1,7 do
 			if L[n]then
-				PLY.newAIPlayer(n,AIBUILDER("9S",rnd(8,10)),true)
+				PLY.newAIPlayer(n,AIBUILDER('9S',rnd(8,10)),true)
 			else
-				PLY.newAIPlayer(n,AIBUILDER("CC",rnd(4,7),3,true,40000),true)
+				PLY.newAIPlayer(n,AIBUILDER('CC',rnd(4,7),3,true,40000),true)
 			end
 			n=n+1
 		end end
 		for _=15,21 do for _=1,7 do
 			if L[n]then
-				PLY.newAIPlayer(n,AIBUILDER("9S",rnd(8,9)),true)
+				PLY.newAIPlayer(n,AIBUILDER('9S',rnd(8,9)),true)
 			else
-				PLY.newAIPlayer(n,AIBUILDER("CC",rnd(5,8),3,true,40000),true)
+				PLY.newAIPlayer(n,AIBUILDER('CC',rnd(5,8),3,true,40000),true)
 			end
 			n=n+1
 		end end

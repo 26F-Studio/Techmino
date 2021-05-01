@@ -8,7 +8,7 @@ return{
 		drop=0,lock=15,
 		wait=10,fall=10,
 		nextCount=2,
-		sequence="his4",
+		sequence='his4',
 		task=function(P)P.modeData.target=12 end,
 		dropPiece=function(P)
 			local p=P.modeData.pt+P.lastPiece.row
@@ -29,7 +29,7 @@ return{
 					P:setNext(4)
 
 					P.modeData.target=26
-					SFX.play("reach")
+					SFX.play('reach')
 				elseif T==26 then--Stage 3: dig to bottom
 					if not P.holdQueue[1]then P.life=P.life+1 end--1 up if ban hold
 					P.waiting=45
@@ -71,7 +71,7 @@ return{
 					P:setNext(5)
 
 					P.modeData.target=42
-					SFX.play("reach")
+					SFX.play('reach')
 				elseif T==42 then--Stage 4: survive in high speed
 					if P.garbageBeneath==0 then
 						P.waiting=30
@@ -93,7 +93,7 @@ return{
 					ENV.easyFresh=false
 
 					P.modeData.target=126
-					SFX.play("reach")
+					SFX.play('reach')
 				elseif T==126 then--Stage 6: speed up
 					P.life=P.life+1
 
@@ -111,7 +111,7 @@ return{
 					P:setInvisible(180)
 
 					P.modeData.target=226
-					SFX.play("reach")
+					SFX.play('reach')
 				elseif T==226 then--Stage 8: final invisible
 					P.life=P.life+1
 
@@ -119,7 +119,7 @@ return{
 					P:setInvisible(90)
 
 					P.modeData.target=259
-					SFX.play("reach")
+					SFX.play('reach')
 				elseif T==259 then--Stage 9: ending
 					P.life=P.life+1
 					for i=1,7 do ENV.skin[i]=math.random(16)end
@@ -132,7 +132,7 @@ return{
 
 					P.modeData.target=260
 					p=260
-					SFX.play("blip_2")
+					SFX.play('blip_2')
 				else
 					p=260
 				end
@@ -142,7 +142,7 @@ return{
 		mission={4,4,4,64},
 		missionKill=true,
 		freshLimit=12,
-		bg="none",bgm="super7th",
+		bg='none',bgm='super7th',
 	},
 	slowMark=true,
 	load=function()
@@ -152,15 +152,15 @@ return{
 		setFont(45)
 		mStr(P.modeData.pt,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 	end,
-	score=function(P)return{P.result=="WIN"and 260 or P.modeData.pt,P.stat.time}end,
+	score=function(P)return{P.result=='win'and 260 or P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
 	getRank=function(P)
 		local p=P.modeData.pt
 		return
-		P.result=="WIN"and 5 or
+		P.result=='win'and 5 or
 		p>=226 and 4 or
 		p>=162 and 3 or
 		p>=62 and 2 or

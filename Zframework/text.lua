@@ -19,21 +19,21 @@ function textFX.fly(t)
 	mStr(t.text,t.x+(t.c-.5)^3*300,t.y-t.font*.7)
 end
 function textFX.stretch(t)
-	gc_push("transform")
+	gc_push('transform')
 		gc_translate(t.x,t.y)
 		if t.c<.3 then gc_scale((.3-t.c)*1.6+1,1)end
 		mStr(t.text,0,-t.font*.7)
 	gc_pop()
 end
 function textFX.drive(t)
-	gc_push("transform")
+	gc_push('transform')
 		gc_translate(t.x,t.y)
 		if t.c<.3 then gc_shear((.3-t.c)*2,0)end
 		mStr(t.text,0,-t.font*.7)
 	gc_pop()
 end
 function textFX.spin(t)
-	gc_push("transform")
+	gc_push('transform')
 		gc_translate(t.x,t.y)
 		if t.c<.3 then
 			gc_rotate((.3-t.c)^2*4)
@@ -49,7 +49,7 @@ function textFX.flicker(t)
 	mStr(t.text,t.x,t.y-t.font*.7)
 end
 function textFX.zoomout(t)
-	gc_push("transform")
+	gc_push('transform')
 		local k=t.c^.5*.1+1
 		gc_translate(t.x,t.y)
 		gc_scale(k,k)
@@ -57,7 +57,7 @@ function textFX.zoomout(t)
 	gc_pop()
 end
 function textFX.beat(t)
-	gc_push("transform")
+	gc_push('transform')
 		gc_translate(t.x,t.y)
 		if t.c<.3 then
 			local k=1.3-t.c^2/.3
@@ -85,7 +85,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 		font=int(font/5)*5 or 40,	--Font
 		spd=(spd or 1)/60,	--Timing speed(1=last 1 sec)
 		stop=stop,			--Stop time(sustained text)
-		draw=textFX[style or"appear"]or error("unavailable type:"..style),	--Draw method
+		draw=textFX[style or'appear']or error("unavailable type:"..style),	--Draw method
 	}
 end
 function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.show(), but only return text object, need manual management
@@ -97,7 +97,7 @@ function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.sho
 		font=int(font/5)*5 or 40,
 		spd=(spd or 1)/60,
 		stop=stop,
-		draw=textFX[style or"appear"]or error("unavailable type:"..style),
+		draw=textFX[style or'appear']or error("unavailable type:"..style),
 	}
 end
 function TEXT.update(list)

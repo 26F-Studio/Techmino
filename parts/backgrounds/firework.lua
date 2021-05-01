@@ -33,7 +33,7 @@ function back.update(dt)
 		if time>1 then
 			local x,y,color=F.x,F.y,F.color
 			if F.big then
-				SFX.play("fall",.5)
+				SFX.play('fall',.5)
 				for _=1,rnd(62,126)do
 					ins(particle,{
 						x=x,y=y,
@@ -44,7 +44,7 @@ function back.update(dt)
 					})
 				end
 			else
-				SFX.play("clear_1",.4)
+				SFX.play('clear_1',.4)
 				for _=1,rnd(16,26)do
 					ins(particle,{
 						x=x,y=y,
@@ -76,12 +76,12 @@ function back.update(dt)
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
 	for i=1,#firework do
 		local F=firework[i]
 		gc.setColor(F.color)
-		circle("fill",F.x,F.y,F.big and 8 or 4)
+		circle('fill',F.x,F.y,F.big and 8 or 4)
 	end
 	gc.setLineWidth(3)
 	for i=1,#particle do

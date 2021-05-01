@@ -5,9 +5,9 @@ return{
 	env={
 		drop=15,lock=45,
 		freshLimit=10,
-		visible="fast",
-		dropPiece=function(P)if P.stat.row>=200 then P:win("finish")end end,
-		bg="glow",bgm="push",
+		visible='fast',
+		dropPiece=function(P)if P.stat.row>=200 then P:win('finish')end end,
+		bg='glow',bgm='push',
 	},
 	pauseLimit=true,
 	load=function()

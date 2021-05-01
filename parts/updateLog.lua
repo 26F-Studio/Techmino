@@ -1,7 +1,7 @@
 return STRING.split([=[
 未来模式:
-		无尽PC挑战; 简单极简练习; 任务生存; 对称; 无摩擦; 连击练习; 拼方形
-		极简教程/考试; 大爆炸; 音游模式; 跑酷; 术语问答; 养成玩法; 收集向抽奖玩法
+		无尽PC挑战; 任务生存; 对称; 无摩擦; 拼方形; 限高无尽挖掘
+		极简教程/考试; 大爆炸; 音游模式; 连击练习; 术语问答
 		OSD; 强制Misdrop; 涂色模式(模仿喷喷, designed by teatube)
 未来大游戏:
 		puyo; 花仙子方块; 2048; 泡泡龙
@@ -13,14 +13,50 @@ return STRING.split([=[
 		连连看; 求合体; 坦克大战; 扫雷; 接水管
 其他未来内容:
 		XRS; 移动n格+硬降复合操作键; 更好的手柄支持
-		自适应UI; 重做模式选择UI和MOD的UI; 高级自定义序列
+		自适应UI; 高级自定义序列; 对战结束后展示数据和排行
+		重做模式选择UI, MOD的UI, 自定义游戏UI
 		区分各种消除(隔断/架空/混合/彩色/穿墙)
-		更复杂的垃圾行(数量/等待时间/抵消倍率/洞数/连接/炸弹)
-		可调场地宽度; 左右三按键; 手势操作; 特殊控件(虚拟摇杆等); 切换高低镜头的按键
+		更复杂的垃圾行(数量/等待时间/抵消倍率/洞数/连接/炸弹/厚度)
+		可调场地宽度; 左右三按键; 手势操作; 特殊控件(虚拟摇杆等); 切换高低镜头键
 		DAS系统和Deepdrop系统更细节的选项; spike计数器; 攻击总缓冲显示
 		成就系统; 更强的主题系统; 多方块; 3D背景
 		可选虚拟按键颜色; 工程编译到字节码; task-Z(新AI)
+		等级系统; 收集向抽奖玩法
 		录像回放菜单; 跳帧开关; 教学关; 超60帧; 热更新
+
+0.14.6: 午 Noon
+		新增:
+				联网对战房间内添加设置入口,未准备就能修改设置
+				房间列表界面支持点选和平滑滚动
+				未获取到用户头像时显示默认方块头像(uid对应),设置添加省流开关(不加载头像)
+				新BGM:Hope(用于master-ex)
+				新背景:Blockfall(用于无尽和自定义游戏默认)
+				新背景:Blockspace(用于master-ex)
+				旧皮肤:Matte(MrZ)
+				自定义游戏菜单新增重置按钮
+				自定义场地三个鼠标键均可自定义颜色
+		改动:
+				存档管理功能移至命令行改为手动删文件清除,说明位于词典内
+				微调网战房间内ui,全员准备后会有提示
+				自定义场地三个鼠标键均可自定义颜色
+				简化进入控制台的方法,增加新命令
+				取消鼠标右键返回
+				更改游戏图标
+				Ospin
+		代码:
+				升级doGC模块,调整命令集
+				升级控件模块,支持给部分控件开关声音,属性配置代码整理
+				整理代码习惯,常量字符串全部改用单引号
+		修复:
+				触屏虚拟按键松开后按钮还亮着
+				旋转机制的一个错误设计导致高速经典转不动
+				科研模式不会结束游戏
+				ospin表和JL测试顺序的问题
+				模式禁止mod也会显示开了什么mod
+				谜题数据解析时错误解析最后的空白符
+				blackhole和blockrain背景不适配大小屏幕
+				游戏结束相关文本问题
+				Ospin
 
 0.14.5: 晨 Morn
 		新增:
@@ -1237,7 +1273,7 @@ return STRING.split([=[
 
 0.8.8: Space BG Update
 		new:
-				background now is cool space with "planets" and "stars", instead of falling tetrominos
+				background now is cool space with "planets" and "stars", instead of falling tetrominoes
 				no black side in any screen size
 				adjustable waiting time before start
 				ajustable maxnext count

@@ -1,11 +1,11 @@
 local next,type=next,type
 local TABLE={}
 
---Copy [1~#] elements
+--Get a copy of [1~#] elements
 function TABLE.shift(org)
 	local L={}
 	for i=1,#org do
-		if type(org[i])~="table"then
+		if type(org[i])~='table'then
 			L[i]=org[i]
 		else
 			L[i]=TABLE.shift(org[i])
@@ -14,11 +14,11 @@ function TABLE.shift(org)
 	return L
 end
 
---Copy all elements
+--Get a full copy of a table
 function TABLE.copy(org)
 	local L={}
 	for k,v in next,org do
-		if type(v)~="table"then
+		if type(v)~='table'then
 			L[k]=v
 		else
 			L[k]=TABLE.copy(v)
@@ -28,25 +28,25 @@ function TABLE.copy(org)
 end
 
 --For all things in G if same type in base, push to base
-function TABLE.update(G,base)
-	for k,v in next,G do
-		if type(v)==type(base[k])then
-			if type(v)=="table"then
-				TABLE.update(v,base[k])
+function TABLE.update(new,old)
+	for k,v in next,new do
+		if type(v)==type(old[k])then
+			if type(v)=='table'then
+				TABLE.update(v,old[k])
 			else
-				base[k]=v
+				old[k]=v
 			end
 		end
 	end
 end
 
 --For all things in G if no val in base, push to base
-function TABLE.complete(G,base)
-	for k,v in next,G do
-		if base[k]==nil then
-			base[k]=v
-		elseif type(v)=="table"and type(base[k])=="table"then
-			TABLE.complete(v,base[k])
+function TABLE.complete(new,old)
+	for k,v in next,new do
+		if old[k]==nil then
+			old[k]=v
+		elseif type(v)=='table'and type(old[k])=='table'then
+			TABLE.complete(v,old[k])
 		end
 	end
 end
@@ -68,7 +68,7 @@ end
 --Re-index string value of a table
 function TABLE.reIndex(org)
 	for k,v in next,org do
-		if type(v)=="string"then
+		if type(v)=='string'then
 			org[k]=org[v]
 		end
 	end
@@ -92,34 +92,34 @@ do--function TABLE.dump(L,t)
 		else
 			s="return{\n"
 			t=1
-			if type(L)~="table"then
+			if type(L)~='table'then
 				return
 			end
 		end
 		local count=1
 		for k,v in next,L do
 			local T=type(k)
-			if T=="number"then
+			if T=='number'then
 				if k==count then
 					k=""
 					count=count+1
 				else
 					k="["..k.."]="
 				end
-			elseif T=="string"then
+			elseif T=='string'then
 				if find(k,"[^0-9a-zA-Z_]")then
 					k="[\""..k.."\"]="
 				else
 					k=k.."="
 				end
-			elseif T=="boolean"then k="["..k.."]="
+			elseif T=='boolean'then k="["..k.."]="
 			else error("Error key type!")
 			end
 			T=type(v)
-			if T=="number"then v=tostring(v)
-			elseif T=="string"then v="\""..v.."\""
-			elseif T=="table"then v=dump(v,t+1)
-			elseif T=="boolean"then v=tostring(v)
+			if T=='number'then v=tostring(v)
+			elseif T=='string'then v="\""..v.."\""
+			elseif T=='table'then v=dump(v,t+1)
+			elseif T=='boolean'then v=tostring(v)
 			else error("Error data type!")
 			end
 			s=s..tabs[t]..k..v..",\n"

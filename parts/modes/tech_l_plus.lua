@@ -1,4 +1,3 @@
-local format=string.format
 local function tech_check_hard(P)
 	local C=P.lastPiece
 	if C.row>0 then
@@ -8,7 +7,7 @@ local function tech_check_hard(P)
 		end
 	end
 	if P.stat.atk>=100 then
-		P:win("finish")
+		P:win('finish')
 	end
 end
 
@@ -18,15 +17,15 @@ return{
 		drop=0,lock=60,
 		freshLimit=15,
 		dropPiece=tech_check_hard,
-		bg="matrix",bgm="warped",
+		bg='matrix',bgm='warped',
 	},
 	load=function()
 		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(format("%.1f",P.stat.atk),69,190)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),69,310)
+		mStr(("%.1f"):format(P.stat.atk),69,190)
+		mStr(("%.2f"):format(P.stat.atk/P.stat.row),69,310)
 		mText(drawableText.atk,69,243)
 		mText(drawableText.eff,69,363)
 	end,

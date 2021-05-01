@@ -24,15 +24,15 @@ return{
 						if D.wave<=75 then
 							D.rpm=math.floor(144e3/t)*.1
 							if D.wave==25 then
-								P:showTextF(text.great,0,-140,100,"appear",.6)
+								P:showTextF(text.great,0,-140,100,'appear',.6)
 								P.gameEnv.pushSpeed=3
 								P.dropDelay,P.gameEnv.drop=4,4
 							elseif D.wave==50 then
-								P:showTextF(text.awesome,0,-140,100,"appear",.6)
+								P:showTextF(text.awesome,0,-140,100,'appear',.6)
 								P.gameEnv.pushSpeed=4
 								P.dropDelay,P.gameEnv.drop=3,3
 							elseif D.wave==75 then
-								P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+								P:showTextF(text.maxspeed,0,-140,100,'appear',.6)
 								P.dropDelay,P.gameEnv.drop=2,2
 							end
 						end
@@ -40,7 +40,7 @@ return{
 				end
 			end
 		end,
-		bg="rainbow2",bgm="storm",
+		bg='rainbow2',bgm='storm',
 	},
 	pauseLimit=true,
 	load=function()

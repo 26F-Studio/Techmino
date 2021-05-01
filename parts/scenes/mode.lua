@@ -79,7 +79,7 @@ function scene.mouseClick(x,y)
 				mapCam.moving=true
 				_=MODES[SEL]
 				mapCam.sel=SEL
-				SFX.play("click")
+				SFX.play('click')
 			else
 				mapCam.sel=false
 			end
@@ -120,7 +120,7 @@ function scene.keyDown(key)
 			loadGame(mapCam.sel)
 		end
 	elseif key=="f1"then
-		SCN.go("mod")
+		SCN.go('mod')
 	elseif key=="escape"then
 		if mapCam.sel then
 			mapCam.sel=false
@@ -166,7 +166,7 @@ function scene.update()
 				end
 				if SEL and mapCam.sel~=SEL then
 					mapCam.sel=SEL
-					SFX.play("click")
+					SFX.play('click')
 				end
 			end
 		end
@@ -194,6 +194,7 @@ local baseRankColor={
 	{.85,.8,.3,.3},
 	{.4,.7,.4,.3},
 }
+local rankColor=rankColor
 local function drawModeShape(M,S,drawType)
 	if M.shape==1 then--Rectangle
 		gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
@@ -205,7 +206,7 @@ local function drawModeShape(M,S,drawType)
 end
 function scene.draw()
 	local _
-	gc.push("transform")
+	gc.push('transform')
 	gc.translate(640,360)
 	gc.rotate((mapCam.zoomK^.6-1))
 	gc.scale(mapCam.zoomK^.7)
@@ -236,9 +237,9 @@ function scene.draw()
 
 			--Draw shapes on map
 			gc.setColor(baseRankColor[rank])
-			drawModeShape(M,S,"fill")
+			drawModeShape(M,S,'fill')
 			gc.setColor(1,1,sel==name and 0 or 1)
-			drawModeShape(M,S,"line")
+			drawModeShape(M,S,'line')
 
 			--Icon
 			local icon=M.icon
@@ -264,19 +265,19 @@ function scene.draw()
 	if sel then
 		local M=MODES[sel]
 		gc.setColor(.5,.5,.5,.8)
-		gc.rectangle("fill",920,0,360,720)--Info board
+		gc.rectangle('fill',920,0,360,720)--Info board
 		gc.setColor(M.color)
 		setFont(40)mStr(text.modes[sel][1],1100,5)
 		setFont(30)mStr(text.modes[sel][2],1100,50)
 		gc.setColor(1,1,1)
-		setFont(25)gc.printf(text.modes[sel][3],920,110,360,"center")
+		setFont(25)gc.printf(text.modes[sel][3],920,110,360,'center')
 		if M.slowMark then
 			gc.draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
 		end
 		if M.score then
 			mText(drawableText.highScore,1100,240)
 			gc.setColor(.3,.3,.3,.7)
-			gc.rectangle("fill",940,290,320,280)--Highscore board
+			gc.rectangle('fill',940,290,320,280)--Highscore board
 			local L=M.records
 			gc.setColor(1,1,1)
 			if L[1]then

@@ -16,26 +16,30 @@ local emptyUser={
 	username="Player",
 	motto="",
 	hash="",
-	new=true,
+	new=false,
 }
-local texture_noImage=DOGC{128,128,
-	{"setCL",.1,.1,.1},
-	{"fRect",0,0,128,128},
-	{"setCL",1,1,1},
-	{"setLW",6},
-	{"dLine",9,9,118,118},
-	{"dLine",9,118,118,9},
-}
+local defaultAvatar={}
+for i=1,29 do
+	local img=TEXTURE.miniBlock[i]
+	defaultAvatar[i]=DOGC{128,128,
+		{"clear",.1,.1,.1},
+		{"draw",img,63,63,.2,30,30,img:getWidth()/2,img:getHeight()/2},
+	}
+end
 
 local db_img={}
-local db=setmetatable({},{__index=function(self,k)
-	if not k then return emptyUser end
-	local file="cache/user"..k..".dat"
-	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
-	rawset(self,k,d)
-	if type(d.hash)=="string"and #d.hash>0 and fs.getInfo("cache/"..d.hash)then
-		db_img[k]=loadAvatar("cache/"..d.hash)
+local db=setmetatable({},{__index=function(self,uid)
+	if not uid then
+		db_img[uid]=defaultAvatar[1]
+		return emptyUser
 	end
+	local file="cache/user"..uid..".dat"
+	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
+	rawset(self,uid,d)
+	db_img[uid]=
+		type(d.hash)=='string'and #d.hash>0 and fs.getInfo("cache/"..d.hash)and
+		loadAvatar("cache/"..d.hash)or
+		defaultAvatar[(uid-26)%29+1]
 	return d
 end})
 
@@ -51,9 +55,9 @@ function USERS.updateUserData(data)
 		hash=data.hash or db[uid].hash,
 	})
 	if data.avatar then
-		fs.write("cache/"..data.hash,love.data.decode("string","base64",data.avatar:sub(data.avatar:find","+1)))
+		fs.write("cache/"..data.hash,love.data.decode('string','base64',data.avatar:sub(data.avatar:find(",")+1)))
 		db_img[uid]=loadAvatar("cache/"..data.hash)
-		db[uid].hash=type(data.hash)=="string"and #data.hash>0 and data.hash
+		db[uid].hash=type(data.hash)=='string'and #data.hash>0 and data.hash
 	end
 end
 
@@ -61,14 +65,15 @@ function USERS.getUsername(uid)return db[uid].username end
 function USERS.getMotto(uid)return db[uid].motto end
 function USERS.getHash(uid)return db[uid].hash end
 function USERS.getAvatar(uid)
-	if db_img[uid]then
-		return db_img[uid]
-	else
-		if not db[uid].new then
-			NET.getUserInfo(uid)
-			db[uid].new=true
-		end
-		return texture_noImage
+	if not db[uid].new then
+		NET.getUserInfo(uid)
+		db[uid].new=true
+	end
+	return db_img[uid]
+end
+function USERS.forceFreshAvatar()
+	for _,U in next,db do
+		U.new=false
 	end
 end
 

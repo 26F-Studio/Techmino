@@ -13,11 +13,11 @@ local kickList=require"parts.kickList"
 --------------------------<FX>--------------------------
 function Player:showText(text,dx,dy,font,style,spd,stop)
 	if self.gameEnv.text then
-		ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font*self.size,style,spd,stop))
+		ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 	end
 end
 function Player:showTextF(text,dx,dy,font,style,spd,stop)
-	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font*self.size,style,spd,stop))
+	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 end
 function Player:createLockFX()
 	local CB=self.cur.bk
@@ -47,21 +47,21 @@ function Player:createMoveFX(dir)
 	local CB=self.cur.bk
 	local x=self.curX-1
 	local y=self.gameEnv.smooth and self.curY+self.dropDelay/self.gameEnv.drop-2 or self.curY-1
-	if dir=="left"then
+	if dir=='left'then
 		for i=1,#CB do for j=#CB[1],1,-1 do
 			if self.cur.bk[i][j]then
 				ins(self.moveFX,{C,x+j,y+i,0,T})
 				break
 			end
 		end end
-	elseif dir=="right"then
+	elseif dir=='right'then
 		for i=1,#CB do for j=1,#CB[1]do
 			if self.cur.bk[i][j]then
 				ins(self.moveFX,{C,x+j,y+i,0,T})
 				break
 			end
 		end end
-	elseif dir=="down"then
+	elseif dir=='down'then
 		for j=1,#CB[1]do for i=#CB,1,-1 do
 			if self.cur.bk[i][j]then
 				ins(self.moveFX,{C,x+j,y+i,0,T})
@@ -109,7 +109,7 @@ function Player:createBeam(R,send,power,color)
 	local c=minoColor[color]
 	local r,g,b=c[1]*2,c[2]*2,c[3]*2
 
-	local a=GAME.modeEnv.royaleMode and not(self.type=="human"or R.type=="human")and .2 or 1
+	local a=GAME.modeEnv.royaleMode and not(self.type=='human'or R.type=='human')and .2 or 1
 	SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a*(power+2)*.0626)
 end
 --------------------------</FX>--------------------------
@@ -122,7 +122,7 @@ end
 function Player:newTask(code,...)
 	local thread=coroutine.create(code)
 	resume(thread,self,...)
-	if status(thread)~="dead"then
+	if status(thread)~='dead'then
 		self.tasks[#self.tasks+1]={
 			thread=thread,
 			code=code,
@@ -171,14 +171,14 @@ function Player:switchKey(id,on)
 	if not on then
 		self:releaseKey(id)
 	end
-	if self.type=="human"then
+	if self.type=='human'then
 		VK.switchKey(id,on)
 	end
 end
 function Player:set20G(if20g)
 	self._20G=if20g
 	self:switchKey(7,not if20g)
-	if if20g and self.AI_mode=="CC"then CC.switch20G(self)end
+	if if20g and self.AI_mode=='CC'then CC.switch20G(self)end
 end
 function Player:setHold(count)--Set hold count (false/true as 0/1)
 	if not count then
@@ -213,19 +213,6 @@ function Player:setRS(RSname)
 	self.RS=kickList[RSname]
 end
 
-function Player:setConf(confStr)
-	confStr=JSON.decode(confStr)
-	if confStr then
-		for k,v in next,confStr do
-			if not GAME.modeEnv[k]then
-				self.gameEnv[k]=v
-			end
-		end
-	else
-		LOG.print("Bad conf from "..self.username.."#"..self.uid)
-	end
-end
-
 function Player:getHolePos()--Get a good garbage-line hole position
 	if self.garbageBeneath==0 then
 		return generateLine(self:RND(10))
@@ -252,7 +239,7 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
 			break
 		end
 	end
-	if flag and self.AI_mode=="CC"and self.AI_bot then CC.updateField(self)end
+	if flag and self.AI_mode=='CC'and self.AI_bot then CC.updateField(self)end
 end
 function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
 	local _
@@ -273,7 +260,7 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
 	for i=1,#self.clearingRow do
 		self.clearingRow[i]=self.clearingRow[i]+amount
 	end
-	self:freshBlock("push")
+	self:freshBlock('push')
 	for i=1,#self.lockFX do
 		_=self.lockFX[i]
 		_[2]=_[2]-30*amount--Shift 30px per line cleared
@@ -306,7 +293,7 @@ function Player:pushLineList(L,mir)--Push some lines to field
 	self.fieldBeneath=self.fieldBeneath+30*l
 	self.curY=self.curY+l
 	self.ghoY=self.ghoY+l
-	self:freshBlock("push")
+	self:freshBlock('push')
 end
 function Player:pushNextList(L,mir)--Push some nexts to nextQueue
 	for i=1,#L do
@@ -338,7 +325,7 @@ end
 function Player:attack(R,send,time,line,fromStream)
 	local atkFX=self.gameEnv.atkFX
 	if GAME.net then
-		if self.type=="human"then--Local player attack others
+		if self.type=='human'then--Local player attack others
 			ins(GAME.rep,self.frameRun)
 			ins(GAME.rep,
 				R.sid+
@@ -351,7 +338,7 @@ function Player:attack(R,send,time,line,fromStream)
 				self:createBeam(R,send,atkFX,self.cur.color)
 			end
 		end
-		if fromStream and R.type=="human"then--Local player receiving lines
+		if fromStream and R.type=='human'then--Local player receiving lines
 			ins(GAME.rep,R.frameRun)
 			ins(GAME.rep,
 				self.sid+
@@ -391,7 +378,7 @@ function Player:receive(A,send,time,line)
 		B.sum=B.sum+send
 		self.stat.recv=self.stat.recv+send
 		if self.sound then
-			SFX.play(send<4 and"blip_1"or"blip_2",min(send+1,5)*.1)
+			SFX.play(send<4 and'blip_1'or'blip_2',min(send+1,5)*.1)
 		end
 	end
 end
@@ -425,7 +412,7 @@ function Player:changeAtkMode(m)
 	end
 end
 function Player:changeAtk(R)
-	-- if self.type~="human"then R=PLAYERS[1]end--1vALL mode?
+	-- if self.type~='human'then R=PLAYERS[1]end--1vALL mode?
 	if self.atking then
 		local K=self.atking.atker
 		for i=1,#K do
@@ -445,7 +432,7 @@ end
 function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 	local ENV=self.gameEnv
 	--Fresh ghost
-	if(mode=="move"or mode=="newBlock"or mode=="push")and self.cur then
+	if(mode=='move'or mode=='newBlock'or mode=='push')and self.cur then
 		local CB=self.cur.bk
 		self.ghoY=min(#self.field+1,self.curY)
 		if self._20G or ENV.sdarr==0 and self.keyPressing[7]and self.downing>ENV.sddas then
@@ -479,11 +466,11 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 	end
 
 	--Fresh delays
-	if mode=="move"or mode=="newBlock"or mode=="fresh"then
+	if mode=='move'or mode=='newBlock'or mode=='fresh'then
 		local d0,l0=ENV.drop,ENV.lock
 		if ENV.easyFresh then
 			if self.lockDelay<l0 and self.freshTime>0 then
-				if mode~="newBlock"then
+				if mode~='newBlock'then
 					self.freshTime=self.freshTime-1
 				end
 				self.lockDelay=l0
@@ -531,12 +518,12 @@ function Player:lock()
 			end
 		end
 	end
-	if has_dest and not dest and self.AI_mode=="CC"and self.AI_bot then
+	if has_dest and not dest and self.AI_mode=='CC'and self.AI_bot then
 		CC.updateField(self)
 	end
 end
 
-local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]="spawn_"..i end
+local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]='spawn_'..i end
 function Player:resetBlock()--Reset Block's position and execute I*S
 	local B=self.cur.bk
 	self.curX=int(6-#B[1]*.5)
@@ -583,12 +570,12 @@ end
 
 function Player:spin(d,ifpre)
 	local kickData=self.RS[self.cur.id]
-	if type(kickData)=="table"then
+	if type(kickData)=='table'then
 		local idir=(self.cur.dir+d)%4
 		kickData=kickData[self.cur.dir*10+idir]
 		if not kickData then
-			self:freshBlock("move")
-			SFX.play(ifpre and"prerotate"or"rotate",nil,self:getCenterX()*.15)
+			self:freshBlock('move')
+			SFX.play(ifpre and'prerotate'or'rotate',nil,self:getCenterX()*.15)
 			return
 		end
 		local icb=BLOCKS[self.cur.id][idir]
@@ -596,7 +583,7 @@ function Player:spin(d,ifpre)
 		local ix,iy=self.curX+self.cur.sc[2]-isc[2],self.curY+self.cur.sc[1]-isc[1]
 		for test=1,#kickData do
 			local x,y=ix+kickData[test][1],iy+kickData[test][2]
-			if not self:ifoverlap(icb,x,y)and(self.freshTime>0 or kickData[test][2]<0)then
+			if not self:ifoverlap(icb,x,y)and(self.freshTime>0 or kickData[test][2]<=0)then
 				ix,iy=x,y
 				if self.gameEnv.moveFX and self.gameEnv.block then
 					self:createMoveFX()
@@ -607,7 +594,7 @@ function Player:spin(d,ifpre)
 
 				local t=self.freshTime
 				if not ifpre then
-					self:freshBlock("move")
+					self:freshBlock('move')
 				end
 				if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
 					self.freshTime=self.freshTime-1
@@ -616,9 +603,9 @@ function Player:spin(d,ifpre)
 				if self.sound then
 					local sfx
 					if ifpre then
-						sfx="prerotate"
+						sfx='prerotate'
 					elseif self:ifoverlap(icb,ix,iy+1)and self:ifoverlap(icb,ix-1,iy)and self:ifoverlap(icb,ix+1,iy)then
-						sfx="rotatekick"
+						sfx='rotatekick'
 						if self.gameEnv.shakeFX then
 							if d==1 or d==3 then
 								self.fieldOff.va=self.fieldOff.va+(2-d)*self.gameEnv.shakeFX*6e-3
@@ -627,7 +614,7 @@ function Player:spin(d,ifpre)
 							end
 						end
 					else
-						sfx="rotate"
+						sfx='rotate'
 					end
 					SFX.play(sfx,nil,self:getCenterX()*.15)
 				end
@@ -638,8 +625,8 @@ function Player:spin(d,ifpre)
 	elseif kickData then
 		kickData(self,d)
 	else
-		self:freshBlock("move")
-		SFX.play(ifpre and"prerotate"or"rotate",nil,self:getCenterX()*.15)
+		self:freshBlock('move')
+		SFX.play(ifpre and'prerotate'or'rotate',nil,self:getCenterX()*.15)
 	end
 end
 local phyHoldKickX={
@@ -682,7 +669,7 @@ function Player:hold(ifpre)
 					end
 				end
 				--<for-else> All test failed, interrupt with sound
-					SFX.play("finesseError")
+					SFX.play('finesseError')
 					do return end
 				--<for-end>
 				::BREAK_success::
@@ -709,7 +696,7 @@ function Player:hold(ifpre)
 
 				self:resetBlock()
 			end
-			self:freshBlock("move")
+			self:freshBlock('move')
 			self.dropDelay=ENV.drop
 			self.lockDelay=ENV.lock
 			if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
@@ -724,10 +711,10 @@ function Player:hold(ifpre)
 		end
 
 		if self.sound then
-			SFX.play(ifpre and"prehold"or"hold")
+			SFX.play(ifpre and'prehold'or'hold')
 		end
 
-		if self.AI_mode=="CC"then
+		if self.AI_mode=='CC'then
 			local next=self.nextQueue[self.AIdata.nextCount]
 			if next then
 				CC.addNext(self.AI_bot,next.id)
@@ -774,7 +761,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 	self.newNext()
 	if self.cur then
 		self.pieceCount=self.pieceCount+1
-		if self.AI_mode=="CC"then
+		if self.AI_mode=='CC'then
 			local next=self.nextQueue[self.AIdata.next]
 			if next then
 				CC.addNext(self.AI_bot,next.id)
@@ -800,7 +787,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 				self:lock()
 				self:lose()
 			end
-			self:freshBlock("newBlock")
+			self:freshBlock('newBlock')
 		end
 
 		--IHdS
@@ -851,11 +838,11 @@ do--Player.drop(self)--Place piece
 	local reAtk={0,0,1,1,1,2,2,3,3}
 	local reDef={0,1,1,2,3,3,4,4,5}
 
-	local spinVoice={"zspin","sspin","jspin","lspin","tspin","ospin","ispin","zspin","sspin","pspin","qspin","fspin","espin","tspin","uspin","vspin","wspin","xspin","jspin","lspin","rspin","yspin","hspin","nspin","ispin"}
-	local clearVoice={"single","double","triple","techrash","pentcrash","hexcrash"}
-	local spinSFX={[0]="spin_0","spin_1","spin_2"}
-	local clearSFX={"clear_1","clear_2","clear_3"}
-	local renSFX={}for i=1,11 do renSFX[i]="ren_"..i end
+	local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','hspin','nspin','ispin'}
+	local clearVoice={'single','double','triple','techrash','pentcrash','hexcrash'}
+	local spinSFX={[0]='spin_0','spin_1','spin_2'}
+	local clearSFX={'clear_1','clear_2','clear_3'}
+	local renSFX={}for i=1,11 do renSFX[i]='ren_'..i end
 	local finesseList={
 		{
 			{1,2,1,0,1,2,2,1},
@@ -946,9 +933,9 @@ do--Player.drop(self)--Place piece
 		},--O1
 	}
 	for k,v in next,finesseList do
-		if type(v)=="table"then
+		if type(v)=='table'then
 			for d,l in next,v do
-				if type(l)=="number"then
+				if type(l)=='number'then
 					v[d]=v[l]
 				end
 			end
@@ -1141,15 +1128,15 @@ do--Player.drop(self)--Place piece
 			end
 			if self.sound then
 				if ENV.fineKill then
-					SFX.play("finesseError_long",.6)
+					SFX.play('finesseError_long',.6)
 				elseif ENV.fine then
-					SFX.play("finesseError",.8)
+					SFX.play('finesseError',.8)
 				else
-					SFX.play("lock",nil,self:getCenterX()*.15)
+					SFX.play('lock',nil,self:getCenterX()*.15)
 				end
 			end
 		elseif self.sound then
-			SFX.play("lock",nil,self:getCenterX()*.15)
+			SFX.play('lock',nil,self:getCenterX()*.15)
 		end
 
 		if finePts<=1 then
@@ -1169,35 +1156,35 @@ do--Player.drop(self)--Place piece
 			if dospin then
 				cscore=(spinSCR[C.name]or spinSCR[8])[cc]
 				if self.b2b>800 then
-					self:showText(text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,"stretch")
+					self:showText(text.b3b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,'stretch')
 					atk=b2bATK[cc]+cc*.5
 					exblock=exblock+1
 					cscore=cscore*2
 					Stat.b3b=Stat.b3b+1
 					if self.sound then
-						VOC.play("b3b",CHN)
+						VOC.play('b3b',CHN)
 					end
 				elseif self.b2b>=50 then
-					self:showText(text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,"spin")
+					self:showText(text.b2b..text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,35,'spin')
 					atk=b2bATK[cc]
 					cscore=cscore*1.2
 					Stat.b2b=Stat.b2b+1
 					if self.sound then
-						VOC.play("b2b",CHN)
+						VOC.play('b2b',CHN)
 					end
 				else
-					self:showText(text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,45,"spin")
+					self:showText(text.block[C.name]..text.spin.." "..text.clear[cc],0,-30,45,'spin')
 					atk=2*cc
 				end
 				sendTime=20+atk*20
 				if mini then
-					self:showText(text.mini,0,-80,35,"appear")
+					self:showText(text.mini,0,-80,35,'appear')
 					atk=atk*.25
 					sendTime=sendTime+60
 					cscore=cscore*.5
 					self.b2b=self.b2b+b2bPoint[cc]*.5
 					if self.sound then
-						VOC.play("mini",CHN)
+						VOC.play('mini',CHN)
 					end
 				else
 					self.b2b=self.b2b+b2bPoint[cc]
@@ -1205,32 +1192,32 @@ do--Player.drop(self)--Place piece
 				piece.mini=mini
 				piece.special=true
 				if self.sound then
-					SFX.play(spinSFX[cc]or"spin_3")
+					SFX.play(spinSFX[cc]or'spin_3')
 					VOC.play(spinVoice[C.name],CHN)
 				end
 			elseif cc>=4 then
 				cscore=cc==4 and 1000 or cc==5 and 1500 or 2000
 				if self.b2b>800 then
-					self:showText(text.b3b..text.clear[cc],0,-30,50,"fly")
+					self:showText(text.b3b..text.clear[cc],0,-30,50,'fly')
 					atk=4*cc-10
 					sendTime=100
 					exblock=exblock+1
 					cscore=cscore*1.8
 					Stat.b3b=Stat.b3b+1
 					if self.sound then
-						VOC.play("b3b",CHN)
+						VOC.play('b3b',CHN)
 					end
 				elseif self.b2b>=50 then
-					self:showText(text.b2b..text.clear[cc],0,-30,50,"drive")
+					self:showText(text.b2b..text.clear[cc],0,-30,50,'drive')
 					sendTime=80
 					atk=3*cc-7
 					cscore=cscore*1.3
 					Stat.b2b=Stat.b2b+1
 					if self.sound then
-						VOC.play("b2b",CHN)
+						VOC.play('b2b',CHN)
 					end
 				else
-					self:showText(text.clear[cc],0,-30,70,"stretch")
+					self:showText(text.clear[cc],0,-30,70,'stretch')
 					sendTime=60
 					atk=2*cc-4
 				end
@@ -1249,7 +1236,7 @@ do--Player.drop(self)--Place piece
 				if self.b2b<50 and ENV.b2bKill then
 					finish=true
 				end
-				self:showText(text.clear[cc],0,-30,35,"appear",(8-cc)*.3)
+				self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
 				atk=cc-.5
 				sendTime=20+int(atk*20)
 				cscore=cscore+clearSCR[cc]
@@ -1262,14 +1249,14 @@ do--Player.drop(self)--Place piece
 				if cmb>=3 then
 					atk=atk+1
 				end
-				self:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and"appear"or"flicker")
+				self:showText(text.cmb[min(cmb,21)],0,25,15+min(cmb,15)*5,cmb<10 and'appear'or'flicker')
 				cscore=cscore+min(50*cmb,500)*(2*cc-1)
 			end
 
 			--PC/HPC
 			if clear then
 				if #self.field==0 then
-					self:showText(text.PC,0,-80,50,"flicker")
+					self:showText(text.PC,0,-80,50,'flicker')
 					atk=max(atk,min(8+Stat.pc*2,16))
 					exblock=exblock+2
 					sendTime=sendTime+120
@@ -1281,13 +1268,13 @@ do--Player.drop(self)--Place piece
 					end
 					Stat.pc=Stat.pc+1
 					if self.sound then
-						SFX.play("clear")
-						VOC.play("perfect_clear",CHN)
+						SFX.play('clear')
+						VOC.play('perfect_clear',CHN)
 					end
 					piece.pc=true
 					piece.special=true
 				elseif cc>=#C.bk and(cc>1 or #self.field==self.garbageBeneath)then
-					self:showText(text.HPC,0,-80,50,"fly")
+					self:showText(text.HPC,0,-80,50,'fly')
 					atk=atk+4
 					exblock=exblock+2
 					sendTime=sendTime+60
@@ -1295,8 +1282,8 @@ do--Player.drop(self)--Place piece
 					cscore=cscore+626
 					Stat.hpc=Stat.hpc+1
 					if self.sound then
-						SFX.play("clear")
-						VOC.play("half_clear",CHN)
+						SFX.play('clear')
+						VOC.play('half_clear',CHN)
 					end
 					piece.hpc=true
 					piece.special=true
@@ -1319,11 +1306,11 @@ do--Player.drop(self)--Place piece
 			send=atk
 			if exblock>0 then
 				exblock=int(exblock*(1+self.strength*.25))--Badge Buff
-				self:showText("+"..exblock,0,53,20,"fly")
+				self:showText("+"..exblock,0,53,20,'fly')
 				off=off+self:cancel(exblock)
 			end
 			if send>=1 then
-				self:showText(send,0,80,35,"zoomout")
+				self:showText(send,0,80,35,'zoomout')
 				_=self:cancel(send)
 				send=send-_
 				off=off+_
@@ -1350,14 +1337,14 @@ do--Player.drop(self)--Place piece
 						self:attack(T,send,sendTime,generateLine(self:RND(10)))
 					end
 				end
-				if self.sound and send>3 then SFX.play("emit",min(send,7)*.1)end
+				if self.sound and send>3 then SFX.play('emit',min(send,7)*.1)end
 			end
 
 			--SFX & Vibrate
 			if self.sound then
-				SFX.play(clearSFX[cc]or"clear_4")
+				SFX.play(clearSFX[cc]or'clear_4')
 				SFX.play(renSFX[min(cmb,11)])
-				if cmb>14 then SFX.play("ren_mega",(cmb-10)*.1)end
+				if cmb>14 then SFX.play('ren_mega',(cmb-10)*.1)end
 				VIB(cc+1)
 			end
 		else--No lines clear
@@ -1365,10 +1352,10 @@ do--Player.drop(self)--Place piece
 
 			--Spin bonus
 			if dospin then
-				self:showText(text.block[C.name]..text.spin,0,-30,45,"appear")
+				self:showText(text.block[C.name]..text.spin,0,-30,45,'appear')
 				self.b2b=self.b2b+20
 				if self.sound then
-					SFX.play("spin_0")
+					SFX.play('spin_0')
 					VOC.play(spinVoice[C.name],CHN)
 				end
 				cscore=30
@@ -1401,7 +1388,7 @@ do--Player.drop(self)--Place piece
 				(self.curX+C.sc[2]-5.5)*30,
 				(10-self.curY-C.sc[1])*30+self.fieldBeneath+self.fieldUp,
 				40-600/(cscore+20),
-				"score",
+				'score',
 				2
 			)
 		end
@@ -1434,14 +1421,14 @@ do--Player.drop(self)--Place piece
 			end
 			if success then
 				self.curMission=self.curMission+1
-				SFX.play("reach")
+				SFX.play('reach')
 				if self.curMission>#ENV.mission then
 					self.curMission=false
-					if not finish then finish="finish"end
+					if not finish then finish='finish'end
 				end
 			elseif ENV.missionKill then
-				self:showText(text.missionFailed,0,140,40,"flicker",.5)
-				SFX.play("finesseError_long",.6)
+				self:showText(text.missionFailed,0,140,40,'flicker',.5)
+				SFX.play('finesseError_long',.6)
 				finish=true
 			end
 		end
@@ -1487,7 +1474,7 @@ do--Player.drop(self)--Place piece
 end
 function Player:loadAI(data)--Load AI params
 	if not CC then
-		data.type="9S"
+		data.type='9S'
 		data.delta=int(data.delta*.3)
 	end
 	self.AI_mode=data.type
@@ -1505,13 +1492,13 @@ function Player:loadAI(data)--Load AI params
 		bag=data.bag,
 		node=data.node,
 	}
-	if self.AI_mode=="CC"then
-		self:setRS("SRS")
+	if self.AI_mode=='CC'then
+		self:setRS('SRS')
 		local opt,wei=CC.getConf()
 			CC.fastWeights(wei)
 			CC.setHold(opt,self.AIdata.hold)
 			CC.set20G(opt,self.AIdata._20G)
-			CC.setBag(opt,self.AIdata.bag=="bag")
+			CC.setBag(opt,self.AIdata.bag=='bag')
 			CC.setNode(opt,self.AIdata.node)
 		self.AI_bot=CC.new(opt,wei)
 		CC.free(opt)CC.free(wei)
@@ -1522,7 +1509,7 @@ function Player:loadAI(data)--Load AI params
 			self:setHold(1)
 		end
 	else
-		self:setRS("TRS")
+		self:setRS('TRS')
 	end
 	self.AI_thread=coroutine.wrap(AIFUNC[data.type])
 	self.AI_thread(self,self.AI_keys)
@@ -1552,7 +1539,7 @@ local function tick_throwBadge(ifAI,sender,time)
 			SYSFX.newBadge(x1,y1,x2,y2)
 
 			if not ifAI and time%8==0 then
-				SFX.play("collect")
+				SFX.play('collect')
 			end
 		end
 		if time<=0 then return end
@@ -1604,12 +1591,12 @@ local function tick_lose(self)
 		end
 	end
 end
-function tick_autoPause()
+local function tick_autoPause()
 	local time=0
 	while true do
 		yield()
 		time=time+1
-		if SCN.cur~="game"or PLAYERS[1].frameRun<180 then
+		if SCN.cur~='game'or PLAYERS[1].frameRun<180 then
 			return
 		elseif time==120 then
 			pauseGame()
@@ -1622,7 +1609,7 @@ end
 --------------------------<Events>--------------------------
 local function gameOver()--Save record
 	if GAME.replaying then return end
-	FILE.save(STAT,"conf/data")
+	FILE.save(STAT,'conf/data')
 	local M=GAME.curMode
 	local R=M.getRank
 	if R then
@@ -1652,7 +1639,7 @@ local function gameOver()--Save record
 						end
 					end
 					if needSave then
-						FILE.save(RANKS,"conf/unlock","q")
+						FILE.save(RANKS,'conf/unlock','q')
 					end
 				end
 				local D=M.score(P)
@@ -1666,12 +1653,12 @@ local function gameOver()--Save record
 				end
 				if p<10 then
 					if p==0 then
-						P:showTextF(text.newRecord,0,-100,100,"beat",.5)
+						P:showTextF(text.newRecord,0,-100,100,'beat',.5)
 					end
 					D.date=os.date("%Y/%m/%d %H:%M")
 					ins(L,p+1,D)
 					if L[11]then L[11]=nil end
-					FILE.save(L,"record/"..M.name..".rec","lq")
+					FILE.save(L,('record/%s.rec'):format(M.name),'lq')
 				end
 			end
 		end
@@ -1701,7 +1688,7 @@ function Player:die()--Called both when win/lose!
 			ins(GAME.rep,0)
 		else
 			if self.lastRecv and self.lastRecv.id==1 then
-				SFX.play("collect")
+				SFX.play('collect')
 			end
 		end
 	end
@@ -1709,25 +1696,25 @@ end
 function Player:win(result)
 	if self.result then return end
 	self:die()
-	self.result="WIN"
+	self.result='win'
 	if GAME.modeEnv.royaleMode then
 		self.modeData.place=1
 		self:changeAtk()
 	end
-	if self.type=="human"then
-		GAME.result=result or"win"
-		SFX.play("win")
-		VOC.play("win")
+	if self.type=='human'then
+		GAME.result=result or'win'
+		SFX.play('win')
+		VOC.play('win')
 		if GAME.modeEnv.royaleMode then
-			BGM.play("8-bit happiness")
+			BGM.play('8-bit happiness')
 		end
 	end
-	if GAME.curMode.id=="custom_puzzle"then
-		self:showTextF(text.win,0,0,90,"beat",.4)
+	if GAME.curMode.id=='custom_puzzle'then
+		self:showTextF(text.win,0,0,90,'beat',.4)
 	else
-		self:showTextF(text.win,0,0,90,"beat",.5,.2)
+		self:showTextF(text.win,0,0,90,'beat',.5,.2)
 	end
-	if self.type=="human"then
+	if self.type=='human'then
 		gameOver()
 		TASK.new(tick_autoPause)
 	end
@@ -1735,7 +1722,7 @@ function Player:win(result)
 end
 function Player:lose(force)
 	if self.result then return end
-	if self.type=="remote"and not force then self.waiting=1e99 return end
+	if self.type=='remote'and not force then self.waiting=1e99 return end
 	if self.life>0 and not force then
 		self.waiting=62
 		local h=#self.field
@@ -1746,9 +1733,9 @@ function Player:lose(force)
 		end
 		self.garbageBeneath=0
 
-		if self.AI_mode=="CC"then
+		if self.AI_mode=='CC'then
 			CC.destroy(self.AI_bot)
-			TABLE.clear(self.holdQueue)
+			TABLE.cut(self.holdQueue)
 			self:loadAI(self.AIdata)
 		end
 
@@ -1770,8 +1757,8 @@ function Player:lose(force)
 		SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
 		SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
 		SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(665+12)*self.size,20)
-		SFX.play("clear_3")
-		SFX.play("emit")
+		SFX.play('clear_3')
+		SFX.play('emit')
 
 		return
 	end
@@ -1782,7 +1769,7 @@ function Player:lose(force)
 			break
 		end
 	end
-	self.result="K.O."
+	self.result='lose'
 	if GAME.modeEnv.royaleMode then
 		self:changeAtk()
 		self.modeData.place=#PLY_ALIVE+1
@@ -1805,7 +1792,7 @@ function Player:lose(force)
 				end
 				self.lastRecv=A
 				if self.id==1 or A.id==1 then
-					TASK.new(tick_throwBadge,not A.type=="human",self,max(3,self.badge)*4)
+					TASK.new(tick_throwBadge,not A.type=='human',self,max(3,self.badge)*4)
 				end
 			end
 		else
@@ -1817,16 +1804,16 @@ function Player:lose(force)
 		if #PLY_ALIVE==ROYALEDATA.stage[GAME.stage]then
 			royaleLevelup()
 		end
-		self:showTextF(self.modeData.place,0,120,60,"appear",.26,.9)
+		self:showTextF(self.modeData.place,0,120,60,'appear',.26,.9)
 	end
-	self.gameEnv.keepVisible=self.gameEnv.visible~="show"
-	self:showTextF(text.gameover,0,0,60,"appear",.26,.9)
-	if self.type=="human"then
-		GAME.result="gameover"
-		SFX.play("fail")
-		VOC.play("lose")
+	self.gameEnv.keepVisible=self.gameEnv.visible~='show'
+	self:showTextF(text.gameover,0,0,60,'appear',.26,.9)
+	if self.type=='human'then
+		GAME.result='gameover'
+		SFX.play('fail')
+		VOC.play('lose')
 		if GAME.modeEnv.royaleMode then
-			BGM.play("end")
+			BGM.play('end')
 		end
 		gameOver()
 		self:newTask(#PLAYERS>1 and tick_lose or tick_finish)
@@ -1858,11 +1845,11 @@ function Player:act_moveLeft(auto)
 	elseif self.control and self.waiting==-1 then
 		if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
 			if self.gameEnv.moveFX and self.gameEnv.block then
-				self:createMoveFX("left")
+				self:createMoveFX('left')
 			end
 			self.curX=self.curX-1
-			self:freshBlock("move")
-			if self.sound and self.curY==self.ghoY then SFX.play("move")end
+			self:freshBlock('move')
+			if self.sound and self.curY==self.ghoY then SFX.play('move')end
 			if not auto then self.moving=0 end
 			self.spinLast=false
 		else
@@ -1885,11 +1872,11 @@ function Player:act_moveRight(auto)
 	elseif self.control and self.waiting==-1 then
 		if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
 			if self.gameEnv.moveFX and self.gameEnv.block then
-				self:createMoveFX("right")
+				self:createMoveFX('right')
 			end
 			self.curX=self.curX+1
-			self:freshBlock("move")
-			if self.sound and self.curY==self.ghoY then SFX.play("move")end
+			self:freshBlock('move')
+			if self.sound and self.curY==self.ghoY then SFX.play('move')end
 			if not auto then self.moving=0 end
 			self.spinLast=false
 		else
@@ -1935,7 +1922,7 @@ function Player:act_hardDrop()
 			self.curY=self.ghoY
 			self.spinLast=false
 			if self.sound then
-				SFX.play("drop",nil,self:getCenterX()*.15)
+				SFX.play('drop',nil,self:getCenterX()*.15)
 				VIB(1)
 			end
 		end
@@ -1959,7 +1946,7 @@ function Player:act_softDrop()
 		if self.control and self.waiting==-1 and self.cur then
 			if self.curY>self.ghoY then
 				self.curY=self.curY-1
-				self:freshBlock("fresh")
+				self:freshBlock('fresh')
 				self.spinLast=false
 			elseif ENV.deepDrop then
 				local CB=self.cur.bk
@@ -1972,8 +1959,8 @@ function Player:act_softDrop()
 						self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-y-#CB+1)
 					end
 					self.curY=y
-					self:freshBlock("move")
-					SFX.play("swipe")
+					self:freshBlock('move')
+					SFX.play('swipe')
 				end
 			end
 		end
@@ -1996,10 +1983,10 @@ function Player:act_insLeft(auto)
 	local x0=self.curX
 	while not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)do
 		if self.gameEnv.moveFX and self.gameEnv.block then
-			self:createMoveFX("left")
+			self:createMoveFX('left')
 		end
 		self.curX=self.curX-1
-		self:freshBlock("move")
+		self:freshBlock('move')
 	end
 	if self.curX~=x0 then
 		self.spinLast=false
@@ -2018,10 +2005,10 @@ function Player:act_insRight(auto)
 	local x0=self.curX
 	while not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)do
 		if self.gameEnv.moveFX and self.gameEnv.block then
-			self:createMoveFX("right")
+			self:createMoveFX('right')
 		end
 		self.curX=self.curX+1
-		self:freshBlock("move")
+		self:freshBlock('move')
 	end
 	if self.curX~=x0 then
 		self.spinLast=false
@@ -2048,16 +2035,16 @@ function Player:act_insDown()
 		self.curY=self.ghoY
 		self.lockDelay=ENV.lock
 		self.spinLast=false
-		self:freshBlock("fresh")
+		self:freshBlock('fresh')
 	end
 end
 function Player:act_down1()
 	if self.cur and self.curY>self.ghoY then
 		if self.gameEnv.moveFX and self.gameEnv.block then
-			self:createMoveFX("down")
+			self:createMoveFX('down')
 		end
 		self.curY=self.curY-1
-		self:freshBlock("fresh")
+		self:freshBlock('fresh')
 		self.spinLast=false
 	end
 end
@@ -2069,7 +2056,7 @@ function Player:act_down4()
 			self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-y-#CB+1)
 		end
 		self.curY=y
-		self:freshBlock("fresh")
+		self:freshBlock('fresh')
 		self.spinLast=false
 	end
 end
@@ -2081,7 +2068,7 @@ function Player:act_down10()
 			self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-y-#CB+1)
 		end
 		self.curY=y
-		self:freshBlock("fresh")
+		self:freshBlock('fresh')
 		self.spinLast=false
 	end
 end

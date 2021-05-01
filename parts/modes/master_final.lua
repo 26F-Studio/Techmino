@@ -11,19 +11,19 @@ local function score(P)
 	D.pt=D.pt+s
 
 	if D.pt%100==99 then
-		SFX.play("blip_1")
+		SFX.play('blip_1')
 	elseif D.pt>=D.target then--Level up!
 		s=D.target/100
 		local E=P.gameEnv
 		if s<4 then
-			P:showTextF(text.stage:gsub("$1",s),0,-120,80,"fly")
+			P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
 			--First 300
 			if s~=1 then E.lock=E.lock-1 end
 			if s~=2 then E.wait=E.wait-1 end
 			if s~=3 then E.fall=E.fall-1 end
 			D.target=D.target+100
 		elseif s<10 then
-			P:showTextF(text.stage:gsub("$1",s),0,-120,60,"fly",1.26)
+			P:showTextF(text.stage:gsub("$1",s),0,-120,60,'fly',1.26)
 			if s==4 or s==7 then E.das=E.das-1 end
 			s=s%3
 			if s==0 then E.lock=E.lock-1
@@ -33,9 +33,9 @@ local function score(P)
 			D.target=D.target+100
 		else
 			D.pt=1000
-			P:win("finish")
+			P:win('finish')
 		end
-		SFX.play("reach")
+		SFX.play('reach')
 	end
 end
 
@@ -53,7 +53,7 @@ return{
 		end,
 		freshLimit=15,
 		easyFresh=false,bone=true,
-		bg="lightning",bgm="distortion",
+		bg='lightning',bgm='distortion',
 	},
 	slowMark=true,
 	load=function()
@@ -63,7 +63,7 @@ return{
 		setFont(45)
 		mStr(P.modeData.pt,69,320)
 		mStr(P.modeData.target,69,370)
-		gc.rectangle("fill",25,375,90,4)
+		gc.rectangle('fill',25,375,90,4)
 	end,
 	score=function(P)return{P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,

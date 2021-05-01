@@ -19,7 +19,7 @@ return{
 		drop=0,lock=15,
 		wait=15,fall=6,
 		nextCount=3,
-		visible="fast",
+		visible='fast',
 		freshLimit=15,
 		dropPiece=score,
 		task=function(P)
@@ -30,12 +30,12 @@ return{
 				if P.stat.frame>=3600 then
 					P.modeData.rankScore=math.min(P.modeData.rankScore+16,140)
 					P.modeData.rankName=sectionName[math.floor(P.modeData.rankScore*.1)+1]
-					P:win("finish")
+					P:win('finish')
 					return
 				end
 			end
 		end,
-		bg="tunnel",bgm="far",
+		bg='blockspace',bgm='hope',
 	},
 	slowMark=true,
 	load=function()

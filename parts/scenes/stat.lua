@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local abs,int,sin=math.abs,math.floor,math.sin
-local format=string.format
 local mStr=mStr
 
 local scene={}
@@ -34,10 +33,10 @@ function scene.sceneInit()
 		S.piece.."  "..S.row.."  "..int(S.atk),
 		S.recv.."  "..S.off.."  "..S.pend,
 		S.dig.."  "..int(S.digatk),
-		format("%.2f  %.2f",S.atk/S.row,S.digatk/S.dig),
+		("%.2f  %.2f"):format(S.atk/S.row,S.digatk/S.dig),
 		S.b2b.."  "..S.b3b,
 		S.pc.."  "..S.hpc,
-		format("%d/%.2f%%",S.extraPiece,S.finesseRate*20/S.piece),
+		("%d/%.2f%%"):format(S.extraPiece,S.finesseRate*20/S.piece),
 	}
 	for i=1,11 do
 		item[i]=text.stat[i].."\t"..item[i]

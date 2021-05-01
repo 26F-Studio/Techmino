@@ -6,7 +6,7 @@ local noKickSet,noKickSet_180,pushZero do
 	noKickSet_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 	function pushZero(t)
 		for _,L in next,t do
-			if type(L)=="table"then
+			if type(L)=='table'then
 				for _,v in next,L do
 					if not v[1]or v[1][1]~=0 or v[1][2]~=0 then
 						table.insert(v,1,map[0][0])
@@ -26,9 +26,9 @@ end
 
 --Make all vec point to the same vec
 local function collectSet(set)
-	if type(set)~="table"then return end
+	if type(set)~='table'then return end
 	for _,list in next,set do
-		if type(list[1])=="string"then
+		if type(list[1])=='string'then
 			vecStrConv(list)
 		end
 	end
@@ -52,20 +52,20 @@ local function flipList(O)
 end
 
 local function reflect(a)
-	local b={}
-	b[03]=flipList(a[01])
-	b[01]=flipList(a[03])
-	b[30]=flipList(a[10])
-	b[32]=flipList(a[12])
-	b[23]=flipList(a[21])
-	b[21]=flipList(a[23])
-	b[10]=flipList(a[30])
-	b[12]=flipList(a[32])
-	b[02]=flipList(a[02])
-	b[20]=flipList(a[20])
-	b[31]=flipList(a[13])
-	b[13]=flipList(a[31])
-	return b
+	return{
+		[03]=flipList(a[01]),
+		[01]=flipList(a[03]),
+		[30]=flipList(a[10]),
+		[32]=flipList(a[12]),
+		[23]=flipList(a[21]),
+		[21]=flipList(a[23]),
+		[10]=flipList(a[30]),
+		[12]=flipList(a[32]),
+		[02]=flipList(a[02]),
+		[20]=flipList(a[20]),
+		[31]=flipList(a[13]),
+		[13]=flipList(a[31]),
+	}
 end
 
 local TRS
@@ -75,12 +75,15 @@ do
 		{333,5,2,-1,-1,0},{333,5,2, 0,-1,0},{333,5,0, 0, 0,0},--T
 		{313,1,2,-1, 0,0},{313,1,2, 0,-1,0},{313,1,2, 0, 0,0},--Z
 		{131,2,2, 0, 0,0},{131,2,2,-1,-1,0},{131,2,2,-1, 0,0},--S
-		{331,3,2, 0,-1,0},{113,3,0, 0, 0,0},{113,3,2,-1, 0,0},--J
-		{113,4,2,-1,-1,0},{331,4,0,-1, 0,0},{331,4,2, 0, 0,0},--L
-		{222,7,2,-1, 0,1},{222,7,2,-2, 0,1},{222,7,2, 0, 0,1},--I
+		{331,3,2, 0,-1,0},--J(farDown)
+		{113,4,2,-1,-1,0},--L(farDown)
+		{113,3,2,-1,-1,0},{113,3,0, 0, 0,0},--J
+		{331,4,2, 0,-1,0},{331,4,0,-1, 0,0},--L
+		{222,7,2,-1, 0,2},{222,7,2,-2, 0,2},{222,7,2, 0, 0,2},--I
+		{222,7,0,-1, 1,1},{222,7,0,-2, 1,1},{222,7,0, 0, 1,1},--I(high)
 		{121,6,0, 1,-1,2},{112,6,0, 2,-1,2},{122,6,0, 1,-2,2},--O
 		{323,6,0,-1,-1,2},{332,6,0,-2,-1,2},{322,6,0,-1,-2,2},--O
-	}--{keys, ID, dir, dx, dy, freeLevel (0=immovable,1=L+R immovable,2=free)}
+	}--{keys, ID, dir, dx, dy, freeLevel (0=immovable, 1=U/D-immovable, 2=free)}
 	local XspinList={
 		{{ 1,-1},{ 1, 0},{ 1, 1},{ 1,-2},{ 1, 2}},
 		{{ 0,-1},{ 0,-2},{ 0, 1},{ 0,-2},{ 0, 2}},
@@ -133,12 +136,12 @@ do
 		},--T
 		function(P,d)
 			if P.gameEnv.easyFresh then
-				P:freshBlock("fresh")
+				P:freshBlock('fresh')
 			end
 			if P.gameEnv.ospin then
 				local x,y=P.curX,P.curY
 				if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
-					if P.sound then SFX.play("rotatekick",nil,P:getCenterX()*.15)end
+					if P.sound then SFX.play('rotatekick',nil,P:getCenterX()*.15)end
 					P.spinSeq=P.spinSeq%100*10+d
 					if P.spinSeq<100 then return end
 					for i=1,#OspinList do
@@ -147,7 +150,13 @@ do
 							local id,dir=L[2],L[3]
 							local bk=BLOCKS[id][dir]
 							x,y=P.curX+L[4],P.curY+L[5]
-							if not P:ifoverlap(bk,x,y)and(L[6]>0 or P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))and(L[6]==2 or P:ifoverlap(bk,x,y-1))and P:ifoverlap(bk,x,y+1)then
+							if
+								not P:ifoverlap(bk,x,y)and(
+									L[6]>0 or(P:ifoverlap(bk,x-1,y)and P:ifoverlap(bk,x+1,y))
+								)and(
+									L[6]==2 or(P:ifoverlap(bk,x,y-1)and P:ifoverlap(bk,x,y+1))
+								)
+							then
 								local C=P.cur
 								C.id=id
 								C.bk=bk
@@ -155,18 +164,18 @@ do
 								P.cur.dir,P.cur.sc=dir,SCS[id][dir]
 								P.spinLast=2
 								P.stat.rotate=P.stat.rotate+1
-								P:freshBlock("move")
+								P:freshBlock('move')
 								P.spinSeq=0
 								return
 							end
 						end
 					end
 				else
-					if P.sound then SFX.play("rotate",nil,P:getCenterX()*.15)end
+					if P.sound then SFX.play('rotate',nil,P:getCenterX()*.15)end
 					P.spinSeq=0
 				end
 			else
-				if P.sound then SFX.play("rotate",nil,P:getCenterX()*.15)end
+				if P.sound then SFX.play('rotate',nil,P:getCenterX()*.15)end
 			end
 		end,--O
 		{
@@ -277,19 +286,19 @@ do
 			[31]={"+0-1","+1+0"},
 		},--W
 		function(P,d)
-			if P.type=="human"then SFX.play("rotate",nil,P:getCenterX()*.15)end
+			if P.type=='human'then SFX.play('rotate',nil,P:getCenterX()*.15)end
 			local kickData=XspinList[d]
 			for test=1,#kickData do
 				local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
 				if not P:ifoverlap(P.cur.bk,x,y)then
 					P.curX,P.curY=x,y
 					P.spinLast=1
-					P:freshBlock("move")
+					P:freshBlock('move')
 					P.stat.rotate=P.stat.rotate+1
 					return
 				end
 			end
-			P:freshBlock("fresh")
+			P:freshBlock('fresh')
 		end,--X
 		{
 			[01]={"-1+0","-1+1","+0-3","-1+1","-1+2","+0+1"},

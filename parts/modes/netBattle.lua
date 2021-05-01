@@ -5,8 +5,8 @@ return{
 		freshLimit=15,
 		pushSpeed=5,
 		garbageSpeed=2,
-		noMod=true,
-		bgm={"race","battle","push","secret8th","secret7th","waterfall","oxygen","shining terminal","storm","rockblock","magicblock","cruelty"},
+		allowMod=false,
+		bgm={'battle','cruelty','distortion','far','final','hope','magicblock','new era','push','race','rockblock','secret7th','secret8th','shining terminal','storm','super7th','warped','waterfall'},
 	},
 	load=function()
 		PLY.newPlayer(1)

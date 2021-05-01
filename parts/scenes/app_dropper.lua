@@ -31,9 +31,9 @@ end
 
 function scene.sceneInit()
 	restart()
-	state="menu"
-	BGM.play("hang out")
-	BG.set("space")
+	state='menu'
+	BGM.play('hang out')
+	BG.set('space')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -42,7 +42,7 @@ end
 
 function scene.keyDown(key)
 	if key=="space"or key=="return"then
-		if state=="move"then
+		if state=='move'then
 			if floor>0 then
 				if move.x<base.x then
 					move.x=move.x+10
@@ -50,15 +50,15 @@ function scene.keyDown(key)
 					move.x=move.x-10
 				end
 			end
-			SFX.play("swipe")
-			state="drop"
-		elseif state=="dead"then
+			SFX.play('swipe')
+			state='drop'
+		elseif state=='dead'then
 			move.x,move.y,move.l=1e99,0,0
 			base.x,base.y,base.l=1e99,0,0
-			state="scroll"
-		elseif state=="menu"then
+			state='scroll'
+		elseif state=='menu'then
 			restart()
-			state="move"
+			state='move'
 		end
 	elseif key=="escape"then
 		SCN.back()
@@ -74,39 +74,39 @@ function scene.touchDown()
 end
 
 function scene.update()
-	if state=="move"then
+	if state=='move'then
 		move.x=move.x+speed
 		if speed<0 and move.x<=0 or speed>0 and move.x+move.l>=1280 then
-			SFX.play("lock")
+			SFX.play('lock')
 			speed=-speed
 		end
-	elseif state=="drop"then
+	elseif state=='drop'then
 		move.y=move.y+18
 		if move.y>=660 then
 			if move.x>base.x+base.l or move.x+move.l<base.x then
 				message=miss[rnd(1,4)]
-				state="die"
+				state='die'
 			else
 				move.y=660
-				SFX.play("clear_1")
+				SFX.play('clear_1')
 				if floor>0 and move.x==base.x then
-					SFX.play("ren_mega")
+					SFX.play('ren_mega')
 				end
-				state="shorten"
+				state='shorten'
 			end
 		end
-	elseif state=="shorten"then
+	elseif state=='shorten'then
 		if move.x>base.x+base.l or move.x+move.l<base.x then
-			state="die"
+			state='die'
 		elseif move.x<base.x then
 			move.x=move.x+5
 			move.l=move.l-5
 		elseif move.x+move.l>base.x+base.l then
 			move.l=move.l-5
 		else
-			state="climb"
+			state='climb'
 		end
-	elseif state=="climb"then
+	elseif state=='climb'then
 		if base.y<720 then
 			move.y=move.y+3
 			base.y=base.y+3
@@ -135,22 +135,22 @@ function scene.update()
 				speed=-10
 			end
 			move.y=rnd(max(260-floor*4,60),max(420-floor*5,100))
-			state="move"
+			state='move'
 		end
-	elseif state=="die"then
+	elseif state=='die'then
 		move.y=move.y+18
 		if move.y>1000 then
 			highScore=max(score,highScore)
 			highFloor=max(floor,floor)
-			state="dead"
+			state='dead'
 		end
-	elseif state=="scroll"then
+	elseif state=='scroll'then
 		camY=camY-floor/4
 		if camY<1000 then camY=camY-1 end
 		if camY<500 then camY=camY-1 end
 		if camY<0 then
 			restart()
-			state="move"
+			state='move'
 		end
 	end
 end
@@ -175,15 +175,15 @@ function scene.draw()
 	--Background
 	local lv,height=int(camY/700),camY%700
 	gc.setColor(backColor[lv+1]or COLOR.D)
-	gc.rectangle("fill",0,720,1280,height-700)
+	gc.rectangle('fill',0,720,1280,height-700)
 	gc.setColor(backColor[lv+2]or COLOR.D)
-	gc.rectangle("fill",0,height+20,1280,-height-20)
+	gc.rectangle('fill',0,height+20,1280,-height-20)
 	if height-680>0 then
 		gc.setColor(backColor[lv+3]or COLOR.D)
-		gc.rectangle("fill",0,height-680,1280,680-height)
+		gc.rectangle('fill',0,height-680,1280,680-height)
 	end
 
-	if state=="menu"or state=="dead"then
+	if state=='menu'or state=='dead'then
 		setFont(100)
 		gc.setColor(COLOR.rainbow_light(TIME()*2.6))
 		mStr("DROPPER",640,120)
@@ -201,7 +201,7 @@ function scene.draw()
 		gc.print("Original CX-CAS version by MrZ",740,235)
 		gc.print("Ported / Rewritten / Balanced by MrZ",740,260)
 	end
-	if state~="menu"then
+	if state~='menu'then
 		--High floor
 		gc.setColor(1,1,1)
 		gc.setLineWidth(2)
@@ -209,8 +209,8 @@ function scene.draw()
 		gc.line(0,y,1280,y)
 
 		gc.setLineWidth(6)
-		gc.rectangle("line",move.x-3,move.y-3,move.l+6,36)
-		gc.rectangle("line",base.x-3,base.y-3,base.l+6,36)
+		gc.rectangle('line',move.x-3,move.y-3,move.l+6,36)
+		gc.rectangle('line',base.x-3,base.y-3,base.l+6,36)
 
 		setFont(45)
 		gc.print(floor+1,move.x+move.l+15,move.y-18)
@@ -227,8 +227,8 @@ function scene.draw()
 		gc.setColor(0,0,0)
 		gc.print(score,64,43)
 
-		gc.setColor(color1)gc.rectangle("fill",move.x,move.y,move.l,30)
-		gc.setColor(color2)gc.rectangle("fill",base.x,base.y,base.l,30)
+		gc.setColor(color1)gc.rectangle('fill',move.x,move.y,move.l,30)
+		gc.setColor(color2)gc.rectangle('fill',base.x,base.y,base.l,30)
 	end
 end
 

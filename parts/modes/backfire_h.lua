@@ -8,10 +8,10 @@ return{
 				P:receive(nil,P.lastPiece.atk,60,generateLine(P:RND(10)))
 			end
 			if P.stat.atk>=100 then
-				P:win("finish")
+				P:win('finish')
 			end
 		end,
-		bg="tunnel",bgm="echo",
+		bg='tunnel',bgm='echo',
 	},
 	pauseLimit=true,
 	load=function()

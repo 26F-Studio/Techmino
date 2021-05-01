@@ -4,6 +4,8 @@ local WS,TIME=WS,TIME
 local NET={
 	connected=false,
 	allow_online=false,
+	allReady=false,
+	serverGaming=false,
 	roomList={},
 	accessToken=false,
 	rid=false,
@@ -56,7 +58,7 @@ local function _parse(res)
 					)or
 					"[NO Message]"
 				),
-			"warn")
+			'warn')
 		end
 	end
 end
@@ -65,60 +67,65 @@ end
 local function wsCloseMessage(message)
 	local mes=JSON.decode(message)
 	if mes then
-		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),"warn")
+		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),'warn')
 	else
-		LOG.print(text.wsClose.."","warn")
+		LOG.print(text.wsClose.."",'warn')
 	end
 end
 
 --Connect
 function NET.wsconn_app()
-	WS.connect("app","/app")
+	WS.connect('app','/app')
 end
 function NET.wsconn_user_pswd(email,password)
-	if NET.lock("wsc_user",5)then
-		WS.connect("user","/user",JSON.encode{
+	if NET.lock('wsc_user',5)then
+		WS.connect('user','/user',JSON.encode{
 			email=email,
 			password=password,
 		})
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
-	if NET.lock("wsc_user",5)then
-		WS.connect("user","/user",JSON.encode{
+	if NET.lock('wsc_user',5)then
+		WS.connect('user','/user',JSON.encode{
 			uid=uid,
 			authToken=authToken,
 		})
 	end
 end
 function NET.wsconn_play()
-	if NET.lock("wsc_play",5)then
-		WS.connect("play","/play",JSON.encode{
+	if NET.lock('wsc_play',5)then
+		WS.connect('play','/play',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
 		})
 	end
 end
 function NET.wsconn_stream()
-	if NET.lock("wsc_stream",5)then
-		WS.connect("stream","/stream",JSON.encode{
+	if NET.lock('wsc_stream',5)then
+		NET.serverGaming=true
+		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
 			rid=NET.rsid,
 		})
+		TASK.new(NET.updateWS_stream)
 	end
 end
 
 --Disconnect
-function NET.wsclose_app()WS.close("app")end
-function NET.wsclose_user()WS.close("user")end
-function NET.wsclose_play()WS.close("play")end
-function NET.wsclose_stream()WS.close("stream")end
+function NET.wsclose_app()WS.close('app')end
+function NET.wsclose_user()WS.close('user')end
+function NET.wsclose_play()WS.close('play')end
+function NET.wsclose_stream()
+	NET.serverGaming=false
+	WS.close('stream')
+end
 
 --Account & User
 function NET.register(username,email,password)
-	if NET.lock("register")then
-		WS.send("app",JSON.encode{
+	if NET.lock('register')then
+		WS.send('app',JSON.encode{
 			action=2,
 			data={
 				username=username,
@@ -129,16 +136,16 @@ function NET.register(username,email,password)
 	end
 end
 function NET.pong(wsName,message)
-	WS.send(wsName,type(message)=="string"and message or"","pong")
+	WS.send(wsName,type(message)=='string'and message or"",'pong')
 end
 function NET.getAccessToken()
-	if NET.lock("access_and_login",10)then
-		WS.send("user",JSON.encode{action=0})
+	if NET.lock('access_and_login',10)then
+		WS.send('user',JSON.encode{action=0})
 	end
 end
 function NET.getUserInfo(uid)
-	local hash=not SETTING.dataSaving and USERS.getHash(uid)
-	WS.send("user",JSON.encode{
+	local hash=(not SETTING.dataSaving or nil)and USERS.getHash(uid)
+	WS.send('user',JSON.encode{
 		action=1,
 		data={
 			uid=uid,
@@ -149,8 +156,8 @@ end
 
 --Room
 function NET.fetchRoom()
-	if NET.lock("fetchRoom",3)then
-		WS.send("play",JSON.encode{
+	if NET.lock('fetchRoom',3)then
+		WS.send('play',JSON.encode{
 			action=0,
 			data={
 				type=nil,
@@ -161,8 +168,8 @@ function NET.fetchRoom()
 	end
 end
 function NET.createRoom(roomType,name)
-	if NET.lock("enterRoom",1.26)then
-		WS.send("play",JSON.encode{
+	if NET.lock('enterRoom',1.26)then
+		WS.send('play',JSON.encode{
 			action=1,
 			data={
 				type=roomType,
@@ -174,9 +181,10 @@ function NET.createRoom(roomType,name)
 	end
 end
 function NET.enterRoom(roomID,password)
-	if NET.lock("enterRoom",1.26)then
+	if NET.lock('enterRoom',1.26)then
+		SFX.play('reach',.6)
 		NET.rid=roomID
-		WS.send("play",JSON.encode{
+		WS.send('play',JSON.encode{
 			action=2,
 			data={
 				rid=roomID,
@@ -189,50 +197,56 @@ end
 
 --Play
 function NET.checkPlayDisconn()
-	return WS.status("play")~="running"
-end
-function NET.signal_ready(ready)
-	if NET.lock("ready",3)then
-		WS.send("play",'{"action":6,"data":{"ready":'..tostring(ready)..'}}')
-	end
+	return WS.status('play')~='running'
 end
 function NET.signal_quit()
-	if NET.lock("quit",3)then
-		WS.send("play",'{"action":3}')
+	if NET.lock('quit',3)then
+		WS.send('play','{"action":3}')
+	end
+end
+function NET.sendMessage(mes)
+	WS.send('play','{"action":4,"data":{"message":'..mes..'}}')
+end
+function NET.changeConfig()
+	WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
+end
+function NET.signal_ready(ready)
+	if NET.lock('ready',3)and not NET.serverGaming then
+		WS.send('play','{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
 function NET.signal_die()
-	WS.send("stream",'{"action":4,"data":{"score":0,"survivalTime":0}}')
+	WS.send('stream','{"action":4,"data":{"score":0,"survivalTime":0}}')
 end
 function NET.uploadRecStream(stream)
-	WS.send("stream",'{"action":5,"data":{"stream":"'..data.encode("string","base64",stream)..'"}}')
+	WS.send('stream','{"action":5,"data":{"stream":"'..data.encode('string','base64',stream)..'"}}')
 end
 
 --Chat
 function NET.sendChatMes(mes)
-	WS.send("chat","T"..data.encode("string","base64",mes))
+	WS.send('chat',"T"..data.encode('string','base64',mes))
 end
 function NET.quitChat()
-	WS.send("chat","Q")
+	WS.send('chat','q')
 end
 
 --WS tick funcs
 function NET.updateWS_app()
 	while true do
 		YIELD()
-		if WS.status("app")=="running"then
-			local message,op=WS.read("app")
+		if WS.status('app')=='running'then
+			local message,op=WS.read('app')
 			if message then
-				if op=="ping"then
-					NET.pong("app",message)
-				elseif op=="pong"then
-				elseif op=="close"then
+				if op=='ping'then
+					NET.pong('app',message)
+				elseif op=='pong'then
+				elseif op=='close'then
 					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
 					if res then
-						if res.type=="Connect"then
+						if res.type=='Connect'then
 							NET.connected=true
 							if VERSION.code>=res.lowest then
 								NET.allow_online=true
@@ -249,18 +263,18 @@ function NET.updateWS_app()
 						elseif res.action==1 then--Get notice
 							--?
 						elseif res.action==2 then--Register
-							if res.type=="Self"or res.type=="Server"then
+							if res.type=='Self'or res.type=='Server'then
 								LOG.print(res.data.message,300,COLOR.N)
-								if SCN.cur=="register"then
+								if SCN.cur=='register'then
 									SCN.back()
 								end
 							else
 								LOG.print(res.reason or"Registration failed",300,COLOR.N)
 							end
-							NET.unlock("register")
+							NET.unlock('register')
 						end
 					else
-						WS.alert("app")
+						WS.alert('app')
 					end
 				end
 			end
@@ -270,30 +284,30 @@ end
 function NET.updateWS_user()
 	while true do
 		YIELD()
-		if WS.status("user")=="running"then
-			local message,op=WS.read("user")
+		if WS.status('user')=='running'then
+			local message,op=WS.read('user')
 			if message then
-				if op=="ping"then
-					NET.pong("user",message)
-				elseif op=="pong"then
-				elseif op=="close"then
+				if op=='ping'then
+					NET.pong('user',message)
+				elseif op=='pong'then
+				elseif op=='close'then
 					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
 					if res then
-						if res.type=="Connect"then
+						if res.type=='Connect'then
 							if res.uid then
 								USER.uid=res.uid
 								USER.authToken=res.authToken
-								FILE.save(USER,"conf/user","q")
-								if SCN.cur=="login"then SCN.back()end
+								FILE.save(USER,'conf/user','q')
+								if SCN.cur=='login'then SCN.back()end
 							end
 							LOG.print(text.loginSuccessed)
 
 							--Get self infos
 							NET.getUserInfo(USER.uid)
-							NET.unlock("wsc_user")
+							NET.unlock('wsc_user')
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed)
@@ -302,7 +316,7 @@ function NET.updateWS_user()
 							USERS.updateUserData(res.data)
 						end
 					else
-						WS.alert("user")
+						WS.alert('user')
 					end
 				end
 			end
@@ -312,32 +326,32 @@ end
 function NET.updateWS_play()
 	while true do
 		YIELD()
-		if WS.status("play")=="running"then
-			local message,op=WS.read("play")
+		if WS.status('play')=='running'then
+			local message,op=WS.read('play')
 			if message then
-				if op=="ping"then
-					NET.pong("play",message)
-				elseif op=="pong"then
-				elseif op=="close"then
+				if op=='ping'then
+					NET.pong('play',message)
+				elseif op=='pong'then
+				elseif op=='close'then
 					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
 					if res then
 						local d=res.data
-						if res.type=="Connect"then
-							SCN.go("net_menu")
-							NET.unlock("wsc_play")
-							NET.unlock("access_and_login")
+						if res.type=='Connect'then
+							SCN.go('net_menu')
+							NET.unlock('wsc_play')
+							NET.unlock('access_and_login')
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
-							NET.unlock("fetchRoom")
+							NET.unlock('fetchRoom')
 						elseif res.action==1 then--Create room (not used)
 							--?
 						elseif res.action==2 then--Player join
-							if res.type=="Self"then
-								--Create room
-								TABLE.clear(PLY_NET)
+							if res.type=='Self'then
+								--Enter new room
+								TABLE.cut(PLY_NET)
 								if d.players then
 									for _,p in next,d.players do
 										ins(PLY_NET,p.uid==USER.uid and 1 or #PLY_NET+1,{
@@ -349,7 +363,7 @@ function NET.updateWS_play()
 										})
 									end
 								end
-								loadGame("netBattle",true,true)
+								loadGame('netBattle',true,true)
 							else
 								--Load other players
 								ins(PLY_NET,{
@@ -359,13 +373,13 @@ function NET.updateWS_play()
 									ready=d.ready,
 									config=d.config,
 								})
-								if SCN.socketRead then SCN.socketRead("Join",d)end
+								if SCN.socketRead then SCN.socketRead('Join',d)end
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
 								NET.wsclose_stream()
 								SCN.back()
-								NET.unlock("quit")
+								NET.unlock('quit')
 							else
 								for i=1,#PLY_NET do
 									if PLY_NET[i].sid==d.sid then
@@ -385,54 +399,54 @@ function NET.updateWS_play()
 										break
 									end
 								end
-								if SCN.socketRead then SCN.socketRead("Leave",d)end
+								if SCN.socketRead then SCN.socketRead('Leave',d)end
 							end
 						elseif res.action==4 then--Player talk
-							if SCN.socketRead then SCN.socketRead("Talk",d)end
+							if SCN.socketRead then SCN.socketRead('Talk',d)end
 						elseif res.action==5 then--Player change settings
 							if tostring(USER.uid)~=d.uid then
 								for i=1,#PLY_NET do
 									if PLY_NET[i].uid==d.uid then
 										PLY_NET[i].config=d.config
-										PLY_NET[i].p:setConf(d.config)
-										return
+										break
 									end
 								end
-								resetGameData("qn")
 							end
 						elseif res.action==6 then--One ready
 							for i,p in next,PLY_NET do
 								if p.uid==d.uid then
 									if p.ready~=d.ready then
 										p.ready=d.ready
-										SFX.play("spin_0",.6)
+										if not d.ready then NET.allReady=false end
+										SFX.play('spin_0',.6)
 										if i==1 then
-											NET.unlock("ready")
+											NET.unlock('ready')
 										elseif not PLY_NET[1].ready then
 											for j=2,#PLY_NET do
 												if not PLY_NET[j].ready then
-													break
-												elseif j==#PLY_NET then
-													SFX.play("blip_2",.5)
+													goto BREAK_notAllReady
 												end
 											end
+											SFX.play('blip_2',.5)
+											::BREAK_notAllReady::
 										end
 									end
 									break
 								end
 							end
-						elseif res.action==7 then--Ready
-							SFX.play("reach",.6)
+						elseif res.action==7 then--All Ready
+							SFX.play('reach',.6)
+							NET.allReady=true
 						elseif res.action==8 then--Set
 							NET.rsid=d.rid
 							NET.wsconn_stream()
-							TASK.new(NET.updateWS_stream)
 						elseif res.action==9 then--Game finished
+							NET.allReady=false
 							NET.wsclose_stream()
-							if SCN.socketRead then SCN.socketRead("Finish",d)end
+							if SCN.socketRead then SCN.socketRead('Finish',d)end
 						end
 					else
-						WS.alert("play")
+						WS.alert('play')
 					end
 				end
 			end
@@ -442,23 +456,23 @@ end
 function NET.updateWS_stream()
 	while true do
 		YIELD()
-		if WS.status("stream")=="running"then
-			local message,op=WS.read("stream")
+		if WS.status('stream')=='running'then
+			local message,op=WS.read('stream')
 			if message then
-				if op=="ping"then
-					NET.pong("stream",message)
-				elseif op=="pong"then
-				elseif op=="close"then
+				if op=='ping'then
+					NET.pong('stream',message)
+				elseif op=='pong'then
+				elseif op=='close'then
 					wsCloseMessage(message)
 					return
 				else
 					local res=_parse(message)
 					if res then
 						local d=res.data
-						if res.type=="Connect"then
-							NET.unlock("wsc_stream")
+						if res.type=='Connect'then
+							NET.unlock('wsc_stream')
 						elseif res.action==0 then--Game start
-							SCN.socketRead("Go",d)
+							SCN.socketRead('Go',d)
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
@@ -473,10 +487,10 @@ function NET.updateWS_stream()
 								end
 							end
 						elseif res.action==5 then--Receive stream
-							SCN.socketRead("Stream",d)
+							SCN.socketRead('Stream',d)
 						end
 					else
-						WS.alert("stream")
+						WS.alert('stream')
 					end
 				end
 			end
@@ -486,13 +500,13 @@ end
 function NET.updateWS_chat()
 	while true do
 		YIELD()
-		if WS.status("chat")=="running"then
-			local message,op=WS.read("chat")
+		if WS.status('chat')=='running'then
+			local message,op=WS.read('chat')
 			if message then
-				if op=="ping"then
-					NET.pong("chat",message)
-				elseif op=="pong"then
-				elseif op=="close"then
+				if op=='ping'then
+					NET.pong('chat',message)
+				elseif op=='pong'then
+				elseif op=='close'then
 					wsCloseMessage(message)
 					return
 				else
@@ -500,7 +514,7 @@ function NET.updateWS_chat()
 					if res then
 						--TODO
 					else
-						WS.alert("chat")
+						WS.alert('chat')
 					end
 				end
 			end

@@ -14,34 +14,34 @@ return function(L,t)
 	else
 		s="return{\n"
 		t=1
-		if type(L)~="table"then
+		if type(L)~='table'then
 			return
 		end
 	end
 	local count=1
 	for k,v in next,L do
 		local T=type(k)
-		if T=="number"then
+		if T=='number'then
 			if k==count then
 				k=""
 				count=count+1
 			else
 				k="["..k.."]="
 			end
-		elseif T=="string"then
+		elseif T=='string'then
 			if find(k,"[^0-9a-zA-Z_]")then
 				k="[\""..k.."\"]="
 			else
 				k=k.."="
 			end
-		elseif T=="boolean"then k="["..k.."]="
+		elseif T=='boolean'then k="["..k.."]="
 		else error("Error key type!")
 		end
 		T=type(v)
-		if T=="number"then v=tostring(v)
-		elseif T=="string"then v="\""..v.."\""
-		elseif T=="table"then v=TABLE.dump(v,t+1)
-		elseif T=="boolean"then v=tostring(v)
+		if T=='number'then v=tostring(v)
+		elseif T=='string'then v="\""..v.."\""
+		elseif T=='table'then v=TABLE.dump(v,t+1)
+		elseif T=='boolean'then v=tostring(v)
 		else error("Error data type!")
 		end
 		s=s..tabs[t]..k..v..",\n"

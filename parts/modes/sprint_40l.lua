@@ -2,8 +2,8 @@ return{
 	color=COLOR.green,
 	env={
 		drop=60,lock=60,
-		dropPiece=function(P)if P.stat.row>=40 then P:win("finish")end end,
-		bg="bg2",bgm="race",
+		dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
+		bg='bg2',bgm='race',
 	},
 	load=function()
 		PLY.newPlayer(1)

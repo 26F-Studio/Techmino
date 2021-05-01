@@ -20,14 +20,14 @@ return{
 							P.atkBuffer[p+3]={line=generateLine(P:RND(10)),amount=6,countdown=1.5*t,cd0=1.5*t,time=0,sent=false,lv=5}
 						P.atkBuffer.sum=P.atkBuffer.sum+20
 						P.stat.recv=P.stat.recv+20
-						if D.wave==31 then P:showTextF(text.maxspeed,0,-140,100,"appear",.6)end
+						if D.wave==31 then P:showTextF(text.maxspeed,0,-140,100,'appear',.6)end
 						D.timer=0
 						D.wave=D.wave+1
 					end
 				end
 			end
 		end,
-		bg="welcome",bgm="storm",
+		bg='welcome',bgm='storm',
 	},
 	pauseLimit=true,
 	load=function()

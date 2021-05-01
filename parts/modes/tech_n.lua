@@ -1,21 +1,19 @@
-local format=string.format
-
 return{
 	color=COLOR.green,
 	env={
 		infHold=true,
 		drop=1e99,lock=1e99,
 		b2bKill=true,
-		function(P)if P.stat.atk>=100 then P:win("finish")end end,
-		bg="matrix",bgm="new era",
+		dropPiece=function(P)if P.stat.atk>=100 then P:win('finish')end end,
+		bg='matrix',bgm='new era',
 	},
 	load=function()
 		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(format("%.1f",P.stat.atk),69,190)
-		mStr(format("%.2f",P.stat.atk/P.stat.row),69,310)
+		mStr(("%.1f"):format(P.stat.atk),69,190)
+		mStr(("%.2f"):format(P.stat.atk/P.stat.row),69,310)
 		mText(drawableText.atk,69,243)
 		mText(drawableText.eff,69,363)
 	end,

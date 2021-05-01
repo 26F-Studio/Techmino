@@ -37,7 +37,7 @@ local function check(P)
 			P.gameEnv.lock=pc_lock[s]or 25
 			P.gameEnv.fall=pc_fall[s]or 4
 			if s==10 then
-				P:showTextF(text.maxspeed,0,-140,100,"appear",.6)
+				P:showTextF(text.maxspeed,0,-140,100,'appear',.6)
 			end
 		end
 	end
@@ -50,12 +50,12 @@ return{
 		holdCount=0,
 		drop=60,lock=60,
 		fall=20,
-		sequence="none",
+		sequence='none',
 		freshLimit=15,
 		dropPiece=check,
 		RS="SRS",
 		ospin=false,
-		bg="rgb",bgm="oxygen",
+		bg='rgb',bgm='oxygen',
 	},
 	pauseLimit=true,
 	load=function()

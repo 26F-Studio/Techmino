@@ -26,12 +26,13 @@ local typeColor={
 	term=COLOR.lR,
 	setup=COLOR.lY,
 	pattern=COLOR.lJ,
+	command=COLOR.lN,
 	english=COLOR.B,
 	name=COLOR.lV,
 }
 local function getList()return result[1]and result or dict end
 local function clearResult()
-	TABLE.clear(result)
+	TABLE.cut(result)
 	selected,scrollPos=1,0
 	waiting,lastSearch=0,false
 end
@@ -49,7 +50,7 @@ local function search()
 		end
 	end
 	if #result>0 then
-		SFX.play("reach")
+		SFX.play('reach')
 	end
 	url=getList()[selected][5]
 	lastSearch=input
@@ -68,7 +69,7 @@ function scene.sceneInit()
 
 	lastSearch=false
 	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	BG.set("rainbow")
+	BG.set('rainbow')
 end
 
 function scene.wheelMoved(_,y)
@@ -99,7 +100,7 @@ function scene.keyDown(key)
 		if #inputBox.value>0 then
 			clearResult()
 			inputBox:clear()
-			SFX.play("hold")
+			SFX.play('hold')
 		end
 	elseif key=="backspace"then
 		WIDGET.keyPressed("backspace")
@@ -150,7 +151,7 @@ function scene.draw()
 
 	setFont(30)
 	gc.setColor(1,1,1,.4+.2*sin(TIME()*4))
-	gc.rectangle("fill",20,143+35*(selected-scrollPos),280,35)
+	gc.rectangle('fill',20,143+35*(selected-scrollPos),280,35)
 
 	setFont(30)
 	for i=1,min(#list,15)do
@@ -168,8 +169,8 @@ function scene.draw()
 
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1)
-	gc.rectangle("line",300,180,958,526)
-	gc.rectangle("line",20,180,280,526)
+	gc.rectangle('line',300,180,958,526)
+	gc.rectangle('line',20,180,280,526)
 
 	if waiting>0 then
 		local r=TIME()*2
@@ -180,7 +181,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=20,	y=5,font=70,align="L"},
+	WIDGET.newText{name="title",	x=20,	y=5,font=70,align='L'},
 	inputBox,
 	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
 	WIDGET.newKey{name="up",		x=1130,	y=460,w=60,h=90,font=35,code=pressKey"up",hide=not MOBILE},

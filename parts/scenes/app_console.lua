@@ -4,7 +4,7 @@ local ins,rem=table.insert,table.remove
 local C=COLOR
 
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
-local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=600,font=25,lineH=25,fix=true}
+local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,lineH=25,fix=true}
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
 log{C.lB,"©2020 26F Studio   some rights reserved"}
@@ -21,7 +21,7 @@ do--commands.help(arg)
 	--format of table command_help_messages:
 	--	key: the command
 	--	value: a table containing the following two elements:
-	--		description: a string that shows when user types `help` or `help [page]`.
+	--		description: a string that shows when user types `help`.
 	--		details: an array of strings containing documents, shows when user types `help [command]`.
 	local command_help_messages={
 		help={
@@ -33,7 +33,7 @@ do--commands.help(arg)
 				"",
 				"Usage:",
 				"help",
-				"help [page|command_name]",
+				"help [command_name]",
 			},
 		},
 		["?"]="help",
@@ -90,15 +90,25 @@ do--commands.help(arg)
 			},
 		},
 		del={
-			description="Attempt to delete a file (in saving directory)",
+			description="Attempt to delete a file or directory",
 			details={
-				"Attempt to delete a file (in saving directory)",
+				"Attempt to delete a file or directory (in saving directory)",
 				"",
-				"Aliases: rem delete remove",
+				"Aliases: rm",
 				"",
-				"Usage: del [filename]",
+				"Usage: del [filename|dirname]",
+				"Usage: del -s [dirname]",
 			},
-		},rem="del",delete="del",remove="del",
+		},rm="del",
+		ren={
+			description="Rename a file (in saving directory)",
+			details={
+				"Rename a file (in saving directory)",
+				{C.lY,"Warning: file name with space is not allowed"},
+				"",
+				"Usage: ren [oldfilename] [newfilename]",
+			},
+		},
 		cls={
 			description="Clear the log output.",
 			details={
@@ -238,6 +248,7 @@ do--commands.help(arg)
 		"url",
 		"tree",
 		"del",
+		"ren",
 		"cls",
 		"rst",
 		"fn",
@@ -254,36 +265,20 @@ do--commands.help(arg)
 		"demo",
 		"applet",
 	}
-	local pageSize=10
-	local maxPage=math.ceil(#command_help_list/pageSize)
 	function commands.help(arg)
 		--help [command]
 		if command_help_messages[arg]then
-			for _,v in ipairs(command_help_messages[arg].details)do
-				log(v)
-			end
+			for _,v in ipairs(command_help_messages[arg].details)do log(v)end
 			return
 		end
 
-		--help or help [page]
-		local page=arg==""and 1 or tonumber(arg)
-		if page then
-			if page==math.floor(page)and page>=1 and page<=maxPage then
-				log"Use help [page] to view more commands,"
-				log"or help [command_name] for details of a command."
-				log""
-				log{C.lW,"Page ",C.lG,page,C.lW," of ",C.lG,maxPage}
-				for i=pageSize*(page-1)+1,math.min(pageSize*page,#command_help_list)do
-					local cmd=command_help_list[i]
-					log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
-				end
-			else
-				log{C.R,"Invalid page number. Must be between 1 and "..maxPage.." (inclusive)."}
-			end
-		else
-			log{C.R,"No command called "..arg}
+		--help
+		for i=1,#command_help_list do
+			local cmd=command_help_list[i]
+			log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
 		end
 	end
+	commands["?"]=commands.help
 end
 function commands.error(mes)error(mes)end
 function commands.cls()outputBox:clear()end
@@ -293,7 +288,7 @@ function commands.print(name)
 	if name~=""then
 		local info=love.filesystem.getInfo(name)
 		if info then
-			if info.type=="file"then
+			if info.type=='file'then
 				log{COLOR.lC,"/* "..name.." */"}
 				for l in love.filesystem.lines(name)do
 					log(l)
@@ -303,7 +298,7 @@ function commands.print(name)
 				log("Unprintable item: %s (%s)"):format(name,info.type)
 			end
 		else
-			log{C.R,"No file called '"..name.."'"}
+			log{C.R,("No file called '%s'"):format(name)}
 		end
 	else
 		log{C.aqua,"Usage: print [filename]"}
@@ -319,57 +314,132 @@ function commands.url(url)
 		log{C.aqua,"Usage: url [url]"}
 	end
 end
-local function tree(path,name,depth)
-	local info=love.filesystem.getInfo(path..name)
-	if info.type=="file"then
-		log(("\t\t"):rep(depth)..name)
-	elseif info.type=="directory"then
-		log(("\t\t"):rep(depth)..name..">")
-		local L=love.filesystem.getDirectoryItems(path..name)
-		for _,subName in next,L do
-			tree(path..name.."/",subName,depth+1)
-		end
-	else
-		log("Unkown item type: %s (%s)"):format(name,info.type)
-	end
-end
-function commands.tree()
-	local L=love.filesystem.getDirectoryItems("")
-	for _,name in next,L do
-		if love.filesystem.getRealDirectory(name)==SAVEDIR then
-			tree("",name,0)
-		end
-	end
-end
-function commands.del(name)
-	if name~=""then
-		local info=love.filesystem.getInfo(name)
-		if info then
-			if info.type=="file"then
-				if love.filesystem.remove(name)then
-					log({C.Y,"Succesfully deleted"})
-				else
-					log({C.R,"Failed to delete"})
-				end
-			elseif info.type=="directory"then
-				if #love.filesystem.getDirectoryItems(name)==0 then
-					if love.filesystem.remove(name)then
-						log({C.Y,"Succesfully deleted file '"..name.."'"})
-					else
-						log({C.R,"Failed to delete file '"..name.."'"})
-					end
-				else
-					log{C.R,"Directory '"..name.."' is not empty"}
-				end
-			else
-				log("Unkown item type: %s (%s)"):format(name,info.type)
+do--function commands.tree()
+	local function tree(path,name,depth)
+		local info=love.filesystem.getInfo(path..name)
+		if info.type=='file'then
+			log(("\t\t"):rep(depth)..name)
+		elseif info.type=='directory'then
+			log(("\t\t"):rep(depth)..name..">")
+			local L=love.filesystem.getDirectoryItems(path..name)
+			for _,subName in next,L do
+				tree(path..name.."/",subName,depth+1)
 			end
 		else
-			log{C.R,"No file called '"..name.."'"}
+			log("Unkown item type: %s (%s)"):format(name,info.type)
 		end
-	else
-		log{C.aqua,"Usage: del [filename]"}
 	end
+	function commands.tree()
+		local L=love.filesystem.getDirectoryItems""
+		for _,name in next,L do
+			if love.filesystem.getRealDirectory(name)==SAVEDIR then
+				tree("",name,0)
+			end
+		end
+	end
+end
+do--function commands.del(name)
+	local function delFile(name)
+		if love.filesystem.remove(name)then
+			log{C.Y,("Deleted: '%s'"):format(name)}
+		else
+			log{C.R,("Failed to delete: '%s'"):format(name)}
+		end
+	end
+	local function delDir(name)
+		if #love.filesystem.getDirectoryItems(name)==0 then
+			if love.filesystem.remove(name)then
+				log{C.Y,("Directory deleted: '%s'"):format(name)}
+			else
+				log{C.R,("Failed to delete directory '%s'"):format(name)}
+			end
+		else
+			log{C.R,"Directory '"..name.."' is not empty"}
+		end
+	end
+	local function recursiveDelDir(dir)
+		local containing=love.filesystem.getDirectoryItems(dir)
+		if #containing==0 then
+			if love.filesystem.remove(dir)then
+				log{C.Y,("Succesfully deleted directory '%s'"):format(dir)}
+			else
+				log{C.R,("Failed to delete directory '%s'"):format(dir)}
+			end
+		else
+			for _,name in next,containing do
+				local path=dir.."/"..name
+				local info=love.filesystem.getInfo(path)
+				if info then
+					if info.type=='file'then
+						delFile(path)
+					elseif info.type=='directory'then
+						recursiveDelDir(path)
+					else
+						log("Unkown item type: %s (%s)"):format(name,info.type)
+					end
+				end
+			end
+			delDir(dir)
+		end
+	end
+	function commands.del(name)
+		local recursive=name:sub(1,3)=="-s "
+		if recursive then name=name:sub(4)end
+
+		if name~=""then
+			local info=love.filesystem.getInfo(name)
+			if info then
+				if info.type=='file'then
+					if not recursive then
+						delFile(name)
+					else
+						log{C.R,("'%s' is not a directory."):format(name)}
+					end
+				elseif info.type=='directory'then
+					(recursive and recursiveDelDir or delDir)(name)
+				else
+					log("Unkown item type: %s (%s)"):format(name,info.type)
+				end
+			else
+				log{C.R,("No file called '%s'"):format(name)}
+			end
+		else
+			log{C.aqua,"Usage: del [filename|dirname]"}
+			log{C.aqua,"Usage: del -s [dirname]"}
+		end
+	end
+	commands.rm=commands.del
+end
+function commands.ren(arg)
+	--Check arguments
+	arg=STRING.split(arg," ")
+	if #arg>2 then
+		log{C.lY,"Warning: file name with space is not allowed"}
+		return
+	elseif #arg<2 then
+		log{C.aqua,"Usage: ren [oldfilename] [newfilename]"}
+		return
+	end
+
+	--Check file exist
+	local info
+	info=love.filesystem.getInfo(arg[1])
+	if not(info and info.type=='file')then log{C.R,("'%s' is not a file!"):format(arg[1])}return end
+	info=love.filesystem.getInfo(arg[2])
+	if info then log{C.R,("'%s' already exists!"):format(arg[2])}return end
+
+	--Read file
+	local data,err1=love.filesystem.read('data',arg[1])
+	if not data then log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or"Unknown error")}return end
+
+	--Write file
+	local res,err2=love.filesystem.write(arg[2],data)
+	if not res then log{C.R,("Failed to write file: "):format(err2 or"Unknown error")}return end
+
+	--Delete file
+	if not love.filesystem.remove(arg[1])then log{C.R,("Failed to delete old file ''"):format(arg[1])}return end
+
+	log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
 end
 commands.exit=backScene
 commands.quit=backScene
@@ -396,7 +466,7 @@ function commands.wireframe(bool)
 		gc.setWireframe(bool=="true")
 		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 	else
-		log{C.aqua,"Usage: wireframe [true|false]"}
+		log{C.aqua,"Usage: wireframe <true|false>"}
 	end
 end
 function commands.gammacorrect(bool)
@@ -404,14 +474,14 @@ function commands.gammacorrect(bool)
 		love._setGammaCorrect(bool=="true")
 		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 	else
-		log{C.aqua,"Usage: gammacorrect [true|false]"}
+		log{C.aqua,"Usage: gammacorrect <true|false>"}
 	end
 end
 function commands.rmwtm(pw)
 	if pw==the_secret then
 		_G["\100\114\97\119\70\87\77"]=NULL
 		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
-		SFX.play("clear")
+		SFX.play('clear')
 	else
 		log{C.aqua,"Usage: rmwtm [password]"}
 	end
@@ -419,13 +489,13 @@ end
 function commands.unlockall(bool)
 	if bool=="sure"then
 		for name,M in next,MODES do
-			if type(name)=="string"and not RANKS[name]and M.x then
+			if type(name)=='string'and not RANKS[name]and M.x then
 				RANKS[name]=M.score and 0 or 6
 			end
 		end
-		FILE.save(RANKS,"conf/unlock")
+		FILE.save(RANKS,'conf/unlock')
 		log{C.lC,"\85\78\76\79\67\75\65\76\76"}
-		SFX.play("clear_2")
+		SFX.play('clear_2')
 	else
 		log"Are you sure to unlock all modes?"
 		log"Type: unlockall sure"
@@ -455,6 +525,7 @@ function commands.playbgm(bgm)
 		log{C.aqua,"Usage: playbgm [bgmName]"}
 	end
 end
+commands.music=commands.playbgm
 function commands.stopbgm()
 	BGM.stop()
 end
@@ -462,12 +533,12 @@ function commands.setbg(name)
 	if name~=""then
 		if name~=BG.cur then
 			if BG.set(name)then
-				log("Background set to '"..name.."'")
+				log(("Background set to '%s'"):format(name))
 			else
-				log("No background called '"..name.."'")
+				log(("No background called '%s'"):format(name))
 			end
 		else
-			log("Background already set to '"..name.."'")
+			log(("Background already set to '%s'"):format(name))
 		end
 	else
 		log{C.aqua,"Usage: setbg [bgName]"}
@@ -485,7 +556,7 @@ function commands.theme(name)
 	end
 end
 function commands.demo()
-	SCN.go("test","none")
+	SCN.go('test','none')
 end
 do--commands.applet(name)
 	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","dropper","calc","reflect","polyforge"}
@@ -535,15 +606,15 @@ local combKey={}
 function combKey.x()
 	love.system.setClipboardText(inputBox.value)
 	inputBox.value=""
-	SFX.play("reach")
+	SFX.play('reach')
 end
 function combKey.c()
 	love.system.setClipboardText(inputBox.value)
-	SFX.play("reach")
+	SFX.play('reach')
 end
 function combKey.v()
 	inputBox.value=inputBox.value..love.system.getClipboardText()
-	SFX.play("reach")
+	SFX.play('reach')
 end
 
 
@@ -605,7 +676,7 @@ local scene={}
 
 function scene.sceneInit()
 	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	BG.set("none")
+	BG.set('none')
 end
 
 function scene.keyDown(k)

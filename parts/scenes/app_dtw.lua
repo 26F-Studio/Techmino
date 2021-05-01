@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local format=string.format
 local ins,rem=table.insert,table.remove
 
 local targets={
@@ -107,8 +106,8 @@ function scene.sceneInit()
 	mode=1
 	arcade=true
 	reset()
-	BG.set("gray")
-	BGM.play("way")
+	BG.set('gray')
+	BGM.play('way')
 	love.keyboard.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -124,7 +123,7 @@ local function touch(n)
 	if n==a or n==b then
 		if a>0 and b>0 then
 			pos[1]=n==a and b or a
-			SFX.play("move")
+			SFX.play('move')
 		else
 			rem(pos,1)
 			newTile()
@@ -132,26 +131,26 @@ local function touch(n)
 			keyTime[21]=nil
 			score=score+1
 			if not arcade and targets[score]then
-				ins(progress,format("%s - %.3fs",score,TIME()-startTime))
+				ins(progress,("%s - %.3fs"):format(score,TIME()-startTime))
 				if score==2600 then
 					for i=1,#pos do
 						pos[i]=626
 					end
 					time=TIME()-startTime
 					state=2
-					SFX.play("win")
+					SFX.play('win')
 				else
-					SFX.play("reach",.5)
+					SFX.play('reach',.5)
 				end
 			end
 			height=height+120
-			SFX.play("move")
+			SFX.play('move')
 		end
 	else
 		time=TIME()-startTime
 		state=2
 		diePos=n
-		SFX.play("clear_2")
+		SFX.play('clear_2')
 	end
 end
 function scene.keyDown(key)
@@ -195,7 +194,7 @@ function scene.update()
 			rollSpeed=rollSpeed+.00355
 			if height<-120 then
 				state=2
-				SFX.play("clear_2")
+				SFX.play('clear_2')
 			end
 		else
 			height=height*.6
@@ -211,14 +210,14 @@ function scene.draw()
 
 	if arcade then
 		--Draw rolling speed
-		mStr(format("%.2f/s",rollSpeed/2),155,490)
+		mStr(("%.2f/s"):format(rollSpeed/2),155,490)
 	else
 		--Draw speed
 		setFont(45)
 		gc.setColor(1,.6,.6)
-		mStr(format("%.2f",maxSpeed/60),155,460)
+		mStr(("%.2f"):format(maxSpeed/60),155,460)
 		gc.setColor(1,1,1)
-		mStr(format("%.2f",speed/60),155,520)
+		mStr(("%.2f"):format(speed/60),155,520)
 
 		--Progress time list
 		setFont(30)
@@ -230,20 +229,20 @@ function scene.draw()
 		--Draw time
 		gc.setColor(1,1,1)
 		setFont(45)
-		gc.print(format("%.3f",time),1030,70)
+		gc.print(("%.3f"):format(time),1030,70)
 	end
 
 	--Draw tiles
-	gc.rectangle("fill",300,0,680,720)
+	gc.rectangle('fill',300,0,680,720)
 	gc.setColor(tileColor[mode])
-	gc.push("transform")
+	gc.push('transform')
 		gc.translate(0,720-height+8)
 		for i=1,#pos do
 			if pos[i]<10 then
-				gc.rectangle("fill",130+170*pos[i]+8,-i*120,170-16,120-16)
+				gc.rectangle('fill',130+170*pos[i]+8,-i*120,170-16,120-16)
 			else
-				gc.rectangle("fill",130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
-				gc.rectangle("fill",130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
+				gc.rectangle('fill',130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
+				gc.rectangle('fill',130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
 			end
 		end
 	gc.pop()
@@ -263,12 +262,12 @@ function scene.draw()
 	--Draw red tile
 	if diePos then
 		gc.setColor(1,.2,.2)
-		gc.rectangle("fill",130+170*diePos+8,600-height+8,170-16,120-16)
+		gc.rectangle('fill',130+170*diePos+8,600-height+8,170-16,120-16)
 	end
 
 	--Draw score
 	setFont(100)
-	gc.push("transform")
+	gc.push('transform')
 	gc.translate(640,26)
 	gc.scale(1.6)
 	gc.setColor(.5,.5,.5,.6)
@@ -277,7 +276,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color="lG",font=40,code=pressKey"r"},
+	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
 	WIDGET.newButton{name="mode",	x=155,y=220,w=180,h=100,font=40,code=pressKey"q",hide=function()return state~=0 end},
 	WIDGET.newSwitch{name="arcade",	x=230,y=330,font=40,disp=function()return arcade end,code=pressKey"w",hide=function()return state~=0 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},

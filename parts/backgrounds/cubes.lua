@@ -62,16 +62,16 @@ function back.update(dt)
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	gc.push("transform")
+	gc.push('transform')
 	gc.origin()
 	gc.setLineWidth(6)
 	for i=1,#squares do
 		local S=squares[i]
 		local c=S.color
 		gc.setColor(c[1],c[2],c[3],.6)
-		rectangle("line",S.x,S.y,S.size,S.size)
+		rectangle('line',S.x,S.y,S.size,S.size)
 		gc.setColor(c)
-		rectangle("fill",S.x,S.y,S.size,S.size)
+		rectangle('fill',S.x,S.y,S.size,S.size)
 	end
 	gc.pop()
 end

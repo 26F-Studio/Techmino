@@ -10,7 +10,7 @@ local shadePhase1,shadePhase2
 local progress=0
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
-local skip,locked,cmdLaunchKey
+local skip,locked
 
 local light={}
 for i=0,26 do
@@ -33,7 +33,7 @@ local function upFloor()
 	progress=progress+1
 	if light[3*progress+3]then
 		light[3*progress+3]=false
-		SFX.play("click",.3)
+		SFX.play('click',.3)
 	end
 end
 local loadingThread=coroutine.wrap(function()
@@ -75,7 +75,7 @@ local loadingThread=coroutine.wrap(function()
 	upFloor()
 	local modeIcons={}
 	modeIcons.marathon=DOGC{32,32,
-		{"trans",3,1},
+		{"move",3,1},
 		{"fRect",10,4,-2,23},
 		{"fPoly",10,4,24,10,10,16.5},
 		{"fRect",4,24,10,3},
@@ -83,9 +83,9 @@ local loadingThread=coroutine.wrap(function()
 	modeIcons.infinite=DOGC{64,64,
 		{"setLW",4},
 		{"dCirc",32,32,28},
-		{"dLine",32,32,32,14},
-		{"dLine",32,32,41,41},
-		{"trans",.5,.5},
+		{"line",32,32,32,14},
+		{"line",32,32,41,41},
+		{"move",.5,.5},
 		{"fRect",30,7,4,4},
 		{"fRect",7,30,4,4},
 		{"fRect",52,30,4,4},
@@ -102,7 +102,7 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,7,16,16},
 		{"fRect",7,41,16,16},
 		{"fRect",41,41,16,16},
-		{"trans",.5,.5},
+		{"move",.5,.5},
 		{"setLW",1},
 		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}YIELD()
@@ -149,7 +149,7 @@ local loadingThread=coroutine.wrap(function()
 
 	upFloor()
 	if not MODES[STAT.lastPlay]then
-		STAT.lastPlay="sprint_10l"
+		STAT.lastPlay='sprint_10l'
 	end
 
 	upFloor()
@@ -157,7 +157,7 @@ local loadingThread=coroutine.wrap(function()
 	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked
 		for name,rank in next,RANKS do
 			local M=MODES[name]
-			if type(rank)~="number"then
+			if type(rank)~='number'then
 				RANKS[name]=nil
 			elseif M and M.unlock and rank>0 then
 				for _,unlockName in next,M.unlock do
@@ -170,10 +170,10 @@ local loadingThread=coroutine.wrap(function()
 				RANKS[name]=nil
 			end
 		end
-		FILE.save(RANKS,"conf/unlock","q")
+		FILE.save(RANKS,'conf/unlock','q')
 	end
 
-	DAILYLAUNCH=freshDate("q")
+	DAILYLAUNCH=freshDate'q'
 	if DAILYLAUNCH then
 		logoColor1=COLOR.S
 		logoColor2=COLOR.lS
@@ -195,8 +195,8 @@ local loadingThread=coroutine.wrap(function()
 			upFloor()
 		end
 		if progress==25 then
-			SFX.play("welcome_sfx")
-			VOC.play("welcome_voc")
+			SFX.play('welcome_sfx')
+			VOC.play('welcome_voc')
 			THEME.fresh()
 			LOADED=true
 			return
@@ -213,7 +213,7 @@ function scene.sceneInit()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
 	locked=SETTING.appLock
-	cmdLaunchKey=0
+	consoleLaunchKey=0
 	if not locked then light[6*3],light[26*3]=true,true end
 	kb.setKeyRepeat(false)
 end
@@ -226,8 +226,6 @@ function scene.keyDown(key)
 		SCN.back()
 	elseif key=="s"then
 		skip=999
-	elseif key=="r"then
-		cmdLaunchKey=cmdLaunchKey+1
 	elseif locked and #key==1 and key:byte()>=97 and key:byte()<=122 then
 		switchLight(key:byte()-96)
 	else
@@ -267,12 +265,7 @@ function scene.update(dt)
 				skip=skip-1
 			end
 			if openTime>=3.26 and not SCN.swapping then
-				if cmdLaunchKey==2 then
-					SCN.push("intro")
-					SCN.swapTo("app_cmd")
-				else
-					SCN.swapTo("intro")
-				end
+				SCN.swapTo('intro')
 				love.keyboard.setKeyRepeat(true)
 			end
 		end
@@ -281,13 +274,13 @@ end
 
 local function doorStencil()
 	local dx=300*(1-math.min(openTime/1.26-1,0)^2)
-	gc.rectangle("fill",640-dx,0,2*dx,720)
+	gc.rectangle('fill',640-dx,0,2*dx,720)
 end
 function scene.draw()
 	--Wall
 	gc.clear(.5,.5,.5)
 
-	gc.push("transform")
+	gc.push('transform')
 	if openTime>2.26 then
 		gc.translate(640,360)
 		gc.scale(1+(openTime-2.26)^1.8)
@@ -298,11 +291,11 @@ function scene.draw()
 	if progress==25 then
 		--Outside background
 		gc.setColor(.15,.15,.15)
-		gc.rectangle("fill",340,0,600,720)
+		gc.rectangle('fill',340,0,600,720)
 
-		gc.stencil(doorStencil,"replace",1)
-		gc.setStencilTest("equal",1)
-		gc.push("transform")
+		gc.stencil(doorStencil,'replace',1)
+		gc.setStencilTest('equal',1)
+		gc.push('transform')
 
 		--Cool camera
 		gc.translate(640,360)
@@ -330,17 +323,17 @@ function scene.draw()
 		if openTime>.3 and openTime<1.6 then
 			local w=(1.6-openTime)/1.3
 			gc.setColor(1,1,1,w^2)
-			gc.rectangle("fill",340,360*w^2,600,720*(1-w^2))
+			gc.rectangle('fill',340,360*w^2,600,720*(1-w^2))
 		end
 		gc.setStencilTest()
 	end
 
 	--Floor info frame
 	gc.setColor(.1,.1,.1)
-	gc.rectangle("fill",1020,25,180,100)
+	gc.rectangle('fill',1020,25,180,100)
 	gc.setColor(.7,.7,.7)
 	gc.setLineWidth(4)
-	gc.rectangle("line",1020,25,180,100)
+	gc.rectangle('line',1020,25,180,100)
 
 	--Floor info
 	if progress>=0 then
@@ -364,10 +357,10 @@ function scene.draw()
 	setFont(25)
 	for i=0,26 do
 		local x,y=light[3*i+1],light[3*i+2]
-		gc.setColor(COLOR[i==progress and"H"or light[3*i+3]and"dO"or"dH"])
-		gc.circle("fill",x,y,23)
+		gc.setColor(COLOR[i==progress and'H'or light[3*i+3]and'dO'or'dH'])
+		gc.circle('fill',x,y,23)
 		gc.setColor(.16,.16,.16)
-		gc.circle("line",x,y,23)
+		gc.circle('line',x,y,23)
 		gc.setColor(1,1,1)
 		mStr(i+1,x,y-18)
 	end
@@ -376,8 +369,8 @@ function scene.draw()
 	for i=1,0,-1 do
 		gc.setColor(.3,.3,.3)
 		local dx=300*(1-math.min(math.max(openTime-i*.1,0)/1.26-1,0)^2)
-		gc.rectangle("fill",340,0,300-dx,720)
-		gc.rectangle("fill",940,0,dx-300,720)
+		gc.rectangle('fill',340,0,300-dx,720)
+		gc.rectangle('fill',940,0,dx-300,720)
 
 		gc.setColor(.16,.16,.16)
 		gc.setLineWidth(4)
@@ -387,14 +380,14 @@ function scene.draw()
 
 	--Doorframe
 	gc.setColor(0,0,0)
-	gc.rectangle("line",340,0,600,720)
+	gc.rectangle('line',340,0,600,720)
 
 	--Black screen
 	if blackTime>0 or openTime>3 then
-		gc.push("transform")
+		gc.push('transform')
 		gc.origin()
 		gc.setColor(0,0,0,blackTime+(openTime-3)*4)
-		gc.rectangle("fill",0,0,SCR.w,SCR.h)
+		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 		gc.pop()
 	end
 	gc.pop()

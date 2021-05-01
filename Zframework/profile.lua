@@ -11,7 +11,7 @@ local _internal={}-- list of internal profiler functions
 
 local getInfo=debug.getinfo
 function profile.hooker(event,line,info)
-	info=info or getInfo(2,"fnS")
+	info=info or getInfo(2,'fnS')
 	local f=info.func
 	if _internal[f]then return end-- ignore the profiler itself
 	if info.name then _labeled[f]=info.name end-- get the function name if available
@@ -27,10 +27,10 @@ function profile.hooker(event,line,info)
 		_tcalled[f]=nil
 	end
 	if event=="tail call"then
-		local prev=getInfo(3,"fnS")
-		profile.hooker("return",line,prev)
-		profile.hooker("call",line,info)
-	elseif event=="call"then
+		local prev=getInfo(3,'fnS')
+		profile.hooker('return',line,prev)
+		profile.hooker('call',line,info)
+	elseif event=='call'then
 		_tcalled[f]=clock()
 	else
 		_ncalls[f]=_ncalls[f]+1
@@ -43,7 +43,7 @@ function profile.start()
 		jit.off()
 		jit.flush()
 	end
-	debug.sethook(profile.hooker,"cr")
+	debug.sethook(profile.hooker,'cr')
 end
 
 --- Stops collecting data.
@@ -68,7 +68,7 @@ function profile.stop()
 			lookup[id]=f
 		end
 	end
-	collectgarbage("collect")
+	collectgarbage()
 end
 
 --- Resets all collected data.
@@ -78,7 +78,7 @@ function profile.reset()
 		_telapsed[f]=0
 		_tcalled[f]=nil
 	end
-	collectgarbage("collect")
+	collectgarbage()
 end
 
 local function _comp(a,b)
@@ -132,7 +132,7 @@ function profile.report(n)
 	if #out>0 then
 		sz=sz.." | "..table.concat(out," | \n | ").." | \n"
 	end
-	return"\n"..sz..row
+	return "\n"..sz..row
 end
 
 local switch=false
@@ -151,7 +151,7 @@ end
 
 -- store all internal profiler functions
 for _,v in next,profile do
-	_internal[v]=type(v)=="function"
+	_internal[v]=type(v)=='function'
 end
 
 return profile

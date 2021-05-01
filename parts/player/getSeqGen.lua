@@ -2,7 +2,7 @@ local ins,rem=table.insert,table.remove
 local yield=YIELD
 
 local seqGens={
-	none=function() while true do yield()end end,
+	none=function()while true do yield()end end,
 	bag=function(P,seq0)
 		local len=#seq0
 		local bag={}
@@ -141,17 +141,17 @@ local seqGens={
 }
 return function(P)--Return a piece-generating funtion for player P
 	local s=P.gameEnv.sequence
-	if type(s)=="function"then
+	if type(s)=='function'then
 		return s
-	elseif type(s)=="string"and seqGens[s]then
+	elseif type(s)=='string'and seqGens[s]then
 		return seqGens[s]
 	else
 		LOG.print(
-			type(s)=="string"and
+			type(s)=='string'and
 			"No sequence mode called "..s or
 			"Wrong sequence generator",
-		"warn")
-		P.gameEnv.sequence="bag"
+		'warn')
+		P.gameEnv.sequence='bag'
 		return seqGens.bag
 	end
 end

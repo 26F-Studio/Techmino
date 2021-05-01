@@ -3,18 +3,19 @@ local gc=love.graphics
 
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
-local sub,format=string.sub,string.format
+local sub=string.sub
 local ins=table.insert
-local COLOR=COLOR
 local setFont,mStr=setFont,mStr
 local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
 
-local mustHaveText={
-	text=true,
-	button=true,
-	key=true,
-	switch=true,
-	selector=true,
+local clearIcon=DOGC{40,40,
+	{"setLW",6},
+	{"line",11,11,29,29},
+	{"line",11,29,29,11},
+}
+local sureIcon=DOGC{40,40,
+	{"setFT",35},
+	{"mText","?",20,-6},
 }
 
 local WIDGET={}
@@ -25,9 +26,11 @@ local widgetMetatable={
 }
 
 local text={
-	type="text",
+	type='text',
+	mustHaveText=true,
 	alpha=0,
 }
+
 function text:reset()end
 function text:update()
 	if self.hideCon and self.hideCon()then
@@ -42,16 +45,16 @@ function text:draw()
 	if self.alpha>0 then
 		local c=self.color
 		gc.setColor(c[1],c[2],c[3],self.alpha)
-		if self.align=="M"then
+		if self.align=='M'then
 			mDraw_X(self.obj,self.x,self.y)
-		elseif self.align=="L"then
+		elseif self.align=='L'then
 			gc.draw(self.obj,self.x,self.y)
-		elseif self.align=="R"then
+		elseif self.align=='R'then
 			gc.draw(self.obj,self.x-self.obj:getWidth(),self.y)
 		end
 	end
 end
-function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,hide]
+function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hide]
 	local _={
 		name=	D.name,
 		x=		D.x,
@@ -60,7 +63,7 @@ function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,hide
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
-		align=	D.align or"M",
+		align=	D.align or'M',
 		hideCon=D.hide,
 	}
 	for k,v in next,text do _[k]=v end
@@ -70,10 +73,10 @@ function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align="M"][,hide
 end
 
 local image={
-	type="image",
+	type='image',
 }
 function image:reset()
-	if type(self.img)=="string"then
+	if type(self.img)=='string'then
 		self.img=IMG[self.img]
 	end
 end
@@ -98,14 +101,15 @@ function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hide]
 end
 
 local button={
-	type="button",
+	type='button',
+	mustHaveText=true,
 	ATV=0,--Activating time(0~8)
 }
 function button:reset()
 	self.ATV=0
 end
 function button:setObject(obj)
-	if type(obj)=="string"or type(obj)=="number"then
+	if type(obj)=='string'or type(obj)=='number'then
 		self.obj=gc.newText(getFont(self.font),obj)
 	elseif obj then
 		self.obj=obj
@@ -146,16 +150,16 @@ function button:draw()
 	local c=self.color
 	local r,g,b=c[1],c[2],c[3]
 	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc.rectangle("fill",x-ATV,y-ATV,w+2*ATV,h+2*ATV)
+	gc.rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV)
 	if ATV>0 then
 		gc.setLineWidth(4)
 		gc.setColor(1,1,1,ATV*.125)
-		gc.rectangle("line",x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
+		gc.rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
 	end
 	local obj=self.obj
 	local y0=y+h*.5-ATV*.5
 	gc.setColor(1,1,1,.2+ATV*.05)
-	if self.align=="M"then
+	if self.align=='M'then
 		local x0=x+w*.5
 		mDraw(obj,x0-2,y0-2)
 		mDraw(obj,x0-2,y0+2)
@@ -163,7 +167,7 @@ function button:draw()
 		mDraw(obj,x0+2,y0+2)
 		gc.setColor(r*.5,g*.5,b*.5)
 		mDraw(obj,x0,y0)
-	elseif self.align=="L"then
+	elseif self.align=='L'then
 		local edge=self.edge
 		mDraw_Y(obj,x+edge-2,y0-2)
 		mDraw_Y(obj,x+edge-2,y0+2)
@@ -171,7 +175,7 @@ function button:draw()
 		mDraw_Y(obj,x+edge+2,y0+2)
 		gc.setColor(r*.5,g*.5,b*.5)
 		mDraw_Y(obj,x+edge,y0)
-	elseif self.align=="R"then
+	elseif self.align=='R'then
 		local x0=x+w-self.edge-obj:getWidth()
 		mDraw_Y(obj,x0-2,y0-2)
 		mDraw_Y(obj,x0-2,y0+2)
@@ -182,14 +186,14 @@ function button:draw()
 	end
 end
 function button:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+	return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
-function button:press()
-	self.code()
+function button:press(_,_,k)
+	self.code(k)
 	self:FX()
-	SFX.play("button")
+	if self.sound then SFX.play('button')end
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edge]],code[,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -210,8 +214,9 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
-		align=	D.align or"M",
+		align=	D.align or'M',
 		edge=	D.edge or 0,
+		sound=	D.sound~=false,
 		code=	D.code,
 		hide=	D.hide,
 	}
@@ -221,14 +226,15 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,
 end
 
 local key={
-	type="key",
+	type='key',
+	mustHaveText=true,
 	ATV=0,--Activating time(0~4)
 }
 function key:reset()
 	self.ATV=0
 end
 function key:setObject(obj)
-	if type(obj)=="string"or type(obj)=="number"then
+	if type(obj)=='string'or type(obj)=='number'then
 		self.obj=gc.newText(getFont(self.font),obj)
 	elseif obj then
 		self.obj=obj
@@ -259,28 +265,29 @@ function key:draw()
 	local r,g,b=c[1],c[2],c[3]
 
 	gc.setColor(1,1,1,ATV*.125)
-	gc.rectangle("fill",x,y,w,h)
+	gc.rectangle('fill',x,y,w,h)
 
 	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
 	gc.setLineWidth(4)
-	gc.rectangle("line",x,y,w,h)
+	gc.rectangle('line',x,y,w,h)
 
 	gc.setColor(r,g,b,1.2)
-	if self.align=="M"then
+	if self.align=='M'then
 		mDraw(self.obj,x+w*.5,y+h*.5)
-	elseif self.align=="L"then
+	elseif self.align=='L'then
 		mDraw_Y(self.obj,x+self.edge,y+h*.5)
-	elseif self.align=="R"then
+	elseif self.align=='R'then
 		mDraw_Y(self.obj,x+w-self.edge-self.obj:getWidth(),y+h*.5)
 	end
 end
 function key:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d,font=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
+	return("x=%d,y=%d,w=%d,h=%d,font=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h,self.font)
 end
-function key:press()
-	self.code()
+function key:press(_,_,k)
+	self.code(k)
+	if self.sound then SFX.play('key')end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edge]],code[,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -301,7 +308,8 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edg
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
-		align=	D.align or"M",
+		sound=	D.sound~=false,
+		align=	D.align or'M',
 		edge=	D.edge or 0,
 		code=	D.code,
 		hide=	D.hide,
@@ -312,7 +320,8 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font][,align="M"[,edg
 end
 
 local switch={
-	type="switch",
+	type='switch',
+	mustHaveText=true,
 	ATV=0,--Activating time(0~8)
 	CHK=0,--Check alpha(0~6)
 }
@@ -343,7 +352,7 @@ function switch:draw()
 	--Checked
 	if ATV>0 then
 		gc.setColor(1,1,1,ATV*.08)
-		gc.rectangle("fill",x,y,50,50)
+		gc.rectangle('fill',x,y,50,50)
 	end
 	if self.CHK>0 then
 		gc.setColor(.9,1,.9,self.CHK/6)
@@ -354,20 +363,20 @@ function switch:draw()
 	--Frame
 	gc.setLineWidth(4)
 	gc.setColor(1,1,1,.6+ATV*.05)
-	gc.rectangle("line",x,y,50,50)
+	gc.rectangle('line',x,y,50,50)
 
 	--Drawable
 	gc.setColor(self.color)
 	mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y+25)
 end
 function switch:getInfo()
-	return format("x=%d,y=%d,font=%d",self.x,self.y,self.font)
+	return("x=%d,y=%d,font=%d"):format(self.x,self.y,self.font)
 end
 function switch:press()
 	self.code()
-	SFX.play("move")
+	if self.sound then SFX.play('move')end
 end
-function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
+function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code,hide
 	local _={
 		name=	D.name,
 
@@ -381,6 +390,7 @@ function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
+		sound=	D.sound~=false,
 		disp=	D.disp,
 		code=	D.code,
 		hide=	D.hide,
@@ -391,7 +401,7 @@ function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font][,disp],code,hide
 end
 
 local slider={
-	type="slider",
+	type='slider',
 	ATV=0,--Activating time(0~8)
 	TAT=0,--Text activating time(0~180)
 	pos=0,--Position shown
@@ -464,12 +474,12 @@ function slider:draw()
 	local cx=x+(x2-x)*self.pos/self.unit
 	local bx,by,bw,bh=cx-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
 	gc.setColor(.8,.8,.8)
-	gc.rectangle("fill",bx,by,bw,bh)
+	gc.rectangle('fill',bx,by,bw,bh)
 
 	if ATV>0 then
 		gc.setLineWidth(2)
 		gc.setColor(1,1,1,ATV*.16)
-		gc.rectangle("line",bx+1,by+1,bw-2,bh-2)
+		gc.rectangle('line',bx+1,by+1,bw-2,bh-2)
 	end
 	if self.TAT>0 and self.show then
 		setFont(25)
@@ -484,7 +494,10 @@ function slider:draw()
 	end
 end
 function slider:getInfo()
-	return format("x=%d,y=%d,w=%d",self.x,self.y,self.w)
+	return("x=%d,y=%d,w=%d"):format(self.x,self.y,self.w)
+end
+function slider:press(x)
+	self:drag(x)
 end
 function slider:drag(x)
 	if not x then return end
@@ -517,7 +530,7 @@ function slider:arrowKey(isLeft)
 		self.change()
 	end
 end
-function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font][,change],disp,code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -550,7 +563,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font][
 		_.smooth=_.unit<=1
 	end
 	if D.show then
-		if type(D.show)=="function"then
+		if type(D.show)=='function'then
 			_.show=D.show
 		else
 			_.show=sliderShowFunc[D.show]
@@ -568,7 +581,8 @@ function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font][
 end
 
 local selector={
-	type="selector",
+	type='selector',
+	mustHaveText=true,
 	ATV=8,--Activating time(0~4)
 	select=0,--Selected item ID
 	selText=false,--Selected item name
@@ -585,7 +599,7 @@ function selector:reset()
 		end
 	end
 	self.hide=true
-	LOG.print("Selector "..self.name.." dead, disp= "..tostring(V),"warn")
+	LOG.print("Selector "..self.name.." dead, disp= "..tostring(V),'warn')
 end
 function selector:isAbove(x,y)
 	return
@@ -616,7 +630,7 @@ function selector:draw()
 
 	gc.setColor(1,1,1,.6+ATV*.1)
 	gc.setLineWidth(3)
-	gc.rectangle("line",x,y,w,60)
+	gc.rectangle('line',x,y,w,60)
 
 	gc.setColor(1,1,1,.2+ATV*.1)
 	local t=(TIME()%.5)^.5
@@ -644,7 +658,7 @@ function selector:draw()
 	mStr(self.selText,x+w*.5,y+43-21)
 end
 function selector:getInfo()
-	return format("x=%d,y=%d,w=%d",self.x+self.w*.5,self.y+30,self.w)
+	return("x=%d,y=%d,w=%d"):format(self.x+self.w*.5,self.y+30,self.w)
 end
 function selector:press(x)
 	if x then
@@ -664,7 +678,7 @@ function selector:press(x)
 			self.code(self.list[s])
 			self.select=s
 			self.selText=self.list[s]
-			SFX.play("prerotate")
+			if self.sound then SFX.play('prerotate')end
 		end
 	end
 end
@@ -681,9 +695,9 @@ function selector:arrowKey(isLeft)
 	self.code(self.list[s])
 	self.select=s
 	self.selText=self.list[s]
-	SFX.play("prerotate")
+	if self.sound then SFX.play('prerotate')end
 end
-function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
+function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
 	local _={
 		name=	D.name,
 
@@ -701,6 +715,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 
 		fText=	D.fText,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
+		sound=	D.sound~=false,
 		font=	30,
 		list=	D.list,
 		disp=	D.disp,
@@ -713,7 +728,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color],list,disp,code,hide
 end
 
 local inputBox={
-	type="inputBox",
+	type='inputBox',
 	keepFocus=true,
 	ATV=0,--Activating time(0~4)
 	value="",--Text contained
@@ -750,11 +765,11 @@ function inputBox:draw()
 	local ATV=self.ATV
 
 	gc.setColor(1,1,1,ATV*.1)
-	gc.rectangle("fill",x,y,w,h)
+	gc.rectangle('fill',x,y,w,h)
 
 	gc.setColor(1,1,1)
 	gc.setLineWidth(4)
-	gc.rectangle("line",x,y,w,h)
+	gc.rectangle('line',x,y,w,h)
 
 	--Drawable
 	setFont(self.font)
@@ -766,7 +781,7 @@ function inputBox:draw()
 			gc.print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
 		end
 	else
-		gc.printf(self.value,x+10,y,self.w,"left")
+		gc.printf(self.value,x+10,y,self.w)
 		setFont(self.font-10)
 		if WIDGET.sel==self then
 			gc.print(EDITING,x+10,y+12-self.font*1.4)
@@ -774,7 +789,7 @@ function inputBox:draw()
 	end
 end
 function inputBox:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
 function inputBox:press()
 	if MOBILE then
@@ -791,15 +806,15 @@ function inputBox:keypress(k)
 				p=p-1
 			end
 			t=sub(t,1,p-1)
-			SFX.play("lock")
+			SFX.play('lock')
 		elseif k=="delete"then
 			t=""
-			SFX.play("hold")
+			SFX.play('hold')
 		end
 		self.value=t
 	end
 end
-function WIDGET.newInputBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
+function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex],hide
 	local _={
 		name=	D.name,
 
@@ -825,7 +840,7 @@ function WIDGET.newInputBox(D)--name,x,y,w[,h][,font][,secret][,regex],hide
 end
 
 local textBox={
-	type="textBox",
+	type='textBox',
 	scrollPos=0,--Which line display at bottom
 	scrollPix=0,--Hidden wheel move value
 	sure=0,--Sure-timer for clear history
@@ -862,16 +877,8 @@ function textBox:push(t)
 		self.new=true
 	end
 end
-function textBox:drag(_,_,_,dy)
-	_=self.scrollPix+dy*SCR.dpi
-	local sign=_>0 and 1 or -1
-	while abs(_)>30 do
-		_=_-30*sign
-		self:scroll(-sign)
-	end
-	self.scrollPix=_
-end
 function textBox:press(x,y)
+	self:drag(nil,nil,nil,0)
 	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
 			self:clear()
@@ -880,6 +887,15 @@ function textBox:press(x,y)
 			self.sure=60
 		end
 	end
+end
+function textBox:drag(_,_,_,dy)
+	_=self.scrollPix+dy*SCR.dpi
+	local sign=_>0 and 1 or -1
+	while abs(_)>30 do
+		_=_-30*sign
+		self:scroll(-sign)
+	end
+	self.scrollPix=_
 end
 function textBox:scroll(n)
 	if n<0 then
@@ -894,7 +910,7 @@ end
 function textBox:clear()
 	self.texts={}
 	self.scrollPos=0
-	SFX.play("fall")
+	SFX.play('fall')
 end
 function textBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
@@ -905,27 +921,26 @@ function textBox:draw()
 
 	--Background
 	gc.setColor(0,0,0,.3)
-	gc.rectangle("fill",x,y,w,h)
+	gc.rectangle('fill',x,y,w,h)
 
 	--Frame
 	gc.setLineWidth(4)
-	gc.setColor(COLOR[WIDGET.sel==self and"Y"or"Z"])
-	gc.rectangle("line",x,y,w,h)
+	gc.setColor(1,1,WIDGET.sel==self and 0 or 1)
+	gc.rectangle('line',x,y,w,h)
 
 	--Slider
 	if #texts>cap then
 		gc.setLineWidth(2)
-		gc.rectangle("line",x-25,y,20,h)
+		gc.rectangle('line',x-25,y,20,h)
 		local len=max(h*cap/#texts,26)
-		gc.rectangle("fill",x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
+		gc.rectangle('fill',x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
 
-	gc.setColor(1,1,1)
-	setFont(30)
 	--Clear button
+	gc.setColor(1,1,1)
 	if not self.fix then
-		mStr(self.sure>0 and"?"or"X",x+w-20,y-1)
-		gc.rectangle("line",x+w-40,y,40,40)
+		gc.rectangle('line',x+w-40,y,40,40)
+		gc.draw(self.sure==0 and clearIcon or sureIcon,x+w-40,y)
 	end
 
 	--Texts
@@ -941,9 +956,9 @@ function textBox:draw()
 	end
 end
 function textBox:getInfo()
-	return format("x=%d,y=%d,w=%d,h=%d",self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newTextBox(D)--name,x,y,w,h[,font][,lineH][,fix],hide
+function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 	local _={
 		name=	D.name,
 
@@ -999,7 +1014,7 @@ function WIDGET.set(list)
 		for i=1,#list do
 			list[i]:reset()
 		end
-		if SCN.cur~="custom_field"then
+		if SCN.cur~='custom_field'then
 			local colorList=THEME.getThemeColor()
 			if not colorList then return end
 			local rnd=math.random
@@ -1016,11 +1031,11 @@ function WIDGET.setLang(widgetText)
 		if L.widgetList then
 			for _,W in next,L.widgetList do
 				local t=W.fText or widgetText[S][W.name]
-				if not t and mustHaveText[W.type]then
+				if not t and W.mustHaveText then
 					t=W.name or"##"
 					W.color=COLOR.dV
 				end
-				if type(t)=="string"and W.font then
+				if type(t)=='string'and W.font then
 					t=gc.newText(getFont(W.font),t)
 				end
 				W.obj=t
@@ -1040,20 +1055,16 @@ function WIDGET.cursorMove(x,y)
 		WIDGET.sel=false
 	end
 end
-function WIDGET.press(x,y)
+function WIDGET.press(x,y,k)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="button"or W.type=="key"or W.type=="switch"or W.type=="selector"or W.type=="inputBox"or W.type=="textBox"then
-		W:press(x,y)
-	elseif W.type=="slider"then
-		WIDGET.drag(x,y)
-	end
+	W:press(x,y,k)
 	if W.hide==true or W.hide and W.hide()then WIDGET.sel=false end
 end
 function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="slider"or W.type=="textBox"then
+	if W.type=='slider'or W.type=='textBox'then
 		W:drag(x,y,dx,dy)
 	elseif not W:isAbove(x,y)then
 		WIDGET.sel=false
@@ -1062,7 +1073,7 @@ end
 function WIDGET.release(x,y)
 	local W=WIDGET.sel
 	if not W then return end
-	if W.type=="slider"then
+	if W.type=='slider'then
 		W:release(x,y)
 	end
 end
@@ -1072,7 +1083,7 @@ function WIDGET.keyPressed(k)
 	elseif kb.isDown("lshift","lalt","lctrl")and(k=="left"or k=="right")then
 					--When hold [↑], control slider with left/right
 		local W=WIDGET.sel
-		if W and W.type=="slider"or W.type=="selector"then
+		if W and W.type=='slider'or W.type=='selector'then
 			W:arrowKey(k=="left")
 		end
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
@@ -1115,19 +1126,19 @@ function WIDGET.keyPressed(k)
 		end
 	else
 		local W=WIDGET.sel
-		if W and W.type=="inputBox"then
+		if W and W.type=='inputBox'then
 			W:keypress(k)
 		end
 	end
 end
 function WIDGET.textinput(texts)
 	local W=WIDGET.sel
-	if W and W.type=="inputBox"then
+	if W and W.type=='inputBox'then
 		if not W.regex or texts:match(W.regex)then
 			WIDGET.sel.value=WIDGET.sel.value..texts
-			SFX.play("move")
+			SFX.play('move')
 		else
-			SFX.play("finesseError",.3)
+			SFX.play('finesseError',.3)
 		end
 	end
 end
@@ -1145,9 +1156,9 @@ function WIDGET.gamepadPressed(i)
 	elseif i=="a"or i=="b"then
 		local W=WIDGET.sel
 		if W then
-			if W.type=="button"or W.type=="key"then
+			if W.type=='button'or W.type=='key'then
 				WIDGET.press()
-			elseif W.type=="slider"then
+			elseif W.type=='slider'then
 				local p=W.disp()
 				local P=i=="left"and(p>0 and p-1)or p<W.unit and p+1
 				if p==P or not P then return end
