@@ -246,9 +246,21 @@ function initPlayerPosition(sudden)--Set initial position for every player
 	L[1][method](L[1],340,75,1)
 	if #L<=5 then
 		if L[2]then L[2][method](L[2],965,390,.5)end
-		if L[3]then L[3][method](L[3],965,30,.5)end
-		if L[4]then L[4][method](L[4],20,390,.5)end
-		if L[5]then L[5][method](L[5],20,30,.5)end
+		if L[3]then L[3][method](L[3],965, 30,.5)end
+		if L[4]then L[4][method](L[4], 20,390,.5)end
+		if L[5]then L[5][method](L[5], 20, 30,.5)end
+	elseif #L<=17 then
+		for i=1,4 do if L[i+1]then	L[i+1][method](L[i+1],	15,	-160+180*i,.25)else return end end
+		for i=1,4 do if L[i+5]then	L[i+5][method](L[i+5],	180,-160+180*i,.25)else return end end
+		for i=1,4 do if L[i+9]then	L[i+9][method](L[i+9],	950,-160+180*i,.25)else return end end
+		for i=1,4 do if L[i+13]then	L[i+13][method](L[i+13],1120,-160+180*i,.25)else return end end
+	elseif #L<=31 then
+		for i=1,5 do if L[i+1]then	L[i+1][method](L[i+1],	10,	-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+6]then	L[i+6][method](L[i+6],	120,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+11]then	L[i+11][method](L[i+11],230,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+16]then	L[i+16][method](L[i+16],940,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+21]then	L[i+21][method](L[i+21],1050,-100+135*i,.18)else return end end
+		for i=1,5 do if L[i+26]then	L[i+26][method](L[i+26],1160,-100+135*i,.18)else return end end
 	elseif #L<=49 then
 		local n=2
 		for i=1,4 do for j=1,6 do
