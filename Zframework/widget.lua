@@ -871,7 +871,7 @@ function textBox:update()
 end
 function textBox:push(t)
 	ins(self.texts,t)
-	if self.scrollPos==#self.texts-1 then
+	if self.scrollPos==#self.texts-1 and not(self.hide==true or self.hide and self.hide())then
 		self.scrollPos=#self.texts
 	else
 		self.new=true
@@ -902,9 +902,6 @@ function textBox:scroll(n)
 		self.scrollPos=max(self.scrollPos+n,min(#self.texts,self.capacity))
 	else
 		self.scrollPos=min(self.scrollPos+n,#self.texts)
-		if self.scrollPos==#self.texts then
-			self.new=false
-		end
 	end
 end
 function textBox:clear()
@@ -918,6 +915,10 @@ function textBox:draw()
 	local scroll=self.scrollPos
 	local cap=self.capacity
 
+	--Update new message status, necessary when hide==true
+	if self.scrollPos==#self.texts then
+		self.new=false
+	end
 
 	--Background
 	gc.setColor(0,0,0,.3)
