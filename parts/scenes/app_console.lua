@@ -90,9 +90,9 @@ do--commands.help(arg)
 			},
 		},
 		del={
-			description="Attempt to delete a file (in saving directory)",
+			description="Attempt to delete a file or directory",
 			details={
-				"Attempt to delete a file (in saving directory)",
+				"Attempt to delete a file or directory (in saving directory)",
 				"",
 				"Aliases: rm",
 				"",
@@ -380,10 +380,10 @@ do--function commands.del(name)
 			local info=love.filesystem.getInfo(name)
 			if info then
 				if info.type=='file'then
-					if recursive then
-						log{C.R,name.." is not a directory."}
-					else
+					if not recursive then
 						delFile(name)
+					else
+						log{C.R,("'%s' is not a directory."):format(name)}
 					end
 				elseif info.type=='directory'then
 					(recursive and recursiveDelDir or delDir)(name)
