@@ -1,6 +1,7 @@
 local gc,tc=love.graphics,love.touch
 local ins=table.insert
 local SCR,VK,NET=SCR,VK,NET
+local PLAYERS,PLY_NET,GAME=PLAYERS,PLY_NET,GAME
 
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=false}
 
@@ -90,11 +91,13 @@ function scene.keyDown(key)
 			PLAYERS[1]:pressKey(k)
 			VK.press(k)
 		end
-	elseif key=="space"then
-		NET.signal_ready(not PLY_NET[1].ready)
-	elseif key=="s"then
-		if not(PLY_NET[1].ready or NET.getlock('ready'))then
-			SCN.go('setting_game')
+	else
+		if key=="space"then
+			NET.signal_ready(not PLY_NET[1].ready)
+		elseif key=="s"then
+			if not(PLY_NET[1].ready or NET.getlock('ready'))then
+				SCN.go('setting_game')
+			end
 		end
 	end
 end
@@ -202,7 +205,6 @@ function scene.update(dt)
 	if not playing then return end
 
 	local P1=PLAYERS[1]
-	local GAME=GAME
 
 	touchMoveLastFrame=false
 	VK.update()
