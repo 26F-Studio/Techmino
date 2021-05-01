@@ -13,11 +13,11 @@ local kickList=require"parts.kickList"
 --------------------------<FX>--------------------------
 function Player:showText(text,dx,dy,font,style,spd,stop)
 	if self.gameEnv.text then
-		ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font*self.size,style,spd,stop))
+		ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 	end
 end
 function Player:showTextF(text,dx,dy,font,style,spd,stop)
-	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font*self.size,style,spd,stop))
+	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 end
 function Player:createLockFX()
 	local CB=self.cur.bk
