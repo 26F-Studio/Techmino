@@ -8,6 +8,16 @@ local ins=table.insert
 local setFont,mStr=setFont,mStr
 local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
 
+local clearIcon=DOGC{40,40,
+	{"setLW",6},
+	{"line",11,11,29,29},
+	{"line",11,29,29,11},
+}
+local sureIcon=DOGC{40,40,
+	{"setFT",35},
+	{"mText","?",20,-6},
+}
+
 local WIDGET={}
 local widgetMetatable={
 	__tostring=function(self)
@@ -20,6 +30,7 @@ local text={
 	mustHaveText=true,
 	alpha=0,
 }
+
 function text:reset()end
 function text:update()
 	if self.hideCon and self.hideCon()then
@@ -925,12 +936,11 @@ function textBox:draw()
 		gc.rectangle('fill',x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
 
-	gc.setColor(1,1,1)
-	setFont(30)
 	--Clear button
+	gc.setColor(1,1,1)
 	if not self.fix then
-		mStr(self.sure>0 and"?"or"X",x+w-20,y-1)
 		gc.rectangle('line',x+w-40,y,40,40)
+		gc.draw(self.sure==0 and clearIcon or sureIcon,x+w-40,y)
 	end
 
 	--Texts
