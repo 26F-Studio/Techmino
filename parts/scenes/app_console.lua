@@ -100,6 +100,15 @@ do--commands.help(arg)
 				"Usage: del -s [dirname]",
 			},
 		},rm="del",
+		ren={
+			description="Rename a file (in saving directory)",
+			details={
+				"Rename a file (in saving directory)",
+				{C.lY,"Warning: file name with space is not allowed"},
+				"",
+				"Usage: ren [oldfilename] [newfilename]",
+			},
+		},
 		cls={
 			description="Clear the log output.",
 			details={
@@ -239,6 +248,7 @@ do--commands.help(arg)
 		"url",
 		"tree",
 		"del",
+		"ren",
 		"cls",
 		"rst",
 		"fn",
@@ -399,6 +409,37 @@ do--function commands.del(name)
 		end
 	end
 	commands.rm=commands.del
+end
+function commands.ren(arg)
+	--Check arguments
+	arg=STRING.split(arg," ")
+	if #arg>2 then
+		log{C.lY,"Warning: file name with space is not allowed"}
+		return
+	elseif #arg<2 then
+		log{C.aqua,"Usage: ren [oldfilename] [newfilename]"}
+		return
+	end
+
+	--Check file exist
+	local info
+	info=love.filesystem.getInfo(arg[1])
+	if not(info and info.type=='file')then log{C.R,("'%s' is not a file!"):format(arg[1])}return end
+	info=love.filesystem.getInfo(arg[2])
+	if info then log{C.R,("'%s' already exists!"):format(arg[2])}return end
+
+	--Read file
+	local data,err1=love.filesystem.read('data',arg[1])
+	if not data then log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or"Unknown error")}return end
+
+	--Write file
+	local res,err2=love.filesystem.write(arg[2],data)
+	if not res then log{C.R,("Failed to write file: "):format(err2 or"Unknown error")}return end
+
+	--Delete file
+	if not love.filesystem.remove(arg[1])then log{C.R,("Failed to delete old file ''"):format(arg[1])}return end
+
+	log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
 end
 commands.exit=backScene
 commands.quit=backScene
