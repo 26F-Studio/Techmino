@@ -9,7 +9,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
-local setFont,mStr=setFont,mStr
+local setFont,mDraw,mStr=setFont,mDraw,mStr
 local TIME=TIME
 
 local frameColorList={
@@ -867,7 +867,7 @@ function draw.small(P)
 		--Draw result
 		if P.result then
 			gc_setColor(1,1,1,min(P.endCounter,60)*.01)
-			setFont(20)mStr(drawableText[P.result],32,47)
+			setFont(20)mDraw(drawableText[P.result],30,60,nil,P.size)
 			setFont(15)mStr(P.modeData.place,30,82)
 		end
 		gc_pop()

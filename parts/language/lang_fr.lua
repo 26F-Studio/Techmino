@@ -37,8 +37,10 @@ return{
 	pc="Perfect Clear",ko="KO",
 
 
-	win="Gagné !",
+	-- win="Win",
+	-- lose="Lose",
 	finish="Terminé",
+	gamewin="Gagné !",
 	gameover="Fin du jeu",
 	pause="Pause",
 	pauseCount="Pauses",

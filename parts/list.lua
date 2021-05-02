@@ -166,8 +166,9 @@ do--drawableText
 		anykey=T(40),
 		replaying=T(20),
 		next=T(40),hold=T(40),
-		win=T(120),finish=T(120),
-		gameover=T(100),pause=T(120),
+		win=T(120),lose=T(120),
+		finish=T(120),
+		gamewin=T(100),gameover=T(100),pause=T(120),
 
 		speedLV=T(20),
 		line=T(25),atk=T(20),eff=T(20),

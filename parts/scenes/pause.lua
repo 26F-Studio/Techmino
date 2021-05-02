@@ -190,7 +190,7 @@ function scene.draw()
 
 	--Result Text
 	setFont(35)
-	mText(GAME.result and drawableText[GAME.result]or drawableText.pause,640,50-10*(5-timer*.1)^1.5)
+	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,100-10*(5-timer*.1)^1.5)
 
 	--Mode Info
 	gc.draw(drawableText.modeName,40,240)

@@ -112,7 +112,7 @@ end
 function scene.gamepadDown(key)
 	if key=="back"then
 		if TIME()-lastBackTime<1 then
-			SCN.back()
+			NET.signal_quit()
 		else
 			lastBackTime=TIME()
 			LOG.print(text.sureQuit,COLOR.O)
@@ -201,7 +201,10 @@ function scene.socketRead(cmd,d)
 end
 
 function scene.update(dt)
-	if NET.checkPlayDisconn()then SCN.back()end
+	if NET.checkPlayDisconn()then
+		NET.wsclose_stream()
+		SCN.back()
+	end
 	if not playing then return end
 
 	local P1=PLAYERS[1]
@@ -234,7 +237,7 @@ function scene.draw()
 		drawFWM()
 
 		--Players
-		for p=textBox.hide and 1 or 2,#PLAYERS do
+		for p=1,#PLAYERS do
 			PLAYERS[p]:draw()
 		end
 
@@ -275,11 +278,12 @@ function scene.draw()
 		--Profile
 		drawSelfProfile()
 	end
+
 	--New message
-	if textBox.new and textBox.hide then
-		setFont(30)
-		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
-		gc.print("M",460,15)
+	if textBox.new then
+		setFont(40)
+		gc.setColor(1,.5+.5*math.sin(TIME()*26),0)
+		gc.print("M",430,10)
 	end
 end
 scene.widgetList={
@@ -290,7 +294,6 @@ scene.widgetList={
 			return
 				playing or
 				NET.serverGaming or
-				not textBox.hide or
 				PLY_NET[1].ready or
 				NET.getlock('ready')
 		end},
@@ -299,7 +302,6 @@ scene.widgetList={
 			return
 				playing or
 				NET.serverGaming or
-				not textBox.hide or
 				not PLY_NET[1].ready or
 				NET.getlock('ready')
 		end},

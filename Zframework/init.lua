@@ -79,8 +79,8 @@ local function updatePowerInfo()
 			if charging then	gc_setColor(0,1,0)
 			elseif pow>50 then	gc_setColor(1,1,1)
 			elseif pow>26 then	gc_setColor(1,1,0)
-			elseif pow<26 then	gc_setColor(1,0,0)
-			else				gc_setColor(.5,0,1)
+			elseif pow==26 then	gc_setColor(.5,0,1)
+			else				gc_setColor(1,0,0)
 			end
 			gc_rectangle('fill',76,6,pow*.22,14)
 			if pow<100 then
@@ -558,9 +558,11 @@ function love.run()
 				end
 
 				--Draw FPS
-				gc_setColor(1,1,1)
 				setFont(15)
 				_=SCR.h
+				gc_setColor(.8,.8,.8,.4)
+				gc_print(VERSION.string,SCR.safeX+50,_-20)
+				gc_setColor(1,1,1)
 				gc_print(FPS(),SCR.safeX+5,_-20)
 
 				--Debug info.

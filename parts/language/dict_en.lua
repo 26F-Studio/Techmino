@@ -92,6 +92,12 @@ return{
 		"*Web-based, no mobile support | Single player and multiplayer*\nFancy online battle Tetris game.",
 		"https://tetr.io",
 	},
+	{"Nuketris",
+		"nuketris",
+		"game",
+		"[NEED TRANSLATION]",--TODO
+		"https://nuketris.herokuapp.com",
+	},
 	{"WWC",
 		"wwc worldwidecombos",
 		"game",
@@ -174,6 +180,11 @@ return{
 		"jjtetris",
 		"game",
 		"*Android | Multiplayer*\nChinese: JJ块\nA casual game on JJ Card Games (JJ棋牌). Portrait screen, low input delay, smooth controls. Customizable DAS/ARR and toggle-able 20G soft drop, limited control scheme customization. No hold nor B2B, no garbage buffer nor cancelling. Every attack sends at most 4 lines, combos are more powerful, otherwise similar to modern Tetris.",
+	},
+	{"Falling lightblock",
+		"fl fallinglightblock",
+		"game",
+		"[NEED TRANSLATION]",--TODO
 	},
 	{"Huopin Tetris",
 		"huopin qq",
@@ -771,7 +782,7 @@ return{
 		"community communities",
 		"other",
 		"Join Tetris communities and talk with other players!\n\nChina: [QQ] Tetris Research: 112897780\nGlobal: [Discord] Hard Drop: discord.gg/harddrop (click \"Open URL\")",
-		"https://discord.gg/harddrop/"
+		"https://discord.gg/harddrop"
 	},
 	{"Tetris OL Servers",
 		"tetrisonline servers",

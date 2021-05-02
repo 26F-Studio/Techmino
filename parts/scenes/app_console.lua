@@ -5,9 +5,10 @@ local C=COLOR
 
 local inputBox=WIDGET.newInputBox{name="input",x=40,y=650,w=1200,h=50}
 local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,lineH=25,fix=true}
+
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
-log{C.lB,"©2020 26F Studio   some rights reserved"}
+log{C.lC,"©2020 26F Studio   some rights reserved"}
 log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
@@ -679,6 +680,10 @@ function scene.sceneInit()
 	BG.set('none')
 end
 
+function scene.wheelMoved(_,y)
+	WHEELMOV(y,"scrollup","scrolldown")
+end
+
 function scene.keyDown(k)
 	if k=="return"then
 		local input=inputBox.value
@@ -766,6 +771,12 @@ function scene.keyDown(k)
 				inputBox.value=res[1]
 			end
 		end
+	elseif k=="scrollup"then outputBox:scroll(-1)
+	elseif k=="scrolldown"then outputBox:scroll(1)
+	elseif k=="pageup"then outputBox:scroll(-20)
+	elseif k=="pagedown"then outputBox:scroll(20)
+	elseif k=="home"then outputBox:scroll(-1e99)
+	elseif k=="end"then outputBox:scroll(1e99)
 	elseif combKey[k]and kb.isDown("lctrl","rctrl")then
 		combKey[k]()
 	elseif k=="escape"then
