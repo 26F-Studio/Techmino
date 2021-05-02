@@ -1,5 +1,5 @@
 return{
-	color=COLOR.lH,
+	color=COLOR.lGray,
 	env={
 		drop=120,lock=120,
 		infHold=true,
