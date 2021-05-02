@@ -25,7 +25,9 @@ return{
 	missionFailed="-X_X-",
 
 	win=": )",
+	lose=": (",
 	finish="&",
+	gamewin=">>",
 	gameover="x",
 	pause="=",
 	pauseCount="==",

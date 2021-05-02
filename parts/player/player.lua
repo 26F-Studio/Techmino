@@ -1702,7 +1702,7 @@ function Player:win(result)
 		self:changeAtk()
 	end
 	if self.type=='human'then
-		GAME.result=result or'win'
+		GAME.result=result or'gamewin'
 		SFX.play('win')
 		VOC.play('win')
 		if GAME.modeEnv.royaleMode then
@@ -1807,7 +1807,7 @@ function Player:lose(force)
 		self:showTextF(self.modeData.place,0,120,60,'appear',.26,.9)
 	end
 	self.gameEnv.keepVisible=self.gameEnv.visible~='show'
-	self:showTextF(text.gameover,0,0,60,'appear',.26,.9)
+	self:showTextF(text.lose,0,0,90,'appear',.26,.9)
 	if self.type=='human'then
 		GAME.result='gameover'
 		SFX.play('fail')

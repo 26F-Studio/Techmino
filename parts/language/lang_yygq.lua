@@ -26,9 +26,11 @@ return{
 	combo="连击",maxcmb="最大连",
 	pc="消干净了",ko="淘汰",
 
-	win="成了",
+	win="好了",
+	lose="挂了",
 	finish="可以的",
-	gameover="挂了",
+	gamewin="成了",
+	gameover="没了",
 	pause="歇会",
 	pauseCount="歇多久了",
 	finesse_ap="您",

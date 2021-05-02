@@ -36,8 +36,10 @@ return{
 	combo="Combo",maxcmb="Max Combo",
 	pc="Perfect Clear",ko="KO",
 
-	win="You Win!",
+	win="Win",
+	lose="Lose",
 	finish="Finish",
+	gamewin="You Win!",
 	gameover="Game Over",
 	pause="Pause",
 	pauseCount="Pauses",

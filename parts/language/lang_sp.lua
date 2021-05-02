@@ -36,8 +36,10 @@ return{
 	combo="Combo",maxcmb="Combo Máx.",
 	pc="Perfect Clear",ko="KO",
 
-	win="Victoria",
+	-- win="Win",
+	-- lose="Lose",
 	finish="Fin",
+	gamewin="Victoria",
 	gameover="Fin del Juego",
 	pause="Pausa",
 	pauseCount="Veces pausadas",
