@@ -34,6 +34,7 @@ local SCN={
 	keyUp=false,
 	gamepadDown=false,
 	gamepadUp=false,
+	fileDropped=false,
 	socketRead=false,
 }--Scene datas, returned
 
@@ -78,6 +79,7 @@ function SCN.init(s,org)
 	SCN.keyUp=S.keyUp
 	SCN.gamepadDown=S.gamepadDown
 	SCN.gamepadUp=S.gamepadUp
+	SCN.fileDropped=S.fileDropped
 	SCN.socketRead=S.socketRead
 	if S.sceneInit then S.sceneInit(org)end
 end

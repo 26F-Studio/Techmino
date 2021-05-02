@@ -326,6 +326,9 @@ end
 function love.sendData(data)end
 function love.receiveData(id,data)end
 ]]
+function love.filedropped(file)
+	if SCN.fileDropped then SCN.fileDropped(file)end
+end
 local lastGCtime=0
 function love.lowmemory()
 	if TIME()-lastGCtime>6.26 then
