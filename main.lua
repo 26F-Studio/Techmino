@@ -59,6 +59,15 @@ require"parts.list"
 require"parts.globalTables"
 require"parts.gametoolfunc"
 
+--Load shader files from SOURCE ONLY
+SHADER={}
+for _,v in next,fs.getDirectoryItems("parts/shaders")do
+	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
+		local name=v:sub(1,-6)
+		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
+	end
+end
+
 FREEROW=	require"parts.freeRow"
 DATA=		require"parts.data"
 
@@ -204,16 +213,6 @@ LANG.init(
 		},
 	}
 )
-
---Load shader files from SOURCE ONLY
-SHADER={}
-for _,v in next,fs.getDirectoryItems("parts/shaders")do
-	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
-		local name=v:sub(1,-6)
-		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
-	end
-end
-
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
 	if fs.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
