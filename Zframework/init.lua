@@ -54,11 +54,12 @@ local setFont=setFont
 local int,rnd,abs=math.floor,math.random,math.abs
 local min,sin=math.min,math.sin
 local ins,rem=table.insert,table.remove
-local SCR=SCR
+
+local WIDGET,SCR,SCN=WIDGET,SCR,SCN
+local xOy=SCR.xOy
 
 local mx,my,mouseShow=-20,-20,false
 local touching--First touching ID(userdata)
-local xOy=SCR.xOy
 joysticks={}
 
 local devMode
@@ -457,16 +458,15 @@ love.draw,love.update=nil--remove default draw/update
 function love.run()
 	local love=love
 
-	local SCN,WIDGET=SCN,WIDGET
 	local VOC,BG,SYSFX=VOC,BG,SYSFX
 	local TASK,LOG,TEXT=TASK,LOG,TEXT
 
-	local SETTING=SETTING
-	local TIME=TIME
+	local TEXTURE,TIME=TEXTURE,TIME
+	local SETTING,VERSION=SETTING,VERSION
+	local destroyPlayers=destroyPlayers
 
 	local STEP,WAIT=love.timer.step,love.timer.sleep
-	local FPS=love.timer.getFPS
-	local MINI=love.window.isMinimized
+	local FPS,MINI=love.timer.getFPS,love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 
 	local frameTimeList={}
@@ -485,9 +485,9 @@ function love.run()
 	return function()
 		local _
 
-		local t=TIME()
-		local dt=t-lastFrame
-		lastFrame=t
+		local time=TIME()
+		local dt=time-lastFrame
+		lastFrame=time
 
 		--EVENT
 		PUMP()
@@ -533,11 +533,11 @@ function love.run()
 
 					--Draw cursor
 					if mouseShow then
-						local R=int((t+1)/2)%7+1
+						local R=int((time+1)/2)%7+1
 						_=minoColor[SETTING.skin[R]]
-						gc_setColor(_[1],_[2],_[3],min(abs(1-t%2),.3))
+						gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
 						_=SCS[R][0]
-						gc_draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+						gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
 						gc_draw(TEXTURE[ms.isDown(1)and'cursor_hold'or'cursor'],mx,my,nil,nil,nil,8,8)
 					end
@@ -594,7 +594,7 @@ function love.run()
 							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
 						elseif status=='connecting'then
-							gc_setColor(1,1,1,.5+.3*sin(t*6.26))
+							gc_setColor(1,1,1,.5+.3*sin(time*6.26))
 							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
 						elseif status=='running'then
 							gc_setColor(1,1,1)
@@ -622,10 +622,10 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if t-lastFreshPow>2.6 then
+		if time-lastFreshPow>2.6 then
 			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
-				lastFreshPow=t
+				lastFreshPow=time
 			end
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
