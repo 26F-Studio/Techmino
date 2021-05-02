@@ -36,7 +36,7 @@ function TABLE.copy(org)
 	return L
 end
 
---For all things in G if same type in base, push to base
+--For all things in new if same type in base, push to old
 function TABLE.update(new,old)
 	for k,v in next,new do
 		if type(v)==type(old[k])then
@@ -49,13 +49,14 @@ function TABLE.update(new,old)
 	end
 end
 
---For all things in G if no val in base, push to base
+--For all things in new if no val in base, push to old
 function TABLE.complete(new,old)
 	for k,v in next,new do
-		if old[k]==nil then
-			old[k]=v
-		elseif type(v)=='table'and type(old[k])=='table'then
+		if type(v)=='table'then
+			if old[k]==nil then old[k]={}end
 			TABLE.complete(v,old[k])
+		elseif old[k]==nil then
+			old[k]=v
 		end
 	end
 end
