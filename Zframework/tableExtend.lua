@@ -1,6 +1,15 @@
 local next,type=next,type
 local TABLE={}
 
+--Get a new filled table
+function TABLE.new(val,count)
+	local L={}
+	for i=1,count do
+		L[i]=val
+	end
+	return L
+end
+
 --Get a copy of [1~#] elements
 function TABLE.shift(org)
 	local L={}
