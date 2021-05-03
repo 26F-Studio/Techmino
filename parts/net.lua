@@ -374,12 +374,14 @@ function NET.updateWS_play()
 									config=d.config,
 								})
 								if SCN.socketRead then SCN.socketRead('Join',d)end
+								NET.allReady=false
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
+								NET.allReady=false
 								NET.wsclose_stream()
-								SCN.back()
 								NET.unlock('quit')
+								SCN.back()
 							else
 								for i=1,#PLY_NET do
 									if PLY_NET[i].sid==d.sid then
