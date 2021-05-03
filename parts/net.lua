@@ -6,6 +6,7 @@ local NET={
 	allow_online=false,
 	allReady=false,
 	serverGaming=false,
+	connectingStream=false,
 	roomList={},
 	accessToken=false,
 	rid=false,
@@ -441,6 +442,7 @@ function NET.updateWS_play()
 							NET.allReady=true
 						elseif res.action==8 then--Set
 							NET.rsid=d.rid
+							NET.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
 							NET.allReady=false
@@ -474,6 +476,7 @@ function NET.updateWS_stream()
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
 						elseif res.action==0 then--Game start
+							NET.connectingStream=false
 							SCN.socketRead('Go',d)
 						elseif res.action==1 then--Game finished
 							--?

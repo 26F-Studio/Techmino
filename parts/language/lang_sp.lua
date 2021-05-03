@@ -102,6 +102,7 @@ return{
 	joinRoom="entró a la sala.",
 	leaveRoom="salió de la sala.",
 	-- ready="READY",
+	-- set="SET",
 	champion="$1 ganó!",
 	chatRemain="Usuarios en línea: ",
 	chatStart="------Comienzo del historial------",

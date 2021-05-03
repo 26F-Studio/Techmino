@@ -46,7 +46,6 @@ return{
 	createRoomTooFast="手痒要开这么多房间?",
 	createRoomSuccessed="创好了",
 	started="开了",
-	ready="预备!",
 	champion="神仙是 $1",
 
 	stat={

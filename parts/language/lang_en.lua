@@ -101,6 +101,7 @@ return{
 	joinRoom="has joined the room.",
 	leaveRoom="has left the room.",
 	ready="READY",
+	set="SET",
 	champion="$1 won",
 	chatRemain="Online: ",
 	chatStart="------Beginning of log------",

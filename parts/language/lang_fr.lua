@@ -102,6 +102,7 @@ return{
 	joinRoom="a rejoint le salon.",
 	leaveRoom="a quitté le salon.",
 	-- ready="READY",
+	-- set="SET",
 	champion="$1 a gagné",
 	chatRemain="En ligne : ",
 	chatStart="--------Début des logs--------",

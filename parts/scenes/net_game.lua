@@ -268,10 +268,12 @@ function scene.draw()
 			gc.print(p.username,240,60+50*i)
 		end
 
-		--All-ready mark
-		if NET.allReady then
-			gc.setColor(.1,1,0,.9)
-			setFont(60)
+		--Ready & Set mark
+		gc.setColor(.1,1,0,.9)
+		setFont(60)
+		if NET.connectingStream then
+			mStr(text.set,640,10)
+		elseif NET.allReady then
 			mStr(text.ready,640,10)
 		end
 

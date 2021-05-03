@@ -102,6 +102,7 @@ return{
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
 	-- ready="READY",
+	-- set="SET",
 	-- champion="$1 won",
 	chatRemain="Online: ",
 	chatStart="------Começo do log------",
