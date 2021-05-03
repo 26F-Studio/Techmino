@@ -1,4 +1,5 @@
 local gc=love.graphics
+local rem=table.remove
 
 
 
@@ -164,7 +165,6 @@ function scoreValid()--Check if any unranked mods are activated
 	return true
 end
 function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
-	local rem=table.remove
 	for i=#PLAYERS,1,-1 do
 		local P=PLAYERS[i]
 		if P.canvas then P.canvas:release()end
