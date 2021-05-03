@@ -741,6 +741,7 @@ function inputBox:reset()
 end
 function inputBox:clear()
 	self.value=""
+	self.new=false
 end
 function inputBox:isAbove(x,y)
 	return
