@@ -10,14 +10,9 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1)
-		local N=2
-		for i=1,#PLY_NET do
-			if PLY_NET[i].uid==USER.uid then
-				PLAYERS[1].sid=PLY_NET[1].sid
-			else
-				PLY.newRemotePlayer(N,false,PLY_NET[i])
-				N=N+1
-			end
+		PLAYERS[1].sid=netPLY.getSID(1)
+		for i=2,netPLY.getCount()do
+			PLY.newRemotePlayer(i,false,netPLY.getUID(i))
 		end
 	end,
 }
