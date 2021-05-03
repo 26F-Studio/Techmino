@@ -340,6 +340,7 @@ end
 function love.resize(w,h)
 	SCR.resize(w,h)
 	if BG.resize then BG.resize(w,h)end
+	if SCN.resize then SCN.resize(w,h)end
 
 	SHADER.warning:send("w",w*SCR.dpi)
 	SHADER.warning:send("h",h*SCR.dpi)
