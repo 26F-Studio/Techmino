@@ -5,13 +5,20 @@ local WS,TIME=WS,TIME
 local NET={
 	connected=false,
 	allow_online=false,
-	allReady=false,
-	serverGaming=false,
-	connectingStream=false,
-	roomList={},
 	accessToken=false,
-	rid=false,
-	rsid=false,
+	roomList={},
+	roomInfo={
+		-- rid=false,
+		name=false,
+		-- type=false,
+		private=false,
+		-- count=false,
+		capacity=false,
+	},
+	allReady=false,
+	streamRoomID=false,
+	connectingStream=false,
+	serverGaming=false,
 }
 
 local mesType={
@@ -109,7 +116,7 @@ function NET.wsconn_stream()
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
-			rid=NET.rsid,
+			rid=NET.streamRoomID,
 		})
 		TASK.new(NET.updateWS_stream)
 	end
@@ -169,27 +176,34 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom(roomType,name)
+function NET.createRoom(roomType,roomName)
 	if NET.lock('enterRoom',1.26)then
+		NET.roomInfo.name=roomName or"?"
+		NET.roomInfo.type=roomType or"?"
+		NET.roomInfo.private=false
+		NET.roomInfo.capacity="?"
 		WS.send('play',JSON.encode{
 			action=1,
 			data={
 				type=roomType,
-				name=name,
+				name=roomName,
 				password=nil,
 				config=dumpBasicConfig(),
 			}
 		})
 	end
 end
-function NET.enterRoom(roomID,password)
+function NET.enterRoom(room,password)
 	if NET.lock('enterRoom',1.26)then
 		SFX.play('reach',.6)
-		NET.rid=roomID
+		NET.roomInfo.name=room.name or"?"
+		NET.roomInfo.type=room.type or"?"
+		NET.roomInfo.private=not not password
+		NET.roomInfo.capacity=room.capacity or"?"
 		WS.send('play',JSON.encode{
 			action=2,
 			data={
-				rid=roomID,
+				rid=room.rid,
 				config=dumpBasicConfig(),
 				password=password,
 			}
@@ -410,7 +424,7 @@ function NET.updateWS_play()
 							SFX.play('reach',.6)
 							NET.allReady=true
 						elseif res.action==8 then--Set
-							NET.rsid=d.rid
+							NET.streamRoomID=d.rid
 							NET.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
