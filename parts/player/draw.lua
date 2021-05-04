@@ -36,12 +36,19 @@ local dialFrame=DOGC{70,70,
 	{'setLW',4},
 	{'dCirc',35,35,30,6},
 }
+local multiple=DOGC{15,15,
+	{'setLW',3},
+	{'line',2,2,12,12},
+	{'line',2,12,12,2},
+}
 local gridLines do
 	local L={300,640,{'setLW',2}}
 	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
 	for y=0,19 do table.insert(L,{'line',0,40+30*y,300,40+30*y})end
 	gridLines=DOGC(L)
 end
+local LDmarks=gc.newSpriteBatch(DOGC{14,5,{'clear',1,1,1}},15,'static')
+for i=0,14 do LDmarks:add(3+20*i,615)end
 
 local function boardTransform(mode)
 	if mode then
@@ -280,8 +287,8 @@ local function drawB2Bbar(P)
 		gc_setColor(1,1,1)
 		gc_rectangle('fill',-15,b<40 and 568.5 or 118.5,13,3)
 	end
-
-	--LockDelay indicator
+end
+local function drawLDI(P)--Lock Delay Indicator
 	if P.gameEnv.easyFresh then
 		gc_setColor(1,1,1)
 	else
@@ -290,10 +297,9 @@ local function drawB2Bbar(P)
 	if P.lockDelay>=0 then
 		gc_rectangle('fill',0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
 	end
-	local x=3
-	for _=1,min(P.freshTime,15)do
-		gc_rectangle('fill',x,615,14,5)
-		x=x+20
+	if P.freshTime>0 then
+		LDmarks:setDrawRange(1,min(P.freshTime,15))
+		gc_draw(LDmarks)
 	end
 end
 local function drawHold(P)
@@ -316,7 +322,7 @@ local function drawHold(P)
 			N=P.holdTime+1
 		end
 		gc_push('transform')
-		gc_translate(62,40)
+			gc_translate(62,40)
 			for n=1,#holdQueue do
 				if n==N then gc_setColor(.6,.4,.4)end
 				local bk,clr=holdQueue[n].bk,holdQueue[n].color
@@ -358,21 +364,12 @@ local function drawFinesseCombo_norm(P)
 			gc_print(str,20,570)
 			gc_setColor(1,1,1,1.2-t*.1)
 		end
-		if t>0 then
-			gc_push('transform')
-			gc_translate(20,600)
-			gc_scale(1+t*.08)
-			gc_print(str,0,-30)
-			gc_pop()
-		else
-			gc_print(str,20,570)
-		end
+		gc_print(str,20,600,nil,1+t*.08,nil,0,30)
 	end
 end
 local function drawFinesseCombo_remote(P)
 	if P.finesseCombo>2 then
 		local S=P.stat
-		local str=P.finesseCombo.."x"
 		if S.finesseRate==5*S.piece then
 			gc_setColor(.9,.9,.3)
 		elseif S.maxFinesseCombo==S.piece then
@@ -380,21 +377,18 @@ local function drawFinesseCombo_remote(P)
 		else
 			gc_setColor(1,1,1)
 		end
-		gc_print(str,20,570)
+		gc_print(P.finesseCombo.."x",20,570)
 	end
 end
 local function drawLife(life)
+	gc_setColor(1,1,1)
+	gc_draw(IMG.lifeIcon,475,595,nil,.8)
 	if life>3 then
-		gc_setColor(1,1,1)
-		gc_draw(IMG.lifeIcon,475,595,nil,.8)
-		setFont(20)
-		gc_print("x",503,595)
-		gc_print(life,517,595)
-	elseif life>0 then
-		gc_setColor(1,1,1)
-		for i=1,life do
-			gc_draw(IMG.lifeIcon,450+25*i,595,nil,.8)
-		end
+		gc_draw(multiple,502,602)
+		setFont(20)gc_print(life,517,595)
+	else
+		if life>1 then gc_draw(IMG.lifeIcon,500,595,nil,.8)end
+		if life>2 then gc_draw(IMG.lifeIcon,525,595,nil,.8)end
 	end
 end
 local function drawMission(P)
@@ -423,24 +417,20 @@ local function drawMission(P)
 		end
 	end
 end
-local function drawStartCounter(P)
+local function drawStartCounter(count)
 	gc_setColor(1,1,1)
-	if P.frameRun<180 then
-		local count=179-P.frameRun
-		gc_push('transform')
-			gc_translate(305,220)
-			setFont(95)
-			if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
-			mStr(int(count/60+1),0,0)
-		gc_pop()
-	end
+	gc_push('transform')
+		gc_translate(305,220)
+		if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
+		setFont(95)
+		mStr(int(count/60+1),0,0)
+	gc_pop()
 end
 
 local draw={}
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
-	gc_push('transform')
 	gc_translate(316,36)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
@@ -448,14 +438,14 @@ function draw.drawNext_norm(P)
 		mText(drawableText.next,62,-51)
 		N=1
 		gc_push('transform')
-		gc_translate(62,40)
+			gc_translate(62,40)
 			while N<=ENV.nextCount and P.nextQueue[N]do
-				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
+				local bk,sprite=P.nextQueue[N].bk,texture[P.nextQueue[N].color]
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
-						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))
+						gc_draw(sprite,30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))
 					end
 				end end
 				gc_scale(1/k)
@@ -465,20 +455,16 @@ function draw.drawNext_norm(P)
 		gc_pop()
 
 		if ENV.bagLine then
-			local len=ENV.bagLen
-			local phase=-P.pieceCount%len
 			gc_setColor(.8,.5,.5)
-			for i=phase,N-1,len do
-				local y=72*i+3
-				gc_line(2+P.fieldOff.x,y,120,y)
+			for i=-P.pieceCount%ENV.bagLen,N-1,ENV.bagLen do--i=phase
+				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
-	gc_pop()
+	gc_translate(-316,-36)
 end
 function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
-	gc_push('transform')
 	gc_translate(316,36)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
@@ -486,14 +472,15 @@ function draw.drawNext_hidden(P)
 		mText(drawableText.next,62,-51)
 		N=min(ENV.nextStartPos,P.pieceCount+1)
 		gc_push('transform')
-		gc_translate(62,40)
-			while N<=ENV.nextCount and P.nextQueue[N]do
-				local bk,clr=P.nextQueue[N].bk,P.nextQueue[N].color
+			gc_translate(62,40)
+			local queue=P.nextQueue
+			while N<=ENV.nextCount and queue[N]do
+				local bk,sprite=queue[N].bk,texture[queue[N].color]
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
-						gc_draw(texture[clr],30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))
+						gc_draw(sprite,30*(j-#bk[1]*.5)-30,-30*(i-#bk*.5))
 					end
 				end end
 				gc_scale(1/k)
@@ -503,15 +490,12 @@ function draw.drawNext_hidden(P)
 		gc_pop()
 
 		if ENV.bagLine then
-			local len=ENV.bagLen
-			local phase=-P.pieceCount%len
 			gc_setColor(.8,.5,.5)
-			for i=phase,N-1,len do
-				local y=72*i+3
-				gc_line(2+P.fieldOff.x,y,120,y)
+			for i=-P.pieceCount%ENV.bagLen,N-1,ENV.bagLen do--i=phase
+				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
-	gc_pop()
+	gc_translate(-316,-36)
 end
 draw.applyFieldOffset=applyFieldOffset
 
@@ -619,6 +603,7 @@ function draw.norm(P)
 			drawBoarders(P)
 			drawBuffer(P)
 			drawB2Bbar(P)
+			drawLDI(P)
 			drawHold(P)
 			P:drawNext()
 
@@ -678,9 +663,9 @@ function draw.norm(P)
 		gc_setColor(COLOR.N)gc_print(tm,20,540)
 
 		drawFinesseCombo_norm(P)
-		drawLife(P.life)
+		if P.life>0 then drawLife(P.life)end
 		drawMission(P)
-		drawStartCounter(P)
+		if P.frameRun<180 then drawStartCounter(179-P.frameRun)end
 	gc_pop()
 end
 function draw.norm_remote(P)
@@ -772,6 +757,7 @@ function draw.norm_remote(P)
 			drawBoarders(P)
 			drawBuffer(P)
 			drawB2Bbar(P)
+			drawLDI(P)
 			drawHold(P)
 			P:drawNext()
 
@@ -822,9 +808,9 @@ function draw.norm_remote(P)
 		gc_setColor(COLOR.N)gc_print(time,20,540)
 
 		drawFinesseCombo_remote(P)
-		drawLife(P.life)
+		if P.life>0 then drawLife(P.life)end
 		drawMission(P)
-		drawStartCounter(P)
+		if P.frameRun<180 then drawStartCounter(179-P.frameRun)end
 	gc_pop()
 end
 function draw.small(P)
