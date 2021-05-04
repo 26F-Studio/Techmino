@@ -2,7 +2,7 @@ local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
 local gc_translate,gc_scale,gc_rotate=gc.translate,gc.scale,gc.rotate
 local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
-local gc_draw,gc_line,gc_rectangle,gc_circle=gc.draw,gc.line,gc.rectangle,gc.circle
+local gc_draw,gc_line,gc_rectangle=gc.draw,gc.line,gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
@@ -15,7 +15,34 @@ local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
+local RCPB={5,33,195,33,100,5,100,60}
 local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
+local attackColor={
+	{COLOR.dH,COLOR.Z},
+	{COLOR.H,COLOR.Z},
+	{COLOR.lV,COLOR.Z},
+	{COLOR.lR,COLOR.Z},
+	{COLOR.dG,COLOR.C},
+}
+local hideBoardStencil={
+	up=function()gc_rectangle('fill',0,0,300,300)end,
+	down=function()gc_rectangle('fill',0,300,300,300)end,
+	all=function()gc_rectangle('fill',0,0,300,600)end,
+}
+local dialFrame=DOGC{70,70,
+	{'setLW',2},
+	{'dCirc',35,35,30,6},
+	{'setCL',1,1,1,.6},
+	{'setLW',4},
+	{'dCirc',35,35,30,6},
+}
+local gridLines do
+	local L={300,640,{'setLW',2}}
+	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
+	for y=0,19 do table.insert(L,{'line',0,40+30*y,300,40+30*y})end
+	gridLines=DOGC(L)
+end
+
 local function boardTransform(mode)
 	if mode then
 		if mode=="U-D"then
@@ -39,17 +66,9 @@ local function applyFieldOffset(P,notNorm)
 end
 local function stencilBoard()gc_rectangle('fill',0,-10,300,610)end
 
-local function drawGrid(P)
-	gc_setLineWidth(1)
-
-	gc_setColor(1,1,1,P.gameEnv.grid)
-	for x=1,9 do gc_line(30*x,-10,30*x,600)end
-
-	local dx=P.fieldBeneath+P.fieldUp
-	dx=dx-30*int(dx/30)
-	gc_translate(0,dx)
-	for y=0,19 do gc_line(0,30*y,300,30*y)end
-	gc_translate(0,-dx)
+local function drawGrid(P,alpha)
+	gc_setColor(1,1,1,alpha)
+	gc_draw(gridLines,0,-10+(P.fieldBeneath+P.fieldUp)%30)
 end
 local function drawRow(h,V,L,showInvis)
 	local texture=SKIN.curText
@@ -218,13 +237,6 @@ local function drawBoarders(P)
 	gc_rectangle('line',301,-3,15,604)--AtkBuffer boarder
 	gc_rectangle('line',-16,-3,15,604)--B2b bar boarder
 end
-local attackColor={
-	{COLOR.dH,COLOR.Z},
-	{COLOR.H,COLOR.Z},
-	{COLOR.lV,COLOR.Z},
-	{COLOR.lR,COLOR.Z},
-	{COLOR.dG,COLOR.C},
-}
 local function drawBuffer(P)
 	local h=0
 	for i=1,#P.atkBuffer do
@@ -322,25 +334,11 @@ local function drawHold(P)
 		gc_pop()
 	gc_pop()
 end
-local RCPB={5,33,195,33,100,5,100,60}
-local hideBoardStencil={
-	up=function()gc_rectangle('fill',0,0,300,300)end,
-	down=function()gc_rectangle('fill',0,300,300,300)end,
-	all=function()gc_rectangle('fill',0,0,300,600)end,
-}
 local function drawDial(x,y,speed)
 	gc_setColor(1,1,1)
-	setFont(25)
-	mStr(int(speed),x,y-18)
-
-	gc_setLineWidth(2)
-	gc_circle('line',x,y,30,6)
-
+	setFont(25)mStr(int(speed),x,y-18)
+	gc_draw(dialFrame,x,y,nil,nil,nil,35,35)
 	gc_draw(IMG.dialNeedle,x,y,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,5,4)
-
-	gc_setLineWidth(4)
-	gc_setColor(1,1,1,.4)
-	gc_circle('line',x,y,30,6)
 end
 local function drawFinesseCombo_norm(P)
 	if P.finesseCombo>2 then
@@ -533,7 +531,8 @@ function draw.norm(P)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
 	gc_push('transform')
-		gc_translate(P.x,P.y)gc_scale(P.size)
+		gc_translate(P.x,P.y)
+		gc_scale(P.size)
 
 		--Field-related things
 		gc_push('transform')
@@ -550,7 +549,7 @@ function draw.norm(P)
 				boardTransform(ENV.flipBoard)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P)end
+				if ENV.grid then drawGrid(P,ENV.grid)end
 
 				--Move camera
 				gc_translate(0,600+FBN+FUP)
@@ -689,7 +688,8 @@ function draw.norm_remote(P)
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
 	gc_push('transform')
-		gc_translate(P.x,P.y)gc_scale(P.size)
+		gc_translate(P.x,P.y)
+		gc_scale(P.size)
 
 		--Field-related things
 		gc_push('transform')
@@ -711,7 +711,7 @@ function draw.norm_remote(P)
 				boardTransform(ENV.flipBoard)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P)end
+				if ENV.grid then drawGrid(P,ENV.grid)end
 
 				--Move camera
 				gc_translate(0,600+FBN+FUP)
@@ -740,10 +740,12 @@ function draw.norm_remote(P)
 					local centerX=30*(P.curX+P.cur.sc[2])-15
 
 					--Draw ghost & rotation center
-					if ENV.ghost then drawGhost(P,curColor)end
-					if ENV.center and ENV.ghost then
-						gc_setColor(1,1,1,trans*ENV.center)
-						gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+					if ENV.ghost then
+						drawGhost(P,curColor)
+						if ENV.center then
+							gc_setColor(1,1,1,trans*ENV.center)
+							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+						end
 					end
 
 					local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
@@ -826,7 +828,7 @@ function draw.norm_remote(P)
 	gc_pop()
 end
 function draw.small(P)
-	--Draw content
+	--Update canvas
 	P.frameWait=P.frameWait-1
 	if P.frameWait==0 then
 		P.frameWait=10
@@ -872,13 +874,12 @@ function draw.small(P)
 
 	--Draw Canvas
 	gc_setColor(1,1,1)
-	gc_draw(P.canvas,P.x,P.y,nil,P.size*10)
+	local size=P.size
+	gc_draw(P.canvas,P.x,P.y,nil,size*10)
 	if P.killMark then
-		gc_setLineWidth(3)
-		gc_setColor(1,0,0,min(P.endCounter,25)*.04)
-		gc_circle('line',P.centerX,P.centerY,(840-20*min(P.endCounter,30))*P.size)
+		gc_setColor(1,0,0)
+		gc_rectangle('fill',P.x+40*size,P.y+40*size,160*size,160*size)
 	end
-	setFont(30)
 end
 function draw.demo(P)
 	local _

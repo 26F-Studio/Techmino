@@ -334,6 +334,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.shakeFX==0 then	ENV.shakeFX=false	end
 	if ENV.atkFX==0 then	ENV.atkFX=false		end
 	if ENV.ghost==0 then	ENV.ghost=false	end
+	if ENV.grid==0 then		ENV.grid=false end
 	if ENV.center==0 then	ENV.center=false end
 end
 --------------------------</Libs>--------------------------
