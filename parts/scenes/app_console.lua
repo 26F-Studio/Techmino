@@ -218,12 +218,12 @@ do--commands.help(arg)
 				"Usage: theme <classic|xmas|sprfes|zday1/2/3>",
 			},
 		},
-		demo={
-			description="Go to an empty demo scene",
+		test={
+			description="Go to an empty test scene",
 			details={
-				"Go to an empty demo scene",
+				"Go to an empty test scene",
 				"",
-				"Usage: demo",
+				"Usage: test",
 			},
 		},
 		applet={
@@ -263,7 +263,7 @@ do--commands.help(arg)
 		"stopbgm",
 		"setbg",
 		"theme",
-		"demo",
+		"test",
 		"applet",
 	}
 	function commands.help(arg)
@@ -556,7 +556,7 @@ function commands.theme(name)
 		log{C.aqua,"Usage: theme [themeName]"}
 	end
 end
-function commands.demo()
+function commands.test()
 	SCN.go('test','none')
 end
 do--commands.applet(name)
