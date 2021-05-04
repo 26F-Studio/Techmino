@@ -33,6 +33,7 @@ function scene.sceneInit(org)
 end
 
 scene.mouseDown=NULL
+function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
 function scene.touchDown(x,y)
 	if noTouch or not playing then return end
 
@@ -51,8 +52,9 @@ function scene.touchUp(x,y)
 		VK.release(n)
 	end
 end
-function scene.touchMove()
-	if noTouch or touchMoveLastFrame or not playing then return end
+function scene.touchMove(x,y)
+	if not playing then netPLY.mouseMove(x,y)return end
+	if noTouch or touchMoveLastFrame then return end
 	touchMoveLastFrame=true
 
 	local L=tc.getTouches()
@@ -160,6 +162,7 @@ function scene.socketRead(cmd,d)
 		if not playing then
 			playing=true
 			netPLY.resetReady()
+			netPLY.mouseMove(0,0)
 			lastUpstreamTime=0
 			upstreamProgress=1
 			resetGameData('n',d.seed)
@@ -269,7 +272,7 @@ end
 scene.widgetList={
 	textBox,
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or netPLY.getReady(1)or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color='lB',font=40,code=pressKey"space",
+	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
