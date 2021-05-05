@@ -535,6 +535,11 @@ function love.run()
 					--Draw widgets
 					WIDGET.draw()
 
+					--Draw Version string
+					gc_setColor(.8,.8,.8,.4)
+					setFont(20)
+					mStr(VERSION.string,640,693)
+
 					--Draw cursor
 					if mouseShow then
 						local R=int((time+1)/2)%7+1
@@ -564,8 +569,6 @@ function love.run()
 				--Draw FPS
 				setFont(15)
 				_=SCR.h
-				gc_setColor(.8,.8,.8,.4)
-				gc_print(VERSION.string,SCR.safeX+50,_-20)
 				gc_setColor(1,1,1)
 				gc_print(FPS(),SCR.safeX+5,_-20)
 
