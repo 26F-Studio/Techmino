@@ -179,6 +179,7 @@ return{
 		Beepbox
 		GFIE
 		Goldwave
+		FL Mobile
 	Libs utilisées:
 		Cold_Clear [MinusKelvin]
 		json.lua [rxi]

@@ -9,27 +9,29 @@ function scene.sceneInit()
 end
 
 function scene.draw()
-	--Draw all texts
+	--Texts
 	setFont(20)
 	gc.setColor(1,1,1)
 	for i=1,#text.help do
 		gc.printf(text.help[i],150,35*i+40,1000,'center')
 	end
 
+	--Group
+	setFont(20)
+	mStr(text.group,640,480)
+
 	--Lib used
 	setFont(15)
-	gc.print(text.used,30,330)
+	gc.print(text.used,30,320)
 
+	--Logo
 	local t=TIME()
-	--Sponsor code
 	gc.draw(TEXTURE.title,280,610,.1,.4+.03*sin(t*2.6),nil,580,118)
 	gc.setLineWidth(3)
+
+	--QR Code frame
 	gc.rectangle('line',18,18,263,263)
 	gc.rectangle('line',1012,18,250,250)
-
-	--Group code
-	setFont(20)
-	mStr(text.group,640,490)
 
 	--Support text
 	gc.setColor(1,1,1,sin(t*20)*.3+.6)
