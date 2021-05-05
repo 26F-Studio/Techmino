@@ -3,7 +3,11 @@ local int,abs,rnd=math.floor,math.abs,math.random
 local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
-local function updateLine(P)--Attacks, line pushing, cam moving
+local TEXT,GAME=TEXT,GAME
+local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
+
+
+local function updateLine(P)--Attacks, line pushing, camear moving
 	local bf=P.atkBuffer
 	for i=#bf,1,-1 do
 		local A=bf[i]
@@ -280,7 +284,7 @@ function update.alive(P,dt)
 	if P.falling>=0 then
 		P.falling=P.falling-1
 		if P.falling>=0 then
-			goto THROW_stop
+			goto stop
 		else
 			local L=#P.clearingRow
 			if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
@@ -289,11 +293,11 @@ function update.alive(P,dt)
 	end
 
 	--Try spawn new block
-	if not P.control then goto THROW_stop end
+	if not P.control then goto stop end
 	if P.waiting>=0 then
 		P.waiting=P.waiting-1
 		if P.waiting<0 then P:popNext()end
-		goto THROW_stop
+		goto stop
 	end
 
 	--Natural block falling
@@ -302,7 +306,7 @@ function update.alive(P,dt)
 			local D=P.dropDelay
 			if D>1 then
 				P.dropDelay=D-1
-				goto THROW_stop
+				goto stop
 			end
 
 			if D==1 then
@@ -335,14 +339,14 @@ function update.alive(P,dt)
 			end
 		else
 			P.lockDelay=P.lockDelay-1
-			if P.lockDelay>=0 then goto THROW_stop end
+			if P.lockDelay>=0 then goto stop end
 			P:drop()
 			if P.AI_mode=='CC'and P.AI_bot then
 				CC.updateField(P)
 			end
 		end
 	end
-	::THROW_stop::
+	::stop::
 
 	--B2B bar animation
 	if P.b2b1==P.b2b then
