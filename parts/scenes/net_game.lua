@@ -35,7 +35,7 @@ end
 scene.mouseDown=NULL
 function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
 function scene.touchDown(x,y)
-	if noTouch or not playing then return end
+	if not playing or noTouch then return end
 
 	local t=VK.on(x,y)
 	if t then
@@ -44,7 +44,7 @@ function scene.touchDown(x,y)
 	end
 end
 function scene.touchUp(x,y)
-	if noTouch or not playing then return end
+	if not playing or noTouch then return end
 
 	local n=VK.on(x,y)
 	if n then
@@ -53,8 +53,8 @@ function scene.touchUp(x,y)
 	end
 end
 function scene.touchMove(x,y)
-	if not playing then netPLY.mouseMove(x,y)return end
-	if noTouch or touchMoveLastFrame then return end
+	if not playing then netPLY.mouseMove(x,y)end
+	if touchMoveLastFrame or noTouch then return end
 	touchMoveLastFrame=true
 
 	local L=tc.getTouches()
@@ -120,7 +120,6 @@ function scene.gamepadDown(key)
 			LOG.print(text.sureQuit,COLOR.O)
 		end
 	else
-		if noKey then return end
 		local k=keyMap.joystick[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
@@ -129,12 +128,10 @@ function scene.gamepadDown(key)
 	end
 end
 function scene.gamepadUp(key)
-	if noKey then return end
 	local k=keyMap.joystick[key]
 	if k and k>0 then
 		PLAYERS[1]:releaseKey(k)
 		VK.release(k)
-		return
 	end
 end
 
@@ -288,7 +285,7 @@ scene.widgetList={
 				netPLY.getReady(1)or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color='H',font=40,code=pressKey"space",
+	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
