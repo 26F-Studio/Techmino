@@ -705,7 +705,7 @@ function Player:hold(ifpre)
 			end
 		end
 
-		self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount)))
+		self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
 		if not ENV.infHold then
 			self.holdTime=self.holdTime-1
 		end
