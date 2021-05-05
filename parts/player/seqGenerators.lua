@@ -1,7 +1,7 @@
 local ins,rem=table.insert,table.remove
 local yield=YIELD
 
-local seqGens={
+local seqGenerators={
 	none=function()while true do yield()end end,
 	bag=function(P,seq0)
 		local len=#seq0
@@ -26,10 +26,10 @@ local seqGens={
 				for n=1,4 do
 					local j,i=0
 					repeat
-						i=seq0[P:RND(len)]
+						i=P:RND(len)
 						j=j+1
 					until i~=his[1]and i~=his[2]and i~=his[3]and i~=his[4]or j==4
-					his[n]=i
+					his[n]=seq0[i]
 					P:getNext(i)
 				end
 			end
@@ -143,8 +143,8 @@ return function(P)--Return a piece-generating funtion for player P
 	local s=P.gameEnv.sequence
 	if type(s)=='function'then
 		return s
-	elseif type(s)=='string'and seqGens[s]then
-		return seqGens[s]
+	elseif type(s)=='string'and seqGenerators[s]then
+		return seqGenerators[s]
 	else
 		LOG.print(
 			type(s)=='string'and
@@ -152,6 +152,6 @@ return function(P)--Return a piece-generating funtion for player P
 			"Wrong sequence generator",
 		'warn')
 		P.gameEnv.sequence='bag'
-		return seqGens.bag
+		return seqGenerators.bag
 	end
 end

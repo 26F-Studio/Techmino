@@ -1,5 +1,5 @@
 local Player=require"parts.player.player"
-local getSeqGen=require"parts.player.getSeqGen"
+local seqGenerators=require"parts.player.seqGenerators"
 local gameEnv0=require"parts.player.gameEnv0"
 
 local rnd,max=math.random,math.max
@@ -314,7 +314,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
-	P.newNext=coroutine.wrap(getSeqGen(P))
+	P.newNext=coroutine.wrap(seqGenerators(P))
 	P.newNext(P,P.gameEnv.seqData)
 
 	if P.mini then
