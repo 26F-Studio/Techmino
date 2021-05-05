@@ -337,25 +337,25 @@ keyMap=FILE.load("conf/key")or{--Key setting
 	},
 }
 VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
-	{ava=true,	x=80,		y=720-200,	r=80,color=COLOR.L},--moveLeft
-	{ava=true,	x=320,		y=720-200,	r=80,color=COLOR.L},--moveRight
-	{ava=true,	x=1280-80,	y=720-200,	r=80,color=COLOR.R},--rotRight
-	{ava=true,	x=1280-200,	y=720-80,	r=80,color=COLOR.O},--rotLeft
-	{ava=true,	x=1280-200,	y=720-320,	r=80,color=COLOR.M},--rot180
-	{ava=true,	x=200,		y=720-320,	r=80,color=COLOR.C},--hardDrop
-	{ava=true,	x=200,		y=720-80,	r=80,color=COLOR.S},--softDrop
-	{ava=true,	x=1280-320,	y=720-200,	r=80,color=COLOR.Y},--hold
-	{ava=true,	x=1280-80,	y=280,		r=80,color=COLOR.lR},--func1
-	{ava=true,	x=80,		y=280,		r=80,color=COLOR.lM},--func2
-	{ava=false,	x=100,		y=50,		r=80,color=COLOR.A},--insLeft
-	{ava=false,	x=200,		y=50,		r=80,color=COLOR.A},--insRight
-	{ava=false,	x=300,		y=50,		r=80,color={COLOR.rainbow(3.5)}},--insDown
-	{ava=false,	x=400,		y=50,		r=80,color={COLOR.rainbow(3.3)}},--down1
-	{ava=false,	x=500,		y=50,		r=80,color={COLOR.rainbow(3.1)}},--down4
-	{ava=false,	x=600,		y=50,		r=80,color={COLOR.rainbow(2.9)}},--down10
-	{ava=false,	x=700,		y=50,		r=80,color=COLOR.lL},--dropLeft
-	{ava=false,	x=800,		y=50,		r=80,color=COLOR.lL},--dropRight
-	{ava=false,	x=900,		y=50,		r=80,color=COLOR.lA},--addToLeft
-	{ava=false,	x=1000,		y=50,		r=80,color=COLOR.lA},--addToRight
+	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
+	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
+	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
+	{ava=true,	x=1280-200,	y=720-80,	r=80},--rotLeft
+	{ava=true,	x=1280-200,	y=720-320,	r=80},--rot180
+	{ava=true,	x=200,		y=720-320,	r=80},--hardDrop
+	{ava=true,	x=200,		y=720-80,	r=80},--softDrop
+	{ava=true,	x=1280-320,	y=720-200,	r=80},--hold
+	{ava=true,	x=1280-80,	y=280,		r=80},--func1
+	{ava=true,	x=80,		y=280,		r=80},--func2
+	{ava=false,	x=100,		y=50,		r=80},--insLeft
+	{ava=false,	x=200,		y=50,		r=80},--insRight
+	{ava=false,	x=300,		y=50,		r=80},--insDown
+	{ava=false,	x=400,		y=50,		r=80},--down1
+	{ava=false,	x=500,		y=50,		r=80},--down4
+	{ava=false,	x=600,		y=50,		r=80},--down10
+	{ava=false,	x=700,		y=50,		r=80},--dropLeft
+	{ava=false,	x=800,		y=50,		r=80},--dropRight
+	{ava=false,	x=900,		y=50,		r=80},--addToLeft
+	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
 REPLAY=FILE.load("conf/replay")or{}

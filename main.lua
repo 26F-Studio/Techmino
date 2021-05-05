@@ -272,13 +272,7 @@ do
 	end
 	SETTING.appLock=nil
 
-	for _,v in next,VK_org do
-		if not v.color then
-			fs.remove("conf/virtualkey")
-			autoRestart=true
-			break
-		end
-	end
+	for _,v in next,VK_org do v.color=nil end
 
 	if STAT.version~=VERSION.code then
 		newVersionLaunch=true
