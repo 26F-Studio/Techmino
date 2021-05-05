@@ -40,7 +40,7 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.15,.15,.15)
+	gc.clear(.1,.1,.1)
 	gc.push('transform')
 	gc.origin()
 	for i=1,#mino do

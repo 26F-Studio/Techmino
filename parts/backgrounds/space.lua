@@ -31,7 +31,7 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.15,.15,.15)
+	gc.clear(.1,.1,.1)
 	if not stars[1]then return end
 	gc.translate(-10,-10)
 	gc.setColor(.8,.8,.8)
