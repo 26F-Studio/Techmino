@@ -263,7 +263,6 @@ do
 	if STAT.version<1400 then
 		fs.remove("conf/user")
 		fs.remove("conf/key")
-		SETTING.appLock=false
 		needSave=true
 		autoRestart=true
 	end
@@ -271,6 +270,7 @@ do
 		fs.remove("conf/user")
 		autoRestart=true
 	end
+	SETTING.appLock=nil
 
 	for _,v in next,VK_org do
 		if not v.color then

@@ -246,7 +246,6 @@ SETTING={--Settings
 	reTime=4,
 	autoPause=true,
 	fine=false,
-	appLock=false,
 	simpMode=false,
 	lang=1,
 	skinSet=1,
