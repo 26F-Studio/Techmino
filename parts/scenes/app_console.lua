@@ -8,7 +8,7 @@ local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,l
 
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
-log{C.lC,"©2020 26F Studio   some rights reserved"}
+log{C.lC,"©2021 26F Studio   some rights reserved"}
 log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
@@ -623,6 +623,8 @@ local function log_user(str)
 	log(noLog and"CHEATER."or tostring(str))
 end
 local userG={
+	timer=TIME,
+
 	_VERSION=VERSION.code,
 	assert=assert,error=error,
 	tonumber=tonumber,tostring=tostring,
