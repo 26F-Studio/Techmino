@@ -554,7 +554,7 @@ return{
 	{"His generator",
 		"history hisgenerator",
 		"term",
-		"A way to generate pieces, notably used in Tetris: The Grand Master games. Every time a random Tetrimino is selected, but if this Tetrimino is the same as one of the few previous pieces, then reroll until a different piece is rolled or until a reroll limit is reached.\nFor example, a \"his 4 roll 6\" (h4r6) generator rerolls when the piece is the same as one of the 4 previous pieces, and rerolls up to 6 times.",
+		"A way to generate pieces, notably used in Tetris: The Grand Master games. Every time a random Tetrimino is selected, but if this Tetrimino is the same as one of the few previous pieces, then reroll until a different piece is rolled or until a reroll limit is reached.\nFor example, a \"his 4 roll 6\" (h4r6) generator rerolls when the piece is the same as one of the 4 previous pieces, and rerolls up to 6 times.",--TODO
 	},
 	{"Hypertapping",
 		"hypertapping",
