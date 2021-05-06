@@ -159,13 +159,12 @@ do--commands.help(arg)
 				"Usage: gammacorrect <true|false>",
 			},
 		},
-		rmwtm={
-			description="Remove the \"no recording\" watermark.",
+		["\114\109\119\116\109"]={
+			description="Remove something",
 			details={
-				"Remove the \"no recording\" watermark.",
-				"You will need a password to do that.",
+				"Remove something",
 				"",
-				"Usage: rmwtm [password]",
+				"Usage: ?",
 			},
 		},
 		unlockall={
@@ -256,7 +255,7 @@ do--commands.help(arg)
 		"scrinfo",
 		"wireframe",
 		"gammacorrect",
-		"rmwtm",
+		"\114\109\119\116\109",
 		"unlockall",
 		"play",
 		"playbgm",
@@ -478,13 +477,11 @@ function commands.gammacorrect(bool)
 		log{C.aqua,"Usage: gammacorrect <true|false>"}
 	end
 end
-function commands.rmwtm(pw)
+commands["\114\109\119\116\109"]=function(pw)
 	if pw==the_secret then
 		_G["\100\114\97\119\70\87\77"]=NULL
 		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
 		SFX.play('clear')
-	else
-		log{C.aqua,"Usage: rmwtm [password]"}
 	end
 end
 function commands.unlockall(bool)
