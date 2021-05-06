@@ -10,9 +10,9 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1)
-		PLAYERS[1].sid=netPLY.getSID(1)
+		PLAYERS[1].sid=netPLY.getSID(USER.uid)
 		for i=2,netPLY.getCount()do
-			PLY.newRemotePlayer(i,false,netPLY.getUID(i))
+			PLY.newRemotePlayer(i,false,netPLY.getPLY(i))
 		end
 	end,
 }

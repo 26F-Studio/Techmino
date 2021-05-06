@@ -85,9 +85,7 @@ local function freshPosList()
 	end
 end
 
-function netPLY.clear()
-	while PLY[1]do rem(PLY)end
-end
+function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
 function netPLY.add(p)
 	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
 	p.x,p.y,p.w,p.h=2600,2600,0,0
@@ -104,20 +102,13 @@ function netPLY.remove(sid)
 end
 
 function netPLY.getCount()return #PLY end
-function netPLY.getUID(i)return PLY[i].uid end
+function netPLY.getPLY(i)return PLY[i]end
 function netPLY.getUsername(uid)return PLY[uid].username end
-function netPLY.getSID(i)return PLY[i].sid end
-function netPLY.getReady(i)return PLY[i].ready end
-function netPLY.getConfig(i)return PLY[i].config end
+function netPLY.getSID(uid)return PLY[uid].sid end
+function netPLY.getSelfReady()return PLY[1].ready end
 
-function netPLY.setPlayerObj(uid,p)
-	PLY[uid].p=p
-end
-function netPLY.setConf(uid,config)
-	if tostring(USER.uid)~=uid then
-		PLY[uid].config=config
-	end
-end
+function netPLY.setPlayerObj(ply,p) ply.p=p end
+function netPLY.setConf(uid,config)PLY[uid].config=config end
 function netPLY.setReady(uid,ready)
 	for i,p in next,PLY do
 		if p.uid==uid then

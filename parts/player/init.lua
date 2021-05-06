@@ -373,7 +373,7 @@ function PLY.newDemoPlayer(id)
 	}
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,mini,uid)
+function PLY.newRemotePlayer(id,mini,ply)
 	local P=newEmptyPlayer(id,mini)
 	P.type='remote'
 	P.update=PLY.update.remote_alive
@@ -383,11 +383,11 @@ function PLY.newRemotePlayer(id,mini,uid)
 	P.stream={}
 	P.streamProgress=1
 
-	netPLY.setPlayerObj(uid,P)
-	P.uid=uid
-	P.username=netPLY.getUsername(uid)
-	P.sid=netPLY.getSID(uid)
-	loadRemoteEnv(P,netPLY.getConfig(uid))
+	netPLY.setPlayerObj(ply,P)
+	P.uid=ply.uid
+	P.username=ply.username
+	P.sid=ply.sid
+	loadRemoteEnv(P,ply.config)
 
 	applyGameEnv(P)
 end

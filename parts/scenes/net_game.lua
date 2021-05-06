@@ -95,9 +95,9 @@ function scene.keyDown(key)
 		end
 	else
 		if key=="space"then
-			NET.signal_ready(not netPLY.getReady(1))
+			NET.signal_ready(not netPLY.getSelfReady())
 		elseif key=="s"then
-			if not(netPLY.getReady(1)or NET.getlock('ready'))then
+			if not(netPLY.getSelfReady()or NET.getlock('ready'))then
 				SCN.go('setting_game')
 			end
 		end
@@ -276,13 +276,13 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or netPLY.getReady(1)or NET.getlock('ready')end},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
 	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
 				NET.serverGaming or
-				netPLY.getReady(1)or
+				netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=pressKey"space",
@@ -290,7 +290,7 @@ scene.widgetList={
 			return
 				playing or
 				NET.serverGaming or
-				not netPLY.getReady(1)or
+				not netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
