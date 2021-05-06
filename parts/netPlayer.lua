@@ -1,5 +1,7 @@
 local gc=love.graphics
-local max,min=math.max,math.min
+local rnd,min=math.random,math.min
+local sin,cos=math.sin,math.cos
+
 
 local ins,rem=table.insert,table.remove
 
@@ -88,7 +90,8 @@ end
 function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
 function netPLY.add(p)
 	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
-	p.x,p.y,p.w,p.h=2600,2600,0,0
+	local a=rnd()*6.2832
+	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
 	freshPosList()
 end
 function netPLY.remove(sid)
