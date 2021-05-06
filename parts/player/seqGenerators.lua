@@ -1,4 +1,5 @@
 local ins,rem=table.insert,table.remove
+local ceil=math.ceil
 local yield=YIELD
 
 local seqGenerators={
@@ -18,20 +19,75 @@ local seqGenerators={
 			yield()
 		end
 	end,
-	his4=function(P,seq0)
+	his=function(P,seq0)
 		local len=#seq0
-		local his={0,0,0,0}
+		local hisLen=ceil(len*.5)
+		local history=TABLE.new(0,hisLen)
 		while true do
 			while #P.nextQueue<6 do
-				for n=1,4 do
-					local j,i=0
-					repeat
-						i=P:RND(len)
-						j=j+1
-					until i~=his[1]and i~=his[2]and i~=his[3]and i~=his[4]or j==4
-					his[n]=seq0[i]
-					P:getNext(i)
+				local r
+				for _=1,hisLen do--Reroll up to [hisLen] times
+					r=P:RND(len)
+					for i=1,hisLen do
+						if r==history[i]then
+							goto CONTINUE_rollAgain
+						end
+					end
+					do break end
+					::CONTINUE_rollAgain::
 				end
+				if history[1]~=0 then P:getNext(r)end
+				rem(history,1)ins(history,r)
+			end
+			yield()
+		end
+	end,
+	hisPool=function(P,seq0)
+		local len=#seq0
+		local hisLen=ceil(len*.5)
+		local poolLen=5*len
+
+		local history=TABLE.new(0,hisLen)--Indexes of pool
+		local droughtTimes=TABLE.new(len,len)--Drought times of seq0
+		local pool={}for i=1,len do for _=1,5 do ins(pool,i)end end--5 times indexes of seq0
+
+		while true do
+			while #P.nextQueue<6 do
+				--Roll mino
+				local r--Random index of pool
+				for _=1,hisLen do
+					r=P:RND(poolLen)
+					for i=1,hisLen do
+						if pool[r]==history[i]then
+							goto CONTINUE_rollAgain
+						end
+					end
+					do break end
+					::CONTINUE_rollAgain::
+				end
+
+				--Give mino to player & update history
+				if history[1]~=0 then P:getNext(seq0[pool[r]])end
+				rem(history,1)ins(history,pool[r])
+
+				--Find droughtest(s) minoes
+				local droughtList={1}--Droughtst minoes' indexes of seq0
+				local maxTime=droughtTimes[1]
+				for i=2,len do
+					if droughtTimes[i]>maxTime then
+						maxTime=droughtTimes[i]
+						if #droughtList==1 then droughtList[1]=i else droughtList={i}end
+					elseif droughtTimes[i]==maxTime then
+						ins(droughtList,i)
+					end
+				end
+
+				--Update droughtTimes
+				for i=1,len do droughtTimes[i]=droughtTimes[i]+1 end
+				droughtTimes[pool[r]]=0
+
+				--Update pool
+				pool[r]=droughtList[P:RND(#droughtList)]
 			end
 			yield()
 		end

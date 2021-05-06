@@ -8,7 +8,7 @@ return{
 		drop=0,lock=15,
 		wait=10,fall=10,
 		nextCount=2,
-		sequence='his4',
+		sequence='his',
 		task=function(P)P.modeData.target=12 end,
 		dropPiece=function(P)
 			local p=P.modeData.pt+P.lastPiece.row
