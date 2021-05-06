@@ -258,7 +258,7 @@ function scene.draw()
 		--Room info.
 		gc.setColor(1,1,1)
 		setFont(25)
-		mStr(NET.roomInfo.name,640,685)
+		gc.printf(NET.roomInfo.name,0,685,1270,'right')
 		setFont(40)
 		gc.print(netPLY.getCount().."/"..NET.roomInfo.capacity,70,655)
 		if NET.roomInfo.private then gc.draw(IMG.lock,30,668)end
@@ -270,7 +270,7 @@ function scene.draw()
 	--New message
 	if textBox.new then
 		setFont(40)
-		gc.setColor(1,.5+.5*math.sin(TIME()*26),0)
+		gc.setColor(1,1,0)
 		gc.print("M",430,10)
 	end
 end
