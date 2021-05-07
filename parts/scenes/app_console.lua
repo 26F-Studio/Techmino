@@ -8,7 +8,7 @@ local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,l
 
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
-log{C.lC,"©2020 26F Studio   some rights reserved"}
+log{C.lC,"©2021 26F Studio   some rights reserved"}
 log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
@@ -95,7 +95,7 @@ do--commands.help(arg)
 			details={
 				"Attempt to delete a file or directory (in saving directory)",
 				"",
-				"Aliases: rm",
+				"Aliases: del rm",
 				"",
 				"Usage: del [filename|dirname]",
 				"Usage: del -s [dirname]",
@@ -107,9 +107,12 @@ do--commands.help(arg)
 				"Rename a file (in saving directory)",
 				{C.lY,"Warning: file name with space is not allowed"},
 				"",
+				"Aliases: ren mv",
+				"",
 				"Usage: ren [oldfilename] [newfilename]",
 			},
 		},
+		mv="ren",
 		cls={
 			description="Clear the log output.",
 			details={
@@ -193,7 +196,8 @@ do--commands.help(arg)
 				"",
 				"Usage: playbgm [bgmName]"
 			},
-		},music="playbgm",
+		},
+		music="playbgm",
 		stopbgm={
 			description="Stop the BGM.",
 			details={
@@ -238,7 +242,9 @@ do--commands.help(arg)
 				"applet [appName]",
 			},
 		},
-	}TABLE.reIndex(command_help_messages)
+		app="applet",
+	}
+	TABLE.reIndex(command_help_messages)
 
 	local command_help_list={
 		"help",
@@ -442,6 +448,7 @@ function commands.ren(arg)
 
 	log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
 end
+commands.mv=commands.ren
 commands.exit=backScene
 commands.quit=backScene
 commands.bye=backScene
