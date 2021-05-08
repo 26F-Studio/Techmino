@@ -45,49 +45,61 @@ local seqGenerators={
 	hisPool=function(P,seq0)
 		local len=#seq0
 		local hisLen=ceil(len*.5)
-		local poolLen=5*len
+		local history=TABLE.new(0,hisLen)--Indexes of mino-index
 
-		local history=TABLE.new(0,hisLen)--Indexes of pool
+		local poolLen=5*len
 		local droughtTimes=TABLE.new(len,len)--Drought times of seq0
 		local pool={}for i=1,len do for _=1,5 do ins(pool,i)end end--5 times indexes of seq0
+		local function poolPick()
+			local r=P:RND(poolLen)
+			local res=pool[r]
+
+			--Find droughtest(s) minoes
+			local droughtList={1}--Droughtst minoes' indexes of seq0
+			local maxTime=droughtTimes[1]
+			for i=2,len do
+				if droughtTimes[i]>maxTime then
+					maxTime=droughtTimes[i]
+					if #droughtList==1 then droughtList[1]=i else droughtList={i}end
+				elseif droughtTimes[i]==maxTime then
+					ins(droughtList,i)
+				end
+			end
+
+			--Update droughtTimes
+			for i=1,len do droughtTimes[i]=droughtTimes[i]+1 end
+			droughtTimes[res]=0
+
+			--Update pool
+				-- print("Rem "..res)
+			pool[r]=droughtList[P:RND(#droughtList)]
+				-- print("Add "..pool[r])
+
+			return res
+		end
 
 		while true do
 			while #P.nextQueue<6 do
-				--Roll mino
-				local r--Random index of pool
-				for _=1,hisLen do
-					r=P:RND(poolLen)
-					for i=1,hisLen do
-						if pool[r]==history[i]then
-							goto CONTINUE_rollAgain
-						end
+					-- print"======================"
+				--Pick a mino from pool
+				local tryTime=0
+				::REPEAT_pickAgain::
+				local r=poolPick()--Random mino-index in pool
+				for i=1,len do
+					if r==history[i]then
+						tryTime=tryTime+1
+						if tryTime<hisLen then goto REPEAT_pickAgain end
 					end
-					do break end
-					::CONTINUE_rollAgain::
 				end
 
 				--Give mino to player & update history
-				if history[1]~=0 then P:getNext(seq0[pool[r]])end
-				rem(history,1)ins(history,pool[r])
-
-				--Find droughtest(s) minoes
-				local droughtList={1}--Droughtst minoes' indexes of seq0
-				local maxTime=droughtTimes[1]
-				for i=2,len do
-					if droughtTimes[i]>maxTime then
-						maxTime=droughtTimes[i]
-						if #droughtList==1 then droughtList[1]=i else droughtList={i}end
-					elseif droughtTimes[i]==maxTime then
-						ins(droughtList,i)
-					end
-				end
-
-				--Update droughtTimes
-				for i=1,len do droughtTimes[i]=droughtTimes[i]+1 end
-				droughtTimes[pool[r]]=0
-
-				--Update pool
-				pool[r]=droughtList[P:RND(#droughtList)]
+				if history[1]~=0 then P:getNext(seq0[r])end
+				rem(history,1)ins(history,r)
+					-- print("Player GET: "..r)
+					-- print("History: "..table.concat(history,","))
+					-- local L={"","","","","","","",}
+					-- for _,v in next,pool do L[v]=L[v].."+"end
+					-- for i=1,#L do print(i,droughtTimes[i],L[i])end
 			end
 			yield()
 		end
