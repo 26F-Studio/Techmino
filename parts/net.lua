@@ -16,8 +16,8 @@ local NET={
 		capacity=false,
 	},
 	allReady=false,
-	streamRoomID=false,
 	connectingStream=false,
+	streamRoomID=false,
 	serverGaming=false,
 }
 
@@ -389,12 +389,11 @@ function NET.updateWS_play()
 									ready=d.ready,
 									config=d.config,
 								}
-								if SCN.socketRead then SCN.socketRead('Join',d)end
+								if SCN.socketRead then SCN.socketRead('join',d)end
 								NET.allReady=false
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
-								NET.allReady=false
 								NET.wsclose_stream()
 								NET.unlock('quit')
 								SCN.back()
@@ -412,10 +411,10 @@ function NET.updateWS_play()
 										break
 									end
 								end
-								if SCN.socketRead then SCN.socketRead('Leave',d)end
+								if SCN.socketRead then SCN.socketRead('leave',d)end
 							end
 						elseif res.action==4 then--Player talk
-							if SCN.socketRead then SCN.socketRead('Talk',d)end
+							if SCN.socketRead then SCN.socketRead('talk',d)end
 						elseif res.action==5 then--Player change settings
 							netPLY.setConf(d.uid,d.config)
 						elseif res.action==6 then--One ready
@@ -425,12 +424,12 @@ function NET.updateWS_play()
 							NET.allReady=true
 						elseif res.action==8 then--Set
 							NET.streamRoomID=d.rid
+							NET.allReady=false
 							NET.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
-							NET.allReady=false
 							NET.wsclose_stream()
-							if SCN.socketRead then SCN.socketRead('Finish',d)end
+							if SCN.socketRead then SCN.socketRead('finish',d)end
 						end
 					else
 						WS.alert('play')
@@ -460,7 +459,7 @@ function NET.updateWS_stream()
 							NET.unlock('wsc_stream')
 						elseif res.action==0 then--Game start
 							NET.connectingStream=false
-							SCN.socketRead('Go',d)
+							SCN.socketRead('go',d)
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
@@ -475,7 +474,7 @@ function NET.updateWS_stream()
 								end
 							end
 						elseif res.action==5 then--Receive stream
-							SCN.socketRead('Stream',d)
+							SCN.socketRead('stream',d)
 						end
 					else
 						WS.alert('stream')

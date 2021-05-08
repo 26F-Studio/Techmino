@@ -136,26 +136,26 @@ function scene.gamepadUp(key)
 end
 
 function scene.socketRead(cmd,d)
-	if cmd=="Join"then
+	if cmd=='join'then
 		textBox:push{
 			COLOR.lR,d.username,
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.joinRoom,
 		}
 		SFX.play('click')
-	elseif cmd=="Leave"then
+	elseif cmd=='leave'then
 		textBox:push{
 			COLOR.lR,d.username,
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
-	elseif cmd=="Talk"then
+	elseif cmd=='talk'then
 		textBox:push{
 			COLOR.Z,d.username,
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.N,d.message or"[_]",
 		}
-	elseif cmd=="Go"then
+	elseif cmd=='go'then
 		if not playing then
 			playing=true
 			netPLY.resetReady()
@@ -166,7 +166,7 @@ function scene.socketRead(cmd,d)
 		else
 			LOG.print("Redundant [Go]",30,COLOR.G)
 		end
-	elseif cmd=="Finish"then
+	elseif cmd=='finish'then
 		playing=false
 		local winnerUID
 		for _,p in next,d.result do
@@ -178,7 +178,7 @@ function scene.socketRead(cmd,d)
 		if winnerUID then
 			TEXT.show(text.champion:gsub("$1",netPLY.getUsername(winnerUID)),640,260,80,'zoomout',.26)
 		end
-	elseif cmd=="Stream"then
+	elseif cmd=='stream'then
 		if d.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do
 				if P.uid==d.uid then
