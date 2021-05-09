@@ -14,13 +14,7 @@ function scene.sceneInit()
 end
 
 function scene.mouseDown()
-	if newVersionLaunch then
-		SCN.push(SETTING.simpMode and"main_simple"or"main")
-		SCN.swapTo('history','fade')
-		LOG.print(text.newVersion,'warn',COLOR.lB)
-	else
-		SCN.go(SETTING.simpMode and"main_simple"or"main")
-	end
+	SCN.go(SETTING.simpMode and"main_simple"or"main")
 end
 function scene.touchDown()
 	scene.mouseDown()

@@ -147,24 +147,22 @@ local loadingThread=coroutine.wrap(function()
 
 	upFloor()
 	SKIN.change(SETTING.skinSet)
-	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked
-		for name,rank in next,RANKS do
-			local M=MODES[name]
-			if type(rank)~='number'then
-				RANKS[name]=nil
-			elseif M and M.unlock and rank>0 then
-				for _,unlockName in next,M.unlock do
-					if not RANKS[unlockName]then
-						RANKS[unlockName]=0
-					end
+	for name,rank in next,RANKS do
+		local M=MODES[name]
+		if type(rank)~='number'then
+			RANKS[name]=nil
+		elseif M and M.unlock and rank>0 then
+			for _,unlockName in next,M.unlock do
+				if not RANKS[unlockName]then
+					RANKS[unlockName]=0
 				end
 			end
-			if not(M and M.score)then
-				RANKS[name]=nil
-			end
 		end
-		FILE.save(RANKS,'conf/unlock','q')
+		if not(M and M.score)then
+			RANKS[name]=nil
+		end
 	end
+	FILE.save(RANKS,'conf/unlock','q')
 
 	DAILYLAUNCH=freshDate'q'
 	if DAILYLAUNCH then

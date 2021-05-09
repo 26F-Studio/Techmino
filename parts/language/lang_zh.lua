@@ -249,7 +249,6 @@ return{
 		net_menu={
 			ffa="FFA",
 			rooms="房间列表",
-			chat="聊天室",
 			logout="退出登录",
 		},
 		net_rooms={
@@ -263,9 +262,6 @@ return{
 		net_game={
 			ready="准备",
 			cancel="取消",
-		},
-		net_chat={
-			send="发送",
 		},
 		setting_game={
 			title="游戏设置",

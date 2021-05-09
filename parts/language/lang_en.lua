@@ -249,7 +249,6 @@ return{
 		net_menu={
 			ffa="FFA",
 			rooms="Rooms",
-			chat="Chat",
 			logout="Log out",
 		},
 		net_rooms={
@@ -263,9 +262,6 @@ return{
 		net_game={
 			ready="Ready",
 			cancel="Cancel",
-		},
-		net_chat={
-			send="Send",
 		},
 		setting_game={
 			title="Game Settings",

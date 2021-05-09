@@ -275,7 +275,6 @@ do
 	for _,v in next,VK_org do v.color=nil end
 
 	if STAT.version~=VERSION.code then
-		newVersionLaunch=true
 		STAT.version=VERSION.code
 		CLEAR("lib")
 		needSave=true

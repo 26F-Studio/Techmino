@@ -3,9 +3,6 @@ local scene={}
 function scene.sceneInit()
 	BG.set('cubes')
 	WIDGET.active.texts:setTexts(require"parts.updateLog")
-	if newVersionLaunch then
-		newVersionLaunch=false
-	end
 end
 
 function scene.wheelMoved(_,y)
