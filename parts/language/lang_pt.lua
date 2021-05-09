@@ -63,6 +63,7 @@ return{
 	exportSuccess="Exportado com sucesso",
 	importSuccess="Importado com sucesso",
 	dataCorrupted="Data corrompida",
+	-- noFile="File not found",
 
 	VKTchW="Peso de toque",
 	VKOrgW="Peso da origem",
@@ -378,6 +379,10 @@ return{
 			default="Default",
 			snap="Encaixo",
 			option="Opção",
+			-- save1="Save1",
+			-- load1="Load1",
+			-- save2="Save2",
+			-- load2="Load2",
 			size="Tamanho",
 		},
 		setting_touchSwitch={

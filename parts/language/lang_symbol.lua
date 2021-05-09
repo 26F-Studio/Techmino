@@ -47,6 +47,8 @@ return{
 	exportSuccess="~Out~",
 	importSuccess="~In~",
 	dataCorrupted="XXXXX",
+	-- noFile="File not found",
+
 	VKTchW="Tch↓",
 	VKOrgW="Org↓",
 	VKCurW="Cur↓",
@@ -231,6 +233,10 @@ return{
 			default="$0",
 			snap="_ _",
 			option="_?",
+			save1=">1",
+			load1="1>",
+			save2=">2",
+			load2="2>",
 			size="←→",
 		},
 		setting_touchSwitch={

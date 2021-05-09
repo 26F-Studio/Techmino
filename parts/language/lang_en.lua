@@ -62,6 +62,7 @@ return{
 	exportSuccess="Exported successfully",
 	importSuccess="Imported successfully",
 	dataCorrupted="Data corrupted",
+	noFile="File not found",
 
 	VKTchW="Touch Weight",
 	VKOrgW="Origin Weight",
@@ -377,6 +378,10 @@ return{
 			default="Default",
 			snap="Snap",
 			option="Options",
+			save1="Save1",
+			load1="Load1",
+			save2="Save2",
+			load2="Load2",
 			size="Size",
 		},
 		setting_touchSwitch={

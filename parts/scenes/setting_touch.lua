@@ -1,13 +1,35 @@
-local gc=love.graphics
-local ms=love.mouse
-
+local gc,ms=love.graphics,love.mouse
 local int,sin=math.floor,math.sin
+local VK_org=VK_org
 
 local scene={}
 
 local defaultSetSelect
 local snapUnit=1
 local selected--Button selected
+
+local function save1()
+	FILE.save(VK_org,"conf/vkSave1")
+end
+local function load1()
+	local D=FILE.load("conf/vkSave1")
+	if D then
+		TABLE.update(D,VK_org)
+	else
+		LOG.print(text.noFile,'message')
+	end
+end
+local function save2()
+	FILE.save(VK_org,"conf/vkSave2")
+end
+local function load2()
+	local D=FILE.load("conf/vkSave2")
+	if D then
+		TABLE.update(D,VK_org)
+	else
+		LOG.print(text.noFile,'message')
+	end
+end
 
 function scene.sceneInit()
 	BG.set('rainbow')
@@ -150,7 +172,7 @@ local virtualkeySet={
 	},--PC key feedback(top&in a row)
 }
 scene.widgetList={
-	WIDGET.newButton{name="default",x=520,y=90,w=200,h=80,font=35,
+	WIDGET.newButton{name="default",x=530,y=90,w=200,h=80,font=35,
 		code=function()
 			local D=virtualkeySet[defaultSetSelect]
 			for i=1,#VK_org do
@@ -166,17 +188,21 @@ scene.widgetList={
 					B.x,B.y,B.r=T[2],T[3],T[4]
 				end
 			end
-			LOG.print("[ "..defaultSetSelect.." ]")
+			LOG.print(("[ %d ]"):format(defaultSetSelect))
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
 		end},
-	WIDGET.newSelector{name="snap",	x=760,y=90,w=200,h=80,color='Y',list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
-	WIDGET.newButton{name="option",	x=520,y=190,w=200,h=80,font=40,
+	WIDGET.newSelector{name="snap",	x=750,y=90,w=200,h=80,color='Y',list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
+	WIDGET.newButton{name="option",	x=530,y=190,w=200,h=80,font=40,
 		code=function()
 			SCN.go('setting_touchSwitch')
 		end},
-	WIDGET.newButton{name="back",	x=760,y=190,w=200,h=80,font=35,code=backScene},
-	WIDGET.newSlider{name="size",	x=450,y=270,w=460,unit=19,font=40,show="vkSize",
+	WIDGET.newButton{name="back",	x=750,y=190,w=200,h=70,font=35,code=backScene},
+	WIDGET.newKey{name="save1",		x=475,y=290,w=90,h=70,code=save1},
+	WIDGET.newKey{name="load1",		x=585,y=290,w=90,h=70,code=load1},
+	WIDGET.newKey{name="save2",		x=695,y=290,w=90,h=70,code=save2},
+	WIDGET.newKey{name="load2",		x=805,y=290,w=90,h=70,code=load2},
+	WIDGET.newSlider{name="size",	x=440,y=370,w=460,unit=19,font=40,show="vkSize",
 		disp=function()
 			return VK_org[selected].r/10-1
 		end,

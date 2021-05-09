@@ -63,6 +63,7 @@ return{
 	exportSuccess="Exportado con éxito",
 	importSuccess="Importado con éxito",
 	dataCorrupted="Los datos están corruptos.",
+	-- noFile="File not found",
 
 	VKTchW="Sens. al tacto",
 	VKOrgW="Sens. al origen",
@@ -351,6 +352,10 @@ return{
 			default="Por Defecto",
 			snap="Snap",
 			option="Opciones",
+			-- save1="Save1",
+			-- load1="Load1",
+			-- save2="Save2",
+			-- load2="Load2",
 			size="Tamaño",
 		},
 		setting_touchSwitch={

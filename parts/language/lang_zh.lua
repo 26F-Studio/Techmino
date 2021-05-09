@@ -62,6 +62,7 @@ return{
 	exportSuccess="导出成功",
 	importSuccess="导入成功",
 	dataCorrupted="数据损坏",
+	noFile="找不到文件",
 
 	VKTchW="触摸点权重",
 	VKOrgW="原始点权重",
@@ -376,6 +377,10 @@ return{
 			default="默认组合",
 			snap="吸附",
 			option="选项",
+			save1="保存1",
+			load1="读取1",
+			save2="保存2",
+			load2="读取2",
 			size="大小",
 		},
 		setting_touchSwitch={
