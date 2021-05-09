@@ -365,8 +365,8 @@ end
 function Player:receive(A,send,time,line)
 	self.lastRecv=A
 	local B=self.atkBuffer
-	if B.sum<26 then
-		if send>26-B.sum then send=26-B.sum end
+	if send+B.sum>self.gameEnv.bufferLimit then send=self.gameEnv.bufferLimit-B.sum end
+	if send>0 then
 		local m,k=#B,1
 		while k<=m and time>B[k].countdown do k=k+1 end
 		for i=m,k,-1 do

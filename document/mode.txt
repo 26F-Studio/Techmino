@@ -62,6 +62,7 @@
 			visible:方块可见性，填写固定的几个字符串
 			freshLimit:锁延刷新次数限制
 			easyFresh:是否使用简单锁延刷新规则
+			bufferLimit:攻击缓冲行数上限
 
 			fkey1:按下功能键1后执行的函数
 			fkey2:按下功能键2后执行的函数
