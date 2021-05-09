@@ -7,6 +7,10 @@ local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
+local SFX,BGM,VOC,VIB,SYSFX,SKIN=SFX,BGM,VOC,VIB,SYSFX,SKIN
+local FREEROW,TABLE,TEXT,NET,TASK=FREEROW,TABLE,TEXT,NET,TASK
+local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
+
 
 local kickList=require"parts.kickList"
 
@@ -1607,64 +1611,6 @@ end
 --------------------------</Ticks>--------------------------
 
 --------------------------<Events>--------------------------
-local function gameOver()--Save record
-	if GAME.replaying then return end
-	FILE.save(STAT,'conf/data')
-	local M=GAME.curMode
-	local R=M.getRank
-	if R then
-		local P=PLAYERS[1]
-		R=R(P)--New rank
-		if R then
-			if R>0 then
-				GAME.rank=R
-			end
-			if scoreValid()and M.score then
-				if RANKS[M.name]then--Old rank exist
-					local needSave
-					if R>RANKS[M.name]then
-						RANKS[M.name]=R
-						needSave=true
-					end
-					if R>0 then
-						if M.unlock then
-							for i=1,#M.unlock do
-								local m=M.unlock[i]
-								local n=MODES[m].name
-								if not RANKS[n]then
-									RANKS[n]=MODES[m].getRank and 0 or 6
-									needSave=true
-								end
-							end
-						end
-					end
-					if needSave then
-						FILE.save(RANKS,'conf/unlock','q')
-					end
-				end
-				local D=M.score(P)
-				local L=M.records
-				local p=#L--Rank-1
-				if p>0 then
-					while M.comp(D,L[p])do--If higher rank
-						p=p-1
-						if p==0 then break end
-					end
-				end
-				if p<10 then
-					if p==0 then
-						P:showTextF(text.newRecord,0,-100,100,'beat',.5)
-					end
-					D.date=os.date("%Y/%m/%d %H:%M")
-					ins(L,p+1,D)
-					if L[11]then L[11]=nil end
-					FILE.save(L,('record/%s.rec'):format(M.name),'lq')
-				end
-			end
-		end
-	end
-end
-
 function Player:die()--Called both when win/lose!
 	self.alive=false
 	self.timing=false
