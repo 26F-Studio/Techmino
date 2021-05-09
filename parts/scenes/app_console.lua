@@ -36,8 +36,7 @@ do--commands.help(arg)
 				"help",
 				"help [command_name]",
 			},
-		},
-		["?"]="help",
+		},["?"]="help",
 		["#"]={
 			description="Run arbitrary Lua code.",
 			details={
@@ -95,21 +94,23 @@ do--commands.help(arg)
 			details={
 				"Attempt to delete a file or directory (in saving directory)",
 				"",
-				"Aliases: rm",
+				"Aliases: del rm",
 				"",
 				"Usage: del [filename|dirname]",
 				"Usage: del -s [dirname]",
 			},
 		},rm="del",
-		ren={
-			description="Rename a file (in saving directory)",
+		mv={
+			description="Rename or move a file (in saving directory)",
 			details={
-				"Rename a file (in saving directory)",
+				"Rename or move a file (in saving directory)",
 				{C.lY,"Warning: file name with space is not allowed"},
 				"",
-				"Usage: ren [oldfilename] [newfilename]",
+				"Aliases: mv ren",
+				"",
+				"Usage: mv [oldfilename] [newfilename]",
 			},
-		},
+		},ren="mv",
 		cls={
 			description="Clear the log output.",
 			details={
@@ -236,7 +237,7 @@ do--commands.help(arg)
 				"applet -list",
 				"applet [appName]",
 			},
-		},
+		},app="applet",
 	}TABLE.reIndex(command_help_messages)
 
 	local command_help_list={
@@ -248,7 +249,7 @@ do--commands.help(arg)
 		"url",
 		"tree",
 		"del",
-		"ren",
+		"mv",
 		"cls",
 		"rst",
 		"fn",
@@ -410,7 +411,7 @@ do--function commands.del(name)
 	end
 	commands.rm=commands.del
 end
-function commands.ren(arg)
+function commands.mv(arg)
 	--Check arguments
 	arg=STRING.split(arg," ")
 	if #arg>2 then
@@ -441,6 +442,8 @@ function commands.ren(arg)
 
 	log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
 end
+commands.ren=commands.mv
+
 commands.exit=backScene
 commands.quit=backScene
 commands.bye=backScene
@@ -770,8 +773,8 @@ function scene.keyDown(k)
 				inputBox.value=res[1]
 			end
 		end
-	elseif k=="scrollup"then outputBox:scroll(-1)
-	elseif k=="scrolldown"then outputBox:scroll(1)
+	elseif k=="scrollup"then outputBox:scroll(-5)
+	elseif k=="scrolldown"then outputBox:scroll(5)
 	elseif k=="pageup"then outputBox:scroll(-20)
 	elseif k=="pagedown"then outputBox:scroll(20)
 	elseif k=="home"then outputBox:scroll(-1e99)
