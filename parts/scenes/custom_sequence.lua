@@ -3,7 +3,6 @@ local kb=love.keyboard
 
 local sin=math.sin
 local ins,rem=table.insert,table.remove
-local sub=string.sub
 
 local scene={}
 
@@ -194,7 +193,7 @@ scene.widgetList={
 	WIDGET.newText{name="subTitle",x=530,y=50,font=35,align='L',color='H'},
 
 	WIDGET.newSelector{name="sequence",x=1080,y=60,w=200,color='Y',
-		list={'bag','his4','c2','rnd','mess','reverb','loop','fixed'},
+		list={'bag','his','hisPool','c2','rnd','mess','reverb','loop','fixed'},
 		disp=CUSval("sequence"),
 		code=CUSsto("sequence")
 	},

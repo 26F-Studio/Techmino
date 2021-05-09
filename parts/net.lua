@@ -1,15 +1,24 @@
 local data=love.data
-local ins,rem=table.insert,table.remove
+local rem=table.remove
 local WS,TIME=WS,TIME
+
 local NET={
 	connected=false,
 	allow_online=false,
-	allReady=false,
-	serverGaming=false,
-	roomList={},
 	accessToken=false,
-	rid=false,
-	rsid=false,
+	roomList={},
+	roomInfo={
+		-- rid=false,
+		name=false,
+		-- type=false,
+		private=false,
+		-- count=false,
+		capacity=false,
+	},
+	allReady=false,
+	connectingStream=false,
+	streamRoomID=false,
+	serverGaming=false,
 }
 
 local mesType={
@@ -107,7 +116,7 @@ function NET.wsconn_stream()
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
-			rid=NET.rsid,
+			rid=NET.streamRoomID,
 		})
 		TASK.new(NET.updateWS_stream)
 	end
@@ -167,27 +176,34 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom(roomType,name)
+function NET.createRoom(roomType,roomName)
 	if NET.lock('enterRoom',1.26)then
+		NET.roomInfo.name=roomName or"?"
+		NET.roomInfo.type=roomType or"?"
+		NET.roomInfo.private=false
+		NET.roomInfo.capacity="?"
 		WS.send('play',JSON.encode{
 			action=1,
 			data={
 				type=roomType,
-				name=name,
+				name=roomName,
 				password=nil,
 				config=dumpBasicConfig(),
 			}
 		})
 	end
 end
-function NET.enterRoom(roomID,password)
+function NET.enterRoom(room,password)
 	if NET.lock('enterRoom',1.26)then
 		SFX.play('reach',.6)
-		NET.rid=roomID
+		NET.roomInfo.name=room.name or"?"
+		NET.roomInfo.type=room.type or"?"
+		NET.roomInfo.private=not not password
+		NET.roomInfo.capacity=room.capacity or"?"
 		WS.send('play',JSON.encode{
 			action=2,
 			data={
-				rid=roomID,
+				rid=room.rid,
 				config=dumpBasicConfig(),
 				password=password,
 			}
@@ -351,42 +367,38 @@ function NET.updateWS_play()
 						elseif res.action==2 then--Player join
 							if res.type=='Self'then
 								--Enter new room
-								TABLE.cut(PLY_NET)
+								netPLY.clear()
 								if d.players then
 									for _,p in next,d.players do
-										ins(PLY_NET,p.uid==USER.uid and 1 or #PLY_NET+1,{
+										netPLY.add{
 											uid=p.uid,
 											username=p.username,
 											sid=p.sid,
 											ready=p.ready,
 											config=p.config,
-										})
+										}
 									end
 								end
 								loadGame('netBattle',true,true)
 							else
 								--Load other players
-								ins(PLY_NET,{
+								netPLY.add{
 									uid=d.uid,
 									username=d.username,
 									sid=d.sid,
 									ready=d.ready,
 									config=d.config,
-								})
-								if SCN.socketRead then SCN.socketRead('Join',d)end
+								}
+								if SCN.socketRead then SCN.socketRead('join',d)end
+								NET.allReady=false
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
 								NET.wsclose_stream()
-								SCN.back()
 								NET.unlock('quit')
+								SCN.back()
 							else
-								for i=1,#PLY_NET do
-									if PLY_NET[i].sid==d.sid then
-										rem(PLY_NET,i)
-										break
-									end
-								end
+								netPLY.remove(d.sid)
 								for i=1,#PLAYERS do
 									if PLAYERS[i].sid==d.sid then
 										rem(PLAYERS,i)
@@ -399,51 +411,25 @@ function NET.updateWS_play()
 										break
 									end
 								end
-								if SCN.socketRead then SCN.socketRead('Leave',d)end
+								if SCN.socketRead then SCN.socketRead('leave',d)end
 							end
 						elseif res.action==4 then--Player talk
-							if SCN.socketRead then SCN.socketRead('Talk',d)end
+							if SCN.socketRead then SCN.socketRead('talk',d)end
 						elseif res.action==5 then--Player change settings
-							if tostring(USER.uid)~=d.uid then
-								for i=1,#PLY_NET do
-									if PLY_NET[i].uid==d.uid then
-										PLY_NET[i].config=d.config
-										break
-									end
-								end
-							end
+							netPLY.setConf(d.uid,d.config)
 						elseif res.action==6 then--One ready
-							for i,p in next,PLY_NET do
-								if p.uid==d.uid then
-									if p.ready~=d.ready then
-										p.ready=d.ready
-										if not d.ready then NET.allReady=false end
-										SFX.play('spin_0',.6)
-										if i==1 then
-											NET.unlock('ready')
-										elseif not PLY_NET[1].ready then
-											for j=2,#PLY_NET do
-												if not PLY_NET[j].ready then
-													goto BREAK_notAllReady
-												end
-											end
-											SFX.play('blip_2',.5)
-											::BREAK_notAllReady::
-										end
-									end
-									break
-								end
-							end
+							netPLY.setReady(d.uid,d.ready)
 						elseif res.action==7 then--All Ready
 							SFX.play('reach',.6)
 							NET.allReady=true
 						elseif res.action==8 then--Set
-							NET.rsid=d.rid
+							NET.streamRoomID=d.rid
+							NET.allReady=false
+							NET.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
-							NET.allReady=false
 							NET.wsclose_stream()
-							if SCN.socketRead then SCN.socketRead('Finish',d)end
+							if SCN.socketRead then SCN.socketRead('finish',d)end
 						end
 					else
 						WS.alert('play')
@@ -472,7 +458,8 @@ function NET.updateWS_stream()
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
 						elseif res.action==0 then--Game start
-							SCN.socketRead('Go',d)
+							NET.connectingStream=false
+							SCN.socketRead('go',d)
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
@@ -487,7 +474,7 @@ function NET.updateWS_stream()
 								end
 							end
 						elseif res.action==5 then--Receive stream
-							SCN.socketRead('Stream',d)
+							SCN.socketRead('stream',d)
 						end
 					else
 						WS.alert('stream')

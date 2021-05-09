@@ -3,7 +3,11 @@ local int,abs,rnd=math.floor,math.abs,math.random
 local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
-local function updateLine(P)--Attacks, line pushing, cam moving
+local TEXT,GAME=TEXT,GAME
+local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
+
+
+local function updateLine(P)--Attacks, line pushing, camear moving
 	local bf=P.atkBuffer
 	for i=#bf,1,-1 do
 		local A=bf[i]

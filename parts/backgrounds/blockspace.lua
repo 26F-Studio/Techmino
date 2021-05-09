@@ -13,16 +13,16 @@ function back.init()
 end
 function back.update()
 	t=t+1
-	if t%2==0 then
+	if t%3==0 then
 		local r=rnd(29)
 		ins(mino,{
 			block=TEXTURE.miniBlock[r],
 			color=minoColor[SETTING.skin[r]],
 			ang=6.2832*rnd(),
 			rotate=6.2832*rnd(),
-			vr=.03-rnd()*.06,
+			vr=.05-rnd()*.1,
 			d=0,
-			v=1,
+			v=.5+rnd(),
 		})
 	end
 	local rad=SCR.rad
@@ -33,12 +33,12 @@ function back.update()
 			rem(mino,i)
 		else
 			M.rotate=M.rotate+M.vr
-			M.v=M.v*(1+M.d/SCR.rad*.2)
+			M.v=M.v*(1+M.d/SCR.rad*.05)
 		end
 	end
 end
 function back.draw()
-	gc.clear(.15,.15,.15)
+	gc.clear(.1,.1,.1)
 	gc.push('transform')
 	gc.origin()
 	gc.translate(SCR.w/2,SCR.h/2)

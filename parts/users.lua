@@ -29,10 +29,7 @@ end
 
 local db_img={}
 local db=setmetatable({},{__index=function(self,uid)
-	if not uid then
-		db_img[uid]=defaultAvatar[1]
-		return emptyUser
-	end
+	if not uid then return emptyUser end
 	local file="cache/user"..uid..".dat"
 	local d=fs.getInfo(file)and JSON.decode(fs.read(file))or TABLE.copy(emptyUser)
 	rawset(self,uid,d)
@@ -65,11 +62,15 @@ function USERS.getUsername(uid)return db[uid].username end
 function USERS.getMotto(uid)return db[uid].motto end
 function USERS.getHash(uid)return db[uid].hash end
 function USERS.getAvatar(uid)
-	if not db[uid].new then
-		NET.getUserInfo(uid)
-		db[uid].new=true
+	if uid then
+		if not db[uid].new then
+			NET.getUserInfo(uid)
+			db[uid].new=true
+		end
+		return db_img[uid]
+	else
+		return defaultAvatar[1]
 	end
-	return db_img[uid]
 end
 function USERS.forceFreshAvatar()
 	for _,U in next,db do

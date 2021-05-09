@@ -8,7 +8,13 @@ local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
 
+local SFX,BGM,VOC,VIB,SYSFX,SKIN=SFX,BGM,VOC,VIB,SYSFX,SKIN
+local FREEROW,TABLE,TEXT,NET,TASK=FREEROW,TABLE,TEXT,NET,TASK
+local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
+
 local kickList=require"parts.kickList"
+local ply_draw=require"parts.player.draw"
+local ply_update=require"parts.player.update"
 
 --------------------------<FX>--------------------------
 function Player:showText(text,dx,dy,font,style,spd,stop)
@@ -195,9 +201,9 @@ function Player:setNext(next,hidden)--Set next count　(use hidden=true if set e
 	if next==0 then
 		self.drawNext=NULL
 	elseif not hidden then
-		self.drawNext=PLY.draw.drawNext_norm
+		self.drawNext=ply_draw.drawNext_norm
 	else
-		self.drawNext=PLY.draw.drawNext_hidden
+		self.drawNext=ply_draw.drawNext_hidden
 	end
 end
 function Player:setInvisible(time)--Time in frames
@@ -705,7 +711,7 @@ function Player:hold(ifpre)
 			end
 		end
 
-		self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount)))
+		self.freshTime=int(min(self.freshTime+ENV.freshLimit*.25,ENV.freshLimit*((self.holdTime+1)/ENV.holdCount),ENV.freshLimit))
 		if not ENV.infHold then
 			self.holdTime=self.holdTime-1
 		end
@@ -1607,69 +1613,11 @@ end
 --------------------------</Ticks>--------------------------
 
 --------------------------<Events>--------------------------
-local function gameOver()--Save record
-	if GAME.replaying then return end
-	FILE.save(STAT,'conf/data')
-	local M=GAME.curMode
-	local R=M.getRank
-	if R then
-		local P=PLAYERS[1]
-		R=R(P)--New rank
-		if R then
-			if R>0 then
-				GAME.rank=R
-			end
-			if scoreValid()and M.score then
-				if RANKS[M.name]then--Old rank exist
-					local needSave
-					if R>RANKS[M.name]then
-						RANKS[M.name]=R
-						needSave=true
-					end
-					if R>0 then
-						if M.unlock then
-							for i=1,#M.unlock do
-								local m=M.unlock[i]
-								local n=MODES[m].name
-								if not RANKS[n]then
-									RANKS[n]=MODES[m].getRank and 0 or 6
-									needSave=true
-								end
-							end
-						end
-					end
-					if needSave then
-						FILE.save(RANKS,'conf/unlock','q')
-					end
-				end
-				local D=M.score(P)
-				local L=M.records
-				local p=#L--Rank-1
-				if p>0 then
-					while M.comp(D,L[p])do--If higher rank
-						p=p-1
-						if p==0 then break end
-					end
-				end
-				if p<10 then
-					if p==0 then
-						P:showTextF(text.newRecord,0,-100,100,'beat',.5)
-					end
-					D.date=os.date("%Y/%m/%d %H:%M")
-					ins(L,p+1,D)
-					if L[11]then L[11]=nil end
-					FILE.save(L,('record/%s.rec'):format(M.name),'lq')
-				end
-			end
-		end
-	end
-end
-
 function Player:die()--Called both when win/lose!
 	self.alive=false
 	self.timing=false
 	self.control=false
-	self.update=PLY.update.dead
+	self.update=ply_update.dead
 	self.waiting=1e99
 	self.b2b=0
 	self.tasks={}

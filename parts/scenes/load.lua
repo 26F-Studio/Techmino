@@ -10,7 +10,7 @@ local shadePhase1,shadePhase2
 local progress=0
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
-local skip,locked
+local skip
 
 local light={}
 for i=0,26 do
@@ -20,13 +20,6 @@ for i=0,26 do
 end
 for _=1,3 do
 	light[math.random(7,25)*3]=true
-end
-local function switchLight(i)
-	light[3*i]=not light[3*i]
-	if light[6*3]and light[26*3]then
-		locked=false
-		skip=0
-	end
 end
 
 local function upFloor()
@@ -212,9 +205,8 @@ function scene.sceneInit()
 	shadePhase1=6.26*math.random()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
-	locked=SETTING.appLock
 	consoleLaunchKey=0
-	if not locked then light[6*3],light[26*3]=true,true end
+	light[6*3],light[26*3]=true,true
 	kb.setKeyRepeat(false)
 end
 function scene.sceneBack()
@@ -226,21 +218,11 @@ function scene.keyDown(key)
 		SCN.back()
 	elseif key=="s"then
 		skip=999
-	elseif locked and #key==1 and key:byte()>=97 and key:byte()<=122 then
-		switchLight(key:byte()-96)
 	else
 		skip=skip+1
 	end
 end
-function scene.mouseDown(x,y)
-	if locked then
-		for i=1,27 do
-			if(x-light[3*i-2])^2+(y-light[3*i-1])^2<=626 then
-				switchLight(i)
-				return
-			end
-		end
-	end
+function scene.mouseDown()
 	scene.keyDown("mouse")
 end
 scene.touchDown=scene.mouseDown
@@ -251,23 +233,21 @@ function scene.update(dt)
 	if blackTime>0 then
 		blackTime=blackTime-dt
 	end
-	if not locked then
-		if progress<25 then
-			local p=progress
-			repeat
-				loadingThread()
-			until LOADED or skip<=0 or progress~=p
-			if skip>0 then skip=skip-1 end
-		else
-			openTime=openTime+dt
-			if skip>0 then
-				openTime=openTime+.26
-				skip=skip-1
-			end
-			if openTime>=3.26 and not SCN.swapping then
-				SCN.swapTo('intro')
-				love.keyboard.setKeyRepeat(true)
-			end
+	if progress<25 then
+		local p=progress
+		repeat
+			loadingThread()
+		until LOADED or skip<=0 or progress~=p
+		if skip>0 then skip=skip-1 end
+	else
+		openTime=openTime+dt
+		if skip>0 then
+			openTime=openTime+.26
+			skip=skip-1
+		end
+		if openTime>=3.26 and not SCN.swapping then
+			SCN.swapTo('intro')
+			love.keyboard.setKeyRepeat(true)
 		end
 	end
 end
@@ -345,7 +325,7 @@ function scene.draw()
 		gc.setColor(1,1,1)
 		gc.draw(TEXTURE.pixelNum[d2],1040,40,nil,8)
 		gc.draw(TEXTURE.pixelNum[d1],1100,40,nil,8)
-		if not locked and progress~=25 then
+		if progress~=25 then
 			setFont(40)
 			gc.setColor(1,.9,.8)
 			gc.print("↑",1150,26)

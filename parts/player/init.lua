@@ -1,14 +1,13 @@
 local Player=require"parts.player.player"
-local getSeqGen=require"parts.player.getSeqGen"
+local seqGenerators=require"parts.player.seqGenerators"
 local gameEnv0=require"parts.player.gameEnv0"
 
 local rnd,max=math.random,math.max
 local ins=table.insert
 
-local PLY={
-	update=require"parts.player.update",
-	draw=require"parts.player.draw",
-}
+local ply_draw=require"parts.player.draw"
+local ply_update=require"parts.player.update"
+local PLY={draw=ply_draw}
 
 --------------------------<Libs>--------------------------
 local modeDataMeta do
@@ -87,7 +86,7 @@ local function newEmptyPlayer(id,mini)
 		P.pressKey=pressKey
 		P.releaseKey=releaseKey
 	end
-	P.update=PLY.update.alive
+	P.update=ply_update.alive
 
 	P.fieldOff={--Shake FX
 		x=0,y=0,
@@ -107,9 +106,9 @@ local function newEmptyPlayer(id,mini)
 	if mini then
 		P.canvas=love.graphics.newCanvas(60,120)
 		P.frameWait=rnd(26,62)
-		P.draw=PLY.draw.small
+		P.draw=ply_draw.small
 	else
-		P.draw=PLY.draw.norm
+		P.draw=ply_draw.norm
 	end
 
 	P.randGen=love.math.newRandomGenerator(GAME.seed)
@@ -136,9 +135,9 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	--Network-related
-	P.username='_'
-	P.uid=-1
-	P.sid=-1
+	P.username="_"
+	P.uid=false
+	P.sid=false
 
 	P.dropDelay,P.lockDelay=0,0
 	P.showTime=false
@@ -314,7 +313,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
-	P.newNext=coroutine.wrap(getSeqGen(P))
+	P.newNext=coroutine.wrap(seqGenerators(P))
 	P.newNext(P,P.gameEnv.seqData)
 
 	if P.mini then
@@ -334,6 +333,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.shakeFX==0 then	ENV.shakeFX=false	end
 	if ENV.atkFX==0 then	ENV.atkFX=false		end
 	if ENV.ghost==0 then	ENV.ghost=false	end
+	if ENV.grid==0 then		ENV.grid=false end
 	if ENV.center==0 then	ENV.center=false end
 end
 --------------------------</Libs>--------------------------
@@ -356,7 +356,7 @@ function PLY.newDemoPlayer(id)
 	P.demo=true
 
 	P.frameRun=180
-	P.draw=PLY.draw.demo
+	P.draw=ply_draw.demo
 	P.control=true
 	GAME.modeEnv=DemoEnv
 	loadGameEnv(P)
@@ -372,21 +372,21 @@ function PLY.newDemoPlayer(id)
 	}
 	P:popNext()
 end
-function PLY.newRemotePlayer(id,mini,data)
+function PLY.newRemotePlayer(id,mini,ply)
 	local P=newEmptyPlayer(id,mini)
 	P.type='remote'
-	P.update=PLY.update.remote_alive
+	P.update=ply_update.remote_alive
 
-	P.draw=PLY.draw.norm_remote
+	P.draw=ply_draw.norm_remote
 
 	P.stream={}
 	P.streamProgress=1
 
-	data.p=P
-	P.uid=data.uid
-	P.username=data.username
-	P.sid=data.sid
-	loadRemoteEnv(P,data.config)
+	netPLY.setPlayerObj(ply,P)
+	P.uid=ply.uid
+	P.username=ply.username
+	P.sid=ply.sid
+	loadRemoteEnv(P,ply.config)
 
 	applyGameEnv(P)
 end
@@ -408,7 +408,6 @@ function PLY.newPlayer(id,mini)
 	P.sound=true
 
 	P.uid=USER.uid
-	P.sid=-1
 
 	loadGameEnv(P)
 	applyGameEnv(P)

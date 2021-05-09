@@ -54,11 +54,12 @@ local setFont=setFont
 local int,rnd,abs=math.floor,math.random,math.abs
 local min,sin=math.min,math.sin
 local ins,rem=table.insert,table.remove
-local SCR=SCR
+
+local WIDGET,SCR,SCN=WIDGET,SCR,SCN
+local xOy=SCR.xOy
 
 local mx,my,mouseShow=-20,-20,false
 local touching--First touching ID(userdata)
-local xOy=SCR.xOy
 joysticks={}
 
 local devMode
@@ -118,7 +119,7 @@ function love.mousepressed(x,y,k,touch)
 	if SCN.mouseDown then SCN.mouseDown(mx,my,k)end
 	WIDGET.press(mx,my,k)
 	lastX,lastY=mx,my
-	if SETTING.clickFX then SYSFX.newTap(3,mx,my,30)end
+	if SETTING.clickFX then SYSFX.newTap(3,mx,my)end
 end
 function love.mousemoved(x,y,dx,dy,touch)
 	if touch then return end
@@ -188,7 +189,7 @@ function love.touchreleased(id,x,y)
 	if SCN.touchUp then SCN.touchUp(x,y)end
 	if(x-lastX)^2+(y-lastY)^2<62 then
 		if SCN.touchClick then SCN.touchClick(x,y)end
-		if SETTING.clickFX then SYSFX.newTap(3,x,y,30)end
+		if SETTING.clickFX then SYSFX.newTap(3,x,y)end
 	end
 end
 
@@ -325,6 +326,12 @@ end
 function love.sendData(data)end
 function love.receiveData(id,data)end
 ]]
+function love.filedropped(file)
+	if SCN.fileDropped then SCN.fileDropped(file)end
+end
+function love.directorydropped(dir)
+	if SCN.directoryDropped then SCN.directoryDropped(dir)end
+end
 local lastGCtime=0
 function love.lowmemory()
 	if TIME()-lastGCtime>6.26 then
@@ -336,6 +343,7 @@ end
 function love.resize(w,h)
 	SCR.resize(w,h)
 	if BG.resize then BG.resize(w,h)end
+	if SCN.resize then SCN.resize(w,h)end
 
 	SHADER.warning:send("w",w*SCR.dpi)
 	SHADER.warning:send("h",h*SCR.dpi)
@@ -457,16 +465,15 @@ love.draw,love.update=nil--remove default draw/update
 function love.run()
 	local love=love
 
-	local SCN,WIDGET=SCN,WIDGET
 	local VOC,BG,SYSFX=VOC,BG,SYSFX
 	local TASK,LOG,TEXT=TASK,LOG,TEXT
 
-	local SETTING=SETTING
-	local TIME=TIME
+	local TEXTURE,TIME=TEXTURE,TIME
+	local SETTING,VERSION=SETTING,VERSION
+	local destroyPlayers=destroyPlayers
 
 	local STEP,WAIT=love.timer.step,love.timer.sleep
-	local FPS=love.timer.getFPS
-	local MINI=love.window.isMinimized
+	local FPS,MINI=love.timer.getFPS,love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 
 	local frameTimeList={}
@@ -485,9 +492,9 @@ function love.run()
 	return function()
 		local _
 
-		local t=TIME()
-		local dt=t-lastFrame
-		lastFrame=t
+		local time=TIME()
+		local dt=time-lastFrame
+		lastFrame=time
 
 		--EVENT
 		PUMP()
@@ -531,13 +538,18 @@ function love.run()
 					--Draw widgets
 					WIDGET.draw()
 
+					--Draw Version string
+					gc_setColor(.8,.8,.8,.4)
+					setFont(20)
+					mStr(VERSION.string,640,693)
+
 					--Draw cursor
 					if mouseShow then
-						local R=int((t+1)/2)%7+1
+						local R=int((time+1)/2)%7+1
 						_=minoColor[SETTING.skin[R]]
-						gc_setColor(_[1],_[2],_[3],min(abs(1-t%2),.3))
+						gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
 						_=SCS[R][0]
-						gc_draw(TEXTURE.miniBlock[R],mx,my,t%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+						gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
 						gc_draw(TEXTURE[ms.isDown(1)and'cursor_hold'or'cursor'],mx,my,nil,nil,nil,8,8)
 					end
@@ -560,8 +572,6 @@ function love.run()
 				--Draw FPS
 				setFont(15)
 				_=SCR.h
-				gc_setColor(.8,.8,.8,.4)
-				gc_print(VERSION.string,SCR.safeX+50,_-20)
 				gc_setColor(1,1,1)
 				gc_print(FPS(),SCR.safeX+5,_-20)
 
@@ -594,7 +604,7 @@ function love.run()
 							gc_setColor(1,1,1)
 							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
 						elseif status=='connecting'then
-							gc_setColor(1,1,1,.5+.3*sin(t*6.26))
+							gc_setColor(1,1,1,.5+.3*sin(time*6.26))
 							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
 						elseif status=='running'then
 							gc_setColor(1,1,1)
@@ -622,10 +632,10 @@ function love.run()
 		end
 
 		--Fresh power info.
-		if t-lastFreshPow>2.6 then
+		if time-lastFreshPow>2.6 then
 			if SETTING.powerInfo and LOADED then
 				updatePowerInfo()
-				lastFreshPow=t
+				lastFreshPow=time
 			end
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())

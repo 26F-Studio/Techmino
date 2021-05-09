@@ -8,7 +8,7 @@ local outputBox=WIDGET.newTextBox{name="output",x=40,y=30,w=1200,h=610,font=25,l
 
 local function log(str)outputBox:push(str)end
 log{C.lP,"Techmino Console"}
-log{C.lC,"©2020 26F Studio   some rights reserved"}
+log{C.lC,"©2021 26F Studio   some rights reserved"}
 log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
@@ -36,8 +36,7 @@ do--commands.help(arg)
 				"help",
 				"help [command_name]",
 			},
-		},
-		["?"]="help",
+		},["?"]="help",
 		["#"]={
 			description="Run arbitrary Lua code.",
 			details={
@@ -95,21 +94,23 @@ do--commands.help(arg)
 			details={
 				"Attempt to delete a file or directory (in saving directory)",
 				"",
-				"Aliases: rm",
+				"Aliases: del rm",
 				"",
 				"Usage: del [filename|dirname]",
 				"Usage: del -s [dirname]",
 			},
 		},rm="del",
-		ren={
-			description="Rename a file (in saving directory)",
+		mv={
+			description="Rename or move a file (in saving directory)",
 			details={
-				"Rename a file (in saving directory)",
+				"Rename or move a file (in saving directory)",
 				{C.lY,"Warning: file name with space is not allowed"},
 				"",
-				"Usage: ren [oldfilename] [newfilename]",
+				"Aliases: mv ren",
+				"",
+				"Usage: mv [oldfilename] [newfilename]",
 			},
-		},
+		},ren="mv",
 		cls={
 			description="Clear the log output.",
 			details={
@@ -159,13 +160,12 @@ do--commands.help(arg)
 				"Usage: gammacorrect <true|false>",
 			},
 		},
-		rmwtm={
-			description="Remove the \"no recording\" watermark.",
+		["\114\109\119\116\109"]={
+			description="Remove something",
 			details={
-				"Remove the \"no recording\" watermark.",
-				"You will need a password to do that.",
+				"Remove something",
 				"",
-				"Usage: rmwtm [password]",
+				"Usage: ?",
 			},
 		},
 		unlockall={
@@ -218,12 +218,12 @@ do--commands.help(arg)
 				"Usage: theme <classic|xmas|sprfes|zday1/2/3>",
 			},
 		},
-		demo={
-			description="Go to an empty demo scene",
+		test={
+			description="Go to an empty test scene",
 			details={
-				"Go to an empty demo scene",
+				"Go to an empty test scene",
 				"",
-				"Usage: demo",
+				"Usage: test",
 			},
 		},
 		applet={
@@ -237,7 +237,7 @@ do--commands.help(arg)
 				"applet -list",
 				"applet [appName]",
 			},
-		},
+		},app="applet",
 	}TABLE.reIndex(command_help_messages)
 
 	local command_help_list={
@@ -249,21 +249,21 @@ do--commands.help(arg)
 		"url",
 		"tree",
 		"del",
-		"ren",
+		"mv",
 		"cls",
 		"rst",
 		"fn",
 		"scrinfo",
 		"wireframe",
 		"gammacorrect",
-		"rmwtm",
+		"\114\109\119\116\109",
 		"unlockall",
 		"play",
 		"playbgm",
 		"stopbgm",
 		"setbg",
 		"theme",
-		"demo",
+		"test",
 		"applet",
 	}
 	function commands.help(arg)
@@ -411,7 +411,7 @@ do--function commands.del(name)
 	end
 	commands.rm=commands.del
 end
-function commands.ren(arg)
+function commands.mv(arg)
 	--Check arguments
 	arg=STRING.split(arg," ")
 	if #arg>2 then
@@ -442,6 +442,8 @@ function commands.ren(arg)
 
 	log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
 end
+commands.ren=commands.mv
+
 commands.exit=backScene
 commands.quit=backScene
 commands.bye=backScene
@@ -478,13 +480,11 @@ function commands.gammacorrect(bool)
 		log{C.aqua,"Usage: gammacorrect <true|false>"}
 	end
 end
-function commands.rmwtm(pw)
+commands["\114\109\119\116\109"]=function(pw)
 	if pw==the_secret then
 		_G["\100\114\97\119\70\87\77"]=NULL
 		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
 		SFX.play('clear')
-	else
-		log{C.aqua,"Usage: rmwtm [password]"}
 	end
 end
 function commands.unlockall(bool)
@@ -556,7 +556,7 @@ function commands.theme(name)
 		log{C.aqua,"Usage: theme [themeName]"}
 	end
 end
-function commands.demo()
+function commands.test()
 	SCN.go('test','none')
 end
 do--commands.applet(name)
@@ -626,6 +626,8 @@ local function log_user(str)
 	log(noLog and"CHEATER."or tostring(str))
 end
 local userG={
+	timer=TIME,
+
 	_VERSION=VERSION.code,
 	assert=assert,error=error,
 	tonumber=tonumber,tostring=tostring,
@@ -771,8 +773,8 @@ function scene.keyDown(k)
 				inputBox.value=res[1]
 			end
 		end
-	elseif k=="scrollup"then outputBox:scroll(-1)
-	elseif k=="scrolldown"then outputBox:scroll(1)
+	elseif k=="scrollup"then outputBox:scroll(-5)
+	elseif k=="scrolldown"then outputBox:scroll(5)
 	elseif k=="pageup"then outputBox:scroll(-20)
 	elseif k=="pagedown"then outputBox:scroll(20)
 	elseif k=="home"then outputBox:scroll(-1e99)

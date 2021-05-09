@@ -17,6 +17,8 @@ local scene={}
 
 function scene.sceneInit()
 	BG.set()
+	NET.allReady=false
+	NET.connectingStream=false
 	scrollPos=0
 	selected=1
 	fetchRoom()
@@ -66,7 +68,7 @@ function scene.keyDown(k)
 				LOG.print("Can't enter private room now")
 				return
 			end
-			NET.enterRoom(NET.roomList[selected].rid)--,password
+			NET.enterRoom(NET.roomList[selected])--,password
 		end
 	end
 end
@@ -139,7 +141,7 @@ function scene.draw()
 			end
 			if R.start then
 				gc.setColor(0,1,0)
-				gc.print(text.started,620,66+40*i)
+				gc.print(text.started,660,66+40*i)
 			end
 			gc.setColor(.9,.9,1)
 			gc.print(pos+i,95,66+40*i)

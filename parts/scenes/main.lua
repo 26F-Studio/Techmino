@@ -161,14 +161,6 @@ function scene.draw()
 	--Player
 	PLAYERS[1]:draw()
 
-	--Special area
-	gc.setColor(1,1,1,.8)
-	gc.setLineWidth(10)
-	gc.line(515,215,515,135,595,135)
-	gc.line(765,215,765,135,685,135)
-	gc.line(515,545,515,625,595,625)
-	gc.line(765,545,765,625,685,625)
-
 	--Profile
 	drawSelfProfile()
 end

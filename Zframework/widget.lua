@@ -882,6 +882,7 @@ function textBox:press(x,y)
 	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
 			self:clear()
+			self.new=false
 			self.sure=0
 		else
 			self.sure=60
@@ -907,6 +908,7 @@ end
 function textBox:clear()
 	self.texts={}
 	self.scrollPos=0
+	self.new=false
 	SFX.play('fall')
 end
 function textBox:draw()

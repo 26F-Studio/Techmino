@@ -134,11 +134,10 @@ return{
 			reTime="3-2-1",
 			RS="''?",
 			layout="=-=-=",
-			dataSaving="XX.",
 			autoPause="A||",
 			swap="=+=+=",
 			fine="12 X 21",
-			appLock="?XX(=6+26)",
+			dataSaving="XX.",
 			simpMode=".",
 		},
 		setting_video={

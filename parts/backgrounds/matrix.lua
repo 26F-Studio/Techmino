@@ -13,7 +13,7 @@ function back.update(dt)
 	t=t+dt
 end
 function back.draw()
-	gc.clear(.15,.15,.15)
+	gc.clear(.1,.1,.1)
 	gc.push('transform')
 		local k=SCR.k
 		gc.scale(k)

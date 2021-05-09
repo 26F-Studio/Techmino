@@ -368,7 +368,7 @@ do--function DATA.saveRecording()
 		end
 
 		--Write file
-		local fileName="replay/"..os.date("%Y_%m_%d_%a_%H%M%S.rep")
+		local fileName=os.date("replay/%Y_%m_%d_%a_%H%M%S.rep")
 		if not love.filesystem.getInfo(fileName)then
 			local fileHead=
 				os.date("%Y/%m/%d %A %H:%M:%S\n")..

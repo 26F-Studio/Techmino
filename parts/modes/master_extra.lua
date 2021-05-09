@@ -19,6 +19,7 @@ return{
 		drop=0,lock=15,
 		wait=15,fall=6,
 		nextCount=3,
+		sequence='hisPool',
 		visible='fast',
 		freshLimit=15,
 		dropPiece=score,

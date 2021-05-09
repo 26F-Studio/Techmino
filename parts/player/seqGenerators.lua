@@ -1,7 +1,8 @@
 local ins,rem=table.insert,table.remove
+local ceil=math.ceil
 local yield=YIELD
 
-local seqGens={
+local seqGenerators={
 	none=function()while true do yield()end end,
 	bag=function(P,seq0)
 		local len=#seq0
@@ -18,20 +19,87 @@ local seqGens={
 			yield()
 		end
 	end,
-	his4=function(P,seq0)
+	his=function(P,seq0)
 		local len=#seq0
-		local his={0,0,0,0}
+		local hisLen=ceil(len*.5)
+		local history=TABLE.new(0,hisLen)
 		while true do
 			while #P.nextQueue<6 do
-				for n=1,4 do
-					local j,i=0
-					repeat
-						i=seq0[P:RND(len)]
-						j=j+1
-					until i~=his[1]and i~=his[2]and i~=his[3]and i~=his[4]or j==4
-					his[n]=i
-					P:getNext(i)
+				local r
+				for _=1,hisLen do--Reroll up to [hisLen] times
+					r=P:RND(len)
+					for i=1,hisLen do
+						if r==history[i]then
+							goto CONTINUE_rollAgain
+						end
+					end
+					do break end
+					::CONTINUE_rollAgain::
 				end
+				if history[1]~=0 then P:getNext(r)end
+				rem(history,1)ins(history,r)
+			end
+			yield()
+		end
+	end,
+	hisPool=function(P,seq0)
+		local len=#seq0
+		local hisLen=ceil(len*.5)
+		local history=TABLE.new(0,hisLen)--Indexes of mino-index
+
+		local poolLen=5*len
+		local droughtTimes=TABLE.new(len,len)--Drought times of seq0
+		local pool={}for i=1,len do for _=1,5 do ins(pool,i)end end--5 times indexes of seq0
+		local function poolPick()
+			local r=P:RND(poolLen)
+			local res=pool[r]
+
+			--Find droughtest(s) minoes
+			local droughtList={1}--Droughtst minoes' indexes of seq0
+			local maxTime=droughtTimes[1]
+			for i=2,len do
+				if droughtTimes[i]>maxTime then
+					maxTime=droughtTimes[i]
+					if #droughtList==1 then droughtList[1]=i else droughtList={i}end
+				elseif droughtTimes[i]==maxTime then
+					ins(droughtList,i)
+				end
+			end
+
+			--Update droughtTimes
+			for i=1,len do droughtTimes[i]=droughtTimes[i]+1 end
+			droughtTimes[res]=0
+
+			--Update pool
+				-- print("Rem "..res)
+			pool[r]=droughtList[P:RND(#droughtList)]
+				-- print("Add "..pool[r])
+
+			return res
+		end
+
+		while true do
+			while #P.nextQueue<6 do
+					-- print"======================"
+				--Pick a mino from pool
+				local tryTime=0
+				::REPEAT_pickAgain::
+				local r=poolPick()--Random mino-index in pool
+				for i=1,len do
+					if r==history[i]then
+						tryTime=tryTime+1
+						if tryTime<hisLen then goto REPEAT_pickAgain end
+					end
+				end
+
+				--Give mino to player & update history
+				if history[1]~=0 then P:getNext(seq0[r])end
+				rem(history,1)ins(history,r)
+					-- print("Player GET: "..r)
+					-- print("History: "..table.concat(history,","))
+					-- local L={"","","","","","","",}
+					-- for _,v in next,pool do L[v]=L[v].."+"end
+					-- for i=1,#L do print(i,droughtTimes[i],L[i])end
 			end
 			yield()
 		end
@@ -143,8 +211,8 @@ return function(P)--Return a piece-generating funtion for player P
 	local s=P.gameEnv.sequence
 	if type(s)=='function'then
 		return s
-	elseif type(s)=='string'and seqGens[s]then
-		return seqGens[s]
+	elseif type(s)=='string'and seqGenerators[s]then
+		return seqGenerators[s]
 	else
 		LOG.print(
 			type(s)=='string'and
@@ -152,6 +220,6 @@ return function(P)--Return a piece-generating funtion for player P
 			"Wrong sequence generator",
 		'warn')
 		P.gameEnv.sequence='bag'
-		return seqGens.bag
+		return seqGenerators.bag
 	end
 end

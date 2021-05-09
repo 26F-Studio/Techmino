@@ -35,7 +35,7 @@ function LOG.draw()
 		end
 	end
 end
-function LOG.print(text,T,C)--text,type/time,color
+function LOG.print(text,T,C)--text,type/time/color,color
 	local time
 	local his
 	if T=='warn'then

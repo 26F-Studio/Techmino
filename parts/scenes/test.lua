@@ -32,14 +32,19 @@ end
 function scene.keyUp(key)
 	push{COLOR.H,"[keyUp] <"..key..">"}
 end
+function scene.mouseClick(x,y)
+	SYSFX.newRipple(.5,x,y,50)
+	push("[mouseClick]")
+end
 function scene.mouseDown(x,y,k)
+	SYSFX.newShade(.5,x-10,y-10,20,20)
 	push(("[mouseDown] <%d: %d, %d>"):format(k,x,y))
 end
 function scene.mouseMove(x,y)
-	SYSFX.newShade(.5,x-3,y-3,7,7)
+	SYSFX.newShade(.5,x-3,y-3,6,6)
 end
 function scene.mouseUp(x,y,k)
-	SYSFX.newRectRipple(1,x-10,y-10,21,21)
+	SYSFX.newRectRipple(1,x-10,y-10,20,20)
 	push{COLOR.H,"[mouseUp] <"..k..">"}
 end
 function scene.touchClick(x,y)
@@ -47,18 +52,24 @@ function scene.touchClick(x,y)
 	push("[touchClick]")
 end
 function scene.touchDown(x,y)
-	SYSFX.newRipple(.5,x,y,50)
+	SYSFX.newShade(.5,x-10,y-10,20,20)
 	push(("[touchDown] <%d, %d>"):format(x,y))
 end
 function scene.touchMove(x,y)
-	SYSFX.newRipple(.5,x,y,50)
+	SYSFX.newShade(.5,x-3,y-3,6,6)
 end
 function scene.touchUp(x,y)
-	SYSFX.newRipple(.5,x,y,50)
+	SYSFX.newRectRipple(1,x-10,y-10,20,20)
 	push{COLOR.H,"[touchUp]"}
 end
 function scene.wheelMoved(dx,dy)
 	push(("[wheelMoved] <%d, %d>"):format(dx,dy))
+end
+function scene.fileDropped(file)
+	push(("[fileDropped] <%s>"):format(file:getFilename()))
+end
+function scene.directoryDropped(path)
+	push(("[directoryDropped] <%s>"):format(path))
 end
 
 function scene.update(dt)

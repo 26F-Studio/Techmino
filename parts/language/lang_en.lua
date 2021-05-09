@@ -101,6 +101,7 @@ return{
 	joinRoom="has joined the room.",
 	leaveRoom="has left the room.",
 	ready="READY",
+	set="SET",
 	champion="$1 won",
 	chatRemain="Online: ",
 	chatStart="------Beginning of log------",
@@ -201,6 +202,7 @@ return{
 		Beepbox
 		GFIE
 		Goldwave
+		FL Mobile
 	Libs used:
 		Cold_Clear [MinusKelvin]
 		json.lua [rxi]
@@ -275,11 +277,10 @@ return{
 			reTime="Start Delay",
 			RS="Rotation System",
 			layout="Layout",
-			dataSaving="Data saving",
 			autoPause="Pause while unfocused",
 			swap="Key Combination (Change Atk. Mode)",
 			fine="Finesse Error SFX",
-			appLock="App Lock (Password: 6+26)",
+			dataSaving="Data saving",
 			simpMode="Simplistic Style",
 		},
 		setting_video={

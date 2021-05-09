@@ -1,7 +1,7 @@
 local gc,tc=love.graphics,love.touch
 local ins=table.insert
-local SCR,VK,NET=SCR,VK,NET
-local PLAYERS,PLY_NET,GAME=PLAYERS,PLY_NET,GAME
+local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
+local PLAYERS,GAME=PLAYERS,GAME
 
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=false}
 
@@ -33,8 +33,9 @@ function scene.sceneInit(org)
 end
 
 scene.mouseDown=NULL
+function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
 function scene.touchDown(x,y)
-	if noTouch or not playing then return end
+	if not playing or noTouch then return end
 
 	local t=VK.on(x,y)
 	if t then
@@ -43,7 +44,7 @@ function scene.touchDown(x,y)
 	end
 end
 function scene.touchUp(x,y)
-	if noTouch or not playing then return end
+	if not playing or noTouch then return end
 
 	local n=VK.on(x,y)
 	if n then
@@ -51,8 +52,9 @@ function scene.touchUp(x,y)
 		VK.release(n)
 	end
 end
-function scene.touchMove()
-	if noTouch or touchMoveLastFrame or not playing then return end
+function scene.touchMove(x,y)
+	if not playing then netPLY.mouseMove(x,y)end
+	if touchMoveLastFrame or noTouch then return end
 	touchMoveLastFrame=true
 
 	local L=tc.getTouches()
@@ -93,9 +95,9 @@ function scene.keyDown(key)
 		end
 	else
 		if key=="space"then
-			NET.signal_ready(not PLY_NET[1].ready)
+			NET.signal_ready(not netPLY.getSelfReady())
 		elseif key=="s"then
-			if not(PLY_NET[1].ready or NET.getlock('ready'))then
+			if not(netPLY.getSelfReady()or NET.getlock('ready'))then
 				SCN.go('setting_game')
 			end
 		end
@@ -118,7 +120,6 @@ function scene.gamepadDown(key)
 			LOG.print(text.sureQuit,COLOR.O)
 		end
 	else
-		if noKey then return end
 		local k=keyMap.joystick[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
@@ -127,48 +128,45 @@ function scene.gamepadDown(key)
 	end
 end
 function scene.gamepadUp(key)
-	if noKey then return end
 	local k=keyMap.joystick[key]
 	if k and k>0 then
 		PLAYERS[1]:releaseKey(k)
 		VK.release(k)
-		return
 	end
 end
 
 function scene.socketRead(cmd,d)
-	if cmd=="Join"then
+	if cmd=='join'then
 		textBox:push{
 			COLOR.lR,d.username,
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.joinRoom,
 		}
 		SFX.play('click')
-	elseif cmd=="Leave"then
+	elseif cmd=='leave'then
 		textBox:push{
 			COLOR.lR,d.username,
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.Y,text.leaveRoom,
 		}
-	elseif cmd=="Talk"then
+	elseif cmd=='talk'then
 		textBox:push{
 			COLOR.Z,d.username,
 			COLOR.dY,"#"..d.uid.." ",
 			COLOR.N,d.message or"[_]",
 		}
-	elseif cmd=="Go"then
+	elseif cmd=='go'then
 		if not playing then
 			playing=true
-			for i=1,#PLY_NET do
-				PLY_NET[i].ready=false
-			end
+			netPLY.resetReady()
+			netPLY.mouseMove(0,0)
 			lastUpstreamTime=0
 			upstreamProgress=1
 			resetGameData('n',d.seed)
 		else
 			LOG.print("Redundant [Go]",30,COLOR.G)
 		end
-	elseif cmd=="Finish"then
+	elseif cmd=='finish'then
 		playing=false
 		local winnerUID
 		for _,p in next,d.result do
@@ -177,14 +175,10 @@ function scene.socketRead(cmd,d)
 				break
 			end
 		end
-		if not winnerUID then return end
-		for _,p in next,PLY_NET do
-			if p.uid==winnerUID then
-				TEXT.show(text.champion:gsub("$1",p.username),640,260,80,'zoomout',.26)
-				break
-			end
+		if winnerUID then
+			TEXT.show(text.champion:gsub("$1",netPLY.getUsername(winnerUID)),640,260,80,'zoomout',.26)
 		end
-	elseif cmd=="Stream"then
+	elseif cmd=='stream'then
 		if d.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do
 				if P.uid==d.uid then
@@ -205,30 +199,32 @@ function scene.update(dt)
 		NET.wsclose_stream()
 		SCN.back()
 	end
-	if not playing then return end
+	if playing then
+		local P1=PLAYERS[1]
 
-	local P1=PLAYERS[1]
+		touchMoveLastFrame=false
+		VK.update()
 
-	touchMoveLastFrame=false
-	VK.update()
+		--Update players
+		for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
 
-	--Update players
-	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
+		--Warning check
+		checkWarning()
 
-	--Warning check
-	checkWarning()
-
-	--Upload stream
-	if P1.frameRun-lastUpstreamTime>8 then
-		local stream
-		stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
-		if #stream>0 then
-			NET.uploadRecStream(stream)
-		else
-			ins(GAME.rep,P1.frameRun)
-			ins(GAME.rep,0)
+		--Upload stream
+		if P1.frameRun-lastUpstreamTime>8 then
+			local stream
+			stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
+			if #stream>0 then
+				NET.uploadRecStream(stream)
+			else
+				ins(GAME.rep,P1.frameRun)
+				ins(GAME.rep,0)
+			end
+			lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
 		end
-		lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
+	else
+		netPLY.update(dt)
 	end
 end
 
@@ -247,33 +243,25 @@ function scene.draw()
 		--Warning
 		drawWarning()
 	else
-		for i=1,#PLY_NET do
-			local p=PLY_NET[i]
+		--Users
+		netPLY.draw()
 
-			--Rectangle
-			gc.setColor(COLOR[p.ready and'G'or'Z'])
-			gc.setLineWidth(2)
-			gc.rectangle('line',40,65+50*i,1000,46)
-
-			--UID
-			setFont(40)
-			gc.setColor(.5,.5,.5)
-			gc.print("#"..p.uid,50,60+50*i)
-
-			--Avatar
-			gc.setColor(1,1,1)
-			gc.draw(USERS.getAvatar(p.uid),200,68+50*i,nil,.3125)
-
-			--Username
-			gc.print(p.username,240,60+50*i)
-		end
-
-		--All-ready mark
-		if NET.allReady then
-			gc.setColor(.1,1,0,.9)
-			setFont(60)
+		--Ready & Set mark
+		gc.setColor(.1,1,0,.9)
+		setFont(60)
+		if NET.connectingStream then
+			mStr(text.set,640,10)
+		elseif NET.allReady then
 			mStr(text.ready,640,10)
 		end
+
+		--Room info.
+		gc.setColor(1,1,1)
+		setFont(25)
+		gc.printf(NET.roomInfo.name,0,685,1270,'right')
+		setFont(40)
+		gc.print(netPLY.getCount().."/"..NET.roomInfo.capacity,70,655)
+		if NET.roomInfo.private then gc.draw(IMG.lock,30,668)end
 
 		--Profile
 		drawSelfProfile()
@@ -282,27 +270,27 @@ function scene.draw()
 	--New message
 	if textBox.new then
 		setFont(40)
-		gc.setColor(1,.5+.5*math.sin(TIME()*26),0)
+		gc.setColor(1,1,0)
 		gc.print("M",430,10)
 	end
 end
 scene.widgetList={
 	textBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or PLY_NET[1].ready or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=900,y=560,w=400,h=100,color='lB',font=40,code=pressKey"space",
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
+	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
 				NET.serverGaming or
-				PLY_NET[1].ready or
+				netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=900,y=560,w=400,h=100,color='H',font=40,code=pressKey"space",
+	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=pressKey"space",
 		hide=function()
 			return
 				playing or
 				NET.serverGaming or
-				not PLY_NET[1].ready or
+				not netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},

@@ -59,6 +59,15 @@ require"parts.list"
 require"parts.globalTables"
 require"parts.gametoolfunc"
 
+--Load shader files from SOURCE ONLY
+SHADER={}
+for _,v in next,fs.getDirectoryItems("parts/shaders")do
+	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
+		local name=v:sub(1,-6)
+		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
+	end
+end
+
 FREEROW=	require"parts.freeRow"
 DATA=		require"parts.data"
 
@@ -68,6 +77,7 @@ USERS=		require"parts.users"
 NET=		require"parts.net"
 VK=			require"parts.virtualKey"
 PLY=		require"parts.player"
+netPLY=		require"parts.netPlayer"
 AIFUNC=		require"parts.ai"
 AIBUILDER=	require"parts.AITemplate"
 MODES=		require"parts.modes"
@@ -204,16 +214,6 @@ LANG.init(
 		},
 	}
 )
-
---Load shader files from SOURCE ONLY
-SHADER={}
-for _,v in next,fs.getDirectoryItems("parts/shaders")do
-	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
-		local name=v:sub(1,-6)
-		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
-	end
-end
-
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
 	if fs.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
@@ -263,7 +263,6 @@ do
 	if STAT.version<1400 then
 		fs.remove("conf/user")
 		fs.remove("conf/key")
-		SETTING.appLock=false
 		needSave=true
 		autoRestart=true
 	end
@@ -271,14 +270,9 @@ do
 		fs.remove("conf/user")
 		autoRestart=true
 	end
+	SETTING.appLock=nil
 
-	for _,v in next,VK_org do
-		if not v.color then
-			fs.remove("conf/virtualkey")
-			autoRestart=true
-			break
-		end
-	end
+	for _,v in next,VK_org do v.color=nil end
 
 	if STAT.version~=VERSION.code then
 		newVersionLaunch=true
