@@ -11,6 +11,8 @@
 			wait:出块延迟(帧)
 			fall:下落延迟(帧)
 			bone:是否开启骨块模式
+			fieldH:场地高度
+			maxOver:允许最大超出场地高度
 			nextCount:显示next个数
 			nextStartPos:next从第几个开始显示
 			holdCount:hold个数
