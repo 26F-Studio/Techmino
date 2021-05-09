@@ -7,12 +7,14 @@ local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
+
 local SFX,BGM,VOC,VIB,SYSFX,SKIN=SFX,BGM,VOC,VIB,SYSFX,SKIN
 local FREEROW,TABLE,TEXT,NET,TASK=FREEROW,TABLE,TEXT,NET,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
-
 local kickList=require"parts.kickList"
+local ply_draw=require"parts.player.draw"
+local ply_update=require"parts.player.update"
 
 --------------------------<FX>--------------------------
 function Player:showText(text,dx,dy,font,style,spd,stop)
@@ -199,9 +201,9 @@ function Player:setNext(next,hidden)--Set next count　(use hidden=true if set e
 	if next==0 then
 		self.drawNext=NULL
 	elseif not hidden then
-		self.drawNext=PLY.draw.drawNext_norm
+		self.drawNext=ply_draw.drawNext_norm
 	else
-		self.drawNext=PLY.draw.drawNext_hidden
+		self.drawNext=ply_draw.drawNext_hidden
 	end
 end
 function Player:setInvisible(time)--Time in frames
@@ -1615,7 +1617,7 @@ function Player:die()--Called both when win/lose!
 	self.alive=false
 	self.timing=false
 	self.control=false
-	self.update=PLY.update.dead
+	self.update=ply_update.dead
 	self.waiting=1e99
 	self.b2b=0
 	self.tasks={}
