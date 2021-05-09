@@ -60,6 +60,12 @@ end
 function scene.wheelMoved(dx,dy)
 	push(("[wheelMoved] <%d, %d>"):format(dx,dy))
 end
+function scene.fileDropped(file)
+	push(("[fileDropped] <%s>"):format(file:getFilename()))
+end
+function scene.directoryDropped(path)
+	push(("[directoryDropped] <%s>"):format(path))
+end
 
 function scene.update(dt)
 	if timer>0 then
