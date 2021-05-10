@@ -399,6 +399,7 @@ function NET.updateWS_play()
 								SCN.back()
 							else
 								netPLY.remove(d.sid)
+								--TODO
 								for i=1,#PLAYERS do
 									if PLAYERS[i].sid==d.sid then
 										rem(PLAYERS,i)

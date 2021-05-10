@@ -585,13 +585,12 @@ do--commands.applet(name)
 				log(appList[i]..": "..appDescription[i])
 			end
 		elseif name~=""then
-			for i=1,#appList do
-				if appList[i]==name then
-					SCN.go(appScene[i])
-					return
-				end
+			local i=TABLE.find(appList,name)
+			if i then
+				SCN.go(appScene[i])
+			else
+				log{C.aqua,"No this applet"}
 			end
-			log{C.aqua,"No this applet"}
 		else
 			log{C.aqua,"Usage:"}
 			log{C.aqua,"applet -list"}
@@ -766,9 +765,7 @@ function scene.keyDown(k)
 			if #res>1 then
 				log(">Commands start with '"..str.."' :")
 				table.sort(res)
-				for i=1,#res do
-					log{COLOR.lH,res[i]}
-				end
+				for i=1,#res do log{COLOR.lH,res[i]}end
 			elseif #res==1 then
 				inputBox.value=res[1]
 			end

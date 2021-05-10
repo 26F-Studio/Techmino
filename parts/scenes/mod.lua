@@ -6,12 +6,8 @@ local function modComp(a,b)
 	return a.no<b.no
 end
 local function remMod(M)
-	for i=1,#GAME.mod do
-		if GAME.mod[i]==M then
-			rem(GAME.mod,i)
-			return
-		end
-	end
+	local i=TABLE.find(GAME.mod,M)
+	if i then rem(GAME.mod,i)end
 end
 local function toggleMod(M,back)
 	if M.sel==0 then

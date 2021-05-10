@@ -65,9 +65,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="delete"then
 		if sure>20 then
-			for _=1,#BAG do
-				rem(BAG)
-			end
+			TABLE.cut(BAG)
 			cur=0
 			sure=0
 			SFX.play('finesseError',.7)

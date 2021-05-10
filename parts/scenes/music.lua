@@ -12,19 +12,9 @@ local scene={}
 local selected--Music selected
 
 local bgmList=BGM.getList()
-if #bgmList==0 then
-	bgmList={"[NO BGM]"}
-end
+if #bgmList==0 then bgmList={"[NO BGM]"}end
 function scene.sceneInit()
-	if BGM.nowPlay then
-		for i=1,BGM.getCount()do
-			if bgmList[i]==BGM.nowPlay then
-				selected=i
-				return
-			end
-		end
-	end
-	selected=1
+	selected=TABLE.find(bgmList,BGM.nowPlay)or 1
 end
 
 function scene.wheelMoved(_,y)
@@ -33,7 +23,7 @@ end
 function scene.keyDown(key)
 	local S=selected
 	if key=="down"then
-		if S<BGM.getCount()then
+		if S<#bgmList then
 			selected=S+1
 			SFX.play('move',.7)
 		end

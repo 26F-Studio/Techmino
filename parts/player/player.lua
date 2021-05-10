@@ -427,12 +427,8 @@ function Player:changeAtk(R)
 	-- if self.type~='human'then R=PLAYERS[1]end--1vALL mode?
 	if self.atking then
 		local K=self.atking.atker
-		for i=1,#K do
-			if K[i]==self then
-				rem(K,i)
-				break
-			end
-		end
+		local i=TABLE.find(K,self)
+		if i then rem(K,i)end
 	end
 	if R then
 		self.atking=R
@@ -1717,12 +1713,8 @@ function Player:lose(force)
 		return
 	end
 	self:die()
-	for i=1,#PLY_ALIVE do
-		if PLY_ALIVE[i]==self then
-			rem(PLY_ALIVE,i)
-			break
-		end
-	end
+	local i=TABLE.find(PLY_ALIVE,self)
+	if i then rem(PLY_ALIVE,i)end
 	self.result='lose'
 	if GAME.modeEnv.royaleMode then
 		self:changeAtk()

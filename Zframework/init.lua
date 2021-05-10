@@ -273,12 +273,10 @@ function love.joystickadded(JS)
 	joysticks[#joysticks+1]=JS
 end
 function love.joystickremoved(JS)
-	for i=1,#joysticks do
-		if joysticks[i]==JS then
-			rem(joysticks,i)
-			LOG.print("Joystick removed",COLOR.Y)
-			return
-		end
+	local i=TABLE.find(joysticks,JS)
+	if i then
+		rem(joysticks,i)
+		LOG.print("Joystick removed",COLOR.Y)
 	end
 end
 local keyMirror={
