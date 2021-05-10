@@ -31,7 +31,7 @@ return{
 	drop=60,lock=60,
 	wait=0,fall=0,
 	bone=false,
-	fieldH=20,maxOver=20,
+	fieldH=20,maxOver=1e99,
 	nextCount=6,nextStartPos=1,
 	holdCount=1,infHold=false,phyHold=false,
 	ospin=true,deepDrop=false,

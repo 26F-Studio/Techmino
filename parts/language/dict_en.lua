@@ -495,7 +495,7 @@ return{
 	{"Topping out",
 		"die death topout toppingout",
 		"term",
-		"Modern Tetris games have three different conditions in which the player tops out:\n1. Block out: when a piece spawns overlapping with another block;\n2. Lock out: when a piece locks entirely above the skyline;\n3. Garbage out: when the stack exceeds 40 lines in height (often due to incoming garbage).\nTechmino does not check for locking out, and has a 42 line limit for garbage out.",
+		"Modern Tetris games have three different conditions in which the player tops out:\n1. Block out: when a piece spawns overlapping with another block;\n2. Lock out: when a piece locks entirely above the skyline;\n3. Garbage out: when the stack exceeds 40 lines in height (often due to incoming garbage).\nTechmino does not check for locking out and garbage out.",
 	},
 	{"Falling speed",
 		"fallingspeed",
