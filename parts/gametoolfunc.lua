@@ -447,8 +447,19 @@ do--function resetGameData(args)
 		initPlayerPosition(args:find'q')
 		VK.restore()
 		if GAME.modeEnv.task then
-			for i=1,#PLAYERS do
-				PLAYERS[i]:newTask(GAME.modeEnv.task)
+			local task=GAME.modeEnv.task
+			if type(task)=='function'then
+				for i=1,#PLAYERS do
+					PLAYERS[i]:newTask(task)
+				end
+			elseif type(task)=='table'then
+				for i=1,#PLAYERS do
+					for _,t in ipairs(task)do
+						PLAYERS[i]:newTask(t)
+					end
+				end
+			else
+				LOG.print("Wrong task type",'warn')
 			end
 		end
 		BG.set(GAME.modeEnv.bg)
