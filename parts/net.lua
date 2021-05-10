@@ -82,6 +82,16 @@ local function wsCloseMessage(message)
 	end
 end
 
+--Remove player when leave
+local function removePlayer(L,sid)
+	for i=1,#L do
+		if L[i].sid==sid then
+			rem(L,i)
+			break
+		end
+	end
+end
+
 --Connect
 function NET.wsconn_app()
 	WS.connect('app','/app')
@@ -398,20 +408,10 @@ function NET.updateWS_play()
 								NET.unlock('quit')
 								SCN.back()
 							else
-								netPLY.remove(d.sid)
-								--TODO
-								for i=1,#PLAYERS do
-									if PLAYERS[i].sid==d.sid then
-										rem(PLAYERS,i)
-										break
-									end
-								end
-								for i=1,#PLY_ALIVE do
-									if PLY_ALIVE[i].sid==d.sid then
-										rem(PLY_ALIVE,i)
-										break
-									end
-								end
+								removePlayer(netPLY.list,d.sid)
+								netPLY.freshPos()
+								removePlayer(PLAYERS,d.sid)
+								removePlayer(PLY_ALIVE,d.sid)
 								if SCN.socketRead then SCN.socketRead('leave',d)end
 							end
 						elseif res.action==4 then--Player talk

@@ -224,7 +224,7 @@ function scene.update(dt)
 			lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
 		end
 	else
-		netPLY.update(dt)
+		netPLY.update()
 	end
 end
 

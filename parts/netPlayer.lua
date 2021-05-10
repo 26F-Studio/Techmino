@@ -94,13 +94,7 @@ function netPLY.add(p)
 	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
 	freshPosList()
 end
-function netPLY.remove(sid)
-	for i=1,#PLY do
-		if PLY[i].sid==sid then
-			rem(PLY,i)
-			break
-		end
-	end
+function netPLY.freshPos()
 	freshPosList()
 end
 
@@ -153,7 +147,7 @@ function netPLY.mouseMove(x,y)
 	end
 end
 
-function netPLY.update(dt)
+function netPLY.update()
 	for i=1,#PLY do
 		local p=PLY[i]
 		local t=posList[i]
