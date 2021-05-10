@@ -75,6 +75,16 @@ function TABLE.clear(G)
 	end
 end
 
+--Find value in [1~#]
+function TABLE.find(t,val)
+	for i=1,#t do if t[i]==val then return i end end
+end
+
+--Find value in whole table
+function TABLE.search(t,val)
+	for k,v in next,t do if v==val then return k end end
+end
+
 --Re-index string value of a table
 function TABLE.reIndex(org)
 	for k,v in next,org do
