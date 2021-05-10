@@ -611,19 +611,21 @@ function backScene()SCN.back()end
 do--function goScene(name,style)
 	local cache={}
 	function goScene(name,style)
-		if not cache[name]then
-			cache[name]=function()SCN.go(name,style)end
+		local hash=style and name..style or name
+		if not cache[hash]then
+			cache[hash]=function()SCN.go(name,style)end
 		end
-		return cache[name]
+		return cache[hash]
 	end
 end
 do--function swapScene(name,style)
 	local cache={}
 	function swapScene(name,style)
-		if not cache[name]then
-			cache[name]=function()SCN.swapTo(name,style)end
+		local hash=style and name..style or name
+		if not cache[hash]then
+			cache[hash]=function()SCN.swapTo(name,style)end
 		end
-		return cache[name]
+		return cache[hash]
 	end
 end
 do--function pressKey(k)

@@ -57,8 +57,8 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=640,y=15,font=80},
 
-	WIDGET.newButton{name="game",	x=200,	y=80,w=240,h=80,color='lC',font=35,code=swapScene"setting_game","swipeR"},
-	WIDGET.newButton{name="graphic",x=1080,	y=80,w=240,h=80,color='lC',font=35,code=swapScene"setting_video","swipeL"},
+	WIDGET.newButton{name="game",	x=200,	y=80,w=240,h=80,color='lC',font=35,code=swapScene("setting_game",'swipeR')},
+	WIDGET.newButton{name="graphic",x=1080,	y=80,w=240,h=80,color='lC',font=35,code=swapScene("setting_video",'swipeL')},
 
 	WIDGET.newSlider{name="sfx",	x=180,	y=200,w=400,		font=35,change=function()SFX.play('blip_1')end,disp=SETval("sfx"),code=SETsto("sfx")},
 	WIDGET.newSlider{name="spawn",	x=180,	y=300,w=400,		font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.sfx_spawn)end,disp=SETval("sfx_spawn"),code=SETsto("sfx_spawn")},
