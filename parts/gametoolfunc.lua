@@ -579,18 +579,20 @@ do--function drawSelfProfile()
 		gc.pop()
 	end
 end
-function drawWarning()
-	if SETTING.warn and GAME.warnLVL>0 then
-		gc.push('transform')
-		gc.origin()
-		SHADER.warning:send("level",GAME.warnLVL)
-		gc.setShader(SHADER.warning)
-		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-		gc.setShader()
-		gc.pop()
+do--function drawWarning()
+	local SETTING,GAME,shader_warning,SCR=SETTING,GAME,SHADER.warning,SCR
+	function drawWarning()
+		if SETTING.warn and GAME.warnLVL>0 then
+			gc.push('transform')
+			gc.origin()
+			shader_warning:send("level",GAME.warnLVL)
+			gc.setShader(shader_warning)
+			gc.rectangle('fill',0,0,SCR.w,SCR.h)
+			gc.setShader()
+			gc.pop()
+		end
 	end
 end
-
 
 
 --Widget function shortcuts

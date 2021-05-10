@@ -149,29 +149,35 @@ function Player:setPosition(x,y,size)
 		self.absFieldX,self.absFieldY=x+150*size,y-10*size
 	end
 end
-local function task_movePosition(self,x,y,size)
-	local x1,y1,size1=self.x,self.y,self.size
-	while true do
-		yield()
-		if (x1-x)^2+(y1-y)^2<1 then
-			self:setPosition(x,y,size)
-			return true
-		else
-			x1=x1+(x-x1)*.126
-			y1=y1+(y-y1)*.126
-			size1=size1+(size-size1)*.126
-			self:setPosition(x1,y1,size1)
+do--function Player:movePosition(x,y,size)
+	local function task_movePosition(self,x,y,size)
+		local x1,y1,size1=self.x,self.y,self.size
+		while true do
+			yield()
+			if (x1-x)^2+(y1-y)^2<1 then
+				self:setPosition(x,y,size)
+				return true
+			else
+				x1=x1+(x-x1)*.126
+				y1=y1+(y-y1)*.126
+				size1=size1+(size-size1)*.126
+				self:setPosition(x1,y1,size1)
+			end
 		end
 	end
-end
-local function checkPlayer(obj,Ptar)
-	return obj.args[1]==Ptar
-end
-function Player:movePosition(x,y,size)
-	TASK.removeTask_iterate(checkPlayer,self)
-	TASK.new(task_movePosition,self,x,y,size or self.size)
+	local function checkPlayer(obj,Ptar)
+		return obj.args[1]==Ptar
+	end
+	function Player:movePosition(x,y,size)
+		TASK.removeTask_iterate(checkPlayer,self)
+		TASK.new(task_movePosition,self,x,y,size or self.size)
+	end
 end
 
+local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
+function Player:setFrameColor(c)
+	self.frameColor=frameColorList[c]
+end
 function Player:switchKey(id,on)
 	self.keyAvailable[id]=on
 	if not on then
@@ -1723,19 +1729,19 @@ function Player:lose(force)
 		self.modeData.place=#PLY_ALIVE+1
 		self.strength=0
 		if self.lastRecv then
-			local A,i=self,0
+			local A,depth=self,0
 			repeat
-				A,i=A.lastRecv,i+1
-			until not A or A.alive or A==self or i==3
+				A,depth=A.lastRecv,depth+1
+			until not A or A.alive or A==self or depth==3
 			if A and A.alive then
 				if self.id==1 or A.id==1 then
 					self.killMark=A.id==1
 				end
 				A.modeData.ko,A.badge=A.modeData.ko+1,A.badge+self.badge+1
-				for j=A.strength+1,4 do
-					if A.badge>=ROYALEDATA.powerUp[j]then
-						A.strength=j
-						A.frameColor=A.strength
+				for i=A.strength+1,4 do
+					if A.badge>=ROYALEDATA.powerUp[i]then
+						A.strength=i
+						A:setFrameColor(A.strength)
 					end
 				end
 				self.lastRecv=A

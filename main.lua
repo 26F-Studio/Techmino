@@ -55,10 +55,6 @@ end
 require"Zframework"
 SCR.setSize(1280,720)--Initialize Screen size
 
-require"parts.list"
-require"parts.globalTables"
-require"parts.gametoolfunc"
-
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems("parts/shaders")do
@@ -67,6 +63,10 @@ for _,v in next,fs.getDirectoryItems("parts/shaders")do
 		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
 	end
 end
+
+require"parts.list"
+require"parts.globalTables"
+require"parts.gametoolfunc"
 
 FREEROW=	require"parts.freeRow"
 DATA=		require"parts.data"

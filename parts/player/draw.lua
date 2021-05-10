@@ -16,7 +16,6 @@ local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
 local RCPB={5,33,195,33,100,5,100,60}
-local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
 local attackColor={
 	{COLOR.dH,COLOR.Z},
 	{COLOR.H,COLOR.Z},
@@ -239,7 +238,7 @@ local function drawNextPreview(P,B)
 end
 local function drawBoarders(P)
 	gc_setLineWidth(2)
-	gc_setColor(frameColorList[P.frameColor])
+	gc_setColor(P.frameColor)
 	gc_rectangle('line',-1,-11,302,612)--Bis Boarder
 	gc_rectangle('line',301,-3,15,604)--AtkBuffer boarder
 	gc_rectangle('line',-16,-3,15,604)--B2b bar boarder
@@ -836,7 +835,7 @@ function draw.small(P)
 		--Draw boarder
 		if P.alive then
 			gc_setLineWidth(2)
-			gc_setColor(frameColorList[P.frameColor])
+			gc_setColor(P.frameColor)
 			gc_rectangle('line',0,0,60,120)
 		end
 

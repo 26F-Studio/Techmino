@@ -94,7 +94,7 @@ local function newEmptyPlayer(id,mini)
 		a=0,va=0,
 	}
 	P.x,P.y,P.size=0,0,1
-	P.frameColor=0
+	P.frameColor=COLOR.Z
 
 	--Set these at Player:setPosition()
 	-- P.fieldX,P.fieldY=...

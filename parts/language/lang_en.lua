@@ -11,6 +11,7 @@ return{
 
 	atkModeName={"Random","Badges","K.O.s","Attackers"},
 	royale_remain="$1 Player(s) Remaining",
+	powerUp={[0]="000%UP","025%UP","050%UP","075%UP","100%UP"},
 	cmb={nil,"1 Combo","2 Combo","3 Combo","4 Combo","5 Combo","6 Combo","7 Combo","8 Combo","9 Combo","10 Combo!","11 Combo!","12 Combo!","13 Combo!","14 Combo!!","15 Combo!!","16 Combo!!","17 Combo!!!","18 Combo!!!","19 Combo!!!","MEGACMB"},
 	spin="-Spin ",
 	clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash"},
