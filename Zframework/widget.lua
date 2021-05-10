@@ -161,26 +161,26 @@ function button:draw()
 	gc.setColor(1,1,1,.2+ATV*.05)
 	if self.align=='M'then
 		local x0=x+w*.5
-		mDraw(obj,x0-2,y0-2)
-		mDraw(obj,x0-2,y0+2)
-		mDraw(obj,x0+2,y0-2)
-		mDraw(obj,x0+2,y0+2)
+		mDraw(obj,x0-1.5,y0-1.5)
+		mDraw(obj,x0-1.5,y0+1.5)
+		mDraw(obj,x0+1.5,y0-1.5)
+		mDraw(obj,x0+1.5,y0+1.5)
 		gc.setColor(r*.5,g*.5,b*.5)
 		mDraw(obj,x0,y0)
 	elseif self.align=='L'then
 		local edge=self.edge
-		mDraw_Y(obj,x+edge-2,y0-2)
-		mDraw_Y(obj,x+edge-2,y0+2)
-		mDraw_Y(obj,x+edge+2,y0-2)
-		mDraw_Y(obj,x+edge+2,y0+2)
+		mDraw_Y(obj,x+edge-1.5,y0-1.5)
+		mDraw_Y(obj,x+edge-1.5,y0+1.5)
+		mDraw_Y(obj,x+edge+1.5,y0-1.5)
+		mDraw_Y(obj,x+edge+1.5,y0+1.5)
 		gc.setColor(r*.5,g*.5,b*.5)
 		mDraw_Y(obj,x+edge,y0)
 	elseif self.align=='R'then
 		local x0=x+w-self.edge-obj:getWidth()
-		mDraw_Y(obj,x0-2,y0-2)
-		mDraw_Y(obj,x0-2,y0+2)
-		mDraw_Y(obj,x0+2,y0-2)
-		mDraw_Y(obj,x0+2,y0+2)
+		mDraw_Y(obj,x0-1.5,y0-1.5)
+		mDraw_Y(obj,x0-1.5,y0+1.5)
+		mDraw_Y(obj,x0+1.5,y0-1.5)
+		mDraw_Y(obj,x0+1.5,y0+1.5)
 		gc.setColor(r*.5,g*.5,b*.5)
 		mDraw_Y(obj,x0,y0)
 	end
@@ -264,7 +264,7 @@ function key:draw()
 	local c=self.color
 	local r,g,b=c[1],c[2],c[3]
 
-	gc.setColor(1,1,1,ATV*.125)
+	gc.setColor(1,1,1,ATV*.1)
 	gc.rectangle('fill',x,y,w,h)
 
 	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
