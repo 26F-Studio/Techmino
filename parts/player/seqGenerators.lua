@@ -97,7 +97,7 @@ local seqGenerators={
 				rem(history,1)ins(history,r)
 					-- print("Player GET: "..r)
 					-- print("History: "..table.concat(history,","))
-					-- local L={"","","","","","","",}
+					-- local L=TABLE.new("",len)
 					-- for _,v in next,pool do L[v]=L[v].."+"end
 					-- for i=1,#L do print(i,droughtTimes[i],L[i])end
 			end

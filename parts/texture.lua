@@ -168,16 +168,16 @@ end
 --WS icons
 setFont(20)
 TEXTURE.ws_dead=DOGC{20,20,
-	{"setCL",1,.3,.3},
-	{"print","X",3,-4},
+	{'setCL',1,.3,.3},
+	{'print',"X",3,-4},
 }
 TEXTURE.ws_connecting=DOGC{20,20,
-	{"setLW",3},
-	{"dArc",11.5,10,6.26,1,5.28},
+	{'setLW',3},
+	{'dArc',11.5,10,6.26,1,5.28},
 }
 TEXTURE.ws_running=DOGC{20,20,
-	{"setCL",.5,1,0},
-	{"print","R",3,-4},
+	{'setCL',.5,1,0},
+	{'print',"R",3,-4},
 }
 
 

@@ -6,8 +6,8 @@ function scene.sceneInit()
 	mini,b2b,b3b,pc=false,false,false,false
 end
 
-local blockName={"z","s","j","l","t","o","i"}
-local lineCount={"single","double","triple","techrash"}
+local blockName={'z','s','j','l','t','o','i'}
+local lineCount={'single','double','triple','techrash'}
 function scene.keyDown(key)
 	if key=="1"then
 		mini=not mini

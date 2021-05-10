@@ -9,13 +9,13 @@ local setFont,mStr=setFont,mStr
 local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
 
 local clearIcon=DOGC{40,40,
-	{"setLW",6},
-	{"line",11,11,29,29},
-	{"line",11,29,29,11},
+	{'setLW',6},
+	{'line',11,11,29,29},
+	{'line',11,29,29,11},
 }
 local sureIcon=DOGC{40,40,
-	{"setFT",35},
-	{"mText","?",20,-6},
+	{'setFT',35},
+	{'mText',"?",20,-6},
 }
 
 local WIDGET={}

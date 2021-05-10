@@ -349,21 +349,21 @@ end
 do--function dumpBasicConfig()
 	local gameSetting={
 		--Tuning
-		"das","arr","dascut","sddas","sdarr",
-		"ihs","irs","ims","RS","swap",
+		'das','arr','dascut','sddas','sdarr',
+		'ihs','irs','ims','RS','swap',
 
 		--System
-		"skin","face",
+		'skin','face',
 
 		--Graphic
-		"block","ghost","center","bagLine",
-		"dropFX","moveFX","shakeFX",
-		"text","highCam","nextPos",
+		'block','ghost','center','bagLine',
+		'dropFX','moveFX','shakeFX',
+		'text','highCam','nextPos',
 
 		--Unnecessary graphic
-		-- "grid","smooth",
-		-- "lockFX","clearFX","splashFX","atkFX",
-		-- "score",
+		-- 'grid','smooth',
+		-- 'lockFX','clearFX','splashFX','atkFX',
+		-- 'score',
 	}
 	function dumpBasicConfig()
 		local S={}
@@ -374,11 +374,11 @@ do--function dumpBasicConfig()
 	end
 end
 do--function resetGameData(args)
-	local YIELD=YIELD
+	local yield=YIELD
 	local function tick_showMods()
 		local time=0
 		while true do
-			YIELD()
+			yield()
 			time=time+1
 			if time%20==0 then
 				local M=GAME.mod[time/20]
@@ -392,16 +392,16 @@ do--function resetGameData(args)
 	end
 	local gameSetting={
 		--Tuning
-		"das","arr","dascut","sddas","sdarr",
-		"ihs","irs","ims","RS","swap",
+		'das','arr','dascut','sddas','sdarr',
+		'ihs','irs','ims','RS','swap',
 
 		--System
-		"skin","face",
+		'skin','face',
 
 		--Graphic
-		"block","ghost","center","smooth","grid","bagLine",
-		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
-		"text","score",'warn',"highCam","nextPos",
+		'block','ghost','center','smooth','grid','bagLine',
+		'lockFX','dropFX','moveFX','clearFX','splashFX','shakeFX','atkFX',
+		'text','score','warn','highCam','nextPos',
 	}
 	local function copyGameSetting()
 		local S={}

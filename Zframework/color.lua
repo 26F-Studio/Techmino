@@ -57,10 +57,10 @@ local COLOR={
 	white=		{1.0,	1.0,	1.0},
 }
 for k,v in next,{
-	R="red",F="fire",O="orange",Y="yellow",L="lime",J="jade",G="green",A="aqua",C="cyan",N="navy",S="sea",B="blue",V="violet",P="purple",M="magenta",W="wine",
-	lR="lRed",lF="lFire",lO="lOrange",lY="lYellow",lL="lLime",lJ="lJade",lG="lGreen",lA="lAqua",lC="lCyan",lN="lNavy",lS="lSea",lB="lBlue",lV="lViolet",lP="lPurple",lM="lMagenta",lW="lWine",
-	dR="dRed",dF="dFire",dO="dOrange",dY="dYellow",dL="dLime",dJ="dJade",dG="dGreen",dA="dAqua",dC="dCyan",dN="dNavy",dS="dSea",dB="dBlue",dV="dViolet",dP="dPurple",dM="dMagenta",dW="dWine",
-	D="black",dH="dGray",H="gray",lH="lGray",Z="white",
+	R='red',F='fire',O='orange',Y='yellow',L='lime',J='jade',G='green',A='aqua',C='cyan',N='navy',S='sea',B='blue',V='violet',P='purple',M='magenta',W='wine',
+	lR='lRed',lF='lFire',lO='lOrange',lY='lYellow',lL='lLime',lJ='lJade',lG='lGreen',lA='lAqua',lC='lCyan',lN='lNavy',lS='lSea',lB='lBlue',lV='lViolet',lP='lPurple',lM='lMagenta',lW='lWine',
+	dR='dRed',dF='dFire',dO='dOrange',dY='dYellow',dL='dLime',dJ='dJade',dG='dGreen',dA='dAqua',dC='dCyan',dN='dNavy',dS='dSea',dB='dBlue',dV='dViolet',dP='dPurple',dM='dMagenta',dW='dWine',
+	D='black',dH='dGray',H='gray',lH='lGray',Z='white',
 	--Remain letter: EIKQTUX
 }do
 	COLOR[k]=COLOR[v]
@@ -72,19 +72,19 @@ end})
 
 do--Random generators
 	local rnd=math.random
-	local list_norm={"red","fire","orange","yellow","lime","jade","green","aqua","cyan","navy","sea","blue","violet","purple","magenta","wine"}
+	local list_norm={'red','fire','orange','yellow','lime','jade','green','aqua','cyan','navy','sea','blue','violet','purple','magenta','wine'}
 	local len_list_norm=#list_norm
 	function COLOR.random_norm()
 		return COLOR[list_norm[rnd(len_list_norm)]]
 	end
 
-	local list_bright={"lRed","lFire","lOrange","lYellow","lLime","lJade","lGreen","lAqua","lCyan","lNavy","lSea","lBlue","lViolet","lPurple","lMagenta","lWine"}
+	local list_bright={'lRed','lFire','lOrange','lYellow','lLime','lJade','lGreen','lAqua','lCyan','lNavy','lSea','lBlue','lViolet','lPurple','lMagenta','lWine'}
 	local len_list_bright=#list_bright
 	function COLOR.random_bright()
 		return COLOR[list_bright[rnd(len_list_bright)]]
 	end
 
-	local list_dark={"dRed","dFire","dOrange","dYellow","dLime","dJade","dGreen","dAqua","dCyan","dNavy","dSea","dBlue","dViolet","dPurple","dMagenta","dWine"}
+	local list_dark={'dRed','dFire','dOrange','dYellow','dLime','dJade','dGreen','dAqua','dCyan','dNavy','dSea','dBlue','dViolet','dPurple','dMagenta','dWine'}
 	local len_list_dark=#list_dark
 	function COLOR.random_dark()
 		return COLOR[list_dark[rnd(len_list_dark)]]

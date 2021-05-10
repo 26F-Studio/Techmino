@@ -8,7 +8,7 @@ return function(name,libName)
 		end
 	elseif SYSTEM=="Android"then
 		local fs=love.filesystem
-		local platform={"arm64-v8a","armeabi-v7a"}
+		local platform={'arm64-v8a','armeabi-v7a'}
 
 		local libFunc=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
 		if libFunc then
