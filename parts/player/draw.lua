@@ -43,7 +43,7 @@ local multiple=DOGC{15,15,
 local gridLines do
 	local L={300,640,{'setLW',2}}
 	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
-	for y=0,19 do table.insert(L,{'line',0,40+30*y,300,40+30*y})end
+	for y=0,20 do table.insert(L,{'line',0,10+30*y,300,10+30*y})end
 	gridLines=DOGC(L)
 end
 local LDmarks=gc.newSpriteBatch(DOGC{14,5,{'clear',1,1,1}},15,'static')
@@ -72,10 +72,6 @@ local function applyFieldOffset(P,notNorm)
 end
 local function stencilBoard()gc_rectangle('fill',0,-10,300,610)end
 
-local function drawGrid(P,alpha)
-	gc_setColor(1,1,1,alpha)
-	gc_draw(gridLines,0,-10+(P.fieldBeneath+P.fieldUp)%30)
-end
 local function drawRow(h,V,L,showInvis)
 	local texture=SKIN.curText
 	local t=TIME()*4
@@ -240,7 +236,7 @@ local function drawBoarders(P)
 	gc_setLineWidth(2)
 	gc_setColor(P.frameColor)
 	gc_rectangle('line',-1,-11,302,612)--Bis Boarder
-	gc_rectangle('line',301,-3,15,604)--AtkBuffer boarder
+	gc_rectangle('line',301,-3,15,604)
 	gc_rectangle('line',-16,-3,15,604)--B2b bar boarder
 end
 local function drawBuffer(P)
@@ -532,7 +528,10 @@ function draw.norm(P)
 				boardTransform(ENV.flipBoard)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P,ENV.grid)end
+				if ENV.grid then
+					gc_setColor(1,1,1,ENV.grid)
+					gc_draw(gridLines,0,(FBN+FUP+10)%30-50)
+				end
 
 				--Move camera
 				gc_translate(0,600+FBN+FUP)
@@ -695,7 +694,10 @@ function draw.norm_remote(P)
 				boardTransform(ENV.flipBoard)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P,ENV.grid)end
+				if ENV.grid then
+					gc_setColor(1,1,1,ENV.grid)
+					gc_draw(gridLines,0,(FBN+FUP+10)%30-50)
+				end
 
 				--Move camera
 				gc_translate(0,600+FBN+FUP)
