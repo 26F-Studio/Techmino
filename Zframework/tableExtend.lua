@@ -95,7 +95,7 @@ do--function TABLE.dump(L,t)
 		"\t\t\t\t",
 		"\t\t\t\t\t",
 	}
-	function dump(L,t)
+	local function dump(L,t)
 		local s
 		if t then
 			s="{\n"

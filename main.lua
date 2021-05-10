@@ -5,7 +5,13 @@
 	 / /  /  __// /__ / / / // / / / / // // / / // /_/ /
 	/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
 	Techmino is my first "huge project"
-	optimization is welcomed if you also love tetromino game
+	optimization is welcomed if you also love tetromino stacking game
+
+	Instructions:
+	1. I made a framework called Zframework, most code in Zframework are directly relevant to game;
+	2. "xxx" are texts for reading, 'xxx' are string values in program;
+	3. Some goto statement are used for better performance. All goto-labes have detailed names so don't afraid;
+	4. Except "gcinfo" function of lua, other "gc" are short for "graphics";
 ]]--
 
 

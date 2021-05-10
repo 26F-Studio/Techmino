@@ -203,7 +203,6 @@ function scene.sceneInit()
 	shadePhase1=6.26*math.random()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
-	consoleLaunchKey=0
 	light[6*3],light[26*3]=true,true
 	kb.setKeyRepeat(false)
 end
