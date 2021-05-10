@@ -127,7 +127,8 @@ local function newEmptyPlayer(id,mini)
 	for i=1,10 do P.dropTime[i]=-1e99 end
 
 	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
+	P.atkBuffer={}
+	P.atkBufferSum=0
 
 	--Royale-related
 	P.badge,P.strength=0,0

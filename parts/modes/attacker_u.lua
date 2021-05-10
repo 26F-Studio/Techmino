@@ -7,25 +7,24 @@ return{
 		task=function(P)
 			while true do
 				YIELD()
-				if P.control and P.atkBuffer.sum<4 then
-					local p=#P.atkBuffer+1
-					local B,D=P.atkBuffer,P.modeData
+				if P.control and P.atkBufferSum<4 then
+					local D=P.modeData
 					local s
 					local t=800-10*D.wave--800~700~600~500
 					if D.wave<10 then
-						B[p]=	{line=generateLine(P:RND(5,6)),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3}
-						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4}
+						table.insert(P.atkBuffer,{line=generateLine(P:RND(5,6)),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3})
+						table.insert(P.atkBuffer,{line=generateLine(P:RND(4,7)),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4})
 						s=20
 					elseif D.wave<20 then
-						B[p]=	{line=generateLine(P:RND(3,8)),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4}
-						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5}
+						table.insert(P.atkBuffer,{line=generateLine(P:RND(3,8)),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4})
+						table.insert(P.atkBuffer,{line=generateLine(P:RND(4,7)),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5})
 						s=24
 					else
-						B[p]=	{line=generateLine(P:RND(2)*9-8),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5}
-						B[p+1]=	{line=generateLine(P:RND(3,8)),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5}
+						table.insert(P.atkBuffer,{line=generateLine(P:RND(2)*9-8),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5})
+						table.insert(P.atkBuffer,{line=generateLine(P:RND(3,8)),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5})
 						s=28
 					end
-					B.sum=B.sum+s
+					P.atkBufferSum=P.atkBufferSum+s
 					P.stat.recv=P.stat.recv+s
 					D.wave=D.wave+1
 					if D.wave%10==0 then

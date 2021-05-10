@@ -242,7 +242,7 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
 		local A=self.atkBuffer[n]
 		if A and A.countdown<=0 and not A.sent then
 			self:garbageRise(19+A.lv,A.amount,A.line)
-			self.atkBuffer.sum=self.atkBuffer.sum-A.amount
+			self.atkBufferSum=self.atkBufferSum-A.amount
 			A.sent,A.time=true,0
 			self.stat.pend=self.stat.pend+A.amount
 			n=n+1
@@ -371,14 +371,11 @@ end
 function Player:receive(A,send,time,line)
 	self.lastRecv=A
 	local B=self.atkBuffer
-	if send+B.sum>self.gameEnv.bufferLimit then send=self.gameEnv.bufferLimit-B.sum end
+	if send+self.atkBufferSum>self.gameEnv.bufferLimit then send=self.gameEnv.bufferLimit-self.atkBufferSum end
 	if send>0 then
 		local m,k=#B,1
 		while k<=m and time>B[k].countdown do k=k+1 end
-		for i=m,k,-1 do
-			B[i+1]=B[i]
-		end
-		B[k]={
+		ins(B,k,{
 			line=line,
 			amount=send,
 			countdown=time,
@@ -386,8 +383,8 @@ function Player:receive(A,send,time,line)
 			time=0,
 			sent=false,
 			lv=min(int(send^.69),5),
-		}--Sorted insert(by time)
-		B.sum=B.sum+send
+		})--Sorted insert(by time)
+		self.atkBufferSum=self.atkBufferSum+send
 		self.stat.recv=self.stat.recv+send
 		if self.sound then
 			SFX.play(send<4 and'blip_1'or'blip_2',min(send+1,5)*.1)
@@ -812,7 +809,7 @@ function Player:cancel(N)--Cancel Garbage
 	local off=0--Lines offseted
 	local bf=self.atkBuffer
 	for i=1,#bf do
-		if bf.sum==0 or N==0 then break end
+		if self.atkBufferSum==0 or N==0 then break end
 		local A=bf[i]
 		if not A.sent then
 			local O=min(A.amount,N)--Cur Offset
@@ -822,7 +819,7 @@ function Player:cancel(N)--Cancel Garbage
 				A.sent,A.time=true,0
 			end
 			off=off+O
-			bf.sum=bf.sum-O
+			self.atkBufferSum=self.atkBufferSum-O
 			N=N-O
 		end
 	end
@@ -1699,7 +1696,7 @@ function Player:lose(force)
 				A.time=0
 			end
 		end
-		self.atkBuffer.sum=0
+		self.atkBufferSum=0
 
 		for i=1,h do
 			self:createClearingFX(i,1.5)
