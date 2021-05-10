@@ -129,6 +129,7 @@ local function newEmptyPlayer(id,mini)
 	P.field,P.visTime={},{}
 	P.atkBuffer={}
 	P.atkBufferSum=0
+	P.atkBufferSum1=0
 
 	--Royale-related
 	P.badge,P.strength=0,0

@@ -4,10 +4,23 @@ local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
 local TEXT,GAME=TEXT,GAME
-local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
+local PLY_ALIVE=PLY_ALIVE
 
+local function update_misc(P,dt)
+	--Finesse combo animation
+	if P.finesseComboTime>0 then
+		P.finesseComboTime=P.finesseComboTime-1
+	end
 
-local function updateLine(P)--Attacks, line pushing, camear moving
+	--Update atkBuffer alert
+	local t=P.atkBufferSum1
+	if t<P.atkBufferSum then
+		P.atkBufferSum1=t+.25
+	elseif t>P.atkBufferSum then
+		P.atkBufferSum1=t-.5
+	end
+
+	--Update attack buffer
 	local bf=P.atkBuffer
 	for i=#bf,1,-1 do
 		local A=bf[i]
@@ -23,24 +36,26 @@ local function updateLine(P)--Attacks, line pushing, camear moving
 		end
 	end
 
+	--Push up garbages
 	local y=P.fieldBeneath
 	if y>0 then
 		P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
 	end
 
+	--Move camera
 	if P.gameEnv.highCam then
-		local f=P.fieldUp
 		if not P.alive then
 			y=0
 		else
 			y=30*max(min(#P.field-18.5-P.fieldBeneath/30,P.ghoY-17),0)
 		end
+		local f=P.fieldUp
 		if f~=y then
 			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or min(f*.97+y*.03+1,y)
 		end
 	end
-end
-local function updateFXs(P,dt)
+
+	--Update Score
 	if P.stat.score>P.score1 then
 		if P.stat.score-P.score1<10 then
 			P.score1=P.score1+1
@@ -49,7 +64,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--LockFX
+	--Update lock FX
 	for i=#P.lockFX,1,-1 do
 		local S=P.lockFX[i]
 		S[3]=S[3]+S[4]*dt
@@ -58,7 +73,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--DropFX
+	--Update drop FX
 	for i=#P.dropFX,1,-1 do
 		local S=P.dropFX[i]
 		S[5]=S[5]+S[6]*dt
@@ -67,7 +82,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--MoveFX
+	--Update move FX
 	for i=#P.moveFX,1,-1 do
 		local S=P.moveFX[i]
 		S[4]=S[4]+S[5]*dt
@@ -76,7 +91,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--ClearFX
+	--Update clear FX
 	for i=#P.clearFX,1,-1 do
 		local S=P.clearFX[i]
 		S[2]=S[2]+S[3]*dt
@@ -99,11 +114,12 @@ local function updateFXs(P,dt)
 		-- if abs(O.a)<.3 then O.a,O.va=0,0 end
 	end
 
+	--Update texts
 	if P.bonus then
 		TEXT.update(P.bonus)
 	end
-end
-local function updateTasks(P)
+
+	--Update tasks
 	local L=P.tasks
 	for i=#L,1,-1 do
 		local tr=L[i].thread
@@ -356,15 +372,8 @@ function update.alive(P,dt)
 		P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
 	end
 
-	--Finesse combo animation
-	if P.finesseComboTime>0 then
-		P.finesseComboTime=P.finesseComboTime-1
-	end
-
-	--Update FXs
-	updateLine(P)
-	updateFXs(P,dt)
-	updateTasks(P)
+	--Others
+	update_misc(P,dt)
 	-- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
 end
 function update.dead(P,dt)
@@ -389,12 +398,7 @@ function update.dead(P,dt)
 	if P.b2b1>0 then
 		P.b2b1=max(0,P.b2b1*.92-1)
 	end
-	if P.finesseComboTime>0 then
-		P.finesseComboTime=P.finesseComboTime-1
-	end
-	updateLine(P)
-	updateFXs(P,dt)
-	updateTasks(P)
+	update_misc(P,dt)
 end
 function update.remote_alive(P,dt)
 	local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun

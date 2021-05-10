@@ -391,6 +391,16 @@ function Player:receive(A,send,time,line)
 		end
 	end
 end
+function Player:clearAttackBuffer()
+	for i=1,#self.atkBuffer do
+		local A=self.atkBuffer[i]
+		if not A.sent then
+			A.sent=true
+			A.time=0
+		end
+	end
+	self.atkBufferSum=0
+end
 function Player:freshTarget()
 	if self.atkMode==1 then
 		if not self.atking or not self.atking.alive or rnd()<.1 then
@@ -1620,10 +1630,7 @@ function Player:die()--Called both when win/lose!
 	self.waiting=1e99
 	self.b2b=0
 	self.tasks={}
-	for i=1,#self.atkBuffer do
-		self.atkBuffer[i].sent=true
-		self.atkBuffer[i].time=0
-	end
+	self:clearAttackBuffer()
 	for i=1,#self.field do
 		for j=1,10 do
 			self.visTime[i][j]=min(self.visTime[i][j],20)
@@ -1639,6 +1646,36 @@ function Player:die()--Called both when win/lose!
 			end
 		end
 	end
+end
+function Player:revive()
+	self.waiting=62
+	local h=#self.field
+	for _=h,1,-1 do
+		FREEROW.discard(self.field[_])
+		FREEROW.discard(self.visTime[_])
+		self.field[_],self.visTime[_]=nil
+	end
+	self.garbageBeneath=0
+	if self.AI_mode=='CC'then
+		CC.destroy(self.AI_bot)
+		TABLE.cut(self.holdQueue)
+		self:loadAI(self.AIdata)
+	end
+
+	self:clearAttackBuffer()
+
+	self.life=self.life-1
+	self.fieldBeneath=0
+	self.b2b=0
+
+	for i=1,h do
+		self:createClearingFX(i,1.5)
+	end
+	SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
+	SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
+	SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(665+12)*self.size,20)
+	SFX.play('clear_3')
+	SFX.play('emit')
 end
 function Player:win(result)
 	if self.result then return end
@@ -1670,45 +1707,7 @@ end
 function Player:lose(force)
 	if self.result then return end
 	if self.type=='remote'and not force then self.waiting=1e99 return end
-	if self.life>0 and not force then
-		self.waiting=62
-		local h=#self.field
-		for _=h,1,-1 do
-			FREEROW.discard(self.field[_])
-			FREEROW.discard(self.visTime[_])
-			self.field[_],self.visTime[_]=nil
-		end
-		self.garbageBeneath=0
-
-		if self.AI_mode=='CC'then
-			CC.destroy(self.AI_bot)
-			TABLE.cut(self.holdQueue)
-			self:loadAI(self.AIdata)
-		end
-
-		self.life=self.life-1
-		self.fieldBeneath=0
-		self.b2b=0
-		for i=1,#self.atkBuffer do
-			local A=self.atkBuffer[i]
-			if not A.sent then
-				A.sent=true
-				A.time=0
-			end
-		end
-		self.atkBufferSum=0
-
-		for i=1,h do
-			self:createClearingFX(i,1.5)
-		end
-		SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
-		SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
-		SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(665+12)*self.size,20)
-		SFX.play('clear_3')
-		SFX.play('emit')
-
-		return
-	end
+	if self.life>0 and not force then self:revive()return end
 	self:die()
 	local i=TABLE.find(PLY_ALIVE,self)
 	if i then rem(PLY_ALIVE,i)end
