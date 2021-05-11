@@ -17,6 +17,14 @@ local sureIcon=DOGC{40,40,
 	{'setFT',35},
 	{'mText',"?",20,-6},
 }
+local smallerThen=DOGC{20,20,
+	{'setLW',5},
+	{'line',18,2,1,10,18,18},
+}
+local largerThen=DOGC{20,20,
+	{'setLW',5},
+	{'line',2,2,19,10,2,18},
+}
 
 local WIDGET={}
 local widgetMetatable={
@@ -633,18 +641,18 @@ function selector:draw()
 	gc.setColor(1,1,1,.2+ATV*.1)
 	local t=(TIME()%.5)^.5
 	if self.select>1 then
-		gc.draw(drawableText.small,x+6,y+20)
+		gc.draw(smallerThen,x+6,y+33)
 		if ATV>0 then
 			gc.setColor(1,1,1,ATV*.4*(.5-t))
-			gc.draw(drawableText.small,x+6-t*40,y+20)
+			gc.draw(smallerThen,x+6-t*40,y+33)
 			gc.setColor(1,1,1,.2+ATV*.1)
 		end
 	end
 	if self.select<#self.list then
-		gc.draw(drawableText.large,x+w-24,y+20)
+		gc.draw(largerThen,x+w-26,y+33)
 		if ATV>0 then
 			gc.setColor(1,1,1,ATV*.4*(.5-t))
-			gc.draw(drawableText.large,x+w-24+t*40,y+20)
+			gc.draw(largerThen,x+w-26+t*40,y+33)
 		end
 	end
 
