@@ -22,10 +22,11 @@ local consoleEntryThread=coroutine.wrap(function()
 	end
 end)
 function scene.sceneInit()
+	BG.set()
+
+	--Set tip
 	tip:set(text.getTip())
 	scrollX=tipLength
-
-	BG.set()
 
 	--Set quick-play-button text
 	scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
@@ -163,6 +164,9 @@ function scene.draw()
 
 	--Profile
 	drawSelfProfile()
+
+	--Player count
+	drawOnlinePlayerCount()
 end
 
 scene.widgetList={

@@ -589,6 +589,11 @@ do--function drawSelfProfile()
 		gc.pop()
 	end
 end
+function drawOnlinePlayerCount()
+	setFont(20)
+	gc.setColor(1,1,1)
+	gc.printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),0,80,1272,'right')
+end
 do--function drawWarning()
 	local SETTING,GAME,shader_warning,SCR=SETTING,GAME,SHADER.warning,SCR
 	function drawWarning()

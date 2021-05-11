@@ -97,6 +97,8 @@ return{
 	wsClose="WebSocket Closed: ",
 	netTimeout="Network connection timeout",
 
+	onlinePlayerCount="Online",
+
 	createRoomTooFast="You are creating a room too fast!",
 	createRoomSuccessed="Room successfully created!",
 	started="Playing",
@@ -105,7 +107,7 @@ return{
 	ready="READY",
 	set="SET",
 	champion="$1 won",
-	chatRemain="Online: ",
+	chatRemain="Online",
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
 

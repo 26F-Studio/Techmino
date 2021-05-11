@@ -97,6 +97,8 @@ return{
 	-- wsClose="WebSocket Closed: ",
 	-- netTimeout="Network connection timeout",
 
+	-- onlinePlayerCount="Online",
+
 	createRoomTooFast="Vous avez créé un salon trop rapidement !",
 	createRoomSuccessed="Salon créé avec succès !",
 	-- started="Playing",

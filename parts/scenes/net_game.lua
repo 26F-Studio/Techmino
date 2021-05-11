@@ -265,6 +265,9 @@ function scene.draw()
 
 		--Profile
 		drawSelfProfile()
+
+		--Player count
+		drawOnlinePlayerCount()
 	end
 
 	--New message

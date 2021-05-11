@@ -1,6 +1,8 @@
 local data=love.data
 local rem=table.remove
+
 local WS,TIME=WS,TIME
+local yield=YIELD
 
 local NET={
 	connected=false,
@@ -19,6 +21,10 @@ local NET={
 	connectingStream=false,
 	streamRoomID=false,
 	serverGaming=false,
+
+	UserCount="_",
+	PlayCount="_",
+	StreamCount="_",
 }
 
 local mesType={
@@ -172,6 +178,14 @@ function NET.getUserInfo(uid)
 		},
 	})
 end
+function NET.freshPlayerCount()
+	while true do
+		for _=1,260 do yield()end
+		if WS.status('app')=='running'then
+			WS.send('app',JSON.encode{action=3})
+		end
+	end
+end
 
 --Room
 function NET.fetchRoom()
@@ -259,7 +273,7 @@ end
 --WS tick funcs
 function NET.updateWS_app()
 	while true do
-		YIELD()
+		yield()
 		if WS.status('app')=='running'then
 			local message,op=WS.read('app')
 			if message then
@@ -272,6 +286,7 @@ function NET.updateWS_app()
 				else
 					local res=_parse(message)
 					if res then
+						for k,v in next,res do print(k,v)end
 						if res.type=='Connect'then
 							NET.connected=true
 							if VERSION.code>=res.lowest then
@@ -298,6 +313,11 @@ function NET.updateWS_app()
 								LOG.print(res.reason or"Registration failed",300,COLOR.N)
 							end
 							NET.unlock('register')
+						elseif res.action==3 then--Get player counts
+							NET.UserCount=res.data.User
+							NET.PlayCount=res.data.Play
+							NET.StreamCount=res.data.Stream
+							--res.data.Chat
 						end
 					else
 						WS.alert('app')
@@ -309,7 +329,7 @@ function NET.updateWS_app()
 end
 function NET.updateWS_user()
 	while true do
-		YIELD()
+		yield()
 		if WS.status('user')=='running'then
 			local message,op=WS.read('user')
 			if message then
@@ -351,7 +371,7 @@ function NET.updateWS_user()
 end
 function NET.updateWS_play()
 	while true do
-		YIELD()
+		yield()
 		if WS.status('play')=='running'then
 			local message,op=WS.read('play')
 			if message then
@@ -442,7 +462,7 @@ function NET.updateWS_play()
 end
 function NET.updateWS_stream()
 	while true do
-		YIELD()
+		yield()
 		if WS.status('stream')=='running'then
 			local message,op=WS.read('stream')
 			if message then
@@ -487,7 +507,7 @@ function NET.updateWS_stream()
 end
 function NET.updateWS_chat()
 	while true do
-		YIELD()
+		yield()
 		if WS.status('chat')=='running'then
 			local message,op=WS.read('chat')
 			if message then

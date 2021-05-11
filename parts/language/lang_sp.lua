@@ -97,6 +97,8 @@ return{
 	wsClose="WebSocket cerrado: ",
 	waitNetTask="Conectando, espera por favor",
 
+	-- onlinePlayerCount="Online",
+
 	createRoomTooFast="¡Creas salas muy rápido, párale we!",
 	createRoomSuccessed="¡Sala creada con éxito!",
 	-- started="Playing",

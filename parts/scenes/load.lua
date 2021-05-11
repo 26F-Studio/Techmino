@@ -180,6 +180,7 @@ local loadingThread=coroutine.wrap(function()
 	TASK.new(NET.updateWS_user)
 	TASK.new(NET.updateWS_play)
 	NET.wsconn_app()
+	TASK.new(NET.freshPlayerCount)
 
 	while true do
 		if math.random()<.126 then

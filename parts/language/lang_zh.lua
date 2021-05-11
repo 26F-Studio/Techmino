@@ -97,6 +97,8 @@ return{
 	wsClose="WS被断开: ",
 	netTimeout="网络连接超时",
 
+	onlinePlayerCount="在线人数",
+
 	createRoomTooFast="创建房间太快啦,等等吧",
 	createRoomSuccessed="创建房间成功!",
 	started="游戏中",

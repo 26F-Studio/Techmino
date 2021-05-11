@@ -12,6 +12,7 @@ end
 
 function scene.draw()
 	drawSelfProfile()
+	drawOnlinePlayerCount()
 end
 
 scene.widgetList={
