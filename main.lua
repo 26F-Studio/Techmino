@@ -276,6 +276,9 @@ do
 		fs.remove("conf/user")
 		autoRestart=true
 	end
+	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
+		SETTING.frameMul=100
+	end
 	SETTING.appLock=nil
 
 	for _,v in next,VK_org do v.color=nil end
