@@ -279,7 +279,9 @@ return{
 			text="Texte d'action",
 			score="Pop-up de score",
 			warn="Alerte de danger",
+			-- bufferWarn="Buffer Alert",
 			highCam="Vue d'oiseau",
+
 			nextPos="Prévisualisation de position",
 			fullscreen="Plein écran",
 			power="Infos d'alimentation",

@@ -23,6 +23,7 @@ return{
 	shakeFX=2,
 	atkFX=2,
 
+	bufferWarn=false,
 	highCam=false,
 	nextPos=false,
 	hideBoard=false,

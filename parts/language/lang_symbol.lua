@@ -168,7 +168,9 @@ return{
 			text="ABC",
 			score="+123",
 			warn="!↑↑↑!",
+			-- bufferWarn="Buffer Alert",
 			highCam="↑__↑",
+
 			nextPos="???←",
 			fullscreen="|←→|",
 			power="+.",

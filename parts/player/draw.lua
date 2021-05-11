@@ -271,15 +271,17 @@ local function drawBuffer(P)
 		end
 		h=h+bar
 	end
-	local sum=P.atkBufferSum1
-	if sum>=8 then
-		gc_push('transform')
-		gc_translate(300,max(0,600-30*sum))
-		gc_scale(min(.2+sum/50,1))
-		setFont(100)
-		gc_setColor(1,.2+min(sum*.02,.8)*(.5+.5*sin(TIME()*min(sum,32))),.2,min(sum/30,.8))
-		gc_printf(int(P.atkBufferSum1),-300,-20,292,'right')
-		gc_pop()
+	if P.gameEnv.bufferWarn then
+		local sum=P.atkBufferSum1
+		if sum>=8 then
+			gc_push('transform')
+			gc_translate(300,max(0,600-30*sum))
+			gc_scale(min(.2+sum/50,1))
+			setFont(100)
+			gc_setColor(1,.2+min(sum*.02,.8)*(.5+.5*sin(TIME()*min(sum,32))),.2,min(sum/30,.8))
+			gc_printf(int(P.atkBufferSum1),-300,-20,292,'right')
+			gc_pop()
+		end
 	end
 end
 local function drawB2Bbar(P)

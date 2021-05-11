@@ -307,7 +307,9 @@ return{
 			text="Line Clear Pop-up",
 			score="Score Pop-up",
 			warn="Danger Alert",
+			bufferWarn="Buffer Alert",
 			highCam="Screen Scrolling",
+
 			nextPos="Next Preview",
 			fullscreen="Full Screen",
 			power="Power Info",

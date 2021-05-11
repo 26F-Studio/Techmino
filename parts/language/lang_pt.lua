@@ -307,7 +307,9 @@ return{
 			text="Texto de ação",
 			score="Pop-up de pontos",
 			warn="Alerta de perigo",
+			-- bufferWarn="Buffer Alert",
 			highCam="Vista Olho-de-pássaro",
+
 			nextPos="Próxima Pos.",
 			fullscreen="Tela cheia",
 			power="Informação bateria",

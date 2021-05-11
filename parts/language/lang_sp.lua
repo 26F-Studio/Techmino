@@ -284,7 +284,9 @@ return{
 			text="Texto de Acciones",
 			score="Puntaje en Pantalla",
 			warn="Alerta de Peligro",
+			-- bufferWarn="Buffer Alert",
 			highCam="Cám. Vista Aérea",
+
 			nextPos="Ver Spawn de Pza. Sig.",
 			fullscreen="Pant. Completa",
 			power="Inf. de Batería",

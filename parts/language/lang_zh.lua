@@ -307,7 +307,9 @@ return{
 			text="消行文本",
 			score="分数动画",
 			warn="死亡预警",
+			bufferWarn="缓冲预警",
 			highCam="超屏视野",
+
 			nextPos="生成预览",
 			fullscreen="全屏",
 			power="电量显示",

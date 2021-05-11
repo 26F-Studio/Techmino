@@ -275,6 +275,7 @@ SETTING={--Settings
 	text=true,
 	score=true,
 	warn=true,
+	bufferWarn=false,
 	highCam=false,
 	nextPos=false,
 	fullscreen=true,
