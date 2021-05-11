@@ -243,7 +243,7 @@ function WS.connect(name,subPath,body)
 		readCHN=love.thread.newChannel(),
 		lastPingTime=0,
 		lastPongTime=timer(),
-		pingInterval=26,
+		pingInterval=12,
 		status='connecting',--connecting, running, dead
 		sendTimer=0,
 		alertTimer=0,
@@ -269,7 +269,7 @@ end
 
 function WS.setPingInterval(name,time)
 	local ws=wsList[name]
-	ws.pingInterval=math.max(time or 1,2.6)
+	ws.pingInterval=math.max(time or 2.6,2.6)
 end
 
 function WS.alert(name)
@@ -348,7 +348,7 @@ function WS.update(dt)
 					ws.sendCHN:push("")--ping
 					ws.lastPingTime=time
 				end
-				if time-ws.lastPongTime>10+3*ws.pingInterval then
+				if time-ws.lastPongTime>6+2*ws.pingInterval then
 					WS.close(name)
 				end
 			end
