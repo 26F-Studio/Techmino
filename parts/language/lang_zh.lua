@@ -294,7 +294,7 @@ return{
 			bagLine="包分界线",
 
 			ghost="阴影不透明度",
-			grid="网格",
+			grid="网格不透明度",
 			center="旋转中心不透明度",
 
 			lockFX="锁定特效",
@@ -304,7 +304,7 @@ return{
 			splashFX="溅射特效",
 			shakeFX="晃动特效",
 			atkFX="攻击特效",
-			frame="绘制帧率",
+			frame="绘制帧率(%)",
 
 			text="消行文本",
 			score="分数动画",

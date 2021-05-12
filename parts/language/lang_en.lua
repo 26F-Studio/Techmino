@@ -289,13 +289,13 @@ return{
 			game="Game→",
 
 			block="Draw Block",
-			ghost="Ghost",
-			center="Center",
-
 			smooth="Smooth Falling",
-			grid="Grid",
 			upEdge="3D Block",
 			bagLine="Bag Separator",
+
+			ghost="Ghost",
+			grid="Grid",
+			center="Center",
 
 			lockFX="Lock FX",
 			dropFX="Drop FX",
@@ -304,7 +304,7 @@ return{
 			splashFX="Splash FX",
 			shakeFX="Field Sway",
 			atkFX="Atk. FX",
-			frame="Render Frame Rate",
+			frame="Render Frame Rate(%)",
 
 			text="Line Clear Pop-up",
 			score="Score Pop-up",

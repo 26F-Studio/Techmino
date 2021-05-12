@@ -289,13 +289,13 @@ return{
 			game="Jogo→",
 
 			block="Mostrar bloco",
-			ghost="Fantasma",
-			center="Centro",
-
 			smooth="Queda suave",
-			grid="Rede",
 			upEdge="3D bloco",
 			bagLine="Linha da bolsa",
+
+			ghost="Fantasma",
+			grid="Rede",
+			center="Centro",
 
 			lockFX="Nível FX Trava",
 			dropFX="Nível FX Queda",
@@ -304,7 +304,7 @@ return{
 			splashFX="Nível FX Splash",
 			shakeFX="Nível Tremida Tabuleiro",
 			atkFX="Nível FX Atk.",
-			frame="Render Frame Rate",
+			frame="Render Frame Rate(%)",
 
 			text="Texto de ação",
 			score="Pop-up de pontos",

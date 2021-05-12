@@ -281,7 +281,7 @@ return{
 			splashFX="FX Vis. de Splash",
 			shakeFX="Bamboleo del Tablero",
 			atkFX="FX Vis. de Ataque",
-			frame="Ratio de FPSs",
+			frame="Ratio de FPSs(%)",
 
 			text="Texto de Acciones",
 			score="Puntaje en Pantalla",

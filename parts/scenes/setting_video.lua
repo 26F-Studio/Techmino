@@ -13,14 +13,14 @@ scene.widgetList={
 	WIDGET.newButton{name="sound",		x=200,y=80,w=240,h=80,color='lC',font=35,code=swapScene("setting_sound",'swipeR')},
 	WIDGET.newButton{name="game",		x=1080,y=80,w=240,h=80,color='lC',font=35,code=swapScene("setting_game",'swipeL')},
 
-	WIDGET.newSwitch{name="block",		x=350,y=165,disp=SETval("block"),code=SETrev("block")},
-	WIDGET.newSwitch{name="smooth",		x=350,y=215,disp=SETval("smooth"),code=SETrev("smooth")},
-	WIDGET.newSwitch{name="upEdge",		x=350,y=265,disp=SETval("upEdge"),code=SETrev("upEdge")},
-	WIDGET.newSwitch{name="bagLine",	x=350,y=315,disp=SETval("bagLine"),code=SETrev("bagLine")},
+	WIDGET.newSwitch{name="block",		x=350,y=160,disp=SETval("block"),code=SETrev("block")},
+	WIDGET.newSwitch{name="smooth",		x=350,y=210,disp=SETval("smooth"),code=SETrev("smooth")},
+	WIDGET.newSwitch{name="upEdge",		x=350,y=260,disp=SETval("upEdge"),code=SETrev("upEdge")},
+	WIDGET.newSwitch{name="bagLine",	x=350,y=310,disp=SETval("bagLine"),code=SETrev("bagLine")},
 
-	WIDGET.newSlider{name="ghost",		x=600,y=180,w=480,unit=.6,	disp=SETval("ghost"),show="percent",code=SETsto("ghost")},
-	WIDGET.newSlider{name="grid",		x=600,y=240,w=480,unit=.4,	disp=SETval("grid"),show="percent",	code=SETsto("grid")},
-	WIDGET.newSlider{name="center",		x=600,y=300,w=480,unit=1,	disp=SETval("center"),				code=SETsto("center")},
+	WIDGET.newSlider{name="ghost",		x=700,y=180,w=380,unit=.6,	disp=SETval("ghost"),show="percent",code=SETsto("ghost")},
+	WIDGET.newSlider{name="grid",		x=700,y=240,w=380,unit=.4,	disp=SETval("grid"),show="percent",	code=SETsto("grid")},
+	WIDGET.newSlider{name="center",		x=700,y=300,w=380,unit=1,	disp=SETval("center"),				code=SETsto("center")},
 
 	WIDGET.newSlider{name="lockFX",		x=220,y=365,w=380,unit=5,	disp=SETval("lockFX"),	code=SETsto("lockFX")},
 	WIDGET.newSlider{name="dropFX",		x=220,y=405,w=380,unit=5,	disp=SETval("dropFX"),	code=SETsto("dropFX")},

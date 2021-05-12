@@ -276,7 +276,7 @@ return{
 			splashFX="Effets splash",
 			shakeFX="Tremblements de l'écran",
 			atkFX="Effets d'attaque",
-			frame="Montrer les FPS",
+			frame="Montrer les FPS(%)",
 
 			text="Texte d'action",
 			score="Pop-up de score",
