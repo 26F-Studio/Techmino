@@ -125,20 +125,21 @@ local seqGenerators={
 		end
 	end,
 	rnd=function(P,seq0)
-		P:getNext(seq0[P:RND(#seq0)])
-		while true do
-			while #P.nextQueue<6 do
-				local len=#seq0
-				for i=1,4 do
-					local count=0
-					repeat
-						i=seq0[P:RND(len)]
-						count=count+1
-					until i~=P.nextQueue[#P.nextQueue].id or count>=len
-					P:getNext(i)
+		if #seq0==1 then
+			local i=seq0[1]
+			while true do P:getNext(i) yield() end
+		else
+			local len=#seq0
+			local last=0
+			while true do
+				while #P.nextQueue<6 do
+					local r=P:RND(len-1)
+					if r>=last then r=r+1 end
+					P:getNext(seq0[r])
+					last=r
 				end
+				yield()
 			end
-			yield()
 		end
 	end,
 	mess=function(P,seq0)
