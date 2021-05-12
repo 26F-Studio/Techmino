@@ -114,7 +114,7 @@ IMG.init{
 	pay1="mess/pay1.png",
 	pay2="mess/pay2.png",
 
-	nakiCH="characters/naki.png",
+	nakiCH="characters/nakiharu.png",
 	miyaCH="characters/miya.png",
 	miyaF1="characters/miya_f1.png",
 	miyaF2="characters/miya_f2.png",

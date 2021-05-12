@@ -49,7 +49,7 @@ function scene.draw()
 		gc.draw(IMG.miyaF3,93,126+3*sin(t*.7))
 		gc.draw(IMG.miyaF4,129,98+3*sin(t*.5))
 	elseif cv=="naki"then
-		gc.draw(IMG.nakiCH)
+		gc.draw(IMG.nakiCH,-30)
 	end
 	gc.translate(-x,-y)
 end
