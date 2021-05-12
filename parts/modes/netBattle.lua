@@ -20,7 +20,7 @@ return{
 		PLY.newPlayer(1)
 		PLAYERS[1].sid=netPLY.getSID(USER.uid)
 		for i=2,netPLY.getCount()do
-			PLY.newRemotePlayer(i,false,netPLY.getPLY(i))
+			PLY.newRemotePlayer(i,false,netPLY.rawgetPLY(i))
 		end
 	end,
 }

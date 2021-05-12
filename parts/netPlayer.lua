@@ -61,18 +61,16 @@ local posLists={
 }
 local posList
 
-local PLY=setmetatable({},{
-	__index=function(self,uid)
-		for _,p in next,self do
-			if p.uid==uid then
-				return p
-			end
+local netPLY={list={}}
+local PLY=netPLY.list
+
+local function getPLY(uid)
+	for i=1,#PLY do
+		if PLY[i].uid==uid then
+			return PLY[i]
 		end
 	end
-})
-
-local netPLY={list=PLY}
-
+end
 local function freshPosList()
 	if #PLY<=5 then
 		posList=posLists[1]
@@ -99,13 +97,13 @@ function netPLY.freshPos()
 end
 
 function netPLY.getCount()return #PLY end
-function netPLY.getPLY(i)return PLY[i]end
-function netPLY.getUsername(uid)return PLY[uid].username end
-function netPLY.getSID(uid)return PLY[uid].sid end
+function netPLY.rawgetPLY(i)return PLY[i]end
+function netPLY.getUsername(uid)return getPLY(uid).username end
+function netPLY.getSID(uid)return getPLY(uid).sid end
 function netPLY.getSelfReady()return PLY[1].ready end
 
-function netPLY.setPlayerObj(ply,p) ply.p=p end
-function netPLY.setConf(uid,config)PLY[uid].config=config end
+function netPLY.setPlayerObj(ply,p)ply.p=p end
+function netPLY.setConf(uid,config)getPLY(uid).config=config end
 function netPLY.setReady(uid,ready)
 	for i,p in next,PLY do
 		if p.uid==uid then
