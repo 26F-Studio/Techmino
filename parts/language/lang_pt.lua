@@ -599,6 +599,7 @@ return{
 			register="Registrar",
 			email="Endereço De Email",
 			password="Senha",
+			-- keepPW="Remember me",
 			login="Log in",
 		},
 		register={

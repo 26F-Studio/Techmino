@@ -509,6 +509,7 @@ return{
 			register="Enregistrement",
 			email="E-mail",
 			password="Mot de passe",
+			-- keepPW="Remember me",
 			login="Connexion",
 		},
 		register={

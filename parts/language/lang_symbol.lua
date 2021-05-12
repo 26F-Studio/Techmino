@@ -443,6 +443,7 @@ return{
 			register="Sign up",
 			email="@",
 			password="*",
+			-- keepPW="I",
 			login="Log in",
 		},
 		register={

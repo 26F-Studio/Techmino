@@ -602,6 +602,7 @@ return{
 			register="Register",
 			email="E-mail Address",
 			password="Password",
+			keepPW="Remember me",
 			login="Log In",
 		},
 		register={
