@@ -286,7 +286,6 @@ function NET.updateWS_app()
 				else
 					local res=_parse(message)
 					if res then
-						for k,v in next,res do print(k,v)end
 						if res.type=='Connect'then
 							NET.connected=true
 							if VERSION.code>=res.lowest then

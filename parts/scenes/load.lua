@@ -24,10 +24,8 @@ end
 
 local function upFloor()
 	progress=progress+1
-	if light[3*progress+3]then
-		light[3*progress+3]=false
-		SFX.play('click',.3)
-	end
+	light[3*progress+3]=false
+	SFX.play('move',.5)
 end
 local loadingThread=coroutine.wrap(function()
 	for i=1,SFX.getCount()do
@@ -60,7 +58,13 @@ local loadingThread=coroutine.wrap(function()
 	end
 
 	upFloor()
-	for i=1,17 do
+	for i=1,10 do
+		getFont(15+5*i)
+		if i%3==0 then YIELD()end
+	end
+
+	upFloor()
+	for i=11,17 do
 		getFont(15+5*i)
 		if i%2==0 then YIELD()end
 	end
@@ -72,7 +76,7 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",10,4,-2,23},
 		{"fPoly",10,4,24,10,10,16.5},
 		{"fRect",4,24,10,3},
-	}YIELD()
+	}
 	modeIcons.infinite=DOGC{64,64,
 		{"setLW",4},
 		{"dCirc",32,32,28},
@@ -83,7 +87,7 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,30,4,4},
 		{"fRect",52,30,4,4},
 		{"fRect",30,52,4,4},
-	}YIELD()
+	}
 	modeIcons.classic=DOGC{64,64,
 		{"setLW",6},
 		{"dRect",10,24,12,12},
@@ -91,6 +95,8 @@ local loadingThread=coroutine.wrap(function()
 		{"dRect",42,24,12,12},
 		{"dRect",26,40,12,12},
 	}YIELD()
+
+	upFloor()
 	modeIcons.tsd=DOGC{64,64,
 		{"fRect",7,7,16,16},
 		{"fRect",7,41,16,16},
@@ -98,7 +104,7 @@ local loadingThread=coroutine.wrap(function()
 		{"move",.5,.5},
 		{"setLW",1},
 		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
-	}YIELD()
+	}
 	modeIcons.t49=DOGC{64,64,
 		{"setLW",2},
 		{"dRect",05,05,10,20},{"dRect",49,05,10,20},
@@ -106,7 +112,7 @@ local loadingThread=coroutine.wrap(function()
 		{"dRect",20,10,23,43},
 		{"setCL",1,1,1,.7},
 		{"fRect",20,10,23,43},
-	}YIELD()
+	}
 	modeIcons.t99=DOGC{64,64,
 		{"setLW",2},
 		{"dRect",02,02,6,12},{"dRect",11,02,6,12},
@@ -144,6 +150,7 @@ local loadingThread=coroutine.wrap(function()
 	if not MODES[STAT.lastPlay]then
 		STAT.lastPlay='sprint_10l'
 	end
+	YIELD()
 
 	upFloor()
 	SKIN.change(SETTING.skinSet)
@@ -163,7 +170,9 @@ local loadingThread=coroutine.wrap(function()
 		end
 	end
 	FILE.save(RANKS,'conf/unlock','q')
+	YIELD()
 
+	upFloor()
 	DAILYLAUNCH=freshDate'q'
 	if DAILYLAUNCH then
 		logoColor1=COLOR.S
@@ -181,12 +190,15 @@ local loadingThread=coroutine.wrap(function()
 	TASK.new(NET.updateWS_play)
 	NET.wsconn_app()
 	TASK.new(NET.freshPlayerCount)
+	YIELD()
 
 	while true do
-		if math.random()<.126 then
+		if math.random()<.1626 then
 			upFloor()
 		end
 		if progress==25 then
+			SFX.play("emit",.6)
+			SFX.play("enter",.8)
 			SFX.play('welcome_sfx')
 			VOC.play('welcome_voc')
 			THEME.fresh()
@@ -240,7 +252,7 @@ function scene.update(dt)
 	else
 		openTime=openTime+dt
 		if skip>0 then
-			openTime=openTime+.26
+			openTime=openTime+.626
 			skip=skip-1
 		end
 		if openTime>=3.26 and not SCN.swapping then
