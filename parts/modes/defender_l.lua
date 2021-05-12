@@ -16,7 +16,7 @@ return{
 					if D.counter>=t then
 						D.counter=0
 						for _=1,4 do
-							table.insert(P.atkBuffer,{line=generateLine(P:RND(10)),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2})
+							table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(10)),amount=1,countdown=5*t,cd0=5*t,time=0,sent=false,lv=2})
 						end
 						P.atkBufferSum=P.atkBufferSum+4
 						P.stat.recv=P.stat.recv+4

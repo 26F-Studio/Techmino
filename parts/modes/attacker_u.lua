@@ -12,16 +12,16 @@ return{
 					local s
 					local t=800-10*D.wave--800~700~600~500
 					if D.wave<10 then
-						table.insert(P.atkBuffer,{line=generateLine(P:RND(5,6)),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3})
-						table.insert(P.atkBuffer,{line=generateLine(P:RND(4,7)),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(5,6)),amount=9,countdown=t,cd0=t,time=0,sent=false,lv=3})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(4,7)),amount=11,countdown=t,cd0=t+62,time=0,sent=false,lv=4})
 						s=20
 					elseif D.wave<20 then
-						table.insert(P.atkBuffer,{line=generateLine(P:RND(3,8)),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4})
-						table.insert(P.atkBuffer,{line=generateLine(P:RND(4,7)),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(3,8)),amount=11,countdown=t,cd0=t,time=0,sent=false,lv=4})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(4,7)),amount=13,countdown=t,cd0=t+62,time=0,sent=false,lv=5})
 						s=24
 					else
-						table.insert(P.atkBuffer,{line=generateLine(P:RND(2)*9-8),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5})
-						table.insert(P.atkBuffer,{line=generateLine(P:RND(3,8)),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(2)*9-8),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=5})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(3,8)),amount=14,countdown=t+62,cd0=t,time=0,sent=false,lv=5})
 						s=28
 					end
 					P.atkBufferSum=P.atkBufferSum+s

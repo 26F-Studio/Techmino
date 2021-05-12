@@ -71,7 +71,7 @@ return{
 					end
 
 					FREEROW.discard(height)
-					P:getNext(wei[P:RND(#wei)])
+					P:getNext(wei[P.seqRND:random(#wei)])
 				end
 			end
 		end,

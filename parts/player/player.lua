@@ -121,10 +121,6 @@ end
 --------------------------</FX>--------------------------
 
 --------------------------<Method>--------------------------
-function Player:RND(a,b)
-	local R=self.randGen
-	return R:random(a,b)
-end
 function Player:newTask(code,...)
 	local thread=coroutine.create(code)
 	resume(thread,self,...)
@@ -227,11 +223,11 @@ end
 
 function Player:getHolePos()--Get a good garbage-line hole position
 	if self.garbageBeneath==0 then
-		return generateLine(self:RND(10))
+		return generateLine(self.holeRND:random(10))
 	else
-		local p=self:RND(10)
+		local p=self.holeRND:random(10)
 		if self.field[1][p]<=0 then
-			return generateLine(self:RND(10))
+			return generateLine(self.holeRND:random(10))
 		end
 		return generateLine(p)
 	end
@@ -1336,7 +1332,7 @@ do--Player.drop(self)--Place piece
 							local M=#self.atker
 							if M>0 then
 								for i=1,M do
-									self:attack(self.atker[i],send,sendTime,generateLine(self:RND(10)))
+									self:attack(self.atker[i],send,sendTime,generateLine(self.atkRND:random(10)))
 								end
 							else
 								T=randomTarget(self)
@@ -1349,7 +1345,7 @@ do--Player.drop(self)--Place piece
 						T=randomTarget(self)
 					end
 					if T then
-						self:attack(T,send,sendTime,generateLine(self:RND(10)))
+						self:attack(T,send,sendTime,generateLine(self.atkRND:random(10)))
 					end
 				end
 				if self.sound and send>3 then SFX.play('emit',min(send,7)*.1)end
@@ -1709,8 +1705,7 @@ function Player:lose(force)
 	if self.type=='remote'and not force then self.waiting=1e99 return end
 	if self.life>0 and not force then self:revive()return end
 	self:die()
-	local i=TABLE.find(PLY_ALIVE,self)
-	if i then rem(PLY_ALIVE,i)end
+	local p=TABLE.find(PLY_ALIVE,self)if p then rem(PLY_ALIVE,p)end
 	self.result='lose'
 	if GAME.modeEnv.royaleMode then
 		self:changeAtk()

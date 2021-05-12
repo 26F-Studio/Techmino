@@ -111,7 +111,10 @@ local function newEmptyPlayer(id,mini)
 		P.draw=ply_draw.norm
 	end
 
-	P.randGen=love.math.newRandomGenerator(GAME.seed)
+	P.seqRND=love.math.newRandomGenerator(GAME.seed)
+	P.atkRND=love.math.newRandomGenerator(GAME.seed)
+	P.holeRND=love.math.newRandomGenerator(GAME.seed)
+	P.aiRND=love.math.newRandomGenerator(GAME.seed)
 
 	P.frameRun=GAME.frameStart
 	P.alive=true

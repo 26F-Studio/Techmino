@@ -11,7 +11,7 @@ local function task_PC(P)
 		D.counter=D.counter+1
 		if D.counter==26 then
 			local base=PCbase[D.type]
-			P:pushLineList(base[P:RND(#base)],D.symmetry)
+			P:pushLineList(base[P.holeRND:random(#base)],D.symmetry)
 		end
 	end
 end
@@ -23,8 +23,8 @@ local function check(P)
 		end
 	else
 		local type=P.stat.pc<10 and 4 or 5
-		local L=PClist[type][P:RND(#PClist[type])]
-		local symmetry=P:RND()>.5
+		local L=PClist[type][P.holeRND:random(#PClist[type])]
+		local symmetry=P.holeRND:random()>.5
 		P.modeData.type=type
 		P.modeData.symmetry=symmetry
 		P:pushNextList(L,symmetry)

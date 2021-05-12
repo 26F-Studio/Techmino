@@ -272,7 +272,7 @@ return{
 
 			--Check if time to change target
 			yield()
-			if P:RND()<.00126 then
+			if P.aiRND:random()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 		end
@@ -315,7 +315,7 @@ return{
 
 			--Check if time to change target
 			yield()
-			if P:RND()<.00126 then
+			if P.aiRND:random()<.00126 then
 				P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
 			end
 		end
