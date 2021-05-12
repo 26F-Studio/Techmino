@@ -102,15 +102,13 @@ if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
-	batteryImage="mess/power.png",
 	lock="mess/lock.png",
 	dialCircle="mess/dialCircle.png",
 	dialNeedle="mess/dialNeedle.png",
 	lifeIcon="mess/life.png",
 	badgeIcon="mess/badge.png",
-	spinCenter="mess/spinCenter.png",
 	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
-	speedLimit="mess/speedLimit.png",
+	speedLimit="mess/speedLimit.png",--Not used, for future C2-mode
 	pay1="mess/pay1.png",
 	pay2="mess/pay2.png",
 

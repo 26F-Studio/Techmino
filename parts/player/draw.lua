@@ -40,6 +40,16 @@ local multiple=DOGC{15,15,
 	{'line',2,2,12,12},
 	{'line',2,12,12,2},
 }
+local spinCenterImg=DOGC{9,9,
+	{'setCL',.17,.17,.17},
+	{'fRect',0,0,9,9},
+	{'setCL',.57,.57,.57},
+	{'fRect',1,1,7,7},
+	{'setCL',.81,.81,.81},
+	{'fRect',2,2,5,5},
+	{'setCL',1,1,1},
+	{'fRect',3,3,3,3},
+}
 local gridLines do
 	local L={300,640,{'setLW',2}}
 	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
@@ -576,7 +586,7 @@ function draw.norm(P)
 						drawGhost(P,curColor)
 						if ENV.center then
 							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
 					end
 
@@ -588,7 +598,7 @@ function draw.norm(P)
 							drawBlock(P,curColor)
 							if ENV.center then
 								gc_setColor(1,1,1,ENV.center)
-								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+								gc_draw(spinCenterImg,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end
 						end
 					gc_translate(0,dy)
@@ -742,7 +752,7 @@ function draw.norm_remote(P)
 						drawGhost(P,curColor)
 						if ENV.center then
 							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
 					end
 
@@ -754,7 +764,7 @@ function draw.norm_remote(P)
 							drawBlock(P,curColor)
 							if ENV.center then
 								gc_setColor(1,1,1,ENV.center)
-								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+								gc_draw(spinCenterImg,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end
 						end
 					gc_translate(0,dy)

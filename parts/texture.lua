@@ -65,20 +65,6 @@ for i=0,9 do
 	}
 end
 
---Cursor
-TEXTURE.cursor=DOGC{16,16,
-	{"fCirc",8,8,4},
-	{"setCL",1,1,1,.7},
-	{"fCirc",8,8,6},
-}
-
---Cursor while hold
-TEXTURE.cursor_hold=DOGC{16,16,
-	{"setLW",2},
-	{"dCirc",8,8,7},
-	{"fCirc",8,8,3},
-}
-
 --Level icons
 TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
 	local img={25,25}
@@ -164,22 +150,6 @@ for i=1,8 do
 
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
-
---WS icons
-setFont(20)
-TEXTURE.ws_dead=DOGC{20,20,
-	{'setCL',1,.3,.3},
-	{'print',"X",3,-4},
-}
-TEXTURE.ws_connecting=DOGC{20,20,
-	{'setLW',3},
-	{'dArc',11.5,10,6.26,1,5.28},
-}
-TEXTURE.ws_running=DOGC{20,20,
-	{'setCL',.5,1,0},
-	{'print',"R",3,-4},
-}
-
 
 gc.setCanvas()
 return TEXTURE

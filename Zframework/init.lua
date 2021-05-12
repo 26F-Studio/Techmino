@@ -64,6 +64,13 @@ joysticks={}
 
 local devMode
 
+local batteryImg=DOGC{31,20,
+	{'fRect',1,0,26,2},
+	{'fRect',1,18,26,2},
+	{'fRect',0,1,2,18},
+	{'fRect',26,1,2,18},
+	{'fRect',29,3,2,14},
+}
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
 	local state,pow=love.system.getPowerInfo()
@@ -95,7 +102,7 @@ local function updatePowerInfo()
 				gc_print(pow,78,2)
 			end
 		end
-		gc_draw(IMG.batteryImage,73,3)
+		gc_draw(batteryImg,73,3)
 	end
 	setFont(25)
 	gc_print(os.date("%H:%M"),3,-5)
@@ -444,6 +451,15 @@ function love.errorhandler(msg)
 		end
 	end
 end
+
+love.draw,love.update=nil--remove default draw/update
+
+local devColor={
+	COLOR.Z,
+	COLOR.lM,
+	COLOR.lG,
+	COLOR.lB,
+}
 local WS=WS
 local WSnames={'app','user','play','stream','chat'}
 local WScolor={
@@ -453,13 +469,30 @@ local WScolor={
 	{.4,1,.7,.7},
 	{.5,.8,1,.7},
 }
-local devColor={
-	COLOR.Z,
-	COLOR.lM,
-	COLOR.lG,
-	COLOR.lB,
+local ws_deadImg=DOGC{20,20,
+	{'setFT',20},
+	{'setCL',1,.3,.3},
+	{'print',"X",3,-4},
 }
-love.draw,love.update=nil--remove default draw/update
+local ws_connectingImg=DOGC{20,20,
+	{'setLW',3},
+	{'dArc',11.5,10,6.26,1,5.28},
+}
+local ws_runningImg=DOGC{20,20,
+	{'setFT',20},
+	{'setCL',.5,1,0},
+	{'print',"R",3,-4},
+}
+local cursorImg=DOGC{16,16,
+	{"fCirc",8,8,4},
+	{"setCL",1,1,1,.7},
+	{"fCirc",8,8,6},
+}
+local cursor_holdImg=DOGC{16,16,
+	{"setLW",2},
+	{"dCirc",8,8,7},
+	{"fCirc",8,8,3},
+}
 function love.run()
 	local love=love
 
@@ -549,7 +582,7 @@ function love.run()
 						_=SCS[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
-						gc_draw(TEXTURE[ms.isDown(1)and'cursor_hold'or'cursor'],mx,my,nil,nil,nil,8,8)
+						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
 					SYSFX.draw()
 					TEXT.draw()
@@ -600,13 +633,13 @@ function love.run()
 						gc_rectangle('fill',0,20*i,-80,-20)
 						if status=='dead'then
 							gc_setColor(1,1,1)
-							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
+							gc_draw(ws_deadImg,-20,20*i-20)
 						elseif status=='connecting'then
 							gc_setColor(1,1,1,.5+.3*sin(time*6.26))
-							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
+							gc_draw(ws_connectingImg,-20,20*i-20)
 						elseif status=='running'then
 							gc_setColor(1,1,1)
-							gc_draw(TEXTURE.ws_running,-20,20*i-20)
+							gc_draw(ws_runningImg,-20,20*i-20)
 						end
 						local t1,t2,t3=WS.getTimers(WSnames[i])
 						gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i,-20,-20)
