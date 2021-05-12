@@ -80,11 +80,11 @@ end
 
 --WS close message
 local function wsCloseMessage(message)
-	local mes=JSON.decode(message)
+	local mes=JSON.decode(message:sub(3))
 	if mes then
-		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),'warn')
+		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),'error')
 	else
-		LOG.print(text.wsClose.."",'warn')
+		LOG.print(text.wsClose,'error')
 	end
 end
 

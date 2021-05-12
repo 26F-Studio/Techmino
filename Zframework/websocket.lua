@@ -188,8 +188,7 @@ while true do--Running
 			readCHN:push(op)
 			SOCK:close()
 			if type(res)=='string'then
-				res=JSON.decode(res)
-				readCHN:push(res and res.reason or"WS Error")
+				readCHN:push(res)--Warning: with 2 bytes close code
 			else
 				readCHN:push("WS Error")
 			end
