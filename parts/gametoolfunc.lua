@@ -1,6 +1,13 @@
 local gc=love.graphics
+local gc_push,gc_pop=gc.push,gc.pop
+local gc_origin,gc_translate=gc.origin,gc.translate
+local gc_setLineWidth,gc_setColor=gc.setLineWidth,gc.setColor
+local gc_setShader=gc.setShader
+local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.printf
+
 local ins,rem=table.insert,table.remove
 
+local SETTING,GAME,SCR=SETTING,GAME,SCR
 
 
 --System
@@ -291,59 +298,69 @@ function gameOver()--Save record
 		end
 	end
 end
-function initPlayerPosition(sudden)--Set initial position for every player
-	local L=PLY_ALIVE
-	if not sudden then
-		for i=1,#L do
-			L[i]:setPosition(640,#L<=5 and 360 or -62,0)
+do--function freshPlayerPosition(sudden)
+	local posLists={
+		--1~5
+		{
+			{340,75,1},
+			{965,390,.5},
+			{965,30,.5},
+			{20,390,.5},
+			{20,30,.5},
+		},
+		--6~17
+		(function()
+			local L={{340,75,1}}
+			for i=1,4 do ins(L,{15,-160+180*i,.25})end
+			for i=1,4 do ins(L,{180,-160+180*i,.25})end
+			for i=1,4 do ins(L,{950,-160+180*i,.25})end
+			for i=1,4 do ins(L,{1120,-160+180*i,.25})end
+			return L
+		end)(),
+		--18~31
+		(function()
+			local L={{340,75,1}}
+			for i=1,5 do ins(L,{10,	-100+135*i,.18})end
+			for i=1,5 do ins(L,{120,-100+135*i,.18})end
+			for i=1,5 do ins(L,{230,-100+135*i,.18})end
+			for i=1,5 do ins(L,{940,-100+135*i,.18})end
+			for i=1,5 do ins(L,{1050,-100+135*i,.18})end
+			for i=1,5 do ins(L,{1160,-100+135*i,.18})end
+			return L
+		end)(),
+		--32~49
+		(function()
+			local L={{340,75,1}}
+			for i=1,4 do for j=1,6 do ins(L,{78*i-54,115*j-98,.09})end end
+			for i=9,12 do for j=1,6 do ins(L,{78*i+267,115*j-98,.09})end end
+			return L
+		end)(),
+		--50~99
+		(function()
+			local L={{340,75,1}}
+			for i=1,7 do for j=1,7 do ins(L,{46*i-36,97*j-72,.068})end end
+			for i=15,21 do for j=1,7 do ins(L,{46*i+264,97*j-72,.068})end end
+			return L
+		end)(),
+	}
+	function freshPlayerPosition(sudden)--Set initial position for every player
+		local L=PLY_ALIVE
+		if not sudden then
+			for i=1,#L do
+				L[i]:setPosition(640,#L<=5 and 360 or -62,0)
+			end
 		end
-	end
 
-	local method=sudden and'setPosition'or'movePosition'
-	L[1][method](L[1],340,75,1)
-	if #L<=5 then
-		if L[2]then L[2][method](L[2],965,390,.5)end
-		if L[3]then L[3][method](L[3],965, 30,.5)end
-		if L[4]then L[4][method](L[4], 20,390,.5)end
-		if L[5]then L[5][method](L[5], 20, 30,.5)end
-	elseif #L<=17 then
-		for i=1,4 do if L[i+1]then	L[i+1][method](L[i+1],	15,	-160+180*i,.25)else return end end
-		for i=1,4 do if L[i+5]then	L[i+5][method](L[i+5],	180,-160+180*i,.25)else return end end
-		for i=1,4 do if L[i+9]then	L[i+9][method](L[i+9],	950,-160+180*i,.25)else return end end
-		for i=1,4 do if L[i+13]then	L[i+13][method](L[i+13],1120,-160+180*i,.25)else return end end
-	elseif #L<=31 then
-		for i=1,5 do if L[i+1]then	L[i+1][method](L[i+1],	10,	-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+6]then	L[i+6][method](L[i+6],	120,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+11]then	L[i+11][method](L[i+11],230,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+16]then	L[i+16][method](L[i+16],940,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+21]then	L[i+21][method](L[i+21],1050,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+26]then	L[i+26][method](L[i+26],1160,-100+135*i,.18)else return end end
-	elseif #L<=49 then
-		local n=2
-		for i=1,4 do for j=1,6 do
-			if not L[n]then return end
-			L[n][method](L[n],78*i-54,115*j-98,.09)
-			n=n+1
-		end end
-		for i=9,12 do for j=1,6 do
-			if not L[n]then return end
-			L[n][method](L[n],78*i+267,115*j-98,.09)
-			n=n+1
-		end end
-	elseif #L<=99 then
-		local n=2
-		for i=1,7 do for j=1,7 do
-			if not L[n]then return end
-			L[n][method](L[n],46*i-36,97*j-72,.068)
-			n=n+1
-		end end
-		for i=15,21 do for j=1,7 do
-			if not L[n]then return end
-			L[n][method](L[n],46*i+264,97*j-72,.068)
-			n=n+1
-		end end
-	else
-		error("TOO MANY PLAYERS!")
+		local posList
+		if #L<=5 then posList=posLists[1]
+		elseif #L<=17 then posList=posLists[2]
+		elseif #L<=31 then posList=posLists[3]
+		elseif #L<=49 then posList=posLists[4]
+		elseif #L<=99 then posList=posLists[5]
+		else error("TOO MANY PLAYERS!")
+		end
+		local method=sudden and'setPosition'or'movePosition'
+		for i=1,#L do L[i][method](L[i],unpack(posList[i]))end
 	end
 end
 do--function dumpBasicConfig()
@@ -443,7 +460,7 @@ do--function resetGameData(args)
 
 		destroyPlayers()
 		GAME.curMode.load()
-		initPlayerPosition(args:find'q')
+		freshPlayerPosition(args:find'q')
 		VK.restore()
 		if GAME.modeEnv.task then
 			local task=GAME.modeEnv.task
@@ -561,15 +578,15 @@ do--function drawSelfProfile()
 	local textObject,scaleK,width,offY
 	function drawSelfProfile()
 		local selfAvatar=USERS.getAvatar(USER.uid)
-		gc.push('transform')
-		gc.translate(1280,0)
+		gc_push('transform')
+		gc_translate(1280,0)
 
 		--Draw avatar
-		gc.setLineWidth(2)
-		gc.setColor(.3,.3,.3,.8)gc.rectangle('fill',-300,0,300,80)
-		gc.setColor(1,1,1)gc.rectangle('line',-300,0,300,80)
-		gc.rectangle('line',-73,7,66,66,2)
-		gc.draw(selfAvatar,-72,8,nil,.5)
+		gc_setLineWidth(2)
+		gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',-300,0,300,80)
+		gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80)
+		gc_rectangle('line',-73,7,66,66,2)
+		gc_draw(selfAvatar,-72,8,nil,.5)
 
 		--Draw username
 		if name~=USERS.getUsername(USER.uid)then
@@ -579,32 +596,34 @@ do--function drawSelfProfile()
 			scaleK=210/math.max(width,210)
 			offY=textObject:getHeight()/2
 		end
-		gc.draw(textObject,-82,26,nil,scaleK,nil,width,offY)
+		gc_draw(textObject,-82,26,nil,scaleK,nil,width,offY)
 
 		--Draw lv. & xp.
-		gc.draw(TEXTURE.lvIcon[USER.lv],-295,50)
-		gc.line(-270,55,-80,55,-80,70,-270,70)
-		gc.rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
+		gc_draw(TEXTURE.lvIcon[USER.lv],-295,50)
+		gc_line(-270,55,-80,55,-80,70,-270,70)
+		gc_rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
 
-		gc.pop()
+		gc_pop()
 	end
 end
-function drawOnlinePlayerCount()
-	setFont(20)
-	gc.setColor(1,1,1)
-	gc.printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),0,80,1272,'right')
+do
+	function drawOnlinePlayerCount()
+		setFont(20)
+		gc_setColor(1,1,1)
+		gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),0,80,1272,'right')
+	end
 end
 do--function drawWarning()
-	local SETTING,GAME,shader_warning,SCR=SETTING,GAME,SHADER.warning,SCR
+	local shader_warning=SHADER.warning
 	function drawWarning()
 		if SETTING.warn and GAME.warnLVL>0 then
-			gc.push('transform')
-			gc.origin()
+			gc_push('transform')
+			gc_origin()
 			shader_warning:send("level",GAME.warnLVL)
-			gc.setShader(shader_warning)
-			gc.rectangle('fill',0,0,SCR.w,SCR.h)
-			gc.setShader()
-			gc.pop()
+			gc_setShader(shader_warning)
+			gc_rectangle('fill',0,0,SCR.w,SCR.h)
+			gc_setShader()
+			gc_pop()
 		end
 	end
 end
@@ -642,11 +661,11 @@ do--function pressKey(k)
 	end
 end
 do--CUS/SETXXX(k)
-	local c,s=CUSTOMENV,SETTING
-	function CUSval(k)return function()return c[k]end end
-	function SETval(k)return function()return s[k]end end
-	function CUSrev(k)return function()c[k]=not c[k]end end
-	function SETrev(k)return function()s[k]=not s[k]end end
-	function CUSsto(k)return function(i)c[k]=i end end
-	function SETsto(k)return function(i)s[k]=i end end
+	local CUSTOMENV=CUSTOMENV
+	function CUSval(k)return function()return CUSTOMENV[k]end end
+	function SETval(k)return function()return SETTING[k]end end
+	function CUSrev(k)return function()CUSTOMENV[k]=not CUSTOMENV[k]end end
+	function SETrev(k)return function()SETTING[k]=not SETTING[k]end end
+	function CUSsto(k)return function(i)CUSTOMENV[k]=i end end
+	function SETsto(k)return function(i)SETTING[k]=i end end
 end
