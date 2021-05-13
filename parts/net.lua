@@ -247,7 +247,7 @@ function NET.signal_quit()
 	end
 end
 function NET.sendMessage(mes)
-	WS.send('play','{"action":4,"data":{"message":'..mes..'}}')
+	WS.send('play','{"action":4,"data":'..JSON.encode{message=mes}..'}')
 end
 function NET.changeConfig()
 	WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')

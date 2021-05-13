@@ -3,7 +3,8 @@ local ins=table.insert
 local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
 local PLAYERS,GAME=PLAYERS,GAME
 
-local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=550,hide=false}
+local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=560,hide=false}
+local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50,hide=false}
 
 local playing
 local lastUpstreamTime
@@ -14,13 +15,10 @@ local touchMoveLastFrame=false
 
 local scene={}
 
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
-end
 function scene.sceneInit(org)
-	love.keyboard.setKeyRepeat(false)
 	textBox.hide=true
 	textBox:clear()
+	inputBox.hide=true
 
 	noTouch=not SETTING.VKSwitch
 	playing=false
@@ -30,6 +28,9 @@ function scene.sceneInit(org)
 	if org=="setting_game"then
 		NET.changeConfig()
 	end
+end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
 end
 
 scene.mouseDown=NULL
@@ -86,6 +87,23 @@ function scene.keyDown(key)
 		end
 	elseif key=="\\"then
 		textBox.hide=not textBox.hide
+		inputBox.hide=not inputBox.hide
+		if textBox.hide then
+			WIDGET.sel=nil
+		else
+			TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+		end
+	elseif not inputBox.hide then
+		if key=="return"then
+			print(EDITING)
+			if inputBox:hasText()then
+				NET.sendMessage(inputBox:getText())
+				inputBox:clear()
+			end
+		else
+			WIDGET.sel=inputBox
+			WIDGET.keyPressed(key)
+		end
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -158,6 +176,7 @@ function scene.socketRead(cmd,d)
 	elseif cmd=='go'then
 		if not playing then
 			playing=true
+			love.keyboard.setKeyRepeat(false)
 			netPLY.resetReady()
 			netPLY.mouseMove(0,0)
 			lastUpstreamTime=0
@@ -168,6 +187,7 @@ function scene.socketRead(cmd,d)
 		end
 	elseif cmd=='finish'then
 		playing=false
+		love.keyboard.setKeyRepeat(true)
 		local winnerUID
 		for _,p in next,d.result do
 			if p.place==1 then
@@ -280,6 +300,7 @@ function scene.draw()
 end
 scene.widgetList={
 	textBox,
+	inputBox,
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
 	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=pressKey"space",
 		hide=function()
