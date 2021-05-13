@@ -235,7 +235,12 @@ customEnv0={
 	bgm='infinite',
 }
 CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game
-if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV=TABLE.copy(customEnv0)end
+if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then
+	CUSTOMENV=TABLE.copy(customEnv0)
+else
+	TABLE.complete(customEnv0,CUSTOMENV)
+end
+
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
