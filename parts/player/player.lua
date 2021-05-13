@@ -125,11 +125,11 @@ function Player:newTask(code,...)
 	local thread=coroutine.create(code)
 	resume(thread,self,...)
 	if status(thread)~='dead'then
-		self.tasks[#self.tasks+1]={
+		ins(self.tasks,{
 			thread=thread,
 			code=code,
 			args={...},
-		}
+		})
 	end
 end
 

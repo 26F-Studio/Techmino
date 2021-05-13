@@ -165,7 +165,7 @@ SFX.init((function()
 	local L={}
 	for _,v in next,fs.getDirectoryItems("media/SFX")do
 		if fs.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
-			L[#L+1]=v:sub(1,-5)
+			table.insert(L,v:sub(1,-5))
 		else
 			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v)
 		end
@@ -176,7 +176,7 @@ BGM.init((function()
 	local L={}
 	for _,v in next,fs.getDirectoryItems("media/BGM")do
 		if fs.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
-			L[#L+1]=v:sub(1,-5)
+			table.insert(L,v:sub(1,-5))
 		else
 			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v)
 		end

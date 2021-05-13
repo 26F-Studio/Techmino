@@ -1,8 +1,9 @@
 local gc=love.graphics
-local gc_getColor,gc_setColor,gc_push,gc_pop,gc_translate,gc_scale,gc_rotate,gc_shear
-=gc.getColor,gc.setColor,gc.push,gc.pop,gc.translate,gc.scale,gc.rotate,gc.shear
+local gc_getColor,gc_setColor,gc_push,gc_pop=gc.getColor,gc.setColor,gc.push,gc.pop
+local gc_translate,gc_scale,gc_rotate,gc_shear=gc.translate,gc.scale,gc.rotate,gc.shear
 
-local int,rnd,rem=math.floor,math.random,table.remove
+local int,rnd=math.floor,math.random
+local ins,rem=table.insert,table.remove
 local setFont,mStr=setFont,mStr
 
 local texts={}
@@ -77,7 +78,7 @@ function TEXT.clear()
 	texts={}
 end
 function TEXT.show(text,x,y,font,style,spd,stop)
-	texts[#texts+1]={
+	ins(texts,{
 		c=0,				--Timer
 		text=text,			--String
 		x=x or 0,			--X
@@ -86,7 +87,7 @@ function TEXT.show(text,x,y,font,style,spd,stop)
 		spd=(spd or 1)/60,	--Timing speed(1=last 1 sec)
 		stop=stop,			--Stop time(sustained text)
 		draw=textFX[style or'appear']or error("unavailable type:"..style),	--Draw method
-	}
+	})
 end
 function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.show(), but only return text object, need manual management
 	return{

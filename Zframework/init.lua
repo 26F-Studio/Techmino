@@ -49,7 +49,7 @@ local gc_push,gc_pop=gc.push,gc.pop
 local gc_discard,gc_present=gc.discard,gc.present
 local gc_setColor,gc_draw,gc_rectangle=gc.setColor,gc.draw,gc.rectangle
 local gc_print=gc.print
-local setFont=setFont
+local setFont,mStr=setFont,mStr
 
 local int,rnd,abs=math.floor,math.random,math.abs
 local min,sin=math.min,math.sin
@@ -277,7 +277,7 @@ function love.textinput(texts)
 end
 
 function love.joystickadded(JS)
-	joysticks[#joysticks+1]=JS
+	ins(joysticks,JS)
 end
 function love.joystickremoved(JS)
 	local i=TABLE.find(joysticks,JS)
@@ -392,7 +392,7 @@ function love.errorhandler(msg)
 	if LOADED and #ERRDATA<3 then
 		BG.set('none')
 		local scn=SCN and SCN.cur or"NULL"
-		ERRDATA[#ERRDATA+1]={mes=err,scene=scn}
+		ins(ERRDATA,{mes=err,scene=scn})
 
 		--Write messages to log file
 		love.filesystem.append("conf/error.log",
