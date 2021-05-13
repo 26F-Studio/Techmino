@@ -36,14 +36,23 @@ function scene.keyDown(k)
 		SCN.go('setting_game')
 	elseif k=="m"or k=="n"then
 		if TIME()-lastCreateRoomTime>6.26 then
+			local cap,roomType
+			if k=="n"then
+				cap,roomType=2,"solo"
+			elseif kb.isDown("q")and tonumber(USER.uid)<100 then
+				cap,roomType=17,"big"
+			elseif kb.isDown("w")and tonumber(USER.uid)<100 then
+				cap,roomType=31,"huge"
+			elseif kb.isDown("e")and tonumber(USER.uid)<100 then
+				cap,roomType=49,"T49"
+			elseif kb.isDown("r")and tonumber(USER.uid)<100 then
+				cap,roomType=99,"T99"
+			else
+				cap,roomType=5,"normal"
+			end
 			NET.createRoom(
-				k=="m"and"classic"or
-				tonumber(USER.uid)<100 and(
-					kb.isDown"q"and"r49"or
-					kb.isDown"w"and"r99"or
-					kb.isDown"e"and"unlimited"
-				)or"solo",
-				(USERS.getUsername(USER.uid)or"???").."'s room"
+				(USERS.getUsername(USER.uid)or"???").."'s room",
+				cap,roomType
 			)
 			lastCreateRoomTime=TIME()
 		else

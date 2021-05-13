@@ -201,17 +201,18 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom(roomType,roomName,password)
+function NET.createRoom(roomName,capacity,roomType,password)
 	if NET.lock('enterRoom',1.26)then
-		NET.roomInfo.name=roomName or"?"
-		NET.roomInfo.type=roomType or"?"
+		NET.roomInfo.name=roomName
+		NET.roomInfo.type=roomType
 		NET.roomInfo.private=not not password
-		NET.roomInfo.capacity="?"
+		NET.roomInfo.capacity=capacity
 		WS.send('play',JSON.encode{
 			action=1,
 			data={
-				type=roomType,
 				name=roomName,
+				capacity=capacity,
+				roomData={type=roomType},
 				password=password,
 				config=dumpBasicConfig(),
 			}
@@ -221,10 +222,10 @@ end
 function NET.enterRoom(room,password)
 	if NET.lock('enterRoom',1.26)then
 		SFX.play('reach',.6)
-		NET.roomInfo.name=room.name or"?"
-		NET.roomInfo.type=room.type or"?"
+		NET.roomInfo.name=room.name
+		NET.roomInfo.type=room.type
 		NET.roomInfo.private=not not password
-		NET.roomInfo.capacity=room.capacity or"?"
+		NET.roomInfo.capacity=room.capacity
 		NET.roomInfo.start=room.start
 		WS.send('play',JSON.encode{
 			action=2,
@@ -410,6 +411,7 @@ function NET.updateWS_play()
 										}
 									end
 								end
+								--TODO: d.roomData (json)
 								loadGame('netBattle',true,true)
 							else
 								--Load other players
