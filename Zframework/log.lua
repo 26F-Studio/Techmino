@@ -60,7 +60,7 @@ function LOG.print(text,T,C)--text,type/time/color,color
 	if his then
 		ins(debugMesHistory,SCN.cur..": "..tostring(text))
 	end
-	ins(debugMesList,{text=text,r=C[1],g=C[2],b=C[3],blink=30,time=time or 120})
+	ins(debugMesList,{text=tostring(text),r=C[1],g=C[2],b=C[3],blink=30,time=time or 120})
 end
 function LOG.copy()
 	local str=table.concat(debugMesHistory,"\n")
