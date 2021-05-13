@@ -201,18 +201,18 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom(roomType,roomName)
+function NET.createRoom(roomType,roomName,password)
 	if NET.lock('enterRoom',1.26)then
 		NET.roomInfo.name=roomName or"?"
 		NET.roomInfo.type=roomType or"?"
-		NET.roomInfo.private=false
+		NET.roomInfo.private=not not password
 		NET.roomInfo.capacity="?"
 		WS.send('play',JSON.encode{
 			action=1,
 			data={
 				type=roomType,
 				name=roomName,
-				password=nil,
+				password=password,
 				config=dumpBasicConfig(),
 			}
 		})
