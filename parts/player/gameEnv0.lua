@@ -35,7 +35,7 @@ return{
 	fieldH=20,maxOver=1e99,
 	nextCount=6,nextStartPos=1,
 	holdCount=1,infHold=false,phyHold=false,
-	ospin=true,deepDrop=false,
+	ospin=true,deepDrop=false,initSkip=false,
 	RS="TRS",
 	sequence='bag',
 	seqData={1,2,3,4,5,6,7},

@@ -1904,8 +1904,13 @@ function Player:act_softDrop()
 	end
 end
 function Player:act_hold()
-	if self.control and self.waiting==-1 then
-		self:hold()
+	if self.control then
+		if self.waiting==-1 then
+			self:hold()
+		end
+	elseif self.gameEnv.initSkip then
+		rem(self.nextQueue,1)
+		self.newNext()
 	end
 end
 function Player:act_func1()
