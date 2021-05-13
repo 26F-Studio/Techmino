@@ -58,7 +58,14 @@ local gridLines do
 end
 local LDmarks=gc.newSpriteBatch(DOGC{14,5,{'clear',1,1,1}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end
-
+local bpmImage=DOGC{31,12,
+	{'setFT',15},
+	{'print',"BPM",0,-5}
+}
+local kpmImage=DOGC{31,12,
+	{'setFT',15},
+	{'print',"KPM",0,-5}
+}
 local function boardTransform(mode)
 	if mode then
 		if mode=="U-D"then
@@ -682,8 +689,8 @@ function draw.norm(P)
 		else
 			drawDial(510,515,P.dropSpeed)
 			drawDial(555,570,P.keySpeed)
-			gc_draw(drawableText.bpm,540,485)
-			gc_draw(drawableText.kpm,494,578)
+			gc_draw(bpmImage,540,490)
+			gc_draw(kpmImage,494,583)
 			drawFinesseCombo_norm(P)
 		end
 

@@ -157,8 +157,6 @@ end
 do--drawableText
 	local function T(s,t)return love.graphics.newText(getFont(s),t)end
 	drawableText={
-		question=T(100,"?"),
-		bpm=T(15,"BPM"),kpm=T(15,"KPM"),
 		modeName=T(30),
 
 		anykey=T(40),

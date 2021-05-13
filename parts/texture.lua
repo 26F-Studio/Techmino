@@ -151,5 +151,11 @@ for i=1,8 do
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
 
+--Question mark
+TEXTURE.question=DOGC{45,80,
+	{'setFT',100},
+	{'print',"?",0,-30},
+}
+
 gc.setCanvas()
 return TEXTURE

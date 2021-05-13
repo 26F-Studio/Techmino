@@ -182,7 +182,7 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(drawableText.question,980,570)
+		gc.draw(TEXTURE.question,1050,430,nil,.6)
 	end
 end
 
