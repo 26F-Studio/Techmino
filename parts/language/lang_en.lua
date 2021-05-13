@@ -866,7 +866,7 @@ return{
 		{C.C,"Also try Phigros!"},
 		{C.C,"Also try Rubic's cube!"},
 		{C.C,"Also try Terraria!"},
-		{C.C,"Also try VVVVVVV!"},
+		{C.C,"Also try VVVVVV!"},
 		{C.F,"Also try Cultris II!"},
 		{C.F,"Also try Jstris"},
 		{C.F,"Also try NullpoMino!"},
