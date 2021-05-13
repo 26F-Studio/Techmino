@@ -134,16 +134,6 @@ end
 function button:getCenter()
 	return self.x+self.w*.5,self.y+self.h*.5
 end
-function button:FX()
-	local ATV=self.ATV
-	SYSFX.newRectRipple(
-		6,
-		self.x-ATV,
-		self.y-ATV,
-		self.w+2*ATV,
-		self.h+2*ATV
-	)
-end
 function button:update()
 	local ATV=self.ATV
 	if WIDGET.sel==self then
@@ -198,7 +188,14 @@ function button:getInfo()
 end
 function button:press(_,_,k)
 	self.code(k)
-	self:FX()
+	local ATV=self.ATV
+	SYSFX.newRectRipple(
+		6,
+		self.x-ATV,
+		self.y-ATV,
+		self.w+2*ATV,
+		self.h+2*ATV
+	)
 	if self.sound then SFX.play('button')end
 end
 function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hide]
@@ -884,6 +881,7 @@ function textBox:push(t)
 	end
 end
 function textBox:press(x,y)
+	if not(x and y)then return end
 	self:drag(nil,nil,nil,0)
 	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
