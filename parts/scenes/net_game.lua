@@ -262,6 +262,7 @@ function scene.draw()
 		setFont(40)
 		gc.print(netPLY.getCount().."/"..NET.roomInfo.capacity,70,655)
 		if NET.roomInfo.private then gc.draw(IMG.lock,30,668)end
+		if NET.roomInfo.start then gc.setColor(0,1,0)gc.print(text.started,230,655)end
 
 		--Profile
 		drawSelfProfile()

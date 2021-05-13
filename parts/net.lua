@@ -16,6 +16,7 @@ local NET={
 		private=false,
 		-- count=false,
 		capacity=false,
+		start=false,
 	},
 	allReady=false,
 	connectingStream=false,
@@ -224,6 +225,7 @@ function NET.enterRoom(room,password)
 		NET.roomInfo.type=room.type or"?"
 		NET.roomInfo.private=not not password
 		NET.roomInfo.capacity=room.capacity or"?"
+		NET.roomInfo.start=room.start
 		WS.send('play',JSON.encode{
 			action=2,
 			data={
@@ -450,6 +452,7 @@ function NET.updateWS_play()
 						elseif res.action==9 then--Game finished
 							NET.wsclose_stream()
 							if SCN.socketRead then SCN.socketRead('finish',d)end
+							NET.roomInfo.start=false
 						end
 					else
 						WS.alert('play')
@@ -479,7 +482,8 @@ function NET.updateWS_stream()
 							NET.unlock('wsc_stream')
 						elseif res.action==0 then--Game start
 							NET.connectingStream=false
-							SCN.socketRead('go',d)
+							if SCN.socketRead then SCN.socketRead('go',d)end
+							NET.roomInfo.start=true
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
