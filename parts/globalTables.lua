@@ -213,6 +213,8 @@ customEnv0={
 	--Rule
 	sequence='bag',
 	fieldH=20,
+	heightLimit=1e99,
+	bufferLimit=1e99,
 
 	ospin=true,
 	fineKill=false,

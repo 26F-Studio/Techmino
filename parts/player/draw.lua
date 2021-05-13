@@ -571,6 +571,10 @@ function draw.norm(P)
 				gc_setLineWidth(4)
 				gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
 
+				--Draw height limit line
+				gc_setColor(.4,.7+sin(t*12)*.3,1,.7)
+				gc_rectangle('fill',0,-ENV.heightLimit*30-FBN-2,300,4)
+
 				--Draw FXs
 				drawFXs(P)
 

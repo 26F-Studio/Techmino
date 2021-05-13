@@ -277,7 +277,7 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
 		_=self.dropFX[i]
 		_[3],_[5]=_[3]+amount,_[5]+amount
 	end
-	if #self.field>self.gameEnv.fieldH+self.gameEnv.maxOver then self:lose()end
+	if #self.field>self.gameEnv.heightLimit then self:lose()end
 end
 
 local invList={2,1,4,3,5,6,7}
@@ -1443,6 +1443,9 @@ do--Player.drop(self)--Place piece
 				finish=true
 			end
 		end
+
+		--Check height limit
+		if cc==0 and #self.field>ENV.heightLimit then self:lose()end
 
 		--Update stat
 		Stat.score=Stat.score+cscore
