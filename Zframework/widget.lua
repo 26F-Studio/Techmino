@@ -742,6 +742,24 @@ function inputBox:reset()
 		kb.setTextInput(true)
 	end
 end
+function inputBox:hasText()
+	return #self.value>0
+end
+function inputBox:getText()
+	return self.value
+end
+function inputBox:setText(str)
+	if type(str)=='string'then
+		self.value=str
+	end
+end
+function inputBox:addText(str)
+	if type(str)=='string'then
+		self.value=self.value..str
+	else
+		LOG.print("inputBox "..self.name.." dead, addText("..type(str)..")",'warn')
+	end
+end
 function inputBox:clear()
 	self.value=""
 end

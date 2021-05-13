@@ -1,10 +1,10 @@
 local scene={}
 
 local function register()
-	local username=	WIDGET.active.username.value
-	local email=	WIDGET.active.email.value
-	local password=	WIDGET.active.password.value
-	local password2=WIDGET.active.password2.value
+	local username=	WIDGET.active.username:getText()
+	local email=	WIDGET.active.email:getText()
+	local password=	WIDGET.active.password:getText()
+	local password2=WIDGET.active.password2:getText()
 	if #username==0 then
 		LOG.print(text.noUsername)return
 	elseif not STRING.simpEmailCheck(email)then

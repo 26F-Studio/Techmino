@@ -604,16 +604,16 @@ end
 
 local combKey={}
 function combKey.x()
-	love.system.setClipboardText(inputBox.value)
-	inputBox.value=""
+	love.system.setClipboardText(inputBox:getText())
+	inputBox:clear()
 	SFX.play('reach')
 end
 function combKey.c()
-	love.system.setClipboardText(inputBox.value)
+	love.system.setClipboardText(inputBox:getText())
 	SFX.play('reach')
 end
 function combKey.v()
-	inputBox.value=inputBox.value..love.system.getClipboardText()
+	inputBox:addText(love.system.getClipboardText())
 	SFX.play('reach')
 end
 
@@ -687,7 +687,7 @@ end
 
 function scene.keyDown(k)
 	if k=="return"then
-		local input=inputBox.value
+		local input=inputBox:getText()
 		if input==""then return end
 
 		--Write History
@@ -736,24 +736,24 @@ function scene.keyDown(k)
 		if not hisPtr then
 			hisPtr=#history
 			if hisPtr>0 then
-				inputBox.value=history[hisPtr]
+				inputBox:setText(history[hisPtr])
 			end
 		elseif hisPtr>1 then
 			hisPtr=hisPtr-1
-			inputBox.value=history[hisPtr]
+			inputBox:setText(history[hisPtr])
 		end
 	elseif k=="down"then
 		if hisPtr then
 			hisPtr=hisPtr+1
 			if history[hisPtr]then
-				inputBox.value=history[hisPtr]
+				inputBox:setText(history[hisPtr])
 			else
 				hisPtr=nil
-				inputBox.value=""
+				inputBox:clear()
 			end
 		end
 	elseif k=="tab"then
-		local str=inputBox.value
+		local str=inputBox:getText()
 		if str~=""and not str:find("%s")then
 			local res={}
 			for c in next,commands do
@@ -767,7 +767,7 @@ function scene.keyDown(k)
 				table.sort(res)
 				for i=1,#res do log{COLOR.lH,res[i]}end
 			elseif #res==1 then
-				inputBox.value=res[1]
+				inputBox:setText(res[1])
 			end
 		end
 	elseif k=="scrollup"then outputBox:scroll(-5)

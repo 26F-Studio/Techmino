@@ -37,7 +37,7 @@ local function clearResult()
 	waiting,lastSearch=0,false
 end
 local function search()
-	local input=inputBox.value:lower()
+	local input=inputBox:getText():lower()
 	clearResult()
 	local first
 	for i=1,#dict do
@@ -97,7 +97,7 @@ function scene.keyDown(key)
 	elseif key=="link"then
 		love.system.openURL(url)
 	elseif key=="delete"then
-		if #inputBox.value>0 then
+		if inputBox:hasText()then
 			clearResult()
 			inputBox:clear()
 			SFX.play('hold')
@@ -105,7 +105,7 @@ function scene.keyDown(key)
 	elseif key=="backspace"then
 		WIDGET.keyPressed("backspace")
 	elseif key=="escape"then
-		if #inputBox.value>0 then
+		if inputBox:hasText()then
 			scene.keyDown("delete")
 		else
 			SCN.back()
@@ -115,7 +115,7 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-	local input=inputBox.value
+	local input=inputBox:getText()
 	if input~=lastTickInput then
 		if #input==0 then
 			clearResult()

@@ -4,7 +4,7 @@ local passwordBox=WIDGET.newInputBox{name="password",x=380,y=300,w=620,h=60,secr
 local savePW=false
 
 local function login()
-	local email,password=emailBox.value,passwordBox.value
+	local email,password=emailBox:getText(),passwordBox:getText()
 	if not STRING.simpEmailCheck(email)then
 		LOG.print(text.wrongEmail)return
 	elseif #password==0 then
@@ -26,8 +26,8 @@ function scene.sceneInit()
 	local data=FILE.load("conf/account")
 	if data then
 		savePW=true
-		emailBox.value=data[1]
-		passwordBox.value=data[2]
+		emailBox:setText(data[1])
+		passwordBox:setText(data[2])
 	end
 end
 
