@@ -64,11 +64,11 @@ scene.widgetList={
 	WIDGET.newSlider{name="spawn",	x=180,	y=300,w=400,		font=30,change=function()SFX.fplay("spawn_"..math.random(7),SETTING.sfx_spawn)end,disp=SETval("sfx_spawn"),code=SETsto("sfx_spawn")},
 	WIDGET.newSlider{name='warn',	x=180,	y=400,w=400,		font=30,change=function()SFX.fplay("warning",SETTING.sfx_warn)end,disp=SETval("sfx_warn"),code=SETsto("sfx_warn")},
 	WIDGET.newSlider{name="bgm",	x=180,	y=500,w=400,		font=35,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-	WIDGET.newSlider{name="stereo",	x=180,	y=600,w=400,		font=35,change=function()SFX.play('move',1,-1)SFX.play('lock',1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hide=function()return SETTING.sx==0 end},
+	WIDGET.newSlider{name="stereo",	x=180,	y=600,w=400,		font=35,change=function()SFX.play('move',1,-1)SFX.play('lock',1,1)end,disp=SETval("stereo"),code=SETsto("stereo"),hideF=function()return SETTING.sx==0 end},
 	WIDGET.newSlider{name="vib",	x=750,	y=200,w=400,unit=5,	font=25,change=function()VIB(2)end,disp=SETval("vib"),code=SETsto("vib")},
 	WIDGET.newSlider{name="voc",	x=750,	y=300,w=400,		font=35,change=function()VOC.play('test')end,disp=SETval("voc"),code=SETsto("voc")},
 	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={'miya','naki'},disp=function()return cv end,code=function(i)cv=i end},
-	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=cv VOC.loadAll()end,hide=function()return SETTING.cv==cv end},
+	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=backScene},
 }
 

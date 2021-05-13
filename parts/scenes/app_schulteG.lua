@@ -168,11 +168,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space",hide=function()return state==0 end},
-	WIDGET.newSlider{name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return rank-3 end,code=function(v)rank=v+3 end,hide=function()return state>0 end},
-	WIDGET.newSwitch{name="blind",		x=240,y=330,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="disappear",	x=240,y=420,w=60,		font=40,disp=function()return disappear end,code=pressKey"w",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="tapFX",		x=240,y=510,w=60,		font=40,disp=function()return tapFX end,	code=pressKey"e",hide=function()return state==1 end},
+	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space",hideF=function()return state==0 end},
+	WIDGET.newSlider{name="rank",		x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return rank-3 end,code=function(v)rank=v+3 end,hideF=function()return state>0 end},
+	WIDGET.newSwitch{name="blind",		x=240,y=330,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hideF=function()return state==1 end},
+	WIDGET.newSwitch{name="disappear",	x=240,y=420,w=60,		font=40,disp=function()return disappear end,code=pressKey"w",hideF=function()return state==1 end},
+	WIDGET.newSwitch{name="tapFX",		x=240,y=510,w=60,		font=40,disp=function()return tapFX end,	code=pressKey"e",hideF=function()return state==1 end},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

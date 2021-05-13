@@ -678,6 +678,7 @@ local scene={}
 
 function scene.sceneInit()
 	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+	enableTextInput()
 	BG.set('none')
 end
 

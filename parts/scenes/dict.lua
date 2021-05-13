@@ -69,6 +69,7 @@ function scene.sceneInit()
 
 	lastSearch=false
 	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+	enableTextInput()
 	BG.set('rainbow')
 end
 
@@ -183,7 +184,7 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align='L'},
 	inputBox,
-	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
+	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
 	WIDGET.newKey{name="up",		x=1130,	y=460,w=60,h=90,font=35,code=pressKey"up",hide=not MOBILE},
 	WIDGET.newKey{name="down",		x=1130,	y=560,w=60,h=90,font=35,code=pressKey"down",hide=not MOBILE},
 	WIDGET.newKey{name="pageup",	x=1210,	y=460,w=80,h=90,font=35,code=pressKey"pageup",hide=not MOBILE},

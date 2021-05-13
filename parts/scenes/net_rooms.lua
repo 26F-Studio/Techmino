@@ -171,12 +171,12 @@ end
 
 scene.widgetList={
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
-	WIDGET.newText{name="refreshing",x=580,y=255,font=45,hide=function()return not NET.getlock('fetchRoom')end},
-	WIDGET.newText{name="noRoom",	x=580,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
-	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hide=function()return fetchTimer>3.26 end},
+	WIDGET.newText{name="refreshing",x=580,y=255,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
+	WIDGET.newText{name="noRoom",	x=580,y=260,font=40,hideF=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
+	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hideF=function()return fetchTimer>3.26 end},
 	WIDGET.newKey{name="new",		x=500,y=620,w=140,h=140,font=20,code=pressKey"n"},
 	WIDGET.newKey{name="new2",		x=700,y=620,w=140,h=140,font=20,code=pressKey"m"},
-	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hide=function()return #NET.roomList==0 or NET.getlock('enterRoom')end},
+	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hideF=function()return #NET.roomList==0 or NET.getlock('enterRoom')end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

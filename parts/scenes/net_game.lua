@@ -1,4 +1,4 @@
-local gc,tc=love.graphics,love.touch
+local gc,tc,kb=love.graphics,love.touch,love.keyboard
 local ins=table.insert
 local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
 local PLAYERS,GAME=PLAYERS,GAME
@@ -85,25 +85,27 @@ function scene.keyDown(key)
 			lastBackTime=TIME()
 			LOG.print(text.sureQuit,COLOR.O)
 		end
-	elseif key=="\\"then
-		textBox.hide=not textBox.hide
-		inputBox.hide=not inputBox.hide
-		if textBox.hide then
-			WIDGET.sel=nil
-		else
+	elseif key=="return"then
+		if inputBox.hide then
+			textBox.hide=false
+			inputBox.hide=false
 			TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+			enableTextInput()
+		else
+			local mes=inputBox:getText():match"%S+"
+			if mes and #mes>0 then
+				NET.sendMessage(mes)
+				inputBox:clear()
+			elseif #EDITING==0 then
+				textBox.hide=true
+				inputBox.hide=true
+				WIDGET.sel=nil
+				kb.setTextInput(false)
+			end
 		end
 	elseif not inputBox.hide then
-		if key=="return"then
-			print(EDITING)
-			if inputBox:hasText()then
-				NET.sendMessage(inputBox:getText())
-				inputBox:clear()
-			end
-		else
-			WIDGET.sel=inputBox
-			WIDGET.keyPressed(key)
-		end
+		WIDGET.sel=inputBox
+		WIDGET.keyPressed(key)
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -301,9 +303,9 @@ end
 scene.widgetList={
 	textBox,
 	inputBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hide=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
 	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=pressKey"space",
-		hide=function()
+		hideF=function()
 			return
 				playing or
 				NET.serverGaming or
@@ -311,14 +313,14 @@ scene.widgetList={
 				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=pressKey"space",
-		hide=function()
+		hideF=function()
 			return
 				playing or
 				NET.serverGaming or
 				not netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"\\"},
+	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"return"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
 }
 

@@ -313,14 +313,14 @@ function scene.draw()
 	gc.rectangle('line',cx*160+173,cy*160-107,134,134,50)
 end
 
-local function Gaming()return state==1 end
+local function ifGaming()return state==1 end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',	font=40,code=pressKey"space"},
-	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hide=Gaming},
-	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",	hide=Gaming},
-	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",	hide=Gaming},
-	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=function()return pathVis end,	code=pressKey"r",	hide=function()return state==1 or not slide end},
-	WIDGET.newSwitch{name="revKB",	x=240,y=600,w=60,					font=40,disp=function()return revKB end,	code=pressKey"t",	hide=Gaming},
+	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hideFunc=ifGaming},
+	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",hideF=ifGaming},
+	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",hideF=ifGaming},
+	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=function()return pathVis end,	code=pressKey"r",hideF=function()return state==1 or not slide end},
+	WIDGET.newSwitch{name="revKB",	x=240,y=600,w=60,					font=40,disp=function()return revKB end,	code=pressKey"t",hideF=ifGaming},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,			font=40,code=backScene},
 }
 

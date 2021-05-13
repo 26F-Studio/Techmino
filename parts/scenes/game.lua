@@ -201,7 +201,7 @@ function scene.draw()
 
 	--Mode info
 	gc.setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,485,10)
+	gc.draw(drawableText.modeName,940,0)
 
 	--Replaying
 	if GAME.replaying then

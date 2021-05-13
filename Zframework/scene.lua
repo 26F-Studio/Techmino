@@ -60,6 +60,8 @@ function SCN.swapUpdate()
 	end
 end
 function SCN.init(s,org)
+	love.keyboard.setTextInput(false)
+
 	local S=scenes[s]
 	SCN.cur=s
 

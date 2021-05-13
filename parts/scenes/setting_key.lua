@@ -26,6 +26,10 @@ function scene.sceneBack()
 	FILE.save(keyMap,'conf/key')
 end
 
+local forbbidenKeys={
+	["\\"]=true,
+	["return"]=true,
+}
 function scene.keyDown(key)
 	if key=="escape"then
 		if selected then
@@ -41,7 +45,7 @@ function scene.keyDown(key)
 			SCN.back()
 		end
 	elseif selected then
-		if key~="\\"then
+		if not forbbidenKeys[key]then
 			keyMap.keyboard[key]=selected
 			freshKeyList()
 			selected=false

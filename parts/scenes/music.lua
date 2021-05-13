@@ -85,11 +85,11 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=30,	y=30,font=80,align='L'},
 	WIDGET.newText{name="arrow",	x=270,	y=360,font=45,align='L'},
-	WIDGET.newText{name="now",		x=700,	y=500,font=50,align='R',hide=function()return not BGM.nowPlay end},
+	WIDGET.newText{name="now",		x=700,	y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
 	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,		font=35,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-	WIDGET.newButton{name="up",		x=200,	y=250,w=120,	font=55,code=pressKey"up",hide=function()return selected==1 end},
+	WIDGET.newButton{name="up",		x=200,	y=250,w=120,	font=55,code=pressKey"up",hideF=function()return selected==1 end},
 	WIDGET.newButton{name="play",	x=200,	y=390,w=120,	font=35,code=pressKey"space"},
-	WIDGET.newButton{name="down",	x=200,	y=530,w=120,	font=55,code=pressKey"down",hide=function()return selected==#bgmList end},
+	WIDGET.newButton{name="down",	x=200,	y=530,w=120,	font=55,code=pressKey"down",hideF=function()return selected==#bgmList end},
 	WIDGET.newButton{name="sound",	x=1140,	y=540,w=170,h=80,font=40,code=pressKey"tab"},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
 }

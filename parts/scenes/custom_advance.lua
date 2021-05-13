@@ -18,8 +18,8 @@ scene.widgetList={
 	--Control
 	WIDGET.newSlider{name="nextCount",	x=180,	y=150,	w=200,unit=6,	disp=CUSval("nextCount"),code=CUSsto("nextCount")},
 	WIDGET.newSlider{name="holdCount",	x=180,	y=240,	w=200,unit=6,	disp=CUSval("holdCount"),code=CUSsto("holdCount")},
-	WIDGET.newSwitch{name="infHold",	x=330,	y=340,					disp=CUSval("infHold"),code=CUSrev("infHold"),hide=function()return CUSTOMENV.holdCount==0 end},
-	WIDGET.newSwitch{name="phyHold",	x=330,	y=430,					disp=CUSval("phyHold"),code=CUSrev("phyHold"),hide=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSwitch{name="infHold",	x=330,	y=340,					disp=CUSval("infHold"),code=CUSrev("infHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSwitch{name="phyHold",	x=330,	y=430,					disp=CUSval("phyHold"),code=CUSrev("phyHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
 	WIDGET.newSwitch{name="initSkip",	x=330,	y=530,	font=25,		disp=CUSval("initSkip"),code=CUSrev("initSkip")},
 
 	--Rule

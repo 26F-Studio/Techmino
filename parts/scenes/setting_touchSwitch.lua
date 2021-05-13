@@ -39,7 +39,7 @@ scene.widgetList={
 		code=function()
 			SCN.go('setting_trackSetting')
 		end,
-		hide=function()
+		hideF=function()
 			return not SETTING.VKTrack
 		end},
 	WIDGET.newSlider{name="alpha",	x=840,	y=540,	w=400,font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha")},

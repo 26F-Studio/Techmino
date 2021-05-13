@@ -41,7 +41,7 @@ local text={
 
 function text:reset()end
 function text:update()
-	if self.hideCon and self.hideCon()then
+	if self.hideF and self.hideF()then
 		if self.alpha>0 then
 			self.alpha=self.alpha-.125
 		end
@@ -62,7 +62,7 @@ function text:draw()
 		end
 	end
 end
-function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hide]
+function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hideF][,hide]
 	local _={
 		name=	D.name,
 		x=		D.x,
@@ -72,10 +72,10 @@ function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hide
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		align=	D.align or'M',
-		hideCon=D.hide,
+		hideF=	D.hideF,
 	}
 	for k,v in next,text do _[k]=v end
-	if not _.hideCon then _.alpha=1 end
+	if not _.hideF then _.alpha=1 end
 	setmetatable(_,widgetMetatable)
 	return _
 end
@@ -92,7 +92,7 @@ function image:draw()
 	gc.setColor(1,1,1,self.alpha)
 	gc.draw(self.img,self.x,self.y,self.ang,self.k)
 end
-function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hide]
+function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hideF][,hide]
 	local _={
 		name=	D.name,
 		img=	D.img or D.name,
@@ -101,6 +101,7 @@ function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hide]
 		y=		D.y,
 		ang=	D.ang,
 		k=		D.k,
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	for k,v in next,image do _[k]=v end
@@ -198,7 +199,7 @@ function button:press(_,_,k)
 	)
 	if self.sound then SFX.play('button')end
 end
-function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hide]
+function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -223,6 +224,7 @@ function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=tr
 		edge=	D.edge or 0,
 		sound=	D.sound~=false,
 		code=	D.code,
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	for k,v in next,button do _[k]=v end
@@ -292,7 +294,7 @@ function key:press(_,_,k)
 	self.code(k)
 	if self.sound then SFX.play('key')end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name,
@@ -317,6 +319,7 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true]
 		align=	D.align or'M',
 		edge=	D.edge or 0,
 		code=	D.code,
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	for k,v in next,key do _[k]=v end
@@ -398,6 +401,7 @@ function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,d
 		sound=	D.sound~=false,
 		disp=	D.disp,
 		code=	D.code,
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	for k,v in next,switch do _[k]=v end
@@ -451,7 +455,7 @@ function slider:update()
 			self.ATV=atv
 		end
 	end
-	if not(self.hide==true or self.hide and self.hide())then
+	if not self.hide then
 		self.pos=self.pos*.7+self.disp()*.3
 	end
 end
@@ -559,6 +563,7 @@ function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=3
 		change=	D.change,
 		disp=	D.disp,
 		code=	D.code,
+		hideF=	D.hideF,
 		hide=	D.hide,
 		show=	false,
 	}
@@ -723,6 +728,7 @@ function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,dis
 		list=	D.list,
 		disp=	D.disp,
 		code=	D.code,
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	for k,v in next,selector do _[k]=v end
@@ -738,9 +744,6 @@ local inputBox={
 }
 function inputBox:reset()
 	self.ATV=0
-	if not MOBILE then
-		kb.setTextInput(true)
-	end
 end
 function inputBox:hasText()
 	return #self.value>0
@@ -853,6 +856,7 @@ function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex],hide
 		font=	D.font or int(D.h/7-1)*5,
 		secret=	D.secret==true,
 		regex=	D.regex,
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	for k,v in next,inputBox do _[k]=v end
@@ -892,7 +896,7 @@ function textBox:update()
 end
 function textBox:push(t)
 	ins(self.texts,t)
-	if self.scrollPos==#self.texts-1 and not(self.hide==true or self.hide and self.hide())then
+	if self.scrollPos==#self.texts-1 and not self.hide then
 		self.scrollPos=#self.texts
 	else
 		self.new=true
@@ -1007,6 +1011,7 @@ function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 		font=	D.font or 30,
 		fix=	D.fix,
 		texts=	{},
+		hideF=	D.hideF,
 		hide=	D.hide,
 	}
 	_.lineH=D.lineH or _.font*7/5
@@ -1030,7 +1035,6 @@ WIDGET.indexMeta={
 	end
 }
 function WIDGET.set(list)
-	kb.setTextInput(false)
 	WIDGET.sel=false
 	WIDGET.active=list or NONE
 
@@ -1071,7 +1075,7 @@ end
 
 function WIDGET.cursorMove(x,y)
 	for _,W in next,WIDGET.active do
-		if not(W.hide==true or W.hide and W.hide())and W.resCtr and W:isAbove(x,y)then
+		if not W.hide and W.resCtr and W:isAbove(x,y)then
 			WIDGET.sel=W
 			return
 		end
@@ -1084,7 +1088,7 @@ function WIDGET.press(x,y,k)
 	local W=WIDGET.sel
 	if not W then return end
 	W:press(x,y,k)
-	if W.hide==true or W.hide and W.hide()then WIDGET.sel=false end
+	if W.hide then WIDGET.sel=false end
 end
 function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
@@ -1114,7 +1118,7 @@ function WIDGET.keyPressed(k)
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
 		if not WIDGET.sel then
 			for _,W in next,WIDGET.active do
-				if not(W.hide==true or W.hide and W.hide())and W.isAbove then
+				if not W.hide and W.isAbove then
 					WIDGET.sel=W
 					return
 				end
@@ -1130,7 +1134,7 @@ function WIDGET.keyPressed(k)
 		local swap_xy=k=="up"or k=="down"
 		if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
 		for _,W1 in ipairs(WIDGET.active)do
-			if W~=W1 and W1.resCtr and not(W1.hide==true or W1.hide and W1.hide())then
+			if W~=W1 and W1.resCtr and not W1.hide then
 				local L=W1.resCtr
 				for j=1,#L,2 do
 					local x,y=L[j],L[j+1]
@@ -1201,12 +1205,18 @@ end
 
 function WIDGET.update()
 	for _,W in next,WIDGET.active do
+		if W.hideF then
+			local h=W.hideF()
+			if h~=W.hide then
+				W.hide=h
+			end
+		end
 		if W.update then W:update()end
 	end
 end
 function WIDGET.draw()
 	for _,W in next,WIDGET.active do
-		if not(W.hide==true or W.hide and W.hide())then
+		if not W.hide then
 			W:draw()
 		end
 	end

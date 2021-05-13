@@ -211,7 +211,7 @@ scene.widgetList={
 				VK_org[selected].r=(v+1)*10
 			end
 		end,
-		hide=function()
+		hideF=function()
 			return not selected
 		end},
 }

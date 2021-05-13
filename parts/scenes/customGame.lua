@@ -171,8 +171,8 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=520,	y=5,font=70,align='R'},
 	WIDGET.newText{name="subTitle",	x=530,	y=50,font=35,align='L',color='H'},
-	WIDGET.newText{name="defSeq",	x=330,	y=550,align='L',color='H',hide=function()return BAG[1]end},
-	WIDGET.newText{name="noMsn",	x=610,	y=550,align='L',color='H',hide=function()return MISSION[1]end},
+	WIDGET.newText{name="defSeq",	x=330,	y=550,align='L',color='H',hideF=function()return BAG[1]end},
+	WIDGET.newText{name="noMsn",	x=610,	y=550,align='L',color='H',hideF=function()return MISSION[1]end},
 
 	--Basic
 	WIDGET.newSelector{name="drop",	x=170,	y=150,w=220,color='O',list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("drop"),code=CUSsto("drop")},
@@ -188,7 +188,7 @@ scene.widgetList={
 	WIDGET.newButton{name="copy",	x=1070,	y=310,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
 	WIDGET.newButton{name="paste",	x=1070,	y=390,w=310,h=70,color='lB',font=25,code=pressKey"cV"},
 	WIDGET.newButton{name="clear",	x=1070,	y=470,w=310,h=70,color='lY',font=35,code=pressKey"return"},
-	WIDGET.newButton{name="puzzle",	x=1070,	y=550,w=310,h=70,color='lM',font=35,code=pressKey"return2",hide=function()return not initField end},
+	WIDGET.newButton{name="puzzle",	x=1070,	y=550,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return not initField end},
 
 	--More
 	WIDGET.newKey{name="reset",		x=730,	y=150,w=220,h=90,color='R',font=30,code=pressKey"delete"},
