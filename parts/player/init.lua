@@ -140,7 +140,7 @@ local function newEmptyPlayer(id,mini)
 	P.atker,P.atking,P.lastRecv={}
 
 	--Network-related
-	P.username="_"
+	P.username=""
 	P.uid=false
 	P.sid=false
 
@@ -382,7 +382,7 @@ function PLY.newRemotePlayer(id,mini,ply)
 	P.type='remote'
 	P.update=ply_update.remote_alive
 
-	P.draw=ply_draw.norm_remote
+	P.draw=ply_draw.norm
 
 	P.stream={}
 	P.streamProgress=1
@@ -391,8 +391,8 @@ function PLY.newRemotePlayer(id,mini,ply)
 	P.uid=ply.uid
 	P.username=ply.username
 	P.sid=ply.sid
-	loadRemoteEnv(P,ply.config)
 
+	loadRemoteEnv(P,ply.config)
 	applyGameEnv(P)
 end
 
@@ -413,6 +413,7 @@ function PLY.newPlayer(id,mini)
 	P.sound=true
 
 	P.uid=USER.uid
+	P.username=USERS.getUsername(USER.uid)
 
 	loadGameEnv(P)
 	applyGameEnv(P)
