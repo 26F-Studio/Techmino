@@ -63,6 +63,7 @@ return{
 	exportSuccess="Exporté avec succès",
 	importSuccess="Importé avec succès",
 	dataCorrupted="Données corrompues",
+	-- pasteWrongPlace="Paste at wrong place?",
 	-- noFile="File not found",
 
 	VKTchW="Poids du toucher",

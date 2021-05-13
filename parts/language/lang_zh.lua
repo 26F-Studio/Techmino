@@ -63,6 +63,7 @@ return{
 	exportSuccess="导出成功",
 	importSuccess="导入成功",
 	dataCorrupted="数据损坏",
+	pasteWrongPlace="提醒:可能粘贴错地方了",
 	noFile="找不到文件",
 
 	VKTchW="触摸点权重",

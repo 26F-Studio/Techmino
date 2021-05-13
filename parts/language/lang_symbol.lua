@@ -47,6 +47,7 @@ return{
 	exportSuccess="~Out~",
 	importSuccess="~In~",
 	dataCorrupted="XXXXX",
+	pasteWrongPlace="_?X.",
 	-- noFile="File not found",
 
 	VKTchW="Tch↓",

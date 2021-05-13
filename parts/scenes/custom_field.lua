@@ -229,6 +229,7 @@ function scene.keyDown(key)
 		if DATA.pasteBoard(str,page)then
 			LOG.print(text.importSuccess,COLOR.G)
 		else
+			print(text.dataCorrupted)
 			LOG.print(text.dataCorrupted,COLOR.R)
 		end
 	elseif key=="pageup"then
