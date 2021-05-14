@@ -2,7 +2,7 @@ return{
 	color=COLOR.red,
 	env={
 		drop=30,lock=60,
-		freshLimit=10,
+		freshLimit=5,
 		task=function(P)
 			while true do
 				YIELD()
