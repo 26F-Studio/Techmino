@@ -896,7 +896,7 @@ function textBox:update()
 end
 function textBox:push(t)
 	ins(self.texts,t)
-	if self.scrollPos==#self.texts-1 and not self.hide then
+	if self.scrollPos==#self.texts-1 then
 		self.scrollPos=#self.texts
 	else
 		self.new=true
