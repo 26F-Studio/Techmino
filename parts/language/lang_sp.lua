@@ -93,6 +93,8 @@ return{
 	loginFailed="Error al ingresar",
 	accessSuccessed="¡Autorizado exitoso!",
 	accessFailed="Error al autorizar",
+
+	-- wsConnecting="Websocket: Connecting",
 	wsSuccessed="WebSocket: conectado",
 	wsFailed="WebSocket: conexión fallida",
 	wsClose="WebSocket cerrado: ",
@@ -106,7 +108,8 @@ return{
 	joinRoom="entró a la sala.",
 	leaveRoom="salió de la sala.",
 	-- ready="READY",
-	-- set="SET",
+	-- connStream="CONNECTING",
+	-- waitStream="CONNECTED",
 	champion="$1 ganó!",
 	chatRemain="Usuarios en línea: ",
 	chatStart="------Comienzo del historial------",

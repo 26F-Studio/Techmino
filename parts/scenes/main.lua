@@ -77,6 +77,7 @@ function scene.keyDown(key)
 			else
 				TEXT.show(text.noInternet,640,450,60,'flicker')
 				NET.wsconn_app()
+				LOG.print(text.wsConnecting,'message')
 				SFX.play('finesseError')
 			end
 		end

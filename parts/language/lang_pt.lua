@@ -93,6 +93,8 @@ return{
 	loginFailed="Falha na autenticação",
 	accessSuccessed="Autorizado com sucesso!",
 	accessFailed="Falha na autorização",
+
+	-- wsConnecting="Websocket: Connecting",
 	wsSuccessed="WebSocket: conectado",
 	wsFailed="WebSocket: falha na conexão",
 	wsClose="WebSocket closed: ",
@@ -106,7 +108,8 @@ return{
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
 	-- ready="READY",
-	-- set="SET",
+	-- connStream="CONNECTING",
+	-- waitStream="CONNECTED",
 	-- champion="$1 won",
 	chatRemain="Online",
 	chatStart="------Começo do log------",

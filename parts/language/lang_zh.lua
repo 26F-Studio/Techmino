@@ -93,6 +93,8 @@ return{
 	loginFailed="登录失败",
 	accessSuccessed="身份验证成功",
 	accessFailed="身份验证失败",
+
+	wsConnecting="正在连接WS",
 	wsSuccessed="WS连接成功",
 	wsFailed="WS连接失败",
 	wsClose="WS被断开: ",
@@ -106,7 +108,8 @@ return{
 	joinRoom="进入房间",
 	leaveRoom="离开房间",
 	ready="各就各位!",
-	set="预备!",
+	connStream="正在连接",
+	waitStream="等待他人连接",
 	champion="$1 获胜",
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
