@@ -605,7 +605,7 @@ return{
 		['dig_400l']=			{"Dig",				"400L",			"Creusez 400 lines"},
 		['dig_1000l']=			{"Dig",				"1000L",		"Creusez 1000 lines"},
 		['drought_n']=			{"Drought",			"100L",			"Pas de pièce I !"},
-		['drought_l']=			{"Drought",			"100L",			"WTF ??!!"},
+		['drought_l']=			{"Drought+",		"100L",			"WTF ??!!"},
 		['marathon_n']=			{"Marathon",		"NORMAL",		"Marathon de 200 lignes."},
 		['marathon_h']=			{"Marathon",		"DIFFICILE",	"Marathon de 200 lignes à très haute vitesse"},
 		['solo_e']=				{"Battle",			"FACILE",		"Battez l'IA !"},

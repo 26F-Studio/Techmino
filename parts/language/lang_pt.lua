@@ -690,7 +690,7 @@ return{
 		['dig_400l']=			{"Cave",			"400L",			"Cave 400 linhas de lixo."},
 		['dig_1000l']=			{"Cave",			"1000L",		"Cave 1000 linhas de lixo."},
 		['drought_n']=			{"Drought",			"100L",			"Sem peça I !"},
-		['drought_l']=			{"Drought",			"100L",			"WTF"},
+		['drought_l']=			{"Drought+",		"100L",			"WTF"},
 		['marathon_n']=			{"Maratona",		"NORMAL",		"200-line Maratona com velocidade aumentando."},
 		['marathon_h']=			{"Maratona",		"DIFÍCIL",		"200-line Maratona com velocidade alta."},
 		['solo_e']=				{"Batalha",			"FÁCIL",		"Derrote a inteligência!"},

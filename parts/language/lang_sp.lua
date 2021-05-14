@@ -603,7 +603,7 @@ return{
 		['dig_400l']=			{"Queso",			"400L",			"Limpia 400 líneas de queso."},
 		['dig_1000l']=			{"Queso",			"1000L",		"Limpia 1000 líneas de queso."},
 		['drought_n']=			{"Sequía",			"100L",			"¡Sin piezas I!"},
-		['drought_l']=			{"Sequía",			"100L",			"Guat de foc..."},
+		['drought_l']=			{"Sequía+",			"100L",			"Guat de foc..."},
 		['marathon_n']=			{"Maratón",			"Normal",		"Maratón de 200 líneas con velocidad en aumento."},
 		['marathon_h']=			{"Maratón",			"Difícil",		"Maratón de 200 líneas a velocidad máxima."},
 		['solo_e']=				{"VS.",				"Fácil",		"¡Derrota a la CPU!"},

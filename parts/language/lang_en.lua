@@ -694,7 +694,7 @@ return{
 		['dig_400l']=			{"Dig",				"400L",			"Dig 400 garbage lines."},
 		['dig_1000l']=			{"Dig",				"1000L",		"Dig 1000 garbage lines."},
 		['drought_n']=			{"Drought",			"100L",			"There are no I-pieces."},
-		['drought_l']=			{"Drought",			"100L",			"W T F"},
+		['drought_l']=			{"Drought+",		"100L",			"W T F"},
 		['marathon_n']=			{"Marathon",		"NORMAL",		"200-line marathon with accelerating speed."},
 		['marathon_h']=			{"Marathon",		"HARD",			"200-line high-speed marathon."},
 		['solo_e']=				{"Battle",			"EASY",			"Defeat the AI!"},
