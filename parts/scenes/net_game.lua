@@ -92,7 +92,7 @@ function scene.keyDown(key)
 			TASK.new(function()YIELD()WIDGET.sel=inputBox end)
 			enableTextInput()
 		else
-			local mes=inputBox:getText():match"%S+"
+			local mes=STRING.trim(inputBox:getText())
 			if mes and #mes>0 then
 				NET.sendMessage(mes)
 				inputBox:clear()
@@ -133,12 +133,7 @@ function scene.keyUp(key)
 end
 function scene.gamepadDown(key)
 	if key=="back"then
-		if TIME()-lastBackTime<1 then
-			NET.signal_quit()
-		else
-			lastBackTime=TIME()
-			LOG.print(text.sureQuit,COLOR.O)
-		end
+		scene.keyDown("escape")
 	else
 		local k=keyMap.joystick[key]
 		if k and k>0 then
