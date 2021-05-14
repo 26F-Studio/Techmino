@@ -77,12 +77,13 @@ return{
 	{name='c4wtrain_n',		x=700,	y=-400,	size=40,shape=1,icon="pc",unlock={'c4wtrain_l'}},
 	{name='c4wtrain_l',		x=900,	y=-400,	size=40,shape=1,icon="pc"},
 
-	{name='pctrain_n',		x=700,	y=-220,	size=40,shape=1,icon="pc",		unlock={'pctrain_l','pc_n'}},
-	{name='pctrain_l',		x=900,	y=-220,	size=40,shape=1,icon="pc"},
+	{name='pctrain_n',		x=700,	y=-250,	size=40,shape=1,icon="pc",		unlock={'pctrain_l','pc_n'}},
+	{name='pctrain_l',		x=900,	y=-250,	size=40,shape=1,icon="pc"},
 
-	{name='pc_n',			x=800,	y=-100,	size=40,shape=1,icon="pc",		unlock={'pc_h'}},
-	{name='pc_h',			x=1000,	y=-100,	size=40,shape=3,icon="pc",		unlock={'pc_l'}},
-	{name='pc_l',			x=1200,	y=-100,	size=40,shape=2,icon="pc"},
+	{name='pc_n',			x=800,	y=-110,	size=40,shape=1,icon="pc",		unlock={'pc_h'}},
+	{name='pc_h',			x=950,	y=-110,	size=40,shape=3,icon="pc",		unlock={'pc_l','pc_inf'}},
+	{name='pc_l',			x=1100,	y=-110,	size=40,shape=3,icon="pc"},
+	{name='pc_inf',			x=1100,	y=-250,	size=40,shape=2,icon="pc"},
 
 	{name='tech_n',			x=400,	y=-150,	size=40,shape=1,icon="tech",	unlock={'tech_n_plus','tech_h','tech_finesse'}},
 	{name='tech_n_plus',	x=600,	y=160,	size=40,shape=3,icon="tech",	unlock={'tsd_e','backfire_n'}},

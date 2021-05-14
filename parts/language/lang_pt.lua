@@ -746,6 +746,7 @@ return{
 		['pc_n']=				{"Desafio PC",		"NORMAL",		"Obtenha PCs em 100 linhas!"},
 		['pc_h']=				{"Desafio PC",		"DIFÍCIL",		"Obtenha PCs em 100 linhas!"},
 		['pc_l']=				{"Desafio PC",		"LUNÁTICO",		"Obteha PCs em 100 linhas!"},
+		['pc_inf']=				{"Infinite PC Challenge","",		"Get PCs as much as you can"},--TODO
 		['tech_n']=				{"Tech",			"NORMAL",		"Não quebre o B2B!"},
 		['tech_n_plus']=		{"Tech",			"NORMAL+",		"Apenas spins e PC"},
 		['tech_h']=				{"Tech",			"HARD",			"Keep the B2B chain!"},

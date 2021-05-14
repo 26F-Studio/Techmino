@@ -661,6 +661,7 @@ return{
 		['pc_n']=				{"PC Challenge",	"NORMAL",		"Obtenez un PC dans les prochaines 100 lignes !"},
 		['pc_h']=				{"PC Challenge",	"DIFFICILE",	"Obtenez un PC dans les prochaines 100 lignes !"},
 		['pc_l']=				{"PC Challenge",	"LUNATIQUE",	"Obtenez un PC dans les prochaines 100 lignes !"},
+		['pc_inf']=				{"Infinite PC Challenge","",		"Get PCs as much as you can"},--TODO
 		['tech_n']=				{"Tech",			"NORMAL",		"Gardez le B2B !"},
 		['tech_n_plus']=		{"Tech",			"NORMAL+",		"Spin & PC uniquement"},
 		['tech_h']=				{"Tech",			"DIFFICILE",	"Gardez le B2B !"},

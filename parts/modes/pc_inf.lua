@@ -2,9 +2,22 @@ return{
 	color=COLOR.red,
 	env={
 		drop=20,lock=60,
-		fall=20,
-		dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
-		freshLimit=15,
+		fall=10,
+		dropPiece=function(P)
+			if P.lastPiece.pc then
+				P.gameEnv.heightLimit=4
+				if P.stat.pc%10==0 then
+					P.gameEnv.drop=math.max(P.gameEnv.drop-1,1)
+				end
+			else
+				P.gameEnv.heightLimit=P.gameEnv.heightLimit-P.lastPiece.row
+			end
+			if #P.field>P.gameEnv.heightLimit then
+				P:lose()
+			end
+		end,
+		freshLimit=8,
+		heightLimit=4,
 		ospin=false,
 		bg='rgb',bgm='truth',
 	},
@@ -13,10 +26,6 @@ return{
 		PLY.newPlayer(1)
 	end,
 	mesDisp=function(P)
-		setFont(45)
-		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,69,220)
-
 		setFont(70)
 		mStr(P.stat.pc,69,300)
 		mText(drawableText.pc,69,380)
@@ -27,11 +36,11 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=24 and 5 or
-		L>=20 and 4 or
-		L>=16 and 3 or
-		L>=12 and 2 or
-		L>=8 and 1 or
-		L>=1 and 0
+		L>=100 and 5 or
+		L>=70 and 4 or
+		L>=40 and 3 or
+		L>=20 and 2 or
+		L>=10 and 1 or
+		L>=5 and 0
 	end,
 }
