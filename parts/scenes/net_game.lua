@@ -46,7 +46,6 @@ function scene.touchDown(x,y)
 end
 function scene.touchUp(x,y)
 	if not playing or noTouch then return end
-
 	local n=VK.on(x,y)
 	if n then
 		PLAYERS[1]:releaseKey(n)
@@ -54,7 +53,7 @@ function scene.touchUp(x,y)
 	end
 end
 function scene.touchMove(x,y)
-	if not playing then netPLY.mouseMove(x,y)end
+	if not playing then netPLY.mouseMove(x,y)return end
 	if touchMoveLastFrame or noTouch then return end
 	touchMoveLastFrame=true
 
@@ -107,7 +106,7 @@ function scene.keyDown(key)
 		WIDGET.sel=inputBox
 		WIDGET.keyPressed(key)
 	elseif playing then
-		if noKey then return end
+		if not playing or noKey then return end
 		local k=keyMap.keyboard[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
@@ -124,7 +123,7 @@ function scene.keyDown(key)
 	end
 end
 function scene.keyUp(key)
-	if noKey then return end
+	if not playing or noKey then return end
 	local k=keyMap.keyboard[key]
 	if k and k>0 then
 		PLAYERS[1]:releaseKey(k)
@@ -135,6 +134,7 @@ function scene.gamepadDown(key)
 	if key=="back"then
 		scene.keyDown("escape")
 	else
+		if not playing then return end
 		local k=keyMap.joystick[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
@@ -143,6 +143,7 @@ function scene.gamepadDown(key)
 	end
 end
 function scene.gamepadUp(key)
+	if not playing then return end
 	local k=keyMap.joystick[key]
 	if k and k>0 then
 		PLAYERS[1]:releaseKey(k)
