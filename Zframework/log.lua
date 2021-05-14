@@ -35,36 +35,26 @@ function LOG.draw()
 		end
 	end
 end
-function LOG.print(text,T,C)--text,type/time/color,color
-	local time
-	local his
-	if T=='warn'then
-		C=C or COLOR.Y
-		his=true
-		time=180
+function LOG.print(text,T)--text,type/time/color,color
+	local color=COLOR.Z
+	local time,his
+	if T=='message'then
+		color=COLOR.N
+		his,time=true,180
+	elseif T=='warn'then
+		color=COLOR.Y
+		his,time=true,180
 	elseif T=='error'then
-		C=C or COLOR.R
-		his=true
-		time=210
-	elseif T=='message'then
-		C=C or COLOR.N
-		his=true
+		color=COLOR.R
+		his,time=true,210
 	elseif type(T)=='number'then
-		C=C or COLOR.Z
 		time=T
-	elseif type(T)=='table'then
-		C=T
-	elseif not C then
-		C=COLOR.Z
 	end
-	if his then
-		ins(debugMesHistory,SCN.cur..": "..tostring(text))
-	end
-	ins(debugMesList,{text=tostring(text),r=C[1],g=C[2],b=C[3],blink=30,time=time or 120})
+	if his then ins(debugMesHistory,SCN.cur..": "..tostring(text))end
+	ins(debugMesList,{text=tostring(text),r=color[1],g=color[2],b=color[3],blink=30,time=time or 120})
 end
 function LOG.copy()
-	local str=table.concat(debugMesHistory,"\n")
-	love.system.setClipboardText(str)
-	LOG.print("Log copied",COLOR.B)
+	love.system.setClipboardText(table.concat(debugMesHistory,"\n"))
+	LOG.print("Log copied",'message')
 end
 return LOG

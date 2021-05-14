@@ -71,22 +71,22 @@ function scene.keyDown(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
 			sys.setClipboardText("Techmino Target:"..DATA.copyMission())
-			LOG.print(text.exportSuccess,COLOR.G)
+			LOG.print(text.exportSuccess,'message')
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("Target")then
-				LOG.print(text.pasteWrongPlace)
+				LOG.print(text.pasteWrongPlace,'warn')
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteMission(str)then
-			LOG.print(text.importSuccess,COLOR.G)
+			LOG.print(text.importSuccess,'message')
 			cur=#MISSION
 		else
-			LOG.print(text.dataCorrupted,COLOR.R)
+			LOG.print(text.dataCorrupted,'error')
 		end
 	elseif key=="escape"then
 		SCN.back()

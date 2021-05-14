@@ -10,7 +10,7 @@ local function dumpCB(T)
 			)
 		)
 	)
-	LOG.print(text.exportSuccess)
+	LOG.print(text.exportSuccess,'message')
 end
 local function parseCB()
 	local _
@@ -18,9 +18,9 @@ local function parseCB()
 
 	--Decode
 	_,s=pcall(love.data.decode,'string','base64',s)
-	if not _ then LOG.print(text.dataCorrupted,COLOR.R)return end
+	if not _ then LOG.print(text.dataCorrupted,'error')return end
 	_,s=pcall(love.data.decompress,'string','zlib',s)
-	if not _ then LOG.print(text.dataCorrupted,COLOR.R)return end
+	if not _ then LOG.print(text.dataCorrupted,'error')return end
 
 	s=loadstring(s)
 	if s then

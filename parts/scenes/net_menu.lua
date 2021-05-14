@@ -31,7 +31,7 @@ scene.widgetList={
 					SCN.back()
 				end
 			else
-				LOG.print(text.sureQuit,COLOR.O)
+				LOG.print(text.sureQuit,'warn')
 				lastLogoutTime=TIME()
 			end
 		end},

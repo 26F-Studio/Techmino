@@ -85,22 +85,22 @@ function scene.keyDown(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #BAG>0 then
 			sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
-			LOG.print(text.exportSuccess,COLOR.G)
+			LOG.print(text.exportSuccess,'message')
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("SEQ")then
-				LOG.print(text.pasteWrongPlace)
+				LOG.print(text.pasteWrongPlace,'warn')
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteSequence(str)then
-			LOG.print(text.importSuccess,COLOR.G)
+			LOG.print(text.importSuccess,'message')
 			cur=#BAG
 		else
-			LOG.print(text.dataCorrupted,COLOR.R)
+			LOG.print(text.dataCorrupted,'error')
 		end
 	elseif key=="escape"then
 		SCN.back()

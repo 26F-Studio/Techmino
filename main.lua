@@ -167,7 +167,7 @@ SFX.init((function()
 		if fs.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
 			table.insert(L,v:sub(1,-5))
 		else
-			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v)
+			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v,'warn')
 		end
 	end
 	return L
@@ -178,7 +178,7 @@ BGM.init((function()
 		if fs.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
 			table.insert(L,v:sub(1,-5))
 		else
-			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v)
+			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v,'warn')
 		end
 	end
 	return L

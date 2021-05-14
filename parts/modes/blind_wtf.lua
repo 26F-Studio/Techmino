@@ -16,7 +16,7 @@ return{
 	load=function()
 		PLY.newPlayer(1)
 		if SETTING.sfx_spawn==0 then
-			LOG.print(text.switchSpawnSFX,COLOR.Y)
+			LOG.print(text.switchSpawnSFX,'warn')
 		end
 	end,
 	mesDisp=function(P)

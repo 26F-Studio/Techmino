@@ -188,7 +188,7 @@ scene.widgetList={
 					B.x,B.y,B.r=T[2],T[3],T[4]
 				end
 			end
-			LOG.print(("[ %d ]"):format(defaultSetSelect))
+			LOG.print(("==[ %d ]=="):format(defaultSetSelect))
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
 		end},

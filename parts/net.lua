@@ -298,21 +298,21 @@ function NET.updateWS_app()
 								end
 							end
 							if VERSION.code<res.newestCode then
-								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,COLOR.N)
+								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,'message')
 							end
-							LOG.print(res.notice,300,COLOR.N)
+							LOG.print(res.notice,300,'message')
 						elseif res.action==0 then--Get new version info
 							--?
 						elseif res.action==1 then--Get notice
 							--?
 						elseif res.action==2 then--Register
 							if res.type=='Self'or res.type=='Server'then
-								LOG.print(res.data.message,300,COLOR.N)
+								LOG.print(res.data.message,300,'message')
 								if SCN.cur=='register'then
 									SCN.back()
 								end
 							else
-								LOG.print(res.reason or"Registration failed",300,COLOR.N)
+								LOG.print(res.reason or"Registration failed",300,'message')
 							end
 							NET.unlock('register')
 						elseif res.action==3 then--Get player counts
@@ -351,14 +351,14 @@ function NET.updateWS_user()
 								FILE.save(USER,'conf/user','q')
 								if SCN.cur=='login'then SCN.back()end
 							end
-							LOG.print(text.loginSuccessed)
+							LOG.print(text.loginSuccessed,'message')
 
 							--Get self infos
 							NET.getUserInfo(USER.uid)
 							NET.unlock('wsc_user')
 						elseif res.action==0 then--Get accessToken
 							NET.accessToken=res.accessToken
-							LOG.print(text.accessSuccessed)
+							LOG.print(text.accessSuccessed,'message')
 							NET.wsconn_play()
 						elseif res.action==1 then--Get userInfo
 							USERS.updateUserData(res.data)

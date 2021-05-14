@@ -83,7 +83,7 @@ function scene.keyDown(key)
 			NET.signal_quit()
 		else
 			lastBackTime=TIME()
-			LOG.print(text.sureQuit,COLOR.O)
+			LOG.print(text.sureQuit,'warn')
 		end
 	elseif key=="return"then
 		if inputBox.hide then
@@ -180,7 +180,7 @@ function scene.socketRead(cmd,d)
 			upstreamProgress=1
 			resetGameData('n',d.seed)
 		else
-			LOG.print("Redundant [Go]",30,COLOR.G)
+			LOG.print("Redundant [Go]",'warn')
 		end
 	elseif cmd=='finish'then
 		playing=false
@@ -203,7 +203,7 @@ function scene.socketRead(cmd,d)
 					if res then
 						DATA.pumpRecording(stream,P.stream)
 					else
-						LOG.print("Bad stream from "..P.username.."#"..P.uid)
+						LOG.print("Bad stream from "..P.username.."#"..P.uid,30)
 					end
 				end
 			end

@@ -204,7 +204,7 @@ local function noDevkeyPressed(key)
 	if key=="f1"then
 		PROFILE.switch()
 	elseif key=="f2"then
-		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
+		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num),'message')
 	elseif key=="f3"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
@@ -217,11 +217,11 @@ local function noDevkeyPressed(key)
 	elseif key=="f5"then	if WIDGET.sel then print(WIDGET.sel)end
 	elseif key=="f6"then	for k,v in next,_G do print(k,v)end
 	elseif key=="f7"then	if love._openConsole then love._openConsole()end
-	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.Y)
-	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.Y)
-	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.Y)
-	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.Y)
-	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.Y)
+	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF")
+	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1")
+	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2")
+	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3")
+	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4")
 	elseif key=="\\"then	_G["\100\114\97\119\70\87\77"]=NULL
 	elseif devMode==2 then
 		if WIDGET.sel then
@@ -251,7 +251,7 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		LOG.print("DEBUG ON",COLOR.Y)
+		LOG.print("DEBUG ON")
 	elseif key=="f11"then
 		switchFullscreen()
 	elseif not SCN.swapping then
@@ -278,12 +278,13 @@ end
 
 function love.joystickadded(JS)
 	ins(joysticks,JS)
+	LOG.print("Joystick added",'message')
 end
 function love.joystickremoved(JS)
 	local i=TABLE.find(joysticks,JS)
 	if i then
 		rem(joysticks,i)
-		LOG.print("Joystick removed",COLOR.Y)
+		LOG.print("Joystick removed",'message')
 	end
 end
 local keyMirror={

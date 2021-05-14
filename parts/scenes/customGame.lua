@@ -82,7 +82,7 @@ function scene.keyDown(key)
 		str=str.."!"
 		if #MISSION>0 then str=str..DATA.copyMission()end
 		sys.setClipboardText(str.."!"..DATA.copyBoards().."!")
-		LOG.print(text.exportSuccess,COLOR.G)
+		LOG.print(text.exportSuccess,'message')
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local args=STRING.split(str:sub((str:find(":")or 0)+1),"!")
@@ -98,9 +98,9 @@ function scene.keyDown(key)
 			if args[i]:find("%S")and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
 		end
 		freshMiniFieldVisible()
-		LOG.print(text.importSuccess,COLOR.G)
+		LOG.print(text.importSuccess,'message')
 		do return end
-		::THROW_fail::LOG.print(text.dataCorrupted,COLOR.R)
+		::THROW_fail::LOG.print(text.dataCorrupted,'error')
 	elseif key=="escape"then
 		FILE.save(CUSTOMENV,'conf/customEnv','q')
 		SCN.back()

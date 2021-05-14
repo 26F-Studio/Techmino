@@ -74,7 +74,7 @@ function scene.keyDown(k)
 		elseif k=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
 			if NET.roomList[selected].private then
-				LOG.print("Can't enter private room now")
+				LOG.print("Can't enter private room now",'message')
 				return
 			end
 			NET.enterRoom(NET.roomList[selected])--,password

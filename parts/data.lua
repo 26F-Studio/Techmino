@@ -4,6 +4,8 @@ local int=math.floor
 local char,byte=string.char,string.byte
 local ins=table.insert
 
+local BAG,FIELD,MISSION,CUSTOMENV,GAME=BAG,FIELD,MISSION,CUSTOMENV,GAME
+
 local DATA={}
 --Sep symbol: 33 (!)
 --Safe char: 34~126
@@ -14,7 +16,6 @@ local DATA={}
 	Example: "abcdefg" is [SZJLTOI], "a^aDb)" is [Z*63,Z*37,S*10]
 ]]
 function DATA.copySequence()
-	local BAG=BAG
 	local str=""
 
 	local count=1
@@ -111,22 +112,22 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
 	if not page then page=1 end
 	if not FIELD[page]then FIELD[page]=DATA.newBoard()end
 	local F=FIELD[page]
-	local _,__
 
 	--Decode
+	local res
 	str=STRING.trim(str)
-	_,str=pcall(data.decode,'string','base64',str)
-	if not _ then return end
-	_,str=pcall(data.decompress,'string','zlib',str)
-	if not _ then return end
+	res,str=pcall(data.decode,'string','base64',str)
+	if not res then return end
+	res,str=pcall(data.decompress,'string','zlib',str)
+	if not res then return end
 
 	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
 	local p=1
 	while true do
-		_=byte(str,p)--1byte
+		local b=byte(str,p)--1byte
 
 		--Str end
-		if not _ then
+		if not b then
 			if fX~=1 then
 				return
 			else
@@ -134,11 +135,11 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
 			end
 		end
 
-		__=_%32-1--Block id
-		if __>26 then return end--Illegal blockid
-		_=int(_/32)--Mode id
+		local id=b%32-1--Block id
+		if id>26 then return end--Illegal blockid
+		b=int(b/32)--Mode id
 
-		F[fY][fX]=__
+		F[fY][fX]=id
 		if fX<10 then
 			fX=fX+1
 		else
@@ -176,7 +177,6 @@ end
 ]]
 function DATA.copyMission()
 	local _
-	local MISSION=MISSION
 	local str=""
 
 	local count=1
@@ -362,7 +362,7 @@ do--function DATA.saveRecording()
 		--Filtering modes that cannot be saved
 		for _,v in next,noRecList do
 			if GAME.curModeName:find(v)then
-				LOG.print("Cannot save recording of this mode now!",COLOR.N)
+				LOG.print("Cannot save recording of this mode now!",'warn')
 				return
 			end
 		end
@@ -386,7 +386,7 @@ do--function DATA.saveRecording()
 			FILE.save(REPLAY,'conf/replay')
 			return true
 		else
-			LOG.print("Save failed: File already exists")
+			LOG.print("Save failed: File already exists",'error')
 		end
 	end
 end
