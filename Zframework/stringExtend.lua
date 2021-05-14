@@ -16,6 +16,12 @@ do--function STRING.shiftChar(c)
 	end
 end
 
+function STRING.trim(str)
+	if not str:find("%S")then return""end
+	str=str:sub((str:find("%S"))):reverse()
+	return str:sub((str:find("%S"))):reverse()
+end
+
 function STRING.split(s,sep,regex)
 	local L={}
 	local p1,p2=1--start,target
