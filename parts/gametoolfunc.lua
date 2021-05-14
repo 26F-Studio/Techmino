@@ -245,7 +245,6 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 end
 function gameOver()--Save record
 	if GAME.replaying then return end
-	FILE.save(STAT,'conf/data')
 	local M=GAME.curMode
 	local R=M.getRank
 	if R then
@@ -434,9 +433,10 @@ do--function resetGameData(args)
 	end
 	function resetGameData(args,seed)
 		if not args then args=""end
-		if PLAYERS[1]and not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)then
+		if PLAYERS[1]and not GAME.replaying and(PLAYERS[1].frameRun>300 or GAME.result)then
 			mergeStat(STAT,PLAYERS[1].stat)
 			STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
+			FILE.save(STAT,'conf/data','q')
 		end
 
 		GAME.result=false
