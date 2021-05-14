@@ -20,8 +20,9 @@ local NET={
 	},
 	allReady=false,
 	connectingStream=false,
-	streamRoomID=false,
+	waitingStream=false,
 	serverGaming=false,
+	streamRoomID=false,
 
 	UserCount="_",
 	PlayCount="_",
@@ -482,14 +483,18 @@ function NET.updateWS_stream()
 						local d=res.data
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
-						elseif res.action==0 then--Game start
 							NET.connectingStream=false
+							NET.waitingStream=true
+							netPLY.setConnect(USER.uid)
+							netPLY.freshStreamConn(res.data.connected)
+						elseif res.action==0 then--Game start
+							NET.waitingStream=false
 							if SCN.socketRead then SCN.socketRead('go',d)end
 							NET.roomInfo.start=true
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
-							--?
+							netPLY.setConnect(d.uid)
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died

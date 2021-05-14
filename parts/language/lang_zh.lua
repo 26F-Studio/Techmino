@@ -109,7 +109,7 @@ return{
 	leaveRoom="离开房间",
 	ready="各就各位!",
 	connStream="正在连接",
-	waitStream="等待他人连接",
+	waitStream="等待其他人连接",
 	champion="$1 获胜",
 	chatRemain="人数:",
 	chatStart="------消息的开头------",

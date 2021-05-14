@@ -87,6 +87,7 @@ end
 
 function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
 function netPLY.add(p)
+	p.connected=false
 	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
 	local a=rnd()*6.2832
 	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
@@ -101,7 +102,6 @@ function netPLY.rawgetPLY(i)return PLY[i]end
 function netPLY.getUsername(uid)return getPLY(uid).username end
 function netPLY.getSID(uid)return getPLY(uid).sid end
 function netPLY.getSelfReady()return PLY[1].ready end
-
 function netPLY.setPlayerObj(ply,p)ply.p=p end
 function netPLY.setConf(uid,config)getPLY(uid).config=config end
 function netPLY.setReady(uid,ready)
@@ -126,9 +126,23 @@ function netPLY.setReady(uid,ready)
 		end
 	end
 end
-function netPLY.resetReady()
+function netPLY.setConnect(uid)
+	for _,p in next,PLY do
+		if p.uid==uid then
+			p.connected=true
+			return
+		end
+	end
+end
+function netPLY.freshStreamConn(list)
+	for _,uid in next,list do
+		getPLY(uid).connected=true
+	end
+end
+function netPLY.resetState()
 	for i=1,#PLY do
 		PLY[i].ready=false
+		PLY[i].connected=false
 	end
 end
 
@@ -165,7 +179,7 @@ function netPLY.draw()
 		local p=PLY[i]
 		gc.translate(p.x,p.y)
 			--Rectangle
-			gc.setColor(COLOR[p.ready and'G'or'Z'])
+			gc.setColor(COLOR[p.connected and"N"or p.ready and'A'or'Z'])
 			gc.setLineWidth(2)
 			gc.rectangle('line',0,0,p.w,p.h)
 

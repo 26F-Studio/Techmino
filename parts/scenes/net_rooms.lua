@@ -19,6 +19,7 @@ function scene.sceneInit()
 	BG.set()
 	NET.allReady=false
 	NET.connectingStream=false
+	NET.waitingStream=false
 	scrollPos=0
 	selected=1
 	fetchRoom()

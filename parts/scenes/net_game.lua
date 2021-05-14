@@ -174,7 +174,7 @@ function scene.socketRead(cmd,d)
 		if not playing then
 			playing=true
 			love.keyboard.setKeyRepeat(false)
-			netPLY.resetReady()
+			netPLY.resetState()
 			netPLY.mouseMove(0,0)
 			lastUpstreamTime=0
 			upstreamProgress=1
@@ -264,12 +264,16 @@ function scene.draw()
 		netPLY.draw()
 
 		--Ready & Set mark
-		gc.setColor(.1,1,0,.9)
-		setFont(60)
-		if NET.connectingStream then
-			mStr(text.set,640,10)
-		elseif NET.allReady then
-			mStr(text.ready,640,10)
+		setFont(50)
+		if NET.allReady then
+			gc.setColor(0,1,.5,.9)
+			mStr(text.ready,640,15)
+		elseif NET.connectingStream then
+			gc.setColor(.1,1,.8,.9)
+			mStr(text.connStream,640,15)
+		elseif NET.waitingStream then
+			gc.setColor(0,.8,1,.9)
+			mStr(text.waitStream,640,15)
 		end
 
 		--Room info.

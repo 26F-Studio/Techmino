@@ -109,7 +109,7 @@ return{
 	leaveRoom="salió de la sala.",
 	-- ready="READY",
 	-- connStream="CONNECTING",
-	-- waitStream="CONNECTED",
+	-- waitStream="WAITING",
 	champion="$1 ganó!",
 	chatRemain="Usuarios en línea: ",
 	chatStart="------Comienzo del historial------",
