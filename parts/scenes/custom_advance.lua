@@ -1,6 +1,6 @@
 local sList={
 	visible={"show","easy","slow","medium","fast","none"},
-	freshLimit={0,8,15,1e99},
+	freshLimit={0,1,2,4,6,8,10,12,15,30,1e99},
 	opponent={"X","9S Lv.1","9S Lv.2","9S Lv.3","9S Lv.4","9S Lv.5","CC Lv.1","CC Lv.2","CC Lv.3","CC Lv.4","CC Lv.5"},
 	life={0,1,2,3,5,10,15,26,42,87,500},
 	pushSpeed={1,2,3,5,15},
