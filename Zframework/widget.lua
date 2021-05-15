@@ -1076,6 +1076,7 @@ function WIDGET.isFocus(W)
 	return W==nil and WIDGET.sel or WIDGET.sel==W
 end
 function WIDGET.focus(W)
+	if WIDGET.sel==W then return end
 	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
 	WIDGET.sel=W
 	if W and W.type=='inputBox'then
@@ -1122,25 +1123,24 @@ function WIDGET.release(x,y)
 	end
 end
 function WIDGET.keyPressed(k)
+	local W=WIDGET.sel
 	if k=="space"or k=="return"then
 		WIDGET.press()
 	elseif kb.isDown("lshift","lalt","lctrl")and(k=="left"or k=="right")then
 					--When hold [↑], control slider with left/right
-		local W=WIDGET.sel
 		if W and W.type=='slider'or W.type=='selector'then
 			W:arrowKey(k=="left")
 		end
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
-		if not WIDGET.sel then
-			for _,W in next,WIDGET.active do
-				if not W.hide and W.isAbove then
-					WIDGET.sel=W
+		if not W then
+			for _,w in next,WIDGET.active do
+				if not w.hide and w.isAbove then
+					WIDGET.sel=w
 					return
 				end
 			end
 			return
 		end
-		local W=WIDGET.sel
 		if not W.getCenter then return end
 		local WX,WY=W:getCenter()
 		local dir=(k=="right"or k=="down")and 1 or -1
@@ -1169,7 +1169,6 @@ function WIDGET.keyPressed(k)
 			WIDGET.sel=tar
 		end
 	else
-		local W=WIDGET.sel
 		if W and W.type=='inputBox'then
 			W:keypress(k)
 		end

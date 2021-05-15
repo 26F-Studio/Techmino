@@ -102,7 +102,7 @@ function scene.keyDown(key)
 		end
 	elseif not inputBox.hide then
 		WIDGET.focus(inputBox)
-		WIDGET.keyPressed(key)
+		inputBox:keypress(key)
 	elseif playing then
 		if not playing or noKey then return end
 		local k=keyMap.keyboard[key]
