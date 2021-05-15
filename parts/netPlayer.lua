@@ -179,7 +179,7 @@ function netPLY.draw()
 		local p=PLY[i]
 		gc.translate(p.x,p.y)
 			--Rectangle
-			gc.setColor(COLOR[p.connected and"N"or p.ready and'A'or'Z'])
+			gc.setColor(COLOR[p.connected and"N"or p.ready and'G'or'Z'])
 			gc.setLineWidth(2)
 			gc.rectangle('line',0,0,p.w,p.h)
 
@@ -199,8 +199,8 @@ function netPLY.draw()
 					gc.print("#"..p.uid,50,-5)
 					gc.print(p.username,210,-5)
 				else
-					setFont(159)
-					gc.print("#"..p.uid,p.h,-2)
+					setFont(15)
+					gc.print("#"..p.uid,46,-1)
 					setFont(30)
 					gc.print(p.username,p.h,8)
 				end
