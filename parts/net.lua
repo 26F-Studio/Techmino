@@ -376,7 +376,6 @@ function NET.updateWS_user()
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed,'message')
 							NET.wsconn_play()
-							SFX.play('connected')
 						elseif res.action==1 then--Get userInfo
 							USERS.updateUserData(res.data)
 						end
@@ -408,6 +407,7 @@ function NET.updateWS_play()
 							SCN.go('net_menu')
 							NET.unlock('wsc_play')
 							NET.unlock('access_and_login')
+							SFX.play('connected')
 						elseif res.action==0 then--Fetch rooms
 							NET.roomList=res.roomList
 							NET.unlock('fetchRoom')

@@ -197,8 +197,8 @@ local loadingThread=coroutine.wrap(function()
 			upFloor()
 		end
 		if progress==25 then
-			SFX.play("emit",.6)
-			SFX.play("enter",.8)
+			SFX.play('emit',.6)
+			SFX.play('enter',.8)
 			SFX.play('welcome_sfx')
 			VOC.play('welcome_voc')
 			THEME.fresh()
