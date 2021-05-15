@@ -6,6 +6,12 @@ return{
 		"help",
 		"This translation of the TetroDictionary is provided by me, User670 (Discord: User670#9501).\n\nThe translation may not completely reflect the contents of the original Chinese text."
 	},
+	{"Official website",
+		"official website homepage",
+		"help",
+		"Official website of Techmino!\nYou can modify your profile on it",
+		"home.techmino.org",
+	},
 	{"To New Players",
 		"guide newbie noob",
 		"help",
