@@ -10,6 +10,7 @@ local ins,rem=table.insert,table.remove
 local SETTING,GAME,SCR=SETTING,GAME,SCR
 
 
+
 --System
 function switchFullscreen()
 	SETTING.fullscreen=not SETTING.fullscreen
@@ -606,7 +607,7 @@ do--function drawSelfProfile()
 		gc_pop()
 	end
 end
-do
+do--function drawOnlinePlayerCount()
 	function drawOnlinePlayerCount()
 		setFont(20)
 		gc_setColor(1,1,1)
