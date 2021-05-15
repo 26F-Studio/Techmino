@@ -13,7 +13,7 @@ local function loadAvatar(path)
 end
 
 local emptyUser={
-	username="Player",
+	username="_Stacker",
 	motto="",
 	hash="",
 	new=false,

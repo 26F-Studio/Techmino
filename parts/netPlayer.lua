@@ -99,7 +99,6 @@ end
 
 function netPLY.getCount()return #PLY end
 function netPLY.rawgetPLY(i)return PLY[i]end
-function netPLY.getUsername(uid)return getPLY(uid).username end
 function netPLY.getSID(uid)return getPLY(uid).sid end
 function netPLY.getSelfReady()return PLY[1].ready end
 function netPLY.setPlayerObj(ply,p)ply.p=p end

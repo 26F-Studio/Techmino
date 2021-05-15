@@ -194,7 +194,7 @@ function scene.socketRead(cmd,d)
 			end
 		end
 		if winnerUID then
-			TEXT.show(text.champion:gsub("$1",netPLY.getUsername(winnerUID)),640,260,80,'zoomout',.26)
+			TEXT.show(text.champion:gsub("$1",USERS.getUsername(winnerUID)),640,260,80,'zoomout',.26)
 		end
 	elseif cmd=='stream'then
 		if d.uid~=USER.uid and playing then
