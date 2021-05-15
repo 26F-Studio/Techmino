@@ -1,5 +1,7 @@
-local gc,tc,kb=love.graphics,love.touch,love.keyboard
+local gc,tc=love.graphics,love.touch
+
 local ins=table.insert
+
 local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
 local PLAYERS,GAME=PLAYERS,GAME
 
@@ -12,6 +14,15 @@ local upstreamProgress
 local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
+
+local function _switchReady()
+	NET.signal_ready(not netPLY.getSelfReady())
+end
+local function _gotoSetting()
+	if not(netPLY.getSelfReady()or NET.getlock('ready'))then
+		SCN.go('setting_game')
+	end
+end
 
 local scene={}
 
@@ -112,11 +123,9 @@ function scene.keyDown(key)
 		end
 	else
 		if key=="space"then
-			NET.signal_ready(not netPLY.getSelfReady())
+			_switchReady()
 		elseif key=="s"then
-			if not(netPLY.getSelfReady()or NET.getlock('ready'))then
-				SCN.go('setting_game')
-			end
+			_gotoSetting()
 		end
 	end
 end
@@ -301,8 +310,8 @@ end
 scene.widgetList={
 	textBox,
 	inputBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s",hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=pressKey"space",
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=_gotoSetting,hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
+	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=_switchReady,
 		hideF=function()
 			return
 				playing or
@@ -310,7 +319,7 @@ scene.widgetList={
 				netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=pressKey"space",
+	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=_switchReady,
 		hideF=function()
 			return
 				playing or
