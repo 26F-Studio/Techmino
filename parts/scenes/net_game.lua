@@ -88,8 +88,7 @@ function scene.keyDown(key)
 		if inputBox.hide then
 			textBox.hide=false
 			inputBox.hide=false
-			TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-			enableTextInput()
+			TASK.new(function()YIELD()WIDGET.focus(inputBox)end)
 		else
 			local mes=STRING.trim(inputBox:getText())
 			if mes and #mes>0 then
@@ -98,12 +97,11 @@ function scene.keyDown(key)
 			elseif #EDITING==0 then
 				textBox.hide=true
 				inputBox.hide=true
-				WIDGET.sel=nil
-				kb.setTextInput(false)
+				WIDGET.unFocus()
 			end
 		end
 	elseif not inputBox.hide then
-		WIDGET.sel=inputBox
+		WIDGET.focus(inputBox)
 		WIDGET.keyPressed(key)
 	elseif playing then
 		if not playing or noKey then return end

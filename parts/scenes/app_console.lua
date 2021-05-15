@@ -677,8 +677,7 @@ userG.the_box=first_box
 local scene={}
 
 function scene.sceneInit()
-	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	enableTextInput()
+	TASK.new(function()WIDGET.focus(inputBox)end)
 	BG.set('none')
 end
 
@@ -780,13 +779,13 @@ function scene.keyDown(k)
 	elseif combKey[k]and kb.isDown("lctrl","rctrl")then
 		combKey[k]()
 	elseif k=="escape"then
-		if WIDGET.sel~=inputBox then
-			WIDGET.sel=inputBox
+		if not WIDGET.isFocus(inputBox)then
+			WIDGET.focus(inputBox)
 		else
 			SCN.back()
 		end
 	else
-		if WIDGET.sel~=inputBox then WIDGET.sel=inputBox end
+		if not WIDGET.isFocus(inputBox)then WIDGET.focus(inputBox)end
 		WIDGET.keyPressed(k)
 	end
 end

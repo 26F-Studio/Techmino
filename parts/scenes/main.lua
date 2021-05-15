@@ -46,10 +46,10 @@ function scene.mouseDown(x,y)
 end
 scene.touchDown=scene.mouseDown
 local function testButton(n)
-	if WIDGET.sel==scene.widgetList[n]then
+	if WIDGET.isFocus(scene.widgetList[n])then
 		return true
 	else
-		WIDGET.sel=scene.widgetList[n]
+		WIDGET.focus(scene.widgetList[n])
 	end
 end
 function scene.keyDown(key)
@@ -121,7 +121,7 @@ function scene.update(dt)
 	end
 	local L=scene.widgetList
 	for i=1,8 do
-		L[i].x=L[i].x*.9+(widgetX0[i]-400+(WIDGET.sel==L[i]and(i<5 and 100 or -100)or 0))*.1
+		L[i].x=L[i].x*.9+(widgetX0[i]-400+(WIDGET.isFocus(L[i])and(i<5 and 100 or -100)or 0))*.1
 	end
 end
 

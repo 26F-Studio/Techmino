@@ -505,8 +505,8 @@ function NET.updateWS_stream()
 							netPLY.freshStreamConn(res.data.connected)
 						elseif res.action==0 then--Game start
 							NET.waitingStream=false
-							if SCN.socketRead then SCN.socketRead('go',d)end
 							NET.roomInfo.start=true
+							if SCN.socketRead then SCN.socketRead('go',d)end
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join

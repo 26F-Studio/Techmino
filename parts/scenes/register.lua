@@ -17,10 +17,6 @@ local function register()
 	NET.register(username,email,password)
 end
 
-function scene.sceneInit()
-	enableTextInput()
-end
-
 scene.widgetList={
 	WIDGET.newText{name="title",		x=80,	y=50,font=70,align='L'},
 	WIDGET.newButton{name="login",		x=1140,	y=100,w=170,h=80,color='lY',code=function()SCN.swapTo('login','swipeL')end},

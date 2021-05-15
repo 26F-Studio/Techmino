@@ -29,7 +29,6 @@ function scene.sceneInit()
 		emailBox:setText(data[1])
 		passwordBox:setText(data[2])
 	end
-	enableTextInput()
 end
 
 scene.widgetList={

@@ -68,8 +68,7 @@ function scene.sceneInit()
 	scrollPos=0
 
 	lastSearch=false
-	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
-	enableTextInput()
+	TASK.new(function()YIELD()WIDGET.focus(inputBox)end)
 	BG.set('rainbow')
 end
 

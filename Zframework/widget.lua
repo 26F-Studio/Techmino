@@ -1035,7 +1035,7 @@ WIDGET.indexMeta={
 	end
 }
 function WIDGET.set(list)
-	WIDGET.sel=false
+	WIDGET.unFocus()
 	WIDGET.active=list or NONE
 
 	--Reset all widgets
@@ -1072,6 +1072,21 @@ function WIDGET.setLang(widgetText)
 		end
 	end
 end
+function WIDGET.isFocus(W)
+	return W==nil and WIDGET.sel or WIDGET.sel==W
+end
+function WIDGET.focus(W)
+	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
+	WIDGET.sel=W
+	if W and W.type=='inputBox'then
+		local _,y1=SCR.xOy:transformPoint(0,W.y+W.h)
+		kb.setTextInput(true,0,y1,1,1)
+	end
+end
+function WIDGET.unFocus()
+	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
+	WIDGET.sel=false
+end
 
 function WIDGET.cursorMove(x,y)
 	for _,W in next,WIDGET.active do
@@ -1081,22 +1096,22 @@ function WIDGET.cursorMove(x,y)
 		end
 	end
 	if WIDGET.sel and not WIDGET.sel.keepFocus then
-		WIDGET.sel=false
+		WIDGET.unFocus()
 	end
 end
 function WIDGET.press(x,y,k)
 	local W=WIDGET.sel
 	if not W then return end
 	W:press(x,y,k)
-	if W.hide then WIDGET.sel=false end
+	if W.hide then WIDGET.unFocus()end
 end
 function WIDGET.drag(x,y,dx,dy)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=='slider'or W.type=='textBox'then
 		W:drag(x,y,dx,dy)
-	elseif not W:isAbove(x,y)then
-		WIDGET.sel=false
+	elseif not W:isAbove(x,y)and not WIDGET.sel.keepFocus then
+		WIDGET.unFocus()
 	end
 end
 function WIDGET.release(x,y)
