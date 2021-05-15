@@ -78,7 +78,6 @@ return{
 	getVersionFail="检测新版本失败",
 	oldVersion="最新版本$1可以下载了!",
 	needUpdate="请更新游戏!",
-	noInternet="还未连接到网络",
 	notFinished="暂未完成,敬请期待!",
 
 	jsonError="json错误",

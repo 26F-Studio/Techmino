@@ -162,6 +162,18 @@ function NET.register(username,email,password)
 		})
 	end
 end
+function NET.tryLogin(ifAuto)
+	if NET.allow_online then
+		if WS.status('user')=='running'then
+			NET.getAccessToken()
+		elseif not ifAuto then
+			SCN.go('login')
+		end
+	else
+		TEXT.show(text.needUpdate,640,450,60,'flicker')
+		SFX.play('finesseError')
+	end
+end
 function NET.pong(wsName,message)
 	WS.send(wsName,type(message)=='string'and message or"",'pong')
 end
@@ -296,12 +308,15 @@ function NET.updateWS_app()
 								NET.allow_online=true
 								if USER.authToken then
 									NET.wsconn_user_token(USER.uid,USER.authToken)
+								else
+									SCN.go('login')
 								end
 							end
 							if VERSION.code<res.newestCode then
 								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,'message')
 							end
 							LOG.print(res.notice,300,'message')
+							NET.tryLogin(true)
 						elseif res.action==0 then--Get new version info
 							--?
 						elseif res.action==1 then--Get notice
@@ -361,6 +376,7 @@ function NET.updateWS_user()
 							NET.accessToken=res.accessToken
 							LOG.print(text.accessSuccessed,'message')
 							NET.wsconn_play()
+							SFX.play('connected')
 						elseif res.action==1 then--Get userInfo
 							USERS.updateUserData(res.data)
 						end
