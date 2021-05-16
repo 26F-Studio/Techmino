@@ -247,7 +247,7 @@ do
 		STAT.version=0
 		needSave=true
 	end
-	if STAT.version<1300 then
+	if STAT.version<1302 then
 		STAT.frame=math.floor(STAT.time*60)
 		STAT.lastPlay='sprint_10l'
 		RANKS.sprintFix=nil
@@ -256,22 +256,16 @@ do
 		for _,name in next,fs.getDirectoryItems("replay")do
 			fs.remove("replay/"..name)
 		end
-	end
-	if STAT.version<1302 then
 		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
 		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
 		fs.remove("conf/settings")
 		needSave=true
 		autoRestart=true
 	end
-	if STAT.version<1400 then
+	if STAT.version<1405 then
 		fs.remove("conf/user")
 		fs.remove("conf/key")
 		needSave=true
-		autoRestart=true
-	end
-	if STAT.version<1405 then
-		fs.remove("conf/user")
 		autoRestart=true
 	end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then

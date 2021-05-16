@@ -1,7 +1,7 @@
 VERSION={
-	code=1408,
-	string="Alpha V0.14.8",
-	name="冰激凌 Icecream",
+	code=1409,
+	string="Alpha V0.14.9",
+	name="下午茶 Teatime",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
