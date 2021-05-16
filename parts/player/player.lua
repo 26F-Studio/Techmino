@@ -105,7 +105,7 @@ function Player:createClearingFX(y,spd)
 end
 function Player:createBeam(R,send,power,color)
 	local x1,y1,x2,y2
-	if self.mini then x1,y1=self.centerX,self.centerY
+	if self.miniMode then x1,y1=self.centerX,self.centerY
 	else x1,y1=self.x+(30*(self.curX+self.cur.sc[2])-30+15+150)*self.size,self.y+(600-30*(self.curY+self.cur.sc[1])+15)*self.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
@@ -136,7 +136,7 @@ end
 function Player:setPosition(x,y,size)
 	size=size or 1
 	self.x,self.y,self.size=x,y,size
-	if self.mini or self.demo then
+	if self.miniMode or self.demo then
 		self.fieldX,self.fieldY=x,y
 		self.centerX,self.centerY=x+300*size,y+600*size
 	else
