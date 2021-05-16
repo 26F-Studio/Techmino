@@ -1383,8 +1383,8 @@ do--Player.drop(self)--Place piece
 		--Spike
 		if atk>0 then
 			self.spike=self.spikeTime==0 and atk or self.spike+atk
+			self.spikeTime=min(self.spikeTime+atk*20,100)
 			self.spikeText:set(self.spike)
-			self.spikeTime=min(self.spikeTime+40+atk*5,100)
 		end
 
 		--DropSpeed bonus
