@@ -687,7 +687,7 @@ end
 
 function scene.keyDown(k)
 	if k=="return"then
-		local input=inputBox:getText()
+		local input=STRING.trim(inputBox:getText())
 		if input==""then return end
 
 		--Write History
@@ -699,7 +699,6 @@ function scene.keyDown(k)
 		log""
 
 		--Execute
-		input=input:sub((input:find("%S")))
 		if input:byte()==35 then
 			--Execute lua code
 			log{C.lC,"> "..input}

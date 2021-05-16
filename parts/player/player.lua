@@ -1727,7 +1727,7 @@ function Player:lose(force)
 				for i=A.strength+1,4 do
 					if A.badge>=ROYALEDATA.powerUp[i]then
 						A.strength=i
-						A:setFrameColor(A.strength)
+						A:setFrameColor(i)
 					end
 				end
 				self.lastRecv=A
