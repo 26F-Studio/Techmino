@@ -168,8 +168,8 @@ return{
 
 			text="ABC",
 			score="+123",
-			warn="!↑↑↑!",
-			-- bufferWarn="Buffer Alert",
+			bufferWarn="^+",
+			showSpike="→→+",
 			highCam="↑__↑",
 
 			nextPos="???←",
@@ -177,6 +177,7 @@ return{
 			power="+.",
 			clickFX="_.~",
 			bg="__?__",
+			warn="!↑↑↑!",
 			clean="[]→→O",
 		},
 		setting_sound={

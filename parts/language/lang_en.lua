@@ -311,8 +311,8 @@ return{
 
 			text="Line Clear Pop-up",
 			score="Score Pop-up",
-			warn="Danger Alert",
 			bufferWarn="Buffer Alert",
+			showSpike="Spike Counter",
 			highCam="Screen Scrolling",
 
 			nextPos="Next Preview",
@@ -320,6 +320,7 @@ return{
 			power="Power Info",
 			clickFX="Click FX",
 			bg="Background",
+			warn="Danger Alert",
 			clean="Fast Draw",
 		},
 		setting_sound={

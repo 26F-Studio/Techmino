@@ -22,6 +22,8 @@ return{
 	bufferWarn=false,
 	highCam=false,
 	nextPos=false,
+	showSpike=false,
+
 	hideBoard=false,
 	flipBoard=false,
 

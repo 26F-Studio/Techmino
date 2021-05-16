@@ -283,7 +283,6 @@ return{
 
 			text="Texte d'action",
 			score="Pop-up de score",
-			warn="Alerte de danger",
 			-- bufferWarn="Buffer Alert",
 			highCam="Vue d'oiseau",
 
@@ -292,6 +291,7 @@ return{
 			power="Infos d'alimentation",
 			-- clickFX="Click FX",
 			bg="Arrière-plan",
+			warn="Alerte de danger",
 			-- clean="Fast Draw",
 		},
 		setting_sound={

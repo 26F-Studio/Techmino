@@ -83,9 +83,8 @@ return{
 
 			text="招式名",
 			score="跳分",
-			warn="要死",
-			bufferWarn="离死差多远",
 			highCam="拉镜",
+			warn="要死",
 		},
 		setting_sound={
 			title="改声音",

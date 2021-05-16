@@ -311,8 +311,8 @@ return{
 
 			text="消行文本",
 			score="分数动画",
-			warn="死亡预警",
 			bufferWarn="缓冲预警",
+			showSpike="爆发累计",
 			highCam="超屏视野",
 
 			nextPos="生成预览",
@@ -320,6 +320,7 @@ return{
 			power="电量显示",
 			clickFX="点按特效",
 			bg="背景",
+			warn="死亡预警",
 			clean="绘制优化",
 		},
 		setting_sound={

@@ -673,7 +673,7 @@ function draw.norm(P)
 			end
 
 			--Spike
-			if P.spikeTime>0 and P.spike>=10 then
+			if ENV.showSpike and P.spikeTime>0 and P.spike>=10 then
 				gc_setColor(1,1,1,min(P.spikeTime/30,.8))
 				mDraw(P.spikeText,150,100,nil,min(.3+(P.spike/26)*.4+P.spikeTime/100*.3,1))
 			end

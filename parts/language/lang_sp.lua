@@ -288,8 +288,8 @@ return{
 
 			text="Texto de Acciones",
 			score="Puntaje en Pantalla",
-			warn="Alerta de Peligro",
 			-- bufferWarn="Buffer Alert",
+			-- showSpike="Spike Counter",
 			highCam="Cám. Vista Aérea",
 
 			nextPos="Ver Spawn de Pza. Sig.",
@@ -297,6 +297,7 @@ return{
 			power="Inf. de Batería",
 			-- clickFX="Click FX",
 			bg="Fondo",
+			warn="Alerta de Peligro",
 			clean="Fast Draw",
 		},
 		setting_sound={

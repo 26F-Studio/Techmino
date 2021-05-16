@@ -311,8 +311,8 @@ return{
 
 			text="Texto de ação",
 			score="Pop-up de pontos",
-			warn="Alerta de perigo",
 			-- bufferWarn="Buffer Alert",
+			-- showSpike="Spike Counter",
 			highCam="Vista Olho-de-pássaro",
 
 			nextPos="Próxima Pos.",
@@ -320,6 +320,7 @@ return{
 			power="Informação bateria",
 			-- clickFX="Click FX",
 			bg="Fundo",
+			warn="Alerta de perigo",
 			-- clean="Fast Draw",
 		},
 		setting_sound={

@@ -281,14 +281,15 @@ SETTING={--Settings
 
 	text=true,
 	score=true,
-	warn=true,
 	bufferWarn=true,
+	showSpike=true,
 	highCam=true,
 	nextPos=true,
 	fullscreen=true,
 	bg=true,
 	powerInfo=false,
 	clickFX=true,
+	warn=true,
 
 	--Sound
 	sfx=1,
