@@ -672,14 +672,20 @@ function draw.norm(P)
 				gc_setStencilTest()
 			end
 
+			--Spike
+			if P.spikeTime>0 and P.spike>=10 then
+				gc_setColor(1,1,1,min(P.spikeTime/30,.8))
+				mDraw(P.spikeText,150,100,nil,min(.3+(P.spike/26)*.4+P.spikeTime/100*.3,1))
+			end
+
 			--Bonus texts
 			TEXT.draw(P.bonus)
 
 			--Display Ys
 			-- gc_setLineWidth(6)
-			-- if P.curY then	gc_setColor(COLOR.R)gc_line(0,611-P.curY*30,300,610-P.curY*30)end
-			-- if P.ghoY then	gc_setColor(COLOR.G)gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
-			-- if P.minY then	gc_setColor(COLOR.B)gc_line(0,619-P.minY*30,300,620-P.minY*30)end
+			-- if P.curY then gc_setColor(COLOR.R)	gc_line(0,611-P.curY*30,300,610-P.curY*30)end
+			-- if P.ghoY then gc_setColor(COLOR.G)	gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
+			-- if P.minY then gc_setColor(COLOR.B)	gc_line(0,619-P.minY*30,300,620-P.minY*30)end
 			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
 

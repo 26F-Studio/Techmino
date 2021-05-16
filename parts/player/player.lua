@@ -1380,6 +1380,13 @@ do--Player.drop(self)--Place piece
 
 		self.combo=cmb
 
+		--Spike
+		if atk>0 then
+			self.spike=self.spikeTime==0 and atk or self.spike+atk
+			self.spikeText:set(self.spike)
+			self.spikeTime=min(self.spikeTime+40+atk*5,100)
+		end
+
 		--DropSpeed bonus
 		if self._20G then
 			cscore=cscore*2

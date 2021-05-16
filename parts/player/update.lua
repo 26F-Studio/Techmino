@@ -12,6 +12,9 @@ local function update_misc(P,dt)
 		P.finesseComboTime=P.finesseComboTime-1
 	end
 
+	--Update spike counter
+	if P.spikeTime>0 then P.spikeTime=P.spikeTime-1 end
+
 	--Update atkBuffer alert
 	local t=P.atkBufferSum1
 	if t<P.atkBufferSum then

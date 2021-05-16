@@ -151,6 +151,8 @@ local function newEmptyPlayer(id,mini)
 	--Attack-related
 	P.atkBuffer={}
 	P.atkBufferSum,P.atkBufferSum1=0,0
+	P.spike,P.spikeTime=0,0
+	P.spikeText=love.graphics.newText(getFont(100))
 
 	--Attacker-related
 	P.badge,P.strength=0,0
