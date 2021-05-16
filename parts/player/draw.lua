@@ -50,6 +50,12 @@ local spinCenterImg=DOGC{9,9,
 	{'setCL',1,1,1},
 	{'fRect',3,3,3,3},
 }
+local playerBoarders=DOGC{334,614,
+	{'setLW',2},
+	{'dRect',16,1,302,612},
+	{'dRect',318,9,15,604},
+	{'dRect',1,9,15,604},
+}
 local gridLines do
 	local L={300,640,{'setLW',2}}
 	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
@@ -249,13 +255,6 @@ local function drawNextPreview(P,B)
 		end
 	end end
 end
-local function drawBoarders(P)
-	gc_setLineWidth(2)
-	gc_setColor(P.frameColor)
-	gc_rectangle('line',-1,-11,302,612)--Bis Boarder
-	gc_rectangle('line',301,-3,15,604)
-	gc_rectangle('line',-16,-3,15,604)--B2b bar boarder
-end
 local function drawBuffer(P)
 	local h=0
 	for i=1,#P.atkBuffer do
@@ -312,14 +311,14 @@ local function drawB2Bbar(P)
 		gc_rectangle('fill',-15,b<40 and 568.5 or 118.5,13,3)
 	end
 end
-local function drawLDI(P)--Lock Delay Indicator
-	if P.gameEnv.easyFresh then
+local function drawLDI(P,ENV)--Lock Delay Indicator
+	if ENV.easyFresh then
 		gc_setColor(1,1,1)
 	else
 		gc_setColor(1,.26,.26)
 	end
 	if P.lockDelay>=0 then
-		gc_rectangle('fill',0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
+		gc_rectangle('fill',0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
 	end
 	if P.freshTime>0 then
 		LDmarks:setDrawRange(1,min(P.freshTime,15))
@@ -636,12 +635,16 @@ function draw.norm(P)
 			gc_pop()
 			gc_setStencilTest()
 
-			drawBoarders(P)
+			gc_setLineWidth(2)
+			P:drawNext()
+			drawHold(P)
 			drawBuffer(P)
 			drawB2Bbar(P)
-			drawLDI(P)
-			drawHold(P)
-			P:drawNext()
+			drawLDI(P,ENV)
+
+			--Draw boarders
+			gc_setColor(P.frameColor)
+			gc.draw(playerBoarders,-17,-12)
 
 			--Draw target selecting pad
 			if GAME.modeEnv.royaleMode then
@@ -656,6 +659,8 @@ function draw.norm(P)
 					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
 				end
 			end
+
+			--Board cover
 			if ENV.hideBoard then
 				gc_stencil(hideBoardStencil[ENV.hideBoard],'replace',1)
 				gc_setStencilTest('equal',1)
@@ -666,8 +671,10 @@ function draw.norm(P)
 				end
 				gc_setStencilTest()
 			end
+
 			--Bonus texts
 			TEXT.draw(P.bonus)
+
 			--Display Ys
 			-- gc_setLineWidth(6)
 			-- if P.curY then	gc_setColor(COLOR.R)gc_line(0,611-P.curY*30,300,610-P.curY*30)end
