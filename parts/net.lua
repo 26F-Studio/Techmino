@@ -16,12 +16,12 @@ local NET={
 		private=false,
 		-- count=false,
 		capacity=false,
+		allReady=false,
+		connectingStream=false,
+		waitingStream=false,
 		start=false,
 	},
-	allReady=false,
 	connectingStream=false,
-	waitingStream=false,
-	serverGaming=false,
 	streamRoomID=false,
 
 	UserCount="_",
@@ -130,7 +130,7 @@ function NET.wsconn_play()
 end
 function NET.wsconn_stream()
 	if NET.lock('wsc_stream',5)then
-		NET.serverGaming=true
+		NET.roomInfo.start=true
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -145,7 +145,7 @@ function NET.wsclose_app()WS.close('app')end
 function NET.wsclose_user()WS.close('user')end
 function NET.wsclose_play()WS.close('play')end
 function NET.wsclose_stream()
-	NET.serverGaming=false
+	NET.roomInfo.start=false
 	WS.close('stream')
 end
 
@@ -223,10 +223,15 @@ function NET.createRoom(roomName,capacity,roomType,password)
 		WS.send('play',JSON.encode{
 			action=1,
 			data={
-				name=roomName,
 				capacity=capacity,
-				roomData={type=roomType},
 				password=password,
+				roomInfo={
+					name=roomName,
+					type=roomType,
+					version=VERSION.code,
+				},
+				roomData={_=0},
+
 				config=dumpBasicConfig(),
 			}
 		})
@@ -235,8 +240,8 @@ end
 function NET.enterRoom(room,password)
 	if NET.lock('enterRoom',1.26)then
 		SFX.play('reach',.6)
-		NET.roomInfo.name=room.name
-		NET.roomInfo.type=room.type
+		NET.roomInfo.name=room.roomInfo.name
+		NET.roomInfo.type=room.roomInfo.type
 		NET.roomInfo.private=not not password
 		NET.roomInfo.capacity=room.capacity
 		NET.roomInfo.start=room.start
@@ -267,7 +272,7 @@ function NET.changeConfig()
 	WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
 end
 function NET.signal_ready(ready)
-	if NET.lock('ready',3)and not NET.serverGaming then
+	if NET.lock('ready',3)and not NET.roomInfo.start then
 		WS.send('play','{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
@@ -428,7 +433,7 @@ function NET.updateWS_play()
 										}
 									end
 								end
-								--TODO: d.roomData (json)
+								--TODO: d.roomInfo,d.roomData (json)
 								loadGame('netBattle',true,true)
 							else
 								--Load other players
@@ -440,7 +445,7 @@ function NET.updateWS_play()
 									config=d.config,
 								}
 								if SCN.socketRead then SCN.socketRead('join',d)end
-								NET.allReady=false
+								NET.roomInfo.allReady=false
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
@@ -462,11 +467,11 @@ function NET.updateWS_play()
 							netPLY.setReady(d.uid,d.ready)
 						elseif res.action==7 then--All Ready
 							SFX.play('reach',.6)
-							NET.allReady=true
+							NET.roomInfo.allReady=true
 						elseif res.action==8 then--Set
 							NET.streamRoomID=d.rid
-							NET.allReady=false
-							NET.connectingStream=true
+							NET.roomInfo.allReady=false
+							NET.roomInfo.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
 							NET.wsclose_stream()
@@ -499,12 +504,12 @@ function NET.updateWS_stream()
 						local d=res.data
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
-							NET.connectingStream=false
-							NET.waitingStream=true
+							NET.roomInfo.connectingStream=false
+							NET.roomInfo.waitingStream=true
 							netPLY.setConnect(USER.uid)
 							netPLY.freshStreamConn(res.data.connected)
 						elseif res.action==0 then--Game start
-							NET.waitingStream=false
+							NET.roomInfo.waitingStream=false
 							NET.roomInfo.start=true
 							if SCN.socketRead then SCN.socketRead('go',d)end
 						elseif res.action==1 then--Game finished

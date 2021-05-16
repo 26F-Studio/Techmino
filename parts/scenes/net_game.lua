@@ -273,13 +273,13 @@ function scene.draw()
 
 		--Ready & Set mark
 		setFont(50)
-		if NET.allReady then
+		if NET.roomInfo.allReady then
 			gc.setColor(0,1,.5,.9)
 			mStr(text.ready,640,15)
-		elseif NET.connectingStream then
+		elseif NET.roomInfo.connectingStream then
 			gc.setColor(.1,1,.8,.9)
 			mStr(text.connStream,640,15)
-		elseif NET.waitingStream then
+		elseif NET.roomInfo.waitingStream then
 			gc.setColor(0,.8,1,.9)
 			mStr(text.waitStream,640,15)
 		end
@@ -315,7 +315,7 @@ scene.widgetList={
 		hideF=function()
 			return
 				playing or
-				NET.serverGaming or
+				NET.roomInfo.start or
 				netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
@@ -323,7 +323,7 @@ scene.widgetList={
 		hideF=function()
 			return
 				playing or
-				NET.serverGaming or
+				NET.roomInfo.start or
 				not netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},

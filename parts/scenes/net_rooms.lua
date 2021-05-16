@@ -8,6 +8,18 @@ local scrollPos,selected
 local fetchTimer
 local lastCreateRoomTime=0
 
+--[[room={
+	rid="qwe",
+	roomInfo={
+		name="MrZ's room",
+		type="classic",
+		version=1409,
+	},
+	private=false,
+	start=false,
+	count=4,
+	capacity=5,
+}]]
 local function fetchRoom()
 	fetchTimer=5
 	NET.fetchRoom()
@@ -17,9 +29,9 @@ local scene={}
 
 function scene.sceneInit()
 	BG.set()
-	NET.allReady=false
-	NET.connectingStream=false
-	NET.waitingStream=false
+	NET.roomInfo.allReady=false
+	NET.roomInfo.connectingStream=false
+	NET.roomInfo.waitingStream=false
 	scrollPos=0
 	selected=1
 	fetchRoom()
@@ -74,11 +86,10 @@ function scene.keyDown(k)
 			end
 		elseif k=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
-			if NET.roomList[selected].private then
-				LOG.print("Can't enter private room now",'message')
-				return
-			end
-			NET.enterRoom(NET.roomList[selected])--,password
+			local R=NET.roomList[selected]
+			if R.roomInfo.version~=VERSION.code then LOG.print("Version doesn't match",'message')return end
+			if R.private then LOG.print("Can't enter private room now",'message')return end
+			NET.enterRoom(R)--,password
 		end
 	end
 end
@@ -137,6 +148,10 @@ function scene.draw()
 	gc.rectangle('line',50,110,1060,400)
 	local roomCount=#NET.roomList
 	if roomCount>0 then
+		if roomCount>10 then
+			local len=400*10/roomCount
+			gc.rectangle('fill',1097,110+(400-len)*scrollPos/(roomCount-10),12,len)
+		end
 		setFont(35)
 		gc.push('transform')
 		gc.stencil(roomListStencil,'replace',1)
@@ -149,27 +164,27 @@ function scene.draw()
 				gc.setColor(1,1,1,.3)
 				gc.rectangle('fill',50,70+40*i,1060,40)
 			end
-			if R.start then
-				gc.setColor(0,1,0)
-				gc.print(text.started,660,66+40*i)
+			gc.setColor(1,1,1)
+			if R.private then gc.draw(IMG.lock,60,75+40*i)end
+			gc.printf(R.roomInfo.type,440,66+40*i,500,'right')
+			gc.print(R.count.."/"..R.capacity,980,66+40*i)
+			if R.roomInfo.version~=VERSION.code then
+				gc.setColor(1,.2,0)
+				gc.print("V"..R.roomInfo.version,600,66+40*i)
 			end
+
 			gc.setColor(.9,.9,1)
 			gc.print(pos+i,95,66+40*i)
-			gc.setColor(1,1,.7)
-			gc.print(R.name,250,66+40*i)
-			gc.setColor(1,1,1)
-			gc.printf(R.type,430,66+40*i,500,'right')
-			gc.print(R.count.."/"..R.capacity,980,66+40*i)
-			if R.private then
-				gc.draw(IMG.lock,59,75+40*i)
+
+			if R.start then
+				gc.setColor(0,.4,.05)
+			else
+				gc.setColor(1,1,.7)
 			end
+			gc.print(R.roomInfo.name,250,66+40*i)
 		end
 		gc.setStencilTest()
 		gc.pop()
-		if roomCount>10 then
-			local len=400*10/roomCount
-			gc.rectangle('fill',1218,110+(400-len)*scrollPos/(roomCount-10),12,len)
-		end
 	end
 
 	--Profile

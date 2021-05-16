@@ -108,7 +108,7 @@ function netPLY.setReady(uid,ready)
 		if p.uid==uid then
 			if p.ready~=ready then
 				p.ready=ready
-				if not ready then NET.allReady=false end
+				if not ready then NET.roomInfo.allReady=false end
 				SFX.play('spin_0',.6)
 				if i==1 then
 					NET.unlock('ready')
