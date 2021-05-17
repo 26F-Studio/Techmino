@@ -1,5 +1,6 @@
 VERSION={
 	code=1409,
+	short="V0.14.9",
 	string="Alpha V0.14.9",
 	name="下午茶 Teatime",
 }

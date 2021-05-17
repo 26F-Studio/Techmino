@@ -42,7 +42,7 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(k)
 	if k=="r"then
-		if fetchTimer<=6 then
+		if fetchTimer<=7 then
 			fetchRoom()
 		end
 	elseif k=="s"then
@@ -87,7 +87,7 @@ function scene.keyDown(k)
 		elseif k=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
 			local R=NET.roomList[selected]
-			if R.roomInfo.version~=VERSION.code then LOG.print("Version doesn't match",'message')return end
+			if R.roomInfo.version~=VERSION.short then LOG.print("Version doesn't match",'message')return end
 			if R.private then LOG.print("Can't enter private room now",'message')return end
 			NET.enterRoom(R)--,password
 		end
@@ -95,23 +95,24 @@ function scene.keyDown(k)
 end
 
 function scene.mouseMove(x,y,_,dy)
-	if ms.isDown(1)and x>50 and x<1110 and y>110 and y<510 then
+	if ms.isDown(1)and x>50 and x<850 and y>110 and y<510 then
 		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.touchMove(x,y,_,dy)
-	if x>50 and x<1110 and y>110 and y<510 then
+	if x>50 and x<850 and y>110 and y<510 then
 		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.mouseClick(x,y)
-	if x>50 and x<1110 then
+	if x>50 and x<850 then
 		y=int((y-70)/40)
 		if y>=1 and y<=10 then
 			local s=int(y+scrollPos)
 			if NET.roomList[s]then
 				if selected~=s then
 					selected=s
+					print(1)
 					SFX.play('click',.4)
 				else
 					scene.keyDown("return")
@@ -186,17 +187,17 @@ function scene.draw()
 		if NET.roomList[selected]then
 			local R=NET.roomList[selected]
 			setFont(25)
-			gc.print(R.roomInfo.type,870,280)
+			gc.print(R.roomInfo.type,870,265)
 			gc.setColor(1,1,.7)
 			gc.printf(R.roomInfo.name,870,240,365)
 			setFont(20)
 			if R.start then
 				gc.setColor(0,1,.2)
-				gc.print(text.started,870,470)
+				gc.print(text.started,870,475)
 			end
-			if R.roomInfo.version~=VERSION.code then
+			if R.roomInfo.version~=VERSION.short then
 				gc.setColor(1,.2,0)
-				gc.printf("Ver:"..R.roomInfo.version,870,470,365,'right')
+				gc.printf(R.roomInfo.version,870,475,365,'right')
 			end
 		end
 	end
@@ -210,9 +211,9 @@ end
 
 scene.widgetList={
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
-	WIDGET.newText{name="refreshing",x=425,y=255,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
-	WIDGET.newText{name="noRoom",	x=425,y=260,font=40,hideF=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
-	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hideF=function()return fetchTimer>6 end},
+	WIDGET.newText{name="refreshing",x=450,y=255,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
+	WIDGET.newText{name="noRoom",	x=450,y=260,font=40,hideF=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
+	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hideF=function()return fetchTimer>7 end},
 	WIDGET.newKey{name="new",		x=500,y=620,w=140,h=140,font=20,code=pressKey"n"},
 	WIDGET.newKey{name="new2",		x=700,y=620,w=140,h=140,font=20,code=pressKey"m"},
 	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hideF=function()return #NET.roomList==0 or NET.getlock('enterRoom')end},
