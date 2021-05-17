@@ -100,47 +100,61 @@ function VK.update()
 	end
 end
 
-local gc_circle,gc_draw,gc_setColor,gc_setLineWidth=gc.circle,gc.draw,gc.setColor,gc.setLineWidth
+local gc_draw,gc_setColor,gc_setLineWidth=gc.draw,gc.setColor,gc.setLineWidth
+local buttonImage=DOGC{100,100,
+	{'setLW',4},{'dRect',2,2,96,96},
+	{'setLW',4},{'dRect',10,10,80,80},
+}
+local rippleImage=DOGC{100,100,
+	{'setLW',4},{'dRect',2,2,96,96},
+}
+local holdImage=DOGC{100,100,
+	{'fRect',14,14,72,72},
+}
 function VK.draw()
 	if not SETTING.VKSwitch then return end
 	local a=SETTING.VKAlpha
 	if SETTING.VKIcon then
 		for i,B in next,keys do
 			if B.ava then
+				local r=B.r*.71
 				--Button outline
 				gc_setColor(1,1,1,a)
-				gc_setLineWidth(B.r*.07)
-				gc_circle('line',B.x,B.y,B.r,10)
+				gc_setLineWidth(r*.07)
+				gc_draw(buttonImage,B.x,B.y,nil,r/50,nil,50,50)
 
 				--Icon
 				local _=B.pressTime
 				gc_setColor(1,1,1,a)
-				gc_draw(VKIcon[i],B.x,B.y,nil,B.r*.026+_*.08,nil,18,18)
+				gc_draw(VKIcon[i],B.x,B.y,nil,r*.026+_*.06,nil,18,18)
 
 				--Ripple
 				if _>0 then
 					gc_setColor(1,1,1,a*_*.08)
-					gc_circle('line',B.x,B.y,B.r*(1.4-_*.04),10)
+					local d=r*(1.4-_*.04)
+					gc_draw(rippleImage,B.x,B.y,nil,d/50,nil,50,50)
 				end
 
 				--Glow when press
 				if B.isDown then
 					gc_setColor(1,1,1,a*.4)
-					gc_circle('fill',B.x,B.y,B.r*.94,10)
+					gc_draw(holdImage,B.x,B.y,nil,r/50,nil,50,50)
 				end
 			end
 		end
 	else
 		for _,B in next,keys do
 			if B.ava then
+				local r=B.r*.71
 				gc_setColor(1,1,1,a)
-				gc_setLineWidth(B.r*.07)
-				gc_circle('line',B.x,B.y,B.r,10)
+				gc_setLineWidth(r*.07)
+				gc_draw(buttonImage,B.x,B.y,nil,r/50,nil,50,50)
 				local _=B.pressTime
 				if _>0 then
 					gc_setColor(1,1,1,a*_*.08)
-					gc_circle('fill',B.x,B.y,B.r*.94,10)
-					gc_circle('line',B.x,B.y,B.r*(1.4-_*.04),10)
+					gc_draw(holdImage,B.x,B.y,nil,r/50,nil,50,50)
+					local d=r*(1.4-_*.04)
+					gc_draw(rippleImage,B.x,B.y,nil,d/50,nil,50,50)
 				end
 			end
 		end
@@ -150,16 +164,17 @@ function VK.preview(selected)
 	if not SETTING.VKSwitch then return end
 	for id,B in next,VK_org do
 		if B.ava then
+			local r=B.r*.71
 			gc_setColor(1,1,1,SETTING.VKAlpha)
-			gc_setLineWidth(B.r*.07)
-			gc_circle('line',B.x,B.y,B.r,10)
+			gc_setLineWidth(r*.07)
+			gc_draw(buttonImage,B.x,B.y,nil,r/50,nil,50,50)
 			if selected==id and TIME()%.26<.13 then
 				gc_setColor(1,1,1,SETTING.VKAlpha*.62)
-				gc_circle('fill',B.x,B.y,B.r,10)
+				gc_draw(holdImage,B.x,B.y,nil,r/50,nil,50,50)
 			end
 			if SETTING.VKIcon then
 				gc_setColor(1,1,1,SETTING.VKAlpha)
-				gc_draw(VKIcon[id],B.x,B.y,nil,B.r*.025,nil,18,18)
+				gc_draw(VKIcon[id],B.x,B.y,nil,r*.026,nil,18,18)
 			end
 		end
 	end
