@@ -19,8 +19,13 @@ return{
 	load=function()
 		PLY.newPlayer(1)
 		PLAYERS[1].sid=netPLY.getSID(USER.uid)
+		local N=2
 		for i=2,netPLY.getCount()do
-			PLY.newRemotePlayer(i,false,netPLY.rawgetPLY(i))
+			local p=netPLY.rawgetPLY(i)
+			if p.connected then
+				PLY.newRemotePlayer(N,false,p)
+				N=N+1
+			end
 		end
 	end,
 }
