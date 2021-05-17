@@ -313,7 +313,7 @@ function NET.updateWS_app()
 								NET.allow_online=true
 								if USER.authToken then
 									NET.wsconn_user_token(USER.uid,USER.authToken)
-								else
+								elseif SCN.cur=='main'then
 									SCN.go('login')
 								end
 							end
