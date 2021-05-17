@@ -133,11 +133,6 @@ function netPLY.setConnect(uid)
 		end
 	end
 end
-function netPLY.freshStreamConn(list)
-	for _,p in next,list do
-		getPLY(p.uid).connected=true
-	end
-end
 function netPLY.resetState()
 	for i=1,#PLY do
 		PLY[i].ready=false

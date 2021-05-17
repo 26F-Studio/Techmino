@@ -506,8 +506,9 @@ function NET.updateWS_stream()
 							NET.unlock('wsc_stream')
 							NET.roomInfo.connectingStream=false
 							NET.roomInfo.waitingStream=true
-							netPLY.setConnect(USER.uid)
-							netPLY.freshStreamConn(res.data.connected)
+							for _,uid in next,d.connected do
+								netPLY.setConnect(uid)
+							end
 						elseif res.action==0 then--Game start
 							NET.roomInfo.waitingStream=false
 							NET.roomInfo.start=true
@@ -515,7 +516,9 @@ function NET.updateWS_stream()
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
-							netPLY.setConnect(d.uid)
+							if not d.watch then
+								netPLY.setConnect(d.uid)
+							end
 						elseif res.action==3 then--Player leave
 							--?
 						elseif res.action==4 then--Player died
