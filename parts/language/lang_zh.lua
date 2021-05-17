@@ -17,7 +17,6 @@ return{
 	clear={"single","double","triple","Techrash","Pentcrash","Hexcrash"},
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Half Clear",
-	hold="暂存",next="下一个",
 	replaying="[回放]",
 
 	stage="关卡 $1",

@@ -9,7 +9,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
-local setFont,mDraw,mStr,mText=setFont,mDraw,mStr,mText
+local setFont,mDraw,mStr=setFont,mDraw,mStr
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
 local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
@@ -336,7 +336,6 @@ local function drawHold(P)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
 		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
-		mText(drawableText.hold,62,-51)
 
 		gc_setColor(1,1,1)
 		if #holdQueue<ENV.holdCount and P.nextQueue[1]then
@@ -458,7 +457,6 @@ function draw.drawNext_norm(P)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
-		mText(drawableText.next,62,-51)
 		N=1
 		gc_push('transform')
 			gc_translate(62,40)
@@ -492,7 +490,6 @@ function draw.drawNext_hidden(P)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
-		mText(drawableText.next,62,-51)
 		N=min(ENV.nextStartPos,P.pieceCount+1)
 		gc_push('transform')
 			gc_translate(62,40)

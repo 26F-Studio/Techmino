@@ -12,7 +12,6 @@ return{
 	clear={"1","2","3","4","5","6"},
 	mini="v",b2b="^ ",b3b="^^ ",
 	PC="#<>#",HPC="<>",
-	hold="[ ]",next="→",
 	replaying="[R]",
 
 	stage="::$1::",

@@ -16,7 +16,6 @@ return{
 	clear={"Simple","Double","Triple","Techrash","Pentacrash","Hexacrash"},
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
-	hold="RESERVE",next="SUIVANT",
 	replaying="[Replay]",
 
 	stage="Etape $1",
