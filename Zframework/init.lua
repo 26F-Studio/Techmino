@@ -464,11 +464,11 @@ local devColor={
 local WS=WS
 local WSnames={'app','user','play','stream','chat'}
 local WScolor={
-	{1,.5,.5,.7},
-	{1,.8,.3,.7},
-	{1,1,.4,.7},
-	{.4,1,.7,.7},
-	{.5,.8,1,.7},
+	{1,.6,.6,.7},
+	{1,.8,.4,.7},
+	{1,1,.5,.7},
+	{.5,1,.8,.7},
+	{.6,.9,1,.7},
 }
 local ws_deadImg=DOGC{20,20,
 	{'setFT',20},
@@ -626,26 +626,26 @@ function love.run()
 
 					--Websocket status
 					gc_push('transform')
-					gc.translate(SCR.w,SCR.h-100)
+					gc.translate(SCR.w,SCR.h)
 					gc.scale(SCR.k)
 					for i=1,5 do
 						local status=WS.status(WSnames[i])
 						gc_setColor(WScolor[i])
-						gc_rectangle('fill',0,20*i,-80,-20)
+						gc_rectangle('fill',0,20*i-100,-80,-20)
 						if status=='dead'then
 							gc_setColor(1,1,1)
-							gc_draw(ws_deadImg,-20,20*i-20)
+							gc_draw(ws_deadImg,-20,20*i-120)
 						elseif status=='connecting'then
 							gc_setColor(1,1,1,.5+.3*sin(time*6.26))
-							gc_draw(ws_connectingImg,-20,20*i-20)
+							gc_draw(ws_connectingImg,-20,20*i-120)
 						elseif status=='running'then
 							gc_setColor(1,1,1)
-							gc_draw(ws_runningImg,-20,20*i-20)
+							gc_draw(ws_runningImg,-20,20*i-120)
 						end
 						local t1,t2,t3=WS.getTimers(WSnames[i])
-						gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i,-20,-20)
-						gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i,-20,-20)
-						gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i,-20,-20)
+						gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i-100,-20,-20)
+						gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i-100,-20,-20)
+						gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i-100,-20,-20)
 					end
 					gc_pop()
 
