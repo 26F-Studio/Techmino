@@ -9,19 +9,20 @@ local NET={
 	allow_online=false,
 	accessToken=false,
 	roomList={},
-	roomInfo={
-		-- rid=false,
-		name=false,
-		-- type=false,
-		private=false,
-		-- count=false,
+	roomState={
+		roomInfo={
+			name=false,
+			type=false,
+			version=false,
+		},
+		roomData={},
+		count=false,
 		capacity=false,
-		allReady=false,
-		connectingStream=false,
-		waitingStream=false,
+		private=false,
 		start=false,
 	},
-	connectingStream=false,
+	allReady=false,
+	waitingStream=false,
 	streamRoomID=false,
 
 	UserCount="_",
@@ -130,7 +131,7 @@ function NET.wsconn_play()
 end
 function NET.wsconn_stream()
 	if NET.lock('wsc_stream',5)then
-		NET.roomInfo.start=true
+		NET.roomState.start=true
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -145,7 +146,7 @@ function NET.wsclose_app()WS.close('app')end
 function NET.wsclose_user()WS.close('user')end
 function NET.wsclose_play()WS.close('play')end
 function NET.wsclose_stream()
-	NET.roomInfo.start=false
+	NET.roomState.start=false
 	WS.close('stream')
 end
 
@@ -216,10 +217,8 @@ function NET.fetchRoom()
 end
 function NET.createRoom(roomName,capacity,roomType,password)
 	if NET.lock('enterRoom',1.26)then
-		NET.roomInfo.name=roomName
-		NET.roomInfo.type=roomType
-		NET.roomInfo.private=not not password
-		NET.roomInfo.capacity=capacity
+		NET.roomState.private=not not password
+		NET.roomState.capacity=capacity
 		WS.send('play',JSON.encode{
 			action=1,
 			data={
@@ -240,11 +239,6 @@ end
 function NET.enterRoom(room,password)
 	if NET.lock('enterRoom',1.26)then
 		SFX.play('reach',.6)
-		NET.roomInfo.name=room.roomInfo.name
-		NET.roomInfo.type=room.roomInfo.type
-		NET.roomInfo.private=not not password
-		NET.roomInfo.capacity=room.capacity
-		NET.roomInfo.start=room.start
 		WS.send('play',JSON.encode{
 			action=2,
 			data={
@@ -272,7 +266,7 @@ function NET.changeConfig()
 	WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
 end
 function NET.signal_ready(ready)
-	if NET.lock('ready',3)and not NET.roomInfo.start then
+	if NET.lock('ready',3)and not NET.roomState.start then
 		WS.send('play','{"action":6,"data":{"ready":'..tostring(ready)..'}}')
 	end
 end
@@ -433,7 +427,13 @@ function NET.updateWS_play()
 										}
 									end
 								end
-								--TODO: d.roomInfo,d.roomData (json)
+								NET.roomState.roomInfo=d.roomInfo
+								NET.roomState.roomData=d.roomData
+								NET.roomState.count=d.count
+								NET.roomState.capacity=d.capacity
+								NET.roomState.private=d.private
+								NET.roomState.start=d.start
+								NET.srid=d.srid
 								loadGame('netBattle',true,true)
 							else
 								--Load other players
@@ -445,7 +445,7 @@ function NET.updateWS_play()
 									config=d.config,
 								}
 								if SCN.socketRead then SCN.socketRead('join',d)end
-								NET.roomInfo.allReady=false
+								NET.allReady=false
 							end
 						elseif res.action==3 then--Player leave
 							if not d.uid then
@@ -467,16 +467,16 @@ function NET.updateWS_play()
 							netPLY.setReady(d.uid,d.ready)
 						elseif res.action==7 then--All Ready
 							SFX.play('reach',.6)
-							NET.roomInfo.allReady=true
+							NET.allReady=true
 						elseif res.action==8 then--Set
 							NET.streamRoomID=d.rid
-							NET.roomInfo.allReady=false
-							NET.roomInfo.connectingStream=true
+							NET.allReady=false
+							NET.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
 							NET.wsclose_stream()
 							if SCN.socketRead then SCN.socketRead('finish',d)end
-							NET.roomInfo.start=false
+							NET.roomState.start=false
 						end
 					else
 						WS.alert('play')
@@ -504,19 +504,25 @@ function NET.updateWS_stream()
 						local d=res.data
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
-							NET.roomInfo.connectingStream=false
-							NET.roomInfo.waitingStream=true
-							for _,uid in next,d.connected do
-								netPLY.setConnect(uid)
-							end
+							NET.connectingStream=false
+							NET.waitingStream=true
 						elseif res.action==0 then--Game start
-							NET.roomInfo.waitingStream=false
-							NET.roomInfo.start=true
+							NET.waitingStream=false
+							NET.roomState.start=true
 							if SCN.socketRead then SCN.socketRead('go',d)end
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
-							if not d.watch then
+							if res.type=='Self'then
+								for _,p in next,d.connected do
+									if not p.watch then
+										netPLY.setConnect(p.uid)
+									end
+								end
+							end
+							if d.watch then
+								--TODO: Join in-game
+							else
 								netPLY.setConnect(d.uid)
 							end
 						elseif res.action==3 then--Player leave

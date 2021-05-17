@@ -182,11 +182,11 @@ function scene.socketRead(cmd,d)
 		if not playing then
 			playing=true
 			love.keyboard.setKeyRepeat(false)
-			netPLY.resetState()
-			netPLY.mouseMove(0,0)
 			lastUpstreamTime=0
 			upstreamProgress=1
 			resetGameData('n',d.seed)
+			netPLY.mouseMove(0,0)
+			netPLY.resetState()
 		else
 			LOG.print("Redundant [Go]",'warn')
 		end
@@ -277,13 +277,13 @@ function scene.draw()
 
 		--Ready & Set mark
 		setFont(50)
-		if NET.roomInfo.allReady then
+		if NET.allReady then
 			gc.setColor(0,1,.5,.9)
 			mStr(text.ready,640,15)
-		elseif NET.roomInfo.connectingStream then
+		elseif NET.connectingStream then
 			gc.setColor(.1,1,.8,.9)
 			mStr(text.connStream,640,15)
-		elseif NET.roomInfo.waitingStream then
+		elseif NET.waitingStream then
 			gc.setColor(0,.8,1,.9)
 			mStr(text.waitStream,640,15)
 		end
@@ -291,11 +291,11 @@ function scene.draw()
 		--Room info.
 		gc.setColor(1,1,1)
 		setFont(25)
-		gc.printf(NET.roomInfo.name,0,685,1270,'right')
+		gc.printf(NET.roomState.roomInfo.name,0,685,1270,'right')
 		setFont(40)
-		gc.print(netPLY.getCount().."/"..NET.roomInfo.capacity,70,655)
-		if NET.roomInfo.private then gc.draw(IMG.lock,30,668)end
-		if NET.roomInfo.start then gc.setColor(0,1,0)gc.print(text.started,230,655)end
+		gc.print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
+		if NET.roomState.private then gc.draw(IMG.lock,30,668)end
+		if NET.roomState.start then gc.setColor(0,1,0)gc.print(text.started,230,655)end
 
 		--Profile
 		drawSelfProfile()
@@ -319,7 +319,7 @@ scene.widgetList={
 		hideF=function()
 			return
 				playing or
-				NET.roomInfo.start or
+				NET.roomState.start or
 				netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},
@@ -327,7 +327,7 @@ scene.widgetList={
 		hideF=function()
 			return
 				playing or
-				NET.roomInfo.start or
+				NET.roomState.start or
 				not netPLY.getSelfReady()or
 				NET.getlock('ready')
 		end},

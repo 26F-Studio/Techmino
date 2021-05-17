@@ -29,9 +29,9 @@ local scene={}
 
 function scene.sceneInit()
 	BG.set()
-	NET.roomInfo.allReady=false
-	NET.roomInfo.connectingStream=false
-	NET.roomInfo.waitingStream=false
+	NET.allReady=false
+	NET.connectingStream=false
+	NET.waitingStream=false
 	scrollPos=0
 	selected=1
 	fetchRoom()
