@@ -1092,7 +1092,7 @@ end
 function WIDGET.cursorMove(x,y)
 	for _,W in next,WIDGET.active do
 		if not W.hide and W.resCtr and W:isAbove(x,y)then
-			WIDGET.sel=W
+			WIDGET.focus(W)
 			return
 		end
 	end
@@ -1135,7 +1135,7 @@ function WIDGET.keyPressed(k)
 		if not W then
 			for _,w in next,WIDGET.active do
 				if not w.hide and w.isAbove then
-					WIDGET.sel=w
+					WIDGET.focus(w)
 					return
 				end
 			end
@@ -1166,7 +1166,7 @@ function WIDGET.keyPressed(k)
 			end
 		end
 		if tar then
-			WIDGET.sel=tar
+			WIDGET.focus(tar)
 		end
 	else
 		if W and W.type=='inputBox'then
