@@ -239,13 +239,17 @@ function scene.update(dt)
 		--Upload stream
 		if P1.frameRun-lastUpstreamTime>8 then
 			local stream
-			stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
-			if #stream>0 then
-				NET.uploadRecStream(stream)
-			else
+			if not GAME.rep[upstreamProgress]then
 				ins(GAME.rep,P1.frameRun)
 				ins(GAME.rep,0)
 			end
+			stream,upstreamProgress=DATA.dumpRecording(GAME.rep,upstreamProgress)
+			if #stream%3==1 then
+				stream=stream.."\0\0"
+			elseif #stream%3==2 then
+				stream=stream.."\0\0\0\0"
+			end
+			NET.uploadRecStream(stream)
 			lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
 		end
 	else
