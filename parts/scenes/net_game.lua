@@ -186,7 +186,6 @@ function scene.socketRead(cmd,d)
 			upstreamProgress=1
 			resetGameData('n',d.seed)
 			netPLY.mouseMove(0,0)
-			netPLY.resetState()
 		else
 			LOG.print("Redundant [Go]",'warn')
 		end
@@ -203,6 +202,7 @@ function scene.socketRead(cmd,d)
 		if winnerUID then
 			TEXT.show(text.champion:gsub("$1",USERS.getUsername(winnerUID)),640,260,80,'zoomout',.26)
 		end
+		netPLY.resetState()
 	elseif cmd=='stream'then
 		if d.uid~=USER.uid and playing then
 			for _,P in next,PLAYERS do

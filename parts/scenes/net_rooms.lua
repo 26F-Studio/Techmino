@@ -29,6 +29,7 @@ local scene={}
 
 function scene.sceneInit()
 	BG.set()
+	NET.watch=false
 	NET.allReady=false
 	NET.connectingStream=false
 	NET.waitingStream=false

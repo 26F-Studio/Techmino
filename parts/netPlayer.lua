@@ -87,6 +87,7 @@ end
 
 function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
 function netPLY.add(p)
+	p.watch=false
 	p.connected=false
 	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
 	local a=rnd()*6.2832
@@ -125,17 +126,12 @@ function netPLY.setReady(uid,ready)
 		end
 	end
 end
-function netPLY.setConnect(uid)
-	for _,p in next,PLY do
-		if p.uid==uid then
-			p.connected=true
-			return
-		end
-	end
-end
+function netPLY.setConnect(uid)getPLY(uid).connected=true end
+function netPLY.setWatch(uid)getPLY(uid).watch=true end
 function netPLY.resetState()
 	for i=1,#PLY do
 		PLY[i].ready=false
+		PLY[i].watch=false
 		PLY[i].connected=false
 	end
 end
@@ -173,7 +169,7 @@ function netPLY.draw()
 		local p=PLY[i]
 		gc.translate(p.x,p.y)
 			--Rectangle
-			gc.setColor(COLOR[p.connected and"N"or p.ready and'G'or'Z'])
+			gc.setColor(COLOR[p.watch and"L"or p.connected and"N"or p.ready and'G'or'Z'])
 			gc.setLineWidth(2)
 			gc.rectangle('line',0,0,p.w,p.h)
 

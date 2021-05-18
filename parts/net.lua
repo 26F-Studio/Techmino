@@ -21,6 +21,7 @@ local NET={
 		private=false,
 		start=false,
 	},
+	watch=false,
 	allReady=false,
 	waitingStream=false,
 	streamRoomID=false,
@@ -474,9 +475,10 @@ function NET.updateWS_play()
 							NET.connectingStream=true
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
-							NET.wsclose_stream()
-							if SCN.socketRead then SCN.socketRead('finish',d)end
 							NET.roomState.start=false
+							NET.watch=false
+							if SCN.socketRead then SCN.socketRead('finish',d)end
+							NET.wsclose_stream()
 						end
 					else
 						WS.alert('play')
@@ -519,11 +521,14 @@ function NET.updateWS_stream()
 										netPLY.setConnect(p.uid)
 									end
 								end
-							end
-							if d.watch then
-								--TODO: Join in-game
-							else
 								netPLY.setConnect(d.uid)
+								NET.watch=d.watch==true
+							else
+								if d.watch then
+									netPLY.setWatch(d.uid)
+								else
+									netPLY.setConnect(d.uid)
+								end
 							end
 						elseif res.action==3 then--Player leave
 							--?
