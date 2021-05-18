@@ -1,12 +1,11 @@
-local kb=love.keyboard
-local gc=love.graphics
+local kb,gc=love.keyboard,love.graphics
 
+local next=next
 local int,abs=math.floor,math.abs
 local max,min=math.max,math.min
-local sub=string.sub
-local ins=table.insert
-local setFont,mStr=setFont,mStr
-local mDraw_X,mDraw_Y=ADRAW.simpX,ADRAW.simpY
+local sub,ins=string.sub,table.insert
+local getFont,setFont,mStr=getFont,setFont,mStr
+local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
 
 local clearIcon=DOGC{40,40,
 	{'setLW',6},
@@ -519,7 +518,7 @@ function slider:drag(x)
 	if p~=P then
 		self.code(P)
 	end
-	if self.change and TIME()-self.lastTime>.18 then
+	if self.change and TIME()-self.lastTime>.26 then
 		self.lastTime=TIME()
 		self.change()
 	end
@@ -1219,12 +1218,7 @@ end
 
 function WIDGET.update()
 	for _,W in next,WIDGET.active do
-		if W.hideF then
-			local h=W.hideF()
-			if h~=W.hide then
-				W.hide=h
-			end
-		end
+		if W.hideF then W.hide=W.hideF()end
 		if W.update then W:update()end
 	end
 end
