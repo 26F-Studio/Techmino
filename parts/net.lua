@@ -476,7 +476,7 @@ function NET.updateWS_play()
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
 							NET.roomState.start=false
-							NET.watch=false
+							NET.spectate=false
 							if SCN.socketRead then SCN.socketRead('finish',d)end
 							NET.wsclose_stream()
 						end
@@ -522,7 +522,7 @@ function NET.updateWS_stream()
 									end
 								end
 								netPLY.setConnect(d.uid)
-								NET.watch=d.watch==true
+								NET.spectate=d.watch==true
 							else
 								if d.watch then
 									netPLY.setWatch(d.uid)

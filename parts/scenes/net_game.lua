@@ -47,7 +47,8 @@ end
 scene.mouseDown=NULL
 function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
 function scene.touchDown(x,y)
-	if not playing or noTouch then return end
+	if not playing then netPLY.mouseMove(x,y)return end
+	if noTouch then return end
 
 	local t=VK.on(x,y)
 	if t then
@@ -63,9 +64,8 @@ function scene.touchUp(x,y)
 		VK.release(n)
 	end
 end
-function scene.touchMove(x,y)
-	if not playing then netPLY.mouseMove(x,y)return end
-	if touchMoveLastFrame or noTouch then return end
+function scene.touchMove()
+	if touchMoveLastFrame or not playing or noTouch then return end
 	touchMoveLastFrame=true
 
 	local L=tc.getTouches()
@@ -237,7 +237,7 @@ function scene.update(dt)
 		checkWarning()
 
 		--Upload stream
-		if P1.frameRun-lastUpstreamTime>8 then
+		if not NET.spectate and P1.frameRun-lastUpstreamTime>8 then
 			local stream
 			if not GAME.rep[upstreamProgress]then
 				ins(GAME.rep,P1.frameRun)

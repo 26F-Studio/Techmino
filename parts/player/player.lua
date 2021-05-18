@@ -1764,7 +1764,7 @@ function Player:lose(force)
 		end
 		gameOver()
 		self:newTask(#PLAYERS>1 and tick_lose or tick_finish)
-		if GAME.net then
+		if GAME.net and not NET.spectate then
 			NET.signal_die()
 		else
 			TASK.new(tick_autoPause)
