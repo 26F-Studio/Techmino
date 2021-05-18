@@ -1,8 +1,8 @@
 VERSION={
-	code=1409,
-	short="V0.14.9",
-	string="Alpha V0.14.9",
-	name="下午茶 Teatime",
+	code=1500,
+	short="V0.15.0",
+	string="Alpha V0.15.0",
+	name="超新星 Supernovas",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
