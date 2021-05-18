@@ -109,6 +109,7 @@ return{
 	connStream="正在连接",
 	waitStream="等待其他人连接",
 	champion="$1 获胜",
+	spectating="观战中",
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
@@ -266,6 +267,7 @@ return{
 		},
 		net_game={
 			ready="准备",
+			spectate="观战",
 			cancel="取消",
 		},
 		setting_game={

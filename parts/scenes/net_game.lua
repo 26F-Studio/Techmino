@@ -1,5 +1,8 @@
 local gc,tc=love.graphics,love.touch
 
+local gc_setColor,gc_print=gc.setColor,gc.print
+local setFont,mStr=setFont,mStr
+
 local ins=table.insert
 
 local SCR,VK,NET,netPLY=SCR,VK,NET,netPLY
@@ -15,9 +18,9 @@ local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
-local function _switchReady()
-	NET.signal_ready(not netPLY.getSelfReady())
-end
+local function _setReady()NET.signal_joinMode(1)end
+local function _setSpectate()NET.signal_joinMode(2)end
+local function _setCancel()NET.signal_joinMode(0)end
 local function _gotoSetting()
 	if not(netPLY.getSelfReady()or NET.getlock('ready'))then
 		SCN.go('setting_game')
@@ -36,8 +39,10 @@ function scene.sceneInit(org)
 	lastUpstreamTime=0
 	upstreamProgress=1
 
-	if org=="setting_game"then
-		NET.changeConfig()
+	if org=='setting_game'then NET.changeConfig()end
+	if NET.streamRoomID then
+		NET.wsconn_stream()
+		NET.streamRoomID=false
 	end
 end
 function scene.sceneBack()
@@ -123,7 +128,15 @@ function scene.keyDown(key)
 		end
 	else
 		if key=="space"then
-			_switchReady()
+			if netPLY.getSelfJoinMode()==0 then
+				_setReady()
+			else
+				_setCancel()
+			end
+		elseif key=="p"then
+			if netPLY.getSelfJoinMode()==0 then
+				_setSpectate()
+			end
 		elseif key=="s"then
 			_gotoSetting()
 		end
@@ -184,7 +197,7 @@ function scene.socketRead(cmd,d)
 			love.keyboard.setKeyRepeat(false)
 			lastUpstreamTime=0
 			upstreamProgress=1
-			resetGameData('n',d.seed)
+			resetGameData('n',NET.seed)
 			netPLY.mouseMove(0,0)
 		else
 			LOG.print("Redundant [Go]",'warn')
@@ -204,7 +217,7 @@ function scene.socketRead(cmd,d)
 		end
 		netPLY.resetState()
 	elseif cmd=='stream'then
-		if d.uid~=USER.uid and playing then
+		if d.uid~=USER.uid then
 			for _,P in next,PLAYERS do
 				if P.uid==d.uid then
 					local res,stream=pcall(love.data.decode,'string','base64',d.stream)
@@ -213,9 +226,11 @@ function scene.socketRead(cmd,d)
 					else
 						LOG.print("Bad stream from "..P.username.."#"..P.uid,30)
 					end
+					break
 				end
 			end
 		end
+
 	end
 end
 
@@ -271,6 +286,12 @@ function scene.draw()
 
 		--Warning
 		drawWarning()
+
+		if NET.spectate then
+			setFont(30)
+			gc_setColor(.2,1,0,.8)
+			gc_print(text.spectating,940,0)
+		end
 	else
 		--Users
 		netPLY.draw()
@@ -278,24 +299,24 @@ function scene.draw()
 		--Ready & Set mark
 		setFont(50)
 		if NET.allReady then
-			gc.setColor(0,1,.5,.9)
+			gc_setColor(0,1,.5,.9)
 			mStr(text.ready,640,15)
 		elseif NET.connectingStream then
-			gc.setColor(.1,1,.8,.9)
+			gc_setColor(.1,1,.8,.9)
 			mStr(text.connStream,640,15)
 		elseif NET.waitingStream then
-			gc.setColor(0,.8,1,.9)
+			gc_setColor(0,.8,1,.9)
 			mStr(text.waitStream,640,15)
 		end
 
 		--Room info.
-		gc.setColor(1,1,1)
+		gc_setColor(1,1,1)
 		setFont(25)
 		gc.printf(NET.roomState.roomInfo.name,0,685,1270,'right')
 		setFont(40)
 		gc.print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
 		if NET.roomState.private then gc.draw(IMG.lock,30,668)end
-		if NET.roomState.start then gc.setColor(0,1,0)gc.print(text.started,230,655)end
+		if NET.roomState.start then gc_setColor(0,1,0)gc_print(text.started,230,655)end
 
 		--Profile
 		drawSelfProfile()
@@ -307,7 +328,7 @@ function scene.draw()
 	--New message
 	if textBox.new then
 		setFont(40)
-		gc.setColor(1,1,0)
+		gc_setColor(1,1,0)
 		gc.print("M",430,10)
 	end
 end
@@ -315,20 +336,28 @@ scene.widgetList={
 	textBox,
 	inputBox,
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=_gotoSetting,hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=1060,y=630,w=300,h=80,color='lB',font=40,code=_switchReady,
+	WIDGET.newKey{name="ready",x=950,y=630,w=190,h=80,color='lG',font=35,code=_setReady,
 		hideF=function()
 			return
 				playing or
 				NET.roomState.start or
-				netPLY.getSelfReady()or
+				netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=1060,y=630,w=300,h=80,color='H',font=40,code=_switchReady,
+	WIDGET.newKey{name="spectate",x=1150,y=630,w=190,h=80,color='lO',font=35,code=_setSpectate,
 		hideF=function()
 			return
 				playing or
 				NET.roomState.start or
-				not netPLY.getSelfReady()or
+				netPLY.getSelfReady() or
+				NET.getlock('ready')
+		end},
+	WIDGET.newKey{name="cancel",x=1050,y=630,w=390,h=80,color='lH',font=40,code=_setCancel,
+		hideF=function()
+			return
+				playing or
+				NET.roomState.start or
+				not netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"return"},

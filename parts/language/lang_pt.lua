@@ -266,6 +266,7 @@ return{
 		},
 		net_game={
 			-- ready="Ready",
+			-- spectate="Spectate",
 			-- cancel="Cancel",
 		},
 		setting_game={

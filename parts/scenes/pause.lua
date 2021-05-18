@@ -34,7 +34,7 @@ function scene.sceneInit(org)
 	local P=PLAYERS[1]
 	local S=P.stat
 
-	timer=org=="game"and 0 or 50
+	timer=org=='game'and 0 or 50
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={

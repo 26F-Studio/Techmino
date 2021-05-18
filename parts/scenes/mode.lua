@@ -21,7 +21,7 @@ local scene={}
 function scene.sceneInit(org)
 	BG.set()
 	destroyPlayers()
-	mapCam.zoomK=org=="main"and 5 or 1
+	mapCam.zoomK=org=='main'and 5 or 1
 end
 
 local function getK()

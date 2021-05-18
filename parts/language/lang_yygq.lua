@@ -47,6 +47,7 @@ return{
 	createRoomSuccessed="创好了",
 	started="开了",
 	champion="神仙是 $1",
+	spectating="看戏中",
 
 	stat={
 		"开了几次:",

@@ -29,10 +29,6 @@ local scene={}
 
 function scene.sceneInit()
 	BG.set()
-	NET.spectate=false
-	NET.allReady=false
-	NET.connectingStream=false
-	NET.waitingStream=false
 	scrollPos=0
 	selected=1
 	fetchRoom()
@@ -113,7 +109,6 @@ function scene.mouseClick(x,y)
 			if NET.roomList[s]then
 				if selected~=s then
 					selected=s
-					print(1)
 					SFX.play('click',.4)
 				else
 					scene.keyDown("return")

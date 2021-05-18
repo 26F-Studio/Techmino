@@ -8,8 +8,8 @@ local NET={
 	connected=false,
 	allow_online=false,
 	accessToken=false,
-	roomList={},
-	roomState={
+	roomList={},--Local roomlist, updated frequently
+	roomState={--A copy of room structure on server
 		roomInfo={
 			name=false,
 			type=false,
@@ -21,10 +21,13 @@ local NET={
 		private=false,
 		start=false,
 	},
-	watch=false,
-	allReady=false,
-	waitingStream=false,
+	spectate=false,--If player is spectating
 	streamRoomID=false,
+	seed=false,
+
+	allReady=false,
+	connectingStream=false,
+	waitingStream=false,
 
 	UserCount="_",
 	PlayCount="_",
@@ -136,7 +139,7 @@ function NET.wsconn_stream()
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
-			rid=NET.streamRoomID,
+			srid=NET.streamRoomID,
 		})
 		TASK.new(NET.updateWS_stream)
 	end
@@ -266,9 +269,9 @@ end
 function NET.changeConfig()
 	WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
 end
-function NET.signal_ready(ready)
+function NET.signal_joinMode(ready)
 	if NET.lock('ready',3)and not NET.roomState.start then
-		WS.send('play','{"action":6,"data":{"ready":'..tostring(ready)..'}}')
+		WS.send('play','{"action":6,"data":'..JSON.encode{mode=ready}..'}')
 	end
 end
 function NET.signal_die()
@@ -423,7 +426,7 @@ function NET.updateWS_play()
 											uid=p.uid,
 											username=p.username,
 											sid=p.sid,
-											ready=p.ready,
+											mode=p.mode,
 											config=p.config,
 										}
 									end
@@ -434,15 +437,27 @@ function NET.updateWS_play()
 								NET.roomState.capacity=d.capacity
 								NET.roomState.private=d.private
 								NET.roomState.start=d.start
-								NET.srid=d.srid
+
+								NET.allReady=false
+								NET.connectingStream=false
+								NET.waitingStream=false
+
+								NET.spectate=false
+								NET.streamRoomID=false
+
 								loadGame('netBattle',true,true)
+								if d.srid then
+									NET.spectate=true
+									NET.streamRoomID=d.srid
+									NET.connectingStream=true
+								end
 							else
 								--Load other players
 								netPLY.add{
 									uid=d.uid,
 									username=d.username,
 									sid=d.sid,
-									ready=d.ready,
+									mode=d.mode,
 									config=d.config,
 								}
 								if SCN.socketRead then SCN.socketRead('join',d)end
@@ -464,13 +479,13 @@ function NET.updateWS_play()
 							if SCN.socketRead then SCN.socketRead('talk',d)end
 						elseif res.action==5 then--Player change settings
 							netPLY.setConf(d.uid,d.config)
-						elseif res.action==6 then--One ready
-							netPLY.setReady(d.uid,d.ready)
+						elseif res.action==6 then--Player change join mode
+							netPLY.setJoinMode(d.uid,d.mode)
 						elseif res.action==7 then--All Ready
 							SFX.play('reach',.6)
 							NET.allReady=true
 						elseif res.action==8 then--Set
-							NET.streamRoomID=d.rid
+							NET.streamRoomID=d.srid
 							NET.allReady=false
 							NET.connectingStream=true
 							NET.wsconn_stream()
@@ -507,25 +522,34 @@ function NET.updateWS_stream()
 						if res.type=='Connect'then
 							NET.unlock('wsc_stream')
 							NET.connectingStream=false
-							NET.waitingStream=true
 						elseif res.action==0 then--Game start
 							NET.waitingStream=false
-							NET.roomState.start=true
-							if SCN.socketRead then SCN.socketRead('go',d)end
+							SCN.socketRead('go')
 						elseif res.action==1 then--Game finished
 							--?
 						elseif res.action==2 then--Player join
 							if res.type=='Self'then
+								NET.seed=d.seed
+								NET.spectate=d.spectate
+								netPLY.setConnect(d.uid)
 								for _,p in next,d.connected do
-									if not p.watch then
+									if not p.spectate then
 										netPLY.setConnect(p.uid)
 									end
 								end
-								netPLY.setConnect(d.uid)
-								NET.spectate=d.watch==true
+								if d.spectate then
+									if d.start then
+										SCN.socketRead('go')
+										for _,v in next,d.history or{}do
+											SCN.socketRead('stream',v)
+										end
+									end
+								else
+									NET.waitingStream=true
+								end
 							else
-								if d.watch then
-									netPLY.setWatch(d.uid)
+								if d.spectate then
+									netPLY.setJoinMode(d.uid,2)
 								else
 									netPLY.setConnect(d.uid)
 								end

@@ -105,10 +105,11 @@ return{
 	started="Playing",
 	joinRoom="has joined the room.",
 	leaveRoom="has left the room.",
-	ready="READY",
-	connStream="CONNECTING",
-	waitStream="WAITING",
+	ready="Ready",
+	connStream="Connecting",
+	waitStream="Waiting",
 	champion="$1 won",
+	spectating="Spectating",
 	chatRemain="Online",
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
@@ -266,6 +267,7 @@ return{
 		},
 		net_game={
 			ready="Ready",
+			spectate="Spectate",
 			cancel="Cancel",
 		},
 		setting_game={

@@ -87,7 +87,7 @@ end
 
 function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
 function netPLY.add(p)
-	p.watch=false
+	p.mode=0
 	p.connected=false
 	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
 	local a=rnd()*6.2832
@@ -101,21 +101,22 @@ end
 function netPLY.getCount()return #PLY end
 function netPLY.rawgetPLY(i)return PLY[i]end
 function netPLY.getSID(uid)return getPLY(uid).sid end
-function netPLY.getSelfReady()return PLY[1].ready end
+function netPLY.getSelfJoinMode()return PLY[1].mode end
+function netPLY.getSelfReady()return PLY[1].mode>0 end
 function netPLY.setPlayerObj(ply,p)ply.p=p end
 function netPLY.setConf(uid,config)getPLY(uid).config=config end
-function netPLY.setReady(uid,ready)
+function netPLY.setJoinMode(uid,ready)
 	for i,p in next,PLY do
 		if p.uid==uid then
-			if p.ready~=ready then
-				p.ready=ready
-				if not ready then NET.allReady=false end
+			if p.mode~=ready then
+				p.mode=ready
+				if ready==0 then NET.allReady=false end
 				SFX.play('spin_0',.6)
 				if i==1 then
 					NET.unlock('ready')
-				elseif not PLY[1].ready then
+				elseif PLY[1].mode==0 then
 					for j=2,#PLY do
-						if not PLY[j].ready then
+						if PLY[j].mode==0 then
 							return
 						end
 					end
@@ -127,11 +128,9 @@ function netPLY.setReady(uid,ready)
 	end
 end
 function netPLY.setConnect(uid)getPLY(uid).connected=true end
-function netPLY.setWatch(uid)getPLY(uid).watch=true end
 function netPLY.resetState()
 	for i=1,#PLY do
-		PLY[i].ready=false
-		PLY[i].watch=false
+		PLY[i].mode=0
 		PLY[i].connected=false
 	end
 end
@@ -169,7 +168,11 @@ function netPLY.draw()
 		local p=PLY[i]
 		gc.translate(p.x,p.y)
 			--Rectangle
-			gc.setColor(COLOR[p.watch and"L"or p.connected and"N"or p.ready and'G'or'Z'])
+			gc.setColor(COLOR[
+				p.mode==0 and'Z'or
+				p.mode==1 and(p.connected and"N"or"G")or
+				p.mode==2 and(p.connected and"Y"or"F")
+			])
 			gc.setLineWidth(2)
 			gc.rectangle('line',0,0,p.w,p.h)
 

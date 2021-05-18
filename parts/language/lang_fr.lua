@@ -109,6 +109,7 @@ return{
 	-- connStream="CONNECTING",
 	-- waitStream="WAITING",
 	champion="$1 a gagné",
+	-- spectating="Spectating",
 	chatRemain="En ligne : ",
 	chatStart="--------Début des logs--------",
 	chatHistory="-Nouveaux messages en dessous-",
@@ -236,6 +237,7 @@ return{
 		},
 		net_game={
 			-- ready="Ready",
+			-- spectate="Spectate",
 			-- cancel="Cancel",
 		},
 		setting_game={
