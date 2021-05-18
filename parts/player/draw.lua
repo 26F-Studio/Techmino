@@ -332,7 +332,7 @@ local function drawHold(P)
 	local holdQueue=P.holdQueue
 	local N=ENV.holdCount*72
 	gc_push('transform')
-	gc_translate(-140,36)
+	gc_translate(-140,20)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
 		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
@@ -453,7 +453,7 @@ local draw={}
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
-	gc_translate(316,36)
+	gc_translate(316,20)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
@@ -481,12 +481,12 @@ function draw.drawNext_norm(P)
 				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
-	gc_translate(-316,-36)
+	gc_translate(-316,-20)
 end
 function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
-	gc_translate(316,36)
+	gc_translate(316,20)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
@@ -515,7 +515,7 @@ function draw.drawNext_hidden(P)
 				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
-	gc_translate(-316,-36)
+	gc_translate(-316,-20)
 end
 draw.applyFieldOffset=applyFieldOffset
 
