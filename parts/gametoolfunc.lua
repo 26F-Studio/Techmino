@@ -544,20 +544,6 @@ end
 
 
 --Game draw
-do--function drawFWM()
-	--你竟然找到了这里!那么在动手之前读读下面这些吧。
-	--【魔幻错别字躲关键字搜索警告，看得懂就行】
-	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码!
-	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/好几十个人及以上的非方块社区/群等)很可能会对Techmino未来的发展有负面影响
-	--如果被TTC发现，随时可能被他们用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
-	--氵印限制还可以减少低质量视屏泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
-	--想发视屏的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭氵印
-	--等Techmino发展到一定程度之后会解除这个限制
-	--最后，别把藏在这里的东西截图/复制出去哦~
-	--感谢您对Techmino的支持!!!
-	local il,iI,li,lI,Ii,Il=string.char(65,117,116,104,228,189,156,232,128,133,58,77,114,90,95,50,54,10,66,101,116,97,229,134,133,230,181,139,231,166,129,230,173,162,229,189,149,229,177,143,47,231,155,180,230,146,173,10,78,111,32,114,101,99,111,114,100,105,110,103,47,115,116,114,101,97,109,105,110,103),math.sin,setFont,TIME,mStr,gc.setColor
-	_G['\100\114\97\119\70\87\77']=function()li(25)local t=lI()Il(1,1,1,.16+.06*(iI(3.55*t)+iI(2.6*t)))Ii(il,180,73+53*iI(t*.26))end
-end
 do--function drawSelfProfile()
 	local name
 	local textObject,scaleK,width,offY
@@ -612,6 +598,20 @@ do--function drawWarning()
 		end
 	end
 end
+do--function drawSystemInfo(
+	--你竟然找到了这里!那么在动手之前读读下面这些吧。
+	--【魔幻错别字躲关键字搜索警告，看得懂就行】
+	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码!
+	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/好几十个人及以上的非方块社区/群等)很可能会对Techmino未来的发展有负面影响
+	--如果被TTC发现，随时可能被他们用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
+	--氵印限制还可以减少低质量视屏泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
+	--想发视屏的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭氵印
+	--等Techmino发展到一定程度之后会解除这个限制
+	--最后，别把藏在这里的东西截图/复制出去哦~
+	--感谢您对Techmino的支持!!!
+	loadstring(love.data.decode('string','base64',"CWxvY2FsIGc9bG92ZS5ncmFwaGljcztsb2NhbCB4LHMsVCxkLGM9Zy5uZXdUZXh0KGdldEZvbnQoMjUpKSxtYXRoLnNpbixUSU1FLGcuZHJhdyxnLnNldENvbG9yO3g6c2V0ZigiQXV0aOS9nOiAhTpNclpfMjZcbkFscGhh5YaF5rWL56aB5q2i5b2V5bGPL+ebtOaSrVxuTm8gcmVjb3JkaW5nL3N0cmVhbWluZyIsMzAwLCdjZW50ZXInKWZ1bmN0aW9uIGRyYXdGV00oKWxvY2FsIHQ9VCgpYygxLDEsMSwuMTYrLjA2KihzKDMuNTUqdCkrcygyLjYqdCkpKWQoeCwzMCw3Mys1MypzKHQqLjI2KSllbmQK"))()
+end
+
 
 
 --Widget function shortcuts
