@@ -26,6 +26,25 @@ local function _gotoSetting()
 		SCN.go('setting_game')
 	end
 end
+local function _quit()
+	if TIME()-lastBackTime<1 then
+		NET.signal_quit()
+	else
+		lastBackTime=TIME()
+		LOG.print(text.sureQuit,'warn')
+	end
+end
+local function _switchChat()
+	if inputBox.hide then
+		textBox.hide=false
+		inputBox.hide=false
+		WIDGET.focus(inputBox)
+	else
+		textBox.hide=true
+		inputBox.hide=true
+		WIDGET.unFocus(true)
+	end
+end
 
 local scene={}
 
@@ -97,12 +116,7 @@ function scene.keyDown(key)
 		if not inputBox.hide then
 			scene.keyDown("switchChat")
 		else
-			if TIME()-lastBackTime<1 then
-				NET.signal_quit()
-			else
-				lastBackTime=TIME()
-				LOG.print(text.sureQuit,'warn')
-			end
+			_quit()
 		end
 	elseif key=="return"then
 		local mes=STRING.trim(inputBox:getText())
@@ -111,20 +125,10 @@ function scene.keyDown(key)
 				NET.sendMessage(mes)
 				inputBox:clear()
 			elseif #EDITING==0 then
-				scene.keyDown("switchChat")
+				_switchChat()
 			end
 		else
-			scene.keyDown("switchChat")
-		end
-	elseif key=="switchChat"then
-		if inputBox.hide then
-			textBox.hide=false
-			inputBox.hide=false
-			WIDGET.focus(inputBox)
-		else
-			textBox.hide=true
-			inputBox.hide=true
-			WIDGET.unFocus()
+			_switchChat()
 		end
 	elseif not inputBox.hide then
 		print(1)
@@ -371,8 +375,8 @@ scene.widgetList={
 				not netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"switchChat"},
-	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
+	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=_switchChat},
+	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=_quit},
 }
 
 return scene

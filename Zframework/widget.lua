@@ -1083,9 +1083,12 @@ function WIDGET.focus(W)
 		kb.setTextInput(true,0,y1,1,1)
 	end
 end
-function WIDGET.unFocus()
-	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
-	WIDGET.sel=false
+function WIDGET.unFocus(force)
+	local W=WIDGET.sel
+	if W and(force or not W.keepFocus)then
+		if W.type=='inputBox'then kb.setTextInput(false)end
+		WIDGET.sel=false
+	end
 end
 
 function WIDGET.cursorMove(x,y)
@@ -1110,8 +1113,8 @@ function WIDGET.drag(x,y,dx,dy)
 	if not W then return end
 	if W.type=='slider'or W.type=='textBox'then
 		W:drag(x,y,dx,dy)
-	elseif not W:isAbove(x,y)and not WIDGET.sel.keepFocus then
-		WIDGET.unFocus()
+	elseif not W:isAbove(x,y)then
+		WIDGET.unFocus(true)
 	end
 end
 function WIDGET.release(x,y)

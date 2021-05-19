@@ -160,6 +160,7 @@ function love.touchpressed(id,x,y)
 	if SCN.swapping then return end
 	if not touching then
 		touching=id
+		WIDGET.unFocus(true)
 		love.touchmoved(id,x,y,0,0)
 	end
 	x,y=xOy:inverseTransformPoint(x,y)
@@ -172,14 +173,10 @@ function love.touchmoved(_,x,y,dx,dy)
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
 	if WIDGET.sel then
-		if touching then
-			WIDGET.drag(x,y,dx,dy)
-		end
+		if touching then WIDGET.drag(x,y,dx,dy)end
 	else
 		WIDGET.cursorMove(x,y)
-		if not WIDGET.sel then
-			touching=false
-		end
+		if not WIDGET.sel then touching=false end
 	end
 end
 function love.touchreleased(id,x,y)
@@ -188,8 +185,9 @@ function love.touchreleased(id,x,y)
 	if id==touching then
 		WIDGET.press(x,y,1)
 		WIDGET.release(x,y)
-		touching=false
+		WIDGET.cursorMove(x,y)
 		WIDGET.unFocus()
+		touching=false
 	end
 	if SCN.touchUp then SCN.touchUp(x,y)end
 	if(x-lastX)^2+(y-lastY)^2<62 then
