@@ -3,7 +3,7 @@ local int,abs,rnd=math.floor,math.abs,math.random
 local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
-local TEXT,GAME=TEXT,GAME
+local TEXT,GAME,CC=TEXT,GAME,CC
 local PLY_ALIVE=PLY_ALIVE
 
 local function update_misc(P,dt)
@@ -405,14 +405,15 @@ function update.dead(P,dt)
 end
 function update.remote_alive(P,dt)
 	local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun
-	frameRate=frameRate<20 and 1 or
-	frameRate<30 and rnd(2)or
-	frameRate<60 and 2 or
-	frameRate<90 and 3 or
-	frameRate<120 and 5 or
-	frameRate<150 and 7 or
-	frameRate<180 and 10 or
-	20
+	frameRate=
+		frameRate<20 and 1 or
+		frameRate<30 and rnd(2)or
+		frameRate<60 and 2 or
+		frameRate<90 and 3 or
+		frameRate<120 and 5 or
+		frameRate<150 and 7 or
+		frameRate<180 and 10 or
+		20
 	for _=1,frameRate do
 		local eventTime=P.stream[P.streamProgress]
 		if eventTime then--Normal state, event forward
