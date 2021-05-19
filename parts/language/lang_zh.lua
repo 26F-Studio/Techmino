@@ -388,6 +388,7 @@ return{
 			save2="保存2",
 			load2="读取2",
 			size="大小",
+			shape="形状",
 		},
 		setting_touchSwitch={
 			b1=	"左移:",	b2="右移:",		b3="顺时针旋转:",	b4="逆时针旋转:",

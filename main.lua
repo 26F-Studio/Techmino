@@ -236,7 +236,6 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 		LANG.addScene(sceneName)
 	end
 end
-LANG.set(SETTING.lang)
 
 --Update data
 do
@@ -268,6 +267,7 @@ do
 		needSave=true
 		autoRestart=true
 	end
+	if not SETTING.VKSkin then SETTING.VKSkin=1 end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
 		SETTING.frameMul=100
 	end
@@ -321,3 +321,6 @@ do
 		love.event.quit('restart')
 	end
 end
+
+LANG.set(SETTING.lang)
+VK.setShape(SETTING.VKSkin)

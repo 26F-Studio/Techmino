@@ -389,6 +389,7 @@ return{
 			save2="Save2",
 			load2="Load2",
 			size="Size",
+			shape="Shape",
 		},
 		setting_touchSwitch={
 			b1=	"Move Left:",	b2="Move Right:",	b3="Rotate Right:",	b4="Rotate Left:",

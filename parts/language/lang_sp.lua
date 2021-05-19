@@ -362,6 +362,7 @@ return{
 			-- save2="Save2",
 			-- load2="Load2",
 			size="Tamaño",
+			-- shape="Shape",
 		},
 		setting_touchSwitch={
 			b1=	"Mover Izq.:",b2="Mover Der.:",b3="Rotar Der.:",b4="Rotar Izq.:",

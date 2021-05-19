@@ -305,6 +305,7 @@ SETTING={--Settings
 	VKSFX=.2,--SFX volume
 	VKVIB=0,--VIB
 	VKSwitch=false,--If disp
+	VKSkin=1,--If disp
 	VKTrack=false,--If tracked
 	VKDodge=false,--If dodge
 	VKTchW=.3,--Touch-Pos Weight

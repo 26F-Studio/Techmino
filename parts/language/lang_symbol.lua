@@ -241,6 +241,7 @@ return{
 			save2=">2",
 			load2="2>",
 			size="←→",
+			shape="@?",
 		},
 		setting_touchSwitch={
 			b1="←:",    b2="→:",   b3="R→:",   b4="←R:",

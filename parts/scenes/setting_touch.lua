@@ -84,8 +84,8 @@ end
 
 function scene.draw()
 	gc.setColor(1,1,1)
-	gc.setLineWidth(7)gc.rectangle('line',340,15,600,690)
-	gc.setLineWidth(3)gc.rectangle('line',490,85,300,600)
+	gc.setLineWidth(3)
+	gc.rectangle('line',490,85,300,600)
 	VK.preview(selected)
 	if snapUnit>=10 then
 		gc.setLineWidth(3)
@@ -193,11 +193,8 @@ scene.widgetList={
 			selected=false
 		end},
 	WIDGET.newSelector{name="snap",	x=750,y=90,w=200,h=80,color='Y',list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
-	WIDGET.newButton{name="option",	x=530,y=190,w=200,h=80,font=40,
-		code=function()
-			SCN.go('setting_touchSwitch')
-		end},
-	WIDGET.newButton{name="back",	x=750,y=190,w=200,h=70,font=35,code=backScene},
+	WIDGET.newButton{name="option",	x=530,y=190,w=200,h=80,font=40,code=function()SCN.go('setting_touchSwitch')end},
+	WIDGET.newButton{name="back",	x=750,y=190,w=200,h=80,font=35,code=backScene},
 	WIDGET.newKey{name="save1",		x=475,y=290,w=90,h=70,code=save1},
 	WIDGET.newKey{name="load1",		x=585,y=290,w=90,h=70,code=load1},
 	WIDGET.newKey{name="save2",		x=695,y=290,w=90,h=70,code=save2},
@@ -214,6 +211,7 @@ scene.widgetList={
 		hideF=function()
 			return not selected
 		end},
+	WIDGET.newKey{name="shape",x=640,y=600,w=200,h=80,code=function()SETTING.VKSkin=VK.nextShape()end},
 }
 
 return scene

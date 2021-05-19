@@ -1,8 +1,34 @@
 local gc=love.graphics
+local gc_draw,gc_setColor,gc_setLineWidth=gc.draw,gc.setColor,gc.setLineWidth
+
 local next=next
+
 local SETTING,TIME=SETTING,TIME
 local VK_org=VK_org
 
+local skin=1
+local r=10
+local buttonImages={
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98},{'dCirc',100,100,90}},
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,8},{'dCirc',100,100,90,8}},
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,6},{'dCirc',100,100,90,6}},
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,4},{'dCirc',100,100,89,4}},
+	DOGC{200,200,{'setLW',4},{'dRect',31,31,138,138},{'dRect',39,39,122,122}},
+}
+local rippleImages={
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98}},
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,8}},
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,6}},
+	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,4}},
+	DOGC{200,200,{'setLW',4},{'dRect',31,31,138,138}},
+}
+local holdImages={
+	DOGC{200,200,{'fCirc',100,100,86}},
+	DOGC{200,200,{'fCirc',100,100,86,8}},
+	DOGC{200,200,{'fCirc',100,100,85,6}},
+	DOGC{200,200,{'fCirc',100,100,83,4}},
+	DOGC{200,200,{'fRect',43,43,114,114}},
+}
 --Virtualkey icons
 local VKIcon={}
 gc.setDefaultFilter('nearest','nearest')
@@ -69,6 +95,14 @@ function VK.release(id)
 	keys[id].isDown=false
 end
 
+function VK.setShape(s)
+	skin=s
+end
+function VK.nextShape()
+	skin=skin%#buttonImages+1
+	return skin
+end
+
 function VK.switchKey(id,on)
 	keys[id].ava=on
 end
@@ -100,61 +134,53 @@ function VK.update()
 	end
 end
 
-local gc_draw,gc_setColor,gc_setLineWidth=gc.draw,gc.setColor,gc.setLineWidth
-local buttonImage=DOGC{100,100,
-	{'setLW',4},{'dRect',2,2,96,96},
-	{'setLW',4},{'dRect',10,10,80,80},
-}
-local rippleImage=DOGC{100,100,
-	{'setLW',4},{'dRect',2,2,96,96},
-}
-local holdImage=DOGC{100,100,
-	{'fRect',14,14,72,72},
-}
 function VK.draw()
 	if not SETTING.VKSwitch then return end
 	local a=SETTING.VKAlpha
+	local buttonImage=buttonImages[skin]
+	local rippleImage=rippleImages[skin]
+	local holdImage=holdImages[skin]
 	if SETTING.VKIcon then
 		for i,B in next,keys do
 			if B.ava then
-				local r=B.r*.71
+				local r=B.r
 				--Button outline
 				gc_setColor(1,1,1,a)
 				gc_setLineWidth(r*.07)
-				gc_draw(buttonImage,B.x,B.y,nil,r/50,nil,50,50)
+				gc_draw(buttonImage,B.x,B.y,nil,r*.01,nil,100,100)
 
 				--Icon
 				local _=B.pressTime
 				gc_setColor(1,1,1,a)
-				gc_draw(VKIcon[i],B.x,B.y,nil,r*.026+_*.06,nil,18,18)
+				gc_draw(VKIcon[i],B.x,B.y,nil,r*.024+_*.06,nil,18,18)
 
 				--Ripple
 				if _>0 then
 					gc_setColor(1,1,1,a*_*.08)
 					local d=r*(1.4-_*.04)
-					gc_draw(rippleImage,B.x,B.y,nil,d/50,nil,50,50)
+					gc_draw(rippleImage,B.x,B.y,nil,d*.01,nil,100,100)
 				end
 
 				--Glow when press
 				if B.isDown then
 					gc_setColor(1,1,1,a*.4)
-					gc_draw(holdImage,B.x,B.y,nil,r/50,nil,50,50)
+					gc_draw(holdImage,B.x,B.y,nil,r*.01,nil,100,100)
 				end
 			end
 		end
 	else
 		for _,B in next,keys do
 			if B.ava then
-				local r=B.r*.71
+				local r=B.r
 				gc_setColor(1,1,1,a)
 				gc_setLineWidth(r*.07)
-				gc_draw(buttonImage,B.x,B.y,nil,r/50,nil,50,50)
+				gc_draw(buttonImage,B.x,B.y,nil,r*.01,nil,100,100)
 				local _=B.pressTime
 				if _>0 then
 					gc_setColor(1,1,1,a*_*.08)
-					gc_draw(holdImage,B.x,B.y,nil,r/50,nil,50,50)
+					gc_draw(holdImage,B.x,B.y,nil,r*.01,nil,100,100)
 					local d=r*(1.4-_*.04)
-					gc_draw(rippleImage,B.x,B.y,nil,d/50,nil,50,50)
+					gc_draw(rippleImage,B.x,B.y,nil,d*.01,nil,100,100)
 				end
 			end
 		end
@@ -162,19 +188,21 @@ function VK.draw()
 end
 function VK.preview(selected)
 	if not SETTING.VKSwitch then return end
-	for id,B in next,VK_org do
+	local buttonImage=buttonImages[skin]
+	local holdImage=holdImages[skin]
+	for i,B in next,VK_org do
 		if B.ava then
-			local r=B.r*.71
+			local r=B.r
 			gc_setColor(1,1,1,SETTING.VKAlpha)
 			gc_setLineWidth(r*.07)
-			gc_draw(buttonImage,B.x,B.y,nil,r/50,nil,50,50)
-			if selected==id and TIME()%.26<.13 then
+			gc_draw(buttonImage,B.x,B.y,nil,r*.01,nil,100,100)
+			if selected==i and TIME()%.26<.13 then
 				gc_setColor(1,1,1,SETTING.VKAlpha*.62)
-				gc_draw(holdImage,B.x,B.y,nil,r/50,nil,50,50)
+				gc_draw(holdImage,B.x,B.y,nil,r*.01,nil,100,100)
 			end
 			if SETTING.VKIcon then
 				gc_setColor(1,1,1,SETTING.VKAlpha)
-				gc_draw(VKIcon[id],B.x,B.y,nil,r*.026,nil,18,18)
+				gc_draw(VKIcon[i],B.x,B.y,nil,r*.024,nil,18,18)
 			end
 		end
 	end
