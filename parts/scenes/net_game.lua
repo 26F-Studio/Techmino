@@ -94,29 +94,40 @@ function scene.touchMove()
 end
 function scene.keyDown(key)
 	if key=="escape"then
-		if TIME()-lastBackTime<1 then
-			NET.signal_quit()
+		if not inputBox.hide then
+			scene.keyDown("switchChat")
 		else
-			lastBackTime=TIME()
-			LOG.print(text.sureQuit,'warn')
+			if TIME()-lastBackTime<1 then
+				NET.signal_quit()
+			else
+				lastBackTime=TIME()
+				LOG.print(text.sureQuit,'warn')
+			end
 		end
 	elseif key=="return"then
-		if inputBox.hide then
-			textBox.hide=false
-			inputBox.hide=false
-			TASK.new(function()YIELD()WIDGET.focus(inputBox)end)
-		else
-			local mes=STRING.trim(inputBox:getText())
-			if mes and #mes>0 then
+		local mes=STRING.trim(inputBox:getText())
+		if not inputBox.hide then
+			if #mes>0 then
 				NET.sendMessage(mes)
 				inputBox:clear()
 			elseif #EDITING==0 then
-				textBox.hide=true
-				inputBox.hide=true
-				WIDGET.unFocus()
+				scene.keyDown("switchChat")
 			end
+		else
+			scene.keyDown("switchChat")
+		end
+	elseif key=="switchChat"then
+		if inputBox.hide then
+			textBox.hide=false
+			inputBox.hide=false
+			WIDGET.focus(inputBox)
+		else
+			textBox.hide=true
+			inputBox.hide=true
+			WIDGET.unFocus()
 		end
 	elseif not inputBox.hide then
+		print(1)
 		WIDGET.focus(inputBox)
 		inputBox:keypress(key)
 	elseif playing then
@@ -360,7 +371,7 @@ scene.widgetList={
 				not netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"return"},
+	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=pressKey"switchChat"},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=pressKey"escape"},
 }
 

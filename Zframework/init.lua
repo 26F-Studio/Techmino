@@ -189,9 +189,7 @@ function love.touchreleased(id,x,y)
 		WIDGET.press(x,y,1)
 		WIDGET.release(x,y)
 		touching=false
-		if WIDGET.sel and not WIDGET.sel.keepFocus then
-			WIDGET.unFocus()
-		end
+		WIDGET.unFocus()
 	end
 	if SCN.touchUp then SCN.touchUp(x,y)end
 	if(x-lastX)^2+(y-lastY)^2<62 then
