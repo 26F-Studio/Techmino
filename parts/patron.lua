@@ -111,6 +111,11 @@ return{
 		font=65,
 		color=C.rainbow_dark,
 	},
+	{
+		name="亮君吧",
+		font=65,
+		color=C.rainbow_dark,
+	},
 
 	{
 		name="八零哥",
