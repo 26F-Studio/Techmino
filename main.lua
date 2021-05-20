@@ -82,10 +82,10 @@ SKIN=		require"parts.skin"
 USERS=		require"parts.users"
 NET=		require"parts.net"
 VK=			require"parts.virtualKey"
-PLY=		require"parts.player"
-netPLY=		require"parts.netPlayer"
 AIFUNC=		require"parts.ai"
 AIBUILDER=	require"parts.AITemplate"
+PLY=		require"parts.player"
+netPLY=		require"parts.netPlayer"
 MODES=		require"parts.modes"
 
 --Initialize field[1]
