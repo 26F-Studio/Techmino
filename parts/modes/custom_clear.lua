@@ -64,10 +64,8 @@ return{
 		local AItype=ENV.opponent:sub(1,2)
 		local AIlevel=tonumber(ENV.opponent:sub(-1))
 		if AItype=='9S'then
-			ENV.target=nil
 			PLY.newAIPlayer(2,AIBUILDER('9S',2*AIlevel))
 		elseif AItype=='CC'then
-			ENV.target=nil
 			PLY.newAIPlayer(2,AIBUILDER('CC',2*AIlevel-1,math.floor(AIlevel*.5+1),true,20000+5000*AIlevel))
 		end
 
@@ -77,12 +75,7 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(55)
-		if P.modeData.target>1e10 then
-			mStr(P.stat.row,69,225)
-			mText(drawableText.line,69,290)
-		else
-			local R=P.modeData.target-P.stat.row
-			mStr(R>=0 and R or 0,69,240)
-		end
+		mStr(P.stat.row,69,225)
+		mText(drawableText.line,69,290)
 	end,
 }
