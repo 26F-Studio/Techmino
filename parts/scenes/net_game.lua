@@ -1,4 +1,4 @@
-local gc,tc=love.graphics,love.touch
+local gc,kb,tc=love.graphics,love.keyboard,love.touch
 
 local gc_setColor,gc_print=gc.setColor,gc.print
 local setFont,mStr=setFont,mStr
@@ -144,15 +144,10 @@ function scene.keyDown(key)
 	else
 		if key=="space"then
 			if netPLY.getSelfJoinMode()==0 then
-				_setReady()
+				(kb.isDown("lctrl","rctrl","lalt","ralt")and _setSpectate or _setReady)()
 			else
 				_setCancel()
 			end
-		elseif key=="p"then
-			if netPLY.getSelfJoinMode()==0 then
-				_setSpectate()
-			end
-		elseif key=="s"then
 			_gotoSetting()
 		end
 	end
@@ -351,7 +346,7 @@ scene.widgetList={
 	textBox,
 	inputBox,
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=_gotoSetting,hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=950,y=630,w=190,h=80,color='lG',font=35,code=_setReady,
+	WIDGET.newKey{name="ready",x=1060,y=510,w=370,h=90,color='lG',font=35,code=_setReady,
 		hideF=function()
 			return
 				playing or
@@ -359,7 +354,7 @@ scene.widgetList={
 				netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="spectate",x=1150,y=630,w=190,h=80,color='lO',font=35,code=_setSpectate,
+	WIDGET.newKey{name="spectate",x=1060,y=610,w=370,h=90,color='lO',font=35,code=_setSpectate,
 		hideF=function()
 			return
 				playing or
@@ -367,7 +362,7 @@ scene.widgetList={
 				netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=1050,y=630,w=390,h=80,color='lH',font=40,code=_setCancel,
+	WIDGET.newKey{name="cancel",x=1060,y=560,w=370,h=120,color='lH',font=40,code=_setCancel,
 		hideF=function()
 			return
 				playing or
