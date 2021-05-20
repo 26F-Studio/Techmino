@@ -10,33 +10,28 @@ return function(name,libName)
 		local fs=love.filesystem
 		local platform={'arm64-v8a','armeabi-v7a'}
 
-		local libFunc=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
-		if libFunc then
-			LOG.print(name.." lib loaded",'message')
-		else
-			for i=1,#platform do
-				local soFile,_,_,mes1=fs.read('data',"libAndroid/"..platform[i].."/"..libName.Android)
-				if soFile then
-					local success,mes2=fs.write("lib/"..libName.Android,soFile)
-					if success then
-						libFunc,mes2=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
-						if libFunc then
-							LOG.print(name.." lib loaded",'message')
-							break
-						else
-							LOG.print("Cannot load "..name..": "..mes2,'error')
-						end
+		for i=1,#platform do
+			local soFile,_,_,mes1=fs.read('data',"libAndroid/"..platform[i].."/"..libName.Android)
+			if soFile then
+				local success,mes2=fs.write("lib/"..libName.Android,soFile)
+				if success then
+					libFunc,mes2=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
+					if libFunc then
+						LOG.print(name.." lib loaded",'message')
+						break
 					else
-						LOG.print(("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2),'error')
+						LOG.print("Cannot load "..name..": "..mes2,'error')
 					end
 				else
-					LOG.print(("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1),'error')
+					LOG.print(("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2),'error')
 				end
+			else
+				LOG.print(("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1),'error')
 			end
-			if not libFunc then
-				LOG.print("Cannot load "..name,'error')
-				return
-			end
+		end
+		if not libFunc then
+			LOG.print("Cannot load "..name,'error')
+			return
 		end
 		return libFunc()
 	else

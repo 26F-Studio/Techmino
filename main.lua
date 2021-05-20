@@ -239,8 +239,7 @@ end
 
 --Update data
 do
-	local needSave
-	local autoRestart
+	local needSave,autoRestart
 
 	if type(STAT.version)~='number'then
 		STAT.version=0
@@ -267,21 +266,18 @@ do
 		needSave=true
 		autoRestart=true
 	end
+	if STAT.version~=VERSION.code then
+		STAT.version=VERSION.code
+		needSave=true
+		autoRestart=true
+	end
+
 	if not SETTING.VKSkin then SETTING.VKSkin=1 end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
 		SETTING.frameMul=100
 	end
 	SETTING.appLock=nil
-
 	for _,v in next,VK_org do v.color=nil end
-
-	if STAT.version~=VERSION.code then
-		STAT.version=VERSION.code
-		CLEAR("lib")
-		needSave=true
-		autoRestart=true
-	end
-
 	if RANKS.GM then RANKS.GM=0 end
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
