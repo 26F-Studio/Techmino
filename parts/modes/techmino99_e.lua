@@ -23,6 +23,7 @@ return{
 		garbageSpeed=.3,
 		pushSpeed=2,
 		freshLimit=15,
+		initSkip=true,
 		bg='rainbow',bgm='sugar fairy',
 	},
 	load=function()
