@@ -293,9 +293,15 @@ local function drawBuffer(P)
 			gc_push('transform')
 			gc_translate(300,max(0,600-30*sum))
 			gc_scale(min(.2+sum/50,1))
-			setFont(100)
 			gc_setColor(1,.2+min(sum*.02,.8)*(.5+.5*sin(TIME()*min(sum,32))),.2,min(sum/30,.8))
-			gc_printf(int(P.atkBufferSum1),-300,-20,292,'right')
+			setFont(100)
+			if sum>20 then
+				local d=P.atkBufferSum-sum
+				if d>.5 then
+					gc_translate(d^.5*(rnd()-.5)*15,d^.5*(rnd()-.5)*15)
+				end
+			end
+			gc_printf(int(sum),-300,-20,292,'right')
 			gc_pop()
 		end
 	end
