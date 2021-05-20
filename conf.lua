@@ -1,8 +1,8 @@
 VERSION={
-	code=1500,
-	short="V0.15.0",
-	string="Alpha V0.15.0",
-	name="超新星 Supernovas",
+	code=1501,
+	short="V0.15.1",
+	string="Alpha V0.15.1",
+	name="耀斑 Flare",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
