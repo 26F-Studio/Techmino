@@ -686,16 +686,16 @@ function draw.norm(P)
 			end
 
 			--Spike
-			local spt=P.spikeTime
-			if ENV.showSpike and spt>0 and P.spike>=10 then
-				local rg=10/P.spike
+			local sp,spt=P.spike,P.spikeTime
+			if ENV.showSpike and spt>0 and sp>=10 then
+				local rg=10/sp
 				gc_setColor(rg,rg,1,min(spt/30,.8))
 				local x,y=150,100
 				if spt>85 then
-					x=x+5*(rnd()-.5)*(spt-85)*min(P.spike/50,1)
-					y=y+5*(rnd()-.5)*(spt-85)*min(P.spike/50,1)
+					local d=2*(spt-85)*min(sp/50,1)
+					x,y=x+(rnd()-.5)*d,y+(rnd()-.5)*d
 				end
-				mDraw(P.spikeText,x,y,nil,min(.3+(P.spike/26)*.4+spt/100*.3,1))
+				mDraw(P.spikeText,x,y,nil,min(.3+(sp/26)*.4+spt/100*.3,1))
 			end
 
 			--Bonus texts
