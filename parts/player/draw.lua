@@ -439,13 +439,23 @@ local function drawMission(P)
 		end
 	end
 end
-local function drawStartCounter(count)
-	gc_setColor(1,1,1)
+local function drawStartCounter(P)
+	local count=179-P.frameRun
 	gc_push('transform')
-		gc_translate(305,220)
-		if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
-		setFont(95)
-		mStr(int(count/60+1),0,0)
+		gc_translate(300,300)
+		if P.gameEnv.initSkip then
+			gc_setColor(.6,.8,1)
+			if count%60>45 then
+				gc_rotate((count%60-45)^2*.00355)
+			end
+		else
+			gc_setColor(1,1,1)
+			if count%60>45 then
+				gc_scale(1+(count%60-45)^2*.01,1)
+			end
+		end
+		setFont(100)
+		mStr(int(count/60+1),0,-70)
 	gc_pop()
 end
 
@@ -716,7 +726,7 @@ function draw.norm(P)
 
 		if P.life>0 then drawLife(P.life)end
 		drawMission(P)
-		if P.frameRun<180 then drawStartCounter(179-P.frameRun)end
+		if P.frameRun<180 then drawStartCounter(P)end
 	gc_pop()
 end
 function draw.small(P)
