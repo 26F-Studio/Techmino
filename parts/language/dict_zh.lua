@@ -11,7 +11,7 @@ return{
 		"official website homepage guanwang",
 		"help",
 		"Techmino的官网!\n可以在上面修改头像和个人信息",
-		"home.techmino.org",
+		"http://home.techmino.org",
 	},
 	{"Tetris Wiki",
 		"tetris wiki",

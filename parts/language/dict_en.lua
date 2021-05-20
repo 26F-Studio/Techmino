@@ -10,7 +10,7 @@ return{
 		"official website homepage",
 		"help",
 		"Official website of Techmino!\nYou can modify your profile on it",
-		"home.techmino.org",
+		"http://home.techmino.org",
 	},
 	{"To New Players",
 		"guide newbie noob",
