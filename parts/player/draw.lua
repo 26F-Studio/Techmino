@@ -1,6 +1,6 @@
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale,gc_rotate=gc.translate,gc.scale,gc.rotate
+local gc_translate,gc_scale,gc_rotate,gc_shear=gc.translate,gc.scale,gc.rotate,gc.shear
 local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
 local gc_draw,gc_line,gc_rectangle=gc.draw,gc.line,gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
@@ -449,19 +449,21 @@ local function drawStartCounter(P)
 	local count=179-P.frameRun
 	gc_push('transform')
 		gc_translate(300,300)
-		if P.gameEnv.initSkip then
-			gc_setColor(.6,.8,1)
-			if count%60>45 then
-				gc_rotate((count%60-45)^2*.00355)
-			end
-		else
-			gc_setColor(1,1,1)
-			if count%60>45 then
-				gc_scale(1+(count%60-45)^2*.01,1)
-			end
+		local num=int(count/60+1)
+		local d=count%60-45
+		if num==3 then
+			gc_setColor(.7,.9,1)
+			if d>0 then gc_scale(1+d^2*.01,1)end
+		elseif num==2 then
+			gc_setColor(1,.95,.7)
+			if d>0 then gc_shear(-(d/15)^2,0)end
+		elseif num==1 then
+			gc_setColor(1,.8,.8)
+			if d>0 then gc_rotate(d^2*.00355)end
 		end
 		setFont(100)
-		mStr(int(count/60+1),0,-70)
+		mStr(num,0,-70)
+		--P.gameEnv.initSkip
 	gc_pop()
 end
 
