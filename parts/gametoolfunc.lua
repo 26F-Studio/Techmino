@@ -545,6 +545,19 @@ end
 
 --Game draw
 do--function drawSelfProfile()
+	local lvIcon=setmetatable({},{__index=function(self,lv)
+		local img={25,25}
+
+		ins(img,{"clear",0,0,0})
+		ins(img,{"setLW",4})
+		ins(img,{"setCL",.5,.8,1})
+		ins(img,{"dRect",2,2,21,21})
+		--TODO: draw with lv
+
+		img=DOGC(img)
+		rawset(self,lv,img)
+		return img
+	end})
 	local name
 	local textObject,scaleK,width,offY
 	function drawSelfProfile()
@@ -570,7 +583,7 @@ do--function drawSelfProfile()
 		gc_draw(textObject,-82,26,nil,scaleK,nil,width,offY)
 
 		--Draw lv. & xp.
-		gc_draw(TEXTURE.lvIcon[USER.lv],-295,50)
+		gc_draw(lvIcon[USER.lv],-295,50)
 		gc_line(-270,55,-80,55,-80,70,-270,70)
 		gc_rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
 

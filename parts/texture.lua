@@ -65,21 +65,6 @@ for i=0,9 do
 	}
 end
 
---Level icons
-TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
-	local img={25,25}
-
-	ins(img,{"clear",0,0,0})
-	ins(img,{"setLW",4})
-	ins(img,{"setCL",.5,.8,1})
-	ins(img,{"dRect",2,2,21,21})
-	--TODO: draw with lv
-
-	img=DOGC(img)
-	rawset(self,lv,img)
-	return img
-end})
-
 --Setting icon
 TEXTURE.setting=DOGC{64,64,
 	{"setLW",8},
@@ -93,16 +78,6 @@ TEXTURE.setting=DOGC{64,64,
 	{"line",19,45,9,55},
 	{"line",19,19,9,9},
 	{"line",45,19,55,9},
-}
-
---Earth icon
-TEXTURE.earth=DOGC{64,64,
-	{"setLW",4},
-	{"dCirc",32,32,30},
-	{"line",2,31,62,31},
-	{"line",31,2,31,62},
-	{"dArc",10,31,40,-.8,.8},
-	{"dArc",53,31,40,2.3,3.9},
 }
 
 gc.setDefaultFilter('linear','linear')

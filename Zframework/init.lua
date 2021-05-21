@@ -540,12 +540,12 @@ function love.run()
 		TASK.update()
 		WS.update(dt)
 		VOC.update()
-		BG.update(dt)--BG animation
+		BG.update(dt)
 		SYSFX.update(dt)
-		WIDGET.update()--Widgets animation
-		if SCN.update then SCN.update(dt)end--Scene updater
-		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
-		TEXT.update()--Update global texts animation
+		WIDGET.update()
+		if SCN.update then SCN.update(dt)end
+		if SCN.swapping then SCN.swapUpdate()end
+		TEXT.update()
 		LOG.update()
 
 		--DRAW
