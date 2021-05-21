@@ -178,9 +178,9 @@ return{
 		"全/半清:",
 		"多余操作/极简率:",
 	},
-	help={
-		"这只是一个普通的方块游戏,请勿称此游戏为某某某方块",
-		"从TO/C2/KOS/TGM3/JS等方块获得过灵感",
+	aboutTexts={
+		"这只是一个普通的方块游戏,请勿将此与某带国家名的事物强行联系",
+		"从C2/IO/JS/WWC/KOS等方块获得过灵感",
 		"",
 		"使用LOVE2D引擎",
 		"错误或者建议请附带截图发送到内测群或者作者邮箱~",
@@ -195,20 +195,20 @@ return{
 		"",
 		"程序: MrZ, Particle_G, [FinnTenzor]",
 		"美术: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"音乐: MrZ, ERM, [T0722]",
+		"音乐: MrZ, ERM, [T0722, Aether]",
 		"音效/语音: Miya, Naki, MrZ",
 		"演出: 模电, HBM",
 		"翻译: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"特别感谢:",
 		"User670, Big_True, Flyz, Farter, 思竣",
-		"T9972, 蕴空之灵, Teatube, [所有内测人员]",
+		"T9972, Teatube, 蕴空之灵, [所有内测人员]",
 	},
 	used=[[
 	使用工具:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	使用库:
 		Cold_Clear [MinusKelvin]

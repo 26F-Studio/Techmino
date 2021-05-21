@@ -83,9 +83,9 @@ return{
 		"#<>#/<>:",
 		"!#!X/%:",
 	},
-	help={
+	aboutTexts={
 		"□!!~~~,□□□□X",
-		"□!!==*/*/*/*~",
+		"□!!==*/*/*/*/*~",
 		"",
 		"Powered by LÖVE/love2d",
 		"Any suggestions or bug reports are appreciated!",

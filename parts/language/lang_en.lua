@@ -178,9 +178,9 @@ return{
 		"PC/HPC:",
 		"FnsErrs./FnsRate:",
 	},
-	help={
+	aboutTexts={
 		"This is just an *ordinary* block stacker. Really. That's it.",
-		"It has inspirations from TO/C2/KOS/TGM3 etc.",
+		"It has inspirations from C2/IO/JS/WWC/KOS etc.",
 		"",
 		"Powered by LÖVE/love2d",
 		"Any suggestions or bug reports are appreciated!",
@@ -195,7 +195,7 @@ return{
 		"",
 		"Program: MrZ, Particle_G, [FinnTenzor]",
 		"Art: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Music: MrZ, ERM, [T0722]",
+		"Music: MrZ, ERM, [T0722, Aether]",
 		"Voice & Sound: Miya, Naki, MrZ",
 		"Performance: 模电, HBM",
 		"Translations: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -207,8 +207,8 @@ return{
 	used=[[
 	Tools used:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Libs used:
 		Cold_Clear [MinusKelvin]

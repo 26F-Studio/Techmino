@@ -155,9 +155,9 @@ return{
 		"PC/HPC:",
 		"Err.Fns./RatioFns:",
 	},
-	help={
+	aboutTexts={
 		"Este es simplemente un juego de puzzle ordinario, no pienses de él como un juego promedio.",
-		"Está inspirado en otros como TO/C2/KoS/TGM3/JS.",
+		"Está inspirado en otros como C2/IO/JS/WWC/KOS.",
 		"",
 		"Creado con LOVE2D",
 		"Puedes reportar errores o enviar sugerencias al grupo de testeo del autor o por email ~",
@@ -172,7 +172,7 @@ return{
 		"",
 		"Programación: MrZ, Particle_G, [FinnTenzor]",
 		"Artistas: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Música: MrZ, ERM, [T0722]",
+		"Música: MrZ, ERM, [T0722, Aether]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Performance: 模电, HBM",
 		"Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -184,8 +184,8 @@ return{
 	used=[[
 	Herramientas utilizadas:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Librerías usadas:
 		Cold_Clear [MinusKelvin]

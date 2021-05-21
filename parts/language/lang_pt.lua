@@ -177,9 +177,9 @@ return{
 		"PC/HPC:",
 		"FalhaDestreza/TaxaDestreza:",
 	},
-	help={
+	aboutTexts={
 		"Isso é apenas um jogo de blocos, nada de especial.",
-		"Joga como TO/C2/KOS/TGM3 e outros.",
+		"Joga como C2/IO/JS/WWC/KOS e outros.",
 		"",
 		"Feito na Love 2D Engine",
 		"Por favor mande bugs ou sugestões para o autor.",
@@ -194,7 +194,7 @@ return{
 		"",
 		"Programa: MrZ, Particle_G, [FinnTenzor]",
 		"Art: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Music: MrZ, ERM, [T0722]",
+		"Music: MrZ, ERM, [T0722, Aether]",
 		"Voice & Sound: Miya, Naki, MrZ",
 		"Performance: 模电, HBM",
 		"Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -206,8 +206,8 @@ return{
 	used=[[
 	Ferramentas usadas:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Libs used:
 		Cold_Clear [MinusKelvin]

@@ -155,9 +155,9 @@ return{
 		"PC/HPC :",
 		"Errs. Finesse/Finesse :",
 	},
-	help={
+	aboutTexts={
 		"Ceci est un simple jeu de blocs.",
-		"On y joue comme sur TO/C2/KOS/TGM3 et autres.",
+		"On y joue comme sur C2/IO/JS/WWC/KOS et autres.",
 		"",
 		"Vous pouvez envoyer des rapports de bogues ou des suggastions via le groupe de test ou l'email du créateur ~",
 		"Ce jeu est gratuit et est uniquement disponible via discord.gg/f9pUvkh",
@@ -171,7 +171,7 @@ return{
 		"",
 		"Programme : MrZ, Particle_G, [FinnTenzor]",
 		"Art : MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Musique : MrZ, ERM, [T0722]",
+		"Musique : MrZ, ERM, [T0722, Aether]",
 		"Voix & Sons: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Performance: 模电, HBM",
 		"Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -183,8 +183,8 @@ return{
 	used=[[
 	Outils utilisés:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Libs utilisées:
 		Cold_Clear [MinusKelvin]
