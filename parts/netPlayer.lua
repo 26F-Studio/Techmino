@@ -1,16 +1,19 @@
 local gc=love.graphics
+local gc_draw,gc_rectangle,gc_print=gc.draw,gc.rectangle,gc.print
+local gc_setColor,gc_setLineWidth,gc_translate=gc.setColor,gc.setLineWidth,gc.translate
+local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
+
 local rnd,min=math.random,math.min
 local sin,cos=math.sin,math.cos
-
-
 local ins,rem=table.insert,table.remove
+local setFont=setFont
 
 local posLists={
 	--1~5
 	(function()
 		local L={}
 		for i=1,5 do
-			L[i]={x=70,y=20+90*i,w=1000,h=80}
+			L[i]={x=70,y=20+90*i,w=790,h=80}
 		end
 		return L
 	end)(),
@@ -161,59 +164,59 @@ end
 
 local stencilW,stencilH
 local function plyStencil()
-	gc.rectangle('fill',0,0,stencilW,stencilH)
+	gc_rectangle('fill',0,0,stencilW,stencilH)
 end
 function netPLY.draw()
 	for i=1,#PLY do
 		local p=PLY[i]
-		gc.translate(p.x,p.y)
+		gc_translate(p.x,p.y)
 			--Rectangle
-			gc.setColor(COLOR[
+			gc_setColor(COLOR[
 				p.mode==0 and'Z'or
 				p.mode==1 and(p.connected and"N"or"G")or
 				p.mode==2 and(p.connected and"Y"or"F")
 			])
-			gc.setLineWidth(2)
-			gc.rectangle('line',0,0,p.w,p.h)
+			gc_setLineWidth(2)
+			gc_rectangle('line',0,0,p.w,p.h)
 
 			--Stencil
 			stencilW,stencilH=p.w,p.h
-			gc.setStencilTest('equal',1)
-				gc.stencil(plyStencil,'replace',1)
-				gc.setColor(1,1,1)
+			gc_setStencilTest('equal',1)
+				gc_stencil(plyStencil,'replace',1)
+				gc_setColor(1,1,1)
 
 				--Avatar
 				local avatarSize=min(p.h,50)/128*.9
-				gc.draw(USERS.getAvatar(p.uid),2,2,nil,avatarSize)
+				gc_draw(USERS.getAvatar(p.uid),2,2,nil,avatarSize)
 
 				--UID & Username
 				if p.h>=47 then
 					setFont(40)
-					gc.print("#"..p.uid,50,-5)
-					gc.print(p.username,210,-5)
+					gc_print("#"..p.uid,50,-5)
+					gc_print(p.username,210,-5)
 				else
 					setFont(15)
-					gc.print("#"..p.uid,46,-1)
+					gc_print("#"..p.uid,46,-1)
 					setFont(30)
-					gc.print(p.username,p.h,8)
+					gc_print(p.username,p.h,8)
 				end
-			gc.setStencilTest()
-		gc.translate(-p.x,-p.y)
+			gc_setStencilTest()
+		gc_translate(-p.x,-p.y)
 	end
 	if selP then
-		gc.translate(min(mouseX,880),min(mouseY,460))
-			gc.setColor(.2,.2,.2,.7)
-			gc.rectangle('fill',0,0,400,260)
-			gc.setColor(1,1,1)
-			gc.setLineWidth(2)
-			gc.rectangle('line',0,0,400,260)
+		gc_translate(min(mouseX,880),min(mouseY,460))
+			gc_setColor(.2,.2,.2,.7)
+			gc_rectangle('fill',0,0,400,260)
+			gc_setColor(1,1,1)
+			gc_setLineWidth(2)
+			gc_rectangle('line',0,0,400,260)
 
-			gc.draw(USERS.getAvatar(selP.uid),5,5,nil,.5)
+			gc_draw(USERS.getAvatar(selP.uid),5,5,nil,.5)
 			setFont(30)
-			gc.print("#"..selP.uid,75,0)
+			gc_print("#"..selP.uid,75,0)
 			setFont(35)
-			gc.print(selP.username,75,25)
-		gc.translate(-min(mouseX,880),-min(mouseY,460))
+			gc_print(selP.username,75,25)
+		gc_translate(-min(mouseX,880),-min(mouseY,460))
 	end
 end
 
