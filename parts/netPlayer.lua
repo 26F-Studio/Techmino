@@ -90,7 +90,6 @@ end
 
 function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
 function netPLY.add(p)
-	p.mode=0
 	p.connected=false
 	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
 	local a=rnd()*6.2832
