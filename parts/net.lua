@@ -269,9 +269,9 @@ end
 function NET.changeConfig()
 	WS.send('play','{"action":5,"data":'..JSON.encode({config=dumpBasicConfig()})..'}')
 end
-function NET.signal_joinMode(ready)
-	if NET.lock('ready',3)and not NET.roomState.start then
-		WS.send('play','{"action":6,"data":'..JSON.encode{mode=ready}..'}')
+function NET.signal_setMode(mode)
+	if not NET.roomState.start and NET.lock('ready',3)then
+		WS.send('play','{"action":6,"data":'..JSON.encode{mode=mode}..'}')
 	end
 end
 function NET.signal_die()
@@ -491,6 +491,7 @@ function NET.updateWS_play()
 							NET.wsconn_stream()
 						elseif res.action==9 then--Game finished
 							NET.roomState.start=false
+							if NET.spectate then NET.signal_setMode(2) end
 							NET.spectate=false
 							if SCN.socketRead then SCN.socketRead('finish',d)end
 							NET.wsclose_stream()

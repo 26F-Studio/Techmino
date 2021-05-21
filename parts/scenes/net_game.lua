@@ -18,9 +18,9 @@ local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
-local function _setReady()NET.signal_joinMode(1)end
-local function _setSpectate()NET.signal_joinMode(2)end
-local function _setCancel()NET.signal_joinMode(0)end
+local function _setReady()NET.signal_setMode(1)end
+local function _setSpectate()NET.signal_setMode(2)end
+local function _setCancel()NET.signal_setMode(0)end
 local function _gotoSetting()
 	if not(netPLY.getSelfReady()or NET.getlock('ready'))then
 		SCN.go('setting_game')
@@ -131,7 +131,6 @@ function scene.keyDown(key)
 			_switchChat()
 		end
 	elseif not inputBox.hide then
-		print(1)
 		WIDGET.focus(inputBox)
 		inputBox:keypress(key)
 	elseif playing then
@@ -148,6 +147,7 @@ function scene.keyDown(key)
 			else
 				_setCancel()
 			end
+		elseif key=="s"then
 			_gotoSetting()
 		end
 	end
