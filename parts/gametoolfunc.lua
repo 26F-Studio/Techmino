@@ -612,16 +612,15 @@ do--function drawWarning()
 	end
 end
 do--function drawSystemInfo(
-	--你竟然找到了这里!那么在动手之前读读下面这些吧。
-	--【魔幻错别字躲关键字搜索警告，看得懂就行】
-	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码!
-	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/好几十个人及以上的非方块社区/群等)很可能会对Techmino未来的发展有负面影响
-	--如果被TTC发现，随时可能被他们用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
-	--氵印限制还可以减少低质量视屏泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
-	--想发视屏的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭氵印
-	--等Techmino发展到一定程度之后会解除这个限制
-	--最后，别把藏在这里的东西截图/复制出去哦~
-	--感谢您对Techmino的支持!!!
+	--你竟然找到了這裏!那麽在動手之前讀讀下面這些吧。
+	--千萬不要為了在網絡公共場合發視頻或者直播需要而擅自刪除這部分代碼!
+	--錄製視頻上傳到公共場合(包括但不限於任何視頻平臺/論壇/好幾十個人及以上的非方塊社區/群等)很可能會對Techmino未來的發展有負面影響
+	--如果被TTC發現，隨時可能被他們用DMCA從法律層面強迫停止開發，到時候誰都沒得玩。這是真的，已經有幾個方塊這麽死了…
+	--氵印限製還可以減少低質量視頻泛濫，也能減輕過多不是真的感興趣路人玩家入坑可能帶來的壓力
+	--想發視頻的話請先向作者申請，描述錄製的大致內容，同意了才可以去關閉氵印
+	--等Techmino發展到一定程度之後會解除這個限製
+	--最後，別把藏在這裏的東西截圖/復製出去哦~
+	--感謝您對Techmino的支持!!!
 	loadstring(love.data.decode('string','base64',"CWxvY2FsIGc9bG92ZS5ncmFwaGljcztsb2NhbCB4LHMsVCxkLGM9Zy5uZXdUZXh0KGdldEZvbnQoMjUpKSxtYXRoLnNpbixUSU1FLGcuZHJhdyxnLnNldENvbG9yO3g6c2V0ZigiQXV0aOS9nOiAhTpNclpfMjZcbkFscGhh5YaF5rWL56aB5q2i5b2V5bGPL+ebtOaSrVxuTm8gcmVjb3JkaW5nL3N0cmVhbWluZyIsMzAwLCdjZW50ZXInKWZ1bmN0aW9uIGRyYXdGV00oKWxvY2FsIHQ9VCgpYygxLDEsMSwuMTYrLjA2KihzKDMuNTUqdCkrcygyLjYqdCkpKWQoeCwzMCw3Mys1MypzKHQqLjI2KSllbmQK"))()
 end
 
