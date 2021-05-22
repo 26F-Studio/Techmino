@@ -34,10 +34,8 @@ function DATA.copySequence()
 	return str
 end
 function DATA.pasteSequence(str)
-	local b
-
-	local bag={}
-	local reg
+	TABLE.cut(BAG)
+	local b,reg
 	for i=1,#str do
 		b=byte(str,i)
 		if not reg then
@@ -48,21 +46,17 @@ function DATA.pasteSequence(str)
 			end
 		else
 			if b>=97 and b<=125 then
-				ins(bag,reg)
+				ins(BAG,reg)
 				reg=b-96
 			elseif b>=34 and b<=96 then
 				for _=1,b-32 do
-					ins(bag,reg)
+					ins(BAG,reg)
 				end
 				reg=false
 			end
 		end
 	end
-	if reg then
-		ins(bag,reg)
-	end
-
-	BAG=bag
+	if reg then ins(BAG,reg)end
 	return true
 end
 
