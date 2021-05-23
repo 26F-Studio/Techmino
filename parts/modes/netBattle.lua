@@ -6,7 +6,6 @@ return{
 		freshLimit=15,
 		pushSpeed=5,
 		garbageSpeed=2,
-		initSkip=true,
 		allowMod=false,
 		task=function(P)
 			local S=P.stat

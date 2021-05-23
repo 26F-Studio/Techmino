@@ -425,7 +425,6 @@ return{
 
 			-- bufferLimit="Buffer Limit",
 			-- heightLimit="Height Limit",
-			-- initSkip="Initial Skip",
 			ospin="O-spin",
 			fineKill="100% Finesse",
 			b2bKill="Sans perte de B2B",

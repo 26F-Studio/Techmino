@@ -453,7 +453,6 @@ return{
 
 			bufferLimit="缓冲上限",
 			heightLimit="高度上限",
-			initSkip="开局跳块",
 			ospin="O-spin",
 			fineKill="强制极简",
 			b2bKill="强制B2B",

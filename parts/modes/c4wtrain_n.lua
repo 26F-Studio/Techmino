@@ -22,7 +22,7 @@ return{
 		drop=30,lock=60,infHold=true,
 		task=function(P)P.modeData.maxCombo=0 end,
 		dropPiece=check_c4w,
-		freshLimit=15,ospin=false,initSkip=true,
+		freshLimit=15,ospin=false,
 		bg='rgb',bgm='oxygen',
 	},
 	pauseLimit=true,

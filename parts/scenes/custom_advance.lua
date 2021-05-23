@@ -20,7 +20,6 @@ scene.widgetList={
 	WIDGET.newSlider{name="holdCount",	x=180,	y=240,	w=200,unit=6,	disp=CUSval("holdCount"),code=CUSsto("holdCount")},
 	WIDGET.newSwitch{name="infHold",	x=330,	y=340,					disp=CUSval("infHold"),code=CUSrev("infHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
 	WIDGET.newSwitch{name="phyHold",	x=330,	y=430,					disp=CUSval("phyHold"),code=CUSrev("phyHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
-	WIDGET.newSwitch{name="initSkip",	x=330,	y=530,	font=25,		disp=CUSval("initSkip"),code=CUSrev("initSkip")},
 
 	--Rule
 	WIDGET.newSelector{name="visible",	x=840,	y=60,	w=260,color='lB',list=sList.visible,	disp=CUSval("visible"),		code=CUSsto("visible")},

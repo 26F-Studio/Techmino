@@ -1918,9 +1918,6 @@ function Player:act_hold()
 		if self.waiting==-1 then
 			self:hold()
 		end
-	elseif self.gameEnv.initSkip then
-		rem(self.nextQueue,1)
-		self.newNext()
 	end
 end
 function Player:act_func1()

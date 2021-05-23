@@ -463,7 +463,6 @@ local function drawStartCounter(P)
 		end
 		setFont(100)
 		mStr(num,0,-70)
-		--P.gameEnv.initSkip
 	gc_pop()
 end
 

@@ -20,7 +20,6 @@
 			phyHold:是否开启物理hold
 			ospin=是否能O-spin
 			deepDrop:是否开启深降
-			initSkip:是否开启开局跳块
 			RS:旋转系统名
 
 			das:DAS

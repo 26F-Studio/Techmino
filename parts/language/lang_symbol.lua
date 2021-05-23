@@ -306,7 +306,6 @@ return{
 
 			bufferLimit="^↑",
 			heightLimit="#↑",
-			initSkip="X→→",
 			ospin="O→Any",
 			fineKill="12 XX 21",
 			b2bKill="_1 XX",
