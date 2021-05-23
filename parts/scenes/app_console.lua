@@ -127,6 +127,16 @@ do--commands.help(arg)
 				"Usage: rst",
 			},
 		},
+		rmst={
+			description="Erase setting value",
+			details={
+				"Erase a setting value",
+				"Useful if you have your setting corrupted",
+				"YOU MUST RESTART THE GAME AFTER USING THIS",
+				"",
+				"Usage: rmst [key]",
+			},
+		},
 		fn={
 			description="Simulates a Function key press.",
 			details={
@@ -252,6 +262,7 @@ do--commands.help(arg)
 		"mv",
 		"cls",
 		"rst",
+		"rmst",
 		"fn",
 		"scrinfo",
 		"wireframe",
@@ -302,7 +313,7 @@ function commands.print(name)
 			log{C.R,("No file called '%s'"):format(name)}
 		end
 	else
-		log{C.aqua,"Usage: print [filename]"}
+		log{C.A,"Usage: print [filename]"}
 	end
 end
 function commands.url(url)
@@ -312,7 +323,7 @@ function commands.url(url)
 			log{C.R,"[ERR] ",C.Z,err}
 		end
 	else
-		log{C.aqua,"Usage: url [url]"}
+		log{C.A,"Usage: url [url]"}
 	end
 end
 do--function commands.tree()
@@ -405,8 +416,8 @@ do--function commands.del(name)
 				log{C.R,("No file called '%s'"):format(name)}
 			end
 		else
-			log{C.aqua,"Usage: del [filename|dirname]"}
-			log{C.aqua,"Usage: del -s [dirname]"}
+			log{C.A,"Usage: del [filename|dirname]"}
+			log{C.A,"Usage: del -s [dirname]"}
 		end
 	end
 	commands.rm=commands.del
@@ -418,7 +429,7 @@ function commands.mv(arg)
 		log{C.lY,"Warning: file name with space is not allowed"}
 		return
 	elseif #arg<2 then
-		log{C.aqua,"Usage: ren [oldfilename] [newfilename]"}
+		log{C.A,"Usage: ren [oldfilename] [newfilename]"}
 		return
 	end
 
@@ -449,15 +460,28 @@ commands.quit=backScene
 commands.bye=backScene
 
 --Game commands
+function commands.rmst(key)
+	if #key>0 then
+		if SETTING[key]~=nil then
+			SETTING[key]=nil
+			FILE.save(SETTING,'conf/settings','q')
+			log{C.Y,("Succesfully erased key '%s'"):format(key)}
+		else
+			log{C.R,"No key called "..key}
+		end
+	else
+		log{C.A,"Usage: rmst [key]"}
+	end
+end
 function commands.fn(n)
 	if tonumber(n)then
 		n=math.floor(tonumber(n))
 		if n>=1 and n<=12 then
 			love.keypressed("f"..n)
-			return
 		end
+	else
+		log{C.A,"Usage: fn [1~12]"}
 	end
-	log{C.aqua,"Usage: fn [1~12]"}
 end
 function commands.scrinfo()
 	for _,v in next,SCR.info()do
@@ -469,7 +493,7 @@ function commands.wireframe(bool)
 		gc.setWireframe(bool=="true")
 		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 	else
-		log{C.aqua,"Usage: wireframe <true|false>"}
+		log{C.A,"Usage: wireframe <true|false>"}
 	end
 end
 function commands.gammacorrect(bool)
@@ -477,7 +501,7 @@ function commands.gammacorrect(bool)
 		love._setGammaCorrect(bool=="true")
 		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 	else
-		log{C.aqua,"Usage: gammacorrect <true|false>"}
+		log{C.A,"Usage: gammacorrect <true|false>"}
 	end
 end
 commands["\114\109\119\116\109"]=function(pw)
@@ -508,7 +532,7 @@ function commands.play(m)--marathon_bfmax can only entered through here
 	elseif m~=""then
 		log{C.R,"No mode called "..m}
 	else
-		log{C.aqua,"Usage: play [modeName]"}
+		log{C.A,"Usage: play [modeName]"}
 	end
 end
 function commands.playbgm(bgm)
@@ -523,7 +547,7 @@ function commands.playbgm(bgm)
 			log("Already playing: "..bgm)
 			end
 	else
-		log{C.aqua,"Usage: playbgm [bgmName]"}
+		log{C.A,"Usage: playbgm [bgmName]"}
 	end
 end
 commands.music=commands.playbgm
@@ -542,7 +566,7 @@ function commands.setbg(name)
 			log(("Background already set to '%s'"):format(name))
 		end
 	else
-		log{C.aqua,"Usage: setbg [bgName]"}
+		log{C.A,"Usage: setbg [bgName]"}
 	end
 end
 function commands.theme(name)
@@ -553,7 +577,7 @@ function commands.theme(name)
 			log("No theme called "..name)
 		end
 	else
-		log{C.aqua,"Usage: theme [themeName]"}
+		log{C.A,"Usage: theme [themeName]"}
 	end
 end
 function commands.test()
@@ -589,12 +613,12 @@ do--commands.applet(name)
 			if i then
 				SCN.go(appScene[i])
 			else
-				log{C.aqua,"No this applet"}
+				log{C.A,"No this applet"}
 			end
 		else
-			log{C.aqua,"Usage:"}
-			log{C.aqua,"applet -list"}
-			log{C.aqua,"applet [appName]"}
+			log{C.A,"Usage:"}
+			log{C.A,"applet -list"}
+			log{C.A,"applet [appName]"}
 		end
 	end
 	commands.app=commands.applet

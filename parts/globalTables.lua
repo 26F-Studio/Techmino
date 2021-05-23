@@ -192,6 +192,7 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Local data
 	xp=0,lv=1,
 }
+
 customEnv0={
 	version=VERSION.code,
 
@@ -240,7 +241,6 @@ if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then
 else
 	TABLE.complete(customEnv0,CUSTOMENV)
 end
-
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
