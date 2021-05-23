@@ -44,7 +44,7 @@ end
 function THEME.set(theme)
 	if theme=='classic'then
 		BG.setDefault('space')
-		BGM.setDefault("blank")
+		BGM.setDefault("space")
 	elseif theme=='xmas'then
 		BG.setDefault('snow')
 		BGM.setDefault('xmas')
