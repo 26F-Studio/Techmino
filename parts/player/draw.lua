@@ -494,7 +494,7 @@ function draw.drawNext_norm(P)
 
 		if ENV.bagLine then
 			gc_setColor(.8,.5,.5)
-			for i=-P.pieceCount%ENV.bagLen,N-1,ENV.bagLen do--i=phase
+			for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
 				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
@@ -528,7 +528,7 @@ function draw.drawNext_hidden(P)
 
 		if ENV.bagLine then
 			gc_setColor(.8,.5,.5)
-			for i=-P.pieceCount%ENV.bagLen,N-1,ENV.bagLen do--i=phase
+			for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
 				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
