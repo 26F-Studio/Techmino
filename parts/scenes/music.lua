@@ -2,7 +2,16 @@ local gc=love.graphics
 local sin=math.sin
 
 local author={
-	battle="Aether",
+	blank="MrZ (old works)",
+	race="MrZ (old works)",
+	infinite="MrZ (old works)",
+	push="MrZ (old works)",
+	way="MrZ (old works)",
+	reason="MrZ (old works)",
+	cruelty="MrZ (old works)",
+	final="MrZ (old works)",
+	["end"]="MrZ (old works)",
+	battle="Aether & MrZ",
 	empty="ERM",
 	["how feeling"]="????",
 }
