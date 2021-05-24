@@ -954,9 +954,9 @@ return{
 		"The name of this thing... or Zictionary for short.\nUsed to be a chat bot that serves for the same function, and mostly uses the same list of keywords.",
 	},
 	{"MrZ",
-		"mrz626",
+		"mrz 626",
 		"name",
-		"Tetris Research community member, author of Techmino.\nPersonal bests: Sprint 25.95 seconds, MPH Sprint 57 seconds, #8 on Jstris leaderboards, U rank on TETR.IO, cleared TGM3 (World rule, Shirase gold 1300).",
+		"Tetris Research community member, author of Techmino.\nPersonal bests: Sprint 25.95 seconds, MPH Sprint 57 seconds, #8 on Jstris leaderboards, X rank on TETR.IO, cleared TGM3 (World rule, Shirase gold 1300).",
 		"https://space.bilibili.com/225238922",
 	},
 
