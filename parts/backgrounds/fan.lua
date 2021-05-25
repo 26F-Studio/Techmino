@@ -1,6 +1,11 @@
 --UUZ's fan
 local gc=love.graphics
-local polygon,ellipse=gc.polygon,gc.ellipse
+local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_translate=gc.translate
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_line,gc_polygon=gc.line,gc.polygon
+local gc_arc,gc_ellipse=gc.arc,gc.ellipse
+
 local rnd=math.random
 local max,min,sin=math.max,math.min,math.sin
 local ins,rem=table.insert,table.remove
@@ -9,7 +14,7 @@ local back={}
 local t
 local fan,petal
 function back.init()
-	t=rnd(2600)
+	t=0
 	fan=title_fan
 	petal={}
 end
@@ -39,35 +44,33 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.push('transform')
-	gc.translate(SCR.w/2,SCR.h/2+20*sin(t*.02))
-	gc.scale(SCR.k)
-	gc.clear(.1,.1,.1)
-	gc.setLineWidth(320)
-	gc.setColor(.3,.2,.3)
-	gc.arc('line','open',0,420,500,-.8*3.1416,-.2*3.1416)
+	gc_push('transform')
+	gc.replaceTransform(SCR.xOy)
+	gc_translate(640,360+20*sin(t*.02))
+	gc_clear(.1,.1,.1)
+	gc_setLineWidth(320)
+	gc_setColor(.3,.2,.3)
+	gc_arc('line','open',0,420,500,-.8*3.1416,-.2*3.1416)
 
-	gc.setLineWidth(4)
-	gc.setColor(.7,.5,.65)
-	gc.arc('line','open',0,420,660,-.799*3.1416,-.201*3.1416)
-	gc.arc('line','open',0,420,340,-.808*3.1416,-.192*3.1416)
-	gc.line(-281,224,-530,30.5)
-	gc.line(281,224,530,30.5)
+	gc_setLineWidth(4)
+	gc_setColor(.7,.5,.65)
+	gc_arc('line','open',0,420,660,-.799*3.1416,-.201*3.1416)
+	gc_arc('line','open',0,420,340,-.808*3.1416,-.192*3.1416)
+	gc_line(-281,224,-530,30.5)
+	gc_line(281,224,530,30.5)
 
-	gc.setLineWidth(6)
-	gc.setColor(.55,.5,.6)
-	for i=1,8 do
-		polygon('line',fan[i])
-	end
+	gc_setLineWidth(6)
+	gc_setColor(.55,.5,.6)
+	for i=1,8 do gc_polygon('line',fan[i])end
 
-	gc.setLineWidth(2)
-	gc.setColor(.6,.3,.5)
-	gc.origin()
+	gc_setLineWidth(2)
+	gc_setColor(.6,.3,.5)
+	gc_origin()
 	for i=1,#petal do
 		local P=petal[i]
-		ellipse('fill',P.x,P.y,P.rx,P.ry)
+		gc_ellipse('fill',P.x,P.y,P.rx,P.ry)
 	end
-	gc.pop()
+	gc_pop()
 end
 function back.discard()
 	petal=nil
