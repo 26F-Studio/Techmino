@@ -1,43 +1,45 @@
 local gc=love.graphics
+local gc_setColor,gc_print=gc.setColor,gc.print
 local int,max,min=math.floor,math.max,math.min
 local ins,rem=table.insert,table.remove
+local SCR,setFont=SCR,setFont
 
-local debugMesList={}
-local debugMesHistory={
+local mesList={}
+local mesHistory={
 	"Version: "..VERSION.string,
 	os.date("Launched at %Y/%m/%d %H:%M"),
 }
 local LOG={}
 function LOG.update()
-	if debugMesList[1]then
-		for i=#debugMesList,1,-1 do
-			local M=debugMesList[i]
+	if mesList[1]then
+		for i=#mesList,1,-1 do
+			local M=mesList[i]
 			if M.blink>0 then
 				M.blink=M.blink-1
 			else
 				M.time=M.time-1
 				if M.time==0 then
-					rem(debugMesList,i)
+					rem(mesList,i)
 				end
 			end
 		end
 	end
 end
 function LOG.draw()
-	if debugMesList[1]then
+	if mesList[1]then
 		local k=SCR.w/SCR.w0
 		setFont(max(int(4*k)*5,5))
-		for i=1,#debugMesList do
-			local M=debugMesList[i]
-			local t=M.time
-			gc.setColor(M.r,M.g,M.b,M.blink>0 and int(M.blink/3)%2 or min(t/26,1))
-			gc.print(M.text,10+(20-min(t,20))^1.5/4,25*i*k)
+		for i=1,#mesList do
+			local M=mesList[i]
+			M.rgba[4]=M.blink>0 and int(M.blink/3)%2 or min(M.time/26,1)
+			gc_setColor(M.rgba)
+			gc_print(M.text,10+(20-min(M.time,20))^1.5/4,25*i*k)
 		end
 	end
 end
 function LOG.print(text,T)--text,type/time/color,color
 	local color=COLOR.Z
-	local time,his
+	local his,time
 	if T=='message'then
 		color=COLOR.N
 		his,time=true,180
@@ -50,11 +52,11 @@ function LOG.print(text,T)--text,type/time/color,color
 	elseif type(T)=='number'then
 		time=T
 	end
-	if his then ins(debugMesHistory,SCN.cur..": "..tostring(text))end
-	ins(debugMesList,{text=tostring(text),r=color[1],g=color[2],b=color[3],blink=30,time=time or 120})
+	if his then ins(mesHistory,SCN.cur..": "..tostring(text))end
+	ins(mesList,{text=tostring(text),rgba={color[1],color[2],color[3],nil},blink=30,time=time or 120})
 end
 function LOG.copy()
-	love.system.setClipboardText(table.concat(debugMesHistory,"\n"))
+	love.system.setClipboardText(table.concat(mesHistory,"\n"))
 	LOG.print("Log copied",'message')
 end
 return LOG

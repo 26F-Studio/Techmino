@@ -3,20 +3,20 @@ EDITING=""
 LOADED=false
 ERRDATA={}
 
-SCR=	require"Zframework.screen"
-COLOR=	require"Zframework.color"
-SCN=	require"Zframework.scene"
-LOG=	require"Zframework.log"
-WS=		require"Zframework.websocket"
-
-LOADLIB=require"Zframework.loadLib"
-WHEELMOV=require"Zframework.wheelScroll"
-
 require"Zframework.setFont"
 ADRAW=require"Zframework.aDraw"
 	mStr=ADRAW.str
 	mText=ADRAW.simpX
 	mDraw=ADRAW.draw
+
+SCR=	require"Zframework.screen"
+COLOR=	require"Zframework.color"
+LOG=	require"Zframework.log"
+SCN=	require"Zframework.scene"
+WS=		require"Zframework.websocket"
+
+LOADLIB=require"Zframework.loadLib"
+WHEELMOV=require"Zframework.wheelScroll"
 
 JSON=require"Zframework.json"
 TABLE=require"Zframework.tableExtend"
@@ -213,12 +213,12 @@ local function noDevkeyPressed(key)
 	elseif key=="f5"then	print(WIDGET.isFocus()or"no widget selected")
 	elseif key=="f6"then	for k,v in next,_G do print(k,v)end
 	elseif key=="f7"then	if love._openConsole then love._openConsole()end
-	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF")
+	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",10)
 	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1")
 	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2")
 	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3")
 	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4")
-	elseif key=="\\"then	_G["\100\114\97\119\70\87\77"]=NULL
+	elseif key=="backspace"then	if kb.isDown("lctrl","rctrl")then _G["\100\114\97\119\70\87\77"]=NULL end
 	elseif devMode==2 then
 		local W=WIDGET.sel
 		if W then
@@ -247,7 +247,7 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		LOG.print("DEBUG ON")
+		LOG.print("DEBUG ON",10)
 	elseif key=="f11"then
 		switchFullscreen()
 	elseif not SCN.swapping then
@@ -586,16 +586,20 @@ function love.run()
 				gc_pop()
 
 				--Draw power info.
-				gc_setColor(1,1,1)
 				if SETTING.powerInfo then
+					gc_setColor(1,1,1)
 					gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 				end
 
 				--Draw scene swapping animation
 				if SCN.swapping then
+					gc_setColor(1,1,1)
 					_=SCN.stat
 					_.draw(_.time)
 				end
+
+				--Draw Logs
+				LOG.draw()
 
 				--Draw FPS
 				setFont(15)
@@ -650,7 +654,6 @@ function love.run()
 					elseif devMode==4 then WAIT(.5)
 					end
 				end
-				LOG.draw()
 
 				gc_present()
 
