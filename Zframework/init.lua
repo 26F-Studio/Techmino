@@ -45,10 +45,13 @@ THEME=	require"Zframework.theme"
 local ms,kb=love.mouse,love.keyboard
 
 local gc=love.graphics
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_discard,gc_present=gc.discard,gc.present
-local gc_setColor,gc_draw,gc_rectangle=gc.setColor,gc.draw,gc.rectangle
-local gc_print=gc.print
+local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_replaceTransform,gc_present,gc_discard=gc.replaceTransform,gc.present,gc.discard
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line=gc.draw,gc.line
+local gc_rectangle=gc.rectangle
+local gc_print,gc_printf=gc.print,gc.printf
+
 local setFont,mStr=setFont,mStr
 
 local int,rnd,abs=math.floor,math.random,math.abs
@@ -74,15 +77,17 @@ local batteryImg=DOGC{31,20,
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
 	local state,pow=love.system.getPowerInfo()
-	gc.setCanvas(infoCanvas)gc_push('transform')gc.origin()
-	gc.clear(0,0,0,.25)
+	gc.setCanvas(infoCanvas)
+	gc_push('transform')
+	gc_origin()
+	gc_clear(0,0,0,.25)
 	if state~='unknown'then
-		gc.setLineWidth(4)
+		gc_setLineWidth(4)
 		local charging=state=='charging'
 		if state=='nobattery'then
 			gc_setColor(1,1,1)
-			gc.setLineWidth(2)
-			gc.line(74,SCR.safeX+5,100,22)
+			gc_setLineWidth(2)
+			gc_line(74,SCR.safeX+5,100,22)
 		elseif pow then
 			if charging then	gc_setColor(0,1,0)
 			elseif pow>50 then	gc_setColor(1,1,1)
@@ -106,7 +111,8 @@ local function updatePowerInfo()
 	end
 	setFont(25)
 	gc_print(os.date("%H:%M"),3,-5)
-	gc_pop()gc.setCanvas()
+	gc_pop()
+	gc.setCanvas()
 end
 -------------------------------------------------------------
 local lastX,lastY=0,0--Last click pos
@@ -430,14 +436,14 @@ function love.errorhandler(msg)
 					SCR.resize(a,b)
 				end
 			end
-			gc.clear(.3,.5,.9)
+			gc_clear(.3,.5,.9)
 			gc_push('transform')
-			gc.replaceTransform(xOy)
+			gc_replaceTransform(xOy)
 			setFont(100)gc_print(":(",100,0,0,1.2)
-			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
+			setFont(40)gc_printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
 			gc_print(SYSTEM.."-"..VERSION.string.."                          scene:"..(SCN and SCN.cur or"NULL"),100,660)
-			gc.printf(err[1],100,360,1260-100)
+			gc_printf(err[1],100,360,1260-100)
 			gc_print("TRACEBACK",100,450)
 			for i=4,#err-2 do
 				gc_print(err[i],100,400+20*i)
@@ -557,9 +563,7 @@ function love.run()
 				--Draw background
 				BG.draw()
 
-				gc_push('transform')
-					gc.replaceTransform(xOy)
-
+				gc.replaceTransform(xOy)
 					--Draw scene contents
 					if SCN.draw then SCN.draw()end
 
@@ -583,78 +587,76 @@ function love.run()
 					end
 					SYSFX.draw()
 					TEXT.draw()
-				gc_pop()
-
-				--Draw power info.
-				if SETTING.powerInfo then
-					gc_setColor(1,1,1)
-					gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
-				end
-
-				--Draw scene swapping animation
-				if SCN.swapping then
-					gc_setColor(1,1,1)
-					_=SCN.stat
-					_.draw(_.time)
-				end
-
-				--Draw Logs
-				LOG.draw()
-
-				--Draw FPS
-				setFont(15)
-				_=SCR.h
-				gc_setColor(1,1,1)
-				gc_print(FPS(),SCR.safeX+5,_-20)
-
-				--Debug info.
-				if devMode then
-					--Left-down infos
-					gc_setColor(devColor[devMode])
-					gc_print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
-					gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
-					gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
-					gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
-					gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
-
-					--Update & draw frame time
-					ins(frameTimeList,1,dt)rem(frameTimeList,126)
-					gc_setColor(1,1,1,.3)
-					for i=1,#frameTimeList do
-						gc_rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
+				gc.origin()
+					--Draw power info.
+					if SETTING.powerInfo then
+						gc_setColor(1,1,1)
+						gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 					end
 
-					--Websocket status
-					gc_push('transform')
-					gc.translate(SCR.w,SCR.h)
-					gc.scale(SCR.k)
-					for i=1,5 do
-						local status=WS.status(WSnames[i])
-						gc_setColor(WScolor[i])
-						gc_rectangle('fill',0,20*i-100,-80,-20)
-						if status=='dead'then
-							gc_setColor(1,1,1)
-							gc_draw(ws_deadImg,-20,20*i-120)
-						elseif status=='connecting'then
-							gc_setColor(1,1,1,.5+.3*sin(time*6.26))
-							gc_draw(ws_connectingImg,-20,20*i-120)
-						elseif status=='running'then
-							gc_setColor(1,1,1)
-							gc_draw(ws_runningImg,-20,20*i-120)
+					--Draw scene swapping animation
+					if SCN.swapping then
+						gc_setColor(1,1,1)
+						_=SCN.stat
+						_.draw(_.time)
+					end
+
+					--Draw Logs
+					LOG.draw()
+
+					--Draw FPS
+					setFont(15)
+					_=SCR.h
+					gc_setColor(1,1,1)
+					gc_print(FPS(),SCR.safeX+5,_-20)
+
+					--Debug info.
+					if devMode then
+						--Left-down infos
+						gc_setColor(devColor[devMode])
+						gc_print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
+						gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
+						gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
+						gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
+						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
+
+						--Update & draw frame time
+						ins(frameTimeList,1,dt)rem(frameTimeList,126)
+						gc_setColor(1,1,1,.3)
+						for i=1,#frameTimeList do
+							gc_rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
 						end
-						local t1,t2,t3=WS.getTimers(WSnames[i])
-						gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i-100,-20,-20)
-						gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i-100,-20,-20)
-						gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i-100,-20,-20)
-					end
-					gc_pop()
 
-					--Slow devmode
-					if devMode==3 then WAIT(.1)
-					elseif devMode==4 then WAIT(.5)
-					end
-				end
+						--Websocket status
+						gc_push('transform')
+						gc.translate(SCR.w,SCR.h)
+						gc.scale(SCR.k)
+						for i=1,5 do
+							local status=WS.status(WSnames[i])
+							gc_setColor(WScolor[i])
+							gc_rectangle('fill',0,20*i-100,-80,-20)
+							if status=='dead'then
+								gc_setColor(1,1,1)
+								gc_draw(ws_deadImg,-20,20*i-120)
+							elseif status=='connecting'then
+								gc_setColor(1,1,1,.5+.3*sin(time*6.26))
+								gc_draw(ws_connectingImg,-20,20*i-120)
+							elseif status=='running'then
+								gc_setColor(1,1,1)
+								gc_draw(ws_runningImg,-20,20*i-120)
+							end
+							local t1,t2,t3=WS.getTimers(WSnames[i])
+							gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i-100,-20,-20)
+							gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i-100,-20,-20)
+							gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i-100,-20,-20)
+						end
+						gc_pop()
 
+						--Slow devmode
+						if devMode==3 then WAIT(.1)
+						elseif devMode==4 then WAIT(.5)
+						end
+					end
 				gc_present()
 
 				--SPEED UPUPUP!

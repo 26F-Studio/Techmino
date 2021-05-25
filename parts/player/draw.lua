@@ -658,7 +658,7 @@ function draw.norm(P)
 
 			--Draw boarders
 			gc_setColor(P.frameColor)
-			gc.draw(playerBoarders,-17,-12)
+			gc_draw(playerBoarders,-17,-12)
 
 			--Draw target selecting pad
 			if GAME.modeEnv.royaleMode then
