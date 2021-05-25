@@ -15,7 +15,7 @@ local SETTING,GAME,SCR=SETTING,GAME,SCR
 function switchFullscreen()
 	SETTING.fullscreen=not SETTING.fullscreen
 	love.window.setFullscreen(SETTING.fullscreen)
-	love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+	love.resize(gc.getWidth(),gc.getHeight())
 end
 
 

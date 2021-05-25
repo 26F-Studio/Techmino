@@ -22,7 +22,6 @@ function love.conf(t)
 	W.minwidth,W.minheight=640,360
 	W.borderless=false
 	W.resizable=true
-	W.fullscreentype='desktop'--'exclusive'
 	W.fullscreen=false
 	W.vsync=0--Unlimited FPS
 	W.msaa=false--Num of samples to use with multi-sampled antialiasing

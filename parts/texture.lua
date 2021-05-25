@@ -1,5 +1,4 @@
 local gc=love.graphics
-local ins=table.insert
 
 local function NSC(x,y)--New & Set Canvas
 	local _=gc.newCanvas(x,y)
