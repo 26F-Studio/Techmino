@@ -85,7 +85,7 @@ end
 function scene.draw()
 	gc.setColor(1,1,1)
 	gc.setLineWidth(3)
-	gc.rectangle('line',490,85,300,600)
+	gc.rectangle('line',490,65,300,610)
 	VK.preview(selected)
 	if snapUnit>=10 then
 		gc.setLineWidth(3)

@@ -84,8 +84,8 @@ return{
 
 			text="招式名",
 			score="跳分",
-			highCam="拉镜",
 			warn="要死",
+			highCam="拉镜",
 		},
 		setting_sound={
 			title="改声音",
@@ -93,9 +93,9 @@ return{
 			game="←游戏设置",
 			graphic="改画面→",
 
+			bgm="曲",
 			spawn="出块",
 			warn="警告",
-			bgm="曲",
 			vib="嗡嗡",
 			cv="谁",
 		},
