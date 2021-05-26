@@ -253,9 +253,13 @@ return{
 			quit="退出(Q)",
 		},
 		net_menu={
+			league="Tech League",
 			ffa="FFA",
 			rooms="房间列表",
 			logout="退出登录",
+		},
+		net_league={
+			match="匹配对手",
 		},
 		net_rooms={
 			refreshing="刷新房间列表中",

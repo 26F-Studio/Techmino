@@ -253,9 +253,13 @@ return{
 			quit="Quit (Q)",
 		},
 		net_menu={
+			league="Tech League",
 			ffa="FFA",
 			rooms="Rooms",
 			logout="Log out",
+		},
+		net_league={
+			match="Find Match",
 		},
 		net_rooms={
 			refreshing="Refreshing rooms",
