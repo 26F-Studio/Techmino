@@ -1,4 +1,11 @@
-local kb,gc=love.keyboard,love.graphics
+local gc=love.graphics
+local gc_translate=gc.translate
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line=gc.draw,gc.line
+local gc_rectangle=gc.rectangle
+local gc_print,gc_printf=gc.print,gc.printf
+
+local kb=love.keyboard
 
 local next=next
 local int,abs=math.floor,math.abs
@@ -51,13 +58,13 @@ end
 function text:draw()
 	if self.alpha>0 then
 		local c=self.color
-		gc.setColor(c[1],c[2],c[3],self.alpha)
+		gc_setColor(c[1],c[2],c[3],self.alpha)
 		if self.align=='M'then
 			mDraw_X(self.obj,self.x,self.y)
 		elseif self.align=='L'then
-			gc.draw(self.obj,self.x,self.y)
+			gc_draw(self.obj,self.x,self.y)
 		elseif self.align=='R'then
-			gc.draw(self.obj,self.x-self.obj:getWidth(),self.y)
+			gc_draw(self.obj,self.x-self.obj:getWidth(),self.y)
 		end
 	end
 end
@@ -88,8 +95,8 @@ function image:reset()
 	end
 end
 function image:draw()
-	gc.setColor(1,1,1,self.alpha)
-	gc.draw(self.img,self.x,self.y,self.ang,self.k)
+	gc_setColor(1,1,1,self.alpha)
+	gc_draw(self.img,self.x,self.y,self.ang,self.k)
 end
 function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hideF][,hide]
 	local _={
@@ -147,23 +154,23 @@ function button:draw()
 	local ATV=self.ATV
 	local c=self.color
 	local r,g,b=c[1],c[2],c[3]
-	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc.rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV)
+	gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+	gc_rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV)
 	if ATV>0 then
-		gc.setLineWidth(4)
-		gc.setColor(1,1,1,ATV*.125)
-		gc.rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
+		gc_setLineWidth(4)
+		gc_setColor(1,1,1,ATV*.125)
+		gc_rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
 	end
 	local obj=self.obj
 	local y0=y+h*.5-ATV*.5
-	gc.setColor(1,1,1,.2+ATV*.05)
+	gc_setColor(1,1,1,.2+ATV*.05)
 	if self.align=='M'then
 		local x0=x+w*.5
 		mDraw(obj,x0-1.5,y0-1.5)
 		mDraw(obj,x0-1.5,y0+1.5)
 		mDraw(obj,x0+1.5,y0-1.5)
 		mDraw(obj,x0+1.5,y0+1.5)
-		gc.setColor(r*.5,g*.5,b*.5)
+		gc_setColor(r*.5,g*.5,b*.5)
 		mDraw(obj,x0,y0)
 	elseif self.align=='L'then
 		local edge=self.edge
@@ -171,7 +178,7 @@ function button:draw()
 		mDraw_Y(obj,x+edge-1.5,y0+1.5)
 		mDraw_Y(obj,x+edge+1.5,y0-1.5)
 		mDraw_Y(obj,x+edge+1.5,y0+1.5)
-		gc.setColor(r*.5,g*.5,b*.5)
+		gc_setColor(r*.5,g*.5,b*.5)
 		mDraw_Y(obj,x+edge,y0)
 	elseif self.align=='R'then
 		local x0=x+w-self.edge-obj:getWidth()
@@ -179,7 +186,7 @@ function button:draw()
 		mDraw_Y(obj,x0-1.5,y0+1.5)
 		mDraw_Y(obj,x0+1.5,y0-1.5)
 		mDraw_Y(obj,x0+1.5,y0+1.5)
-		gc.setColor(r*.5,g*.5,b*.5)
+		gc_setColor(r*.5,g*.5,b*.5)
 		mDraw_Y(obj,x0,y0)
 	end
 end
@@ -192,7 +199,7 @@ function button:press(_,_,k)
 	SYSFX.newRectRipple(
 		6,
 		self.x-ATV,
-		self.y-ATV,
+		self.y-ATV-WIDGET.scrollPos,
 		self.w+2*ATV,
 		self.h+2*ATV
 	)
@@ -270,14 +277,14 @@ function key:draw()
 	local c=self.color
 	local r,g,b=c[1],c[2],c[3]
 
-	gc.setColor(1,1,1,ATV*.1)
-	gc.rectangle('fill',x,y,w,h)
+	gc_setColor(1,1,1,ATV*.1)
+	gc_rectangle('fill',x,y,w,h)
 
-	gc.setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc.setLineWidth(4)
-	gc.rectangle('line',x,y,w,h)
+	gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+	gc_setLineWidth(4)
+	gc_rectangle('line',x,y,w,h)
 
-	gc.setColor(r,g,b,1.2)
+	gc_setColor(r,g,b,1.2)
 	if self.align=='M'then
 		mDraw(self.obj,x+w*.5,y+h*.5)
 	elseif self.align=='L'then
@@ -358,22 +365,22 @@ function switch:draw()
 
 	--Checked
 	if ATV>0 then
-		gc.setColor(1,1,1,ATV*.08)
-		gc.rectangle('fill',x,y,50,50)
+		gc_setColor(1,1,1,ATV*.08)
+		gc_rectangle('fill',x,y,50,50)
 	end
 	if self.CHK>0 then
-		gc.setColor(.9,1,.9,self.CHK/6)
-		gc.setLineWidth(6)
-		gc.line(x+5,y+25,x+18,y+38,x+45,y+11)
+		gc_setColor(.9,1,.9,self.CHK/6)
+		gc_setLineWidth(6)
+		gc_line(x+5,y+25,x+18,y+38,x+45,y+11)
 	end
 
 	--Frame
-	gc.setLineWidth(4)
-	gc.setColor(1,1,1,.6+ATV*.05)
-	gc.rectangle('line',x,y,50,50)
+	gc_setLineWidth(4)
+	gc_setColor(1,1,1,.6+ATV*.05)
+	gc_rectangle('line',x,y,50,50)
 
 	--Drawable
-	gc.setColor(self.color)
+	gc_setColor(self.color)
 	mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y+25)
 end
 function switch:getInfo()
@@ -463,41 +470,41 @@ function slider:draw()
 	local ATV=self.ATV
 	local x2=x+self.w
 
-	gc.setColor(1,1,1,.5+ATV*.06)
+	gc_setColor(1,1,1,.5+ATV*.06)
 
 	--Units
 	if not self.smooth then
-		gc.setLineWidth(2)
+		gc_setLineWidth(2)
 		for p=0,self.unit do
 			local X=x+(x2-x)*p/self.unit
-			gc.line(X,y+7,X,y-7)
+			gc_line(X,y+7,X,y-7)
 		end
 	end
 
 	--Axis
-	gc.setLineWidth(4)
-	gc.line(x,y,x2,y)
+	gc_setLineWidth(4)
+	gc_line(x,y,x2,y)
 
 	--Block
 	local cx=x+(x2-x)*self.pos/self.unit
 	local bx,by,bw,bh=cx-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
-	gc.setColor(.8,.8,.8)
-	gc.rectangle('fill',bx,by,bw,bh)
+	gc_setColor(.8,.8,.8)
+	gc_rectangle('fill',bx,by,bw,bh)
 
 	if ATV>0 then
-		gc.setLineWidth(2)
-		gc.setColor(1,1,1,ATV*.16)
-		gc.rectangle('line',bx+1,by+1,bw-2,bh-2)
+		gc_setLineWidth(2)
+		gc_setColor(1,1,1,ATV*.16)
+		gc_rectangle('line',bx+1,by+1,bw-2,bh-2)
 	end
 	if self.TAT>0 and self.show then
 		setFont(25)
-		gc.setColor(1,1,1,self.TAT/180)
+		gc_setColor(1,1,1,self.TAT/180)
 		mStr(self:show(),cx,by-30)
 	end
 
 	--Drawable
 	if self.obj then
-		gc.setColor(self.color)
+		gc_setColor(self.color)
 		mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y)
 	end
 end
@@ -635,32 +642,32 @@ function selector:draw()
 	local w=self.w
 	local ATV=self.ATV
 
-	gc.setColor(1,1,1,.6+ATV*.1)
-	gc.setLineWidth(3)
-	gc.rectangle('line',x,y,w,60)
+	gc_setColor(1,1,1,.6+ATV*.1)
+	gc_setLineWidth(3)
+	gc_rectangle('line',x,y,w,60)
 
-	gc.setColor(1,1,1,.2+ATV*.1)
+	gc_setColor(1,1,1,.2+ATV*.1)
 	local t=(TIME()%.5)^.5
 	if self.select>1 then
-		gc.draw(smallerThen,x+6,y+33)
+		gc_draw(smallerThen,x+6,y+33)
 		if ATV>0 then
-			gc.setColor(1,1,1,ATV*.4*(.5-t))
-			gc.draw(smallerThen,x+6-t*40,y+33)
-			gc.setColor(1,1,1,.2+ATV*.1)
+			gc_setColor(1,1,1,ATV*.4*(.5-t))
+			gc_draw(smallerThen,x+6-t*40,y+33)
+			gc_setColor(1,1,1,.2+ATV*.1)
 		end
 	end
 	if self.select<#self.list then
-		gc.draw(largerThen,x+w-26,y+33)
+		gc_draw(largerThen,x+w-26,y+33)
 		if ATV>0 then
-			gc.setColor(1,1,1,ATV*.4*(.5-t))
-			gc.draw(largerThen,x+w-26+t*40,y+33)
+			gc_setColor(1,1,1,ATV*.4*(.5-t))
+			gc_draw(largerThen,x+w-26+t*40,y+33)
 		end
 	end
 
 	--Drawable
-	gc.setColor(self.color)
+	gc_setColor(self.color)
 	ADRAW.simpX(self.obj,x+w*.5,y+17-21)
-	gc.setColor(1,1,1)
+	gc_setColor(1,1,1)
 	setFont(30)
 	mStr(self.selText,x+w*.5,y+43-21)
 end
@@ -673,12 +680,12 @@ function selector:press(x)
 		if x<self.x+self.w*.5 then
 			if s>1 then
 				s=s-1
-				SYSFX.newShade(3,self.x,self.y,self.w*.5,60)
+				SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
 			end
 		else
 			if s<#self.list then
 				s=s+1
-				SYSFX.newShade(3,self.x+self.w*.5,self.y,self.w*.5,60)
+				SYSFX.newShade(3,self.x+self.w*.5,self.y-WIDGET.scrollPos,self.w*.5,60)
 			end
 		end
 		if self.select~=s then
@@ -694,10 +701,10 @@ function selector:arrowKey(isLeft)
 	if isLeft and s==1 or not isLeft and s==#self.list then return end
 	if isLeft then
 		s=s-1
-		SYSFX.newShade(3,self.x,self.y,self.w*.5,60)
+		SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
 	else
 		s=s+1
-		SYSFX.newShade(3,self.x+self.w*.5,self.y,self.w*.5,60)
+		SYSFX.newShade(3,self.x+self.w*.5,self.y-WIDGET.scrollPos,self.w*.5,60)
 	end
 	self.code(self.list[s])
 	self.select=s
@@ -787,12 +794,12 @@ function inputBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
 
-	gc.setColor(1,1,1,ATV*.1)
-	gc.rectangle('fill',x,y,w,h)
+	gc_setColor(1,1,1,ATV*.1)
+	gc_rectangle('fill',x,y,w,h)
 
-	gc.setColor(1,1,1)
-	gc.setLineWidth(4)
-	gc.rectangle('line',x,y,w,h)
+	gc_setColor(1,1,1)
+	gc_setLineWidth(4)
+	gc_rectangle('line',x,y,w,h)
 
 	--Drawable
 	setFont(self.font)
@@ -801,13 +808,13 @@ function inputBox:draw()
 	end
 	if self.secret then
 		for i=1,#self.value do
-			gc.print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
+			gc_print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
 		end
 	else
-		gc.printf(self.value,x+10,y,self.w)
+		gc_printf(self.value,x+10,y,self.w)
 		setFont(self.font-10)
 		if WIDGET.sel==self then
-			gc.print(EDITING,x+10,y+12-self.font*1.4)
+			gc_print(EDITING,x+10,y+12-self.font*1.4)
 		end
 	end
 end
@@ -915,7 +922,7 @@ function textBox:press(x,y)
 	end
 end
 function textBox:drag(_,_,_,dy)
-	_=self.scrollPix+dy*SCR.dpi
+	_=self.scrollPix+dy
 	local sign=_>0 and 1 or -1
 	while abs(_)>30 do
 		_=_-30*sign
@@ -948,39 +955,39 @@ function textBox:draw()
 	end
 
 	--Background
-	gc.setColor(0,0,0,.3)
-	gc.rectangle('fill',x,y,w,h)
+	gc_setColor(0,0,0,.3)
+	gc_rectangle('fill',x,y,w,h)
 
 	--Frame
-	gc.setLineWidth(4)
-	gc.setColor(1,1,WIDGET.sel==self and 0 or 1)
-	gc.rectangle('line',x,y,w,h)
+	gc_setLineWidth(4)
+	gc_setColor(1,1,WIDGET.sel==self and 0 or 1)
+	gc_rectangle('line',x,y,w,h)
 
 	--Slider
 	if #texts>cap then
-		gc.setLineWidth(2)
-		gc.rectangle('line',x-25,y,20,h)
+		gc_setLineWidth(2)
+		gc_rectangle('line',x-25,y,20,h)
 		local len=max(h*cap/#texts,26)
-		gc.rectangle('fill',x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
+		gc_rectangle('fill',x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
 	end
 
 	--Clear button
-	gc.setColor(1,1,1)
+	gc_setColor(1,1,1)
 	if not self.fix then
-		gc.rectangle('line',x+w-40,y,40,40)
-		gc.draw(self.sure==0 and clearIcon or sureIcon,x+w-40,y)
+		gc_rectangle('line',x+w-40,y,40,40)
+		gc_draw(self.sure==0 and clearIcon or sureIcon,x+w-40,y)
 	end
 
 	--Texts
 	setFont(self.font)
 	for i=max(scroll-cap+1,1),scroll do
-		gc.printf(texts[i],x+8,y+h-10-self.lineH*(scroll-i+1),w)
+		gc_printf(texts[i],x+8,y+h-10-self.lineH*(scroll-i+1),w)
 	end
 
 	--New message
 	if self.new and self.scrollPos~=#texts then
-		gc.setColor(1,TIME()%.4<.2 and 1 or 0,0)
-		gc.print("v",x+w-25,y+h-40)
+		gc_setColor(1,TIME()%.4<.2 and 1 or 0,0)
+		gc_print("v",x+w-25,y+h-40)
 	end
 end
 function textBox:getInfo()
@@ -1022,8 +1029,9 @@ function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 end
 
 WIDGET.active={}--Table contains all active widgets
+WIDGET.scrollHeight=0--Max drag height, not actual container height!
+WIDGET.scrollPos=0--Current scroll position
 WIDGET.sel=false--Selected widget
-
 WIDGET.indexMeta={
 	__index=function(L,k)
 		for i=1,#L do
@@ -1033,7 +1041,7 @@ WIDGET.indexMeta={
 		end
 	end
 }
-function WIDGET.set(list)
+function WIDGET.setWidgetList(list)
 	WIDGET.unFocus()
 	WIDGET.active=list or NONE
 
@@ -1053,6 +1061,10 @@ function WIDGET.set(list)
 			end
 		end
 	end
+end
+function WIDGET.setScrollHeight(height)
+	WIDGET.scrollHeight=height and height or 0
+	WIDGET.scrollPos=0
 end
 function WIDGET.setLang(widgetText)
 	for S,L in next,SCN.scenes do
@@ -1093,7 +1105,7 @@ end
 
 function WIDGET.cursorMove(x,y)
 	for _,W in next,WIDGET.active do
-		if not W.hide and W.resCtr and W:isAbove(x,y)then
+		if not W.hide and W.resCtr and W:isAbove(x,y+WIDGET.scrollPos)then
 			WIDGET.focus(W)
 			return
 		end
@@ -1105,23 +1117,26 @@ end
 function WIDGET.press(x,y,k)
 	local W=WIDGET.sel
 	if not W then return end
-	W:press(x,y,k)
+	W:press(x,y+WIDGET.scrollPos,k)
 	if W.hide then WIDGET.unFocus()end
 end
 function WIDGET.drag(x,y,dx,dy)
-	local W=WIDGET.sel
-	if not W then return end
-	if W.type=='slider'or W.type=='textBox'then
-		W:drag(x,y,dx,dy)
-	elseif not W:isAbove(x,y)then
-		WIDGET.unFocus(true)
+	if WIDGET.sel then
+		local W=WIDGET.sel
+		if W.type=='slider'or W.type=='textBox'then
+			W:drag(x,y+WIDGET.scrollPos,dx*SCR.dpi,dy*SCR.dpi)
+		elseif not W:isAbove(x,y)then
+			WIDGET.unFocus(true)
+		end
+	else
+		WIDGET.scrollPos=max(min(WIDGET.scrollPos-dy,WIDGET.scrollHeight),0)
 	end
 end
 function WIDGET.release(x,y)
 	local W=WIDGET.sel
 	if not W then return end
 	if W.type=='slider'then
-		W:release(x,y)
+		W:release(x,y+WIDGET.scrollPos)
 	end
 end
 function WIDGET.keyPressed(k)
@@ -1226,11 +1241,13 @@ function WIDGET.update()
 	end
 end
 function WIDGET.draw()
+	gc_translate(0,-WIDGET.scrollPos)
 	for _,W in next,WIDGET.active do
 		if not W.hide then
 			W:draw()
 		end
 	end
+	gc_translate(0,WIDGET.scrollPos)
 end
 
 return WIDGET

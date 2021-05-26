@@ -178,9 +178,8 @@ function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
-	if WIDGET.sel then
-		if touching then WIDGET.drag(x,y,dx,dy)end
-	else
+	WIDGET.drag(x,y,dx,dy)
+	if touching then
 		WIDGET.cursorMove(x,y)
 		if not WIDGET.sel then touching=false end
 	end
