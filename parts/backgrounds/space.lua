@@ -34,7 +34,7 @@ function back.draw()
 	gc.clear(.1,.1,.1)
 	if not stars[1]then return end
 	gc.translate(-10,-10)
-	gc.setColor(.8,.8,.8)
+	gc.setColor(1,1,1,.6)
 	for i=1,1260,5 do
 		rectangle('fill',stars[i+1],stars[i+2],stars[i],stars[i])
 	end

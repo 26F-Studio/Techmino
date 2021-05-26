@@ -38,5 +38,5 @@ vec4 effect(vec4 color,Image tex,vec2 tex_coords,vec2 scr_coords){
 	V.gb+=vec2(smoothstep(0.626,0.,dx));
 
 	dx=1.626*max(max(V.r,V.g),V.b);
-	return vec4(V/dx,1.);
+	return vec4(V/dx,0.4);
 }

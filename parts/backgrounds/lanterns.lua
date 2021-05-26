@@ -40,7 +40,7 @@ function back.draw()
 	gc.clear(.1,.1,.1)
 	gc.push('transform')
 	gc.origin()
-	gc.setColor(1,1,1)
+	gc.setColor(1,1,1,.2)
 	local img=IMG.lanterns
 	for i=1,#lanterns do
 		local L=lanterns[i]

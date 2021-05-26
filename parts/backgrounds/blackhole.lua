@@ -1,5 +1,10 @@
 --Blackhole
 local gc=love.graphics
+local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_circle=gc.draw,gc.circle
+
 local sin,cos=math.sin,math.cos
 local rnd=math.random
 local ins,rem=table.insert,table.remove
@@ -37,29 +42,29 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
-	gc.push('transform')
-	gc.origin()
-	gc.translate(SCR.w/2,SCR.h/2)
+	gc_clear(.1,.1,.1)
+	gc_push('transform')
+	gc_origin()
+	gc_translate(SCR.w/2,SCR.h/2)
 
 	--Squares
-	gc.setColor(.5,.5,.5)
+	gc_setColor(1,1,1,.2)
 	for i=1,#squares do
 		local S=squares[i]
-		gc.draw(S.texture,S.d*cos(S.ang),S.d*sin(S.ang),S.rotate,S.size*.026,nil,15,15)
+		gc_draw(S.texture,S.d*cos(S.ang),S.d*sin(S.ang),S.rotate,S.size*.026,nil,15,15)
 	end
 
 	--Blackhole
-	gc.scale(SCR.rad/1600)
-	gc.setColor(0,0,0)
-	gc.circle('fill',0,0,157)
-	gc.setLineWidth(6)
+	gc_scale(SCR.rad/1600)
+	gc_setColor(.07,.07,.07)
+	gc_circle('fill',0,0,157)
+	gc_setLineWidth(6)
 	for i=0,15 do
-		gc.setColor(0,0,0,1-i*.0666)
-		gc.circle('line',0,0,160+6*i)
+		gc_setColor(.07,.07,.07,1-i*.0666)
+		gc_circle('line',0,0,160+6*i)
 	end
-	gc.scale(1600/SCR.rad)
-	gc.pop()
+	gc_scale(1600/SCR.rad)
+	gc_pop()
 end
 function back.discard()
 	squares=nil

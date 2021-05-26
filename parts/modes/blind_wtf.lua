@@ -28,7 +28,7 @@ return{
 				gc.rectangle('fill',0,0,SCR.w,SCR.h)
 				gc.pop()
 			else
-				gc.clear(.26,.26,.26)
+				gc.clear(.2,.2,.2)
 				--Frame
 				gc.setColor(.5,.5,.5)
 				gc.push('transform')

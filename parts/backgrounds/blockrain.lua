@@ -46,7 +46,7 @@ function back.draw()
 	for i=1,#mino do
 		local C=mino[i]
 		local c=C.color
-		gc.setColor(c[1],c[2],c[3],.5)
+		gc.setColor(c[1],c[2],c[3],.2)
 		gc.draw(C.block,C.x,C.y,C.ang,C.k,C.k,C.block:getWidth()/2,C.block:getHeight()/2)
 	end
 	gc.pop()

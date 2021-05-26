@@ -38,7 +38,7 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.2,.2,.2)
+	gc.clear(.1,.1,.1)
 	gc.push('transform')
 	gc.setColor(.7,.7,.7)
 	gc.origin()

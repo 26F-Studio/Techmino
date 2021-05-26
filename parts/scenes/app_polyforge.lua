@@ -36,7 +36,7 @@ function scene.sceneInit()
 		hit[c],hit[c+1]=rnd(2),rnd(2)
 		dist[c],dist[c+1]=226,126
 	end
-	BG.set('light')
+	BG.set('none')
 	BGM.play('dream')
 	love.keyboard.setKeyRepeat(false)
 end
@@ -127,6 +127,7 @@ function scene.update()
 end
 
 function scene.draw()
+	gc.clear(.9,.9,.9)
 	gc.setColor(0,0,0,1-timer/50)
 	setFont(80)
 	mStr(side,640,300)

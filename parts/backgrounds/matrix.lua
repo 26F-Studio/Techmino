@@ -1,5 +1,10 @@
 --Black-White grid
 local gc=love.graphics
+local gc_push,gc_pop,gc_clear=gc.push,gc.pop,gc.clear
+local gc_scale=gc.scale
+local gc_setColor=gc.setColor
+local gc_rectangle=gc.rectangle
+
 local sin=math.sin
 local ceil=math.ceil
 local back={}
@@ -13,17 +18,17 @@ function back.update(dt)
 	t=t+dt
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
-	gc.push('transform')
+	gc_clear(.1,.1,.1)
+	gc_push('transform')
 		local k=SCR.k
-		gc.scale(k)
+		gc_scale(k)
 		local Y=ceil(SCR.h/80/k)
 		for x=1,ceil(SCR.w/80/k)do
 			for y=1,Y do
-				gc.setColor(1,1,1,sin(x+matrixT[x][y]*t)*.1+.1)
-				gc.rectangle('fill',80*x,80*y,-80,-80)
+				gc_setColor(1,1,1,sin(x+matrixT[x][y]*t)*.04+.04)
+				gc_rectangle('fill',80*x,80*y,-80,-80)
 			end
 		end
-	gc.pop()
+	gc_pop()
 end
 return back

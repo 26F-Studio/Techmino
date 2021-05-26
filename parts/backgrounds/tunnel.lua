@@ -30,7 +30,7 @@ function back.update(dt)
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	gc.setColor(.4,.4,.4)
+	gc.setColor(1,1,1,.1)
 	for i=1,#ring do
 		local r=ring[i]^2/12
 		gc.setLineWidth(30-15/(r+.5))

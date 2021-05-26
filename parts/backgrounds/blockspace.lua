@@ -1,5 +1,8 @@
 --Space but tetrominoes
 local gc=love.graphics
+local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_translate,gc_setColor,gc_draw=gc.translate,gc.setColor,gc.draw
+
 local sin,cos=math.sin,math.cos
 local rnd=math.random
 local ins,rem=table.insert,table.remove
@@ -38,17 +41,17 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
-	gc.push('transform')
-	gc.origin()
-	gc.translate(SCR.w/2,SCR.h/2)
+	gc_clear(.1,.1,.1)
+	gc_push('transform')
+	gc_origin()
+	gc_translate(SCR.w/2,SCR.h/2)
 	for i=1,#mino do
 		local M=mino[i]
 		local c=M.color
-		gc.setColor(c[1],c[2],c[3],.4)
-		gc.draw(M.block,M.d*cos(M.ang),M.d*sin(M.ang),M.rotate,(18*M.d/SCR.rad)^1.6,nil,M.block:getWidth()/2,M.block:getHeight()/2)
+		gc_setColor(c[1],c[2],c[3],.2)
+		gc_draw(M.block,M.d*cos(M.ang),M.d*sin(M.ang),M.rotate,(18*M.d/SCR.rad)^1.6,nil,M.block:getWidth()/2,M.block:getHeight()/2)
 	end
-	gc.pop()
+	gc_pop()
 end
 function back.discard()
 	mino=nil

@@ -48,23 +48,25 @@ function back.draw()
 	gc.replaceTransform(SCR.xOy)
 	gc_translate(640,360+20*sin(t*.02))
 	gc_clear(.1,.1,.1)
+
 	gc_setLineWidth(320)
-	gc_setColor(.3,.2,.3)
+	gc_setColor(.9,.6,.9,.1)
 	gc_arc('line','open',0,420,500,-.8*3.1416,-.2*3.1416)
 
 	gc_setLineWidth(4)
-	gc_setColor(.7,.5,.65)
+	gc_setColor(1,.7,.9,.2)
 	gc_arc('line','open',0,420,660,-.799*3.1416,-.201*3.1416)
 	gc_arc('line','open',0,420,340,-.808*3.1416,-.192*3.1416)
 	gc_line(-281,224,-530,30.5)
 	gc_line(281,224,530,30.5)
 
 	gc_setLineWidth(6)
-	gc_setColor(.55,.5,.6)
+	gc_setColor(.8,.9,1,.3)
 	for i=1,8 do gc_polygon('line',fan[i])end
 
 	gc_setLineWidth(2)
-	gc_setColor(.6,.3,.5)
+	gc_setColor(1,.5,.7,.3)
+
 	gc_origin()
 	for i=1,#petal do
 		local P=petal[i]

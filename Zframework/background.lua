@@ -1,9 +1,6 @@
+local gc_clear=love.graphics.clear
 local BGs={
-	none={
-		draw=function()
-			love.graphics.clear(.15,.15,.15)
-		end
-	}
+	none={draw=function()gc_clear(.15,.15,.15)end}
 }
 local BGlist={"none"}
 local BG={
