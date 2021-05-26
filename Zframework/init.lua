@@ -142,7 +142,7 @@ function love.mousemoved(x,y,dx,dy,touch)
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
 	if ms.isDown(1)then
-		WIDGET.drag(mx,my,dx,dy)
+		WIDGET.drag(mx,my,dx*SCR.dpi,dy*SCR.dpi)
 	else
 		WIDGET.cursorMove(mx,my)
 	end
@@ -178,7 +178,7 @@ function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
-	WIDGET.drag(x,y,dx,dy)
+	WIDGET.drag(x,y,dx*SCR.dpi,dy*SCR.dpi)
 	if touching then
 		WIDGET.cursorMove(x,y)
 		if not WIDGET.sel then touching=false end

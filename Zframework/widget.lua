@@ -1124,7 +1124,7 @@ function WIDGET.drag(x,y,dx,dy)
 	if WIDGET.sel then
 		local W=WIDGET.sel
 		if W.type=='slider'or W.type=='textBox'then
-			W:drag(x,y+WIDGET.scrollPos,dx*SCR.dpi,dy*SCR.dpi)
+			W:drag(x,y+WIDGET.scrollPos,dx,dy)
 		elseif not W:isAbove(x,y)then
 			WIDGET.unFocus(true)
 		end
