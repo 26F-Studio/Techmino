@@ -8,9 +8,9 @@ local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
 
 local clearIcon=DOGC{40,40,
-	{'setLW',6},
-	{'line',11,11,29,29},
-	{'line',11,29,29,11},
+	{'fRect',16,4,8,2},
+	{'fRect',8,0,24,2},
+	{'fRect',11,1,18,26},
 }
 local sureIcon=DOGC{40,40,
 	{'setFT',35},
