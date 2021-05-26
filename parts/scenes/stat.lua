@@ -97,7 +97,7 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="path",x=1000,y=540,w=250,h=80,font=25,code=function()love.system.openURL(SAVEDIR)end,hide=MOBILE},
-	WIDGET.newButton{name="save",x=1000,y=640,w=250,h=80,font=25,code=goScene"savedata"},
+	WIDGET.newButton{name="save",x=1000,y=640,w=250,h=80,font=25,code=goScene'savedata'},
 	WIDGET.newButton{name="back",x=640,y=620,w=200,h=80,font=35,code=backScene},
 }
 

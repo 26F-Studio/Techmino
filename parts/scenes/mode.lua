@@ -306,7 +306,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="mod",		x=140,y=655,w=220,h=80,font=35,code=goScene"mod"},
+	WIDGET.newKey{name="mod",		x=140,y=655,w=220,h=80,font=35,code=goScene'mod'},
 	WIDGET.newButton{name="start",	x=1040,y=655,w=180,h=80,font=40,code=pressKey"return",hideF=function()return not mapCam.sel end},
 	WIDGET.newButton{name="back",	x=1200,y=655,w=120,h=80,font=40,code=backScene},
 }

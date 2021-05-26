@@ -130,7 +130,7 @@ function scene.keyDown(key)
 	if key=="q"then
 		SCN.back()
 	elseif key=="escape"then
-		SCN.swapTo(GAME.result and"game"or"depause",'none')
+		SCN.swapTo(GAME.result and'game'or'depause','none')
 	elseif key=="s"then
 		GAME.prevBG=BG.cur
 		SCN.go('setting_sound')

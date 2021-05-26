@@ -14,7 +14,7 @@ function scene.sceneInit()
 end
 
 function scene.mouseDown()
-	SCN.go(SETTING.simpMode and"main_simple"or"main")
+	SCN.go(SETTING.simpMode and'main_simple'or'main')
 end
 function scene.touchDown()
 	scene.mouseDown()

@@ -585,7 +585,7 @@ function commands.test()
 end
 do--commands.applet(name)
 	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","dropper","calc","reflect","polyforge"}
-	local appScene={"app_15p","app_schulteG","app_pong","app_AtoZ","app_UTTT","app_cubefield","app_2048","app_ten","app_tap","app_dtw","app_cannon","app_dropper","app_calc","app_reflect","app_polyforge"}
+	local appScene={'app_15p','app_schulteG','app_pong','app_AtoZ','app_UTTT','app_cubefield','app_2048','app_ten','app_tap','app_dtw','app_cannon','app_dropper','app_calc','app_reflect','app_polyforge'}
 	local appDescription={
 		"15 Puzzle, a.k.a. sliding puzzle",
 		"Schulte Grid",
