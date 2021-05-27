@@ -139,11 +139,11 @@ TEXTURE.more=DOGC{60,15,
 }
 
 --Back mark
-TEXTURE.back=DOGC{75,55,
+TEXTURE.back=DOGC{60,55,
 	{'setLW',6},
-	{'line',5,10,55,10},
-	{'line',10,40,55,40},
-	{'dArc',55,25,15,-1.6,1.6},
+	{'line',11,10,40,10},
+	{'line',10,40,40,40},
+	{'dArc',40,25,15,-1.6,1.6},
 	{'setLW',4},
 	{'line',20,50,10,40,20,30},
 }
