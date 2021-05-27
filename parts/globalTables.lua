@@ -229,11 +229,12 @@ customEnv0={
 	opponent="X",
 	life=0,
 	pushSpeed=3,
+	garbageSpeed=1,
 	missionKill=false,
 
 	--Else
 	bg='blockfall',
-	bgm='infinite',
+	bgm='hang out',
 }
 CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game
 if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then
