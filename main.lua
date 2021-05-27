@@ -37,14 +37,12 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
---Delete all files from too old version
-function CLEAR(root)
-	for _,name in next,fs.getDirectoryItems(root or"")do
-		if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~='directory'then
-			fs.remove(name)
-		end
-	end
-end CLEAR()
+--Load modules
+require"Zframework"
+SCR.setSize(1280,720)--Initialize Screen size
+
+--Delete all naked files (from too old version)
+FILE.clear("")
 
 --Create directories
 for _,v in next,{"conf","record","replay","cache","lib"}do
@@ -56,10 +54,6 @@ for _,v in next,{"conf","record","replay","cache","lib"}do
 		fs.createDirectory(v)
 	end
 end
-
---Load modules
-require"Zframework"
-SCR.setSize(1280,720)--Initialize Screen size
 
 --Load shader files from SOURCE ONLY
 SHADER={}
@@ -246,18 +240,7 @@ do
 		needSave=true
 	end
 	if STAT.version<1302 then
-		STAT.frame=math.floor(STAT.time*60)
-		STAT.lastPlay='sprint_10l'
-		RANKS.sprintFix=nil
-		RANKS.sprintLock=nil
-		needSave=true
-		for _,name in next,fs.getDirectoryItems("replay")do
-			fs.remove("replay/"..name)
-		end
-		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
-		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
-		fs.remove("conf/settings")
-		needSave=true
+		FILE.clear_s("")
 		autoRestart=true
 	end
 	if STAT.version<1405 then
@@ -271,7 +254,6 @@ do
 		needSave=true
 		autoRestart=true
 	end
-
 	if not SETTING.VKSkin then SETTING.VKSkin=1 end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
 		SETTING.frameMul=100
