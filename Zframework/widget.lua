@@ -1,12 +1,11 @@
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_translate,gc_replaceTransform=gc.translate,gc.replaceTransform
 local gc_setCanvas,gc_setBlendMode=gc.setCanvas,gc.setBlendMode
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line=gc.draw,gc.line
 local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
-
 
 local kb=love.keyboard
 
@@ -16,13 +15,14 @@ local max,min=math.max,math.min
 local sub,ins=string.sub,table.insert
 local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
+local xOy=SCR.xOy
 
 local downArrowIcon=DOGC{60,35,{'fPoly',0,0,30,35,60,0}}
 local upArrowIcon=DOGC{60,35,{'fPoly',0,35,30,0,60,35}}
 local clearIcon=DOGC{40,40,
-	{'fRect',16,4,8,2},
-	{'fRect',8,0,24,2},
-	{'fRect',11,1,18,26},
+	{'fRect',16,5,8,2},
+	{'fRect',8,7,24,2},
+	{'fRect',12,11,18,24},
 }
 local sureIcon=DOGC{40,40,
 	{'setFT',35},
@@ -1245,47 +1245,47 @@ function WIDGET.update()
 		if W.update then W:update()end
 	end
 end
-local scaleK
 local widgetCanvas
 local widgetCover do
-	local L={1280,720,{'fRect',0,40,1280,640}}
-	for i=0,20 do
-		ins(L,{'setCL',1,1,1,i/20})
-		ins(L,{'fRect',0,2*i,1280,2})
-		ins(L,{'fRect',0,720-2*i,1280,2})
+	local L={1,360,{'fRect',0,30,1,300}}
+	for i=0,30 do
+		ins(L,{'setCL',1,1,1,i/30})
+		ins(L,{'fRect',0,i,1,2})
+		ins(L,{'fRect',0,360-i,1,2})
 	end
 	widgetCover=DOGC(L)
 end
+local scr_w,scr_h
+function WIDGET.resize(w,h)
+	scr_w,scr_h=w,h
+	widgetCanvas=gc.newCanvas(w,h)
+end
 function WIDGET.draw()
-	if SCR.k~=scaleK then
-		scaleK=SCR.k
-		widgetCanvas=gc.newCanvas(1280*scaleK,720*scaleK)
-	end
-
-	gc_setCanvas(widgetCanvas)
-		gc_clear(1,1,1,0)
-		gc_push('transform')
-			gc_origin()
-			gc_scale(scaleK)
+	gc_push('transform')
+		gc_setCanvas(widgetCanvas)
+			gc_clear(0,0,0,0)
+			gc_replaceTransform(xOy)
 			gc_translate(0,-WIDGET.scrollPos)
 			for _,W in next,WIDGET.active do
-				if not W.hide then
-					W:draw()
-				end
+				if not W.hide then W:draw()end
 			end
 			gc_origin()
 			gc_setColor(1,1,1)
 			if WIDGET.scrollHeight>0 then
-				if WIDGET.scrollPos>0 then mDraw(upArrowIcon,640,25)end
-				if WIDGET.scrollPos<WIDGET.scrollHeight then mDraw(downArrowIcon,640,695)end
+				if WIDGET.scrollPos>0 then
+					gc_draw(upArrowIcon,scr_w*.5,10,0,SCR.k,nil,upArrowIcon:getWidth()*.5,0)
+				end
+				if WIDGET.scrollPos<WIDGET.scrollHeight then
+					gc_draw(downArrowIcon,scr_w*.5,scr_h-10,0,SCR.k,nil,downArrowIcon:getWidth()*.5,downArrowIcon:getHeight())
+				end
 				gc_setBlendMode('multiply','premultiplied')
-					gc_draw(widgetCover)
-				gc_setBlendMode('alpha')
+				gc_draw(widgetCover,nil,nil,nil,scr_w,scr_h/360)
 			end
-		gc_pop()
-	gc_setCanvas()
-
-	gc_draw(widgetCanvas,nil,nil,nil,1/scaleK)
+		gc_setCanvas()
+		gc_setBlendMode('lighten','premultiplied')
+		gc_draw(widgetCanvas)
+		gc_setBlendMode('alpha')
+	gc_pop()
 end
 
 return WIDGET
