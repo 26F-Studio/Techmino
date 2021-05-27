@@ -79,8 +79,7 @@ return{
 		},
 		customGame={
 			mod="模组(F1)",
-		},
-		custom_advance={
+
 			nextCount="预览个数",
 			holdCount="暂存个数",
 			infHold="无限暂存",

@@ -283,10 +283,6 @@ return{
 			field="Edit Field (F)",
 			sequence="Edit Sequence (S)",
 			mission="Edit Mission (M)",
-		},
-		custom_advance={
-			title="!@#$%^&*",
-			subTitle="##",
 
 			nextCount="→",
 			holdCount="[ ]",
@@ -298,7 +294,8 @@ return{
 			freshLimit="@",
 			opponent="^_^",
 			life="<R>",
-			pushSpeed="_↑_↑_",
+			pushSpeed="_↑__",
+			garbageSpeed="#↑↑",
 
 			bufferLimit="^↑",
 			heightLimit="#↑",

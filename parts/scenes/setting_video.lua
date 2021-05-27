@@ -7,7 +7,7 @@ function scene.sceneBack()
 	FILE.save(SETTING,'conf/settings')
 end
 
-scene.widgetBoxHeight=620
+scene.widgetScrollHeight=620
 scene.widgetList={
 	WIDGET.newText{name="title",		x=640,y=15,font=80},
 

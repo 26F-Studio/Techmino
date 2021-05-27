@@ -407,10 +407,6 @@ return{
 			field="Modifier la matrice (F)",
 			sequence="Modifier la séquence (S)",
 			mission="Modifier la mission(M)",
-		},
-		custom_advance={
-			title="Mode personnalisé",
-			subTitle="Avancer",
 
 			nextCount="Prévisualisations de pièces",
 			holdCount="Réserve",
@@ -422,7 +418,8 @@ return{
 			freshLimit="Limite de réinit. du délai de verrouillage",
 			opponent="Adversaire",
 			life="Vie",
-			pushSpeed="Vitesse des lignes indésirables",
+			-- pushSpeed="Push Speed",
+			garbageSpeed="Vitesse des lignes indésirables",
 
 			-- bufferLimit="Buffer Limit",
 			-- heightLimit="Height Limit",

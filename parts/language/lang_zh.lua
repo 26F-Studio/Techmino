@@ -434,10 +434,6 @@ return{
 			field="场地编辑(F)",
 			sequence="序列编辑(S)",
 			mission="任务编辑(M)",
-		},
-		custom_advance={
-			title="自定义游戏",
-			subTitle="高级",
 
 			nextCount="Next",
 			holdCount="Hold",
@@ -450,6 +446,7 @@ return{
 			opponent="对手",
 			life="命数",
 			pushSpeed="上涨速度",
+			garbageSpeed="垃圾行速度",
 
 			bufferLimit="缓冲上限",
 			heightLimit="高度上限",

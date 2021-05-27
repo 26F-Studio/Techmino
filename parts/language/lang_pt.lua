@@ -434,10 +434,6 @@ return{
 			field="Editar Tab. (F)",
 			sequence="Editar Sequência (S)",
 			mission="Editar Missão (M)",
-		},
-		custom_advance={
-			title="Jogo Person.",
-			subTitle="Avançado",
 
 			nextCount="Prox.",
 			holdCount="Segurar",
@@ -449,7 +445,8 @@ return{
 			freshLimit="Limite Reset de Trava",
 			opponent="Oponente",
 			life="Vidas",
-			pushSpeed="Velocidade De Lixo",
+			pushSpeed="Garbage Speed",
+			-- garbageSpeed="Velocidade De Lixo",
 
 			-- bufferLimit="Buffer Limit",
 			-- heightLimit="Height Limit",

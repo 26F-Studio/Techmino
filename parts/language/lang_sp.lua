@@ -408,10 +408,6 @@ return{
 			field="Editar Tablero (F)",
 			sequence="Editar Secuencia (S)",
 			mission="Editar Misiones (M)",
-		},
-		custom_advance={
-			title="Juego Personalizado",
-			subTitle="Avanzado",
 
 			nextCount="Siguiente",
 			holdCount="Reserva",
@@ -423,7 +419,8 @@ return{
 			freshLimit="Límite de Reinicio LD",
 			opponent="Oponente",
 			life="Vida",
-			pushSpeed="Velocidad de Basura",
+			-- pushSpeed="Garbage Speed",
+			garbageSpeed="Velocidad de Basura",
 
 			-- bufferLimit="Buffer Limit",
 			-- heightLimit="Height Limit",

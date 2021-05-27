@@ -435,10 +435,6 @@ return{
 			field="Edit Field (F)",
 			sequence="Edit Sequence (S)",
 			mission="Edit Mission (M)",
-		},
-		custom_advance={
-			title="Custom Game",
-			subTitle="Advance",
 
 			nextCount="Next",
 			holdCount="Hold",
@@ -450,7 +446,8 @@ return{
 			freshLimit="Lock Reset Limit",
 			opponent="Opponent",
 			life="Lives",
-			pushSpeed="Garbage Speed",
+			pushSpeed="Push Speed",
+			garbageSpeed="Garbage Speed",
 
 			bufferLimit="Buffer Limit",
 			heightLimit="Height Limit",

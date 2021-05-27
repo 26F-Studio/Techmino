@@ -1,14 +1,22 @@
-local gc,sys=love.graphics,love.system
-local kb=love.keyboard
-
+local gc,kb,sys=love.graphics,love.keyboard,love.system
 local int=math.floor
+local CUSTOMENV=CUSTOMENV
 
 local function notAir(L)
 	for i=1,10 do
 		if L[i]>0 then return true end
 	end
 end
-local CUSTOMENV=CUSTOMENV
+local sList={
+	visible={"show","easy","slow","medium","fast","none"},
+	freshLimit={0,1,2,4,6,8,10,12,15,30,1e99},
+	opponent={"X","9S Lv.1","9S Lv.2","9S Lv.3","9S Lv.4","9S Lv.5","CC Lv.1","CC Lv.2","CC Lv.3","CC Lv.4","CC Lv.5"},
+	life={0,1,2,3,5,10,15,26,42,87,500},
+	pushSpeed={1,2,3,5,15},
+	fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
+	heightLimit={2,3,4,6,8,10,15,20,30,50,100,150,200,1e99},
+	bufferLimit={4,6,10,15,20,40,100,1e99},
+}
 
 local scene={}
 
@@ -69,11 +77,11 @@ function scene.keyDown(key)
 			for _,W in next,scene.widgetList do W:reset()end
 			sure=0
 			SFX.play('finesseError',.7)
+			BG.set(CUSTOMENV.bg)
+			BGM.play(CUSTOMENV.bgm)
 		else
 			sure=50
 		end
-	elseif key=="a"then
-		SCN.go('custom_advance','swipeD')
 	elseif key=="f1"then
 		SCN.go('mod','swipeD')
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
@@ -114,10 +122,19 @@ function scene.update()
 end
 
 function scene.draw()
+	gc.translate(0,-WIDGET.scrollPos)
+	setFont(30)
+
+	--Sequence
+	if #MISSION>0 then
+		gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(TIME()*6.26)%2)
+		gc.print("#"..#MISSION,70,220)
+	end
+
 	--Field content
 	if initField then
 		gc.push('transform')
-		gc.translate(95,290)
+		gc.translate(330,240)
 		gc.scale(.5)
 		gc.setColor(1,1,1)
 		gc.setLineWidth(3)
@@ -134,71 +151,86 @@ function scene.draw()
 			end
 		end end
 		gc.pop()
-	end
-
-	--Field
-	setFont(40)
-	if initField and #FIELD>1 then
-		gc.setColor(1,1,int(TIME()*6.26)%2)
-		gc.print("+",275,300)
-		gc.print(#FIELD-1,300,300)
+		if #FIELD>1 then
+			gc.setColor(1,1,int(TIME()*6.26)%2)
+			gc.print("+"..#FIELD-1,490,220)
+		end
 	end
 
 	--Sequence
 	if #BAG>0 then
 		gc.setColor(1,1,int(TIME()*6.26)%2)
-		gc.print("#",330,545)
-		gc.print(#BAG,360,545)
+		gc.print("#"..#BAG,615,220)
 	end
-	setFont(30)
-	gc.setColor(1,1,1)
-	gc.print(CUSTOMENV.sequence,330,510)
 
-	--Sequence
-	if #MISSION>0 then
-		gc.setColor(1,CUSTOMENV.missionKill and 0 or 1,int(TIME()*6.26)%2)
-		gc.print("#",610,545)
-		gc.print(#MISSION,640,545)
-	end
+	gc.setColor(1,1,1)
+	gc.print(CUSTOMENV.sequence,610,250)
 
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(TEXTURE.question,850,110)
+		gc.draw(TEXTURE.question,920,50)
 	end
+	gc.translate(0,	WIDGET.scrollPos)
 end
 
+scene.widgetScrollHeight=400
 scene.widgetList={
 	WIDGET.newText{name="title",	x=520,	y=5,font=70,align='R'},
 	WIDGET.newText{name="subTitle",	x=530,	y=50,font=35,align='L',color='H'},
-	WIDGET.newText{name="defSeq",	x=330,	y=550,align='L',color='H',hideF=function()return BAG[1]end},
-	WIDGET.newText{name="noMsn",	x=610,	y=550,align='L',color='H',hideF=function()return MISSION[1]end},
 
-	--Basic
-	WIDGET.newSelector{name="drop",	x=170,	y=150,w=220,color='O',list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("drop"),code=CUSsto("drop")},
-	WIDGET.newSelector{name="lock",	x=170,	y=230,w=220,color='R',list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("lock"),code=CUSsto("lock")},
-	WIDGET.newSelector{name="wait",	x=410,	y=150,w=220,color='G',list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},disp=CUSval("wait"),code=CUSsto("wait")},
-	WIDGET.newSelector{name="fall",	x=410,	y=230,w=220,color='Y',list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},disp=CUSval("fall"),code=CUSsto("fall")},
+	WIDGET.newKey{name="reset",		x=1110,	y=90,w=230,h=90,color='R',code=pressKey"delete"},
+	WIDGET.newKey{name="mod",		x=1110,	y=200,w=230,h=90,color='Z',code=pressKey"f1"},
 
-	--Else
-	WIDGET.newSelector{name="bg",	x=1070,	y=150,w=250,color='Y',list=BG.getList(),disp=CUSval("bg"),code=function(i)CUSTOMENV.bg=i BG.set(i)end},
-	WIDGET.newSelector{name="bgm",	x=1070,	y=230,w=250,color='Y',list=BGM.getList(),disp=CUSval("bgm"),code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
+	--Mission / Field / Sequence
+	WIDGET.newKey{name="mission",	x=170,	y=180,w=240,h=80,color='N',font=25,code=pressKey"m"},
+	WIDGET.newKey{name="field",		x=450,	y=180,w=240,h=80,color='A',font=25,code=pressKey"f"},
+	WIDGET.newKey{name="sequence",	x=730,	y=180,w=240,h=80,color='W',font=25,code=pressKey"s"},
 
-	--Copy/Paste/Start
-	WIDGET.newButton{name="copy",	x=1070,	y=310,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
-	WIDGET.newButton{name="paste",	x=1070,	y=390,w=310,h=70,color='lB',font=25,code=pressKey"cV"},
-	WIDGET.newButton{name="clear",	x=1070,	y=470,w=310,h=70,color='lY',font=35,code=pressKey"return"},
-	WIDGET.newButton{name="puzzle",	x=1070,	y=550,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return not initField end},
+	WIDGET.newText{name="noMsn",	x=50,	y=220,align='L',color='H',hideF=function()return MISSION[1]end},
+	WIDGET.newText{name="defSeq",	x=610,	y=220,align='L',color='H',hideF=function()return BAG[1]end},
 
-	--More
-	WIDGET.newKey{name="reset",		x=730,	y=150,w=220,h=90,color='R',font=30,code=pressKey"delete"},
-	WIDGET.newKey{name="advance",	x=730,	y=270,w=220,h=90,color='F',font=35,code=pressKey"a"},
-	WIDGET.newKey{name="mod",		x=730,	y=390,w=220,h=90,color='Z',font=35,code=pressKey"f1"},
-	WIDGET.newKey{name="field",		x=170,	y=640,w=240,h=80,color='A',font=25,code=pressKey"f"},
-	WIDGET.newKey{name="sequence",	x=450,	y=640,w=240,h=80,color='W',font=25,code=pressKey"s"},
-	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color='N',font=25,code=pressKey"m"},
+	--Selectors
+	WIDGET.newSelector{name="opponent",		x=170,y=330,w=260,color='R',list=sList.opponent,	disp=CUSval("opponent"),	code=CUSsto("opponent")},
+	WIDGET.newSelector{name="life",			x=170,y=410,w=260,color='R',list=sList.life,		disp=CUSval("life"),		code=CUSsto("life")},
+	WIDGET.newSelector{name="pushSpeed",	x=170,y=520,w=260,color='V',list=sList.pushSpeed,	disp=CUSval("pushSpeed"),	code=CUSsto("pushSpeed")},
+	WIDGET.newSelector{name="garbageSpeed",	x=170,y=600,w=260,color='V',list=sList.pushSpeed,	disp=CUSval("garbageSpeed"),code=CUSsto("garbageSpeed")},
+	WIDGET.newSelector{name="visible",		x=170,y=710,w=260,color='lB',list=sList.visible,	disp=CUSval("visible"),		code=CUSsto("visible")},
+	WIDGET.newSelector{name="freshLimit",	x=170,y=790,w=260,color='lB',list=sList.freshLimit,	disp=CUSval("freshLimit"),	code=CUSsto("freshLimit")},
 
-	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,fText=TEXTURE.back,font=40,code=pressKey"escape"},
+	WIDGET.newSelector{name="fieldH",		x=450,y=600,w=260,color='N',list=sList.fieldH,		disp=CUSval("fieldH"),		code=CUSsto("fieldH")},
+	WIDGET.newSelector{name="heightLimit",	x=450,y=710,w=260,color='S',list=sList.heightLimit,	disp=CUSval("heightLimit"),	code=CUSsto("heightLimit")},
+	WIDGET.newSelector{name="bufferLimit",	x=450,y=790,w=260,color='B',list=sList.bufferLimit,	disp=CUSval("bufferLimit"),	code=CUSsto("bufferLimit")},
+
+	WIDGET.newSelector{name="drop",	x=730,y=330,w=260,color='O',list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("drop"),code=CUSsto("drop")},
+	WIDGET.newSelector{name="lock",	x=730,y=410,w=260,color='O',list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("lock"),code=CUSsto("lock")},
+	WIDGET.newSelector{name="wait",	x=730,y=520,w=260,color='G',list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},disp=CUSval("wait"),code=CUSsto("wait")},
+	WIDGET.newSelector{name="fall",	x=730,y=600,w=260,color='G',list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},disp=CUSval("fall"),code=CUSsto("fall")},
+
+	--Copy / Paste / Start
+	WIDGET.newButton{name="copy",	x=1070,	y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
+	WIDGET.newButton{name="paste",	x=1070,	y=380,w=310,h=70,color='lB',font=25,code=pressKey"cV"},
+	WIDGET.newButton{name="clear",	x=1070,	y=460,w=310,h=70,color='lY',font=35,code=pressKey"return"},
+	WIDGET.newButton{name="puzzle",	x=1070,	y=540,w=310,h=70,color='lM',font=35,code=pressKey"return2",hideF=function()return not initField end},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=pressKey"escape"},
+
+	--Special rules
+	WIDGET.newSwitch{name="ospin",		x=830,	y=750,disp=CUSval("ospin"),		code=CUSrev("ospin")},
+	WIDGET.newSwitch{name="fineKill",	x=830,	y=840,disp=CUSval("fineKill"),	code=CUSrev("fineKill")},
+	WIDGET.newSwitch{name="b2bKill",	x=830,	y=930,disp=CUSval("b2bKill"),	code=CUSrev("b2bKill")},
+	WIDGET.newSwitch{name="easyFresh",	x=1170,	y=750,disp=CUSval("easyFresh"),	code=CUSrev("easyFresh")},
+	WIDGET.newSwitch{name="deepDrop",	x=1170,	y=840,disp=CUSval("deepDrop"),	code=CUSrev("deepDrop")},
+	WIDGET.newSwitch{name="bone",		x=1170,	y=930,disp=CUSval("bone"),		code=CUSrev("bone")},
+
+	--Next & Hold
+	WIDGET.newSlider{name="nextCount",	x=120,y=940,w=200,unit=6,	disp=CUSval("nextCount"),code=CUSsto("nextCount")},
+	WIDGET.newSlider{name="holdCount",	x=120,y=1030,w=200,unit=6,	disp=CUSval("holdCount"),code=CUSsto("holdCount")},
+	WIDGET.newSwitch{name="infHold",	x=560,y=940,				disp=CUSval("infHold"),code=CUSrev("infHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
+	WIDGET.newSwitch{name="phyHold",	x=560,y=1030,				disp=CUSval("phyHold"),code=CUSrev("phyHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
+
+	--BG & BGM
+	WIDGET.newSelector{name="bg",		x=840,	y=1030,w=250,color='Y',list=BG.getList(),disp=CUSval("bg"),code=function(i)CUSTOMENV.bg=i BG.set(i)end},
+	WIDGET.newSelector{name="bgm",		x=1120,	y=1030,w=250,color='Y',list=BGM.getList(),disp=CUSval("bgm"),code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
 }
 
 return scene

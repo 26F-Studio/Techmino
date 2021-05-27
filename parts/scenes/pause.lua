@@ -311,11 +311,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',font=35,code=pressKey"s"},
-	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',font=30,code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='G',font=30,code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
-	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',font=30,code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',font=35,code=pressKey"r"},
+	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',code=pressKey"s"},
+	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='G',code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',code=pressKey"escape"},
+	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',code=pressKey"r"},
 	WIDGET.newButton{name="quit",		x=640,y=600,w=240,h=100,font=35,code=backScene},
 }
 

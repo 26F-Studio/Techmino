@@ -65,7 +65,7 @@ function SCN.init(s,org)
 	local S=scenes[s]
 	SCN.cur=s
 
-	WIDGET.setScrollHeight(S.widgetBoxHeight)
+	WIDGET.setScrollHeight(S.widgetScrollHeight)
 	WIDGET.setWidgetList(S.widgetList)
 	SCN.sceneInit=S.sceneInit
 	SCN.sceneBack=S.sceneBack

@@ -19,7 +19,7 @@ local function VKAcode(n)return function()VK_org[n].ava=not VK_org[n].ava end en
 local function notShow()return not SETTING.VKSwitch end
 local function notTrack()return not(SETTING.VKSwitch and SETTING.VKTrack)end
 
-scene.widgetBoxHeight=340
+scene.widgetScrollHeight=340
 scene.widgetList={
 	WIDGET.newSwitch{name="b1",		x=280,	y=80,	disp=VKAdisp(1),code=VKAcode(1)},
 	WIDGET.newSwitch{name="b2",		x=280,	y=140,	disp=VKAdisp(2),code=VKAcode(2)},
