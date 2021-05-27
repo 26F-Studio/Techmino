@@ -131,5 +131,22 @@ TEXTURE.question=DOGC{45,80,
 	{'print',"?",0,-30},
 }
 
+--More mark
+TEXTURE.more=DOGC{60,15,
+	{'fCirc',10,7,6},
+	{'fCirc',30,7,6},
+	{'fCirc',50,7,6},
+}
+
+--Back mark
+TEXTURE.back=DOGC{75,55,
+	{'setLW',6},
+	{'line',5,10,55,10},
+	{'line',10,40,55,40},
+	{'dArc',55,25,15,-1.6,1.6},
+	{'setLW',4},
+	{'line',20,50,10,40,20,30},
+}
+
 gc.setCanvas()
 return TEXTURE

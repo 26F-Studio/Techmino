@@ -38,7 +38,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="deepDrop",	x=1160,	y=440,	font=30,disp=CUSval("deepDrop"),	code=CUSrev("deepDrop")},
 	WIDGET.newSwitch{name="bone",		x=1160,	y=530,	disp=CUSval("bone"),				code=CUSrev("bone")},
 
-	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,	font=40,code=backScene},
+	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
 }
 
 return scene

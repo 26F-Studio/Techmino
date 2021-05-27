@@ -78,7 +78,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,'warn')
 			end
 		end},
-	WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",			x=640,y=620,w=200,h=80,fText=TEXTURE.back,font=40,code=backScene},
 }
 
 return scene

@@ -139,7 +139,7 @@ scene.widgetList={
 
 	WIDGET.newKey{name="restart",x=160,y=670,w=200,h=60,code=function()setSel(0)end},
 
-	WIDGET.newButton{name="back",x=1140,y=640,w=190,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=190,h=80,fText=TEXTURE.back,font=40,code=backScene},
 }
 
 return scene

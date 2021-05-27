@@ -1,6 +1,5 @@
 local C=COLOR
 return{
-	back="Back",
 	anykey="Press a key!",
 	sureQuit="Press again to exit",
 	newVersion="Thanks for updating! Changelog:",
@@ -227,7 +226,6 @@ return{
 			setting="Settings",
 			stat="Statistics",
 			music="Music & SE",
-			about="About",
 			dict="Zictionary",
 			manual="Manual",
 		},
@@ -387,7 +385,6 @@ return{
 		setting_touch={
 			default="Default",
 			snap="Snap",
-			option="Options",
 			save1="Save1",
 			load1="Load1",
 			save2="Save2",

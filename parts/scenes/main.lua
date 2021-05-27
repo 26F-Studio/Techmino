@@ -182,8 +182,8 @@ scene.widgetList={
 			{"dArc",53,31,40,2.3,3.9},
 		}
 	},
-	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',font=35,align='R',edge=30,code=pressKey"x"},
-	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',font=40,align='L',edge=30,code=backScene},
+	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',fText=TEXTURE.more,font=35,align='R',edge=30,code=pressKey"x"},
+	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.back,font=40,align='L',edge=30,code=backScene},
 }
 
 return scene

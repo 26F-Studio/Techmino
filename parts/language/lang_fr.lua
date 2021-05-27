@@ -1,6 +1,5 @@
 return{
 	fallback=4,
-	back="Retour",
 	anykey="Appuyez sur n'importe quelle touche",
 	sureQuit="Appuyez à nouveau pour sortir",
 	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
@@ -203,7 +202,6 @@ return{
 			setting="Paramètres",
 			stat="Statistiques",
 			-- music="Music & SE",
-			-- about="About",
 			dict="Zictionary",
 			manual="Manuel",
 		},
@@ -357,7 +355,6 @@ return{
 		setting_touch={
 			default="Par défaut",
 			snap="Snap",
-			option="Options",
 			-- save1="Save1",
 			-- load1="Load1",
 			-- save2="Save2",

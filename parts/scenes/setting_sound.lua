@@ -69,7 +69,7 @@ scene.widgetList={
 	WIDGET.newSlider{name="voc",	x=300,	y=610,w=420,		change=function()VOC.play('test')end,disp=SETval("voc"),code=SETsto("voc")},
 	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={'miya','naki'},disp=function()return cv end,code=function(i)cv=i end},
 	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,	font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
 }
 
 return scene

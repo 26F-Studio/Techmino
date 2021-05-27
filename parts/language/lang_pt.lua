@@ -1,7 +1,6 @@
 local C=COLOR
 return{
 	fallback=4,
-	back="Voltar",
 	anykey="Pressione qualquer tecla",
 	sureQuit="Aparte novamente para sair",
 	newVersion="Obrigado por atualizar! Veja as mudanças abaixo.",
@@ -226,7 +225,6 @@ return{
 			setting="Config.",
 			stat="Stats",
 			-- music="Music & SE",
-			-- about="About",
 			dict="Zictionary",
 			manual="Manual",
 		},
@@ -386,7 +384,6 @@ return{
 		setting_touch={
 			default="Default",
 			snap="Encaixo",
-			option="Opção",
 			-- save1="Save1",
 			-- load1="Load1",
 			-- save2="Save2",

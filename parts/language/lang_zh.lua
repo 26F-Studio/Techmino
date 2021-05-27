@@ -1,6 +1,5 @@
 local C=COLOR
 return{
-	back="返回",
 	anykey="按任意键继续",
 	sureQuit="再按一次退出",
 	newVersion="感谢更新!更新内容如下",
@@ -227,7 +226,6 @@ return{
 			setting="设置",
 			stat="统计信息",
 			music="音乐&音效",
-			about="关于",
 			dict="小Z词典",
 			manual="说明书",
 		},
@@ -386,7 +384,6 @@ return{
 		setting_touch={
 			default="默认组合",
 			snap="吸附",
-			option="选项",
 			save1="保存1",
 			load1="读取1",
 			save2="保存2",

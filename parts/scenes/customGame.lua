@@ -198,7 +198,7 @@ scene.widgetList={
 	WIDGET.newKey{name="sequence",	x=450,	y=640,w=240,h=80,color='W',font=25,code=pressKey"s"},
 	WIDGET.newKey{name="mission",	x=730,	y=640,w=240,h=80,color='N',font=25,code=pressKey"m"},
 
-	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,font=40,code=pressKey"escape"},
+	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,fText=TEXTURE.back,font=40,code=pressKey"escape"},
 }
 
 return scene

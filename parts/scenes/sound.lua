@@ -105,7 +105,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="pc",		x=515,	y=660,font=25,disp=function()return pc end,sound=false,code=pressKey"4"},
 
 	WIDGET.newButton{name="music",	x=1140,	y=540,w=170,h=80,font=40,code=pressKey"tab"},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
 }
 
 return scene

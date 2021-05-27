@@ -1,6 +1,5 @@
 return{
 	fallback=4,
-	back="Atrás",
 	anykey="Pulsa cualquier tecla",
 	sureQuit="Pulsa de nuevo para salir",
 	newVersion="¡Gracias por actualizar! Detalles a continuación:",
@@ -204,7 +203,6 @@ return{
 			setting="Opciones",
 			stat="Estadísticas",
 			music="Música y SFX",
-			about="Acerca del Juego",
 			dict="Zictionary",
 			manual="Manual",
 		},
@@ -360,7 +358,6 @@ return{
 		setting_touch={
 			default="Por Defecto",
 			snap="Snap",
-			option="Opciones",
 			-- save1="Save1",
 			-- load1="Load1",
 			-- save2="Save2",

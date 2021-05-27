@@ -14,7 +14,7 @@ scene.widgetList={
 	WIDGET.newButton{name="sp",		x=200,	y=250,w=200,h=120,fText="Español",		font=35,code=setLang(6)},
 	WIDGET.newButton{name="pt",		x=420,	y=250,w=200,h=120,fText="Português",	font=35,code=setLang(7)},
 	WIDGET.newButton{name="symbol",	x=640,	y=250,w=200,h=120,fText="?????",		font=35,code=setLang(8)},
-	WIDGET.newButton{name="back",	x=640,	y=600,w=200,h=80,font=35,code=backScene},
+	WIDGET.newButton{name="back",	x=640,	y=600,w=200,h=80,fText=TEXTURE.back,font=35,code=backScene},
 }
 
 return scene

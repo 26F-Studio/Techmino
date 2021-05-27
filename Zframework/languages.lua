@@ -29,11 +29,6 @@ function LANG.init(langList,publicText)--Attention, calling this will destory al
 		if type(rawget(L,"getTip"))=='table'then
 			setmetatable(L.getTip,tipMeta)
 		end
-
-		--set global name for all back button
-		for _,v in next,L.WidgetText do
-			v.back=L.back
-		end
 	end
 
 	LANG.init,LANG.setLangList,LANG.setPublicText=nil

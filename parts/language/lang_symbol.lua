@@ -1,6 +1,5 @@
 return{
 	fallback=4,
-	back="X",
 	anykey="↓□↓",
 	newVersion="&!!!???↓↓",
 	httpTimeout="e??????x",
@@ -103,7 +102,6 @@ return{
 			setting="_?_",
 			stat="=___",
 			music="~~~ & =><=",
-			about="?",
 			dict="z",
 			manual="???",
 		},
@@ -235,7 +233,6 @@ return{
 		setting_touch={
 			default="$0",
 			snap="_ _",
-			option="_?",
 			save1=">1",
 			load1="1>",
 			save2=">2",
