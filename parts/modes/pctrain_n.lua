@@ -8,15 +8,11 @@ local PCtype={
 	1,2,3,
 }
 local function task_PC(P)
-	local D=P.modeData
-	while true do
-		D.counter=D.counter+1
-		if D.counter==26 then
-			local base=PCbase[D.type]
-			P:pushLineList(base[P.holeRND:random(#base)],D.symmetry)
-		end
-		YIELD()
-	end
+	P.control=false
+	for _=1,26 do YIELD()end
+	P.control=true
+	local base=PCbase[P.modeData.type]
+	P:pushLineList(base[P.holeRND:random(#base)],P.modeData.symmetry)
 end
 local function check(P)
 	local r=P.field

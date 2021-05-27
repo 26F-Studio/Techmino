@@ -5,15 +5,11 @@ local PCbase=require"parts.modes.PCbase"
 local PClist=require"parts.modes.PClist"
 
 local function task_PC(P)
-	local D=P.modeData
-	while true do
-		YIELD()
-		D.counter=D.counter+1
-		if D.counter==26 then
-			local base=PCbase[D.type]
-			P:pushLineList(base[P.holeRND:random(#base)],D.symmetry)
-		end
-	end
+	P.control=false
+	for _=1,26 do YIELD()end
+	P.control=true
+	local base=PCbase[P.modeData.type]
+	P:pushLineList(base[P.holeRND:random(#base)],P.modeData.symmetry)
 end
 local function check(P)
 	local f=P.field
