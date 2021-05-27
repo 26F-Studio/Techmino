@@ -14,6 +14,8 @@ local sub,ins=string.sub,table.insert
 local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
 
+local downArrowIcon=DOGC{60,30,{'fPoly',0,0,30,30,60,0}}
+local upArrowIcon=DOGC{60,30,{'fPoly',0,30,30,0,60,30}}
 local clearIcon=DOGC{40,40,
 	{'fRect',16,4,8,2},
 	{'fRect',8,0,24,2},
@@ -1248,6 +1250,15 @@ function WIDGET.draw()
 		end
 	end
 	gc_translate(0,WIDGET.scrollPos)
+	if WIDGET.scrollHeight>0 then
+		gc_setColor(1,1,1)
+		if WIDGET.scrollPos>0 then
+			mDraw(upArrowIcon,640,20)
+		end
+		if WIDGET.scrollPos<WIDGET.scrollHeight then
+			mDraw(downArrowIcon,640,700)
+		end
+	end
 end
 
 return WIDGET
