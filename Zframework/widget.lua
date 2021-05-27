@@ -531,8 +531,8 @@ function slider:drag(x)
 	end
 end
 function slider:release(x)
-	self.lastTime=0
 	self:drag(x)
+	self.lastTime=0
 end
 function slider:arrowKey(isLeft)
 	local p=self.disp()
@@ -1116,9 +1116,10 @@ function WIDGET.cursorMove(x,y)
 end
 function WIDGET.press(x,y,k)
 	local W=WIDGET.sel
-	if not W then return end
-	W:press(x,y+WIDGET.scrollPos,k)
-	if W.hide then WIDGET.unFocus()end
+	if W then
+		W:press(x,y and y+WIDGET.scrollPos,k)
+		if W.hide then WIDGET.unFocus()end
+	end
 end
 function WIDGET.drag(x,y,dx,dy)
 	if WIDGET.sel then
@@ -1134,8 +1135,7 @@ function WIDGET.drag(x,y,dx,dy)
 end
 function WIDGET.release(x,y)
 	local W=WIDGET.sel
-	if not W then return end
-	if W.type=='slider'then
+	if W and W.type=='slider'then
 		W:release(x,y+WIDGET.scrollPos)
 	end
 end
