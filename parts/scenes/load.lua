@@ -1,7 +1,4 @@
-local gc=love.graphics
-local kb=love.keyboard
-
-local int,sin=math.floor,math.sin
+local gc,kb=love.graphics,love.keyboard
 
 local scene={}
 
@@ -14,7 +11,7 @@ local skip
 
 local light={}
 for i=0,26 do
-	table.insert(light,1050+60*int(i/9))
+	table.insert(light,1050+60*math.floor(i/9))
 	table.insert(light,660-i%9*60)
 	table.insert(light,false)
 end
@@ -25,7 +22,7 @@ end
 local function upFloor()
 	progress=progress+1
 	light[3*progress+3]=false
-	SFX.play('move',.5)
+	SFX.play('spin_0',.5)
 end
 local loadingThread=coroutine.wrap(function()
 	for i=1,SFX.getCount()do
@@ -294,8 +291,8 @@ function scene.draw()
 
 		--Logo layer 1
 		gc.setColor(logoColor1)
-		mDraw(studioLogo,0,(5+(3.26-openTime))*sin(shadePhase1))
-		mDraw(studioLogo,(7+(3.26-openTime))*sin(shadePhase2),0)
+		mDraw(studioLogo,0,(5+(3.26-openTime))*math.sin(shadePhase1))
+		mDraw(studioLogo,(7+(3.26-openTime))*math.sin(shadePhase2),0)
 
 		--Logo layer 2
 		gc.setColor(logoColor2)
@@ -328,7 +325,7 @@ function scene.draw()
 	--Floor info
 	if progress>=0 then
 		local d1=(progress+1)%10
-		local d2=int((progress+1)/10)
+		local d2=math.floor((progress+1)/10)
 		gc.setColor(.6,.6,.6)
 		gc.draw(TEXTURE.pixelNum[d2],1040,40-3,nil,8)
 		gc.draw(TEXTURE.pixelNum[d1],1100,40-3,nil,8)
