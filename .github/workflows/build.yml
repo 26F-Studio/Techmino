@@ -72,8 +72,19 @@ jobs:
         7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
         python3 .github/workflows/updateVersion.py
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
+    - uses: r0adkll/sign-android-release@v1
+      name: Sign app APK
+      id: sign_app
+      with:
+        releaseDirectory: .
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+        BUILD_TOOLS_VERSION: "30.0.2"
     - name: Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Android
-        path: Techmino.apk
+        path: ${{steps.sign_app.outputs.signedReleaseFile}}
