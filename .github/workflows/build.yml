@@ -7,6 +7,29 @@ on:
     branches: [ ci ]
 
 jobs:
+  build-linux:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download AppImageKit
+      run: curl -OL https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
+    - name: Unpack and Repack
+      run: |
+        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.AppImage
+        chmod +x Techmino.AppImage appimagetool-x86_64.AppImage
+        ./Techmino.AppImage --appimage-extract
+        rm Techmino.AppImage
+        cd squashfs-root/usr/share/Techmino
+        rm -rf document media parts Zframework conf.lua font.ttf main.lua
+        cd ../../../..
+        cp -r document media parts Zframework conf.lua font.ttf main.lua squashfs-root/usr/share/Techmino
+        ./appimagetool-x86_64.AppImage squashfs-root Techmino.AppImage
+    - name: Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux
+        path: Techmino.AppImage
+
   build-android:
     runs-on: ubuntu-20.04
     steps:
