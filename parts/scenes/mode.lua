@@ -1,9 +1,18 @@
-local mt=love.math
 local gc=love.graphics
+local gc_push,gc_pop=gc.push,gc.pop
+local gc_translate,gc_scale,gc_rotate,gc_applyTransform=gc.translate,gc.scale,gc.rotate,gc.applyTransform
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line=gc.draw,gc.line
+local gc_rectangle,gc_circle=gc.rectangle,gc.circle
+local gc_print,gc_printf=gc.print,gc.printf
+
 local ms,kb,tc=love.mouse,love.keyboard,love.touch
+local mt=love.math
 
 local max,min=math.max,math.min
 local int,abs=math.floor,math.abs
+
+local setFont=setFont
 
 local mapCam={
 	sel=false,--Selected mode ID
@@ -196,99 +205,100 @@ local baseRankColor={
 local rankColor=rankColor
 local function drawModeShape(M,S,drawType)
 	if M.shape==1 then--Rectangle
-		gc.rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
+		gc_rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
 	elseif M.shape==2 then--Diamond
-		gc.circle(drawType,M.x,M.y,S+12,4)
+		gc_circle(drawType,M.x,M.y,S+12,4)
 	elseif M.shape==3 then--Octagon
-		gc.circle(drawType,M.x,M.y,S+6,8)
+		gc_circle(drawType,M.x,M.y,S+6,8)
 	end
 end
 function scene.draw()
 	local _
-	gc.push('transform')
-	gc.translate(640,360)
-	gc.rotate((mapCam.zoomK^.6-1))
-	gc.scale(mapCam.zoomK^.7)
-	gc.applyTransform(mapCam.xOy);
+	gc_push('transform')
+	gc_translate(640,360)
+	gc_rotate((mapCam.zoomK^.6-1))
+	gc_scale(mapCam.zoomK^.7)
+	gc_applyTransform(mapCam.xOy);
 
 	local R=RANKS
 	local sel=mapCam.sel
 
 	--Lines connecting modes
-	gc.setLineWidth(8)
-	gc.setColor(1,1,1,.2)
+	gc_setLineWidth(8)
+	gc_setColor(1,1,1,.2)
 	for name,M in next,MODES do
 		if R[name]and M.unlock and M.x then
 			for _=1,#M.unlock do
 				local m=MODES[M.unlock[_]]
-				gc.line(M.x,M.y,m.x,m.y)
+				gc_line(M.x,M.y,m.x,m.y)
 			end
 		end
 	end
 
 	--Modes
 	setFont(80)
-	gc.setLineWidth(6)
+	gc_setLineWidth(6)
 	for name,M in next,MODES do
 		if R[name]then
 			local rank=R[name]
 			local S=M.size
 
 			--Draw shapes on map
-			gc.setColor(baseRankColor[rank])
+			gc_setColor(baseRankColor[rank])
 			drawModeShape(M,S,'fill')
-			gc.setColor(1,1,sel==name and 0 or 1)
+			gc_setColor(1,1,sel==name and 0 or 1)
 			drawModeShape(M,S,'line')
 
 			--Icon
 			local icon=M.icon
 			if icon then
-				gc.setColor(.8,.8,.8)
+				gc_setColor(.8,.8,.8)
 				local length=icon:getWidth()*.5
-				gc.draw(icon,M.x,M.y,nil,S/length,nil,length,length)
+				gc_draw(icon,M.x,M.y,nil,S/length,nil,length,length)
 			end
 
 			--Rank
 			name=text.ranks[rank]
 			if name then
-				gc.setColor(0,0,0,.8)
+				gc_setColor(0,0,0,.8)
 				mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
-				gc.setColor(rankColor[rank])
+				gc_setColor(rankColor[rank])
 				mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
 			end
 		end
 	end
-	gc.pop()
+	gc_pop()
 
 	--Score board
 	if sel then
 		local M=MODES[sel]
-		gc.setColor(.5,.5,.5,.8)
-		gc.rectangle('fill',920,0,360,720)--Info board
-		gc.setColor(M.color)
+		gc_setColor(.5,.5,.5,.8)
+		gc_rectangle('fill',920,0,360,720)--Info board
+		gc_setColor(M.color)
 		setFont(40)mStr(text.modes[sel][1],1100,5)
 		setFont(30)mStr(text.modes[sel][2],1100,50)
-		gc.setColor(1,1,1)
-		setFont(25)gc.printf(text.modes[sel][3],920,110,360,'center')
+		gc_setColor(1,1,1)
+		setFont(25)gc_printf(text.modes[sel][3],920,110,360,'center')
 		if M.slowMark then
-			gc.draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
+			gc_draw(IMG.ctrlSpeedLimit,1230,50,nil,.4)
 		end
 		if M.score then
 			mText(drawableText.highScore,1100,240)
-			gc.setColor(.3,.3,.3,.7)
-			gc.rectangle('fill',940,290,320,280)--Highscore board
+			gc_setColor(.3,.3,.3,.7)
+			gc_rectangle('fill',940,290,320,280)--Highscore board
 			local L=M.records
-			gc.setColor(1,1,1)
+			gc_setColor(1,1,1)
 			if L[1]then
 				for i=1,#L do
 					local t=M.scoreDisp(L[i])
-					local s=#t
-					local f=int((30-s*.4)/5)*5
+					local f=int((30-#t*.4)/5)*5
 					setFont(f)
-					gc.print(t,955,275+25*i+17-f*.7)
-					setFont(10)
+					gc_print(t,955,275+25*i+17-f*.7)
 					_=L[i].date
-					if _ then gc.print(_,1155,284+25*i)end
+					if _ then
+						setFont(10)
+						gc_print(_,1155,285+25*i)
+					end
 				end
 			else
 				mText(drawableText.noScore,1100,370)
@@ -296,12 +306,12 @@ function scene.draw()
 		end
 	end
 	if mapCam.keyCtrl then
-		gc.setColor(1,1,1)
-		gc.setLineWidth(4)
-		gc.translate(640,360)
-		gc.line(-20,0,20,0)
-		gc.line(0,-20,0,20)
-		gc.translate(-640,-360)
+		gc_setColor(1,1,1)
+		gc_setLineWidth(4)
+		gc_translate(640,360)
+		gc_line(-20,0,20,0)
+		gc_line(0,-20,0,20)
+		gc_translate(-640,-360)
 	end
 end
 
