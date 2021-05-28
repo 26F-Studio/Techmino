@@ -2,11 +2,38 @@ name: Techmino CI
 
 on:
   push:
-    branches: [ ci ]
+    branches: [ master, ci ]
   pull_request:
-    branches: [ ci ]
+    branches: [ master, ci ]
 
 jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download love
+      run: |
+        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        7z x love-11.3-win64.zip
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win64.zip
+        7z x win64.zip -ocoldclear
+        move coldclear\cold_clear.dll love-11.3-win64
+        move coldclear\CCloader.dll love-11.3-win64
+    - name: Pack Techmino
+      shell: cmd
+      run: |
+        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
+        copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
+        del love-11.3-win64\love.exe
+        del love-11.3-win64\lovec.exe
+    - name: Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: Windows
+        path: love-11.3-win64
+
   build-linux:
     runs-on: ubuntu-20.04
     steps:
