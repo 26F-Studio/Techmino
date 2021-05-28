@@ -7,32 +7,23 @@ on:
     branches: [ ci ]
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build-android:
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-      with:
-        lfs: true
-    - name: Download love
+    - name: Download Apktool
+      run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
+    - name: Unpack and Repack
       run: |
-        curl -LO https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-        7z x love-11.3-win64.zip
-    - name: Download ColdClear
-      run: |
-        curl -LO https://github.com/26F-Studio/Techmino/releases/download/coldclear/coldclear.zip
-        7z x coldclear.zip -ocoldclear
-        move coldclear\win64\cold_clear.dll love-11.3-win64
-        move coldclear\win64\CCloader.dll love-11.3-win64
-    - name: Pack Techmino
-      shell: cmd
-      run: |
-        7z a game.zip BGM document image modes parts SFX VOICE Zframework conf.lua font.ttf main.lua
-        move game.zip game.love
-        copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
-        del love-11.3-win64\love.exe
-        del love-11.3-win64\lovec.exe
+        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.apk
+        java -jar apktool_2.5.0.jar d -s -o apk Techmino.apk
+        7z x -o. apk/assets/game.love libAndroid
+        rm apk/assets/game.love Techmino.apk
+        7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
+        python3 .github/workflows/updateVersion.py
+        java -jar apktool_2.5.0.jar b -o Techmino.apk apk
     - name: Artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v2
       with:
-        name: Techmino_win64
-        path: love-11.3-win64
+        name: Android
+        path: Techmino.apk
