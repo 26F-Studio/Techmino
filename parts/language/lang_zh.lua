@@ -91,11 +91,11 @@ return{
 	accessSuccessed="身份验证成功",
 	accessFailed="身份验证失败",
 
-	wsConnecting="正在连接WS",
-	wsSuccessed="WS连接成功",
-	wsFailed="WS连接失败",
-	wsClose="WS被断开: ",
-	netTimeout="网络连接超时",
+	wsConnecting="正在连接",
+	wsSuccessed="连接成功",
+	wsFailed="连接失败",
+	wsClose="连接被断开: ",
+	netTimeout="连接超时",
 
 	onlinePlayerCount="在线人数",
 

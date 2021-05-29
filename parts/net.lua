@@ -22,7 +22,7 @@ local NET={
 		start=false,
 	},
 	spectate=false,--If player is spectating
-	streamRoomID=false,
+	specSRID=false,--Cached SRID when enter playing room, for connect WS after scene swapped
 	seed=false,
 
 	allReady=false,
@@ -133,13 +133,13 @@ function NET.wsconn_play()
 		})
 	end
 end
-function NET.wsconn_stream()
+function NET.wsconn_stream(srid)
 	if NET.lock('wsc_stream',5)then
 		NET.roomState.start=true
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
-			srid=NET.streamRoomID,
+			srid=srid,
 		})
 		TASK.new(NET.updateWS_stream)
 	end
@@ -443,14 +443,13 @@ function NET.updateWS_play()
 								NET.waitingStream=false
 
 								NET.spectate=false
-								NET.streamRoomID=false
 
-								loadGame('netBattle',true,true)
 								if d.srid then
 									NET.spectate=true
-									NET.streamRoomID=d.srid
+									NET.specSRID=d.srid
 									NET.connectingStream=true
 								end
+								loadGame('netBattle',true,true)
 							else
 								--Load other players
 								netPLY.add{
@@ -485,10 +484,9 @@ function NET.updateWS_play()
 							SFX.play('reach',.6)
 							NET.allReady=true
 						elseif res.action==8 then--Set
-							NET.streamRoomID=d.srid
 							NET.allReady=false
 							NET.connectingStream=true
-							NET.wsconn_stream()
+							NET.wsconn_stream(d.srid)
 						elseif res.action==9 then--Game finished
 							NET.roomState.start=false
 							if NET.spectate then NET.signal_setMode(2) end

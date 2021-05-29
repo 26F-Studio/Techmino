@@ -95,7 +95,7 @@ return{
 	wsSuccessed="WebSocket: conectado",
 	wsFailed="WebSocket: conexión fallida",
 	wsClose="WebSocket cerrado: ",
-	waitNetTask="Conectando, espera por favor",
+	-- netTimeout="Network connection timeout",
 
 	-- onlinePlayerCount="Online",
 

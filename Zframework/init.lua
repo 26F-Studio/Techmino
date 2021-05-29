@@ -232,8 +232,6 @@ local function noDevkeyPressed(key)
 		devMode=3	LOG.print("DEBUG 3")
 	elseif key=="f12"then
 		devMode=4	LOG.print("DEBUG 4")
-	elseif key=="backspace"and kb.isDown("lctrl","rctrl")then
-		_G["\100\114\97\119\70\87\77"]=NULL
 	elseif devMode==2 then
 		local W=WIDGET.sel
 		if W then
@@ -264,7 +262,11 @@ function love.keypressed(key)
 		devMode=1
 		LOG.print("DEBUG ON",10)
 	elseif key=="f11"then
-		switchFullscreen()
+		if kb.isDown("lctrl","rctrl")then
+			_G["\100\114\97\119\70\87\77"]=NULL
+		else
+			switchFullscreen()
+		end
 	elseif not SCN.swapping then
 		if SCN.keyDown then
 			SCN.keyDown(key)

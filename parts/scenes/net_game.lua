@@ -59,9 +59,9 @@ function scene.sceneInit(org)
 	upstreamProgress=1
 
 	if org=='setting_game'then NET.changeConfig()end
-	if NET.streamRoomID then
-		NET.wsconn_stream()
-		NET.streamRoomID=false
+	if NET.specSRID then
+		NET.wsconn_stream(NET.specSRID)
+		NET.specSRID=false
 	end
 end
 function scene.sceneBack()

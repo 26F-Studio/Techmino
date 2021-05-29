@@ -108,6 +108,7 @@ return{
 	-- connStream="CONNECTING",
 	-- waitStream="WAITING",
 	-- champion="$1 won",
+	-- spectating="Spectating",
 	chatRemain="Online",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",
