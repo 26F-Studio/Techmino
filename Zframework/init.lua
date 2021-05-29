@@ -214,16 +214,26 @@ local function noDevkeyPressed(key)
 				P:lose()
 			end
 		end
-	elseif key=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
-	elseif key=="f5"then	print(WIDGET.isFocus()or"no widget selected")
-	elseif key=="f6"then	for k,v in next,_G do print(k,v)end
-	elseif key=="f7"then	if love._openConsole then love._openConsole()end
-	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",10)
-	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1")
-	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2")
-	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3")
-	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4")
-	elseif key=="backspace"then	if kb.isDown("lctrl","rctrl")then _G["\100\114\97\119\70\87\77"]=NULL end
+	elseif key=="f4"and not kb.isDown("lalt","ralt")then
+		LOG.copy()
+	elseif key=="f5"then
+		print(WIDGET.isFocus()or"no widget selected")
+	elseif key=="f6"then
+		for k,v in next,_G do print(k,v)end
+	elseif key=="f7"and love._openConsole then
+		love._openConsole()
+	elseif key=="f8"then
+		devMode=nil	LOG.print("DEBUG OFF",10)
+	elseif key=="f9"then
+		devMode=1	LOG.print("DEBUG 1")
+	elseif key=="f10"then
+		devMode=2	LOG.print("DEBUG 2")
+	elseif key=="f11"then
+		devMode=3	LOG.print("DEBUG 3")
+	elseif key=="f12"then
+		devMode=4	LOG.print("DEBUG 4")
+	elseif key=="backspace"and kb.isDown("lctrl","rctrl")then
+		_G["\100\114\97\119\70\87\77"]=NULL
 	elseif devMode==2 then
 		local W=WIDGET.sel
 		if W then
