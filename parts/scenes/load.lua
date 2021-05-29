@@ -21,8 +21,10 @@ end
 
 local function upFloor()
 	progress=progress+1
+	if light[3*progress+3]then
+		SFX.play('spin_0',.5)
+	end
 	light[3*progress+3]=false
-	SFX.play('spin_0',.5)
 end
 local loadingThread=coroutine.wrap(function()
 	for i=1,SFX.getCount()do
