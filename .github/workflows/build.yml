@@ -72,7 +72,7 @@ jobs:
         7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
         python3 .github/workflows/updateVersion.py
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
-    - uses: r0adkll/sign-android-release@v1
+    - uses: 26F-Studio/sign-android-release@master
       name: Sign app APK
       id: sign_app
       with:
