@@ -2,9 +2,7 @@ name: Techmino CI
 
 on:
   push:
-    branches: [ master, ci ]
-  pull_request:
-    branches: [ master, ci ]
+    branches: [ main, ci ]
 
 jobs:
   build-windows:
