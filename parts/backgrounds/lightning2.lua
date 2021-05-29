@@ -24,6 +24,6 @@ function back.draw()
 	end
 	local _=colorLib[SETTING.skin[R]]
 	gc.setColor(_[1],_[2],_[3],.12)
-	gc.draw(TEXTURE.miniBlock[R],SCR.w/2,SCR.h/2,t%3.1416*6,400*SCR.k,nil,scs[R][0][2]+.5,#blocks[R][0]-scs[R][0][1]-.5)
+	gc.draw(TEXTURE.miniBlock[R],SCR.cx,SCR.cy,t%3.1416*6,400*SCR.k,nil,scs[R][0][2]+.5,#blocks[R][0]-scs[R][0][1]-.5)
 end
 return back

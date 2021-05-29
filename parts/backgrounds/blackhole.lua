@@ -45,7 +45,7 @@ function back.draw()
 	gc_clear(.1,.1,.1)
 	gc_push('transform')
 	gc_origin()
-	gc_translate(SCR.w/2,SCR.h/2)
+	gc_translate(SCR.cx,SCR.cy)
 
 	--Squares
 	gc_setColor(1,1,1,.2)

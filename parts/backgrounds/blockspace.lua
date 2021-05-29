@@ -44,7 +44,7 @@ function back.draw()
 	gc_clear(.1,.1,.1)
 	gc_push('transform')
 	gc_origin()
-	gc_translate(SCR.w/2,SCR.h/2)
+	gc_translate(SCR.cx,SCR.cy)
 	for i=1,#mino do
 		local M=mino[i]
 		local c=M.color

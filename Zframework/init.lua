@@ -142,7 +142,7 @@ function love.mousemoved(x,y,dx,dy,touch)
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
 	if ms.isDown(1)then
-		WIDGET.drag(mx,my,dx*SCR.dpi,dy*SCR.dpi)
+		WIDGET.drag(mx,my,dx/SCR.k,dy/SCR.k)
 	else
 		WIDGET.cursorMove(mx,my)
 	end
@@ -178,7 +178,7 @@ function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
-	WIDGET.drag(x,y,dx*SCR.dpi,dy*SCR.dpi)
+	WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
 	if touching then
 		WIDGET.cursorMove(x,y)
 		if not WIDGET.sel then touching=false end
@@ -652,7 +652,7 @@ function love.run()
 						elseif devMode==4 then WAIT(.5)
 						end
 					end
-				gc_translate(SCR.w*.5,SCR.h)
+				gc_translate(SCR.cx,SCR.h)
 				gc_scale(SCR.k)
 					--Draw Version string
 					gc_setColor(.8,.8,.8,.4)

@@ -21,13 +21,16 @@ function SCR.resize(w,h)
 	SCR.r=h/w
 	SCR.rad=(w^2+h^2)^.5
 
+	SCR.x,SCR.y=0,0
 	if SCR.r>=SCR.h0/SCR.w0 then
 		SCR.k=w/SCR.w0
-		SCR.x,SCR.y=0,(h-w*SCR.h0/SCR.w0)/2
+		SCR.y=(h-SCR.h0*SCR.k)/2
 	else
 		SCR.k=h/SCR.h0
-		SCR.x,SCR.y=(w-h*SCR.w0/SCR.h0)/2,0
+		SCR.x=(w-SCR.w0*SCR.k)/2
 	end
+	SCR.cx,SCR.cy=SCR.w/2,SCR.h/2
+	SCR.ex,SCR.ey=SCR.w-SCR.x,SCR.h-SCR.y
 	SCR.safeX,SCR.safeY,SCR.safeW,SCR.safeH=love.window.getSafeArea()
 	SCR.xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
 end
@@ -41,7 +44,7 @@ function SCR.info()
 		("W,H : %d, %d"):format(SCR.W,SCR.H),
 		("safeX,safeY : %d, %d"):format(SCR.safeX,SCR.safeY),
 		("safeW,safeH : %d, %d"):format(SCR.safeW,SCR.safeH),
-		("k,dpi,rad : %d, %d, %.4f"):format(SCR.k,SCR.dpi,SCR.rad),
+		("k,dpi,rad : %.2f, %d, %.2f"):format(SCR.k,SCR.dpi,SCR.rad),
 	}
 end
 return SCR
