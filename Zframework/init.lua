@@ -46,11 +46,11 @@ local ms,kb=love.mouse,love.keyboard
 
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_replaceTransform,gc_present,gc_discard=gc.replaceTransform,gc.present,gc.discard
+local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line=gc.draw,gc.line
-local gc_rectangle=gc.rectangle
-local gc_print,gc_printf=gc.print,gc.printf
+local gc_print=gc.print
 
 local setFont,mStr=setFont,mStr
 
@@ -95,7 +95,7 @@ local function updatePowerInfo()
 			elseif pow==26 then	gc_setColor(.5,0,1)
 			else				gc_setColor(1,0,0)
 			end
-			gc_rectangle('fill',76,6,pow*.22,14)
+			gc.rectangle('fill',76,6,pow*.22,14)
 			if pow<100 then
 				setFont(15)
 				gc_setColor(0,0,0)
@@ -440,10 +440,10 @@ function love.errorhandler(msg)
 			gc_push('transform')
 			gc_replaceTransform(xOy)
 			setFont(100)gc_print(":(",100,0,0,1.2)
-			setFont(40)gc_printf(errorMsg,100,160,SCR.w0-100)
+			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
 			gc_print(SYSTEM.."-"..VERSION.string.."                          scene:"..(SCN and SCN.cur or"NULL"),100,660)
-			gc_printf(err[1],100,360,1260-100)
+			gc.printf(err[1],100,360,1260-100)
 			gc_print("TRACEBACK",100,450)
 			for i=4,#err-2 do
 				gc_print(err[i],100,400+20*i)
@@ -582,7 +582,7 @@ function love.run()
 					end
 					SYSFX.draw()
 					TEXT.draw()
-				gc.origin()
+				gc_origin()
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)
@@ -605,11 +605,6 @@ function love.run()
 					gc_setColor(1,1,1)
 					gc_print(FPS(),SCR.safeX+5,_-20)
 
-					--Draw Version string
-					gc_setColor(.8,.8,.8,.4)
-					setFont(20)
-					mStr(VERSION.string,SCR.w*.5,SCR.h-30)
-
 					--Debug info.
 					if devMode then
 						--Left-down infos
@@ -624,17 +619,17 @@ function love.run()
 						ins(frameTimeList,1,dt)rem(frameTimeList,126)
 						gc_setColor(1,1,1,.3)
 						for i=1,#frameTimeList do
-							gc_rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
+							gc.rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
 						end
 
 						--Websocket status
 						gc_push('transform')
-						gc.translate(SCR.w,SCR.h)
-						gc.scale(SCR.k)
+						gc_translate(SCR.w,SCR.h)
+						gc_scale(SCR.k)
 						for i=1,5 do
 							local status=WS.status(WSnames[i])
 							gc_setColor(WScolor[i])
-							gc_rectangle('fill',0,20*i-100,-80,-20)
+							gc.rectangle('fill',0,20*i-100,-80,-20)
 							if status=='dead'then
 								gc_setColor(1,1,1)
 								gc_draw(ws_deadImg,-20,20*i-120)
@@ -646,9 +641,9 @@ function love.run()
 								gc_draw(ws_runningImg,-20,20*i-120)
 							end
 							local t1,t2,t3=WS.getTimers(WSnames[i])
-							gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i-100,-20,-20)
-							gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i-100,-20,-20)
-							gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i-100,-20,-20)
+							gc_setColor(1,1,1,t1)gc.rectangle('fill',-60,20*i-100,-20,-20)
+							gc_setColor(0,1,0,t2)gc.rectangle('fill',-40,20*i-100,-20,-20)
+							gc_setColor(1,0,0,t3)gc.rectangle('fill',-20,20*i-100,-20,-20)
 						end
 						gc_pop()
 
@@ -657,10 +652,17 @@ function love.run()
 						elseif devMode==4 then WAIT(.5)
 						end
 					end
+				gc_translate(SCR.w*.5,SCR.h)
+				gc_scale(SCR.k)
+					--Draw Version string
+					gc_setColor(.8,.8,.8,.4)
+					setFont(20)
+					mStr(VERSION.string,0,-30)
+				gc_origin()
 				gc_present()
 
 				--SPEED UPUPUP!
-				if SETTING.cleanCanvas then gc_discard()end
+				if SETTING.cleanCanvas then gc.discard()end
 			end
 		end
 
