@@ -2,37 +2,89 @@ name: Techmino CI
 
 on:
   push:
-    branches: [ ci ]
+    branches: [ master, ci ]
   pull_request:
-    branches: [ ci ]
+    branches: [ master, ci ]
 
 jobs:
   build-windows:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        lfs: true
     - name: Download love
       run: |
-        curl -LO https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
         7z x love-11.3-win64.zip
     - name: Download ColdClear
       run: |
-        curl -LO https://github.com/26F-Studio/Techmino/releases/download/coldclear/coldclear.zip
-        7z x coldclear.zip -ocoldclear
-        move coldclear\win64\cold_clear.dll love-11.3-win64
-        move coldclear\win64\CCloader.dll love-11.3-win64
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win64.zip
+        7z x win64.zip -ocoldclear
+        move coldclear\cold_clear.dll love-11.3-win64
+        move coldclear\CCloader.dll love-11.3-win64
     - name: Pack Techmino
       shell: cmd
       run: |
-        7z a game.zip BGM document image modes parts SFX VOICE Zframework conf.lua font.ttf main.lua
-        move game.zip game.love
+        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
         copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
         del love-11.3-win64\love.exe
         del love-11.3-win64\lovec.exe
     - name: Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: Techmino_win64
+        name: Windows
         path: love-11.3-win64
+
+  build-linux:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download AppImageKit
+      run: curl -OL https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
+    - name: Unpack and Repack
+      run: |
+        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.AppImage
+        chmod +x Techmino.AppImage appimagetool-x86_64.AppImage
+        ./Techmino.AppImage --appimage-extract
+        rm Techmino.AppImage
+        cd squashfs-root/usr/share/Techmino
+        rm -rf document media parts Zframework conf.lua font.ttf main.lua
+        cd ../../../..
+        cp -r document media parts Zframework conf.lua font.ttf main.lua squashfs-root/usr/share/Techmino
+        ./appimagetool-x86_64.AppImage squashfs-root Techmino.AppImage
+    - name: Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Linux
+        path: Techmino.AppImage
+
+  build-android:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Apktool
+      run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
+    - name: Unpack and Repack
+      run: |
+        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.apk
+        java -jar apktool_2.5.0.jar d -s -o apk Techmino.apk
+        7z x -o. apk/assets/game.love libAndroid
+        rm apk/assets/game.love Techmino.apk
+        7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
+        python3 .github/workflows/updateVersion.py
+        java -jar apktool_2.5.0.jar b -o Techmino.apk apk
+    - uses: 26F-Studio/sign-android-release@master
+      name: Sign app APK
+      id: sign_app
+      with:
+        releaseDirectory: .
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+        BUILD_TOOLS_VERSION: "30.0.2"
+    - name: Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Android
+        path: ${{steps.sign_app.outputs.signedReleaseFile}}
