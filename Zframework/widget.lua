@@ -17,8 +17,8 @@ local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
 local xOy=SCR.xOy
 
-local downArrowIcon=DOGC{60,35,{'fPoly',0,0,30,35,60,0}}
-local upArrowIcon=DOGC{60,35,{'fPoly',0,35,30,0,60,35}}
+local downArrowIcon=DOGC{40,25,{'fPoly',0,0,20,25,40,0}}
+local upArrowIcon=DOGC{40,25,{'fPoly',0,25,20,0,40,25}}
 local clearIcon=DOGC{40,40,
 	{'fRect',16,5,8,2},
 	{'fRect',8,7,24,2},
