@@ -45,12 +45,10 @@ THEME=	require"Zframework.theme"
 local ms,kb=love.mouse,love.keyboard
 
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_push,gc_pop,gc_clear=gc.push,gc.pop,gc.clear
 local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line=gc.draw,gc.line
-local gc_print=gc.print
+local gc_draw,gc_line,gc_print=gc.draw,gc.line,gc.print
 
 local setFont,mStr=setFont,mStr
 
@@ -79,7 +77,7 @@ local function updatePowerInfo()
 	local state,pow=love.system.getPowerInfo()
 	gc.setCanvas(infoCanvas)
 	gc_push('transform')
-	gc_origin()
+	gc.origin()
 	gc_clear(0,0,0,.25)
 	if state~='unknown'then
 		gc_setLineWidth(4)
@@ -450,7 +448,7 @@ function love.errorhandler(msg)
 			end
 			gc_clear(.3,.5,.9)
 			gc_push('transform')
-			gc_replaceTransform(xOy)
+			gc_replaceTransform(SCR.xOy)
 			setFont(100)gc_print(":(",100,0,0,1.2)
 			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
@@ -572,15 +570,13 @@ function love.run()
 			if FCT>=100 then
 				FCT=FCT-100
 
-				--Draw background
-				BG.draw()
-
-				gc.replaceTransform(xOy)
-					--Draw scene contents
+				gc_replaceTransform(SCR.origin)
+					BG.draw()
+				gc_replaceTransform(SCR.xOy)
 					if SCN.draw then SCN.draw()end
-
-					--Draw widgets
 					WIDGET.draw()
+					SYSFX.draw()
+					TEXT.draw()
 
 					--Draw cursor
 					if mouseShow then
@@ -592,52 +588,48 @@ function love.run()
 						gc_setColor(1,1,1)
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
-					SYSFX.draw()
-					TEXT.draw()
-				gc_origin()
+
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)
 						gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 					end
 
+					--Draw Logs
+					LOG.draw()
+
+				gc_replaceTransform(SCR.origin)
 					--Draw scene swapping animation
 					if SCN.swapping then
 						gc_setColor(1,1,1)
 						_=SCN.stat
 						_.draw(_.time)
 					end
-
-					--Draw Logs
-					LOG.draw()
-
+				gc_replaceTransform(SCR.xOy_dl)
 					--Draw FPS
 					setFont(15)
-					_=SCR.h
 					gc_setColor(1,1,1)
-					gc_print(FPS(),SCR.safeX+5,_-20)
+					gc_print(FPS(),SCR.safeX+5,-20)
 
 					--Debug info.
 					if devMode then
 						--Left-down infos
 						gc_setColor(devColor[devMode])
-						gc_print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
-						gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
-						gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
-						gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
-						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
+						gc_print("MEM     "..gcinfo(),SCR.safeX+5,-40)
+						gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,-60)
+						gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,-80)
+						gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,-100)
+						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,-120)
 
 						--Update & draw frame time
 						ins(frameTimeList,1,dt)rem(frameTimeList,126)
 						gc_setColor(1,1,1,.3)
 						for i=1,#frameTimeList do
-							gc.rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
+							gc.rectangle('fill',150+2*i,-20,2,-frameTimeList[i]*4000)
 						end
 
+						gc_replaceTransform(SCR.xOy_dr)
 						--Websocket status
-						gc_push('transform')
-						gc_translate(SCR.w,SCR.h)
-						gc_scale(SCR.k)
 						for i=1,5 do
 							local status=WS.status(WSnames[i])
 							gc_setColor(WScolor[i])
@@ -657,20 +649,12 @@ function love.run()
 							gc_setColor(0,1,0,t2)gc.rectangle('fill',-40,20*i-100,-20,-20)
 							gc_setColor(1,0,0,t3)gc.rectangle('fill',-20,20*i-100,-20,-20)
 						end
-						gc_pop()
-
-						--Slow devmode
-						if devMode==3 then WAIT(.1)
-						elseif devMode==4 then WAIT(.5)
-						end
 					end
-				gc_translate(SCR.cx,SCR.h)
-				gc_scale(SCR.k)
+				gc_replaceTransform(SCR.xOy_dm)
 					--Draw Version string
 					gc_setColor(.8,.8,.8,.4)
 					setFont(20)
 					mStr(VERSION.string,0,-30)
-				gc_origin()
 				gc_present()
 
 				--SPEED UPUPUP!
@@ -687,6 +671,11 @@ function love.run()
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
 			end
+		end
+
+		--Slow devmode
+		if devMode==3 then WAIT(.1)
+		elseif devMode==4 then WAIT(.5)
 		end
 
 		--Keep 60fps

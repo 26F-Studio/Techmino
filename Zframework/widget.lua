@@ -1,5 +1,5 @@
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_clear,gc_origin=gc.clear,gc.origin
 local gc_translate,gc_replaceTransform=gc.translate,gc.replaceTransform
 local gc_setCanvas,gc_setBlendMode=gc.setCanvas,gc.setBlendMode
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
@@ -828,7 +828,7 @@ function inputBox:getInfo()
 end
 function inputBox:press()
 	if MOBILE then
-		local _,y1=SCR.xOy:transformPoint(0,self.y+self.h)
+		local _,y1=xOy:transformPoint(0,self.y+self.h)
 		kb.setTextInput(true,0,y1,1,1)
 	end
 end
@@ -1096,7 +1096,7 @@ function WIDGET.focus(W)
 	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
 	WIDGET.sel=W
 	if W and W.type=='inputBox'then
-		local _,y1=SCR.xOy:transformPoint(0,W.y+W.h)
+		local _,y1=xOy:transformPoint(0,W.y+W.h)
 		kb.setTextInput(true,0,y1,1,1)
 	end
 end
@@ -1261,31 +1261,29 @@ function WIDGET.resize(w,h)
 	widgetCanvas=gc.newCanvas(w,h)
 end
 function WIDGET.draw()
-	gc_push('transform')
-		gc_setCanvas(widgetCanvas)
-			gc_clear(0,0,0,0)
-			gc_replaceTransform(xOy)
-			gc_translate(0,-WIDGET.scrollPos)
-			for _,W in next,WIDGET.active do
-				if not W.hide then W:draw()end
+	gc_setCanvas(widgetCanvas)
+		gc_clear(0,0,0,0)
+		gc_translate(0,-WIDGET.scrollPos)
+		for _,W in next,WIDGET.active do
+			if not W.hide then W:draw()end
+		end
+		gc_origin()
+		gc_setColor(1,1,1)
+		if WIDGET.scrollHeight>0 then
+			if WIDGET.scrollPos>0 then
+				gc_draw(upArrowIcon,scr_w*.5,10,0,SCR.k,nil,upArrowIcon:getWidth()*.5,0)
 			end
-			gc_origin()
-			gc_setColor(1,1,1)
-			if WIDGET.scrollHeight>0 then
-				if WIDGET.scrollPos>0 then
-					gc_draw(upArrowIcon,scr_w*.5,10,0,SCR.k,nil,upArrowIcon:getWidth()*.5,0)
-				end
-				if WIDGET.scrollPos<WIDGET.scrollHeight then
-					gc_draw(downArrowIcon,scr_w*.5,scr_h-10,0,SCR.k,nil,downArrowIcon:getWidth()*.5,downArrowIcon:getHeight())
-				end
-				gc_setBlendMode('multiply','premultiplied')
-				gc_draw(widgetCover,nil,nil,nil,scr_w,scr_h/360)
+			if WIDGET.scrollPos<WIDGET.scrollHeight then
+				gc_draw(downArrowIcon,scr_w*.5,scr_h-10,0,SCR.k,nil,downArrowIcon:getWidth()*.5,downArrowIcon:getHeight())
 			end
-		gc_setCanvas()
-		gc_setBlendMode('lighten','premultiplied')
-		gc_draw(widgetCanvas)
-		gc_setBlendMode('alpha')
-	gc_pop()
+			gc_setBlendMode('multiply','premultiplied')
+			gc_draw(widgetCover,nil,nil,nil,scr_w,scr_h/360)
+		end
+	gc_setCanvas()
+	gc_setBlendMode('lighten','premultiplied')
+	gc_draw(widgetCanvas)
+	gc_setBlendMode('alpha')
+	gc_replaceTransform(SCR.xOy)
 end
 
 return WIDGET

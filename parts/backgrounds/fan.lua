@@ -1,6 +1,6 @@
 --UUZ's fan
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_clear,gc_origin,gc_replaceTransform=gc.clear,gc.origin,gc.replaceTransform
 local gc_translate=gc.translate
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_line,gc_polygon=gc.line,gc.polygon
@@ -44,10 +44,10 @@ function back.update()
 	end
 end
 function back.draw()
-	gc_push('transform')
-	gc.replaceTransform(SCR.xOy)
-	gc_translate(640,360+20*sin(t*.02))
 	gc_clear(.1,.1,.1)
+
+	gc_replaceTransform(SCR.xOy_m)
+	gc_translate(0,20*sin(t*.02))
 
 	gc_setLineWidth(320)
 	gc_setColor(.9,.6,.9,.1)
@@ -72,7 +72,6 @@ function back.draw()
 		local P=petal[i]
 		gc_ellipse('fill',P.x,P.y,P.rx,P.ry)
 	end
-	gc_pop()
 end
 function back.discard()
 	petal=nil

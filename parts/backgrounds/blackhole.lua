@@ -1,7 +1,6 @@
 --Blackhole
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale=gc.translate,gc.scale
+local gc_clear,gc_replaceTransform=gc.clear,gc.replaceTransform
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_circle=gc.draw,gc.circle
 
@@ -43,9 +42,7 @@ function back.update()
 end
 function back.draw()
 	gc_clear(.1,.1,.1)
-	gc_push('transform')
-	gc_origin()
-	gc_translate(SCR.cx,SCR.cy)
+	gc_replaceTransform(SCR.xOy_m)
 
 	--Squares
 	gc_setColor(1,1,1,.2)
@@ -55,7 +52,6 @@ function back.draw()
 	end
 
 	--Blackhole
-	gc_scale(SCR.rad/1600)
 	gc_setColor(.07,.07,.07)
 	gc_circle('fill',0,0,157)
 	gc_setLineWidth(6)
@@ -63,8 +59,6 @@ function back.draw()
 		gc_setColor(.07,.07,.07,1-i*.0666)
 		gc_circle('line',0,0,160+6*i)
 	end
-	gc_scale(1600/SCR.rad)
-	gc_pop()
 end
 function back.discard()
 	squares=nil

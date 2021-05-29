@@ -1,6 +1,6 @@
 --Firework
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_clear=gc.clear
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_line,gc_circle=gc.line,gc.circle
 
@@ -79,8 +79,6 @@ function back.update(dt)
 end
 function back.draw()
 	gc_clear(.1,.1,.1)
-	gc_push('transform')
-	gc_origin()
 	for i=1,#firework do
 		local F=firework[i]
 		gc_setColor(F.color)
@@ -93,7 +91,6 @@ function back.draw()
 		gc_setColor(c[1],c[2],c[3],P.t*.4)
 		gc_line(P.x,P.y,P.x-P.vx*4,P.y-P.vy*4)
 	end
-	gc_pop()
 end
 function back.discard()
 	firework=nil

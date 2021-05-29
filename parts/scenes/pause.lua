@@ -174,10 +174,9 @@ function scene.draw()
 	local _=T
 	if GAME.result then _=_*.7 end
 	gc.setColor(.15,.15,.15,_)
-	gc.push('transform')
-		gc.origin()
-		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-	gc.pop()
+	gc.replaceTransform(SCR.origin)
+	gc.rectangle('fill',0,0,SCR.w,SCR.h)
+	gc.replaceTransform(SCR.xOy)
 
 	--Pause Info
 	setFont(25)

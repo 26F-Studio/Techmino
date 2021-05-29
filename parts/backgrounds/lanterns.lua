@@ -38,14 +38,11 @@ function back.update(dt)
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	gc.push('transform')
-	gc.origin()
 	gc.setColor(1,1,1,.2)
 	local img=IMG.lanterns
 	for i=1,#lanterns do
 		local L=lanterns[i]
 		mDraw(img[int(L.phase*6)+1],L.x,L.y,nil,L.size)
 	end
-	gc.pop()
 end
 return back

@@ -1,6 +1,6 @@
 local gc=love.graphics
 local gc_push,gc_pop=gc.push,gc.pop
-local gc_origin,gc_translate=gc.origin,gc.translate
+local gc_origin,gc_replaceTransform=gc.origin,gc.replaceTransform
 local gc_setLineWidth,gc_setColor=gc.setLineWidth,gc.setColor
 local gc_setShader=gc.setShader
 local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.printf
@@ -563,7 +563,7 @@ do--function drawSelfProfile()
 	function drawSelfProfile()
 		local selfAvatar=USERS.getAvatar(USER.uid)
 		gc_push('transform')
-		gc_translate(1280,0)
+		gc_replaceTransform(SCR.xOy_ur)
 
 		--Draw avatar
 		gc_setLineWidth(2)
@@ -590,12 +590,13 @@ do--function drawSelfProfile()
 		gc_pop()
 	end
 end
-do--function drawOnlinePlayerCount()
-	function drawOnlinePlayerCount()
-		setFont(20)
-		gc_setColor(1,1,1)
-		gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),0,80,1272,'right')
-	end
+function drawOnlinePlayerCount()
+	setFont(20)
+	gc_setColor(1,1,1)
+	gc_push('transform')
+	gc_replaceTransform(SCR.xOy_ur)
+	gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),-600,80,594,'right')
+	gc_pop()
 end
 do--function drawWarning()
 	local shader_warning=SHADER.warning

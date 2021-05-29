@@ -10,7 +10,19 @@ local SCR={
 	rad=0,			--Radius
 	k=1,			--Scale size
 	dpi=1,			--DPI from gc.getDPIScale()
-	xOy=love.math.newTransform(),--Screen transformation object
+
+	--Screen transformation objects
+	origin=love.math.newTransform(),
+	xOy_m=love.math.newTransform(),
+	xOy=love.math.newTransform(),
+	xOy_ul=love.math.newTransform(),
+	xOy_um=love.math.newTransform(),
+	xOy_ur=love.math.newTransform(),
+	xOy_ml=love.math.newTransform(),
+	xOy_mr=love.math.newTransform(),
+	xOy_dl=love.math.newTransform(),
+	xOy_dm=love.math.newTransform(),
+	xOy_dr=love.math.newTransform(),
 }
 function SCR.setSize(w,h)
 	SCR.w0,SCR.h0=w,h
@@ -32,7 +44,18 @@ function SCR.resize(w,h)
 	SCR.cx,SCR.cy=SCR.w/2,SCR.h/2
 	SCR.ex,SCR.ey=SCR.w-SCR.x,SCR.h-SCR.y
 	SCR.safeX,SCR.safeY,SCR.safeW,SCR.safeH=love.window.getSafeArea()
-	SCR.xOy:setTransformation(w/2,h/2,nil,SCR.k,nil,SCR.w0/2,SCR.h0/2)
+
+	SCR.origin:setTransformation(0,0)
+	SCR.xOy:setTransformation(SCR.x,SCR.y,0,SCR.k)
+	SCR.xOy_m:setTransformation(w/2,h/2,0,SCR.k)
+	SCR.xOy_ul:setTransformation(0,0,0,SCR.k)
+	SCR.xOy_um:setTransformation(w/2,0,0,SCR.k)
+	SCR.xOy_ur:setTransformation(w,0,0,SCR.k)
+	SCR.xOy_ml:setTransformation(0,h/2,0,SCR.k)
+	SCR.xOy_mr:setTransformation(w,h/2,0,SCR.k)
+	SCR.xOy_dl:setTransformation(0,h,0,SCR.k)
+	SCR.xOy_dm:setTransformation(w/2,h,0,SCR.k)
+	SCR.xOy_dr:setTransformation(w,h,0,SCR.k)
 end
 function SCR.info()
 	return{

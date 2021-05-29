@@ -21,23 +21,21 @@ return{
 	end,
 	mesDisp=function(P)
 		if not GAME.result then
+			gc.push('transform')
 			if GAME.replaying then
-				gc.setColor(.3,.3,.3,.7)
-				gc.push('transform')
 				gc.origin()
+				gc.setColor(.3,.3,.3,.7)
 				gc.rectangle('fill',0,0,SCR.w,SCR.h)
-				gc.pop()
 			else
 				gc.clear(.2,.2,.2)
-				--Frame
-				gc.setColor(.5,.5,.5)
-				gc.push('transform')
 				gc.translate(150,0)
+				gc.setColor(.5,.5,.5)
+				--Frame
 				gc.rectangle('line',-1,-11,302,612)--Boarder
 				gc.rectangle('line',301,-3,15,604)--AtkBuffer boarder
 				gc.rectangle('line',-16,-3,15,604)--B2b bar boarder
-				gc.pop()
 			end
+			gc.pop()
 		end
 
 		--Figures

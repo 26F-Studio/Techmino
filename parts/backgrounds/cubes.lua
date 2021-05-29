@@ -1,6 +1,6 @@
 --Flying cubes
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
+local gc_clear=gc.clear
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_rectangle=gc.rectangle
 
@@ -65,8 +65,6 @@ function back.update(dt)
 end
 function back.draw()
 	gc_clear(.1,.1,.1)
-	gc_push('transform')
-	gc_origin()
 	gc_setLineWidth(6)
 	for i=1,#squares do
 		local S=squares[i]
@@ -76,7 +74,6 @@ function back.draw()
 		gc_setColor(c[1],c[2],c[3],.3)
 		gc_rectangle('fill',S.x,S.y,S.size,S.size)
 	end
-	gc_pop()
 end
 function back.discard()
 	squares=nil

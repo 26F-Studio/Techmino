@@ -373,11 +373,10 @@ function scene.draw()
 
 	--Black screen
 	if blackTime>0 or openTime>3 then
-		gc.push('transform')
-		gc.origin()
+		gc.replaceTransform(SCR.origin)
 		gc.setColor(0,0,0,blackTime+(openTime-3)*4)
 		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-		gc.pop()
+		gc.replaceTransform(SCR.xOy)
 	end
 	gc.pop()
 end

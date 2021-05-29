@@ -77,8 +77,7 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	gc.push('transform')
-	gc.origin()
+	gc.replaceTransform(SCR.origin)
 	for i=1,#names do
 		local N=names[i]
 		if type(N.color)=='table'then
@@ -88,7 +87,7 @@ function scene.draw()
 		end
 		gc.draw(N.text,N.x,N.y)
 	end
-	gc.pop()
+	gc.replaceTransform(SCR.xOy)
 
 	gc.setColor(1,1,1)
 	local T=40*math.min(time,45)
