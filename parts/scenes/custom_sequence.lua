@@ -237,7 +237,7 @@ scene.widgetList={
 
 	WIDGET.newButton{name="copy",x=1140,y=460,w=170,h=80,color='lR',font=40,code=pressKey"cC",hideF=function()return #BAG==0 end},
 	WIDGET.newButton{name="paste",x=1140,y=550,w=170,h=80,color='lB',font=40,code=pressKey"cV"},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

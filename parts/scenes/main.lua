@@ -190,7 +190,7 @@ scene.widgetList={
 		{'fRect',22,20,6,20},
 	}
 	},
-	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.back,font=40,align='L',edge=30,code=backScene},
+	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.back,align='L',edge=30,code=backScene},
 }
 
 return scene

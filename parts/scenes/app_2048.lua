@@ -492,7 +492,7 @@ scene.widgetList={
 	WIDGET.newKey{name="record2",		x=1100,y=450,w=220,h=50,fText="",	color='H',code=pressKey"2",hideF=function()return state==2 end},
 	WIDGET.newKey{name="replay1",		x=1245,y=390,w=50,fText="!",		color='G',code=pressKey"c1",hideF=function()return state==2 or #repeater.seq[1]==0 end},
 	WIDGET.newKey{name="replay2",		x=1245,y=450,w=50,fText="!",		color='G',code=pressKey"c2",hideF=function()return state==2 or #repeater.seq[2]==0 end},
-	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

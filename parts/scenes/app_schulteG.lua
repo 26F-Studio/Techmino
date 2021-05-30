@@ -173,7 +173,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="blind",		x=240,y=330,w=60,		font=40,disp=function()return blind end,	code=pressKey"q",hideF=function()return state==1 end},
 	WIDGET.newSwitch{name="disappear",	x=240,y=420,w=60,		font=40,disp=function()return disappear end,code=pressKey"w",hideF=function()return state==1 end},
 	WIDGET.newSwitch{name="tapFX",		x=240,y=510,w=60,		font=40,disp=function()return tapFX end,	code=pressKey"e",hideF=function()return state==1 end},
-	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

@@ -133,7 +133,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="back",x=640,y=675,w=150,h=50,fText=TEXTURE.back,font=35,code=backScene},
+	WIDGET.newKey{name="back",x=640,y=675,w=150,h=50,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

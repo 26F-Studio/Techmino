@@ -25,7 +25,7 @@ scene.widgetList={
 	WIDGET.newInputBox{name="password",	x=380,	y=400,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newInputBox{name="password2",x=380,	y=500,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newKey{name="register",		x=1140,	y=540,w=170,h=80,font=40,code=register},
-	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

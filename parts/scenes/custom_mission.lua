@@ -236,7 +236,7 @@ scene.widgetList={
 	WIDGET.newButton{name="paste",	x=1140,	y=540,w=170,h=80,	color='lB',font=40,code=pressKey"cV"},
 	WIDGET.newSwitch{name="mission",x=1150, y=350,disp=CUSval("missionKill"),code=CUSrev("missionKill")},
 
-	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

@@ -17,7 +17,7 @@ end
 scene.widgetList={
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=goScene'setting_game'},
 	WIDGET.newKey{name="match",x=640,y=500,w=760,h=140,font=60,code=function()LOG.print("Coming soon 开发中,敬请期待")end},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

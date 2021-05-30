@@ -188,7 +188,7 @@ scene.widgetList={
 	WIDGET.newKey{name="down",		x=1130,	y=560,w=60,h=90,font=35,code=pressKey"down",hide=not MOBILE},
 	WIDGET.newKey{name="pageup",	x=1210,	y=460,w=80,h=90,font=35,code=pressKey"pageup",hide=not MOBILE},
 	WIDGET.newKey{name="pagedown",	x=1210,	y=560,w=80,h=90,font=35,code=pressKey"pagedown",hide=not MOBILE},
-	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

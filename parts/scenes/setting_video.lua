@@ -50,7 +50,7 @@ scene.widgetList={
 			SETTING.bg=not SETTING.bg
 			BG.set()
 		end},
-	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,font=40,code=backScene},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene
