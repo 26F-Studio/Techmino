@@ -207,8 +207,8 @@ local function drawFXs(P)
 		gc_rectangle('fill',150-x*150,15-S[1]*30-y*15,300*x,y*30)
 	end
 end
-local function drawGhost(P,clr)
-	gc_setColor(1,1,1,P.gameEnv.ghost)
+local function drawGhost(P,clr,alpha)
+	gc_setColor(1,1,1,alpha)
 	local texture=SKIN.curText
 	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
@@ -612,9 +612,9 @@ function draw.norm(P)
 
 					--Draw ghost & rotation center
 					if ENV.ghost then
-						drawGhost(P,curColor)
+						drawGhost(P,curColor,ENV.ghost)
 						if ENV.center then
-							gc_setColor(1,1,1,trans*ENV.center)
+							gc_setColor(1,1,1,ENV.center)
 							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
 					end
@@ -820,7 +820,7 @@ function draw.demo(P)
 				drawField(P)
 				drawFXs(P)
 				if P.cur and P.waiting==-1 then
-					if ENV.ghost then drawGhost(P,curColor)end
+					if ENV.ghost then drawGhost(P,curColor,ENV.ghost)end
 					if ENV.block then
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc_translate(0,-dy)

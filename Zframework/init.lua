@@ -571,6 +571,7 @@ function love.run()
 				FCT=FCT-100
 
 				gc_replaceTransform(SCR.origin)
+					gc_setColor(1,1,1)
 					BG.draw()
 				gc_replaceTransform(SCR.xOy)
 					if SCN.draw then SCN.draw()end
@@ -588,7 +589,7 @@ function love.run()
 						gc_setColor(1,1,1)
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
-
+				gc_replaceTransform(SCR.xOy_ul)
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)

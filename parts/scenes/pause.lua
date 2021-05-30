@@ -6,7 +6,7 @@ local setFont,mStr=setFont,mStr
 
 local fnsRankColor={
 	Z=COLOR.lY,
-	S=COLOR.lG,
+	S=COLOR.lH,
 	A=COLOR.N,
 	B=COLOR.lG,
 	C=COLOR.M,

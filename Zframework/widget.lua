@@ -20,9 +20,9 @@ local xOy=SCR.xOy
 local downArrowIcon=DOGC{40,25,{'fPoly',0,0,20,25,40,0}}
 local upArrowIcon=DOGC{40,25,{'fPoly',0,25,20,0,40,25}}
 local clearIcon=DOGC{40,40,
-	{'fRect',16,5,8,2},
-	{'fRect',8,7,24,2},
-	{'fRect',12,11,18,24},
+	{'fRect',16,5,8,3},
+	{'fRect',8,8,24,3},
+	{'fRect',11,14,18,21},
 }
 local sureIcon=DOGC{40,40,
 	{'setFT',35},
@@ -960,12 +960,12 @@ function textBox:draw()
 	end
 
 	--Background
-	gc_setColor(0,0,0,.3)
+	gc_setColor(0,0,0,.4)
 	gc_rectangle('fill',x,y,w,h)
 
 	--Frame
 	gc_setLineWidth(4)
-	gc_setColor(1,1,WIDGET.sel==self and 0 or 1)
+	gc_setColor(1,1,WIDGET.sel==self and .8 or 1)
 	gc_rectangle('line',x,y,w,h)
 
 	--Slider
@@ -1280,7 +1280,7 @@ function WIDGET.draw()
 			gc_draw(widgetCover,nil,nil,nil,scr_w,scr_h/360)
 		end
 	gc_setCanvas()
-	gc_setBlendMode('lighten','premultiplied')
+	gc_setBlendMode('alpha','premultiplied')
 	gc_draw(widgetCanvas)
 	gc_setBlendMode('alpha')
 	gc_replaceTransform(SCR.xOy)
