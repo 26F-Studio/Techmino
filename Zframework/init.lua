@@ -590,22 +590,25 @@ function love.run()
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
 				gc_replaceTransform(SCR.xOy_ul)
+					LOG.draw()
+				gc_replaceTransform(SCR.origin)
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)
 						gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 					end
 
-					--Draw Logs
-					LOG.draw()
-
-				gc_replaceTransform(SCR.origin)
 					--Draw scene swapping animation
 					if SCN.swapping then
 						gc_setColor(1,1,1)
 						_=SCN.stat
 						_.draw(_.time)
 					end
+				gc_replaceTransform(SCR.xOy_dm)
+					--Draw Version string
+					gc_setColor(.8,.8,.8,.4)
+					setFont(20)
+					mStr(VERSION.string,0,-30)
 				gc_replaceTransform(SCR.xOy_dl)
 					--Draw FPS
 					setFont(15)
@@ -651,11 +654,6 @@ function love.run()
 							gc_setColor(1,0,0,t3)gc.rectangle('fill',-20,20*i-100,-20,-20)
 						end
 					end
-				gc_replaceTransform(SCR.xOy_dm)
-					--Draw Version string
-					gc_setColor(.8,.8,.8,.4)
-					setFont(20)
-					mStr(VERSION.string,0,-30)
 				gc_present()
 
 				--SPEED UPUPUP!

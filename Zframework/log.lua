@@ -1,8 +1,8 @@
 local gc=love.graphics
 local gc_setColor,gc_print=gc.setColor,gc.print
-local int,max,min=math.floor,math.max,math.min
+local int,min=math.floor,math.min
 local ins,rem=table.insert,table.remove
-local SCR,setFont=SCR,setFont
+local setFont=setFont
 
 local mesList={}
 local mesHistory={
@@ -27,17 +27,16 @@ function LOG.update()
 end
 function LOG.draw()
 	if mesList[1]then
-		local k=SCR.w/SCR.w0
-		setFont(max(int(4*k)*5,5))
+		setFont(20)
 		for i=1,#mesList do
 			local M=mesList[i]
 			M.rgba[4]=M.blink>0 and int(M.blink/3)%2 or min(M.time/26,1)
 			gc_setColor(M.rgba)
-			gc_print(M.text,10+(20-min(M.time,20))^1.5/4,25*i*k)
+			gc_print(M.text,10+(20-min(M.time,20))^1.5/4,25*i)
 		end
 	end
 end
-function LOG.print(text,T)--text,type/time/color,color
+function LOG.print(text,T)--text,type/time
 	local color=COLOR.Z
 	local his,time
 	if T=='message'then
