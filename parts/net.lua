@@ -110,27 +110,30 @@ function NET.wsconn_app()
 	WS.connect('app','/app')
 end
 function NET.wsconn_user_pswd(email,password)
+	if WS.status('wsc_user')=='dead'then NET.unlock('wsc_user')end
 	if NET.lock('wsc_user',5)then
 		WS.connect('user','/user',JSON.encode{
 			email=email,
 			password=password,
-		})
+		},6)
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
+	if WS.status('wsc_user')=='dead'then NET.unlock('wsc_user')end
 	if NET.lock('wsc_user',5)then
 		WS.connect('user','/user',JSON.encode{
 			uid=uid,
 			authToken=authToken,
-		})
+		},6)
 	end
 end
 function NET.wsconn_play()
+	if WS.status('wsc_play')=='dead'then NET.unlock('wsc_play')end
 	if NET.lock('wsc_play',5)then
 		WS.connect('play','/play',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
-		})
+		},6)
 	end
 end
 function NET.wsconn_stream(srid)
@@ -140,7 +143,7 @@ function NET.wsconn_stream(srid)
 			uid=USER.uid,
 			accessToken=NET.accessToken,
 			srid=srid,
-		})
+		},10)
 		TASK.new(NET.updateWS_stream)
 	end
 end
