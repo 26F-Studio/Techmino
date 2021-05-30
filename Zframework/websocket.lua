@@ -23,8 +23,9 @@ do--Connect
 	local port=sendCHN:demand()
 	local path=sendCHN:demand()
 	local body=sendCHN:demand()
+	local timeout=sendCHN:demand()
 
-	SOCK:settimeout(2.6)
+	SOCK:settimeout(timeout)
 	local res,err=SOCK:connect(host,port)
 	if err then readCHN:push(err)return end
 
@@ -232,7 +233,7 @@ local wsList=setmetatable({},{
 	end
 })
 
-function WS.connect(name,subPath,body)
+function WS.connect(name,subPath,body,timeout)
 	local ws={
 		real=true,
 		thread=love.thread.newThread(wsThread),
@@ -242,7 +243,7 @@ function WS.connect(name,subPath,body)
 		lastPingTime=0,
 		lastPongTime=timer(),
 		pingInterval=12,
-		status='connecting',--connecting, running, dead
+		status='connecting',--'connecting', 'running', 'dead'
 		sendTimer=0,
 		alertTimer=0,
 		pongTimer=0,
@@ -253,6 +254,7 @@ function WS.connect(name,subPath,body)
 	ws.sendCHN:push(port)
 	ws.sendCHN:push(path..subPath)
 	ws.sendCHN:push(body or"")
+	ws.sendCHN:push(timeout or 2.6)
 end
 
 function WS.status(name)
