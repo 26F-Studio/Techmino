@@ -233,6 +233,15 @@ local wsList=setmetatable({},{
 	end
 })
 
+function WS.switchHost(_1,_2,_3)
+	for k in next,wsList do
+		WS.close(k)
+	end
+	host=_1
+	port=_2 or port
+	path=_3 or path
+end
+
 function WS.connect(name,subPath,body,timeout)
 	local ws={
 		real=true,

@@ -236,6 +236,18 @@ do--commands.help(arg)
 				"Usage: test",
 			},
 		},
+		switchhost={
+			description="Switch another host",
+			details={
+				"Disconnect all connections and switch to another host",
+				"",
+				"Usage:",
+				"switchhost [host]",
+				"switchhost [host] [port]",
+				"switchhost [host] [port] [path]",
+				"Example: switchhost 127.0.0.1 26000 /sock",
+			},
+		},
 		applet={
 			description="Go to an applet scene",
 			details={
@@ -275,6 +287,7 @@ do--commands.help(arg)
 		"setbg",
 		"theme",
 		"test",
+		"switchhost",
 		"applet",
 	}
 	function commands.help(arg)
@@ -582,6 +595,19 @@ function commands.theme(name)
 end
 function commands.test()
 	SCN.go('test','none')
+end
+function commands.switchhost(arg)
+	arg=STRING.split(arg," ")
+	if arg[1]and #arg<=3 then
+		WS.switchHost(unpack(arg))
+		log{C.Y,"Host switched"}
+	else
+		log{C.A,"Usage:"}
+		log{C.A,"switchhost [host]"}
+		log{C.A,"switchhost [host] [port]"}
+		log{C.A,"switchhost [host] [port] [path]"}
+		log{C.A,"Example: switchhost 127.0.0.1 26000 /sock"}
+	end
 end
 do--commands.applet(name)
 	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","dropper","calc","reflect","polyforge"}
