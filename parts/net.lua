@@ -5,7 +5,6 @@ local WS,TIME=WS,TIME
 local yield=YIELD
 
 local NET={
-	connected=false,
 	allow_online=false,
 	accessToken=false,
 	roomList={},--Local roomlist, updated frequently
@@ -309,7 +308,6 @@ function NET.updateWS_app()
 					local res=_parse(message)
 					if res then
 						if res.type=='Connect'then
-							NET.connected=true
 							if VERSION.code>=res.lowest then
 								NET.allow_online=true
 								if USER.authToken then
