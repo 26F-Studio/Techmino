@@ -20,6 +20,7 @@ local NET={
 		private=false,
 		start=false,
 	},
+	resultList={},--List of {place,survivalTime,uid,score}
 	spectate=false,--If player is spectating
 	specSRID=false,--Cached SRID when enter playing room, for connect WS after scene swapped
 	seed=false,

@@ -18,6 +18,7 @@ local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 
+local function _playerSort(a,b)return a.place<b.place end
 local function _setReady()NET.signal_setMode(1)end
 local function _setSpectate()NET.signal_setMode(2)end
 local function _setCancel()NET.signal_setMode(0)end
@@ -215,16 +216,13 @@ function scene.socketRead(cmd,d)
 	elseif cmd=='finish'then
 		playing=false
 		love.keyboard.setKeyRepeat(true)
-		local winnerUID
-		for _,p in next,d.result do
-			if p.place==1 then
-				winnerUID=p.uid
-				break
+		table.sort(d.result,_playerSort)
+		for k,v in next,d.result do
+			if v.place==0 then
+				table.remove(d.result,k)
 			end
 		end
-		if winnerUID then
-			TEXT.show(text.champion:gsub("$1",USERS.getUsername(winnerUID)),640,260,80,'zoomout',.26)
-		end
+		NET.resultList=d.result
 		netPLY.resetState()
 	elseif cmd=='stream'then
 		if d.uid~=USER.uid then
