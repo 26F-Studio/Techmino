@@ -112,7 +112,7 @@ return{
 		color=C.rainbow_dark,
 	},
 	{
-		name="亮君吧",
+		name="亮君",
 		font=65,
 		color=C.rainbow_dark,
 	},
@@ -519,6 +519,11 @@ return{
 	},
 	{
 		name="T7887库德里尔",
+		font=25,
+		color=C.H,
+	},
+	{
+		name="[*月]",
 		font=25,
 		color=C.H,
 	},
