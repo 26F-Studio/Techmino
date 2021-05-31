@@ -32,19 +32,19 @@ scene.widgetList={
 	WIDGET.newSlider{name="atkFX",		x=330,y=760,w=540,unit=5,	disp=SETval("atkFX"),	code=SETsto("atkFX")},
 	WIDGET.newSelector{name="frame",	x=600,y=830,w=460,list={8,10,13,17,22,29,37,47,62,80,100},disp=SETval("frameMul"),code=SETsto("frameMul")},
 
-	WIDGET.newSwitch{name="text",		x=420,y=920,disp=SETval("text"),		code=SETrev("text")},
-	WIDGET.newSwitch{name="score",		x=420,y=970,disp=SETval("score"),		code=SETrev("score")},
-	WIDGET.newSwitch{name="bufferWarn",	x=420,y=1040,disp=SETval('bufferWarn'),	code=SETrev('bufferWarn')},
-	WIDGET.newSwitch{name="showSpike",	x=420,y=1090,disp=SETval('showSpike'),	code=SETrev('showSpike')},
-	WIDGET.newSwitch{name="nextPos",	x=420,y=1160,disp=SETval("nextPos"),		code=SETrev("nextPos")},
-	WIDGET.newSwitch{name="highCam",	x=420,y=1210,disp=SETval("highCam"),	code=SETrev("highCam")},
-	WIDGET.newSwitch{name="warn",		x=420,y=1280,disp=SETval("warn"),		code=SETrev("warn")},
+	WIDGET.newSwitch{name="text",		x=450,y=920,disp=SETval("text"),		code=SETrev("text")},
+	WIDGET.newSwitch{name="score",		x=450,y=970,disp=SETval("score"),		code=SETrev("score")},
+	WIDGET.newSwitch{name="bufferWarn",	x=450,y=1040,disp=SETval('bufferWarn'),	code=SETrev('bufferWarn')},
+	WIDGET.newSwitch{name="showSpike",	x=450,y=1090,disp=SETval('showSpike'),	code=SETrev('showSpike')},
+	WIDGET.newSwitch{name="nextPos",	x=450,y=1160,disp=SETval("nextPos"),		code=SETrev("nextPos")},
+	WIDGET.newSwitch{name="highCam",	x=450,y=1210,disp=SETval("highCam"),	code=SETrev("highCam")},
+	WIDGET.newSwitch{name="warn",		x=450,y=1280,disp=SETval("warn"),		code=SETrev("warn")},
 
-	WIDGET.newSwitch{name="clickFX",	x=1000,y=920,disp=SETval("clickFX"),	code=SETrev("clickFX")},
-	WIDGET.newSwitch{name="power",		x=1000,y=1010,disp=SETval("powerInfo"),	code=SETrev("powerInfo")},
-	WIDGET.newSwitch{name="clean",		x=1000,y=1100,disp=SETval("cleanCanvas"),code=SETrev("cleanCanvas")},
-	WIDGET.newSwitch{name="fullscreen",	x=1000,y=1190,disp=SETval("fullscreen"),	code=switchFullscreen},
-	WIDGET.newSwitch{name="bg",			x=1000,y=1280,disp=SETval("bg"),
+	WIDGET.newSwitch{name="clickFX",	x=950,y=920,disp=SETval("clickFX"),	code=SETrev("clickFX")},
+	WIDGET.newSwitch{name="power",		x=950,y=1010,disp=SETval("powerInfo"),	code=SETrev("powerInfo")},
+	WIDGET.newSwitch{name="clean",		x=950,y=1100,disp=SETval("cleanCanvas"),code=SETrev("cleanCanvas")},
+	WIDGET.newSwitch{name="fullscreen",	x=950,y=1190,disp=SETval("fullscreen"),	code=switchFullscreen},
+	WIDGET.newSwitch{name="bg",			x=950,y=1280,disp=SETval("bg"),
 		code=function()
 			BG.set('none')
 			SETTING.bg=not SETTING.bg
