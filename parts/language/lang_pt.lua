@@ -766,6 +766,7 @@ return{
 		['infinite_dig']=		{"Infinito:Cave",	"",				"Cava, Cava, Cava."},
 		['sprintFix']=			{"Sprint",			"SEM ESQUERDA/DIREITA"},
 		['sprintLock']=			{"Sprint",			"SEM ROTAÇÃO"},
+		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Maratona",		"ULTIMATE"},
 		['custom_clear']=		{"Custom",			"NORMAL"},
 		['custom_puzzle']=		{"Custom",			"PUZZLE"},

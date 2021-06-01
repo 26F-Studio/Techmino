@@ -770,6 +770,7 @@ return{
 		['infinite_dig']=		{"Infinite: Dig",	"",				"Dig-diggi-dug."},
 		['sprintFix']=			{"Sprint",			"NO LEFT/RIGHT"},
 		['sprintLock']=			{"Sprint",			"NO ROTATIONS"},
+		['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Marathon",		"ULTIMATE"},
 		['custom_clear']=		{"Custom",			"NORMAL"},
 		['custom_puzzle']=		{"Custom",			"PUZZLE"},

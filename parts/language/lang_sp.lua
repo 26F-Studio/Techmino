@@ -678,6 +678,7 @@ return{
 		['infinite_dig']=		{"Infinito: Queso",	"",				"Limpia, limpia, más limpia que tú."},
 		['sprintFix']=			{"Sprint",			"Sin mover a Izq./Der."},
 		['sprintLock']=			{"Sprint",			"Sin rotar"},
+		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Maratón",			"Supremo"},
 		['custom_clear']=		{"Personalizado",	"Normal"},
 		['custom_puzzle']=		{"Personalizado",	"Puzzle"},

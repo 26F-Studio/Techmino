@@ -279,6 +279,7 @@ return{
 		['infinite_dig']=		{"无尽:挖掘",	"",			"闲得慌就来挖"},
 		['sprintFix']=			{"竞速",		"无移动"},
 		['sprintLock']=			{"竞速",		"无旋转"},
+		['sprintSmooth']=		{"竞速",		"无摩擦"},
 		['marathon_bfmax']=		{"马拉松",		"极限"},
 		['custom_clear']=		{"自定义",		"普通"},
 		['custom_puzzle']=		{"自定义",		"拼图"},

@@ -23,8 +23,16 @@ function scene.mouseDown(x,y)
 		jump=10
 		local t=TIME()-last
 		if t>1 then
-			VOC.play((t<1.5 or t>15)and"doubt"or rnd()<.8 and"happy"or"egg")
-			last=TIME()
+			if t>2.6 and t<3 then
+				loadGame('sprintSmooth',true)
+			else
+				VOC.play(
+					(t<1.5 or t>15)and"doubt"or
+					rnd()<.8 and"happy"or
+					"egg"
+				)
+				last=TIME()
+			end
 		end
 	end
 end

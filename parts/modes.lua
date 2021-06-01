@@ -111,10 +111,11 @@ return{
 
 	{name='sprintFix'},
 	{name='sprintLock'},
+
+	{name='sprintSmooth'},
 	{name='marathon_bfmax'},
 
 	{name='custom_puzzle'},
 	{name='custom_clear'},
-
 	{name="netBattle"},
 }
