@@ -541,7 +541,7 @@ function commands.unlockall(bool)
 end
 function commands.play(m)--marathon_bfmax can only entered through here
 	if MODES[m]then
-		loadGame(m)
+		loadGame(m,true)
 	elseif m~=""then
 		log{C.R,"No mode called "..m}
 	else
