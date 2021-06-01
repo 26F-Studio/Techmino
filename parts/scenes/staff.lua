@@ -36,7 +36,7 @@ end
 function scene.keyDown(k)
 	if k=="escape"then
 		SCN.back()
-	elseif kb.isDown("s")then
+	else
 		if k=="l"then
 			loadGame('sprintLock',true)
 		elseif k=="f"then
