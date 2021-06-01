@@ -14,8 +14,13 @@ local sList={
 	life={0,1,2,3,5,10,15,26,42,87,500},
 	pushSpeed={1,2,3,5,15},
 	fieldH={1,2,3,4,6,8,10,15,20,30,50,100},
-	heightLimit={2,3,4,6,8,10,15,20,30,50,100,150,200,1e99},
+	heightLimit={2,3,4,6,8,10,15,20,30,40,70,100,150,200,1e99},
 	bufferLimit={4,6,10,15,20,40,100,1e99},
+
+	drop={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
+	lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
+	wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+	fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
 }
 
 local scene={}
@@ -202,10 +207,10 @@ scene.widgetList={
 	WIDGET.newSelector{name="heightLimit",	x=450,y=710,w=260,color='S',list=sList.heightLimit,	disp=CUSval("heightLimit"),	code=CUSsto("heightLimit")},
 	WIDGET.newSelector{name="bufferLimit",	x=450,y=790,w=260,color='B',list=sList.bufferLimit,	disp=CUSval("bufferLimit"),	code=CUSsto("bufferLimit")},
 
-	WIDGET.newSelector{name="drop",	x=730,y=330,w=260,color='O',list={0,.125,.25,.5,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("drop"),code=CUSsto("drop")},
-	WIDGET.newSelector{name="lock",	x=730,y=410,w=260,color='O',list={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},disp=CUSval("lock"),code=CUSsto("lock")},
-	WIDGET.newSelector{name="wait",	x=730,y=520,w=260,color='G',list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},disp=CUSval("wait"),code=CUSsto("wait")},
-	WIDGET.newSelector{name="fall",	x=730,y=600,w=260,color='G',list={0,1,2,3,4,5,6,7,8,10,15,20,30,60},disp=CUSval("fall"),code=CUSsto("fall")},
+	WIDGET.newSelector{name="drop",	x=730,y=330,w=260,color='O',list=sList.drop,disp=CUSval("drop"),code=CUSsto("drop")},
+	WIDGET.newSelector{name="lock",	x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval("lock"),code=CUSsto("lock")},
+	WIDGET.newSelector{name="wait",	x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval("wait"),code=CUSsto("wait")},
+	WIDGET.newSelector{name="fall",	x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval("fall"),code=CUSsto("fall")},
 
 	--Copy / Paste / Start
 	WIDGET.newButton{name="copy",	x=1070,	y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
