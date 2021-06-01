@@ -1265,8 +1265,8 @@ do--Player.drop(self)--Place piece
 			end
 
 			--PC/HPC
-			if clear then
-				if #self.field==0 then
+			if clear and cc>=#C.bk then
+				if CY==1 then
 					self:showText(text.PC,0,-80,50,'flicker')
 					atk=max(atk,min(8+Stat.pc*2,16))
 					exblock=exblock+2
@@ -1284,7 +1284,7 @@ do--Player.drop(self)--Place piece
 					end
 					piece.pc=true
 					piece.special=true
-				elseif cc>=#C.bk and(cc>1 or #self.field==self.garbageBeneath)then
+				elseif cc>1 or #self.field==self.garbageBeneath then
 					self:showText(text.HPC,0,-80,50,'fly')
 					atk=atk+4
 					exblock=exblock+2
