@@ -12,6 +12,7 @@ local cv=SETTING.cv
 function scene.sceneInit()
 	last,jump=0,0
 	cv=SETTING.cv
+	WIDGET.active.cv:reset()
 	BG.set()
 end
 function scene.sceneBack()
