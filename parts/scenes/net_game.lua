@@ -217,11 +217,6 @@ function scene.socketRead(cmd,d)
 		playing=false
 		love.keyboard.setKeyRepeat(true)
 		table.sort(d.result,_playerSort)
-		for k,v in next,d.result do
-			if v.place==0 then
-				table.remove(d.result,k)
-			end
-		end
 		NET.resultList=d.result
 		netPLY.resetState()
 	elseif cmd=='stream'then
