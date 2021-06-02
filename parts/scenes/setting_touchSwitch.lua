@@ -47,7 +47,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="hide",	x=1150,	y=200,				font=40,disp=SETval("VKSwitch"),code=SETrev("VKSwitch")},
 	WIDGET.newSwitch{name="icon",	x=1150,	y=300,				font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon"),hideF=notShow},
 	WIDGET.newSlider{name="sfx",	x=830,	y=380,	w=400,		font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX"),hideF=notShow},
-	WIDGET.newSlider{name="vib",	x=830,	y=450,	w=400,unit=2,font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB"),hideF=notShow},
+	WIDGET.newSlider{name="vib",	x=830,	y=450,	w=400,unit=6,font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB"),hideF=notShow},
 	WIDGET.newSlider{name="alpha",	x=830,	y=520,	w=400,		font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha"),hideF=notShow},
 
 	WIDGET.newSwitch{name="track",	x=360,	y=720,				font=35,disp=SETval("VKTrack"),code=SETrev("VKTrack"),hideF=notShow},
