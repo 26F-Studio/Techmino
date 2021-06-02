@@ -1,6 +1,6 @@
 local gc,kb,tc=love.graphics,love.keyboard,love.touch
 
-local gc_setColor,gc_print=gc.setColor,gc.print
+local gc_setColor,gc_print,gc_printf,gc_draw=gc.setColor,gc.print,gc.printf,gc.draw
 local setFont,mStr=setFont,mStr
 
 local ins=table.insert
@@ -17,6 +17,7 @@ local upstreamProgress
 local lastBackTime=0
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
+local newMessageTimer
 
 local function _playerSort(a,b)return a.place<b.place end
 local function _setReady()NET.signal_setMode(1)end
@@ -58,6 +59,7 @@ function scene.sceneInit(org)
 	playing=false
 	lastUpstreamTime=0
 	upstreamProgress=1
+	newMessageTimer=0
 
 	if org=='setting_game'then NET.changeConfig()end
 	if NET.specSRID then
@@ -197,6 +199,7 @@ function scene.socketRead(cmd,d)
 			COLOR.Y,text.leaveRoom,
 		}
 	elseif cmd=='talk'then
+		newMessageTimer=60
 		textBox:push{
 			COLOR.Z,d.username,
 			COLOR.dY,"#"..d.uid.." ",
@@ -241,6 +244,7 @@ function scene.update(dt)
 	if NET.checkPlayDisconn()then
 		NET.wsclose_stream()
 		SCN.back()
+		return
 	end
 	if playing then
 		local P1=PLAYERS[1]
@@ -272,6 +276,9 @@ function scene.update(dt)
 		end
 	else
 		netPLY.update()
+	end
+	if newMessageTimer>0 then
+		newMessageTimer=newMessageTimer-1
 	end
 end
 
@@ -315,10 +322,10 @@ function scene.draw()
 		--Room info.
 		gc_setColor(1,1,1)
 		setFont(25)
-		gc.printf(NET.roomState.roomInfo.name,0,685,1270,'right')
+		gc_printf(NET.roomState.roomInfo.name,0,685,1270,'right')
 		setFont(40)
-		gc.print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
-		if NET.roomState.private then gc.draw(IMG.lock,30,668)end
+		gc_print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
+		if NET.roomState.private then gc_draw(IMG.lock,30,668)end
 		if NET.roomState.start then gc_setColor(0,1,0)gc_print(text.started,230,655)end
 
 		--Profile
@@ -329,10 +336,10 @@ function scene.draw()
 	end
 
 	--New message
-	if textBox.new then
+	if newMessageTimer>0 then
 		setFont(40)
-		gc_setColor(1,1,0)
-		gc.print("M",430,10)
+		gc_setColor(.3,.7,1,(newMessageTimer/60)^2)
+		gc_print("M",430,10)
 	end
 end
 scene.widgetList={
