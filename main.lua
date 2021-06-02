@@ -8,10 +8,10 @@
 	optimization is welcomed if you also love tetromino stacking game
 
 	Instructions:
-	1. I made a framework called Zframework, most code in Zframework are directly relevant to game;
-	2. "xxx" are texts for reading, 'xxx' are string values in program;
+	1. I made a framework called Zframework, most code in Zframework are not directly relevant to game;
+	2. "xxx" are texts for reading, 'xxx' are string values just in program;
 	3. Some goto statement are used for better performance. All goto-labes have detailed names so don't afraid;
-	4. Except "gcinfo" function of lua, other "gc" are short for "graphics";
+	4. Except "gcinfo" function of lua itself, other "gc" are short for "graphics";
 ]]--
 
 
