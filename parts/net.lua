@@ -318,22 +318,22 @@ function NET.updateWS_app()
 								end
 							end
 							if VERSION.code<res.newestCode then
-								LOG.print(text.oldVersion:gsub("$1",res.newestName),180,'message')
+								LOG.print(text.oldVersion:gsub("$1",res.newestName),180)
 							end
-							LOG.print(res.notice,300,'message')
+							LOG.print(res.notice,300)
 							NET.tryLogin(true)
-						elseif res.action==0 then--Get new version info
-							--?
+						elseif res.action==0 then--Broadcast
+							LOG.print(res.data.message,300)
 						elseif res.action==1 then--Get notice
 							--?
 						elseif res.action==2 then--Register
 							if res.type=='Self'or res.type=='Server'then
-								LOG.print(res.data.message,300,'message')
+								LOG.print(res.data.message,300)
 								if SCN.cur=='register'then
 									SCN.back()
 								end
 							else
-								LOG.print(res.reason or"Registration failed",300,'message')
+								LOG.print(res.reason or"Registration failed",300)
 							end
 							NET.unlock('register')
 						elseif res.action==3 then--Get player counts
