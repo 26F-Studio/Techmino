@@ -103,8 +103,10 @@ end
 function netPLY.getCount()return #PLY end
 function netPLY.rawgetPLY(i)return PLY[i]end
 function netPLY.getSID(uid)return getPLY(uid).sid end
+function netPLY.getStat(uid)return getPLY(uid).stat end
 function netPLY.getSelfJoinMode()return PLY[1].mode end
 function netPLY.getSelfReady()return PLY[1].mode>0 end
+
 function netPLY.setPlayerObj(ply,p)ply.p=p end
 function netPLY.setConf(uid,config)getPLY(uid).config=config end
 function netPLY.setJoinMode(uid,ready)
@@ -130,6 +132,7 @@ function netPLY.setJoinMode(uid,ready)
 	end
 end
 function netPLY.setConnect(uid)getPLY(uid).connected=true end
+function netPLY.setStat(uid)getPLY(uid).connected=true end
 function netPLY.resetState()
 	for i=1,#PLY do
 		PLY[i].mode=0

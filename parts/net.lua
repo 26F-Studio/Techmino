@@ -491,8 +491,8 @@ function NET.updateWS_play()
 							NET.wsconn_stream(d.srid)
 						elseif res.action==9 then--Game finished
 							NET.roomState.start=false
-							if NET.spectate then NET.signal_setMode(2) end
 							NET.spectate=false
+							if NET.spectate then NET.signal_setMode(2) end
 							if SCN.socketRead then SCN.socketRead('finish',d)end
 							NET.wsclose_stream()
 						end
