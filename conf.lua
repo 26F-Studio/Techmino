@@ -1,9 +1,9 @@
 VERSION={
-	build=332,
-	code=1502,
-	short="V0.15.2",
-	string="Alpha V0.15.2",
-	name="天线 Antenna",
+	build=333,
+	code=1503,
+	short="V0.15.3",
+	string="Alpha V0.15.3",
+	name="卫星 Satellite",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
