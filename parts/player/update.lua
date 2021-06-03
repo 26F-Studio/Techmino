@@ -114,7 +114,7 @@ local function update_misc(P,dt)
 
 		O.va=O.va*.8-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
 		O.a=O.a+O.va
-		-- if abs(O.a)<.3 then O.a,O.va=0,0 end
+		if abs(O.a)<.0006 then O.a,O.va=0,0 end
 	end
 
 	--Update texts
@@ -303,7 +303,7 @@ function update.alive(P,dt)
 	if P.falling>=0 then
 		P.falling=P.falling-1
 		if P.falling>=0 then
-			goto stop
+			goto THROW_stop
 		else
 			local L=#P.clearingRow
 			if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
@@ -311,61 +311,66 @@ function update.alive(P,dt)
 		end
 	end
 
-	--Try spawn new block
-	if not P.control then goto stop end
-	if P.waiting>=0 then
-		P.waiting=P.waiting-1
-		if P.waiting<0 then P:popNext()end
-		goto stop
-	end
-
-	--Natural block falling
-	if P.cur then
-		if P.curY>P.ghoY then
-			local D=P.dropDelay
-			if D>1 then
-				P.dropDelay=D-1
-				goto stop
+	--Update block state
+	if P.control then
+		--Try spawn new block
+		if P.waiting>=0 then
+			P.waiting=P.waiting-1
+			if P.waiting<0 then
+				P:popNext()
 			end
+			goto THROW_stop
+		end
 
-			if D==1 then
-				if ENV.moveFX and ENV.block then
-					P:createMoveFX('down')
+		--Natural block falling
+		if P.cur then
+			if P.curY>P.ghoY then
+				local D=P.dropDelay
+				if D>1 then
+					P.dropDelay=D-1
+					goto THROW_stop
 				end
-				P.curY=P.curY-1
-			else
-				D=1/D--Fall dist
-				if D>P.curY-P.ghoY then D=P.curY-P.ghoY end
-				if ENV.moveFX and ENV.block then
-					for _=1,D do
+
+				if D==1 then
+					if ENV.moveFX and ENV.block then
 						P:createMoveFX('down')
-						P.curY=P.curY-1
 					end
+					P.curY=P.curY-1
 				else
-					P.curY=P.curY-D
+					D=min(1/D,P.curY-P.ghoY)--1/D=Drop dist, lowest to ghost
+					if ENV.moveFX and ENV.block then
+						for _=1,D do
+							P:createMoveFX('down')
+							P.curY=P.curY-1
+						end
+					else
+						P.curY=P.curY-D
+					end
 				end
-			end
-			P:freshBlock('fresh')
-			P.spinLast=false
+				P:freshBlock('fresh')
+				P.spinLast=false
 
-			if P.ghoY~=P.curY then
-				P.dropDelay=ENV.drop
-			elseif P.AI_mode=='CC'and P.AI_bot then
-				CC.updateField(P)
-				if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
-					CC.switch20G(P)
+				if P.ghoY~=P.curY then
+					P.dropDelay=ENV.drop
+				elseif P.AI_mode=='CC'and P.AI_bot then
+					CC.updateField(P)
+					if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
+						CC.switch20G(P)
+					end
 				end
-			end
-		else
-			P.lockDelay=P.lockDelay-1
-			if P.lockDelay>=0 then goto stop end
-			P:drop()
-			if P.AI_mode=='CC'and P.AI_bot then
-				CC.updateField(P)
+			else
+				P.lockDelay=P.lockDelay-1
+				if P.lockDelay>=0 then
+					goto THROW_stop
+				end
+				P:drop()
+				if P.AI_mode=='CC'and P.AI_bot then
+					CC.updateField(P)
+				end
 			end
 		end
 	end
-	::stop::
+	::THROW_stop::
 
 	--B2B bar animation
 	if P.b2b1==P.b2b then
