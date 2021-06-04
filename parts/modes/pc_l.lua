@@ -6,7 +6,7 @@ return{
 		dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
 		freshLimit=15,
 		ospin=false,
-		bg='rgb',bgm='truth',
+		bg='rgb',bgm='moonbeam',
 	},
 	pauseLimit=true,
 	load=function()

@@ -14,7 +14,7 @@ return{
 			while true do yield()if S.frame>180*60 then P.strength=3;P:setFrameColor(3)break end end
 			while true do yield()if S.frame>260*60 then P.strength=4;P:setFrameColor(4)break end end
 		end,
-		bgm={'battle','cruelty','distortion','far','final','hope','magicblock','new era','push','race','rockblock','secret7th','secret8th','shining terminal','storm','super7th','warped','waterfall'},
+		bgm={'battle','cruelty','distortion','far','final','hope','magicblock','new era','push','race','rockblock','secret7th','secret8th','shining terminal','storm','super7th','warped','waterfall','moonbeam'},
 	},
 	load=function()
 		PLY.newPlayer(1)

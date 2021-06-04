@@ -19,7 +19,7 @@ return{
 		freshLimit=8,
 		heightLimit=4,
 		ospin=false,
-		bg='rgb',bgm='truth',
+		bg='rgb',bgm='moonbeam',
 	},
 	pauseLimit=true,
 	load=function()
