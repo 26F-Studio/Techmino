@@ -789,7 +789,7 @@ return{
 		"1next 1hold!",
 		"1next 6hold!",
 		"20G actually is a brand new game rule.",
-		"40-line Sprint WR: 15.654s by VinceHD",
+		"40-line Sprint WR: 15.557s by Reset",
 		"6next 1hold!",
 		"6next 6hold?!",
 		"Achievement system coming soon!",
