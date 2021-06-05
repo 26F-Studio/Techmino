@@ -137,16 +137,6 @@ function scene.keyDown(key)
 	elseif not inputBox.hide then
 		WIDGET.focus(inputBox)
 		inputBox:keypress(key)
-	elseif key:find("[123456789]")then
-		for _=1,tonumber(key)do
-			netPLY.add{
-				uid=tostring(6000+#netPLY.list+1),
-				username="Test Player"..tostring(#netPLY.list+1),
-				sid=tostring(#netPLY.list+1),
-				mode=0,
-				config="",
-			}
-		end
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
