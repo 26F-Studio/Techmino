@@ -355,7 +355,7 @@ return{
 	{"NRS",
 		"nrs nintendorotationsystem",
 		"term",
-		"Nintendo Rotation System\nThe rotation system used in the Tetris games on NES and Gameboy.\nIt has two mirrored versions; the left-handed version is used on Gameboy, and the right-handed version on the NES.",
+		"Nintendo Rotation System\nThe rotation system used in the Tetris games on the NES and Gameboy.\nIt has two mirrored versions; the left-handed version is used on Gameboy, and the right-handed version on the NES.",
 	},
 	{"ARS",
 		"ars arikrotationsystem atarirotationsystem",
@@ -370,7 +370,7 @@ return{
 	{"TRS",
 		"trs techminorotationsystem",
 		"term",
-		"*Techmino-exclusive*\nTechmino Rotation System\nThe rotation system used in Techmino.\nIt is based on SRS, with fixes on common cases where S/Z are locked from rotating, and some extra useful kicks. Each pentomino also has a kick table roughly based on SRS logic.",
+		"*Techmino-exclusive*\nTechmino Rotation System\nThe rotation system used in Techmino, based on SRS.\nIt includes fixes on common cases where S/Z are locked from rotating, and some extra useful kicks. Each pentomino also has a kick table roughly based on SRS logic.",
 	},
 
 	{"Back to Back",
