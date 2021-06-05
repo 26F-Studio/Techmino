@@ -1,4 +1,8 @@
 local gc=love.graphics
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line=gc.draw,gc.line
+local gc_print=gc.print
+
 
 local abs,int,sin=math.abs,math.floor,math.sin
 local mStr=mStr
@@ -44,11 +48,12 @@ function scene.sceneInit()
 end
 
 function scene.draw()
-	setFont(25)
 	local _,__=minoColor,SETTING.skin
 	local A,B=form.A1,form.A2
+
+	setFont(25)
 	for x=1,7 do
-		gc.setColor(_[__[x]])
+		gc_setColor(_[__[x]])
 		mStr(text.block[x],80*x,40)
 		mStr(text.block[x],80*x,280)
 		for y=1,4 do
@@ -61,44 +66,44 @@ function scene.draw()
 
 	A,B=form.X1,form.X2
 	for y=1,4 do
-		gc.setColor(.5,.5,.5)
-		gc.print(y-1,620,40+40*y)
-		gc.print(y,620,280+40*y)
-		gc.setColor(1,1,1)
+		gc_setColor(.5,.5,.5)
+		gc_print(y-1,620,40+40*y)
+		gc_print(y,620,280+40*y)
+		gc_setColor(1,1,1)
 		mStr(A[y],680,40+40*y)
 		mStr(B[y],680,280+40*y)
 	end
 
 	setFont(20)
 	for i=1,11 do
-		gc.print(item[i],740,40*i+10)
+		gc_print(item[i],740,40*i+10)
 	end
 
-	gc.setLineWidth(4)
+	gc_setLineWidth(4)
 	for x=1,8 do
 		x=80*x-40
-		gc.line(x,80,x,240)
-		gc.line(x,320,x,480)
+		gc_line(x,80,x,240)
+		gc_line(x,320,x,480)
 	end
 	for y=2,6 do
-		gc.line(40,40*y,600,40*y)
-		gc.line(40,240+40*y,600,240+40*y)
+		gc_line(40,40*y,600,40*y)
+		gc_line(40,240+40*y,600,240+40*y)
 	end
 
 	local t=TIME()
-	gc.draw(TEXTURE.title,260,615,.2+.04*sin(t*3),.4,nil,580,118)
+	gc_draw(TEXTURE.title,260,615,.2+.04*sin(t*3),.4,nil,580,118)
 
 	local r=t*2
 	local R=int(r)%7+1
-	gc.setColor(1,1,1,1-abs(r%1*2-1))
-	gc.draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
-	gc.draw(TEXTURE.miniBlock[R],680,300,0,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
+	gc_setColor(1,1,1,1-abs(r%1*2-1))
+	gc_draw(TEXTURE.miniBlock[R],680,50,t*10%6.2832,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
+	gc_draw(TEXTURE.miniBlock[R],680,300,0,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="path",x=1000,y=540,w=250,h=80,font=25,code=function()love.system.openURL(SAVEDIR)end,hide=MOBILE},
-	WIDGET.newButton{name="save",x=1000,y=640,w=250,h=80,font=25,code=goScene'savedata'},
-	WIDGET.newButton{name="back",x=640,y=620,w=200,h=80,fText=TEXTURE.back,code=backScene},
+	WIDGET.newButton{name="path",x=780,y=540,w=250,h=80,font=25,code=function()love.system.openURL(SAVEDIR)end,hide=MOBILE},
+	WIDGET.newButton{name="save",x=780,y=640,w=250,h=80,font=25,code=goScene'savedata'},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene
