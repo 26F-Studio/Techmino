@@ -229,22 +229,18 @@ function scene.socketRead(cmd,d)
 		end
 	elseif cmd=='finish'then
 		playing=false
-		stat=true
 		love.keyboard.setKeyRepeat(true)
 		table.sort(d.result,_playerSort)
 		NET.resultList=d.result
 		for _,p in next,NET.resultList do
 			p.username=USERS.getUsername(p.uid)
-			local S
 			for _,P in next,PLAYERS do
 				if P.uid==p.uid then
-					S=P.stat
+					netPLY.setStat(p.uid,P.stat)
+					netPLY.setPlace(p.uid,p.place)
 					break
 				end
 			end
-			p.lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5])
-			p.apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3])
-			p.adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2])
 		end
 		netPLY.resetState()
 	elseif cmd=='stream'then
@@ -334,13 +330,8 @@ function scene.draw()
 			local L=NET.resultList
 			for i=1,#L do
 				local p=L[i]
-				setFont(30)
-				gc_print("-"..p.place.."-",100,60+40*i)
-				setFont(25)
-				gc_print(p.username,160,60+40*i)
-				gc_print(p.lpm,340,60+40*i)
-				gc_print(p.apm,490,60+40*i)
-				gc_print(p.adpm,640,60+40*i)
+				setFont(30)gc_print("-"..p.place.."-",100,58+40*i)
+				setFont(25)gc_print(p.username,160,60+40*i)
 			end
 		else
 			--Users

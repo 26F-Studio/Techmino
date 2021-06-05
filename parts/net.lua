@@ -494,6 +494,7 @@ function NET.updateWS_play()
 							NET.spectate=false
 							if NET.spectate then NET.signal_setMode(2) end
 							if SCN.socketRead then SCN.socketRead('finish',d)end
+							netPLY.freshPos()
 							NET.wsclose_stream()
 						end
 					else

@@ -17,11 +17,20 @@ return{
 		bgm={'battle','cruelty','distortion','far','final','hope','magicblock','new era','push','race','rockblock','secret7th','secret8th','shining terminal','storm','super7th','warped','waterfall','moonbeam'},
 	},
 	load=function()
-		PLY.newPlayer(1)
-		PLAYERS[1].sid=netPLY.getSID(USER.uid)
-		local N=2
-		for i=2,netPLY.getCount()do
-			local p=netPLY.rawgetPLY(i)
+		local L=TABLE.copy(netPLY.list)
+		local N=1
+		for i,p in next,L do
+			if p.uid==USER.uid then
+				if p.connected then
+					PLY.newPlayer(1)
+					PLAYERS[1].sid=netPLY.getSID(USER.uid)
+					N=2
+				end
+				table.remove(L,i)
+				break
+			end
+		end
+		for _,p in next,L do
 			if p.connected then
 				PLY.newRemotePlayer(N,false,p)
 				N=N+1

@@ -5,7 +5,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local rnd,min=math.random,math.min
 local sin,cos=math.sin,math.cos
-local ins,rem=table.insert,table.remove
+local ins=table.insert
 local setFont=setFont
 
 local posLists={
@@ -63,64 +63,66 @@ local posLists={
 	end)(),
 }
 local posList
+local function _placeSort(a,b)return a.place<b.place end
 
-local netPLY={list={}}
-local PLY=netPLY.list
-
-local function getPLY(uid)
-	for i=1,#PLY do
-		if PLY[i].uid==uid then
-			return PLY[i]
-		end
-	end
-end
+local PLYlist,PLYmap={},{}
 local function freshPosList()
-	if #PLY<=5 then
+	table.sort(PLYlist,_placeSort)
+	if #PLYlist<=5 then
 		posList=posLists[1]
-	elseif #PLY<=17 then
+	elseif #PLYlist<=17 then
 		posList=posLists[2]
-	elseif #PLY<=31 then
+	elseif #PLYlist<=31 then
 		posList=posLists[3]
-	elseif #PLY<=49 then
+	elseif #PLYlist<=49 then
 		posList=posLists[4]
 	else--if #PLY<=99 then
 		posList=posLists[5]
 	end
 end
+local netPLY={
+	list=PLYlist,
+	map=PLYmap,
+	freshPos=freshPosList,
+}
 
-function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
+function netPLY.clear()
+	TABLE.cut(PLYlist)
+	TABLE.clear(PLYmap)
+end
 function netPLY.add(p)
 	p.connected=false
-	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
+	p.username=USERS.getUsername(p.uid)
+	p.place=1e99
+	p.stat={}
 	local a=rnd()*6.2832
 	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
-	freshPosList()
-end
-function netPLY.freshPos()
+
+	ins(PLYlist,p)
+	PLYmap[p.uid]=p
 	freshPosList()
 end
 
-function netPLY.getCount()return #PLY end
-function netPLY.rawgetPLY(i)return PLY[i]end
-function netPLY.getSID(uid)return getPLY(uid).sid end
-function netPLY.getStat(uid)return getPLY(uid).stat end
-function netPLY.getSelfJoinMode()return PLY[1].mode end
-function netPLY.getSelfReady()return PLY[1].mode>0 end
+function netPLY.getCount()return #PLYlist end
+function netPLY.getSID(uid)return PLYmap[uid].sid end
+function netPLY.getStat(uid)return PLYmap[uid].stat end
+function netPLY.getSelfJoinMode()return PLYmap[USER.uid].mode end
+function netPLY.getSelfReady()return PLYmap[USER.uid].mode>0 end
 
 function netPLY.setPlayerObj(ply,p)ply.p=p end
-function netPLY.setConf(uid,config)getPLY(uid).config=config end
+function netPLY.setConf(uid,config)PLYmap[uid].config=config end
 function netPLY.setJoinMode(uid,ready)
-	for i,p in next,PLY do
+	for _,p in next,PLYlist do
 		if p.uid==uid then
 			if p.mode~=ready then
 				p.mode=ready
 				if ready==0 then NET.allReady=false end
 				SFX.play('spin_0',.6)
-				if i==1 then
+				if p.uid==USER.uid then
 					NET.unlock('ready')
-				elseif PLY[1].mode==0 then
-					for j=2,#PLY do
-						if PLY[j].mode==0 then
+				elseif PLYmap[USER.uid].mode==0 then
+					for j=1,#PLYlist do
+						if not p.uid==USER.uid and PLYlist[j].mode==0 then
 							return
 						end
 					end
@@ -131,20 +133,26 @@ function netPLY.setJoinMode(uid,ready)
 		end
 	end
 end
-function netPLY.setConnect(uid)getPLY(uid).connected=true end
-function netPLY.setStat(uid)getPLY(uid).connected=true end
+function netPLY.setConnect(uid)PLYmap[uid].connected=true end
+function netPLY.setPlace(uid,place)PLYmap[uid].place=place end
+function netPLY.setStat(uid,S)
+	local p=PLYmap[uid]
+	p.stat.lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5])
+	p.stat.apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3])
+	p.stat.adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2])
+end
 function netPLY.resetState()
-	for i=1,#PLY do
-		PLY[i].mode=0
-		PLY[i].connected=false
+	for i=1,#PLYlist do
+		PLYlist[i].mode=0
+		PLYlist[i].connected=false
 	end
 end
 
 local selP,mouseX,mouseY
 function netPLY.mouseMove(x,y)
 	selP=nil
-	for i=1,#PLY do
-		local p=PLY[i]
+	for i=1,#PLYlist do
+		local p=PLYlist[i]
 		if x>p.x and y>p.y and x<p.x+p.w and y<p.y+p.h then
 			mouseX,mouseY=x,y
 			selP=p
@@ -154,8 +162,8 @@ function netPLY.mouseMove(x,y)
 end
 
 function netPLY.update()
-	for i=1,#PLY do
-		local p=PLY[i]
+	for i=1,#PLYlist do
+		local p=PLYlist[i]
 		local t=posList[i]
 		p.x=p.x*.9+t.x*.1
 		p.y=p.y*.9+t.y*.1
@@ -169,8 +177,8 @@ local function plyStencil()
 	gc_rectangle('fill',0,0,stencilW,stencilH)
 end
 function netPLY.draw()
-	for i=1,#PLY do
-		local p=PLY[i]
+	for i=1,#PLYlist do
+		local p=PLYlist[i]
 		gc_translate(p.x,p.y)
 			--Rectangle
 			gc_setColor(COLOR[
