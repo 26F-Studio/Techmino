@@ -104,6 +104,23 @@ local function removePlayer(L,sid)
 	end
 end
 
+--Push stream data to players
+local function pumpStream(d)
+	if d.uid~=USER.uid then
+		for _,P in next,PLAYERS do
+			if P.uid==d.uid then
+				local res,stream=pcall(love.data.decode,'string','base64',d.stream)
+				if res then
+					DATA.pumpRecording(stream,P.stream)
+				else
+					LOG.print("Bad stream from "..P.username.."#"..P.uid,10)
+				end
+				break
+			end
+		end
+	end
+end
+
 --Connect
 function NET.wsconn_app()
 	WS.connect('app','/app')
@@ -554,8 +571,10 @@ function NET.updateWS_stream()
 								if d.spectate then
 									if d.start then
 										SCN.socketRead('go')
-										for _,v in next,d.history or{}do
-											SCN.socketRead('stream',v)
+										if d.history then
+											for _,v in next,d.history do
+												pumpStream(v)
+											end
 										end
 									end
 								else
@@ -578,7 +597,7 @@ function NET.updateWS_stream()
 								end
 							end
 						elseif res.action==5 then--Receive stream
-							SCN.socketRead('stream',d)
+							pumpStream(d)
 						end
 					else
 						WS.alert('stream')

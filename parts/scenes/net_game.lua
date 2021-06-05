@@ -220,20 +220,6 @@ function scene.socketRead(cmd,d)
 	elseif cmd=='finish'then
 		playing=false
 		love.keyboard.setKeyRepeat(true)
-	elseif cmd=='stream'then
-		if d.uid~=USER.uid then
-			for _,P in next,PLAYERS do
-				if P.uid==d.uid then
-					local res,stream=pcall(love.data.decode,'string','base64',d.stream)
-					if res then
-						DATA.pumpRecording(stream,P.stream)
-					else
-						LOG.print("Bad stream from "..P.username.."#"..P.uid,10)
-					end
-					break
-				end
-			end
-		end
 	end
 end
 
