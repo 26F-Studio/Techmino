@@ -1,8 +1,8 @@
 local gc,kb,tc=love.graphics,love.keyboard,love.touch
 
-local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_setColor=gc.setColor
 local gc_print,gc_printf=gc.print,gc.printf
-local gc_draw,gc_rectangle=gc.draw,gc.rectangle
+local gc_draw=gc.draw
 local setFont,mStr=setFont,mStr
 
 local ins=table.insert
@@ -13,7 +13,7 @@ local PLAYERS,GAME=PLAYERS,GAME
 local textBox=WIDGET.newTextBox{name="texts",x=340,y=80,w=600,h=560}
 local inputBox=WIDGET.newInputBox{name="input",x=340,y=660,w=600,h=50}
 
-local playing,stat
+local playing
 local lastUpstreamTime
 local upstreamProgress
 local lastBackTime=0
@@ -21,10 +21,9 @@ local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local newMessageTimer
 
-local function _playerSort(a,b)return a.place<b.place end
+local function _setCancel()NET.signal_setMode(0)end
 local function _setReady()NET.signal_setMode(1)end
 local function _setSpectate()NET.signal_setMode(2)end
-local function _setCancel()NET.signal_setMode(0)end
 local function _gotoSetting()
 	if not(netPLY.getSelfReady()or NET.getlock('ready'))then
 		SCN.go('setting_game')
@@ -36,11 +35,6 @@ local function _quit()
 	else
 		lastBackTime=TIME()
 		LOG.print(text.sureQuit,'warn')
-	end
-end
-local function _switchStat()
-	if not playing and #NET.resultList>0 then
-		stat=not stat
 	end
 end
 local function _switchChat()
@@ -64,7 +58,6 @@ function scene.sceneInit(org)
 
 	noTouch=not SETTING.VKSwitch
 	playing=false
-	stat=false
 	lastUpstreamTime=0
 	upstreamProgress=1
 	newMessageTimer=0
@@ -76,7 +69,6 @@ function scene.sceneInit(org)
 	end
 end
 function scene.sceneBack()
-	NET.resultList={}
 	love.keyboard.setKeyRepeat(true)
 end
 
@@ -145,6 +137,16 @@ function scene.keyDown(key)
 	elseif not inputBox.hide then
 		WIDGET.focus(inputBox)
 		inputBox:keypress(key)
+	elseif key:find("[123456789]")then
+		for _=1,tonumber(key)do
+			netPLY.add{
+				uid=tostring(6000+#netPLY.list+1),
+				username="Test Player"..tostring(#netPLY.list+1),
+				sid=tostring(#netPLY.list+1),
+				mode=0,
+				config="",
+			}
+		end
 	elseif playing then
 		if noKey then return end
 		local k=keyMap.keyboard[key]
@@ -159,8 +161,6 @@ function scene.keyDown(key)
 			else
 				_setCancel()
 			end
-		elseif key=="tab"then
-			_switchStat()
 		elseif key=="s"then
 			_gotoSetting()
 		end
@@ -230,19 +230,6 @@ function scene.socketRead(cmd,d)
 	elseif cmd=='finish'then
 		playing=false
 		love.keyboard.setKeyRepeat(true)
-		table.sort(d.result,_playerSort)
-		NET.resultList=d.result
-		for _,p in next,NET.resultList do
-			p.username=USERS.getUsername(p.uid)
-			for _,P in next,PLAYERS do
-				if P.uid==p.uid then
-					netPLY.setStat(p.uid,P.stat)
-					netPLY.setPlace(p.uid,p.place)
-					break
-				end
-			end
-		end
-		netPLY.resetState()
 	elseif cmd=='stream'then
 		if d.uid~=USER.uid then
 			for _,P in next,PLAYERS do
@@ -294,7 +281,7 @@ function scene.update(dt)
 			NET.uploadRecStream(stream)
 			lastUpstreamTime=PLAYERS[1].alive and P1.frameRun or 1e99
 		end
-	elseif not stat then
+	else
 		netPLY.update()
 	end
 	if newMessageTimer>0 then
@@ -323,32 +310,20 @@ function scene.draw()
 			gc_print(text.spectating,940,0)
 		end
 	else
-		if stat then
-			gc_setColor(1,1,1)
-			gc_setLineWidth(4)
-			gc_rectangle('line',75,90,730,555)
-			local L=NET.resultList
-			for i=1,#L do
-				local p=L[i]
-				setFont(30)gc_print("-"..p.place.."-",100,58+40*i)
-				setFont(25)gc_print(p.username,160,60+40*i)
-			end
-		else
-			--Users
-			netPLY.draw()
+		--Users
+		netPLY.draw()
 
-			--Ready & Set mark
-			setFont(50)
-			if NET.allReady then
-				gc_setColor(0,1,.5,.9)
-				mStr(text.ready,640,15)
-			elseif NET.connectingStream then
-				gc_setColor(.1,1,.8,.9)
-				mStr(text.connStream,640,15)
-			elseif NET.waitingStream then
-				gc_setColor(0,.8,1,.9)
-				mStr(text.waitStream,640,15)
-			end
+		--Ready & Set mark
+		setFont(50)
+		if NET.allReady then
+			gc_setColor(0,1,.5,.9)
+			mStr(text.ready,640,15)
+		elseif NET.connectingStream then
+			gc_setColor(.1,1,.8,.9)
+			mStr(text.connStream,640,15)
+		elseif NET.waitingStream then
+			gc_setColor(0,.8,1,.9)
+			mStr(text.waitStream,640,15)
 		end
 
 		--Room info.
@@ -402,19 +377,6 @@ scene.widgetList={
 				not netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="showResult",x=310,y=35,w=60,font=35,code=_switchStat,
-		hideF=function()
-			return
-				playing or
-				#NET.resultList==0
-		end,
-		fText=DOGC{50,40,
-			{'setLW',4},
-			{'dRect',2,38,15,-15},
-			{'dRect',17,38,15,-24},
-			{'dRect',32,38,16,-10},
-		},
-	},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=_switchChat},
 	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=_quit},
 }

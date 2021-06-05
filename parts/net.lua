@@ -20,7 +20,6 @@ local NET={
 		private=false,
 		start=false,
 	},
-	resultList={},--List of {place,survivalTime,uid,score}
 	spectate=false,--If player is spectating
 	specSRID=false,--Cached SRID when enter playing room, for connect WS after scene swapped
 	seed=false,
@@ -490,11 +489,24 @@ function NET.updateWS_play()
 							NET.connectingStream=true
 							NET.wsconn_stream(d.srid)
 						elseif res.action==9 then--Game finished
-							NET.roomState.start=false
-							NET.spectate=false
-							if NET.spectate then NET.signal_setMode(2) end
 							if SCN.socketRead then SCN.socketRead('finish',d)end
+
+							--d.result: list of {place,survivalTime,uid,score}
+							for _,p in next,d.result do
+								for _,P in next,PLAYERS do
+									if P.uid==p.uid then
+										netPLY.setStat(p.uid,P.stat)
+										netPLY.setPlace(p.uid,p.place)
+										break
+									end
+								end
+							end
+
+							netPLY.resetState()
 							netPLY.freshPos()
+							NET.roomState.start=false
+							if NET.spectate then NET.signal_setMode(2)end
+							NET.spectate=false
 							NET.wsclose_stream()
 						end
 					else

@@ -1,5 +1,5 @@
 local gc=love.graphics
-local gc_draw,gc_rectangle,gc_print=gc.draw,gc.rectangle,gc.print
+local gc_draw,gc_rectangle,gc_print,gc_printf=gc.draw,gc.rectangle,gc.print,gc.printf
 local gc_setColor,gc_setLineWidth,gc_translate=gc.setColor,gc.setLineWidth,gc.translate
 local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
@@ -94,7 +94,7 @@ function netPLY.add(p)
 	p.connected=false
 	p.username=USERS.getUsername(p.uid)
 	p.place=1e99
-	p.stat={}
+	p.stat=false
 	local a=rnd()*6.2832
 	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
 
@@ -105,7 +105,6 @@ end
 
 function netPLY.getCount()return #PLYlist end
 function netPLY.getSID(uid)return PLYmap[uid].sid end
-function netPLY.getStat(uid)return PLYmap[uid].stat end
 function netPLY.getSelfJoinMode()return PLYmap[USER.uid].mode end
 function netPLY.getSelfReady()return PLYmap[USER.uid].mode>0 end
 
@@ -136,10 +135,11 @@ end
 function netPLY.setConnect(uid)PLYmap[uid].connected=true end
 function netPLY.setPlace(uid,place)PLYmap[uid].place=place end
 function netPLY.setStat(uid,S)
-	local p=PLYmap[uid]
-	p.stat.lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5])
-	p.stat.apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3])
-	p.stat.adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2])
+	PLYmap[uid].stat={
+		lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5]),
+		apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3]),
+		adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2]),
+	}
 end
 function netPLY.resetState()
 	for i=1,#PLYlist do
@@ -210,6 +210,21 @@ function netPLY.draw()
 					setFont(30)
 					gc_print(p.username,p.h,8)
 				end
+
+				--Stat
+				local S=p.stat
+				if S and(p.h>=55 or p.w>=180)then
+					setFont(20)
+					local x=p.w-155
+					if p.h>=55 then
+						gc_printf(S.adpm,x,2,150,'right')
+						gc_printf(S.apm,x,24,150,'right')
+						gc_printf(S.lpm,x,46,150,'right')
+					else
+						gc_printf(S.adpm,x,0,150,'right')
+						gc_printf(S.lpm,x,19,150,'right')
+					end
+				end
 			gc_setStencilTest()
 		gc_translate(-p.x,-p.y)
 	end
@@ -226,6 +241,14 @@ function netPLY.draw()
 			gc_print("#"..selP.uid,75,0)
 			setFont(35)
 			gc_print(selP.username,75,25)
+			setFont(20)
+			gc_printf(USERS.getMotto(selP.uid),5,70,390)
+			if selP.stat then
+				local S=selP.stat
+				gc_print(S.lpm,5,193)
+				gc_print(S.apm,5,213)
+				gc_print(S.adpm,5,233)
+			end
 		gc_translate(-min(mouseX,880),-min(mouseY,460))
 	end
 end
