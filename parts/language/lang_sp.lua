@@ -49,7 +49,6 @@ return{
 	ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
 	ai_prebag="La IA no es compatible con secuencias de piezas personalizadas.",
 	ai_mission="La IA no es compatible con misiones personalizadas.",
-	settingSaved="Cambios guardados",
 	saveDone="Datos guardados",
 	saveError="Error al guardar:",
 	loadError="Error al cargar:",
@@ -73,7 +72,6 @@ return{
 	newRecord="¡Nuevo Récord!",
 
 	getNoticeFail="Error al buscar novedades.",
-	getVersionFail="Error al buscar nuevas versiones.",
 	oldVersion="¡Está disponible la nueva versión $1!",
 	needUpdate="¡Nueva versión requerida!",
 	notFinished="Próximamente",
@@ -92,7 +90,6 @@ return{
 	accessFailed="Error al autorizar",
 
 	-- wsConnecting="Websocket: Connecting",
-	wsSuccessed="WebSocket: conectado",
 	wsFailed="WebSocket: conexión fallida",
 	wsClose="WebSocket cerrado: ",
 	-- netTimeout="Network connection timeout",
@@ -107,7 +104,6 @@ return{
 	-- ready="READY",
 	-- connStream="CONNECTING",
 	-- waitStream="WAITING",
-	champion="$1 ganó!",
 	-- spectating="Spectating",
 	chatRemain="Usuarios en línea: ",
 	chatStart="------Comienzo del historial------",
@@ -133,14 +129,7 @@ return{
 		"Finesse:",
 	},
 	radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
+	radarData={"D'PM","ADPM","APM","SPM","L'PM","DPM"},
 	stat={
 		"Veces Iniciado:",
 		"Veces Jugado:",

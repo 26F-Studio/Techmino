@@ -73,7 +73,6 @@ return{
 	newRecord="Novo recorde",
 
 	getNoticeFail="Não conseguiu ter anúncios",
-	getVersionFail="Falha ao detectar uma versão nova",
 	oldVersion="Versão $1 esta disponível agora!",
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
@@ -92,7 +91,6 @@ return{
 	accessFailed="Falha na autorização",
 
 	-- wsConnecting="Websocket: Connecting",
-	wsSuccessed="WebSocket: conectado",
 	wsFailed="WebSocket: falha na conexão",
 	wsClose="WebSocket closed: ",
 	-- netTimeout="Network connection timeout",
@@ -107,7 +105,6 @@ return{
 	-- ready="READY",
 	-- connStream="CONNECTING",
 	-- waitStream="WAITING",
-	-- champion="$1 won",
 	-- spectating="Spectating",
 	chatRemain="Online",
 	chatStart="------Começo do log------",
@@ -156,14 +153,7 @@ return{
 		"Destreza:",
 	},
 	radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
+	radarData={"D'PM","ADPM","APM","SPM","L'PM","DPM"},
 	stat={
 		"Vezes iniciadas:",
 		"Jogos:",

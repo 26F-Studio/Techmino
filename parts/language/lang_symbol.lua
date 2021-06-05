@@ -86,7 +86,7 @@ return{
 		"□!!~~~,□□□□X",
 		"□!!==*/*/*/*/*~",
 		"",
-		"Powered by LÖVE/love2d",
+		"Powered by LÖVE",
 		"Any suggestions or bug reports are appreciated!",
 		"Make sure to only obtain the game from official sources;",
 		"We can't make sure you're safe if you got it elsewhere.",

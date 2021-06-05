@@ -8,7 +8,7 @@ local path="/tech/socket/v1"
 local debug=""--S:send, R:receive, M=mark
 
 local wsThread=[[
--- lua + love2d threading websocket client
+-- lua + LÖVE threading websocket client
 -- Original pure lua ver. by flaribbit and Particle_G
 -- Threading version by MrZ
 

@@ -73,7 +73,6 @@ return{
 	newRecord="Nouveau record !",
 
 	getNoticeFail="Echec de l'obtention de la notice",
-	getVersionFail="Echec d'obtention de la dernière version",
 	oldVersion="La version $1 est disponible !",
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
@@ -92,7 +91,6 @@ return{
 	accessFailed="Autorisation échouée",
 
 	-- wsConnecting="Websocket: Connecting",
-	wsSuccessed="WebSocket: connecté",
 	wsFailed="WebSocket: connection échouée",
 	-- wsClose="WebSocket Closed: ",
 	-- netTimeout="Network connection timeout",
@@ -107,7 +105,6 @@ return{
 	-- ready="READY",
 	-- connStream="CONNECTING",
 	-- waitStream="WAITING",
-	champion="$1 a gagné",
 	-- spectating="Spectating",
 	chatRemain="En ligne : ",
 	chatStart="--------Début des logs--------",
@@ -133,14 +130,7 @@ return{
 		"Finesse :",
 	},
     radar={"DEF","OFF","ATQ","ENVOYER","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
+	radarData={"D'PM","ADPM","APM","SPM","L'PM","DPM"},
 	stat={
 		"Nombre de fois lancé :",
 		"Nombre de parties :",

@@ -1,4 +1,4 @@
---LIGHT MODULE (Optimized by MrZ, Original on github/love2d community/simple-love-lights)
+--LIGHT MODULE (Optimized by MrZ, Original on github/LÖVE community/simple-love-lights)
 --Heavily based on mattdesl's libGDX implementation:
 --https://github.com/mattdesl/lwjgl-basics/wiki/2D-Pixel-Perfect-Shadows
 local gc=love.graphics
