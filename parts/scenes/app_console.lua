@@ -694,12 +694,13 @@ local userG={
 	math={},string={},table={},bit={},coroutine={},
 	debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
 }userG._G=userG
-TABLE.complete(math,		userG.math)
-TABLE.complete(string,		userG.string)
-userG.string.dump=nil
-TABLE.complete(table,		userG.table)
-TABLE.complete(bit,			userG.bit)
-TABLE.complete(coroutine,	userG.coroutine)
+TABLE.complete(math,userG.math)
+TABLE.complete(string,userG.string)userG.string.dump=nil
+TABLE.complete(table,userG.table)
+TABLE.complete(bit,userG.bit)
+TABLE.complete(coroutine,userG.coroutine)
+
+
 
 --Puzzle box
 local first_key={}
@@ -707,20 +708,18 @@ local fleg={
 	pw=the_secret,
 	second_box="Coming soon",
 }setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
-local function first_box(k,f)
+function userG.the_box(k,f)
 	if k~=first_key then log"Usage:"log"?"return end
 	if not f then log"Two keys needed"return end
-	if type(f):byte()~=102 then log"Function need"return end
+	if type(f)~='function'then log"Function need"return end
 	noLog=true
-	if not f()then noLog=false log"Give me something"return end
-	if f()~=f then noLog=false log"No, yourself."return end
+	if f()~=f then noLog=false log"Give me yourself."return end
 	if f(26)~=math.huge then noLog=false log"Infinity for the lucky number"return end
 	noLog=false
-	log"You lose."
+	log"*You Lose*"
 	return fleg
 end
 userG.the_key=first_key
-userG.the_box=first_box
 
 
 
