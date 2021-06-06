@@ -1,3 +1,4 @@
+local data=love.data
 local next,type=next,type
 local TABLE={}
 
@@ -147,6 +148,56 @@ do--function TABLE.dump(L,t)
 		return s..tabs[t-1].."}"
 	end
 	TABLE.dump=dump
+end
+
+--Dump a simple lua table (no whitespaces)
+do--function TABLE.dumpDeflate(L,t)
+	local find=string.find
+	local function dump(L)
+		local s="return{"
+		if type(L)~='table'then return end
+		local count=1
+		for k,v in next,L do
+			local T=type(k)
+			if T=='number'then
+				if k==count then
+					k=""
+					count=count+1
+				else
+					k="["..k.."]="
+				end
+			elseif T=='string'then
+				if find(k,"[^0-9a-zA-Z_]")then
+					k="[\""..k.."\"]="
+				else
+					k=k.."="
+				end
+			elseif T=='boolean'then k="["..k.."]="
+			else error("Error key type!")
+			end
+			T=type(v)
+			if T=='number'then v=tostring(v)
+			elseif T=='string'then v="\""..v.."\""
+			elseif T=='table'then v=dump(v)
+			elseif T=='boolean'then v=tostring(v)
+			else error("Error data type!")
+			end
+		end
+		return s.."}"
+	end
+	TABLE.dumpDeflate=dump
+end
+
+function TABLE.pack(t)
+	return STRING.packText(TABLE.dumpDeflate(t))
+end
+
+function TABLE.unpack(s)
+	s=loadstring(STRING.unpackText(s))
+	if s then
+		setfenv(s,{})
+		return s()
+	end
 end
 
 return TABLE

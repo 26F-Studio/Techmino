@@ -93,7 +93,7 @@ function DATA.copyBoard(page)--Copy the [page] board
 		end
 		str=str..S
 	end
-	return data.encode('string','base64',data.compress('string','zlib',str))
+	return STRING.packBin(str)
 end
 function DATA.copyBoards()
 	local out={}
@@ -108,12 +108,8 @@ function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
 	local F=FIELD[page]
 
 	--Decode
-	local res
-	str=STRING.trim(str)
-	res,str=pcall(data.decode,'string','base64',str)
-	if not res then return end
-	res,str=pcall(data.decompress,'string','zlib',str)
-	if not res then return end
+	str=STRING.unpackBin(str)
+	if not str then return end
 
 	local fX,fY=1,1--*ptr for Field(r*10+(c-1))
 	local p=1
