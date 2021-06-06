@@ -120,10 +120,7 @@ end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
 	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-	if not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)and not GAME.result then
-		mergeStat(STAT,PLAYERS[1].stat)
-		FILE.save(STAT,'conf/data','q')
-	end
+	trySave()
 end
 
 function scene.keyDown(key)

@@ -244,6 +244,8 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 end
 function gameOver()--Save record
 	if GAME.replaying then return end
+	trySave()
+
 	local M=GAME.curMode
 	local R=M.getRank
 	if R then
@@ -296,6 +298,15 @@ function gameOver()--Save record
 				end
 			end
 		end
+	end
+end
+function trySave()
+	if not GAME.statSaved and PLAYERS[1]and(PLAYERS[1].frameRun>300 or GAME.result)then
+		GAME.statSaved=true
+		STAT.game=STAT.game+1
+		mergeStat(STAT,PLAYERS[1].stat)
+		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
+		FILE.save(STAT,'conf/data')
 	end
 end
 do--function freshPlayerPosition(sudden)
@@ -432,11 +443,7 @@ do--function resetGameData(args)
 	end
 	function resetGameData(args,seed)
 		if not args then args=""end
-		if PLAYERS[1]and not GAME.replaying and(PLAYERS[1].frameRun>300 or GAME.result)then
-			mergeStat(STAT,PLAYERS[1].stat)
-			STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-			FILE.save(STAT,'conf/data','q')
-		end
+		trySave()
 
 		GAME.result=false
 		GAME.warnLVL0=0
@@ -454,6 +461,7 @@ do--function resetGameData(args)
 			GAME.setting=copyGameSetting()
 			GAME.rep={}
 			GAME.recording=true
+			GAME.statSaved=false
 			GAME.replaying=false
 			GAME.rank=0
 			math.randomseed(TIME())
@@ -495,7 +503,6 @@ do--function resetGameData(args)
 			GAME.secDangerous=false
 			GAME.stage=1
 		end
-		STAT.game=STAT.game+1
 		FREEROW.reset(30*#PLAYERS)
 		TASK.removeTask_code(tick_showMods)
 		if GAME.setting.allowMod then

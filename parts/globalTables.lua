@@ -164,6 +164,7 @@ GAME={--Global game data
 	modeEnv=false,		--Current gamemode environment
 	setting={},			--Game settings
 	rep={},				--Recording list, key,time,key,time...
+	statSaved=false,		--If recording saved
 	recording=false,	--If recording
 	replaying=false,	--If replaying
 	saved=false,		--If recording saved
