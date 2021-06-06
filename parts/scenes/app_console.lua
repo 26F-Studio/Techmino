@@ -225,7 +225,7 @@ do--commands.help(arg)
 			details={
 				"Load a theme.",
 				"",
-				"Usage: theme <classic|xmas|sprfes|zday1/2/3>",
+				"Usage: theme <classic|xmas|sprfes|zday1/2/3|birth>",
 			},
 		},
 		test={

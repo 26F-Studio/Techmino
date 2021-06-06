@@ -14,6 +14,10 @@ function THEME.calculate(Y,M,D)
 		M=="12"and math.abs(D-25)<4 and
 		'xmas'or
 
+		--Birthday
+		M=="06"and D=="06"and
+		'birth'or
+
 		--Spring festival
 		M<"03"and math.abs((({
 			--Festival days. Jan 26=26, Feb 1=32, etc.
@@ -51,6 +55,9 @@ function THEME.set(theme)
 		LOG.print("==============")
 		LOG.print("Merry Christmas!")
 		LOG.print("==============")
+	elseif theme=='birth'then
+		BG.setDefault('firework')
+		BGM.setDefault('magicblock')
 	elseif theme=='sprfes'then
 		BG.setDefault('firework')
 		BGM.setDefault("spring festival")
