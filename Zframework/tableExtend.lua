@@ -1,4 +1,3 @@
-local data=love.data
 local next,type=next,type
 local TABLE={}
 
@@ -186,18 +185,6 @@ do--function TABLE.dumpDeflate(L,t)
 		return s.."}"
 	end
 	TABLE.dumpDeflate=dump
-end
-
-function TABLE.pack(t)
-	return STRING.packText(TABLE.dumpDeflate(t))
-end
-
-function TABLE.unpack(s)
-	s=loadstring(STRING.unpackText(s))
-	if s then
-		setfenv(s,{})
-		return s()
-	end
 end
 
 return TABLE

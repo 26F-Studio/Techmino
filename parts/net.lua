@@ -7,6 +7,8 @@ local yield=YIELD
 local NET={
 	allow_online=false,
 	accessToken=false,
+	cloudData={},
+
 	roomList={},--Local roomlist, updated frequently
 	roomState={--A copy of room structure on server
 		roomInfo={
@@ -163,6 +165,16 @@ function NET.wsconn_stream(srid)
 		TASK.new(NET.updateWS_stream)
 	end
 end
+function NET.wsconn_manage()
+	if WS.status('wsc_manage')=='dead'then NET.unlock('wsc_manage')end
+	if NET.lock('wsc_manage',5)then
+		WS.connect('manage','/manage',JSON.encode{
+			uid=USER.uid,
+			authToken=USER.authToken,
+		},10)
+		TASK.new(NET.updateWS_manage)
+	end
+end
 
 --Disconnect
 function NET.wsclose_app()WS.close('app')end
@@ -222,6 +234,68 @@ function NET.freshPlayerCount()
 		if WS.status('app')=='running'then
 			WS.send('app',JSON.encode{action=3})
 		end
+	end
+end
+
+--Save
+function NET.uploadSave()
+	if NET.lock('uploadSave',10)then
+		WS.send('user','{"action":2,"data":{"sections":'..JSON.encode{
+			{section=1,data=STRING.packTable(STAT)},
+			{section=2,data=STRING.packTable(RANKS)},
+			{section=3,data=STRING.packTable(SETTING)},
+			{section=4,data=STRING.packTable(keyMap)},
+			{section=5,data=STRING.packTable(VK_org)},
+			{section=6,data=STRING.packTable(FILE.load('conf/vkSave1'))},
+			{section=7,data=STRING.packTable(FILE.load('conf/vkSave2'))},
+		}..'}}')
+		LOG.print("Uploading")
+	end
+end
+function NET.downloadSave()
+	if NET.lock('downloadSave',10)then
+		WS.send('user','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
+		LOG.print("Downloading")
+	end
+end
+function NET.loadSavedData(sections)
+	for _,sec in next,sections do
+		if sec.section==1 then
+			NET.cloudData.STAT=STRING.unpackTable(sec.data)
+		elseif sec.section==2 then
+			NET.cloudData.RANKS=STRING.unpackTable(sec.data)
+		elseif sec.section==3 then
+			NET.cloudData.SETTING=STRING.unpackTable(sec.data)
+		elseif sec.section==4 then
+			NET.cloudData.keyMap=STRING.unpackTable(sec.data)
+		elseif sec.section==5 then
+			NET.cloudData.VK_org=STRING.unpackTable(sec.data)
+		elseif sec.section==6 then
+			NET.cloudData.vkSave1=STRING.unpackTable(sec.data)
+		elseif sec.section==7 then
+			NET.cloudData.vkSave2=STRING.unpackTable(sec.data)
+		end
+	end
+	if STAT.version==NET.cloudData.STAT.version then
+		TABLE.update(NET.cloudData.STAT,STAT)
+		FILE.save(STAT,'conf/data')
+
+		TABLE.update(NET.cloudData.RANKS,RANKS)
+		FILE.save(RANKS,'conf/unlock')
+
+		TABLE.update(NET.cloudData.SETTING,SETTING)
+		FILE.save(SETTING,'conf/settings')
+
+		TABLE.update(NET.cloudData.keyMap,keyMap)
+		FILE.save(keyMap,'conf/key')
+
+		TABLE.update(NET.cloudData.VK_org,VK_org)
+		FILE.save(VK_org,'conf/virtualkey')
+
+		FILE.save(NET.cloudData.vkSave1,'conf/vkSave1','q')
+		FILE.save(NET.cloudData.vkSave2,'conf/vkSave2','q')
+	else
+		LOG.print(text.versionNotMatch,60)
 	end
 end
 
@@ -399,6 +473,13 @@ function NET.updateWS_user()
 							NET.wsconn_play()
 						elseif res.action==1 then--Get userInfo
 							USERS.updateUserData(res.data)
+						elseif res.action==2 then--Upload successed
+							NET.unlock('uploadSave')
+							LOG.print(text.exportSuccess)
+						elseif res.action==3 then--Download successed
+							NET.unlock('downloadSave')
+							NET.loadSavedData(res.data.sections)
+							LOG.print(text.importSuccess)
 						end
 					else
 						WS.alert('user')
@@ -625,6 +706,42 @@ function NET.updateWS_chat()
 						--TODO
 					else
 						WS.alert('chat')
+					end
+				end
+			end
+		end
+	end
+end
+function NET.updateWS_manage()
+	while true do
+		yield()
+		if WS.status('manage')=='running'then
+			local message,op=WS.read('manage')
+			if message then
+				if op=='ping'then
+					NET.pong('manage',message)
+				elseif op=='pong'then
+				elseif op=='close'then
+					wsCloseMessage(message)
+					return
+				else
+					local res=_parse(message)
+					if res then
+						if res.type=='Connect'then
+							LOG.print("Manage connected",'warn')
+						elseif res.action==0 then
+							LOG.print("success",'message')
+						elseif res.action==9 then
+							LOG.print("success",'message')
+						elseif res.action==10 then
+							LOG.print(TABLE.dump(res.data))
+						elseif res.action==11 then
+							LOG.print(TABLE.dump(res.data))
+						elseif res.action==12 then
+							LOG.print(TABLE.dump(res.data))
+						end
+					else
+						WS.alert('manage')
 					end
 				end
 			end

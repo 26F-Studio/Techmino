@@ -685,6 +685,8 @@ function commands.mng_connInfo()WS.send('manage','{"action":10}')end
 function commands.mng_playMgrInfo()WS.send('manage','{"action":11}')end
 function commands.mng_streamMgrInfo()WS.send('manage','{"action":12}')end
 
+function commands.upload()NET.uploadSave()end
+function commands.download()NET.downloadSave()end
 
 local combKey={}
 function combKey.x()

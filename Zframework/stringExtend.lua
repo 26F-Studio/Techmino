@@ -84,9 +84,6 @@ end
 function STRING.packBin(s)
 	return data.encode('string','base64',data.compress('string','zlib',s))
 end
-function STRING.packText(s)
-	return data.encode('string','base64',data.compress('string','gzip',s))
-end
 function STRING.unpackBin(str)
 	local res
 	res,str=pcall(data.decode,'string','base64',str)
@@ -94,12 +91,21 @@ function STRING.unpackBin(str)
 	res,str=pcall(data.decompress,'string','zlib',str)
 	if res then return str end
 end
+function STRING.packText(s)
+	return data.encode('string','base64',data.compress('string','gzip',s))
+end
 function STRING.unpackText(str)
 	local res
 	res,str=pcall(data.decode,'string','base64',str)
 	if not res then return end
 	res,str=pcall(data.decompress,'string','gzip',str)
 	if res then return str end
+end
+function STRING.packTable(t)
+	return STRING.packText(JSON.encode(t))
+end
+function STRING.unpackTable(t)
+	return JSON.decode(STRING.unpackText(t))
 end
 
 return STRING
