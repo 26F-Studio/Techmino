@@ -59,7 +59,6 @@ function scene.update(dt)
 		local r=rnd()<.5
 		ins(names,{
 			text=T,
-			color=N.color,
 			x=r and -T:getWidth()or SCR.w,
 			y=rnd()*(SCR.h-T:getHeight()),
 			w=T:getWidth(),
@@ -78,17 +77,13 @@ end
 
 function scene.draw()
 	gc.replaceTransform(SCR.origin)
+	gc.setColor(1,1,1,.3)
 	for i=1,#names do
 		local N=names[i]
-		if type(N.color)=='table'then
-			gc.setColor(N.color)
-		else
-			gc.setColor(N.color(TIME()+N.w))
-		end
 		gc.draw(N.text,N.x,N.y)
 	end
-	gc.replaceTransform(SCR.xOy)
 
+	gc.replaceTransform(SCR.xOy)
 	gc.setColor(1,1,1)
 	local T=40*math.min(time,45)
 	local L=text.staff
