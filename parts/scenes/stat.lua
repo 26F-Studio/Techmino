@@ -3,7 +3,6 @@ local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line=gc.draw,gc.line
 local gc_print=gc.print
 
-
 local abs,int,sin=math.abs,math.floor,math.sin
 local mStr=mStr
 

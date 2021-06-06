@@ -12,10 +12,10 @@ local function login()
 	end
 	NET.wsconn_user_pswd(email,password)
 	if savePW then
-		FILE.save({email,password},"conf/account",'q')
+		FILE.save({email,password},'conf/account','q')
 	else
-		if love.filesystem.getInfo("conf/account")then
-			love.filesystem.remove("conf/account")
+		if love.filesystem.getInfo('conf/account')then
+			love.filesystem.remove('conf/account')
 		end
 	end
 end
@@ -23,7 +23,7 @@ end
 local scene={}
 
 function scene.sceneInit()
-	local data=FILE.load("conf/account")
+	local data=FILE.load('conf/account')
 	if data then
 		savePW=true
 		emailBox:setText(data[1])

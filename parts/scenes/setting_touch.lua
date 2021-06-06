@@ -9,10 +9,10 @@ local snapUnit=1
 local selected--Button selected
 
 local function save1()
-	FILE.save(VK_org,"conf/vkSave1")
+	FILE.save(VK_org,'conf/vkSave1')
 end
 local function load1()
-	local D=FILE.load("conf/vkSave1")
+	local D=FILE.load('conf/vkSave1')
 	if D then
 		TABLE.update(D,VK_org)
 	else
@@ -20,10 +20,10 @@ local function load1()
 	end
 end
 local function save2()
-	FILE.save(VK_org,"conf/vkSave2")
+	FILE.save(VK_org,'conf/vkSave2')
 end
 local function load2()
-	local D=FILE.load("conf/vkSave2")
+	local D=FILE.load('conf/vkSave2')
 	if D then
 		TABLE.update(D,VK_org)
 	else

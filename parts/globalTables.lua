@@ -183,8 +183,8 @@ ROYALEDATA={
 }
 
 --Userdata tables
-RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
-USER=FILE.load("conf/user")or{--User infomation
+RANKS=FILE.load('conf/unlock')or{sprint_10l=0}--Ranks of modes
+USER=FILE.load('conf/user')or{--User infomation
 	--Network infos
 	uid=false,
 	authToken=false,
@@ -236,7 +236,7 @@ customEnv0={
 	bg='blockfall',
 	bgm='hang out',
 }
-CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game
+CUSTOMENV=FILE.load('conf/customEnv')--gameEnv for cutsom game
 if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then
 	CUSTOMENV=TABLE.copy(customEnv0)
 else
@@ -314,9 +314,9 @@ SETTING={--Settings
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }
-local S=FILE.load("conf/settings")
+local S=FILE.load('conf/settings')
 if S then TABLE.update(S,SETTING)end
-S=FILE.load("conf/data")
+S=FILE.load('conf/data')
 if S then--Statistics
 	STAT=S
 else
@@ -335,7 +335,7 @@ else
 		todayTime=0,
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
 end
-keyMap=FILE.load("conf/key")or{--Key setting
+keyMap=FILE.load('conf/key')or{--Key setting
 	keyboard={
 		left=1,right=2,x=3,z=4,c=5,
 		up=6,down=7,space=8,a=9,s=10,
@@ -347,7 +347,7 @@ keyMap=FILE.load("conf/key")or{--Key setting
 		leftshoulder=0,
 	},
 }
-VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
+VK_org=FILE.load('conf/virtualkey')or{--Virtualkey layout, refresh all VKs' position with this before each game
 	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
@@ -369,4 +369,4 @@ VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' posi
 	{ava=false,	x=900,		y=50,		r=80},--addToLeft
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
-REPLAY=FILE.load("conf/replay")or{}
+REPLAY=FILE.load('conf/replay')or{}

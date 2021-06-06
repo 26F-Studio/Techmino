@@ -92,7 +92,6 @@ function netPLY.clear()
 end
 function netPLY.add(p)
 	p.connected=false
-	p.username=p.username
 	p.place=1e99
 	p.stat=false
 	local a=rnd()*6.2832

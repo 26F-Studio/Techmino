@@ -86,7 +86,7 @@ MODES=		require"parts.modes"
 FIELD[1]=DATA.newBoard()
 
 --First start for phones
-if not fs.getInfo("conf/settings")and MOBILE then
+if not fs.getInfo('conf/settings')and MOBILE then
 	SETTING.VKSwitch=true
 	SETTING.swap=false
 	SETTING.powerInfo=true
@@ -244,8 +244,8 @@ do
 		autoRestart=true
 	end
 	if STAT.version<1405 then
-		fs.remove("conf/user")
-		fs.remove("conf/key")
+		fs.remove('conf/user')
+		fs.remove('conf/key')
 		needSave=true
 		autoRestart=true
 	end
