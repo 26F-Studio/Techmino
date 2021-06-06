@@ -156,7 +156,12 @@ function love.mousereleased(x,y,k,touch)
 end
 function love.wheelmoved(x,y)
 	if SCN.swapping then return end
-	if SCN.wheelMoved then SCN.wheelMoved(x,y)end
+	if SCN.wheelMoved then
+		SCN.wheelMoved(x,y)
+	else
+		WIDGET.unFocus()
+		WIDGET.drag(0,0,0,100*y)
+	end
 end
 
 function love.touchpressed(id,x,y)
