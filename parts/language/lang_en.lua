@@ -2,7 +2,6 @@ local C=COLOR
 return{
 	anykey="Press a key!",
 	sureQuit="Press again to exit",
-	newVersion="Thanks for updating! Changelog:",
 	httpTimeout="Connection error: Timed out",
 	newDay="A new day, a new beginning!",
 	playedLong="You have been playing for a long time. Make sure to rest well!",
@@ -75,6 +74,7 @@ return{
 	getNoticeFail="Failed fetching announcements...",
 	oldVersion="Version $1 is now available!",
 	needUpdate="Newer version required!",
+	versionNotMatch="Version do not match!",
 	notFinished="Coming soon!",
 
 	jsonError="JSON error",

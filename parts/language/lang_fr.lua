@@ -2,7 +2,6 @@ return{
 	fallback=4,
 	anykey="Appuyez sur n'importe quelle touche",
 	sureQuit="Appuyez à nouveau pour sortir",
-	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
 	newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
 	playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
@@ -54,7 +53,6 @@ return{
 	saveError="Sauvegarde échouée : ",
 	loadError="Lecture échouée : ",
 	switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer",
-	getRank="Rang : ",
 
 	needRestart="Fonctionnera dès la prochaine partie",
 
@@ -74,6 +72,7 @@ return{
 
 	getNoticeFail="Echec de l'obtention de la notice",
 	oldVersion="La version $1 est disponible !",
+	-- versionNotMatch="Version do not match!",
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 

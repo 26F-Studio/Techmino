@@ -2,7 +2,6 @@ return{
 	fallback=4,
 	anykey="Pulsa cualquier tecla",
 	sureQuit="Pulsa de nuevo para salir",
-	newVersion="¡Gracias por actualizar! Detalles a continuación:",
 	httpTimeout="¡Tiempo de espera de conexión agotado!",
 	newDay="[Anti-adicción] ¡Nuevo día, nuevo comienzo!",
 	playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
@@ -53,7 +52,6 @@ return{
 	saveError="Error al guardar:",
 	loadError="Error al cargar:",
 	switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
-	getRank="Rango obtenido:",
 
 	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
 
@@ -73,7 +71,8 @@ return{
 
 	getNoticeFail="Error al buscar novedades.",
 	oldVersion="¡Está disponible la nueva versión $1!",
-	needUpdate="¡Nueva versión requerida!",
+	-- versionNotMatch="Version do not match!",
+	-- needUpdate="¡Nueva versión requerida!",
 	notFinished="Próximamente",
 
 	jsonError="Error en Json",

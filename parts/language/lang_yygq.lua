@@ -1,6 +1,5 @@
 return{
 	anykey="您开始了",
-	newVersion="感谢更新,去看看更新了些啥，别老跑群里问",
 	httpTimeout="没网或者网不好?",
 	playedLong="今天玩很久了,给我注意点",
 	playedTooMuch="特么再玩小心眼睛瞎掉,爬",

@@ -3,7 +3,6 @@ return{
 	fallback=4,
 	anykey="Pressione qualquer tecla",
 	sureQuit="Aparte novamente para sair",
-	newVersion="Obrigado por atualizar! Veja as mudanças abaixo.",
 	httpTimeout="Conexão de rede expirou",
 	newDay="[Anti-vício] Novo dia, um começo novo!",
 	playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
@@ -54,7 +53,6 @@ return{
 	saveError="Falha ao salvar:",
 	loadError="Falha ao ler:",
 	switchSpawnSFX="Switch on spawn SFX to play",
-	ranks={"D","C","B","A","S"},
 
 	needRestart="Funciona após reiniciar",
 
@@ -74,6 +72,7 @@ return{
 
 	getNoticeFail="Não conseguiu ter anúncios",
 	oldVersion="Versão $1 esta disponível agora!",
+	-- versionNotMatch="Version do not match!",
 	-- needUpdate="Newer version required!",
 	-- notFinished="Coming soon!",
 

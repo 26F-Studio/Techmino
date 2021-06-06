@@ -2,7 +2,6 @@ local C=COLOR
 return{
 	anykey="按任意键继续",
 	sureQuit="再按一次退出",
-	newVersion="感谢更新!更新内容如下",
 	httpTimeout="网络连接超时!",
 	newDay="新的一天,新的开始~",
 	playedLong="已经玩很久了!注意休息!",
@@ -75,6 +74,7 @@ return{
 	getNoticeFail="拉取公告失败",
 	oldVersion="最新版本$1可以下载了!",
 	needUpdate="请更新游戏!",
+	versionNotMatch="版本不一致!",
 	notFinished="暂未完成,敬请期待!",
 
 	jsonError="json错误",

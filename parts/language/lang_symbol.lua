@@ -1,7 +1,6 @@
 return{
 	fallback=4,
 	anykey="↓□↓",
-	newVersion="&!!!???↓↓",
 	httpTimeout="e??????x",
 
 	atkModeName={"?","(  )","!","←→"},
