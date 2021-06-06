@@ -738,7 +738,7 @@ return{
 		['pc_n']=				{"PC Challenge",	"NORMAL",		"Get PCs within 100 lines!"},
 		['pc_h']=				{"PC Challenge",	"HARD",			"Get PCs within 100 lines!"},
 		['pc_l']=				{"PC Challenge",	"LUNATIC",		"Get PCs within 100 lines!"},
-		['pc_inf']=				{"Infinite PC Challenge","",		"Get PCs as much as you can"},
+		['pc_inf']=				{"Inf. PC Challenge","",			"Get PCs as much as you can"},
 		['tech_n']=				{"Tech",			"NORMAL",		"Try to keep the\nBack-to-Back chain!"},
 		['tech_n_plus']=		{"Tech",			"NORMAL+",		"Spins & PCs only."},
 		['tech_h']=				{"Tech",			"HARD",			"Try to keep the\nBack-to-Back chain!"},
