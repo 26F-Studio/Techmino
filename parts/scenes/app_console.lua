@@ -650,6 +650,40 @@ do--commands.applet(name)
 	commands.app=commands.applet
 end
 
+--Manage commands (not public)
+function commands.manage()
+	if WS.status('manage')=='running'then
+		WS.close('manage')
+		log{C.Y,"Disconnected"}
+	else
+		if({[1]=0,[2]=0,[26]=0})[USER.uid]then
+			NET.wsconn_manage()
+			log{C.Y,"Connecting"}
+		else
+			log{C.R,"Permission denied"}
+		end
+	end
+end
+function commands.mng_broadcast(str)
+	if #str>0 then
+		WS.send('manage','{"action":0,"data":'..JSON.encode{message=str}..'}')
+		log{C.Y,"Request sent"}
+	else
+		log{C.R,"format error"}
+	end
+end
+function commands.mng_shutdown(sec)
+	sec=tonumber(sec)
+	if sec and sec>0 and sec~=math.floor(sec) then
+		WS.send('manage','{"action":9,"data":'..JSON.encode{countdown=tonumber(sec)}..'}')
+		log{C.Y,"Request sent"}
+	else
+		log{C.R,"format error"}
+	end
+end
+function commands.mng_connInfo()WS.send('manage','{"action":10}')end
+function commands.mng_playMgrInfo()WS.send('manage','{"action":11}')end
+function commands.mng_streamMgrInfo()WS.send('manage','{"action":12}')end
 
 
 local combKey={}
