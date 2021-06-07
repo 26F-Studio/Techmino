@@ -1,3 +1,4 @@
+local utf8=require"utf8"
 local gc=love.graphics
 local gc_setColor,gc_print=gc.setColor,gc.print
 local int,min=math.floor,math.min
@@ -51,8 +52,10 @@ function LOG.print(text,T)--text,type/time
 	elseif type(T)=='number'then
 		time=T
 	end
-	if his then ins(mesHistory,SCN.cur..": "..tostring(text))end
-	ins(mesList,{text=tostring(text),rgba={color[1],color[2],color[3],nil},blink=30,time=time or 120})
+	text=tostring(text)
+	assert(utf8.len(text),"Error UTF-8 coding")
+	if his then ins(mesHistory,SCN.cur..": "..text)end
+	ins(mesList,{text=text,rgba={color[1],color[2],color[3],nil},blink=30,time=time or 120})
 end
 function LOG.copy()
 	love.system.setClipboardText(table.concat(mesHistory,"\n"))
