@@ -189,7 +189,7 @@ while true do--Running
 			readCHN:push(op)
 			SOCK:close()
 			if type(res)=='string'then
-				readCHN:push(res)--Warning: with 2 bytes close code
+				readCHN:push(res:sub(3))--Warning: with 2 bytes close code
 			else
 				readCHN:push("WS Error")
 			end
