@@ -224,11 +224,6 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 		GAME.modeEnv.mission=nil
 	end
 end
-function applyRoomConf()--Apply room configs
-	for k,v in next,NET.roomState.roomData do
-		GAME.modeEnv[k]=v
-	end
-end
 function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then

@@ -164,6 +164,8 @@ function scene.draw()
 			gc.setColor(1,1,.7)
 			gc.printf(R.roomInfo.name,870,240,365)
 			setFont(20)
+			gc.setColor(.8,.8,.8)
+			gc.printf(R.roomInfo.description,870,295,365)
 			if R.start then
 				gc.setColor(0,1,.2)
 				gc.print(text.started,870,475)

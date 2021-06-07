@@ -229,6 +229,7 @@ return{
 		net_newRoom={
 			-- title="Custom room config",
 			-- roomName="Room name(default to username's room)",
+			-- roomDescription="Room description",
 
 			life="Vie",
 			-- pushSpeed="Push Speed",

@@ -256,7 +256,7 @@ ROOMENV={
 	--Control
 	nextCount=6,
 	holdCount=1,
-	infHold=true,
+	infHold=false,
 	phyHold=false,
 
 	--Visual

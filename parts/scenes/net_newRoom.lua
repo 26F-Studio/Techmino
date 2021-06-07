@@ -1,6 +1,9 @@
 local ROOMENV=ROOMENV
 
-local roomName=WIDGET.newInputBox{name="roomNameBox",x=40,y=170,w=1200,h=80}
+local roomName=WIDGET.newText{name="roomName",x=40,y=150,align='L'}
+local roomNameBox=WIDGET.newInputBox{name="roomNameBox",x=40,y=200,w=640,h=60}
+local description=WIDGET.newText{name="roomDescription",x=700,y=50,align='L'}
+local descriptionBox=WIDGET.newInputBox{name="descriptionBox",x=700,y=100,w=550,h=160,font=25}
 
 local sList={
 	visible={"show","easy","slow","medium","fast","none"},
@@ -20,10 +23,11 @@ local sList={
 local scene={}
 
 local function createRoom()
-	local roomname=STRING.trim(roomName.value)
+	local roomname=STRING.trim(roomNameBox.value)
 	if #roomname==0 then roomname=(USERS.getUsername(USER.uid)or"Anonymous").."'s room"end
 	NET.createRoom(
 		roomname,
+		descriptionBox.value,
 		ROOMENV.capacity,"normal",ROOMENV
 	)
 end
@@ -39,10 +43,12 @@ function scene.sceneBack()
 end
 
 function scene.keyDown(k)
-	if k=="return"then
+	if k=="return"and #EDITING==0 then
 		createRoom()
 	elseif k=="escape"then
 		SCN.go('net_rooms')
+	else
+		WIDGET.keyPressed(k)
 	end
 end
 
@@ -51,8 +57,10 @@ scene.widgetList={
 	WIDGET.newText{name="title",x=40,y=15,font=70,align='L'},
 
 	--Room name
-	WIDGET.newText{name="roomName",x=40,y=120,align='L'},
 	roomName,
+	roomNameBox,
+	description,
+	descriptionBox,
 
 	--Selectors
 	WIDGET.newSelector{name="life",			x=170,y=410,w=260,color='R',list=sList.life,		disp=ROOMval("life"),		code=ROOMsto("life")},

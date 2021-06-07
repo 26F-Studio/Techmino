@@ -309,7 +309,7 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom(roomName,capacity,roomType,roomData,password)
+function NET.createRoom(roomName,description,capacity,roomType,roomData,password)
 	if NET.lock('enterRoom',1.26)then
 		NET.roomState.private=not not password
 		NET.roomState.capacity=capacity
@@ -322,6 +322,7 @@ function NET.createRoom(roomName,capacity,roomType,roomData,password)
 					name=roomName,
 					type=roomType,
 					version=VERSION.short,
+					description=description,
 				},
 				roomData=roomData,
 
