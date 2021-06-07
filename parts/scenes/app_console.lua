@@ -690,7 +690,7 @@ local commands={}do
 			end
 		end
 	end
-	function commands.mng_broadcast(str)
+	function commands.m_broadcast(str)
 		if #str>0 then
 			WS.send('manage','{"action":0,"data":'..JSON.encode{message=str}..'}')
 			log{C.Y,"Request sent"}
@@ -698,7 +698,7 @@ local commands={}do
 			log{C.R,"format error"}
 		end
 	end
-	function commands.mng_shutdown(sec)
+	function commands.m_shutdown(sec)
 			sec=tonumber(sec)
 		if sec and sec>0 and sec~=math.floor(sec) then
 			WS.send('manage','{"action":9,"data":'..JSON.encode{countdown=tonumber(sec)}..'}')
@@ -707,9 +707,9 @@ local commands={}do
 			log{C.R,"format error"}
 		end
 	end
-	function commands.mng_connInfo()WS.send('manage','{"action":10}')end
-	function commands.mng_playMgrInfo()WS.send('manage','{"action":11}')end
-	function commands.mng_streamMgrInfo()WS.send('manage','{"action":12}')end
+	function commands.m_connInfo()WS.send('manage','{"action":10}')end
+	function commands.m_playMgrInfo()WS.send('manage','{"action":11}')end
+	function commands.m_streamMgrInfo()WS.send('manage','{"action":12}')end
 
 	for cmd,body in next,commands do
 		if type(body)=='function'then
