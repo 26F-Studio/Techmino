@@ -219,7 +219,6 @@ function scene.socketRead(cmd,d)
 		end
 	elseif cmd=='finish'then
 		playing=false
-		love.keyboard.setKeyRepeat(true)
 	end
 end
 

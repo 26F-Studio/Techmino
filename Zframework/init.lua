@@ -524,7 +524,6 @@ function love.run()
 
 	local TEXTURE,TIME=TEXTURE,TIME
 	local SETTING,VERSION=SETTING,VERSION
-	local destroyPlayers=destroyPlayers
 
 	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local FPS,MINI=love.timer.getFPS,love.window.isMinimized
