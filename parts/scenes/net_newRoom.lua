@@ -63,7 +63,7 @@ scene.widgetList={
 	descriptionBox,
 
 	--Selectors
-	WIDGET.newSelector{name="life",			x=170,y=410,w=260,color='R',list=sList.life,		disp=ROOMval("life"),		code=ROOMsto("life")},
+	WIDGET.newSelector{name="life",			x=170,y=370,w=260,color='R',list=sList.life,		disp=ROOMval("life"),		code=ROOMsto("life")},
 	WIDGET.newSelector{name="pushSpeed",	x=170,y=520,w=260,color='V',list=sList.pushSpeed,	disp=ROOMval("pushSpeed"),	code=ROOMsto("pushSpeed")},
 	WIDGET.newSelector{name="garbageSpeed",	x=170,y=600,w=260,color='V',list=sList.pushSpeed,	disp=ROOMval("garbageSpeed"),code=ROOMsto("garbageSpeed")},
 	WIDGET.newSelector{name="visible",		x=170,y=710,w=260,color='lB',list=sList.visible,	disp=ROOMval("visible"),	code=ROOMsto("visible")},
@@ -79,14 +79,14 @@ scene.widgetList={
 	WIDGET.newSelector{name="fall",x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval("fall"),code=ROOMsto("fall")},
 
 	--Capcity & Create & Back
-	WIDGET.newSelector{name="capacity",x=170,y=330,w=260,color='R',list={2,3,4,5,7,10,17,31,49,99},disp=function()return ROOMENV.capacity end,
+	WIDGET.newSelector{name="capacity",	x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=function()return ROOMENV.capacity end,
 		code=function(i)
 			if USER.uid<100 or i<=10 then
 				ROOMENV.capacity=i
 			end
 		end},
-	WIDGET.newButton{name="create",x=1070,y=495,w=310,h=140,color='lY',font=40,code=pressKey"return"},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
+	WIDGET.newButton{name="create",		x=1070,y=480,w=310,h=140,color='lY',font=40,code=pressKey"return"},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 
 	--Special rules
 	WIDGET.newSwitch{name="ospin",		x=830,	y=750,disp=ROOMval("ospin"),	code=ROOMrev("ospin")},
