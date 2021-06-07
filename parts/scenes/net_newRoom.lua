@@ -79,10 +79,14 @@ scene.widgetList={
 	WIDGET.newSelector{name="fall",x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval("fall"),code=ROOMsto("fall")},
 
 	--Capcity & Create & Back
-	WIDGET.newSelector{name="capacity",	x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=function()return ROOMENV.capacity end,
+	WIDGET.newSelector{name="capacity",	x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval("capacity"),
 		code=function(i)
 			if USER.uid<100 or i<=10 then
 				ROOMENV.capacity=i
+				WIDGET.active.capacity.color=COLOR.lY
+			else
+				LOG.print("没有权限 Permission Denied",'warn')
+				WIDGET.active.capacity.color=COLOR.R
 			end
 		end},
 	WIDGET.newButton{name="create",		x=1070,y=480,w=310,h=140,color='lY',font=40,code=pressKey"return"},
