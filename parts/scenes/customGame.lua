@@ -181,8 +181,8 @@ end
 
 scene.widgetScrollHeight=400
 scene.widgetList={
-	WIDGET.newText{name="title",	x=520,	y=5,font=70,align='R'},
-	WIDGET.newText{name="subTitle",	x=530,	y=50,font=35,align='L',color='H'},
+	WIDGET.newText{name="title",	x=520,	y=15,font=70,align='R'},
+	WIDGET.newText{name="subTitle",	x=530,	y=60,font=35,align='L',color='H'},
 
 	WIDGET.newKey{name="reset",		x=1110,	y=90,w=230,h=90,color='R',code=pressKey"delete"},
 	WIDGET.newKey{name="mod",		x=1110,	y=200,w=230,h=90,color='Z',code=pressKey"f1"},
@@ -207,10 +207,10 @@ scene.widgetList={
 	WIDGET.newSelector{name="heightLimit",	x=450,y=710,w=260,color='S',list=sList.heightLimit,	disp=CUSval("heightLimit"),	code=CUSsto("heightLimit")},
 	WIDGET.newSelector{name="bufferLimit",	x=450,y=790,w=260,color='B',list=sList.bufferLimit,	disp=CUSval("bufferLimit"),	code=CUSsto("bufferLimit")},
 
-	WIDGET.newSelector{name="drop",	x=730,y=330,w=260,color='O',list=sList.drop,disp=CUSval("drop"),code=CUSsto("drop")},
-	WIDGET.newSelector{name="lock",	x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval("lock"),code=CUSsto("lock")},
-	WIDGET.newSelector{name="wait",	x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval("wait"),code=CUSsto("wait")},
-	WIDGET.newSelector{name="fall",	x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval("fall"),code=CUSsto("fall")},
+	WIDGET.newSelector{name="drop",x=730,y=330,w=260,color='O',list=sList.drop,disp=CUSval("drop"),code=CUSsto("drop")},
+	WIDGET.newSelector{name="lock",x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval("lock"),code=CUSsto("lock")},
+	WIDGET.newSelector{name="wait",x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval("wait"),code=CUSsto("wait")},
+	WIDGET.newSelector{name="fall",x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval("fall"),code=CUSsto("fall")},
 
 	--Copy / Paste / Start
 	WIDGET.newButton{name="copy",	x=1070,	y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},

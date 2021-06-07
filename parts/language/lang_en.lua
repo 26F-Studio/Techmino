@@ -97,7 +97,6 @@ return{
 
 	onlinePlayerCount="Online",
 
-	createRoomTooFast="You are creating a room too fast!",
 	createRoomSuccessed="Room successfully created!",
 	started="Playing",
 	joinRoom="has joined the room.",
@@ -253,9 +252,45 @@ return{
 			refreshing="Refreshing rooms",
 			noRoom="There aren't any rooms right now...",
 			refresh="Refresh",
-			new="New Room(2)",
-			new2="New Room(5)",
+			new="New Room",
 			join="Join",
+		},
+		net_newRoom={
+			title="Custom room config",
+			roomName="Room name(default to username's room)",
+
+			life="Lives",
+			pushSpeed="Push Speed",
+			garbageSpeed="Garbage Speed",
+			visible="Visibility",
+			freshLimit="Lock Reset Limit",
+
+			fieldH="Field Height",
+			bufferLimit="Buffer Limit",
+			heightLimit="Height Limit",
+
+			drop="Drop Delay",
+			lock="Lock Delay",
+			wait="Entry Delay",
+			fall="Line Delay",
+
+			capacity="Capacity",
+			create="Create",
+
+			ospin="O-spin",
+			fineKill="100% Finesse",
+			b2bKill="No B2B break",
+			easyFresh="Normal Lock Reset",
+			deepDrop="Deep Drop",
+			bone="Bone Blocks",
+
+			nextCount="Next",
+			holdCount="Hold",
+			infHold="Infinite Hold",
+			phyHold="In-place Hold",
+
+			bg="Background",
+			bgm="Music",
 		},
 		net_game={
 			ready="Ready",

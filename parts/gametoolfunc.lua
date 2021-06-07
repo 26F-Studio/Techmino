@@ -224,6 +224,11 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 		GAME.modeEnv.mission=nil
 	end
 end
+function applyRoomConf()--Apply room configs
+	for k,v in next,NET.roomState.roomData do
+		GAME.modeEnv[k]=v
+	end
+end
 function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
@@ -668,9 +673,12 @@ end
 do--CUS/SETXXX(k)
 	local CUSTOMENV=CUSTOMENV
 	function CUSval(k)return function()return CUSTOMENV[k]end end
+	function ROOMval(k)return function()return ROOMENV[k]end end
 	function SETval(k)return function()return SETTING[k]end end
 	function CUSrev(k)return function()CUSTOMENV[k]=not CUSTOMENV[k]end end
+	function ROOMrev(k)return function()ROOMENV[k]=not ROOMENV[k]end end
 	function SETrev(k)return function()SETTING[k]=not SETTING[k]end end
 	function CUSsto(k)return function(i)CUSTOMENV[k]=i end end
+	function ROOMsto(k)return function(i)ROOMENV[k]=i end end
 	function SETsto(k)return function(i)SETTING[k]=i end end
 end

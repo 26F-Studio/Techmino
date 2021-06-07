@@ -42,7 +42,6 @@ return{
 
 	ranks={"菜","可","好","强","您"},
 
-	createRoomTooFast="手痒要开这么多房间?",
 	createRoomSuccessed="创好了",
 	started="开了",
 	spectating="看戏中",
@@ -109,12 +108,12 @@ return{
 			pro="阴间",
 		},
 		about={
-			staff="游戏谁做的",
+			staff="游戏谁写的",
 			his="黑历史",
 			qq="QQ对线",
 		},
 		register={
-			password2="你猜该填啥",
+			password2="你懂的",
 		},
 		sound={
 			title="音效室",
@@ -271,9 +270,9 @@ return{
 		['backfire_h']=			{"自攻自受",	"困难",		"你在害怕什么"},
 		['backfire_l']=			{"自攻自受",	"疯狂",		"别怂啊,打攻击呀"},
 		['backfire_u']=			{"自攻自受",	"极限",		"能把自己玩死,不会吧"},
-		['zen']=				{"禅",			"200",		"不限时200行"},
+		['zen']=				{"禅",			"200",	"不限时200行"},
 		['ultra']=				{"限时打分",	"挑战",		"2分钟刷分"},
-		['infinite']=			{"无尽",		"",			"真的有人会玩这个?"},
+		['infinite']=			{"无尽",		"",		"真的有人会玩这个?"},
 		['infinite_dig']=		{"无尽:挖掘",	"",			"闲得慌就来挖"},
 		['sprintFix']=			{"竞速",		"无移动"},
 		['sprintLock']=			{"竞速",		"无旋转"},

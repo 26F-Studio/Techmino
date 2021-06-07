@@ -1,15 +1,14 @@
 local gc=love.graphics
-local ms,kb=love.mouse,love.keyboard
+local ms=love.mouse
 
 local int,max,min=math.floor,math.max,math.min
 
 local NET=NET
 local scrollPos,selected
 local fetchTimer
-local lastCreateRoomTime=0
 
---[[room={
-	rid="qwe",
+--[[NET.roomList[n]={
+	rid="qwerty",
 	roomInfo={
 		name="MrZ's room",
 		type="classic",
@@ -44,30 +43,8 @@ function scene.keyDown(k)
 		end
 	elseif k=="s"then
 		SCN.go('setting_game')
-	elseif k=="m"or k=="n"then
-		if TIME()-lastCreateRoomTime>6.26 then
-			local cap,roomType
-			if k=="n"then
-				cap,roomType=2,"solo"
-			elseif kb.isDown("q")and tonumber(USER.uid)<100 then
-				cap,roomType=17,"big"
-			elseif kb.isDown("w")and tonumber(USER.uid)<100 then
-				cap,roomType=31,"huge"
-			elseif kb.isDown("e")and tonumber(USER.uid)<100 then
-				cap,roomType=49,"T49"
-			elseif kb.isDown("r")and tonumber(USER.uid)<100 then
-				cap,roomType=99,"T99"
-			else
-				cap,roomType=5,"normal"
-			end
-			NET.createRoom(
-				(USERS.getUsername(USER.uid)or"???").."'s room",
-				cap,roomType
-			)
-			lastCreateRoomTime=TIME()
-		else
-			LOG.print(text.createRoomTooFast,'warn')
-		end
+	elseif k=="n"then
+		SCN.go('net_newRoom')
 	elseif k=="escape"then
 		SCN.back()
 	elseif #NET.roomList>0 then
@@ -137,7 +114,7 @@ end
 function scene.draw()
 	--Fetching timer
 	gc.setColor(1,1,1,.12)
-	gc.arc('fill','pie',300,620,60,-1.5708,-1.5708-.6283*fetchTimer)
+	gc.arc('fill','pie',250,620,60,-1.5708,-1.5708-.6283*fetchTimer)
 
 	--Room list
 	gc.setColor(1,1,1)
@@ -209,10 +186,9 @@ scene.widgetList={
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
 	WIDGET.newText{name="refreshing",x=450,y=255,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
 	WIDGET.newText{name="noRoom",	x=450,y=260,font=40,hideF=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
-	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hideF=function()return fetchTimer>7 end},
-	WIDGET.newKey{name="new",		x=500,y=620,w=140,h=140,font=20,code=pressKey"n"},
-	WIDGET.newKey{name="new2",		x=700,y=620,w=140,h=140,font=20,code=pressKey"m"},
-	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hideF=function()return #NET.roomList==0 or NET.getlock('enterRoom')end},
+	WIDGET.newKey{name="refresh",	x=250,y=620,w=140,h=140,font=35,code=fetchRoom,hideF=function()return fetchTimer>7 end},
+	WIDGET.newKey{name="new",		x=550,y=620,w=260,h=140,font=30,code=pressKey"n"},
+	WIDGET.newKey{name="join",		x=850,y=620,w=140,h=140,font=40,code=pressKey"return",hideF=function()return #NET.roomList==0 or NET.getlock('enterRoom')end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

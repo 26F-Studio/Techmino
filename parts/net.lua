@@ -309,7 +309,7 @@ function NET.fetchRoom()
 		})
 	end
 end
-function NET.createRoom(roomName,capacity,roomType,password)
+function NET.createRoom(roomName,capacity,roomType,roomData,password)
 	if NET.lock('enterRoom',1.26)then
 		NET.roomState.private=not not password
 		NET.roomState.capacity=capacity
@@ -323,7 +323,7 @@ function NET.createRoom(roomName,capacity,roomType,password)
 					type=roomType,
 					version=VERSION.short,
 				},
-				roomData={_=0},
+				roomData=roomData,
 
 				config=dumpBasicConfig(),
 			}
@@ -563,6 +563,7 @@ function NET.updateWS_play()
 						if not d.uid then
 							NET.wsclose_stream()
 							NET.unlock('quit')
+							if SCN.stack[#SCN.stack-1]=='net_newRoom'then SCN.pop()end
 							SCN.back()
 						else
 							removePlayer(netPLY.list,d.sid)

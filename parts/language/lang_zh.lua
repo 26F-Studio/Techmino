@@ -97,7 +97,6 @@ return{
 
 	onlinePlayerCount="在线人数",
 
-	createRoomTooFast="创建房间太快啦,等等吧",
 	createRoomSuccessed="创建房间成功!",
 	started="游戏中",
 	joinRoom="进入房间",
@@ -253,9 +252,45 @@ return{
 			refreshing="刷新房间列表中",
 			noRoom="一个房间都没有哎...",
 			refresh="刷新",
-			new="创建房间(2)",
-			new2="创建房间(5)",
+			new="创建房间",
 			join="加入",
+		},
+		net_newRoom={
+			title="自定义房间参数",
+			roomName="房间名(留空默认 用户名's room)",
+
+			life="命数",
+			pushSpeed="上涨速度",
+			garbageSpeed="垃圾行速度",
+			visible="能见度",
+			freshLimit="锁延刷新限制",
+
+			fieldH="场地高度",
+			bufferLimit="缓冲上限",
+			heightLimit="高度上限",
+
+			drop="下落延迟",
+			lock="锁定延迟",
+			wait="出块等待",
+			fall="消行延迟",
+
+			capacity="房间容量",
+			create="创建房间",
+
+			ospin="O-spin",
+			fineKill="强制极简",
+			b2bKill="强制B2B",
+			easyFresh="普通刷新锁延",
+			deepDrop="深降",
+			bone="骨块",
+
+			nextCount="Next",
+			holdCount="Hold",
+			infHold="无限Hold",
+			phyHold="物理Hold",
+
+			bg="背景",
+			bgm="音乐",
 		},
 		net_game={
 			ready="准备",

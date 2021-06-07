@@ -241,13 +241,10 @@ do
 	end
 	if STAT.version<1302 then
 		FILE.clear_s("")
-		autoRestart=true
 	end
 	if STAT.version<1405 then
 		fs.remove('conf/user')
 		fs.remove('conf/key')
-		needSave=true
-		autoRestart=true
 	end
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code

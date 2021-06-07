@@ -95,7 +95,6 @@ return{
 
 	-- onlinePlayerCount="Online",
 
-	createRoomTooFast="¡Creas salas muy rápido, párale we!",
 	createRoomSuccessed="¡Sala creada con éxito!",
 	-- started="Playing",
 	joinRoom="entró a la sala.",
@@ -228,9 +227,45 @@ return{
 			-- refreshing="Refreshing Rooms",
 			noRoom="No Hay Salas Actualmente",
 			refresh="Refrescar",
-			new="Sala Nueva(2)",
-			new2="Sala Nueva(5)",
+			-- new="New Room",
 			join="Unirse",
+		},
+		net_newRoom={
+			-- title="Custom room config",
+			-- roomName="Room name(default to username's room)",
+
+			life="Vida",
+			-- pushSpeed="Garbage Speed",
+			garbageSpeed="Velocidad de Basura",
+			visible="Visibilidad",
+			freshLimit="Límite de Reinicio LD",
+
+			fieldH="Altura del tablero",
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+
+			drop="Retraso de Caída",
+			lock="Retraso de Bloqueo",
+			wait="Retraso de Spawneo",
+			fall="Retraso de Línea",
+
+			-- capacity="Capacity",
+			-- create="Create",
+
+			ospin="O-Spin",
+			fineKill="100% Finesse",
+			b2bKill="No Romper B2B ",
+			easyFresh="Reinicio de Bloqueo Normal",
+			deepDrop="Deep Drop",
+			bone="Bone Block",
+
+			nextCount="Siguiente",
+			holdCount="Reserva",
+			infHold="Reserva Inft.",
+			phyHold="Reserva Limit.",
+
+			bg="Fundo",
+			bgm="Música",
 		},
 		net_game={
 			ready="Estoy Listo",

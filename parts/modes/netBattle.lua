@@ -17,6 +17,7 @@ return{
 		bgm={'battle','cruelty','distortion','far','final','hope','magicblock','new era','push','race','rockblock','secret7th','secret8th','shining terminal','storm','super7th','warped','waterfall','moonbeam'},
 	},
 	load=function()
+		applyRoomConf()
 		local L=TABLE.copy(netPLY.list)
 		local N=1
 		for i,p in next,L do

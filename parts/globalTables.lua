@@ -243,6 +243,46 @@ if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then
 else
 	TABLE.complete(customEnv0,CUSTOMENV)
 end
+ROOMENV={
+	--Room config
+	capacity=5,
+
+	--Basic
+	drop=30,
+	lock=60,
+	wait=0,
+	fall=0,
+
+	--Control
+	nextCount=6,
+	holdCount=1,
+	infHold=true,
+	phyHold=false,
+
+	--Visual
+	bone=false,
+
+	--Rule
+	life=0,
+	pushSpeed=5,
+	garbageSpeed=2,
+	visible='show',
+	freshLimit=15,
+
+	fieldH=20,
+	heightLimit=1e99,
+	bufferLimit=1e99,
+
+	ospin=true,
+	fineKill=false,
+	b2bKill=false,
+	easyFresh=true,
+	deepDrop=false,
+
+	--Else
+	bg='blockfall',
+	bgm='hang out',
+}
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,

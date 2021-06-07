@@ -96,7 +96,6 @@ return{
 
 	-- onlinePlayerCount="Online",
 
-	createRoomTooFast="Vous avez créé un salon trop rapidement !",
 	createRoomSuccessed="Salon créé avec succès !",
 	-- started="Playing",
 	joinRoom="a rejoint le salon.",
@@ -224,7 +223,45 @@ return{
 			-- refreshing="Refreshing Rooms",
 			noRoom="Aucun salon actuellement",
 			-- refresh="Refresh",
+			-- new="New Room",
 			join="Rejoindre",
+		},
+		net_newRoom={
+			-- title="Custom room config",
+			-- roomName="Room name(default to username's room)",
+
+			life="Vie",
+			-- pushSpeed="Push Speed",
+			garbageSpeed="Vitesse des lignes indésirables",
+			visible="Visibilité",
+			freshLimit="Limite de réinit. du délai de verrouillage",
+
+			-- fieldH="Field height",
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+
+			drop="Délai de chute",
+			lock="Délai de verrouillage",
+			wait="Délai d'apparition",
+			fall="Délai de ligne",
+
+			-- capacity="Capacity",
+			-- create="Create",
+
+			ospin="O-spin",
+			fineKill="100% Finesse",
+			b2bKill="Sans perte de B2B",
+			easyFresh="Réinit. de verrouillage normale",
+			-- deepDrop="Deep Drop",
+			bone="Crochets",
+
+			nextCount="Prévisualisations de pièces",
+			holdCount="Réserve",
+			infHold="Réserver une fois",
+			-- phyHold="Physical Hold",
+
+			bg="Arrière-plan",
+			bgm="Musique",
 		},
 		net_game={
 			-- ready="Ready",
