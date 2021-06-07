@@ -77,7 +77,7 @@ function LIGHT.add(x,y,radius,solidFunc)
 		blackCanvas=gc.newCanvas(radius,radius),--Solid canvas
 		shadowCanvas=gc.newCanvas(radius,1),--1D vis-depth canvas
 		renderCanvas=gc.newCanvas(radius,radius),--Light canvas
-		blackFn=solidFunc,--Solid draw funcion
+		blackFn=solidFunc,--Solid draw function
 
 		move=move,
 		setPow=setPow,

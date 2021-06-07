@@ -543,7 +543,7 @@ do--function checkWarning()
 			GAME.warnLVL=max(GAME.warnLVL-.026,0)
 		end
 		if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
-			SFX.fplay("warning",SETTING.sfx_warn)
+			SFX.fplay('warning',SETTING.sfx_warn)
 		end
 	end
 end
