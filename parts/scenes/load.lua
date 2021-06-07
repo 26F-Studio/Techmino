@@ -184,11 +184,7 @@ local loadingThread=coroutine.wrap(function()
 	STAT.run=STAT.run+1
 
 	--Connect to server
-	TASK.new(NET.updateWS_app)
-	TASK.new(NET.updateWS_user)
-	TASK.new(NET.updateWS_play)
 	NET.wsconn_app()
-	TASK.new(NET.freshPlayerCount)
 	YIELD()
 
 	while true do

@@ -126,6 +126,8 @@ end
 --Connect
 function NET.wsconn_app()
 	WS.connect('app','/app')
+	TASK.new(NET.updateWS_app)
+	TASK.new(NET.freshPlayerCount)
 end
 function NET.wsconn_user_pswd(email,password)
 	if WS.status('wsc_user')=='dead'then NET.unlock('wsc_user')end
@@ -134,6 +136,7 @@ function NET.wsconn_user_pswd(email,password)
 			email=email,
 			password=password,
 		},6)
+		TASK.new(NET.updateWS_user)
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
@@ -143,6 +146,7 @@ function NET.wsconn_user_token(uid,authToken)
 			uid=uid,
 			authToken=authToken,
 		},6)
+		TASK.new(NET.updateWS_user)
 	end
 end
 function NET.wsconn_play()
@@ -152,6 +156,7 @@ function NET.wsconn_play()
 			uid=USER.uid,
 			accessToken=NET.accessToken,
 		},6)
+		TASK.new(NET.updateWS_play)
 	end
 end
 function NET.wsconn_stream(srid)
@@ -227,14 +232,6 @@ function NET.getUserInfo(uid)
 			hash=hash,
 		},
 	})
-end
-function NET.freshPlayerCount()
-	while true do
-		for _=1,260 do yield()end
-		if WS.status('app')=='running'then
-			WS.send('app',JSON.encode{action=3})
-		end
-	end
 end
 
 --Save
@@ -383,366 +380,360 @@ function NET.quitChat()
 end
 
 --WS tick funcs
+function NET.freshPlayerCount()
+	while WS.status('app')~='dead'do
+		for _=1,260 do yield()end
+		WS.send('app',JSON.encode{action=3})
+	end
+end
 function NET.updateWS_app()
-	while true do
+	while WS.status('app')~='dead'do
 		yield()
-		if WS.status('app')=='running'then
-			local message,op=WS.read('app')
-			if message then
-				if op=='ping'then
-					NET.pong('app',message)
-				elseif op=='pong'then
-				elseif op=='close'then
-					wsCloseMessage(message)
-					return
-				else
-					local res=_parse(message)
-					if res then
-						if res.type=='Connect'then
-							if VERSION.code>=res.lowest then
-								NET.allow_online=true
-								if USER.authToken then
-									NET.wsconn_user_token(USER.uid,USER.authToken)
-								elseif SCN.cur=='main'then
-									SCN.go('login')
-								end
+		local message,op=WS.read('app')
+		if message then
+			if op=='ping'then
+				NET.pong('app',message)
+			elseif op=='pong'then
+			elseif op=='close'then
+				wsCloseMessage(message)
+				return
+			else
+				local res=_parse(message)
+				if res then
+					if res.type=='Connect'then
+						if VERSION.code>=res.lowest then
+							NET.allow_online=true
+							if USER.authToken then
+								NET.wsconn_user_token(USER.uid,USER.authToken)
+							elseif SCN.cur=='main'then
+								SCN.go('login')
 							end
-							if VERSION.code<res.newestCode then
-								LOG.print(text.oldVersion:gsub("$1",res.newestName),180)
-							end
-							LOG.print(res.notice,300)
-							NET.tryLogin(true)
-						elseif res.action==0 then--Broadcast
-							LOG.print(res.data.message,300)
-						elseif res.action==1 then--Get notice
-							--?
-						elseif res.action==2 then--Register
-							if res.type=='Self'or res.type=='Server'then
-								LOG.print(res.data.message,300)
-								if SCN.cur=='register'then
-									SCN.back()
-								end
-							else
-								LOG.print(res.reason or"Registration failed",300)
-							end
-							NET.unlock('register')
-						elseif res.action==3 then--Get player counts
-							NET.UserCount=res.data.User
-							NET.PlayCount=res.data.Play
-							NET.StreamCount=res.data.Stream
-							--res.data.Chat
 						end
-					else
-						WS.alert('app')
+						if VERSION.code<res.newestCode then
+							LOG.print(text.oldVersion:gsub("$1",res.newestName),180)
+						end
+						LOG.print(res.notice,300)
+						NET.tryLogin(true)
+					elseif res.action==0 then--Broadcast
+						LOG.print(res.data.message,300)
+					elseif res.action==1 then--Get notice
+						--?
+					elseif res.action==2 then--Register
+						if res.type=='Self'or res.type=='Server'then
+							LOG.print(res.data.message,300)
+							if SCN.cur=='register'then
+								SCN.back()
+							end
+						else
+							LOG.print(res.reason or"Registration failed",300)
+						end
+						NET.unlock('register')
+					elseif res.action==3 then--Get player counts
+						NET.UserCount=res.data.User
+						NET.PlayCount=res.data.Play
+						NET.StreamCount=res.data.Stream
+						--res.data.Chat
 					end
+				else
+					WS.alert('app')
 				end
 			end
 		end
 	end
 end
 function NET.updateWS_user()
-	while true do
+	while WS.status('user')~='dead'do
 		yield()
-		if WS.status('user')=='running'then
-			local message,op=WS.read('user')
-			if message then
-				if op=='ping'then
-					NET.pong('user',message)
-				elseif op=='pong'then
-				elseif op=='close'then
-					wsCloseMessage(message)
-					return
-				else
-					local res=_parse(message)
-					if res then
-						if res.type=='Connect'then
-							if res.uid then
-								USER.uid=res.uid
-								USER.authToken=res.authToken
-								FILE.save(USER,'conf/user','q')
-								if SCN.cur=='login'then SCN.back()end
-							end
-							LOG.print(text.loginSuccessed,'message')
-
-							--Get self infos
-							NET.getUserInfo(USER.uid)
-							NET.unlock('wsc_user')
-						elseif res.action==0 then--Get accessToken
-							NET.accessToken=res.accessToken
-							LOG.print(text.accessSuccessed,'message')
-							NET.wsconn_play()
-						elseif res.action==1 then--Get userInfo
-							USERS.updateUserData(res.data)
-						elseif res.action==2 then--Upload successed
-							NET.unlock('uploadSave')
-							LOG.print(text.exportSuccess)
-						elseif res.action==3 then--Download successed
-							NET.unlock('downloadSave')
-							NET.loadSavedData(res.data.sections)
-							LOG.print(text.importSuccess)
+		local message,op=WS.read('user')
+		if message then
+			if op=='ping'then
+				NET.pong('user',message)
+			elseif op=='pong'then
+			elseif op=='close'then
+				wsCloseMessage(message)
+				return
+			else
+				local res=_parse(message)
+				if res then
+					if res.type=='Connect'then
+						if res.uid then
+							USER.uid=res.uid
+							USER.authToken=res.authToken
+							FILE.save(USER,'conf/user','q')
+							if SCN.cur=='login'then SCN.back()end
 						end
-					else
-						WS.alert('user')
+						LOG.print(text.loginSuccessed,'message')
+
+						--Get self infos
+						NET.getUserInfo(USER.uid)
+						NET.unlock('wsc_user')
+					elseif res.action==0 then--Get accessToken
+						NET.accessToken=res.accessToken
+						LOG.print(text.accessSuccessed,'message')
+						NET.wsconn_play()
+					elseif res.action==1 then--Get userInfo
+						USERS.updateUserData(res.data)
+					elseif res.action==2 then--Upload successed
+						NET.unlock('uploadSave')
+						LOG.print(text.exportSuccess)
+					elseif res.action==3 then--Download successed
+						NET.unlock('downloadSave')
+						NET.loadSavedData(res.data.sections)
+						LOG.print(text.importSuccess)
 					end
+				else
+					WS.alert('user')
 				end
 			end
 		end
 	end
 end
 function NET.updateWS_play()
-	while true do
+	while WS.status('play')~='dead'do
 		yield()
-		if WS.status('play')=='running'then
-			local message,op=WS.read('play')
-			if message then
-				if op=='ping'then
-					NET.pong('play',message)
-				elseif op=='pong'then
-				elseif op=='close'then
-					wsCloseMessage(message)
-					return
-				else
-					local res=_parse(message)
-					if res then
-						local d=res.data
-						if res.type=='Connect'then
-							SCN.go('net_menu')
-							NET.unlock('wsc_play')
-							NET.unlock('access_and_login')
-							SFX.play('connected')
-						elseif res.action==0 then--Fetch rooms
-							NET.roomList=res.roomList
-							NET.unlock('fetchRoom')
-						elseif res.action==1 then--Create room (not used)
-							--?
-						elseif res.action==2 then--Player join
-							if res.type=='Self'then
-								--Enter new room
-								netPLY.clear()
-								if d.players then
-									for _,p in next,d.players do
-										netPLY.add{
-											uid=p.uid,
-											username=p.username,
-											sid=p.sid,
-											mode=p.mode,
-											config=p.config,
-										}
-									end
+		local message,op=WS.read('play')
+		if message then
+			if op=='ping'then
+				NET.pong('play',message)
+			elseif op=='pong'then
+			elseif op=='close'then
+				wsCloseMessage(message)
+				return
+			else
+				local res=_parse(message)
+				if res then
+					local d=res.data
+					if res.type=='Connect'then
+						SCN.go('net_menu')
+						NET.unlock('wsc_play')
+						NET.unlock('access_and_login')
+						SFX.play('connected')
+					elseif res.action==0 then--Fetch rooms
+						NET.roomList=res.roomList
+						NET.unlock('fetchRoom')
+					elseif res.action==1 then--Create room (not used)
+						--?
+					elseif res.action==2 then--Player join
+						if res.type=='Self'then
+							--Enter new room
+							netPLY.clear()
+							if d.players then
+								for _,p in next,d.players do
+									netPLY.add{
+										uid=p.uid,
+										username=p.username,
+										sid=p.sid,
+										mode=p.mode,
+										config=p.config,
+									}
 								end
-								NET.roomState.roomInfo=d.roomInfo
-								NET.roomState.roomData=d.roomData
-								NET.roomState.count=d.count
-								NET.roomState.capacity=d.capacity
-								NET.roomState.private=d.private
-								NET.roomState.start=d.start
-
-								NET.allReady=false
-								NET.connectingStream=false
-								NET.waitingStream=false
-
-								NET.spectate=false
-
-								if d.srid then
-									NET.spectate=true
-									NET.specSRID=d.srid
-									NET.connectingStream=true
-								end
-								loadGame('netBattle',true,true)
-							else
-								--Load other players
-								netPLY.add{
-									uid=d.uid,
-									username=d.username,
-									sid=d.sid,
-									mode=d.mode,
-									config=d.config,
-								}
-								if SCN.socketRead then SCN.socketRead('join',d)end
-								NET.allReady=false
 							end
-						elseif res.action==3 then--Player leave
-							if not d.uid then
-								NET.wsclose_stream()
-								NET.unlock('quit')
-								SCN.back()
-							else
-								removePlayer(netPLY.list,d.sid)
-								netPLY.freshPos()
-								removePlayer(PLAYERS,d.sid)
-								removePlayer(PLY_ALIVE,d.sid)
-								if SCN.socketRead then SCN.socketRead('leave',d)end
-							end
-						elseif res.action==4 then--Player talk
-							if SCN.socketRead then SCN.socketRead('talk',d)end
-						elseif res.action==5 then--Player change settings
-							netPLY.setConf(d.uid,d.config)
-						elseif res.action==6 then--Player change join mode
-							netPLY.setJoinMode(d.uid,d.mode)
-						elseif res.action==7 then--All Ready
-							SFX.play('reach',.6)
-							NET.allReady=true
-						elseif res.action==8 then--Set
+							NET.roomState.roomInfo=d.roomInfo
+							NET.roomState.roomData=d.roomData
+							NET.roomState.count=d.count
+							NET.roomState.capacity=d.capacity
+							NET.roomState.private=d.private
+							NET.roomState.start=d.start
+
 							NET.allReady=false
-							NET.connectingStream=true
-							NET.wsconn_stream(d.srid)
-						elseif res.action==9 then--Game finished
-							if SCN.socketRead then SCN.socketRead('finish',d)end
+							NET.connectingStream=false
+							NET.waitingStream=false
 
-							--d.result: list of {place,survivalTime,uid,score}
-							for _,p in next,d.result do
-								for _,P in next,PLAYERS do
-									if P.uid==p.uid then
-										netPLY.setStat(p.uid,P.stat)
-										netPLY.setPlace(p.uid,p.place)
-										break
-									end
+							NET.spectate=false
+
+							if d.srid then
+								NET.spectate=true
+								NET.specSRID=d.srid
+								NET.connectingStream=true
+							end
+							loadGame('netBattle',true,true)
+						else
+							--Load other players
+							netPLY.add{
+								uid=d.uid,
+								username=d.username,
+								sid=d.sid,
+								mode=d.mode,
+								config=d.config,
+							}
+							if SCN.socketRead then SCN.socketRead('join',d)end
+							NET.allReady=false
+						end
+					elseif res.action==3 then--Player leave
+						if not d.uid then
+							NET.wsclose_stream()
+							NET.unlock('quit')
+							SCN.back()
+						else
+							removePlayer(netPLY.list,d.sid)
+							netPLY.freshPos()
+							removePlayer(PLAYERS,d.sid)
+							removePlayer(PLY_ALIVE,d.sid)
+							if SCN.socketRead then SCN.socketRead('leave',d)end
+						end
+					elseif res.action==4 then--Player talk
+						if SCN.socketRead then SCN.socketRead('talk',d)end
+					elseif res.action==5 then--Player change settings
+						netPLY.setConf(d.uid,d.config)
+					elseif res.action==6 then--Player change join mode
+						netPLY.setJoinMode(d.uid,d.mode)
+					elseif res.action==7 then--All Ready
+						SFX.play('reach',.6)
+						NET.allReady=true
+					elseif res.action==8 then--Set
+						NET.allReady=false
+						NET.connectingStream=true
+						NET.wsconn_stream(d.srid)
+					elseif res.action==9 then--Game finished
+						if SCN.socketRead then SCN.socketRead('finish',d)end
+
+						--d.result: list of {place,survivalTime,uid,score}
+						for _,p in next,d.result do
+							for _,P in next,PLAYERS do
+								if P.uid==p.uid then
+									netPLY.setStat(p.uid,P.stat)
+									netPLY.setPlace(p.uid,p.place)
+									break
 								end
 							end
-
-							netPLY.resetState()
-							netPLY.freshPos()
-							NET.roomState.start=false
-							if NET.spectate then NET.signal_setMode(2)end
-							NET.spectate=false
-							NET.wsclose_stream()
 						end
-					else
-						WS.alert('play')
+
+						netPLY.resetState()
+						netPLY.freshPos()
+						NET.roomState.start=false
+						if NET.spectate then NET.signal_setMode(2)end
+						NET.spectate=false
+						NET.wsclose_stream()
 					end
+				else
+					WS.alert('play')
 				end
 			end
 		end
 	end
 end
 function NET.updateWS_stream()
-	while true do
+	while WS.status('stream')~='dead'do
 		yield()
-		if WS.status('stream')=='running'then
-			local message,op=WS.read('stream')
-			if message then
-				if op=='ping'then
-					NET.pong('stream',message)
-				elseif op=='pong'then
-				elseif op=='close'then
-					wsCloseMessage(message)
-					return
-				else
-					local res=_parse(message)
-					if res then
-						local d=res.data
-						if res.type=='Connect'then
-							NET.unlock('wsc_stream')
-							NET.connectingStream=false
-						elseif res.action==0 then--Game start
-							NET.waitingStream=false
-							SCN.socketRead('go')
-						elseif res.action==1 then--Game finished
-							--?
-						elseif res.action==2 then--Player join
-							if res.type=='Self'then
-								NET.seed=d.seed
-								NET.spectate=d.spectate
-								netPLY.setConnect(d.uid)
-								for _,p in next,d.connected do
-									if not p.spectate then
-										netPLY.setConnect(p.uid)
-									end
+		local message,op=WS.read('stream')
+		if message then
+			if op=='ping'then
+				NET.pong('stream',message)
+			elseif op=='pong'then
+			elseif op=='close'then
+				wsCloseMessage(message)
+				return
+			else
+				local res=_parse(message)
+				if res then
+					local d=res.data
+					if res.type=='Connect'then
+						NET.unlock('wsc_stream')
+						NET.connectingStream=false
+					elseif res.action==0 then--Game start
+						NET.waitingStream=false
+						SCN.socketRead('go')
+					elseif res.action==1 then--Game finished
+						--?
+					elseif res.action==2 then--Player join
+						if res.type=='Self'then
+							NET.seed=d.seed
+							NET.spectate=d.spectate
+							netPLY.setConnect(d.uid)
+							for _,p in next,d.connected do
+								if not p.spectate then
+									netPLY.setConnect(p.uid)
 								end
-								if d.spectate then
-									if d.start then
-										SCN.socketRead('go')
-										if d.history then
-											for _,v in next,d.history do
-												pumpStream(v)
-											end
+							end
+							if d.spectate then
+								if d.start then
+									SCN.socketRead('go')
+									if d.history then
+										for _,v in next,d.history do
+											pumpStream(v)
 										end
 									end
-								else
-									NET.waitingStream=true
 								end
 							else
-								if d.spectate then
-									netPLY.setJoinMode(d.uid,2)
-								else
-									netPLY.setConnect(d.uid)
-								end
+								NET.waitingStream=true
 							end
-						elseif res.action==3 then--Player leave
-							--?
-						elseif res.action==4 then--Player died
-							for _,P in next,PLY_ALIVE do
-								if P.uid==d.uid then
-									P:lose(true)
-									break
-								end
+						else
+							if d.spectate then
+								netPLY.setJoinMode(d.uid,2)
+							else
+								netPLY.setConnect(d.uid)
 							end
-						elseif res.action==5 then--Receive stream
-							pumpStream(d)
 						end
-					else
-						WS.alert('stream')
+					elseif res.action==3 then--Player leave
+						--?
+					elseif res.action==4 then--Player died
+						for _,P in next,PLY_ALIVE do
+							if P.uid==d.uid then
+								P:lose(true)
+								break
+							end
+						end
+					elseif res.action==5 then--Receive stream
+						pumpStream(d)
 					end
+				else
+					WS.alert('stream')
 				end
 			end
 		end
 	end
 end
 function NET.updateWS_chat()
-	while true do
+	while WS.status('chat')~='dead'do
 		yield()
-		if WS.status('chat')=='running'then
-			local message,op=WS.read('chat')
-			if message then
-				if op=='ping'then
-					NET.pong('chat',message)
-				elseif op=='pong'then
-				elseif op=='close'then
-					wsCloseMessage(message)
-					return
+		local message,op=WS.read('chat')
+		if message then
+			if op=='ping'then
+				NET.pong('chat',message)
+			elseif op=='pong'then
+			elseif op=='close'then
+				wsCloseMessage(message)
+				return
+			else
+				local res=_parse(message)
+				if res then
+					--TODO
 				else
-					local res=_parse(message)
-					if res then
-						--TODO
-					else
-						WS.alert('chat')
-					end
+					WS.alert('chat')
 				end
 			end
 		end
 	end
 end
 function NET.updateWS_manage()
-	while true do
+	while WS.status('manage')~='dead'do
 		yield()
-		if WS.status('manage')=='running'then
-			local message,op=WS.read('manage')
-			if message then
-				if op=='ping'then
-					NET.pong('manage',message)
-				elseif op=='pong'then
-				elseif op=='close'then
-					wsCloseMessage(message)
-					return
-				else
-					local res=_parse(message)
-					if res then
-						if res.type=='Connect'then
-							LOG.print("Manage connected",'warn')
-						elseif res.action==0 then
-							LOG.print("success",'message')
-						elseif res.action==9 then
-							LOG.print("success",'message')
-						elseif res.action==10 then
-							LOG.print(TABLE.dump(res.data))
-						elseif res.action==11 then
-							LOG.print(TABLE.dump(res.data))
-						elseif res.action==12 then
-							LOG.print(TABLE.dump(res.data))
-						end
-					else
-						WS.alert('manage')
+		local message,op=WS.read('manage')
+		if message then
+			if op=='ping'then
+				NET.pong('manage',message)
+			elseif op=='pong'then
+			elseif op=='close'then
+				wsCloseMessage(message)
+				return
+			else
+				local res=_parse(message)
+				if res then
+					if res.type=='Connect'then
+						LOG.print("Manage connected",'warn')
+					elseif res.action==0 then
+						LOG.print("success",'message')
+					elseif res.action==9 then
+						LOG.print("success",'message')
+					elseif res.action==10 then
+						LOG.print(TABLE.dump(res.data))
+					elseif res.action==11 then
+						LOG.print(TABLE.dump(res.data))
+					elseif res.action==12 then
+						LOG.print(TABLE.dump(res.data))
 					end
+				else
+					WS.alert('manage')
 				end
 			end
 		end
