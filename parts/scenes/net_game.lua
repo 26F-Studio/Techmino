@@ -200,7 +200,7 @@ function scene.socketRead(cmd,d)
 			COLOR.Y,text.leaveRoom,
 		}
 	elseif cmd=='talk'then
-		newMessageTimer=60
+		newMessageTimer=80
 		textBox:push{
 			COLOR.Z,d.username,
 			COLOR.dY,"#"..d.uid.." ",
@@ -329,7 +329,7 @@ scene.widgetList={
 	textBox,
 	inputBox,
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=_gotoSetting,hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=1060,y=510,w=370,h=90,color='lG',font=35,code=_setReady,
+	WIDGET.newKey{name="ready",x=1060,y=510,w=360,h=90,color='lG',font=35,code=_setReady,
 		hideF=function()
 			return
 				playing or
@@ -337,7 +337,7 @@ scene.widgetList={
 				netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="spectate",x=1060,y=610,w=370,h=90,color='lO',font=35,code=_setSpectate,
+	WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35,code=_setSpectate,
 		hideF=function()
 			return
 				playing or
@@ -345,7 +345,7 @@ scene.widgetList={
 				netPLY.getSelfReady() or
 				NET.getlock('ready')
 		end},
-	WIDGET.newKey{name="cancel",x=1060,y=560,w=370,h=120,color='lH',font=40,code=_setCancel,
+	WIDGET.newKey{name="cancel",x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,
 		hideF=function()
 			return
 				playing or
