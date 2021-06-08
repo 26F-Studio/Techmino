@@ -312,7 +312,6 @@ return{
 			autoPause="Pause while unfocused",
 			swap="Key Combination (Change Atk. Mode)",
 			fine="Finesse Error SFX",
-			dataSaving="Data saving",
 			simpMode="Simplistic Style",
 		},
 		setting_video={

@@ -287,7 +287,6 @@ return{
 			autoPause="Pausar cuando la ventana no está enfocada",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
 			fine="Sonido de Error de Finesse",
-			-- dataSaving="Data saving",
 			simpMode="Modo Sencillo",
 		},
 		setting_video={

@@ -312,7 +312,6 @@ return{
 			autoPause="失去焦点自动暂停",
 			swap="组合键切换攻击模式",
 			fine="极简操作提示音",
-			dataSaving="省流模式",
 			simpMode="简洁模式",
 		},
 		setting_video={

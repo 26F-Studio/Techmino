@@ -311,7 +311,6 @@ return{
 			autoPause="Pausar quando foco for perco",
 			swap="Combinação de tecla(Mudar modo de atk)",
 			fine="Som Falha de destreza",
-			-- dataSaving="Data saving",
 			-- simpMode="Simple mode",
 		},
 		setting_video={

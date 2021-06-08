@@ -136,7 +136,6 @@ return{
 			autoPause="A||",
 			swap="=+=+=",
 			fine="12 X 21",
-			dataSaving="XX.",
 			simpMode=".",
 		},
 		setting_video={

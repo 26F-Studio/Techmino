@@ -256,6 +256,7 @@ do
 		SETTING.frameMul=100
 	end
 	SETTING.appLock=nil
+	SETTING.dataSaving=nil
 	for _,v in next,VK_org do v.color=nil end
 	if RANKS.GM then RANKS.GM=0 end
 	if RANKS.infinite then RANKS.infinite=6 end
