@@ -16,7 +16,7 @@ function scene.sceneInit()
 	NET.wsclose_user()
 	NET.wsclose_play()
 	NET.wsclose_stream()
-	if SETTING then SFX.fplay("error",SETTING.voc*.8 or 0)end
+	if SETTING then SFX.fplay('error',SETTING.voc*.8 or 0)end
 end
 
 function scene.draw()
@@ -36,7 +36,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="console",x=940,y=640,w=170,h=80,font=40,code=goScene"app_console"},
+	WIDGET.newKey{name="console",x=940,y=640,w=170,h=80,font=40,code=goScene'app_console'},
 	WIDGET.newKey{name="quit",x=1140,y=640,w=170,h=80,font=40,code=backScene},
 }
 

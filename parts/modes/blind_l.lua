@@ -23,8 +23,11 @@ return{
 		setFont(75)
 		mStr(P.stat.row,69,220)
 		mStr(P.stat.clears[4],69,340)
-		gc.setColor(1,1,1,.2)
-		gc.draw(IMG.electric,124,106,0,2.6)
+		gc.push('transform')
+		PLY.draw.applyFieldOffset(P)
+		gc.setColor(1,1,1,.1)
+		gc.draw(IMG.electric,0,106,0,2.6)
+		gc.pop()
 	end,
 	score=function(P)return{min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

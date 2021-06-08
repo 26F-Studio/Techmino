@@ -105,7 +105,7 @@ function Player:createClearingFX(y,spd)
 end
 function Player:createBeam(R,send,power,color)
 	local x1,y1,x2,y2
-	if self.mini then x1,y1=self.centerX,self.centerY
+	if self.miniMode then x1,y1=self.centerX,self.centerY
 	else x1,y1=self.x+(30*(self.curX+self.cur.sc[2])-30+15+150)*self.size,self.y+(600-30*(self.curY+self.cur.sc[1])+15)*self.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
@@ -121,26 +121,22 @@ end
 --------------------------</FX>--------------------------
 
 --------------------------<Method>--------------------------
-function Player:RND(a,b)
-	local R=self.randGen
-	return R:random(a,b)
-end
 function Player:newTask(code,...)
 	local thread=coroutine.create(code)
 	resume(thread,self,...)
 	if status(thread)~='dead'then
-		self.tasks[#self.tasks+1]={
+		ins(self.tasks,{
 			thread=thread,
 			code=code,
 			args={...},
-		}
+		})
 	end
 end
 
 function Player:setPosition(x,y,size)
 	size=size or 1
 	self.x,self.y,self.size=x,y,size
-	if self.mini or self.demo then
+	if self.miniMode or self.demo then
 		self.fieldX,self.fieldY=x,y
 		self.centerX,self.centerY=x+300*size,y+600*size
 	else
@@ -149,29 +145,35 @@ function Player:setPosition(x,y,size)
 		self.absFieldX,self.absFieldY=x+150*size,y-10*size
 	end
 end
-local function task_movePosition(self,x,y,size)
-	local x1,y1,size1=self.x,self.y,self.size
-	while true do
-		yield()
-		if (x1-x)^2+(y1-y)^2<1 then
-			self:setPosition(x,y,size)
-			return true
-		else
-			x1=x1+(x-x1)*.126
-			y1=y1+(y-y1)*.126
-			size1=size1+(size-size1)*.126
-			self:setPosition(x1,y1,size1)
+do--function Player:movePosition(x,y,size)
+	local function task_movePosition(self,x,y,size)
+		local x1,y1,size1=self.x,self.y,self.size
+		while true do
+			yield()
+			if (x1-x)^2+(y1-y)^2<1 then
+				self:setPosition(x,y,size)
+				return true
+			else
+				x1=x1+(x-x1)*.126
+				y1=y1+(y-y1)*.126
+				size1=size1+(size-size1)*.126
+				self:setPosition(x1,y1,size1)
+			end
 		end
 	end
-end
-local function checkPlayer(obj,Ptar)
-	return obj.args[1]==Ptar
-end
-function Player:movePosition(x,y,size)
-	TASK.removeTask_iterate(checkPlayer,self)
-	TASK.new(task_movePosition,self,x,y,size or self.size)
+	local function checkPlayer(obj,Ptar)
+		return obj.args[1]==Ptar
+	end
+	function Player:movePosition(x,y,size)
+		TASK.removeTask_iterate(checkPlayer,self)
+		TASK.new(task_movePosition,self,x,y,size or self.size)
+	end
 end
 
+local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
+function Player:setFrameColor(c)
+	self.frameColor=frameColorList[c]
+end
 function Player:switchKey(id,on)
 	self.keyAvailable[id]=on
 	if not on then
@@ -221,11 +223,11 @@ end
 
 function Player:getHolePos()--Get a good garbage-line hole position
 	if self.garbageBeneath==0 then
-		return generateLine(self:RND(10))
+		return generateLine(self.holeRND:random(10))
 	else
-		local p=self:RND(10)
+		local p=self.holeRND:random(10)
 		if self.field[1][p]<=0 then
-			return generateLine(self:RND(10))
+			return generateLine(self.holeRND:random(10))
 		end
 		return generateLine(p)
 	end
@@ -236,7 +238,7 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
 		local A=self.atkBuffer[n]
 		if A and A.countdown<=0 and not A.sent then
 			self:garbageRise(19+A.lv,A.amount,A.line)
-			self.atkBuffer.sum=self.atkBuffer.sum-A.amount
+			self.atkBufferSum=self.atkBufferSum-A.amount
 			A.sent,A.time=true,0
 			self.stat.pend=self.stat.pend+A.amount
 			n=n+1
@@ -275,7 +277,7 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
 		_=self.dropFX[i]
 		_[3],_[5]=_[3]+amount,_[5]+amount
 	end
-	if #self.field>42 then self:lose()end
+	if #self.field>self.gameEnv.heightLimit then self:lose()end
 end
 
 local invList={2,1,4,3,5,6,7}
@@ -365,14 +367,11 @@ end
 function Player:receive(A,send,time,line)
 	self.lastRecv=A
 	local B=self.atkBuffer
-	if B.sum<26 then
-		if send>26-B.sum then send=26-B.sum end
+	if send+self.atkBufferSum>self.gameEnv.bufferLimit then send=self.gameEnv.bufferLimit-self.atkBufferSum end
+	if send>0 then
 		local m,k=#B,1
 		while k<=m and time>B[k].countdown do k=k+1 end
-		for i=m,k,-1 do
-			B[i+1]=B[i]
-		end
-		B[k]={
+		ins(B,k,{
 			line=line,
 			amount=send,
 			countdown=time,
@@ -380,13 +379,23 @@ function Player:receive(A,send,time,line)
 			time=0,
 			sent=false,
 			lv=min(int(send^.69),5),
-		}--Sorted insert(by time)
-		B.sum=B.sum+send
+		})--Sorted insert(by time)
+		self.atkBufferSum=self.atkBufferSum+send
 		self.stat.recv=self.stat.recv+send
 		if self.sound then
 			SFX.play(send<4 and'blip_1'or'blip_2',min(send+1,5)*.1)
 		end
 	end
+end
+function Player:clearAttackBuffer()
+	for i=1,#self.atkBuffer do
+		local A=self.atkBuffer[i]
+		if not A.sent then
+			A.sent=true
+			A.time=0
+		end
+	end
+	self.atkBufferSum=0
 end
 function Player:freshTarget()
 	if self.atkMode==1 then
@@ -421,12 +430,8 @@ function Player:changeAtk(R)
 	-- if self.type~='human'then R=PLAYERS[1]end--1vALL mode?
 	if self.atking then
 		local K=self.atking.atker
-		for i=1,#K do
-			if K[i]==self then
-				rem(K,i)
-				break
-			end
-		end
+		local i=TABLE.find(K,self)
+		if i then rem(K,i)end
 	end
 	if R then
 		self.atking=R
@@ -810,7 +815,7 @@ function Player:cancel(N)--Cancel Garbage
 	local off=0--Lines offseted
 	local bf=self.atkBuffer
 	for i=1,#bf do
-		if bf.sum==0 or N==0 then break end
+		if self.atkBufferSum==0 or N==0 then break end
 		local A=bf[i]
 		if not A.sent then
 			local O=min(A.amount,N)--Cur Offset
@@ -820,7 +825,7 @@ function Player:cancel(N)--Cancel Garbage
 				A.sent,A.time=true,0
 			end
 			off=off+O
-			bf.sum=bf.sum-O
+			self.atkBufferSum=self.atkBufferSum-O
 			N=N-O
 		end
 	end
@@ -1260,8 +1265,8 @@ do--Player.drop(self)--Place piece
 			end
 
 			--PC/HPC
-			if clear then
-				if #self.field==0 then
+			if clear and cc>=#C.bk then
+				if CY==1 then
 					self:showText(text.PC,0,-80,50,'flicker')
 					atk=max(atk,min(8+Stat.pc*2,16))
 					exblock=exblock+2
@@ -1279,7 +1284,7 @@ do--Player.drop(self)--Place piece
 					end
 					piece.pc=true
 					piece.special=true
-				elseif cc>=#C.bk and(cc>1 or #self.field==self.garbageBeneath)then
+				elseif cc>1 or #self.field==self.garbageBeneath then
 					self:showText(text.HPC,0,-80,50,'fly')
 					atk=atk+4
 					exblock=exblock+2
@@ -1327,7 +1332,7 @@ do--Player.drop(self)--Place piece
 							local M=#self.atker
 							if M>0 then
 								for i=1,M do
-									self:attack(self.atker[i],send,sendTime,generateLine(self:RND(10)))
+									self:attack(self.atker[i],send,sendTime,generateLine(self.atkRND:random(10)))
 								end
 							else
 								T=randomTarget(self)
@@ -1340,7 +1345,7 @@ do--Player.drop(self)--Place piece
 						T=randomTarget(self)
 					end
 					if T then
-						self:attack(T,send,sendTime,generateLine(self:RND(10)))
+						self:attack(T,send,sendTime,generateLine(self.atkRND:random(10)))
 					end
 				end
 				if self.sound and send>3 then SFX.play('emit',min(send,7)*.1)end
@@ -1374,6 +1379,13 @@ do--Player.drop(self)--Place piece
 		end
 
 		self.combo=cmb
+
+		--Spike
+		if atk>0 then
+			self.spike=self.spikeTime==0 and atk or self.spike+atk
+			self.spikeTime=min(self.spikeTime+atk*20,100)
+			self.spikeText:set(self.spike)
+		end
 
 		--DropSpeed bonus
 		if self._20G then
@@ -1438,6 +1450,9 @@ do--Player.drop(self)--Place piece
 				finish=true
 			end
 		end
+
+		--Check height limit
+		if cc==0 and #self.field>ENV.heightLimit then self:lose()end
 
 		--Update stat
 		Stat.score=Stat.score+cscore
@@ -1621,10 +1636,7 @@ function Player:die()--Called both when win/lose!
 	self.waiting=1e99
 	self.b2b=0
 	self.tasks={}
-	for i=1,#self.atkBuffer do
-		self.atkBuffer[i].sent=true
-		self.atkBuffer[i].time=0
-	end
+	self:clearAttackBuffer()
 	for i=1,#self.field do
 		for j=1,10 do
 			self.visTime[i][j]=min(self.visTime[i][j],20)
@@ -1640,6 +1652,36 @@ function Player:die()--Called both when win/lose!
 			end
 		end
 	end
+end
+function Player:revive()
+	self.waiting=62
+	local h=#self.field
+	for _=h,1,-1 do
+		FREEROW.discard(self.field[_])
+		FREEROW.discard(self.visTime[_])
+		self.field[_],self.visTime[_]=nil
+	end
+	self.garbageBeneath=0
+	if self.AI_mode=='CC'then
+		CC.destroy(self.AI_bot)
+		TABLE.cut(self.holdQueue)
+		self:loadAI(self.AIdata)
+	end
+
+	self:clearAttackBuffer()
+
+	self.life=self.life-1
+	self.fieldBeneath=0
+	self.b2b=0
+
+	for i=1,h do
+		self:createClearingFX(i,1.5)
+	end
+	SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
+	SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
+	SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(665+12)*self.size,20)
+	SFX.play('clear_3')
+	SFX.play('emit')
 end
 function Player:win(result)
 	if self.result then return end
@@ -1671,71 +1713,28 @@ end
 function Player:lose(force)
 	if self.result then return end
 	if self.type=='remote'and not force then self.waiting=1e99 return end
-	if self.life>0 and not force then
-		self.waiting=62
-		local h=#self.field
-		for _=h,1,-1 do
-			FREEROW.discard(self.field[_])
-			FREEROW.discard(self.visTime[_])
-			self.field[_],self.visTime[_]=nil
-		end
-		self.garbageBeneath=0
-
-		if self.AI_mode=='CC'then
-			CC.destroy(self.AI_bot)
-			TABLE.cut(self.holdQueue)
-			self:loadAI(self.AIdata)
-		end
-
-		self.life=self.life-1
-		self.fieldBeneath=0
-		self.b2b=0
-		for i=1,#self.atkBuffer do
-			local A=self.atkBuffer[i]
-			if not A.sent then
-				A.sent=true
-				A.time=0
-			end
-		end
-		self.atkBuffer.sum=0
-
-		for i=1,h do
-			self:createClearingFX(i,1.5)
-		end
-		SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
-		SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
-		SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(665+12)*self.size,20)
-		SFX.play('clear_3')
-		SFX.play('emit')
-
-		return
-	end
+	if self.life>0 and not force then self:revive()return end
 	self:die()
-	for i=1,#PLY_ALIVE do
-		if PLY_ALIVE[i]==self then
-			rem(PLY_ALIVE,i)
-			break
-		end
-	end
+	local p=TABLE.find(PLY_ALIVE,self)if p then rem(PLY_ALIVE,p)end
 	self.result='lose'
 	if GAME.modeEnv.royaleMode then
 		self:changeAtk()
 		self.modeData.place=#PLY_ALIVE+1
 		self.strength=0
 		if self.lastRecv then
-			local A,i=self,0
+			local A,depth=self,0
 			repeat
-				A,i=A.lastRecv,i+1
-			until not A or A.alive or A==self or i==3
+				A,depth=A.lastRecv,depth+1
+			until not A or A.alive or A==self or depth==3
 			if A and A.alive then
 				if self.id==1 or A.id==1 then
 					self.killMark=A.id==1
 				end
 				A.modeData.ko,A.badge=A.modeData.ko+1,A.badge+self.badge+1
-				for j=A.strength+1,4 do
-					if A.badge>=ROYALEDATA.powerUp[j]then
-						A.strength=j
-						A.frameColor=A.strength
+				for i=A.strength+1,4 do
+					if A.badge>=ROYALEDATA.powerUp[i]then
+						A.strength=i
+						A:setFrameColor(i)
 					end
 				end
 				self.lastRecv=A
@@ -1765,7 +1764,7 @@ function Player:lose(force)
 		end
 		gameOver()
 		self:newTask(#PLAYERS>1 and tick_lose or tick_finish)
-		if GAME.net then
+		if GAME.net and not NET.spectate then
 			NET.signal_die()
 		else
 			TASK.new(tick_autoPause)
@@ -1915,8 +1914,10 @@ function Player:act_softDrop()
 	end
 end
 function Player:act_hold()
-	if self.control and self.waiting==-1 then
-		self:hold()
+	if self.control then
+		if self.waiting==-1 then
+			self:hold()
+		end
 	end
 end
 function Player:act_func1()

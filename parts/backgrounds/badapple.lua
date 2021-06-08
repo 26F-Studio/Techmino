@@ -28,9 +28,8 @@ function back.resize()
 	end
 end
 function back.draw()
-	gc.clear(.2,.2,.2)
-	local r,g,b=COLOR.rainbow_light(TIME())
-	gc.setColor(r,g,b,.2)
+	gc.clear(.1,.1,.1)
+	gc.setColor(1,1,1,.1)
 	gc.draw(video,X,Y,nil,K)
 end
 function back.discard()

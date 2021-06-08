@@ -14,83 +14,200 @@ log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 local history,hisPtr={"?"}
 local the_secret=(14^2*10)..(2*11)
 
+local commands={}do
+	--[[
+		format of elements in table 'commands':
+		key: the command name
+		value: a table containing the following two elements:
+			code: code to run when call
+			description: a string that shows when user types 'help'.
+			details: an array of strings containing documents, shows when user types 'help [command]'.
+	]]
 
+	local cmdList={}--List of all non-alias commands
 
-local commands={}
---Basic commands
-do--commands.help(arg)
-	--format of table command_help_messages:
-	--	key: the command
-	--	value: a table containing the following two elements:
-	--		description: a string that shows when user types `help`.
-	--		details: an array of strings containing documents, shows when user types `help [command]`.
-	local command_help_messages={
-		help={
-			description="Display help messages.",
-			details={
-				"Display help messages.",
-				"",
-				"Aliases: help ?",
-				"",
-				"Usage:",
-				"help",
-				"help [command_name]",
-			},
-		},["?"]="help",
-		["#"]={
-			description="Run arbitrary Lua code.",
-			details={
-				"Run arbitrary Lua code.",
-				"",
-				"Usage: #[lua_source_code]",
-				"",
-				"print() can be used to print text into this window.",
-			},
+	--Basic
+	commands.help={
+		code=function(arg)
+			if #arg>0 then
+				--help [command]
+				if commands[arg]then
+					if commands[arg].details then
+						for _,v in ipairs(commands[arg].details)do log(v)end
+					else
+						log{C.Y,("No details for command '%s'"):format(arg)}
+					end
+				else
+					log{C.Y,("No command called '%s'"):format(arg)}
+				end
+			else
+				--help
+				for i=1,#cmdList do
+					local cmd=cmdList[i]
+					local body=commands[cmd]
+					log(
+						body.description and
+							{C.Z,cmd,C.H,"    "..body.description}
+						or
+							log{C.Z,cmd}
+					)
+				end
+			end
+		end,
+		details={
+			"Display help messages.",
+			"",
+			"Aliases: help ?",
+			"",
+			"Usage:",
+			"help",
+			"help [command_name]",
 		},
-		exit={
-			description="Return to the previous menu.",
-			details={
-				"Return to the previous menu.",
-				"",
-				"Aliases: exit quit bye",
-				"",
-				"Usage: exit",
-			},
-		},quit="exit",bye="exit",
-		echo={
-			description="Print a message to this window.",
-			details={
-				"Print a message to this window.",
-				"",
-				"Usage: echo [message]",
-			},
+	}commands["?"]="help"
+	commands["#"]={
+		description="Run arbitrary Lua code",
+		details={
+			"Run arbitrary Lua code.",
+			"",
+			"Usage: #[lua_source_code]",
+			"",
+			"print() can be used to print text into this window.",
 		},
-		print={
-			description="Print a file to this window.",
-			details={
-				"Print a file to this window.",
-				"",
-				"Usage: print [filename]",
-			},
+	}
+	commands.exit={
+		code=backScene,
+		details={
+			"Return to the previous menu.",
+			"",
+			"Aliases: exit quit",
+			"",
+			"Usage: exit",
 		},
-		url={
-			description="Attempt to open a URL with your device.",
-			details={
-				"Attempt to open a URL with your device.",
-				"",
-				"Usage: url [url]",
-			},
+	}commands.quit="exit"
+	commands.echo={
+		code=function(str)if str~=""then log(str)end end,
+		description="Print a message",
+		details={
+			"Print a message to this window.",
+			"",
+			"Usage: echo [message]",
 		},
-		tree={
-			description="List all files & directories in saving directory",
+	}
+	commands.cls={
+		code=function()outputBox:clear()end,
+		description="Clear the window",
+		details={
+			"Clear the log output.",
+			"",
+			"Usage: cls",
+		},
+	}
+
+	--File
+	do--tree
+		local function tree(path,name,depth)
+			local info=love.filesystem.getInfo(path..name)
+			if info.type=='file'then
+				log(("\t\t"):rep(depth)..name)
+			elseif info.type=='directory'then
+				log(("\t\t"):rep(depth)..name..">")
+				local L=love.filesystem.getDirectoryItems(path..name)
+				for _,subName in next,L do
+					tree(path..name.."/",subName,depth+1)
+				end
+			else
+				log("Unkown item type: %s (%s)"):format(name,info.type)
+			end
+		end
+		commands.tree={
+			code=function()
+				local L=love.filesystem.getDirectoryItems""
+				for _,name in next,L do
+					if love.filesystem.getRealDirectory(name)==SAVEDIR then
+						tree("",name,0)
+					end
+				end
+			end,
+			description="List all files & directories",
 			details={
 				"List all files & directories in saving directory",
 				"",
 				"Usage: tree",
 			},
-		},
-		del={
-			description="Attempt to delete a file or directory",
+		}
+	end
+	do--del
+		local function delFile(name)
+			if love.filesystem.remove(name)then
+				log{C.Y,("Deleted: '%s'"):format(name)}
+			else
+				log{C.R,("Failed to delete: '%s'"):format(name)}
+			end
+		end
+		local function delDir(name)
+			if #love.filesystem.getDirectoryItems(name)==0 then
+				if love.filesystem.remove(name)then
+					log{C.Y,("Directory deleted: '%s'"):format(name)}
+				else
+					log{C.R,("Failed to delete directory '%s'"):format(name)}
+				end
+			else
+				log{C.R,"Directory '"..name.."' is not empty"}
+			end
+		end
+		local function recursiveDelDir(dir)
+			local containing=love.filesystem.getDirectoryItems(dir)
+			if #containing==0 then
+				if love.filesystem.remove(dir)then
+					log{C.Y,("Succesfully deleted directory '%s'"):format(dir)}
+				else
+					log{C.R,("Failed to delete directory '%s'"):format(dir)}
+				end
+			else
+				for _,name in next,containing do
+					local path=dir.."/"..name
+					local info=love.filesystem.getInfo(path)
+					if info then
+						if info.type=='file'then
+							delFile(path)
+						elseif info.type=='directory'then
+							recursiveDelDir(path)
+						else
+							log("Unkown item type: %s (%s)"):format(name,info.type)
+						end
+					end
+				end
+				delDir(dir)
+			end
+		end
+		commands.del={
+			code=function(name)
+				local recursive=name:sub(1,3)=="-s "
+				if recursive then name=name:sub(4)end
+
+				if name~=""then
+					local info=love.filesystem.getInfo(name)
+					if info then
+						if info.type=='file'then
+							if not recursive then
+								delFile(name)
+							else
+								log{C.R,("'%s' is not a directory."):format(name)}
+							end
+						elseif info.type=='directory'then
+							(recursive and recursiveDelDir or delDir)(name)
+						else
+							log("Unkown item type: %s (%s)"):format(name,info.type)
+						end
+					else
+						log{C.R,("No file called '%s'"):format(name)}
+					end
+				else
+					log{C.A,"Usage: del [filename|dirname]"}
+					log{C.A,"Usage: del -s [dirname]"}
+				end
+			end,
+			description="Delete a file or directory",
 			details={
 				"Attempt to delete a file or directory (in saving directory)",
 				"",
@@ -98,527 +215,523 @@ do--commands.help(arg)
 				"",
 				"Usage: del [filename|dirname]",
 				"Usage: del -s [dirname]",
-			},
-		},rm="del",
-		mv={
-			description="Rename or move a file (in saving directory)",
-			details={
-				"Rename or move a file (in saving directory)",
-				{C.lY,"Warning: file name with space is not allowed"},
-				"",
-				"Aliases: mv ren",
-				"",
-				"Usage: mv [oldfilename] [newfilename]",
-			},
-		},ren="mv",
-		cls={
-			description="Clear the log output.",
-			details={
-				"Clear the log output.",
-				"",
-				"Usage: cls",
-			},
+			}
+		}
+		commands.rm=commands.del
+	end
+	commands.mv={
+		code=function(arg)
+			--Check arguments
+			arg=STRING.split(arg," ")
+			if #arg>2 then
+				log{C.lY,"Warning: file name with space is not allowed"}
+				return
+			elseif #arg<2 then
+				log{C.A,"Usage: ren [oldfilename] [newfilename]"}
+				return
+			end
+
+			--Check file exist
+			local info
+			info=love.filesystem.getInfo(arg[1])
+			if not(info and info.type=='file')then log{C.R,("'%s' is not a file!"):format(arg[1])}return end
+			info=love.filesystem.getInfo(arg[2])
+			if info then log{C.R,("'%s' already exists!"):format(arg[2])}return end
+
+			--Read file
+			local data,err1=love.filesystem.read('data',arg[1])
+			if not data then log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or"Unknown error")}return end
+
+			--Write file
+			local res,err2=love.filesystem.write(arg[2],data)
+			if not res then log{C.R,("Failed to write file: "):format(err2 or"Unknown error")}return end
+
+			--Delete file
+			if not love.filesystem.remove(arg[1])then log{C.R,("Failed to delete old file ''"):format(arg[1])}return end
+
+			log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
+		end,
+		description="Rename or move a file (in saving directory)",
+		details={
+			"Rename or move a file (in saving directory)",
+			{C.lY,"Warning: file name with space is not allowed"},
+			"",
+			"Aliases: mv ren",
+			"",
+			"Usage: mv [oldfilename] [newfilename]",
 		},
-		rst={
-			description="Clear the command history.",
-			details={
-				"Clear the command history.",
-				"",
-				"Usage: rst",
-			},
+	}commands.ren="mv"
+	commands.print={
+		code=function(name)
+			if name~=""then
+				local info=love.filesystem.getInfo(name)
+				if info then
+					if info.type=='file'then
+						log{COLOR.lC,"/* "..name.." */"}
+						for l in love.filesystem.lines(name)do
+							log(l)
+						end
+						log{COLOR.lC,"/* END */"}
+					else
+						log("Unprintable item: %s (%s)"):format(name,info.type)
+					end
+				else
+					log{C.R,("No file called '%s'"):format(name)}
+				end
+			else
+				log{C.A,"Usage: print [filename]"}
+			end
+		end,
+		description="Print file content",
+		details={
+			"Print a file to this window.",
+			"",
+			"Usage: print [filename]",
 		},
-		fn={
-			description="Simulates a Function key press.",
-			details={
-				"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
-				"Useful if you are on a mobile device without access to these keys.",
-				"",
-				"Usage: fn <1-12>",
-			},
+	}
+
+	--System
+	commands.error=error
+	commands.openurl={
+		code=function(url)
+			if url~=""then
+				local res,err=pcall(love.system.openURL,url)
+				if not res then
+					log{C.R,"[ERR] ",C.Z,err}
+				end
+			else
+				log{C.A,"Usage: openurl [url]"}
+			end
+		end,
+		description="Open a URL",
+		details={
+			"Attempt to open a URL with your device.",
+			"",
+			"Usage: openurl [url]",
 		},
-		scrinfo={
-			description="Display information about the game window.",
-			details={
-				"Display information about the game window.",
-				"",
-				"Usage: scrinfo",
-			},
+	}
+	commands.scrinfo={
+		code=function()
+			for _,v in next,SCR.info()do
+				log(v)
+			end
+		end,
+		description="Display window info.",
+		details={
+			"Display information about the game window.",
+			"",
+			"Usage: scrinfo",
 		},
-		wireframe={
-			description="Enable or disable wireframe.",
-			details={
-				"Enable or disable wireframe.",
-				"",
-				"Usage: wireframe <true|false>",
-			},
+	}
+	commands.wireframe={
+		code=function(bool)
+			if bool=="true"or bool=="false"then
+				gc.setWireframe(bool=="true")
+				log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
+			else
+				log{C.A,"Usage: wireframe <true|false>"}
+			end
+		end,
+		description="Turn on/off wireframe mode",
+		details={
+			"Enable or disable wireframe drawing mode.",
+			"",
+			"Usage: wireframe <true|false>",
 		},
-		gammacorrect={
-			description="Enable or disable gamma correction.",
-			details={
-				"Enable or disable gamma correction.",
-				"",
-				"Usage: gammacorrect <true|false>",
-			},
+	}
+	commands.gammacorrect={
+		code=function(bool)
+			if bool=="true"or bool=="false"then
+				love._setGammaCorrect(bool=="true")
+				log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
+			else
+				log{C.A,"Usage: gammacorrect <true|false>"}
+			end
+		end,
+		description="Turn on/off gamma correction",
+		details={
+			"Enable or disable gamma correction.",
+			"",
+			"Usage: gammacorrect <true|false>",
 		},
-		["\114\109\119\116\109"]={
-			description="Remove something",
-			details={
-				"Remove something",
-				"",
-				"Usage: ?",
-			},
+	}
+	commands.fn={
+		code=function(n)
+			if tonumber(n)then
+				n=math.floor(tonumber(n))
+				if n>=1 and n<=12 then
+					love.keypressed("f"..n)
+				end
+			else
+				log{C.A,"Usage: fn [1~12]"}
+			end
+		end,
+		description="Simulates a Function key press",
+		details={
+			"Acts as if you have pressed a function key (i.e. F1-F12) on a keyboard.",
+			"Useful if you are on a mobile device without access to these keys.",
+			"",
+			"Usage: fn <1-12>",
 		},
-		unlockall={
-			description="Unlock all modes on the map.",
-			details={
-				"Unlock all modes on the map.",
-				"",
-				"Usage: unlockall",
-			},
+	}
+	commands.playbgm={
+		code=function(bgm)
+			if bgm~=""then
+				if bgm~=BGM.nowPlay then
+					if BGM.play(bgm)then
+						log("Now playing: "..bgm)
+					else
+						log("No BGM called "..bgm)
+					end
+					else
+					log("Already playing: "..bgm)
+					end
+			else
+				log{C.A,"Usage: playbgm [bgmName]"}
+			end
+		end,
+		details={
+			"Play a BGM.",
+			"",
+			"Usage: playbgm [bgmName]"
 		},
-		play={
-			description="Load a game mode, including those that are not on the map.",
-			details={
-				"Load a game mode, including those that are not on the map.",
-				"",
-				"Usage: play [mode_name]",
-			},
+	}
+	commands.stopbgm={
+		code=function()
+			BGM.stop()
+		end,
+		details={
+			"Stop the BGM.",
+			"",
+			"Usage: stopbgm"
 		},
-		playbgm={
-			description="Play a BGM.",
-			details={
-				"Play a BGM.",
-				"",
-				"Aliases: playbgm music",
-				"",
-				"Usage: playbgm [bgmName]"
-			},
-		},music="playbgm",
-		stopbgm={
-			description="Stop the BGM.",
-			details={
-				"Stop the BGM.",
-				"",
-				"Usage: stopbgm"
-			},
+	}
+	commands.setbg={
+		code=function(name)
+			if name~=""then
+				if name~=BG.cur then
+					if BG.set(name)then
+						log(("Background set to '%s'"):format(name))
+					else
+						log(("No background called '%s'"):format(name))
+					end
+				else
+					log(("Background already set to '%s'"):format(name))
+				end
+			else
+				log{C.A,"Usage: setbg [bgName]"}
+			end
+		end,
+		description="Set background",
+		details={
+			"Set a background.",
+			"",
+			"Usage: setbg [bgName]",
 		},
-		setbg={
-			description="Set background.",
-			details={
-				"Set background.",
-				"",
-				"Usage: setbg [bgName]",
-			},
+	}
+	commands.theme={
+		code=function(name)
+			if name~=""then
+				if THEME.set(name)then
+					log("Theme set to: "..name)
+				else
+					log("No theme called "..name)
+				end
+			else
+				log{C.A,"Usage: theme [themeName]"}
+			end
+		end,
+		description="Load theme",
+		details={
+			"Load a theme.",
+			"",
+			"Usage: theme <classic|xmas|sprfes|zday1/2/3|birth>",
 		},
-		theme={
-			description="Load a theme.",
-			details={
-				"Load a theme.",
-				"",
-				"Usage: theme <classic|xmas|sprfes|zday1/2/3>",
-			},
+	}
+	commands.test={
+		code=function()
+			SCN.go('test','none')
+		end,
+		description="Enter test scene",
+		details={
+			"Go to an empty test scene",
+			"",
+			"Usage: test",
 		},
-		test={
-			description="Go to an empty test scene",
-			details={
-				"Go to an empty test scene",
-				"",
-				"Usage: test",
+	}
+	do--app
+		local APPs={
+			{
+				code="15p",
+				scene='app_15p',
+				description="15 Puzzle, a.k.a. sliding puzzle"
 			},
-		},
-		applet={
-			description="Go to an applet scene",
+			{
+				code="grid",
+				scene='app_schulteG',
+				description="Schulte Grid"
+			},
+			{
+				code="pong",
+				scene='app_pong',
+				description="Pong (2P minigame)"
+			},
+			{
+				code="atoz",
+				scene='app_AtoZ',
+				description="A to Z, a.k.a. typing"
+			},
+			{
+				code="uttt",
+				scene='app_UTTT',
+				description="Ultimate Tic-Tac-Toe (2P minigame)"
+			},
+			{
+				code="cube",
+				scene='app_cubefield',
+				description="Cubefield"
+			},
+			{
+				code="2048",
+				scene='app_2048',
+				description="2048"
+			},
+			{
+				code="ten",
+				scene='app_ten',
+				description="Just Get Ten"
+			},
+			{
+				code="tap",
+				scene='app_tap',
+				description="Tapping speed test"
+			},
+			{
+				code="dtw",
+				scene='app_dtw',
+				description="Don't Touch White, a.k.a. Piano Tiles"
+			},
+			{
+				code="cannon",
+				scene='app_cannon',
+				description="Cannon"
+			},
+			{
+				code="dropper",
+				scene='app_dropper',
+				description="Dropper"
+			},
+			{
+				code="calc",
+				scene='app_calc',
+				description="Calculator"
+			},
+			{
+				code="reflect",
+				scene='app_reflect',
+				description="Reflect (2P minigame)"
+			},
+			{
+				code="poly",
+				scene='app_polyforge',
+				description="Polyforge"
+			},
+		}
+		commands.app={
+			code=function(name)
+				if name=="-list"then
+					for i=1,#APPs do
+						log(APPs[i].code..": "..APPs[i].description)
+					end
+				elseif name~=""then
+					local i=TABLE.find(APPs,name)
+					if i then
+						SCN.go(APPs[i].scene)
+					else
+						log{C.A,"No this applet"}
+					end
+				else
+					log{C.A,"Usage:"}
+					log{C.A,"app -list"}
+					log{C.A,"app [appName]"}
+				end
+			end,
+			description="Enter a applet scene",
 			details={
 				"Go to an applet scene",
 				"",
-				"Aliases: applet app",
-				"",
 				"Usage:",
-				"applet -list",
-				"applet [appName]",
+				"app -list",
+				"app [appName]",
 			},
-		},app="applet",
-	}TABLE.reIndex(command_help_messages)
+		}
+	end
 
-	local command_help_list={
-		"help",
-		"#",
-		"exit",
-		"echo",
-		"print",
-		"url",
-		"tree",
-		"del",
-		"mv",
-		"cls",
-		"rst",
-		"fn",
-		"scrinfo",
-		"wireframe",
-		"gammacorrect",
-		"\114\109\119\116\109",
-		"unlockall",
-		"play",
-		"playbgm",
-		"stopbgm",
-		"setbg",
-		"theme",
-		"test",
-		"applet",
-	}
-	function commands.help(arg)
-		--help [command]
-		if command_help_messages[arg]then
-			for _,v in ipairs(command_help_messages[arg].details)do log(v)end
-			return
-		end
-
-		--help
-		for i=1,#command_help_list do
-			local cmd=command_help_list[i]
-			log{C.Z,cmd,C.H,"    "..command_help_messages[cmd].description}
-		end
-	end
-	commands["?"]=commands.help
-end
-function commands.error(mes)error(mes)end
-function commands.cls()outputBox:clear()end
-function commands.rst()history,hisPtr={}log"History cleared"end
-function commands.echo(str)if str~=""then log(str)end end
-function commands.print(name)
-	if name~=""then
-		local info=love.filesystem.getInfo(name)
-		if info then
-			if info.type=='file'then
-				log{COLOR.lC,"/* "..name.." */"}
-				for l in love.filesystem.lines(name)do
-					log(l)
-				end
-				log{COLOR.lC,"/* END */"}
-			else
-				log("Unprintable item: %s (%s)"):format(name,info.type)
-			end
-		else
-			log{C.R,("No file called '%s'"):format(name)}
-		end
-	else
-		log{C.aqua,"Usage: print [filename]"}
-	end
-end
-function commands.url(url)
-	if url~=""then
-		local res,err=pcall(love.system.openURL,url)
-		if not res then
-			log{C.R,"[ERR] ",C.Z,err}
-		end
-	else
-		log{C.aqua,"Usage: url [url]"}
-	end
-end
-do--function commands.tree()
-	local function tree(path,name,depth)
-		local info=love.filesystem.getInfo(path..name)
-		if info.type=='file'then
-			log(("\t\t"):rep(depth)..name)
-		elseif info.type=='directory'then
-			log(("\t\t"):rep(depth)..name..">")
-			local L=love.filesystem.getDirectoryItems(path..name)
-			for _,subName in next,L do
-				tree(path..name.."/",subName,depth+1)
-			end
-		else
-			log("Unkown item type: %s (%s)"):format(name,info.type)
-		end
-	end
-	function commands.tree()
-		local L=love.filesystem.getDirectoryItems""
-		for _,name in next,L do
-			if love.filesystem.getRealDirectory(name)==SAVEDIR then
-				tree("",name,0)
-			end
-		end
-	end
-end
-do--function commands.del(name)
-	local function delFile(name)
-		if love.filesystem.remove(name)then
-			log{C.Y,("Deleted: '%s'"):format(name)}
-		else
-			log{C.R,("Failed to delete: '%s'"):format(name)}
-		end
-	end
-	local function delDir(name)
-		if #love.filesystem.getDirectoryItems(name)==0 then
-			if love.filesystem.remove(name)then
-				log{C.Y,("Directory deleted: '%s'"):format(name)}
-			else
-				log{C.R,("Failed to delete directory '%s'"):format(name)}
-			end
-		else
-			log{C.R,"Directory '"..name.."' is not empty"}
-		end
-	end
-	local function recursiveDelDir(dir)
-		local containing=love.filesystem.getDirectoryItems(dir)
-		if #containing==0 then
-			if love.filesystem.remove(dir)then
-				log{C.Y,("Succesfully deleted directory '%s'"):format(dir)}
-			else
-				log{C.R,("Failed to delete directory '%s'"):format(dir)}
-			end
-		else
-			for _,name in next,containing do
-				local path=dir.."/"..name
-				local info=love.filesystem.getInfo(path)
-				if info then
-					if info.type=='file'then
-						delFile(path)
-					elseif info.type=='directory'then
-						recursiveDelDir(path)
-					else
-						log("Unkown item type: %s (%s)"):format(name,info.type)
-					end
-				end
-			end
-			delDir(dir)
-		end
-	end
-	function commands.del(name)
-		local recursive=name:sub(1,3)=="-s "
-		if recursive then name=name:sub(4)end
-
-		if name~=""then
-			local info=love.filesystem.getInfo(name)
-			if info then
-				if info.type=='file'then
-					if not recursive then
-						delFile(name)
-					else
-						log{C.R,("'%s' is not a directory."):format(name)}
-					end
-				elseif info.type=='directory'then
-					(recursive and recursiveDelDir or delDir)(name)
+	--Game
+	commands.rmconf={
+		code=function(key)
+			if #key>0 then
+				if SETTING[key]~=nil then
+					SETTING[key]=nil
+					FILE.save(SETTING,'conf/settings','q')
+					log{C.Y,("Succesfully erased key '%s'"):format(key)}
 				else
-					log("Unkown item type: %s (%s)"):format(name,info.type)
+					log{C.R,"No key called "..key}
 				end
 			else
-				log{C.R,("No file called '%s'"):format(name)}
+				log{C.A,"Usage: rmconf [key]"}
 			end
-		else
-			log{C.aqua,"Usage: del [filename|dirname]"}
-			log{C.aqua,"Usage: del -s [dirname]"}
-		end
-	end
-	commands.rm=commands.del
-end
-function commands.mv(arg)
-	--Check arguments
-	arg=STRING.split(arg," ")
-	if #arg>2 then
-		log{C.lY,"Warning: file name with space is not allowed"}
-		return
-	elseif #arg<2 then
-		log{C.aqua,"Usage: ren [oldfilename] [newfilename]"}
-		return
-	end
-
-	--Check file exist
-	local info
-	info=love.filesystem.getInfo(arg[1])
-	if not(info and info.type=='file')then log{C.R,("'%s' is not a file!"):format(arg[1])}return end
-	info=love.filesystem.getInfo(arg[2])
-	if info then log{C.R,("'%s' already exists!"):format(arg[2])}return end
-
-	--Read file
-	local data,err1=love.filesystem.read('data',arg[1])
-	if not data then log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or"Unknown error")}return end
-
-	--Write file
-	local res,err2=love.filesystem.write(arg[2],data)
-	if not res then log{C.R,("Failed to write file: "):format(err2 or"Unknown error")}return end
-
-	--Delete file
-	if not love.filesystem.remove(arg[1])then log{C.R,("Failed to delete old file ''"):format(arg[1])}return end
-
-	log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
-end
-commands.ren=commands.mv
-
-commands.exit=backScene
-commands.quit=backScene
-commands.bye=backScene
-
---Game commands
-function commands.fn(n)
-	if tonumber(n)then
-		n=math.floor(tonumber(n))
-		if n>=1 and n<=12 then
-			love.keypressed("f"..n)
-			return
-		end
-	end
-	log{C.aqua,"Usage: fn [1~12]"}
-end
-function commands.scrinfo()
-	for _,v in next,SCR.info()do
-		log(v)
-	end
-end
-function commands.wireframe(bool)
-	if bool=="true"or bool=="false"then
-		gc.setWireframe(bool=="true")
-		log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
-	else
-		log{C.aqua,"Usage: wireframe <true|false>"}
-	end
-end
-function commands.gammacorrect(bool)
-	if bool=="true"or bool=="false"then
-		love._setGammaCorrect(bool=="true")
-		log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
-	else
-		log{C.aqua,"Usage: gammacorrect <true|false>"}
-	end
-end
-commands["\114\109\119\116\109"]=function(pw)
-	if pw==the_secret then
-		_G["\100\114\97\119\70\87\77"]=NULL
-		log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
-		SFX.play('clear')
-	end
-end
-function commands.unlockall(bool)
-	if bool=="sure"then
-		for name,M in next,MODES do
-			if type(name)=='string'and not RANKS[name]and M.x then
-				RANKS[name]=M.score and 0 or 6
-			end
-		end
-		FILE.save(RANKS,'conf/unlock')
-		log{C.lC,"\85\78\76\79\67\75\65\76\76"}
-		SFX.play('clear_2')
-	else
-		log"Are you sure to unlock all modes?"
-		log"Type: unlockall sure"
-	end
-end
-function commands.play(m)--marathon_bfmax can only entered through here
-	if MODES[m]then
-		loadGame(m)
-	elseif m~=""then
-		log{C.R,"No mode called "..m}
-	else
-		log{C.aqua,"Usage: play [modeName]"}
-	end
-end
-function commands.playbgm(bgm)
-	if bgm~=""then
-		if bgm~=BGM.nowPlay then
-			if BGM.play(bgm)then
-				log("Now playing: "..bgm)
-			else
-				log("No BGM called "..bgm)
-			end
-			else
-			log("Already playing: "..bgm)
-			end
-	else
-		log{C.aqua,"Usage: playbgm [bgmName]"}
-	end
-end
-commands.music=commands.playbgm
-function commands.stopbgm()
-	BGM.stop()
-end
-function commands.setbg(name)
-	if name~=""then
-		if name~=BG.cur then
-			if BG.set(name)then
-				log(("Background set to '%s'"):format(name))
-			else
-				log(("No background called '%s'"):format(name))
-			end
-		else
-			log(("Background already set to '%s'"):format(name))
-		end
-	else
-		log{C.aqua,"Usage: setbg [bgName]"}
-	end
-end
-function commands.theme(name)
-	if name~=""then
-		if THEME.set(name)then
-			log("Theme set to: "..name)
-		else
-			log("No theme called "..name)
-		end
-	else
-		log{C.aqua,"Usage: theme [themeName]"}
-	end
-end
-function commands.test()
-	SCN.go('test','none')
-end
-do--commands.applet(name)
-	local appList={"15p","grid","pong","atoz","uttt","cube","2048","ten","tap","dtw","cannon","dropper","calc","reflect","polyforge"}
-	local appScene={"app_15p","app_schulteG","app_pong","app_AtoZ","app_UTTT","app_cubefield","app_2048","app_ten","app_tap","app_dtw","app_cannon","app_dropper","app_calc","app_reflect","app_polyforge"}
-	local appDescription={
-		"15 Puzzle, a.k.a. sliding puzzle",
-		"Schulte Grid",
-		"Pong (2P minigame)",
-		"A to Z, a.k.a. typing",
-		"Ultimate Tic-Tac-Toe (2P minigame)",
-		"Cubefield",
-		"2048",
-		"Just Get Ten",
-		"Tapping speed test",
-		"Don't Touch White, a.k.a. Piano Tiles",
-		"Cannon",
-		"Dropper",
-		"Calculator",
-		"Reflect (2P minigame)",
-		"Polyforge"
+		end,
+		description="Erase a setting value",
+		details={
+			"Erase a setting value",
+			"Useful if you have your setting corrupted",
+			"YOU MUST RESTART THE GAME AFTER USING THIS",
+			"",
+			"Usage: rmconf [key]",
+		},
 	}
-	function commands.applet(name)
-		if name=="-list"then
-			for i=1,#appList do
-				log(appList[i]..": "..appDescription[i])
-			end
-		elseif name~=""then
-			for i=1,#appList do
-				if appList[i]==name then
-					SCN.go(appScene[i])
-					return
+	commands.unlockall={
+		code=function(bool)
+			if bool=="sure"then
+				for name,M in next,MODES do
+					if type(name)=='string'and not RANKS[name]and M.x then
+						RANKS[name]=M.score and 0 or 6
+					end
 				end
+				FILE.save(RANKS,'conf/unlock')
+				log{C.lC,"\85\78\76\79\67\75\65\76\76"}
+				SFX.play('clear_2')
+			else
+				log"Are you sure to unlock all modes?"
+				log"Type: unlockall sure"
 			end
-			log{C.aqua,"No this applet"}
+		end,
+		description="Unlock the whole map",
+		details={
+			"Unlock all modes on the map.",
+			"",
+			"Usage: unlockall",
+		},
+	}
+	commands.play={
+		code=function(m)
+			if MODES[m]then
+				loadGame(m,true)
+			elseif m~=""then
+				log{C.R,"No mode called "..m}
+			else
+				log{C.A,"Usage: play [modeName]"}
+			end
+		end,
+		description="Load a game mode",
+		details={
+			"Load a game mode, including those that are not on the map.",
+			"",
+			"Usage: play [mode_name]",
+		},
+	}
+	commands["\114\109\119\116\109"]={
+		code=function(pw)
+			if pw==the_secret then
+				_G["\100\114\97\119\70\87\77"]=NULL
+				log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
+				SFX.play('clear')
+			end
+		end,
+		details={
+			"Remove something",
+			"",
+			"Usage: ?",
+		},
+	}
+
+	--Network
+	commands.switchhost={
+		code=function(arg)
+			arg=STRING.split(arg," ")
+			if arg[1]and #arg<=3 then
+				WS.switchHost(unpack(arg))
+				log{C.Y,"Host switched"}
+			else
+				log{C.A,"Usage:"}
+				log{C.A,"switchhost [host]"}
+				log{C.A,"switchhost [host] [port]"}
+				log{C.A,"switchhost [host] [port] [path]"}
+				log{C.A,"Example: switchhost 127.0.0.1 26000 /sock"}
+			end
+		end,
+		details={
+			"Disconnect all connections and switch to another host",
+			"",
+			"Usage:",
+			"switchhost [host]",
+			"switchhost [host] [port]",
+			"switchhost [host] [port] [path]",
+			"Example: switchhost 127.0.0.1 26000 /sock",
+		},
+	}
+	function commands.manage()
+		if WS.status('manage')=='running'then
+			WS.close('manage')
+			log{C.Y,"Disconnected"}
 		else
-			log{C.aqua,"Usage:"}
-			log{C.aqua,"applet -list"}
-			log{C.aqua,"applet [appName]"}
+			if({[1]=0,[2]=0,[26]=0})[USER.uid]then
+				NET.wsconn_manage()
+				log{C.Y,"Connecting"}
+			else
+				log{C.R,"Permission denied"}
+			end
 		end
 	end
-	commands.app=commands.applet
+	function commands.m_broadcast(str)
+		if #str>0 then
+			WS.send('manage','{"action":0,"data":'..JSON.encode{message=str}..'}')
+			log{C.Y,"Request sent"}
+		else
+			log{C.R,"format error"}
+		end
+	end
+	function commands.m_shutdown(sec)
+			sec=tonumber(sec)
+		if sec and sec>0 and sec~=math.floor(sec) then
+			WS.send('manage','{"action":9,"data":'..JSON.encode{countdown=tonumber(sec)}..'}')
+			log{C.Y,"Request sent"}
+		else
+			log{C.R,"format error"}
+		end
+	end
+	function commands.m_connInfo()WS.send('manage','{"action":10}')end
+	function commands.m_playMgrInfo()WS.send('manage','{"action":11}')end
+	function commands.m_streamMgrInfo()WS.send('manage','{"action":12}')end
+
+	for cmd,body in next,commands do
+		if type(body)=='function'then
+			commands[cmd]={code=body}
+		end
+		if type(body)~='string'then
+			ins(cmdList,cmd)
+		end
+	end
+	table.sort(cmdList)
+	TABLE.reIndex(commands)
 end
 
-
-
-local combKey={}
-function combKey.x()
-	love.system.setClipboardText(inputBox.value)
-	inputBox.value=""
-	SFX.play('reach')
-end
-function combKey.c()
-	love.system.setClipboardText(inputBox.value)
-	SFX.play('reach')
-end
-function combKey.v()
-	inputBox.value=inputBox.value..love.system.getClipboardText()
-	SFX.play('reach')
-end
-
-
+local combKey={
+	x=function()
+		love.system.setClipboardText(inputBox:getText())
+		inputBox:clear()
+		SFX.play('reach')
+	end,
+	c=function()
+		love.system.setClipboardText(inputBox:getText())
+		SFX.play('reach')
+	end,
+	v=function()
+		inputBox:addText(love.system.getClipboardText())
+		SFX.play('reach')
+	end,
+}
 
 --Environment for user's function
 local noLog=false
@@ -644,13 +757,13 @@ local userG={
 
 	math={},string={},table={},bit={},coroutine={},
 	debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
-}userG._G=userG
-TABLE.complete(math,		userG.math)
-TABLE.complete(string,		userG.string)
-userG.string.dump=nil
-TABLE.complete(table,		userG.table)
-TABLE.complete(bit,			userG.bit)
-TABLE.complete(coroutine,	userG.coroutine)
+}
+userG._G=userG
+TABLE.complete(math,userG.math)
+TABLE.complete(string,userG.string)userG.string.dump=nil
+TABLE.complete(table,userG.table)
+TABLE.complete(bit,userG.bit)
+TABLE.complete(coroutine,userG.coroutine)
 
 --Puzzle box
 local first_key={}
@@ -658,27 +771,25 @@ local fleg={
 	pw=the_secret,
 	second_box="Coming soon",
 }setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
-local function first_box(k,f)
+function userG.the_box(k,f)
 	if k~=first_key then log"Usage:"log"?"return end
 	if not f then log"Two keys needed"return end
-	if type(f):byte()~=102 then log"Function need"return end
+	if type(f)~='function'then log"Function need"return end
 	noLog=true
-	if not f()then noLog=false log"Give me something"return end
-	if f()~=f then noLog=false log"No, yourself."return end
+	if f()~=f then noLog=false log"Give me yourself."return end
 	if f(26)~=math.huge then noLog=false log"Infinity for the lucky number"return end
 	noLog=false
-	log"You lose."
+	log"*You Lose*"
 	return fleg
 end
 userG.the_key=first_key
-userG.the_box=first_box
 
 
 
 local scene={}
 
 function scene.sceneInit()
-	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+	TASK.new(function()WIDGET.focus(inputBox)end)
 	BG.set('none')
 end
 
@@ -688,7 +799,7 @@ end
 
 function scene.keyDown(k)
 	if k=="return"then
-		local input=inputBox.value
+		local input=STRING.trim(inputBox:getText())
 		if input==""then return end
 
 		--Write History
@@ -700,7 +811,6 @@ function scene.keyDown(k)
 		log""
 
 		--Execute
-		input=input:sub((input:find("%S")))
 		if input:byte()==35 then
 			--Execute lua code
 			log{C.lC,"> "..input}
@@ -727,7 +837,7 @@ function scene.keyDown(k)
 				arg=""
 			end
 			if commands[cmd]then
-				commands[cmd](arg)
+				commands[cmd].code(arg)
 			else
 				log{C.R,"No command called "..cmd}
 			end
@@ -737,24 +847,24 @@ function scene.keyDown(k)
 		if not hisPtr then
 			hisPtr=#history
 			if hisPtr>0 then
-				inputBox.value=history[hisPtr]
+				inputBox:setText(history[hisPtr])
 			end
 		elseif hisPtr>1 then
 			hisPtr=hisPtr-1
-			inputBox.value=history[hisPtr]
+			inputBox:setText(history[hisPtr])
 		end
 	elseif k=="down"then
 		if hisPtr then
 			hisPtr=hisPtr+1
 			if history[hisPtr]then
-				inputBox.value=history[hisPtr]
+				inputBox:setText(history[hisPtr])
 			else
 				hisPtr=nil
-				inputBox.value=""
+				inputBox:clear()
 			end
 		end
 	elseif k=="tab"then
-		local str=inputBox.value
+		local str=inputBox:getText()
 		if str~=""and not str:find("%s")then
 			local res={}
 			for c in next,commands do
@@ -766,11 +876,9 @@ function scene.keyDown(k)
 			if #res>1 then
 				log(">Commands start with '"..str.."' :")
 				table.sort(res)
-				for i=1,#res do
-					log{COLOR.lH,res[i]}
-				end
+				for i=1,#res do log{COLOR.lH,res[i]}end
 			elseif #res==1 then
-				inputBox.value=res[1]
+				inputBox:setText(res[1])
 			end
 		end
 	elseif k=="scrollup"then outputBox:scroll(-5)
@@ -782,20 +890,20 @@ function scene.keyDown(k)
 	elseif combKey[k]and kb.isDown("lctrl","rctrl")then
 		combKey[k]()
 	elseif k=="escape"then
-		if WIDGET.sel~=inputBox then
-			WIDGET.sel=inputBox
+		if not WIDGET.isFocus(inputBox)then
+			WIDGET.focus(inputBox)
 		else
 			SCN.back()
 		end
 	else
-		if WIDGET.sel~=inputBox then WIDGET.sel=inputBox end
+		if not WIDGET.isFocus(inputBox)then WIDGET.focus(inputBox)end
 		WIDGET.keyPressed(k)
 	end
 end
 
 scene.widgetList={
-	inputBox,
 	outputBox,
+	inputBox,
 }
 
 return scene

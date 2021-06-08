@@ -1,6 +1,4 @@
 local gc=love.graphics
-local rnd=math.random
-local powerUp={[0]="000%UP","025%UP","050%UP","075%UP","100%UP",}
 local function selectTarget(P)
 	if SETTING.swap then
 		for i=1,#P.keyPressing do
@@ -34,23 +32,23 @@ return{
 		local L={}for i=1,49 do L[i]=true end
 		local t=CC and 2 or 0
 		while t>0 do
-			local r=rnd(2,49)
+			local r=math.random(2,49)
 			if L[r]then L[r],t=false,t-1 end
 		end
 		local n=2
 		for _=1,4 do for _=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,AIBUILDER('9S',rnd(4,6)),true)
+				PLY.newAIPlayer(n,AIBUILDER('9S',math.random(4,6)),true)
 			else
-				PLY.newAIPlayer(n,AIBUILDER('CC',rnd(2,4),2,true,20000),true)
+				PLY.newAIPlayer(n,AIBUILDER('CC',math.random(2,4),2,true,20000),true)
 			end
 			n=n+1
 		end end
 		for _=9,12 do for _=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,AIBUILDER('9S',rnd(4,5)),true)
+				PLY.newAIPlayer(n,AIBUILDER('9S',math.random(4,5)),true)
 			else
-				PLY.newAIPlayer(n,AIBUILDER('CC',rnd(3,5),2,true,20000),true)
+				PLY.newAIPlayer(n,AIBUILDER('CC',math.random(3,5),2,true,20000),true)
 			end
 			n=n+1
 		end end
@@ -65,7 +63,7 @@ return{
 		gc.print(P.badge,103,227)
 		gc.setColor(1,1,1)
 		setFont(25)
-		gc.print(powerUp[P.strength],18,290)
+		gc.print(text.powerUp[P.strength],18,290)
 		for i=1,P.strength do
 			gc.draw(IMG.badgeIcon,16*i+12,260)
 		end

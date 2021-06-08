@@ -3,9 +3,6 @@ local scene={}
 function scene.sceneInit()
 	BG.set('cubes')
 	WIDGET.active.texts:setTexts(require"parts.updateLog")
-	if newVersionLaunch then
-		newVersionLaunch=false
-	end
 end
 
 function scene.wheelMoved(_,y)
@@ -27,7 +24,7 @@ end
 
 scene.widgetList={
 	WIDGET.newTextBox{name="texts",x=30,y=45,w=1000,h=640,font=20,fix=true},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

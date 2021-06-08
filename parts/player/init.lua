@@ -79,6 +79,7 @@ local function newEmptyPlayer(id,mini)
 	--Inherit functions of Player class
 	for k,v in next,Player do P[k]=v end
 
+	--Set key/timer event
 	if P.id==1 and GAME.recording then
 		P.pressKey=pressKey_Rec
 		P.releaseKey=releaseKey_Rec
@@ -88,21 +89,22 @@ local function newEmptyPlayer(id,mini)
 	end
 	P.update=ply_update.alive
 
+	--Field position
 	P.fieldOff={--Shake FX
 		x=0,y=0,
 		vx=0,vy=0,
 		a=0,va=0,
 	}
 	P.x,P.y,P.size=0,0,1
-	P.frameColor=0
+	P.frameColor=COLOR.Z
 
 	--Set these at Player:setPosition()
 	-- P.fieldX,P.fieldY=...
 	-- P.centerX,P.centerY=...
 	-- P.absFieldX,P.absFieldY=...
 
-	--If draw in small mode
-	P.mini=mini
+	--Minimode
+	P.miniMode=mini
 	if mini then
 		P.canvas=love.graphics.newCanvas(60,120)
 		P.frameWait=rnd(26,62)
@@ -111,55 +113,87 @@ local function newEmptyPlayer(id,mini)
 		P.draw=ply_draw.norm
 	end
 
-	P.randGen=love.math.newRandomGenerator(GAME.seed)
-
-	P.frameRun=GAME.frameStart
+	--States
+	P.type='none'
+	P.sound=false
 	P.alive=true
 	P.control=false
 	P.timing=false
+	P.result=false--String: 'finish'|'win'|'lose'
 	P.stat=getNewStatTable()
-
 	P.modeData=setmetatable({},modeDataMeta)--Data use by mode
+	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
+	P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
+	P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
+	P.tasks={}
+	P.bonus={}--Texts
 
-	P.keyTime={}P.keySpeed=0
-	P.dropTime={}P.dropSpeed=0
-	for i=1,10 do P.keyTime[i]=-1e99 end
-	for i=1,10 do P.dropTime[i]=-1e99 end
+	--Times
+	P.frameRun=GAME.frameStart--Frame run, mainly for replay
+	P.endCounter=0--Used after gameover
+	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e99 end P.keySpeed=0
+	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
 
+	--Randomizers
+	P.seqRND=love.math.newRandomGenerator(GAME.seed)
+	P.atkRND=love.math.newRandomGenerator(GAME.seed)
+	P.holeRND=love.math.newRandomGenerator(GAME.seed)
+	P.aiRND=love.math.newRandomGenerator(GAME.seed)
+
+	--Field-related
 	P.field,P.visTime={},{}
-	P.atkBuffer={sum=0}
+	P.keepVisible=true
+	P.showTime=false
+	P.garbageBeneath=0
+	P.fieldBeneath=0
+	P.fieldUp=0
 
-	--Royale-related
+	--Attack-related
+	P.atkBuffer={}
+	P.atkBufferSum,P.atkBufferSum1=0,0
+	P.spike,P.spikeTime=0,0
+	P.spikeText=love.graphics.newText(getFont(100))
+
+	--Attacker-related
 	P.badge,P.strength=0,0
 	P.atkMode,P.swappingAtkMode=1,20
 	P.atker,P.atking,P.lastRecv={}
 
-	--Network-related
-	P.username="_"
+	--User-related
+	P.username=""
 	P.uid=false
 	P.sid=false
 
-	P.dropDelay,P.lockDelay=0,0
-	P.showTime=false
-	P.keepVisible=true
-
+	--Block states
 	--[[
-	P.cur={
-		id=shapeID,
-		bk=matrix[2],
-		sc=table[2],
-		dir=direction,
-		name=nameID
-		color=colorID,
-	}
+		P.curX,P.curY,P.ghoY,P.minY=0,0,0,0--x,y,ghostY
+		P.cur={
+			id=shapeID,
+			bk=matrix[2],
+			sc=table[2],
+			dir=direction,
+			name=nameID
+			color=colorID,
+		}
+		P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
 	]]
-	-- P.curX,P.curY,P.ghoY,P.minY=0,0,0,0--x,y,ghostY
-	P.holdQueue={}
-	P.holdTime=0
-	P.nextQueue={}
-
+	P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
+	P.dropDelay,P.lockDelay=0,0
+	P.waiting,P.falling=-1,-1
 	P.freshTime=0
 	P.spinLast=false
+	P.spinSeq=0--For Ospin, each digit mean a spin
+	P.ctrlCount=0--Key press time, for finesse check
+
+	--Game states
+	P.combo=0
+	P.b2b,P.b2b1=0,0--B2B point & Displayed B2B point
+	P.score1=0--Displayed score
+	P.pieceCount=0--Count pieces from next, for drawing bagline
+	P.finesseCombo,P.finesseComboTime=0,0
+	P.nextQueue={}
+	P.holdQueue={}
+	P.holdTime=0
 	P.lastPiece={
 		id=0,name=0,--block id/name
 
@@ -174,34 +208,6 @@ local function newEmptyPlayer(id,mini)
 		pc=false,hpc=false,--if pc/hpc
 		special=false,--if special clear (spin, >=4, pc)
 	}
-	P.spinSeq=0--For Ospin, each digit mean a spin
-	P.ctrlCount=0--Key press time, for finesse check
-	P.pieceCount=0--Count pieces from next, for drawing bagline
-
-	P.type='none'
-	P.sound=false
-
-	-- P.newNext=false--Warped coroutine to get new next, loaded in applyGameEnv()
-
-	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
-	P.movDir,P.moving,P.downing=0,0,0--Last move key,DAS charging,downDAS charging
-	P.waiting,P.falling=-1,-1
-	P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
-	P.combo,P.b2b=0,0
-	P.finesseCombo=0
-	P.garbageBeneath=0
-	P.fieldBeneath=0
-	P.fieldUp=0
-
-	P.score1,P.b2b1=0,0
-	P.finesseComboTime=0
-	P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
-	P.tasks={}--Tasks
-	P.bonus={}--Text objects
-
-	P.endCounter=0--Used after gameover
-	P.result=false--String: 'finish'|'win'|'lose'
-
 	return P
 end
 local function loadGameEnv(P)--Load gameEnv
@@ -305,18 +311,14 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	ENV.arr=max(ENV.arr,ENV.minarr)
 	ENV.sdarr=max(ENV.sdarr,ENV.minsdarr)
 
-	if ENV.sequence~='bag'and ENV.sequence~='loop'then
-		ENV.bagLine=false
-	else
-		ENV.bagLen=#ENV.seqData
-	end
+	ENV.bagLine=(ENV.sequence=='bag'or ENV.sequence=='loop')and #ENV.seqData
 
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
 	P.newNext=coroutine.wrap(seqGenerators(P))
 	P.newNext(P,P.gameEnv.seqData)
 
-	if P.mini then
+	if P.miniMode then
 		ENV.lockFX=false
 		ENV.dropFX=false
 		ENV.moveFX=false
@@ -377,7 +379,7 @@ function PLY.newRemotePlayer(id,mini,ply)
 	P.type='remote'
 	P.update=ply_update.remote_alive
 
-	P.draw=ply_draw.norm_remote
+	P.draw=ply_draw.norm
 
 	P.stream={}
 	P.streamProgress=1
@@ -386,8 +388,8 @@ function PLY.newRemotePlayer(id,mini,ply)
 	P.uid=ply.uid
 	P.username=ply.username
 	P.sid=ply.sid
-	loadRemoteEnv(P,ply.config)
 
+	loadRemoteEnv(P,ply.config)
 	applyGameEnv(P)
 end
 
@@ -408,6 +410,7 @@ function PLY.newPlayer(id,mini)
 	P.sound=true
 
 	P.uid=USER.uid
+	P.username=USERS.getUsername(USER.uid)
 
 	loadGameEnv(P)
 	applyGameEnv(P)

@@ -36,7 +36,7 @@ function scene.sceneInit()
 		hit[c],hit[c+1]=rnd(2),rnd(2)
 		dist[c],dist[c+1]=226,126
 	end
-	BG.set('light')
+	BG.set('none')
 	BGM.play('dream')
 	love.keyboard.setKeyRepeat(false)
 end
@@ -127,6 +127,7 @@ function scene.update()
 end
 
 function scene.draw()
+	gc.clear(.9,.9,.9)
 	gc.setColor(0,0,0,1-timer/50)
 	setFont(80)
 	mStr(side,640,300)
@@ -163,7 +164,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="back",x=1140,y=60,w=170,h=80,color='D',font=40,code=pressKey"escape"},
+	WIDGET.newKey{name="back",x=1140,y=60,w=170,h=80,color='D',fText=TEXTURE.back,code=pressKey"escape"},
 }
 
 return scene

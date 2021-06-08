@@ -1,15 +1,15 @@
--- local host="127.0.0.1"
--- local host="192.168.114.102"
--- local host="krakens.tpddns.cn"
--- local host="hdustea.3322.org"
-local host="game.techmino.org"
+local host=
+	-- "127.0.0.1"
+	-- "192.168.114.102"
+	"krakens.tpddns.cn"
+	-- "game.techmino.org"
 local port="10026"
 local path="/tech/socket/v1"
 
-local debug=""--S:send, R:receive, M=mark
+local debugMode=""--S:send, R:receive, M=mark
 
 local wsThread=[[
--- lua + love2d threading websocket client
+-- lua + LÖVE threading websocket client
 -- Original pure lua ver. by flaribbit and Particle_G
 -- Threading version by MrZ
 
@@ -24,8 +24,9 @@ do--Connect
 	local port=sendCHN:demand()
 	local path=sendCHN:demand()
 	local body=sendCHN:demand()
+	local timeout=sendCHN:demand()
 
-	SOCK:settimeout(2.6)
+	SOCK:settimeout(timeout)
 	local res,err=SOCK:connect(host,port)
 	if err then readCHN:push(err)return end
 
@@ -87,7 +88,7 @@ local _send do
 	local mask_str=char(unpack(mask_key))
 
 	function _send(op,message)
-		]]..(debug:find'S'and""or"--")..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
+		]]..(debugMode:find'S'and""or"--")..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
 		--Message type
 		SOCK:send(char(bor(0x80,op)))
 
@@ -154,7 +155,7 @@ while true do--Running
 				if s then
 					res=s
 				elseif p then--UNF head
-					]]..(debug:find'R'and""or"--")..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
+					]]..(debugMode:find'R'and""or"--")..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
 					UFF=true
 					sBuffer=sBuffer..p
 					length=length-#p
@@ -166,11 +167,11 @@ while true do--Running
 		else
 			local s,e,p=SOCK:receive(length)
 			if s then
-				]]..(debug:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
+				]]..(debugMode:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
 				sBuffer=sBuffer..s
 				length=length-#s
 			elseif p then
-				]]..(debug:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
+				]]..(debugMode:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
 				sBuffer=sBuffer..p
 				length=length-#p
 			end
@@ -181,36 +182,35 @@ while true do--Running
 				break
 			end
 		end
-		]]..(debug:find'R'and""or"--")..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
+		]]..(debugMode:find'R'and""or"--")..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
 
 		--React
 		if op==8 then--8=close
 			readCHN:push(op)
 			SOCK:close()
 			if type(res)=='string'then
-				res=JSON.decode(res)
-				readCHN:push(res and res.reason or"WS Error")
+				readCHN:push(res:sub(3))--Warning: with 2 bytes close code
 			else
 				readCHN:push("WS Error")
 			end
 		elseif op==0 then--0=continue
 			lBuffer=lBuffer..res
 			if fin then
-				]]..(debug:find'M'and""or"--")..[[print("FIN=1 (c")
+				]]..(debugMode:find'M'and""or"--")..[[print("FIN=1 (c")
 				readCHN:push(lBuffer)
 				lBuffer=""
 			else
-				]]..(debug:find'M'and""or"--")..[[print("FIN=0 (c")
+				]]..(debugMode:find'M'and""or"--")..[[print("FIN=0 (c")
 			end
 		else
 			readCHN:push(op)
 			if fin then
-				]]..(debug:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=1")
+				]]..(debugMode:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=1")
 				readCHN:push(res)
 			else
-				]]..(debug:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=0")
+				]]..(debugMode:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=0")
 				sBuffer=res
-				]]..(debug:find'M'and""or"--")..[[print("START pack: "..res)
+				]]..(debugMode:find'M'and""or"--")..[[print("START pack: "..res)
 			end
 		end
 	end
@@ -234,7 +234,16 @@ local wsList=setmetatable({},{
 	end
 })
 
-function WS.connect(name,subPath,body)
+function WS.switchHost(_1,_2,_3)
+	for k in next,wsList do
+		WS.close(k)
+	end
+	host=_1
+	port=_2 or port
+	path=_3 or path
+end
+
+function WS.connect(name,subPath,body,timeout)
 	local ws={
 		real=true,
 		thread=love.thread.newThread(wsThread),
@@ -243,8 +252,8 @@ function WS.connect(name,subPath,body)
 		readCHN=love.thread.newChannel(),
 		lastPingTime=0,
 		lastPongTime=timer(),
-		pingInterval=26,
-		status='connecting',--connecting, running, dead
+		pingInterval=12,
+		status='connecting',--'connecting', 'running', 'dead'
 		sendTimer=0,
 		alertTimer=0,
 		pongTimer=0,
@@ -255,6 +264,7 @@ function WS.connect(name,subPath,body)
 	ws.sendCHN:push(port)
 	ws.sendCHN:push(path..subPath)
 	ws.sendCHN:push(body or"")
+	ws.sendCHN:push(timeout or 2.6)
 end
 
 function WS.status(name)
@@ -269,7 +279,7 @@ end
 
 function WS.setPingInterval(name,time)
 	local ws=wsList[name]
-	ws.pingInterval=math.max(time or 1,2.6)
+	ws.pingInterval=math.max(time or 2.6,2.6)
 end
 
 function WS.alert(name)
@@ -348,7 +358,7 @@ function WS.update(dt)
 					ws.sendCHN:push("")--ping
 					ws.lastPingTime=time
 				end
-				if time-ws.lastPongTime>10+3*ws.pingInterval then
+				if time-ws.lastPongTime>6+2*ws.pingInterval then
 					WS.close(name)
 				end
 			end

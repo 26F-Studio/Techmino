@@ -1,7 +1,4 @@
-local gc=love.graphics
-local kb=love.keyboard
-
-local int,sin=math.floor,math.sin
+local gc,kb=love.graphics,love.keyboard
 
 local scene={}
 
@@ -14,7 +11,7 @@ local skip
 
 local light={}
 for i=0,26 do
-	table.insert(light,1050+60*int(i/9))
+	table.insert(light,1050+60*math.floor(i/9))
 	table.insert(light,660-i%9*60)
 	table.insert(light,false)
 end
@@ -25,9 +22,9 @@ end
 local function upFloor()
 	progress=progress+1
 	if light[3*progress+3]then
-		light[3*progress+3]=false
-		SFX.play('click',.3)
+		SFX.play('spin_0',.5)
 	end
+	light[3*progress+3]=false
 end
 local loadingThread=coroutine.wrap(function()
 	for i=1,SFX.getCount()do
@@ -60,7 +57,13 @@ local loadingThread=coroutine.wrap(function()
 	end
 
 	upFloor()
-	for i=1,17 do
+	for i=1,10 do
+		getFont(15+5*i)
+		if i%3==0 then YIELD()end
+	end
+
+	upFloor()
+	for i=11,17 do
 		getFont(15+5*i)
 		if i%2==0 then YIELD()end
 	end
@@ -72,7 +75,7 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",10,4,-2,23},
 		{"fPoly",10,4,24,10,10,16.5},
 		{"fRect",4,24,10,3},
-	}YIELD()
+	}
 	modeIcons.infinite=DOGC{64,64,
 		{"setLW",4},
 		{"dCirc",32,32,28},
@@ -83,7 +86,7 @@ local loadingThread=coroutine.wrap(function()
 		{"fRect",7,30,4,4},
 		{"fRect",52,30,4,4},
 		{"fRect",30,52,4,4},
-	}YIELD()
+	}
 	modeIcons.classic=DOGC{64,64,
 		{"setLW",6},
 		{"dRect",10,24,12,12},
@@ -91,6 +94,8 @@ local loadingThread=coroutine.wrap(function()
 		{"dRect",42,24,12,12},
 		{"dRect",26,40,12,12},
 	}YIELD()
+
+	upFloor()
 	modeIcons.tsd=DOGC{64,64,
 		{"fRect",7,7,16,16},
 		{"fRect",7,41,16,16},
@@ -98,7 +103,7 @@ local loadingThread=coroutine.wrap(function()
 		{"move",.5,.5},
 		{"setLW",1},
 		{"dPoly",7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
-	}YIELD()
+	}
 	modeIcons.t49=DOGC{64,64,
 		{"setLW",2},
 		{"dRect",05,05,10,20},{"dRect",49,05,10,20},
@@ -106,7 +111,7 @@ local loadingThread=coroutine.wrap(function()
 		{"dRect",20,10,23,43},
 		{"setCL",1,1,1,.7},
 		{"fRect",20,10,23,43},
-	}YIELD()
+	}
 	modeIcons.t99=DOGC{64,64,
 		{"setLW",2},
 		{"dRect",02,02,6,12},{"dRect",11,02,6,12},
@@ -144,28 +149,29 @@ local loadingThread=coroutine.wrap(function()
 	if not MODES[STAT.lastPlay]then
 		STAT.lastPlay='sprint_10l'
 	end
+	YIELD()
 
 	upFloor()
 	SKIN.change(SETTING.skinSet)
-	if newVersionLaunch then--Delete old ranks & Unlock modes which should be locked
-		for name,rank in next,RANKS do
-			local M=MODES[name]
-			if type(rank)~='number'then
-				RANKS[name]=nil
-			elseif M and M.unlock and rank>0 then
-				for _,unlockName in next,M.unlock do
-					if not RANKS[unlockName]then
-						RANKS[unlockName]=0
-					end
+	for name,rank in next,RANKS do
+		local M=MODES[name]
+		if type(rank)~='number'then
+			RANKS[name]=nil
+		elseif M and M.unlock and rank>0 then
+			for _,unlockName in next,M.unlock do
+				if not RANKS[unlockName]then
+					RANKS[unlockName]=0
 				end
 			end
-			if not(M and M.score)then
-				RANKS[name]=nil
-			end
 		end
-		FILE.save(RANKS,'conf/unlock','q')
+		if not(M and M.score)then
+			RANKS[name]=nil
+		end
 	end
+	FILE.save(RANKS,'conf/unlock','q')
+	YIELD()
 
+	upFloor()
 	DAILYLAUNCH=freshDate'q'
 	if DAILYLAUNCH then
 		logoColor1=COLOR.S
@@ -178,16 +184,16 @@ local loadingThread=coroutine.wrap(function()
 	STAT.run=STAT.run+1
 
 	--Connect to server
-	TASK.new(NET.updateWS_app)
-	TASK.new(NET.updateWS_user)
-	TASK.new(NET.updateWS_play)
 	NET.wsconn_app()
+	YIELD()
 
 	while true do
-		if math.random()<.126 then
+		if math.random()<.1626 then
 			upFloor()
 		end
 		if progress==25 then
+			SFX.play('emit',.6)
+			SFX.play('enter',.8)
 			SFX.play('welcome_sfx')
 			VOC.play('welcome_voc')
 			THEME.fresh()
@@ -205,7 +211,6 @@ function scene.sceneInit()
 	shadePhase1=6.26*math.random()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
-	consoleLaunchKey=0
 	light[6*3],light[26*3]=true,true
 	kb.setKeyRepeat(false)
 end
@@ -242,7 +247,7 @@ function scene.update(dt)
 	else
 		openTime=openTime+dt
 		if skip>0 then
-			openTime=openTime+.26
+			openTime=openTime+.626
 			skip=skip-1
 		end
 		if openTime>=3.26 and not SCN.swapping then
@@ -284,8 +289,8 @@ function scene.draw()
 
 		--Logo layer 1
 		gc.setColor(logoColor1)
-		mDraw(studioLogo,0,(5+(3.26-openTime))*sin(shadePhase1))
-		mDraw(studioLogo,(7+(3.26-openTime))*sin(shadePhase2),0)
+		mDraw(studioLogo,0,(5+(3.26-openTime))*math.sin(shadePhase1))
+		mDraw(studioLogo,(7+(3.26-openTime))*math.sin(shadePhase2),0)
 
 		--Logo layer 2
 		gc.setColor(logoColor2)
@@ -318,7 +323,7 @@ function scene.draw()
 	--Floor info
 	if progress>=0 then
 		local d1=(progress+1)%10
-		local d2=int((progress+1)/10)
+		local d2=math.floor((progress+1)/10)
 		gc.setColor(.6,.6,.6)
 		gc.draw(TEXTURE.pixelNum[d2],1040,40-3,nil,8)
 		gc.draw(TEXTURE.pixelNum[d1],1100,40-3,nil,8)
@@ -364,11 +369,10 @@ function scene.draw()
 
 	--Black screen
 	if blackTime>0 or openTime>3 then
-		gc.push('transform')
-		gc.origin()
+		gc.replaceTransform(SCR.origin)
 		gc.setColor(0,0,0,blackTime+(openTime-3)*4)
 		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-		gc.pop()
+		gc.replaceTransform(SCR.xOy)
 	end
 	gc.pop()
 end

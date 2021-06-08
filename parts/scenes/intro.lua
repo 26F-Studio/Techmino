@@ -14,13 +14,7 @@ function scene.sceneInit()
 end
 
 function scene.mouseDown()
-	if newVersionLaunch then
-		SCN.push(SETTING.simpMode and"main_simple"or"main")
-		SCN.swapTo('history','fade')
-		LOG.print(text.newVersion,'warn',COLOR.lB)
-	else
-		SCN.go(SETTING.simpMode and"main_simple"or"main")
-	end
+	SCN.go(SETTING.simpMode and'main_simple'or'main')
 end
 function scene.touchDown()
 	scene.mouseDown()
@@ -59,13 +53,13 @@ function scene.draw()
 		local t=t1-i*15
 		if t>0 then
 			gc.push('transform')
-				gc.setColor(1,1,1,min(t*.025,1))
-				titleTransform[animeType[i]](t,i)
-				local dt=(t1+62-5*i)%300
-				if dt<20 then
-					gc.translate(0,math.abs(10-dt)-10)
-				end
-				gc.polygon('line',L[i])
+			gc.setColor(1,1,1,min(t*.025,1))
+			titleTransform[animeType[i]](t,i)
+			local dt=(t1+62-5*i)%300
+			if dt<20 then
+				gc.translate(0,math.abs(10-dt)-10)
+			end
+			gc.polygon('line',L[i])
 			gc.pop()
 		end
 	end

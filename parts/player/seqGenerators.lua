@@ -5,6 +5,7 @@ local yield=YIELD
 local seqGenerators={
 	none=function()while true do yield()end end,
 	bag=function(P,seq0)
+		local rndGen=P.seqRND
 		local len=#seq0
 		local bag={}
 		while true do
@@ -14,12 +15,13 @@ local seqGenerators={
 						bag[i]=seq0[len-i+1]
 					end
 				end
-				P:getNext(rem(bag,P:RND(#bag)))
+				P:getNext(rem(bag,rndGen:random(#bag)))
 			end
 			yield()
 		end
 	end,
 	his=function(P,seq0)
+		local rndGen=P.seqRND
 		local len=#seq0
 		local hisLen=ceil(len*.5)
 		local history=TABLE.new(0,hisLen)
@@ -27,7 +29,7 @@ local seqGenerators={
 			while #P.nextQueue<6 do
 				local r
 				for _=1,hisLen do--Reroll up to [hisLen] times
-					r=P:RND(len)
+					r=rndGen:random(len)
 					for i=1,hisLen do
 						if r==history[i]then
 							goto CONTINUE_rollAgain
@@ -43,6 +45,7 @@ local seqGenerators={
 		end
 	end,
 	hisPool=function(P,seq0)
+		local rndGen=P.seqRND
 		local len=#seq0
 		local hisLen=ceil(len*.5)
 		local history=TABLE.new(0,hisLen)--Indexes of mino-index
@@ -51,7 +54,7 @@ local seqGenerators={
 		local droughtTimes=TABLE.new(len,len)--Drought times of seq0
 		local pool={}for i=1,len do for _=1,5 do ins(pool,i)end end--5 times indexes of seq0
 		local function poolPick()
-			local r=P:RND(poolLen)
+			local r=rndGen:random(poolLen)
 			local res=pool[r]
 
 			--Find droughtest(s) minoes
@@ -72,7 +75,7 @@ local seqGenerators={
 
 			--Update pool
 				-- print("Rem "..res)
-			pool[r]=droughtList[P:RND(#droughtList)]
+			pool[r]=droughtList[rndGen:random(#droughtList)]
 				-- print("Add "..pool[r])
 
 			return res
@@ -97,7 +100,7 @@ local seqGenerators={
 				rem(history,1)ins(history,r)
 					-- print("Player GET: "..r)
 					-- print("History: "..table.concat(history,","))
-					-- local L={"","","","","","","",}
+					-- local L=TABLE.new("",len)
 					-- for _,v in next,pool do L[v]=L[v].."+"end
 					-- for i=1,#L do print(i,droughtTimes[i],L[i])end
 			end
@@ -105,6 +108,7 @@ local seqGenerators={
 		end
 	end,
 	c2=function(P,seq0)
+		local rndGen=P.seqRND
 		local len=#seq0
 		local weight={}
 		for i=1,len do weight[i]=0 end
@@ -113,7 +117,7 @@ local seqGenerators={
 			while #P.nextQueue<6 do
 				local maxK=1
 				for i=1,len do
-					weight[i]=weight[i]*.5+P:RND()
+					weight[i]=weight[i]*.5+rndGen:random()
 					if weight[i]>weight[maxK]then
 						maxK=i
 					end
@@ -125,49 +129,53 @@ local seqGenerators={
 		end
 	end,
 	rnd=function(P,seq0)
-		P:getNext(seq0[P:RND(#seq0)])
-		while true do
-			while #P.nextQueue<6 do
-				local len=#seq0
-				for i=1,4 do
-					local count=0
-					repeat
-						i=seq0[P:RND(len)]
-						count=count+1
-					until i~=P.nextQueue[#P.nextQueue].id or count>=len
-					P:getNext(i)
+		if #seq0==1 then
+			local i=seq0[1]
+			while true do P:getNext(i)yield()end
+		else
+			local rndGen=P.seqRND
+			local len=#seq0
+			local last=0
+			while true do
+				while #P.nextQueue<6 do
+					local r=rndGen:random(len-1)
+					if r>=last then r=r+1 end
+					P:getNext(seq0[r])
+					last=r
 				end
+				yield()
 			end
-			yield()
 		end
 	end,
 	mess=function(P,seq0)
+		local rndGen=P.seqRND
 		while true do
 			while #P.nextQueue<6 do
-				P:getNext(seq0[P:RND(#seq0)])
+				P:getNext(seq0[rndGen:random(#seq0)])
 			end
 			yield()
 		end
 	end,
 	reverb=function(P,seq0)
+		local rndGen=P.seqRND
 		local bufferSeq,bag={},{}
 		while true do
 			while #P.nextQueue<6 do
 				if #bag==0 then
 					for i=1,#seq0 do bufferSeq[i]=seq0[i]end
 					repeat
-						local r=rem(bufferSeq,P:RND(#bag))
+						local r=rem(bufferSeq,rndGen:random(#bag))
 						local p=1
 						repeat
 							ins(bag,r)
-							p=p-.15-P:RND()
+							p=p-.15-rndGen:random()
 						until p<0
 					until #bufferSeq==0
 					for i=1,#bag do
 						bufferSeq[i]=bag[i]
 					end
 				end
-				P:getNext(rem(bag,P:RND(#bag)))
+				P:getNext(rem(bag,rndGen:random(#bag)))
 			end
 			yield()
 		end

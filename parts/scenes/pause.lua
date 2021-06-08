@@ -6,7 +6,7 @@ local setFont,mStr=setFont,mStr
 
 local fnsRankColor={
 	Z=COLOR.lY,
-	S=COLOR.lG,
+	S=COLOR.lH,
 	A=COLOR.N,
 	B=COLOR.lG,
 	C=COLOR.M,
@@ -34,7 +34,7 @@ function scene.sceneInit(org)
 	local P=PLAYERS[1]
 	local S=P.stat
 
-	timer=org=="game"and 0 or 50
+	timer=org=='game'and 0 or 50
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
@@ -113,24 +113,22 @@ function scene.sceneInit(org)
 	else
 		rank,trophy=nil
 	end
-	if org~="game"and GAME.prevBG then
+	if GAME.prevBG then
 		BG.set(GAME.prevBG)
+		GAME.prevBG=false
 	end
 end
 function scene.sceneBack()
 	love.keyboard.setKeyRepeat(true)
 	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-	if not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)and not GAME.result then
-		mergeStat(STAT,PLAYERS[1].stat)
-		FILE.save(STAT,'conf/data')
-	end
+	trySave()
 end
 
 function scene.keyDown(key)
 	if key=="q"then
 		SCN.back()
 	elseif key=="escape"then
-		SCN.swapTo(GAME.result and"game"or"depause",'none')
+		SCN.swapTo(GAME.result and'game'or'depause','none')
 	elseif key=="s"then
 		GAME.prevBG=BG.cur
 		SCN.go('setting_sound')
@@ -174,10 +172,9 @@ function scene.draw()
 	local _=T
 	if GAME.result then _=_*.7 end
 	gc.setColor(.15,.15,.15,_)
-	gc.push('transform')
-		gc.origin()
-		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-	gc.pop()
+	gc.replaceTransform(SCR.origin)
+	gc.rectangle('fill',0,0,SCR.w,SCR.h)
+	gc.replaceTransform(SCR.xOy)
 
 	--Pause Info
 	setFont(25)
@@ -311,11 +308,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',font=35,code=pressKey"s"},
-	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',font=30,code=pressKey"p",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='G',font=30,code=pressKey"o",hide=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
-	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',font=30,code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',font=35,code=pressKey"r"},
+	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',code=pressKey"s"},
+	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='G',code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',code=pressKey"escape"},
+	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',code=pressKey"r"},
 	WIDGET.newButton{name="quit",		x=640,y=600,w=240,h=100,font=35,code=backScene},
 }
 

@@ -164,6 +164,7 @@ GAME={--Global game data
 	modeEnv=false,		--Current gamemode environment
 	setting={},			--Game settings
 	rep={},				--Recording list, key,time,key,time...
+	statSaved=false,		--If recording saved
 	recording=false,	--If recording
 	replaying=false,	--If replaying
 	saved=false,		--If recording saved
@@ -183,8 +184,8 @@ ROYALEDATA={
 }
 
 --Userdata tables
-RANKS=FILE.load("conf/unlock")or{sprint_10l=0}--Ranks of modes
-USER=FILE.load("conf/user")or{--User infomation
+RANKS=FILE.load('conf/unlock')or{sprint_10l=0}--Ranks of modes
+USER=FILE.load('conf/user')or{--User infomation
 	--Network infos
 	uid=false,
 	authToken=false,
@@ -192,6 +193,7 @@ USER=FILE.load("conf/user")or{--User infomation
 	--Local data
 	xp=0,lv=1,
 }
+
 customEnv0={
 	version=VERSION.code,
 
@@ -213,6 +215,8 @@ customEnv0={
 	--Rule
 	sequence='bag',
 	fieldH=20,
+	heightLimit=1e99,
+	bufferLimit=1e99,
 
 	ospin=true,
 	fineKill=false,
@@ -226,14 +230,59 @@ customEnv0={
 	opponent="X",
 	life=0,
 	pushSpeed=3,
+	garbageSpeed=1,
 	missionKill=false,
 
 	--Else
 	bg='blockfall',
-	bgm='infinite',
+	bgm='hang out',
 }
-CUSTOMENV=FILE.load("conf/customEnv")--gameEnv for cutsom game
-if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then CUSTOMENV=TABLE.copy(customEnv0)end
+CUSTOMENV=FILE.load('conf/customEnv')--gameEnv for cutsom game
+if not CUSTOMENV or CUSTOMENV.version~=VERSION.code then
+	CUSTOMENV=TABLE.copy(customEnv0)
+else
+	TABLE.complete(customEnv0,CUSTOMENV)
+end
+ROOMENV={
+	--Room config
+	capacity=5,
+
+	--Basic
+	drop=30,
+	lock=60,
+	wait=0,
+	fall=0,
+
+	--Control
+	nextCount=6,
+	holdCount=1,
+	infHold=false,
+	phyHold=false,
+
+	--Visual
+	bone=false,
+
+	--Rule
+	life=0,
+	pushSpeed=5,
+	garbageSpeed=2,
+	visible='show',
+	freshLimit=15,
+
+	fieldH=20,
+	heightLimit=1e99,
+	bufferLimit=1e99,
+
+	ospin=true,
+	fineKill=false,
+	b2bKill=false,
+	easyFresh=true,
+	deepDrop=false,
+
+	--Else
+	bg='blockfall',
+	bgm='hang out',
+}
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,dascut=0,
@@ -255,7 +304,6 @@ SETTING={--Settings
 		10,13,2,8
 	},
 	face={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-	dataSaving=false,
 
 	--Graphic
 	block=true,ghost=.3,center=1,
@@ -274,18 +322,20 @@ SETTING={--Settings
 
 	text=true,
 	score=true,
-	warn=true,
-	highCam=false,
-	nextPos=false,
+	bufferWarn=true,
+	showSpike=true,
+	highCam=true,
+	nextPos=true,
 	fullscreen=true,
 	bg=true,
 	powerInfo=false,
 	clickFX=true,
+	warn=true,
 
 	--Sound
 	sfx=1,
-	sfx_spawn=.3,
-	sfx_warn=.3,
+	sfx_spawn=0,
+	sfx_warn=.4,
 	bgm=.7,
 	stereo=.7,
 	vib=0,
@@ -296,6 +346,7 @@ SETTING={--Settings
 	VKSFX=.2,--SFX volume
 	VKVIB=0,--VIB
 	VKSwitch=false,--If disp
+	VKSkin=1,--If disp
 	VKTrack=false,--If tracked
 	VKDodge=false,--If dodge
 	VKTchW=.3,--Touch-Pos Weight
@@ -303,9 +354,9 @@ SETTING={--Settings
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }
-local S=FILE.load("conf/settings")
+local S=FILE.load('conf/settings')
 if S then TABLE.update(S,SETTING)end
-S=FILE.load("conf/data")
+S=FILE.load('conf/data')
 if S then--Statistics
 	STAT=S
 else
@@ -324,7 +375,7 @@ else
 		todayTime=0,
 	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
 end
-keyMap=FILE.load("conf/key")or{--Key setting
+keyMap=FILE.load('conf/key')or{--Key setting
 	keyboard={
 		left=1,right=2,x=3,z=4,c=5,
 		up=6,down=7,space=8,a=9,s=10,
@@ -336,7 +387,7 @@ keyMap=FILE.load("conf/key")or{--Key setting
 		leftshoulder=0,
 	},
 }
-VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' position with this before each game
+VK_org=FILE.load('conf/virtualkey')or{--Virtualkey layout, refresh all VKs' position with this before each game
 	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
@@ -358,4 +409,4 @@ VK_org=FILE.load("conf/virtualkey")or{--Virtualkey layout, refresh all VKs' posi
 	{ava=false,	x=900,		y=50,		r=80},--addToLeft
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
-REPLAY=FILE.load("conf/replay")or{}
+REPLAY=FILE.load('conf/replay')or{}

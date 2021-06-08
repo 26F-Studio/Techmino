@@ -233,7 +233,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="back",x=1140,y=60,w=170,h=80,font=40,code=pressKey"escape"},
+	WIDGET.newButton{name="back",x=1140,y=60,w=170,h=80,fText=TEXTURE.back,code=pressKey"escape"},
 }
 
 return scene

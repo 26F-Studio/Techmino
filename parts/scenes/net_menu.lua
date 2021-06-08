@@ -12,13 +12,14 @@ end
 
 function scene.draw()
 	drawSelfProfile()
+	drawOnlinePlayerCount()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=goScene"setting_game"},
-	WIDGET.newButton{name="ffa",	x=640,	y=200,w=350,h=120,font=40,code=function()NET.enterRoom({name="ffa"})end},
-	WIDGET.newButton{name="rooms",	x=640,	y=360,w=350,h=120,font=40,code=goScene"net_rooms"},
-	WIDGET.newButton{name="chat",	x=640,	y=540,w=350,h=120,color='D',font=40,code=NULL},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=goScene'setting_game'},
+	WIDGET.newButton{name="league",	x=640,	y=180,w=350,h=120,font=40,color='D',code=goScene'net_league'},
+	WIDGET.newButton{name="ffa",	x=640,	y=360,w=350,h=120,font=40,color='D',code=function()LOG.print("Coming soon 开发中,敬请期待")--[[NET.enterRoom({name="ffa"})]]end},
+	WIDGET.newButton{name="rooms",	x=640,	y=540,w=350,h=120,font=40,code=goScene'net_rooms'},
 	WIDGET.newButton{name="logout",	x=880,	y=40,w=180,h=60,color='dR',
 		code=function()
 			if TIME()-lastLogoutTime<1 then
@@ -26,17 +27,16 @@ scene.widgetList={
 					NET.wsclose_play()
 					NET.wsclose_user()
 					USER.uid=false
-					USER.username=false
 					USER.authToken=false
 					FILE.save(USER,'conf/user','q')
 					SCN.back()
 				end
 			else
-				LOG.print(text.sureQuit,COLOR.O)
+				LOG.print(text.sureQuit,'warn')
 				lastLogoutTime=TIME()
 			end
 		end},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

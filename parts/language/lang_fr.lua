@@ -1,9 +1,7 @@
 return{
 	fallback=4,
-	back="Retour",
 	anykey="Appuyez sur n'importe quelle touche",
 	sureQuit="Appuyez à nouveau pour sortir",
-	newVersion="Merci d'avoir mis le jeu à jour ! Les nouvelles fonctionnalités sont listées ci-dessous.",
 	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
 	newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
 	playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
@@ -16,7 +14,6 @@ return{
 	clear={"Simple","Double","Triple","Techrash","Pentacrash","Hexacrash"},
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
-	hold="RESERVE",next="SUIVANT",
 	replaying="[Replay]",
 
 	stage="Etape $1",
@@ -56,13 +53,14 @@ return{
 	saveError="Sauvegarde échouée : ",
 	loadError="Lecture échouée : ",
 	switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer",
-	getRank="Rang : ",
 
 	needRestart="Fonctionnera dès la prochaine partie",
 
 	exportSuccess="Exporté avec succès",
 	importSuccess="Importé avec succès",
 	dataCorrupted="Données corrompues",
+	-- pasteWrongPlace="Paste at wrong place?",
+	-- noFile="File not found",
 
 	VKTchW="Poids du toucher",
 	VKOrgW="Poids d'origine",
@@ -73,10 +71,9 @@ return{
 	newRecord="Nouveau record !",
 
 	getNoticeFail="Echec de l'obtention de la notice",
-	getVersionFail="Echec d'obtention de la dernière version",
 	oldVersion="La version $1 est disponible !",
+	-- versionNotMatch="Version do not match!",
 	-- needUpdate="Newer version required!",
-	-- noInternet="Not connected to the network",
 	-- notFinished="Coming soon!",
 
 	jsonError="Erreur json",
@@ -91,19 +88,22 @@ return{
 	loginFailed="Erreur de connexion",
 	accessSuccessed="Autorisé avec succès !",
 	accessFailed="Autorisation échouée",
-	wsSuccessed="WebSocket: connecté",
+
+	-- wsConnecting="Websocket: Connecting",
 	wsFailed="WebSocket: connection échouée",
 	-- wsClose="WebSocket Closed: ",
 	-- netTimeout="Network connection timeout",
 
-	createRoomTooFast="Vous avez créé un salon trop rapidement !",
+	-- onlinePlayerCount="Online",
+
 	createRoomSuccessed="Salon créé avec succès !",
 	-- started="Playing",
 	joinRoom="a rejoint le salon.",
 	leaveRoom="a quitté le salon.",
 	-- ready="READY",
-	-- set="SET",
-	champion="$1 a gagné",
+	-- connStream="CONNECTING",
+	-- waitStream="WAITING",
+	-- spectating="Spectating",
 	chatRemain="En ligne : ",
 	chatStart="--------Début des logs--------",
 	chatHistory="-Nouveaux messages en dessous-",
@@ -128,14 +128,7 @@ return{
 		"Finesse :",
 	},
     radar={"DEF","OFF","ATQ","ENVOYER","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
+	radarData={"D'PM","ADPM","APM","SPM","L'PM","DPM"},
 	stat={
 		"Nombre de fois lancé :",
 		"Nombre de parties :",
@@ -149,9 +142,9 @@ return{
 		"PC/HPC :",
 		"Errs. Finesse/Finesse :",
 	},
-	help={
+	aboutTexts={
 		"Ceci est un simple jeu de blocs.",
-		"On y joue comme sur TO/C2/KOS/TGM3 et autres.",
+		"On y joue comme sur C2/IO/JS/WWC/KOS et autres.",
 		"",
 		"Vous pouvez envoyer des rapports de bogues ou des suggastions via le groupe de test ou l'email du créateur ~",
 		"Ce jeu est gratuit et est uniquement disponible via discord.gg/f9pUvkh",
@@ -165,7 +158,7 @@ return{
 		"",
 		"Programme : MrZ, Particle_G, [FinnTenzor]",
 		"Art : MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Musique : MrZ, ERM, [T0722]",
+		"Musique : MrZ, ERM, [T0722, Aether]",
 		"Voix & Sons: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Performance: 模电, HBM",
 		"Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -177,8 +170,8 @@ return{
 	used=[[
 	Outils utilisés:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Libs utilisées:
 		Cold_Clear [MinusKelvin]
@@ -197,7 +190,6 @@ return{
 			setting="Paramètres",
 			stat="Statistiques",
 			-- music="Music & SE",
-			-- about="About",
 			dict="Zictionary",
 			manual="Manuel",
 		},
@@ -219,23 +211,63 @@ return{
 			quit="Quitter (Q)",
 		},
 		net_menu={
+			-- league="Tech League",
 			ffa="FFA",
 			rooms="Salons",
-			chat="Chat",
 			-- logout="Log out",
+		},
+		net_league={
+			-- match="Find Match",
 		},
 		net_rooms={
 			-- refreshing="Refreshing Rooms",
 			noRoom="Aucun salon actuellement",
 			-- refresh="Refresh",
+			-- new="New Room",
 			join="Rejoindre",
+		},
+		net_newRoom={
+			-- title="Custom room config",
+			-- roomName="Room name(default to username's room)",
+			-- roomDescription="Room description",
+
+			life="Vie",
+			-- pushSpeed="Push Speed",
+			garbageSpeed="Vitesse des lignes indésirables",
+			visible="Visibilité",
+			freshLimit="Limite de réinit. du délai de verrouillage",
+
+			-- fieldH="Field height",
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+
+			drop="Délai de chute",
+			lock="Délai de verrouillage",
+			wait="Délai d'apparition",
+			fall="Délai de ligne",
+
+			-- capacity="Capacity",
+			-- create="Create",
+
+			ospin="O-spin",
+			fineKill="100% Finesse",
+			b2bKill="Sans perte de B2B",
+			easyFresh="Réinit. de verrouillage normale",
+			-- deepDrop="Deep Drop",
+			bone="Crochets",
+
+			nextCount="Prévisualisations de pièces",
+			holdCount="Réserve",
+			infHold="Réserver une fois",
+			-- phyHold="Physical Hold",
+
+			bg="Arrière-plan",
+			bgm="Musique",
 		},
 		net_game={
 			-- ready="Ready",
+			-- spectate="Spectate",
 			-- cancel="Cancel",
-		},
-		net_chat={
-			send="Envoyer",
 		},
 		setting_game={
 			title="Paramètres du jeu",
@@ -252,7 +284,6 @@ return{
 			autoPause="Mettre en pause en cas de perte de focus",
 			swap="Combinaison de touches (changer le mode d'attaque)",
 			fine="Son d'erreur de Finesse",
-			-- dataSaving="Data saving",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
@@ -277,18 +308,21 @@ return{
 			splashFX="Effets splash",
 			shakeFX="Tremblements de l'écran",
 			atkFX="Effets d'attaque",
-			frame="Montrer les FPS",
+			frame="Montrer les FPS(%)",
 
 			text="Texte d'action",
 			score="Pop-up de score",
-			warn="Alerte de danger",
-			highCam="Vue d'oiseau",
+			-- bufferWarn="Buffer Alert",
+			-- showSpike="Spike Counter",
 			nextPos="Prévisualisation de position",
-			fullscreen="Plein écran",
-			power="Infos d'alimentation",
+			highCam="Vue d'oiseau",
+			warn="Alerte de danger",
+
 			-- clickFX="Click FX",
-			bg="Arrière-plan",
+			power="Infos d'alimentation",
 			-- clean="Fast Draw",
+			fullscreen="Plein écran",
+			bg="Arrière-plan",
 		},
 		setting_sound={
 			title="Paramètres du son",
@@ -296,11 +330,11 @@ return{
 			game="←Jeu",
 			graphic="Vidéo→",
 
+			bgm="Musique",
 			sfx="Sons",
+			stereo="Stéréo",
 			spawn="Apparition",
 			warn="Alerte de danger",
-			bgm="Musique",
-			stereo="Stéréo",
 			vib="Vibration",
 			voc="Voix",
 		},
@@ -347,8 +381,12 @@ return{
 		setting_touch={
 			default="Par défaut",
 			snap="Snap",
-			option="Options",
+			-- save1="Save1",
+			-- load1="Load1",
+			-- save2="Save2",
+			-- load2="Load2",
 			size="Taille",
+			-- shape="Shape",
 		},
 		setting_touchSwitch={
 			b1=	"Déplacement vers la gauche :",b2="Déplacement vers la droite:",
@@ -358,18 +396,17 @@ return{
 			b11="Déplacement instantané vers la gauche :",b12="Déplacement instantané vers la droite :",
 			b13="Chute sonique :",b14="Descendre de 1 :",b15="Descendre de 4 :",b16="Descendre de 10:",
 			b17="Chute à gauche :",b18="Chute à droite :",b19="Zangi Gauche :",b20="Zangi Droite :",
+
 			norm="Normal",
 			pro="Professionel",
 			hide="Montrer les touches virtuelles",
-			track="Auto Track",
+			icon="Icône",
 			sfx="Sons",
 			vib="Vib.",
-			icon="Icône",
-			tkset="Paramètres des tracks",
 			alpha="Alpha",
-		},
-		setting_trackSetting={
-			VKDodge="Auto-esquive",
+
+			track="Auto Track",
+			dodge="Auto-esquive",
 		},
 		customGame={
 			title="Mode personnalisé",
@@ -396,28 +433,28 @@ return{
 			field="Modifier la matrice (F)",
 			sequence="Modifier la séquence (S)",
 			mission="Modifier la mission(M)",
-		},
-		custom_advance={
-			title="Mode personnalisé",
-			subTitle="Avancer",
 
 			nextCount="Prévisualisations de pièces",
 			holdCount="Réserve",
 			infHold="Réserver une fois",
 			-- phyHold="Physical Hold",
-			bone="Crochets",
 
 			-- fieldH="Field height",
-			ospin="O-spin",
-			-- deepDrop="Deep Drop",
 			visible="Visibilité",
 			freshLimit="Limite de réinit. du délai de verrouillage",
-			easyFresh="Réinit. de verrouillage normale",
-			fineKill="100% Finesse",
-			b2bKill="Sans perte de B2B",
 			opponent="Adversaire",
 			life="Vie",
-			pushSpeed="Vitesse des lignes indésirables",
+			-- pushSpeed="Push Speed",
+			garbageSpeed="Vitesse des lignes indésirables",
+
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+			ospin="O-spin",
+			fineKill="100% Finesse",
+			b2bKill="Sans perte de B2B",
+			easyFresh="Réinit. de verrouillage normale",
+			-- deepDrop="Deep Drop",
+			bone="Crochets",
 		},
 		custom_field={
 			title="Mode personnalisé",
@@ -504,6 +541,7 @@ return{
 			register="Enregistrement",
 			email="E-mail",
 			password="Mot de passe",
+			-- keepPW="Remember me",
 			login="Connexion",
 		},
 		register={
@@ -564,15 +602,17 @@ return{
 			qq="QQ du créateur",
 		},
 		savedata={
-			exportUnlock="Exporter les Unlocks",
-			exportData="Exporter les Données",
-			exportSetting="Exporter les Paramètres",
-			exportVK="Exporter VK",
+			-- export="Export to clipboard",
+			-- import="Import from clipboard",
+			-- unlock="Progress",
+			-- data="Stats",
+			-- setting="Settings",
+			-- vk="Virtual Key Layout",
 
-			importUnlock="Importer les Unlocks",
-			importData="Importer les Données",
-			importSetting="Importer les Paramètres",
-			importVK="Importer VK",
+			-- couldSave="Cloud Save (need login) (CAUTION: TESTING)",
+			-- notLogin="[Login to  access cloud save]",
+			-- upload="Upload to cloud",
+			-- download="Download from cloud",
 		},
 		error={
 			console="Console",
@@ -594,7 +634,7 @@ return{
 		['dig_400l']=			{"Dig",				"400L",			"Creusez 400 lines"},
 		['dig_1000l']=			{"Dig",				"1000L",		"Creusez 1000 lines"},
 		['drought_n']=			{"Drought",			"100L",			"Pas de pièce I !"},
-		['drought_l']=			{"Drought",			"100L",			"WTF ??!!"},
+		['drought_l']=			{"Drought+",		"100L",			"WTF ??!!"},
 		['marathon_n']=			{"Marathon",		"NORMAL",		"Marathon de 200 lignes."},
 		['marathon_h']=			{"Marathon",		"DIFFICILE",	"Marathon de 200 lignes à très haute vitesse"},
 		['solo_e']=				{"Battle",			"FACILE",		"Battez l'IA !"},
@@ -647,6 +687,7 @@ return{
 		['pc_n']=				{"PC Challenge",	"NORMAL",		"Obtenez un PC dans les prochaines 100 lignes !"},
 		['pc_h']=				{"PC Challenge",	"DIFFICILE",	"Obtenez un PC dans les prochaines 100 lignes !"},
 		['pc_l']=				{"PC Challenge",	"LUNATIQUE",	"Obtenez un PC dans les prochaines 100 lignes !"},
+		-- ['pc_inf']=				{"Inf. PC Challenge","",			"Get PCs as much as you can"},
 		['tech_n']=				{"Tech",			"NORMAL",		"Gardez le B2B !"},
 		['tech_n_plus']=		{"Tech",			"NORMAL+",		"Spin & PC uniquement"},
 		['tech_h']=				{"Tech",			"DIFFICILE",	"Gardez le B2B !"},
@@ -668,7 +709,8 @@ return{
 		['infinite_dig']=		{"Infini : Dig",	"",				"Creuser, creuser, creuser."},
 		['sprintFix']=			{"Sprint",			"Sans gauche/droite"},
 		['sprintLock']=			{"Sprint",			"Sans rotation"},
-		['marathon_bfmax']=		{"Marathon",			"ULTIME"},
+		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
+		['marathon_bfmax']=		{"Marathon",		"ULTIME"},
 		['custom_clear']=		{"Perso.",			"NORMAL"},
 		['custom_puzzle']=		{"Perso.",			"PUZZLE"},
 	},

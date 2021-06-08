@@ -14,6 +14,10 @@ function THEME.calculate(Y,M,D)
 		M=="12"and math.abs(D-25)<4 and
 		'xmas'or
 
+		--Birthday
+		M=="06"and D=="06"and
+		'birth'or
+
 		--Spring festival
 		M<"03"and math.abs((({
 			--Festival days. Jan 26=26, Feb 1=32, etc.
@@ -33,9 +37,9 @@ function THEME.calculate(Y,M,D)
 
 		--Z day (Feb./Mar./Apr./May./June. 26)
 		D=="26"and(
-			M=="01"or M=="02"and'zday1'or
-			M=="03"or M=="04"and'zday2'or
-			M=="05"or M=="06"and'zday3'
+			(M=="01"or M=="02")and'zday1'or
+			(M=="03"or M=="04")and'zday2'or
+			(M=="05"or M=="06")and'zday3'
 		)or
 
 		'classic'
@@ -44,19 +48,22 @@ end
 function THEME.set(theme)
 	if theme=='classic'then
 		BG.setDefault('space')
-		BGM.setDefault("blank")
+		BGM.setDefault("space")
 	elseif theme=='xmas'then
 		BG.setDefault('snow')
 		BGM.setDefault('xmas')
-		LOG.print("==============",COLOR.R)
-		LOG.print("Merry Christmas!",COLOR.Z)
-		LOG.print("==============",COLOR.R)
+		LOG.print("==============")
+		LOG.print("Merry Christmas!")
+		LOG.print("==============")
+	elseif theme=='birth'then
+		BG.setDefault('firework')
+		BGM.setDefault('magicblock')
 	elseif theme=='sprfes'then
 		BG.setDefault('firework')
 		BGM.setDefault("spring festival")
-		LOG.print(" ★☆☆★",COLOR.R)
-		LOG.print("新年快乐!",COLOR.Z)
-		LOG.print(" ★☆☆★",COLOR.R)
+		LOG.print(" ★☆☆★")
+		LOG.print("新年快乐!")
+		LOG.print(" ★☆☆★")
 	elseif theme=='zday1'then
 		BG.setDefault('lanterns')
 		BGM.setDefault("empty")

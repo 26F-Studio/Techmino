@@ -8,20 +8,18 @@ return{
 		task=function(P)
 			while true do
 				YIELD()
-				if P.control and P.atkBuffer.sum==0 then
-					local p=#P.atkBuffer+1
-					local B,D=P.atkBuffer,P.modeData
-					local t
+				if P.control and P.atkBufferSum==0 then
+					local D=P.modeData
 					if D.wave<20 then
-						t=1500-30*D.wave--1500~900
-						B[p]=	{line=generateLine(P:RND(4,7)),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=3}
-						B[p+1]=	{line=generateLine(P:RND(3,8)),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4}
+						local t=1500-30*D.wave--1500~900
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(4,7)),amount=12,countdown=t,cd0=t,time=0,sent=false,lv=3})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(3,8)),amount=10,countdown=t,cd0=t,time=0,sent=false,lv=4})
 					else
-						t=900-10*(D.wave-20)--900~600
-						B[p]=	{line=generateLine(P:RND(10)),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=4}
-						B[p+1]=	{line=generateLine(P:RND(4,7)),amount=8,countdown=t,cd0=t,time=0,sent=false,lv=5}
+						local t=900-10*(D.wave-20)--900~600
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(10)),amount=14,countdown=t,cd0=t,time=0,sent=false,lv=4})
+						table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(4,7)),amount=8,countdown=t,cd0=t,time=0,sent=false,lv=5})
 					end
-					B.sum=B.sum+22
+					P.atkBufferSum=P.atkBufferSum+22
 					P.stat.recv=P.stat.recv+22
 					D.wave=D.wave+1
 					if D.wave%10==0 then

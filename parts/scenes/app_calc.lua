@@ -109,7 +109,7 @@ scene.widgetList={
 	WIDGET.newKey{name="/",x=450,y=600,w=90,fText="/",color='lB',font=50,code=pressKey"/"},
 	WIDGET.newKey{name="<",x=550,y=300,w=90,fText="<",color='lR',font=50,code=pressKey"backspace"},
 	WIDGET.newKey{name="=",x=550,y=400,w=90,fText="=",color='lY',font=50,code=pressKey"return"},
-	WIDGET.newKey{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newKey{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

@@ -216,20 +216,20 @@ function scene.keyDown(key)
 		SFX.play('fall',.8)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
-		LOG.print(text.exportSuccess,COLOR.G)
+		LOG.print(text.exportSuccess,'message')
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("Field")then
-				LOG.print(text.pasteWrongPlace)
+				LOG.print(text.pasteWrongPlace,'warn')
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteBoard(str,page)then
-			LOG.print(text.importSuccess,COLOR.G)
+			LOG.print(text.importSuccess,'message')
 		else
-			LOG.print(text.dataCorrupted,COLOR.R)
+			LOG.print(text.dataCorrupted,'error')
 		end
 	elseif key=="pageup"then
 		page=max(page-1,1)
@@ -425,7 +425,7 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(drawableText.question,1090,460)
+		gc.draw(TEXTURE.question,1070,490)
 	end
 
 	--Block name
@@ -482,10 +482,10 @@ scene.widgetList={
 
 	WIDGET.newButton{name="newPg",	x=100,	y=110,w=160,h=110,color='N',font=20,code=pressKey"n"},
 	WIDGET.newButton{name="delPg",	x=100,	y=230,w=160,h=110,color='lR',font=20,code=pressKey"m"},
-	WIDGET.newButton{name="prevPg",	x=100,	y=350,w=160,h=110,color='lG',font=20,code=pressKey"pageup",hide=function()return page==1 end},
-	WIDGET.newButton{name="nextPg",	x=100,	y=470,w=160,h=110,color='lG',font=20,code=pressKey"pagedown",hide=function()return page==#FIELD end},
+	WIDGET.newButton{name="prevPg",	x=100,	y=350,w=160,h=110,color='lG',font=20,code=pressKey"pageup",hideF=function()return page==1 end},
+	WIDGET.newButton{name="nextPg",	x=100,	y=470,w=160,h=110,color='lG',font=20,code=pressKey"pagedown",hideF=function()return page==#FIELD end},
 
-	WIDGET.newButton{name="back",		x=1140,	y=640,	w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

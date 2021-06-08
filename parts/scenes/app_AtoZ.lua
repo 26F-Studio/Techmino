@@ -116,10 +116,10 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newSelector{name="level",	x=640,y=640,w=200,list={'A_Z','Z_A','Tech1','Tech2','KeyTest1','KeyTest2','Hello','Roll1','Roll2','Roll3','ZZZ','ZXZX','ZMZM','Stair','Stair2','Stair3','BPW'},disp=function()return levelName end,code=function(i)levelName=i;targetString=levels[i]end,hide=function()return state>0 end},
+	WIDGET.newSelector{name="level",	x=640,y=640,w=200,list={'A_Z','Z_A','Tech1','Tech2','KeyTest1','KeyTest2','Hello','Roll1','Roll2','Roll3','ZZZ','ZXZX','ZMZM','Stair','Stair2','Stair3','BPW'},disp=function()return levelName end,code=function(i)levelName=i;targetString=levels[i]end,hideF=function()return state>0 end},
 	WIDGET.newButton{name="reset",		x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
 	WIDGET.newButton{name="keyboard",	x=160,y=210,w=180,h=100,code=function()love.keyboard.setTextInput(true,0,select(2,SCR.xOy:transformPoint(0,500)),1,1)end,hide=not MOBILE},
-	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

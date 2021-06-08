@@ -2,23 +2,24 @@ return{
 	color=COLOR.magenta,
 	env={
 		drop=30,lock=60,
-		freshLimit=10,
+		freshLimit=5,
 		task=function(P)
 			while true do
 				YIELD()
 				if P.control then
 					local D=P.modeData
 					D.timer=D.timer+1
-					local B=P.atkBuffer
-					if D.timer>=math.max(60,180-2*D.wave)and B.sum<15 then
-						B[#B+1]=
-							D.wave%3<2 and
-								{line=generateLine(P:RND(10)),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1}
-							or
-								{line=generateLine(P:RND(10)),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2}
-						local R=(D.wave%3<2 and 1 or 3)
-						B.sum=B.sum+R
-						P.stat.recv=P.stat.recv+R
+					if D.timer>=math.max(60,180-2*D.wave)and P.atkBufferSum<15 then
+						local s
+						if D.wave%3<2 then
+							table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(10)),amount=1,countdown=0,cd0=0,time=0,sent=false,lv=1})
+							s=1
+						else
+							table.insert(P.atkBuffer,{line=generateLine(P.holeRND:random(10)),amount=3,countdown=60,cd0=60,time=0,sent=false,lv=2})
+							s=3
+						end
+						P.atkBufferSum=P.atkBufferSum+s
+						P.stat.recv=P.stat.recv+s
 						if D.wave==60 then P:showTextF(text.maxspeed,0,-140,100,'appear',.6)end
 						D.timer=0
 						D.wave=D.wave+1

@@ -45,17 +45,17 @@ return{
 								end
 							end
 							for _=1,5 do
-								P.field[i][P:RND(10)]=0
+								P.field[i][P.holeRND:random(10)]=0
 							end
 						else
 							P.field[i]=FREEROW.get(0)
 							P.visTime[i]=FREEROW.get(30)
 							for j=1,10 do
-								if P:RND()>.9 then
+								if P.holeRND:random()>.9 then
 									P.field[i][j]=math.random(16)
 								end
 							end
-							P.field[i][P:RND(10)]=0
+							P.field[i][P.holeRND:random(10)]=0
 						end
 						P.field[i].garbage=true
 					end

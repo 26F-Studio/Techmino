@@ -1,5 +1,4 @@
 local gc=love.graphics
-local ins=table.insert
 
 local function NSC(x,y)--New & Set Canvas
 	local _=gc.newCanvas(x,y)
@@ -65,59 +64,6 @@ for i=0,9 do
 	}
 end
 
---Cursor
-TEXTURE.cursor=DOGC{16,16,
-	{"fCirc",8,8,4},
-	{"setCL",1,1,1,.7},
-	{"fCirc",8,8,6},
-}
-
---Cursor while hold
-TEXTURE.cursor_hold=DOGC{16,16,
-	{"setLW",2},
-	{"dCirc",8,8,7},
-	{"fCirc",8,8,3},
-}
-
---Level icons
-TEXTURE.lvIcon=setmetatable({},{__index=function(self,lv)
-	local img={25,25}
-
-	ins(img,{"clear",0,0,0})
-	ins(img,{"setLW",4})
-	ins(img,{"setCL",.5,.8,1})
-	ins(img,{"dRect",2,2,21,21})
-	--TODO: draw with lv
-
-	img=DOGC(img)
-	rawset(self,lv,img)
-	return img
-end})
-
---Setting icon
-TEXTURE.setting=DOGC{64,64,
-	{"setLW",8},
-	{"dCirc",32,32,18},
-	{"setLW",10},
-	{"line",52,32,64,32},
-	{"line",32,52,32,64},
-	{"line",12,32,0,32},
-	{"line",32,12,32,0},
-	{"line",45,45,55,55},
-	{"line",19,45,9,55},
-	{"line",19,19,9,9},
-	{"line",45,19,55,9},
-}
-
---Earth icon
-TEXTURE.earth=DOGC{64,64,
-	{"setLW",4},
-	{"dCirc",32,32,30},
-	{"line",2,31,62,31},
-	{"line",31,2,31,62},
-	{"dArc",10,31,40,-.8,.8},
-	{"dArc",53,31,40,2.3,3.9},
-}
 
 gc.setDefaultFilter('linear','linear')
 
@@ -165,21 +111,85 @@ for i=1,8 do
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
 
---WS icons
-setFont(20)
-TEXTURE.ws_dead=DOGC{20,20,
-	{"setCL",1,.3,.3},
-	{"print","X",3,-4},
-}
-TEXTURE.ws_connecting=DOGC{20,20,
-	{"setLW",3},
-	{"dArc",11.5,10,6.26,1,5.28},
-}
-TEXTURE.ws_running=DOGC{20,20,
-	{"setCL",.5,1,0},
-	{"print","R",3,-4},
+--Question mark
+TEXTURE.question=DOGC{48,64,
+	{'fRect',0,0,10,27},
+	{'fRect',0,0,48,10},
+	{'fRect',38,10,10,15},
+	{'fRect',19,25,29,9},
+	{'fRect',19,25,9,22},
+	{'fRect',18,53,11,11},
 }
 
+--Setting icon
+TEXTURE.setting=DOGC{64,64,
+	{"setLW",8},
+	{"dCirc",32,32,18},
+	{"setLW",10},
+	{"line",52,32,64,32},
+	{"line",32,52,32,64},
+	{"line",12,32,0,32},
+	{"line",32,12,32,0},
+	{"line",45,45,55,55},
+	{"line",19,45,9,55},
+	{"line",19,19,9,9},
+	{"line",45,19,55,9},
+}
+
+--Language mark
+TEXTURE.language=DOGC{64,64,
+	{"setLW",4},
+	{"dCirc",32,32,30},
+	{"line",2,31,62,31},
+	{"line",31,2,31,62},
+	{"dArc",10,31,40,-.8,.8},
+	{"dArc",53,31,40,2.3,3.9},
+}
+
+--Info. mark
+TEXTURE.info=DOGC{50,50,
+	{'setLW',5},
+	{'dCirc',25,25,22},
+	{'fRect',22,11,6,6},
+	{'fRect',22,20,6,20},
+}
+
+--More mark
+TEXTURE.more=DOGC{60,15,
+	{'fCirc',10,7,6},
+	{'fCirc',30,7,6},
+	{'fCirc',50,7,6},
+}
+
+--Back mark
+TEXTURE.back=DOGC{60,55,
+	{'setLW',6},
+	{'line',11,10,40,10},
+	{'line',10,40,40,40},
+	{'dArc',40,25,15,-1.6,1.6},
+	{'setLW',4},
+	{'line',20,50,10,40,20,30},
+}
+
+--Quit mark
+TEXTURE.quit=DOGC{50,50,
+	{"setCL",1,1,1},
+	{"draw",DOGC{50,50,
+		{"setLW",7},
+		{"line",5,5,45,45},
+		{"line",5,45,45,5},
+	}}
+}
+
+--Quit mark (small)
+TEXTURE.quit_small=DOGC{30,30,
+	{"setCL",1,1,1},
+	{"draw",DOGC{30,30,
+		{"setLW",4},
+		{"line",2,2,28,28},
+		{"line",2,28,28,2},
+	}}
+}
 
 gc.setCanvas()
 return TEXTURE

@@ -3,11 +3,27 @@ local int,abs,rnd=math.floor,math.abs,math.random
 local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
-local TEXT,GAME=TEXT,GAME
-local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
+local TEXT,GAME,CC=TEXT,GAME,CC
+local PLY_ALIVE=PLY_ALIVE
 
+local function update_misc(P,dt)
+	--Finesse combo animation
+	if P.finesseComboTime>0 then
+		P.finesseComboTime=P.finesseComboTime-1
+	end
 
-local function updateLine(P)--Attacks, line pushing, camear moving
+	--Update spike counter
+	if P.spikeTime>0 then P.spikeTime=P.spikeTime-1 end
+
+	--Update atkBuffer alert
+	local t=P.atkBufferSum1
+	if t<P.atkBufferSum then
+		P.atkBufferSum1=t+.25
+	elseif t>P.atkBufferSum then
+		P.atkBufferSum1=t-.5
+	end
+
+	--Update attack buffer
 	local bf=P.atkBuffer
 	for i=#bf,1,-1 do
 		local A=bf[i]
@@ -23,24 +39,26 @@ local function updateLine(P)--Attacks, line pushing, camear moving
 		end
 	end
 
+	--Push up garbages
 	local y=P.fieldBeneath
 	if y>0 then
 		P.fieldBeneath=max(y-P.gameEnv.pushSpeed,0)
 	end
 
+	--Move camera
 	if P.gameEnv.highCam then
-		local f=P.fieldUp
 		if not P.alive then
 			y=0
 		else
 			y=30*max(min(#P.field-18.5-P.fieldBeneath/30,P.ghoY-17),0)
 		end
+		local f=P.fieldUp
 		if f~=y then
 			P.fieldUp=f>y and max(f*.95+y*.05-2,y)or min(f*.97+y*.03+1,y)
 		end
 	end
-end
-local function updateFXs(P,dt)
+
+	--Update Score
 	if P.stat.score>P.score1 then
 		if P.stat.score-P.score1<10 then
 			P.score1=P.score1+1
@@ -49,7 +67,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--LockFX
+	--Update lock FX
 	for i=#P.lockFX,1,-1 do
 		local S=P.lockFX[i]
 		S[3]=S[3]+S[4]*dt
@@ -58,7 +76,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--DropFX
+	--Update drop FX
 	for i=#P.dropFX,1,-1 do
 		local S=P.dropFX[i]
 		S[5]=S[5]+S[6]*dt
@@ -67,7 +85,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--MoveFX
+	--Update move FX
 	for i=#P.moveFX,1,-1 do
 		local S=P.moveFX[i]
 		S[4]=S[4]+S[5]*dt
@@ -76,7 +94,7 @@ local function updateFXs(P,dt)
 		end
 	end
 
-	--ClearFX
+	--Update clear FX
 	for i=#P.clearFX,1,-1 do
 		local S=P.clearFX[i]
 		S[2]=S[2]+S[3]*dt
@@ -96,14 +114,15 @@ local function updateFXs(P,dt)
 
 		O.va=O.va*.8-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
 		O.a=O.a+O.va
-		-- if abs(O.a)<.3 then O.a,O.va=0,0 end
+		if abs(O.a)<.0006 then O.a,O.va=0,0 end
 	end
 
+	--Update texts
 	if P.bonus then
 		TEXT.update(P.bonus)
 	end
-end
-local function updateTasks(P)
+
+	--Update tasks
 	local L=P.tasks
 	for i=#L,1,-1 do
 		local tr=L[i].thread
@@ -284,7 +303,7 @@ function update.alive(P,dt)
 	if P.falling>=0 then
 		P.falling=P.falling-1
 		if P.falling>=0 then
-			goto stop
+			goto THROW_stop
 		else
 			local L=#P.clearingRow
 			if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
@@ -292,61 +311,66 @@ function update.alive(P,dt)
 		end
 	end
 
-	--Try spawn new block
-	if not P.control then goto stop end
-	if P.waiting>=0 then
-		P.waiting=P.waiting-1
-		if P.waiting<0 then P:popNext()end
-		goto stop
-	end
-
-	--Natural block falling
-	if P.cur then
-		if P.curY>P.ghoY then
-			local D=P.dropDelay
-			if D>1 then
-				P.dropDelay=D-1
-				goto stop
+	--Update block state
+	if P.control then
+		--Try spawn new block
+		if P.waiting>=0 then
+			P.waiting=P.waiting-1
+			if P.waiting<0 then
+				P:popNext()
 			end
+			goto THROW_stop
+		end
 
-			if D==1 then
-				if ENV.moveFX and ENV.block then
-					P:createMoveFX('down')
+		--Natural block falling
+		if P.cur then
+			if P.curY>P.ghoY then
+				local D=P.dropDelay
+				if D>1 then
+					P.dropDelay=D-1
+					goto THROW_stop
 				end
-				P.curY=P.curY-1
-			else
-				D=1/D--Fall dist
-				if D>P.curY-P.ghoY then D=P.curY-P.ghoY end
-				if ENV.moveFX and ENV.block then
-					for _=1,D do
+
+				if D==1 then
+					if ENV.moveFX and ENV.block then
 						P:createMoveFX('down')
-						P.curY=P.curY-1
 					end
+					P.curY=P.curY-1
 				else
-					P.curY=P.curY-D
+					D=min(1/D,P.curY-P.ghoY)--1/D=Drop dist, lowest to ghost
+					if ENV.moveFX and ENV.block then
+						for _=1,D do
+							P:createMoveFX('down')
+							P.curY=P.curY-1
+						end
+					else
+						P.curY=P.curY-D
+					end
 				end
-			end
-			P:freshBlock('fresh')
-			P.spinLast=false
+				P:freshBlock('fresh')
+				P.spinLast=false
 
-			if P.ghoY~=P.curY then
-				P.dropDelay=ENV.drop
-			elseif P.AI_mode=='CC'and P.AI_bot then
-				CC.updateField(P)
-				if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
-					CC.switch20G(P)
+				if P.ghoY~=P.curY then
+					P.dropDelay=ENV.drop
+				elseif P.AI_mode=='CC'and P.AI_bot then
+					CC.updateField(P)
+					if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
+						CC.switch20G(P)
+					end
 				end
-			end
-		else
-			P.lockDelay=P.lockDelay-1
-			if P.lockDelay>=0 then goto stop end
-			P:drop()
-			if P.AI_mode=='CC'and P.AI_bot then
-				CC.updateField(P)
+			else
+				P.lockDelay=P.lockDelay-1
+				if P.lockDelay>=0 then
+					goto THROW_stop
+				end
+				P:drop()
+				if P.AI_mode=='CC'and P.AI_bot then
+					CC.updateField(P)
+				end
 			end
 		end
 	end
-	::stop::
+	::THROW_stop::
 
 	--B2B bar animation
 	if P.b2b1==P.b2b then
@@ -356,15 +380,8 @@ function update.alive(P,dt)
 		P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
 	end
 
-	--Finesse combo animation
-	if P.finesseComboTime>0 then
-		P.finesseComboTime=P.finesseComboTime-1
-	end
-
-	--Update FXs
-	updateLine(P)
-	updateFXs(P,dt)
-	updateTasks(P)
+	--Others
+	update_misc(P,dt)
 	-- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
 end
 function update.dead(P,dt)
@@ -389,22 +406,20 @@ function update.dead(P,dt)
 	if P.b2b1>0 then
 		P.b2b1=max(0,P.b2b1*.92-1)
 	end
-	if P.finesseComboTime>0 then
-		P.finesseComboTime=P.finesseComboTime-1
-	end
-	updateLine(P)
-	updateFXs(P,dt)
-	updateTasks(P)
+	update_misc(P,dt)
 end
 function update.remote_alive(P,dt)
-	local frmDelta=PLAYERS[1].frameRun-P.frameRun
-	for _=1,
-		frmDelta<20 and 1 or
-		frmDelta<45 and rnd(2)or
-		frmDelta<90 and 2 or
-		frmDelta<180 and rnd(2,3)or
-		3
-	do
+	local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun
+	frameRate=
+		frameRate<20 and 1 or
+		frameRate<30 and rnd(2)or
+		frameRate<60 and 2 or
+		frameRate<90 and 3 or
+		frameRate<120 and 5 or
+		frameRate<150 and 7 or
+		frameRate<180 and 10 or
+		20
+	for _=1,frameRate do
 		local eventTime=P.stream[P.streamProgress]
 		if eventTime then--Normal state, event forward
 			if P.frameRun==eventTime then--Event time, execute action, read next so don't update immediately
@@ -444,7 +459,7 @@ function update.remote_alive(P,dt)
 				end
 				P.streamProgress=P.streamProgress+2
 			else--No event now, run one frame
-				update.alive(P,dt)
+				update.alive(P,dt/frameRate)
 			end
 		else--Pause state, no actions, quit loop
 			break

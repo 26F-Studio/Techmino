@@ -60,10 +60,13 @@ function SCN.swapUpdate()
 	end
 end
 function SCN.init(s,org)
+	love.keyboard.setTextInput(false)
+
 	local S=scenes[s]
 	SCN.cur=s
 
-	WIDGET.set(S.widgetList)
+	WIDGET.setScrollHeight(S.widgetScrollHeight)
+	WIDGET.setWidgetList(S.widgetList)
 	SCN.sceneInit=S.sceneInit
 	SCN.sceneBack=S.sceneBack
 	SCN.update=S.update

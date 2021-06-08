@@ -1,9 +1,7 @@
 return{
 	fallback=4,
-	back="Atrás",
 	anykey="Pulsa cualquier tecla",
 	sureQuit="Pulsa de nuevo para salir",
-	newVersion="¡Gracias por actualizar! Detalles a continuación:",
 	httpTimeout="¡Tiempo de espera de conexión agotado!",
 	newDay="[Anti-adicción] ¡Nuevo día, nuevo comienzo!",
 	playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
@@ -16,7 +14,6 @@ return{
 	clear={"Single","Doble","Triple","Techrash","Pentacrash","Hexacrash"},
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Half Clear",
-	hold="Reserva",next="Sig.",
 	replaying="[Repetición]",
 
 	stage="Nivel $1",
@@ -51,18 +48,18 @@ return{
 	ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
 	ai_prebag="La IA no es compatible con secuencias de piezas personalizadas.",
 	ai_mission="La IA no es compatible con misiones personalizadas.",
-	settingSaved="Cambios guardados",
 	saveDone="Datos guardados",
 	saveError="Error al guardar:",
 	loadError="Error al cargar:",
 	switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
-	getRank="Rango obtenido:",
 
 	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
 
 	exportSuccess="Exportado con éxito",
 	importSuccess="Importado con éxito",
 	dataCorrupted="Los datos están corruptos.",
+	-- pasteWrongPlace="Paste at wrong place?",
+	-- noFile="File not found",
 
 	VKTchW="Sens. al tacto",
 	VKOrgW="Sens. al origen",
@@ -73,10 +70,9 @@ return{
 	newRecord="¡Nuevo Récord!",
 
 	getNoticeFail="Error al buscar novedades.",
-	getVersionFail="Error al buscar nuevas versiones.",
 	oldVersion="¡Está disponible la nueva versión $1!",
-	needUpdate="¡Nueva versión requerida!",
-	-- noInternet="Not connected to the network",
+	-- versionNotMatch="Version do not match!",
+	-- needUpdate="¡Nueva versión requerida!",
 	notFinished="Próximamente",
 
 	jsonError="Error en Json",
@@ -91,19 +87,22 @@ return{
 	loginFailed="Error al ingresar",
 	accessSuccessed="¡Autorizado exitoso!",
 	accessFailed="Error al autorizar",
-	wsSuccessed="WebSocket: conectado",
+
+	-- wsConnecting="Websocket: Connecting",
 	wsFailed="WebSocket: conexión fallida",
 	wsClose="WebSocket cerrado: ",
-	waitNetTask="Conectando, espera por favor",
+	-- netTimeout="Network connection timeout",
 
-	createRoomTooFast="¡Creas salas muy rápido, párale we!",
+	-- onlinePlayerCount="Online",
+
 	createRoomSuccessed="¡Sala creada con éxito!",
 	-- started="Playing",
 	joinRoom="entró a la sala.",
 	leaveRoom="salió de la sala.",
 	-- ready="READY",
-	-- set="SET",
-	champion="$1 ganó!",
+	-- connStream="CONNECTING",
+	-- waitStream="WAITING",
+	-- spectating="Spectating",
 	chatRemain="Usuarios en línea: ",
 	chatStart="------Comienzo del historial------",
 	chatHistory="------Nuevos mensajes------",
@@ -128,14 +127,7 @@ return{
 		"Finesse:",
 	},
 	radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
+	radarData={"D'PM","ADPM","APM","SPM","L'PM","DPM"},
 	stat={
 		"Veces Iniciado:",
 		"Veces Jugado:",
@@ -149,9 +141,9 @@ return{
 		"PC/HPC:",
 		"Err.Fns./RatioFns:",
 	},
-	help={
+	aboutTexts={
 		"Este es simplemente un juego de puzzle ordinario, no pienses de él como un juego promedio.",
-		"Está inspirado en otros como TO/C2/KoS/TGM3/JS.",
+		"Está inspirado en otros como C2/IO/JS/WWC/KOS.",
 		"",
 		"Creado con LOVE2D",
 		"Puedes reportar errores o enviar sugerencias al grupo de testeo del autor o por email ~",
@@ -166,7 +158,7 @@ return{
 		"",
 		"Programación: MrZ, Particle_G, [FinnTenzor]",
 		"Artistas: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Música: MrZ, ERM, [T0722]",
+		"Música: MrZ, ERM, [T0722, Aether]",
 		"Voces/Sonidos: Miya, Naki, MrZ  Performance: 模电, HBM",
 		"Performance: 模电, HBM",
 		"Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -178,8 +170,8 @@ return{
 	used=[[
 	Herramientas utilizadas:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Librerías usadas:
 		Cold_Clear [MinusKelvin]
@@ -198,7 +190,6 @@ return{
 			setting="Opciones",
 			stat="Estadísticas",
 			music="Música y SFX",
-			about="Acerca del Juego",
 			dict="Zictionary",
 			manual="Manual",
 		},
@@ -224,25 +215,63 @@ return{
 			quit="Finalizar (Q)",
 		},
 		net_menu={
+			-- league="Tech League",
 			ffa="FFA",
 			rooms="Salas",
-			chat="Chat",
 			-- logout="Log out",
+		},
+		net_league={
+			-- match="Find Match",
 		},
 		net_rooms={
 			-- refreshing="Refreshing Rooms",
 			noRoom="No Hay Salas Actualmente",
 			refresh="Refrescar",
-			new="Sala Nueva(2)",
-			new2="Sala Nueva(5)",
+			-- new="New Room",
 			join="Unirse",
+		},
+		net_newRoom={
+			-- title="Custom room config",
+			-- roomName="Room name(default to username's room)",
+			-- roomDescription="Room description",
+
+			life="Vida",
+			-- pushSpeed="Garbage Speed",
+			garbageSpeed="Velocidad de Basura",
+			visible="Visibilidad",
+			freshLimit="Límite de Reinicio LD",
+
+			fieldH="Altura del tablero",
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+
+			drop="Retraso de Caída",
+			lock="Retraso de Bloqueo",
+			wait="Retraso de Spawneo",
+			fall="Retraso de Línea",
+
+			-- capacity="Capacity",
+			-- create="Create",
+
+			ospin="O-Spin",
+			fineKill="100% Finesse",
+			b2bKill="No Romper B2B ",
+			easyFresh="Reinicio de Bloqueo Normal",
+			deepDrop="Deep Drop",
+			bone="Bone Block",
+
+			nextCount="Siguiente",
+			holdCount="Reserva",
+			infHold="Reserva Inft.",
+			phyHold="Reserva Limit.",
+
+			bg="Fundo",
+			bgm="Música",
 		},
 		net_game={
 			ready="Estoy Listo",
+			-- spectate="Spectate",
 			-- cancel="Cancel",
-		},
-		net_chat={
-			send="Enviar",
 		},
 		setting_game={
 			title="Ajustes del Juego",
@@ -258,7 +287,6 @@ return{
 			autoPause="Pausar cuando la ventana no está enfocada",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
 			fine="Sonido de Error de Finesse",
-			-- dataSaving="Data saving",
 			simpMode="Modo Sencillo",
 		},
 		setting_video={
@@ -282,29 +310,32 @@ return{
 			splashFX="FX Vis. de Splash",
 			shakeFX="Bamboleo del Tablero",
 			atkFX="FX Vis. de Ataque",
-			frame="Ratio de FPSs",
+			frame="Ratio de FPSs(%)",
 
 			text="Texto de Acciones",
 			score="Puntaje en Pantalla",
-			warn="Alerta de Peligro",
-			highCam="Cám. Vista Aérea",
+			-- bufferWarn="Buffer Alert",
+			-- showSpike="Spike Counter",
 			nextPos="Ver Spawn de Pza. Sig.",
-			fullscreen="Pant. Completa",
-			power="Inf. de Batería",
+			highCam="Cám. Vista Aérea",
+			warn="Alerta de Peligro",
+
 			-- clickFX="Click FX",
-			bg="Fondo",
+			power="Inf. de Batería",
 			clean="Fast Draw",
+			fullscreen="Pant. Completa",
+			bg="Fondo",
 		},
 		setting_sound={
 			title="Ajustes de Sonido",
 			game="←Juego",
 			graphic="Video→",
 
+			bgm="BGM",
 			sfx="SFX",
+			stereo="Estéreo",
 			spawn="Spawn de Pzas.",
 			warn="Alerta de Peligro",
-			bgm="BGM",
-			stereo="Estéreo",
 			vib="Vibración",
 			voc="Voces",
 		},
@@ -350,8 +381,12 @@ return{
 		setting_touch={
 			default="Por Defecto",
 			snap="Snap",
-			option="Opciones",
+			-- save1="Save1",
+			-- load1="Load1",
+			-- save2="Save2",
+			-- load2="Load2",
 			size="Tamaño",
+			-- shape="Shape",
 		},
 		setting_touchSwitch={
 			b1=	"Mover Izq.:",b2="Mover Der.:",b3="Rotar Der.:",b4="Rotar Izq.:",
@@ -359,18 +394,17 @@ return{
 			b9=	"Función1:",b10="Función2:",b11="Izq. Instant.:",b12="Der. Instant.:",
 			b13="Sonic Drop:",b14="Abajo 1:",b15="Abajo 4:",b16="Abajo 10:",
 			b17="Soltar a Izq.:",b18="Soltar a Der.:",b19="Zangi a Izq.:",b20="Zangi a Der.:",
+
 			norm="Normal",
 			pro="Profesional",
 			hide="Mostrar Tec. Virtual",
-			track="Música Autom.",
+			icon="Ícono",
 			sfx="SFX",
 			vib="Vibr.",
-			icon="Ícono",
-			tkset="Ajustes de Canción",
 			alpha="Alpha",
-		},
-		setting_trackSetting={
-			VKDodge="Autoskip",
+
+			track="Música Autom.",
+			dodge="Autoskip",
 		},
 		customGame={
 			title="Juego Personalizado",
@@ -397,29 +431,28 @@ return{
 			field="Editar Tablero (F)",
 			sequence="Editar Secuencia (S)",
 			mission="Editar Misiones (M)",
-		},
-		custom_advance={
-			title="Juego Personalizado",
-			subTitle="Avanzado",
 
 			nextCount="Siguiente",
 			holdCount="Reserva",
 			infHold="Reserva Inft.",
 			phyHold="Reserva Limit.",
-			bone="Bone Block",
 
 			fieldH="Altura del tablero",
-			ospin="O-Spin",
-			deepDrop="Deep Drop",
-			target="Objetivo",
 			visible="Visibilidad",
 			freshLimit="Límite de Reinicio LD",
-			easyFresh="Reinicio de Bloqueo Normal",
-			fineKill="100% Finesse",
-			b2bKill="No Romper B2B ",
 			opponent="Oponente",
 			life="Vida",
-			pushSpeed="Velocidad de Basura",
+			-- pushSpeed="Garbage Speed",
+			garbageSpeed="Velocidad de Basura",
+
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+			ospin="O-Spin",
+			fineKill="100% Finesse",
+			b2bKill="No Romper B2B ",
+			easyFresh="Reinicio de Bloqueo Normal",
+			deepDrop="Deep Drop",
+			bone="Bone Block",
 		},
 		custom_field={
 			title="Juego Personalizado",
@@ -508,6 +541,7 @@ return{
 			register="Registrarse",
 			email="Correo Elec.",
 			password="Contraseña",
+			-- keepPW="Remember me",
 			login="Entrar",
 		},
 		register={
@@ -563,15 +597,17 @@ return{
 			mode="Modo",
 		},
 		savedata={
-			exportUnlock="Exportar Desbloqueos",
-			exportData="Exportar Récords",
-			exportSetting="Exportar Ajustes",
-			exportVK="Exportar VK",
+			-- export="Export to clipboard",
+			-- import="Import from clipboard",
+			-- unlock="Progress",
+			-- data="Stats",
+			-- setting="Settings",
+			-- vk="Virtual Key Layout",
 
-			importUnlock="Importar Desbloqueos",
-			importData="Importar Datos",
-			importSetting="Importar Ajustes",
-			importVK="Importar VK",
+			-- couldSave="Cloud Save (need login) (CAUTION: TESTING)",
+			-- notLogin="[Login to  access cloud save]",
+			-- upload="Upload to cloud",
+			-- download="Download from cloud",
 		},
 		error={
 			console="Console",
@@ -593,7 +629,7 @@ return{
 		['dig_400l']=			{"Queso",			"400L",			"Limpia 400 líneas de queso."},
 		['dig_1000l']=			{"Queso",			"1000L",		"Limpia 1000 líneas de queso."},
 		['drought_n']=			{"Sequía",			"100L",			"¡Sin piezas I!"},
-		['drought_l']=			{"Sequía",			"100L",			"Guat de foc..."},
+		['drought_l']=			{"Sequía+",			"100L",			"Guat de foc..."},
 		['marathon_n']=			{"Maratón",			"Normal",		"Maratón de 200 líneas con velocidad en aumento."},
 		['marathon_h']=			{"Maratón",			"Difícil",		"Maratón de 200 líneas a velocidad máxima."},
 		['solo_e']=				{"VS.",				"Fácil",		"¡Derrota a la CPU!"},
@@ -645,6 +681,7 @@ return{
 		['pc_n']=				{"Desafío de PCs",	"Normal",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		['pc_h']=				{"Desafío de PCs",	"Difícil",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		['pc_l']=				{"Desafío de PCs",	"Lunático",		"¡Consigue los PCs que puedas en 100 líneas!"},
+		-- ['pc_inf']=				{"Inf. PC Challenge","",			"Get PCs as much as you can"},
 		['tech_n']=				{"Tech",			"Normal",		"¡Mantén el B2B!"},
 		['tech_n_plus']=		{"Tech",			"Normal+",		"¡Sólo se permiten Spins y PCs!"},
 		['tech_h']=				{"Tech",			"Difícil",		"¡Mantén el B2B!"},
@@ -666,6 +703,7 @@ return{
 		['infinite_dig']=		{"Infinito: Queso",	"",				"Limpia, limpia, más limpia que tú."},
 		['sprintFix']=			{"Sprint",			"Sin mover a Izq./Der."},
 		['sprintLock']=			{"Sprint",			"Sin rotar"},
+		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Maratón",			"Supremo"},
 		['custom_clear']=		{"Personalizado",	"Normal"},
 		['custom_puzzle']=		{"Personalizado",	"Puzzle"},

@@ -1,5 +1,8 @@
 --Large falling tetrominoes
 local gc=love.graphics
+local gc_clear=gc.clear
+local gc_setColor,gc_draw=gc.setColor,gc.draw
+
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 local back={}
@@ -32,22 +35,19 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
-	gc.push('transform')
-	gc.origin()
-	gc.setColor(1,1,1,.4)
+	gc_clear(.1,.1,.1)
+	gc_setColor(1,1,1,.2)
 	for i=1,#mino do
 		local M=mino[i]
 		local b=M.block
 		for y=1,#b do
 			for x=1,#b[1]do
 				if b[y][x]then
-					gc.draw(M.texture,M.x+(x-1)*30*M.k,M.y-y*30*M.k,nil,M.k)
+					gc_draw(M.texture,M.x+(x-1)*30*M.k,M.y-y*30*M.k,nil,M.k)
 				end
 			end
 		end
 	end
-	gc.pop()
 end
 function back.discard()
 	mino=nil

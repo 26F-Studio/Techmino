@@ -236,7 +236,7 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="reset",x=1140,y=540,w=170,h=80,font=40,color='lG',code=restart},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

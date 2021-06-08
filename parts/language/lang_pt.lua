@@ -1,10 +1,8 @@
 local C=COLOR
 return{
 	fallback=4,
-	back="Voltar",
 	anykey="Pressione qualquer tecla",
 	sureQuit="Aparte novamente para sair",
-	newVersion="Obrigado por atualizar! Veja as mudanças abaixo.",
 	httpTimeout="Conexão de rede expirou",
 	newDay="[Anti-vício] Novo dia, um começo novo!",
 	playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
@@ -17,7 +15,6 @@ return{
 	clear={"Single","Double","Triple","Techrash","Pentacrash","Hexacrash"},
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
-	hold="HOLD",next="NEXT",
 	replaying="[Replay]",
 
 	stage="Fase $1",
@@ -56,13 +53,14 @@ return{
 	saveError="Falha ao salvar:",
 	loadError="Falha ao ler:",
 	switchSpawnSFX="Switch on spawn SFX to play",
-	ranks={"D","C","B","A","S"},
 
 	needRestart="Funciona após reiniciar",
 
 	exportSuccess="Exportado com sucesso",
 	importSuccess="Importado com sucesso",
 	dataCorrupted="Data corrompida",
+	-- pasteWrongPlace="Paste at wrong place?",
+	-- noFile="File not found",
 
 	VKTchW="Peso de toque",
 	VKOrgW="Peso da origem",
@@ -73,10 +71,9 @@ return{
 	newRecord="Novo recorde",
 
 	getNoticeFail="Não conseguiu ter anúncios",
-	getVersionFail="Falha ao detectar uma versão nova",
 	oldVersion="Versão $1 esta disponível agora!",
+	-- versionNotMatch="Version do not match!",
 	-- needUpdate="Newer version required!",
-	-- noInternet="Not connected to the network",
 	-- notFinished="Coming soon!",
 
 	jsonError="Json error",
@@ -91,20 +88,23 @@ return{
 	loginFailed="Falha na autenticação",
 	accessSuccessed="Autorizado com sucesso!",
 	accessFailed="Falha na autorização",
-	wsSuccessed="WebSocket: conectado",
+
+	-- wsConnecting="Websocket: Connecting",
 	wsFailed="WebSocket: falha na conexão",
 	wsClose="WebSocket closed: ",
 	-- netTimeout="Network connection timeout",
 
-	-- createRoomTooFast="Create room too fast!",
+	-- onlinePlayerCount="Online",
+
 	-- createRoomSuccessed="Room successfully created!",
 	-- started="Playing",
 	joinRoom="Entrou a sala.",
 	leaveRoom="Saiu da sala.",
 	-- ready="READY",
-	-- set="SET",
-	-- champion="$1 won",
-	chatRemain="Online: ",
+	-- connStream="CONNECTING",
+	-- waitStream="WAITING",
+	-- spectating="Spectating",
+	chatRemain="Online",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",
 
@@ -151,14 +151,7 @@ return{
 		"Destreza:",
 	},
 	radar={"DEF","OFF","ATK","SEND","SPD","DIG"},
-	radarData={
-		"D'PM",
-		"ADPM",
-		"APM",
-		"SPM",
-		"L'PM",
-		"DPM",
-	},
+	radarData={"D'PM","ADPM","APM","SPM","L'PM","DPM"},
 	stat={
 		"Vezes iniciadas:",
 		"Jogos:",
@@ -172,9 +165,9 @@ return{
 		"PC/HPC:",
 		"FalhaDestreza/TaxaDestreza:",
 	},
-	help={
+	aboutTexts={
 		"Isso é apenas um jogo de blocos, nada de especial.",
-		"Joga como TO/C2/KOS/TGM3 e outros.",
+		"Joga como C2/IO/JS/WWC/KOS e outros.",
 		"",
 		"Feito na Love 2D Engine",
 		"Por favor mande bugs ou sugestões para o autor.",
@@ -189,7 +182,7 @@ return{
 		"",
 		"Programa: MrZ, Particle_G, [FinnTenzor]",
 		"Art: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
-		"Music: MrZ, ERM, [T0722]",
+		"Music: MrZ, ERM, [T0722, Aether]",
 		"Voice & Sound: Miya, Naki, MrZ",
 		"Performance: 模电, HBM",
 		"Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",
@@ -201,8 +194,8 @@ return{
 	used=[[
 	Ferramentas usadas:
 		Beepbox
-		GFIE
 		Goldwave
+		GFIE
 		FL Mobile
 	Libs used:
 		Cold_Clear [MinusKelvin]
@@ -221,7 +214,6 @@ return{
 			setting="Config.",
 			stat="Stats",
 			-- music="Music & SE",
-			-- about="About",
 			dict="Zictionary",
 			manual="Manual",
 		},
@@ -247,25 +239,63 @@ return{
 			quit="Sair (Q)",
 		},
 		net_menu={
+			-- league="Tech League",
 			ffa="FFA",
 			rooms="Salas",
-			chat="Chat",
 			-- logout="Log out",
+		},
+		net_league={
+			-- match="Find Match",
 		},
 		net_rooms={
 			-- refreshing="Refreshing Rooms",
 			noRoom="Nenhuma sala agora",
 			-- refresh="Refresh",
-			-- new="New Room(2)",
-			-- new2="New Room(5)",
+			-- new="New Room",
 			-- join="Join",
+		},
+		net_newRoom={
+			-- title="Custom room config",
+			-- roomName="Room name(default to username's room)",
+			-- roomDescription="Room description",
+
+			life="Vidas",
+			pushSpeed="Garbage Speed",
+			-- garbageSpeed="Velocidade De Lixo",
+			visible="Visibilidade",
+			freshLimit="Limite Reset de Trava",
+
+			-- fieldH="Field height",
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+
+			drop="Delay Queda",
+			lock="Delay Trava",
+			wait="Delay Entrada",
+			fall="Delay Linha",
+
+			-- capacity="Capacity",
+			-- create="Create",
+
+			ospin="O-Spin",
+			fineKill="100% Finesse",
+			b2bKill="Sem Quebrar B2B",
+			easyFresh="Reset De Trava Normal",
+			-- deepDrop="Deep Drop",
+			bone="Bone Blocks",
+
+			nextCount="Prox.",
+			holdCount="Segurar",
+			infHold="Segurar Infinito",
+			-- phyHold="Physical Hold",
+
+			bg="Fundo",
+			bgm="Música",
 		},
 		net_game={
 			-- ready="Ready",
+			-- spectate="Spectate",
 			-- cancel="Cancel",
-		},
-		net_chat={
-			send="Mandar",
 		},
 		setting_game={
 			title="Config. de jogo",
@@ -281,7 +311,6 @@ return{
 			autoPause="Pausar quando foco for perco",
 			swap="Combinação de tecla(Mudar modo de atk)",
 			fine="Som Falha de destreza",
-			-- dataSaving="Data saving",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
@@ -290,13 +319,13 @@ return{
 			game="Jogo→",
 
 			block="Mostrar bloco",
-			ghost="Fantasma",
-			center="Centro",
-
 			smooth="Queda suave",
-			grid="Rede",
 			upEdge="3D bloco",
 			bagLine="Linha da bolsa",
+
+			ghost="Fantasma",
+			grid="Rede",
+			center="Centro",
 
 			lockFX="Nível FX Trava",
 			dropFX="Nível FX Queda",
@@ -305,18 +334,21 @@ return{
 			splashFX="Nível FX Splash",
 			shakeFX="Nível Tremida Tabuleiro",
 			atkFX="Nível FX Atk.",
-			frame="Render Frame Rate",
+			frame="Render Frame Rate(%)",
 
 			text="Texto de ação",
 			score="Pop-up de pontos",
-			warn="Alerta de perigo",
-			highCam="Vista Olho-de-pássaro",
+			-- bufferWarn="Buffer Alert",
+			-- showSpike="Spike Counter",
 			nextPos="Próxima Pos.",
-			fullscreen="Tela cheia",
-			power="Informação bateria",
+			highCam="Vista Olho-de-pássaro",
+			warn="Alerta de perigo",
+
 			-- clickFX="Click FX",
-			bg="Fundo",
+			power="Informação bateria",
 			-- clean="Fast Draw",
+			fullscreen="Tela cheia",
+			bg="Fundo",
 		},
 		setting_sound={
 			title="Config. de sons",
@@ -324,11 +356,11 @@ return{
 			game="←Jogo",
 			graphic="Vídeo→",
 
+			bgm="BGM",
 			sfx="SFX",
+			stereo="Stereo",
 			spawn="Nascida",
 			warn="Alerta de perigo",
-			bgm="BGM",
-			stereo="Stereo",
 			vib="Vibração",
 			voc="Voz",
 			cv="Pacote de voz",
@@ -377,8 +409,12 @@ return{
 		setting_touch={
 			default="Default",
 			snap="Encaixo",
-			option="Opção",
+			-- save1="Save1",
+			-- load1="Load1",
+			-- save2="Save2",
+			-- load2="Load2",
 			size="Tamanho",
+			-- shape="Shape",
 		},
 		setting_touchSwitch={
 			b1=	"Esquerda:",	b2="Direita:",	b3="Giro Dir.:",	b4="Giro Esq.:",
@@ -386,18 +422,17 @@ return{
 			b9=	"Função:",	b10="Reiniciar Jogo:",		b11="Esq. Imediata:",b12="Dir. Imediata:",
 			b13="Queda Sonic:",	b14="Queda 1:",		b15="Queda 4:",		b16="Queda 10:",
 			b17="Queda Esq.:",	b18="Queda Dir.:",	b19="Zangi Esq.:",	b20="Zangi Dir.:",
+
 			norm="Normal",
 			pro="Professional",
 			hide="Mostrar tecla virtual",
-			track="Localizar Auto",
+			icon="Icone",
 			sfx="SFX",
 			vib="VIB",
-			icon="Icone",
-			tkset="Config. localizacao",
 			alpha="Transparência",
-		},
-		setting_trackSetting={
-			VKDodge="Auto Dodge",
+
+			track="Localizar Auto",
+			dodge="Auto Dodge",
 		},
 		customGame={
 			title="Jogo person.",
@@ -424,28 +459,28 @@ return{
 			field="Editar Tab. (F)",
 			sequence="Editar Sequência (S)",
 			mission="Editar Missão (M)",
-		},
-		custom_advance={
-			title="Jogo Person.",
-			subTitle="Avançado",
 
 			nextCount="Prox.",
 			holdCount="Segurar",
 			infHold="Segurar Infinito",
 			-- phyHold="Physical Hold",
-			bone="Bone Blocks",
 
 			-- fieldH="Field height",
-			ospin="O-Spin",
-			-- deepDrop="Deep Drop",
 			visible="Visibilidade",
 			freshLimit="Limite Reset de Trava",
-			easyFresh="Reset De Trava Normal",
-			fineKill="100% Finesse",
-			b2bKill="Sem Quebrar B2B",
 			opponent="Oponente",
 			life="Vidas",
-			pushSpeed="Velocidade De Lixo",
+			pushSpeed="Garbage Speed",
+			-- garbageSpeed="Velocidade De Lixo",
+
+			-- bufferLimit="Buffer Limit",
+			-- heightLimit="Height Limit",
+			ospin="O-Spin",
+			fineKill="100% Finesse",
+			b2bKill="Sem Quebrar B2B",
+			easyFresh="Reset De Trava Normal",
+			-- deepDrop="Deep Drop",
+			bone="Bone Blocks",
 		},
 		custom_field={
 			title="Jogo Costumizado",
@@ -594,6 +629,7 @@ return{
 			register="Registrar",
 			email="Endereço De Email",
 			password="Senha",
+			-- keepPW="Remember me",
 			login="Log in",
 		},
 		register={
@@ -649,15 +685,17 @@ return{
 			-- mode="Mode",
 		},
 		savedata={
-			exportUnlock="Exportar progresso",
-			exportData="Exportar estatística",
-			exportSetting="Exportar config.",
-			exportVK="Exportar layout de hud",
+			-- export="Export to clipboard",
+			-- import="Import from clipboard",
+			-- unlock="Progress",
+			-- data="Stats",
+			-- setting="Settings",
+			-- vk="Virtual Key Layout",
 
-			importUnlock="Importar progresso",
-			importData="Importar estatística",
-			importSetting="Importar config.",
-			importVK="Importar layout de hud",
+			-- couldSave="Cloud Save (need login) (CAUTION: TESTING)",
+			-- notLogin="[Login to  access cloud save]",
+			-- upload="Upload to cloud",
+			-- download="Download from cloud",
 		},
 		error={
 			console="Console",
@@ -679,7 +717,7 @@ return{
 		['dig_400l']=			{"Cave",			"400L",			"Cave 400 linhas de lixo."},
 		['dig_1000l']=			{"Cave",			"1000L",		"Cave 1000 linhas de lixo."},
 		['drought_n']=			{"Drought",			"100L",			"Sem peça I !"},
-		['drought_l']=			{"Drought",			"100L",			"WTF"},
+		['drought_l']=			{"Drought+",		"100L",			"WTF"},
 		['marathon_n']=			{"Maratona",		"NORMAL",		"200-line Maratona com velocidade aumentando."},
 		['marathon_h']=			{"Maratona",		"DIFÍCIL",		"200-line Maratona com velocidade alta."},
 		['solo_e']=				{"Batalha",			"FÁCIL",		"Derrote a inteligência!"},
@@ -732,6 +770,7 @@ return{
 		['pc_n']=				{"Desafio PC",		"NORMAL",		"Obtenha PCs em 100 linhas!"},
 		['pc_h']=				{"Desafio PC",		"DIFÍCIL",		"Obtenha PCs em 100 linhas!"},
 		['pc_l']=				{"Desafio PC",		"LUNÁTICO",		"Obteha PCs em 100 linhas!"},
+		-- ['pc_inf']=				{"Inf. PC Challenge","",			"Get PCs as much as you can"},
 		['tech_n']=				{"Tech",			"NORMAL",		"Não quebre o B2B!"},
 		['tech_n_plus']=		{"Tech",			"NORMAL+",		"Apenas spins e PC"},
 		['tech_h']=				{"Tech",			"HARD",			"Keep the B2B chain!"},
@@ -753,6 +792,7 @@ return{
 		['infinite_dig']=		{"Infinito:Cave",	"",				"Cava, Cava, Cava."},
 		['sprintFix']=			{"Sprint",			"SEM ESQUERDA/DIREITA"},
 		['sprintLock']=			{"Sprint",			"SEM ROTAÇÃO"},
+		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Maratona",		"ULTIMATE"},
 		['custom_clear']=		{"Custom",			"NORMAL"},
 		['custom_puzzle']=		{"Custom",			"PUZZLE"},
@@ -772,7 +812,7 @@ return{
 		"1next 1hold!",
 		"1next 6hold!",
 		"Na verdade 20G é uma regra de jogo nova.",
-		"40-linhas Sprint WR: 15.654s por VinceHD",
+		"40-lines Sprint WR: 15.557s by Reset",
 		"6next 1hold!",
 		"6next 6hold?!",
 		"ALL SPIN!",

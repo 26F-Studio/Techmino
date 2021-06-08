@@ -5,6 +5,6 @@ vec4 effect(vec4 color,Image tex,vec2 tex_coords,vec2 scr_coords){
 		.8-x*.6,
 		.3+.2*sin(t),
 		.15+x*.7,
-		1.
+		.4
 	);
 }

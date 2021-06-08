@@ -26,10 +26,9 @@ function scene.draw()
 
 	--Gray screen cover
 	gc.setColor(.15,.15,.15,timer*1.26)
-	gc.push('transform')
-		gc.origin()
-		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-	gc.pop()
+	gc.replaceTransform(SCR.origin)
+	gc.rectangle('fill',0,0,SCR.w,SCR.h)
+	gc.replaceTransform(SCR.xOy)
 
 	--Pie counter
 	gc.setColor(1,1,1,4*(1-timer))

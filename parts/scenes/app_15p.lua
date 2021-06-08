@@ -116,16 +116,16 @@ local function tapBoard(x,y,key)
 			if checkBoard(b)then
 				state=2
 				time=TIME()-startTime
-				if time<1 then		LOG.print("不是人",COLOR.lB)
-				elseif time<2 then	LOG.print("还是人",COLOR.lB)
-				elseif time<3 then	LOG.print("神仙",COLOR.lB)
-				elseif time<5 then	LOG.print("太强了",COLOR.lB)
-				elseif time<7.5 then LOG.print("很强",COLOR.lB)
-				elseif time<10 then	LOG.print("可以的",COLOR.lB)
-				elseif time<20 then	LOG.print("马上入门了",COLOR.lB)
-				elseif time<30 then	LOG.print("入门不远了",COLOR.lB)
-				elseif time<60 then	LOG.print("多加练习",COLOR.lB)
-				else				LOG.print("第一次玩?加油",COLOR.lB)
+				if time<1 then		LOG.print("不是人")
+				elseif time<2 then	LOG.print("还是人")
+				elseif time<3 then	LOG.print("神仙")
+				elseif time<5 then	LOG.print("太强了")
+				elseif time<7.5 then LOG.print("很强")
+				elseif time<10 then	LOG.print("可以的")
+				elseif time<20 then	LOG.print("马上入门了")
+				elseif time<30 then	LOG.print("入门不远了")
+				elseif time<60 then	LOG.print("多加练习")
+				else				LOG.print("第一次玩?加油")
 				end
 				SFX.play('win')
 				return
@@ -313,15 +313,15 @@ function scene.draw()
 	gc.rectangle('line',cx*160+173,cy*160-107,134,134,50)
 end
 
-local function Gaming()return state==1 end
+local function ifGaming()return state==1 end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',	font=40,code=pressKey"space"},
-	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hide=Gaming},
-	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",	hide=Gaming},
-	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",	hide=Gaming},
-	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=function()return pathVis end,	code=pressKey"r",	hide=function()return state==1 or not slide end},
-	WIDGET.newSwitch{name="revKB",	x=240,y=600,w=60,					font=40,disp=function()return revKB end,	code=pressKey"t",	hide=Gaming},
-	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,			font=40,code=backScene},
+	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hideFunc=ifGaming},
+	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",hideF=ifGaming},
+	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",hideF=ifGaming},
+	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=function()return pathVis end,	code=pressKey"r",hideF=function()return state==1 or not slide end},
+	WIDGET.newSwitch{name="revKB",	x=240,y=600,w=60,					font=40,disp=function()return revKB end,	code=pressKey"t",hideF=ifGaming},
+	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

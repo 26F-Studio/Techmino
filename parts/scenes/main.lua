@@ -22,10 +22,11 @@ local consoleEntryThread=coroutine.wrap(function()
 	end
 end)
 function scene.sceneInit()
+	BG.set()
+
+	--Set tip
 	tip:set(text.getTip())
 	scrollX=tipLength
-
-	BG.set()
 
 	--Set quick-play-button text
 	scene.widgetList[2]:setObject(text.WidgetText.main.qplay..": "..text.modes[STAT.lastPlay][1])
@@ -45,10 +46,10 @@ function scene.mouseDown(x,y)
 end
 scene.touchDown=scene.mouseDown
 local function testButton(n)
-	if WIDGET.sel==scene.widgetList[n]then
+	if WIDGET.isFocus(scene.widgetList[n])then
 		return true
 	else
-		WIDGET.sel=scene.widgetList[n]
+		WIDGET.focus(scene.widgetList[n])
 	end
 end
 function scene.keyDown(key)
@@ -62,21 +63,12 @@ function scene.keyDown(key)
 		end
 	elseif key=="a"then
 		if testButton(3)then
-			if NET.connected then
-				if NET.allow_online then
-					if WS.status('user')=='running'then
-						NET.getAccessToken()
-					else
-						SCN.go('login')
-					end
-				else
-					TEXT.show(text.needUpdate,640,450,60,'flicker')
-					SFX.play('finesseError')
-				end
+			if WS.status('app')=='running'then
+				NET.tryLogin(false)
 			else
-				TEXT.show(text.noInternet,640,450,60,'flicker')
 				NET.wsconn_app()
-				SFX.play('finesseError')
+				LOG.print(text.wsConnecting,'message')
+				SFX.play('connect')
 			end
 		end
 	elseif key=="z"then
@@ -129,7 +121,7 @@ function scene.update(dt)
 	end
 	local L=scene.widgetList
 	for i=1,8 do
-		L[i].x=L[i].x*.9+(widgetX0[i]-400+(WIDGET.sel==L[i]and(i<5 and 100 or -100)or 0))*.1
+		L[i].x=L[i].x*.9+(widgetX0[i]-400+(WIDGET.isFocus(L[i])and(i<5 and 100 or -100)or 0))*.1
 	end
 end
 
@@ -163,6 +155,9 @@ function scene.draw()
 
 	--Profile
 	drawSelfProfile()
+
+	--Player count
+	drawOnlinePlayerCount()
 end
 
 scene.widgetList={
@@ -177,9 +172,9 @@ scene.widgetList={
 	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color='lC',font=40,align='L',edge=30,code=pressKey","},
 
 	WIDGET.newButton{name="music",	x=130,y=80,w=200,h=90,		color='lO',font=35,code=pressKey"2"},
-	WIDGET.newButton{name="lang",	x=300,y=80,w=90,h=90,		color='lN',font=40,code=pressKey"3",fText=TEXTURE.earth},
-	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',font=35,align='R',edge=30,code=pressKey"x"},
-	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',font=40,align='L',edge=30,code=backScene},
+	WIDGET.newButton{name="lang",	x=300,y=80,w=90,h=90,		color='lN',font=40,code=pressKey"3",fText=TEXTURE.language},
+	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',font=35,align='R',edge=30,code=pressKey"x",fText=TEXTURE.info},
+	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.back,align='L',edge=30,code=backScene},
 }
 
 return scene

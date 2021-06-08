@@ -1,16 +1,19 @@
 local gc=love.graphics
+local gc_draw,gc_rectangle,gc_print,gc_printf=gc.draw,gc.rectangle,gc.print,gc.printf
+local gc_setColor,gc_setLineWidth,gc_translate=gc.setColor,gc.setLineWidth,gc.translate
+local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
+
 local rnd,min=math.random,math.min
 local sin,cos=math.sin,math.cos
-
-
-local ins,rem=table.insert,table.remove
+local ins=table.insert
+local setFont=setFont
 
 local posLists={
 	--1~5
 	(function()
 		local L={}
 		for i=1,5 do
-			L[i]={x=70,y=20+90*i,w=1000,h=80}
+			L[i]={x=70,y=20+90*i,w=790,h=80}
 		end
 		return L
 	end)(),
@@ -60,70 +63,64 @@ local posLists={
 	end)(),
 }
 local posList
+local function _placeSort(a,b)return a.place<b.place end
 
-local PLY=setmetatable({},{
-	__index=function(self,uid)
-		for _,p in next,self do
-			if p.uid==uid then
-				return p
-			end
-		end
-	end
-})
-
-local netPLY={list=PLY}
-
+local PLYlist,PLYmap={},{}
 local function freshPosList()
-	if #PLY<=5 then
+	table.sort(PLYlist,_placeSort)
+	if #PLYlist<=5 then
 		posList=posLists[1]
-	elseif #PLY<=17 then
+	elseif #PLYlist<=17 then
 		posList=posLists[2]
-	elseif #PLY<=31 then
+	elseif #PLYlist<=31 then
 		posList=posLists[3]
-	elseif #PLY<=49 then
+	elseif #PLYlist<=49 then
 		posList=posLists[4]
 	else--if #PLY<=99 then
 		posList=posLists[5]
 	end
 end
+local netPLY={
+	list=PLYlist,
+	map=PLYmap,
+	freshPos=freshPosList,
+}
 
-function netPLY.clear()for _=1,netPLY.getCount()do rem(PLY)end end
+function netPLY.clear()
+	TABLE.cut(PLYlist)
+	TABLE.clear(PLYmap)
+end
 function netPLY.add(p)
-	ins(PLY,p.uid==USER.uid and 1 or #PLY+1,p)
+	p.connected=false
+	p.place=1e99
+	p.stat=false
 	local a=rnd()*6.2832
 	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
-	freshPosList()
-end
-function netPLY.remove(sid)
-	for i=1,#PLY do
-		if PLY[i].sid==sid then
-			rem(PLY,i)
-			break
-		end
-	end
+
+	ins(PLYlist,p)
+	PLYmap[p.uid]=p
 	freshPosList()
 end
 
-function netPLY.getCount()return #PLY end
-function netPLY.getPLY(i)return PLY[i]end
-function netPLY.getUsername(uid)return PLY[uid].username end
-function netPLY.getSID(uid)return PLY[uid].sid end
-function netPLY.getSelfReady()return PLY[1].ready end
+function netPLY.getCount()return #PLYlist end
+function netPLY.getSID(uid)return PLYmap[uid].sid end
+function netPLY.getSelfJoinMode()return PLYmap[USER.uid].mode end
+function netPLY.getSelfReady()return PLYmap[USER.uid].mode>0 end
 
-function netPLY.setPlayerObj(ply,p) ply.p=p end
-function netPLY.setConf(uid,config)PLY[uid].config=config end
-function netPLY.setReady(uid,ready)
-	for i,p in next,PLY do
+function netPLY.setPlayerObj(ply,p)ply.p=p end
+function netPLY.setConf(uid,config)PLYmap[uid].config=config end
+function netPLY.setJoinMode(uid,ready)
+	for _,p in next,PLYlist do
 		if p.uid==uid then
-			if p.ready~=ready then
-				p.ready=ready
-				if not ready then NET.allReady=false end
+			if p.mode~=ready then
+				p.mode=ready
+				if ready==0 then NET.allReady=false end
 				SFX.play('spin_0',.6)
-				if i==1 then
+				if p.uid==USER.uid then
 					NET.unlock('ready')
-				elseif not PLY[1].ready then
-					for j=2,#PLY do
-						if not PLY[j].ready then
+				elseif PLYmap[USER.uid].mode==0 then
+					for j=1,#PLYlist do
+						if not p.uid==USER.uid and PLYlist[j].mode==0 then
 							return
 						end
 					end
@@ -134,17 +131,27 @@ function netPLY.setReady(uid,ready)
 		end
 	end
 end
-function netPLY.resetReady()
-	for i=1,#PLY do
-		PLY[i].ready=false
+function netPLY.setConnect(uid)PLYmap[uid].connected=true end
+function netPLY.setPlace(uid,place)PLYmap[uid].place=place end
+function netPLY.setStat(uid,S)
+	PLYmap[uid].stat={
+		lpm=("%.1f %s"):format(S.row/S.time*60,text.radarData[5]),
+		apm=("%.1f %s"):format(S.atk/S.time*60,text.radarData[3]),
+		adpm=("%.1f %s"):format((S.atk+S.dig)/S.time*60,text.radarData[2]),
+	}
+end
+function netPLY.resetState()
+	for i=1,#PLYlist do
+		PLYlist[i].mode=0
+		PLYlist[i].connected=false
 	end
 end
 
 local selP,mouseX,mouseY
 function netPLY.mouseMove(x,y)
 	selP=nil
-	for i=1,#PLY do
-		local p=PLY[i]
+	for i=1,#PLYlist do
+		local p=PLYlist[i]
 		if x>p.x and y>p.y and x<p.x+p.w and y<p.y+p.h then
 			mouseX,mouseY=x,y
 			selP=p
@@ -153,9 +160,9 @@ function netPLY.mouseMove(x,y)
 	end
 end
 
-function netPLY.update(dt)
-	for i=1,#PLY do
-		local p=PLY[i]
+function netPLY.update()
+	for i=1,#PLYlist do
+		local p=PLYlist[i]
 		local t=posList[i]
 		p.x=p.x*.9+t.x*.1
 		p.y=p.y*.9+t.y*.1
@@ -166,55 +173,82 @@ end
 
 local stencilW,stencilH
 local function plyStencil()
-	gc.rectangle('fill',0,0,stencilW,stencilH)
+	gc_rectangle('fill',0,0,stencilW,stencilH)
 end
 function netPLY.draw()
-	for i=1,#PLY do
-		local p=PLY[i]
-		gc.translate(p.x,p.y)
+	for i=1,#PLYlist do
+		local p=PLYlist[i]
+		gc_translate(p.x,p.y)
 			--Rectangle
-			gc.setColor(COLOR[p.ready and'G'or'Z'])
-			gc.setLineWidth(2)
-			gc.rectangle('line',0,0,p.w,p.h)
+			gc_setColor(COLOR[
+				p.mode==0 and'Z'or
+				p.mode==1 and(p.connected and"N"or"G")or
+				p.mode==2 and(p.connected and"Y"or"F")
+			])
+			gc_setLineWidth(2)
+			gc_rectangle('line',0,0,p.w,p.h)
 
 			--Stencil
 			stencilW,stencilH=p.w,p.h
-			gc.setStencilTest('equal',1)
-				gc.stencil(plyStencil,'replace',1)
-				gc.setColor(1,1,1)
+			gc_setStencilTest('equal',1)
+				gc_stencil(plyStencil,'replace',1)
+				gc_setColor(1,1,1)
 
 				--Avatar
 				local avatarSize=min(p.h,50)/128*.9
-				gc.draw(USERS.getAvatar(p.uid),2,2,nil,avatarSize)
+				gc_draw(USERS.getAvatar(p.uid),2,2,nil,avatarSize)
 
 				--UID & Username
 				if p.h>=47 then
 					setFont(40)
-					gc.print("#"..p.uid,50,-5)
-					gc.print(p.username,210,-5)
+					gc_print("#"..p.uid,50,-5)
+					gc_print(p.username,210,-5)
 				else
-					setFont(159)
-					gc.print("#"..p.uid,p.h,-2)
+					setFont(15)
+					gc_print("#"..p.uid,46,-1)
 					setFont(30)
-					gc.print(p.username,p.h,8)
+					gc_print(p.username,p.h,8)
 				end
-			gc.setStencilTest()
-		gc.translate(-p.x,-p.y)
+
+				--Stat
+				local S=p.stat
+				if S and(p.h>=55 or p.w>=180)then
+					setFont(20)
+					local x=p.w-155
+					if p.h>=55 then
+						gc_printf(S.adpm,x,2,150,'right')
+						gc_printf(S.apm,x,24,150,'right')
+						gc_printf(S.lpm,x,46,150,'right')
+					else
+						gc_printf(S.adpm,x,0,150,'right')
+						gc_printf(S.lpm,x,19,150,'right')
+					end
+				end
+			gc_setStencilTest()
+		gc_translate(-p.x,-p.y)
 	end
 	if selP then
-		gc.translate(min(mouseX,880),min(mouseY,460))
-			gc.setColor(.2,.2,.2,.7)
-			gc.rectangle('fill',0,0,400,260)
-			gc.setColor(1,1,1)
-			gc.setLineWidth(2)
-			gc.rectangle('line',0,0,400,260)
+		gc_translate(min(mouseX,880),min(mouseY,460))
+			gc_setColor(.2,.2,.2,.7)
+			gc_rectangle('fill',0,0,400,260)
+			gc_setColor(1,1,1)
+			gc_setLineWidth(2)
+			gc_rectangle('line',0,0,400,260)
 
-			gc.draw(USERS.getAvatar(selP.uid),5,5,nil,.5)
+			gc_draw(USERS.getAvatar(selP.uid),5,5,nil,.5)
 			setFont(30)
-			gc.print("#"..selP.uid,75,0)
+			gc_print("#"..selP.uid,75,0)
 			setFont(35)
-			gc.print(selP.username,75,25)
-		gc.translate(-min(mouseX,880),-min(mouseY,460))
+			gc_print(selP.username,75,25)
+			setFont(20)
+			gc_printf(USERS.getMotto(selP.uid),5,70,390)
+			if selP.stat then
+				local S=selP.stat
+				gc_print(S.lpm,5,193)
+				gc_print(S.apm,5,213)
+				gc_print(S.adpm,5,233)
+			end
+		gc_translate(-min(mouseX,880),-min(mouseY,460))
 	end
 end
 

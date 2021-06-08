@@ -299,10 +299,10 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-	WIDGET.newSwitch{name="next",	x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="blind",	x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hide=function()return state==1 end},
-	WIDGET.newSwitch{name="fast",	x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hide=function()return state==1 end},
-	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newSwitch{name="next",	x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hideF=function()return state==1 end},
+	WIDGET.newSwitch{name="blind",	x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hideF=function()return state==1 end},
+	WIDGET.newSwitch{name="fast",	x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hideF=function()return state==1 end},
+	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

@@ -6,12 +6,8 @@ local function modComp(a,b)
 	return a.no<b.no
 end
 local function remMod(M)
-	for i=1,#GAME.mod do
-		if GAME.mod[i]==M then
-			rem(GAME.mod,i)
-			return
-		end
-	end
+	local i=TABLE.find(GAME.mod,M)
+	if i then rem(GAME.mod,i)end
 end
 local function toggleMod(M,back)
 	if M.sel==0 then
@@ -155,9 +151,9 @@ end
 
 scene.widgetList={
 	WIDGET.newText{name="title",	x=80,y=50,font=70,align='L'},
-	WIDGET.newText{name="unranked",	x=1200,y=60,color='Y',font=50,align='R',hide=function()return scoreValid()end},
+	WIDGET.newText{name="unranked",	x=1200,y=60,color='Y',font=50,align='R',hideF=function()return scoreValid()end},
 	WIDGET.newButton{name="reset",	x=1140,y=540,w=170,h=80,font=25,code=pressKey"tab"},
-	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

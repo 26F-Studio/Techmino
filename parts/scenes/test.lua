@@ -3,6 +3,7 @@ local ins,rem=table.insert,table.remove
 
 local scene={}
 
+local backCounter
 local list,timer
 local function push(mes)
 	ins(list,{mes,120})
@@ -10,13 +11,14 @@ local function push(mes)
 end
 
 function scene.sceneInit()
+	backCounter=5
 	list={}
 	timer=0
 	love.keyboard.setKeyRepeat(false)
 end
 
 function scene.sceneBack()
-	list=nil
+	list={}
 	love.keyboard.setKeyRepeat(true)
 end
 
@@ -28,6 +30,14 @@ function scene.gamepadUp(key)
 end
 function scene.keyDown(key)
 	push("[keyDown] <"..key..">")
+	if key=="escape"then
+		backCounter=backCounter-1
+		if backCounter==0 then
+			SCN.back()
+		else
+			LOG.print(backCounter)
+		end
+	end
 end
 function scene.keyUp(key)
 	push{COLOR.H,"[keyUp] <"..key..">"}

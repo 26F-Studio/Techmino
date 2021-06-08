@@ -61,9 +61,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="delete"then
 		if sure>20 then
-			for _=1,#MISSION do
-				rem(MISSION)
-			end
+			TABLE.cut(MISSION)
 			cur=0
 			sure=0
 			SFX.play('finesseError',.7)
@@ -73,22 +71,22 @@ function scene.keyDown(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
 			sys.setClipboardText("Techmino Target:"..DATA.copyMission())
-			LOG.print(text.exportSuccess,COLOR.G)
+			LOG.print(text.exportSuccess,'message')
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("Target")then
-				LOG.print(text.pasteWrongPlace)
+				LOG.print(text.pasteWrongPlace,'warn')
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteMission(str)then
-			LOG.print(text.importSuccess,COLOR.G)
+			LOG.print(text.importSuccess,'message')
 			cur=#MISSION
 		else
-			LOG.print(text.dataCorrupted,COLOR.R)
+			LOG.print(text.dataCorrupted,'error')
 		end
 	elseif key=="escape"then
 		SCN.back()
@@ -184,7 +182,7 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(drawableText.question,980,570)
+		gc.draw(TEXTURE.question,980,600)
 	end
 end
 
@@ -234,11 +232,11 @@ scene.widgetList={
 	WIDGET.newKey{name="ten",		x=1000,	y=440,w=90,			color='lG',font=40,code=pressKey"ten"},
 	WIDGET.newKey{name="backsp",	x=1000,	y=540,w=90,			color='lY',font=50,code=pressKey"backspace"},
 	WIDGET.newKey{name="reset",		x=1000,	y=640,w=90,			color='lY',font=50,code=pressKey"delete"},
-	WIDGET.newButton{name="copy",	x=1140,	y=440,w=170,h=80,	color='lR',font=40,code=pressKey"cC",hide=function()return #MISSION==0 end},
+	WIDGET.newButton{name="copy",	x=1140,	y=440,w=170,h=80,	color='lR',font=40,code=pressKey"cC",hideF=function()return #MISSION==0 end},
 	WIDGET.newButton{name="paste",	x=1140,	y=540,w=170,h=80,	color='lB',font=40,code=pressKey"cV"},
 	WIDGET.newSwitch{name="mission",x=1150, y=350,disp=CUSval("missionKill"),code=CUSrev("missionKill")},
 
-	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,	font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,	w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

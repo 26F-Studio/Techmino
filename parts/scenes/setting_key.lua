@@ -26,6 +26,10 @@ function scene.sceneBack()
 	FILE.save(keyMap,'conf/key')
 end
 
+local forbbidenKeys={
+	["\\"]=true,
+	["return"]=true,
+}
 function scene.keyDown(key)
 	if key=="escape"then
 		if selected then
@@ -41,7 +45,7 @@ function scene.keyDown(key)
 			SCN.back()
 		end
 	elseif selected then
-		if key~="\\"then
+		if not forbbidenKeys[key]then
 			keyMap.keyboard[key]=selected
 			freshKeyList()
 			selected=false
@@ -135,7 +139,7 @@ scene.widgetList={
 
 	WIDGET.newKey{name="restart",x=160,y=670,w=200,h=60,code=function()setSel(0)end},
 
-	WIDGET.newButton{name="back",x=1140,y=640,w=190,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=190,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

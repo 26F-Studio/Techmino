@@ -9,7 +9,7 @@ local function check_rise(P)
 			end
 		end
 		for _=1,8-L do
-			P:garbageRise(13,1,generateLine(P:RND(10)))
+			P:garbageRise(13,1,generateLine(P.holeRND:random(10)))
 		end
 	else
 		if L==0 then
@@ -17,7 +17,7 @@ local function check_rise(P)
 			SFX.play('clear')
 			BG.send(26)
 			for _=1,8 do
-				P:garbageRise(13,1,generateLine(P:RND(10)))
+				P:garbageRise(13,1,generateLine(P.holeRND:random(10)))
 			end
 		else
 			BG.send(#P.clearedRow)
@@ -38,7 +38,7 @@ return{
 		PLY.newPlayer(1)
 		local P=PLAYERS[1]
 		for _=1,8 do
-			P:garbageRise(13,1,generateLine(P:RND(10)))
+			P:garbageRise(13,1,generateLine(P.holeRND:random(10)))
 		end
 		P.fieldBeneath=0
 	end,

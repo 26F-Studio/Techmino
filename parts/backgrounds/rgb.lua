@@ -12,9 +12,9 @@ function back.update(dt)
 end
 function back.draw()
 	gc.clear(
-		sin(t*1.2)*.15+.2,
-		sin(t*1.5)*.15+.2,
-		sin(t*1.9)*.15+.2
+		sin(t*1.2)*.06+.08,
+		sin(t*1.5)*.06+.08,
+		sin(t*1.9)*.06+.08
 	)
 end
 return back

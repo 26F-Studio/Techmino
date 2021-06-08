@@ -1,5 +1,13 @@
 local gc=love.graphics
+local gc_push,gc_pop=gc.push,gc.pop
+local gc_origin,gc_replaceTransform=gc.origin,gc.replaceTransform
+local gc_setLineWidth,gc_setColor=gc.setLineWidth,gc.setColor
+local gc_setShader=gc.setShader
+local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.printf
+
 local ins,rem=table.insert,table.remove
+
+local SETTING,GAME,SCR=SETTING,GAME,SCR
 
 
 
@@ -7,7 +15,7 @@ local ins,rem=table.insert,table.remove
 function switchFullscreen()
 	SETTING.fullscreen=not SETTING.fullscreen
 	love.window.setFullscreen(SETTING.fullscreen)
-	love.resize(love.graphics.getWidth(),love.graphics.getHeight())
+	love.resize(gc.getWidth(),gc.getHeight())
 end
 
 
@@ -228,7 +236,7 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 		if ifNet then
 			SCN.go('net_game','swipeD')
 		else
-			drawableText.modeName:set(text.modes[M][1].."   "..text.modes[M][2])
+			drawableText.modeName:set((text.modes[M][1]or M).."   "..(text.modes[M][2]or""))
 			SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
 			SFX.play('enter')
 		end
@@ -236,7 +244,8 @@ function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
 end
 function gameOver()--Save record
 	if GAME.replaying then return end
-	FILE.save(STAT,'conf/data')
+	trySave()
+
 	local M=GAME.curMode
 	local R=M.getRank
 	if R then
@@ -291,79 +300,98 @@ function gameOver()--Save record
 		end
 	end
 end
-function initPlayerPosition(sudden)--Set initial position for every player
-	local L=PLY_ALIVE
-	if not sudden then
-		for i=1,#L do
-			L[i]:setPosition(640,#L<=5 and 360 or -62,0)
-		end
+function trySave()
+	if not GAME.statSaved and PLAYERS[1]and(PLAYERS[1].frameRun>300 or GAME.result)then
+		GAME.statSaved=true
+		STAT.game=STAT.game+1
+		mergeStat(STAT,PLAYERS[1].stat)
+		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
+		FILE.save(STAT,'conf/data')
 	end
+end
+do--function freshPlayerPosition(sudden)
+	local posLists={
+		--1~5
+		{
+			{340,75,1},
+			{965,390,.5},
+			{965,30,.5},
+			{20,390,.5},
+			{20,30,.5},
+		},
+		--6~17
+		(function()
+			local L={{340,75,1}}
+			for i=1,4 do ins(L,{15,-160+180*i,.25})end
+			for i=1,4 do ins(L,{180,-160+180*i,.25})end
+			for i=1,4 do ins(L,{950,-160+180*i,.25})end
+			for i=1,4 do ins(L,{1120,-160+180*i,.25})end
+			return L
+		end)(),
+		--18~31
+		(function()
+			local L={{340,75,1}}
+			for i=1,5 do ins(L,{10,	-100+135*i,.18})end
+			for i=1,5 do ins(L,{120,-100+135*i,.18})end
+			for i=1,5 do ins(L,{230,-100+135*i,.18})end
+			for i=1,5 do ins(L,{940,-100+135*i,.18})end
+			for i=1,5 do ins(L,{1050,-100+135*i,.18})end
+			for i=1,5 do ins(L,{1160,-100+135*i,.18})end
+			return L
+		end)(),
+		--32~49
+		(function()
+			local L={{340,75,1}}
+			for i=1,4 do for j=1,6 do ins(L,{78*i-54,115*j-98,.09})end end
+			for i=9,12 do for j=1,6 do ins(L,{78*i+267,115*j-98,.09})end end
+			return L
+		end)(),
+		--50~99
+		(function()
+			local L={{340,75,1}}
+			for i=1,7 do for j=1,7 do ins(L,{46*i-36,97*j-72,.068})end end
+			for i=15,21 do for j=1,7 do ins(L,{46*i+264,97*j-72,.068})end end
+			return L
+		end)(),
+	}
+	function freshPlayerPosition(sudden)--Set initial position for every player
+		local L=PLY_ALIVE
+		if not sudden then
+			for i=1,#L do
+				L[i]:setPosition(640,#L<=5 and 360 or -62,0)
+			end
+		end
 
-	local method=sudden and'setPosition'or'movePosition'
-	L[1][method](L[1],340,75,1)
-	if #L<=5 then
-		if L[2]then L[2][method](L[2],965,390,.5)end
-		if L[3]then L[3][method](L[3],965, 30,.5)end
-		if L[4]then L[4][method](L[4], 20,390,.5)end
-		if L[5]then L[5][method](L[5], 20, 30,.5)end
-	elseif #L<=17 then
-		for i=1,4 do if L[i+1]then	L[i+1][method](L[i+1],	15,	-160+180*i,.25)else return end end
-		for i=1,4 do if L[i+5]then	L[i+5][method](L[i+5],	180,-160+180*i,.25)else return end end
-		for i=1,4 do if L[i+9]then	L[i+9][method](L[i+9],	950,-160+180*i,.25)else return end end
-		for i=1,4 do if L[i+13]then	L[i+13][method](L[i+13],1120,-160+180*i,.25)else return end end
-	elseif #L<=31 then
-		for i=1,5 do if L[i+1]then	L[i+1][method](L[i+1],	10,	-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+6]then	L[i+6][method](L[i+6],	120,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+11]then	L[i+11][method](L[i+11],230,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+16]then	L[i+16][method](L[i+16],940,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+21]then	L[i+21][method](L[i+21],1050,-100+135*i,.18)else return end end
-		for i=1,5 do if L[i+26]then	L[i+26][method](L[i+26],1160,-100+135*i,.18)else return end end
-	elseif #L<=49 then
-		local n=2
-		for i=1,4 do for j=1,6 do
-			if not L[n]then return end
-			L[n][method](L[n],78*i-54,115*j-98,.09)
-			n=n+1
-		end end
-		for i=9,12 do for j=1,6 do
-			if not L[n]then return end
-			L[n][method](L[n],78*i+267,115*j-98,.09)
-			n=n+1
-		end end
-	elseif #L<=99 then
-		local n=2
-		for i=1,7 do for j=1,7 do
-			if not L[n]then return end
-			L[n][method](L[n],46*i-36,97*j-72,.068)
-			n=n+1
-		end end
-		for i=15,21 do for j=1,7 do
-			if not L[n]then return end
-			L[n][method](L[n],46*i+264,97*j-72,.068)
-			n=n+1
-		end end
-	else
-		error("TOO MANY PLAYERS!")
+		local posList
+		if #L<=5 then posList=posLists[1]
+		elseif #L<=17 then posList=posLists[2]
+		elseif #L<=31 then posList=posLists[3]
+		elseif #L<=49 then posList=posLists[4]
+		elseif #L<=99 then posList=posLists[5]
+		else error("TOO MANY PLAYERS!")
+		end
+		local method=sudden and'setPosition'or'movePosition'
+		for i=1,#L do L[i][method](L[i],unpack(posList[i]))end
 	end
 end
 do--function dumpBasicConfig()
 	local gameSetting={
 		--Tuning
-		"das","arr","dascut","sddas","sdarr",
-		"ihs","irs","ims","RS","swap",
+		'das','arr','dascut','sddas','sdarr',
+		'ihs','irs','ims','RS','swap',
 
 		--System
-		"skin","face",
+		'skin','face',
 
 		--Graphic
-		"block","ghost","center","bagLine",
-		"dropFX","moveFX","shakeFX",
-		"text","highCam","nextPos",
+		'block','ghost','center','bagLine',
+		'dropFX','moveFX','shakeFX',
+		'text','highCam','nextPos',
 
 		--Unnecessary graphic
-		-- "grid","smooth",
-		-- "lockFX","clearFX","splashFX","atkFX",
-		-- "score",
+		-- 'grid','smooth',
+		-- 'lockFX','clearFX','splashFX','atkFX',
+		-- 'score',
 	}
 	function dumpBasicConfig()
 		local S={}
@@ -374,7 +402,6 @@ do--function dumpBasicConfig()
 	end
 end
 do--function resetGameData(args)
-	local YIELD=YIELD
 	local function tick_showMods()
 		local time=0
 		while true do
@@ -392,16 +419,16 @@ do--function resetGameData(args)
 	end
 	local gameSetting={
 		--Tuning
-		"das","arr","dascut","sddas","sdarr",
-		"ihs","irs","ims","RS","swap",
+		'das','arr','dascut','sddas','sdarr',
+		'ihs','irs','ims','RS','swap',
 
 		--System
-		"skin","face",
+		'skin','face',
 
 		--Graphic
-		"block","ghost","center","smooth","grid","bagLine",
-		"lockFX","dropFX","moveFX","clearFX","splashFX","shakeFX","atkFX",
-		"text","score",'warn',"highCam","nextPos",
+		'block','ghost','center','smooth','grid','bagLine',
+		'lockFX','dropFX','moveFX','clearFX','splashFX','shakeFX','atkFX',
+		'text','score','warn','highCam','nextPos',
 	}
 	local function copyGameSetting()
 		local S={}
@@ -416,10 +443,7 @@ do--function resetGameData(args)
 	end
 	function resetGameData(args,seed)
 		if not args then args=""end
-		if PLAYERS[1]and not GAME.replaying and(PLAYERS[1].frameRun>400 or GAME.result)then
-			mergeStat(STAT,PLAYERS[1].stat)
-			STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-		end
+		trySave()
 
 		GAME.result=false
 		GAME.warnLVL0=0
@@ -437,6 +461,7 @@ do--function resetGameData(args)
 			GAME.setting=copyGameSetting()
 			GAME.rep={}
 			GAME.recording=true
+			GAME.statSaved=false
 			GAME.replaying=false
 			GAME.rank=0
 			math.randomseed(TIME())
@@ -444,11 +469,22 @@ do--function resetGameData(args)
 
 		destroyPlayers()
 		GAME.curMode.load()
-		initPlayerPosition(args:find'q')
+		freshPlayerPosition(args:find'q')
 		VK.restore()
 		if GAME.modeEnv.task then
-			for i=1,#PLAYERS do
-				PLAYERS[i]:newTask(GAME.modeEnv.task)
+			local task=GAME.modeEnv.task
+			if type(task)=='function'then
+				for i=1,#PLAYERS do
+					PLAYERS[i]:newTask(task)
+				end
+			elseif type(task)=='table'then
+				for i=1,#PLAYERS do
+					for _,t in ipairs(task)do
+						PLAYERS[i]:newTask(t)
+					end
+				end
+			else
+				LOG.print("Wrong task type",'warn')
 			end
 		end
 		BG.set(GAME.modeEnv.bg)
@@ -467,7 +503,6 @@ do--function resetGameData(args)
 			GAME.secDangerous=false
 			GAME.stage=1
 		end
-		STAT.game=STAT.game+1
 		FREEROW.reset(30*#PLAYERS)
 		TASK.removeTask_code(tick_showMods)
 		if GAME.setting.allowMod then
@@ -495,7 +530,7 @@ do--function checkWarning()
 						end
 					end
 				end
-				GAME.warnLVL0=math.log(height-(P1.gameEnv.fieldH-5)+P1.atkBuffer.sum*.8)
+				GAME.warnLVL0=math.log(height-(P1.gameEnv.fieldH-5)+P1.atkBufferSum*.8)
 			end
 			local _=GAME.warnLVL
 			if _<GAME.warnLVL0 then
@@ -508,7 +543,7 @@ do--function checkWarning()
 			GAME.warnLVL=max(GAME.warnLVL-.026,0)
 		end
 		if GAME.warnLVL>1.126 and P1.frameRun%30==0 then
-			SFX.fplay("warning",SETTING.sfx_warn)
+			SFX.fplay('warning',SETTING.sfx_warn)
 		end
 	end
 end
@@ -516,50 +551,33 @@ end
 
 
 --Game draw
-do--function drawFWM()
-	local m={
-		string.char(230,184,184,230,136,143,228,189,156,232,128,133,58,77,114,90,95,50,54,10,228,187,187,228,189,149,232,167,134,233,162,145,47,231,155,180,230,146,173,228,184,141,229,190,151,229,135,186,231,142,176,230,173,164,230,176,180,229,141,176,10,228,187,187,228,189,149,232,189,172,232,191,176,229,163,176,230,152,142,230,151,160,230,149,136),
-		string.char(230,184,184,230,136,143,228,189,156,232,128,133,58,77,114,90,95,50,54,10,228,187,187,228,189,149,232,167,134,233,162,145,47,231,155,180,230,146,173,228,184,141,229,190,151,229,135,186,231,142,176,230,173,164,230,176,180,229,141,176,10,228,187,187,228,189,149,232,189,172,232,191,176,229,163,176,230,152,142,230,151,160,230,149,136),
-		string.char(230,184,184,230,136,143,228,189,156,232,128,133,58,77,114,90,95,50,54,10,228,187,187,228,189,149,232,167,134,233,162,145,47,231,155,180,230,146,173,228,184,141,229,190,151,229,135,186,231,142,176,230,173,164,230,176,180,229,141,176,10,228,187,187,228,189,149,232,189,172,232,191,176,229,163,176,230,152,142,230,151,160,230,149,136),
-		string.char(65,117,116,104,111,114,58,32,77,114,90,95,50,54,10,82,101,99,111,114,100,105,110,103,115,32,99,111,110,116,97,105,110,105,110,103,32,116,104,105,115,10,119,97,116,101,114,109,97,114,107,32,97,114,101,32,117,110,97,117,116,104,111,114,105,122,101,100),
-		string.char(67,114,195,169,97,116,101,117,114,32,100,117,32,106,101,117,58,32,77,114,90,95,50,54,10,69,110,114,101,103,105,115,116,114,101,109,101,110,116,32,110,111,110,32,97,117,116,111,114,105,115,195,169,10,99,111,110,116,101,110,97,110,116,32,99,101,32,102,105,108,105,103,114,97,110,101),
-		string.char(65,117,116,111,114,58,32,77,114,90,95,50,54,10,71,114,97,98,97,99,105,195,179,110,32,110,111,32,97,117,116,111,114,105,122,97,100,97,32,113,117,101,10,99,111,110,116,105,101,110,101,32,101,115,116,97,32,109,97,114,99,97,32,100,101,32,97,103,117,97),
-		string.char(65,117,116,111,114,32,100,111,32,106,111,103,111,58,32,77,114,90,95,50,54,10,71,114,97,118,97,195,167,195,181,101,115,32,99,111,110,116,101,110,100,111,32,101,115,116,97,32,77,97,114,99,97,10,100,101,32,195,161,103,117,97,32,110,195,163,111,32,115,195,163,111,32,97,117,116,111,114,105,122,97,100,97,115),
-		string.char(65,117,116,104,111,114,58,32,77,114,90,95,50,54,10,82,101,99,111,114,100,105,110,103,115,32,99,111,110,116,97,105,110,105,110,103,32,116,104,105,115,10,119,97,116,101,114,109,97,114,107,32,97,114,101,32,117,110,97,117,116,104,111,114,105,122,101,100),
-	}
-	--你竟然找到了这里!那么在动手之前读读下面这些吧。
-	--【魔幻错别字躲关键字搜索警告，看得懂就行】
-	--千万不要为了在网络公共场合发视屏或者直播需要而擅自删除这部分代码!
-	--录制视屏上传到公共场合(包括但不限于任何视屏平台/论坛/好几十个人及以上的非方块社区/群等)很可能会对Techmino未来的发展有负面影响
-	--如果被TTC发现，随时可能被他们用DMCA从法律层面强迫停止开发，到时候谁都没得玩。这是真的，已经有几个方块这么死了…
-	--氵印限制还可以减少低质量视屏泛滥，也能减轻过多不是真的感兴趣路人玩家入坑可能带来的压力
-	--想发视屏的话请先向作者申请，描述录制的大致内容，同意了才可以去关闭氵印
-	--等Techmino发展到一定程度之后会解除这个限制
-	--最后，别把藏在这里的东西截图/复制出去哦~
-	--感谢您对Techmino的支持!!!
-	local sin=math.sin
-	local setFont,TIME,mStr=setFont,TIME,mStr
-	function drawFWM()
-		local t=TIME()
-		setFont(25)
-		gc.setColor(1,1,1,.2+.1*(sin(3*t)+sin(2.6*t)))
-		mStr(m[_G["\83\69\84\84\73\78\71"]["\108\97\110\103"]or m[1]],240,60+26*sin(t))
-	end
-end
 do--function drawSelfProfile()
+	local lvIcon=setmetatable({},{__index=function(self,lv)
+		local img={25,25}
+
+		ins(img,{"clear",0,0,0})
+		ins(img,{"setLW",4})
+		ins(img,{"setCL",.5,.8,1})
+		ins(img,{"dRect",2,2,21,21})
+		--TODO: draw with lv
+
+		img=DOGC(img)
+		rawset(self,lv,img)
+		return img
+	end})
 	local name
 	local textObject,scaleK,width,offY
 	function drawSelfProfile()
 		local selfAvatar=USERS.getAvatar(USER.uid)
-		gc.push('transform')
-		gc.translate(1280,0)
+		gc_push('transform')
+		gc_replaceTransform(SCR.xOy_ur)
 
 		--Draw avatar
-		gc.setLineWidth(2)
-		gc.setColor(.3,.3,.3,.8)gc.rectangle('fill',-300,0,300,80)
-		gc.setColor(1,1,1)gc.rectangle('line',-300,0,300,80)
-		gc.rectangle('line',-73,7,66,66,2)
-		gc.draw(selfAvatar,-72,8,nil,.5)
+		gc_setLineWidth(2)
+		gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',-300,0,300,80)
+		gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80)
+		gc_rectangle('line',-73,7,66,66,2)
+		gc_draw(selfAvatar,-72,8,nil,.5)
 
 		--Draw username
 		if name~=USERS.getUsername(USER.uid)then
@@ -569,26 +587,49 @@ do--function drawSelfProfile()
 			scaleK=210/math.max(width,210)
 			offY=textObject:getHeight()/2
 		end
-		gc.draw(textObject,-82,26,nil,scaleK,nil,width,offY)
+		gc_draw(textObject,-82,26,nil,scaleK,nil,width,offY)
 
 		--Draw lv. & xp.
-		gc.draw(TEXTURE.lvIcon[USER.lv],-295,50)
-		gc.line(-270,55,-80,55,-80,70,-270,70)
-		gc.rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
+		gc_draw(lvIcon[USER.lv],-295,50)
+		gc_line(-270,55,-80,55,-80,70,-270,70)
+		gc_rectangle('fill',-210,55,150*USER.xp/USER.lv/USER.lv,15)
 
-		gc.pop()
+		gc_pop()
 	end
 end
-function drawWarning()
-	if SETTING.warn and GAME.warnLVL>0 then
-		gc.push('transform')
-		gc.origin()
-		SHADER.warning:send("level",GAME.warnLVL)
-		gc.setShader(SHADER.warning)
-		gc.rectangle('fill',0,0,SCR.w,SCR.h)
-		gc.setShader()
-		gc.pop()
+function drawOnlinePlayerCount()
+	setFont(20)
+	gc_setColor(1,1,1)
+	gc_push('transform')
+	gc_replaceTransform(SCR.xOy_ur)
+	gc_printf(("%s: %s/%s/%s"):format(text.onlinePlayerCount,NET.UserCount,NET.PlayCount,NET.StreamCount),-600,80,594,'right')
+	gc_pop()
+end
+do--function drawWarning()
+	local shader_warning=SHADER.warning
+	function drawWarning()
+		if SETTING.warn and GAME.warnLVL>0 then
+			gc_push('transform')
+			gc_origin()
+			shader_warning:send("level",GAME.warnLVL)
+			gc_setShader(shader_warning)
+			gc_rectangle('fill',0,0,SCR.w,SCR.h)
+			gc_setShader()
+			gc_pop()
+		end
 	end
+end
+do--function drawSystemInfo(
+	--你竟然找到了這裏!那麽在動手之前讀讀下面這些吧。
+	--千萬不要為了在網絡公共場合發視頻或者直播需要而擅自刪除這部分代碼!
+	--錄製視頻上傳到公共場合(包括但不限於任何視頻平臺/論壇/好幾十個人及以上的非方塊社區/群等)很可能會對Techmino未來的發展有負面影響
+	--如果被TTC發現，隨時可能被他們用DMCA從法律層面強迫停止開發，到時候誰都沒得玩。這是真的，已經有幾個方塊這麽死了…
+	--氵印限製還可以減少低質量視頻泛濫，也能減輕過多不是真的感興趣路人玩家入坑可能帶來的壓力
+	--想發視頻的話請先向作者申請，描述錄製的大致內容，同意了才可以去關閉氵印
+	--等Techmino發展到一定程度之後會解除這個限製
+	--最後，別把藏在這裏的東西截圖/復製出去哦~
+	--感謝您對Techmino的支持!!!
+	loadstring(love.data.decode('string','base64',"CWxvY2FsIGc9bG92ZS5ncmFwaGljcztsb2NhbCB4LHMsVCxkLGM9Zy5uZXdUZXh0KGdldEZvbnQoMjUpKSxtYXRoLnNpbixUSU1FLGcuZHJhdyxnLnNldENvbG9yO3g6c2V0ZigiQXV0aOS9nOiAhTpNclpfMjZcbkFscGhh5YaF5rWL56aB5q2i5b2V5bGPL+ebtOaSrVxuTm8gcmVjb3JkaW5nL3N0cmVhbWluZyIsMzAwLCdjZW50ZXInKWZ1bmN0aW9uIGRyYXdGV00oKWxvY2FsIHQ9VCgpYygxLDEsMSwuMTYrLjA2KihzKDMuNTUqdCkrcygyLjYqdCkpKWQoeCwzMCw3Mys1MypzKHQqLjI2KSllbmQK"))()
 end
 
 
@@ -598,19 +639,21 @@ function backScene()SCN.back()end
 do--function goScene(name,style)
 	local cache={}
 	function goScene(name,style)
-		if not cache[name]then
-			cache[name]=function()SCN.go(name,style)end
+		local hash=style and name..style or name
+		if not cache[hash]then
+			cache[hash]=function()SCN.go(name,style)end
 		end
-		return cache[name]
+		return cache[hash]
 	end
 end
 do--function swapScene(name,style)
 	local cache={}
 	function swapScene(name,style)
-		if not cache[name]then
-			cache[name]=function()SCN.swapTo(name,style)end
+		local hash=style and name..style or name
+		if not cache[hash]then
+			cache[hash]=function()SCN.swapTo(name,style)end
 		end
-		return cache[name]
+		return cache[hash]
 	end
 end
 do--function pressKey(k)
@@ -623,11 +666,14 @@ do--function pressKey(k)
 	end
 end
 do--CUS/SETXXX(k)
-	local c,s=CUSTOMENV,SETTING
-	function CUSval(k)return function()return c[k]end end
-	function SETval(k)return function()return s[k]end end
-	function CUSrev(k)return function()c[k]=not c[k]end end
-	function SETrev(k)return function()s[k]=not s[k]end end
-	function CUSsto(k)return function(i)c[k]=i end end
-	function SETsto(k)return function(i)s[k]=i end end
+	local CUSTOMENV=CUSTOMENV
+	function CUSval(k)return function()return CUSTOMENV[k]end end
+	function ROOMval(k)return function()return ROOMENV[k]end end
+	function SETval(k)return function()return SETTING[k]end end
+	function CUSrev(k)return function()CUSTOMENV[k]=not CUSTOMENV[k]end end
+	function ROOMrev(k)return function()ROOMENV[k]=not ROOMENV[k]end end
+	function SETrev(k)return function()SETTING[k]=not SETTING[k]end end
+	function CUSsto(k)return function(i)CUSTOMENV[k]=i end end
+	function ROOMsto(k)return function(i)ROOMENV[k]=i end end
+	function SETsto(k)return function(i)SETTING[k]=i end end
 end

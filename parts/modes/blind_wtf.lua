@@ -16,28 +16,26 @@ return{
 	load=function()
 		PLY.newPlayer(1)
 		if SETTING.sfx_spawn==0 then
-			LOG.print(text.switchSpawnSFX,COLOR.Y)
+			LOG.print(text.switchSpawnSFX,'warn')
 		end
 	end,
 	mesDisp=function(P)
 		if not GAME.result then
+			gc.push('transform')
 			if GAME.replaying then
-				gc.setColor(.3,.3,.3,.7)
-				gc.push('transform')
 				gc.origin()
+				gc.setColor(.3,.3,.3,.7)
 				gc.rectangle('fill',0,0,SCR.w,SCR.h)
-				gc.pop()
 			else
-				gc.clear(.26,.26,.26)
-				--Frame
-				gc.setColor(.5,.5,.5)
-				gc.push('transform')
+				gc.clear(.2,.2,.2)
 				gc.translate(150,0)
+				gc.setColor(.5,.5,.5)
+				--Frame
 				gc.rectangle('line',-1,-11,302,612)--Boarder
 				gc.rectangle('line',301,-3,15,604)--AtkBuffer boarder
 				gc.rectangle('line',-16,-3,15,604)--B2b bar boarder
-				gc.pop()
 			end
+			gc.pop()
 		end
 
 		--Figures

@@ -21,7 +21,7 @@ function FILE.load(name)
 				return s
 			end
 		end
-		LOG.print(name.." "..text.loadError,COLOR.R)
+		LOG.print(name.." "..text.loadError,'error')
 	end
 end
 function FILE.save(data,name,mode)
@@ -50,11 +50,39 @@ function FILE.save(data,name,mode)
 	F:flush()F:close()
 	if success then
 		if not mode:find'q'then
-			LOG.print(text.saveDone,COLOR.G)
+			LOG.print(text.saveDone,'message')
 		end
 	else
 		LOG.print(text.saveError..(mes or"unknown error"),'error')
 		LOG.print(debug.traceback(),'error')
 	end
+end
+function FILE.clear(path)
+	if fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory'then return end
+	for _,name in next,fs.getDirectoryItems(path)do
+		name=path.."/"..name
+		if fs.getRealDirectory(name)==SAVEDIR then
+			local t=fs.getInfo(name).type
+			if t=='file'then
+				fs.remove(name)
+			end
+		end
+	end
+end
+function FILE.clear_s(path)
+	if path~=""and(fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory')then return end
+	for _,name in next,fs.getDirectoryItems(path)do
+		name=path.."/"..name
+		if fs.getRealDirectory(name)==SAVEDIR then
+			local t=fs.getInfo(name).type
+			if t=='file'then
+				fs.remove(name)
+			elseif t=='directory'then
+				FILE.clear_s(name)
+				fs.remove(name)
+			end
+		end
+	end
+	fs.remove(path)
 end
 return FILE

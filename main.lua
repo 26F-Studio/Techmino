@@ -5,7 +5,13 @@
 	 / /  /  __// /__ / / / // / / / / // // / / // /_/ /
 	/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
 	Techmino is my first "huge project"
-	optimization is welcomed if you also love tetromino game
+	optimization is welcomed if you also love tetromino stacking game
+
+	Instructions:
+	1. I made a framework called Zframework, most code in Zframework are not directly relevant to game;
+	2. "xxx" are texts for reading, 'xxx' are string values just in program;
+	3. Some goto statement are used for better performance. All goto-labes have detailed names so don't afraid;
+	4. Except "gcinfo" function of lua itself, other "gc" are short for "graphics";
 ]]--
 
 
@@ -31,14 +37,12 @@ love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
---Delete all files from too old version
-function CLEAR(root)
-	for _,name in next,fs.getDirectoryItems(root or"")do
-		if fs.getRealDirectory(name)==SAVEDIR and fs.getInfo(name).type~='directory'then
-			fs.remove(name)
-		end
-	end
-end CLEAR()
+--Load modules
+require"Zframework"
+SCR.setSize(1280,720)--Initialize Screen size
+
+--Delete all naked files (from too old version)
+FILE.clear("")
 
 --Create directories
 for _,v in next,{"conf","record","replay","cache","lib"}do
@@ -51,14 +55,6 @@ for _,v in next,{"conf","record","replay","cache","lib"}do
 	end
 end
 
---Load modules
-require"Zframework"
-SCR.setSize(1280,720)--Initialize Screen size
-
-require"parts.list"
-require"parts.globalTables"
-require"parts.gametoolfunc"
-
 --Load shader files from SOURCE ONLY
 SHADER={}
 for _,v in next,fs.getDirectoryItems("parts/shaders")do
@@ -68,6 +64,10 @@ for _,v in next,fs.getDirectoryItems("parts/shaders")do
 	end
 end
 
+require"parts.list"
+require"parts.globalTables"
+require"parts.gametoolfunc"
+
 FREEROW=	require"parts.freeRow"
 DATA=		require"parts.data"
 
@@ -76,17 +76,17 @@ SKIN=		require"parts.skin"
 USERS=		require"parts.users"
 NET=		require"parts.net"
 VK=			require"parts.virtualKey"
-PLY=		require"parts.player"
-netPLY=		require"parts.netPlayer"
 AIFUNC=		require"parts.ai"
 AIBUILDER=	require"parts.AITemplate"
+PLY=		require"parts.player"
+netPLY=		require"parts.netPlayer"
 MODES=		require"parts.modes"
 
 --Initialize field[1]
 FIELD[1]=DATA.newBoard()
 
 --First start for phones
-if not fs.getInfo("conf/settings")and MOBILE then
+if not fs.getInfo('conf/settings')and MOBILE then
 	SETTING.VKSwitch=true
 	SETTING.swap=false
 	SETTING.powerInfo=true
@@ -96,19 +96,17 @@ if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
-	batteryImage="mess/power.png",
 	lock="mess/lock.png",
 	dialCircle="mess/dialCircle.png",
 	dialNeedle="mess/dialNeedle.png",
 	lifeIcon="mess/life.png",
 	badgeIcon="mess/badge.png",
-	spinCenter="mess/spinCenter.png",
 	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
-	speedLimit="mess/speedLimit.png",
+	speedLimit="mess/speedLimit.png",--Not used, for future C2-mode
 	pay1="mess/pay1.png",
 	pay2="mess/pay2.png",
 
-	nakiCH="characters/naki.png",
+	nakiCH="characters/nakiharu.png",
 	miyaCH="characters/miya.png",
 	miyaF1="characters/miya_f1.png",
 	miyaF2="characters/miya_f2.png",
@@ -161,9 +159,9 @@ SFX.init((function()
 	local L={}
 	for _,v in next,fs.getDirectoryItems("media/SFX")do
 		if fs.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
-			L[#L+1]=v:sub(1,-5)
+			table.insert(L,v:sub(1,-5))
 		else
-			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v)
+			LOG.print("Dangerous file : %SAVE%/media/SFX/"..v,'warn')
 		end
 	end
 	return L
@@ -172,9 +170,9 @@ BGM.init((function()
 	local L={}
 	for _,v in next,fs.getDirectoryItems("media/BGM")do
 		if fs.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
-			L[#L+1]=v:sub(1,-5)
+			table.insert(L,v:sub(1,-5))
 		else
-			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v)
+			LOG.print("Dangerous file : %SAVE%/media/BGM/"..v,'warn')
 		end
 	end
 	return L
@@ -232,56 +230,34 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 		LANG.addScene(sceneName)
 	end
 end
-LANG.set(SETTING.lang)
 
 --Update data
 do
-	local needSave
-	local autoRestart
+	local needSave,autoRestart
 
 	if type(STAT.version)~='number'then
 		STAT.version=0
 		needSave=true
 	end
-	if STAT.version<1300 then
-		STAT.frame=math.floor(STAT.time*60)
-		STAT.lastPlay='sprint_10l'
-		RANKS.sprintFix=nil
-		RANKS.sprintLock=nil
-		needSave=true
-		for _,name in next,fs.getDirectoryItems("replay")do
-			fs.remove("replay/"..name)
-		end
-	end
 	if STAT.version<1302 then
-		if RANKS.pctrain_n then RANKS.pctrain_n=0 end
-		if RANKS.pctrain_l then RANKS.pctrain_l=0 end
-		fs.remove("conf/settings")
-		needSave=true
-		autoRestart=true
-	end
-	if STAT.version<1400 then
-		fs.remove("conf/user")
-		fs.remove("conf/key")
-		needSave=true
-		autoRestart=true
+		FILE.clear_s("")
 	end
 	if STAT.version<1405 then
-		fs.remove("conf/user")
-		autoRestart=true
+		fs.remove('conf/user')
+		fs.remove('conf/key')
 	end
-	SETTING.appLock=nil
-
-	for _,v in next,VK_org do v.color=nil end
-
 	if STAT.version~=VERSION.code then
-		newVersionLaunch=true
 		STAT.version=VERSION.code
-		CLEAR("lib")
 		needSave=true
 		autoRestart=true
 	end
-
+	if not SETTING.VKSkin then SETTING.VKSkin=1 end
+	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
+		SETTING.frameMul=100
+	end
+	SETTING.appLock=nil
+	SETTING.dataSaving=nil
+	for _,v in next,VK_org do v.color=nil end
 	if RANKS.GM then RANKS.GM=0 end
 	if RANKS.infinite then RANKS.infinite=6 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
@@ -321,3 +297,6 @@ do
 		love.event.quit('restart')
 	end
 end
+
+LANG.set(SETTING.lang)
+VK.setShape(SETTING.VKSkin)

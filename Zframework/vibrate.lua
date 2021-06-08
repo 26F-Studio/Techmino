@@ -1,4 +1,4 @@
-local level={0,0,.01,.015,.02,.03,.04,.05,.06,.07}
+local level={0,0,.01,.016,.023,.03,.04,.05,.06,.07,.08,.09,.12,.15}
 local vib=love.system.vibrate
 return function(t)
 	local L=SETTING.vib

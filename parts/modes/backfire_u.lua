@@ -5,7 +5,7 @@ return{
 		freshLimit=10,
 		dropPiece=function(P)
 			if P.lastPiece.atk>0 then
-				P:receive(nil,P.lastPiece.atk,0,generateLine(P:RND(10)))
+				P:receive(nil,P.lastPiece.atk,0,generateLine(P.holeRND:random(10)))
 			end
 			if P.stat.atk>=100 then
 				P:win('finish')

@@ -1,6 +1,6 @@
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale,gc_rotate=gc.translate,gc.scale,gc.rotate
+local gc_translate,gc_scale,gc_rotate,gc_shear=gc.translate,gc.scale,gc.rotate,gc.shear
 local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
 local gc_draw,gc_line,gc_rectangle=gc.draw,gc.line,gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
@@ -9,14 +9,13 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,sin,modf=math.max,math.min,math.sin,math.modf
-local setFont,mDraw,mStr,mText=setFont,mDraw,mStr,mText
+local setFont,mDraw,mStr=setFont,mDraw,mStr
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
 local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
 local RCPB={5,33,195,33,100,5,100,60}
-local frameColorList={[0]=COLOR.Z,COLOR.lG,COLOR.lB,COLOR.lV,COLOR.lO}
 local attackColor={
 	{COLOR.dH,COLOR.Z},
 	{COLOR.H,COLOR.Z},
@@ -41,15 +40,38 @@ local multiple=DOGC{15,15,
 	{'line',2,2,12,12},
 	{'line',2,12,12,2},
 }
+local spinCenterImg=DOGC{9,9,
+	{'setCL',1,1,1,.2},
+	{'fRect',0,0,9,9},
+	{'setCL',1,1,1,.6},
+	{'fRect',1,1,7,7},
+	{'setCL',1,1,1,.8},
+	{'fRect',2,2,5,5},
+	{'setCL',1,1,1},
+	{'fRect',3,3,3,3},
+}
+local playerBoarders=DOGC{334,614,
+	{'setLW',2},
+	{'dRect',16,1,302,612},
+	{'dRect',318,9,15,604},
+	{'dRect',1,9,15,604},
+}
 local gridLines do
 	local L={300,640,{'setLW',2}}
 	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
-	for y=0,19 do table.insert(L,{'line',0,40+30*y,300,40+30*y})end
+	for y=0,20 do table.insert(L,{'line',0,10+30*y,300,10+30*y})end
 	gridLines=DOGC(L)
 end
 local LDmarks=gc.newSpriteBatch(DOGC{14,5,{'clear',1,1,1}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end
-
+local bpmImage=DOGC{31,12,
+	{'setFT',15},
+	{'print',"BPM",0,-5}
+}
+local kpmImage=DOGC{31,12,
+	{'setFT',15},
+	{'print',"KPM",0,-5}
+}
 local function boardTransform(mode)
 	if mode then
 		if mode=="U-D"then
@@ -73,10 +95,6 @@ local function applyFieldOffset(P,notNorm)
 end
 local function stencilBoard()gc_rectangle('fill',0,-10,300,610)end
 
-local function drawGrid(P,alpha)
-	gc_setColor(1,1,1,alpha)
-	gc_draw(gridLines,0,-10+(P.fieldBeneath+P.fieldUp)%30)
-end
 local function drawRow(h,V,L,showInvis)
 	local texture=SKIN.curText
 	local t=TIME()*4
@@ -189,8 +207,8 @@ local function drawFXs(P)
 		gc_rectangle('fill',150-x*150,15-S[1]*30-y*15,300*x,y*30)
 	end
 end
-local function drawGhost(P,clr)
-	gc_setColor(1,1,1,P.gameEnv.ghost)
+local function drawGhost(P,clr,alpha)
+	gc_setColor(1,1,1,alpha)
 	local texture=SKIN.curText
 	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
@@ -237,13 +255,6 @@ local function drawNextPreview(P,B)
 		end
 	end end
 end
-local function drawBoarders(P)
-	gc_setLineWidth(2)
-	gc_setColor(frameColorList[P.frameColor])
-	gc_rectangle('line',-1,-11,302,612)--Bis Boarder
-	gc_rectangle('line',301,-3,15,604)--AtkBuffer boarder
-	gc_rectangle('line',-16,-3,15,604)--B2b bar boarder
-end
 local function drawBuffer(P)
 	local h=0
 	for i=1,#P.atkBuffer do
@@ -276,6 +287,24 @@ local function drawBuffer(P)
 		end
 		h=h+bar
 	end
+	if P.gameEnv.bufferWarn then
+		local sum=P.atkBufferSum1
+		if sum>=8 then
+			gc_push('transform')
+			gc_translate(300,max(0,600-30*sum))
+			gc_scale(min(.2+sum/50,1))
+			gc_setColor(1,.2+min(sum*.02,.8)*(.5+.5*sin(TIME()*min(sum,32))),.2,min(sum/30,.8))
+			setFont(100)
+			if sum>20 then
+				local d=P.atkBufferSum-sum
+				if d>.5 then
+					gc_translate(d^.5*(rnd()-.5)*15,d^.5*(rnd()-.5)*15)
+				end
+			end
+			gc_printf(int(sum),-300,-20,292,'right')
+			gc_pop()
+		end
+	end
 end
 local function drawB2Bbar(P)
 	local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
@@ -288,14 +317,14 @@ local function drawB2Bbar(P)
 		gc_rectangle('fill',-15,b<40 and 568.5 or 118.5,13,3)
 	end
 end
-local function drawLDI(P)--Lock Delay Indicator
-	if P.gameEnv.easyFresh then
+local function drawLDI(P,ENV)--Lock Delay Indicator
+	if ENV.easyFresh then
 		gc_setColor(1,1,1)
 	else
 		gc_setColor(1,.26,.26)
 	end
 	if P.lockDelay>=0 then
-		gc_rectangle('fill',0,602,300*P.lockDelay/P.gameEnv.lock,6)--Lock delay indicator
+		gc_rectangle('fill',0,602,300*P.lockDelay/ENV.lock,6)--Lock delay indicator
 	end
 	if P.freshTime>0 then
 		LDmarks:setDrawRange(1,min(P.freshTime,15))
@@ -309,11 +338,10 @@ local function drawHold(P)
 	local holdQueue=P.holdQueue
 	local N=ENV.holdCount*72
 	gc_push('transform')
-	gc_translate(-140,36)
+	gc_translate(-140,20)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
 		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
-		mText(drawableText.hold,62,-51)
 
 		gc_setColor(1,1,1)
 		if #holdQueue<ENV.holdCount and P.nextQueue[1]then
@@ -417,13 +445,24 @@ local function drawMission(P)
 		end
 	end
 end
-local function drawStartCounter(count)
-	gc_setColor(1,1,1)
+local function drawStartCounter(P)
+	local count=179-P.frameRun
 	gc_push('transform')
-		gc_translate(305,220)
-		if count%60>45 then gc_scale(1+(count%60-45)^2*.01,1)end
-		setFont(95)
-		mStr(int(count/60+1),0,0)
+		gc_translate(300,300)
+		local num=int(count/60+1)
+		local d=count%60-45
+		if num==3 then
+			gc_setColor(.7,.9,1)
+			if d>0 then gc_scale(1+d^2*.01,1)end
+		elseif num==2 then
+			gc_setColor(1,.95,.7)
+			if d>0 then gc_shear(-(d/15)^2,0)end
+		elseif num==1 then
+			gc_setColor(1,.8,.8)
+			if d>0 then gc_rotate(d^2*.00355)end
+		end
+		setFont(100)
+		mStr(num,0,-70)
 	gc_pop()
 end
 
@@ -431,11 +470,10 @@ local draw={}
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
-	gc_translate(316,36)
+	gc_translate(316,20)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
-		mText(drawableText.next,62,-51)
 		N=1
 		gc_push('transform')
 			gc_translate(62,40)
@@ -456,20 +494,19 @@ function draw.drawNext_norm(P)
 
 		if ENV.bagLine then
 			gc_setColor(.8,.5,.5)
-			for i=-P.pieceCount%ENV.bagLen,N-1,ENV.bagLen do--i=phase
+			for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
 				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
-	gc_translate(-316,-36)
+	gc_translate(-316,-20)
 end
 function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
-	gc_translate(316,36)
+	gc_translate(316,20)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
-		mText(drawableText.next,62,-51)
 		N=min(ENV.nextStartPos,P.pieceCount+1)
 		gc_push('transform')
 			gc_translate(62,40)
@@ -491,11 +528,11 @@ function draw.drawNext_hidden(P)
 
 		if ENV.bagLine then
 			gc_setColor(.8,.5,.5)
-			for i=-P.pieceCount%ENV.bagLen,N-1,ENV.bagLen do--i=phase
+			for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
 				gc_rectangle('fill',2,72*i+3,120,2)
 			end
 		end
-	gc_translate(-316,-36)
+	gc_translate(-316,-20)
 end
 draw.applyFieldOffset=applyFieldOffset
 
@@ -511,164 +548,6 @@ function draw.drawTargetLine(P,r)
 end
 
 function draw.norm(P)
-	local ENV=P.gameEnv
-	local FBN,FUP=P.fieldBeneath,P.fieldUp
-	local t=TIME()
-	gc_push('transform')
-		gc_translate(P.x,P.y)
-		gc_scale(P.size)
-
-		--Field-related things
-		gc_push('transform')
-			applyFieldOffset(P)
-
-			--Fill field
-			gc_setColor(0,0,0,.6)
-			gc_rectangle('fill',0,-10,300,610)
-
-			--Stenciled in-field things
-			gc_stencil(stencilBoard,'replace',1)
-			gc_setStencilTest('equal',1)
-			gc_push('transform')
-				boardTransform(ENV.flipBoard)
-
-				--Draw grid
-				if ENV.grid then drawGrid(P,ENV.grid)end
-
-				--Move camera
-				gc_translate(0,600+FBN+FUP)
-
-				local fieldTop=-ENV.fieldH*30
-				--Draw dangerous area
-				gc_setColor(1,0,0,.3)
-				gc_rectangle('fill',0,fieldTop,300,-FUP-FBN-fieldTop-620)
-
-				--Draw field
-				drawField(P)
-
-				--Draw spawn line
-				gc_setColor(1,sin(t)*.4+.5,0,.5)
-				gc_setLineWidth(4)
-				gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
-
-				--Draw FXs
-				drawFXs(P)
-
-				--Draw current block
-				if P.cur and P.waiting==-1 then
-					local curColor=P.cur.color
-
-					local trans=P.lockDelay/ENV.lock
-					local centerX=30*(P.curX+P.cur.sc[2])-15
-
-					--Draw ghost & rotation center
-					if ENV.ghost then
-						drawGhost(P,curColor)
-						if ENV.center then
-							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
-						end
-					end
-
-					local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
-					gc_translate(0,-dy)
-						--Draw block & rotation center
-						if ENV.block then
-							drawBlockOutline(P,SKIN.curText[curColor],trans)
-							drawBlock(P,curColor)
-							if ENV.center then
-								gc_setColor(1,1,1,ENV.center)
-								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
-							end
-						end
-					gc_translate(0,dy)
-				end
-
-				--Draw next preview
-				if ENV.nextPos and P.nextQueue[1]then
-					drawNextPreview(P,P.nextQueue[1])
-				end
-
-				--Draw AI's drop destination
-				if P.AI_dest then
-					local texture=TEXTURE.puzzleMark[21]
-					local L=P.AI_dest
-					for i=1,#L,2 do
-						gc_draw(texture,30*L[i],-30*L[i+1]-30)
-					end
-				end
-			gc_pop()
-			gc_setStencilTest()
-
-			drawBoarders(P)
-			drawBuffer(P)
-			drawB2Bbar(P)
-			drawLDI(P)
-			drawHold(P)
-			P:drawNext()
-
-			--Draw target selecting pad
-			if GAME.modeEnv.royaleMode then
-				if P.atkMode then
-					gc_setColor(1,.8,0,P.swappingAtkMode*.02)
-					gc_rectangle('fill',RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
-				end
-				gc_setColor(1,1,1,P.swappingAtkMode*.025)
-				setFont(35)
-				for i=1,4 do
-					gc_rectangle('line',RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
-				end
-			end
-			if ENV.hideBoard then
-				gc_stencil(hideBoardStencil[ENV.hideBoard],'replace',1)
-				gc_setStencilTest('equal',1)
-				gc_setLineWidth(20)
-				for i=0,24 do
-					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1))
-					gc_line(20*i-190,-2,20*i+10,602)
-				end
-				gc_setStencilTest()
-			end
-			--Bonus texts
-			TEXT.draw(P.bonus)
-
-			--Display Ys
-			-- gc_setLineWidth(6)
-			-- if P.curY then	gc_setColor(COLOR.R)gc_line(0,611-P.curY*30,300,610-P.curY*30)end
-			-- if P.ghoY then	gc_setColor(COLOR.G)gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
-			-- if P.minY then	gc_setColor(COLOR.B)gc_line(0,619-P.minY*30,300,620-P.minY*30)end
-			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
-		gc_pop()
-
-		--Speed dials
-		drawDial(510,515,P.dropSpeed)
-		drawDial(555,570,P.keySpeed)
-		gc_setColor(1,1,1)
-		gc_draw(drawableText.bpm,540,485)
-		gc_draw(drawableText.kpm,494,578)
-
-		--Mode informations
-		if GAME.curMode.mesDisp then
-			GAME.curMode.mesDisp(P)
-		end
-
-		--Score & Time
-		setFont(25)
-		local tm=int(P.stat.time*100)*.01
-		gc_setColor(0,0,0,.3)
-		gc_print(P.score1,18,509)
-		gc_print(tm,18,539)
-		gc_setColor(COLOR.lY)gc_print(P.score1,20,510)
-		gc_setColor(COLOR.N)gc_print(tm,20,540)
-
-		drawFinesseCombo_norm(P)
-		if P.life>0 then drawLife(P.life)end
-		drawMission(P)
-		if P.frameRun<180 then drawStartCounter(179-P.frameRun)end
-	gc_pop()
-end
-function draw.norm_remote(P)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
@@ -696,7 +575,10 @@ function draw.norm_remote(P)
 				boardTransform(ENV.flipBoard)
 
 				--Draw grid
-				if ENV.grid then drawGrid(P,ENV.grid)end
+				if ENV.grid then
+					gc_setColor(1,1,1,ENV.grid)
+					gc_draw(gridLines,0,(FBN+FUP+10)%30-50)
+				end
 
 				--Move camera
 				gc_translate(0,600+FBN+FUP)
@@ -710,9 +592,13 @@ function draw.norm_remote(P)
 				drawField(P)
 
 				--Draw spawn line
-				gc_setColor(1,sin(t)*.4+.5,0,.5)
 				gc_setLineWidth(4)
-				gc_line(0,fieldTop-FBN,300,fieldTop-FBN)
+				gc_setColor(1,sin(t)*.4+.5,0,.5)
+				gc_rectangle('fill',0,fieldTop-FBN-2,300,4)
+
+				--Draw height limit line
+				gc_setColor(.4,.7+sin(t*12)*.3,1,.7)
+				gc_rectangle('fill',0,-ENV.heightLimit*30-FBN-2,300,4)
 
 				--Draw FXs
 				drawFXs(P)
@@ -726,10 +612,10 @@ function draw.norm_remote(P)
 
 					--Draw ghost & rotation center
 					if ENV.ghost then
-						drawGhost(P,curColor)
+						drawGhost(P,curColor,ENV.ghost)
 						if ENV.center then
-							gc_setColor(1,1,1,trans*ENV.center)
-							gc_draw(IMG.spinCenter,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+							gc_setColor(1,1,1,ENV.center)
+							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
 					end
 
@@ -741,7 +627,7 @@ function draw.norm_remote(P)
 							drawBlock(P,curColor)
 							if ENV.center then
 								gc_setColor(1,1,1,ENV.center)
-								gc_draw(IMG.spinCenter,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+								gc_draw(spinCenterImg,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end
 						end
 					gc_translate(0,dy)
@@ -751,15 +637,28 @@ function draw.norm_remote(P)
 				if ENV.nextPos and P.nextQueue[1]then
 					drawNextPreview(P,P.nextQueue[1])
 				end
+
+				--Draw AI's drop destination
+				if P.AI_dest then
+					local texture=TEXTURE.puzzleMark[21]
+					local L=P.AI_dest
+					for i=1,#L,2 do
+						gc_draw(texture,30*L[i],-30*L[i+1]-30)
+					end
+				end
 			gc_pop()
 			gc_setStencilTest()
 
-			drawBoarders(P)
+			gc_setLineWidth(2)
+			P:drawNext()
+			drawHold(P)
 			drawBuffer(P)
 			drawB2Bbar(P)
-			drawLDI(P)
-			drawHold(P)
-			P:drawNext()
+			drawLDI(P,ENV)
+
+			--Draw boarders
+			gc_setColor(P.frameColor)
+			gc_draw(playerBoarders,-17,-12)
 
 			--Draw target selecting pad
 			if GAME.modeEnv.royaleMode then
@@ -774,6 +673,8 @@ function draw.norm_remote(P)
 					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
 				end
 			end
+
+			--Board cover
 			if ENV.hideBoard then
 				gc_stencil(hideBoardStencil[ENV.hideBoard],'replace',1)
 				gc_setStencilTest('equal',1)
@@ -785,12 +686,29 @@ function draw.norm_remote(P)
 				gc_setStencilTest()
 			end
 
+			--Spike
+			local sp,spt=P.spike,P.spikeTime
+			if ENV.showSpike and spt>0 and sp>=10 then
+				local rg=10/sp
+				gc_setColor(rg,rg,1,min(spt/30,.8))
+				local x,y=150,100
+				if spt>85 then
+					local d=2*(spt-85)*min(sp/50,1)
+					x,y=x+(rnd()-.5)*d,y+(rnd()-.5)*d
+				end
+				mDraw(P.spikeText,x,y,nil,min(.3+(sp/26)*.4+spt/100*.3,1))
+			end
+
 			--Bonus texts
 			TEXT.draw(P.bonus)
-		gc_pop()
 
-		--Speed dials
-		drawDial(535,545,P.dropSpeed)
+			--Display Ys
+			-- gc_setLineWidth(6)
+			-- if P.curY then gc_setColor(COLOR.R)	gc_line(0,611-P.curY*30,300,610-P.curY*30)end
+			-- if P.ghoY then gc_setColor(COLOR.G)	gc_line(0,615-P.ghoY*30,300,615-P.ghoY*30)end
+			-- if P.minY then gc_setColor(COLOR.B)	gc_line(0,619-P.minY*30,300,620-P.minY*30)end
+			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
+		gc_pop()
 
 		--Mode informations
 		if GAME.curMode.mesDisp then
@@ -798,19 +716,30 @@ function draw.norm_remote(P)
 			GAME.curMode.mesDisp(P)
 		end
 
+		--Speed dials & FinesseCombo
+		if P.type=='remote'then
+			drawDial(535,545,P.dropSpeed)
+			drawFinesseCombo_remote(P)
+		else
+			drawDial(510,515,P.dropSpeed)
+			drawDial(555,570,P.keySpeed)
+			gc_draw(bpmImage,540,490)
+			gc_draw(kpmImage,494,583)
+			drawFinesseCombo_norm(P)
+		end
+
 		--Score & Time
 		setFont(25)
-		local time=int(P.stat.time*100)*.01
+		local tm=int(P.stat.time*100)*.01
 		gc_setColor(0,0,0,.3)
 		gc_print(P.score1,18,509)
-		gc_print(time,18,539)
+		gc_print(tm,18,539)
 		gc_setColor(COLOR.lY)gc_print(P.score1,20,510)
-		gc_setColor(COLOR.N)gc_print(time,20,540)
+		gc_setColor(COLOR.N)gc_print(tm,20,540)
 
-		drawFinesseCombo_remote(P)
 		if P.life>0 then drawLife(P.life)end
 		drawMission(P)
-		if P.frameRun<180 then drawStartCounter(179-P.frameRun)end
+		if P.frameRun<180 then drawStartCounter(P)end
 	gc_pop()
 end
 function draw.small(P)
@@ -836,7 +765,7 @@ function draw.small(P)
 		--Draw boarder
 		if P.alive then
 			gc_setLineWidth(2)
-			gc_setColor(frameColorList[P.frameColor])
+			gc_setColor(P.frameColor)
 			gc_rectangle('line',0,0,60,120)
 		end
 
@@ -891,7 +820,7 @@ function draw.demo(P)
 				drawField(P)
 				drawFXs(P)
 				if P.cur and P.waiting==-1 then
-					if ENV.ghost then drawGhost(P,curColor)end
+					if ENV.ghost then drawGhost(P,curColor,ENV.ghost)end
 					if ENV.block then
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc_translate(0,-dy)

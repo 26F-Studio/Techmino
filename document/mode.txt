@@ -11,11 +11,15 @@
 			wait:出块延迟(帧)
 			fall:下落延迟(帧)
 			bone:是否开启骨块模式
+			fieldH:场地高度
+			heightLimit:允许的最大场地高度
 			nextCount:显示next个数
 			nextStartPos:next从第几个开始显示
 			holdCount:hold个数
 			infHold:是否能无限hold
+			phyHold:是否开启物理hold
 			ospin=是否能O-spin
+			deepDrop:是否开启深降
 			RS:旋转系统名
 
 			das:DAS
@@ -57,11 +61,13 @@
 			mission:包含任务的table，说明暂时略
 
 			life:生命数
-			pushSpeed:上涨速度
+			garbageSpeed:垃圾行释放速度
+			pushSpeed:垃圾行上涨速度
 			noTele:是否禁止10个高级按键
 			visible:方块可见性，填写固定的几个字符串
 			freshLimit:锁延刷新次数限制
 			easyFresh:是否使用简单锁延刷新规则
+			bufferLimit:攻击缓冲行数上限
 
 			fkey1:按下功能键1后执行的函数
 			fkey2:按下功能键2后执行的函数

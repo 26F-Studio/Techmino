@@ -3,7 +3,7 @@ local setColor,setWidth=gc.setColor,gc.setLineWidth
 local sin,cos=math.sin,math.cos
 local max,min=math.max,math.min
 local rnd=math.random
-local rem=table.remove
+local ins,rem=table.insert,table.remove
 
 local fx={}
 
@@ -126,17 +126,17 @@ function SYSFX.draw()
 end
 
 function SYSFX.newBadge(x1,y1,x2,y2)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.badge,
 		draw=FXdraw.badge,
 		t=0,
 		x=x1,y=y1,
 		x1=x1,y1=y1,
 		x2=x2,y2=y2,
-	}
+	})
 end
 function SYSFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.attack,
 		draw=FXdraw.attack,
 		t=0,
@@ -145,7 +145,7 @@ function SYSFX.newAttack(rate,x1,y1,x2,y2,wid,r,g,b,a)
 		x2=x2,y2=y2,--End pos
 		wid=wid,--Line width
 		r=r,g=g,b=b,a=a,
-	}
+	})
 end
 function SYSFX.newTap(rate,x,y)
 	local T=
@@ -162,38 +162,38 @@ function SYSFX.newTap(rate,x,y)
 		local ang=rnd()*6.2832
 		T.ptc[i]={x,y,x+d*cos(ang),y+d*sin(ang)}
 	end
-	fx[#fx+1]=T
+	ins(fx,T)
 end
 function SYSFX.newRipple(rate,x,y,r)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.ripple,
 		draw=FXdraw.ripple,
 		t=0,
 		rate=rate,
 		x=x,y=y,r=r,
-	}
+	})
 end
 function SYSFX.newRectRipple(rate,x,y,w,h)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.rectRipple,
 		draw=FXdraw.rectRipple,
 		t=0,
 		rate=rate,
 		x=x,y=y,w=w,h=h,
-	}
+	})
 end
 function SYSFX.newShade(rate,x,y,w,h,r,g,b)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.shade,
 		draw=FXdraw.shade,
 		t=0,
 		rate=rate,
 		x=x,y=y,w=w,h=h,
 		r=r or 1,g=g or 1,b=b or 1,
-	}
+	})
 end
 function SYSFX.newCell(rate,image,size,x,y,vx,vy,ax,ay)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.cell,
 		draw=FXdraw.cell,
 		t=0,
@@ -203,10 +203,10 @@ function SYSFX.newCell(rate,image,size,x,y,vx,vy,ax,ay)
 		x=x,y=y,
 		vx=vx,vy=vy,
 		ax=ax,ay=ay,
-	}
+	})
 end
 function SYSFX.newLine(rate,x1,y1,x2,y2,r,g,b,a)
-	fx[#fx+1]={
+	ins(fx,{
 		update=FXupdate.line,
 		draw=FXdraw.line,
 		t=0,
@@ -214,6 +214,6 @@ function SYSFX.newLine(rate,x1,y1,x2,y2,r,g,b,a)
 		x1=x1 or 0,y1=y1 or 0,
 		x2=x2 or x1 or 1280,y2=y2 or y1 or 720,
 		r=r or 1,g=g or 1,b=b or 1,a=a or 1,
-	}
+	})
 end
 return SYSFX

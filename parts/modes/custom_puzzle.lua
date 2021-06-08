@@ -39,10 +39,9 @@ return{
 	},
 	load=function()
 		applyCustomGame()
+		local AItype=GAME.modeEnv.opponent:sub(1,2)
+		local AIlevel=tonumber(GAME.modeEnv.opponent:sub(-1))
 		PLY.newPlayer(1)
-		local ENV=GAME.modeEnv
-		local AItype=ENV.opponent:sub(1,2)
-		local AIlevel=tonumber(ENV.opponent:sub(-1))
 		if AItype=='9S'then
 			PLY.newAIPlayer(2,AIBUILDER('9S',2*AIlevel))
 		elseif AItype=='CC'then

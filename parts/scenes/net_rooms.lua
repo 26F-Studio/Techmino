@@ -1,15 +1,26 @@
 local gc=love.graphics
-local ms,kb=love.mouse,love.keyboard
+local ms=love.mouse
 
 local int,max,min=math.floor,math.max,math.min
 
 local NET=NET
 local scrollPos,selected
 local fetchTimer
-local lastCreateRoomTime=0
 
+--[[NET.roomList[n]={
+	rid="qwerty",
+	roomInfo={
+		name="MrZ's room",
+		type="classic",
+		version=1409,
+	},
+	private=false,
+	start=false,
+	count=4,
+	capacity=5,
+}]]
 local function fetchRoom()
-	fetchTimer=5
+	fetchTimer=10
 	NET.fetchRoom()
 end
 
@@ -17,8 +28,6 @@ local scene={}
 
 function scene.sceneInit()
 	BG.set()
-	NET.allReady=false
-	NET.connectingStream=false
 	scrollPos=0
 	selected=1
 	fetchRoom()
@@ -29,26 +38,13 @@ function scene.wheelMoved(_,y)
 end
 function scene.keyDown(k)
 	if k=="r"then
-		if fetchTimer<=3.26 then
+		if fetchTimer<=7 then
 			fetchRoom()
 		end
 	elseif k=="s"then
 		SCN.go('setting_game')
-	elseif k=="m"or k=="n"then
-		if TIME()-lastCreateRoomTime>6.26 then
-			NET.createRoom(
-				k=="m"and"classic"or
-				tonumber(USER.uid)<100 and(
-					kb.isDown"q"and"r49"or
-					kb.isDown"w"and"r99"or
-					kb.isDown"e"and"unlimited"
-				)or"solo",
-				(USERS.getUsername(USER.uid)or"???").."'s room"
-			)
-			lastCreateRoomTime=TIME()
-		else
-			LOG.print(text.createRoomTooFast,'warn')
-		end
+	elseif k=="n"then
+		SCN.go('net_newRoom')
 	elseif k=="escape"then
 		SCN.back()
 	elseif #NET.roomList>0 then
@@ -64,27 +60,26 @@ function scene.keyDown(k)
 			end
 		elseif k=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
-			if NET.roomList[selected].private then
-				LOG.print("Can't enter private room now")
-				return
-			end
-			NET.enterRoom(NET.roomList[selected])--,password
+			local R=NET.roomList[selected]
+			if R.roomInfo.version~=VERSION.short then LOG.print("Version doesn't match",'message')return end
+			if R.private then LOG.print("Can't enter private room now",'message')return end
+			NET.enterRoom(R)--,password
 		end
 	end
 end
 
 function scene.mouseMove(x,y,_,dy)
-	if ms.isDown(1)and x>50 and x<1110 and y>110 and y<510 then
+	if ms.isDown(1)and x>50 and x<850 and y>110 and y<510 then
 		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.touchMove(x,y,_,dy)
-	if x>50 and x<1110 and y>110 and y<510 then
+	if x>50 and x<850 and y>110 and y<510 then
 		scene.wheelMoved(0,dy/40)
 	end
 end
 function scene.mouseClick(x,y)
-	if x>50 and x<1110 then
+	if x>50 and x<850 then
 		y=int((y-70)/40)
 		if y>=1 and y<=10 then
 			local s=int(y+scrollPos)
@@ -119,62 +114,84 @@ end
 function scene.draw()
 	--Fetching timer
 	gc.setColor(1,1,1,.12)
-	gc.arc('fill','pie',300,620,60,-1.5708,-1.5708-1.2566*fetchTimer)
+	gc.arc('fill','pie',250,620,60,-1.5708,-1.5708-.6283*fetchTimer)
 
 	--Room list
 	gc.setColor(1,1,1)
 	gc.setLineWidth(2)
-	gc.rectangle('line',50,110,1060,400)
+	gc.rectangle('line',50,110,800,400)
 	local roomCount=#NET.roomList
 	if roomCount>0 then
-		setFont(35)
+		if roomCount>10 then
+			local len=400*10/roomCount
+			gc.rectangle('fill',837,110+(400-len)*scrollPos/(roomCount-10),12,len)
+		end
 		gc.push('transform')
 		gc.stencil(roomListStencil,'replace',1)
 		gc.setStencilTest('equal',1)
 		gc.translate(0,scrollPos%1*-40)
+		setFont(35)
 		local pos=int(scrollPos)
 		for i=1,math.min(11,roomCount-pos)do
 			local R=NET.roomList[pos+i]
 			if pos+i==selected then
 				gc.setColor(1,1,1,.3)
-				gc.rectangle('fill',50,70+40*i,1060,40)
+				gc.rectangle('fill',50,70+40*i,800,40)
 			end
-			if R.start then
-				gc.setColor(0,1,0)
-				gc.print(text.started,660,66+40*i)
-			end
+			gc.setColor(1,1,1)
+			if R.private then gc.draw(IMG.lock,60,75+40*i)end
+			gc.print(R.count.."/"..R.capacity,720,66+40*i)
+
 			gc.setColor(.9,.9,1)
 			gc.print(pos+i,95,66+40*i)
-			gc.setColor(1,1,.7)
-			gc.print(R.name,250,66+40*i)
-			gc.setColor(1,1,1)
-			gc.printf(R.type,430,66+40*i,500,'right')
-			gc.print(R.count.."/"..R.capacity,980,66+40*i)
-			if R.private then
-				gc.draw(IMG.lock,59,75+40*i)
+
+			if R.start then
+				gc.setColor(0,.4,.1)
+			else
+				gc.setColor(1,1,.7)
 			end
+			gc.print(R.roomInfo.name,250,66+40*i)
 		end
 		gc.setStencilTest()
 		gc.pop()
-		if roomCount>10 then
-			local len=400*10/roomCount
-			gc.rectangle('fill',1218,110+(400-len)*scrollPos/(roomCount-10),12,len)
+
+		gc.setColor(1,1,1)
+		gc.rectangle('line',860,240,385,270)
+		if NET.roomList[selected]then
+			local R=NET.roomList[selected]
+			setFont(25)
+			gc.print(R.roomInfo.type,870,265)
+			gc.setColor(1,1,.7)
+			gc.printf(R.roomInfo.name,870,240,365)
+			setFont(20)
+			gc.setColor(.8,.8,.8)
+			gc.printf(R.roomInfo.description or"[No description]",870,295,365)
+			if R.start then
+				gc.setColor(0,1,.2)
+				gc.print(text.started,870,475)
+			end
+			if R.roomInfo.version~=VERSION.short then
+				gc.setColor(1,.2,0)
+				gc.printf(R.roomInfo.version,870,475,365,'right')
+			end
 		end
 	end
 
 	--Profile
 	drawSelfProfile()
+
+	--Player count
+	drawOnlinePlayerCount()
 end
 
 scene.widgetList={
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
-	WIDGET.newText{name="refreshing",x=580,y=255,font=45,hide=function()return not NET.getlock('fetchRoom')end},
-	WIDGET.newText{name="noRoom",	x=580,y=260,font=40,hide=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
-	WIDGET.newKey{name="refresh",	x=300,y=620,w=140,h=140,font=35,code=fetchRoom,hide=function()return fetchTimer>3.26 end},
-	WIDGET.newKey{name="new",		x=500,y=620,w=140,h=140,font=20,code=pressKey"n"},
-	WIDGET.newKey{name="new2",		x=700,y=620,w=140,h=140,font=20,code=pressKey"m"},
-	WIDGET.newKey{name="join",		x=900,y=620,w=140,h=140,font=40,code=pressKey"return",hide=function()return #NET.roomList==0 or NET.getlock('enterRoom') end},
-	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newText{name="refreshing",x=450,y=255,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
+	WIDGET.newText{name="noRoom",	x=450,y=260,font=40,hideF=function()return #NET.roomList>0 or NET.getlock('fetchRoom')end},
+	WIDGET.newKey{name="refresh",	x=250,y=620,w=140,h=140,font=35,code=fetchRoom,hideF=function()return fetchTimer>7 end},
+	WIDGET.newKey{name="new",		x=550,y=620,w=260,h=140,font=30,code=pressKey"n"},
+	WIDGET.newKey{name="join",		x=850,y=620,w=140,h=140,font=40,code=pressKey"return",hideF=function()return #NET.roomList==0 or NET.getlock('enterRoom')end},
+	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

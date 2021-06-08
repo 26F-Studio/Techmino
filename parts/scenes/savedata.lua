@@ -1,26 +1,16 @@
 local scene={}
 
 local function dumpCB(T)
-	love.system.setClipboardText(
-		love.data.encode(
-			'string','base64',
-			love.data.compress(
-				'string','zlib',
-				TABLE.dump(T)
-			)
-		)
-	)
-	LOG.print(text.exportSuccess)
+	love.system.setClipboardText(STRING.packText(TABLE.dump(T)))
+	LOG.print(text.exportSuccess,'message')
 end
 local function parseCB()
 	local _
 	local s=love.system.getClipboardText()
 
 	--Decode
-	_,s=pcall(love.data.decode,'string','base64',s)
-	if not _ then LOG.print(text.dataCorrupted,COLOR.R)return end
-	_,s=pcall(love.data.decompress,'string','zlib',s)
-	if not _ then LOG.print(text.dataCorrupted,COLOR.R)return end
+	s=STRING.unpackText(s)
+	if not s then LOG.print(text.dataCorrupted,'error')return end
 
 	s=loadstring(s)
 	if s then
@@ -29,12 +19,14 @@ local function parseCB()
 	end
 end
 scene.widgetList={
-	WIDGET.newButton{name="exportUnlock",	x=190,y=150,w=280,h=100,color='lG',font=25,code=function()dumpCB(RANKS)end},
-	WIDGET.newButton{name="exportData",		x=490,y=150,w=280,h=100,color='lG',font=25,code=function()dumpCB(STAT)end},
-	WIDGET.newButton{name="exportSetting",	x=790,y=150,w=280,h=100,color='lG',font=25,code=function()dumpCB(SETTING)end},
-	WIDGET.newButton{name="exportVK",		x=1090,y=150,w=280,h=100,color='lG',font=25,code=function()dumpCB(VK_org)end},
+	WIDGET.newText{name="export",		x=55,y=45,color='lY',align='L',font=50},
+	WIDGET.newButton{name="unlock",		x=190,y=170,w=280,h=100,color='lY',code=function()dumpCB(RANKS)end},
+	WIDGET.newButton{name="data",		x=490,y=170,w=280,h=100,color='lY',code=function()dumpCB(STAT)end},
+	WIDGET.newButton{name="setting",	x=790,y=170,w=280,h=100,color='lY',code=function()dumpCB(SETTING)end},
+	WIDGET.newButton{name="vk",			x=1090,y=170,w=280,h=100,color='lY',code=function()dumpCB(VK_org)end},
 
-	WIDGET.newButton{name="importUnlock",	x=190,y=300,w=280,h=100,color='lB',font=25,
+	WIDGET.newText{name="import",		x=55,y=265,color='lR',align='L',font=50},
+	WIDGET.newButton{name="unlock",		x=190,y=390,w=280,h=100,color='lR',
 		code=function()
 			local D=parseCB()
 			if D then
@@ -45,7 +37,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,'warn')
 			end
 		end},
-	WIDGET.newButton{name="importData",		x=490,y=300,w=280,h=100,color='lB',font=25,
+	WIDGET.newButton{name="data",		x=490,y=390,w=280,h=100,color='lR',
 		code=function()
 			local D=parseCB()
 			if D and D.version==STAT.version then
@@ -56,7 +48,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,'warn')
 			end
 		end},
-	WIDGET.newButton{name="importSetting",	x=790,y=300,w=280,h=100,color='lB',font=25,
+	WIDGET.newButton{name="setting",	x=790,y=390,w=280,h=100,color='lR',
 		code=function()
 			local D=parseCB()
 			if D then
@@ -67,7 +59,7 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,'warn')
 			end
 		end},
-	WIDGET.newButton{name="importVK",		x=1090,y=300,w=280,h=100,color='lB',font=25,
+	WIDGET.newButton{name="vk",			x=1090,y=390,w=280,h=100,color='lR',
 		code=function()
 			local D=parseCB()
 			if D then
@@ -78,7 +70,12 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,'warn')
 			end
 		end},
-	WIDGET.newButton{name="back",		x=640,y=620,w=200,h=80,font=40,code=backScene},
+
+	WIDGET.newText{name="couldSave",	x=55,y=485,color='lB',align='L',font=50},
+	WIDGET.newText{name="notLogin",		x=55,y=550,color='dB',align='L',font=30,hideF=function()return WS.status('user')=='running'end},
+	WIDGET.newButton{name="upload",		x=190,y=610,w=280,h=90,color='lB',font=25,code=NET.uploadSave,hideF=function()return WS.status('user')~='running'end},
+	WIDGET.newButton{name="download",	x=490,y=610,w=280,h=90,color='lB',font=25,code=NET.downloadSave,hideF=function()return WS.status('user')~='running'end},
+	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

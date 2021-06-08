@@ -4,6 +4,7 @@ local cmds={
 	move="translate",
 	scale="scale",
 	rotate="rotate",
+	shear="shear",
 	clear="clear",
 
 	setCL="setColor",
@@ -12,10 +13,11 @@ local cmds={
 	setLS="setLineStyle",
 	setLJ="setLineJoin",
 
-	setFT=setFont,
 	print="print",
-	mText=function(...)ADRAW.str(...)end,
-	mDraw=function(...)ADRAW.draw(...)end,
+	setFT=setFont,
+	mText=ADRAW.str,
+	mDraw=ADRAW.draw,
+	mOutDraw=ADRAW.outDraw,
 
 	draw="draw",
 	line="line",
@@ -23,6 +25,8 @@ local cmds={
 	dRect=function(...)gc.rectangle('line',...)end,
 	fCirc=function(...)gc.circle('fill',...)end,
 	dCirc=function(...)gc.circle('line',...)end,
+	fElps=function(...)gc.ellipse('fill',...)end,
+	dElps=function(...)gc.ellipse('line',...)end,
 	fPoly=function(...)gc.polygon('fill',...)end,
 	dPoly=function(...)gc.polygon('line',...)end,
 

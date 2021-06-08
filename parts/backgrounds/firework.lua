@@ -1,6 +1,9 @@
 --Firework
 local gc=love.graphics
-local circle,line=gc.circle,gc.line
+local gc_clear=gc.clear
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_line,gc_circle=gc.line,gc.circle
+
 local rnd=math.random
 local ins,rem=table.insert,table.remove
 local back={}
@@ -22,7 +25,7 @@ function back.update(dt)
 			y1=SCR.h*(.15+rnd()*.4),
 			t=0,
 			v=.5+rnd(),
-			color=COLOR.random_bright(),
+			color=COLOR.random_dark(),
 			big=rnd()<.1,
 		})
 		t=rnd(26,62)
@@ -75,22 +78,19 @@ function back.update(dt)
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
-	gc.push('transform')
-	gc.origin()
+	gc_clear(.1,.1,.1)
 	for i=1,#firework do
 		local F=firework[i]
-		gc.setColor(F.color)
-		circle('fill',F.x,F.y,F.big and 8 or 4)
+		gc_setColor(F.color)
+		gc_circle('fill',F.x,F.y,F.big and 8 or 4)
 	end
-	gc.setLineWidth(3)
+	gc_setLineWidth(3)
 	for i=1,#particle do
 		local P=particle[i]
 		local c=P.color
-		gc.setColor(c[1],c[2],c[3],P.t)
-		line(P.x,P.y,P.x-P.vx*4,P.y-P.vy*4)
+		gc_setColor(c[1],c[2],c[3],P.t*.4)
+		gc_line(P.x,P.y,P.x-P.vx*4,P.y-P.vy*4)
 	end
-	gc.pop()
 end
 function back.discard()
 	firework=nil

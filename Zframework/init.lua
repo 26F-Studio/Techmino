@@ -3,20 +3,20 @@ EDITING=""
 LOADED=false
 ERRDATA={}
 
-SCR=	require"Zframework.screen"
-COLOR=	require"Zframework.color"
-SCN=	require"Zframework.scene"
-LOG=	require"Zframework.log"
-WS=		require"Zframework.websocket"
-
-LOADLIB=require"Zframework.loadLib"
-WHEELMOV=require"Zframework.wheelScroll"
-
 require"Zframework.setFont"
 ADRAW=require"Zframework.aDraw"
 	mStr=ADRAW.str
 	mText=ADRAW.simpX
 	mDraw=ADRAW.draw
+
+SCR=	require"Zframework.screen"
+COLOR=	require"Zframework.color"
+LOG=	require"Zframework.log"
+SCN=	require"Zframework.scene"
+WS=		require"Zframework.websocket"
+
+LOADLIB=require"Zframework.loadLib"
+WHEELMOV=require"Zframework.wheelScroll"
 
 JSON=require"Zframework.json"
 TABLE=require"Zframework.tableExtend"
@@ -45,11 +45,12 @@ THEME=	require"Zframework.theme"
 local ms,kb=love.mouse,love.keyboard
 
 local gc=love.graphics
-local gc_push,gc_pop=gc.push,gc.pop
-local gc_discard,gc_present=gc.discard,gc.present
-local gc_setColor,gc_draw,gc_rectangle=gc.setColor,gc.draw,gc.rectangle
-local gc_print=gc.print
-local setFont=setFont
+local gc_push,gc_pop,gc_clear=gc.push,gc.pop,gc.clear
+local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line,gc_print=gc.draw,gc.line,gc.print
+
+local setFont,mStr=setFont,mStr
 
 local int,rnd,abs=math.floor,math.random,math.abs
 local min,sin=math.min,math.sin
@@ -64,18 +65,27 @@ joysticks={}
 
 local devMode
 
+local batteryImg=DOGC{31,20,
+	{'fRect',1,0,26,2},
+	{'fRect',1,18,26,2},
+	{'fRect',0,1,2,18},
+	{'fRect',26,1,2,18},
+	{'fRect',29,3,2,14},
+}
 local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
 	local state,pow=love.system.getPowerInfo()
-	gc.setCanvas(infoCanvas)gc_push('transform')gc.origin()
-	gc.clear(0,0,0,.25)
+	gc.setCanvas(infoCanvas)
+	gc_push('transform')
+	gc.origin()
+	gc_clear(0,0,0,.25)
 	if state~='unknown'then
-		gc.setLineWidth(4)
+		gc_setLineWidth(4)
 		local charging=state=='charging'
 		if state=='nobattery'then
 			gc_setColor(1,1,1)
-			gc.setLineWidth(2)
-			gc.line(74,SCR.safeX+5,100,22)
+			gc_setLineWidth(2)
+			gc_line(74,SCR.safeX+5,100,22)
 		elseif pow then
 			if charging then	gc_setColor(0,1,0)
 			elseif pow>50 then	gc_setColor(1,1,1)
@@ -83,7 +93,7 @@ local function updatePowerInfo()
 			elseif pow==26 then	gc_setColor(.5,0,1)
 			else				gc_setColor(1,0,0)
 			end
-			gc_rectangle('fill',76,6,pow*.22,14)
+			gc.rectangle('fill',76,6,pow*.22,14)
 			if pow<100 then
 				setFont(15)
 				gc_setColor(0,0,0)
@@ -95,11 +105,12 @@ local function updatePowerInfo()
 				gc_print(pow,78,2)
 			end
 		end
-		gc_draw(IMG.batteryImage,73,3)
+		gc_draw(batteryImg,73,3)
 	end
 	setFont(25)
 	gc_print(os.date("%H:%M"),3,-5)
-	gc_pop()gc.setCanvas()
+	gc_pop()
+	gc.setCanvas()
 end
 -------------------------------------------------------------
 local lastX,lastY=0,0--Last click pos
@@ -129,7 +140,7 @@ function love.mousemoved(x,y,dx,dy,touch)
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
 	if ms.isDown(1)then
-		WIDGET.drag(mx,my,dx,dy)
+		WIDGET.drag(mx,my,dx/SCR.k,dy/SCR.k)
 	else
 		WIDGET.cursorMove(mx,my)
 	end
@@ -145,7 +156,12 @@ function love.mousereleased(x,y,k,touch)
 end
 function love.wheelmoved(x,y)
 	if SCN.swapping then return end
-	if SCN.wheelMoved then SCN.wheelMoved(x,y)end
+	if SCN.wheelMoved then
+		SCN.wheelMoved(x,y)
+	else
+		WIDGET.unFocus()
+		WIDGET.drag(0,0,0,100*y)
+	end
 end
 
 function love.touchpressed(id,x,y)
@@ -153,6 +169,7 @@ function love.touchpressed(id,x,y)
 	if SCN.swapping then return end
 	if not touching then
 		touching=id
+		WIDGET.unFocus(true)
 		love.touchmoved(id,x,y,0,0)
 	end
 	x,y=xOy:inverseTransformPoint(x,y)
@@ -164,15 +181,10 @@ function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
 	x,y=xOy:inverseTransformPoint(x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
-	if WIDGET.sel then
-		if touching then
-			WIDGET.drag(x,y,dx,dy)
-		end
-	else
+	WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
+	if touching then
 		WIDGET.cursorMove(x,y)
-		if not WIDGET.sel then
-			touching=false
-		end
+		if not WIDGET.sel then touching=false end
 	end
 end
 function love.touchreleased(id,x,y)
@@ -181,10 +193,9 @@ function love.touchreleased(id,x,y)
 	if id==touching then
 		WIDGET.press(x,y,1)
 		WIDGET.release(x,y)
+		WIDGET.cursorMove(x,y)
+		WIDGET.unFocus()
 		touching=false
-		if WIDGET.sel and not WIDGET.sel.keepFocus then
-			WIDGET.sel=false
-		end
 	end
 	if SCN.touchUp then SCN.touchUp(x,y)end
 	if(x-lastX)^2+(y-lastY)^2<62 then
@@ -197,7 +208,7 @@ local function noDevkeyPressed(key)
 	if key=="f1"then
 		PROFILE.switch()
 	elseif key=="f2"then
-		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
+		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num),'message')
 	elseif key=="f3"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
@@ -206,19 +217,27 @@ local function noDevkeyPressed(key)
 				P:lose()
 			end
 		end
-	elseif key=="f4"then	if not kb.isDown("lalt","ralt")then LOG.copy()end
-	elseif key=="f5"then	if WIDGET.sel then print(WIDGET.sel)end
-	elseif key=="f6"then	for k,v in next,_G do print(k,v)end
-	elseif key=="f7"then	if love._openConsole then love._openConsole()end
-	elseif key=="f8"then	devMode=nil	LOG.print("DEBUG OFF",COLOR.Y)
-	elseif key=="f9"then	devMode=1	LOG.print("DEBUG 1",COLOR.Y)
-	elseif key=="f10"then	devMode=2	LOG.print("DEBUG 2",COLOR.Y)
-	elseif key=="f11"then	devMode=3	LOG.print("DEBUG 3",COLOR.Y)
-	elseif key=="f12"then	devMode=4	LOG.print("DEBUG 4",COLOR.Y)
-	elseif key=="\\"then	_G["\100\114\97\119\70\87\77"]=NULL
+	elseif key=="f4"and not kb.isDown("lalt","ralt")then
+		LOG.copy()
+	elseif key=="f5"then
+		print(WIDGET.isFocus()or"no widget selected")
+	elseif key=="f6"then
+		for k,v in next,_G do print(k,v)end
+	elseif key=="f7"and love._openConsole then
+		love._openConsole()
+	elseif key=="f8"then
+		devMode=nil	LOG.print("DEBUG OFF",10)
+	elseif key=="f9"then
+		devMode=1	LOG.print("DEBUG 1")
+	elseif key=="f10"then
+		devMode=2	LOG.print("DEBUG 2")
+	elseif key=="f11"then
+		devMode=3	LOG.print("DEBUG 3")
+	elseif key=="f12"then
+		devMode=4	LOG.print("DEBUG 4")
 	elseif devMode==2 then
-		if WIDGET.sel then
-			local W=WIDGET.sel
+		local W=WIDGET.sel
+		if W then
 			if key=="left"then W.x=W.x-10
 			elseif key=="right"then W.x=W.x+10
 			elseif key=="up"then W.y=W.y-10
@@ -244,9 +263,13 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		LOG.print("DEBUG ON",COLOR.Y)
+		LOG.print("DEBUG ON",10)
 	elseif key=="f11"then
-		switchFullscreen()
+		if kb.isDown("lctrl","rctrl")then
+			_G["\100\114\97\119\70\87\77"]=NULL
+		else
+			switchFullscreen()
+		end
 	elseif not SCN.swapping then
 		if SCN.keyDown then
 			SCN.keyDown(key)
@@ -270,15 +293,14 @@ function love.textinput(texts)
 end
 
 function love.joystickadded(JS)
-	joysticks[#joysticks+1]=JS
+	ins(joysticks,JS)
+	LOG.print("Joystick added",'message')
 end
 function love.joystickremoved(JS)
-	for i=1,#joysticks do
-		if joysticks[i]==JS then
-			rem(joysticks,i)
-			LOG.print("Joystick removed",COLOR.Y)
-			return
-		end
+	local i=TABLE.find(joysticks,JS)
+	if i then
+		rem(joysticks,i)
+		LOG.print("Joystick removed",'message')
 	end
 end
 local keyMirror={
@@ -344,6 +366,7 @@ function love.resize(w,h)
 	SCR.resize(w,h)
 	if BG.resize then BG.resize(w,h)end
 	if SCN.resize then SCN.resize(w,h)end
+	WIDGET.resize(w,h)
 
 	SHADER.warning:send("w",w*SCR.dpi)
 	SHADER.warning:send("h",h*SCR.dpi)
@@ -387,7 +410,7 @@ function love.errorhandler(msg)
 	if LOADED and #ERRDATA<3 then
 		BG.set('none')
 		local scn=SCN and SCN.cur or"NULL"
-		ERRDATA[#ERRDATA+1]={mes=err,scene=scn}
+		ins(ERRDATA,{mes=err,scene=scn})
 
 		--Write messages to log file
 		love.filesystem.append("conf/error.log",
@@ -428,9 +451,9 @@ function love.errorhandler(msg)
 					SCR.resize(a,b)
 				end
 			end
-			gc.clear(.3,.5,.9)
+			gc_clear(.3,.5,.9)
 			gc_push('transform')
-			gc.replaceTransform(xOy)
+			gc_replaceTransform(SCR.xOy)
 			setFont(100)gc_print(":(",100,0,0,1.2)
 			setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
 			setFont(20)
@@ -446,22 +469,53 @@ function love.errorhandler(msg)
 		end
 	end
 end
-local WS=WS
-local WSnames={'app','user','play','stream','chat'}
-local WScolor={
-	{1,.5,.5,.7},
-	{1,.8,.3,.7},
-	{1,1,.4,.7},
-	{.4,1,.7,.7},
-	{.5,.8,1,.7},
-}
+
+love.draw,love.update=nil--remove default draw/update
+
 local devColor={
 	COLOR.Z,
 	COLOR.lM,
 	COLOR.lG,
 	COLOR.lB,
 }
-love.draw,love.update=nil--remove default draw/update
+local WS=WS
+local WSnames={'app','user','play','stream','chat','manage'}
+local wsBottomImage do
+	local L={78,18,
+		{'clear',1,1,1,0},
+		{'setCL',1,1,1,.3},
+		{'fRect',60,0,18,18},
+	}
+	for i=0,59 do
+		ins(L,{'setCL',1,1,1,i*.005})
+		ins(L,{'fRect',i,0,1,18})
+	end
+	wsBottomImage=DOGC(L)
+end
+local ws_deadImg=DOGC{20,20,
+	{'setFT',20},
+	{'setCL',1,.3,.3},
+	{'print',"X",3,-4},
+}
+local ws_connectingImg=DOGC{20,20,
+	{'setLW',3},
+	{'dArc',11.5,10,6.26,1,5.28},
+}
+local ws_runningImg=DOGC{20,20,
+	{'setFT',20},
+	{'setCL',.5,1,0},
+	{'print',"R",3,-4},
+}
+local cursorImg=DOGC{16,16,
+	{"fCirc",8,8,4},
+	{"setCL",1,1,1,.7},
+	{"fCirc",8,8,6},
+}
+local cursor_holdImg=DOGC{16,16,
+	{"setLW",2},
+	{"dCirc",8,8,7},
+	{"fCirc",8,8,3},
+}
 function love.run()
 	local love=love
 
@@ -470,7 +524,6 @@ function love.run()
 
 	local TEXTURE,TIME=TEXTURE,TIME
 	local SETTING,VERSION=SETTING,VERSION
-	local destroyPlayers=destroyPlayers
 
 	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local FPS,MINI=love.timer.getFPS,love.window.isMinimized
@@ -512,12 +565,12 @@ function love.run()
 		TASK.update()
 		WS.update(dt)
 		VOC.update()
-		BG.update(dt)--BG animation
+		BG.update(dt)
 		SYSFX.update(dt)
-		WIDGET.update()--Widgets animation
-		if SCN.update then SCN.update(dt)end--Scene updater
-		if SCN.swapping then SCN.swapUpdate()end--Scene swapping animation
-		TEXT.update()--Update global texts animation
+		WIDGET.update()
+		if SCN.update then SCN.update(dt)end
+		if SCN.swapping then SCN.swapUpdate()end
+		TEXT.update()
 		LOG.update()
 
 		--DRAW
@@ -526,22 +579,14 @@ function love.run()
 			if FCT>=100 then
 				FCT=FCT-100
 
-				--Draw background
-				BG.draw()
-
-				gc_push('transform')
-					gc.replaceTransform(xOy)
-
-					--Draw scene contents
+				gc_replaceTransform(SCR.origin)
+					gc_setColor(1,1,1)
+					BG.draw()
+				gc_replaceTransform(SCR.xOy)
 					if SCN.draw then SCN.draw()end
-
-					--Draw widgets
 					WIDGET.draw()
-
-					--Draw Version string
-					gc_setColor(.8,.8,.8,.4)
-					setFont(20)
-					mStr(VERSION.string,640,693)
+					SYSFX.draw()
+					TEXT.draw()
 
 					--Draw cursor
 					if mouseShow then
@@ -551,83 +596,75 @@ function love.run()
 						_=SCS[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
-						gc_draw(TEXTURE[ms.isDown(1)and'cursor_hold'or'cursor'],mx,my,nil,nil,nil,8,8)
+						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
-					SYSFX.draw()
-					TEXT.draw()
-				gc_pop()
-
-				--Draw power info.
-				gc_setColor(1,1,1)
-				if SETTING.powerInfo then
-					gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
-				end
-
-				--Draw scene swapping animation
-				if SCN.swapping then
-					_=SCN.stat
-					_.draw(_.time)
-				end
-
-				--Draw FPS
-				setFont(15)
-				_=SCR.h
-				gc_setColor(1,1,1)
-				gc_print(FPS(),SCR.safeX+5,_-20)
-
-				--Debug info.
-				if devMode then
-					--Left-down infos
-					gc_setColor(devColor[devMode])
-					gc_print("MEM     "..gcinfo(),SCR.safeX+5,_-40)
-					gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,_-60)
-					gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,_-80)
-					gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,_-100)
-					gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,_-120)
-
-					--Update & draw frame time
-					ins(frameTimeList,1,dt)rem(frameTimeList,126)
-					gc_setColor(1,1,1,.3)
-					for i=1,#frameTimeList do
-						gc_rectangle('fill',150+2*i,_-20,2,-frameTimeList[i]*4000)
+				gc_replaceTransform(SCR.xOy_ul)
+					LOG.draw()
+				gc_replaceTransform(SCR.origin)
+					--Draw power info.
+					if SETTING.powerInfo then
+						gc_setColor(1,1,1)
+						gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
 					end
 
-					--Websocket status
-					gc_push('transform')
-					gc.translate(SCR.w,SCR.h-100)
-					gc.scale(SCR.k)
-					for i=1,5 do
-						local status=WS.status(WSnames[i])
-						gc_setColor(WScolor[i])
-						gc_rectangle('fill',0,20*i,-80,-20)
-						if status=='dead'then
-							gc_setColor(1,1,1)
-							gc_draw(TEXTURE.ws_dead,-20,20*i-20)
-						elseif status=='connecting'then
-							gc_setColor(1,1,1,.5+.3*sin(time*6.26))
-							gc_draw(TEXTURE.ws_connecting,-20,20*i-20)
-						elseif status=='running'then
-							gc_setColor(1,1,1)
-							gc_draw(TEXTURE.ws_running,-20,20*i-20)
+					--Draw scene swapping animation
+					if SCN.swapping then
+						gc_setColor(1,1,1)
+						_=SCN.stat
+						_.draw(_.time)
+					end
+				gc_replaceTransform(SCR.xOy_dm)
+					--Draw Version string
+					gc_setColor(.8,.8,.8,.4)
+					setFont(20)
+					mStr(VERSION.string,0,-30)
+				gc_replaceTransform(SCR.xOy_dl)
+					--Draw FPS
+					setFont(15)
+					gc_setColor(1,1,1)
+					gc_print(FPS(),SCR.safeX+5,-20)
+
+					--Debug info.
+					if devMode then
+						--Left-down infos
+						gc_setColor(devColor[devMode])
+						gc_print("MEM     "..gcinfo(),SCR.safeX+5,-40)
+						gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,-60)
+						gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,-80)
+						gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,-100)
+						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,-120)
+
+						--Update & draw frame time
+						ins(frameTimeList,1,dt)rem(frameTimeList,126)
+						gc_setColor(1,1,1,.3)
+						for i=1,#frameTimeList do
+							gc.rectangle('fill',150+2*i,-20,2,-frameTimeList[i]*4000)
 						end
-						local t1,t2,t3=WS.getTimers(WSnames[i])
-						gc_setColor(1,1,1,t1)gc_rectangle('fill',-60,20*i,-20,-20)
-						gc_setColor(0,1,0,t2)gc_rectangle('fill',-40,20*i,-20,-20)
-						gc_setColor(1,0,0,t3)gc_rectangle('fill',-20,20*i,-20,-20)
-					end
-					gc_pop()
 
-					--Slow devmode
-					if devMode==3 then WAIT(.1)
-					elseif devMode==4 then WAIT(.5)
+						gc_replaceTransform(SCR.xOy_dr)
+						--Websocket status
+						for i=1,6 do
+							local status=WS.status(WSnames[i])
+							gc_setColor(1,1,1)
+							gc.draw(wsBottomImage,-79,20*i-139)
+							if status=='dead'then
+								gc_draw(ws_deadImg,-20,20*i-140)
+							elseif status=='connecting'then
+								gc_setColor(1,1,1,.5+.3*sin(time*6.26))
+								gc_draw(ws_connectingImg,-20,20*i-140)
+							elseif status=='running'then
+								gc_draw(ws_runningImg,-20,20*i-140)
+							end
+							local t1,t2,t3=WS.getTimers(WSnames[i])
+							gc_setColor(1,1,1,t1)gc.rectangle('fill',-60,20*i-120,-20,-20)
+							gc_setColor(0,1,0,t2)gc.rectangle('fill',-40,20*i-120,-20,-20)
+							gc_setColor(1,0,0,t3)gc.rectangle('fill',-20,20*i-120,-20,-20)
+						end
 					end
-				end
-				LOG.draw()
-
 				gc_present()
 
 				--SPEED UPUPUP!
-				if SETTING.cleanCanvas then gc_discard()end
+				if SETTING.cleanCanvas then gc.discard()end
 			end
 		end
 
@@ -640,6 +677,11 @@ function love.run()
 			if gc.getWidth()~=SCR.w then
 				love.resize(gc.getWidth(),gc.getHeight())
 			end
+		end
+
+		--Slow devmode
+		if devMode==3 then WAIT(.1)
+		elseif devMode==4 then WAIT(.5)
 		end
 
 		--Keep 60fps

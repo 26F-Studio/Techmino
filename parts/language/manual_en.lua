@@ -39,7 +39,7 @@ Attack system:
 				Sends 8 to 16 (increments within a game by 2 for every PC) OR every other damage above, whichever is higher,
 				and +2 extra blocking.
 
-		Combos: All damage above will be given a (combo x25%) bonus, or (combo x15% for Single clear) (capped at 12 combo),
+		Combos: All damage above will be given a (combo x25%) bonus, or (combo x15%) for Single clear (capped at 12 combo),
 		+1 more attack for 3 Combo or more.
 		After calculating all above, the damage value will be rounded down then sent
 

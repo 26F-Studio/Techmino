@@ -2,9 +2,19 @@ local gc=love.graphics
 local sin=math.sin
 
 local author={
-	battle="Aether",
+	blank="MrZ (old works)",
+	race="MrZ (old works)",
+	infinite="MrZ (old works)",
+	push="MrZ (old works)",
+	way="MrZ (old works)",
+	reason="MrZ (old works)",
+	cruelty="MrZ (old works)",
+	final="MrZ (old works)",
+	["end"]="MrZ (old works)",
+	battle="Aether & MrZ",
 	empty="ERM",
 	["how feeling"]="????",
+	moonbeam="Beethoven & MrZ",
 }
 
 local scene={}
@@ -12,19 +22,9 @@ local scene={}
 local selected--Music selected
 
 local bgmList=BGM.getList()
-if #bgmList==0 then
-	bgmList={"[NO BGM]"}
-end
+if #bgmList==0 then bgmList={"[NO BGM]"}end
 function scene.sceneInit()
-	if BGM.nowPlay then
-		for i=1,BGM.getCount()do
-			if bgmList[i]==BGM.nowPlay then
-				selected=i
-				return
-			end
-		end
-	end
-	selected=1
+	selected=TABLE.find(bgmList,BGM.nowPlay)or 1
 end
 
 function scene.wheelMoved(_,y)
@@ -33,7 +33,7 @@ end
 function scene.keyDown(key)
 	local S=selected
 	if key=="down"then
-		if S<BGM.getCount()then
+		if S<#bgmList then
 			selected=S+1
 			SFX.play('move',.7)
 		end
@@ -95,13 +95,13 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=30,	y=30,font=80,align='L'},
 	WIDGET.newText{name="arrow",	x=270,	y=360,font=45,align='L'},
-	WIDGET.newText{name="now",		x=700,	y=500,font=50,align='R',hide=function()return not BGM.nowPlay end},
+	WIDGET.newText{name="now",		x=700,	y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
 	WIDGET.newSlider{name="bgm",	x=760,	y=80,w=400,		font=35,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-	WIDGET.newButton{name="up",		x=200,	y=250,w=120,	font=55,code=pressKey"up",hide=function()return selected==1 end},
+	WIDGET.newButton{name="up",		x=200,	y=250,w=120,	font=55,code=pressKey"up",hideF=function()return selected==1 end},
 	WIDGET.newButton{name="play",	x=200,	y=390,w=120,	font=35,code=pressKey"space"},
-	WIDGET.newButton{name="down",	x=200,	y=530,w=120,	font=55,code=pressKey"down",hide=function()return selected==#bgmList end},
+	WIDGET.newButton{name="down",	x=200,	y=530,w=120,	font=55,code=pressKey"down",hideF=function()return selected==#bgmList end},
 	WIDGET.newButton{name="sound",	x=1140,	y=540,w=170,h=80,font=40,code=pressKey"tab"},
-	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

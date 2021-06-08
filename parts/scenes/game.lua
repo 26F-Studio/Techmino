@@ -16,6 +16,10 @@ function scene.sceneInit()
 	noKey=GAME.replaying
 	noTouch=not SETTING.VKSwitch or noKey
 end
+function scene.sceneBack()
+	love.keyboard.setKeyRepeat(true)
+	destroyPlayers()
+end
 
 scene.mouseDown=NULL
 local function restart()
@@ -201,7 +205,7 @@ function scene.draw()
 
 	--Mode info
 	gc.setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,485,10)
+	gc.draw(drawableText.modeName,940,0)
 
 	--Replaying
 	if GAME.replaying then

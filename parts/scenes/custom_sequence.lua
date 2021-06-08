@@ -15,15 +15,15 @@ function scene.sceneInit()
 end
 
 local minoKey={
-	["1"]=1,["2"]=2,["3"]=3,["4"]=4,["5"]=5,["6"]=6,["7"]=7,
+	['1']=1,['2']=2,['3']=3,['4']=4,['5']=5,['6']=6,['7']=7,
 	z=1,s=2,j=3,l=4,t=5,o=6,i=7,
 	p=10,q=11,f=12,e=13,u=15,
 	v=16,w=17,x=18,r=21,y=22,n=23,h=24,
-	["/"]=26,c=27,[","]=27,["'"]=27,["-"]=28,[";"]=28,["."]=29,
+	['/']=26,c=27,[',']=27,['\'']=27,['-']=28,[';']=28,['.']=29,
 }
 local minoKey2={
-	["1"]=8,["2"]=9,["3"]=19,["4"]=20,["5"]=14,["7"]=25,
-	z=8,s=9,t=14,j=19,l=20,i=25,["-"]=26,o=29,
+	['1']=8,['2']=9,['3']=19,['4']=20,['5']=14,['7']=25,
+	z=8,s=9,t=14,j=19,l=20,i=25,['-']=26,o=29,
 }
 function scene.keyDown(key)
 	if key=="left"then
@@ -65,9 +65,7 @@ function scene.keyDown(key)
 		end
 	elseif key=="delete"then
 		if sure>20 then
-			for _=1,#BAG do
-				rem(BAG)
-			end
+			TABLE.cut(BAG)
 			cur=0
 			sure=0
 			SFX.play('finesseError',.7)
@@ -87,22 +85,22 @@ function scene.keyDown(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #BAG>0 then
 			sys.setClipboardText("Techmino SEQ:"..DATA.copySequence())
-			LOG.print(text.exportSuccess,COLOR.G)
+			LOG.print(text.exportSuccess,'message')
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("SEQ")then
-				LOG.print(text.pasteWrongPlace)
+				LOG.print(text.pasteWrongPlace,'warn')
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteSequence(str)then
-			LOG.print(text.importSuccess,COLOR.G)
+			LOG.print(text.importSuccess,'message')
 			cur=#BAG
 		else
-			LOG.print(text.dataCorrupted,COLOR.R)
+			LOG.print(text.dataCorrupted,'error')
 		end
 	elseif key=="escape"then
 		SCN.back()
@@ -184,7 +182,7 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(drawableText.question,980,570)
+		gc.draw(TEXTURE.question,1050,430,nil,.6)
 	end
 end
 
@@ -237,9 +235,9 @@ scene.widgetList={
 	WIDGET.newKey{name="O1",	x=920,y=620,w=80,color='dH',font=50,code=pressKey(29)},
 
 
-	WIDGET.newButton{name="copy",x=1140,y=460,w=170,h=80,color='lR',font=40,code=pressKey"cC",hide=function()return #BAG==0 end},
+	WIDGET.newButton{name="copy",x=1140,y=460,w=170,h=80,color='lR',font=40,code=pressKey"cC",hideF=function()return #BAG==0 end},
 	WIDGET.newButton{name="paste",x=1140,y=550,w=170,h=80,color='lB',font=40,code=pressKey"cV"},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

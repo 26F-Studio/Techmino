@@ -36,7 +36,7 @@ end
 function scene.keyDown(k)
 	if k=="escape"then
 		SCN.back()
-	elseif kb.isDown("s")then
+	else
 		if k=="l"then
 			loadGame('sprintLock',true)
 		elseif k=="f"then
@@ -59,7 +59,6 @@ function scene.update(dt)
 		local r=rnd()<.5
 		ins(names,{
 			text=T,
-			color=N.color,
 			x=r and -T:getWidth()or SCR.w,
 			y=rnd()*(SCR.h-T:getHeight()),
 			w=T:getWidth(),
@@ -77,19 +76,14 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	gc.push('transform')
-	gc.origin()
+	gc.replaceTransform(SCR.origin)
+	gc.setColor(1,1,1,.3)
 	for i=1,#names do
 		local N=names[i]
-		if type(N.color)=='table'then
-			gc.setColor(N.color)
-		else
-			gc.setColor(N.color(TIME()+N.w))
-		end
 		gc.draw(N.text,N.x,N.y)
 	end
-	gc.pop()
 
+	gc.replaceTransform(SCR.xOy)
 	gc.setColor(1,1,1)
 	local T=40*math.min(time,45)
 	local L=text.staff
@@ -103,7 +97,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

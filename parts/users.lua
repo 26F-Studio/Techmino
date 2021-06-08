@@ -13,7 +13,7 @@ local function loadAvatar(path)
 end
 
 local emptyUser={
-	username="Player",
+	username="Stacker",
 	motto="",
 	hash="",
 	new=false,
@@ -60,7 +60,7 @@ end
 
 function USERS.getUsername(uid)return db[uid].username end
 function USERS.getMotto(uid)return db[uid].motto end
-function USERS.getHash(uid)return db[uid].hash end
+function USERS.getHash(uid)return db[uid].hash or""end
 function USERS.getAvatar(uid)
 	if uid then
 		if not db[uid].new then

@@ -5,15 +5,11 @@ local PCbase=require"parts.modes.PCbase"
 local PClist=require"parts.modes.PClist"
 
 local function task_PC(P)
-	local D=P.modeData
-	while true do
-		YIELD()
-		D.counter=D.counter+1
-		if D.counter==26 then
-			local base=PCbase[D.type]
-			P:pushLineList(base[P:RND(#base)],D.symmetry)
-		end
-	end
+	P.control=false
+	for _=1,26 do YIELD()end
+	P.control=true
+	local base=PCbase[P.modeData.type]
+	P:pushLineList(base[P.holeRND:random(#base)],P.modeData.symmetry)
 end
 local function check(P)
 	local f=P.field
@@ -23,8 +19,8 @@ local function check(P)
 		end
 	else
 		local type=P.stat.pc<10 and 4 or 5
-		local L=PClist[type][P:RND(#PClist[type])]
-		local symmetry=P:RND()>.5
+		local L=PClist[type][P.holeRND:random(#PClist[type])]
+		local symmetry=P.holeRND:random()>.5
 		P.modeData.type=type
 		P.modeData.symmetry=symmetry
 		P:pushNextList(L,symmetry)
@@ -63,9 +59,9 @@ return{
 		check(PLAYERS[1])
 	end,
 	mesDisp=function(P)
-		setFont(75)
-		mStr(P.stat.pc,69,330)
-		mText(drawableText.pc,69,412)
+		setFont(70)
+		mStr(P.stat.pc,69,300)
+		mText(drawableText.pc,69,380)
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..STRING.time(D[2])end,

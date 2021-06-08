@@ -28,7 +28,7 @@ return{
 			end
 		end,
 		mindas=7,minarr=1,minsdarr=1,
-		bg='bg2',bgm='sugar fairy',
+		bg='bg2',bgm='blank',
 	},
 	pauseLimit=true,
 	slowMark=true,

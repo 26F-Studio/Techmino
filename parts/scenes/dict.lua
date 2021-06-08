@@ -37,7 +37,7 @@ local function clearResult()
 	waiting,lastSearch=0,false
 end
 local function search()
-	local input=inputBox.value:lower()
+	local input=inputBox:getText():lower()
 	clearResult()
 	local first
 	for i=1,#dict do
@@ -68,7 +68,7 @@ function scene.sceneInit()
 	scrollPos=0
 
 	lastSearch=false
-	TASK.new(function()YIELD()WIDGET.sel=inputBox end)
+	TASK.new(function()YIELD()WIDGET.focus(inputBox)end)
 	BG.set('rainbow')
 end
 
@@ -97,7 +97,7 @@ function scene.keyDown(key)
 	elseif key=="link"then
 		love.system.openURL(url)
 	elseif key=="delete"then
-		if #inputBox.value>0 then
+		if inputBox:hasText()then
 			clearResult()
 			inputBox:clear()
 			SFX.play('hold')
@@ -105,7 +105,7 @@ function scene.keyDown(key)
 	elseif key=="backspace"then
 		WIDGET.keyPressed("backspace")
 	elseif key=="escape"then
-		if #inputBox.value>0 then
+		if inputBox:hasText()then
 			scene.keyDown("delete")
 		else
 			SCN.back()
@@ -115,7 +115,7 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-	local input=inputBox.value
+	local input=inputBox:getText()
 	if input~=lastTickInput then
 		if #input==0 then
 			clearResult()
@@ -183,12 +183,12 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=20,	y=5,font=70,align='L'},
 	inputBox,
-	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hide=function()return not url end},
+	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
 	WIDGET.newKey{name="up",		x=1130,	y=460,w=60,h=90,font=35,code=pressKey"up",hide=not MOBILE},
 	WIDGET.newKey{name="down",		x=1130,	y=560,w=60,h=90,font=35,code=pressKey"down",hide=not MOBILE},
 	WIDGET.newKey{name="pageup",	x=1210,	y=460,w=80,h=90,font=35,code=pressKey"pageup",hide=not MOBILE},
 	WIDGET.newKey{name="pagedown",	x=1210,	y=560,w=80,h=90,font=35,code=pressKey"pagedown",hide=not MOBILE},
-	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,font=40,code=backScene},
+	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene
