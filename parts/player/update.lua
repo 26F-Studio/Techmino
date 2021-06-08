@@ -281,8 +281,8 @@ function update.alive(P,dt)
 
 	--Drop pressed
 	if P.keyPressing[7]and not P.keyPressing[9]then
-		local d=P.downing-ENV.sddas
 		P.downing=P.downing+1
+		local d=P.downing-ENV.sddas
 		if d>1 then
 			if ENV.sdarr>0 then
 				if d%ENV.sdarr==0 then
