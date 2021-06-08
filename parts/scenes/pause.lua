@@ -113,8 +113,9 @@ function scene.sceneInit(org)
 	else
 		rank,trophy=nil
 	end
-	if org~="game"and GAME.prevBG then
+	if GAME.prevBG then
 		BG.set(GAME.prevBG)
+		GAME.prevBG=false
 	end
 end
 function scene.sceneBack()

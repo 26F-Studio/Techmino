@@ -26,6 +26,7 @@ local function _setReady()NET.signal_setMode(1)end
 local function _setSpectate()NET.signal_setMode(2)end
 local function _gotoSetting()
 	if not(netPLY.getSelfReady()or NET.getlock('ready'))then
+		GAME.prevBG=BG.cur
 		SCN.go('setting_game')
 	end
 end
@@ -63,6 +64,10 @@ function scene.sceneInit(org)
 	newMessageTimer=0
 
 	if org=='setting_game'then NET.changeConfig()end
+	if GAME.prevBG then
+		BG.set(GAME.prevBG)
+		GAME.prevBG=false
+	end
 	if NET.specSRID then
 		NET.wsconn_stream(NET.specSRID)
 		NET.specSRID=false
