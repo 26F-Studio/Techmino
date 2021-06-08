@@ -133,7 +133,7 @@ function scene.keyDown(key)
 			if #mes>0 then
 				NET.sendMessage(mes)
 				inputBox:clear()
-			elseif #EDITING==0 then
+			else
 				_switchChat()
 			end
 		else

@@ -43,7 +43,7 @@ function scene.sceneBack()
 end
 
 function scene.keyDown(k)
-	if k=="return"and #EDITING==0 then
+	if k=="return"then
 		createRoom()
 	elseif k=="escape"then
 		SCN.go('net_rooms')

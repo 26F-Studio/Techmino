@@ -1093,7 +1093,10 @@ function WIDGET.isFocus(W)
 end
 function WIDGET.focus(W)
 	if WIDGET.sel==W then return end
-	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
+	if WIDGET.sel and WIDGET.sel.type=='inputBox'then
+		kb.setTextInput(false)
+		EDITING=""
+	end
 	WIDGET.sel=W
 	if W and W.type=='inputBox'then
 		local _,y1=xOy:transformPoint(0,W.y+W.h)
@@ -1103,7 +1106,10 @@ end
 function WIDGET.unFocus(force)
 	local W=WIDGET.sel
 	if W and(force or not W.keepFocus)then
-		if W.type=='inputBox'then kb.setTextInput(false)end
+		if W.type=='inputBox'then
+			kb.setTextInput(false)
+			EDITING=""
+		end
 		WIDGET.sel=false
 	end
 end

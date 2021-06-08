@@ -272,7 +272,7 @@ function love.keypressed(key)
 		end
 	elseif not SCN.swapping then
 		if SCN.keyDown then
-			SCN.keyDown(key)
+			if #EDITING==0 then SCN.keyDown(key)end
 		elseif key=="escape"then
 			SCN.back()
 		else
