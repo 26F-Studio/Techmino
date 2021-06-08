@@ -358,7 +358,7 @@ scene.widgetList={
 				NET.getlock('ready')
 		end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=_switchChat},
-	WIDGET.newKey{name="quit",fText="X",x=900,y=35,w=60,font=40,code=_quit},
+	WIDGET.newKey{name="quit",fText=TEXTURE.quit_small,x=900,y=35,w=60,font=40,code=_quit},
 }
 
 return scene
