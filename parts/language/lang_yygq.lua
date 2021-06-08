@@ -181,9 +181,18 @@ return{
 			disappear="消失",
 			tapFX="动画",
 		},
-		error={
-			console="Console",
-			quit="Quit",
+		savedata={
+			export="复制走",
+			import="粘贴到",
+			unlock="地图",
+			data="统计",
+			setting="设置",
+			vk="虚拟按键",
+
+			couldSave="云存档(测试,炸了别怪我)",
+			notLogin="[不登录存个锤子]",
+			upload="上传",
+			download="下载",
 		},
 	},
 	modes={
