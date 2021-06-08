@@ -178,7 +178,7 @@ return{
 	},
 	staff={
 		"Author: MrZ E-mail: 1046101471@qq.com",
-		"Powered by LOVE2D",
+		"Powered by LÖVE",
 		"",
 		"Programa: MrZ, Particle_G, [FinnTenzor]",
 		"Art: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
@@ -855,7 +855,7 @@ return{
 		"Apenas 2 triminoes",
 		"Pirataria não é legal!",
 		"Jogue com uma mão!",
-		"Powered by Love2D",
+		"Powered by LÖVE",
 		"pps-0.01",
 		"REGRET!!",
 		"Número secreto: 626",

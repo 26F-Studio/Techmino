@@ -145,7 +145,7 @@ return{
 		"Este es simplemente un juego de puzzle ordinario, no pienses de él como un juego promedio.",
 		"Está inspirado en otros como C2/IO/JS/WWC/KOS.",
 		"",
-		"Creado con LOVE2D",
+		"Creado con LÖVE",
 		"Puedes reportar errores o enviar sugerencias al grupo de testeo del autor o por email ~",
 		"Descarga disponible únicamente vía el grupo de testeo y discord.gg/f9pUvkh",
 		"Descargas desde otros sitios pueden contener malware/viruses, y en smartphones sólo requiere permisos de internet y vibración.",
@@ -154,7 +154,7 @@ return{
 	},
 	staff={
 		"Autor:MrZ  Email: 1046101471@qq.com",
-		"Creado con LOVE2D",
+		"Creado con LÖVE",
 		"",
 		"Programación: MrZ, Particle_G, [FinnTenzor]",
 		"Artistas: MrZ, ScF, [Gnyar, 旋律星萤, T0722]",
