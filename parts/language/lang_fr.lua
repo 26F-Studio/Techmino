@@ -611,6 +611,10 @@ return{
 			importData="Importer les Données",
 			importSetting="Importer les Paramètres",
 			importVK="Importer VK",
+
+			-- couldSave="Login to access cloud saving",
+			-- upload="Upload to cloud (TEST)",
+			-- download="Download from cloud (TEST)",
 		},
 		error={
 			console="Console",

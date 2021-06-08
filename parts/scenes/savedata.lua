@@ -68,6 +68,10 @@ scene.widgetList={
 				LOG.print(text.dataCorrupted,'warn')
 			end
 		end},
+
+	WIDGET.newText{name="couldSave",		x=640,y=410,color='lM',font=60,hideF=function()return WS.status('user')=='running'end},
+	WIDGET.newButton{name="upload",			x=340,y=450,w=500,h=100,color='lM',code=NET.uploadSave,hideF=function()return WS.status('user')~='running'end},
+	WIDGET.newButton{name="download",		x=940,y=450,w=500,h=100,color='lM',code=NET.downloadSave,hideF=function()return WS.status('user')~='running'end},
 	WIDGET.newButton{name="back",			x=640,y=620,w=200,h=80,fText=TEXTURE.back,code=backScene},
 }
 

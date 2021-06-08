@@ -694,6 +694,10 @@ return{
 			importData="Importar estatística",
 			importSetting="Importar config.",
 			importVK="Importar layout de hud",
+
+			-- couldSave="Login to access cloud saving",
+			-- upload="Upload to cloud (TEST)",
+			-- download="Download from cloud (TEST)",
 		},
 		error={
 			console="Console",

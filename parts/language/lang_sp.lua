@@ -606,6 +606,10 @@ return{
 			importData="Importar Datos",
 			importSetting="Importar Ajustes",
 			importVK="Importar VK",
+
+			-- couldSave="Login to access cloud saving",
+			-- upload="Upload to cloud (TEST)",
+			-- download="Download from cloud (TEST)",
 		},
 		error={
 			console="Console",

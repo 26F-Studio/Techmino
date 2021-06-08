@@ -671,12 +671,6 @@ local commands={}do
 			"Example: switchhost 127.0.0.1 26000 /sock",
 		},
 	}
-	commands.upload={
-		code=function()NET.uploadSave()end,
-	}
-	commands.download={
-		code=function()NET.downloadSave()end,
-	}
 	function commands.manage()
 		if WS.status('manage')=='running'then
 			WS.close('manage')

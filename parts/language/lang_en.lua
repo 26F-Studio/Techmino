@@ -699,6 +699,10 @@ return{
 			importData="Import Stats",
 			importSetting="Import Settings",
 			importVK="Import Virtual Key Layout",
+
+			couldSave="Login to access cloud saving",
+			upload="Upload to cloud (TEST)",
+			download="Download from cloud (TEST)",
 		},
 		error={
 			console="Console",

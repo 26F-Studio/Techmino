@@ -700,6 +700,10 @@ return{
 			importData="导入统计数据",
 			importSetting="导入设置",
 			importVK="导入虚拟按键布局",
+
+			couldSave="登录以使用云存档",
+			upload="上传到云端",
+			download="从云端下载",
 		},
 		error={
 			console="控制台",
