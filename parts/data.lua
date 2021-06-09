@@ -1,4 +1,4 @@
-local data=love.data
+local loveCompress=love.data.compress
 
 local int=math.floor
 local char,byte=string.char,string.byte
@@ -371,7 +371,7 @@ do--function DATA.saveRecording()
 				JSON.encode(getModList()).."\n"..
 				DATA.dumpRecording(GAME.rep)
 
-			love.filesystem.write(fileName,fileHead.."\n"..data.compress('string','zlib',fileBody))
+			love.filesystem.write(fileName,fileHead.."\n"..loveCompress('string','zlib',fileBody))
 			ins(REPLAY,fileName)
 			FILE.save(REPLAY,'conf/replay')
 			return true
