@@ -255,7 +255,7 @@ return{
 			-- join="Join",
 		},
 		net_newRoom={
-			-- title="Custom room config",
+			-- title="Room config",
 			-- roomName="Room name(default to username's room)",
 			-- roomDescription="Room description",
 

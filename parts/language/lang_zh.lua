@@ -256,8 +256,8 @@ return{
 			join="加入",
 		},
 		net_newRoom={
-			title="自定义房间参数",
-			roomName="房间名(留空默认 用户名's room)",
+			title="房间参数",
+			roomName="房间名 (留空默认 用户名's room)",
 			roomDescription="房间描述",
 
 			life="命数",
@@ -276,7 +276,7 @@ return{
 			fall="消行延迟",
 
 			capacity="房间容量",
-			create="创建房间",
+			create="创建",
 
 			ospin="O-spin",
 			fineKill="强制极简",
