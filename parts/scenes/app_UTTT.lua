@@ -218,6 +218,8 @@ function scene.mouseMove(x,y)
 	x,y=int((x-280)/80),int(y/80)
 	curX,curx=int(x/3)+int(y/3)*3+1,x%3+y%3*3+1
 	if
+		x<0 or x>8 or
+		y<0 or y>8 or
 		curX<1 or curX>9 or
 		curx<1 or curx>9 or
 		score[curX]or
