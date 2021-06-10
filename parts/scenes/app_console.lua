@@ -544,12 +544,13 @@ local commands={}do
 						log(APPs[i].code..": "..APPs[i].description)
 					end
 				elseif name~=""then
-					local i=TABLE.find(APPs,name)
-					if i then
-						SCN.go(APPs[i].scene)
-					else
-						log{C.A,"No this applet"}
+					for i=1,#APPs do
+						if APPs[i].code==name then
+							SCN.go(APPs[i].scene)
+							return
+						end
 					end
+					log{C.A,"No this applet"}
 				else
 					log{C.A,"Usage:"}
 					log{C.A,"app -list"}
