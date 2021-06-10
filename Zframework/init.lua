@@ -613,7 +613,7 @@ function love.run()
 						_=SCN.stat
 						_.draw(_.time)
 					end
-				gc_replaceTransform(SCR.xOy_dm)
+				gc_replaceTransform(SCR.xOy_d)
 					--Draw Version string
 					gc_setColor(.8,.8,.8,.4)
 					setFont(20)
