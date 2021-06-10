@@ -122,7 +122,7 @@ local function pumpStream(d)
 				if res then
 					DATA.pumpRecording(stream,P.stream)
 				else
-					LOG.print("Bad stream from "..P.username.."#"..P.uid,10)
+					LOG.print("Bad stream from "..P.username.."#"..P.uid,.2)
 				end
 				break
 			end
@@ -295,7 +295,7 @@ function NET.loadSavedData(sections)
 		FILE.save(NET.cloudData.vkSave1,'conf/vkSave1','q')
 		FILE.save(NET.cloudData.vkSave2,'conf/vkSave2','q')
 	else
-		LOG.print(text.versionNotMatch,60)
+		LOG.print(text.versionNotMatch,1)
 	end
 end
 
@@ -414,22 +414,22 @@ function NET.updateWS_app()
 							end
 						end
 						if VERSION.code<res.newestCode then
-							LOG.print(text.oldVersion:gsub("$1",res.newestName),180)
+							LOG.print(text.oldVersion:gsub("$1",res.newestName),3)
 						end
-						LOG.print(res.notice,300)
+						LOG.print(res.notice,5)
 						NET.tryLogin(true)
 					elseif res.action==0 then--Broadcast
-						LOG.print(res.data.message,300)
+						LOG.print(res.data.message,5)
 					elseif res.action==1 then--Get notice
 						--?
 					elseif res.action==2 then--Register
 						if res.type=='Self'or res.type=='Server'then
-							LOG.print(res.data.message,300)
+							LOG.print(res.data.message,5)
 							if SCN.cur=='register'then
 								SCN.back()
 							end
 						else
-							LOG.print(res.reason or"Registration failed",300)
+							LOG.print(res.reason or"Registration failed",5)
 						end
 						NET.unlock('register')
 					elseif res.action==3 then--Get player counts

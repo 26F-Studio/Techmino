@@ -226,7 +226,7 @@ local function noDevkeyPressed(key)
 	elseif key=="f7"and love._openConsole then
 		love._openConsole()
 	elseif key=="f8"then
-		devMode=nil	LOG.print("DEBUG OFF",10)
+		devMode=nil	LOG.print("DEBUG OFF",.2)
 	elseif key=="f9"then
 		devMode=1	LOG.print("DEBUG 1")
 	elseif key=="f10"then
@@ -263,7 +263,7 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		LOG.print("DEBUG ON",10)
+		LOG.print("DEBUG ON",.2)
 	elseif key=="f11"then
 		if kb.isDown("lctrl","rctrl")then
 			_G["\100\114\97\119\70\87\77"]=NULL
@@ -571,7 +571,7 @@ function love.run()
 		if SCN.update then SCN.update(dt)end
 		if SCN.swapping then SCN.swapUpdate()end
 		TEXT.update()
-		LOG.update()
+		LOG.update(dt)
 
 		--DRAW
 		if not MINI()then
