@@ -369,7 +369,6 @@ function love.resize(w,h)
 	WIDGET.resize(w,h)
 
 	SHADER.warning:send("w",w*SCR.dpi)
-	SHADER.warning:send("h",h*SCR.dpi)
 end
 function love.focus(f)
 	if f then
