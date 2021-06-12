@@ -85,7 +85,7 @@ scene.widgetList={
 				ROOMENV.capacity=i
 				WIDGET.active.capacity.color=COLOR.lY
 			else
-				LOG.print("没有权限 Permission Denied",'warn')
+				MES.new("没有权限 Permission Denied")
 				WIDGET.active.capacity.color=COLOR.R
 			end
 		end},

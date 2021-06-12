@@ -617,7 +617,7 @@ function selector:reset()
 		self.selText=self.list[i]
 	else
 		self.hide=true
-		LOG.print("Selector "..self.name.." dead, disp= "..tostring(V),'warn')
+		MES.new("Selector "..self.name.." dead, disp= "..tostring(V))
 	end
 end
 function selector:isAbove(x,y)
@@ -771,7 +771,7 @@ function inputBox:addText(str)
 	if type(str)=='string'then
 		self.value=self.value..str
 	else
-		LOG.print("inputBox "..self.name.." dead, addText("..type(str)..")",'warn')
+		MES.new("inputBox "..self.name.." dead, addText("..type(str)..")")
 	end
 end
 function inputBox:clear()

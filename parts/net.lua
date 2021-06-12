@@ -78,7 +78,7 @@ local function _parse(res)
 		if mesType[res.type]then
 			return res
 		else
-			LOG.print(
+			MES.new(
 				"Error ws-mes type:"..(
 					res.type and(
 						res.reason and
@@ -97,9 +97,9 @@ end
 local function _closeMessage(message)
 	local mes=JSON.decode(message:sub(3))
 	if mes then
-		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),'error')
+		MES.new(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""))
 	else
-		LOG.print(text.wsClose,'error')
+		MES.new(text.wsClose)
 	end
 end
 
@@ -122,7 +122,7 @@ local function pumpStream(d)
 				if res then
 					DATA.pumpRecording(stream,P.stream)
 				else
-					LOG.print("Bad stream from "..P.username.."#"..P.uid,.2)
+					MES.new("Bad stream from "..P.username.."#"..P.uid,.2)
 				end
 				break
 			end
@@ -249,13 +249,13 @@ function NET.uploadSave()
 			{section=6,data=STRING.packTable(FILE.load('conf/vkSave1'))},
 			{section=7,data=STRING.packTable(FILE.load('conf/vkSave2'))},
 		}..'}}')
-		LOG.print("Uploading")
+		MES.new("Uploading")
 	end
 end
 function NET.downloadSave()
 	if NET.lock('downloadSave',10)then
 		WS.send('user','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
-		LOG.print("Downloading")
+		MES.new("Downloading")
 	end
 end
 function NET.loadSavedData(sections)
@@ -295,7 +295,7 @@ function NET.loadSavedData(sections)
 		FILE.save(NET.cloudData.vkSave1,'conf/vkSave1','q')
 		FILE.save(NET.cloudData.vkSave2,'conf/vkSave2','q')
 	else
-		LOG.print(text.versionNotMatch,1)
+		MES.new(text.versionNotMatch,1)
 	end
 end
 
@@ -414,22 +414,22 @@ function NET.updateWS_app()
 							end
 						end
 						if VERSION.code<res.newestCode then
-							LOG.print(text.oldVersion:gsub("$1",res.newestName),3)
+							MES.new(text.oldVersion:gsub("$1",res.newestName),3)
 						end
-						LOG.print(res.notice,5)
+						MES.new(res.notice,5)
 						NET.tryLogin(true)
 					elseif res.action==0 then--Broadcast
-						LOG.print(res.data.message,5)
+						MES.new(res.data.message,5)
 					elseif res.action==1 then--Get notice
 						--?
 					elseif res.action==2 then--Register
 						if res.type=='Self'or res.type=='Server'then
-							LOG.print(res.data.message,5)
+							MES.new(res.data.message,5)
 							if SCN.cur=='register'then
 								SCN.back()
 							end
 						else
-							LOG.print(res.reason or"Registration failed",5)
+							MES.new(res.reason or"Registration failed",5)
 						end
 						NET.unlock('register')
 					elseif res.action==3 then--Get player counts
@@ -466,24 +466,24 @@ function NET.updateWS_user()
 							FILE.save(USER,'conf/user','q')
 							if SCN.cur=='login'then SCN.back()end
 						end
-						LOG.print(text.loginSuccessed,'message')
+						MES.new(text.loginSuccessed)
 
 						--Get self infos
 						NET.getUserInfo(USER.uid)
 						NET.unlock('wsc_user')
 					elseif res.action==0 then--Get accessToken
 						NET.accessToken=res.accessToken
-						LOG.print(text.accessSuccessed,'message')
+						MES.new(text.accessSuccessed)
 						NET.wsconn_play()
 					elseif res.action==1 then--Get userInfo
 						USERS.updateUserData(res.data)
 					elseif res.action==2 then--Upload successed
 						NET.unlock('uploadSave')
-						LOG.print(text.exportSuccess)
+						MES.new(text.exportSuccess)
 					elseif res.action==3 then--Download successed
 						NET.unlock('downloadSave')
 						NET.loadSavedData(res.data.sections)
-						LOG.print(text.importSuccess)
+						MES.new(text.importSuccess)
 					end
 				else
 					WS.alert('user')
@@ -724,17 +724,17 @@ function NET.updateWS_manage()
 				local res=_parse(message)
 				if res then
 					if res.type=='Connect'then
-						LOG.print("Manage connected",'warn')
+						MES.new("Manage connected")
 					elseif res.action==0 then
-						LOG.print("success",'message')
+						MES.new("success")
 					elseif res.action==9 then
-						LOG.print("success",'message')
+						MES.new("success")
 					elseif res.action==10 then
-						LOG.print(TABLE.dump(res.data))
+						MES.new(TABLE.dump(res.data))
 					elseif res.action==11 then
-						LOG.print(TABLE.dump(res.data))
+						MES.new(TABLE.dump(res.data))
 					elseif res.action==12 then
-						LOG.print(TABLE.dump(res.data))
+						MES.new(TABLE.dump(res.data))
 					end
 				else
 					WS.alert('manage')

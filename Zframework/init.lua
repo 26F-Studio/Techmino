@@ -11,7 +11,6 @@ ADRAW=require"Zframework.aDraw"
 
 SCR=	require"Zframework.screen"
 COLOR=	require"Zframework.color"
-LOG=	require"Zframework.log"
 SCN=	require"Zframework.scene"
 WS=		require"Zframework.websocket"
 
@@ -31,6 +30,7 @@ BG=		require"Zframework.background"
 WIDGET=	require"Zframework.widget"
 TEXT=	require"Zframework.text"
 SYSFX=	require"Zframework.sysFX"
+MES=	require"Zframework.message"
 
 IMG=	require"Zframework.image"
 BGM=	require"Zframework.bgm"
@@ -208,7 +208,7 @@ local function noDevkeyPressed(key)
 	if key=="f1"then
 		PROFILE.switch()
 	elseif key=="f2"then
-		LOG.print(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num),'message')
+		MES.new(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
@@ -218,7 +218,7 @@ local function noDevkeyPressed(key)
 			end
 		end
 	elseif key=="f4"and not kb.isDown("lalt","ralt")then
-		LOG.copy()
+		MES.new.copy()
 	elseif key=="f5"then
 		print(WIDGET.isFocus()or"no widget selected")
 	elseif key=="f6"then
@@ -226,15 +226,15 @@ local function noDevkeyPressed(key)
 	elseif key=="f7"and love._openConsole then
 		love._openConsole()
 	elseif key=="f8"then
-		devMode=nil	LOG.print("DEBUG OFF",.2)
+		devMode=nil	MES.new("DEBUG OFF",.2)
 	elseif key=="f9"then
-		devMode=1	LOG.print("DEBUG 1")
+		devMode=1	MES.new("DEBUG 1")
 	elseif key=="f10"then
-		devMode=2	LOG.print("DEBUG 2")
+		devMode=2	MES.new("DEBUG 2")
 	elseif key=="f11"then
-		devMode=3	LOG.print("DEBUG 3")
+		devMode=3	MES.new("DEBUG 3")
 	elseif key=="f12"then
-		devMode=4	LOG.print("DEBUG 4")
+		devMode=4	MES.new("DEBUG 4")
 	elseif devMode==2 then
 		local W=WIDGET.sel
 		if W then
@@ -263,7 +263,7 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		LOG.print("DEBUG ON",.2)
+		MES.new("DEBUG ON",.2)
 	elseif key=="f11"then
 		if kb.isDown("lctrl","rctrl")then
 			_G["\100\114\97\119\70\87\77"]=NULL
@@ -294,13 +294,13 @@ end
 
 function love.joystickadded(JS)
 	ins(joysticks,JS)
-	LOG.print("Joystick added",'message')
+	MES.new("Joystick added")
 end
 function love.joystickremoved(JS)
 	local i=TABLE.find(joysticks,JS)
 	if i then
 		rem(joysticks,i)
-		LOG.print("Joystick removed",'message')
+		MES.new("Joystick removed")
 	end
 end
 local keyMirror={
@@ -359,7 +359,7 @@ function love.lowmemory()
 	if TIME()-lastGCtime>6.26 then
 		collectgarbage()
 		lastGCtime=TIME()
-		LOG.print("[auto GC] low MEM 设备内存过低",'warn')
+		MES.new("[auto GC] low MEM 设备内存过低")
 	end
 end
 function love.resize(w,h)
@@ -519,7 +519,7 @@ function love.run()
 	local love=love
 
 	local VOC,BG,SYSFX=VOC,BG,SYSFX
-	local TASK,LOG,TEXT=TASK,LOG,TEXT
+	local TASK,TEXT=TASK,TEXT
 
 	local TEXTURE,TIME=TEXTURE,TIME
 	local SETTING,VERSION=SETTING,VERSION
@@ -570,7 +570,7 @@ function love.run()
 		if SCN.update then SCN.update(dt)end
 		if SCN.swapping then SCN.swapUpdate()end
 		TEXT.update()
-		LOG.update(dt)
+		MES.update(dt)
 
 		--DRAW
 		if not MINI()then
@@ -597,9 +597,8 @@ function love.run()
 						gc_setColor(1,1,1)
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
-				gc_replaceTransform(SCR.xOy_ul)
-					LOG.draw()
 				gc_replaceTransform(SCR.origin)
+					MES.draw()
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)

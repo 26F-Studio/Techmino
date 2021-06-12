@@ -349,7 +349,7 @@ function WS.update(dt)
 						ws.pongTimer=1
 					else
 						ws.status='dead'
-						LOG.print(text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes),'warn')
+						MES.new(text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes))
 					end
 				end
 			elseif ws.status=='running'then
