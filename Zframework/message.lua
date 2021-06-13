@@ -1,6 +1,5 @@
 local gc=love.graphics
 local gc_push,gc_pop=gc.push,gc.pop
-local gc_replaceTransform=gc.replaceTransform
 local gc_translate,gc_setColor,gc_draw=gc.translate,gc.setColor,gc.draw
 
 local ins,rem=table.insert,table.remove
@@ -56,14 +55,13 @@ end
 function MES.draw()
 	gc_push('transform')
 	if #mesList>0 then
-		gc_translate(0,25)
+		gc_translate(0,30)
 		for i=1,#mesList do
 			local m=mesList[i]
 			gc_setColor(1,1,1,2*(m.endTime-m.startTime))
 			gc_draw(m.canvas,40-80*(m.endTime+m.startTime))
 			gc_translate(0,52)
 		end
-		gc_replaceTransform(SCR.xOy)
 	end
 	gc_pop()
 end

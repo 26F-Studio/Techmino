@@ -597,8 +597,9 @@ function love.run()
 						gc_setColor(1,1,1)
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
-				gc_replaceTransform(SCR.origin)
+				gc_replaceTransform(SCR.xOy_ul)
 					MES.draw()
+				gc_replaceTransform(SCR.origin)
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)
