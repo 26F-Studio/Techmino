@@ -484,7 +484,7 @@ do--function resetGameData(args)
 					end
 				end
 			else
-				MES.new("Wrong task type")
+				MES.new('warn',"Wrong task type")
 			end
 		end
 		BG.set(GAME.modeEnv.bg)

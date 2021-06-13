@@ -17,7 +17,7 @@ function SFX.init(list)
 			if love.filesystem.getInfo(N)then
 				Sources[list[i]]={love.audio.newSource(N,'static')}
 			else
-				MES.new("No SFX file: "..N,.1)
+				MES.new('warn',"No SFX file: "..N,.1)
 			end
 			if not skip and i~=count then
 				coroutine.yield()

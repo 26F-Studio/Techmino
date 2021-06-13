@@ -161,7 +161,7 @@ SFX.init((function()
 		if fs.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
 			table.insert(L,v:sub(1,-5))
 		else
-			MES.new("Dangerous file : %SAVE%/media/SFX/"..v)
+			MES.new('warn',"Dangerous file : %SAVE%/media/SFX/"..v)
 		end
 	end
 	return L
@@ -172,7 +172,7 @@ BGM.init((function()
 		if fs.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
 			table.insert(L,v:sub(1,-5))
 		else
-			MES.new("Dangerous file : %SAVE%/media/BGM/"..v)
+			MES.new('warn',"Dangerous file : %SAVE%/media/BGM/"..v)
 		end
 	end
 	return L

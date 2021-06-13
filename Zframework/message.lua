@@ -5,12 +5,27 @@ local gc_translate,gc_setColor,gc_draw=gc.translate,gc.setColor,gc.draw
 local ins,rem=table.insert,table.remove
 
 local mesList={}
+local mesIcon={
+	warn=DOGC{40,40,
+		{'setCL',.95,.83,.4},
+		{'fPoly',20.5,1,0,38,40,38},
+		{'setCL',0,0,0},
+		{'dPoly',20.5,1,0,38,40,38},
+		{'fRect',17,10,7,18},
+		{'fRect',17,29,7,7},
+		{'setCL',1,1,1},
+		{'fRect',18,11,5,16},
+		{'fRect',18,30,5,5},
+	},
+}
 
 local MES={}
 
 function MES.new(...)
 	local icon,str,time=...
-	if type(icon)~='userdata'then
+	if type(icon)=='string'and mesIcon[icon]then
+		icon=mesIcon[icon]
+	elseif type(icon)~='userdata'then
 		icon,str,time=false,icon,str
 	else
 	end

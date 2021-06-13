@@ -50,7 +50,7 @@ function BGM.init(list)
 				Sources[list[i]]:setLooping(true)
 				Sources[list[i]]:setVolume(0)
 			else
-				MES.new("No BGM file: "..list[i],5)
+				MES.new('warn',"No BGM file: "..list[i],5)
 			end
 			if not skip and i~=count then
 				coroutine.yield()

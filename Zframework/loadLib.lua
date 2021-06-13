@@ -4,7 +4,7 @@ return function(name,libName)
 		if r1 and r2 then
 			return r2
 		else
-			MES.new("Cannot load "..name..": "..(r2 or r3))
+			MES.new('warn',"Cannot load "..name..": "..(r2 or r3))
 		end
 	elseif SYSTEM=="Android"then
 		local fs=love.filesystem
@@ -20,7 +20,7 @@ return function(name,libName)
 						MES.new(name.." lib loaded")
 						break
 					else
-						MES.new("Cannot load "..name..": "..mes2)
+						MES.new('warn',"Cannot load "..name..": "..mes2)
 					end
 				else
 					MES.new(("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2))
@@ -30,12 +30,12 @@ return function(name,libName)
 			end
 		end
 		if not libFunc then
-			MES.new("Cannot load "..name)
+			MES.new('warn',"Cannot load "..name)
 			return
 		end
 		return libFunc()
 	else
-		MES.new("No "..name.." for "..SYSTEM)
+		MES.new('warn',"No "..name.." for "..SYSTEM)
 		return
 	end
 	return true

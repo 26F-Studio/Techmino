@@ -45,7 +45,7 @@ function VOC.init(list)
 
 			if n==1 then
 				if not loadVoiceFile(list[i],list[i])then
-					MES.new("No VOICE file: "..list[i],.1)
+					MES.new('warn',"No VOICE file: "..list[i],.1)
 				end
 			end
 			if not Source[list[i]][1]then Source[list[i]]=nil end

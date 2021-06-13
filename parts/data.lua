@@ -352,7 +352,7 @@ do--function DATA.saveRecording()
 		--Filtering modes that cannot be saved
 		for _,v in next,noRecList do
 			if GAME.curModeName:find(v)then
-				MES.new("Cannot save recording of this mode now!")
+				MES.new('warn',"Cannot save recording of this mode now!")
 				return
 			end
 		end
@@ -376,7 +376,7 @@ do--function DATA.saveRecording()
 			FILE.save(REPLAY,'conf/replay')
 			return true
 		else
-			MES.new("Save failed: File already exists")
+			MES.new('warn',"Save failed: File already exists")
 		end
 	end
 end

@@ -61,8 +61,8 @@ function scene.keyDown(k)
 		elseif k=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
 			local R=NET.roomList[selected]
-			if R.roomInfo.version~=VERSION.short then MES.new("Version doesn't match")return end
-			if R.private then MES.new("Can't enter private room now")return end
+			if R.roomInfo.version~=VERSION.short then MES.new('warn',"Version doesn't match")return end
+			if R.private then MES.new('warn',"Can't enter private room now")return end
 			NET.enterRoom(R)--,password
 		end
 	end

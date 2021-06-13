@@ -220,7 +220,7 @@ function scene.socketRead(cmd,d)
 			resetGameData('n',NET.seed)
 			netPLY.mouseMove(0,0)
 		else
-			MES.new("Redundant [Go]")
+			MES.new('warn',"Redundant [Go]")
 		end
 	elseif cmd=='finish'then
 		playing=false

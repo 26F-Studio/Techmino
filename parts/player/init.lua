@@ -244,7 +244,7 @@ local function loadRemoteEnv(P,confStr)--Load gameEnv
 	confStr=JSON.decode(confStr)
 	if not confStr then
 		confStr={}
-		MES.new("Bad conf from "..P.username.."#"..P.uid)
+		MES.new('warn',"Bad conf from "..P.username.."#"..P.uid)
 	end
 
 	P.gameEnv={}--Current game setting environment
