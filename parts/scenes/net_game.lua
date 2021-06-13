@@ -35,7 +35,7 @@ local function _quit()
 		NET.signal_quit()
 	else
 		lastBackTime=TIME()
-		LOG.print(text.sureQuit,'warn')
+		MES.new(text.sureQuit)
 	end
 end
 local function _switchChat()
@@ -133,7 +133,7 @@ function scene.keyDown(key)
 			if #mes>0 then
 				NET.sendMessage(mes)
 				inputBox:clear()
-			elseif #EDITING==0 then
+			else
 				_switchChat()
 			end
 		else
@@ -220,7 +220,7 @@ function scene.socketRead(cmd,d)
 			resetGameData('n',NET.seed)
 			netPLY.mouseMove(0,0)
 		else
-			LOG.print("Redundant [Go]",'warn')
+			MES.new("Redundant [Go]")
 		end
 	elseif cmd=='finish'then
 		playing=false

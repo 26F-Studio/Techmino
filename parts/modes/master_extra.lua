@@ -1,11 +1,11 @@
 local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X","X+"}
 local passPoint=16
 local function score(P)
-	if P.modeData.rankPoint<130 then--If Less then X
+	if P.modeData.rankPoint<140-passPoint then--If Less then X
 		local R=#P.clearedRow
 		if R>0 then
 			if R==4 then R=10 end--Techrash +10
-			P.modeData.rankPoint=math.min(P.modeData.rankPoint+R,130-passPoint)
+			P.modeData.rankPoint=math.min(P.modeData.rankPoint+R,140-passPoint)
 			P.modeData.rankName=sectionName[math.floor(P.modeData.rankPoint/10)+1]
 		end
 	end
@@ -24,13 +24,13 @@ return{
 		freshLimit=15,
 		dropPiece=score,
 		task=function(P)
-			P.modeData.rankScore=0
+			P.modeData.rankPoint=0
 			P.modeData.rankName=sectionName[1]
 			while true do
 				YIELD()
 				if P.stat.frame>=3600 then
-					P.modeData.rankScore=math.min(P.modeData.rankScore+passPoint,130)
-					P.modeData.rankName=sectionName[math.floor(P.modeData.rankScore*.1)+1]
+					P.modeData.rankPoint=math.min(P.modeData.rankPoint+passPoint,140)
+					P.modeData.rankName=sectionName[math.floor(P.modeData.rankPoint/10)+1]
 					P:win('finish')
 					return
 				end
@@ -52,11 +52,11 @@ return{
 		mStr(P.stat.row,69,220)
 		mStr(P.stat.clears[4],69,340)
 	end,
-	score=function(P)return{P.modeData.rankScore,P.stat.score}end,
+	score=function(P)return{P.modeData.rankPoint,P.stat.score}end,
 	scoreDisp=function(D)return sectionName[math.floor(D[1]/10)+1].."   "..D[2]end,
 	comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]>b[2]end,
 	getRank=function(P)
-		P=P.modeData.rankScore
+		P=P.modeData.rankPoint
 		return
 			P==140 and 5 or
 			P>=110 and 4 or

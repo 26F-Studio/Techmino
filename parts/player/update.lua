@@ -1,5 +1,5 @@
 local max,min=math.max,math.min
-local int,abs,rnd=math.floor,math.abs,math.random
+local int,abs=math.floor,math.abs
 local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
@@ -281,8 +281,8 @@ function update.alive(P,dt)
 
 	--Drop pressed
 	if P.keyPressing[7]and not P.keyPressing[9]then
-		local d=P.downing-ENV.sddas
 		P.downing=P.downing+1
+		local d=P.downing-ENV.sddas
 		if d>1 then
 			if ENV.sdarr>0 then
 				if d%ENV.sdarr==0 then
@@ -411,13 +411,12 @@ end
 function update.remote_alive(P,dt)
 	local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun
 	frameRate=
-		frameRate<20 and 1 or
-		frameRate<30 and rnd(2)or
-		frameRate<60 and 2 or
-		frameRate<90 and 3 or
+		frameRate<26 and 1 or
+		frameRate<50 and 2 or
+		frameRate<80 and 3 or
 		frameRate<120 and 5 or
-		frameRate<150 and 7 or
-		frameRate<180 and 10 or
+		frameRate<160 and 7 or
+		frameRate<200 and 10 or
 		20
 	for _=1,frameRate do
 		local eventTime=P.stream[P.streamProgress]
@@ -460,6 +459,7 @@ function update.remote_alive(P,dt)
 				P.streamProgress=P.streamProgress+2
 			else--No event now, run one frame
 				update.alive(P,dt/frameRate)
+				P.stat.time=P.frameRun/60
 			end
 		else--Pause state, no actions, quit loop
 			break

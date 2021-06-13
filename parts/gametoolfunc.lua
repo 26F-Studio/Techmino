@@ -127,7 +127,7 @@ function freshDate(mode)
 		STAT.date=date
 		STAT.todayTime=0
 		if not mode:find'q'then
-			LOG.print(text.newDay,'message')
+			MES.new(text.newDay)
 		end
 		return true
 	end
@@ -141,10 +141,10 @@ function legalGameTime()--Check if today's playtime is legal
 		if STAT.todayTime<14400 then
 			return true
 		elseif STAT.todayTime<21600 then
-			LOG.print(text.playedLong,'warn')
+			MES.new(text.playedLong)
 			return true
 		else
-			LOG.print(text.playedTooMuch,'warn')
+			MES.new(text.playedTooMuch)
 			return false
 		end
 	end
@@ -484,7 +484,7 @@ do--function resetGameData(args)
 					end
 				end
 			else
-				LOG.print("Wrong task type",'warn')
+				MES.new("Wrong task type")
 			end
 		end
 		BG.set(GAME.modeEnv.bg)
@@ -574,8 +574,8 @@ do--function drawSelfProfile()
 
 		--Draw avatar
 		gc_setLineWidth(2)
-		gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',-300,0,300,80)
-		gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80)
+		gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',0,0,-300,80)
+		gc_setColor(1,1,1)gc_rectangle('line',0,0,-300,80)
 		gc_rectangle('line',-73,7,66,66,2)
 		gc_draw(selfAvatar,-72,8,nil,.5)
 

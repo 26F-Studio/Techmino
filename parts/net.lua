@@ -1,4 +1,4 @@
-local data=love.data
+local loveEncode,loveDecode=love.data.encode,love.data.decode
 local rem=table.remove
 
 local WS,TIME=WS,TIME
@@ -66,6 +66,11 @@ function NET.getlock(name)
 	return TIME()<locks[name]
 end
 
+--Pong back
+local function _pong(wsName,message)
+	WS.send(wsName,message or"",'pong')
+end
+
 --Parse json message
 local function _parse(res)
 	res=JSON.decode(res)
@@ -73,11 +78,13 @@ local function _parse(res)
 		if mesType[res.type]then
 			return res
 		else
-			LOG.print(
-				"WS error:"..(
+			MES.new(
+				"Error ws-mes type:"..(
 					res.type and(
-						res.reason and res.type..": "..res.reason or
-						res.type
+						res.reason and
+							res.type..": "..res.reason
+						or
+							res.type
 					)or
 					"[NO Message]"
 				),
@@ -87,12 +94,12 @@ local function _parse(res)
 end
 
 --WS close message
-local function wsCloseMessage(message)
+local function _closeMessage(message)
 	local mes=JSON.decode(message:sub(3))
 	if mes then
-		LOG.print(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""),'error')
+		MES.new(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""))
 	else
-		LOG.print(text.wsClose,'error')
+		MES.new(text.wsClose)
 	end
 end
 
@@ -111,11 +118,11 @@ local function pumpStream(d)
 	if d.uid~=USER.uid then
 		for _,P in next,PLAYERS do
 			if P.uid==d.uid then
-				local res,stream=pcall(love.data.decode,'string','base64',d.stream)
+				local res,stream=pcall(loveDecode,'string','base64',d.stream)
 				if res then
 					DATA.pumpRecording(stream,P.stream)
 				else
-					LOG.print("Bad stream from "..P.username.."#"..P.uid,10)
+					MES.new("Bad stream from "..P.username.."#"..P.uid,.2)
 				end
 				break
 			end
@@ -215,9 +222,6 @@ function NET.tryLogin(ifAuto)
 		SFX.play('finesseError')
 	end
 end
-function NET.pong(wsName,message)
-	WS.send(wsName,type(message)=='string'and message or"",'pong')
-end
 function NET.getAccessToken()
 	if NET.lock('access_and_login',10)then
 		WS.send('user',JSON.encode{action=0})
@@ -245,13 +249,13 @@ function NET.uploadSave()
 			{section=6,data=STRING.packTable(FILE.load('conf/vkSave1'))},
 			{section=7,data=STRING.packTable(FILE.load('conf/vkSave2'))},
 		}..'}}')
-		LOG.print("Uploading")
+		MES.new("Uploading")
 	end
 end
 function NET.downloadSave()
 	if NET.lock('downloadSave',10)then
 		WS.send('user','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
-		LOG.print("Downloading")
+		MES.new("Downloading")
 	end
 end
 function NET.loadSavedData(sections)
@@ -291,7 +295,7 @@ function NET.loadSavedData(sections)
 		FILE.save(NET.cloudData.vkSave1,'conf/vkSave1','q')
 		FILE.save(NET.cloudData.vkSave2,'conf/vkSave2','q')
 	else
-		LOG.print(text.versionNotMatch,60)
+		MES.new(text.versionNotMatch,1)
 	end
 end
 
@@ -368,12 +372,12 @@ function NET.signal_die()
 	WS.send('stream','{"action":4,"data":{"score":0,"survivalTime":0}}')
 end
 function NET.uploadRecStream(stream)
-	WS.send('stream','{"action":5,"data":{"stream":"'..data.encode('string','base64',stream)..'"}}')
+	WS.send('stream','{"action":5,"data":{"stream":"'..loveEncode('string','base64',stream)..'"}}')
 end
 
 --Chat
 function NET.sendChatMes(mes)
-	WS.send('chat',"T"..data.encode('string','base64',mes))
+	WS.send('chat',"T"..loveEncode('string','base64',mes))
 end
 function NET.quitChat()
 	WS.send('chat','q')
@@ -392,10 +396,10 @@ function NET.updateWS_app()
 		local message,op=WS.read('app')
 		if message then
 			if op=='ping'then
-				NET.pong('app',message)
+				_pong('app',message)
 			elseif op=='pong'then
 			elseif op=='close'then
-				wsCloseMessage(message)
+				_closeMessage(message)
 				return
 			else
 				local res=_parse(message)
@@ -410,22 +414,22 @@ function NET.updateWS_app()
 							end
 						end
 						if VERSION.code<res.newestCode then
-							LOG.print(text.oldVersion:gsub("$1",res.newestName),180)
+							MES.new(text.oldVersion:gsub("$1",res.newestName),3)
 						end
-						LOG.print(res.notice,300)
+						MES.new(res.notice,5)
 						NET.tryLogin(true)
 					elseif res.action==0 then--Broadcast
-						LOG.print(res.data.message,300)
+						MES.new(res.data.message,5)
 					elseif res.action==1 then--Get notice
 						--?
 					elseif res.action==2 then--Register
 						if res.type=='Self'or res.type=='Server'then
-							LOG.print(res.data.message,300)
+							MES.new(res.data.message,5)
 							if SCN.cur=='register'then
 								SCN.back()
 							end
 						else
-							LOG.print(res.reason or"Registration failed",300)
+							MES.new(res.reason or"Registration failed",5)
 						end
 						NET.unlock('register')
 					elseif res.action==3 then--Get player counts
@@ -447,10 +451,10 @@ function NET.updateWS_user()
 		local message,op=WS.read('user')
 		if message then
 			if op=='ping'then
-				NET.pong('user',message)
+				_pong('user',message)
 			elseif op=='pong'then
 			elseif op=='close'then
-				wsCloseMessage(message)
+				_closeMessage(message)
 				return
 			else
 				local res=_parse(message)
@@ -462,24 +466,24 @@ function NET.updateWS_user()
 							FILE.save(USER,'conf/user','q')
 							if SCN.cur=='login'then SCN.back()end
 						end
-						LOG.print(text.loginSuccessed,'message')
+						MES.new(text.loginSuccessed)
 
 						--Get self infos
 						NET.getUserInfo(USER.uid)
 						NET.unlock('wsc_user')
 					elseif res.action==0 then--Get accessToken
 						NET.accessToken=res.accessToken
-						LOG.print(text.accessSuccessed,'message')
+						MES.new(text.accessSuccessed)
 						NET.wsconn_play()
 					elseif res.action==1 then--Get userInfo
 						USERS.updateUserData(res.data)
 					elseif res.action==2 then--Upload successed
 						NET.unlock('uploadSave')
-						LOG.print(text.exportSuccess)
+						MES.new(text.exportSuccess)
 					elseif res.action==3 then--Download successed
 						NET.unlock('downloadSave')
 						NET.loadSavedData(res.data.sections)
-						LOG.print(text.importSuccess)
+						MES.new(text.importSuccess)
 					end
 				else
 					WS.alert('user')
@@ -494,10 +498,10 @@ function NET.updateWS_play()
 		local message,op=WS.read('play')
 		if message then
 			if op=='ping'then
-				NET.pong('play',message)
+				_pong('play',message)
 			elseif op=='pong'then
 			elseif op=='close'then
-				wsCloseMessage(message)
+				_closeMessage(message)
 				return
 			else
 				local res=_parse(message)
@@ -566,8 +570,7 @@ function NET.updateWS_play()
 							if SCN.stack[#SCN.stack-1]=='net_newRoom'then SCN.pop()end
 							SCN.back()
 						else
-							removePlayer(netPLY.list,d.sid)
-							netPLY.freshPos()
+							netPLY.remove(d.sid)
 							removePlayer(PLAYERS,d.sid)
 							removePlayer(PLY_ALIVE,d.sid)
 							if SCN.socketRead then SCN.socketRead('leave',d)end
@@ -619,10 +622,10 @@ function NET.updateWS_stream()
 		local message,op=WS.read('stream')
 		if message then
 			if op=='ping'then
-				NET.pong('stream',message)
+				_pong('stream',message)
 			elseif op=='pong'then
 			elseif op=='close'then
-				wsCloseMessage(message)
+				_closeMessage(message)
 				return
 			else
 				local res=_parse(message)
@@ -690,10 +693,10 @@ function NET.updateWS_chat()
 		local message,op=WS.read('chat')
 		if message then
 			if op=='ping'then
-				NET.pong('chat',message)
+				_pong('chat',message)
 			elseif op=='pong'then
 			elseif op=='close'then
-				wsCloseMessage(message)
+				_closeMessage(message)
 				return
 			else
 				local res=_parse(message)
@@ -712,26 +715,26 @@ function NET.updateWS_manage()
 		local message,op=WS.read('manage')
 		if message then
 			if op=='ping'then
-				NET.pong('manage',message)
+				_pong('manage',message)
 			elseif op=='pong'then
 			elseif op=='close'then
-				wsCloseMessage(message)
+				_closeMessage(message)
 				return
 			else
 				local res=_parse(message)
 				if res then
 					if res.type=='Connect'then
-						LOG.print("Manage connected",'warn')
+						MES.new("Manage connected")
 					elseif res.action==0 then
-						LOG.print("success",'message')
+						MES.new("success")
 					elseif res.action==9 then
-						LOG.print("success",'message')
+						MES.new("success")
 					elseif res.action==10 then
-						LOG.print(TABLE.dump(res.data))
+						MES.new(TABLE.dump(res.data))
 					elseif res.action==11 then
-						LOG.print(TABLE.dump(res.data))
+						MES.new(TABLE.dump(res.data))
 					elseif res.action==12 then
-						LOG.print(TABLE.dump(res.data))
+						MES.new(TABLE.dump(res.data))
 					end
 				else
 					WS.alert('manage')

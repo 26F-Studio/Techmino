@@ -16,12 +16,12 @@ local SCR={
 	xOy_m=love.math.newTransform(),
 	xOy=love.math.newTransform(),
 	xOy_ul=love.math.newTransform(),
-	xOy_um=love.math.newTransform(),
+	xOy_u=love.math.newTransform(),
 	xOy_ur=love.math.newTransform(),
-	xOy_ml=love.math.newTransform(),
-	xOy_mr=love.math.newTransform(),
+	xOy_l=love.math.newTransform(),
+	xOy_r=love.math.newTransform(),
 	xOy_dl=love.math.newTransform(),
-	xOy_dm=love.math.newTransform(),
+	xOy_d=love.math.newTransform(),
 	xOy_dr=love.math.newTransform(),
 }
 function SCR.setSize(w,h)
@@ -49,12 +49,12 @@ function SCR.resize(w,h)
 	SCR.xOy:setTransformation(SCR.x,SCR.y,0,SCR.k)
 	SCR.xOy_m:setTransformation(w/2,h/2,0,SCR.k)
 	SCR.xOy_ul:setTransformation(0,0,0,SCR.k)
-	SCR.xOy_um:setTransformation(w/2,0,0,SCR.k)
+	SCR.xOy_u:setTransformation(w/2,0,0,SCR.k)
 	SCR.xOy_ur:setTransformation(w,0,0,SCR.k)
-	SCR.xOy_ml:setTransformation(0,h/2,0,SCR.k)
-	SCR.xOy_mr:setTransformation(w,h/2,0,SCR.k)
+	SCR.xOy_l:setTransformation(0,h/2,0,SCR.k)
+	SCR.xOy_r:setTransformation(w,h/2,0,SCR.k)
 	SCR.xOy_dl:setTransformation(0,h,0,SCR.k)
-	SCR.xOy_dm:setTransformation(w/2,h,0,SCR.k)
+	SCR.xOy_d:setTransformation(w/2,h,0,SCR.k)
 	SCR.xOy_dr:setTransformation(w,h,0,SCR.k)
 end
 function SCR.info()

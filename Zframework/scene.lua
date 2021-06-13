@@ -150,7 +150,7 @@ function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 			S.time,S.mid,S.draw=s[1],s[2],s[3]
 		end
 	else
-		LOG.print("No Scene: "..tar,'warn')
+		MES.new("No Scene: "..tar)
 	end
 end
 function SCN.go(tar,style)--Normal scene swapping, can back
@@ -158,7 +158,7 @@ function SCN.go(tar,style)--Normal scene swapping, can back
 		SCN.push()
 		SCN.swapTo(tar,style)
 	else
-		LOG.print("No Scene: "..tar,'warn')
+		MES.new("No Scene: "..tar)
 	end
 end
 function SCN.back()

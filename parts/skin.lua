@@ -32,7 +32,7 @@ function SKIN.init(list)
 				I=gc.newImage(N)
 			else
 				I=gc.newImage("media/image/skin/"..list[1]..".png")
-				LOG.print("No skin file: "..list[i],'warn')
+				MES.new("No skin file: "..list[i])
 			end
 			gc.setDefaultFilter('linear','linear')
 			for y=0,2 do

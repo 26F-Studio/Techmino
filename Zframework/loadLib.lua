@@ -4,7 +4,7 @@ return function(name,libName)
 		if r1 and r2 then
 			return r2
 		else
-			LOG.print("Cannot load "..name..": "..(r2 or r3),'warn')
+			MES.new("Cannot load "..name..": "..(r2 or r3))
 		end
 	elseif SYSTEM=="Android"then
 		local fs=love.filesystem
@@ -17,25 +17,25 @@ return function(name,libName)
 				if success then
 					libFunc,mes2=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
 					if libFunc then
-						LOG.print(name.." lib loaded",'message')
+						MES.new(name.." lib loaded")
 						break
 					else
-						LOG.print("Cannot load "..name..": "..mes2,'error')
+						MES.new("Cannot load "..name..": "..mes2)
 					end
 				else
-					LOG.print(("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2),'error')
+					MES.new(("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2))
 				end
 			else
-				LOG.print(("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1),'error')
+				MES.new(("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1))
 			end
 		end
 		if not libFunc then
-			LOG.print("Cannot load "..name,'error')
+			MES.new("Cannot load "..name)
 			return
 		end
 		return libFunc()
 	else
-		LOG.print("No "..name.." for "..SYSTEM,'error')
+		MES.new("No "..name.." for "..SYSTEM)
 		return
 	end
 	return true

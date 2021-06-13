@@ -256,7 +256,7 @@ return{
 			join="Join",
 		},
 		net_newRoom={
-			title="Custom room config",
+			title="Room config",
 			roomName="Room name(default to username's room)",
 			roomDescription="Room description",
 
@@ -863,8 +863,8 @@ return{
 		"Online mode is planned - please be patient.",
 		"Play single-handedly!",
 		"Playing good takes some time!",
-		"Powered by Love2D",
-		"Powered by Un..Love2D",
+		"Powered by LÖVE",
+		"Powered by Un..LÖVE",
 		"pps-0.01",
 		"REGRET!!",
 		"Secret number: 626",

@@ -222,7 +222,7 @@ return function(P)--Return a piece-generating funtion for player P
 	elseif type(s)=='string'and seqGenerators[s]then
 		return seqGenerators[s]
 	else
-		LOG.print(
+		MES.new(
 			type(s)=='string'and
 			"No sequence mode called "..s or
 			"Wrong sequence generator",

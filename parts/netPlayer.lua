@@ -5,7 +5,7 @@ local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
 
 local rnd,min=math.random,math.min
 local sin,cos=math.sin,math.cos
-local ins=table.insert
+local ins,rem=table.insert,table.remove
 local setFont=setFont
 
 local posLists={
@@ -66,7 +66,7 @@ local posList
 local function _placeSort(a,b)return a.place<b.place end
 
 local PLYlist,PLYmap={},{}
-local function freshPosList()
+local function freshPos()
 	table.sort(PLYlist,_placeSort)
 	if #PLYlist<=5 then
 		posList=posLists[1]
@@ -83,7 +83,7 @@ end
 local netPLY={
 	list=PLYlist,
 	map=PLYmap,
-	freshPos=freshPosList,
+	freshPos=freshPos,
 }
 
 function netPLY.clear()
@@ -99,7 +99,17 @@ function netPLY.add(p)
 
 	ins(PLYlist,p)
 	PLYmap[p.uid]=p
-	freshPosList()
+	freshPos()
+end
+function netPLY.remove(sid)
+	for i=1,#PLYlist do
+		if PLYlist[i].sid==sid then
+			PLYmap[PLYlist[i].sid]=nil
+			rem(PLYlist,i)
+			freshPos()
+			break
+		end
+	end
 end
 
 function netPLY.getCount()return #PLYlist end

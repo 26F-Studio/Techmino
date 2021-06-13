@@ -16,7 +16,7 @@ local function load1()
 	if D then
 		TABLE.update(D,VK_org)
 	else
-		LOG.print(text.noFile,'message')
+		MES.new(text.noFile)
 	end
 end
 local function save2()
@@ -27,7 +27,7 @@ local function load2()
 	if D then
 		TABLE.update(D,VK_org)
 	else
-		LOG.print(text.noFile,'message')
+		MES.new(text.noFile)
 	end
 end
 
@@ -188,7 +188,7 @@ scene.widgetList={
 					B.x,B.y,B.r=T[2],T[3],T[4]
 				end
 			end
-			LOG.print(("==[ %d ]=="):format(defaultSetSelect))
+			MES.new(("==[ %d ]=="):format(defaultSetSelect))
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
 		end},

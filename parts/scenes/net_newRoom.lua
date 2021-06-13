@@ -43,10 +43,10 @@ function scene.sceneBack()
 end
 
 function scene.keyDown(k)
-	if k=="return"and #EDITING==0 then
+	if k=="return"then
 		createRoom()
 	elseif k=="escape"then
-		SCN.go('net_rooms')
+		SCN.back()
 	else
 		WIDGET.keyPressed(k)
 	end
@@ -85,11 +85,11 @@ scene.widgetList={
 				ROOMENV.capacity=i
 				WIDGET.active.capacity.color=COLOR.lY
 			else
-				LOG.print("没有权限 Permission Denied",'warn')
+				MES.new("没有权限 Permission Denied")
 				WIDGET.active.capacity.color=COLOR.R
 			end
 		end},
-	WIDGET.newButton{name="create",		x=1070,y=480,w=310,h=140,color='lY',font=40,code=pressKey"return"},
+	WIDGET.newButton{name="create",		x=1070,y=480,w=310,h=140,color='lN',font=40,code=pressKey"return"},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 
 	--Special rules

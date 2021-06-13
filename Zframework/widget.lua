@@ -617,7 +617,7 @@ function selector:reset()
 		self.selText=self.list[i]
 	else
 		self.hide=true
-		LOG.print("Selector "..self.name.." dead, disp= "..tostring(V),'warn')
+		MES.new("Selector "..self.name.." dead, disp= "..tostring(V))
 	end
 end
 function selector:isAbove(x,y)
@@ -771,7 +771,7 @@ function inputBox:addText(str)
 	if type(str)=='string'then
 		self.value=self.value..str
 	else
-		LOG.print("inputBox "..self.name.." dead, addText("..type(str)..")",'warn')
+		MES.new("inputBox "..self.name.." dead, addText("..type(str)..")")
 	end
 end
 function inputBox:clear()
@@ -1093,7 +1093,10 @@ function WIDGET.isFocus(W)
 end
 function WIDGET.focus(W)
 	if WIDGET.sel==W then return end
-	if WIDGET.sel and WIDGET.sel.type=='inputBox'then kb.setTextInput(false)end
+	if WIDGET.sel and WIDGET.sel.type=='inputBox'then
+		kb.setTextInput(false)
+		EDITING=""
+	end
 	WIDGET.sel=W
 	if W and W.type=='inputBox'then
 		local _,y1=xOy:transformPoint(0,W.y+W.h)
@@ -1103,7 +1106,10 @@ end
 function WIDGET.unFocus(force)
 	local W=WIDGET.sel
 	if W and(force or not W.keepFocus)then
-		if W.type=='inputBox'then kb.setTextInput(false)end
+		if W.type=='inputBox'then
+			kb.setTextInput(false)
+			EDITING=""
+		end
 		WIDGET.sel=false
 	end
 end
