@@ -352,7 +352,7 @@ do--function DATA.saveRecording()
 		--Filtering modes that cannot be saved
 		for _,v in next,noRecList do
 			if GAME.curModeName:find(v)then
-				MES.new('warn',"Cannot save recording of this mode now!")
+				MES.new('error',"Cannot save recording of this mode now!")
 				return
 			end
 		end

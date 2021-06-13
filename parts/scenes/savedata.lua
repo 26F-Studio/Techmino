@@ -2,7 +2,7 @@ local scene={}
 
 local function dumpCB(T)
 	love.system.setClipboardText(STRING.packText(TABLE.dump(T)))
-	MES.new(text.exportSuccess)
+	MES.new('check',text.exportSuccess)
 end
 local function parseCB()
 	local _
@@ -10,7 +10,7 @@ local function parseCB()
 
 	--Decode
 	s=STRING.unpackText(s)
-	if not s then MES.new(text.dataCorrupted)return end
+	if not s then MES.new('error',text.dataCorrupted)return end
 
 	s=loadstring(s)
 	if s then
@@ -32,9 +32,9 @@ scene.widgetList={
 			if D then
 				TABLE.update(D,RANKS)
 				FILE.save(RANKS,'conf/unlock')
-				MES.new(text.importSuccess)
+				MES.new('check',text.importSuccess)
 			else
-				MES.new(text.dataCorrupted)
+				MES.new('error',text.dataCorrupted)
 			end
 		end},
 	WIDGET.newButton{name="data",		x=490,y=390,w=280,h=100,color='lR',
@@ -43,9 +43,9 @@ scene.widgetList={
 			if D and D.version==STAT.version then
 				TABLE.update(D,STAT)
 				FILE.save(STAT,'conf/data')
-				MES.new(text.importSuccess)
+				MES.new('check',text.importSuccess)
 			else
-				MES.new(text.dataCorrupted)
+				MES.new('error',text.dataCorrupted)
 			end
 		end},
 	WIDGET.newButton{name="setting",	x=790,y=390,w=280,h=100,color='lR',
@@ -54,9 +54,9 @@ scene.widgetList={
 			if D then
 				TABLE.update(D,SETTING)
 				FILE.save(SETTING,'conf/settings')
-				MES.new(text.importSuccess)
+				MES.new('check',text.importSuccess)
 			else
-				MES.new(text.dataCorrupted)
+				MES.new('error',text.dataCorrupted)
 			end
 		end},
 	WIDGET.newButton{name="vk",			x=1090,y=390,w=280,h=100,color='lR',
@@ -65,9 +65,9 @@ scene.widgetList={
 			if D then
 				TABLE.update(D,VK_org)
 				FILE.save(VK_org,'conf/virtualkey')
-				MES.new(text.importSuccess)
+				MES.new('check',text.importSuccess)
 			else
-				MES.new(text.dataCorrupted)
+				MES.new('error',text.dataCorrupted)
 			end
 		end},
 

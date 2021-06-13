@@ -52,18 +52,14 @@ function THEME.set(theme)
 	elseif theme=='xmas'then
 		BG.setDefault('snow')
 		BGM.setDefault('xmas')
-		MES.new("==============")
-		MES.new("Merry Christmas!")
-		MES.new("==============")
+		MES.new('info',"==Merry Christmas==")
 	elseif theme=='birth'then
 		BG.setDefault('firework')
 		BGM.setDefault('magicblock')
 	elseif theme=='sprfes'then
 		BG.setDefault('firework')
 		BGM.setDefault("spring festival")
-		MES.new(" ★☆☆★")
-		MES.new("新年快乐!")
-		MES.new(" ★☆☆★")
+		MES.new('info',"★☆新年快乐☆★")
 	elseif theme=='zday1'then
 		BG.setDefault('lanterns')
 		BGM.setDefault("empty")

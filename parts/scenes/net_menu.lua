@@ -32,7 +32,7 @@ scene.widgetList={
 					SCN.back()
 				end
 			else
-				MES.new(text.sureQuit)
+				MES.new('info',text.sureQuit)
 				lastLogoutTime=TIME()
 			end
 		end},

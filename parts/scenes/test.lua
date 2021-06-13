@@ -35,7 +35,7 @@ function scene.keyDown(key)
 		if backCounter==0 then
 			SCN.back()
 		else
-			MES.new(backCounter)
+			MES.new('info',backCounter)
 		end
 	end
 end

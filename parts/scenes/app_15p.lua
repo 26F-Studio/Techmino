@@ -116,16 +116,16 @@ local function tapBoard(x,y,key)
 			if checkBoard(b)then
 				state=2
 				time=TIME()-startTime
-				if time<1 then		MES.new("不是人")
-				elseif time<2 then	MES.new("还是人")
-				elseif time<3 then	MES.new("神仙")
-				elseif time<5 then	MES.new("太强了")
-				elseif time<7.5 then MES.new("很强")
-				elseif time<10 then	MES.new("可以的")
-				elseif time<20 then	MES.new("马上入门了")
-				elseif time<30 then	MES.new("入门不远了")
-				elseif time<60 then	MES.new("多加练习")
-				else				MES.new("第一次玩?加油")
+				if time<1 then		MES.new(false,"不是人")
+				elseif time<2 then	MES.new(false,"还是人")
+				elseif time<3 then	MES.new(false,"神仙")
+				elseif time<5 then	MES.new(false,"太强了")
+				elseif time<7.5 then MES.new(false,"很强")
+				elseif time<10 then	MES.new(false,"可以的")
+				elseif time<20 then	MES.new(false,"马上入门了")
+				elseif time<30 then	MES.new(false,"入门不远了")
+				elseif time<60 then	MES.new(false,"多加练习")
+				else				MES.new(false,"第一次玩?加油")
 				end
 				SFX.play('win')
 				return

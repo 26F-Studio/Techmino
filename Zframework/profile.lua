@@ -141,10 +141,10 @@ function profile.switch()
 		profile.stop()
 		love.system.setClipboardText(PROFILE.report())
 		PROFILE.reset()
-		MES.new("profile report copied!")
+		MES.new('check',"profile report copied!")
 	else
 		PROFILE.start()
-		MES.new("profile start!")
+		MES.new('check',"profile start!")
 	end
 	switch=not switch
 end

@@ -35,7 +35,7 @@ local function _quit()
 		NET.signal_quit()
 	else
 		lastBackTime=TIME()
-		MES.new(text.sureQuit)
+		MES.new('info',text.sureQuit)
 	end
 end
 local function _switchChat()

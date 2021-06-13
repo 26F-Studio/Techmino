@@ -67,7 +67,7 @@ function scene.keyDown(key)
 				NET.tryLogin(false)
 			else
 				NET.wsconn_app()
-				MES.new(text.wsConnecting)
+				MES.new('info',text.wsConnecting)
 				SFX.play('connect')
 			end
 		end

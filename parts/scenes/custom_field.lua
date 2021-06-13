@@ -216,20 +216,20 @@ function scene.keyDown(key)
 		SFX.play('fall',.8)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		sys.setClipboardText("Techmino Field:"..DATA.copyBoard(page))
-		MES.new(text.exportSuccess)
+		MES.new('check',text.exportSuccess)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("Field")then
-				MES.new(text.pasteWrongPlace)
+				MES.new('error',text.pasteWrongPlace)
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteBoard(str,page)then
-			MES.new(text.importSuccess)
+			MES.new('check',text.importSuccess)
 		else
-			MES.new(text.dataCorrupted)
+			MES.new('error',text.dataCorrupted)
 		end
 	elseif key=="pageup"then
 		page=max(page-1,1)

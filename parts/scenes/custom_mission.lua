@@ -3,7 +3,6 @@ local kb=love.keyboard
 
 local int,sin=math.floor,math.sin
 local ins,rem=table.insert,table.remove
-local sub=string.sub
 
 local scene={}
 
@@ -71,22 +70,22 @@ function scene.keyDown(key)
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		if #MISSION>0 then
 			sys.setClipboardText("Techmino Target:"..DATA.copyMission())
-			MES.new(text.exportSuccess)
+			MES.new('check',text.exportSuccess)
 		end
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local p=str:find(":")--ptr*
 		if p then
 			if not str:sub(1,p-1):find("Target")then
-				MES.new(text.pasteWrongPlace)
+				MES.new('error',text.pasteWrongPlace)
 			end
 			str=str:sub(p+1)
 		end
 		if DATA.pasteMission(str)then
-			MES.new(text.importSuccess)
+			MES.new('check',text.importSuccess)
 			cur=#MISSION
 		else
-			MES.new(text.dataCorrupted)
+			MES.new('error',text.dataCorrupted)
 		end
 	elseif key=="escape"then
 		SCN.back()

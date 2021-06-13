@@ -298,9 +298,27 @@ local commands={}do
 		code=error,
 		description="Manually crash the game",
 	}
-	commands.message={
-		code=function(str)MES.new('warn',str,6)end,
-		description="Show a warn message",
+	commands.mes={
+		code=function(arg)
+			if
+				arg=='check'or
+				arg=='info'or
+				arg=='warn'or
+				arg=='error'
+			then
+				MES.new(arg,"Test message",6)
+			else
+				log{C.A,"Show a message on the up-left corner"}
+				log""
+				log{C.A,"Usage: mes <check|info|warn|error> [message]"}
+			end
+		end,
+		description="Show a message",
+		details={
+			"Show a message on the up-left corner",
+			"",
+			"Usage: mes <check|info|warn|error> [message]",
+		},
 	}
 	commands.warn={
 		code=function(str)MES.new('warn',str,6)end,

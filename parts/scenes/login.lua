@@ -6,9 +6,9 @@ local savePW=false
 local function login()
 	local email,password=emailBox:getText(),passwordBox:getText()
 	if not STRING.simpEmailCheck(email)then
-		MES.new(text.wrongEmail)return
+		MES.new('error',text.wrongEmail)return
 	elseif #password==0 then
-		MES.new(text.noPassword)return
+		MES.new('error',text.noPassword)return
 	end
 	NET.wsconn_user_pswd(email,password)
 	if savePW then

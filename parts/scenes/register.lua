@@ -6,13 +6,13 @@ local function register()
 	local password=	WIDGET.active.password:getText()
 	local password2=WIDGET.active.password2:getText()
 	if #username==0 then
-		MES.new(text.noUsername)return
+		MES.new('error',text.noUsername)return
 	elseif not STRING.simpEmailCheck(email)then
-		MES.new(text.wrongEmail)return
+		MES.new('error',text.wrongEmail)return
 	elseif #password==0 or #password2==0 then
-		MES.new(text.noPassword)return
+		MES.new('error',text.noPassword)return
 	elseif password~=password2 then
-		MES.new(text.diffPassword)return
+		MES.new('error',text.diffPassword)return
 	end
 	NET.register(username,email,password)
 end

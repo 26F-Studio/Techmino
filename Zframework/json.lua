@@ -119,7 +119,7 @@ function json.encode(val)
 	if a then
 		return b
 	elseif MES.new then
-		MES.new(text.jsonError..": "..(b or"uknErr"))
+		MES.new('error',text.jsonError..": "..(b or"uknErr"))
 	end
 end
 
@@ -349,7 +349,7 @@ function json.decode(str)
 	if a then
 		return b
 	elseif MES.new then
-		MES.new(text.jsonError..": "..(b or"uknErr"))
+		MES.new('error',text.jsonError..": "..(b or"uknErr"))
 	end
 end
 return json

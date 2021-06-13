@@ -208,7 +208,7 @@ local function noDevkeyPressed(key)
 	if key=="f1"then
 		PROFILE.switch()
 	elseif key=="f2"then
-		MES.new(("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
+		MES.new('info',("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
@@ -226,15 +226,15 @@ local function noDevkeyPressed(key)
 	elseif key=="f7"and love._openConsole then
 		love._openConsole()
 	elseif key=="f8"then
-		devMode=nil	MES.new("DEBUG OFF",.2)
+		devMode=nil	MES.new('info',"DEBUG OFF",.2)
 	elseif key=="f9"then
-		devMode=1	MES.new("DEBUG 1")
+		devMode=1	MES.new('info',"DEBUG 1")
 	elseif key=="f10"then
-		devMode=2	MES.new("DEBUG 2")
+		devMode=2	MES.new('info',"DEBUG 2")
 	elseif key=="f11"then
-		devMode=3	MES.new("DEBUG 3")
+		devMode=3	MES.new('info',"DEBUG 3")
 	elseif key=="f12"then
-		devMode=4	MES.new("DEBUG 4")
+		devMode=4	MES.new('info',"DEBUG 4")
 	elseif devMode==2 then
 		local W=WIDGET.sel
 		if W then
@@ -263,7 +263,7 @@ function love.keypressed(key)
 		return
 	elseif key=="f8"then
 		devMode=1
-		MES.new("DEBUG ON",.2)
+		MES.new('info',"DEBUG ON",.2)
 	elseif key=="f11"then
 		if kb.isDown("lctrl","rctrl")then
 			_G["\100\114\97\119\70\87\77"]=NULL
@@ -294,13 +294,13 @@ end
 
 function love.joystickadded(JS)
 	ins(joysticks,JS)
-	MES.new("Joystick added")
+	MES.new('info',"Joystick added")
 end
 function love.joystickremoved(JS)
 	local i=TABLE.find(joysticks,JS)
 	if i then
 		rem(joysticks,i)
-		MES.new("Joystick removed")
+		MES.new('info',"Joystick removed")
 	end
 end
 local keyMirror={
@@ -359,7 +359,7 @@ function love.lowmemory()
 	if TIME()-lastGCtime>6.26 then
 		collectgarbage()
 		lastGCtime=TIME()
-		MES.new("[auto GC] low MEM 设备内存过低")
+		MES.new('check',"[auto GC] low MEM 设备内存过低")
 	end
 end
 function love.resize(w,h)

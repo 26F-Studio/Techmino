@@ -51,13 +51,13 @@ function scene.keyDown(key)
 	if key=="return"or key=="return2"then
 		if CUSTOMENV.opponent~="X"then
 			if CUSTOMENV.opponent:sub(1,2)=='CC'and CUSTOMENV.sequence=="fixed"then
-				MES.new(text.ai_fixed)
+				MES.new('error',text.ai_fixed)
 				return
 			elseif #BAG>0 then
-				MES.new(text.ai_prebag)
+				MES.new('error',text.ai_prebag)
 				return
 			elseif #MISSION>0 then
-				MES.new(text.ai_mission)
+				MES.new('error',text.ai_mission)
 				return
 			end
 		end
@@ -95,7 +95,7 @@ function scene.keyDown(key)
 		str=str.."!"
 		if #MISSION>0 then str=str..DATA.copyMission()end
 		sys.setClipboardText(str.."!"..DATA.copyBoards().."!")
-		MES.new(text.exportSuccess)
+		MES.new('check',text.exportSuccess)
 	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
 		local str=sys.getClipboardText()
 		local args=STRING.split(str:sub((str:find(":")or 0)+1),"!")
@@ -111,9 +111,9 @@ function scene.keyDown(key)
 			if args[i]:find("%S")and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
 		end
 		freshMiniFieldVisible()
-		MES.new(text.importSuccess)
+		MES.new('check',text.importSuccess)
 		do return end
-		::THROW_fail::MES.new(text.dataCorrupted)
+		::THROW_fail::MES.new('error',text.dataCorrupted)
 	elseif key=="escape"then
 		FILE.save(CUSTOMENV,'conf/customEnv','q')
 		SCN.back()

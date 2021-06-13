@@ -6,6 +6,23 @@ local ins,rem=table.insert,table.remove
 
 local mesList={}
 local mesIcon={
+	check=DOGC{40,40,
+		{'setLW',10},
+		{'setCL',0,0,0},
+		{'line',4,19,15,30,36,9},
+		{'setLW',6},
+		{'setCL',.7,1,.6},
+		{'line',5,20,15,30,35,10},
+	},
+	info=DOGC{40,40,
+		{'setCL',.2,.25,.85},
+		{'fCirc',20,20,15},
+		{'setCL',1,1,1},
+		{'setLW',2},
+		{'dCirc',20,20,15},
+		{'fRect',18,11,4,4},
+		{'fRect',18,17,4,12},
+	},
 	warn=DOGC{40,40,
 		{'setCL',.95,.83,.4},
 		{'fPoly',20.5,1,0,38,40,38},
@@ -23,25 +40,20 @@ local mesIcon={
 		{'setCL',0,0,0},
 		{'dCirc',20,20,19},
 		{'setLW',6},
-		{'line',20-9.8,20-9.8,20+9.8,20+9.8},
-		{'line',20-9.8,20+9.8,20+9.8,20-9.8},
+		{'line',10.2,10.2,29.8,29.8},
+		{'line',10.2,29.8,29.8,10.2},
 		{'setLW',4},
 		{'setCL',1,1,1},
-		{'line',20-9,20-9,20+9,20+9},
-		{'line',20-9,20+9,20+9,20-9},
+		{'line',11,11,29,29},
+		{'line',11,29,29,11},
 	},
 }
 
 local MES={}
 
-function MES.new(...)
-	local icon,str,time=...
-	if type(icon)=='string'and mesIcon[icon]then
-		icon=mesIcon[icon]
-	elseif type(icon)~='userdata'then
-		icon,str,time=false,icon,str
-	else
-	end
+function MES.new(icon,str,time)
+	-- icon=mesIcon.info
+	if type(icon)=='string'then icon=mesIcon[icon]end
 	local t=gc.newText(getFont(30),str)
 	local w=math.max(t:getWidth()+(icon and 45 or 5),200)
 	local L={w+20,48,

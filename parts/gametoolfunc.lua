@@ -127,7 +127,7 @@ function freshDate(mode)
 		STAT.date=date
 		STAT.todayTime=0
 		if not mode:find'q'then
-			MES.new(text.newDay)
+			MES.new('info',text.newDay)
 		end
 		return true
 	end
@@ -141,10 +141,10 @@ function legalGameTime()--Check if today's playtime is legal
 		if STAT.todayTime<14400 then
 			return true
 		elseif STAT.todayTime<21600 then
-			MES.new(text.playedLong)
+			MES.new('warn',text.playedLong)
 			return true
 		else
-			MES.new(text.playedTooMuch)
+			MES.new('error',text.playedTooMuch)
 			return false
 		end
 	end

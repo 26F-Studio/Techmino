@@ -97,9 +97,9 @@ end
 local function _closeMessage(message)
 	local mes=JSON.decode(message:sub(3))
 	if mes then
-		MES.new(("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""))
+		MES.new('info',("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""))
 	else
-		MES.new(text.wsClose)
+		MES.new('info',text.wsClose)
 	end
 end
 
@@ -249,13 +249,13 @@ function NET.uploadSave()
 			{section=6,data=STRING.packTable(FILE.load('conf/vkSave1'))},
 			{section=7,data=STRING.packTable(FILE.load('conf/vkSave2'))},
 		}..'}}')
-		MES.new("Uploading")
+		MES.new('info',"Uploading")
 	end
 end
 function NET.downloadSave()
 	if NET.lock('downloadSave',10)then
 		WS.send('user','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
-		MES.new("Downloading")
+		MES.new('info',"Downloading")
 	end
 end
 function NET.loadSavedData(sections)
@@ -295,7 +295,7 @@ function NET.loadSavedData(sections)
 		FILE.save(NET.cloudData.vkSave1,'conf/vkSave1','q')
 		FILE.save(NET.cloudData.vkSave2,'conf/vkSave2','q')
 	else
-		MES.new(text.versionNotMatch,1)
+		MES.new('error',text.versionNotMatch,1)
 	end
 end
 
@@ -414,22 +414,22 @@ function NET.updateWS_app()
 							end
 						end
 						if VERSION.code<res.newestCode then
-							MES.new(text.oldVersion:gsub("$1",res.newestName),3)
+							MES.new('warn',text.oldVersion:gsub("$1",res.newestName),3)
 						end
-						MES.new(res.notice,5)
+						MES.new('info',res.notice,5)
 						NET.tryLogin(true)
 					elseif res.action==0 then--Broadcast
-						MES.new(res.data.message,5)
+						MES.new('info',res.data.message,5)
 					elseif res.action==1 then--Get notice
 						--?
 					elseif res.action==2 then--Register
 						if res.type=='Self'or res.type=='Server'then
-							MES.new(res.data.message,5)
+							MES.new('info',res.data.message,5)
 							if SCN.cur=='register'then
 								SCN.back()
 							end
 						else
-							MES.new(res.reason or"Registration failed",5)
+							MES.new('warn',res.reason or"Registration failed",5)
 						end
 						NET.unlock('register')
 					elseif res.action==3 then--Get player counts
@@ -466,24 +466,24 @@ function NET.updateWS_user()
 							FILE.save(USER,'conf/user','q')
 							if SCN.cur=='login'then SCN.back()end
 						end
-						MES.new(text.loginSuccessed)
+						MES.new('check',text.loginSuccessed)
 
 						--Get self infos
 						NET.getUserInfo(USER.uid)
 						NET.unlock('wsc_user')
 					elseif res.action==0 then--Get accessToken
 						NET.accessToken=res.accessToken
-						MES.new(text.accessSuccessed)
+						MES.new('check',text.accessSuccessed)
 						NET.wsconn_play()
 					elseif res.action==1 then--Get userInfo
 						USERS.updateUserData(res.data)
 					elseif res.action==2 then--Upload successed
 						NET.unlock('uploadSave')
-						MES.new(text.exportSuccess)
+						MES.new('check',text.exportSuccess)
 					elseif res.action==3 then--Download successed
 						NET.unlock('downloadSave')
 						NET.loadSavedData(res.data.sections)
-						MES.new(text.importSuccess)
+						MES.new('check',text.importSuccess)
 					end
 				else
 					WS.alert('user')
@@ -724,17 +724,17 @@ function NET.updateWS_manage()
 				local res=_parse(message)
 				if res then
 					if res.type=='Connect'then
-						MES.new("Manage connected")
+						MES.new('check',"Manage connected")
 					elseif res.action==0 then
-						MES.new("success")
+						MES.new('check',"success")
 					elseif res.action==9 then
-						MES.new("success")
+						MES.new('check',"success")
 					elseif res.action==10 then
-						MES.new(TABLE.dump(res.data))
+						MES.new('info',TABLE.dump(res.data))
 					elseif res.action==11 then
-						MES.new(TABLE.dump(res.data))
+						MES.new('info',TABLE.dump(res.data))
 					elseif res.action==12 then
-						MES.new(TABLE.dump(res.data))
+						MES.new('info',TABLE.dump(res.data))
 					end
 				else
 					WS.alert('manage')

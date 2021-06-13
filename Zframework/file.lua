@@ -21,7 +21,7 @@ function FILE.load(name)
 				return s
 			end
 		end
-		MES.new(name.." "..text.loadError)
+		MES.new('error',name.." "..text.loadError)
 	end
 end
 function FILE.save(data,name,mode)
@@ -30,13 +30,13 @@ function FILE.save(data,name,mode)
 		if mode:find'l'then
 			data=TABLE.dump(data)
 			if not data then
-				MES.new(name.." "..text.saveError.."dump error")
+				MES.new('error',name.." "..text.saveError.."dump error")
 				return
 			end
 		else
 			data=JSON.encode(data)
 			if not data then
-				MES.new(name.." "..text.saveError.."json error")
+				MES.new('error',name.." "..text.saveError.."json error")
 				return
 			end
 		end
@@ -50,11 +50,11 @@ function FILE.save(data,name,mode)
 	F:flush()F:close()
 	if success then
 		if not mode:find'q'then
-			MES.new(text.saveDone)
+			MES.new('check',text.saveDone)
 		end
 	else
-		MES.new(text.saveError..(mes or"unknown error"))
-		MES.new(debug.traceback())
+		MES.new('error',text.saveError..(mes or"unknown error"))
+		MES.new(false,debug.traceback())
 	end
 end
 function FILE.clear(path)

@@ -17,16 +17,16 @@ return function(name,libName)
 				if success then
 					libFunc,mes2=package.loadlib(SAVEDIR.."/lib/"..libName.Android,libName.libFunc)
 					if libFunc then
-						MES.new(name.." lib loaded")
+						MES.new('check',name.." lib loaded")
 						break
 					else
 						MES.new('error',"Cannot load "..name..": "..mes2)
 					end
 				else
-					MES.new(("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2))
+					MES.new('error',("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2))
 				end
 			else
-				MES.new(("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1))
+				MES.new('error',("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1))
 			end
 		end
 		if not libFunc then
