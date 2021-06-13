@@ -195,7 +195,7 @@ LANG.init(
 		require"parts.language.lang_yygq",
 		require"parts.language.lang_en",
 		require"parts.language.lang_fr",
-		require"parts.language.lang_sp",
+		require"parts.language.lang_es",
 		require"parts.language.lang_pt",
 		require"parts.language.lang_symbol",
 		--1. Add language file to LANG folder;
