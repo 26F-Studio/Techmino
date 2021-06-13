@@ -32,10 +32,13 @@ local commands={}do
 			if #arg>0 then
 				--help [command]
 				if commands[arg]then
-					if commands[arg].details then
-						for _,v in ipairs(commands[arg].details)do log(v)end
-					else
-						log{C.Y,("No details for command '%s'"):format(arg)}
+					if commands[arg].description then
+						log{C.H,("%s"):format(commands[arg].description)}
+						if commands[arg].details then
+							for _,v in ipairs(commands[arg].details)do log(v)end
+						else
+							log{C.Y,("No details for command '%s'"):format(arg)}
+						end
 					end
 				else
 					log{C.Y,("No command called '%s'"):format(arg)}
@@ -291,7 +294,22 @@ local commands={}do
 	}
 
 	--System
-	commands.error=error
+	commands.crash={
+		code=error,
+		description="Manually crash the game",
+	}
+	commands.message={
+		code=function(str)MES.new('warn',str,6)end,
+		description="Show a warn message",
+	}
+	commands.warn={
+		code=function(str)MES.new('warn',str,6)end,
+		description="Show a warn message",
+	}
+	commands.error={
+		code=function(str)MES.new('error',str,6)end,
+		description="Show an error message",
+	}
 	commands.openurl={
 		code=function(url)
 			if url~=""then
