@@ -376,7 +376,7 @@ do--function DATA.saveRecording()
 			FILE.save(REPLAY,'conf/replay')
 			return true
 		else
-			MES.new('warn',"Save failed: File already exists")
+			MES.new('error',"Save failed: File already exists")
 		end
 	end
 end
