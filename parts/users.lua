@@ -1,16 +1,4 @@
 local gc,fs=love.graphics,love.filesystem
-local function loadAvatar(path)
-	local img=gc.newImage(path)
-	local canvas=gc.newCanvas(128,128)
-	gc.push()
-		gc.origin()
-		gc.setColor(1,1,1)
-		gc.setCanvas(canvas)
-		mDraw(img,64,64,nil,128/math.max(img:getWidth(),img:getHeight()))
-		gc.setCanvas()
-	gc.pop()
-	return canvas
-end
 
 local emptyUser={
 	username="Stacker",
@@ -25,6 +13,28 @@ for i=1,29 do
 		{"clear",.1,.1,.1},
 		{"draw",img,63,63,.2,30,30,img:getWidth()/2,img:getHeight()/2},
 	}
+end
+local errorAvatar=DOGC{128,128,
+	{'setCL',1,.2,.15},
+	{'setLW',10},
+	{'line',10,10,117,117},
+	{'line',10,117,117,10},
+}
+local function loadAvatar(path)
+	local success,img=pcall(gc.newImage,path)
+	if success then
+		local canvas=gc.newCanvas(128,128)
+		gc.push()
+			gc.origin()
+			gc.setColor(1,1,1)
+			gc.setCanvas(canvas)
+			mDraw(img,64,64,nil,128/math.max(img:getWidth(),img:getHeight()))
+			gc.setCanvas()
+		gc.pop()
+		return canvas
+	else
+		return errorAvatar
+	end
 end
 
 local db_img={}
