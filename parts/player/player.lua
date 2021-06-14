@@ -1712,8 +1712,10 @@ function Player:win(result)
 end
 function Player:lose(force)
 	if self.result then return end
-	if self.type=='remote'and not force then self.waiting=1e99 return end
-	if self.life>0 and not force then self:revive()return end
+	if not force then
+		if self.life>0 then self:revive()return end
+		if self.type=='remote'then self.waiting=1e99 return end
+	end
 	self:die()
 	local p=TABLE.find(PLY_ALIVE,self)if p then rem(PLY_ALIVE,p)end
 	self.result='lose'
