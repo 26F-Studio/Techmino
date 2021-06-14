@@ -303,6 +303,7 @@ local commands={}do
 			if
 				arg=='check'or
 				arg=='info'or
+				arg=='broadcast'or
 				arg=='warn'or
 				arg=='error'
 			then
@@ -310,7 +311,7 @@ local commands={}do
 			else
 				log{C.A,"Show a message on the up-left corner"}
 				log""
-				log{C.A,"Usage: mes <check|info|warn|error> [message]"}
+				log{C.A,"Usage: mes <check|info|broadcast|warn|error> [message]"}
 			end
 		end,
 		description="Show a message",

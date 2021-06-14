@@ -23,6 +23,14 @@ local mesIcon={
 		{'fRect',18,11,4,4},
 		{'fRect',18,17,4,12},
 	},
+	broadcast=DOGC{40,40,
+		{'setCL',1,1,1},
+		{'fRect',2,4,36,26,3},
+		{'fPoly',2,27,2,37,14,25},
+		{'setCL',.5,.5,.5},
+		{'fRect',6,11,4,4},{'fRect',14,11,19,4},
+		{'fRect',6,19,4,4},{'fRect',14,19,19,4},
+	},
 	warn=DOGC{40,40,
 		{'setCL',.95,.83,.4},
 		{'fPoly',20.5,1,0,38,40,38},
@@ -52,7 +60,6 @@ local mesIcon={
 local MES={}
 
 function MES.new(icon,str,time)
-	-- icon=mesIcon.info
 	if type(icon)=='string'then icon=mesIcon[icon]end
 	local t=gc.newText(getFont(30),str)
 	local w=math.max(t:getWidth()+(icon and 45 or 5),200)

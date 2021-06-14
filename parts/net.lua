@@ -416,10 +416,10 @@ function NET.updateWS_app()
 						if VERSION.code<res.newestCode then
 							MES.new('warn',text.oldVersion:gsub("$1",res.newestName),3)
 						end
-						MES.new('info',res.notice,5)
+						MES.new('broadcast',res.notice,5)
 						NET.tryLogin(true)
 					elseif res.action==0 then--Broadcast
-						MES.new('info',res.data.message,5)
+						MES.new('broadcast',res.data.message,5)
 					elseif res.action==1 then--Get notice
 						--?
 					elseif res.action==2 then--Register
