@@ -104,12 +104,12 @@ end
 function MES.draw()
 	gc_push('transform')
 	if #mesList>0 then
-		gc_translate(0,30)
+		gc_translate(SCR.safeX,30)
 		for i=1,#mesList do
 			local m=mesList[i]
 			gc_setColor(1,1,1,2*(m.endTime-m.startTime))
 			gc_draw(m.canvas,40-80*(m.endTime+m.startTime),0,nil,m.scale)
-			gc_translate(0,(m.height+4)*m.scale)
+			gc_translate(0,m.height*m.scale+4)
 		end
 	end
 	gc_pop()
