@@ -62,13 +62,13 @@ local MES={}
 function MES.new(icon,str,time)
 	if type(icon)=='string'then icon=mesIcon[icon]end
 	local t=gc.newText(getFont(30),str)
-	local w=math.max(t:getWidth()+(icon and 45 or 5),200)
-	local L={w+20,48,
-		{'setCL',.5,.5,.5,.7},
-		{'fRect',0,0,w+20,48},
+	local w=math.max(t:getWidth()+(icon and 45 or 5),200)+20
+	local h=math.max(t:getHeight(),46)
+	local L={w,h,
+		{'clear',.5,.5,.5,.7},
 		{'setCL',.7,.7,.7},
 		{'setLW',2},
-		{'dRect',1,1,w+18,46},
+		{'dRect',1,1,w-2,h-2},
 		{'setCL',1,1,1},
 	}
 	if icon then
@@ -81,6 +81,8 @@ function MES.new(icon,str,time)
 		endTime=.5,
 		time=time or 3,
 		canvas=DOGC(L),
+		width=w,height=h,
+		scale=h>400 and 1/math.min(h/400,2.6)or 1
 	})
 end
 
@@ -106,8 +108,8 @@ function MES.draw()
 		for i=1,#mesList do
 			local m=mesList[i]
 			gc_setColor(1,1,1,2*(m.endTime-m.startTime))
-			gc_draw(m.canvas,40-80*(m.endTime+m.startTime))
-			gc_translate(0,52)
+			gc_draw(m.canvas,40-80*(m.endTime+m.startTime),0,nil,m.scale)
+			gc_translate(0,(m.height+4)*m.scale)
 		end
 	end
 	gc_pop()
