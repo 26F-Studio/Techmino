@@ -91,7 +91,7 @@ return{
 	accessFailed="Access Denied.",
 
 	wsConnecting="Websocket: Connecting",
-	wsFailed="WebSocket: Connection Failed.",
+	wsFailed="WebSocket: Connection Failed",
 	wsClose="WebSocket Closed: ",
 	netTimeout="Network connection timeout",
 

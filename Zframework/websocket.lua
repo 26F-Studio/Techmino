@@ -63,12 +63,16 @@ do--Connect
 	--Result
 	if ctLen then
 		if code=="101"then
-			readCHN:push("success")
+			readCHN:push('success')
 		else
 			res,err=SOCK:receive(ctLen)
-			if not res then readCHN:push(err)return end
-			res=JSON.decode(res)
-			readCHN:push((code or"XXX")..":"..(res and res.reason or"Server Error"))
+			if not res then
+				readCHN:push(err)
+			else
+				res=JSON.decode(res)
+				readCHN:push((code or"XXX")..":"..(res and res.reason or"Server Error"))
+			end
+			return
 		end
 	end
 	SOCK:settimeout(0)
@@ -316,8 +320,7 @@ end
 function WS.read(name)
 	local ws=wsList[name]
 	if ws.real and ws.readCHN:getCount()>=2 then
-		local op=ws.readCHN:pop()
-		local message=ws.readCHN:pop()
+		local op,message=ws.readCHN:pop(),ws.readCHN:pop()
 		if op==8 then ws.status='dead'end--8=close
 		ws.lastPongTime=timer()
 		ws.pongTimer=1
@@ -342,7 +345,7 @@ function WS.update(dt)
 			if ws.status=='connecting'then
 				local mes=ws.readCHN:pop()
 				if mes then
-					if mes=="success"then
+					if mes=='success'then
 						ws.status='running'
 						ws.lastPingTime=time
 						ws.lastPongTime=time
