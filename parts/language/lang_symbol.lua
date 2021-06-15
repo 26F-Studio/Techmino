@@ -450,6 +450,7 @@ return{
 			password="*",
 			password2="*",
 			register="Sign up",
+			registering="......",
 		},
 		account={
 			title="@_@",

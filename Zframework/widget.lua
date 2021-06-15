@@ -75,7 +75,7 @@ function text:draw()
 end
 function WIDGET.newText(D)--name,x,y[,fText][,color][,font=30][,align='M'][,hideF][,hide]
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 		x=		D.x,
 		y=		D.y,
 
@@ -105,8 +105,8 @@ function image:draw()
 end
 function WIDGET.newImage(D)--name[,img(name)],x,y[,ang][,k][,hideF][,hide]
 	local _={
-		name=	D.name or "_",
-		img=	D.img or D.name or "_",
+		name=	D.name or"_",
+		img=	D.img or D.name or"_",
 		alpha=	D.alpha,
 		x=		D.x,
 		y=		D.y,
@@ -213,7 +213,7 @@ end
 function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
 	if not D.h then D.h=D.w end
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		x=		D.x-D.w*.5,
 		y=		D.y-D.h*.5,
@@ -308,7 +308,7 @@ end
 function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
 	if not D.h then D.h=D.w end
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		x=		D.x-D.w*.5,
 		y=		D.y-D.h*.5,
@@ -397,7 +397,7 @@ function switch:press()
 end
 function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code,hide
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		x=		D.x,
 		y=		D.y,
@@ -552,7 +552,7 @@ function slider:arrowKey(isLeft)
 end
 function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp,code,hide
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		x=		D.x,
 		y=		D.y,
@@ -718,7 +718,7 @@ function selector:arrowKey(isLeft)
 end
 function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		x=		D.x-D.w*.5,
 		y=		D.y-30,
@@ -851,7 +851,7 @@ function inputBox:keypress(k)
 end
 function WIDGET.newInputBox(D)--name,x,y,w[,h][,font=30][,secret][,regex],hide
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		x=		D.x,
 		y=		D.y,
@@ -1000,7 +1000,7 @@ function textBox:getInfo()
 end
 function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 	local _={
-		name=	D.name or "_",
+		name=	D.name or"_",
 
 		resCtr={
 			D.x+D.w*.5,D.y+D.h*.5,

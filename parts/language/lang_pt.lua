@@ -82,20 +82,17 @@ return{
 	wrongEmail="Endereço de email errado",
 	noPassword="Insira sua senha ",
 	diffPassword="Senhas não combinam",
+	-- registerRequestSent="Registration request sent",
 	registerSuccessed="Registrado com sucesso!",
-	registerFailed="Falha ao registrar",
 	loginSuccessed="Logado com sucesso!",
-	loginFailed="Falha na autenticação",
 	accessSuccessed="Autorizado com sucesso!",
-	accessFailed="Falha na autorização",
 
-	-- wsConnecting="Websocket: Connecting",
-	wsFailed="WebSocket: falha na conexão",
+	-- wsConnecting="Websocket Connecting",
+	wsFailed="WebSocket falha na conexão",
 	wsClose="WebSocket closed: ",
 	-- netTimeout="Network connection timeout",
 
 	-- onlinePlayerCount="Online",
-
 	-- createRoomSuccessed="Room successfully created!",
 	-- started="Playing",
 	joinRoom="Entrou a sala.",
@@ -107,9 +104,6 @@ return{
 	chatRemain="Online",
 	chatStart="------Começo do log------",
 	chatHistory="------Novas mensagens abaixo------",
-
-	-- roomsCreateFailed="Failed to create room",
-	roomsFetchFailed="Falha ao buscar salas",
 
 	errorMsg="Um erro ocorreu e Techmino precisa reiniciar.\nInformação do erro foi criada, e você pode mandar ao autor.",
 
@@ -640,6 +634,7 @@ return{
 			password="Senha",
 			password2="Entre Senha Novamente",
 			register="Registrar",
+			-- registering="Waiting for response...",
 		},
 		account={
 			title="Conta",

@@ -83,12 +83,10 @@ return{
 	wrongEmail="邮箱格式错误",
 	noPassword="请填写密码",
 	diffPassword="两次密码不一致",
+	registerRequestSent="注册请求已发送",
 	registerSuccessed="注册成功!",
-	registerFailed="注册失败",
 	loginSuccessed="登录成功",
-	loginFailed="登录失败",
 	accessSuccessed="身份验证成功",
-	accessFailed="身份验证失败",
 
 	wsConnecting="正在连接",
 	wsFailed="连接失败",
@@ -96,7 +94,6 @@ return{
 	netTimeout="连接超时",
 
 	onlinePlayerCount="在线人数",
-
 	createRoomSuccessed="创建房间成功!",
 	started="游戏中",
 	joinRoom="进入房间",
@@ -108,9 +105,6 @@ return{
 	chatRemain="人数:",
 	chatStart="------消息的开头------",
 	chatHistory="------以上是历史消息------",
-
-	roomsCreateFailed="创建房间失败",
-	roomsFetchFailed="拉取房间列表失败",
 
 	errorMsg="Techmino遭受了雷击,需要重新启动.\n我们已收集了一些错误信息,你可以向作者进行反馈.",
 
@@ -642,6 +636,7 @@ return{
 			password="密码",
 			password2="确认密码",
 			register="注册",
+			registering="等待服务器响应...",
 		},
 		account={
 			title="账户",

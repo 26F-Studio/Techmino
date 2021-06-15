@@ -83,20 +83,17 @@ return{
 	wrongEmail="You entered an incorrect e-mail address.",
 	noPassword="Please enter your password.",
 	diffPassword="Passwords don't match.",
+	registerRequestSent="Registration request sent",
 	registerSuccessed="Registration succeeded!",
-	registerFailed="Registration failed",
 	loginSuccessed="You are now logged in!",
-	loginFailed="Failed to log in.",
 	accessSuccessed="Access Granted.",
-	accessFailed="Access Denied.",
 
-	wsConnecting="Websocket: Connecting",
-	wsFailed="WebSocket: Connection Failed",
+	wsConnecting="Websocket Connecting",
+	wsFailed="WebSocket Connection Failed",
 	wsClose="WebSocket Closed: ",
 	netTimeout="Network connection timeout",
 
 	onlinePlayerCount="Online",
-
 	createRoomSuccessed="Room successfully created!",
 	started="Playing",
 	joinRoom="has joined the room.",
@@ -108,9 +105,6 @@ return{
 	chatRemain="Online",
 	chatStart="------Beginning of log------",
 	chatHistory="------New messages below------",
-
-	roomsCreateFailed="Failed to create room.",
-	roomsFetchFailed="Failed to fetch room list.",
 
 	errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the devs.",
 
@@ -644,6 +638,7 @@ return{
 			password="Password",
 			password2="Re-enter Password",
 			register="Register",
+			registering="Waiting for response...",
 		},
 		account={
 			title="Account",

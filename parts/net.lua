@@ -78,7 +78,7 @@ local function _parse(res)
 		if mesType[res.type]then
 			return res
 		else
-			MES.new(
+			MES.new('warn',
 				"Error ws-mes type:"..(
 					res.type and(
 						res.reason and
@@ -87,8 +87,8 @@ local function _parse(res)
 							res.type
 					)or
 					"[NO Message]"
-				),
-			'warn')
+				)
+			)
 		end
 	end
 end
@@ -208,6 +208,7 @@ function NET.register(username,email,password)
 				password=password,
 			}
 		})
+		MES.new('info',text.registerRequestSent)
 	end
 end
 function NET.tryLogin(ifAuto)
