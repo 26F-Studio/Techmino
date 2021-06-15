@@ -9,7 +9,7 @@ local board,cx,cy
 local startTime,time
 local move,push,state
 
-local color,blind
+local color,blind='color1'
 local slide,pathVis,revKB
 
 function scene.sceneInit()
@@ -22,7 +22,7 @@ function scene.sceneInit()
 	move,push=0,0
 	state=2
 
-	color=0
+	color='color1'
 	blind=false
 	slide=true
 	pathVis=true
@@ -199,31 +199,31 @@ function scene.update()
 end
 
 local frontColor={
-	[0]={
+	color1={
 		COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
 		COLOR.lG,COLOR.lB,COLOR.lB,COLOR.lB,
 		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
 		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
 	},--Colored(rank)
-	{
+	rainbow={
 		COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
 		COLOR.lO,COLOR.lY,COLOR.lY,COLOR.lY,
 		COLOR.lO,COLOR.lG,COLOR.lB,COLOR.lB,
 		COLOR.lO,COLOR.lG,COLOR.lB,COLOR.lB,
 	},--Rainbow(rank)
-	{
+	color2={
 		COLOR.lR,COLOR.lR,COLOR.lR,COLOR.lR,
 		COLOR.lB,COLOR.lB,COLOR.lB,COLOR.lB,
 		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
 		COLOR.lG,COLOR.lY,COLOR.lV,COLOR.lV,
 	},--Colored(row)
-	{
+	gray={
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 	},--Gray
-	{
+	black={
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
 		COLOR.Z,COLOR.Z,COLOR.Z,COLOR.Z,
@@ -231,31 +231,31 @@ local frontColor={
 	},--Black
 }
 local backColor={
-	[0]={
+	color1={
 		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
 		COLOR.dG,COLOR.dB,COLOR.dB,COLOR.dB,
 		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
 		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
 	},--Colored(rank)
-	{
+	rainbow={
 		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
 		COLOR.dO,COLOR.dY,COLOR.dY,COLOR.dY,
 		COLOR.dO,COLOR.dG,COLOR.dB,COLOR.dB,
 		COLOR.dO,COLOR.dG,COLOR.dB,COLOR.dB,
 	},--Rainbow(rank)
-	{
+	color2={
 		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
 		COLOR.dB,COLOR.dB,COLOR.dB,COLOR.dB,
 		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
 		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
 	},--Colored(row)
-	{
+	gray={
 		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
 		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
 		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
 		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
 	},--Gray
-	{
+	black={
 		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
 		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
 		COLOR.D,COLOR.D,COLOR.D,COLOR.D,
@@ -316,7 +316,7 @@ end
 local function ifGaming()return state==1 end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',	font=40,code=pressKey"space"},
-	WIDGET.newSlider{name="color",	x=110,y=250,w=170,unit=4,show=false,font=30,disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hideFunc=ifGaming},
+	WIDGET.newSelector{name="color",x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hideF=ifGaming},
 	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",hideF=ifGaming},
 	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",hideF=ifGaming},
 	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=function()return pathVis end,	code=pressKey"r",hideF=function()return state==1 or not slide end},
