@@ -1485,7 +1485,7 @@ do--Player.drop(self)--Place piece
 		end
 
 		if finish then
-			if finish==true then self:lose()end
+			if finish==true then self:lose()return end
 			_=ENV.dropPiece if _ then _(self)end
 			if finish then self:win(finish)end
 		else
