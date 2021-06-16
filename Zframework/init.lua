@@ -17,9 +17,9 @@ WS=		require"Zframework.websocket"
 LOADLIB=require"Zframework.loadLib"
 WHEELMOV=require"Zframework.wheelScroll"
 
-JSON=require"Zframework.json"
-TABLE=require"Zframework.tableExtend"
-STRING=require"Zframework.stringExtend"
+JSON=	require"Zframework.json"
+TABLE=	require"Zframework.tableExtend"
+STRING=	require"Zframework.stringExtend"
 
 VIB=	require"Zframework.vibrate"
 SFX=	require"Zframework.sfx"
@@ -206,7 +206,7 @@ end
 
 local function noDevkeyPressed(key)
 	if key=="f1"then
-		PROFILE.switch()
+		MES.new('check',PROFILE.switch()and"profile start!"or"profile report copied!")
 	elseif key=="f2"then
 		MES.new('info',("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then

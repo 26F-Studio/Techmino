@@ -137,16 +137,16 @@ end
 
 local switch=false
 function profile.switch()
-	if switch then
+	switch=not switch
+	if not switch then
 		profile.stop()
 		love.system.setClipboardText(PROFILE.report())
 		PROFILE.reset()
-		MES.new('check',"profile report copied!")
+		return false
 	else
 		PROFILE.start()
-		MES.new('check',"profile start!")
+		return true
 	end
-	switch=not switch
 end
 
 -- store all internal profiler functions
