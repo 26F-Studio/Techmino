@@ -72,7 +72,7 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="tap",x=640,y=540,w=626,h=260,fText="TAP",color='Z',font=100,code=pressKey"button"},
+	WIDGET.newKey{name="tap",x=640,y=540,w=626,h=260,fText="TAP",color='Z',font=100,code=function(i)love.keypressed('b'..i)end},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
