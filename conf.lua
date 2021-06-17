@@ -1,9 +1,9 @@
 VERSION={
-	build=335,
-	code=1503,
-	short="V0.15.3",
-	string="Alpha V0.15.3",
-	name="卫星 Satellite",
+	build=336,
+	code=1504,
+	short="V0.15.4",
+	string="Alpha V0.15.4",
+	name="近地轨道 Low Earth Orbit",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder

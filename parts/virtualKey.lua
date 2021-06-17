@@ -7,7 +7,6 @@ local SETTING,TIME=SETTING,TIME
 local VK_org=VK_org
 
 local skin=1
-local r=10
 local buttonImages={
 	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98},{'dCirc',100,100,90}},
 	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,8},{'dCirc',100,100,90,8}},
