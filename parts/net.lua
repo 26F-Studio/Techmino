@@ -78,17 +78,7 @@ local function _parse(res)
 		if mesType[res.type]then
 			return res
 		else
-			MES.new('warn',
-				"Error ws-mes type:"..(
-					res.type and(
-						res.reason and
-							res.type..": "..res.reason
-						or
-							res.type
-					)or
-					"[NO Message]"
-				)
-			)
+			MES.new('warn',("%s: %s"):format(res.type or"[?]",res.reason or"[NO Message]"))
 		end
 	end
 end
