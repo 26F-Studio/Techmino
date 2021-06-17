@@ -17,13 +17,10 @@ end
 function scene.sceneInit()
 	reset()
 	BG.set('none')
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if state==0 then
 		if key=="space"then
 			reset()

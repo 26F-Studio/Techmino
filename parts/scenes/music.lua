@@ -30,7 +30,7 @@ end
 function scene.wheelMoved(_,y)
 	WHEELMOV(y)
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
 	local S=selected
 	if key=="down"then
 		if S<#bgmList then
@@ -42,17 +42,19 @@ function scene.keyDown(key)
 			selected=S-1
 			SFX.play('move',.7)
 		end
-	elseif key=="return"or key=="space"then
-		if BGM.nowPlay~=bgmList[S]then
-			BGM.play(bgmList[S])
-			if SETTING.bgm>0 then SFX.play('click')end
-		else
-			BGM.stop()
+	elseif not isRep then
+		if key=="return"or key=="space"then
+			if BGM.nowPlay~=bgmList[S]then
+				BGM.play(bgmList[S])
+				if SETTING.bgm>0 then SFX.play('click')end
+			else
+				BGM.stop()
+			end
+		elseif key=="tab"then
+			SCN.swapTo('sound','none')
+		elseif key=="escape"then
+			SCN.back()
 		end
-	elseif key=="tab"then
-		SCN.swapTo('sound','none')
-	elseif key=="escape"then
-		SCN.back()
 	end
 end
 

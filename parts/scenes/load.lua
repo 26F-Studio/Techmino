@@ -1,4 +1,4 @@
-local gc,kb=love.graphics,love.keyboard
+local gc=love.graphics
 
 local scene={}
 
@@ -212,13 +212,13 @@ function scene.sceneInit()
 	shadePhase2=6.26*math.random()
 	skip=0--Skip time
 	light[6*3],light[26*3]=true,true
-	kb.setKeyRepeat(false)
 end
 function scene.sceneBack()
 	love.event.quit()
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="escape"then
 		SCN.back()
 	elseif key=="s"then
@@ -252,7 +252,6 @@ function scene.update(dt)
 		end
 		if openTime>=3.26 and not SCN.swapping then
 			SCN.swapTo('intro')
-			love.keyboard.setKeyRepeat(true)
 		end
 	end
 end

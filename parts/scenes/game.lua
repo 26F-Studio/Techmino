@@ -8,7 +8,6 @@ local touchMoveLastFrame=false
 local scene={}
 
 function scene.sceneInit()
-	love.keyboard.setKeyRepeat(false)
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
@@ -17,7 +16,6 @@ function scene.sceneInit()
 	noTouch=not SETTING.VKSwitch or noKey
 end
 function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 	destroyPlayers()
 end
 
@@ -68,7 +66,8 @@ function scene.touchMove()
 		::CONTINUE_nextKey::
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	local k=keyMap.keyboard[key]
 	if k then
 		if k>0 then

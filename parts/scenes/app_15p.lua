@@ -134,7 +134,8 @@ local function tapBoard(x,y,key)
 		end
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="up"then
 		tapBoard(cx,cy-(revKB and 1 or -1),true)
 	elseif key=="down"then

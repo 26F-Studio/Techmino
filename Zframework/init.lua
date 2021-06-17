@@ -257,7 +257,7 @@ local function noDevkeyPressed(key)
 		return true
 	end
 end
-function love.keypressed(key)
+function love.keypressed(key,_,isRep)
 	mouseShow=false
 	if devMode and not noDevkeyPressed(key)then
 		return
@@ -272,11 +272,13 @@ function love.keypressed(key)
 		end
 	elseif not SCN.swapping then
 		if SCN.keyDown then
-			if #EDITING==0 then SCN.keyDown(key)end
-		elseif key=="escape"then
+			if EDITING==""then
+				SCN.keyDown(key,isRep)
+			end
+		elseif key=="escape"and not isRep then
 			SCN.back()
 		else
-			WIDGET.keyPressed(key)
+			WIDGET.keyPressed(key,isRep)
 		end
 	end
 end

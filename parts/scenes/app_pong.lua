@@ -42,7 +42,8 @@ local function start()
 	vx=rnd()>.5 and 6 or -6
 	vy=rnd()*6-3
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="space"then
 		if state==0 then
 			start()

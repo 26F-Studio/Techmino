@@ -41,13 +41,10 @@ function scene.sceneInit()
 	startTime=0
 	time=0
 	state=0
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if #key==1 then
 		if state<2 and frameKeyCount<3 then
 			if key:upper():byte()==targetString:byte(progress)then

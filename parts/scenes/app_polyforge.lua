@@ -38,16 +38,13 @@ function scene.sceneInit()
 	end
 	BG.set('none')
 	BGM.play('dream')
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
-function scene.keyDown(k)
-	if k=="escape"then
+function scene.keyDown(key,isRep)
+	if isRep then return end
+	if key=="escape"then
 		SCN.back()
-	elseif k=="space"then
+	elseif key=="space"then
 		if state==0 then--main
 			if timer==0 then
 				state=1

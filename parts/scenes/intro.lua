@@ -19,7 +19,8 @@ end
 function scene.touchDown()
 	scene.mouseDown()
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="escape"then
 		VOC.play('bye')
 		SCN.swapTo('quit','slowFade')

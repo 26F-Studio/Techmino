@@ -80,7 +80,8 @@ end
 function scene.touchDown(x,y)
 	tapBoard(x,y)
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="z"or key=="x"then
 		love.mousepressed(ms.getPosition())
 	elseif key=="space"then

@@ -108,10 +108,6 @@ function scene.sceneInit()
 	reset()
 	BG.set('gray')
 	BGM.play('way')
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
 local function touch(n)
@@ -153,7 +149,8 @@ local function touch(n)
 		SFX.play('clear_2')
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="r"then reset()
 	elseif key=="escape"then SCN.back()
 	elseif state~=2 then

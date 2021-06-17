@@ -14,13 +14,10 @@ function scene.sceneInit()
 	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
 	BG.set('gray')
 	BGM.play('push')
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="escape"then
 		SCN.back()
 	else

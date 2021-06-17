@@ -42,13 +42,13 @@ function scene.sceneBack()
 	BGM.play()
 end
 
-function scene.keyDown(k)
-	if k=="return"then
+function scene.keyDown(key)
+	if key=="return"then
 		createRoom()
-	elseif k=="escape"then
+	elseif key=="escape"then
 		SCN.back()
 	else
-		WIDGET.keyPressed(k)
+		WIDGET.keyPressed(key)
 	end
 end
 

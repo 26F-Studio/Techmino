@@ -30,7 +30,8 @@ local forbbidenKeys={
 	["\\"]=true,
 	["return"]=true,
 }
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="escape"then
 		if selected then
 			for k,v in next,keyMap.keyboard do

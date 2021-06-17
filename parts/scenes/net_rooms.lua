@@ -36,29 +36,29 @@ end
 function scene.wheelMoved(_,y)
 	scrollPos=max(0,min(scrollPos-y,#NET.roomList-10))
 end
-function scene.keyDown(k)
-	if k=="r"then
+function scene.keyDown(key)
+	if key=="r"then
 		if fetchTimer<=7 then
 			fetchRoom()
 		end
-	elseif k=="s"then
+	elseif key=="s"then
 		SCN.go('setting_game')
-	elseif k=="n"then
+	elseif key=="n"then
 		SCN.go('net_newRoom')
-	elseif k=="escape"then
+	elseif key=="escape"then
 		SCN.back()
 	elseif #NET.roomList>0 then
-		if k=="down"then
+		if key=="down"then
 			if selected<#NET.roomList then
 				selected=selected+1
 				scrollPos=max(selected-10,min(scrollPos,selected-1))
 			end
-		elseif k=="up"then
+		elseif key=="up"then
 			if selected>1 then
 				selected=selected-1
 				scrollPos=max(selected-10,min(scrollPos,selected-1))
 			end
-		elseif k=="return"then
+		elseif key=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
 			local R=NET.roomList[selected]
 			if R.roomInfo.version~=VERSION.short then MES.new('error',"Version doesn't match")return end

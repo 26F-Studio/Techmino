@@ -120,7 +120,8 @@ end
 function scene.touchClick(x,y)
 	scene.mouseClick(x,y)
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="return"then
 		if mapCam.sel then
 			mapCam.keyCtrl=false

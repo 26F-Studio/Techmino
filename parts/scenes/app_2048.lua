@@ -16,6 +16,7 @@ local startTime,time
 local state,progress
 local move
 
+local autoPressing
 local nextTile,nextCD
 local nextPos,prevPos
 local prevSpawnTime=0
@@ -232,10 +233,6 @@ function scene.sceneInit()
 	tapControl=false
 	startTime=0
 	reset()
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.mouseDown(x,y,k)
@@ -277,7 +274,9 @@ local function playRep(n)
 		repeater.focus=false
 		local move0=move
 		for i=1,#repeater.seq[n],3 do
+			autoPressing=true
 			scene.keyDown(arrows[repeater.seq[n]:sub(i,i+2)],true)
+			autoPressing=false
 		end
 		if move~=move0 then
 			if repeater.seq[n]~=repeater.last[n]then
@@ -289,7 +288,8 @@ local function playRep(n)
 		end
 	end
 end
-function scene.keyDown(key,auto)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="up"or key=="down"or key=="left"or key=="right"then
 		if repeater.focus then
 			local f=repeater.focus
@@ -311,7 +311,7 @@ function scene.keyDown(key,auto)
 				newTile()
 				TEXT.show(arrows[key],640,360,80,'beat',3)
 				move=move+1
-				if not auto then
+				if not autoPressing then
 					SFX.play('move')
 				end
 			end

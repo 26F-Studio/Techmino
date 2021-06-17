@@ -8,7 +8,8 @@ end
 
 local blockName={'z','s','j','l','t','o','i'}
 local lineCount={'single','double','triple','techrash'}
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="1"then
 		mini=not mini
 	elseif key=="2"then

@@ -119,12 +119,12 @@ function scene.sceneInit(org)
 	end
 end
 function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	trySave()
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="q"then
 		SCN.back()
 	elseif key=="escape"then

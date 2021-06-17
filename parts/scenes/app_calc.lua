@@ -15,23 +15,23 @@ function scene.sceneInit()
 end
 
 scene.mouseDown=NULL
-function scene.keyDown(k)
-	if k:byte()>=48 and k:byte()<=57 then
+function scene.keyDown(key)
+	if key:byte()>=48 and key:byte()<=57 then
 		if sym=="="then
-			val=k
+			val=key
 			sym=false
 		elseif sym and not reg then
 			reg=val
-			val=k
+			val=key
 		else
 			if #val<14 then
 				if val=="0"then val=""end
-				val=val..k
+				val=val..key
 			end
 		end
-	elseif k:sub(1,2)=="kp"then
-		scene.keyDown(k:sub(3))
-	elseif k=="."then
+	elseif key:sub(1,2)=="kp"then
+		scene.keyDown(key:sub(3))
+	elseif key=="."then
 		if not(val:find(".",nil,true)or val:find("e"))then
 			if sym and not reg then
 				reg=val
@@ -39,11 +39,11 @@ function scene.keyDown(k)
 			end
 			val=val.."."
 		end
-	elseif k=="e"then
+	elseif key=="e"then
 		if not val:find("e")then
 			val=val.."e"
 		end
-	elseif k=="backspace"then
+	elseif key=="backspace"then
 		if sym=="="then
 			val=""
 		elseif sym then
@@ -52,11 +52,11 @@ function scene.keyDown(k)
 			val=val:sub(1,-2)
 		end
 		if val==""then val="0"end
-	elseif k=="+"or k=="="and kb.isDown("lshift","rshift")then sym="+" reg=false
-	elseif k=="*"or k=="8"and kb.isDown("lshift","rshift")then sym="*" reg=false
-	elseif k=="-"then sym="-" reg=false
-	elseif k=="/"then sym="/" reg=false
-	elseif k=="return"then
+	elseif key=="+"or key=="="and kb.isDown("lshift","rshift")then sym="+" reg=false
+	elseif key=="*"or key=="8"and kb.isDown("lshift","rshift")then sym="*" reg=false
+	elseif key=="-"then sym="-" reg=false
+	elseif key=="/"then sym="/" reg=false
+	elseif key=="return"then
 		if val:byte(-1)==101 then val=val:sub(1,-2)end
 		if sym and reg then
 			if reg:byte(-1)==101 then reg=reg:sub(1,-2)end
@@ -69,13 +69,13 @@ function scene.keyDown(k)
 		end
 		sym="="
 		reg=false
-	elseif k=="escape"then
+	elseif key=="escape"then
 		if val~="0"then
 			val,reg,sym="0"
 		else
 			SCN.back()
 		end
-	elseif k=="delete"then
+	elseif key=="delete"then
 		val="0"
 	end
 end

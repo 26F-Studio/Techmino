@@ -110,6 +110,8 @@ function scene.keyDown(key)
 		else
 			SCN.back()
 		end
+	else
+		return
 	end
 	url=getList()[selected][5]
 end

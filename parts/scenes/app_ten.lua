@@ -122,7 +122,8 @@ local function merge()
 		failPos=cy*10+cx
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="up"or key=="down"or key=="left"or key=="right"then
 		if state==2 then return end
 		if not cx then

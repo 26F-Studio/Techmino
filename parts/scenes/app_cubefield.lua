@@ -64,10 +64,6 @@ function scene.sceneInit()
 	gc.setLineJoin('bevel')
 	BGM.play('push')
 	BG.set('none')
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.touchDown(x)
@@ -102,7 +98,8 @@ function scene.touchUp(x)
 		scene.keyDown("space")
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="escape"then
 		SCN.back()
 	elseif play then

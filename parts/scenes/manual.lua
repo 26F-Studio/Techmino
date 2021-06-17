@@ -8,16 +8,16 @@ end
 function scene.wheelMoved(_,y)
 	WHEELMOV(y)
 end
-function scene.keyDown(k)
-	if k=="up"then
+function scene.keyDown(key)
+	if key=="up"then
 		WIDGET.active.texts:scroll(-5)
-	elseif k=="down"then
+	elseif key=="down"then
 		WIDGET.active.texts:scroll(5)
-	elseif k=="pageup"then
+	elseif key=="pageup"then
 		WIDGET.active.texts:scroll(-20)
-	elseif k=="pagedown"then
+	elseif key=="pagedown"then
 		WIDGET.active.texts:scroll(20)
-	elseif k=="escape"then
+	elseif key=="escape"then
 		SCN.back()
 	end
 end

@@ -1150,9 +1150,9 @@ function WIDGET.release(x,y)
 		W:release(x,y+WIDGET.scrollPos)
 	end
 end
-function WIDGET.keyPressed(k)
+function WIDGET.keyPressed(k,isRep)
 	local W=WIDGET.sel
-	if k=="space"or k=="return"then
+	if not isRep and(k=="space"or k=="return")then
 		WIDGET.press()
 	elseif kb.isDown("lshift","lalt","lctrl")and(k=="left"or k=="right")then
 					--When hold [↑], control slider with left/right

@@ -47,7 +47,8 @@ function scene.sceneBack()
 	BGM.play()
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="return"or key=="return2"then
 		if CUSTOMENV.opponent~="X"then
 			if CUSTOMENV.opponent:sub(1,2)=='CC'and CUSTOMENV.sequence=="fixed"then

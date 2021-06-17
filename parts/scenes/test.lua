@@ -14,12 +14,6 @@ function scene.sceneInit()
 	backCounter=5
 	list={}
 	timer=0
-	love.keyboard.setKeyRepeat(false)
-end
-
-function scene.sceneBack()
-	list={}
-	love.keyboard.setKeyRepeat(true)
 end
 
 function scene.gamepadDown(key)
@@ -28,7 +22,8 @@ end
 function scene.gamepadUp(key)
 	push{COLOR.H,"[gamepadUp] <"..key..">"}
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	push("[keyDown] <"..key..">")
 	if key=="escape"then
 		backCounter=backCounter-1

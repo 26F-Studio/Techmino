@@ -73,9 +73,6 @@ function scene.sceneInit(org)
 		NET.specSRID=false
 	end
 end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
-end
 
 scene.mouseDown=NULL
 function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
@@ -120,22 +117,18 @@ function scene.touchMove()
 		::CONTINUE_nextKey::
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
 	if key=="escape"then
 		if not inputBox.hide then
-			scene.keyDown("switchChat")
+			_switchChat()
 		else
 			_quit()
 		end
 	elseif key=="return"then
 		local mes=STRING.trim(inputBox:getText())
-		if not inputBox.hide then
-			if #mes>0 then
-				NET.sendMessage(mes)
-				inputBox:clear()
-			else
-				_switchChat()
-			end
+		if not inputBox.hide and #mes>0 then
+			NET.sendMessage(mes)
+			inputBox:clear()
 		else
 			_switchChat()
 		end
@@ -143,7 +136,7 @@ function scene.keyDown(key)
 		WIDGET.focus(inputBox)
 		inputBox:keypress(key)
 	elseif playing then
-		if noKey then return end
+		if noKey or isRep then return end
 		local k=keyMap.keyboard[key]
 		if k and k>0 then
 			PLAYERS[1]:pressKey(k)
@@ -214,7 +207,6 @@ function scene.socketRead(cmd,d)
 	elseif cmd=='go'then
 		if not playing then
 			playing=true
-			love.keyboard.setKeyRepeat(false)
 			lastUpstreamTime=0
 			upstreamProgress=1
 			resetGameData('n',NET.seed)

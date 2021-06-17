@@ -52,7 +52,8 @@ local function testButton(n)
 		WIDGET.focus(scene.widgetList[n])
 	end
 end
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="1"then
 		if testButton(1)then
 			SCN.go('mode')

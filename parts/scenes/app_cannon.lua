@@ -15,13 +15,10 @@ function scene.sceneInit()
 	ex,ey=626,260
 	BG.set('matrix')
 	BGM.play('hang out')
-	love.keyboard.setKeyRepeat(false)
-end
-function scene.sceneBack()
-	love.keyboard.setKeyRepeat(true)
 end
 
-function scene.keyDown(key)
+function scene.keyDown(key,isRep)
+	if isRep then return end
 	if key=="space"or key=="return"then
 		if state==0 then
 			state=1

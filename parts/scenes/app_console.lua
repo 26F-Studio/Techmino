@@ -835,8 +835,8 @@ function scene.wheelMoved(_,y)
 	WHEELMOV(y,"scrollup","scrolldown")
 end
 
-function scene.keyDown(k)
-	if k=="return"then
+function scene.keyDown(key)
+	if key=="return"then
 		local input=STRING.trim(inputBox:getText())
 		if input==""then return end
 
@@ -881,7 +881,7 @@ function scene.keyDown(k)
 			end
 		end
 		inputBox:clear()
-	elseif k=="up"then
+	elseif key=="up"then
 		if not hisPtr then
 			hisPtr=#history
 			if hisPtr>0 then
@@ -891,7 +891,7 @@ function scene.keyDown(k)
 			hisPtr=hisPtr-1
 			inputBox:setText(history[hisPtr])
 		end
-	elseif k=="down"then
+	elseif key=="down"then
 		if hisPtr then
 			hisPtr=hisPtr+1
 			if history[hisPtr]then
@@ -901,7 +901,7 @@ function scene.keyDown(k)
 				inputBox:clear()
 			end
 		end
-	elseif k=="tab"then
+	elseif key=="tab"then
 		local str=inputBox:getText()
 		if str~=""and not str:find("%s")then
 			local res={}
@@ -919,15 +919,15 @@ function scene.keyDown(k)
 				inputBox:setText(res[1])
 			end
 		end
-	elseif k=="scrollup"then outputBox:scroll(-5)
-	elseif k=="scrolldown"then outputBox:scroll(5)
-	elseif k=="pageup"then outputBox:scroll(-20)
-	elseif k=="pagedown"then outputBox:scroll(20)
-	elseif k=="home"then outputBox:scroll(-1e99)
-	elseif k=="end"then outputBox:scroll(1e99)
-	elseif combKey[k]and kb.isDown("lctrl","rctrl")then
-		combKey[k]()
-	elseif k=="escape"then
+	elseif key=="scrollup"then outputBox:scroll(-5)
+	elseif key=="scrolldown"then outputBox:scroll(5)
+	elseif key=="pageup"then outputBox:scroll(-20)
+	elseif key=="pagedown"then outputBox:scroll(20)
+	elseif key=="home"then outputBox:scroll(-1e99)
+	elseif key=="end"then outputBox:scroll(1e99)
+	elseif combKey[key]and kb.isDown("lctrl","rctrl")then
+		combKey[key]()
+	elseif key=="escape"then
 		if not WIDGET.isFocus(inputBox)then
 			WIDGET.focus(inputBox)
 		else
@@ -935,7 +935,7 @@ function scene.keyDown(k)
 		end
 	else
 		if not WIDGET.isFocus(inputBox)then WIDGET.focus(inputBox)end
-		WIDGET.keyPressed(k)
+		WIDGET.keyPressed(key)
 	end
 end
 
