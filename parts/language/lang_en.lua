@@ -243,6 +243,7 @@ return{
 			match="Find Match",
 		},
 		net_rooms={
+			password="Password",
 			refreshing="Refreshing rooms",
 			noRoom="There aren't any rooms right now...",
 			refresh="Refresh",

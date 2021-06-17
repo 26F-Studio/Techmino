@@ -242,6 +242,7 @@ return{
 			-- match="Find Match",
 		},
 		net_rooms={
+			password="Senha",
 			-- refreshing="Refreshing Rooms",
 			noRoom="Nenhuma sala agora",
 			-- refresh="Refresh",
@@ -251,7 +252,7 @@ return{
 		net_newRoom={
 			-- title="Room config",
 			-- roomName="Room name(default to username's room)",
-			-- password="Password",
+			password="Senha",
 			-- description="Room description",
 
 			life="Vidas",

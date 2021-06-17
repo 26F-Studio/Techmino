@@ -1,11 +1,11 @@
 local ROOMENV=ROOMENV
 
-local roomName=WIDGET.newText			{name="roomName",		x=40,y=130,align='L'}
-local roomNameBox=WIDGET.newInputBox	{name="roomNameBox",	x=40,y=180,w=540,h=60}
-local password=WIDGET.newText			{name="password",		x=40,y=250,align='L'}
-local passwordBox=WIDGET.newInputBox	{name="passwordBox",	x=40,y=300,w=540,h=60}
-local description=WIDGET.newText		{name="description",	x=650,y=50,align='L'}
-local descriptionBox=WIDGET.newInputBox	{name="descriptionBox",	x=650,y=100,w=550,h=160,font=25}
+local roomName=WIDGET.newText{name="roomName",		x=40,y=115,align='L'}
+local roomNameBox=WIDGET.newInputBox{				x=40,y=160,w=540,h=60}
+local password=WIDGET.newText{name="password",		x=40,y=255,align='L'}
+local passwordBox=WIDGET.newInputBox{				x=40,y=300,w=540,h=60}
+local description=WIDGET.newText{name="description",x=650,y=55,align='L'}
+local descriptionBox=WIDGET.newInputBox	{			x=650,y=100,w=550,h=160,font=25}
 
 local sList={
 	visible={"show","easy","slow","medium","fast","none"},

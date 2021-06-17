@@ -243,6 +243,7 @@ return{
 			match="匹配对手",
 		},
 		net_rooms={
+			password="密码",
 			refreshing="刷新房间列表中",
 			noRoom="一个房间都没有哎...",
 			refresh="刷新",

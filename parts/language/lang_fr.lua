@@ -214,6 +214,7 @@ return{
 			-- match="Find Match",
 		},
 		net_rooms={
+			password="Mot de passe",
 			-- refreshing="Refreshing Rooms",
 			noRoom="Aucun salon actuellement",
 			-- refresh="Refresh",
@@ -223,7 +224,7 @@ return{
 		net_newRoom={
 			-- title="Room config",
 			-- roomName="Room name(default to username's room)",
-			-- password="Password",
+			password="Mot de passe",
 			-- description="Room description",
 
 			life="Vie",

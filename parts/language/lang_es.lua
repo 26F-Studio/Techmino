@@ -218,6 +218,7 @@ return{
 			match="Buscar Match",
 		},
 		net_rooms={
+			password="Contraseña",
 			refreshing="Refrescando Salas",
 			noRoom="No Hay Salas Actualmente",
 			refresh="Refrescar",
@@ -227,7 +228,7 @@ return{
 		net_newRoom={
 			title="Ajustes de sala",
 			roomName="Nombre (Por defecto: *usuario*'s room)",
-			password="Password",
+			password="Contraseña",
 			description="Descripción",
 
 			life="Vida",
