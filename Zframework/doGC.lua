@@ -37,9 +37,10 @@ local cmds={
 	fArc=function(...)gc.arc('fill','open',...)end,
 	fBow=function(...)gc.arc('fill','closed',...)end,
 }
+local sizeLimit=gc.getSystemLimits().texturesize
 return function(L)
 	gc.push()
-		local canvas=gc.newCanvas(L[1],L[2])
+		local canvas=gc.newCanvas(math.min(L[1],sizeLimit),math.min(L[2],sizeLimit))
 		gc.setCanvas(canvas)
 			gc.origin()
 			gc.setColor(1,1,1)
