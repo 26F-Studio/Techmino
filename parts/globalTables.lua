@@ -235,7 +235,7 @@ customEnv0={
 	missionKill=false,
 
 	--Else
-	bg='blockfall',
+	bg='blockrain',
 	bgm='hang out',
 }
 CUSTOMENV=FILE.load('conf/customEnv')--gameEnv for cutsom game
@@ -282,7 +282,7 @@ ROOMENV={
 
 	--Else
 	bg='blockfall',
-	bgm='hang out',
+	bgm='battle',
 }
 SETTING={--Settings
 	--Tuning
