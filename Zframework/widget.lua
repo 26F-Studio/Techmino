@@ -799,11 +799,11 @@ function inputBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
 
-	gc_setColor(1,1,1,ATV*.1)
+	gc_setColor(1,1,1,ATV*.08)
 	gc_rectangle('fill',x,y,w,h)
 
 	gc_setColor(1,1,1)
-	gc_setLineWidth(4)
+	gc_setLineWidth(3)
 	gc_rectangle('line',x,y,w,h)
 
 	--Drawable
@@ -1247,8 +1247,13 @@ end
 
 function WIDGET.update()
 	for _,W in next,WIDGET.active do
-		if W.hideF then W.hide=W.hideF()end
 		if W.update then W:update()end
+		if W.hideF then
+			W.hide=W.hideF()
+			if W.hide and W==WIDGET.sel then
+				WIDGET.unFocus(true)
+			end
+		end
 	end
 end
 local widgetCanvas
