@@ -251,7 +251,8 @@ return{
 		net_newRoom={
 			-- title="Room config",
 			-- roomName="Room name(default to username's room)",
-			-- roomDescription="Room description",
+			-- password="Password",
+			-- description="Room description",
 
 			life="Vidas",
 			pushSpeed="Garbage Speed",

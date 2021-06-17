@@ -252,7 +252,8 @@ return{
 		net_newRoom={
 			title="房间参数",
 			roomName="房间名 (留空默认 用户名's room)",
-			roomDescription="房间描述",
+			password="密码",
+			description="房间描述",
 
 			life="命数",
 			pushSpeed="上涨速度",

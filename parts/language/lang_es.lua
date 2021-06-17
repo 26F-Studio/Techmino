@@ -227,7 +227,8 @@ return{
 		net_newRoom={
 			title="Ajustes de sala",
 			roomName="Nombre (Por defecto: *usuario*'s room)",
-			roomDescription="Descripción",
+			password="Password",
+			description="Descripción",
 
 			life="Vida",
 			pushSpeed="Velocidad de Subida",

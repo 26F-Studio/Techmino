@@ -1,9 +1,11 @@
 local ROOMENV=ROOMENV
 
-local roomName=WIDGET.newText{name="roomName",x=40,y=150,align='L'}
-local roomNameBox=WIDGET.newInputBox{name="roomNameBox",x=40,y=200,w=640,h=60}
-local description=WIDGET.newText{name="roomDescription",x=700,y=50,align='L'}
-local descriptionBox=WIDGET.newInputBox{name="descriptionBox",x=700,y=100,w=550,h=160,font=25}
+local roomName=WIDGET.newText			{name="roomName",		x=40,y=130,align='L'}
+local roomNameBox=WIDGET.newInputBox	{name="roomNameBox",	x=40,y=180,w=540,h=60}
+local password=WIDGET.newText			{name="password",		x=40,y=250,align='L'}
+local passwordBox=WIDGET.newInputBox	{name="passwordBox",	x=40,y=300,w=540,h=60}
+local description=WIDGET.newText		{name="description",	x=650,y=50,align='L'}
+local descriptionBox=WIDGET.newInputBox	{name="descriptionBox",	x=650,y=100,w=550,h=160,font=25}
 
 local sList={
 	visible={"show","easy","slow","medium","fast","none"},
@@ -23,12 +25,17 @@ local sList={
 local scene={}
 
 local function createRoom()
+	local pw=passwordBox.value
+	if pw==""then pw=nil end
 	local roomname=STRING.trim(roomNameBox.value)
 	if #roomname==0 then roomname=(USERS.getUsername(USER.uid)or"Anonymous").."'s room"end
 	NET.createRoom(
 		roomname,
 		descriptionBox.value,
-		ROOMENV.capacity,"normal",ROOMENV
+		ROOMENV.capacity,
+		"normal",
+		ROOMENV,
+		pw
 	)
 end
 
@@ -56,14 +63,16 @@ scene.widgetScrollHeight=400
 scene.widgetList={
 	WIDGET.newText{name="title",x=40,y=15,font=70,align='L'},
 
-	--Room name
+	--Room name/password/description
 	roomName,
 	roomNameBox,
+	password,
+	passwordBox,
 	description,
 	descriptionBox,
 
 	--Selectors
-	WIDGET.newSelector{name="life",			x=170,y=370,w=260,color='R',list=sList.life,		disp=ROOMval("life"),		code=ROOMsto("life")},
+	WIDGET.newSelector{name="life",			x=170,y=410,w=260,color='R',list=sList.life,		disp=ROOMval("life"),		code=ROOMsto("life")},
 	WIDGET.newSelector{name="pushSpeed",	x=170,y=520,w=260,color='V',list=sList.pushSpeed,	disp=ROOMval("pushSpeed"),	code=ROOMsto("pushSpeed")},
 	WIDGET.newSelector{name="garbageSpeed",	x=170,y=600,w=260,color='V',list=sList.pushSpeed,	disp=ROOMval("garbageSpeed"),code=ROOMsto("garbageSpeed")},
 	WIDGET.newSelector{name="visible",		x=170,y=710,w=260,color='lB',list=sList.visible,	disp=ROOMval("visible"),	code=ROOMsto("visible")},
