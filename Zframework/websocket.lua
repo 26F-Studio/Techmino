@@ -125,8 +125,9 @@ local lBuffer=""--Long multi-data buffer
 local UFF--Un-finished-frame mode
 local sBuffer=""--Short multi-frame buffer
 while true do--Running
-	--Send
 	triggerCHN:demand()
+
+	--Send
 	while sendCHN:getCount()>=2 do
 		local op=sendCHN:pop()
 		local message=sendCHN:pop()
@@ -341,7 +342,9 @@ function WS.update(dt)
 	local time=timer()
 	for name,ws in next,wsList do
 		if ws.real then
-			ws.triggerCHN:push(0)
+			if ws.status~='dead'and ws.triggerCHN:getCount()==0 then
+				ws.triggerCHN:push(0)
+			end
 			if ws.status=='connecting'then
 				local mes=ws.readCHN:pop()
 				if mes then
