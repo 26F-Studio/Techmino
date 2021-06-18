@@ -499,6 +499,11 @@ local commands={}do
 	do--app
 		local APPs={
 			{
+				code="calc",
+				scene='app_calc',
+				description="A simple calculator"
+			},
+			{
 				code="15p",
 				scene='app_15p',
 				description="15 Puzzle, a.k.a. sliding puzzle"
@@ -511,7 +516,7 @@ local commands={}do
 			{
 				code="pong",
 				scene='app_pong',
-				description="Pong (2P minigame)"
+				description="Pong (2P)"
 			},
 			{
 				code="atoz",
@@ -521,17 +526,17 @@ local commands={}do
 			{
 				code="uttt",
 				scene='app_UTTT',
-				description="Ultimate Tic-Tac-Toe (2P minigame)"
+				description="Ultimate Tic-Tac-Toe (2P)"
 			},
 			{
 				code="cube",
 				scene='app_cubefield',
-				description="Cubefield"
+				description="Cubefield, original by Max Abernethy"
 			},
 			{
 				code="2048",
 				scene='app_2048',
-				description="2048"
+				description="2048 with some new features"
 			},
 			{
 				code="ten",
@@ -541,7 +546,7 @@ local commands={}do
 			{
 				code="tap",
 				scene='app_tap',
-				description="Tapping speed test"
+				description="Clicking/Tapping speed test"
 			},
 			{
 				code="dtw",
@@ -549,29 +554,24 @@ local commands={}do
 				description="Don't Touch White, a.k.a. Piano Tiles"
 			},
 			{
-				code="cannon",
+				code="can",
 				scene='app_cannon',
-				description="Cannon"
+				description="A simple cannon shooting game"
 			},
 			{
-				code="dropper",
+				code="drp",
 				scene='app_dropper',
 				description="Dropper"
 			},
 			{
-				code="calc",
-				scene='app_calc',
-				description="Calculator"
-			},
-			{
-				code="reflect",
+				code="rfl",
 				scene='app_reflect',
-				description="Reflect (2P minigame)"
+				description="Reflect (2P)"
 			},
 			{
 				code="poly",
 				scene='app_polyforge',
-				description="Polyforge"
+				description="Polyforge, original by ImpactBlue Studios"
 			},
 		}
 		commands.app={
@@ -587,7 +587,7 @@ local commands={}do
 							return
 						end
 					end
-					log{C.A,"No this applet"}
+					log{C.A,"No this applet, type app -list to check all applets"}
 				else
 					log{C.A,"Usage:"}
 					log{C.A,"app -list"}
