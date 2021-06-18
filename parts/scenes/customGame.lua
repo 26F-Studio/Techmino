@@ -79,6 +79,8 @@ function scene.keyDown(key,isRep)
 		SCN.go('custom_mission','swipeD')
 	elseif key=="delete"then
 		if sure>20 then
+			TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
+			FIELD[1]=DATA.newBoard()
 			TABLE.update(customEnv0,CUSTOMENV)
 			for _,W in next,scene.widgetList do W:reset()end
 			sure=0
@@ -106,7 +108,7 @@ function scene.keyDown(key,isRep)
 			DATA.pasteSequence(args[2])and
 			DATA.pasteMission(args[3])
 		)then goto THROW_fail end
-		repeat table.remove(FIELD)until #FIELD==0
+		TABLE.cut(FIELD)
 		FIELD[1]=DATA.newBoard()
 		for i=4,#args do
 			if args[i]:find("%S")and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
