@@ -58,6 +58,7 @@ local ins,rem=table.insert,table.remove
 
 local WIDGET,SCR,SCN=WIDGET,SCR,SCN
 local xOy=SCR.xOy
+local ITP=xOy.inverseTransformPoint
 
 local mx,my,mouseShow=-20,-20,false
 local touching--First touching ID(userdata)
@@ -117,7 +118,7 @@ local lastX,lastY=0,0--Last click pos
 function love.mousepressed(x,y,k,touch)
 	if touch then return end
 	mouseShow=true
-	mx,my=xOy:inverseTransformPoint(x,y)
+	mx,my=ITP(xOy,x,y)
 	if devMode==1 then
 		print(("(%d,%d)<-%d,%d ~~(%d,%d)<-%d,%d"):format(
 			mx,my,
@@ -135,7 +136,7 @@ end
 function love.mousemoved(x,y,dx,dy,touch)
 	if touch then return end
 	mouseShow=true
-	mx,my=xOy:inverseTransformPoint(x,y)
+	mx,my=ITP(xOy,x,y)
 	if SCN.swapping then return end
 	dx,dy=dx/SCR.k,dy/SCR.k
 	if SCN.mouseMove then SCN.mouseMove(mx,my,dx,dy)end
@@ -147,7 +148,7 @@ function love.mousemoved(x,y,dx,dy,touch)
 end
 function love.mousereleased(x,y,k,touch)
 	if touch or SCN.swapping then return end
-	mx,my=xOy:inverseTransformPoint(x,y)
+	mx,my=ITP(xOy,x,y)
 	WIDGET.release(mx,my)
 	if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
 	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<62 then
@@ -172,14 +173,14 @@ function love.touchpressed(id,x,y)
 		WIDGET.unFocus(true)
 		love.touchmoved(id,x,y,0,0)
 	end
-	x,y=xOy:inverseTransformPoint(x,y)
+	x,y=ITP(xOy,x,y)
 	lastX,lastY=x,y
 	if SCN.touchDown then SCN.touchDown(x,y)end
 	if kb.hasTextInput()then kb.setTextInput(false)end
 end
 function love.touchmoved(_,x,y,dx,dy)
 	if SCN.swapping then return end
-	x,y=xOy:inverseTransformPoint(x,y)
+	x,y=ITP(xOy,x,y)
 	if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
 	WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
 	if touching then
@@ -189,7 +190,7 @@ function love.touchmoved(_,x,y,dx,dy)
 end
 function love.touchreleased(id,x,y)
 	if SCN.swapping then return end
-	x,y=xOy:inverseTransformPoint(x,y)
+	x,y=ITP(xOy,x,y)
 	if id==touching then
 		WIDGET.press(x,y,1)
 		WIDGET.release(x,y)
