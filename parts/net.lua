@@ -289,7 +289,6 @@ function NET.loadSavedData(sections)
 		if success then
 			MES.new('check',text.saveDone)
 		end
-		MES.new('check',text.saveDone)
 	else
 		MES.new('error',text.versionNotMatch,1)
 	end

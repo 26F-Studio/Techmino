@@ -275,9 +275,7 @@ function gameOver()--Save record
 						end
 					end
 					if needSave then
-						if FILE.save(RANKS,'conf/unlock')then
-							MES.new('check',text.saveDone)
-						end
+						FILE.save(RANKS,'conf/unlock')
 					end
 				end
 				local D=M.score(P)
