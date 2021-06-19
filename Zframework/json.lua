@@ -119,7 +119,7 @@ function json.encode(val)
 	if a then
 		return b
 	elseif MES then
-		MES.traceback(1)
+		MES.traceback()
 	end
 end
 
@@ -349,7 +349,7 @@ function json.decode(str)
 	if a then
 		return b
 	elseif MES then
-		MES.traceback(1)
+		MES.traceback()
 	end
 end
 return json

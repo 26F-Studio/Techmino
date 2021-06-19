@@ -115,9 +115,9 @@ function MES.draw()
 	gc_pop()
 end
 
-function MES.traceback(n)
+function MES.traceback()
 	local mes=
-		debug.traceback("",(n or 1)+1)
+		debug.traceback("",1)
 		:gsub(": in function",", in")
 		:gsub(":"," ")
 		:gsub("\t","")
