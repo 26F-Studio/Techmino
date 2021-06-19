@@ -12,7 +12,9 @@ local function login()
 	end
 	NET.wsconn_user_pswd(email,password)
 	if savePW then
-		FILE.save({email,password},'conf/account','q')
+		if FILE.save({email,password},'conf/account')then
+			MES.new('check',text.saveDone)
+		end
 	else
 		if love.filesystem.getInfo('conf/account')then
 			love.filesystem.remove('conf/account')

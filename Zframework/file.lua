@@ -48,14 +48,11 @@ function FILE.save(data,name,mode)
 	F:open'w'
 	local success,mes=F:write(data)
 	F:flush()F:close()
-	if success then
-		if not mode:find'q'then
-			MES.new('check',text.saveDone)
-		end
-	else
+	if not success then
 		MES.new('error',text.saveError..(mes or"unknown error"))
 		MES.new(false,debug.traceback())
 	end
+	return success
 end
 function FILE.clear(path)
 	if fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory'then return end

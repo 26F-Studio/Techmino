@@ -611,8 +611,9 @@ local commands={}do
 			if #key>0 then
 				if SETTING[key]~=nil then
 					SETTING[key]=nil
-					FILE.save(SETTING,'conf/settings','q')
-					log{C.Y,("Succesfully erased key '%s'"):format(key)}
+					if FILE.save(SETTING,'conf/settings')then
+						log{C.Y,("Succesfully erased key '%s'"):format(key)}
+					end
 				else
 					log{C.R,"No key called "..key}
 				end

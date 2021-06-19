@@ -275,7 +275,9 @@ function gameOver()--Save record
 						end
 					end
 					if needSave then
-						FILE.save(RANKS,'conf/unlock','q')
+						if FILE.save(RANKS,'conf/unlock')then
+							MES.new('check',text.saveDone)
+						end
 					end
 				end
 				local D=M.score(P)
@@ -294,7 +296,7 @@ function gameOver()--Save record
 					D.date=os.date("%Y/%m/%d %H:%M")
 					ins(L,p+1,D)
 					if L[11]then L[11]=nil end
-					FILE.save(L,('record/%s.rec'):format(M.name),'lq')
+					FILE.save(L,('record/%s.rec'):format(M.name),'l')
 				end
 			end
 		end

@@ -28,7 +28,7 @@ scene.widgetList={
 					NET.wsclose_user()
 					USER.uid=false
 					USER.authToken=false
-					FILE.save(USER,'conf/user','q')
+					FILE.save(USER,'conf/user')
 					SCN.back()
 				end
 			else

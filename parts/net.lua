@@ -268,23 +268,28 @@ function NET.loadSavedData(sections)
 		end
 	end
 	if STAT.version==NET.cloudData.STAT.version then
+		local success=true
 		TABLE.update(NET.cloudData.STAT,STAT)
-		FILE.save(STAT,'conf/data')
+		success=success and FILE.save(STAT,'conf/data')
 
 		TABLE.update(NET.cloudData.RANKS,RANKS)
-		FILE.save(RANKS,'conf/unlock')
+		success=success and FILE.save(RANKS,'conf/unlock')
 
 		TABLE.update(NET.cloudData.SETTING,SETTING)
-		FILE.save(SETTING,'conf/settings')
+		success=success and FILE.save(SETTING,'conf/settings')
 
 		TABLE.update(NET.cloudData.keyMap,keyMap)
-		FILE.save(keyMap,'conf/key')
+		success=success and FILE.save(keyMap,'conf/key')
 
 		TABLE.update(NET.cloudData.VK_org,VK_org)
-		FILE.save(VK_org,'conf/virtualkey')
+		success=success and FILE.save(VK_org,'conf/virtualkey')
 
-		FILE.save(NET.cloudData.vkSave1,'conf/vkSave1','q')
-		FILE.save(NET.cloudData.vkSave2,'conf/vkSave2','q')
+		success=success and FILE.save(NET.cloudData.vkSave1,'conf/vkSave1')
+		success=success and FILE.save(NET.cloudData.vkSave2,'conf/vkSave2')
+		if success then
+			MES.new('check',text.saveDone)
+		end
+		MES.new('check',text.saveDone)
 	else
 		MES.new('error',text.versionNotMatch,1)
 	end
@@ -454,7 +459,7 @@ function NET.updateWS_user()
 						if res.uid then
 							USER.uid=res.uid
 							USER.authToken=res.authToken
-							FILE.save(USER,'conf/user','q')
+							FILE.save(USER,'conf/user')
 							if SCN.cur=='login'then SCN.back()end
 						end
 						MES.new('check',text.loginSuccessed)

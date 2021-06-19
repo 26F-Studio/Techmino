@@ -153,22 +153,28 @@ local loadingThread=coroutine.wrap(function()
 
 	upFloor()
 	SKIN.change(SETTING.skinSet)
+	local editFlag
 	for name,rank in next,RANKS do
 		local M=MODES[name]
 		if type(rank)~='number'then
 			RANKS[name]=nil
+			editFlag=true
 		elseif M and M.unlock and rank>0 then
 			for _,unlockName in next,M.unlock do
 				if not RANKS[unlockName]then
 					RANKS[unlockName]=0
+					editFlag=true
 				end
 			end
 		end
 		if not(M and M.score)then
 			RANKS[name]=nil
+			editFlag=true
 		end
 	end
-	FILE.save(RANKS,'conf/unlock','q')
+	if editFlag then
+		FILE.save(RANKS,'conf/unlock')
+	end
 	YIELD()
 
 	upFloor()

@@ -289,9 +289,9 @@ do
 	end
 
 	if needSave then
-		FILE.save(SETTING,'conf/settings','q')
-		FILE.save(RANKS,'conf/unlock','q')
-		FILE.save(STAT,'conf/data','q')
+		FILE.save(SETTING,'conf/settings')
+		FILE.save(RANKS,'conf/unlock')
+		FILE.save(STAT,'conf/data')
 	end
 	if autoRestart then
 		love.event.quit('restart')
