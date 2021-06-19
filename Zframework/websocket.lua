@@ -310,7 +310,7 @@ local OPname={
 }
 function WS.send(name,message,op)
 	local ws=wsList[name]
-	if ws.real then
+	if ws.real and ws.status=='running'then
 		ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
 		ws.sendCHN:push(message)
 		ws.lastPingTime=timer()
