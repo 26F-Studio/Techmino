@@ -5,7 +5,7 @@ local function check_c4w(P)
 			local h=#P.field
 			P.field[h+1]=FREEROW.get(20)
 			P.visTime[h+1]=FREEROW.get(20)
-			for i=4,7 do P.field[h][i]=0 end
+			for i=4,7 do P.field[h+1][i]=0 end
 		end
 		if P.combo>P.modeData.maxCombo then
 			P.modeData.maxCombo=P.combo
