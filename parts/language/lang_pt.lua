@@ -881,7 +881,7 @@ return{
 		{C.C,"Tente também Minesweeper"},
 		{C.C,"Tente também osu!"},
 		{C.C,"Tente também Phigros"},
-		{C.C,"Tente também Rubic's cube"},
+		{C.C,"Tente também Cubo de Rubik"},
 		{C.C,"Tente também Terraria"},
 		{C.C,"Tente também VVVVVV"},
 		{C.F,"Tente também Cultris II"},
