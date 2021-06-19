@@ -342,7 +342,7 @@ function WS.update(dt)
 	local time=timer()
 	for name,ws in next,wsList do
 		if ws.real then
-			if ws.status~='dead'and ws.triggerCHN:getCount()==0 then
+			if ws.triggerCHN:getCount()==0 then
 				ws.triggerCHN:push(0)
 			end
 			if ws.status=='connecting'then
