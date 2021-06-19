@@ -85,7 +85,7 @@ end
 
 --WS close message
 local function _closeMessage(message)
-	local mes=JSON.decode(message:sub(3))
+	local mes=JSON.decode(message)
 	if mes then
 		MES.new('info',("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""))
 	else
