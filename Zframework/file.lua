@@ -50,7 +50,7 @@ function FILE.save(data,name,mode)
 	F:flush()F:close()
 	if not success then
 		MES.new('error',text.saveError..(mes or"unknown error"))
-		MES.new(false,debug.traceback())
+		MES.traceback(1)
 	end
 	return success
 end

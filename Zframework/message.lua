@@ -63,7 +63,7 @@ function MES.new(icon,str,time)
 	if type(icon)=='string'then icon=mesIcon[icon]end
 	local t=gc.newText(getFont(30),str)
 	local w=math.max(t:getWidth()+(icon and 45 or 5),200)+20
-	local h=math.max(t:getHeight(),46)
+	local h=math.max(t:getHeight(),46)+3
 	local L={w,h,
 		{'clear',.5,.5,.5,.7},
 		{'setCL',.7,.7,.7},
@@ -114,4 +114,17 @@ function MES.draw()
 	end
 	gc_pop()
 end
+
+function MES.traceback(n)
+	local mes=
+		debug.traceback("",(n or 1)+1)
+		:gsub(": in function",", in")
+		:gsub(":"," ")
+		:gsub("\t","")
+	MES.new('error',mes:sub(
+		mes:find("\n",2)+1,
+		mes:find("\n%[C%], in 'xpcall'")
+	),5)
+end
+
 return MES

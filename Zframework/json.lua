@@ -118,8 +118,8 @@ function json.encode(val)
 	local a,b=pcall(encode,val)
 	if a then
 		return b
-	elseif MES.new then
-		MES.new('error',text.jsonError..": "..(b or"uknErr"))
+	elseif MES then
+		MES.traceback(1)
 	end
 end
 
@@ -348,8 +348,8 @@ function json.decode(str)
 	local a,b=pcall(decode,str)
 	if a then
 		return b
-	elseif MES.new then
-		MES.new('error',text.jsonError..": "..(b or"uknErr"))
+	elseif MES then
+		MES.traceback(1)
 	end
 end
 return json
