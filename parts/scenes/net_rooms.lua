@@ -79,8 +79,11 @@ function scene.keyDown(key)
 		elseif key=="return"then
 			if NET.getlock('fetchRoom')or not NET.roomList[selected]then return end
 			local R=NET.roomList[selected]
-			if R.roomInfo.version~=VERSION.short then MES.new('error',"Version doesn't match 版本不一致")return end
-			NET.enterRoom(R,passwordBox.value)
+			if R.roomInfo.version:find("^V0%.15%.[234]$")then
+				NET.enterRoom(R,passwordBox.value)
+			else
+				MES.new('error',"Version doesn't match 版本不一致")
+			end
 		else
 			WIDGET.keyPressed(key)
 		end
@@ -190,10 +193,8 @@ function scene.draw()
 				gc.setColor(0,1,.2)
 				gc.print(text.started,10,300)
 			end
-			if R.roomInfo.version~=VERSION.short then
-				gc.setColor(1,.2,0)
-				gc.printf(R.roomInfo.version,10,300,365,'right')
-			end
+			gc.setColor(1,.2,0)
+			gc.printf(R.roomInfo.version,10,300,365,'right')
 		end
 	end
 	gc.pop()
