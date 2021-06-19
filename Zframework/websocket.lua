@@ -15,20 +15,22 @@ local wsThread=[[
 
 local triggerCHN,sendCHN,readCHN,threadName=...
 
+local CHN_demand,CHN_getCount=triggerCHN.demand,triggerCHN.getCount
+local CHN_push,CHN_pop=triggerCHN.push,triggerCHN.pop
 
 local SOCK=require"socket".tcp()
 local JSON=require"Zframework.json"
 
 do--Connect
-	local host=sendCHN:demand()
-	local port=sendCHN:demand()
-	local path=sendCHN:demand()
-	local body=sendCHN:demand()
-	local timeout=sendCHN:demand()
+	local host=CHN_demand(sendCHN)
+	local port=CHN_demand(sendCHN)
+	local path=CHN_demand(sendCHN)
+	local body=CHN_demand(sendCHN)
+	local timeout=CHN_demand(sendCHN)
 
 	SOCK:settimeout(timeout)
 	local res,err=SOCK:connect(host,port)
-	if err then readCHN:push(err)return end
+	if err then CHN_push(readCHN,err)return end
 
 	--WebSocket handshake
 	if not body then body=""end
@@ -46,7 +48,7 @@ do--Connect
 
 	--First line of HTTP
 	res,err=SOCK:receive("*l")
-	if not res then readCHN:push(err)return end
+	if not res then CHN_push(readCHN,err)return end
 	local code,ctLen
 	code=res:find(" ")
 	code=res:sub(code+1,code+3)
@@ -54,7 +56,7 @@ do--Connect
 	--Get body length from headers and remove headers
 	repeat
 		res,err=SOCK:receive("*l")
-		if not res then readCHN:push(err)return end
+		if not res then CHN_push(readCHN,err)return end
 		if not ctLen and res:find("length")then
 			ctLen=tonumber(res:match("%d+"))
 		end
@@ -63,14 +65,14 @@ do--Connect
 	--Result
 	if ctLen then
 		if code=="101"then
-			readCHN:push('success')
+			CHN_push(readCHN,'success')
 		else
 			res,err=SOCK:receive(ctLen)
 			if not res then
-				readCHN:push(err)
+				CHN_push(readCHN,err)
 			else
 				res=JSON.decode(res)
-				readCHN:push((code or"XXX")..":"..(res and res.reason or"Server Error"))
+				CHN_push(readCHN,(code or"XXX")..":"..(res and res.reason or"Server Error"))
 			end
 			return
 		end
@@ -125,12 +127,12 @@ local lBuffer=""--Long multi-data buffer
 local UFF--Un-finished-frame mode
 local sBuffer=""--Short multi-frame buffer
 while true do--Running
-	triggerCHN:demand()
+	CHN_demand(triggerCHN)
 
 	--Send
-	while sendCHN:getCount()>=2 do
-		local op=sendCHN:pop()
-		local message=sendCHN:pop()
+	while CHN_getCount(sendCHN)>=2 do
+		local op=CHN_pop(sendCHN)
+		local message=CHN_pop(sendCHN)
 		_send(op,message)
 	end
 
@@ -191,27 +193,27 @@ while true do--Running
 
 		--React
 		if op==8 then--8=close
-			readCHN:push(op)
+			CHN_push(readCHN,op)
 			SOCK:close()
 			if type(res)=='string'then
-				readCHN:push(res:sub(3))--Warning: with 2 bytes close code
+				CHN_push(readCHN,res:sub(3))--Warning: with 2 bytes close code
 			else
-				readCHN:push("WS Error")
+				CHN_push(readCHN,"WS Error")
 			end
 		elseif op==0 then--0=continue
 			lBuffer=lBuffer..res
 			if fin then
 				]]..(debugMode:find'M'and""or"--")..[[print("FIN=1 (c")
-				readCHN:push(lBuffer)
+				CHN_push(readCHN,lBuffer)
 				lBuffer=""
 			else
 				]]..(debugMode:find'M'and""or"--")..[[print("FIN=0 (c")
 			end
 		else
-			readCHN:push(op)
+			CHN_push(readCHN,op)
 			if fin then
 				]]..(debugMode:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=1")
-				readCHN:push(res)
+				CHN_push(readCHN,res)
 			else
 				]]..(debugMode:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=0")
 				sBuffer=res
@@ -223,6 +225,9 @@ end
 ]]
 
 local timer=love.timer.getTime
+local CHN=love.thread.newChannel()
+local CHN_getCount,CHN_push,CHN_pop=CHN.getCount,CHN.push,CHN.pop
+
 local WS={}
 local wsList=setmetatable({},{
 	__index=function(l,k)
@@ -265,11 +270,11 @@ function WS.connect(name,subPath,body,timeout)
 	}
 	wsList[name]=ws
 	ws.thread:start(ws.triggerCHN,ws.sendCHN,ws.readCHN,name)
-	ws.sendCHN:push(host)
-	ws.sendCHN:push(port)
-	ws.sendCHN:push(path..subPath)
-	ws.sendCHN:push(body or"")
-	ws.sendCHN:push(timeout or 2.6)
+	CHN_push(ws.sendCHN,host)
+	CHN_push(ws.sendCHN,port)
+	CHN_push(ws.sendCHN,path..subPath)
+	CHN_push(ws.sendCHN,body or"")
+	CHN_push(ws.sendCHN,timeout or 2.6)
 end
 
 function WS.status(name)
@@ -311,8 +316,8 @@ local OPname={
 function WS.send(name,message,op)
 	local ws=wsList[name]
 	if ws.real and ws.status=='running'then
-		ws.sendCHN:push(op and OPcode[op]or 2)--2=binary
-		ws.sendCHN:push(message)
+		CHN_push(ws.sendCHN,op and OPcode[op]or 2)--2=binary
+		CHN_push(ws.sendCHN,message)
 		ws.lastPingTime=timer()
 		ws.sendTimer=1
 	end
@@ -320,8 +325,8 @@ end
 
 function WS.read(name)
 	local ws=wsList[name]
-	if ws.real and ws.readCHN:getCount()>=2 then
-		local op,message=ws.readCHN:pop(),ws.readCHN:pop()
+	if ws.real and CHN_getCount(ws.readCHN)>=2 then
+		local op,message=CHN_pop(ws.readCHN),CHN_pop(ws.readCHN)
 		if op==8 then ws.status='dead'end--8=close
 		ws.lastPongTime=timer()
 		ws.pongTimer=1
@@ -332,8 +337,8 @@ end
 function WS.close(name)
 	local ws=wsList[name]
 	if ws.real then
-		ws.sendCHN:push(8)--close
-		ws.sendCHN:push("")
+		CHN_push(ws.sendCHN,8)--close
+		CHN_push(ws.sendCHN,"")
 		ws.status='dead'
 	end
 end
@@ -342,11 +347,11 @@ function WS.update(dt)
 	local time=timer()
 	for name,ws in next,wsList do
 		if ws.real then
-			if ws.triggerCHN:getCount()==0 then
-				ws.triggerCHN:push(0)
+			if CHN_getCount(ws.triggerCHN)==0 then
+				CHN_push(ws.triggerCHN,0)
 			end
 			if ws.status=='connecting'then
-				local mes=ws.readCHN:pop()
+				local mes=CHN_pop(ws.readCHN)
 				if mes then
 					if mes=='success'then
 						ws.status='running'
@@ -360,8 +365,8 @@ function WS.update(dt)
 				end
 			elseif ws.status=='running'then
 				if time-ws.lastPingTime>ws.pingInterval then
-					ws.sendCHN:push(9)
-					ws.sendCHN:push("")--ping
+					CHN_push(ws.sendCHN,9)
+					CHN_push(ws.sendCHN,"")--ping
 					ws.lastPingTime=time
 				end
 				if time-ws.lastPongTime>6+2*ws.pingInterval then
