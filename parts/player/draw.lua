@@ -142,8 +142,6 @@ local function drawField(P)
 					while j==P.clearingRow[h]do
 						h=h+1
 						gc_translate(0,-stepY)
-						gc_setColor(1,1,1,alpha)
-						gc_rectangle('fill',0,30-30*j,300,stepY)
 					end
 					drawRow(j,V[j],F[j])
 				end
