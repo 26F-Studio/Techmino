@@ -215,7 +215,7 @@ local seqGenerators={
 		end
 	end,
 }
-return function(P)--Return a piece-generating funtion for player P
+return function(P)--Return a piece-generating function for player P
 	local s=P.gameEnv.sequence
 	if type(s)=='function'then
 		return s

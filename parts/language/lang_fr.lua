@@ -498,6 +498,7 @@ return{
 		stat={
 			path="Ouvrir dossier des données",
 			save="Gestion des données",
+			-- replays="Saved Replays",
 		},
 		music={
 			title="Salon musical",

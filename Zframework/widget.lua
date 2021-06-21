@@ -1,6 +1,8 @@
 local gc=love.graphics
-local gc_clear,gc_origin=gc.clear,gc.origin
+local gc_origin=gc.origin
 local gc_translate,gc_replaceTransform=gc.translate,gc.replaceTransform
+local gc_stencil,gc_setStencilTest=gc.stencil,gc.setStencilTest
+local gc_push,gc_pop=gc.push,gc.pop
 local gc_setCanvas,gc_setBlendMode=gc.setCanvas,gc.setBlendMode
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line=gc.draw,gc.line
@@ -10,7 +12,7 @@ local gc_print,gc_printf=gc.print,gc.printf
 local kb=love.keyboard
 
 local next=next
-local int,abs=math.floor,math.abs
+local int,ceil,abs=math.floor,math.ceil,math.abs
 local max,min=math.max,math.min
 local sub,ins=string.sub,table.insert
 local getFont,setFont,mStr=getFont,setFont,mStr
@@ -422,6 +424,7 @@ end
 
 local slider={
 	type='slider',
+	dragAble=true,
 	ATV=0,--Activating time(0~8)
 	TAT=0,--Text activating time(0~180)
 	pos=0,--Position shown
@@ -877,18 +880,24 @@ end
 
 local textBox={
 	type='textBox',
+	dragAble=true,
 	scrollPos=0,--Which line display at bottom
 	scrollPix=0,--Hidden wheel move value
 	sure=0,--Sure-timer for clear history
 	new=false,--If there is a new message
-	-- texts={},
 }
 function textBox:reset()
-	--haha nothing here, but techmino is fun!
+	--haha nothing here, techmino is so fun!
 end
 function textBox:setTexts(t)
 	self.texts=t
 	self.scrollPos=min(#self.texts,self.capacity)
+end
+function textBox:clear()
+	self.texts={}
+	self.scrollPos=0
+	self.new=false
+	SFX.play('fall')
 end
 function textBox:isAbove(x,y)
 	return
@@ -929,8 +938,8 @@ end
 function textBox:drag(_,_,_,dy)
 	_=self.scrollPix+dy
 	local sign=_>0 and 1 or -1
-	while abs(_)>30 do
-		_=_-30*sign
+	while abs(_)>self.lineH do
+		_=_-self.lineH*sign
 		self:scroll(-sign)
 	end
 	self.scrollPix=_
@@ -941,12 +950,6 @@ function textBox:scroll(n)
 	else
 		self.scrollPos=min(self.scrollPos+n,#self.texts)
 	end
-end
-function textBox:clear()
-	self.texts={}
-	self.scrollPos=0
-	self.new=false
-	SFX.play('fall')
 end
 function textBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
@@ -965,7 +968,7 @@ function textBox:draw()
 
 	--Frame
 	gc_setLineWidth(4)
-	gc_setColor(1,1,WIDGET.sel==self and .8 or 1)
+	gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)
 	gc_rectangle('line',x,y,w,h)
 
 	--Slider
@@ -1026,9 +1029,142 @@ function WIDGET.newTextBox(D)--name,x,y,w,h[,font=30][,lineH][,fix],hide
 		hide=	D.hide,
 	}
 	_.lineH=D.lineH or _.font*7/5
-	_.capacity=int((D.h-10)/_.lineH)
+	_.capacity=ceil((D.h-10)/_.lineH)
 
 	for k,v in next,textBox do _[k]=v end
+	setmetatable(_,widgetMetatable)
+	return _
+end
+
+local listBox={
+	type='listBox',
+	dragAble=true,
+	scrollPos=0,--Which line display at bottom
+	selected=0,--Hidden wheel move value
+}
+function listBox:reset()
+	--haha nothing here too, techmino is really fun!
+end
+function listBox:clear()
+	self.list={}
+	self.scrollPos=0
+end
+function listBox:setList(t)
+	self.list=t
+	self.selected=1
+	self.scrollPos=0
+end
+function listBox:getList()
+	return self.list
+end
+function listBox:getLen()
+	return #self.list
+end
+function listBox:getSel()
+	return self.list[self.selected]
+end
+function listBox:isAbove(x,y)
+	return
+		x>self.x and
+		y>self.y and
+		x<self.x+self.w and
+		y<self.y+self.h
+end
+function listBox:getCenter()
+	return self.x+self.w*.5,self.y+self.w
+end
+function listBox:push(t)
+	ins(self.list,t)
+end
+function listBox:press(x,y)
+	if not(x and y)then return end
+	self:drag(nil,nil,nil,0)
+	x,y=x-self.x,y-self.y
+	y=int(y/40+self.scrollPos)+1
+	if self.list[y]then
+		if self.selected~=y then
+			self.selected=y
+			SFX.play('click',.4)
+		end
+	end
+end
+function listBox:drag(_,_,_,dy)
+	self.scrollPos=max(0,min(self.scrollPos-dy,(#self.list-self.capacity)*self.lineH))
+	print(self.scrollPos)
+end
+function listBox:scroll(n)
+	self.scrollPos=max(0,min(self.scrollPos-n*self.lineH,(#self.list-self.capacity)*self.lineH))
+	print(self.scrollPos)
+end
+local SSW,SSH--stencil-size-w/h
+local function listBoxStencil()
+	gc.rectangle('fill',1,1,SSW-2,SSH-2)
+end
+function listBox:draw()
+	local x,y,w,h=self.x,self.y,self.w,self.h
+	local list=self.list
+	local scrollPos=self.scrollPos
+	local cap=self.capacity
+	local lineH=self.lineH
+
+	gc_push('transform')
+		gc_translate(x,y)
+		gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)
+		gc_setLineWidth(3)
+		gc_rectangle('line',0,0,w,h)
+
+		if #list>cap then
+			gc_setColor(1,1,1)
+			local len=h*h/(#list*lineH)
+			gc_rectangle('fill',-15,(h-len)*scrollPos/((#list-cap)*lineH),12,len)
+		end
+
+		gc_setStencilTest('equal',1)
+			SSW,SSH=w,h
+			gc_stencil(listBoxStencil)
+			setFont(35)
+			local pos=int(scrollPos/lineH)
+			gc_translate(0,-(scrollPos%lineH))
+			for i=pos+1,min(pos+cap+1,#list)do
+				self.drawF(i==self.selected,i,list[i])
+				gc_translate(0,lineH)
+			end
+		gc_setStencilTest()
+	gc_pop()
+end
+function listBox:getInfo()
+	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
+end
+function WIDGET.newListBox(D)--name,x,y,w,h[,lineH],hide,drawF
+	local _={
+		name=	D.name or"_",
+
+		resCtr={
+			D.x+D.w*.5,D.y+D.h*.5,
+			D.x+D.w*.5,D.y,
+			D.x-D.w*.5,D.y,
+			D.x,D.y+D.h*.5,
+			D.x,D.y-D.h*.5,
+			D.x,D.y,
+			D.x+D.w,D.y,
+			D.x,D.y+D.h,
+			D.x+D.w,D.y+D.h,
+		},
+
+		x=		D.x,
+		y=		D.y,
+		w=		D.w,
+		h=		D.h,
+
+		list=	{},
+		lineH=	D.lineH,
+		capacity=ceil(D.h/D.lineH),
+		drawF=	D.drawF,
+		hideF=	D.hideF,
+		hide=	D.hide,
+	}
+
+	for k,v in next,listBox do _[k]=v end
 	setmetatable(_,widgetMetatable)
 	return _
 end
@@ -1135,7 +1271,7 @@ end
 function WIDGET.drag(x,y,dx,dy)
 	if WIDGET.sel then
 		local W=WIDGET.sel
-		if W.type=='slider'or W.type=='textBox'then
+		if W.dragAble then
 			W:drag(x,y+WIDGET.scrollPos,dx,dy)
 		elseif not W:isAbove(x,y)then
 			WIDGET.unFocus(true)
@@ -1272,8 +1408,7 @@ function WIDGET.resize(w,h)
 	widgetCanvas=gc.newCanvas(w,h)
 end
 function WIDGET.draw()
-	gc_setCanvas(widgetCanvas)
-		gc_clear(0,0,0,0)
+	gc_setCanvas({stencil=true},widgetCanvas)
 		gc_translate(0,-WIDGET.scrollPos)
 		for _,W in next,WIDGET.active do
 			if not W.hide then W:draw()end
@@ -1290,7 +1425,7 @@ function WIDGET.draw()
 			gc_setBlendMode('multiply','premultiplied')
 			gc_draw(widgetCover,nil,nil,nil,scr_w,scr_h/360)
 		end
-	gc_setCanvas()
+	gc_setCanvas({stencil=false})
 	gc_setBlendMode('alpha','premultiplied')
 	gc_draw(widgetCanvas)
 	gc_setBlendMode('alpha')

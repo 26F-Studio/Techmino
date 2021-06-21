@@ -9,7 +9,6 @@ local NET={
 	accessToken=false,
 	cloudData={},
 
-	roomList={},--Local roomlist, updated frequently
 	roomState={--A copy of room structure on server
 		roomInfo={
 			name=false,
@@ -508,7 +507,24 @@ function NET.updateWS_play()
 						NET.unlock('access_and_login')
 						SFX.play('connected')
 					elseif res.action==0 then--Fetch rooms
-						NET.roomList=res.roomList
+						if SCN.cur=="net_rooms"then
+							for i=1,16 do
+								res.roomList[i]={
+									rid="qwe",
+									roomInfo={
+										name="Test room "..i,
+										type="classic",
+										version=VERSION.short,
+										description="x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x ",
+									},
+									private=i%3==0,
+									start=i%4==0,
+									count=i%5,
+									capacity=5,
+								}
+							end
+							WIDGET.active.roomList:setList(res.roomList)
+						end
 						NET.unlock('fetchRoom')
 					elseif res.action==1 then--Create room (not used)
 						--?

@@ -568,7 +568,7 @@ function draw.norm(P)
 			gc_rectangle('fill',0,-10,300,610)
 
 			--Stenciled in-field things
-			gc_stencil(stencilBoard,'replace',1)
+			gc_stencil(stencilBoard)
 			gc_setStencilTest('equal',1)
 			gc_push('transform')
 				boardTransform(ENV.flipBoard)
@@ -675,7 +675,7 @@ function draw.norm(P)
 
 			--Board cover
 			if ENV.hideBoard then
-				gc_stencil(hideBoardStencil[ENV.hideBoard],'replace',1)
+				gc_stencil(hideBoardStencil[ENV.hideBoard])
 				gc_setStencilTest('equal',1)
 				gc_setLineWidth(20)
 				for i=0,24 do

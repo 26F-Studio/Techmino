@@ -541,6 +541,7 @@ return{
 		stat={
 			path="Abrir Pasta De Data",
 			save="Gestão De Dados",
+			-- replays="Saved Replays",
 		},
 		music={
 			title="Sala De Música",

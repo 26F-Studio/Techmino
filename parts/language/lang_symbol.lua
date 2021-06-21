@@ -354,7 +354,8 @@ return{
 		},
 		stat={
 			path="%$%",
-			save="%0101%",
+			save="%0123%",
+			replays="%0101%",
 		},
 		music={
 			title="(~~~~)",

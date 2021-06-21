@@ -499,6 +499,7 @@ return{
 		stat={
 			path="Abrir carpeta del juego",
 			save="Manejo de Datos",
+			-- replays="Saved Replays",
 		},
 		music={
 			title="Sala de Música",

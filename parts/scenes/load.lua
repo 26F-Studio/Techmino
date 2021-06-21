@@ -283,7 +283,7 @@ function scene.draw()
 		gc.setColor(.15,.15,.15)
 		gc.rectangle('fill',340,0,600,720)
 
-		gc.stencil(doorStencil,'replace',1)
+		gc.stencil(doorStencil)
 		gc.setStencilTest('equal',1)
 		gc.push('transform')
 

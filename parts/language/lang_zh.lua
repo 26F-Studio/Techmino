@@ -621,6 +621,7 @@ return{
 		stat={
 			path="打开存储目录",
 			save="用户档案管理",
+			replays="录像菜单",
 		},
 		login={
 			title="登录",

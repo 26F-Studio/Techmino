@@ -544,6 +544,7 @@ return{
 		stat={
 			path="Open Data Folder",
 			save="Data Management",
+			replays="Saved Replays",
 		},
 		music={
 			title="Music Room",

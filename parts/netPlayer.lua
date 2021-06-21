@@ -201,7 +201,7 @@ function netPLY.draw()
 			--Stencil
 			stencilW,stencilH=p.w,p.h
 			gc_setStencilTest('equal',1)
-				gc_stencil(plyStencil,'replace',1)
+				gc_stencil(plyStencil)
 				gc_setColor(1,1,1)
 
 				--Avatar
