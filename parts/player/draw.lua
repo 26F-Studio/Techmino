@@ -1,6 +1,6 @@
 local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_origin=gc.push,gc.pop,gc.clear,gc.origin
-local gc_translate,gc_scale,gc_rotate,gc_shear=gc.translate,gc.scale,gc.rotate,gc.shear
+local gc_translate,gc_scale,gc_rotate=gc.translate,gc.scale,gc.rotate
 local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
 local gc_draw,gc_line,gc_rectangle=gc.draw,gc.line,gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
@@ -447,18 +447,19 @@ local function drawStartCounter(P)
 	local count=179-P.frameRun
 	gc_push('transform')
 		gc_translate(300,300)
-		local num=int(count/60+1)
-		local d=count%60-45
+		local num=int(count/60)+1
+		local d=count%60
 		if num==3 then
-			gc_setColor(.7,.9,1)
-			if d>0 then gc_scale(1+d^2*.01,1)end
+			gc_setColor(.7,.8,.98)
+			if d>45 then gc_rotate((d-45)^2*.00355)end
 		elseif num==2 then
-			gc_setColor(1,.95,.7)
-			if d>0 then gc_shear(-(d/15)^2,0)end
+			gc_setColor(.98,.85,.75)
+			if d>45 then gc_scale(1+(d/15-3)^2,1)end
 		elseif num==1 then
-			gc_setColor(1,.8,.8)
-			if d>0 then gc_rotate(d^2*.00355)end
+			gc_setColor(1,.7,.7)
+			if d>45 then gc_scale(1,1+(d/15-3)^2)end
 		end
+		if d<20 then gc_scale((d/20)^.4)end
 		setFont(100)
 		mStr(num,0,-70)
 	gc_pop()
