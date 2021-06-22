@@ -508,21 +508,6 @@ function NET.updateWS_play()
 						SFX.play('connected')
 					elseif res.action==0 then--Fetch rooms
 						if SCN.cur=="net_rooms"then
-							for i=1,16 do
-								res.roomList[i]={
-									rid="qwe",
-									roomInfo={
-										name="Test room "..i,
-										type="classic",
-										version=VERSION.short,
-										description="x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x ",
-									},
-									private=i%3==0,
-									start=i%4==0,
-									count=i%5,
-									capacity=5,
-								}
-							end
 							WIDGET.active.roomList:setList(res.roomList)
 						end
 						NET.unlock('fetchRoom')
@@ -571,7 +556,7 @@ function NET.updateWS_play()
 								mode=d.mode,
 								config=d.config,
 							}
-							if SCN.socketRead then SCN.socketRead('join',d)end
+							if SCN.cur=='net_game'then SCN.socketRead('join',d)end
 							NET.allReady=false
 						end
 					elseif res.action==3 then--Player leave
@@ -584,10 +569,10 @@ function NET.updateWS_play()
 							netPLY.remove(d.sid)
 							removePlayer(PLAYERS,d.sid)
 							removePlayer(PLY_ALIVE,d.sid)
-							if SCN.socketRead then SCN.socketRead('leave',d)end
+							if SCN.cur=='net_game'then SCN.socketRead('leave',d)end
 						end
 					elseif res.action==4 then--Player talk
-						if SCN.socketRead then SCN.socketRead('talk',d)end
+						if SCN.cur=='net_game'then SCN.socketRead('talk',d)end
 					elseif res.action==5 then--Player change settings
 						netPLY.setConf(d.uid,d.config)
 					elseif res.action==6 then--Player change join mode
@@ -600,7 +585,7 @@ function NET.updateWS_play()
 						NET.connectingStream=true
 						NET.wsconn_stream(d.srid)
 					elseif res.action==9 then--Game finished
-						if SCN.socketRead then SCN.socketRead('finish',d)end
+						if SCN.cur=='net_game'then SCN.socketRead('finish',d)end
 
 						--d.result: list of {place,survivalTime,uid,score}
 						for _,p in next,d.result do

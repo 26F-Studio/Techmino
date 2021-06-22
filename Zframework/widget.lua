@@ -39,6 +39,11 @@ local largerThen=DOGC{20,20,
 	{'line',2,2,19,10,2,18},
 }
 
+local STW,STH--stencil-wid/hei
+local function rectangleStencil()
+	gc.rectangle('fill',1,1,STW-2,STH-2)
+end
+
 local WIDGET={}
 local widgetMetatable={
 	__tostring=function(self)
@@ -542,7 +547,7 @@ function slider:release(x)
 	self:drag(x)
 	self.lastTime=0
 end
-function slider:arrowKey(isLeft)
+function slider:move(isLeft)
 	local p=self.disp()
 	local u=(self.smooth and .01 or 1)
 	local P=isLeft and max(p-u,0)or min(p+u,self.unit)
@@ -704,7 +709,7 @@ function selector:press(x)
 		end
 	end
 end
-function selector:arrowKey(isLeft)
+function selector:move(isLeft)
 	local s=self.select
 	if isLeft and s==1 or not isLeft and s==#self.list then return end
 	if isLeft then
@@ -881,10 +886,8 @@ end
 local textBox={
 	type='textBox',
 	dragAble=true,
-	scrollPos=0,--Which line display at bottom
-	scrollPix=0,--Hidden wheel move value
+	scrollPos=0,--Scroll-down-distance
 	sure=0,--Sure-timer for clear history
-	new=false,--If there is a new message
 }
 function textBox:reset()
 	--haha nothing here, techmino is so fun!
@@ -896,7 +899,6 @@ end
 function textBox:clear()
 	self.texts={}
 	self.scrollPos=0
-	self.new=false
 	SFX.play('fall')
 end
 function textBox:isAbove(x,y)
@@ -918,8 +920,6 @@ function textBox:push(t)
 	ins(self.texts,t)
 	if self.scrollPos==#self.texts-1 then
 		self.scrollPos=#self.texts
-	else
-		self.new=true
 	end
 end
 function textBox:press(x,y)
@@ -928,7 +928,6 @@ function textBox:press(x,y)
 	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
 			self:clear()
-			self.new=false
 			self.sure=0
 		else
 			self.sure=60
@@ -936,67 +935,56 @@ function textBox:press(x,y)
 	end
 end
 function textBox:drag(_,_,_,dy)
-	_=self.scrollPix+dy
-	local sign=_>0 and 1 or -1
-	while abs(_)>self.lineH do
-		_=_-self.lineH*sign
-		self:scroll(-sign)
-	end
-	self.scrollPix=_
+	self.scrollPos=max(0,min(self.scrollPos-dy,(#self.texts-self.capacity)*self.lineH))
 end
 function textBox:scroll(n)
-	if n<0 then
-		self.scrollPos=max(self.scrollPos+n,min(#self.texts,self.capacity))
-	else
-		self.scrollPos=min(self.scrollPos+n,#self.texts)
-	end
+	self.scrollPos=max(0,min(self.scrollPos+n*self.lineH,(#self.texts-self.capacity)*self.lineH))
 end
 function textBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local texts=self.texts
-	local scroll=self.scrollPos
+	local scrollPos=self.scrollPos
 	local cap=self.capacity
-
-	--Update new message status, necessary when hide==true
-	if self.scrollPos==#self.texts then
-		self.new=false
-	end
+	local lineH=self.lineH
 
 	--Background
 	gc_setColor(0,0,0,.4)
 	gc_rectangle('fill',x,y,w,h)
 
 	--Frame
-	gc_setLineWidth(4)
+	gc_setLineWidth(3)
 	gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)
 	gc_rectangle('line',x,y,w,h)
 
-	--Slider
-	if #texts>cap then
-		gc_setLineWidth(2)
-		gc_rectangle('line',x-25,y,20,h)
-		local len=max(h*cap/#texts,26)
-		gc_rectangle('fill',x-22,y+(h-len-6)*(scroll-cap)/(#texts-cap)+3,14,len)
-	end
-
-	--Clear button
-	gc_setColor(1,1,1)
-	if not self.fix then
-		gc_rectangle('line',x+w-40,y,40,40)
-		gc_draw(self.sure==0 and clearIcon or sureIcon,x+w-40,y)
-	end
-
 	--Texts
 	setFont(self.font)
-	for i=max(scroll-cap+1,1),scroll do
-		gc_printf(texts[i],x+8,y+h-10-self.lineH*(scroll-i+1),w)
-	end
+	gc_push('transform')
+		gc_translate(x,y)
 
-	--New message
-	if self.new and self.scrollPos~=#texts then
-		gc_setColor(1,TIME()%.4<.2 and 1 or 0,0)
-		gc_print("v",x+w-25,y+h-40)
-	end
+		--Slider
+		gc_setColor(1,1,1)
+		if #texts>cap then
+			local len=h*h/(#texts*lineH)
+			gc_rectangle('fill',-15,(h-len)*scrollPos/((#texts-cap)*lineH),12,len)
+		end
+
+		--Clear button
+		if not self.fix then
+			gc_rectangle('line',w-40,0,40,40)
+			gc_draw(self.sure==0 and clearIcon or sureIcon,w-40,0)
+		end
+
+		gc_setStencilTest('equal',1)
+		STW,STH=w,h
+		gc_stencil(rectangleStencil)
+		gc_translate(0,-(scrollPos%lineH))
+		local pos=int(scrollPos/lineH)
+		for i=pos+1,min(pos+cap+1,#texts)do
+			gc_printf(texts[i],10,4,w-16)
+			gc_translate(0,lineH)
+		end
+		gc_setStencilTest()
+	gc_pop()
 end
 function textBox:getInfo()
 	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
@@ -1039,7 +1027,7 @@ end
 local listBox={
 	type='listBox',
 	dragAble=true,
-	scrollPos=0,--Which line display at bottom
+	scrollPos=0,--Scroll-down-distance
 	selected=0,--Hidden wheel move value
 }
 function listBox:reset()
@@ -1071,7 +1059,7 @@ function listBox:isAbove(x,y)
 		y<self.y+self.h
 end
 function listBox:getCenter()
-	return self.x+self.w*.5,self.y+self.w
+	return self.x+self.w*.5,self.y+self.h*.5
 end
 function listBox:push(t)
 	ins(self.list,t)
@@ -1080,7 +1068,7 @@ function listBox:press(x,y)
 	if not(x and y)then return end
 	self:drag(nil,nil,nil,0)
 	x,y=x-self.x,y-self.y
-	y=int(y/40+self.scrollPos)+1
+	y=int((y+self.scrollPos)/self.lineH)+1
 	if self.list[y]then
 		if self.selected~=y then
 			self.selected=y
@@ -1090,15 +1078,9 @@ function listBox:press(x,y)
 end
 function listBox:drag(_,_,_,dy)
 	self.scrollPos=max(0,min(self.scrollPos-dy,(#self.list-self.capacity)*self.lineH))
-	print(self.scrollPos)
 end
 function listBox:scroll(n)
-	self.scrollPos=max(0,min(self.scrollPos-n*self.lineH,(#self.list-self.capacity)*self.lineH))
-	print(self.scrollPos)
-end
-local SSW,SSH--stencil-size-w/h
-local function listBoxStencil()
-	gc.rectangle('fill',1,1,SSW-2,SSH-2)
+	self.scrollPos=max(0,min(self.scrollPos+n*self.lineH,(#self.list-self.capacity)*self.lineH))
 end
 function listBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
@@ -1109,20 +1091,23 @@ function listBox:draw()
 
 	gc_push('transform')
 		gc_translate(x,y)
+
+		--Frame
 		gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)
 		gc_setLineWidth(3)
 		gc_rectangle('line',0,0,w,h)
 
+		--Slider
 		if #list>cap then
 			gc_setColor(1,1,1)
 			local len=h*h/(#list*lineH)
 			gc_rectangle('fill',-15,(h-len)*scrollPos/((#list-cap)*lineH),12,len)
 		end
 
+		--List
 		gc_setStencilTest('equal',1)
-			SSW,SSH=w,h
-			gc_stencil(listBoxStencil)
-			setFont(35)
+			STW,STH=w,h
+			gc_stencil(rectangleStencil)
 			local pos=int(scrollPos/lineH)
 			gc_translate(0,-(scrollPos%lineH))
 			for i=pos+1,min(pos+cap+1,#list)do
@@ -1282,18 +1267,22 @@ function WIDGET.drag(x,y,dx,dy)
 end
 function WIDGET.release(x,y)
 	local W=WIDGET.sel
-	if W and W.type=='slider'then
+	if W and W.release then
 		W:release(x,y+WIDGET.scrollPos)
 	end
 end
 function WIDGET.keyPressed(k,isRep)
 	local W=WIDGET.sel
-	if not isRep and(k=="space"or k=="return")then
-		WIDGET.press()
-	elseif kb.isDown("lshift","lalt","lctrl")and(k=="left"or k=="right")then
-					--When hold [↑], control slider with left/right
-		if W and W.type=='slider'or W.type=='selector'then
-			W:arrowKey(k=="left")
+	if k=="space"or k=="return"then
+		if not isRep then
+			WIDGET.press()
+		end
+	elseif kb.isDown("lshift","lalt","lctrl")then
+		if k=="left"or k=="right"then
+			--When hold shift/ctrl/alt, control slider with left/right
+			if W and W.arrowKey then W:move(k=="left")end
+		elseif k=="up"or k=="down"then
+			if W and W.scroll then W:scroll((k=="up"and -1 or 1)*W.lineH)end
 		end
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
 		if not W then
@@ -1303,37 +1292,36 @@ function WIDGET.keyPressed(k,isRep)
 					return
 				end
 			end
-			return
-		end
-		if not W.getCenter then return end
-		local WX,WY=W:getCenter()
-		local dir=(k=="right"or k=="down")and 1 or -1
-		local tar
-		local minDist=1e99
-		local swap_xy=k=="up"or k=="down"
-		if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
-		for _,W1 in ipairs(WIDGET.active)do
-			if W~=W1 and W1.resCtr and not W1.hide then
-				local L=W1.resCtr
-				for j=1,#L,2 do
-					local x,y=L[j],L[j+1]
-					if swap_xy then x,y=y,x end -- note that we do not swap them back later
-					local dist=(x-WX)*dir
-					if dist>10 then
-						dist=dist+abs(y-WY)*6.26
-						if dist<minDist then
-							minDist=dist
-							tar=W1
+		elseif W.getCenter then
+			local WX,WY=W:getCenter()
+			local dir=(k=="right"or k=="down")and 1 or -1
+			local tar
+			local minDist=1e99
+			local swap_xy=k=="up"or k=="down"
+			if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
+			for _,W1 in ipairs(WIDGET.active)do
+				if W~=W1 and W1.resCtr and not W1.hide then
+					local L=W1.resCtr
+					for j=1,#L,2 do
+						local x,y=L[j],L[j+1]
+						if swap_xy then x,y=y,x end -- note that we do not swap them back later
+						local dist=(x-WX)*dir
+						if dist>10 then
+							dist=dist+abs(y-WY)*6.26
+							if dist<minDist then
+								minDist=dist
+								tar=W1
+							end
 						end
 					end
 				end
 			end
-		end
-		if tar then
-			WIDGET.focus(tar)
+			if tar then
+				WIDGET.focus(tar)
+			end
 		end
 	else
-		if W and W.type=='inputBox'then
+		if W and W.keypress then
 			W:keypress(k)
 		end
 	end

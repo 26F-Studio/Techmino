@@ -1,26 +1,33 @@
 local gc=love.graphics
+local gc_translate=gc.translate
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw=gc.draw
+local gc_rectangle,gc_arc=gc.rectangle,gc.arc
+local gc_print,gc_printf=gc.print,gc.printf
+
 
 local NET=NET
 local fetchTimer
 
 local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,drawF=function(ifSel,id,item)
+	setFont(35)
 	if ifSel then
-		gc.setColor(1,1,1,.3)
-		gc.rectangle('fill',0,0,800,40)
+		gc_setColor(1,1,1,.3)
+		gc_rectangle('fill',0,0,800,40)
 	end
-	gc.setColor(1,1,1)
-	if item.private then gc.draw(IMG.lock,10,5)end
-	gc.print(item.count.."/"..item.capacity,670,-4)
+	gc_setColor(1,1,1)
+	if item.private then gc_draw(IMG.lock,10,5)end
+	gc_print(item.count.."/"..item.capacity,670,-4)
 
-	gc.setColor(.9,.9,1)
-	gc.print(id,45,-4)
+	gc_setColor(.9,.9,1)
+	gc_print(id,45,-4)
 
 	if item.start then
-		gc.setColor(0,.4,.1)
+		gc_setColor(0,.4,.1)
 	else
-		gc.setColor(1,1,.7)
+		gc_setColor(1,1,.7)
 	end
-	gc.print(item.roomInfo.name,200,-4)
+	gc_print(item.roomInfo.name,200,-4)
 end}
 local function hidePW()
 	local R=roomList:getSel()
@@ -86,30 +93,30 @@ end
 
 function scene.draw()
 	--Fetching timer
-	gc.setColor(1,1,1,.12)
-	gc.arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
+	gc_setColor(1,1,1,.12)
+	gc_arc('fill','pie',250,630,40,-1.5708,-1.5708-.6283*fetchTimer)
 
 	--Room list
 	local R=roomList:getSel()
 	if R then
-		gc.translate(870,220)
-		gc.setColor(1,1,1)
-		gc.setLineWidth(3)
-		gc.rectangle('line',0,0,385,335)
+		gc_translate(870,220)
+		gc_setColor(1,1,1)
+		gc_setLineWidth(3)
+		gc_rectangle('line',0,0,385,335)
 		setFont(25)
-		gc.print(R.roomInfo.type,10,25)
-		gc.setColor(1,1,.7)
-		gc.printf(R.roomInfo.name,10,0,365)
+		gc_print(R.roomInfo.type,10,25)
+		gc_setColor(1,1,.7)
+		gc_printf(R.roomInfo.name,10,0,365)
 		setFont(20)
-		gc.setColor(.8,.8,.8)
-		gc.printf(R.roomInfo.description or"[No description]",10,55,365)
+		gc_setColor(.8,.8,.8)
+		gc_printf(R.roomInfo.description or"[No description]",10,55,365)
 		if R.start then
-			gc.setColor(0,1,.2)
-			gc.print(text.started,10,300)
+			gc_setColor(0,1,.2)
+			gc_print(text.started,10,300)
 		end
-		gc.setColor(1,.2,0)
-		gc.printf(R.roomInfo.version,10,300,365,'right')
-		gc.translate(-870,-220)
+		gc_setColor(1,.2,0)
+		gc_printf(R.roomInfo.version,10,300,365,'right')
+		gc_translate(-870,-220)
 	end
 
 	--Profile
