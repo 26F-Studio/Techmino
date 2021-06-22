@@ -100,6 +100,7 @@ function scene.keyDown(key)
 			MES.new('check',text.importSuccess)
 			cur=#BAG
 		else
+			TABLE.cut(BAG)
 			MES.new('error',text.dataCorrupted)
 		end
 	elseif key=="escape"then

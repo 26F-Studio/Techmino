@@ -187,7 +187,7 @@ function DATA.copyMission()
 end
 function DATA.pasteMission(str)
 	local b
-	local mission={}
+	TABLE.cut(MISSION)
 	local reg
 	for i=1,#str do
 		b=byte(str,i)
@@ -200,24 +200,23 @@ function DATA.pasteMission(str)
 		else
 			if b>=34 and b<=114 then
 				if missionEnum[reg]then
-					ins(mission,reg)
+					ins(MISSION,reg)
 					reg=b-33
 				else
+					TABLE.cut(MISSION)
 					return
 				end
 			elseif b>=115 and b<=126 then
 				for _=1,b-113 do
-					ins(mission,reg)
+					ins(MISSION,reg)
 				end
 				reg=false
 			end
 		end
 	end
 	if reg then
-		ins(mission,reg)
+		ins(MISSION,reg)
 	end
-
-	MISSION=mission
 	return true
 end
 
