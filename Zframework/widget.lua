@@ -1383,13 +1383,13 @@ end
 
 function WIDGET.update()
 	for _,W in next,WIDGET.active do
-		if W.update then W:update()end
 		if W.hideF then
 			W.hide=W.hideF()
 			if W.hide and W==WIDGET.sel then
 				WIDGET.unFocus(true)
 			end
 		end
+		if W.update then W:update()end
 	end
 end
 local widgetCanvas
