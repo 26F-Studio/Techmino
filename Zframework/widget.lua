@@ -894,7 +894,7 @@ function textBox:reset()
 end
 function textBox:setTexts(t)
 	self.texts=t
-	self.scrollPos=min(#self.texts,self.capacity)
+	self.scrollPos=0
 end
 function textBox:clear()
 	self.texts={}
