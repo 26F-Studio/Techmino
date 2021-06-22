@@ -194,6 +194,7 @@ function Player:setHold(count)--Set hold count (false/true as 0/1)
 	elseif count==true then
 		count=1
 	end
+	self:switchKey(8,count>0)
 	self.gameEnv.holdCount=count
 	self.holdTime=count
 	while self.holdQueue[count+1]do rem(self.holdQueue)end
