@@ -18,7 +18,7 @@ local function score(P)
 	elseif D.pt>=D.target then--Level up!
 		s=D.target/100
 		local E=P.gameEnv
-		BG.set(s==1 and'rainbow'or s==2 and'rainbow2'or s==3 and'lightning'or s==4 and'lightning2'or'lightning')
+		BG.set(s==1 and'rainbow'or s==2 and'rainbow2'or'lightning')
 		E.lock=death_lock[s]
 		E.wait=death_wait[s]
 		E.fall=death_fall[s]
