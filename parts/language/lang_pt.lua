@@ -366,7 +366,9 @@ return{
 			title="Config. controles",
 			preview="Preview",
 
-			das="DAS",arr="ARR",dascut="DAS cut",
+			das="DAS",arr="ARR",
+			dascut="DAS cut",
+			-- dropcut="Auto-lock cut",
 			sddas="Soft Drop DAS",sdarr="Soft Drop ARR",
 			ihs="Segurar Inicial",
 			irs="Rotação Inicial",

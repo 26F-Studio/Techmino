@@ -338,7 +338,9 @@ return{
 			title="Paramètres de contrôle",
 			preview="Aperçu",
 
-			das="DAS",arr="ARR",dascut="DAS cut",
+			das="DAS",arr="ARR",
+			dascut="DAS cut",
+			-- dropcut="Auto-lock cut",
 			sddas="DAS de chute rapide",sdarr="ARR de chute rapide",
 			ihs="Réserve Initiale",
 			irs="Rotation Initiale",

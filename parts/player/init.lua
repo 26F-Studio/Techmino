@@ -197,6 +197,9 @@ local function newEmptyPlayer(id,mini)
 	P.lastPiece={
 		id=0,name=0,--block id/name
 
+		frame=-1e99,--lock time
+		autoLock=true,--if lock with gravity
+
 		finePts=0,--finesse Points
 
 		row=0,dig=0,--lines/garbage cleared

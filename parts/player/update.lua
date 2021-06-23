@@ -363,7 +363,7 @@ function update.alive(P,dt)
 				if P.lockDelay>=0 then
 					goto THROW_stop
 				end
-				P:drop()
+				P:drop(true)
 				if P.AI_mode=='CC'and P.AI_bot then
 					CC.updateField(P)
 				end

@@ -193,7 +193,9 @@ return{
 			title="[~~]",
 			preview="?:",
 
-			das="x---x x x",arr="x   x-x-x",dascut="x x ↓___x x",
+			das="x---x x x",arr="x   x-x-x",
+			dascut="x x ↓___x x",
+			dropcut="↓_ !↓↓x",
 			sddas="↓---↓ ↓ ↓",sdarr="↓   ↓-↓-↓",
 			ihs="![ ]",
 			irs="!''",

@@ -339,7 +339,9 @@ return{
 			title="Ajustes de Controles",
 			preview="Ejemplo",
 
-			das="DAS",arr="ARR",dascut="Intrrp. de DAS",
+			das="DAS",arr="ARR",
+			dascut="Intrrp. de DAS",
+			-- dropcut="Auto-lock cut",
 			sddas="DAS de C. Ráp.",sdarr="ARR de C. Rápida",
 			ihs="Resv. Inicial",
 			irs="Rot. Inicial",

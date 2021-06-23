@@ -956,7 +956,7 @@ do--Player.drop(self)--Place piece
 		end
 	end
 
-	function Player:drop()
+	function Player:drop(autoLock)
 		local _
 		local CHN=VOC.getFreeChannel()
 		self.dropTime[11]=ins(self.dropTime,1,self.frameRun)--Update speed dial
@@ -975,6 +975,7 @@ do--Player.drop(self)--Place piece
 		local dospin,mini=0
 
 		piece.id,piece.name=C.id,C.name
+		piece.frame,piece.autoLock=self.frameRun,autoLock
 		self.waiting=ENV.wait
 
 		--Tri-corner spin check
@@ -1858,31 +1859,36 @@ function Player:act_rot180()
 	end
 end
 function Player:act_hardDrop()
+	local ENV=self.gameEnv
 	if self.keyPressing[9]then
-		if self.gameEnv.swap then
+		if ENV.swap then
 			self:changeAtkMode(3)
 		end
 		self.keyPressing[6]=false
 	elseif self.control and self.waiting==-1 and self.cur then
-		if self.curY>self.ghoY then
-			local CB=self.cur.bk
-			if self.gameEnv.dropFX and self.gameEnv.block and self.curY-self.ghoY-#CB>-1 then
-				self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
+		if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
+			SFX.play('drop_cancel')
+		else
+			if self.curY>self.ghoY then
+				local CB=self.cur.bk
+				if ENV.dropFX and ENV.block and self.curY-self.ghoY-#CB>-1 then
+					self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
+				end
+				self.curY=self.ghoY
+				self.spinLast=false
+				if self.sound then
+					SFX.play('drop',nil,self:getCenterX()*.15)
+					VIB(1)
+				end
 			end
-			self.curY=self.ghoY
-			self.spinLast=false
-			if self.sound then
-				SFX.play('drop',nil,self:getCenterX()*.15)
-				VIB(1)
+			if ENV.shakeFX then
+				self.fieldOff.vy=ENV.shakeFX*.6
+				self.fieldOff.va=self.fieldOff.va+self:getCenterX()*ENV.shakeFX*6e-4
 			end
+			self.lockDelay=-1
+			self:drop(false)
+			self.keyPressing[6]=false
 		end
-		if self.gameEnv.shakeFX then
-			self.fieldOff.vy=self.gameEnv.shakeFX*.6
-			self.fieldOff.va=self.fieldOff.va+self:getCenterX()*self.gameEnv.shakeFX*6e-4
-		end
-		self.lockDelay=-1
-		self:drop()
-		self.keyPressing[6]=false
 	end
 end
 function Player:act_softDrop()
