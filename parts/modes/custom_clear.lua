@@ -54,10 +54,11 @@ return{
 			if notAir(FIELD[1][y])then
 				--Switch clear sprint mode on
 				GAME.modeEnv.dropPiece=checkClear
-				break
+				goto BREAK_clearMode
 			end
 		end
-
+		GAME.modeEnv.dropPiece=NULL
+		::BREAK_clearMode::
 		PLY.newPlayer(1)
 		local AItype=GAME.modeEnv.opponent:sub(1,2)
 		local AIlevel=tonumber(GAME.modeEnv.opponent:sub(-1))
