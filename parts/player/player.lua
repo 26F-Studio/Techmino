@@ -804,7 +804,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 
 		--IHdS
 		if pressing[6]and not ifhold then
-			self.act_hardDrop(self)
+			self:act_hardDrop()
 			pressing[6]=false
 		end
 	else
@@ -1535,7 +1535,7 @@ function Player:loadAI(data)--Load AI params
 		self:setRS('TRS')
 	end
 	self.AI_thread=coroutine.wrap(AIFUNC[data.type])
-	self.AI_thread(self,self.AI_keys)
+	self:AI_thread(self.AI_keys)
 end
 --------------------------</Methods>--------------------------
 
@@ -1701,7 +1701,7 @@ function Player:win(result)
 			BGM.play('8-bit happiness')
 		end
 	end
-	if GAME.curMode.id=='custom_puzzle'then
+	if GAME.curMode.name=='custom_puzzle'then
 		self:showTextF(text.win,0,0,90,'beat',.4)
 	else
 		self:showTextF(text.win,0,0,90,'beat',.5,.2)
@@ -1886,7 +1886,7 @@ function Player:act_hardDrop()
 				self.fieldOff.va=self.fieldOff.va+self:getCenterX()*ENV.shakeFX*6e-4
 			end
 			self.lockDelay=-1
-			self:drop(false)
+			self:drop()
 			self.keyPressing[6]=false
 		end
 	end
