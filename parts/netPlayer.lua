@@ -124,7 +124,7 @@ function netPLY.setJoinMode(uid,ready)
 		if p.uid==uid then
 			if p.mode~=ready then
 				p.mode=ready
-				if ready==0 then NET.allReady=false end
+				if ready==0 then NET.roomReadyState=false end
 				SFX.play('spin_0',.6)
 				if p.uid==USER.uid then
 					NET.unlock('ready')

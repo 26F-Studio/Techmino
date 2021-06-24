@@ -25,9 +25,7 @@ local NET={
 	specSRID=false,--Cached SRID when enter playing room, for connect WS after scene swapped
 	seed=false,
 
-	allReady=false,
-	connectingStream=false,
-	waitingStream=false,
+	roomReadyState=false,
 
 	UserCount="_",
 	PlayCount="_",
@@ -535,16 +533,14 @@ function NET.updateWS_play()
 							NET.roomState.private=d.private
 							NET.roomState.start=d.start
 
-							NET.allReady=false
-							NET.connectingStream=false
-							NET.waitingStream=false
+							NET.roomReadyState=false
 
 							NET.spectate=false
 
 							if d.srid then
 								NET.spectate=true
 								NET.specSRID=d.srid
-								NET.connectingStream=true
+								NET.roomReadyState='connecting'
 							end
 							loadGame('netBattle',true,true)
 						else
@@ -557,7 +553,9 @@ function NET.updateWS_play()
 								config=d.config,
 							}
 							if SCN.cur=='net_game'then SCN.socketRead('join',d)end
-							NET.allReady=false
+							if NET.roomReadyState=='allReady'then
+								NET.roomReadyState=false
+							end
 						end
 					elseif res.action==3 then--Player leave
 						if not d.uid then
@@ -579,10 +577,9 @@ function NET.updateWS_play()
 						netPLY.setJoinMode(d.uid,d.mode)
 					elseif res.action==7 then--All Ready
 						SFX.play('reach',.6)
-						NET.allReady=true
+						NET.roomReadyState='allReady'
 					elseif res.action==8 then--Set
-						NET.allReady=false
-						NET.connectingStream=true
+						NET.roomReadyState='connecting'
 						NET.wsconn_stream(d.srid)
 					elseif res.action==9 then--Game finished
 						if SCN.cur=='net_game'then SCN.socketRead('finish',d)end
@@ -629,9 +626,9 @@ function NET.updateWS_stream()
 					local d=res.data
 					if res.type=='Connect'then
 						NET.unlock('wsc_stream')
-						NET.connectingStream=false
+						NET.roomReadyState=false
 					elseif res.action==0 then--Game start
-						NET.waitingStream=false
+						NET.roomReadyState=false
 						SCN.socketRead('go')
 					elseif res.action==1 then--Game finished
 						--?
@@ -655,7 +652,7 @@ function NET.updateWS_stream()
 									end
 								end
 							else
-								NET.waitingStream=true
+								NET.roomReadyState='waitConn'
 							end
 						else
 							if d.spectate then
