@@ -325,7 +325,7 @@ end
 
 function WS.read(name)
 	local ws=wsList[name]
-	if ws.real and CHN_getCount(ws.readCHN)>=2 then
+	if ws.real and ws.status~='connecting'and CHN_getCount(ws.readCHN)>=2 then
 		local op,message=CHN_pop(ws.readCHN),CHN_pop(ws.readCHN)
 		if op==8 then ws.status='dead'end--8=close
 		ws.lastPongTime=timer()
