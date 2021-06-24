@@ -50,7 +50,6 @@ return{
 		freshLimit=15,
 		dropPiece=check,
 		RS="SRS",
-		ospin=false,
 		bg='rgb',bgm='oxygen',
 	},
 	pauseLimit=true,
