@@ -40,7 +40,12 @@ local cmds={
 local sizeLimit=gc.getSystemLimits().texturesize
 return function(L)
 	gc.push()
-		local canvas=gc.newCanvas(math.min(L[1],sizeLimit),math.min(L[2],sizeLimit))
+		::REPEAT_tryAgain::
+		local success,canvas=pcall(gc.newCanvas,math.min(L[1],sizeLimit),math.min(L[2],sizeLimit))
+		if not success then
+			texturesize=math.floor(texturesize*.8)
+			goto REPEAT_tryAgain
+		end
 		gc.setCanvas(canvas)
 			gc.origin()
 			gc.setColor(1,1,1)
