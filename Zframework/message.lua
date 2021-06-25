@@ -60,12 +60,24 @@ local mesIcon={
 local MES={}
 
 function MES.new(icon,str,time)
-	if type(icon)=='string'then icon=mesIcon[icon]end
+	local backColor={.5,.5,.5,.7}
+	if type(icon)=='string'then
+		if icon=='check'then
+			backColor={.3,.5,.3,.7}
+		elseif icon=='broadcast'then
+			backColor={.2,.2,.8,.8}
+		elseif icon=='warn'then
+			backColor={.7,.7,.3,.8}
+		elseif icon=='error'then
+			backColor={.8,.3,.3,.8}
+		end
+		icon=mesIcon[icon]
+	end
 	local t=gc.newText(getFont(30),str)
 	local w=math.max(t:getWidth()+(icon and 45 or 5),200)+20
 	local h=math.max(t:getHeight(),46)+3
 	local L={w,h,
-		{'clear',.5,.5,.5,.7},
+		{'clear',backColor},
 		{'setCL',.7,.7,.7},
 		{'setLW',2},
 		{'dRect',1,1,w-2,h-2},
