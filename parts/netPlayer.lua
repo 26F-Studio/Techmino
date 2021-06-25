@@ -191,12 +191,17 @@ function netPLY.draw()
 		gc_translate(p.x,p.y)
 			--Rectangle
 			gc_setColor(COLOR[
-				p.mode==0 and'Z'or
-				p.mode==1 and(p.connected and"N"or"G")or
-				p.mode==2 and(p.connected and"Y"or"F")
+				p.mode==0 and'lH'or
+				p.mode==1 and'N'or
+				p.mode==2 and'F'
 			])
 			gc_setLineWidth(2)
 			gc_rectangle('line',0,0,p.w,p.h)
+			if p.connected then
+				local c=COLOR[p.mode==1 and'N'or'F']
+				gc_setColor(c[1],c[2],c[3],.26)
+				gc_rectangle('fill',0,0,p.w,p.h)
+			end
 
 			--Stencil
 			stencilW,stencilH=p.w,p.h
