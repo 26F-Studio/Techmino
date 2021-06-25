@@ -1,9 +1,9 @@
 VERSION={
-	build=338,
-	code=1504,
-	short="V0.15.4",
-	string="Alpha V0.15.4",
-	name="近地轨道 Low Earth Orbit",
+	build=339,
+	code=1505,
+	short="V0.15.5",
+	string="Alpha V0.15.5",
+	name="姿态调整 RCS Control",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
