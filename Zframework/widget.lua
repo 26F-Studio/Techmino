@@ -429,7 +429,6 @@ end
 
 local slider={
 	type='slider',
-	dragAble=true,
 	ATV=0,--Activating time(0~8)
 	TAT=0,--Text activating time(0~180)
 	pos=0,--Position shown
@@ -547,16 +546,19 @@ function slider:release(x)
 	self:drag(x)
 	self.lastTime=0
 end
-function slider:move(isLeft)
+function slider:scroll(n)
 	local p=self.disp()
-	local u=(self.smooth and .01 or 1)
-	local P=isLeft and max(p-u,0)or min(p+u,self.unit)
+	local u=self.smooth and .01 or 1
+	local P=n==-1 and max(p-u,0)or min(p+u,self.unit)
 	if p==P or not P then return end
 	self.code(P)
 	if self.change and TIME()-self.lastTime>.18 then
 		self.lastTime=TIME()
 		self.change()
 	end
+end
+function slider:arrowKey(k)
+	self:scroll(k=="left"or k=="up"and -1 or 1)
 end
 function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp,code,hide
 	local _={
@@ -709,10 +711,10 @@ function selector:press(x)
 		end
 	end
 end
-function selector:move(isLeft)
+function selector:scroll(n)
 	local s=self.select
-	if isLeft and s==1 or not isLeft and s==#self.list then return end
-	if isLeft then
+	if n==-1 and s==1 or not n and s==#self.list then return end
+	if n==-1 then
 		s=s-1
 		SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
 	else
@@ -724,6 +726,10 @@ function selector:move(isLeft)
 	self.selText=self.list[s]
 	if self.sound then SFX.play('prerotate')end
 end
+function selector:arrowKey(k)
+	self:scroll(k=="left"or k=="up"and -1 or 1)
+end
+
 function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
 	local _={
 		name=	D.name or"_",
@@ -885,7 +891,6 @@ end
 
 local textBox={
 	type='textBox',
-	dragAble=true,
 	scrollPos=0,--Scroll-down-distance
 	sure=0,--Sure-timer for clear history
 }
@@ -937,8 +942,24 @@ end
 function textBox:drag(_,_,_,dy)
 	self.scrollPos=max(0,min(self.scrollPos-dy,(#self.texts-self.capacity)*self.lineH))
 end
-function textBox:scroll(n)
-	self.scrollPos=max(0,min(self.scrollPos+n*self.lineH,(#self.texts-self.capacity)*self.lineH))
+function textBox:scroll(dir)
+	if type(dir)=='string'then
+		if dir=="up"then
+			dir=-1
+		elseif dir=="down"then
+			dir=1
+		else
+			return
+		end
+	end
+	self:drag(nil,nil,nil,-dir*self.lineH)
+end
+function textBox:arrowKey(k)
+	if k=="up"then
+		self:scroll(-1)
+	elseif k=="down"then
+		self:scroll(-1)
+	end
 end
 function textBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
@@ -1026,7 +1047,7 @@ end
 
 local listBox={
 	type='listBox',
-	dragAble=true,
+	keepFocus=true,
 	scrollPos=0,--Scroll-down-distance
 	selected=0,--Hidden wheel move value
 }
@@ -1065,9 +1086,9 @@ function listBox:push(t)
 	ins(self.list,t)
 end
 function listBox:press(x,y)
-	if not(x and y)then return end
-	self:drag(nil,nil,nil,0)
 	x,y=x-self.x,y-self.y
+	if not(x and y and x>0 and y>0 and x<=self.w and y<=self.h)then return end
+	self:drag(nil,nil,nil,0)
 	y=int((y+self.scrollPos)/self.lineH)+1
 	if self.list[y]then
 		if self.selected~=y then
@@ -1080,7 +1101,20 @@ function listBox:drag(_,_,_,dy)
 	self.scrollPos=max(0,min(self.scrollPos-dy,(#self.list-self.capacity)*self.lineH))
 end
 function listBox:scroll(n)
-	self.scrollPos=max(0,min(self.scrollPos+n*self.lineH,(#self.list-self.capacity)*self.lineH))
+	self:drag(nil,nil,nil,-n*self.lineH)
+end
+function listBox:arrowKey(dir)
+	if dir=="up"then
+		self.selected=max(self.selected-1,1)
+		if self.selected<int(self.scrollPos/self.lineH)+2 then
+			self:drag(nil,nil,nil,self.lineH)
+		end
+	elseif dir=="down"then
+		self.selected=min(self.selected+1,#self.list)
+		if self.selected>int(self.scrollPos/self.lineH)+self.capacity-1 then
+			self:drag(nil,nil,nil,-self.lineH)
+		end
+	end
 end
 function listBox:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
@@ -1256,7 +1290,7 @@ end
 function WIDGET.drag(x,y,dx,dy)
 	if WIDGET.sel then
 		local W=WIDGET.sel
-		if W.dragAble then
+		if W.drag then
 			W:drag(x,y+WIDGET.scrollPos,dx,dy)
 		elseif not W:isAbove(x,y)then
 			WIDGET.unFocus(true)
@@ -1278,12 +1312,8 @@ function WIDGET.keyPressed(k,isRep)
 			WIDGET.press()
 		end
 	elseif kb.isDown("lshift","lalt","lctrl")then
-		if k=="left"or k=="right"then
-			--When hold shift/ctrl/alt, control slider with left/right
-			if W and W.arrowKey then W:move(k=="left")end
-		elseif k=="up"or k=="down"then
-			if W and W.scroll then W:scroll((k=="up"and -1 or 1)*W.lineH)end
-		end
+		--Control some widgets with arrowkeys when hold shift/ctrl/alt
+		if W and W.arrowKey then W:arrowKey(k)end
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
 		if not W then
 			for _,w in next,WIDGET.active do
