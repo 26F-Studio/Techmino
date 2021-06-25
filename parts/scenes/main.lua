@@ -70,7 +70,6 @@ function scene.keyDown(key,isRep)
 		if testButton(3)then
 			if WS.status('app')=='running'then
 				NET.tryLogin(false)
-				MES.new('info',text.wsConnecting)
 			elseif WS.status('app')=='dead'then
 				NET.wsconn_app()
 				SFX.play('connect')

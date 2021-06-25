@@ -923,8 +923,8 @@ function textBox:update()
 end
 function textBox:push(t)
 	ins(self.texts,t)
-	if self.scrollPos==#self.texts-1 then
-		self.scrollPos=#self.texts
+	if self.scrollPos==(#self.texts-1-self.capacity)*self.lineH then--minus 1 for the new message
+		self.scrollPos=min(self.scrollPos+self.lineH,(#self.texts-self.capacity)*self.lineH)
 	end
 end
 function textBox:press(x,y)

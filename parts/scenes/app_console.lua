@@ -846,9 +846,6 @@ function scene.keyDown(key)
 		if history[27]then rem(history,1)end
 		hisPtr=nil
 
-		--Insert empty line
-		log""
-
 		--Execute
 		if input:byte()==35 then
 			--Execute lua code
@@ -882,6 +879,9 @@ function scene.keyDown(key)
 			end
 		end
 		inputBox:clear()
+
+		--Insert empty line
+		log""
 	elseif key=="up"then
 		if not hisPtr then
 			hisPtr=#history
