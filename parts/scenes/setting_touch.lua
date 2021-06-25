@@ -76,7 +76,7 @@ function scene.touchUp()
 	end
 end
 function scene.touchMove(_,_,dx,dy)
-	if selected and WIDGET.isFocus(false)then
+	if selected and not WIDGET.isFocus()then
 		local B=VK_org[selected]
 		B.x,B.y=B.x+dx,B.y+dy
 	end

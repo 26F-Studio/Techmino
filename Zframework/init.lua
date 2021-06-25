@@ -211,6 +211,8 @@ local function noDevkeyPressed(key)
 	elseif key=="f2"then
 		MES.new('info',("System:%s[%s]\nluaVer:%s\njitVer:%s\njitVerNum:%s"):format(SYSTEM,jit.arch,_VERSION,jit.version,jit.version_num))
 	elseif key=="f3"then
+		MES.new('error',"挂了")
+	elseif key=="f4"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
 			if P~=PLAYERS[1]then
@@ -218,10 +220,8 @@ local function noDevkeyPressed(key)
 				P:lose()
 			end
 		end
-	elseif key=="f4"and not kb.isDown("lalt","ralt")then
-		MES.new.copy()
 	elseif key=="f5"then
-		print(WIDGET.isFocus()or"no widget selected")
+		print(WIDGET.getSel()or"no widget selected")
 	elseif key=="f6"then
 		for k,v in next,_G do print(k,v)end
 	elseif key=="f7"and love._openConsole then

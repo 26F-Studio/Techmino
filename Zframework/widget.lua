@@ -1243,8 +1243,15 @@ function WIDGET.setLang(widgetText)
 		end
 	end
 end
+function WIDGET.getSelected()
+	return WIDGET.sel
+end
 function WIDGET.isFocus(W)
-	return W==nil and WIDGET.sel or WIDGET.sel==W
+	if W then
+		return W and WIDGET.sel==W
+	else
+		return WIDGET.sel~=false
+	end
 end
 function WIDGET.focus(W)
 	if WIDGET.sel==W then return end
