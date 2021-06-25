@@ -119,13 +119,13 @@ end
 
 --Connect
 function NET.wsconn_app()
-	WS.connect('app','/app')
-	TASK.new(NET.updateWS_app)
-	TASK.new(NET.freshPlayerCount)
+	if WS.status('app')=='dead'then
+		WS.connect('app','/app',nil,6)
+		TASK.new(NET.updateWS_app)
+	end
 end
 function NET.wsconn_user_pswd(email,password)
-	if WS.status('wsc_user')=='dead'then NET.unlock('wsc_user')end
-	if NET.lock('wsc_user',5)then
+	if WS.status('user')=='dead'then
 		WS.connect('user','/user',JSON.encode{
 			email=email,
 			password=password,
@@ -134,8 +134,7 @@ function NET.wsconn_user_pswd(email,password)
 	end
 end
 function NET.wsconn_user_token(uid,authToken)
-	if WS.status('wsc_user')=='dead'then NET.unlock('wsc_user')end
-	if NET.lock('wsc_user',5)then
+	if WS.status('user')=='dead'then
 		WS.connect('user','/user',JSON.encode{
 			uid=uid,
 			authToken=authToken,
@@ -144,8 +143,7 @@ function NET.wsconn_user_token(uid,authToken)
 	end
 end
 function NET.wsconn_play()
-	if WS.status('wsc_play')=='dead'then NET.unlock('wsc_play')end
-	if NET.lock('wsc_play',5)then
+	if WS.status('play')=='dead'then
 		WS.connect('play','/play',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
@@ -154,23 +152,22 @@ function NET.wsconn_play()
 	end
 end
 function NET.wsconn_stream(srid)
-	if NET.lock('wsc_stream',5)then
+	if WS.status('stream')=='dead'then
 		NET.roomState.start=true
 		WS.connect('stream','/stream',JSON.encode{
 			uid=USER.uid,
 			accessToken=NET.accessToken,
 			srid=srid,
-		},10)
+		},6)
 		TASK.new(NET.updateWS_stream)
 	end
 end
 function NET.wsconn_manage()
-	if WS.status('wsc_manage')=='dead'then NET.unlock('wsc_manage')end
-	if NET.lock('wsc_manage',5)then
+	if WS.status('manage')=='dead'then
 		WS.connect('manage','/manage',JSON.encode{
 			uid=USER.uid,
 			authToken=USER.authToken,
-		},10)
+		},6)
 		TASK.new(NET.updateWS_manage)
 	end
 end
@@ -201,18 +198,15 @@ end
 function NET.tryLogin(ifAuto)
 	if NET.allow_online then
 		if WS.status('user')=='running'then
-			NET.getAccessToken()
+			if NET.lock('access_and_login',8)then
+				WS.send('user',JSON.encode{action=0})
+			end
 		elseif not ifAuto then
 			SCN.go('login')
 		end
 	else
 		TEXT.show(text.needUpdate,640,450,60,'flicker')
 		SFX.play('finesseError')
-	end
-end
-function NET.getAccessToken()
-	if NET.lock('access_and_login',10)then
-		WS.send('user',JSON.encode{action=0})
 	end
 end
 function NET.getUserInfo(uid)
@@ -227,7 +221,7 @@ end
 
 --Save
 function NET.uploadSave()
-	if NET.lock('uploadSave',10)then
+	if NET.lock('uploadSave',8)then
 		WS.send('user','{"action":2,"data":{"sections":'..JSON.encode{
 			{section=1,data=STRING.packTable(STAT)},
 			{section=2,data=STRING.packTable(RANKS)},
@@ -241,7 +235,7 @@ function NET.uploadSave()
 	end
 end
 function NET.downloadSave()
-	if NET.lock('downloadSave',10)then
+	if NET.lock('downloadSave',8)then
 		WS.send('user','{"action":3,"data":{"sections":[1,2,3,4,5,6,7]}}')
 		MES.new('info',"Downloading")
 	end
@@ -305,7 +299,7 @@ function NET.fetchRoom()
 	end
 end
 function NET.createRoom(roomName,description,capacity,roomType,roomData,password)
-	if NET.lock('enterRoom',1.26)then
+	if NET.lock('enterRoom',2)then
 		NET.roomState.private=not not password
 		NET.roomState.capacity=capacity
 		WS.send('play',JSON.encode{
@@ -327,7 +321,7 @@ function NET.createRoom(roomName,description,capacity,roomType,roomData,password
 	end
 end
 function NET.enterRoom(room,password)
-	if NET.lock('enterRoom',1.26)then
+	if NET.lock('enterRoom',2)then
 		SFX.play('reach',.6)
 		WS.send('play',JSON.encode{
 			action=2,
@@ -377,7 +371,7 @@ end
 
 --WS tick funcs
 function NET.freshPlayerCount()
-	while WS.status('app')~='dead'do
+	while WS.status('app')=='running'do
 		for _=1,260 do yield()end
 		WS.send('app',JSON.encode{action=3})
 	end
@@ -410,6 +404,7 @@ function NET.updateWS_app()
 						end
 						MES.new('broadcast',res.notice,5)
 						NET.tryLogin(true)
+						TASK.new(NET.freshPlayerCount)
 					elseif res.action==0 then--Broadcast
 						MES.new('broadcast',res.data.message,5)
 					elseif res.action==1 then--Get notice

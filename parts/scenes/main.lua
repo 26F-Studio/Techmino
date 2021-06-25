@@ -46,10 +46,14 @@ function scene.mouseDown(x,y)
 end
 scene.touchDown=scene.mouseDown
 local function testButton(n)
-	if WIDGET.isFocus(scene.widgetList[n])then
-		return true
+	if NET.getlock('access_and_login')then
+		MES.new('warn',text.wsConnecting)
 	else
-		WIDGET.focus(scene.widgetList[n])
+		if WIDGET.isFocus(scene.widgetList[n])then
+			return true
+		else
+			WIDGET.focus(scene.widgetList[n])
+		end
 	end
 end
 function scene.keyDown(key,isRep)
@@ -66,10 +70,11 @@ function scene.keyDown(key,isRep)
 		if testButton(3)then
 			if WS.status('app')=='running'then
 				NET.tryLogin(false)
-			else
-				NET.wsconn_app()
 				MES.new('info',text.wsConnecting)
+			elseif WS.status('app')=='dead'then
+				NET.wsconn_app()
 				SFX.play('connect')
+				MES.new('info',text.wsConnecting)
 			end
 		end
 	elseif key=="z"then
@@ -159,6 +164,14 @@ function scene.draw()
 
 	--Player count
 	drawOnlinePlayerCount()
+
+	--Connecting mark
+	if NET.getlock('access_and_login')then
+		gc.setColor(1,1,1)
+		gc.setLineWidth(10)
+		local t=TIME()*6.26%6.2832
+		gc.arc('line','open',scene.widgetList[3].x+865,450,40,t,t+4.26)
+	end
 end
 
 scene.widgetList={

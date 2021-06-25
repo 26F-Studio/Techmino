@@ -13,8 +13,8 @@ local SCR={
 
 	--Screen transformation objects
 	origin=love.math.newTransform(),
-	xOy_m=love.math.newTransform(),
 	xOy=love.math.newTransform(),
+	xOy_m=love.math.newTransform(),
 	xOy_ul=love.math.newTransform(),
 	xOy_u=love.math.newTransform(),
 	xOy_ur=love.math.newTransform(),
