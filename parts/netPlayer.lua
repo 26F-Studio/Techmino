@@ -65,7 +65,22 @@ local posLists={
 local posList
 local function _placeSort(a,b)return a.place<b.place end
 
-local PLYlist,PLYmap={},{}
+local netPLY
+
+local nullIndex={
+	__index=function(self,k)
+		MES.new('error',"User not loaded: "..k)
+		netPLY.add{
+			uid=k,
+			username="Stacker",
+			sid=-1,
+			mode=0,
+			config="",
+		}
+		return self[k]
+	end
+}
+local PLYlist,PLYmap=setmetatable({},nullIndex),setmetatable({},nullIndex)
 local function freshPos()
 	table.sort(PLYlist,_placeSort)
 	if #PLYlist<=5 then
@@ -80,7 +95,7 @@ local function freshPos()
 		posList=posLists[5]
 	end
 end
-local netPLY={
+netPLY={
 	list=PLYlist,
 	map=PLYmap,
 	freshPos=freshPos,
@@ -90,10 +105,17 @@ function netPLY.clear()
 	TABLE.cut(PLYlist)
 	TABLE.clear(PLYmap)
 end
-function netPLY.add(p)
-	p.connected=false
-	p.place=1e99
-	p.stat=false
+function netPLY.add(d)
+	local p={
+		uid=d.uid,
+		username=d.username,
+		sid=d.sid,
+		mode=d.mode,
+		config=d.config,
+		connected=false,
+		place=1e99,
+		stat=false,
+	}
 	local a=rnd()*6.2832
 	p.x,p.y,p.w,p.h=640+2600*cos(a),360+2600*sin(a),47,47
 
