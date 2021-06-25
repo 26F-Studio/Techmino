@@ -75,7 +75,7 @@ local function _parse(res)
 		if mesType[res.type]then
 			return res
 		else
-			MES.new('warn',("%s: %s"):format(res.type or"[?]",res.reason or"[NO Message]"))
+			MES.new('warn',("[%s] %s"):format(res.type or"?",res.reason or"[NO Message]"))
 		end
 	end
 end
