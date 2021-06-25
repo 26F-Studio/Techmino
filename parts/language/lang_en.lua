@@ -210,7 +210,7 @@ return{
 			stat="Statistics",
 			music="Music & SE",
 			dict="Zictionary",
-			manual="Manual",
+			replays="Replays",
 		},
 		main_simple={
 			sprint="Sprint",
@@ -546,7 +546,6 @@ return{
 		stat={
 			path="Open Data Folder",
 			save="Data Management",
-			replays="Saved Replays",
 		},
 		music={
 			title="Music Room",

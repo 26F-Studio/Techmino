@@ -209,7 +209,7 @@ return{
 			stat="Stats",
 			-- music="Music & SE",
 			dict="Zictionary",
-			manual="Manual",
+			-- replays="Replays",
 		},
 		main_simple={
 			sprint="Sprint",
@@ -543,7 +543,6 @@ return{
 		stat={
 			path="Abrir Pasta De Data",
 			save="Gestão De Dados",
-			-- replays="Saved Replays",
 		},
 		music={
 			title="Sala De Música",

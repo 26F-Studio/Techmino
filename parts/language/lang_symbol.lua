@@ -102,7 +102,7 @@ return{
 			stat="=___",
 			music="~~~ & =><=",
 			dict="z",
-			manual="???",
+			replays="=~~~",
 		},
 		mode={
 			mod="?!?!?!(F1)",
@@ -357,7 +357,6 @@ return{
 		stat={
 			path="%$%",
 			save="%0123%",
-			replays="%0101%",
 		},
 		music={
 			title="(~~~~)",

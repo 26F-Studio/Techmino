@@ -111,8 +111,8 @@ for i=1,8 do
 	gc.translate(-12*i,i==1 and -8 or -14)
 end
 
---Question mark
-TEXTURE.question=DOGC{48,64,
+--Sure mark
+TEXTURE.sure=DOGC{48,64,
 	{'fRect',0,0,10,27},
 	{'fRect',0,0,48,10},
 	{'fRect',38,10,10,15},
@@ -152,6 +152,13 @@ TEXTURE.info=DOGC{50,50,
 	{'dCirc',25,25,22},
 	{'fRect',22,11,6,6},
 	{'fRect',22,20,6,20},
+}
+
+--Question mark
+TEXTURE.question=DOGC{50,50,
+	{'setLW',5},
+	{'dCirc',25,25,22},
+	{'print',"?",16,-6},
 }
 
 --More mark

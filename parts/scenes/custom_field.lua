@@ -425,7 +425,7 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(TEXTURE.question,1070,490)
+		gc.draw(TEXTURE.sure,1070,490)
 	end
 
 	--Block name

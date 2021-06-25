@@ -210,7 +210,7 @@ return{
 			stat="统计信息",
 			music="音乐&音效",
 			dict="小Z词典",
-			manual="说明书",
+			replays="录像回放",
 		},
 		main_simple={
 			sprint="40行",
@@ -623,7 +623,6 @@ return{
 		stat={
 			path="打开存储目录",
 			save="用户档案管理",
-			replays="录像菜单",
 		},
 		login={
 			title="登录",

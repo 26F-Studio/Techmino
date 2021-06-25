@@ -94,7 +94,7 @@ function scene.keyDown(key,isRep)
 		end
 	elseif key==","then
 		if testButton(8)then
-			SCN.go('manual')
+			SCN.go('replays')
 		end
 	elseif key=="2"then
 		if testButton(9)then
@@ -182,12 +182,12 @@ scene.widgetList={
 	WIDGET.newButton{name="setting",x=2480,y=210,w=800,h=100,	color='lO',font=40,align='L',edge=30,code=pressKey"-"},
 	WIDGET.newButton{name="stat",	x=2480,y=330,w=800,h=100,	color='lL',font=40,align='L',edge=30,code=pressKey"p"},
 	WIDGET.newButton{name="dict",	x=2480,y=450,w=800,h=100,	color='lG',font=40,align='L',edge=30,code=pressKey"l"},
-	WIDGET.newButton{name="manual",	x=2480,y=570,w=800,h=100,	color='lC',font=40,align='L',edge=30,code=pressKey","},
+	WIDGET.newButton{name="replays",x=2480,y=570,w=800,h=100,	color='lC',font=40,align='L',edge=30,code=pressKey","},
 
 	WIDGET.newButton{name="music",	x=130,y=80,w=200,h=90,		color='lO',font=35,code=pressKey"2"},
 	WIDGET.newButton{name="lang",	x=300,y=80,w=90,h=90,		color='lN',font=40,code=pressKey"3",fText=TEXTURE.language},
 	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',font=35,align='R',edge=30,code=pressKey"x",fText=TEXTURE.info},
-	WIDGET.newButton{name="back",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.back,align='L',edge=30,code=backScene},
+	WIDGET.newButton{name="manual",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.question,align='L',edge=30,code=goScene'manual'},
 }
 
 return scene

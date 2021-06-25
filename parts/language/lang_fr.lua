@@ -185,7 +185,7 @@ return{
 			stat="Statistiques",
 			-- music="Music & SE",
 			dict="Zictionary",
-			manual="Manuel",
+			-- replays="Replays",
 		},
 		mode={
 			mod="Mods (F1)",
@@ -500,7 +500,6 @@ return{
 		stat={
 			path="Ouvrir dossier des données",
 			save="Gestion des données",
-			-- replays="Saved Replays",
 		},
 		music={
 			title="Salon musical",

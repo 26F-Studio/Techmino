@@ -185,7 +185,7 @@ return{
 			stat="Estadísticas",
 			music="Música y SFX",
 			dict="Zictionary",
-			manual="Manual",
+			-- replays="Replays",
 		},
 		main_simple={
 			sprint="Sprint",
@@ -501,7 +501,6 @@ return{
 		stat={
 			path="Abrir carpeta del juego",
 			save="Manejo de Datos",
-			-- replays="Saved Replays",
 		},
 		music={
 			title="Sala de Música",

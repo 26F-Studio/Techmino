@@ -177,7 +177,7 @@ function scene.draw()
 	--Confirm reset
 	if sure>0 then
 		gc.setColor(1,1,1,sure*.02)
-		gc.draw(TEXTURE.question,920,50)
+		gc.draw(TEXTURE.sure,920,50)
 	end
 	gc.translate(0,	WIDGET.scrollPos)
 end
