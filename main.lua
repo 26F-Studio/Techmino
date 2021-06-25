@@ -246,6 +246,9 @@ do
 		fs.remove('conf/user')
 		fs.remove('conf/key')
 	end
+	if STAT.version<1505 then
+		fs.remove('record/bigbang.rec')
+	end
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code
 		needSave=true
