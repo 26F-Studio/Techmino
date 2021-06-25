@@ -29,7 +29,7 @@ local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,
 	gc_print(id,45,-4)
 
 	if item.start then
-		gc_setColor(0,.4,.1)
+		gc_setColor(.1,.5,.2)
 	else
 		gc_setColor(1,1,.7)
 	end
@@ -114,13 +114,13 @@ function scene.draw()
 		gc_setColor(1,1,.7)
 		gc_printf(R.roomInfo.name,10,0,365)
 		setFont(20)
-		gc_setColor(.8,.8,.8)
+		gc_setColor(COLOR.lH)
 		gc_printf(R.roomInfo.description or"[No description]",10,55,365)
 		if R.start then
-			gc_setColor(0,1,.2)
+			gc_setColor(COLOR.lA)
 			gc_print(text.started,10,300)
 		end
-		gc_setColor(1,.2,0)
+		gc_setColor(COLOR.lN)
 		gc_printf(R.roomInfo.version,10,300,365,'right')
 		gc_translate(-870,-220)
 	end
@@ -138,9 +138,9 @@ scene.widgetList={
 	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=pressKey"s"},
 	WIDGET.newText{name="refreshing",x=450,y=240,font=45,hideF=function()return not NET.getlock('fetchRoom')end},
 	WIDGET.newText{name="noRoom",	x=450,y=245,font=40,hideF=function()return roomList:getLen()>0 or NET.getlock('fetchRoom')end},
-	WIDGET.newKey{name="refresh",	x=250,y=630,w=140,h=120,font=35,code=fetchRoom,hideF=function()return fetchTimer>7 end},
-	WIDGET.newKey{name="new",		x=510,y=630,w=260,h=120,font=30,code=pressKey"n"},
-	WIDGET.newKey{name="join",		x=780,y=630,w=140,h=120,font=40,code=pressKey"return",hideF=function()return roomList:getLen()==0 or NET.getlock('enterRoom')end},
+	WIDGET.newKey{name="refresh",	x=250,y=630,w=140,h=120,code=fetchRoom,hideF=function()return fetchTimer>7 end},
+	WIDGET.newKey{name="new",		x=510,y=630,w=260,h=120,code=pressKey"n"},
+	WIDGET.newKey{name="join",		x=780,y=630,w=140,h=120,code=pressKey"return",hideF=function()return roomList:getLen()==0 or NET.getlock('enterRoom')end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
