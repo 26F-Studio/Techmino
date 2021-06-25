@@ -87,17 +87,8 @@ scene.widgetList={
 	WIDGET.newSelector{name="wait",x=730,y=520,w=260,color='G',list=sList.wait,disp=ROOMval("wait"),code=ROOMsto("wait")},
 	WIDGET.newSelector{name="fall",x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval("fall"),code=ROOMsto("fall")},
 
-	--Capcity & Create & Back
-	WIDGET.newSelector{name="capacity",	x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval("capacity"),
-		code=function(i)
-			if USER.uid<100 or i<=10 then
-				ROOMENV.capacity=i
-				WIDGET.active.capacity.color=COLOR.lY
-			else
-				MES.new('error',"没有权限 Permission Denied")
-				WIDGET.active.capacity.color=COLOR.R
-			end
-		end},
+	--Capacity & Create & Back
+	WIDGET.newSelector{name="capacity",	x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval("capacity"),code=ROOMsto("capacity")},
 	WIDGET.newButton{name="create",		x=1070,y=480,w=310,h=140,color='lN',font=40,code=pressKey"return"},
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 

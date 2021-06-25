@@ -252,7 +252,7 @@ else
 end
 ROOMENV={
 	--Room config
-	capacity=5,
+	capacity=10,
 
 	--Basic
 	drop=30,

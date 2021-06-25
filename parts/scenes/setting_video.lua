@@ -34,8 +34,8 @@ scene.widgetList={
 
 	WIDGET.newSwitch{name="text",		x=450,y=920,disp=SETval("text"),		code=SETrev("text")},
 	WIDGET.newSwitch{name="score",		x=450,y=970,disp=SETval("score"),		code=SETrev("score")},
-	WIDGET.newSwitch{name="bufferWarn",	x=450,y=1040,disp=SETval('bufferWarn'),	code=SETrev('bufferWarn')},
-	WIDGET.newSwitch{name="showSpike",	x=450,y=1090,disp=SETval('showSpike'),	code=SETrev('showSpike')},
+	WIDGET.newSwitch{name="bufferWarn",	x=450,y=1040,disp=SETval("bufferWarn"),	code=SETrev("bufferWarn")},
+	WIDGET.newSwitch{name="showSpike",	x=450,y=1090,disp=SETval("showSpike"),	code=SETrev("showSpike")},
 	WIDGET.newSwitch{name="nextPos",	x=450,y=1160,disp=SETval("nextPos"),		code=SETrev("nextPos")},
 	WIDGET.newSwitch{name="highCam",	x=450,y=1210,disp=SETval("highCam"),	code=SETrev("highCam")},
 	WIDGET.newSwitch{name="warn",		x=450,y=1280,disp=SETval("warn"),		code=SETrev("warn")},
