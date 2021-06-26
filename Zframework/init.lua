@@ -415,7 +415,7 @@ function love.errorhandler(msg)
 		ins(ERRDATA,{mes=err,scene=scn})
 
 		--Write messages to log file
-		love.filesystem.append("conf/error.log",
+		love.filesystem.append('conf/error.log',
 			os.date("%Y/%m/%d %A %H:%M:%S\n")..
 			#ERRDATA.." crash(es) "..SYSTEM.."-"..VERSION.string.."  scene: "..scn.."\n"..
 			table.concat(err,"\n",1,c-2).."\n\n"

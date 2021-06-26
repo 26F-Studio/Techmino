@@ -402,7 +402,7 @@ function switch:press()
 	self.code()
 	if self.sound then SFX.play('move')end
 end
-function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code,hide
+function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code[,hideF][,hide]
 	local _={
 		name=	D.name or"_",
 
@@ -1154,7 +1154,7 @@ end
 function listBox:getInfo()
 	return("x=%d,y=%d,w=%d,h=%d"):format(self.x+self.w*.5,self.y+self.h*.5,self.w,self.h)
 end
-function WIDGET.newListBox(D)--name,x,y,w,h[,lineH],hide,drawF
+function WIDGET.newListBox(D)--name,x,y,w,h,lineH[,hideF][,hide][,drawF]
 	local _={
 		name=	D.name or"_",
 

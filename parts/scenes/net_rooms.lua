@@ -13,6 +13,7 @@ local compatibleVer={
 	"V0.15.2",
 	"V0.15.3",
 	"V0.15.4",
+	"V0.15.5",
 }
 
 local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,drawF=function(ifSel,id,item)
