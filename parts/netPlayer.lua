@@ -126,7 +126,7 @@ end
 function netPLY.remove(sid)
 	for i=1,#PLYlist do
 		if PLYlist[i].sid==sid then
-			PLYmap[PLYlist[i].sid]=nil
+			PLYmap[PLYlist[i].uid]=nil
 			rem(PLYlist,i)
 			freshPos()
 			break
