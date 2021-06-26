@@ -224,6 +224,7 @@ while true do--Running
 end
 ]]
 
+local type=type
 local timer=love.timer.getTime
 local CHN=love.thread.newChannel()
 local CHN_getCount,CHN_push,CHN_pop=CHN.getCount,CHN.push,CHN.pop
@@ -314,12 +315,17 @@ local OPname={
 	[10]='pong',
 }
 function WS.send(name,message,op)
-	local ws=wsList[name]
-	if ws.real and ws.status=='running'then
-		CHN_push(ws.sendCHN,op and OPcode[op]or 2)--2=binary
-		CHN_push(ws.sendCHN,message)
-		ws.lastPingTime=timer()
-		ws.sendTimer=1
+	if type(message)=='string'then
+		local ws=wsList[name]
+		if ws.real and ws.status=='running'then
+			CHN_push(ws.sendCHN,op and OPcode[op]or 2)--2=binary
+			CHN_push(ws.sendCHN,message)
+			ws.lastPingTime=timer()
+			ws.sendTimer=1
+		end
+	else
+		MES.new('error',"Attempt to send non-string value!")
+		MES.traceback()
 	end
 end
 
