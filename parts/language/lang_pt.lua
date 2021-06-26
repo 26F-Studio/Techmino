@@ -70,6 +70,8 @@ return{
 	highScore="Melhor pessoal",
 	newRecord="Novo recorde",
 
+	-- replayBroken="Cannot load replay",
+
 	getNoticeFail="Não conseguiu ter anúncios",
 	oldVersion="Versão $1 esta disponível agora!",
 	-- versionNotMatch="Version do not match!",

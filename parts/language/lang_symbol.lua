@@ -54,6 +54,8 @@ return{
 	highScore="__&:",
 	newRecord="^!!!^",
 
+	replayBroken=">x.",
+
 	errorMsg="An e??o? h@s occ^__ed @nd Techmino n__ds to r_st@rt.\n&**o* in#o h@$ b==n cre@ted, @nd y0u c@n $&nd it to the @uth0r.",
 
 	pauseStat={

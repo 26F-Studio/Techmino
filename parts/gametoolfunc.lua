@@ -224,26 +224,29 @@ function applyCustomGame()--Apply CUSTOMENV, BAG, MISSION
 		GAME.modeEnv.mission=nil
 	end
 end
-function loadGame(M,ifQuickPlay,ifNet)--Load a mode and go to game scene
+function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
-		if MODES[M].score then STAT.lastPlay=M end
-		GAME.curModeName=M
-		GAME.curMode=MODES[M]
+		if MODES[mode].score then STAT.lastPlay=mode end
+		GAME.curModeName=mode
+		GAME.curMode=MODES[mode]
 		GAME.modeEnv=GAME.curMode.env
 		GAME.init=true
 		GAME.net=ifNet
 		if ifNet then
 			SCN.go('net_game','swipeD')
 		else
-			drawableText.modeName:set((text.modes[M][1]or M).."   "..(text.modes[M][2]or""))
+			drawableText.modeName:set((text.modes[mode][1]or mode).."   "..(text.modes[mode][2]or""))
 			SCN.go('game',ifQuickPlay and'swipeD'or'fade_togame')
 			SFX.play('enter')
 		end
 	end
 end
 function gameOver()--Save record
-	if GAME.replaying then return end
+	if GAME.replaying then
+		local R=GAME.curMode.getRank(PLAYERS[1])
+		if R>0 then GAME.rank=R end
+	end
 	trySave()
 
 	local M=GAME.curMode
@@ -446,6 +449,7 @@ do--function resetGameData(args)
 		trySave()
 
 		GAME.result=false
+		GAME.rank=0
 		GAME.warnLVL0=0
 		GAME.warnLVL=0
 		if args:find'r'then
@@ -463,7 +467,6 @@ do--function resetGameData(args)
 			GAME.recording=true
 			GAME.statSaved=false
 			GAME.replaying=false
-			GAME.rank=0
 			math.randomseed(TIME())
 		end
 

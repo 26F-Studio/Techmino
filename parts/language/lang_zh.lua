@@ -71,6 +71,8 @@ return{
 	highScore="最佳成绩",
 	newRecord="打破纪录",
 
+	replayBroken="无法加载该录像",
+
 	getNoticeFail="拉取公告失败",
 	oldVersion="最新版本$1可以下载了!",
 	needUpdate="请更新游戏!",

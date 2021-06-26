@@ -71,6 +71,8 @@ return{
 	highScore="Personal Bests",
 	newRecord="New Record!",
 
+	replayBroken="Cannot load replay",
+
 	getNoticeFail="Failed fetching announcements...",
 	oldVersion="Version $1 is now available!",
 	needUpdate="Newer version required!",

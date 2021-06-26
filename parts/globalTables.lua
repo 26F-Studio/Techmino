@@ -159,7 +159,7 @@ GAME={--Global game data
 	net=false,			--If play net game
 
 	result=false,		--Game result (string)
-	rank=false,			--Rank reached
+	rank=0,				--Rank reached
 	pauseTime=0,		--Time paused
 	pauseCount=0,		--Pausing count
 	warnLVL0=0,			--Warning level

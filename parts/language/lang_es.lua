@@ -69,6 +69,8 @@ return{
 	highScore="Mejores puntajes",
 	newRecord="¡Nuevo Récord!",
 
+	-- replayBroken="Cannot load replay",
+
 	getNoticeFail="Error al buscar novedades.",
 	oldVersion="¡Está disponible la nueva versión $1!",
 	versionNotMatch="¡Las versiones no coinciden!",
