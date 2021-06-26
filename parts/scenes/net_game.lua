@@ -288,13 +288,13 @@ function scene.draw()
 		--Ready & Set mark
 		setFont(50)
 		if NET.roomReadyState=='allReady'then
-			gc_setColor(0,1,.5,.9)
+			gc_setColor(1,.85,.6,.9)
 			mStr(text.ready,640,15)
 		elseif NET.roomReadyState=='connecting'then
-			gc_setColor(.1,1,.8,.9)
+			gc_setColor(.6,1,.9,.9)
 			mStr(text.connStream,640,15)
 		elseif NET.roomReadyState=='waitConn'then
-			gc_setColor(0,.8,1,.9)
+			gc_setColor(.6,.95,1,.9)
 			mStr(text.waitStream,640,15)
 		end
 
