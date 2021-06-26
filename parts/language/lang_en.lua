@@ -108,7 +108,7 @@ return{
 
 	errorMsg="Techmino ran into a problem and needs to restart.\nYou can send the error log to the devs.",
 
-	modInstruction="Choose your modifiers!\nMods allow you to change the game.\nThey may also break it in weird ways.\nBeware, some mods will cause your game to be unranked!",
+	modInstruction="Choose your modifiers!\nMods allow you to change the game.\nThey may also break it in weird ways.\nBeware, the mods will cause your game to be unranked!",
 	modInfo={
 		next="NEXT\nOverrides the number of Next pieces.",
 		hold="HOLD\nOverrides the number of Hold pieces.",
