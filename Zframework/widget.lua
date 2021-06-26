@@ -14,7 +14,7 @@ local kb=love.keyboard
 local next=next
 local int,ceil,abs=math.floor,math.ceil,math.abs
 local max,min=math.max,math.min
-local sub,ins=string.sub,table.insert
+local sub,ins,rem=string.sub,table.insert,table.remove
 local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
 local xOy=SCR.xOy
@@ -929,7 +929,7 @@ function textBox:push(t)
 end
 function textBox:press(x,y)
 	if not(x and y)then return end
-	self:drag(nil,nil,nil,0)
+	self:drag(0,0,0,0)
 	if not self.fix and x>self.x+self.w-40 and y<self.y+40 then
 		if self.sure>0 then
 			self:clear()
@@ -1085,10 +1085,22 @@ end
 function listBox:push(t)
 	ins(self.list,t)
 end
+function listBox:pop()
+	if #self.list>0 then
+		rem(self.list)
+		listBox:drag(0,0,0,0)
+	end
+end
+function listBox:remove()
+	if self.selected then
+		rem(self.list,self.selected)
+		self:drag(0,0,0,0)
+	end
+end
 function listBox:press(x,y)
 	x,y=x-self.x,y-self.y
 	if not(x and y and x>0 and y>0 and x<=self.w and y<=self.h)then return end
-	self:drag(nil,nil,nil,0)
+	self:drag(0,0,0,0)
 	y=int((y+self.scrollPos)/self.lineH)+1
 	if self.list[y]then
 		if self.selected~=y then
