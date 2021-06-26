@@ -16,7 +16,7 @@ local compatibleVer={
 	"V0.15.5",
 }
 
-local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,drawF=function(ifSel,id,item)
+local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,drawF=function(item,id,ifSel)
 	setFont(35)
 	if ifSel then
 		gc_setColor(1,1,1,.3)

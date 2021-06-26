@@ -1145,7 +1145,7 @@ function listBox:draw()
 			local pos=int(scrollPos/lineH)
 			gc_translate(0,-(scrollPos%lineH))
 			for i=pos+1,min(pos+cap+1,#list)do
-				self.drawF(i==self.selected,i,list[i])
+				self.drawF(list[i],i,i==self.selected)
 				gc_translate(0,lineH)
 			end
 		gc_setStencilTest()
