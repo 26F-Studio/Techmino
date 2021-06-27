@@ -422,7 +422,7 @@ do--function resetGameData(args)
 	end
 	local gameSetting={
 		--Tuning
-		'das','arr','dascut','sddas','sdarr',
+		'das','arr','dascut','dropcut','sddas','sdarr',
 		'ihs','irs','ims','RS','swap',
 
 		--System
