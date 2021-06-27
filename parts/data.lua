@@ -370,7 +370,7 @@ do--function DATA.saveRecording()
 				JSON.encode(getModList()).."\n"..
 				DATA.dumpRecording(GAME.rep)
 
-			love.filesystem.write(fileName,fileHead.."\n"..loveCompress('string','zlib',fileBody))
+			love.filesystem.write(fileName,fileHead..loveCompress('string','zlib',fileBody))
 			ins(REPLAY,fileName)
 			FILE.save(REPLAY,'conf/replay')
 			return true

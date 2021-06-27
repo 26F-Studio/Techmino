@@ -78,7 +78,6 @@ function scene.sceneInit()
 			while true do
 				local b,len=file:read(1)
 				if len==0 then
-					file:close()
 					repList[i]={
 						fileName=REPLAY[i],
 						available=false,
@@ -101,11 +100,11 @@ function scene.sceneInit()
 							player=metadata[4],
 							data=file:read(),
 						}
-						file:close()
 						break
 					end
 				end
 			end
+			file:close()
 		else
 			repList[i]={
 				fileName=REPLAY[i],
