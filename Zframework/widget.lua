@@ -1094,6 +1094,9 @@ end
 function listBox:remove()
 	if self.selected then
 		rem(self.list,self.selected)
+		if not self.list[self.selected]then
+			self:arrowKey('up')
+		end
 		self:drag(0,0,0,0)
 	end
 end
