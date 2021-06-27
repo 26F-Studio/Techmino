@@ -89,10 +89,10 @@ function FXdraw.tap(S)
 	gc_circle('fill',S.x,S.y,(900-900*t)^.5)
 
 	gc_setColor(1,1,1,1-t)
-	for i=1,8 do
+	for i=1,12 do
 		local p=S.ptc[i]
 		local T=t^.5
-		gc_draw(tapLight,p[1]*(1-T)+p[3]*T-5,p[2]*(1-T)+p[4]*T-5,nil,.3-T*.2,nil,32,32)
+		gc_draw(tapLight,p[1]*(1-T)+p[3]*T-5,p[2]*(1-T)+p[4]*T-5,nil,.4-T*.26,nil,32,32)
 	end
 end
 function FXdraw.ripple(S)
@@ -166,8 +166,8 @@ function SYSFX.newTap(rate,x,y)
 		x=x,y=y,
 		ptc={},
 	}
-	for i=1,8 do
-		local d=40+50*rnd()
+	for i=1,12 do
+		local d=50+40*rnd()
 		local ang=rnd()*6.2832
 		T.ptc[i]={x,y,x+d*cos(ang),y+d*sin(ang)}
 	end
