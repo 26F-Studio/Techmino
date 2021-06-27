@@ -221,7 +221,6 @@ for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
 		end
 	end
 end
-
 --Load scene files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems("parts/scenes")do
 	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
@@ -230,6 +229,8 @@ for _,v in next,fs.getDirectoryItems("parts/scenes")do
 		LANG.addScene(sceneName)
 	end
 end
+LANG.set(SETTING.lang)
+VK.setShape(SETTING.VKSkin)
 
 --Update data
 do
@@ -300,6 +301,3 @@ do
 		love.event.quit('restart')
 	end
 end
-
-LANG.set(SETTING.lang)
-VK.setShape(SETTING.VKSkin)
