@@ -1,5 +1,8 @@
 local gc=love.graphics
-local setColor,setWidth=gc.setColor,gc.setLineWidth
+local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
+local gc_draw,gc_line=gc.draw,gc.line
+local gc_rectangle,gc_circle=gc.rectangle,gc.circle
+
 local sin,cos=math.sin,math.cos
 local max,min=math.max,math.min
 local rnd=math.random
@@ -45,26 +48,35 @@ function FXupdate.cell(S,dt)
 end
 FXupdate.line=normUpdate
 
+local tapLight=DOGC{64,64,
+	{'clear',1,1,1,0},
+	{'setCL',1,1,1,.1},
+	{'fCirc',32,32,5+10},
+	{'fCirc',32,32,5+15},
+	{'fCirc',32,32,5+20},
+	{'fCirc',32,32,5+25},
+}
+
 local FXdraw={}
 function FXdraw.badge(S)
-	setColor(1,1,1,S.t<.2 and S.t*.6 or S.t<.8 and 1 or(1-S.t)*.6)
-	gc.draw(IMG.badgeIcon,S.x,S.y)
+	gc_setColor(1,1,1,S.t<.2 and S.t*.6 or S.t<.8 and 1 or(1-S.t)*.6)
+	gc_draw(IMG.badgeIcon,S.x,S.y)
 end
 function FXdraw.attack(S)
-	setColor(S.r*2,S.g*2,S.b*2,S.a*min(4-S.t*4,1))
+	gc_setColor(S.r*2,S.g*2,S.b*2,S.a*min(4-S.t*4,1))
 
-	setWidth(S.wid)
+	gc_setLineWidth(S.wid)
 	local t1,t2=max(5*S.t-4,0),min(S.t*4,1)
-	gc.line(
+	gc_line(
 		S.x1*(1-t1)+S.x2*t1,
 		S.y1*(1-t1)+S.y2*t1,
 		S.x1*(1-t2)+S.x2*t2,
 		S.y1*(1-t2)+S.y2*t2
 	)
 
-	setWidth(S.wid*.6)
+	gc_setLineWidth(S.wid*.6)
 	t1,t2=max(4*S.t-3,0),min(S.t*5,1)
-	gc.line(
+	gc_line(
 		S.x1*(1-t1)+S.x2*t1,
 		S.y1*(1-t1)+S.y2*t1,
 		S.x1*(1-t2)+S.x2*t2,
@@ -73,42 +85,39 @@ function FXdraw.attack(S)
 end
 function FXdraw.tap(S)
 	local t=S.t
-	setWidth(2)
-	setColor(1,1,1,1-t)
-	gc.circle('line',S.x,S.y,t*(2-t)*30)
-	setColor(1,1,1,(1-t)*.5)
-	gc.circle('fill',S.x,S.y,t*30)
+	gc_setColor(1,1,1,(1-t)*.4)
+	gc_circle('fill',S.x,S.y,(900-900*t)^.5)
 
-	setColor(1,1,1,1-t)
-	for i=1,10 do
+	gc_setColor(1,1,1,1-t)
+	for i=1,8 do
 		local p=S.ptc[i]
 		local T=t^.5
-		gc.rectangle('fill',p[1]*(1-T)+p[3]*T-5,p[2]*(1-T)+p[4]*T-5,11,11)
+		gc_draw(tapLight,p[1]*(1-T)+p[3]*T-5,p[2]*(1-T)+p[4]*T-5,nil,.3-T*.2,nil,32,32)
 	end
 end
 function FXdraw.ripple(S)
 	local t=S.t
-	setWidth(2)
-	setColor(1,1,1,1-t)
-	gc.circle('line',S.x,S.y,t*(2-t)*S.r)
+	gc_setLineWidth(2)
+	gc_setColor(1,1,1,1-t)
+	gc_circle('line',S.x,S.y,t*(2-t)*S.r)
 end
 function FXdraw.rectRipple(S)
-	setWidth(6)
-	setColor(1,1,1,1-S.t)
+	gc_setLineWidth(6)
+	gc_setColor(1,1,1,1-S.t)
 	local r=(10*S.t)^1.2
-	gc.rectangle('line',S.x-r,S.y-r,S.w+2*r,S.h+2*r)
+	gc_rectangle('line',S.x-r,S.y-r,S.w+2*r,S.h+2*r)
 end
 function FXdraw.shade(S)
-	setColor(S.r,S.g,S.b,1-S.t)
-	gc.rectangle('fill',S.x,S.y,S.w,S.h,2)
+	gc_setColor(S.r,S.g,S.b,1-S.t)
+	gc_rectangle('fill',S.x,S.y,S.w,S.h,2)
 end
 function FXdraw.cell(S)
-	setColor(1,1,1,1-S.t)
-	gc.draw(S.image,S.x,S.y,nil,S.size,nil,S.cx,S.cy)
+	gc_setColor(1,1,1,1-S.t)
+	gc_draw(S.image,S.x,S.y,nil,S.size,nil,S.cx,S.cy)
 end
 function FXdraw.line(S)
-	setColor(1,1,1,S.a*(1-S.t))
-	gc.line(S.x1,S.y1,S.x2,S.y2)
+	gc_setColor(1,1,1,S.a*(1-S.t))
+	gc_line(S.x1,S.y1,S.x2,S.y2)
 end
 
 local SYSFX={}
@@ -157,7 +166,7 @@ function SYSFX.newTap(rate,x,y)
 		x=x,y=y,
 		ptc={},
 	}
-	for i=1,10 do
+	for i=1,8 do
 		local d=40+50*rnd()
 		local ang=rnd()*6.2832
 		T.ptc[i]={x,y,x+d*cos(ang),y+d*sin(ang)}
