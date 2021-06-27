@@ -322,6 +322,7 @@ return{
 			upEdge="3D Block",
 			bagLine="Bag Separator",
 
+			ghostType="Ghost Type",
 			ghost="Ghost",
 			grid="Grid",
 			center="Center",

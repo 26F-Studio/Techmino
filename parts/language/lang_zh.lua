@@ -322,6 +322,7 @@ return{
 			upEdge="3D方块",
 			bagLine="包分界线",
 
+			ghostType="阴影样式",
 			ghost="阴影不透明度",
 			grid="网格不透明度",
 			center="旋转中心不透明度",

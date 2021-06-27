@@ -297,6 +297,7 @@ return{
 			upEdge="Bloques en 3D",
 			bagLine="Línea de Bag de Pzas.",
 
+			-- ghostType="Ghost Type",
 			ghost="Fantasma",
 			grid="Grilla",
 			center="Centrar",

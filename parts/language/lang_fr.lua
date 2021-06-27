@@ -295,6 +295,7 @@ return{
 			upEdge="Bloc 3D",
 			bagLine="Ligne du Sac",
 
+			-- ghostType="Ghost Type",
 			ghost="Pièce fantôme",
 			grid="Grille",
 			center="Centre",

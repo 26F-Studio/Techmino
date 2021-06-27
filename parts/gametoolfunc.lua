@@ -388,7 +388,7 @@ do--function dumpBasicConfig()
 		'skin','face',
 
 		--Graphic
-		'block','ghost','center','bagLine',
+		'ghostType','block','ghost','center','bagLine',
 		'dropFX','moveFX','shakeFX',
 		'text','highCam','nextPos',
 

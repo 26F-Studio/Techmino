@@ -5,6 +5,7 @@ return{
 	ihs=true,irs=true,ims=true,
 	swap=true,
 
+	ghostType='gray',
 	block=true,ghost=.3,center=1,
 	smooth=false,grid=.16,
 	upEdge=true,

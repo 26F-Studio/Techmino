@@ -321,6 +321,7 @@ return{
 			upEdge="3D bloco",
 			bagLine="Linha da bolsa",
 
+			-- ghostType="Ghost Type",
 			ghost="Fantasma",
 			grid="Rede",
 			center="Centro",

@@ -314,6 +314,7 @@ SETTING={--Settings
 	face={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 
 	--Graphic
+	ghostType='gray',
 	block=true,ghost=.3,center=1,
 	smooth=true,grid=.16,
 	upEdge=true,

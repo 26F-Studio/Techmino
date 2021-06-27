@@ -205,16 +205,68 @@ local function drawFXs(P)
 		gc_rectangle('fill',150-x*150,15-S[1]*30-y*15,300*x,y*30)
 	end
 end
-local function drawGhost(P,clr,alpha)
-	gc_setColor(1,1,1,alpha)
-	local texture=SKIN.curText
-	local CB=P.cur.bk
-	for i=1,#CB do for j=1,#CB[1]do
-		if CB[i][j]then
-			gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))
-		end
-	end end
-end
+local drawGhost={
+	color=function(P,clr,alpha)
+		gc_setColor(1,1,1,alpha)
+		local texture=SKIN.curText
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))
+			end
+		end end
+	end,
+	gray=function(P,_,alpha)
+		gc_setColor(1,1,1,alpha)
+		local texture=SKIN.curText
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_draw(texture[21],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))
+			end
+		end end
+	end,
+	colorLine=function(P,clr,alpha)
+		clr=minoColor[clr]
+		gc_setColor(clr[1],clr[2],clr[3],alpha)
+		gc_setLineWidth(4)
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_rectangle('line',30*(j+P.curX-1)-30+2,-30*(i+P.ghoY-1)+2,26,26)
+			end
+		end end
+	end,
+	grayLine=function(P,_,alpha)
+		gc_setColor(1,1,1,alpha)
+		gc_setLineWidth(4)
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_rectangle('line',30*(j+P.curX-1)-30+2,-30*(i+P.ghoY-1)+2,26,26)
+			end
+		end end
+	end,
+	colorCell=function(P,clr,alpha)
+		clr=minoColor[clr]
+		gc_setColor(clr[1],clr[2],clr[3],alpha)
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_rectangle('fill',30*(j+P.curX-1)-30,-30*(i+P.ghoY-1),30,30)
+			end
+		end end
+	end,
+	greyCell=function(P,_,alpha)
+		gc_setColor(1,1,1,alpha)
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_rectangle('fill',30*(j+P.curX-1)-30,-30*(i+P.ghoY-1),30,30)
+			end
+		end end
+	end,
+}
 local function drawBlockOutline(P,texture,trans)
 	shader_alpha:send("a",trans)
 	gc_setShader(shader_alpha)
@@ -611,7 +663,7 @@ function draw.norm(P)
 
 					--Draw ghost & rotation center
 					if ENV.ghost then
-						drawGhost(P,curColor,ENV.ghost)
+						drawGhost[ENV.ghostType](P,curColor,ENV.ghost)
 						if ENV.center then
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
@@ -819,7 +871,7 @@ function draw.demo(P)
 				drawField(P)
 				drawFXs(P)
 				if P.cur and P.waiting==-1 then
-					if ENV.ghost then drawGhost(P,curColor,ENV.ghost)end
+					if ENV.ghost then drawGhost[ENV.ghostType](P,curColor,ENV.ghost)end
 					if ENV.block then
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc_translate(0,-dy)

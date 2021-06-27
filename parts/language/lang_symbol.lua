@@ -150,6 +150,7 @@ return{
 			upEdge="[]`",
 			bagLine="123|123",
 
+			ghostType="__↓?__",
 			ghost="__↓__",
 			grid="#",
 			center="+",
