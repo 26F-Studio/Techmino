@@ -295,7 +295,7 @@ local commands={}do
 
 	--System
 	commands.crash={
-		code=error,
+		code=function()error("ERROR")end,
 		description="Manually crash the game",
 	}
 	commands.mes={
@@ -311,23 +311,15 @@ local commands={}do
 			else
 				log{C.A,"Show a message on the up-left corner"}
 				log""
-				log{C.A,"Usage: mes <check|info|broadcast|warn|error> [message]"}
+				log{C.A,"Usage: mes <check|info|broadcast|warn|error>"}
 			end
 		end,
 		description="Show a message",
 		details={
 			"Show a message on the up-left corner",
 			"",
-			"Usage: mes <check|info|warn|error> [message]",
+			"Usage: mes <check|info|warn|error>",
 		},
-	}
-	commands.warn={
-		code=function(str)MES.new('warn',str,6)end,
-		description="Show a warn message",
-	}
-	commands.error={
-		code=function(str)MES.new('error',str,6)end,
-		description="Show an error message",
 	}
 	commands.openurl={
 		code=function(url)
