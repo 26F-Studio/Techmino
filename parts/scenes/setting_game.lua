@@ -18,6 +18,7 @@ function scene.draw()
 	gc.draw(SKIN.curText[b%16+1],410,540,t%6.2832,2,nil,15,15)
 end
 
+scene.widgetScrollHeight=200
 scene.widgetList={
 	WIDGET.newText{name="title",		x=640,y=15,font=80},
 
@@ -33,7 +34,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="autoPause",	x=1060,	y=310,	disp=SETval("autoPause"),	code=SETrev("autoPause")},
 	WIDGET.newSwitch{name="swap",		x=1060,	y=380,	disp=SETval("swap"),		code=SETrev("swap")},
 	WIDGET.newSwitch{name="fine",		x=1060,	y=450,	disp=SETval("fine"),		code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
-	WIDGET.newSwitch{name="simpMode",	x=1060,	y=520,	disp=SETval("simpMode"),
+	WIDGET.newSwitch{name="simpMode",	x=500,	y=800,	disp=SETval("simpMode"),
 		code=function()
 			SETTING.simpMode=not SETTING.simpMode
 			for i=1,#SCN.stack,2 do
