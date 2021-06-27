@@ -320,6 +320,10 @@ local function drawBuffer(P)
 				--Timing
 				gc_setColor(attackColor[A.lv][1])
 				gc_rectangle('fill',303,599-h,11,-bar)
+				gc_setColor(1,1,1)
+				for j=30,A.cd0-30,30 do
+					gc_rectangle('fill',303,599-h-bar*(j/A.cd0),6,2)
+				end
 				gc_setColor(attackColor[A.lv][2])
 				gc_rectangle('fill',303,599-h-bar,11,bar*(1-A.countdown/A.cd0))
 			else
