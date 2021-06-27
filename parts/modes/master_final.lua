@@ -13,7 +13,7 @@ local function score(P)
 	if D.pt%100==99 then
 		SFX.play('blip_1')
 	elseif D.pt>=D.target then--Level up!
-		s=D.target/100
+		s=D.target/100--range from 1 to 9
 		local E=P.gameEnv
 		if s<4 then
 			P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
@@ -23,12 +23,12 @@ local function score(P)
 			if s~=3 then E.fall=E.fall-1 end
 			D.target=D.target+100
 		elseif s<10 then
+			if s==5 then BGM.play('distortion')end
 			P:showTextF(text.stage:gsub("$1",s),0,-120,60,'fly',1.26)
 			if s==4 or s==7 then E.das=E.das-1 end
-			s=s%3
-			if s==0 then E.lock=E.lock-1
-			elseif s==1 then E.wait=E.wait-1
-			elseif s==2 then E.fall=E.fall-1
+			if s%3==0 then E.lock=E.lock-1
+			elseif s%3==1 then E.wait=E.wait-1
+			elseif s%3==2 then E.fall=E.fall-1
 			end
 			D.target=D.target+100
 		else
@@ -53,7 +53,7 @@ return{
 		end,
 		freshLimit=15,
 		easyFresh=false,bone=true,
-		bg='lightning',bgm='distortion',
+		bg='lightning',bgm='rectification',
 	},
 	slowMark=true,
 	load=function()
