@@ -63,13 +63,13 @@ function MES.new(icon,str,time)
 	local backColor={.5,.5,.5,.7}
 	if type(icon)=='string'then
 		if icon=='check'then
-			backColor={.3,.5,.3,.7}
+			backColor={.3,.6,.3,.7}
 		elseif icon=='broadcast'then
-			backColor={.2,.2,.8,.8}
+			backColor={.3,.3,.6,.8}
 		elseif icon=='warn'then
-			backColor={.7,.7,.3,.8}
+			backColor={.4,.4,.2,.9}
 		elseif icon=='error'then
-			backColor={.8,.3,.3,.8}
+			backColor={.4,.2,.2,.9}
 		end
 		icon=mesIcon[icon]
 	end
