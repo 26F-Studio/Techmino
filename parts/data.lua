@@ -1,4 +1,5 @@
 local loveCompress=love.data.compress
+local loveDecompress=love.data.decompress
 
 local int=math.floor
 local char,byte=string.char,string.byte
@@ -336,7 +337,7 @@ function DATA.pumpRecording(str,L)
 		p=p+1
 	end
 end
-do--function DATA.saveRecording()
+do--function DATA.saveReplay()
 	local noRecList={"custom","solo","round","techmino"}
 	local function getModList()
 		local res={}
@@ -347,7 +348,7 @@ do--function DATA.saveRecording()
 		end
 		return res
 	end
-	function DATA.saveRecording()
+	function DATA.saveReplay()
 		--Filtering modes that cannot be saved
 		for _,v in next,noRecList do
 			if GAME.curModeName:find(v)then
@@ -357,26 +358,58 @@ do--function DATA.saveRecording()
 		end
 
 		--Write file
-		local fileName=os.date("replay/%Y_%m_%d_%a_%H%M%S.rep")
+		local fileName=os.date("replay/%Y_%m_%d_%H%M%S.rep")
 		if not love.filesystem.getInfo(fileName)then
-			local fileHead=
-				os.date("%Y/%m/%d %A %H:%M:%S\n")..
-				GAME.curModeName.."\n"..
-				VERSION.string.."\n"..
-				USERS.getUsername(USER.uid).."\n"
-			local fileBody=
-				GAME.seed.."\n"..
-				JSON.encode(GAME.setting).."\n"..
-				JSON.encode(getModList()).."\n"..
-				DATA.dumpRecording(GAME.rep)
-
-			love.filesystem.write(fileName,fileHead..loveCompress('string','zlib',fileBody))
-			ins(REPLAY,fileName)
-			FILE.save(REPLAY,'conf/replay')
+			love.filesystem.write(fileName,
+				loveCompress('string','zlib',
+					JSON.encode{
+						date=os.date("%Y/%m/%d %H:%M:%S"),
+						mode=GAME.curModeName,
+						version=VERSION.string,
+						player=USERS.getUsername(USER.uid),
+						seed=GAME.seed,
+						setting=GAME.setting,
+						mod=getModList(),
+					}.."\n"..
+					DATA.dumpRecording(GAME.rep)
+				)
+			)
+			ins(REPLAY,1,DATA.parseReplay(fileName))
 			return true
 		else
 			MES.new('error',"Save failed: File already exists")
 		end
+	end
+end
+function DATA.parseReplay(fileName,ifFull)
+	local fileData=love.filesystem.read(fileName)
+	if fileData and #fileData>0 then
+		fileData=loveDecompress('string','zlib',fileData)
+		local metaData
+		metaData,fileData=STRING.readLine(fileData)
+		metaData=JSON.decode(metaData)
+		local rep={
+			fileName=fileName,
+			available=true,
+
+			date=metaData.date,
+			mode=metaData.mode,
+			version=metaData.version,
+			player=metaData.player,
+
+			seed=metaData.seed,
+			setting=metaData.setting,
+			mod=metaData.mod,
+
+			modeName=("%s  %s"):format(text.modes[metaData.mode][1],text.modes[metaData.mode][2]),
+		}
+		if ifFull then rep.data=fileData end
+		return rep
+	else
+		return{
+			fileName=fileName,
+			available=false,
+		}
 	end
 end
 

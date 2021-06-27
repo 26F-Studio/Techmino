@@ -130,11 +130,15 @@ function scene.keyDown(key,isRep)
 	elseif key=="escape"then
 		SCN.swapTo(GAME.result and'game'or'depause','none')
 	elseif key=="s"then
-		GAME.prevBG=BG.cur
-		SCN.go('setting_sound')
+		if not GAME.fromRepMenu then
+			GAME.prevBG=BG.cur
+			SCN.go('setting_sound')
+		end
 	elseif key=="r"then
-		resetGameData()
-		SCN.swapTo('game','none')
+		if not GAME.fromRepMenu then
+			resetGameData()
+			SCN.swapTo('game','none')
+		end
 	elseif key=="p"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 then
 			resetGameData('r')
@@ -142,8 +146,9 @@ function scene.keyDown(key,isRep)
 		end
 	elseif key=="o"then
 		if(GAME.result or GAME.replaying)and #PLAYERS==1 and not GAME.saved then
-			if DATA.saveRecording()then
+			if DATA.saveReplay()then
 				GAME.saved=true
+				SFX.play('connected')
 			end
 		end
 	else
@@ -308,11 +313,11 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',code=pressKey"s"},
+	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
 	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='lP',code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
 	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',code=pressKey"r"},
+	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newButton{name="quit",		x=640,y=600,w=240,h=100,font=35,code=backScene},
 }
 

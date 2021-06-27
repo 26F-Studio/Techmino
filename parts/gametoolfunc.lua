@@ -228,10 +228,11 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
 		if MODES[mode].score then STAT.lastPlay=mode end
+		GAME.init=true
+		GAME.fromRepMenu=false
 		GAME.curModeName=mode
 		GAME.curMode=MODES[mode]
 		GAME.modeEnv=GAME.curMode.env
-		GAME.init=true
 		GAME.net=ifNet
 		if ifNet then
 			SCN.go('net_game','swipeD')

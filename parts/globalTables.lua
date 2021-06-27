@@ -417,4 +417,4 @@ VK_org=FILE.load('conf/virtualkey')or{--Virtualkey layout, refresh all VKs' posi
 	{ava=false,	x=900,		y=50,		r=80},--addToLeft
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
-REPLAY=FILE.load('conf/replay')or{}
+REPLAY={}--Replay objects (not include stream data)

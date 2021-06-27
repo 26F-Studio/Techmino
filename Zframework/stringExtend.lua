@@ -81,6 +81,11 @@ do--function STRING.urlEncode(s)
 	end
 end
 
+function STRING.readLine(str)
+	local p=str:find("\n")
+	return str:sub(1,p-1),str:sub(p+1)
+end
+
 function STRING.packBin(s)
 	return data.encode('string','base64',data.compress('string','zlib',s))
 end
