@@ -382,35 +382,45 @@ do--function DATA.saveReplay()
 	end
 end
 function DATA.parseReplay(fileName,ifFull)
-	local fileData=love.filesystem.read(fileName)
-	if fileData and #fileData>0 then
-		fileData=loveDecompress('string','zlib',fileData)
-		local metaData
-		metaData,fileData=STRING.readLine(fileData)
-		metaData=JSON.decode(metaData)
-		local rep={
-			fileName=fileName,
-			available=true,
+	local fileData,success,metaData,rep
 
-			date=metaData.date,
-			mode=metaData.mode,
-			version=metaData.version,
-			player=metaData.player,
+	--Read file
+	fileData=love.filesystem.read(fileName)
+	if not(fileData and #fileData>0)then goto BREAK_cannotParse end
 
-			seed=metaData.seed,
-			setting=metaData.setting,
-			mod=metaData.mod,
+	--Decompress file
+	success,fileData=pcall(loveDecompress,'string','zlib',fileData)
+	if not success then goto BREAK_cannotParse end
 
-			modeName=("%s  %s"):format(text.modes[metaData.mode][1],text.modes[metaData.mode][2]),
-		}
-		if ifFull then rep.data=fileData end
-		return rep
-	else
-		return{
-			fileName=fileName,
-			available=false,
-		}
-	end
+	--Load metadata
+	metaData,fileData=STRING.readLine(fileData)
+	metaData=JSON.decode(metaData)
+	if not metaData or not text.modes[metaData.mode]then goto BREAK_cannotParse end
+	--Create replay object
+	rep={
+		fileName=fileName,
+		available=true,
+
+		date=metaData.date,
+		mode=metaData.mode,
+		version=metaData.version,
+		player=metaData.player,
+
+		seed=metaData.seed,
+		setting=metaData.setting,
+		mod=metaData.mod,
+
+		modeName=("%s  %s"):format(text.modes[metaData.mode][1],text.modes[metaData.mode][2]),
+	}
+	if ifFull then rep.data=fileData end
+	do return rep end
+
+	--Create unavailable replay object
+	::BREAK_cannotParse::
+	return{
+		fileName=fileName,
+		available=false,
+	}
 end
 
 return DATA

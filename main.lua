@@ -306,16 +306,24 @@ for _,fileName in next,fs.getDirectoryItems("replay")do
 	if fileName:sub(12,12):match("[a-zA-Z]")then
 		local date,mode,version,player,seed,setting,mod
 		local fileData=fs.read('replay/'..fileName)
-		fs.remove('replay/'..fileName)
 		date,	fileData=STRING.readLine(fileData)date=date:gsub("[a-zA-Z]","")
 		mode,	fileData=STRING.readLine(fileData)mode=modeTable[mode]or mode
 		version,fileData=STRING.readLine(fileData)
 		player,	fileData=STRING.readLine(fileData)if player=="Local Player"then player="Stacker"end
-		fileData=love.data.decompress('string','zlib',fileData)
+		local success
+		success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
+		if not success then goto BREAK_cannotParse end
 		seed,	fileData=STRING.readLine(fileData)
 		setting,fileData=STRING.readLine(fileData)setting=JSON.decode(setting)
 		mod,	fileData=STRING.readLine(fileData)mod=JSON.decode(mod)
+		if
+			not setting or
+			not mod or
+			not mode or
+			#mode==0
+		then goto BREAK_cannotParse end
 
+		fs.remove('replay/'..fileName)
 		local newName=fileName:sub(1,10)..fileName:sub(15)
 		fs.write('replay/'..newName,
 			love.data.compress('string','zlib',
@@ -333,6 +341,7 @@ for _,fileName in next,fs.getDirectoryItems("replay")do
 		)
 		fileName=newName
 	end
+	::BREAK_cannotParse::
 	local rep=DATA.parseReplay('replay/'..fileName)
 	table.insert(REPLAY,rep)
 end
