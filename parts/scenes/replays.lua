@@ -43,7 +43,12 @@ local function replay(fileName)
 	elseif MODES[rep.mode]then
 		GAME.seed=rep.seed
 		GAME.setting=rep.setting
-		GAME.mod=rep.mod
+		TABLE.cut(GAME.mod)
+		for i=1,#MODOPT do MODOPT[i].sel=0 end
+		for _,m in next,rep.mod do
+			MODOPT[m[1]+1].sel=m[2]
+			table.insert(GAME.mod,MODOPT[m[1]+1])
+		end
 		GAME.rep={}
 		DATA.pumpRecording(rep.data,GAME.rep)
 
