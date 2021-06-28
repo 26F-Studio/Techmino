@@ -262,7 +262,7 @@ function gameOver()--Save record
 			if R>0 then
 				GAME.rank=R
 			end
-			if scoreValid()and M.score then
+			if not GAME.replaying and M.score and scoreValid()then
 				if RANKS[M.name]then--Old rank exist
 					local needSave
 					if R>RANKS[M.name]then
