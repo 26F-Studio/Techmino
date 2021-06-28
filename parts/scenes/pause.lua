@@ -273,6 +273,7 @@ function scene.draw()
 		gc.setLineWidth(2)
 		gc.push('transform')
 			gc.translate(1026,370)
+			gc.scale(.9)
 
 			--Polygon
 			gc.push('transform')
@@ -314,11 +315,11 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
-	WIDGET.newButton{name="replay",		x=535,y=250,w=200,h=100,color='lY',code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newButton{name="save",		x=745,y=250,w=200,h=100,color='lP',code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
-	WIDGET.newButton{name="resume",		x=640,y=367,w=240,h=100,color='lG',code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,y=483,w=240,h=100,color='lR',code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
-	WIDGET.newButton{name="quit",		x=640,y=600,w=240,h=100,font=35,code=backScene},
+	WIDGET.newButton{name="replay",		x=535,y=240,w=200,h=100,color='lY',code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newButton{name="save",		x=745,y=240,w=200,h=100,color='lP',code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+	WIDGET.newButton{name="resume",		x=640,y=357,w=240,h=100,color='lG',code=pressKey"escape"},
+	WIDGET.newButton{name="restart",	x=640,y=473,w=240,h=100,color='lR',code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
+	WIDGET.newButton{name="quit",		x=640,y=590,w=240,h=100,font=35,code=backScene},
 }
 
 return scene
