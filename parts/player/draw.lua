@@ -522,6 +522,8 @@ local function drawStartCounter(P)
 end
 
 local draw={}
+draw.applyFieldOffset=applyFieldOffset
+draw.drawGhost=drawGhost
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local texture=SKIN.curText
@@ -589,8 +591,6 @@ function draw.drawNext_hidden(P)
 		end
 	gc_translate(-316,-20)
 end
-draw.applyFieldOffset=applyFieldOffset
-
 function draw.drawTargetLine(P,r)
 	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
 		gc_setLineWidth(4)

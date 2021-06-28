@@ -1,3 +1,5 @@
+local gc=love.graphics
+
 local scene={}
 
 function scene.sceneInit()
@@ -5,6 +7,16 @@ function scene.sceneInit()
 end
 function scene.sceneBack()
 	FILE.save(SETTING,'conf/settings')
+end
+
+local fakePlayer={cur={bk={{true}}},curX=0,ghoY=0}
+function scene.draw()
+	gc.push('transform')
+		gc.translate(720,149-WIDGET.scrollPos)
+		gc.scale(2)
+		gc.setColor(1,1,1)
+		PLY.draw.drawGhost[SETTING.ghostType](fakePlayer,math.floor(TIME()*3)%16+1,SETTING.ghost)
+	gc.pop()
 end
 
 scene.widgetScrollHeight=620
