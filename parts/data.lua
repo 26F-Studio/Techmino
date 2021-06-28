@@ -395,7 +395,12 @@ function DATA.parseReplay(fileName,ifFull)
 	--Load metadata
 	metaData,fileData=STRING.readLine(fileData)
 	metaData=JSON.decode(metaData)
-	if not metaData or not text.modes[metaData.mode]then goto BREAK_cannotParse end
+	if not metaData then goto BREAK_cannotParse end
+
+	--Convert ancient replays
+	metaData.mode=oldModeNameTable[metaData.mode]or metaData.mode
+	if not MODES[metaData.mode]then goto BREAK_cannotParse end
+
 	--Create replay object
 	rep={
 		fileName=fileName,
