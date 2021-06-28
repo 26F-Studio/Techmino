@@ -43,7 +43,7 @@ return function(L)
 		::REPEAT_tryAgain::
 		local success,canvas=pcall(gc.newCanvas,math.min(L[1],sizeLimit),math.min(L[2],sizeLimit))
 		if not success then
-			texturesize=math.floor(texturesize*.8)
+			sizeLimit=math.floor(sizeLimit*.8)
 			goto REPEAT_tryAgain
 		end
 		gc.setCanvas(canvas)
