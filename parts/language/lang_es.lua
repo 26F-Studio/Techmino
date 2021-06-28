@@ -284,7 +284,6 @@ return{
 			layout="Diseño",
 			autoPause="Pausar cuando la ventana no está enfocada",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
-			fine="Sonido de Error de Finesse",
 			simpMode="Modo Sencillo",
 		},
 		setting_video={
@@ -337,6 +336,10 @@ return{
 			warn="Alerta de Peligro",
 			vib="Vibración",
 			voc="Voces",
+
+			fine="Sonido de Error de Finesse",
+			-- cv="Voice Pack",
+			-- apply="Apply",
 		},
 		setting_control={
 			title="Ajustes de Controles",

@@ -308,7 +308,6 @@ return{
 			layout="Layout",
 			autoPause="Pausar quando foco for perco",
 			swap="Combinação de tecla(Mudar modo de atk)",
-			fine="Som Falha de destreza",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
@@ -362,6 +361,8 @@ return{
 			warn="Alerta de perigo",
 			vib="Vibração",
 			voc="Voz",
+
+			fine="Som Falha de destreza",
 			cv="Pacote de voz",
 			apply="Aplicar",
 		},

@@ -309,7 +309,6 @@ return{
 			layout="外观",
 			autoPause="失去焦点自动暂停",
 			swap="组合键切换攻击模式",
-			fine="极简操作提示音",
 			simpMode="简洁模式",
 		},
 		setting_video={
@@ -362,6 +361,8 @@ return{
 			warn="危险警告",
 			vib="振动",
 			voc="语音",
+
+			fine="极简操作提示音",
 			cv="语音包",
 			apply="应用",
 		},

@@ -281,7 +281,6 @@ return{
 			layout="Disposition",
 			autoPause="Mettre en pause en cas de perte de focus",
 			swap="Combinaison de touches (changer le mode d'attaque)",
-			fine="Son d'erreur de Finesse",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
@@ -336,6 +335,10 @@ return{
 			warn="Alerte de danger",
 			vib="Vibration",
 			voc="Voix",
+
+			fine="Son d'erreur de Finesse",
+			-- cv="Voice Pack",
+			-- apply="Apply",
 		},
 		setting_control={
 			title="Paramètres de contrôle",

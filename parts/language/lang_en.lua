@@ -309,7 +309,6 @@ return{
 			layout="Layout",
 			autoPause="Pause while unfocused",
 			swap="Key Combination (Change Atk. Mode)",
-			fine="Finesse Error SFX",
 			simpMode="Simplistic Style",
 		},
 		setting_video={
@@ -363,6 +362,8 @@ return{
 			warn="Warning",
 			vib="Vibration",
 			voc="Voice",
+
+			fine="Finesse Error SFX",
 			cv="Voice Pack",
 			apply="Apply",
 		},

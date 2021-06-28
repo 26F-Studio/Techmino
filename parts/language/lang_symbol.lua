@@ -137,7 +137,6 @@ return{
 			layout="=-=-=",
 			autoPause="A||",
 			swap="=+=+=",
-			fine="12 X 21",
 			simpMode=".",
 		},
 		setting_video={
@@ -190,7 +189,10 @@ return{
 			spawn="#[]#",
 			warn="!↑↑↑!",
 			vib="=~=",
+
+			fine="12 X 21",
 			voc="~~~",
+			apply="!",
 		},
 		setting_control={
 			title="[~~]",
