@@ -13,10 +13,10 @@ function IMG.init(list)
 		local loaded=0
 		for k,v in next,list do
 			if type(v)=='string'then
-				IMG[k]=love.graphics.newImage("media/image/"..v)
+				IMG[k]=love.graphics.newImage('media/image/'..v)
 			else
 				for i=1,#v do
-					v[i]=love.graphics.newImage("media/image/"..v[i])
+					v[i]=love.graphics.newImage('media/image/'..v[i])
 				end
 				IMG[k]=v
 			end

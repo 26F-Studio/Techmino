@@ -13,7 +13,7 @@ function SFX.init(list)
 	local count=#list function SFX.getCount()return count end
 	local function load(skip)
 		for i=1,count do
-			local N="media/SFX/"..list[i]..".ogg"
+			local N='media/SFX/'..list[i]..'.ogg'
 			if love.filesystem.getInfo(N)then
 				Sources[list[i]]={love.audio.newSource(N,'static')}
 			else

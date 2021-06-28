@@ -129,10 +129,10 @@ end
 
 function MES.traceback()
 	local mes=
-		debug.traceback("",1)
-		:gsub(": in function",", in")
-		:gsub(":"," ")
-		:gsub("\t","")
+		debug.traceback('',1)
+		:gsub(': in function',', in')
+		:gsub(':',' ')
+		:gsub('\t','')
 	MES.new('error',mes:sub(
 		mes:find("\n",2)+1,
 		mes:find("\n%[C%], in 'xpcall'")

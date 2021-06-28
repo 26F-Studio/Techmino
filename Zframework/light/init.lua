@@ -6,8 +6,8 @@ local clear,gc_translate=gc.clear,gc.translate
 local gc_setCanvas,gc_setShader=gc.setCanvas,gc.setShader
 local gc_setColor,gc_draw=gc.setColor,gc.draw
 
-local shadowMapShader=gc.newShader("Zframework/light/shadowMap.glsl")--Shader for caculating the 1D shadow map.
-local lightRenderShader=gc.newShader("Zframework/light/lightRender.glsl")--Shader for rendering blurred lights and shadows.
+local shadowMapShader=gc.newShader('Zframework/light/shadowMap.glsl')--Shader for caculating the 1D shadow map.
+local lightRenderShader=gc.newShader('Zframework/light/lightRender.glsl')--Shader for rendering blurred lights and shadows.
 local Lights={}--Lightsource objects
 local function move(L,x,y)
 	L.x,L.y=x,y
@@ -22,8 +22,8 @@ local function drawLight(L)
 	gc_setCanvas(L.blackCanvas)clear()
 	gc_setCanvas(L.shadowCanvas)clear()
 	gc_setCanvas(L.renderCanvas)clear()
-	lightRenderShader:send("xresolution",s)
-	shadowMapShader:send("yresolution",s)
+	lightRenderShader:send('xresolution',s)
+	shadowMapShader:send('yresolution',s)
 
 	--Get up-left of light
 	local X=L.x-s*.5

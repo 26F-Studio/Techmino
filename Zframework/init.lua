@@ -3,44 +3,44 @@ EDITING=""
 LOADED=false
 ERRDATA={}
 
-require"Zframework.setFont"
-ADRAW=require"Zframework.aDraw"
+require'Zframework.setFont'
+ADRAW=require'Zframework.aDraw'
 	mStr=ADRAW.str
 	mText=ADRAW.simpX
 	mDraw=ADRAW.draw
 
-SCR=	require"Zframework.screen"
-COLOR=	require"Zframework.color"
-SCN=	require"Zframework.scene"
-WS=		require"Zframework.websocket"
+SCR=	require'Zframework.screen'
+COLOR=	require'Zframework.color'
+SCN=	require'Zframework.scene'
+WS=		require'Zframework.websocket'
 
-LOADLIB=require"Zframework.loadLib"
-WHEELMOV=require"Zframework.wheelScroll"
+LOADLIB=require'Zframework.loadLib'
+WHEELMOV=require'Zframework.wheelScroll'
 
-JSON=	require"Zframework.json"
-TABLE=	require"Zframework.tableExtend"
-STRING=	require"Zframework.stringExtend"
+JSON=	require'Zframework.json'
+TABLE=	require'Zframework.tableExtend'
+STRING=	require'Zframework.stringExtend'
 
-VIB=	require"Zframework.vibrate"
-SFX=	require"Zframework.sfx"
+VIB=	require'Zframework.vibrate'
+SFX=	require'Zframework.sfx'
 
-LIGHT=	require"Zframework.light"
-DOGC=	require"Zframework.doGC"
-BG=		require"Zframework.background"
-WIDGET=	require"Zframework.widget"
-TEXT=	require"Zframework.text"
-SYSFX=	require"Zframework.sysFX"
-MES=	require"Zframework.message"
+LIGHT=	require'Zframework.light'
+DOGC=	require'Zframework.doGC'
+BG=		require'Zframework.background'
+WIDGET=	require'Zframework.widget'
+TEXT=	require'Zframework.text'
+SYSFX=	require'Zframework.sysFX'
+MES=	require'Zframework.message'
 
-IMG=	require"Zframework.image"
-BGM=	require"Zframework.bgm"
-VOC=	require"Zframework.voice"
+IMG=	require'Zframework.image'
+BGM=	require'Zframework.bgm'
+VOC=	require'Zframework.voice'
 
-LANG=	require"Zframework.languages"
-TASK=	require"Zframework.task"
-FILE=	require"Zframework.file"
-PROFILE=require"Zframework.profile"
-THEME=	require"Zframework.theme"
+LANG=	require'Zframework.languages'
+TASK=	require'Zframework.task'
+FILE=	require'Zframework.file'
+PROFILE=require'Zframework.profile'
+THEME=	require'Zframework.theme'
 
 local ms,kb=love.mouse,love.keyboard
 
@@ -267,7 +267,7 @@ function love.keypressed(key,_,isRep)
 		MES.new('info',"DEBUG ON",.2)
 	elseif key=="f11"then
 		if kb.isDown("lctrl","rctrl")then
-			_G["\100\114\97\119\70\87\77"]=NULL
+			_G['\100\114\97\119\70\87\77']=NULL
 		else
 			switchFullscreen()
 		end
@@ -371,7 +371,7 @@ function love.resize(w,h)
 	if SCN.resize then SCN.resize(w,h)end
 	WIDGET.resize(w,h)
 
-	SHADER.warning:send("w",w*SCR.dpi)
+	SHADER.warning:send('w',w*SCR.dpi)
 end
 function love.focus(f)
 	if f then

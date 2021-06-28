@@ -2,8 +2,8 @@ local gc=love.graphics
 local newFont=gc.setNewFont
 local setNewFont=gc.setFont
 local fontCache,currentFontSize={}
-if love.filesystem.getInfo("font.ttf")then
-	local fontData=love.filesystem.newFile("font.ttf")
+if love.filesystem.getInfo('font.ttf')then
+	local fontData=love.filesystem.newFile('font.ttf')
 	function setFont(s)
 		if s~=currentFontSize then
 			if not fontCache[s]then

@@ -1,12 +1,12 @@
 local host=
-	-- "127.0.0.1"
-	-- "192.168.114.102"
-	"krakens.tpddns.cn"
-	-- "game.techmino.org"
-local port="10026"
-local path="/tech/socket/v1"
+	-- '127.0.0.1'
+	-- '192.168.114.102'
+	'krakens.tpddns.cn'
+	-- 'game.techmino.org'
+local port='10026'
+local path='/tech/socket/v1'
 
-local debugMode=""--S:send, R:receive, M=mark
+local debugMode=''--S:send, R:receive, M=mark
 
 local wsThread=[[
 -- lua + LÖVE threading websocket client
@@ -18,8 +18,8 @@ local triggerCHN,sendCHN,readCHN,threadName=...
 local CHN_demand,CHN_getCount=triggerCHN.demand,triggerCHN.getCount
 local CHN_push,CHN_pop=triggerCHN.push,triggerCHN.pop
 
-local SOCK=require"socket".tcp()
-local JSON=require"Zframework.json"
+local SOCK=require'socket'.tcp()
+local JSON=require'Zframework.json'
 
 do--Connect
 	local host=CHN_demand(sendCHN)
@@ -33,38 +33,38 @@ do--Connect
 	if err then CHN_push(readCHN,err)return end
 
 	--WebSocket handshake
-	if not body then body=""end
+	if not body then body=''end
 	SOCK:send(
-		"GET "..path.." HTTP/1.1\r\n"..
-		"Host: "..host..":"..port.."\r\n"..
-		"Connection: Upgrade\r\n"..
-		"Upgrade: websocket\r\n"..
-		"Content-Type: application/json\r\n"..
-		"Content-Length: "..#body.."\r\n"..
-		"Sec-WebSocket-Version: 13\r\n"..
-		"Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n"..--secKey
+		'GET '..path..' HTTP/1.1\r\n'..
+		'Host: '..host..':'..port..'\r\n'..
+		'Connection: Upgrade\r\n'..
+		'Upgrade: websocket\r\n'..
+		'Content-Type: application/json\r\n'..
+		'Content-Length: '..#body..'\r\n'..
+		'Sec-WebSocket-Version: 13\r\n'..
+		'Sec-WebSocket-Key: osT3F7mvlojIvf3/8uIsJQ==\r\n\r\n'..--secKey
 		body
 	)
 
 	--First line of HTTP
-	res,err=SOCK:receive("*l")
+	res,err=SOCK:receive('*l')
 	if not res then CHN_push(readCHN,err)return end
 	local code,ctLen
-	code=res:find(" ")
+	code=res:find(' ')
 	code=res:sub(code+1,code+3)
 
 	--Get body length from headers and remove headers
 	repeat
-		res,err=SOCK:receive("*l")
+		res,err=SOCK:receive('*l')
 		if not res then CHN_push(readCHN,err)return end
-		if not ctLen and res:find("length")then
-			ctLen=tonumber(res:match("%d+"))
+		if not ctLen and res:find('length')then
+			ctLen=tonumber(res:match('%d+'))
 		end
-	until res==""
+	until res==''
 
 	--Result
 	if ctLen then
-		if code=="101"then
+		if code=='101'then
 			CHN_push(readCHN,'success')
 		else
 			res,err=SOCK:receive(ctLen)
@@ -94,7 +94,7 @@ local _send do
 	local mask_str=char(unpack(mask_key))
 
 	function _send(op,message)
-		]]..(debugMode:find'S'and""or"--")..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
+		]]..(debugMode:find'S'and''or'--')..[[print((">> %s[%d]:%s"):format(threadName,#message,message))
 		--Message type
 		SOCK:send(char(bor(0x80,op)))
 
@@ -115,7 +115,7 @@ local _send do
 			end
 			return SOCK:send(char(unpack(msgbyte)))
 		else
-			SOCK:send("\128"..mask_str)
+			SOCK:send('\128'..mask_str)
 			return 0
 		end
 	end
@@ -162,7 +162,7 @@ while true do--Running
 				if s then
 					res=s
 				elseif p then--UNF head
-					]]..(debugMode:find'R'and""or"--")..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
+					]]..(debugMode:find'R'and''or'--')..[[print(("<< %s[%d/%d]:%s"):format(threadName,#p,length,#p<50 and p or p:sub(1,50)))
 					UFF=true
 					sBuffer=sBuffer..p
 					length=length-#p
@@ -174,11 +174,11 @@ while true do--Running
 		else
 			local s,e,p=SOCK:receive(length)
 			if s then
-				]]..(debugMode:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
+				]]..(debugMode:find'R'and''or'--')..[[print(("<< %s(%d):%s"):format(threadName,length,#s<50 and s or s:sub(1,50)))
 				sBuffer=sBuffer..s
 				length=length-#s
 			elseif p then
-				]]..(debugMode:find'R'and""or"--")..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
+				]]..(debugMode:find'R'and''or'--')..[[print(("<< %s(%d):%s"):format(threadName,length,#p<50 and p or p:sub(1,50)))
 				sBuffer=sBuffer..p
 				length=length-#p
 			end
@@ -189,7 +189,7 @@ while true do--Running
 				break
 			end
 		end
-		]]..(debugMode:find'R'and""or"--")..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
+		]]..(debugMode:find'R'and''or'--')..[[print(("<< %s[(%d)]:%s"):format(threadName,#res,#res<800 and res or res:sub(1,150).."\n...\n"..res:sub(-150)))
 
 		--React
 		if op==8 then--8=close
@@ -203,21 +203,21 @@ while true do--Running
 		elseif op==0 then--0=continue
 			lBuffer=lBuffer..res
 			if fin then
-				]]..(debugMode:find'M'and""or"--")..[[print("FIN=1 (c")
+				]]..(debugMode:find'M'and''or'--')..[[print("FIN=1 (c")
 				CHN_push(readCHN,lBuffer)
 				lBuffer=""
 			else
-				]]..(debugMode:find'M'and""or"--")..[[print("FIN=0 (c")
+				]]..(debugMode:find'M'and''or'--')..[[print("FIN=0 (c")
 			end
 		else
 			CHN_push(readCHN,op)
 			if fin then
-				]]..(debugMode:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=1")
+				]]..(debugMode:find'M'and''or'--')..[[print("OP: "..op.."\tFIN=1")
 				CHN_push(readCHN,res)
 			else
-				]]..(debugMode:find'M'and""or"--")..[[print("OP: "..op.."\tFIN=0")
+				]]..(debugMode:find'M'and''or'--')..[[print("OP: "..op.."\tFIN=0")
 				sBuffer=res
-				]]..(debugMode:find'M'and""or"--")..[[print("START pack: "..res)
+				]]..(debugMode:find'M'and''or'--')..[[print("START pack: "..res)
 			end
 		end
 	end

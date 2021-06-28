@@ -24,7 +24,7 @@ local fs=love.filesystem
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
-MOBILE=SYSTEM=="Android"or SYSTEM=="iOS"
+MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
@@ -38,14 +38,14 @@ love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
 
 --Load modules
-require"Zframework"
+require'Zframework'
 SCR.setSize(1280,720)--Initialize Screen size
 
 --Delete all naked files (from too old version)
-FILE.clear("")
+FILE.clear('')
 
 --Create directories
-for _,v in next,{"conf","record","replay","cache","lib"}do
+for _,v in next,{'conf','record','replay','cache','lib'}do
 	local info=fs.getInfo(v)
 	if not info then
 		fs.createDirectory(v)
@@ -57,30 +57,30 @@ end
 
 --Load shader files from SOURCE ONLY
 SHADER={}
-for _,v in next,fs.getDirectoryItems("parts/shaders")do
-	if fs.getRealDirectory("parts/shaders/"..v)~=SAVEDIR then
+for _,v in next,fs.getDirectoryItems('parts/shaders')do
+	if fs.getRealDirectory('parts/shaders/'..v)~=SAVEDIR then
 		local name=v:sub(1,-6)
-		SHADER[name]=love.graphics.newShader("parts/shaders/"..name..".glsl")
+		SHADER[name]=love.graphics.newShader('parts/shaders/'..name..'.glsl')
 	end
 end
 
-require"parts.list"
-require"parts.globalTables"
-require"parts.gametoolfunc"
+require'parts.list'
+require'parts.globalTables'
+require'parts.gametoolfunc'
 
-FREEROW=	require"parts.freeRow"
-DATA=		require"parts.data"
+FREEROW=	require'parts.freeRow'
+DATA=		require'parts.data'
 
-TEXTURE=	require"parts.texture"
-SKIN=		require"parts.skin"
-USERS=		require"parts.users"
-NET=		require"parts.net"
-VK=			require"parts.virtualKey"
-AIFUNC=		require"parts.ai"
-AIBUILDER=	require"parts.AITemplate"
-PLY=		require"parts.player"
-netPLY=		require"parts.netPlayer"
-MODES=		require"parts.modes"
+TEXTURE=	require'parts.texture'
+SKIN=		require'parts.skin'
+USERS=		require'parts.users'
+NET=		require'parts.net'
+VK=			require'parts.virtualKey'
+AIFUNC=		require'parts.ai'
+AIBUILDER=	require'parts.AITemplate'
+PLY=		require'parts.player'
+netPLY=		require'parts.netPlayer'
+MODES=		require'parts.modes'
 
 --Initialize field[1]
 FIELD[1]=DATA.newBoard()
@@ -96,69 +96,69 @@ if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
-	lock="mess/lock.png",
-	dialCircle="mess/dialCircle.png",
-	dialNeedle="mess/dialNeedle.png",
-	lifeIcon="mess/life.png",
-	badgeIcon="mess/badge.png",
-	ctrlSpeedLimit="mess/ctrlSpeedLimit.png",
-	speedLimit="mess/speedLimit.png",--Not used, for future C2-mode
-	pay1="mess/pay1.png",
-	pay2="mess/pay2.png",
+	lock='mess/lock.png',
+	dialCircle='mess/dialCircle.png',
+	dialNeedle='mess/dialNeedle.png',
+	lifeIcon='mess/life.png',
+	badgeIcon='mess/badge.png',
+	ctrlSpeedLimit='mess/ctrlSpeedLimit.png',
+	speedLimit='mess/speedLimit.png',--Not used, for future C2-mode
+	pay1='mess/pay1.png',
+	pay2='mess/pay2.png',
 
-	nakiCH="characters/nakiharu.png",
-	miyaCH="characters/miya.png",
-	miyaF1="characters/miya_f1.png",
-	miyaF2="characters/miya_f2.png",
-	miyaF3="characters/miya_f3.png",
-	miyaF4="characters/miya_f4.png",
-	electric="characters/electric.png",
-	hbm="characters/hbm.png",
+	nakiCH='characters/nakiharu.png',
+	miyaCH='characters/miya.png',
+	miyaF1='characters/miya_f1.png',
+	miyaF2='characters/miya_f2.png',
+	miyaF3='characters/miya_f3.png',
+	miyaF4='characters/miya_f4.png',
+	electric='characters/electric.png',
+	hbm='characters/hbm.png',
 
 	lanterns={
-		"lanterns/1.png",
-		"lanterns/2.png",
-		"lanterns/3.png",
-		"lanterns/4.png",
-		"lanterns/5.png",
-		"lanterns/6.png",
+		'lanterns/1.png',
+		'lanterns/2.png',
+		'lanterns/3.png',
+		'lanterns/4.png',
+		'lanterns/5.png',
+		'lanterns/6.png',
 	},
 }
 SKIN.init{
-	"crystal_scf",
-	"matte_mrz",
-	"contrast_mrz",
-	"polkadots_scf",
-	"toy_scf",
-	"smooth_mrz",
-	"simple_scf",
-	"glass_scf",
-	"penta_scf",
-	"bubble_scf",
-	"minoes_scf",
-	"pure_mrz",
-	"bright_scf",
-	"glow_mrz",
-	"plastic_mrz",
-	"paper_mrz",
-	"yinyang_scf",
-	"cartooncup_earety",
-	"jelly_miya",
-	"brick_notypey",
-	"gem_notypey",
-	"classic",
-	"ball_shaw",
-	"retro_notypey",
-	"textbone_mrz",
-	"coloredbone_mrz",
-	"wtf",
+	'crystal_scf',
+	'matte_mrz',
+	'contrast_mrz',
+	'polkadots_scf',
+	'toy_scf',
+	'smooth_mrz',
+	'simple_scf',
+	'glass_scf',
+	'penta_scf',
+	'bubble_scf',
+	'minoes_scf',
+	'pure_mrz',
+	'bright_scf',
+	'glow_mrz',
+	'plastic_mrz',
+	'paper_mrz',
+	'yinyang_scf',
+	'cartooncup_earety',
+	'jelly_miya',
+	'brick_notypey',
+	'gem_notypey',
+	'classic',
+	'ball_shaw',
+	'retro_notypey',
+	'textbone_mrz',
+	'coloredbone_mrz',
+	'wtf',
 }
 
 --Initialize sound libs
 SFX.init((function()
 	local L={}
-	for _,v in next,fs.getDirectoryItems("media/SFX")do
-		if fs.getRealDirectory("media/SFX/"..v)~=SAVEDIR then
+	for _,v in next,fs.getDirectoryItems('media/SFX')do
+		if fs.getRealDirectory('media/SFX/'..v)~=SAVEDIR then
 			table.insert(L,v:sub(1,-5))
 		else
 			MES.new('warn',"Dangerous file : %SAVE%/media/SFX/"..v)
@@ -168,8 +168,8 @@ SFX.init((function()
 end)())
 BGM.init((function()
 	local L={}
-	for _,v in next,fs.getDirectoryItems("media/BGM")do
-		if fs.getRealDirectory("media/BGM/"..v)~=SAVEDIR then
+	for _,v in next,fs.getDirectoryItems('media/BGM')do
+		if fs.getRealDirectory('media/BGM/'..v)~=SAVEDIR then
 			table.insert(L,v:sub(1,-5))
 		else
 			MES.new('warn',"Dangerous file : %SAVE%/media/BGM/"..v)
@@ -178,26 +178,26 @@ BGM.init((function()
 	return L
 end)())
 VOC.init{
-	"zspin","sspin","lspin","jspin","tspin","ospin","ispin",
-	"single","double","triple","techrash",
-	"mini","b2b","b3b",
-	"perfect_clear","half_clear",
-	"win","lose","bye",
-	"test","happy","doubt","sad","egg",
-	"welcome_voc",
+	'zspin','sspin','lspin','jspin','tspin','ospin','ispin',
+	'single','double','triple','techrash',
+	'mini','b2b','b3b',
+	'perfect_clear','half_clear',
+	'win','lose','bye',
+	'test','happy','doubt','sad','egg',
+	'welcome_voc',
 }
 
 --Initialize language lib
 LANG.init(
 	{
-		require"parts.language.lang_zh",
-		require"parts.language.lang_zh2",
-		require"parts.language.lang_yygq",
-		require"parts.language.lang_en",
-		require"parts.language.lang_fr",
-		require"parts.language.lang_es",
-		require"parts.language.lang_pt",
-		require"parts.language.lang_symbol",
+		require'parts.language.lang_zh',
+		require'parts.language.lang_zh2',
+		require'parts.language.lang_yygq',
+		require'parts.language.lang_en',
+		require'parts.language.lang_fr',
+		require'parts.language.lang_es',
+		require'parts.language.lang_pt',
+		require'parts.language.lang_symbol',
 		--1. Add language file to LANG folder;
 		--2. Require it;
 		--3. Add a button in parts/scenes/setting_lang.lua;
@@ -213,26 +213,26 @@ LANG.init(
 	}
 )
 --Load background files from SOURCE ONLY
-for _,v in next,fs.getDirectoryItems("parts/backgrounds")do
-	if fs.getRealDirectory("parts/backgrounds/"..v)~=SAVEDIR then
-		if v:sub(-3)=="lua"then
+for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
+	if fs.getRealDirectory('parts/backgrounds/'..v)~=SAVEDIR then
+		if v:sub(-3)=='lua'then
 			local name=v:sub(1,-5)
-			BG.add(name,require("parts.backgrounds."..name))
+			BG.add(name,require('parts.backgrounds.'..name))
 		end
 	end
 end
 --Load scene files from SOURCE ONLY
-for _,v in next,fs.getDirectoryItems("parts/scenes")do
-	if fs.getRealDirectory("parts/scenes/"..v)~=SAVEDIR then
+for _,v in next,fs.getDirectoryItems('parts/scenes')do
+	if fs.getRealDirectory('parts/scenes/'..v)~=SAVEDIR then
 		local sceneName=v:sub(1,-5)
-		SCN.add(sceneName,require("parts.scenes."..sceneName))
+		SCN.add(sceneName,require('parts.scenes.'..sceneName))
 		LANG.addScene(sceneName)
 	end
 end
 --Load mode files
 for i=1,#MODES do
 	local m=MODES[i]--Mode template
-	local M=require("parts.modes."..m.name)--Mode file
+	local M=require('parts.modes.'..m.name)--Mode file
 	for k,v in next,m do M[k]=v end
 	MODES[m.name],MODES[i]=M
 end
@@ -246,7 +246,7 @@ do
 		needSave=true
 	end
 	if STAT.version<1302 then
-		FILE.clear_s("")
+		FILE.clear_s('')
 	end
 	if STAT.version<1405 then
 		fs.remove('conf/user')
@@ -282,14 +282,14 @@ do
 			RANKS[v]=RANKS[k]
 			RANKS[k]=nil
 		end
-		k="record/"..k
-		if fs.getInfo(k..".dat")then
-			fs.write("record/"..v..".rec",fs.read(k..".dat"))
-			fs.remove(k..".dat")
+		k='record/'..k
+		if fs.getInfo(k..'.dat')then
+			fs.write('record/'..v..'.rec',fs.read(k..'.dat'))
+			fs.remove(k..'.dat')
 		end
-		if fs.getInfo(k..".rec")then
-			fs.write("record/"..v..".rec",fs.read(k..".rec"))
-			fs.remove(k..".rec")
+		if fs.getInfo(k..'.rec')then
+			fs.write('record/'..v..'.rec',fs.read(k..'.rec'))
+			fs.remove(k..'.rec')
 		end
 	end
 	if not RANKS.sprint_10l then
@@ -309,7 +309,7 @@ end
 LANG.set(SETTING.lang)
 VK.setShape(SETTING.VKSkin)
 --Load replays
-for _,fileName in next,fs.getDirectoryItems("replay")do
+for _,fileName in next,fs.getDirectoryItems('replay')do
 	if fileName:sub(12,12):match("[a-zA-Z]")then
 		local date,mode,version,player,seed,setting,mod
 		local fileData=fs.read('replay/'..fileName)

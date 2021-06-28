@@ -57,7 +57,7 @@ end
 function FILE.clear(path)
 	if fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory'then return end
 	for _,name in next,fs.getDirectoryItems(path)do
-		name=path.."/"..name
+		name=path..'/'..name
 		if fs.getRealDirectory(name)==SAVEDIR then
 			local t=fs.getInfo(name).type
 			if t=='file'then
@@ -67,9 +67,9 @@ function FILE.clear(path)
 	end
 end
 function FILE.clear_s(path)
-	if path~=""and(fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory')then return end
+	if path~=''and(fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory')then return end
 	for _,name in next,fs.getDirectoryItems(path)do
-		name=path.."/"..name
+		name=path..'/'..name
 		if fs.getRealDirectory(name)==SAVEDIR then
 			local t=fs.getInfo(name).type
 			if t=='file'then

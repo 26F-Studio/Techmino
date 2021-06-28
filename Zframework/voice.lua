@@ -15,9 +15,9 @@ function VOC.init(list)
 
 	local count=#list function VOC.getCount()return count end
 	local function loadVoiceFile(N,vocName)
-		local fileName="media/VOICE/"..SETTING.cv.."/"..vocName..".ogg"
+		local fileName='media/VOICE/'..SETTING.cv..'/'..vocName..'.ogg'
 		if love.filesystem.getInfo(fileName)then
-			bank[vocName]={love.audio.newSource(fileName,"static")}
+			bank[vocName]={love.audio.newSource(fileName,'static')}
 			table.insert(Source[N],vocName)
 			return true
 		end
@@ -41,7 +41,7 @@ function VOC.init(list)
 			Source[list[i]]={}
 
 			local n=0
-			repeat n=n+1 until not loadVoiceFile(list[i],list[i].."_"..n)
+			repeat n=n+1 until not loadVoiceFile(list[i],list[i]..'_'..n)
 
 			if n==1 then
 				if not loadVoiceFile(list[i],list[i])then

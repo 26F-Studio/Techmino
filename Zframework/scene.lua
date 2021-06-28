@@ -5,7 +5,7 @@ local SCR=SCR
 local scenes={}
 
 local SCN={
-	cur="NULL",--Current scene name
+	cur='NULL',--Current scene name
 	swapping=false,--If Swapping
 	stat={
 		tar=false,	--Swapping target

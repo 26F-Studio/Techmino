@@ -26,7 +26,7 @@ function profile.hooker(event,line,info)
 		_telapsed[f]=_telapsed[f]+dt
 		_tcalled[f]=nil
 	end
-	if event=="tail call"then
+	if event=='tail call'then
 		local prev=getInfo(3,'fnS')
 		profile.hooker('return',line,prev)
 		profile.hooker('call',line,info)

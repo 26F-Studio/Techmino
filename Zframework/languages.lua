@@ -26,7 +26,7 @@ function LANG.init(langList,publicText)--Attention, calling this will destory al
 		end
 
 		--Metatable:__call for table:getTip
-		if type(rawget(L,"getTip"))=='table'then
+		if type(rawget(L,'getTip'))=='table'then
 			setmetatable(L.getTip,tipMeta)
 		end
 	end
