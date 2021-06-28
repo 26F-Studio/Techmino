@@ -48,15 +48,6 @@ function FXupdate.cell(S,dt)
 end
 FXupdate.line=normUpdate
 
-local tapLight=DOGC{64,64,
-	{'clear',1,1,1,0},
-	{'setCL',1,1,1,.1},
-	{'fCirc',32,32,5+10},
-	{'fCirc',32,32,5+15},
-	{'fCirc',32,32,5+20},
-	{'fCirc',32,32,5+25},
-}
-
 local FXdraw={}
 function FXdraw.badge(S)
 	gc_setColor(1,1,1,S.t<.2 and S.t*.6 or S.t<.8 and 1 or(1-S.t)*.6)
@@ -87,13 +78,6 @@ function FXdraw.tap(S)
 	local t=S.t
 	gc_setColor(1,1,1,(1-t)*.4)
 	gc_circle('fill',S.x,S.y,(900-900*t)^.5)
-
-	gc_setColor(1,1,1,1-t)
-	for i=1,12 do
-		local p=S.ptc[i]
-		local T=t^.5
-		gc_draw(tapLight,p[1]*(1-T)+p[3]*T-5,p[2]*(1-T)+p[4]*T-5,nil,.4-T*.26,nil,32,32)
-	end
 end
 function FXdraw.ripple(S)
 	local t=S.t
@@ -164,13 +148,7 @@ function SYSFX.newTap(rate,x,y)
 		t=0,
 		rate=rate,
 		x=x,y=y,
-		ptc={},
 	}
-	for i=1,12 do
-		local d=50+40*rnd()
-		local ang=rnd()*6.2832
-		T.ptc[i]={x,y,x+d*cos(ang),y+d*sin(ang)}
-	end
 	ins(fx,T)
 end
 function SYSFX.newRipple(rate,x,y,r)
