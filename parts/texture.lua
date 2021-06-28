@@ -7,10 +7,8 @@ local function NSC(x,y)--New & Set Canvas
 end
 local TEXTURE={}
 
-
+gc.origin()
 gc.setDefaultFilter('nearest','nearest')
-
-
 
 --Mini blocks
 gc.setColor(1,1,1)
@@ -64,9 +62,7 @@ for i=0,9 do
 	}
 end
 
-
 gc.setDefaultFilter('linear','linear')
-
 
 --Title image
 local titleTriangles={}
