@@ -128,21 +128,14 @@ local loadingThread=coroutine.wrap(function()
 	}YIELD()
 
 	upFloor()
-	for i=1,#MODES do
-		local m=MODES[i]--Mode template
-		local M=require("parts.modes."..m.name)--Mode file
-		MODES[m.name],MODES[i]=M
-		for k,v in next,m do
-			M[k]=v
-		end
-		M.records=FILE.load("record/"..m.name..".rec")or M.score and{}
-		if m.icon then
-			if not modeIcons[m.icon]then
-				modeIcons[m.icon]=gc.newImage("media/image/modeicon/"..m.icon..".png")
+	for _,M in next,MODES do
+		M.records=FILE.load("record/"..M.name..".rec")or M.score and{}
+		if M.icon then
+			if not modeIcons[M.icon]then
+				modeIcons[M.icon]=gc.newImage("media/image/modeicon/"..M.icon..".png")
 			end
-			M.icon=modeIcons[m.icon]
+			M.icon=modeIcons[M.icon]
 		end
-		if i%5==0 then YIELD()end
 	end
 
 	upFloor()

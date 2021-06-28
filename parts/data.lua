@@ -409,8 +409,6 @@ function DATA.parseReplay(fileName,ifFull)
 		seed=metaData.seed,
 		setting=metaData.setting,
 		mod=metaData.mod,
-
-		modeName=("%s  %s"):format(text.modes[metaData.mode][1],text.modes[metaData.mode][2]),
 	}
 	if ifFull then rep.data=fileData end
 	do return rep end

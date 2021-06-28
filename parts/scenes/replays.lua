@@ -17,7 +17,8 @@ local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,draw
 
 	if rep.available then
 		gc_setColor(.9,.9,1)
-		gc_print(rep.modeName,310,-2)
+		local modeName=text.modes[rep.mode]
+		gc_print(modeName and modeName[1].."  "..modeName[2]or rep.mode,310,-2)
 		setFont(20)
 		gc_setColor(1,1,.8)
 		gc_print(rep.date,80,6)
