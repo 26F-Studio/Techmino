@@ -245,8 +245,11 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
 end
 function gameOver()--Save record
 	if GAME.replaying then
-		local R=GAME.curMode.getRank(PLAYERS[1])
-		if R>0 then GAME.rank=R end
+		local R=GAME.curMode.getRank
+		if R then
+			R=R(PLAYERS[1])
+			if R and R>0 then GAME.rank=R end
+		end
 	end
 	trySave()
 
