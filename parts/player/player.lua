@@ -1867,7 +1867,7 @@ function Player:act_hardDrop()
 		self.keyPressing[6]=false
 	elseif self.control and self.waiting==-1 and self.cur then
 		if self.lastPiece.autoLock and self.frameRun-self.lastPiece.frame<ENV.dropcut then
-			SFX.play('drop_cancel')
+			SFX.play('drop_cancel',.3)
 		else
 			if self.curY>self.ghoY then
 				local CB=self.cur.bk
