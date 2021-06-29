@@ -1033,14 +1033,11 @@ do--Player.drop(self)--Place piece
 		end
 
 		--Create clearing FX
-		if cc>0 and ENV.clearFX then
-			local t=7-ENV.clearFX*1
+		if cc>0 then
 			for i=1,cc do
 				local y=self.clearedRow[i]
-				self:createClearingFX(y,t)
-				if ENV.splashFX then
-					self:createSplashFX(y)
-				end
+				if ENV.clearFX then self:createClearingFX(y,7-ENV.clearFX)end
+				if ENV.splashFX then self:createSplashFX(y)end
 			end
 		end
 
