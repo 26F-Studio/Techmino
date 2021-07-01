@@ -592,12 +592,14 @@ function draw.drawNext_hidden(P)
 	gc_translate(-316,-20)
 end
 function draw.drawTargetLine(P,r)
-	if r<21+(P.fieldBeneath+P.fieldUp)/30 and r>0 then
-		gc_setLineWidth(4)
-		gc_setColor(1,r>10 and 0 or rnd(),.5)
+	local d=P.fieldBeneath+P.fieldUp
+	if r<21+d/30 and r>0 then
+		gc_setLineWidth(3)
+		gc_setColor(1,r>10 and 0 or .2+.8*rnd(),.5)
 		gc_push('transform')
 		applyFieldOffset(P)
-		gc_line(0,600-30*r,300,600-30*r)
+		r=600-30*(r)+d
+		gc_line(0,r,300,r)
 		gc_pop()
 	end
 end
