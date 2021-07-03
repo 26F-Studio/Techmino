@@ -119,7 +119,6 @@ function scene.sceneInit(org)
 	end
 end
 function scene.sceneBack()
-	STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
 	trySave()
 end
 
