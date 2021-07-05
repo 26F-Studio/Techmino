@@ -49,6 +49,13 @@ local function _switchChat()
 		WIDGET.unFocus(true)
 	end
 end
+local function hideReadyUI()
+	return
+		playing or
+		NET.roomState.start or
+		not netPLY.getSelfReady()or
+		NET.getlock('ready')
+end
 
 local scene={}
 
@@ -142,7 +149,7 @@ function scene.keyDown(key,isRep)
 			PLAYERS[1]:pressKey(k)
 			VK.press(k)
 		end
-	else
+	elseif not hideReadyUI()then
 		if key=="space"then
 			if netPLY.getSelfJoinMode()==0 then
 				(kb.isDown("lctrl","rctrl","lalt","ralt")and _setSpectate or _setReady)()
@@ -321,36 +328,16 @@ function scene.draw()
 		gc_print("M",430,10)
 	end
 end
+
 scene.widgetList={
 	textBox,
 	inputBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,code=_gotoSetting,hideF=function()return playing or netPLY.getSelfReady()or NET.getlock('ready')end},
-	WIDGET.newKey{name="ready",x=1060,y=510,w=360,h=90,color='lG',font=35,code=_setReady,
-		hideF=function()
-			return
-				playing or
-				NET.roomState.start or
-				netPLY.getSelfReady() or
-				NET.getlock('ready')
-		end},
-	WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35,code=_setSpectate,
-		hideF=function()
-			return
-				playing or
-				NET.roomState.start or
-				netPLY.getSelfReady() or
-				NET.getlock('ready')
-		end},
-	WIDGET.newKey{name="cancel",x=1060,y=560,w=360,h=120,color='lH',font=40,code=_setCancel,
-		hideF=function()
-			return
-				playing or
-				NET.roomState.start or
-				not netPLY.getSelfReady() or
-				NET.getlock('ready')
-		end},
-	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,code=_switchChat},
-	WIDGET.newKey{name="quit",fText=TEXTURE.quit_small,x=900,y=35,w=60,font=40,code=_quit},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,	code=_gotoSetting,hideF=hideReadyUI},
+	WIDGET.newKey{name="ready",x=1060,y=510,w=360,h=90,color='lG',font=35,		code=_setReady,hideF=hideReadyUI},
+	WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35,	code=_setSpectate,hideF=hideReadyUI},
+	WIDGET.newKey{name="cancel",x=1060,y=560,w=360,h=120,color='lH',font=40,	code=_setCancel,hideF=hideReadyUI},
+	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,			code=_switchChat},
+	WIDGET.newKey{name="quit",fText=TEXTURE.quit_small,x=900,y=35,w=60,code=_quit},
 }
 
 return scene
