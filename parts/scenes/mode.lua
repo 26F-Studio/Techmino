@@ -159,22 +159,26 @@ function scene.update()
 	end
 	if F then
 		mapCam.keyCtrl=true
-		moveMap(dx,dy)
-		local x,y=getPos()
-		for name,M in next,MODES do
-			if RANKS[name]and M.x then
-				local SEL
-				local s=M.size
-				if M.shape==1 then
-					if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then SEL=name end
-				elseif M.shape==2 then
-					if abs(x-M.x)+abs(y-M.y)<s then SEL=name end
-				elseif M.shape==3 then
-					if(x-M.x)^2+(y-M.y)^2<s^2 then SEL=name end
-				end
-				if SEL and mapCam.sel~=SEL then
-					mapCam.sel=SEL
-					SFX.play('click')
+		if kb.isDown("lctrl","rctrl","lalt","ralt")then
+			scene.wheelMoved(nil,(dy-dx)*.026)
+		else
+			moveMap(dx,dy)
+			local x,y=getPos()
+			for name,M in next,MODES do
+				if RANKS[name]and M.x then
+					local SEL
+					local s=M.size
+					if M.shape==1 then
+						if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then SEL=name end
+					elseif M.shape==2 then
+						if abs(x-M.x)+abs(y-M.y)<s then SEL=name end
+					elseif M.shape==3 then
+						if(x-M.x)^2+(y-M.y)^2<s^2 then SEL=name end
+					end
+					if SEL and mapCam.sel~=SEL then
+						mapCam.sel=SEL
+						SFX.play('click')
+					end
 				end
 			end
 		end
