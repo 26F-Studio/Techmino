@@ -1,6 +1,7 @@
 local gc,tc=love.graphics,love.touch
 local sin=math.sin
 local SCR,VK=SCR,VK
+local GAME=GAME
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
@@ -74,7 +75,7 @@ function scene.keyDown(key,isRep)
 			if noKey then return end
 			PLAYERS[1]:pressKey(k)
 			VK.press(k)
-		else
+		elseif not GAME.fromRepMenu then
 			restart()
 		end
 	elseif key=="escape"then
@@ -89,8 +90,6 @@ function scene.keyUp(key)
 			PLAYERS[1]:releaseKey(k)
 			VK.release(k)
 		end
-	elseif key=="back"then
-		pauseGame()
 	end
 end
 function scene.gamepadDown(key)
@@ -115,14 +114,11 @@ function scene.gamepadUp(key)
 			PLAYERS[1]:releaseKey(k)
 			VK.release(k)
 		end
-	elseif key=="back"then
-		pauseGame()
 	end
 end
 
 function scene.update(dt)
 	local _
-	local GAME=GAME
 
 	--Replay
 	if GAME.replaying then
@@ -216,7 +212,7 @@ function scene.draw()
 	drawWarning()
 end
 scene.widgetList={
-	WIDGET.newKey{name="restart",fText="R",x=380,y=35,w=60,font=40,code=restart},
+	WIDGET.newKey{name="restart",fText="R",x=380,y=35,w=60,font=40,code=restart,hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newKey{name="pause",fText="II",x=900,y=35,w=60,font=40,code=function()pauseGame()end},
 }
 
