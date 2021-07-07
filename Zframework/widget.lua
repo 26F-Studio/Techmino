@@ -558,7 +558,7 @@ function slider:scroll(n)
 	end
 end
 function slider:arrowKey(k)
-	self:scroll(k=="left"or k=="up"and -1 or 1)
+	self:scroll((k=="left"or k=="up")and -1 or 1)
 end
 function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp,code,hide
 	local _={
@@ -713,11 +713,12 @@ function selector:press(x)
 end
 function selector:scroll(n)
 	local s=self.select
-	if n==-1 and s==1 or not n and s==#self.list then return end
 	if n==-1 then
+		if s==1 then return end
 		s=s-1
 		SYSFX.newShade(3,self.x,self.y-WIDGET.scrollPos,self.w*.5,60)
 	else
+		if s==#self.list then return end
 		s=s+1
 		SYSFX.newShade(3,self.x+self.w*.5,self.y-WIDGET.scrollPos,self.w*.5,60)
 	end
@@ -727,7 +728,7 @@ function selector:scroll(n)
 	if self.sound then SFX.play('prerotate')end
 end
 function selector:arrowKey(k)
-	self:scroll(k=="left"or k=="up"and -1 or 1)
+	self:scroll((k=="left"or k=="up")and -1 or 1)
 end
 
 function WIDGET.newSelector(D)--name,x,y,w[,fText][,color][,sound=true],list,disp,code,hide
@@ -1333,43 +1334,45 @@ function WIDGET.keyPressed(k,isRep)
 		if not isRep then
 			WIDGET.press()
 		end
-	elseif kb.isDown("lshift","lalt","lctrl")then
-		--Control some widgets with arrowkeys when hold shift/ctrl/alt
-		if W and W.arrowKey then W:arrowKey(k)end
 	elseif k=="up"or k=="down"or k=="left"or k=="right"then
-		if not W then
-			for _,w in next,WIDGET.active do
-				if not w.hide and w.isAbove then
-					WIDGET.focus(w)
-					return
+		if kb.isDown("lshift","lalt","lctrl")then
+			--Control some widgets with arrowkeys when hold shift/ctrl/alt
+			if W and W.arrowKey then W:arrowKey(k)end
+		else
+			if not W then
+				for _,w in next,WIDGET.active do
+					if not w.hide and w.isAbove then
+						WIDGET.focus(w)
+						return
+					end
 				end
-			end
-		elseif W.getCenter then
-			local WX,WY=W:getCenter()
-			local dir=(k=="right"or k=="down")and 1 or -1
-			local tar
-			local minDist=1e99
-			local swap_xy=k=="up"or k=="down"
-			if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
-			for _,W1 in ipairs(WIDGET.active)do
-				if W~=W1 and W1.resCtr and not W1.hide then
-					local L=W1.resCtr
-					for j=1,#L,2 do
-						local x,y=L[j],L[j+1]
-						if swap_xy then x,y=y,x end -- note that we do not swap them back later
-						local dist=(x-WX)*dir
-						if dist>10 then
-							dist=dist+abs(y-WY)*6.26
-							if dist<minDist then
-								minDist=dist
-								tar=W1
+			elseif W.getCenter then
+				local WX,WY=W:getCenter()
+				local dir=(k=="right"or k=="down")and 1 or -1
+				local tar
+				local minDist=1e99
+				local swap_xy=k=="up"or k=="down"
+				if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
+				for _,W1 in ipairs(WIDGET.active)do
+					if W~=W1 and W1.resCtr and not W1.hide then
+						local L=W1.resCtr
+						for j=1,#L,2 do
+							local x,y=L[j],L[j+1]
+							if swap_xy then x,y=y,x end -- note that we do not swap them back later
+							local dist=(x-WX)*dir
+							if dist>10 then
+								dist=dist+abs(y-WY)*6.26
+								if dist<minDist then
+									minDist=dist
+									tar=W1
+								end
 							end
 						end
 					end
 				end
-			end
-			if tar then
-				WIDGET.focus(tar)
+				if tar then
+					WIDGET.focus(tar)
+				end
 			end
 		end
 	else
