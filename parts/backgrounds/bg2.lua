@@ -9,14 +9,14 @@ function back.init()
 	BG.resize(nil,SCR.h)
 end
 function back.resize(_,h)
-	shader:send("h",h*SCR.dpi)
+	shader:send('h',h*SCR.dpi)
 end
 function back.update(dt)
 	t=t+dt
 end
 function back.draw()
 	gc.clear(.1,.1,.1)
-	shader:send("t",t)
+	shader:send('t',t)
 	gc.setShader(shader)
 	gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.setShader()

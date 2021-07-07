@@ -77,7 +77,7 @@ end
 function FXdraw.tap(S)
 	local t=S.t
 	gc_setColor(1,1,1,(1-t)*.4)
-	gc_circle('fill',S.x,S.y,(900-900*t)^.5)
+	gc_circle('fill',S.x,S.y,30*(1-t)^.5)
 end
 function FXdraw.ripple(S)
 	local t=S.t

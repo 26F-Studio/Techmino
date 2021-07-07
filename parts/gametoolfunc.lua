@@ -618,7 +618,7 @@ do--function drawWarning()
 		if SETTING.warn and GAME.warnLVL>0 then
 			gc_push('transform')
 			gc_origin()
-			shader_warning:send("level",GAME.warnLVL)
+			shader_warning:send('level',GAME.warnLVL)
 			gc_setShader(shader_warning)
 			gc_rectangle('fill',0,0,SCR.w,SCR.h)
 			gc_setShader()

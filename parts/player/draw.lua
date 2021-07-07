@@ -268,7 +268,7 @@ local drawGhost={
 	end,
 }
 local function drawBlockOutline(P,texture,trans)
-	shader_alpha:send("a",trans)
+	shader_alpha:send('a',trans)
 	gc_setShader(shader_alpha)
 	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
