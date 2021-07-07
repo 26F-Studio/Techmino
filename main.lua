@@ -306,8 +306,13 @@ do
 		love.event.quit('restart')
 	end
 end
+
+--Apply system setting
 LANG.set(SETTING.lang)
 VK.setShape(SETTING.VKSkin)
+applyBlockSatur(SETTING.blockSatur)
+applyFieldSatur(SETTING.fieldSatur)
+
 --Load replays
 for _,fileName in next,fs.getDirectoryItems('replay')do
 	if fileName:sub(12,12):match("[a-zA-Z]")then

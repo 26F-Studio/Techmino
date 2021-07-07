@@ -176,6 +176,9 @@ return{
 			clean="[]→→O",
 			fullscreen="|←→|",
 			bg="__?__",
+
+			blockSatur="==#0x",
+			fieldSatur="[]#0x",
 		},
 		setting_sound={
 			title="(~~)",

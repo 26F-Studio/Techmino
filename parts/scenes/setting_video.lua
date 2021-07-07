@@ -17,9 +17,23 @@ function scene.draw()
 		gc.setColor(1,1,1)
 		PLY.draw.drawGhost[SETTING.ghostType](fakePlayer,math.floor(TIME()*3)%16+1,SETTING.ghost)
 	gc.pop()
+	gc.push('transform')
+		gc.setColor(1,1,1)
+		local L=SKIN.curText
+		local T=L[1]
+		gc.translate(0,1410-WIDGET.scrollPos)
+		gc.setShader(SHADER.blockSatur)
+		gc.draw(T,420+15,0)gc.draw(T,450+15,0)gc.draw(T,450+15,30)gc.draw(T,480+15,30)
+		gc.setShader(SHADER.fieldSatur)
+		for i=1,8 do
+			gc.draw(L[i],330+30*i,100)
+			gc.draw(L[i+8],330+30*i,130)
+		end
+		gc.setShader()
+	gc.pop()
 end
 
-scene.widgetScrollHeight=700
+scene.widgetScrollHeight=900
 scene.widgetList={
 	WIDGET.newText{name="title",		x=640,y=15,font=80},
 
@@ -63,6 +77,18 @@ scene.widgetList={
 			SETTING.bg=not SETTING.bg
 			BG.set()
 		end},
+
+	WIDGET.newSelector{name="blockSatur",x=800,y=1440,w=300,color='lN',
+		list={'normal','soft','grey','light','color'},
+		disp=SETval("blockSatur"),
+		code=function(v)SETTING.blockSatur=v;applyBlockSatur(SETTING.blockSatur)end
+	},
+	WIDGET.newSelector{name="fieldSatur",x=800,y=1540,w=300,color='lN',
+		list={'normal','soft','grey','light','color'},
+		disp=SETval("fieldSatur"),
+		code=function(v)SETTING.fieldSatur=v;applyFieldSatur(SETTING.fieldSatur)end
+	},
+
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

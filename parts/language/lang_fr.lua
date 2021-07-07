@@ -321,6 +321,9 @@ return{
 			-- clean="Fast Draw",
 			fullscreen="Plein écran",
 			bg="Arrière-plan",
+
+			-- blockSatur="Block Saturation",
+			-- fieldSatur="Field Saturation",
 		},
 		setting_sound={
 			title="Paramètres du son",

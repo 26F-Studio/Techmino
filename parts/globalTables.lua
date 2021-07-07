@@ -328,6 +328,8 @@ SETTING={--Settings
 	atkFX=2,
 	frameMul=100,
 	cleanCanvas=false,
+	blockSatur='normal',
+	fieldSatur='normal',
 
 	text=true,
 	score=true,

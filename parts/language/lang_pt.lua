@@ -347,6 +347,9 @@ return{
 			-- clean="Fast Draw",
 			fullscreen="Tela cheia",
 			bg="Fundo",
+
+			-- blockSatur="Block Saturation",
+			-- fieldSatur="Field Saturation",
 		},
 		setting_sound={
 			title="Config. de sons",

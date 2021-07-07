@@ -13,6 +13,7 @@ local setFont,mDraw,mStr=setFont,mDraw,mStr
 local SKIN,TEXTURE,IMG=SKIN,TEXTURE,IMG
 local TEXT,COLOR,GAME,TIME=TEXT,COLOR,GAME,TIME
 local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
+local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
 local RCPB={5,33,195,33,100,5,100,60}
@@ -122,7 +123,7 @@ local function drawField(P)
 			--<drawRow>
 				for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
 			--</drawRow>
-			gc_setShader()
+			gc_setShader(shader_fieldSatur)
 			gc_translate(0,4)
 		end
 
@@ -146,7 +147,7 @@ local function drawField(P)
 					drawRow(j,V[j],F[j])
 				end
 			--</drawRow>
-			gc_setShader()
+			gc_setShader(shader_fieldSatur)
 			gc_pop()
 			h=1
 		end
@@ -165,6 +166,7 @@ local function drawField(P)
 		--</drawRow>
 		gc_pop()
 	end
+	gc_setShader()
 end
 local function drawFXs(P)
 	--LockFX
@@ -285,6 +287,7 @@ local function drawBlockOutline(P,texture,trans)
 end
 local function drawBlock(P,clr)
 	gc_setColor(1,1,1)
+	gc_setShader(shader_blockSatur)
 	local texture=SKIN.curText[clr]
 	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
@@ -292,6 +295,7 @@ local function drawBlock(P,clr)
 			gc_draw(texture,30*(j+P.curX-1)-30,-30*(i+P.curY-1))
 		end
 	end end
+	gc_setShader()
 end
 local function drawNextPreview(P,B)
 	gc_setColor(1,1,1,.8)
@@ -405,6 +409,7 @@ local function drawHold(P)
 		end
 		gc_push('transform')
 			gc_translate(62,40)
+			gc_setShader(shader_blockSatur)
 			for n=1,#holdQueue do
 				if n==N then gc_setColor(.6,.4,.4)end
 				local bk,clr=holdQueue[n].bk,holdQueue[n].color
@@ -419,6 +424,7 @@ local function drawHold(P)
 				gc_scale(1/k)
 				gc_translate(0,72)
 			end
+			gc_setShader()
 		gc_pop()
 	gc_pop()
 end
@@ -534,6 +540,7 @@ function draw.drawNext_norm(P)
 		N=1
 		gc_push('transform')
 			gc_translate(62,40)
+			gc_setShader(shader_blockSatur)
 			while N<=ENV.nextCount and P.nextQueue[N]do
 				local bk,sprite=P.nextQueue[N].bk,texture[P.nextQueue[N].color]
 				local k=#bk>2 and 2.2/#bk or 1
@@ -547,6 +554,7 @@ function draw.drawNext_norm(P)
 				N=N+1
 				gc_translate(0,72)
 			end
+			gc_setShader()
 		gc_pop()
 
 		if ENV.bagLine then
@@ -567,6 +575,7 @@ function draw.drawNext_hidden(P)
 		N=min(ENV.nextStartPos,P.pieceCount+1)
 		gc_push('transform')
 			gc_translate(62,40)
+			gc_setShader(shader_blockSatur)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
 				local bk,sprite=queue[N].bk,texture[queue[N].color]
@@ -581,6 +590,7 @@ function draw.drawNext_hidden(P)
 				N=N+1
 				gc_translate(0,72)
 			end
+			gc_setShader()
 		gc_pop()
 
 		if ENV.bagLine then

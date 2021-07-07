@@ -323,6 +323,9 @@ return{
 			clean="Fast Draw",
 			fullscreen="Pant. Completa",
 			bg="Fondo",
+
+			-- blockSatur="Block Saturation",
+			-- fieldSatur="Field Saturation",
 		},
 		setting_sound={
 			title="Ajustes de Sonido",

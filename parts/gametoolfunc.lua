@@ -17,6 +17,25 @@ function switchFullscreen()
 	love.window.setFullscreen(SETTING.fullscreen)
 	love.resize(gc.getWidth(),gc.getHeight())
 end
+do--function applyXxxSatur(mode)
+	local saturateValues={
+		normal={0,1},
+		soft={.2,.7},
+		grey={.4,.4},
+		light={.2,.8},
+		color={-.2,1.2},
+	}
+	function applyBlockSatur(mode)
+		local m=saturateValues[mode]or saturateValues.normal
+		SHADER.blockSatur:send('b',m[1])
+		SHADER.blockSatur:send('k',m[2])
+	end
+	function applyFieldSatur(mode)
+		local m=saturateValues[mode]or saturateValues.normal
+		SHADER.fieldSatur:send('b',m[1])
+		SHADER.fieldSatur:send('k',m[2])
+	end
+end
 
 
 

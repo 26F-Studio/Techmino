@@ -348,6 +348,9 @@ return{
 			clean="绘制优化",
 			fullscreen="全屏",
 			bg="背景",
+
+			blockSatur="方块饱和度",
+			fieldSatur="场地饱和度",
 		},
 		setting_sound={
 			title="声音设置",

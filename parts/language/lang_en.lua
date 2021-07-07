@@ -348,6 +348,9 @@ return{
 			clean="Fast Draw",
 			fullscreen="Full Screen",
 			bg="Background",
+
+			blockSatur="Block Saturation",
+			fieldSatur="Field Saturation",
 		},
 		setting_sound={
 			title="Sound Settings",
