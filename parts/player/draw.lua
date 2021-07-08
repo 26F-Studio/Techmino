@@ -239,7 +239,7 @@ local drawGhost={
 			end
 		end end
 	end,
-	greyCell=function(P,_,alpha)
+	grayCell=function(P,_,alpha)
 		gc_setColor(1,1,1,alpha)
 		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do

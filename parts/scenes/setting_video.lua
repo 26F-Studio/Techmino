@@ -45,7 +45,7 @@ scene.widgetList={
 	WIDGET.newSwitch{name="upEdge",		x=380,y=320,disp=SETval("upEdge"),code=SETrev("upEdge")},
 	WIDGET.newSwitch{name="bagLine",	x=380,y=390,disp=SETval("bagLine"),code=SETrev("bagLine")},
 
-	WIDGET.newSelector{name="ghostType",x=915,y=180,w=350,list={'color','gray','colorCell','greyCell','colorLine','grayLine'},disp=SETval("ghostType"),code=SETsto("ghostType")},
+	WIDGET.newSelector{name="ghostType",x=915,y=180,w=350,list={'color','gray','colorCell','grayCell','colorLine','grayLine'},disp=SETval("ghostType"),code=SETsto("ghostType")},
 	WIDGET.newSlider{name="ghost",		x=740,y=240,w=350,unit=1,	disp=SETval("ghost"),show="percent",code=SETsto("ghost")},
 	WIDGET.newSlider{name="grid",		x=740,y=320,w=350,unit=.4,	disp=SETval("grid"),show="percent",	code=SETsto("grid")},
 	WIDGET.newSlider{name="center",		x=740,y=400,w=350,unit=1,	disp=SETval("center"),				code=SETsto("center")},
@@ -79,12 +79,12 @@ scene.widgetList={
 		end},
 
 	WIDGET.newSelector{name="blockSatur",x=800,y=1440,w=300,color='lN',
-		list={'normal','soft','grey','light','color'},
+		list={'normal','soft','gray','light','color'},
 		disp=SETval("blockSatur"),
 		code=function(v)SETTING.blockSatur=v;applyBlockSatur(SETTING.blockSatur)end
 	},
 	WIDGET.newSelector{name="fieldSatur",x=800,y=1540,w=300,color='lN',
-		list={'normal','soft','grey','light','color'},
+		list={'normal','soft','gray','light','color'},
 		disp=SETval("fieldSatur"),
 		code=function(v)SETTING.fieldSatur=v;applyFieldSatur(SETTING.fieldSatur)end
 	},

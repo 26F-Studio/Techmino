@@ -261,6 +261,10 @@ do
 		needSave=true
 		autoRestart=true
 	end
+	if SETTING.ghostType=='greyCell'then
+		SETTING.ghostType='grayCell'
+		needSave=true
+	end
 	if not SETTING.VKSkin then SETTING.VKSkin=1 end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
 		SETTING.frameMul=100

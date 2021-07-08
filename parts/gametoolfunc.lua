@@ -21,7 +21,7 @@ do--function applyXxxSatur(mode)
 	local saturateValues={
 		normal={0,1},
 		soft={.2,.7},
-		grey={.4,.4},
+		gray={.4,.4},
 		light={.2,.8},
 		color={-.2,1.2},
 	}
