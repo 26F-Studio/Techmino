@@ -936,7 +936,7 @@ return{
 	{"Vince",
 		"vincehd",
 		"name",
-		"One of the top players.\nWorld record holder for Sprint (no delay).",
+		"One of the top players.\nLast world record holder for Sprint (no delay).",
 	},
 	{"Wumbo",
 		"wumbotize squirtle",

@@ -953,7 +953,7 @@ return{
 	{"Vince",
 		"vincehd",
 		"name",
-		"一流玩家，现任世界最速保持者(无延迟方块)",
+		"一流玩家，上任世界最速保持者(无延迟方块)",
 	},
 	{"Wumbo",
 		"wumbo wangbo",
