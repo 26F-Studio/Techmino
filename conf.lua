@@ -1,9 +1,9 @@
 VERSION={
-	build=342,
-	code=1505,
-	short="V0.15.5",
-	string="Alpha V0.15.5",
-	name="姿态调整 RCS Control",
+	build=343,
+	code=1506,
+	short="V0.15.6",
+	string="Alpha V0.15.6",
+	name="漏洞修复 Bug Fix",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
