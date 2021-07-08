@@ -21,14 +21,19 @@ local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local newMessageTimer
 
+local function hideReadyUI()
+	return
+		playing or
+		NET.roomState.start or
+		NET.getlock('ready')
+end
+
 local function _setCancel()NET.signal_setMode(0)end
 local function _setReady()NET.signal_setMode(1)end
 local function _setSpectate()NET.signal_setMode(2)end
 local function _gotoSetting()
-	if not(netPLY.getSelfReady()or NET.getlock('ready'))then
-		GAME.prevBG=BG.cur
-		SCN.go('setting_game')
-	end
+	GAME.prevBG=BG.cur
+	SCN.go('setting_game')
 end
 local function _quit()
 	if TIME()-lastBackTime<1 then
@@ -48,13 +53,6 @@ local function _switchChat()
 		inputBox.hide=true
 		WIDGET.unFocus(true)
 	end
-end
-local function hideReadyUI()
-	return
-		playing or
-		NET.roomState.start or
-		not netPLY.getSelfReady()or
-		NET.getlock('ready')
 end
 
 local scene={}
@@ -332,10 +330,10 @@ end
 scene.widgetList={
 	textBox,
 	inputBox,
-	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,	code=_gotoSetting,hideF=hideReadyUI},
-	WIDGET.newKey{name="ready",x=1060,y=510,w=360,h=90,color='lG',font=35,		code=_setReady,hideF=hideReadyUI},
-	WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35,	code=_setSpectate,hideF=hideReadyUI},
-	WIDGET.newKey{name="cancel",x=1060,y=560,w=360,h=120,color='lH',font=40,	code=_setCancel,hideF=hideReadyUI},
+	WIDGET.newKey{name="setting",fText=TEXTURE.setting,x=1200,y=160,w=90,h=90,	code=_gotoSetting,hideF=function()return hideReadyUI()or netPLY.getSelfReady()end},
+	WIDGET.newKey{name="ready",x=1060,y=510,w=360,h=90,color='lG',font=35,		code=_setReady,hideF=function()return hideReadyUI()or netPLY.getSelfReady()end},
+	WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35,	code=_setSpectate,hideF=function()return hideReadyUI()or netPLY.getSelfReady()end},
+	WIDGET.newKey{name="cancel",x=1060,y=560,w=360,h=120,color='lH',font=40,	code=_setCancel,hideF=function()return hideReadyUI()or not netPLY.getSelfReady()end},
 	WIDGET.newKey{name="hideChat",fText="...",x=380,y=35,w=60,font=35,			code=_switchChat},
 	WIDGET.newKey{name="quit",fText=TEXTURE.quit_small,x=900,y=35,w=60,code=_quit},
 }
