@@ -51,7 +51,7 @@ return{
 
 	{name='blind_e',		x=150,	y=-700,	size=40,shape=1,icon="hidden",	unlock={'blind_n'}},
 	{name='blind_n',		x=150,	y=-800,	size=40,shape=1,icon="hidden",	unlock={'blind_h'}},
-	{name='blind_h',		x=150,	y=-900,	size=35,shape=1,icon="hidden",	unlock={'blind_l'}},
+	{name='blind_h',		x=150,	y=-900,	size=40,shape=1,icon="hidden",	unlock={'blind_l'}},
 	{name='blind_l',		x=150,	y=-1000,size=35,shape=3,icon="hidden",	unlock={'blind_u'}},
 	{name='blind_u',		x=150,	y=-1100,size=35,shape=3,icon="hidden",	unlock={'blind_wtf'}},
 	{name='blind_wtf',		x=150,	y=-1200,size=35,shape=2,icon="hidden"},
