@@ -1,7 +1,6 @@
 return{
 	fallback=4,
 	anykey="↓□↓",
-	httpTimeout="e??????x",
 
 	atkModeName={"?","(  )","!","←→"},
 	royale_remain="$1 ~",

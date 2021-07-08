@@ -2,7 +2,6 @@ return{
 	fallback=4,
 	anykey="Appuyez sur n'importe quelle touche",
 	sureQuit="Appuyez à nouveau pour sortir",
-	httpTimeout="La connexion au réseau ne s'est pas faite à temps.",
 	newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
 	playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
 	playedTooMuch="[Anti-addiction] Vous avez joué trop longtemps ! Vous ne pouvez plus jouer.",

@@ -3,7 +3,6 @@ return{
 	fallback=4,
 	anykey="Pressione qualquer tecla",
 	sureQuit="Aparte novamente para sair",
-	httpTimeout="Conexão de rede expirou",
 	newDay="[Anti-vício] Novo dia, um começo novo!",
 	playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
 	playedTooMuch="[Anti-vício] Você esteve jogando demais hoje! Você não pode jogar mais.",

@@ -2,7 +2,6 @@ local C=COLOR
 return{
 	anykey="按任意键继续",
 	sureQuit="再按一次退出",
-	httpTimeout="网络连接超时!",
 	newDay="新的一天,新的开始~",
 	playedLong="已经玩很久了!注意休息!",
 	playedTooMuch="今天玩太久啦!打块好玩但也要适可而止哦~",

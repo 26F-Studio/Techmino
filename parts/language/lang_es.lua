@@ -2,7 +2,6 @@ return{
 	fallback=4,
 	anykey="Pulsa cualquier tecla",
 	sureQuit="Pulsa de nuevo para salir",
-	httpTimeout="¡Tiempo de espera de conexión agotado!",
 	newDay="[Anti-adicción] ¡Nuevo día, nuevo comienzo!",
 	playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
 	playedTooMuch="[Anti-adicción] ¡Has jugado mucho por hoy! No puedes jugar más.",

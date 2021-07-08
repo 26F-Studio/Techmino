@@ -1,4 +1,4 @@
-local gc,tc=love.graphics,love.touch
+local gc,kb,tc=love.graphics,love.keyboard,love.touch
 local sin=math.sin
 local SCR,VK=SCR,VK
 local GAME=GAME
@@ -117,41 +117,47 @@ function scene.gamepadUp(key)
 	end
 end
 
-function scene.update(dt)
-	local _
-
-	--Replay
-	if GAME.replaying then
-		_=GAME.replaying
-		local P1=PLAYERS[1]
-		local L=GAME.rep
-		while P1.frameRun==L[_]do
-			local key=L[_+1]
-			if key==0 then--Just wait
-			elseif key<=32 then--Press key
-				P1:pressKey(key)
-				VK.press(key)
-			elseif key<=64 then--Release key
-				P1:releaseKey(key-32)
-				VK.release(key-32)
-			end
-			_=_+2
-		end
-		GAME.replaying=_
-	end
-
+local function update_common(dt)
+	--Update control
 	touchMoveLastFrame=false
 	VK.update()
 
 	--Update players
 	for p=1,#PLAYERS do PLAYERS[p]:update(dt)end
 
-	--Warning check
-	checkWarning()
-
 	--Fresh royale target
 	if GAME.modeEnv.royaleMode and PLAYERS[1].frameRun%120==0 then
 		freshMostDangerous()
+	end
+
+	--Warning check
+	checkWarning()
+end
+function scene.update(dt)
+	local repPtr=GAME.replaying
+	if repPtr then
+		for _=1,kb.isDown("space")and 3 or 1 do
+			if repPtr then
+				local P1=PLAYERS[1]
+				local L=GAME.rep
+				while P1.frameRun==L[repPtr]do
+					local key=L[repPtr+1]
+					if key==0 then--Just wait
+					elseif key<=32 then--Press key
+						P1:pressKey(key)
+						VK.press(key)
+					elseif key<=64 then--Release key
+						P1:releaseKey(key-32)
+						VK.release(key-32)
+					end
+					repPtr=repPtr+2
+				end
+				GAME.replaying=repPtr
+			end
+			update_common(dt)
+		end
+	else
+		update_common(dt)
 	end
 end
 

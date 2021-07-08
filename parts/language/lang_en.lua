@@ -2,7 +2,6 @@ local C=COLOR
 return{
 	anykey="Press a key!",
 	sureQuit="Press again to exit",
-	httpTimeout="Connection error: Timed out",
 	newDay="A new day, a new beginning!",
 	playedLong="You have been playing for a long time. Make sure to rest well!",
 	playedTooMuch="You have been playing for too long! Playing a block game is fun, but it's time to take a break.",
