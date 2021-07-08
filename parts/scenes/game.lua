@@ -1,10 +1,20 @@
-local gc,kb,tc=love.graphics,love.keyboard,love.touch
+local gc,tc=love.graphics,love.touch
 local sin=math.sin
 local SCR,VK=SCR,VK
 local GAME=GAME
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
+local floatRepRate,replayRate
+
+local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
+local function _rep0()replayRate=0 end
+local function _repP8()replayRate=.125 end
+local function _repP2()replayRate=.5 end
+local function _rep1()replayRate=1 end
+local function _rep2()replayRate=2 end
+local function _rep5()replayRate=5 end
+local function _step()floatRepRate=floatRepRate+1 end
 
 local scene={}
 
@@ -13,8 +23,10 @@ function scene.sceneInit()
 		resetGameData()
 		GAME.init=false
 	end
+	floatRepRate,replayRate=0,1
 	noKey=GAME.replaying
 	noTouch=not SETTING.VKSwitch or noKey
+	WIDGET.active.restart.hide=GAME.replaying
 end
 function scene.sceneBack()
 	destroyPlayers()
@@ -68,18 +80,42 @@ function scene.touchMove()
 	end
 end
 function scene.keyDown(key,isRep)
-	if isRep then return end
-	local k=keyMap.keyboard[key]
-	if k then
-		if k>0 then
-			if noKey then return end
-			PLAYERS[1]:pressKey(k)
-			VK.press(k)
-		elseif not GAME.fromRepMenu then
-			restart()
+	if not GAME.replaying then
+		if isRep then return end
+		local k=keyMap.keyboard[key]
+		if k then
+			if k>0 then
+				if noKey then return end
+				PLAYERS[1]:pressKey(k)
+				VK.press(k)
+			elseif not GAME.fromRepMenu then
+				restart()
+			end
+		elseif key=="escape"then
+			pauseGame()
 		end
-	elseif key=="escape"then
-		pauseGame()
+	else
+		if key=="space"then
+			if not isRep then replayRate=replayRate==0 and 1 or 0 end
+		elseif key=="right"then
+			if replayRate==0 then
+				_step()
+			elseif not isRep then
+				if replayRate==.125 then replayRate=.5
+				elseif replayRate==.5 then replayRate=1
+				elseif replayRate==1 then replayRate=2
+				elseif replayRate==2 then replayRate=5
+				end
+			end
+		elseif key=="left"then
+			if replayRate~=0 and not isRep then
+				if replayRate==.5 then replayRate=.125
+				elseif replayRate==1 then replayRate=.5
+				elseif replayRate==2 then replayRate=1
+				elseif replayRate==5 then replayRate=2
+				end
+			end
+		end
 	end
 end
 function scene.keyUp(key)
@@ -136,7 +172,9 @@ end
 function scene.update(dt)
 	local repPtr=GAME.replaying
 	if repPtr then
-		for _=1,kb.isDown("space")and 3 or 1 do
+		floatRepRate=floatRepRate+replayRate
+		while floatRepRate>=1 do
+			floatRepRate=floatRepRate-1
 			if repPtr then
 				local P1=PLAYERS[1]
 				local L=GAME.rep
@@ -211,15 +249,25 @@ function scene.draw()
 	--Replaying
 	if GAME.replaying then
 		gc.setColor(1,1,TIME()%1>.5 and 1 or 0)
-		mText(drawableText.replaying,770,17)
+		mText(drawableText.replaying,770,8)
+		setFont(20)
+		mStr(("%s  <%sf>"):format(repRateStrings[replayRate],PLAYERS[1].frameRun),770,30)
 	end
 
 	--Warning
 	drawWarning()
 end
+
 scene.widgetList={
-	WIDGET.newKey{name="restart",fText="R",x=380,y=35,w=60,font=40,code=restart,hideF=function()return GAME.fromRepMenu end},
-	WIDGET.newKey{name="pause",fText="II",x=900,y=35,w=60,font=40,code=function()pauseGame()end},
+	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0,hideF=function()return not GAME.replay and replayRate==0 end},
+	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8,hideF=function()return not GAME.replay and replayRate==.125 end},
+	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2,hideF=function()return not GAME.replay and replayRate==.5 end},
+	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1,hideF=function()return not GAME.replay and replayRate==1 end},
+	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2,hideF=function()return not GAME.replay and replayRate==2 end},
+	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5,hideF=function()return not GAME.replay and replayRate==5 end},
+	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step,hideF=function()return not GAME.replay and replayRate~=0 end},
+	WIDGET.newKey{name="restart",	fText="R",x=380,y=35,w=60,font=40,code=restart},
+	WIDGET.newKey{name="pause",		fText="II",x=900,y=35,w=60,font=40,code=function()pauseGame()end},
 }
 
 return scene

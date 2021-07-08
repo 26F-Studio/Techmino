@@ -194,5 +194,16 @@ TEXTURE.quit_small=DOGC{30,30,
 	}}
 }
 
+--Replay speed buttons
+TEXTURE.rep={
+	rep0=DOGC{50,50,{'fRect',11,8,8,34},{'fRect',31,8,8,34}},
+	repP8=DOGC{50,50,{'setFT',15},{'print',"0.125x",0,15}},
+	repP2=DOGC{50,50,{'setFT',25},{'print',"0.5x",0,8}},
+	rep1=DOGC{50,50,{'setFT',30},{'print',"1x",7,3}},
+	rep2=DOGC{50,50,{'setFT',30},{'print',"2x",7,3}},
+	rep5=DOGC{50,50,{'setFT',30},{'print',"5x",7,3}},
+	step=DOGC{50,50,{'setFT',30},{'fRect',12,5,4,40},{'setLW',4},{'line',25,14,41,25,25,36}},
+}
+
 gc.setCanvas()
 return TEXTURE
