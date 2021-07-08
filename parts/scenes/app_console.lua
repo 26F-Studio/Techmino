@@ -820,7 +820,7 @@ userG.the_key=first_key
 local scene={}
 
 function scene.sceneInit()
-	TASK.new(function()WIDGET.focus(inputBox)end)
+	WIDGET.focus(inputBox)
 	BG.set('none')
 end
 
