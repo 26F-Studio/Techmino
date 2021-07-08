@@ -115,6 +115,7 @@ local function drawField(P)
 	local ENV=P.gameEnv
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
+	local showInvis=GAME.replaying
 
 	if P.falling==-1 then--Blocks only
 		if ENV.upEdge then
@@ -128,7 +129,7 @@ local function drawField(P)
 		end
 
 		--<drawRow>
-			for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],GAME.replaying)end
+			for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],showInvis)end
 		--</drawRow>
 	else--With falling animation
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
@@ -161,7 +162,7 @@ local function drawField(P)
 					gc_setColor(1,1,1,alpha)
 					gc_rectangle('fill',0,30-30*j,300,stepY)
 				end
-				drawRow(j,V[j],F[j],GAME.replaying)
+				drawRow(j,V[j],F[j],showInvis)
 			end
 		--</drawRow>
 		gc_pop()
@@ -284,6 +285,15 @@ local function drawBlockOutline(P,texture,trans)
 		end
 	end end
 	gc_setShader()
+end
+local function drawBlockShade(P,alpha)
+	gc_setColor(1,1,1,alpha)
+	local CB=P.cur.bk
+	for i=1,#CB do for j=1,#CB[1]do
+		if CB[i][j]then
+			gc_rectangle('fill',30*(j+P.curX)-60,30-30*(i+P.curY),30,30)
+		end
+	end end
 end
 local function drawBlock(P,clr)
 	gc_setColor(1,1,1)
@@ -684,6 +694,8 @@ function draw.norm(P)
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
+					elseif GAME.replaying then
+						drawGhost.gray(P,nil,.15)
 					end
 
 					local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
@@ -696,6 +708,8 @@ function draw.norm(P)
 								gc_setColor(1,1,1,ENV.center)
 								gc_draw(spinCenterImg,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end
+						elseif GAME.replaying then
+							drawBlockShade(P,trans*.3)
 						end
 					gc_translate(0,dy)
 				end
