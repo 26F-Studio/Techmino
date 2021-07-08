@@ -228,27 +228,6 @@ local drawGhost={
 			end
 		end end
 	end,
-	colorLine=function(P,clr,alpha)
-		clr=minoColor[clr]
-		gc_setColor(clr[1],clr[2],clr[3],alpha)
-		gc_setLineWidth(4)
-		local CB=P.cur.bk
-		for i=1,#CB do for j=1,#CB[1]do
-			if CB[i][j]then
-				gc_rectangle('line',30*(j+P.curX-1)-30+2,-30*(i+P.ghoY-1)+2,26,26)
-			end
-		end end
-	end,
-	grayLine=function(P,_,alpha)
-		gc_setColor(1,1,1,alpha)
-		gc_setLineWidth(4)
-		local CB=P.cur.bk
-		for i=1,#CB do for j=1,#CB[1]do
-			if CB[i][j]then
-				gc_rectangle('line',30*(j+P.curX-1)-30+2,-30*(i+P.ghoY-1)+2,26,26)
-			end
-		end end
-	end,
 	colorCell=function(P,clr,alpha)
 		clr=minoColor[clr]
 		gc_setColor(clr[1],clr[2],clr[3],alpha)
@@ -265,6 +244,27 @@ local drawGhost={
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
 				gc_rectangle('fill',30*(j+P.curX-1)-30,-30*(i+P.ghoY-1),30,30)
+			end
+		end end
+	end,
+	colorLine=function(P,clr,alpha)
+		clr=minoColor[clr]
+		gc_setColor(clr[1],clr[2],clr[3],alpha)
+		gc_setLineWidth(4)
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_rectangle('line',30*(j+P.curX-1)-30+4,-30*(i+P.ghoY-1)+4,22,22)
+			end
+		end end
+	end,
+	grayLine=function(P,_,alpha)
+		gc_setColor(1,1,1,alpha)
+		gc_setLineWidth(4)
+		local CB=P.cur.bk
+		for i=1,#CB do for j=1,#CB[1]do
+			if CB[i][j]then
+				gc_rectangle('line',30*(j+P.curX-1)-30+4,-30*(i+P.ghoY-1)+4,22,22)
 			end
 		end end
 	end,
