@@ -15,6 +15,7 @@ local author={
 	empty="ERM",
 	["how feeling"]="????",
 	moonbeam="Beethoven & MrZ",
+	["secret7th remix"]="柒栎流星",
 }
 
 local scene={}
@@ -73,9 +74,9 @@ function scene.draw()
 	gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
 	if BGM.nowPlay then
 		local t=TIME()
-		setFont(50)
+		setFont(45)
 		gc.setColor(sin(t*.5)*.2+.8,sin(t*.7)*.2+.8,sin(t)*.2+.8)
-		gc.print(BGM.nowPlay,710,500)
+		gc.print(BGM.nowPlay,710,508)
 		setFont(35)
 		gc.setColor(1,sin(t*2.6)*.5+.5,sin(t*2.6)*.5+.5)
 		gc.print(author[BGM.nowPlay]or"MrZ",680,465)

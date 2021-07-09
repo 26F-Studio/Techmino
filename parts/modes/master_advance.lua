@@ -1,7 +1,7 @@
 local gc=love.graphics
-local death_lock={12,11,10,9,8}
-local death_wait={10,9,8,7,6}
-local death_fall={10,9,8,7,6}
+local death_lock={12,11,10,9,8,	7,7,7,6,6}
+local death_wait={10,9,8,7,6,	6,5,4,4,3}
+local death_fall={10,9,8,7,6,	5,5,4,3,2}
 local function score(P)
 	local D=P.modeData
 
@@ -11,6 +11,7 @@ local function score(P)
 	if P.combo>7 then s=s+2
 	elseif P.combo>3 then s=s+1
 	end
+	s=s+10
 	D.pt=D.pt+s
 
 	if D.pt%100==99 then
@@ -18,6 +19,7 @@ local function score(P)
 	elseif D.pt>=D.target then--Level up!
 		s=D.target/100
 		local E=P.gameEnv
+		SFX.play('reach')
 		BG.set(s==1 and'rainbow'or s==2 and'rainbow2'or'lightning')
 		E.lock=death_lock[s]
 		E.wait=death_wait[s]
@@ -25,16 +27,22 @@ local function score(P)
 		E.das=math.floor(6.9-s*.4)
 		if s==3 then
 			E.bone=true
-		end
-
-		if s==5 then
-			D.pt=500
+		elseif s==5 then
+			if P.stat.frame>146*60 then
+				D.pt=500
+				P:win('finish')
+				return
+			else
+				P.gameEnv.freshLimit=10
+				BGM.play('secret7th remix')
+			end
+		elseif s==10 then
+			D.pt=1000
 			P:win('finish')
-		else
-			D.target=D.target+100
-			P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
+			return
 		end
-		SFX.play('reach')
+		D.target=D.target+100
+		P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
 	end
 end
 
@@ -72,18 +80,12 @@ return{
 	end,
 	getRank=function(P)
 		local S=P.modeData.pt
-		if S==500 then
-			local T=P.stat.time
-			return
-			T<=118 and 5 or
-			T<=148 and 4 or
-			T<=183 and 3 or
-			2
-		else
-			return
+		return
+			S>=1000 and 5 or
+			S>=800 and 4 or
+			S>=500 and 3 or
 			S>=300 and 2 or
 			S>=100 and 1 or
 			S>=50 and 0
-		end
 	end,
 }
