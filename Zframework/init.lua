@@ -221,7 +221,7 @@ local function noDevkeyPressed(key)
 			end
 		end
 	elseif key=="f5"then
-		print(WIDGET.getSel()or"no widget selected")
+		print(WIDGET.getSelected()or"no widget selected")
 	elseif key=="f6"then
 		for k,v in next,_G do print(k,v)end
 	elseif key=="f7"and love._openConsole then

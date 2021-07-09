@@ -1218,7 +1218,7 @@ WIDGET.indexMeta={
 	end
 }
 function WIDGET.setWidgetList(list)
-	WIDGET.unFocus()
+	WIDGET.unFocus(true)
 	WIDGET.active=list or NONE
 
 	--Reset all widgets
