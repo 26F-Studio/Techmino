@@ -35,11 +35,12 @@ function THEME.calculate(Y,M,D)
 		M=='04'and D=='01'and
 		'fool'or
 
-		--Z day (Feb./Mar./Apr./May./June. 26)
+		--Z day
 		D=='26'and(
-			(M=='01'or M=='02')and'zday1'or
-			(M=='03'or M=='04')and'zday2'or
-			(M=='05'or M=='06')and'zday3'
+			(M=='01'or M=='02'or M=='03')and'zday1'or
+			(M=='04'or M=='05'or M=='06')and'zday2'or
+			(M=='07'or M=='08'or M=='09')and'zday3'or
+			(M=='10'or M=='11'or M=='12')and'zday4'
 		)or
 
 		'classic'
@@ -48,7 +49,7 @@ end
 function THEME.set(theme)
 	if theme=='classic'then
 		BG.setDefault('space')
-		BGM.setDefault('space')
+		BGM.setDefault('nil')
 	elseif theme=='xmas'then
 		BG.setDefault('snow')
 		BGM.setDefault('xmas')
@@ -62,13 +63,16 @@ function THEME.set(theme)
 		MES.new('info',"★☆新年快乐☆★")
 	elseif theme=='zday1'then
 		BG.setDefault('lanterns')
-		BGM.setDefault('empty')
+		BGM.setDefault('overzero')
 	elseif theme=='zday2'then
 		BG.setDefault('lanterns')
-		BGM.setDefault('overzero')
+		BGM.setDefault('vacuum')
 	elseif theme=='zday3'then
 		BG.setDefault('lanterns')
-		BGM.setDefault('vacuum')
+		BGM.setDefault('empty')
+	elseif theme=='zday4'then
+		BG.setDefault('lanterns')
+		BGM.setDefault('space')
 	elseif theme=='fool'then
 		BG.setDefault('blockrain')
 		BGM.setDefault('how feeling')
