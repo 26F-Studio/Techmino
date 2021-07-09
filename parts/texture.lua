@@ -132,6 +132,17 @@ TEXTURE.setting=DOGC{64,64,
 	{"line",45,19,55,9},
 }
 
+--Music mark
+TEXTURE.music=DOGC{64,64,
+	{"setLW",7},
+	{"line",19,9,60,7},
+	{"setLW",4},
+	{"line",20,9,20,49},
+	{"line",59,7,59,47},
+	{"fElps",11,49,11,8},
+	{"fElps",50,47,11,8},
+}
+
 --Language mark
 TEXTURE.language=DOGC{64,64,
 	{"setLW",4},

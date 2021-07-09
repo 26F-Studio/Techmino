@@ -11,7 +11,7 @@ local widgetX0={
 	-10,-10,-10,-10,
 	1290,1290,1290,1290,
 }
-local consoleEntryThread=coroutine.wrap(function()
+local enterConsole=coroutine.wrap(function()
 	while true do
 		SFX.play('ren_'..math.random(5,6))YIELD()
 		SFX.play('ren_'..math.random(7,8))YIELD()
@@ -41,7 +41,7 @@ end
 
 function scene.mouseDown(x,y)
 	if x>=400 and x<=880 and y>=10 and y<=110 then
-		consoleEntryThread()
+		enterConsole()
 	end
 end
 scene.touchDown=scene.mouseDown
@@ -108,12 +108,12 @@ function scene.keyDown(key,isRep)
 		if testButton(11)then
 			SCN.go('about')
 		end
-	elseif key=="escape"then
+	elseif key=="m"then
 		if testButton(12)then
-			SCN.back()
+			SCN.go('manual')
 		end
 	elseif key=="c"then
-		consoleEntryThread()
+		enterConsole()
 	end
 end
 
@@ -184,10 +184,10 @@ scene.widgetList={
 	WIDGET.newButton{name="dict",	x=2480,y=450,w=800,h=100,	color='lG',font=40,align='L',edge=30,code=pressKey"l"},
 	WIDGET.newButton{name="replays",x=2480,y=570,w=800,h=100,	color='lC',font=40,align='L',edge=30,code=pressKey","},
 
-	WIDGET.newButton{name="music",	x=130,y=80,w=200,h=90,		color='lO',font=35,code=pressKey"2"},
-	WIDGET.newButton{name="lang",	x=300,y=80,w=90,h=90,		color='lN',font=40,code=pressKey"3",fText=TEXTURE.language},
-	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',font=35,align='R',edge=30,code=pressKey"x",fText=TEXTURE.info},
-	WIDGET.newButton{name="manual",	x=1390,y=670,w=600,h=70,	color='lR',fText=TEXTURE.question,align='L',edge=30,code=goScene'manual'},
+	WIDGET.newButton{name="music",	x=120,y=80,w=100,			color='lO',code=pressKey"2",fText=TEXTURE.music},
+	WIDGET.newButton{name="lang",	x=280,y=80,w=100,			color='lN',code=pressKey"3",fText=TEXTURE.language},
+	WIDGET.newButton{name="about",	x=-110,y=670,w=600,h=70,	color='lB',align='R',edge=30,code=pressKey"x",fText=TEXTURE.info},
+	WIDGET.newButton{name="manual",	x=1390,y=670,w=600,h=70,	color='lR',align='L',edge=30,code=pressKey"m",fText=TEXTURE.question},
 }
 
 return scene
