@@ -7,6 +7,7 @@ local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local floatRepRate,replayRate=0,1
 
+local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
 local function _rep0()replayRate=0 end
 local function _repP8()replayRate=.125 end
@@ -23,12 +24,13 @@ function scene.sceneInit(org)
 		resetGameData()
 		GAME.init=false
 	end
+	replaying=GAME.replaying
 	if org~='pause'then
 		floatRepRate,replayRate=0,1
 	end
-	noKey=GAME.replaying
+	noKey=replaying
 	noTouch=not SETTING.VKSwitch or noKey
-	WIDGET.active.restart.hide=GAME.replaying
+	WIDGET.active.restart.hide=replaying
 end
 function scene.sceneBack()
 	destroyPlayers()
@@ -37,7 +39,7 @@ end
 scene.mouseDown=NULL
 local function restart()
 	resetGameData(PLAYERS[1].frameRun<240 and'q')
-	noKey=GAME.replaying
+	noKey=replaying
 	noTouch=noKey
 end
 function scene.touchDown(x,y)
@@ -82,7 +84,7 @@ function scene.touchMove()
 	end
 end
 function scene.keyDown(key,isRep)
-	if not GAME.replaying then
+	if not replaying then
 		if isRep then return end
 		local k=keyMap.keyboard[key]
 		if k then
@@ -174,7 +176,7 @@ local function update_common(dt)
 	checkWarning()
 end
 function scene.update(dt)
-	local repPtr=GAME.replaying
+	local repPtr=replaying
 	if repPtr then
 		floatRepRate=floatRepRate+replayRate
 		while floatRepRate>=1 do
@@ -194,7 +196,7 @@ function scene.update(dt)
 					end
 					repPtr=repPtr+2
 				end
-				GAME.replaying=repPtr
+				replaying=repPtr
 			end
 			update_common(dt)
 		end
@@ -251,7 +253,7 @@ function scene.draw()
 	gc.draw(drawableText.modeName,940,0)
 
 	--Replaying
-	if GAME.replaying then
+	if replaying then
 		setFont(20)
 		gc.setColor(1,1,TIME()%.8>.4 and 1 or 0)
 		mStr(text.replaying,770,6)
@@ -264,13 +266,13 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0,hideF=function()return not GAME.replay and replayRate==0 end},
-	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8,hideF=function()return not GAME.replay and replayRate==.125 end},
-	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2,hideF=function()return not GAME.replay and replayRate==.5 end},
-	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1,hideF=function()return not GAME.replay and replayRate==1 end},
-	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2,hideF=function()return not GAME.replay and replayRate==2 end},
-	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5,hideF=function()return not GAME.replay and replayRate==5 end},
-	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step,hideF=function()return not GAME.replay and replayRate~=0 end},
+	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0,hideF=function()return not replaying or replayRate==0 end},
+	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8,hideF=function()return not replaying or replayRate==.125 end},
+	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2,hideF=function()return not replaying or replayRate==.5 end},
+	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1,hideF=function()return not replaying or replayRate==1 end},
+	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2,hideF=function()return not replaying or replayRate==2 end},
+	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5,hideF=function()return not replaying or replayRate==5 end},
+	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step,hideF=function()return not replaying or replayRate~=0 end},
 	WIDGET.newKey{name="restart",	fText="R",x=380,y=35,w=60,font=40,code=restart},
 	WIDGET.newKey{name="pause",		fText="II",x=900,y=35,w=60,font=40,code=function()pauseGame()end},
 }
