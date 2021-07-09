@@ -272,9 +272,8 @@ do
 	SETTING.appLock=nil
 	SETTING.dataSaving=nil
 	for _,v in next,VK_org do v.color=nil end
-	if RANKS.GM then RANKS.GM=0 end
-	if RANKS.infinite then RANKS.infinite=6 end
-	if RANKS.infinite_dig then RANKS.infinite_dig=6 end
+	if RANKS.infinite then RANKS.infinite=0 end
+	if RANKS.infinite_dig then RANKS.infinite_dig=0 end
 	for k in next,RANKS do
 		if type(k)=='number'then
 			RANKS[k]=nil

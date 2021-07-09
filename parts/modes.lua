@@ -105,9 +105,9 @@ return{
 	{name='backfire_u',		x=1250,	y=350,	size=35,shape=2,icon="backfire"},
 
 	{name='zen',			x=-800,	y=-600,	size=40,shape=1,icon="zen",		unlock={'ultra','infinite','infinite_dig'}},
-	{name='ultra',			x=-1000,y=-400,	size=40,shape=1,icon="ultra"},
-	{name='infinite',		x=-800,	y=-400,	size=40,shape=1,icon='infinite'},
-	{name='infinite_dig',	x=-1000,y=-600,	size=40,shape=1,icon="dig"},
+	{name='ultra',			x=-1000,y=-600,	size=40,shape=1,icon="ultra"},
+	{name='infinite',		x=-1000,y=-400,	size=40,shape=1,icon='infinite'},
+	{name='infinite_dig',	x=-800,	y=-400,	size=40,shape=1,icon="dig"},
 
 	{name='sprintFix'},
 	{name='sprintLock'},
