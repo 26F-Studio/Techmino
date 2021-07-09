@@ -248,10 +248,11 @@ function scene.draw()
 
 	--Replaying
 	if GAME.replaying then
-		gc.setColor(1,1,TIME()%1>.5 and 1 or 0)
-		mText(drawableText.replaying,770,8)
 		setFont(20)
-		mStr(("%s  <%sf>"):format(repRateStrings[replayRate],PLAYERS[1].frameRun),770,30)
+		gc.setColor(1,1,TIME()%.8>.4 and 1 or 0)
+		mStr(text.replaying,770,6)
+		gc.setColor(1,1,1,.8)
+		mStr(("%s   %sf"):format(repRateStrings[replayRate],PLAYERS[1].frameRun),770,31)
 	end
 
 	--Warning
