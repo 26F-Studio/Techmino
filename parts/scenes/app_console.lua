@@ -596,6 +596,40 @@ local commands={}do
 			},
 		}
 	end
+	commands.resetall={
+		code=function(arg)
+			if arg=="sure"then
+				log"Really?"
+				log"Type: resetall really"
+			elseif arg=="really"then
+				WIDGET.unFocus(true)inputBox.hide=true
+				BGM.stop()
+				commands.cls.code()
+				outputBox:clear()
+				outputBox.h=500
+				local button=WIDGET.newButton{name="bye",x=640,y=615,w=426,h=100,code=function()
+					TASK.new(function()
+						WIDGET.active.bye.hide=true
+						FILE.clear_s('')for _=1,30 do coroutine.yield()end
+						log{C.R,"Bye in 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+						log{C.R,"Bye in 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+						log{C.R,"Bye in 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
+						log{C.R,"Bye in 2..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
+						log{C.R,"Bye in 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
+						log{C.R,"Bye in 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
+						outputBox.hide=true for _=1,26 do coroutine.yield()end
+						love.event.quit()
+					end)
+				end}
+				button:setObject("Techmino is fun. Bye.")
+				ins(WIDGET.active,button)
+			else
+				log"Are you sure to reset all?"
+				log"Type: resetall sure"
+			end
+		end,
+		description="Reset all things.",
+	}
 
 	--Game
 	commands.rmconf={
