@@ -5,7 +5,7 @@ local GAME=GAME
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
-local floatRepRate,replayRate
+local floatRepRate,replayRate=0,1
 
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
 local function _rep0()replayRate=0 end
@@ -18,12 +18,14 @@ local function _step()floatRepRate=floatRepRate+1 end
 
 local scene={}
 
-function scene.sceneInit()
+function scene.sceneInit(org)
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
 	end
-	floatRepRate,replayRate=0,1
+	if org~='pause'then
+		floatRepRate,replayRate=0,1
+	end
 	noKey=GAME.replaying
 	noTouch=not SETTING.VKSwitch or noKey
 	WIDGET.active.restart.hide=GAME.replaying
@@ -115,6 +117,8 @@ function scene.keyDown(key,isRep)
 				elseif replayRate==5 then replayRate=2
 				end
 			end
+		elseif key=="escape"then
+			pauseGame()
 		end
 	end
 end
