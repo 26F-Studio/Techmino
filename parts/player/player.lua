@@ -543,9 +543,9 @@ function Player:resetBlock()--Reset Block's position and execute I*S
 	self.curY=y
 	self.minY=y+self.cur.sc[1]
 
-	local _=self.keyPressing
+	local pressing=self.keyPressing
 	--IMS
-	if self.gameEnv.ims and(_[1]and self.movDir==-1 or _[2]and self.movDir==1)and self.moving>=self.gameEnv.das then
+	if self.gameEnv.ims and(pressing[1]and self.movDir==-1 or pressing[2]and self.movDir==1)and self.moving>=self.gameEnv.das then
 		local x=self.curX+self.movDir
 		if not self:ifoverlap(B,x,y)then
 			self.curX=x
@@ -554,19 +554,18 @@ function Player:resetBlock()--Reset Block's position and execute I*S
 
 	--IRS
 	if self.gameEnv.irs then
-		if _[5]then
+		if pressing[5]then
 			self:spin(2,true)
-		else
-			if _[3]then
-				if _[4]then
-					self:spin(2,true)
-				else
-					self:spin(1,true)
-				end
-			elseif _[4]then
-				self:spin(3,true)
+		elseif pressing[3]then
+			if pressing[4]then
+				self:spin(2,true)
+			else
+				self:spin(1,true)
 			end
+		elseif pressing[4]then
+			self:spin(3,true)
 		end
+		pressing[3],pressing[4],pressing[5]=false,false,false
 	end
 
 	--DAS cut
