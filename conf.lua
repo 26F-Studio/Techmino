@@ -3,7 +3,7 @@ VERSION={
 	code=1506,
 	short="V0.15.6",
 	string="Alpha V0.15.6",
-	name="漏洞修复 Bug Fix",
+	name="强化装甲 Reinforced Armor",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
