@@ -239,7 +239,7 @@ end
 
 --Update data
 do
-	local needSave,autoRestart
+	local needSave
 
 	if type(STAT.version)~='number'then
 		STAT.version=0
@@ -259,7 +259,7 @@ do
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code
 		needSave=true
-		autoRestart=true
+		love.event.quit('restart')
 	end
 	if SETTING.ghostType=='greyCell'then
 		SETTING.ghostType='grayCell'
@@ -304,9 +304,6 @@ do
 		FILE.save(SETTING,'conf/settings')
 		FILE.save(RANKS,'conf/unlock')
 		FILE.save(STAT,'conf/data')
-	end
-	if autoRestart then
-		love.event.quit('restart')
 	end
 end
 
