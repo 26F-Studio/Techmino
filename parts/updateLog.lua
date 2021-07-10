@@ -34,17 +34,23 @@ return STRING.split([=[
 0.15.6: 强化装甲 Reinforced Armor
 		新增:
 				新BGM:Nil(用于主菜单)
+				新BGM:Secret7th Remix(用于master-ultimate,by 柒栎流星)
+				master-ultimate模式新增500~1000
 				支持调整录像回放速度和逐帧播放
 				方块和场地的亮度参数调整
 				ghost样式预览
 				模式地图支持按住ctrl或alt后方向键功能变为缩放
+				控制台新增resetall命令
 		改动:
 				TRS中T的踢墙表1→2(3→2)新增-1,-1(+1,-1)
 				回放模式下显示隐形的当前方块和ghost
+				ultra模式倒计时改为帧数
 				微调暂停界面布局
 				微调线框ghost样式
 				简化点击特效
 				调整Zen模式后三个模式位置				
+		代码:
+				修改几个master模式的内部名称
 		修复:
 				录像回放成绩会进入排行
 				不能加载开启了mod的录像

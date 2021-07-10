@@ -1,5 +1,5 @@
 VERSION={
-	build=343,
+	build=344,
 	code=1506,
 	short="V0.15.6",
 	string="Alpha V0.15.6",
