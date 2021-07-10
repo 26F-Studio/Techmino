@@ -661,7 +661,7 @@ local commands={}do
 			if bool=="sure"then
 				for name,M in next,MODES do
 					if type(name)=='string'and not RANKS[name]and M.x then
-						RANKS[name]=M.score and 0 or 6
+						if M.x then RANKS[name]=0 end
 					end
 				end
 				FILE.save(RANKS,'conf/unlock')

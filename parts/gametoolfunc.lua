@@ -294,7 +294,7 @@ function gameOver()--Save record
 								local m=M.unlock[i]
 								local n=MODES[m].name
 								if not RANKS[n]then
-									RANKS[n]=MODES[m].getRank and 0 or 6
+									if MODES[m].x then RANKS[n]=0 end
 									needSave=true
 								end
 							end
