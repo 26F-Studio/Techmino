@@ -569,9 +569,9 @@ function love.run()
 		VOC.update()
 		BG.update(dt)
 		SYSFX.update(dt)
-		WIDGET.update()
 		if SCN.update then SCN.update(dt)end
 		if SCN.swapping then SCN.swapUpdate()end
+		WIDGET.update()
 		TEXT.update()
 		MES.update(dt)
 
