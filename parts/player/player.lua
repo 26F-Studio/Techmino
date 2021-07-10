@@ -1242,9 +1242,6 @@ do--Player.drop(self)--Place piece
 			--Normal clear,reduce B2B point
 			if not piece.special then
 				self.b2b=max(self.b2b-250,0)
-				if self.b2b<50 and ENV.b2bKill then
-					finish=true
-				end
 				self:showText(text.clear[cc],0,-30,35,'appear',(8-cc)*.3)
 				atk=cc-.5
 				sendTime=20+int(atk*20)
@@ -1299,7 +1296,11 @@ do--Player.drop(self)--Place piece
 				end
 			end
 
-			if self.b2b>1000 then self.b2b=1000 end
+			if self.b2b>1000 then
+				self.b2b=1000
+			elseif self.b2b==0 and ENV.b2bKill then
+				finish=true
+			end
 
 			--Bonus atk/def when focused
 			if GAME.modeEnv.royaleMode then
