@@ -310,7 +310,7 @@ function NET.createRoom(roomName,description,capacity,roomType,roomData,password
 				roomInfo={
 					name=roomName,
 					type=roomType,
-					version=VERSION.short,
+					version=VERSION.room,
 					description=description,
 				},
 				roomData=roomData,

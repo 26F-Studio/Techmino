@@ -3,6 +3,7 @@ VERSION={
 	code=1506,
 	short="V0.15.6",
 	string="Alpha V0.15.6",
+	room="V1.0",
 	name="强化装甲 Reinforced Armor",
 }
 function love.conf(t)

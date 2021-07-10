@@ -9,13 +9,6 @@ local gc_print,gc_printf=gc.print,gc.printf
 local NET=NET
 local fetchTimer
 
-local compatibleVer={
-	"V0.15.2",
-	"V0.15.3",
-	"V0.15.4",
-	"V0.15.5",
-}
-
 local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,drawF=function(item,id,ifSel)
 	setFont(35)
 	if ifSel then
@@ -79,7 +72,7 @@ function scene.keyDown(key)
 	elseif roomList:getLen()>0 and key=="return"then
 		local R=roomList:getSel()
 		if NET.getlock('fetchRoom')or not R then return end
-		if TABLE.find(compatibleVer,R.roomInfo.version)then
+		if R.roomInfo.version==VERSION.room then
 			NET.enterRoom(R,passwordBox.value)
 		else
 			MES.new('error',"Version doesn't compatible 版本不兼容")
