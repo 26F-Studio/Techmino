@@ -409,9 +409,6 @@ local function drawHold(P)
 	gc_translate(-140,20)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(1,1,1)gc_rectangle('line',0,0,124,N+8)
-		if P.holdTime==0 then gc_setColor(.6,.4,.4)end
-
-		gc_setColor(1,1,1)
 		if #holdQueue<ENV.holdCount and P.nextQueue[1]then
 			N=1
 		else
