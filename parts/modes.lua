@@ -42,7 +42,7 @@ return{
 	{name='master_l',		x=0,	y=-1000,size=40,shape=1,icon="master",	unlock={'master_u'}},
 	{name='master_u',		x=0,	y=-1200,size=40,shape=3,icon="master",	unlock={'master_final','master_ex','master_ph'}},
 	{name='master_final',	x=0,	y=-1600,size=40,shape=2,icon="master"},
-	{name='master_ph',x=-150,	y=-1500,size=40,shape=2,icon="master"},
+	{name='master_ph',		x=-150,	y=-1500,size=40,shape=2,icon="master"},
 	{name='master_ex',		x=150,	y=-1500,size=40,shape=2,icon="master_ex"},
 
 	{name='rhythm_e',		x=-350,	y=-1000,size=40,shape=1,icon="rhythm",	unlock={'rhythm_h'}},
@@ -85,12 +85,12 @@ return{
 	{name='pc_l',			x=1100,	y=-110,	size=40,shape=3,icon="pc"},
 	{name='pc_inf',			x=1100,	y=-250,	size=40,shape=2,icon="pc"},
 
-	{name='tech_n',			x=400,	y=-150,	size=40,shape=1,icon="tech",	unlock={'tech_n_plus','tech_h','tech_finesse'}},
+	{name='tech_n',			x=400,	y=-110,	size=40,shape=1,icon="tech",	unlock={'tech_n_plus','tech_h','tech_finesse','sprintAtk'}},
 	{name='tech_n_plus',	x=600,	y=160,	size=40,shape=3,icon="tech",	unlock={'tsd_e','backfire_n'}},
-	{name='tech_h',			x=400,	y=40,	size=40,shape=1,icon="tech",	unlock={'tech_h_plus','tech_l'}},
-	{name='tech_h_plus',	x=200,	y=70,	size=35,shape=3,icon="tech"},
-	{name='tech_l',			x=400,	y=200,	size=40,shape=1,icon="tech",	unlock={'tech_l_plus'}},
-	{name='tech_l_plus',	x=200,	y=230,	size=35,shape=3,icon="tech"},
+	{name='tech_h',			x=220,	y=120,	size=40,shape=1,icon="tech",	unlock={'tech_h_plus','tech_l'}},
+	{name='tech_h_plus',	x=20,	y=150,	size=35,shape=3,icon="tech"},
+	{name='tech_l',			x=220,	y=280,	size=40,shape=1,icon="tech",	unlock={'tech_l_plus'}},
+	{name='tech_l_plus',	x=20,	y=310,	size=35,shape=3,icon="tech"},
 
 	{name='tech_finesse',	x=800,	y=50,	size=40,shape=1,icon="tech",	unlock={'tech_finesse_f'}},
 	{name='tech_finesse_f',	x=1000,	y=50,	size=40,shape=1,icon="tech"},
@@ -103,6 +103,8 @@ return{
 	{name='backfire_h',		x=950,	y=350,	size=40,shape=1,icon="backfire",unlock={'backfire_l'}},
 	{name='backfire_l',		x=1100,	y=350,	size=40,shape=3,icon="backfire",unlock={'backfire_u'}},
 	{name='backfire_u',		x=1250,	y=350,	size=35,shape=2,icon="backfire"},
+
+	{name='sprintAtk',		x=400,	y=200,	size=40,shape=1,icon="sprint2"},
 
 	{name='zen',			x=-800,	y=-600,	size=40,shape=1,icon="zen",		unlock={'ultra','infinite','infinite_dig'}},
 	{name='ultra',			x=-1000,y=-600,	size=40,shape=1,icon="ultra"},
