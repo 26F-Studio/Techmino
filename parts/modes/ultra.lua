@@ -32,10 +32,10 @@ return{
 	end,
 	mesDisp=function(P)
 		gc.setLineWidth(2)
-		gc.rectangle('line',55,120,32,402)
-		local T=P.stat.frame/2
+		gc.rectangle('line',55,110,32,402)
+		local T=P.stat.frame/60/120
 		gc.setColor(2*T,2-2*T,.2)
-		gc.rectangle('fill',56,521,30,(T-1)*400)
+		gc.rectangle('fill',56,511,30,(T-1)*400)
 	end,
 	score=function(P)return{P.stat.score}end,
 	scoreDisp=function(D)return tostring(D[1])end,
