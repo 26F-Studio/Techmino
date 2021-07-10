@@ -15,12 +15,14 @@ function scene.sceneBack()
 	FILE.save(SETTING,'conf/settings')
 end
 
-local function setLang(n)
-	SETTING.lang=n
-	LANG.set(n)
-	TEXT.show(langList[n],640,500,100,'appear',.626)
+local function _setLang(n)
+	return function()
+		SETTING.lang=n
+		LANG.set(n)
+		TEXT.show(langList[n],640,500,100,'appear',.626)
+		collectgarbage()
+	end
 end
-local function _setLang(n)return function()setLang(n)end end
 scene.widgetList={
 	WIDGET.newButton{x=200,y=100,w=200,h=120,fText=langList[1],color='R',font=35,code=_setLang(1)},
 	WIDGET.newButton{x=420,y=100,w=200,h=120,fText=langList[2],color='dR',font=35,code=_setLang(2)},

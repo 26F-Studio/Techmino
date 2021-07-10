@@ -34,11 +34,13 @@ function LANG.init(langList,publicText)--Attention, calling this will destory al
 	LANG.init,LANG.setLangList,LANG.setPublicText=nil
 
 	function LANG.set(l)
-		text=langList[l]
-		WIDGET.setLang(text.WidgetText)
-		for k,v in next,drawableText do
-			if text[k]then
-				v:set(text[k])
+		if text~=langList[l]then
+			text=langList[l]
+			WIDGET.setLang(text.WidgetText)
+			for k,v in next,drawableText do
+				if text[k]then
+					v:set(text[k])
+				end
 			end
 		end
 	end
