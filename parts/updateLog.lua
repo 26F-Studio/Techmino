@@ -1,6 +1,6 @@
 return STRING.split([=[
 未来模式:
-		任务生存; 对称; 无摩擦; 拼方形; 限高无尽挖掘; 连击练习
+		任务生存; 对称; 无摩擦; 拼方形; 限高无尽挖掘; 连击练习; backfire对战
 		极简教程/考试; 大爆炸; 音游模式; 教学关; 术语问答; 仅4lPC模式
 		OSD; 强制Misdrop; 涂色模式(模仿喷喷, designed by teatube)
 未来大游戏:
@@ -35,6 +35,7 @@ return STRING.split([=[
 		新增:
 				新BGM:Nil(用于主菜单)
 				新BGM:Secret7th Remix(用于master-ultimate,by 柒栎流星)
+				新模式:Attack竞速
 				master-ultimate模式新增500~1000
 				支持调整录像回放速度和逐帧播放
 				方块和场地的亮度参数调整
@@ -42,7 +43,7 @@ return STRING.split([=[
 				模式地图支持按住ctrl或alt后方向键功能变为缩放
 				控制台新增resetall命令
 		改动:
-				TRS中T的踢墙表1→2(3→2)新增-1,-1(+1,-1)
+				TRS中T的踢墙表2→1(2→3)新增-1,-1(+1,-1)
 				回放模式下显示隐形的当前方块和ghost
 				ultra模式倒计时改为帧数
 				微调暂停界面布局
