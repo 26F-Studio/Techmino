@@ -11,7 +11,6 @@ local function score(P)
 	if P.combo>7 then s=s+2
 	elseif P.combo>3 then s=s+1
 	end
-	s=s+10
 	D.pt=D.pt+s
 
 	if D.pt%100==99 then
@@ -20,12 +19,16 @@ local function score(P)
 		s=D.target/100
 		local E=P.gameEnv
 		SFX.play('reach')
-		BG.set(s==1 and'rainbow'or s==2 and'rainbow2'or'lightning')
 		E.lock=death_lock[s]
 		E.wait=death_wait[s]
 		E.fall=death_fall[s]
 		E.das=math.floor(6.9-s*.4)
-		if s==3 then
+		if s==1 then
+			BG.set('rainbow')
+		elseif s==2 then
+			BG.set('rainbow2')
+		elseif s==3 then
+			BG.set('glow')
 			E.bone=true
 		elseif s==5 then
 			if P.stat.frame>146*60 then
@@ -34,6 +37,7 @@ local function score(P)
 				return
 			else
 				P.gameEnv.freshLimit=10
+				BG.set('lightning')
 				BGM.play('secret7th remix')
 			end
 		elseif s==10 then
