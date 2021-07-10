@@ -515,9 +515,6 @@ return{
 			now="En train de jouer :",
 
 			bgm="Musique",
-			up="↑",
-			play="Jouer",
-			down="↓",
 			-- sound="SFXs",
 		},
 		sound={

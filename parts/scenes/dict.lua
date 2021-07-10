@@ -183,14 +183,14 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newText{name="title",	x=20,	y=5,font=70,align='L'},
+	WIDGET.newText{name="title",	x=20,y=5,font=70,align='L'},
 	inputBox,
-	WIDGET.newKey{name="link",		x=1150,	y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
-	WIDGET.newKey{name="up",		x=1130,	y=460,w=60,h=90,font=35,code=pressKey"up",hide=not MOBILE},
-	WIDGET.newKey{name="down",		x=1130,	y=560,w=60,h=90,font=35,code=pressKey"down",hide=not MOBILE},
-	WIDGET.newKey{name="pageup",	x=1210,	y=460,w=80,h=90,font=35,code=pressKey"pageup",hide=not MOBILE},
-	WIDGET.newKey{name="pagedown",	x=1210,	y=560,w=80,h=90,font=35,code=pressKey"pagedown",hide=not MOBILE},
-	WIDGET.newButton{name="back",	x=1165,	y=60,w=170,h=80,fText=TEXTURE.back,code=backScene},
+	WIDGET.newKey{name="link",		x=1150,y=655,w=200,h=80,font=35,code=pressKey"link",hideF=function()return not url end},
+	WIDGET.newKey{name="up",		x=1130,y=460,w=60,h=90,font=35,fText="↑",code=pressKey"up",hide=not MOBILE},
+	WIDGET.newKey{name="down",		x=1130,y=560,w=60,h=90,font=35,fText="↓",code=pressKey"down",hide=not MOBILE},
+	WIDGET.newKey{name="pageup",	x=1210,y=460,w=80,h=90,font=35,fText="↑↑",code=pressKey"pageup",hide=not MOBILE},
+	WIDGET.newKey{name="pagedown",	x=1210,y=560,w=80,h=90,font=35,fText="↓↓",code=pressKey"pagedown",hide=not MOBILE},
+	WIDGET.newButton{name="back",	x=1165,y=60,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
 return scene

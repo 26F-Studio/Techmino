@@ -546,8 +546,6 @@ return{
 		dict={
 			title="TetroDictionary",
 			link="Open URL",
-			up="↑",down="↓",
-			pageup="↑↑",pagedown="↓↓",
 		},
 		stat={
 			path="Open Data Folder",
@@ -559,9 +557,6 @@ return{
 			now="Now Playing:",
 
 			bgm="BGM",
-			up="↑",
-			play="Play",
-			down="↓",
 			sound="SFXs",
 		},
 		sound={

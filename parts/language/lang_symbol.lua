@@ -371,9 +371,6 @@ return{
 			now="~:",
 
 			bgm="#~#",
-			up="↑",
-			play="!!!",
-			down="↓",
 			sound="=><=",
 		},
 		sound={

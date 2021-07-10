@@ -543,9 +543,6 @@ return{
 			now="正在播放:",
 
 			bgm="BGM",
-			up="↑",
-			play="播放",
-			down="↓",
 			sound="音效",
 		},
 		sound={
@@ -623,8 +620,6 @@ return{
 		dict={
 			title="小Z方块词典",
 			link="打开链接",
-			up="↑",down="↓",
-			pageup="↑↑",pagedown="↓↓",
 		},
 		stat={
 			path="打开存储目录",
