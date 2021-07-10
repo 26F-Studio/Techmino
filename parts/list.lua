@@ -349,7 +349,11 @@ oldModeNameTable={
 	tsd_easy="tsd_e",
 	tsd_hard="tsd_h",
 	tsd_ultimate="tsd_u",
-	GM="master_extra",
+	GM="master_ex",
+	master_beginner="master_u",
+	master_advance="master_l",
+	master_phantasm="master_ph",
+	master_extra="master_ex",
 }
 rankColor={
 	{.6,.3,.3},
