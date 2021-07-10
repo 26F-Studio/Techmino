@@ -35,11 +35,11 @@ return{
 	nextCount=6,nextStartPos=1,
 	holdCount=1,infHold=false,phyHold=false,
 	ospin=true,deepDrop=false,
-	RS="TRS",
+	RS='TRS',
 	sequence='bag',
 	seqData={1,2,3,4,5,6,7},
-	face=NULL,skin=NULL,
-	mission=NULL,
+	face=false,skin=false,
+	mission=false,
 
 	life=0,
 	garbageSpeed=1,
@@ -50,6 +50,7 @@ return{
 	bufferLimit=1e99,
 
 	fkey1=false,
+	fkey2=false,
 	keyCancel={},
 	fine=false,fineKill=false,
 	b2bKill=false,
