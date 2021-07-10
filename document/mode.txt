@@ -5,81 +5,86 @@
 	env:
 		必选
 		模式环境变量，决定了关卡的各项属性
-		table值:
-			drop:下落延迟(帧，支持自然数和2的整数次幂)
-			lock:锁定延迟(帧)
-			wait:出块延迟(帧)
-			fall:下落延迟(帧)
-			bone:是否开启骨块模式
-			fieldH:场地高度
-			heightLimit:允许的最大场地高度
-			nextCount:显示next个数
-			nextStartPos:next从第几个开始显示
-			holdCount:hold个数
-			infHold:是否能无限hold
-			phyHold:是否开启物理hold
-			ospin=是否能O-spin
-			deepDrop:是否开启深降
-			RS:旋转系统名
+			*属性名*		*默认值*		*说明*
+			drop			60			下落延迟(帧，支持自然数和2的整数次幂)
+			lock			60			锁定延迟(帧)
+			wait			0			出块延迟(帧)
+			fall			0			消行延迟(帧)
+			bone			false		是否开启骨块模式
+			fieldH			20			场地高度
+			heightLimit		1e99		允许的最大场地高度
+			nextCount		6			显示next个数
+			nextStartPos	1			next从第几个开始显示
+			holdCount		1			hold个数
+			infHold			false		是否能无限hold
+			phyHold			false		是否开启物理hold
+			ospin			true		是否能O-spin
+			deepDrop		false		是否开启深降
+			RS				'TRS'		旋转系统名
 
-			das:DAS
-			arr:ARR
-			sddas:软降DAS
-			sdarr:软降ARR
-			mindas:允许的最小DAS
-			minarr:允许的最小ARR
-			minsdarr:允许的最小软降ARR
-			ihs:提前Hold
-			irs:提前旋转
-			ims:提前移动
+			das				10			DAS
+			arr				2			ARR
+			sddas			2			软降DAS
+			sdarr			2			软降ARR
+			mindas			0			允许的最小DAS
+			minarr			0			允许的最小ARR
+			minsdarr		0			允许的最小软降ARR
+			ihs				true		提前Hold
+			irs				true		提前旋转
+			ims				true		提前移动
 
-			skin:方块颜色，包含25个整数(1~16)的table
-			face:方块朝向，包含25个整数(0~3)的table
+			skin			[设置值]		方块颜色，包含25个整数(1~16)的table
+			face			[设置值]		方块朝向，包含25个整数(0~3)的table
 
-			block:是否显示方块
-			ghost:影子透明度(0~1)
-			center:旋转中心透明度(0~1)
-			smooth:是否平滑下落
-			grid:是否显示网格
-			bagLine:是否显示包分界线
-			lockFX:特效等级(0,5)
-			dropFX:特效等级(0,5)
-			moveFX:特效等级(0,5)
-			clearFX:特效等级(0,5)
-			splashFX:特效等级(0,5)
-			shakeFX:特效等级(0,5)
-			atkFX:特效等级(0,5)
+			block			true		是否显示方块
+			ghost			0.3			影子透明度(0~1)
+			center			1			旋转中心透明度(0~1)
+			smooth			false		是否平滑下落
+			grid			0.16		网格透明度(0~1)
+			bagLine			true		是否显示包分界线(如果存在)
+			lockFX			2			锁定特效等级(0~5整数)
+			dropFX			2			瞬间下落特效等级(0~5整数)
+			moveFX			2			移动特效等级(0~5整数)
+			clearFX			2			消除特效等级(0~5整数)
+			splashFX		2			溅射特效等级(0~5整数)
+			shakeFX			2			晃动特效等级(0~5整数)
+			atkFX			2			攻击特效等级(0~5整数)
 
-			text:是否显示消行文本
-			score:是否显示落块分数
-			warn:是否开启死亡预警
-			highCam:是否开启超屏视野
-			nextPos:是否开启生成预览
+			text			true		是否显示消行文本
+			score			true		是否显示落块分数
+			highCam			false		是否开启超屏视野
+			nextPos			false		是否开启生成预览
+			showSpike		false		是否开启spike计数器
 
-			sequence=序列模式，是放一块后对next序列的刷新函数，可以使用默认的几个函数用字符串表示。也可以自己写一个，注意：使用协程技术
-			seqData:序列模式使用的"包"数据(本质是生成序列用的数据，会作为参数传进序列生成函数，不一定是包)
-			mission:包含任务的table，说明暂时略
+			hideBoard		false		场地隐藏模式("down"|"up"|"all")
+			flipBoard		false		场地翻转模式("U-D"|"L-R"|"180")
 
-			life:生命数
-			garbageSpeed:垃圾行释放速度
-			pushSpeed:垃圾行上涨速度
-			noTele:是否禁止10个高级按键
-			visible:方块可见性，填写固定的几个字符串
-			freshLimit:锁延刷新次数限制
-			easyFresh:是否使用简单锁延刷新规则
-			bufferLimit:攻击缓冲行数上限
+			sequence		'bag'		序列模式，是放一块后对next序列的刷新函数，可以使用默认的几个函数用字符串表示。也可以自己写一个，注意：使用协程技术
+			seqData			{1,2,3,4,5,6,7}序列模式使用的"包"数据(本质是生成序列用的数据，会作为参数传进上面那个叫sequence的序列生成函数，不一定是包)
+			mission			false		包含任务的table，说明暂时略
 
-			fkey1:按下功能键1后执行的函数
-			fkey2:按下功能键2后执行的函数
-			keyCancel:包含禁止使用的按键的id们的table，例如{1,2}就是禁止左右移
-			fineKill:是否开启非极简即死
-			b2bKill:是否开启断b2b即死
-			missionKill:是否开启强制任务
-			dropPiece:放一块后要执行的函数，输入玩家对象
+			life			0			生命数(复活次数)
+			garbageSpeed	1			垃圾行释放速度
+			pushSpeed		3			垃圾行上涨速度
+			noTele			false		是否禁止10个高级按键
+			visible			'show'		方块可见性，填写固定的几个字符串
+			freshLimit		1e99		锁延刷新次数限制
+			easyFresh		true		是否使用简单锁延刷新规则
+			bufferLimit		1e99		攻击缓冲行数上限
 
-			bg:背景，只能填写内置背景的名字
-			bgm:背景音乐名(或者列表随机，例如{"race","push"})，只能用内置音乐库的音乐名
-			allowMod:是否允许mod
+			fkey1			false		按下功能键1后执行的函数
+			fkey2			false		按下功能键2后执行的函数
+			keyCancel		{}			包含禁止使用的按键的id，例如{1,2}就是禁止左移和右移
+			fine			[设置值]		是否开启非极简提示音
+			fineKill		false		是否开启非极简即死
+			b2bKill			false		是否开启断b2b即死
+			missionKill		false		是否开启强制任务
+			dropPiece		NULL		放一块后要执行的函数，输入玩家对象
+			task			NULL		每帧会*继续执行*的函数，输入玩家对象，注意：使用协程技术
+
+			bg				'none'		背景，只能填写内置背景的名字
+			bgm				'race'		背景音乐名(或者列表随机，例如{'race','push'})，只能用内置音乐库的音乐名
+			allowMod		true		是否允许mod
 	load:
 		必选
 		模式初始化函数，一般创建一个玩家即可
@@ -121,7 +126,7 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
 	color=COLOR.green,--颜色
 	env={--模式环境变量
 		drop=60,lock=60,
-		dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
+		dropPiece=function(P)if P.stat.row>=40 then P			win('finish')end end,
 		bg='bg2',bgm='race',
 	},
 	load=function()--生成玩家
