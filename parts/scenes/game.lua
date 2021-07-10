@@ -19,15 +19,13 @@ local function _step()floatRepRate=floatRepRate+1 end
 
 local scene={}
 
-function scene.sceneInit(org)
+function scene.sceneInit()
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
-	end
-	replaying=GAME.replaying
-	if org~='pause'then
 		floatRepRate,replayRate=0,1
 	end
+	replaying=GAME.replaying
 	noKey=replaying
 	noTouch=not SETTING.VKSwitch or noKey
 	WIDGET.active.restart.hide=replaying
@@ -40,7 +38,7 @@ scene.mouseDown=NULL
 local function restart()
 	resetGameData(PLAYERS[1].frameRun<240 and'q')
 	noKey=replaying
-	noTouch=noKey
+	noTouch=replaying
 end
 function scene.touchDown(x,y)
 	if noTouch then return end
@@ -176,7 +174,7 @@ local function update_common(dt)
 	checkWarning()
 end
 function scene.update(dt)
-	local repPtr=replaying
+	local repPtr=GAME.replaying
 	if repPtr then
 		floatRepRate=floatRepRate+replayRate
 		while floatRepRate>=1 do
@@ -196,7 +194,7 @@ function scene.update(dt)
 					end
 					repPtr=repPtr+2
 				end
-				replaying=repPtr
+				GAME.replaying=repPtr
 			end
 			update_common(dt)
 		end
