@@ -350,8 +350,8 @@ oldModeNameTable={
 	tsd_hard="tsd_h",
 	tsd_ultimate="tsd_u",
 	GM="master_ex",
-	master_beginner="master_u",
-	master_advance="master_l",
+	master_beginner="master_l",
+	master_advance="master_u",
 	master_phantasm="master_ph",
 	master_extra="master_ex",
 }
