@@ -26,7 +26,7 @@ return{
 				end
 			end
 		end,
-		bg='welcome',bgm='storm',
+		bg='welcome',bgm='shift',
 	},
 	pauseLimit=true,
 	load=function()

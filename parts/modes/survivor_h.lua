@@ -27,7 +27,7 @@ return{
 				end
 			end
 		end,
-		bg='glow',bgm='secret7th',
+		bg='glow',bgm='shift',
 	},
 	pauseLimit=true,
 	load=function()

@@ -21,7 +21,7 @@ return{
 				end
 			end
 		end,
-		bg='glow',bgm='storm',
+		bg='glow',bgm='shift',
 	},
 	pauseLimit=true,
 	load=function()
