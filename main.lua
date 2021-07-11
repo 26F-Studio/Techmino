@@ -252,6 +252,14 @@ do
 		fs.remove('record/bigbang.rec')
 		fs.remove('conf/replay')
 	end
+	if STAT.version<1600 and fs.getInfo('record/master_l.rec')then
+		local temp1=fs.read('record/master_l.rec')
+		local temp2=fs.read('record/mastser_u.rec')
+		fs.write('record/master_l.rec',temp2)
+		fs.write('record/master_u.rec',temp1)
+		RANKS.master_l,RANKS.master_u=RANKS.master_u,RANKS.master_l
+		needSave=true
+	end
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code
 		needSave=true

@@ -31,6 +31,15 @@ return STRING.split([=[
 		等级系统; 收集向抽奖玩法; 自适应UI
 		自动跳帧; 多方块; 超60帧
 
+0.16.0: 子空间 Subspace
+		新增:
+				新BGM:shift(用于生存后三个难度)
+		改动:
+				微调BGM:nil
+		修复:
+				存档转换时两个20G模式数据弄反了
+				20G不会禁用各种软降键
+
 0.15.6: 强化装甲 Reinforced Armor
 		新增:
 				新BGM:Nil(用于主菜单)
@@ -49,7 +58,7 @@ return STRING.split([=[
 				微调暂停界面布局
 				微调线框ghost样式
 				简化点击特效
-				调整Zen模式后三个模式位置				
+				调整Zen模式后三个模式位置
 		代码:
 				修改几个master模式的内部名称
 		修复:

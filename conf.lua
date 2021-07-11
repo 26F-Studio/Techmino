@@ -1,10 +1,10 @@
 VERSION={
-	build=344,
-	code=1506,
-	short="V0.15.6",
-	string="Alpha V0.15.6",
+	build=345,
+	code=1600,
+	short="V0.16.0",
+	string="Alpha V0.16.0",
 	room="V1.0",
-	name="强化装甲 Reinforced Armor",
+	name="子空间 Subspace",
 }
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
