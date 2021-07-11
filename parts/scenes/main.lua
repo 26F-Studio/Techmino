@@ -114,6 +114,8 @@ function scene.keyDown(key,isRep)
 		end
 	elseif key=="c"then
 		enterConsole()
+	elseif key=="escape"then
+		SCN.back()
 	end
 end
 
