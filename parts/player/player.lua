@@ -186,6 +186,10 @@ end
 function Player:set20G(if20g)
 	self._20G=if20g
 	self:switchKey(7,not if20g)
+	self:switchKey(13,not if20g)
+	self:switchKey(14,not if20g)
+	self:switchKey(15,not if20g)
+	self:switchKey(16,not if20g)
 	if if20g and self.AI_mode=='CC'then CC.switch20G(self)end
 end
 function Player:setHold(count)--Set hold count (false/true as 0/1)
