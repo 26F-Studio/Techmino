@@ -245,12 +245,8 @@ do
 		STAT.version=0
 		needSave=true
 	end
-	if STAT.version<1302 then
+	if STAT.version<1500 then
 		FILE.clear_s('')
-	end
-	if STAT.version<1405 then
-		fs.remove('conf/user')
-		fs.remove('conf/key')
 	end
 	if STAT.version<1505 then
 		fs.remove('record/bigbang.rec')
