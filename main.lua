@@ -253,11 +253,12 @@ do
 		fs.remove('record/bigbang.rec')
 		fs.remove('conf/replay')
 	end
-	if STAT.version<1600 and fs.getInfo('record/master_l.rec')then
-		local temp1=fs.read('record/master_l.rec')
-		local temp2=fs.read('record/mastser_u.rec')
-		fs.write('record/master_l.rec',temp2)
-		fs.write('record/master_u.rec',temp1)
+	if STAT.version==1506 then
+		local temp1,temp2
+		if fs.getInfo('record/master_l.rec')then temp1=fs.read('record/master_l.rec')end
+		if fs.getInfo('record/master_u.rec')then temp2=fs.read('record/master_u.rec')end
+		if temp1 then fs.write('record/master_u.rec',temp1)end
+		if temp2 then fs.write('record/master_l.rec',temp2)end
 		RANKS.master_l,RANKS.master_u=RANKS.master_u,RANKS.master_l
 		needSave=true
 	end
