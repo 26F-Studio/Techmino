@@ -15,7 +15,7 @@ function scene.update()
 	if wait>0 then
 		wait=wait-1
 		if wait==0 then
-			pos=pos+dir
+			pos=pos+(das==0 and 2 or 1)*dir
 		else
 			return
 		end
