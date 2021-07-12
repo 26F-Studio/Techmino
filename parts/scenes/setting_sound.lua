@@ -59,6 +59,8 @@ function scene.draw()
 		gc.draw(IMG.miyaF4,129,98+3*sin(t*.5))
 	elseif cv=="naki"then
 		gc.draw(IMG.nakiCH,-30)
+	elseif cv=="xiaoya"then
+		gc.draw(IMG.xiaoyaCH,-30)
 	end
 	gc.translate(-x,-y)
 end
@@ -77,8 +79,8 @@ scene.widgetList={
 	WIDGET.newSlider{name="vib",	x=300,	y=540,w=420,color='lN',unit=10,change=function()VIB(2)end,disp=SETval("vib"),code=SETsto("vib")},
 	WIDGET.newSlider{name="voc",	x=300,	y=610,w=420,color='lN',change=function()VOC.play('test')end,disp=SETval("voc"),code=SETsto("voc")},
 	WIDGET.newSwitch{name="fine",	x=1150,	y=230,disp=SETval("fine"),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
-	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,		list={'miya','naki'},disp=function()return cv end,code=function(i)cv=i end},
-	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,	code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
+	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,list={'miya','naki','xiaoya'},disp=function()return cv end,code=function(i)cv=i end},
+	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

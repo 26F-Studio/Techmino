@@ -106,12 +106,13 @@ IMG.init{
 	pay1='mess/pay1.png',
 	pay2='mess/pay2.png',
 
-	nakiCH='characters/nakiharu.png',
 	miyaCH='characters/miya.png',
 	miyaF1='characters/miya_f1.png',
 	miyaF2='characters/miya_f2.png',
 	miyaF3='characters/miya_f3.png',
 	miyaF4='characters/miya_f4.png',
+	nakiCH='characters/nakiharu.png',
+	xiaoyaCH='characters/xiaoya.png',
 	electric='characters/electric.png',
 	hbm='characters/hbm.png',
 
