@@ -632,9 +632,8 @@ function love.run()
 						gc_setColor(devColor[devMode])
 						gc_print("MEM     "..gcinfo(),SCR.safeX+5,-40)
 						gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,-60)
-						gc_print("Cursor  "..int(mx+.5).." "..int(my+.5),SCR.safeX+5,-80)
+						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,-80)
 						gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,-100)
-						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,-120)
 
 						--Update & draw frame time
 						ins(frameTimeList,1,dt)rem(frameTimeList,126)
@@ -642,6 +641,19 @@ function love.run()
 						for i=1,#frameTimeList do
 							gc.rectangle('fill',150+2*i,-20,2,-frameTimeList[i]*4000)
 						end
+
+						--New cursor pos disp
+						gc_replaceTransform(SCR.xOy)
+						gc_setLineWidth(1)
+						gc_line(mx,-1e4,mx,1e4)
+						gc_line(-1e4,my,1e4,my)
+						local t=int(mx+.5)..","..int(my+.5)
+						gc_setColor(0,0,0)
+						gc_print(t,mx+1,my)
+						gc_print(t,mx+1,my-1)
+						gc_print(t,mx+2,my-1)
+						gc_setColor(1,1,1)
+						gc_print(t,mx+2,my)
 
 						gc_replaceTransform(SCR.xOy_dr)
 						--Websocket status
@@ -658,9 +670,9 @@ function love.run()
 								gc_draw(ws_runningImg,-20,20*i-140)
 							end
 							local t1,t2,t3=WS.getTimers(WSnames[i])
-							gc_setColor(1,1,1,t1)gc.rectangle('fill',-60,20*i-120,-20,-20)
-							gc_setColor(0,1,0,t2)gc.rectangle('fill',-40,20*i-120,-20,-20)
-							gc_setColor(1,0,0,t3)gc.rectangle('fill',-20,20*i-120,-20,-20)
+							gc_setColor(.9,.9,.9,t1)gc.rectangle('fill',-60,20*i-122,-16,-16)
+							gc_setColor(.3,1,.3,t2)gc.rectangle('fill',-42,20*i-122,-16,-16)
+							gc_setColor(1,.2,.2,t3)gc.rectangle('fill',-24,20*i-122,-16,-16)
 						end
 					end
 				gc_present()
