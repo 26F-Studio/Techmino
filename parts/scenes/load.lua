@@ -160,7 +160,7 @@ local loadingThread=coroutine.wrap(function()
 				end
 			end
 		end
-		if not(M and M.score)then
+		if not(M and M.x)then
 			RANKS[name]=nil
 			editFlag=true
 		end
