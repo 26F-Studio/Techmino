@@ -12,9 +12,9 @@ return{
 	{name='drought_n',		x=-400,	y=0,	size=40,shape=1,icon="drought",	unlock={'drought_l'}},
 	{name='drought_l',		x=-600,	y=0,	size=40,shape=1,icon="mess"},
 
-	{name='dig_10l',		x=-200,	y=-400,	size=40,shape=1,icon="dig_sprint",		unlock={'dig_40l'}},
-	{name='dig_40l',		x=-400,	y=-400,	size=40,shape=1,icon="dig_sprint",		unlock={'dig_100l'}},
-	{name='dig_100l',		x=-600,	y=-400,	size=40,shape=1,icon="dig_sprint",		unlock={'dig_400l'}},
+	{name='dig_10l',		x=-200,	y=-400,	size=40,shape=1,icon="dig_sprint",unlock={'dig_40l'}},
+	{name='dig_40l',		x=-400,	y=-400,	size=40,shape=1,icon="dig_sprint",unlock={'dig_100l'}},
+	{name='dig_100l',		x=-600,	y=-400,	size=40,shape=1,icon="dig_sprint",unlock={'dig_400l'}},
 	{name='dig_400l',		x=-800,	y=-200,	size=40,shape=1,icon="dig_sprint"},
 
 	{name='marathon_n',		x=0,	y=-600,	size=60,shape=1,icon="marathon",unlock={'marathon_h','rhythm_e','solo_e','round_e','blind_e','classic_fast','survivor_e','bigbang','zen'}},
@@ -74,7 +74,7 @@ return{
 	{name='dig_u',			x=700,	y=-1000,size=40,shape=1,icon="dig"},
 
 	{name='bigbang',		x=400,	y=-400,	size=50,shape=1,icon="bigbang",	unlock={'c4wtrain_n','pctrain_n','tech_n'}},
-	{name='c4wtrain_n',		x=700,	y=-400,	size=40,shape=1,icon="pc",unlock={'c4wtrain_l'}},
+	{name='c4wtrain_n',		x=700,	y=-400,	size=40,shape=1,icon="pc",		unlock={'c4wtrain_l'}},
 	{name='c4wtrain_l',		x=900,	y=-400,	size=40,shape=1,icon="pc"},
 
 	{name='pctrain_n',		x=700,	y=-250,	size=40,shape=1,icon="pc",		unlock={'pctrain_l','pc_n'}},

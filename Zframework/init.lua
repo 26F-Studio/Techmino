@@ -564,16 +564,16 @@ function love.run()
 
 		--UPDATE
 		STEP()
-		TASK.update()
-		WS.update(dt)
 		VOC.update()
 		BG.update(dt)
+		TEXT.update()
+		MES.update(dt)
+		WS.update(dt)
+		TASK.update()
 		SYSFX.update(dt)
 		if SCN.update then SCN.update(dt)end
 		if SCN.swapping then SCN.swapUpdate()end
 		WIDGET.update()
-		TEXT.update()
-		MES.update(dt)
 
 		--DRAW
 		if not MINI()then
@@ -644,36 +644,36 @@ function love.run()
 
 						--New cursor pos disp
 						gc_replaceTransform(SCR.xOy)
-						gc_setLineWidth(1)
-						gc_line(mx,-1e4,mx,1e4)
-						gc_line(-1e4,my,1e4,my)
-						local t=int(mx+.5)..","..int(my+.5)
-						gc_setColor(0,0,0)
-						gc_print(t,mx+1,my)
-						gc_print(t,mx+1,my-1)
-						gc_print(t,mx+2,my-1)
-						gc_setColor(1,1,1)
-						gc_print(t,mx+2,my)
+							gc_setLineWidth(1)
+							gc_line(mx,-1e4,mx,1e4)
+							gc_line(-1e4,my,1e4,my)
+							local t=int(mx+.5)..","..int(my+.5)
+							gc_setColor(0,0,0)
+							gc_print(t,mx+1,my)
+							gc_print(t,mx+1,my-1)
+							gc_print(t,mx+2,my-1)
+							gc_setColor(1,1,1)
+							gc_print(t,mx+2,my)
 
 						gc_replaceTransform(SCR.xOy_dr)
-						--Websocket status
-						for i=1,6 do
-							local status=WS.status(WSnames[i])
-							gc_setColor(1,1,1)
-							gc.draw(wsBottomImage,-79,20*i-139)
-							if status=='dead'then
-								gc_draw(ws_deadImg,-20,20*i-140)
-							elseif status=='connecting'then
-								gc_setColor(1,1,1,.5+.3*sin(time*6.26))
-								gc_draw(ws_connectingImg,-20,20*i-140)
-							elseif status=='running'then
-								gc_draw(ws_runningImg,-20,20*i-140)
+							--Websocket status
+							for i=1,6 do
+								local status=WS.status(WSnames[i])
+								gc_setColor(1,1,1)
+								gc.draw(wsBottomImage,-79,20*i-139)
+								if status=='dead'then
+									gc_draw(ws_deadImg,-20,20*i-140)
+								elseif status=='connecting'then
+									gc_setColor(1,1,1,.5+.3*sin(time*6.26))
+									gc_draw(ws_connectingImg,-20,20*i-140)
+								elseif status=='running'then
+									gc_draw(ws_runningImg,-20,20*i-140)
+								end
+								local t1,t2,t3=WS.getTimers(WSnames[i])
+								gc_setColor(.9,.9,.9,t1)gc.rectangle('fill',-60,20*i-122,-16,-16)
+								gc_setColor(.3,1,.3,t2)gc.rectangle('fill',-42,20*i-122,-16,-16)
+								gc_setColor(1,.2,.2,t3)gc.rectangle('fill',-24,20*i-122,-16,-16)
 							end
-							local t1,t2,t3=WS.getTimers(WSnames[i])
-							gc_setColor(.9,.9,.9,t1)gc.rectangle('fill',-60,20*i-122,-16,-16)
-							gc_setColor(.3,1,.3,t2)gc.rectangle('fill',-42,20*i-122,-16,-16)
-							gc_setColor(1,.2,.2,t3)gc.rectangle('fill',-24,20*i-122,-16,-16)
-						end
 					end
 				gc_present()
 

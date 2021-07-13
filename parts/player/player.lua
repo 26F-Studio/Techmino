@@ -584,18 +584,19 @@ function Player:resetBlock()--Reset Block's position and execute I*S
 end
 
 function Player:spin(d,ifpre)
-	local kickData=self.RS[self.cur.id]
+	local cur=self.cur
+	local kickData=self.RS[cur.id]
 	if type(kickData)=='table'then
-		local idir=(self.cur.dir+d)%4
-		kickData=kickData[self.cur.dir*10+idir]
+		local idir=(cur.dir+d)%4
+		kickData=kickData[cur.dir*10+idir]
 		if not kickData then
 			self:freshBlock('move')
 			SFX.play(ifpre and'prerotate'or'rotate',nil,self:getCenterX()*.15)
 			return
 		end
-		local icb=BLOCKS[self.cur.id][idir]
-		local isc=SCS[self.cur.id][idir]
-		local ix,iy=self.curX+self.cur.sc[2]-isc[2],self.curY+self.cur.sc[1]-isc[1]
+		local icb=BLOCKS[cur.id][idir]
+		local isc=SCS[cur.id][idir]
+		local ix,iy=self.curX+cur.sc[2]-isc[2],self.curY+cur.sc[1]-isc[1]
 		for test=1,#kickData do
 			local x,y=ix+kickData[test][1],iy+kickData[test][2]
 			if not self:ifoverlap(icb,x,y)and(self.freshTime>0 or kickData[test][2]<=0)then
@@ -603,8 +604,8 @@ function Player:spin(d,ifpre)
 				if self.gameEnv.moveFX and self.gameEnv.block then
 					self:createMoveFX()
 				end
-				self.curX,self.curY,self.cur.dir=ix,iy,idir
-				self.cur.sc,self.cur.bk=isc,icb
+				self.curX,self.curY,cur.dir=ix,iy,idir
+				cur.sc,cur.bk=isc,icb
 				self.spinLast=test==2 and 0 or 1
 
 				local t=self.freshTime
