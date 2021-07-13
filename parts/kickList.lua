@@ -482,6 +482,7 @@ do
 		Z,S,--J5,L5
 		Z,S,--R,Y
 		Z,S,--N,H
+		Z,--I5
 
 		Z,Z,--I3,C
 		Z,Z,--I2,O1
