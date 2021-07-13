@@ -143,6 +143,13 @@ TEXTURE.music=DOGC{64,64,
 	{"fElps",50,47,11,8},
 }
 
+--Mute mark
+TEXTURE.mute=DOGC{64,64,
+	{'mDraw',TEXTURE.music,32,32,0,.9},
+	{'setLW',5},
+	{'line',6,6,57,57},
+}
+
 --Language mark
 TEXTURE.language=DOGC{64,64,
 	{"setLW",4},

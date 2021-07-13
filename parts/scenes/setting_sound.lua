@@ -78,7 +78,10 @@ scene.widgetList={
 	WIDGET.newSlider{name="warn",	x=300,	y=470,w=420,color='lC',change=function()SFX.fplay('warning',SETTING.sfx_warn)end,disp=SETval("sfx_warn"),code=SETsto("sfx_warn")},
 	WIDGET.newSlider{name="vib",	x=300,	y=540,w=420,color='lN',unit=10,change=function()VIB(2)end,disp=SETval("vib"),code=SETsto("vib")},
 	WIDGET.newSlider{name="voc",	x=300,	y=610,w=420,color='lN',change=function()VOC.play('test')end,disp=SETval("voc"),code=SETsto("voc")},
-	WIDGET.newSwitch{name="fine",	x=1150,	y=230,disp=SETval("fine"),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
+
+	WIDGET.newKey{name="mute",		x=1160,	y=180,w=80,color='lR',code=muteAll,fText=TEXTURE.mute},
+	WIDGET.newSwitch{name="fine",	x=1150,	y=270,disp=SETval("fine"),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
+
 	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,list={'miya','naki','xiaoya'},disp=function()return cv end,code=function(i)cv=i end},
 	WIDGET.newButton{name="apply",	x=1100,	y=460,w=180,h=80,code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
 	WIDGET.newButton{name="back",	x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
