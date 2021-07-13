@@ -22,6 +22,7 @@ local function vecStrConv(list)
 	for k,vecStr in next,list do
 		list[k]=map[tonumber(vecStr:sub(1,2))][tonumber(vecStr:sub(3,4))]
 	end
+	return list
 end
 
 --Make all vec point to the same vec
@@ -439,10 +440,118 @@ do
 	for i=8,29 do SRS[i]=SRS[1]end
 end
 
+local ZRS
+do
+	local R=vecStrConv{'+0+0','-1+0','+0-1','-1-1','+1-1','-1+1','+1+0','+0+1','+1+1','+0+2'}
+	local L=vecStrConv{'+0+0','+1+0','+0-1','+1-1','-1-1','+1+1','-1+0','+0+1','-1+1','+0+2'}
+	local F=vecStrConv{'+0+0','+0-1','+0+1','+0+2'}
+	local list={
+		{[02]=L,[20]=R,[13]=R,[31]=L},--Z
+		{[02]=R,[20]=L,[13]=L,[31]=R},--S
+		{[02]=L,[20]=R,[13]=R,[31]=L},--J
+		{[02]=R,[20]=L,[13]=L,[31]=R},--L
+		{[02]=F,[20]=F,[13]=L,[31]=R},--T
+		{[02]=R,[20]=L,[13]=L,[31]=R},--O
+		{[02]=F,[20]=F,[13]=R,[31]=L},--I
+
+		{[02]=L,[20]=R,[13]=R,[31]=L},--Z5
+		{[02]=R,[20]=L,[13]=L,[31]=R},--S5
+		{[02]=L,[20]=R,[13]=L,[31]=R},--P
+		{[02]=R,[20]=L,[13]=R,[31]=L},--Q
+		{[02]=R,[20]=L,[13]=L,[31]=R},--F
+		{[02]=L,[20]=R,[13]=R,[31]=L},--E
+		{[02]=F,[20]=F,[13]=L,[31]=R},--T5
+		{[02]=F,[20]=F,[13]=L,[31]=R},--U
+		{[02]=R,[20]=L,[13]=L,[31]=R},--V
+		{[02]=R,[20]=L,[13]=L,[31]=R},--W
+		{[02]=F,[20]=F,[13]=F,[31]=F},--X
+		{[02]=L,[20]=R,[13]=R,[31]=L},--J5
+		{[02]=R,[20]=L,[13]=L,[31]=R},--L5
+		{[02]=L,[20]=R,[13]=R,[31]=L},--R
+		{[02]=R,[20]=L,[13]=L,[31]=R},--Y
+		{[02]=L,[20]=R,[13]=R,[31]=L},--N
+		{[02]=R,[20]=L,[13]=L,[31]=R},--H
+		{[02]=F,[20]=F,[13]=F,[31]=F},--I5
+
+		{[02]=F,[20]=F,[13]=F,[31]=F},--I3
+		{[02]=R,[20]=L,[13]=L,[31]=R},--C
+		{[02]=F,[20]=F,[13]=R,[31]=L},--I2
+		{[02]=F,[20]=F,[13]=F,[31]=F},--O1
+	}
+	for i=1,29 do
+		list[i][01]=R;list[i][10]=L;list[i][03]=L;list[i][30]=R
+		list[i][12]=R;list[i][21]=L;list[i][32]=L;list[i][23]=R
+	end
+	ZRS=TABLE.new(function(P,d,ifpre)
+		local cur=P.cur
+		local idir=(cur.dir+d)%4
+		local kickList=list[cur.id][cur.dir*10+idir]
+		local icb=BLOCKS[cur.id][idir]
+		local isc=SCS[cur.id][idir]
+		local ix,iy=P.curX+cur.sc[2]-isc[2],P.curY+cur.sc[1]-isc[1]
+		local dx,dy=0,0 do
+			local pressing=P.keyPressing
+			if pressing[1]then dx=dx-1 end
+			if pressing[2]then dx=dx+1 end
+			if pressing[7]then dy=-1 end
+		end
+		while true do
+			for test=1,#kickList do
+				local x,y=ix+kickList[test][1]+dx,iy+kickList[test][2]+dy
+				if (dx==0 or kickList[test][2]<0)and(P.freshTime>0 or kickList[test][2]+dy<=0)and not P:ifoverlap(icb,x,y)then
+					if P.gameEnv.moveFX and P.gameEnv.block then
+						P:createMoveFX()
+					end
+					P.curX,P.curY,cur.dir=x,y,idir
+					cur.sc,cur.bk=isc,icb
+					P.spinLast=test==2 and 0 or 1
+
+					local t=P.freshTime
+					if not ifpre then
+						P:freshBlock('move')
+					end
+					if kickList[test][2]+dy>0 and P.freshTime==t and P.curY~=P.imgY then
+						P.freshTime=P.freshTime-1
+					end
+
+					if P.sound then
+						local sfx
+						if ifpre then
+							sfx='prerotate'
+						elseif P:ifoverlap(icb,x,y+1)and P:ifoverlap(icb,x-1,y)and P:ifoverlap(icb,x+1,y)then
+							sfx='rotatekick'
+							if P.gameEnv.shakeFX then
+								if d==1 or d==3 then
+									P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
+								else
+									P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
+								end
+							end
+						else
+							sfx='rotate'
+						end
+						SFX.play(sfx,nil,P:getCenterX()*.15)
+					end
+					P.stat.rotate=P.stat.rotate+1
+					return
+				end
+			end
+
+			--Try release left/right, then softdrop, failed to rotate otherwise
+			if dx~=0 then
+				dx=0
+			elseif dy~=0 then
+				dy=0
+			else
+				return
+			end
+		end
+	end,29)
+end
+
 local C2
 do
-	local L={'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1','-2+0','+2+0'}
-	vecStrConv(L)
+	local L=vecStrConv{'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1','-2+0','+2+0'}
 	C2={
 		{
 			[01]=L,[10]=L,[12]=L,[21]=L,
@@ -498,6 +607,7 @@ for i=1,29 do None[i]=noKickSet_180 end
 return{
 	TRS=TRS,
 	SRS=SRS,
+	ZRS=ZRS,
 	C2=C2,
 	C2sym=C2sym,
 	Classic=Classic,

@@ -185,7 +185,6 @@ function Player:switchKey(id,on)
 end
 function Player:set20G(if20g)
 	self._20G=if20g
-	self:switchKey(7,not if20g)
 	self:switchKey(13,not if20g)
 	self:switchKey(14,not if20g)
 	self:switchKey(15,not if20g)
@@ -599,7 +598,7 @@ function Player:spin(d,ifpre)
 		local ix,iy=self.curX+cur.sc[2]-isc[2],self.curY+cur.sc[1]-isc[1]
 		for test=1,#kickData do
 			local x,y=ix+kickData[test][1],iy+kickData[test][2]
-			if not self:ifoverlap(icb,x,y)and(self.freshTime>0 or kickData[test][2]<=0)then
+			if (self.freshTime>0 or kickData[test][2]<=0)and not self:ifoverlap(icb,x,y)then
 				ix,iy=x,y
 				if self.gameEnv.moveFX and self.gameEnv.block then
 					self:createMoveFX()
