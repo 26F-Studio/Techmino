@@ -857,6 +857,7 @@ TABLE.complete(coroutine,userG.coroutine)
 local first_key={}
 local fleg={
 	pw=the_secret,
+	supw=7126,
 	second_box="Coming soon",
 }setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
 function userG.the_box(k,f)
