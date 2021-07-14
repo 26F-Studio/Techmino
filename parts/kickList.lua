@@ -479,8 +479,10 @@ do
 		{[02]=F,[20]=F,[13]=F,[31]=F},--O1
 	}
 	for i=1,29 do
-		list[i][01]=R;list[i][10]=L;list[i][03]=L;list[i][30]=R
-		list[i][12]=R;list[i][21]=L;list[i][32]=L;list[i][23]=R
+		local a,b=R,L
+		if i==6 or i==18 then a,b=b,a end
+		list[i][01]=a;list[i][10]=b;list[i][03]=b;list[i][30]=a
+		list[i][12]=a;list[i][21]=b;list[i][32]=b;list[i][23]=a
 	end
 	ZRS=TABLE.new(function(P,d,ifpre)
 		local cur=P.cur
@@ -498,7 +500,7 @@ do
 		while true do
 			for test=1,#kickList do
 				local x,y=ix+kickList[test][1]+dx,iy+kickList[test][2]+dy
-				if (dx==0 or kickList[test][2]<0)and(P.freshTime>0 or kickList[test][2]+dy<=0)and not P:ifoverlap(icb,x,y)then
+				if (dx==0 and dy==0 or kickList[test][2]<0)and(P.freshTime>0 or kickList[test][2]+dy<=0)and not P:ifoverlap(icb,x,y)then
 					if P.gameEnv.moveFX and P.gameEnv.block then
 						P:createMoveFX()
 					end
