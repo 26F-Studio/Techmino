@@ -442,8 +442,8 @@ end
 
 local ZRS
 do
-	local R=vecStrConv{'+0+0','-1+0','+0-1','-1-1','+1-1','-1+1','+1+0','+0+1','+1+1','+0+2'}
-	local L=vecStrConv{'+0+0','+1+0','+0-1','+1-1','-1-1','+1+1','-1+0','+0+1','-1+1','+0+2'}
+	local R=vecStrConv{'+0+0','-1+0','+0-1','-1-1','+1-1','-1+1','+0+1','+1+1','+0+2'}
+	local L=vecStrConv{'+0+0','+1+0','+0-1','+1-1','-1-1','+1+1','+0+1','-1+1','+0+2'}
 	local F=vecStrConv{'+0+0','+0-1','+0+1','+0+2'}
 	local list={
 		{[02]=L,[20]=R,[13]=R,[31]=L},--Z
@@ -491,9 +491,9 @@ do
 		local ix,iy=P.curX+cur.sc[2]-isc[2],P.curY+cur.sc[1]-isc[1]
 		local dx,dy=0,0 do
 			local pressing=P.keyPressing
-			if pressing[1]then dx=dx-1 end
-			if pressing[2]then dx=dx+1 end
-			if pressing[7]then dy=-1 end
+			if pressing[1]and P:ifoverlap(icb,ix-1,iy)then dx=dx-1 end
+			if pressing[2]and P:ifoverlap(icb,ix+1,iy)then dx=dx+1 end
+			if pressing[7]and P:ifoverlap(icb,ix,iy-1)then dy=-1 end
 		end
 		while true do
 			for test=1,#kickList do
