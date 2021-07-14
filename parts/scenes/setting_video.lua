@@ -2,9 +2,6 @@ local gc=love.graphics
 
 local scene={}
 
-function scene.sceneInit()
-	BG.set()
-end
 function scene.sceneBack()
 	FILE.save(SETTING,'conf/settings')
 end
@@ -23,7 +20,7 @@ function scene.draw()
 		local T=L[1]
 		gc.translate(0,1410-WIDGET.scrollPos)
 		gc.setShader(SHADER.blockSatur)
-		gc.draw(T,420+15,0)gc.draw(T,450+15,0)gc.draw(T,450+15,30)gc.draw(T,480+15,30)
+		gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
 		gc.setShader(SHADER.fieldSatur)
 		for i=1,8 do
 			gc.draw(L[i],330+30*i,100)
