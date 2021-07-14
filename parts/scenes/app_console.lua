@@ -12,6 +12,7 @@ log{C.lC,"©2021 26F Studio   some rights reserved"}
 log{C.dR,"DO NOT RUN ANY CODE YOU DON'T UNDERSTAND"}
 
 local history,hisPtr={"?"}
+local sudomode=false
 local the_secret=(14^2*10)..(2*11)
 
 local commands={}do
@@ -630,6 +631,28 @@ local commands={}do
 		end,
 		description="Reset all things.",
 	}
+	commands.sudo={
+		code=function(code)
+			if sudomode then
+				local success,result=pcall(loadstring(code))
+				if success then
+					if result~=nil then
+						log{C.lG,">> "..tostring(result)}
+					else
+						log{C.lG,"done"}
+					end
+				else
+					log{C.R,result}
+				end
+			elseif code=="7126"then
+				sudomode=true
+				log{C.Y,"* SUDO MODE ON, DO NOT RUN ANY CODE YOU DON'T UNDERSTAND *"}
+				log{C.Y,"* 最高权限模式开启, 请不要执行任何自己不懂确切含义的代码 *"}
+			else
+				log{C.Y,"Password not correct"}
+			end
+		end,
+	}commands.su="sudo"
 
 	--Game
 	commands.rmconf={
