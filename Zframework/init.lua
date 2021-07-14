@@ -688,7 +688,7 @@ function love.run()
 				updatePowerInfo()
 				lastFreshPow=time
 			end
-			if gc.getWidth()~=SCR.w then
+			if gc.getWidth()~=SCR.w or gc.getHeight()~=SCR.h then
 				love.resize(gc.getWidth(),gc.getHeight())
 			end
 		end
