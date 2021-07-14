@@ -537,7 +537,7 @@ function slider:drag(x)
 	if p~=P then
 		self.code(P)
 	end
-	if self.change and TIME()-self.lastTime>.26 then
+	if self.change and TIME()-self.lastTime>.5 then
 		self.lastTime=TIME()
 		self.change()
 	end
