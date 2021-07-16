@@ -493,9 +493,9 @@ do
 		local ix,iy=P.curX+cur.sc[2]-isc[2],P.curY+cur.sc[1]-isc[1]
 		local dx,dy=0,0 do
 			local pressing=P.keyPressing
-			if pressing[1]and P:ifoverlap(icb,ix-1,iy)then dx=dx-1 end
-			if pressing[2]and P:ifoverlap(icb,ix+1,iy)then dx=dx+1 end
-			if pressing[7]and P:ifoverlap(icb,ix,iy-1)then dy=-1 end
+			if pressing[1]and P:ifoverlap(cur.bk,P.curX-1,P.curY)then dx=dx-1 end
+			if pressing[2]and P:ifoverlap(cur.bk,P.curX+1,P.curY)then dx=dx+1 end
+			if pressing[7]and P:ifoverlap(cur.bk,P.curX,P.curY-1)then dy=-1 end
 		end
 		while true do
 			for test=1,#kickList do
