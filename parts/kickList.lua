@@ -500,7 +500,7 @@ do
 		while true do
 			for test=1,#kickList do
 				local x,y=ix+kickList[test][1]+dx,iy+kickList[test][2]+dy
-				if (dx==0 and dy==0 or kickList[test][2]<0)and(P.freshTime>0 or kickList[test][2]+dy<=0)and not P:ifoverlap(icb,x,y)then
+				if (dx==0 and dy==0 or kickList[test][2]<=0)and(P.freshTime>0 or kickList[test][2]+dy<=0)and not P:ifoverlap(icb,x,y)then
 					if P.gameEnv.moveFX and P.gameEnv.block then
 						P:createMoveFX()
 					end
