@@ -836,7 +836,7 @@ return{
 		"ALL SPIN!",
 		"Am G F G",
 		"B2B2B???",
-		"B2B2B2B does not exist..",
+		"B2B2B2B does not exist.",
 		"B2B2B2B exists?",
 		"Back-to-Back Techrash, 10 Combo, PC!",
 		"Be sure to give it your best shot again today!",
