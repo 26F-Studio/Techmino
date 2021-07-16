@@ -23,6 +23,7 @@ return{
 		visible='fast',
 		freshLimit=15,
 		dropPiece=score,
+		noInitSZO=true,
 		task=function(P)
 			P.modeData.rankPoint=0
 			P.modeData.rankName=sectionName[1]

@@ -22,6 +22,7 @@ return{
 				end
 			end
 		end,
+		noInitSZO=true,
 		bg='cubes',bgm='push',
 	},
 	pauseLimit=true,

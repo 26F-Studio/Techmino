@@ -319,7 +319,18 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.nextCount==0 then ENV.nextPos=false end
 
 	P.newNext=coroutine.wrap(seqGenerators(P))
-	P.newNext(P,P.gameEnv.seqData)
+	P:newNext(P.gameEnv.seqData)
+	if ENV.noInitSZO then
+		for _=1,5 do
+			local C=P.nextQueue[1]
+			if C and(C.id==1 or C.id==2 or C.id==6)then
+				table.remove(P.nextQueue,1)
+			else
+				break
+			end
+		end
+		P:newNext()
+	end
 
 	if P.miniMode then
 		ENV.lockFX=false

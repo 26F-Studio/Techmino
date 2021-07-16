@@ -53,6 +53,7 @@ return{
 		end,
 		freshLimit=15,
 		easyFresh=false,bone=true,
+		noInitSZO=true,
 		bg='lightning',bgm='rectification',
 	},
 	slowMark=true,

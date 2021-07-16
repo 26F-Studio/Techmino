@@ -65,6 +65,7 @@ return{
 			P.modeData.target=100
 		end,
 		freshLimit=15,
+		noInitSZO=true,
 		bg='bg2',bgm='secret7th',
 	},
 	slowMark=true,

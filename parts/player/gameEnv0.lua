@@ -49,14 +49,14 @@ return{
 	freshLimit=1e99,easyFresh=true,
 	bufferLimit=1e99,
 
-	fkey1=false,
-	fkey2=false,
+	fkey1=false,fkey2=false,
 	keyCancel={},
 	fine=false,fineKill=false,
 	b2bKill=false,
 	missionKill=false,
 	dropPiece=NULL,
 	mindas=0,minarr=0,minsdarr=0,
+	noInitSZO=false,
 
 	bg='none',bgm='race',
 	allowMod=true,

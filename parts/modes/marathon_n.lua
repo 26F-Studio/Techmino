@@ -5,6 +5,7 @@ return{
 	color=COLOR.green,
 	env={
 		noTele=true,
+		mindas=7,minarr=1,minsdarr=1,
 		drop=60,wait=8,fall=20,
 		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
@@ -18,7 +19,7 @@ return{
 				end
 			end
 		end,
-		mindas=7,minarr=1,minsdarr=1,
+		noInitSZO=true,
 		bg='bg2',bgm='push',
 	},
 	pauseLimit=true,

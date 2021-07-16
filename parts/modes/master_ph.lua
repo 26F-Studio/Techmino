@@ -142,6 +142,7 @@ return{
 		mission={4,4,4,64},
 		missionKill=true,
 		freshLimit=12,
+		noInitSZO=true,
 		bg='none',bgm='super7th',
 	},
 	slowMark=true,

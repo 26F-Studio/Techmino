@@ -50,6 +50,7 @@ return{
 		wait=rush_wait[1],
 		fall=rush_fall[1],
 		dropPiece=score,
+		noInitSZO=true,
 		task=function(P)
 			P.modeData.pt=0
 			P.modeData.target=100
