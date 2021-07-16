@@ -52,6 +52,7 @@ function SKIN.init(list)
 			end
 		end
 		SKIN.loadOne=nil
+		SKIN.loadAll=nil
 
 		function SKIN.prevSet()--Prev skin_set
 			local _=(SETTING.skinSet-2)%count+1
