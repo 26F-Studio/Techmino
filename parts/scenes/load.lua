@@ -140,11 +140,6 @@ function scene.sceneBack()
 	love.event.quit()
 end
 
-function scene.mouseDown()
-	scene.keyDown("mouse")
-end
-scene.touchDown=scene.mouseDown
-
 function scene.update(dt)
 	if not LOADED then
 		loading=loadingThread()
