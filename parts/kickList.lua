@@ -442,8 +442,8 @@ end
 
 local ZRS
 do
-	local R=vecStrConv{'+0+0','-1+0','-1-1','+0-1','+1-1','-1+1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2'}
-	local L=vecStrConv{'+0+0','+1+0','+1-1','+0-1','-1-1','+1+1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2'}
+	local R=vecStrConv{'+0+0','-1+0','-1-1','+0-1','+1-1','-1+1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
+	local L=vecStrConv{'+0+0','+1+0','+1-1','+0-1','-1-1','+1+1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2','+2+0','-2+0'}
 	local F=vecStrConv{'+0+0','+0-1','+0+1','+0+2'}
 	local list={
 		{[02]=L,[20]=R,[13]=R,[31]=L},--Z
@@ -499,8 +499,14 @@ do
 		end
 		while true do
 			for test=1,#kickList do
-				local x,y=ix+kickList[test][1]+dx,iy+kickList[test][2]+dy
-				if (dx==0 and dy==0 or kickList[test][2]<=0)and(P.freshTime>0 or kickList[test][2]+dy<=0)and not P:ifoverlap(icb,x,y)then
+				local kick=kickList[test]
+				local x,y=ix+kick[1]+dx,iy+kick[2]+dy
+				if
+					(dx==0 and dy==0 or kick[2]<=0)and
+					math.abs(dx+kick[2])<=2 and
+					(P.freshTime>0 or kick[2]+dy<=0)and
+					not P:ifoverlap(icb,x,y)
+				then
 					if P.gameEnv.moveFX and P.gameEnv.block then
 						P:createMoveFX()
 					end
@@ -512,7 +518,7 @@ do
 					if not ifpre then
 						P:freshBlock('move')
 					end
-					if kickList[test][2]+dy>0 and P.freshTime==t and P.curY~=P.imgY then
+					if kick[2]+dy>0 and P.freshTime==t and P.curY~=P.imgY then
 						P.freshTime=P.freshTime-1
 					end
 
