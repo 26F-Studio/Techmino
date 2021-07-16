@@ -277,7 +277,7 @@ local commands={}do
 						end
 						log{COLOR.lC,"/* END */"}
 					else
-						log("Unprintable item: %s (%s)"):format(name,info.type)
+						log{C.R,("Unprintable item: %s (%s)"):format(name,info.type)}
 					end
 				else
 					log{C.R,("No file called '%s'"):format(name)}
