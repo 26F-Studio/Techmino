@@ -268,8 +268,6 @@ end
 
 function scene.draw()
 	if playing then
-		drawFWM()
-
 		--Players
 		for p=1,#PLAYERS do
 			PLAYERS[p]:draw()

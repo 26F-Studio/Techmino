@@ -654,16 +654,8 @@ do--function drawWarning()
 	end
 end
 do--function drawSystemInfo(
-	--你竟然找到了這裏!那麽在動手之前讀讀下面這些吧。
-	--千萬不要為了在網絡公共場合發視頻或者直播需要而擅自刪除這部分代碼!
-	--錄製視頻上傳到公共場合(包括但不限於任何視頻平臺/論壇/好幾十個人及以上的非方塊社區/群等)很可能會對Techmino未來的發展有負面影響
-	--如果被TTC發現，隨時可能被他們用DMCA從法律層面強迫停止開發，到時候誰都沒得玩。這是真的，已經有幾個方塊這麽死了…
-	--氵印限製還可以減少低質量視頻泛濫，也能減輕過多不是真的感興趣路人玩家入坑可能帶來的壓力
-	--想發視頻的話請先向作者申請，描述錄製的大致內容，同意了才可以去關閉氵印
-	--等Techmino發展到一定程度之後會解除這個限製
-	--最後，別把藏在這裏的東西截圖/復製出去哦~
-	--感謝您對Techmino的支持!!!
-	loadstring(love.data.decode('string','base64',"CWxvY2FsIGc9bG92ZS5ncmFwaGljcztsb2NhbCB4LHMsVCxkLGM9Zy5uZXdUZXh0KGdldEZvbnQoMjUpKSxtYXRoLnNpbixUSU1FLGcuZHJhdyxnLnNldENvbG9yO3g6c2V0ZigiQXV0aOS9nOiAhTpNclpfMjZcbkFscGhh5YaF5rWL56aB5q2i5b2V5bGPL+ebtOaSrVxuTm8gcmVjb3JkaW5nL3N0cmVhbWluZyIsMzAwLCdjZW50ZXInKWZ1bmN0aW9uIGRyYXdGV00oKWxvY2FsIHQ9VCgpYygxLDEsMSwuMTYrLjA2KihzKDMuNTUqdCkrcygyLjYqdCkpKWQoeCwzMCw3Mys1MypzKHQqLjI2KSllbmQK"))()
+	--你竟然找到了这里!说明你是真的闲(
+	--感谢支持Techmino!!!
 end
 
 

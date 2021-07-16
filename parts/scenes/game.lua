@@ -215,8 +215,6 @@ local function drawAtkPointer(x,y)
 	gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
-	drawFWM()
-
 	--Players
 	for p=1,#PLAYERS do
 		PLAYERS[p]:draw()
