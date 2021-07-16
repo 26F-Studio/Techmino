@@ -1,5 +1,17 @@
 local C=COLOR
 return{
+	loadText={
+		loadSFX="Loading SFX resources",
+		loadBGM="Loading BGM resources",
+		loadImage="Loading image resources",
+		loadSkin="Loading skin resources",
+		loadVoice="Loading voice resources",
+		loadFont="Loading font resources",
+		loadModeIcon="Loading mode icons",
+		loadMode="Loading modes",
+		loadOther="Loading other things",
+		finish="Loading finished",
+	},
 	anykey="Press a key!",
 	sureQuit="Press again to exit",
 	newDay="A new day, a new beginning!",

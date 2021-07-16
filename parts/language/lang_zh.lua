@@ -1,5 +1,17 @@
 local C=COLOR
 return{
+	loadText={
+		loadSFX="加载音效资源",
+		loadBGM="加载音乐资源",
+		loadImage="加载图片资源",
+		loadSkin="加载皮肤资源",
+		loadVoice="加载语音资源",
+		loadFont="缓存字体资源",
+		loadModeIcon="加载模式图标",
+		loadMode="加载模式",
+		loadOther="加载杂项",
+		finish="加载完成",
+	},
 	anykey="按任意键继续",
 	sureQuit="再按一次退出",
 	newDay="新的一天,新的开始~",
