@@ -47,17 +47,17 @@ function DATA.pasteSequence(str)
 			end
 		else
 			if b>=97 and b<=125 then
-				ins(BAG,reg)
+				ins(BAG,reg)if #BAG>2600 then return end
 				reg=b-96
 			elseif b>=34 and b<=96 then
 				for _=1,b-32 do
-					ins(BAG,reg)
+					ins(BAG,reg)if #BAG>2600 then return end
 				end
 				reg=false
 			end
 		end
 	end
-	if reg then ins(BAG,reg)end
+	if reg then ins(BAG,reg)if #BAG>2600 then return end end
 	return true
 end
 
