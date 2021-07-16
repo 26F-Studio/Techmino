@@ -551,6 +551,37 @@ do
 	end,29)
 end
 
+local ASC
+do
+	local L={"+1+0","+0-1","+1-1","+0-2","+1-2","+2+0","+2-1","+2-2","-1+0","-1-1","+0+1","+1+1","+2+1","-1-2","-2+0","+0+2","+1+2","+2+2","-2-1","-2-2"}
+	local R=flipList(L)
+	vecStrConv(L)vecStrConv(R)
+	ASC={
+		{
+			[01]=R,[10]=L,[03]=L,[30]=R,
+			[12]=R,[21]=L,[32]=L,[23]=R,
+			[02]=noKickSet_180,[20]=noKickSet_180,[13]=noKickSet_180,[31]=noKickSet_180,
+		}
+	}
+	for i=2,29 do ASC[i]=ASC[1]end
+end
+
+local ASCplus
+do
+	local L={"+1+0","+0-1","+1-1","+0-2","+1-2","+2+0","+2-1","+2-2","-1+0","-1-1","+0+1","+1+1","+2+1","-1-2","-2+0","+0+2","+1+2","+2+2","-2-1","-2-2"}
+	local R=flipList(L)
+	local F={"-1+0","+1+0","+0-1","-1-1","+1-1","+0-2","-1-2","+1-2","-2+0","+2+0","-2-1","+2-1","-2+1","+2+1","+0+2","-1+2","+1+2"}
+	vecStrConv(L)vecStrConv(R)vecStrConv(F)
+	ASCplus={
+		{
+			[01]=R,[12]=R,[23]=R,[30]=R,
+			[10]=L,[21]=L,[32]=L,[03]=L,
+			[02]=F,[20]=F,[13]=F,[31]=F,
+		}
+	}
+	for i=2,29 do ASCplus[i]=ASCplus[1]end
+end
+
 local C2
 do
 	local L=vecStrConv{'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1','-2+0','+2+0'}
@@ -610,6 +641,8 @@ return{
 	TRS=TRS,
 	SRS=SRS,
 	ZRS=ZRS,
+	ASC=ASC,
+	ASCplus=ASCplus,
 	C2=C2,
 	C2sym=C2sym,
 	Classic=Classic,
