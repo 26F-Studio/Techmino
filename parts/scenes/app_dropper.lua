@@ -2,7 +2,7 @@ local gc=love.graphics
 local rnd=math.random
 local int,max=math.floor,math.max
 
-local perfect={"Perfect!","Excellent!","Nice!","Good!","Great!","Just right!","300"}
+local perfect={"Perfect!","Excellent!","Nice!","Good!","Great!","Just!","300"}
 local great={"Pay attention!","Be careful!","Teacher behind you!","Feel tired?","You are in danger!","Do your homework!","A good game!","Minecraft!","y=ax^2+bx+c!","No music?","Internet unavailable.","It's raining!","Too hard!","Shorter?","Higher!","English messages!","Hi!","^_^","Drop!","Colorful!",":)","100$","~~~wave~~~","★★★","中文!","NOW!!!!!","Also try the TEN!","I'm a programmer!","Also try minesweeperZ!","This is Dropper!","Hold your calculator!","Look! UFO!","Bonjour!","[string]","Author:MrZ","Boom!","PvZ!","China!","TI-nspire!","I love LUA!"}
 local miss={"Oops!","Uh-oh","Ouch!","Oh no."}
 
