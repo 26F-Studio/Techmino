@@ -31,7 +31,7 @@ local function score(P)
 			BG.set('glow')
 			E.bone=true
 		elseif s==5 then
-			if P.stat.frame>146*60 then
+			if P.stat.frame>183*60 then
 				D.pt=500
 				P:win('finish')
 				return
