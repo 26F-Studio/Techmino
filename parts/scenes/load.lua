@@ -2,7 +2,7 @@ local gc=love.graphics
 
 local scene={}
 
-local loading,waitTime
+local loading,progress,maxProgress,waitTime
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
 
@@ -19,7 +19,11 @@ local loadingThread=coroutine.wrap(function()
 	YIELD('loadSFX')SFX.loadAll()
 	YIELD('loadBGM')BGM.loadAll()
 	YIELD('loadImage')IMG.loadAll()
-	YIELD('loadSkin')SKIN.loadAll()
+	YIELD('loadSkin')
+	for i=1,SKIN.getCount()do
+		SKIN.loadOne()
+		if i%math.floor(SKIN.getCount()/9)==0 then YIELD()end
+	end
 	YIELD('loadVoice')VOC.loadAll()
 	YIELD('loadFont')for i=1,17 do getFont(15+5*i)end
 
@@ -135,6 +139,8 @@ end)
 function scene.sceneInit()
 	studioLogo=gc.newText(getFont(90),"26F Studio")
 	waitTime=0
+	progress=0
+	maxProgress=10
 end
 function scene.sceneBack()
 	love.event.quit()
@@ -142,10 +148,11 @@ end
 
 function scene.update(dt)
 	if not LOADED then
-		loading=loadingThread()
+		loading=loadingThread()or loading
+		progress=progress+1
 	else
 		waitTime=waitTime+dt
-		if waitTime>.626 then
+		if waitTime>1 then
 			SCN.swapTo('intro')
 		end
 	end
@@ -153,15 +160,19 @@ end
 
 function scene.draw()
 	gc.clear(.1,.1,.1)
-	gc.setColor(1,1,1)
-	mDraw(TEXTURE.title,640,240,0,.9)
 
+	gc.setColor(1,1,1,progress/maxProgress)
+	mDraw(TEXTURE.title,640,240,0,.9)
+	gc.setColor(1,1,1,waitTime/.626)
+	mDraw(TEXTURE.title_color,640,240,0,.9)
+
+	gc.setColor(logoColor1[1],logoColor1[2],logoColor1[3],progress/maxProgress)mDraw(studioLogo,640,400)
+	gc.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress)for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy)end end
+	gc.setColor(.2,.2,.2,progress/maxProgress)mDraw(studioLogo,640,400)
+
+	gc.setColor(1,1,1)
 	setFont(30)
 	mStr(text.loadText[loading],640,530)
-
-	gc.setColor(logoColor1)mDraw(studioLogo,640,400)
-	gc.setColor(logoColor2)for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy)end end
-	gc.setColor(.2,.2,.2)mDraw(studioLogo,640,400)
 end
 
 return scene
