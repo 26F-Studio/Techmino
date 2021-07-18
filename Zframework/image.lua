@@ -1,5 +1,7 @@
 local IMG={
 	getCount=function()return 0 end,
+	loadOne=function()error("Cannot load before init!")end,
+	loadAll=function()error("Cannot load before init!")end,
 }
 function IMG.init(list)
 	IMG.init=nil

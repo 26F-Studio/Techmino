@@ -1,5 +1,7 @@
 local SKIN={
 	getCount=function()return 0 end,
+	loadOne=function()error("Cannot load before init!")end,
+	loadAll=function()error("Cannot load before init!")end,
 	prevSet=NULL,
 	nextSet=NULL,
 	prev=NULL,

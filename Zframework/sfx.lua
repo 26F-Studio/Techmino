@@ -1,5 +1,7 @@
 local SFX={
 	getCount=function()return 0 end,
+	loadOne=function()error("Cannot load before init!")end,
+	loadAll=function()error("Cannot load before init!")end,
 	fieldPlay=NULL,
 	play=NULL,
 	fplay=NULL,

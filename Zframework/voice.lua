@@ -1,6 +1,8 @@
 local VOC={
 	getCount=function()return 0 end,
 	getQueueCount=function()return 0 end,
+	loadOne=function()error("Cannot load before init!")end,
+	loadAll=function()error("Cannot load before init!")end,
 	getFreeChannel=NULL,
 	play=NULL,
 	update=NULL,
