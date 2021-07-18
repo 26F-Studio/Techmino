@@ -40,6 +40,7 @@ local titleTransform={
 	function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)end,
 	function(t)gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)end,
 }
+local titleColor={COLOR.lP,COLOR.lC,COLOR.lB,COLOR.lO,COLOR.lF,COLOR.lM,COLOR.lG,COLOR.lY}
 function scene.draw()
 	local T=(t1+110)%300
 	if T<30 then
@@ -54,12 +55,14 @@ function scene.draw()
 		local t=t1-i*15
 		if t>0 then
 			gc.push('transform')
-			gc.setColor(1,1,1,min(t*.025,1))
 			titleTransform[animeType[i]](t,i)
 			local dt=(t1+62-5*i)%300
 			if dt<20 then
 				gc.translate(0,math.abs(10-dt)-10)
 			end
+			gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.26)
+			gc.polygon('fill',L[i])
+			gc.setColor(1,1,1,min(t*.025,1))
 			gc.polygon('line',L[i])
 			gc.pop()
 		end
