@@ -10,7 +10,7 @@ return{
 		loadModeIcon="Loading mode icons",
 		loadMode="Loading modes",
 		loadOther="Loading other assets",
-		finish="Loading complete, any key to start",
+		finish="Press any button to start!",
 	},
 	sureQuit="Press again to exit",
 	newDay="A new day, a new beginning!",
