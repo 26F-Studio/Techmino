@@ -69,6 +69,7 @@ local netPLY
 
 local nullIndex={
 	__index=function(self,k)
+		MES.traceback()
 		MES.new('error',"User not loaded: "..k)
 		netPLY.add{
 			uid=k,
