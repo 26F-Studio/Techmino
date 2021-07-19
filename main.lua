@@ -1,16 +1,16 @@
 --[[
-	  ______             __                _
-	 /_  __/___   _____ / /_   ____ ___   (_)____   ____
-	  / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \
-	 / /  /  __// /__ / / / // / / / / // // / / // /_/ /
-	/_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/
+	#   ______             __                _              #
+	#  /_  __/___   _____ / /_   ____ ___   (_)____   ____  #
+	#   / /  / _ \ / ___// __ \ / __ `__ \ / // __ \ / __ \ #
+	#  / /  /  __// /__ / / / // / / / / // // / / // /_/ / #
+	# /_/   \___/ \___//_/ /_//_/ /_/ /_//_//_/ /_/ \____/  #
 	Techmino is my first "huge project"
 	optimization is welcomed if you also love tetromino stacking game
 
 	Instructions:
-	1. I made a framework called Zframework, most code in Zframework are not directly relevant to game;
-	2. "xxx" are texts for reading, 'xxx' are string values just in program;
-	3. Some goto statement are used for better performance. All goto-labes have detailed names so don't afraid;
+	1. I made a framework called Zframework, *most* code in Zframework are not directly relevant to game;
+	2. "xxx" are texts for reading by player, 'xxx' are string values just used in program;
+	3. Some goto statement are used for better performance. All goto-labes have detailed names so don't be afraid;
 	4. Except "gcinfo" function of lua itself, other "gc" are short for "graphics";
 ]]--
 
