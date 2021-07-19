@@ -1,6 +1,5 @@
 return{
 	fallback=4,
-	anykey="↓□↓",
 
 	atkModeName={"?","(  )","!","←→"},
 	royale_remain="$1 ~",

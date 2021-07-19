@@ -2,6 +2,7 @@ local gc=love.graphics
 
 local scene={}
 
+local lastQuitTime
 local verName=("%s  %s  %s"):format(SYSTEM,VERSION.string,VERSION.name)
 local tipLength=760
 local tip=gc.newText(getFont(30),"")
@@ -23,6 +24,7 @@ local enterConsole=coroutine.wrap(function()
 end)
 function scene.sceneInit()
 	BG.set()
+	lastQuitTime=-1e99
 
 	--Set tip
 	tip:set(text.getTip())
@@ -115,7 +117,13 @@ function scene.keyDown(key,isRep)
 	elseif key=="c"then
 		enterConsole()
 	elseif key=="escape"then
-		SCN.back()
+		if TIME()-lastQuitTime<1 then
+			VOC.play('bye')
+			SCN.swapTo('quit','slowFade')
+		else
+			lastQuitTime=TIME()
+			MES.new('warn',text.sureQuit)
+		end
 	end
 end
 

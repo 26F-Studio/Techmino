@@ -1,6 +1,5 @@
 return{
 	fallback=4,
-	anykey="Appuyez sur n'importe quelle touche",
 	sureQuit="Appuyez à nouveau pour sortir",
 	newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
 	playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",

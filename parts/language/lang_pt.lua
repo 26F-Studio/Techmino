@@ -1,7 +1,6 @@
 local C=COLOR
 return{
 	fallback=4,
-	anykey="Pressione qualquer tecla",
 	sureQuit="Aparte novamente para sair",
 	newDay="[Anti-vício] Novo dia, um começo novo!",
 	playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",

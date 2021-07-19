@@ -1,8 +1,12 @@
 local gc=love.graphics
 
+local max,min,sin,cos=math.max,math.min,math.sin,math.cos
+local rnd=math.random
+
 local scene={}
 
-local loading,progress,maxProgress,waitTime
+local loading,progress,maxProgress
+local t1,t2,animeType
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
 
@@ -138,33 +142,75 @@ end)
 
 function scene.sceneInit()
 	studioLogo=gc.newText(getFont(90),"26F Studio")
-	waitTime=0
 	progress=0
 	maxProgress=10
+	t1,t2=0,0--Timer
+	animeType={}for i=1,8 do animeType[i]=rnd(5)end--Random animation type
 end
 function scene.sceneBack()
 	love.event.quit()
 end
 
-function scene.update(dt)
+function scene.mouseDown()
+	if LOADED then
+		SCN.swapTo(SETTING.simpMode and'main_simple'or'main')
+	end
+end
+scene.touchDown=scene.mouseDown
+function scene.keyDown(key)
+	if key=="escape"then
+		love.event.quit()
+	elseif LOADED then
+		scene.mouseDown()
+	end
+end
+
+function scene.update()
 	if not LOADED then
 		loading=loadingThread()or loading
 		progress=progress+1
 	else
-		waitTime=waitTime+dt
-		if waitTime>1 then
-			SCN.swapTo('intro')
-		end
+		t1,t2=t1+1,t2+1
 	end
 end
 
+local titleTransform={
+	function(t)gc.translate(0,max(50-t,0)^2/25)end,
+	function(t)gc.translate(0,-max(50-t,0)^2/25)end,
+	function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,cos(TIME()*3+626*i)*d)end,
+	function(t,i)local d=max(50-t,0)gc.translate(sin(TIME()*3+626*i)*d,-cos(TIME()*3+626*i)*d)end,
+	function(t)gc.setColor(1,1,1,min(t*.02,1)+rnd()*.2)end,
+}
+local titleColor={COLOR.lP,COLOR.lC,COLOR.lB,COLOR.lO,COLOR.lF,COLOR.lM,COLOR.lG,COLOR.lY}
 function scene.draw()
 	gc.clear(.1,.1,.1)
 
-	gc.setColor(1,1,1,progress/maxProgress)
-	mDraw(TEXTURE.title,640,240,0,.9)
-	gc.setColor(1,1,1,waitTime/.626)
-	mDraw(TEXTURE.title_color,640,240,0,.9)
+	local T=(t1+110)%300
+	if T<30 then
+		gc.setLineWidth(4+(30-T)^1.626/62)
+	else
+		gc.setLineWidth(4)
+	end
+	local L=title
+	gc.push('transform')
+	gc.translate(126,100)
+	for i=1,8 do
+		local t=t1-i*15
+		if t>0 then
+			gc.push('transform')
+			titleTransform[animeType[i]](t,i)
+			local dt=(t1+62-5*i)%300
+			if dt<20 then
+				gc.translate(0,math.abs(10-dt)-10)
+			end
+			gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.26)
+			gc.polygon('fill',L[i])
+			gc.setColor(1,1,1,min(t*.025,1))
+			gc.polygon('line',L[i])
+			gc.pop()
+		end
+	end
+	gc.pop()
 
 	gc.setColor(logoColor1[1],logoColor1[2],logoColor1[3],progress/maxProgress)mDraw(studioLogo,640,400)
 	gc.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress)for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy)end end
