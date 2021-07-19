@@ -84,7 +84,7 @@ end
 local function _closeMessage(message)
 	local mes=JSON.decode(message)
 	if mes then
-		MES.new('info',("%s [%s] %s"):format(text.wsClose,mes.type or"unknown type",mes.reason or""))
+		MES.new('info',("%s %s|%s"):format(text.wsClose,mes.type or"",mes.reason or""))
 	else
 		MES.new('info',text.wsClose)
 	end
