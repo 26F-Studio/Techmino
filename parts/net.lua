@@ -63,11 +63,6 @@ function NET.getlock(name)
 	return TIME()<locks[name]
 end
 
---Pong back
-local function _pong(wsName,message)
-	WS.send(wsName,message or"",'pong')
-end
-
 --Parse json message
 local function _parse(res)
 	res=JSON.decode(res)
@@ -86,7 +81,7 @@ local function _closeMessage(message)
 	if mes then
 		MES.new('info',("%s %s|%s"):format(text.wsClose,mes.type or"",mes.reason or""))
 	else
-		MES.new('info',text.wsClose)
+		MES.new('info',("%s %s"):format(text.wsClose,message))
 	end
 end
 
@@ -382,7 +377,6 @@ function NET.updateWS_app()
 		local message,op=WS.read('app')
 		if message then
 			if op=='ping'then
-				_pong('app',message)
 			elseif op=='pong'then
 			elseif op=='close'then
 				_closeMessage(message)
@@ -404,7 +398,7 @@ function NET.updateWS_app()
 						end
 						MES.new('broadcast',res.notice,5)
 						NET.tryLogin(true)
-						TASK.new(NET.freshPlayerCount)
+						-- TASK.new(NET.freshPlayerCount)
 					elseif res.action==0 then--Broadcast
 						MES.new('broadcast',res.data.message,5)
 					elseif res.action==1 then--Get notice
@@ -438,7 +432,6 @@ function NET.updateWS_user()
 		local message,op=WS.read('user')
 		if message then
 			if op=='ping'then
-				_pong('user',message)
 			elseif op=='pong'then
 			elseif op=='close'then
 				_closeMessage(message)
@@ -485,7 +478,6 @@ function NET.updateWS_play()
 		local message,op=WS.read('play')
 		if message then
 			if op=='ping'then
-				_pong('play',message)
 			elseif op=='pong'then
 			elseif op=='close'then
 				_closeMessage(message)
@@ -610,7 +602,6 @@ function NET.updateWS_stream()
 		local message,op=WS.read('stream')
 		if message then
 			if op=='ping'then
-				_pong('stream',message)
 			elseif op=='pong'then
 			elseif op=='close'then
 				_closeMessage(message)
@@ -681,7 +672,6 @@ function NET.updateWS_chat()
 		local message,op=WS.read('chat')
 		if message then
 			if op=='ping'then
-				_pong('chat',message)
 			elseif op=='pong'then
 			elseif op=='close'then
 				_closeMessage(message)
@@ -703,7 +693,6 @@ function NET.updateWS_manage()
 		local message,op=WS.read('manage')
 		if message then
 			if op=='ping'then
-				_pong('manage',message)
 			elseif op=='pong'then
 			elseif op=='close'then
 				_closeMessage(message)

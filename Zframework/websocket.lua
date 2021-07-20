@@ -49,7 +49,7 @@ function WS.connect(name,subPath,body,timeout)
 		readCHN=love.thread.newChannel(),
 		lastPingTime=0,
 		lastPongTime=timer(),
-		pingInterval=12,
+		pingInterval=6,
 		status='connecting',--'connecting', 'running', 'dead'
 		sendTimer=0,
 		alertTimer=0,
@@ -119,7 +119,11 @@ function WS.read(name)
 	local ws=wsList[name]
 	if ws.real and ws.status~='connecting'and CHN_getCount(ws.readCHN)>=2 then
 		local op,message=CHN_pop(ws.readCHN),CHN_pop(ws.readCHN)
-		if op==8 then ws.status='dead'end--8=close
+		if op==8 then--8=close
+			ws.status='dead'
+		elseif op==9 then--9=ping
+			WS.send(name,message or"",'pong')
+		end
 		ws.lastPongTime=timer()
 		ws.pongTimer=1
 		return message,OPname[op]or op
@@ -139,35 +143,41 @@ function WS.update(dt)
 	local time=timer()
 	for name,ws in next,wsList do
 		if ws.real then
-			if CHN_getCount(ws.triggerCHN)==0 then
-				CHN_push(ws.triggerCHN,0)
-			end
-			if ws.status=='connecting'then
-				local mes=CHN_pop(ws.readCHN)
-				if mes then
-					if mes=='success'then
-						ws.status='running'
+			if ws.thread:isRunning()then
+				if CHN_getCount(ws.triggerCHN)==0 then
+					CHN_push(ws.triggerCHN,0)
+				end
+				if ws.status=='connecting'then
+					local mes=CHN_pop(ws.readCHN)
+					if mes then
+						if mes=='success'then
+							ws.status='running'
+							ws.lastPingTime=time
+							ws.lastPongTime=time
+							ws.pongTimer=1
+						else
+							ws.status='dead'
+							MES.new('warn',text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes))
+						end
+					end
+				elseif ws.status=='running'then
+					if time-ws.lastPingTime>ws.pingInterval then
+						CHN_push(ws.sendCHN,9)
+						CHN_push(ws.sendCHN,"")--ping
 						ws.lastPingTime=time
-						ws.lastPongTime=time
-						ws.pongTimer=1
-					else
-						ws.status='dead'
-						MES.new('warn',text.wsFailed..": "..(mes=="timeout"and text.netTimeout or mes))
+					end
+					if time-ws.lastPongTime>6+2*ws.pingInterval then
+						WS.close(name)
 					end
 				end
-			elseif ws.status=='running'then
-				if time-ws.lastPingTime>ws.pingInterval then
-					CHN_push(ws.sendCHN,9)
-					CHN_push(ws.sendCHN,"")--ping
-					ws.lastPingTime=time
-				end
-				if time-ws.lastPongTime>6+2*ws.pingInterval then
-					WS.close(name)
-				end
+				if ws.sendTimer>0 then ws.sendTimer=ws.sendTimer-dt end
+				if ws.pongTimer>0 then ws.pongTimer=ws.pongTimer-dt end
+				if ws.alertTimer>0 then ws.alertTimer=ws.alertTimer-dt end
+			else
+				ws.status='dead'
+				ws.real=false
+				MES.new('warn',text.wsClose.."线程错误 Thread error")
 			end
-			if ws.sendTimer>0 then ws.sendTimer=ws.sendTimer-dt end
-			if ws.pongTimer>0 then ws.pongTimer=ws.pongTimer-dt end
-			if ws.alertTimer>0 then ws.alertTimer=ws.alertTimer-dt end
 		end
 	end
 end
