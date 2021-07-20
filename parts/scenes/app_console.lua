@@ -862,11 +862,10 @@ local fleg={
 }setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
 function userG.the_box(k,f)
 	if k~=first_key then log"Usage:"log"?"return end
-	if not f then log"Two keys needed"return end
-	if type(f)~='function'then log"Function need"return end
+	if not f or type(f)~='function'then log"Second arg is a function"return end
 	noLog=true
-	if f()~=f then noLog=false log"Give me yourself."return end
-	if f(26)~=math.huge then noLog=false log"Infinity for the lucky number"return end
+	if f()~=f then noLog=false log"Return itself"return end
+	if f(26)~=math.huge then noLog=false log"Lucky number → Infinity"return end
 	noLog=false
 	log"*You Lose*"
 	return fleg
@@ -976,8 +975,7 @@ function scene.keyDown(key)
 	elseif key=="pagedown"then outputBox:scroll(20)
 	elseif key=="home"then outputBox:scroll(-1e99)
 	elseif key=="end"then outputBox:scroll(1e99)
-	elseif combKey[key]and kb.isDown("lctrl","rctrl")then
-		combKey[key]()
+	elseif combKey[key]and kb.isDown("lctrl","rctrl")then combKey[key]()
 	elseif key=="escape"then
 		if not WIDGET.isFocus(inputBox)then
 			WIDGET.focus(inputBox)
