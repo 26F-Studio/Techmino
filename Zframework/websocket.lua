@@ -81,7 +81,7 @@ end
 
 function WS.alert(name)
 	local ws=wsList[name]
-	ws.alertTimer=2
+	ws.alertTimer=2.6
 end
 
 local OPcode={
@@ -162,9 +162,7 @@ function WS.update(dt)
 					end
 				elseif ws.status=='running'then
 					if time-ws.lastPingTime>ws.pingInterval then
-						CHN_push(ws.sendCHN,9)
-						CHN_push(ws.sendCHN,"")--ping
-						ws.lastPingTime=time
+						WS.send(name,"",'pong')
 					end
 					if time-ws.lastPongTime>6+2*ws.pingInterval then
 						WS.close(name)
@@ -176,6 +174,7 @@ function WS.update(dt)
 			else
 				ws.status='dead'
 				ws.real=false
+				WS.alert(name)
 				MES.new('warn',text.wsClose.."线程错误 Thread error")
 			end
 		end
