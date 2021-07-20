@@ -126,33 +126,33 @@ IMG.init{
 	},
 }
 SKIN.init{
-	'crystal_scf',
-	'matte_mrz',
-	'contrast_mrz',
-	'polkadots_scf',
-	'toy_scf',
-	'smooth_mrz',
-	'simple_scf',
-	'glass_scf',
-	'penta_scf',
-	'bubble_scf',
-	'minoes_scf',
-	'pure_mrz',
-	'bright_scf',
-	'glow_mrz',
-	'plastic_mrz',
-	'paper_mrz',
-	'yinyang_scf',
-	'cartooncup_earety',
-	'jelly_miya',
-	'brick_notypey',
-	'gem_notypey',
-	'classic',
-	'ball_shaw',
-	'retro_notypey',
-	'textbone_mrz',
-	'coloredbone_mrz',
-	'wtf',
+	{name="crystal_scf",path='media/image/skin/crystal_scf.png'},
+	{name="matte_mrz",path='media/image/skin/matte_mrz.png'},
+	{name="contrast_mrz",path='media/image/skin/contrast_mrz.png'},
+	{name="polkadots_scf",path='media/image/skin/polkadots_scf.png'},
+	{name="toy_scf",path='media/image/skin/toy_scf.png'},
+	{name="smooth_mrz",path='media/image/skin/smooth_mrz.png'},
+	{name="simple_scf",path='media/image/skin/simple_scf.png'},
+	{name="glass_scf",path='media/image/skin/glass_scf.png'},
+	{name="penta_scf",path='media/image/skin/penta_scf.png'},
+	{name="bubble_scf",path='media/image/skin/bubble_scf.png'},
+	{name="minoes_scf",path='media/image/skin/minoes_scf.png'},
+	{name="pure_mrz",path='media/image/skin/pure_mrz.png'},
+	{name="bright_scf",path='media/image/skin/bright_scf.png'},
+	{name="glow_mrz",path='media/image/skin/glow_mrz.png'},
+	{name="plastic_mrz",path='media/image/skin/plastic_mrz.png'},
+	{name="paper_mrz",path='media/image/skin/paper_mrz.png'},
+	{name="yinyang_scf",path='media/image/skin/yinyang_scf.png'},
+	{name="cartooncup_earety",path='media/image/skin/cartooncup_earety.png'},
+	{name="jelly_miya",path='media/image/skin/jelly_miya.png'},
+	{name="brick_notypey",path='media/image/skin/brick_notypey.png'},
+	{name="gem_notypey",path='media/image/skin/gem_notypey.png'},
+	{name="classic",path='media/image/skin/classic.png'},
+	{name="ball_shaw",path='media/image/skin/ball_shaw.png'},
+	{name="retro_notypey",path='media/image/skin/retro_notypey.png'},
+	{name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
+	{name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
+	{name="wtf",path='media/image/skin/wtf.png'},
 }
 
 --Initialize sound libs
@@ -272,6 +272,7 @@ do
 		needSave=true
 	end
 	if not SETTING.VKSkin then SETTING.VKSkin=1 end
+	if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
 		SETTING.frameMul=100
 	end

@@ -21,7 +21,7 @@ end
 function scene.draw()
 	local t=TIME()
 	gc.setColor(1,1,1)
-	local texture=SKIN.curText
+	local texture=SKIN.lib[SETTING.skinSet]
 	for n=1,7 do
 		gc.push('transform')
 		gc.translate(-10+140*n,340)
@@ -59,8 +59,7 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=80,y=50,font=70,align='L'},
 
-	WIDGET.newButton{name="prev",	x=700,y=100,w=140,h=100,fText="←",font=50,code=function()SKIN.prevSet()end},
-	WIDGET.newButton{name="next",	x=860,y=100,w=140,h=100,fText="→",font=50,code=function()SKIN.nextSet()end},
+	WIDGET.newSelector{name="skinSet",x=780,y=100,w=260,list=SKIN.getList(),disp=SETval('skinSet'),code=SETsto('skinSet')},
 	WIDGET.newButton{name="prev1",	x=130,y=230,w=90,h=65,fText="↑",code=function()prevSkin(1)end},
 	WIDGET.newButton{name="prev2",	x=270,y=230,w=90,h=65,fText="↑",code=function()prevSkin(2)end},
 	WIDGET.newButton{name="prev3",	x=410,y=230,w=90,h=65,fText="↑",code=function()prevSkin(3)end},

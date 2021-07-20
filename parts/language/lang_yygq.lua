@@ -111,6 +111,7 @@ return{
 			reset="重设",
 		},
 		setting_skin={
+			skinSet="皮肤",
 			title="改外观",
 		},
 		setting_touchSwitch={

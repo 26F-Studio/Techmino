@@ -379,6 +379,7 @@ return{
 			restart="Reiniciar",
 		},
 		setting_skin={
+			-- skinSet="Block Skin",
 			title="Ajustes de Texturas",
 			skinR="Color por def.",
 			faceR="Direc. por def.",

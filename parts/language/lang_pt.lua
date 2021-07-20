@@ -404,6 +404,7 @@ return{
 			restart="Reiniciar",
 		},
 		setting_skin={
+			-- skinSet="Block Skin",
 			title="Config. Layout",
 			spin1="R",spin2="R",spin3="R",spin4="R",spin5="R",spin6="R",spin7="R",
 			skinR="Reset Cor",

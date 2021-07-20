@@ -13,9 +13,9 @@ function scene.draw()
 	local t=TIME()
 	local b=math.floor(t*2)%16+1
 	gc.setColor(1,1,1)
-	gc.draw(SKIN.curText[b],410,540-WIDGET.scrollPos,t%6.2832,2,nil,15,15)
+	gc.draw(SKIN.lib[SETTING.skinSet][b],410,540-WIDGET.scrollPos,t%6.2832,2,nil,15,15)
 	gc.setColor(1,1,1,t*2%1)
-	gc.draw(SKIN.curText[b%16+1],410,540-WIDGET.scrollPos,t%6.2832,2,nil,15,15)
+	gc.draw(SKIN.lib[SETTING.skinSet][b%16+1],410,540-WIDGET.scrollPos,t%6.2832,2,nil,15,15)
 end
 
 scene.widgetScrollHeight=200

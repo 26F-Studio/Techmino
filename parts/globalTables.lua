@@ -305,7 +305,7 @@ SETTING={--Settings
 	fine=false,
 	simpMode=false,
 	lang=1,
-	skinSet=1,
+	skinSet='crystal_scf',
 	skin={
 		1,7,11,3,14,4,9,
 		1,7,2,6,10,2,13,5,9,15,10,11,3,12,2,16,8,4,

@@ -67,7 +67,7 @@ function scene.draw()
 	gc.line(400,-10,400,90)
 
 	--O mino animation
-	local O=SKIN.curText[SETTING.skin[6]]
+	local O=SKIN.lib[SETTING.skinSet][SETTING.skin[6]]
 	gc.draw(O,40*pos,0,nil,40/30)
 	gc.draw(O,40*pos,40,nil,40/30)
 	gc.draw(O,40*pos+40,0,nil,40/30)

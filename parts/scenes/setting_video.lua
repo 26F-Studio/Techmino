@@ -16,7 +16,7 @@ function scene.draw()
 	gc.pop()
 	gc.push('transform')
 		gc.setColor(1,1,1)
-		local L=SKIN.curText
+		local L=SKIN.lib[SETTING.skinSet]
 		local T=L[1]
 		gc.translate(0,1410-WIDGET.scrollPos)
 		gc.setShader(SHADER.blockSatur)

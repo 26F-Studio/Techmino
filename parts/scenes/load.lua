@@ -21,11 +21,6 @@ local loadingThread=coroutine.wrap(function()
 		logoColor2={COLOR.rainbow_light(r)}
 	end
 	YIELD('loadSFX')SFX.loadAll()
-	YIELD('loadSkin')
-	for i=1,SKIN.getCount()do
-		SKIN.loadOne()
-		if i%math.floor(SKIN.getCount()/9)==0 then YIELD()end
-	end
 	YIELD('loadVoice')VOC.loadAll()
 	YIELD('loadFont')for i=1,17 do getFont(15+5*i)end
 
@@ -123,7 +118,6 @@ local loadingThread=coroutine.wrap(function()
 	end
 
 	YIELD('loadOther')
-	SKIN.change(SETTING.skinSet)
 	STAT.run=STAT.run+1
 
 	--Connect to server

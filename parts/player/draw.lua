@@ -96,8 +96,7 @@ local function applyFieldOffset(P,notNorm)
 end
 local function stencilBoard()gc_rectangle('fill',0,-10,300,610)end
 
-local function drawRow(h,V,L,showInvis)
-	local texture=SKIN.curText
+local function drawRow(texture,h,V,L,showInvis)
 	local t=TIME()*4
 	for i=1,10 do
 		if L[i]>0 then
@@ -116,20 +115,20 @@ local function drawField(P)
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
 	local showInvis=GAME.replaying
-
+	local texture=P.skinLib
 	if P.falling==-1 then--Blocks only
 		if ENV.upEdge then
 			gc_setShader(shader_lighter)
 			gc_translate(0,-4)
 			--<drawRow>
-				for j=start,min(start+21,#F)do drawRow(j,V[j],F[j])end
+				for j=start,min(start+21,#F)do drawRow(texture,j,V[j],F[j])end
 			--</drawRow>
 			gc_setShader(shader_fieldSatur)
 			gc_translate(0,4)
 		end
 
 		--<drawRow>
-			for j=start,min(start+21,#F)do drawRow(j,V[j],F[j],showInvis)end
+			for j=start,min(start+21,#F)do drawRow(texture,j,V[j],F[j],showInvis)end
 		--</drawRow>
 	else--With falling animation
 		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
@@ -145,7 +144,7 @@ local function drawField(P)
 						h=h+1
 						gc_translate(0,-stepY)
 					end
-					drawRow(j,V[j],F[j])
+					drawRow(texture,j,V[j],F[j])
 				end
 			--</drawRow>
 			gc_setShader(shader_fieldSatur)
@@ -162,7 +161,7 @@ local function drawField(P)
 					gc_setColor(1,1,1,alpha)
 					gc_rectangle('fill',0,30-30*j,300,stepY)
 				end
-				drawRow(j,V[j],F[j],showInvis)
+				drawRow(texture,j,V[j],F[j],showInvis)
 			end
 		--</drawRow>
 		gc_pop()
@@ -191,7 +190,7 @@ local function drawFXs(P)
 	end
 
 	--MoveFX
-	local texture=SKIN.curText
+	local texture=P.skinLib
 	for i=1,#P.moveFX do
 		local S=P.moveFX[i]
 		gc_setColor(1,1,1,.6-S[4]*.6)
@@ -211,7 +210,7 @@ end
 local drawGhost={
 	color=function(P,clr,alpha)
 		gc_setColor(1,1,1,alpha)
-		local texture=SKIN.curText
+		local texture=P.skinLib
 		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
@@ -221,7 +220,7 @@ local drawGhost={
 	end,
 	gray=function(P,_,alpha)
 		gc_setColor(1,1,1,alpha)
-		local texture=SKIN.curText
+		local texture=P.skinLib
 		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
@@ -298,7 +297,7 @@ end
 local function drawBlock(P,clr)
 	gc_setColor(1,1,1)
 	gc_setShader(shader_blockSatur)
-	local texture=SKIN.curText[clr]
+	local texture=P.skinLib[clr]
 	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
 		if CB[i][j]then
@@ -420,7 +419,7 @@ local function drawHold(P)
 			for n=1,#holdQueue do
 				if n==N then gc_setColor(.6,.4,.4)end
 				local bk,clr=holdQueue[n].bk,holdQueue[n].color
-				local texture=SKIN.curText[clr]
+				local texture=P.skinLib[clr]
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
@@ -539,7 +538,7 @@ draw.applyFieldOffset=applyFieldOffset
 draw.drawGhost=drawGhost
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
-	local texture=SKIN.curText
+	local texture=P.skinLib
 	gc_translate(316,20)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
@@ -574,7 +573,7 @@ function draw.drawNext_norm(P)
 end
 function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
-	local texture=SKIN.curText
+	local texture=P.skinLib
 	gc_translate(316,20)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
@@ -699,7 +698,7 @@ function draw.norm(P)
 					gc_translate(0,-dy)
 						--Draw block & rotation center
 						if ENV.block then
-							drawBlockOutline(P,SKIN.curText[curColor],trans)
+							drawBlockOutline(P,P.skinLib[curColor],trans)
 							drawBlock(P,curColor)
 							if ENV.center then
 								gc_setColor(1,1,1,ENV.center)
@@ -833,7 +832,7 @@ function draw.small(P)
 
 		--Field
 		local F=P.field
-		local texture=SKIN.curTextMini
+		local texture=SKIN.libMini[SETTING.skinSet]
 		for j=1,#F do
 			for i=1,10 do if F[j][i]>0 then
 				gc_draw(texture[F[j][i]],6*i-6,120-6*j)
@@ -902,7 +901,7 @@ function draw.demo(P)
 					if ENV.block then
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc_translate(0,-dy)
-						drawBlockOutline(P,SKIN.curText[curColor],P.lockDelay/ENV.lock)
+						drawBlockOutline(P,P.skinLib[curColor],P.lockDelay/ENV.lock)
 						drawBlock(P,curColor)
 						gc_translate(0,dy)
 					end

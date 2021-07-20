@@ -25,7 +25,7 @@ function back.update()
 			k=k,
 			vy=k*2,
 			block=B,
-			texture=SKIN.curText[SETTING.skin[r]],
+			texture=SKIN.lib[SETTING.skinSet][SETTING.skin[r]],
 		})
 	end
 	for i=#mino,1,-1 do

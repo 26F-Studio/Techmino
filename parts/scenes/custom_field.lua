@@ -273,7 +273,7 @@ function scene.draw()
 	gc.setLineWidth(2)
 	local cross=TEXTURE.puzzleMark[-1]
 	local F=FIELD[page]
-	local texture=SKIN.curText
+	local texture=SKIN.lib[SETTING.skinSet]
 	for y=1,20 do for x=1,10 do
 		local B=F[y][x]
 		if B>0 then

@@ -24,7 +24,7 @@ function back.update()
 			rotate=6.2832*rnd(),
 			va=.05-rnd()*.1,
 			size=SCR.rad*(2+rnd()*3)/100,
-			texture=SKIN.curText[rnd(16)],
+			texture=SKIN.lib[SETTING.skinSet][rnd(16)],
 		}
 		ins(squares,S)
 		t=rnd(6,12)

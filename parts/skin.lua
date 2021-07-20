@@ -1,82 +1,54 @@
-local SKIN={
-	getCount=function()return 0 end,
-	loadOne=function()error("Cannot load before init!")end,
-	loadAll=function()error("Cannot load before init!")end,
-	prevSet=NULL,
-	nextSet=NULL,
-	prev=NULL,
-	next=NULL,
-	rotate=NULL,
-	change=NULL,
-}
+local SKIN={}
 function SKIN.init(list)
+	local Skins={}
+
+	local simpList={}
+	for _,v in next,list do
+		table.insert(simpList,v.name)
+		Skins[v.name]=v.path
+	end
+	function SKIN.getList()return simpList end
+
 	local gc=love.graphics
-	local int=math.floor
 	local function C(x,y)
-		local _=gc.newCanvas(x,y)
-		gc.setCanvas(_)
-		return _
-	end
-	local count=#list function SKIN.getCount()return count end
-	SKIN.lib={}
-	SKIN.libMini={}
-
-	local function load(skip)
-		for i=1,count do
-			gc.push()
-			gc.origin()
-			gc.setDefaultFilter('nearest','nearest')
-			gc.setColor(1,1,1)
-			SKIN.lib[i],SKIN.libMini[i]={},{}
-			local N="media/image/skin/"..list[i]..".png"
-			local I
-			if love.filesystem.getInfo(N)then
-				I=gc.newImage(N)
-			else
-				I=gc.newImage("media/image/skin/"..list[1]..".png")
-				MES.new('warn',"No skin file: "..list[i])
-			end
-			gc.setDefaultFilter('linear','linear')
-			for y=0,2 do
-				for x=1,8 do
-					SKIN.lib[i][8*y+x]=C(30,30)
-					gc.draw(I,30-30*x,-30*y)
-
-					SKIN.libMini[i][8*y+x]=C(6,6)
-					gc.draw(I,6-6*x,-6*y,nil,.2)
-				end
-			end
-			I:release()
-			gc.setCanvas()
-			gc.pop()
-			if not skip and i~=count then
-				coroutine.yield()
-			end
-		end
-		SKIN.loadOne=nil
-		SKIN.loadAll=nil
-
-		function SKIN.prevSet()--Prev skin_set
-			local _=(SETTING.skinSet-2)%count+1
-			SETTING.skinSet=_
-			SKIN.change(_)
-			_=list[_]
-			TEXT.show(_,1100,100,int(300/#_)+5,'fly')
-		end
-		function SKIN.nextSet()--Next skin_set
-			local _=SETTING.skinSet%count+1
-			SETTING.skinSet=_
-			SKIN.change(_)
-			_=list[_]
-			TEXT.show(_,1100,100,int(300/#_)+5,'fly')
-		end
-		function SKIN.change(i)--Change to skin_set[i]
-			SKIN.curText=SKIN.lib[i]
-			SKIN.curTextMini=SKIN.libMini[i]
-		end
+		local canvas=gc.newCanvas(x,y)
+		gc.setCanvas(canvas)
+		return canvas
 	end
 
-	SKIN.loadOne=coroutine.wrap(load)
-	function SKIN.loadAll()load(true)end
+	SKIN.lib,SKIN.libMini={},{}
+	local skinMeta={__index=function(self,name)
+		gc.push()
+		gc.origin()
+		local f1,f2=gc.getDefaultFilter()
+		gc.setDefaultFilter('nearest','nearest')
+		local I
+		local N=Skins[name]
+		if love.filesystem.getInfo(N)then
+			I=gc.newImage(N)
+		else
+			MES.new('warn',"No skin file: "..Skins[name])
+		end
+		gc.setDefaultFilter(f1,f2)
+
+		SKIN.lib[name],SKIN.libMini[name]={},{}
+		gc.setColor(1,1,1)
+		for y=0,2 do
+			for x=1,8 do
+				SKIN.lib[name][8*y+x]=C(30,30)
+				if I then gc.draw(I,30-30*x,-30*y)end
+
+				SKIN.libMini[name][8*y+x]=C(6,6)
+				if I then gc.draw(I,6-6*x,-6*y,nil,.2)end
+			end
+		end
+		gc.setCanvas()
+		gc.pop()
+		return self[name]
+	end}
+	setmetatable(SKIN.lib,skinMeta)
+	setmetatable(SKIN.libMini,skinMeta)
+
+	function SKIN.loadAll()SKIN.loadAll=nil for _,v in next,list do local _=SKIN.lib[v.name]end end
 end
 return SKIN

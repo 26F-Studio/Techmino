@@ -149,7 +149,7 @@ function scene.draw()
 		gc.rectangle('line',-2,-2,304,604)
 		local F=FIELD[1]
 		local cross=TEXTURE.puzzleMark[-1]
-		local texture=SKIN.curText
+		local texture=SKIN.lib[SETTING.skinSet]
 		for y=1,20 do for x=1,10 do
 			local B=F[y][x]
 			if B>0 then

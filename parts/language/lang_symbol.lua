@@ -232,6 +232,7 @@ return{
 			restart="_→_",
 		},
 		setting_skin={
+			skinSet="[x]?",
 			title="%{~~}",
 			skinR="R @%&",
 			faceR="R ↑↓←→.",

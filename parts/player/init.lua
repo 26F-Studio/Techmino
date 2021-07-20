@@ -293,6 +293,8 @@ local function applyGameEnv(P)--Finish gameEnv processing
 		P.keyAvailable[v]=false
 	end
 
+	P.skinLib=SKIN.lib[ENV.skinSet]
+
 	P:setInvisible(
 		ENV.visible=='show'and -1 or
 		ENV.visible=='easy'and 300 or

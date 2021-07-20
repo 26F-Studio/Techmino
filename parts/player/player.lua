@@ -91,7 +91,7 @@ function Player:createSplashFX(h)
 		if c>0 then
 			SYSFX.newCell(
 				2.5-self.gameEnv.splashFX*.4,
-				SKIN.curText[c],
+				self.skinLib[c],
 				size,
 				self.fieldX+(30*x-15)*size,y-30*h*size,
 				rnd()*5-2.5,rnd()*-1,
