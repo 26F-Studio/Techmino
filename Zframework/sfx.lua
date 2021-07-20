@@ -1,6 +1,5 @@
 local SFX={
 	getCount=function()return 0 end,
-	loadOne=function()error("Cannot load before init!")end,
 	loadAll=function()error("Cannot load before init!")end,
 	fieldPlay=NULL,
 	play=NULL,
@@ -13,7 +12,7 @@ function SFX.init(list)
 	local Sources={}
 
 	local count=#list function SFX.getCount()return count end
-	local function load(skip)
+	function SFX.loadAll()
 		for i=1,count do
 			local N='media/SFX/'..list[i]..'.ogg'
 			if love.filesystem.getInfo(N)then
@@ -21,11 +20,7 @@ function SFX.init(list)
 			else
 				MES.new('warn',"No SFX file: "..N,.1)
 			end
-			if not skip and i~=count then
-				coroutine.yield()
-			end
 		end
-		SFX.loadOne=nil
 
 		function SFX.play(s,vol,pos)
 			if SETTING.sfx==0 or vol==0 then return end
@@ -88,8 +83,5 @@ function SFX.init(list)
 			end
 		end
 	end
-
-	SFX.loadOne=coroutine.wrap(load)
-	function SFX.loadAll()load(true)end
 end
 return SFX

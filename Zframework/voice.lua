@@ -1,7 +1,6 @@
 local VOC={
 	getCount=function()return 0 end,
 	getQueueCount=function()return 0 end,
-	loadOne=function()error("Cannot load before init!")end,
 	loadAll=function()error("Cannot load before init!")end,
 	getFreeChannel=NULL,
 	play=NULL,
@@ -19,7 +18,7 @@ function VOC.init(list)
 	local function loadVoiceFile(N,vocName)
 		local fileName='media/VOICE/'..SETTING.cv..'/'..vocName..'.ogg'
 		if love.filesystem.getInfo(fileName)then
-			bank[vocName]={love.audio.newSource(fileName,'static')}
+			bank[vocName]={love.audio.newSource(fileName,'stream')}
 			table.insert(Source[N],vocName)
 			return true
 		end
@@ -38,7 +37,7 @@ function VOC.init(list)
 		return L[n]
 		--Load voice with string
 	end
-	local function load(skip)
+	function VOC.loadAll()
 		for i=1,count do
 			Source[list[i]]={}
 
@@ -51,11 +50,7 @@ function VOC.init(list)
 				end
 			end
 			if not Source[list[i]][1]then Source[list[i]]=nil end
-			if not skip and i~=count then
-				coroutine.yield()
-			end
 		end
-		VOC.loadOne=nil
 
 		function VOC.getQueueCount()
 			return #voiceQueue
@@ -119,8 +114,5 @@ function VOC.init(list)
 			end
 		end
 	end
-
-	VOC.loadOne=coroutine.wrap(load)
-	function VOC.loadAll()load(true)end
 end
 return VOC
