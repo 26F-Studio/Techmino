@@ -96,33 +96,33 @@ if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
-	lock='mess/lock.png',
-	dialCircle='mess/dialCircle.png',
-	dialNeedle='mess/dialNeedle.png',
-	lifeIcon='mess/life.png',
-	badgeIcon='mess/badge.png',
-	ctrlSpeedLimit='mess/ctrlSpeedLimit.png',
-	speedLimit='mess/speedLimit.png',--Not used, for future C2-mode
-	pay1='mess/pay1.png',
-	pay2='mess/pay2.png',
+	lock='media/image/mess/lock.png',
+	dialCircle='media/image/mess/dialCircle.png',
+	dialNeedle='media/image/mess/dialNeedle.png',
+	lifeIcon='media/image/mess/life.png',
+	badgeIcon='media/image/mess/badge.png',
+	ctrlSpeedLimit='media/image/mess/ctrlSpeedLimit.png',
+	speedLimit='media/image/mess/speedLimit.png',--Not used, for future C2-mode
+	pay1='media/image/mess/pay1.png',
+	pay2='media/image/mess/pay2.png',
 
-	miyaCH='characters/miya.png',
-	miyaF1='characters/miya_f1.png',
-	miyaF2='characters/miya_f2.png',
-	miyaF3='characters/miya_f3.png',
-	miyaF4='characters/miya_f4.png',
-	nakiCH='characters/nakiharu.png',
-	xiaoyaCH='characters/xiaoya.png',
-	electric='characters/electric.png',
-	hbm='characters/hbm.png',
+	miyaCH='media/image/characters/miya.png',
+	miyaF1='media/image/characters/miya_f1.png',
+	miyaF2='media/image/characters/miya_f2.png',
+	miyaF3='media/image/characters/miya_f3.png',
+	miyaF4='media/image/characters/miya_f4.png',
+	nakiCH='media/image/characters/nakiharu.png',
+	xiaoyaCH='media/image/characters/xiaoya.png',
+	electric='media/image/characters/electric.png',
+	hbm='media/image/characters/hbm.png',
 
 	lanterns={
-		'lanterns/1.png',
-		'lanterns/2.png',
-		'lanterns/3.png',
-		'lanterns/4.png',
-		'lanterns/5.png',
-		'lanterns/6.png',
+		'media/image/lanterns/1.png',
+		'media/image/lanterns/2.png',
+		'media/image/lanterns/3.png',
+		'media/image/lanterns/4.png',
+		'media/image/lanterns/5.png',
+		'media/image/lanterns/6.png',
 	},
 }
 SKIN.init{

@@ -1,37 +1,26 @@
-local IMG={
-	getCount=function()return 0 end,
-	loadOne=function()error("Cannot load before init!")end,
-	loadAll=function()error("Cannot load before init!")end,
-}
+local IMG={}
 function IMG.init(list)
 	IMG.init=nil
-	local count=0
-	for k,v in next,list do
-		count=count+1
-		IMG[k]=v
-	end
-	function IMG.getCount()return count end
-	local function load(skip)
-		local loaded=0
-		for k,v in next,list do
-			if type(v)=='string'then
-				IMG[k]=love.graphics.newImage('media/image/'..v)
-			else
-				for i=1,#v do
-					v[i]=love.graphics.newImage('media/image/'..v[i])
-				end
-				IMG[k]=v
+
+	local null=love.graphics.newCanvas(1,1)
+	setmetatable(IMG,{__index=function(self,name)
+		if type(list[name])=='table'then
+			self[name]={}
+			for i=1,#list do
+				self[name][i]=love.graphics.newImage(list[name][i])
 			end
-			loaded=loaded+1
-			if not skip and loaded~=count then
-				coroutine.yield()
-			end
+		elseif type(list[name])=='string'then
+			self[name]=love.graphics.newImage(list[name])
+		else
+			MES.new('warn',"No BGM: "..name,5)
+			self[name]=null
 		end
-		IMG.loadOne=nil
+		return self[name]
+	end})
+
+	function IMG.loadAll()
+		for k in next,list do local _=IMG[k]end
 		IMG.loadAll=nil
 	end
-
-	IMG.loadOne=coroutine.wrap(load)
-	function IMG.loadAll()load(true)end
 end
 return IMG
