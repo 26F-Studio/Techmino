@@ -1,4 +1,16 @@
 return{
+	loadText={
+		loadSFX="音效",
+		loadBGM="音乐",
+		loadImage="图片",
+		loadSkin="皮肤",
+		loadVoice="语音",
+		loadFont="字体",
+		loadModeIcon="模式图标",
+		loadMode="模式",
+		loadOther="其他",
+		finish="走你",
+	},
 	playedLong="今天玩很久了,给我注意点",
 	playedTooMuch="特么再玩小心眼睛瞎掉,爬",
 

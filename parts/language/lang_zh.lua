@@ -10,7 +10,7 @@ return{
 		loadModeIcon="加载模式图标",
 		loadMode="加载模式",
 		loadOther="加载杂项",
-		finish="加载完成,按任意键继续",
+		finish="按任意键继续",
 	},
 	sureQuit="再按一次退出",
 	newDay="新的一天,新的开始~",
