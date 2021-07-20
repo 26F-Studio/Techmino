@@ -611,7 +611,7 @@ local commands={}do
 				local button=WIDGET.newButton{name="bye",x=640,y=615,w=426,h=100,code=function()
 					TASK.new(function()
 						WIDGET.active.bye.hide=true
-						FILE.clear_s('')for _=1,30 do coroutine.yield()end
+						for _=1,30 do coroutine.yield()end
 						log{C.R,"Bye in 5..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
 						log{C.R,"Bye in 4..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
 						log{C.R,"Bye in 3..."}SFX.play('ready')SFX.play('clear_2')for _=1,60 do coroutine.yield()end
@@ -619,7 +619,7 @@ local commands={}do
 						log{C.R,"Bye in 1..."}SFX.play('ready')SFX.play('clear_3')for _=1,60 do coroutine.yield()end
 						log{C.R,"Bye in 0..."}SFX.play('start')SFX.play('clear_4')for _=1,60 do coroutine.yield()end
 						outputBox.hide=true for _=1,26 do coroutine.yield()end
-						love.event.quit()
+						FILE.clear_s('')love.event.quit()
 					end)
 				end}
 				button:setObject("Techmino is fun. Bye.")
