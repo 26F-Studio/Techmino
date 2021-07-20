@@ -171,7 +171,7 @@ BGM.init((function()
 	local L={}
 	for _,v in next,fs.getDirectoryItems('media/BGM')do
 		if fs.getRealDirectory('media/BGM/'..v)~=SAVEDIR then
-			table.insert(L,v:sub(1,-5))
+			table.insert(L,{name=v:sub(1,-5),path='media/BGM/'..v})
 		else
 			MES.new('warn',"Dangerous file : %SAVE%/media/BGM/"..v)
 		end

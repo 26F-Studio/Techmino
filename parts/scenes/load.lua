@@ -21,7 +21,6 @@ local loadingThread=coroutine.wrap(function()
 		logoColor2={COLOR.rainbow_light(r)}
 	end
 	YIELD('loadSFX')SFX.loadAll()
-	YIELD('loadBGM')BGM.loadAll()
 	YIELD('loadImage')IMG.loadAll()
 	YIELD('loadSkin')
 	for i=1,SKIN.getCount()do
