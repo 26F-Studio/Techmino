@@ -1,9 +1,6 @@
 return{
 	loadText={
 		loadSFX="音效",
-		loadBGM="音乐",
-		loadImage="图片",
-		loadSkin="皮肤",
 		loadVoice="语音",
 		loadFont="字体",
 		loadModeIcon="模式图标",
