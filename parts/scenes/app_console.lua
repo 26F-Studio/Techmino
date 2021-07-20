@@ -580,7 +580,7 @@ local commands={}do
 							return
 						end
 					end
-					log{C.A,"No this applet, type app -list to check all applets"}
+					log{C.A,"No applet with this name. Type app -list to view all applets"}
 				else
 					log{C.A,"Usage:"}
 					log{C.A,"app -list"}
