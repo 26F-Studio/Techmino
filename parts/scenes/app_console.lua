@@ -719,20 +719,6 @@ local commands={}do
 			"Usage: play [mode_name]",
 		},
 	}
-	commands["\114\109\119\116\109"]={
-		code=function(pw)
-			if pw==the_secret then
-				_G["\100\114\97\119\70\87\77"]=NULL
-				log{C.lC,"\87\97\116\101\114\109\97\114\107\32\82\101\109\111\118\101\100"}
-				SFX.play('clear')
-			end
-		end,
-		details={
-			"Remove something",
-			"",
-			"Usage: ?",
-		},
-	}
 
 	--Network
 	commands.switchhost={
