@@ -684,9 +684,10 @@ function draw.norm(P)
 					local centerX=30*(P.curX+P.cur.sc[2])-15
 
 					--Draw ghost & rotation center
+					local centerDisp=ENV.center and P.RS.centerDisp[P.cur.id]
 					if ENV.ghost then
 						drawGhost[ENV.ghostType](P,curColor,ENV.ghost)
-						if ENV.center then
+						if centerDisp then
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 						end
@@ -700,7 +701,7 @@ function draw.norm(P)
 						if ENV.block then
 							drawBlockOutline(P,P.skinLib[curColor],trans)
 							drawBlock(P,curColor)
-							if ENV.center then
+							if centerDisp then
 								gc_setColor(1,1,1,ENV.center)
 								gc_draw(spinCenterImg,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
 							end

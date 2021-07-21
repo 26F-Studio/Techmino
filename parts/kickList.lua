@@ -5,11 +5,11 @@ local noKickSet,noKickSet_180,pushZero do
 	noKickSet={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
 	noKickSet_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 	function pushZero(t)
-		for _,L in next,t do
-			if type(L)=='table'then
-				for _,v in next,L do
-					if not v[1]or v[1][1]~=0 or v[1][2]~=0 then
-						table.insert(v,1,map[0][0])
+		for id,set in next,t do
+			if type(id)=='number'and type(set)=='table'then
+				for _,R in next,set do
+					if not R[1]or R[1][1]~=0 or R[1][2]~=0 then
+						table.insert(R,1,map[0][0])
 					end
 				end
 			end
@@ -91,6 +91,7 @@ do
 		{{-1,-1},{-1, 0},{-1, 1},{-1,-2},{-1, 2}},
 	}
 	TRS={
+		centerDisp=TABLE.new(true,29),
 		{
 			[01]={'-1+0','-1+1','+0-2','-1+2','+0+1'},
 			[10]={'+1+0','+1-1','+0+2','+1-2','+1-2'},
@@ -388,6 +389,8 @@ do
 		},--I2
 		nil,--O1
 	}
+	TRS.centerDisp[6]=false
+	TRS.centerDisp[18]=false
 	TRS[2]=	reflect(TRS[1])--SZ
 	TRS[4]=	reflect(TRS[3])--LJ
 	TRS[9]=	reflect(TRS[8])--S5Z5
@@ -643,7 +646,7 @@ for i=1,29 do Classic[i]=noKickSet end
 local None={}
 for i=1,29 do None[i]=noKickSet_180 end
 
-return{
+local RS={
 	TRS=TRS,
 	SRS=SRS,
 	ZRS=ZRS,
@@ -654,3 +657,11 @@ return{
 	Classic=Classic,
 	None=None,
 }
+
+for _,v in next,RS do
+	if not v.centerDisp then
+		v.centerDisp=TABLE.new(true,29)
+	end
+end
+
+return RS
