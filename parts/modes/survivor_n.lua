@@ -26,7 +26,7 @@ return{
 				end
 			end
 		end,
-		bg='glow',bgm='secret8th',
+		bg='glow',bgm='new era',
 	},
 	pauseLimit=true,
 	load=function()
