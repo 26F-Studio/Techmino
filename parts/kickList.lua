@@ -503,7 +503,7 @@ do
 				local x,y=ix+kick[1]+dx,iy+kick[2]+dy
 				if
 					(dx==0 and dy==0 or kick[2]<=0)and
-					math.abs(dx+kick[2])<=2 and
+					math.abs(dx+kick[1])<=2 and
 					(P.freshTime>0 or kick[2]+dy<=0)and
 					not P:ifoverlap(icb,x,y)
 				then
