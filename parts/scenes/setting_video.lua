@@ -6,8 +6,10 @@ function scene.sceneBack()
 	FILE.save(SETTING,'conf/settings')
 end
 
-local fakePlayer={cur={bk={{true}}},curX=0,ghoY=0}
+local fakePlayer={cur={bk={{true}},skinLib=nil},curX=0,ghoY=0}
 function scene.draw()
+	local L=SKIN.lib[SETTING.skinSet]
+	fakePlayer.skinLib=L
 	gc.push('transform')
 		gc.translate(720,149-WIDGET.scrollPos)
 		gc.scale(2)
@@ -16,7 +18,6 @@ function scene.draw()
 	gc.pop()
 	gc.push('transform')
 		gc.setColor(1,1,1)
-		local L=SKIN.lib[SETTING.skinSet]
 		local T=L[1]
 		gc.translate(0,1410-WIDGET.scrollPos)
 		gc.setShader(SHADER.blockSatur)
