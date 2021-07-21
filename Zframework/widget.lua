@@ -1315,7 +1315,7 @@ function WIDGET.drag(x,y,dx,dy)
 		local W=WIDGET.sel
 		if W.drag then
 			W:drag(x,y+WIDGET.scrollPos,dx,dy)
-		elseif not W:isAbove(x,y)then
+		elseif not W:isAbove(x,y+WIDGET.scrollPos)then
 			WIDGET.unFocus(true)
 		end
 	else
