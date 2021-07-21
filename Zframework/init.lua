@@ -642,18 +642,19 @@ function love.run()
 							gc.rectangle('fill',150+2*i,-20,2,-frameTimeList[i]*4000)
 						end
 
-						--New cursor pos disp
-						gc_replaceTransform(SCR.xOy)
+						--Cursor pos disp
+						gc_replaceTransform(SCR.origin)
+							local x,y=SCR.xOy:transformPoint(mx,my)
 							gc_setLineWidth(1)
-							gc_line(mx,-1e4,mx,1e4)
-							gc_line(-1e4,my,1e4,my)
+							gc_line(x,0,x,SCR.h)
+							gc_line(0,y,SCR.w,y)
 							local t=int(mx+.5)..","..int(my+.5)
 							gc_setColor(0,0,0)
-							gc_print(t,mx+1,my)
-							gc_print(t,mx+1,my-1)
-							gc_print(t,mx+2,my-1)
+							gc_print(t,x+1,y)
+							gc_print(t,x+1,y-1)
+							gc_print(t,x+2,y-1)
 							gc_setColor(1,1,1)
-							gc_print(t,mx+2,my)
+							gc_print(t,x+2,y)
 
 						gc_replaceTransform(SCR.xOy_dr)
 							--Websocket status
