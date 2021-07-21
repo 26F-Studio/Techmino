@@ -4,7 +4,9 @@ local CUSTOMENV=CUSTOMENV
 
 local function notAir(L)
 	for i=1,10 do
-		if L[i]>0 then return true end
+		if L[i]>0 then
+			return true
+		end
 	end
 end
 local sList={
@@ -55,11 +57,11 @@ function scene.keyDown(key,isRep)
 				MES.new('error',text.ai_fixed)
 				return
 			elseif #BAG>0 then
-			    for _=1,#BAG do
-			        if BAG[_]>7 then
-				        MES.new('error',text.ai_prebag)
-				        return
-				    end
+				for _=1,#BAG do
+					if BAG[_]>7 then
+						MES.new('error',text.ai_prebag)
+						return
+					end
 				end
 			elseif #MISSION>0 then
 				MES.new('error',text.ai_mission)
