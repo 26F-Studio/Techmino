@@ -54,7 +54,7 @@ return{
 	page="Page:",
 
 	ai_fixed="The AI is incompatible with fixed sequences.",
-	ai_prebag="The AI is incompatible with custom sequences.",
+	ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",
 	ai_mission="The AI is incompatible with custom missions.",
 	saveDone="Data Saved",
 	saveError="Failed to save:",

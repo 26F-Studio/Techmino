@@ -55,8 +55,12 @@ function scene.keyDown(key,isRep)
 				MES.new('error',text.ai_fixed)
 				return
 			elseif #BAG>0 then
-				MES.new('error',text.ai_prebag)
-				return
+			    for _=1,#BAG do
+			        if BAG[_]>7 then
+				        MES.new('error',text.ai_prebag)
+				        return
+				    end
+				end
 			elseif #MISSION>0 then
 				MES.new('error',text.ai_mission)
 				return

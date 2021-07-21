@@ -45,7 +45,7 @@ return{
 	page="Page:",
 
 	ai_fixed="L'IA est incompatible avec les séquences fixes.",
-	ai_prebag="L'IA est incompatible avec les séquences personnalisées.",
+	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",'IA est incompatible avec les séquences personnalisées.",
 	ai_mission="L'IA est incompatible avec les missions personnalisées.",
 	saveDone="Données sauvegardées",
 	saveError="Sauvegarde échouée : ",
