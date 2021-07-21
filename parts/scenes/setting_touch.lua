@@ -87,14 +87,18 @@ function scene.draw()
 	gc.setLineWidth(3)
 	gc.rectangle('line',490,65,300,610)
 	VK.preview(selected)
+	local x1,y1=SCR.xOy:inverseTransformPoint(0,0)
+	local x2,y2=SCR.xOy:inverseTransformPoint(SCR.w,SCR.h)
 	if snapUnit>=10 then
 		gc.setLineWidth(3)
 		gc.setColor(1,1,1,sin(TIME()*4)*.1+.1)
-		for i=1,1280/snapUnit-1 do
-			gc.line(snapUnit*i,0,snapUnit*i,720)
+		for i=x1,x2+snapUnit,snapUnit do
+			local x=i-i%snapUnit
+			gc.line(x,y1,x,y2)
 		end
-		for i=1,720/snapUnit-1 do
-			gc.line(0,snapUnit*i,1280,snapUnit*i)
+		for i=y1,y2+snapUnit,snapUnit do
+			local y=i-i%snapUnit
+			gc.line(x1,y,x2,y)
 		end
 	end
 end
