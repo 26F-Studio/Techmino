@@ -19,7 +19,7 @@ return{
 				end
 			end
 		end,
-		bg='bg2',bgm='down',
+		bg='bg2',bgm='there',
 	},
 	pauseLimit=true,
 	load=function()
