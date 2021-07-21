@@ -45,7 +45,7 @@ return{
 	page="Página:",
 
 	ai_fixed="A inteligência é incompatível com sequências fixas.",
-	ai_prebag="A inteligência é incompatível com sequências fixas.",
+	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.", inteligência é incompatível com sequências fixas.",
 	ai_mission="A inteligência é incompatível com missões costumizadas.",
 	saveDone="Data Salva",
 	saveError="Falha ao salvar:",

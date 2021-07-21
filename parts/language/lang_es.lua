@@ -44,7 +44,7 @@ return{
 	page="Página:",
 
 	ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
-	ai_prebag="La IA no es compatible con secuencias de piezas personalizadas.",
+	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",a IA no es compatible con secuencias de piezas personalizadas.",
 	ai_mission="La IA no es compatible con misiones personalizadas.",
 	saveDone="Datos guardados",
 	saveError="Error al guardar:",
