@@ -55,6 +55,7 @@ scene.widgetList={
 			local D=parseCB()
 			if D then
 				TABLE.update(D,SETTING)
+				applySettings()
 				if FILE.save(SETTING,'conf/settings')then
 					MES.new('check',text.importSuccess)
 				end

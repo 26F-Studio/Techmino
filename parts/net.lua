@@ -262,6 +262,7 @@ function NET.loadSavedData(sections)
 		success=success and FILE.save(RANKS,'conf/unlock')
 
 		TABLE.update(NET.cloudData.SETTING,SETTING)
+		applySettings()
 		success=success and FILE.save(SETTING,'conf/settings')
 
 		TABLE.update(NET.cloudData.keyMap,keyMap)

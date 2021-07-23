@@ -12,6 +12,13 @@ local SETTING,GAME,SCR=SETTING,GAME,SCR
 
 
 --System
+function applySettings()
+	love.window.setFullscreen(SETTING.fullscreen)
+	LANG.set(SETTING.lang)
+	VK.setShape(SETTING.VKSkin)
+	applyBlockSatur(SETTING.blockSatur)
+	applyFieldSatur(SETTING.fieldSatur)
+end
 function switchFullscreen()
 	SETTING.fullscreen=not SETTING.fullscreen
 	love.window.setFullscreen(SETTING.fullscreen)

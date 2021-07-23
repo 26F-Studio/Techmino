@@ -318,10 +318,7 @@ do
 end
 
 --Apply system setting
-LANG.set(SETTING.lang)
-VK.setShape(SETTING.VKSkin)
-applyBlockSatur(SETTING.blockSatur)
-applyFieldSatur(SETTING.fieldSatur)
+applySettings()
 
 --Load replays
 for _,fileName in next,fs.getDirectoryItems('replay')do
