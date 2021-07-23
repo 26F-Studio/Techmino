@@ -503,48 +503,51 @@ do
 		while true do
 			for test=1,#kickList do
 				local kick=kickList[test]
-				local x,y=ix+kick[1]+dx,iy+kick[2]+dy
 				if
 					(dx==0 and dy==0 or kick[2]<=0)and
+					dx*kick[1]>=0 and
 					math.abs(dx+kick[1])<=2 and
-					(P.freshTime>0 or kick[2]+dy<=0)and
-					not P:ifoverlap(icb,x,y)
+					((dx+kick[1])^2+(dy+kick[2])^2)<=5 and
+					(P.freshTime>0 or kick[2]+dy<=0)
 				then
-					if P.gameEnv.moveFX and P.gameEnv.block then
-						P:createMoveFX()
-					end
-					P.curX,P.curY,cur.dir=x,y,idir
-					cur.sc,cur.bk=isc,icb
-					P.spinLast=test==2 and 0 or 1
-
-					local t=P.freshTime
-					if not ifpre then
-						P:freshBlock('move')
-					end
-					if kick[2]+dy>0 and P.freshTime==t and P.curY~=P.imgY then
-						P.freshTime=P.freshTime-1
-					end
-
-					if P.sound then
-						local sfx
-						if ifpre then
-							sfx='prerotate'
-						elseif P:ifoverlap(icb,x,y+1)and P:ifoverlap(icb,x-1,y)and P:ifoverlap(icb,x+1,y)then
-							sfx='rotatekick'
-							if P.gameEnv.shakeFX then
-								if d==1 or d==3 then
-									P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
-								else
-									P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
-								end
-							end
-						else
-							sfx='rotate'
+					local x,y=ix+kick[1]+dx,iy+kick[2]+dy
+					if not P:ifoverlap(icb,x,y)then
+						if P.gameEnv.moveFX and P.gameEnv.block then
+							P:createMoveFX()
 						end
-						SFX.play(sfx,nil,P:getCenterX()*.15)
+						P.curX,P.curY,cur.dir=x,y,idir
+						cur.sc,cur.bk=isc,icb
+						P.spinLast=test==2 and 0 or 1
+
+						local t=P.freshTime
+						if not ifpre then
+							P:freshBlock('move')
+						end
+						if kick[2]+dy>0 and P.freshTime==t and P.curY~=P.imgY then
+							P.freshTime=P.freshTime-1
+						end
+
+						if P.sound then
+							local sfx
+							if ifpre then
+								sfx='prerotate'
+							elseif P:ifoverlap(icb,x,y+1)and P:ifoverlap(icb,x-1,y)and P:ifoverlap(icb,x+1,y)then
+								sfx='rotatekick'
+								if P.gameEnv.shakeFX then
+									if d==1 or d==3 then
+										P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
+									else
+										P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
+									end
+								end
+							else
+								sfx='rotate'
+							end
+							SFX.play(sfx,nil,P:getCenterX()*.15)
+						end
+						P.stat.rotate=P.stat.rotate+1
+						return
 					end
-					P.stat.rotate=P.stat.rotate+1
-					return
 				end
 			end
 
