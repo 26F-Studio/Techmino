@@ -33,21 +33,27 @@ return STRING.split([=[
 
 0.16.0: 空间站 Space station
 		新增:
-				新BGM:shift(用于生存第三/四难度)
-				新BGM:here(用于生存第五难度)
-				新BGM:beat5th(用于竞速五连块)
+				新BGM:Shift(用于生存第三/四难度)
+				新BGM:Here(用于生存第五难度)
+				新BGM:Beat5th(用于竞速五连块)
+				新BGM:There(用于挖掘)
+				新BGM:Secret8th Remix(用于master-hard)
 				新增小亚(xiaoya)语音包
 				旋转系统新增ZRS(实验性),ASC,ASCplus(添加180度踢墙,实验性)
 				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
 		改动:
-				微调BGM:nil
 				更换更简洁的加载动画,合并intro场景
 				声音设置界面添加静音按钮
-				修改debug模式鼠标位置显示方式
-				开启msaa(实验性)
+				微调BGM:Nil
+				开启msaa(反锯齿,实验性)
 				增加滑条控件测试声音的间隔
-				master-u模式的500限制时间为183秒
+				master-l/u难度名改为n/h
+				master-normal模式新增500~1000
+				master-hard降低时间门槛至183秒
 				resetall命令最后一瞬间才删除文件 #133
+				旋转系统可以开关每个方块是否显示旋转中心(TRS关闭O和X的中心显示)
+				修改debug模式鼠标位置显示方式
+				调整TRS中S5和Z5的踢墙表
 		代码:
 				重构WS模块,可能解决部分联网游戏中的概率thread error问题
 				升级BGM/IMG/SKIN模块,资源不再需要启动时加载好,提升加载速度节约资源占用
@@ -62,6 +68,7 @@ return STRING.split([=[
 				限制最大自定义序列长度(2600) #122
 				触屏设置在窗口非默认长宽比时边缘网格缺失
 				有屏幕滚动的场景鼠标拖动时控件失焦
+				导入设置(包括剪切板和云存档)时部分设置不生效
 
 0.15.6: 强化装甲 Reinforced Armor
 		新增:
