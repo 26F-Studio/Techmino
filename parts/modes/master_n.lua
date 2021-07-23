@@ -1,7 +1,7 @@
 local gc=love.graphics
-local rush_lock={20,18,16,15,14}
-local rush_wait={12,10, 9, 8, 7}
-local rush_fall={18,16,14,13,12}
+local rush_lock={20,18,16,15,14,  14,13,12,11,11}
+local rush_wait={12,11,11,10,10,  10,10, 9, 9, 9}
+local rush_fall={18,16,14,13,12,  12,11,11,10,10}
 local function score(P)
 	local D=P.modeData
 
@@ -18,24 +18,38 @@ local function score(P)
 	elseif D.pt>=D.target then--Level up!
 		s=D.target/100
 		local E=P.gameEnv
-		BG.set(s==1 and'bg1'or s==2 and'bg2'or s==3 and'rainbow'or 'rainbow2')
 		E.lock=rush_lock[s]
 		E.wait=rush_wait[s]
 		E.fall=rush_fall[s]
-		E.das=10-s
-		if s==2 then
-			E.arr=2
-		elseif s==4 then
-			E.bone=true
-		end
 
-		if s==5 then
-			D.pt=500
+		if s==2 then
+			E.das=8
+			BG.set('rainbow')
+		elseif s==4 then
+			BG.set('rainbow2')
+		elseif s==5 then
+			if P.stat.frame>260*60 then
+				D.pt=500
+				P:win('finish')
+				return
+			else
+				P.gameEnv.freshLimit=10
+				E.das=7
+				BG.set('glow')
+				BGM.play('secret8th remix')
+			end
+		elseif s==7 then
+			E.das=6
+			BG.set('lightning')
+		elseif s==9 then
+			E.bone=true
+		elseif s==10 then
+			D.pt=1000
 			P:win('finish')
-		else
-			D.target=D.target+100
-			P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
+			return
 		end
+		D.target=D.target+100
+		P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
 		SFX.play('reach')
 	end
 end
@@ -44,7 +58,7 @@ return{
 	color=COLOR.red,
 	env={
 		noTele=true,
-		das=9,arr=3,
+		das=10,arr=3,
 		drop=0,
 		lock=rush_lock[1],
 		wait=rush_wait[1],
@@ -75,18 +89,12 @@ return{
 	end,
 	getRank=function(P)
 		local S=P.modeData.pt
-		if S==500 then
-			local T=P.stat.time
-			return
-			T<=170 and 5 or
-			T<=200 and 4 or
-			3
-		else
-			return
-			S>=460 and 3 or
-			S>=350 and 2 or
-			S>=200 and 1 or
-			S>=50 and 0
-		end
+		return
+			S>=1000 and 5 or
+			S>=800 and 4 or
+			S>=500 and 3 or
+			S>=300 and 2 or
+			S>=100 and 1 or
+			S>=60 and 0
 	end,
 }

@@ -1,7 +1,7 @@
 local gc=love.graphics
-local death_lock={12,11,10,9,8,	7,7,7,6,6}
-local death_wait={10,9,8,7,6,	6,5,4,4,3}
-local death_fall={10,9,8,7,6,	5,5,4,3,2}
+local death_lock={12,11,10,9,8,  7,7,7,6,6}
+local death_wait={10, 9, 8,7,6,  6,5,4,4,3}
+local death_fall={10, 9, 8,7,6,  5,5,4,3,3}
 local function score(P)
 	local D=P.modeData
 
@@ -29,7 +29,6 @@ local function score(P)
 			BG.set('rainbow2')
 		elseif s==3 then
 			BG.set('glow')
-			E.bone=true
 		elseif s==5 then
 			if P.stat.frame>183*60 then
 				D.pt=500

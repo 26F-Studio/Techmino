@@ -741,8 +741,8 @@ return{
 		['round_h']=			{"Baseado Turnos",	"DIFÍCIL",		"Modo xadrez"},
 		['round_l']=			{"Baseado Turnos",	"LUNÁTICO",		"Modo xadrez"},
 		['round_u']=			{"Baseado Turnos",	"ULTIMATE",		"Modo xadrez"},
-		['master_l']=			{"Mestre",			"LUNÁTICO",		"Pra iniciantes de 20G."},
-		['master_u']=			{"Mestre",			"ULTIMATE",		"Desafio 20G profissional!"},
+		['master_n']=			{"Mestre",			"NORMAL",		"Pra iniciantes de 20G."},
+		['master_h']=			{"Mestre",			"DIFÍCIL",		"Desafio 20G profissional!"},
 		['master_final']=		{"Mestre",			"FINAL",		"20G: Final inalcançável!"},
 		['master_ph']=			{"Mestre",			"FANTASMA",		"20G: ???"},
 		['master_ex']=			{"GrandMaster",		"EXTRA",		"Para ser um Grand Master, aceite \nesse desafio."},
@@ -796,10 +796,15 @@ return{
 		['ultra']=				{'Ultra',			"EXTRA",		"Pegue a maior pontuação em 2 minutos."},
 		['infinite']=			{"Infinito",		"",				"Modo Sandbox."},
 		['infinite_dig']=		{"Infinito:Cave",	"",				"Cava, Cava, Cava."},
+
 		['sprintFix']=			{"Sprint",			"SEM ESQUERDA/DIREITA"},
 		['sprintLock']=			{"Sprint",			"SEM ROTAÇÃO"},
 		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Maratona",		"ULTIMATE"},
+
+		['master_l']=			{"Mestre",			"LUNÁTICO"},
+		['master_u']=			{"Mestre",			"ULTIMATE"},
+
 		['custom_clear']=		{"Custom",			"NORMAL"},
 		['custom_puzzle']=		{"Custom",			"PUZZLE"},
 	},

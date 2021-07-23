@@ -1,7 +1,7 @@
 local gc=love.graphics
-local rush_lock={20,18,16,15,14}
-local rush_wait={12,10, 9, 8, 7}
-local rush_fall={18,16,14,13,12}
+local death_lock={12,11,10,9,8,  7,7,7,7,6}
+local death_wait={10,9, 8, 7,6,  6,6,5,5,4}
+local death_fall={10,9, 8, 7,6,  6,5,5,4,4}
 local function score(P)
 	local D=P.modeData
 
@@ -18,24 +18,38 @@ local function score(P)
 	elseif D.pt>=D.target then--Level up!
 		s=D.target/100
 		local E=P.gameEnv
-		BG.set(s==1 and'bg1'or s==2 and'bg2'or s==3 and'rainbow'or 'rainbow2')
-		E.lock=rush_lock[s]
-		E.wait=rush_wait[s]
-		E.fall=rush_fall[s]
-		E.das=10-s
+		E.lock=death_lock[s]
+		E.wait=death_wait[s]
+		E.fall=death_fall[s]
 		if s==2 then
-			E.arr=2
+			E.das=5
+			BG.set('rainbow')
 		elseif s==4 then
+			E.das=4
+			BG.set('rainbow2')
+		elseif s==5 then
+			if P.stat.frame>183*60 then
+				D.pt=500
+				P:win('finish')
+				return
+			else
+				E.bone=true
+				P.gameEnv.freshLimit=10
+				BG.set('glow')
+				BGM.play('secret7th remix')
+			end
+		elseif s==6 then
+			E.das=3
+			BG.set('lightning')
+		elseif s==7 then
 			E.bone=true
-		end
-
-		if s==5 then
-			D.pt=500
+		elseif s==10 then
+			D.pt=1000
 			P:win('finish')
-		else
-			D.target=D.target+100
-			P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
+			return
 		end
+		D.target=D.target+100
+		P:showTextF(text.stage:gsub("$1",s),0,-120,80,'beat')
 		SFX.play('reach')
 	end
 end
@@ -44,19 +58,19 @@ return{
 	color=COLOR.red,
 	env={
 		noTele=true,
-		das=9,arr=3,
+		das=6,arr=1,
 		drop=0,
-		lock=rush_lock[1],
-		wait=rush_wait[1],
-		fall=rush_fall[1],
+		lock=death_lock[1],
+		wait=death_wait[1],
+		fall=death_fall[1],
 		dropPiece=score,
-		noInitSZO=true,
 		task=function(P)
 			P.modeData.pt=0
 			P.modeData.target=100
 		end,
 		freshLimit=15,
-		bg='bg1',bgm='secret8th',
+		noInitSZO=true,
+		bg='bg2',bgm='secret7th',
 	},
 	slowMark=true,
 	load=function()
@@ -75,18 +89,12 @@ return{
 	end,
 	getRank=function(P)
 		local S=P.modeData.pt
-		if S==500 then
-			local T=P.stat.time
-			return
-			T<=170 and 5 or
-			T<=200 and 4 or
-			3
-		else
-			return
-			S>=460 and 3 or
-			S>=350 and 2 or
-			S>=200 and 1 or
-			S>=50 and 0
-		end
+		return
+			S>=1000 and 5 or
+			S>=800 and 4 or
+			S>=500 and 3 or
+			S>=300 and 2 or
+			S>=100 and 1 or
+			S>=60 and 0
 	end,
 }

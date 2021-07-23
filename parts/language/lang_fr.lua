@@ -657,8 +657,8 @@ return{
 		['round_h']=			{"Tour à tour",		"DIFFICILE",	"Mode échecs"},
 		['round_l']=			{"Tour à tour",		"LUNATIQUE",	"Mode échecs"},
 		['round_u']=			{"Tour à tour",		"ULTIME",		"Mode échecs"},
-		['master_l']=			{"Master",			"LUNATIQUE",	"Pour les débutants en 20G."},
-		['master_u']=			{"Master",			"ULTIME",		"Challenge 20G pro !"},
+		['master_n']=			{"Master",			"NORMAL",		"Pour les débutants en 20G."},
+		['master_h']=			{"Master",			"DIFFICILE",	"Challenge 20G pro !"},
 		['master_final']=		{"Master",			"FINAL",		"20G : Un point final impossible à atteindre !"},
 		-- ['master_ph']=			{"Mester",			"FANTASMA",		"20G: ???"},
 		['master_ex']=			{"GrandMaster",		"EXTRA",		"Tentez de devenir un Grandmaster."},
@@ -712,10 +712,15 @@ return{
 		['ultra']=				{'Ultra',			"EXTRA",		"2 minutes pour avoir le meilleur score."},
 		['infinite']=			{"Infini",	    	"",				"Mode tranquile."},
 		['infinite_dig']=		{"Infini : Dig",	"",				"Creuser, creuser, creuser."},
+
 		['sprintFix']=			{"Sprint",			"Sans gauche/droite"},
 		['sprintLock']=			{"Sprint",			"Sans rotation"},
 		-- ['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Marathon",		"ULTIME"},
+
+		['master_l']=			{"Master",			"LUNATIQUE"},
+		['master_u']=			{"Master",			"ULTIME"},
+
 		['custom_clear']=		{"Perso.",			"NORMAL"},
 		['custom_puzzle']=		{"Perso.",			"PUZZLE"},
 	},

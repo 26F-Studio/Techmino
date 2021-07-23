@@ -19,7 +19,6 @@
 -- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
 
 --Declaration
-goto REM love=require"love"::REM::--Just tell IDE to load love-api, no actual usage
 local fs=love.filesystem
 TIME=love.timer.getTime
 YIELD=coroutine.yield
@@ -304,6 +303,10 @@ do
 	end
 	if not RANKS.sprint_10l then
 		RANKS.sprint_10l=0
+		needSave=true
+	end
+	if RANKS.master_l or RANKS.master_u then
+		RANKS.master_l,RANKS.master_u=0,0
 		needSave=true
 	end
 

@@ -750,8 +750,8 @@ return{
 		['round_h']=			{"Turn-Based",		"HARD",			"Chess mode"},
 		['round_l']=			{"Turn-Based",		"LUNATIC",		"Chess mode"},
 		['round_u']=			{"Turn-Based",		"ULTIMATE",		"Chess mode"},
-		['master_l']=			{"Master",			"LUNATIC",		"For 20G beginners."},
-		['master_u']=			{"Master",			"ULTIMATE",		"For 20G pros."},
+		['master_n']=			{"Master",			"NORMAL",		"For 20G beginners."},
+		['master_h']=			{"Master",			"HARD",			"For 20G pros."},
 		['master_final']=		{"Master",			"FINAL",		"20G and beyond."},
 		['master_ph']=			{"Master",			"PHANTASM",		"???"},
 		['master_ex']=			{"GrandMaster",		"EXTRA",		"An eternity shorter than an instant."},
@@ -805,10 +805,15 @@ return{
 		['ultra']=				{'Ultra',			"EXTRA",		"A 2-minute score attack."},
 		['infinite']=			{'infinite',		"",				"It's just a sandbox."},
 		['infinite_dig']=		{"Infinite: Dig",	"",				"Dig-diggi-dug."},
+
 		['sprintFix']=			{"Sprint",			"NO LEFT/RIGHT"},
 		['sprintLock']=			{"Sprint",			"NO ROTATIONS"},
 		['sprintSmooth']=		{"Sprint",			"NO FRICTION"},
 		['marathon_bfmax']=		{"Marathon",		"ULTIMATE"},
+
+		['master_l']=			{"Master",			"LUNATIC"},
+		['master_u']=			{"Master",			"ULTIMATE"},
+
 		['custom_clear']=		{"Custom",			"NORMAL"},
 		['custom_puzzle']=		{"Custom",			"PUZZLE"},
 	},

@@ -655,8 +655,8 @@ return{
 		['round_h']=			{"Por Turnos",		"Difícil",		"Modo ajedrez."},
 		['round_l']=			{"Por Turnos",		"Lunático",		"Modo ajedrez."},
 		['round_u']=			{"Por Turnos",		"Supremo",		"Modo ajedrez."},
-		['master_l']=			{"Master",			"Lunático",		"Para principiantes en 20G"},
-		['master_u']=			{"Master",			"Supremo",		"¡Desafío profesional de 20G!"},
+		['master_n']=			{"Master",			"Normal",		"Para principiantes en 20G"},
+		['master_h']=			{"Master",			"Difícil",		"¡Desafío profesional de 20G!"},
 		['master_final']=		{"Master",			"FINAL",		"El verdadero 20G Supremo: el final es inalcanzable."},
 		['master_ex']=			{"GrandMaster",		"EXTRA",		"Para ser un gran maestro, acepta este desafío"},
 		['rhythm_e']=			{"Al Ritmo",		"Fácil",		"Maratón rítmica de 200 líneas con bajo bpm."},
@@ -709,10 +709,15 @@ return{
 		['ultra']=				{'Ultra',			"Extra",		"¡Consigue el mayor puntaje posible en 2 minutos!"},
 		['infinite']=			{"Infinito",		"",				"Modo Sandbox."},
 		['infinite_dig']=		{"Infinito: Queso",	"",				"Limpia, limpia, más limpia que tú."},
+
 		['sprintFix']=			{"Sprint",			"Sin mover a Izq./Der."},
 		['sprintLock']=			{"Sprint",			"Sin rotar"},
 		['sprintSmooth']=		{"Sprint",			"SIN FRICCIÓN"},
 		['marathon_bfmax']=		{"Maratón",			"Supremo"},
+
+		['master_l']=			{"Master",			"Lunático"},
+		['master_u']=			{"Master",			"Supremo"},
+
 		['custom_clear']=		{"Personalizado",	"Normal"},
 		['custom_puzzle']=		{"Personalizado",	"Puzzle"},
 	},
