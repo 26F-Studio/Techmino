@@ -28,23 +28,23 @@ gc.setLineWidth(2)
 TEXTURE.puzzleMark={}
 for i=1,17 do
 	TEXTURE.puzzleMark[i]=DOGC{30,30,
-		{"setCL",minoColor[i][1],minoColor[i][2],minoColor[i][3],.6},
-		{"dRect",5,5,20,20},
-		{"dRect",10,10,10,10},
+		{'setCL',minoColor[i][1],minoColor[i][2],minoColor[i][3],.6},
+		{'dRect',5,5,20,20},
+		{'dRect',10,10,10,10},
 	}
 end
 for i=18,24 do
 	TEXTURE.puzzleMark[i]=DOGC{30,30,
-		{"setCL",minoColor[i]},
-		{"dRect",7,7,16,16},
+		{'setCL',minoColor[i]},
+		{'dRect',7,7,16,16},
 	}
 end
 TEXTURE.puzzleMark[-1]=DOGC{30,30,
-	{"setCL",1,1,1,.8},
-	{"draw",DOGC{30,30,
-		{"setLW",3},
-		{"line",5,5,25,25},
-		{"line",5,25,25,5},
+	{'setCL',1,1,1,.8},
+	{'draw',DOGC{30,30,
+		{'setLW',3},
+		{'line',5,5,25,25},
+		{'line',5,25,25,5},
 	}}
 }
 
@@ -52,13 +52,13 @@ TEXTURE.puzzleMark[-1]=DOGC{30,30,
 TEXTURE.pixelNum={}
 for i=0,9 do
 	TEXTURE.pixelNum[i]=DOGC{5,9,
-		{("1011011111"):byte(i+1)==49,"fRect",1,0,3,1},--up
-		{("0011111011"):byte(i+1)==49,"fRect",1,4,3,1},--middle
-		{("1011011011"):byte(i+1)==49,"fRect",1,8,3,1},--down
-		{("1000111011"):byte(i+1)==49,"fRect",0,1,1,3},--up-left
-		{("1111100111"):byte(i+1)==49,"fRect",4,1,1,3},--up-right
-		{("1010001010"):byte(i+1)==49,"fRect",0,5,1,3},--down-left
-		{("1101111111"):byte(i+1)==49,"fRect",4,5,1,3},--down-right
+		{('1011011111'):byte(i+1)>48,'fRect',1,0,3,1},--up
+		{('0011111011'):byte(i+1)>48,'fRect',1,4,3,1},--middle
+		{('1011011011'):byte(i+1)>48,'fRect',1,8,3,1},--down
+		{('1000111011'):byte(i+1)>48,'fRect',0,1,1,3},--up-left
+		{('1111100111'):byte(i+1)>48,'fRect',4,1,1,3},--up-right
+		{('1010001010'):byte(i+1)>48,'fRect',0,5,1,3},--down-left
+		{('1101111111'):byte(i+1)>48,'fRect',4,5,1,3},--down-right
 	}
 end
 
@@ -119,28 +119,28 @@ TEXTURE.sure=DOGC{48,64,
 
 --Setting icon
 TEXTURE.setting=DOGC{64,64,
-	{"setLW",8},
-	{"dCirc",32,32,18},
-	{"setLW",10},
-	{"line",52,32,64,32},
-	{"line",32,52,32,64},
-	{"line",12,32,0,32},
-	{"line",32,12,32,0},
-	{"line",45,45,55,55},
-	{"line",19,45,9,55},
-	{"line",19,19,9,9},
-	{"line",45,19,55,9},
+	{'setLW',8},
+	{'dCirc',32,32,18},
+	{'setLW',10},
+	{'line',52,32,64,32},
+	{'line',32,52,32,64},
+	{'line',12,32,0,32},
+	{'line',32,12,32,0},
+	{'line',45,45,55,55},
+	{'line',19,45,9,55},
+	{'line',19,19,9,9},
+	{'line',45,19,55,9},
 }
 
 --Music mark
 TEXTURE.music=DOGC{64,64,
-	{"setLW",7},
-	{"line",19,9,60,7},
-	{"setLW",4},
-	{"line",20,9,20,49},
-	{"line",59,7,59,47},
-	{"fElps",11,49,11,8},
-	{"fElps",50,47,11,8},
+	{'setLW',7},
+	{'line',19,9,60,7},
+	{'setLW',4},
+	{'line',20,9,20,49},
+	{'line',59,7,59,47},
+	{'fElps',11,49,11,8},
+	{'fElps',50,47,11,8},
 }
 
 --Mute mark
@@ -152,12 +152,12 @@ TEXTURE.mute=DOGC{64,64,
 
 --Language mark
 TEXTURE.language=DOGC{64,64,
-	{"setLW",4},
-	{"dCirc",32,32,30},
-	{"line",2,31,62,31},
-	{"line",31,2,31,62},
-	{"dArc",10,31,40,-.8,.8},
-	{"dArc",53,31,40,2.3,3.9},
+	{'setLW',4},
+	{'dCirc',32,32,30},
+	{'line',2,31,62,31},
+	{'line',31,2,31,62},
+	{'dArc',10,31,40,-.8,.8},
+	{'dArc',53,31,40,2.3,3.9},
 }
 
 --Info. mark
@@ -172,7 +172,7 @@ TEXTURE.info=DOGC{50,50,
 TEXTURE.question=DOGC{50,50,
 	{'setLW',5},
 	{'dCirc',25,25,22},
-	{'print',"?",16,-6},
+	{'print','?',16,-6},
 }
 
 --More mark
@@ -194,21 +194,21 @@ TEXTURE.back=DOGC{60,55,
 
 --Quit mark
 TEXTURE.quit=DOGC{50,50,
-	{"setCL",1,1,1},
-	{"draw",DOGC{50,50,
-		{"setLW",7},
-		{"line",5,5,45,45},
-		{"line",5,45,45,5},
+	{'setCL',1,1,1},
+	{'draw',DOGC{50,50,
+		{'setLW',7},
+		{'line',5,5,45,45},
+		{'line',5,45,45,5},
 	}}
 }
 
 --Quit mark (small)
 TEXTURE.quit_small=DOGC{30,30,
-	{"setCL",1,1,1},
-	{"draw",DOGC{30,30,
-		{"setLW",4},
-		{"line",2,2,28,28},
-		{"line",2,28,28,2},
+	{'setCL',1,1,1},
+	{'draw',DOGC{30,30,
+		{'setLW',4},
+		{'line',2,2,28,28},
+		{'line',2,28,28,2},
 	}}
 }
 

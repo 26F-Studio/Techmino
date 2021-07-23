@@ -509,14 +509,14 @@ local ws_runningImg=DOGC{20,20,
 	{'print',"R",3,-4},
 }
 local cursorImg=DOGC{16,16,
-	{"fCirc",8,8,4},
-	{"setCL",1,1,1,.7},
-	{"fCirc",8,8,6},
+	{'fCirc',8,8,4},
+	{'setCL',1,1,1,.7},
+	{'fCirc',8,8,6},
 }
 local cursor_holdImg=DOGC{16,16,
-	{"setLW",2},
-	{"dCirc",8,8,7},
-	{"fCirc",8,8,3},
+	{'setLW',2},
+	{'dCirc',8,8,7},
+	{'fCirc',8,8,3},
 }
 function love.run()
 	local love=love
