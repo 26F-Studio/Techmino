@@ -471,6 +471,7 @@ function love.errorhandler(msg)
 		end
 	end
 end
+love.threaderror=nil
 
 love.draw,love.update=nil--remove default draw/update
 

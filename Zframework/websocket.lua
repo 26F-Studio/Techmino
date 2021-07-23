@@ -14,6 +14,8 @@ local type=type
 local timer=love.timer.getTime
 local CHN=love.thread.newChannel()
 local CHN_getCount,CHN_push,CHN_pop=CHN.getCount,CHN.push,CHN.pop
+local TRD=love.thread.newThread("\n")
+local TRD_isRunning=TRD.isRunning
 
 local WS={}
 local wsList=setmetatable({},{
@@ -41,6 +43,9 @@ function WS.switchHost(_1,_2,_3)
 end
 
 function WS.connect(name,subPath,body,timeout)
+	if wsList[name]and wsList[name].thread then
+		wsList[name].thread:release()
+	end
 	local ws={
 		real=true,
 		thread=love.thread.newThread('Zframework/websocket_thread.lua'),
@@ -142,8 +147,8 @@ end
 function WS.update(dt)
 	local time=timer()
 	for name,ws in next,wsList do
-		if ws.real then
-			if ws.thread:isRunning()then
+		if ws.real and ws.status~='dead'then
+			if TRD_isRunning(ws.thread)then
 				if CHN_getCount(ws.triggerCHN)==0 then
 					CHN_push(ws.triggerCHN,0)
 				end
@@ -173,9 +178,12 @@ function WS.update(dt)
 				if ws.alertTimer>0 then ws.alertTimer=ws.alertTimer-dt end
 			else
 				ws.status='dead'
-				ws.real=false
-				WS.alert(name)
-				MES.new('warn',text.wsClose.."线程错误 Thread error")
+				local err=ws.thread:getError()
+				if err then
+					err=err:sub((err:find(":",(err:find(":")or 0)+1)or 0)+1,(err:find("\n")or 0)-1)
+					MES.new('warn',text.wsClose..err)
+					WS.alert(name)
+				end
 			end
 		end
 	end
