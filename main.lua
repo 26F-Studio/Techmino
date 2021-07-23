@@ -266,10 +266,8 @@ do
 		needSave=true
 		love.event.quit('restart')
 	end
-	if SETTING.ghostType=='greyCell'then
-		SETTING.ghostType='grayCell'
-		needSave=true
-	end
+	if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'needSave=true end
+	if SETTING.RS=='ZRS'then SETTING.RS='BRS'needSave=true end
 	if not SETTING.VKSkin then SETTING.VKSkin=1 end
 	if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
@@ -280,6 +278,9 @@ do
 	for _,v in next,VK_org do v.color=nil end
 	if RANKS.infinite then RANKS.infinite=0 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=0 end
+	if not RANKS.sprint_10l then RANKS.sprint_10l=0 needSave=true end
+	if RANKS.master_l then RANKS.master_l=0 needSave=true end
+	if RANKS.master_u then RANKS.master_u=0 needSave=true end
 	for k in next,RANKS do
 		if type(k)=='number'then
 			RANKS[k]=nil
@@ -300,14 +301,6 @@ do
 			fs.write('record/'..v..'.rec',fs.read(k..'.rec'))
 			fs.remove(k..'.rec')
 		end
-	end
-	if not RANKS.sprint_10l then
-		RANKS.sprint_10l=0
-		needSave=true
-	end
-	if RANKS.master_l or RANKS.master_u then
-		RANKS.master_l,RANKS.master_u=0,0
-		needSave=true
 	end
 
 	if needSave then

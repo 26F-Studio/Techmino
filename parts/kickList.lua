@@ -443,7 +443,7 @@ do
 	for i=8,29 do SRS[i]=SRS[1]end
 end
 
-local ZRS
+local BRS
 do
 	local R=vecStrConv{'+0+0','-1+0','-1-1','+0-1','-1+1','+1-1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
 	local L=vecStrConv{'+0+0','+1+0','+1-1','+0-1','+1+1','-1-1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2','+2+0','-2+0'}
@@ -487,7 +487,7 @@ do
 		list[i][01]=a;list[i][10]=b;list[i][03]=b;list[i][30]=a
 		list[i][12]=a;list[i][21]=b;list[i][32]=b;list[i][23]=a
 	end
-	ZRS=TABLE.new(function(P,d,ifpre)
+	BRS=TABLE.new(function(P,d,ifpre)
 		local cur=P.cur
 		local idir=(cur.dir+d)%4
 		local kickList=list[cur.id][cur.dir*10+idir]
@@ -652,7 +652,7 @@ for i=1,29 do None[i]=noKickSet_180 end
 local RS={
 	TRS=TRS,
 	SRS=SRS,
-	ZRS=ZRS,
+	BRS=BRS,
 	ASC=ASC,
 	ASCplus=ASCplus,
 	C2=C2,
