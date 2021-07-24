@@ -9,15 +9,46 @@ local floatRepRate,replayRate=0,1
 
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
-local function _rep0()replayRate=0 end
-local function _repP8()replayRate=.125 end
-local function _repP2()replayRate=.5 end
-local function _rep1()replayRate=1 end
-local function _rep2()replayRate=2 end
-local function _rep5()replayRate=5 end
-local function _step()floatRepRate=floatRepRate+1 end
 
 local scene={}
+
+local function showRepButtons()
+	for i=1,6 do scene.widgetList[i].hide=false end
+	scene.widgetList[7].hide=true
+end
+local function _rep0()
+	showRepButtons()
+	scene.widgetList[1].hide=true
+	scene.widgetList[7].hide=false
+	replayRate=0
+end
+local function _repP8()
+	showRepButtons()
+	scene.widgetList[2].hide=true
+	replayRate=.125
+end
+local function _repP2()
+	showRepButtons()
+	scene.widgetList[3].hide=true
+	replayRate=.5
+end
+local function _rep1()
+	showRepButtons()
+	scene.widgetList[4].hide=true
+	replayRate=1
+end
+local function _rep2()
+	showRepButtons()
+	scene.widgetList[5].hide=true
+	replayRate=2
+end
+local function _rep5()
+	showRepButtons()
+	scene.widgetList[6].hide=true
+	replayRate=5
+end
+local function _step()floatRepRate=floatRepRate+1 end
+
 
 function scene.sceneInit()
 	if GAME.init then
@@ -26,6 +57,13 @@ function scene.sceneInit()
 		floatRepRate,replayRate=0,1
 	end
 	replaying=GAME.replaying
+
+	for i=1,6 do
+		scene.widgetList[i].hide=not replaying
+	end
+	scene.widgetList[4].hide=true
+	scene.widgetList[7].hide=true
+
 	noKey=replaying
 	noTouch=not SETTING.VKSwitch or noKey
 	WIDGET.active.restart.hide=replaying
@@ -262,15 +300,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0,hideF=function()return not replaying or replayRate==0 end},
-	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8,hideF=function()return not replaying or replayRate==.125 end},
-	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2,hideF=function()return not replaying or replayRate==.5 end},
-	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1,hideF=function()return not replaying or replayRate==1 end},
-	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2,hideF=function()return not replaying or replayRate==2 end},
-	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5,hideF=function()return not replaying or replayRate==5 end},
-	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step,hideF=function()return not replaying or replayRate~=0 end},
+	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0},
+	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8},
+	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2},
+	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1},
+	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2},
+	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5},
+	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step},
 	WIDGET.newKey{name="restart",	fText="R",x=380,y=35,w=60,font=40,code=restart},
-	WIDGET.newKey{name="pause",		fText="II",x=900,y=35,w=60,font=40,code=function()pauseGame()end},
+	WIDGET.newKey{name="pause",		fText="II",x=900,y=35,w=60,font=40,code=pauseGame},
 }
 
 return scene
