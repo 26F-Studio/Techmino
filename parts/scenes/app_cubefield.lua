@@ -29,8 +29,6 @@ local menu,ct,play
 local score
 local sunH,color,rot
 
-local drawn=false
-
 local function near(o,t)
 	return o>t and max(o-.01,t)or o<t and min(o+.01,t)or o
 end
@@ -127,9 +125,6 @@ function scene.keyUp(key)
 end
 
 function scene.update(dt)
-	if not drawn then return end
-	drawn=false
-
 	dt=dt*600
 
 	--Update cubes' position
@@ -145,6 +140,24 @@ function scene.update(dt)
 			end
 			cy[i]=cy[i]-9
 			lastCube=(lastCube-2)%40+1
+		end
+	end
+
+	--Collision detect
+	if play then
+		for j=1,40 do
+			local i=(j+lastCube-2)%40+1
+			local Y=cubesY[i]
+			if Y<8.8 then
+				local size=100/(10-Y)
+				local x=(cubesX[i]-player)/(10-Y)*200-size*.5
+				local y=5/(10-Y)*150-50
+				if y>420 and y<480 and x<8 and x+size>-8 and inv==0 then
+					cubesX[i]=cubesX[i]-3
+					hurt(650)
+					inv=40
+				end
+			end
 		end
 	end
 
@@ -193,7 +206,6 @@ function scene.update(dt)
 end
 
 function scene.draw()
-	drawn=true
 	--Health bar
 	if life1>0 then
 		gc.setColor(1,0,0)
@@ -244,12 +256,6 @@ function scene.draw()
 				gc.setLineWidth(size*.05)
 				gc.setColor(1,1,1)
 				gc.rectangle('line',x,y-485,size,size)
-			end
-
-			if play and y>420 and y<480 and x<8 and x+size>-8 and inv==0 then
-				cubesX[i]=cubesX[i]-3
-				hurt(650)
-				inv=40
 			end
 		end
 	end
