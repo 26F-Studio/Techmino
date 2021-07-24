@@ -454,7 +454,7 @@ do
 		{[02]=L,[20]=R,[13]=R,[31]=L},--J
 		{[02]=R,[20]=L,[13]=L,[31]=R},--L
 		{[02]=F,[20]=F,[13]=L,[31]=R},--T
-		{[02]=R,[20]=L,[13]=L,[31]=R},--O
+		{[02]=F,[20]=F,[13]=F,[31]=F},--O
 		{[02]=F,[20]=F,[13]=R,[31]=L},--I
 
 		{[02]=L,[20]=R,[13]=R,[31]=L},--Z5
@@ -504,8 +504,7 @@ do
 			for test=1,#kickList do
 				local kick=kickList[test]
 				if
-					(dx==0 and dy==0 or kick[2]<=0)and
-					dx*kick[1]>=0 and
+					dx*(kick[1]+dx)>=0 and
 					math.abs(dx+kick[1])<=2 and
 					((dx+kick[1])^2+(dy+kick[2])^2)<=5 and
 					(P.freshTime>0 or kick[2]+dy<=0)
