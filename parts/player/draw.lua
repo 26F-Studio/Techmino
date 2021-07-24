@@ -547,8 +547,9 @@ function draw.drawNext_norm(P)
 		gc_push('transform')
 			gc_translate(62,40)
 			gc_setShader(shader_blockSatur)
-			while N<=ENV.nextCount and P.nextQueue[N]do
-				local bk,sprite=P.nextQueue[N].bk,texture[P.nextQueue[N].color]
+			local queue=P.nextQueue
+			while N<=ENV.nextCount and queue[N]do
+				local bk,sprite=queue[N].bk,texture[queue[N].color]
 				local k=#bk>2 and 2.2/#bk or 1
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
@@ -678,18 +679,19 @@ function draw.norm(P)
 
 				--Draw current block
 				if P.cur and P.waiting==-1 then
-					local curColor=P.cur.color
+					local C=P.cur
+					local curColor=C.color
 
 					local trans=P.lockDelay/ENV.lock
-					local centerX=30*(P.curX+P.cur.sc[2])-15
+					local centerX=30*(P.curX+C.sc[2])-15
 
 					--Draw ghost & rotation center
-					local centerDisp=ENV.center and P.RS.centerDisp[P.cur.id]
+					local centerDisp=ENV.center and P.RS.centerDisp[C.id]
 					if ENV.ghost then
 						drawGhost[ENV.ghostType](P,curColor,ENV.ghost)
 						if centerDisp then
 							gc_setColor(1,1,1,ENV.center)
-							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+C.sc[1])+15,nil,nil,nil,4,4)
 						end
 					elseif GAME.replaying then
 						drawGhost.gray(P,nil,.15)
@@ -703,7 +705,7 @@ function draw.norm(P)
 							drawBlock(P,curColor)
 							if centerDisp then
 								gc_setColor(1,1,1,ENV.center)
-								gc_draw(spinCenterImg,centerX,-30*(P.curY+P.cur.sc[1])+15,nil,nil,nil,4,4)
+								gc_draw(spinCenterImg,centerX,-30*(P.curY+C.sc[1])+15,nil,nil,nil,4,4)
 							end
 						elseif GAME.replaying then
 							drawBlockShade(P,trans*.3)

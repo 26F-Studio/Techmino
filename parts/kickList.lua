@@ -488,17 +488,17 @@ do
 		list[i][12]=a;list[i][21]=b;list[i][32]=b;list[i][23]=a
 	end
 	BRS=TABLE.new(function(P,d,ifpre)
-		local cur=P.cur
-		local idir=(cur.dir+d)%4
-		local kickList=list[cur.id][cur.dir*10+idir]
-		local icb=BLOCKS[cur.id][idir]
-		local isc=SCS[cur.id][idir]
-		local ix,iy=P.curX+cur.sc[2]-isc[2],P.curY+cur.sc[1]-isc[1]
+		local C=P.cur
+		local idir=(C.dir+d)%4
+		local kickList=list[C.id][C.dir*10+idir]
+		local icb=BLOCKS[C.id][idir]
+		local isc=SCS[C.id][idir]
+		local ix,iy=P.curX+C.sc[2]-isc[2],P.curY+C.sc[1]-isc[1]
 		local dx,dy=0,0 do
 			local pressing=P.keyPressing
-			if pressing[1]and P:ifoverlap(cur.bk,P.curX-1,P.curY)then dx=dx-1 end
-			if pressing[2]and P:ifoverlap(cur.bk,P.curX+1,P.curY)then dx=dx+1 end
-			if pressing[7]and P:ifoverlap(cur.bk,P.curX,P.curY-1)then dy=-1 end
+			if pressing[1]and P:ifoverlap(C.bk,P.curX-1,P.curY)then dx=dx-1 end
+			if pressing[2]and P:ifoverlap(C.bk,P.curX+1,P.curY)then dx=dx+1 end
+			if pressing[7]and P:ifoverlap(C.bk,P.curX,P.curY-1)then dy=-1 end
 		end
 		while true do
 			for test=1,#kickList do
@@ -514,8 +514,8 @@ do
 						if P.gameEnv.moveFX and P.gameEnv.block then
 							P:createMoveFX()
 						end
-						P.curX,P.curY,cur.dir=x,y,idir
-						cur.sc,cur.bk=isc,icb
+						P.curX,P.curY,C.dir=x,y,idir
+						C.sc,C.bk=isc,icb
 						P.spinLast=test==2 and 0 or 1
 
 						local t=P.freshTime

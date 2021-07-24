@@ -45,7 +45,7 @@ THEME=	require'Zframework.theme'
 local ms,kb=love.mouse,love.keyboard
 
 local gc=love.graphics
-local gc_push,gc_pop,gc_clear=gc.push,gc.pop,gc.clear
+local gc_push,gc_pop,gc_clear,gc_discard=gc.push,gc.pop,gc.clear,gc.discard
 local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line,gc_print=gc.draw,gc.line,gc.print
@@ -522,18 +522,21 @@ local cursor_holdImg=DOGC{16,16,
 function love.run()
 	local love=love
 
-	local VOC,BG,SYSFX=VOC,BG,SYSFX
-	local TASK,TEXT=TASK,TEXT
-
-	local TEXTURE,TIME=TEXTURE,TIME
-	local SETTING,VERSION=SETTING,VERSION
+	local BG=BG
+	local TEXT_update,TEXT_draw=TEXT.update,TEXT.draw
+	local MES_update,MES_draw=MES.update,MES.draw
+	local WS_update=WS.update
+	local TASK_update=TASK.update
+	local SYSFX_update,SYSFX_draw=SYSFX.update,SYSFX.draw
+	local WIDGET_update,WIDGET_draw=WIDGET.update,WIDGET.draw
 
 	local STEP,WAIT=love.timer.step,love.timer.sleep
 	local FPS,MINI=love.timer.getFPS,love.window.isMinimized
 	local PUMP,POLL=love.event.pump,love.event.poll
 
-	local frameTimeList={}
+	local TIME,SETTING,VERSION=TIME,SETTING,VERSION
 
+	local frameTimeList={}
 	local lastFrame=TIME()
 	local lastFreshPow=lastFrame
 	local FCT=0--Framedraw counter, from 0~99
@@ -567,14 +570,14 @@ function love.run()
 		STEP()
 		VOC.update()
 		BG.update(dt)
-		TEXT.update()
-		MES.update(dt)
-		WS.update(dt)
-		TASK.update()
-		SYSFX.update(dt)
+		TEXT_update()
+		MES_update(dt)
+		WS_update(dt)
+		TASK_update()
+		SYSFX_update(dt)
 		if SCN.update then SCN.update(dt)end
 		if SCN.swapping then SCN.swapUpdate()end
-		WIDGET.update()
+		WIDGET_update()
 
 		--DRAW
 		if not MINI()then
@@ -582,14 +585,15 @@ function love.run()
 			if FCT>=100 then
 				FCT=FCT-100
 
+				local safeX=SCR.safeX
 				gc_replaceTransform(SCR.origin)
 					gc_setColor(1,1,1)
 					BG.draw()
 				gc_replaceTransform(SCR.xOy)
 					if SCN.draw then SCN.draw()end
-					WIDGET.draw()
-					SYSFX.draw()
-					TEXT.draw()
+					WIDGET_draw()
+					SYSFX_draw()
+					TEXT_draw()
 
 					--Draw cursor
 					if mouseShow then
@@ -602,12 +606,12 @@ function love.run()
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
 					end
 				gc_replaceTransform(SCR.xOy_ul)
-					MES.draw()
+					MES_draw()
 				gc_replaceTransform(SCR.origin)
 					--Draw power info.
 					if SETTING.powerInfo then
 						gc_setColor(1,1,1)
-						gc_draw(infoCanvas,SCR.safeX,0,0,SCR.k)
+						gc_draw(infoCanvas,safeX,0,0,SCR.k)
 					end
 
 					--Draw scene swapping animation
@@ -625,16 +629,16 @@ function love.run()
 					--Draw FPS
 					setFont(15)
 					gc_setColor(1,1,1)
-					gc_print(FPS(),SCR.safeX+5,-20)
+					gc_print(FPS(),safeX+5,-20)
 
 					--Debug info.
 					if devMode then
 						--Left-down infos
 						gc_setColor(devColor[devMode])
-						gc_print("MEM     "..gcinfo(),SCR.safeX+5,-40)
-						gc_print("Lines    "..FREEROW.getCount(),SCR.safeX+5,-60)
-						gc_print("Tasks   "..TASK.getCount(),SCR.safeX+5,-80)
-						gc_print("Voices  "..VOC.getQueueCount(),SCR.safeX+5,-100)
+						gc_print("MEM     "..gcinfo(),safeX+5,-40)
+						gc_print("Lines    "..FREEROW.getCount(),safeX+5,-60)
+						gc_print("Tasks   "..TASK.getCount(),safeX+5,-80)
+						gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-100)
 
 						--Update & draw frame time
 						ins(frameTimeList,1,dt)rem(frameTimeList,126)
@@ -680,7 +684,7 @@ function love.run()
 				gc_present()
 
 				--SPEED UPUPUP!
-				if SETTING.cleanCanvas then gc.discard()end
+				if SETTING.cleanCanvas then gc_discard()end
 			end
 		end
 
@@ -696,8 +700,12 @@ function love.run()
 		end
 
 		--Slow devmode
-		if devMode==3 then WAIT(.1)
-		elseif devMode==4 then WAIT(.5)
+		if devMode then
+			if devMode==3 then
+				WAIT(.1)
+			elseif devMode==4 then
+				WAIT(.5)
+			end
 		end
 
 		--Keep 60fps
