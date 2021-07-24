@@ -39,7 +39,7 @@ return STRING.split([=[
 				新BGM:There(用于挖掘)
 				新BGM:Secret8th Remix(用于master-hard)
 				新增小亚(xiaoya)语音包
-				旋转系统新增BRS(实验性),ASC,ASCplus(添加180度踢墙,实验性)
+				旋转系统新增BRS(Bias RS)(实验性),ASC,ASCplus(添加180度踢墙,实验性)
 				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
 		改动:
 				更换更简洁的加载动画,合并intro场景
@@ -70,6 +70,8 @@ return STRING.split([=[
 				触屏设置在窗口非默认长宽比时边缘网格缺失
 				有屏幕滚动的场景鼠标拖动时控件失焦
 				导入设置(包括剪切板和云存档)时部分设置不生效
+				小程序cubefield的碰撞判定移出draw，解决低绘制帧率导致漏判定的问题 #138
+				序列和任务超长导致渲染开销太大卡死 #137
 
 0.15.6: 强化装甲 Reinforced Armor
 		新增:
