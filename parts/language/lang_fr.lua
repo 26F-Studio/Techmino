@@ -158,7 +158,7 @@ return{
 		"Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF",
 		"",
 		"Merci à:",
-		"User670, Flyz, Big_True, NOT-A-ROBOT, 思竣",
+		"User670, Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
 		"Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
 	},
 	used=[[
