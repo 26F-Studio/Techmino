@@ -47,17 +47,17 @@ function DATA.pasteSequence(str)
 			end
 		else
 			if b>=97 and b<=125 then
-				ins(BAG,reg)if #BAG>2600 then return end
+				ins(BAG,reg)
 				reg=b-96
 			elseif b>=34 and b<=96 then
 				for _=1,b-32 do
-					ins(BAG,reg)if #BAG>2600 then return end
+					ins(BAG,reg)
 				end
 				reg=false
 			end
 		end
 	end
-	if reg then ins(BAG,reg)if #BAG>2600 then return end end
+	if reg then ins(BAG,reg)end
 	return true
 end
 
@@ -215,9 +215,7 @@ function DATA.pasteMission(str)
 			end
 		end
 	end
-	if reg then
-		ins(MISSION,reg)
-	end
+	if reg then ins(MISSION,reg)end
 	return true
 end
 
@@ -230,16 +228,14 @@ function DATA.copyQuestArgs()
 		ENV.sequence
 	return str
 end
-do--function DATA.pasteQuestArgs(str)
-	function DATA.pasteQuestArgs(str)
-		if #str<4 then return end
-		local ENV=CUSTOMENV
-		ENV.holdCount=		str:byte(1)-48
-		ENV.ospin=			str:byte(2)~=90
-		ENV.missionKill=	str:byte(3)~=90
-		ENV.sequence=		str:sub(4)
-		return true
-	end
+function DATA.pasteQuestArgs(str)
+	if #str<4 then return end
+	local ENV=CUSTOMENV
+	ENV.holdCount=		str:byte(1)-48
+	ENV.ospin=			str:byte(2)~=90
+	ENV.missionKill=	str:byte(3)~=90
+	ENV.sequence=		str:sub(4)
+	return true
 end
 
 --[[

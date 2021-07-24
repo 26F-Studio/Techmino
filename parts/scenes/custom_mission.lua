@@ -153,6 +153,7 @@ function scene.draw()
 			end
 			if x>1140 then
 				x,y=100,y+36
+				if y>1260 then break end
 			end
 			if i<=j then
 				setFont(35)

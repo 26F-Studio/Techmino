@@ -157,6 +157,7 @@ function scene.draw()
 			end
 			if x>1060 then
 				x,y=120,y+50
+				if y>1260 then break end
 			end
 			if i<=j then
 				local B=miniBlock[L[i]]
