@@ -39,12 +39,12 @@ return STRING.split([=[
 				新BGM:There(用于挖掘)
 				新BGM:Secret8th Remix(用于master-hard)
 				新增小亚(xiaoya)语音包
-				旋转系统新增ZRS(实验性),ASC,ASCplus(添加180度踢墙,实验性)
+				旋转系统新增BRS(实验性),ASC,ASCplus(添加180度踢墙,实验性)
 				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
 		改动:
 				更换更简洁的加载动画,合并intro场景
 				声音设置界面添加静音按钮
-				微调BGM:Nil
+				微调BGM:Nil, Shift
 				开启msaa(反锯齿,实验性)
 				增加滑条控件测试声音的间隔
 				master-l/u难度名改为n/h
@@ -54,6 +54,7 @@ return STRING.split([=[
 				旋转系统可以开关每个方块是否显示旋转中心(TRS关闭O和X的中心显示)
 				修改debug模式鼠标位置显示方式
 				调整TRS中S5和Z5的踢墙表
+				减少AI与自定义序列同开的限制 #136
 		代码:
 				重构WS模块,可能解决部分联网游戏中的概率thread error问题
 				升级BGM/IMG/SKIN模块,资源不再需要启动时加载好,提升加载速度节约资源占用
