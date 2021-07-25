@@ -8,7 +8,7 @@
 如果打算自己导入游戏的话需要降噪+裁剪+调整音量后再转为ogg格式 (不支持别的, 因为ogg音质好体积小)
 
 目前游戏内正在使用, 必须录制的音频文件名们:
-	single, double, triple, techrash
+	single, double, triple, techrash (读作\'tekrʌʃ\)
 	以上直接念就可以,用于普通直接消行
 
 	mini, b2b, b2b2b
@@ -21,10 +21,11 @@
 		z-spin single
 		z-spin double
 		z-spin triple
-		z-spin techrash
+		(z-spin techrash)
 		(z-spin pentacrash)
 		(z-spin hexacrash)
-	对于 S L J T O I 每一个都是这样, 五种语音, 加括号的是消5和消6, 一般不用所以可以不录
+	对于 S L J T O I 每一个都是这样至少四条语音
+	加括号一般不用所以可以不录(消5和消6), 
 	另：对于P, Q, F, E, U, V, W, X, R, Y, N, H
 	这些方块也可以有上面那些语音,但由于仅在五连块使用还会显著增加语音包体积, 所以不录也可以
 
@@ -32,7 +33,7 @@
 	这俩可以直接念也可以略做修改
 
 	win, lose, bye
-	这几个可以自由发挥, 能用在三个场合就行
+	这几个可以自由发挥, 能用在三个场合就行，尽量不要太长
 
 	test, happy, doubt, sad, egg
 	这几个是特殊音效，具体使用情况不定

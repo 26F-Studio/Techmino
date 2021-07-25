@@ -33,9 +33,9 @@
 			irs				true		提前旋转
 			ims				true		提前移动
 
-			skinSet			[设置值]		方块贴图，只能填写内置皮肤的名字
-			skin			[设置值]		方块颜色，包含25个整数(1~16)的table
-			face			[设置值]		方块朝向，包含25个整数(0~3)的table
+			skinSet			[设置]		方块贴图，只能填写内置皮肤的名字
+			skin			[设置]		方块颜色，包含25个整数(1~16)的table
+			face			[设置]		方块朝向，包含25个整数(0~3)的table
 
 			block			true		是否显示方块
 			ghost			0.3			影子透明度(0~1)
@@ -76,7 +76,7 @@
 			fkey1			false		按下功能键1后执行的函数
 			fkey2			false		按下功能键2后执行的函数
 			keyCancel		{}			包含禁止使用的按键的id，例如{1,2}就是禁止左移和右移
-			fine			[设置值]		是否开启非极简提示音
+			fine			[设置]		是否开启非极简提示音
 			fineKill		false		是否开启非极简即死
 			b2bKill			false		是否开启断b2b即死
 			missionKill		false		是否开启强制任务
