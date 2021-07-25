@@ -6,7 +6,7 @@ function IMG.init(list)
 	setmetatable(IMG,{__index=function(self,name)
 		if type(list[name])=='table'then
 			self[name]={}
-			for i=1,#list do
+			for i=1,#list[name]do
 				self[name][i]=love.graphics.newImage(list[name][i])
 			end
 		elseif type(list[name])=='string'then
