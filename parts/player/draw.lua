@@ -110,11 +110,10 @@ local function drawRow(texture,h,V,L,showInvis)
 		end
 	end
 end
-local function drawField(P)
+local function drawField(P,showInvis)
 	local ENV=P.gameEnv
 	local V,F=P.visTime,P.field
 	local start=int((P.fieldBeneath+P.fieldUp)/30+1)
-	local showInvis=GAME.replaying
 	local texture=P.skinLib
 	if P.falling==-1 then--Blocks only
 		if ENV.upEdge then
@@ -625,6 +624,7 @@ function draw.norm(P)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local t=TIME()
+	local replaying=GAME.replaying
 	gc_push('transform')
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
@@ -663,7 +663,7 @@ function draw.norm(P)
 				gc_rectangle('fill',0,fieldTop,300,-FUP-FBN-fieldTop-620)
 
 				--Draw field
-				drawField(P)
+				drawField(P,replaying)
 
 				--Draw spawn line
 				gc_setLineWidth(4)
@@ -693,7 +693,7 @@ function draw.norm(P)
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+C.sc[1])+15,nil,nil,nil,4,4)
 						end
-					elseif GAME.replaying then
+					elseif replaying then
 						drawGhost.gray(P,nil,.15)
 					end
 
@@ -707,7 +707,7 @@ function draw.norm(P)
 								gc_setColor(1,1,1,ENV.center)
 								gc_draw(spinCenterImg,centerX,-30*(P.curY+C.sc[1])+15,nil,nil,nil,4,4)
 							end
-						elseif GAME.replaying then
+						elseif replaying then
 							drawBlockShade(P,trans*.3)
 						end
 					gc_translate(0,dy)
@@ -758,9 +758,16 @@ function draw.norm(P)
 			if ENV.hideBoard then
 				gc_stencil(hideBoardStencil[ENV.hideBoard])
 				gc_setStencilTest('equal',1)
-				gc_setLineWidth(20)
+				local alpha
+				if replaying then
+					gc_setLineWidth(18.8)
+					alpha=.7
+				else
+					gc_setLineWidth(20)
+					alpha=1
+				end
 				for i=0,24 do
-					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1))
+					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1,alpha))
 					gc_line(20*i-190,-2,20*i+10,602)
 				end
 				gc_setStencilTest()
@@ -897,7 +904,7 @@ function draw.demo(P)
 
 			gc_push('transform')
 				gc_translate(0,600)
-				drawField(P)
+				drawField(P,GAME.replaying)
 				drawFXs(P)
 				if P.cur and P.waiting==-1 then
 					if ENV.ghost then drawGhost[ENV.ghostType](P,curColor,ENV.ghost)end
