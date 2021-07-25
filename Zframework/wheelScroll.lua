@@ -1,18 +1,19 @@
-local floatWheel=0
+local love=love
+local max,min=math.max,math.min
+local float=0
 return function(y,key1,key2)
 	if y>0 then
-		if floatWheel<0 then floatWheel=0 end
-		floatWheel=floatWheel+y^1.2
+		float=max(float,0)+y^1.2
 	elseif y<0 then
-		if floatWheel>0 then floatWheel=0 end
-		floatWheel=floatWheel-(-y)^1.2
+		if float>0 then float=0 end
+		float=min(float,0)-(-y)^1.2
 	end
-	while floatWheel>=1 do
+	while float>=1 do
 		love.keypressed(key1 or"up")
-		floatWheel=floatWheel-1
+		float=float-1
 	end
-	while floatWheel<=-1 do
+	while float<=-1 do
 		love.keypressed(key2 or"down")
-		floatWheel=floatWheel+1
+		float=float+1
 	end
 end
