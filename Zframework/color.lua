@@ -93,29 +93,33 @@ end
 
 do--Rainbow generators
 	local sin=math.sin
-	function COLOR.rainbow(phase)
+	function COLOR.rainbow(phase,a)
 		return
 			sin(phase)*.4+.6,
 			sin(phase+2.0944)*.4+.6,
-			sin(phase-2.0944)*.4+.6
+			sin(phase-2.0944)*.4+.6,
+			a
 	end
-	function COLOR.rainbow_light(phase)
+	function COLOR.rainbow_light(phase,a)
 		return
 			sin(phase)*.2+.7,
 			sin(phase+2.0944)*.2+.7,
-			sin(phase-2.0944)*.2+.7
+			sin(phase-2.0944)*.2+.7,
+			a
 	end
-	function COLOR.rainbow_dark(phase)
+	function COLOR.rainbow_dark(phase,a)
 		return
 			sin(phase)*.2+.4,
 			sin(phase+2.0944)*.2+.4,
-			sin(phase-2.0944)*.2+.4
+			sin(phase-2.0944)*.2+.4,
+			a
 	end
-	function COLOR.rainbow_gray(phase)
+	function COLOR.rainbow_gray(phase,a)
 		return
 			sin(phase)*.16+.5,
 			sin(phase+2.0944)*.16+.5,
-			sin(phase-2.0944)*.16+.5
+			sin(phase-2.0944)*.16+.5,
+			a
 	end
 end
 
