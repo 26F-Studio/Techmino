@@ -267,7 +267,7 @@ do
 		love.event.quit('restart')
 	end
 	if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'needSave=true end
-	if SETTING.RS=='ZRS'then SETTING.RS='BRS'needSave=true end
+	if SETTING.RS=='ZRS'or SETTING.RS=='BRS'then SETTING.RS='BiRS'needSave=true end
 	if not SETTING.VKSkin then SETTING.VKSkin=1 end
 	if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
 	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then

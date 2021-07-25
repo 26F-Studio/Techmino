@@ -443,7 +443,7 @@ do
 	for i=8,29 do SRS[i]=SRS[1]end
 end
 
-local BRS
+local BiRS
 do
 	local R=vecStrConv{'+0+0','-1+0','-1-1','+0-1','-1+1','+1-1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
 	local L=vecStrConv{'+0+0','+1+0','+1-1','+0-1','+1+1','-1-1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2','+2+0','-2+0'}
@@ -457,8 +457,8 @@ do
 		{[02]=F,[20]=F,[13]=F,[31]=F},--O
 		{[02]=F,[20]=F,[13]=R,[31]=L},--I
 
-		{[02]=L,[20]=R,[13]=R,[31]=L},--Z5
-		{[02]=R,[20]=L,[13]=L,[31]=R},--S5
+		{[02]=L,[20]=L,[13]=R,[31]=R},--Z5
+		{[02]=R,[20]=R,[13]=L,[31]=L},--S5
 		{[02]=L,[20]=R,[13]=L,[31]=R},--P
 		{[02]=R,[20]=L,[13]=R,[31]=L},--Q
 		{[02]=R,[20]=L,[13]=L,[31]=R},--F
@@ -487,7 +487,7 @@ do
 		list[i][01]=a;list[i][10]=b;list[i][03]=b;list[i][30]=a
 		list[i][12]=a;list[i][21]=b;list[i][32]=b;list[i][23]=a
 	end
-	BRS=TABLE.new(function(P,d,ifpre)
+	BiRS=TABLE.new(function(P,d,ifpre)
 		local C=P.cur
 		local idir=(C.dir+d)%4
 		local kickList=list[C.id][C.dir*10+idir]
@@ -498,18 +498,17 @@ do
 			local pressing=P.keyPressing
 			if pressing[1]and P:ifoverlap(C.bk,P.curX-1,P.curY)then dx=dx-1 end
 			if pressing[2]and P:ifoverlap(C.bk,P.curX+1,P.curY)then dx=dx+1 end
-			if pressing[7]and P:ifoverlap(C.bk,P.curX,P.curY-1)then dy=-1 end
+			if pressing[7]and P:ifoverlap(C.bk,P.curX,P.curY-1)then dy=  -1 end
 		end
 		while true do
 			for test=1,#kickList do
-				local kick=kickList[test]
+				local fdx,fdy=kickList[test][1]+dx,kickList[test][2]+dy
 				if
-					dx*(kick[1]+dx)>=0 and
-					math.abs(dx+kick[1])<=2 and
-					((dx+kick[1])^2+(dy+kick[2])^2)<=5 and
-					(P.freshTime>0 or kick[2]+dy<=0)
+					dx*fdx>=0 and
+					fdx^2+fdy^2<=5 and
+					(P.freshTime>0 or fdy<=0)
 				then
-					local x,y=ix+kick[1]+dx,iy+kick[2]+dy
+					local x,y=ix+fdx,iy+fdy
 					if not P:ifoverlap(icb,x,y)then
 						if P.gameEnv.moveFX and P.gameEnv.block then
 							P:createMoveFX()
@@ -522,7 +521,7 @@ do
 						if not ifpre then
 							P:freshBlock('move')
 						end
-						if kick[2]+dy>0 and P.freshTime==t and P.curY~=P.imgY then
+						if fdy>0 and P.freshTime==t and P.curY~=P.imgY then
 							P.freshTime=P.freshTime-1
 						end
 
@@ -651,7 +650,7 @@ for i=1,29 do None[i]=noKickSet_180 end
 local RS={
 	TRS=TRS,
 	SRS=SRS,
-	BRS=BRS,
+	BiRS=BiRS,
 	ASC=ASC,
 	ASCplus=ASCplus,
 	C2=C2,
