@@ -35,11 +35,11 @@ local commands={}do
 				if commands[arg]then
 					if commands[arg].description then
 						log{C.H,("%s"):format(commands[arg].description)}
-						if commands[arg].details then
-							for _,v in ipairs(commands[arg].details)do log(v)end
-						else
-							log{C.Y,("No details for command '%s'"):format(arg)}
-						end
+					end
+					if commands[arg].details then
+						for _,v in ipairs(commands[arg].details)do log(v)end
+					else
+						log{C.Y,("No details for command '%s'"):format(arg)}
 					end
 				else
 					log{C.Y,("No command called '%s'"):format(arg)}
@@ -58,6 +58,7 @@ local commands={}do
 				end
 			end
 		end,
+		description="Display help messages",
 		details={
 			"Display help messages.",
 			"",
@@ -80,8 +81,9 @@ local commands={}do
 	}
 	commands.exit={
 		code=backScene,
+		description="Return to the last menu",
 		details={
-			"Return to the previous menu.",
+			"Return to the last menu.",
 			"",
 			"Aliases: exit quit",
 			"",
@@ -413,13 +415,14 @@ local commands={}do
 					else
 						log("No BGM called "..bgm)
 					end
-					else
+				else
 					log("Already playing: "..bgm)
-					end
+				end
 			else
 				log{C.A,"Usage: playbgm [bgmName]"}
 			end
 		end,
+		description="Play a BGM",
 		details={
 			"Play a BGM.",
 			"",
@@ -430,6 +433,7 @@ local commands={}do
 		code=function()
 			BGM.stop()
 		end,
+		description="Stop the BGM",
 		details={
 			"Stop the BGM.",
 			"",
@@ -735,6 +739,7 @@ local commands={}do
 				log{C.A,"Example: switchhost 127.0.0.1 26000 /sock"}
 			end
 		end,
+		description="Switch to appother host",
 		details={
 			"Disconnect all connections and switch to another host",
 			"",
