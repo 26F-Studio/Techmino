@@ -1,7 +1,7 @@
 return STRING.split([=[
 未来模式:
-		任务生存; 对称; 无摩擦; 拼方形; 限高无尽挖掘; 连击练习; backfire对战
-		极简教程/考试; 大爆炸; 音游模式; 教学关; 术语问答; 仅4lPC模式
+		任务生存; 对称; 拼方形; 限高无尽挖掘; 连击练习; backfire对战
+		极简教程/考试; 大爆炸; 教学关; 术语问答; 仅4lPC
 		OSD; 强制Misdrop; 涂色模式(模仿喷喷, designed by teatube)
 未来大游戏:
 		Puyo; Bubble; 2048; 花仙子方块
@@ -21,7 +21,7 @@ return STRING.split([=[
 其他未来内容:
 		可调场地宽度; 可调攻击系统; 组队战; 实时统计数据可视化
 		重做模式选择UI; 重做模组UI; 高级自定义序列
-		全部方块位移动画; 更好的手柄支持; 场地格子边缘线
+		方块位移/旋转动画; 更好的手柄支持; 场地格子边缘线
 		spike相关统计数据; 模式数据分析; 简单TAS工具
 		音效包; 手势操作; 特殊控件(虚拟摇杆等)
 		区分各种消除(隔断/架空/混合/彩色/穿墙)
@@ -33,9 +33,9 @@ return STRING.split([=[
 
 0.16.0: 空间站 Space station
 		新增:
-				新BGM:Shift(用于生存第三/四难度)
-				新BGM:Here(用于生存第五难度)
 				新BGM:Beat5th(用于竞速五连块)
+				新BGM:Here(用于生存第五难度)
+				新BGM:Shift(用于生存第三/四难度)
 				新BGM:There(用于挖掘)
 				新BGM:Secret8th Remix(用于master-hard)
 				新增小亚(xiaoya)语音包
@@ -45,7 +45,7 @@ return STRING.split([=[
 				更换更简洁的加载动画,合并intro场景
 				调整TRS中S5和Z5的踢墙表,增加Ospin时SZ按反的尝试
 				回放时版面遮挡会变成半透明 #143
-				微调BGM:Nil, Shift
+				调整BGM:Nil
 				开启msaa(反锯齿,实验性)
 				master-l/u难度名改为n/h
 				master-normal模式新增500~1000
