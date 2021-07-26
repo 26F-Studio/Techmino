@@ -3,16 +3,16 @@ EDITING=""
 LOADED=false
 ERRDATA={}
 
-require'Zframework.setFont'
-ADRAW=require'Zframework.aDraw'
-	mStr=ADRAW.str
-	mText=ADRAW.simpX
-	mDraw=ADRAW.draw
-
 SCR=	require'Zframework.screen'
 COLOR=	require'Zframework.color'
 SCN=	require'Zframework.scene'
 WS=		require'Zframework.websocket'
+
+require'Zframework.setFont'
+GC=require'Zframework.gcExtend'
+	mStr=GC.str
+	mText=GC.simpX
+	mDraw=GC.draw
 
 LOADLIB=require'Zframework.loadLib'
 WHEELMOV=require'Zframework.wheelScroll'

@@ -15,9 +15,9 @@ local cmds={
 
 	print="print",
 	setFT=setFont,
-	mText=ADRAW.str,
-	mDraw=ADRAW.draw,
-	mOutDraw=ADRAW.outDraw,
+	mText=GC.str,
+	mDraw=GC.draw,
+	mOutDraw=GC.outDraw,
 
 	draw="draw",
 	line="line",

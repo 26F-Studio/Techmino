@@ -16,7 +16,7 @@ local int,ceil,abs=math.floor,math.ceil,math.abs
 local max,min=math.max,math.min
 local sub,ins,rem=string.sub,table.insert,table.remove
 local getFont,setFont,mStr=getFont,setFont,mStr
-local mDraw,mDraw_X,mDraw_Y=ADRAW.draw,ADRAW.simpX,ADRAW.simpY
+local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
 
 local downArrowIcon=DOGC{40,25,{'fPoly',0,0,20,25,40,0}}
@@ -681,7 +681,7 @@ function selector:draw()
 
 	--Drawable
 	gc_setColor(self.color)
-	ADRAW.simpX(self.obj,x+w*.5,y+17-21)
+	GC.simpX(self.obj,x+w*.5,y+17-21)
 	gc_setColor(1,1,1)
 	setFont(30)
 	mStr(self.selText,x+w*.5,y+43-21)
