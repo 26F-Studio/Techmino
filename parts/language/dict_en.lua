@@ -353,34 +353,24 @@ return{
 		"It can refer to two things:\nArika Rotation System, which is used in Tetris: The Grand Master games.\nAtari Rotation System, which aligns pieces to the top-left when rotating.",
 	},
 	{"ASC",
-		"asc",
+		"ascension",
 		"term",
-		"",--todo
-	},
-	{"ASC+",
-		"asc+ ascplus",
-		"term",
-		"",--todo
+		"Rotation system used in the Tetris clone Ascension. All pieces use the same two kick tables (one for CW, one for CCW), and the kick range is approximately +/- 2 blocks on both axis.\n\nIn Techmino, ASC+ is a modified version of Ascension's rotation system, adding kicks for 180 spins.",
 	},
 	{"BRS",
-		"brs",
+		"brs bulletproofsoftware",
 		"term",
-		"",--todo
+		"BPS rotation system, the rotation system used in Tetris games by Bullet-Proof Software.",
 	},
 	{"BiRS",
-		"birs",
+		"birs biasrs biasrotationsystem",
 		"term",
-		"",--todo
+		"*Techmino exclusive*\n\nBias Rotation System, Techmino's original rotation system based on XRS and SRS.\nIt sets an offset to rotation if you hold left/right/soft drop when you rotate.\nIf rotation fails when downwards offset is applied, it tries again without the downwards offset.\nThen it tries without left/right offset.\nIf it fails, then rotation will not occur.\n\nCompared to XRS, BiRS only uses a single kick table, making it easier to memorize; also keeps the climbing-over-terrain feature of SRS.\n\nThe final kick offset's euclidean distance can't be larger than sqrt(5) and if there is a horizontal offset, the final kick offset can't be in the opposite direction.",--todo
 	},
 	{"C2RS",
 		"c2rs",
 		"term",
-		"",--todo
-	},
-	{"C2sym",
-		"c2sym",
-		"term",
-		"",--todo
+		"Cultris II rotation system, a rotation system used in the Tetris clone Cultris II.\nAll rotations and all pieces share the same kick table (left, right, down, down-left, down-right, left 2, right 2), with left priortizing over right.\n\nIn Techmino, C2sym is a modification to this rotation system that chooses whether to check left or right first depending on the piece and rotation.",
 	},
 	{"DRS",
 		"drs dtetrotationsystem",
@@ -395,12 +385,7 @@ return{
 	{"SRS",
 		"srs superrotationsystem",
 		"term",
-		"Super Rotation System\nThe rotation system used in modern, official Tetris games.\nEach Tetrimino has a rotation center for the piece to rotate around. Should a Tetrimino overlap with the wall, floor or another mino on the field after rotation, a few offset positions will be checked, allowing pieces to kick off walls and floors. This also allows pieces to rotate into openings that are otherwise unreachable.",
-	},
-	{"SRS+",
-		"srs+ srsplus superrotationsystem",
-		"term",
-		"",--todo
+		"Super Rotation System\nThe rotation system used in modern, official Tetris games.\nEach Tetrimino has a rotation center for the piece to rotate around. Should a Tetrimino overlap with the wall, floor or another mino on the field after rotation, a few offset positions will be checked, allowing pieces to kick off walls and floors. This also allows pieces to rotate into openings that are otherwise unreachable.\n\nMany unofficial games implement some modification of this rotation system that adds a kick for 180 spins. In Techmino, such a modification is called SRS+.",
 	},
 	{"TRS",
 		"trs techminorotationsystem",
@@ -410,7 +395,7 @@ return{
 	{"XRS",
 		"xrs",
 		"term",
-		"",--todo
+		"X rotation system, a rotation system used in T-ex.\n\nIt introduced a feature to \"use another kick table if you hold a direction key\", making it possible for players to tell the game where they want the piece to go.",--todo
 	},
 
 	{"Back to Back",
