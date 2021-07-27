@@ -1,3 +1,4 @@
+local find=string.find
 local next,type=next,type
 local TABLE={}
 
@@ -36,7 +37,7 @@ function TABLE.copy(org)
 	return L
 end
 
---For all things in new if same type in base, push to old
+--For all things in new if same type in old, push to old
 function TABLE.update(new,old)
 	for k,v in next,new do
 		if type(v)==type(old[k])then
@@ -49,7 +50,7 @@ function TABLE.update(new,old)
 	end
 end
 
---For all things in new if no val in base, push to old
+--For all things in new if no val in old, push to old
 function TABLE.complete(new,old)
 	for k,v in next,new do
 		if type(v)=='table'then
@@ -96,7 +97,6 @@ end
 
 --Dump a simple lua table
 do--function TABLE.dump(L,t)
-	local find=string.find
 	local tabs={
 		[0]="",
 		"\t",
@@ -151,7 +151,6 @@ end
 
 --Dump a simple lua table (no whitespaces)
 do--function TABLE.dumpDeflate(L,t)
-	local find=string.find
 	local function dump(L)
 		local s="return{"
 		if type(L)~='table'then return end

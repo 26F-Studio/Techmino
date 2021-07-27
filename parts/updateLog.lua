@@ -41,6 +41,7 @@ return STRING.split([=[
 				新增小亚(xiaoya)语音包
 				旋转系统新增BiRS(Bias RS)(实验性),ASC,ASCplus(添加180度踢墙,实验性)
 				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
+				自定义游戏的序列任务场地等数据退出保存
 		改动:
 				更换更简洁的加载动画,合并intro场景
 				调整TRS中S5和Z5的踢墙表,增加Ospin时SZ按反的尝试
