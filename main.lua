@@ -279,8 +279,8 @@ do
 	if RANKS.infinite then RANKS.infinite=0 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=0 end
 	if not RANKS.sprint_10l then RANKS.sprint_10l=0 needSave=true end
-	if RANKS.master_l then RANKS.master_l=0 needSave=true end
-	if RANKS.master_u then RANKS.master_u=0 needSave=true end
+	if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
+	if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
 	for k in next,RANKS do
 		if type(k)=='number'then
 			RANKS[k]=nil
