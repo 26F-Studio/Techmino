@@ -81,8 +81,24 @@ PLY=		require'parts.player'
 netPLY=		require'parts.netPlayer'
 MODES=		require'parts.modes'
 
---Initialize field[1]
-FIELD[1]=DATA.newBoard()
+--Initialize field
+local fieldData=FILE.load('conf/customBoards')
+if fieldData then
+	fieldData=STRING.split(fieldData,"!")
+	for i=1,#fieldData do
+		DATA.pasteBoard(fieldData[i],i)
+	end
+else
+	FIELD[1]=DATA.newBoard()
+end
+DATA.pasteSequence(FILE.load('conf/customSequence'))
+DATA.pasteMission(FILE.load('conf/customMissions'))
+local customData=FILE.load('conf/customEnv')--gameEnv for cutsom game
+if customData or CUSTOMENV.version~=VERSION.code then
+	TABLE.complete(customData,CUSTOMENV)
+end
+TABLE.complete(require"parts.customEnv0",CUSTOMENV)
+
 
 --First start for phones
 if not fs.getInfo('conf/settings')and MOBILE then

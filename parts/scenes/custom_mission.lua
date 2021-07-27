@@ -15,6 +15,9 @@ function scene.sceneInit()
 	cur=#MISSION
 	sure=0
 end
+function scene.sceneBack()
+	FILE.save(DATA.copyMission(),'conf/customMissions')
+end
 
 local missionEnum=missionEnum
 local legalInput={Z=true,S=true,J=true,L=true,T=true,O=true,I=true,A=true,_=true,P=true}

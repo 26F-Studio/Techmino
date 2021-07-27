@@ -118,6 +118,9 @@ function scene.sceneInit()
 	demo=false
 	page=1
 end
+function scene.sceneBack()
+	FILE.save(DATA.copyBoards(),'conf/customBoards')
+end
 
 function scene.mouseMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)

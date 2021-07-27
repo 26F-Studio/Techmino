@@ -13,6 +13,9 @@ function scene.sceneInit()
 	cur=#BAG
 	sure=0
 end
+function scene.sceneBack()
+	FILE.save(DATA.copySequence(),'conf/customSequence')
+end
 
 local minoKey={
 	['1']=1,['2']=2,['3']=3,['4']=4,['5']=5,['6']=6,['7']=7,
