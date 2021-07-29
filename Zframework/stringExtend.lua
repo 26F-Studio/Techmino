@@ -2,6 +2,7 @@ local data=love.data
 local STRING={}
 local int,format=math.floor,string.format
 local find,sub,upper=string.find,string.sub,string.upper
+local char,byte=string.char,string.byte
 
 do--function STRING.shiftChar(c)
 	local shiftMap={
@@ -79,6 +80,33 @@ do--function STRING.urlEncode(s)
 		end
 		return out
 	end
+end
+
+function STRING.vcsEncrypt(text,key)
+	local keyLen=#key
+	local result=""
+	local buffer=""
+	for i=0,#text-1 do
+		buffer=buffer..char((byte(text,i+1)-32+byte(key,i%keyLen+1))%95+32)
+		if #buffer==26 then
+			result=result..buffer
+			buffer=""
+		end
+	end
+	return result..buffer
+end
+function STRING.vcsDecrypt(text,key)
+	local keyLen=#key
+	local result=""
+	local buffer=""
+	for i=0,#text-1 do
+		buffer=buffer..char((byte(text,i+1)-32-byte(key,i%keyLen+1))%95+32)
+		if #buffer==26 then
+			result=result..buffer
+			buffer=""
+		end
+	end
+	return result..buffer
 end
 
 function STRING.readLine(str)
