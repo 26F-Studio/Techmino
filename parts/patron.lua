@@ -42,7 +42,7 @@ return{
 	{font=25,name="夏小亚"},
 	{font=25,name="仁参"},
 	{font=25,name="乐↗乐↘"},
-	{font=25,name="喜欢c4w的ztcjoin"},
+	{font=25,name="开挂被封的ztcjoin"},
 	{font=25,name="面包"},
 	{font=25,name="蠢熏"},
 	{font=25,name="潘一栗"},
