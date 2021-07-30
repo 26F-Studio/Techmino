@@ -15,6 +15,47 @@ local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 local kickList=require"parts.kickList"
 local ply_draw=require"parts.player.draw"
 local ply_update=require"parts.player.update"
+--------------------State Storing-----------------------
+-- from my crude observations, these stuff shouldn't be touched upon.
+local blacklist = {
+	freeze = true,
+	keyPressing = true,
+	lastRecv = true,
+	atker = true,
+	atking = true
+}
+
+function DeepCopy (orig, i)
+	i = i or 0
+	if i > 20 then
+		print("Warning: Deeply nested structure or cyclic reference detected.")
+		return
+	end  -- safety belt
+	local orig_type = type(orig)
+	local copy
+	if orig_type == 'table' then
+		copy = {}
+		for orig_key, orig_value in next, orig, nil do
+			if not blacklist[orig_key] then
+				if orig_key == "moving" or orig_key == "downing" then
+					copy[orig_key] = 0
+				end
+				copy[DeepCopy(orig_key, i+1)] = DeepCopy(orig_value, i+1)
+			end
+		end
+		setmetatable(copy, DeepCopy(getmetatable(orig)))
+	else
+		copy = orig
+	end
+	return copy
+end
+
+function Assign (orig, dest)
+	for orig_key, orig_value in next, orig, nil do
+		dest[orig_key] = orig_value
+	end
+	setmetatable(dest, DeepCopy(getmetatable(orig)))
+end
 
 --------------------------<FX>--------------------------
 function Player:showText(text,dx,dy,font,style,spd,stop)
@@ -809,6 +850,9 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 	else
 		self:hold()
 	end
+	if self.gameEnv.fineRewind then
+		self.freeze = DeepCopy(self)
+	end
 end
 
 function Player:cancel(N)--Cancel Garbage
@@ -1143,6 +1187,11 @@ do--Player.drop(self)--Place piece
 				else
 					SFX.play('lock',nil,self:getCenterX()*.15)
 				end
+			end
+			-- Zawarudo
+			if ENV.fineRewind and self.freeze then
+				Assign(DeepCopy(self.freeze), self)
+				return
 			end
 		elseif self.sound then
 			SFX.play('lock',nil,self:getCenterX()*.15)

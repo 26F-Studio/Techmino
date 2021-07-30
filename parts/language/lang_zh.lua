@@ -133,6 +133,7 @@ return{
 		customSeq="指定序列:\n强制使用某种序列",
 		pushSpeed="涨行速度:\n改变垃圾行升起的速度(单位:格/帧)",
 		boneBlock="骨块:\n使用骨块进行游戏",
+		finesseRewind="极简回溯：\n非极简操作将会回溯到出块时刻\n（多人/AI/自攻自受模式中不稳定）"
 	},
 	pauseStat={
 		"时间:",

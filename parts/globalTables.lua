@@ -141,6 +141,12 @@ MODOPT={--Mod options
 		func=function(P,O)P.gameEnv.bone=O=='on'end,
 		unranked=true,
 	},
+	{no=22,id="FR",name="finesseRewind",
+		key=",",x=1040,y=470,color='Y',
+		list={'on','off'},
+		func=function(P,O)P.gameEnv.fineRewind=O=='on'end,
+		unranked=true,
+	},
 }
 for i=1,#MODOPT do
 	local M=MODOPT[i]

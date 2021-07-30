@@ -133,6 +133,7 @@ return{
 		customSeq="Randomizer\nOverrides the randomizer for the block sequence.",
 		pushSpeed="Garbage Speed\nOverride the rising speed of garbage lines (blocks/frame).",
 		boneBlock="[ ]\nPlay with [ ] blocks.",
+		finesseRewind="Finesse Rewind\nFinesse fault resets time.\n(This mod is unstable in multiplayer/AI combat/backfire mode.)"
 	},
 	pauseStat={
 		"Time:",
