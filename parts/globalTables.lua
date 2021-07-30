@@ -143,8 +143,8 @@ MODOPT={--Mod options
 	},
 	{no=22,id="FR",name="finesseRewind",
 		key=",",x=1040,y=470,color='Y',
-		list={'on','off'},
-		func=function(P,O)P.gameEnv.fineRewind=O=='on'end,
+		list={'easy','strict'},
+		func=function(P,O)P.gameEnv.fineRewind=O end,
 		unranked=true,
 	},
 }

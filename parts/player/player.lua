@@ -15,8 +15,8 @@ local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 local kickList=require"parts.kickList"
 local ply_draw=require"parts.player.draw"
 local ply_update=require"parts.player.update"
---------------------State Storing-----------------------
--- from my crude observations, these stuff shouldn't be touched upon.
+--------------------<Utility>-----------------------
+-- from my crude observations, these stuff in the blacklist shouldn't be touched upon.
 local blacklist = {
 	freeze = true,
 	keyPressing = true,
@@ -27,17 +27,14 @@ local blacklist = {
 
 function DeepCopy (orig, i)
 	i = i or 0
-	if i > 20 then
-		print("Warning: Deeply nested structure or cyclic reference detected.")
-		return
-	end  -- safety belt
+	if i > 20 then return end  -- safety belt
 	local orig_type = type(orig)
 	local copy
 	if orig_type == 'table' then
 		copy = {}
 		for orig_key, orig_value in next, orig, nil do
 			if not blacklist[orig_key] then
-				if orig_key == "moving" or orig_key == "downing" then
+				if orig_key == 'moving' or orig_key == 'downing' then
 					copy[orig_key] = 0
 				end
 				copy[DeepCopy(orig_key, i+1)] = DeepCopy(orig_value, i+1)
@@ -54,8 +51,9 @@ function Assign (orig, dest)
 	for orig_key, orig_value in next, orig, nil do
 		dest[orig_key] = orig_value
 	end
-	setmetatable(dest, DeepCopy(getmetatable(orig)))
+	setmetatable(dest, getmetatable(orig))
 end
+-----------------------</Utility>-----------------------
 
 --------------------------<FX>--------------------------
 function Player:showText(text,dx,dy,font,style,spd,stop)
@@ -1189,7 +1187,7 @@ do--Player.drop(self)--Place piece
 				end
 			end
 			-- Zawarudo
-			if ENV.fineRewind and self.freeze then
+			if ENV.fineRewind=='strict' and self.freeze then
 				Assign(DeepCopy(self.freeze), self)
 				return
 			end
@@ -1199,6 +1197,10 @@ do--Player.drop(self)--Place piece
 
 		if finePts<=1 then
 			self.finesseCombo=0
+			if ENV.fineRewind=='easy' and self.freeze then
+				Assign(DeepCopy(self.freeze), self)
+				return
+			end
 		else
 			self.finesseCombo=self.finesseCombo+1
 			if self.finesseCombo>2 then
