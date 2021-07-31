@@ -34,6 +34,15 @@ return function(name,libName)
 			return
 		end
 		return libFunc()
+	elseif SYSTEM=="OS X" then
+		local rtn = package.loadlib(libName["OS X"], libName.libFunc)
+		if rtn then
+			local a = rtn()
+			MES.new('check',name.." lib loaded")
+			return a
+		else
+			MES.new('error',"Cannot load "..name)
+		end
 	else
 		MES.new('error',"No "..name.." for "..SYSTEM)
 		return
