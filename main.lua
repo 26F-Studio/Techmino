@@ -81,7 +81,7 @@ PLY=		require'parts.player'
 netPLY=		require'parts.netPlayer'
 MODES=		require'parts.modes'
 
---Initialize field
+--Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=FILE.load('conf/customBoards')
 if fieldData then
 	fieldData=STRING.split(fieldData,"!")
@@ -91,12 +91,12 @@ if fieldData then
 else
 	FIELD[1]=DATA.newBoard()
 end
-DATA.pasteSequence(FILE.load('conf/customSequence'))
-DATA.pasteMission(FILE.load('conf/customMissions'))
-local customData=FILE.load('conf/customEnv')--gameEnv for cutsom game
-if customData or CUSTOMENV.version~=VERSION.code then
-	TABLE.complete(customData,CUSTOMENV)
-end
+local sequenceData=FILE.load('conf/customSequence')
+if sequenceData then DATA.pasteSequence(sequenceData)end
+local missionData=FILE.load('conf/customMissions')
+if missionData then DATA.pasteMission(missionData)end
+local customData=FILE.load('conf/customEnv')
+if customData or CUSTOMENV.version~=VERSION.code then TABLE.complete(customData,CUSTOMENV)end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
 
