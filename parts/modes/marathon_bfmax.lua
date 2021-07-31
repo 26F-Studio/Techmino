@@ -44,6 +44,7 @@ return{
 		mStr(P.stat.row,69,320)
 		mStr(P.modeData.target,69,370)
 		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawTargetLine(P,200-P.stat.row)
 	end,
 	getRank=function(P)
 		local L=P.stat.row
