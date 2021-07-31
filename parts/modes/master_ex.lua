@@ -49,6 +49,8 @@ return{
 		mText(drawableText.grade,69,170)
 		setFont(55)
 		mStr(P.modeData.rankName,69,110)
+		setFont(20)
+		mStr(("%.1f"):format(P.modeData.rankPoint/10),69,198)
 		setFont(75)
 		mStr(P.stat.row,69,220)
 		mStr(P.stat.clears[4],69,340)
