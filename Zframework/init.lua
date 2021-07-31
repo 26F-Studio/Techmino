@@ -149,10 +149,13 @@ end
 function love.mousereleased(x,y,k,touch)
 	if touch or SCN.swapping then return end
 	mx,my=ITP(xOy,x,y)
-	WIDGET.release(mx,my)
-	if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
-	if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<62 then
-		SCN.mouseClick(mx,my,k)
+	if WIDGET.sel then
+		WIDGET.release(mx,my)
+	else
+		if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
+		if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<62 then
+			SCN.mouseClick(mx,my,k)
+		end
 	end
 end
 function love.wheelmoved(x,y)
