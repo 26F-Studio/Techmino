@@ -282,18 +282,19 @@ do
 		needSave=true
 		love.event.quit('restart')
 	end
-	if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'needSave=true end
-	if SETTING.RS=='ZRS'or SETTING.RS=='BRS'then SETTING.RS='BiRS'needSave=true end
-	if not SETTING.VKSkin then SETTING.VKSkin=1 end
-	if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
-	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then SETTING.frameMul=100 end
-	for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
 	SETTING.appLock=nil
 	SETTING.dataSaving=nil
+	if not SETTING.VKSkin then SETTING.VKSkin=1 end
+	for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
+	if SETTING.RS=='ZRS'or SETTING.RS=='BRS'then SETTING.RS='BiRS'end
+	if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'end
+	if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
+	if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then SETTING.frameMul=100 end
+
 	for _,v in next,VK_org do v.color=nil end
 	if RANKS.infinite then RANKS.infinite=0 end
 	if RANKS.infinite_dig then RANKS.infinite_dig=0 end
-	if not RANKS.sprint_10l then RANKS.sprint_10l=0 needSave=true end
+	if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
 	if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
 	if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
 	for k in next,RANKS do
