@@ -11,6 +11,7 @@ local _CC=LOADLIB('CC',{
 	Windows="CCloader",
 	Linux="CCloader",
 	Android="libCCloader.so",
+	["OS X"]="CCloader.dylib",
 	libFunc="luaopen_CCloader",
 })cc=nil
 if type(_CC)=='table'then
