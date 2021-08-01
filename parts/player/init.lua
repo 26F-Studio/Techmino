@@ -350,9 +350,9 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.splashFX==0 then	ENV.splashFX=false	end
 	if ENV.shakeFX==0 then	ENV.shakeFX=false	end
 	if ENV.atkFX==0 then	ENV.atkFX=false		end
-	if ENV.ghost==0 then	ENV.ghost=false	end
-	if ENV.grid==0 then		ENV.grid=false end
-	if ENV.center==0 then	ENV.center=false end
+	if ENV.ghost==0 then	ENV.ghost=false		end
+	if ENV.grid==0 then		ENV.grid=false		end
+	if ENV.center==0 then	ENV.center=false	end
 end
 --------------------------</Libs>--------------------------
 
@@ -408,7 +408,6 @@ function PLY.newRemotePlayer(id,mini,ply)
 	loadRemoteEnv(P,ply.config)
 	applyGameEnv(P)
 end
-
 function PLY.newAIPlayer(id,AIdata,mini)
 	local P=newEmptyPlayer(id,mini)
 	P.type='computer'

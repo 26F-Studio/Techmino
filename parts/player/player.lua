@@ -222,7 +222,7 @@ function Player:setInvisible(time)--Time in frames
 	end
 end
 function Player:setRS(RSname)
-	self.RS=kickList[RSname]
+	self.RS=kickList[RSname]or kickList.TRS
 end
 
 function Player:getHolePos()--Get a good garbage-line hole position
