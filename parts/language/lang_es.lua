@@ -260,9 +260,6 @@ return{
 			holdCount="Reserva",
 			infHold="Reserva Inft.",
 			phyHold="Reserva Limit.",
-
-			bg="Fundo",
-			bgm="Música",
 		},
 		net_game={
 			ready="Estoy Listo",

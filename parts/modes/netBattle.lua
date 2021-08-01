@@ -8,9 +8,11 @@ local function marginTask(P)
 end
 return{
 	color=COLOR.white,
-	env={},
+	env={
+		bg={'bg1','bg2','blackhole','blockfall','blockrain','blockspace','cubes','fan','flink','glow','lightning','matrix','rainbow','rainbow2','rgb','tunnel','welcome'},
+		bgm={'battle','beat5th','cruelty','distortion','echo','far','final','here','hope','memory','moonbeam','push','rectification','secret7th remix','secret7th','secret8th remix','secret8th','shift','shining terminal','storm','super7th','there','truth','vapor','warped','waterfall'},
+	},
 	load=function()
-		TABLE.clear(GAME.modeEnv)
 		for k,v in next,NET.roomState.roomData do
 			GAME.modeEnv[k]=v
 		end

@@ -284,9 +284,6 @@ return{
 			holdCount="Segurar",
 			infHold="Segurar Infinito",
 			-- phyHold="Physical Hold",
-
-			bg="Fundo",
-			bgm="Música",
 		},
 		net_game={
 			-- ready="Ready",

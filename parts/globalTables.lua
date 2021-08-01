@@ -237,10 +237,6 @@ ROOMENV={
 	b2bKill=false,
 	easyFresh=true,
 	deepDrop=false,
-
-	--Else
-	bg='blockfall',
-	bgm='battle',
 }
 SETTING={--Settings
 	--Tuning

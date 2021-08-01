@@ -256,9 +256,6 @@ return{
 			holdCount="Réserve",
 			infHold="Réserver une fois",
 			-- phyHold="Physical Hold",
-
-			bg="Arrière-plan",
-			bgm="Musique",
 		},
 		net_game={
 			-- ready="Ready",

@@ -105,10 +105,6 @@ scene.widgetList={
 	WIDGET.newSlider{name="holdCount",	x=120,y=1030,w=200,unit=6,	disp=ROOMval("holdCount"),code=ROOMsto("holdCount")},
 	WIDGET.newSwitch{name="infHold",	x=560,y=940,				disp=ROOMval("infHold"),code=ROOMrev("infHold"),hideF=function()return ROOMENV.holdCount==0 end},
 	WIDGET.newSwitch{name="phyHold",	x=560,y=1030,				disp=ROOMval("phyHold"),code=ROOMrev("phyHold"),hideF=function()return ROOMENV.holdCount==0 end},
-
-	--BG & BGM
-	WIDGET.newSelector{name="bg",		x=840,	y=1030,w=250,color='Y',list=BG.getList(),disp=ROOMval("bg"),code=function(i)ROOMENV.bg=i BG.set(i)end},
-	WIDGET.newSelector{name="bgm",		x=1120,	y=1030,w=250,color='Y',list=BGM.getList(),disp=ROOMval("bgm"),code=function(i)ROOMENV.bgm=i BGM.play(i)end},
 }
 
 return scene

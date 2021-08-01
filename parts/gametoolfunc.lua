@@ -528,7 +528,9 @@ do--function resetGameData(args)
 				MES.new('error',"Wrong task type")
 			end
 		end
-		BG.set(GAME.modeEnv.bg)
+
+		local bg=GAME.modeEnv.bg
+		BG.set(type(bg)=='string'and bg or type(bg)=='table'and bg[math.random(#bg)])
 		local bgm=GAME.modeEnv.bgm
 		BGM.play(type(bgm)=='string'and bgm or type(bgm)=='table'and bgm[math.random(#bgm)])
 

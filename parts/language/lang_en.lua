@@ -294,9 +294,6 @@ return{
 			holdCount="Hold",
 			infHold="Infinite Hold",
 			phyHold="In-place Hold",
-
-			bg="Background",
-			bgm="Music",
 		},
 		net_game={
 			ready="Ready",
