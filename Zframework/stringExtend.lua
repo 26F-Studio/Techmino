@@ -111,7 +111,11 @@ end
 
 function STRING.readLine(str)
 	local p=str:find("\n")
-	return str:sub(1,p-1),str:sub(p+1)
+	if p then
+		return str:sub(1,p-1),str:sub(p+1)
+	else
+		return str,""
+	end
 end
 
 function STRING.packBin(s)
