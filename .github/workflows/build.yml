@@ -86,3 +86,26 @@ jobs:
       with:
         name: Android
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
+  build-macOS:
+    runs-on: macos-10.15
+    steps:
+    - uses: actions/checkout@v2
+    - name: Pack love
+      run : zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua
+    - name: Download template
+      run: |
+        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
+        unzip Techmino.app.zip
+    - name: Modify template
+      run: |
+        python3 .github/workflows/updateOSXVersion.py
+        mv Techmino.love Techmino.app/Contents/Resources
+    - name: Pack Techmino
+      run: |
+        zip -r -y Techmino-Packed.app.zip Techmino.app
+    - name: Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: macOS
+        path: Techmino-Packed.app.zip
