@@ -123,7 +123,6 @@ local loadingThread=coroutine.wrap(function()
 	--Connect to server
 	NET.wsconn_app()
 
-	SFX.play('emit',.6)
 	SFX.play('enter',.8)
 	SFX.play('welcome_sfx')
 	VOC.play('welcome_voc')
@@ -152,7 +151,7 @@ scene.touchDown=scene.mouseDown
 function scene.keyDown(key)
 	if key=="escape"then
 		love.event.quit()
-	elseif LOADED then
+	else
 		scene.mouseDown()
 	end
 end
