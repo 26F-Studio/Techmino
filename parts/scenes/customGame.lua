@@ -88,7 +88,8 @@ function scene.keyDown(key,isRep)
 			TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
 			FIELD[1]=DATA.newBoard()
 			freshMiniFieldVisible()
-			TABLE.update(require"parts.customEnv0",CUSTOMENV)
+			TABLE.clear(CUSTOMENV)
+			TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 			for _,W in next,scene.widgetList do W:reset()end
 			sure=0
 			SFX.play('finesseError',.7)

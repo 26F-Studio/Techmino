@@ -96,7 +96,7 @@ if sequenceData then DATA.pasteSequence(sequenceData)end
 local missionData=FILE.load('conf/customMissions')
 if missionData then DATA.pasteMission(missionData)end
 local customData=FILE.load('conf/customEnv')
-if customData or CUSTOMENV.version~=VERSION.code then TABLE.complete(customData,CUSTOMENV)end
+if customData and customData.version==VERSION.code then TABLE.complete(customData,CUSTOMENV)end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
 
