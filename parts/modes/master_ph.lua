@@ -143,7 +143,7 @@ return{
 		missionKill=true,
 		freshLimit=12,
 		noInitSZO=true,
-		bg='none',bgm='super7th',
+		bg='blockspace',bgm='super7th',
 	},
 	slowMark=true,
 	load=function()
