@@ -369,7 +369,9 @@ end
 function NET.freshPlayerCount()
 	while WS.status('app')=='running'do
 		for _=1,260 do yield()end
-		WS.send('app',JSON.encode{action=3})
+		if NET.lock('freshPlayerCount',10)then
+			WS.send('app',JSON.encode{action=3})
+		end
 	end
 end
 function NET.updateWS_app()
@@ -399,7 +401,7 @@ function NET.updateWS_app()
 						end
 						MES.new('broadcast',res.notice,5)
 						NET.tryLogin(true)
-						-- TASK.new(NET.freshPlayerCount)
+						TASK.new(NET.freshPlayerCount)
 					elseif res.action==0 then--Broadcast
 						MES.new('broadcast',res.data.message,5)
 					elseif res.action==1 then--Get notice
@@ -419,6 +421,7 @@ function NET.updateWS_app()
 						NET.PlayCount=res.data.Play
 						NET.StreamCount=res.data.Stream
 						--res.data.Chat
+						NET.unlock('freshPlayerCount')
 					end
 				else
 					WS.alert('app')
