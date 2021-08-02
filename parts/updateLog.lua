@@ -34,10 +34,11 @@ return STRING.split([=[
 0.16.0: 空间站 Space station
 		新增:
 				新模式:TSD-Ultimate
+				新模式:Stack #142
 				新BGM:Beat5th(用于竞速五连块)
-				新BGM:Here(用于生存第五难度)
-				新BGM:Shift(用于生存第三/四难度)
-				新BGM:There(用于挖掘)
+				新BGM:Here(用于生存第四/五难度)
+				新BGM:Shift(用于挖掘)
+				新BGM:There(用于堆积)
 				新BGM:Secret8th Remix(用于master-hard)
 				新增小亚(xiaoya)语音包
 				旋转系统新增BiRS(Bias RS)(实验性),ASC,ASCplus(添加180度踢墙,实验性)
