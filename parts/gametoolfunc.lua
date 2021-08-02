@@ -43,16 +43,6 @@ do--function applyXxxSatur(mode)
 		SHADER.fieldSatur:send('k',m[2])
 	end
 end
-function muteAll()
-	SETTING.sfx=0
-	SETTING.sfx_spawn=0
-	SETTING.sfx_warn=0
-	SETTING.bgm=0
-	SETTING.vib=0
-	SETTING.voc=0
-	BGM.freshVolume()
-end
-
 
 --Royale mode
 function randomTarget(P)--Return a random opponent for P
