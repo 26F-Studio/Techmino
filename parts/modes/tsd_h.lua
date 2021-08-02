@@ -12,8 +12,8 @@ end
 return{
 	color=COLOR.magenta,
 	env={
-		drop=60,lock=60,
-		freshLimit=15,
+		drop=30,lock=60,
+		freshLimit=8,
 		dropPiece=check_tsd,
 		ospin=false,
 		bg='matrix',bgm='vapor',
@@ -33,11 +33,11 @@ return{
 	getRank=function(P)
 		local T=P.modeData.tsd
 		return
-		T>=21 and 5 or
-		T>=19 and 4 or
-		T>=16 and 3 or
-		T>=13 and 2 or
-		T>=10 and 1 or
+		T>=20 and 5 or
+		T>=18 and 4 or
+		T>=15 and 3 or
+		T>=10 and 2 or
+		T>=4 and 1 or
 		T>=1 and 0
 	end,
 }
