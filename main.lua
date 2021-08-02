@@ -283,6 +283,7 @@ do
 		if temp1 then fs.write('record/master_u.rec',temp1)end
 		if temp2 then fs.write('record/master_l.rec',temp2)end
 		RANKS.master_l,RANKS.master_u=RANKS.master_u,RANKS.master_l
+		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
 	end
 	if STAT.version~=VERSION.code then

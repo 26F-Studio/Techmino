@@ -1,8 +1,16 @@
+local gc=love.graphics
 local function check_tsd(P)
 	local C=P.lastPiece
 	if C.row>0 then
 		if C.id==5 and C.row==2 and C.spin then
 			P.modeData.tsd=P.modeData.tsd+1
+			if TABLE.find(P.modeData.history,C.centX)then
+				P:showText("STACK",0,-140,40,'flicker',.3)
+				P:lose()
+			else
+				table.insert(P.modeData.history,1,C.centX)
+				P.modeData.history[5]=nil
+			end
 		else
 			P:lose()
 		end
@@ -15,6 +23,7 @@ return{
 		drop=60,lock=60,
 		freshLimit=15,
 		dropPiece=check_tsd,
+		task=function(P)P.modeData.history={}end,
 		ospin=false,
 		bg='matrix',bgm='vapor',
 	},
@@ -26,6 +35,14 @@ return{
 		setFont(65)
 		mStr(P.modeData.tsd,69,250)
 		mText(drawableText.tsd,69,315)
+		gc.push('transform')
+		PLY.draw.applyFieldOffset(P)
+		local L=P.modeData.history
+		for i=1,#L do
+			gc.setColor(1,.5,.5,.3-i*.05)
+			gc.rectangle('fill',30*L[i]-30,0,30,600)
+		end
+		gc.pop()
 	end,
 	score=function(P)return{P.modeData.tsd,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."TSD   "..STRING.time(D[2])end,
@@ -36,8 +53,8 @@ return{
 		T>=20 and 5 or
 		T>=18 and 4 or
 		T>=16 and 3 or
-		T>=14 and 2 or
-		T>=12 and 1 or
-		T>=1 and 0
+		T>=13 and 2 or
+		T>=10 and 1 or
+		T>=4 and 0
 	end,
 }
