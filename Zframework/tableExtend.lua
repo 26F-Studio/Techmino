@@ -37,6 +37,13 @@ function TABLE.copy(org)
 	return L
 end
 
+--For all things in new, push to old
+function TABLE.cover(new,old)
+	for k,v in next,new do
+		old[k]=v
+	end
+end
+
 --For all things in new if same type in old, push to old
 function TABLE.update(new,old)
 	for k,v in next,new do
