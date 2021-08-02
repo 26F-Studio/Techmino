@@ -1,20 +1,24 @@
 return{
 	{name='sprint_10l',		x=0,	y=0,	size=40,shape=1,icon="sprint1",	unlock={'sprint_20l','sprint_40l'}},
-	{name='sprint_20l',		x=-200,	y=0,	size=50,shape=1,icon="sprint1"},
-	{name='sprint_40l',		x=0,	y=-300,	size=40,shape=1,icon="sprint2",	unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH'}},
-	{name='sprint_100l',	x=-200,	y=-200,	size=50,shape=1,icon="sprint2",	unlock={'sprint_400l','drought_n'}},
-	{name='sprint_400l',	x=-400,	y=-200,	size=40,shape=1,icon="sprint3",	unlock={'sprint_1000l'}},
-	{name='sprint_1000l',	x=-600,	y=-200,	size=40,shape=1,icon="sprint3"},
+	{name='sprint_20l',		x=-200,	y=200,	size=50,shape=1,icon="sprint1"},
+	{name='sprint_40l',		x=0,	y=-300,	size=40,shape=1,icon="sprint2",	unlock={'dig_10l','sprint_100l','marathon_n','sprintPenta','sprintMPH','stack_20l'}},
+	{name='sprint_100l',	x=-200,	y=0,	size=50,shape=1,icon="sprint2",	unlock={'sprint_400l','drought_n'}},
+	{name='sprint_400l',	x=-400,	y=0,	size=40,shape=1,icon="sprint3",	unlock={'sprint_1000l'}},
+	{name='sprint_1000l',	x=-600,	y=0,	size=40,shape=1,icon="sprint3"},
 
 	{name='sprintPenta',	x=210,	y=-370,	size=40,shape=3,icon="tech"},
 	{name='sprintMPH',		x=210,	y=-230,	size=40,shape=3,icon="tech"},
 
-	{name='drought_n',		x=-400,	y=0,	size=40,shape=1,icon="drought",	unlock={'drought_l'}},
-	{name='drought_l',		x=-600,	y=0,	size=40,shape=1,icon="mess"},
+	{name='drought_n',		x=-400,	y=200,	size=40,shape=1,icon="drought",	unlock={'drought_l'}},
+	{name='drought_l',		x=-600,	y=200,	size=40,shape=1,icon="drought"},
 
-	{name='dig_10l',		x=-200,	y=-400,	size=40,shape=1,icon="dig_sprint",unlock={'dig_40l'}},
-	{name='dig_40l',		x=-400,	y=-400,	size=40,shape=1,icon="dig_sprint",unlock={'dig_100l'}},
-	{name='dig_100l',		x=-600,	y=-400,	size=40,shape=1,icon="dig_sprint",unlock={'dig_400l'}},
+	{name='stack_20l',		x=-200,	y=-400,	size=40,shape=1,icon="mess",	unlock={'stack_40l'}},
+	{name='stack_40l',		x=-400,	y=-400,	size=40,shape=1,icon="mess",	unlock={'stack_100l'}},
+	{name='stack_100l',		x=-600,	y=-400,	size=40,shape=1,icon="mess"},
+
+	{name='dig_10l',		x=-200,	y=-200,	size=40,shape=1,icon="dig_sprint",unlock={'dig_40l'}},
+	{name='dig_40l',		x=-400,	y=-200,	size=40,shape=1,icon="dig_sprint",unlock={'dig_100l'}},
+	{name='dig_100l',		x=-600,	y=-200,	size=40,shape=1,icon="dig_sprint",unlock={'dig_400l'}},
 	{name='dig_400l',		x=-800,	y=-200,	size=40,shape=1,icon="dig_sprint"},
 
 	{name='marathon_n',		x=0,	y=-600,	size=60,shape=1,icon="marathon",unlock={'marathon_h','rhythm_e','solo_e','round_e','blind_e','classic_fast','survivor_e','bigbang','zen'}},

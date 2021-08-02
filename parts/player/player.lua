@@ -1009,32 +1009,34 @@ do--Player.drop(self)--Place piece
 		if self.clearedRow[1]then self.clearedRow={}end
 
 		--Check line clear
-		for i=1,#CB do
-			local h=CY+i-2
+		if ENV.fillClear then
+			for i=1,#CB do
+				local h=CY+i-2
 
-			--Bomb trigger
-			if h>0 and self.field[h]and self.clearedRow[cc]~=h then
-				for x=1,#CB[1]do
-					if CB[i][x]and self.field[h][CX+x-1]==19 then
-						cc=cc+1
-						self.clearingRow[cc]=h-cc+1
-						self.clearedRow[cc]=h
-						break
+				--Bomb trigger
+				if h>0 and self.field[h]and self.clearedRow[cc]~=h then
+					for x=1,#CB[1]do
+						if CB[i][x]and self.field[h][CX+x-1]==19 then
+							cc=cc+1
+							self.clearingRow[cc]=h-cc+1
+							self.clearedRow[cc]=h
+							break
+						end
 					end
 				end
-			end
 
-			h=h+1
-			--Row filled
-			for x=1,10 do
-				if self.field[h][x]<=0 then
-					goto CONTINUE_notFull
+				h=h+1
+				--Row filled
+				for x=1,10 do
+					if self.field[h][x]<=0 then
+						goto CONTINUE_notFull
+					end
 				end
+				cc=cc+1
+				self.clearingRow[cc]=h-cc+1
+				self.clearedRow[cc]=h
+				::CONTINUE_notFull::
 			end
-			cc=cc+1
-			self.clearingRow[cc]=h-cc+1
-			self.clearedRow[cc]=h
-			::CONTINUE_notFull::
 		end
 
 		--Create clearing FX

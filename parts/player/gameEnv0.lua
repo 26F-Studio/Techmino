@@ -49,6 +49,7 @@ return{
 	visible='show',
 	freshLimit=1e99,easyFresh=true,
 	bufferLimit=1e99,
+	fillClear=true,
 
 	fkey1=false,fkey2=false,
 	keyCancel={},
