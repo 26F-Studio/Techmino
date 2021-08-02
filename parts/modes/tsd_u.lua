@@ -33,6 +33,7 @@ return{
 		mText(drawableText.tsd,69,315)
 		gc.push('transform')
 		PLY.draw.applyFieldOffset(P)
+		gc.translate(0,P.fieldBeneath+P.fieldUp)
 		local L=P.modeData.history
 		for i=1,#L do
 			gc.setColor(1,.5,.5,.3-i*.05)
