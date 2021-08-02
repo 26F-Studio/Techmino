@@ -33,6 +33,7 @@ return STRING.split([=[
 
 0.16.0: 空间站 Space station
 		新增:
+				新模式:TSD-Ultimate
 				新BGM:Beat5th(用于竞速五连块)
 				新BGM:Here(用于生存第五难度)
 				新BGM:Shift(用于生存第三/四难度)
@@ -59,6 +60,7 @@ return STRING.split([=[
 				修改debug模式鼠标位置显示方式
 				增加滑条控件测试声音的间隔
 				声音设置界面添加静音按钮
+				微调wing背景
 		代码:
 				重构WS模块,可能解决部分联网游戏中的概率thread error问题
 				升级BGM/IMG/SKIN模块,资源不再需要启动时加载好,提升加载速度节约资源占用
@@ -67,6 +69,7 @@ return STRING.split([=[
 				主循环略微优化
 		修复:
 				只有屏幕宽度异常时自动刷新窗口尺寸 #120
+				录像回放速度和按钮状态刷新问题 #159,#160
 				20G不会禁用各种软降n格键
 				das为0时预览动画不正确
 				存档转换时两个20G模式数据弄反了
