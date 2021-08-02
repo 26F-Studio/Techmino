@@ -3,14 +3,14 @@ local gc=love.graphics
 local rnd=math.random
 local back={}
 local wingColor={
-	{0., .9, .9,.26},
-	{.3, 1., .3,.26},
-	{.9, .9, 0.,.26},
-	{1., .5, 0.,.26},
-	{1., .3, .3,.26},
-	{.5, 0., 1.,.26},
-	{.3, .3, 1.,.26},
-	{0., .9, .9,.26},
+	{.3,.9,.9,.2},
+	{.5,1.,.5,.2},
+	{.9,.9,.3,.2},
+	{1.,.7,.3,.2},
+	{1.,.5,.5,.2},
+	{.7,.3,1.,.2},
+	{.5,.5,1.,.2},
+	{.3,.9,.9,.2},
 }
 local bar,crystal
 local W,H
@@ -20,7 +20,7 @@ function back.init()
 	gc.push('transform')
 	gc.origin()
 	for x=0,20 do
-		gc.setColor(1,1,1,x/11)
+		gc.setColor(1,1,1,x/5)
 		gc.rectangle('fill',x,0,1,1)
 		gc.rectangle('fill',41-x,0,1,1)
 	end
@@ -50,13 +50,13 @@ function back.update()
 end
 function back.draw()
 	gc.clear(.06,.06,.06)
-	local sy=H*.8
+	local sk,sy=SCR.k,H*.8
 	for i=1,8 do
 		gc.setColor(wingColor[i])
 		local B=crystal[i]
-		gc.draw(bar,B.x,B.y,B.a,1,sy,20,0)
+		gc.draw(bar,B.x,B.y,B.a,sk,sy,20,0)
 		B=crystal[17-i]
-		gc.draw(bar,B.x,B.y,B.a,1,sy,20,0)
+		gc.draw(bar,B.x,B.y,B.a,sk,sy,20,0)
 	end
 end
 function back.event(level)
