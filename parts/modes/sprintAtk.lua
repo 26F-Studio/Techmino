@@ -6,9 +6,6 @@ return{
 		dropPiece=function(P)if P.stat.atk>=100 then P:win('finish')end end,
 		bg='matrix',bgm='new era',
 	},
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(45)
 		mStr(("%.1f"):format(P.stat.atk),69,190)

@@ -43,11 +43,7 @@ return{
 		end,
 		bg='bg2',bgm='push',
 	},
-	pauseLimit=true,
 	slowMark=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.stat.row,69,320)

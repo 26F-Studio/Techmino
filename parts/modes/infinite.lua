@@ -5,9 +5,6 @@ return{
 		infHold=true,
 		bg='blockfall',bgm='infinite',
 	},
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(45)
 		mStr(("%.1f"):format(P.stat.atk),69,190)

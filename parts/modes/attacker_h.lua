@@ -35,10 +35,6 @@ return{
 		end,
 		bg='rainbow2',bgm='shining terminal',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(55)
 		mStr(P.modeData.wave,69,200)

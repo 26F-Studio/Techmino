@@ -26,10 +26,6 @@ return{
 		bg='fan',bgm='memory',
 	},
 	slowMark=true,
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		gc.setLineWidth(2)
 		gc.rectangle('line',55,110,32,402)

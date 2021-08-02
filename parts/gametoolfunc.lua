@@ -499,7 +499,11 @@ do--function resetGameData(args)
 		end
 
 		destroyPlayers()
-		GAME.curMode.load()
+		if GAME.curMode.load then
+			GAME.curMode.load()
+		else
+			PLY.newPlayer(1)
+		end
 		freshPlayerPosition(args:find'q')
 		VK.restore()
 		if GAME.modeEnv.task then

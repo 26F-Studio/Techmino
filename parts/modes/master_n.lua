@@ -73,9 +73,6 @@ return{
 		bg='bg1',bgm='secret8th',
 	},
 	slowMark=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(45)
 		mStr(P.modeData.pt,69,320)

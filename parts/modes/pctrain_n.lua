@@ -43,7 +43,6 @@ return{
 		RS="SRS",
 		bg='rgb',bgm='oxygen',
 	},
-	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1)
 		check(PLAYERS[1])

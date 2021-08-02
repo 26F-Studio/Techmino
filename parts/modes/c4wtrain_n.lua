@@ -25,7 +25,6 @@ return{
 		freshLimit=15,ospin=false,
 		bg='rgb',bgm='oxygen',
 	},
-	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1)
 		local P=PLAYERS[1]

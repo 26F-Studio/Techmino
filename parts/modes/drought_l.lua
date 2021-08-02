@@ -81,10 +81,6 @@ return{
 		freshLimit=15,
 		bg='blockfall',bgm='reason',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(70)
 		local R=100-P.stat.row

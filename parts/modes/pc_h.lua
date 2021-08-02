@@ -8,10 +8,6 @@ return{
 		ospin=false,
 		bg='rgb',bgm='truth',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(45)
 		local R=100-P.stat.row

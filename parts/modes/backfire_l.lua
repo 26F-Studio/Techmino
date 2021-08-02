@@ -13,10 +13,6 @@ return{
 		end,
 		bg='blackhole',bgm='echo',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(65)
 		mStr(P.stat.atk,69,310)

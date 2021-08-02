@@ -7,9 +7,6 @@ return{
 		dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
 		bg='aura',bgm='waterfall',
 	},
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(55)
 		local r=40-P.stat.row

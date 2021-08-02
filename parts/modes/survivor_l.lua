@@ -23,10 +23,6 @@ return{
 		end,
 		bg='glow',bgm='shift',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(65)
 		mStr(P.modeData.wave,69,310)

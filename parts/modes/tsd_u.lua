@@ -27,10 +27,6 @@ return{
 		ospin=false,
 		bg='matrix',bgm='vapor',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(65)
 		mStr(P.modeData.tsd,69,250)

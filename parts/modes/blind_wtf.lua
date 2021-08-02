@@ -12,7 +12,6 @@ return{
 		freshLimit=15,
 		bg='none',bgm='far',
 	},
-	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1)
 		if SETTING.sfx_spawn==0 then

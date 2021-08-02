@@ -7,7 +7,6 @@ return{
 		bufferLimit=20,
 		bg='bg2',bgm='battle',
 	},
-	pauseLimit=true,
 	load=function()
 		PLY.newPlayer(1)
 		PLY.newAIPlayer(2,AIBUILDER('9S',4))

@@ -21,10 +21,6 @@ return{
 		ospin=false,
 		bg='rgb',bgm='moonbeam',
 	},
-	pauseLimit=true,
-	load=function()
-		PLY.newPlayer(1)
-	end,
 	mesDisp=function(P)
 		setFont(70)
 		mStr(P.stat.pc,69,300)
