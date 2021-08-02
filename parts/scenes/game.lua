@@ -5,47 +5,65 @@ local GAME=GAME
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
-local floatRepRate,replayRate=0,1
+local floatRepRate,replayRate
 
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
 
 local scene={}
 
-local function showRepButtons()
-	for i=1,6 do scene.widgetList[i].hide=false end
-	scene.widgetList[7].hide=true
+local function updateRepButtons()
+	local L=scene.widgetList
+	if replaying then
+		for i=1,6 do L[i].hide=false end L[7].hide=true
+		if replayRate==0 then
+			L[1].hide=true
+			L[7].hide=false
+		elseif replayRate==.125 then
+			L[2].hide=true
+		elseif replayRate==.5 then
+			L[3].hide=true
+		elseif replayRate==1 then
+			L[4].hide=true
+		elseif replayRate==2 then
+			L[5].hide=true
+		elseif replayRate==5 then
+			L[6].hide=true
+		end
+	else
+		for i=1,7 do L[i].hide=true end
+	end
 end
 local function _rep0()
-	showRepButtons()
 	scene.widgetList[1].hide=true
 	scene.widgetList[7].hide=false
 	replayRate=0
+	updateRepButtons()
 end
 local function _repP8()
-	showRepButtons()
 	scene.widgetList[2].hide=true
 	replayRate=.125
+	updateRepButtons()
 end
 local function _repP2()
-	showRepButtons()
 	scene.widgetList[3].hide=true
 	replayRate=.5
+	updateRepButtons()
 end
 local function _rep1()
-	showRepButtons()
 	scene.widgetList[4].hide=true
 	replayRate=1
+	updateRepButtons()
 end
 local function _rep2()
-	showRepButtons()
 	scene.widgetList[5].hide=true
 	replayRate=2
+	updateRepButtons()
 end
 local function _rep5()
-	showRepButtons()
 	scene.widgetList[6].hide=true
 	replayRate=5
+	updateRepButtons()
 end
 local function _step()floatRepRate=floatRepRate+1 end
 
@@ -54,15 +72,11 @@ function scene.sceneInit()
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
-		floatRepRate,replayRate=0,1
 	end
+	floatRepRate,replayRate=0,1
 	replaying=GAME.replaying
 
-	for i=1,6 do
-		scene.widgetList[i].hide=not replaying
-	end
-	scene.widgetList[4].hide=true
-	scene.widgetList[7].hide=true
+	updateRepButtons()
 
 	noKey=replaying
 	noTouch=not SETTING.VKSwitch or noKey
@@ -146,6 +160,7 @@ function scene.keyDown(key,isRep)
 				elseif replayRate==1 then replayRate=2
 				elseif replayRate==2 then replayRate=5
 				end
+				updateRepButtons()
 			end
 		elseif key=="left"then
 			if replayRate~=0 and not isRep then
@@ -154,6 +169,7 @@ function scene.keyDown(key,isRep)
 				elseif replayRate==2 then replayRate=1
 				elseif replayRate==5 then replayRate=2
 				end
+				updateRepButtons()
 			end
 		elseif key=="escape"then
 			pauseGame()
