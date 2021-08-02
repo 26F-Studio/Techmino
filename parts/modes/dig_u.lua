@@ -18,7 +18,7 @@ return{
 				end
 			end
 		end,
-		bg='bg2',bgm='there',
+		bg='bg2',bgm='shift',
 	},
 	mesDisp=function(P)
 		setFont(65)

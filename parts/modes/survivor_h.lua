@@ -27,7 +27,7 @@ return{
 				end
 			end
 		end,
-		bg='glow',bgm='shift',
+		bg='glow',bgm='new era',
 	},
 	mesDisp=function(P)
 		setFont(65)
