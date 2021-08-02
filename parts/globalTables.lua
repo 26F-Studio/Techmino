@@ -189,18 +189,6 @@ ROYALEDATA={
 	powerUp=false,
 	stage=false,
 }
-
---Userdata tables
-RANKS=FILE.load('conf/unlock')or{sprint_10l=0}--Ranks of modes
-USER=FILE.load('conf/user')or{--User infomation
-	--Network infos
-	uid=false,
-	authToken=false,
-
-	--Local data
-	xp=0,lv=1,
-}
-
 CUSTOMENV={}
 ROOMENV={
 	--Room config
@@ -238,6 +226,18 @@ ROOMENV={
 	easyFresh=true,
 	deepDrop=false,
 }
+REPLAY={}--Replay objects (not include stream data)
+
+--Userdata tables
+USER={--User infomation
+	--Network infos
+	uid=false,
+	authToken=false,
+
+	--Local data
+	xp=0,lv=1,
+}
+
 SETTING={--Settings
 	--Tuning
 	das=10,arr=2,
@@ -313,28 +313,7 @@ SETTING={--Settings
 	VKIcon=true,--If disp icon
 	VKAlpha=.3,
 }
-local S=FILE.load('conf/settings')
-if S then TABLE.update(S,SETTING)end
-S=FILE.load('conf/data')
-if S then--Statistics
-	STAT=S
-else
-	STAT={
-		version=VERSION.code,
-		run=0,game=0,time=0,frame=0,
-		key=0,rotate=0,hold=0,
-		extraPiece=0,finesseRate=0,
-		piece=0,row=0,dig=0,
-		atk=0,digatk=0,
-		send=0,recv=0,pend=0,off=0,
-		clear={},spin={},
-		pc=0,hpc=0,b2b=0,b3b=0,score=0,
-		lastPlay='sprint_10l',--Last played mode ID
-		date=false,
-		todayTime=0,
-	}for i=1,29 do STAT.clear[i]={0,0,0,0,0,0}STAT.spin[i]={0,0,0,0,0,0,0}end
-end
-keyMap=FILE.load('conf/key')or{--Key setting
+keyMap={--Key setting
 	keyboard={
 		left=1,right=2,x=3,z=4,c=5,
 		up=6,down=7,space=8,a=9,s=10,
@@ -346,7 +325,7 @@ keyMap=FILE.load('conf/key')or{--Key setting
 		leftshoulder=0,
 	},
 }
-VK_org=FILE.load('conf/virtualkey')or{--Virtualkey layout, refresh all VKs' position with this before each game
+VK_org={--Virtualkey layout, refresh all VKs' position with this before each game
 	{ava=true,	x=80,		y=720-200,	r=80},--moveLeft
 	{ava=true,	x=320,		y=720-200,	r=80},--moveRight
 	{ava=true,	x=1280-80,	y=720-200,	r=80},--rotRight
@@ -368,4 +347,19 @@ VK_org=FILE.load('conf/virtualkey')or{--Virtualkey layout, refresh all VKs' posi
 	{ava=false,	x=900,		y=50,		r=80},--addToLeft
 	{ava=false,	x=1000,		y=50,		r=80},--addToRight
 }
-REPLAY={}--Replay objects (not include stream data)
+RANKS={sprint_10l=0}--Ranks of modes
+STAT={
+	version=VERSION.code,
+	run=0,game=0,time=0,frame=0,
+	key=0,rotate=0,hold=0,
+	extraPiece=0,finesseRate=0,
+	piece=0,row=0,dig=0,
+	atk=0,digatk=0,
+	send=0,recv=0,pend=0,off=0,
+	clear=(function()local L={}for i=1,29 do L[i]={0,0,0,0,0,0}end return L end)(),
+	spin=(function()local L={}for i=1,29 do L[i]={0,0,0,0,0,0,0}end return L end)(),
+	pc=0,hpc=0,b2b=0,b3b=0,score=0,
+	lastPlay='sprint_10l',--Last played mode ID
+	date=false,
+	todayTime=0,
+}

@@ -81,6 +81,14 @@ PLY=		require'parts.player'
 netPLY=		require'parts.netPlayer'
 MODES=		require'parts.modes'
 
+--Load settings and statistics
+TABLE.cover(FILE.load('conf/user'),USER)
+TABLE.cover(FILE.load('conf/unlock')or{},RANKS)
+TABLE.update(FILE.load('conf/settings')or{},SETTING)
+TABLE.update(FILE.load('conf/data')or{},STAT)
+TABLE.cover(FILE.load('conf/key')or{},keyMap)
+TABLE.cover(FILE.load('conf/virtualkey')or{},VK_org)
+
 --Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=FILE.load('conf/customBoards')
 if fieldData then
