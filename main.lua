@@ -82,7 +82,7 @@ netPLY=		require'parts.netPlayer'
 MODES=		require'parts.modes'
 
 --Load settings and statistics
-TABLE.cover(FILE.load('conf/user'),USER)
+TABLE.cover(FILE.load('conf/user')or{},USER)
 TABLE.cover(FILE.load('conf/unlock')or{},RANKS)
 TABLE.update(FILE.load('conf/settings')or{},SETTING)
 TABLE.update(FILE.load('conf/data')or{},STAT)
