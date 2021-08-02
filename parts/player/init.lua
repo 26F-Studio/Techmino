@@ -197,6 +197,10 @@ local function newEmptyPlayer(id,mini)
 	P.lastPiece={
 		id=0,name=0,--block id/name
 
+		curX=0,curY=0,--block position
+		centX=0,centY=0,--center position
+		dir=0,--direction
+
 		frame=-1e99,--lock time
 		autoLock=true,--if lock with gravity
 

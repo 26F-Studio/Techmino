@@ -978,6 +978,8 @@ do--Player.drop(self)--Place piece
 		local dospin,mini=0
 
 		piece.id,piece.name=C.id,C.name
+		piece.curX,piece.curY,piece.dir=self.curX,self.curY,C.dir
+		piece.centX,piece.centY=self.curX+C.sc[2],self.curY+C.sc[1]
 		piece.frame,piece.autoLock=self.frameRun,autoLock
 		self.waiting=ENV.wait
 
