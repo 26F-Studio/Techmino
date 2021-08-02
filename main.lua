@@ -27,6 +27,7 @@ MOBILE=SYSTEM=='Android'or SYSTEM=='iOS'
 SAVEDIR=fs.getSaveDirectory()
 
 --Global Vars & Settings
+FIRSTLAUNCH=false
 DAILYLAUNCH=false
 
 --System setting
@@ -265,6 +266,10 @@ end
 do
 	local needSave
 
+	if not fs.getInfo('conf/data')then
+		FIRSTLAUNCH=true
+		needSave=true
+	end
 	if type(STAT.version)~='number'then
 		STAT.version=0
 		needSave=true

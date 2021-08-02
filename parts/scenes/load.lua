@@ -144,7 +144,12 @@ end
 
 function scene.mouseDown()
 	if LOADED then
-		SCN.swapTo(SETTING.simpMode and'main_simple'or'main')
+		if FIRSTLAUNCH then
+			SCN.push('main')
+			SCN.swapTo('lang')
+		else
+			SCN.swapTo(SETTING.simpMode and'main_simple'or'main')
+		end
 	end
 end
 scene.touchDown=scene.mouseDown
