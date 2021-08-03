@@ -4,8 +4,10 @@ return{
 		drop=60,lock=60,
 		freshLimit=15,
 		fieldH=40,
+		highCam=true,
 		fillClear=false,
-		sequence='hisPool',
+		seqData={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
+		sequence='bag',
 		bg='none',bgm='there',
 	},
 	mesDisp=function(P)
@@ -18,11 +20,11 @@ return{
 	getRank=function(P)
 		local B=P.stat.piece
 		return
-		B>=105 and 5 or
-		B>=101 and 4 or
-		B>=97 and 3 or
-		B>=94 and 2 or
-		B>=90 and 1 or
+		B>=85 and 5 or
+		B>=81 and 4 or
+		B>=77 and 3 or
+		B>=72 and 2 or
+		B>=65 and 1 or
 		0
 	end,
 }
