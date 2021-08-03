@@ -84,7 +84,7 @@ function scene.keyDown(key,isRep)
 	elseif key=="m"then
 		SCN.go('custom_mission','swipeD')
 	elseif key=="delete"then
-		if sure>20 then
+		if sure>.3 then
 			TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
 			FIELD[1]=DATA.newBoard()
 			freshMiniFieldVisible()
@@ -96,7 +96,7 @@ function scene.keyDown(key,isRep)
 			BG.set(CUSTOMENV.bg)
 			BGM.play(CUSTOMENV.bgm)
 		else
-			sure=50
+			sure=1
 		end
 	elseif key=="f1"then
 		SCN.go('mod','swipeD')
@@ -133,8 +133,8 @@ function scene.keyDown(key,isRep)
 	end
 end
 
-function scene.update()
-	if sure>0 then sure=sure-1 end
+function scene.update(dt)
+	if sure>0 then sure=sure-dt end
 end
 
 function scene.draw()
@@ -184,7 +184,7 @@ function scene.draw()
 
 	--Confirm reset
 	if sure>0 then
-		gc.setColor(1,1,1,sure*.02)
+		gc.setColor(1,1,1,sure)
 		gc.draw(TEXTURE.sure,920,50)
 	end
 	gc.translate(0,	WIDGET.scrollPos)

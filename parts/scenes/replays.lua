@@ -1,6 +1,6 @@
 local gc=love.graphics
 local gc_setColor=gc.setColor
-local gc_draw,gc_rectangle=gc.draw,gc.rectangle
+local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 
 local setFont=setFont
@@ -78,7 +78,7 @@ function scene.keyDown(key)
 	elseif key=="delete"then
 		local rep=listBox:getSel()
 		if rep then
-			if sure>20 then
+			if sure>.3 then
 				sure=0
 				listBox:remove()
 				love.filesystem.remove(rep.fileName)
@@ -90,7 +90,7 @@ function scene.keyDown(key)
 				end
 				SFX.play('finesseError',.7)
 			else
-				sure=50
+				sure=1
 			end
 		end
 	else
@@ -98,15 +98,15 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.update()
-	if sure>0 then sure=sure-1 end
+function scene.update(dt)
+	if sure>0 then sure=sure-dt end
 end
 
 function scene.draw()
 	--Confirm delete
 	if sure>0 then
-		gc_setColor(1,1,1,sure*.02)
-		gc_draw(TEXTURE.sure,910,610)
+		gc_setColor(1,1,1,sure)
+		mDraw(TEXTURE.sure,930,640,nil,.9)
 	end
 end
 
@@ -114,7 +114,6 @@ scene.widgetList={
 	listBox,
 	WIDGET.newButton{name="play",x=700,y=640,w=170,h=80,color='lY',code=pressKey"return",hideF=function()return listBox:getLen()==0 end,fText=DOGC{50,50,{'fPoly',10,0,49,24,10,49}}},
 	WIDGET.newButton{name="delete",x=850,y=640,w=80,h=80,color='lR',code=pressKey"delete",hideF=function()return listBox:getLen()==0 end,fText=DOGC{50,50,{'setLW',8},{'line',5,5,45,45},{'line',5,45,45,5}}},
-	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

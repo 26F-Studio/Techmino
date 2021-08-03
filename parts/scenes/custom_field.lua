@@ -172,12 +172,12 @@ function scene.keyDown(key)
 			pTouch(penX,penY)
 		end
 	elseif key=="delete"then
-		if sure>20 then
+		if sure>.3 then
 			for y=1,20 do for x=1,10 do FIELD[page][y][x]=0 end end
 			sure=0
 			SFX.play('finesseError',.7)
 		else
-			sure=50
+			sure=1
 		end
 	elseif key=="j"then
 		demo=not demo
@@ -256,8 +256,8 @@ function scene.keyUp(key)
 	end
 end
 
-function scene.update()
-	if sure>0 then sure=sure-1 end
+function scene.update(dt)
+	if sure>0 then sure=sure-dt end
 end
 
 function scene.draw()
@@ -427,8 +427,8 @@ function scene.draw()
 
 	--Confirm reset
 	if sure>0 then
-		gc.setColor(1,1,1,sure*.02)
-		gc.draw(TEXTURE.sure,1070,490)
+		gc.setColor(1,1,1,sure)
+		mDraw(TEXTURE.sure,990,530,nil,1.2)
 	end
 
 	--Block name
