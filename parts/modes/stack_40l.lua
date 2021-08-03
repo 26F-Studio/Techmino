@@ -6,8 +6,7 @@ return{
 		fieldH=40,
 		highCam=true,
 		fillClear=false,
-		seqData={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
-		sequence='bag',
+		seqData={1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
 		bg='none',bgm='there',
 	},
 	mesDisp=function(P)
@@ -20,11 +19,11 @@ return{
 	getRank=function(P)
 		local B=P.stat.piece
 		return
-		B>=85 and 5 or
-		B>=81 and 4 or
-		B>=77 and 3 or
-		B>=72 and 2 or
-		B>=65 and 1 or
+		B>=90 and 5 or
+		B>=87 and 4 or
+		B>=83 and 3 or
+		B>=78 and 2 or
+		B>=70 and 1 or
 		0
 	end,
 }
