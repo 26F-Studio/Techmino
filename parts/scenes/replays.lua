@@ -3,6 +3,7 @@ local gc_setColor=gc.setColor
 local gc_rectangle=gc.rectangle
 local gc_print,gc_printf=gc.print,gc.printf
 
+local kb=love.keyboard
 local setFont=setFont
 
 local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,drawF=function(rep,id,ifSel)
@@ -65,6 +66,10 @@ end
 function scene.sceneInit()
 	sure=0
 	listBox:setList(REPLAY)
+	local hide=listBox:getLen()==0
+	for i=3,5 do
+		scene.widgetList[i].hide=hide
+	end
 end
 
 function scene.keyDown(key)
@@ -73,8 +78,37 @@ function scene.keyDown(key)
 		if rep then
 			replay(rep.fileName)
 		end
-	elseif key=="escape"then
-		SCN.back()
+	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
+		local rep=listBox:getSel()
+		if rep then
+			if rep.available and rep.fileName then
+				local repStr=FILE.load(rep.fileName)
+				if repStr then
+					love.system.setClipboardText(love.data.encode('string','base64',repStr))
+					MES.new('info',text.exportSuccess)
+				else
+					MES.new('error',text.replayBroken)
+				end
+			else
+				MES.new('error',text.replayBroken)
+			end
+		end
+	elseif key=="v"and kb.isDown("lctrl","rctrl")or key=="cV"then
+		local repStr=love.system.getClipboardText()
+		local res,fileData=pcall(love.data.decode,'string','base64',repStr)
+		if res then
+			local fileName=os.date("replay/%Y_%m_%d_%H%M%S_import.rep")
+			local rep=DATA.parseReplayData(fileName,fileData,false)
+			if rep.available then
+				love.filesystem.write(fileName,fileData)
+				table.insert(REPLAY,1,rep)
+				MES.new('info',text.importSuccess)
+			else
+				MES.new('error',text.dataCorrupted)
+			end
+		else
+			MES.new('error',text.dataCorrupted)
+		end
 	elseif key=="delete"then
 		local rep=listBox:getSel()
 		if rep then
@@ -93,6 +127,8 @@ function scene.keyDown(key)
 				sure=1
 			end
 		end
+	elseif key=="escape"then
+		SCN.back()
 	else
 		WIDGET.keyPressed(key)
 	end
@@ -112,8 +148,10 @@ end
 
 scene.widgetList={
 	listBox,
-	WIDGET.newButton{name="play",x=700,y=640,w=170,h=80,color='lY',code=pressKey"return",hideF=function()return listBox:getLen()==0 end,fText=DOGC{50,50,{'fPoly',10,0,49,24,10,49}}},
-	WIDGET.newButton{name="delete",x=850,y=640,w=80,h=80,color='lR',code=pressKey"delete",hideF=function()return listBox:getLen()==0 end,fText=DOGC{50,50,{'setLW',8},{'line',5,5,45,45},{'line',5,45,45,5}}},
+	WIDGET.newButton{name="export",x=200,y=640,w=70,color='lG',code=pressKey"cC",fText=DOGC{50,50,{'fRect',8,44,34,4},{'fRect',22,17,6,23},{'fPoly',25,5,10,20,40,20}}},
+	WIDGET.newButton{name="import",x=300,y=640,w=70,color='lN',code=pressKey"cV",fText=DOGC{50,50,{'fRect',8,44,34,4},{'fRect',22,5,6,23},{'fPoly',25,40,10,25,40,25}}},
+	WIDGET.newButton{name="play",x=700,y=640,w=170,h=80,color='lY',code=pressKey"return",fText=DOGC{50,50,{'fPoly',10,0,49,24,10,49}}},
+	WIDGET.newButton{name="delete",x=850,y=640,w=80,h=80,color='lR',code=pressKey"delete",fText=DOGC{50,50,{'setLW',8},{'line',5,5,45,45},{'line',5,45,45,5}}},
 	WIDGET.newButton{name="back",x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

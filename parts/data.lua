@@ -378,10 +378,14 @@ do--function DATA.saveReplay()
 	end
 end
 function DATA.parseReplay(fileName,ifFull)
-	local fileData,success,metaData,rep
-
+	local fileData
 	--Read file
 	fileData=love.filesystem.read(fileName)
+	return DATA.parseReplayData(fileName,fileData,ifFull)
+end
+function DATA.parseReplayData(fileName,fileData,ifFull)
+	local success,metaData,rep
+
 	if not(fileData and #fileData>0)then goto BREAK_cannotParse end
 
 	--Decompress file
@@ -421,5 +425,4 @@ function DATA.parseReplay(fileName,ifFull)
 		available=false,
 	}
 end
-
 return DATA
