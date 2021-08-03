@@ -42,9 +42,10 @@ return STRING.split([=[
 				新BGM:Secret8th Remix(用于master-hard)
 				新增小亚(xiaoya)语音包
 				旋转系统新增BiRS(Bias RS)(实验性),ASC,ASCplus(添加180度踢墙,实验性)
-				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
+				可以通过剪切板导入/导出录像
 				自定义游戏的序列任务场地等数据退出保存
 				第一次启动会自动进入语言设置菜单 #150
+				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
 		改动:
 				更换更简洁的加载动画,合并intro场景
 				调整TRS中S5和Z5的踢墙表,增加Ospin时SZ按反的尝试
