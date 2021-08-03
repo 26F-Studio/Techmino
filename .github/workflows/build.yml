@@ -88,7 +88,7 @@ jobs:
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
   build-macOS:
-    runs-on: macos-10.15
+    runs-on: macos-11.5
     steps:
     - uses: actions/checkout@v2
     - name: Pack love
@@ -104,6 +104,22 @@ jobs:
     - name: Pack Techmino
       run: |
         zip -r -y Techmino-Packed.app.zip Techmino.app
+    - name: Codesign executable
+      # <identity-id> can be found at running `security find-identity -v`
+      # <your-password> is any password you like, it is there just to create the keychain
+      # Add in secrets:
+      #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
+      #   - MACOS_CERTIFICATE_PWD: The password
+      env: 
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+        MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+      run: |
+        echo $MACOS_CERTIFICATE | base64 —decode > certificate.p12
+        security create-keychain -p <your-password> build.keychain security default-keychain -s build.keychain
+        security unlock-keychain -p <your-password> build.keychain
+        security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k <your-password> build.keychain
+        /usr/bin/codesign --force -s <identity-id> ./Techmino.app -v
     - name: Artifact
       uses: actions/upload-artifact@v1.0.0
       with:
