@@ -688,7 +688,7 @@ return{
 		['pc_n']=				{"Desafío de PCs",	"Normal",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		['pc_h']=				{"Desafío de PCs",	"Difícil",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		['pc_l']=				{"Desafío de PCs",	"Lunático",		"¡Consigue los PCs que puedas en 100 líneas!"},
-		['pc_inf']=				{"Desafío de PCs Infinito","",			"Consigue todos los PCs que puedas."},
+		['pc_inf']=				{"Desafío de PCs Infinito","",		"Consigue todos los PCs que puedas."},
 		['tech_n']=				{"Tech",			"Normal",		"¡Mantén el B2B!"},
 		['tech_n_plus']=		{"Tech",			"Normal+",		"¡Sólo se permiten Spins y PCs!"},
 		['tech_h']=				{"Tech",			"Difícil",		"¡Mantén el B2B!"},

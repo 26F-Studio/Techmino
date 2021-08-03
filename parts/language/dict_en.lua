@@ -365,7 +365,7 @@ return{
 	{"BiRS",
 		"birs biasrs biasrotationsystem",
 		"term",
-		"*Techmino exclusive*\n\nBias Rotation System, Techmino's original rotation system based on XRS and SRS.\nIt sets an offset to rotation if you hold left/right/soft drop when you rotate.\nIf rotation fails when downwards offset is applied, it tries again without the downwards offset.\nThen it tries without left/right offset.\nIf it fails, then rotation will not occur.\n\nCompared to XRS, BiRS only uses a single kick table, making it easier to memorize; also keeps the climbing-over-terrain feature of SRS.\n\nThe final kick offset's euclidean distance can't be larger than sqrt(5) and if there is a horizontal offset, the final kick offset can't be in the opposite direction.",--todo
+		"*Techmino exclusive*\n\nBias Rotation System, Techmino's original rotation system based on XRS and SRS.\nIt sets an offset to rotation if you hold left/right/soft drop when you rotate.\nIf rotation fails when downwards offset is applied, it tries again without the downwards offset.\nThen it tries without left/right offset.\nIf it fails, then rotation will not occur.\n\nCompared to XRS, BiRS only uses a single kick table, making it easier to memorize; also keeps the climbing-over-terrain feature of SRS.\n\nThe final kick offset's euclidean distance can't be larger than sqrt(5) and if there is a horizontal offset, the final kick offset can't be in the opposite direction.",
 	},
 	{"C2RS",
 		"c2rs",
@@ -395,7 +395,7 @@ return{
 	{"XRS",
 		"xrs",
 		"term",
-		"X rotation system, a rotation system used in T-ex.\n\nIt introduced a feature to \"use another kick table if you hold a direction key\", making it possible for players to tell the game where they want the piece to go.",--todo
+		"X rotation system, a rotation system used in T-ex.\n\nIt introduced a feature to \"use another kick table if you hold a direction key\", making it possible for players to tell the game where they want the piece to go.",
 	},
 
 	{"Back to Back",
