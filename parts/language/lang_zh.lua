@@ -62,6 +62,7 @@ return{
 
 	saveDone="保存成功!",
 	saveError="保存失败:",
+	saveError_duplicate="文件名重复",
 	loadError="读取失败:",
 	exportSuccess="导出成功",
 	importSuccess="导入成功",

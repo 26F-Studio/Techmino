@@ -51,6 +51,7 @@ return{
 
 	saveDone="Datos guardados",
 	saveError="Error al guardar:",
+	-- saveError_duplicate="Duplicate filename",
 	loadError="Error al cargar:",
 	exportSuccess="Exportado con éxito",
 	importSuccess="Importado con éxito",

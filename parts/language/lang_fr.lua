@@ -52,6 +52,7 @@ return{
 
 	saveDone="Données sauvegardées",
 	saveError="Sauvegarde échouée : ",
+	-- saveError_duplicate="Duplicate filename",
 	loadError="Lecture échouée : ",
 	exportSuccess="Exporté avec succès",
 	importSuccess="Importé avec succès",

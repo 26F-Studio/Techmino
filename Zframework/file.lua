@@ -44,15 +44,20 @@ function FILE.save(data,name,mode)
 		data=tostring(data)
 	end
 
+	if mode:find'd'and fs.getInfo(name)then
+		MES.new('error',text.saveError_duplicate)
+		return
+	end
 	local F=fs.newFile(name)
 	F:open'w'
 	local success,mes=F:write(data)
 	F:flush()F:close()
-	if not success then
+	if success then
+		return true
+	else
 		MES.new('error',text.saveError..(mes or"unknown error"))
 		MES.traceback()
 	end
-	return success
 end
 function FILE.clear(path)
 	if fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory'then return end

@@ -38,6 +38,7 @@ return{
 
 	saveDone="~~~",
 	saveError="x!:",
+	saveError_duplicate="X←→X ?",
 	loadError="x!:",
 	exportSuccess="~Out~",
 	importSuccess="~In~",

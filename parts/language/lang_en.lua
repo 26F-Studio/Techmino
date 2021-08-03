@@ -62,6 +62,7 @@ return{
 
 	saveDone="Data Saved",
 	saveError="Failed to save:",
+	saveError_duplicate="Duplicate filename",
 	loadError="Failed to load:",
 	exportSuccess="Exported successfully",
 	importSuccess="Imported successfully",
