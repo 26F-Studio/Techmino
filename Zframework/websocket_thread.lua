@@ -57,6 +57,7 @@ do--Connect
 			error((code or"XXX")..":"..(res and res.reason or"Server Error"))
 		end
 	end
+	SOCK:settimeout(0)
 end
 
 local YIELD=coroutine.yield
