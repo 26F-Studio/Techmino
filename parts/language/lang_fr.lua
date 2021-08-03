@@ -47,13 +47,12 @@ return{
 	ai_fixed="L'IA est incompatible avec les séquences fixes.",
 	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",'IA est incompatible avec les séquences personnalisées.",
 	ai_mission="L'IA est incompatible avec les missions personnalisées.",
+	switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer",
+	needRestart="Fonctionnera dès la prochaine partie",
+
 	saveDone="Données sauvegardées",
 	saveError="Sauvegarde échouée : ",
 	loadError="Lecture échouée : ",
-	switchSpawnSFX="Activez les effets sonores d'apparition des pièces pour jouer",
-
-	needRestart="Fonctionnera dès la prochaine partie",
-
 	exportSuccess="Exporté avec succès",
 	importSuccess="Importé avec succès",
 	dataCorrupted="Données corrompues",
@@ -89,7 +88,7 @@ return{
 
 	-- wsConnecting="Websocket Connecting",
 	wsFailed="WebSocket connection échouée",
-	-- wsClose="WebSocket Closed: ",
+	-- wsClose="WebSocket Closed:",
 	-- netTimeout="Network connection timeout",
 
 	-- onlinePlayerCount="Online",

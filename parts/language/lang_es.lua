@@ -46,13 +46,12 @@ return{
 	ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
 	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",a IA no es compatible con secuencias de piezas personalizadas.",
 	ai_mission="La IA no es compatible con misiones personalizadas.",
+	switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
+	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
+
 	saveDone="Datos guardados",
 	saveError="Error al guardar:",
 	loadError="Error al cargar:",
-	switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
-
-	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
-
 	exportSuccess="Exportado con éxito",
 	importSuccess="Importado con éxito",
 	dataCorrupted="Los datos están corruptos.",
@@ -88,7 +87,7 @@ return{
 
 	wsConnecting="Websocket Conectando",
 	wsFailed="WebSocket conexión fallida",
-	wsClose="WebSocket cerrado: ",
+	wsClose="WebSocket cerrado:",
 	netTimeout="Tiempo de conexión agotado",
 
 	onlinePlayerCount="En línea",
@@ -100,7 +99,7 @@ return{
 	connStream="CONECTANDO",
 	waitStream="ESPERANDO",
 	spectating="Especteando",
-	chatRemain="Usuarios en línea: ",
+	chatRemain="Usuarios en línea:",
 	chatStart="------Comienzo del historial------",
 	chatHistory="------Nuevos mensajes------",
 

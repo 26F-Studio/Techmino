@@ -56,14 +56,13 @@ return{
 	ai_fixed="不能同时开启AI和固定序列",
 	ai_prebag="不能同时开启AI和含有非四连块的自定义序列",
 	ai_mission="不能同时开启AI和自定义任务",
+	switchSpawnSFX="请开启方块出生音效",
+	ranks={"D","C","B","A","S"},
+	needRestart="重新开始以生效",
+
 	saveDone="保存成功!",
 	saveError="保存失败:",
 	loadError="读取失败:",
-	switchSpawnSFX="请开启方块出生音效",
-	ranks={"D","C","B","A","S"},
-
-	needRestart="重新开始以生效",
-
 	exportSuccess="导出成功",
 	importSuccess="导入成功",
 	dataCorrupted="数据损坏",
@@ -99,7 +98,7 @@ return{
 
 	wsConnecting="正在连接",
 	wsFailed="连接失败",
-	wsClose="连接被断开: ",
+	wsClose="连接被断开:",
 	netTimeout="连接超时",
 
 	onlinePlayerCount="在线人数",
