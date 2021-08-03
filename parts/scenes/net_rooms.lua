@@ -59,23 +59,27 @@ function scene.sceneInit()
 end
 
 function scene.keyDown(key)
-	if key=="r"then
-		if fetchTimer<=7 then
-			fetchRoom()
-		end
-	elseif key=="s"then
-		SCN.go('setting_game')
-	elseif key=="n"then
-		SCN.go('net_newRoom')
-	elseif key=="escape"then
-		SCN.back()
-	elseif roomList:getLen()>0 and key=="return"then
-		local R=roomList:getSel()
-		if NET.getlock('fetchRoom')or not R then return end
-		if R.roomInfo.version==VERSION.room then
-			NET.enterRoom(R,passwordBox.value)
+	if WIDGET.sel~=passwordBox then
+		if key=="r"then
+			if fetchTimer<=7 then
+				fetchRoom()
+			end
+		elseif key=="s"then
+			SCN.go('setting_game')
+		elseif key=="n"then
+			SCN.go('net_newRoom')
+		elseif key=="escape"then
+			SCN.back()
+		elseif roomList:getLen()>0 and key=="return"then
+			local R=roomList:getSel()
+			if NET.getlock('fetchRoom')or not R then return end
+			if R.roomInfo.version==VERSION.room then
+				NET.enterRoom(R,passwordBox.value)
+			else
+				MES.new('error',"Version doesn't compatible 版本不兼容")
+			end
 		else
-			MES.new('error',"Version doesn't compatible 版本不兼容")
+			WIDGET.keyPressed(key)
 		end
 	else
 		WIDGET.keyPressed(key)
