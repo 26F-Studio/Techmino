@@ -5,6 +5,7 @@ return{
 		freshLimit=15,
 		fieldH=100,
 		fillClear=false,
+		sequence='his',
 		bg='none',bgm='there',
 	},
 	mesDisp=function(P)

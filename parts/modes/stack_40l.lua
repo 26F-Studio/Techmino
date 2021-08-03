@@ -5,6 +5,7 @@ return{
 		freshLimit=15,
 		fieldH=40,
 		fillClear=false,
+		sequence='hisPool',
 		bg='none',bgm='there',
 	},
 	mesDisp=function(P)
