@@ -1,6 +1,3 @@
-local loveCompress=love.data.compress
-local loveDecompress=love.data.decompress
-
 local int=math.floor
 local char,byte=string.char,string.byte
 local ins=table.insert
@@ -239,10 +236,13 @@ function DATA.pasteQuestArgs(str)
 end
 
 --[[
-	Table data format:
+	Replay file:
+	a zlib-compressed json table
+
+	Replay data format (table):
 		{frame,event, frame,event, ...}
 
-	Byte data format: (1 byte each period)
+	Replay data format (byte): (1 byte each period)
 		dt, event, dt, event, ...
 	all data range from 0 to 127
 	large value will be encoded as 1xxxxxxx(high)-1xxxxxxx-...-0xxxxxxx(low)
@@ -357,7 +357,7 @@ do--function DATA.saveReplay()
 		local fileName=os.date("replay/%Y_%m_%d_%H%M%S.rep")
 		if not love.filesystem.getInfo(fileName)then
 			love.filesystem.write(fileName,
-				loveCompress('string','zlib',
+				love.data.compress('string','zlib',
 					JSON.encode{
 						date=os.date("%Y/%m/%d %H:%M:%S"),
 						mode=GAME.curModeName,
@@ -385,7 +385,7 @@ function DATA.parseReplay(fileName,ifFull)
 	if not(fileData and #fileData>0)then goto BREAK_cannotParse end
 
 	--Decompress file
-	success,fileData=pcall(loveDecompress,'string','zlib',fileData)
+	success,fileData=pcall(love.data.decompress,'string','zlib',fileData)
 	if not success then goto BREAK_cannotParse end
 
 	--Load metadata
