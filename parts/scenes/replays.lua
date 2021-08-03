@@ -55,6 +55,7 @@ local function replay(fileName)
 
 		loadGame(rep.mode,true)
 		resetGameData('r')
+		PLAYERS[1].username=rep.player
 		GAME.init=false
 		GAME.saved=true
 		GAME.fromRepMenu=true
