@@ -100,9 +100,10 @@ function scene.keyDown(key)
 			local fileName=os.date("replay/%Y_%m_%d_%H%M%S_import.rep")
 			local rep=DATA.parseReplayData(fileName,fileData,false)
 			if rep.available then
-				love.filesystem.write(fileName,fileData)
-				table.insert(REPLAY,1,rep)
-				MES.new('info',text.importSuccess)
+				if FILE.save(fileData,fileName,'d')then
+					table.insert(REPLAY,1,rep)
+					MES.new('info',text.importSuccess)
+				end
 			else
 				MES.new('error',text.dataCorrupted)
 			end
