@@ -102,16 +102,14 @@ jobs:
         python3 .github/workflows/updateOSXVersion.py
         mv Techmino.love Techmino.app/Contents/Resources
     - name: Codesign executable
-      # <identity-id> can be found at running `security find-identity -v`
-      # <your-password> is any password you like, it is there just to create the keychain
-      # Add in secrets:
+      # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
       #   - MACOS_CERTIFICATE_PWD: The password
       env: 
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
       run: |
-        echo $MACOS_CERTIFICATE | base64 —decode > certificate.p12
+        echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
         security create-keychain -p Techminohaowan build.keychain
         security default-keychain -s build.keychain
         security unlock-keychain -p Techminohaowan build.keychain
