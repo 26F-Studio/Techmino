@@ -88,7 +88,7 @@ jobs:
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
   build-macOS:
-    runs-on: macos-11.5
+    runs-on: macos-10.5
     steps:
     - uses: actions/checkout@v2
     - name: Pack love
