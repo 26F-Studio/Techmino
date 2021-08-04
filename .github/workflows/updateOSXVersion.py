@@ -59,8 +59,7 @@ info = r"""<?xml version="1.0" encoding="UTF-8"?>
 
 with open("conf.lua", "r") as file:
     data = file.read()
-versionCode = re.search("build=(\\d+)", data).group(1)
-# versionName = re.search('short="([^"]+)', data).group(1)
-print(versionCode)
+versionName = re.search('short="([^"]+)', data).group(1)
+print("Updating to", versionName)
 with open("Techmino.app/Contents/info.plist", "w") as file:
-    file.write(info % (versionCode, datetime.datetime.today().year))
+    file.write(info % (versionName, datetime.datetime.today().year))
