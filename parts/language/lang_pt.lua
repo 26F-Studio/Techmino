@@ -47,13 +47,13 @@ return{
 	ai_fixed="A inteligência é incompatível com sequências fixas.",
 	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.", inteligência é incompatível com sequências fixas.",
 	ai_mission="A inteligência é incompatível com missões costumizadas.",
-	saveDone="Data Salva",
-	saveError="Falha ao salvar:",
-	loadError="Falha ao ler:",
 	switchSpawnSFX="Switch on spawn SFX to play",
-
 	needRestart="Funciona após reiniciar",
 
+	saveDone="Data Salva",
+	saveError="Falha ao salvar:",
+	-- saveError_duplicate="Duplicate filename",
+	loadError="Falha ao ler:",
 	exportSuccess="Exportado com sucesso",
 	importSuccess="Importado com sucesso",
 	dataCorrupted="Data corrompida",
@@ -89,7 +89,7 @@ return{
 
 	-- wsConnecting="Websocket Connecting",
 	wsFailed="WebSocket falha na conexão",
-	wsClose="WebSocket closed: ",
+	wsClose="WebSocket closed:",
 	-- netTimeout="Network connection timeout",
 
 	-- onlinePlayerCount="Online",

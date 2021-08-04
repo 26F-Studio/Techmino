@@ -56,14 +56,14 @@ return{
 	ai_fixed="The AI is incompatible with fixed sequences.",
 	ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",
 	ai_mission="The AI is incompatible with custom missions.",
-	saveDone="Data Saved",
-	saveError="Failed to save:",
-	loadError="Failed to load:",
 	switchSpawnSFX="Please turn on the spawn SFX .",
 	ranks={"D","C","B","A","S"},
-
 	needRestart="Retry for the changes to take effect.",
 
+	saveDone="Data Saved",
+	saveError="Failed to save:",
+	saveError_duplicate="Duplicate filename",
+	loadError="Failed to load:",
 	exportSuccess="Exported successfully",
 	importSuccess="Imported successfully",
 	dataCorrupted="Data corrupted",
@@ -99,7 +99,7 @@ return{
 
 	wsConnecting="Websocket Connecting",
 	wsFailed="WebSocket Connection Failed",
-	wsClose="WebSocket Closed: ",
+	wsClose="WebSocket Closed:",
 	netTimeout="Network connection timeout",
 
 	onlinePlayerCount="Online",

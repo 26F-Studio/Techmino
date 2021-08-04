@@ -8,7 +8,7 @@ local max,min,modf=math.max,math.min,math.modf
 local ins,rem=table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
 
-local SFX,BGM,VOC,VIB,SYSFX,SKIN=SFX,BGM,VOC,VIB,SYSFX,SKIN
+local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
 local FREEROW,TABLE,TEXT,NET,TASK=FREEROW,TABLE,TEXT,NET,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
@@ -1931,6 +1931,7 @@ function Player:act_hold()
 	if self.control then
 		if self.waiting==-1 then
 			self:hold()
+			self.keyPressing[8]=false
 		end
 	end
 end

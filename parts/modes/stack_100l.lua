@@ -4,7 +4,10 @@ return{
 		drop=60,lock=60,
 		freshLimit=15,
 		fieldH=100,
+		highCam=true,
 		fillClear=false,
+		seqData={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25},
+		sequence='bag',
 		bg='none',bgm='there',
 	},
 	mesDisp=function(P)
@@ -17,11 +20,11 @@ return{
 	getRank=function(P)
 		local B=P.stat.piece
 		return
-		B>=260 and 5 or
-		B>=254 and 4 or
-		B>=250 and 3 or
-		B>=243 and 2 or
-		B>=235 and 1 or
+		B>=215 and 5 or
+		B>=208 and 4 or
+		B>=200 and 3 or
+		B>=190 and 2 or
+		B>=180 and 1 or
 		0
 	end,
 }

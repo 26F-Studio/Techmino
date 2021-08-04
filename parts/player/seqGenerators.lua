@@ -222,11 +222,11 @@ return function(P)--Return a piece-generating function for player P
 	elseif type(s)=='string'and seqGenerators[s]then
 		return seqGenerators[s]
 	else
-		MES.new(
+		MES.new('warn',
 			type(s)=='string'and
 			"No sequence mode called "..s or
-			"Wrong sequence generator",
-		'warn')
+			"Wrong sequence generator"
+		)
 		P.gameEnv.sequence='bag'
 		return seqGenerators.bag
 	end

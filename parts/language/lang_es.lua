@@ -46,13 +46,13 @@ return{
 	ai_fixed="La IA no es compatible con secuencias de piezas prefijadas.",
 	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",a IA no es compatible con secuencias de piezas personalizadas.",
 	ai_mission="La IA no es compatible con misiones personalizadas.",
-	saveDone="Datos guardados",
-	saveError="Error al guardar:",
-	loadError="Error al cargar:",
 	switchSpawnSFX="Habilita los sonidos de aparición de las piezas ;)",
-
 	needRestart="Reinicia Techmino para que los cambios tengan efecto.",
 
+	saveDone="Datos guardados",
+	saveError="Error al guardar:",
+	-- saveError_duplicate="Duplicate filename",
+	loadError="Error al cargar:",
 	exportSuccess="Exportado con éxito",
 	importSuccess="Importado con éxito",
 	dataCorrupted="Los datos están corruptos.",
@@ -88,7 +88,7 @@ return{
 
 	wsConnecting="Websocket Conectando",
 	wsFailed="WebSocket conexión fallida",
-	wsClose="WebSocket cerrado: ",
+	wsClose="WebSocket cerrado:",
 	netTimeout="Tiempo de conexión agotado",
 
 	onlinePlayerCount="En línea",
@@ -100,7 +100,7 @@ return{
 	connStream="CONECTANDO",
 	waitStream="ESPERANDO",
 	spectating="Especteando",
-	chatRemain="Usuarios en línea: ",
+	chatRemain="Usuarios en línea:",
 	chatStart="------Comienzo del historial------",
 	chatHistory="------Nuevos mensajes------",
 
@@ -688,7 +688,7 @@ return{
 		['pc_n']=				{"Desafío de PCs",	"Normal",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		['pc_h']=				{"Desafío de PCs",	"Difícil",		"¡Consigue los PCs que puedas en 100 líneas!"},
 		['pc_l']=				{"Desafío de PCs",	"Lunático",		"¡Consigue los PCs que puedas en 100 líneas!"},
-		['pc_inf']=				{"Desafío de PCs Infinito","",			"Consigue todos los PCs que puedas."},
+		['pc_inf']=				{"Desafío de PCs Infinito","",		"Consigue todos los PCs que puedas."},
 		['tech_n']=				{"Tech",			"Normal",		"¡Mantén el B2B!"},
 		['tech_n_plus']=		{"Tech",			"Normal+",		"¡Sólo se permiten Spins y PCs!"},
 		['tech_h']=				{"Tech",			"Difícil",		"¡Mantén el B2B!"},

@@ -3,6 +3,7 @@ return{
 	env={
 		drop=60,lock=60,
 		freshLimit=15,
+		highCam=true,
 		fillClear=false,
 		bg='none',bgm='there',
 	},

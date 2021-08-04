@@ -317,7 +317,7 @@ function NET.createRoom(roomName,description,capacity,roomType,roomData,password
 	end
 end
 function NET.enterRoom(room,password)
-	if NET.lock('enterRoom',2)then
+	if NET.lock('enterRoom',6)then
 		SFX.play('reach',.6)
 		WS.send('play',JSON.encode{
 			action=2,

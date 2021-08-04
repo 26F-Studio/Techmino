@@ -34,11 +34,12 @@ return{
 	ai_fixed="X!!!",
 	ai_prebag="X!!!",
 	ai_mission="X!!!",
+	needRestart="!!*#R#*!!",
+
 	saveDone="~~~",
 	saveError="x!:",
+	saveError_duplicate="X←→X ?",
 	loadError="x!:",
-
-	needRestart="!!*#R#*!!",
 	exportSuccess="~Out~",
 	importSuccess="~In~",
 	dataCorrupted="XXXXX",

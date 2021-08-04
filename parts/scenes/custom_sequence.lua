@@ -67,13 +67,13 @@ function scene.keyDown(key)
 			end
 		end
 	elseif key=="delete"then
-		if sure>20 then
+		if sure>.3 then
 			TABLE.cut(BAG)
 			cur=0
 			sure=0
 			SFX.play('finesseError',.7)
 		else
-			sure=50
+			sure=1
 		end
 	elseif key=="="then
 		local l={1,2,3,4,5,6,7}
@@ -124,8 +124,8 @@ function scene.keyDown(key)
 	end
 end
 
-function scene.update()
-	if sure>0 then sure=sure-1 end
+function scene.update(dt)
+	if sure>0 then sure=sure-dt end
 end
 
 function scene.draw()
@@ -187,8 +187,8 @@ function scene.draw()
 
 	--Confirm reset
 	if sure>0 then
-		gc.setColor(1,1,1,sure*.02)
-		gc.draw(TEXTURE.sure,1050,430,nil,.6)
+		gc.setColor(1,1,1,sure)
+		mDraw(TEXTURE.sure,1000,460,nil,.8)
 	end
 end
 
