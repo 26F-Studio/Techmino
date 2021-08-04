@@ -77,7 +77,7 @@ function scene.keyDown(key)
 			if R.roomInfo.version==VERSION.room then
 				NET.enterRoom(R,passwordBox.value)
 			else
-				MES.new('error',"Version doesn't compatible 版本不兼容")
+				MES.new('error',text.versionNotMatch)
 			end
 		else
 			WIDGET.keyPressed(key)
