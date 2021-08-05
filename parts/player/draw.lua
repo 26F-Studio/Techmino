@@ -419,7 +419,7 @@ local function drawHold(P)
 				if n==N then gc_setColor(.6,.4,.4)end
 				local bk,clr=holdQueue[n].bk,holdQueue[n].color
 				local texture=P.skinLib[clr]
-				local k=min(3/#bk,3/#bk[1],.85)
+				local k=min(2.3/#bk,3/#bk[1],.85)
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
@@ -549,7 +549,7 @@ function draw.drawNext_norm(P)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
 				local bk,sprite=queue[N].bk,texture[queue[N].color]
-				local k=min(3/#bk,3/#bk[1],.85)
+				local k=min(2.3/#bk,3/#bk[1],.85)
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
@@ -585,7 +585,7 @@ function draw.drawNext_hidden(P)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
 				local bk,sprite=queue[N].bk,texture[queue[N].color]
-				local k=min(3/#bk,3/#bk[1],.85)
+				local k=min(2.3/#bk,3/#bk[1],.85)
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
 					if bk[i][j]then
