@@ -221,7 +221,7 @@ TEXTURE.rep={
 	rep1=DOGC{50,50,{'setFT',30},{'print',"1x",7,3}},
 	rep2=DOGC{50,50,{'setFT',30},{'print',"2x",7,3}},
 	rep5=DOGC{50,50,{'setFT',30},{'print',"5x",7,3}},
-	step=DOGC{50,50,{'setFT',30},{'fRect',12,5,4,40},{'setLW',4},{'line',25,14,41,25,25,36}},
+	step=DOGC{50,50,{'setFT',30},{'fRect',12,7,4,36},{'setLW',4},{'line',25,14,41,25,25,36}},
 }
 
 gc.setCanvas()

@@ -153,6 +153,7 @@ function scene.keyDown(key,isRep)
 	else
 		if key=="space"then
 			if not isRep then replayRate=replayRate==0 and 1 or 0 end
+			updateRepButtons()
 		elseif key=="right"then
 			if replayRate==0 then
 				_step()
