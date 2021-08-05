@@ -25,6 +25,13 @@ end
 function Player:showTextF(text,dx,dy,font,style,spd,stop)
 	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 end
+function Player:popScore(score,x,y)
+	self:showText(
+		score,x,y,
+		40-600/(score+20),
+		'score',2
+	)
+end
 function Player:createLockFX()
 	local CB=self.cur.bk
 	local t=12-self.gameEnv.lockFX*2
@@ -316,6 +323,9 @@ end
 function Player:getCenterX()
 	return self.curX+self.cur.sc[2]-5.5
 end
+function Player:getCenterY()
+	return self.curY-self.cur.sc[1]
+end
 function Player:solid(x,y)
 	if x<1 or x>10 or y<1 then return true end
 	if y>#self.field then return false end
@@ -536,6 +546,80 @@ function Player:lock()
 	if has_dest and not dest and self.AI_mode=='CC'and self.AI_bot then
 		CC.updateField(self)
 	end
+end
+
+function Player:checkClear(field,start,height,CB,CX)
+	local cc=0
+	if self.gameEnv.fillClear then
+		for i=1,height do
+			local h=start+i-2
+
+			--Bomb trigger (optional, must with CB)
+			if CB and h>0 and field[h]and self.clearedRow[cc]~=h then
+				for x=1,#CB[1]do
+					if CB[i][x]and field[h][CX+x-1]==19 then
+						cc=cc+1
+						self.clearingRow[cc]=h-cc+1
+						self.clearedRow[cc]=h
+						break
+					end
+				end
+			end
+
+			h=h+1
+			--Row filled
+			for x=1,10 do
+				if field[h][x]<=0 then
+					goto CONTINUE_notFull
+				end
+			end
+			cc=cc+1
+			ins(self.clearingRow,h-cc+1)
+			ins(self.clearedRow,h)
+			::CONTINUE_notFull::
+		end
+	end
+	return cc
+end
+function Player:roofCheck()
+	local CB=self.cur.bk
+	for x=1,#CB[1]do
+		local y=#CB
+
+		--Find the highest y of blocks' x-th column
+		while not CB[y][x]do y=y-1 end
+
+		local testX=self.curX+x-1--Optimize
+
+		--Test the whole column of field to find roof
+		for testY=self.curY+y,#self.field do
+			if self:solid(testX,testY)then
+				return true
+			end
+		end
+	end
+	return false
+end
+function Player:removeTopClearingFX()
+	for i=#self.clearingRow,1,-1 do
+		if self.clearingRow[i]>#self.field then
+			rem(self.clearingRow)
+		else
+			return
+		end
+	end
+end
+function Player:checkMission(piece,mission)
+	if mission<5 then
+		return piece.row==mission and not piece.spin
+	elseif mission<9 then
+		return piece.row==mission-4 and piece.spin
+	elseif mission==9 then
+		return piece.pc
+	elseif mission<90 then
+		return piece.row==mission%10 and piece.name==int(mission/10)and piece.spin
+	end
+	return false
 end
 
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]='spawn_'..i end
@@ -1006,46 +1090,16 @@ do--Player.drop(self)--Place piece
 		self:lock()
 
 		--Clear list of cleared-rows
-		if self.clearedRow[1]then self.clearedRow={}end
+		if self.clearedRow[1]then TABLE.cut(self.clearedRow)end
 
 		--Check line clear
-		if ENV.fillClear then
-			for i=1,#CB do
-				local h=CY+i-2
-
-				--Bomb trigger
-				if h>0 and self.field[h]and self.clearedRow[cc]~=h then
-					for x=1,#CB[1]do
-						if CB[i][x]and self.field[h][CX+x-1]==19 then
-							cc=cc+1
-							self.clearingRow[cc]=h-cc+1
-							self.clearedRow[cc]=h
-							break
-						end
-					end
-				end
-
-				h=h+1
-				--Row filled
-				for x=1,10 do
-					if self.field[h][x]<=0 then
-						goto CONTINUE_notFull
-					end
-				end
-				cc=cc+1
-				self.clearingRow[cc]=h-cc+1
-				self.clearedRow[cc]=h
-				::CONTINUE_notFull::
-			end
-		end
+		cc=cc+self:checkClear(self.field,CY,#CB,CB,CX)
 
 		--Create clearing FX
-		if cc>0 then
-			for i=1,cc do
-				local y=self.clearedRow[i]
-				if ENV.clearFX then self:createClearingFX(y,7-ENV.clearFX)end
-				if ENV.splashFX then self:createSplashFX(y)end
-			end
+		for i=1,cc do
+			local y=self.clearedRow[i]
+			if ENV.clearFX then self:createClearingFX(y,7-ENV.clearFX)end
+			if ENV.splashFX then self:createSplashFX(y)end
 		end
 
 		--Create locking FX
@@ -1075,28 +1129,7 @@ do--Player.drop(self)--Place piece
 		end
 
 		--Finesse: roof check
-		local finesse
-		if CY>ENV.fieldH-2 then
-			finesse=true
-		else
-			for x=1,#CB[1]do
-				local y=#CB
-
-				--Find the highest y of blocks' x-th column
-				while not CB[y][x]do y=y-1 end
-
-				local testX=CX+x-1--Optimize
-
-				--Test the whole column of field to find roof
-				for testY=CY+y,#self.field do
-					if self:solid(testX,testY)then
-						finesse=true
-						goto BERAK_roofFound
-					end
-				end
-			end
-			::BERAK_roofFound::
-		end
+		local finesse=CY>ENV.fieldH-2 or self:roofCheck()
 
 		--Remove rows need to be cleared
 		if cc>0 then
@@ -1112,13 +1145,7 @@ do--Player.drop(self)--Place piece
 		end
 
 		--Cancel top clearing FX
-		for i=#self.clearingRow,1,-1 do
-			if self.clearingRow[i]>#self.field then
-				rem(self.clearingRow)
-			else
-				break
-			end
-		end
+		self:removeTopClearingFX()
 		if self.clearingRow[1]then
 			self.falling=ENV.fall
 		else
@@ -1408,13 +1435,10 @@ do--Player.drop(self)--Place piece
 
 		cscore=int(cscore)
 		if ENV.score then
-			self:showText(
+			self:popScore(
 				cscore,
-				(self.curX+C.sc[2]-5.5)*30,
-				(10-self.curY-C.sc[1])*30+self.fieldBeneath+self.fieldUp,
-				40-600/(cscore+20),
-				'score',
-				2
+				self:getCenterX()*30,
+				(10-self:getCenterY())*30+self.fieldBeneath+self.fieldUp
 			)
 		end
 
@@ -1425,26 +1449,7 @@ do--Player.drop(self)--Place piece
 
 		--Check clearing task
 		if cc>0 and self.curMission then
-			local t=ENV.mission[self.curMission]
-			local success
-			if t<5 then
-				if piece.row==t and not piece.spin then
-					success=true
-				end
-			elseif t<9 then
-				if piece.row==t-4 and piece.spin then
-					success=true
-				end
-			elseif t==9 then
-				if piece.pc then
-					success=true
-				end
-			elseif t<90 then
-				if piece.row==t%10 and piece.name==int(t/10)and piece.spin then
-					success=true
-				end
-			end
-			if success then
+			if self:checkMission(piece,ENV.mission[self.curMission])then
 				self.curMission=self.curMission+1
 				SFX.play('reach')
 				if self.curMission>#ENV.mission then
@@ -1462,11 +1467,11 @@ do--Player.drop(self)--Place piece
 		if cc==0 and #self.field>ENV.heightLimit then self:lose()end
 
 		--Update stat
-		Stat.score=Stat.score+cscore
 		Stat.piece=Stat.piece+1
 		Stat.row=Stat.row+cc
 		Stat.maxFinesseCombo=max(Stat.maxFinesseCombo,self.finesseCombo)
 		Stat.maxCombo=max(Stat.maxCombo,self.combo)
+		Stat.score=Stat.score+cscore
 		if atk>0 then
 			Stat.atk=Stat.atk+atk
 			if send>0 then
