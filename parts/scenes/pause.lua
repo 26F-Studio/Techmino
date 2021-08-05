@@ -184,7 +184,7 @@ function scene.draw()
 	setFont(25)
 	if GAME.pauseCount>0 then
 		gc.setColor(.96,.92,.92,T)
-		mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),640,510)
+		mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),640,500)
 	end
 
 	gc.setColor(.97,.97,.97,T)
@@ -199,7 +199,7 @@ function scene.draw()
 	--Level rank
 	if GAME.rank>0 then
 		gc.push('transform')
-			gc.translate(1090,50)
+			gc.translate(1090,40)
 			local str=text.ranks[GAME.rank]
 			setFont(80)
 			gc.setColor(0,0,0,T*.7)
@@ -213,15 +213,15 @@ function scene.draw()
 	--Infos
 	if PLAYERS[1].frameRun>180 then
 		gc.push('transform')
-			gc.translate(830,220)
+			gc.translate(835,210)
 			gc.scale(.85)
 			gc.setLineWidth(2)
 
 			--Frame
-			gc.setColor(.97,.97,.97,T*.05)
-			gc.rectangle('fill',-5,-5,475,360,8)
+			gc.setColor(.97,.97,.97,T*.06)
+			gc.rectangle('fill',-5,-5,475,rank and 390 or 360,8)
 			gc.setColor(.97,.97,.97,T)
-			gc.rectangle('line',-5,-5,475,360,8)
+			gc.rectangle('line',-5,-5,475,rank and 390 or 360,8)
 
 			--Stats
 			_=form
@@ -236,76 +236,31 @@ function scene.draw()
 				setFont(40)
 				local c=fnsRankColor[rank]
 				gc.setColor(c[1],c[2],c[3],T)
-				gc.print(rank,440,344)
+				gc.print(rank,435,335)
 				if trophy then
 					setFont(20)
 					gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
-					gc.printf(trophy,130-120*(1-T^.5),359,300,'right')
+					gc.printf(trophy,125-120*(1-T^.5),350,300,'right')
 				end
-			end
-		gc.pop()
-	end
-
-	--Radar Chart
-	if T>.5 and PLAYERS[1].frameRun>180 then
-		local t=T*2-1
-		gc.setLineWidth(2)
-		gc.push('transform')
-			gc.translate(640,390)
-			gc.scale(.67)
-
-			--Polygon
-			gc.push('transform')
-				gc.scale((3-2*t)*t)
-				gc.setColor(.97,.97,.97,t*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
-				gc.setColor(chartColor[1],chartColor[2],chartColor[3],t*.626)
-				for i=1,9,2 do
-					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
-				end
-				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
-				gc.setColor(.97,.97,.97,t)gc.polygon('line',val)
-			gc.pop()
-
-			--Axes
-			gc.setColor(.97,.97,.97,t)
-			for i=1,3 do
-				local x,y=hexList[2*i-1],hexList[2*i]
-				gc.line(-x,-y,x,y)
-			end
-
-			--Texts
-			local C
-			_=TIME()%6.2832
-			if _>3.1416 then
-				gc.setColor(.97,.97,.97,-t*sin(_))
-				setFont(35)
-				C,_=text.radar,textPos
-			else
-				gc.setColor(.97,.97,.97,t*sin(_))
-				setFont(20)
-				C,_=radar,dataPos
-			end
-			for i=1,6 do
-				mStr(C[i],_[2*i-1],_[2*i])
 			end
 		gc.pop()
 	end
 
 	--Mods
 	gc.push('transform')
-		gc.translate(735,555)
+		gc.translate(740,550)
 		gc.scale()
 		if #GAME.mod>0 then
 			gc.setLineWidth(2)
 			if scoreValid()then
 				gc.setColor(.7,.7,.7,T)
 				gc.rectangle('line',-5,-5,500,150,8)
-				gc.setColor(.7,.7,.7,T*.04)
+				gc.setColor(.7,.7,.7,T*.05)
 				gc.rectangle('fill',-5,-5,500,150,8)
 			else
 				gc.setColor(.95,0,0,T)
 				gc.rectangle('line',-5,-5,500,150,8)
-				gc.setColor(.95,0,0,T*.26)
+				gc.setColor(.95,0,0,T*.05)
 				gc.rectangle('fill',-5,-5,500,150,8)
 			end
 			setFont(35)
@@ -318,6 +273,51 @@ function scene.draw()
 			end
 		end
 	gc.pop()
+
+	--Radar Chart
+	if T>.5 and PLAYERS[1].frameRun>180 then
+		T=T*2-1
+		gc.setLineWidth(2)
+		gc.push('transform')
+			gc.translate(640,380)
+			gc.scale(.67)
+
+			--Polygon
+			gc.push('transform')
+				gc.scale((3-2*T)*T)
+				gc.setColor(.97,.97,.97,T*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
+				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T*.626)
+				for i=1,9,2 do
+					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
+				end
+				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
+				gc.setColor(.97,.97,.97,T)gc.polygon('line',val)
+			gc.pop()
+
+			--Axes
+			gc.setColor(.97,.97,.97,T)
+			for i=1,3 do
+				local x,y=hexList[2*i-1],hexList[2*i]
+				gc.line(-x,-y,x,y)
+			end
+
+			--Texts
+			local C
+			_=TIME()%6.2832
+			if _>3.1416 then
+				gc.setColor(.97,.97,.97,-T*sin(_))
+				setFont(35)
+				C,_=text.radar,textPos
+			else
+				gc.setColor(.97,.97,.97,T*sin(_))
+				setFont(20)
+				C,_=radar,dataPos
+			end
+			for i=1,6 do
+				mStr(C[i],_[2*i-1],_[2*i])
+			end
+		gc.pop()
+	end
 end
 
 scene.widgetList={
