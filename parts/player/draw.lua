@@ -795,6 +795,7 @@ function draw.norm(P)
 			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
 
+		gc_setLineWidth(2)
 		P:drawNext()
 		drawHold(P)
 
