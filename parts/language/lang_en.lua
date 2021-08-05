@@ -42,6 +42,7 @@ return{
 	pauseCount="Pauses",
 	finesse_ap="All Perfect",
 	finesse_fc="Full Combo",
+	rewind="Finesse Rewind",
 
 	page="Page:",
 

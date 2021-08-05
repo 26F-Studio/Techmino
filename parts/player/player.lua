@@ -1189,6 +1189,7 @@ do--Player.drop(self)--Place piece
 			-- Zawarudo
 			if ENV.fineRewind=='strict' and self.freeze then
 				Assign(DeepCopy(self.freeze), self)
+				self:showText(text.rewind, 0, 0, 35, "appear", 0.6)
 				return
 			end
 		elseif self.sound then
@@ -1199,6 +1200,7 @@ do--Player.drop(self)--Place piece
 			self.finesseCombo=0
 			if ENV.fineRewind=='easy' and self.freeze then
 				Assign(DeepCopy(self.freeze), self)
+				self:showText(text.rewind, 0, 0, 35, "appear", 0.6)
 				return
 			end
 		else

@@ -42,6 +42,7 @@ return{
 	pauseCount="暂停统计",
 	finesse_ap="All Perfect",
 	finesse_fc="Full Combo",
+	rewind="极简回溯",
 
 	page="页面:",
 
