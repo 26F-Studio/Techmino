@@ -38,7 +38,7 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	gc.setColor(.7,.7,.7)
 	for i=1,#snow do
 		local P=snow[i]

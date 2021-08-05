@@ -37,7 +37,7 @@ function back.update(dt)
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	gc.setColor(1,1,1,.2)
 	local img=IMG.lanterns
 	for i=1,#lanterns do

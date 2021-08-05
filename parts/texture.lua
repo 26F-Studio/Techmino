@@ -134,9 +134,9 @@ TEXTURE.setting=DOGC{64,64,
 
 --Music mark
 TEXTURE.music=DOGC{64,64,
-	{'setLW',7},
+	{'setLW',6},
 	{'line',19,9,60,7},
-	{'setLW',4},
+	{'setLW',2},
 	{'line',20,9,20,49},
 	{'line',59,7,59,47},
 	{'fElps',11,49,11,8},
@@ -146,13 +146,13 @@ TEXTURE.music=DOGC{64,64,
 --Mute mark
 TEXTURE.mute=DOGC{64,64,
 	{'mDraw',TEXTURE.music,32,32,0,.9},
-	{'setLW',5},
+	{'setLW',4},
 	{'line',6,6,57,57},
 }
 
 --Language mark
 TEXTURE.language=DOGC{64,64,
-	{'setLW',4},
+	{'setLW',2},
 	{'dCirc',32,32,30},
 	{'line',2,31,62,31},
 	{'line',31,2,31,62},
@@ -162,7 +162,7 @@ TEXTURE.language=DOGC{64,64,
 
 --Info. mark
 TEXTURE.info=DOGC{50,50,
-	{'setLW',5},
+	{'setLW',3},
 	{'dCirc',25,25,22},
 	{'fRect',22,11,6,6},
 	{'fRect',22,20,6,20},
@@ -170,9 +170,10 @@ TEXTURE.info=DOGC{50,50,
 
 --Question mark
 TEXTURE.question=DOGC{50,50,
-	{'setLW',5},
+	{'setLW',3},
 	{'dCirc',25,25,22},
-	{'print','?',16,-6},
+	{'setFT',40},
+	{'print','?',17,-2},
 }
 
 --More mark

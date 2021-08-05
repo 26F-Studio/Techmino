@@ -29,7 +29,7 @@ end
 function back.update()
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	gc.draw(upCover,0,0,0,W,H*.3/64)
 	gc.draw(downCover,0,H*.7,0,W,H*.3/64)
 end

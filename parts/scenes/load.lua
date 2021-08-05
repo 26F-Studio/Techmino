@@ -179,7 +179,7 @@ local titleTransform={
 }
 local titleColor={COLOR.lP,COLOR.lC,COLOR.lB,COLOR.lO,COLOR.lF,COLOR.lM,COLOR.lG,COLOR.lY}
 function scene.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 
 	local T=(t1+110)%300
 	if T<30 then

@@ -54,7 +54,7 @@ local COLOR={
 	dGray=		{0.3,	0.3,	0.3},
 	gray=		{0.6,	0.6,	0.6},
 	lGray=		{0.8,	0.8,	0.8},
-	white=		{1.0,	1.0,	1.0},
+	white=		{.97,	.97,	.97},
 }
 for k,v in next,{
 	R='red',F='fire',O='orange',Y='yellow',L='lime',J='jade',G='green',A='aqua',C='cyan',N='navy',S='sea',B='blue',V='violet',P='purple',M='magenta',W='wine',

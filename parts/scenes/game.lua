@@ -302,7 +302,7 @@ function scene.draw()
 
 	--Mode info
 	gc.setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,940,0)
+	gc.draw(drawableText.modeName,1125-drawableText.modeName:getWidth(),10)
 
 	--Replaying
 	if replaying then
@@ -318,15 +318,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0},
-	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8},
-	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2},
-	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1},
-	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2},
-	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5},
-	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step},
-	WIDGET.newKey{name="restart",	fText="R",x=380,y=35,w=60,font=40,code=restart},
-	WIDGET.newKey{name="pause",		fText="II",x=900,y=35,w=60,font=40,code=pauseGame},
+	WIDGET.newKey{name="rep0",		x=40,y=50,w=60,code=_rep0,fText=TEXTURE.rep.rep0},
+	WIDGET.newKey{name="repP8",		x=105,y=50,w=60,code=_repP8,fText=TEXTURE.rep.repP8},
+	WIDGET.newKey{name="repP2",		x=170,y=50,w=60,code=_repP2,fText=TEXTURE.rep.repP2},
+	WIDGET.newKey{name="rep1",		x=235,y=50,w=60,code=_rep1,fText=TEXTURE.rep.rep1},
+	WIDGET.newKey{name="rep2",		x=300,y=50,w=60,code=_rep2,fText=TEXTURE.rep.rep2},
+	WIDGET.newKey{name="rep5",		x=365,y=50,w=60,code=_rep5,fText=TEXTURE.rep.rep5},
+	WIDGET.newKey{name="step",		x=430,y=50,w=60,code=_step,fText=TEXTURE.rep.step},
+	WIDGET.newKey{name="restart",	x=1165,y=45,w=60,code=restart,fText="R"},
+	WIDGET.newKey{name="pause",		x=1235,y=45,w=60,code=pauseGame,fText=DOGC{20,25,{'fRect',0,0,3,25},{'fRect',17,0,3,25}}},
 }
 
 return scene

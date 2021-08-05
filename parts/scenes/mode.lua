@@ -241,7 +241,7 @@ function scene.draw()
 
 	--Modes
 	setFont(80)
-	gc_setLineWidth(6)
+	gc_setLineWidth(4)
 	for name,M in next,MODES do
 		if R[name]then
 			local rank=R[name]
