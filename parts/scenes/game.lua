@@ -303,7 +303,7 @@ function scene.draw()
 
 	--Mode info
 	gc.setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,1125-drawableText.modeName:getWidth(),10)
+	gc.draw(drawableText.modeName,1120-drawableText.modeName:getWidth(),10)
 
 	--Replaying
 	if replaying then
@@ -326,8 +326,8 @@ scene.widgetList={
 	WIDGET.newKey{name="rep2",		x=300,y=50,w=60,code=_rep2,fText=TEXTURE.rep.rep2},
 	WIDGET.newKey{name="rep5",		x=365,y=50,w=60,code=_rep5,fText=TEXTURE.rep.rep5},
 	WIDGET.newKey{name="step",		x=430,y=50,w=60,code=_step,fText=TEXTURE.rep.step},
-	WIDGET.newKey{name="restart",	x=1165,y=45,w=60,code=restart,fText="R"},
-	WIDGET.newKey{name="pause",		x=1235,y=45,w=60,code=pauseGame,fText=DOGC{20,25,{'fRect',0,0,3,25},{'fRect',17,0,3,25}}},
+	WIDGET.newKey{name="restart",	x=1165,y=45,w=60,code=restart,fText=TEXTURE.game.restart},
+	WIDGET.newKey{name="pause",		x=1235,y=45,w=60,code=pauseGame,fText=TEXTURE.game.pause},
 }
 
 return scene

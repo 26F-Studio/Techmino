@@ -213,6 +213,11 @@ TEXTURE.quit_small=DOGC{30,30,
 	}}
 }
 
+TEXTURE.game={
+	restart=DOGC{32,32,{'setLW',3},{'dArc',16,16,11,.7,5.5},{'setLW',2.5},{'line',21,.7,24,8,16,11}},
+	pause=DOGC{18,23,{'fRect',0,0,3,23},{'fRect',15,0,3,23}},
+}
+
 --Replay speed buttons
 TEXTURE.rep={
 	rep0=DOGC{50,50,{'fRect',11,8,8,34},{'fRect',31,8,8,34}},
