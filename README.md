@@ -5,4 +5,4 @@
 
 集合各种现代方块规则，更多玩法，全新体验。
 
-官网（建设中） https://home.techmino.org
+官网（建设中） http://home.techmino.org
