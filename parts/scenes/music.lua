@@ -60,7 +60,7 @@ function scene.keyDown(key,isRep)
 end
 
 function scene.draw()
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 
 	setFont(50)
 	gc.print(bgmList[selected],320,355)
@@ -90,7 +90,7 @@ function scene.draw()
 		gc.setColor(1,1,1,.4)
 		gc.setLineWidth(4)
 		gc.line(500,600,900,600)
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.circle('fill',500+400*BGM.playing:tell()/BGM.playing:getDuration(),600,6)
 	end
 end

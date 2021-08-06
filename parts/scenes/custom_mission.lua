@@ -123,7 +123,7 @@ end
 function scene.draw()
 	--Draw frame
 	gc.setLineWidth(4)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.rectangle('line',60,110,1160,170)
 
 	--Draw inputing target
@@ -145,7 +145,7 @@ function scene.draw()
 		else
 			if count>1 then
 				setFont(25)
-				gc.setColor(1,1,1)
+				gc.setColor(COLOR.Z)
 				gc.print("×",x-10,y-14)
 				gc.print(count,x+5,y-13)
 				x=x+(count<10 and 33 or 45)

@@ -179,7 +179,7 @@ function scene.draw()
 		gc.print("#"..#BAG,615,220)
 	end
 
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.print(CUSTOMENV.sequence,610,250)
 
 	--Confirm reset

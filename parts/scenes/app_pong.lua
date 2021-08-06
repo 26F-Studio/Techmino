@@ -153,7 +153,7 @@ function scene.draw()
 	mStr(p2.score,810,20)
 
 	--Draw boundary
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.setLineWidth(6)
 	gc.line(130,20,1160,20)
 	gc.line(130,700,1160,700)

@@ -212,7 +212,7 @@ function scene.draw()
 	gc.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress)for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy)end end
 	gc.setColor(.2,.2,.2,progress/maxProgress)mDraw(studioLogo,640,400)
 
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	setFont(30)
 	mStr(text.loadText[loading],640,530)
 end

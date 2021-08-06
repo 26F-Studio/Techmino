@@ -81,8 +81,8 @@ function scene.keyDown(key)
 end
 
 function scene.draw()
-	gc.setColor(1,1,1)
-	gc.setLineWidth(4)
+	gc.setColor(COLOR.Z)
+	gc.setLineWidth(2)
 	gc.rectangle('line',100,80,650,150)
 	setFont(45)
 	if reg then gc.printf(reg,0,100,720,'right')end

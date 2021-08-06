@@ -84,7 +84,7 @@ end
 
 function scene.draw()
 	setFont(40)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.print(("%.3f"):format(time),1026,80)
 	gc.print(mistake,1026,150)
 
@@ -103,7 +103,7 @@ function scene.draw()
 	setFont(100)
 	mStr(state==1 and #targetString-progress+1 or state==0 and"Ready"or state==2 and"Win",640,200)
 
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.print(targetString:sub(progress,progress),120,280,0,2)
 	gc.print(targetString:sub(progress+1),310,380)
 

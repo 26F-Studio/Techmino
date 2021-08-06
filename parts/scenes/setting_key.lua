@@ -82,7 +82,7 @@ end
 
 function scene.draw()
 	setFont(15)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 
 	for i=0,20 do
 		for j=1,#keyList[i]do
