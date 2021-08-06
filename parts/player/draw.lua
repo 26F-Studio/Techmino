@@ -628,6 +628,22 @@ function draw.drawProgress(s1,s2)
 	mStr(s2,62,376)
 	gc.rectangle('fill',24,375,76,4)
 end
+function draw.drawRoyaleInfo(P)
+	setFont(35)
+	mStr(#PLY_ALIVE.."/"..#PLAYERS,69,175)
+	mStr(P.modeData.ko,80,215)
+	gc.draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
+	setFont(20)
+	gc.setColor(1,.5,0,.6)
+	gc.print(P.badge,103,227)
+	gc.setColor(.97,.97,.97)
+	setFont(25)
+	gc.print(text.powerUp[P.strength],18,290)
+	gc.setColor(1,1,1)
+	for i=1,P.strength do
+		gc.draw(IMG.badgeIcon,16*i+12,260)
+	end
+end
 
 function draw.norm(P)
 	local ENV=P.gameEnv
@@ -754,6 +770,7 @@ function draw.norm(P)
 				end
 				gc_setColor(1,1,1,P.swappingAtkMode*.025)
 				setFont(35)
+				gc_setLineWidth(1)
 				for i=1,4 do
 					gc_rectangle('line',RCPB[2*i-1],RCPB[2*i],90,35,8,4)
 					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
