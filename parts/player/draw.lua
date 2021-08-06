@@ -409,6 +409,7 @@ local function drawHold(P)
 	local N=ENV.holdCount*72
 	gc_push('transform')
 		gc_translate(12,20)
+		gc_setLineWidth(2)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
 		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
 		N=#holdQueue<ENV.holdCount and P.nextQueue[1]and 1 or P.holdTime+1
@@ -539,6 +540,7 @@ function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
 	gc_translate(488,20)
+		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
 		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
@@ -575,6 +577,7 @@ function draw.drawNext_hidden(P)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
 	gc_translate(476,20)
+		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
 		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,124,N+8)
@@ -618,6 +621,12 @@ function draw.drawTargetLine(P,r)
 		gc_line(0,r,300,r)
 		gc_pop()
 	end
+end
+function draw.drawProgress(s1,s2)
+	setFont(40)
+	mStr(s1,62,322)
+	mStr(s2,62,376)
+	gc.rectangle('fill',24,375,76,4)
 end
 
 function draw.norm(P)
@@ -729,7 +738,6 @@ function draw.norm(P)
 			gc_pop()
 			gc_setStencilTest()
 
-			gc_setLineWidth(2)
 			drawBuffer(P)
 			drawB2Bbar(P)
 			drawLDI(P,ENV)
@@ -795,13 +803,12 @@ function draw.norm(P)
 			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
 
-		gc_setLineWidth(2)
 		P:drawNext()
 		drawHold(P)
 
 		--Mode informations
 		if GAME.curMode.mesDisp then
-			gc_setColor(1,1,1)
+			gc_setColor(.97,.97,.97)
 			GAME.curMode.mesDisp(P)
 		end
 

@@ -24,10 +24,7 @@ return{
 	},
 	slowMark=true,
 	mesDisp=function(P)
-		setFont(45)
-		mStr(P.stat.row,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 		PLY.draw.drawTargetLine(P,200-P.stat.row)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,

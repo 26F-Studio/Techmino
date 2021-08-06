@@ -38,10 +38,7 @@ return{
 		local r=P.modeData.target*.1
 		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),69,210)
 		mText(drawableText.speedLV,69,290)
-		setFont(45)
-		mStr(P.stat.row,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,
 	scoreDisp=function(D)return D[1].."   "..D[2].." Lines"end,
