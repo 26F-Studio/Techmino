@@ -199,7 +199,7 @@ function scene.draw()
 			if dt<20 then
 				gc.translate(0,math.abs(10-dt)-10)
 			end
-			gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.26)
+			gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.16)
 			gc.polygon('fill',L[i])
 			gc.setColor(1,1,1,min(t*.025,1))
 			gc.polygon('line',L[i])

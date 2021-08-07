@@ -97,7 +97,7 @@ for i=1,8 do
 		gc.polygon('fill',titleTriangles[i][j])
 	end
 
-	gc.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.7)
+	gc.setColor(.2+.8*titleColor[i][1],.2+.8*titleColor[i][2],.2+.8*titleColor[i][3],.5)
 	gc.translate(-4,-4)
 	for j=1,#titleTriangles[i]do
 		gc.polygon('fill',titleTriangles[i][j])
