@@ -64,6 +64,38 @@ do--function GC.DO(L)
 		fPoly=function(...)gc.polygon('fill',...)end,
 
 		dPoly=function(...)gc.polygon('line',...)end,
+		fRPol=function(x,y,R,segments,r,phase)
+			local X,Y={},{}
+			local ang=phase or 0
+			local angStep=6.283185307179586/segments
+			for i=1,segments do
+				X[i]=x+R*math.cos(ang)
+				Y[i]=y+R*math.sin(ang)
+				ang=ang+angStep
+			end
+			X[segments+1]=x+R*math.cos(ang)
+			Y[segments+1]=y+R*math.sin(ang)
+
+			local L={}
+			local halfAng=6.283185307179586/segments/2
+			local erasedLen=r*math.tan(halfAng)
+			for i=1,segments do
+				--Line
+				local x1,y1,x2,y2=X[i],Y[i],X[i+1],Y[i+1]
+				local dir=math.atan2(y2-y1,x2-x1)
+				table.insert(L,x1+erasedLen*math.cos(dir))
+				table.insert(L,y1+erasedLen*math.sin(dir))
+				table.insert(L,x2-erasedLen*math.cos(dir))
+				table.insert(L,y2-erasedLen*math.sin(dir))
+
+				--Arc
+				ang=ang+angStep
+				local R2=R-r/math.cos(halfAng)
+				local arcCX,arcCY=x+R2*math.cos(ang),y+R2*math.sin(ang)
+				gc.arc('fill','open',arcCX,arcCY,r,ang-halfAng,ang+halfAng)
+			end
+			gc.polygon('fill',L)
+		end,
 		dRPol=function(x,y,R,segments,r,phase)
 			local X,Y={},{}
 			local ang=phase or 0
