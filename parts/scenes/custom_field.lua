@@ -271,8 +271,8 @@ function scene.draw()
 
 	--Draw field
 	gc.setColor(COLOR.Z)
-	gc.setLineWidth(3)
-	gc.rectangle('line',-2,-2,304,604)
+	gc.setLineWidth(2)
+	gc.rectangle('line',-2,-2,304,604,5)
 	gc.setLineWidth(2)
 	local cross=TEXTURE.puzzleMark[-1]
 	local F=FIELD[page]
@@ -362,7 +362,7 @@ function scene.draw()
 		--Left button
 		if pens[1]>0 then
 			gc.setColor(minoColor[pens[1]])
-			gc.rectangle('fill',5,5,23,30)
+			gc.rectangle('fill',5,5,23,30,3)
 		elseif pens[1]==-1 then
 			gc.setColor(COLOR.Z)
 			gc.line(5,5,28,35)
@@ -371,7 +371,7 @@ function scene.draw()
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle('fill',5,5,23,30)
+				gc.rectangle('fill',5,5,23,30,3)
 			else
 				gc.setLineWidth(3)
 				gc.setColor(1,0,0)
@@ -383,7 +383,7 @@ function scene.draw()
 		--Right button
 		if pens[2]>0 then
 			gc.setColor(minoColor[pens[2]])
-			gc.rectangle('fill',52,5,23,30)
+			gc.rectangle('fill',52,5,23,30,3)
 		elseif pens[2]==-1 then
 			gc.setColor(COLOR.Z)
 			gc.setLineWidth(3)
@@ -393,7 +393,7 @@ function scene.draw()
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle('fill',52,5,23,30)
+				gc.rectangle('fill',52,5,23,30,3)
 			else
 				gc.setLineWidth(3)
 				gc.setColor(1,0,0)
@@ -405,7 +405,7 @@ function scene.draw()
 		--Middle button
 		if pens[3]>0 then
 			gc.setColor(minoColor[pens[3]])
-			gc.rectangle('fill',35,2,10,21)
+			gc.rectangle('fill',35,2,10,21,3)
 		elseif pens[3]==-1 then
 			gc.setColor(COLOR.Z)
 			gc.setLineWidth(2)
@@ -415,7 +415,7 @@ function scene.draw()
 			if penMode==0 then
 				gc.setLineWidth(13)
 				gc.setColor(COLOR.rainbow(TIME()*12.6))
-				gc.rectangle('fill',35,2,10,21)
+				gc.rectangle('fill',35,2,10,21,3)
 			else
 				gc.setLineWidth(3)
 				gc.setColor(1,0,0)

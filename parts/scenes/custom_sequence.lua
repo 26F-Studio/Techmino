@@ -131,8 +131,8 @@ end
 function scene.draw()
 	--Draw frame
 	gc.setColor(COLOR.Z)
-	gc.setLineWidth(4)
-	gc.rectangle('line',100,110,1080,260)
+	gc.setLineWidth(2)
+	gc.rectangle('line',100,110,1080,260,5)
 
 	--Draw sequence
 	local miniBlock=TEXTURE.miniBlock

@@ -53,10 +53,10 @@ local spinCenterImg=GC.DO{9,9,
 	{'setCL',1,1,1},
 	{'fRect',3,3,3,3},
 }
-local playerBoarders=GC.DO{334,620,
+local playerBoarder=GC.DO{334,620,
 	{'setLW',2},
 	{'setCL',.97,.97,.975},
-	{'dRect',16,1,302,618,7},
+	{'dRect',16,1,302,618,5},
 	{'fRect',17,612,300,2},
 	{'dRect',318,9,15,596,3},
 	{'dRect',1,9,15,596,3},
@@ -626,7 +626,7 @@ function draw.drawProgress(s1,s2)
 	setFont(40)
 	mStr(s1,62,322)
 	mStr(s2,62,376)
-	gc.rectangle('fill',24,375,76,4)
+	gc.rectangle('fill',24,375,76,4,2)
 end
 function draw.drawRoyaleInfo(P)
 	setFont(35)
@@ -760,7 +760,7 @@ function draw.norm(P)
 
 			--Draw boarders
 			gc_setColor(P.frameColor)
-			gc_draw(playerBoarders,-17,-12)
+			gc_draw(playerBoarder,-17,-12)
 
 			--Draw target selecting pad
 			if GAME.modeEnv.royaleMode then

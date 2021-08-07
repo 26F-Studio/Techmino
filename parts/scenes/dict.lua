@@ -166,10 +166,10 @@ function scene.draw()
 		gc.print(item[1],30,y)
 	end
 
-	gc.setLineWidth(4)
+	gc.setLineWidth(2)
 	gc.setColor(COLOR.Z)
-	gc.rectangle('line',300,180,958,526)
-	gc.rectangle('line',20,180,280,526)
+	gc.rectangle('line',300,180,958,526,5)
+	gc.rectangle('line',20,180,280,526,5)
 
 	if waiting>0 then
 		local r=TIME()*2

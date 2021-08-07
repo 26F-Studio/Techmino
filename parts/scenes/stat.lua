@@ -78,15 +78,17 @@ function scene.draw()
 		gc_print(item[i],740,40*i+10)
 	end
 
-	gc_setLineWidth(4)
-	for x=1,8 do
-		x=80*x-40
+	gc_setLineWidth(2)
+	gc.rectangle('line',40,80,560,160,5)
+	gc.rectangle('line',40,320,560,160,5)
+	for x=1,6 do
+		x=80*x+40
 		gc_line(x,80,x,240)
 		gc_line(x,320,x,480)
 	end
-	for y=2,6 do
-		gc_line(40,40*y,600,40*y)
-		gc_line(40,240+40*y,600,240+40*y)
+	for y=1,3 do
+		gc_line(40,80+40*y,600,80+40*y)
+		gc_line(40,320+40*y,600,320+40*y)
 	end
 
 	local t=TIME()
@@ -100,8 +102,8 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="path",	x=800,y=540,w=250,h=80,font=25,code=function()love.system.openURL(SAVEDIR)end,hide=MOBILE},
-	WIDGET.newButton{name="save",	x=800,y=640,w=250,h=80,font=25,code=goScene'savedata'},
+	WIDGET.newButton{name="path",	x=820,y=540,w=250,h=80,font=25,code=function()love.system.openURL(SAVEDIR)end,hide=MOBILE},
+	WIDGET.newButton{name="save",	x=820,y=640,w=250,h=80,font=25,code=goScene'savedata'},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
