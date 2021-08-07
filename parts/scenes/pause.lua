@@ -228,14 +228,14 @@ function scene.draw()
 			mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),305,389)
 		end
 
-		--Frame
-		gc.setColor(.97,.97,.97,T*.06)
-		gc.rectangle('fill',-5,-5,620,380,8)
-		gc.setColor(.97,.97,.97,T)
-		gc.rectangle('line',-5,-5,620,380,8)
-
 		--Pages
 		if page==0 then
+			--Frame
+			gc.setColor(.97,.97,.97,T2*.06)
+			gc.rectangle('fill',-5,-5,620,380,8)
+			gc.setColor(.97,.97,.97,T2)
+			gc.rectangle('line',-5,-5,620,380,8)
+
 			--Game statistics
 			gc.push('transform')
 			gc.scale(.85)
@@ -265,15 +265,15 @@ function scene.draw()
 			gc.pop()
 		elseif page==1 then
 			--Radar Chart
-			gc.setLineWidth(2)
+			gc.setLineWidth(1)
 			gc.push('transform')
 			gc.translate(310,185)
-			gc.scale(.9)
 
 			--Polygon
 			gc.push('transform')
 				gc.scale((3-2*T2)*T2)
-				gc.setColor(.97,.97,.97,T2*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
+				gc.setColor(.97,.97,.97,T2*(.5+.3*sin(TIME()*6.26)))
+				GC.regularPolygon('line',0,0,120,6,8)
 				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T2*.626)
 				for i=1,9,2 do
 					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
@@ -281,13 +281,6 @@ function scene.draw()
 				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
 				gc.setColor(.97,.97,.97,T2)gc.polygon('line',val)
 			gc.pop()
-
-			--Axes
-			gc.setColor(.97,.97,.97,T2)
-			for i=1,3 do
-				local x,y=hexList[2*i-1],hexList[2*i]
-				gc.line(-x,-y,x,y)
-			end
 
 			--Texts
 			local C
