@@ -875,7 +875,7 @@ return{
 		"Techmino tem uma edição Nspire-CX!",
 		"Techmino é legal!",
 		"TetroDictionary está disponível em Inglês.",
-		"Tem 3 modos escondidos no jogo.",
+		"Tem 4 modos escondidos no jogo.",
 		"Tem um total de 18 pentominoes diferentes.",
 		"Tem um total de 7 diferentes tetrominoes.",
 		"Tente usar dois botões de rotação. Todos três é melhor.",

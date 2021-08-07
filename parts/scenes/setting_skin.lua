@@ -54,6 +54,9 @@ end
 local function nextDir(i)
 	SETTING.face[i]=(SETTING.face[i]+1)%4
 	minoRot0[i]=minoRot0[i]+1.5707963
+	if minoRot0[5]>62 then
+		loadGame('marathon_bfmax',true)
+	end
 	SFX.play('rotate')
 end
 

@@ -892,7 +892,7 @@ return{
 		"Techmino is so fun!",
 		"TetroDictionary is now available in English.",
 		"The stacker future is yours in Techmino!",
-		"There are three hidden modes in the game.",
+		"There are four hidden modes in the game.",
 		"There is a total of 18 different pentominoes.",
 		"There is a total of 7 different tetrominoes.",
 		"Try using multiple Hold Queues!",
