@@ -10,6 +10,7 @@ local scene={}
 function scene.sceneInit()
 	for i=1,7 do
 		minoRot0[i]=SETTING.face[i]*1.57
+		minoRot[i]=minoRot0[i]
 	end
 end
 
