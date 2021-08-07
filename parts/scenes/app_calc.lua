@@ -9,9 +9,11 @@ local sym--symbol
 
 function scene.sceneInit()
 	BG.set('none')
-	reg=false
-	val="0"
-	sym=false
+	BGM.stop()
+	reg,val,sym=false,"0",false
+end
+function scene.sceneBack()
+	BGM.play()
 end
 
 scene.mouseDown=NULL
@@ -40,7 +42,7 @@ function scene.keyDown(key)
 			val=val.."."
 		end
 	elseif key=="e"then
-		if not val:find("e")then
+		if sym~="="and not val:find("e")then
 			val=val.."e"
 		end
 	elseif key=="backspace"then
@@ -57,15 +59,15 @@ function scene.keyDown(key)
 	elseif key=="-"then sym="-" reg=false
 	elseif key=="/"then sym="/" reg=false
 	elseif key=="return"then
-		if val:byte(-1)==101 then val=val:sub(1,-2)end
+		if val:sub(-1)=="e"then val=val:sub(1,-2)end
 		if sym and reg then
-			if reg:byte(-1)==101 then reg=reg:sub(1,-2)end
+			if reg:sub(-1)=="e"then reg=reg:sub(1,-2)end
 			val=
-				sym=="+"and (tonumber(reg)or 0)+tonumber(val)or
-				sym=="-"and (tonumber(reg)or 0)-tonumber(val)or
-				sym=="*"and (tonumber(reg)or 0)*tonumber(val)or
-				sym=="/"and (tonumber(reg)or 0)/tonumber(val)or
-				-1
+				sym=="+"and tostring((tonumber(reg)or 0)+tonumber(val))or
+				sym=="-"and tostring((tonumber(reg)or 0)-tonumber(val))or
+				sym=="*"and tostring((tonumber(reg)or 0)*tonumber(val))or
+				sym=="/"and tostring((tonumber(reg)or 0)/tonumber(val))or
+				"-1"
 		end
 		sym="="
 		reg=false
