@@ -185,7 +185,7 @@ function scene.draw()
 	--Dark BG
 	local _=T
 	if GAME.result then _=_*.76 end
-	gc.setColor(.15,.15,.15,_)
+	gc.setColor(.12,.12,.12,_)
 	gc.replaceTransform(SCR.origin)
 	gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.replaceTransform(SCR.xOy)
