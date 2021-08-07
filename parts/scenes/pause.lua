@@ -17,7 +17,8 @@ local fnsRankColor={
 
 local scene={}
 
-local timer--Animation timer
+local page
+local timer1,timer2--Animation timer
 local form--Form of clear & spins
 local radar--Radar chart
 local val--Radar chart normalizer
@@ -28,13 +29,15 @@ local trophy--Current trophy
 local trophyColor--Current trophy color
 
 function scene.sceneInit(org)
+	page=0
 	if org:find("setting")then
 		TEXT.show(text.needRestart,640,410,50,'fly',.6)
 	end
 	local P=PLAYERS[1]
 	local S=P.stat
 
-	timer=org=='game'and 0 or 50
+	timer1=org=='game'and 0 or 50
+	timer2=timer1
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
@@ -150,6 +153,13 @@ function scene.keyDown(key,isRep)
 				SFX.play('connected')
 			end
 		end
+	elseif key=="tab"or key=="Stab"then
+		if love.keyboard.isDown("lshift","rshift")or key=="Stab"then
+			page=(page-1)%2
+		else
+			page=(page+1)%2
+		end
+		timer2=0
 	else
 		WIDGET.keyPressed(key)
 	end
@@ -159,9 +169,8 @@ function scene.update(dt)
 	if not(GAME.result or GAME.replaying)then
 		GAME.pauseTime=GAME.pauseTime+dt
 	end
-	if timer<50 then
-		timer=timer+1
-	end
+	if timer1<50 then timer1=timer1+1 end
+	if timer2<25 then timer2=timer2+1 end
 end
 
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
@@ -169,7 +178,8 @@ for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
 function scene.draw()
-	local T=timer*.02
+	local T=timer1*.02
+	local T2=timer2*.04
 	if T<1 or GAME.result then SCN.scenes.game.draw()end
 
 	--Dark BG
@@ -180,26 +190,18 @@ function scene.draw()
 	gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.replaceTransform(SCR.xOy)
 
-	--Pause Info
-	setFont(25)
-	if GAME.pauseCount>0 then
-		gc.setColor(.96,.92,.92,T)
-		mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),640,500)
-	end
-
 	gc.setColor(.97,.97,.97,T)
 
 	--Result Text
-	setFont(35)
-	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,90-10*(5-timer*.1)^1.5)
+	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,80-10*(5-timer1*.1)^1.5)
 
-	--Mode Info
-	mDraw(drawableText.modeName,640,180)
+	--Mode Info (outside)
+	gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),133)
 
 	--Level rank
 	if GAME.rank>0 then
 		gc.push('transform')
-			gc.translate(1090,40)
+			gc.translate(1050,-5)
 			local str=text.ranks[GAME.rank]
 			setFont(80)
 			gc.setColor(0,0,0,T*.7)
@@ -210,46 +212,109 @@ function scene.draw()
 		gc.pop()
 	end
 
-	--Infos
-	if PLAYERS[1].frameRun>180 then
-		gc.push('transform')
-			gc.translate(835,210)
-			gc.scale(.85)
-			gc.setLineWidth(2)
+	--Big info frame
+	gc.push('transform')
+		gc.translate(560,195)
+		gc.setLineWidth(2)
 
-			--Frame
+		--Pause Info (outside)
+		setFont(25)
+		if GAME.pauseCount>0 then
 			gc.setColor(.97,.97,.97,T*.06)
-			gc.rectangle('fill',-5,-5,475,rank and 390 or 360,8)
+			gc.rectangle('fill',-5,390,620,36,8)
 			gc.setColor(.97,.97,.97,T)
-			gc.rectangle('line',-5,-5,475,rank and 390 or 360,8)
+			gc.rectangle('line',-5,390,620,36,8)
+			mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),305,389)
+		end
 
-			--Stats
-			_=form
-			setFont(25)
-			for i=1,10 do
-				gc.print(text.pauseStat[i],5,35*(i-1))
-				gc.printf(_[i],160,35*(i-1),300,'right')
-			end
+		--Frame
+		gc.setColor(.97,.97,.97,T*.06)
+		gc.rectangle('fill',-5,-5,620,380,8)
+		gc.setColor(.97,.97,.97,T)
+		gc.rectangle('line',-5,-5,620,380,8)
 
-			--Finesse rank & trophy
-			if rank then
-				setFont(40)
-				local c=fnsRankColor[rank]
-				gc.setColor(c[1],c[2],c[3],T)
-				gc.print(rank,435,335)
-				if trophy then
-					setFont(20)
-					gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
-					gc.printf(trophy,125-120*(1-T^.5),350,300,'right')
-				end
+		--Pages
+		if page==0 then
+			--Game statistics
+			if PLAYERS[1].frameRun>180 then
+				gc.push('transform')
+					gc.scale(.85)
+					gc.setLineWidth(2)
+
+					--Stats
+					_=form
+					setFont(30)
+					gc.setColor(.97,.97,.97,T2)
+					for i=1,10 do
+						gc.print(text.pauseStat[i],5,43*(i-1)+2)
+						gc.printf(_[i],410,43*(i-1)+2,300,'right')
+					end
+
+					--Finesse rank & trophy
+					if rank then
+						setFont(40)
+						local c=fnsRankColor[rank]
+						gc.setColor(c[1],c[2],c[3],T2)
+						gc.print(rank,405,383)
+						if trophy then
+							setFont(20)
+							gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T2*2-1)
+							gc.printf(trophy,95-120*(1-T2^.5),398,300,'right')
+						end
+					end
+				gc.pop()
 			end
-		gc.pop()
-	end
+		elseif page==1 then
+			--Radar Chart
+			if PLAYERS[1].frameRun>180 then
+				gc.setLineWidth(2)
+				gc.push('transform')
+					gc.translate(310,185)
+					gc.scale(.9)
+
+					--Polygon
+					gc.push('transform')
+						gc.scale((3-2*T2)*T2)
+						gc.setColor(.97,.97,.97,T2*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
+						gc.setColor(chartColor[1],chartColor[2],chartColor[3],T2*.626)
+						for i=1,9,2 do
+							gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
+						end
+						gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
+						gc.setColor(.97,.97,.97,T2)gc.polygon('line',val)
+					gc.pop()
+
+					--Axes
+					gc.setColor(.97,.97,.97,T2)
+					for i=1,3 do
+						local x,y=hexList[2*i-1],hexList[2*i]
+						gc.line(-x,-y,x,y)
+					end
+
+					--Texts
+					local C
+					_=TIME()%6.2832
+					if _>3.142 then
+						gc.setColor(.97,.97,.97,-T2*sin(_))
+						setFont(35)
+						C,_=text.radar,textPos
+					else
+						gc.setColor(.97,.97,.97,T2*sin(_))
+						setFont(20)
+						C,_=radar,dataPos
+					end
+					for i=1,6 do
+						mStr(C[i],_[2*i-1],_[2*i])
+					end
+				gc.pop()
+			end
+		end
+	gc.pop()
 
 	--Mods
 	gc.push('transform')
-		gc.translate(740,550)
-		gc.scale()
+		gc.translate(780,585)
+		gc.scale(.8)
 		if #GAME.mod>0 then
 			gc.setLineWidth(2)
 			if scoreValid()then
@@ -273,51 +338,6 @@ function scene.draw()
 			end
 		end
 	gc.pop()
-
-	--Radar Chart
-	if T>.5 and PLAYERS[1].frameRun>180 then
-		T=T*2-1
-		gc.setLineWidth(2)
-		gc.push('transform')
-			gc.translate(640,380)
-			gc.scale(.67)
-
-			--Polygon
-			gc.push('transform')
-				gc.scale((3-2*T)*T)
-				gc.setColor(.97,.97,.97,T*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
-				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T*.626)
-				for i=1,9,2 do
-					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
-				end
-				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
-				gc.setColor(.97,.97,.97,T)gc.polygon('line',val)
-			gc.pop()
-
-			--Axes
-			gc.setColor(.97,.97,.97,T)
-			for i=1,3 do
-				local x,y=hexList[2*i-1],hexList[2*i]
-				gc.line(-x,-y,x,y)
-			end
-
-			--Texts
-			local C
-			_=TIME()%6.2832
-			if _>3.1416 then
-				gc.setColor(.97,.97,.97,-T*sin(_))
-				setFont(35)
-				C,_=text.radar,textPos
-			else
-				gc.setColor(.97,.97,.97,T*sin(_))
-				setFont(20)
-				C,_=radar,dataPos
-			end
-			for i=1,6 do
-				mStr(C[i],_[2*i-1],_[2*i])
-			end
-		gc.pop()
-	end
 end
 
 scene.widgetList={
@@ -325,8 +345,16 @@ scene.widgetList={
 	WIDGET.newKey{name="restart",	x=290,y=340,w=300,h=70,code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newKey{name="setting",	x=290,y=440,w=300,h=70,code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newKey{name="quit",		x=290,y=540,w=300,h=70,code=backScene},
-	WIDGET.newKey{name="replay",	x=0,y=0,w=50,h=50,code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newKey{name="save",		x=0,y=0,w=50,h=50,code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
+	WIDGET.newKey{name="page_prev",	x=500,y=380,w=70,code=pressKey"tab",noFrame=true,
+		fText=GC.DO{70,70,{'setLW',2},												{'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
+		fShade=GC.DO{70,70,{'setCL',1,1,1,.6},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',33,35,32,3,6,3.142},{'fRPol',45,35,32,3,6,3.142}}}}
+		},
+	WIDGET.newKey{name="page_next",	x=1230,y=380,w=70,code=pressKey"Stab",noFrame=true,
+		fText=GC.DO{70,70,{'setLW',2},												{'dRPol',37,35,32,3,6},{'dRPol',25,35,32,3,6}},
+		fShade=GC.DO{70,70,{'setCL',1,1,1,.6},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',37,35,32,3,6},{'fRPol',25,35,32,3,6}}}}
+		},
+	WIDGET.newKey{name="replay",	x=865,y=155,w=200,h=40,font=25,code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newKey{name="save",		x=1075,y=155,w=200,h=40,font=25,code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
 }
 
 return scene
