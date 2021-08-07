@@ -638,7 +638,15 @@ local commands={}do
 	commands.sudo={
 		code=function(code)
 			if sudomode then
-				local success,result=pcall(loadstring(code))
+				--Filter ""
+				if #code==0 then log{C.R,"Usage: sudo [Lua code]"}return end
+
+				--Check Syntax error
+				local func,errmsg=loadstring(code)
+				if errmsg then log{C.R,errmsg}return end
+
+				--Run code
+				local success,result=pcall(func)
 				if success then
 					if result~=nil then
 						log{C.lG,">> "..tostring(result)}
