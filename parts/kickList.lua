@@ -579,20 +579,20 @@ do
 	for i=2,29 do ASC[i]=ASC[1]end
 end
 
-local ASCplus
+local ASC_plus
 do
 	local L={"+0+0","+1+0","+0-1","+1-1","+0-2","+1-2","+2+0","+2-1","+2-2","-1+0","-1-1","+0+1","+1+1","+2+1","-1-2","-2+0","+0+2","+1+2","+2+2","-2-1","-2-2"}
 	local R=flipList(L)
 	local F={"+0+0","-1+0","+1+0","+0-1","-1-1","+1-1","+0-2","-1-2","+1-2","-2+0","+2+0","-2-1","+2-1","-2+1","+2+1","+0+2","-1+2","+1+2"}
 	vecStrConv(L)vecStrConv(R)vecStrConv(F)
-	ASCplus={
+	ASC_plus={
 		{
 			[01]=R,[12]=R,[23]=R,[30]=R,
 			[10]=L,[21]=L,[32]=L,[03]=L,
 			[02]=F,[20]=F,[13]=F,[31]=F,
 		}
 	}
-	for i=2,29 do ASCplus[i]=ASCplus[1]end
+	for i=2,29 do ASC_plus[i]=ASC_plus[1]end
 end
 
 local C2
@@ -608,7 +608,7 @@ do
 	for i=2,29 do C2[i]=C2[1]end
 end
 
-local C2sym
+local C2_sym
 do
 	local L={'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1','-2+0','+2+0'}
 	local R={'+0+0','+1+0','-1+0','+0-1','+1-1','-1-1','+2+0','-2+0'}
@@ -622,7 +622,7 @@ do
 	collectSet(Z)
 	collectSet(S)
 
-	C2sym={
+	C2_sym={
 		Z,S,--Z,S
 		Z,S,--J,L
 		Z,--T
@@ -644,22 +644,22 @@ do
 	}
 end
 
-local Classic={}
-for i=1,29 do Classic[i]=noKickSet end
-
 local None={}
 for i=1,29 do None[i]=noKickSet_180 end
+
+local None_plus={}
+for i=1,29 do None_plus[i]=noKickSet end
 
 local RS={
 	TRS=TRS,
 	SRS=SRS,
 	BiRS=BiRS,
 	ASC=ASC,
-	ASCplus=ASCplus,
+	ASC_plus=ASC_plus,
 	C2=C2,
-	C2sym=C2sym,
-	Classic=Classic,
+	C2_sym=C2_sym,
 	None=None,
+	None_plus=None_plus,
 }
 
 for _,v in next,RS do
