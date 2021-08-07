@@ -3,17 +3,18 @@ local gc=love.graphics
 return{
 	color=COLOR.lBlue,
 	env={
-		smooth=false,
-		noTele=true,keyCancel={5,6},
 		das=16,arr=6,sddas=2,sdarr=2,
 		irs=false,ims=false,
 		center=0,ghost=0,
+		smooth=false,
 		drop=3,lock=3,wait=10,fall=25,
+		fieldH=19,
 		nextCount=1,holdCount=false,
-		sequence='rnd',
 		RS='Classic',
+		sequence='rnd',
 		freshLimit=0,
 		face={0,0,2,2,2,0,0},
+		noTele=true,keyCancel={5,6},
 		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
 			local D=P.modeData
