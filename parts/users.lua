@@ -9,12 +9,12 @@ local emptyUser={
 local defaultAvatar={}
 for i=1,29 do
 	local img=TEXTURE.miniBlock[i]
-	defaultAvatar[i]=DOGC{128,128,
+	defaultAvatar[i]=GC.DO{128,128,
 		{'clear',.1,.1,.1},
 		{'draw',img,63,63,.2,30,30,img:getWidth()/2,img:getHeight()/2},
 	}
 end
-local errorAvatar=DOGC{128,128,
+local errorAvatar=GC.DO{128,128,
 	{'setCL',1,.2,.15},
 	{'setLW',10},
 	{'line',10,10,117,117},

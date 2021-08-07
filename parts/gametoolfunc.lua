@@ -598,7 +598,7 @@ do--function drawSelfProfile()
 		ins(img,{"dRect",2,2,21,21})
 		--TODO: draw with lv
 
-		img=DOGC(img)
+		img=GC.DO(img)
 		rawset(self,lv,img)
 		return img
 	end})

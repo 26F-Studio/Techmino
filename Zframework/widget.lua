@@ -19,22 +19,22 @@ local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
 
-local downArrowIcon=DOGC{40,25,{'fPoly',0,0,20,25,40,0}}
-local upArrowIcon=DOGC{40,25,{'fPoly',0,25,20,0,40,25}}
-local clearIcon=DOGC{40,40,
+local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
+local upArrowIcon=GC.DO{40,25,{'fPoly',0,25,20,0,40,25}}
+local clearIcon=GC.DO{40,40,
 	{'fRect',16,5,8,3},
 	{'fRect',8,8,24,3},
 	{'fRect',11,14,18,21},
 }
-local sureIcon=DOGC{40,40,
+local sureIcon=GC.DO{40,40,
 	{'setFT',35},
 	{'mText',"?",20,-6},
 }
-local smallerThen=DOGC{20,20,
+local smallerThen=GC.DO{20,20,
 	{'setLW',5},
 	{'line',18,2,1,10,18,18},
 }
-local largerThen=DOGC{20,20,
+local largerThen=GC.DO{20,20,
 	{'setLW',5},
 	{'line',2,2,19,10,2,18},
 }
@@ -1452,7 +1452,7 @@ local widgetCover do
 		ins(L,{'fRect',0,i,1,2})
 		ins(L,{'fRect',0,360-i,1,2})
 	end
-	widgetCover=DOGC(L)
+	widgetCover=GC.DO(L)
 end
 local scr_w,scr_h
 function WIDGET.resize(w,h)

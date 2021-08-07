@@ -6,7 +6,7 @@ local ins,rem=table.insert,table.remove
 
 local mesList={}
 local mesIcon={
-	check=DOGC{40,40,
+	check=GC.DO{40,40,
 		{'setLW',10},
 		{'setCL',0,0,0},
 		{'line',4,19,15,30,36,9},
@@ -14,7 +14,7 @@ local mesIcon={
 		{'setCL',.7,1,.6},
 		{'line',5,20,15,30,35,10},
 	},
-	info=DOGC{40,40,
+	info=GC.DO{40,40,
 		{'setCL',.2,.25,.85},
 		{'fCirc',20,20,15},
 		{'setCL',1,1,1},
@@ -23,7 +23,7 @@ local mesIcon={
 		{'fRect',18,11,4,4},
 		{'fRect',18,17,4,12},
 	},
-	broadcast=DOGC{40,40,
+	broadcast=GC.DO{40,40,
 		{'setCL',1,1,1},
 		{'fRect',2,4,36,26,3},
 		{'fPoly',2,27,2,37,14,25},
@@ -31,7 +31,7 @@ local mesIcon={
 		{'fRect',6,11,4,4},{'fRect',14,11,19,4},
 		{'fRect',6,19,4,4},{'fRect',14,19,19,4},
 	},
-	warn=DOGC{40,40,
+	warn=GC.DO{40,40,
 		{'setCL',.95,.83,.4},
 		{'fPoly',20.5,1,0,38,40,38},
 		{'setCL',0,0,0},
@@ -42,7 +42,7 @@ local mesIcon={
 		{'fRect',18,11,5,16},
 		{'fRect',18,30,5,5},
 	},
-	error=DOGC{40,40,
+	error=GC.DO{40,40,
 		{'setCL',.95,.3,.3},
 		{'fCirc',20,20,19},
 		{'setCL',0,0,0},
@@ -92,7 +92,7 @@ function MES.new(icon,str,time)
 		startTime=.5,
 		endTime=.5,
 		time=time or 3,
-		canvas=DOGC(L),
+		canvas=GC.DO(L),
 		width=w,height=h,
 		scale=h>400 and 1/math.min(h/400,2.6)or 1
 	})

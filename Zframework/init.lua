@@ -25,7 +25,6 @@ VIB=	require'Zframework.vibrate'
 SFX=	require'Zframework.sfx'
 
 LIGHT=	require'Zframework.light'
-DOGC=	require'Zframework.doGC'
 BG=		require'Zframework.background'
 WIDGET=	require'Zframework.widget'
 TEXT=	require'Zframework.text'
@@ -66,7 +65,7 @@ joysticks={}
 
 local devMode
 
-local batteryImg=DOGC{31,20,
+local batteryImg=GC.DO{31,20,
 	{'fRect',1,0,26,2},
 	{'fRect',1,18,26,2},
 	{'fRect',0,1,2,18},
@@ -496,28 +495,28 @@ local wsBottomImage do
 		ins(L,{'setCL',1,1,1,i*.005})
 		ins(L,{'fRect',i,0,1,18})
 	end
-	wsBottomImage=DOGC(L)
+	wsBottomImage=GC.DO(L)
 end
-local ws_deadImg=DOGC{20,20,
+local ws_deadImg=GC.DO{20,20,
 	{'setFT',20},
 	{'setCL',1,.3,.3},
 	{'print',"X",3,-4},
 }
-local ws_connectingImg=DOGC{20,20,
+local ws_connectingImg=GC.DO{20,20,
 	{'setLW',3},
 	{'dArc',11.5,10,6.26,1,5.28},
 }
-local ws_runningImg=DOGC{20,20,
+local ws_runningImg=GC.DO{20,20,
 	{'setFT',20},
 	{'setCL',.5,1,0},
 	{'print',"R",3,-4},
 }
-local cursorImg=DOGC{16,16,
+local cursorImg=GC.DO{16,16,
 	{'fCirc',8,8,4},
 	{'setCL',1,1,1,.7},
 	{'fCirc',8,8,6},
 }
-local cursor_holdImg=DOGC{16,16,
+local cursor_holdImg=GC.DO{16,16,
 	{'setLW',2},
 	{'dCirc',8,8,7},
 	{'fCirc',8,8,3},

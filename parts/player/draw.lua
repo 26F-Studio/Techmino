@@ -29,21 +29,21 @@ local hideBoardStencil={
 	down=function()gc_rectangle('fill',0,300,300,300)end,
 	all=function()gc_rectangle('fill',0,0,300,600)end,
 }
-local dialFrame=DOGC{97,32,
+local dialFrame=GC.DO{97,32,
 	{'setLW',2},
 	{'dRect',1,1,30,30,3},
 	{'dRect',36,1,60,30,3},
 }
-local dialNeedle=DOGC{22,4,
+local dialNeedle=GC.DO{22,4,
 	{'fRect',0,1,20,2},
 	{'fCirc',20,2,2},
 }
-local multiple=DOGC{15,15,
+local multiple=GC.DO{15,15,
 	{'setLW',3},
 	{'line',2,2,12,12},
 	{'line',2,12,12,2},
 }
-local spinCenterImg=DOGC{9,9,
+local spinCenterImg=GC.DO{9,9,
 	{'setCL',1,1,1,.2},
 	{'fRect',0,0,9,9},
 	{'setCL',1,1,1,.6},
@@ -53,7 +53,7 @@ local spinCenterImg=DOGC{9,9,
 	{'setCL',1,1,1},
 	{'fRect',3,3,3,3},
 }
-local playerBoarders=DOGC{334,620,
+local playerBoarders=GC.DO{334,620,
 	{'setLW',2},
 	{'setCL',.97,.97,.975},
 	{'dRect',16,1,302,618,7},
@@ -65,15 +65,15 @@ local gridLines do
 	local L={300,640,{'setLW',2}}
 	for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
 	for y=0,20 do table.insert(L,{'line',0,10+30*y,300,10+30*y})end
-	gridLines=DOGC(L)
+	gridLines=GC.DO(L)
 end
-local LDmarks=gc.newSpriteBatch(DOGC{14,5,{'fRect',0,0,14,5,3}},15,'static')
+local LDmarks=gc.newSpriteBatch(GC.DO{14,5,{'fRect',0,0,14,5,3}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end
-local bpmImage=DOGC{31,12,
+local bpmImage=GC.DO{31,12,
 	{'setFT',15},
 	{'print',"BPM",0,-5}
 }
-local kpmImage=DOGC{31,12,
+local kpmImage=GC.DO{31,12,
 	{'setFT',15},
 	{'print',"KPM",0,-5}
 }

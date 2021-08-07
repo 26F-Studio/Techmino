@@ -8,7 +8,7 @@ local upCover do
 		table.insert(L,{'setCL',.6,1,1,i*.01})
 		table.insert(L,{'fRect',0,63-i,1,1})
 	end
-	upCover=DOGC(L)
+	upCover=GC.DO(L)
 end
 local downCover do
 	local L={1,64}
@@ -16,7 +16,7 @@ local downCover do
 		table.insert(L,{'setCL',1,.5,.8,i*.01})
 		table.insert(L,{'fRect',0,i,1,1})
 	end
-	downCover=DOGC(L)
+	downCover=GC.DO(L)
 end
 
 local W,H
