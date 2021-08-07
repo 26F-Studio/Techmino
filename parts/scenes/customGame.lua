@@ -91,6 +91,10 @@ function scene.keyDown(key,isRep)
 			TABLE.clear(CUSTOMENV)
 			TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 			for _,W in next,scene.widgetList do W:reset()end
+			FILE.save(DATA.copyMission(),'conf/customMissions')
+			FILE.save(DATA.copyBoards(),'conf/customBoards')
+			FILE.save(DATA.copySequence(),'conf/customSequence')
+			FILE.save(CUSTOMENV,'conf/customEnv')
 			sure=0
 			SFX.play('finesseError',.7)
 			BG.set(CUSTOMENV.bg)
