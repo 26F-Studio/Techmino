@@ -291,21 +291,38 @@ function key:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
 	local c=self.color
+	local align=self.align
 	local r,g,b=c[1],c[2],c[3]
 
-	gc_setColor(1,1,1,ATV*.1)
-	gc_rectangle('fill',x,y,w,h,3)
+	--Frame
+	if not self.noFrame then
+		gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+		gc_setLineWidth(2)
+		gc_rectangle('line',x,y,w,h,3)
+	end
 
-	gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc_setLineWidth(2)
-	gc_rectangle('line',x,y,w,h,3)
+	--Fill
+	if self.fShade then
+		gc_setColor(r,g,b,ATV*.25)
+		if align=='M'then
+			mDraw(self.fShade,x+w*.5,y+h*.5)
+		elseif align=='L'then
+			mDraw_Y(self.fShade,x+self.edge,y+h*.5)
+		elseif align=='R'then
+			mDraw_Y(self.fShade,x+w-self.edge-self.fShade:getWidth(),y+h*.5)
+		end
+	else
+		gc_setColor(1,1,1,ATV*.05)
+		gc_rectangle('fill',x,y,w,h,3)
+	end
 
-	gc_setColor(r,g,b,1.2)
-	if self.align=='M'then
+	--Object
+	gc_setColor(r,g,b)
+	if align=='M'then
 		mDraw(self.obj,x+w*.5,y+h*.5)
-	elseif self.align=='L'then
+	elseif align=='L'then
 		mDraw_Y(self.obj,x+self.edge,y+h*.5)
-	elseif self.align=='R'then
+	elseif align=='R'then
 		mDraw_Y(self.obj,x+w-self.edge-self.obj:getWidth(),y+h*.5)
 	end
 end
@@ -316,7 +333,7 @@ function key:press(_,_,k)
 	self.code(k)
 	if self.sound then SFX.play('key')end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name or"_",
@@ -335,6 +352,8 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true]
 		},
 
 		fText=	D.fText,
+		fShade=	D.fShade,
+		noFrame=D.noFrame,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		sound=	D.sound~=false,
