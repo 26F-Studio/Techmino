@@ -312,6 +312,7 @@ return{
 			RS="旋转系统",
 			layout="外观",
 			autoPause="失去焦点自动暂停",
+			menuPos="菜单按钮位置",
 			swap="组合键切换攻击模式",
 			simpMode="简洁模式",
 		},

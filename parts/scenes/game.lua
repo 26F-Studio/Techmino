@@ -6,6 +6,7 @@ local GAME=GAME
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local floatRepRate,replayRate
+local modeTextPos
 
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
@@ -69,6 +70,9 @@ local function _step()floatRepRate=floatRepRate+1 end
 
 
 function scene.sceneInit(org)
+	noKey=replaying
+	noTouch=not SETTING.VKSwitch or noKey
+
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
@@ -79,10 +83,20 @@ function scene.sceneInit(org)
 		floatRepRate,replayRate=0,1
 	end
 	updateRepButtons()
-
-	noKey=replaying
-	noTouch=not SETTING.VKSwitch or noKey
 	WIDGET.active.restart.hide=replaying
+	if SETTING.menuPos=='right'then
+		WIDGET.active.restart.x=1125
+		WIDGET.active.pause.x=1195
+		modeTextPos=1100-drawableText.modeName:getWidth()
+	elseif SETTING.menuPos=='middle'then
+		WIDGET.active.restart.x=360
+		WIDGET.active.pause.x=860
+		modeTextPos=940
+	elseif SETTING.menuPos=='left'then
+		WIDGET.active.restart.x=120
+		WIDGET.active.pause.x=190
+		modeTextPos=1200-drawableText.modeName:getWidth()
+	end
 end
 function scene.sceneBack()
 	destroyPlayers()
@@ -303,7 +317,7 @@ function scene.draw()
 
 	--Mode info
 	gc.setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,1120-drawableText.modeName:getWidth(),10)
+	gc.draw(drawableText.modeName,modeTextPos,10)
 
 	--Replaying
 	if replaying then
@@ -326,8 +340,8 @@ scene.widgetList={
 	WIDGET.newKey{name="rep2",		x=300,y=50,w=60,code=_rep2,fText=TEXTURE.rep.rep2},
 	WIDGET.newKey{name="rep5",		x=365,y=50,w=60,code=_rep5,fText=TEXTURE.rep.rep5},
 	WIDGET.newKey{name="step",		x=430,y=50,w=60,code=_step,fText=TEXTURE.rep.step},
-	WIDGET.newKey{name="restart",	x=1165,y=45,w=60,code=restart,fText=TEXTURE.game.restart},
-	WIDGET.newKey{name="pause",		x=1235,y=45,w=60,code=pauseGame,fText=TEXTURE.game.pause},
+	WIDGET.newKey{name="restart",	x=0,y=45,w=60,code=restart,fText=TEXTURE.game.restart},
+	WIDGET.newKey{name="pause",		x=0,y=45,w=60,code=pauseGame,fText=TEXTURE.game.pause},
 }
 
 return scene

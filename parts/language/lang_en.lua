@@ -312,6 +312,7 @@ return{
 			RS="Rotation System",
 			layout="Layout",
 			autoPause="Pause while unfocused",
+			menuPos="Menu button pos.",
 			swap="Key Combination (Change Atk. Mode)",
 			simpMode="Simplistic Style",
 		},

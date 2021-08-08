@@ -135,6 +135,7 @@ return{
 			RS="''?",
 			layout="=-=-=",
 			autoPause="A||",
+			menuPos="←M→?",
 			swap="=+=+=",
 			simpMode=".",
 		},

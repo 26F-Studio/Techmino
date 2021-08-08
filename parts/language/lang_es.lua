@@ -278,6 +278,7 @@ return{
 			RS="Sistema de Rotación",
 			layout="Diseño",
 			autoPause="Pausar cuando la ventana no está enfocada",
+			-- menuPos="Menu button pos.",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
 			simpMode="Modo Sencillo",
 		},

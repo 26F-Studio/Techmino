@@ -302,6 +302,7 @@ return{
 			RS="Sistema de rotação",
 			layout="Layout",
 			autoPause="Pausar quando foco for perco",
+			-- menuPos="Menu button pos.",
 			swap="Combinação de tecla(Mudar modo de atk)",
 			-- simpMode="Simple mode",
 		},

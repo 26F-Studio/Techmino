@@ -250,6 +250,7 @@ SETTING={--Settings
 	--System
 	reTime=4,
 	autoPause=true,
+	menuPos='right',
 	fine=false,
 	simpMode=false,
 	lang=1,
