@@ -43,16 +43,6 @@ local multiple=GC.DO{15,15,
 	{'line',2,2,12,12},
 	{'line',2,12,12,2},
 }
-local spinCenterImg=GC.DO{9,9,
-	{'setCL',1,1,1,.2},
-	{'fRect',0,0,9,9},
-	{'setCL',1,1,1,.6},
-	{'fRect',1,1,7,7},
-	{'setCL',1,1,1,.8},
-	{'fRect',2,2,5,5},
-	{'setCL',1,1,1},
-	{'fRect',3,3,3,3},
-}
 local playerBoarder=GC.DO{334,620,
 	{'setLW',2},
 	{'setCL',.97,.97,.975},
@@ -708,7 +698,7 @@ function draw.norm(P)
 					local curColor=C.color
 
 					local trans=P.lockDelay/ENV.lock
-					local centerX=30*(P.curX+C.sc[2])-15
+					local centerX=30*(P.curX+C.sc[2])-20
 
 					--Draw ghost & rotation center
 					local centerDisp=ENV.center and P.RS.centerDisp[C.id]
@@ -716,7 +706,7 @@ function draw.norm(P)
 						drawGhost[ENV.ghostType](P,curColor,ENV.ghost)
 						if centerDisp then
 							gc_setColor(1,1,1,ENV.center)
-							gc_draw(spinCenterImg,centerX,-30*(P.ghoY+C.sc[1])+15,nil,nil,nil,4,4)
+							gc_draw(P.RS.centerTex,centerX,-30*(P.ghoY+C.sc[1])+10)
 						end
 					elseif replaying then
 						drawGhost.gray(P,nil,.15)
@@ -730,7 +720,7 @@ function draw.norm(P)
 							drawBlock(P,curColor)
 							if centerDisp then
 								gc_setColor(1,1,1,ENV.center)
-								gc_draw(spinCenterImg,centerX,-30*(P.curY+C.sc[1])+15,nil,nil,nil,4,4)
+								gc_draw(P.RS.centerTex,centerX,-30*(P.curY+C.sc[1])+10)
 							end
 						elseif replaying then
 							drawBlockShade(P,trans*.3)
