@@ -12,13 +12,14 @@ function TABLE.new(val,count)
 end
 
 --Get a copy of [1~#] elements
-function TABLE.shift(org)
+function TABLE.shift(org,depth)
+	if not depth then depth=1e99 end
 	local L={}
 	for i=1,#org do
-		if type(org[i])~='table'then
+		if type(org[i])~='table'or depth==0 then
 			L[i]=org[i]
 		else
-			L[i]=TABLE.shift(org[i])
+			L[i]=TABLE.shift(org[i],depth-1)
 		end
 	end
 	return L
