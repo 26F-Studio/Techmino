@@ -45,7 +45,7 @@ return{
 	page="Página:",
 
 	ai_fixed="A inteligência é incompatível com sequências fixas.",
-	--ai_prebag="The AI is incompatible with custom sequences which have nontetramino.", inteligência é incompatível com sequências fixas.",
+	--ai_prebag="The AI is incompatible with custom sequences which have nontetromino.", inteligência é incompatível com sequências fixas.",
 	ai_mission="A inteligência é incompatível com missões costumizadas.",
 	switchSpawnSFX="Switch on spawn SFX to play",
 	needRestart="Funciona após reiniciar",

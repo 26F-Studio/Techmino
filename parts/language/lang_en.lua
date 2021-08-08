@@ -54,7 +54,7 @@ return{
 	page="Page:",
 
 	ai_fixed="The AI is incompatible with fixed sequences.",
-	ai_prebag="The AI is incompatible with custom sequences which have nontetramino.",
+	ai_prebag="The AI is incompatible with custom sequences which have nontetromino.",
 	ai_mission="The AI is incompatible with custom missions.",
 	switchSpawnSFX="Please turn on the spawn SFX .",
 	ranks={"D","C","B","A","S"},
