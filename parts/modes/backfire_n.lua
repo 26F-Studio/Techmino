@@ -13,9 +13,9 @@ return{
 		bg='tunnel',bgm='echo',
 	},
 	mesDisp=function(P)
-		setFont(65)
-		mStr(P.stat.atk,63,310)
-		mText(drawableText.atk,63,380)
+		setFont(60)
+		mStr(P.stat.atk,63,280)
+		mText(drawableText.atk,63,350)
 	end,
 	score=function(P)return{math.min(math.floor(P.stat.atk),100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Attack  "..STRING.time(D[2])end,

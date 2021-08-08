@@ -21,7 +21,7 @@ return{
 		bg='bg2',bgm='shift',
 	},
 	mesDisp=function(P)
-		setFont(65)
+		setFont(60)
 		mStr(P.modeData.wave,63,310)
 		mText(drawableText.wave,63,375)
 	end,

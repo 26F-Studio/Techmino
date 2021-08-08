@@ -28,7 +28,7 @@ return{
 		bg='matrix',bgm='vapor',
 	},
 	mesDisp=function(P)
-		setFont(65)
+		setFont(60)
 		mStr(P.modeData.tsd,63,250)
 		mText(drawableText.tsd,63,315)
 		gc.push('transform')

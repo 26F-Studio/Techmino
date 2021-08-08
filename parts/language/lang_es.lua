@@ -24,7 +24,7 @@ return{
 	missionFailed="Misión Fallida",
 
 	speedLV="Vel. de juego",
-	line="Líneas",atk="Ataque",eff="Eficiencia",
+	piece="Piezas",line="Líneas",atk="Ataque",eff="Eficiencia",
 	rpm="RPM",tsd="TSD",
 	grade="Grado",techrash="Techrash",
 	wave="Ronda",nextWave="Sig. ronda",

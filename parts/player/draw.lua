@@ -628,7 +628,7 @@ function draw.drawRoyaleInfo(P)
 	gc.print(P.badge,103,227)
 	gc.setColor(.97,.97,.97)
 	setFont(25)
-	mDraw(text.powerUp[P.strength],63,290)
+	mStr(text.powerUp[P.strength],63,290)
 	gc.setColor(1,1,1)
 	for i=1,P.strength do
 		gc.draw(IMG.badgeIcon,16*i+6,260)
@@ -813,12 +813,6 @@ function draw.norm(P)
 		P:drawNext()
 		drawHold(P)
 
-		--Mode informations
-		if GAME.curMode.mesDisp then
-			gc_setColor(.97,.97,.97)
-			GAME.curMode.mesDisp(P)
-		end
-
 		--Speed dials & FinesseCombo
 		if P.type=='remote'then
 			drawDial(490,520,P.dropSpeed)
@@ -829,6 +823,12 @@ function draw.norm(P)
 			gc_draw(bpmImage,550,525)
 			gc_draw(kpmImage,550,585)
 			drawFinesseCombo_norm(P)
+		end
+
+		--Mode informations
+		if GAME.curMode.mesDisp then
+			gc_setColor(.97,.97,.97)
+			GAME.curMode.mesDisp(P)
 		end
 
 		--Score & Time

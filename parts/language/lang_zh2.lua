@@ -11,7 +11,7 @@ return{
 	continue="继续。",
 
 	speedLV="速度等级",
-	line="行数",atk="攻击",eff="效率",
+	piece="块数",line="行数",atk="攻击",eff="效率",
 	rpm="收每分",tsd="T2",
 	grade="段位",techrash="消四",
 	wave="波数",nextWave="下一波",

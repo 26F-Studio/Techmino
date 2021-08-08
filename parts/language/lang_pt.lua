@@ -25,7 +25,7 @@ return{
 	missionFailed="Missão falha",
 
 	speedLV="Nível de velocidade",
-	line="Linhas",atk="Ataque",eff="Eficiência",
+	piece="Peça",line="Linhas",atk="Ataque",eff="Eficiência",
 	rpm="RPM",tsd="TSD",
 	grade="Grade",techrash="Techrash",
 	wave="Onda",nextWave="Próxima",

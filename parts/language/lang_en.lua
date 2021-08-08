@@ -34,7 +34,7 @@ return{
 	missionFailed="Wrong Clear",
 
 	speedLV="Speed Level",
-	line="Lines",atk="Attack",eff="Efficiency",
+	piece="Piece",line="Lines",atk="Attack",eff="Efficiency",
 	rpm="RPM",tsd="TSD",
 	grade="Grade",techrash="Techrash",
 	wave="Wave",nextWave="Next",

@@ -164,7 +164,7 @@ do--drawableText
 		gamewin=T(100),gameover=T(100),pause=T(120),
 
 		speedLV=T(20),
-		line=T(25),atk=T(20),eff=T(20),
+		piece=T(25),line=T(25),atk=T(20),eff=T(20),
 		rpm=T(35),tsd=T(35),
 		grade=T(25),techrash=T(25),
 		wave=T(30),nextWave=T(30),

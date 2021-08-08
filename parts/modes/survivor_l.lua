@@ -24,8 +24,8 @@ return{
 		bg='glow',bgm='here',
 	},
 	mesDisp=function(P)
-		setFont(65)
-		mStr(P.modeData.wave,63,310)
+		setFont(60)
+		mStr(P.modeData.wave,63,280)
 		mText(drawableText.wave,63,375)
 	end,
 	score=function(P)return{P.modeData.wave,P.stat.time}end,
