@@ -1,4 +1,3 @@
-local gc=love.graphics
 local function score(P)
 	local D=P.modeData
 

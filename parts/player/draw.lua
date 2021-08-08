@@ -620,7 +620,7 @@ function draw.drawProgress(s1,s2)
 end
 function draw.drawRoyaleInfo(P)
 	setFont(35)
-	mStr(#PLY_ALIVE.."/"..#PLAYERS,69,175)
+	mStr(#PLY_ALIVE.."/"..#PLAYERS,63,175)
 	mStr(P.modeData.ko,80,215)
 	gc.draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
 	setFont(20)
@@ -628,10 +628,10 @@ function draw.drawRoyaleInfo(P)
 	gc.print(P.badge,103,227)
 	gc.setColor(.97,.97,.97)
 	setFont(25)
-	gc.print(text.powerUp[P.strength],18,290)
+	mDraw(text.powerUp[P.strength],63,290)
 	gc.setColor(1,1,1)
 	for i=1,P.strength do
-		gc.draw(IMG.badgeIcon,16*i+12,260)
+		gc.draw(IMG.badgeIcon,16*i+6,260)
 	end
 end
 

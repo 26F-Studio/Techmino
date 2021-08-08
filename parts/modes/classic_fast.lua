@@ -1,5 +1,3 @@
-local gc=love.graphics
-
 return{
 	color=COLOR.lBlue,
 	env={
@@ -37,8 +35,8 @@ return{
 	mesDisp=function(P)
 		setFont(75)
 		local r=P.modeData.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),69,210)
-		mText(drawableText.speedLV,69,290)
+		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),63,210)
+		mText(drawableText.speedLV,63,290)
 		PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,

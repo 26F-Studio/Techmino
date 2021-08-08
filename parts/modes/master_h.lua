@@ -1,4 +1,3 @@
-local gc=love.graphics
 local death_lock={12,11,10,9,8,  7,7,7,7,6}
 local death_wait={10,9, 8, 7,6,  6,6,5,5,4}
 local death_fall={10,9, 8, 7,6,  6,5,5,4,4}

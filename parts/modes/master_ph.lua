@@ -1,5 +1,3 @@
-local gc=love.graphics
-
 return{
 	color=COLOR.black,
 	env={

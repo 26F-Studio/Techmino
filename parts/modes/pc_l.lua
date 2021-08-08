@@ -9,13 +9,15 @@ return{
 		bg='rgb',bgm='moonbeam',
 	},
 	mesDisp=function(P)
-		setFont(45)
-		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,69,220)
+		setFont(55)
+		local r=100-P.stat.row
+		if r<0 then r=0 end
+		mStr(r,63,220)
+		PLY.draw.drawTargetLine(P,r)
 
 		setFont(70)
-		mStr(P.stat.pc,69,300)
-		mText(drawableText.pc,69,380)
+		mStr(P.stat.pc,63,300)
+		mText(drawableText.pc,63,380)
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..STRING.time(D[2])end,

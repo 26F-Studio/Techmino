@@ -1,4 +1,3 @@
-local gc=love.graphics
 local rush_lock={20,18,16,15,14}
 local rush_wait={12,10, 9, 8, 7}
 local rush_fall={18,16,14,13,12}

@@ -15,8 +15,8 @@ return{
 	},
 	mesDisp=function(P)
 		setFont(65)
-		mStr(P.stat.atk,69,310)
-		mText(drawableText.atk,69,380)
+		mStr(P.stat.atk,63,310)
+		mText(drawableText.atk,63,380)
 	end,
 	score=function(P)return{math.min(math.floor(P.stat.atk),100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Attack  "..STRING.time(D[2])end,

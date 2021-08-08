@@ -74,7 +74,7 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(55)
-		mStr(P.stat.row,69,225)
-		mText(drawableText.line,69,290)
+		mStr(P.stat.row,63,225)
+		mText(drawableText.line,63,290)
 	end,
 }

@@ -1,4 +1,3 @@
-local gc=love.graphics
 local dropSpeed={50,40,30,24,18,14,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{

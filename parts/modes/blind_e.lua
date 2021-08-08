@@ -9,11 +9,11 @@ return{
 		bg='glow',bgm='push',
 	},
 	mesDisp=function(P)
-		mText(drawableText.line,69,300)
-		mText(drawableText.techrash,69,420)
+		mText(drawableText.line,63,300)
+		mText(drawableText.techrash,63,420)
 		setFont(75)
-		mStr(P.stat.row,69,220)
-		mStr(P.stat.clears[4],69,340)
+		mStr(P.stat.row,63,220)
+		mStr(P.stat.clears[4],63,340)
 	end,
 	score=function(P)return{min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

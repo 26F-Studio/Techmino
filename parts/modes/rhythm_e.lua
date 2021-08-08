@@ -48,15 +48,15 @@ return{
 		PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 
 		setFont(30)
-		mStr(P.modeData.bpm,69,178)
+		mStr(P.modeData.bpm,63,178)
 
 		gc.setLineWidth(4)
-		gc.circle('line',69,200,30)
+		gc.circle('line',63,200,30)
 
 		local beat=P.modeData.counter/P.modeData.beatFrame
 		gc.setColor(1,1,1,1-beat)
 		gc.setLineWidth(3)
-		gc.circle('line',69,200,30+45*beat)
+		gc.circle('line',63,200,30+45*beat)
 	end,
 	score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
