@@ -10,7 +10,7 @@ local scs
 function back.init()
 	colorLib=minoColor
 	blocks=BLOCKS
-	scs=SCS
+	scs=DSCP
 	t=rnd()*2600
 end
 function back.update(dt)

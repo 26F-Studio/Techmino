@@ -78,6 +78,7 @@ NET=		require'parts.net'
 VK=			require'parts.virtualKey'
 AIFUNC=		require'parts.ai'
 AIBUILDER=	require'parts.AITemplate'
+RSlist=		require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=		require'parts.player'
 netPLY=		require'parts.netPlayer'
 MODES=		require'parts.modes'

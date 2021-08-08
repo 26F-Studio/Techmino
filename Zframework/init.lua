@@ -602,7 +602,7 @@ function love.run()
 						local R=int((time+1)/2)%7+1
 						_=minoColor[SETTING.skin[R]]
 						gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-						_=SCS[R][0]
+						_=DSCP[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)

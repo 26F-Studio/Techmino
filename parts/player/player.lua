@@ -12,7 +12,6 @@ local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
 local FREEROW,TABLE,TEXT,NET,TASK=FREEROW,TABLE,TEXT,NET,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
-local kickList=require"parts.kickList"
 local ply_draw=require"parts.player.draw"
 local ply_update=require"parts.player.update"
 
@@ -229,7 +228,7 @@ function Player:setInvisible(time)--Time in frames
 	end
 end
 function Player:setRS(RSname)
-	self.RS=kickList[RSname]or kickList.TRS
+	self.RS=RSlist[RSname]or RSlist.TRS
 end
 
 function Player:getHolePos()--Get a good garbage-line hole position
@@ -668,7 +667,7 @@ end
 
 function Player:spin(d,ifpre)
 	local cur=self.cur
-	local kickData=self.RS[cur.id]
+	local kickData=self.RS.kickTable[cur.id]
 	if type(kickData)=='table'then
 		local idir=(cur.dir+d)%4
 		kickData=kickData[cur.dir*10+idir]
@@ -678,7 +677,7 @@ function Player:spin(d,ifpre)
 			return
 		end
 		local icb=BLOCKS[cur.id][idir]
-		local isc=SCS[cur.id][idir]
+		local isc=self.RS.centerPos[cur.id][idir]
 		local ix,iy=self.curX+cur.sc[2]-isc[2],self.curY+cur.sc[1]-isc[1]
 		for test=1,#kickData do
 			local x,y=ix+kickData[test][1],iy+kickData[test][2]
@@ -831,7 +830,7 @@ function Player:getBlock(id,name,color)--Get a block(id=n) object
 		id=id,
 		dir=dir,
 		bk=BLOCKS[id][dir],
-		sc=SCS[id][dir],
+		sc=self.RS.centerPos[id][dir],
 		name=name or id,
 		color=E.bone and 17 or color or E.skin[id],
 	}
@@ -842,7 +841,7 @@ function Player:getNext(n)--Push a block(id=n) to nextQueue
 	ins(self.nextQueue,{
 		id=n,
 		bk=BLOCKS[n][dir],
-		sc=SCS[n][dir],
+		sc=self.RS.centerPos[n][dir],
 		dir=dir,
 		name=n,
 		color=E.bone and 17 or E.skin[n],

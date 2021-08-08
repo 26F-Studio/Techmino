@@ -177,7 +177,7 @@ end
 do--BLOCKS
 	local O,_=true,false
 	BLOCKS={
-		--Tetramino
+		--Tetromino
 		{{_,O,O},{O,O,_}},	--Z
 		{{O,O,_},{_,O,O}},	--S
 		{{O,O,O},{O,_,_}},	--J
@@ -235,54 +235,6 @@ do--BLOCKS
 			BLOCKS[i][j]=B
 		end
 	end
-end
-do--SCS(spinCenters)
-	local N1,N2,N3,N4={0,1},{1,0},{1,1},{.5,.5}
-	local I1,I2,I3,I4={-.5,1.5},{1.5,-.5},{.5,1.5},{1.5,.5}
-	local V4={1.5,1.5}
-	local L1,L2={0,2},{2,0}
-	local S1,S2={-.5,.5},{.5,-.5}
-	local D={0,0}
-	SCS={
-		--Tetramino
-		{[0]=N1,N2,N3,N3},--Z
-		{[0]=N1,N2,N3,N3},--S
-		{[0]=N1,N2,N3,N3},--L
-		{[0]=N1,N2,N3,N3},--J
-		{[0]=N1,N2,N3,N3},--T
-		{[0]=N4,N4,N4,N4},--O
-		{[0]=I1,I2,I3,I4},--I
-
-		--Pentomino
-		{[0]=N3,N3,N3,N3},--Z5
-		{[0]=N3,N3,N3,N3},--S5
-		{[0]=N1,N2,N3,N3},--P
-		{[0]=N1,N2,N3,N3},--Q
-		{[0]=N3,N3,N3,N3},--F
-		{[0]=N3,N3,N3,N3},--E
-		{[0]=N3,N3,N3,N3},--T5
-		{[0]=N1,N2,N3,N3},--U
-		{[0]=I3,N4,I4,V4},--V
-		{[0]=N3,N3,N3,N3},--W
-		{[0]=N3,N3,N3,N3},--X
-		{[0]=I3,I4,I3,I4},--J5
-		{[0]=I3,I4,I3,I4},--L5
-		{[0]=I3,I4,I3,I4},--R
-		{[0]=I3,I4,I3,I4},--Y
-		{[0]=I3,I4,I3,I4},--N
-		{[0]=I3,I4,I3,I4},--H
-		{[0]=L1,L2,L1,L2},--I5
-
-		--Trimino
-		{[0]=N1,N2,N1,N2},--I3
-		{[0]=N4,N4,N4,N4},--C
-
-		--Domino
-		{[0]=S1,S2,N4,N4},--I2
-
-		--Dot
-		{[0]=D,D,D,D},--O1
-	}
 end
 oldModeNameTable={
 	attacker_hard="attacker_h",
