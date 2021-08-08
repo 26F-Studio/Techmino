@@ -1,8 +1,7 @@
 VERSION={
 	build=356,
 	code=1600,
-	short="V0.16.0",
-	string="Alpha V0.16.0",
+	string="V0.16.0@DEV",
 	room="V1.1",
 	name="空间站 Space station",
 }
