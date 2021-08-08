@@ -57,7 +57,7 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: GetVersion
       run: |
-        Version=$(python3 getVersion.py)
+        Version=$(python3 .github/workflows/getVersion.py)
         echo "Version=${Version}" >> $GITHUB_ENV
     - name: Download AppImageKit
       run: curl -OL https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
@@ -88,7 +88,7 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: GetVersion
       run: |
-        Version=$(python3 getVersion.py)
+        Version=$(python3 .github/workflows/getVersion.py)
         echo "Version=${Version}" >> $GITHUB_ENV
     - name: Download Apktool
       run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
@@ -128,7 +128,7 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: GetVersion
       run: |
-        Version=$(python3 getVersion.py)
+        Version=$(python3 .github/workflows/getVersion.py)
         echo "Version=${Version}" >> $GITHUB_ENV
     - name: Pack love
       run: |
