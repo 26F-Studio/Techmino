@@ -24,14 +24,15 @@ function TABLE.shift(org)
 	return L
 end
 
---Get a full copy of a table
-function TABLE.copy(org)
+--Get a full copy of a table, depth = how many layers will be recreate, default to inf
+function TABLE.copy(org,depth)
+	if not depth then depth=1e99 end
 	local L={}
 	for k,v in next,org do
-		if type(v)~='table'then
+		if type(v)~='table'or depth==0 then
 			L[k]=v
 		else
-			L[k]=TABLE.copy(v)
+			L[k]=TABLE.copy(v,depth-1)
 		end
 	end
 	return L
