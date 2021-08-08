@@ -672,6 +672,30 @@ do
 	}
 end
 
+local Classic do
+	local centerPos=TABLE.shift(defaultCenterPos,0)
+	centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
+	centerPos[2]={[0]={1,1},{1,0},{1,1},{1,0}}
+	centerPos[7]={[0]={0,2},{1,0},{0,2},{1,0}}
+	Classic={
+		centerDisp=TABLE.new(false,29),
+		centerPos=centerPos,
+		kickTable=TABLE.new(noKickSet,29)
+	}
+end
+
+local Classic_plus do
+	local centerPos=TABLE.shift(defaultCenterPos,0)
+	centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
+	centerPos[2]={[0]={1,1},{1,0},{1,1},{1,0}}
+	centerPos[7]={[0]={0,2},{1,0},{0,2},{1,0}}
+	Classic_plus={
+		centerDisp=TABLE.new(false,29),
+		centerPos=centerPos,
+		kickTable=TABLE.new(noKickSet_180,29)
+	}
+end
+
 local None={kickTable=TABLE.new(noKickSet_180,29)}
 
 local None_plus={kickTable=TABLE.new(noKickSet,29)}
@@ -684,6 +708,8 @@ local RSlist={
 	ASC_plus=ASC_plus,
 	C2=C2,
 	C2_sym=C2_sym,
+	Classic=Classic,
+	Classic_plus=Classic_plus,
 	None=None,
 	None_plus=None_plus,
 }
