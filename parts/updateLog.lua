@@ -33,22 +33,30 @@ return STRING.split([=[
 
 0.16.0: 空间站 Space station
 		新增:
-				新模式:TSD-Ultimate
-				新模式:Stack #142
-				新BGM:Beat5th(用于竞速五连块)
-				新BGM:Here(用于生存第四/五难度)
-				新BGM:Shift(用于挖掘)
-				新BGM:There(用于堆积)
-				新BGM:Secret8th Remix(用于master-hard)
+				新模式:
+					TSD-Ultimate
+					Stack #142
+				新BGM:
+					Beat5th(用于竞速五连块)
+					Here(用于生存第四/五难度)
+					Shift(用于挖掘)
+					There(用于堆积)
+					Secret8th Remix(用于master-hard)
+				重构旋转系统模块,支持非标/无旋转中心,新增:
+					BiRS(Bias RS,实验性)
+					ASC,ASCplus(添加实验性180度踢墙)
+					Classic,Classic_plus(添加180度旋转) #173
+				每个旋转系统有自己独特的旋转中心样式
 				新增小亚(xiaoya)语音包
-				旋转系统新增BiRS(Bias RS)(实验性),ASC,ASCplus(添加180度踢墙,实验性)
+				添加重开/暂停按钮位置设定
 				可以通过剪切板导入/导出录像
-				把一个隐藏模式的入口加回来
-				自定义游戏的序列任务场地等数据退出保存
 				第一次启动会自动进入语言设置菜单 #150
 				新增noInitSZO模式参数,自动跳过开局SZO(目前仅用于马拉松/20G模式) #121
+				自定义游戏的序列任务场地等数据退出保存
+				把一个隐藏模式的入口加回来
 		改动:
-				ui调整(重做游戏内和暂停的界面,减小线宽,添加圆角)
+				游戏内和暂停的界面重做
+				ui整体调整(添加圆角,减小线宽,减小饱和度)
 				更换更简洁的加载动画,合并intro场景
 				调整TRS中S5和Z5的踢墙表,增加Ospin时SZ按反的尝试
 				回放时版面遮挡会变成半透明 #143
