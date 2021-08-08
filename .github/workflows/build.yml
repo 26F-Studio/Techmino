@@ -9,6 +9,21 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
+    - name: GetCommitID
+      #这里找不到好办法用git获取CommitID，就直接截取了
+      #如果有好办法的话欢迎pr（
+      #之前尝试用的：
+      #for /F %%i in ('git rev-parse --short "${{ GITHUB.SHA }}"') do (set CommitID=%%i)
+      #失败原因：
+      #直接powershell运行报错，使用bat运行会获取不到${{ GITHUB.SHA }}
+      run: |
+        $CommitID="${{ GITHUB.SHA }}".Substring(0,7) 
+        echo $CommitID > test.txt
+        echo "CommitID=$CommitID"
+        echo "CommitID=$CommitID" >> $env:GITHUB_ENV
+    - name: GetVersion
+      run: |
+        .\.github\workflows\getVersion.bat
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -26,16 +41,24 @@ jobs:
         copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
         del love-11.3-win64\love.exe
         del love-11.3-win64\lovec.exe
-    - name: Artifact
-      uses: actions/upload-artifact@v1.0.0
+    - name: Upload
+      uses: actions/upload-artifact@v2
       with:
-        name: Windows
+        name: Techmino_${{ env.Version }}_${{ env.CommitID }}_Windows
         path: love-11.3-win64
 
   build-linux:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - name: GetCommitID
+      run: |
+        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
+        echo "CommitID=${CommitID}" >> $GITHUB_ENV
+    - name: GetVersion
+      run: |
+        Version=$(python3 getVersion.py)
+        echo "Version=${Version}" >> $GITHUB_ENV
     - name: Download AppImageKit
       run: curl -OL https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
     - name: Unpack and Repack
@@ -49,16 +72,24 @@ jobs:
         cd ../../../..
         cp -r document media parts Zframework conf.lua font.ttf main.lua squashfs-root/usr/share/Techmino
         ./appimagetool-x86_64.AppImage squashfs-root Techmino.AppImage
-    - name: Artifact
+    - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Linux
+        name: Techmino_${{ env.Version }}_${{ env.CommitID }}_Linux
         path: Techmino.AppImage
 
   build-android:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - name: GetCommitID
+      run: |
+        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
+        echo "CommitID=${CommitID}" >> $GITHUB_ENV
+    - name: GetVersion
+      run: |
+        Version=$(python3 getVersion.py)
+        echo "Version=${Version}" >> $GITHUB_ENV
     - name: Download Apktool
       run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
     - name: Unpack and Repack
@@ -68,7 +99,7 @@ jobs:
         7z x -o. apk/assets/game.love libAndroid
         rm apk/assets/game.love Techmino.apk
         7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
-        python3 .github/workflows/updateVersion.py
+        python3 .github/workflows/updateAndroidVersion.py
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
     - uses: 26F-Studio/sign-android-release@master
       name: Sign app APK
@@ -81,18 +112,27 @@ jobs:
         keyPassword: ${{ secrets.KEY_PASSWORD }}
       env:
         BUILD_TOOLS_VERSION: "30.0.2"
-    - name: Artifact
+    - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Android
+        name: Techmino_${{ env.Version }}_${{ env.CommitID }}_Android
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
   build-macOS:
     runs-on: macos-10.15
     steps:
     - uses: actions/checkout@v2
+    - name: GetCommitID
+      run: |
+        CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
+        echo "CommitID=${CommitID}" >> $GITHUB_ENV
+    - name: GetVersion
+      run: |
+        Version=$(python3 getVersion.py)
+        echo "Version=${Version}" >> $GITHUB_ENV
     - name: Pack love
-      run : zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua
+      run: |
+        zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua
     - name: Download template
       run: |
         curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
@@ -116,11 +156,8 @@ jobs:
         security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
         /usr/bin/codesign --force --deep -s 79B81FC5EA155243C973B5417B0996501F00EF55 ./Techmino.app -v
-    - name: Pack Techmino
-      run: |
-        zip -r -y Techmino-Packed.app.zip Techmino.app
-    - name: Artifact
-      uses: actions/upload-artifact@v1.0.0
+    - name: Upload
+      uses: actions/upload-artifact@v2
       with:
-        name: macOS
-        path: Techmino-Packed.app.zip
+        name: Techmino_${{ env.Version }}_${{ env.CommitID }}_macOS
+        path: Techmino-Packed.app

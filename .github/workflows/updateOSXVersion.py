@@ -1,4 +1,5 @@
 import re, datetime
+import getVersion
 info = r"""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -57,9 +58,8 @@ info = r"""<?xml version="1.0" encoding="UTF-8"?>
 </plist>
 """
 
-with open("conf.lua", "r") as file:
-    data = file.read()
-versionName = re.search('short="([^"]+)', data).group(1)
+versionCode, versionName = getVersion.getVersion()
+
 print("Updating to", versionName)
 with open("Techmino.app/Contents/info.plist", "w") as file:
     file.write(info % (versionName, datetime.datetime.today().year))
