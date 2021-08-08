@@ -23,7 +23,7 @@ jobs:
         echo "CommitID=$CommitID" >> $env:GITHUB_ENV
     - name: GetVersion
       run: |
-        python .github/workflows/windowsGetVersion.py
+        .\.github\workflows\getVersion.bat
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
