@@ -279,7 +279,11 @@ function scene.draw()
 					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
 				end
 				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
-				gc.setColor(.97,.97,.97,T2)gc.polygon('line',val)
+				gc.setColor(.97,.97,.97,T2)
+				for i=1,9,2 do
+					gc.line(val[i],val[i+1],val[i+2],val[i+3])
+				end
+				gc.line(val[11],val[12],val[1],val[2])
 			gc.pop()
 
 			--Texts
