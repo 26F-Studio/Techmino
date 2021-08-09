@@ -29,8 +29,8 @@ return{
 		if L>=200 then
 			local T=P.stat.time
 			return
-			T<=150 and 5 or
-			T<=210 and 4 or
+			T<=180 and 5 or
+			T<=220 and 4 or
 			3
 		else
 			return
