@@ -47,11 +47,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: GetCommitID
+    - name: Get CommitID
       run: |
         CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
-    - name: GetVersion
+    - name: Get Version
       run: |
         Version=$(python3 .github/workflows/getVersion.py)
         echo "Version=${Version}" >> $GITHUB_ENV
@@ -81,11 +81,11 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: GetCommitID
+    - name: Get CommitID
       run: |
         CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
-    - name: GetVersion
+    - name: Get Version
       run: |
         Version=$(python3 .github/workflows/getVersion.py)
         echo "Version=${Version}" >> $GITHUB_ENV
@@ -104,8 +104,7 @@ jobs:
         python3 .github/workflows/updateAndroidVersion.py
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
     - uses: 26F-Studio/sign-android-release@master
-      name: Sign app APK
-      id: sign_app
+      name: Sign APK
       with:
         releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
@@ -124,11 +123,11 @@ jobs:
     runs-on: macos-10.15
     steps:
     - uses: actions/checkout@v2
-    - name: GetCommitID
+    - name: Get CommitID
       run: |
         CommitID=$(git rev-parse --short "${{ GITHUB.SHA }}")
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
-    - name: GetVersion
+    - name: Get Version
       run: |
         Version=$(python3 .github/workflows/getVersion.py)
         echo "Version=${Version}" >> $GITHUB_ENV
