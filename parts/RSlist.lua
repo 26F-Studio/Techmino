@@ -40,16 +40,14 @@ local defaultCenterPos={--For SRS-like RSs
 	{[0]={0,0},{0,0},{0,0},{0,0}},--O1
 }
 
-local map={}for x=-4,4 do map[x]={}for y=-4,4 do map[x][y]={x,y}end end
-
 local noKickSet,noKickSet_180 do
-	local Zero={map[0][0]}
+	local Zero={{0,0}}
 	noKickSet={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
 	noKickSet_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 end
 local function strToVec(list)
 	for i,vecStr in next,list do
-		list[i]=map[tonumber(vecStr:sub(1,2))][tonumber(vecStr:sub(3,4))]
+		list[i]={tonumber(vecStr:sub(1,2)),tonumber(vecStr:sub(3,4))}
 	end
 	return list
 end
@@ -618,7 +616,7 @@ do
 	local L={'+0+0','+1+0','+0-1','+1-1','+0-2','+1-2','+2+0','+2-1','+2-2','-1+0','-1-1','+0+1','+1+1','+2+1','-1-2','-2+0','+0+2','+1+2','+2+2','-2-1','-2-2'}
 	local R=flipList(L)
 	local F={'+0+0'}
-	local centerPos=TABLE.shift(defaultCenterPos,0)
+	local centerPos=TABLE.copy(defaultCenterPos)
 	centerPos[6]={[0]={0,0},{1,0},{1,1},{0,1}}
 	centerPos[7]={[0]={0,1},{2,0},{0,2},{1,0}}
 	ASC={
@@ -646,7 +644,7 @@ do
 	local L={'+0+0','+1+0','+0-1','+1-1','+0-2','+1-2','+2+0','+2-1','+2-2','-1+0','-1-1','+0+1','+1+1','+2+1','-1-2','-2+0','+0+2','+1+2','+2+2','-2-1','-2-2'}
 	local R=flipList(L)
 	local F={'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1','+0-2','-1-2','+1-2','-2+0','+2+0','-2-1','+2-1','-2+1','+2+1','+0+2','-1+2','+1+2'}
-	local centerPos=TABLE.shift(defaultCenterPos,0)
+	local centerPos=TABLE.copy(defaultCenterPos)
 	centerPos[6]={[0]={0,0},{1,0},{1,1},{0,1}}
 	centerPos[7]={[0]={0,1},{2,0},{0,2},{1,0}}
 	ASC_plus={
@@ -728,7 +726,7 @@ do
 end
 
 local Classic do
-	local centerPos=TABLE.shift(defaultCenterPos,0)
+	local centerPos=TABLE.copy(defaultCenterPos)
 	centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
 	centerPos[2]={[0]={1,1},{1,0},{1,1},{1,0}}
 	centerPos[7]={[0]={0,2},{1,0},{0,2},{1,0}}
@@ -740,7 +738,7 @@ local Classic do
 end
 
 local Classic_plus do
-	local centerPos=TABLE.shift(defaultCenterPos,0)
+	local centerPos=TABLE.copy(defaultCenterPos)
 	centerPos[1]={[0]={1,1},{1,0},{1,1},{1,0}}
 	centerPos[2]={[0]={1,1},{1,0},{1,1},{1,0}}
 	centerPos[7]={[0]={0,2},{1,0},{0,2},{1,0}}
