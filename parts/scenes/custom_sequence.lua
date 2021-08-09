@@ -130,9 +130,9 @@ end
 
 function scene.draw()
 	--Draw frame
-	gc.setColor(1,1,1)
-	gc.setLineWidth(4)
-	gc.rectangle('line',100,110,1080,260)
+	gc.setColor(COLOR.Z)
+	gc.setLineWidth(2)
+	gc.rectangle('line',100,110,1080,260,5)
 
 	--Draw sequence
 	local miniBlock=TEXTURE.miniBlock
@@ -149,7 +149,7 @@ function scene.draw()
 			count=count+1
 		else
 			if count>1 then
-				gc.setColor(1,1,1)
+				gc.setColor(COLOR.Z)
 				gc.print("×",x-5,y-14)
 				gc.print(count,x+10,y-13)
 				x=x+(count<10 and 33 or 45)
@@ -178,7 +178,7 @@ function scene.draw()
 
 	--Draw lenth
 	setFont(40)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.print(#L,120,310)
 
 	--Draw cursor

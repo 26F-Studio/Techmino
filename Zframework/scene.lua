@@ -10,7 +10,7 @@ local SCN={
 	stat={
 		tar=false,	--Swapping target
 		style=false,--Swapping style
-		mid=false,	--Loading point
+		changeTime=false,	--Loading point
 		time=false,	--Full swap time
 		draw=false,	--Swap draw  func
 	},
@@ -50,7 +50,7 @@ end
 function SCN.swapUpdate()
 	local S=SCN.stat
 	S.time=S.time-1
-	if S.time==S.mid then
+	if S.time==S.changeTime then
 		SCN.init(S.tar,SCN.cur)
 		collectgarbage()
 		--Scene swapped this moment
@@ -103,36 +103,36 @@ function SCN.pop()
 end
 
 local swap={
-	none={1,0,function()end},--swapTime, changeTime, drawFunction
-	flash={8,1,function()gc.clear(1,1,1)end},
-	fade={30,15,function(t)
+	none={duration=1,changeTime=0,draw=function()end},--swapTime, changeTime, drawFunction
+	flash={duration=8,changeTime=1,draw=function()gc.clear(1,1,1)end},
+	fade={duration=30,changeTime=15,draw=function(t)
 		t=t>15 and 2-t/15 or t/15
 		gc.setColor(0,0,0,t)
 		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	end},
-	fade_togame={120,20,function(t)
+	fade_togame={duration=120,changeTime=20,draw=function(t)
 		t=t>20 and(120-t)/100 or t/20
 		gc.setColor(0,0,0,t)
 		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	end},
-	slowFade={180,90,function(t)
+	slowFade={duration=180,changeTime=90,draw=function(t)
 		t=t>90 and 2-t/90 or t/90
 		gc.setColor(0,0,0,t)
 		gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	end},
-	swipeL={30,15,function(t)
+	swipeL={duration=30,changeTime=15,draw=function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(3-2*t)*2-1
 		gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
 	end},
-	swipeR={30,15,function(t)
+	swipeR={duration=30,changeTime=15,draw=function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(2*t-3)*2+1
 		gc.rectangle('fill',t*SCR.w,0,SCR.w,SCR.h)
 	end},
-	swipeD={30,15,function(t)
+	swipeD={duration=30,changeTime=15,draw=function(t)
 		t=t/30
 		gc.setColor(.1,.1,.1,1-abs(t-.5))
 		t=t*t*(2*t-3)*2+1
@@ -146,8 +146,9 @@ function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
 			SCN.swapping=true
 			local S=SCN.stat
 			S.tar,S.style=tar,style
-			local s=swap[style]
-			S.time,S.mid,S.draw=s[1],s[2],s[3]
+			S.time=swap[style].duration
+			S.changeTime=swap[style].changeTime
+			S.draw=swap[style].draw
 		end
 	else
 		MES.new('warn',"No Scene: "..tar)

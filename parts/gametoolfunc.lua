@@ -595,10 +595,10 @@ do--function drawSelfProfile()
 		ins(img,{"clear",0,0,0})
 		ins(img,{"setLW",4})
 		ins(img,{"setCL",.5,.8,1})
-		ins(img,{"dRect",2,2,21,21})
+		ins(img,{"dRect",2,2,21,21,2})
 		--TODO: draw with lv
 
-		img=DOGC(img)
+		img=GC.DO(img)
 		rawset(self,lv,img)
 		return img
 	end})
@@ -612,7 +612,7 @@ do--function drawSelfProfile()
 		--Draw avatar
 		gc_setLineWidth(2)
 		gc_setColor(.3,.3,.3,.8)gc_rectangle('fill',0,0,-300,80)
-		gc_setColor(1,1,1)gc_rectangle('line',0,0,-300,80)
+		gc_setColor(1,1,1)gc_rectangle('line',-300,0,300,80,5)
 		gc_rectangle('line',-73,7,66,66,2)
 		gc_draw(selfAvatar,-72,8,nil,.5)
 
@@ -655,10 +655,6 @@ do--function drawWarning()
 			gc_pop()
 		end
 	end
-end
-do--function drawSystemInfo(
-	--你竟然找到了这里!说明你是真的闲(
-	--感谢支持Techmino!!!
 end
 
 

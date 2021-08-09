@@ -132,7 +132,7 @@ function scene.draw()
 			elseif score[X]==1 then
 				gc.setColor(0,0,.5)
 			else
-				gc.setColor(0,0,0)
+				gc.setColor(COLOR.D)
 			end
 			gc.rectangle('fill',(X-1)%3*30,int((X-1)/3)*30,30,30)
 		end
@@ -186,7 +186,7 @@ function scene.draw()
 		--Draw current round mark
 		gc.setColor(.8,.8,.8,.8)
 		gc.rectangle('fill',80,80,160,160)
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.setLineWidth(6)
 		gc.rectangle('line',80,80,160,160)
 

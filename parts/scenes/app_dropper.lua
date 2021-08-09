@@ -194,7 +194,7 @@ function scene.draw()
 		mStr("High Score - "..highScore,640,370)
 		mStr("High Floor - "..highFloor,640,450)
 
-		gc.setColor(0,0,0)
+		gc.setColor(COLOR.D)
 		setFont(35)
 		mStr(MOBILE and"Touch to Start"or"Press space to Start",640,570)
 		setFont(20)
@@ -203,7 +203,7 @@ function scene.draw()
 	end
 	if state~='menu'then
 		--High floor
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.setLineWidth(2)
 		local y=690+camY-30*highFloor
 		gc.line(0,y,1280,y)
@@ -216,15 +216,15 @@ function scene.draw()
 		gc.print(floor+1,move.x+move.l+15,move.y-18)
 		gc.print(floor,base.x+base.l+15,base.y-18)
 
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		mStr(message,640,0)
-		gc.setColor(0,0,0)
+		gc.setColor(COLOR.D)
 		mStr(message,643,2)
 
 		setFont(70)
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.print(score,60,40)
-		gc.setColor(0,0,0)
+		gc.setColor(COLOR.D)
 		gc.print(score,64,43)
 
 		gc.setColor(color1)gc.rectangle('fill',move.x,move.y,move.l,30)

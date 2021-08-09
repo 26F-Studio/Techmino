@@ -1,19 +1,18 @@
-local gc=love.graphics
-
 return{
 	color=COLOR.lBlue,
 	env={
-		smooth=false,
-		noTele=true,keyCancel={5,6},
 		das=16,arr=6,sddas=2,sdarr=2,
 		irs=false,ims=false,
 		center=0,ghost=0,
+		smooth=false,
 		drop=3,lock=3,wait=10,fall=25,
+		fieldH=19,
 		nextCount=1,holdCount=false,
-		sequence='rnd',
 		RS='Classic',
+		sequence='rnd',
 		freshLimit=0,
 		face={0,0,2,2,2,0,0},
+		noTele=true,keyCancel={5,6},
 		task=function(P)P.modeData.target=10 end,
 		dropPiece=function(P)
 			local D=P.modeData
@@ -36,12 +35,9 @@ return{
 	mesDisp=function(P)
 		setFont(75)
 		local r=P.modeData.target*.1
-		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),69,210)
-		mText(drawableText.speedLV,69,290)
-		setFont(45)
-		mStr(P.stat.row,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),63,210)
+		mText(drawableText.speedLV,63,290)
+		PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 	end,
 	score=function(P)return{P.stat.score,P.stat.row}end,
 	scoreDisp=function(D)return D[1].."   "..D[2].." Lines"end,

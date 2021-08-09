@@ -6,6 +6,7 @@ local GAME=GAME
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local floatRepRate,replayRate
+local modeTextPos
 
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
@@ -69,20 +70,33 @@ local function _step()floatRepRate=floatRepRate+1 end
 
 
 function scene.sceneInit(org)
+	replaying=GAME.replaying
+	noKey=replaying
+	noTouch=not SETTING.VKSwitch or noKey
+	if org~='depause'and org~='pause'then
+		floatRepRate,replayRate=0,1
+	end
+
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
 	end
-	replaying=GAME.replaying
 
-	if org~='depause'and org~='pause'then
-		floatRepRate,replayRate=0,1
-	end
 	updateRepButtons()
-
-	noKey=replaying
-	noTouch=not SETTING.VKSwitch or noKey
 	WIDGET.active.restart.hide=replaying
+	if SETTING.menuPos=='right'then
+		WIDGET.active.restart.x=1125
+		WIDGET.active.pause.x=1195
+		modeTextPos=1100-drawableText.modeName:getWidth()
+	elseif SETTING.menuPos=='middle'then
+		WIDGET.active.restart.x=360
+		WIDGET.active.pause.x=860
+		modeTextPos=940
+	elseif SETTING.menuPos=='left'then
+		WIDGET.active.restart.x=120
+		WIDGET.active.pause.x=190
+		modeTextPos=1200-drawableText.modeName:getWidth()
+	end
 end
 function scene.sceneBack()
 	destroyPlayers()
@@ -153,6 +167,7 @@ function scene.keyDown(key,isRep)
 	else
 		if key=="space"then
 			if not isRep then replayRate=replayRate==0 and 1 or 0 end
+			updateRepButtons()
 		elseif key=="right"then
 			if replayRate==0 then
 				_step()
@@ -302,7 +317,7 @@ function scene.draw()
 
 	--Mode info
 	gc.setColor(1,1,1,.8)
-	gc.draw(drawableText.modeName,940,0)
+	gc.draw(drawableText.modeName,modeTextPos,10)
 
 	--Replaying
 	if replaying then
@@ -318,15 +333,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newKey{name="rep0",		fText=TEXTURE.rep.rep0,x=40,y=50,w=60,code=_rep0},
-	WIDGET.newKey{name="repP8",		fText=TEXTURE.rep.repP8,x=105,y=50,w=60,code=_repP8},
-	WIDGET.newKey{name="repP2",		fText=TEXTURE.rep.repP2,x=170,y=50,w=60,code=_repP2},
-	WIDGET.newKey{name="rep1",		fText=TEXTURE.rep.rep1,x=235,y=50,w=60,code=_rep1},
-	WIDGET.newKey{name="rep2",		fText=TEXTURE.rep.rep2,x=300,y=50,w=60,code=_rep2},
-	WIDGET.newKey{name="rep5",		fText=TEXTURE.rep.rep5,x=365,y=50,w=60,code=_rep5},
-	WIDGET.newKey{name="step",		fText=TEXTURE.rep.step,x=430,y=50,w=60,code=_step},
-	WIDGET.newKey{name="restart",	fText="R",x=380,y=35,w=60,font=40,code=restart},
-	WIDGET.newKey{name="pause",		fText="II",x=900,y=35,w=60,font=40,code=pauseGame},
+	WIDGET.newKey{name="rep0",		x=40,y=50,w=60,code=_rep0,fText=TEXTURE.rep.rep0},
+	WIDGET.newKey{name="repP8",		x=105,y=50,w=60,code=_repP8,fText=TEXTURE.rep.repP8},
+	WIDGET.newKey{name="repP2",		x=170,y=50,w=60,code=_repP2,fText=TEXTURE.rep.repP2},
+	WIDGET.newKey{name="rep1",		x=235,y=50,w=60,code=_rep1,fText=TEXTURE.rep.rep1},
+	WIDGET.newKey{name="rep2",		x=300,y=50,w=60,code=_rep2,fText=TEXTURE.rep.rep2},
+	WIDGET.newKey{name="rep5",		x=365,y=50,w=60,code=_rep5,fText=TEXTURE.rep.rep5},
+	WIDGET.newKey{name="step",		x=430,y=50,w=60,code=_step,fText=TEXTURE.rep.step},
+	WIDGET.newKey{name="restart",	x=0,y=45,w=60,code=restart,fText=TEXTURE.game.restart},
+	WIDGET.newKey{name="pause",		x=0,y=45,w=60,code=pauseGame,fText=TEXTURE.game.pause},
 }
 
 return scene

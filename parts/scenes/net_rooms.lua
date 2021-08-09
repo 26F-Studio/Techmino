@@ -77,7 +77,7 @@ function scene.keyDown(key)
 			if R.roomInfo.version==VERSION.room then
 				NET.enterRoom(R,passwordBox.value)
 			else
-				MES.new('error',"Version doesn't compatible 版本不兼容")
+				MES.new('error',text.versionNotMatch)
 			end
 		else
 			WIDGET.keyPressed(key)
@@ -103,7 +103,7 @@ function scene.draw()
 
 	--Joining mark
 	if NET.getlock('enterRoom')then
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.setLineWidth(15)
 		local t=TIME()*6.26%6.2832
 		gc.arc('line','open',640,360,80,t,t+4.26)

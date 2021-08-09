@@ -83,7 +83,7 @@ function scene.touchMove(_,_,dx,dy)
 end
 
 function scene.draw()
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.setLineWidth(3)
 	gc.rectangle('line',490,65,300,610)
 	VK.preview(selected)

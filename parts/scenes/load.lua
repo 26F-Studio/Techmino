@@ -26,13 +26,13 @@ local loadingThread=coroutine.wrap(function()
 
 	YIELD('loadModeIcon')
 	local modeIcons={}
-	modeIcons.marathon=DOGC{32,32,
+	modeIcons.marathon=GC.DO{32,32,
 		{'move',3,1},
 		{'fRect',10,4,-2,23},
 		{'fPoly',10,4,24,10,10,16.5},
 		{'fRect',4,24,10,3},
 	}
-	modeIcons.infinite=DOGC{64,64,
+	modeIcons.infinite=GC.DO{64,64,
 		{'setLW',4},
 		{'dCirc',32,32,28},
 		{'line',32,32,32,14},
@@ -43,14 +43,14 @@ local loadingThread=coroutine.wrap(function()
 		{'fRect',52,30,4,4},
 		{'fRect',30,52,4,4},
 	}
-	modeIcons.classic=DOGC{64,64,
+	modeIcons.classic=GC.DO{64,64,
 		{'setLW',6},
 		{'dRect',10,24,12,12},
 		{'dRect',26,24,12,12},
 		{'dRect',42,24,12,12},
 		{'dRect',26,40,12,12},
 	}
-	modeIcons.tsd=DOGC{64,64,
+	modeIcons.tsd=GC.DO{64,64,
 		{'fRect',7,7,16,16},
 		{'fRect',7,41,16,16},
 		{'fRect',41,41,16,16},
@@ -58,7 +58,7 @@ local loadingThread=coroutine.wrap(function()
 		{'setLW',1},
 		{'dPoly',7,24,56,24,56,39,39,39,39,56,24,56,24,39,7,39},
 	}
-	modeIcons.t49=DOGC{64,64,
+	modeIcons.t49=GC.DO{64,64,
 		{'setLW',2},
 		{'dRect',05,05,10,20},{'dRect',49,05,10,20},
 		{'dRect',05,39,10,20},{'dRect',49,39,10,20},
@@ -66,7 +66,7 @@ local loadingThread=coroutine.wrap(function()
 		{'setCL',1,1,1,.7},
 		{'fRect',20,10,23,43},
 	}
-	modeIcons.t99=DOGC{64,64,
+	modeIcons.t99=GC.DO{64,64,
 		{'setLW',2},
 		{'dRect',02,02,6,12},{'dRect',11,02,6,12},
 		{'dRect',02,18,6,12},{'dRect',11,18,6,12},
@@ -179,7 +179,7 @@ local titleTransform={
 }
 local titleColor={COLOR.lP,COLOR.lC,COLOR.lB,COLOR.lO,COLOR.lF,COLOR.lM,COLOR.lG,COLOR.lY}
 function scene.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 
 	local T=(t1+110)%300
 	if T<30 then
@@ -199,7 +199,7 @@ function scene.draw()
 			if dt<20 then
 				gc.translate(0,math.abs(10-dt)-10)
 			end
-			gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.26)
+			gc.setColor(titleColor[i][1],titleColor[i][2],titleColor[i][3],min(t*.025,1)*.16)
 			gc.polygon('fill',L[i])
 			gc.setColor(1,1,1,min(t*.025,1))
 			gc.polygon('line',L[i])
@@ -212,7 +212,7 @@ function scene.draw()
 	gc.setColor(logoColor2[1],logoColor2[2],logoColor2[3],progress/maxProgress)for dx=-2,2,2 do for dy=-2,2,2 do mDraw(studioLogo,640+dx,400+dy)end end
 	gc.setColor(.2,.2,.2,progress/maxProgress)mDraw(studioLogo,640,400)
 
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	setFont(30)
 	mStr(text.loadText[loading],640,530)
 end

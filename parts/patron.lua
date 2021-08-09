@@ -23,6 +23,7 @@ return{
 	{font=65,name="猫宫"},
 	{font=65,name="Notypey"},
 	{font=65,name="亮君"},
+	{font=65,name="柴影"},
 
 	{font=25,name="八零哥"},
 	{font=25,name="蕴空之灵"},
@@ -112,4 +113,5 @@ return{
 	{font=25,name="[*梅]"},
 	{font=25,name="晦风羽幕"},
 	{font=25,name="T9753"},
+	{font=25,name="Trebor"},
 }

@@ -62,11 +62,12 @@ function scene.draw()
 	for x=40,360,40 do
 		gc.line(x,-10,x,90)
 	end
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.line(0,-10,0,90)
 	gc.line(400,-10,400,90)
 
 	--O mino animation
+	gc.setColor(1,1,1)
 	local O=SKIN.lib[SETTING.skinSet][SETTING.skin[6]]
 	gc.draw(O,40*pos,0,nil,40/30)
 	gc.draw(O,40*pos,40,nil,40/30)

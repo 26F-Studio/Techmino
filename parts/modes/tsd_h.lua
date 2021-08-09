@@ -19,9 +19,9 @@ return{
 		bg='matrix',bgm='vapor',
 	},
 	mesDisp=function(P)
-		setFont(65)
-		mStr(P.modeData.tsd,69,250)
-		mText(drawableText.tsd,69,315)
+		setFont(60)
+		mStr(P.modeData.tsd,63,250)
+		mText(drawableText.tsd,63,315)
 	end,
 	score=function(P)return{P.modeData.tsd,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."TSD   "..STRING.time(D[2])end,

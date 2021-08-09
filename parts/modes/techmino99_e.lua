@@ -54,19 +54,7 @@ return{
 		end end
 	end,
 	mesDisp=function(P)
-		setFont(35)
-		mStr(#PLY_ALIVE.."/99",69,175)
-		mStr(P.modeData.ko,80,215)
-		gc.draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
-		setFont(20)
-		gc.setColor(1,.5,0,.6)
-		gc.print(P.badge,103,227)
-		gc.setColor(1,1,1)
-		setFont(25)
-		gc.print(text.powerUp[P.strength],18,290)
-		for i=1,P.strength do
-			gc.draw(IMG.badgeIcon,16*i+12,260)
-		end
+		PLY.draw.drawRoyaleInfo(P)
 	end,
 	score=function(P)return{P.modeData.place,P.modeData.ko}end,
 	scoreDisp=function(D)return"NO."..D[1].."   KO:"..D[2]end,

@@ -1,5 +1,3 @@
-local gc=love.graphics
-
 return{
 	color=COLOR.black,
 	env={
@@ -147,10 +145,7 @@ return{
 	},
 	slowMark=true,
 	mesDisp=function(P)
-		setFont(45)
-		mStr(P.modeData.pt,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
 	end,
 	score=function(P)return{P.result=='win'and 260 or P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,

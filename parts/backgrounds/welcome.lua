@@ -16,7 +16,7 @@ function back.draw()
 	if -t%13.55<.1283 then
 		gc.clear(.2+.1*sin(t),.2+.1*sin(1.26*t),.2+.1*sin(1.626*t))
 	else
-		gc.clear(.1,.1,.1)
+		gc.clear(.08,.08,.084)
 	end
 	gc.push('transform')
 	gc.translate(SCR.cx,SCR.cy+20*sin(t*.02))

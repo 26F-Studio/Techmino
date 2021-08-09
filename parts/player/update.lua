@@ -167,7 +167,7 @@ function update.alive(P,dt)
 	--Calculate key speed
 	do
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.keyTime[i]+1)end
+		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.keyTime[i])end
 		P.keySpeed=P.keySpeed*.99+v*.01
 		v=0
 		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.dropTime[i])end
@@ -206,9 +206,13 @@ function update.alive(P,dt)
 
 	--Fresh visible time
 	if not P.keepVisible then
-		for j=1,#P.field do for i=1,10 do
-			if P.visTime[j][i]>0 then P.visTime[j][i]=P.visTime[j][i]-1 end
-		end end
+		local V=P.visTime
+		for j=1,#P.field do
+			local L=V[j]
+			for i=1,10 do
+				if L[i]>0 then L[i]=L[i]-1 end
+			end
+		end
 	end
 
 	--Moving pressed

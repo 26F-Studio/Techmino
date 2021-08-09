@@ -78,10 +78,10 @@ function scene.update()
 		if P.y0 then
 			if P.y>P.y0 then
 				P.y=max(P.y-8,P.y0,70)
-				P.vy=-8
+				P.vy=-10
 			elseif P.y<P.y0 then
 				P.y=min(P.y+8,P.y0,650)
-				P.vy=8
+				P.vy=10
 			else
 				P.vy=P.vy*.5
 			end
@@ -153,10 +153,10 @@ function scene.draw()
 	mStr(p2.score,810,20)
 
 	--Draw boundary
-	gc.setColor(1,1,1)
-	gc.setLineWidth(6)
-	gc.line(130,20,1160,20)
-	gc.line(130,700,1160,700)
+	gc.setColor(COLOR.Z)
+	gc.setLineWidth(4)
+	gc.line(134,20,1146,20)
+	gc.line(134,700,1146,700)
 
 	--Draw ball & speed line
 	gc.setColor(1,1,1-abs(ry)*.16)
@@ -166,9 +166,9 @@ function scene.draw()
 
 	--Draw pads
 	gc.setColor(1,.8,.8)
-	gc.rectangle('fill',130,p1.y-50,20,100)
+	gc.rectangle('fill',134,p1.y-50,16,100)
 	gc.setColor(.8,.8,1)
-	gc.rectangle('fill',1130,p2.y-50,20,100)
+	gc.rectangle('fill',1130,p2.y-50,16,100)
 end
 
 scene.widgetList={

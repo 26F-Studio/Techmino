@@ -19,22 +19,22 @@ local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
 
-local downArrowIcon=DOGC{40,25,{'fPoly',0,0,20,25,40,0}}
-local upArrowIcon=DOGC{40,25,{'fPoly',0,25,20,0,40,25}}
-local clearIcon=DOGC{40,40,
+local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
+local upArrowIcon=GC.DO{40,25,{'fPoly',0,25,20,0,40,25}}
+local clearIcon=GC.DO{40,40,
 	{'fRect',16,5,8,3},
 	{'fRect',8,8,24,3},
 	{'fRect',11,14,18,21},
 }
-local sureIcon=DOGC{40,40,
+local sureIcon=GC.DO{40,40,
 	{'setFT',35},
 	{'mText',"?",20,-6},
 }
-local smallerThen=DOGC{20,20,
+local smallerThen=GC.DO{20,20,
 	{'setLW',5},
 	{'line',18,2,1,10,18,18},
 }
-local largerThen=DOGC{20,20,
+local largerThen=GC.DO{20,20,
 	{'setLW',5},
 	{'line',2,2,19,10,2,18},
 }
@@ -166,39 +166,43 @@ function button:draw()
 	local ATV=self.ATV
 	local c=self.color
 	local r,g,b=c[1],c[2],c[3]
-	gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc_rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV)
+
+	--Button
+	gc_setColor(.15+r*.7,.15+g*.7,.15+b*.7,.9)
+	gc_rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV,3)
 	if ATV>0 then
-		gc_setLineWidth(4)
-		gc_setColor(1,1,1,ATV*.125)
-		gc_rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4)
+		gc_setLineWidth(2)
+		gc_setColor(.97,.97,.975,ATV*.125)
+		gc_rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4,3)
 	end
+
+	--Object
 	local obj=self.obj
 	local y0=y+h*.5-ATV*.5
 	gc_setColor(1,1,1,.2+ATV*.05)
 	if self.align=='M'then
 		local x0=x+w*.5
-		mDraw(obj,x0-1.5,y0-1.5)
-		mDraw(obj,x0-1.5,y0+1.5)
-		mDraw(obj,x0+1.5,y0-1.5)
-		mDraw(obj,x0+1.5,y0+1.5)
-		gc_setColor(r*.5,g*.5,b*.5)
+		mDraw(obj,x0-1,y0-1)
+		mDraw(obj,x0-1,y0+1)
+		mDraw(obj,x0+1,y0-1)
+		mDraw(obj,x0+1,y0+1)
+		gc_setColor(r*.55,g*.55,b*.55)
 		mDraw(obj,x0,y0)
 	elseif self.align=='L'then
 		local edge=self.edge
-		mDraw_Y(obj,x+edge-1.5,y0-1.5)
-		mDraw_Y(obj,x+edge-1.5,y0+1.5)
-		mDraw_Y(obj,x+edge+1.5,y0-1.5)
-		mDraw_Y(obj,x+edge+1.5,y0+1.5)
-		gc_setColor(r*.5,g*.5,b*.5)
+		mDraw_Y(obj,x+edge-1,y0-1)
+		mDraw_Y(obj,x+edge-1,y0+1)
+		mDraw_Y(obj,x+edge+1,y0-1)
+		mDraw_Y(obj,x+edge+1,y0+1)
+		gc_setColor(r*.55,g*.55,b*.55)
 		mDraw_Y(obj,x+edge,y0)
 	elseif self.align=='R'then
 		local x0=x+w-self.edge-obj:getWidth()
-		mDraw_Y(obj,x0-1.5,y0-1.5)
-		mDraw_Y(obj,x0-1.5,y0+1.5)
-		mDraw_Y(obj,x0+1.5,y0-1.5)
-		mDraw_Y(obj,x0+1.5,y0+1.5)
-		gc_setColor(r*.5,g*.5,b*.5)
+		mDraw_Y(obj,x0-1,y0-1)
+		mDraw_Y(obj,x0-1,y0+1)
+		mDraw_Y(obj,x0+1,y0-1)
+		mDraw_Y(obj,x0+1,y0+1)
+		gc_setColor(r*.55,g*.55,b*.55)
 		mDraw_Y(obj,x0,y0)
 	end
 end
@@ -287,21 +291,38 @@ function key:draw()
 	local x,y,w,h=self.x,self.y,self.w,self.h
 	local ATV=self.ATV
 	local c=self.color
+	local align=self.align
 	local r,g,b=c[1],c[2],c[3]
 
-	gc_setColor(1,1,1,ATV*.1)
-	gc_rectangle('fill',x,y,w,h)
+	--Frame
+	if not self.noFrame then
+		gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
+		gc_setLineWidth(2)
+		gc_rectangle('line',x,y,w,h,3)
+	end
 
-	gc_setColor(.2+r*.8,.2+g*.8,.2+b*.8,.7)
-	gc_setLineWidth(4)
-	gc_rectangle('line',x,y,w,h)
+	--Fill
+	if self.fShade then
+		gc_setColor(r,g,b,ATV*.25)
+		if align=='M'then
+			mDraw(self.fShade,x+w*.5,y+h*.5)
+		elseif align=='L'then
+			mDraw_Y(self.fShade,x+self.edge,y+h*.5)
+		elseif align=='R'then
+			mDraw_Y(self.fShade,x+w-self.edge-self.fShade:getWidth(),y+h*.5)
+		end
+	else
+		gc_setColor(1,1,1,ATV*.05)
+		gc_rectangle('fill',x,y,w,h,3)
+	end
 
-	gc_setColor(r,g,b,1.2)
-	if self.align=='M'then
+	--Object
+	gc_setColor(r,g,b)
+	if align=='M'then
 		mDraw(self.obj,x+w*.5,y+h*.5)
-	elseif self.align=='L'then
+	elseif align=='L'then
 		mDraw_Y(self.obj,x+self.edge,y+h*.5)
-	elseif self.align=='R'then
+	elseif align=='R'then
 		mDraw_Y(self.obj,x+w-self.edge-self.obj:getWidth(),y+h*.5)
 	end
 end
@@ -312,7 +333,7 @@ function key:press(_,_,k)
 	self.code(k)
 	if self.sound then SFX.play('key')end
 end
-function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
+function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
 	if not D.h then D.h=D.w end
 	local _={
 		name=	D.name or"_",
@@ -331,6 +352,8 @@ function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true]
 		},
 
 		fText=	D.fText,
+		fShade=	D.fShade,
+		noFrame=D.noFrame,
 		color=	D.color and(COLOR[D.color]or D.color)or COLOR.Z,
 		font=	D.font or 30,
 		sound=	D.sound~=false,
@@ -375,21 +398,21 @@ function switch:draw()
 	local x,y=self.x,self.y-25
 	local ATV=self.ATV
 
+	--Frame
+	gc_setLineWidth(2)
+	gc_setColor(1,1,1,.6+ATV*.1)
+	gc_rectangle('line',x,y,50,50,3)
+
 	--Checked
 	if ATV>0 then
-		gc_setColor(1,1,1,ATV*.08)
-		gc_rectangle('fill',x,y,50,50)
+		gc_setColor(1,1,1,ATV*.06)
+		gc_rectangle('fill',x,y,50,50,3)
 	end
 	if self.CHK>0 then
 		gc_setColor(.9,1,.9,self.CHK/6)
-		gc_setLineWidth(6)
+		gc_setLineWidth(5)
 		gc_line(x+5,y+25,x+18,y+38,x+45,y+11)
 	end
-
-	--Frame
-	gc_setLineWidth(4)
-	gc_setColor(1,1,1,.6+ATV*.05)
-	gc_rectangle('line',x,y,50,50)
 
 	--Drawable
 	gc_setColor(self.color)
@@ -501,16 +524,19 @@ function slider:draw()
 	local cx=x+(x2-x)*self.pos/self.unit
 	local bx,by,bw,bh=cx-10-ATV*.5,y-16-ATV,20+ATV,32+2*ATV
 	gc_setColor(.8,.8,.8)
-	gc_rectangle('fill',bx,by,bw,bh)
+	gc_rectangle('fill',bx,by,bw,bh,3)
 
+	--Glow
 	if ATV>0 then
 		gc_setLineWidth(2)
-		gc_setColor(1,1,1,ATV*.16)
-		gc_rectangle('line',bx+1,by+1,bw-2,bh-2)
+		gc_setColor(.97,.97,.975,ATV*.16)
+		gc_rectangle('line',bx+1,by+1,bw-2,bh-2,3)
 	end
+
+	--Float text
 	if self.TAT>0 and self.show then
 		setFont(25)
-		gc_setColor(1,1,1,self.TAT/180)
+		gc_setColor(.97,.97,.975,self.TAT/180)
 		mStr(self:show(),cx,by-30)
 	end
 
@@ -657,10 +683,12 @@ function selector:draw()
 	local w=self.w
 	local ATV=self.ATV
 
+	--Frame
 	gc_setColor(1,1,1,.6+ATV*.1)
-	gc_setLineWidth(3)
-	gc_rectangle('line',x,y,w,60)
+	gc_setLineWidth(2)
+	gc_rectangle('line',x,y,w,60,3)
 
+	--Arrow
 	gc_setColor(1,1,1,.2+ATV*.1)
 	local t=(TIME()%.5)^.5
 	if self.select>1 then
@@ -815,11 +843,11 @@ function inputBox:draw()
 	local ATV=self.ATV
 
 	gc_setColor(1,1,1,ATV*.08)
-	gc_rectangle('fill',x,y,w,h)
+	gc_rectangle('fill',x,y,w,h,3)
 
 	gc_setColor(1,1,1)
 	gc_setLineWidth(3)
-	gc_rectangle('line',x,y,w,h)
+	gc_rectangle('line',x,y,w,h,3)
 
 	--Drawable
 	setFont(self.font)
@@ -971,12 +999,12 @@ function textBox:draw()
 
 	--Background
 	gc_setColor(0,0,0,.4)
-	gc_rectangle('fill',x,y,w,h)
+	gc_rectangle('fill',x,y,w,h,3)
 
 	--Frame
-	gc_setLineWidth(3)
+	gc_setLineWidth(2)
 	gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)
-	gc_rectangle('line',x,y,w,h)
+	gc_rectangle('line',x,y,w,h,3)
 
 	--Texts
 	setFont(self.font)
@@ -987,12 +1015,12 @@ function textBox:draw()
 		gc_setColor(1,1,1)
 		if #texts>cap then
 			local len=h*h/(#texts*lineH)
-			gc_rectangle('fill',-15,(h-len)*scrollPos/((#texts-cap)*lineH),12,len)
+			gc_rectangle('fill',-15,(h-len)*scrollPos/((#texts-cap)*lineH),12,len,3)
 		end
 
 		--Clear button
 		if not self.fix then
-			gc_rectangle('line',w-40,0,40,40)
+			gc_rectangle('line',w-40,0,40,40,3)
 			gc_draw(self.sure==0 and clearIcon or sureIcon,w-40,0)
 		end
 
@@ -1144,14 +1172,14 @@ function listBox:draw()
 
 		--Frame
 		gc_setColor(WIDGET.sel==self and COLOR.lN or COLOR.Z)
-		gc_setLineWidth(3)
-		gc_rectangle('line',0,0,w,h)
+		gc_setLineWidth(2)
+		gc_rectangle('line',0,0,w,h,3)
 
 		--Slider
 		if #list>cap then
 			gc_setColor(1,1,1)
 			local len=h*h/(#list*lineH)
-			gc_rectangle('fill',-15,(h-len)*scrollPos/((#list-cap)*lineH),12,len)
+			gc_rectangle('fill',-15,(h-len)*scrollPos/((#list-cap)*lineH),12,len,3)
 		end
 
 		--List
@@ -1443,7 +1471,7 @@ local widgetCover do
 		ins(L,{'fRect',0,i,1,2})
 		ins(L,{'fRect',0,360-i,1,2})
 	end
-	widgetCover=DOGC(L)
+	widgetCover=GC.DO(L)
 end
 local scr_w,scr_h
 function WIDGET.resize(w,h)

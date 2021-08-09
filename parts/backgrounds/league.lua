@@ -8,7 +8,7 @@ local upCover do
 		table.insert(L,{'setCL',.6,1,1,i*.01})
 		table.insert(L,{'fRect',0,63-i,1,1})
 	end
-	upCover=DOGC(L)
+	upCover=GC.DO(L)
 end
 local downCover do
 	local L={1,64}
@@ -16,7 +16,7 @@ local downCover do
 		table.insert(L,{'setCL',1,.5,.8,i*.01})
 		table.insert(L,{'fRect',0,i,1,1})
 	end
-	downCover=DOGC(L)
+	downCover=GC.DO(L)
 end
 
 local W,H
@@ -29,7 +29,7 @@ end
 function back.update()
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	gc.draw(upCover,0,0,0,W,H*.3/64)
 	gc.draw(downCover,0,H*.7,0,W,H*.3/64)
 end

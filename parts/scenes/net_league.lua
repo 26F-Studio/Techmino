@@ -8,7 +8,7 @@ function scene.sceneInit()
 end
 
 function scene.draw()
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	setFont(100)
 	mStr("Tech League",640,120)
 	drawSelfProfile()

@@ -265,7 +265,7 @@ local backColor={
 }
 function scene.draw()
 	setFont(40)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.print(("%.3f"):format(time),1026,80)
 	gc.setColor(1,.8,.8)
 	gc.print(move,1026,130)
@@ -303,7 +303,7 @@ function scene.draw()
 					gc.setColor(.1,.1,.1)
 					mStr(N,j*160+240,i*160-96)
 					mStr(N,j*160+242,i*160-98)
-					gc.setColor(1,1,1)
+					gc.setColor(COLOR.Z)
 					mStr(N,j*160+243,i*160-95)
 				end
 			end

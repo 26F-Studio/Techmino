@@ -1,4 +1,3 @@
-local gc=love.graphics
 local rush_lock={20,18,16,15,14,  14,13,12,11,11}
 local rush_wait={12,11,11,10,10,  10,10, 9, 9, 9}
 local rush_fall={18,16,14,13,12,  12,11,11,10,10}
@@ -74,10 +73,7 @@ return{
 	},
 	slowMark=true,
 	mesDisp=function(P)
-		setFont(45)
-		mStr(P.modeData.pt,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
 	end,
 	score=function(P)return{P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,

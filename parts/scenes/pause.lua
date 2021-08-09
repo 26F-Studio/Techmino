@@ -17,7 +17,8 @@ local fnsRankColor={
 
 local scene={}
 
-local timer--Animation timer
+local page
+local timer1,timer2--Animation timer
 local form--Form of clear & spins
 local radar--Radar chart
 local val--Radar chart normalizer
@@ -28,13 +29,15 @@ local trophy--Current trophy
 local trophyColor--Current trophy color
 
 function scene.sceneInit(org)
+	page=0
 	if org:find("setting")then
-		TEXT.show(text.needRestart,640,440,50,'fly',.6)
+		TEXT.show(text.needRestart,640,410,50,'fly',.6)
 	end
 	local P=PLAYERS[1]
 	local S=P.stat
 
-	timer=org=='game'and 0 or 50
+	timer1=org=='game'and 0 or 50
+	timer2=timer1
 
 	local frameLostRate=(S.frame/S.time/60-1)*100
 	form={
@@ -150,6 +153,13 @@ function scene.keyDown(key,isRep)
 				SFX.play('connected')
 			end
 		end
+	elseif key=="tab"or key=="Stab"then
+		if love.keyboard.isDown("lshift","rshift")or key=="Stab"then
+			page=(page-1)%2
+		else
+			page=(page+1)%2
+		end
+		timer2=0
 	else
 		WIDGET.keyPressed(key)
 	end
@@ -159,9 +169,8 @@ function scene.update(dt)
 	if not(GAME.result or GAME.replaying)then
 		GAME.pauseTime=GAME.pauseTime+dt
 	end
-	if timer<50 then
-		timer=timer+1
-	end
+	if timer1<50 then timer1=timer1+1 end
+	if timer2<25 then timer2=timer2+1 end
 end
 
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
@@ -169,156 +178,180 @@ for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
 function scene.draw()
-	local T=timer*.02
+	local T=timer1*.02
+	local T2=timer2*.04
 	if T<1 or GAME.result then SCN.scenes.game.draw()end
 
 	--Dark BG
 	local _=T
-	if GAME.result then _=_*.7 end
-	gc.setColor(.15,.15,.15,_)
+	if GAME.result then _=_*.76 end
+	gc.setColor(.12,.12,.12,_)
 	gc.replaceTransform(SCR.origin)
 	gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.replaceTransform(SCR.xOy)
 
-	--Pause Info
-	setFont(25)
-	if GAME.pauseCount>0 then
-		gc.setColor(1,.4,.4,T)
-		gc.print(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),40,180)
-	end
-
-	gc.setColor(1,1,1,T)
+	gc.setColor(.97,.97,.97,T)
 
 	--Result Text
-	setFont(35)
-	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,100-10*(5-timer*.1)^1.5)
+	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,80-10*(5-timer1*.1)^1.5)
 
-	--Mode Info
-	gc.draw(drawableText.modeName,40,240)
-
-	--Infos
-	if PLAYERS[1].frameRun>180 then
-		gc.setLineWidth(2)
-		--Finesse rank & trophy
-		if rank then
-			gc.setColor(1,1,1,T*.2)
-			gc.rectangle('fill',35,305,465,405)
-
-			setFont(60)
-			local c=fnsRankColor[rank]
-			gc.setColor(c[1],c[2],c[3],T)
-			gc.print(rank,420,635)
-			if trophy then
-				setFont(40)
-				gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T*2-1)
-				gc.printf(trophy,100-120*(1-T^.5),650,300,'right')
-			end
-
-			gc.setColor(1,1,1,T)
-			gc.rectangle('line',35,305,465,405)
-			gc.line(35,620,500,620)
-		else
-			gc.setColor(1,1,1,T*.2)
-			gc.rectangle('fill',35,305,465,350)
-			gc.setColor(1,1,1,T)
-			gc.rectangle('line',35,305,465,350)
-		end
-
-		_=form
-		setFont(25)
-		for i=1,10 do
-			gc.print(text.pauseStat[i],40,270+35*i)
-			gc.printf(_[i],195,270+35*i,300,'right')
-		end
-	end
-
-	--Mods
-	if #GAME.mod>0 then
-		if scoreValid()then
-			gc.setColor(.7,.7,.7,T)
-			gc.rectangle('line',775,560,490,140)
-			gc.setColor(.7,.7,.7,T*.26)
-			gc.rectangle('fill',775,560,490,140)
-		else
-			gc.setColor(1,0,0,T)
-			gc.rectangle('line',775,560,490,140)
-			gc.setColor(1,0,0,T*.26)
-			gc.rectangle('fill',775,560,490,140)
-		end
-		setFont(35)
-		for _,M in next,MODOPT do
-			if M.sel>0 then
-				_=M.color
-				gc.setColor(_[1],_[2],_[3],T)
-				mStr(M.id,810+M.no%8*60,560+math.floor(M.no/8)*45)
-			end
-		end
-	end
+	--Mode Info (outside)
+	gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),143)
 
 	--Level rank
 	if GAME.rank>0 then
-		local str=text.ranks[GAME.rank]
-		setFont(80)
-		gc.setColor(0,0,0,T*.7)
-		gc.print(str,100*T^.5-5,-14,nil,1.8)
-		local L=rankColor[GAME.rank]
-		gc.setColor(L[1],L[2],L[3],T)
-		gc.print(str,100*T^.5,-10,nil,1.8)
+		gc.push('transform')
+			gc.translate(1050,5)
+			local str=text.ranks[GAME.rank]
+			setFont(80)
+			gc.setColor(0,0,0,T*.7)
+			gc.print(str,-5,-4,nil,1.5)
+			local L=rankColor[GAME.rank]
+			gc.setColor(L[1],L[2],L[3],T)
+			gc.print(str,0,0,nil,1.5)
+		gc.pop()
 	end
 
-	--Radar Chart
-	if T>.5 and PLAYERS[1].frameRun>180 then
-		T=T*2-1
-		gc.setLineWidth(2)
+	--Big info frame
+	if PLAYERS[1].frameRun>180 then
 		gc.push('transform')
-			gc.translate(1026,370)
-			gc.scale(.9)
+		gc.translate(560,205)
+		gc.setLineWidth(2)
+
+		--Pause Info (outside)
+		setFont(25)
+		if GAME.pauseCount>0 then
+			gc.setColor(.97,.97,.97,T*.06)
+			gc.rectangle('fill',-5,390,620,36,8)
+			gc.setColor(.97,.97,.97,T)
+			gc.rectangle('line',-5,390,620,36,8)
+			mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),305,389)
+		end
+
+		--Pages
+		if page==0 then
+			--Frame
+			gc.setColor(.97,.97,.97,T2*.06)
+			gc.rectangle('fill',-5,-5,620,380,8)
+			gc.setColor(.97,.97,.97,T2)
+			gc.rectangle('line',-5,-5,620,380,8)
+
+			--Game statistics
+			gc.push('transform')
+			gc.scale(.85)
+			gc.setLineWidth(2)
+
+			--Stats
+			_=form
+			setFont(30)
+			gc.setColor(.97,.97,.97,T2)
+			for i=1,10 do
+				gc.print(text.pauseStat[i],5,43*(i-1)+2)
+				gc.printf(_[i],410,43*(i-1)+2,300,'right')
+			end
+
+			--Finesse rank & trophy
+			if rank then
+				setFont(40)
+				local c=fnsRankColor[rank]
+				gc.setColor(c[1],c[2],c[3],T2)
+				gc.print(rank,405,383)
+				if trophy then
+					setFont(20)
+					gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T2*2-1)
+					gc.printf(trophy,95-120*(1-T2^.5),398,300,'right')
+				end
+			end
+			gc.pop()
+		elseif page==1 then
+			--Radar Chart
+			gc.setLineWidth(1)
+			gc.push('transform')
+			gc.translate(310,185)
 
 			--Polygon
 			gc.push('transform')
-				gc.scale((3-2*T)*T)
-				gc.setColor(1,1,1,T*(.5+.3*sin(TIME()*6.26)))gc.polygon('line',standard)
-				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T*.626)
+				gc.scale((3-2*T2)*T2)
+				gc.setColor(.97,.97,.97,T2*(.5+.3*sin(TIME()*6.26)))
+				GC.regularPolygon('line',0,0,120,6,8)
+				gc.setColor(chartColor[1],chartColor[2],chartColor[3],T2*.626)
 				for i=1,9,2 do
 					gc.polygon('fill',0,0,val[i],val[i+1],val[i+2],val[i+3])
 				end
 				gc.polygon('fill',0,0,val[11],val[12],val[1],val[2])
-				gc.setColor(1,1,1,T)gc.polygon('line',val)
+				gc.setColor(.97,.97,.97,T2)
+				for i=1,9,2 do
+					gc.line(val[i],val[i+1],val[i+2],val[i+3])
+				end
+				gc.line(val[11],val[12],val[1],val[2])
 			gc.pop()
-
-			--Axes
-			gc.setColor(1,1,1,T)
-			for i=1,3 do
-				local x,y=hexList[2*i-1],hexList[2*i]
-				gc.line(-x,-y,x,y)
-			end
 
 			--Texts
 			local C
 			_=TIME()%6.2832
-			if _>3.1416 then
-				gc.setColor(1,1,1,-T*sin(_))
+			if _>3.142 then
+				gc.setColor(.97,.97,.97,-T2*sin(_))
 				setFont(35)
 				C,_=text.radar,textPos
 			else
-				gc.setColor(1,1,1,T*sin(_))
+				gc.setColor(.97,.97,.97,T2*sin(_))
 				setFont(20)
 				C,_=radar,dataPos
 			end
 			for i=1,6 do
 				mStr(C[i],_[2*i-1],_[2*i])
 			end
+			gc.pop()
+		end
 		gc.pop()
 	end
+
+	--Mods
+	gc.push('transform')
+		gc.translate(131,600)
+		gc.scale(.65)
+		if #GAME.mod>0 then
+			gc.setLineWidth(2)
+			if scoreValid()then
+				gc.setColor(.7,.7,.7,T)
+				gc.rectangle('line',-5,-5,500,150,8)
+				gc.setColor(.7,.7,.7,T*.05)
+				gc.rectangle('fill',-5,-5,500,150,8)
+			else
+				gc.setColor(.8,0,0,T)
+				gc.rectangle('line',-5,-5,500,150,8)
+				gc.setColor(1,0,0,T*.05)
+				gc.rectangle('fill',-5,-5,500,150,8)
+			end
+			setFont(35)
+			for _,M in next,MODOPT do
+				if M.sel>0 then
+					_=M.color
+					gc.setColor(_[1],_[2],_[3],T)
+					mStr(M.id,35+M.no%8*60,math.floor(M.no/8)*45)
+				end
+			end
+		end
+	gc.pop()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="setting",	x=1120,y=70,w=240,h=90,	color='lB',code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
-	WIDGET.newButton{name="replay",		x=535,y=240,w=200,h=100,color='lY',code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
-	WIDGET.newButton{name="save",		x=745,y=240,w=200,h=100,color='lP',code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
-	WIDGET.newButton{name="resume",		x=640,y=357,w=240,h=100,color='lG',code=pressKey"escape"},
-	WIDGET.newButton{name="restart",	x=640,y=473,w=240,h=100,color='lR',code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
-	WIDGET.newButton{name="quit",		x=640,y=590,w=240,h=100,font=35,code=backScene},
+	WIDGET.newKey{name="resume",	x=290,y=240,w=300,h=70,code=pressKey"escape"},
+	WIDGET.newKey{name="restart",	x=290,y=340,w=300,h=70,code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
+	WIDGET.newKey{name="setting",	x=290,y=440,w=300,h=70,code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
+	WIDGET.newKey{name="quit",		x=290,y=540,w=300,h=70,code=backScene},
+	WIDGET.newKey{name="page_prev",	x=500,y=390,w=70,code=pressKey"tab",noFrame=true,
+		fText=GC.DO{70,70,{'setLW',2},												{'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
+		fShade=GC.DO{70,70,{'setCL',1,1,1,.6},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',33,35,32,3,6,3.142},{'fRPol',45,35,32,3,6,3.142}}}},
+		hideF=function()return PLAYERS[1].frameRun<=180 end,
+		},
+	WIDGET.newKey{name="page_next",	x=1230,y=390,w=70,code=pressKey"Stab",noFrame=true,
+		fText=GC.DO{70,70,{'setLW',2},												{'dRPol',37,35,32,3,6},{'dRPol',25,35,32,3,6}},
+		fShade=GC.DO{70,70,{'setCL',1,1,1,.6},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',37,35,32,3,6},{'fRPol',25,35,32,3,6}}}},
+		hideF=function()return PLAYERS[1].frameRun<=180 end,
+		},
+	WIDGET.newKey{name="replay",	x=865,y=165,w=200,h=40,font=25,code=pressKey"p",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 end},
+	WIDGET.newKey{name="save",		x=1075,y=165,w=200,h=40,font=25,code=pressKey"o",hideF=function()return not(GAME.result or GAME.replaying)or #PLAYERS>1 or GAME.saved end},
 }
 
 return scene

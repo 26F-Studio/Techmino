@@ -2,14 +2,17 @@ local gc=love.graphics
 local int=math.floor
 local sin=math.sin
 
+local selRS
 local minoRot={0,0,0,0,0,0,0}
 local minoRot0={}
 
 local scene={}
 
 function scene.sceneInit()
+	selRS=RSlist[SETTING.RS]
 	for i=1,7 do
 		minoRot0[i]=SETTING.face[i]*1.57
+		minoRot[i]=minoRot0[i]
 	end
 end
 
@@ -28,14 +31,16 @@ function scene.draw()
 		gc.rotate(minoRot[n]+sin(t*3-n*.5)*.08)
 		local color=SETTING.skin[n]
 		local B=BLOCKS[n][0]
-		local x,y=-45-SCS[n][0][2]*30,15+SCS[n][0][1]*30
+		local x,y=-45-selRS.centerPos[n][0][2]*30,15+selRS.centerPos[n][0][1]*30
 		local col=#B[1]
 		for i=1,#B do for j=1,col do
 			if B[i][j]then
 				gc.draw(texture[color],x+30*j,y-30*i)
 			end
 		end end
-		gc.circle('fill',0,0,sin(t*10)+5)
+		if selRS.centerDisp[n]then
+			mDraw(selRS.centerTex)
+		end
 		gc.pop()
 	end
 	for i=1,5 do
@@ -53,6 +58,9 @@ end
 local function nextDir(i)
 	SETTING.face[i]=(SETTING.face[i]+1)%4
 	minoRot0[i]=minoRot0[i]+1.5707963
+	if minoRot0[5]>62 then
+		loadGame('marathon_bfmax',true)
+	end
 	SFX.play('rotate')
 end
 
@@ -81,7 +89,7 @@ scene.widgetList={
 	WIDGET.newButton{name="spin3",	x=410,y=540,w=90,h=65,code=function()nextDir(3)end},
 	WIDGET.newButton{name="spin4",	x=550,y=540,w=90,h=65,code=function()nextDir(4)end},
 	WIDGET.newButton{name="spin5",	x=690,y=540,w=90,h=65,code=function()nextDir(5)end},
-	--WIDGET.newButton{name="spin6",x=825,y=540,w=90,h=65,code=function()nextDir(6)end},--Cannot rotate O
+	WIDGET.newButton{name="spin6",	x=825,y=540,w=90,h=65,code=function()nextDir(6)end},
 	WIDGET.newButton{name="spin7",	x=970,y=540,w=90,h=65,code=function()nextDir(7)end},
 
 	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color='lV',font=35,

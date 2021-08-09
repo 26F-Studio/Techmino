@@ -10,8 +10,9 @@ return{
 		bg='none',bgm='there',
 	},
 	mesDisp=function(P)
-		setFont(55)
-		mStr(P.stat.piece,69,265)
+		setFont(60)
+		mStr(P.stat.piece,63,280)
+		mText(drawableText.piece,63,350)
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Pieces".."   "..STRING.time(D[2])end,

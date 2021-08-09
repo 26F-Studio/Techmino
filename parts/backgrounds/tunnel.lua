@@ -29,7 +29,7 @@ function back.update(dt)
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	gc.setColor(1,1,1,.1)
 	for i=1,#ring do
 		local r=ring[i]^2/12

@@ -1,4 +1,3 @@
-local gc=love.graphics
 local death_lock={12,11,10,9,8,  7,7,7,7,6}
 local death_wait={10,9, 8, 7,6,  6,6,5,5,4}
 local death_fall={10,9, 8, 7,6,  6,5,5,4,4}
@@ -74,10 +73,7 @@ return{
 	},
 	slowMark=true,
 	mesDisp=function(P)
-		setFont(45)
-		mStr(P.modeData.pt,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
 	end,
 	score=function(P)return{P.modeData.pt,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,

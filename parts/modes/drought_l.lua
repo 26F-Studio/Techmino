@@ -82,9 +82,11 @@ return{
 		bg='blockfall',bgm='reason',
 	},
 	mesDisp=function(P)
-		setFont(70)
-		local R=100-P.stat.row
-		mStr(R>=0 and R or 0,69,265)
+		setFont(55)
+		local r=100-P.stat.row
+		if r<0 then r=0 end
+		mStr(r,63,265)
+		PLY.draw.drawTargetLine(P,r)
 	end,
 	score=function(P)return{math.min(P.stat.row,100),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

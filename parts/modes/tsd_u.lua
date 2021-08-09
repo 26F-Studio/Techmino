@@ -28,9 +28,9 @@ return{
 		bg='matrix',bgm='vapor',
 	},
 	mesDisp=function(P)
-		setFont(65)
-		mStr(P.modeData.tsd,69,250)
-		mText(drawableText.tsd,69,315)
+		setFont(60)
+		mStr(P.modeData.tsd,63,250)
+		mText(drawableText.tsd,63,315)
 		gc.push('transform')
 		PLY.draw.applyFieldOffset(P)
 		gc.translate(0,P.fieldBeneath+P.fieldUp)
