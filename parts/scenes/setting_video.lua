@@ -10,24 +10,26 @@ local fakePlayer={cur={bk={{true}},skinLib=nil},curX=0,ghoY=0}
 function scene.draw()
 	local L=SKIN.lib[SETTING.skinSet]
 	fakePlayer.skinLib=L
+
 	gc.push('transform')
-		gc.translate(720,149-WIDGET.scrollPos)
-		gc.scale(2)
-		gc.setColor(1,1,1)
-		PLY.draw.drawGhost[SETTING.ghostType](fakePlayer,math.floor(TIME()*3)%16+1,SETTING.ghost)
+	gc.translate(720,149-WIDGET.scrollPos)
+	gc.scale(2)
+	gc.setColor(1,1,1)
+	PLY.draw.drawGhost[SETTING.ghostType](fakePlayer,math.floor(TIME()*3)%16+1,SETTING.ghost)
 	gc.pop()
+
 	gc.push('transform')
-		gc.setColor(1,1,1)
-		local T=L[1]
-		gc.translate(0,1410-WIDGET.scrollPos)
-		gc.setShader(SHADER.blockSatur)
-		gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
-		gc.setShader(SHADER.fieldSatur)
-		for i=1,8 do
-			gc.draw(L[i],330+30*i,100)
-			gc.draw(L[i+8],330+30*i,130)
-		end
-		gc.setShader()
+	gc.setColor(1,1,1)
+	local T=L[1]
+	gc.translate(0,1410-WIDGET.scrollPos)
+	gc.setShader(SHADER.blockSatur)
+	gc.draw(T,435,0)gc.draw(T,465,0)gc.draw(T,465,30)gc.draw(T,495,30)
+	gc.setShader(SHADER.fieldSatur)
+	for i=1,8 do
+		gc.draw(L[i],330+30*i,100)
+		gc.draw(L[i+8],330+30*i,130)
+	end
+	gc.setShader()
 	gc.pop()
 end
 

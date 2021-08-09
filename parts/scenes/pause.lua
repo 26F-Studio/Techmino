@@ -308,30 +308,30 @@ function scene.draw()
 
 	--Mods
 	gc.push('transform')
-		gc.translate(131,600)
-		gc.scale(.65)
-		if #GAME.mod>0 then
-			gc.setLineWidth(2)
-			if scoreValid()then
-				gc.setColor(.7,.7,.7,T)
-				gc.rectangle('line',-5,-5,500,150,8)
-				gc.setColor(.7,.7,.7,T*.05)
-				gc.rectangle('fill',-5,-5,500,150,8)
-			else
-				gc.setColor(.8,0,0,T)
-				gc.rectangle('line',-5,-5,500,150,8)
-				gc.setColor(1,0,0,T*.05)
-				gc.rectangle('fill',-5,-5,500,150,8)
-			end
-			setFont(35)
-			for _,M in next,MODOPT do
-				if M.sel>0 then
-					_=M.color
-					gc.setColor(_[1],_[2],_[3],T)
-					mStr(M.id,35+M.no%8*60,math.floor(M.no/8)*45)
-				end
+	gc.translate(131,600)
+	gc.scale(.65)
+	if #GAME.mod>0 then
+		gc.setLineWidth(2)
+		if scoreValid()then
+			gc.setColor(.7,.7,.7,T)
+			gc.rectangle('line',-5,-5,500,150,8)
+			gc.setColor(.7,.7,.7,T*.05)
+			gc.rectangle('fill',-5,-5,500,150,8)
+		else
+			gc.setColor(.8,0,0,T)
+			gc.rectangle('line',-5,-5,500,150,8)
+			gc.setColor(1,0,0,T*.05)
+			gc.rectangle('fill',-5,-5,500,150,8)
+		end
+		setFont(35)
+		for _,M in next,MODOPT do
+			if M.sel>0 then
+				_=M.color
+				gc.setColor(_[1],_[2],_[3],T)
+				mStr(M.id,35+M.no%8*60,math.floor(M.no/8)*45)
 			end
 		end
+	end
 	gc.pop()
 end
 
