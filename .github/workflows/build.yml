@@ -19,8 +19,7 @@ jobs:
         echo "Version=${Version}" >> $env:GITHUB_ENV
     - name: Update Conf Version
       run: |
-        $CommitID=${{ env.CommitID }}
-        python .github/workflows/updateConfVersion.py -H $CommitID
+        python .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
@@ -58,8 +57,7 @@ jobs:
         echo "Version=${Version}" >> $GITHUB_ENV
     - name: Update Conf Version
       run: |
-        $CommitID=${{ env.CommitID }}
-        python3 .github/workflows/updateConfVersion.py -H $CommitID
+        python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
     - name: Download AppImageKit
       run: curl -OL https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
     - name: Unpack and Repack
@@ -93,8 +91,7 @@ jobs:
         echo "Version=${Version}" >> $GITHUB_ENV
     - name: Update Conf Version
       run: |
-        $CommitID=${{ env.CommitID }}
-        python3 .github/workflows/updateConfVersion.py -H $CommitID
+        python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
     - name: Download Apktool
       run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
     - name: Unpack and Repack
@@ -137,8 +134,7 @@ jobs:
         echo "Version=${Version}" >> $GITHUB_ENV
     - name: Update Conf Version
       run: |
-        $CommitID=${{ env.CommitID }}
-        python3 .github/workflows/updateConfVersion.py -H $CommitID
+        python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
     - name: Pack love
       run: |
         zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua
