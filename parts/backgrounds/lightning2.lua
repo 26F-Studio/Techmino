@@ -4,13 +4,10 @@ local int,rnd=math.floor,math.random
 local back={}
 
 local t
-local colorLib
-local blocks
-local scs
+local colorLib=minoColor
+local blocks=BLOCKS
+local scs=RSlist.TRS.centerPos
 function back.init()
-	colorLib=minoColor
-	blocks=BLOCKS
-	scs=DSCP
 	t=rnd()*2600
 end
 function back.update(dt)
@@ -18,8 +15,8 @@ function back.update(dt)
 end
 function back.draw()
 	local R=7-int(t*.5%7)
-	local T=1.2-t%10%3%1.2
-	if T<.3 then gc.clear(T,T,T)
+	local T=1.2-t%15%6%1.8
+	if T<.26 then gc.clear(T,T,T)
 	else gc.clear(0,0,0)
 	end
 	local _=colorLib[SETTING.skin[R]]
