@@ -34,15 +34,22 @@ function scene.keyDown(key)
 	elseif key:sub(1,2)=="kp"then
 		scene.keyDown(key:sub(3))
 	elseif key=="."then
-		if not(val:find(".",nil,true)or val:find("e"))then
+		if sym=="="then
+			sym,reg=false,false
+			val="0."
+		elseif not(val:find(".",nil,true)or val:find("e"))then
 			if sym and not reg then
 				reg=val
 				val="0."
+			else
+				val=val.."."
 			end
-			val=val.."."
 		end
 	elseif key=="e"then
-		if sym~="="and not val:find("e")then
+		if sym=="="then
+			sym,reg=false
+			val="0e"
+		elseif not val:find("e")then
 			val=val.."e"
 		end
 	elseif key=="backspace"then
@@ -54,10 +61,14 @@ function scene.keyDown(key)
 			val=val:sub(1,-2)
 		end
 		if val==""then val="0"end
-	elseif key=="+"or key=="="and kb.isDown("lshift","rshift")then sym="+" reg=false
-	elseif key=="*"or key=="8"and kb.isDown("lshift","rshift")then sym="*" reg=false
-	elseif key=="-"then sym="-" reg=false
-	elseif key=="/"then sym="/" reg=false
+	elseif key=="+"or key=="="and kb.isDown("lshift","rshift")then
+		if reg and sym then scene.keyDown("return")else reg=false end sym="+"
+	elseif key=="*"or key=="8"and kb.isDown("lshift","rshift")then
+		if reg and sym then scene.keyDown("return")else reg=false end sym="*"
+	elseif key=="-"then
+		if reg and sym then scene.keyDown("return")else reg=false end sym="-"
+	elseif key=="/"then
+		if reg and sym then scene.keyDown("return")else reg=false end sym="/"
 	elseif key=="return"then
 		if val:sub(-1)=="e"then val=val:sub(1,-2)end
 		if sym and reg then
@@ -73,7 +84,8 @@ function scene.keyDown(key)
 		reg=false
 	elseif key=="escape"then
 		if val~="0"then
-			val,reg,sym="0"
+			reg,sym=false,false
+			val="0"
 		else
 			SCN.back()
 		end
