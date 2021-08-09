@@ -678,26 +678,26 @@ function Player:spin(d,ifpre)
 		end
 		local icb=BLOCKS[cur.id][idir]
 		local isc=self.RS.centerPos[cur.id][idir]
-		local ix,iy=self.curX+cur.sc[2]-isc[2],self.curY+cur.sc[1]-isc[1]
+		local baseX,baseY=self.curX+cur.sc[2]-isc[2],self.curY+cur.sc[1]-isc[1]
 		for test=1,#kickData do
-			local x,y=ix+kickData[test][1],iy+kickData[test][2]
-			if (self.freshTime>0 or kickData[test][2]<=0)and not self:ifoverlap(icb,x,y)then
-				ix,iy=x,y
-				if self.gameEnv.moveFX and self.gameEnv.block then
-					self:createMoveFX()
-				end
-				self.curX,self.curY,cur.dir=ix,iy,idir
-				cur.sc,cur.bk=isc,icb
+			local ix,iy=baseX+kickData[test][1],baseY+kickData[test][2]
+			if (self.freshTime>0 or kickData[test][2]<=0)and not self:ifoverlap(icb,ix,iy)then
+				--Create moveFX at the original position
+				if self.gameEnv.moveFX and self.gameEnv.block then self:createMoveFX()end
+
+				--Change block position
+				cur.sc,cur.bk,cur.dir=isc,icb,idir
+				self.curX,self.curY=ix,iy
 				self.spinLast=test==2 and 0 or 1
 
+				--Fresh ghost and freshTime
 				local t=self.freshTime
-				if not ifpre then
-					self:freshBlock('move')
-				end
+				if not ifpre then self:freshBlock('move')end
 				if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
 					self.freshTime=self.freshTime-1
 				end
 
+				--Sound & Field shaking
 				if self.sound then
 					local sfx
 					if ifpre then
