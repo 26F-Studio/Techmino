@@ -303,8 +303,7 @@ do
 	for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
 	if
 		SETTING.RS=='ZRS'or SETTING.RS=='BRS'or
-		SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'or
-		SETTING.RS=='Classic'
+		SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'
 	then SETTING.RS='TRS'end
 	if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'end
 	if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
