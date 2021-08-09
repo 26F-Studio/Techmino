@@ -105,6 +105,7 @@ jobs:
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
     - uses: 26F-Studio/sign-android-release@master
       name: Sign APK
+      id: sign_app
       with:
         releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
