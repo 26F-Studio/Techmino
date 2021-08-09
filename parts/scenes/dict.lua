@@ -138,17 +138,14 @@ end
 
 function scene.draw()
 	local list=getList()
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	local t=list[selected][4]
-	if #t>900 then
-		setFont(15)
-	elseif #t>600 then
-		setFont(20)
-	elseif #t>400 then
-		setFont(25)
-	else
-		setFont(30)
-	end
+	setFont(
+		#t>900 and 15 or
+		#t>600 and 20 or
+		#t>400 and 25 or
+		30
+	)
 	gc.printf(t,306,180,950)
 
 	setFont(30)
@@ -160,7 +157,7 @@ function scene.draw()
 		local y=142+35*i
 		i=i+scrollPos
 		local item=list[i]
-		gc.setColor(0,0,0)
+		gc.setColor(COLOR.D)
 		gc.print(item[1],29,y-1)
 		gc.print(item[1],29,y+1)
 		gc.print(item[1],31,y-1)
@@ -169,16 +166,16 @@ function scene.draw()
 		gc.print(item[1],30,y)
 	end
 
-	gc.setLineWidth(4)
-	gc.setColor(1,1,1)
-	gc.rectangle('line',300,180,958,526)
-	gc.rectangle('line',20,180,280,526)
+	gc.setLineWidth(2)
+	gc.setColor(COLOR.Z)
+	gc.rectangle('line',300,180,958,526,5)
+	gc.rectangle('line',20,180,280,526,5)
 
 	if waiting>0 then
 		local r=TIME()*2
 		local R=int(r)%7+1
 		gc.setColor(1,1,1,1-abs(r%1*2-1))
-		gc.draw(TEXTURE.miniBlock[R],785,140,TIME()*10%6.2832,15,15,SCS[R][0][2]+.5,#BLOCKS[R][0]-SCS[R][0][1]-.5)
+		gc.draw(TEXTURE.miniBlock[R],785,140,TIME()*10%6.2832,15,15,DSCP[R][0][2]+.5,#BLOCKS[R][0]-DSCP[R][0][1]-.5)
 	end
 end
 

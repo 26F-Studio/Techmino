@@ -85,7 +85,7 @@ function scene.draw()
 	end
 
 	gc.replaceTransform(SCR.xOy)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	local T=40*math.min(time,45)
 	local L=text.staff
 	setFont(40)

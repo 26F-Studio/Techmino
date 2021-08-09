@@ -154,10 +154,11 @@ function scene.draw()
 	mDraw(TEXTURE.title_color,640,60,nil,.43)
 
 	--Tip
+	gc.setColor(COLOR.Z)
 	gc.push('transform')
 		gc.translate(260,650)
 		gc.setLineWidth(2)
-		gc.rectangle('line',0,0,tipLength,42)
+		gc.rectangle('line',0,0,tipLength,42,3)
 		gc.stencil(tipStencil)
 		gc.setStencilTest('equal',1)
 		gc.draw(tip,0+scrollX,0)
@@ -176,7 +177,7 @@ function scene.draw()
 
 	--Connecting mark
 	if NET.getlock('access_and_login')then
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.setLineWidth(10)
 		local t=TIME()*6.26%6.2832
 		gc.arc('line','open',scene.widgetList[3].x+865,450,40,t,t+4.26)

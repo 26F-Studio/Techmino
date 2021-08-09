@@ -25,7 +25,6 @@ VIB=	require'Zframework.vibrate'
 SFX=	require'Zframework.sfx'
 
 LIGHT=	require'Zframework.light'
-DOGC=	require'Zframework.doGC'
 BG=		require'Zframework.background'
 WIDGET=	require'Zframework.widget'
 TEXT=	require'Zframework.text'
@@ -66,7 +65,7 @@ joysticks={}
 
 local devMode
 
-local batteryImg=DOGC{31,20,
+local batteryImg=GC.DO{31,20,
 	{'fRect',1,0,26,2},
 	{'fRect',1,18,26,2},
 	{'fRect',0,1,2,18},
@@ -97,12 +96,12 @@ local function updatePowerInfo()
 			gc.rectangle('fill',76,6,pow*.22,14)
 			if pow<100 then
 				setFont(15)
-				gc_setColor(0,0,0)
+				gc.setColor(COLOR.D)
 				gc_print(pow,77,1)
 				gc_print(pow,77,3)
 				gc_print(pow,79,1)
 				gc_print(pow,79,3)
-				gc_setColor(1,1,1)
+				gc_setColor(COLOR.Z)
 				gc_print(pow,78,2)
 			end
 		end
@@ -149,10 +148,10 @@ end
 function love.mousereleased(x,y,k,touch)
 	if touch or SCN.swapping then return end
 	mx,my=ITP(xOy,x,y)
+	if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
 	if WIDGET.sel then
 		WIDGET.release(mx,my)
 	else
-		if SCN.mouseUp then SCN.mouseUp(mx,my,k)end
 		if lastX and SCN.mouseClick and(mx-lastX)^2+(my-lastY)^2<62 then
 			SCN.mouseClick(mx,my,k)
 		end
@@ -496,28 +495,28 @@ local wsBottomImage do
 		ins(L,{'setCL',1,1,1,i*.005})
 		ins(L,{'fRect',i,0,1,18})
 	end
-	wsBottomImage=DOGC(L)
+	wsBottomImage=GC.DO(L)
 end
-local ws_deadImg=DOGC{20,20,
+local ws_deadImg=GC.DO{20,20,
 	{'setFT',20},
 	{'setCL',1,.3,.3},
 	{'print',"X",3,-4},
 }
-local ws_connectingImg=DOGC{20,20,
+local ws_connectingImg=GC.DO{20,20,
 	{'setLW',3},
 	{'dArc',11.5,10,6.26,1,5.28},
 }
-local ws_runningImg=DOGC{20,20,
+local ws_runningImg=GC.DO{20,20,
 	{'setFT',20},
 	{'setCL',.5,1,0},
 	{'print',"R",3,-4},
 }
-local cursorImg=DOGC{16,16,
+local cursorImg=GC.DO{16,16,
 	{'fCirc',8,8,4},
 	{'setCL',1,1,1,.7},
 	{'fCirc',8,8,6},
 }
-local cursor_holdImg=DOGC{16,16,
+local cursor_holdImg=GC.DO{16,16,
 	{'setLW',2},
 	{'dCirc',8,8,7},
 	{'fCirc',8,8,3},
@@ -603,7 +602,7 @@ function love.run()
 						local R=int((time+1)/2)%7+1
 						_=minoColor[SETTING.skin[R]]
 						gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-						_=SCS[R][0]
+						_=DSCP[R][0]
 						gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
 						gc_setColor(1,1,1)
 						gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
@@ -657,11 +656,11 @@ function love.run()
 							gc_line(x,0,x,SCR.h)
 							gc_line(0,y,SCR.w,y)
 							local t=int(mx+.5)..","..int(my+.5)
-							gc_setColor(0,0,0)
+							gc.setColor(COLOR.D)
 							gc_print(t,x+1,y)
 							gc_print(t,x+1,y-1)
 							gc_print(t,x+2,y-1)
-							gc_setColor(1,1,1)
+							gc_setColor(COLOR.Z)
 							gc_print(t,x+2,y)
 
 						gc_replaceTransform(SCR.xOy_dr)

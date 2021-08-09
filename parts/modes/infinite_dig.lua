@@ -44,11 +44,11 @@ return{
 	end,
 	mesDisp=function(P)
 		setFont(45)
-		mStr(P.stat.dig,69,190)
-		mStr(P.stat.atk,69,310)
-		mStr(("%.2f"):format(P.stat.atk/P.stat.row),69,420)
-		mText(drawableText.line,69,243)
-		mText(drawableText.atk,69,363)
-		mText(drawableText.eff,69,475)
+		mStr(P.stat.dig,63,190)
+		mStr(P.stat.atk,63,310)
+		mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,420)
+		mText(drawableText.line,63,243)
+		mText(drawableText.atk,63,363)
+		mText(drawableText.eff,63,475)
 	end,
 }

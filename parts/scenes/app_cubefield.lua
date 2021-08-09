@@ -214,7 +214,7 @@ function scene.draw()
 
 	--Draw player
 	if play and inv%8<4 then
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.rectangle('fill',620,670,40,40)
 	end
 
@@ -239,7 +239,7 @@ function scene.draw()
 	end
 
 	--Draw Horizon/Direction
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.line(-942,-440,942,-440)
 
 	--Draw cubes
@@ -254,7 +254,7 @@ function scene.draw()
 				gc.setColor(color)
 				gc.rectangle('fill',x,y-485,size,size)
 				gc.setLineWidth(size*.05)
-				gc.setColor(1,1,1)
+				gc.setColor(COLOR.Z)
 				gc.rectangle('line',x,y-485,size,size)
 			end
 		end
@@ -278,7 +278,7 @@ function scene.draw()
 			end
 		end
 	else
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		gc.rectangle('fill',-20,-20+ct,40,40)
 
 		gc.setColor(1,1,1,(1-ct/60)*.1)

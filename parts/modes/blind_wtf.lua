@@ -1,3 +1,11 @@
+local boarder=GC.DO{334,620,
+{'setLW',2},
+{'setCL',.97,.97,.975},
+{'dRect',16,1,302,618,5},
+{'fRect',17,612,300,2},
+{'dRect',318,9,15,596,3},
+{'dRect',1,9,15,596,3},
+}
 local gc=love.graphics
 local sin,min=math.sin,math.min
 return{
@@ -30,9 +38,7 @@ return{
 				gc.translate(150,0)
 				gc.setColor(.5,.5,.5)
 				--Frame
-				gc.rectangle('line',-1,-11,302,612)--Boarder
-				gc.rectangle('line',301,-3,15,604)--AtkBuffer boarder
-				gc.rectangle('line',-16,-3,15,604)--B2b bar boarder
+				gc.draw(boarder,-17,-12)
 			end
 			gc.pop()
 		end
@@ -45,11 +51,11 @@ return{
 
 		--Texts
 		gc.setColor(.8,.8,.8)
-		mText(drawableText.line,69,300)
-		mText(drawableText.techrash,69,420)
+		mText(drawableText.line,63,300)
+		mText(drawableText.techrash,63,420)
 		setFont(75)
-		mStr(P.stat.row,69,220)
-		mStr(P.stat.clears[4],69,340)
+		mStr(P.stat.row,63,220)
+		mStr(P.stat.clears[4],63,340)
 	end,
 	score=function(P)return{min(P.stat.row,40),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

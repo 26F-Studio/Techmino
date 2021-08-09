@@ -1,8 +1,8 @@
 import re
-with open("conf.lua", "r") as file:
-    data = file.read()
-versionCode = re.search("build=(\\d+)", data).group(1)
-versionName = re.search('short="([^"]+)', data).group(1)
+import getVersion
+
+versionCode, versionName = getVersion.getVersion()
+
 with open("apk/apktool.yml", "r+") as file:
     data = file.read()
     data = re.sub("versionCode:.+", f"versionCode: '{versionCode}'", data)

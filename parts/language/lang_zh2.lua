@@ -11,7 +11,7 @@ return{
 	continue="继续。",
 
 	speedLV="速度等级",
-	line="行数",atk="攻击",eff="效率",
+	piece="块数",line="行数",atk="攻击",eff="效率",
 	rpm="收每分",tsd="T2",
 	grade="段位",techrash="消四",
 	wave="波数",nextWave="下一波",
@@ -62,13 +62,7 @@ return{
 			ihs="提前暂存",
 		},
 		setting_skin={
-			spin1="转",
-			spin2="转",
-			spin3="转",
-			spin4="转",
-			spin5="转",
-			spin6="转",
-			spin7="转",
+			spin1="转",spin2="转",spin3="转",spin4="转",spin5="转",spin6="转",spin7="转",
 		},
 		customGame={
 			mod="模组(F1)",

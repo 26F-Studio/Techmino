@@ -201,7 +201,7 @@ end
 
 function scene.draw()
 	--Draw mode
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	setFont(50)
 	mStr(modeName[mode],155,380)
 
@@ -213,7 +213,7 @@ function scene.draw()
 		setFont(45)
 		gc.setColor(1,.6,.6)
 		mStr(("%.2f"):format(maxSpeed/60),155,460)
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		mStr(("%.2f"):format(speed/60),155,520)
 
 		--Progress time list
@@ -224,7 +224,7 @@ function scene.draw()
 		end
 
 		--Draw time
-		gc.setColor(1,1,1)
+		gc.setColor(COLOR.Z)
 		setFont(45)
 		gc.print(("%.3f"):format(time),1030,70)
 	end
@@ -245,7 +245,7 @@ function scene.draw()
 	gc.pop()
 
 	--Draw track line
-	gc.setColor(0,0,0)
+	gc.setColor(COLOR.D)
 	gc.setLineWidth(2)
 	for x=1,5 do
 		x=130+170*x

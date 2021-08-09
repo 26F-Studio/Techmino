@@ -121,7 +121,7 @@ end
 
 function scene.draw()
 	setFont(40)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.print(("%.3f"):format(time),1026,80)
 	gc.print(mistake,1026,150)
 
@@ -153,14 +153,14 @@ function scene.draw()
 			if not(state==1 and disappear and N<=progress)then
 				gc.setColor(.4,.5,.6)
 				gc.rectangle('fill',320+(j-1)*width,(i-1)*width+40,width,width)
-				gc.setColor(1,1,1)
+				gc.setColor(COLOR.Z)
 				gc.rectangle('line',320+(j-1)*width,(i-1)*width+40,width,width)
 				if not mono then
 					local x,y=320+(j-.5)*width,40+(i-.5)*width-f*.67
 					gc.setColor(.1,.1,.1)
 					mStr(N,x-3,y-1)
 					mStr(N,x-1,y-3)
-					gc.setColor(1,1,1)
+					gc.setColor(COLOR.Z)
 					mStr(N,x,y)
 				end
 			end

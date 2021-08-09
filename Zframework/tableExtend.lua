@@ -12,26 +12,28 @@ function TABLE.new(val,count)
 end
 
 --Get a copy of [1~#] elements
-function TABLE.shift(org)
+function TABLE.shift(org,depth)
+	if not depth then depth=1e99 end
 	local L={}
 	for i=1,#org do
-		if type(org[i])~='table'then
+		if type(org[i])~='table'or depth==0 then
 			L[i]=org[i]
 		else
-			L[i]=TABLE.shift(org[i])
+			L[i]=TABLE.shift(org[i],depth-1)
 		end
 	end
 	return L
 end
 
---Get a full copy of a table
-function TABLE.copy(org)
+--Get a full copy of a table, depth = how many layers will be recreate, default to inf
+function TABLE.copy(org,depth)
+	if not depth then depth=1e99 end
 	local L={}
 	for k,v in next,org do
-		if type(v)~='table'then
+		if type(v)~='table'or depth==0 then
 			L[k]=v
 		else
-			L[k]=TABLE.copy(v)
+			L[k]=TABLE.copy(v,depth-1)
 		end
 	end
 	return L

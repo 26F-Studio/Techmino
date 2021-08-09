@@ -80,12 +80,12 @@ scene.widgetList={
 		list={'normal','soft','gray','light','color'},
 		disp=SETval("blockSatur"),
 		code=function(v)SETTING.blockSatur=v;applyBlockSatur(SETTING.blockSatur)end
-	},
+		},
 	WIDGET.newSelector{name="fieldSatur",x=800,y=1540,w=300,color='lN',
 		list={'normal','soft','gray','light','color'},
 		disp=SETval("fieldSatur"),
 		code=function(v)SETTING.fieldSatur=v;applyFieldSatur(SETTING.fieldSatur)end
-	},
+		},
 
 	WIDGET.newButton{name="back",		x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }

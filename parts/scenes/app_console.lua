@@ -638,7 +638,15 @@ local commands={}do
 	commands.sudo={
 		code=function(code)
 			if sudomode then
-				local success,result=pcall(loadstring(code))
+				--Filter ""
+				if #code==0 then log{C.R,"Usage: sudo [Lua code]"}return end
+
+				--Check Syntax error
+				local func,errmsg=loadstring(code)
+				if errmsg then log{C.R,errmsg}return end
+
+				--Run code
+				local success,result=pcall(func)
 				if success then
 					if result~=nil then
 						log{C.lG,">> "..tostring(result)}
@@ -739,7 +747,7 @@ local commands={}do
 				log{C.A,"Example: switchhost 127.0.0.1 26000 /sock"}
 			end
 		end,
-		description="Switch to appother host",
+		description="Switch to another host",
 		details={
 			"Disconnect all connections and switch to another host",
 			"",
@@ -813,10 +821,6 @@ local combKey={
 }
 
 --Environment for user's function
-local noLog=false
-local function log_user(str)
-	log(noLog and"CHEATER."or tostring(str))
-end
 local userG={
 	timer=TIME,
 
@@ -825,7 +829,7 @@ local userG={
 	tonumber=tonumber,tostring=tostring,
 	select=select,next=next,
 	ipairs=ipairs,pairs=pairs,
-	print=log_user,type=type,
+	print=log,type=type,
 	pcall=pcall,xpcall=xpcall,
 	rawget=rawget,rawset=rawset,rawlen=rawlen,rawequal=rawequal,
 	setfenv=setfenv,setmetatable=setmetatable,
@@ -851,14 +855,10 @@ local fleg={
 	supw=7126,
 	second_box="Coming soon",
 }setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
-function userG.the_box(k,f)
-	if k~=first_key then log"Usage:"log"?"return end
-	if not f or type(f)~='function'then log"Second arg is a function"return end
-	noLog=true
-	if f()~=f then noLog=false log"Return itself"return end
-	if f(26)~=math.huge then noLog=false log"Lucky number → Infinity"return end
-	noLog=false
-	log"*You Lose*"
+function userG.the_box(k)
+	if k~=first_key then log"Usage:"log"*The box is locked*"return end
+	log"*Breaking sound*"
+	userG.the_box,userG.the_key=nil,nil
 	return fleg
 end
 userG.the_key=first_key

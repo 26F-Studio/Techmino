@@ -145,7 +145,7 @@ return{
 	{"Puyopuyo Tetris",
 		"噗哟方块 ppt puyopuyotetris",
 		"game",
-		"简称PPT，多平台方块(steamPC版手感，网络等都不太好，不建议购买)，将tetris和puyopuyo两个下落消除游戏放到一个游戏里，二者可以对战，联机单机模式都很多，很有趣",
+		"简称PPT，多平台方块(steamPC版相对NS版手感和网络等都不太好)，将tetris和puyopuyo两个下落消除游戏放到一个游戏里，二者可以对战，联机单机模式都很多，很有趣",
 	},
 	{"Tetris Online",
 		"top tetris online study",

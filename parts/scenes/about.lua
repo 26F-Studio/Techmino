@@ -11,7 +11,7 @@ end
 function scene.draw()
 	--Texts
 	setFont(20)
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	for i=1,#text.aboutTexts do
 		gc.printf(text.aboutTexts[i],150,35*i+50,1000,'center')
 	end

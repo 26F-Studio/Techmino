@@ -8,31 +8,31 @@ local VK_org=VK_org
 
 local skin=1
 local buttonImages={
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98},{'dCirc',100,100,90}},
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,8},{'dCirc',100,100,90,8}},
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,6},{'dCirc',100,100,90,6}},
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,4},{'dCirc',100,100,89,4}},
-	DOGC{200,200,{'setLW',4},{'dRect',31,31,138,138},{'dRect',39,39,122,122}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98},{'dCirc',100,100,90}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98,8},{'dCirc',100,100,90,8}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98,6},{'dCirc',100,100,90,6}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98,4},{'dCirc',100,100,89,4}},
+	GC.DO{200,200,{'setLW',4},{'dRect',31,31,138,138},{'dRect',39,39,122,122}},
 }
 local rippleImages={
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98}},
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,8}},
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,6}},
-	DOGC{200,200,{'setLW',4},{'dCirc',100,100,98,4}},
-	DOGC{200,200,{'setLW',4},{'dRect',31,31,138,138}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98,8}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98,6}},
+	GC.DO{200,200,{'setLW',4},{'dCirc',100,100,98,4}},
+	GC.DO{200,200,{'setLW',4},{'dRect',31,31,138,138}},
 }
 local holdImages={
-	DOGC{200,200,{'fCirc',100,100,86}},
-	DOGC{200,200,{'fCirc',100,100,86,8}},
-	DOGC{200,200,{'fCirc',100,100,85,6}},
-	DOGC{200,200,{'fCirc',100,100,83,4}},
-	DOGC{200,200,{'fRect',43,43,114,114}},
+	GC.DO{200,200,{'fCirc',100,100,86}},
+	GC.DO{200,200,{'fCirc',100,100,86,8}},
+	GC.DO{200,200,{'fCirc',100,100,85,6}},
+	GC.DO{200,200,{'fCirc',100,100,83,4}},
+	GC.DO{200,200,{'fRect',43,43,114,114}},
 }
 --Virtualkey icons
 local VKIcon={}
 gc.setDefaultFilter('nearest','nearest')
 local VKI=gc.newImage("media/image/virtualkey.png")
-for i=1,20 do VKIcon[i]=DOGC{36,36,{'draw',VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36}}end
+for i=1,20 do VKIcon[i]=GC.DO{36,36,{'draw',VKI,(i-1)%5*-36,math.floor((i-1)*.2)*-36}}end
 gc.setDefaultFilter('linear','linear')
 
 --In-game virtualkey layout data

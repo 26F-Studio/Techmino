@@ -92,8 +92,7 @@ scene.widgetList={
 				SETTING.sfx,SETTING.sfx_spawn,SETTING.sfx_warn,SETTING.bgm,SETTING.vib,SETTING.voc=0,0,0,0,0,0
 			end
 			BGM.freshVolume()
-		end
-	},
+		end},
 	WIDGET.newSwitch{name="fine",	x=1150,	y=270,disp=SETval("fine"),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
 
 	WIDGET.newSelector{name="cv",	x=1100,	y=380,w=200,list={'miya','naki','xiaoya'},disp=function()return cv end,code=function(i)cv=i end},

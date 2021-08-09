@@ -43,7 +43,7 @@ function scene.draw()
 	setFont(70)gc.setColor(1,.6,.6)
 	mStr(("%.2f"):format(maxSpeed),640,20)
 
-	setFont(100)gc.setColor(1,1,1)
+	setFont(100)gc.setColor(COLOR.Z)
 	mStr(("%.2f"):format(speed),640,150)
 
 	setFont(35)
@@ -64,7 +64,7 @@ function scene.draw()
 		gc.setColor(max(speed/maxSpeed*10-9,0),1-max(speed/maxSpeed*8-7,0),1-max(speed/maxSpeed*4-3,0))
 	end
 	gc.rectangle('fill',960,360,30,-320*max(speed/maxSpeed*4-3,0))
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	gc.rectangle('line',960,360,30,-320)
 end
 

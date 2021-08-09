@@ -15,7 +15,7 @@ function back.update(dt)
 	t=t+dt
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	shader:send('t',t)
 	gc.setShader(shader)
 	gc.rectangle('fill',0,0,SCR.w,SCR.h)

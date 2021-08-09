@@ -20,19 +20,20 @@ end
 
 function scene.draw()
 	--Game scene
-	if timer*1.26<1 then
-		SCN.scenes.game.draw()
-	end
+	SCN.scenes.game.draw()
 
 	--Gray screen cover
-	gc.setColor(.15,.15,.15,timer*1.26)
+	gc.setColor(.12,.12,.12,timer*8-7)
 	gc.replaceTransform(SCR.origin)
 	gc.rectangle('fill',0,0,SCR.w,SCR.h)
 	gc.replaceTransform(SCR.xOy)
 
-	--Pie counter
-	gc.setColor(1,1,1,4*(1-timer))
-	gc.arc('fill','pie',640,360,160,-1.5708,timer*6.2832-1.5708)
+	--Counter bar
+	gc.setLineWidth(2)
+	gc.setColor(.9,.9,.9,math.min(1,12*timer,8*(1-timer))*.6)
+	gc.rectangle('line',494,336,292,48,14)
+	gc.setColor(.9,.9,.9,math.min(1,12*timer,8*(1-timer))*.75)
+	gc.rectangle('fill',500,342,280*timer,36,10)
 end
 
 return scene

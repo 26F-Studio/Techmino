@@ -91,7 +91,7 @@ function scene.draw()
 	gc.rectangle('fill',85,0,190,720)
 
 	--Power & Angle
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	if state~=2 then
 		gc.setLineWidth(2)
 		gc.rectangle('fill',x-80,y+20,pow*1.6,16)

@@ -123,7 +123,7 @@ function scene.draw()
 
 			gc.setColor(color)
 			gc.circle('line',0,0,rad,side)
-			gc.setColor(1,1,1)
+			gc.setColor(COLOR.Z)
 			mStr(M.id,0,-28)
 			if M.sel>0 and M.list then
 				setFont(25)
@@ -139,7 +139,7 @@ function scene.draw()
 		gc.pop()
 	end
 
-	gc.setColor(1,1,1)
+	gc.setColor(COLOR.Z)
 	if selected then
 		setFont(30)
 		gc.printf(text.modInfo[selected.name],70,540,950)

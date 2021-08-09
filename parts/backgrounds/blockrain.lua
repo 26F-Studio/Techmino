@@ -40,7 +40,7 @@ function back.update()
 	end
 end
 function back.draw()
-	gc.clear(.1,.1,.1)
+	gc.clear(.08,.08,.084)
 	for i=1,#mino do
 		local C=mino[i]
 		local c=C.color

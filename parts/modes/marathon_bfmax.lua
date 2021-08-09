@@ -1,4 +1,3 @@
-local gc=love.graphics
 local dropSpeed={50,40,30,25,20,15,12,9,7,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{
@@ -36,10 +35,7 @@ return{
 	},
 	slowMark=true,
 	mesDisp=function(P)
-		setFont(45)
-		mStr(P.stat.row,69,320)
-		mStr(P.modeData.target,69,370)
-		gc.rectangle('fill',25,375,90,4)
+		PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 		PLY.draw.drawTargetLine(P,200-P.stat.row)
 	end,
 	getRank=function(P)
