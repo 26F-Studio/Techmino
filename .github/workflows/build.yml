@@ -149,8 +149,11 @@ jobs:
         security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
         security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k Techminohaowan build.keychain
         /usr/bin/codesign --force --deep -s 79B81FC5EA155243C973B5417B0996501F00EF55 ./Techmino.app -v
+    - name: Pack Techmino
+      run: |
+        zip -r -y Techmino-Packed.app.zip Techmino.app
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ env.CommitID }}_macOS
-        path: Techmino-Packed.app
+        path: Techmino-Packed.app.zip
