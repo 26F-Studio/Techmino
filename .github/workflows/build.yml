@@ -12,11 +12,11 @@ jobs:
     - name: GetCommitID
       run: |
         $CommitID=git rev-parse --short "${{ GITHUB.SHA }}"
-        echo "CommitID=$CommitID" >> $env:GITHUB_ENV
+        echo "CommitID=${CommitID}" >> $env:GITHUB_ENV
     - name: GetVersion
       run: |
         $Version=python .github/workflows/getVersion.py
-        echo "Version=$Version" >> $env:GITHUB_ENV
+        echo "Version=${Version}" >> $env:GITHUB_ENV
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
