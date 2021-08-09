@@ -52,8 +52,7 @@ return{
 		setFont(55)
 		mStr(P.stat.row,63,225)
 		mText(drawableText.line,63,290)
-		gc.push('transform')
-		PLY.draw.applyFieldOffset(P)
+		PLY.draw.applyField(P)
 		if P.modeData.showMark==0 then
 			local mark=TEXTURE.puzzleMark
 			local F=FIELD[P.modeData.finished+1]
@@ -64,6 +63,7 @@ return{
 				end
 			end end
 		end
+		gc.setStencilTest()
 		gc.pop()
 	end,
 }

@@ -6,7 +6,7 @@ return{
 		dropPiece=function(P)
 			if P.lastPiece.pc then
 				P.gameEnv.heightLimit=4
-				if P.stat.pc%10==0 then
+				if P.stat.pc%5==0 then
 					P.gameEnv.drop=math.max(P.gameEnv.drop-1,1)
 				end
 			else
@@ -32,9 +32,9 @@ return{
 	getRank=function(P)
 		local L=P.stat.pc
 		return
-		L>=100 and 5 or
-		L>=70 and 4 or
-		L>=40 and 3 or
+		L>=50 and 5 or
+		L>=40 and 4 or
+		L>=30 and 3 or
 		L>=20 and 2 or
 		L>=10 and 1 or
 		L>=5 and 0

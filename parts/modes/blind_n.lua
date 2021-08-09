@@ -15,10 +15,10 @@ return{
 		setFont(75)
 		mStr(P.stat.row,63,220)
 		mStr(P.stat.clears[4],63,340)
-		gc.push('transform')
-		PLY.draw.applyFieldOffset(P)
+		PLY.draw.applyField(P)
 		gc.setColor(1,1,1,.1)
 		gc.draw(IMG.electric,0,106,0,2.6)
+		gc.setStencilTest()
 		gc.pop()
 	end,
 	score=function(P)return{min(P.stat.row,200),P.stat.time}end,
@@ -29,8 +29,8 @@ return{
 		if L>=200 then
 			local T=P.stat.time
 			return
-			T<=150 and 5 or
-			T<=210 and 4 or
+			T<=180 and 5 or
+			T<=220 and 4 or
 			3
 		else
 			return

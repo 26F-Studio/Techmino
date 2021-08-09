@@ -233,15 +233,15 @@ function scene.draw()
 	gc.rectangle('fill',300,0,680,720)
 	gc.setColor(tileColor[mode])
 	gc.push('transform')
-		gc.translate(0,720-height+8)
-		for i=1,#pos do
-			if pos[i]<10 then
-				gc.rectangle('fill',130+170*pos[i]+8,-i*120,170-16,120-16)
-			else
-				gc.rectangle('fill',130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
-				gc.rectangle('fill',130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
-			end
+	gc.translate(0,720-height+8)
+	for i=1,#pos do
+		if pos[i]<10 then
+			gc.rectangle('fill',130+170*pos[i]+8,-i*120,170-16,120-16)
+		else
+			gc.rectangle('fill',130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
+			gc.rectangle('fill',130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
 		end
+	end
 	gc.pop()
 
 	--Draw track line
