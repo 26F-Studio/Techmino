@@ -217,7 +217,7 @@ local function noDevkeyPressed(key)
 	elseif key=="f4"then
 		for _=1,8 do
 			local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
-			if P~=PLAYERS[1]then
+			if P and P~=PLAYERS[1]then
 				P.lastRecv=PLAYERS[1]
 				P:lose()
 			end
