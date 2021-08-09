@@ -31,14 +31,13 @@ return{
 		setFont(60)
 		mStr(P.modeData.tsd,63,250)
 		mText(drawableText.tsd,63,315)
-		gc.push('transform')
-		PLY.draw.applyFieldOffset(P)
-		gc.translate(0,P.fieldBeneath+P.fieldUp)
+		PLY.draw.applyField(P)
 		local L=P.modeData.history
 		for i=1,#L do
 			gc.setColor(1,.5,.5,.3-i*.05)
 			gc.rectangle('fill',30*L[i]-30,0,30,600)
 		end
+		gc.setStencilTest()
 		gc.pop()
 	end,
 	score=function(P)return{P.modeData.tsd,P.stat.time}end,

@@ -34,11 +34,10 @@ return{
 		mText(drawableText.tsd,63,315)
 		local L=P.modeData.history
 		if L[1]and L[1]==L[2]and L[1]==L[3]then
-			gc.push('transform')
-			PLY.draw.applyFieldOffset(P)
-			gc.translate(0,P.fieldBeneath+P.fieldUp)
+			PLY.draw.applyField(P)
 			gc.setColor(1,.5,.5,.2)
 			gc.rectangle('fill',30*L[1]-30,0,30,600)
+			gc.setStencilTest()
 			gc.pop()
 		end
 	end,

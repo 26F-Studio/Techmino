@@ -18,10 +18,10 @@ return{
 		setFont(75)
 		mStr(P.stat.row,63,220)
 		mStr(P.stat.clears[4],63,340)
-		gc.push('transform')
-		PLY.draw.applyFieldOffset(P)
+		PLY.draw.applyField(P)
 		gc.setColor(1,1,1,.1)
 		gc.draw(IMG.electric,0,106,0,2.6)
+		gc.setStencilTest()
 		gc.pop()
 	end,
 	score=function(P)return{min(P.stat.row,100),P.stat.time}end,

@@ -81,14 +81,19 @@ local function boardTransform(mode)
 		end
 	end
 end
-local function applyFieldOffset(P,notNorm)
-	if not notNorm then gc_translate(150,0)end
+local function stencilBoard()gc_rectangle('fill',0,-10,300,610)end
+local function applyField(P)
+	gc_push('transform')
+
 	local O=P.fieldOff
-	gc_translate(O.x+150,O.y+300)
+	gc_translate(O.x+150+150,O.y+300)
 	gc_rotate(O.a)
 	gc_translate(-150,-300)
+	gc_translate(0,P.fieldBeneath+P.fieldUp)
+
+	gc_stencil(stencilBoard)
+	gc_setStencilTest('equal',1)
 end
-local function stencilBoard()gc_rectangle('fill',0,-10,300,610)end
 
 local function drawRow(texture,h,V,L,showInvis)
 	local t=TIME()*4
@@ -524,8 +529,8 @@ local function drawStartCounter(P)
 end
 
 local draw={}
-draw.applyFieldOffset=applyFieldOffset
 draw.drawGhost=drawGhost
+draw.applyField=applyField
 function draw.drawNext_norm(P)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
@@ -605,10 +610,10 @@ function draw.drawTargetLine(P,r)
 	if r<21+d/30 and r>0 then
 		gc_setLineWidth(3)
 		gc_setColor(1,r>10 and 0 or .2+.8*rnd(),.5)
-		gc_push('transform')
-		applyFieldOffset(P)
+		applyField(P)
 		r=600-30*(r)+d
 		gc_line(0,r,300,r)
+		gc_setStencilTest()
 		gc_pop()
 	end
 end
@@ -616,22 +621,22 @@ function draw.drawProgress(s1,s2)
 	setFont(40)
 	mStr(s1,62,322)
 	mStr(s2,62,376)
-	gc.rectangle('fill',24,375,76,4,2)
+	gc_rectangle('fill',24,375,76,4,2)
 end
 function draw.drawRoyaleInfo(P)
 	setFont(35)
 	mStr(#PLY_ALIVE.."/"..#PLAYERS,63,175)
 	mStr(P.modeData.ko,80,215)
-	gc.draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
+	gc_draw(drawableText.ko,60-drawableText.ko:getWidth(),222)
 	setFont(20)
-	gc.setColor(1,.5,0,.6)
-	gc.print(P.badge,103,227)
-	gc.setColor(.97,.97,.97)
+	gc_setColor(1,.5,0,.6)
+	gc_print(P.badge,103,227)
+	gc_setColor(.97,.97,.97)
 	setFont(25)
 	mStr(text.powerUp[P.strength],63,290)
-	gc.setColor(1,1,1)
+	gc_setColor(1,1,1)
 	for i=1,P.strength do
-		gc.draw(IMG.badgeIcon,16*i+6,260)
+		gc_draw(IMG.badgeIcon,16*i+6,260)
 	end
 end
 
@@ -644,14 +649,13 @@ function draw.norm(P)
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
 
-		--Field-related things
-		gc_push('transform')
-			applyFieldOffset(P)
+		--Draw username
+		setFont(30)
+		gc_setColor(.97,.97,.975)
+		mStr(P.username,300,-60)
 
-			--Draw username
-			setFont(30)
-			gc_setColor(.97,.97,.975)
-			mStr(P.username,150,-60)
+		--Field-related things
+		applyField(P)
 
 			--Fill field
 			gc_setColor(0,0,0,.6)
@@ -900,7 +904,6 @@ function draw.small(P)
 	end
 end
 function draw.demo(P)
-	local _
 	local ENV=P.gameEnv
 	local curColor=P.cur.color
 
@@ -908,16 +911,12 @@ function draw.demo(P)
 	gc_push('transform')
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
-		gc_push('transform')
-			applyFieldOffset(P,true)
 
-			--Frame
+		gc_translate(-150,0)
+		applyField(P)
+			gc_setStencilTest()
 			gc_setColor(0,0,0,.6)
 			gc_rectangle('fill',0,0,300,600,3)
-			gc_setLineWidth(2)
-			gc_setColor(.97,.97,.975)
-			gc_rectangle('line',-1,-1,302,602,3)
-
 			gc_push('transform')
 				gc_translate(0,600)
 				drawField(P,GAME.replaying)
@@ -936,11 +935,12 @@ function draw.demo(P)
 
 			local blockImg=TEXTURE.miniBlock
 			local skinSet=ENV.skin
+
 			--Draw hold
 			local N=1
 			while P.holdQueue[N]do
 				local id=P.holdQueue[N].id
-				_=minoColor[skinSet[id]]
+				local _=minoColor[skinSet[id]]
 				gc_setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
 				gc_draw(_,15,40*N-10,nil,16,nil,0,_:getHeight()*.5)
@@ -951,13 +951,19 @@ function draw.demo(P)
 			N=1
 			while N<=ENV.nextCount and P.nextQueue[N]do
 				local id=P.nextQueue[N].id
-				_=minoColor[skinSet[id]]
+				local _=minoColor[skinSet[id]]
 				gc_setColor(_[1],_[2],_[3],.3)
 				_=blockImg[id]
 				gc_draw(_,285,40*N-10,nil,16,nil,_:getWidth(),_:getHeight()*.5)
 				N=N+1
 			end
+
+			--Frame
+			gc_setLineWidth(2)
+			gc_setColor(COLOR.Z)
+			gc_rectangle('line',-1,-1,302,602,3)
 		gc_pop()
+		gc_translate(150,0)
 		TEXT.draw(P.bonus)
 	gc_pop()
 end
