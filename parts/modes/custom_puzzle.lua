@@ -63,7 +63,6 @@ return{
 				end
 			end end
 		end
-		gc.setStencilTest()
-		gc.pop()
+		PLY.draw.cancelField(P)
 	end,
 }

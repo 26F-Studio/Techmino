@@ -37,8 +37,7 @@ return{
 			gc.setColor(1,.5,.5,.3-i*.05)
 			gc.rectangle('fill',30*L[i]-30,0,30,600)
 		end
-		gc.setStencilTest()
-		gc.pop()
+		PLY.draw.cancelField(P)
 	end,
 	score=function(P)return{P.modeData.tsd,P.stat.time}end,
 	scoreDisp=function(D)return D[1].."TSD   "..STRING.time(D[2])end,
