@@ -24,6 +24,7 @@ return{
 	{font=65,name="Notypey"},
 	{font=65,name="亮君"},
 	{font=65,name="柴影"},
+	{font=65,name="怀沙"},
 
 	{font=25,name="八零哥"},
 	{font=25,name="蕴空之灵"},
