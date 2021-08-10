@@ -1,4 +1,5 @@
 local gc=love.graphics
+local gc_draw=gc.draw
 local function puzzleCheck(P)
 	local D=P.modeData
 	local F=FIELD[D.finished+1]
@@ -56,10 +57,11 @@ return{
 		if P.modeData.showMark==0 then
 			local mark=TEXTURE.puzzleMark
 			local F=FIELD[P.modeData.finished+1]
+			gc.setColor(1,1,1)
 			for y=1,20 do for x=1,10 do
 				local T=F[y][x]
 				if T~=0 then
-					gc.draw(mark[T],30*x-30,600-30*y)
+					gc_draw(mark[T],30*x-30,600-30*y)
 				end
 			end end
 		end
