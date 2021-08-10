@@ -333,8 +333,8 @@ scene.widgetList={
 	WIDGET.newKey{name="ready",		x=1060,y=510,w=360,h=90,color='lG',font=35,		code=_setReady,hideF=hideF_ingame},
 	WIDGET.newKey{name="spectate",	x=1060,y=610,w=360,h=90,color='lO',font=35,		code=_setSpectate,hideF=hideF_ingame},
 	WIDGET.newKey{name="cancel",	x=1060,y=560,w=360,h=120,color='lH',font=40,	code=_setCancel,hideF=hideF_ingame2},
-	WIDGET.newKey{name="chat",		x=1165,y=45,w=60,fText="...",font=35,			code=_switchChat,},
-	WIDGET.newKey{name="quit",		x=1235,y=45,w=60,fText=TEXTURE.quit_small,		code=_quit},
+	WIDGET.newKey{name="chat",		x=360,y=45,w=60,fText="...",font=35,			code=_switchChat},
+	WIDGET.newKey{name="quit",		x=860,y=45,w=60,fText=TEXTURE.quit_small,		code=_quit},
 }
 
 return scene
