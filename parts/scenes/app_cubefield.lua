@@ -228,7 +228,7 @@ function scene.draw()
 	gc.circle('fill',0,-380-sunH,60)
 
 	--Draw sun-board
-	gc.setColor(.15,.15,.15)
+	gc.setColor(.08,.08,.084)
 	gc.rectangle('fill',-60,-440,120,120)
 
 	--Draw direction
