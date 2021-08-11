@@ -193,7 +193,7 @@ function scene.draw()
 	gc.setColor(.97,.97,.97,T)
 
 	--Result Text
-	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,80-10*(5-timer1*.1)^1.5)
+	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,70-10*(5-timer1*.1)^1.5)
 
 	--Mode Info (outside)
 	gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),143)
