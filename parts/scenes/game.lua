@@ -70,16 +70,16 @@ local function _step()floatRepRate=floatRepRate+1 end
 
 
 function scene.sceneInit(org)
-	replaying=GAME.replaying
-	noKey=replaying
-	noTouch=not SETTING.VKSwitch or noKey
-	if org~='depause'and org~='pause'then
-		floatRepRate,replayRate=0,1
-	end
-
 	if GAME.init then
 		resetGameData()
 		GAME.init=false
+	end
+
+	replaying=GAME.replaying
+	noKey=replaying
+	noTouch=not SETTING.VKSwitch or replaying
+	if org~='depause'and org~='pause'then
+		floatRepRate,replayRate=0,1
 	end
 
 	updateRepButtons()

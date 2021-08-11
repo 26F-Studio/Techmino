@@ -28,7 +28,7 @@ gc.setLineWidth(2)
 TEXTURE.puzzleMark={}
 for i=1,17 do
 	TEXTURE.puzzleMark[i]=GC.DO{30,30,
-		{'setCL',minoColor[i][1],minoColor[i][2],minoColor[i][3],.6},
+		{'setCL',minoColor[i][1],minoColor[i][2],minoColor[i][3]},
 		{'dRect',5,5,20,20},
 		{'dRect',10,10,10,10},
 	}

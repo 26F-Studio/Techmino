@@ -18,8 +18,7 @@ return{
 		PLY.draw.applyField(P)
 		gc.setColor(1,1,1,.1)
 		gc.draw(IMG.electric,0,106,0,2.6)
-		gc.setStencilTest()
-		gc.pop()
+		PLY.draw.cancelField(P)
 	end,
 	score=function(P)return{min(P.stat.row,200),P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

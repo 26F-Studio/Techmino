@@ -51,9 +51,8 @@ function SCN.swapUpdate()
 	local S=SCN.stat
 	S.time=S.time-1
 	if S.time==S.changeTime then
-		SCN.init(S.tar,SCN.cur)
-		collectgarbage()
 		--Scene swapped this moment
+		SCN.init(S.tar,SCN.cur)
 	end
 	if S.time==0 then
 		SCN.swapping=false
@@ -69,17 +68,15 @@ function SCN.init(s,org)
 	WIDGET.setWidgetList(S.widgetList)
 	SCN.sceneInit=S.sceneInit
 	SCN.sceneBack=S.sceneBack
-	SCN.update=S.update
-	SCN.draw=S.draw
-	SCN.mouseClick=S.mouseClick
-	SCN.touchClick=S.touchClick
 	SCN.mouseDown=S.mouseDown
 	SCN.mouseMove=S.mouseMove
 	SCN.mouseUp=S.mouseUp
+	SCN.mouseClick=S.mouseClick
 	SCN.wheelMoved=S.wheelMoved
 	SCN.touchDown=S.touchDown
 	SCN.touchUp=S.touchUp
 	SCN.touchMove=S.touchMove
+	SCN.touchClick=S.touchClick
 	SCN.keyDown=S.keyDown
 	SCN.keyUp=S.keyUp
 	SCN.gamepadDown=S.gamepadDown
@@ -88,6 +85,8 @@ function SCN.init(s,org)
 	SCN.directoryDropped=S.directoryDropped
 	SCN.resize=S.resize
 	SCN.socketRead=S.socketRead
+	SCN.update=S.update
+	SCN.draw=S.draw
 	if S.sceneInit then S.sceneInit(org)end
 end
 function SCN.push(tar,style)
@@ -98,12 +97,12 @@ function SCN.push(tar,style)
 	end
 end
 function SCN.pop()
-	local _=SCN.stack
-	_[#_],_[#_-1]=nil
+	local s=SCN.stack
+	s[#s],s[#s-1]=nil
 end
 
 local swap={
-	none={duration=1,changeTime=0,draw=function()end},--swapTime, changeTime, drawFunction
+	none={duration=1,changeTime=0,draw=function()end},
 	flash={duration=8,changeTime=1,draw=function()gc.clear(1,1,1)end},
 	fade={duration=30,changeTime=15,draw=function(t)
 		t=t>15 and 2-t/15 or t/15
