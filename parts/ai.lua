@@ -83,7 +83,6 @@ if type(_CC)=='table'then
 		if id then
 			CC.addNext(P.AI_bot,id)
 		end
-		collectgarbage()
 	end
 end
 -------------------------------------------------9 Stack setup

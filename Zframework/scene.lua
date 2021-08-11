@@ -52,7 +52,6 @@ function SCN.swapUpdate()
 	S.time=S.time-1
 	if S.time==S.changeTime then
 		SCN.init(S.tar,SCN.cur)
-		collectgarbage()
 		--Scene swapped this moment
 	end
 	if S.time==0 then

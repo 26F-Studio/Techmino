@@ -213,7 +213,6 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 		PLAYERS[i]=nil
 	end
 	TABLE.cut(PLY_ALIVE)
-	collectgarbage()
 end
 function pauseGame()
 	if not SCN.swapping then
