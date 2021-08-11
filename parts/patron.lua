@@ -115,4 +115,5 @@ return{
 	{font=25,name="晦风羽幕"},
 	{font=25,name="T9753"},
 	{font=25,name="Trebor"},
+	{font=25,name="[w*o]"},
 }
