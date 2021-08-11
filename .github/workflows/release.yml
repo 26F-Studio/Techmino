@@ -1,0 +1,107 @@
+name: Techmino Release CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: '将要发布的版本名称'
+        required: true
+      body:
+        description: 'release详细信息'
+        required: true
+      tag:
+        description: 'release使用的tag'
+        required: true
+
+jobs:
+  build-windows-x64:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update Conf Version
+      run: |
+        python .github/workflows/updateConfVersion.py
+    - name: Download love
+      run: |
+        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+        7z x love-11.3-win64.zip
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win64.zip
+        7z x win64.zip -ocoldclear
+        move coldclear\cold_clear.dll love-11.3-win64
+        move coldclear\CCloader.dll love-11.3-win64
+    - name: Download ResourceHacker
+      run: |
+        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
+        7z x resource_hacker.zip
+    - name: Pack Techmino
+      run: |
+        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
+        cmd /c copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
+        del love-11.3-win64\love.exe
+        del love-11.3-win64\lovec.exe
+        del love-11.3-win64\game.ico
+        del love-11.3-win64\love.ico
+        del love-11.3-win64\changes.txt
+        del love-11.3-win64\readme.txt
+        $Version=python .github/workflows/updateWindowsVersion.py -V ${{ github.event.inputs.tag }}
+        echo "Version=${Version}" >> $env:GITHUB_ENV
+        ResourceHacker.exe -open love-11.3-win64\Techmino.exe love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,
+        ResourceHacker.exe -open Techmino.rc -save Techmino.res -action compile
+        ResourceHacker.exe -open love-11.3-win64\Techmino.exe -save love-11.3-win64\Techmino.exe -action addoverwrite -res "icon.ico" -mask ICONGROUP,1,
+        ResourceHacker.exe -open love-11.3-win64\Techmino.exe -save love-11.3-win64\Techmino.exe -action addoverwrite -res "Techmino.res" -mask VERSIONINFO,1,
+        7z a -tzip Techmino.a$Version.Win64.zip love-11.3-win64\
+    - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ github.event.inputs.name }}
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            Techmino.a${{ env.Version }}.Win64.zip
+
+  build-windows-x86:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update Conf Version
+      run: |
+        python .github/workflows/updateConfVersion.py
+    - name: Download love
+      run: |
+        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
+        7z x love-11.3-win32.zip
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win32.zip
+        7z x win32.zip -ocoldclear
+        move coldclear\cold_clear.dll love-11.3-win32
+        move coldclear\CCloader.dll love-11.3-win32
+    - name: Download ResourceHacker
+      run: |
+        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
+        7z x resource_hacker.zip
+    - name: Pack Techmino
+      run: |
+        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
+        cmd /c copy /b love-11.3-win32\love.exe + game.love love-11.3-win32\Techmino.exe
+        del love-11.3-win32\love.exe
+        del love-11.3-win32\lovec.exe
+        del love-11.3-win32\game.ico
+        del love-11.3-win32\love.ico
+        del love-11.3-win32\changes.txt
+        del love-11.3-win32\readme.txt
+        $Version=python .github/workflows/updateWindowsVersion.py -V ${{ github.event.inputs.tag }}
+        echo "Version=${Version}" >> $env:GITHUB_ENV
+        ResourceHacker.exe -open love-11.3-win32\Techmino.exe love-11.3-win32\Techmino.exe -action delete -mask ICONGROUP,,
+        ResourceHacker.exe -open Techmino.rc -save Techmino.res -action compile
+        ResourceHacker.exe -open love-11.3-win32\Techmino.exe -save love-11.3-win32\Techmino.exe -action addoverwrite -res "icon.ico" -mask ICONGROUP,1,
+        ResourceHacker.exe -open love-11.3-win32\Techmino.exe -save love-11.3-win32\Techmino.exe -action addoverwrite -res "Techmino.res" -mask VERSIONINFO,1,
+        7z a -tzip Techmino.a$Version.Win32.zip love-11.3-win32\
+    - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ github.event.inputs.name }}
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            Techmino.a${{ env.Version }}.Win32.zip
