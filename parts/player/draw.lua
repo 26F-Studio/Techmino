@@ -694,7 +694,7 @@ function draw.norm(P)
 			--Draw spawn line
 			gc_setLineWidth(4)
 			gc_setColor(1,sin(t)*.4+.5,0,.5)
-			gc_rectangle('fill',0,fieldTop-FBN-2,300,4)
+			gc_rectangle('fill',0,fieldTop,300,4)
 
 			--Draw height limit line
 			gc_setColor(.4,.7+sin(t*12)*.3,1,.7)
