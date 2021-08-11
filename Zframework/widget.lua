@@ -1248,6 +1248,7 @@ WIDGET.indexMeta={
 function WIDGET.setWidgetList(list)
 	WIDGET.unFocus(true)
 	WIDGET.active=list or NONE
+	WIDGET.cursorMove(SCR.xOy:inverseTransformPoint(love.mouse.getPosition()))
 
 	--Reset all widgets
 	if list then
