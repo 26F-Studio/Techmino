@@ -40,7 +40,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ env.Version }}__${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Windows
+        name: Techmino_${{ env.Version }}_#${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Windows
         path: love-11.3-win64
 
   build-linux:
@@ -74,7 +74,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ env.Version }}__${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
+        name: Techmino_${{ env.Version }}_#${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
         path: Techmino.AppImage
 
   build-android:
@@ -117,7 +117,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ env.Version }}__${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
+        name: Techmino_${{ env.Version }}_#${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
   build-macOS:
@@ -167,5 +167,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: Techmino_${{ env.Version }}__${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_macOS
+        name: Techmino_${{ env.Version }}_#${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_macOS
         path: Techmino-Packed.app.zip
