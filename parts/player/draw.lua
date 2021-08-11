@@ -683,8 +683,10 @@ function draw.norm(P)
 			local fieldTop=-ENV.fieldH*30
 
 			--Draw dangerous area
-			gc_setColor(1,0,0,.3)
-			gc_rectangle('fill',0,fieldTop,300,-10-camDY)
+			if fieldTop-camDY<610 then
+				gc_setColor(1,0,0,.26)
+				gc_rectangle('fill',0,fieldTop,300,-10-camDY-(600-fieldTop))
+			end
 
 			--Draw field
 			drawField(P,replaying)
