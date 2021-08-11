@@ -25,7 +25,7 @@ function love.conf(t)
 	W.resizable=true
 	W.fullscreen=false
 	W.vsync=0--Unlimited FPS
-	W.msaa=10--Multi-sampled antialiasing
+	W.msaa=0--Multi-sampled antialiasing
 	W.depth=0--Bits/samp of depth buffer
 	W.stencil=1--Bits/samp of stencil buffer
 	W.display=1--Monitor ID
