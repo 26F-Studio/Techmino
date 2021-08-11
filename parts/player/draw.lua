@@ -16,7 +16,7 @@ local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
-local RCPB={5,33,195,33,100,5,100,60}
+local RCPB={10,33,200,33,105,5,105,60}
 local attackColor={
 	{COLOR.dH,COLOR.Z},
 	{COLOR.H,COLOR.Z},
@@ -751,21 +751,6 @@ function draw.norm(P)
 				end
 			end
 
-			--Draw target selecting pad
-			if GAME.modeEnv.royaleMode then
-				if P.atkMode then
-					gc_setColor(1,.8,0,P.swappingAtkMode*.02)
-					gc_rectangle('fill',RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
-				end
-				gc_setColor(1,1,1,P.swappingAtkMode*.025)
-				setFont(35)
-				gc_setLineWidth(1)
-				for i=1,4 do
-					gc_rectangle('line',RCPB[2*i-1],RCPB[2*i],90,35,8,4)
-					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
-				end
-			end
-
 			--Board cover
 			if ENV.hideBoard then
 				gc_stencil(hideBoardStencil[ENV.hideBoard])
@@ -786,12 +771,27 @@ function draw.norm(P)
 			gc_translate(0,-600)
 		gc_setStencilTest()
 		gc_pop()
-			--Draw Frame
+			--Draw Frame and buffers
 			gc_setColor(P.frameColor)
 			gc_draw(playerBoarder,-17,-12)
 			drawBuffer(P)
 			drawB2Bbar(P)
 			drawLDI(P,ENV)
+
+			--Draw target selecting pad
+			if GAME.modeEnv.royaleMode then
+				if P.atkMode then
+					gc_setColor(1,.8,0,P.swappingAtkMode*.02)
+					gc_rectangle('fill',RCPB[2*P.atkMode-1],RCPB[2*P.atkMode],90,35,8,4)
+				end
+				gc_setColor(1,1,1,P.swappingAtkMode*.025)
+				setFont(35)
+				gc_setLineWidth(1)
+				for i=1,4 do
+					gc_rectangle('line',RCPB[2*i-1],RCPB[2*i],90,35,8,4)
+					gc_printf(text.atkModeName[i],RCPB[2*i-1]-4,RCPB[2*i]+4,200,"center",nil,.5)
+				end
+			end
 
 			--Spike
 			local sp,spt=P.spike,P.spikeTime
