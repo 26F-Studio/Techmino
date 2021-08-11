@@ -172,12 +172,12 @@ SKIN.init{
 	{name="jelly_miya",path='media/image/skin/jelly_miya.png'},
 	{name="brick_notypey",path='media/image/skin/brick_notypey.png'},
 	{name="gem_notypey",path='media/image/skin/gem_notypey.png'},
-	{name="classic",path='media/image/skin/classic.png'},
+	{name="classic",path='media/image/skin/classic_unknown.png'},
 	{name="ball_shaw",path='media/image/skin/ball_shaw.png'},
 	{name="retro_notypey",path='media/image/skin/retro_notypey.png'},
 	{name="textbone_mrz",path='media/image/skin/textbone_mrz.png'},
 	{name="coloredbone_mrz",path='media/image/skin/coloredbone_mrz.png'},
-	{name="wtf",path='media/image/skin/wtf.png'},
+	{name="wtf",path='media/image/skin/wtf_mrz.png'},
 }
 
 --Initialize sound libs

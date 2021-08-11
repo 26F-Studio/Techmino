@@ -67,7 +67,7 @@ end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=80,y=50,font=70,align='L'},
 
-	WIDGET.newSelector{name="skinSet",x=780,y=100,w=260,list=SKIN.getList(),disp=SETval('skinSet'),code=SETsto('skinSet')},
+	WIDGET.newSelector{name="skinSet",x=780,y=100,w=320,list=SKIN.getList(),disp=SETval('skinSet'),code=SETsto('skinSet')},
 	WIDGET.newButton{name="prev1",	x=130,y=230,w=90,h=65,fText="↑",code=function()prevSkin(1)end},
 	WIDGET.newButton{name="prev2",	x=270,y=230,w=90,h=65,fText="↑",code=function()prevSkin(2)end},
 	WIDGET.newButton{name="prev3",	x=410,y=230,w=90,h=65,fText="↑",code=function()prevSkin(3)end},
