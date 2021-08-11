@@ -167,9 +167,6 @@ function update.alive(P,dt)
 	--Calculate key speed
 	do
 		local v=0
-		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.keyTime[i])end
-		P.keySpeed=P.keySpeed*.99+v*.01
-		v=0
 		for i=2,10 do v=v+i*(i-1)*72/(P.frameRun-P.dropTime[i])end
 		P.dropSpeed=P.dropSpeed*.99+v*.01
 	end
@@ -391,8 +388,7 @@ end
 function update.dead(P,dt)
 	local S=P.stat
 
-	--Final average key speed
-	P.keySpeed=P.keySpeed*.96+S.key/S.frame*144
+	--Final average speed
 	P.dropSpeed=P.dropSpeed*.96+S.piece/S.frame*144
 
 	if GAME.modeEnv.royaleMode then

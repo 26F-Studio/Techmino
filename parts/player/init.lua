@@ -41,10 +41,6 @@ local function pressKey(P,keyID)
 	if P.keyAvailable[keyID]and P.alive then
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
-		if P.control then
-			ins(P.keyTime,1,P.frameRun)
-			P.keyTime[11]=nil
-		end
 		P.stat.key=P.stat.key+1
 	end
 end
@@ -58,10 +54,6 @@ local function pressKey_Rec(P,keyID)
 		ins(L,keyID)
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
-		if P.control then
-			ins(P.keyTime,1,P.frameRun)
-			P.keyTime[11]=nil
-		end
 		P.stat.key=P.stat.key+1
 	end
 end
@@ -131,7 +123,6 @@ local function newEmptyPlayer(id,mini)
 	--Times
 	P.frameRun=GAME.frameStart--Frame run, mainly for replay
 	P.endCounter=0--Used after gameover
-	P.keyTime={}for i=1,10 do P.keyTime[i]=-1e99 end P.keySpeed=0
 	P.dropTime={}for i=1,10 do P.dropTime[i]=-1e99 end P.dropSpeed=0
 
 	--Randomizers

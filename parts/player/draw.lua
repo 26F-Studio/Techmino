@@ -29,14 +29,15 @@ local hideBoardStencil={
 	down=function()gc_rectangle('fill',0,300,300,300)end,
 	all=function()gc_rectangle('fill',0,0,300,600)end,
 }
-local dialFrame=GC.DO{97,32,
-	{'setLW',2},
-	{'dRect',1,1,30,30,3},
-	{'dRect',36,1,60,30,3},
+local dialFrame=GC.DO{80,80,
+	{'setLW',3},
+	{'dCirc',40,40,38},
 }
-local dialNeedle=GC.DO{22,4,
-	{'fRect',0,1,20,2},
-	{'fCirc',20,2,2},
+local dialNeedle=GC.DO{32,3,
+	{'setLW',3},
+	{'fRect',0,0,32,3,2},
+	{'setCL',1,.3,.3},
+	{'fRect',0,0,12,3,2},
 }
 local multiple=GC.DO{15,15,
 	{'setLW',3},
@@ -59,14 +60,6 @@ local gridLines do
 end
 local LDmarks=gc.newSpriteBatch(GC.DO{14,5,{'fRect',0,0,14,5,3}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end
-local bpmImage=GC.DO{31,12,
-	{'setFT',15},
-	{'print',"BPM",0,-5}
-}
-local kpmImage=GC.DO{31,12,
-	{'setFT',15},
-	{'print',"KPM",0,-5}
-}
 local function boardTransform(mode)
 	if mode then
 		if mode=="U-D"then
@@ -441,10 +434,12 @@ local function drawHold(P)
 	gc_pop()
 end
 local function drawDial(x,y,speed)
-	gc_setColor(.97,.97,.975)
+	gc_setColor(1,1,1,.7)
 	gc_draw(dialFrame,x,y)
-	gc_draw(dialNeedle,x+26,y+26,speed<=175 and .00698*speed or 1.571-17.453/(speed-125),nil,nil,20,2)
-	setFont(25)mStr(int(speed),x+66,y-2)
+	gc_setColor(1,1,1,.3)
+	gc_draw(dialNeedle,x+40,y+40,2.094+(speed<=175 and .02094*speed or 4.712-52.36/(speed-125)),nil,nil,1,1)
+	gc_setColor(.9,.9,.91)
+	setFont(30)mStr(int(speed),x+40,y+19)
 end
 local function drawFinesseCombo_norm(P)
 	if P.finesseCombo>2 then
@@ -821,25 +816,13 @@ function draw.norm(P)
 
 		--Draw HUD
 		P:drawNext()
+		drawMission(P)
 		drawHold(P)
+		drawDial(490,500,P.dropSpeed)
+		if P.life>0 then drawLife(P.life)end
 
-		--Speed dials & FinesseCombo
-		if P.type=='remote'then
-			drawDial(490,520,P.dropSpeed)
-			drawFinesseCombo_remote(P)
-		else
-			drawDial(490,490,P.dropSpeed)
-			drawDial(490,550,P.keySpeed)
-			gc_draw(bpmImage,550,525)
-			gc_draw(kpmImage,550,585)
-			drawFinesseCombo_norm(P)
-		end
-
-		--Mode informations
-		if GAME.curMode.mesDisp then
-			gc_setColor(.97,.97,.97)
-			GAME.curMode.mesDisp(P)
-		end
+		--FinesseCombo
+		;(P.type=='remote'and drawFinesseCombo_remote or drawFinesseCombo_norm)(P)
 
 		--Score & Time
 		setFont(25)
@@ -847,11 +830,17 @@ function draw.norm(P)
 		gc_setColor(0,0,0,.3)
 		gc_print(P.score1,18,509)
 		gc_print(tm,18,539)
-		gc_setColor(.97,.97,.92)gc_print(P.score1,20,510)
-		gc_setColor(.85,.9,1)gc_print(tm,20,540)
+		gc_setColor(.97,.97,.92)
+		gc_print(P.score1,20,510)
+		gc_setColor(.85,.9,.97)
+		gc_print(tm,20,540)
 
-		if P.life>0 then drawLife(P.life)end
-		drawMission(P)
+		--Mode informations
+		if GAME.curMode.mesDisp then
+			gc_setColor(.97,.97,.97)
+			GAME.curMode.mesDisp(P)
+		end
+
 		if P.frameRun<180 then drawStartCounter(P)end
 	gc_pop()
 end
