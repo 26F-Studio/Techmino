@@ -24,27 +24,30 @@ jobs:
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
+    - name: Unpack love
+      run: |
         7z x love-11.3-win64.zip
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win64.zip
-        7z x win64.zip -ocoldclear
-        move coldclear\cold_clear.dll love-11.3-win64
-        move coldclear\CCloader.dll love-11.3-win64
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/win64.zip
+    - name: Unpack ColdClear
+        7z x win64.zip -oColdClear
     - name: Download ResourceHacker
       run: |
         curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
         7z x resource_hacker.zip
     - name: Pack Techmino
       run: |
-        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
-        cmd /c copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
+        7z a -tzip Techmino.love document media parts Zframework conf.lua font.ttf main.lua
+        cmd /c copy /b love-11.3-win64\love.exe + Techmino.love love-11.3-win64\Techmino.exe
         del love-11.3-win64\love.exe
         del love-11.3-win64\lovec.exe
         del love-11.3-win64\game.ico
         del love-11.3-win64\love.ico
         del love-11.3-win64\changes.txt
         del love-11.3-win64\readme.txt
+        move ColdClear\cold_clear.dll love-11.3-win64
+        move ColdClear\CCloader.dll love-11.3-win64
         $Version=python .github/workflows/updateWindowsVersion.py -V ${{ github.event.inputs.tag }}
         echo "Version=${Version}" >> $env:GITHUB_ENV
         ResourceHacker.exe -open love-11.3-win64\Techmino.exe love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,
@@ -70,27 +73,30 @@ jobs:
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win32.zip
+    - name: Unpack love
+      run: |
         7z x love-11.3-win32.zip
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win32.zip
-        7z x win32.zip -ocoldclear
-        move coldclear\cold_clear.dll love-11.3-win32
-        move coldclear\CCloader.dll love-11.3-win32
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/win32.zip
+    - name: Unpack ColdClear
+        7z x win32.zip -oColdClear
     - name: Download ResourceHacker
       run: |
         curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
         7z x resource_hacker.zip
     - name: Pack Techmino
       run: |
-        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
-        cmd /c copy /b love-11.3-win32\love.exe + game.love love-11.3-win32\Techmino.exe
+        7z a -tzip Techmino.love document media parts Zframework conf.lua font.ttf main.lua
+        cmd /c copy /b love-11.3-win32\love.exe + Techmino.love love-11.3-win32\Techmino.exe
         del love-11.3-win32\love.exe
         del love-11.3-win32\lovec.exe
         del love-11.3-win32\game.ico
         del love-11.3-win32\love.ico
         del love-11.3-win32\changes.txt
         del love-11.3-win32\readme.txt
+        move ColdClear\cold_clear.dll love-11.3-win32
+        move ColdClear\CCloader.dll love-11.3-win32
         $Version=python .github/workflows/updateWindowsVersion.py -V ${{ github.event.inputs.tag }}
         echo "Version=${Version}" >> $env:GITHUB_ENV
         ResourceHacker.exe -open love-11.3-win32\Techmino.exe love-11.3-win32\Techmino.exe -action delete -mask ICONGROUP,,
@@ -105,3 +111,38 @@ jobs:
         tag_name: ${{ github.event.inputs.tag }}
         files: |
           Techmino.a${{ env.Version }}.Win32.zip
+
+  build-linux:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update Conf Version
+      run: |
+        python3 .github/workflows/updateConfVersion.py
+    - name: Download AppImageKit
+      run: |
+        curl -OL https://github.com/AppImage/AppImageKit/releases/download/latest/appimagetool-x86_64.AppImage
+    - name: Download love
+      run: |
+        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-x86_64.AppImage
+    - name: Unpack love
+      run: |
+        chmod 777 ./love-11.3-x86_64.AppImage
+        ./love-11.3-x86_64.AppImage --appimage-extract
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/linux.zip
+    - name: Unpack ColdClear
+      run: |
+        7z x linux.zip -oColdClear
+    - name: Pack Techmino
+      #暂未完成
+      run: |
+        7z a -tzip Techmino.love document media parts Zframework conf.lua font.ttf main.lua
+        mv Techmino.love squashfs-root/usr/bin
+        ./appimagetool-x86_64.AppImage squashfs-root Techmino.a$Version.AppImage
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: Techmino_${{ env.Version }}_CI_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
+        path: Techmino.AppImage
