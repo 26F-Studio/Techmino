@@ -21,9 +21,11 @@ return{
 
 	win=": )",
 	lose=": (",
+
 	finish="&",
 	gamewin=">>",
 	gameover="x",
+
 	pause="=",
 	pauseCount="==",
 	finesse_ap="AP",
@@ -49,7 +51,10 @@ return{
 	VKTchW="Tch↓",
 	VKOrgW="Org↓",
 	VKCurW="Cur↓",
+
 	noScore="?_____?",
+	modeLocked="XXXXX",
+	unlockHint="\\D/!",
 	highScore="__&:",
 	newRecord="^!!!^",
 
