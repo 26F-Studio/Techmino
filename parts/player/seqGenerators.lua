@@ -38,7 +38,7 @@ local seqGenerators={
 					do break end
 					::CONTINUE_rollAgain::
 				end
-				if history[1]~=0 then P:getNext(r)end
+				if history[1]~=0 then P:getNext(seq0[r])end
 				rem(history,1)ins(history,r)
 			end
 			yield()
