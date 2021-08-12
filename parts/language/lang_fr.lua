@@ -539,7 +539,7 @@ return{
 			_2="Double",
 			_3="Triple",
 			_4="Techrash",
-			-- music="BGMs",
+			music="Musique",
 		},
 		login={
 			title="Connexion",
@@ -599,8 +599,10 @@ return{
 		},
 		app_dtw={
 			reset="Réinitialiser",
+			color="Couleur",
+			mode="Mode",
+			bgm="Musique",
 			-- arcade="Arcade",
-			-- mode="Mode",
 		},
 		about={
 			staff="Staff",

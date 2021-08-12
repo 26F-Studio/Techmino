@@ -697,8 +697,10 @@ return{
 		},
 		app_dtw={
 			reset="Reset",
-			arcade="Arcade",
+			color="Color",
 			mode="Mode",
+			bgm="BGM",
+			arcade="Arcade",
 		},
 		savedata={
 			export="Export to clipboard",

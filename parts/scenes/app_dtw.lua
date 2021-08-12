@@ -19,74 +19,148 @@ local keyTime
 local speed,maxSpeed
 local arcade,rollSpeed
 
+local bgm="secret7th"
+local tileColor="black"
+local mode="Normal"
+local modeSelector=WIDGET.newSelector{name="mode",x=155,y=220,w=280,
+	list={
+		"Normal",
+		"Split",
+		"Short",
+		"Stairs",
+		"Double",
+		"Singlestream",
+		"Light_Jumpstream",
+		"Dense_Jumpstream",
+		"Light_Handstream",
+		"Dense_Handstream",
+		"Light_Quadstream",
+		"Quadstream",
+	},disp=function()return mode end,code=function(m)mode=m end,hideF=function()return state~=0 end
+}
+local bgmSelector=WIDGET.newSelector{name="bgm",x=155,y=290,w=280,list=BGM.getList(),disp=function()return bgm end,code=function(i)bgm=i BGM.play(i)end}
+local colorSelector=WIDGET.newSelector{name="color",x=155,y=360,w=280,
+	list={"black","dGray","gray","lGray","dRed","red","lRed","dFire","fire","lFire","dOrange","orange","lOrange","dYellow","yellow","lYellow","dLime","lime","lLime","dJade","jade","lJade","dGreen","green","lGreen","dAqua","aqua","lAqua","dCyan","cyan","lCyan","dNavy","navy","lNavy","dSea","sea","lSea","dBlue","blue","lBlue","dViolet","violet","lViolet","dPurple","purple","lPurple","dMagenta","magenta","lMagenta","dWine","wine","lWine"},
+	disp=function()return tileColor end,code=function(m)tileColor=m end,hideF=function()return state~=0 end
+}
 
-local tileColor={
-	{.0,.0,.0},
-	{.3,.0,.0},
-	{.0,.3,.0},
-	{.0,.0,.3},
-	{.3,.3,.0},
-	{.0,.1,.3},
-	{.2,.0,.3},
-}
-local modeName={
-	"Normal",
-	"Split",
-	"Mess",
-	"Short",
-	"Stairs",
-	"Double",
-	"Mixed",
-}
-local mode=1
 local score
 local pos,height
 local diePos
 
-local function newTile()
-	local r
-	if mode==1 then
-		r=rnd(4)
-	elseif mode==2 then
-		r=pos[#pos]<=2 and rnd(3,4)or rnd(2)
-	elseif mode==3 then
-		r=rnd(3)
-		if r>=pos[#pos]then r=r+1 end
-	elseif mode==4 then
+local function get1(prev)
+	if prev<10 or prev>999 then
+		local r=rnd(3)
+		return r>=prev and r+1 or r
+	else
+		while true do
+			local r=rnd(4)
+			if not string.find(prev,r)then return r end
+		end
+	end
+end
+local function get2(prev)
+	while true do
+		local i=rnd(4)
+		local r=rnd(3)
+		if r>=i then r=r+1 end
+		if not(string.find(prev,r)or string.find(prev,i))then
+			return 10*i+r
+		end
+	end
+end
+local function get3(prev)
+	if prev==0 then prev=rnd(4)end
+	if prev==1 then return 234
+	elseif prev==2 then return 134
+	elseif prev==3 then return 124
+	elseif prev==4 then return 123
+	else error("wrong get3 usage: "..(prev or -1))
+	end
+end
+
+local generator={
+	Normal=function()
+		ins(pos,rnd(4))
+	end,
+	Split=function()
+		if #pos==0 then ins(pos,rnd(4))end
+		ins(pos,pos[#pos]<=2 and rnd(3,4)or rnd(2))
+	end,
+	Short=function()
+		if #pos<2 then ins(pos,rnd(4))ins(pos,rnd(4))end
+		local r
 		if pos[#pos]==pos[#pos-1]then
 			r=rnd(3)
 			if r>=pos[#pos]then r=r+1 end
+			ins(pos,r)
 		else
-			r=rnd(4)
+			ins(pos,rnd(4))
 		end
-	elseif mode==5 then
-		r=pos[#pos]+(rnd(2)*2-3)
-		if r<1 then
-			r=r+2
-		elseif r>4 then
-			r=r-2
-		end
-	elseif mode==6 then
-		local i=rnd(4)
-		r=rnd(3)
-		if r>=i then
-			r=r+1
-		end
-		r=10*i+r
-	elseif mode==7 then
-		if rnd()<.126 then
-			local i=rnd(4)
-			r=rnd(3)
-			if r>=i then
-				r=r+1
+	end,
+	Stairs=function()
+		local r=get1(pos[#pos]or 0)
+		local dir=r==1 and 1 or r==4 and -1 or rnd()<.5 and 1 or -1
+		local count=rnd(3,5)
+		while count>0 do
+			ins(pos,r)
+			r=r+dir
+			if r==0 then
+				r,dir=2,1
+			elseif r==5 then
+				r,dir=3,-1
 			end
-			r=10*i+r
-		else
-			r=rnd(4)
+			count=count-1
 		end
-	end
-	ins(pos,r)
-end
+	end,
+	Double=function()
+		local i=rnd(4)
+		local r=rnd(3)
+		if r>=i then r=r+1 end
+		r=10*i+r
+		ins(pos,r)
+	end,
+	Singlestream=function()
+		ins(pos,get1(pos[#pos]or 0))
+	end,
+	Light_Jumpstream=function()--2111
+		ins(pos,get2(pos[#pos]or 0))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+	end,
+	Dense_Jumpstream=function()--2121
+		ins(pos,get2(pos[#pos]or 0))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get2(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+	end,
+	Light_Handstream=function()--3111
+		ins(pos,get3(pos[#pos]or 0))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+	end,
+	Dense_Handstream=function()--3121
+		ins(pos,get3(pos[#pos]or 0))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get2(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+	end,
+	Light_Quadstream=function()--4111
+		ins(pos,1234)
+		ins(pos,get1(pos[#pos-1]or 0))
+		ins(pos,get1(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+	end,
+	Quadstream=function()--4121
+		ins(pos,1234)
+		ins(pos,get1(pos[#pos-1]or 0))
+		ins(pos,get2(pos[#pos]))
+		ins(pos,get1(pos[#pos]))
+	end,
+}
+
 local function reset()
 	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
 	speed,maxSpeed=0,0
@@ -95,7 +169,8 @@ local function reset()
 	score=0
 	rollSpeed=6.26
 
-	pos={rnd(4)}for _=1,6 do newTile()end
+	pos={}
+	while #pos<7 do generator[mode]()end
 	height=0
 	diePos=false
 end
@@ -103,11 +178,9 @@ end
 local scene={}
 
 function scene.sceneInit()
-	mode=1
-	arcade=true
 	reset()
 	BG.set('gray')
-	BGM.play('way')
+	BGM.play(bgm)
 end
 
 local function touch(n)
@@ -115,14 +188,16 @@ local function touch(n)
 		state=1
 		startTime=TIME()
 	end
-	local a,b=pos[1]%10,int(pos[1]/10)
-	if n==a or n==b then
-		if a>0 and b>0 then
-			pos[1]=n==a and b or a
+	local t=tostring(pos[1])
+	local p=string.find(t,n)
+	if p then
+		t=t:sub(1,p-1)..t:sub(p+1)
+		if #t>0 then
+			pos[1]=tonumber(t)
 			SFX.play('move')
 		else
 			rem(pos,1)
-			newTile()
+			while #pos<7 do generator[mode]()end
 			ins(keyTime,1,TIME())
 			keyTime[21]=nil
 			score=score+1
@@ -151,18 +226,25 @@ local function touch(n)
 end
 function scene.keyDown(key,isRep)
 	if isRep then return end
-	if key=="r"then reset()
+	if key=="r"or key=="space"then reset()
 	elseif key=="escape"then SCN.back()
 	elseif state~=2 then
 		if key=="d"or key=="c"then touch(1)
 		elseif key=="f"or key=="v"then touch(2)
 		elseif key=="j"or key=="n"then touch(3)
 		elseif key=="k"or key=="m"then touch(4)
-		elseif(key=="q"or key=="tab")and state==0 then
-			mode=mode%#modeName+1
-			reset()
-		elseif key=="w"and state==0 then
-			arcade=not arcade
+		elseif state==0 then
+			if key=="tab"then
+				local mode1=mode
+				modeSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
+				if mode1~=mode then reset()end
+			elseif key=="q"then
+				bgmSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
+			elseif key=="w"then
+				colorSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
+			elseif key=="e"then
+				arcade=not arcade
+			end
 		end
 	end
 end
@@ -200,11 +282,7 @@ function scene.update()
 end
 
 function scene.draw()
-	--Draw mode
-	gc.setColor(COLOR.Z)
 	setFont(50)
-	mStr(modeName[mode],155,380)
-
 	if arcade then
 		--Draw rolling speed
 		mStr(("%.2f/s"):format(rollSpeed/2),155,490)
@@ -229,17 +307,22 @@ function scene.draw()
 		gc.print(("%.3f"):format(time),1030,70)
 	end
 
+	--Draw mode
+	if state~=0 then
+		gc.setColor(COLOR.Z)
+		setFont(30)mStr(mode,155,212)
+	end
+
 	--Draw tiles
 	gc.rectangle('fill',300,0,680,720)
-	gc.setColor(tileColor[mode])
+	gc.setColor(COLOR[tileColor])
 	gc.push('transform')
 	gc.translate(0,720-height+8)
-	for i=1,#pos do
-		if pos[i]<10 then
-			gc.rectangle('fill',130+170*pos[i]+8,-i*120,170-16,120-16)
-		else
-			gc.rectangle('fill',130+170*(pos[i]%10)+8,-i*120,170-16,120-16)
-			gc.rectangle('fill',130+170*int(pos[i]/10)+8,-i*120,170-16,120-16)
+	for i=1,7 do
+		local t=pos[i]
+		while t>0 do
+			gc.rectangle('fill',130+170*(t%10)+8,-i*120,170-16,120-16)
+			t=(t-t%10)/10
 		end
 	end
 	gc.pop()
@@ -274,8 +357,8 @@ end
 
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-	WIDGET.newButton{name="mode",	x=155,y=220,w=180,h=100,font=40,code=pressKey"q",hideF=function()return state~=0 end},
-	WIDGET.newSwitch{name="arcade",	x=230,y=330,font=40,disp=function()return arcade end,code=pressKey"w",hideF=function()return state~=0 end},
+	modeSelector,bgmSelector,colorSelector,
+	WIDGET.newSwitch{name="arcade",	x=230,y=430,font=40,disp=function()return arcade end,code=pressKey"e",hideF=function()return state~=0 end},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
