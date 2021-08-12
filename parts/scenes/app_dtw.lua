@@ -36,13 +36,21 @@ local modeSelector=WIDGET.newSelector{name="mode",x=155,y=220,w=280,
 		"Dense_Handstream",
 		"Light_Quadstream",
 		"Quadstream",
-	},disp=function()return mode end,code=function(m)mode=m end,hideF=function()return state~=0 end
+	},disp=function()return mode end,code=function(m)mode=m end
 }
 local bgmSelector=WIDGET.newSelector{name="bgm",x=155,y=290,w=280,list=BGM.getList(),disp=function()return bgm end,code=function(i)bgm=i BGM.play(i)end}
 local colorSelector=WIDGET.newSelector{name="color",x=155,y=360,w=280,
 	list={"black","dGray","gray","lGray","dRed","red","lRed","dFire","fire","lFire","dOrange","orange","lOrange","dYellow","yellow","lYellow","dLime","lime","lLime","dJade","jade","lJade","dGreen","green","lGreen","dAqua","aqua","lAqua","dCyan","cyan","lCyan","dNavy","navy","lNavy","dSea","sea","lSea","dBlue","blue","lBlue","dViolet","violet","lViolet","dPurple","purple","lPurple","dMagenta","magenta","lMagenta","dWine","wine","lWine"},
-	disp=function()return tileColor end,code=function(m)tileColor=m end,hideF=function()return state~=0 end
+	disp=function()return tileColor end,code=function(m)tileColor=m end
 }
+local arcadeSwitch=WIDGET.newSwitch{name="arcade",	x=230,y=430,font=40,disp=function()return arcade end,code=pressKey"e"}
+local function freshSelectors()
+	local f=state~=0
+	modeSelector.hide=f
+	bgmSelector.hide=f
+	colorSelector.hide=f
+	arcadeSwitch.hide=f
+end
 
 local score
 local pos,height
@@ -165,7 +173,9 @@ local function reset()
 	keyTime={}for i=1,40 do keyTime[i]=-1e99 end
 	speed,maxSpeed=0,0
 	progress={}
-	state,time=0,0
+	state=0
+	freshSelectors()
+	time=0
 	score=0
 	rollSpeed=6.26
 
@@ -186,6 +196,7 @@ end
 local function touch(n)
 	if state==0 then
 		state=1
+		freshSelectors()
 		startTime=TIME()
 	end
 	local t=tostring(pos[1])
@@ -358,7 +369,7 @@ end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
 	modeSelector,bgmSelector,colorSelector,
-	WIDGET.newSwitch{name="arcade",	x=230,y=430,font=40,disp=function()return arcade end,code=pressKey"e",hideF=function()return state~=0 end},
+	arcadeSwitch,
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 
