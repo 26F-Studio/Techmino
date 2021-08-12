@@ -34,9 +34,11 @@ return{
 
 	-- win="Win",
 	-- lose="Lose",
+
 	finish="Terminé",
 	gamewin="Gagné !",
 	gameover="Fin du jeu",
+
 	pause="Pause",
 	pauseCount="Pauses",
 	finesse_ap="Parfait",

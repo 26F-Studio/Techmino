@@ -33,9 +33,11 @@ return{
 
 	win="Victoria",
 	lose="Derrota",
+
 	finish="Fin",
 	gamewin="Victoria",
 	gameover="Fin del Juego",
+
 	pause="Pausa",
 	pauseCount="Veces pausadas",
 	finesse_ap="Finesse Perfecto",

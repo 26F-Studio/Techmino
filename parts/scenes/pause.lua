@@ -193,7 +193,7 @@ function scene.draw()
 	gc.setColor(.97,.97,.97,T)
 
 	--Result Text
-	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,80-10*(5-timer1*.1)^1.5)
+	mDraw(GAME.result and drawableText[GAME.result]or drawableText.pause,640,70-10*(5-timer1*.1)^1.5)
 
 	--Mode Info (outside)
 	gc.draw(drawableText.modeName,745-drawableText.modeName:getWidth(),143)
@@ -247,7 +247,7 @@ function scene.draw()
 			gc.setColor(.97,.97,.97,T2)
 			for i=1,10 do
 				gc.print(text.pauseStat[i],5,43*(i-1)+2)
-				gc.printf(_[i],410,43*(i-1)+2,300,'right')
+				gc.printf(_[i],210,43*(i-1)+2,500,'right')
 			end
 
 			--Finesse rank & trophy

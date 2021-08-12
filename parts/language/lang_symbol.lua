@@ -21,9 +21,11 @@ return{
 
 	win=": )",
 	lose=": (",
+
 	finish="&",
 	gamewin=">>",
 	gameover="x",
+
 	pause="=",
 	pauseCount="==",
 	finesse_ap="AP",
