@@ -67,6 +67,8 @@ return{
 	VKCurW="Poids de la pos. du cur.",
 
 	noScore="Aucun score",
+	-- modeLocked="Locked",
+	-- unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
 	highScore="Records personnels",
 	newRecord="Nouveau record !",
 

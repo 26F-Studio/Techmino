@@ -51,7 +51,10 @@ return{
 	VKTchW="Tch↓",
 	VKOrgW="Org↓",
 	VKCurW="Cur↓",
+
 	noScore="?_____?",
+	modeLocked="XXXXX",
+	unlockHint="\\D/!",
 	highScore="__&:",
 	newRecord="^!!!^",
 

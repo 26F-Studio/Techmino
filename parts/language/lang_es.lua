@@ -66,6 +66,8 @@ return{
 	VKCurW="Sens. Cur. Pos.",
 
 	noScore="Sin puntajes aún.",
+	-- modeLocked="Locked",
+	-- unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
 	highScore="Mejores puntajes",
 	newRecord="¡Nuevo Récord!",
 
