@@ -77,6 +77,8 @@ return{
 	VKCurW="Current. Pos. Weight",
 
 	noScore="No Scores Yet",
+	modeLocked="Locked",
+	unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
 	highScore="Personal Bests",
 	newRecord="New Record!",
 

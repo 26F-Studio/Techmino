@@ -175,7 +175,7 @@ do--drawableText
 		combo=T(20),maxcmb=T(20),
 		pc=T(20),ko=T(25),
 
-		noScore=T(45),highScore=T(30),
+		noScore=T(45),highScore=T(30),modeLocked=T(45),
 	}
 end
 do--BLOCKS

@@ -77,6 +77,8 @@ return{
 	VKCurW="当前点权重",
 
 	noScore="暂无成绩",
+	modeLocked="暂未解锁",
+	unlockHint="前一模式达到成绩D或以上即可解锁",
 	highScore="最佳成绩",
 	newRecord="打破纪录",
 
