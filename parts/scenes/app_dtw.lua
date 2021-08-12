@@ -292,6 +292,7 @@ function scene.update()
 	end
 end
 
+local function boardStencil()gc.rectangle('fill',300,0,680,720)end
 function scene.draw()
 	setFont(50)
 	if arcade then
@@ -325,6 +326,8 @@ function scene.draw()
 	end
 
 	--Draw tiles
+	gc.stencil(boardStencil)
+	gc.setStencilTest('equal',1)
 	gc.rectangle('fill',300,0,680,720)
 	gc.setColor(COLOR[tileColor])
 	gc.push('transform')
@@ -337,7 +340,7 @@ function scene.draw()
 		end
 	end
 	gc.pop()
-
+	gc.setStencilTest()
 	--Draw track line
 	gc.setColor(COLOR.D)
 	gc.setLineWidth(2)
