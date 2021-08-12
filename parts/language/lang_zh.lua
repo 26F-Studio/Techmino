@@ -43,9 +43,11 @@ return{
 
 	win="胜利",
 	lose="失败",
+
 	finish="完成",
 	gamewin="胜利",
 	gameover="游戏结束",
+
 	pause="暂停",
 	pauseCount="暂停统计",
 	finesse_ap="All Perfect",
@@ -75,6 +77,8 @@ return{
 	VKCurW="当前点权重",
 
 	noScore="暂无成绩",
+	modeLocked="暂未解锁",
+	unlockHint="前一模式达到成绩D或以上即可解锁",
 	highScore="最佳成绩",
 	newRecord="打破纪录",
 
@@ -870,6 +874,7 @@ return{
 		"不同游戏(甚至不同模式)中不同战术的能力都不一样,并没有绝对的强弱之分",
 		"不希望激烈的零和竞争充斥整个游戏",
 		"不要悲伤,不要心急",
+		"不要大力拍打或滑动哦",
 		"不要卖弱不要卖弱不要卖弱",
 		"不知道有多少人玩游戏的时候会关心游戏是谁做的",
 		"部分手机系统开启震动会导致严重卡顿",

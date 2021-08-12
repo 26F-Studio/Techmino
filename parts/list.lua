@@ -159,9 +159,13 @@ do--drawableText
 	drawableText={
 		modeName=T(30),
 
-		win=T(120),lose=T(120),
-		finish=T(120),
-		gamewin=T(100),gameover=T(100),pause=T(120),
+		win=T(120),
+		lose=T(120),
+
+		finish=T(90),
+		gamewin=T(90),
+		gameover=T(90),
+		pause=T(90),
 
 		speedLV=T(20),
 		piece=T(25),line=T(25),atk=T(20),eff=T(20),
@@ -171,7 +175,7 @@ do--drawableText
 		combo=T(20),maxcmb=T(20),
 		pc=T(20),ko=T(25),
 
-		noScore=T(45),highScore=T(30),
+		noScore=T(45),highScore=T(30),modeLocked=T(45),
 	}
 end
 do--BLOCKS

@@ -34,9 +34,11 @@ return{
 
 	win="好了",
 	lose="挂了",
-	finish="可以的",
+
+	finish="好厉害呀 真帅气呢",
 	gamewin="成了",
 	gameover="没了",
+
 	pause="歇会",
 	pauseCount="歇多久了",
 	finesse_ap="您",
