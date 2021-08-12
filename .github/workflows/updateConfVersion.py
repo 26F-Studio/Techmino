@@ -8,10 +8,8 @@ if __name__ == "__main__":
         data = file.read()
         if args.Hash != False:
             data = data.replace('@DEV', f'@{args.Hash[0:4]}')
-            data = data.replace('Techmino_DEV', 'Techmino_Snapshot')
         else:
             data = data.replace('@DEV', '')
-            data = data.replace('Techmino_DEV', 'Techmino')
         file.seek(0)
         file.truncate()
         file.flush()

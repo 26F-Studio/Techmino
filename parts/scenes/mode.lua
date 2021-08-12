@@ -23,7 +23,6 @@ local mapCam={
 	zoomMethod=false,
 	zoomK=false,
 }
-local visibleModes
 local touchDist
 
 local scene={}
@@ -31,17 +30,6 @@ local scene={}
 function scene.sceneInit(org)
 	BG.set()
 	mapCam.zoomK=org=='main'and 5 or 1
-	visibleModes={}--1=unlocked, 2=locked but visible
-	for name,M in next,MODES do
-		if RANKS[name]and M.x then
-			visibleModes[name]=1
-			if M.unlock then
-				for i=1,#M.unlock do
-					visibleModes[M.unlock[i]]=visibleModes[M.unlock[i]]or 2
-				end
-			end
-		end
-	end
 end
 
 local function getK()
@@ -51,9 +39,11 @@ local function getPos()
 	return mapCam.xOy:inverseTransformPoint(0,0)
 end
 
-local function onModeRaw(x,y)
+local function onMode(x,y)
+	x,y=x-640,y-360
+	x,y=mapCam.xOy:inverseTransformPoint(x,y)
 	for name,M in next,MODES do
-		if visibleModes[name]and M.x then
+		if RANKS[name]and M.x then
 			local s=M.size
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
@@ -90,9 +80,7 @@ end
 function scene.mouseClick(x,y)
 	local _=mapCam.sel
 	if not _ or x<920 then
-		x,y=x-640,y-360
-		x,y=mapCam.xOy:inverseTransformPoint(x,y)
-		local SEL=onModeRaw(x,y)
+		local SEL=onMode(x,y)
 		if _~=SEL then
 			if SEL then
 				mapCam.moving=true
@@ -136,12 +124,8 @@ function scene.keyDown(key,isRep)
 	if isRep then return end
 	if key=="return"then
 		if mapCam.sel then
-			if visibleModes[mapCam.sel]==2 then
-				MES.new('info',text.unlockHint)
-			else
-				mapCam.keyCtrl=false
-				loadGame(mapCam.sel)
-			end
+			mapCam.keyCtrl=false
+			loadGame(mapCam.sel)
 		end
 	elseif key=="f1"then
 		SCN.go('mod')
@@ -180,10 +164,22 @@ function scene.update()
 		else
 			moveMap(dx,dy)
 			local x,y=getPos()
-			local SEL=onModeRaw(x,y)
-			if SEL and mapCam.sel~=SEL then
-				mapCam.sel=SEL
-				SFX.play('click')
+			for name,M in next,MODES do
+				if RANKS[name]and M.x then
+					local SEL
+					local s=M.size
+					if M.shape==1 then
+						if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then SEL=name end
+					elseif M.shape==2 then
+						if abs(x-M.x)+abs(y-M.y)<s then SEL=name end
+					elseif M.shape==3 then
+						if(x-M.x)^2+(y-M.y)^2<s^2 then SEL=name end
+					end
+					if SEL and mapCam.sel~=SEL then
+						mapCam.sel=SEL
+						SFX.play('click')
+					end
+				end
 			end
 		end
 	end
@@ -200,7 +196,7 @@ function scene.update()
 	end
 end
 
---noRank/D/C/B/A/S
+--D/C/B/A/S/special
 local baseRankColor={
 	[0]={0,0,0,.3},
 	{.4,.1,.1,.3},
@@ -208,6 +204,7 @@ local baseRankColor={
 	{.6,.4,.2,.3},
 	{.7,.75,.85,.3},
 	{.85,.8,.3,.3},
+	{.4,.7,.4,.3},
 }
 local rankColor=rankColor
 local function drawModeShape(M,S,drawType)
@@ -246,36 +243,31 @@ function scene.draw()
 	setFont(80)
 	gc_setLineWidth(4)
 	for name,M in next,MODES do
-		local unlocked=visibleModes[name]
-		if unlocked then
+		if R[name]then
 			local rank=R[name]
 			local S=M.size
 
 			--Draw shapes on map
-			if unlocked==1 then
-				gc_setColor(baseRankColor[rank])
-				drawModeShape(M,S,'fill')
-			end
-			gc_setColor(1,1,sel==name and 0 or 1,unlocked==1 and .8 or .3)
+			gc_setColor(baseRankColor[rank])
+			drawModeShape(M,S,'fill')
+			gc_setColor(1,1,sel==name and 0 or 1)
 			drawModeShape(M,S,'line')
 
 			--Icon
 			local icon=M.icon
 			if icon then
-				gc_setColor(unlocked==1 and COLOR.lH or COLOR.dH)
+				gc_setColor(.8,.8,.8)
 				local length=icon:getWidth()*.5
 				gc_draw(icon,M.x,M.y,nil,S/length,nil,length,length)
 			end
 
 			--Rank
-			if unlocked==1 then
-				name=text.ranks[rank]
-				if name then
-					gc_setColor(0,0,0,.8)
-					mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
-					gc_setColor(rankColor[rank])
-					mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
-				end
+			name=text.ranks[rank]
+			if name then
+				gc_setColor(0,0,0,.8)
+				mStr(name,M.x+M.size*.7,M.y-50-M.size*.7)
+				gc_setColor(rankColor[rank])
+				mStr(name,M.x+M.size*.7+4,M.y-50-M.size*.7-4)
 			end
 		end
 	end
@@ -300,9 +292,7 @@ function scene.draw()
 			gc_rectangle('fill',940,290,320,280,5)--Highscore board
 			local L=M.records
 			gc_setColor(1,1,1)
-			if visibleModes[sel]==2 then
-				mText(drawableText.modeLocked,1100,370)
-			elseif L[1]then
+			if L[1]then
 				for i=1,#L do
 					local t=M.scoreDisp(L[i])
 					local f=int((30-#t*.4)/5)*5

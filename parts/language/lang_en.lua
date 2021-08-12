@@ -43,11 +43,9 @@ return{
 
 	win="Win",
 	lose="Lose",
-
 	finish="Finish",
 	gamewin="You Win",
 	gameover="Game Over",
-
 	pause="Pause",
 	pauseCount="Pauses",
 	finesse_ap="All Perfect",
@@ -77,8 +75,6 @@ return{
 	VKCurW="Current. Pos. Weight",
 
 	noScore="No Scores Yet",
-	modeLocked="Locked",
-	unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
 	highScore="Personal Bests",
 	newRecord="New Record!",
 

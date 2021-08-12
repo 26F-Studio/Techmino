@@ -34,11 +34,9 @@ return{
 
 	-- win="Win",
 	-- lose="Lose",
-
 	finish="Terminé",
 	gamewin="Gagné !",
 	gameover="Fin du jeu",
-
 	pause="Pause",
 	pauseCount="Pauses",
 	finesse_ap="Parfait",
@@ -67,8 +65,6 @@ return{
 	VKCurW="Poids de la pos. du cur.",
 
 	noScore="Aucun score",
-	-- modeLocked="Locked",
-	-- unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
 	highScore="Records personnels",
 	newRecord="Nouveau record !",
 

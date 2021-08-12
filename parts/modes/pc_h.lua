@@ -15,9 +15,9 @@ return{
 		mStr(r,63,220)
 		PLY.draw.drawTargetLine(P,r)
 
-		setFont(60)
+		setFont(70)
 		mStr(P.stat.pc,63,300)
-		mText(drawableText.pc,63,370)
+		mText(drawableText.pc,63,350)
 	end,
 	score=function(P)return{P.stat.pc,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." PCs   "..STRING.time(D[2])end,
