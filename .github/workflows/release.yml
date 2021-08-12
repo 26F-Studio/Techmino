@@ -53,12 +53,12 @@ jobs:
         ResourceHacker.exe -open love-11.3-win64\Techmino.exe -save love-11.3-win64\Techmino.exe -action addoverwrite -res "Techmino.res" -mask VERSIONINFO,1,
         7z a -tzip Techmino.a$Version.Win64.zip love-11.3-win64\
     - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: ${{ github.event.inputs.name }}
-          tag_name: ${{ github.event.inputs.tag }}
-          files: |
-            Techmino.a${{ env.Version }}.Win64.zip
+      uses: softprops/action-gh-release@v1
+      with:
+        name: ${{ github.event.inputs.name }}
+        tag_name: ${{ github.event.inputs.tag }}
+        files: |
+          Techmino.a${{ env.Version }}.Win64.zip
 
   build-windows-x86:
     runs-on: windows-latest
@@ -99,9 +99,9 @@ jobs:
         ResourceHacker.exe -open love-11.3-win32\Techmino.exe -save love-11.3-win32\Techmino.exe -action addoverwrite -res "Techmino.res" -mask VERSIONINFO,1,
         7z a -tzip Techmino.a$Version.Win32.zip love-11.3-win32\
     - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: ${{ github.event.inputs.name }}
-          tag_name: ${{ github.event.inputs.tag }}
-          files: |
-            Techmino.a${{ env.Version }}.Win32.zip
+      uses: softprops/action-gh-release@v1
+      with:
+        name: ${{ github.event.inputs.name }}
+        tag_name: ${{ github.event.inputs.tag }}
+        files: |
+          Techmino.a${{ env.Version }}.Win32.zip
