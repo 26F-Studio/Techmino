@@ -8,6 +8,7 @@ if __name__ == "__main__":
         data = file.read()
         if args.Hash != False:
             data = data.replace('@DEV', f'@{args.Hash[0:4]}')
+            data = data.replace("t.identity='Techmino'--Saving folder", "t.identity='Techmino_Snapshot'--Saving folder")
         else:
             data = data.replace('@DEV', '')
         file.seek(0)
