@@ -84,7 +84,7 @@ function scene.sceneInit(org)
 
 	updateRepButtons()
 	WIDGET.active.restart.hide=replaying
-	if SETTING.menuPos=='right'then
+	if GAME.replaying or SETTING.menuPos=='right'then
 		WIDGET.active.restart.x=1125
 		WIDGET.active.pause.x=1195
 		modeTextPos=1100-drawableText.modeName:getWidth()
