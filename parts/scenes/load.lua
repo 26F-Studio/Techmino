@@ -5,7 +5,8 @@ local rnd=math.random
 
 local scene={}
 
-local loading,progress,maxProgress
+local loading
+local progress,maxProgress
 local t1,t2,animeType
 local studioLogo--Studio logo text object
 local logoColor1,logoColor2
@@ -20,6 +21,7 @@ local loadingThread=coroutine.wrap(function()
 		logoColor1={COLOR.rainbow(r)}
 		logoColor2={COLOR.rainbow_light(r)}
 	end
+	YIELD()
 	YIELD('loadSFX')SFX.loadAll()
 	YIELD('loadVoice')VOC.loadAll()
 	YIELD('loadFont')for i=1,17 do getFont(15+5*i)end
@@ -163,7 +165,7 @@ end
 
 function scene.update()
 	if not LOADED then
-		loading=loadingThread()or loading
+		loading=loadingThread()
 		progress=progress+1
 	else
 		t1,t2=t1+1,t2+1
@@ -214,7 +216,7 @@ function scene.draw()
 
 	gc.setColor(COLOR.Z)
 	setFont(30)
-	mStr(text.loadText[loading],640,530)
+	mStr(text.loadText[loading]or"",640,530)
 end
 
 return scene
