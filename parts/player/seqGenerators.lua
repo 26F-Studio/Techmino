@@ -38,7 +38,7 @@ local seqGenerators={
 					do break end
 					::CONTINUE_rollAgain::
 				end
-				if history[1]~=0 then P:getNext(r)end
+				if history[1]~=0 then P:getNext(seq0[r])end
 				rem(history,1)ins(history,r)
 			end
 			yield()
@@ -131,7 +131,10 @@ local seqGenerators={
 	rnd=function(P,seq0)
 		if #seq0==1 then
 			local i=seq0[1]
-			while true do P:getNext(i)yield()end
+			while true do
+				while #P.nextQueue<6 do P:getNext(i)end
+				yield()
+			end
 		else
 			local rndGen=P.seqRND
 			local len=#seq0

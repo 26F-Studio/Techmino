@@ -102,7 +102,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-	WIDGET.newButton{name="path",	x=820,y=540,w=250,h=80,font=25,code=function()love.system.openURL(SAVEDIR)end,hide=MOBILE},
+	WIDGET.newButton{name="path",	x=820,y=540,w=250,h=80,font=25,
+		code=function()
+			if SYSTEM=="Windows"or SYSTEM=="Linux"then
+				love.system.openURL(SAVEDIR)
+			else
+				MES.new('info',SAVEDIR)
+			end
+		end
+	},
 	WIDGET.newButton{name="save",	x=820,y=640,w=250,h=80,font=25,code=goScene'savedata'},
 	WIDGET.newButton{name="back",	x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }

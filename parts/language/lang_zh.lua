@@ -698,8 +698,10 @@ return{
 		},
 		app_dtw={
 			reset="重置",
-			arcade="街机",
+			color="颜色",
 			mode="模式",
+			bgm="音乐",
+			arcade="街机",
 		},
 		savedata={
 			export="导出到剪切板",

@@ -602,8 +602,10 @@ return{
 		},
 		app_dtw={
 			reset="Reiniciar",
-			arcade="Arcade",
+			color="Color",
 			mode="Modo",
+			bgm="BGM",
+			arcade="Arcade",
 		},
 		savedata={
 			export="Exportar al portapapeles",

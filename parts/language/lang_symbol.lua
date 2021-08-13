@@ -505,8 +505,10 @@ return{
 		},
 		app_dtw={
 			reset="R",
-			arcade="↓↓",
+			color="~~~",
 			mode="?",
+			bgm="#~#",
+			arcade="↓↓",
 		},
 	},
 	getTip=function()
