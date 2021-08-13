@@ -1130,6 +1130,7 @@ function listBox:remove()
 	end
 end
 function listBox:press(x,y)
+	if not(x and y)then return end
 	x,y=x-self.x,y-self.y
 	if not(x and y and x>0 and y>0 and x<=self.w and y<=self.h)then return end
 	self:drag(0,0,0,0)
