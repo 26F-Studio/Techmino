@@ -20,6 +20,7 @@
 
 --Declaration
 local fs=love.filesystem
+VERSION=require"version"
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
