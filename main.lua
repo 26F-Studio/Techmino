@@ -37,6 +37,11 @@ love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
+if SYSTEM=='Android'then
+	local w,h,f=love.window.getMode()
+	f.resizable=false
+	love.window.setMode(w,h,f)
+end
 
 --Load modules
 require'Zframework'
