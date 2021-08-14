@@ -584,14 +584,14 @@ return{
 		"Techmino exclusive: in Techmino, the DAS timer can be cleared or discharged for a short time when player start to control a new piece. This can reduce the case where a piece instantly starts moving if spawned with a direction button held.\n\nOther games may have a similar feature but may function differently.",
 	},
 	{"Auto-lock cut",
-		"autolockcut mdcut daduan",
+		"autolockcut mdcut",
 		"term",
-		"",--TODO
+		"Techmino exclusive: this feature is designed to prevent mis-harddropping from pressing hard drop key shortly after the previous piece naturally locked down.\nHard drop key can be disabled for a few frames (depending on the settings) after a natural lockdown.\n\nOther games may have a similar feature but may function differently.",--TODO
 	},
 	{"SDF",
 		"sdf softdropfactor",
 		"term",
-		"Soft Drop Factor\n\nA way to define soft drop speed as a multiple of natural falling speed. In guideline games, soft drop is 20x the speed of natural falling, i.e. it has an SDF of 20. Techmino does not use SDF to define soft drop speed.",
+		"Soft Drop Factor\n\nA way to define soft drop speed as a multiple of natural falling speed. In guideline games, soft drop is usually 20x the speed of natural falling, i.e. it has an SDF of 20. Techmino does not use SDF to define soft drop speed.",
 	},
 	{"Bag7 generator",
 		"bag7bag randomgenerator",
