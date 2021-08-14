@@ -1,4 +1,4 @@
-return STRING.split([=[
+return[=[
 未来模式:
 		任务生存; 对称; 大爆炸; 拼方形; 限高无尽挖掘; 连击练习; backfire对战
 		经典模式分离(9/15/18/19/29); OSD; 强制Misdrop; 拼大于号; 仅4lPC
@@ -1979,4 +1979,4 @@ return STRING.split([=[
 		GUI position editted
 		grid BG changed
 		smarter AI
-]=],"\n")
+]=]
