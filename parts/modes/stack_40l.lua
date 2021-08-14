@@ -3,7 +3,7 @@ local function getHoleCount(P)
 	for x=1,10 do
 		for y=1,39 do
 			if not P:solid(x,y)then
-				holes=holes+1
+				hole=hole+1
 			end
 		end
 	end
