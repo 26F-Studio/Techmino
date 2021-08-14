@@ -292,6 +292,14 @@ do
 		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
 	end
+	if STAT.version==1600 then
+		RANKS.stack_20l=nil
+		RANKS.stack_40l=nil
+		RANKS.stack_100l=nil
+		fs.remove('record/stack_20l.rec')
+		fs.remove('record/stack_40l.rec')
+		fs.remove('record/stack_100l.rec')
+	end
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code
 		needSave=true
