@@ -332,8 +332,9 @@ return{
 
 			ghostType="Ghost Type",
 			ghost="Ghost",
-			grid="Grid",
 			center="Center",
+			grid="Grid",
+			lineNum="line No.",
 
 			lockFX="Lock FX",
 			dropFX="Drop FX",

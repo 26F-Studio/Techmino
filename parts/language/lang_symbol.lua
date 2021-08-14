@@ -156,8 +156,9 @@ return{
 
 			ghostType="__↓?__",
 			ghost="__↓__",
-			grid="#",
 			center="+",
+			grid="#",
+			lineNum="--No.",
 
 			lockFX="↓_~",
 			dropFX="↓~",

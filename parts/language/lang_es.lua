@@ -298,8 +298,9 @@ return{
 
 			-- ghostType="Ghost Type",
 			ghost="Fantasma",
-			grid="Grilla",
 			center="Centrar",
+			grid="Grilla",
+			-- lineNum="line No.",
 
 			lockFX="FX Vis. de Bloqueo",
 			dropFX="FX Vis. de Caída",

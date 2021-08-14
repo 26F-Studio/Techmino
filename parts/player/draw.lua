@@ -686,6 +686,15 @@ function draw.norm(P)
 			--Draw field
 			drawField(P,replaying)
 
+			if ENV.fieldH>20 and ENV.lineNum then
+				gc_setColor(1,1,1,ENV.lineNum)
+				setFont(20)
+				local dy=camDY<900 and 0 or camDY-camDY%300-900
+				for i=1,3 do
+					gc.print(10+10*i+dy/30,2,-325-300*i-dy)
+				end
+			end
+
 			--Draw spawn line
 			gc_setLineWidth(4)
 			gc_setColor(1,sin(t)*.4+.5,0,.5)
