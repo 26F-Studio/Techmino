@@ -641,6 +641,7 @@ function love.run()
 						gc_print("Lines    "..FREEROW.getCount(),safeX+5,-60)
 						gc_print("Tasks   "..TASK.getCount(),safeX+5,-80)
 						gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-100)
+						gc_print(tostring(GAME.playing),safeX+5,-120)
 
 						--Update & draw frame time
 						ins(frameTimeList,1,dt)rem(frameTimeList,126)

@@ -155,6 +155,7 @@ FIELD={}--Field(s) for custom game
 BAG={}--Sequence for custom game
 MISSION={}--Clearing mission for custom game
 GAME={--Global game data
+	playing=false,		--If in-game
 	init=false,			--If need initializing game when enter scene-play
 	net=false,			--If play net game
 

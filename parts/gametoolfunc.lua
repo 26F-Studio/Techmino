@@ -251,6 +251,7 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
 		if MODES[mode].score then STAT.lastPlay=mode end
+		GAME.playing=true
 		GAME.init=true
 		GAME.fromRepMenu=false
 		GAME.curModeName=mode
