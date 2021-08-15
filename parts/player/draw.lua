@@ -49,8 +49,8 @@ local playerBoarder=GC.DO{334,620,
 	{'setCL',.97,.97,.975},
 	{'dRect',16,1,302,618,5},
 	{'fRect',17,612,300,2},
-	{'dRect',318,9,15,596,3},
-	{'dRect',1,9,15,596,3},
+	{'dRect',318,10,15,604,3},
+	{'dRect',1,10,15,604,3},
 }
 local gridLines do
 	local L={300,640,{'setLW',2}}
@@ -325,7 +325,7 @@ local function drawBuffer(P)
 	for i=1,#P.atkBuffer do
 		local A=P.atkBuffer[i]
 		local bar=A.amount*30
-		if h+bar>600-8 then bar=600-8-h end
+		if h+bar>600 then bar=600-h end
 		if not A.sent then
 			--Appear
 			if A.time<20 then
@@ -334,24 +334,24 @@ local function drawBuffer(P)
 			if A.countdown>0 then
 				--Timing
 				gc_setColor(attackColor[A.lv][1])
-				gc_rectangle('fill',303,591-h-bar,11,bar,2)
+				gc_rectangle('fill',303,600-h-bar,11,bar,2)
 				gc_setColor(1,1,1)
 				for j=30,A.cd0-30,30 do
-					gc_rectangle('fill',303,591-h-bar*(j/A.cd0),6,2)
+					gc_rectangle('fill',303,600-h-bar*(j/A.cd0),6,2)
 				end
 				gc_setColor(attackColor[A.lv][2])
-				gc_rectangle('fill',303,591-h-bar,11,bar*(1-A.countdown/A.cd0),2)
+				gc_rectangle('fill',303,600-h-bar,11,bar*(1-A.countdown/A.cd0),2)
 			else
 				--Warning
 				local a=math.sin((TIME()-i)*30)*.5+.5
 				local c1,c2=attackColor[A.lv][1],attackColor[A.lv][2]
 				gc_setColor(c1[1]*a+c2[1]*(1-a),c1[2]*a+c2[2]*(1-a),c1[3]*a+c2[3]*(1-a))
-				gc_rectangle('fill',303,591-h-bar,11,bar,2)
+				gc_rectangle('fill',303,600-h-bar,11,bar,2)
 			end
 		else
 			gc_setColor(attackColor[A.lv][1])
 			bar=bar*(20-A.time)*.05
-			gc_rectangle('fill',303,591-h-bar,11,bar,2)
+			gc_rectangle('fill',303,600-h-bar,11,bar,2)
 			--Disappear
 		end
 		h=h+bar
@@ -376,14 +376,17 @@ local function drawBuffer(P)
 	end
 end
 local function drawB2Bbar(P)
-	local a,b=P.b2b,P.b2b1 if a>b then a,b=b,a end
-	gc_setColor(.8,1,.2)
-	gc_rectangle('fill',-14,591,11,-b*.592)
-	gc_setColor(P.b2b<50 and COLOR.Z or P.b2b<=800 and COLOR.lR or COLOR.lB)
-	gc_rectangle('fill',-14,591,11,-a*.592)
-	if TIME()%.5<.3 then
-		gc_setColor(1,1,1)
-		gc_rectangle('fill',-15,b<50 and 560 or 116,13,3,2)
+	local a,b=P.b2b,P.b2b1
+	if a>b then a,b=b,a end
+	if b>=0 then
+		gc_setColor(.8,1,.2)
+		gc_rectangle('fill',-14,600-b*.6,11,b*.6,2)
+		gc_setColor(P.b2b<50 and COLOR.Z or P.b2b<=800 and COLOR.lR or COLOR.lB)
+		gc_rectangle('fill',-14,600-a*.6,11,a*.6,2)
+		if TIME()%.5<.3 then
+			gc_setColor(1,1,1)
+			gc_rectangle('fill',-15,b<50 and 570 or 120,13,3,2)
+		end
 	end
 end
 local function drawLDI(P,ENV)--Lock Delay Indicator
