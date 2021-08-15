@@ -40,7 +40,7 @@ jobs:
     - name: Pack Techmino
       shell: cmd
       run: |
-        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua
+        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua version.lua
         copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
         del love-11.3-win64\love.exe
         del love-11.3-win64\lovec.exe
@@ -81,7 +81,7 @@ jobs:
         cd squashfs-root/usr/share/Techmino
         rm -rf document media parts Zframework conf.lua font.ttf main.lua
         cd ../../../..
-        cp -r document media parts Zframework conf.lua font.ttf main.lua squashfs-root/usr/share/Techmino
+        cp -r document media parts Zframework conf.lua font.ttf main.lua version.lua squashfs-root/usr/share/Techmino
         ./appimagetool-x86_64.AppImage squashfs-root Techmino.AppImage
     - name: Upload
       uses: actions/upload-artifact@v2
@@ -117,7 +117,7 @@ jobs:
         java -jar apktool_2.5.0.jar d -s -o apk Techmino.apk
         7z x -o. apk/assets/game.love libAndroid
         rm apk/assets/game.love Techmino.apk
-        7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
+        7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua version.lua
         python3 .github/workflows/updateAndroidVersion.py -C $(lua ./.github/workflows/getVersion.lua -code) -N $(lua ./.github/workflows/getVersion.lua -string)
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
     - uses: 26F-Studio/sign-android-release@master
@@ -161,7 +161,7 @@ jobs:
         python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
     - name: Pack love
       run: |
-        zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua
+        zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua version.lua
     - name: Download template
       run: |
         curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
