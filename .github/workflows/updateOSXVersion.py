@@ -1,5 +1,5 @@
-import datetime
-import getVersion
+import argparse, datetime
+
 info = r"""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -58,8 +58,9 @@ info = r"""<?xml version="1.0" encoding="UTF-8"?>
 </plist>
 """
 
-versionCode, versionName = getVersion.getVersion()
-
-print("Updating to", versionName)
-with open("Techmino.app/Contents/info.plist", "w") as file:
-    file.write(info % (versionName, datetime.datetime.today().year))
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="用于CI更新macOS版本号")
+    parser.add_argument("-N", "--Name", type=str, help = "versionName")
+    args = parser.parse_args()
+    with open("Techmino.app/Contents/info.plist", "w") as file:
+        file.write(info % (args.Name, datetime.datetime.today().year))
