@@ -9,19 +9,20 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install lua
+    - name: Download lua
       run: |
         curl -OL https://nchc.dl.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip
+    - name: Unpack lua
+      run: |
         7z x lua-5.4.2_Win64_bin.zip -olua
-        $pwd=$(get-location).Path
-        [environment]::SetEnvironmentvariable("path", "$pwd\lua", "Machine")
+        rename-Item '.\lua\lua54.exe' -NewName 'lua.exe'
     - name: Get CommitID
       run: |
         $CommitID=git rev-parse --short "${{ GITHUB.SHA }}"
         echo "CommitID=${CommitID}" >> $env:GITHUB_ENV
     - name: Get Version
       run: |
-        $Version=lua .github/workflows/getVersion.lua -string
+        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -string
         echo "Version=${Version}" >> $env:GITHUB_ENV
     - name: Update Conf Version
       run: |
@@ -117,8 +118,7 @@ jobs:
         7z x -o. apk/assets/game.love libAndroid
         rm apk/assets/game.love Techmino.apk
         7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua
-        alias getVersion='lua ./.github/workflows/getVersion.lua'
-        python3 .github/workflows/updateAndroidVersion.py -C $(getVersion -code) -N $(getVersion -string)
+        python3 .github/workflows/updateAndroidVersion.py -C $(lua ./.github/workflows/getVersion.lua -code) -N $(lua ./.github/workflows/getVersion.lua -string)
         java -jar apktool_2.5.0.jar b -o Techmino.apk apk
     - uses: 26F-Studio/sign-android-release@master
       name: Sign APK
@@ -168,8 +168,7 @@ jobs:
         unzip Techmino.app.zip
     - name: Modify template
       run: |
-        alias getVersion='lua ./.github/workflows/getVersion.lua'
-        python3 .github/workflows/updateOSXVersion.py -N $(getVersion -string)
+        python3 .github/workflows/updateOSXVersion.py -N $(lua ./.github/workflows/getVersion.lua -string)
         mv Techmino.love Techmino.app/Contents/Resources
     - name: Codesign executable
       # In secrets:
