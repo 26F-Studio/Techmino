@@ -7,7 +7,7 @@ return{
 
 	ghostType='gray',
 	block=true,ghost=.3,center=1,
-	smooth=false,grid=.16,
+	smooth=false,grid=.16,lineNum=.5,
 	upEdge=true,
 	bagLine=true,
 	text=true,

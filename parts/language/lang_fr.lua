@@ -296,8 +296,9 @@ return{
 
 			-- ghostType="Ghost Type",
 			ghost="Pièce fantôme",
-			grid="Grille",
 			center="Centre",
+			grid="Grille",
+			-- lineNum="line No.",
 
 			lockFX="Effets de verrouillage",
 			dropFX="Effets de chute",

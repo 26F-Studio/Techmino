@@ -660,6 +660,12 @@ function draw.norm(P)
 		gc_setColor(.97,.97,.975)
 		mStr(P.username,300,-60)
 
+		--Draw HUD
+		P:drawNext()
+		drawMission(P)
+		drawHold(P)
+		drawDial(490,500,P.dropSpeed)
+		if P.life>0 then drawLife(P.life)end
 
 		--Field-related things
 		applyField(P)
@@ -685,6 +691,15 @@ function draw.norm(P)
 
 			--Draw field
 			drawField(P,replaying)
+
+			if ENV.fieldH>20 and ENV.lineNum then
+				gc_setColor(1,1,1,ENV.lineNum)
+				setFont(20)
+				local dy=camDY<900 and 0 or camDY-camDY%300-900
+				for i=1,3 do
+					gc.print(10+10*i+dy/30,2,-325-300*i-dy)
+				end
+			end
 
 			--Draw spawn line
 			gc_setLineWidth(4)
@@ -813,13 +828,6 @@ function draw.norm(P)
 			-- if P.minY then gc_setColor(COLOR.B)	gc_line(0,619-P.minY*30,300,620-P.minY*30)end
 			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
-
-		--Draw HUD
-		P:drawNext()
-		drawMission(P)
-		drawHold(P)
-		drawDial(490,500,P.dropSpeed)
-		if P.life>0 then drawLife(P.life)end
 
 		--FinesseCombo
 		;(P.type=='remote'and drawFinesseCombo_remote or drawFinesseCombo_norm)(P)

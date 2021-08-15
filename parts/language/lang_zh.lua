@@ -332,8 +332,9 @@ return{
 
 			ghostType="阴影样式",
 			ghost="阴影不透明度",
-			grid="网格不透明度",
 			center="旋转中心不透明度",
+			grid="网格不透明度",
+			lineNum="行号透明度",
 
 			lockFX="锁定特效",
 			dropFX="下落特效",

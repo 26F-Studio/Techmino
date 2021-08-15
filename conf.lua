@@ -1,10 +1,3 @@
-VERSION={
-	build=358,
-	code=1600,
-	string="V0.16.0@DEV",
-	room="V1.1",
-	name="空间站 Space station",
-}
 function love.conf(t)
 	t.identity='Techmino'--Saving folder
 	t.version="11.1"
@@ -17,7 +10,7 @@ function love.conf(t)
 	end
 
 	local W=t.window
-	W.title="Techmino "..VERSION.string
+	W.title="Techmino "..require"version".string
 	W.icon="media/image/icon.png"
 	W.width,W.height=1280,720
 	W.minwidth,W.minheight=640,360

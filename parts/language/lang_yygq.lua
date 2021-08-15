@@ -87,6 +87,7 @@ return{
 			block="方块可见",
 			ghost="阴影",
 			center="中心",
+			lineNum="行号",
 
 			text="招式名",
 			score="跳分",

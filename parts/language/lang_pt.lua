@@ -322,8 +322,9 @@ return{
 
 			-- ghostType="Ghost Type",
 			ghost="Fantasma",
-			grid="Rede",
 			center="Centro",
+			grid="Rede",
+			-- lineNum="line No.",
 
 			lockFX="Nível FX Trava",
 			dropFX="Nível FX Queda",

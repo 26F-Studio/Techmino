@@ -265,7 +265,7 @@ SETTING={--Settings
 	--Graphic
 	ghostType='gray',
 	block=true,ghost=.3,center=1,
-	smooth=true,grid=.16,
+	smooth=true,grid=.16,lineNum=.5,
 	upEdge=true,
 	bagLine=false,
 	lockFX=2,

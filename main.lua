@@ -20,6 +20,7 @@
 
 --Declaration
 local fs=love.filesystem
+VERSION=require"version"
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
@@ -36,6 +37,11 @@ love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
+if SYSTEM=='Android'then
+	local w,h,f=love.window.getMode()
+	f.resizable=false
+	love.window.setMode(w,h,f)
+end
 
 --Load modules
 require'Zframework'
@@ -291,6 +297,14 @@ do
 		RANKS.master_l,RANKS.master_u=RANKS.master_u,RANKS.master_l
 		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
+	end
+	if STAT.version==1600 then
+		RANKS.stack_20l=nil
+		RANKS.stack_40l=nil
+		RANKS.stack_100l=nil
+		fs.remove('record/stack_20l.rec')
+		fs.remove('record/stack_40l.rec')
+		fs.remove('record/stack_100l.rec')
 	end
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code
