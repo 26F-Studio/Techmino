@@ -829,9 +829,6 @@ function draw.norm(P)
 			-- 										gc_line(0,600-P.garbageBeneath*30,300,600-P.garbageBeneath*30)
 		gc_pop()
 
-		--FinesseCombo
-		;(P.type=='remote'and drawFinesseCombo_remote or drawFinesseCombo_norm)(P)
-
 		--Score & Time
 		setFont(25)
 		local tm=int(P.stat.time*100)*.01
@@ -842,6 +839,9 @@ function draw.norm(P)
 		gc_print(P.score1,20,510)
 		gc_setColor(.85,.9,.97)
 		gc_print(tm,20,540)
+
+		--FinesseCombo
+		;(P.type=='remote'and drawFinesseCombo_remote or drawFinesseCombo_norm)(P)
 
 		--Mode informations
 		if GAME.curMode.mesDisp then
