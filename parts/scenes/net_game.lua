@@ -225,6 +225,7 @@ function scene.socketRead(cmd,d)
 		end
 	elseif cmd=='finish'then
 		playing=false
+		BG.set()
 	end
 end
 

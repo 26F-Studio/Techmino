@@ -9,6 +9,7 @@ local minoRot0={}
 local scene={}
 
 function scene.sceneInit()
+	BG.set()
 	selRS=RSlist[SETTING.RS]
 	for i=1,7 do
 		minoRot0[i]=SETTING.face[i]*1.57
