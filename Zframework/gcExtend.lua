@@ -1,7 +1,5 @@
 local gc=love.graphics
-local setColor=gc.setColor
-local printf=gc.printf
-local draw=gc.draw
+local setColor,printf,draw=gc.setColor,gc.printf,gc.draw
 local GC={}
 function GC.str(obj,x,y)printf(obj,x-626,y,1252,'center')end
 function GC.simpX(obj,x,y)draw(obj,x-obj:getWidth()*.5,y)end
@@ -97,7 +95,7 @@ do--function GC.DO(L)
 		setLJ="setLineJoin",
 
 		print="print",
-		setFT=setFont,
+		setFT=function(...)setFont(...)end,
 		mText=GC.str,
 		mDraw=GC.draw,
 		mOutDraw=GC.outDraw,

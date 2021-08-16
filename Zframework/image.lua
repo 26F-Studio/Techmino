@@ -12,7 +12,7 @@ function IMG.init(list)
 		elseif type(list[name])=='string'then
 			self[name]=love.graphics.newImage(list[name])
 		else
-			MES.new('warn',"No BGM: "..name,5)
+			MES.new('warn',"No IMG: "..name,5)
 			self[name]=null
 		end
 		return self[name]

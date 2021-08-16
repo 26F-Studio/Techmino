@@ -9,6 +9,7 @@ local minoRot0={}
 local scene={}
 
 function scene.sceneInit()
+	BG.set()
 	selRS=RSlist[SETTING.RS]
 	for i=1,7 do
 		minoRot0[i]=SETTING.face[i]*1.57
@@ -58,7 +59,7 @@ end
 local function nextDir(i)
 	SETTING.face[i]=(SETTING.face[i]+1)%4
 	minoRot0[i]=minoRot0[i]+1.5707963
-	if minoRot0[5]>62 then
+	if minoRot0[5]>62 and not GAME.playing then
 		loadGame('marathon_bfmax',true)
 	end
 	SFX.play('rotate')

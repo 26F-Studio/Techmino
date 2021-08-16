@@ -78,6 +78,10 @@ function scene.sceneInit(org)
 		NET.specSRID=false
 	end
 end
+function scene.sceneBack()
+	destroyPlayers()
+	GAME.playing=false
+end
 
 scene.mouseDown=NULL
 function scene.mouseMove(x,y)netPLY.mouseMove(x,y)end
@@ -221,6 +225,7 @@ function scene.socketRead(cmd,d)
 		end
 	elseif cmd=='finish'then
 		playing=false
+		BG.set()
 	end
 end
 

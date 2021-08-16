@@ -24,8 +24,24 @@ function BGM.init(list)
 	function BGM.getList()return simpList end
 	local count=#simpList
 	function BGM.getCount()return count end
-	function BGM.loadAll()for name in next,Sources do load(name)end end
 
+	local function load(name)
+		if type(Sources[name])=='string'then
+			if love.filesystem.getInfo(Sources[name])then
+				Sources[name]=love.audio.newSource(Sources[name],'stream')
+				Sources[name]:setLooping(true)
+				Sources[name]:setVolume(0)
+				return true
+			else
+				MES.new('warn',"No BGM file: "..Sources[name],5)
+			end
+		elseif Sources[name]then
+			return true
+		elseif name then
+			MES.new('warn',"No BGM: "..name,5)
+		end
+	end
+	function BGM.loadAll()for name in next,Sources do load(name)end end
 	local function fadeOut(src)
 		while true do
 			coroutine.yield()
@@ -50,22 +66,6 @@ function BGM.init(list)
 	end
 	local function removeCurFadeOut(task,code,src)
 		return task.code==code and task.args[1]==src
-	end
-	local function load(name)
-		if type(Sources[name])=='string'then
-			if love.filesystem.getInfo(Sources[name])then
-				Sources[name]=love.audio.newSource(Sources[name],'stream')
-				Sources[name]:setLooping(true)
-				Sources[name]:setVolume(0)
-				return true
-			else
-				MES.new('warn',"No BGM file: "..Sources[name],5)
-			end
-		elseif Sources[name]then
-			return true
-		elseif name then
-			MES.new('warn',"No BGM: "..name,5)
-		end
 	end
 	function BGM.play(name)
 		if not name then name=BGM.default end

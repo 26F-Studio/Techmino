@@ -29,7 +29,7 @@ local json = {}
 -- Encode
 -------------------------------------------------------------------------------
 
-local encode
+local _encode
 
 local escape_char_map = {
 	["\\"] = "\\",
@@ -70,7 +70,7 @@ local function encode_table(val, stack)
 		end
 		if n ~= #val then error("invalid table: sparse array") end
 		-- Encode
-		for _, v in ipairs(val) do ins(res, encode(v, stack)) end
+		for _, v in ipairs(val) do ins(res, _encode(v, stack)) end
 		stack[val] = nil
 		return "[" .. table.concat(res, ",") .. "]"
 
@@ -80,7 +80,7 @@ local function encode_table(val, stack)
 			if type(k) ~= 'string' then
 				error("invalid table: mixed or invalid key types")
 			end
-			ins(res, encode(k, stack) .. ":" .. encode(v, stack))
+			ins(res, _encode(k, stack) .. ":" .. _encode(v, stack))
 		end
 		stack[val] = nil
 		return "{" .. table.concat(res, ",") .. "}"
@@ -107,21 +107,14 @@ local type_func_map = {
 	['boolean'] = tostring
 }
 
-encode = function(val, stack)
+_encode = function(val, stack)
 	local t = type(val)
 	local f = type_func_map[t]
 	if f then return f(val, stack) end
 	error("unexpected type '" .. t .. "'")
 end
 
-function json.encode(val)
-	local a,b=pcall(encode,val)
-	if a then
-		return b
-	elseif MES then
-		MES.traceback()
-	end
-end
+json.encode=_encode
 
 -------------------------------------------------------------------------------
 -- Decode
@@ -335,7 +328,7 @@ function parse(str, idx)
 	decode_error(str, idx, "unexpected character '" .. chr .. "'")
 end
 
-local function decode(str)
+function json.decode(str)
 	if type(str) ~= 'string' then
 		error("expected argument of type string, got " .. type(str))
 	end
@@ -343,13 +336,5 @@ local function decode(str)
 	idx = next_char(str, idx, space_chars, true)
 	if idx <= #str then decode_error(str, idx, "trailing garbage") end
 	return res
-end
-function json.decode(str)
-	local a,b=pcall(decode,str)
-	if a then
-		return b
-	elseif MES then
-		MES.traceback()
-	end
 end
 return json
