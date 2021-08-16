@@ -229,6 +229,15 @@ function scene.draw()
 			mStr(("%s:[%d] %.2fs"):format(text.pauseCount,GAME.pauseCount,GAME.pauseTime),305,389)
 		end
 
+		if GAME.tasUsed then
+			gc.push('transform')
+			gc.scale(2.6)
+			setFont(100)
+			gc.setColor(.97,.97,.97,T*.08)
+			gc.print("TAS",50,-23,.3)
+			gc.pop()
+		end
+
 		--Pages
 		if page==0 then
 			--Frame
