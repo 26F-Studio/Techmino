@@ -135,10 +135,14 @@ function scene.sceneInit(org)
 	noKey=replaying
 	noTouch=not SETTING.VKSwitch or replaying
 
-	if tasMode then
-		floatGameRate,gameRate=0,0
-	elseif org~='depause'and org~='pause'then
+	if org~='depause'and org~='pause'then
 		floatGameRate,gameRate=0,1
+	elseif not replaying then
+		if tasMode then
+			floatGameRate,gameRate=0,0
+		else
+			floatGameRate,gameRate=0,1
+		end
 	end
 
 	updateRepButtons()
