@@ -1,6 +1,5 @@
 local gc=love.graphics
 local abs=math.abs
-local SCR=SCR
 
 local scenes={}
 
