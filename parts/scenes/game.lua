@@ -328,7 +328,7 @@ local function drawAtkPointer(x,y)
 	gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
-	if GAME.tasUsed then
+	if tasMode then
 		gc.push('transform')
 		gc.scale(4)
 		setFont(100)
@@ -337,7 +337,7 @@ function scene.draw()
 		gc.pop()
 	end
 
-	local repMode=GAME.replaying
+	local repMode=GAME.replaying or tasMode
 
 	--Players
 	for p=1,#PLAYERS do
