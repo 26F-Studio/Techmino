@@ -332,9 +332,11 @@ local function drawAtkPointer(x,y)
 	gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
+	local repMode=GAME.replaying
+
 	--Players
 	for p=1,#PLAYERS do
-		PLAYERS[p]:draw()
+		PLAYERS[p]:draw(repMode)
 	end
 
 	--Virtual keys

@@ -648,12 +648,11 @@ function draw.drawRoyaleInfo(P)
 	end
 end
 
-function draw.norm(P)
+function draw.norm(P,repMode)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local camDY=FBN+FUP
 	local t=TIME()
-	local replaying=GAME.replaying
 	gc_push('transform')
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
@@ -693,7 +692,7 @@ function draw.norm(P)
 			end
 
 			--Draw field
-			drawField(P,replaying)
+			drawField(P,repMode)
 
 			if ENV.fieldH>20 and ENV.lineNum then
 				gc_setColor(1,1,1,ENV.lineNum)
@@ -732,7 +731,7 @@ function draw.norm(P)
 						gc_setColor(1,1,1,ENV.center)
 						gc_draw(P.RS.centerTex,centerX,-30*(P.ghoY+C.sc[1])+10)
 					end
-				elseif replaying then
+				elseif repMode then
 					drawGhost.gray(P,nil,.15)
 				end
 
@@ -746,7 +745,7 @@ function draw.norm(P)
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(P.RS.centerTex,centerX,-30*(P.curY+C.sc[1])+10)
 						end
-					elseif replaying then
+					elseif repMode then
 						drawBlockShade(P,trans*.3)
 					end
 				gc_translate(0,dy)
@@ -771,7 +770,7 @@ function draw.norm(P)
 				gc_stencil(hideBoardStencil[ENV.hideBoard])
 				gc_setStencilTest('equal',1)
 				local alpha
-				if replaying then
+				if repMode then
 					gc_setLineWidth(18.8)
 					alpha=.7
 				else
