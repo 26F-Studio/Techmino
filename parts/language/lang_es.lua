@@ -212,6 +212,7 @@ return{
 			resume="Resumir (esc)",
 			restart="Reiniciar (R)",
 			quit="Finalizar (Q)",
+			-- tas="TAS (T)",
 		},
 		net_menu={
 			league="Liga Tech",

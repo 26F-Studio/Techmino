@@ -208,6 +208,7 @@ return{
 			resume="Continuer (esc)",
 			restart="Réessayer (R)",
 			quit="Quitter (Q)",
+			-- tas="TAS (T)",
 		},
 		net_menu={
 			-- league="Tech League",

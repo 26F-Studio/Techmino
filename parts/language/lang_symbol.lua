@@ -127,6 +127,7 @@ return{
 			resume="!! (esc)",
 			restart="_→_ (R)",
 			quit="X (Q)",
+			tas="#&; (T)",
 		},
 		setting_game={
 			title="%~~%",

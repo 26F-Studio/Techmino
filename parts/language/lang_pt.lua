@@ -236,6 +236,7 @@ return{
 			resume="Resumir (esc)",
 			restart="Reiniciar (R)",
 			quit="Sair (Q)",
+			-- tas="TAS (T)",
 		},
 		net_menu={
 			-- league="Tech League",

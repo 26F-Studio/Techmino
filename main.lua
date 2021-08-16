@@ -18,7 +18,7 @@
 --Var leak check
 -- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
 
---Declaration
+--System Global Vars Declaration
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
@@ -30,6 +30,7 @@ SAVEDIR=fs.getSaveDirectory()
 --Global Vars & Settings
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
+ALLOWTAS=false
 
 --System setting
 math.randomseed(os.time()*626)

@@ -224,22 +224,9 @@ function scene.keyDown(key,isRep)
 				elseif not isRep then
 					speedUp()
 				end
-			elseif key=="t"and kb.isDown('lctrl','rctrl')then
-				tasMode=false
-				floatGameRate,gameRate=0,1
-				updateRepButtons()
-				updateMenuButtons()
 			end
 		else
-			if key=="t"and kb.isDown('lctrl','rctrl')then
-				gameRate=0
-				tasMode=true
-				GAME.tasUsed=true
-				updateRepButtons()
-				updateMenuButtons()
-			else
-				gameKeyDown(key)
-			end
+			gameKeyDown(key)
 		end
 	end
 end
