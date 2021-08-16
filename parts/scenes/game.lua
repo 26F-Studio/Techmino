@@ -1,4 +1,4 @@
-local gc,kb,tc=love.graphics,love.keyboard,love.touch
+local gc,tc=love.graphics,love.touch
 local sin=math.sin
 local SCR,VK=SCR,VK
 local GAME=GAME
@@ -108,19 +108,20 @@ local function restart()
 	noKey=replaying
 	noTouch=replaying
 end
-local function gameKeyDown(key)
+local function checkGameKeyDown(key)
 	local k=keyMap.keyboard[key]
 	if k then
 		if k>0 then
 			if noKey then return end
 			PLAYERS[1]:pressKey(k)
 			VK.press(k)
+			return
 		elseif not GAME.fromRepMenu then
 			restart()
+			return
 		end
-	elseif key=="escape"then
-		pauseGame()
 	end
+	return true--No key pressed
 end
 
 function scene.sceneInit(org)
@@ -210,23 +211,26 @@ function scene.keyDown(key,isRep)
 	else
 		if isRep then
 			return
-		elseif tasMode then
-			if key=="f1"then
-				if not isRep then gameRate=gameRate==0 and .125 or 0 end
-				updateRepButtons()
-			elseif key=='f2'then
-				if not isRep then
-					speedDown()
-				end
-			elseif key=='f3'then
-				if gameRate==0 then
-					_step()
-				elseif not isRep then
-					speedUp()
+		elseif checkGameKeyDown(key)then
+			if tasMode then
+				if key=="f1"then
+					if not isRep then gameRate=gameRate==0 and .125 or 0 end
+					updateRepButtons()
+				elseif key=='f2'then
+					if not isRep then
+						speedDown()
+					end
+				elseif key=='f3'then
+					if gameRate==0 then
+						_step()
+					elseif not isRep then
+						speedUp()
+					end
 				end
 			end
-		else
-			gameKeyDown(key)
+			if key=="escape"then
+				pauseGame()
+			end
 		end
 	end
 end
