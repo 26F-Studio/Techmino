@@ -13,6 +13,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
 	replaying="[Replay]",
+	-- tasUsing="[TAS]",
 
 	stage="Etape $1",
 	great="Bien !",

@@ -14,6 +14,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
 	replaying="[Replay]",
+	-- tasUsing="[TAS]",
 
 	stage="Fase $1",
 	great="Ótimo!",

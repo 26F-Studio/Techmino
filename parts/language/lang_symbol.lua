@@ -9,6 +9,7 @@ return{
 	mini="v",b2b="^ ",b3b="^^ ",
 	PC="#<>#",HPC="<>",
 	replaying="[R]",
+	tasUsing="[TAS]",
 
 	stage="::$1::",
 	great="!~",

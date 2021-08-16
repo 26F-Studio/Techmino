@@ -176,6 +176,7 @@ GAME={--Global game data
 	recording=false,	--If recording
 	replaying=false,	--If replaying
 	saved=false,		--If recording saved
+	tasUsed=false,		--If tasMode used
 
 	prevBG=false,		--Previous background, for restore BG when quit setting page
 

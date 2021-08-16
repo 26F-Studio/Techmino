@@ -897,6 +897,11 @@ return{
 		"english",
 		"Short for \"Background music\".",
 	},
+	{"TAS",
+		"tas",
+		"english",
+		"Short for \"Tool-Assisted Speedrun(Supergaming)\"",--TODO
+	},
 	{"AFK",
 		"afk",
 		"english",

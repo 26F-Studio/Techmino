@@ -23,6 +23,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Half Clear",
 	replaying="[回放]",
+	tasUsing="[TAS]",
 
 	stage="关卡 $1",
 	great="Great!",

@@ -194,6 +194,9 @@ function scoreValid()--Check if any unranked mods are activated
 			return false
 		end
 	end
+	if GAME.tasUsed then
+		return false
+	end
 	return true
 end
 function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
@@ -477,6 +480,7 @@ do--function resetGameData(args)
 		if not args then args=""end
 		trySave()
 
+		GAME.tasUsed=false
 		GAME.result=false
 		GAME.rank=0
 		GAME.warnLVL0=0
