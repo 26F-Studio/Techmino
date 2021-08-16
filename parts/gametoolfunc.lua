@@ -480,7 +480,6 @@ do--function resetGameData(args)
 		if not args then args=""end
 		trySave()
 
-		GAME.tasUsed=false
 		GAME.result=false
 		GAME.rank=0
 		GAME.warnLVL0=0
@@ -496,6 +495,7 @@ do--function resetGameData(args)
 			GAME.pauseCount=0
 			GAME.saved=false
 			GAME.setting=copyGameSetting()
+			GAME.tasUsed=false
 			GAME.rep={}
 			GAME.recording=true
 			GAME.statSaved=false
