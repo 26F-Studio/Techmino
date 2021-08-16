@@ -315,6 +315,7 @@ function scene.update(dt)
 	end
 end
 
+local tasText=gc.newText(getFont(100),"TAS")
 local function drawAtkPointer(x,y)
 	local t=TIME()
 	local a=t*3%1*.8
@@ -327,6 +328,15 @@ local function drawAtkPointer(x,y)
 	gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
+	if GAME.tasUsed then
+		gc.push('transform')
+		gc.scale(4)
+		setFont(100)
+		gc.setColor(.4,.4,.4,.5)
+		gc.draw(tasText,72,20)
+		gc.pop()
+	end
+
 	local repMode=GAME.replaying
 
 	--Players
