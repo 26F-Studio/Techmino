@@ -290,7 +290,7 @@ do
 		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
 	end
-	if STAT.version==1600 then
+	if RANKS.stack_20l then
 		RANKS.stack_20l=nil
 		RANKS.stack_40l=nil
 		RANKS.stack_100l=nil
