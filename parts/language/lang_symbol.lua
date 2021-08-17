@@ -144,6 +144,7 @@ return{
 			autoPause="A||",
 			menuPos="←M→?",
 			swap="=+=+=",
+			autoSave="!!!>%",
 			simpMode=".",
 		},
 		setting_video={

@@ -320,6 +320,7 @@ return{
 			autoPause="Pause while unfocused",
 			menuPos="Menu button pos.",
 			swap="Key Combination (Change Atk. Mode)",
+			autoSave="Auto save new-best",
 			simpMode="Simplistic Style",
 		},
 		setting_video={

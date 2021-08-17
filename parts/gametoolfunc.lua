@@ -325,6 +325,11 @@ function gameOver()--Save record
 				if p<10 then
 					if p==0 then
 						P:showTextF(text.newRecord,0,-100,100,'beat',.5)
+						if SETTING.autoSave and DATA.saveReplay()then
+							GAME.saved=true
+							SFX.play('connected')
+							MES.new('check',text.saveDone)
+						end
 					end
 					D.date=os.date("%Y/%m/%d %H:%M")
 					ins(L,p+1,D)

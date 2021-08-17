@@ -283,6 +283,7 @@ return{
 			autoPause="Mettre en pause en cas de perte de focus",
 			-- menuPos="Menu button pos.",
 			swap="Combinaison de touches (changer le mode d'attaque)",
+			-- autoSave="Auto save new-best",
 			-- simpMode="Simple mode",
 		},
 		setting_video={

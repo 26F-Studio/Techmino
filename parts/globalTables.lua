@@ -254,6 +254,7 @@ SETTING={--Settings
 	autoPause=true,
 	menuPos='middle',
 	fine=false,
+	autoSave=false,
 	simpMode=false,
 	lang=1,
 	skinSet='crystal_scf',

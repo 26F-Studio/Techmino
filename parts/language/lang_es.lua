@@ -286,6 +286,7 @@ return{
 			autoPause="Pausar cuando la ventana no está enfocada",
 			-- menuPos="Menu button pos.",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
+			-- autoSave="Auto save new-best",
 			simpMode="Modo Sencillo",
 		},
 		setting_video={

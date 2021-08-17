@@ -320,6 +320,7 @@ return{
 			autoPause="失去焦点自动暂停",
 			menuPos="菜单按钮位置",
 			swap="组合键切换攻击模式",
+			autoSave="破纪录自动保存",
 			simpMode="简洁模式",
 		},
 		setting_video={

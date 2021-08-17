@@ -310,6 +310,7 @@ return{
 			autoPause="Pausar quando foco for perco",
 			-- menuPos="Menu button pos.",
 			swap="Combinação de tecla(Mudar modo de atk)",
+			-- autoSave="Auto save new-best",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
