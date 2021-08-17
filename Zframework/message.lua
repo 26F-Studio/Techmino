@@ -3,6 +3,7 @@ local gc_push,gc_pop=gc.push,gc.pop
 local gc_translate,gc_setColor,gc_draw=gc.translate,gc.setColor,gc.draw
 
 local ins,rem=table.insert,table.remove
+local max=math.max
 
 local mesList={}
 local mesIcon={
@@ -102,9 +103,9 @@ function MES.update(dt)
 	for i=#mesList,1,-1 do
 		local m=mesList[i]
 		if m.startTime>0 then
-			m.startTime=m.startTime-dt
+			m.startTime=max(m.startTime-dt,0)
 		elseif m.time>0 then
-			m.time=m.time-dt
+			m.time=max(m.time-dt,0)
 		elseif m.endTime>0 then
 			m.endTime=m.endTime-dt
 		else
