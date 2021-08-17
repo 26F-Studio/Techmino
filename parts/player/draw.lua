@@ -541,7 +541,7 @@ local draw={}
 draw.drawGhost=drawGhost
 draw.applyField=applyField
 draw.cancelField=cancelField
-function draw.drawNext_norm(P)
+function draw.drawNext_norm(P,repMode)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
 	gc_translate(488,20)
@@ -552,6 +552,9 @@ function draw.drawNext_norm(P)
 		N=1
 		gc_push('transform')
 			gc_translate(50,40)
+			gc_setColor(1,1,1)
+
+			--Draw nexts
 			gc_setShader(shader_blockSatur)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
@@ -568,6 +571,24 @@ function draw.drawNext_norm(P)
 				gc_translate(0,72)
 			end
 			gc_setShader()
+
+			--Draw more nexts
+			if repMode then
+				gc_translate(50,-28)
+				local blockImg=TEXTURE.miniBlock
+				local skinSet=ENV.skin
+				local n=N
+				while n<=12 and queue[n]do
+					local id=queue[n].id
+					local _=minoColor[skinSet[id]]
+					gc_setColor(_[1],_[2],_[3],.2)
+					_=blockImg[id]
+					local h=_:getHeight()
+					gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
+					gc_translate(0,10*h+3)
+					n=n+1
+				end
+			end
 		gc_pop()
 
 		if ENV.bagLine then
@@ -578,20 +599,30 @@ function draw.drawNext_norm(P)
 		end
 	gc_translate(-488,-20)
 end
-function draw.drawNext_hidden(P)
+function draw.drawNext_hidden(P,repMode)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
-	gc_translate(476,20)
+	gc_translate(488,20)
 		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
-		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,124,N+8)
-		N=min(ENV.nextStartPos,P.pieceCount+1)
+		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
+		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
+		local startN=min(ENV.nextStartPos,P.pieceCount+1)
+		if repMode then
+			gc_setColor(1,1,1,.2)
+			N=1
+		else
+			gc_setColor(1,1,1)
+			N=startN
+		end
 		gc_push('transform')
-			gc_translate(62,40)
+			gc_translate(50,72*N-32)
+
+			--Draw nexts
 			gc_setShader(shader_blockSatur)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
+				if N==startN then gc_setColor(1,1,1)end
 				local bk,sprite=queue[N].bk,texture[queue[N].color]
 				local k=min(2.3/#bk,3/#bk[1],.85)
 				gc_scale(k)
@@ -605,6 +636,24 @@ function draw.drawNext_hidden(P)
 				gc_translate(0,72)
 			end
 			gc_setShader()
+
+			--Draw more nexts
+			if repMode then
+				gc_translate(50,-28)
+				local blockImg=TEXTURE.miniBlock
+				local skinSet=ENV.skin
+				local n=N
+				while n<=12 and queue[n]do
+					local id=queue[n].id
+					local _=minoColor[skinSet[id]]
+					gc_setColor(_[1],_[2],_[3],.2)
+					_=blockImg[id]
+					local h=_:getHeight()
+					gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
+					gc_translate(0,10*h+3)
+					n=n+1
+				end
+			end
 		gc_pop()
 
 		if ENV.bagLine then
@@ -663,10 +712,10 @@ function draw.norm(P,repMode)
 		mStr(P.username,300,-60)
 
 		--Draw HUD
-		P:drawNext()
+		P:drawNext(repMode)
 		drawMission(P)
 		drawHold(P)
-		drawDial(490,500,P.dropSpeed)
+		drawDial(499,505,P.dropSpeed)
 		if P.life>0 then drawLife(P.life)end
 
 		--Field-related things

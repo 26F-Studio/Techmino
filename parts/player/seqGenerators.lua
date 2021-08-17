@@ -9,7 +9,7 @@ local seqGenerators={
 		local len=#seq0
 		local bag={}
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				if #bag==0 then
 					for i=1,len do
 						bag[i]=seq0[len-i+1]
@@ -26,7 +26,7 @@ local seqGenerators={
 		local hisLen=ceil(len*.5)
 		local history=TABLE.new(0,hisLen)
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				local r
 				for _=1,hisLen do--Reroll up to [hisLen] times
 					r=rndGen:random(len)
@@ -82,7 +82,7 @@ local seqGenerators={
 		end
 
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 					-- print"======================"
 				--Pick a mino from pool
 				local tryTime=0
@@ -114,7 +114,7 @@ local seqGenerators={
 		for i=1,len do weight[i]=0 end
 
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				local maxK=1
 				for i=1,len do
 					weight[i]=weight[i]*.5+rndGen:random()
@@ -132,7 +132,7 @@ local seqGenerators={
 		if #seq0==1 then
 			local i=seq0[1]
 			while true do
-				while #P.nextQueue<6 do P:getNext(i)end
+				while #P.nextQueue<12 do P:getNext(i)end
 				yield()
 			end
 		else
@@ -140,7 +140,7 @@ local seqGenerators={
 			local len=#seq0
 			local last=0
 			while true do
-				while #P.nextQueue<6 do
+				while #P.nextQueue<12 do
 					local r=rndGen:random(len-1)
 					if r>=last then r=r+1 end
 					P:getNext(seq0[r])
@@ -153,7 +153,7 @@ local seqGenerators={
 	mess=function(P,seq0)
 		local rndGen=P.seqRND
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				P:getNext(seq0[rndGen:random(#seq0)])
 			end
 			yield()
@@ -163,7 +163,7 @@ local seqGenerators={
 		local rndGen=P.seqRND
 		local bufferSeq,bag={},{}
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				if #bag==0 then
 					for i=1,#seq0 do bufferSeq[i]=seq0[i]end
 					repeat
@@ -187,7 +187,7 @@ local seqGenerators={
 		local len=#seq0
 		local bag={}
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				if #bag==0 then
 					for i=1,len do
 						bag[i]=seq0[len-i+1]
@@ -204,7 +204,7 @@ local seqGenerators={
 			ins(seq,seq0[i])
 		end
 		while true do
-			while #P.nextQueue<6 do
+			while #P.nextQueue<12 do
 				if seq[1]then
 					P:getNext(rem(seq))
 				else
