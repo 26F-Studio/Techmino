@@ -117,15 +117,6 @@ if customData and customData.version==VERSION.code then TABLE.complete(customDat
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
 
---First start for phones
-if not fs.getInfo('conf/settings')and MOBILE then
-	SETTING.VKSwitch=true
-	SETTING.swap=false
-	SETTING.powerInfo=true
-	SETTING.cleanCanvas=true
-end
-if SETTING.fullscreen then love.window.setFullscreen(true)end
-
 --Initialize image libs
 IMG.init{
 	lock='media/image/mess/lock.png',
@@ -357,6 +348,14 @@ do
 		FILE.save(RANKS,'conf/unlock')
 		FILE.save(STAT,'conf/data')
 	end
+end
+
+--First start for phones
+if FIRSTLAUNCH and MOBILE then
+	SETTING.VKSwitch=true
+	SETTING.swap=false
+	SETTING.powerInfo=true
+	SETTING.cleanCanvas=true
 end
 
 --Apply system setting

@@ -338,18 +338,18 @@ VK_org={--Virtualkey layout, refresh all VKs' position with this before each gam
 	{ava=true,	x=200,		y=720-320,	r=80},--hardDrop
 	{ava=true,	x=200,		y=720-80,	r=80},--softDrop
 	{ava=true,	x=1280-320,	y=720-200,	r=80},--hold
-	{ava=true,	x=1280-80,	y=280,		r=80},--func1
-	{ava=true,	x=80,		y=280,		r=80},--func2
-	{ava=false,	x=100,		y=50,		r=80},--insLeft
-	{ava=false,	x=200,		y=50,		r=80},--insRight
-	{ava=false,	x=300,		y=50,		r=80},--insDown
-	{ava=false,	x=400,		y=50,		r=80},--down1
-	{ava=false,	x=500,		y=50,		r=80},--down4
-	{ava=false,	x=600,		y=50,		r=80},--down10
-	{ava=false,	x=700,		y=50,		r=80},--dropLeft
-	{ava=false,	x=800,		y=50,		r=80},--dropRight
-	{ava=false,	x=900,		y=50,		r=80},--addToLeft
-	{ava=false,	x=1000,		y=50,		r=80},--addToRight
+	{ava=true,	x=80,		y=280,		r=80},--func1
+	{ava=true,	x=1280-80,	y=280,		r=80},--func2
+	{ava=false,	x=670,		y=50,		r=30},--insLeft
+	{ava=false,	x=730,		y=50,		r=30},--insRight
+	{ava=false,	x=790,		y=50,		r=30},--insDown
+	{ava=false,	x=850,		y=50,		r=30},--down1
+	{ava=false,	x=910,		y=50,		r=30},--down4
+	{ava=false,	x=970,		y=50,		r=30},--down10
+	{ava=false,	x=1030,		y=50,		r=30},--dropLeft
+	{ava=false,	x=1090,		y=50,		r=30},--dropRight
+	{ava=false,	x=1150,		y=50,		r=30},--zangiLeft
+	{ava=false,	x=1210,		y=50,		r=30},--zangiRight
 }
 RANKS={sprint_10l=0}--Ranks of modes
 STAT={

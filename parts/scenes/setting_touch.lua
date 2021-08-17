@@ -103,96 +103,11 @@ function scene.draw()
 	end
 end
 
-local virtualkeySet={
-	{
-		{1,	80,			720-200,	80},--moveLeft
-		{2,	320,		720-200,	80},--moveRight
-		{3,	1280-80,	720-200,	80},--rotRight
-		{4,	1280-200,	720-80,		80},--rotLeft
-		{5,	1280-200,	720-320,	80},--rot180
-		{6,	200,		720-320,	80},--hardDrop
-		{7,	200,		720-80,		80},--softDrop
-		{8,	1280-320,	720-200,	80},--hold
-		{9,	80,			280,		80},--func1
-		{10,1280-80,	280,		80},--func2
-	},--Farter's tetr.js set
-	{
-		{1,	1280-320,	720-200,	80},--moveLeft
-		{2,	1280-80,	720-200,	80},--moveRight
-		{3,	200,		720-80,		80},--rotRight
-		{4,	80,			720-200,	80},--rotLeft
-		{5,	200,		720-320,	80},--rot180
-		{6,	1280-200,	720-320,	80},--hardDrop
-		{7,	1280-200,	720-80,		80},--softDrop
-		{8,	320,		720-200,	80},--hold
-		{9,	1280-80,	280,		80},--func1
-		{10,80,			280,		80},--func2
-	},--Mirrored tetr.js set
-	{
-		{1,	80,			720-80,		80},--moveLeft
-		{2,	240,		720-80,		80},--moveRight
-		{3,	1280-240,	720-80,		80},--rotRight
-		{4,	1280-400,	720-80,		80},--rotLeft
-		{5,	1280-240,	720-240,	80},--rot180
-		{6,	1280-80,	720-80,		80},--hardDrop
-		{7,	1280-80,	720-240,	80},--softDrop
-		{8,	1280-80,	720-400,	80},--hold
-		{9,	80,			720-240,	80},--func1
-		{10,240,		720-240,	80},--func2
-	},--Author's set, not recommend
-	{
-		{1,	1280-400,	720-80,		80},--moveLeft
-		{2,	1280-80,	720-80,		80},--moveRight
-		{3,	240,		720-80,		80},--rotRight
-		{4,	80,			720-80,		80},--rotLeft
-		{5,	240,		720-240,	80},--rot180
-		{6,	1280-240,	720-240,	80},--hardDrop
-		{7,	1280-240,	720-80,		80},--softDrop
-		{8,	400,		720-80,		80},--hold
-		{9,	80,			720-240,	80},--func1
-		{10,80,			720-400,	80},--func2
-	},--Keyboard set
-	{
-		{9,	70,		50,30},--func1
-		{10,130,	50,30},--func2
-		{4,	190,	50,30},--rotLeft
-		{3,	250,	50,30},--rotRight
-		{5,	310,	50,30},--rot180
-		{1,	370,	50,30},--moveLeft
-		{2,	430,	50,30},--moveRight
-		{8,	490,	50,30},--hold
-		{7,	550,	50,30},--softDrop1
-		{6,	610,	50,30},--hardDrop
-		{11,670,	50,30},--insLeft
-		{12,730,	50,30},--insRight
-		{13,790,	50,30},--insDown
-		{14,850,	50,30},--down1
-		{15,910,	50,30},--down4
-		{16,970,	50,30},--down10
-		{17,1030,	50,30},--dropLeft
-		{18,1090,	50,30},--dropRight
-		{19,1150,	50,30},--zangiLeft
-		{20,1210,	50,30},--zangiRight
-	},--PC key feedback(top&in a row)
-}
 scene.widgetList={
 	WIDGET.newButton{name="default",x=530,y=90,w=200,h=80,font=35,
 		code=function()
-			local D=virtualkeySet[defaultSetSelect]
-			for i=1,#VK_org do
-				VK_org[i].ava=false
-			end
-
-			--Replace keys
-			for n=1,#D do
-				local T=D[n]
-				if T[1]then
-					local B=VK_org[n]
-					B.ava=true
-					B.x,B.y,B.r=T[2],T[3],T[4]
-				end
-			end
-			MES.new('check',("==[ %d ]=="):format(defaultSetSelect))
+			VK.changeSet(defaultSetSelect)
+			MES.new('check',"==[ "..defaultSetSelect.." ]==")
 			defaultSetSelect=defaultSetSelect%5+1
 			selected=false
 		end},
