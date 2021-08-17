@@ -743,10 +743,11 @@ function draw.norm(P,repMode)
 			--Draw field
 			drawField(P,repMode)
 
+			--Draw line number
 			if ENV.fieldH>20 and ENV.lineNum then
 				gc_setColor(1,1,1,ENV.lineNum)
 				setFont(20)
-				local dy=camDY<900 and 0 or camDY-camDY%300-900
+				local dy=camDY<900 and 0 or camDY-camDY%300-600
 				for i=1,3 do
 					gc.print(10+10*i+dy/30,2,-325-300*i-dy)
 				end
