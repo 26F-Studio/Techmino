@@ -737,6 +737,9 @@ local commands={}do
 				SETTING.allowTAS=bool=="on"
 				FILE.save(SETTING,'conf/settings')
 				log("Allow TAS: "..bool)
+				if bool then
+					log("Hot keys: f1=play/pause f2=slowdown f3=speedup/nextframe")
+				end
 			else
 				log{C.A,"Usage: tas <on|off>"}
 			end
