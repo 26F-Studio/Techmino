@@ -46,7 +46,7 @@ local multiple=GC.DO{15,15,
 }
 local playerBoarder=GC.DO{334,620,
 	{'setLW',2},
-	{'setCL',.97,.97,.975},
+	{'setCL',.97,.97,.97},
 	{'dRect',16,1,302,618,5},
 	{'fRect',17,612,300,2},
 	{'dRect',318,10,15,604,3},
@@ -391,7 +391,7 @@ local function drawB2Bbar(P)
 end
 local function drawLDI(P,ENV)--Lock Delay Indicator
 	if ENV.easyFresh then
-		gc_setColor(.97,.97,.975)
+		gc_setColor(.97,.97,.97)
 	else
 		gc_setColor(1,.5,.5)
 	end
@@ -413,7 +413,7 @@ local function drawHold(P)
 		gc_translate(12,20)
 		gc_setLineWidth(2)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
+		gc_setColor(.97,.97,.97)gc_rectangle('line',0,0,100,N+8,5)
 		N=#holdQueue<ENV.holdCount and P.nextQueue[1]and 1 or P.holdTime+1
 		gc_push('transform')
 			gc_translate(50,40)
@@ -473,13 +473,13 @@ local function drawFinesseCombo_remote(P)
 		elseif S.maxFinesseCombo==S.piece then
 			gc_setColor(.7,.7,1)
 		else
-			gc_setColor(.97,.97,.975)
+			gc_setColor(.97,.97,.97)
 		end
 		gc_print(P.finesseCombo.."x",20,570)
 	end
 end
 local function drawLife(life)
-	gc_setColor(.97,.97,.975)
+	gc_setColor(.97,.97,.97)
 	gc_draw(IMG.lifeIcon,475,595,nil,.8)
 	if life>3 then
 		gc_draw(multiple,502,602)
@@ -499,7 +499,7 @@ local function drawMission(P)
 	if P.gameEnv.missionkill then
 		gc_setColor(1,.7+.2*sin(TIME()*6.26),.4)
 	else
-		gc_setColor(.97,.97,.975)
+		gc_setColor(.97,.97,.97)
 	end
 	gc_print(missionEnum[L[cur]],85,110)
 
@@ -548,7 +548,7 @@ function draw.drawNext_norm(P,repMode)
 		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
+		gc_setColor(.97,.97,.97)gc_rectangle('line',0,0,100,N+8,5)
 		N=1
 		gc_push('transform')
 			gc_translate(50,40)
@@ -606,7 +606,7 @@ function draw.drawNext_hidden(P,repMode)
 		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
 		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
+		gc_setColor(.97,.97,.97)gc_rectangle('line',0,0,100,N+8,5)
 		local startN=min(ENV.nextStartPos,P.pieceCount+1)
 		if repMode then
 			gc_setColor(1,1,1,.2)
@@ -708,7 +708,7 @@ function draw.norm(P,repMode)
 
 		--Draw username
 		setFont(30)
-		gc_setColor(.97,.97,.975)
+		gc_setColor(.97,.97,.97)
 		mStr(P.username,300,-60)
 
 		--Draw HUD
