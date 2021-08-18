@@ -251,6 +251,7 @@ SETTING={--Settings
 
 	--System
 	reTime=4,
+	allowTAS=false,
 	autoPause=true,
 	menuPos='middle',
 	fine=false,

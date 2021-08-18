@@ -30,7 +30,6 @@ SAVEDIR=fs.getSaveDirectory()
 --Global Vars & Settings
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
-ALLOWTAS=false
 
 --System setting
 math.randomseed(os.time()*626)
