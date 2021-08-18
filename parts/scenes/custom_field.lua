@@ -9,7 +9,7 @@ local scene={}
 
 local sure
 local curPen
-local pens--Color (air/smart)
+local pens={-2,0,-1,[false]=false}--Color (air/smart)
 local penMode
 local penPath={}
 local penX,penY
@@ -112,7 +112,6 @@ end
 function scene.sceneInit()
 	sure=0
 	curPen=false
-	pens={-2,0,-1,[false]=false}
 	penMode=0
 	penX,penY=1,1
 	demo=false

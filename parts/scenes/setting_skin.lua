@@ -9,6 +9,7 @@ local minoRot0={}
 local scene={}
 
 function scene.sceneInit()
+	BG.set()
 	selRS=RSlist[SETTING.RS]
 	for i=1,7 do
 		minoRot0[i]=SETTING.face[i]*1.57
@@ -27,7 +28,7 @@ function scene.draw()
 	local texture=SKIN.lib[SETTING.skinSet]
 	for n=1,7 do
 		gc.push('transform')
-		gc.translate(-10+140*n,340)
+		gc.translate(-10+140*n,330)
 		gc.rotate(minoRot[n]+sin(t*3-n*.5)*.08)
 		local color=SETTING.skin[n]
 		local B=BLOCKS[n][0]
@@ -58,7 +59,7 @@ end
 local function nextDir(i)
 	SETTING.face[i]=(SETTING.face[i]+1)%4
 	minoRot0[i]=minoRot0[i]+1.5707963
-	if minoRot0[5]>62 then
+	if minoRot0[5]>62 and not GAME.playing then
 		loadGame('marathon_bfmax',true)
 	end
 	SFX.play('rotate')
@@ -68,29 +69,29 @@ scene.widgetList={
 	WIDGET.newText{name="title",	x=80,y=50,font=70,align='L'},
 
 	WIDGET.newSelector{name="skinSet",x=780,y=100,w=320,list=SKIN.getList(),disp=SETval('skinSet'),code=SETsto('skinSet')},
-	WIDGET.newButton{name="prev1",	x=130,y=230,w=90,h=65,fText="↑",code=function()prevSkin(1)end},
-	WIDGET.newButton{name="prev2",	x=270,y=230,w=90,h=65,fText="↑",code=function()prevSkin(2)end},
-	WIDGET.newButton{name="prev3",	x=410,y=230,w=90,h=65,fText="↑",code=function()prevSkin(3)end},
-	WIDGET.newButton{name="prev4",	x=550,y=230,w=90,h=65,fText="↑",code=function()prevSkin(4)end},
-	WIDGET.newButton{name="prev5",	x=690,y=230,w=90,h=65,fText="↑",code=function()prevSkin(5)end},
-	WIDGET.newButton{name="prev6",	x=830,y=230,w=90,h=65,fText="↑",code=function()prevSkin(6)end},
-	WIDGET.newButton{name="prev7",	x=970,y=230,w=90,h=65,fText="↑",code=function()prevSkin(7)end},
+	WIDGET.newButton{name="prev1",	x=130,y=220,w=80,h=65,fText="↑",code=function()prevSkin(1)end},
+	WIDGET.newButton{name="prev2",	x=270,y=220,w=80,h=65,fText="↑",code=function()prevSkin(2)end},
+	WIDGET.newButton{name="prev3",	x=410,y=220,w=80,h=65,fText="↑",code=function()prevSkin(3)end},
+	WIDGET.newButton{name="prev4",	x=550,y=220,w=80,h=65,fText="↑",code=function()prevSkin(4)end},
+	WIDGET.newButton{name="prev5",	x=690,y=220,w=80,h=65,fText="↑",code=function()prevSkin(5)end},
+	WIDGET.newButton{name="prev6",	x=830,y=220,w=80,h=65,fText="↑",code=function()prevSkin(6)end},
+	WIDGET.newButton{name="prev7",	x=970,y=220,w=80,h=65,fText="↑",code=function()prevSkin(7)end},
 
-	WIDGET.newButton{name="next1",	x=130,y=450,w=90,h=65,fText="↓",code=function()nextSkin(1)end},
-	WIDGET.newButton{name="next2",	x=270,y=450,w=90,h=65,fText="↓",code=function()nextSkin(2)end},
-	WIDGET.newButton{name="next3",	x=410,y=450,w=90,h=65,fText="↓",code=function()nextSkin(3)end},
-	WIDGET.newButton{name="next4",	x=550,y=450,w=90,h=65,fText="↓",code=function()nextSkin(4)end},
-	WIDGET.newButton{name="next5",	x=690,y=450,w=90,h=65,fText="↓",code=function()nextSkin(5)end},
-	WIDGET.newButton{name="next6",	x=830,y=450,w=90,h=65,fText="↓",code=function()nextSkin(6)end},
-	WIDGET.newButton{name="next7",	x=970,y=450,w=90,h=65,fText="↓",code=function()nextSkin(7)end},
+	WIDGET.newButton{name="next1",	x=130,y=440,w=80,h=65,fText="↓",code=function()nextSkin(1)end},
+	WIDGET.newButton{name="next2",	x=270,y=440,w=80,h=65,fText="↓",code=function()nextSkin(2)end},
+	WIDGET.newButton{name="next3",	x=410,y=440,w=80,h=65,fText="↓",code=function()nextSkin(3)end},
+	WIDGET.newButton{name="next4",	x=550,y=440,w=80,h=65,fText="↓",code=function()nextSkin(4)end},
+	WIDGET.newButton{name="next5",	x=690,y=440,w=80,h=65,fText="↓",code=function()nextSkin(5)end},
+	WIDGET.newButton{name="next6",	x=830,y=440,w=80,h=65,fText="↓",code=function()nextSkin(6)end},
+	WIDGET.newButton{name="next7",	x=970,y=440,w=80,h=65,fText="↓",code=function()nextSkin(7)end},
 
-	WIDGET.newButton{name="spin1",	x=130,y=540,w=90,h=65,code=function()nextDir(1)end},
-	WIDGET.newButton{name="spin2",	x=270,y=540,w=90,h=65,code=function()nextDir(2)end},
-	WIDGET.newButton{name="spin3",	x=410,y=540,w=90,h=65,code=function()nextDir(3)end},
-	WIDGET.newButton{name="spin4",	x=550,y=540,w=90,h=65,code=function()nextDir(4)end},
-	WIDGET.newButton{name="spin5",	x=690,y=540,w=90,h=65,code=function()nextDir(5)end},
-	WIDGET.newButton{name="spin6",	x=825,y=540,w=90,h=65,code=function()nextDir(6)end},
-	WIDGET.newButton{name="spin7",	x=970,y=540,w=90,h=65,code=function()nextDir(7)end},
+	WIDGET.newButton{name="spin1",	x=130,y=540,w=80,h=65,code=function()nextDir(1)end},
+	WIDGET.newButton{name="spin2",	x=270,y=540,w=80,h=65,code=function()nextDir(2)end},
+	WIDGET.newButton{name="spin3",	x=410,y=540,w=80,h=65,code=function()nextDir(3)end},
+	WIDGET.newButton{name="spin4",	x=550,y=540,w=80,h=65,code=function()nextDir(4)end},
+	WIDGET.newButton{name="spin5",	x=690,y=540,w=80,h=65,code=function()nextDir(5)end},
+	WIDGET.newButton{name="spin6",	x=825,y=540,w=80,h=65,code=function()nextDir(6)end},
+	WIDGET.newButton{name="spin7",	x=970,y=540,w=80,h=65,code=function()nextDir(7)end},
 
 	WIDGET.newButton{name="skinR",	x=200,y=640,w=220,h=80,color='lV',font=35,
 		code=function()

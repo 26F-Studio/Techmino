@@ -14,6 +14,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
 	replaying="[Replay]",
+	-- tasUsing="[TAS]",
 
 	stage="Fase $1",
 	great="Ótimo!",
@@ -67,6 +68,8 @@ return{
 	VKCurW="Peso da pos atual",
 
 	noScore="Sem pontuação ainda",
+	-- modeLocked="Locked",
+	-- unlockHint="Achieve Rank D or above in prerequisite modes to unlock.",
 	highScore="Melhor pessoal",
 	newRecord="Novo recorde",
 
@@ -233,6 +236,7 @@ return{
 			resume="Resumir (esc)",
 			restart="Reiniciar (R)",
 			quit="Sair (Q)",
+			-- tas="TAS (T)",
 		},
 		net_menu={
 			-- league="Tech League",
@@ -306,6 +310,7 @@ return{
 			autoPause="Pausar quando foco for perco",
 			-- menuPos="Menu button pos.",
 			swap="Combinação de tecla(Mudar modo de atk)",
+			-- autoSave="Auto save new-best",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
@@ -320,8 +325,9 @@ return{
 
 			-- ghostType="Ghost Type",
 			ghost="Fantasma",
-			grid="Rede",
 			center="Centro",
+			grid="Rede",
+			-- lineNum="line No.",
 
 			lockFX="Nível FX Trava",
 			dropFX="Nível FX Queda",
@@ -686,8 +692,10 @@ return{
 		},
 		app_dtw={
 			reset="Resetar",
-			-- arcade="Arcade",
+			-- color="Color",
 			-- mode="Mode",
+			bgm="BGM",
+			-- arcade="Arcade",
 		},
 		savedata={
 			-- export="Export to clipboard",
@@ -723,9 +731,9 @@ return{
 		['dig_1000l']=			{"Cave",			"1000L",		"Cave 1000 linhas de lixo."},
 		['drought_n']=			{"Drought",			"100L",			"Sem peça I !"},
 		['drought_l']=			{"Drought+",		"100L",			"WTF"},
-		-- ['stack_20l']=			{"Stack",			"20L",			"Pack them!"},
-		-- ['stack_40l']=			{"Stack",			"40L",			"Pack them!"},
-		-- ['stack_100l']=			{"Stack",			"100L",			"Pack them!"},
+		-- ['stack_e']=			{"Stack",			"FÁCIL",		"Pack them!"},
+		-- ['stack_h']=			{"Stack",			"DIFÍCIL",		"Pack them!"},
+		-- ['stack_u']=			{"Stack",			"ULTIMATE",		"Pack them!"},
 		['marathon_n']=			{"Maratona",		"NORMAL",		"200-line Maratona com velocidade aumentando."},
 		['marathon_h']=			{"Maratona",		"DIFÍCIL",		"200-line Maratona com velocidade alta."},
 		['solo_e']=				{"Batalha",			"FÁCIL",		"Derrote a inteligência!"},

@@ -12,7 +12,7 @@ local counter
 
 function scene.sceneInit()
 	time=0
-	v=1
+	v=12
 	BG.set()
 	names={}
 	counter=26
@@ -20,11 +20,13 @@ end
 
 function scene.mouseDown(x,y)
 	local T=40*math.min(time,45)
-	if x>230 and x<1050 then
-		if math.abs(y-800+T)<70 then
-			loadGame('sprintLock',true)
-		elseif math.abs(y-2160+T)<70 then
-			loadGame('sprintFix',true)
+	if not GAME.playing then
+		if x>230 and x<1050 then
+			if math.abs(y-800+T)<70 then
+				loadGame('sprintLock',true)
+			elseif math.abs(y-2160+T)<70 then
+				loadGame('sprintFix',true)
+			end
 		end
 	end
 end
@@ -37,7 +39,7 @@ function scene.keyDown(key,isRep)
 	if isRep then return end
 	if key=="escape"then
 		SCN.back()
-	else
+	elseif not GAME.playing then
 		if key=="l"then
 			loadGame('sprintLock',true)
 		elseif key=="f"then
@@ -50,7 +52,7 @@ function scene.update(dt)
 	if(kb.isDown("space","return")or tc.getTouches()[1])and v<6.26 then
 		v=v+.26
 	elseif v>1 then
-		v=v-.26
+		v=v-.16
 	end
 	time=time+v*dt
 	counter=counter-1

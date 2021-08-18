@@ -348,6 +348,7 @@ local function applyGameEnv(P)--Finish gameEnv processing
 	if ENV.ghost==0 then	ENV.ghost=false		end
 	if ENV.grid==0 then		ENV.grid=false		end
 	if ENV.center==0 then	ENV.center=false	end
+	if ENV.lineNum==0 then	ENV.lineNum=false	end
 end
 --------------------------</Libs>--------------------------
 

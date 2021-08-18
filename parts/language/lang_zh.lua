@@ -23,6 +23,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Half Clear",
 	replaying="[回放]",
+	tasUsing="[TAS]",
 
 	stage="关卡 $1",
 	great="Great!",
@@ -245,6 +246,7 @@ return{
 			resume="继续(esc)",
 			restart="重新开始(R)",
 			quit="退出(Q)",
+			tas="TAS (T)",
 		},
 		net_menu={
 			league="Tech League",
@@ -318,6 +320,7 @@ return{
 			autoPause="失去焦点自动暂停",
 			menuPos="菜单按钮位置",
 			swap="组合键切换攻击模式",
+			autoSave="破纪录自动保存",
 			simpMode="简洁模式",
 		},
 		setting_video={
@@ -332,8 +335,9 @@ return{
 
 			ghostType="阴影样式",
 			ghost="阴影不透明度",
-			grid="网格不透明度",
 			center="旋转中心不透明度",
+			grid="网格不透明度",
+			lineNum="行号透明度",
 
 			lockFX="锁定特效",
 			dropFX="下落特效",
@@ -698,8 +702,10 @@ return{
 		},
 		app_dtw={
 			reset="重置",
-			arcade="街机",
+			color="颜色",
 			mode="模式",
+			bgm="音乐",
+			arcade="街机",
 		},
 		savedata={
 			export="导出到剪切板",
@@ -735,9 +741,9 @@ return{
 		['dig_1000l']=			{"挖掘",		"1000L",	"挖掘1000行"},
 		['drought_n']=			{"干旱",		"100L",		"你I没了"},
 		['drought_l']=			{"干旱+",		"100L",		"后 妈 发 牌"},
-		['stack_20l']=			{"堆积",		"20L",		"搭积木"},
-		['stack_40l']=			{"堆积",		"40L",		"搭积木"},
-		['stack_100l']=			{"堆积",		"100L",		"搭积木"},
+		['stack_e']=			{"堆积",		"简单",		"搭积木"},
+		['stack_h']=			{"堆积",		"困难",		"搭积木"},
+		['stack_u']=			{"堆积",		"极限",		"搭积木"},
 		['marathon_n']=			{"马拉松",		"普通",		"200行加速马拉松"},
 		['marathon_h']=			{"马拉松",		"困难",		"200行高速马拉松"},
 		['solo_e']=				{"单挑",		"简单",		"打败AI"},

@@ -18,8 +18,9 @@
 --Var leak check
 -- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
 
---Declaration
+--System Global Vars Declaration
 local fs=love.filesystem
+VERSION=require"version"
 TIME=love.timer.getTime
 YIELD=coroutine.yield
 SYSTEM=love.system.getOS()
@@ -29,6 +30,7 @@ SAVEDIR=fs.getSaveDirectory()
 --Global Vars & Settings
 FIRSTLAUNCH=false
 DAILYLAUNCH=false
+ALLOWTAS=false
 
 --System setting
 math.randomseed(os.time()*626)
@@ -36,6 +38,11 @@ love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
 love.mouse.setVisible(false)
+if SYSTEM=='Android'or SYSTEM=='iOS'then
+	local w,h,f=love.window.getMode()
+	f.resizable=false
+	love.window.setMode(w,h,f)
+end
 
 --Load modules
 require'Zframework'
@@ -109,15 +116,6 @@ local customData=FILE.load('conf/customEnv')
 if customData and customData.version==VERSION.code then TABLE.complete(customData,CUSTOMENV)end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
-
---First start for phones
-if not fs.getInfo('conf/settings')and MOBILE then
-	SETTING.VKSwitch=true
-	SETTING.swap=false
-	SETTING.powerInfo=true
-	SETTING.cleanCanvas=true
-end
-if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
@@ -292,6 +290,14 @@ do
 		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
 	end
+	if RANKS.stack_20l then
+		RANKS.stack_20l=nil
+		RANKS.stack_40l=nil
+		RANKS.stack_100l=nil
+		fs.remove('record/stack_20l.rec')
+		fs.remove('record/stack_40l.rec')
+		fs.remove('record/stack_100l.rec')
+	end
 	if STAT.version~=VERSION.code then
 		STAT.version=VERSION.code
 		needSave=true
@@ -342,6 +348,14 @@ do
 		FILE.save(RANKS,'conf/unlock')
 		FILE.save(STAT,'conf/data')
 	end
+end
+
+--First start for phones
+if FIRSTLAUNCH and MOBILE then
+	SETTING.VKSwitch=true
+	SETTING.swap=false
+	SETTING.powerInfo=true
+	SETTING.cleanCanvas=true
 end
 
 --Apply system setting

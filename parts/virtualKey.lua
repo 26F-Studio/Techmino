@@ -28,6 +28,80 @@ local holdImages={
 	GC.DO{200,200,{'fCirc',100,100,83,4}},
 	GC.DO{200,200,{'fRect',43,43,114,114}},
 }
+
+local virtualkeySet={
+	{
+		{id=1,	x=80,		y=720-200,	r=80},--moveLeft
+		{id=2,	x=320,		y=720-200,	r=80},--moveRight
+		{id=3,	x=1280-80,	y=720-200,	r=80},--rotRight
+		{id=4,	x=1280-200,	y=720-80,	r=80},--rotLeft
+		{id=5,	x=1280-200,	y=720-320,	r=80},--rot180
+		{id=6,	x=200,		y=720-320,	r=80},--hardDrop
+		{id=7,	x=200,		y=720-80,	r=80},--softDrop
+		{id=8,	x=1280-320,	y=720-200,	r=80},--hold
+		{id=9,	x=80,		y=280,		r=80},--func1
+		{id=10,	x=1280-80,	y=280,		r=80},--func2
+	},--Farter's tetr.js set
+	{
+		{id=1,	x=1280-320,	y=720-200,	r=80},--moveLeft
+		{id=2,	x=1280-80,	y=720-200,	r=80},--moveRight
+		{id=3,	x=200,		y=720-80,	r=80},--rotRight
+		{id=4,	x=80,		y=720-200,	r=80},--rotLeft
+		{id=5,	x=200,		y=720-320,	r=80},--rot180
+		{id=6,	x=1280-200,	y=720-320,	r=80},--hardDrop
+		{id=7,	x=1280-200,	y=720-80,	r=80},--softDrop
+		{id=8,	x=320,		y=720-200,	r=80},--hold
+		{id=9,	x=1280-80,	y=280,		r=80},--func1
+		{id=10,	x=80,		y=280,		r=80},--func2
+	},--Mirrored tetr.js set
+	{
+		{id=1,	x=80,		y=720-80,	r=80},--moveLeft
+		{id=2,	x=240,		y=720-80,	r=80},--moveRight
+		{id=3,	x=1280-240,	y=720-80,	r=80},--rotRight
+		{id=4,	x=1280-400,	y=720-80,	r=80},--rotLeft
+		{id=5,	x=1280-240,	y=720-240,	r=80},--rot180
+		{id=6,	x=1280-80,	y=720-80,	r=80},--hardDrop
+		{id=7,	x=1280-80,	y=720-240,	r=80},--softDrop
+		{id=8,	x=1280-80,	y=720-400,	r=80},--hold
+		{id=9,	x=80,		y=720-240,	r=80},--func1
+		{id=10,	x=240,		y=720-240,	r=80},--func2
+	},--Author's set, not recommend
+	{
+		{id=1,	x=1280-400,	y=720-80,	r=80},--moveLeft
+		{id=2,	x=1280-80,	y=720-80,	r=80},--moveRight
+		{id=3,	x=240,		y=720-80,	r=80},--rotRight
+		{id=4,	x=80,		y=720-80,	r=80},--rotLeft
+		{id=5,	x=240,		y=720-240,	r=80},--rot180
+		{id=6,	x=1280-240,	y=720-240,	r=80},--hardDrop
+		{id=7,	x=1280-240,	y=720-80,	r=80},--softDrop
+		{id=8,	x=400,		y=720-80,	r=80},--hold
+		{id=9,	x=80,		y=720-240,	r=80},--func1
+		{id=10,	x=80,		y=720-400,	r=80},--func2
+	},--Keyboard set
+	{
+		{id=9,	x=70,	y=50,r=30},--func1
+		{id=10,	x=130,	y=50,r=30},--func2
+		{id=4,	x=190,	y=50,r=30},--rotLeft
+		{id=3,	x=250,	y=50,r=30},--rotRight
+		{id=5,	x=310,	y=50,r=30},--rot180
+		{id=1,	x=370,	y=50,r=30},--moveLeft
+		{id=2,	x=430,	y=50,r=30},--moveRight
+		{id=8,	x=490,	y=50,r=30},--hold
+		{id=7,	x=550,	y=50,r=30},--softDrop
+		{id=6,	x=610,	y=50,r=30},--hardDrop
+		{id=11,	x=670,	y=50,r=30},--insLeft
+		{id=12,	x=730,	y=50,r=30},--insRight
+		{id=13,	x=790,	y=50,r=30},--insDown
+		{id=14,	x=850,	y=50,r=30},--down1
+		{id=15,	x=910,	y=50,r=30},--down4
+		{id=16,	x=970,	y=50,r=30},--down10
+		{id=17,	x=1030,	y=50,r=30},--dropLeft
+		{id=18,	x=1090,	y=50,r=30},--dropRight
+		{id=19,	x=1150,	y=50,r=30},--zangiLeft
+		{id=20,	x=1210,	y=50,r=30},--zangiRight
+	},--PC key feedback(top&in a row)
+}
+
 --Virtualkey icons
 local VKIcon={}
 gc.setDefaultFilter('nearest','nearest')
@@ -120,6 +194,16 @@ function VK.restore()
 		if not v then
 			keys[id].ava=false
 		end
+	end
+end
+
+function VK.changeSet(id)
+	local set=virtualkeySet[id]
+	for i=1,#VK_org do VK_org[i].ava=false end
+	for n=1,#set do
+		local vk=set[n]
+		local B=VK_org[vk.id]
+		B.ava,B.x,B.y,B.r=true,vk.x,vk.y,vk.r
 	end
 end
 

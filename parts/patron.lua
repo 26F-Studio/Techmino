@@ -23,12 +23,13 @@ return{
 	{font=65,name="猫宫"},
 	{font=65,name="Notypey"},
 	{font=65,name="亮君"},
+	{font=65,name="gggf127"},
 	{font=65,name="柴影"},
 	{font=65,name="怀沙"},
+	{font=65,name="星街书婉"},
 
 	{font=25,name="八零哥"},
 	{font=25,name="蕴空之灵"},
-	{font=25,name="gggf127"},
 	{font=25,name="solainu"},
 	{font=25,name="ThTsOd"},
 	{font=25,name="Fireboos"},
@@ -49,7 +50,6 @@ return{
 	{font=25,name="蠢熏"},
 	{font=25,name="潘一栗"},
 	{font=25,name="Lied"},
-	{font=25,name="星街书婉"},
 	{font=25,name="祝西"},
 	{font=25,name="829"},
 	{font=25,name="e m*12"},
@@ -116,4 +116,5 @@ return{
 	{font=25,name="T9753"},
 	{font=25,name="Trebor"},
 	{font=25,name="[w*o]"},
+	{font=25,name="蚂蚁"},
 }

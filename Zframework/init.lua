@@ -3,43 +3,62 @@ EDITING=""
 LOADED=false
 ERRDATA={}
 
-SCR=	require'Zframework.screen'
+--Pure lua modules (basic)
 COLOR=	require'Zframework.color'
-SCN=	require'Zframework.scene'
-WS=		require'Zframework.websocket'
+TABLE=	require'Zframework.tableExtend'
+STRING=	require'Zframework.stringExtend'
+PROFILE=require'Zframework.profile'
+JSON=	require'Zframework.json'
+do--Add pcall & MES for JSON lib
+	local encode,decode=JSON.encode,JSON.decode
+	JSON.encode=function(val)
+		local a,b=pcall(encode,val)
+		if a then
+			return b
+		elseif MES then
+			MES.traceback()
+		end
+	end
+	JSON.decode=function(str)
+		local a,b=pcall(decode,str)
+		if a then
+			return b
+		elseif MES then
+			MES.traceback()
+		end
+	end
+end
 
-require'Zframework.setFont'
+--Pure lua modules (complex)
+LOADLIB=require'Zframework.loadLib'
+TASK=	require'Zframework.task'
+WS=		require'Zframework.websocket'
+LANG=	require'Zframework.languages'
+THEME=	require'Zframework.theme'
+
+--Love-based modules (basic)
+FILE=	require'Zframework.file'
+WHEELMOV=require'Zframework.wheelScroll'
+SCR=	require'Zframework.screen'
+SCN=	require'Zframework.scene'
+LIGHT=	require'Zframework.light'
+
+--Love-based modules (complex)
 GC=require'Zframework.gcExtend'
 	mStr=GC.str
 	mText=GC.simpX
 	mDraw=GC.draw
-
-LOADLIB=require'Zframework.loadLib'
-WHEELMOV=require'Zframework.wheelScroll'
-
-JSON=	require'Zframework.json'
-TABLE=	require'Zframework.tableExtend'
-STRING=	require'Zframework.stringExtend'
-
-VIB=	require'Zframework.vibrate'
-SFX=	require'Zframework.sfx'
-
-LIGHT=	require'Zframework.light'
-BG=		require'Zframework.background'
-WIDGET=	require'Zframework.widget'
+require'Zframework.setFont'
 TEXT=	require'Zframework.text'
 SYSFX=	require'Zframework.sysFX'
 MES=	require'Zframework.message'
-
+BG=		require'Zframework.background'
+WIDGET=	require'Zframework.widget'
+VIB=	require'Zframework.vibrate'
+SFX=	require'Zframework.sfx'
 IMG=	require'Zframework.image'
 BGM=	require'Zframework.bgm'
 VOC=	require'Zframework.voice'
-
-LANG=	require'Zframework.languages'
-TASK=	require'Zframework.task'
-FILE=	require'Zframework.file'
-PROFILE=require'Zframework.profile'
-THEME=	require'Zframework.theme'
 
 local ms,kb=love.mouse,love.keyboard
 
@@ -641,6 +660,7 @@ function love.run()
 						gc_print("Lines    "..FREEROW.getCount(),safeX+5,-60)
 						gc_print("Tasks   "..TASK.getCount(),safeX+5,-80)
 						gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-100)
+						gc_print(tostring(GAME.playing),safeX+5,-120)
 
 						--Update & draw frame time
 						ins(frameTimeList,1,dt)rem(frameTimeList,126)

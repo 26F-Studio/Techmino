@@ -731,6 +731,18 @@ local commands={}do
 			"Usage: play [mode_name]",
 		},
 	}
+	commands.tas={
+		code=function()
+			ALLOWTAS=true
+			log{C.lC,"TAS mode on"}
+		end,
+		description="Allow you to use TAS tool",
+		details={
+			"Allow you to use TAS tool, a TAS button will show up at the pause menu",
+			"",
+			"Usage: tas",
+		},
+	}
 
 	--Network
 	commands.switchhost={

@@ -23,6 +23,7 @@ local mapCam={
 	zoomMethod=false,
 	zoomK=false,
 }
+local visibleModes
 local touchDist
 
 local scene={}
@@ -30,12 +31,14 @@ local scene={}
 function scene.sceneInit(org)
 	BG.set()
 	mapCam.zoomK=org=='main'and 5 or 1
-	VisibleModes = {}  -- 1 for unlocked, 2 for locked but visible
+	visibleModes={}--1=unlocked, 2=locked but visible
 	for name,M in next,MODES do
-		if RANKS[name]and M.unlock and M.x then
-			VisibleModes[name] = 1
-			for _=1,#M.unlock do
-				VisibleModes[M.unlock[_]] = VisibleModes[M.unlock[_]] or 2
+		if RANKS[name]and M.x then
+			visibleModes[name]=1
+			if M.unlock then
+				for i=1,#M.unlock do
+					visibleModes[M.unlock[i]]=visibleModes[M.unlock[i]]or 2
+				end
 			end
 		end
 	end
@@ -50,7 +53,7 @@ end
 
 local function onModeRaw(x,y)
 	for name,M in next,MODES do
-		if VisibleModes[name]and M.x then
+		if visibleModes[name]and M.x then
 			local s=M.size
 			if M.shape==1 then
 				if x>M.x-s and x<M.x+s and y>M.y-s and y<M.y+s then return name end
@@ -133,8 +136,8 @@ function scene.keyDown(key,isRep)
 	if isRep then return end
 	if key=="return"then
 		if mapCam.sel then
-			if VisibleModes[mapCam.sel] == 2 then
-				MES.new('info', text.unlockHint)
+			if visibleModes[mapCam.sel]==2 then
+				MES.new('info',text.unlockHint)
 			else
 				mapCam.keyCtrl=false
 				loadGame(mapCam.sel)
@@ -177,7 +180,7 @@ function scene.update()
 		else
 			moveMap(dx,dy)
 			local x,y=getPos()
-			local SEL = onModeRaw(x,y)
+			local SEL=onModeRaw(x,y)
 			if SEL and mapCam.sel~=SEL then
 				mapCam.sel=SEL
 				SFX.play('click')
@@ -197,7 +200,7 @@ function scene.update()
 	end
 end
 
---No Rank/D/C/B/A/S/special/locked
+--noRank/D/C/B/A/S
 local baseRankColor={
 	[0]={0,0,0,.3},
 	{.4,.1,.1,.3},
@@ -205,8 +208,6 @@ local baseRankColor={
 	{.6,.4,.2,.3},
 	{.7,.75,.85,.3},
 	{.85,.8,.3,.3},
-	{.4,.7,.4,.3},
-	locked={.5,.5,.5,.9}
 }
 local rankColor=rankColor
 local function drawModeShape(M,S,drawType)
@@ -245,26 +246,29 @@ function scene.draw()
 	setFont(80)
 	gc_setLineWidth(4)
 	for name,M in next,MODES do
-		if VisibleModes[name]then
+		local unlocked=visibleModes[name]
+		if unlocked then
 			local rank=R[name]
 			local S=M.size
 
 			--Draw shapes on map
-			gc_setColor(baseRankColor[rank or "locked"])
-			drawModeShape(M,S,'fill')
-			gc_setColor(1,1,sel==name and 0 or 1)
+			if unlocked==1 then
+				gc_setColor(baseRankColor[rank])
+				drawModeShape(M,S,'fill')
+			end
+			gc_setColor(1,1,sel==name and 0 or 1,unlocked==1 and .8 or .3)
 			drawModeShape(M,S,'line')
 
 			--Icon
 			local icon=M.icon
 			if icon then
-				gc_setColor(.8,.8,.8)
+				gc_setColor(unlocked==1 and COLOR.lH or COLOR.dH)
 				local length=icon:getWidth()*.5
 				gc_draw(icon,M.x,M.y,nil,S/length,nil,length,length)
 			end
 
 			--Rank
-			if VisibleModes[name]==1 then
+			if unlocked==1 then
 				name=text.ranks[rank]
 				if name then
 					gc_setColor(0,0,0,.8)
@@ -296,7 +300,7 @@ function scene.draw()
 			gc_rectangle('fill',940,290,320,280,5)--Highscore board
 			local L=M.records
 			gc_setColor(1,1,1)
-			if VisibleModes[sel] == 2 then
+			if visibleModes[sel]==2 then
 				mText(drawableText.modeLocked,1100,370)
 			elseif L[1]then
 				for i=1,#L do

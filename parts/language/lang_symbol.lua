@@ -9,6 +9,7 @@ return{
 	mini="v",b2b="^ ",b3b="^^ ",
 	PC="#<>#",HPC="<>",
 	replaying="[R]",
+	tasUsing="[TAS]",
 
 	stage="::$1::",
 	great="!~",
@@ -51,7 +52,10 @@ return{
 	VKTchW="Tch↓",
 	VKOrgW="Org↓",
 	VKCurW="Cur↓",
+
 	noScore="?_____?",
+	modeLocked="XXXXX",
+	unlockHint="\\D/!",
 	highScore="__&:",
 	newRecord="^!!!^",
 
@@ -123,6 +127,7 @@ return{
 			resume="!! (esc)",
 			restart="_→_ (R)",
 			quit="X (Q)",
+			tas="#&; (T)",
 		},
 		setting_game={
 			title="%~~%",
@@ -139,6 +144,7 @@ return{
 			autoPause="A||",
 			menuPos="←M→?",
 			swap="=+=+=",
+			autoSave="!!!>%",
 			simpMode=".",
 		},
 		setting_video={
@@ -153,8 +159,9 @@ return{
 
 			ghostType="__↓?__",
 			ghost="__↓__",
-			grid="#",
 			center="+",
+			grid="#",
+			lineNum="--No.",
 
 			lockFX="↓_~",
 			dropFX="↓~",
@@ -502,8 +509,10 @@ return{
 		},
 		app_dtw={
 			reset="R",
-			arcade="↓↓",
+			color="~~~",
 			mode="?",
+			bgm="#~#",
+			arcade="↓↓",
 		},
 	},
 	getTip=function()

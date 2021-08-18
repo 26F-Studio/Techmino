@@ -194,6 +194,9 @@ function scoreValid()--Check if any unranked mods are activated
 			return false
 		end
 	end
+	if GAME.tasUsed then
+		return false
+	end
 	return true
 end
 function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
@@ -251,6 +254,7 @@ function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
 	freshDate()
 	if legalGameTime()then
 		if MODES[mode].score then STAT.lastPlay=mode end
+		GAME.playing=true
 		GAME.init=true
 		GAME.fromRepMenu=false
 		GAME.curModeName=mode
@@ -321,6 +325,11 @@ function gameOver()--Save record
 				if p<10 then
 					if p==0 then
 						P:showTextF(text.newRecord,0,-100,100,'beat',.5)
+						if SETTING.autoSave and DATA.saveReplay()then
+							GAME.saved=true
+							SFX.play('connected')
+							MES.new('check',text.saveDone)
+						end
 					end
 					D.date=os.date("%Y/%m/%d %H:%M")
 					ins(L,p+1,D)
@@ -491,6 +500,7 @@ do--function resetGameData(args)
 			GAME.pauseCount=0
 			GAME.saved=false
 			GAME.setting=copyGameSetting()
+			GAME.tasUsed=false
 			GAME.rep={}
 			GAME.recording=true
 			GAME.statSaved=false

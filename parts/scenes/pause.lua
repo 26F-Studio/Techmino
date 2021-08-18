@@ -129,6 +129,7 @@ function scene.keyDown(key,isRep)
 	if isRep then return end
 	if key=="q"then
 		SCN.back()
+		GAME.playing=false
 	elseif key=="escape"then
 		SCN.swapTo(GAME.result and'game'or'depause','none')
 	elseif key=="s"then
@@ -160,6 +161,13 @@ function scene.keyDown(key,isRep)
 			page=(page+1)%2
 		end
 		timer2=0
+	elseif key=="t"then
+		if ALLOWTAS and not(GAME.result or GAME.replaying)then
+			GAME.tasUsed=true
+			SFX.play('ren_mega')
+			SFX.play('clear_3')
+			SYSFX.newShade(1.2,555,200,620,380,.6,.6,.6)
+		end
 	else
 		WIDGET.keyPressed(key)
 	end
@@ -209,6 +217,16 @@ function scene.draw()
 			local L=rankColor[GAME.rank]
 			gc.setColor(L[1],L[2],L[3],T)
 			gc.print(str,0,0,nil,1.5)
+		gc.pop()
+	end
+
+	if GAME.tasUsed then
+		gc.push('transform')
+		gc.translate(560,205)
+		gc.scale(2.6)
+		setFont(100)
+		gc.setColor(.97,.97,.97,T*.08)
+		gc.print("TAS",50,-23,.3)
 		gc.pop()
 	end
 
@@ -340,6 +358,7 @@ scene.widgetList={
 	WIDGET.newKey{name="restart",	x=290,y=340,w=300,h=70,code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newKey{name="setting",	x=290,y=440,w=300,h=70,code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newKey{name="quit",		x=290,y=540,w=300,h=70,code=backScene},
+	WIDGET.newKey{name="tas",		x=290,y=620,w=240,h=50,code=pressKey"t",hideF=function()return not ALLOWTAS or GAME.tasUsed or GAME.result or GAME.replaying end},
 	WIDGET.newKey{name="page_prev",	x=500,y=390,w=70,code=pressKey"tab",noFrame=true,
 		fText=GC.DO{70,70,{'setLW',2},												{'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
 		fShade=GC.DO{70,70,{'setCL',1,1,1,.6},{'draw',GC.DO{70,70,{'setCL',1,1,1,1},{'fRPol',33,35,32,3,6,3.142},{'fRPol',45,35,32,3,6,3.142}}}},

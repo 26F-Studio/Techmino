@@ -56,14 +56,16 @@ function scene.keyDown(key,isRep)
 			if CUSTOMENV.opponent:sub(1,2)=='CC'and CUSTOMENV.sequence=="fixed"then
 				MES.new('error',text.ai_fixed)
 				return
-			elseif #BAG>0 then
+			end
+			if #BAG>0 then
 				for _=1,#BAG do
 					if BAG[_]>7 then
 						MES.new('error',text.ai_prebag)
 						return
 					end
 				end
-			elseif #MISSION>0 then
+			end
+			if #MISSION>0 then
 				MES.new('error',text.ai_mission)
 				return
 			end

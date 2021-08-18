@@ -25,7 +25,7 @@ function scene.mouseDown(x,y)
 		jump=10
 		local t=TIME()-last
 		if t>1 then
-			if t>2.6 and t<3 then
+			if t>2.6 and t<3 and not GAME.playing then
 				loadGame('sprintSmooth',true)
 			else
 				VOC.play(
