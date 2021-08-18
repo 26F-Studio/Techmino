@@ -10,12 +10,24 @@ function scene.sceneBack()
 end
 
 function scene.draw()
+	gc.push('transform')
+	gc.translate(410,540-WIDGET.scrollPos)
+
+	--Draw mino
 	local t=TIME()
 	local b=math.floor(t*2)%16+1
+	gc.setShader(SHADER.blockSatur)
 	gc.setColor(1,1,1)
-	gc.draw(SKIN.lib[SETTING.skinSet][b],410,540-WIDGET.scrollPos,t%6.2832,2,nil,15,15)
+	mDraw(SKIN.lib[SETTING.skinSet][b],0,0,t%6.2832,2)
 	gc.setColor(1,1,1,t*2%1)
-	gc.draw(SKIN.lib[SETTING.skinSet][b%16+1],410,540-WIDGET.scrollPos,t%6.2832,2,nil,15,15)
+	mDraw(SKIN.lib[SETTING.skinSet][b%16+1],0,0,t%6.2832,2)
+	gc.setShader()
+
+	--Draw center
+	gc.setColor(1,1,1)
+	mDraw(RSlist[SETTING.RS].centerTex,0,0,0,1.2)
+
+	gc.pop()
 end
 
 scene.widgetScrollHeight=200
