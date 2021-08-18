@@ -111,7 +111,6 @@ do
 	}
 	TRS={
 		centerTex=GC.DO{10,10,
-			{'clear',1,1,1,.2},
 			{'setCL',1,1,1,.4},
 			{'fRect',1,1,8,8},
 			{'setCL',1,1,1,.6},
@@ -439,11 +438,9 @@ local SRS
 do
 	SRS={
 		centerTex=GC.DO{10,10,
-			{'setCL',1,1,1,.2},
-			{'fCirc',5,5,5},
-			{'setCL',1,1,1,.6},
+			{'setCL',1,1,1,.3},
 			{'fCirc',5,5,4},
-			{'setCL',1,1,1,.8},
+			{'setCL',1,1,1,.6},
 			{'fCirc',5,5,3},
 			{'setCL',1,1,1},
 			{'fCirc',5,5,2},

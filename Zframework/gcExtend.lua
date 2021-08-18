@@ -132,6 +132,7 @@ do--function GC.DO(L)
 			end
 			gc.setCanvas(canvas)
 				gc.origin()
+				gc.clear(1,1,1,0)
 				gc.setColor(1,1,1)
 				gc.setLineWidth(1)
 				for i=3,#L do
