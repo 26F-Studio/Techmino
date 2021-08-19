@@ -178,7 +178,7 @@ jobs:
       run: |
         mkdir -p ./love-android/app/src/main/assets
         7z a -tzip ./love-android/app/src/main/assets/Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
-        python3 ./.github/workflows/updateVersion.py -T AndroidRelease -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
+        python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease

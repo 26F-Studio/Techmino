@@ -37,12 +37,26 @@ def updateWindows(args):    #更新Windows打包信息
         with open('Techmino.rc', 'w+', encoding='utf8') as file:
             file.write(template)
 
-def updateAndroid(args):    #更新Android打包信息
+def updateAndroid(args, edition):    #更新Android打包信息
     import re
-    with open('./apk/apktool.yml', 'r+', encoding='utf-8') as file:
+    if edition == 'Release':
+        appName = 'Techmino'
+        packageName = 'org.love2d.MrZ.Techmino'
+    elif edition == 'Snapshot':
+        appName = 'Techmino_Snapshot'
+        packageName = 'org.love2d.MrZ.Techmino.Snapshot'
+    with open('./love-android/app/src/main/AndroidManifest.xml', "r+", encoding='utf-8') as file:
         data = file.read()
-        data = re.sub("versionCode:.+", f"versionCode: '{args.Code}'", data)
-        data = re.sub("versionName:.+", f"versionName: '{args.Name}'", data)
+        data = data.replace('@appName', appName)
+        data = data.replace('@edition', edition)
+        file.seek(0)
+        file.truncate()
+        file.write(data)
+    with open("./love-android/app/build.gradle", "r+", encoding='utf-8') as file:
+        data = file.read()
+        data = data.replace('@packageName', packageName)
+        data = data.replace('@versionCode', args.Code)
+        data = data.replace('@versionName', args.Name)
         file.seek(0)
         file.truncate()
         file.write(data)
@@ -62,5 +76,7 @@ if __name__ == '__main__':
         updateWindows(args)
     elif args.Type == 'macOS':
         updateMacOS(args)
-    elif args.Type == 'Android':
-        updateAndroid(args)
+    elif args.Type == 'AndroidRelease':
+        updateAndroid(args, 'Release')
+    elif args.Type == 'AndroidSnapshot':
+        updateAndroid(args, 'Snapshot')
