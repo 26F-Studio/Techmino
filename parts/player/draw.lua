@@ -473,10 +473,10 @@ local function drawLife(life)
 		if life>2 then gc_draw(IMG.lifeIcon,525,595,nil,.8)end
 	end
 end
-local function drawMission(curMission,L)
+local function drawMission(curMission,L,missionkill)
 	--Draw current mission
 	setFont(35)
-	if P.gameEnv.missionkill then
+	if missionkill then
 		gc_setColor(1,.7+.2*sin(TIME()*6.26),.4)
 	else
 		gc_setColor(.97,.97,.97)
@@ -693,7 +693,7 @@ function draw.norm(P,repMode)
 
 		--Draw HUD
 		P:drawNext(repMode)
-		if P.curMission then drawMission(P.curMission,ENV.mission)end
+		if P.curMission then drawMission(P.curMission,ENV.mission,ENV.missionKill)end
 		if ENV.holdCount>0 then drawHold(P.holdQueue,ENV.holdCount,P.holdTime,P.skinLib)end
 		drawDial(499,505,P.dropSpeed)
 		if P.life>0 then drawLife(P.life)end
