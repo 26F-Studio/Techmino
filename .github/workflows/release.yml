@@ -227,7 +227,7 @@ jobs:
       name: Sign APK
       id: sign_app
       with:
-        releaseDirectory: ./Techmino.a${{ env.Version }}.apk
+        releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -277,7 +277,7 @@ jobs:
       name: Sign APK
       id: sign_app
       with:
-        releaseDirectory: ./Techmino.a${{ env.Version }}.mini.apk
+        releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}

@@ -63,7 +63,7 @@ jobs:
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
     - name: Upload
       uses: actions/upload-artifact@v2
@@ -170,7 +170,7 @@ jobs:
       name: Sign APK
       id: sign_app
       with:
-        releaseDirectory: ./Techmino.apk
+        releaseDirectory: .
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -221,6 +221,8 @@ jobs:
       run: |
         python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ env.Version }}
         mv ./Techmino.love ./Techmino.app/Contents/Resources
+        rm -rf ./Techmino.app/Contents/Resources/iconfile.icns
+        mv ./build/macOS/icon_snapshot.icns ./Techmino.app/Contents/Resources/iconfile.icns
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
