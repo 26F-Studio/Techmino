@@ -5,10 +5,11 @@ if __name__ == '__main__':
     parser.add_argument("-C", "--Code", type=str, help = "versionCode")
     parser.add_argument("-N", "--Name", type=str, help = "versionName")
     args = parser.parse_args()
-    with open("apk/apktool.yml", "r+") as file:
+
+    with open("./love-android/app/build.gradle", "r+") as file:
         data = file.read()
-        data = re.sub("versionCode:.+", f"versionCode: '{args.Code}'", data)
-        data = re.sub("versionName:.+", f"versionName: '{args.Name}'", data)
+        data = re.sub(r"\{\{versionCode\}\}", args.Code, data)
+        data = re.sub(r"\{\{versionName\}\}", args.Name, data)
         file.seek(0)
         file.truncate()
         file.write(data)
