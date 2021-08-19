@@ -25,9 +25,9 @@ local attackColor={
 	{COLOR.dG,COLOR.C},
 }
 local hideBoardStencil={
-	up=function()gc_rectangle('fill',0,0,300,300)end,
-	down=function()gc_rectangle('fill',0,300,300,300)end,
-	all=function()gc_rectangle('fill',0,0,300,600)end,
+	up=function()gc_rectangle('fill',0,-600,300,300,6)end,
+	down=function()gc_rectangle('fill',0,-300,300,300,6)end,
+	all=function()gc_rectangle('fill',0,-600,300,600,6)end,
 }
 local dialFrame=GC.DO{80,80,
 	{'setLW',3},
@@ -815,8 +815,9 @@ function draw.norm(P,repMode)
 					alpha=1
 				end
 				for i=0,24 do
-					gc_setColor(COLOR.rainbow_gray(t*.626+i*.1,alpha))
-					gc_line(20*i-190,-2,20*i+10,602)
+					local l=.32+.05*sin(i*.26+t*.2)
+					gc_setColor(l,l,l,alpha)
+					gc_line(20*i-190,-602,20*i+10,2)
 				end
 			end
 			gc_translate(0,-600)
