@@ -14,7 +14,7 @@ jobs:
         curl -OL https://nchc.dl.sourceforge.net/project/luabinaries/5.4.2/Tools%20Executables/lua-5.4.2_Win64_bin.zip
     - name: Unpack lua
       run: |
-        7z x lua-5.4.2_Win64_bin.zip -olua
+        7z x .\lua-5.4.2_Win64_bin.zip -olua
         rename-Item '.\lua\lua54.exe' -NewName 'lua.exe'
     - name: Get CommitID
       run: |
@@ -22,28 +22,49 @@ jobs:
         echo "CommitID=${CommitID}" >> $env:GITHUB_ENV
     - name: Get Version
       run: |
-        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -string
+        $Version=.\lua\lua.exe .\.github\workflows\getVersion.lua -name
         echo "Version=${Version}" >> $env:GITHUB_ENV
-    - name: Update Conf Version
+    - name: Update Conf
       run: |
-        python .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
+        python .\.github\workflows\updateVersion.py -T Conf
+    - name: Update Version
+      run: |
+        python .\.github\workflows\updateVersion.py -T Version -H ${{ env.CommitID }}
     - name: Download love
       run: |
         curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-win64.zip
-        7z x love-11.3-win64.zip
+    - name: Unpack love
+      run: |
+        7z x .\love-11.3-win64.zip
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/20210520/win64.zip
-        7z x win64.zip -ocoldclear
-        move coldclear\cold_clear.dll love-11.3-win64
-        move coldclear\CCloader.dll love-11.3-win64
-    - name: Pack Techmino
-      shell: cmd
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/win64.zip
+    - name: Unpack ColdClear
       run: |
-        7z a -tzip game.love document media parts Zframework conf.lua font.ttf main.lua version.lua
-        copy /b love-11.3-win64\love.exe + game.love love-11.3-win64\Techmino.exe
-        del love-11.3-win64\love.exe
-        del love-11.3-win64\lovec.exe
+        7z x .\win64.zip -oColdClear
+    - name: Download ResourceHacker
+      run: |
+        curl -OL http://www.angusj.com/resourcehacker/resource_hacker.zip
+    - name: Unpack ResourceHacker
+      run: |
+        7z x .\resource_hacker.zip
+    - name: Pack Techmino
+      run: |
+        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\font.ttf .\main.lua .\version.lua
+        cmd /c copy /b .\love-11.3-win64\love.exe + .\Techmino.love .\love-11.3-win64\Techmino.exe
+        del .\love-11.3-win64\love.exe
+        del .\love-11.3-win64\lovec.exe
+        del .\love-11.3-win64\game.ico
+        del .\love-11.3-win64\love.ico
+        del .\love-11.3-win64\changes.txt
+        del .\love-11.3-win64\readme.txt
+        move .\ColdClear\cold_clear.dll .\love-11.3-win64
+        move .\ColdClear\CCloader.dll .\love-11.3-win64
+        python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
+        ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,
+        ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile
+        ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,
+        ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
@@ -65,30 +86,51 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Get Version
       run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -string)
+        Version=$(lua ./.github/workflows/getVersion.lua -name)
         echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Update Conf Version
+    - name: Update Conf
       run: |
-        python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T Conf
+    - name: Update Version
+      run: |
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
+    #我不是很懂这里为什么不能用https://github.com/AppImage/AppImageKit/releases/download/latest/appimagetool-x86_64.AppImage 但是事实就是它404了
     - name: Download AppImageKit
-      run: curl -OL https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage
-    - name: Unpack and Repack
       run: |
-        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.AppImage
-        chmod +x Techmino.AppImage appimagetool-x86_64.AppImage
-        ./Techmino.AppImage --appimage-extract
-        rm Techmino.AppImage
-        cd squashfs-root/usr/share/Techmino
-        rm -rf document media parts Zframework conf.lua font.ttf main.lua
-        cd ../../../..
-        cp -r document media parts Zframework conf.lua font.ttf main.lua version.lua squashfs-root/usr/share/Techmino
-        ./appimagetool-x86_64.AppImage squashfs-root Techmino.AppImage
+        curl -OL https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
+    - name: Download love
+      run: |
+        curl -OL https://github.com/love2d/love/releases/download/11.3/love-11.3-x86_64.AppImage
+    - name: Unpack love
+      run: |
+        chmod 777 ./love-11.3-x86_64.AppImage
+        ./love-11.3-x86_64.AppImage --appimage-extract
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/linux.zip
+    - name: Unpack ColdClear
+      run: |
+        7z x ./linux.zip -oColdClear
+    - name: Pack Techmino
+      run: |
+        rm -rf ./squashfs-root/love ./squashfs-root/love.desktop ./squashfs-root/love.svg ./squashfs-root/.DirIcon
+        mv ./build/Linux/love.template ./squashfs-root/love
+        mv ./build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
+        mv ./build/Linux/icon_snapshot.png ./squashfs-root/icon.png
+        cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
+        mkdir -p ./squashfs-root/usr/share/Techmino
+        mv ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
+        mv ./ColdClear/CCloader.so ./squashfs-root/usr/share/Techmino
+        mv ./ColdClear/libcold_clear.so ./squashfs-root/usr/lib
+        chmod 777 ./appimagetool-x86_64.AppImage
+        ./appimagetool-x86_64.AppImage ./squashfs-root ./Techmino.AppImage
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
         path: Techmino.AppImage
 
+  #Android待更新
   build-android:
     runs-on: ubuntu-20.04
     steps:
@@ -104,27 +146,30 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Get Version
       run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -string)
+        Version=$(lua ./.github/workflows/getVersion.lua -name)
         echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Update Conf Version
+    - name: Update Conf
       run: |
-        python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T Conf
+    - name: Update Version
+      run: |
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
     - name: Download Apktool
       run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
     - name: Unpack and Repack
       run: |
         curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.apk
-        java -jar apktool_2.5.0.jar d -s -o apk Techmino.apk
-        7z x -o. apk/assets/game.love libAndroid
-        rm apk/assets/game.love Techmino.apk
-        7z a -tzip apk/assets/game.love document libAndroid media parts Zframework conf.lua font.ttf main.lua version.lua
-        python3 .github/workflows/updateAndroidVersion.py -C $(lua ./.github/workflows/getVersion.lua -code) -N $(lua ./.github/workflows/getVersion.lua -string)
-        java -jar apktool_2.5.0.jar b -o Techmino.apk apk
+        java -jar ./apktool_2.5.0.jar d -s -o apk ./Techmino.apk
+        7z x ./apk/assets/game.love libAndroid -o.
+        rm -rf ./apk/assets/game.love ./Techmino.apk
+        7z a -tzip ./apk/assets/game.love ./document ./libAndroid ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
+        python3 ./.github/workflows/updateVersion.py -T Android -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
+        java -jar ./apktool_2.5.0.jar b -o apk ./Techmino.apk
     - uses: 26F-Studio/sign-android-release@master
       name: Sign APK
       id: sign_app
       with:
-        releaseDirectory: .
+        releaseDirectory: ./Techmino.apk
         signingKeyBase64: ${{ secrets.SIGNING_KEY }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -154,22 +199,27 @@ jobs:
         echo "CommitID=${CommitID}" >> $GITHUB_ENV
     - name: Get Version
       run: |
-        Version=$(lua ./.github/workflows/getVersion.lua -string)
+        Version=$(lua ./.github/workflows/getVersion.lua -name)
         echo "Version=${Version}" >> $GITHUB_ENV
-    - name: Update Conf Version
+    - name: Update Conf
       run: |
-        python3 .github/workflows/updateConfVersion.py -H ${{ env.CommitID }}
+        python3 ./.github/workflows/updateVersion.py -T Conf
+    - name: Update Version
+      run: |
+        python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
     - name: Pack love
       run: |
-        zip -r Techmino.love document media parts Zframework conf.lua font.ttf main.lua version.lua
+        7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
     - name: Download template
       run: |
         curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip
-        unzip Techmino.app.zip
+    - name: Unpack template
+      run: |
+        7z x ./Techmino.app.zip
     - name: Modify template
       run: |
-        python3 .github/workflows/updateOSXVersion.py -N $(lua ./.github/workflows/getVersion.lua -string)
-        mv Techmino.love Techmino.app/Contents/Resources
+        python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ env.Version }}
+        mv ./Techmino.love ./Techmino.app/Contents/Resources
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
@@ -187,9 +237,9 @@ jobs:
         /usr/bin/codesign --force --deep -s 79B81FC5EA155243C973B5417B0996501F00EF55 ./Techmino.app -v
     - name: Pack Techmino
       run: |
-        zip -r -y Techmino-Packed.app.zip Techmino.app
+        zip -r -y Techmino.zip Techmino.app
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_macOS
-        path: Techmino-Packed.app.zip
+        path: Techmino.zip
