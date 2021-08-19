@@ -131,11 +131,14 @@ jobs:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
         path: Techmino.AppImage
 
-  #Android待更新
   build-android:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '8'
     - name: Install lua
       run: |
         sudo apt-get update -y
@@ -155,33 +158,35 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
-    - name: Download Apktool
-      run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
-    - name: Unpack and Repack
+    - name: Clone love-android
       run: |
-        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.apk
-        java -jar ./apktool_2.5.0.jar d -s -o apk ./Techmino.apk
-        7z x ./apk/assets/game.love libAndroid -o.
-        rm -rf ./apk/assets/game.love ./Techmino.apk
-        7z a -tzip ./apk/assets/game.love ./document ./libAndroid ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
-        python3 ./.github/workflows/updateVersion.py -T Android -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
-        java -jar ./apktool_2.5.0.jar b -o apk ./Techmino.apk
-    - uses: 26F-Studio/sign-android-release@master
-      name: Sign APK
-      id: sign_app
-      with:
-        releaseDirectory: .
-        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-        alias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-      env:
-        BUILD_TOOLS_VERSION: "30.0.2"
+        git clone --recurse-submodules https://github.com/26F-Studio/love-android
+        cd ./love-android
+        git checkout --recurse-submodules CI
+    - name: Download androidSDK
+      run: |
+        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
+    - name: Unpack androidSDK
+      run: |
+        unzip ./commandlinetools.zip
+    - name: Install SDK NDK
+      run: |
+        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
+        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
+        export ANDROID_HOME=$(pwd)
+    - name: Pack Techmino
+      run: |
+        mkdir -p ./love-android/app/src/main/assets
+        7z a -tzip ./love-android/app/src/main/assets/Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
+        python3 ./.github/workflows/updateVersion.py -T AndroidRelease -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
+        chmod 777 ./love-android/gradlew
+        cd ./love-android/
+        ./gradlew assembleRelease
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
-        path: ${{steps.sign_app.outputs.signedReleaseFile}}
+        path: love-android/app/build/outputs/apk/release/app-release-unsigned.apk
 
   build-macOS:
     runs-on: macos-10.15
