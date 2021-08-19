@@ -107,6 +107,9 @@ local function restart()
 	resetGameData(PLAYERS[1].frameRun<240 and'q')
 	noKey=replaying
 	noTouch=replaying
+	tasMode=false
+	floatGameRate,gameRate=0,1
+	updateRepButtons()
 end
 local function checkGameKeyDown(key)
 	local k=keyMap.keyboard[key]
