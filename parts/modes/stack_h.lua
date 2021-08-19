@@ -29,8 +29,8 @@ return{
 		H==0 and 5 or
 		H<=2 and 4 or
 		H<=4 and 3 or
-		H<=7 and 2 or
-		H<=10 and 1 or
-		H<=20 and 0
+		H<=10 and 2 or
+		H<=26 and 1 or
+		H<=62 and 0
 	end,
 }
