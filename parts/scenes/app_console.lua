@@ -638,24 +638,8 @@ local commands={}do
 	commands.sudo={
 		code=function(code)
 			if sudomode then
-				--Filter ""
-				if #code==0 then log{C.R,"Usage: sudo [Lua code]"}return end
-
-				--Check Syntax error
-				local func,errmsg=loadstring(code)
-				if errmsg then log{C.R,errmsg}return end
-
-				--Run code
-				local success,result=pcall(func)
-				if success then
-					if result~=nil then
-						log{C.lG,">> "..tostring(result)}
-					else
-						log{C.lG,"done"}
-					end
-				else
-					log{C.R,result}
-				end
+				log{C.Y,"You are already in the sudo mode, use # to run any lua code"}
+				log{C.Y,"已经进入最高权限模式了, 请使用 # 执行任意lua代码"}
 			elseif code=="7126"then
 				sudomode=true
 				log{C.Y,"* SUDO MODE ON, DO NOT RUN ANY CODE YOU DON'T UNDERSTAND *"}
@@ -912,13 +896,19 @@ function scene.keyDown(key)
 			log{C.lC,"> "..input}
 			local code,err=loadstring(input:sub(2))
 			if code then
-				setfenv(code,userG)
-				code,err=pcall(code)
-				if not code then
-					log{C.R,"[ERR] ",C.Z,err}
+				if not sudomode then setfenv(code,userG)end
+				local success,result=pcall(code)
+				if success then
+					if result~=nil then
+						log{C.lG,">> "..tostring(result)}
+					else
+						log{C.lG,"done"}
+					end
+				else
+					log{C.R,result}
 				end
 			else
-				log{C.R,"[SYNTAX ERR] ",C.Z,err}
+				log{C.R,"[SyntaxErr] ",C.R,err}
 			end
 		else
 			--Execute builtin command
