@@ -81,6 +81,12 @@ return{
 		"*Web-based, no mobile support | Single player*\nFeature-rich game with fancy visuals, also visualized some data that are otherwise hidden in other games, although controls aren't exactly the most comfortable. Has a rhythm mode.\nIt can be slow to load the game the first time.",
 		"https://tetralegends.app",
 	},
+	{"Ascension",
+		"asc ascension",
+		"game",
+		"",--TODO
+		"https://asc.winternebs.com",
+	},
 	{"Jstris",
 		"js jstris",
 		"game",
