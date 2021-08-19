@@ -42,9 +42,11 @@ def updateAndroid(args, edition):    #更新Android打包信息
     if edition == 'Release':
         appName = 'Techmino'
         packageName = 'org.love2d.MrZ.Techmino'
+        edition = 'release'
     elif edition == 'Snapshot':
         appName = 'Techmino_Snapshot'
         packageName = 'org.love2d.MrZ.Techmino.Snapshot'
+        edition = 'snapshot'
     with open('./love-android/app/src/main/AndroidManifest.xml', "r+", encoding='utf-8') as file:
         data = file.read()
         data = data.replace('@appName', appName)
