@@ -32,7 +32,7 @@ def updateMacOS(args):  #更新macOS打包信息
 def updateWindows(args):    #更新Windows打包信息
     Version = (args.Name).replace('V', '')
     FileVersion = (f"{Version.replace('.', ',')},0")
-    with open('./build/Windows/Techmino.rc.templace', 'r', encoding='utf8') as templace:
+    with open('./build/Windows/Techmino.rc.template', 'r', encoding='utf8') as templace:
         template = ((templace.read()).replace('@FileVersion', FileVersion)).replace('@Version', Version)
         with open('Techmino.rc', 'w+', encoding='utf8') as file:
             file.write(template)
