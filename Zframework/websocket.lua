@@ -1,8 +1,7 @@
 local host=
 	-- '127.0.0.1'
 	-- '192.168.114.102'
-	'krakens.tpddns.cn'
-	-- 'game.techmino.org'
+	'game.techmino.org'
 local port='10026'
 local path='/tech/socket/v1'
 
