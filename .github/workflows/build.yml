@@ -61,10 +61,10 @@ jobs:
         move .\ColdClear\cold_clear.dll .\love-11.3-win64
         move .\ColdClear\CCloader.dll .\love-11.3-win64
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,
-        cmd /c .\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
+        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
     - name: Upload
       uses: actions/upload-artifact@v2
       with:

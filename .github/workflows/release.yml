@@ -59,10 +59,10 @@ jobs:
         move .\ColdClear\cold_clear.dll .\love-11.3-win64
         move .\ColdClear\CCloader.dll .\love-11.3-win64
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,
-        cmd /c .\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
+        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
         7z a -tzip .\Techmino.a${{ env.Version }}.Win64.zip .\love-11.3-win64\
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -123,10 +123,10 @@ jobs:
         move .\ColdClear\cold_clear.dll .\love-11.3-win32
         move .\ColdClear\CCloader.dll .\love-11.3-win32
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action delete -mask ICONGROUP,,
-        cmd /c .\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,
-        cmd /c .\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action delete -mask ICONGROUP,,'
+        cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win32\Techmino.exe -save .\love-11.3-win32\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
         7z a -tzip .\Techmino.a${{ env.Version }}.Win32.zip .\love-11.3-win32\
     - name: Release
       uses: softprops/action-gh-release@v1
