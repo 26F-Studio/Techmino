@@ -118,6 +118,7 @@ jobs:
         mv ./build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
         mv ./build/Linux/icon_snapshot.png ./squashfs-root/icon.png
         cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
+        chmod 777 ./squashfs-root/love
         mkdir -p ./squashfs-root/usr/share/Techmino
         mv ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
         mv ./ColdClear/CCloader.so ./squashfs-root/usr/share/Techmino
