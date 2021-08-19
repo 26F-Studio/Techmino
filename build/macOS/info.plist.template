@@ -1,6 +1,4 @@
-import argparse, datetime
-
-info = r"""<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -21,7 +19,7 @@ info = r"""<?xml version="1.0" encoding="UTF-8"?>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>%s</string>
+	<string>@versionName</string>
 	<key>CFBundleSignature</key>
 	<string>LoVe</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -49,18 +47,10 @@ info = r"""<?xml version="1.0" encoding="UTF-8"?>
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>©2020-%d 26F Studio, GNU LGPLv3.0</string>
+	<string>©2020-@ThisYear 26F Studio, GNU LGPLv3.0</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<false/>
 </dict>
 </plist>
-"""
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="用于CI更新macOS版本号")
-    parser.add_argument("-N", "--Name", type=str, help = "versionName")
-    args = parser.parse_args()
-    with open("Techmino.app/Contents/info.plist", "w") as file:
-        file.write(info % (args.Name, datetime.datetime.today().year))
