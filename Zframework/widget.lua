@@ -172,7 +172,7 @@ function button:draw()
 	gc_rectangle('fill',x-ATV,y-ATV,w+2*ATV,h+2*ATV,3)
 	if ATV>0 then
 		gc_setLineWidth(2)
-		gc_setColor(.97,.97,.975,ATV*.125)
+		gc_setColor(.97,.97,.97,ATV*.125)
 		gc_rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4,3)
 	end
 
@@ -529,14 +529,14 @@ function slider:draw()
 	--Glow
 	if ATV>0 then
 		gc_setLineWidth(2)
-		gc_setColor(.97,.97,.975,ATV*.16)
+		gc_setColor(.97,.97,.97,ATV*.16)
 		gc_rectangle('line',bx+1,by+1,bw-2,bh-2,3)
 	end
 
 	--Float text
 	if self.TAT>0 and self.show then
 		setFont(25)
-		gc_setColor(.97,.97,.975,self.TAT/180)
+		gc_setColor(.97,.97,.97,self.TAT/180)
 		mStr(self:show(),cx,by-30)
 	end
 

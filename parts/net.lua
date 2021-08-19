@@ -75,6 +75,12 @@ local function _parse(res)
 	end
 end
 
+--Parse notice
+local function _parseNotice(str)
+	str=STRING.split(str,"///")
+	return str[SETTING.lang<=3 and 1 or 2]or str[1]
+end
+
 --WS close message
 local function _closeMessage(message)
 	local mes=JSON.decode(message)
@@ -86,7 +92,7 @@ local function _closeMessage(message)
 end
 
 --Remove player when leave
-local function removePlayer(L,sid)
+local function _removePlayer(L,sid)
 	for i=1,#L do
 		if L[i].sid==sid then
 			rem(L,i)
@@ -96,7 +102,7 @@ local function removePlayer(L,sid)
 end
 
 --Push stream data to players
-local function pumpStream(d)
+local function _pumpStream(d)
 	if d.uid~=USER.uid then
 		for _,P in next,PLAYERS do
 			if P.uid==d.uid then
@@ -399,7 +405,7 @@ function NET.updateWS_app()
 						if VERSION.code<res.newestCode then
 							MES.new('warn',text.oldVersion:gsub("$1",res.newestName),3)
 						end
-						MES.new('broadcast',res.notice,5)
+						MES.new('broadcast',_parseNotice(res.notice),5)
 						NET.tryLogin(true)
 						TASK.new(NET.freshPlayerCount)
 					elseif res.action==0 then--Broadcast
@@ -556,8 +562,8 @@ function NET.updateWS_play()
 							SCN.back()
 						else
 							netPLY.remove(d.sid)
-							removePlayer(PLAYERS,d.sid)
-							removePlayer(PLY_ALIVE,d.sid)
+							_removePlayer(PLAYERS,d.sid)
+							_removePlayer(PLY_ALIVE,d.sid)
 							if SCN.cur=='net_game'then SCN.socketRead('leave',d)end
 						end
 					elseif res.action==4 then--Player talk
@@ -637,7 +643,7 @@ function NET.updateWS_stream()
 									SCN.socketRead('go')
 									if d.history then
 										for _,v in next,d.history do
-											pumpStream(v)
+											_pumpStream(v)
 										end
 									end
 								end
@@ -661,7 +667,7 @@ function NET.updateWS_stream()
 							end
 						end
 					elseif res.action==5 then--Receive stream
-						pumpStream(d)
+						_pumpStream(d)
 					end
 				else
 					WS.alert('stream')

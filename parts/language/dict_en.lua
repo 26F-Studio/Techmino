@@ -648,6 +648,11 @@ return{
 		"term",
 		"A situation where a piece you want, often the I Tetromino (a.k.a. the Long Bar), does not spawn for a long time. This often happens, and can be deadly, for classic Tetris, but it is almost impossible for modern Tetris thanks to the Random Generator.\nWith the Random Generator, there can be at most 12 other pieces between two I Tetrominoes.",
 	},
+	{"Bone block",
+		"bone tgm",
+		"term",
+		"",--TODO
+	},
 	{"MPH mode",
 		"mph",
 		"term",
@@ -896,6 +901,11 @@ return{
 		"bgm backgroundmusic",
 		"english",
 		"Short for \"Background music\".",
+	},
+	{"TAS",
+		"tas",
+		"english",
+		"Short for \"Tool-Assisted Speedrun(Supergaming)\"",--TODO
 	},
 	{"AFK",
 		"afk",

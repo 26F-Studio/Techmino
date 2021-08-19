@@ -9,6 +9,7 @@ return{
 	mini="v",b2b="^ ",b3b="^^ ",
 	PC="#<>#",HPC="<>",
 	replaying="[R]",
+	tasUsing="[TAS]",
 
 	stage="::$1::",
 	great="!~",
@@ -126,6 +127,7 @@ return{
 			resume="!! (esc)",
 			restart="_→_ (R)",
 			quit="X (Q)",
+			tas="#&; (T)",
 		},
 		setting_game={
 			title="%~~%",
@@ -142,6 +144,7 @@ return{
 			autoPause="A||",
 			menuPos="←M→?",
 			swap="=+=+=",
+			autoSave="!!!>%",
 			simpMode=".",
 		},
 		setting_video={

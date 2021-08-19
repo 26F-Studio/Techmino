@@ -366,6 +366,7 @@ do--function DATA.saveReplay()
 						seed=GAME.seed,
 						setting=GAME.setting,
 						mod=getModList(),
+						tasUsed=GAME.tasUsed,
 					}.."\n"..
 					DATA.dumpRecording(GAME.rep)
 				)
@@ -414,6 +415,7 @@ function DATA.parseReplayData(fileName,fileData,ifFull)
 		seed=metaData.seed,
 		setting=metaData.setting,
 		mod=metaData.mod,
+		tasUsed=metaData.tasUsed,
 	}
 	if ifFull then rep.data=fileData end
 	do return rep end

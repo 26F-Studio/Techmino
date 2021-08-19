@@ -30,7 +30,13 @@ scene.widgetList={
 		code=function()
 			local D=parseCB()
 			if D then
-				TABLE.update(D,RANKS)
+				TABLE.cover(D,RANKS)
+				for k,v in next,oldModeNameTable do
+					if RANKS[k]then
+						RANKS[v]=RANKS[k]
+						RANKS[k]=nil
+					end
+				end
 				if FILE.save(RANKS,'conf/unlock')then
 					MES.new('check',text.importSuccess)
 				end

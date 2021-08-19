@@ -46,7 +46,7 @@ local multiple=GC.DO{15,15,
 }
 local playerBoarder=GC.DO{334,620,
 	{'setLW',2},
-	{'setCL',.97,.97,.975},
+	{'setCL',.97,.97,.97},
 	{'dRect',16,1,302,618,5},
 	{'fRect',17,612,300,2},
 	{'dRect',318,10,15,604,3},
@@ -210,75 +210,66 @@ local function drawFXs(P)
 	end
 end
 local drawGhost={
-	color=function(P,clr,alpha)
+	color=function(CB,curX,ghoY,alpha,texture,clr)
 		gc_setColor(1,1,1,alpha)
-		local texture=P.skinLib
-		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
-				gc_draw(texture[clr],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))
+				gc_draw(texture[clr],30*(j+curX-1)-30,-30*(i+ghoY-1))
 			end
 		end end
 	end,
-	gray=function(P,_,alpha)
+	gray=function(CB,curX,ghoY,alpha,texture,_)
 		gc_setColor(1,1,1,alpha)
-		local texture=P.skinLib
-		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
-				gc_draw(texture[21],30*(j+P.curX-1)-30,-30*(i+P.ghoY-1))
+				gc_draw(texture[21],30*(j+curX-1)-30,-30*(i+ghoY-1))
 			end
 		end end
 	end,
-	colorCell=function(P,clr,alpha)
+	colorCell=function(CB,curX,ghoY,alpha,_,clr)
 		clr=minoColor[clr]
 		gc_setColor(clr[1],clr[2],clr[3],alpha)
-		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
-				gc_rectangle('fill',30*(j+P.curX-1)-30,-30*(i+P.ghoY-1),30,30)
+				gc_rectangle('fill',30*(j+curX-1)-30,-30*(i+ghoY-1),30,30)
 			end
 		end end
 	end,
-	grayCell=function(P,_,alpha)
+	grayCell=function(CB,curX,ghoY,alpha,_,_)
 		gc_setColor(1,1,1,alpha)
-		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
-				gc_rectangle('fill',30*(j+P.curX-1)-30,-30*(i+P.ghoY-1),30,30)
+				gc_rectangle('fill',30*(j+curX-1)-30,-30*(i+ghoY-1),30,30)
 			end
 		end end
 	end,
-	colorLine=function(P,clr,alpha)
+	colorLine=function(CB,curX,ghoY,alpha,_,clr)
 		clr=minoColor[clr]
 		gc_setColor(clr[1],clr[2],clr[3],alpha)
 		gc_setLineWidth(4)
-		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
-				gc_rectangle('line',30*(j+P.curX-1)-30+4,-30*(i+P.ghoY-1)+4,22,22)
+				gc_rectangle('line',30*(j+curX-1)-30+4,-30*(i+ghoY-1)+4,22,22)
 			end
 		end end
 	end,
-	grayLine=function(P,_,alpha)
+	grayLine=function(CB,curX,ghoY,alpha,_,_)
 		gc_setColor(1,1,1,alpha)
 		gc_setLineWidth(4)
-		local CB=P.cur.bk
 		for i=1,#CB do for j=1,#CB[1]do
 			if CB[i][j]then
-				gc_rectangle('line',30*(j+P.curX-1)-30+4,-30*(i+P.ghoY-1)+4,22,22)
+				gc_rectangle('line',30*(j+curX-1)-30+4,-30*(i+ghoY-1)+4,22,22)
 			end
 		end end
 	end,
 }
-local function drawBlockOutline(P,texture,trans)
+local function drawBlockOutline(CB,curX,curY,texture,trans)
 	shader_alpha:send('a',trans)
 	gc_setShader(shader_alpha)
-	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
 		if CB[i][j]then
-			local x=30*(j+P.curX)-60-3
-			local y=30-30*(i+P.curY)-3
+			local x=30*(j+curX)-60-3
+			local y=30-30*(i+curY)-3
 			gc_draw(texture,x,y)
 			gc_draw(texture,x+6,y+6)
 			gc_draw(texture,x+6,y)
@@ -287,30 +278,27 @@ local function drawBlockOutline(P,texture,trans)
 	end end
 	gc_setShader()
 end
-local function drawBlockShade(P,alpha)
+local function drawBlockShade(CB,curX,curY,alpha)
 	gc_setColor(1,1,1,alpha)
-	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
 		if CB[i][j]then
-			gc_rectangle('fill',30*(j+P.curX)-60,30-30*(i+P.curY),30,30)
+			gc_rectangle('fill',30*(j+curX)-60,30-30*(i+curY),30,30)
 		end
 	end end
 end
-local function drawBlock(P,clr)
+local function drawBlock(CB,curX,curY,texture)
 	gc_setColor(1,1,1)
 	gc_setShader(shader_blockSatur)
-	local texture=P.skinLib[clr]
-	local CB=P.cur.bk
 	for i=1,#CB do for j=1,#CB[1]do
 		if CB[i][j]then
-			gc_draw(texture,30*(j+P.curX-1)-30,-30*(i+P.curY-1))
+			gc_draw(texture,30*(j+curX-1)-30,-30*(i+curY-1))
 		end
 	end end
 	gc_setShader()
 end
-local function drawNextPreview(P,B)
+local function drawNextPreview(B,fieldH,fieldBeneath)
 	gc_setColor(1,1,1,.8)
-	local y=int(P.gameEnv.fieldH+1-modf(B.sc[1]))+ceil(P.fieldBeneath/30)
+	local y=int(fieldH+1-modf(B.sc[1]))+ceil(fieldBeneath/30)
 	B=B.bk
 	local x=int(6-#B[1]*.5)
 	local cross=TEXTURE.puzzleMark[-1]
@@ -320,10 +308,10 @@ local function drawNextPreview(P,B)
 		end
 	end end
 end
-local function drawBuffer(P)
+local function drawBuffer(atkBuffer,bufferWarn,atkBufferSum1,atkBufferSum)
 	local h=0
-	for i=1,#P.atkBuffer do
-		local A=P.atkBuffer[i]
+	for i=1,#atkBuffer do
+		local A=atkBuffer[i]
 		local bar=A.amount*30
 		if h+bar>600 then bar=600-h end
 		if not A.sent then
@@ -356,8 +344,8 @@ local function drawBuffer(P)
 		end
 		h=h+bar
 	end
-	if P.gameEnv.bufferWarn then
-		local sum=P.atkBufferSum1
+	if bufferWarn then
+		local sum=atkBufferSum1
 		if sum>=8 then
 			gc_push('transform')
 			gc_translate(300,max(0,600-30*sum))
@@ -365,7 +353,7 @@ local function drawBuffer(P)
 			gc_setColor(1,.2+min(sum*.02,.8)*(.5+.5*sin(TIME()*min(sum,32))),.2,min(sum/30,.8))
 			setFont(100)
 			if sum>20 then
-				local d=P.atkBufferSum-sum
+				local d=atkBufferSum-sum
 				if d>.5 then
 					gc_translate(d^.5*(rnd()-.5)*15,d^.5*(rnd()-.5)*15)
 				end
@@ -375,13 +363,13 @@ local function drawBuffer(P)
 		end
 	end
 end
-local function drawB2Bbar(P)
-	local a,b=P.b2b,P.b2b1
+local function drawB2Bbar(b2b,b2b1)
+	local a,b=b2b,b2b1
 	if a>b then a,b=b,a end
-	if b>=0 then
+	if b>0 then
 		gc_setColor(.8,1,.2)
 		gc_rectangle('fill',-14,600-b*.6,11,b*.6,2)
-		gc_setColor(P.b2b<50 and COLOR.Z or P.b2b<=800 and COLOR.lR or COLOR.lB)
+		gc_setColor(b2b<50 and COLOR.Z or b2b<=800 and COLOR.lR or COLOR.lB)
 		gc_rectangle('fill',-14,600-a*.6,11,a*.6,2)
 		if TIME()%.5<.3 then
 			gc_setColor(1,1,1)
@@ -389,39 +377,35 @@ local function drawB2Bbar(P)
 		end
 	end
 end
-local function drawLDI(P,ENV)--Lock Delay Indicator
-	if ENV.easyFresh then
-		gc_setColor(.97,.97,.975)
+local function drawLDI(easyFresh,length,freshTime)--Lock Delay Indicator
+	if easyFresh then
+		gc_setColor(.97,.97,.97)
 	else
 		gc_setColor(1,.5,.5)
 	end
-	if P.lockDelay>=0 then
-		gc_rectangle('fill',0,602,300*P.lockDelay/ENV.lock,4)
+	if length>=0 then
+		gc_rectangle('fill',0,602,300*length,4)
 	end
-	if P.freshTime>0 then
-		LDmarks:setDrawRange(1,min(P.freshTime,15))
+	if freshTime>0 then
+		LDmarks:setDrawRange(1,min(freshTime,15))
 		gc_draw(LDmarks)
 	end
 end
-local function drawHold(P)
-	local ENV=P.gameEnv
-	if ENV.holdCount==0 then return end
-
-	local holdQueue=P.holdQueue
-	local N=ENV.holdCount*72
+local function drawHold(holdQueue,holdCount,holdTime,skinLib)
+	local N=holdCount*72
 	gc_push('transform')
 		gc_translate(12,20)
 		gc_setLineWidth(2)
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
-		N=#holdQueue<ENV.holdCount and P.nextQueue[1]and 1 or P.holdTime+1
+		gc_setColor(.97,.97,.97)gc_rectangle('line',0,0,100,N+8,5)
+		N=#holdQueue<holdCount and holdQueue[1]and 1 or holdTime+1
 		gc_push('transform')
 			gc_translate(50,40)
 			gc_setShader(shader_blockSatur)
 			for n=1,#holdQueue do
 				if n==N then gc_setColor(.6,.4,.4)end
 				local bk,clr=holdQueue[n].bk,holdQueue[n].color
-				local texture=P.skinLib[clr]
+				local texture=skinLib[clr]
 				local k=min(2.3/#bk,3/#bk[1],.85)
 				gc_scale(k)
 				for i=1,#bk do for j=1,#bk[1]do
@@ -473,13 +457,13 @@ local function drawFinesseCombo_remote(P)
 		elseif S.maxFinesseCombo==S.piece then
 			gc_setColor(.7,.7,1)
 		else
-			gc_setColor(.97,.97,.975)
+			gc_setColor(.97,.97,.97)
 		end
 		gc_print(P.finesseCombo.."x",20,570)
 	end
 end
 local function drawLife(life)
-	gc_setColor(.97,.97,.975)
+	gc_setColor(.97,.97,.97)
 	gc_draw(IMG.lifeIcon,475,595,nil,.8)
 	if life>3 then
 		gc_draw(multiple,502,602)
@@ -489,24 +473,20 @@ local function drawLife(life)
 		if life>2 then gc_draw(IMG.lifeIcon,525,595,nil,.8)end
 	end
 end
-local function drawMission(P)
-	if not P.curMission then return end
-	local L=P.gameEnv.mission
-	local cur=P.curMission
-
+local function drawMission(curMission,L)
 	--Draw current mission
 	setFont(35)
 	if P.gameEnv.missionkill then
 		gc_setColor(1,.7+.2*sin(TIME()*6.26),.4)
 	else
-		gc_setColor(.97,.97,.975)
+		gc_setColor(.97,.97,.97)
 	end
-	gc_print(missionEnum[L[cur]],85,110)
+	gc_print(missionEnum[L[curMission]],85,110)
 
 	--Draw next mission
 	setFont(20)
 	for i=1,3 do
-		local m=L[cur+i]
+		local m=L[curMission+i]
 		if m then
 			m=missionEnum[m]
 			gc_print(m,87-28*i,117)
@@ -515,12 +495,12 @@ local function drawMission(P)
 		end
 	end
 end
-local function drawStartCounter(P)
-	local count=179-P.frameRun
+local function drawStartCounter(time)
+	time=179-time
 	gc_push('transform')
 		gc_translate(300,300)
-		local num=int(count/60)+1
-		local d=count%60
+		local num=int(time/60)+1
+		local d=time%60
 		if num==3 then
 			gc_setColor(.7,.8,.98)
 			if d>45 then gc_rotate((d-45)^2*.00355)end
@@ -541,17 +521,20 @@ local draw={}
 draw.drawGhost=drawGhost
 draw.applyField=applyField
 draw.cancelField=cancelField
-function draw.drawNext_norm(P)
+function draw.drawNext_norm(P,repMode)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
 	gc_translate(488,20)
 		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
 		gc_setColor(0,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,100,N+8,5)
+		gc_setColor(.97,.97,.97)gc_rectangle('line',0,0,100,N+8,5)
 		N=1
 		gc_push('transform')
 			gc_translate(50,40)
+			gc_setColor(1,1,1)
+
+			--Draw nexts
 			gc_setShader(shader_blockSatur)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
@@ -568,6 +551,24 @@ function draw.drawNext_norm(P)
 				gc_translate(0,72)
 			end
 			gc_setShader()
+
+			--Draw more nexts
+			if repMode then
+				gc_translate(50,-28)
+				local blockImg=TEXTURE.miniBlock
+				local skinSet=ENV.skin
+				local n=N
+				while n<=12 and queue[n]do
+					local id=queue[n].id
+					local _=minoColor[skinSet[id]]
+					gc_setColor(_[1],_[2],_[3],.2)
+					_=blockImg[id]
+					local h=_:getHeight()
+					gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
+					gc_translate(0,10*h+3)
+					n=n+1
+				end
+			end
 		gc_pop()
 
 		if ENV.bagLine then
@@ -578,20 +579,30 @@ function draw.drawNext_norm(P)
 		end
 	gc_translate(-488,-20)
 end
-function draw.drawNext_hidden(P)
+function draw.drawNext_hidden(P,repMode)
 	local ENV=P.gameEnv
 	local texture=P.skinLib
-	gc_translate(476,20)
+	gc_translate(488,20)
 		gc_setLineWidth(2)
 		local N=ENV.nextCount*72
-		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,124,N+8)
-		gc_setColor(.97,.97,.975)gc_rectangle('line',0,0,124,N+8)
-		N=min(ENV.nextStartPos,P.pieceCount+1)
+		gc_setColor(.5,0,0,.4)gc_rectangle('fill',0,0,100,N+8,5)
+		gc_setColor(.97,.97,.97)gc_rectangle('line',0,0,100,N+8,5)
+		local startN=min(ENV.nextStartPos,P.pieceCount+1)
+		if repMode then
+			gc_setColor(1,1,1,.2)
+			N=1
+		else
+			gc_setColor(1,1,1)
+			N=startN
+		end
 		gc_push('transform')
-			gc_translate(62,40)
+			gc_translate(50,72*N-32)
+
+			--Draw nexts
 			gc_setShader(shader_blockSatur)
 			local queue=P.nextQueue
 			while N<=ENV.nextCount and queue[N]do
+				if N==startN then gc_setColor(1,1,1)end
 				local bk,sprite=queue[N].bk,texture[queue[N].color]
 				local k=min(2.3/#bk,3/#bk[1],.85)
 				gc_scale(k)
@@ -605,6 +616,24 @@ function draw.drawNext_hidden(P)
 				gc_translate(0,72)
 			end
 			gc_setShader()
+
+			--Draw more nexts
+			if repMode then
+				gc_translate(50,-28)
+				local blockImg=TEXTURE.miniBlock
+				local skinSet=ENV.skin
+				local n=N
+				while n<=12 and queue[n]do
+					local id=queue[n].id
+					local _=minoColor[skinSet[id]]
+					gc_setColor(_[1],_[2],_[3],.2)
+					_=blockImg[id]
+					local h=_:getHeight()
+					gc_draw(_,-_:getWidth()*10,0,nil,10,nil)
+					gc_translate(0,10*h+3)
+					n=n+1
+				end
+			end
 		gc_pop()
 
 		if ENV.bagLine then
@@ -648,26 +677,25 @@ function draw.drawRoyaleInfo(P)
 	end
 end
 
-function draw.norm(P)
+function draw.norm(P,repMode)
 	local ENV=P.gameEnv
 	local FBN,FUP=P.fieldBeneath,P.fieldUp
 	local camDY=FBN+FUP
 	local t=TIME()
-	local replaying=GAME.replaying
 	gc_push('transform')
 		gc_translate(P.x,P.y)
 		gc_scale(P.size)
 
 		--Draw username
 		setFont(30)
-		gc_setColor(.97,.97,.975)
+		gc_setColor(.97,.97,.97)
 		mStr(P.username,300,-60)
 
 		--Draw HUD
-		P:drawNext()
-		drawMission(P)
-		drawHold(P)
-		drawDial(490,500,P.dropSpeed)
+		P:drawNext(repMode)
+		if P.curMission then drawMission(P.curMission,ENV.mission)end
+		if ENV.holdCount>0 then drawHold(P.holdQueue,ENV.holdCount,P.holdTime,P.skinLib)end
+		drawDial(499,505,P.dropSpeed)
 		if P.life>0 then drawLife(P.life)end
 
 		--Field-related things
@@ -693,14 +721,22 @@ function draw.norm(P)
 			end
 
 			--Draw field
-			drawField(P,replaying)
+			drawField(P,repMode)
 
+			--Draw line number
 			if ENV.fieldH>20 and ENV.lineNum then
-				gc_setColor(1,1,1,ENV.lineNum)
+				local a=ENV.lineNum
 				setFont(20)
-				local dy=camDY<900 and 0 or camDY-camDY%300-900
+				local dy=camDY<900 and 0 or camDY-camDY%300-600
 				for i=1,3 do
-					gc.print(10+10*i+dy/30,2,-325-300*i-dy)
+					local num=10+10*i+dy/30
+					local y=-325-300*i-dy
+					gc_setColor(0,0,0,a)
+					gc.print(num,1,y)
+					gc.print(num,2,y+1)
+					gc_setColor(.97,.97,.97,a)
+					gc.print(num,2,y)
+					gc.print(num,2,y)
 				end
 			end
 
@@ -727,34 +763,34 @@ function draw.norm(P)
 				--Draw ghost & rotation center
 				local centerDisp=ENV.center and P.RS.centerDisp[C.id]
 				if ENV.ghost then
-					drawGhost[ENV.ghostType](P,curColor,ENV.ghost)
+					drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)
 					if centerDisp then
 						gc_setColor(1,1,1,ENV.center)
 						gc_draw(P.RS.centerTex,centerX,-30*(P.ghoY+C.sc[1])+10)
 					end
-				elseif replaying then
-					drawGhost.gray(P,nil,.15)
+				elseif repMode then
+					drawGhost.gray(P.cur.bk,P.curX,P.ghoY,.15,nil,nil)
 				end
 
 				local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 				gc_translate(0,-dy)
 					--Draw block & rotation center
 					if ENV.block then
-						drawBlockOutline(P,P.skinLib[curColor],trans)
-						drawBlock(P,curColor)
+						drawBlockOutline(P.cur.bk,P.curX,P.curY,P.skinLib[curColor],trans)
+						drawBlock(P.cur.bk,P.curX,P.curY,P.skinLib[curColor])
 						if centerDisp then
 							gc_setColor(1,1,1,ENV.center)
 							gc_draw(P.RS.centerTex,centerX,-30*(P.curY+C.sc[1])+10)
 						end
-					elseif replaying then
-						drawBlockShade(P,trans*.3)
+					elseif repMode then
+						drawBlockShade(P.cur.bk,P.curX,P.curY,trans*.3)
 					end
 				gc_translate(0,dy)
 			end
 
 			--Draw next preview
 			if ENV.nextPos and P.nextQueue[1]then
-				drawNextPreview(P,P.nextQueue[1])
+				drawNextPreview(P.nextQueue[1],ENV.fieldH,P.fieldBeneath)
 			end
 
 			--Draw AI's drop destination
@@ -771,7 +807,7 @@ function draw.norm(P)
 				gc_stencil(hideBoardStencil[ENV.hideBoard])
 				gc_setStencilTest('equal',1)
 				local alpha
-				if replaying then
+				if repMode then
 					gc_setLineWidth(18.8)
 					alpha=.7
 				else
@@ -789,9 +825,9 @@ function draw.norm(P)
 			--Draw Frame and buffers
 			gc_setColor(P.frameColor)
 			gc_draw(playerBoarder,-17,-12)
-			drawBuffer(P)
-			drawB2Bbar(P)
-			drawLDI(P,ENV)
+			drawBuffer(P.atkBuffer,ENV.bufferWarn,P.atkBufferSum1,P.atkBufferSum)
+			drawB2Bbar(P.b2b,P.b2b1)
+			drawLDI(ENV.easyFresh,P.lockDelay/ENV.lock,P.freshTime)
 
 			--Draw target selecting pad
 			if GAME.modeEnv.royaleMode then
@@ -852,7 +888,7 @@ function draw.norm(P)
 			GAME.curMode.mesDisp(P)
 		end
 
-		if P.frameRun<180 then drawStartCounter(P)end
+		if P.frameRun<180 then drawStartCounter(P.frameRun)end
 	gc_pop()
 end
 function draw.small(P)
@@ -928,12 +964,12 @@ function draw.demo(P)
 				drawField(P)
 				drawFXs(P)
 				if P.cur and P.waiting==-1 then
-					if ENV.ghost then drawGhost[ENV.ghostType](P,curColor,ENV.ghost)end
+					if ENV.ghost then drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)end
 					if ENV.block then
 						local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
 						gc_translate(0,-dy)
-						drawBlockOutline(P,P.skinLib[curColor],P.lockDelay/ENV.lock)
-						drawBlock(P,curColor)
+						drawBlockOutline(P.cur.bk,P.curX,P.curY,P.skinLib[curColor],P.lockDelay/ENV.lock)
+						drawBlock(P.cur.bk,P.curX,P.curY,P.skinLib[curColor])
 						gc_translate(0,dy)
 					end
 				end

@@ -23,6 +23,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Hemi-Perfect Clear",
 	replaying="[Replay]",
+	tasUsing="[TAS]",
 
 	stage="Stage $1",
 	great="Great!",
@@ -245,6 +246,7 @@ return{
 			resume="Resume (esc)",
 			restart="Retry (R)",
 			quit="Quit (Q)",
+			tas="TAS (T)",
 		},
 		net_menu={
 			league="Tech League",
@@ -318,6 +320,7 @@ return{
 			autoPause="Pause while unfocused",
 			menuPos="Menu button pos.",
 			swap="Key Combination (Change Atk. Mode)",
+			autoSave="Auto save new-best",
 			simpMode="Simplistic Style",
 		},
 		setting_video={
@@ -737,9 +740,9 @@ return{
 		['dig_1000l']=			{"Dig",				"1000L",		"Dig 1000 garbage lines."},
 		['drought_n']=			{"Drought",			"100L",			"There are no I-pieces."},
 		['drought_l']=			{"Drought+",		"100L",			"W T F"},
-		['stack_20l']=			{"Stack",			"20L",			"Pack them!"},
-		['stack_40l']=			{"Stack",			"40L",			"Pack them!"},
-		['stack_100l']=			{"Stack",			"100L",			"Pack them!"},
+		['stack_e']=			{"Stack",			"EASY",			"Pack them!"},
+		['stack_h']=			{"Stack",			"HARD",			"Pack them!"},
+		['stack_u']=			{"Stack",			"ULTIMATE",		"Pack them!"},
 		['marathon_n']=			{"Marathon",		"NORMAL",		"200-line marathon with accelerating speed."},
 		['marathon_h']=			{"Marathon",		"HARD",			"200-line high-speed marathon."},
 		['solo_e']=				{"Battle",			"EASY",			"Defeat the AI!"},

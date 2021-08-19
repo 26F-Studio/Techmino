@@ -15,6 +15,10 @@ local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,draw
 	setFont(30)
 	gc_setColor(.8,.8,.8)
 	gc_print(id,10,-2)
+	if rep.tasUsed then
+		gc_setColor(COLOR.R)
+		gc_print("TAS",680,-2)
+	end
 
 	if rep.available then
 		gc_setColor(.9,.9,1)
@@ -25,7 +29,7 @@ local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,draw
 		gc_print(rep.date,80,6)
 		gc_setColor(1,.4,.4,.6)
 		gc_printf(rep.version,0,6,1190,'right')
-		gc_setColor(1,1,1)
+		gc_setColor(COLOR.Z)
 		gc_printf(rep.player,0,6,960,'right')
 	else
 		gc_setColor(.6,.6,.6)
@@ -37,7 +41,7 @@ local scene={}
 
 local sure
 
-local function replay(fileName)
+local function playRep(fileName)
 	local rep=DATA.parseReplay(fileName,true)
 	if not rep.available then
 		MES.new('error',text.replayBroken)
@@ -59,6 +63,7 @@ local function replay(fileName)
 		GAME.init=false
 		GAME.saved=true
 		GAME.fromRepMenu=true
+		GAME.tasUsed=rep.tasUsed
 	else
 		MES.new('error',("No mode id: [%s]"):format(rep.mode))
 	end
@@ -77,7 +82,7 @@ function scene.keyDown(key)
 	if key=="return"then
 		local rep=listBox:getSel()
 		if rep then
-			replay(rep.fileName)
+			playRep(rep.fileName)
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		local rep=listBox:getSel()

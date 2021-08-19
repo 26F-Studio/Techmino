@@ -13,6 +13,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Half Clear",
 	replaying="[Repetición]",
+	-- tasUsing="[TAS]",
 
 	stage="Nivel $1",
 	great="¡Genial!",
@@ -211,6 +212,7 @@ return{
 			resume="Resumir (esc)",
 			restart="Reiniciar (R)",
 			quit="Finalizar (Q)",
+			-- tas="TAS (T)",
 		},
 		net_menu={
 			league="Liga Tech",
@@ -284,6 +286,7 @@ return{
 			autoPause="Pausar cuando la ventana no está enfocada",
 			-- menuPos="Menu button pos.",
 			swap="Combinación de Teclas (Cambiar Modo de Ataque)",
+			-- autoSave="Auto save new-best",
 			simpMode="Modo Sencillo",
 		},
 		setting_video={
@@ -642,9 +645,9 @@ return{
 		['dig_1000l']=			{"Queso",			"1000L",		"Limpia 1000 líneas de queso."},
 		['drought_n']=			{"Sequía",			"100L",			"¡Sin piezas I!"},
 		['drought_l']=			{"Sequía+",			"100L",			"Guat de foc..."},
-		-- ['stack_20l']=			{"Stack",			"20L",			"Pack them!"},
-		-- ['stack_40l']=			{"Stack",			"40L",			"Pack them!"},
-		-- ['stack_100l']=			{"Stack",			"100L",			"Pack them!"},
+		-- ['stack_e']=			{"Stack",			"Fácil",		"Pack them!"},
+		-- ['stack_h']=			{"Stack",			"Difícil",		"Pack them!"},
+		-- ['stack_u']=			{"Stack",			"Supremo",		"Pack them!"},
 		['marathon_n']=			{"Maratón",			"Normal",		"Maratón de 200 líneas con velocidad en aumento."},
 		['marathon_h']=			{"Maratón",			"Difícil",		"Maratón de 200 líneas a velocidad máxima."},
 		['solo_e']=				{"VS.",				"Fácil",		"¡Derrota a la CPU!"},

@@ -357,34 +357,34 @@ local commands={}do
 	}
 	commands.wireframe={
 		code=function(bool)
-			if bool=="true"or bool=="false"then
-				gc.setWireframe(bool=="true")
+			if bool=="on"or bool=="off"then
+				gc.setWireframe(bool=="on")
 				log("Wireframe: "..(gc.isWireframe()and"on"or"off"))
 			else
-				log{C.A,"Usage: wireframe <true|false>"}
+				log{C.A,"Usage: wireframe <on|off>"}
 			end
 		end,
 		description="Turn on/off wireframe mode",
 		details={
 			"Enable or disable wireframe drawing mode.",
 			"",
-			"Usage: wireframe <true|false>",
+			"Usage: wireframe <on|off>",
 		},
 	}
 	commands.gammacorrect={
 		code=function(bool)
-			if bool=="true"or bool=="false"then
-				love._setGammaCorrect(bool=="true")
+			if bool=="on"or bool=="off"then
+				love._setGammaCorrect(bool=="on")
 				log("GammaCorrect: "..(gc.isGammaCorrect()and"on"or"off"))
 			else
-				log{C.A,"Usage: gammacorrect <true|false>"}
+				log{C.A,"Usage: gammacorrect <on|off>"}
 			end
 		end,
 		description="Turn on/off gamma correction",
 		details={
 			"Enable or disable gamma correction.",
 			"",
-			"Usage: gammacorrect <true|false>",
+			"Usage: gammacorrect <on|off>",
 		},
 	}
 	commands.fn={
@@ -729,6 +729,26 @@ local commands={}do
 			"Load a game mode, including those that are not on the map.",
 			"",
 			"Usage: play [mode_name]",
+		},
+	}
+	commands.tas={
+		code=function(bool)
+			if bool=="on"or bool=="off"then
+				SETTING.allowTAS=bool=="on"
+				FILE.save(SETTING,'conf/settings')
+				log("Allow TAS: "..bool)
+				if bool then
+					log("Hot keys: f1=play/pause f2=slowdown f3=speedup/nextframe")
+				end
+			else
+				log{C.A,"Usage: tas <on|off>"}
+			end
+		end,
+		description="Allow you to use TAS tool",
+		details={
+			"Allow you to use TAS tool, a TAS button will show up at the pause menu",
+			"",
+			"Usage: tas <on|off>",
 		},
 	}
 

@@ -18,7 +18,7 @@
 --Var leak check
 -- setmetatable(_G,{__newindex=function(self,k,v)print('>>'..k)print(debug.traceback():match("\n.-\n\t(.-): "))rawset(self,k,v)end})
 
---Declaration
+--System Global Vars Declaration
 local fs=love.filesystem
 VERSION=require"version"
 TIME=love.timer.getTime
@@ -115,15 +115,6 @@ local customData=FILE.load('conf/customEnv')
 if customData and customData.version==VERSION.code then TABLE.complete(customData,CUSTOMENV)end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
-
---First start for phones
-if not fs.getInfo('conf/settings')and MOBILE then
-	SETTING.VKSwitch=true
-	SETTING.swap=false
-	SETTING.powerInfo=true
-	SETTING.cleanCanvas=true
-end
-if SETTING.fullscreen then love.window.setFullscreen(true)end
 
 --Initialize image libs
 IMG.init{
@@ -298,7 +289,7 @@ do
 		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
 	end
-	if STAT.version==1600 then
+	if RANKS.stack_20l then
 		RANKS.stack_20l=nil
 		RANKS.stack_40l=nil
 		RANKS.stack_100l=nil
@@ -356,6 +347,14 @@ do
 		FILE.save(RANKS,'conf/unlock')
 		FILE.save(STAT,'conf/data')
 	end
+end
+
+--First start for phones
+if FIRSTLAUNCH and MOBILE then
+	SETTING.VKSwitch=true
+	SETTING.swap=false
+	SETTING.powerInfo=true
+	SETTING.cleanCanvas=true
 end
 
 --Apply system setting

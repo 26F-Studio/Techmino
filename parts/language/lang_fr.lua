@@ -13,6 +13,7 @@ return{
 	mini="Mini",b2b="B2B ",b3b="B2B2B ",
 	PC="Perfect Clear",HPC="Clear",
 	replaying="[Replay]",
+	-- tasUsing="[TAS]",
 
 	stage="Etape $1",
 	great="Bien !",
@@ -207,6 +208,7 @@ return{
 			resume="Continuer (esc)",
 			restart="Réessayer (R)",
 			quit="Quitter (Q)",
+			-- tas="TAS (T)",
 		},
 		net_menu={
 			-- league="Tech League",
@@ -281,6 +283,7 @@ return{
 			autoPause="Mettre en pause en cas de perte de focus",
 			-- menuPos="Menu button pos.",
 			swap="Combinaison de touches (changer le mode d'attaque)",
+			-- autoSave="Auto save new-best",
 			-- simpMode="Simple mode",
 		},
 		setting_video={
@@ -644,9 +647,9 @@ return{
 		['dig_1000l']=			{"Dig",				"1000L",		"Creusez 1000 lines"},
 		['drought_n']=			{"Drought",			"100L",			"Pas de pièce I !"},
 		['drought_l']=			{"Drought+",		"100L",			"WTF ??!!"},
-		-- ['stack_20l']=			{"Stack",			"20L",			"Pack them!"},
-		-- ['stack_40l']=			{"Stack",			"40L",			"Pack them!"},
-		-- ['stack_100l']=			{"Stack",			"100L",			"Pack them!"},
+		-- ['stack_e']=			{"Stack",			"FACILE",		"Pack them!"},
+		-- ['stack_h']=			{"Stack",			"DIFFICILE",	"Pack them!"},
+		-- ['stack_u']=			{"Stack",			"ULTIME",		"Pack them!"},
 		['marathon_n']=			{"Marathon",		"NORMAL",		"Marathon de 200 lignes."},
 		['marathon_h']=			{"Marathon",		"DIFFICILE",	"Marathon de 200 lignes à très haute vitesse"},
 		['solo_e']=				{"Battle",			"FACILE",		"Battez l'IA !"},
