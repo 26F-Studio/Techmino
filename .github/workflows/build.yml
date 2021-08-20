@@ -203,7 +203,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
-        path: love-android/app/build/outputs/apk/release/app-release-unsigned.apk
+        path: love-android/app/build/outputs/apk/release
 
   build-macOS:
     runs-on: macos-10.15
