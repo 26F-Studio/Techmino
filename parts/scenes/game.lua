@@ -357,7 +357,7 @@ function scene.draw()
 		gc.setColor(.8,1,0,.2)
 		for i=1,#P.atker do
 			local p=P.atker[i]
-			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+670*P.size)
+			gc.line(p.centerX,p.centerY,P.x+300*P.size,P.y+620*P.size)
 		end
 		if P.atkMode~=4 then
 			if P.atking then
