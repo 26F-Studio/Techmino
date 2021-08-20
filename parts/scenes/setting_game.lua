@@ -41,7 +41,7 @@ scene.widgetList={
 	WIDGET.newButton{name="key",		x=640,	y=220,	w=320,h=80,	color='lG',font=35,code=goScene'setting_key'},
 	WIDGET.newButton{name="touch",		x=990,	y=220,	w=320,h=80,	color='lB',font=35,code=goScene'setting_touch'},
 	WIDGET.newSlider{name="reTime",		x=330,	y=320,	w=300,unit=10,disp=SETval("reTime"),code=SETsto("reTime"),show=function(S)return(.5+S.disp()*.25).."s"end},
-	WIDGET.newSelector{name="RS",		x=300,	y=420,	w=300,color='S',list={'TRS','SRS','SRS_plus','BiRS','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'},disp=SETval("RS"),code=SETsto("RS")},
+	WIDGET.newSelector{name="RS",		x=300,	y=420,	w=300,color='S',list={'TRS','SRS','SRS_plus','BiRS','ARS_Z','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'},disp=SETval("RS"),code=SETsto("RS")},
 	WIDGET.newButton{name="layout",		x=250,	y=540,	w=200,h=70,font=35,			code=goScene'setting_skin'},
 	WIDGET.newSwitch{name="autoPause",	x=1060,	y=320,	disp=SETval("autoPause"),	code=SETrev("autoPause")},
 	WIDGET.newSelector{name="menuPos",	x=980,	y=420,	w=300,color='O',list={'left','middle','right'},disp=SETval("menuPos"),code=SETsto("menuPos")},
