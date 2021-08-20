@@ -47,7 +47,7 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>©2020-@ThisYear 26F Studio, GNU LGPLv3.0</string>
+	<string>©2020-@thisYear 26F Studio, GNU LGPLv3.0</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
