@@ -698,22 +698,22 @@ function Player:spin(d,ifpre)
 				end
 
 				--Sound & Field shaking
-				if self.sound then
-					local sfx
-					if ifpre then
-						sfx='prerotate'
-					elseif self:ifoverlap(icb,ix,iy+1)and self:ifoverlap(icb,ix-1,iy)and self:ifoverlap(icb,ix+1,iy)then
-						sfx='rotatekick'
-						if self.gameEnv.shakeFX then
-							if d==1 or d==3 then
-								self.fieldOff.va=self.fieldOff.va+(2-d)*self.gameEnv.shakeFX*6e-3
-							else
-								self.fieldOff.va=self.fieldOff.va+self:getCenterX()*self.gameEnv.shakeFX*3e-3
-							end
+				local sfx
+				if ifpre then
+					sfx='prerotate'
+				elseif self:ifoverlap(icb,ix,iy+1)and self:ifoverlap(icb,ix-1,iy)and self:ifoverlap(icb,ix+1,iy)then
+					sfx='rotatekick'
+					if self.gameEnv.shakeFX then
+						if d==1 or d==3 then
+							self.fieldOff.va=self.fieldOff.va+(2-d)*self.gameEnv.shakeFX*6e-3
+						else
+							self.fieldOff.va=self.fieldOff.va+self:getCenterX()*self.gameEnv.shakeFX*3e-3
 						end
-					else
-						sfx='rotate'
 					end
+				else
+					sfx='rotate'
+				end
+				if self.sound then
 					SFX.play(sfx,nil,self:getCenterX()*.15)
 				end
 				self.stat.rotate=self.stat.rotate+1
