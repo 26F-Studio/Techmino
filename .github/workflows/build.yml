@@ -174,10 +174,26 @@ jobs:
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
         export ANDROID_HOME=$(pwd)
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/android_aarch64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/android_armv7.zip
+    - name: Unpack ColdClear
+      run: |
+        7z x ./android_aarch64.zip -oColdClear/android_aarch64
+        7z x ./android_armv7.zip -oColdClear/android_armv7
     - name: Pack Techmino
       run: |
         mkdir -p ./love-android/app/src/main/assets
-        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
+        mkdir -p ./love-android/app/libs/arm64-v8a
+        mkdir -p ./love-android/app/libs/armeabi-v7a
+        mv ./ColdClear/android_aarch64/libcold_clear.so ./love-android/app/libs/arm64-v8a
+        mv ./ColdClear/android_armv7/libcold_clear.so ./love-android/app/libs/armeabi-v7a
+        mkdir -p ./libAndroid/arm64-v8a
+        mkdir -p ./libAndroid/armeabi-v7a
+        mv ./ColdClear/android_aarch64/CCloader.so ./libAndroid/arm64-v8a
+        mv ./ColdClear/android_armv7/CCloader.so ./libAndroid/armeabi-v7a
+        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./font.ttf ./main.lua ./version.lua
         python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
         chmod 777 ./love-android/gradlew
         cd ./love-android/
