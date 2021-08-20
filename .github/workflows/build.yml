@@ -187,12 +187,12 @@ jobs:
         mkdir -p ./love-android/app/src/main/assets
         mkdir -p ./love-android/app/libs/arm64-v8a
         mkdir -p ./love-android/app/libs/armeabi-v7a
-        mv ./ColdClear/android_aarch64/libcold_clear.so ./love-android/app/libs/arm64-v8a
-        mv ./ColdClear/android_armv7/libcold_clear.so ./love-android/app/libs/armeabi-v7a
+        mv ./ColdClear/android_aarch64/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
+        mv ./ColdClear/android_armv7/love-11.3-android/lib/armeabi-v7a/libcold_clear.so ./love-android/app/libs/armeabi-v7a
         mkdir -p ./libAndroid/arm64-v8a
         mkdir -p ./libAndroid/armeabi-v7a
-        mv ./ColdClear/android_aarch64/CCloader.so ./libAndroid/arm64-v8a
-        mv ./ColdClear/android_armv7/CCloader.so ./libAndroid/armeabi-v7a
+        mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
+        mv ./ColdClear/android_armv7/libs/armeabi-v7a/ibCCloader.so ./libAndroid/armeabi-v7a
         7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./font.ttf ./main.lua ./version.lua
         python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
         chmod 777 ./love-android/gradlew
