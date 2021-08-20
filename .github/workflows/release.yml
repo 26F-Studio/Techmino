@@ -414,6 +414,7 @@ jobs:
     - name: Get ReleaseTitle
       run: |
         Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
+        echo "Title=${Title}" >> $GITHUB_ENV
     - name: Pack Techmino
       run: |
         7z a -tzip ./Techmino.a${{ env.Version }}.love ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
@@ -434,11 +435,11 @@ jobs:
         sudo apt-get install lua5.3 -y
     - name: Get ReleaseTitle
       run: |
-        Title=lua ./.github/workflows/getVersion.lua -updateTitle
+        Title=$(lua ./.github/workflows/getVersion.lua -updateTitle)
         echo "Title=${Title}" >> $GITHUB_ENV
     - name: Get ReleaseNote
       run: |
-        Note=lua ./.github/workflows/getVersion.lua -updateNote
+        Note=$(lua ./.github/workflows/getVersion.lua -updateNote)
         echo "Note=${Note}" >> $GITHUB_ENV
     - name: Release
       uses: softprops/action-gh-release@v1
