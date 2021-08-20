@@ -63,7 +63,7 @@ jobs:
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
     - name: Upload
       uses: actions/upload-artifact@v2
@@ -131,11 +131,14 @@ jobs:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Linux
         path: Techmino.AppImage
 
-  #Android待更新
   build-android:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '8'
     - name: Install lua
       run: |
         sudo apt-get update -y
@@ -155,33 +158,53 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
-    - name: Download Apktool
-      run: curl -OL https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.5.0.jar
-    - name: Unpack and Repack
+    - name: Clone love-android
       run: |
-        curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.apk
-        java -jar ./apktool_2.5.0.jar d -s -o apk ./Techmino.apk
-        7z x ./apk/assets/game.love libAndroid -o.
-        rm -rf ./apk/assets/game.love ./Techmino.apk
-        7z a -tzip ./apk/assets/game.love ./document ./libAndroid ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
-        python3 ./.github/workflows/updateVersion.py -T Android -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }}
-        java -jar ./apktool_2.5.0.jar b -o apk ./Techmino.apk
-    - uses: 26F-Studio/sign-android-release@master
-      name: Sign APK
-      id: sign_app
-      with:
-        releaseDirectory: ./Techmino.apk
-        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-        alias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-      env:
-        BUILD_TOOLS_VERSION: "30.0.2"
+        git clone --recurse-submodules https://github.com/26F-Studio/love-android
+        cd ./love-android
+        git checkout --recurse-submodules CI
+    - name: Download androidSDK
+      run: |
+        wget -O commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
+    - name: Unpack androidSDK
+      run: |
+        unzip ./commandlinetools.zip
+    - name: Install SDK NDK
+      run: |
+        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
+        yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
+        export ANDROID_HOME=$(pwd)
+    - name: Download ColdClear
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/android_aarch64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/android_armv7.zip
+    - name: Unpack ColdClear
+      run: |
+        7z x ./android_aarch64.zip -oColdClear/android_aarch64
+        7z x ./android_armv7.zip -oColdClear/android_armv7
+    - name: Pack Techmino
+      run: |
+        mkdir -p ./love-android/app/src/main/assets
+        mkdir -p ./love-android/app/libs/arm64-v8a
+        mkdir -p ./love-android/app/libs/armeabi-v7a
+        mv ./ColdClear/android_aarch64/love-11.3-android/lib/arm64-v8a/libcold_clear.so ./love-android/app/libs/arm64-v8a
+        mv ./ColdClear/android_armv7/love-11.3-android/lib/armeabi-v7a/libcold_clear.so ./love-android/app/libs/armeabi-v7a
+        mkdir -p ./libAndroid/arm64-v8a
+        mkdir -p ./libAndroid/armeabi-v7a
+        mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
+        mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
+        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./font.ttf ./main.lua ./version.lua
+        echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
+        python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
+        chmod 777 ./love-android/gradlew
+        cd ./love-android/
+        ./gradlew assembleRelease
+        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
-        path: ${{steps.sign_app.outputs.signedReleaseFile}}
+        path: ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
 
   build-macOS:
     runs-on: macos-10.15
@@ -221,6 +244,8 @@ jobs:
       run: |
         python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ env.Version }}
         mv ./Techmino.love ./Techmino.app/Contents/Resources
+        rm -rf ./Techmino.app/Contents/Resources/iconfile.icns
+        mv ./build/macOS/icon_snapshot.icns ./Techmino.app/Contents/Resources/iconfile.icns
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64

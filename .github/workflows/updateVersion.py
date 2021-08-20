@@ -14,7 +14,6 @@ def updateVersion(args):    #更新版本号
         data = file.read()
         if args.Hash != False:
             data = data.replace('@DEV', f'@{args.Hash[0:4]}')
-            updateConf()
         else:
             data = data.replace('@DEV', '')
         file.seek(0)
@@ -24,25 +23,52 @@ def updateVersion(args):    #更新版本号
 
 def updateMacOS(args):  #更新macOS打包信息
     import datetime
-    with open('./build/macOS/info.plist.template', 'r', encoding='utf-8') as template:
-        template = ((template.read()).replace('@versionName', args.Name)).replace('@ThisYear', str(datetime.datetime.today().year))
-        with open('./Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
-            file.write(template)
+    thisYear = str(datetime.datetime.today().year)
+    with open('./build/macOS/info.plist.template', 'r', encoding='utf-8') as file:
+        data = file.read()
+        data = data\
+            .replace('@versionName', args.Name)\
+            .replace('@thisYear', thisYear)
+    with open('./Techmino.app/Contents/info.plist', 'w+', encoding='utf-8') as file:
+        file.write(data)
 
 def updateWindows(args):    #更新Windows打包信息
     Version = (args.Name).replace('V', '')
     FileVersion = (f"{Version.replace('.', ',')},0")
-    with open('./build/Windows/Techmino.rc.template', 'r', encoding='utf8') as templace:
-        template = ((templace.read()).replace('@FileVersion', FileVersion)).replace('@Version', Version)
-        with open('Techmino.rc', 'w+', encoding='utf8') as file:
-            file.write(template)
-
-def updateAndroid(args):    #更新Android打包信息
-    import re
-    with open('./apk/apktool.yml', 'r+', encoding='utf-8') as file:
+    with open('./build/Windows/Techmino.rc.template', 'r', encoding='utf8') as file:
         data = file.read()
-        data = re.sub("versionCode:.+", f"versionCode: '{args.Code}'", data)
-        data = re.sub("versionName:.+", f"versionName: '{args.Name}'", data)
+        data = data\
+            .replace('@FileVersion', FileVersion)\
+            .replace('@Version', Version)
+    with open('Techmino.rc', 'w+', encoding='utf8') as file:
+        file.write(data)
+
+def updateAndroid(args, edition):    #更新Android打包信息
+    if edition == 'Release':
+        appName = 'Techmino'
+        packageName = 'org.love2d.MrZ.Techmino'
+        edition = 'release'
+    elif edition == 'Snapshot':
+        appName = 'Techmino_Snapshot'
+        packageName = 'org.love2d.MrZ.Techmino.Snapshot'
+        edition = 'snapshot'
+    with open('./love-android/app/src/main/AndroidManifest.xml', "r+", encoding='utf-8') as file:
+        data = file.read()
+        data = data\
+            .replace('@appName', appName)\
+            .replace('@edition', edition)
+        file.seek(0)
+        file.truncate()
+        file.write(data)
+    with open("./love-android/app/build.gradle", "r+", encoding='utf-8') as file:
+        data = file.read()
+        data = data\
+            .replace('@packageName', packageName)\
+            .replace('@versionCode', args.Code)\
+            .replace('@versionName', args.Name)\
+            .replace('@storePassword', args.Store)\
+            .replace('@keyAlias', args.Alias)\
+            .replace('@keyPassword', args.Key)
         file.seek(0)
         file.truncate()
         file.write(data)
@@ -53,6 +79,9 @@ if __name__ == '__main__':
     parser.add_argument('-H', '--Hash', type=str, default = False, help = 'Github提交Hash')
     parser.add_argument('-C', '--Code', type=str, default = False, help = 'versionCode')
     parser.add_argument('-N', '--Name', type=str, default = False, help = 'versionName')
+    parser.add_argument('-S', '--Store', type=str, default = False, help = 'storePassword')
+    parser.add_argument('-A', '--Alias', type=str, default = False, help = 'keyAlias')
+    parser.add_argument('-K', '--Key', type=str, default = False, help = 'keyPassword')
     args = parser.parse_args()
     if args.Type == 'Conf':
         updateConf()
@@ -62,5 +91,7 @@ if __name__ == '__main__':
         updateWindows(args)
     elif args.Type == 'macOS':
         updateMacOS(args)
-    elif args.Type == 'Android':
-        updateAndroid(args)
+    elif args.Type == 'AndroidRelease':
+        updateAndroid(args, 'Release')
+    elif args.Type == 'AndroidSnapshot':
+        updateAndroid(args, 'Snapshot')
