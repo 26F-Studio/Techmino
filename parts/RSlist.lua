@@ -532,6 +532,46 @@ do
 	for i=8,29 do SRS_plus.kickTable[i]=SRS_plus.kickTable[1]end
 end
 
+local SRS_X
+do
+	SRS_X={
+		centerTex=GC.DO{10,10,
+			{'setLW',2},
+			{'setCL',1,1,1,.4},
+			{'dCirc',5,5,4},
+			{'setLW',1},
+			{'setCL',1,1,1},
+			{'dCirc',5,5,3},
+		},
+		kickTable={
+			{
+				[01]={'+0+0','-1+0','-1+1','+0-2','-1-2'},
+				[10]={'+0+0','+1+0','+1-1','+0+2','+1+2'},
+				[03]={'+0+0','+1+0','+1+1','+0-2','+1-2'},
+				[30]={'+0+0','-1+0','-1-1','+0+2','-1+2'},
+				[12]={'+0+0','+1+0','+1-1','+0+2','+1+2'},
+				[21]={'+0+0','-1+0','-1+1','+0-2','-1-2'},
+				[32]={'+0+0','-1+0','-1-1','+0+2','-1+2'},
+				[23]={'+0+0','+1+0','+1+1','+0-2','+1-2'},
+				[02]={'+0+0','-1+0','+1+0','+0-1','+0+1'},
+				[20]={'+0+0','+1+0','-1+0','+0-1','+0+1'},
+				[13]={'+0+0','+0-1','-1+0','+1+0','+0+1'},
+				[31]={'+0+0','+0-1','-1+0','+1+0','+0+1'},
+			},--Z
+			false,--S
+			false,--J
+			false,--L
+			false,--T
+			noKickSet,--O
+			false,--I
+		}
+	}
+	for i=2,5 do SRS_X.kickTable[i]=SRS_X.kickTable[1]end
+	for i=7,29 do SRS_X.kickTable[i]=TRS.kickTable[i]end
+	SRS_X.kickTable[10]=SRS_X.kickTable[1]--P
+	SRS_X.kickTable[11]=SRS_X.kickTable[1]--Q
+end
+
 local BiRS
 do
 	local R=strToVec{'+0+0','-1+0','-1-1','+0-1','-1+1','+1-1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
@@ -863,6 +903,7 @@ local RSlist={
 	TRS=TRS,
 	SRS=SRS,
 	SRS_plus=SRS_plus,
+	SRS_X=SRS_X,
 	BiRS=BiRS,
 	ARS_Z=ARS_Z,
 	ASC=ASC,
