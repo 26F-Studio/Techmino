@@ -195,7 +195,7 @@ jobs:
         mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
         7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./font.ttf ./main.lua ./version.lua
     - name: SSH connection to Actions
-      uses: P3TERX/debugger-action@master
+      uses: csexton/debugger-action@master
     - name: test
       run: |
         echo ${{ secrets.SIGNING_KEY }} | base64 -d > ./love-android/app/android.keystore
