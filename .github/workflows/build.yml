@@ -199,11 +199,12 @@ jobs:
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
+        mv ./love-android/app/build/outputs/apk/release/app-release.apk ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: Techmino_${{ env.Version }}_${{ GITHUB.RUN_NUMBER }}_${{ env.CommitID }}_Android
-        path: love-android/app/build/outputs/apk/release
+        path: ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
 
   build-macOS:
     runs-on: macos-10.15
