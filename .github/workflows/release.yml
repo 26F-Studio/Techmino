@@ -256,7 +256,7 @@ jobs:
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
-        mv ./love-android/app/build/outputs/apk/release/app-release.apk ./love-android/app/build/outputs/apk/release/Techmino.a${{ env.Version }}.apk
+        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ env.Version }}.apk
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
@@ -329,7 +329,7 @@ jobs:
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
-        mv ./love-android/app/build/outputs/apk/release/app-release.apk ./love-android/app/build/outputs/apk/release/Techmino.a${{ env.Version }}.mini.apk
+        mv ./app/build/outputs/apk/release/app-release.apk ./app/build/outputs/apk/release/Techmino.a${{ env.Version }}.mini.apk
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
@@ -440,7 +440,7 @@ jobs:
     - name: Get ReleaseNote
       run: |
         Note=$(lua ./.github/workflows/getVersion.lua -updateNote)
-        echo "Note=${Note}" >> $GITHUB_ENV
+        echo "Note="${Note}" >> $GITHUB_ENV
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
