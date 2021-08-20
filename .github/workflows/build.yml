@@ -199,6 +199,7 @@ jobs:
         chmod 777 ./love-android/gradlew
         cd ./love-android/
         ./gradlew assembleRelease
+        ls ./love-android/app/build/outputs/apk/release/
         mv ./love-android/app/build/outputs/apk/release/app-release.apk ./love-android/app/build/outputs/apk/release/Techmino_Snapshot.apk
     - name: Upload
       uses: actions/upload-artifact@v2
