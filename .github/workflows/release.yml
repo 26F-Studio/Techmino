@@ -439,10 +439,9 @@ jobs:
         echo "Title=${Title}" >> $GITHUB_ENV
     - name: Get ReleaseNote
       run: |
-        Note=$(lua ./.github/workflows/getVersion.lua -updateNote)
-        echo "Note="${Note}" >> $GITHUB_ENV
+        lua ./.github/workflows/getVersion.lua -updateNote > updateNote.txt
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         name: ${{ env.Title }}
-        body: ${{ env.Note }}
+        body_path: ./updateNote.txt
