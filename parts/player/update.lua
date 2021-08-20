@@ -237,7 +237,7 @@ function update.alive(P,dt)
 						end
 					end
 					if mov>=das and ENV.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX+1,P.curY)then
-						P.fieldOff.vx=ENV.shakeFX*.5
+						P.fieldOff.vx=.5
 					end
 				else
 					P.movDir=0
@@ -262,7 +262,7 @@ function update.alive(P,dt)
 						end
 					end
 					if mov>=das and ENV.shakeFX and P.cur and P:ifoverlap(P.cur.bk,P.curX-1,P.curY)then
-						P.fieldOff.vx=-ENV.shakeFX*.5
+						P.fieldOff.vx=-.5
 					end
 				else
 					P.movDir=0
@@ -293,7 +293,7 @@ function update.alive(P,dt)
 				P:act_insDown()
 			end
 			if ENV.shakeFX then
-				P.fieldOff.vy=ENV.shakeFX*.2
+				P.fieldOff.vy=.2
 			end
 		end
 	else

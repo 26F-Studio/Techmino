@@ -478,7 +478,7 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 					self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
 				end
 				if ENV.shakeFX then
-					self.fieldOff.vy=ENV.shakeFX*.5
+					self.fieldOff.vy=.5
 				end
 				self.curY=self.ghoY
 			end
@@ -705,9 +705,9 @@ function Player:spin(d,ifpre)
 					sfx='rotatekick'
 					if self.gameEnv.shakeFX then
 						if d==1 or d==3 then
-							self.fieldOff.va=self.fieldOff.va+(2-d)*self.gameEnv.shakeFX*6e-3
+							self.fieldOff.va=self.fieldOff.va+(2-d)*6e-3
 						else
-							self.fieldOff.va=self.fieldOff.va+self:getCenterX()*self.gameEnv.shakeFX*3e-3
+							self.fieldOff.va=self.fieldOff.va+self:getCenterX()*3e-3
 						end
 					end
 				else
@@ -1891,8 +1891,8 @@ function Player:act_hardDrop()
 				end
 			end
 			if ENV.shakeFX then
-				self.fieldOff.vy=ENV.shakeFX*.6
-				self.fieldOff.va=self.fieldOff.va+self:getCenterX()*ENV.shakeFX*6e-4
+				self.fieldOff.vy=.6
+				self.fieldOff.va=self.fieldOff.va+self:getCenterX()*6e-4
 			end
 			self.lockDelay=-1
 			self:drop()
@@ -1960,7 +1960,7 @@ function Player:act_insLeft(auto)
 		self.spinLast=false
 	end
 	if self.gameEnv.shakeFX then
-		self.fieldOff.vx=-self.gameEnv.shakeFX*.5
+		self.fieldOff.vx=-.5
 	end
 	if auto then
 		if self.ctrlCount==0 then self.ctrlCount=1 end
@@ -1982,7 +1982,7 @@ function Player:act_insRight(auto)
 		self.spinLast=false
 	end
 	if self.gameEnv.shakeFX then
-		self.fieldOff.vx=self.gameEnv.shakeFX*.5
+		self.fieldOff.vx=.5
 	end
 	if auto then
 		if self.ctrlCount==0 then self.ctrlCount=1 end
@@ -1998,7 +1998,7 @@ function Player:act_insDown()
 			self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
 		end
 		if ENV.shakeFX then
-			self.fieldOff.vy=ENV.shakeFX*.5
+			self.fieldOff.vy=.5
 		end
 		self.curY=self.ghoY
 		self.lockDelay=ENV.lock

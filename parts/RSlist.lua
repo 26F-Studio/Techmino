@@ -631,9 +631,9 @@ do
 								sfx='rotatekick'
 								if P.gameEnv.shakeFX then
 									if d==1 or d==3 then
-										P.fieldOff.va=P.fieldOff.va+(2-d)*P.gameEnv.shakeFX*6e-3
+										P.fieldOff.va=P.fieldOff.va+(2-d)*6e-3
 									else
-										P.fieldOff.va=P.fieldOff.va+P:getCenterX()*P.gameEnv.shakeFX*3e-3
+										P.fieldOff.va=P.fieldOff.va+P:getCenterX()*3e-3
 									end
 								end
 							else

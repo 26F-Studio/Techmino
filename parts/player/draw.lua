@@ -80,9 +80,14 @@ local function applyField(P)
 
 	--Apply fieldOffset
 	local O=P.fieldOff
-	gc_translate(O.x+150+150,O.y+300)
-	gc_rotate(O.a)
-	gc_translate(-150,-300)
+	if P.gameEnv.shakeFX then
+		local k=P.gameEnv.shakeFX
+		gc_translate(O.x*k+150+150,O.y*k+300)
+		gc_rotate(O.a*k)
+		gc_translate(-150,-300)
+	else
+		gc_translate(150,0)
+	end
 
 	--Apply stencil
 	gc_stencil(stencilBoard)
