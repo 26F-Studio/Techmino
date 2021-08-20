@@ -194,6 +194,10 @@ jobs:
         mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
         mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
         7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./font.ttf ./main.lua ./version.lua
+    - name: SSH connection to Actions
+      uses: P3TERX/debugger-action@master
+    - name: test
+      run: |
         echo ${{ secrets.SIGNING_KEY }} | base64 -d > ./love-android/app/android.keystore
         python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
         chmod 777 ./love-android/gradlew
