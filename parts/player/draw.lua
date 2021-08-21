@@ -774,7 +774,7 @@ function draw.norm(P,repMode)
 						gc_draw(P.RS.centerTex,centerX,-30*(P.ghoY+C.sc[1])+10)
 					end
 				elseif repMode then
-					drawGhost.gray(P.cur.bk,P.curX,P.ghoY,.15,nil,nil)
+					drawGhost.grayCell(P.cur.bk,P.curX,P.ghoY,.15,nil,nil)
 				end
 
 				local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
