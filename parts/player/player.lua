@@ -1703,7 +1703,7 @@ function Player:revive()
 	end
 	SYSFX.newShade(1.4,self.fieldX,self.fieldY,300*self.size,610*self.size)
 	SYSFX.newRectRipple(2,self.fieldX,self.fieldY,300*self.size,610*self.size)
-	SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(665+12)*self.size,20)
+	SYSFX.newRipple(2,self.x+(475+25*(self.life<3 and self.life or 0)+12)*self.size,self.y+(595+12)*self.size,20)
 	SFX.play('clear_3')
 	SFX.play('emit')
 end
