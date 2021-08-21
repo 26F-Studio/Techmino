@@ -1,5 +1,14 @@
 local gc=love.graphics
 
+local function bgmPosition(target, beat)
+	local section = math.floor(target/10)  -- 0-19
+	local sectiontime = 0
+	for s=1,section-1 do
+		sectiontime = sectiontime + 16 / (120+2*(s-1))
+	end
+	return (sectiontime + beat/(120+2*(section-1))) * 60 + 8
+end
+
 return{
 	color=COLOR.magenta,
 	env={
@@ -12,6 +21,7 @@ return{
 		dropPiece=function(P)
 			if P.stat.row>=P.modeData.target then
 				if P.modeData.target==200 then
+					BGM.seek(bgmPosition(200,0))
 					P:win('finish')
 				else
 					P.modeData.bpm=120+2*P.modeData.target/10
@@ -35,19 +45,26 @@ return{
 			P.modeData.bpm=120
 			P.modeData.beatFrame=30
 			P.modeData.counter=30
+			P.modeData.beat=0
+			BGM.seek(0)
 			while true do
 				YIELD()
+				if P.modeData.counter==P.modeData.beatFrame then
+					SFX.play('click',.3)
+					local pos = bgmPosition(P.modeData.target, P.modeData.beat)
+					BGM.seek(pos)
+					P.modeData.beat=(P.modeData.beat+1)%16
+				end
 				P.modeData.counter=P.modeData.counter-1
 				if P.modeData.counter==0 then
 					P.modeData.counter=P.modeData.beatFrame
-					SFX.play('click',.3)
 					P:switchKey(6,true)
 					P:pressKey(6)
 					P:switchKey(6,false)
 				end
 			end
 		end,
-		bg='bg2',bgm='secret7th',
+		bg='bg2',bgm='untitled1',
 	},
 	slowMark=true,
 	mesDisp=function(P)

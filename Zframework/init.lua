@@ -2,6 +2,7 @@ NONE={}function NULL()end
 EDITING=""
 LOADED=false
 ERRDATA={}
+EPS=0  --Error estimate to the frame rate
 
 --Pure lua modules (basic)
 COLOR=	require'Zframework.color'
@@ -651,6 +652,7 @@ function love.run()
 					setFont(15)
 					gc_setColor(1,1,1)
 					gc_print(FPS(),safeX+5,-20)
+					gc_print(math.floor(EPS*1000000), safeX+5,-35)
 
 					--Debug info.
 					if devMode then
@@ -731,8 +733,9 @@ function love.run()
 		end
 
 		--Keep 60fps
+		EPS=EPS+(1/60-dt)*0.16
 		_=TIME()-lastFrame
 		if _<.016 then WAIT(.016-_)end
-		while TIME()-lastFrame<1/60-5e-6 do WAIT(0)end
+		while TIME()-lastFrame<1/60+EPS do end
 	end
 end

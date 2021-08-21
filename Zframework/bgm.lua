@@ -105,5 +105,17 @@ function BGM.init(list)
 		if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
 		BGM.nowPlay,BGM.playing=nil
 	end
+	function BGM.seek(time)
+		if BGM.playing then
+			current=BGM.playing:tell()
+			if math.abs(current-time) < 0.1 then
+				print(current-time)
+				-- current < time -> frame rate is too large
+				EPS=EPS+(time-current)*0.3
+			else
+				BGM.playing:seek(time)
+			end
+		end
+	end
 end
 return BGM
