@@ -104,16 +104,15 @@ local function update_misc(P,dt)
 	end
 
 	--Field shaking
-	--TODO
 	if P.gameEnv.shakeFX then
 		local O=P.fieldOff
-		O.vx=O.vx*.8-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
+		O.vx=O.vx*.7-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
 		O.x=O.x+O.vx
 
-		O.vy=O.vy*.8-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
+		O.vy=O.vy*.7-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
 		O.y=O.y+O.vy
 
-		O.va=O.va*.8-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
+		O.va=O.va*.7-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
 		O.a=O.a+O.va
 		if abs(O.a)<.0006 then O.a,O.va=0,0 end
 	end
