@@ -341,7 +341,7 @@ function gameOver()--Save record
 	end
 end
 function trySave()
-	if not GAME.statSaved and PLAYERS[1]and(PLAYERS[1].frameRun>300 or GAME.result)then
+	if not GAME.statSaved and PLAYERS[1]and PLAYERS[1].type=='human'and(PLAYERS[1].frameRun>300 or GAME.result)then
 		GAME.statSaved=true
 		STAT.game=STAT.game+1
 		mergeStat(STAT,PLAYERS[1].stat)
