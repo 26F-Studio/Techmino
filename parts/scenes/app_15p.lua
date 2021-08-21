@@ -12,6 +12,8 @@ local move,push,state
 local color,blind='color1'
 local slide,pathVis,revKB
 
+local colorSelector=WIDGET.newSelector{name="color",x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hideF=ifGaming}
+
 function scene.sceneInit()
 	BG.set('rainbow2')
 	BGM.play('push')
@@ -151,7 +153,7 @@ function scene.keyDown(key,isRep)
 		move,push=0,0
 	elseif key=="q"then
 		if state~=1 then
-			color=(color+1)%5
+			colorSelector:scroll(love.keyboard.isDown("lshift","rshift")and -1 or 1)
 		end
 	elseif key=="w"then
 		if state==0 then
@@ -235,8 +237,8 @@ local backColor={
 	color1={
 		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
 		COLOR.dG,COLOR.dB,COLOR.dB,COLOR.dB,
-		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
-		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
+		COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
+		COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
 	},--Colored(rank)
 	rainbow={
 		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
@@ -247,8 +249,8 @@ local backColor={
 	color2={
 		COLOR.dR,COLOR.dR,COLOR.dR,COLOR.dR,
 		COLOR.dB,COLOR.dB,COLOR.dB,COLOR.dB,
-		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
-		COLOR.dG,COLOR.dY,COLOR.dV,COLOR.dV,
+		COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
+		COLOR.dG,COLOR.dY,COLOR.dP,COLOR.dP,
 	},--Colored(row)
 	gray={
 		COLOR.dH,COLOR.dH,COLOR.dH,COLOR.dH,
@@ -293,7 +295,7 @@ function scene.draw()
 		for j=1,4 do
 			if cx~=j or cy~=i then
 				local N=board[i][j]
-				local C=mono and 3 or color
+				local C=mono and'gray'or color
 
 				gc.setColor(backColor[C][N])
 				gc.rectangle('fill',j*160+163,i*160-117,154,154,8)
@@ -317,7 +319,7 @@ end
 local function ifGaming()return state==1 end
 scene.widgetList={
 	WIDGET.newButton{name="reset",	x=160,y=100,w=180,h=100,color='lG',	font=40,code=pressKey"space"},
-	WIDGET.newSelector{name="color",x=150,y=240,w=200,list={'color1','rainbow','color2','gray','black'},color='lY',disp=function()return color end,	code=function(v)if state~=1 then color=v end end,hideF=ifGaming},
+	colorSelector,
 	WIDGET.newSwitch{name="blind",	x=240,y=330,w=60,					font=40,disp=function()return blind end,	code=pressKey"w",hideF=ifGaming},
 	WIDGET.newSwitch{name="slide",	x=240,y=420,w=60,					font=40,disp=function()return slide end,	code=pressKey"e",hideF=ifGaming},
 	WIDGET.newSwitch{name="pathVis",x=240,y=510,w=60,					font=40,disp=function()return pathVis end,	code=pressKey"r",hideF=function()return state==1 or not slide end},
