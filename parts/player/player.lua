@@ -257,7 +257,7 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
 			break
 		end
 	end
-	if flag and self.AI_mode=='CC'and self.AI_bot then CC.updateField(self)end
+	if flag and self.AI_mode=='CC'then CC.updateField(self)end
 end
 function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
 	local _
@@ -518,32 +518,45 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 	end
 end
 function Player:lock()
-	local dest=self.AI_dest
-	local has_dest=dest~=nil
-	local CB=self.cur.bk
-	for i=1,#CB do
-		local y=self.curY+i-1
-		if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
-		for j=1,#CB[1]do
-			if CB[i][j]then
-				self.field[y][self.curX+j-1]=self.cur.color
-				self.visTime[y][self.curX+j-1]=self.showTime
-				if dest then
+	if self.AI_dest then
+		local dest=self.AI_dest
+		local CB=self.cur.bk
+		for i=1,#CB do
+			local y=self.curY+i-1
+			if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
+			for j=1,#CB[1]do
+				if CB[i][j]then
+					self.field[y][self.curX+j-1]=self.cur.color
+					self.visTime[y][self.curX+j-1]=self.showTime
 					local x=self.curX+j-1
-					for k=1,#dest,2 do
-						if x==dest[k]+1 and y==dest[k+1]+1 then
-							rem(dest,k)rem(dest,k)
-							goto BREAK_success
+					if dest then
+						for k=1,#dest,2 do
+							if x==dest[k]+1 and y==dest[k+1]+1 then
+								rem(dest,k)rem(dest,k)
+								goto BREAK_success
+							end
 						end
+						dest=nil
+						::BREAK_success::
 					end
-					dest=nil
-					::BREAK_success::
 				end
 			end
 		end
-	end
-	if has_dest and not dest and self.AI_mode=='CC'and self.AI_bot then
-		CC.updateField(self)
+		if not dest and self.AI_mode=='CC'then
+			CC.updateField(self)
+		end
+	else
+		local CB=self.cur.bk
+		for i=1,#CB do
+			local y=self.curY+i-1
+			if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
+			for j=1,#CB[1]do
+				if CB[i][j]then
+					self.field[y][self.curX+j-1]=self.cur.color
+					self.visTime[y][self.curX+j-1]=self.showTime
+				end
+			end
+		end
 	end
 end
 

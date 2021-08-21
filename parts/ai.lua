@@ -37,11 +37,30 @@ if type(_CC)=='table'then
 	}
 	local CC=CC
 	function CC.updateField(P)
+		if not P.AI_thread then return end
 		local F,n={},1
-		for y=1,min(#P.field,40)do
+		local field=P.field
+		for y=1,min(#field,40)do
+			local sum=0
 			for x=1,10 do
-				F[n]=P.field[y][x]>0
+				if field[y][x]>0 then
+					F[n]=true
+					sum=sum+1
+				else
+					F[n]=false
+				end
 				n=n+1
+			end
+			if sum==10 then
+				--[[
+					--Print field and crash the game
+					for i=24,0,-1 do
+						local l=""for j=1,10 do l=l..(F[10*i+j]and"X"or"_")end print(l)
+					end
+					error("Row "..y.." full")
+				]]
+				P.AI_thread=nil
+				return
 			end
 		end
 		while n<=400 do
@@ -49,12 +68,12 @@ if type(_CC)=='table'then
 			n=n+1
 		end
 		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
-			P.AI_bot=nil
+			P.AI_thread=nil
 		end
 	end
 	function CC.switch20G(P)
 		if not pcall(CC.destroy,P.AI_bot)then
-			P.AI_bot=nil
+			P.AI_thread=nil
 			return
 		end
 		P.AIdata._20G=true
@@ -281,20 +300,19 @@ return{
 		while true do
 			--Start thinking
 			yield()
+			if not P.AI_bot then break end
 			if not pcall(CC.think,P.AI_bot)then break end
 
 			--Poll keys
 			local success,result,dest,hold,move
 			repeat
 				yield()
+				if not P.AI_bot then break end
 				success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
 			until not success or result==0 or result==2
 			if not success then break end
 			if result==2 then
-				while true do
-					yield()
-					ins(keys,6)
-				end
+				break
 			elseif result==0 then
 				dest[5],dest[6]=dest[1][1],dest[1][2]
 				dest[7],dest[8]=dest[2][1],dest[2][2]

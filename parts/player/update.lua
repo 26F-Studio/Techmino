@@ -187,16 +187,20 @@ function update.alive(P,dt)
 		local C=P.AI_keys
 		P.AI_delay=P.AI_delay-1
 		if not C[1]then
-			if P.AI_thread and not pcall(P.AI_thread)then
-				P.AI_thread=false
+			if P.AI_thread then
+				if not pcall(P.AI_thread)then
+					P.AI_thread=nil
+				end
+			else
+				P:act_hardDrop()
 			end
 		elseif P.AI_delay<=0 then
-			P:pressKey(C[1])P:releaseKey(C[1])
 			if P.AI_mode~='CC'or C[1]>3 then
 				P.AI_delay=P.AI_delay0*2
 			else
 				P.AI_delay=P.AI_delay0*.5
 			end
+			P:pressKey(C[1])P:releaseKey(C[1])
 			rem(C,1)
 		end
 	end
