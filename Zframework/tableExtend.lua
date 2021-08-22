@@ -16,10 +16,10 @@ function TABLE.shift(org,depth)
 	if not depth then depth=1e99 end
 	local L={}
 	for i=1,#org do
-		if type(org[i])~='table'or depth==0 then
-			L[i]=org[i]
-		else
+		if type(org[i])=='table'and depth>0 then
 			L[i]=TABLE.shift(org[i],depth-1)
+		else
+			L[i]=org[i]
 		end
 	end
 	return L
@@ -30,10 +30,10 @@ function TABLE.copy(org,depth)
 	if not depth then depth=1e99 end
 	local L={}
 	for k,v in next,org do
-		if type(v)~='table'or depth==0 then
-			L[k]=v
-		else
+		if type(v)=='table'and depth>0 then
 			L[k]=TABLE.copy(v,depth-1)
+		else
+			L[k]=v
 		end
 	end
 	return L
