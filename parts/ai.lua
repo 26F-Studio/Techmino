@@ -94,8 +94,9 @@ if type(_CC)=='table'then
 		TABLE.cut(P.holdQueue)
 		P.holdTime=P.gameEnv.holdCount
 
-		P.cur=rem(P.nextQueue,1)
-		P.curX,P.curY=blockPos[P.cur.id],int(P.gameEnv.fieldH+1-modf(P.cur.sc[1]))+ceil(P.fieldBeneath/30)
+		local C=rem(P.nextQueue,1)
+		P.cur=C
+		P.curX,P.curY=blockPos[C.id],int(P.gameEnv.fieldH+1-modf(C.centerPos[C.id][C.dir][1]))+ceil(P.fieldBeneath/30)
 
 		P.newNext()
 		local id=CCblockID[P.nextQueue[P.AIdata.next].id]

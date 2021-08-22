@@ -111,8 +111,12 @@ function Player:createClearingFX(y,spd)
 end
 function Player:createBeam(R,send,power,color)
 	local x1,y1,x2,y2
-	if self.miniMode then x1,y1=self.centerX,self.centerY
-	else x1,y1=self.x+(30*(self.curX+self.cur.sc[2])-30+15+150)*self.size,self.y+(600-30*(self.curY+self.cur.sc[1])+15)*self.size
+	if self.miniMode then
+		x1,y1=self.centerX,self.centerY
+	else
+		local C=self.cur
+		local sc=C.rs.centerPos[C.id][C.dir]
+		x1,y1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size,self.y+(600-30*(self.curY+sc[1])+15)*self.size
 	end
 	if R.small then x2,y2=R.centerX,R.centerY
 	else x2,y2=R.x+308*R.size,R.y+450*R.size
@@ -228,7 +232,13 @@ function Player:setInvisible(time)--Time in frames
 	end
 end
 function Player:setRS(RSname)
-	self.RS=RSlist[RSname]or RSlist.TRS
+	local rs=RSlist[RSname]or RSlist.TRS
+	self.RS=rs
+
+	--Reset all player's blocks' RSs
+	for i=1,#self.nextQueue do self.nextQueue[i].rs=rs end
+	for i=1,#self.holdQueue do self.holdQueue[i].rs=rs end
+	if self.cur then self.cur.rs=rs end
 end
 function Player:destroyBot()
 	if self.AI_mode=='CC'then
@@ -326,10 +336,12 @@ function Player:pushNextList(L,mir)--Push some nexts to nextQueue
 end
 
 function Player:getCenterX()
-	return self.curX+self.cur.sc[2]-5.5
+	local C=self.cur
+	return self.curX+C.rs.centerPos[C.id][C.dir][2]-5.5
 end
 function Player:getCenterY()
-	return self.curY-self.cur.sc[1]
+	local C=self.cur
+	return self.curY-C.rs.centerPos[C.id][C.dir][1]
 end
 function Player:solid(x,y)
 	if x<1 or x>10 or y<1 then return true end
@@ -498,6 +510,8 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 	--Fresh delays
 	if mode=='move'or mode=='newBlock'or mode=='fresh'then
 		local d0,l0=ENV.drop,ENV.lock
+		local C=self.cur
+		local sc=C.rs.centerPos[C.id][C.dir]
 		if ENV.easyFresh then
 			if self.lockDelay<l0 and self.freshTime>0 then
 				if mode~='newBlock'then
@@ -506,14 +520,14 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 				self.lockDelay=l0
 				self.dropDelay=d0
 			end
-			if self.curY+self.cur.sc[1]<self.minY then
-				self.minY=self.curY+self.cur.sc[1]
+			if self.curY+sc[1]<self.minY then
+				self.minY=self.curY+sc[1]
 				self.dropDelay=d0
 				self.lockDelay=l0
 			end
 		else
-			if self.curY+self.cur.sc[1]<self.minY then
-				self.minY=self.curY+self.cur.sc[1]
+			if self.curY+sc[1]<self.minY then
+				self.minY=self.curY+sc[1]
 				if self.lockDelay<l0 and self.freshTime>0 then
 					self.freshTime=self.freshTime-1
 					self.dropDelay=d0
@@ -628,17 +642,19 @@ end
 
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]='spawn_'..i end
 function Player:resetBlock()--Reset Block's position and execute I*S
-	local B=self.cur.bk
-	self.curX=int(6-#B[1]*.5)
-	local y=int(self.gameEnv.fieldH+1-modf(self.cur.sc[1]))+ceil(self.fieldBeneath/30)
+	local C=self.cur
+	local sc=C.rs.centerPos[C.id][C.dir]
+
+	self.curX=int(6-#C.bk[1]*.5)
+	local y=int(self.gameEnv.fieldH+1-modf(sc[1]))+ceil(self.fieldBeneath/30)
 	self.curY=y
-	self.minY=y+self.cur.sc[1]
+	self.minY=y+sc[1]
 
 	local pressing=self.keyPressing
 	--IMS
 	if self.gameEnv.ims and(pressing[1]and self.movDir==-1 or pressing[2]and self.movDir==1)and self.moving>=self.gameEnv.das then
 		local x=self.curX+self.movDir
-		if not self:ifoverlap(B,x,y)then
+		if not self:ifoverlap(C.bk,x,y)then
 			self.curX=x
 		end
 	end
@@ -665,25 +681,26 @@ function Player:resetBlock()--Reset Block's position and execute I*S
 	end
 
 	--Spawn SFX
-	if self.sound and self.cur.id<8 then
-		SFX.fplay(spawnSFX_name[self.cur.id],SETTING.sfx_spawn)
+	if self.sound and C.id<8 then
+		SFX.fplay(spawnSFX_name[C.id],SETTING.sfx_spawn)
 	end
 end
 
 function Player:spin(d,ifpre)
-	local cur=self.cur
-	local kickData=self.RS.kickTable[cur.id]
+	local C=self.cur
+	local sc=C.rs.centerPos[C.id][C.dir]
+	local kickData=C.rs.kickTable[C.id]
 	if type(kickData)=='table'then
-		local idir=(cur.dir+d)%4
-		kickData=kickData[cur.dir*10+idir]
+		local idir=(C.dir+d)%4
+		kickData=kickData[C.dir*10+idir]
 		if not kickData then
 			self:freshBlock('move')
 			SFX.play(ifpre and'prerotate'or'rotate',nil,self:getCenterX()*.15)
 			return
 		end
-		local icb=BLOCKS[cur.id][idir]
-		local isc=self.RS.centerPos[cur.id][idir]
-		local baseX,baseY=self.curX+cur.sc[2]-isc[2],self.curY+cur.sc[1]-isc[1]
+		local icb=BLOCKS[C.id][idir]
+		local isc=C.rs.centerPos[C.id][idir]
+		local baseX,baseY=self.curX+sc[2]-isc[2],self.curY+sc[1]-isc[1]
 		for test=1,#kickData do
 			local ix,iy=baseX+kickData[test][1],baseY+kickData[test][2]
 			if (self.freshTime>0 or kickData[test][2]<=0)and not self:ifoverlap(icb,ix,iy)then
@@ -691,7 +708,7 @@ function Player:spin(d,ifpre)
 				if self.gameEnv.moveFX and self.gameEnv.block then self:createMoveFX()end
 
 				--Change block position
-				cur.sc,cur.bk,cur.dir=isc,icb,idir
+				sc,C.bk,C.dir=isc,icb,idir
 				self.curX,self.curY=ix,iy
 				self.spinLast=test==2 and 0 or 1
 
@@ -828,29 +845,20 @@ function Player:hold(ifpre)
 	end
 end
 
-function Player:getBlock(id,name,color)--Get a block(id=n) object
+function Player:getBlock(id,name,color)--Get a block object
 	local E=self.gameEnv
 	local dir=E.face[id]
 	return{
 		id=id,
 		dir=dir,
 		bk=BLOCKS[id][dir],
-		sc=self.RS.centerPos[id][dir],
+		rs=self.RS,
 		name=name or id,
 		color=E.bone and 17 or color or E.skin[id],
 	}
 end
-function Player:getNext(n)--Push a block(id=n) to nextQueue
-	local E=self.gameEnv
-	local dir=E.face[n]
-	ins(self.nextQueue,{
-		id=n,
-		bk=BLOCKS[n][dir],
-		sc=self.RS.centerPos[n][dir],
-		dir=dir,
-		name=n,
-		color=E.bone and 17 or E.skin[n],
-	})
+function Player:getNext(id)--Push a block to nextQueue
+	ins(self.nextQueue,self:getBlock(id))
 end
 function Player:popNext(ifhold)--Pop nextQueue to hand
 	if not ifhold then
@@ -1058,6 +1066,7 @@ do--Player.drop(self)--Place piece
 		local finish
 		local cmb=self.combo
 		local C,CB,CX,CY=self.cur,self.cur.bk,self.curX,self.curY
+		local sc=C.rs.centerPos[C.id][C.dir]
 		local clear--If clear with no line fall
 		local cc,gbcc=0,0--Row/garbage-row cleared,full-part
 		local atk,exblock=0,0--Attack & extra defense
@@ -1067,14 +1076,14 @@ do--Player.drop(self)--Place piece
 
 		piece.id,piece.name=C.id,C.name
 		piece.curX,piece.curY,piece.dir=self.curX,self.curY,C.dir
-		piece.centX,piece.centY=self.curX+C.sc[2],self.curY+C.sc[1]
+		piece.centX,piece.centY=self.curX+sc[2],self.curY+sc[1]
 		piece.frame,piece.autoLock=self.frameRun,autoLock
 		self.waiting=ENV.wait
 
 		--Tri-corner spin check
 		if self.spinLast then
 			if C.id<6 then
-				local x,y=CX+C.sc[2],CY+C.sc[1]
+				local x,y=CX+sc[2],CY+sc[1]
 				local c=0
 				if self:solid(x-1,y+1)then c=c+1 end
 				if self:solid(x+1,y+1)then c=c+1 end

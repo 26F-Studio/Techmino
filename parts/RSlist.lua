@@ -193,7 +193,7 @@ do
 									C.id=id
 									C.bk=bk
 									P.curX,P.curY=x,y
-									P.cur.dir,P.cur.sc=dir,defaultCenterPos[id][dir]
+									P.cur.dir=dir
 									P.spinLast=2
 									P.stat.rotate=P.stat.rotate+1
 									P:freshBlock('move')
@@ -631,8 +631,11 @@ do
 			local idir=(C.dir+d)%4
 			local kickList=list[C.id][C.dir*10+idir]
 			local icb=BLOCKS[C.id][idir]
-			local isc=defaultCenterPos[C.id][idir]
-			local ix,iy=P.curX+C.sc[2]-isc[2],P.curY+C.sc[1]-isc[1]
+			local ix,iy do
+				local oldSC=C.RS.centerPos[C.id][C.dir]
+				local newSC=defaultCenterPos[C.id][idir]
+				ix,iy=P.curX+oldSC[2]-newSC[2],P.curY+oldSC[1]-newSC[1]
+			end
 			local dx,dy=0,0 do
 				local pressing=P.keyPressing
 				if pressing[1]and P:ifoverlap(C.bk,P.curX-1,P.curY)then dx=dx-1 end
@@ -653,7 +656,7 @@ do
 								P:createMoveFX()
 							end
 							P.curX,P.curY,C.dir=x,y,idir
-							C.sc,C.bk=isc,icb
+							C.bk=icb
 							P.spinLast=test==2 and 0 or 1
 
 							local t=P.freshTime

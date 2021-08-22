@@ -303,7 +303,7 @@ local function drawBlock(CB,curX,curY,texture)
 end
 local function drawNextPreview(B,fieldH,fieldBeneath)
 	gc_setColor(1,1,1,.8)
-	local y=int(fieldH+1-modf(B.sc[1]))+ceil(fieldBeneath/30)
+	local y=int(fieldH+1-modf(B.rs.centerPos[B.id][B.dir][1]))+ceil(fieldBeneath/30)
 	B=B.bk
 	local x=int(6-#B[1]*.5)
 	local cross=TEXTURE.puzzleMark[-1]
@@ -763,15 +763,16 @@ function draw.norm(P,repMode)
 				local curColor=C.color
 
 				local trans=P.lockDelay/ENV.lock
-				local centerX=30*(P.curX+C.sc[2])-20
+				local centerPos=C.rs.centerPos[C.id][C.dir]
+				local centerX=30*(P.curX+centerPos[2])-20
 
 				--Draw ghost & rotation center
-				local centerDisp=ENV.center and P.RS.centerDisp[C.id]
+				local centerDisp=ENV.center and C.rs.centerDisp[C.id]
 				if ENV.ghost then
 					drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)
 					if centerDisp then
 						gc_setColor(1,1,1,ENV.center)
-						gc_draw(P.RS.centerTex,centerX,-30*(P.ghoY+C.sc[1])+10)
+						gc_draw(C.rs.centerTex,centerX,-30*(P.ghoY+centerPos[1])+10)
 					end
 				elseif repMode then
 					drawGhost.grayCell(P.cur.bk,P.curX,P.ghoY,.15,nil,nil)
@@ -785,7 +786,7 @@ function draw.norm(P,repMode)
 						drawBlock(P.cur.bk,P.curX,P.curY,P.skinLib[curColor])
 						if centerDisp then
 							gc_setColor(1,1,1,ENV.center)
-							gc_draw(P.RS.centerTex,centerX,-30*(P.curY+C.sc[1])+10)
+							gc_draw(C.rs.centerTex,centerX,-30*(P.curY+centerPos[1])+10)
 						end
 					elseif repMode then
 						drawBlockShade(P.cur.bk,P.curX,P.curY,trans*.3)
