@@ -72,10 +72,7 @@ if type(_CC)=='table'then
 		end
 	end
 	function CC.switch20G(P)
-		if not pcall(CC.destroy,P.AI_bot)then
-			P:destroyBot()
-			return
-		end
+		P:destroyBot()
 		P.AIdata._20G=true
 		P.AI_keys={}
 		local opt,wei=CC.getConf()

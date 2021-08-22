@@ -242,7 +242,10 @@ function Player:setRS(RSname)
 end
 function Player:destroyBot()
 	if self.AI_mode=='CC'then
-		if self.AI_bot then CC.destroy(self.AI_bot)end
+		if self.AI_bot then
+			CC.destroy(self.AI_bot)
+			self.AI_bot=nil
+		end
 	end
 	self.AI_thread=nil
 end
@@ -1688,7 +1691,7 @@ function Player:revive()
 	end
 	self.garbageBeneath=0
 	if self.AI_mode=='CC'then
-		CC.destroy(self.AI_bot)
+		self:destroyBot()
 		TABLE.cut(self.holdQueue)
 		self:loadAI(self.AIdata)
 	end
