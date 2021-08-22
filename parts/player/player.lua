@@ -517,44 +517,30 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 		end
 	end
 end
-function Player:lock()
-	if self.AI_dest then
-		local dest=self.AI_dest
-		local CB=self.cur.bk
-		for i=1,#CB do
-			local y=self.curY+i-1
-			if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
-			for j=1,#CB[1]do
-				if CB[i][j]then
-					self.field[y][self.curX+j-1]=self.cur.color
-					self.visTime[y][self.curX+j-1]=self.showTime
-					local x=self.curX+j-1
-					if dest then
-						for k=1,#dest,2 do
-							if x==dest[k]+1 and y==dest[k+1]+1 then
-								rem(dest,k)rem(dest,k)
-								goto BREAK_success
-							end
-						end
-						dest=nil
-						::BREAK_success::
-					end
-				end
+function Player:checkAIdest()
+	if not self.AI_dest then return end
+	local dest=self.AI_dest
+	local CB=self.cur.bk
+	for k=1,#dest,2 do
+		local r=CB[dest[k+1]-self.curY+2]
+		if not r or not r[dest[k]-self.curX+2]then
+			if self.AI_mode=='CC'then
+				CC.updateField(self)
 			end
+			self.AI_dest=nil
+			return
 		end
-		if not dest and self.AI_mode=='CC'then
-			CC.updateField(self)
-		end
-	else
-		local CB=self.cur.bk
-		for i=1,#CB do
-			local y=self.curY+i-1
-			if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
-			for j=1,#CB[1]do
-				if CB[i][j]then
-					self.field[y][self.curX+j-1]=self.cur.color
-					self.visTime[y][self.curX+j-1]=self.showTime
-				end
+	end
+end
+function Player:lock()
+	local CB=self.cur.bk
+	for i=1,#CB do
+		local y=self.curY+i-1
+		if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
+		for j=1,#CB[1]do
+			if CB[i][j]then
+				self.field[y][self.curX+j-1]=self.cur.color
+				self.visTime[y][self.curX+j-1]=self.showTime
 			end
 		end
 	end
@@ -1098,7 +1084,7 @@ do--Player.drop(self)--Place piece
 			dospin=dospin+2
 		end
 
-		--Lock block to field
+		self:checkAIdest()
 		self:lock()
 
 		--Clear list of cleared-rows
