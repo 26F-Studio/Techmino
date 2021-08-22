@@ -230,6 +230,12 @@ end
 function Player:setRS(RSname)
 	self.RS=RSlist[RSname]or RSlist.TRS
 end
+function Player:destroyBot()
+	if self.AI_mode=='CC'then
+		if self.AI_bot then CC.destroy(self.AI_bot)end
+	end
+	self.AI_thread=nil
+end
 
 function Player:getHolePos()--Get a good garbage-line hole position
 	if self.garbageBeneath==0 then

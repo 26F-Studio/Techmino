@@ -59,7 +59,7 @@ if type(_CC)=='table'then
 					end
 					error("Row "..y.." full")
 				]]
-				P.AI_thread=nil
+				P:destroyBot()
 				return
 			end
 		end
@@ -68,12 +68,12 @@ if type(_CC)=='table'then
 			n=n+1
 		end
 		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
-			P.AI_thread=nil
+			P:destroyBot()
 		end
 	end
 	function CC.switch20G(P)
 		if not pcall(CC.destroy,P.AI_bot)then
-			P.AI_thread=nil
+			P:destroyBot()
 			return
 		end
 		P.AIdata._20G=true

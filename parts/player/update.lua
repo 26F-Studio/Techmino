@@ -189,7 +189,7 @@ function update.alive(P,dt)
 		if not C[1]then
 			if P.AI_thread then
 				if not pcall(P.AI_thread)then
-					P.AI_thread=nil
+					P:destroyBot()
 				end
 			else
 				P:act_hardDrop()
