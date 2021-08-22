@@ -6,7 +6,7 @@ local function bgmPosition(target, beat)
 	for s=1,section-1 do
 		sectiontime = sectiontime + 16 / (120+2*(s-1))
 	end
-	return (sectiontime + beat/(120+2*(section-1))) * 60 + 8
+	return (sectiontime + beat/(120+2*(section-1))) * 60 + 8.05
 end
 
 return{
@@ -21,7 +21,7 @@ return{
 		dropPiece=function(P)
 			if P.stat.row>=P.modeData.target then
 				if P.modeData.target==200 then
-					BGM.seek(bgmPosition(200,0))
+					BGM.seek(bgmPosition(200,16))
 					P:win('finish')
 				else
 					P.modeData.bpm=120+2*P.modeData.target/10
