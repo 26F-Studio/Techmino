@@ -208,9 +208,6 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 			FREEROW.discard(rem(P.visTime))
 		end
 		if P.AI_mode=='CC'then
-			CC.free(P.bot_opt)
-			CC.free(P.bot_wei)
-			CC.destroy(P.AI_bot)
 			P.AI_mode=false
 		end
 		PLAYERS[i]=nil

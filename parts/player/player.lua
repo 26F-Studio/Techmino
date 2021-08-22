@@ -828,7 +828,7 @@ function Player:hold(ifpre)
 		if self.AI_mode=='CC'then
 			local next=self.nextQueue[self.AIdata.nextCount]
 			if next then
-				CC.addNext(self.AI_bot,next.id)
+				self.AI_bot:addNext(next.id)
 			end
 		end
 
@@ -875,7 +875,7 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 		if self.AI_mode=='CC'then
 			local next=self.nextQueue[self.AIdata.next]
 			if next then
-				CC.addNext(self.AI_bot,next.id)
+				self.AI_bot:addNext(next.id)
 			end
 		end
 
@@ -1540,15 +1540,14 @@ function Player:loadAI(data)--Load AI params
 	if self.AI_mode=='CC'then
 		self:setRS('SRS')
 		local opt,wei=CC.getConf()
-			CC.fastWeights(wei)
-			CC.setHold(opt,self.AIdata.hold)
-			CC.set20G(opt,self.AIdata._20G)
-			CC.setBag(opt,self.AIdata.bag=='bag')
-			CC.setNode(opt,self.AIdata.node)
+			wei:fastWeights()
+			opt:setHold(self.AIdata.hold)
+			opt:set20G(self.AIdata._20G)
+			opt:setBag(self.AIdata.bag=='bag')
+			opt:setNode(self.AIdata.node)
 		self.AI_bot=CC.new(opt,wei)
-		CC.free(opt)CC.free(wei)
 		for i=1,self.AIdata.next do
-			CC.addNext(self.AI_bot,self.nextQueue[i].id)
+			self.AI_bot:addNext(self.nextQueue[i].id)
 		end
 		if self.gameEnv.holdCount and self.gameEnv.holdCount>1 then
 			self:setHold(1)
@@ -1687,7 +1686,6 @@ function Player:revive()
 	end
 	self.garbageBeneath=0
 	if self.AI_mode=='CC'then
-		CC.destroy(self.AI_bot)
 		TABLE.cut(self.holdQueue)
 		self:loadAI(self.AIdata)
 	end

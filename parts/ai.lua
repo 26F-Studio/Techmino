@@ -15,25 +15,10 @@ local _CC=LOADLIB('CC',{
 	libFunc="luaopen_CCloader",
 })cc=nil
 if type(_CC)=='table'then
-	local CCblockID={6,5,4,3,2,1,0}
+	--local CCblockID={6,5,4,3,2,1,0}
 	CC={
-		getConf=	_CC.get_default_config	,--()options,weights
-		fastWeights=_CC.fast_weights		,--(weights)
-		--setConf=	_CC.set_options			,--(options,hold,20g,bag7)
-
-		new=		_CC.launch_async		,--(options,weights)bot
-		addNext=	function(bot,id)_CC.add_next_piece_async(bot,CCblockID[id])end	,--(bot,piece)
-		update=		_CC.reset_async			,--(bot,field,b2b,combo)
-		think=		_CC.request_next_move	,--(bot)
-		getMove=	_CC.poll_next_move		,--(bot)success,result,dest,hold,move
-		destroy=	_CC.destroy_async		,--(bot)
-
-		setHold=	_CC.set_hold			,--(opt,bool)
-		set20G=		_CC.set_20g				,--(opt,bool)
-		-- setPCLoop=	_CC.set_pcloop			,--(opt,bool)
-		setBag=		_CC.set_bag7			,--(opt,bool)
-		setNode=	_CC.set_max_nodes		,--(opt,bool)
-		free=		_CC.free				,--(opt/wei)
+		getConf=	_CC.getDefaultConfig	,--()options,weights
+		new=		_CC.launchAsync		,--(options,weights)bot
 	}
 	local CC=CC
 	function CC.updateField(P)
@@ -67,27 +52,23 @@ if type(_CC)=='table'then
 			F[n]=false
 			n=n+1
 		end
-		if not pcall(CC.update,P.AI_bot,F,P.b2b>=100,P.combo)then
+		if not pcall(P.AI_bot.update,P.AI_bot,F,P.b2b>=100,P.combo)then
 			P.AI_thread=nil
 		end
 	end
 	function CC.switch20G(P)
-		if not pcall(CC.destroy,P.AI_bot)then
-			P.AI_thread=nil
-			return
-		end
+		P.AI_thread=nil
 		P.AIdata._20G=true
 		P.AI_keys={}
 		local opt,wei=CC.getConf()
-			CC.fastWeights(wei)
-			CC.setHold(opt,P.AIdata.hold)
-			CC.set20G(opt,P.AIdata._20G)
-			CC.setBag(opt,P.AIdata.bag=='bag')
-			CC.setNode(opt,P.AIdata.node)
+			wei:fastWeights()
+			opt:setHold(P.AIdata.hold)
+			opt:set20G(P.AIdata._20G)
+			opt:setBag(P.AIdata.bag=='bag')
+			opt:setNode(P.AIdata.node)
 		P.AI_bot=CC.new(opt,wei)
-		CC.free(opt)CC.free(wei)
 		for i=1,P.AIdata.next do
-			CC.addNext(P.AI_bot,CCblockID[P.nextQueue[i].id])
+			P.AI_bot.addNext(P.nextQueue[i].id)
 		end
 		CC.updateField(P)
 
@@ -98,9 +79,9 @@ if type(_CC)=='table'then
 		P.curX,P.curY=blockPos[P.cur.id],int(P.gameEnv.fieldH+1-modf(P.cur.sc[1]))+ceil(P.fieldBeneath/30)
 
 		P.newNext()
-		local id=CCblockID[P.nextQueue[P.AIdata.next].id]
+		local id=P.nextQueue[P.AIdata.next].id
 		if id then
-			CC.addNext(P.AI_bot,id)
+			P.AI_bot.addNext(id)
 		end
 	end
 end
@@ -301,14 +282,14 @@ return{
 			--Start thinking
 			yield()
 			if not P.AI_bot then break end
-			if not pcall(CC.think,P.AI_bot)then break end
+			if not pcall(P.AI_bot.think,P.AI_bot)then break end
 
 			--Poll keys
 			local success,result,dest,hold,move
 			repeat
 				yield()
 				if not P.AI_bot then break end
-				success,result,dest,hold,move=pcall(CC.getMove,P.AI_bot)
+				success,result,dest,hold,move=pcall(P.AI_bot.getMove,P.AI_bot)
 			until not success or result==0 or result==2
 			if not success then break end
 			if result==2 then
