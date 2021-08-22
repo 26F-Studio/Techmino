@@ -732,7 +732,7 @@ function love.run()
 
 		--Keep 60fps
 		_=TIME()-lastFrame
-		if _<.016 then WAIT(.016-_)end
+		if _<.0162 then WAIT(.0162-_)end
 		while TIME()-lastFrame<1/60 do end
 	end
 end
