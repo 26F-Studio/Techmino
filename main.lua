@@ -289,6 +289,18 @@ do
 		if RANKS.tsd_u then RANKS.tsd_u=0 end
 		needSave=true
 	end
+	if STAT.version==1601 then
+		RANKS.round_e=nil
+		RANKS.round_n=nil
+		RANKS.round_h=nil
+		RANKS.round_l=nil
+		RANKS.round_u=nil
+		fs.remove('record/round_e.rec')
+		fs.remove('record/round_n.rec')
+		fs.remove('record/round_h.rec')
+		fs.remove('record/round_l.rec')
+		fs.remove('record/round_u.rec')
+	end
 	if RANKS.stack_20l then
 		RANKS.stack_20l=nil
 		RANKS.stack_40l=nil

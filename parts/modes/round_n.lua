@@ -1,5 +1,5 @@
 local function update_round(P)
-	if #PLY_ALIVE>1 then
+	if P.stat.piece%7==0 and #PLY_ALIVE>1 then
 		P.control=false
 		local ID=P.id
 		repeat
@@ -13,6 +13,7 @@ end
 return{
 	color=COLOR.green,
 	env={
+		life=1,
 		drop=300,lock=300,
 		infHold=true,
 		dropPiece=update_round,
@@ -22,7 +23,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1)
-		PLY.newAIPlayer(2,AIBUILDER('CC',7,1,true,13000))
+		PLY.newAIPlayer(2,AIBUILDER('CC',8,1,true,13000))
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Pieces   "..STRING.time(D[2])end,
@@ -31,10 +32,10 @@ return{
 		if P.result=='win'then
 			local T=P.stat.piece
 			return
-			T<=23 and 5 or
-			T<=26 and 4 or
-			T<=40 and 3 or
-			T<=60 and 2 or
+			T<=7*8 and 5 or
+			T<=7*10 and 4 or
+			T<=7*15 and 3 or
+			T<=7*26 and 2 or
 			1
 		end
 	end,
