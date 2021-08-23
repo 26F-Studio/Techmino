@@ -1,51 +1,25 @@
 return function(name,libName)
-	if SYSTEM=='Windows'or SYSTEM=='Linux'then
-		local r1,r2,r3=pcall(require,libName[SYSTEM])
-		if r1 and r2 then
-			return r2
-		else
-			MES.new('error',"Cannot load "..name..": "..(r2 or r3))
-		end
-	elseif SYSTEM=='Android'then
+	if SYSTEM=='Android'then
 		local fs=love.filesystem
-		local platform={'arm64-v8a','armeabi-v7a'}
-
-		for i=1,#platform do
-			local soFile,_,_,mes1=fs.read('data','libAndroid/'..platform[i]..'/'..libName.Android)
-			if soFile then
-				local success,mes2=fs.write('lib/'..libName.Android,soFile)
-				if success then
-					libFunc,mes2=package.loadlib(SAVEDIR..'/lib/'..libName.Android,libName.libFunc)
-					if libFunc then
-						MES.new('check',name.." lib loaded")
-						break
-					else
-						MES.new('error',"Cannot load "..name..": "..mes2)
-					end
-				else
-					MES.new('error',("Write %s-%s to saving failed: %s"):format(name,platform[i],mes2))
-				end
+		local platform=(function()
+			local p=io.popen('uname -m')
+			local arch=p:read('*a'):lower()
+			p:close()
+			if arch=='aarch64'or arch=='arm64'then
+				return'arm64-v8a'
 			else
-				MES.new('error',("Read %s-%s to saving failed: %s"):format(name,platform[i],mes1))
+				return'armeabi-v7a'
 			end
-		end
-		if not libFunc then
-			MES.new('error',"Cannot load "..name)
-			return
-		end
-		return libFunc()
-	elseif SYSTEM=="OS X" then
-		local rtn = package.loadlib(libName["OS X"], libName.libFunc)
-		if rtn then
-			local a = rtn()
-			MES.new('check',name.." lib loaded")
-			return a
-		else
-			MES.new('error',"Cannot load "..name)
-		end
-	else
-		MES.new('error',"No "..name.." for "..SYSTEM)
-		return
+		end)()
+		fs.write('lib/libCCloader.so',fs.read('data','libAndroid/'..platform..'/libCCloader.so'))
+		package.cpath=SAVEDIR..'/lib/lib?.so;'..package.cpath
+	elseif SYSTEM=='OS X' then
+		package.cpath='?.dylib;'..package.cpath
 	end
-	return true
+	local r1,r2,r3=pcall(require,'CCloader')
+	if r1 and r2 then
+		return r2
+	else
+		MES.new('error',"Cannot load "..name..": "..(r2 or r3))
+	end
 end
