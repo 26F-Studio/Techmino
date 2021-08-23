@@ -199,7 +199,7 @@ function Player:set20G(if20g)
 	self:switchKey(14,not if20g)
 	self:switchKey(15,not if20g)
 	self:switchKey(16,not if20g)
-	if if20g and self.AI_mode=='CC'then CC.switch20G(self)end
+	if if20g and self.bot then self.bot:switch20G()end
 end
 function Player:setHold(count)--Set hold count (false/true as 0/1)
 	if not count then
@@ -240,15 +240,6 @@ function Player:setRS(RSname)
 	for i=1,#self.holdQueue do self.holdQueue[i].rs=rs end
 	if self.cur then self.cur.rs=rs end
 end
-function Player:destroyBot()
-	if self.AI_mode=='CC'then
-		if self.AI_bot then
-			CC.destroy(self.AI_bot)
-			self.AI_bot=nil
-		end
-	end
-	self.AI_thread=nil
-end
 
 function Player:getHolePos()--Get a good garbage-line hole position
 	if self.garbageBeneath==0 then
@@ -276,7 +267,7 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
 			break
 		end
 	end
-	if flag and self.AI_mode=='CC'then CC.updateField(self)end
+	if flag and self.bot then self.bot:updateField()end
 end
 function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
 	local _
@@ -540,15 +531,15 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 		end
 	end
 end
-function Player:checkAIdest()
+function Player:checkDest()
 	if not self.AI_dest then return end
 	local dest=self.AI_dest
 	local CB=self.cur.bk
 	for k=1,#dest,2 do
 		local r=CB[dest[k+1]-self.curY+2]
 		if not r or not r[dest[k]-self.curX+2]then
-			if self.AI_mode=='CC'then
-				CC.updateField(self)
+			if self.bot then
+				self.bot:lockWrongPlace()
 			end
 			self.AI_dest=nil
 			return
@@ -837,10 +828,10 @@ function Player:hold(ifpre)
 			SFX.play(ifpre and'prehold'or'hold')
 		end
 
-		if self.AI_mode=='CC'then
-			local next=self.nextQueue[self.AIdata.nextCount]
+		if self.bot then
+			local next=self.nextQueue[ENV.nextCount]
 			if next then
-				CC.addNext(self.AI_bot,next.id)
+				self.bot:pushNewNext(next.id)
 			end
 		end
 
@@ -849,23 +840,24 @@ function Player:hold(ifpre)
 end
 
 function Player:getBlock(id,name,color)--Get a block object
-	local E=self.gameEnv
-	local dir=E.face[id]
+	local ENV=self.gameEnv
+	local dir=ENV.face[id]
 	return{
 		id=id,
 		dir=dir,
 		bk=BLOCKS[id][dir],
 		rs=self.RS,
 		name=name or id,
-		color=E.bone and 17 or color or E.skin[id],
+		color=ENV.bone and 17 or color or ENV.skin[id],
 	}
 end
 function Player:getNext(id)--Push a block to nextQueue
 	ins(self.nextQueue,self:getBlock(id))
 end
 function Player:popNext(ifhold)--Pop nextQueue to hand
+	local ENV=self.gameEnv
 	if not ifhold then
-		self.holdTime=min(self.holdTime+1,self.gameEnv.holdCount)
+		self.holdTime=min(self.holdTime+1,ENV.holdCount)
 	end
 	self.spinLast=false
 	self.spinSeq=0
@@ -873,28 +865,28 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 
 	self.cur=rem(self.nextQueue,1)
 	self.newNext()
+	if self.bot then
+		local next=self.nextQueue[ENV.nextCount]
+		if next then
+			self.bot:pushNewNext(next.id)
+		end
+	end
 	if self.cur then
 		self.pieceCount=self.pieceCount+1
-		if self.AI_mode=='CC'then
-			local next=self.nextQueue[self.AIdata.next]
-			if next then
-				CC.addNext(self.AI_bot,next.id)
-			end
-		end
 
 		local pressing=self.keyPressing
 
 		--IHS
-		if not ifhold and pressing[8]and self.gameEnv.ihs and self.holdTime>0 then
+		if not ifhold and pressing[8]and ENV.ihs and self.holdTime>0 then
 			self:hold(true)
 			pressing[8]=false
 		else
 			self:resetBlock()
 		end
 
-		self.dropDelay=self.gameEnv.drop
-		self.lockDelay=self.gameEnv.lock
-		self.freshTime=self.gameEnv.freshLimit
+		self.dropDelay=ENV.drop
+		self.lockDelay=ENV.lock
+		self.freshTime=ENV.freshLimit
 
 		if self.cur then
 			if self:ifoverlap(self.cur.bk,self.curX,self.curY)then
@@ -1102,7 +1094,9 @@ do--Player.drop(self)--Place piece
 			dospin=dospin+2
 		end
 
-		self:checkAIdest()
+		if self.bot then
+			self:checkDest()
+		end
 		self:lock()
 
 		--Clear list of cleared-rows
@@ -1522,46 +1516,12 @@ do--Player.drop(self)--Place piece
 	end
 end
 function Player:loadAI(data)--Load AI params
-	if not CC then
-		data.type='9S'
-		data.delta=int(data.delta*.3)
-	end
-	self.AI_mode=data.type
-	self.AI_keys={}
-	self.AI_delay=min(int(self.gameEnv.drop*.8),data.delta*rnd()*4)
-	self.AI_delay0=data.delta
-	self.AIdata={
-		type=data.type,
-		delay=data.delay,
-		delta=data.delta,
-
-		next=data.next,
-		hold=data.hold,
-		_20G=self._20G,
-		bag=data.bag,
-		node=data.node,
-	}
-	if self.AI_mode=='CC'then
-		self:setRS('SRS')
-		local opt,wei=CC.getConf()
-			CC.fastWeights(wei)
-			CC.setHold(opt,self.AIdata.hold)
-			CC.set20G(opt,self.AIdata._20G)
-			CC.setBag(opt,self.AIdata.bag=='bag')
-			CC.setNode(opt,self.AIdata.node)
-		self.AI_bot=CC.new(opt,wei)
-		CC.free(opt)CC.free(wei)
-		for i=1,self.AIdata.next do
-			CC.addNext(self.AI_bot,self.nextQueue[i].id)
-		end
-		if self.gameEnv.holdCount and self.gameEnv.holdCount>1 then
-			self:setHold(1)
-		end
-	else
-		self:setRS('TRS')
-	end
-	self.AI_thread=coroutine.wrap(AIFUNC[data.type])
-	self:AI_thread(self.AI_keys)
+	self.bot=BOT.new(self,data)
+	self.bot.data=data
+end
+function Player:reloadAI()--Load AI params
+	assert(self.bot,"Cannot reload AI before loading one!")
+	self.bot=BOT.load(self.bot.data)
 end
 --------------------------</Methods>--------------------------
 
@@ -1690,10 +1650,8 @@ function Player:revive()
 		self.field[_],self.visTime[_]=nil
 	end
 	self.garbageBeneath=0
-	if self.AI_mode=='CC'then
-		self:destroyBot()
-		TABLE.cut(self.holdQueue)
-		self:loadAI(self.AIdata)
+	if self.bot then
+		self.bot:revive()
 	end
 
 	self:clearAttackBuffer()

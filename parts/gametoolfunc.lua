@@ -207,7 +207,6 @@ function destroyPlayers()--Destroy all player objects, restore freerows and free
 			FREEROW.discard(rem(P.field))
 			FREEROW.discard(rem(P.visTime))
 		end
-		P:destroyBot()
 	end
 	TABLE.cut(PLAYERS)
 	TABLE.cut(PLY_ALIVE)

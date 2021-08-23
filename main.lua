@@ -82,7 +82,7 @@ SKIN=		require'parts.skin'
 USERS=		require'parts.users'
 NET=		require'parts.net'
 VK=			require'parts.virtualKey'
-AIFUNC=		require'parts.ai'
+BOT=		require'parts.bot'
 AIBUILDER=	require'parts.AITemplate'
 RSlist=		require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=		require'parts.player'

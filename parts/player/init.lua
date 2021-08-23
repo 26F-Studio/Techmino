@@ -379,8 +379,7 @@ function PLY.newDemoPlayer(id)
 		type='CC',
 		next=5,
 		hold=true,
-		delay=30,
-		delta=6,
+		delay=6,
 		bag='bag',
 		node=100000,
 	}

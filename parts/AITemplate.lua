@@ -6,13 +6,13 @@ return function(type,speedLV,next,hold,node)
 			type='CC',
 			next=next,
 			hold=hold,
-			delta=AISpeed[speedLV],
+			delay=AISpeed[speedLV],
 			node=node,
 		}
 	elseif type=='9S'then
 		return{
 			type='9S',
-			delta=math.floor(AISpeed[speedLV]),
+			delay=math.floor(AISpeed[speedLV]),
 			hold=hold,
 		}
 	end

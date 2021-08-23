@@ -183,26 +183,8 @@ function update.alive(P,dt)
 		end
 	end
 
-	if P.type=='computer'and P.control and P.waiting==-1 then
-		local C=P.AI_keys
-		P.AI_delay=P.AI_delay-1
-		if not C[1]then
-			if P.AI_thread then
-				if not pcall(P.AI_thread)then
-					P:destroyBot()
-				end
-			else
-				P:act_hardDrop()
-			end
-		elseif P.AI_delay<=0 then
-			if P.AI_mode~='CC'or C[1]>3 then
-				P.AI_delay=P.AI_delay0*2
-			else
-				P.AI_delay=P.AI_delay0*.5
-			end
-			P:pressKey(C[1])P:releaseKey(C[1])
-			rem(C,1)
-		end
+	if P.type=='computer'then
+		P.bot:update(dt)
 	end
 
 	--Fresh visible time
@@ -357,11 +339,6 @@ function update.alive(P,dt)
 
 				if P.ghoY~=P.curY then
 					P.dropDelay=ENV.drop
-				elseif P.AI_mode=='CC'and P.AI_bot then
-					CC.updateField(P)
-					if not P.AIdata._20G and ENV.drop<P.AI_delay0*.5 then
-						CC.switch20G(P)
-					end
 				end
 			else
 				P.lockDelay=P.lockDelay-1
@@ -369,8 +346,8 @@ function update.alive(P,dt)
 					goto THROW_stop
 				end
 				P:drop(true)
-				if P.AI_mode=='CC'and P.AI_bot then
-					CC.updateField(P)
+				if P.bot then
+					P.bot:unexpectedLock()
 				end
 			end
 		end

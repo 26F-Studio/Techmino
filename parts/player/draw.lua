@@ -801,8 +801,8 @@ function draw.norm(P,repMode)
 
 			--Draw AI's drop destination
 			if P.AI_dest then
-				local texture=TEXTURE.puzzleMark[21]
 				local L=P.AI_dest
+				local texture=TEXTURE.puzzleMark[21]
 				for i=1,#L,2 do
 					gc_draw(texture,30*L[i],-30*L[i+1]-30)
 				end
