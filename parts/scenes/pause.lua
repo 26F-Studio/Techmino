@@ -357,7 +357,7 @@ scene.widgetList={
 	WIDGET.newKey{name="resume",	x=290,y=240,w=300,h=70,code=pressKey"escape"},
 	WIDGET.newKey{name="restart",	x=290,y=340,w=300,h=70,code=pressKey"r",hideF=function()return GAME.fromRepMenu end},
 	WIDGET.newKey{name="setting",	x=290,y=440,w=300,h=70,code=pressKey"s",hideF=function()return GAME.fromRepMenu end},
-	WIDGET.newKey{name="quit",		x=290,y=540,w=300,h=70,code=backScene},
+	WIDGET.newKey{name="quit",		x=290,y=540,w=300,h=70,code=pressKey"q"},
 	WIDGET.newKey{name="tas",		x=290,y=620,w=240,h=50,code=pressKey"t",hideF=function()return not SETTING.allowTAS or GAME.tasUsed or GAME.result or GAME.replaying end},
 	WIDGET.newKey{name="page_prev",	x=500,y=390,w=70,code=pressKey"tab",noFrame=true,
 		fText=GC.DO{70,70,{'setLW',2},												{'dRPol',33,35,32,3,6,3.142},{'dRPol',45,35,32,3,6,3.142}},
