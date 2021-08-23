@@ -29,18 +29,29 @@ function baseBot.update(bot)
 	end
 end
 
-local botMeta={__index=function(self,k)
-	MES.new('warn',"Undefined method: "..k)
+local function undefMethod(self,k)
+	print('warn',"Undefined method: "..k)
 	self[k]=NULL
 	return NULL
-end}
+end
+local botMeta={__index=undefMethod}
 
 return{
 	new=function(P,data)
 		local bot={P=P}
-		if data.type=="/"then
-			--
-		else
+		if data.type=="CC"then
+			-- local ccBot=require"parts.bot.cc_wrapper"
+			-- setmetatable(bot,{__index=function(self,method)
+			-- 	if ccBot[method]then
+			-- 		ccBot[method](ccBot)
+			-- 	elseif baseBot[method]then
+			-- 		baseBot[method](self)
+			-- 	else
+			-- 		undefMethod(self,method)
+			-- 	end
+			-- end})
+			setmetatable(bot,botMeta)
+		elseif data.type=="9S"or true then--9s or else
 			TABLE.cover(baseBot,bot)
 			TABLE.cover(require"parts.bot.bot_9s",bot)
 			bot.P:setRS('TRS')
