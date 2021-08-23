@@ -9,7 +9,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1)
-		PLY.newAIPlayer(2,AIBUILDER('CC',7,3,true,50000))
+		PLY.newAIPlayer(2,BOT.template{type='CC',speedLV=7,next=3,hold=true,node=50000})
 	end,
 	score=function(P)return{P.stat.time}end,
 	scoreDisp=function(D)return STRING.time(D[1])end,

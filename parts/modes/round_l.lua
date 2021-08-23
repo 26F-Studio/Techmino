@@ -23,7 +23,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1)
-		PLY.newAIPlayer(2,AIBUILDER('CC',8,3,true,26000))
+		PLY.newAIPlayer(2,BOT.template{type='CC',speedLV=8,next=3,hold=true,node=26000})
 	end,
 	score=function(P)return{P.stat.piece,P.stat.time}end,
 	scoreDisp=function(D)return D[1].." Pieces   "..STRING.time(D[2])end,

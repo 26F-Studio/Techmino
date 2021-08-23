@@ -3,7 +3,7 @@ local int,abs=math.floor,math.abs
 local rem=table.remove
 local assert,resume,status=assert,coroutine.resume,coroutine.status
 
-local TEXT,GAME,CC=TEXT,GAME,CC
+local TEXT,GAME=TEXT,GAME
 local PLY_ALIVE=PLY_ALIVE
 
 local function update_misc(P,dt)

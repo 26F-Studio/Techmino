@@ -11,7 +11,7 @@
 	4deepShape
 	BlockedWells
 ]]
-local min,abs,rnd=math.min,math.abs,math.random
+local min,abs=math.min,math.abs
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 
@@ -121,7 +121,8 @@ local function getScore(field,cb,cy)
 end
 
 local bot_9s={}
-function bot_9s.thread(P,keys)
+function bot_9s.thread(bot)
+	local P,data,keys=bot.P,bot.data,bot.keys
 	while true do
 		--Thinking
 		yield()
@@ -135,7 +136,7 @@ function bot_9s.thread(P,keys)
 			end
 		end
 
-		for ifhold=0,P.gameEnv.holdCount>0 and 1 or 0 do
+		for ifhold=0,data.hold and P.gameEnv.holdCount>0 and 1 or 0 do
 			--Get block id
 			local bn
 			if ifhold==0 then
@@ -192,7 +193,7 @@ function bot_9s.thread(P,keys)
 		--Check if time to change target
 		yield()
 		if P.aiRND:random()<.00126 then
-			P:changeAtkMode(rnd()<.85 and 1 or #P.atker>3 and 4 or rnd()<.3 and 2 or 3)
+			P:changeAtkMode(P.aiRND:random()<.85 and 1 or #P.atker>3 and 4 or P.aiRND:random()<.3 and 2 or 3)
 		end
 	end
 end

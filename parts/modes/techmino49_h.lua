@@ -1,4 +1,3 @@
-local gc=love.graphics
 local function selectTarget(P)
 	if SETTING.swap then
 		for i=1,#P.keyPressing do
@@ -30,7 +29,7 @@ return{
 		ROYALEDATA.stage={30,20,15,10,5}
 		PLY.newPlayer(1)
 		local L={}for i=1,49 do L[i]=true end
-		local t=CC and 4 or 0
+		local t=4
 		while t>0 do
 			local r=math.random(2,49)
 			if L[r]then L[r],t=false,t-1 end
@@ -38,17 +37,17 @@ return{
 		local n=2
 		for _=1,4 do for _=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,AIBUILDER('9S',math.random(4,8)),true)
+				PLY.newAIPlayer(n,BOT.template{type='9S',speedLV=math.random(4,8),hold=true})
 			else
-				PLY.newAIPlayer(n,AIBUILDER('CC',math.random(3,6),3,true,30000),true)
+				PLY.newAIPlayer(n,BOT.template{type='CC',speedLV=math.random(3,6),next=3,hold=true,node=30000},true)
 			end
 			n=n+1
 		end end
 		for _=9,12 do for _=1,6 do
 			if L[n]then
-				PLY.newAIPlayer(n,AIBUILDER('9S',math.random(4,7)),true)
+				PLY.newAIPlayer(n,BOT.template{type='9S',speedLV=math.random(4,7),hold=true})
 			else
-				PLY.newAIPlayer(n,AIBUILDER('CC',math.random(4,6),3,true,30000),true)
+				PLY.newAIPlayer(n,BOT.template{type='CC',speedLV=math.random(4,6),next=3,hold=true,node=30000},true)
 			end
 			n=n+1
 		end end

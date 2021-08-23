@@ -9,7 +9,7 @@ return{
 	},
 	load=function()
 		PLY.newPlayer(1)
-		PLY.newAIPlayer(2,AIBUILDER('9S',6))
+		PLY.newAIPlayer(2,BOT.template{type='9S',speedLV=6,hold=true})
 	end,
 	score=function(P)return{P.stat.time}end,
 	scoreDisp=function(D)return STRING.time(D[1])end,

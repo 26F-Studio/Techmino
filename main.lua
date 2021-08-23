@@ -83,7 +83,6 @@ USERS=		require'parts.users'
 NET=		require'parts.net'
 VK=			require'parts.virtualKey'
 BOT=		require'parts.bot'
-AIBUILDER=	require'parts.AITemplate'
 RSlist=		require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=		require'parts.player'
 netPLY=		require'parts.netPlayer'

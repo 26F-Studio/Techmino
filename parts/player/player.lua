@@ -828,13 +828,6 @@ function Player:hold(ifpre)
 			SFX.play(ifpre and'prehold'or'hold')
 		end
 
-		if self.bot then
-			local next=self.nextQueue[ENV.nextCount]
-			if next then
-				self.bot:pushNewNext(next.id)
-			end
-		end
-
 		self.stat.hold=self.stat.hold+1
 	end
 end
@@ -853,6 +846,9 @@ function Player:getBlock(id,name,color)--Get a block object
 end
 function Player:getNext(id)--Push a block to nextQueue
 	ins(self.nextQueue,self:getBlock(id))
+	if self.bot then
+		self.bot:pushNewNext(id)
+	end
 end
 function Player:popNext(ifhold)--Pop nextQueue to hand
 	local ENV=self.gameEnv
@@ -865,12 +861,6 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
 
 	self.cur=rem(self.nextQueue,1)
 	self.newNext()
-	if self.bot then
-		local next=self.nextQueue[ENV.nextCount]
-		if next then
-			self.bot:pushNewNext(next.id)
-		end
-	end
 	if self.cur then
 		self.pieceCount=self.pieceCount+1
 
@@ -1518,10 +1508,6 @@ end
 function Player:loadAI(data)--Load AI params
 	self.bot=BOT.new(self,data)
 	self.bot.data=data
-end
-function Player:reloadAI()--Load AI params
-	assert(self.bot,"Cannot reload AI before loading one!")
-	self.bot=BOT.load(self.bot.data)
 end
 --------------------------</Methods>--------------------------
 
