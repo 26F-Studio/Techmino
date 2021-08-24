@@ -832,7 +832,7 @@ local userG={
 	tonumber=tonumber,tostring=tostring,
 	select=select,next=next,
 	ipairs=ipairs,pairs=pairs,
-	print=log,type=type,
+	type=type,
 	pcall=pcall,xpcall=xpcall,
 	rawget=rawget,rawset=rawset,rawlen=rawlen,rawequal=rawequal,
 	setfenv=setfenv,setmetatable=setmetatable,
@@ -844,6 +844,21 @@ local userG={
 	math={},string={},table={},bit={},coroutine={},
 	debug={"No way."},package={"No way."},io={"No way."},os={"No way."},
 }
+function userG.print(...)
+	local args,L={...},{}
+	for k,v in next,args do ins(L,{k,v})end
+	table.sort(L,function(a,b)return a[1]<b[1]end)
+	local i=1
+	while L[1]do
+		if i==L[1][1]then
+			log(tostring(L[1][2]))
+			rem(L,1)
+		else
+			log("nil")
+		end
+		i=i+1
+	end
+end
 userG._G=userG
 TABLE.complete(math,userG.math)
 TABLE.complete(string,userG.string)userG.string.dump=nil
