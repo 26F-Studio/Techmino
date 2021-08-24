@@ -116,7 +116,7 @@ local loadingThread=coroutine.wrap(function()
 		end
 	end
 	if editFlag then
-		FILE.save(RANKS,'conf/unlock')
+		saveProgress()
 	end
 
 	YIELD('loadOther')

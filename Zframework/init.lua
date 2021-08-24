@@ -287,11 +287,8 @@ function love.keypressed(key,_,isRep)
 		devMode=1
 		MES.new('info',"DEBUG ON",.2)
 	elseif key=="f11"then
-		if kb.isDown("lctrl","rctrl")then
-			_G['\100\114\97\119\70\87\77']=NULL
-		else
-			switchFullscreen()
-		end
+		switchFullscreen()
+		saveSettings()
 	elseif not SCN.swapping then
 		if SCN.keyDown then
 			if EDITING==""then

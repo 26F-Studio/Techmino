@@ -12,6 +12,15 @@ local SETTING,GAME,SCR=SETTING,GAME,SCR
 
 
 --System
+function saveStats()
+	FILE.save(STAT,'conf/data')
+end
+function saveProgress()
+	FILE.save(RANKS,'conf/unlock')
+end
+function saveSettings()
+	FILE.save(SETTING,'conf/settings')
+end
 function applySettings()
 	love.window.setFullscreen(SETTING.fullscreen)
 	LANG.set(SETTING.lang)
@@ -304,7 +313,7 @@ function gameOver()--Save record
 						end
 					end
 					if needSave then
-						FILE.save(RANKS,'conf/unlock')
+						saveProgress()
 					end
 				end
 				local D=M.score(P)
@@ -340,7 +349,7 @@ function trySave()
 		STAT.game=STAT.game+1
 		mergeStat(STAT,PLAYERS[1].stat)
 		STAT.todayTime=STAT.todayTime+PLAYERS[1].stat.time
-		FILE.save(STAT,'conf/data')
+		saveStats()
 	end
 end
 do--function freshPlayerPosition(sudden)

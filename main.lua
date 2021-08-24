@@ -354,9 +354,9 @@ do
 	end
 
 	if needSave then
-		FILE.save(SETTING,'conf/settings')
-		FILE.save(RANKS,'conf/unlock')
-		FILE.save(STAT,'conf/data')
+		saveStats()
+		saveProgress()
+		saveSettings()
 	end
 end
 

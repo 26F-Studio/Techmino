@@ -656,9 +656,8 @@ local commands={}do
 			if #key>0 then
 				if SETTING[key]~=nil then
 					SETTING[key]=nil
-					if FILE.save(SETTING,'conf/settings')then
-						log{C.Y,("Succesfully erased key '%s'"):format(key)}
-					end
+					saveSettings()
+					log{C.Y,("Succesfully erased key '%s'"):format(key)}
 				else
 					log{C.R,"No key called "..key}
 				end
@@ -683,7 +682,7 @@ local commands={}do
 						if M.x then RANKS[name]=0 end
 					end
 				end
-				FILE.save(RANKS,'conf/unlock')
+				saveProgress()
 				log{C.lC,"\85\78\76\79\67\75\65\76\76"}
 				SFX.play('clear_2')
 			else
@@ -719,7 +718,7 @@ local commands={}do
 		code=function(bool)
 			if bool=="on"or bool=="off"then
 				SETTING.allowTAS=bool=="on"
-				FILE.save(SETTING,'conf/settings')
+				saveSettings()
 				log("Allow TAS: "..bool)
 				if bool then
 					log("Hot keys: f1=play/pause f2=slowdown f3=speedup/nextframe")

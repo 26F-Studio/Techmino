@@ -3,7 +3,7 @@ local gc=love.graphics
 local scene={}
 
 function scene.sceneBack()
-	FILE.save(SETTING,'conf/settings')
+	saveSettings()
 end
 
 local fakeBlock={{true}}

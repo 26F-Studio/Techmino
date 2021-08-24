@@ -262,14 +262,14 @@ function NET.loadSavedData(sections)
 	if STAT.version==NET.cloudData.STAT.version then
 		local success=true
 		TABLE.update(NET.cloudData.STAT,STAT)
-		success=success and FILE.save(STAT,'conf/data')
+		success=success and saveStats()
 
 		TABLE.update(NET.cloudData.RANKS,RANKS)
-		success=success and FILE.save(RANKS,'conf/unlock')
+		success=success and saveProgress()
 
 		TABLE.update(NET.cloudData.SETTING,SETTING)
 		applySettings()
-		success=success and FILE.save(SETTING,'conf/settings')
+		success=success and saveSettings()
 
 		TABLE.update(NET.cloudData.keyMap,keyMap)
 		success=success and FILE.save(keyMap,'conf/key')

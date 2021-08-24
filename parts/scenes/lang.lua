@@ -12,7 +12,7 @@ local langList={
 local scene={}
 
 function scene.sceneBack()
-	FILE.save(SETTING,'conf/settings')
+	saveSettings()
 end
 
 local function _setLang(n)

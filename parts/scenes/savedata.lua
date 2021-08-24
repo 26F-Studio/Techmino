@@ -37,9 +37,8 @@ scene.widgetList={
 						RANKS[k]=nil
 					end
 				end
-				if FILE.save(RANKS,'conf/unlock')then
-					MES.new('check',text.importSuccess)
-				end
+				saveProgress()
+				MES.new('check',text.importSuccess)
 			else
 				MES.new('error',text.dataCorrupted)
 			end
@@ -49,9 +48,8 @@ scene.widgetList={
 			local D=parseCB()
 			if D and D.version==STAT.version then
 				TABLE.update(D,STAT)
-				if FILE.save(STAT,'conf/data')then
-					MES.new('check',text.importSuccess)
-				end
+				saveStats()
+				MES.new('check',text.importSuccess)
 			else
 				MES.new('error',text.dataCorrupted)
 			end
@@ -62,9 +60,8 @@ scene.widgetList={
 			if D then
 				TABLE.update(D,SETTING)
 				applySettings()
-				if FILE.save(SETTING,'conf/settings')then
-					MES.new('check',text.importSuccess)
-				end
+				saveSettings()
+				MES.new('check',text.importSuccess)
 			else
 				MES.new('error',text.dataCorrupted)
 			end
@@ -74,9 +71,8 @@ scene.widgetList={
 			local D=parseCB()
 			if D then
 				TABLE.update(D,VK_org)
-				if FILE.save(VK_org,'conf/virtualkey')then
-					MES.new('check',text.importSuccess)
-				end
+				FILE.save(VK_org,'conf/virtualkey')
+				MES.new('check',text.importSuccess)
 			else
 				MES.new('error',text.dataCorrupted)
 			end
