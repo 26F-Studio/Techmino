@@ -655,6 +655,7 @@ function draw.drawTargetLine(P,r)
 		gc_setColor(1,r>10 and 0 or .2+.8*rnd(),.5)
 		applyField(P)
 		r=600-30*r
+		if P.falling~=-1 then r=r-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)end
 		gc_line(0,r,300,r)
 		cancelField()
 	end
