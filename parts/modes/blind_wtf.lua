@@ -26,10 +26,10 @@ return{
 			MES.new('warn',text.switchSpawnSFX)
 		end
 	end,
-	mesDisp=function(P)
+	mesDisp=function(P,repMode)
 		if not GAME.result then
 			gc.push('transform')
-			if GAME.replaying then
+			if repMode then
 				gc.origin()
 				gc.setColor(.3,.3,.3,.7)
 				gc.rectangle('fill',0,0,SCR.w,SCR.h)

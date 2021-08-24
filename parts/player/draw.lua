@@ -892,7 +892,7 @@ function draw.norm(P,repMode)
 		--Mode informations
 		if GAME.curMode.mesDisp then
 			gc_setColor(.97,.97,.97)
-			GAME.curMode.mesDisp(P)
+			GAME.curMode.mesDisp(P,repMode)
 		end
 
 		if P.frameRun<180 then drawStartCounter(P.frameRun)end
