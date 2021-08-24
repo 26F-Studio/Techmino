@@ -16,117 +16,164 @@ local ply_draw=require"parts.player.draw"
 local ply_update=require"parts.player.update"
 
 --------------------------<FX>--------------------------
+function Player:_showText(text,dx,dy,font,style,spd,stop)
+	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
+end
+function Player:_createLockFX(x,y,t)--Not used
+	ins(self.lockFX,{x,y,0,t})
+end
+function Player:_createDropFX(x,y,w,h)--Not used
+	ins(self.dropFX,{x,y,w,h})
+end
+function Player:_createMoveFX(color,x,y,spd)--Not used
+	ins(self.moveFX,{color,x,y,0,spd})
+end
+function Player:_createClearingFX(y,spd)--Not used
+	ins(self.clearFX,{y,0,spd})
+end
 function Player:showText(text,dx,dy,font,style,spd,stop)
 	if self.gameEnv.text then
 		ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
 	end
 end
-function Player:showTextF(text,dx,dy,font,style,spd,stop)
-	ins(self.bonus,TEXT.getText(text,150+dx,300+dy,font,style,spd,stop))
-end
-function Player:popScore(score,x,y)
-	self:showText(
-		score,x,y,
-		40-600/(score+20),
-		'score',2
-	)
-end
-function Player:createLockFX()
-	local CB=self.cur.bk
-	local t=12-self.gameEnv.lockFX*2
-
-	for i=1,#CB do
-		local y=self.curY+i-1
-		local L=self.clearedRow
-		for j=1,#L do
-			if L[j]==y then goto CONTINUE_skip end
-		end
-		y=-30*y
-		for j=1,#CB[1]do
-			if CB[i][j]then
-				ins(self.lockFX,{30*(self.curX+j-2),y,0,t})
-			end
-		end
-		::CONTINUE_skip::
+function Player:popScore(score)
+	if self.gameEnv.score then
+		self:_showText(
+			score,
+			self:getCenterX()*30,
+			(10-self:getCenterY())*30+self.fieldBeneath+self.fieldUp,
+			40-600/(score+20),
+			'score',2
+		)
 	end
 end
-function Player:createDropFX(x,y,w,h)
-	ins(self.dropFX,{x,y,w,h,0,13-2*self.gameEnv.dropFX})
+function Player:createLockFX()
+	if self.gameEnv.lockFX then
+		local CB=self.cur.bk
+		local t=12-self.gameEnv.lockFX*2
+
+		for i=1,#CB do
+			local y=self.curY+i-1
+			local L=self.clearedRow
+			for j=1,#L do
+				if L[j]==y then goto CONTINUE_skip end
+			end
+			y=-30*y
+			for j=1,#CB[1]do
+				if CB[i][j]then
+					ins(self.lockFX,{30*(self.curX+j-2),y,0,t})
+				end
+			end
+			::CONTINUE_skip::
+		end
+	end
 end
-function Player:createMoveFX(dir)
-	local T=10-1.5*self.gameEnv.moveFX
-	local C=self.cur.color
+function Player:clearLockFX()
+	for i=1,#self.lockFX do
+		self.lockFX[i]=nil
+	end
+end
+function Player:createDropFX()
 	local CB=self.cur.bk
-	local x=self.curX-1
-	local y=self.gameEnv.smooth and self.curY+self.dropDelay/self.gameEnv.drop-2 or self.curY-1
-	if dir=='left'then
-		for i=1,#CB do for j=#CB[1],1,-1 do
-			if self.cur.bk[i][j]then
-				ins(self.moveFX,{C,x+j,y+i,0,T})
-				break
+	if self.gameEnv.dropFX and self.gameEnv.block and self.curY-self.ghoY-#CB>-1 then
+		ins(self.dropFX,{self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1,0,13-2*self.gameEnv.dropFX})
+	end
+end
+function Player:createMoveFX(moveDir)
+	local ENV=self.gameEnv
+	if not(ENV.moveFX and ENV.block)then
+		local spd=10-1.5*ENV.moveFX
+		local C=self.cur.color
+		local CB=self.cur.bk
+		local x=self.curX-1
+		local y=ENV.smooth and self.curY+self.dropDelay/ENV.drop-2 or self.curY-1
+		local L=self.moveFX
+		if moveDir=='left'then
+			for i=1,#CB do
+				for j=#CB[1],1,-1 do
+					if CB[i][j]then
+						ins(L,{C,x+j,y+i,0,spd})
+						break
+					end
+				end
 			end
-		end end
-	elseif dir=='right'then
-		for i=1,#CB do for j=1,#CB[1]do
-			if self.cur.bk[i][j]then
-				ins(self.moveFX,{C,x+j,y+i,0,T})
-				break
+		elseif moveDir=='right'then
+			for i=1,#CB do
+				for j=1,#CB[1]do
+					if CB[i][j]then
+						ins(L,{C,x+j,y+i,0,spd})
+						break
+					end
+				end
 			end
-		end end
-	elseif dir=='down'then
-		for j=1,#CB[1]do for i=#CB,1,-1 do
-			if self.cur.bk[i][j]then
-				ins(self.moveFX,{C,x+j,y+i,0,T})
-				break
+		elseif moveDir=='down'then
+			for j=1,#CB[1]do
+				for i=#CB,1,-1 do
+					if CB[i][j]then
+						ins(L,{C,x+j,y+i,0,spd})
+						break
+					end
+				end
 			end
-		end end
-	else
-		for i=1,#CB do for j=1,#CB[1]do
-			if self.cur.bk[i][j]then
-				ins(self.moveFX,{C,x+j,y+i,0,T})
+		else
+			for i=1,#CB do
+				for j=1,#CB[1]do
+					if CB[i][j]then
+						ins(L,{C,x+j,y+i,0,spd})
+					end
+				end
 			end
-		end end
+		end
+	end
+end
+function Player:createClearingFX(y)
+	if self.gameEnv.clearFX then
+		ins(self.clearFX,{y,0,7-self.gameEnv.clearFX})
 	end
 end
 function Player:createSplashFX(h)
-	local L=self.field[h]
-	local size=self.size
-	local y=self.fieldY+size*(self.fieldOff.y+self.fieldBeneath+self.fieldUp+615)
-	for x=1,10 do
-		local c=L[x]
-		if c>0 then
-			SYSFX.newCell(
-				2.5-self.gameEnv.splashFX*.4,
-				self.skinLib[c],
-				size,
-				self.fieldX+(30*x-15)*size,y-30*h*size,
-				rnd()*5-2.5,rnd()*-1,
-				0,.6
-			)
+	if self.gameEnv.splashFX then
+		local L=self.field[h]
+		local size=self.size
+		local y=self.fieldY+size*(self.fieldOff.y+self.fieldBeneath+self.fieldUp+615)-30*h*size
+		for x=1,10 do
+			local c=L[x]
+			if c>0 then
+				SYSFX.newCell(
+					2.5-self.gameEnv.splashFX*.4,
+					self.skinLib[c],
+					size,
+					self.fieldX+(30*x-15)*size,y,
+					rnd()*5-2.5,rnd()*-1,
+					0,.6
+				)
+			end
 		end
 	end
 end
-function Player:createClearingFX(y,spd)
-	ins(self.clearFX,{y,0,spd})
-end
-function Player:createBeam(R,send,power,color)
-	local x1,y1,x2,y2
-	if self.miniMode then
-		x1,y1=self.centerX,self.centerY
-	else
-		local C=self.cur
-		local sc=C.rs.centerPos[C.id][C.dir]
-		x1,y1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size,self.y+(600-30*(self.curY+sc[1])+15)*self.size
-	end
-	if R.small then x2,y2=R.centerX,R.centerY
-	else x2,y2=R.x+308*R.size,R.y+450*R.size
-	end
+function Player:createBeam(R,send)
+	if self.gameEnv.atkFX then
+		local power=self.gameEnv.atkFX
+		local color=self.cur.color
+		local x1,y1,x2,y2
+		if self.miniMode then
+			x1,y1=self.centerX,self.centerY
+		else
+			local C=self.cur
+			local sc=C.rs.centerPos[C.id][C.dir]
+			x1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size
+			y1=self.y+(600-30*(self.curY+sc[1])+15+self.fieldUp+self.fieldBeneath)*self.size
+		end
+		if R.small then x2,y2=R.centerX,R.centerY
+		else x2,y2=R.x+308*R.size,R.y+450*R.size
+		end
 
-	local c=minoColor[color]
-	local r,g,b=c[1]*2,c[2]*2,c[3]*2
+		local c=minoColor[color]
+		local r,g,b=c[1]*2,c[2]*2,c[3]*2
 
-	local a=GAME.modeEnv.royaleMode and not(self.type=='human'or R.type=='human')and .2 or 1
-	SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a*(power+2)*.0626)
+		local a=GAME.modeEnv.royaleMode and not(self.type=='human'or R.type=='human')and .2 or 1
+		SYSFX.newAttack(1-power*.1,x1,y1,x2,y2,int(send^.7*(4+power)),r,g,b,a*(power+2)*.0626)
+	end
 end
 --------------------------</FX>--------------------------
 
@@ -356,7 +403,6 @@ function Player:ifoverlap(bk,x,y)
 	end
 end
 function Player:attack(R,send,time,line,fromStream)
-	local atkFX=self.gameEnv.atkFX
 	if GAME.net then
 		if self.type=='human'then--Local player attack others
 			ins(GAME.rep,self.frameRun)
@@ -367,9 +413,7 @@ function Player:attack(R,send,time,line,fromStream)
 				line*0x100000000+
 				0x2000000000000
 			)
-			if atkFX then
-				self:createBeam(R,send,atkFX,self.cur.color)
-			end
+			self:createBeam(R,send)
 		end
 		if fromStream and R.type=='human'then--Local player receiving lines
 			ins(GAME.rep,R.frameRun)
@@ -384,9 +428,7 @@ function Player:attack(R,send,time,line,fromStream)
 		end
 	else
 		R:receive(self,send,time,line)
-		if atkFX then
-			self:createBeam(R,send,atkFX,self.cur.color)
-		end
+		self:createBeam(R,send)
 	end
 end
 function Player:receive(A,send,time,line)
@@ -486,9 +528,7 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
 
 			--Create FX if dropped
 			if self.curY>self.ghoY then
-				if ENV.dropFX and ENV.block and self.curY-self.ghoY-#CB>-1 then
-					self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
-				end
+				self:createDropFX()
 				if ENV.shakeFX then
 					self.fieldOff.vy=.5
 				end
@@ -699,7 +739,7 @@ function Player:spin(d,ifpre)
 			local ix,iy=baseX+kickData[test][1],baseY+kickData[test][2]
 			if (self.freshTime>0 or kickData[test][2]<=0)and not self:ifoverlap(icb,ix,iy)then
 				--Create moveFX at the original position
-				if self.gameEnv.moveFX and self.gameEnv.block then self:createMoveFX()end
+				self:createMoveFX()
 
 				--Change block position
 				sc,C.bk,C.dir=isc,icb,idir
@@ -1098,22 +1138,15 @@ do--Player.drop(self)--Place piece
 		--Create clearing FX
 		for i=1,cc do
 			local y=self.clearedRow[i]
-			if ENV.clearFX then self:createClearingFX(y,7-ENV.clearFX)end
-			if ENV.splashFX then self:createSplashFX(y)end
+			self:createClearingFX(y)
+			self:createSplashFX(y)
 		end
 
 		--Create locking FX
-		if ENV.lockFX then
-			if cc==0 then
-				self:createLockFX()
-			else
-				_=#self.lockFX
-				if _>0 then
-					for _=1,_ do
-						rem(self.lockFX)
-					end
-				end
-			end
+		if cc==0 then
+			self:createLockFX()
+		else
+			self:clearLockFX()
 		end
 
 		--Final spin check
@@ -1434,13 +1467,7 @@ do--Player.drop(self)--Place piece
 		if self.dropSpeed>60 then cscore=cscore*(.9+self.dropSpeed/600)end
 
 		cscore=int(cscore)
-		if ENV.score then
-			self:popScore(
-				cscore,
-				self:getCenterX()*30,
-				(10-self:getCenterY())*30+self.fieldBeneath+self.fieldUp
-			)
-		end
+		self:popScore(cscore)
 
 		piece.row,piece.dig=cc,gbcc
 		piece.score=cscore
@@ -1457,7 +1484,7 @@ do--Player.drop(self)--Place piece
 					if not finish then finish='finish'end
 				end
 			elseif ENV.missionKill then
-				self:showText(text.missionFailed,0,140,40,'flicker',.5)
+				self:_showText(text.missionFailed,0,140,40,'flicker',.5)
 				SFX.play('finesseError_long',.6)
 				finish=true
 			end
@@ -1672,9 +1699,9 @@ function Player:win(result)
 		end
 	end
 	if GAME.curMode.name=='custom_puzzle'then
-		self:showTextF(text.win,0,0,90,'beat',.4)
+		self:_showText(text.win,0,0,90,'beat',.4)
 	else
-		self:showTextF(text.win,0,0,90,'beat',.5,.2)
+		self:_showText(text.win,0,0,90,'beat',.5,.2)
 	end
 	if self.type=='human'then
 		gameOver()
@@ -1725,10 +1752,10 @@ function Player:lose(force)
 		if #PLY_ALIVE==ROYALEDATA.stage[GAME.stage]then
 			royaleLevelup()
 		end
-		self:showTextF(self.modeData.place,0,120,60,'appear',.26,.9)
+		self:_showText(self.modeData.place,0,120,60,'appear',.26,.9)
 	end
 	self.gameEnv.keepVisible=self.gameEnv.visible~='show'
-	self:showTextF(text.lose,0,0,90,'appear',.26,.9)
+	self:_showText(text.lose,0,0,90,'appear',.26,.9)
 	if self.type=='human'then
 		GAME.result='gameover'
 		SFX.play('fail')
@@ -1765,9 +1792,7 @@ function Player:act_moveLeft(auto)
 		end
 	elseif self.control and self.waiting==-1 then
 		if self.cur and not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)then
-			if self.gameEnv.moveFX and self.gameEnv.block then
-				self:createMoveFX('left')
-			end
+			self:createMoveFX('left')
 			self.curX=self.curX-1
 			self:freshBlock('move')
 			if self.sound and self.curY==self.ghoY then SFX.play('move')end
@@ -1792,9 +1817,7 @@ function Player:act_moveRight(auto)
 		end
 	elseif self.control and self.waiting==-1 then
 		if self.cur and not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)then
-			if self.gameEnv.moveFX and self.gameEnv.block then
-				self:createMoveFX('right')
-			end
+			self:createMoveFX('right')
 			self.curX=self.curX+1
 			self:freshBlock('move')
 			if self.sound and self.curY==self.ghoY then SFX.play('move')end
@@ -1840,10 +1863,7 @@ function Player:act_hardDrop()
 			SFX.play('drop_cancel',.3)
 		else
 			if self.curY>self.ghoY then
-				local CB=self.cur.bk
-				if ENV.dropFX and ENV.block and self.curY-self.ghoY-#CB>-1 then
-					self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
-				end
+				self:createDropFX()
 				self.curY=self.ghoY
 				self.spinLast=false
 				if self.sound then
@@ -1881,9 +1901,8 @@ function Player:act_softDrop()
 					y=y-1
 				end
 				if y>0 then
-					if ENV.dropFX and ENV.block and self.curY-y-#CB>-1 then
-						self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-y-#CB+1)
-					end
+					self.ghoY=y
+					self:createDropFX()
 					self.curY=y
 					self:freshBlock('move')
 					SFX.play('swipe')
@@ -1911,9 +1930,7 @@ function Player:act_insLeft(auto)
 	if not self.cur then return end
 	local x0=self.curX
 	while not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)do
-		if self.gameEnv.moveFX and self.gameEnv.block then
-			self:createMoveFX('left')
-		end
+		self:createMoveFX('left')
 		self.curX=self.curX-1
 		self:freshBlock('move')
 	end
@@ -1933,9 +1950,7 @@ function Player:act_insRight(auto)
 	if not self.cur then return end
 	local x0=self.curX
 	while not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)do
-		if self.gameEnv.moveFX and self.gameEnv.block then
-			self:createMoveFX('right')
-		end
+		self:createMoveFX('right')
 		self.curX=self.curX+1
 		self:freshBlock('move')
 	end
@@ -1954,10 +1969,7 @@ end
 function Player:act_insDown()
 	if self.cur and self.curY>self.ghoY then
 		local ENV=self.gameEnv
-		local CB=self.cur.bk
-		if ENV.dropFX and ENV.block and self.curY-self.ghoY-#CB>-1 then
-			self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1)
-		end
+		self:createDropFX()
 		if ENV.shakeFX then
 			self.fieldOff.vy=.5
 		end
@@ -1969,9 +1981,7 @@ function Player:act_insDown()
 end
 function Player:act_down1()
 	if self.cur and self.curY>self.ghoY then
-		if self.gameEnv.moveFX and self.gameEnv.block then
-			self:createMoveFX('down')
-		end
+		self:createMoveFX('down')
 		self.curY=self.curY-1
 		self:freshBlock('fresh')
 		self.spinLast=false
@@ -1979,24 +1989,18 @@ function Player:act_down1()
 end
 function Player:act_down4()
 	if self.cur and self.curY>self.ghoY then
-		local y=max(self.curY-4,self.ghoY)
-		local CB=self.cur.bk
-		if self.gameEnv.dropFX and self.gameEnv.block and self.curY-y-#CB>-1 then
-			self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-y-#CB+1)
-		end
-		self.curY=y
+		self.ghoY=max(self.curY-4,self.ghoY)
+		self:createDropFX()
+		self.curY=self.ghoY
 		self:freshBlock('fresh')
 		self.spinLast=false
 	end
 end
 function Player:act_down10()
 	if self.cur and self.curY>self.ghoY then
-		local y=max(self.curY-10,self.ghoY)
-		local CB=self.cur.bk
-		if self.gameEnv.dropFX and self.gameEnv.block and self.curY-y-#CB>-1 then
-			self:createDropFX(self.curX,self.curY-1,#CB[1],self.curY-y-#CB+1)
-		end
-		self.curY=y
+		self.ghoY=max(self.curY-10,self.ghoY)
+		self:createDropFX()
+		self.curY=self.ghoY
 		self:freshBlock('fresh')
 		self.spinLast=false
 	end
