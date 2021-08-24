@@ -79,7 +79,6 @@ function scene.sceneInit(org)
 	end
 end
 function scene.sceneBack()
-	destroyPlayers()
 	GAME.playing=false
 end
 

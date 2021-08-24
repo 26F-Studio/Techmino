@@ -151,9 +151,6 @@ function scene.sceneInit(org)
 	updateRepButtons()
 	updateMenuButtons()
 end
-function scene.sceneBack()
-	destroyPlayers()
-end
 
 scene.mouseDown=NULL
 function scene.touchDown(x,y)
