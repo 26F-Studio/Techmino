@@ -45,7 +45,7 @@ local noKickSet,noKickSet_180 do
 	noKickSet={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero}
 	noKickSet_180={[01]=Zero,[10]=Zero,[03]=Zero,[30]=Zero,[12]=Zero,[21]=Zero,[32]=Zero,[23]=Zero,[02]=Zero,[20]=Zero,[13]=Zero,[31]=Zero}
 end
-local function strToVec(list)
+local function _strToVec(list)
 	for i,vecStr in next,list do
 		list[i]={tonumber(vecStr:sub(1,2)),tonumber(vecStr:sub(3,4))}
 	end
@@ -53,14 +53,14 @@ local function strToVec(list)
 end
 
 --Use this if the block is centrosymmetry, *PTR!!!
-local function centroSymSet(L)
+local function _centroSymSet(L)
 	L[23]=L[01]L[32]=L[10]
 	L[21]=L[03]L[12]=L[30]
 	L[20]=L[02]L[31]=L[13]
 end
 
 --Use this to copy a symmetry set
-local function flipList(O)
+local function _flipList(O)
 	if not O then return end
 	local L={}
 	for i,s in next,O do
@@ -69,20 +69,20 @@ local function flipList(O)
 	return L
 end
 
-local function reflect(a)
+local function _reflect(a)
 	return{
-		[03]=flipList(a[01]),
-		[01]=flipList(a[03]),
-		[30]=flipList(a[10]),
-		[32]=flipList(a[12]),
-		[23]=flipList(a[21]),
-		[21]=flipList(a[23]),
-		[10]=flipList(a[30]),
-		[12]=flipList(a[32]),
-		[02]=flipList(a[02]),
-		[20]=flipList(a[20]),
-		[31]=flipList(a[13]),
-		[13]=flipList(a[31]),
+		[03]=_flipList(a[01]),
+		[01]=_flipList(a[03]),
+		[30]=_flipList(a[10]),
+		[32]=_flipList(a[12]),
+		[23]=_flipList(a[21]),
+		[21]=_flipList(a[23]),
+		[10]=_flipList(a[30]),
+		[12]=_flipList(a[32]),
+		[02]=_flipList(a[02]),
+		[20]=_flipList(a[20]),
+		[31]=_flipList(a[13]),
+		[13]=_flipList(a[31]),
 	}
 end
 
@@ -422,16 +422,16 @@ do
 	}
 	TRS.centerDisp[6]=false
 	TRS.centerDisp[18]=false
-	TRS.kickTable[2]= reflect(TRS.kickTable[1])--SZ
-	TRS.kickTable[4]= reflect(TRS.kickTable[3])--LJ
-	TRS.kickTable[9]= reflect(TRS.kickTable[8])--S5Z5
-	TRS.kickTable[11]=reflect(TRS.kickTable[10])--PQ
-	TRS.kickTable[13]=reflect(TRS.kickTable[12])--FE
-	TRS.kickTable[20]=reflect(TRS.kickTable[19])--L5J5
-	TRS.kickTable[22]=reflect(TRS.kickTable[21])--RY
-	TRS.kickTable[24]=reflect(TRS.kickTable[23])--NH
-	centroSymSet(TRS.kickTable[8])centroSymSet(TRS.kickTable[9])--S5Z5
-	centroSymSet(TRS.kickTable[25])centroSymSet(TRS.kickTable[26])--I5I3
+	TRS.kickTable[2]= _reflect(TRS.kickTable[1])--SZ
+	TRS.kickTable[4]= _reflect(TRS.kickTable[3])--LJ
+	TRS.kickTable[9]= _reflect(TRS.kickTable[8])--S5Z5
+	TRS.kickTable[11]=_reflect(TRS.kickTable[10])--PQ
+	TRS.kickTable[13]=_reflect(TRS.kickTable[12])--FE
+	TRS.kickTable[20]=_reflect(TRS.kickTable[19])--L5J5
+	TRS.kickTable[22]=_reflect(TRS.kickTable[21])--RY
+	TRS.kickTable[24]=_reflect(TRS.kickTable[23])--NH
+	_centroSymSet(TRS.kickTable[8])_centroSymSet(TRS.kickTable[9])--S5Z5
+	_centroSymSet(TRS.kickTable[25])_centroSymSet(TRS.kickTable[26])--I5I3
 end
 
 local SRS
@@ -574,9 +574,9 @@ end
 
 local BiRS
 do
-	local R=strToVec{'+0+0','-1+0','-1-1','+0-1','-1+1','+1-1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
-	local L=strToVec{'+0+0','+1+0','+1-1','+0-1','+1+1','-1-1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2','+2+0','-2+0'}
-	local F=strToVec{'+0+0','+0-1','+0+1','+0+2'}
+	local R=_strToVec{'+0+0','-1+0','-1-1','+0-1','-1+1','+1-1','+1+0','+0+1','+1+1','+0+2','-1+2','+1+2','-2+0','+2+0'}
+	local L=_strToVec{'+0+0','+1+0','+1-1','+0-1','+1+1','-1-1','-1+0','+0+1','-1+1','+0+2','+1+2','-1+2','+2+0','-2+0'}
+	local F=_strToVec{'+0+0','+0-1','+0+1','+0+2'}
 	local list={
 		{[02]=L,[20]=R,[13]=R,[31]=L},--Z
 		{[02]=R,[20]=L,[13]=L,[31]=R},--S
@@ -756,7 +756,7 @@ end
 local ASC
 do
 	local L={'+0+0','+1+0','+0-1','+1-1','+0-2','+1-2','+2+0','+2-1','+2-2','-1+0','-1-1','+0+1','+1+1','+2+1','-1-2','-2+0','+0+2','+1+2','+2+2','-2-1','-2-2'}
-	local R=flipList(L)
+	local R=_flipList(L)
 	local F={'+0+0'}
 	local centerPos=TABLE.copy(defaultCenterPos)
 	centerPos[6]={[0]={0,0},{1,0},{1,1},{0,1}}
@@ -784,7 +784,7 @@ end
 local ASC_plus
 do
 	local L={'+0+0','+1+0','+0-1','+1-1','+0-2','+1-2','+2+0','+2-1','+2-2','-1+0','-1-1','+0+1','+1+1','+2+1','-1-2','-2+0','+0+2','+1+2','+2+2','-2-1','-2-2'}
-	local R=flipList(L)
+	local R=_flipList(L)
 	local F={'+0+0','-1+0','+1+0','+0-1','-1-1','+1-1','+0-2','-1-2','+1-2','-2+0','+2+0','-2-1','+2-1','-2+1','+2+1','+0+2','-1+2','+1+2'}
 	local centerPos=TABLE.copy(defaultCenterPos)
 	centerPos[6]={[0]={0,0},{1,0},{1,1},{0,1}}
@@ -836,7 +836,7 @@ do
 		[12]=R,[21]=L,[32]=L,[23]=R,
 		[02]=R,[20]=L,[13]=L,[31]=R,
 	}
-	local S=reflect(Z)
+	local S=_reflect(Z)
 
 	C2_sym={
 		centerTex=GC.DO{10,10,
@@ -946,7 +946,7 @@ for _,rs in next,RSlist do
 		if type(set)=='table'then
 			for _,list in next,set do
 				if type(list[1])=='string'then
-					strToVec(list)
+					_strToVec(list)
 				end
 			end
 		end

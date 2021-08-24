@@ -17,7 +17,7 @@ local modeDataMeta do
 		__newindex=function(self,k,v)rawset(self,k,v)end,
 	}
 end
-local function getNewStatTable()
+local function _getNewStatTable()
 	local T={
 		time=0,frame=0,score=0,
 		key=0,rotate=0,hold=0,
@@ -37,17 +37,17 @@ local function getNewStatTable()
 	end
 	return T
 end
-local function pressKey(P,keyID)
+local function _pressKey(P,keyID)
 	if P.keyAvailable[keyID]and P.alive then
 		P.keyPressing[keyID]=true
 		P.actList[keyID](P)
 		P.stat.key=P.stat.key+1
 	end
 end
-local function releaseKey(P,keyID)
+local function _releaseKey(P,keyID)
 	P.keyPressing[keyID]=false
 end
-local function pressKey_Rec(P,keyID)
+local function _pressKey_Rec(P,keyID)
 	if P.keyAvailable[keyID]and P.alive then
 		local L=GAME.rep
 		ins(L,P.frameRun)
@@ -57,13 +57,13 @@ local function pressKey_Rec(P,keyID)
 		P.stat.key=P.stat.key+1
 	end
 end
-local function releaseKey_Rec(P,keyID)
+local function _releaseKey_Rec(P,keyID)
 	local L=GAME.rep
 	ins(L,P.frameRun)
 	ins(L,32+keyID)
 	P.keyPressing[keyID]=false
 end
-local function newEmptyPlayer(id,mini)
+local function _newEmptyPlayer(id,mini)
 	local P={id=id}
 	PLAYERS[id]=P
 	PLY_ALIVE[id]=P
@@ -73,11 +73,11 @@ local function newEmptyPlayer(id,mini)
 
 	--Set key/timer event
 	if P.id==1 and GAME.recording then
-		P.pressKey=pressKey_Rec
-		P.releaseKey=releaseKey_Rec
+		P.pressKey=_pressKey_Rec
+		P.releaseKey=_releaseKey_Rec
 	else
-		P.pressKey=pressKey
-		P.releaseKey=releaseKey
+		P.pressKey=_pressKey
+		P.releaseKey=_releaseKey
 	end
 	P.update=ply_update.alive
 
@@ -112,7 +112,7 @@ local function newEmptyPlayer(id,mini)
 	P.control=false
 	P.timing=false
 	P.result=false--String: 'finish'|'win'|'lose'
-	P.stat=getNewStatTable()
+	P.stat=_getNewStatTable()
 	P.modeData=setmetatable({},modeDataMeta)--Data use by mode
 	P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
 	P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
@@ -208,7 +208,7 @@ local function newEmptyPlayer(id,mini)
 	}
 	return P
 end
-local function loadGameEnv(P)--Load gameEnv
+local function _loadGameEnv(P)--Load gameEnv
 	P.gameEnv={}--Current game setting environment
 	local ENV=P.gameEnv
 	local GAME,SETTING=GAME,SETTING
@@ -238,7 +238,7 @@ local function loadGameEnv(P)--Load gameEnv
 		end
 	end
 end
-local function loadRemoteEnv(P,confStr)--Load gameEnv
+local function _loadRemoteEnv(P,confStr)--Load gameEnv
 	confStr=JSON.decode(confStr)
 	if not confStr then
 		confStr={}
@@ -264,7 +264,7 @@ local function loadRemoteEnv(P,confStr)--Load gameEnv
 		end
 	end
 end
-local function applyGameEnv(P)--Finish gameEnv processing
+local function _applyGameEnv(P)--Finish gameEnv processing
 	local ENV=P.gameEnv
 
 	P._20G=ENV.drop==0
@@ -364,7 +364,7 @@ local DemoEnv={
 	fine=false,
 }
 function PLY.newDemoPlayer(id)
-	local P=newEmptyPlayer(id)
+	local P=_newEmptyPlayer(id)
 	P.type='computer'
 	P.sound=true
 	P.demo=true
@@ -373,8 +373,8 @@ function PLY.newDemoPlayer(id)
 	P.draw=ply_draw.demo
 	P.control=true
 	GAME.modeEnv=DemoEnv
-	loadGameEnv(P)
-	applyGameEnv(P)
+	_loadGameEnv(P)
+	_applyGameEnv(P)
 	P:loadAI{
 		type='CC',
 		next=5,
@@ -386,7 +386,7 @@ function PLY.newDemoPlayer(id)
 	P:popNext()
 end
 function PLY.newRemotePlayer(id,mini,ply)
-	local P=newEmptyPlayer(id,mini)
+	local P=_newEmptyPlayer(id,mini)
 	P.type='remote'
 	P.update=ply_update.remote_alive
 
@@ -400,30 +400,30 @@ function PLY.newRemotePlayer(id,mini,ply)
 	P.username=ply.username
 	P.sid=ply.sid
 
-	loadRemoteEnv(P,ply.config)
-	applyGameEnv(P)
+	_loadRemoteEnv(P,ply.config)
+	_applyGameEnv(P)
 end
 function PLY.newAIPlayer(id,AIdata,mini)
-	local P=newEmptyPlayer(id,mini)
+	local P=_newEmptyPlayer(id,mini)
 	P.type='computer'
 
-	loadGameEnv(P)
+	_loadGameEnv(P)
 	local ENV=P.gameEnv
 	ENV.face={0,0,0,0,0,0,0}
 	ENV.skin={1,7,11,3,14,4,9}
-	applyGameEnv(P)
+	_applyGameEnv(P)
 	P:loadAI(AIdata)
 end
 function PLY.newPlayer(id,mini)
-	local P=newEmptyPlayer(id,mini)
+	local P=_newEmptyPlayer(id,mini)
 	P.type='human'
 	P.sound=true
 
 	P.uid=USER.uid
 	P.username=USERS.getUsername(USER.uid)
 
-	loadGameEnv(P)
-	applyGameEnv(P)
+	_loadGameEnv(P)
+	_applyGameEnv(P)
 end
 --------------------------</Public>--------------------------
 return PLY

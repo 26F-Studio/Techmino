@@ -1,10 +1,10 @@
 local scene={}
 
-local function dumpCB(T)
+local function _dumpCB(T)
 	love.system.setClipboardText(STRING.packText(TABLE.dump(T)))
 	MES.new('check',text.exportSuccess)
 end
-local function parseCB()
+local function _parseCB()
 	local _
 	local s=love.system.getClipboardText()
 
@@ -20,15 +20,15 @@ local function parseCB()
 end
 scene.widgetList={
 	WIDGET.newText{name="export",		x=55,y=45,color='lY',align='L',font=50},
-	WIDGET.newButton{name="unlock",		x=190,y=170,w=280,h=100,color='lY',code=function()dumpCB(RANKS)end},
-	WIDGET.newButton{name="data",		x=490,y=170,w=280,h=100,color='lY',code=function()dumpCB(STAT)end},
-	WIDGET.newButton{name="setting",	x=790,y=170,w=280,h=100,color='lY',code=function()dumpCB(SETTING)end},
-	WIDGET.newButton{name="vk",			x=1090,y=170,w=280,h=100,color='lY',code=function()dumpCB(VK_org)end},
+	WIDGET.newButton{name="unlock",		x=190,y=170,w=280,h=100,color='lY',code=function()_dumpCB(RANKS)end},
+	WIDGET.newButton{name="data",		x=490,y=170,w=280,h=100,color='lY',code=function()_dumpCB(STAT)end},
+	WIDGET.newButton{name="setting",	x=790,y=170,w=280,h=100,color='lY',code=function()_dumpCB(SETTING)end},
+	WIDGET.newButton{name="vk",			x=1090,y=170,w=280,h=100,color='lY',code=function()_dumpCB(VK_org)end},
 
 	WIDGET.newText{name="import",		x=55,y=265,color='lR',align='L',font=50},
 	WIDGET.newButton{name="unlock",		x=190,y=390,w=280,h=100,color='lR',
 		code=function()
-			local D=parseCB()
+			local D=_parseCB()
 			if D then
 				TABLE.cover(D,RANKS)
 				for k,v in next,oldModeNameTable do
@@ -45,7 +45,7 @@ scene.widgetList={
 		end},
 	WIDGET.newButton{name="data",		x=490,y=390,w=280,h=100,color='lR',
 		code=function()
-			local D=parseCB()
+			local D=_parseCB()
 			if D and D.version==STAT.version then
 				TABLE.update(D,STAT)
 				saveStats()
@@ -56,7 +56,7 @@ scene.widgetList={
 		end},
 	WIDGET.newButton{name="setting",	x=790,y=390,w=280,h=100,color='lR',
 		code=function()
-			local D=parseCB()
+			local D=_parseCB()
 			if D then
 				TABLE.update(D,SETTING)
 				applySettings()
@@ -68,7 +68,7 @@ scene.widgetList={
 		end},
 	WIDGET.newButton{name="vk",			x=1090,y=390,w=280,h=100,color='lR',
 		code=function()
-			local D=parseCB()
+			local D=_parseCB()
 			if D then
 				TABLE.update(D,VK_org)
 				FILE.save(VK_org,'conf/virtualkey')

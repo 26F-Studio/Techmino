@@ -3,7 +3,7 @@ local passwordBox=WIDGET.newInputBox{name="password",x=380,y=300,w=620,h=60,secr
 
 local savePW=false
 
-local function login()
+local function _login()
 	local email,password=emailBox:getText(),passwordBox:getText()
 	if not STRING.simpEmailCheck(email)then
 		MES.new('error',text.wrongEmail)return
@@ -35,7 +35,7 @@ scene.widgetList={
 	emailBox,
 	passwordBox,
 	WIDGET.newSwitch{name="keepPW",		x=900,y=420,disp=function()return savePW end,code=function()savePW=not savePW end},
-	WIDGET.newKey{name="login",			x=1140,	y=540,w=170,h=80,font=40,code=login},
+	WIDGET.newKey{name="login",			x=1140,	y=540,w=170,h=80,font=40,code=_login},
 	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

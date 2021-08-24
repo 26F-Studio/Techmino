@@ -8,10 +8,10 @@ local defaultSetSelect
 local snapUnit=1
 local selected--Button selected
 
-local function save1()
+local function _save1()
 	FILE.save(VK_org,'conf/vkSave1')
 end
-local function load1()
+local function _load1()
 	local D=FILE.load('conf/vkSave1')
 	if D then
 		TABLE.update(D,VK_org)
@@ -19,10 +19,10 @@ local function load1()
 		MES.new('error',text.noFile)
 	end
 end
-local function save2()
+local function _save2()
 	FILE.save(VK_org,'conf/vkSave2')
 end
-local function load2()
+local function _load2()
 	local D=FILE.load('conf/vkSave2')
 	if D then
 		TABLE.update(D,VK_org)
@@ -40,7 +40,7 @@ function scene.sceneBack()
 	FILE.save(VK_org,'conf/virtualkey')
 end
 
-local function onVK_org(x,y)
+local function _onVK_org(x,y)
 	local dist,nearest=1e10
 	for K=1,#VK_org do
 		local B=VK_org[K]
@@ -67,7 +67,7 @@ function scene.mouseMove(_,_,dx,dy)
 	end
 end
 function scene.touchDown(x,y)
-	selected=onVK_org(x,y)or selected
+	selected=_onVK_org(x,y)or selected
 end
 function scene.touchUp()
 	if selected then
@@ -114,10 +114,10 @@ scene.widgetList={
 	WIDGET.newSelector{name="snap",	x=750,y=90,w=200,h=80,color='Y',list={1,10,20,40,60,80},disp=function()return snapUnit end,code=function(i)snapUnit=i end},
 	WIDGET.newButton{name="option",	x=530,y=190,w=200,h=80,fText=TEXTURE.more,code=function()SCN.go('setting_touchSwitch')end},
 	WIDGET.newButton{name="back",	x=750,y=190,w=200,h=80,fText=TEXTURE.back,code=backScene},
-	WIDGET.newKey{name="save1",		x=475,y=290,w=90,h=70,code=save1},
-	WIDGET.newKey{name="load1",		x=585,y=290,w=90,h=70,code=load1},
-	WIDGET.newKey{name="save2",		x=695,y=290,w=90,h=70,code=save2},
-	WIDGET.newKey{name="load2",		x=805,y=290,w=90,h=70,code=load2},
+	WIDGET.newKey{name="save1",		x=475,y=290,w=90,h=70,code=_save1},
+	WIDGET.newKey{name="load1",		x=585,y=290,w=90,h=70,code=_load1},
+	WIDGET.newKey{name="save2",		x=695,y=290,w=90,h=70,code=_save2},
+	WIDGET.newKey{name="load2",		x=805,y=290,w=90,h=70,code=_load2},
 	WIDGET.newSlider{name="size",	x=440,y=370,w=460,unit=19,font=40,show="vkSize",
 		disp=function()
 			return VK_org[selected].r/10-1

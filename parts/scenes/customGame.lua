@@ -2,7 +2,7 @@ local gc,kb,sys=love.graphics,love.keyboard,love.system
 local int=math.floor
 local CUSTOMENV=CUSTOMENV
 
-local function notAir(L)
+local function _notAir(L)
 	for i=1,10 do
 		if L[i]>0 then
 			return true
@@ -29,10 +29,10 @@ local scene={}
 
 local sure
 local initField
-local function freshMiniFieldVisible()
+local function _freshMiniFieldVisible()
 	initField=false
 	for y=1,20 do
-		if notAir(FIELD[1][y])then
+		if _notAir(FIELD[1][y])then
 			initField=true
 			return
 		end
@@ -43,7 +43,7 @@ function scene.sceneInit()
 	destroyPlayers()
 	BG.set(CUSTOMENV.bg)
 	BGM.play(CUSTOMENV.bgm)
-	freshMiniFieldVisible()
+	_freshMiniFieldVisible()
 end
 function scene.sceneBack()
 	BGM.play()
@@ -89,7 +89,7 @@ function scene.keyDown(key,isRep)
 		if sure>.3 then
 			TABLE.cut(FIELD)TABLE.cut(BAG)TABLE.cut(MISSION)
 			FIELD[1]=DATA.newBoard()
-			freshMiniFieldVisible()
+			_freshMiniFieldVisible()
 			TABLE.clear(CUSTOMENV)
 			TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 			for _,W in next,scene.widgetList do W:reset()end
@@ -127,7 +127,7 @@ function scene.keyDown(key,isRep)
 		for i=4,#args do
 			if args[i]:find("%S")and not DATA.pasteBoard(args[i],i-3)and i<#args then goto THROW_fail end
 		end
-		freshMiniFieldVisible()
+		_freshMiniFieldVisible()
 		MES.new('check',text.importSuccess)
 		do return end
 		::THROW_fail::MES.new('error',text.dataCorrupted)

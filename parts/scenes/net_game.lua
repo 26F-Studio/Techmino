@@ -21,7 +21,7 @@ local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local newMessageTimer
 
-local function hideReadyUI()
+local function _hideReadyUI()
 	return
 		playing or
 		NET.roomState.start or
@@ -150,7 +150,7 @@ function scene.keyDown(key,isRep)
 			PLAYERS[1]:pressKey(k)
 			VK.press(k)
 		end
-	elseif not hideReadyUI()then
+	elseif not _hideReadyUI()then
 		if key=="space"then
 			if netPLY.getSelfJoinMode()==0 then
 				(kb.isDown("lctrl","rctrl","lalt","ralt")and _setSpectate or _setReady)()
@@ -328,15 +328,15 @@ function scene.draw()
 		gc_print("M",430,10)
 	end
 end
-local function hideF_ingame()return hideReadyUI()or netPLY.getSelfReady()end
-local function hideF_ingame2()return hideReadyUI()or not netPLY.getSelfReady()end
+local function _hideF_ingame()return _hideReadyUI()or netPLY.getSelfReady()end
+local function _hideF_ingame2()return _hideReadyUI()or not netPLY.getSelfReady()end
 scene.widgetList={
 	textBox,
 	inputBox,
-	WIDGET.newKey{name="setting",	x=1200,y=160,w=90,h=90,	fText=TEXTURE.setting,	code=_gotoSetting,hideF=hideF_ingame},
-	WIDGET.newKey{name="ready",		x=1060,y=510,w=360,h=90,color='lG',font=35,		code=_setReady,hideF=hideF_ingame},
-	WIDGET.newKey{name="spectate",	x=1060,y=610,w=360,h=90,color='lO',font=35,		code=_setSpectate,hideF=hideF_ingame},
-	WIDGET.newKey{name="cancel",	x=1060,y=560,w=360,h=120,color='lH',font=40,	code=_setCancel,hideF=hideF_ingame2},
+	WIDGET.newKey{name="setting",	x=1200,y=160,w=90,h=90,	fText=TEXTURE.setting,	code=_gotoSetting,hideF=_hideF_ingame},
+	WIDGET.newKey{name="ready",		x=1060,y=510,w=360,h=90,color='lG',font=35,		code=_setReady,hideF=_hideF_ingame},
+	WIDGET.newKey{name="spectate",	x=1060,y=610,w=360,h=90,color='lO',font=35,		code=_setSpectate,hideF=_hideF_ingame},
+	WIDGET.newKey{name="cancel",	x=1060,y=560,w=360,h=120,color='lH',font=40,	code=_setCancel,hideF=_hideF_ingame2},
 	WIDGET.newKey{name="chat",		x=360,y=45,w=60,fText="...",font=35,			code=_switchChat},
 	WIDGET.newKey{name="quit",		x=860,y=45,w=60,fText=TEXTURE.quit_small,		code=_quit},
 }

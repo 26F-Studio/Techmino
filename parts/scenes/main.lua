@@ -47,7 +47,7 @@ function scene.mouseDown(x,y)
 	end
 end
 scene.touchDown=scene.mouseDown
-local function testButton(n)
+local function _testButton(n)
 	if NET.getlock('access_and_login')then
 		MES.new('warn',text.wsConnecting)
 	else
@@ -61,15 +61,15 @@ end
 function scene.keyDown(key,isRep)
 	if isRep then return end
 	if key=="1"then
-		if testButton(1)then
+		if _testButton(1)then
 			SCN.go('mode')
 		end
 	elseif key=="q"then
-		if testButton(2)then
+		if _testButton(2)then
 			loadGame(STAT.lastPlay,true)
 		end
 	elseif key=="a"then
-		if testButton(3)then
+		if _testButton(3)then
 			if WS.status('app')=='running'then
 				NET.tryLogin(false)
 			elseif WS.status('app')=='dead'then
@@ -79,39 +79,39 @@ function scene.keyDown(key,isRep)
 			end
 		end
 	elseif key=="z"then
-		if testButton(4)then
+		if _testButton(4)then
 			SCN.go('customGame')
 		end
 	elseif key=="-"then
-		if testButton(5)then
+		if _testButton(5)then
 			SCN.go('setting_game')
 		end
 	elseif key=="p"then
-		if testButton(6)then
+		if _testButton(6)then
 			SCN.go('stat')
 		end
 	elseif key=="l"then
-		if testButton(7)then
+		if _testButton(7)then
 			SCN.go('dict')
 		end
 	elseif key==","then
-		if testButton(8)then
+		if _testButton(8)then
 			SCN.go('replays')
 		end
 	elseif key=="2"then
-		if testButton(9)then
+		if _testButton(9)then
 			SCN.go('music')
 		end
 	elseif key=="3"then
-		if testButton(10)then
+		if _testButton(10)then
 			SCN.go('lang')
 		end
 	elseif key=="x"then
-		if testButton(11)then
+		if _testButton(11)then
 			SCN.go('about')
 		end
 	elseif key=="m"then
-		if testButton(12)then
+		if _testButton(12)then
 			SCN.go('manual')
 		end
 	elseif key=="c"then
@@ -140,7 +140,7 @@ function scene.update(dt)
 	end
 end
 
-local function tipStencil()
+local function _tipStencil()
 	gc.rectangle('fill',0,0,tipLength,42)
 end
 function scene.draw()
@@ -159,7 +159,7 @@ function scene.draw()
 	gc.translate(260,650)
 	gc.setLineWidth(2)
 	gc.rectangle('line',0,0,tipLength,42,3)
-	gc.stencil(tipStencil)
+	gc.stencil(_tipStencil)
 	gc.setStencilTest('equal',1)
 	gc.draw(tip,0+scrollX,0)
 	gc.setColor(1,1,1,.2)

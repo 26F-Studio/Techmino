@@ -37,14 +37,14 @@ local FCL={
 }FCL[2],FCL[4],FCL[5]=FCL[1],FCL[3],FCL[3]
 local LclearScore={[0]=0,-200,-150,-100,200}
 local HclearScore={[0]=0,100,140,200,500}
-local function ifoverlapAI(f,bk,x,y)
+local function _ifoverlapAI(f,bk,x,y)
 	for i=1,#bk do for j=1,#bk[1]do
 		if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
 	end end
 end
 local discardRow=FREEROW.discard
 local getRow=FREEROW.get
-local function resetField(f0,f,start)
+local function _resetField(f0,f,start)
 	for _=#f,start,-1 do
 		discardRow(f[_])
 		f[_]=nil
@@ -56,7 +56,7 @@ local function resetField(f0,f,start)
 		end
 	end
 end
-local function getScore(field,cb,cy)
+local function _getScore(field,cb,cy)
 	local score=0
 	local highest=0
 	local height=getRow(0)
@@ -151,7 +151,7 @@ function bot_9s.thread(bot)
 						local cy=#Tfield+1
 
 						--Move to bottom
-						while cy>1 and not ifoverlapAI(Tfield,cb,cx,cy-1)do
+						while cy>1 and not _ifoverlapAI(Tfield,cb,cx,cy-1)do
 							cy=cy-1
 						end
 
@@ -166,11 +166,11 @@ function bot_9s.thread(bot)
 								end
 							end
 						end
-						local score=getScore(Tfield,cb,cy)
+						local score=_getScore(Tfield,cb,cy)
 						if score>best.score then
 							best={bn=bn,x=cx,dir=dir,hold=ifhold==1,score=score}
 						end
-						resetField(field_org,Tfield,cy)
+						_resetField(field_org,Tfield,cy)
 					end
 				end
 			end

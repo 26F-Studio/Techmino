@@ -6,7 +6,7 @@ local assert,resume,status=assert,coroutine.resume,coroutine.status
 local TEXT,GAME=TEXT,GAME
 local PLY_ALIVE=PLY_ALIVE
 
-local function update_misc(P,dt)
+local function _updateMisc(P,dt)
 	--Finesse combo animation
 	if P.finesseComboTime>0 then
 		P.finesseComboTime=P.finesseComboTime-1
@@ -363,7 +363,7 @@ function update.alive(P,dt)
 	end
 
 	--Others
-	update_misc(P,dt)
+	_updateMisc(P,dt)
 	-- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
 end
 function update.dead(P,dt)
@@ -387,7 +387,7 @@ function update.dead(P,dt)
 	if P.b2b1>0 then
 		P.b2b1=max(0,P.b2b1*.92-1)
 	end
-	update_misc(P,dt)
+	_updateMisc(P,dt)
 end
 function update.remote_alive(P,dt)
 	local frameRate=(P.stream[#P.stream-1]or 0)-P.frameRun

@@ -26,12 +26,12 @@ function baseBot.update(bot)
 	end
 end
 
-local function undefMethod(self,k)
+local function _undefMethod(self,k)
 	print("Undefined method: "..k)
 	self[k]=NULL
 	return NULL
 end
-local botMeta={__index=undefMethod}
+local botMeta={__index=_undefMethod}
 
 local BOT={}
 

@@ -9,7 +9,7 @@ local ins,rem=table.insert,table.remove
 
 local fx={}
 
-local function normUpdate(S,dt)
+local function _normUpdate(S,dt)
 	S.t=S.t+dt*S.rate
 	return S.t>1
 end
@@ -28,11 +28,11 @@ function FXupdate.badge(S,dt)
 	end
 	return S.t>=1
 end
-FXupdate.attack=normUpdate
-FXupdate.tap=normUpdate
-FXupdate.ripple=normUpdate
-FXupdate.rectRipple=normUpdate
-FXupdate.shade=normUpdate
+FXupdate.attack=_normUpdate
+FXupdate.tap=_normUpdate
+FXupdate.ripple=_normUpdate
+FXupdate.rectRipple=_normUpdate
+FXupdate.shade=_normUpdate
 function FXupdate.cell(S,dt)
 	if S.vx then
 		S.x=S.x+S.vx*S.rate
@@ -45,7 +45,7 @@ function FXupdate.cell(S,dt)
 	S.t=S.t+dt*S.rate
 	return S.t>1
 end
-FXupdate.line=normUpdate
+FXupdate.line=_normUpdate
 
 local FXdraw={}
 function FXdraw.badge(S)

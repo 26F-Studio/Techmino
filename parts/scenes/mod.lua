@@ -2,17 +2,17 @@ local gc=love.graphics
 local kb=love.keyboard
 local ins,rem=table.insert,table.remove
 
-local function modComp(a,b)
+local function _modComp(a,b)
 	return a.no<b.no
 end
-local function remMod(M)
+local function _remMod(M)
 	local i=TABLE.find(GAME.mod,M)
 	if i then rem(GAME.mod,i)end
 end
-local function toggleMod(M,back)
+local function _toggleMod(M,back)
 	if M.sel==0 then
 		ins(GAME.mod,M)
-		table.sort(GAME.mod,modComp)
+		table.sort(GAME.mod,_modComp)
 	end
 	if M.list then
 		if back then
@@ -24,7 +24,7 @@ local function toggleMod(M,back)
 		M.sel=1-M.sel
 	end
 	if M.sel==0 then
-		remMod(M)
+		_remMod(M)
 	end
 	if M.unranked then
 		SFX.play('move',.6)
@@ -56,7 +56,7 @@ end
 function scene.mouseDown(x,y,k)
 	for _,M in next,MODOPT do
 		if(x-M.x)^2+(y-M.y)^2<2000 then
-			toggleMod(M,k==2 or kb.isDown("lshift","rshift"))
+			_toggleMod(M,k==2 or kb.isDown("lshift","rshift"))
 			break
 		end
 	end
@@ -79,7 +79,7 @@ function scene.keyDown(key)
 	elseif #key==1 then
 		for _,M in next,MODOPT do
 			if key==M.key then
-				toggleMod(M,kb.isDown("lshift","rshift"))
+				_toggleMod(M,kb.isDown("lshift","rshift"))
 				selected=M
 				break
 			end

@@ -53,7 +53,7 @@ local minoPosCode={
 	[3]=28,[33]=28,--I2
 	[1]=29,--O1
 }
-local function pTouch(x,y)
+local function _pTouch(x,y)
 	if not curPen then return end
 	for i=1,#penPath do
 		if x==penPath[i][1]and y==penPath[i][2]then
@@ -69,7 +69,7 @@ local function pTouch(x,y)
 	end
 	ins(penPath,{x,y})
 end
-local function pDraw()
+local function _pDraw()
 	local l=#penPath
 	if l==0 then return end
 
@@ -125,7 +125,7 @@ function scene.mouseMove(x,y)
 	local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
 	if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
 		penX,penY=sx,sy
-		if curPen then pTouch(sx,sy)end
+		if curPen then _pTouch(sx,sy)end
 	else
 		penX,penY=nil
 	end
@@ -141,7 +141,7 @@ function scene.mouseDown(x,y,k)
 end
 function scene.mouseUp(_,_,k)
 	if curPen==k then
-		pDraw()
+		_pDraw()
 		curPen=false
 	end
 end
@@ -168,7 +168,7 @@ function scene.keyDown(key)
 	elseif key=="space"then
 		if penX and penY then
 			curPen=1
-			pTouch(penX,penY)
+			_pTouch(penX,penY)
 		end
 	elseif key=="delete"then
 		if sure>.3 then
@@ -250,7 +250,7 @@ function scene.keyDown(key)
 end
 function scene.keyUp(key)
 	if key=="space"then
-		pDraw()
+		_pDraw()
 		curPen=false
 	end
 end
@@ -439,41 +439,41 @@ function scene.draw()
 	end
 end
 
-local function setPen(i)return function(k)pens[k]=i end end
+local function _setPen(i)return function(k)pens[k]=i end end
 scene.widgetList={
 	WIDGET.newText{name="title",	x=1020,y=5,font=70,align='R'},
 	WIDGET.newText{name="subTitle",	x=1030,y=50,font=35,align='L',color='H'},
 
-	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color='R',code=setPen(1)},--B1
-	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color='F',code=setPen(2)},--B2
-	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color='O',code=setPen(3)},--B3
-	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color='Y',code=setPen(4)},--B4
-	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color='L',code=setPen(5)},--B5
-	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color='J',code=setPen(6)},--B6
-	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color='G',code=setPen(7)},--B7
-	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color='A',code=setPen(8)},--B8
+	WIDGET.newButton{name="b1",		x=580,	y=130,w=75,fText="",color='R',code=_setPen(1)},--B1
+	WIDGET.newButton{name="b2",		x=660,	y=130,w=75,fText="",color='F',code=_setPen(2)},--B2
+	WIDGET.newButton{name="b3",		x=740,	y=130,w=75,fText="",color='O',code=_setPen(3)},--B3
+	WIDGET.newButton{name="b4",		x=820,	y=130,w=75,fText="",color='Y',code=_setPen(4)},--B4
+	WIDGET.newButton{name="b5",		x=900,	y=130,w=75,fText="",color='L',code=_setPen(5)},--B5
+	WIDGET.newButton{name="b6",		x=980,	y=130,w=75,fText="",color='J',code=_setPen(6)},--B6
+	WIDGET.newButton{name="b7",		x=1060,	y=130,w=75,fText="",color='G',code=_setPen(7)},--B7
+	WIDGET.newButton{name="b8",		x=1140,	y=130,w=75,fText="",color='A',code=_setPen(8)},--B8
 
-	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color='C',code=setPen(9)},--B9
-	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color='N',code=setPen(10)},--B10
-	WIDGET.newButton{name="b11",	x=740,	y=210,w=75,fText="",color='S',code=setPen(11)},--B11
-	WIDGET.newButton{name="b12",	x=820,	y=210,w=75,fText="",color='B',code=setPen(12)},--B12
-	WIDGET.newButton{name="b13",	x=900,	y=210,w=75,fText="",color='V',code=setPen(13)},--B13
-	WIDGET.newButton{name="b14",	x=980,	y=210,w=75,fText="",color='P',code=setPen(14)},--B14
-	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color='M',code=setPen(15)},--B15
-	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color='W',code=setPen(16)},--B16
+	WIDGET.newButton{name="b9",		x=580,	y=210,w=75,fText="",color='C',code=_setPen(9)},--B9
+	WIDGET.newButton{name="b10",	x=660,	y=210,w=75,fText="",color='N',code=_setPen(10)},--B10
+	WIDGET.newButton{name="b11",	x=740,	y=210,w=75,fText="",color='S',code=_setPen(11)},--B11
+	WIDGET.newButton{name="b12",	x=820,	y=210,w=75,fText="",color='B',code=_setPen(12)},--B12
+	WIDGET.newButton{name="b13",	x=900,	y=210,w=75,fText="",color='V',code=_setPen(13)},--B13
+	WIDGET.newButton{name="b14",	x=980,	y=210,w=75,fText="",color='P',code=_setPen(14)},--B14
+	WIDGET.newButton{name="b15",	x=1060,	y=210,w=75,fText="",color='M',code=_setPen(15)},--B15
+	WIDGET.newButton{name="b16",	x=1140,	y=210,w=75,fText="",color='W',code=_setPen(16)},--B16
 
-	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color='dH',	code=setPen(17)},--BONE
-	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color='D',	code=setPen(18)},--HIDE
-	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color='lY',	code=setPen(19)},--BOMB
-	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color='H',	code=setPen(20)},--GB1
-	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color='lH',	code=setPen(21)},--GB2
-	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color='dV',	code=setPen(22)},--GB3
-	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color='dR',	code=setPen(23)},--GB4
-	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color='dG',	code=setPen(24)},--GB5
+	WIDGET.newButton{name="b17",	x=580,	y=290,w=75,fText="[  ]",color='dH',	code=_setPen(17)},--BONE
+	WIDGET.newButton{name="b18",	x=660,	y=290,w=75,fText="N",	color='D',	code=_setPen(18)},--HIDE
+	WIDGET.newButton{name="b19",	x=740,	y=290,w=75,fText="B",	color='lY',	code=_setPen(19)},--BOMB
+	WIDGET.newButton{name="b20",	x=820,	y=290,w=75,fText="_",	color='H',	code=_setPen(20)},--GB1
+	WIDGET.newButton{name="b21",	x=900,	y=290,w=75,fText="_",	color='lH',	code=_setPen(21)},--GB2
+	WIDGET.newButton{name="b22",	x=980,	y=290,w=75,fText="_",	color='dV',	code=_setPen(22)},--GB3
+	WIDGET.newButton{name="b23",	x=1060,	y=290,w=75,fText="_",	color='dR',	code=_setPen(23)},--GB4
+	WIDGET.newButton{name="b24",	x=1140,	y=290,w=75,fText="_",	color='dG',	code=_setPen(24)},--GB5
 
-	WIDGET.newButton{name="any",	x=600,	y=400,w=120,color='lH',		font=40,code=setPen(0)},
-	WIDGET.newButton{name="space",	x=730,	y=400,w=120,color='H',		font=65,code=setPen(-1)},
-	WIDGET.newButton{name="smart",	x=860,	y=400,w=120,color='lG',		font=30,code=setPen(-2)},
+	WIDGET.newButton{name="any",	x=600,	y=400,w=120,color='lH',		font=40,code=_setPen(0)},
+	WIDGET.newButton{name="space",	x=730,	y=400,w=120,color='H',		font=65,code=_setPen(-1)},
+	WIDGET.newButton{name="smart",	x=860,	y=400,w=120,color='lG',		font=30,code=_setPen(-2)},
 	WIDGET.newButton{name="push",	x=990,	y=400,w=120,h=120,color='lY',font=20,code=pressKey"k"},
 	WIDGET.newButton{name="del",	x=1120,	y=400,w=120,h=120,color='lY',font=20,code=pressKey"l"},
 

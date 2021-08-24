@@ -218,11 +218,11 @@ do--function Player:movePosition(x,y,size)
 			end
 		end
 	end
-	local function checkPlayer(obj,Ptar)
+	local function check_player(obj,Ptar)
 		return obj.args[1]==Ptar
 	end
 	function Player:movePosition(x,y,size)
-		TASK.removeTask_iterate(checkPlayer,self)
+		TASK.removeTask_iterate(check_player,self)
 		TASK.new(task_movePosition,self,x,y,size or self.size)
 	end
 end
@@ -1539,7 +1539,7 @@ end
 --------------------------</Methods>--------------------------
 
 --------------------------<Ticks>--------------------------
-local function tick_throwBadge(ifAI,sender,time)
+local function task_throwBadge(ifAI,sender,time)
 	while true do
 		yield()
 		time=time-1
@@ -1567,7 +1567,7 @@ local function tick_throwBadge(ifAI,sender,time)
 		if time<=0 then return end
 	end
 end
-local function tick_finish(self)
+local function task_finish(self)
 	while true do
 		yield()
 		self.endCounter=self.endCounter+1
@@ -1581,7 +1581,7 @@ local function tick_finish(self)
 		end
 	end
 end
-local function tick_lose(self)
+local function task_lose(self)
 	while true do
 		yield()
 		self.endCounter=self.endCounter+1
@@ -1613,7 +1613,7 @@ local function tick_lose(self)
 		end
 	end
 end
-local function tick_autoPause()
+local function task_autoPause()
 	local time=0
 	while true do
 		yield()
@@ -1705,9 +1705,9 @@ function Player:win(result)
 	end
 	if self.type=='human'then
 		gameOver()
-		TASK.new(tick_autoPause)
+		TASK.new(task_autoPause)
 	end
-	self:newTask(tick_finish)
+	self:newTask(task_finish)
 end
 function Player:lose(force)
 	if self.result then return end
@@ -1740,7 +1740,7 @@ function Player:lose(force)
 				end
 				self.lastRecv=A
 				if self.id==1 or A.id==1 then
-					TASK.new(tick_throwBadge,not A.type=='human',self,max(3,self.badge)*4)
+					TASK.new(task_throwBadge,not A.type=='human',self,max(3,self.badge)*4)
 				end
 			end
 		else
@@ -1764,14 +1764,14 @@ function Player:lose(force)
 			BGM.play('end')
 		end
 		gameOver()
-		self:newTask(#PLAYERS>1 and tick_lose or tick_finish)
+		self:newTask(#PLAYERS>1 and task_lose or task_finish)
 		if GAME.net and not NET.spectate then
 			NET.signal_die()
 		else
-			TASK.new(tick_autoPause)
+			TASK.new(task_autoPause)
 		end
 	else
-		self:newTask(tick_lose)
+		self:newTask(task_lose)
 	end
 	if #PLY_ALIVE==1 then
 		PLY_ALIVE[1]:win()

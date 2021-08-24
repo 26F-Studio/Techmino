@@ -445,7 +445,7 @@ do--function dumpBasicConfig()
 	end
 end
 do--function resetGameData(args)
-	local function tick_showMods()
+	local function task_showMods()
 		local time=0
 		while true do
 			YIELD()
@@ -473,7 +473,7 @@ do--function resetGameData(args)
 		'lockFX','dropFX','moveFX','clearFX','splashFX','shakeFX','atkFX',
 		'text','score','warn','highCam','nextPos',
 	}
-	local function copyGameSetting()
+	local function _copyGameSetting()
 		local S={}
 		for _,key in next,gameSetting do
 			if type(SETTING[key])=='table'then
@@ -502,7 +502,7 @@ do--function resetGameData(args)
 			GAME.pauseTime=0
 			GAME.pauseCount=0
 			GAME.saved=false
-			GAME.setting=copyGameSetting()
+			GAME.setting=_copyGameSetting()
 			GAME.tasUsed=false
 			GAME.rep={}
 			GAME.recording=true
@@ -554,9 +554,9 @@ do--function resetGameData(args)
 			GAME.stage=1
 		end
 		FREEROW.reset(30*#PLAYERS)
-		TASK.removeTask_code(tick_showMods)
+		TASK.removeTask_code(task_showMods)
 		if GAME.setting.allowMod then
-			TASK.new(tick_showMods)
+			TASK.new(task_showMods)
 		end
 		SFX.play('ready')
 		collectgarbage()

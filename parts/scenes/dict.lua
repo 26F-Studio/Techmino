@@ -30,15 +30,15 @@ local typeColor={
 	english=COLOR.B,
 	name=COLOR.lV,
 }
-local function getList()return result[1]and result or dict end
-local function clearResult()
+local function _getList()return result[1]and result or dict end
+local function _clearResult()
 	TABLE.cut(result)
 	selected,scrollPos=1,0
 	waiting,lastSearch=0,false
 end
-local function search()
+local function _search()
 	local input=inputBox:getText():lower()
-	clearResult()
+	_clearResult()
 	local first
 	for i=1,#dict do
 		local pos=find(dict[i][2],input,nil,true)
@@ -52,7 +52,7 @@ local function search()
 	if #result>0 then
 		SFX.play('reach')
 	end
-	url=getList()[selected][5]
+	url=_getList()[selected][5]
 	lastSearch=input
 end
 
@@ -84,7 +84,7 @@ function scene.keyDown(key)
 			end
 		end
 	elseif key=="down"then
-		if selected and selected<#getList()then
+		if selected and selected<#_getList()then
 			selected=selected+1
 			if selected>scrollPos+15 then
 				scrollPos=selected-15
@@ -98,7 +98,7 @@ function scene.keyDown(key)
 		love.system.openURL(url)
 	elseif key=="delete"then
 		if inputBox:hasText()then
-			clearResult()
+			_clearResult()
 			inputBox:clear()
 			SFX.play('hold')
 		end
@@ -113,14 +113,14 @@ function scene.keyDown(key)
 	else
 		return
 	end
-	url=getList()[selected][5]
+	url=_getList()[selected][5]
 end
 
 function scene.update(dt)
 	local input=inputBox:getText()
 	if input~=lastTickInput then
 		if #input==0 then
-			clearResult()
+			_clearResult()
 		else
 			waiting=.8
 		end
@@ -130,14 +130,14 @@ function scene.update(dt)
 		waiting=waiting-dt
 		if waiting<=0 then
 			if #input>0 and input~=lastSearch then
-				search()
+				_search()
 			end
 		end
 	end
 end
 
 function scene.draw()
-	local list=getList()
+	local list=_getList()
 	gc.setColor(COLOR.Z)
 	local t=list[selected][4]
 	setFont(

@@ -41,7 +41,7 @@ local scene={}
 
 local sure
 
-local function playRep(fileName)
+local function _playRep(fileName)
 	local rep=DATA.parseReplay(fileName,true)
 	if not rep.available then
 		MES.new('error',text.replayBroken)
@@ -82,7 +82,7 @@ function scene.keyDown(key)
 	if key=="return"then
 		local rep=listBox:getSel()
 		if rep then
-			playRep(rep.fileName)
+			_playRep(rep.fileName)
 		end
 	elseif key=="c"and kb.isDown("lctrl","rctrl")or key=="cC"then
 		local rep=listBox:getSel()

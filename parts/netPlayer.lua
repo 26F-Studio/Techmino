@@ -82,7 +82,7 @@ local nullIndex={
 	end
 }
 local PLYlist,PLYmap=setmetatable({},nullIndex),setmetatable({},nullIndex)
-local function freshPos()
+local function _freshPos()
 	table.sort(PLYlist,_placeSort)
 	if #PLYlist<=5 then
 		posList=posLists[1]
@@ -99,7 +99,7 @@ end
 netPLY={
 	list=PLYlist,
 	map=PLYmap,
-	freshPos=freshPos,
+	freshPos=_freshPos,
 }
 
 function netPLY.clear()
@@ -122,14 +122,14 @@ function netPLY.add(d)
 
 	ins(PLYlist,p)
 	PLYmap[p.uid]=p
-	freshPos()
+	_freshPos()
 end
 function netPLY.remove(sid)
 	for i=1,#PLYlist do
 		if PLYlist[i].sid==sid then
 			PLYmap[PLYlist[i].uid]=nil
 			rem(PLYlist,i)
-			freshPos()
+			_freshPos()
 			break
 		end
 	end
@@ -205,7 +205,7 @@ function netPLY.update()
 end
 
 local stencilW,stencilH
-local function plyStencil()
+local function _playerFrameStencil()
 	gc_rectangle('fill',0,0,stencilW,stencilH)
 end
 function netPLY.draw()
@@ -229,7 +229,7 @@ function netPLY.draw()
 			--Stencil
 			stencilW,stencilH=p.w,p.h
 			gc_setStencilTest('equal',1)
-				gc_stencil(plyStencil)
+				gc_stencil(_playerFrameStencil)
 				gc_setColor(1,1,1)
 
 				--Avatar

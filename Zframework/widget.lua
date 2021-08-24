@@ -40,7 +40,7 @@ local largerThen=GC.DO{20,20,
 }
 
 local STW,STH--stencil-wid/hei
-local function rectangleStencil()
+local function _rectangleStencil()
 	gc.rectangle('fill',1,1,STW-2,STH-2)
 end
 
@@ -1026,7 +1026,7 @@ function textBox:draw()
 
 		gc_setStencilTest('equal',1)
 		STW,STH=w,h
-		gc_stencil(rectangleStencil)
+		gc_stencil(_rectangleStencil)
 		gc_translate(0,-(scrollPos%lineH))
 		local pos=int(scrollPos/lineH)
 		for i=pos+1,min(pos+cap+1,#texts)do
@@ -1186,7 +1186,7 @@ function listBox:draw()
 		--List
 		gc_setStencilTest('equal',1)
 			STW,STH=w,h
-			gc_stencil(rectangleStencil)
+			gc_stencil(_rectangleStencil)
 			local pos=int(scrollPos/lineH)
 			gc_translate(0,-(scrollPos%lineH))
 			for i=pos+1,min(pos+cap+1,#list)do

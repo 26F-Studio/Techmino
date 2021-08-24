@@ -25,7 +25,7 @@ function BGM.init(list)
 	local count=#simpList
 	function BGM.getCount()return count end
 
-	local function load(name)
+	local function _load(name)
 		if type(Sources[name])=='string'then
 			if love.filesystem.getInfo(Sources[name])then
 				Sources[name]=love.audio.newSource(Sources[name],'stream')
@@ -41,8 +41,8 @@ function BGM.init(list)
 			MES.new('warn',"No BGM: "..name,5)
 		end
 	end
-	function BGM.loadAll()for name in next,Sources do load(name)end end
-	local function fadeOut(src)
+	function BGM.loadAll()for name in next,Sources do _load(name)end end
+	local function task_fadeOut(src)
 		while true do
 			coroutine.yield()
 			local v=src:getVolume()-.025*SETTING.bgm
@@ -53,7 +53,7 @@ function BGM.init(list)
 			end
 		end
 	end
-	local function fadeIn(src)
+	local function task_fadeIn(src)
 		while true do
 			coroutine.yield()
 			local v=SETTING.bgm
@@ -64,12 +64,12 @@ function BGM.init(list)
 			end
 		end
 	end
-	local function removeCurFadeOut(task,code,src)
+	local function check_curFadeOut(task,code,src)
 		return task.code==code and task.args[1]==src
 	end
 	function BGM.play(name)
 		if not name then name=BGM.default end
-		if not load(name)then return end
+		if not _load(name)then return end
 		if SETTING.bgm==0 then
 			BGM.nowPlay=name
 			BGM.playing=Sources[name]
@@ -77,11 +77,11 @@ function BGM.init(list)
 		end
 		if name and Sources[name]then
 			if BGM.nowPlay~=name then
-				if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
-				TASK.removeTask_iterate(removeCurFadeOut,fadeOut,Sources[name])
-				TASK.removeTask_code(fadeIn)
+				if BGM.nowPlay then TASK.new(task_fadeOut,BGM.playing)end
+				TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,Sources[name])
+				TASK.removeTask_code(task_fadeIn)
 
-				TASK.new(fadeIn,Sources[name])
+				TASK.new(task_fadeIn,Sources[name])
 				BGM.nowPlay=name
 				BGM.playing=Sources[name]
 				BGM.playing:play()
@@ -101,8 +101,8 @@ function BGM.init(list)
 		end
 	end
 	function BGM.stop()
-		TASK.removeTask_code(fadeIn)
-		if BGM.nowPlay then TASK.new(fadeOut,BGM.playing)end
+		TASK.removeTask_code(task_fadeIn)
+		if BGM.nowPlay then TASK.new(task_fadeOut,BGM.playing)end
 		BGM.nowPlay,BGM.playing=nil
 	end
 end

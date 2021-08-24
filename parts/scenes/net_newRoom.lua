@@ -24,7 +24,7 @@ local sList={
 
 local scene={}
 
-local function createRoom()
+local function _createRoom()
 	local pw=passwordBox.value
 	if pw==""then pw=nil end
 	local roomname=STRING.trim(roomNameBox.value)
@@ -51,7 +51,7 @@ end
 
 function scene.keyDown(key)
 	if key=="return"then
-		createRoom()
+		_createRoom()
 	elseif key=="escape"then
 		SCN.back()
 	else

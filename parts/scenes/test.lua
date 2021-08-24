@@ -5,7 +5,7 @@ local scene={}
 
 local backCounter
 local list,timer
-local function push(mes)
+local function _push(mes)
 	ins(list,{mes,120})
 	timer=1
 end
@@ -17,14 +17,14 @@ function scene.sceneInit()
 end
 
 function scene.gamepadDown(key)
-	push("[gamepadDown] <"..key..">")
+	_push("[gamepadDown] <"..key..">")
 end
 function scene.gamepadUp(key)
-	push{COLOR.H,"[gamepadUp] <"..key..">"}
+	_push{COLOR.H,"[gamepadUp] <"..key..">"}
 end
 function scene.keyDown(key,isRep)
 	if isRep then return end
-	push("[keyDown] <"..key..">")
+	_push("[keyDown] <"..key..">")
 	if key=="escape"then
 		backCounter=backCounter-1
 		if backCounter==0 then
@@ -35,46 +35,46 @@ function scene.keyDown(key,isRep)
 	end
 end
 function scene.keyUp(key)
-	push{COLOR.H,"[keyUp] <"..key..">"}
+	_push{COLOR.H,"[keyUp] <"..key..">"}
 end
 function scene.mouseClick(x,y)
 	SYSFX.newRipple(.5,x,y,50)
-	push("[mouseClick]")
+	_push("[mouseClick]")
 end
 function scene.mouseDown(x,y,k)
 	SYSFX.newShade(.5,x-10,y-10,20,20)
-	push(("[mouseDown] <%d: %d, %d>"):format(k,x,y))
+	_push(("[mouseDown] <%d: %d, %d>"):format(k,x,y))
 end
 function scene.mouseMove(x,y)
 	SYSFX.newShade(.5,x-3,y-3,6,6)
 end
 function scene.mouseUp(x,y,k)
 	SYSFX.newRectRipple(1,x-10,y-10,20,20)
-	push{COLOR.H,"[mouseUp] <"..k..">"}
+	_push{COLOR.H,"[mouseUp] <"..k..">"}
 end
 function scene.touchClick(x,y)
 	SYSFX.newRipple(.5,x,y,50)
-	push("[touchClick]")
+	_push("[touchClick]")
 end
 function scene.touchDown(x,y)
 	SYSFX.newShade(.5,x-10,y-10,20,20)
-	push(("[touchDown] <%d, %d>"):format(x,y))
+	_push(("[touchDown] <%d, %d>"):format(x,y))
 end
 function scene.touchMove(x,y)
 	SYSFX.newShade(.5,x-3,y-3,6,6)
 end
 function scene.touchUp(x,y)
 	SYSFX.newRectRipple(1,x-10,y-10,20,20)
-	push{COLOR.H,"[touchUp]"}
+	_push{COLOR.H,"[touchUp]"}
 end
 function scene.wheelMoved(dx,dy)
-	push(("[wheelMoved] <%d, %d>"):format(dx,dy))
+	_push(("[wheelMoved] <%d, %d>"):format(dx,dy))
 end
 function scene.fileDropped(file)
-	push(("[fileDropped] <%s>"):format(file:getFilename()))
+	_push(("[fileDropped] <%s>"):format(file:getFilename()))
 end
 function scene.directoryDropped(path)
-	push(("[directoryDropped] <%s>"):format(path))
+	_push(("[directoryDropped] <%s>"):format(path))
 end
 
 function scene.update(dt)

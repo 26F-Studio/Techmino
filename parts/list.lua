@@ -220,7 +220,7 @@ do--BLOCKS
 		--Dot
 		{{O}},						--O1
 	}
-	local function RotCW(B)
+	local function _RotCW(B)
 		local N={}
 		local r,c=#B,#B[1]--row,col
 		for x=1,c do
@@ -235,7 +235,7 @@ do--BLOCKS
 		local B=BLOCKS[i]
 		BLOCKS[i]={[0]=B}
 		for j=1,3 do
-			B=RotCW(B)
+			B=_RotCW(B)
 			BLOCKS[i][j]=B
 		end
 	end

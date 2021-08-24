@@ -1,5 +1,5 @@
 --Complex tables
-local function disableKey(P,key)
+local function _disableKey(P,key)
 	table.insert(P.gameEnv.keyCancel,key)
 end
 MODOPT={--Mod options
@@ -107,19 +107,19 @@ MODOPT={--Mod options
 	{no=17,id="FX",name="noRotation",
 		key="x",x=320,y=470,color='lH',
 		func=function(P)
-			disableKey(P,3)
-			disableKey(P,4)
-			disableKey(P,5)
+			_disableKey(P,3)
+			_disableKey(P,4)
+			_disableKey(P,5)
 		end,
 		unranked=true,
 	},
 	{no=18,id="GL",name="noMove",
 		key="c",x=440,y=470,color='lH',
 		func=function(P)
-			disableKey(P,1)disableKey(P,2)
-			disableKey(P,11)disableKey(P,12)
-			disableKey(P,17)disableKey(P,18)
-			disableKey(P,19)disableKey(P,20)
+			_disableKey(P,1)_disableKey(P,2)
+			_disableKey(P,11)_disableKey(P,12)
+			_disableKey(P,17)_disableKey(P,18)
+			_disableKey(P,19)_disableKey(P,20)
 		end,
 		unranked=true,
 	},

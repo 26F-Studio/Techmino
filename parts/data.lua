@@ -335,7 +335,7 @@ function DATA.pumpRecording(str,L)
 end
 do--function DATA.saveReplay()
 	local noRecList={"custom","solo","round","techmino"}
-	local function getModList()
+	local function _getModList()
 		local res={}
 		for _,v in next,GAME.mod do
 			if v.sel>0 then
@@ -365,7 +365,7 @@ do--function DATA.saveReplay()
 						player=USERS.getUsername(USER.uid),
 						seed=GAME.seed,
 						setting=GAME.setting,
-						mod=getModList(),
+						mod=_getModList(),
 						tasUsed=GAME.tasUsed,
 					}.."\n"..
 					DATA.dumpRecording(GAME.rep)

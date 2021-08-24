@@ -1,6 +1,6 @@
 local scene={}
 
-local function register()
+local function _register()
 	local username=	WIDGET.active.username:getText()
 	local email=	WIDGET.active.email:getText()
 	local password=	WIDGET.active.password:getText()
@@ -25,7 +25,7 @@ scene.widgetList={
 	WIDGET.newInputBox{name="password",	x=380,	y=400,w=626,h=60,secret=true,regex="[ -~]"},
 	WIDGET.newInputBox{name="password2",x=380,	y=500,w=626,h=60,secret=true,regex="[ -~]"},
 
-	WIDGET.newKey{name="register",		x=640,	y=640,w=300,h=80,font=40,code=register,hideF=function()return NET.getlock('register')end},
+	WIDGET.newKey{name="register",		x=640,	y=640,w=300,h=80,font=40,code=_register,hideF=function()return NET.getlock('register')end},
 	WIDGET.newText{name="registering",	x=640,	y=605,font=50,hideF=function()return not NET.getlock('register')end},
 
 	WIDGET.newButton{name="back",		x=1140,	y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},

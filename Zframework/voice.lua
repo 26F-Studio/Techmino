@@ -15,7 +15,7 @@ function VOC.init(list)
 	local Source={}
 
 	local count=#list function VOC.getCount()return count end
-	local function loadVoiceFile(N,vocName)
+	local function _loadVoiceFile(N,vocName)
 		local fileName='media/VOICE/'..SETTING.cv..'/'..vocName..'.ogg'
 		if love.filesystem.getInfo(fileName)then
 			bank[vocName]={love.audio.newSource(fileName,'stream')}
@@ -23,7 +23,7 @@ function VOC.init(list)
 			return true
 		end
 	end
-	local function getVoice(str)
+	local function _getVoice(str)
 		local L=bank[str]
 		local n=1
 		while L[n]:isPlaying()do
@@ -42,10 +42,10 @@ function VOC.init(list)
 			Source[list[i]]={}
 
 			local n=0
-			repeat n=n+1 until not loadVoiceFile(list[i],list[i]..'_'..n)
+			repeat n=n+1 until not _loadVoiceFile(list[i],list[i]..'_'..n)
 
 			if n==1 then
-				if not loadVoiceFile(list[i],list[i])then
+				if not _loadVoiceFile(list[i],list[i])then
 					MES.new('warn',"No VOICE file: "..list[i],.1)
 				end
 			end
@@ -87,13 +87,13 @@ function VOC.init(list)
 						rem(voiceQueue,i)
 					end
 				elseif Q.s==1 then--Waiting load source
-					Q[1]=getVoice(Q[1])
+					Q[1]=_getVoice(Q[1])
 					Q[1]:setVolume(SETTING.voc)
 					Q[1]:play()
 					Q.s=Q[2]and 2 or 4
 				elseif Q.s==2 then--Playing 1,ready 2
 					if Q[1]:getDuration()-Q[1]:tell()<.08 then
-						Q[2]=getVoice(Q[2])
+						Q[2]=_getVoice(Q[2])
 						Q[2]:setVolume(SETTING.voc)
 						Q[2]:play()
 						Q.s=3

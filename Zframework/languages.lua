@@ -1,10 +1,10 @@
 local LANG={}
 function LANG.init(langList,publicText)--Attention, calling this will destory all initializing methods, create a LANG.set()!
-	local function langFallback(T0,T)
+	local function _langFallback(T0,T)
 		for k,v in next,T0 do
 			if type(v)=='table'and not v.refuseCopy then--refuseCopy: just copy pointer, not contents
 				if not T[k]then T[k]={}end
-				if type(T[k])=='table'then langFallback(v,T[k])end
+				if type(T[k])=='table'then _langFallback(v,T[k])end
 			elseif not T[k]then
 				T[k]=v
 			end
@@ -22,7 +22,7 @@ function LANG.init(langList,publicText)--Attention, calling this will destory al
 
 		--Fallback to other language, default zh
 		if i>1 then
-			langFallback(langList[L.fallback or 1],L)
+			_langFallback(langList[L.fallback or 1],L)
 		end
 
 		--Metatable:__call for table:getTip

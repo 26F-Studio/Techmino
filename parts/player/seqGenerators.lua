@@ -53,7 +53,7 @@ local seqGenerators={
 		local poolLen=5*len
 		local droughtTimes=TABLE.new(len,len)--Drought times of seq0
 		local pool={}for i=1,len do for _=1,5 do ins(pool,i)end end--5 times indexes of seq0
-		local function poolPick()
+		local function _poolPick()
 			local r=rndGen:random(poolLen)
 			local res=pool[r]
 
@@ -87,7 +87,7 @@ local seqGenerators={
 				--Pick a mino from pool
 				local tryTime=0
 				::REPEAT_pickAgain::
-				local r=poolPick()--Random mino-index in pool
+				local r=_poolPick()--Random mino-index in pool
 				for i=1,len do
 					if r==history[i]then
 						tryTime=tryTime+1

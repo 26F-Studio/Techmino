@@ -44,14 +44,14 @@ function scene.sceneInit(org)
 	end
 end
 
-local function getK()
+local function _getK()
 	return abs(mapCam.xOy:transformPoint(1,0)-mapCam.xOy:transformPoint(0,0))
 end
-local function getPos()
+local function _getPos()
 	return mapCam.xOy:inverseTransformPoint(0,0)
 end
 
-local function onModeRaw(x,y)
+local function _onModeRaw(x,y)
 	for name,M in next,MODES do
 		if visibleModes[name]and M.x then
 			local s=M.size
@@ -65,25 +65,25 @@ local function onModeRaw(x,y)
 		end
 	end
 end
-local function moveMap(dx,dy)
-	local k=getK()
-	local x,y=getPos()
+local function _moveMap(dx,dy)
+	local k=_getK()
+	local x,y=_getPos()
 	if x>1300 and dx<0 or x<-1500 and dx>0 then dx=0 end
 	if y>420 and dy<0 or y<-1900 and dy>0 then dy=0 end
 	mapCam.xOy:translate(dx/k,dy/k)
 end
 function scene.wheelMoved(_,dy)
 	mapCam.keyCtrl=false
-	local k=getK()
+	local k=_getK()
 	k=min(max(k+dy*.1,.3),1.6)/k
 	mapCam.xOy:scale(k)
 
-	local x,y=getPos()
+	local x,y=_getPos()
 	mapCam.xOy:translate(x*(1-k),y*(1-k))
 end
 function scene.mouseMove(_,_,dx,dy)
 	if ms.isDown(1)then
-		moveMap(dx,dy)
+		_moveMap(dx,dy)
 	end
 	mapCam.keyCtrl=false
 end
@@ -92,7 +92,7 @@ function scene.mouseClick(x,y)
 	if not _ or x<920 then
 		x,y=x-640,y-360
 		x,y=mapCam.xOy:inverseTransformPoint(x,y)
-		local SEL=onModeRaw(x,y)
+		local SEL=_onModeRaw(x,y)
 		if _~=SEL then
 			if SEL then
 				mapCam.moving=true
@@ -114,7 +114,7 @@ end
 function scene.touchMove(x,y,dx,dy)
 	local L=tc.getTouches()
 	if not L[2]then
-		moveMap(dx,dy)
+		_moveMap(dx,dy)
 	elseif not L[3]then
 		x,y=SCR.xOy:inverseTransformPoint(tc.getPosition(L[1]))
 		dx,dy=SCR.xOy:inverseTransformPoint(tc.getPosition(L[2]))--Not delta!!!
@@ -178,9 +178,9 @@ function scene.update()
 		if kb.isDown("lctrl","rctrl","lalt","ralt")then
 			scene.wheelMoved(nil,(dy-dx)*.026)
 		else
-			moveMap(dx,dy)
-			local x,y=getPos()
-			local SEL=onModeRaw(x,y)
+			_moveMap(dx,dy)
+			local x,y=_getPos()
+			local SEL=_onModeRaw(x,y)
 			if SEL and mapCam.sel~=SEL then
 				mapCam.sel=SEL
 				SFX.play('click')
@@ -210,7 +210,7 @@ local baseRankColor={
 	{.85,.8,.3,.3},
 }
 local rankColor=rankColor
-local function drawModeShape(M,S,drawType)
+local function _drawModeShape(M,S,drawType)
 	if M.shape==1 then--Rectangle
 		gc_rectangle(drawType,M.x-S,M.y-S,2*S,2*S)
 	elseif M.shape==2 then--Diamond
@@ -254,10 +254,10 @@ function scene.draw()
 			--Draw shapes on map
 			if unlocked==1 then
 				gc_setColor(baseRankColor[rank])
-				drawModeShape(M,S,'fill')
+				_drawModeShape(M,S,'fill')
 			end
 			gc_setColor(1,1,sel==name and 0 or 1,unlocked==1 and .8 or .3)
-			drawModeShape(M,S,'line')
+			_drawModeShape(M,S,'line')
 
 			--Icon
 			local icon=M.icon
