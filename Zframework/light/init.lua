@@ -62,7 +62,7 @@ function LIGHT.draw()
 	end
 end
 function LIGHT.clear()
-	for i=#Lights,1,-1 do
+	for i=1,#Lights do
 		Lights[i].blackCanvas:release()
 		Lights[i].shadowCanvas:release()
 		Lights[i].renderCanvas:release()

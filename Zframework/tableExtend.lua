@@ -73,7 +73,7 @@ end
 
 --Remove positive integer index of table
 function TABLE.cut(G)
-	for i=#G,1,-1 do
+	for i=1,#G do
 		G[i]=nil
 	end
 end
