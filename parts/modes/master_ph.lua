@@ -50,7 +50,7 @@ return{
 							P.visTime[i]=FREEROW.get(30)
 							for j=1,10 do
 								if P.holeRND:random()>.9 then
-									P.field[i][j]=math.random(16)
+									P.field[i][j]=P.holeRND:random(16)
 								end
 							end
 							P.field[i][P.holeRND:random(10)]=0
@@ -120,7 +120,7 @@ return{
 					SFX.play('reach')
 				elseif T==259 then--Stage 9: ending
 					P.life=P.life+1
-					for i=1,7 do ENV.skin[i]=math.random(16)end
+					for i=1,7 do ENV.skin[i]=P.holeRND:random(16)end
 
 					P:setInvisible(40)
 					ENV.lock=15
