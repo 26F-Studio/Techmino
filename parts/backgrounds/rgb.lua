@@ -5,16 +5,16 @@ local back={}
 
 local t
 function back.init()
-	t=math.random()*2600
+    t=math.random()*2600
 end
 function back.update(dt)
-	t=t+dt
+    t=t+dt
 end
 function back.draw()
-	gc.clear(
-		sin(t*1.2)*.06+.08,
-		sin(t*1.5)*.06+.08,
-		sin(t*1.9)*.06+.08
-	)
+    gc.clear(
+        sin(t*1.2)*.06+.08,
+        sin(t*1.5)*.06+.08,
+        sin(t*1.9)*.06+.08
+    )
 end
 return back

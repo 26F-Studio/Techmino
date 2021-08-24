@@ -1,15 +1,15 @@
 return{
-	color=COLOR.white,
-	env={
-		drop=1e99,lock=1e99,
-		infHold=true,
-		bg='blockfall',bgm='infinite',
-	},
-	mesDisp=function(P)
-		setFont(45)
-		mStr(("%.1f"):format(P.stat.atk),63,190)
-		mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,310)
-		mText(drawableText.atk,63,243)
-		mText(drawableText.eff,63,363)
-	end,
+    color=COLOR.white,
+    env={
+        drop=1e99,lock=1e99,
+        infHold=true,
+        bg='blockfall',bgm='infinite',
+    },
+    mesDisp=function(P)
+        setFont(45)
+        mStr(("%.1f"):format(P.stat.atk),63,190)
+        mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,310)
+        mText(drawableText.atk,63,243)
+        mText(drawableText.eff,63,363)
+    end,
 }

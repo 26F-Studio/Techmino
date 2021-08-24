@@ -6,18 +6,18 @@ FILETYPE 0x1
 {
 BLOCK "StringFileInfo"
 {
-	BLOCK "040904B0"
-	{
-		VALUE "FileDescription", "Techmino Alpha"
-		VALUE "CompanyName", "26F Studio"
-		VALUE "LegalCopyright", "Copyright @ 26F Studio"
-		VALUE "ProductName", "Techmino"
-		VALUE "ProductVersion", "@Version"
-	}
+    BLOCK "040904B0"
+    {
+        VALUE "FileDescription", "Techmino Alpha"
+        VALUE "CompanyName", "26F Studio"
+        VALUE "LegalCopyright", "Copyright @ 26F Studio"
+        VALUE "ProductName", "Techmino"
+        VALUE "ProductVersion", "@Version"
+    }
 }
 
 BLOCK "VarFileInfo"
 {
-	VALUE "Translation", 0x0409 0x04E4  
+    VALUE "Translation", 0x0409 0x04E4  
 }
 }
