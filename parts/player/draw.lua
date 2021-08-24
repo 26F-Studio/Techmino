@@ -138,7 +138,7 @@ local function drawField(P,showInvis)
 			for j=start,min(start+21,#F)do drawRow(texture,j,V[j],F[j],showInvis)end
 		--</drawRow>
 	else--With falling animation
-		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^2.5*30 or 30
+		local stepY=ENV.smooth and(P.falling/(ENV.fall+1))^1.6*30 or 30
 		local alpha=P.falling/ENV.fall
 		local h=1
 		if ENV.upEdge then
