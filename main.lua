@@ -46,6 +46,7 @@ end
 --Load modules
 require'Zframework'
 SCR.setSize(1280,720)--Initialize Screen size
+BGM.setChange(function(name)MES.new('music',text.nowPlaying..name,5)end)
 
 --Delete all naked files (from too old version)
 FILE.clear('')

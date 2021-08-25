@@ -49,6 +49,8 @@ return{
     pasteWrongPlace="_?X.",
     -- noFile="File not found",
 
+    nowPlaying="~:",
+
     VKTchW="Tch↓",
     VKOrgW="Org↓",
     VKCurW="Cur↓",

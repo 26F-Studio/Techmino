@@ -73,6 +73,8 @@ return{
     pasteWrongPlace="Paste at wrong place?",
     noFile="File not found",
 
+    nowPlaying="Now Playing:",
+
     VKTchW="Touch Weight",
     VKOrgW="Origin Weight",
     VKCurW="Current. Pos. Weight",

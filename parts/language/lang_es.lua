@@ -62,6 +62,8 @@ return{
     pasteWrongPlace="¿Pegaste en la carpeta correcta?",
     noFile="Archivo no encontrado",
 
+    nowPlaying="Reproduciendo:",
+
     VKTchW="Sens. al tacto",
     VKOrgW="Sens. al origen",
     VKCurW="Sens. Cur. Pos.",

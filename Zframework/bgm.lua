@@ -5,11 +5,15 @@ local BGM={
     play=NULL,
     freshVolume=NULL,
     stop=NULL,
+    onChange=NULL,
     --nowPlay=[str:playing ID]
     --playing=[src:playing SRC]
 }
 function BGM.setDefault(bgm)
     BGM.default=bgm
+end
+function BGM.setChange(func)
+    BGM.onChange=func
 end
 function BGM.init(list)
     BGM.init=nil
@@ -85,6 +89,7 @@ function BGM.init(list)
                 BGM.nowPlay=name
                 BGM.playing=Sources[name]
                 BGM.playing:play()
+                BGM.onChange(name)
             end
             return true
         end

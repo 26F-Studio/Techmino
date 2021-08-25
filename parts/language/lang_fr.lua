@@ -63,6 +63,8 @@ return{
     -- pasteWrongPlace="Paste at wrong place?",
     -- noFile="File not found",
 
+    nowPlaying="En train de jouer :",
+
     VKTchW="Poids du toucher",
     VKOrgW="Poids d'origine",
     VKCurW="Poids de la pos. du cur.",
