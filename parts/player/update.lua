@@ -347,7 +347,7 @@ function update.alive(P,dt)
                 end
                 P:drop(true)
                 if P.bot then
-                    P.bot:unexpectedLock()
+                    P.bot:lockWrongPlace()
                 end
             end
         end

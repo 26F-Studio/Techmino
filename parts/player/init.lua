@@ -117,6 +117,7 @@ local function _newEmptyPlayer(id,mini)
     P.keyPressing={}for i=1,12 do P.keyPressing[i]=false end
     P.clearingRow,P.clearedRow={},{}--Clearing animation height,cleared row mark
     P.dropFX,P.moveFX,P.lockFX,P.clearFX={},{},{},{}
+    -- P.destFX={}--Normally created by bot
     P.tasks={}
     P.bonus={}--Texts
 

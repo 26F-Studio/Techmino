@@ -573,21 +573,6 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
         end
     end
 end
-function Player:checkDest()
-    if not self.AI_dest then return end
-    local dest=self.AI_dest
-    local CB=self.cur.bk
-    for k=1,#dest,2 do
-        local r=CB[dest[k+1]-self.curY+2]
-        if not r or not r[dest[k]-self.curX+2]then
-            if self.bot then
-                self.bot:lockWrongPlace()
-            end
-            self.AI_dest=nil
-            return
-        end
-    end
-end
 function Player:lock()
     local CB=self.cur.bk
     for i=1,#CB do
@@ -888,9 +873,7 @@ function Player:getBlock(id,name,color)--Get a block object
 end
 function Player:getNext(id)--Push a block to nextQueue
     ins(self.nextQueue,self:getBlock(id))
-    if self.bot then
-        self.bot:pushNewNext(id)
-    end
+    if self.bot then self.bot:pushNewNext(id)end
 end
 function Player:popNext(ifhold)--Pop nextQueue to hand
     local ENV=self.gameEnv
@@ -1126,9 +1109,6 @@ do--Player.drop(self)--Place piece
             dospin=dospin+2
         end
 
-        if self.bot then
-            self:checkDest()
-        end
         self:lock()
 
         --Clear list of cleared-rows
@@ -1492,6 +1472,13 @@ do--Player.drop(self)--Place piece
             end
         end
 
+        --Check bot things
+        if self.bot then
+            self.bot:checkDest()
+            self.bot:updateB2B(self.b2b)
+            self.bot:updateCombo(self.combo)
+        end
+
         --Check height limit
         if cc==0 and #self.field>ENV.heightLimit then self:lose()end
 
@@ -1665,9 +1652,7 @@ function Player:revive()
         self.field[_],self.visTime[_]=nil
     end
     self.garbageBeneath=0
-    if self.bot then
-        self.bot:revive()
-    end
+    if self.bot then self.bot:revive()end
 
     self:clearAttackBuffer()
 

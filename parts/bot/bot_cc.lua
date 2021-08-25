@@ -6,6 +6,24 @@
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 local bot_cc={}
+function bot_cc:switch20G()
+    self._20G=true
+end
+function bot_cc:checkDest()
+    local dest=self.destFX
+    if not dest then return end
+    local CB=self.cur.bk
+    for k=1,#dest,2 do
+        local r=CB[dest[k+1]-self.curY+2]
+        if not r or not r[dest[k]-self.curX+2]then
+            if self.bot then
+                self.bot:lockWrongPlace()
+            end
+            self.destFX=nil
+            return
+        end
+    end
+end
 function bot_cc:pushNewNext(id)
     self.bot:addNext(rem(self.nexts,1))
     ins(self.nexts,id)
@@ -32,13 +50,13 @@ function bot_cc:thread()
             dest[7],dest[8]=dest[2][1],dest[2][2]
             dest[1],dest[2]=dest[3][1],dest[3][2]
             dest[3],dest[4]=dest[4][1],dest[4][2]
-            P.AI_dest=dest
+            P.destFX=dest
             if hold then keys[1]=8 end--Hold
             while move[1]do
                 local m=rem(move,1)
                 if m<4 then
                     ins(keys,m+1)
-                elseif not P.AIdata._20G then
+                elseif not self._20G then
                     ins(keys,13)
                 end
             end
