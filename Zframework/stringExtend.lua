@@ -65,6 +65,17 @@ function STRING.time(s)
     end
 end
 
+function STRING.hexColor(str)--[LOW PERFORMENCE]
+    assert(type(str)=='string')
+    if str:sub(1,1)=="#"then str=str:sub(2)end
+    assert(#str<=8)
+    local r=(tonumber(str:sub(1,2),16)or 0)/255
+    local g=(tonumber(str:sub(3,4),16)or 0)/255
+    local b=(tonumber(str:sub(5,6),16)or 0)/255
+    local a=(tonumber(str:sub(7,8),16)or 255)/255
+    return r,g,b,a
+end
+
 do--function STRING.urlEncode(s)
     local rshift=bit.rshift
     local b16={[0]='0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'}
