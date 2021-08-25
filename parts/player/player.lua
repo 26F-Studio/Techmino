@@ -74,9 +74,11 @@ function Player:clearLockFX()
     end
 end
 function Player:createDropFX()
-    local CB=self.cur.bk
-    if self.gameEnv.dropFX and self.gameEnv.block and self.curY-self.ghoY-#CB>-1 then
-        ins(self.dropFX,{self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1,0,13-2*self.gameEnv.dropFX})
+    if self.gameEnv.dropFX and self.gameEnv.block then
+        local CB=self.cur.bk
+        if self.curY-self.ghoY+1>#CB then
+            ins(self.dropFX,{self.curX,self.curY-1,#CB[1],self.curY-self.ghoY-#CB+1,0,13-2*self.gameEnv.dropFX})
+        end
     end
 end
 function Player:createMoveFX(moveDir)

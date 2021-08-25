@@ -417,9 +417,7 @@ function update.remote_alive(P,dt)
                     for _,p in next,PLY_ALIVE do
                         if p.sid==sid then
                             P:attack(p,amount,time,line,true)
-                            if P.gameEnv.atkFX then
-                                P:createBeam(p,amount,P.gameEnv.atkFX,P.cur.color)
-                            end
+                            P:createBeam(p,amount)
                             break
                         end
                     end
