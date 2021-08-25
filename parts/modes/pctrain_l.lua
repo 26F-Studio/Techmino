@@ -33,7 +33,7 @@ local function check(P)
             P.gameEnv.lock=pc_lock[s]or 25
             P.gameEnv.fall=pc_fall[s]or 4
             if s==10 then
-                P:showTextF(text.maxspeed,0,-140,100,'appear',.6)
+                P:_showText(text.maxspeed,0,-140,100,'appear',.6)
             end
         end
     end

@@ -24,16 +24,16 @@ return{
                         if D.wave<=90 then
                             D.rpm=math.floor(108e3/t)*.1
                             if D.wave==25 then
-                                P:showTextF(text.great,0,-140,100,'appear',.6)
+                                P:_showText(text.great,0,-140,100,'appear',.6)
                                 P.gameEnv.pushSpeed=2
                                 P.dropDelay,P.gameEnv.drop=20,20
                             elseif D.wave==50 then
-                                P:showTextF(text.awesome,0,-140,100,'appear',.6)
+                                P:_showText(text.awesome,0,-140,100,'appear',.6)
                                 P.gameEnv.pushSpeed=3
                                 P.dropDelay,P.gameEnv.drop=10,10
                             elseif D.wave==90 then
                                 P.dropDelay,P.gameEnv.drop=5,5
-                                P:showTextF(text.maxspeed,0,-140,100,'appear',.6)
+                                P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                             end
                         end
                     end

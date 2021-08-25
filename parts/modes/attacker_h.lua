@@ -24,10 +24,10 @@ return{
                     D.wave=D.wave+1
                     if D.wave%10==0 then
                         if D.wave==20 then
-                            P:showTextF(text.great,0,-140,100,'appear',.6)
+                            P:_showText(text.great,0,-140,100,'appear',.6)
                             P.gameEnv.pushSpeed=3
                         elseif D.wave==50 then
-                            P:showTextF(text.maxspeed,0,-140,100,'appear',.6)
+                            P:_showText(text.maxspeed,0,-140,100,'appear',.6)
                         end
                     end
                 end

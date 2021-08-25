@@ -20,7 +20,7 @@ return{
                         end
                         P.atkBufferSum=P.atkBufferSum+s
                         P.stat.recv=P.stat.recv+s
-                        if D.wave==60 then P:showTextF(text.maxspeed,0,-140,100,'appear',.6)end
+                        if D.wave==60 then P:_showText(text.maxspeed,0,-140,100,'appear',.6)end
                         D.timer=0
                         D.wave=D.wave+1
                     end

@@ -3,9 +3,9 @@ local function check_rise(P)
     if #P.clearedRow==0 then
         if L>0 then
             if L<3 then
-                P:showTextF(text.almost,0,-120,80,'beat',.8)
+                P:_showText(text.almost,0,-120,80,'beat',.8)
             elseif L<5 then
-                P:showTextF(text.great,0,-120,80,'fly',.8)
+                P:_showText(text.great,0,-120,80,'fly',.8)
             end
         end
         for _=1,8-L do
@@ -13,7 +13,7 @@ local function check_rise(P)
         end
     else
         if L==0 then
-            P:showTextF(text.awesome,0,-120,80,'beat',.6)
+            P:_showText(text.awesome,0,-120,80,'beat',.6)
             SFX.play('clear')
             BG.send(26)
             for _=1,8 do

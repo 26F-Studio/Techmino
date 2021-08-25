@@ -48,7 +48,7 @@ local function score(P)
             return
         end
         D.target=D.target+100
-        P:showTextF(text.stage:gsub("$1",s),0,-120,80,'fly')
+        P:_showText(text.stage:gsub("$1",s),0,-120,80,'fly')
         SFX.play('reach')
     end
 end
