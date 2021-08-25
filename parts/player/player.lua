@@ -83,7 +83,7 @@ function Player:createDropFX()
 end
 function Player:createMoveFX(moveDir)
     local ENV=self.gameEnv
-    if not(ENV.moveFX and ENV.block)then
+    if ENV.moveFX and ENV.block then
         local spd=10-1.5*ENV.moveFX
         local C=self.cur.color
         local CB=self.cur.bk
