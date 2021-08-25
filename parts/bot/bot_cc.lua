@@ -6,9 +6,6 @@
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 local bot_cc={}
-function bot_cc:switch20G()
-    self._20G=true
-end
 function bot_cc:checkDest()
     local dest=self.destFX
     if not dest then return end
@@ -23,9 +20,12 @@ function bot_cc:checkDest()
             return
         end
     end
+function bot_cc:revive()
+    TABLE.cut(self.P.holdQueue)
+    self.P:loadAI(self.data)
 end
 function bot_cc:pushNewNext(id)
-    self.bot:addNext(rem(self.nexts,1))
+    self.ccBot:addNext(rem(self.nexts,1))
     ins(self.nexts,id)
 end
 function bot_cc:thread()
@@ -40,7 +40,7 @@ function bot_cc:thread()
         local success,result,dest,hold,move
         repeat
             yield()
-            success,result,dest,hold,move=ccBot:getMove()
+            success,result,dest,hold,move=pcall(ccBot.getMove,ccBot)
         until not success or result==0 or result==2
         if not success then break end
         if result==2 then
@@ -56,7 +56,7 @@ function bot_cc:thread()
                 local m=rem(move,1)
                 if m<4 then
                     ins(keys,m+1)
-                elseif not self._20G then
+                elseif not self.data._20G then
                     ins(keys,13)
                 end
             end
@@ -70,4 +70,25 @@ function bot_cc:thread()
         end
     end
 end
+function bot_cc:updateField()
+    local P=self.P
+    local F,i={},1
+    for y=1,#P.field do
+        for x=1,10 do
+            F[i],i=P.field[y][x]>0,i+1
+        end
+    end
+    while i<=400 do
+        F[i],i=false,i+1
+    end
+    if not pcall(self.ccBot.reset,self.ccBot,F,P.b2b>=100,P.combo)then
+        print("CC is dead ("..P.id..")","error")
+    end
+end
+function bot_cc:switch20G()
+    TABLE.cut(self.P.holdQueue)
+    self.data._20G=true
+    self.P:loadAI(self.data)
+end
+bot_cc.lockWrongPlace=bot_cc.updateField
 return bot_cc
