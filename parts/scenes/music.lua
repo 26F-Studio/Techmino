@@ -16,6 +16,7 @@ local author={
     ["how feeling"]="????",
     moonbeam="Beethoven & MrZ",
     ["secret7th remix"]="柒栎流星",
+    ["jazz nihilism"]="Trebor",
 }
 
 local scene={}

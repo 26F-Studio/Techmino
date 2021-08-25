@@ -38,9 +38,10 @@ function THEME.calculate(Y,M,D)
         --Z day
         D=='26'and(
             (M=='01'or M=='02'or M=='03')and'zday1'or
-            (M=='04'or M=='05'or M=='06')and'zday2'or
-            (M=='07'or M=='08'or M=='09')and'zday3'or
-            (M=='10'or M=='11'or M=='12')and'zday4'
+            (M=='04'or M=='05')and'zday2'or
+            (M=='06'or M=='07')and'zday3'or
+            (M=='08'or M=='09')and'zday4'or
+            (M=='10'or M=='11'or M=='12')and'zday5'
         )or
 
         'classic'
@@ -63,16 +64,19 @@ function THEME.set(theme)
         MES.new('info',"★☆新年快乐☆★")
     elseif theme=='zday1'then
         BG.setDefault('lanterns')
-        BGM.setDefault('overzero')
+        BGM.setDefault('blank')
     elseif theme=='zday2'then
         BG.setDefault('lanterns')
-        BGM.setDefault('vacuum')
+        BGM.setDefault('overzero')
     elseif theme=='zday3'then
         BG.setDefault('lanterns')
-        BGM.setDefault('empty')
+        BGM.setDefault('vacuum')
     elseif theme=='zday4'then
         BG.setDefault('lanterns')
-        BGM.setDefault('space')
+        BGM.setDefault('jazz nihilism')
+    elseif theme=='zday5'then
+        BG.setDefault('lanterns')
+        BGM.setDefault('empty')
     elseif theme=='fool'then
         BG.setDefault('blockrain')
         BGM.setDefault('how feeling')
