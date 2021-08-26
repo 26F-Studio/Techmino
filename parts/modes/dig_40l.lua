@@ -1,5 +1,5 @@
 local function check_rise(P)
-    for _=1,math.min(8,40-P.stat.dig)-P.garbageBeneath do
+    for _=1,math.min(10,40-P.stat.dig)-P.garbageBeneath do
         P:garbageRise(21,1,P:getHolePos())
     end
     if P.stat.dig==40 then
@@ -12,16 +12,9 @@ return{
     env={
         pushSpeed=6,
         dropPiece=check_rise,
+        eventSet='digBase',
         bg='bg1',bgm='way',
     },
-    load=function()
-        PLY.newPlayer(1)
-        local P=PLAYERS[1]
-        for _=1,10 do
-            P:garbageRise(21,1,P:getHolePos())
-        end
-        P.fieldBeneath=0
-    end,
     mesDisp=function(P)
         setFont(55)
         mStr(40-P.stat.dig,63,265)
