@@ -4,11 +4,11 @@ LOADED=false
 ERRDATA={}
 
 --Pure lua modules (basic)
-COLOR=    require'Zframework.color'
-TABLE=    require'Zframework.tableExtend'
-STRING=    require'Zframework.stringExtend'
-PROFILE=require'Zframework.profile'
-JSON=    require'Zframework.json'
+COLOR=      require'Zframework.color'
+TABLE=      require'Zframework.tableExtend'
+STRING=     require'Zframework.stringExtend'
+PROFILE=    require'Zframework.profile'
+JSON=       require'Zframework.json'
 do--Add pcall & MES for JSON lib
     local encode,decode=JSON.encode,JSON.decode
     JSON.encode=function(val)
@@ -30,18 +30,18 @@ do--Add pcall & MES for JSON lib
 end
 
 --Pure lua modules (complex)
-LOADLIB=require'Zframework.loadLib'
-TASK=    require'Zframework.task'
-WS=        require'Zframework.websocket'
-LANG=    require'Zframework.languages'
-THEME=    require'Zframework.theme'
+LOADLIB=    require'Zframework.loadLib'
+TASK=       require'Zframework.task'
+WS=         require'Zframework.websocket'
+LANG=       require'Zframework.languages'
+THEME=      require'Zframework.theme'
 
 --Love-based modules (basic)
-FILE=    require'Zframework.file'
-WHEELMOV=require'Zframework.wheelScroll'
-SCR=    require'Zframework.screen'
-SCN=    require'Zframework.scene'
-LIGHT=    require'Zframework.light'
+FILE=       require'Zframework.file'
+WHEELMOV=   require'Zframework.wheelScroll'
+SCR=        require'Zframework.screen'
+SCN=        require'Zframework.scene'
+LIGHT=      require'Zframework.light'
 
 --Love-based modules (complex)
 GC=require'Zframework.gcExtend'
@@ -49,16 +49,16 @@ GC=require'Zframework.gcExtend'
     mText=GC.simpX
     mDraw=GC.draw
 require'Zframework.setFont'
-TEXT=    require'Zframework.text'
-SYSFX=    require'Zframework.sysFX'
-MES=    require'Zframework.message'
-BG=        require'Zframework.background'
-WIDGET=    require'Zframework.widget'
-VIB=    require'Zframework.vibrate'
-SFX=    require'Zframework.sfx'
-IMG=    require'Zframework.image'
-BGM=    require'Zframework.bgm'
-VOC=    require'Zframework.voice'
+TEXT=       require'Zframework.text'
+SYSFX=      require'Zframework.sysFX'
+MES=        require'Zframework.message'
+BG=         require'Zframework.background'
+WIDGET=     require'Zframework.widget'
+VIB=        require'Zframework.vibrate'
+SFX=        require'Zframework.sfx'
+IMG=        require'Zframework.image'
+BGM=        require'Zframework.bgm'
+VOC=        require'Zframework.voice'
 
 local ms,kb=love.mouse,love.keyboard
 

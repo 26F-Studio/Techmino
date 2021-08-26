@@ -3,6 +3,7 @@
     6~10:hD,sD,H,A,R,
     11~13:LL,RR,DD
 ]]
+local pcall=pcall
 local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 local bot_cc={}
@@ -71,15 +72,12 @@ function bot_cc:thread()
 end
 function bot_cc:updateField()
     local P=self.P
+    local F0=P.field
     local F,i={},1
-    for y=1,#P.field do
-        for x=1,10 do
-            F[i],i=P.field[y][x]>0,i+1
-        end
-    end
-    while i<=400 do
-        F[i],i=false,i+1
-    end
+    for y=1,#F0 do for x=1,10 do
+        F[i],i=F0[y][x]>0,i+1
+    end end
+    while i<=400 do F[i],i=false,i+1 end
     if not pcall(self.ccBot.reset,self.ccBot,F,P.b2b>=100,P.combo)then
         print("CC is dead ("..P.id..")","error")
     end

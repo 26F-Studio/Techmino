@@ -80,7 +80,7 @@ function BOT.new(P,data)
         bot.delay0=data.delay
         if P.gameEnv.holdCount and P.gameEnv.holdCount>1 then P:setHold(1)end
 
-        local cc=require"CCloader"
+        local cc=LOADLIB"CCloader"
         local opt,wei=cc.getDefaultConfig()
             wei:fastWeights()
             opt:setHold(data.hold)
@@ -91,10 +91,10 @@ function BOT.new(P,data)
         local cc_lua=require"parts.bot.bot_cc"
         setmetatable(bot,{__index=function(self,k)
             return
-                self.ccBot[k] and function(_,...)self.ccBot[k](self.ccBot,...)end or
-                cc_lua[k] and function(_,...)cc_lua[k](self,...)end or
-                baseBot[k] and baseBot[k] or
-                error("MrZ did something bad again! He just wanted "..k)
+                self.ccBot[k]and function(_,...)self.ccBot[k](self.ccBot,...)end or
+                cc_lua[k]and function(_,...)cc_lua[k](self,...)end or
+                baseBot[k]and baseBot[k]or
+                error("No actions called "..k)
         end})
 
         for i,B in next,P.nextQueue do
