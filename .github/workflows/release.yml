@@ -36,6 +36,7 @@ jobs:
         7z x .\love-11.3-win64.zip
     - name: Download ColdClear
       run: |
+        pip install requests
         $CCVersion=python .\.github\workflows\getLatest.py
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win64.zip
     - name: Unpack ColdClear
@@ -101,6 +102,7 @@ jobs:
         7z x .\love-11.3-win32.zip
     - name: Download ColdClear
       run: |
+        pip install requests
         $CCVersion=python .\.github\workflows\getLatest.py
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win32.zip
     - name: Unpack ColdClear
@@ -168,7 +170,7 @@ jobs:
         ./love-11.3-x86_64.AppImage --appimage-extract
     - name: Download ColdClear
       run: |
-        CCVersion=$(python .\.github\workflows\getLatest.py)
+        CCVersion=$(python3 ./.github/workflows/getLatest.py)
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/linux.zip
     - name: Unpack ColdClear
       run: |
@@ -235,7 +237,7 @@ jobs:
         export ANDROID_HOME=$(pwd)
     - name: Download ColdClear
       run: |
-        CCVersion=$(python .\.github\workflows\getLatest.py)
+        CCVersion=$(python3 ./.github/workflows/getLatest.py)
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
     - name: Unpack ColdClear
@@ -308,7 +310,7 @@ jobs:
         export ANDROID_HOME=$(pwd)
     - name: Download ColdClear
       run: |
-        CCVersion=$(python .\.github\workflows\getLatest.py)
+        CCVersion=$(python3 ./.github/workflows/getLatest.py)
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
     - name: Unpack ColdClear
@@ -373,7 +375,7 @@ jobs:
         7z x ./Techmino.app.zip
     - name: Get CCloader
       run: |
-        CCVersion=$(python .\.github\workflows\getLatest.py)
+        CCVersion=$(python3 ./.github/workflows/getLatest.py)
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/macOS.zip
         unzip macOS.zip
     - name: Modify template
