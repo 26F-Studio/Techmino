@@ -5,6 +5,9 @@ on:
     tags:
     - '*'
 
+env:
+  LATEST_CC_WRAPPER: 20210826
+
 jobs:
   build-windows-x64:
     runs-on: windows-latest
@@ -42,7 +45,7 @@ jobs:
         excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/win64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/win64.zip
     - name: Unpack ColdClear
       run: |
         7z x .\win64.zip -oColdClear
@@ -112,7 +115,7 @@ jobs:
         excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/win32.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/win32.zip
     - name: Unpack ColdClear
       run: |
         7z x .\win32.zip -oColdClear
@@ -184,7 +187,7 @@ jobs:
         excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/linux.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/linux.zip
     - name: Unpack ColdClear
       run: |
         7z x ./linux.zip -oColdClear
@@ -256,8 +259,8 @@ jobs:
         excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_armv7.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/android_aarch64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/android_armv7.zip
     - name: Unpack ColdClear
       run: |
         7z x ./android_aarch64.zip -oColdClear/android_aarch64
@@ -334,8 +337,8 @@ jobs:
         excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_armv7.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/android_aarch64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/android_armv7.zip
     - name: Unpack ColdClear
       run: |
         7z x ./android_aarch64.zip -oColdClear/android_aarch64
@@ -404,7 +407,7 @@ jobs:
         excludes: prerelease, draft
     - name: Get CCloader
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/macOS.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/macOS.zip
         unzip macOS.zip
     - name: Modify template
       run: |
