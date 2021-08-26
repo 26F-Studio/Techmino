@@ -7,19 +7,18 @@ local ins,rem=table.insert,table.remove
 local yield=coroutine.yield
 local bot_cc={}
 function bot_cc:checkDest()
-    local dest=self.destFX
+    local dest=self.P.destFX
     if not dest then return end
-    local CB=self.cur.bk
+    local CB=self.P.cur.bk
     for k=1,#dest,2 do
-        local r=CB[dest[k+1]-self.curY+2]
-        if not r or not r[dest[k]-self.curX+2]then
-            if self.bot then
-                self.bot:lockWrongPlace()
-            end
-            self.destFX=nil
+        local r=CB[dest[k+1]-self.P.curY+2]
+        if not r or not r[dest[k]-self.P.curX+2]then
+            self:lockWrongPlace()
+            self.P.destFX=nil
             return
         end
     end
+end
 function bot_cc:revive()
     TABLE.cut(self.P.holdQueue)
     self.P:loadAI(self.data)
