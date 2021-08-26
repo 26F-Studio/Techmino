@@ -87,7 +87,11 @@ function BOT.new(P,data)
         bot.delay0=data.delay
         if P.gameEnv.holdCount>1 then P:setHold(1)end
 
-        local cc=LOADLIB"CCloader"
+        local cc=REQUIRE"CCloader"
+        if not cc then
+            data.type=false
+            return BOT.new(P,data)
+        end
         local opt,wei=cc.getDefaultConfig()
             wei:fastWeights()
             opt:setHold(data.hold)
