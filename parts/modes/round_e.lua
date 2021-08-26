@@ -23,7 +23,7 @@ return{
     },
     load=function()
         PLY.newPlayer(1)
-        PLY.newAIPlayer(2,BOT.template{type='CC',speedLV=8,next=1,hold=true,node=8000})
+        PLY.newAIPlayer(2,BOT.template{type='9S',speedLV=7,hold=false})
     end,
     score=function(P)return{P.stat.piece,P.stat.time}end,
     scoreDisp=function(D)return D[1].." Pieces   "..STRING.time(D[2])end,
@@ -32,9 +32,9 @@ return{
         if P.result=='win'then
             local T=P.stat.piece
             return
-            T<=7*8 and 5 or
-            T<=7*10 and 4 or
-            T<=7*15 and 3 or
+            T<=7*10 and 5 or
+            T<=7*13 and 4 or
+            T<=7*18 and 3 or
             T<=7*26 and 2 or
             1
         end
