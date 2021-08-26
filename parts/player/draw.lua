@@ -577,9 +577,9 @@ function draw.drawNext_norm(P,repMode)
         gc_pop()
 
         if ENV.bagLine then
-            gc_setColor(.8,.5,.5)
+            gc_setColor(.8,.8,.8,.8)
             for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
-                gc_rectangle('fill',2,72*i+3,96,2)
+                gc_rectangle('fill',1,72*i+3,98,2)
             end
         end
     gc_translate(-488,-20)
@@ -642,9 +642,9 @@ function draw.drawNext_hidden(P,repMode)
         gc_pop()
 
         if ENV.bagLine then
-            gc_setColor(.8,.5,.5)
+            gc_setColor(.8,.8,.8,.8)
             for i=-P.pieceCount%ENV.bagLine,N-1,ENV.bagLine do--i=phase
-                gc_rectangle('fill',2,72*i+3,96,2)
+                gc_rectangle('fill',1,72*i+3,98,2)
             end
         end
     gc_translate(-476,-20)
