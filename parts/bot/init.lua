@@ -38,15 +38,28 @@ local botMeta={__index=_undefMethod}
 local BOT={}
 
 local AISpeed={60,50,40,30,20,14,10,6,4,3}
+-- For CC bot:
+-- TODO you still need to switch20G() at the right time.
+-- since it's not cc-specific I'm not dealing with it for now
+--[[
+    next: number of nexts
+    hold: holdable?
+    speedLV: level
+    node: search nodes
+    randomizer: random generator
+    _20G: 20G?
+]]
 function BOT.template(arg)
     if arg.type=='CC'then
-        if not arg.hold then arg.hold=false else arg.hold=true end
+        if not arg.randomizer then arg.randomizer='bag' end
         return{
             type='CC',
             next=arg.next,
             hold=arg.hold,
             delay=AISpeed[arg.speedLV],
             node=arg.node,
+            bag=arg.randomizer=='bag',
+            _20G=arg._20G,
         }
     elseif arg.type=='9S'then
         return{
@@ -65,28 +78,26 @@ function BOT.new(P,data)
         bot.nexts={}
         bot.delay=data.delay
         bot.delay0=data.delay
-        bot._20G=P._20G
         if P.gameEnv.holdCount and P.gameEnv.holdCount>1 then P:setHold(1)end
 
-        local cc=require"parts.bot.cc_wrapper"
-        local opt,wei=cc.getConf()
+        local cc=require"CCloader"
+        local opt,wei=cc.getDefaultConfig()
             wei:fastWeights()
-            opt:setHold(P.AIdata.hold)
-            opt:set20G(P.AIdata._20G)
-            opt:setBag(P.AIdata.bag=='bag')
-            opt:setNode(P.AIdata.node)
-        bot.ccBot=cc.new(opt,wei)
-
+            opt:setHold(data.hold)
+            opt:set20G(data._20G)
+            opt:setBag(data.bag=='bag')
+            opt:setNode(data.node)
+        bot.ccBot=cc.launchAsync(opt,wei)
         local cc_lua=require"parts.bot.bot_cc"
         setmetatable(bot,{__index=function(self,k)
             return
-                self.ccBot[k]and function(_,...)self.ccBot[k](self.ccBot,...)end or
-                cc_lua[k]and function(_,...)cc_lua[k](self,...)end or
-                baseBot[k]or
-                error("No action called "..k)
+                self.ccBot[k] and function(_,...)self.ccBot[k](self.ccBot,...)end or
+                cc_lua[k] and function(_,...)cc_lua[k](self,...)end or
+                baseBot[k] and baseBot[k] or
+                error("MrZ did something bad again! He just wanted "..k)
         end})
 
-        for i,B in next,P.gameEnv.nextQueue do
+        for i,B in next,P.nextQueue do
             if i<=data.next then
                 bot:addNext(B.id)
             else
@@ -95,7 +106,6 @@ function BOT.new(P,data)
         end
         bot.runningThread=coroutine.wrap(cc_lua.thread)
         bot.runningThread(bot)
-        setmetatable(bot,botMeta)
     elseif data.type=="9S"or true then--9s or else
         TABLE.cover(baseBot,bot)
         TABLE.cover(require"parts.bot.bot_9s",bot)
