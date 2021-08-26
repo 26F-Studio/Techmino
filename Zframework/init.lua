@@ -30,7 +30,7 @@ do--Add pcall & MES for JSON lib
 end
 
 --Pure lua modules (complex)
-LOADLIB=    require'Zframework.loadLib'
+REQUIRE=    require'Zframework.require'
 TASK=       require'Zframework.task'
 WS=         require'Zframework.websocket'
 LANG=       require'Zframework.languages'
