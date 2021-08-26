@@ -3,22 +3,10 @@ return{
     env={
         drop=20,lock=60,
         fall=10,
-        dropPiece=function(P)
-            if P.lastPiece.pc then
-                P.gameEnv.heightLimit=4
-                if P.stat.pc%5==0 then
-                    P.gameEnv.drop=math.max(P.gameEnv.drop-1,1)
-                end
-            else
-                P.gameEnv.heightLimit=P.gameEnv.heightLimit-P.lastPiece.row
-            end
-            if #P.field>P.gameEnv.heightLimit then
-                P:lose()
-            end
-        end,
         freshLimit=8,
         heightLimit=4,
         ospin=false,
+        eventSet='pc_inf',
         bg='rgb',bgm='moonbeam',
     },
     mesDisp=function(P)

@@ -16,8 +16,8 @@ return{
         block=false,center=0,ghost=0,
         dropFX=0,lockFX=0,
         visible='none',
-        dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
         freshLimit=15,
+        eventSet='checkLine_40',
         bg='none',bgm='far',
     },
     load=function()

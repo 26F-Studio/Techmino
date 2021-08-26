@@ -3,7 +3,7 @@ return{
     env={
         drop=120,lock=120,
         infHold=true,
-        dropPiece=function(P)if P.stat.row>=200 then P:win('finish')end end,
+        eventSet='checkLine_200',
         bg='bg2',bgm='venus',
     },
     mesDisp=function(P)

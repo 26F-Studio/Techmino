@@ -371,7 +371,7 @@ function NET.quitChat()
     WS.send('chat','q')
 end
 
---WS tick funcs
+--WS task funcs
 function NET.freshPlayerCount()
     while WS.status('app')=='running'do
         for _=1,260 do yield()end

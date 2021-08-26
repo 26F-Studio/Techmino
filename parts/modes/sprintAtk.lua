@@ -3,7 +3,7 @@ return{
     env={
         infHold=true,
         drop=1e99,lock=1e99,
-        dropPiece=function(P)if P.stat.atk>=100 then P:win('finish')end end,
+        eventSet='checkAttack_100',
         bg='matrix',bgm='new era',
     },
     mesDisp=function(P)

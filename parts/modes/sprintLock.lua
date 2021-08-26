@@ -3,7 +3,7 @@ return{
     env={
         drop=60,lock=180,
         keyCancel={3,4,5},
-        dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
+        eventSet='checkLine_40',
         bg='aura',bgm='waterfall',
     },
     mesDisp=function(P)

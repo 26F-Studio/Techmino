@@ -5,10 +5,10 @@ return{
         drop=20,lock=60,
         sequence='bag',
         seqData={1,1,2,2,3,3,4,4,5,5,6,6},
-        dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
         nextCount=3,
         ospin=false,
         freshLimit=15,
+        eventSet='checkLine_100',
         bg='blockfall',bgm='reason',
     },
     mesDisp=function(P)

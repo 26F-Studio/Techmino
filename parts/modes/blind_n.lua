@@ -6,7 +6,7 @@ return{
         drop=15,lock=45,
         freshLimit=10,
         visible='fast',
-        dropPiece=function(P)if P.stat.row>=200 then P:win('finish')end end,
+        eventSet='checkLine_200',
         bg='glow',bgm='push',
     },
     mesDisp=function(P)

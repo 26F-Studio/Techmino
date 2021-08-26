@@ -153,6 +153,33 @@ end
 function generateLine(hole)
     return 1023-2^(hole-1)
 end
+function solidLine(L)
+    for i=1,10 do
+        if L[i]>0 then return true end
+    end
+end
+function setField(P,page)
+    local F=FIELD[page]
+    local height=0
+    for y=20,1,-1 do
+        if solidLine(F[y])then
+            height=y
+            break
+        end
+    end
+    local t=P.showTime*3
+    for y=1,height do
+        local solid=solidLine(F[y])
+        P.field[y]=FREEROW.get(0,solid)
+        P.visTime[y]=FREEROW.get(t)
+        if solid then
+            for x=1,10 do
+                P.field[y][x]=F[y][x]
+            end
+            P.garbageBeneath=P.garbageBeneath+1
+        end
+    end
+end
 function freshDate(mode)
     if not mode then mode=""end
     local date=os.date("%Y/%m/%d")
@@ -519,22 +546,6 @@ do--function resetGameData(args)
         end
         freshPlayerPosition(args:find'q')
         VK.restore()
-        if GAME.modeEnv.task then
-            local task=GAME.modeEnv.task
-            if type(task)=='function'then
-                for i=1,#PLAYERS do
-                    PLAYERS[i]:newTask(task)
-                end
-            elseif type(task)=='table'then
-                for i=1,#PLAYERS do
-                    for _,t in ipairs(task)do
-                        PLAYERS[i]:newTask(t)
-                    end
-                end
-            else
-                MES.new('error',"Wrong task type")
-            end
-        end
 
         local bg=GAME.modeEnv.bg
         BG.set(type(bg)=='string'and bg or type(bg)=='table'and bg[math.random(#bg)])

@@ -75,10 +75,10 @@ return{
                 end
             end
         end,
-        dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
         nextCount=1,holdCount=0,
         ospin=false,
         freshLimit=15,
+        eventSet='checkLine_100',
         bg='blockfall',bgm='reason',
     },
     mesDisp=function(P)

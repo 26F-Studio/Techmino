@@ -1,24 +1,12 @@
-local function update_round(P)
-    if P.stat.piece%7==0 and #PLY_ALIVE>1 then
-        P.control=false
-        local ID=P.id
-        repeat
-            ID=ID+1
-            if not PLAYERS[ID]then ID=1 end
-        until PLAYERS[ID].alive or ID==P.id
-        PLAYERS[ID].control=true
-    end
-end
-
 return{
     color=COLOR.red,
     env={
         life=1,
         drop=300,lock=300,
         infHold=true,
-        dropPiece=update_round,
         pushSpeed=15,
         garbageSpeed=1e99,
+        eventSet='checkTurn_7',
         bg='rainbow',bgm='push',
     },
     load=function()

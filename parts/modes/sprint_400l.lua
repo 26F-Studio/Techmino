@@ -2,7 +2,7 @@ return{
     color=COLOR.dRed,
     env={
         drop=60,lock=60,
-        dropPiece=function(P)if P.stat.row>=400 then P:win('finish')end end,
+        eventSet='checkLine_400',
         bg='rainbow',bgm='push',
     },
     mesDisp=function(P)

@@ -4,8 +4,8 @@ return{
     env={
         drop=30,lock=45,
         visible='easy',
-        dropPiece=function(P)if P.stat.row>=200 then P:win('finish')end end,
         freshLimit=10,
+        eventSet='checkLine_200',
         bg='glow',bgm='push',
     },
     mesDisp=function(P)

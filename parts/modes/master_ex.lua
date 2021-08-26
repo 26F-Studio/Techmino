@@ -1,42 +1,16 @@
 local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X","X+"}
-local passPoint=16
-local function score(P)
-    if P.modeData.rankPoint<140-passPoint then--If Less then X
-        local R=#P.clearedRow
-        if R>0 then
-            if R==4 then R=10 end--Techrash +10
-            P.modeData.rankPoint=math.min(P.modeData.rankPoint+R,140-passPoint)
-            P.modeData.rankName=sectionName[math.floor(P.modeData.rankPoint/10)+1]
-        end
-    end
-end
 
 return{
     color=COLOR.lBlue,
     env={
         noTele=true,
         minarr=1,
-        drop=0,lock=15,
-        wait=15,fall=6,
         nextCount=3,
         sequence='hisPool',
         visible='fast',
         freshLimit=15,
-        dropPiece=score,
         noInitSZO=true,
-        task=function(P)
-            P.modeData.rankPoint=0
-            P.modeData.rankName=sectionName[1]
-            while true do
-                YIELD()
-                if P.stat.frame>=3600 then
-                    P.modeData.rankPoint=math.min(P.modeData.rankPoint+passPoint,140)
-                    P.modeData.rankName=sectionName[math.floor(P.modeData.rankPoint/10)+1]
-                    P:win('finish')
-                    return
-                end
-            end
-        end,
+        eventSet='master_ex',
         bg='blockspace',bgm='hope',
     },
     slowMark=true,

@@ -8,8 +8,8 @@ return{
         dropFX=0,lockFX=0,
         visible='none',
         score=false,
-        dropPiece=function(P)if P.stat.row>=200 then P:win('finish')end end,
         freshLimit=15,
+        eventSet='checkLine_200',
         bg='rgb',bgm='push',
     },
     mesDisp=function(P)

@@ -4,7 +4,7 @@ return{
         drop=20,lock=60,
         freshLimit=15,
         b2bKill=true,
-        dropPiece=function(P)if P.stat.atk>=100 then P:win('finish')end end,
+        eventSet='checkAttack_100',
         bg='matrix',bgm='down',
     },
     mesDisp=function(P)

@@ -290,6 +290,13 @@ function Player:setRS(RSname)
     if self.cur then self.cur.RS=rs end
 end
 
+function Player:triggerDropEvents()
+    local L=self.gameEnv.dropPiece
+    for i=1,#L do
+        L[i](self)
+    end
+end
+
 function Player:getHolePos()--Get a good garbage-line hole position
     if self.garbageBeneath==0 then
         return generateLine(self.holeRND:random(10))
@@ -1183,7 +1190,7 @@ do--Player.drop(self)--Place piece
         if finePts<5 then
             Stat.extraPiece=Stat.extraPiece+1
             if ENV.fineKill then
-                finish=true
+                finish='lose'
             end
             if self.sound then
                 if ENV.fineKill then
@@ -1349,7 +1356,7 @@ do--Player.drop(self)--Place piece
             if self.b2b>1000 then
                 self.b2b=1000
             elseif self.b2b==0 and ENV.b2bKill then
-                finish=true
+                finish='lose'
             end
 
             --Bonus atk/def when focused
@@ -1468,7 +1475,7 @@ do--Player.drop(self)--Place piece
             elseif ENV.missionKill then
                 self:_showText(text.missionFailed,0,140,40,'flicker',.5)
                 SFX.play('finesseError_long',.6)
-                finish=true
+                finish='lose'
             end
         end
 
@@ -1513,11 +1520,14 @@ do--Player.drop(self)--Place piece
         end
 
         if finish then
-            if finish==true then self:lose()return end
-            _=ENV.dropPiece if _ then _(self)end
-            if finish then self:win(finish)end
+            if finish=='lose'then
+                self:lose()
+            else
+                self:triggerDropEvents()
+                if finish then self:win(finish)end
+            end
         else
-            _=ENV.dropPiece if _ then _(self)end
+            self:triggerDropEvents()
         end
     end
 end

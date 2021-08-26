@@ -6,7 +6,7 @@
         必选
         模式环境变量，决定了关卡的各项属性
             *属性名*          *默认值*         *说明*
-            drop            60             下落延迟(帧，支持自然数和2的整数次幂)
+            drop            60             下落延迟(帧，支持正整数,1/2^n,和0(20G))
             lock            60             锁定延迟(帧)
             wait            0              出块延迟(帧)
             fall            0              消行延迟(帧)
@@ -80,9 +80,11 @@
             fineKill        false          是否开启非极简即死
             b2bKill         false          是否开启断b2b即死
             missionKill     false          是否开启强制任务
-            dropPiece       NULL           放一块后要执行的函数，输入玩家对象
-            task            NULL           每帧会*继续执行*的函数，输入玩家对象，注意：使用协程技术
             noInitSZO       false          是否禁止SZO块开局，如果禁止，开局序列会自动跳过最多连续五个SZO
+
+            task            NULL           每帧会*继续执行*的函数(或函数列表,依次执行,返回true会把自身从队列里清除)(初始化时会执行一次，可以用来设置场地等)，输入玩家对象，注意：使用协程技术
+            dropPiece       NULL           放一块后要执行的函数(或函数列表,依次执行)，输入玩家对象
+            eventSet        false          使用预设事件套件名称(字符串)，如果指定，套件中的事件将会替换上面这几个事件(如果有)
 
             bg              'none'         背景，只能填写内置背景的名字
             bgm             'race'         背景音乐名(或者列表随机，例如{'race','push'})，只能用内置音乐库的音乐名
@@ -128,7 +130,7 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
     color=COLOR.green,--颜色
     env={--模式环境变量
         drop=60,lock=60,
-        dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
+        eventSet='checkLine_40',
         bg='bg2',bgm='race',
     },
     load=function()--模式加载函数，这里只生成了一个玩家，常用的单人模式可以不写，默认使用这个函数

@@ -4,7 +4,7 @@ return{
         drop=0,lock=120,
         nextCount=3,
         das=0,arr=0,
-        dropPiece=function(P)if P.stat.row>=40 then P:win('finish')end end,
+        eventSet='checkLine_40',
         bg='aura',bgm='waterfall',
     },
     mesDisp=function(P)

@@ -1,30 +1,12 @@
 local gc=love.graphics
-local function check_tsd(P)
-    local C=P.lastPiece
-    if C.row>0 then
-        if C.id==5 and C.row==2 and C.spin then
-            if TABLE.find(P.modeData.history,C.centX)then
-                P:showText("STACK",0,-140,40,'flicker',.3)
-                P:lose()
-            else
-                P.modeData.tsd=P.modeData.tsd+1
-                table.insert(P.modeData.history,1,C.centX)
-                P.modeData.history[5]=nil
-            end
-        else
-            P:lose()
-        end
-    end
-end
 
 return{
     color=COLOR.lYellow,
     env={
         drop=60,lock=60,
         freshLimit=15,
-        dropPiece=check_tsd,
-        task=function(P)P.modeData.history={}end,
         ospin=false,
+        eventSet='tsd_u',
         bg='matrix',bgm='vapor',
     },
     mesDisp=function(P)

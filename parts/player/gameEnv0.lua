@@ -56,9 +56,12 @@ return{
     fine=false,fineKill=false,
     b2bKill=false,
     missionKill=false,
-    dropPiece=NULL,
     mindas=0,minarr=0,minsdarr=0,
     noInitSZO=false,
+
+    task={},
+    dropPiece={},
+    eventSet=false,
 
     bg='none',bgm='race',
     allowMod=true,

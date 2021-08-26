@@ -2,7 +2,7 @@ return{
     color=COLOR.lGray,
     env={
         drop=60,lock=60,
-        dropPiece=function(P)if P.stat.row>=1000 then P:win('finish')end end,
+        eventSet='checkLine_1000',
         bg='rainbow',bgm='push',
     },
     mesDisp=function(P)

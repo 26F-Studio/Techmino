@@ -3,9 +3,9 @@ return{
     env={
         drop=60,lock=120,
         fall=10,
-        dropPiece=function(P)if P.stat.row>=100 then P:win('finish')end end,
         freshLimit=15,
         ospin=false,
+        eventSet='checkLine_100',
         bg='rgb',bgm='truth',
     },
     mesDisp=function(P)

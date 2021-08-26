@@ -350,6 +350,26 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.grid==0 then     ENV.grid=false end
     if ENV.center==0 then   ENV.center=false end
     if ENV.lineNum==0 then  ENV.lineNum=false end
+
+    --Apply eventSet
+    if ENV.eventSet then
+        if type(ENV.eventSet)=='string'then
+            local eventSet=require('parts.eventsets.'..ENV.eventSet)
+            if eventSet then
+                for k,v in next,eventSet do
+                    ENV[k]=v
+                end
+            else
+                MES.new('warn',"No event set called: "..ENV.eventSet)
+            end
+        else
+            MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
+        end
+    end
+
+    --Apply events
+    if type(ENV.dropPiece)=='function'then ENV.dropPiece={ENV.dropPiece} else ENV.dropPiece=TABLE.shift(ENV.dropPiece) end
+    if type(ENV.task)=='function'then P:newTask(ENV.task) else for i=1,#ENV.task do P:newTask(ENV.task[i])end end
 end
 --------------------------</Libs>--------------------------
 

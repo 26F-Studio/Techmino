@@ -3,14 +3,10 @@ return{
     env={
         drop=10,lock=60,
         freshLimit=15,
-        dropPiece=function(P)
-            if P.lastPiece.atk>0 then
-                P:receive(nil,P.lastPiece.atk,60,generateLine(P.holeRND:random(10)))
-            end
-            if P.stat.atk>=100 then
-                P:win('finish')
-            end
-        end,
+        dropPiece={
+            require'parts.eventsets.backfire_60'.dropPiece,
+            require'parts.eventsets.checkAttack_100'.dropPiece,
+        },
         bg='tunnel',bgm='echo',
     },
     mesDisp=function(P)
