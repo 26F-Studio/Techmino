@@ -247,7 +247,7 @@ jobs:
         7z x ./Techmino.app.zip
     - name: Get CCloader
       run: |
-        pip install requests
+        pip3 install requests
         CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/macOS.zip
         unzip macOS.zip
