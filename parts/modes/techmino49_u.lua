@@ -37,7 +37,7 @@ return{
         local n=2
         for _=1,4 do for _=1,6 do
             if L[n]then
-                PLY.newAIPlayer(n,BOT.template{type='9S',speedLV=math.random(8,10),hold=true})
+                PLY.newAIPlayer(n,BOT.template{type='9S',speedLV=math.random(8,10),hold=true},true)
             else
                 PLY.newAIPlayer(n,BOT.template{type='CC',speedLV=math.random(4,7),next=3,hold=true,node=40000},true)
             end
@@ -45,7 +45,7 @@ return{
         end end
         for _=9,12 do for _=1,6 do
             if L[n]then
-                PLY.newAIPlayer(n,BOT.template{type='9S',speedLV=math.random(8,9),hold=true})
+                PLY.newAIPlayer(n,BOT.template{type='9S',speedLV=math.random(8,9),hold=true},true)
             else
                 PLY.newAIPlayer(n,BOT.template{type='CC',speedLV=math.random(5,8),next=3,hold=true,node=40000},true)
             end
