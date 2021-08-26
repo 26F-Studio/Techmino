@@ -23,7 +23,11 @@ function baseBot.update(bot)
                 P:act_hardDrop()
             end
         elseif bot.delay<=0 then
-            bot.delay=bot.delay0*.5
+            if keys[1]>3 then
+				bot.delay=bot.delay0
+			else
+				bot.delay=bot.delay0*.4
+			end
             P:pressKey(keys[1])P:releaseKey(keys[1])
             rem(keys,1)
         end

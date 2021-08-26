@@ -381,7 +381,6 @@ function PLY.newDemoPlayer(id)
         next=5,
         hold=true,
         delay=6,
-        bag='bag',
         node=100000,
     }
     P:popNext()
