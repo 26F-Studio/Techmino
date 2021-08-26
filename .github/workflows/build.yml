@@ -38,15 +38,11 @@ jobs:
     - name: Unpack love
       run: |
         7z x .\love-11.3-win64.zip
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/win64.zip
+        pip install requests
+        $CCVersion=python .\.github\workflows\getLatest.py -P
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/win64.zip
     - name: Unpack ColdClear
       run: |
         7z x .\win64.zip -oColdClear
@@ -112,15 +108,10 @@ jobs:
       run: |
         chmod 777 ./love-11.3-x86_64.AppImage
         ./love-11.3-x86_64.AppImage --appimage-extract
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/linux.zip
+        CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/linux.zip
     - name: Unpack ColdClear
       run: |
         7z x ./linux.zip -oColdClear
@@ -187,16 +178,11 @@ jobs:
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
         export ANDROID_HOME=$(pwd)
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_armv7.zip
+        CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_aarch64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/android_armv7.zip
     - name: Unpack ColdClear
       run: |
         7z x ./android_aarch64.zip -oColdClear/android_aarch64
@@ -259,15 +245,11 @@ jobs:
     - name: Unpack template
       run: |
         7z x ./Techmino.app.zip
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Get CCloader
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/macOS.zip
+        pip3 install requests
+        CCVersion=$(python3 ./.github/workflows/getLatest.py -P)
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/$CCVersion/macOS.zip
         unzip macOS.zip
     - name: Modify template
       run: |
