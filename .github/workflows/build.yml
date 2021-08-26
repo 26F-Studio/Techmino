@@ -2,9 +2,9 @@ name: Techmino CI
 
 on:
   push:
-    branches: [ main, ci ]
+    branches: [ main, ci, update-cc-ci ]
   pull_request:
-    branches: [ main, ci ]
+    branches: [ main, ci, update-cc-ci ]
 
 jobs:
   build-windows:
@@ -38,9 +38,15 @@ jobs:
     - name: Unpack love
       run: |
         7z x .\love-11.3-win64.zip
+    - id: CClatest
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        owner: 26F-Studio
+        repo: cold_clear_ai_love2d_wrapper
+        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/win64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/win64.zip
     - name: Unpack ColdClear
       run: |
         7z x .\win64.zip -oColdClear
@@ -96,7 +102,6 @@ jobs:
     - name: Update Version
       run: |
         python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
-    #我不是很懂这里为什么不能用https://github.com/AppImage/AppImageKit/releases/download/latest/appimagetool-x86_64.AppImage 但是事实就是它404了
     - name: Download AppImageKit
       run: |
         curl -OL https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage
@@ -107,9 +112,15 @@ jobs:
       run: |
         chmod 777 ./love-11.3-x86_64.AppImage
         ./love-11.3-x86_64.AppImage --appimage-extract
+    - id: CClatest
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        owner: 26F-Studio
+        repo: cold_clear_ai_love2d_wrapper
+        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/linux.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/linux.zip
     - name: Unpack ColdClear
       run: |
         7z x ./linux.zip -oColdClear
@@ -176,10 +187,16 @@ jobs:
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
         export ANDROID_HOME=$(pwd)
+    - id: CClatest
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        owner: 26F-Studio
+        repo: cold_clear_ai_love2d_wrapper
+        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/android_aarch64.zip
-        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/latest/android_armv7.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_aarch64.zip
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/android_armv7.zip
     - name: Unpack ColdClear
       run: |
         7z x ./android_aarch64.zip -oColdClear/android_aarch64
@@ -242,12 +259,21 @@ jobs:
     - name: Unpack template
       run: |
         7z x ./Techmino.app.zip
+    - id: CClatest
+      uses: pozetroninc/github-action-get-latest-release@master
+      with:
+        owner: 26F-Studio
+        repo: cold_clear_ai_love2d_wrapper
+        excludes: prerelease, draft
+    - name: Get CCloader
+      run: |
+        curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ steps.CClatest.outputs.release }}/macOS.zip
+        unzip macOS.zip
     - name: Modify template
       run: |
-        python3 ./.github/workflows/updateVersion.py -T macOS -N ${{ env.Version }}
+        python3 ./.github/workflows/updateVersion.py -T macOS -N $(lua ./.github/workflows/getVersion.lua -name)
         mv ./Techmino.love ./Techmino.app/Contents/Resources
-        rm -rf ./Techmino.app/Contents/Resources/iconfile.icns
-        mv ./build/macOS/icon_snapshot.icns ./Techmino.app/Contents/Resources/iconfile.icns
+        mv ./CCloader.dylib ./Techmino.app/Contests/Frameworks
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
