@@ -41,12 +41,6 @@ jobs:
     - name: Unpack love
       run: |
         7z x .\love-11.3-win64.zip
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/win64.zip
@@ -115,12 +109,6 @@ jobs:
       run: |
         chmod 777 ./love-11.3-x86_64.AppImage
         ./love-11.3-x86_64.AppImage --appimage-extract
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/linux.zip
@@ -190,12 +178,6 @@ jobs:
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "platforms;android-30"
         yes | ./cmdline-tools/bin/sdkmanager --sdk_root=. --install "ndk;21.3.6528147"
         export ANDROID_HOME=$(pwd)
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Download ColdClear
       run: |
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/android_aarch64.zip
@@ -262,12 +244,6 @@ jobs:
     - name: Unpack template
       run: |
         7z x ./Techmino.app.zip
-    - id: CClatest
-      uses: pozetroninc/github-action-get-latest-release@master
-      with:
-        owner: 26F-Studio
-        repo: cold_clear_ai_love2d_wrapper
-        excludes: prerelease, draft
     - name: Get CCloader
       run: |
         curl -OL https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases/download/${{ env.LATEST_CC_WRAPPER }}/macOS.zip
