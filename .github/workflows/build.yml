@@ -273,7 +273,7 @@ jobs:
       run: |
         python3 ./.github/workflows/updateVersion.py -T macOS -N $(lua ./.github/workflows/getVersion.lua -name)
         mv ./Techmino.love ./Techmino.app/Contents/Resources
-        mv ./CCloader.dylib ./Techmino.app/Contests/Frameworks
+        mv ./CCloader.dylib ./Techmino.app/Contents/Frameworks
     - name: Codesign executable
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
