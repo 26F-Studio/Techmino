@@ -162,7 +162,7 @@ function Player:createBeam(R,send)
             x1,y1=self.centerX,self.centerY
         else
             local C=self.cur
-            local sc=C.rs.centerPos[C.id][C.dir]
+            local sc=C.RS.centerPos[C.id][C.dir]
             x1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size
             y1=self.y+(600-30*(self.curY+sc[1])+15+self.fieldUp+self.fieldBeneath)*self.size
         end
@@ -285,9 +285,9 @@ function Player:setRS(RSname)
     self.RS=rs
 
     --Reset all player's blocks' RSs
-    for i=1,#self.nextQueue do self.nextQueue[i].rs=rs end
-    for i=1,#self.holdQueue do self.holdQueue[i].rs=rs end
-    if self.cur then self.cur.rs=rs end
+    for i=1,#self.nextQueue do self.nextQueue[i].RS=rs end
+    for i=1,#self.holdQueue do self.holdQueue[i].RS=rs end
+    if self.cur then self.cur.RS=rs end
 end
 
 function Player:getHolePos()--Get a good garbage-line hole position
@@ -380,11 +380,11 @@ end
 
 function Player:getCenterX()
     local C=self.cur
-    return self.curX+C.rs.centerPos[C.id][C.dir][2]-5.5
+    return self.curX+C.RS.centerPos[C.id][C.dir][2]-5.5
 end
 function Player:getCenterY()
     local C=self.cur
-    return self.curY-C.rs.centerPos[C.id][C.dir][1]
+    return self.curY-C.RS.centerPos[C.id][C.dir][1]
 end
 function Player:solid(x,y)
     if x<1 or x>10 or y<1 then return true end
@@ -547,7 +547,7 @@ function Player:freshBlock(mode)--string mode: push/move/fresh/newBlock
     if mode=='move'or mode=='newBlock'or mode=='fresh'then
         local d0,l0=ENV.drop,ENV.lock
         local C=self.cur
-        local sc=C.rs.centerPos[C.id][C.dir]
+        local sc=C.RS.centerPos[C.id][C.dir]
         if ENV.easyFresh then
             if self.lockDelay<l0 and self.freshTime>0 then
                 if mode~='newBlock'then
@@ -664,7 +664,7 @@ end
 local spawnSFX_name={}for i=1,7 do spawnSFX_name[i]='spawn_'..i end
 function Player:resetBlock()--Reset Block's position and execute I*S
     local C=self.cur
-    local sc=C.rs.centerPos[C.id][C.dir]
+    local sc=C.RS.centerPos[C.id][C.dir]
 
     self.curX=int(6-#C.bk[1]*.5)
     local y=int(self.gameEnv.fieldH+1-modf(sc[1]))+ceil(self.fieldBeneath/30)
@@ -709,8 +709,8 @@ end
 
 function Player:spin(d,ifpre)
     local C=self.cur
-    local sc=C.rs.centerPos[C.id][C.dir]
-    local kickData=C.rs.kickTable[C.id]
+    local sc=C.RS.centerPos[C.id][C.dir]
+    local kickData=C.RS.kickTable[C.id]
     if type(kickData)=='table'then
         local idir=(C.dir+d)%4
         kickData=kickData[C.dir*10+idir]
@@ -720,7 +720,7 @@ function Player:spin(d,ifpre)
             return
         end
         local icb=BLOCKS[C.id][idir]
-        local isc=C.rs.centerPos[C.id][idir]
+        local isc=C.RS.centerPos[C.id][idir]
         local baseX,baseY=self.curX+sc[2]-isc[2],self.curY+sc[1]-isc[1]
         for test=1,#kickData do
             local ix,iy=baseX+kickData[test][1],baseY+kickData[test][2]
@@ -866,7 +866,7 @@ function Player:getBlock(id,name,color)--Get a block object
         id=id,
         dir=dir,
         bk=BLOCKS[id][dir],
-        rs=self.RS,
+        RS=self.RS,
         name=name or id,
         color=ENV.bone and 17 or color or ENV.skin[id],
     }
@@ -1076,7 +1076,7 @@ do--Player.drop(self)--Place piece
         local finish
         local cmb=self.combo
         local C,CB,CX,CY=self.cur,self.cur.bk,self.curX,self.curY
-        local sc=C.rs.centerPos[C.id][C.dir]
+        local sc=C.RS.centerPos[C.id][C.dir]
         local clear--If clear with no line fall
         local cc,gbcc=0,0--Row/garbage-row cleared,full-part
         local atk,exblock=0,0--Attack & extra defense
