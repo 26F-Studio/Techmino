@@ -16,7 +16,9 @@ function baseBot.update(bot)
         bot.delay=bot.delay-1
         if not keys[1]then
             if bot.runningThread then
-                pcall(bot.runningThread)
+                if not pcall(bot.runningThread)then
+                    bot.runningThread=false
+                end
             else
                 P:act_hardDrop()
             end
