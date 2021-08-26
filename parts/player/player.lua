@@ -166,7 +166,7 @@ function Player:createBeam(R,send)
             x1=self.x+(30*(self.curX+sc[2])-30+15+150)*self.size
             y1=self.y+(600-30*(self.curY+sc[1])+15+self.fieldUp+self.fieldBeneath)*self.size
         end
-        if R.small then x2,y2=R.centerX,R.centerY
+        if R.miniMode then x2,y2=R.centerX,R.centerY
         else x2,y2=R.x+308*R.size,R.y+450*R.size
         end
 
@@ -200,7 +200,7 @@ function Player:setPosition(x,y,size)
         self.centerX,self.centerY=x+300*size,y+600*size
     else
         self.fieldX,self.fieldY=x+150*size,y
-        self.centerX,self.centerY=x+300*size,y+370*size
+        self.centerX,self.centerY=x+300*size,y+300*size
         self.absFieldX,self.absFieldY=x+150*size,y-10*size
     end
 end
@@ -1545,15 +1545,15 @@ local function task_throwBadge(ifAI,sender,time)
         if time%4==0 then
             local S,R=sender,sender.lastRecv
             local x1,y1,x2,y2
-            if S.small then
+            if S.miniMode then
                 x1,y1=S.centerX,S.centerY
             else
-                x1,y1=S.x+308*S.size,S.y+450*S.size
+                x1,y1=S.x+300*S.size,S.y+450*S.size
             end
-            if R.small then
+            if R.miniMode then
                 x2,y2=R.centerX,R.centerY
             else
-                x2,y2=R.x+66*R.size,R.y+344*R.size
+                x2,y2=R.x+66*R.size,R.y+274*R.size
             end
 
             --Generate badge object
