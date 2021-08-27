@@ -4,8 +4,6 @@ return{
     color=COLOR.magenta,
     env={
         noTele=true,
-        lock=1e99,
-        wait=10,fall=60,
         mindas=7,minarr=1,minsdarr=1,
         keyCancel={6},
         eventSet='rhythm_h',

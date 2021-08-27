@@ -4,12 +4,9 @@ return{
     color=COLOR.magenta,
     env={
         noTele=true,
-        lock=1e99,
-        drop=.5,
-        wait=5,fall=30,
         das=6,minarr=1,minsdarr=1,
         keyCancel={6},
-        eventSet='rhythm_h',
+        eventSet='rhythm_u',
         bg='bg2',bgm='secret7th',
     },
     slowMark=true,

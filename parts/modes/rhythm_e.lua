@@ -4,8 +4,6 @@ return{
     color=COLOR.green,
     env={
         noTele=true,
-        lock=1e99,
-        wait=20,fall=90,
         mindas=7,minarr=1,minsdarr=1,
         keyCancel={6},
         eventSet='rhythm_e',

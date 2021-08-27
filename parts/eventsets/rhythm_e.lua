@@ -17,6 +17,11 @@ return{
         end
     end,
     task=function(P)
+        P.gameEnv.drop=40
+        P.gameEnv.lock=1e99
+        P.gameEnv.wait=20
+        P.gameEnv.fall=90
+
         P.modeData.target=10
         P.modeData.bpm=40
         P.modeData.beatFrame=90

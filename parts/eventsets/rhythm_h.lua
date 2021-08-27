@@ -1,4 +1,4 @@
-local dropSpeed={[0]=60,50,40,30,24,18,14,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
+local dropSpeed={[0]=30,26,23,20,17,14,12,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{
     dropPiece=function(P)
@@ -17,6 +17,11 @@ return{
         end
     end,
     task=function(P)
+        P.gameEnv.drop=30
+        P.gameEnv.lock=1e99
+        P.gameEnv.wait=10
+        P.gameEnv.fall=60
+
         P.modeData.target=10
         P.modeData.bpm=60
         P.modeData.beatFrame=60
