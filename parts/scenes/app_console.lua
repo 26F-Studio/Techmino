@@ -910,13 +910,19 @@ function scene.keyDown(key)
             log{C.lC,"> "..input}
             local code,err=loadstring(input:sub(2))
             if code then
-                if not sudomode then setfenv(code,userG)end
+                local resultColor
+                if sudomode then
+                    resultColor=C.lY
+                else
+                    setfenv(code,userG)
+                    resultColor=C.lG
+                end
                 local success,result=pcall(code)
                 if success then
                     if result~=nil then
-                        log{C.lG,">> "..tostring(result)}
+                        log{resultColor,">> "..tostring(result)}
                     else
-                        log{C.lG,"done"}
+                        log{resultColor,"done"}
                     end
                 else
                     log{C.R,result}
