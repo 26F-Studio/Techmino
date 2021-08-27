@@ -261,20 +261,20 @@ function NET.loadSavedData(sections)
     end
     if STAT.version==NET.cloudData.STAT.version then
         local success=true
-        TABLE.update(NET.cloudData.STAT,STAT)
+        TABLE.cover(NET.cloudData.STAT,STAT)
         success=success and saveStats()
 
-        TABLE.update(NET.cloudData.RANKS,RANKS)
+        TABLE.cover(NET.cloudData.RANKS,RANKS)
         success=success and saveProgress()
 
-        TABLE.update(NET.cloudData.SETTING,SETTING)
-        applySettings()
+        TABLE.cover(NET.cloudData.SETTING,SETTING)
         success=success and saveSettings()
+        applySettings()
 
-        TABLE.update(NET.cloudData.keyMap,keyMap)
+        TABLE.cover(NET.cloudData.keyMap,keyMap)
         success=success and FILE.save(keyMap,'conf/key')
 
-        TABLE.update(NET.cloudData.VK_org,VK_org)
+        TABLE.cover(NET.cloudData.VK_org,VK_org)
         success=success and FILE.save(VK_org,'conf/virtualkey')
 
         success=success and FILE.save(NET.cloudData.vkSave1,'conf/vkSave1')

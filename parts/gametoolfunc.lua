@@ -13,13 +13,13 @@ local SETTING,GAME,SCR=SETTING,GAME,SCR
 
 --System
 function saveStats()
-    FILE.save(STAT,'conf/data')
+    return FILE.save(STAT,'conf/data')
 end
 function saveProgress()
-    FILE.save(RANKS,'conf/unlock')
+    return FILE.save(RANKS,'conf/unlock')
 end
 function saveSettings()
-    FILE.save(SETTING,'conf/settings')
+    return FILE.save(SETTING,'conf/settings')
 end
 function applySettings()
     love.window.setFullscreen(SETTING.fullscreen)
