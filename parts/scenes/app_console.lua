@@ -674,6 +674,28 @@ local commands={}do
             "Usage: rmconf [key]",
         },
     }
+    commands.rmrecord={
+        code=function(modeName)
+            if #modeName>0 then
+                if MODES[modeName]then
+                    MODES[modeName].records={}
+                    log{C.Y,("Succesfully erased records of "..modeName)}
+                    love.filesystem.remove("record/"..modeName..".rec")
+                else
+                    log{C.R,"No mode called "..modeName}
+                end
+            else
+                log{C.R,"Usage: rmrecord [modeName]"}
+            end
+        end,
+        description="Erase records of a mode",
+        details={
+            "Erase records of a mode",
+            "Useful if you have a record list corrupted",
+            "",
+            "Usage: rmrecord [modeName]",
+        },
+    }
     commands.unlockall={
         code=function(bool)
             if bool=="sure"then
