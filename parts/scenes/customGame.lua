@@ -245,8 +245,8 @@ scene.widgetList={
     WIDGET.newSwitch{name="bone",     x=1170,y=930,disp=CUSval("bone"),     code=CUSrev("bone")},
 
     --Next & Hold
-    WIDGET.newSlider{name="nextCount",x=120, y=940,w=200,unit=6, disp=CUSval("nextCount"),code=CUSsto("nextCount")},
-    WIDGET.newSlider{name="holdCount",x=120, y=1030,w=200,unit=6,disp=CUSval("holdCount"),code=CUSsto("holdCount")},
+    WIDGET.newSlider{name="nextCount",x=140, y=940,w=180,unit=6, disp=CUSval("nextCount"),code=CUSsto("nextCount")},
+    WIDGET.newSlider{name="holdCount",x=140, y=1030,w=180,unit=6,disp=CUSval("holdCount"),code=CUSsto("holdCount")},
     WIDGET.newSwitch{name="infHold",  x=560, y=940,              disp=CUSval("infHold"),code=CUSrev("infHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
     WIDGET.newSwitch{name="phyHold",  x=560, y=1030,             disp=CUSval("phyHold"),code=CUSrev("phyHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
 

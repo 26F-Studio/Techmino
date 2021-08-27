@@ -586,7 +586,7 @@ end
 function slider:arrowKey(k)
     self:scroll((k=="left"or k=="up")and -1 or 1)
 end
-function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp,code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp[,show],code,hide
     local _={
         name=  D.name or"_",
 

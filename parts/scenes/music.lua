@@ -92,7 +92,7 @@ function scene.draw()
         gc.setColor(COLOR.Z)
         local cur=BGM.playing:tell()
         local dur=BGM.playing:getDuration()
-        gc.print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),500,610)
+        gc.print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),500,626)
     end
 end
 
@@ -102,7 +102,7 @@ scene.widgetList={
     WIDGET.newText{name="now",    x=700,y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
     WIDGET.newSlider{name="slide",x=500,y=600,w=400,
         disp=function()return BGM.playing:tell()/BGM.playing:getDuration()%1 end,
-        show='none',
+        show=false,
         code=function(v)BGM.playing:seek(v*BGM.playing:getDuration())end,
         hideF=function()return not BGM.nowPlay end
     },
