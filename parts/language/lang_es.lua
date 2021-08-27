@@ -717,7 +717,7 @@ return{
         ['backfire_h']=     {"Retorno",                 "Difícil",       "Lidia con tus propias líneas basura."},
         ['backfire_l']=     {"Retorno",                 "Lunático",      "Lidia con tus propias líneas basura."},
         ['backfire_u']=     {"Retorno",                 "Supremo",       "Lidia con tus propias líneas basura."},
-        ['sprintAtk']=      {"Sprint",                  "100L - Ataque",    "¡Envía 100 líneas de ataque!"},
+        ['sprintAtk']=      {"Sprint",                  "100L - Ataque",  "¡Envía 100 líneas de ataque!"},
         ['zen']=            {'Zen',                     "200L",          "200 líneas sin límite de tiempo."},
         ['ultra']=          {'Ultra',                   "Extra",         "¡Consigue el mayor puntaje posible en 2 minutos!"},
         ['infinite']=       {"Infinito",                 "",             "Modo Sandbox."},
