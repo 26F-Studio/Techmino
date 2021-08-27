@@ -88,11 +88,11 @@ function scene.draw()
             gc.draw(TEXTURE.title_color,840,220,nil,.5+.062-.062*a,.5+.126-.126*a,580,118)
         end
 
-        gc.setColor(1,1,1,.4)
-        gc.setLineWidth(4)
-        gc.line(500,600,900,600)
+        setFont(20)
         gc.setColor(COLOR.Z)
-        gc.circle('fill',500+400*BGM.playing:tell()/BGM.playing:getDuration(),600,6)
+        local cur=BGM.playing:tell()
+        local dur=BGM.playing:getDuration()
+        gc.print(STRING.time_simp(cur%dur).." / "..STRING.time_simp(dur),500,610)
     end
 end
 
@@ -100,6 +100,12 @@ scene.widgetList={
     WIDGET.newText{name="title",  x=30,y=30,font=80,align='L'},
     WIDGET.newText{name="arrow",  x=270,y=360,font=45,align='L'},
     WIDGET.newText{name="now",    x=700,y=500,font=50,align='R',hideF=function()return not BGM.nowPlay end},
+    WIDGET.newSlider{name="slide",x=500,y=600,w=400,
+        disp=function()return BGM.playing:tell()/BGM.playing:getDuration()%1 end,
+        show='none',
+        code=function(v)BGM.playing:seek(v*BGM.playing:getDuration())end,
+        hideF=function()return not BGM.nowPlay end
+    },
     WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
     WIDGET.newButton{name="up",   x=200,y=250,w=120,code=pressKey"up",hideF=function()return selected==1 end,fText=GC.DO{32,32,{'setLW',4},{'line',2,28,16,4,30,28}}},
     WIDGET.newButton{name="play", x=200,y=390,w=120,code=pressKey"space",fText=GC.DO{64,64,{'fPoly',14+3,10,14+3,54,55+3,32}}},
