@@ -4,7 +4,6 @@ return{
         drop=20,lock=60,
         fall=10,
         freshLimit=8,
-        heightLimit=4,
         ospin=false,
         eventSet='pc_inf',
         bg='rgb',bgm='moonbeam',
