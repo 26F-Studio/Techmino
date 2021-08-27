@@ -5,13 +5,6 @@ return{
         eventSet='checkLine_1000',
         bg='rainbow',bgm='push',
     },
-    mesDisp=function(P)
-        setFont(55)
-        local r=1000-P.stat.row
-        if r<0 then r=0 end
-        mStr(r,63,265)
-        PLY.draw.drawTargetLine(P,r)
-    end,
     score=function(P)return{P.stat.time,P.stat.piece}end,
     scoreDisp=function(D)return STRING.time(D[1]).."   "..D[2].." Pieces"end,
     comp=function(a,b)return a[1]<b[1]or a[1]==b[1]and a[2]<b[2]end,

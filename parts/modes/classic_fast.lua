@@ -1,18 +1,10 @@
 return{
     color=COLOR.lBlue,
     env={
-        das=16,arr=6,sddas=2,sdarr=2,
-        irs=false,ims=false,
         center=0,ghost=0,
         smooth=false,
-        drop=3,lock=3,wait=10,fall=25,
-        fieldH=19,
-        nextCount=1,holdCount=false,
-        RS='Classic',
-        sequence='rnd',
         freshLimit=0,
         face={0,0,2,2,2,0,0},
-        noTele=true,keyCancel={5,6},
         eventSet='classic_fast',
         bg='rgb',bgm='magicblock',
     },

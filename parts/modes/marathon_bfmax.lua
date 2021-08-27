@@ -7,10 +7,6 @@ return{
         bg='bg2',bgm='blank',
     },
     slowMark=true,
-    mesDisp=function(P)
-        PLY.draw.drawProgress(P.stat.row,P.modeData.target)
-        PLY.draw.drawTargetLine(P,200-P.stat.row)
-    end,
     getRank=function(P)
         local L=P.stat.row
         if L>=200 then

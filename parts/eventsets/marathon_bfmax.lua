@@ -1,6 +1,10 @@
 local dropSpeed={50,40,30,25,20,15,12,9,7,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{
+    mesDisp=function(P)
+        PLY.draw.drawProgress(P.stat.row,P.modeData.target)
+        PLY.draw.drawTargetLine(P,200-P.stat.row)
+    end,
     task=function(P)
         P.gameEnv.drop=60
         P.gameEnv.wait=8

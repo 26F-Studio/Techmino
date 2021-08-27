@@ -1,4 +1,7 @@
 return{
+    mesDisp=function(P)
+        PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
+    end,
     dropPiece=function(P)
         local D=P.modeData
 

@@ -7,13 +7,13 @@ return{
             require'parts.eventsets.backfire_30'.dropPiece,
             require'parts.eventsets.checkAttack_100'.dropPiece,
         },
+        mesDisp=function(P)
+            setFont(60)
+            mStr(P.stat.atk,63,280)
+            mText(drawableText.atk,63,350)
+        end,
         bg='blackhole',bgm='echo',
     },
-    mesDisp=function(P)
-        setFont(60)
-        mStr(P.stat.atk,63,280)
-        mText(drawableText.atk,63,350)
-    end,
     score=function(P)return{math.min(math.floor(P.stat.atk),100),P.stat.time}end,
     scoreDisp=function(D)return D[1].." Attack  "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,

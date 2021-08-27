@@ -9,13 +9,6 @@ return{
         bg='flink',bgm='infinite',
     },
     slowMark=true,
-    mesDisp=function(P)
-        setFont(45)
-        mStr(("%.1f"):format(P.stat.atk),63,190)
-        mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,310)
-        mText(drawableText.atk,63,243)
-        mText(drawableText.eff,63,363)
-    end,
     score=function(P)return{P.stat.atk<=100 and math.floor(P.stat.atk)or 100,P.stat.time}end,
     scoreDisp=function(D)return D[1].." Attack  "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,

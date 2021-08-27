@@ -5,20 +5,14 @@ return{
         fall=10,
         freshLimit=15,
         ospin=false,
+        mesDisp=function(P)
+            setFont(60)
+            mStr(P.stat.pc,63,340)
+            mText(drawableText.pc,63,410)
+        end,
         eventSet='checkLine_100',
         bg='rgb',bgm='truth',
     },
-    mesDisp=function(P)
-        setFont(55)
-        local r=100-P.stat.row
-        if r<0 then r=0 end
-        mStr(r,63,220)
-        PLY.draw.drawTargetLine(P,r)
-
-        setFont(60)
-        mStr(P.stat.pc,63,300)
-        mText(drawableText.pc,63,370)
-    end,
     score=function(P)return{P.stat.pc,P.stat.time}end,
     scoreDisp=function(D)return D[1].." PCs   "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,

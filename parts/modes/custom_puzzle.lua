@@ -37,6 +37,24 @@ return{
     env={
         fkey1=function(P)P.modeData.showMark=1-P.modeData.showMark end,
         dropPiece=puzzleCheck,
+        mesDisp=function(P)
+            setFont(55)
+            mStr(P.stat.row,63,225)
+            mText(drawableText.line,63,290)
+            PLY.draw.applyField(P)
+            if P.modeData.showMark==0 then
+                local mark=TEXTURE.puzzleMark
+                local F=FIELD[P.modeData.finished+1]
+                gc.setColor(1,1,1)
+                for y=1,20 do for x=1,10 do
+                    local T=F[y][x]
+                    if T~=0 then
+                        gc_draw(mark[T],30*x-30,600-30*y)
+                    end
+                end end
+            end
+            PLY.draw.cancelField(P)
+        end,
     },
     load=function()
         applyCustomGame()
@@ -48,23 +66,5 @@ return{
         elseif AItype=='CC'then
             PLY.newAIPlayer(2,BOT.template{type='CC',speedLV=2*AIlevel-1,next=math.floor(AIlevel*.5+1),hold=true,node=20000+5000*AIlevel})
         end
-    end,
-    mesDisp=function(P)
-        setFont(55)
-        mStr(P.stat.row,63,225)
-        mText(drawableText.line,63,290)
-        PLY.draw.applyField(P)
-        if P.modeData.showMark==0 then
-            local mark=TEXTURE.puzzleMark
-            local F=FIELD[P.modeData.finished+1]
-            gc.setColor(1,1,1)
-            for y=1,20 do for x=1,10 do
-                local T=F[y][x]
-                if T~=0 then
-                    gc_draw(mark[T],30*x-30,600-30*y)
-                end
-            end end
-        end
-        PLY.draw.cancelField(P)
     end,
 }

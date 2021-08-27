@@ -1,4 +1,11 @@
 return{
+    mesDisp=function(P)
+        setFont(55)
+        mStr(P.modeData.wave,63,200)
+        mStr("22",63,320)
+        mText(drawableText.wave,63,260)
+        mText(drawableText.nextWave,63,380)
+    end,
     task=function(P)
         while true do
             YIELD()

@@ -1,6 +1,13 @@
 local rem=table.remove
 
 return{
+    mesDisp=function(P)
+        setFont(45)
+        mStr(P.combo,63,310)
+        mStr(P.modeData.maxCombo,63,400)
+        mText(drawableText.combo,63,358)
+        mText(drawableText.maxcmb,63,450)
+    end,
     task=function(P)
         local F=P.field
         for i=1,24 do

@@ -1,4 +1,20 @@
+local gc=love.graphics
+
 return{
+    mesDisp=function(P)
+        PLY.draw.drawProgress(P.stat.row,P.modeData.target)
+
+        setFont(30)
+        mStr(P.modeData.bpm,63,178)
+
+        gc.setLineWidth(4)
+        gc.circle('line',63,200,30)
+
+        local beat=P.modeData.counter/P.modeData.beatFrame
+        gc.setColor(1,1,1,1-beat)
+        gc.setLineWidth(3)
+        gc.circle('line',63,200,30+45*beat)
+    end,
     dropPiece=function(P)
         if P.stat.row>=P.modeData.target then
             if P.modeData.target==200 then

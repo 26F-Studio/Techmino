@@ -30,7 +30,6 @@ return{
     visible='show',
     freshLimit=1e99,
 
-
     opponent="X",
     life=0,
     pushSpeed=3,
@@ -40,4 +39,6 @@ return{
     --Else
     bg='blockrain',
     bgm='hang out',
+
+    eventSet="X",
 }

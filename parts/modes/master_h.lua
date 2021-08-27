@@ -9,9 +9,6 @@ return{
         bg='bg2',bgm='secret7th',
     },
     slowMark=true,
-    mesDisp=function(P)
-        PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
-    end,
     score=function(P)return{P.modeData.pt,P.stat.time}end,
     scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,
     comp=function(a,b)

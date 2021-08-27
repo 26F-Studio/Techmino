@@ -44,16 +44,16 @@ scene.widgetList={
 
     WIDGET.newButton{name="norm",  x=840,  y=80,  w=240,h=80,   font=35,code=function()for i=1,20 do VK_org[i].ava=i<11 end end},
     WIDGET.newButton{name="pro",   x=1120, y=80,  w=240,h=80,   font=35,code=function()for i=1,20 do VK_org[i].ava=true end end},
-    WIDGET.newSwitch{name="hide",  x=1150, y=200,               font=40,disp=SETval("VKSwitch"),code=SETrev("VKSwitch")},
-    WIDGET.newSwitch{name="icon",  x=1150, y=300,               font=40,disp=SETval("VKIcon"),code=SETrev("VKIcon"),hideF=_notShow},
-    WIDGET.newSlider{name="sfx",   x=830,  y=380, w=400,        font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval("VKSFX"),code=SETsto("VKSFX"),hideF=_notShow},
-    WIDGET.newSlider{name="vib",   x=830,  y=450, w=400,unit=6, font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval("VKVIB"),code=SETsto("VKVIB"),hideF=_notShow},
-    WIDGET.newSlider{name="alpha", x=830,  y=520, w=400,        font=40,disp=SETval("VKAlpha"),code=SETsto("VKAlpha"),hideF=_notShow},
+    WIDGET.newSwitch{name="hide",  x=1150, y=200,               font=40,disp=SETval('VKSwitch'),code=SETrev('VKSwitch')},
+    WIDGET.newSwitch{name="icon",  x=1150, y=300,               font=40,disp=SETval('VKIcon'),code=SETrev('VKIcon'),hideF=_notShow},
+    WIDGET.newSlider{name="sfx",   x=830,  y=380, w=400,        font=35,change=function()SFX.play('virtualKey',SETTING.VKSFX)end,disp=SETval('VKSFX'),code=SETsto('VKSFX'),hideF=_notShow},
+    WIDGET.newSlider{name="vib",   x=830,  y=450, w=400,unit=6, font=35,change=function()VIB(SETTING.VKVIB)end,disp=SETval('VKVIB'),code=SETsto('VKVIB'),hideF=_notShow},
+    WIDGET.newSlider{name="alpha", x=830,  y=520, w=400,        font=40,disp=SETval('VKAlpha'),code=SETsto('VKAlpha'),hideF=_notShow},
 
-    WIDGET.newSwitch{name="track", x=360,  y=720,               font=35,disp=SETval("VKTrack"),code=SETrev("VKTrack"),hideF=_notShow},
-    WIDGET.newSwitch{name="dodge", x=800,  y=720,               font=35,disp=SETval("VKDodge"),code=SETrev("VKDodge"),hideF=_notTrack},
-    WIDGET.newSlider{name="tchW",  x=140,  y=860, w=1000,       font=35,disp=SETval("VKTchW"),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end,hideF=_notTrack},
-    WIDGET.newSlider{name="curW",  x=140,  y=930, w=1000,       font=35,disp=SETval("VKCurW"),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end,hideF=_notTrack},
+    WIDGET.newSwitch{name="track", x=360,  y=720,               font=35,disp=SETval('VKTrack'),code=SETrev('VKTrack'),hideF=_notShow},
+    WIDGET.newSwitch{name="dodge", x=800,  y=720,               font=35,disp=SETval('VKDodge'),code=SETrev('VKDodge'),hideF=_notTrack},
+    WIDGET.newSlider{name="tchW",  x=140,  y=860, w=1000,       font=35,disp=SETval('VKTchW'),code=function(i)SETTING.VKTchW=i SETTING.VKCurW=math.max(SETTING.VKCurW,i)end,hideF=_notTrack},
+    WIDGET.newSlider{name="curW",  x=140,  y=930, w=1000,       font=35,disp=SETval('VKCurW'),code=function(i)SETTING.VKCurW=i SETTING.VKTchW=math.min(SETTING.VKTchW,i)end,hideF=_notTrack},
 
     WIDGET.newButton{name="back",  x=1140, y=640, w=170,h=80,fText=TEXTURE.back,code=backScene},
 }

@@ -23,6 +23,7 @@ local sList={
     lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
+    eventSet={'X','attacker_h','attacker_u','backfire_0','backfire_120','backfire_30','backfire_60','checkAttack_100','checkLine_10','checkLine_20','checkLine_40','checkLine_100','checkLine_200','checkLine_400','checkLine_1000','checkTurn_1','checkTurn_7','classic_fast','defender_n','defender_l','dig_h','dig_u','marathon_n','marathon_h','master_ex','master_final','master_h','master_n','master_ph','pctrain_n','pctrain_l','pc_inf','rhythm_e','rhythm_h','rhythm_u','survivor_e','survivor_n','survivor_h','survivor_l','survivor_u','tsd_e','tsd_h','tsd_u','ultra'},
 }
 
 local scene={}
@@ -193,7 +194,7 @@ function scene.draw()
         gc.setColor(1,1,1,sure)
         gc.draw(TEXTURE.sure,920,50)
     end
-    gc.translate(0,    WIDGET.scrollPos)
+    gc.translate(0,WIDGET.scrollPos)
 end
 
 scene.widgetScrollHeight=400
@@ -213,21 +214,21 @@ scene.widgetList={
     WIDGET.newText{name="defSeq",  x=610,y=220,align='L',color='H',hideF=function()return BAG[1]end},
 
     --Selectors
-    WIDGET.newSelector{name="opponent",    x=170,y=330,w=260,color='R',list=sList.opponent,   disp=CUSval("opponent"),    code=CUSsto("opponent")},
-    WIDGET.newSelector{name="life",        x=170,y=410,w=260,color='R',list=sList.life,       disp=CUSval("life"),        code=CUSsto("life")},
-    WIDGET.newSelector{name="pushSpeed",   x=170,y=520,w=260,color='V',list=sList.pushSpeed,  disp=CUSval("pushSpeed"),   code=CUSsto("pushSpeed")},
-    WIDGET.newSelector{name="garbageSpeed",x=170,y=600,w=260,color='V',list=sList.pushSpeed,  disp=CUSval("garbageSpeed"),code=CUSsto("garbageSpeed")},
-    WIDGET.newSelector{name="visible",     x=170,y=710,w=260,color='lB',list=sList.visible,   disp=CUSval("visible"),     code=CUSsto("visible")},
-    WIDGET.newSelector{name="freshLimit",  x=170,y=790,w=260,color='lB',list=sList.freshLimit,disp=CUSval("freshLimit"),  code=CUSsto("freshLimit")},
+    WIDGET.newSelector{name="opponent",    x=170,y=330,w=260,color='R',list=sList.opponent,   disp=CUSval('opponent'),    code=CUSsto('opponent')},
+    WIDGET.newSelector{name="life",        x=170,y=410,w=260,color='R',list=sList.life,       disp=CUSval('life'),        code=CUSsto('life')},
+    WIDGET.newSelector{name="pushSpeed",   x=170,y=520,w=260,color='V',list=sList.pushSpeed,  disp=CUSval('pushSpeed'),   code=CUSsto('pushSpeed')},
+    WIDGET.newSelector{name="garbageSpeed",x=170,y=600,w=260,color='V',list=sList.pushSpeed,  disp=CUSval('garbageSpeed'),code=CUSsto('garbageSpeed')},
+    WIDGET.newSelector{name="visible",     x=170,y=710,w=260,color='lB',list=sList.visible,   disp=CUSval('visible'),     code=CUSsto('visible')},
+    WIDGET.newSelector{name="freshLimit",  x=170,y=790,w=260,color='lB',list=sList.freshLimit,disp=CUSval('freshLimit'),  code=CUSsto('freshLimit')},
 
-    WIDGET.newSelector{name="fieldH",      x=450,y=600,w=260,color='N',list=sList.fieldH,     disp=CUSval("fieldH"),      code=CUSsto("fieldH")},
-    WIDGET.newSelector{name="heightLimit", x=450,y=710,w=260,color='S',list=sList.heightLimit,disp=CUSval("heightLimit"), code=CUSsto("heightLimit")},
-    WIDGET.newSelector{name="bufferLimit", x=450,y=790,w=260,color='B',list=sList.bufferLimit,disp=CUSval("bufferLimit"), code=CUSsto("bufferLimit")},
+    WIDGET.newSelector{name="fieldH",      x=450,y=600,w=260,color='N',list=sList.fieldH,     disp=CUSval('fieldH'),      code=CUSsto('fieldH')},
+    WIDGET.newSelector{name="heightLimit", x=450,y=710,w=260,color='S',list=sList.heightLimit,disp=CUSval('heightLimit'), code=CUSsto('heightLimit')},
+    WIDGET.newSelector{name="bufferLimit", x=450,y=790,w=260,color='B',list=sList.bufferLimit,disp=CUSval('bufferLimit'), code=CUSsto('bufferLimit')},
 
-    WIDGET.newSelector{name="drop",   x=730,y=330,w=260,color='O',list=sList.drop,disp=CUSval("drop"),code=CUSsto("drop")},
-    WIDGET.newSelector{name="lock",   x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval("lock"),code=CUSsto("lock")},
-    WIDGET.newSelector{name="wait",   x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval("wait"),code=CUSsto("wait")},
-    WIDGET.newSelector{name="fall",   x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval("fall"),code=CUSsto("fall")},
+    WIDGET.newSelector{name="drop",   x=730,y=330,w=260,color='O',list=sList.drop,disp=CUSval('drop'),code=CUSsto('drop')},
+    WIDGET.newSelector{name="lock",   x=730,y=410,w=260,color='O',list=sList.lock,disp=CUSval('lock'),code=CUSsto('lock')},
+    WIDGET.newSelector{name="wait",   x=730,y=520,w=260,color='G',list=sList.wait,disp=CUSval('wait'),code=CUSsto('wait')},
+    WIDGET.newSelector{name="fall",   x=730,y=600,w=260,color='G',list=sList.fall,disp=CUSval('fall'),code=CUSsto('fall')},
 
     --Copy / Paste / Start
     WIDGET.newButton{name="copy",     x=1070,y=300,w=310,h=70,color='lR',font=25,code=pressKey"cC"},
@@ -237,22 +238,25 @@ scene.widgetList={
     WIDGET.newButton{name="back",     x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=pressKey"escape"},
 
     --Special rules
-    WIDGET.newSwitch{name="ospin",    x=830, y=750,disp=CUSval("ospin"),    code=CUSrev("ospin")},
-    WIDGET.newSwitch{name="fineKill", x=830, y=840,disp=CUSval("fineKill"), code=CUSrev("fineKill")},
-    WIDGET.newSwitch{name="b2bKill",  x=830, y=930,disp=CUSval("b2bKill"),  code=CUSrev("b2bKill")},
-    WIDGET.newSwitch{name="easyFresh",x=1170,y=750,disp=CUSval("easyFresh"),code=CUSrev("easyFresh")},
-    WIDGET.newSwitch{name="deepDrop", x=1170,y=840,disp=CUSval("deepDrop"), code=CUSrev("deepDrop")},
-    WIDGET.newSwitch{name="bone",     x=1170,y=930,disp=CUSval("bone"),     code=CUSrev("bone")},
+    WIDGET.newSwitch{name="ospin",    x=830, y=750,disp=CUSval('ospin'),    code=CUSrev('ospin')},
+    WIDGET.newSwitch{name="fineKill", x=830, y=840,disp=CUSval('fineKill'), code=CUSrev('fineKill')},
+    WIDGET.newSwitch{name="b2bKill",  x=830, y=930,disp=CUSval('b2bKill'),  code=CUSrev('b2bKill')},
+    WIDGET.newSwitch{name="easyFresh",x=1170,y=750,disp=CUSval('easyFresh'),code=CUSrev('easyFresh')},
+    WIDGET.newSwitch{name="deepDrop", x=1170,y=840,disp=CUSval('deepDrop'), code=CUSrev('deepDrop')},
+    WIDGET.newSwitch{name="bone",     x=1170,y=930,disp=CUSval('bone'),     code=CUSrev('bone')},
+
+    --Rule set
+    WIDGET.newSelector{name="eventSet",x=310,y=890,w=320,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
 
     --Next & Hold
-    WIDGET.newSlider{name="nextCount",x=140, y=940,w=180,unit=6, disp=CUSval("nextCount"),code=CUSsto("nextCount")},
-    WIDGET.newSlider{name="holdCount",x=140, y=1030,w=180,unit=6,disp=CUSval("holdCount"),code=CUSsto("holdCount")},
-    WIDGET.newSwitch{name="infHold",  x=560, y=940,              disp=CUSval("infHold"),code=CUSrev("infHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
-    WIDGET.newSwitch{name="phyHold",  x=560, y=1030,             disp=CUSval("phyHold"),code=CUSrev("phyHold"),hideF=function()return CUSTOMENV.holdCount==0 end},
+    WIDGET.newSlider{name="nextCount",x=140, y=960,w=180,unit=6, disp=CUSval('nextCount'),code=CUSsto('nextCount')},
+    WIDGET.newSlider{name="holdCount",x=140, y=1030,w=180,unit=6,disp=CUSval('holdCount'),code=CUSsto('holdCount')},
+    WIDGET.newSwitch{name="infHold",  x=560, y=960,              disp=CUSval('infHold'),code=CUSrev('infHold'),hideF=function()return CUSTOMENV.holdCount==0 end},
+    WIDGET.newSwitch{name="phyHold",  x=560, y=1030,             disp=CUSval('phyHold'),code=CUSrev('phyHold'),hideF=function()return CUSTOMENV.holdCount==0 end},
 
     --BG & BGM
-    WIDGET.newSelector{name="bg",     x=840, y=1030,w=250,color='Y',list=BG.getList(),disp=CUSval("bg"),code=function(i)CUSTOMENV.bg=i BG.set(i)end},
-    WIDGET.newSelector{name="bgm",    x=1120,y=1030,w=250,color='Y',list=BGM.getList(),disp=CUSval("bgm"),code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
+    WIDGET.newSelector{name="bg",     x=840, y=1030,w=250,color='Y',list=BG.getList(),disp=CUSval('bg'),code=function(i)CUSTOMENV.bg=i BG.set(i)end},
+    WIDGET.newSelector{name="bgm",    x=1120,y=1030,w=250,color='Y',list=BGM.getList(),disp=CUSval('bgm'),code=function(i)CUSTOMENV.bgm=i BGM.play(i)end},
 }
 
 return scene

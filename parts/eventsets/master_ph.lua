@@ -1,5 +1,8 @@
 return
 {
+    mesDisp=function(P)
+        PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
+    end,
     dropPiece=function(P)
         local p=P.modeData.pt+P.lastPiece.row
         if p>=P.modeData.target then

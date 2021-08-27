@@ -41,6 +41,11 @@ local function check(P)
     end
 end
 return{
+    mesDisp=function(P)
+        setFont(60)
+        mStr(P.stat.pc,63,340)
+        mText(drawableText.pc,63,410)
+    end,
     dropPiece=check,
     task=check,
 }

@@ -82,9 +82,10 @@
             missionKill     false          是否开启强制任务
             noInitSZO       false          是否禁止SZO块开局，如果禁止，开局序列会自动跳过最多连续五个SZO
 
-            task            NULL           每帧会*继续执行*的函数(或函数列表,依次执行,返回true会把自身从队列里清除)(初始化时会执行一次，可以用来设置场地等)，输入玩家对象，注意：使用协程技术
+            mesDisp         NULL           需要在玩家侧边栏显示的信息(或函数列表,依次执行,可以显示在外面但是强烈不建议)，输入玩家对象
             dropPiece       NULL           放一块后要执行的函数(或函数列表,依次执行)，输入玩家对象
-            eventSet        false          使用预设事件套件名称(字符串)，如果指定，套件中的事件将会替换上面这几个事件(如果有)
+            task            NULL           每帧会*继续执行*的函数(或函数列表,依次执行,返回true会把自身从队列里清除)(初始化时会执行一次，可以用来设置场地等)，输入玩家对象，注意：使用协程技术
+            eventSet        false          使用预设事件套件名称(字符串)，和上面三个套件会叠加，使用时请小心，尽量不要同时指定太多组件
 
             bg              'none'         背景，只能填写内置背景的名字
             bgm             'race'         背景音乐名(或者列表随机，例如{'race','push'})，只能用内置音乐库的音乐名
@@ -93,11 +94,6 @@
         必选
         模式初始化函数，一般创建一个玩家即可
         无输入
-        无输出
-    mesDisp:
-        必选
-        模式显示信息，是一个绘图函数，坐标系原点是玩家对象最左上角
-        输入玩家对象
         无输出
 
     score:
@@ -130,18 +126,11 @@ return{--返回一个table，你也可以在之前定义一些常量或者函数
     color=COLOR.green,--颜色
     env={--模式环境变量
         drop=60,lock=60,
-        eventSet='checkLine_40',
+        eventSet='checkLine_40',--这个预设eventSet包含了dropPiece和mesDisp，就是40行需要的东西
         bg='bg2',bgm='race',
     },
     load=function()--模式加载函数，这里只生成了一个玩家，常用的单人模式可以不写，默认使用这个函数
         PLY.newPlayer(1)--1是玩家编号，默认用户控制1号玩家
-    end,
-    mesDisp=function(P)--40行模式需要显示的信息
-        setFont(55)
-        local r=40-P.stat.row
-        if r<0 then r=0 end
-        mStr(r,63,265)--把计算出来的剩余行数r显示出来
-        PLY.draw.drawTargetLine(P,r)--使用自带的境界高度线绘制函数
     end,
     score=function(P)return{P.stat.time,P.stat.piece}end,--游戏结束时需要保存的本局关键信息
     scoreDisp=function(D)return STRING.time(D[1]).."   "..D[2].." Pieces"end,--把score返回的数据显示出来的方法

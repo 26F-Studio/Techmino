@@ -1,5 +1,3 @@
-local gc=love.graphics
-
 return{
     color=COLOR.lYellow,
     env={
@@ -9,18 +7,6 @@ return{
         eventSet='tsd_u',
         bg='matrix',bgm='vapor',
     },
-    mesDisp=function(P)
-        setFont(60)
-        mStr(P.modeData.tsd,63,250)
-        mText(drawableText.tsd,63,315)
-        PLY.draw.applyField(P)
-        local L=P.modeData.history
-        for i=1,#L do
-            gc.setColor(1,.5,.5,.3-i*.05)
-            gc.rectangle('fill',30*L[i]-30,0,30,600)
-        end
-        PLY.draw.cancelField(P)
-    end,
     score=function(P)return{P.modeData.tsd,P.stat.time}end,
     scoreDisp=function(D)return D[1].."TSD   "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,

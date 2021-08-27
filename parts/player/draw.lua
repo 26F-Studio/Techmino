@@ -891,9 +891,9 @@ function draw.norm(P,repMode)
         ;(P.type=='remote'and _drawFinesseCombo_remote or _drawFinesseCombo_norm)(P)
 
         --Mode informations
-        if GAME.curMode.mesDisp then
-            gc_setColor(.97,.97,.97)
-            GAME.curMode.mesDisp(P,repMode)
+        gc_setColor(.97,.97,.97)
+        for i=1,#ENV.mesDisp do
+            ENV.mesDisp[i](P)
         end
 
         if P.frameRun<180 then _drawStartCounter(P.frameRun)end

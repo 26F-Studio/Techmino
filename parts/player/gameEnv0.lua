@@ -59,9 +59,10 @@ return{
     mindas=0,minarr=0,minsdarr=0,
     noInitSZO=false,
 
-    task={},
+    mesDisp={},
     dropPiece={},
-    eventSet=false,
+    task={},
+    eventSet="X",
 
     bg='none',bgm='race',
     allowMod=true,

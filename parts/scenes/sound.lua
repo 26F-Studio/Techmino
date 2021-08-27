@@ -40,8 +40,8 @@ end
 
 scene.widgetList={
     WIDGET.newText{name="title",    x=30,   y=15,font=70,align='L'},
-    WIDGET.newSlider{name="sfx",    x=510,  y=60,w=330,font=35,change=function()SFX.play('blip_1')end,disp=SETval("sfx"),sound=false,code=SETsto("sfx")},
-    WIDGET.newSlider{name="voc",    x=510,  y=120,w=330,font=35,change=function()VOC.play('test')end,disp=SETval("voc"),sound=false,code=SETsto("voc")},
+    WIDGET.newSlider{name="sfx",    x=510,  y=60,w=330,font=35,change=function()SFX.play('blip_1')end,disp=SETval('sfx'),sound=false,code=SETsto('sfx')},
+    WIDGET.newSlider{name="voc",    x=510,  y=120,w=330,font=35,change=function()VOC.play('test')end,disp=SETval('voc'),sound=false,code=SETsto('voc')},
 
     WIDGET.newKey{name="move",      x=110,  y=140,w=160,h=50,font=20,sound=false,code=function()SFX.play('move')end},
     WIDGET.newKey{name="lock",      x=110,  y=205,w=160,h=50,font=20,sound=false,code=function()SFX.play('lock')end},

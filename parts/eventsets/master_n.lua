@@ -3,6 +3,9 @@ local rush_wait={12,11,11,10,10, 10,10, 9, 9, 9}
 local rush_fall={18,16,14,13,12, 12,11,11,10,10}
 
 return{
+    mesDisp=function(P)
+        PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
+    end,
     dropPiece=function(P)
         local D=P.modeData
 

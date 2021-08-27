@@ -30,8 +30,17 @@ return{
     env={
         drop=1e99,lock=1e99,
         infHold=true,
-        dropPiece=check_rise,
         pushSpeed=1.2,
+        dropPiece=check_rise,
+        mesDisp=function(P)
+            setFont(45)
+            mStr(P.stat.dig,63,190)
+            mStr(P.stat.atk,63,310)
+            mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,420)
+            mText(drawableText.line,63,243)
+            mText(drawableText.atk,63,363)
+            mText(drawableText.eff,63,475)
+        end,
         bg='wing',bgm='dream',
     },
     load=function()
@@ -41,14 +50,5 @@ return{
             P:garbageRise(13,1,generateLine(P.holeRND:random(10)))
         end
         P.fieldBeneath=0
-    end,
-    mesDisp=function(P)
-        setFont(45)
-        mStr(P.stat.dig,63,190)
-        mStr(P.stat.atk,63,310)
-        mStr(("%.2f"):format(P.stat.atk/P.stat.row),63,420)
-        mText(drawableText.line,63,243)
-        mText(drawableText.atk,63,363)
-        mText(drawableText.eff,63,475)
     end,
 }

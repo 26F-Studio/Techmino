@@ -1,10 +1,10 @@
 local boarder=GC.DO{334,620,
-{'setLW',2},
-{'setCL',.97,.97,.97},
-{'dRect',16,1,302,618,5},
-{'fRect',17,612,300,2},
-{'dRect',318,9,15,596,3},
-{'dRect',1,9,15,596,3},
+    {'setLW',2},
+    {'setCL',.97,.97,.97},
+    {'dRect',16,1,302,618,5},
+    {'fRect',17,612,300,2},
+    {'dRect',318,9,15,596,3},
+    {'dRect',1,9,15,596,3},
 }
 local gc=love.graphics
 local sin,min=math.sin,math.min
@@ -17,6 +17,35 @@ return{
         dropFX=0,lockFX=0,
         visible='none',
         freshLimit=15,
+        mesDisp=function(P,repMode)
+            if not GAME.result then
+                gc.push('transform')
+                if repMode then
+                    gc.origin()
+                    gc.setColor(.3,.3,.3,.7)
+                    gc.rectangle('fill',0,0,SCR.w,SCR.h)
+                else
+                    gc.clear(.2,.2,.2)
+                    gc.translate(150,0)
+                    gc.setColor(.5,.5,.5)
+                    --Frame
+                    gc.draw(boarder,-17,-12)
+                end
+                gc.pop()
+            end
+
+            --Figures
+            local t=TIME()
+            gc.setColor(1,1,1,.5+.2*sin(t))
+            gc.draw(IMG.hbm,-276,-86,0,1.5)
+            gc.draw(IMG.electric,476,152,0,2.6)
+
+            --Texts
+            gc.setColor(.8,.8,.8)
+            mText(drawableText.techrash,63,420)
+            setFont(75)
+            mStr(P.stat.clears[4],63,340)
+        end,
         eventSet='checkLine_40',
         bg='none',bgm='far',
     },
@@ -25,37 +54,6 @@ return{
         if SETTING.sfx_spawn==0 then
             MES.new('warn',text.switchSpawnSFX)
         end
-    end,
-    mesDisp=function(P,repMode)
-        if not GAME.result then
-            gc.push('transform')
-            if repMode then
-                gc.origin()
-                gc.setColor(.3,.3,.3,.7)
-                gc.rectangle('fill',0,0,SCR.w,SCR.h)
-            else
-                gc.clear(.2,.2,.2)
-                gc.translate(150,0)
-                gc.setColor(.5,.5,.5)
-                --Frame
-                gc.draw(boarder,-17,-12)
-            end
-            gc.pop()
-        end
-
-        --Figures
-        local t=TIME()
-        gc.setColor(1,1,1,.5+.2*sin(t))
-        gc.draw(IMG.hbm,-276,-86,0,1.5)
-        gc.draw(IMG.electric,476,152,0,2.6)
-
-        --Texts
-        gc.setColor(.8,.8,.8)
-        mText(drawableText.line,63,300)
-        mText(drawableText.techrash,63,420)
-        setFont(75)
-        mStr(P.stat.row,63,220)
-        mStr(P.stat.clears[4],63,340)
     end,
     score=function(P)return{min(P.stat.row,40),P.stat.time}end,
     scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,

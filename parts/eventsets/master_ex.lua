@@ -2,6 +2,17 @@ local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X"
 local passPoint=16
 
 return{
+    mesDisp=function(P)
+        mText(drawableText.line,63,300)
+        mText(drawableText.techrash,63,420)
+        mText(drawableText.grade,63,170)
+        setFont(55)
+        mStr(P.modeData.rankName,63,110)
+        setFont(20)
+        mStr(("%.1f"):format(P.modeData.rankPoint/10),63,198)
+        setFont(75)
+                mStr(P.stat.clears[4],63,340)
+    end,
     dropPiece=function(P)
         if P.modeData.rankPoint<140-passPoint then--If Less then X
             local R=#P.clearedRow

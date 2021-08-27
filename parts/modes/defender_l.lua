@@ -9,13 +9,6 @@ return{
         eventSet='defender_l',
         bg='rainbow2',bgm='storm',
     },
-    mesDisp=function(P)
-        setFont(55)
-        mStr(P.modeData.wave,63,200)
-        mStr(P.modeData.rpm,63,320)
-        mText(drawableText.wave,63,260)
-        mText(drawableText.rpm,63,380)
-    end,
     score=function(P)return{P.modeData.wave,P.stat.time}end,
     scoreDisp=function(D)return D[1].." Waves   "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,

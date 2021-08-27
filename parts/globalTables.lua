@@ -227,6 +227,8 @@ ROOMENV={
     b2bKill=false,
     easyFresh=true,
     deepDrop=false,
+
+    eventSet="X",
 }
 REPLAY={}--Replay objects (not include stream data)
 

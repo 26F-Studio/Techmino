@@ -6,13 +6,6 @@ return{
         eventSet='checkLine_40',
         bg='aura',bgm='waterfall',
     },
-    mesDisp=function(P)
-        setFont(55)
-        local r=40-P.stat.row
-        if r<0 then r=0 end
-        mStr(r,63,265)
-        PLY.draw.drawTargetLine(P,r)
-    end,
     getRank=function(P)
         local L=P.stat.row
         if L<40 then

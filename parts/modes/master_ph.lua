@@ -13,9 +13,6 @@ return{
         bg='blockspace',bgm='super7th',
     },
     slowMark=true,
-    mesDisp=function(P)
-        PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
-    end,
     score=function(P)return{P.result=='win'and 260 or P.modeData.pt,P.stat.time}end,
     scoreDisp=function(D)return D[1].."P   "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,

@@ -1,4 +1,18 @@
+local gc=love.graphics
+
 return{
+    mesDisp=function(P)
+        setFont(60)
+        mStr(P.modeData.tsd,63,250)
+        mText(drawableText.tsd,63,315)
+        PLY.draw.applyField(P)
+        local L=P.modeData.history
+        for i=1,#L do
+            gc.setColor(1,.5,.5,.3-i*.05)
+            gc.rectangle('fill',30*L[i]-30,0,30,600)
+        end
+        PLY.draw.cancelField(P)
+    end,
     dropPiece=function(P)
         local C=P.lastPiece
         if C.row>0 then

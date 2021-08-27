@@ -1,5 +1,3 @@
-local gc=love.graphics
-local min=math.min
 return{
     color=COLOR.magenta,
     env={
@@ -9,21 +7,11 @@ return{
         visible='none',
         score=false,
         freshLimit=15,
+        mesDisp=require"parts.eventsets.blindMesDisp".mesDisp,
         eventSet='checkLine_200',
         bg='rgb',bgm='push',
     },
-    mesDisp=function(P)
-        mText(drawableText.line,63,300)
-        mText(drawableText.techrash,63,420)
-        setFont(75)
-        mStr(P.stat.row,63,220)
-        mStr(P.stat.clears[4],63,340)
-        PLY.draw.applyField(P)
-        gc.setColor(1,1,1,.1)
-        gc.draw(IMG.electric,0,106,0,2.6)
-        PLY.draw.cancelField(P)
-    end,
-    score=function(P)return{min(P.stat.row,200),P.stat.time}end,
+    score=function(P)return{math.min(P.stat.row,200),P.stat.time}end,
     scoreDisp=function(D)return D[1].." Lines   "..STRING.time(D[2])end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
     getRank=function(P)

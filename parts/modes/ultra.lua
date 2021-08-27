@@ -1,4 +1,3 @@
-local gc=love.graphics
 return{
     color=COLOR.lGray,
     env={
@@ -10,13 +9,6 @@ return{
         bg='fan',bgm='memory',
     },
     slowMark=true,
-    mesDisp=function(P)
-        gc.setLineWidth(2)
-        gc.rectangle('line',55,110,32,402)
-        local T=P.stat.frame/60/120
-        gc.setColor(2*T,2-2*T,.2)
-        gc.rectangle('fill',56,511,30,(T-1)*400)
-    end,
     score=function(P)return{P.stat.score}end,
     scoreDisp=function(D)return tostring(D[1])end,
     comp=function(a,b)return a[1]>b[1]end,

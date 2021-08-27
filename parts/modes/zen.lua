@@ -6,11 +6,6 @@ return{
         eventSet='checkLine_200',
         bg='bg2',bgm='venus',
     },
-    mesDisp=function(P)
-        setFont(70)
-        local R=200-P.stat.row
-        mStr(R>=0 and R or 0,63,265)
-    end,
     score=function(P)return{P.stat.score}end,
     scoreDisp=function(D)return tostring(D[1])end,
     comp=function(a,b)return a[1]>b[1]end,

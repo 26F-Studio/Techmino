@@ -72,39 +72,39 @@ scene.widgetList={
     descriptionBox,
 
     --Selectors
-    WIDGET.newSelector{name="life",         x=170,y=410,w=260,color='R',list=sList.life,           disp=ROOMval("life"),         code=ROOMsto("life")},
-    WIDGET.newSelector{name="pushSpeed",    x=170,y=520,w=260,color='V',list=sList.pushSpeed,      disp=ROOMval("pushSpeed"),    code=ROOMsto("pushSpeed")},
-    WIDGET.newSelector{name="garbageSpeed", x=170,y=600,w=260,color='V',list=sList.pushSpeed,      disp=ROOMval("garbageSpeed"), code=ROOMsto("garbageSpeed")},
-    WIDGET.newSelector{name="visible",      x=170,y=710,w=260,color='lB',list=sList.visible,       disp=ROOMval("visible"),      code=ROOMsto("visible")},
-    WIDGET.newSelector{name="freshLimit",   x=170,y=790,w=260,color='lB',list=sList.freshLimit,    disp=ROOMval("freshLimit"),   code=ROOMsto("freshLimit")},
+    WIDGET.newSelector{name="life",         x=170,y=410,w=260,color='R',list=sList.life,           disp=ROOMval('life'),         code=ROOMsto('life')},
+    WIDGET.newSelector{name="pushSpeed",    x=170,y=520,w=260,color='V',list=sList.pushSpeed,      disp=ROOMval('pushSpeed'),    code=ROOMsto('pushSpeed')},
+    WIDGET.newSelector{name="garbageSpeed", x=170,y=600,w=260,color='V',list=sList.pushSpeed,      disp=ROOMval('garbageSpeed'), code=ROOMsto('garbageSpeed')},
+    WIDGET.newSelector{name="visible",      x=170,y=710,w=260,color='lB',list=sList.visible,       disp=ROOMval('visible'),      code=ROOMsto('visible')},
+    WIDGET.newSelector{name="freshLimit",   x=170,y=790,w=260,color='lB',list=sList.freshLimit,    disp=ROOMval('freshLimit'),   code=ROOMsto('freshLimit')},
 
-    WIDGET.newSelector{name="fieldH",       x=450,y=600,w=260,color='N',list=sList.fieldH,         disp=ROOMval("fieldH"),       code=ROOMsto("fieldH")},
-    WIDGET.newSelector{name="heightLimit",  x=450,y=710,w=260,color='S',list=sList.heightLimit,    disp=ROOMval("heightLimit"),  code=ROOMsto("heightLimit")},
-    WIDGET.newSelector{name="bufferLimit",  x=450,y=790,w=260,color='B',list=sList.bufferLimit,    disp=ROOMval("bufferLimit"),  code=ROOMsto("bufferLimit")},
+    WIDGET.newSelector{name="fieldH",       x=450,y=600,w=260,color='N',list=sList.fieldH,         disp=ROOMval('fieldH'),       code=ROOMsto('fieldH')},
+    WIDGET.newSelector{name="heightLimit",  x=450,y=710,w=260,color='S',list=sList.heightLimit,    disp=ROOMval('heightLimit'),  code=ROOMsto('heightLimit')},
+    WIDGET.newSelector{name="bufferLimit",  x=450,y=790,w=260,color='B',list=sList.bufferLimit,    disp=ROOMval('bufferLimit'),  code=ROOMsto('bufferLimit')},
 
-    WIDGET.newSelector{name="drop",         x=730,y=330,w=260,color='O',list=sList.drop,disp=ROOMval("drop"),code=ROOMsto("drop")},
-    WIDGET.newSelector{name="lock",         x=730,y=410,w=260,color='O',list=sList.lock,disp=ROOMval("lock"),code=ROOMsto("lock")},
-    WIDGET.newSelector{name="wait",         x=730,y=520,w=260,color='G',list=sList.wait,disp=ROOMval("wait"),code=ROOMsto("wait")},
-    WIDGET.newSelector{name="fall",         x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval("fall"),code=ROOMsto("fall")},
+    WIDGET.newSelector{name="drop",         x=730,y=330,w=260,color='O',list=sList.drop,disp=ROOMval('drop'),code=ROOMsto('drop')},
+    WIDGET.newSelector{name="lock",         x=730,y=410,w=260,color='O',list=sList.lock,disp=ROOMval('lock'),code=ROOMsto('lock')},
+    WIDGET.newSelector{name="wait",         x=730,y=520,w=260,color='G',list=sList.wait,disp=ROOMval('wait'),code=ROOMsto('wait')},
+    WIDGET.newSelector{name="fall",         x=730,y=600,w=260,color='G',list=sList.fall,disp=ROOMval('fall'),code=ROOMsto('fall')},
 
     --Capacity & Create & Back
-    WIDGET.newSelector{name="capacity",     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval("capacity"),code=ROOMsto("capacity")},
+    WIDGET.newSelector{name="capacity",     x=1070,y=330,w=310,color='lY',list={2,3,4,5,7,10,17,31,49,99},disp=ROOMval('capacity'),code=ROOMsto('capacity')},
     WIDGET.newButton{name="create",         x=1070,y=480,w=310,h=140,color='lN',font=40,code=pressKey"return"},
     WIDGET.newButton{name="back",           x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 
     --Special rules
-    WIDGET.newSwitch{name="ospin",          x=830, y=750,disp=ROOMval("ospin"),    code=ROOMrev("ospin")},
-    WIDGET.newSwitch{name="fineKill",       x=830, y=840,disp=ROOMval("fineKill"), code=ROOMrev("fineKill")},
-    WIDGET.newSwitch{name="b2bKill",        x=830, y=930,disp=ROOMval("b2bKill"),  code=ROOMrev("b2bKill")},
-    WIDGET.newSwitch{name="easyFresh",      x=1170,y=750,disp=ROOMval("easyFresh"),code=ROOMrev("easyFresh")},
-    WIDGET.newSwitch{name="deepDrop",       x=1170,y=840,disp=ROOMval("deepDrop"), code=ROOMrev("deepDrop")},
-    WIDGET.newSwitch{name="bone",           x=1170,y=930,disp=ROOMval("bone"),     code=ROOMrev("bone")},
+    WIDGET.newSwitch{name="ospin",          x=830, y=750,disp=ROOMval('ospin'),    code=ROOMrev('ospin')},
+    WIDGET.newSwitch{name="fineKill",       x=830, y=840,disp=ROOMval('fineKill'), code=ROOMrev('fineKill')},
+    WIDGET.newSwitch{name="b2bKill",        x=830, y=930,disp=ROOMval('b2bKill'),  code=ROOMrev('b2bKill')},
+    WIDGET.newSwitch{name="easyFresh",      x=1170,y=750,disp=ROOMval('easyFresh'),code=ROOMrev('easyFresh')},
+    WIDGET.newSwitch{name="deepDrop",       x=1170,y=840,disp=ROOMval('deepDrop'), code=ROOMrev('deepDrop')},
+    WIDGET.newSwitch{name="bone",           x=1170,y=930,disp=ROOMval('bone'),     code=ROOMrev('bone')},
 
     --Next & Hold
-    WIDGET.newSlider{name="nextCount",      x=120,y=940,w=200,unit=6,  disp=ROOMval("nextCount"),code=ROOMsto("nextCount")},
-    WIDGET.newSlider{name="holdCount",      x=120,y=1030,w=200,unit=6, disp=ROOMval("holdCount"),code=ROOMsto("holdCount")},
-    WIDGET.newSwitch{name="infHold",        x=560,y=940,               disp=ROOMval("infHold"),code=ROOMrev("infHold"),hideF=function()return ROOMENV.holdCount==0 end},
-    WIDGET.newSwitch{name="phyHold",        x=560,y=1030,              disp=ROOMval("phyHold"),code=ROOMrev("phyHold"),hideF=function()return ROOMENV.holdCount==0 end},
+    WIDGET.newSlider{name="nextCount",      x=120,y=940,w=200,unit=6,  disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},
+    WIDGET.newSlider{name="holdCount",      x=120,y=1030,w=200,unit=6, disp=ROOMval('holdCount'),code=ROOMsto('holdCount')},
+    WIDGET.newSwitch{name="infHold",        x=560,y=940,               disp=ROOMval('infHold'),code=ROOMrev('infHold'),hideF=function()return ROOMENV.holdCount==0 end},
+    WIDGET.newSwitch{name="phyHold",        x=560,y=1030,              disp=ROOMval('phyHold'),code=ROOMrev('phyHold'),hideF=function()return ROOMENV.holdCount==0 end},
 }
 
 return scene

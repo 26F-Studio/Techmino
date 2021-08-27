@@ -265,6 +265,16 @@ local function _loadRemoteEnv(P,confStr)--Load gameEnv
         end
     end
 end
+local function _mergeFuncTable(f,L)
+    if type(f)=='function'then
+        ins(L,f)
+    elseif type(f)=='table'then
+        for i=1,#f do
+            ins(L,f[i])
+        end
+    end
+    return L
+end
 local function _applyGameEnv(P)--Finish gameEnv processing
     local ENV=P.gameEnv
 
@@ -351,13 +361,19 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.center==0 then   ENV.center=false end
     if ENV.lineNum==0 then  ENV.lineNum=false end
 
+    --Apply events
+    ENV.mesDisp=_mergeFuncTable(ENV.mesDisp,{})
+    ENV.dropPiece=_mergeFuncTable(ENV.dropPiece,{})
+    ENV.task=_mergeFuncTable(ENV.task,{})
+
     --Apply eventSet
-    if ENV.eventSet then
+    if ENV.eventSet and ENV.eventSet~="X"then
         if type(ENV.eventSet)=='string'then
             local eventSet=require('parts.eventsets.'..ENV.eventSet)
             if eventSet then
                 for k,v in next,eventSet do
-                    ENV[k]=v
+                    assert(type(ENV[k])=='table',"No eventSet method: "..k)
+                    _mergeFuncTable(v,ENV[k])
                 end
             else
                 MES.new('warn',"No event set called: "..ENV.eventSet)
@@ -367,9 +383,8 @@ local function _applyGameEnv(P)--Finish gameEnv processing
         end
     end
 
-    --Apply events
-    if type(ENV.dropPiece)=='function'then ENV.dropPiece={ENV.dropPiece} else ENV.dropPiece=TABLE.shift(ENV.dropPiece) end
-    if type(ENV.task)=='function'then P:newTask(ENV.task) else for i=1,#ENV.task do P:newTask(ENV.task[i])end end
+    --Load tasks
+    for i=1,#ENV.task do P:newTask(ENV.task[i])end
 end
 --------------------------</Libs>--------------------------
 

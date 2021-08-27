@@ -106,7 +106,7 @@ scene.widgetList={
         code=function(v)BGM.playing:seek(v*BGM.playing:getDuration())end,
         hideF=function()return not BGM.nowPlay end
     },
-    WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval("bgm"),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+    WIDGET.newSlider{name="bgm",  x=760,y=80,w=400,disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
     WIDGET.newButton{name="up",   x=200,y=250,w=120,code=pressKey"up",hideF=function()return selected==1 end,fText=GC.DO{32,32,{'setLW',4},{'line',2,28,16,4,30,28}}},
     WIDGET.newButton{name="play", x=200,y=390,w=120,code=pressKey"space",fText=GC.DO{64,64,{'fPoly',14+3,10,14+3,54,55+3,32}}},
     WIDGET.newButton{name="down", x=200,y=530,w=120,code=pressKey"down",hideF=function()return selected==#bgmList end,fText=GC.DO{32,32,{'setLW',4},{'line',2,4,16,28,30,4}}},
