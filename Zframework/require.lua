@@ -8,8 +8,10 @@ return function(libName)
                 local arch=p:read('*a'):lower()
                 p:close()
                 return
-                    arch=='aarch64'or arch=='arm64'and'arm64-v8a'or
-                    'armeabi-v7a'
+                    (arch=='aarch64'or arch=='arm64')and
+                        'arm64-v8a'
+                    or
+                        'armeabi-v7a'
             end)()
             love.filesystem.write(
                 'lib/libCCloader.so',
