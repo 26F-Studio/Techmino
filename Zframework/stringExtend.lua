@@ -54,14 +54,17 @@ function STRING.simpEmailCheck(e)
     return true
 end
 
-function STRING.time(s)
-    if s<60 then
-        return format("%.3f\"",s)
-    elseif s<3600 then
-        return format("%d'%05.2f\"",int(s/60),s%60)
+function STRING.time_simp(t)
+    return format("%02d:%02d",int(t/60),int(t%60))
+end
+
+function STRING.time(t)
+    if t<60 then
+        return format("%.3f\"",t)
+    elseif t<3600 then
+        return format("%d'%05.2f\"",int(t/60),int(t%60))
     else
-        local h=int(s/3600)
-        return format("%d:%.2d'%05.2f\"",h,int(s/60%60),s%60)
+        return format("%d:%.2d'%05.2f\"",int(t/3600),int(t/60%60),int(t%60))
     end
 end
 
