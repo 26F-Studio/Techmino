@@ -44,7 +44,7 @@ local multiple=GC.DO{15,15,
     {'line',2,2,12,12},
     {'line',2,12,12,2},
 }
-local playerBoarder=GC.DO{334,620,
+local playerborder=GC.DO{334,620,
     {'setLW',2},
     {'setCL',.97,.97,.97},
     {'dRect',16,1,302,618,5},
@@ -832,7 +832,7 @@ function draw.norm(P,repMode)
         gc_pop()
             --Draw Frame and buffers
             gc_setColor(P.frameColor)
-            gc_draw(playerBoarder,-17,-12)
+            gc_draw(playerborder,-17,-12)
             _drawBuffer(P.atkBuffer,ENV.bufferWarn,P.atkBufferSum1,P.atkBufferSum)
             _drawB2Bbar(P.b2b,P.b2b1)
             _drawLDI(ENV.easyFresh,P.lockDelay/ENV.lock,P.freshTime)
@@ -919,7 +919,7 @@ function draw.small(P)
             end end
         end
 
-        --Draw boarder
+        --Draw border
         if P.alive then
             gc_setLineWidth(2)
             gc_setColor(P.frameColor)

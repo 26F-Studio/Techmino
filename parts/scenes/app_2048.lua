@@ -466,7 +466,7 @@ function scene.draw()
     local d=25-prevSpawnTime*25
     rectangle('line',x*160+163-d,y*160-117-d,154+2*d,154+2*d,15)
 
-    --Touch control boarder line
+    --Touch control border line
     if tapControl then
         gc.setLineWidth(6)
         setColor(1,1,1,.2)
