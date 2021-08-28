@@ -20,7 +20,12 @@ function baseBot.update(bot)
                     bot.runningThread=false
                 end
             else
-                P:act_hardDrop()
+                bot.delay=math.min(10,bot.delay-1)
+                if bot.delay==0 then
+                    P:pressKey(6)
+                    P:releaseKey(6)
+                    bot.delay=10
+                end
             end
         elseif bot.delay<=0 then
             if keys[1]>3 then
@@ -28,7 +33,8 @@ function baseBot.update(bot)
             else
                 bot.delay=bot.delay0*.4
             end
-            P:pressKey(keys[1])P:releaseKey(keys[1])
+            P:pressKey(keys[1])
+            P:releaseKey(keys[1])
             rem(keys,1)
         end
     end
