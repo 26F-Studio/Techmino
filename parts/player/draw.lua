@@ -891,8 +891,8 @@ function draw.norm(P,repMode)
         ;(P.type=='remote'and _drawFinesseCombo_remote or _drawFinesseCombo_norm)(P)
 
         --Mode informations
-        gc_setColor(.97,.97,.97)
         for i=1,#ENV.mesDisp do
+            gc_setColor(.97,.97,.97)
             ENV.mesDisp[i](P)
         end
 
