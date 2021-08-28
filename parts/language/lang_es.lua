@@ -673,6 +673,7 @@ return{
         ['round_u']=        {"Por Turnos",              "Supremo",       "Modo ajedrez."},
         ['master_n']=       {"Master",                  "Normal",        "Para principiantes en 20G"},
         ['master_h']=       {"Master",                  "Difícil",       "¡Desafío profesional de 20G!"},
+        -- ['master_m']=       {"Master",                  "M21",           "For 20G Masters."},
         ['master_final']=   {"Master",                  "FINAL",         "El verdadero 20G Supremo: el final es inalcanzable."},
         ['master_ex']=      {"GrandMaster",             "EXTRA",         "Para ser un gran maestro, acepta este desafío"},
         ['rhythm_e']=       {"Al Ritmo",                "Fácil",         "Maratón rítmica de 200 líneas con bajo bpm."},

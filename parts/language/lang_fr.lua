@@ -675,6 +675,7 @@ return{
         ['round_u']=       {"Tour à tour",     "ULTIME",      "Mode échecs"},
         ['master_n']=      {"Master",          "NORMAL",      "Pour les débutants en 20G."},
         ['master_h']=      {"Master",          "DIFFICILE",   "Challenge 20G pro !"},
+        -- ['master_m']=      {"Master",          "M21",         "For 20G Masters."},
         ['master_final']=  {"Master",          "FINAL",       "20G : Un point final impossible à atteindre !"},
         -- ['master_ph']=  {"Mester",          "FANTASMA",       "20G: ???"},
         ['master_ex']=     {"GrandMaster",     "EXTRA",       "Tentez de devenir un Grandmaster."},

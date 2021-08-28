@@ -768,6 +768,7 @@ return{
         ['round_u']=       {"Turn-Based",        "ULTIMATE",   "Chess mode"},
         ['master_n']=      {"Master",            "NORMAL",     "For 20G beginners."},
         ['master_h']=      {"Master",            "HARD",       "For 20G pros."},
+        ['master_m']=      {"Master",            "M21",        "For 20G Masters."},
         ['master_final']=  {"Master",            "FINAL",      "20G and beyond."},
         ['master_ph']=     {"Master",            "PHANTASM",    "???"},
         ['master_ex']=     {"GrandMaster",       "EXTRA",      "An eternity shorter than an instant."},

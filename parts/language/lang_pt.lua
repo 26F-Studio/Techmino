@@ -757,6 +757,7 @@ return{
         ['round_u']=            {"Baseado Turnos",   "ULTIMATE",     "Modo xadrez"},
         ['master_n']=           {"Mestre",           "NORMAL",       "Pra iniciantes de 20G."},
         ['master_h']=           {"Mestre",           "DIFÍCIL",      "Desafio 20G profissional!"},
+        -- ['master_m']=           {"Master",           "M21",          "For 20G Masters."},
         ['master_final']=       {"Mestre",           "FINAL",        "20G: Final inalcançável!"},
         ['master_ph']=          {"Mestre",           "FANTASMA",     "20G: ???"},
         ['master_ex']=          {"GrandMaster",      "EXTRA",        "Para ser um Grand Master, aceite \nesse desafio."},

@@ -44,7 +44,8 @@ return{
     {name='round_u',       x=-1400,     y=-800,     size=40,shape=1,icon="round"},
 
     {name='master_n',      x=0,         y=-1000,    size=40,shape=1,icon="master",      unlock={'master_h'}},
-    {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph'}},
+    {name='master_h',      x=0,         y=-1200,    size=40,shape=3,icon="master",      unlock={'master_final','master_ex','master_ph','master_m'}},
+    {name='master_m',      x=-150,      y=-1320,    size=30,shape=3,icon="master"},
     {name='master_final',  x=0,         y=-1600,    size=40,shape=2,icon="master"},
     {name='master_ph',     x=-150,      y=-1500,    size=40,shape=2,icon="master"},
     {name='master_ex',     x=150,       y=-1500,    size=40,shape=2,icon="master_ex"},
