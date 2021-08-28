@@ -893,7 +893,7 @@ function draw.norm(P,repMode)
         --Mode informations
         for i=1,#ENV.mesDisp do
             gc_setColor(.97,.97,.97)
-            ENV.mesDisp[i](P)
+            ENV.mesDisp[i](P,repMode)
         end
 
         if P.frameRun<180 then _drawStartCounter(P.frameRun)end
