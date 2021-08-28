@@ -102,7 +102,7 @@ scene.widgetList={
     WIDGET.newSwitch{name="bone",           x=1170,y=930,disp=ROOMval('bone'),     code=ROOMrev('bone')},
 
     --Rule set
-    WIDGET.newSelector{name="eventSet",     x=310,y=880,w=360,color='H',list=sList.eventSet,disp=CUSval('eventSet'),code=CUSsto('eventSet')},
+    WIDGET.newSelector{name="eventSet",     x=310,y=880,w=360,color='H',list=sList.eventSet,disp=ROOMval('eventSet'),code=ROOMsto('eventSet')},
 
     --Next & Hold
     WIDGET.newSlider{name="nextCount",      x=140,y=960,w=200,unit=6,  disp=ROOMval('nextCount'),code=ROOMsto('nextCount')},
