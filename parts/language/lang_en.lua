@@ -298,6 +298,8 @@ return{
             deepDrop="Deep Drop",
             bone="Bone Blocks",
 
+            eventSet="Rule Set",
+
             nextCount="Next",
             holdCount="Hold",
             infHold="Infinite Hold",
@@ -458,7 +460,6 @@ return{
         },
         customGame={
             title="Custom Game",
-            subTitle="Basic",
             defSeq="Default Seq.",
             noMsn="No missions",
 
@@ -481,6 +482,8 @@ return{
             field="Edit Field (F)",
             sequence="Edit Sequence (S)",
             mission="Edit Mission (M)",
+
+            eventSet="Rule Set",
 
             nextCount="Next",
             holdCount="Hold",

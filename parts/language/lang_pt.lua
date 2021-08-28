@@ -286,6 +286,8 @@ return{
             -- deepDrop="Deep Drop",
             bone="Bone Blocks",
 
+            -- eventSet="Rule Set",
+
             nextCount="Prox.",
             holdCount="Segurar",
             infHold="Segurar Infinito",
@@ -446,7 +448,6 @@ return{
         },
         customGame={
             title="Jogo person.",
-            subTitle="Básico",
             defSeq="Seq. Padrão",
             noMsn="Sem missões",
 
@@ -469,6 +470,8 @@ return{
             field="Editar Tab. (F)",
             sequence="Editar Sequência (S)",
             mission="Editar Missão (M)",
+
+            -- eventSet="Rule Set",
 
             nextCount="Prox.",
             holdCount="Segurar",

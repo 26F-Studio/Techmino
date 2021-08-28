@@ -298,6 +298,8 @@ return{
             deepDrop="深降",
             bone="骨块",
 
+            eventSet="规则包",
+
             nextCount="Next",
             holdCount="Hold",
             infHold="无限Hold",
@@ -457,7 +459,6 @@ return{
         },
         customGame={
             title="自定义游戏",
-            subTitle="基本",
             defSeq="默认序列",
             noMsn="无任务",
 
@@ -480,6 +481,8 @@ return{
             field="场地编辑(F)",
             sequence="序列编辑(S)",
             mission="任务编辑(M)",
+
+            eventSet="规则包",
 
             nextCount="Next",
             holdCount="Hold",

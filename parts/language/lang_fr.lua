@@ -260,6 +260,8 @@ return{
             -- deepDrop="Deep Drop",
             bone="Crochets",
 
+            -- eventSet="Rule Set",
+
             nextCount="Prévisualisations de pièces",
             holdCount="Réserve",
             infHold="Réserver une fois",
@@ -424,7 +426,6 @@ return{
         },
         customGame={
             title="Mode personnalisé",
-            subTitle="Basique",
             defSeq="Séquence par défaut",
             noMsn="Pas de mission",
 
@@ -447,6 +448,8 @@ return{
             field="Modifier la matrice (F)",
             sequence="Modifier la séquence (S)",
             mission="Modifier la mission(M)",
+
+            -- eventSet="Rule Set",
 
             nextCount="Prévisualisations de pièces",
             holdCount="Réserve",

@@ -264,6 +264,8 @@ return{
             deepDrop="Deep Drop",
             bone="Bone Block",
 
+            -- eventSet="Rule Set",
+
             nextCount="Siguiente",
             holdCount="Reserva",
             infHold="Reserva Inft.",
@@ -422,7 +424,6 @@ return{
         },
         customGame={
             title="Juego Personalizado",
-            subTitle="Básico",
             defSeq="Sec. por defecto",
             noMsn="Sin misión",
 
@@ -445,6 +446,8 @@ return{
             field="Editar Tablero (F)",
             sequence="Editar Secuencia (S)",
             mission="Editar Misiones (M)",
+
+            -- eventSet="Rule Set",
 
             nextCount="Siguiente",
             holdCount="Reserva",

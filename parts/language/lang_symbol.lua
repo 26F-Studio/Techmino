@@ -131,6 +131,66 @@ return{
             quit="X (Q)",
             tas="#&; (T)",
         },
+        net_menu={
+            league="TL",
+            ffa="FFA",
+            rooms="< >",
+            logout="@_@x",
+        },
+        net_league={
+            match="!",
+        },
+        net_rooms={
+            password="***",
+            refreshing="R...",
+            noRoom="X_X",
+            refresh="R",
+            new="+< >",
+            join="→< >",
+        },
+        net_newRoom={
+            title="!@#$%^&*",
+            roomName="xxx",
+            password="******",
+            description="...",
+
+            life="<R>",
+            pushSpeed="_↑__",
+            garbageSpeed="#↑↑",
+            visible="?=",
+            freshLimit="@",
+
+            fieldH="↑[]↓",
+            bufferLimit="^↑",
+            heightLimit="#↑",
+
+            drop="↓",
+            lock="↓_",
+            wait="→=",
+            fall="↓=",
+
+            capacity="<0/?>",
+            create=">",
+
+            ospin="O→Any",
+            fineKill="12 XX 21",
+            b2bKill="_1 XX",
+            easyFresh="↓_↓_↓_",
+            deepDrop="\\↓↓/",
+            bone="[]",
+
+            eventSet="Rule Set",
+
+            nextCount="→",
+            holdCount="[ ]",
+            infHold="∞*[ ]",
+            phyHold="P-[ ]",
+        },
+        net_game={
+            ready="!_!",
+            spectate="-_-",
+            cancel="x",
+        },
         setting_game={
             title="%~~%",
 
@@ -280,7 +340,6 @@ return{
         },
         customGame={
             title="!@#$%^&*",
-            subTitle="!!",
             defSeq="0-[123]",
             noMsn="-x-",
 
@@ -303,6 +362,8 @@ return{
             field="Edit Field (F)",
             sequence="Edit Sequence (S)",
             mission="Edit Mission (M)",
+
+            eventSet="Rule Set",
 
             nextCount="→",
             holdCount="[ ]",
