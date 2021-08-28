@@ -14,6 +14,7 @@ return{
         P.gameEnv.irs=false
         P.gameEnv.ims=false
         P.gameEnv.drop=3
+        P.lockDelay=3
         P.gameEnv.lock=3
         P.gameEnv.wait=10
         P.gameEnv.fall=25
