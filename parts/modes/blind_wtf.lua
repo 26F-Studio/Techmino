@@ -1,10 +1,10 @@
-local boarder=GC.DO{334,620,
+local border=GC.DO{334,620,
     {'setLW',2},
     {'setCL',.97,.97,.97},
     {'dRect',16,1,302,618,5},
     {'fRect',17,612,300,2},
-    {'dRect',318,9,15,596,3},
-    {'dRect',1,9,15,596,3},
+    {'dRect',318,10,15,604,3},
+    {'dRect',1,10,15,604,3},
 }
 local gc=love.graphics
 local sin,min=math.sin,math.min
@@ -26,10 +26,16 @@ return{
                     gc.rectangle('fill',0,0,SCR.w,SCR.h)
                 else
                     gc.clear(.2,.2,.2)
-                    gc.translate(150,0)
                     gc.setColor(.5,.5,.5)
-                    --Frame
-                    gc.draw(boarder,-17,-12)
+
+                    --Frame & Username
+                    gc.setColor(.8,.8,.8)
+                    gc.setLineWidth(2)
+                    gc.rectangle('line',12,20,100,80,5)
+                    gc.rectangle('line',488,20,100,80,5)
+                    gc.draw(border,-17+150,-12)
+                    setFont(30)
+                    mStr(P.username,300,-60)
                 end
                 gc.pop()
             end
