@@ -7,11 +7,11 @@ return function(libName)
                 local p=io.popen('uname -m')
                 local arch=p:read('*a'):lower()
                 p:close()
-                return
-                    (arch=='aarch64'or arch=='arm64')and
-                        'arm64-v8a'
-                    or
-                        'armeabi-v7a'
+                if arch:find('v8')or arch:find('64')then
+                    return'arm64-v8a'
+                else
+                    return'armeabi-v7a'
+                end
             end)()
             love.filesystem.write(
                 'lib/libCCloader.so',
