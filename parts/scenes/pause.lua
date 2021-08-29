@@ -275,9 +275,9 @@ function scene.draw()
                 gc.setColor(c[1],c[2],c[3],T2)
                 gc.print(rank,405,383)
                 if trophy then
-                    setFont(20)
+                    setFont(30)
                     gc.setColor(trophyColor[1],trophyColor[2],trophyColor[3],T2*2-1)
-                    gc.printf(trophy,95-120*(1-T2^.5),398,300,'right')
+                    gc.printf(trophy,95-120*(1-T2^.5),390,300,'right')
                 end
             end
             gc.pop()
