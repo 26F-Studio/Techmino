@@ -517,17 +517,17 @@ end
 local ws_deadImg=GC.DO{20,20,
     {'setFT',20},
     {'setCL',1,.3,.3},
-    {'print',"X",3,-1},
+    {'mText',"X",11,-1},
 }
 local ws_connectingImg=GC.DO{20,20,
     {'setFT',20},
     {'setLW',3},
-    {'print',"C",3,-1},
+    {'mText',"C",11,-1},
 }
 local ws_runningImg=GC.DO{20,20,
     {'setFT',20},
     {'setCL',.5,1,0},
-    {'print',"R",3,-1},
+    {'mText',"R",11,-1},
 }
 local cursorImg=GC.DO{16,16,
     {'fCirc',8,8,4},
