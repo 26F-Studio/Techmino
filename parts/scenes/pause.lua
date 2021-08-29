@@ -185,6 +185,7 @@ local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
 for i=1,6 do hexList[i]=hexList[i]*150 end
 local textPos={90,131,-90,131,-200,-25,-90,-181,90,-181,200,-25}
 local dataPos={90,143,-90,143,-200,-13,-90,-169,90,-169,200,-13}
+local tasText=gc.newText(getFont(100),"TAS")
 function scene.draw()
     local T=timer1*.02
     local T2=timer2*.04
@@ -221,13 +222,8 @@ function scene.draw()
     end
 
     if GAME.tasUsed then
-        gc.push('transform')
-        gc.translate(560,205)
-        gc.scale(2.6)
-        setFont(100)
         gc.setColor(.97,.97,.97,T*.08)
-        gc.print("TAS",50,-23,.3)
-        gc.pop()
+        mDraw(tasText,870,395,.3,2.6)
     end
 
     --Big info frame

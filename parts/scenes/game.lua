@@ -329,12 +329,9 @@ local function _drawAtkPointer(x,y)
 end
 function scene.draw()
     if tasMode then
-        gc.push('transform')
-        gc.scale(4)
         setFont(100)
         gc.setColor(.4,.4,.4,.5)
-        gc.draw(tasText,72,20)
-        gc.pop()
+        mDraw(tasText,640,360,nil,5)
     end
 
     local repMode=GAME.replaying or tasMode
