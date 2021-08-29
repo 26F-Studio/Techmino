@@ -79,7 +79,7 @@ function MES.new(icon,str,time)
         backColor=backColors[icon]or backColor
         icon=mesIcon[icon]
     end
-    local t=gc.newText(getFont(30),str)
+    local t=gc.newText(FONT.get(30),str)
     local w=math.max(t:getWidth()+(icon and 45 or 5),200)+20
     local h=math.max(t:getHeight(),46)+3
     local L={w,h,

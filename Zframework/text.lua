@@ -4,7 +4,7 @@ local gc_translate,gc_scale,gc_rotate,gc_shear=gc.translate,gc.scale,gc.rotate,g
 
 local int,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
-local setFont,mStr=setFont,mStr
+local mStr=mStr
 
 local texts={}
 
@@ -122,7 +122,7 @@ function TEXT.draw(list)
         local t=list[i]
         local p=t.c
         gc_setColor(1,1,1,p<.2 and p*5 or p<.8 and 1 or 5-p*5)
-        setFont(t.font)
+        FONT.set(t.font)
         t:draw()
     end
 end

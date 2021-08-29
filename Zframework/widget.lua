@@ -15,9 +15,9 @@ local next=next
 local int,ceil,abs=math.floor,math.ceil,math.abs
 local max,min=math.max,math.min
 local sub,ins,rem=string.sub,table.insert,table.remove
-local getFont,setFont,mStr=getFont,setFont,mStr
 local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
+local mStr=mStr
 
 local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
 local upArrowIcon=GC.DO{40,25,{'fPoly',0,25,20,0,40,25}}
@@ -28,7 +28,7 @@ local clearIcon=GC.DO{40,40,
 }
 local sureIcon=GC.DO{40,40,
     {'setFT',35},
-    {'mText',"?",20,-6},
+    {'mText',"?",20,0},
 }
 local smallerThen=GC.DO{20,20,
     {'setLW',5},
@@ -137,7 +137,7 @@ function button:reset()
 end
 function button:setObject(obj)
     if type(obj)=='string'or type(obj)=='number'then
-        self.obj=gc.newText(getFont(self.font),obj)
+        self.obj=gc.newText(FONT.get(self.font),obj)
     elseif obj then
         self.obj=obj
     end
@@ -264,7 +264,7 @@ function key:reset()
 end
 function key:setObject(obj)
     if type(obj)=='string'or type(obj)=='number'then
-        self.obj=gc.newText(getFont(self.font),obj)
+        self.obj=gc.newText(FONT.get(self.font),obj)
     elseif obj then
         self.obj=obj
     end
@@ -535,7 +535,7 @@ function slider:draw()
 
     --Float text
     if self.TAT>0 and self.show then
-        setFont(25)
+        FONT.set(25)
         gc_setColor(.97,.97,.97,self.TAT/180)
         mStr(self:show(),cx,by-30)
     end
@@ -711,7 +711,7 @@ function selector:draw()
     gc_setColor(self.color)
     GC.simpX(self.obj,x+w*.5,y+17-21)
     gc_setColor(1,1,1)
-    setFont(30)
+    FONT.set(30)
     mStr(self.selText,x+w*.5,y+43-21)
 end
 function selector:getInfo()
@@ -850,7 +850,7 @@ function inputBox:draw()
     gc_rectangle('line',x,y,w,h,3)
 
     --Drawable
-    setFont(self.font)
+    FONT.set(self.font)
     if self.obj then
         mDraw_Y(self.obj,x-12-self.obj:getWidth(),y+h*.5)
     end
@@ -860,7 +860,7 @@ function inputBox:draw()
         end
     else
         gc_printf(self.value,x+10,y,self.w)
-        setFont(self.font-10)
+        FONT.set(self.font-10)
         if WIDGET.sel==self then
             gc_print(EDITING,x+10,y+12-self.font*1.4)
         end
@@ -1007,7 +1007,7 @@ function textBox:draw()
     gc_rectangle('line',x,y,w,h,3)
 
     --Texts
-    setFont(self.font)
+    FONT.set(self.font)
     gc_push('transform')
         gc_translate(x,y)
 
@@ -1282,7 +1282,7 @@ function WIDGET.setLang(widgetText)
                     W.color=COLOR.dV
                 end
                 if type(t)=='string'and W.font then
-                    t=gc.newText(getFont(W.font),t)
+                    t=gc.newText(FONT.get(W.font),t)
                 end
                 W.obj=t
             end

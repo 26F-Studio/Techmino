@@ -44,11 +44,11 @@ SCN=        require'Zframework.scene'
 LIGHT=      require'Zframework.light'
 
 --Love-based modules (complex)
-GC=require'Zframework.gcExtend'
+GC=         require'Zframework.gcExtend'
     mStr=GC.str
     mText=GC.simpX
     mDraw=GC.draw
-require'Zframework.setFont'
+FONT=       require'Zframework.font'
 TEXT=       require'Zframework.text'
 SYSFX=      require'Zframework.sysFX'
 MES=        require'Zframework.message'
@@ -68,7 +68,7 @@ local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
 local gc_draw,gc_line,gc_print=gc.draw,gc.line,gc.print
 
-local setFont,mStr=setFont,mStr
+local mStr=mStr
 
 local int,rnd,abs=math.floor,math.random,math.abs
 local min,sin=math.min,math.sin
@@ -114,7 +114,7 @@ local function updatePowerInfo()
             end
             gc.rectangle('fill',76,6,pow*.22,14)
             if pow<100 then
-                setFont(15)
+                FONT.set(15)
                 gc.setColor(COLOR.D)
                 gc_print(pow,77,1)
                 gc_print(pow,77,3)
@@ -126,7 +126,7 @@ local function updatePowerInfo()
         end
         gc_draw(batteryImg,73,3)
     end
-    setFont(25)
+    FONT.set(25)
     gc_print(os.date("%H:%M"),3,-5)
     gc_pop()
     gc.setCanvas()
@@ -388,7 +388,7 @@ function love.resize(w,h)
     if BG.resize then BG.resize(w,h)end
     if SCN.resize then SCN.resize(w,h)end
     WIDGET.resize(w,h)
-    resetFont()
+    FONT.reset()
 
     SHADER.warning:send('w',w*SCR.dpi)
 end
@@ -475,9 +475,9 @@ function love.errorhandler(msg)
             gc_clear(.3,.5,.9)
             gc_push('transform')
             gc_replaceTransform(SCR.xOy)
-            setFont(100)gc_print(":(",100,0,0,1.2)
-            setFont(40)gc.printf(errorMsg,100,160,SCR.w0-100)
-            setFont(20)
+            FONT.set(100)gc_print(":(",100,0,0,1.2)
+            FONT.set(40)gc.printf(errorMsg,100,160,SCR.w0-100)
+            FONT.set(20)
             gc_print(SYSTEM.."-"..VERSION.string.."                          scene:"..(SCN and SCN.cur or"NULL"),100,660)
             gc.printf(err[1],100,360,1260-100)
             gc_print("TRACEBACK",100,450)
@@ -517,16 +517,17 @@ end
 local ws_deadImg=GC.DO{20,20,
     {'setFT',20},
     {'setCL',1,.3,.3},
-    {'print',"X",3,-4},
+    {'print',"X",3,-1},
 }
 local ws_connectingImg=GC.DO{20,20,
+    {'setFT',20},
     {'setLW',3},
-    {'dArc',11.5,10,6.26,1,5.28},
+    {'print',"C",3,-1},
 }
 local ws_runningImg=GC.DO{20,20,
     {'setFT',20},
     {'setCL',.5,1,0},
-    {'print',"R",3,-4},
+    {'print',"R",3,-1},
 }
 local cursorImg=GC.DO{16,16,
     {'fCirc',8,8,4},
@@ -642,11 +643,11 @@ function love.run()
                 gc_replaceTransform(SCR.xOy_d)
                     --Draw Version string
                     gc_setColor(.8,.8,.8,.4)
-                    setFont(20)
+                    FONT.set(20)
                     mStr(VERSION.string,0,-30)
                 gc_replaceTransform(SCR.xOy_dl)
                     --Draw FPS
-                    setFont(15)
+                    FONT.set(15)
                     gc_setColor(1,1,1)
                     gc_print(FPS(),safeX+5,-20)
 
