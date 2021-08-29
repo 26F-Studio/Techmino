@@ -13,7 +13,7 @@ function FONT.set(s)
         currentFontSize=s
     end
 end
-function FONT.get(s)print(1)
+function FONT.get(s)
     if not fontCache[s]then
         fontCache[s]=gc.setNewFont(s,'light',gc.getDPIScale()*SCR.k*2)
     end

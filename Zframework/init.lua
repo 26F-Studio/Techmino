@@ -127,7 +127,7 @@ local function updatePowerInfo()
         gc_draw(batteryImg,58,3)
     end
     FONT.set(25)
-    gc_print(os.date("%H:%M"),5,-2)
+    gc_print(os.date("%H:%M"),5,-3)
     gc_pop()
     gc.setCanvas()
 end

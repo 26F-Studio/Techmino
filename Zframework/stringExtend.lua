@@ -62,9 +62,9 @@ function STRING.time(t)
     if t<60 then
         return format("%.3f\"",t)
     elseif t<3600 then
-        return format("%d'%05.2f\"",int(t/60),int(t%60))
+        return format("%d'%05.2f\"",int(t/60),t%60)
     else
-        return format("%d:%.2d'%05.2f\"",int(t/3600),int(t/60%60),int(t%60))
+        return format("%d:%.2d'%05.2f\"",int(t/3600),int(t/60%60),t%60)
     end
 end
 
