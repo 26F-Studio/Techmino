@@ -244,10 +244,10 @@ function Player:switchKey(id,on)
 end
 function Player:set20G(if20g)
     self._20G=if20g
-    self:switchKey(13,not if20g)
+    local f=not self.gameEnv.noTele and not if20g
     self:switchKey(14,not if20g)
-    self:switchKey(15,not if20g)
-    self:switchKey(16,not if20g)
+    self:switchKey(15,f)
+    self:switchKey(16,f)
     if if20g and self.bot then self.bot:switch20G()end
 end
 function Player:setHold(count)--Set hold count (false/true as 0/1)
