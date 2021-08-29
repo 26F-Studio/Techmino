@@ -3,15 +3,16 @@ local passPoint=16
 
 return{
     mesDisp=function(P)
-        mText(drawableText.line,63,300)
+        mText(drawableText.line,63,310)
         mText(drawableText.techrash,63,420)
-        mText(drawableText.grade,63,170)
+        mText(drawableText.grade,63,180)
+        setFont(20)
+        mStr(("%.1f"):format(P.modeData.rankPoint/10),63,208)
         setFont(55)
         mStr(P.modeData.rankName,63,110)
-        setFont(20)
-        mStr(("%.1f"):format(P.modeData.rankPoint/10),63,198)
         setFont(75)
-                mStr(P.stat.clears[4],63,340)
+        mStr(P.stat.row,63,230)
+        mStr(P.stat.clears[4],63,340)
     end,
     dropPiece=function(P)
         if P.modeData.rankPoint<140-passPoint then--If Less then X
