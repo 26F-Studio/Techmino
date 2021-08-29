@@ -1986,18 +1986,20 @@ function Player:act_down1()
 end
 function Player:act_down4()
     if self.cur and self.curY>self.ghoY then
+        local ghoY0=self.ghoY
         self.ghoY=max(self.curY-4,self.ghoY)
         self:createDropFX()
-        self.curY=self.ghoY
+        self.curY,self.ghoY=self.ghoY,ghoY0
         self:freshBlock('fresh')
         self.spinLast=false
     end
 end
 function Player:act_down10()
     if self.cur and self.curY>self.ghoY then
+        local ghoY0=self.ghoY
         self.ghoY=max(self.curY-10,self.ghoY)
         self:createDropFX()
-        self.curY=self.ghoY
+        self.curY,self.ghoY=self.ghoY,ghoY0
         self:freshBlock('fresh')
         self.spinLast=false
     end
