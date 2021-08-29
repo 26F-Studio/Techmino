@@ -12,11 +12,6 @@ return{
             end
         end
         GAME.modeEnv.dropPiece=NULL
-        GAME.modeEnv.mesDisp=function(P)
-            setFont(55)
-            mStr(P.stat.row,63,225)
-            mText(drawableText.line,63,290)
-        end
         ::BREAK_clearMode::
         PLY.newPlayer(1)
         local AItype=GAME.modeEnv.opponent:sub(1,2)

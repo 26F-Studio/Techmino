@@ -38,9 +38,6 @@ return{
         fkey1=function(P)P.modeData.showMark=1-P.modeData.showMark end,
         dropPiece=puzzleCheck,
         mesDisp=function(P)
-            setFont(55)
-            mStr(P.stat.row,63,225)
-            mText(drawableText.line,63,290)
             PLY.draw.applyField(P)
             if P.modeData.showMark==0 then
                 local mark=TEXTURE.puzzleMark
