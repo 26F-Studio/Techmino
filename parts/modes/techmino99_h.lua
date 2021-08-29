@@ -22,6 +22,7 @@ return{
         garbageSpeed=.3,
         pushSpeed=2,
         freshLimit=15,
+        eventSet='royale',
         bg='rainbow',bgm='rockblock',
     },
     load=function()
@@ -51,9 +52,6 @@ return{
             end
             n=n+1
         end end
-    end,
-    mesDisp=function(P)
-        PLY.draw.drawRoyaleInfo(P)
     end,
     score=function(P)return{P.modeData.place,P.modeData.ko}end,
     scoreDisp=function(D)return"NO."..D[1].."   KO:"..D[2]end,
