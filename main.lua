@@ -79,26 +79,26 @@ require'parts.globalTables'
 require'parts.gametoolfunc'
 
 FREEROW=    require'parts.freeRow'
-DATA=        require'parts.data'
+DATA=       require'parts.data'
 
 TEXTURE=    require'parts.texture'
-SKIN=        require'parts.skin'
-USERS=        require'parts.users'
+SKIN=       require'parts.skin'
+USERS=      require'parts.users'
 NET=        require'parts.net'
-VK=            require'parts.virtualKey'
+VK=         require'parts.virtualKey'
 BOT=        require'parts.bot'
-RSlist=        require'parts.RSlist'DSCP=RSlist.TRS.centerPos
+RSlist=     require'parts.RSlist'DSCP=RSlist.TRS.centerPos
 PLY=        require'parts.player'
-netPLY=        require'parts.netPlayer'
-MODES=        require'parts.modes'
+netPLY=     require'parts.netPlayer'
+MODES=      require'parts.modes'
 
 --Load settings and statistics
-TABLE.cover(FILE.load('conf/user')or{},USER)
-TABLE.cover(FILE.load('conf/unlock')or{},RANKS)
+TABLE.cover (FILE.load('conf/user')or{},USER)
+TABLE.cover (FILE.load('conf/unlock')or{},RANKS)
 TABLE.update(FILE.load('conf/settings')or{},SETTING)
 TABLE.update(FILE.load('conf/data')or{},STAT)
-TABLE.cover(FILE.load('conf/key')or{},keyMap)
-TABLE.cover(FILE.load('conf/virtualkey')or{},VK_org)
+TABLE.cover (FILE.load('conf/key')or{},keyMap)
+TABLE.cover (FILE.load('conf/virtualkey')or{},VK_org)
 
 --Initialize fields, sequence, missions, gameEnv for cutsom game
 local fieldData=FILE.load('conf/customBoards')

@@ -17,6 +17,7 @@ local max,min=math.max,math.min
 local sub,ins,rem=string.sub,table.insert,table.remove
 local mDraw,mDraw_X,mDraw_Y=GC.draw,GC.simpX,GC.simpY
 local xOy=SCR.xOy
+local FONT=FONT
 local mStr=mStr
 
 local downArrowIcon=GC.DO{40,25,{'fPoly',0,0,20,25,40,0}}
@@ -850,19 +851,21 @@ function inputBox:draw()
     gc_rectangle('line',x,y,w,h,3)
 
     --Drawable
-    FONT.set(self.font)
+    local f=self.font
+    FONT.set(f)
     if self.obj then
         mDraw_Y(self.obj,x-12-self.obj:getWidth(),y+h*.5)
     end
     if self.secret then
+        y=y+h*.5-f*.2
         for i=1,#self.value do
-            gc_print("*",x-5+self.font*.5*i,y+h*.5-self.font*.7)
+            gc_rectangle("fill",x+f*.6*i,y,f*.4,f*.4)
         end
     else
         gc_printf(self.value,x+10,y,self.w)
-        FONT.set(self.font-10)
+        FONT.set(f-10)
         if WIDGET.sel==self then
-            gc_print(EDITING,x+10,y+12-self.font*1.4)
+            gc_print(EDITING,x+10,y+12-f*1.4)
         end
     end
 end
