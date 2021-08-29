@@ -104,7 +104,7 @@ local virtualkeySet={
 for _,set in next,virtualkeySet do
     for _,key in next,set do
         if key.x<0 then key.x=1280+key.x end
-        if key.y<0 then key.x=720+key.y end
+        if key.y<0 then key.y=720+key.y end
     end
 end
 --Virtualkey icons
