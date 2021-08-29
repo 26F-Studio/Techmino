@@ -54,7 +54,7 @@ jobs:
         7z x .\resource_hacker.zip
     - name: Pack Techmino
       run: |
-        7z a -tzip .\Techmino.love .\document .\media .\parts .\Zframework .\conf.lua .\font.ttf .\main.lua .\version.lua
+        7z a -tzip .\Techmino.love .\document .\font .\media .\parts .\Zframework .\conf.lua .\main.lua .\version.lua
         cmd /c copy /b .\love-11.3-win64\love.exe + .\Techmino.love .\love-11.3-win64\Techmino.exe
         del .\love-11.3-win64\love.exe
         del .\love-11.3-win64\lovec.exe
@@ -124,7 +124,7 @@ jobs:
         cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
         chmod 777 ./squashfs-root/love
         mkdir -p ./squashfs-root/usr/share/Techmino
-        mv ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
+        mv ./document ./font ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua ./squashfs-root/usr/share/Techmino
         mv ./ColdClear/CCloader.so ./squashfs-root/usr/share/Techmino
         mv ./ColdClear/libcold_clear.so ./squashfs-root/usr/lib
         chmod 777 ./appimagetool-x86_64.AppImage
@@ -198,7 +198,7 @@ jobs:
         mkdir -p ./libAndroid/armeabi-v7a
         mv ./ColdClear/android_aarch64/libs/arm64-v8a/libCCloader.so ./libAndroid/arm64-v8a
         mv ./ColdClear/android_armv7/libs/armeabi-v7a/libCCloader.so ./libAndroid/armeabi-v7a
-        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./media ./parts ./Zframework ./libAndroid ./conf.lua ./font.ttf ./main.lua ./version.lua
+        7z a -tzip ./love-android/app/src/main/assets/game.love ./document ./font ./media ./parts ./Zframework ./libAndroid ./conf.lua ./main.lua ./version.lua
         echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ./love-android/app/android.keystore
         python3 ./.github/workflows/updateVersion.py -T AndroidSnapshot -C $(lua ./.github/workflows/getVersion.lua -code) -N ${{ env.Version }} -S ${{ secrets.KEY_STORE_PASSWORD }} -A ${{ secrets.ALIAS }} -K ${{ secrets.KEY_PASSWORD }}
         chmod 777 ./love-android/gradlew
@@ -238,7 +238,7 @@ jobs:
         python3 ./.github/workflows/updateVersion.py -T Version -H ${{ env.CommitID }}
     - name: Pack love
       run: |
-        7z a -tzip ./Techmino.love ./document ./media ./parts ./Zframework ./conf.lua ./font.ttf ./main.lua ./version.lua
+        7z a -tzip ./Techmino.love ./document ./font ./media ./parts ./Zframework ./conf.lua ./main.lua ./version.lua
     - name: Download template
       run: |
         curl -OL https://github.com/26F-Studio/Techmino/releases/download/v0.15.1/Techmino.app.zip

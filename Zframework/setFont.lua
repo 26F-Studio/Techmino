@@ -3,11 +3,11 @@ local newFont=gc.setNewFont
 local setNewFont=gc.setFont
 local fontCache,currentFontSize={}
 if
-    love.filesystem.getInfo('barlowCond.ttf')and
-    love.filesystem.getInfo('puhui.ttf')
+    love.filesystem.getInfo('font/barlowCond.ttf')and
+    love.filesystem.getInfo('font/puhui.ttf')
 then
-    local fontData=love.filesystem.newFile('barlowCond.ttf')
-    local fallback=love.filesystem.newFile('puhui.ttf')
+    local fontData=love.filesystem.newFile('font/barlowCond.ttf')
+    local fallback=love.filesystem.newFile('font/puhui.ttf')
     function setFont(s)
         if s~=currentFontSize then
             if not fontCache[s]then
