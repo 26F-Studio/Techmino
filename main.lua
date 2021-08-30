@@ -153,6 +153,7 @@ IMG.init{
 SKIN.init{
     {name="crystal_scf",path='media/image/skin/crystal_scf.png'},
     {name="matte_mrz",path='media/image/skin/matte_mrz.png'},
+    {name="shiny_cho",path='media/image/skin/shiny_cho.png'},
     {name="contrast_mrz",path='media/image/skin/contrast_mrz.png'},
     {name="polkadots_scf",path='media/image/skin/polkadots_scf.png'},
     {name="toy_scf",path='media/image/skin/toy_scf.png'},
