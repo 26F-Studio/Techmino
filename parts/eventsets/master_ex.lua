@@ -2,6 +2,10 @@ local sectionName={"D","C","B","A","A+","S-","S","S+","S+","SS","SS","U","U","X"
 local passPoint=16
 
 return{
+    drop=0,
+    lock=15,
+    wait=15,
+    fall=6,
     mesDisp=function(P)
         mText(drawableText.line,63,310)
         mText(drawableText.techrash,63,420)
@@ -25,12 +29,6 @@ return{
         end
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=15
-        P.gameEnv.lock=15
-        P.gameEnv.wait=15
-        P.gameEnv.fall=6
-
         P.modeData.rankPoint=0
         P.modeData.rankName=sectionName[1]
         while true do

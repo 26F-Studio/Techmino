@@ -1,18 +1,16 @@
 return
 {
+    das=6,
+    arr=2,
+    drop=0,
+    lock=15,
+    wait=6,
+    fall=2,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         PLY.draw.drawTargetLine(P,200-P.stat.row)
     end,
     task=function(P)
-        P.gameEnv.das=6
-        P.gameEnv.arr=2
-        P:set20G(true)
-        P.gameEnv.lock=15
-        P.lockDelay=15
-        P.gameEnv.wait=6
-        P.gameEnv.fall=2
-
         P.modeData.target=10
     end,
     dropPiece=function(P)

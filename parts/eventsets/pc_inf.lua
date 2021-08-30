@@ -1,11 +1,9 @@
 return{
+    heightLimit=4,
     mesDisp=function(P)
         setFont(60)
         mStr(P.stat.pc,63,340)
         mText(drawableText.pc,63,410)
-    end,
-    task=function(P)
-        P.gameEnv.heightLimit=4
     end,
     dropPiece=function(P)
         if P.lastPiece.pc then

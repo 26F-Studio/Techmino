@@ -1,4 +1,8 @@
 return{
+    drop=0,
+    lock=12,
+    wait=10,
+    fall=10,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
@@ -42,12 +46,6 @@ return{
         end
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=12
-        P.gameEnv.lock=12
-        P.gameEnv.wait=10
-        P.gameEnv.fall=10
-
         P.modeData.pt=0
         P.modeData.target=100
     end,

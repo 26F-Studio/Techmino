@@ -1,6 +1,10 @@
 local gc=love.graphics
 
 return{
+    drop=.5,
+    lock=1e99,
+    wait=5,
+    fall=30,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 
@@ -37,11 +41,6 @@ return{
         end
     end,
     task=function(P)
-        P.gameEnv.drop=.5
-        P.gameEnv.lock=1e99
-        P.gameEnv.wait=5
-        P.gameEnv.fall=30
-
         P.modeData.target=10
         P.modeData.bpm=120
         P.modeData.beatFrame=30

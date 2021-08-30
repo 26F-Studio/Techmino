@@ -2,6 +2,10 @@ local gc=love.graphics
 local dropSpeed={[0]=30,26,23,20,17,14,12,10,8,6,5,4,3,2,1,1,.5,.5,.25,.25}
 
 return{
+    drop=30,
+    lock=1e99,
+    wait=10,
+    fall=60,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
 
@@ -32,11 +36,6 @@ return{
         end
     end,
     task=function(P)
-        P.gameEnv.drop=30
-        P.gameEnv.lock=1e99
-        P.gameEnv.wait=10
-        P.gameEnv.fall=60
-
         P.modeData.target=10
         P.modeData.bpm=60
         P.modeData.beatFrame=60

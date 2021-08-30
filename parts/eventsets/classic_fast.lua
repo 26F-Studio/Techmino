@@ -1,4 +1,21 @@
 return{
+    das=16,
+    arr=6,
+    sddas=2,
+    sdarr=2,
+    irs=false,
+    ims=false,
+    drop=3,
+    lock=3,
+    wait=10,
+    fall=25,
+    fieldH=19,
+    nextCount=1,
+    holdCount=0,
+    RS='Classic',
+    sequence='rnd',
+    noTele=true,
+    keyCancel={5,6},
     mesDisp=function(P)
         setFont(75)
         local r=P.modeData.target*.1
@@ -7,25 +24,6 @@ return{
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
     end,
     task=function(P)
-        P.gameEnv.das=16
-        P.gameEnv.arr=6
-        P.gameEnv.sddas=2
-        P.gameEnv.sdarr=2
-        P.gameEnv.irs=false
-        P.gameEnv.ims=false
-        P.gameEnv.drop=3
-        P.lockDelay=3
-        P.gameEnv.lock=3
-        P.gameEnv.wait=10
-        P.gameEnv.fall=25
-        P.gameEnv.fieldH=19
-        P.gameEnv.nextCount=1
-        P.gameEnv.holdCount=0
-        P.gameEnv.RS='Classic'
-        P.gameEnv.sequence='rnd'
-        P.gameEnv.noTele=true
-        P.gameEnv.keyCancel={5,6}
-
         P.modeData.target=10
     end,
     dropPiece=function(P)

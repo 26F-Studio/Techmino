@@ -3,6 +3,10 @@ local death_wait={10, 9, 8,7,6, 6,5,4,4,3}
 local death_fall={10, 9, 8,7,6, 5,5,4,3,3}
 
 return{
+    drop=0,
+    lock=death_lock[1],
+    wait=death_wait[1],
+    fall=death_fall[1],
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
@@ -53,12 +57,6 @@ return{
         end
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=death_lock[1]
-        P.gameEnv.lock=death_lock[1]
-        P.gameEnv.wait=death_wait[1]
-        P.gameEnv.fall=death_fall[1]
-
         P.modeData.pt=0
         P.modeData.target=100
     end,

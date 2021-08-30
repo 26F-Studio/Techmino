@@ -1,14 +1,13 @@
 return
 {
+    drop=.5,
+    wait=8,
+    fall=20,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
         PLY.draw.drawTargetLine(P,200-P.stat.row)
     end,
     task=function(P)
-        P.gameEnv.drop=.5
-        P.gameEnv.wait=8
-        P.gameEnv.fall=20
-
         P.modeData.target=50
     end,
     dropPiece=function(P)
