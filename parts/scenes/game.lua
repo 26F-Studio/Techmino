@@ -8,7 +8,6 @@ local touchMoveLastFrame=false
 local floatGameRate,gameRate
 local modeTextPos
 
-local tasMode
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
 
@@ -17,7 +16,7 @@ local scene={}
 local function _updateMenuButtons()
     WIDGET.active.restart.hide=replaying
 
-    local pos=(tasMode or replaying)and'right'or SETTING.menuPos
+    local pos=(GAME.tasUsed or replaying)and'right'or SETTING.menuPos
     if GAME.replaying or pos=='right'then
         WIDGET.active.restart.x=1125
         WIDGET.active.pause.x=1195
@@ -34,7 +33,7 @@ local function _updateMenuButtons()
 end
 local function _updateRepButtons()
     local L=scene.widgetList
-    if replaying or tasMode then
+    if replaying or GAME.tasUsed then
         for i=1,6 do L[i].hide=false end L[7].hide=true
         if gameRate==0 then
             L[1].hide=true
@@ -107,7 +106,6 @@ local function _restart()
     resetGameData(PLAYERS[1].frameRun<240 and'q')
     noKey=replaying
     noTouch=replaying
-    tasMode=false
     floatGameRate,gameRate=0,1
     _updateRepButtons()
 end
@@ -133,7 +131,6 @@ function scene.sceneInit(org)
         GAME.init=false
     end
 
-    tasMode=GAME.tasUsed
     replaying=GAME.replaying
     noKey=replaying
     noTouch=not SETTING.VKSwitch or replaying
@@ -141,7 +138,7 @@ function scene.sceneInit(org)
     if org~='depause'and org~='pause'then
         floatGameRate,gameRate=0,1
     elseif not replaying then
-        if tasMode then
+        if GAME.tasUsed then
             floatGameRate,gameRate=0,0
         else
             floatGameRate,gameRate=0,1
@@ -216,7 +213,7 @@ function scene.keyDown(key,isRep)
         if isRep then
             return
         elseif _checkGameKeyDown(key)then
-            if tasMode then
+            if GAME.tasUsed then
                 if key=="f1"then
                     if not isRep then gameRate=gameRate==0 and .125 or 0 end
                     _updateRepButtons()
@@ -328,13 +325,14 @@ local function _drawAtkPointer(x,y)
     gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
-    if tasMode then
+    local tas=GAME.tasUsed
+    if tas then
         setFont(100)
         gc.setColor(.4,.4,.4,.5)
         mDraw(tasText,640,360,nil,5)
     end
 
-    local repMode=GAME.replaying or tasMode
+    local repMode=GAME.replaying or tas
 
     --Players
     for p=1,#PLAYERS do
@@ -370,7 +368,7 @@ function scene.draw()
     gc.draw(drawableText.modeName,modeTextPos,10)
 
     --Replaying
-    if replaying or tasMode then
+    if replaying or tas then
         setFont(20)
         gc.setColor(1,1,TIME()%.8>.4 and 1 or 0)
         mStr(text[replaying and'replaying'or'tasUsing'],770,6)
