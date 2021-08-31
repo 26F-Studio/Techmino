@@ -878,7 +878,7 @@ function draw.norm(P,repMode)
 
         --Score & Time
         setFont(25)
-        local tm=int(P.stat.time*100)*.01
+        local tm=STRING.time(P.stat.time)
         gc_setColor(0,0,0,.3)
         gc_print(P.score1,18,509)
         gc_print(tm,18,539)
