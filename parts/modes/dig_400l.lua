@@ -1,22 +1,8 @@
-local function check_rise(P)
-    for _=1,math.min(10,400-P.stat.dig)-P.garbageBeneath do
-        P:garbageRise(21,1,P:getHolePos())
-    end
-    if P.stat.dig==400 then
-        P:win('finish')
-    end
-end
-
 return{
     color=COLOR.orange,
     env={
         pushSpeed=6,
-        dropPiece=check_rise,
-        mesDisp=function(P)
-            setFont(55)
-            mStr(400-P.stat.dig,63,265)
-        end,
-        eventSet='digBase',
+        eventSet='dig_400L',
         bg='bg2',bgm='way',
     },
     score=function(P)return{P.stat.time,P.stat.piece}end,
