@@ -655,7 +655,9 @@ function draw.drawTargetLine(P,r)
         gc_setColor(1,r>10 and 0 or .2+.8*rnd(),.5)
         _applyField(P)
         r=600-30*r
-        if P.falling~=-1 then r=r-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)end
+        if P.falling~=-1 then
+            r=r-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)
+        end
         gc_line(0,r,300,r)
         _cancelField()
     end
@@ -896,7 +898,9 @@ function draw.norm(P,repMode)
             ENV.mesDisp[i](P,repMode)
         end
 
-        if P.frameRun<180 then _drawStartCounter(P.frameRun)end
+        if P.frameRun<180 then
+            _drawStartCounter(P.frameRun)
+        end
     gc_pop()
 end
 function draw.small(P)
@@ -972,7 +976,9 @@ function draw.demo(P)
                 _drawField(P)
                 _drawFXs(P)
                 if P.cur and P.waiting==-1 then
-                    if ENV.ghost then drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)end
+                    if ENV.ghost then
+                        drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)
+                    end
                     if ENV.block then
                         local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
                         gc_translate(0,-dy)

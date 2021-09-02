@@ -120,7 +120,9 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-    if sure>0 then sure=sure-dt end
+    if sure>0 then
+        sure=sure-dt
+    end
 end
 
 function scene.draw()

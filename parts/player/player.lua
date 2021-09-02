@@ -248,7 +248,9 @@ function Player:set20G(if20g)
     self:switchKey(14,not if20g)
     self:switchKey(15,f)
     self:switchKey(16,f)
-    if if20g and self.bot then self.bot:switch20G()end
+    if if20g and self.bot then
+        self.bot:switch20G()
+    end
 end
 function Player:setHold(count)--Set hold count (false/true as 0/1)
     if not count then
@@ -287,7 +289,9 @@ function Player:setRS(RSname)
     --Reset all player's blocks' RSs
     for i=1,#self.nextQueue do self.nextQueue[i].RS=rs end
     for i=1,#self.holdQueue do self.holdQueue[i].RS=rs end
-    if self.cur then self.cur.RS=rs end
+    if self.cur then
+        self.cur.RS=rs
+    end
 end
 
 function Player:triggerDropEvents()
@@ -323,7 +327,9 @@ function Player:garbageRelease()--Check garbage buffer and try to release them
             break
         end
     end
-    if flag and self.bot then self.bot:updateField()end
+    if flag and self.bot then
+        self.bot:updateField()
+    end
 end
 function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
     local _
@@ -353,7 +359,9 @@ function Player:garbageRise(color,amount,line)--Release n-lines garbage to field
         _=self.dropFX[i]
         _[3],_[5]=_[3]+amount,_[5]+amount
     end
-    if #self.field>self.gameEnv.heightLimit then self:lose()end
+    if #self.field>self.gameEnv.heightLimit then
+        self:lose()
+    end
 end
 
 local invList={2,1,4,3,5,6,7}
@@ -394,19 +402,29 @@ function Player:getCenterY()
     return self.curY-C.RS.centerPos[C.id][C.dir][1]
 end
 function Player:solid(x,y)
-    if x<1 or x>10 or y<1 then return true end
-    if y>#self.field then return false end
+    if x<1 or x>10 or y<1 then
+        return true
+    end
+    if y>#self.field then
+        return false
+    end
     return self.field[y]
     [x]>0--to catch bug (nil[*])
 end
 function Player:ifoverlap(bk,x,y)
     local C=#bk[1]
-    if x<1 or x+C>11 or y<1 then return true end
-    if y>#self.field then return end
+    if x<1 or x+C>11 or y<1 then
+        return true
+    end
+    if y>#self.field then
+        return
+    end
     for i=1,#bk do
         if self.field[y+i-1]then
             for j=1,C do
-                if bk[i][j]and self.field[y+i-1][x+j-1]>0 then return true end
+                if bk[i][j]and self.field[y+i-1][x+j-1]>0 then
+                    return true
+                end
             end
         end
     end
@@ -443,7 +461,9 @@ end
 function Player:receive(A,send,time,line)
     self.lastRecv=A
     local B=self.atkBuffer
-    if send+self.atkBufferSum>self.gameEnv.bufferLimit then send=self.gameEnv.bufferLimit-self.atkBufferSum end
+    if send+self.atkBufferSum>self.gameEnv.bufferLimit then
+        send=self.gameEnv.bufferLimit-self.atkBufferSum
+    end
     if send>0 then
         local m,k=#B,1
         while k<=m and time>B[k].countdown do k=k+1 end
@@ -492,7 +512,9 @@ function Player:freshTarget()
     end
 end
 function Player:changeAtkMode(m)
-    if self.atkMode==m then return end
+    if self.atkMode==m then
+        return
+    end
     self.atkMode=m
     if m==1 then
         self:changeAtk(randomTarget(self))
@@ -507,7 +529,9 @@ function Player:changeAtk(R)
     if self.atking then
         local K=self.atking.atker
         local i=TABLE.find(K,self)
-        if i then rem(K,i)end
+        if i then
+            rem(K,i)
+        end
     end
     if R then
         self.atking=R
@@ -584,7 +608,10 @@ function Player:lock()
     local CB=self.cur.bk
     for i=1,#CB do
         local y=self.curY+i-1
-        if not self.field[y]then self.field[y],self.visTime[y]=FREEROW.get(0),FREEROW.get(0)end
+        if not self.field[y]then
+            self.field[y]=FREEROW.get(0)
+            self.visTime[y]=FREEROW.get(0)
+        end
         for j=1,#CB[1]do
             if CB[i][j]then
                 self.field[y][self.curX+j-1]=self.cur.color
@@ -742,7 +769,9 @@ function Player:spin(d,ifpre)
 
                 --Fresh ghost and freshTime
                 local t=self.freshTime
-                if not ifpre then self:freshBlock('move')end
+                if not ifpre then
+                    self:freshBlock('move')
+                end
                 if kickData[test][2]>0 and self.freshTime==t and self.curY~=self.imgY then
                     self.freshTime=self.freshTime-1
                 end
@@ -880,7 +909,9 @@ function Player:getBlock(id,name,color)--Get a block object
 end
 function Player:getNext(id)--Push a block to nextQueue
     ins(self.nextQueue,self:getBlock(id))
-    if self.bot then self.bot:pushNewNext(id)end
+    if self.bot then
+        self.bot:pushNewNext(id)
+    end
 end
 function Player:popNext(ifhold)--Pop nextQueue to hand
     local ENV=self.gameEnv
@@ -932,7 +963,9 @@ function Player:cancel(N)--Cancel Garbage
     local off=0--Lines offseted
     local bf=self.atkBuffer
     for i=1,#bf do
-        if self.atkBufferSum==0 or N==0 then break end
+        if self.atkBufferSum==0 or N==0 then
+            break
+        end
         local A=bf[i]
         if not A.sent then
             local O=min(A.amount,N)--Cur Offset
@@ -1107,7 +1140,9 @@ do--Player.drop(self)--Place piece
                 if c~=0 then
                     if self:solid(x-1,y-1)then c=c+1 end
                     if self:solid(x+1,y-1)then c=c+1 end
-                    if c>2 then dospin=dospin+2 end
+                    if c>2 then
+                        dospin=dospin+2
+                    end
                 end
             end
         end
@@ -1119,7 +1154,9 @@ do--Player.drop(self)--Place piece
         self:lock()
 
         --Clear list of cleared-rows
-        if self.clearedRow[1]then TABLE.cut(self.clearedRow)end
+        if self.clearedRow[1]then
+            TABLE.cut(self.clearedRow)
+        end
 
         --Check line clear
         cc=cc+self:checkClear(self.field,CY,#CB,CB,CX)
@@ -1177,7 +1214,9 @@ do--Player.drop(self)--Place piece
         --Finesse check (control)
         local finePts
         if not finesse then
-            if dospin then self.ctrlCount=self.ctrlCount-2 end--Allow 2 more step for roof-less spin
+            if dospin then--Allow 2 more step for roof-less spin
+                self.ctrlCount=self.ctrlCount-2
+            end
             local id=C.id
             local d=self.ctrlCount-finesseList[id][C.dir+1][CX]
             finePts=d<=0 and 5 or max(3-d,0)
@@ -1404,14 +1443,18 @@ do--Player.drop(self)--Place piece
                         self:attack(T,send,sendTime,generateLine(self.atkRND:random(10)))
                     end
                 end
-                if self.sound and send>3 then SFX.play('emit',min(send,7)*.1)end
+                if self.sound and send>3 then
+                    SFX.play('emit',min(send,7)*.1)
+                end
             end
 
             --SFX & Vibrate
             if self.sound then
                 SFX.play(clearSFX[cc]or'clear_4')
                 SFX.play(renSFX[min(cmb,11)])
-                if cmb>14 then SFX.play('ren_mega',(cmb-10)*.1)end
+                if cmb>14 then
+                    SFX.play('ren_mega',(cmb-10)*.1)
+                end
                 VIB(cc+1)
             end
         else--No lines clear
@@ -1453,7 +1496,9 @@ do--Player.drop(self)--Place piece
         end
 
         --Speed bonus
-        if self.dropSpeed>60 then cscore=cscore*(.9+self.dropSpeed/600)end
+        if self.dropSpeed>60 then
+            cscore=cscore*(.9+self.dropSpeed/600)
+        end
 
         cscore=int(cscore)
         self:popScore(cscore)
@@ -1470,7 +1515,9 @@ do--Player.drop(self)--Place piece
                 SFX.play('reach')
                 if self.curMission>#ENV.mission then
                     self.curMission=false
-                    if not finish then finish='finish'end
+                    if not finish then
+                        finish='finish'
+                    end
                 end
             elseif ENV.missionKill then
                 self:_showText(text.missionFailed,0,140,40,'flicker',.5)
@@ -1487,7 +1534,9 @@ do--Player.drop(self)--Place piece
         end
 
         --Check height limit
-        if cc==0 and #self.field>ENV.heightLimit then self:lose()end
+        if cc==0 and #self.field>ENV.heightLimit then
+            self:lose()
+        end
 
         --Update stat
         Stat.piece=Stat.piece+1
@@ -1524,7 +1573,9 @@ do--Player.drop(self)--Place piece
                 self:lose()
             else
                 self:triggerDropEvents()
-                if finish then self:win(finish)end
+                if finish then
+                    self:win(finish)
+                end
             end
         else
             self:triggerDropEvents()
@@ -1563,7 +1614,9 @@ local function task_throwBadge(ifAI,sender,time)
                 SFX.play('collect')
             end
         end
-        if time<=0 then return end
+        if time<=0 then
+            return
+        end
     end
 end
 local function task_finish(self)
@@ -1573,7 +1626,9 @@ local function task_finish(self)
         if self.endCounter<40 then
             --Make field visible
             for j=1,#self.field do for i=1,10 do
-                if self.visTime[j][i]<20 then self.visTime[j][i]=self.visTime[j][i]+.5 end
+                if self.visTime[j][i]<20 then
+                    self.visTime[j][i]=self.visTime[j][i]+.5
+                end
             end end
         elseif self.endCounter==60 then
             return
@@ -1587,7 +1642,9 @@ local function task_lose(self)
         if self.endCounter<40 then
             --Make field visible
             for j=1,#self.field do for i=1,10 do
-                if self.visTime[j][i]<20 then self.visTime[j][i]=self.visTime[j][i]+.5 end
+                if self.visTime[j][i]<20 then
+                    self.visTime[j][i]=self.visTime[j][i]+.5
+                end
             end end
         elseif self.endCounter>80 then
             for i=1,#self.field do
@@ -1662,7 +1719,9 @@ function Player:revive()
         self.field[_],self.visTime[_]=nil
     end
     self.garbageBeneath=0
-    if self.bot then self.bot:revive()end
+    if self.bot then
+        self.bot:revive()
+    end
 
     self:clearAttackBuffer()
 
@@ -1707,13 +1766,24 @@ function Player:win(result)
     self:newTask(task_finish)
 end
 function Player:lose(force)
-    if self.result then return end
+    if self.result then
+        return
+    end
     if not force then
-        if self.life>0 then self:revive()return end
-        if self.type=='remote'then self.waiting=1e99 return end
+        if self.life>0 then
+            self:revive()
+            return
+        end
+        if self.type=='remote'then
+            self.waiting=1e99
+            return
+        end
     end
     self:die()
-    local p=TABLE.find(PLY_ALIVE,self)if p then rem(PLY_ALIVE,p)end
+    do
+        local p=TABLE.find(PLY_ALIVE,self)
+        if p then rem(PLY_ALIVE,p)end
+    end
     self.result='lose'
     if GAME.modeEnv.royaleMode then
         self:changeAtk()
@@ -1792,8 +1862,12 @@ function Player:act_moveLeft(auto)
             self:createMoveFX('left')
             self.curX=self.curX-1
             self:freshBlock('move')
-            if self.sound and self.curY==self.ghoY then SFX.play('move')end
-            if not auto then self.moving=0 end
+            if self.sound and self.curY==self.ghoY then
+                SFX.play('move')
+            end
+            if not auto then
+                self.moving=0
+            end
             self.spinLast=false
         else
             self.moving=self.gameEnv.das
@@ -1817,8 +1891,12 @@ function Player:act_moveRight(auto)
             self:createMoveFX('right')
             self.curX=self.curX+1
             self:freshBlock('move')
-            if self.sound and self.curY==self.ghoY then SFX.play('move')end
-            if not auto then self.moving=0 end
+            if self.sound and self.curY==self.ghoY then
+                SFX.play('move')
+            end
+            if not auto then
+                self.moving=0
+            end
             self.spinLast=false
         else
             self.moving=self.gameEnv.das
@@ -1924,7 +2002,9 @@ function Player:act_func2()
 end
 
 function Player:act_insLeft(auto)
-    if not self.cur then return end
+    if not self.cur then
+        return
+    end
     local x0=self.curX
     while not self:ifoverlap(self.cur.bk,self.curX-1,self.curY)do
         self:createMoveFX('left')
@@ -1938,13 +2018,17 @@ function Player:act_insLeft(auto)
         self.fieldOff.vx=-.5
     end
     if auto then
-        if self.ctrlCount==0 then self.ctrlCount=1 end
+        if self.ctrlCount==0 then
+            self.ctrlCount=1
+        end
     else
         self.ctrlCount=self.ctrlCount+1
     end
 end
 function Player:act_insRight(auto)
-    if not self.cur then return end
+    if not self.cur then
+        return
+    end
     local x0=self.curX
     while not self:ifoverlap(self.cur.bk,self.curX+1,self.curY)do
         self:createMoveFX('right')
@@ -1958,7 +2042,9 @@ function Player:act_insRight(auto)
         self.fieldOff.vx=.5
     end
     if auto then
-        if self.ctrlCount==0 then self.ctrlCount=1 end
+        if self.ctrlCount==0 then
+            self.ctrlCount=1
+        end
     else
         self.ctrlCount=self.ctrlCount+1
     end
@@ -2005,28 +2091,32 @@ function Player:act_down10()
     end
 end
 function Player:act_dropLeft()
-    if not self.cur then return end
-    self:act_insLeft()
-    self:act_hardDrop()
+    if self.cur then
+        self:act_insLeft()
+        self:act_hardDrop()
+    end
 end
 function Player:act_dropRight()
-    if not self.cur then return end
-    self:act_insRight()
-    self:act_hardDrop()
+    if self.cur then
+        self:act_insRight()
+        self:act_hardDrop()
+    end
 end
 function Player:act_zangiLeft()
-    if not self.cur then return end
-    self:act_insLeft()
-    self:act_insDown()
-    self:act_insRight()
-    self:act_hardDrop()
+    if self.cur then
+        self:act_insLeft()
+        self:act_insDown()
+        self:act_insRight()
+        self:act_hardDrop()
+    end
 end
 function Player:act_zangiRight()
-    if not self.cur then return end
-    self:act_insRight()
-    self:act_insDown()
-    self:act_insLeft()
-    self:act_hardDrop()
+    if self.cur then
+        self:act_insRight()
+        self:act_insDown()
+        self:act_insLeft()
+        self:act_hardDrop()
+    end
 end
 Player.actList={
     Player.act_moveLeft,  --1

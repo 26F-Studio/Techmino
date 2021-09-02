@@ -4,7 +4,9 @@ function LANG.init(langList,publicText)--Attention, calling this will destory al
         for k,v in next,T0 do
             if type(v)=='table'and not v.refuseCopy then--refuseCopy: just copy pointer, not contents
                 if not T[k]then T[k]={}end
-                if type(T[k])=='table'then _langFallback(v,T[k])end
+                if type(T[k])=='table'then
+                    _langFallback(v,T[k])
+                end
             elseif not T[k]then
                 T[k]=v
             end

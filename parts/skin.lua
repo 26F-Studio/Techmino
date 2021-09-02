@@ -36,10 +36,14 @@ function SKIN.init(list)
         for y=0,2 do
             for x=1,8 do
                 SKIN.lib[name][8*y+x]=C(30,30)
-                if I then gc.draw(I,30-30*x,-30*y)end
+                if I then
+                    gc.draw(I,30-30*x,-30*y)
+                end
 
                 SKIN.libMini[name][8*y+x]=C(6,6)
-                if I then gc.draw(I,6-6*x,-6*y,nil,.2)end
+                if I then
+                    gc.draw(I,6-6*x,-6*y,nil,.2)
+                end
             end
         end
         gc.setCanvas()

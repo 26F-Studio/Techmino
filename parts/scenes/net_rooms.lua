@@ -16,7 +16,9 @@ local roomList=WIDGET.newListBox{name="roomList",x=50,y=50,w=800,h=440,lineH=40,
         gc_rectangle('fill',0,0,800,40)
     end
     gc_setColor(1,1,1)
-    if item.private then gc_draw(IMG.lock,10,5)end
+    if item.private then
+        gc_draw(IMG.lock,10,5)
+    end
     gc_print(item.count.."/"..item.capacity,670,-4)
 
     gc_setColor(.9,.9,1)

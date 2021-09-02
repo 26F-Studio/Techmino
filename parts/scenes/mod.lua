@@ -7,7 +7,9 @@ local function _modComp(a,b)
 end
 local function _remMod(M)
     local i=TABLE.find(GAME.mod,M)
-    if i then rem(GAME.mod,i)end
+    if i then
+        rem(GAME.mod,i)
+    end
 end
 local function _toggleMod(M,back)
     if M.sel==0 then

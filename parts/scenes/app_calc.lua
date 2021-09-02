@@ -7,6 +7,14 @@ local reg--register
 local val--result value
 local sym--symbol
 
+local function _autoReturn()
+    if reg and sym then
+        scene.keyDown("return")
+    else
+        reg=false
+    end
+end
+
 function scene.sceneInit()
     BG.set('none')
     BGM.stop()
@@ -27,7 +35,9 @@ function scene.keyDown(key)
             val=key
         else
             if #val<14 then
-                if val=="0"then val=""end
+                if val=="0"then
+                    val=""
+                end
                 val=val..key
             end
         end
@@ -60,19 +70,25 @@ function scene.keyDown(key)
         else
             val=val:sub(1,-2)
         end
-        if val==""then val="0"end
+        if val==""then
+            val="0"
+        end
     elseif key=="+"or key=="="and kb.isDown("lshift","rshift")then
-        if reg and sym then scene.keyDown("return")else reg=false end sym="+"
+        _autoReturn()
+        sym="+"
     elseif key=="*"or key=="8"and kb.isDown("lshift","rshift")then
-        if reg and sym then scene.keyDown("return")else reg=false end sym="*"
+        _autoReturn()
+        sym="*"
     elseif key=="-"then
-        if reg and sym then scene.keyDown("return")else reg=false end sym="-"
+        _autoReturn()
+        sym="-"
     elseif key=="/"then
-        if reg and sym then scene.keyDown("return")else reg=false end sym="/"
+        _autoReturn()
+        sym="/"
     elseif key=="return"then
-        if val:sub(-1)=="e"then val=val:sub(1,-2)end
+        val=val:gsub("e","")
         if sym and reg then
-            if reg:sub(-1)=="e"then reg=reg:sub(1,-2)end
+            reg=reg:gsub("e","")
             val=
                 sym=="+"and tostring((tonumber(reg)or 0)+tonumber(val))or
                 sym=="-"and tostring((tonumber(reg)or 0)-tonumber(val))or

@@ -68,7 +68,9 @@ function scene.sceneInit(org)
     upstreamProgress=1
     newMessageTimer=0
 
-    if org=='setting_game'then NET.changeConfig()end
+    if org=='setting_game'then
+        NET.changeConfig()
+    end
     if GAME.prevBG then
         BG.set(GAME.prevBG)
         GAME.prevBG=false
@@ -311,8 +313,12 @@ function scene.draw()
         gc_printf(NET.roomState.roomInfo.name,0,685,1270,'right')
         setFont(40)
         gc_print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
-        if NET.roomState.private then gc_draw(IMG.lock,30,668)end
-        if NET.roomState.start then gc_setColor(0,1,0)gc_print(text.started,230,655)end
+        if NET.roomState.private then
+            gc_draw(IMG.lock,30,668)
+        end
+        if NET.roomState.start then
+            gc_setColor(0,1,0)gc_print(text.started,230,655)
+        end
 
         --Profile
         drawSelfProfile()

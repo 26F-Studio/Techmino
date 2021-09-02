@@ -49,7 +49,9 @@ function VOC.init(list)
                     MES.new('warn',"No VOICE file: "..list[i],.1)
                 end
             end
-            if not Source[list[i]][1]then Source[list[i]]=nil end
+            if not Source[list[i]][1]then
+                Source[list[i]]=nil
+            end
         end
 
         function VOC.getQueueCount()

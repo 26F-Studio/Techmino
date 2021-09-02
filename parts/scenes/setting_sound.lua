@@ -43,7 +43,9 @@ function scene.touchDown(x,y)
 end
 
 function scene.update()
-    if jump>0 then jump=jump-1 end
+    if jump>0 then
+        jump=jump-1
+    end
 end
 
 function scene.draw()
@@ -83,7 +85,9 @@ scene.widgetList={
     WIDGET.newKey{name="mute",      x=1160,y=180,w=80,color='lR',fText=TEXTURE.mute,
         code=function()
             if  SETTING.sfx+SETTING.sfx_spawn+SETTING.sfx_warn+SETTING.bgm+SETTING.vib+SETTING.voc==0 then
-                if not soundBeforeMute then soundBeforeMute={1,0,.4,.7,0,0}end
+                if not soundBeforeMute then
+                    soundBeforeMute={1,0,.4,.7,0,0}
+                end
                 SETTING.sfx,SETTING.sfx_spawn,SETTING.sfx_warn,SETTING.bgm,SETTING.vib,SETTING.voc=unpack(soundBeforeMute)
                 soundBeforeMute=false
             else

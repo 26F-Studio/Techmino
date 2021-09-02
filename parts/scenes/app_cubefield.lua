@@ -179,22 +179,30 @@ function scene.update(dt)
     life1=life1*.7+life*.3
 
     if play then
-        if inv>0 then inv=inv-1 end
+        if inv>0 then
+            inv=inv-1
+        end
         score=score+dt*.04+life*.0004
         life=min(life+dt*.04,1000)
         if score>1000*level then
-            if speed<3 then speed=speed+.2 end
+            if speed<3 then
+                speed=speed+.2
+            end
             level=level+1
             SFX.play('blip_1')
         end
         sunH=sunH+.01
     elseif menu==1 then
         ct=ct+1
-        if ct==60 then menu=false end
+        if ct==60 then
+            menu=false
+        end
     elseif menu==-1 then
         for i=1,3 do color[i]=near(color[i],cubeColor[1][i])end
         for i=1,40 do cubesY[i]=cubesY[i]-(70-ct)*.003 end
-        if sunH>0 then sunH=max(sunH*.85-1,0)end
+        if sunH>0 then
+            sunH=max(sunH*.85-1,0)
+        end
         ct=ct-1
         if ct==0 then
             score=0

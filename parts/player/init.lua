@@ -355,7 +355,9 @@ local function _applyGameEnv(P)--Finish gameEnv processing
 
     ENV.bagLine=ENV.bagLine and(ENV.sequence=='bag'or ENV.sequence=='loop')and #ENV.seqData
 
-    if ENV.nextCount==0 then ENV.nextPos=false end
+    if ENV.nextCount==0 then
+        ENV.nextPos=false
+    end
 
     P.newNext=coroutine.wrap(getSeqGen(P))
     P:newNext(P.gameEnv.seqData)

@@ -125,7 +125,9 @@ function scene.mouseMove(x,y)
     local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
     if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
         penX,penY=sx,sy
-        if curPen then _pTouch(sx,sy)end
+        if curPen then
+            _pTouch(sx,sy)
+        end
     else
         penX,penY=nil
     end
@@ -256,7 +258,9 @@ function scene.keyUp(key)
 end
 
 function scene.update(dt)
-    if sure>0 then sure=sure-dt end
+    if sure>0 then
+        sure=sure-dt
+    end
 end
 
 function scene.draw()

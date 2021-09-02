@@ -69,7 +69,9 @@ end
 local function checkBoard(b)
     for i=4,1,-1 do
         for j=1,4 do
-            if b[i][j]~=4*i+j-4 then return false end
+            if b[i][j]~=4*i+j-4 then
+                return false
+            end
         end
     end
     return true

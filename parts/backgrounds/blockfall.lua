@@ -31,7 +31,9 @@ function back.update()
     for i=#mino,1,-1 do
         local M=mino[i]
         M.y=M.y+M.vy
-        if M.y-M.k*#M.block*30>SCR.h then rem(mino,i)end
+        if M.y-M.k*#M.block*30>SCR.h then
+            rem(mino,i)
+        end
     end
 end
 function back.draw()

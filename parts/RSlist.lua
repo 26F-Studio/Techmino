@@ -61,7 +61,9 @@ end
 
 --Use this to copy a symmetry set
 local function _flipList(O)
-    if not O then return end
+    if not O then
+        return
+    end
     local L={}
     for i,s in next,O do
         L[i]=string.char(88-s:byte())..s:sub(2)
@@ -173,9 +175,12 @@ do
                 if P.gameEnv.ospin then
                     local x,y=P.curX,P.curY
                     if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
-                        if P.sound then SFX.play('rotatekick',nil,P:getCenterX()*.15)end
+                        if P.sound then
+                            SFX.play('rotatekick',nil,P:getCenterX()*.15)
+                        end
                         P.spinSeq=P.spinSeq%100*10+d
-                        if P.spinSeq<100 then return end
+                        if P.spinSeq<100 then
+                            return end
                         for i=1,#OspinList do
                             local L=OspinList[i]
                             if P.spinSeq==L[1]then
@@ -203,11 +208,15 @@ do
                             end
                         end
                     else
-                        if P.sound then SFX.play('rotate',nil,P:getCenterX()*.15)end
+                        if P.sound then
+                            SFX.play('rotate',nil,P:getCenterX()*.15)
+                        end
                         P.spinSeq=0
                     end
                 else
-                    if P.sound then SFX.play('rotate',nil,P:getCenterX()*.15)end
+                    if P.sound then
+                        SFX.play('rotate',nil,P:getCenterX()*.15)
+                    end
                 end
             end,--O
             {
@@ -318,7 +327,9 @@ do
                 [31]={'+0+0','+0-1','+1+0'},
             },--W
             function(P,d)
-                if P.type=='human'then SFX.play('rotate',nil,P:getCenterX()*.15)end
+                if P.type=='human'then
+                    SFX.play('rotate',nil,P:getCenterX()*.15)
+                end
                 local kickData=XspinList[d]
                 for test=1,#kickData do
                     local x,y=P.curX+kickData[test][1],P.curY+kickData[test][2]
@@ -612,7 +623,9 @@ do
     }
     for i=1,29 do
         local a,b=R,L
-        if i==6 or i==18 then a,b=b,a end
+        if i==6 or i==18 then
+            a,b=b,a
+        end
         list[i][01]=a;list[i][10]=b;list[i][03]=b;list[i][30]=a
         list[i][12]=a;list[i][21]=b;list[i][32]=b;list[i][23]=a
     end

@@ -73,8 +73,13 @@ function scene.sceneInit(org)
     end
     local f=1
     for i=1,6 do
-        if val[i]>.5 then f=2 end
-        if val[i]>1 then f=3 break end
+        if val[i]>.5 then
+        f=2
+        end
+        if val[i]>1 then
+            f=3
+            break
+        end
     end
     if f==1 then     chartColor,f={.4,.9,.5},1.25--Vegetable
     elseif f==2 then chartColor,f={.4,.7,.9},1   --Normal
@@ -177,8 +182,12 @@ function scene.update(dt)
     if not(GAME.result or GAME.replaying)then
         GAME.pauseTime=GAME.pauseTime+dt
     end
-    if timer1<50 then timer1=timer1+1 end
-    if timer2<25 then timer2=timer2+1 end
+    if timer1<50 then
+        timer1=timer1+1
+    end
+    if timer2<25 then
+        timer2=timer2+1
+    end
 end
 
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
@@ -189,7 +198,9 @@ local tasText=gc.newText(getFont(100),"TAS")
 function scene.draw()
     local T=timer1*.02
     local T2=timer2*.04
-    if T<1 or GAME.result then SCN.scenes.game.draw()end
+    if T<1 or GAME.result then
+        SCN.scenes.game.draw()
+    end
 
     --Dark BG
     local _=T

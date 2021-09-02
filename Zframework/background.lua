@@ -30,7 +30,7 @@ function BG.setDefault(bg)
     BG.default=bg
 end
 function BG.set(background)
-    if not background then background=BG.default end
+    background=background or BG.default
     if not BGs[background]or not SETTING.bg then return end
     if background~=BG.cur then
         BG.discard()

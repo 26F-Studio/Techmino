@@ -220,7 +220,9 @@ function button:press(_,_,k)
         self.w+2*ATV,
         self.h+2*ATV
     )
-    if self.sound then SFX.play('button')end
+    if self.sound then
+        SFX.play('button')
+    end
 end
 function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
     if not D.h then D.h=D.w end
@@ -332,7 +334,9 @@ function key:getInfo()
 end
 function key:press(_,_,k)
     self.code(k)
-    if self.sound then SFX.play('key')end
+    if self.sound then
+        SFX.play('key')
+    end
 end
 function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
     if not D.h then D.h=D.w end
@@ -387,12 +391,16 @@ function switch:getCenter()
 end
 function switch:update()
     local atv=self.ATV
-    if WIDGET.sel==self then if atv<8 then self.ATV=atv+1 end
-    else if atv>0 then self.ATV=atv-.5 end
+    if WIDGET.sel==self then
+        if atv<8 then self.ATV=atv+1 end
+    else
+        if atv>0 then self.ATV=atv-.5 end
     end
     local chk=self.CHK
-    if self:disp()then if chk<6 then self.CHK=chk+1 end
-    else if chk>0 then self.CHK=chk-1 end
+    if self:disp()then
+        if chk<6 then self.CHK=chk+1 end
+    else
+        if chk>0 then self.CHK=chk-1 end
     end
 end
 function switch:draw()
@@ -424,7 +432,9 @@ function switch:getInfo()
 end
 function switch:press()
     self.code()
-    if self.sound then SFX.play('move')end
+    if self.sound then
+        SFX.play('move')
+    end
 end
 function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code[,hideF][,hide]
     local _={
@@ -736,7 +746,9 @@ function selector:press(x)
             self.code(self.list[s])
             self.select=s
             self.selText=self.list[s]
-            if self.sound then SFX.play('prerotate')end
+            if self.sound then
+                SFX.play('prerotate')
+            end
         end
     end
 end
@@ -754,7 +766,9 @@ function selector:scroll(n)
     self.code(self.list[s])
     self.select=s
     self.selText=self.list[s]
-    if self.sound then SFX.play('prerotate')end
+    if self.sound then
+        SFX.play('prerotate')
+    end
 end
 function selector:arrowKey(k)
     self:scroll((k=="left"or k=="up")and -1 or 1)
@@ -1385,13 +1399,13 @@ function WIDGET.keyPressed(k,isRep)
                 local tar
                 local minDist=1e99
                 local swap_xy=k=="up"or k=="down"
-                if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
+                if swap_xy then WX,WY=WY,WX end--note that we do not swap them back later
                 for _,W1 in ipairs(WIDGET.active)do
                     if W~=W1 and W1.resCtr and not W1.hide then
                         local L=W1.resCtr
                         for j=1,#L,2 do
                             local x,y=L[j],L[j+1]
-                            if swap_xy then x,y=y,x end -- note that we do not swap them back later
+                            if swap_xy then x,y=y,x end--note that we do not swap them back later
                             local dist=(x-WX)*dir
                             if dist>10 then
                                 dist=dist+abs(y-WY)*6.26

@@ -22,14 +22,18 @@ end
 function textFX.stretch(t)
     gc_push('transform')
         gc_translate(t.x,t.y)
-        if t.c<.3 then gc_scale((.3-t.c)*1.6+1,1)end
+        if t.c<.3 then
+            gc_scale((.3-t.c)*1.6+1,1)
+        end
         mStr(t.text,0,-t.font*.7)
     gc_pop()
 end
 function textFX.drive(t)
     gc_push('transform')
         gc_translate(t.x,t.y)
-        if t.c<.3 then gc_shear((.3-t.c)*2,0)end
+        if t.c<.3 then
+            gc_shear((.3-t.c)*2,0)
+        end
         mStr(t.text,0,-t.font*.7)
     gc_pop()
 end
@@ -102,7 +106,9 @@ function TEXT.getText(text,x,y,font,style,spd,stop)--Another version of TEXT.sho
     }
 end
 function TEXT.update(list)
-    if not list then list=texts end
+    if not list then
+        list=texts
+    end
     for i=#list,1,-1 do
         local t=list[i]
         t.c=t.c+t.spd
@@ -117,7 +123,9 @@ function TEXT.update(list)
     end
 end
 function TEXT.draw(list)
-    if not list then list=texts end
+    if not list then
+        list=texts
+    end
     for i=1,#list do
         local t=list[i]
         local p=t.c

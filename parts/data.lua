@@ -54,7 +54,9 @@ function DATA.pasteSequence(str)
             end
         end
     end
-    if reg then ins(BAG,reg)end
+    if reg then
+        ins(BAG,reg)
+    end
     return true
 end
 
@@ -101,8 +103,12 @@ function DATA.copyBoards()
     return table.concat(out,"!")
 end
 function DATA.pasteBoard(str,page)--Paste [str] data to [page] board
-    if not page then page=1 end
-    if not FIELD[page]then FIELD[page]=DATA.newBoard()end
+    if not page then
+        page=1
+    end
+    if not FIELD[page]then
+        FIELD[page]=DATA.newBoard()
+    end
     local F=FIELD[page]
 
     --Decode
@@ -212,7 +218,9 @@ function DATA.pasteMission(str)
             end
         end
     end
-    if reg then ins(MISSION,reg)end
+    if reg then
+        ins(MISSION,reg)
+    end
     return true
 end
 

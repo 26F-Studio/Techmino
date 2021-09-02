@@ -145,7 +145,9 @@ do--function GC.DO(L)
                     end
                     if type(cmd)=='string'then
                         local func=cmds[cmd]
-                        if type(func)=='string'then func=gc[func]end
+                        if type(func)=='string'then
+                            func=gc[func]
+                        end
                         if func then
                             func(unpack(L[i],2))
                         else

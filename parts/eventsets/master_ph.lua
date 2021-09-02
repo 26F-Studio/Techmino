@@ -28,7 +28,9 @@ return
                 P.modeData.target=26
                 SFX.play('reach')
             elseif T==26 then--Stage 3: dig to bottom
-                if not P.holdQueue[1]then P.life=P.life+1 end--1 up if ban hold
+                if not P.holdQueue[1]then--1 up if ban hold
+                    P.life=P.life+1
+                end
                 P.waiting=45
                 ENV.skin[1],ENV.skin[2]=ENV.skin[2],ENV.skin[1]
                 ENV.skin[3],ENV.skin[4]=ENV.skin[4],ENV.skin[3]

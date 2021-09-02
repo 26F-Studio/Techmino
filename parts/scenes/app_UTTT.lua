@@ -233,7 +233,9 @@ end
 
 function scene.mouseDown(x,y)
     scene.mouseMove(x,y)
-    if curX then place(curX,curx)end
+    if curX then
+        place(curX,curx)
+    end
 end
 
 scene.widgetList={

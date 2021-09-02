@@ -39,7 +39,9 @@ local LclearScore={[0]=0,-200,-150,-100,200}
 local HclearScore={[0]=0,100,140,200,500}
 local function _ifoverlapAI(f,bk,x,y)
     for i=1,#bk do for j=1,#bk[1]do
-        if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then return true end
+        if f[y+i-1]and bk[i][j]and f[y+i-1][x+j-1]>0 then
+            return true
+        end
     end end
 end
 local discardRow=FREEROW.discard
@@ -65,25 +67,33 @@ local function _getScore(field,cb,cy)
 
     for i=cy+#cb-1,cy,-1 do
         for j=1,10 do
-            if field[i][j]==0 then goto CONTINUE_notFull end
+            if field[i][j]==0 then
+                goto CONTINUE_notFull
+            end
         end
         discardRow(rem(field,i))
         clear=clear+1
         ::CONTINUE_notFull::
     end
-    if #field==0 then return 1e99 end--PC
+    if #field==0 then--PC
+        return 1e99
+    end
     for x=1,10 do
         local h=#field
         while field[h][x]==0 and h>1 do
             h=h-1
         end
         height[x]=h
-        if x>3 and x<8 and h>highest then highest=h end
+        if x>3 and x<8 and h>highest then
+            highest=h
+        end
         if h>1 then
             for h1=h-1,1,-1 do
                 if field[h1][x]==0 then
                     hole=hole+1
-                    if hole==5 then break end
+                    if hole==5 then
+                        break
+                    end
                 end
             end
         end
@@ -94,7 +104,9 @@ local function _getScore(field,cb,cy)
         local dh=abs(height[x]-height[x+1])
         if dh==1 then
             h1=h1+1
-            if h1>mh1 then mh1=h1 end
+            if h1>mh1 then
+                mh1=h1
+            end
         else
             h1=0
         end
@@ -115,8 +127,12 @@ local function _getScore(field,cb,cy)
             -cy*40
             -sdh*3
         )
-    if #field>6 then score=score-highest*5+20 end
-    if mh1>3 then score=score-20-mh1*30 end
+    if #field>6 then
+        score=score-highest*5+20
+    end
+    if mh1>3 then
+        score=score-20-mh1*30
+    end
     return score
 end
 
@@ -158,7 +174,9 @@ function bot_9s.thread(bot)
                         --Simulate lock
                         for i=1,#cb do
                             local y=cy+i-1
-                            if not Tfield[y]then Tfield[y]=getRow(0)end
+                            if not Tfield[y]then
+                                Tfield[y]=getRow(0)
+                            end
                             local L=Tfield[y]
                             for j=1,#cb[1]do
                                 if cb[i][j]then

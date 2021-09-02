@@ -86,8 +86,12 @@ function scene.update()
                 P.vy=P.vy*.5
             end
         else
-            if kb.isDown(P==p1 and"w"or"up")then P.vy=max(P.vy-1,-8)end
-            if kb.isDown(P==p1 and"s"or"down")then P.vy=min(P.vy+1,8)end
+            if kb.isDown(P==p1 and"w"or"up")then
+                P.vy=max(P.vy-1,-8)
+            end
+            if kb.isDown(P==p1 and"s"or"down")then
+                P.vy=min(P.vy+1,8)
+            end
             P.y=P.y+P.vy
             P.vy=P.vy*.9
             if P.y>650 then

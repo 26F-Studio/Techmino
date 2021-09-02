@@ -388,7 +388,7 @@ jobs:
       # In secrets:
       #   - MACOS_CERTIFICATE: the *.p12 Developer ID Certificate, encoded in base64
       #   - MACOS_CERTIFICATE_PWD: The password
-      env: 
+      env:
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
         MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
       run: |

@@ -194,7 +194,9 @@ end
 function scene.keyDown(key,isRep)
     if replaying then
         if key=="space"then
-            if not isRep then gameRate=gameRate==0 and 1 or 0 end
+            if not isRep then
+                gameRate=gameRate==0 and 1 or 0
+            end
             _updateRepButtons()
         elseif key=="left"then
             if not isRep then
@@ -215,7 +217,9 @@ function scene.keyDown(key,isRep)
         elseif _checkGameKeyDown(key)then
             if GAME.tasUsed then
                 if key=="f1"then
-                    if not isRep then gameRate=gameRate==0 and .125 or 0 end
+                    if not isRep then
+                        gameRate=gameRate==0 and .125 or 0
+                    end
                     _updateRepButtons()
                 elseif key=='f2'then
                     if not isRep then
@@ -307,7 +311,9 @@ function scene.update(dt)
     floatGameRate=floatGameRate+gameRate
     while floatGameRate>=1 do
         floatGameRate=floatGameRate-1
-        if GAME.replaying then _update_replay(GAME.replaying)end
+        if GAME.replaying then
+            _update_replay(GAME.replaying)
+        end
         _update_common(dt)
     end
 end

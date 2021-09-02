@@ -119,7 +119,9 @@ local function newTile()
 end
 local function freshMaxTile()
     maxTile=maxTile+1
-    if maxTile==12 then skipper.cd=0 end
+    if maxTile==12 then
+        skipper.cd=0
+    end
     SFX.play('reach')
     ins(progress,("%s - %.3fs"):format(tileName[maxTile],TIME()-startTime))
 end

@@ -161,7 +161,9 @@ function scene.keyDown(key,isRep)
 end
 function scene.mouseMove(x,y)
     cx,cy=int((x-192)/128),int((y+88)/128)
-    if cx<1 or cx>5 or cy<1 or cy>5 then cx,cy=false end
+    if cx<1 or cx>5 or cy<1 or cy>5 then
+        cx,cy=false
+    end
 end
 function scene.mouseDown(x,y)
     scene.mouseMove(x,y)

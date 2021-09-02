@@ -16,7 +16,9 @@ function scene.sceneInit()
     NET.wsclose_user()
     NET.wsclose_play()
     NET.wsclose_stream()
-    if SETTING then SFX.fplay('error',SETTING.voc*.8 or 0)end
+    if SETTING then
+        SFX.fplay('error',SETTING.voc*.8 or 0)
+    end
 end
 
 function scene.draw()

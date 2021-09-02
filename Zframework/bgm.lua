@@ -72,7 +72,7 @@ function BGM.init(list)
         return task.code==code and task.args[1]==src
     end
     function BGM.play(name)
-        if not name then name=BGM.default end
+        name=name or BGM.default
         if not _load(name)then return end
         if SETTING.bgm==0 then
             BGM.nowPlay=name
@@ -81,7 +81,9 @@ function BGM.init(list)
         end
         if name and Sources[name]then
             if BGM.nowPlay~=name then
-                if BGM.nowPlay then TASK.new(task_fadeOut,BGM.playing)end
+                if BGM.nowPlay then
+                    TASK.new(task_fadeOut,BGM.playing)
+                end
                 TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,Sources[name])
                 TASK.removeTask_code(task_fadeIn)
 
@@ -107,7 +109,9 @@ function BGM.init(list)
     end
     function BGM.stop()
         TASK.removeTask_code(task_fadeIn)
-        if BGM.nowPlay then TASK.new(task_fadeOut,BGM.playing)end
+        if BGM.nowPlay then
+            TASK.new(task_fadeOut,BGM.playing)
+        end
         BGM.nowPlay,BGM.playing=nil
     end
 end

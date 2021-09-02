@@ -22,15 +22,23 @@ function scene.keyDown(key,isRep)
         pc=not pc
     elseif type(key)=='number'then
         local CHN=VOC.getFreeChannel()
-        if mini then VOC.play('mini',CHN)end
-        if b2b then VOC.play('b2b',CHN)
-        elseif b3b then VOC.play('b3b',CHN)
+        if mini then
+            VOC.play('mini',CHN)
+        end
+        if b2b then
+            VOC.play('b2b',CHN)
+        elseif b3b then
+            VOC.play('b3b',CHN)
         end
         if key>=10 then
             VOC.play(blockName[math.floor(key/10)].."spin",CHN)
         end
-        if lineCount[key%10]then VOC.play(lineCount[key%10],CHN)end
-        if pc then VOC.play('perfect_clear',CHN)end
+        if lineCount[key%10]then
+            VOC.play(lineCount[key%10],CHN)
+        end
+        if pc then
+            VOC.play('perfect_clear',CHN)
+        end
     elseif key=="tab"then
         SCN.swapTo('music','none')
     elseif key=="escape"then
