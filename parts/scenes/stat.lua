@@ -47,30 +47,30 @@ function scene.sceneInit()
 end
 
 function scene.draw()
-    local _,__=minoColor,SETTING.skin
+    local minoColor,skinSet=minoColor,SETTING.skin
     local A,B=form.A1,form.A2
 
     setFont(25)
     for x=1,7 do
-        gc_setColor(_[__[x]])
-        mStr(text.block[x],80*x,40)
-        mStr(text.block[x],80*x,280)
+        gc_setColor(minoColor[skinSet[x]])
+        mStr(text.block[x],80*x,43)
+        mStr(text.block[x],80*x,283)
         for y=1,4 do
-            mStr(A[x][y],80*x,40+40*y)
-            mStr(B[x][y],80*x,280+40*y)
+            mStr(A[x][y],80*x,43+40*y)
+            mStr(B[x][y],80*x,283+40*y)
         end
-        mStr(form.Y1[x],80*x,240)
-        mStr(form.Y2[x],80*x,480)
+        mStr(form.Y1[x],80*x,243)
+        mStr(form.Y2[x],80*x,483)
     end
 
     A,B=form.X1,form.X2
     for y=1,4 do
         gc_setColor(.5,.5,.5)
-        gc_print(y-1,620,40+40*y)
-        gc_print(y,620,280+40*y)
+        gc_print(y-1,620,43+40*y)
+        gc_print(y,620,283+40*y)
         gc_setColor(1,1,1)
-        mStr(A[y],680,40+40*y)
-        mStr(B[y],680,280+40*y)
+        mStr(A[y],680,43+40*y)
+        mStr(B[y],680,283+40*y)
     end
 
     setFont(20)
