@@ -916,7 +916,7 @@ return{
     {"TAS",
         "tas",
         "english",
-        "Short for \"Tool-Assisted Speedrun(Supergaming)\"\nPlay game with special tools without breaking the rules of the game (at the program level).\nIt is generally used to get theoretical max scores or achieve interesting goals.\nA very simple TAS tool is built in this game",
+        "Short for \"Tool-Assisted Speedrun(Superplay)\"\nPlay game with special tools without breaking the rules of the game (at the program level).\nIt is generally used to get theoretical max scores or achieve interesting goals.\nA very simple TAS tool is built in this game",
     },
     {"AFK",
         "afk",
