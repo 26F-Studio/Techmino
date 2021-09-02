@@ -10,6 +10,38 @@
     局部函数        下划线开头小驼峰
     简单的局部变量    多个单词首字母或大写单字母
     需要阅读的局部变量  小驼峰
+## 常用语句块格式
+```lua
+f() -- 语句末不需要加分号
+
+if c1 then
+    s1
+elseif c2 then
+    s2
+else
+    s3
+end
+
+while c do
+    s
+end
+
+for i=1,#l do
+    s
+end
+
+for k,v in next,table do -- pairs(table)最好换成next,table
+    s
+end
+
+repeat
+    s
+until c
+
+do
+    s
+end
+```
 ## 单行注释
     写在函数定义行/单行代码末尾/代码块前面第一行
 ## 多行注释
