@@ -1,7 +1,7 @@
 local gc=love.graphics
 local setColor,printf,draw=gc.setColor,gc.printf,gc.draw
 local GC={}
-function GC.str(obj,x,y)printf(obj,x-626,y,1252,'center')end
+function GC.mStr(obj,x,y)printf(obj,x-626,y,1252,'center')end
 function GC.simpX(obj,x,y)draw(obj,x-obj:getWidth()*.5,y)end
 function GC.simpY(obj,x,y)draw(obj,x,y-obj:getHeight()*.5)end
 function GC.X(obj,x,y,a,k)draw(obj,x,y,a,k,nil,obj:getWidth()*.5,0)end
@@ -96,8 +96,10 @@ do--function GC.DO(L)
 
         print="print",
         setFT=function(...)FONT.set(...)end,
-        mText=GC.str,
+        mText=GC.mStr,
         mDraw=GC.draw,
+        mDrawX=GC.X,
+        mDrawY=GC.Y,
         mOutDraw=GC.outDraw,
 
         draw="draw",

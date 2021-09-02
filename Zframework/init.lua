@@ -45,7 +45,7 @@ LIGHT=      require'Zframework.light'
 
 --Love-based modules (complex)
 GC=         require'Zframework.gcExtend'
-    mStr=GC.str
+    mStr=GC.mStr
     mText=GC.simpX
     mDraw=GC.draw
 FONT=       require'Zframework.font'
