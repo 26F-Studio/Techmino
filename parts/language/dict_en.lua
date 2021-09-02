@@ -597,7 +597,7 @@ return{
     {"Auto-lock cut",
         "autolockcut mdcut",
         "term",
-        "Techmino exclusive: this feature is designed to prevent mis-harddropping from pressing hard drop key shortly after the previous piece naturally locked down.\nHard drop key can be disabled for a few frames (depending on the settings) after a natural lockdown.\n\nOther games may have a similar feature but may function differently.",--TODO
+        "Techmino exclusive: this feature is designed to prevent mis-harddropping from pressing hard drop key shortly after the previous piece naturally locked down.\nHard drop key can be disabled for a few frames (depending on the settings) after a natural lockdown.\n\nOther games may have a similar feature but may function differently.",
     },
     {"SDF",
         "sdf softdropfactor",
@@ -916,12 +916,12 @@ return{
     {"TAS",
         "tas",
         "english",
-        "Short for \"Tool-Assisted Speedrun(Supergaming)\"",--TODO
+        "Short for \"Tool-Assisted Speedrun(Supergaming)\"\nPlay game with special tools without breaking the rules of the game (at the program level).\nIt is generally used to get theoretical max scores or achieve interesting goals.\nA very simple TAS tool is built in this game",
     },
     {"AFK",
         "afk",
         "english",
-        "\"Away from keyboard\", or in a broader sense, a period of time when you are not playing.\nTaking regular breaks helps relief your muscle strain and help you player better when you come back.",
+        "Short for \"Away from keyboard\", or in a broader sense, a period of time when you are not playing.\nTaking regular breaks helps relief your muscle strain and help you player better when you come back.",
     },
 
     --Famous
