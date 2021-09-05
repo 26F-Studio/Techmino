@@ -277,7 +277,7 @@ local function playRep(n)
         local move0=move
         for i=1,#repeater.seq[n],3 do
             autoPressing=true
-            scene.keyDown(arrows[repeater.seq[n]:sub(i,i+2)],true)
+            scene.keyDown(arrows[repeater.seq[n]:sub(i,i+2)])
             autoPressing=false
         end
         if move~=move0 then
