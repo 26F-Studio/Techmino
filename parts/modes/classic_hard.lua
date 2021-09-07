@@ -5,7 +5,7 @@ return{
         smooth=false,
         freshLimit=0,
         face={0,0,2,2,2,0,0},
-        eventSet='classic_fast',
+        eventSet='classic_hard',
         bg='rgb',bgm='magicblock',
     },
     slowMark=true,
