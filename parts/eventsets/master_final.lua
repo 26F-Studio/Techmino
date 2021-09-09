@@ -23,7 +23,7 @@ return{
             s=D.target/100--range from 1 to 9
             local E=P.gameEnv
             if s<4 then
-                P:_showText(text.stage:gsub("$1",s),0,-120,80,'fly')
+                P:stageComplete(s)
                 --First 300
                 if s~=1 then E.lock=E.lock-1 end
                 if s~=2 then E.wait=E.wait-1 end
@@ -31,7 +31,7 @@ return{
                 D.target=D.target+100
             elseif s<10 then
                 if s==5 then BGM.play('distortion')end
-                P:_showText(text.stage:gsub("$1",s),0,-120,60,'fly',1.26)
+                P:stageComplete(s)
                 if s==4 or s==7 then E.das=E.das-1 end
                 if s%3==0 then E.lock=E.lock-1
                 elseif s%3==1 then E.wait=E.wait-1

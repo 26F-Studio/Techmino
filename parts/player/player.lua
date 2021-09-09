@@ -47,6 +47,9 @@ function Player:popScore(score)
         )
     end
 end
+function Player:stageComplete(stage)
+    self:_showText(text.stage:gsub("$1",stage),0,-120,60,'fly',1.26)
+end
 function Player:createLockFX()
     if self.gameEnv.lockFX then
         local CB=self.cur.bk

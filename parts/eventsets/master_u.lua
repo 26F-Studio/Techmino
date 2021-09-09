@@ -53,7 +53,7 @@ return{
                 return
             end
             D.target=D.target+100
-            P:_showText(text.stage:gsub("$1",s),0,-120,80,'fly')
+            P:stageComplete(s)
         end
     end,
     task=function(P)

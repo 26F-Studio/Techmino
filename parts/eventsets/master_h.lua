@@ -57,7 +57,7 @@ return{
                 return
             end
             D.target=D.target+100
-            P:_showText(text.stage:gsub("$1",s),0,-120,80,'beat')
+            P:stageComplete(s)
             SFX.play('reach')
         end
     end,
