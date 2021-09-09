@@ -5,14 +5,14 @@ return{
         smooth=false,
         freshLimit=0,
         face={0,0,2,2,2,0,0},
-        eventSet='classic_h',
+        eventSet='classic_l',
         bg='rgb',bgm='magicblock',
     },
     slowMark=true,
     mesDisp=function(P)
         setFont(75)
         local r=P.modeData.target*.1
-        mStr(r<11 and 18 or r<22 and r+8 or("%02x"):format(r*10-220),63,210)
+        mStr(r<12 and 19 or r<22 and r+8 or("%02x"):format(r*10-220),63,210)
         mText(drawableText.speedLV,63,290)
         PLY.draw.drawProgress(P.stat.row,P.modeData.target)
     end,
