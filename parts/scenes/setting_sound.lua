@@ -99,7 +99,7 @@ scene.widgetList={
         end},
     WIDGET.newSwitch{name="fine",   x=1150,y=270,disp=SETval('fine'),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
 
-    WIDGET.newSelector{name="cv",   x=1100,y=380,w=200,list={'miya','naki','xiaoya'},disp=function()return cv end,code=function(i)cv=i end},
+    WIDGET.newSelector{name="cv",   x=1100,y=380,w=200,list={'miya','naki','xiaoya','miku'},disp=function()return cv end,code=function(i)cv=i end},
     WIDGET.newButton{name="apply",  x=1100,y=460,w=180,h=80,code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
     WIDGET.newButton{name="back",   x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }

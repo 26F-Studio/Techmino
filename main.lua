@@ -211,7 +211,7 @@ BGM.init((function()
     return L
 end)())
 VOC.init{
-    'zspin','sspin','lspin','jspin','tspin','ospin','ispin',
+    'zspin','sspin','jspin','lspin','tspin','ospin','ispin','pspin','qspin','fspin','espin','uspin','vspin','wspin','xspin','rspin','yspin','nspin','hspin',
     'single','double','triple','techrash',
     'mini','b2b','b3b',
     'perfect_clear','half_clear',
@@ -238,7 +238,7 @@ LANG.init(
     {
         block={
             "Z","S","J","L","T","O","I",
-            "Z5","S5","Q","P","F","E",
+            "Z5","S5","P","Q","F","E",
             "T5","U","V","W","X",
             "J5","L5","R","Y","N","H","I5",
             "I3","C","I2","O1"

@@ -1002,7 +1002,7 @@ do--Player.drop(self)--Place piece
     local reAtk={0,0,1,1,1,2,2,3,3}
     local reDef={0,1,1,2,3,3,4,4,5}
 
-    local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','hspin','nspin','ispin'}
+    local spinVoice={'zspin','sspin','jspin','lspin','tspin','ospin','ispin','zspin','sspin','pspin','qspin','fspin','espin','tspin','uspin','vspin','wspin','xspin','jspin','lspin','rspin','yspin','nspin','hspin','ispin','ispin','cspin','ispin','ospin'}
     local clearVoice={'single','double','triple','techrash','pentacrash','hexacrash'}
     local spinSFX={[0]='spin_0','spin_1','spin_2'}
     local clearSFX={'clear_1','clear_2','clear_3'}
