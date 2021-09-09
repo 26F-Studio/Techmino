@@ -472,7 +472,7 @@ return{
     {"Donation",
         "donation",
         "term",
-        "A technique where you purposefully cover up a well to perform T-Spins.",
+        "A method of \"plugging\" up the Tetris hole to send a T-Spin. After the T-Spin, the Tetris hole is opened up once again to allow the continuation of Tetris or downstacking.\n--Harddrop wiki",
     },
     {"Attacking & Defending",
         "attacking defending",

@@ -91,7 +91,7 @@ local batteryImg=GC.DO{31,20,
     {'fRect',26,1,2,18},
     {'fRect',29,3,2,14},
 }
-local infoCanvas=gc.newCanvas(93,27)
+local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
     local state,pow=love.system.getPowerInfo()
     gc.setCanvas(infoCanvas)
@@ -104,7 +104,7 @@ local function updatePowerInfo()
         if state=='nobattery'then
             gc_setColor(1,1,1)
             gc_setLineWidth(2)
-            gc_line(59,SCR.safeX+5,100,22)
+            gc_line(74,SCR.safeX+5,100,22)
         elseif pow then
             if charging then    gc_setColor(0,1,0)
             elseif pow>50 then  gc_setColor(1,1,1)
@@ -112,22 +112,22 @@ local function updatePowerInfo()
             elseif pow==26 then gc_setColor(.5,0,1)
             else                gc_setColor(1,0,0)
             end
-            gc.rectangle('fill',61,6,pow*.22,14)
+            gc.rectangle('fill',76,6,pow*.22,14)
             if pow<100 then
                 FONT.set(15)
                 gc.setColor(COLOR.D)
-                gc_print(pow,62.5,2.5)
-                gc_print(pow,62.5,4.5)
-                gc_print(pow,64.5,2.5)
-                gc_print(pow,64.5,4.5)
+                gc_print(pow,77,1)
+                gc_print(pow,77,3)
+                gc_print(pow,79,1)
+                gc_print(pow,79,3)
                 gc_setColor(COLOR.Z)
-                gc_print(pow,63.5,3.5)
+                gc_print(pow,78,2)
             end
         end
-        gc_draw(batteryImg,58,3)
+        gc_draw(batteryImg,73,3)
     end
     FONT.set(25)
-    gc_print(os.date("%H:%M"),5,-3)
+    gc_print(os.date("%H:%M"),3,-5)
     gc_pop()
     gc.setCanvas()
 end
