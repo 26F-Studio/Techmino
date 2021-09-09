@@ -25,7 +25,7 @@ return{
     replaying="[回放]",
     tasUsing="[TAS]",
 
-    stage="关卡 $1",
+    stage="关卡 $1 完成",
     great="Great!",
     awesome="Awesome.",
     almost="Almost!",

@@ -15,7 +15,7 @@ return{
     replaying="[Repetición]",
     tasUsing="[TAS]",
 
-    stage="Nivel $1",
+    -- stage="Stage $1 completed",
     great="¡Genial!",
     awesome="¡Fantástico!",
     almost="¡Casi!",
