@@ -781,7 +781,6 @@ return{
         ['blind_l']=       {"Blind",             "SUDDEN+",    "For professionals."},
         ['blind_u']=       {"Blind",              "?",         "Are you ready?"},
         ['blind_wtf']=     {"Blind",             "WTF",        "You're not ready."},
-        ['classic_fast']=  {"Classic",           "CTWC",       "High-speed classic mode."},
         ['classic_h']=     {"Classic",           "HARD",       "A medium speed recreation from the 80s."},
         ['classic_l']=     {"Classic",           "LUNATIC",    "A high-speed recreation from the 80s."},
         ['classic_u']=     {"Classic",           "ULTIMATE",   "A very high-speed recreation from the 80s."},
@@ -833,6 +832,7 @@ return{
 
         ['master_l']=      {"Master",            "LUNATIC"},
         ['master_u']=      {"Master",            "ULTIMATE"},
+        ['classic_fast']=  {"Classic",           "CTWC"},
 
         ['custom_clear']=  {"Custom",            "NORMAL"},
         ['custom_puzzle']= {"Custom",            "PUZZLE"},

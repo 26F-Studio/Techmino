@@ -23,7 +23,7 @@ local sList={
     lock={0,1,2,3,4,5,6,7,8,9,10,12,14,16,18,20,25,30,40,60,180,1e99},
     wait={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
     fall={0,1,2,3,4,5,6,7,8,10,15,20,30,60},
-    eventSet={'X','attacker_h','attacker_u','backfire_0','backfire_120','backfire_30','backfire_60','checkAttack_100','checkLine_10','checkLine_20','checkLine_40','checkLine_100','checkLine_200','checkLine_400','checkLine_1000','checkTurn_1','checkTurn_7','classic_fast','defender_n','defender_l','dig_10l','dig_40l','dig_100l','dig_400l','dig_h','dig_u','marathon_n','marathon_h','master_ex','master_final','master_h','master_n','master_ph','pctrain_n','pctrain_l','pc_inf','rhythm_e','rhythm_h','rhythm_u','survivor_e','survivor_n','survivor_h','survivor_l','survivor_u','tsd_e','tsd_h','tsd_u','ultra'},
+    eventSet={'X','attacker_h','attacker_u','backfire_0','backfire_120','backfire_30','backfire_60','checkAttack_100','checkLine_10','checkLine_20','checkLine_40','checkLine_100','checkLine_200','checkLine_400','checkLine_1000','checkTurn_1','checkTurn_7','classic_h','classic_l','classic_u','defender_n','defender_l','dig_10l','dig_40l','dig_100l','dig_400l','dig_h','dig_u','marathon_n','marathon_h','master_ex','master_final','master_h','master_n','master_ph','pctrain_n','pctrain_l','pc_inf','rhythm_e','rhythm_h','rhythm_u','survivor_e','survivor_n','survivor_h','survivor_l','survivor_u','tsd_e','tsd_h','tsd_u','ultra'},
 }
 
 local scene={}

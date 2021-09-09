@@ -3,7 +3,6 @@ return{
     env={
         center=0,ghost=0,
         smooth=false,
-        freshLimit=0,
         face={0,0,2,2,2,0,0},
         eventSet='classic_l',
         bg='rgb',bgm='magicblock',
@@ -22,10 +21,10 @@ return{
     getRank=function(P)
         local L=P.stat.row
         return
-        L>=200 and 5 or
-        L>=191 and 4 or
-        L>=110 and 3 or
-        L>=50 and 2 or
+        L>=30 and 5 or
+        L>=20 and 4 or
+        L>=15 and 3 or
+        L>=10 and 2 or
         L>=5 and 1 or
         L>=1 and 0
     end,

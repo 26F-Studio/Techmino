@@ -688,7 +688,6 @@ return{
         ['blind_l']=       {"Aveugle",         "SOUDAIN+",    "Pour les pros."},
         ['blind_u']=       {"Aveugle",          "?",          "Êtes-vous prêt ?"},
         ['blind_wtf']=     {"Aveugle",         "WTF",         "Vous n'êtes pas prêt."},
-        ['classic_fast']=  {"Classic",         "CTWC",        "Un mode classique rapide."},
         ['classic_h']=     {"Classic",         "DIFFICILE",   "Un mode classique rapide."},
         ['classic_l']=     {"Classic",         "LUNATIQUE",   "Un mode classique rapide."},
         ['classic_u']=     {"Classic",         "ULTIME",      "Un mode classique rapide."},
@@ -740,6 +739,7 @@ return{
 
         ['master_l']=      {"Master",        "LUNATIQUE"},
         ['master_u']=      {"Master",        "ULTIME"},
+        ['classic_fast']=  {"Classic",         "CTWC"},
 
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},

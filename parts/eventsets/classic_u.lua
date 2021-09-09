@@ -9,6 +9,7 @@ return{
     lock=1,
     wait=10,
     fall=25,
+    freshLimit=0,
     fieldH=19,
     nextCount=1,
     holdCount=0,

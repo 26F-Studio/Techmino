@@ -3,7 +3,6 @@ return{
     env={
         center=0,ghost=0,
         smooth=false,
-        freshLimit=0,
         face={0,0,2,2,2,0,0},
         eventSet='classic_h',
         bg='rgb',bgm='magicblock',

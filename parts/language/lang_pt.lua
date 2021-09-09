@@ -770,7 +770,6 @@ return{
         ['blind_l']=            {"Cego",             "DE REPENTE+",  "For professionals."},
         ['blind_u']=            {"Cego",              "?",           "Are you ready?"},
         ['blind_wtf']=          {"Cego",             "WTF",          "You're not ready."},
-        ['classic_fast']=       {"Clássico",         "CTWC",         "Modo clássico rápido. "},
         ['classic_h']=          {"Classic",          "DIFÍCIL",      "Modo clássico rápido."},
         ['classic_l']=          {"Classic",          "LUNÁTICO",     "Modo clássico rápido."},
         ['classic_u']=          {"Classic",          "ULTIMATE",     "Modo clássico rápido."},
@@ -822,6 +821,7 @@ return{
 
         ['master_l']=           {"Mestre",           "LUNÁTICO"},
         ['master_u']=           {"Mestre",           "ULTIMATE"},
+        ['classic_fast']=       {"Clássico",         "CTWC"},
 
         ['custom_clear']=       {"Custom",           "NORMAL"},
         ['custom_puzzle']=      {"Custom",           "PUZZLE"},
