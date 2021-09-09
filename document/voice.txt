@@ -22,8 +22,8 @@
         z-spin double
         z-spin triple
         (z-spin techrash)
-        (z-spin pentcrash)
-        (z-spin hexcrash)
+        (z-spin pentacrash)
+        (z-spin hexacrash)
     对于 S L J T O I 每一个都是这样至少四条语音
     加括号一般不用所以可以不录(消5和消6),
     另：对于P, Q, F, E, U, V, W, X, R, Y, N, H
