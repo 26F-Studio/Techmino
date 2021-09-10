@@ -19,10 +19,12 @@ local keyTime
 local speed,maxSpeed
 local arcade,rollSpeed
 
+local reset=error--function, defined later
+
 local bgm="secret7th"
 local tileColor="black"
 local mode="Normal"
-local modeSelector=WIDGET.newSelector{name="mode",x=155,y=220,w=280,
+local modeSelector=WIDGET.newSelector{name="mode",x=150,y=220,w=290,
     list={
         "Normal",
         "Split",
@@ -36,14 +38,14 @@ local modeSelector=WIDGET.newSelector{name="mode",x=155,y=220,w=280,
         "Dense_Handstream",
         "Light_Quadstream",
         "Quadstream",
-    },disp=function()return mode end,code=function(m)mode=m end
+    },disp=function()return mode end,code=function(m)mode=m reset()end
 }
-local bgmSelector=WIDGET.newSelector{name="bgm",x=155,y=290,w=280,list=BGM.getList(),disp=function()return bgm end,code=function(i)bgm=i BGM.play(i)end}
-local colorSelector=WIDGET.newSelector{name="color",x=155,y=360,w=280,
+local bgmSelector=WIDGET.newSelector{name="bgm",x=150,y=290,w=290,list=BGM.getList(),disp=function()return bgm end,code=function(i)bgm=i BGM.play(i)end}
+local colorSelector=WIDGET.newSelector{name="color",x=150,y=360,w=290,
     list={"black","dGray","gray","lGray","dRed","red","lRed","dFire","fire","lFire","dOrange","orange","lOrange","dYellow","yellow","lYellow","dLime","lime","lLime","dJade","jade","lJade","dGreen","green","lGreen","dAqua","aqua","lAqua","dCyan","cyan","lCyan","dNavy","navy","lNavy","dSea","sea","lSea","dBlue","blue","lBlue","dViolet","violet","lViolet","dPurple","purple","lPurple","dMagenta","magenta","lMagenta","dWine","wine","lWine"},
     disp=function()return tileColor end,code=function(m)tileColor=m end
 }
-local arcadeSwitch=WIDGET.newSwitch{name="arcade",    x=230,y=430,font=40,disp=function()return arcade end,code=pressKey"e"}
+local arcadeSwitch=WIDGET.newSwitch{name="arcade",x=230,y=430,font=40,disp=function()return arcade end,code=pressKey"e"}
 local function freshSelectors()
     local f=state~=0
     modeSelector.hide=f
@@ -169,7 +171,7 @@ local generator={
     end,
 }
 
-local function reset()
+function reset()
     keyTime={}for i=1,40 do keyTime[i]=-1e99 end
     speed,maxSpeed=0,0
     progress={}
