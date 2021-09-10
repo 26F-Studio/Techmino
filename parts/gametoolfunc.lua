@@ -269,6 +269,9 @@ function pauseGame()
                 end
             end
         end
+        for i=1,20 do
+            VK.release(i)
+        end
         if not(GAME.result or GAME.replaying)then
             GAME.pauseCount=GAME.pauseCount+1
         end
