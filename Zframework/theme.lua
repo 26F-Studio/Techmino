@@ -66,7 +66,7 @@ function THEME.set(theme)
         MES.new('info',"★☆新年快乐☆★")
     elseif theme=='zday1'then
         BG.setDefault('lanterns')
-        BGM.setDefault('blank')
+        BGM.setDefault('null')
     elseif theme=='zday2'then
         BG.setDefault('lanterns')
         BGM.setDefault('overzero')
