@@ -36,13 +36,13 @@ function BGM.init(list)
                 Sources[name]:setLooping(true)
                 Sources[name]:setVolume(0)
                 return true
-            else
-                MES.new('warn',"No BGM file: "..Sources[name],5)
+            -- else
+                -- MES.new('warn',"No BGM file: "..Sources[name],5)
             end
         elseif Sources[name]then
             return true
-        elseif name then
-            MES.new('warn',"No BGM: "..name,5)
+        -- elseif name then
+            -- MES.new('warn',"No BGM: "..name,5)
         end
     end
     function BGM.loadAll()for name in next,Sources do _load(name)end end

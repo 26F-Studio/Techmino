@@ -45,9 +45,8 @@ function VOC.init(list)
             repeat n=n+1 until not _loadVoiceFile(list[i],list[i]..'_'..n)
 
             if n==1 then
-                if not _loadVoiceFile(list[i],list[i])then
-                    MES.new('warn',"No VOICE file: "..list[i],.1)
-                end
+                _loadVoiceFile(list[i],list[i])
+                -- if not _loadVoiceFile(list[i],list[i])then MES.new('warn',"No VOICE file: "..list[i],.1)end
             end
             if not Source[list[i]][1]then
                 Source[list[i]]=nil
