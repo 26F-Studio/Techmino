@@ -8,10 +8,12 @@ return{
     wait=15,
     fall=6,
     mesDisp=function(P)
-        gc.setColor(1,1,1,.1)
         local h=(3600-P.stat.frame)/10
-        gc.rectangle('fill',0,475-h,125,h,4)
-        gc.setColor(COLOR.Z)
+        if h>0 then
+            gc.setColor(1,1,1,.12)
+            gc.rectangle('fill',0,475-h,125,h,4)
+            gc.setColor(COLOR.Z)
+        end
         mText(drawableText.line,63,310)
         mText(drawableText.techrash,63,420)
         mText(drawableText.grade,63,180)
