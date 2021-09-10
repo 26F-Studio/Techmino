@@ -196,6 +196,7 @@ function love.touchpressed(id,x,y)
     end
     x,y=ITP(xOy,x,y)
     lastX,lastY=x,y
+    WIDGET.cursorMove(x,y)
     if SCN.touchDown then SCN.touchDown(x,y)end
     if kb.hasTextInput()then kb.setTextInput(false)end
 end
@@ -204,10 +205,6 @@ function love.touchmoved(_,x,y,dx,dy)
     x,y=ITP(xOy,x,y)
     if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
     WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
-    if touching then
-        WIDGET.cursorMove(x,y)
-        if not WIDGET.sel then touching=false end
-    end
 end
 function love.touchreleased(id,x,y)
     if SCN.swapping then return end
