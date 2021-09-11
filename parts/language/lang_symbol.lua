@@ -257,6 +257,7 @@ return{
             game="←Game",
             graphic="Video→",
 
+            mainVol="#_#",
             bgm="#~#",
             sfx="#!#",
             stereo="←~→",

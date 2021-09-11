@@ -100,6 +100,7 @@ return{
             game="←游戏设置",
             graphic="改画面→",
 
+            mainVol="总",
             bgm="曲",
             spawn="出块",
             warn="警告",

@@ -23,6 +23,7 @@ function saveSettings()
 end
 function applySettings()
     love.window.setFullscreen(SETTING.fullscreen)
+    love.audio.setVolume(SETTING.mainVol)
     LANG.set(SETTING.lang)
     VK.setShape(SETTING.VKSkin)
     applyBlockSatur(SETTING.blockSatur)

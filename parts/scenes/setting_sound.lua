@@ -4,7 +4,6 @@ local sin=math.sin
 local rnd=math.random
 
 local scene={}
-local soundBeforeMute
 
 local last--Last touch time
 local jump--Animation timer(10 to 0)
@@ -76,29 +75,15 @@ scene.widgetList={
     WIDGET.newButton{name="game",   x=200, y=80,w=240,h=80,color='lC',font=35,code=swapScene('setting_game','swipeR')},
     WIDGET.newButton{name="graphic",x=1080,y=80,w=240,h=80,color='lC',font=35,code=swapScene('setting_video','swipeL')},
 
-    WIDGET.newSlider{name="bgm",    x=300, y=190,w=420,color='lG',disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
-    WIDGET.newSlider{name="sfx",    x=300, y=260,w=420,color='lC',change=function()SFX.play('blip_1')end,disp=SETval('sfx'),code=SETsto('sfx')},
-    WIDGET.newSlider{name="stereo", x=300, y=330,w=420,color='lC',change=function()SFX.play('move',1,-1)SFX.play('lock',1,1)end,disp=SETval('stereo'),code=SETsto('stereo'),hideF=function()return SETTING.sx==0 end},
-    WIDGET.newSlider{name="spawn",  x=300, y=400,w=420,color='lC',change=function()SFX.fplay('spawn_'..math.random(7),SETTING.sfx_spawn)end,disp=SETval('sfx_spawn'),code=SETsto('sfx_spawn')},
-    WIDGET.newSlider{name="warn",   x=300, y=470,w=420,color='lC',change=function()SFX.fplay('warning',SETTING.sfx_warn)end,disp=SETval('sfx_warn'),code=SETsto('sfx_warn')},
-    WIDGET.newSlider{name="vib",    x=300, y=540,w=420,color='lN',unit=10,change=function()VIB(2)end,disp=SETval('vib'),code=SETsto('vib')},
-    WIDGET.newSlider{name="voc",    x=300, y=610,w=420,color='lN',change=function()VOC.play('test')end,disp=SETval('voc'),code=SETsto('voc')},
+    WIDGET.newSlider{name="mainVol",x=300, y=170,w=520,color='lG',disp=SETval('mainVol'),code=function(v)SETTING.mainVol=v love.audio.setVolume(SETTING.mainVol)end},
+    WIDGET.newSlider{name="bgm",    x=300, y=240,w=420,color='lG',disp=SETval('bgm'),code=function(v)SETTING.bgm=v BGM.freshVolume()end},
+    WIDGET.newSlider{name="sfx",    x=300, y=310,w=420,color='lC',change=function()SFX.play('blip_1')end,disp=SETval('sfx'),code=SETsto('sfx')},
+    WIDGET.newSlider{name="stereo", x=300, y=380,w=420,color='lC',change=function()SFX.play('move',1,-1)SFX.play('lock',1,1)end,disp=SETval('stereo'),code=SETsto('stereo'),hideF=function()return SETTING.sx==0 end},
+    WIDGET.newSlider{name="spawn",  x=300, y=450,w=420,color='lC',change=function()SFX.fplay('spawn_'..math.random(7),SETTING.sfx_spawn)end,disp=SETval('sfx_spawn'),code=SETsto('sfx_spawn')},
+    WIDGET.newSlider{name="warn",   x=300, y=520,w=420,color='lC',change=function()SFX.fplay('warning',SETTING.sfx_warn)end,disp=SETval('sfx_warn'),code=SETsto('sfx_warn')},
+    WIDGET.newSlider{name="vib",    x=300, y=590,w=420,color='lN',unit=10,change=function()VIB(2)end,disp=SETval('vib'),code=SETsto('vib')},
+    WIDGET.newSlider{name="voc",    x=300, y=660,w=420,color='lN',change=function()VOC.play('test')end,disp=SETval('voc'),code=SETsto('voc')},
 
-    WIDGET.newKey{name="mute",      x=1160,y=180,w=80,color='lR',fText=TEXTURE.mute,
-        code=function()
-            if  SETTING.sfx+SETTING.sfx_spawn+SETTING.sfx_warn+SETTING.bgm+SETTING.vib+SETTING.voc==0 then
-                if not soundBeforeMute then
-                    soundBeforeMute={1,0,.4,.7,0,0}
-                end
-                SETTING.sfx,SETTING.sfx_spawn,SETTING.sfx_warn,SETTING.bgm,SETTING.vib,SETTING.voc=unpack(soundBeforeMute)
-                soundBeforeMute=false
-            else
-                soundBeforeMute={
-                SETTING.sfx,SETTING.sfx_spawn,SETTING.sfx_warn,SETTING.bgm,SETTING.vib,SETTING.voc}
-                SETTING.sfx,SETTING.sfx_spawn,SETTING.sfx_warn,SETTING.bgm,SETTING.vib,SETTING.voc=0,0,0,0,0,0
-            end
-            BGM.freshVolume()
-        end},
     WIDGET.newSwitch{name="fine",   x=1150,y=270,disp=SETval('fine'),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
 
     WIDGET.newSelector{name="cv",   x=1100,y=380,w=200,list={'miya','naki','xiaoya','miku'},disp=function()return cv end,code=function(i)cv=i end},

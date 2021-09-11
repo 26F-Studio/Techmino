@@ -339,6 +339,7 @@ return{
             game="←Jeu",
             graphic="Vidéo→",
 
+            -- mainVol="Main Volume",
             bgm="Musique",
             sfx="Sons",
             stereo="Stéréo",

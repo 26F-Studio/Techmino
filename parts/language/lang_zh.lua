@@ -374,6 +374,7 @@ return{
             game="←游戏设置",
             graphic="画面设置→",
 
+            mainVol="总音量",
             bgm="音乐",
             sfx="音效",
             stereo="立体声",
