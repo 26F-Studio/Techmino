@@ -66,12 +66,11 @@ local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_discard=gc.push,gc.pop,gc.clear,gc.discard
 local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line,gc_print=gc.draw,gc.line,gc.print
+local gc_draw,gc_line,gc_circle,gc_print=gc.draw,gc.line,gc.circle,gc.print
 
 local mStr=mStr
 
-local int,rnd,abs=math.floor,math.random,math.abs
-local min,sin=math.min,math.sin
+local int,rnd,sin=math.floor,math.random,math.sin
 local ins,rem=table.insert,table.remove
 
 local WIDGET,SCR,SCN=WIDGET,SCR,SCN
@@ -528,16 +527,12 @@ local ws_runningImg=GC.DO{20,20,
     {'setCL',.5,1,0},
     {'mText',"R",11,-1},
 }
-local cursorImg=GC.DO{16,16,
-    {'fCirc',8,8,4},
-    {'setCL',1,1,1,.7},
-    {'fCirc',8,8,6},
-}
-local cursor_holdImg=GC.DO{16,16,
-    {'setLW',2},
-    {'dCirc',8,8,7},
-    {'fCirc',8,8,3},
-}
+local function drawCursor(_,x,y)
+    gc_setColor(1,1,1)
+    gc_setLineWidth(2)
+    gc_circle(ms.isDown(1)and'fill'or'line',x,y,6)
+end
+
 function love.run()
     local love=love
 
@@ -616,13 +611,7 @@ function love.run()
 
                     --Draw cursor
                     if mouseShow then
-                        local R=int((time+1)/2)%7+1
-                        _=minoColor[SETTING.skin[R]]
-                        gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-                        _=DSCP[R][0]
-                        gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
-                        gc_setColor(1,1,1)
-                        gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
+                        drawCursor(time,mx,my)
                     end
                 gc_replaceTransform(SCR.xOy_ul)
                     MES_draw()
@@ -733,3 +722,10 @@ function love.run()
         while TIME()-lastFrame<1/60 do end
     end
 end
+
+local Z={}
+
+--Warning: color and line width is uncertain value, set it in the function.
+function Z.setCursor(func)drawCursor=func end
+
+return Z
