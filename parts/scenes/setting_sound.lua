@@ -84,6 +84,7 @@ scene.widgetList={
     WIDGET.newSlider{name="vib",    x=300, y=590,w=420,color='lN',unit=10,change=function()VIB(2)end,disp=SETval('vib'),code=SETsto('vib')},
     WIDGET.newSlider{name="voc",    x=300, y=660,w=420,color='lN',change=function()VOC.play('test')end,disp=SETval('voc'),code=SETsto('voc')},
 
+    WIDGET.newSwitch{name="autoMute",x=1150,y=190,disp=SETval('autoMute'),code=SETrev('autoMute')},
     WIDGET.newSwitch{name="fine",   x=1150,y=270,disp=SETval('fine'),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
 
     WIDGET.newSelector{name="cv",   x=1100,y=380,w=200,list={'miya','naki','xiaoya','miku'},disp=function()return cv end,code=function(i)cv=i end},

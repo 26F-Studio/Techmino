@@ -349,6 +349,7 @@ return{
             vib="Vibración",
             voc="Voces",
 
+            -- autoMute="Mute while unfocused",
             fine="Sonido de Error de Finesse",
             cv="Pack de Voces",
             apply="Aplicar",

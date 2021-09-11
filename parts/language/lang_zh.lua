@@ -383,6 +383,7 @@ return{
             vib="振动",
             voc="语音",
 
+            autoMute="失去焦点自动静音",
             fine="极简操作提示音",
             cv="语音包",
             apply="应用",

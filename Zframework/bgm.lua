@@ -10,6 +10,31 @@ local BGM={
     --playing=[src:playing SRC]
     --lastPlayed=[str:lastPlayed ID]
 }
+local function task_fadeOut(src)
+    while true do
+        coroutine.yield()
+        local v=src:getVolume()-.025*SETTING.bgm
+        src:setVolume(v>0 and v or 0)
+        if v<=0 then
+            src:pause()
+            return true
+        end
+    end
+end
+local function task_fadeIn(src)
+    while true do
+        coroutine.yield()
+        local v=SETTING.bgm
+        v=math.min(v,src:getVolume()+.025*v)
+        src:setVolume(v)
+        if v>=SETTING.bgm then
+            return true
+        end
+    end
+end
+local function check_curFadeOut(task,code,src)
+    return task.code==code and task.args[1]==src
+end
 function BGM.setDefault(bgm)
     BGM.default=bgm
 end
@@ -47,31 +72,6 @@ function BGM.init(list)
         end
     end
     function BGM.loadAll()for name in next,Sources do _load(name)end end
-    local function task_fadeOut(src)
-        while true do
-            coroutine.yield()
-            local v=src:getVolume()-.025*SETTING.bgm
-            src:setVolume(v>0 and v or 0)
-            if v<=0 then
-                src:pause()
-                return true
-            end
-        end
-    end
-    local function task_fadeIn(src)
-        while true do
-            coroutine.yield()
-            local v=SETTING.bgm
-            v=math.min(v,src:getVolume()+.025*v)
-            src:setVolume(v)
-            if v>=SETTING.bgm then
-                return true
-            end
-        end
-    end
-    local function check_curFadeOut(task,code,src)
-        return task.code==code and task.args[1]==src
-    end
     function BGM.play(name)
         name=name or BGM.default
         if not _load(name)then return end

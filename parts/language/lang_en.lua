@@ -384,6 +384,7 @@ return{
             vib="Vibration",
             voc="Voice",
 
+            autoMute="Mute while unfocused",
             fine="Finesse Error SFX",
             cv="Voice Pack",
             apply="Apply",

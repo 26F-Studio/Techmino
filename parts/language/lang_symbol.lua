@@ -265,6 +265,7 @@ return{
             warn="!↑↑↑!",
             vib="=~=",
 
+            autoMute="#x#",
             fine="12 X 21",
             voc="~~~",
             apply="!",

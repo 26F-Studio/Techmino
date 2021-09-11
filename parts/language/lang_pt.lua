@@ -372,6 +372,7 @@ return{
             vib="Vibração",
             voc="Voz",
 
+            -- autoMute="Mute while unfocused",
             fine="Som Falha de destreza",
             cv="Pacote de voz",
             apply="Aplicar",

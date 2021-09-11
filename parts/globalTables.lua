@@ -301,6 +301,7 @@ SETTING={--Settings
     warn=true,
 
     --Sound
+    autoMute=true,
     mainVol=1,
     sfx=1,
     sfx_spawn=0,

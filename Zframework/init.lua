@@ -390,11 +390,40 @@ function love.resize(w,h)
 
     SHADER.warning:send('w',w*SCR.dpi)
 end
+local function task_autoSoundOff()
+    while true do
+        coroutine.yield()
+        local v=love.audio.getVolume()
+        love.audio.setVolume(math.max(v-.01,0))
+        if v==0 then return end
+    end
+end
+local function task_autoSoundOn()
+    while true do
+        coroutine.yield()
+        local v=love.audio.getVolume()
+        if v<SETTING.mainVol then
+            love.audio.setVolume(math.min(v+.01,SETTING.mainVol,1))
+        else
+            return
+        end
+    end
+end
 function love.focus(f)
     if f then
         love.timer.step()
-    elseif SCN.cur=='game'and SETTING.autoPause then
-        pauseGame()
+        if SETTING.autoMute then
+            TASK.removeTask_code(task_autoSoundOff)
+            TASK.new(task_autoSoundOn)
+        end
+    else
+        if SCN.cur=='game'and SETTING.autoPause then
+            pauseGame()
+        end
+        if SETTING.autoMute then
+            TASK.removeTask_code(task_autoSoundOn)
+            TASK.new(task_autoSoundOff)
+        end
     end
 end
 
