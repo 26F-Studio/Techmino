@@ -413,7 +413,7 @@ local DemoEnv={
 function PLY.newDemoPlayer(id)
     local P=_newEmptyPlayer(id)
     P.type='computer'
-    P.sound=true
+    P.sound=false
     P.demo=true
 
     P.frameRun=180
