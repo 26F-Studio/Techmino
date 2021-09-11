@@ -671,7 +671,7 @@ return{
         app_15p={
             reset="Shuffle",
             color="Color",
-            blind="Blind",
+            invis="Invis",
             slide="Slide",
             pathVis="Show Path",
             revKB="Reverse",
@@ -679,7 +679,7 @@ return{
         app_schulteG={
             reset="Reset",
             rank="Size",
-            blind="Blind",
+            invis="Invis",
             disappear="Hide",
             tapFX="Tap FX",
         },
@@ -693,7 +693,7 @@ return{
         },
         app_2048={
             reset="Reset",
-            blind="Blind",
+            invis="Invis",
             tapControl="Tap controls",
 
             skip="Skip Round",
@@ -701,7 +701,7 @@ return{
         app_ten={
             reset="Reset",
             next="Next",
-            blind="Blind",
+            invis="Invis",
             fast="Fast",
         },
         app_dtw={
@@ -775,12 +775,12 @@ return{
         ['rhythm_e']=      {"Rhythm",            "EASY",       "200-line low-BPM rhythm marathon."},
         ['rhythm_h']=      {"Rhythm",            "HARD",       "200-line medium BPM rhythm marathon"},
         ['rhythm_u']=      {"Rhythm",            "ULTIMATE",   "200-line high-BPM rhythm marathon."},
-        ['blind_e']=       {"Blind",             "HALF",       "For novices."},
-        ['blind_n']=       {"Blind",             "ALL",        "For intermediates."},
-        ['blind_h']=       {"Blind",             "SUDDEN",     "For the experienced."},
-        ['blind_l']=       {"Blind",             "SUDDEN+",    "For professionals."},
-        ['blind_u']=       {"Blind",              "?",         "Are you ready?"},
-        ['blind_wtf']=     {"Blind",             "WTF",        "You're not ready."},
+        ['blind_e']=       {"Invis",             "HALF",       "For novices."},
+        ['blind_n']=       {"Invis",             "ALL",        "For intermediates."},
+        ['blind_h']=       {"Invis",             "SUDDEN",     "For the experienced."},
+        ['blind_l']=       {"Invis",             "SUDDEN+",    "For professionals."},
+        ['blind_u']=       {"Invis",              "?",         "Are you ready?"},
+        ['blind_wtf']=     {"Invis",             "WTF",        "You're not ready."},
         ['classic_h']=     {"Classic",           "HARD",       "A medium speed recreation from the 80s."},
         ['classic_l']=     {"Classic",           "LUNATIC",    "A high-speed recreation from the 80s."},
         ['classic_u']=     {"Classic",           "ULTIMATE",   "A very high-speed recreation from the 80s."},

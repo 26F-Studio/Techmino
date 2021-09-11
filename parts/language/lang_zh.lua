@@ -669,7 +669,7 @@ return{
         app_15p={
             reset="打乱",
             color="颜色",
-            blind="盲打",
+            invis="盲打",
             slide="滑动操作",
             pathVis="路径显示",
             revKB="键盘反向",
@@ -677,7 +677,7 @@ return{
         app_schulteG={
             reset="重来",
             rank="尺寸",
-            blind="盲打",
+            invis="盲打",
             disappear="消失",
             tapFX="点击动画",
         },
@@ -694,7 +694,7 @@ return{
         },
         app_2048={
             reset="重置",
-            blind="盲打",
+            invis="盲打",
             tapControl="点击操作",
 
             skip="跳过回合",
@@ -702,7 +702,7 @@ return{
         app_ten={
             reset="重置",
             next="预览",
-            blind="盲打",
+            invis="盲打",
             fast="速打",
         },
         app_dtw={

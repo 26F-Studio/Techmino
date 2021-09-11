@@ -9,7 +9,7 @@ local mStr=mStr
 local scene={}
 
 local board,rank
-local blind,disappear
+local invis,disappear
 local startTime,time
 local state,progress
 local tapFX,mistake
@@ -19,7 +19,7 @@ function scene.sceneInit()
     BGM.play('way')
     board={}
     rank=3
-    blind=false
+    invis=false
     disappear=false
     tapFX=true
 
@@ -94,7 +94,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="q"then
         if state==0 then
-            blind=not blind
+            invis=not invis
         end
     elseif key=="w"then
         if state==0 then
@@ -143,7 +143,7 @@ function scene.draw()
     gc.rectangle('line',310,30,660,660)
 
     local width=640/rank
-    local mono=state==0 or blind and state==1 and progress>0
+    local mono=state==0 or invis and state==1 and progress>0
     gc.setLineWidth(4)
     local f=180-rank*20
     setFont(f)
@@ -171,7 +171,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",    x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"space",hideF=function()return state==0 end},
     WIDGET.newSlider{name="rank",     x=130,y=250,w=150,unit=3,show=false,font=40,disp=function()return rank-3 end,code=function(v)rank=v+3 end,hideF=function()return state>0 end},
-    WIDGET.newSwitch{name="blind",    x=240,y=330,w=60,        font=40,disp=function()return blind end,    code=pressKey"q",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="invis",    x=240,y=330,w=60,        font=40,disp=function()return invis end,    code=pressKey"q",hideF=function()return state==1 end},
     WIDGET.newSwitch{name="disappear",x=240,y=420,w=60,        font=40,disp=function()return disappear end,code=pressKey"w",hideF=function()return state==1 end},
     WIDGET.newSwitch{name="tapFX",    x=240,y=510,w=60,        font=40,disp=function()return tapFX end,    code=pressKey"e",hideF=function()return state==1 end},
     WIDGET.newButton{name="back",     x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},

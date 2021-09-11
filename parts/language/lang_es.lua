@@ -577,7 +577,7 @@ return{
         app_15p={
             reset="Mezclar",
             color="Color",
-            blind="A ciegas",
+            invis="A ciegas",
             slide="Mover",
             pathVis="Mostrar Movs.",
             revKB="Deshacer",
@@ -585,7 +585,7 @@ return{
         app_schulteG={
             reset="Reiniciar",
             rank="Tamaño",
-            blind="A ciegas",
+            invis="A ciegas",
             disappear="No mostrar",
             tapFX="Sonido al pulsar",
         },
@@ -599,14 +599,14 @@ return{
         },
         app_2048={
             reset="Reiniciar",
-            blind="A ciegas",
+            invis="A ciegas",
             tapControl="Control táctil",
             skip="Saltar ronda",
         },
         app_ten={
             reset="Reiniciar",
             next="Siguiente",
-            blind="A ciegas",
+            invis="A ciegas",
             fast="Rápido",
         },
         app_dtw={

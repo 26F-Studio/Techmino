@@ -574,7 +574,7 @@ return{
         app_15p={
             reset="Réinitialiser",
             color="Couleur",
-            blind="Aveugler",
+            invis="Aveugler",
             slide="Glisser",
             pathVis="Montrer le tracé",
             revKB="Inverser",
@@ -582,7 +582,7 @@ return{
         app_schulteG={
             reset="Réinitialiser",
             rank="Taille",
-            blind="Aveugler",
+            invis="Aveugler",
             disappear="Cacher",
             tapFX="Effet quand tapé",
         },
@@ -596,14 +596,14 @@ return{
         },
         app_2048={
             reset="Réinitialiser",
-            blind="Aveugler",
+            invis="Aveugler",
             tapControl="Contrôle par toucher",
             skip="Passer Round",
         },
         app_ten={
             reset="Réinitialiser",
             next="Prévisualisations",
-            blind="Aveugler",
+            invis="Aveugler",
             -- fast="Fast",
         },
         app_dtw={

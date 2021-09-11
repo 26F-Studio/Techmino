@@ -9,7 +9,7 @@ local mStr=mStr
 
 local scene={}
 
-local blind,tapControl
+local invis,tapControl
 
 local board
 local startTime,time
@@ -231,7 +231,7 @@ function scene.sceneInit()
     BGM.play('truth')
     board={}
 
-    blind=false
+    invis=false
     tapControl=false
     startTime=0
     reset()
@@ -320,7 +320,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="space"then skip()
     elseif key=="r"then reset()
-    elseif key=="q"then if state==0 then blind=not blind end
+    elseif key=="q"then if state==0 then invis=not invis end
     elseif key=="w"then if state==0 then tapControl=not tapControl end
     elseif key=="1"or key=="2"then(kb.isDown("lshift","lctrl","lalt")and playRep or setFocus)(key=="1"and 1 or 2)
     elseif key=="c1"then playRep(1)
@@ -405,7 +405,7 @@ function scene.draw()
             local x,y=1+(i-1)%4,int((i+3)/4)
             local N=board[i]
             if i~=prevPos or prevSpawnTime==1 then
-                if not blind or i==prevPos then
+                if not invis or i==prevPos then
                     setColor(tileColor[N]or COLOR.D)
                     rectangle('fill',x*160+163,y*160-117,154,154,15)
                     if N>=0 then
@@ -482,7 +482,7 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name="reset",     x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-    WIDGET.newSwitch{name="blind",     x=240,y=300,w=60,font=40,disp=function()return blind end,code=pressKey"q",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="invis",     x=240,y=300,w=60,font=40,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
     WIDGET.newSwitch{name="tapControl",x=240,y=370,w=60,font=40,disp=function()return tapControl end,code=pressKey"w",hideF=function()return state==1 end},
 
     WIDGET.newKey{name="up",           x=155,y=460,w=100,fText="↑",font=50, color='Y',code=pressKey"up",   hideF=function()return tapControl end},

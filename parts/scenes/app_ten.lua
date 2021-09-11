@@ -33,7 +33,7 @@ local fallingTimer
 local score
 
 local nexts
-local blind
+local invis
 local fast
 
 local function reset()
@@ -60,7 +60,7 @@ function scene.sceneInit()
     board={{},{},{},{},{}}
     cx,cy=3,3
     startTime=0
-    blind=false
+    invis=false
     nexts=true
     reset()
 end
@@ -149,7 +149,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="w"then
         if state==0 then
-            blind=not blind
+            invis=not invis
         end
     elseif key=="e"then
         if state==0 then
@@ -265,7 +265,7 @@ function scene.draw()
 
     gc.setLineWidth(4)
     setFont(70)
-    local hide=blind and state==1
+    local hide=invis and state==1
     for i=1,5 do
         for j=1,5 do
             local N=board[i][j]
@@ -303,7 +303,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
     WIDGET.newSwitch{name="next", x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name="blind",x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="invis",x=240,y=305,font=40,disp=function()return invis end,code=pressKey"w",hideF=function()return state==1 end},
     WIDGET.newSwitch{name="fast", x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hideF=function()return state==1 end},
     WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }

@@ -661,7 +661,7 @@ return{
         app_15p={
             reset="Embaralhar",
             C="Cor",
-            blind="Cego",
+            invis="Cego",
             slide="Deslizar",
             pathVis="Mostrar caminho",
             revKB="Reverso",
@@ -669,7 +669,7 @@ return{
         app_schulteG={
             reset="Resetar",
             rank="Tamanho",
-            blind="Cego",
+            invis="Cego",
             disappear="Escond.",
             tapFX="FX De Toque",
         },
@@ -683,14 +683,14 @@ return{
         },
         app_2048={
             reset="Resetar",
-            blind="Cego",
+            invis="Cego",
             -- tapControl="Tap control",
             -- skip="Skip Round",
         },
         app_ten={
             reset="Resetar",
             next="Próxima",
-            blind="Cego",
+            invis="Cego",
             -- fast="Fast",
         },
         app_dtw={

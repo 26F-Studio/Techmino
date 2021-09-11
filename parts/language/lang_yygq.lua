@@ -181,7 +181,7 @@ return{
         app_15p={
             reset="打乱",
             color="彩",
-            blind="盲",
+            invis="盲",
             slide="滑动",
             pathVis="路径显示",
             revKB="键盘反向",
@@ -189,7 +189,7 @@ return{
         app_schulteG={
             reset="重开",
             rank="尺寸",
-            blind="盲",
+            invis="盲",
             disappear="消失",
             tapFX="动画",
         },

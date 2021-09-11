@@ -9,7 +9,7 @@ local board,cx,cy
 local startTime,time
 local move,push,state
 
-local color,blind='color1'
+local color,invis='color1'
 local slide,pathVis,revKB
 
 local function ifGaming()return state==1 end
@@ -26,7 +26,7 @@ function scene.sceneInit()
     state=2
 
     color='color1'
-    blind=false
+    invis=false
     slide=true
     pathVis=true
     revKB=false
@@ -160,7 +160,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="w"then
         if state==0 then
-            blind=not blind
+            invis=not invis
         end
     elseif key=="e"then
         if state==0 then
@@ -292,7 +292,7 @@ function scene.draw()
     gc.rectangle('line',313,33,654,654,18)
 
     gc.setLineWidth(4)
-    local mono=blind and state==1
+    local mono=invis and state==1
     setFont(80)
     for i=1,4 do
         for j=1,4 do
@@ -322,7 +322,7 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
     colorSelector,
-    WIDGET.newSwitch{name="blind",  x=240, y=330,w=60,font=40,disp=function()return blind end,  code=pressKey"w",hideF=ifGaming},
+    WIDGET.newSwitch{name="invis",  x=240, y=330,w=60,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
     WIDGET.newSwitch{name="slide",  x=240, y=420,w=60,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
     WIDGET.newSwitch{name="pathVis",x=240, y=510,w=60,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
     WIDGET.newSwitch{name="revKB",  x=240, y=600,w=60,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
