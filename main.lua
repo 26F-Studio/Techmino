@@ -144,6 +144,7 @@ IMG.init{
     miyaF4='media/image/characters/miya_f4.png',
     nakiCH='media/image/characters/nakiharu.png',
     xiaoyaCH='media/image/characters/xiaoya.png',
+    mikuCH='media/image/characters/miku.png',
     electric='media/image/characters/electric.png',
     hbm='media/image/characters/hbm.png',
 

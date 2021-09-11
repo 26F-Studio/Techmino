@@ -64,6 +64,8 @@ function scene.draw()
         gc.draw(IMG.nakiCH,-30)
     elseif cv=="xiaoya"then
         gc.draw(IMG.xiaoyaCH,-30)
+    elseif cv=="miku"then
+        gc.draw(IMG.mikuCH,-30)
     end
     gc.translate(-x,-y)
 end
