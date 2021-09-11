@@ -652,7 +652,7 @@ local selector={
     type='selector',
     mustHaveText=true,
     ATV=8,--Activating time(0~4)
-    select=0,--Selected item ID
+    select=false,--Selected item ID
     selText=false,--Selected item name
 }
 function selector:reset()
@@ -663,7 +663,8 @@ function selector:reset()
         self.select=i
         self.selText=self.list[i]
     else
-        self.hide=true
+        self.select=0
+        self.selText=""
         MES.new('error',"Selector "..self.name.." dead, disp= "..tostring(V))
     end
 end
