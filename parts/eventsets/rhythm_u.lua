@@ -51,9 +51,7 @@ return{
             if P.modeData.counter==0 then
                 P.modeData.counter=P.modeData.beatFrame
                 SFX.play('click',.3)
-                P:switchKey(6,true)
-                P:pressKey(6)
-                P:switchKey(6,false)
+                P:act_hardDrop()
             end
         end
     end,
