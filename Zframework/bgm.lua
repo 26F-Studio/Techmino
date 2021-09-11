@@ -8,6 +8,7 @@ local BGM={
     onChange=NULL,
     --nowPlay=[str:playing ID]
     --playing=[src:playing SRC]
+    --lastPlayed=[str:lastPlayed ID]
 }
 function BGM.setDefault(bgm)
     BGM.default=bgm
@@ -52,7 +53,7 @@ function BGM.init(list)
             local v=src:getVolume()-.025*SETTING.bgm
             src:setVolume(v>0 and v or 0)
             if v<=0 then
-                src:stop()
+                src:pause()
                 return true
             end
         end
@@ -90,10 +91,21 @@ function BGM.init(list)
                 TASK.new(task_fadeIn,Sources[name])
                 BGM.nowPlay=name
                 BGM.playing=Sources[name]
+                BGM.lastPlayed=BGM.nowPlay
+                BGM.playing:seek(0)
                 BGM.playing:play()
                 BGM.onChange(name)
             end
             return true
+        end
+    end
+    function BGM.continue()
+        if BGM.lastPlayed then
+            BGM.nowPlay,BGM.playing=BGM.lastPlayed,Sources[BGM.lastPlayed]
+            TASK.removeTask_iterate(check_curFadeOut,task_fadeOut,Sources[BGM.nowPlay])
+            TASK.removeTask_code(task_fadeIn)
+            TASK.new(task_fadeIn,BGM.playing)
+            BGM.playing:play()
         end
     end
     function BGM.freshVolume()
