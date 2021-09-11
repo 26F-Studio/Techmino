@@ -126,7 +126,7 @@ function scene.draw()
             gc.setColor(color)
             gc.circle('line',0,0,rad,side)
             gc.setColor(COLOR.Z)
-            mStr(M.id,0,-25)
+            mStr(M.id,0,-27)
             if M.sel>0 and M.list then
                 setFont(25)
                 gc.setColor(1,1,1,10*t)
