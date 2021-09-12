@@ -31,7 +31,7 @@ function scene.keyDown(key,isRep)
         SCN.back()
     end
 end
-function scene.mouseDown(k)
+function scene.mouseDown(_,_,k)
     if k==1 then
         scene.keyDown("space")
     end
