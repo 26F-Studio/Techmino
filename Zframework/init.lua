@@ -394,7 +394,7 @@ local function task_autoSoundOff()
     while true do
         coroutine.yield()
         local v=love.audio.getVolume()
-        love.audio.setVolume(math.max(v-.01,0))
+        love.audio.setVolume(math.max(v-.05,0))
         if v==0 then return end
     end
 end
@@ -403,7 +403,7 @@ local function task_autoSoundOn()
         coroutine.yield()
         local v=love.audio.getVolume()
         if v<SETTING.mainVol then
-            love.audio.setVolume(math.min(v+.01,SETTING.mainVol,1))
+            love.audio.setVolume(math.min(v+.05,SETTING.mainVol,1))
         else
             return
         end
