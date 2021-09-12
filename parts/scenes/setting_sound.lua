@@ -59,8 +59,8 @@ function scene.draw()
         gc.draw(IMG.miyaF2,42,107+5*sin(t))
         gc.draw(IMG.miyaF3,93,126+3*sin(t*.7))
         gc.draw(IMG.miyaF4,129,98+3*sin(t*.5))
-    elseif cv=="naki"then
-        gc.draw(IMG.nakiCH,-30)
+    elseif cv=="mono"then
+        gc.draw(IMG.monoCH,-30)
     elseif cv=="xiaoya"then
         gc.draw(IMG.xiaoyaCH,-30)
     elseif cv=="miku"then
@@ -87,7 +87,7 @@ scene.widgetList={
     WIDGET.newSwitch{name="autoMute",x=1150,y=190,disp=SETval('autoMute'),code=SETrev('autoMute')},
     WIDGET.newSwitch{name="fine",   x=1150,y=270,disp=SETval('fine'),code=function()SETTING.fine=not SETTING.fine if SETTING.fine then SFX.play('finesseError',.6)end end},
 
-    WIDGET.newSelector{name="cv",   x=1100,y=380,w=200,list={'miya','naki','xiaoya','miku'},disp=function()return cv end,code=function(i)cv=i end},
+    WIDGET.newSelector{name="cv",   x=1100,y=380,w=200,list={'miya','mono','xiaoya','miku'},disp=function()return cv end,code=function(i)cv=i end},
     WIDGET.newButton{name="apply",  x=1100,y=460,w=180,h=80,code=function()SETTING.cv=cv VOC.loadAll()end,hideF=function()return SETTING.cv==cv end},
     WIDGET.newButton{name="back",   x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }

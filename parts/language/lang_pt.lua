@@ -182,7 +182,7 @@ return{
         "Programa: MrZ, Particle_G, [scdhh, FinnTenzor]",
         "Art: MrZ, Gnyar, ScF, [C29H25N3O5, 旋律星萤, T0722]",
         "Music: MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
-        "Voice & Sound: Miya, Xiaoya, Naki, MrZ",
+        "Voice & Sound: Miya, Xiaoya, Mono, MrZ",
         "Performance: 模电, HBM",
         "Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",
         "",
