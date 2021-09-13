@@ -207,7 +207,7 @@ local function touch(n)
         t=t:sub(1,p-1)..t:sub(p+1)
         if #t>0 then
             pos[1]=tonumber(t)
-            SFX.play('move')
+            SFX.play('lock')
         else
             rem(pos,1)
             while #pos<7 do generator[mode]()end
@@ -228,7 +228,7 @@ local function touch(n)
                 end
             end
             height=height+120
-            SFX.play('move')
+            SFX.play('lock')
         end
     else
         time=TIME()-startTime
