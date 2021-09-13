@@ -1,9 +1,12 @@
 local ms=love.mouse
 local gc=love.graphics
 local gc_setColor,gc_rectangle=gc.setColor,gc.rectangle
+local setFont=setFont
+
 local int,rnd,abs=math.floor,math.random,math.abs
 local max,min=math.max,math.min
 local ins,rem=table.insert,table.remove
+local function sign(a)return a>0 and 1 or a<0 and -1 or 0 end
 
 local levels={
     {c=6,r=3,color=3},
@@ -35,10 +38,11 @@ local colorList={
     COLOR.lF,
 }
 local sure=0
-local progress,level
-local state
 local invis,fast
+local state
 local startTime,time
+local progress,level
+local score,score1,combo,comboTime,maxCombo
 local field={
     x=160,y=30,
     w=960,h=640,
@@ -80,11 +84,12 @@ local function resetBoard()
     SYSFX.newShade(2,field.x,field.y,field.w,field.h,1,1,1)
 end
 local function newGame()
-    progress={}
     state=0
-    startTime=TIME()
-    time=0
     level=1
+    progress={}
+    time=0
+    startTime=TIME()
+    score,score1,combo,comboTime,maxCombo=0,0,0,0,0
     resetBoard()
 end
 local function addPoint(list,x,y)
@@ -154,10 +159,25 @@ local function touch(x,y)
                 local line=checkLink(x,y,selX,selY)
                 if line then
                     ins(lines,{time=0,line=line})
+
+                    --Clear
                     field[y][x]=false
                     field[selY][selX]=false
                     field.remain=field.remain-1
                     field.full=false
+
+                    --Score
+                    local s=1000+int(combo^.9)
+                    score=score+s
+                    TEXT.show(s,1205,500,20,'score')
+
+                    --Combo
+                    if comboTime==0 then combo=0 end
+                    comboTime=comboTime*max(1-combo*.001,.95)+max(1-combo*.01,.8)
+                    combo=combo+1
+                    if combo>maxCombo then maxCombo=combo end
+
+                    --Check win
                     if field.remain==0 then
                         if levels[level+1]then
                             ins(progress,("%s - %.3fs"):format(level,TIME()-startTime))
@@ -191,9 +211,6 @@ local scene={}
 function scene.sceneInit()
     invis,fast=false,false
     newGame()
-    SYSFX.update(1e99)
-    for i=1,#field do TABLE.cut(field[i])end
-    state=2
     BGM.play('hang out')
 end
 
@@ -247,11 +264,11 @@ end
 function scene.update(dt)
     if state==1 then
         time=TIME()-startTime
+        comboTime=max(comboTime-dt,0)
+        score1=score1+sign(score-score1)+int((score-score1)*.1+.5)
     end
 
-    if sure>0 then
-        sure=sure-dt
-    end
+    if sure>0 then sure=sure-dt end
 
     for i=#lines,1,-1 do
         local L=lines[i]
@@ -264,6 +281,7 @@ end
 
 function scene.draw()
     gc.push('transform')
+        --Camera
         gc.translate(field.x,field.y)
         gc.scale(field.w/field.c,field.h/field.r)
 
@@ -304,17 +322,51 @@ function scene.draw()
         end
     gc.pop()
 
+    if state==2 then
+        --Draw no-setting area
+        gc.setColor(1,0,0,.3)
+        gc.rectangle('fill',15,295,285,250)
+
+        gc.setColor(.9,.9,0)--win
+    elseif state==1 then
+        gc.setColor(.9,.9,.9)--game
+    elseif state==0 then
+        gc.setColor(.2,.8,.2)--ready
+    end
+    gc.setLineWidth(6)
+    gc.rectangle('line',field.x-5,field.y-5,field.w+10,field.h+10)
+
     --Time
-    setFont(30)
-    gc.setColor(COLOR.Z)
+    setFont(30)gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1140,20)
 
     --Progress time list
-    setFont(15)
-    gc.setColor(.6,.6,.6)
-    for i=1,#progress do
-        gc.print(progress[i],1140,35+20*i)
+    setFont(15)gc.setColor(.6,.6,.6)
+    for i=1,#progress do gc.print(progress[i],1140,40+20*i)end
+
+    --Combo Rectangle
+    if comboTime>0 then
+        local r=36*comboTime^.3
+        gc.setColor(1,1,1,min(.6+comboTime,1)*.25)
+        gc.rectangle('fill',1205-r,400-r,2*r,2*r,2)
+        gc.setColor(1,1,1,min(.6+comboTime,1))
+        gc.setLineWidth(2)
+        gc.rectangle('line',1205-r,400-r,2*r,2*r,4)
     end
+
+    --Combo Text
+    setFont(60)
+    if combo>50 then
+        gc.setColor(1,.2,.2,min(.3+comboTime*.5,1)*min(comboTime,1))
+        mStr(combo,1205+(rnd()-.5)*combo^.5,360+(rnd()-.5)*combo^.5)
+    end
+    local rg=max(1-combo*.001,.5)
+    gc.setColor(rg,rg,1,min(.4+comboTime,1))
+    mStr(combo,1205,360)
+
+    --Score
+    setFont(25)gc.setColor(COLOR.Z)
+    mStr(score1,1205,500)
 end
 
 scene.widgetList={
