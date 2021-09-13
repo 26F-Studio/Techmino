@@ -174,7 +174,7 @@ local function tap(x,y)
                     --Score
                     local s=1000+int(combo^.9)
                     score=score+s
-                    TEXT.show(s,1205,500,20,'score')
+                    TEXT.show("+"..s,1205,600,20,'score')
 
                     --Combo
                     if comboTime==0 then
@@ -359,31 +359,30 @@ function scene.draw()
     if comboTime>0 then
         local r=32*comboTime^.3
         gc.setColor(1,1,1,min(.6+comboTime,1)*.25)
-        gc.rectangle('fill',1205-r,400-r,2*r,2*r,2)
+        gc.rectangle('fill',1205-r,440-r,2*r,2*r,2)
         gc.setColor(1,1,1,min(.6+comboTime,1))
         gc.setLineWidth(2)
-        gc.rectangle('line',1205-r,400-r,2*r,2*r,4)
+        gc.rectangle('line',1205-r,440-r,2*r,2*r,4)
     end
 
     --Combo Text
     setFont(60)
     if combo>50 then
         gc.setColor(1,.2,.2,min(.3+comboTime*.5,1)*min(comboTime,1))
-        mStr(combo,1205+(rnd()-.5)*combo^.5,360+(rnd()-.5)*combo^.5)
+        mStr(combo,1205+(rnd()-.5)*combo^.5,398+(rnd()-.5)*combo^.5)
     end
-    local rg=max(1-combo*.001,.5)
-    gc.setColor(rg,rg,1,min(.4+comboTime,1))
-    mStr(combo,1205,360)
+    gc.setColor(1,1,max(1-combo*.001,.5),min(.4+comboTime,1))
+    mStr(combo,1205,398)
 
     --Score
     setFont(25)gc.setColor(COLOR.Z)
-    mStr(score1,1205,500)
+    mStr(score1,1205,560)
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="reset",x=80,y=60,w=120,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
+    WIDGET.newButton{name="reset",x=80,y=60,w=110,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
     WIDGET.newSwitch{name="invis",x=100,y=140,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newButton{name="back",x=1210,y=670,w=100,h=60,fText=TEXTURE.back,code=pressKey"escape"},
+    WIDGET.newButton{name="back",x=1200,y=660,w=110,h=60,fText=TEXTURE.back,code=pressKey"escape"},
 }
 
 return scene
