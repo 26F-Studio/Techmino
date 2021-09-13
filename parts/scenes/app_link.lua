@@ -1,4 +1,5 @@
 local ms=love.mouse
+local msIsDown,kbIsDown=ms.isDown,love.keyboard.isDown
 local gc=love.graphics
 local gc_setColor,gc_rectangle=gc.setColor,gc.rectangle
 local setFont=setFont
@@ -38,13 +39,14 @@ local colorList={
     COLOR.lF,
 }
 local sure=0
-local invis,fast
+local invis
 local state
 local startTime,time
 local progress,level
-local score,score1,combo,comboTime,maxCombo
+local score,score1
+local combo,comboTime,maxCombo,noComboBreak
 local field={
-    x=160,y=30,
+    x=160,y=40,
     w=960,h=640,
     c=16,r=10,
     remain=0,
@@ -81,6 +83,9 @@ local function resetBoard()
             field[y][x]=ri
         end
     end
+
+    noComboBreak=true
+    comboTime=comboTime+2
     SYSFX.newShade(2,field.x,field.y,field.w,field.h,1,1,1)
 end
 local function newGame()
@@ -149,7 +154,7 @@ local function checkLink(x1,y1,x2,y2)
     end
     return bestLine
 end
-local function touch(x,y)
+local function tap(x,y)
     if x>=1 and x<=field.c and y>=1 and y<=field.r then
         if state==0 then
             state=1
@@ -172,15 +177,30 @@ local function touch(x,y)
                     TEXT.show(s,1205,500,20,'score')
 
                     --Combo
-                    if comboTime==0 then combo=0 end
+                    if comboTime==0 then
+                        combo=0
+                        noComboBreak=false
+                    end
                     comboTime=comboTime*max(1-combo*.001,.95)+max(1-combo*.01,.8)
                     combo=combo+1
                     if combo>maxCombo then maxCombo=combo end
 
                     --Check win
                     if field.remain==0 then
+                        if noComboBreak then
+                            SFX.play('emit')
+                            SFX.play('clear_4')
+                            TEXT.show("FULL COMBO",640,360,100,'beat',.626)
+                            comboTime=comboTime+3
+                        end
                         if levels[level+1]then
-                            ins(progress,("%s - %.3fs"):format(level,TIME()-startTime))
+                            local pText
+                            if noComboBreak then
+                                pText=("%s [FC] %.2fs"):format(level,TIME()-startTime)
+                            else
+                                pText=("%s - %.2fs"):format(level,TIME()-startTime)
+                            end
+                            ins(progress,pText)
                             level=level+1
                             resetBoard()
                             SFX.play('reach')
@@ -189,17 +209,21 @@ local function touch(x,y)
                             SFX.play('win')
                         end
                     else
-                        SFX.play('clear_1')
+                        SFX.play(
+                            combo<50 and'clear_1'or
+                            combo<100 and'clear_2'or
+                            'clear_3',.8
+                        )
                     end
                     selX,selY=false,false
                 else
                     selX,selY=x,y
-                    SFX.play('lock')
+                    SFX.play('lock',.9)
                 end
             else
                 if field[y][x]and(x~=selX or y~=selY)then
                     selX,selY=x,y
-                    SFX.play('lock')
+                    SFX.play('lock',.8)
                 end
             end
         end
@@ -209,9 +233,9 @@ end
 local scene={}
 
 function scene.sceneInit()
-    invis,fast=false,false
+    invis=false
     newGame()
-    BGM.play('hang out')
+    BGM.play('truth')
 end
 
 function scene.keyDown(key,isRep)
@@ -235,31 +259,18 @@ function scene.keyDown(key,isRep)
     elseif state==0 then
         if key=="q"then
             invis=not invis
-        elseif key=="w"then
-            fast=not fast
         end
     end
 end
-function scene.mouseDown(x,y,k)
-    if k==1 or k==2 or not k then
-        x=int((x-field.x)/field.w*field.c+1)
-        y=int((y-field.y)/field.h*field.r+1)
-        touch(x,y)
-    end
+local function touch(x,y)
+    x=int((x-field.x)/field.w*field.c+1)
+    y=int((y-field.y)/field.h*field.r+1)
+    tap(x,y)
 end
-function scene.mouseMove(x,y)
-    if fast then
-        scene.mouseDown(x,y)
-    end
-end
-function scene.touchDown(x,y)
-    scene.mouseDown(x,y,1)
-end
-function scene.touchMove(x,y)
-    if fast then
-        scene.mouseDown(x,y)
-    end
-end
+function scene.mouseDown(x,y,k)if k==1 or k==2 or not k then touch(x,y)end end
+function scene.mouseMove(x,y)if(msIsDown(1)or kbIsDown("z","x"))then touch(x,y)end end
+function scene.touchDown(x,y)touch(x,y)end
+function scene.touchMove(x,y)touch(x,y)end
 
 function scene.update(dt)
     if state==1 then
@@ -325,7 +336,7 @@ function scene.draw()
     if state==2 then
         --Draw no-setting area
         gc.setColor(1,0,0,.3)
-        gc.rectangle('fill',15,295,285,250)
+        gc.rectangle('fill',0,100,155,80)
 
         gc.setColor(.9,.9,0)--win
     elseif state==1 then
@@ -346,7 +357,7 @@ function scene.draw()
 
     --Combo Rectangle
     if comboTime>0 then
-        local r=36*comboTime^.3
+        local r=32*comboTime^.3
         gc.setColor(1,1,1,min(.6+comboTime,1)*.25)
         gc.rectangle('fill',1205-r,400-r,2*r,2*r,2)
         gc.setColor(1,1,1,min(.6+comboTime,1))
@@ -372,7 +383,6 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",x=80,y=60,w=120,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
     WIDGET.newSwitch{name="invis",x=100,y=140,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name="fast", x=100,y=210,disp=function()return fast end,code=pressKey"w",hideF=function()return state==1 end},
     WIDGET.newButton{name="back",x=1210,y=670,w=100,h=60,fText=TEXTURE.back,code=pressKey"escape"},
 }
 

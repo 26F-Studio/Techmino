@@ -623,7 +623,6 @@ return{
         app_link={
             reset="Réinitialiser",
             invis="Aveugler",
-            -- fast="Fast",
         },
         savedata={
             -- export="Export to clipboard",

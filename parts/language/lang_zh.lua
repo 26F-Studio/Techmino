@@ -717,7 +717,6 @@ return{
         app_link={
             reset="重置",
             invis="盲打",
-            fast="速打",
         },
         savedata={
             export="导出到剪切板",

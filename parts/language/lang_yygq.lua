@@ -210,7 +210,6 @@ return{
         },
         app_link={
             invis="盲",
-            fast="冲",
         },
         savedata={
             export="复制走",

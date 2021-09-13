@@ -716,7 +716,6 @@ return{
         app_link={
             reset="Reset",
             invis="Invis",
-            fast="Fast",
         },
         savedata={
             export="Export to clipboard",

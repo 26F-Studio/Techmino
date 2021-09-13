@@ -705,7 +705,6 @@ return{
         app_link={
             reset="Resetar",
             invis="Cego",
-            -- fast="Fast",
         },
         savedata={
             -- export="Export to clipboard",
