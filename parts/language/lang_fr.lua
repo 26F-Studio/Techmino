@@ -620,6 +620,11 @@ return{
             his="History",
             qq="QQ du créateur",
         },
+        app_link={
+            reset="Réinitialiser",
+            invis="Aveugler",
+            -- fast="Fast",
+        },
         savedata={
             -- export="Export to clipboard",
             -- import="Import from clipboard",

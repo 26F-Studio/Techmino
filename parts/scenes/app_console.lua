@@ -587,6 +587,11 @@ local commands={}do
                 scene='app_polyforge',
                 description="Polyforge, original by ImpactBlue Studios"
             },
+            {
+                code="link",
+                scene='app_link',
+                description="Simple link game"
+            },
         }
         commands.app={
             code=function(name)

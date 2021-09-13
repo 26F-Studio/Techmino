@@ -618,6 +618,11 @@ return{
             bgm="BGM",
             arcade="Arcade",
         },
+        app_link={
+            reset="Reiniciar",
+            invis="A ciegas",
+            fast="Rápido",
+        },
         savedata={
             export="Exportar al portapapeles",
             import="Importar de portapapeles",

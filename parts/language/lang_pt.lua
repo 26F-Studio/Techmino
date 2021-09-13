@@ -702,6 +702,11 @@ return{
             bgm="BGM",
             -- arcade="Arcade",
         },
+        app_link={
+            reset="Resetar",
+            invis="Cego",
+            -- fast="Fast",
+        },
         savedata={
             -- export="Export to clipboard",
             -- import="Import from clipboard",

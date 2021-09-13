@@ -188,11 +188,29 @@ return{
             revKB="键盘反向",
         },
         app_schulteG={
-            reset="重开",
             rank="尺寸",
             invis="盲",
             disappear="消失",
             tapFX="动画",
+        },
+        app_2048={
+            invis="盲",
+            tapControl="点",
+            skip="跳过",
+        },
+        app_ten={
+            next="预览",
+            invis="盲",
+            fast="冲",
+        },
+        app_dtw={
+            color="彩",
+            bgm="曲",
+            arcade="街机",
+        },
+        app_link={
+            invis="盲",
+            fast="冲",
         },
         savedata={
             export="复制走",

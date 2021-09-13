@@ -713,6 +713,11 @@ return{
             bgm="BGM",
             arcade="Arcade",
         },
+        app_link={
+            reset="Reset",
+            invis="Invis",
+            fast="Fast",
+        },
         savedata={
             export="Export to clipboard",
             import="Import from clipboard",
