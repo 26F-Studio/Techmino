@@ -1065,7 +1065,7 @@ return{
         "https://space.bilibili.com/9964553",
     },
     {"Mono",
-        "mono kouquankou",
+        "mono dongxi",
         "name",
         "Tetris Research community member.\nWe seem to have lost some information about this individual, but you should still be able to find her in one of the voice packs in Techmino.",
         "https://space.bilibili.com/1048531896",

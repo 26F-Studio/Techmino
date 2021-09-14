@@ -43,9 +43,10 @@ scene.widgetList={
     WIDGET.newSlider{name="reTime",    x=330,  y=320, w=300,unit=10,disp=SETval('reTime'),code=SETsto('reTime'),show=function(S)return(.5+S.disp()*.25).."s"end},
     WIDGET.newSelector{name="RS",      x=300,  y=420, w=300,color='S',list={'TRS','SRS','SRS_plus','SRS_X','BiRS','ARS_Z','ASC','ASC_plus','C2','C2_sym','Classic','Classic_plus','None','None_plus'},disp=SETval('RS'),code=SETsto('RS')},
     WIDGET.newButton{name="layout",    x=250,  y=540, w=200,h=70,font=35,      code=goScene'setting_skin'},
-    WIDGET.newSwitch{name="autoPause", x=1060, y=320, disp=SETval('autoPause'),code=SETrev('autoPause')},
-    WIDGET.newSelector{name="menuPos", x=980,  y=420, w=300,color='O',list={'left','middle','right'},disp=SETval('menuPos'),code=SETsto('menuPos')},
-    WIDGET.newSwitch{name="swap",      x=1060, y=520, disp=SETval('swap'),     code=SETrev('swap')},
+    WIDGET.newSelector{name="menuPos", x=980,  y=320, w=300,color='O',list={'left','middle','right'},disp=SETval('menuPos'),code=SETsto('menuPos')},
+    WIDGET.newSwitch{name="sysCursor" ,x=1060, y=390, disp=SETval('sysCursor'),code=switchCursor},
+    WIDGET.newSwitch{name="autoPause", x=1060, y=450, disp=SETval('autoPause'),code=SETrev('autoPause')},
+    WIDGET.newSwitch{name="swap",      x=1060, y=510, disp=SETval('swap'),     code=SETrev('swap')},
     WIDGET.newSwitch{name="autoSave",  x=600,  y=800, disp=SETval('autoSave'), code=SETrev('autoSave')},
     WIDGET.newSwitch{name="simpMode",  x=1060, y=800, disp=SETval('simpMode'),
         code=function()

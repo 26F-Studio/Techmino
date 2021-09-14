@@ -261,6 +261,7 @@ SETTING={--Settings
     fine=false,
     autoSave=false,
     simpMode=false,
+    sysCursor=true,
     lang=1,
     skinSet='crystal_scf',
     skin={

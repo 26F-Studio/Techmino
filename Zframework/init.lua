@@ -556,11 +556,13 @@ local ws_runningImg=GC.DO{20,20,
     {'setCL',.5,1,0},
     {'mText',"R",11,-1},
 }
+
 local function drawCursor(_,x,y)
     gc_setColor(1,1,1)
     gc_setLineWidth(2)
     gc_circle(ms.isDown(1)and'fill'or'line',x,y,6)
 end
+local function showPowerInfo()return true end
 
 function love.run()
     local love=love
@@ -646,7 +648,7 @@ function love.run()
                     MES_draw()
                 gc_replaceTransform(SCR.origin)
                     --Draw power info.
-                    if SETTING.powerInfo then
+                    if showPowerInfo()then
                         gc_setColor(1,1,1)
                         gc_draw(infoCanvas,safeX,0,0,SCR.k)
                     end
@@ -727,7 +729,7 @@ function love.run()
 
         --Fresh power info.
         if time-lastFreshPow>2.6 then
-            if SETTING.powerInfo and LOADED then
+            if showPowerInfo()then
                 updatePowerInfo()
                 lastFreshPow=time
             end
@@ -753,6 +755,8 @@ function love.run()
 end
 
 local Z={}
+
+function Z.setIfPowerInfo(func)showPowerInfo=func end
 
 --Warning: color and line width is uncertain value, set it in the function.
 function Z.setCursor(func)drawCursor=func end

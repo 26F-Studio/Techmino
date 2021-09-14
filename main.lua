@@ -36,7 +36,6 @@ math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
-love.mouse.setVisible(false)
 if SYSTEM=='Android'or SYSTEM=='iOS'then
     local w,h,f=love.window.getMode()
     f.resizable=false
@@ -60,15 +59,20 @@ do
     local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
     local ms=love.mouse
     Z.setCursor(function(time,x,y)
-        local R=int((time+1)/2)%7+1
-        _=minoColor[SETTING.skin[R]]
-        gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-        _=DSCP[R][0]
-        gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
-        gc_setColor(1,1,1)
-        gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+        if not SETTING.sysCursor then
+            local R=int((time+1)/2)%7+1
+            _=minoColor[SETTING.skin[R]]
+            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            _=DSCP[R][0]
+            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+            gc_setColor(1,1,1)
+            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+        end
     end)
 end
+Z.setIfPowerInfo(function()
+    return SETTING.powerInfo and LOADED
+end)
 
 FONT.init('parts/fonts/puhui.ttf')
     setFont=FONT.set
