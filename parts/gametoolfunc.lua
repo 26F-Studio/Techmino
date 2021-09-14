@@ -24,10 +24,15 @@ end
 function applySettings()
     love.window.setFullscreen(SETTING.fullscreen)
     love.audio.setVolume(SETTING.mainVol)
+    love.mouse.setVisible(SETTING.sysCursor)
     LANG.set(SETTING.lang)
     VK.setShape(SETTING.VKSkin)
     applyBlockSatur(SETTING.blockSatur)
     applyFieldSatur(SETTING.fieldSatur)
+end
+function switchCursor()
+    SETTING.sysCursor=not SETTING.sysCursor
+    love.mouse.setVisible(SETTING.sysCursor)
 end
 function switchFullscreen()
     SETTING.fullscreen=not SETTING.fullscreen
