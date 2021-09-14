@@ -1098,7 +1098,7 @@ return{
         "https://space.bilibili.com/9964553",
     },
     {"口〇口",
-        "口〇口 mono kouquankou t210",
+        "口〇口 mono kouquankou dongxi t210",
         "name",
         "【研究群】「T210」\n【不是虚拟主播哦】，techmino配音之一",
         "https://space.bilibili.com/1048531896",
