@@ -590,7 +590,7 @@ local commands={}do
             {
                 code="link",
                 scene='app_link',
-                description="Simple link game"
+                description="Connect tiles, a.k.a. Shisen-Sho"
             },
         }
         commands.app={
