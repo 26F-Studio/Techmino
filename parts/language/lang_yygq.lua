@@ -105,7 +105,8 @@ return{
             spawn="出块",
             warn="警告",
             vib="嗡嗡",
-            cv="谁",
+            sfxPack="啥",
+            vocPack="谁",
         },
         setting_control={
             title="改控制",

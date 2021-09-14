@@ -387,7 +387,8 @@ return{
 
             autoMute="Mute while unfocused",
             fine="Finesse Error SFX",
-            cv="Voice Pack",
+            sfxPack="SFX Pack",
+            vocPack="Voice Pack",
             apply="Apply",
         },
         setting_control={

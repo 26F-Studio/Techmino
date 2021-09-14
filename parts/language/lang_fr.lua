@@ -351,7 +351,8 @@ return{
 
             -- autoMute="Mute while unfocused",
             fine="Son d'erreur de Finesse",
-            -- cv="Voice Pack",
+            -- sfxPack="SFX Pack",
+            -- vocPack="Voice Pack",
             -- apply="Apply",
         },
         setting_control={

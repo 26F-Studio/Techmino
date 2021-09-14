@@ -375,7 +375,8 @@ return{
 
             -- autoMute="Mute while unfocused",
             fine="Som Falha de destreza",
-            cv="Pacote de voz",
+            -- sfxPack="SFX Pack",
+            vocPack="Pacote de voz",
             apply="Aplicar",
         },
         setting_control={

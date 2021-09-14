@@ -386,7 +386,8 @@ return{
 
             autoMute="失去焦点自动静音",
             fine="极简操作提示音",
-            cv="语音包",
+            sfxPack="音效包",
+            vocPack="语音包",
             apply="应用",
         },
         setting_control={

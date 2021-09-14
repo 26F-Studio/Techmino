@@ -63,7 +63,7 @@ function BGM.init(list)
                 Sources[name]:setVolume(0)
                 return true
             -- else
-                -- MES.new('warn',"No BGM file: "..Sources[name],5)
+                -- MES.new('warn',"[no BGM] "..Sources[name],5)
             end
         elseif Sources[name]then
             return true
