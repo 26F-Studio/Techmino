@@ -484,7 +484,7 @@ scene.widgetList={
     WIDGET.newButton{name="copy",   x=730, y=530,w=120,color='lR',      font=35,code=pressKey"cC"},
     WIDGET.newButton{name="paste",  x=860, y=530,w=120,color='lB',      font=35,code=pressKey"cV"},
     WIDGET.newButton{name="clear",  x=990, y=530,w=120,color='Z',       font=40,code=pressKey"delete"},
-    WIDGET.newSwitch{name="demo",   x=755, y=640,disp=function()return demo end,code=function()demo=not demo end},
+    WIDGET.newSwitch{name="demo",   x=755, y=640,lim=220,disp=function()return demo end,code=function()demo=not demo end},
 
     WIDGET.newButton{name="newPg",  x=100, y=110,w=160,h=110,color='N',font=20,code=pressKey"n"},
     WIDGET.newButton{name="delPg",  x=100, y=230,w=160,h=110,color='lR',font=20,code=pressKey"m"},

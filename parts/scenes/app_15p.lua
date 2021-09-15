@@ -311,10 +311,10 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
     colorSelector,
-    WIDGET.newSwitch{name="invis",  x=240, y=330,w=60,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
-    WIDGET.newSwitch{name="slide",  x=240, y=420,w=60,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
-    WIDGET.newSwitch{name="pathVis",x=240, y=510,w=60,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
-    WIDGET.newSwitch{name="revKB",  x=240, y=600,w=60,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
+    WIDGET.newSwitch{name="invis",  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
+    WIDGET.newSwitch{name="slide",  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
+    WIDGET.newSwitch{name="pathVis",x=240, y=510,lim=200,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
+    WIDGET.newSwitch{name="revKB",  x=240, y=600,lim=200,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
     WIDGET.newButton{name="back",   x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

@@ -40,9 +40,9 @@ local colorList={
 }
 gc.setDefaultFilter('nearest','nearest')
 local iconList={
-    GC.DO{10,10,{'fRect',3.5,3.5,4,4}},
+    GC.DO{10,10,{'fRect',2,2,6,6}},
     GC.DO{10,10,{'dRect',2.5,2.5,5,5}},
-    GC.DO{10,10,{'fCirc',5,5,2.5}},
+    GC.DO{10,10,{'fCirc',5,5,2}},
     GC.DO{10,10,{'fRect',2,2,2,6},{'fRect',6.5,2,2,6}},
     GC.DO{10,10,{'fRect',2,2,1,1},{'fRect',3,3,1,1},{'fRect',4,4,1,1},{'fRect',5,5,1,1},{'fRect',6,6,1,1},{'fRect',7,7,1,1}},
     GC.DO{10,10,{'fRect',2,2,2,2},{'fRect',2,6,2,2},{'fRect',6,2,2,2},{'fRect',6,6,2,2}},
@@ -327,7 +327,7 @@ function scene.draw()
                     if t then
                         gc_setColor(colorList[t])
                         gc_rectangle('fill',x-1,y-1,1,1)
-                        gc_setColor(0,0,0,.3)
+                        gc_setColor(0,0,0,.26)
                         gc_draw(iconList[t],x-1,y-1,nil,.1,.1)
                     end
                 end
