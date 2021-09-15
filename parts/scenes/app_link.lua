@@ -1,7 +1,7 @@
 local ms=love.mouse
 local msIsDown,kbIsDown=ms.isDown,love.keyboard.isDown
 local gc=love.graphics
-local gc_setColor,gc_rectangle=gc.setColor,gc.rectangle
+local gc_setColor,gc_rectangle,gc_draw=gc.setColor,gc.rectangle,gc.draw
 local setFont=setFont
 
 local int,rnd,abs=math.floor,math.random,math.abs
@@ -38,6 +38,20 @@ local colorList={
     COLOR.Z,
     COLOR.lF,
 }
+gc.setDefaultFilter('nearest','nearest')
+local iconList={
+    GC.DO{10,10,{'fRect',3.5,3.5,4,4}},
+    GC.DO{10,10,{'dRect',2.5,2.5,5,5}},
+    GC.DO{10,10,{'fCirc',5,5,2.5}},
+    GC.DO{10,10,{'fRect',2,2,2,6},{'fRect',6.5,2,2,6}},
+    GC.DO{10,10,{'fRect',2,2,1,1},{'fRect',3,3,1,1},{'fRect',4,4,1,1},{'fRect',5,5,1,1},{'fRect',6,6,1,1},{'fRect',7,7,1,1}},
+    GC.DO{10,10,{'fRect',2,2,2,2},{'fRect',2,6,2,2},{'fRect',6,2,2,2},{'fRect',6,6,2,2}},
+    GC.DO{1,1},
+    GC.DO{10,10,{'fRect',2,2,1,6},{'fRect',3,2,1,5},{'fRect',4,2,1,4},{'fRect',5,2,1,3},{'fRect',6,2,1,2},{'fRect',7,2,1,1}},
+    GC.DO{10,10,{'fRect',2,5,3,3},{'fRect',5,2,3,3}},
+}
+gc.setDefaultFilter('linear','linear')
+
 local sure=0
 local invis
 local state
@@ -310,9 +324,12 @@ function scene.draw()
         else
             for y=1,field.r do
                 for x=1,field.c do
-                    if field[y][x]then
-                        gc_setColor(colorList[field[y][x]])
+                    local t=field[y][x]
+                    if t then
+                        gc_setColor(colorList[t])
                         gc_rectangle('fill',x-1,y-1,1,1)
+                        gc_setColor(0,0,0,.3)
+                        gc_draw(iconList[t],x-1,y-1,nil,.1,.1)
                     end
                 end
             end
