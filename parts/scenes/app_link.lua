@@ -206,16 +206,15 @@ local function tap(x,y)
                             SFX.play('clear_4')
                             TEXT.show("FULL COMBO",640,360,100,'beat',.626)
                             comboTime=comboTime+3
+                            score=int(score*1.1)
                         end
-                        if levels[level+1]then
-                            local pText
-                            if noComboBreak then
-                                pText=("%s [FC] %.2fs"):format(level,TIME()-startTime)
-                            else
-                                pText=("%s - %.2fs"):format(level,TIME()-startTime)
-                            end
-                            ins(progress,pText)
-                            level=level+1
+                        ins(progress,
+                            noComboBreak and
+                            ("%s [FC] %.2fs"):format(level,TIME()-startTime)or
+                            ("%s - %.2fs"):format(level,TIME()-startTime)
+                        )
+                        level=level+1
+                        if levels[level]then
                             resetBoard()
                             SFX.play('reach')
                         else
@@ -364,6 +363,10 @@ function scene.draw()
     gc.setLineWidth(6)
     gc.rectangle('line',field.x-5,field.y-5,field.w+10,field.h+10)
 
+    --Maxcombo
+    setFont(20)gc.setColor(COLOR.dF)
+    gc.print(maxCombo,1142,1)
+
     --Time
     setFont(30)gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1140,20)
@@ -398,7 +401,7 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name="reset",x=80,y=60,w=110,h=60,color='lG',code=pressKey"r",hideF=function()return state==0 end},
-    WIDGET.newSwitch{name="invis",x=100,y=140,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="invis",x=100,y=140,lim=80,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
     WIDGET.newButton{name="back",x=1200,y=660,w=110,h=60,fText=TEXTURE.back,code=pressKey"escape"},
 }
 
