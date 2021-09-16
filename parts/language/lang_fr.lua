@@ -284,8 +284,9 @@ return{
             reTime="Délai de démarrage",
             RS="Système de rotation",
             layout="Disposition",
-            autoPause="Mettre en pause en cas de perte de focus",
             -- menuPos="Menu button pos.",
+            -- sysCursor="Use system cursur",
+            autoPause="Mettre en pause en cas de perte de focus",
             swap="Combinaison de touches (changer le mode d'attaque)",
             -- autoSave="Auto save new-best",
             -- simpMode="Simple mode",
@@ -350,7 +351,8 @@ return{
 
             -- autoMute="Mute while unfocused",
             fine="Son d'erreur de Finesse",
-            -- cv="Voice Pack",
+            -- sfxPack="SFX Pack",
+            -- vocPack="Voice Pack",
             -- apply="Apply",
         },
         setting_control={
@@ -619,6 +621,10 @@ return{
             staff="Staff",
             his="History",
             qq="QQ du créateur",
+        },
+        app_link={
+            reset="Réinitialiser",
+            invis="Aveugler",
         },
         savedata={
             -- export="Export to clipboard",

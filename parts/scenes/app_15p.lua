@@ -121,17 +121,6 @@ local function tapBoard(x,y,key)
             if checkBoard(b)then
                 state=2
                 time=TIME()-startTime
-                if time<1 then        MES.new(false,"不是人")
-                elseif time<2 then    MES.new(false,"还是人")
-                elseif time<3 then    MES.new(false,"神仙")
-                elseif time<5 then    MES.new(false,"太强了")
-                elseif time<7.5 then MES.new(false,"很强")
-                elseif time<10 then    MES.new(false,"可以的")
-                elseif time<20 then    MES.new(false,"马上入门了")
-                elseif time<30 then    MES.new(false,"入门不远了")
-                elseif time<60 then    MES.new(false,"多加练习")
-                else                MES.new(false,"第一次玩?加油")
-                end
                 SFX.play('win')
                 return
             end
@@ -322,10 +311,10 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
     colorSelector,
-    WIDGET.newSwitch{name="invis",  x=240, y=330,w=60,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
-    WIDGET.newSwitch{name="slide",  x=240, y=420,w=60,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
-    WIDGET.newSwitch{name="pathVis",x=240, y=510,w=60,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
-    WIDGET.newSwitch{name="revKB",  x=240, y=600,w=60,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
+    WIDGET.newSwitch{name="invis",  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
+    WIDGET.newSwitch{name="slide",  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
+    WIDGET.newSwitch{name="pathVis",x=240, y=510,lim=200,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
+    WIDGET.newSwitch{name="revKB",  x=240, y=600,lim=200,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
     WIDGET.newButton{name="back",   x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

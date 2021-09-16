@@ -309,8 +309,9 @@ return{
             reTime="Demora iniciação",
             RS="Sistema de rotação",
             layout="Layout",
-            autoPause="Pausar quando foco for perco",
             -- menuPos="Menu button pos.",
+            -- sysCursor="Use system cursur",
+            autoPause="Pausar quando foco for perco",
             swap="Combinação de tecla(Mudar modo de atk)",
             -- autoSave="Auto save new-best",
             -- simpMode="Simple mode",
@@ -374,7 +375,8 @@ return{
 
             -- autoMute="Mute while unfocused",
             fine="Som Falha de destreza",
-            cv="Pacote de voz",
+            -- sfxPack="SFX Pack",
+            vocPack="Pacote de voz",
             apply="Aplicar",
         },
         setting_control={
@@ -701,6 +703,10 @@ return{
             -- mode="Mode",
             bgm="BGM",
             -- arcade="Arcade",
+        },
+        app_link={
+            reset="Resetar",
+            invis="Cego",
         },
         savedata={
             -- export="Export to clipboard",

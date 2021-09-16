@@ -321,8 +321,9 @@ return{
             reTime="开局等待时间",
             RS="旋转系统",
             layout="外观",
-            autoPause="失去焦点自动暂停",
             menuPos="菜单按钮位置",
+            sysCursor="使用系统光标",
+            autoPause="失去焦点自动暂停",
             swap="组合键切换攻击模式",
             autoSave="破纪录自动保存",
             simpMode="简洁模式",
@@ -385,7 +386,8 @@ return{
 
             autoMute="失去焦点自动静音",
             fine="极简操作提示音",
-            cv="语音包",
+            sfxPack="音效包",
+            vocPack="语音包",
             apply="应用",
         },
         setting_control={
@@ -713,6 +715,10 @@ return{
             mode="模式",
             bgm="音乐",
             arcade="街机",
+        },
+        app_link={
+            reset="重置",
+            invis="盲打",
         },
         savedata={
             export="导出到剪切板",

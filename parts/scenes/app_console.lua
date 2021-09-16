@@ -587,6 +587,11 @@ local commands={}do
                 scene='app_polyforge',
                 description="Polyforge, original by ImpactBlue Studios"
             },
+            {
+                code="link",
+                scene='app_link',
+                description="Connect tiles, a.k.a. Shisen-Sho"
+            },
         }
         commands.app={
             code=function(name)

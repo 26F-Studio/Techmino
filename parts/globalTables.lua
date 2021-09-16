@@ -261,6 +261,7 @@ SETTING={--Settings
     fine=false,
     autoSave=false,
     simpMode=false,
+    sysCursor=true,
     lang=1,
     skinSet='crystal_scf',
     skin={
@@ -302,6 +303,8 @@ SETTING={--Settings
 
     --Sound
     autoMute=true,
+    sfxPack='chiptune',
+    vocPack='miya',
     mainVol=1,
     sfx=1,
     sfx_spawn=0,
@@ -310,7 +313,6 @@ SETTING={--Settings
     stereo=.7,
     vib=0,
     voc=0,
-    cv='miya',
 
     --Virtualkey
     VKSFX=.2,--SFX volume

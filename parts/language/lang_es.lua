@@ -287,8 +287,9 @@ return{
             reTime="Retraso de Inicio",
             RS="Sistema de Rotación",
             layout="Diseño",
-            autoPause="Pausar cuando la ventana no está enfocada",
             menuPos="Pos. del Botón de Menú",
+            -- sysCursor="Use system cursur",
+            autoPause="Pausar cuando la ventana no está enfocada",
             swap="Combinación de Teclas (Cambiar Modo de Ataque)",
             autoSave="Autograbar Récords",
             simpMode="Modo Sencillo",
@@ -351,7 +352,8 @@ return{
 
             -- autoMute="Mute while unfocused",
             fine="Sonido de Error de Finesse",
-            cv="Pack de Voces",
+            -- sfxPack="SFX Pack",
+            vocPack="Pack de Voces",
             apply="Aplicar",
         },
         setting_control={
@@ -617,6 +619,10 @@ return{
             mode="Modo",
             bgm="BGM",
             arcade="Arcade",
+        },
+        app_link={
+            reset="Reiniciar",
+            invis="A ciegas",
         },
         savedata={
             export="Exportar al portapapeles",

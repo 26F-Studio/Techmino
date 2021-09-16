@@ -27,7 +27,7 @@ function SKIN.init(list)
         if love.filesystem.getInfo(N)then
             I=gc.newImage(N)
         else
-            MES.new('warn',"No skin file: "..Skins[name])
+            MES.new('warn',"[no skin] "..Skins[name])
         end
         gc.setDefaultFilter(f1,f2)
 

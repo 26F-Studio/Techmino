@@ -36,7 +36,6 @@ math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
-love.mouse.setVisible(false)
 if SYSTEM=='Android'or SYSTEM=='iOS'then
     local w,h,f=love.window.getMode()
     f.resizable=false
@@ -60,15 +59,20 @@ do
     local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
     local ms=love.mouse
     Z.setCursor(function(time,x,y)
-        local R=int((time+1)/2)%7+1
-        _=minoColor[SETTING.skin[R]]
-        gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-        _=DSCP[R][0]
-        gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
-        gc_setColor(1,1,1)
-        gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+        if not SETTING.sysCursor then
+            local R=int((time+1)/2)%7+1
+            _=minoColor[SETTING.skin[R]]
+            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            _=DSCP[R][0]
+            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+            gc_setColor(1,1,1)
+            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+        end
     end)
 end
+Z.setIfPowerInfo(function()
+    return SETTING.powerInfo and LOADED
+end)
 
 FONT.init('parts/fonts/puhui.ttf')
     setFont=FONT.set
@@ -216,22 +220,22 @@ SKIN.init{
 --Initialize sound libs
 SFX.init((function()
     local L={}
-    for _,v in next,fs.getDirectoryItems('media/SFX')do
-        if fs.getRealDirectory('media/SFX/'..v)~=SAVEDIR then
+    for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
+        if fs.getRealDirectory('media/effect/chiptune/'..v)~=SAVEDIR then
             table.insert(L,v:sub(1,-5))
         else
-            MES.new('warn',"Dangerous file : %SAVE%/media/SFX/"..v)
+            MES.new('warn',"Dangerous file : %SAVE%/media/effect/chiptune/"..v)
         end
     end
     return L
 end)())
 BGM.init((function()
     local L={}
-    for _,v in next,fs.getDirectoryItems('media/BGM')do
-        if fs.getRealDirectory('media/BGM/'..v)~=SAVEDIR then
-            table.insert(L,{name=v:sub(1,-5),path='media/BGM/'..v})
+    for _,v in next,fs.getDirectoryItems('media/music')do
+        if fs.getRealDirectory('media/music/'..v)~=SAVEDIR then
+            table.insert(L,{name=v:sub(1,-5),path='media/music/'..v})
         else
-            MES.new('warn',"Dangerous file : %SAVE%/media/BGM/"..v)
+            MES.new('warn',"Dangerous file : %SAVE%/media/music/"..v)
         end
     end
     return L
@@ -378,6 +382,9 @@ do
     end
     if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
         SETTING.frameMul=100
+    end
+    if SETTING.cv then
+        SETTING.vocPack,SETTING.cv=SETTING.cv
     end
 
     for _,v in next,VK_org do v.color=nil end
