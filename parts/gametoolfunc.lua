@@ -212,9 +212,9 @@ function legalGameTime()--Check if today's playtime is legal
         RANKS.sprint_10l<4 and
         (not RANKS.sprint_40l or RANKS.sprint_40l<3)
     then
-        if STAT.todayTime<14400 then
+        if STAT.todayTime<7200 then
             return true
-        elseif STAT.todayTime<21600 then
+        elseif STAT.todayTime<14400 then
             MES.new('warn',text.playedLong)
             return true
         else
