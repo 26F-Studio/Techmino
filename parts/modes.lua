@@ -61,11 +61,11 @@ return{
     {name='blind_u',       x=150,       y=-1100,    size=30,shape=3,icon="hidden",      unlock={'blind_wtf'}},
     {name='blind_wtf',     x=150,       y=-1200,    size=25,shape=2,icon="hidden"},
 
-    {name='classic_e',     x=-150,      y=-950,     size=40,shape=1,icon="classic",     unlock={'classic_n'}},
+    {name='classic_e',     x=-150,      y=-825,     size=40,shape=1,icon="classic",     unlock={'classic_n'}},
     {name='classic_n',     x=-150,      y=-950,     size=40,shape=3,icon="classic",     unlock={'classic_h'}},
-    {name='classic_h',     x=-150,      y=-950,     size=40,shape=2,icon="classic",     unlock={'classic_l'}},
-    {name='classic_l',     x=-150,      y=-1100,    size=40,shape=2,icon="classic",     unlock={'classic_u'}},
-    {name='classic_u',     x=-150,      y=-1250,    size=40,shape=2,icon="classic"},
+    {name='classic_h',     x=-150,      y=-1075,     size=40,shape=2,icon="classic",     unlock={'classic_l'}},
+    {name='classic_l',     x=-150,      y=-1200,    size=40,shape=2,icon="classic",     unlock={'classic_u'}},
+    {name='classic_u',     x=-150,      y=-1325,    size=40,shape=2,icon="classic"},
 
     {name='survivor_e',    x=300,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_n'}},
     {name='survivor_n',    x=500,       y=-600,     size=40,shape=1,icon="survivor",    unlock={'survivor_h','attacker_h','defender_n','dig_h'}},
