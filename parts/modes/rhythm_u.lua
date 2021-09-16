@@ -1,7 +1,7 @@
 return{
     color=COLOR.magenta,
     env={
-        das=6,minarr=1,minsdarr=1,
+        das=6,minarr=1,minsdarr=1,minsdarr=1,
         keyCancel={6},
         eventSet='rhythm_u',
         bg='bg2',bgm='secret7th',
