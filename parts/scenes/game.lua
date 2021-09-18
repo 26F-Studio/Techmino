@@ -2,6 +2,7 @@ local gc,tc=love.graphics,love.touch
 local sin=math.sin
 local SCR,VK=SCR,VK
 local GAME=GAME
+local PLAYERS=PLAYERS
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
@@ -221,11 +222,11 @@ function scene.keyDown(key,isRep)
                         gameRate=gameRate==0 and .125 or 0
                     end
                     _updateRepButtons()
-                elseif key=='f2'then
+                elseif key=="f2"then
                     if not isRep then
                         _speedDown()
                     end
-                elseif key=='f3'then
+                elseif key=="f3"then
                     if gameRate==0 then
                         _step()
                     elseif not isRep then
@@ -387,15 +388,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name="rep0",   x=40,y=50,w=60,code=_rep0,fText=TEXTURE.rep.rep0},
-    WIDGET.newKey{name="repP8",  x=105,y=50,w=60,code=_repP8,fText=TEXTURE.rep.repP8},
-    WIDGET.newKey{name="repP2",  x=170,y=50,w=60,code=_repP2,fText=TEXTURE.rep.repP2},
-    WIDGET.newKey{name="rep1",   x=235,y=50,w=60,code=_rep1,fText=TEXTURE.rep.rep1},
-    WIDGET.newKey{name="rep2",   x=300,y=50,w=60,code=_rep2,fText=TEXTURE.rep.rep2},
-    WIDGET.newKey{name="rep5",   x=365,y=50,w=60,code=_rep5,fText=TEXTURE.rep.rep5},
-    WIDGET.newKey{name="step",   x=430,y=50,w=60,code=_step,fText=TEXTURE.rep.step},
-    WIDGET.newKey{name="restart",x=0,y=45,w=60,code=_restart,fText=TEXTURE.game.restart},
-    WIDGET.newKey{name="pause",  x=0,y=45,w=60,code=pauseGame,fText=TEXTURE.game.pause},
+    WIDGET.newKey{name="rep0",   x=40,y=50,w=60, code=_rep0,    fText=TEXTURE.rep.rep0},
+    WIDGET.newKey{name="repP8",  x=105,y=50,w=60,code=_repP8,   fText=TEXTURE.rep.repP8},
+    WIDGET.newKey{name="repP2",  x=170,y=50,w=60,code=_repP2,   fText=TEXTURE.rep.repP2},
+    WIDGET.newKey{name="rep1",   x=235,y=50,w=60,code=_rep1,    fText=TEXTURE.rep.rep1},
+    WIDGET.newKey{name="rep2",   x=300,y=50,w=60,code=_rep2,    fText=TEXTURE.rep.rep2},
+    WIDGET.newKey{name="rep5",   x=365,y=50,w=60,code=_rep5,    fText=TEXTURE.rep.rep5},
+    WIDGET.newKey{name="step",   x=430,y=50,w=60,code=_step,    fText=TEXTURE.rep.step},
+    WIDGET.newKey{name="restart",x=0,y=45,w=60,  code=_restart, fText=TEXTURE.game.restart},
+    WIDGET.newKey{name="pause",  x=0,y=45,w=60,  code=pauseGame,fText=TEXTURE.game.pause},
 }
 
 return scene

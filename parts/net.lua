@@ -3,6 +3,7 @@ local rem=table.remove
 
 local WS,TIME=WS,TIME
 local yield=YIELD
+local PLAYERS=PLAYERS
 
 local NET={
     allow_online=false,

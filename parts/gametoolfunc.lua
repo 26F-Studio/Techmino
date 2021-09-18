@@ -8,6 +8,7 @@ local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.pri
 local ins,rem=table.insert,table.remove
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
+local PLAYERS=PLAYERS
 
 
 

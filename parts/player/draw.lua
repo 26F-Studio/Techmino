@@ -16,6 +16,8 @@ local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
+local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
+
 local RCPB={10,33,200,33,105,5,105,60}
 local attackColor={
     {COLOR.dH,COLOR.Z},

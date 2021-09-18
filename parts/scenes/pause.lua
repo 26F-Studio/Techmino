@@ -33,8 +33,8 @@ function scene.sceneInit(org)
     if org:find("setting")then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
     end
-    local P=PLAYERS[1]
-    local S=P.stat
+    local P1=PLAYERS[1]
+    local S=P1.stat
 
     timer1=org=='game'and 0 or 50
     timer2=timer1
@@ -98,8 +98,8 @@ function scene.sceneInit(org)
         val[2*i-1],val[2*i]=val[i]*standard[2*i-1],val[i]*standard[2*i]
     end
 
-    if P.result=='win'and P.stat.piece>4 then
-        local acc=P.stat.finesseRate*.2/P.stat.piece
+    if P1.result=='win'and P1.stat.piece>4 then
+        local acc=P1.stat.finesseRate*.2/P1.stat.piece
         rank=
             acc==1. and"Z"or
             acc>.97 and"S"or
@@ -112,7 +112,7 @@ function scene.sceneInit(org)
         if acc==1 then
             trophy=text.finesse_ap
             trophyColor=COLOR.Y
-        elseif P.stat.maxFinesseCombo==P.stat.piece then
+        elseif P1.stat.maxFinesseCombo==P1.stat.piece then
             trophy=text.finesse_fc
             trophyColor=COLOR.lC
         else
