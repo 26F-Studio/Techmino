@@ -1,7 +1,6 @@
 local gc=love.graphics
 
 local sin=math.sin
-local rnd=math.random
 
 local scene={}
 
@@ -30,11 +29,7 @@ function scene.mouseDown(x,y)
             if t>2.6 and t<3 and not GAME.playing then
                 loadGame('sprintSmooth',true)
             else
-                VOC.play(
-                    (t<1.5 or t>15)and"doubt"or
-                    rnd()<.8 and"happy"or
-                    "egg"
-                )
+                VOC.play((t<1.26 or t>6.26)and'doubt'or'happy')
                 last=TIME()
             end
         end

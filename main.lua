@@ -246,7 +246,7 @@ VOC.init{
     'mini','b2b','b3b',
     'perfect_clear','half_clear',
     'win','lose','bye',
-    'test','happy','doubt','sad','egg',
+    'test','happy','doubt',
     'welcome_voc',
 }
 
