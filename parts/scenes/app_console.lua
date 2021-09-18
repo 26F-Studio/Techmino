@@ -592,6 +592,11 @@ local commands={}do
                 scene='app_link',
                 description="Connect tiles, a.k.a. Shisen-Sho"
             },
+            {
+                code="arm",
+                scene='app_arithmetic',
+                description="Arithmetic"
+            },
         }
         commands.app={
             code=function(name)
