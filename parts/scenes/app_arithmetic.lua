@@ -81,7 +81,7 @@ local levels={
     function()-- <%3>
         local s=rnd(5,17)
         return s.."%3",s%3
-    end,nil,nil,nil,
+    end,nil,nil,
     function()-- <%> [,10]
         local s=rnd(21,62)
         local a=rnd(3,9)
@@ -94,11 +94,11 @@ local levels={
     function()-- <o>
         local a=rnd(9,63)
         return{COLOR.lR,b8(a)},a
-    end,nil,nil,nil,nil,
+    end,nil,nil,nil,
     function()-- <h>
         local a=rnd(17,255)
         return{COLOR.J,b16(a)},a
-    end,nil,nil,nil,nil,
+    end,nil,nil,
     function()-- <b+>
         local s=rnd(9,31)
         local a=rnd(5,int(s/2))
@@ -108,15 +108,13 @@ local levels={
         local s=rnd(18,63)
         local a=rnd(9,int(s/2))
         return{COLOR.lR,b8(a),COLOR.Z,"+",COLOR.lR,b8(s-a)},s
-    end,nil,nil,nil,nil,
+    end,nil,nil,nil,
     function()-- <h+>
         local s=rnd(34,255)
         local a=rnd(17,int(s/2))
         return{COLOR.J,b16(a),COLOR.Z,"+",COLOR.J,b16(s-a)},s
-    end,nil,nil,nil,nil,
-    function()-- <?>
-        return "Coming S∞n"..(rnd()<.5 and""or" "),1e99
-    end,
+    end,nil,nil,
+    function()return "Coming S∞n"..(rnd()<.5 and""or" "),1e99 end,
 }setmetatable(levels,{__index=function(self,k)return self[k-1]end})
 
 local level
@@ -153,6 +151,7 @@ end
 
 function scene.keyDown(key,isRep)
     if isRep then return end
+    if key:sub(1,2)=="kp"then key=key:sub(3)end
     if #key==1 and("0123456789"):find(key)then
         if #input<8 then
             input=input..key
