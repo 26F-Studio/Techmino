@@ -8,13 +8,6 @@ return{
         bg='rgb',bgm='magicblock',
     },
     slowMark=true,
-    mesDisp=function(P)
-        setFont(75)
-        local r=P.modeData.target*.1
-        mStr(r<22 and 29 or("%02x"):format(r*10-220),63,210)
-        mText(drawableText.speedLV,63,290)
-        PLY.draw.drawProgress(P.stat.row,P.modeData.target)
-    end,
     score=function(P)return{P.stat.score,P.stat.row}end,
     scoreDisp=function(D)return D[1].."   "..D[2].." Lines"end,
     comp=function(a,b)return a[1]>b[1]or a[1]==b[1]and a[2]<b[2]end,
