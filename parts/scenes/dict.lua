@@ -57,7 +57,7 @@ local function _search()
 end
 
 function scene.sceneInit()
-    dict=require("parts.language.dict_"..({"zh","zh","zh","en","en","en","en","en"})[SETTING.lang])
+    dict=require("parts.language.dict_"..(SETTING.locale:find'zh'and'zh'or'en'))
 
     inputBox:clear()
     result={}
