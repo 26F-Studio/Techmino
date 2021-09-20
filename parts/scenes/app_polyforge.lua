@@ -1,6 +1,6 @@
 local gc=love.graphics
 local rnd,sin,cos=math.random,math.sin,math.cos
-local setFont,mStr=FONT.get,GC.mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local tau=math.pi*2
 

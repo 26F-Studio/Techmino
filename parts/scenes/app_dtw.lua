@@ -1,5 +1,5 @@
 local gc=love.graphics
-local setFont,mStr=FONT.get,GC.mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local int,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
