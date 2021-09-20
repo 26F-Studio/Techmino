@@ -126,8 +126,8 @@ local loadingThread=coroutine.wrap(function()
     NET.wsconn_app()
 
     SFX.play('enter',.8)
-    SFX.play('welcome_sfx')
-    VOC.play('welcome_voc')
+    SFX.play('welcome')
+    VOC.play('welcome')
     THEME.fresh()
     LOADED=true
     return'finish'
