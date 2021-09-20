@@ -2,8 +2,7 @@ return{
     color=COLOR.green,
     env={
         drop=60,lock=180,
-        noTele=true,
-        keyCancel={1,2},
+        keyCancel={1,2,11,12,17,18,19,20},
         eventSet='checkLine_40',
         bg='aura',bgm='waterfall',
     },
