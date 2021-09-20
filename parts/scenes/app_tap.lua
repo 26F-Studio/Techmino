@@ -1,7 +1,7 @@
 local gc=love.graphics
 local max=math.max
 local ins=table.insert
-local mStr=mStr
+local setFont,mStr=FONT.get,GC.mStr
 
 local scene={}
 

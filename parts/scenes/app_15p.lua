@@ -1,7 +1,7 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local mStr=mStr
+local mStr=GC.mStr
 
 local scene={}
 
@@ -258,7 +258,7 @@ local backColor={
     },--Black
 }
 function scene.draw()
-    setFont(40)
+    FONT.get(40)
     gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1026,80)
     gc.setColor(1,.8,.8)
@@ -282,7 +282,7 @@ function scene.draw()
 
     gc.setLineWidth(4)
     local mono=invis and state==1
-    setFont(80)
+    FONT.get(80)
     for i=1,4 do
         for j=1,4 do
             if cx~=j or cy~=i then

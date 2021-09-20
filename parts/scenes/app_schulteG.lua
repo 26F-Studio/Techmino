@@ -1,10 +1,7 @@
-local gc=love.graphics
-local ms=love.mouse
-
+local gc,ms=love.graphics,love.mouse
 local int,rnd=math.floor,math.random
 local rem=table.remove
-local setFont=setFont
-local mStr=mStr
+local setFont,mStr=FONT.get,GC.mStr
 
 local scene={}
 

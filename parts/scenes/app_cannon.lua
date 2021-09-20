@@ -103,7 +103,7 @@ function scene.draw()
     end
 
     --Info
-    setFont(40)
+    FONT.get(40)
     if combo>1 then
         gc.setColor(1,1,.6)
         gc.print("x"..combo,300,80)

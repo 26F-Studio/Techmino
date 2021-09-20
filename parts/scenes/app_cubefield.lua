@@ -1,10 +1,7 @@
-local gc=love.graphics
-local kb=love.keyboard
-local tc=love.touch
-
+local gc,kb,tc=love.graphics,love.keyboard,love.touch
 local rnd,int,abs=math.random,math.floor,math.abs
 local max,min=math.max,math.min
-local setFont=setFont
+local setFont,mStr=FONT.get,GC.mStr
 
 local cubeColor={
     {.88,.75,.00},

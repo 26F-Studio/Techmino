@@ -114,10 +114,10 @@ function scene.draw()
     gc.setColor(COLOR.Z)
     gc.setLineWidth(2)
     gc.rectangle('line',100,80,650,150,5)
-    setFont(45)
+    FONT.get(45)
     if reg then gc.printf(reg,0,100,720,'right')end
     if val then gc.printf(val,0,150,720,'right')end
-    if sym then setFont(50)gc.print(sym,126,150)end
+    if sym then FONT.get(50)gc.print(sym,126,150)end
 end
 
 scene.widgetList={
