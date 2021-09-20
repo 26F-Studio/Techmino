@@ -21,7 +21,7 @@ local function _setLang(lid)
     SETTING.locale=lid
     applyLanguage()
     TEXT.clear()
-    TEXT.show(langList[lid],640,500,100,'appear',.626)
+    TEXT.show(langList[lid],640,360,100,'appear',.626)
     collectgarbage()
 end
 scene.widgetList={
