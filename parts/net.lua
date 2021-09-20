@@ -79,7 +79,7 @@ end
 --Parse notice
 local function _parseNotice(str)
     str=STRING.split(str,"///")
-    return str[SETTING.lang<=3 and 1 or 2]or str[1]
+    return str[SETTING.locale<=3 and 1 or 2]or str[1]
 end
 
 --WS close message

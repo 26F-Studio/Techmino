@@ -262,7 +262,7 @@ SETTING={--Settings
     autoSave=false,
     simpMode=false,
     sysCursor=true,
-    lang=1,
+    locale='zh',
     skinSet='crystal_scf',
     skin={
         1,7,11,3,14,4,9,

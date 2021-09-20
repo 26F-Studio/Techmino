@@ -1,5 +1,5 @@
 return{
-    fallback=4,
+    fallback='en',
 
     atkModeName={"?","(  )","!","←→"},
     royale_remain="$1 ~",

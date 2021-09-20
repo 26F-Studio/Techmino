@@ -251,16 +251,17 @@ VOC.init{
 }
 
 --Initialize language lib
-LANG.init(
+LANG.init('zh',
     {
-        require'parts.language.lang_zh',
-        require'parts.language.lang_zh2',
-        require'parts.language.lang_yygq',
-        require'parts.language.lang_en',
-        require'parts.language.lang_fr',
-        require'parts.language.lang_es',
-        require'parts.language.lang_pt',
-        require'parts.language.lang_symbol',
+        zh=require'parts.language.lang_zh',
+        zh2=require'parts.language.lang_zh2',
+        en=require'parts.language.lang_en',
+        fr=require'parts.language.lang_fr',
+        es=require'parts.language.lang_es',
+        pt=require'parts.language.lang_pt',
+        grass=require'parts.language.lang_zh3',
+        yygq=require'parts.language.lang_yygq',
+        symbol=require'parts.language.lang_symbol',
         --1. Add language file to LANG folder;
         --2. Require it;
         --3. Add a button in parts/scenes/setting_lang.lua;
@@ -273,7 +274,13 @@ LANG.init(
             "J5","L5","R","Y","N","H","I5",
             "I3","C","I2","O1"
         },
-    }
+    },
+    (function()
+        local tipMeta={__call=function(L)return L[math.random(#L)]end}
+        return function(L)
+            if type(rawget(L,'getTip'))=='table'then setmetatable(L.getTip,tipMeta)end
+        end
+    end)()
 )
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
@@ -366,43 +373,19 @@ do
     end
     SETTING.appLock=nil
     SETTING.dataSaving=nil
-    if not SETTING.VKSkin then
-        SETTING.VKSkin=1
-    end
+    if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
-    if
-        SETTING.RS=='ZRS'or SETTING.RS=='BRS'or
-        SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'
-    then SETTING.RS='TRS'end
-    if SETTING.ghostType=='greyCell'then
-        SETTING.ghostType='grayCell'
-    end
-    if type(SETTING.skinSet)=='number'then
-        SETTING.skinSet='crystal_scf'
-    end
-    if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then
-        SETTING.frameMul=100
-    end
-    if SETTING.cv then
-        SETTING.vocPack,SETTING.cv=SETTING.cv
-    end
-
+    if SETTING.RS=='ZRS'or SETTING.RS=='BRS'or SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'then SETTING.RS='TRS'end
+    if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'end
+    if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
+    if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then SETTING.frameMul=100 end
+    if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
+    if RANKS.infinite then RANKS.infinite=0 end
+    if RANKS.infinite_dig then RANKS.infinite_dig=0 end
+    if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
+    if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
+    if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
     for _,v in next,VK_org do v.color=nil end
-    if RANKS.infinite then
-        RANKS.infinite=0
-    end
-    if RANKS.infinite_dig then
-        RANKS.infinite_dig=0
-    end
-    if not RANKS.sprint_10l then
-        RANKS.sprint_10l=0
-    end
-    if RANKS.master_l then
-        RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true
-    end
-    if RANKS.master_u then
-        RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true
-    end
     for k in next,RANKS do
         if type(k)=='number'then
             RANKS[k]=nil

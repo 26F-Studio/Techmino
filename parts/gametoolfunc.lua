@@ -22,14 +22,23 @@ end
 function saveSettings()
     return FILE.save(SETTING,'conf/settings')
 end
+function applyLanguage()
+    text=LANG.get(SETTING.locale)
+    WIDGET.setLang(text.WidgetText)
+    for k,v in next,drawableText do
+        if text[k]then
+            v:set(text[k])
+        end
+    end
+end
 function applySettings()
     love.window.setFullscreen(SETTING.fullscreen)
     love.audio.setVolume(SETTING.mainVol)
     love.mouse.setVisible(SETTING.sysCursor)
-    LANG.set(SETTING.lang)
     VK.setShape(SETTING.VKSkin)
     applyBlockSatur(SETTING.blockSatur)
     applyFieldSatur(SETTING.fieldSatur)
+    applyLanguage()
 end
 function switchCursor()
     SETTING.sysCursor=not SETTING.sysCursor
@@ -209,7 +218,7 @@ function freshDate(mode)
 end
 function legalGameTime()--Check if today's playtime is legal
     if
-        (SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
+        SETTING.locale:find'zh'and
         RANKS.sprint_10l<4 and
         (not RANKS.sprint_40l or RANKS.sprint_40l<3)
     then

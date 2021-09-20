@@ -1,5 +1,5 @@
 return{
-    fallback=4,
+    fallback='en',
     sureQuit="Pulsa de nuevo para salir",
     newDay="[Anti-adicción] ¡Nuevo día, nuevo comienzo!",
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
