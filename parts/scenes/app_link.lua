@@ -2,7 +2,7 @@ local ms=love.mouse
 local msIsDown,kbIsDown=ms.isDown,love.keyboard.isDown
 local gc=love.graphics
 local gc_setColor,gc_rectangle,gc_draw=gc.setColor,gc.rectangle,gc.draw
-local setFont,mStr=FONT.get,GC.mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local int,rnd,abs=math.floor,math.random,math.abs
 local max,min=math.max,math.min

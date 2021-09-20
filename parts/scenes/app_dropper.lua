@@ -1,6 +1,6 @@
 local gc=love.graphics
 local rnd,int,max=math.random,math.floor,math.max
-local setFont,mStr=FONT.get,GC.mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 --This mini-game is written for TI-nSpire CX CAS many years ago.
 --Deliberately, some grammar mistakes and typos in the 'great' list remained.

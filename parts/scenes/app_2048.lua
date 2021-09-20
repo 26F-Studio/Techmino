@@ -4,7 +4,7 @@ local setColor,rectangle=gc.setColor,gc.rectangle
 local int,abs=math.floor,math.abs
 local rnd,min=math.random,math.min
 local ins=table.insert
-local setFont=FONT.get
+local setFont=FONT.set
 local mStr=GC.mStr
 
 local scene={}
