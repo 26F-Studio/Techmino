@@ -747,7 +747,6 @@ return{
 
         ['master_l']=      {"Master",        "LUNATIQUE"},
         ['master_u']=      {"Master",        "ULTIME"},
-        ['classic_fast']=  {"Classic",         "CTWC"},
 
         ['custom_clear']=  {"Perso.",        "NORMAL"},
         ['custom_puzzle']= {"Perso.",        "PUZZLE"},

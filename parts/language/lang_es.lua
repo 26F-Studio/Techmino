@@ -744,7 +744,6 @@ return{
 
         ['master_l']=       {"Master",                  "Lunático"},
         ['master_u']=       {"Master",                  "Supremo"},
-        ['classic_fast']=   {"Clásico",                 "CTWC"},
 
         ['custom_clear']=   {"Personalizado",           "Normal"},
         ['custom_puzzle']=  {"Personalizado",           "Puzzle"},

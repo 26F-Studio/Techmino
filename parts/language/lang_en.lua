@@ -840,7 +840,6 @@ return{
 
         ['master_l']=      {"Master",            "LUNATIC"},
         ['master_u']=      {"Master",            "ULTIMATE"},
-        ['classic_fast']=  {"Classic",           "CTWC"},
 
         ['custom_clear']=  {"Custom",            "NORMAL"},
         ['custom_puzzle']= {"Custom",            "PUZZLE"},

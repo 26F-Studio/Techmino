@@ -841,7 +841,6 @@ return{
 
         ['master_l']=       {"大师",        "疯狂"},
         ['master_u']=       {"大师",        "极限"},
-        ['classic_fast']=   {"高速经典",    "CTWC"},
 
         ['custom_clear']=   {"自定义",       "普通"},
         ['custom_puzzle']=  {"自定义",       "拼图"},
