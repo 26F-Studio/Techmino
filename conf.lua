@@ -11,7 +11,6 @@ function love.conf(t)
 
     local W=t.window
     W.title="Techmino "..require"version".string
-    W.icon="media/image/icon.png"
     W.width,W.height=1280,720
     W.minwidth,W.minheight=640,360
     W.borderless=false
