@@ -1,6 +1,5 @@
 local gc=love.graphics
 local rnd=math.random
-local mStr=mStr
 
 local levels={
     A_Z="ABCDEFGHIJKLMNOPQRSTUVWXYZ",
@@ -83,7 +82,7 @@ function scene.update()
 end
 
 function scene.draw()
-    setFont(40)
+    FONT.get(40)
     gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1026,80)
     gc.print(mistake,1026,150)
@@ -100,15 +99,15 @@ function scene.draw()
         gc.setColor(.2,.8,.2)--ready
     end
 
-    setFont(100)
-    mStr(state==1 and #targetString-progress+1 or state==0 and"Ready"or state==2 and"Win",640,200)
+    FONT.get(100)
+    GC.mStr(state==1 and #targetString-progress+1 or state==0 and"Ready"or state==2 and"Win",640,200)
 
     gc.setColor(COLOR.Z)
     gc.print(targetString:sub(progress,progress),120,280,0,2)
     gc.print(targetString:sub(progress+1),310,380)
 
     gc.setColor(1,1,1,.7)
-    setFont(40)
+    FONT.get(40)
     gc.print(targetString,120,520)
 end
 

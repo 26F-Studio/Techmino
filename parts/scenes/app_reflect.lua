@@ -1,5 +1,6 @@
 local gc=love.graphics
 local rnd=math.random
+local setFont,mStr=FONT.get,GC.mStr
 
 local scene={}
 

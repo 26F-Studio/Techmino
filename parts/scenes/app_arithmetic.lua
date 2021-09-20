@@ -189,17 +189,17 @@ function scene.update(dt)
     end
 end
 function scene.draw()
-    setFont(35)
+    FONT.get(35)
     gc.setColor(COLOR.Z)
-    mStr("["..level.."]",640,30)
+    GC.mStr("["..level.."]",640,30)
 
-    setFont(100)
+    FONT.get(100)
     if type(question)=='table'then gc.setColor(1,1,1)end
-    mStr(question,640,60)
+    GC.mStr(question,640,60)
 
-    setFont(80)
+    FONT.get(80)
     gc.setColor(1,1,1,inputTime)
-    mStr(input,640,160)
+    GC.mStr(input,640,160)
 end
 
 scene.widgetList={

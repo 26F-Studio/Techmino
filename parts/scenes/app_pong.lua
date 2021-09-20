@@ -151,10 +151,10 @@ end
 
 function scene.draw()
     --Draw score
-    setFont(100)
     gc.setColor(.4,.4,.4)
-    mStr(p1.score,470,20)
-    mStr(p2.score,810,20)
+    FONT.get(100)
+    GC.mStr(p1.score,470,20)
+    GC.mStr(p2.score,810,20)
 
     --Draw boundary
     gc.setColor(COLOR.Z)

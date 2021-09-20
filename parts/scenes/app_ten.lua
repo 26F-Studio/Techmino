@@ -4,11 +4,12 @@ local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
-local mStr=mStr
+local setFont,mStr=FONT.get,GC.mStr
 
 local scene={}
 
 local previewX={245,186,129,78,35}
+local previewY={435,442,449,456,463}
 local tileColor={
     {.39, 1.0, .39},
     {.39, .39, 1.0},
@@ -246,7 +247,7 @@ function scene.draw()
         for i=1,5 do
             setFont(85-10*i)
             gc.setColor(tileColor[preview[i]])
-            gc.print(preview[i],previewX[i],428+i*7)
+            gc.print(preview[i],previewX[i],previewY[i])
         end
     end
 
@@ -257,8 +258,8 @@ function scene.draw()
     end
     gc.setLineWidth(10)
     setColor(COLOR[
-        state==0 and'G'or
         state==1 and(fast and'R'or'W')or
+        state==0 and'G'or
         state==2 and'Y'
     ])
     rectangle('line',315,35,650,650)
