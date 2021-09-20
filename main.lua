@@ -247,7 +247,7 @@ VOC.init{
     'perfect_clear','half_clear',
     'win','lose','bye',
     'test','happy','doubt',
-    'welcome_voc',
+    'welcome',
 }
 
 --Initialize language lib
