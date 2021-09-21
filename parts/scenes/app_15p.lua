@@ -258,7 +258,7 @@ local backColor={
     },--Black
 }
 function scene.draw()
-    FONT.get(40)
+    FONT.set(40)
     gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1026,80)
     gc.setColor(1,.8,.8)
@@ -282,7 +282,7 @@ function scene.draw()
 
     gc.setLineWidth(4)
     local mono=invis and state==1
-    FONT.get(80)
+    FONT.set(80)
     for i=1,4 do
         for j=1,4 do
             if cx~=j or cy~=i then
