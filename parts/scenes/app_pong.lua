@@ -152,7 +152,7 @@ end
 function scene.draw()
     --Draw score
     gc.setColor(.4,.4,.4)
-    FONT.get(100)
+    FONT.set(100)
     GC.mStr(p1.score,470,20)
     GC.mStr(p2.score,810,20)
 

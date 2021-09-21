@@ -171,7 +171,7 @@ function scene.draw()
 
     if gameover then
         --Draw result
-        FONT.get(60)
+        FONT.set(60)
         if gameover==0 then
             gc.setColor(1,.6,.6)
             mStr("RED\nWON",1140,200)

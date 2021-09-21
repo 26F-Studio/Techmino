@@ -189,15 +189,15 @@ function scene.update(dt)
     end
 end
 function scene.draw()
-    FONT.get(35)
+    FONT.set(35)
     gc.setColor(COLOR.Z)
     GC.mStr("["..level.."]",640,30)
 
-    FONT.get(100)
+    FONT.set(100)
     if type(question)=='table'then gc.setColor(1,1,1)end
     GC.mStr(question,640,60)
 
-    FONT.get(80)
+    FONT.set(80)
     gc.setColor(1,1,1,inputTime)
     GC.mStr(input,640,160)
 end
