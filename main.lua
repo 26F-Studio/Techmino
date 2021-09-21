@@ -36,7 +36,6 @@ math.randomseed(os.time()*626)
 love.setDeprecationOutput(false)
 love.keyboard.setKeyRepeat(true)
 love.keyboard.setTextInput(false)
-love.mouse.setVisible(false)
 if SYSTEM=='Android'or SYSTEM=='iOS'then
     local w,h,f=love.window.getMode()
     f.resizable=false
@@ -44,8 +43,38 @@ if SYSTEM=='Android'or SYSTEM=='iOS'then
 end
 
 --Load modules
-require'Zframework'
-FONT.init('parts/fonts/barlowCond.ttf','parts/fonts/puhui.ttf')
+Z=require'Zframework'
+do
+    local normImg=GC.DO{16,16,
+        {'fCirc',8,8,4},
+        {'setCL',1,1,1,.7},
+        {'fCirc',8,8,6},
+    }
+    local holdImg=GC.DO{16,16,
+        {'setLW',2},
+        {'dCirc',8,8,7},
+        {'fCirc',8,8,3},
+    }
+    local min,int,abs=math.min,math.floor,math.abs
+    local gc_setColor,gc_draw=love.graphics.setColor,love.graphics.draw
+    local ms=love.mouse
+    Z.setCursor(function(time,x,y)
+        if not SETTING.sysCursor then
+            local R=int((time+1)/2)%7+1
+            _=minoColor[SETTING.skin[R]]
+            gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
+            _=DSCP[R][0]
+            gc_draw(TEXTURE.miniBlock[R],x,y,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
+            gc_setColor(1,1,1)
+            gc_draw(ms.isDown(1)and holdImg or normImg,x,y,nil,nil,nil,8,8)
+        end
+    end)
+end
+Z.setIfPowerInfo(function()
+    return SETTING.powerInfo and LOADED
+end)
+
+FONT.init('parts/fonts/puhui.ttf')
     setFont=FONT.set
     getFont=FONT.get
 SCR.setSize(1280,720)--Initialize Screen size
@@ -111,11 +140,17 @@ else
     FIELD[1]=DATA.newBoard()
 end
 local sequenceData=FILE.load('conf/customSequence')
-if sequenceData then DATA.pasteSequence(sequenceData)end
+if sequenceData then
+    DATA.pasteSequence(sequenceData)
+end
 local missionData=FILE.load('conf/customMissions')
-if missionData then DATA.pasteMission(missionData)end
+if missionData then
+    DATA.pasteMission(missionData)
+end
 local customData=FILE.load('conf/customEnv')
-if customData and customData.version==VERSION.code then TABLE.complete(customData,CUSTOMENV)end
+if customData and customData.version==VERSION.code then
+    TABLE.complete(customData,CUSTOMENV)
+end
 TABLE.complete(require"parts.customEnv0",CUSTOMENV)
 
 
@@ -136,8 +171,9 @@ IMG.init{
     miyaF2='media/image/characters/miya_f2.png',
     miyaF3='media/image/characters/miya_f3.png',
     miyaF4='media/image/characters/miya_f4.png',
-    nakiCH='media/image/characters/nakiharu.png',
+    monoCH='media/image/characters/mono.png',
     xiaoyaCH='media/image/characters/xiaoya.png',
+    mikuCH='media/image/characters/miku.png',
     electric='media/image/characters/electric.png',
     hbm='media/image/characters/hbm.png',
 
@@ -184,47 +220,48 @@ SKIN.init{
 --Initialize sound libs
 SFX.init((function()
     local L={}
-    for _,v in next,fs.getDirectoryItems('media/SFX')do
-        if fs.getRealDirectory('media/SFX/'..v)~=SAVEDIR then
+    for _,v in next,fs.getDirectoryItems('media/effect/chiptune/')do
+        if fs.getRealDirectory('media/effect/chiptune/'..v)~=SAVEDIR then
             table.insert(L,v:sub(1,-5))
         else
-            MES.new('warn',"Dangerous file : %SAVE%/media/SFX/"..v)
+            MES.new('warn',"Dangerous file : %SAVE%/media/effect/chiptune/"..v)
         end
     end
     return L
 end)())
 BGM.init((function()
     local L={}
-    for _,v in next,fs.getDirectoryItems('media/BGM')do
-        if fs.getRealDirectory('media/BGM/'..v)~=SAVEDIR then
-            table.insert(L,{name=v:sub(1,-5),path='media/BGM/'..v})
+    for _,v in next,fs.getDirectoryItems('media/music')do
+        if fs.getRealDirectory('media/music/'..v)~=SAVEDIR then
+            table.insert(L,{name=v:sub(1,-5),path='media/music/'..v})
         else
-            MES.new('warn',"Dangerous file : %SAVE%/media/BGM/"..v)
+            MES.new('warn',"Dangerous file : %SAVE%/media/music/"..v)
         end
     end
     return L
 end)())
 VOC.init{
-    'zspin','sspin','lspin','jspin','tspin','ospin','ispin',
+    'zspin','sspin','jspin','lspin','tspin','ospin','ispin','pspin','qspin','fspin','espin','uspin','vspin','wspin','xspin','rspin','yspin','nspin','hspin',
     'single','double','triple','techrash',
     'mini','b2b','b3b',
     'perfect_clear','half_clear',
     'win','lose','bye',
-    'test','happy','doubt','sad','egg',
-    'welcome_voc',
+    'test','happy','doubt',
+    'welcome',
 }
 
 --Initialize language lib
-LANG.init(
+LANG.init('zh',
     {
-        require'parts.language.lang_zh',
-        require'parts.language.lang_zh2',
-        require'parts.language.lang_yygq',
-        require'parts.language.lang_en',
-        require'parts.language.lang_fr',
-        require'parts.language.lang_es',
-        require'parts.language.lang_pt',
-        require'parts.language.lang_symbol',
+        zh=require'parts.language.lang_zh',
+        zh2=require'parts.language.lang_zh2',
+        en=require'parts.language.lang_en',
+        fr=require'parts.language.lang_fr',
+        es=require'parts.language.lang_es',
+        pt=require'parts.language.lang_pt',
+        grass=require'parts.language.lang_zh3',
+        yygq=require'parts.language.lang_yygq',
+        symbol=require'parts.language.lang_symbol',
         --1. Add language file to LANG folder;
         --2. Require it;
         --3. Add a button in parts/scenes/setting_lang.lua;
@@ -232,12 +269,18 @@ LANG.init(
     {
         block={
             "Z","S","J","L","T","O","I",
-            "Z5","S5","Q","P","F","E",
+            "Z5","S5","P","Q","F","E",
             "T5","U","V","W","X",
             "J5","L5","R","Y","N","H","I5",
             "I3","C","I2","O1"
         },
-    }
+    },
+    (function()
+        local tipMeta={__call=function(L)return L[math.random(#L)]end}
+        return function(L)
+            if type(rawget(L,'getTip'))=='table'then setmetatable(L.getTip,tipMeta)end
+        end
+    end)()
 )
 --Load background files from SOURCE ONLY
 for _,v in next,fs.getDirectoryItems('parts/backgrounds')do
@@ -285,12 +328,22 @@ do
     end
     if STAT.version==1506 then
         local temp1,temp2
-        if fs.getInfo('record/master_l.rec')then temp1=fs.read('record/master_l.rec')end
-        if fs.getInfo('record/master_u.rec')then temp2=fs.read('record/master_u.rec')end
-        if temp1 then fs.write('record/master_u.rec',temp1)end
-        if temp2 then fs.write('record/master_l.rec',temp2)end
+        if fs.getInfo('record/master_l.rec')then
+            temp1=fs.read('record/master_l.rec')
+        end
+        if fs.getInfo('record/master_u.rec')then
+            temp2=fs.read('record/master_u.rec')
+        end
+        if temp1 then
+            fs.write('record/master_u.rec',temp1)
+        end
+        if temp2 then
+            fs.write('record/master_l.rec',temp2)
+        end
         RANKS.master_l,RANKS.master_u=RANKS.master_u,RANKS.master_l
-        if RANKS.tsd_u then RANKS.tsd_u=0 end
+        if RANKS.tsd_u then
+            RANKS.tsd_u=0
+        end
         needSave=true
     end
     if STAT.version==1601 then
@@ -322,20 +375,17 @@ do
     SETTING.dataSaving=nil
     if not SETTING.VKSkin then SETTING.VKSkin=1 end
     for _,v in next,SETTING.skin do if v<1 or v>17 then v=17 end end
-    if
-        SETTING.RS=='ZRS'or SETTING.RS=='BRS'or
-        SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'
-    then SETTING.RS='TRS'end
+    if SETTING.RS=='ZRS'or SETTING.RS=='BRS'or SETTING.RS=='ASCplus'or SETTING.RS=='C2sym'then SETTING.RS='TRS'end
     if SETTING.ghostType=='greyCell'then SETTING.ghostType='grayCell'end
     if type(SETTING.skinSet)=='number'then SETTING.skinSet='crystal_scf'end
     if not TABLE.find({8,10,13,17,22,29,37,47,62,80,100},SETTING.frameMul)then SETTING.frameMul=100 end
-
-    for _,v in next,VK_org do v.color=nil end
+    if SETTING.cv then SETTING.vocPack,SETTING.cv=SETTING.cv end
     if RANKS.infinite then RANKS.infinite=0 end
     if RANKS.infinite_dig then RANKS.infinite_dig=0 end
     if not RANKS.sprint_10l then RANKS.sprint_10l=0 end
     if RANKS.master_l then RANKS.master_n,RANKS.master_l=RANKS.master_l needSave=true end
     if RANKS.master_u then RANKS.master_h,RANKS.master_u=RANKS.master_u needSave=true end
+    for _,v in next,VK_org do v.color=nil end
     for k in next,RANKS do
         if type(k)=='number'then
             RANKS[k]=nil

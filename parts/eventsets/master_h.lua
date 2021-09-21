@@ -3,6 +3,10 @@ local death_wait={10,9, 8, 7,6, 6,6,5,5,4}
 local death_fall={10,9, 8, 7,6, 6,5,5,4,4}
 
 return{
+    drop=0,
+    lock=death_lock[1],
+    wait=death_wait[1],
+    fall=death_fall[1],
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
@@ -53,17 +57,11 @@ return{
                 return
             end
             D.target=D.target+100
-            P:_showText(text.stage:gsub("$1",s),0,-120,80,'beat')
+            P:stageComplete(s)
             SFX.play('reach')
         end
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=death_lock[1]
-        P.gameEnv.lock=death_lock[1]
-        P.gameEnv.wait=death_wait[1]
-        P.gameEnv.fall=death_fall[1]
-
         P.modeData.pt=0
         P.modeData.target=100
     end,

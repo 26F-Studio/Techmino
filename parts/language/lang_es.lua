@@ -1,5 +1,5 @@
 return{
-    fallback=4,
+    fallback='en',
     sureQuit="Pulsa de nuevo para salir",
     newDay="[Anti-adicción] ¡Nuevo día, nuevo comienzo!",
     playedLong="[Anti-adicción] Estuviste jugando un buen rato hoy. Recuerda descansar de vez en cuando.",
@@ -15,7 +15,7 @@ return{
     replaying="[Repetición]",
     tasUsing="[TAS]",
 
-    stage="Nivel $1",
+    -- stage="Stage $1 completed",
     great="¡Genial!",
     awesome="¡Fantástico!",
     almost="¡Casi!",
@@ -157,16 +157,16 @@ return{
         "Autor:MrZ  Email: 1046101471@qq.com",
         "Creado con LÖVE",
         "",
-        "Programación: MrZ, Particle_G, [FinnTenzor]",
-        "Artistas: MrZ, Gnyar, ScF, [旋律星萤, T0722]",
-        "Música: MrZ, ERM, [T0722, Aether]",
-        "Voces/Sonidos: Miya, Xiaoya, Naki, MrZ",
+        "Programación: MrZ, Particle_G, [scdhh, FinnTenzor]",
+        "Artistas: MrZ, Gnyar, ScF, [C29H25N3O5, 旋律星萤, T0722]",
+        "Música: MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
+        "Voces/Sonidos: Miya, Xiaoya, Mono, MrZ",
         "Performance: 模电, HBM",
         "Traducción: User670, MattMayuga, Mizu, Mr.Faq, ScF",
         "",
         "Agradecimientos:",
-        "User670, Flyz, Big_True, Trebor, NOT-A-ROBOT, 思竣, scdhh",
-        "yuhao7370, Farter, Teatube, 蕴空之灵, T9972, [Todo el Staff de Testeo]",
+        "Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
+        "Farter, Teatube, 蕴空之灵, T9972, [Todo el Staff de Testeo]",
     },
     used=[[
     Herramientas utilizadas:
@@ -287,8 +287,9 @@ return{
             reTime="Retraso de Inicio",
             RS="Sistema de Rotación",
             layout="Diseño",
-            autoPause="Pausar cuando la ventana no está enfocada",
             menuPos="Pos. del Botón de Menú",
+            -- sysCursor="Use system cursur",
+            autoPause="Pausar cuando la ventana no está enfocada",
             swap="Combinación de Teclas (Cambiar Modo de Ataque)",
             autoSave="Autograbar Récords",
             simpMode="Modo Sencillo",
@@ -340,6 +341,7 @@ return{
             game="←Juego",
             graphic="Video→",
 
+            -- mainVol="Main Volume",
             bgm="BGM",
             sfx="SFX",
             stereo="Estéreo",
@@ -348,8 +350,10 @@ return{
             vib="Vibración",
             voc="Voces",
 
+            -- autoMute="Mute while unfocused",
             fine="Sonido de Error de Finesse",
-            cv="Pack de Voces",
+            -- sfxPack="SFX Pack",
+            vocPack="Pack de Voces",
             apply="Aplicar",
         },
         setting_control={
@@ -577,7 +581,7 @@ return{
         app_15p={
             reset="Mezclar",
             color="Color",
-            blind="A ciegas",
+            invis="A ciegas",
             slide="Mover",
             pathVis="Mostrar Movs.",
             revKB="Deshacer",
@@ -585,7 +589,7 @@ return{
         app_schulteG={
             reset="Reiniciar",
             rank="Tamaño",
-            blind="A ciegas",
+            invis="A ciegas",
             disappear="No mostrar",
             tapFX="Sonido al pulsar",
         },
@@ -599,14 +603,14 @@ return{
         },
         app_2048={
             reset="Reiniciar",
-            blind="A ciegas",
+            invis="A ciegas",
             tapControl="Control táctil",
             skip="Saltar ronda",
         },
         app_ten={
             reset="Reiniciar",
             next="Siguiente",
-            blind="A ciegas",
+            invis="A ciegas",
             fast="Rápido",
         },
         app_dtw={
@@ -615,6 +619,10 @@ return{
             mode="Modo",
             bgm="BGM",
             arcade="Arcade",
+        },
+        app_link={
+            reset="Reiniciar",
+            invis="A ciegas",
         },
         savedata={
             export="Exportar al portapapeles",
@@ -685,7 +693,9 @@ return{
         ['blind_l']=        {"A Ciegas",                "Inmediato+",    "Para profesionales."},
         ['blind_u']=        {"A Ciegas",                 "?",            "¿Estás preparado?"},
         ['blind_wtf']=      {"A Ciegas",                "ELFUF",         "No, no lo estás."},
-        ['classic_fast']=   {"Clásico",                 "CTWC",          "Modo clásico con alta velocidad."},
+        ['classic_e']=      {"Classic",                 "EASY",          "Modo clásico con alta velocidad."},
+        ['classic_h']=      {"Clásico",                 "Difícil",       "Modo clásico con alta velocidad."},
+        ['classic_u']=      {"Clásico",                 "Supremo",       "Modo clásico con alta velocidad."},
         ['survivor_e']=     {"Supervivencia",           "Fácil",         "¿Cuánto tiempo podrás sobrevivir?"},
         ['survivor_n']=     {"Supervivencia",           "Normal",        "¿Cuánto tiempo podrás sobrevivir?"},
         ['survivor_h']=     {"Supervivencia",           "Difícil",       "¿Cuánto tiempo podrás sobrevivir?"},

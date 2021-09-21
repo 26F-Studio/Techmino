@@ -80,8 +80,8 @@ function MES.new(icon,str,time)
         icon=mesIcon[icon]
     end
     local t=gc.newText(FONT.get(30),str)
-    local w=math.max(t:getWidth()+(icon and 45 or 5),200)+20
-    local h=math.max(t:getHeight(),46)+3
+    local w=math.max(t:getWidth()+(icon and 45 or 5),200)+15
+    local h=math.max(t:getHeight(),46)+2
     local L={w,h,
         {'clear',backColor},
         {'setCL',.7,.7,.7},
@@ -92,7 +92,7 @@ function MES.new(icon,str,time)
     if icon then
         ins(L,{'draw',icon,4,4,nil,40/icon:getWidth(),40/icon:getHeight()})
     end
-    ins(L,{'draw',t,icon and 50 or 10,2})
+    ins(L,{'mDrawY',t,icon and 50 or 10,h/2})
 
     ins(mesList,{
         startTime=.5,
@@ -127,7 +127,7 @@ function MES.draw()
             local m=mesList[i]
             gc_setColor(1,1,1,2*(m.endTime-m.startTime))
             gc_draw(m.canvas,40-80*(m.endTime+m.startTime),0,nil,m.scale)
-            gc_translate(0,m.height*m.scale+4)
+            gc_translate(0,m.height*m.scale+2)
         end
     end
     gc_pop()

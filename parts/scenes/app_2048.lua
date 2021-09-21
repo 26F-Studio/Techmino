@@ -4,12 +4,12 @@ local setColor,rectangle=gc.setColor,gc.rectangle
 local int,abs=math.floor,math.abs
 local rnd,min=math.random,math.min
 local ins=table.insert
-local setFont=setFont
-local mStr=mStr
+local setFont=FONT.set
+local mStr=GC.mStr
 
 local scene={}
 
-local blind,tapControl
+local invis,tapControl
 
 local board
 local startTime,time
@@ -119,7 +119,9 @@ local function newTile()
 end
 local function freshMaxTile()
     maxTile=maxTile+1
-    if maxTile==12 then skipper.cd=0 end
+    if maxTile==12 then
+        skipper.cd=0
+    end
     SFX.play('reach')
     ins(progress,("%s - %.3fs"):format(tileName[maxTile],TIME()-startTime))
 end
@@ -229,7 +231,7 @@ function scene.sceneInit()
     BGM.play('truth')
     board={}
 
-    blind=false
+    invis=false
     tapControl=false
     startTime=0
     reset()
@@ -275,7 +277,7 @@ local function playRep(n)
         local move0=move
         for i=1,#repeater.seq[n],3 do
             autoPressing=true
-            scene.keyDown(arrows[repeater.seq[n]:sub(i,i+2)],true)
+            scene.keyDown(arrows[repeater.seq[n]:sub(i,i+2)])
             autoPressing=false
         end
         if move~=move0 then
@@ -318,7 +320,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="space"then skip()
     elseif key=="r"then reset()
-    elseif key=="q"then if state==0 then blind=not blind end
+    elseif key=="q"then if state==0 then invis=not invis end
     elseif key=="w"then if state==0 then tapControl=not tapControl end
     elseif key=="1"or key=="2"then(kb.isDown("lshift","lctrl","lalt")and playRep or setFocus)(key=="1"and 1 or 2)
     elseif key=="c1"then playRep(1)
@@ -403,7 +405,7 @@ function scene.draw()
             local x,y=1+(i-1)%4,int((i+3)/4)
             local N=board[i]
             if i~=prevPos or prevSpawnTime==1 then
-                if not blind or i==prevPos then
+                if not invis or i==prevPos then
                     setColor(tileColor[N]or COLOR.D)
                     rectangle('fill',x*160+163,y*160-117,154,154,15)
                     if N>=0 then
@@ -479,15 +481,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newButton{name="reset",     x=155,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-    WIDGET.newSwitch{name="blind",     x=240,y=300,w=60,font=40,disp=function()return blind end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name="tapControl",x=240,y=370,w=60,font=40,disp=function()return tapControl end,code=pressKey"w",hideF=function()return state==1 end},
+    WIDGET.newButton{name="reset",     x=155, y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
+    WIDGET.newSwitch{name="invis",     x=240, y=300,lim=200,font=40,disp=function()return invis end,code=pressKey"q",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="tapControl",x=240, y=370,lim=200,font=40,disp=function()return tapControl end,code=pressKey"w",hideF=function()return state==1 end},
 
-    WIDGET.newKey{name="up",           x=155,y=460,w=100,fText="↑",font=50, color='Y',code=pressKey"up",   hideF=function()return tapControl end},
-    WIDGET.newKey{name="down",         x=155,y=660,w=100,fText="↓",font=50, color='Y',code=pressKey"down", hideF=function()return tapControl end},
-    WIDGET.newKey{name="left",         x=55,y=560,w=100,fText="←",font=50, color='Y',code=pressKey"left",  hideF=function()return tapControl end},
-    WIDGET.newKey{name="right",        x=255,y=560,w=100,fText="→",font=50,color='Y',code=pressKey"right", hideF=function()return tapControl end},
-    WIDGET.newKey{name="skip",         x=155,y=400,w=100,font=20,          color='Y',code=pressKey"space", hideF=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
+    WIDGET.newKey{name="up",           x=155, y=460,w=100,fText="↑",font=50, color='Y',code=pressKey"up",   hideF=function()return tapControl end},
+    WIDGET.newKey{name="down",         x=155, y=660,w=100,fText="↓",font=50, color='Y',code=pressKey"down", hideF=function()return tapControl end},
+    WIDGET.newKey{name="left",         x=55,  y=560,w=100,fText="←",font=50, color='Y',code=pressKey"left",  hideF=function()return tapControl end},
+    WIDGET.newKey{name="right",        x=255, y=560,w=100,fText="→",font=50,color='Y',code=pressKey"right", hideF=function()return tapControl end},
+    WIDGET.newKey{name="skip",         x=155, y=400,w=100,font=20,          color='Y',code=pressKey"space", hideF=function()return state~=1 or not skipper.cd or skipper.cd>0 end},
     WIDGET.newKey{name="record1",      x=1100,y=390,w=220,h=50,fText="",   color='H',code=pressKey"1",     hideF=function()return state==2 end},
     WIDGET.newKey{name="record2",      x=1100,y=450,w=220,h=50,fText="",   color='H',code=pressKey"2",     hideF=function()return state==2 end},
     WIDGET.newKey{name="replay1",      x=1245,y=390,w=50,fText="!",        color='G',code=pressKey"c1",    hideF=function()return state==2 or #repeater.seq[1]==0 end},

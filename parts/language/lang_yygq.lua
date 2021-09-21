@@ -100,11 +100,13 @@ return{
             game="←游戏设置",
             graphic="改画面→",
 
+            mainVol="总",
             bgm="曲",
             spawn="出块",
             warn="警告",
             vib="嗡嗡",
-            cv="谁",
+            sfxPack="啥",
+            vocPack="谁",
         },
         setting_control={
             title="改控制",
@@ -181,17 +183,34 @@ return{
         app_15p={
             reset="打乱",
             color="彩",
-            blind="盲",
+            invis="盲",
             slide="滑动",
             pathVis="路径显示",
             revKB="键盘反向",
         },
         app_schulteG={
-            reset="重开",
             rank="尺寸",
-            blind="盲",
+            invis="盲",
             disappear="消失",
             tapFX="动画",
+        },
+        app_2048={
+            invis="盲",
+            tapControl="点",
+            skip="跳过",
+        },
+        app_ten={
+            next="预览",
+            invis="盲",
+            fast="冲",
+        },
+        app_dtw={
+            color="彩",
+            bgm="曲",
+            arcade="街机",
+        },
+        app_link={
+            invis="盲",
         },
         savedata={
             export="复制走",
@@ -259,7 +278,9 @@ return{
         ['blind_l']=        {"隐形",         "瞬隐+",     "这个确实挺难的"},
         ['blind_u']=        {"隐形",         "啊这",      "你准备好了吗"},
         ['blind_wtf']=      {"隐形",         "不会吧",     "还没准备好"},
-        ['classic_fast']=   {"高速经典",      "CTWC",      "就这?简单"},
+        ['classic_e']=      {"高速经典",      "简单",       "就这?简单"},
+        ['classic_h']=      {"高速经典",      "困难",       "就这?一般"},
+        ['classic_u']=      {"高速经典",      "极限",       "就这…算了"},
         ['survivor_e']=     {"生存",         "简单",      "这都玩不下去?不会吧"},
         ['survivor_n']=     {"生存",         "普通",      "呵,这都玩不过?"},
         ['survivor_h']=     {"生存",         "困难",      "所以呢?"},

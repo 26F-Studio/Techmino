@@ -1,7 +1,7 @@
 local gc=love.graphics
 
 local int,rnd=math.floor,math.random
-local mStr=mStr
+local mStr=GC.mStr
 
 local scene={}
 
@@ -9,7 +9,7 @@ local board,cx,cy
 local startTime,time
 local move,push,state
 
-local color,blind='color1'
+local color,invis='color1'
 local slide,pathVis,revKB
 
 local function ifGaming()return state==1 end
@@ -26,7 +26,7 @@ function scene.sceneInit()
     state=2
 
     color='color1'
-    blind=false
+    invis=false
     slide=true
     pathVis=true
     revKB=false
@@ -69,7 +69,9 @@ end
 local function checkBoard(b)
     for i=4,1,-1 do
         for j=1,4 do
-            if b[i][j]~=4*i+j-4 then return false end
+            if b[i][j]~=4*i+j-4 then
+                return false
+            end
         end
     end
     return true
@@ -119,17 +121,6 @@ local function tapBoard(x,y,key)
             if checkBoard(b)then
                 state=2
                 time=TIME()-startTime
-                if time<1 then        MES.new(false,"不是人")
-                elseif time<2 then    MES.new(false,"还是人")
-                elseif time<3 then    MES.new(false,"神仙")
-                elseif time<5 then    MES.new(false,"太强了")
-                elseif time<7.5 then MES.new(false,"很强")
-                elseif time<10 then    MES.new(false,"可以的")
-                elseif time<20 then    MES.new(false,"马上入门了")
-                elseif time<30 then    MES.new(false,"入门不远了")
-                elseif time<60 then    MES.new(false,"多加练习")
-                else                MES.new(false,"第一次玩?加油")
-                end
                 SFX.play('win')
                 return
             end
@@ -158,7 +149,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="w"then
         if state==0 then
-            blind=not blind
+            invis=not invis
         end
     elseif key=="e"then
         if state==0 then
@@ -267,7 +258,7 @@ local backColor={
     },--Black
 }
 function scene.draw()
-    setFont(40)
+    FONT.get(40)
     gc.setColor(COLOR.Z)
     gc.print(("%.3f"):format(time),1026,80)
     gc.setColor(1,.8,.8)
@@ -290,8 +281,8 @@ function scene.draw()
     gc.rectangle('line',313,33,654,654,18)
 
     gc.setLineWidth(4)
-    local mono=blind and state==1
-    setFont(80)
+    local mono=invis and state==1
+    FONT.get(80)
     for i=1,4 do
         for j=1,4 do
             if cx~=j or cy~=i then
@@ -320,10 +311,10 @@ end
 scene.widgetList={
     WIDGET.newButton{name="reset",  x=160, y=100,w=180,h=100,color='lG',font=40,code=pressKey"space"},
     colorSelector,
-    WIDGET.newSwitch{name="blind",  x=240, y=330,w=60,font=40,disp=function()return blind end,  code=pressKey"w",hideF=ifGaming},
-    WIDGET.newSwitch{name="slide",  x=240, y=420,w=60,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
-    WIDGET.newSwitch{name="pathVis",x=240, y=510,w=60,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
-    WIDGET.newSwitch{name="revKB",  x=240, y=600,w=60,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
+    WIDGET.newSwitch{name="invis",  x=240, y=330,lim=200,font=40,disp=function()return invis end,  code=pressKey"w",hideF=ifGaming},
+    WIDGET.newSwitch{name="slide",  x=240, y=420,lim=200,font=40,disp=function()return slide end,  code=pressKey"e",hideF=ifGaming},
+    WIDGET.newSwitch{name="pathVis",x=240, y=510,lim=200,font=40,disp=function()return pathVis end,code=pressKey"r",hideF=function()return state==1 or not slide end},
+    WIDGET.newSwitch{name="revKB",  x=240, y=600,lim=200,font=40,disp=function()return revKB end,  code=pressKey"t",hideF=ifGaming},
     WIDGET.newButton{name="back",   x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

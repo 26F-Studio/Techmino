@@ -45,7 +45,7 @@ LIGHT=      require'Zframework.light'
 
 --Love-based modules (complex)
 GC=         require'Zframework.gcExtend'
-    mStr=GC.str
+    mStr=GC.mStr
     mText=GC.simpX
     mDraw=GC.draw
 FONT=       require'Zframework.font'
@@ -66,12 +66,11 @@ local gc=love.graphics
 local gc_push,gc_pop,gc_clear,gc_discard=gc.push,gc.pop,gc.clear,gc.discard
 local gc_replaceTransform,gc_present=gc.replaceTransform,gc.present
 local gc_setColor,gc_setLineWidth=gc.setColor,gc.setLineWidth
-local gc_draw,gc_line,gc_print=gc.draw,gc.line,gc.print
+local gc_draw,gc_line,gc_circle,gc_print=gc.draw,gc.line,gc.circle,gc.print
 
 local mStr=mStr
 
-local int,rnd,abs=math.floor,math.random,math.abs
-local min,sin=math.min,math.sin
+local int,rnd,sin=math.floor,math.random,math.sin
 local ins,rem=table.insert,table.remove
 
 local WIDGET,SCR,SCN=WIDGET,SCR,SCN
@@ -91,7 +90,7 @@ local batteryImg=GC.DO{31,20,
     {'fRect',26,1,2,18},
     {'fRect',29,3,2,14},
 }
-local infoCanvas=gc.newCanvas(93,27)
+local infoCanvas=gc.newCanvas(108,27)
 local function updatePowerInfo()
     local state,pow=love.system.getPowerInfo()
     gc.setCanvas(infoCanvas)
@@ -104,7 +103,7 @@ local function updatePowerInfo()
         if state=='nobattery'then
             gc_setColor(1,1,1)
             gc_setLineWidth(2)
-            gc_line(59,SCR.safeX+5,100,22)
+            gc_line(74,SCR.safeX+5,100,22)
         elseif pow then
             if charging then    gc_setColor(0,1,0)
             elseif pow>50 then  gc_setColor(1,1,1)
@@ -112,22 +111,22 @@ local function updatePowerInfo()
             elseif pow==26 then gc_setColor(.5,0,1)
             else                gc_setColor(1,0,0)
             end
-            gc.rectangle('fill',61,6,pow*.22,14)
+            gc.rectangle('fill',76,6,pow*.22,14)
             if pow<100 then
                 FONT.set(15)
                 gc.setColor(COLOR.D)
-                gc_print(pow,62.5,2.5)
-                gc_print(pow,62.5,4.5)
-                gc_print(pow,64.5,2.5)
-                gc_print(pow,64.5,4.5)
+                gc_print(pow,77,1)
+                gc_print(pow,77,3)
+                gc_print(pow,79,1)
+                gc_print(pow,79,3)
                 gc_setColor(COLOR.Z)
-                gc_print(pow,63.5,3.5)
+                gc_print(pow,78,2)
             end
         end
-        gc_draw(batteryImg,58,3)
+        gc_draw(batteryImg,73,3)
     end
     FONT.set(25)
-    gc_print(os.date("%H:%M"),5,-3)
+    gc_print(os.date("%H:%M"),3,-5)
     gc_pop()
     gc.setCanvas()
 end
@@ -196,6 +195,7 @@ function love.touchpressed(id,x,y)
     end
     x,y=ITP(xOy,x,y)
     lastX,lastY=x,y
+    WIDGET.cursorMove(x,y)
     if SCN.touchDown then SCN.touchDown(x,y)end
     if kb.hasTextInput()then kb.setTextInput(false)end
 end
@@ -204,10 +204,6 @@ function love.touchmoved(_,x,y,dx,dy)
     x,y=ITP(xOy,x,y)
     if SCN.touchMove then SCN.touchMove(x,y,dx/SCR.k,dy/SCR.k)end
     WIDGET.drag(x,y,dx/SCR.k,dy/SCR.k)
-    if touching then
-        WIDGET.cursorMove(x,y)
-        if not WIDGET.sel then touching=false end
-    end
 end
 function love.touchreleased(id,x,y)
     if SCN.swapping then return end
@@ -234,11 +230,13 @@ local function noDevkeyPressed(key)
     elseif key=="f3"then
         MES.new('error',"挂了")
     elseif key=="f4"then
-        for _=1,8 do
-            local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
-            if P and P~=PLAYERS[1]then
-                P.lastRecv=PLAYERS[1]
-                P:lose()
+        if GAME.playing and not GAME.net then
+            for _=1,8 do
+                local P=PLY_ALIVE[rnd(#PLY_ALIVE)]
+                if P and P~=PLAYERS[1]then
+                    P.lastRecv=PLAYERS[1]
+                    P:lose()
+                end
             end
         end
     elseif key=="f5"then
@@ -392,11 +390,40 @@ function love.resize(w,h)
 
     SHADER.warning:send('w',w*SCR.dpi)
 end
+local function task_autoSoundOff()
+    while true do
+        coroutine.yield()
+        local v=love.audio.getVolume()
+        love.audio.setVolume(math.max(v-.05,0))
+        if v==0 then return end
+    end
+end
+local function task_autoSoundOn()
+    while true do
+        coroutine.yield()
+        local v=love.audio.getVolume()
+        if v<SETTING.mainVol then
+            love.audio.setVolume(math.min(v+.05,SETTING.mainVol,1))
+        else
+            return
+        end
+    end
+end
 function love.focus(f)
     if f then
         love.timer.step()
-    elseif SCN.cur=='game'and SETTING.autoPause then
-        pauseGame()
+        if SETTING.autoMute then
+            TASK.removeTask_code(task_autoSoundOff)
+            TASK.new(task_autoSoundOn)
+        end
+    else
+        if SCN.cur=='game'and SETTING.autoPause then
+            pauseGame()
+        end
+        if SETTING.autoMute then
+            TASK.removeTask_code(task_autoSoundOn)
+            TASK.new(task_autoSoundOff)
+        end
     end
 end
 
@@ -529,16 +556,14 @@ local ws_runningImg=GC.DO{20,20,
     {'setCL',.5,1,0},
     {'mText',"R",11,-1},
 }
-local cursorImg=GC.DO{16,16,
-    {'fCirc',8,8,4},
-    {'setCL',1,1,1,.7},
-    {'fCirc',8,8,6},
-}
-local cursor_holdImg=GC.DO{16,16,
-    {'setLW',2},
-    {'dCirc',8,8,7},
-    {'fCirc',8,8,3},
-}
+
+local function drawCursor(_,x,y)
+    gc_setColor(1,1,1)
+    gc_setLineWidth(2)
+    gc_circle(ms.isDown(1)and'fill'or'line',x,y,6)
+end
+local function showPowerInfo()return true end
+
 function love.run()
     local love=love
 
@@ -617,19 +642,13 @@ function love.run()
 
                     --Draw cursor
                     if mouseShow then
-                        local R=int((time+1)/2)%7+1
-                        _=minoColor[SETTING.skin[R]]
-                        gc_setColor(_[1],_[2],_[3],min(abs(1-time%2),.3))
-                        _=DSCP[R][0]
-                        gc_draw(TEXTURE.miniBlock[R],mx,my,time%3.14159265359*4,16,16,_[2]+.5,#BLOCKS[R][0]-_[1]-.5)
-                        gc_setColor(1,1,1)
-                        gc_draw(ms.isDown(1)and cursor_holdImg or cursorImg,mx,my,nil,nil,nil,8,8)
+                        drawCursor(time,mx,my)
                     end
                 gc_replaceTransform(SCR.xOy_ul)
                     MES_draw()
                 gc_replaceTransform(SCR.origin)
                     --Draw power info.
-                    if SETTING.powerInfo then
+                    if showPowerInfo()then
                         gc_setColor(1,1,1)
                         gc_draw(infoCanvas,safeX,0,0,SCR.k)
                     end
@@ -659,7 +678,6 @@ function love.run()
                         gc_print("Lines    "..FREEROW.getCount(),safeX+5,-60)
                         gc_print("Tasks   "..TASK.getCount(),safeX+5,-80)
                         gc_print("Voices  "..VOC.getQueueCount(),safeX+5,-100)
-                        gc_print(tostring(GAME.playing),safeX+5,-120)
 
                         --Update & draw frame time
                         ins(frameTimeList,1,dt)rem(frameTimeList,126)
@@ -711,7 +729,7 @@ function love.run()
 
         --Fresh power info.
         if time-lastFreshPow>2.6 then
-            if SETTING.powerInfo and LOADED then
+            if showPowerInfo()then
                 updatePowerInfo()
                 lastFreshPow=time
             end
@@ -735,3 +753,12 @@ function love.run()
         while TIME()-lastFrame<1/60 do end
     end
 end
+
+local Z={}
+
+function Z.setIfPowerInfo(func)showPowerInfo=func end
+
+--Warning: color and line width is uncertain value, set it in the function.
+function Z.setCursor(func)drawCursor=func end
+
+return Z

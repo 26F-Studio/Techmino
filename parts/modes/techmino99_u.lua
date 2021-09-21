@@ -33,7 +33,10 @@ return{
         local t=4
         while t>0 do
             local r=math.random(2,99)
-            if L[r]then L[r],t=false,t-1 end
+            if L[r]then
+                L[r]=false
+                t=t-1
+            end
         end
         local n=2
         for _=1,7 do for _=1,7 do

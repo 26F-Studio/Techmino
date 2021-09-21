@@ -3,6 +3,7 @@ local rem=table.remove
 
 local WS,TIME=WS,TIME
 local yield=YIELD
+local PLAYERS=PLAYERS
 
 local NET={
     allow_online=false,
@@ -78,7 +79,7 @@ end
 --Parse notice
 local function _parseNotice(str)
     str=STRING.split(str,"///")
-    return str[SETTING.lang<=3 and 1 or 2]or str[1]
+    return str[SETTING.locale<=3 and 1 or 2]or str[1]
 end
 
 --WS close message
@@ -454,7 +455,9 @@ function NET.updateWS_user()
                             USER.uid=res.uid
                             USER.authToken=res.authToken
                             FILE.save(USER,'conf/user')
-                            if SCN.cur=='login'then SCN.back()end
+                            if SCN.cur=='login'then
+                                SCN.back()
+                            end
                         end
                         MES.new('check',text.loginSuccessed)
 
@@ -549,7 +552,9 @@ function NET.updateWS_play()
                                 mode=d.mode,
                                 config=d.config,
                             }
-                            if SCN.cur=='net_game'then SCN.socketRead('join',d)end
+                            if SCN.cur=='net_game'then
+                                SCN.socketRead('join',d)
+                            end
                             if NET.roomReadyState=='allReady'then
                                 NET.roomReadyState=false
                             end
@@ -558,16 +563,22 @@ function NET.updateWS_play()
                         if not d.uid then
                             NET.wsclose_stream()
                             NET.unlock('quit')
-                            if SCN.stack[#SCN.stack-1]=='net_newRoom'then SCN.pop()end
+                            if SCN.stack[#SCN.stack-1]=='net_newRoom'then
+                                SCN.pop()
+                            end
                             SCN.back()
                         else
                             netPLY.remove(d.sid)
                             _removePlayer(PLAYERS,d.sid)
                             _removePlayer(PLY_ALIVE,d.sid)
-                            if SCN.cur=='net_game'then SCN.socketRead('leave',d)end
+                            if SCN.cur=='net_game'then
+                                SCN.socketRead('leave',d)
+                            end
                         end
                     elseif res.action==4 then--Player talk
-                        if SCN.cur=='net_game'then SCN.socketRead('talk',d)end
+                        if SCN.cur=='net_game'then
+                            SCN.socketRead('talk',d)
+                        end
                     elseif res.action==5 then--Player change settings
                         netPLY.setConf(d.uid,d.config)
                     elseif res.action==6 then--Player change join mode
@@ -579,7 +590,9 @@ function NET.updateWS_play()
                         NET.roomReadyState='connecting'
                         NET.wsconn_stream(d.srid)
                     elseif res.action==9 then--Game finished
-                        if SCN.cur=='net_game'then SCN.socketRead('finish',d)end
+                        if SCN.cur=='net_game'then
+                            SCN.socketRead('finish',d)
+                        end
 
                         --d.result: list of {place,survivalTime,uid,score}
                         for _,p in next,d.result do
@@ -595,7 +608,9 @@ function NET.updateWS_play()
                         netPLY.resetState()
                         netPLY.freshPos()
                         NET.roomState.start=false
-                        if NET.spectate then NET.signal_setMode(2)end
+                        if NET.spectate then
+                            NET.signal_setMode(2)
+                        end
                         NET.spectate=false
                         NET.wsclose_stream()
                     end

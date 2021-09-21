@@ -1,6 +1,6 @@
 local SFX={
     getCount=function()return 0 end,
-    loadAll=function()error("Cannot load before init!")end,
+    load=function()error("Cannot load before init!")end,
     fieldPlay=NULL,
     play=NULL,
     fplay=NULL,
@@ -12,13 +12,13 @@ function SFX.init(list)
     local Sources={}
 
     local count=#list function SFX.getCount()return count end
-    function SFX.loadAll()
+    function SFX.load(path)
         for i=1,count do
-            local N='media/SFX/'..list[i]..'.ogg'
-            if love.filesystem.getInfo(N)then
-                Sources[list[i]]={love.audio.newSource(N,'static')}
+            local fullPath=path..list[i]..'.ogg'
+            if love.filesystem.getInfo(fullPath)then
+                Sources[list[i]]={love.audio.newSource(fullPath,'static')}
             else
-                MES.new('warn',"No SFX file: "..N,.1)
+                MES.new('warn',"[no SFX] "..list[i]..'.ogg',.1)
             end
         end
 

@@ -1,6 +1,6 @@
 local C=COLOR
 return{
-    fallback=4,
+    fallback='en',
     sureQuit="Aparte novamente para sair",
     newDay="[Anti-vício] Novo dia, um começo novo!",
     playedLong="[Anti-vício] Você andou jogando bastante hoje. Certifique-se de fazer pausas.",
@@ -16,7 +16,7 @@ return{
     replaying="[Replay]",
     -- tasUsing="[TAS]",
 
-    stage="Fase $1",
+    -- stage="Stage $1 completed",
     great="Ótimo!",
     awesome="Incrível!",
     almost="Quase!",
@@ -179,16 +179,16 @@ return{
         "Author: MrZ E-mail: 1046101471@qq.com",
         "Powered by LÖVE",
         "",
-        "Programa: MrZ, Particle_G, [FinnTenzor]",
-        "Art: MrZ, Gnyar, ScF, [旋律星萤, T0722]",
-        "Music: MrZ, ERM, [T0722, Aether]",
-        "Voice & Sound: Miya, Xiaoya, Naki, MrZ",
+        "Programa: MrZ, Particle_G, [scdhh, FinnTenzor]",
+        "Art: MrZ, Gnyar, ScF, [C29H25N3O5, 旋律星萤, T0722]",
+        "Music: MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
+        "Voice & Sound: Miya, Xiaoya, Mono, MrZ",
         "Performance: 模电, HBM",
         "Traduzir: User670, MattMayuga, Mizu, Mr.Faq, ScF",
         "",
         "Special Thanks:",
-        "User670, Flyz, Big_True, Trebor, NOT-A-ROBOT, 思竣, scdhh",
-        "yuhao7370, Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
+        "Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
+        "Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
     },
     used=[[
     Ferramentas usadas:
@@ -309,8 +309,9 @@ return{
             reTime="Demora iniciação",
             RS="Sistema de rotação",
             layout="Layout",
-            autoPause="Pausar quando foco for perco",
             -- menuPos="Menu button pos.",
+            -- sysCursor="Use system cursur",
+            autoPause="Pausar quando foco for perco",
             swap="Combinação de tecla(Mudar modo de atk)",
             -- autoSave="Auto save new-best",
             -- simpMode="Simple mode",
@@ -363,6 +364,7 @@ return{
             game="←Jogo",
             graphic="Vídeo→",
 
+            -- mainVol="Main Volume",
             bgm="BGM",
             sfx="SFX",
             stereo="Stereo",
@@ -371,8 +373,10 @@ return{
             vib="Vibração",
             voc="Voz",
 
+            -- autoMute="Mute while unfocused",
             fine="Som Falha de destreza",
-            cv="Pacote de voz",
+            -- sfxPack="SFX Pack",
+            vocPack="Pacote de voz",
             apply="Aplicar",
         },
         setting_control={
@@ -661,7 +665,7 @@ return{
         app_15p={
             reset="Embaralhar",
             C="Cor",
-            blind="Cego",
+            invis="Cego",
             slide="Deslizar",
             pathVis="Mostrar caminho",
             revKB="Reverso",
@@ -669,7 +673,7 @@ return{
         app_schulteG={
             reset="Resetar",
             rank="Tamanho",
-            blind="Cego",
+            invis="Cego",
             disappear="Escond.",
             tapFX="FX De Toque",
         },
@@ -683,14 +687,14 @@ return{
         },
         app_2048={
             reset="Resetar",
-            blind="Cego",
+            invis="Cego",
             -- tapControl="Tap control",
             -- skip="Skip Round",
         },
         app_ten={
             reset="Resetar",
             next="Próxima",
-            blind="Cego",
+            invis="Cego",
             -- fast="Fast",
         },
         app_dtw={
@@ -699,6 +703,10 @@ return{
             -- mode="Mode",
             bgm="BGM",
             -- arcade="Arcade",
+        },
+        app_link={
+            reset="Resetar",
+            invis="Cego",
         },
         savedata={
             -- export="Export to clipboard",
@@ -770,7 +778,9 @@ return{
         ['blind_l']=            {"Cego",             "DE REPENTE+",  "For professionals."},
         ['blind_u']=            {"Cego",              "?",           "Are you ready?"},
         ['blind_wtf']=          {"Cego",             "WTF",          "You're not ready."},
-        ['classic_fast']=       {"Clássico",         "CTWC",         "Modo clássico rápido. "},
+        ['classic_e']=          {"Classic",          "EASY",         "Modo clássico rápido."},
+        ['classic_h']=          {"Classic",          "DIFÍCIL",       "Modo clássico rápido."},
+        ['classic_u']=          {"Classic",          "ULTIMATE",     "Modo clássico rápido."},
         ['survivor_e']=         {"Sobrevivente",     "FACIL",        "Por quanto sobrevive?"},
         ['survivor_n']=         {"Sobrevivente",     "NORMAL",       "Por quanto sobrevive?"},
         ['survivor_h']=         {"Sobrevivente",     "DIFÍCIL",      "Por quanto sobrevive?"},

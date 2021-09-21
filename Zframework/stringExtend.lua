@@ -1,5 +1,6 @@
 local data=love.data
 local STRING={}
+local tostring=tostring
 local int,format=math.floor,string.format
 local find,sub,upper=string.find,string.sub,string.upper
 local char,byte=string.char,string.byte
@@ -65,6 +66,24 @@ function STRING.time(t)
         return format("%d'%05.2f\"",int(t/60),t%60)
     else
         return format("%d:%.2d'%05.2f\"",int(t/3600),int(t/60%60),t%60)
+    end
+end
+
+do--function STRING.bigInt(t)
+    local lg=math.log10
+    local units={"","K","M","B","T","Qa","Qt","Sx","Sp","Oc","No"}
+    local preUnits={"","U","D","T","Qa","Qt","Sx","Sp","O","N"}
+    local secUnits={"Dc","Vg","Tg","Qd","Qi","Se","St","Og","Nn","Ce"}--Ce is next-level unit, but DcCe is not used so used here
+    for _,preU in next,preUnits do for _,secU in next,secUnits do table.insert(units,preU..secU)end end
+    function STRING.bigInt(t)
+        if t<1000 then
+            return tostring(t)
+        elseif t~=1e999 then
+            local e=int(lg(t)/3)
+            return(t/10^(e*3))..units[e+1]
+        else
+            return"INF"
+        end
     end
 end
 

@@ -13,7 +13,9 @@ local function _updateMisc(P,dt)
     end
 
     --Update spike counter
-    if P.spikeTime>0 then P.spikeTime=P.spikeTime-1 end
+    if P.spikeTime>0 then
+        P.spikeTime=P.spikeTime-1
+    end
 
     --Update atkBuffer alert
     local t=P.atkBufferSum1
@@ -114,7 +116,9 @@ local function _updateMisc(P,dt)
 
         O.va=O.va*.7-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
         O.a=O.a+O.va
-        if abs(O.a)<.0006 then O.a,O.va=0,0 end
+        if abs(O.a)<.0006 then
+            O.a,O.va=0,0
+        end
     end
 
     --Update texts
@@ -142,12 +146,16 @@ function update.alive(P,dt)
     P.frameRun=P.frameRun+1
     if P.frameRun<=180 then
         if P.frameRun==180 then
-            if P.id==1 then SFX.play('start')end
+            if P.id==1 then
+                SFX.play('start')
+            end
             P.control=true
             P.timing=true
             P:popNext()
         elseif P.frameRun==60 or P.frameRun==120 then
-            if P.id==1 then SFX.play('ready')end
+            if P.id==1 then
+                SFX.play('ready')
+            end
         end
         if P.movDir~=0 then
             if P.moving<P.gameEnv.das then
@@ -193,7 +201,9 @@ function update.alive(P,dt)
         for j=1,#P.field do
             local L=V[j]
             for i=1,10 do
-                if L[i]>0 then L[i]=L[i]-1 end
+                if L[i]>0 then
+                    L[i]=L[i]-1
+                end
             end
         end
     end
@@ -293,7 +303,9 @@ function update.alive(P,dt)
             goto THROW_stop
         else
             local L=#P.clearingRow
-            if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
+            if P.sound and ENV.fall>0 and #P.field+L>P.clearingRow[L]then
+                SFX.play('fall')
+            end
             P.clearingRow={}
         end
     end
@@ -380,7 +392,9 @@ function update.dead(P,dt)
         P.falling=P.falling-1
         if P.falling<0 then
             local L=#P.clearingRow
-            if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then SFX.play('fall')end
+            if P.sound and P.gameEnv.fall>0 and #P.field+L>P.clearingRow[L]then
+                SFX.play('fall')
+            end
             P.clearingRow={}
         end
     end

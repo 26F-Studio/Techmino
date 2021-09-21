@@ -26,13 +26,20 @@ function FONT.reset()
 end
 
 function FONT.init(mainFont,secFont)
+    assert(love.filesystem.getInfo(mainFont))
     mainFont=love.filesystem.newFile(mainFont)
-    secFont=love.filesystem.newFile(secFont)
+    if secFont and love.filesystem.getInfo(secFont)then
+        secFont=love.filesystem.newFile(secFont)
+    else
+        secFont=false
+    end
     function FONT.set(s)
         if s~=currentFontSize then
             if not fontCache[s]then
                 fontCache[s]=gc.setNewFont(mainFont,s,'light',gc.getDPIScale()*SCR.k*2)
-                fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
+                if secFont then
+                    fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
+                end
             end
             set(fontCache[s])
             currentFontSize=s
@@ -41,14 +48,18 @@ function FONT.init(mainFont,secFont)
     function FONT.get(s)
         if not fontCache[s]then
             fontCache[s]=gc.setNewFont(mainFont,s,'light',gc.getDPIScale()*SCR.k*2)
-            fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
+            if secFont then
+                fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
+            end
         end
         return fontCache[s]
     end
     function FONT.reset()
         for s in next,fontCache do
             fontCache[s]=gc.setNewFont(mainFont,s,'light',gc.getDPIScale()*SCR.k*2)
-            fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
+            if secFont then
+                fontCache[s]:setFallbacks(gc.setNewFont(secFont,s,'light',gc.getDPIScale()*SCR.k*2))
+            end
         end
     end
     FONT.reset()

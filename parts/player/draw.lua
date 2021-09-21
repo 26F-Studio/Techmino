@@ -16,6 +16,8 @@ local shader_alpha,shader_lighter=SHADER.alpha,SHADER.lighter
 local shader_fieldSatur,shader_blockSatur=SHADER.fieldSatur,SHADER.blockSatur
 local drawableText,missionEnum,minoColor=drawableText,missionEnum,minoColor
 
+local PLAYERS,PLY_ALIVE=PLAYERS,PLY_ALIVE
+
 local RCPB={10,33,200,33,105,5,105,60}
 local attackColor={
     {COLOR.dH,COLOR.Z},
@@ -655,7 +657,9 @@ function draw.drawTargetLine(P,r)
         gc_setColor(1,r>10 and 0 or .2+.8*rnd(),.5)
         _applyField(P)
         r=600-30*r
-        if P.falling~=-1 then r=r-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)end
+        if P.falling~=-1 then
+            r=r-#P.clearingRow*(P.gameEnv.smooth and(P.falling/(P.gameEnv.fall+1))^1.6*30 or 30)
+        end
         gc_line(0,r,300,r)
         _cancelField()
     end
@@ -878,7 +882,7 @@ function draw.norm(P,repMode)
 
         --Score & Time
         setFont(25)
-        local tm=int(P.stat.time*100)*.01
+        local tm=STRING.time(P.stat.time)
         gc_setColor(0,0,0,.3)
         gc_print(P.score1,18,509)
         gc_print(tm,18,539)
@@ -896,7 +900,9 @@ function draw.norm(P,repMode)
             ENV.mesDisp[i](P,repMode)
         end
 
-        if P.frameRun<180 then _drawStartCounter(P.frameRun)end
+        if P.frameRun<180 then
+            _drawStartCounter(P.frameRun)
+        end
     gc_pop()
 end
 function draw.small(P)
@@ -972,7 +978,9 @@ function draw.demo(P)
                 _drawField(P)
                 _drawFXs(P)
                 if P.cur and P.waiting==-1 then
-                    if ENV.ghost then drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)end
+                    if ENV.ghost then
+                        drawGhost[ENV.ghostType](P.cur.bk,P.curX,P.ghoY,ENV.ghost,P.skinLib,curColor)
+                    end
                     if ENV.block then
                         local dy=ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0
                         gc_translate(0,-dy)

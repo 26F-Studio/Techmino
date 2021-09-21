@@ -3,6 +3,10 @@ local rush_wait={12,11,11,10,10, 10,10, 9, 9, 9}
 local rush_fall={18,16,14,13,12, 12,11,11,10,10}
 
 return{
+    drop=0,
+    lock=rush_lock[1],
+    wait=rush_wait[1],
+    fall=rush_fall[1],
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
@@ -53,17 +57,11 @@ return{
                 return
             end
             D.target=D.target+100
-            P:_showText(text.stage:gsub("$1",s),0,-120,80,'fly')
+            P:stageComplete(s)
             SFX.play('reach')
         end
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=rush_lock[1]
-        P.gameEnv.lock=rush_lock[1]
-        P.gameEnv.wait=rush_wait[1]
-        P.gameEnv.fall=rush_fall[1]
-
         P.modeData.pt=0
         P.modeData.target=100
     end,

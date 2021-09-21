@@ -1,5 +1,5 @@
 return{
-    fallback=4,
+    fallback='en',
 
     atkModeName={"?","(  )","!","←→"},
     royale_remain="$1 ~",
@@ -203,8 +203,9 @@ return{
             reTime="3-2-1",
             RS="''?",
             layout="=-=-=",
-            autoPause="A||",
             menuPos="←M→?",
+            sysCursor="?→*",
+            autoPause="A||",
             swap="=+=+=",
             autoSave="!!!>%",
             simpMode=".",
@@ -257,6 +258,7 @@ return{
             game="←Game",
             graphic="Video→",
 
+            mainVol="#_#",
             bgm="#~#",
             sfx="#!#",
             stereo="←~→",
@@ -264,6 +266,7 @@ return{
             warn="!↑↑↑!",
             vib="=~=",
 
+            autoMute="#x#",
             fine="12 X 21",
             voc="~~~",
             apply="!",
@@ -538,7 +541,7 @@ return{
         app_15p={
             reset="!@#$%",
             color="~~~",
-            blind="???",
+            invis="???",
             slide="~_~",
             pathVis="--==>",
             revKB="Reverse",
@@ -546,7 +549,7 @@ return{
         app_schulteG={
             reset="!@#$%",
             rank="←?→",
-            blind="???",
+            invis="???",
             disappear="=X=",
             tapFX="↓ !",
         },
@@ -560,14 +563,14 @@ return{
         },
         app_2048={
             reset="R",
-            blind="???",
+            invis="???",
             tapControl="_↓",
             skip=">>",
         },
         app_ten={
             reset="R",
             next="→",
-            blind="???",
+            invis="???",
             fast="~~→",
         },
         app_dtw={

@@ -222,12 +222,12 @@ local function _loadGameEnv(P)--Load gameEnv
             v=GAME.setting[k]    --Game setting
             -- print("game-"..k..":"..tostring(v))
         elseif SETTING[k]~=nil then
-            v=SETTING[k]        --Global setting
+            v=SETTING[k]         --Global setting
             -- print("global-"..k..":"..tostring(v))
         -- else
             -- print("default-"..k..":"..tostring(v))
         end
-        if type(v)~='table'then--Default setting
+        if type(v)~='table'then  --Default setting
             ENV[k]=v
         else
             ENV[k]=TABLE.copy(v)
@@ -278,6 +278,37 @@ end
 local function _applyGameEnv(P)--Finish gameEnv processing
     local ENV=P.gameEnv
 
+    --Apply events
+    ENV.mesDisp=_mergeFuncTable(ENV.mesDisp,{})
+    ENV.dropPiece=_mergeFuncTable(ENV.dropPiece,{})
+    ENV.task=_mergeFuncTable(ENV.task,{})
+
+    --Apply eventSet
+    if ENV.eventSet and ENV.eventSet~="X"then
+        if type(ENV.eventSet)=='string'then
+            local eventSet=require('parts.eventsets.'..ENV.eventSet)
+            if eventSet then
+                for k,v in next,eventSet do
+                    if
+                        k=='mesDisp'or
+                        k=='dropPiece'or
+                        k=='task'
+                    then
+                        _mergeFuncTable(v,ENV[k])
+                    elseif type(v)=='table'then
+                        ENV[k]=TABLE.copy(v)
+                    else
+                        ENV[k]=v
+                    end
+                end
+            else
+                MES.new('warn',"No event set called: "..ENV.eventSet)
+            end
+        else
+            MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
+        end
+    end
+
     P._20G=ENV.drop==0
     P.dropDelay=ENV.drop
     P.lockDelay=ENV.lock
@@ -285,7 +316,7 @@ local function _applyGameEnv(P)--Finish gameEnv processing
 
     P.life=ENV.life
 
-    P.keyAvailable={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true}
+    P.keyAvailable=TABLE.new(true,20)
     if ENV.noTele then
         for i=11,20 do
             if i~=14 then
@@ -324,7 +355,9 @@ local function _applyGameEnv(P)--Finish gameEnv processing
 
     ENV.bagLine=ENV.bagLine and(ENV.sequence=='bag'or ENV.sequence=='loop')and #ENV.seqData
 
-    if ENV.nextCount==0 then ENV.nextPos=false end
+    if ENV.nextCount==0 then
+        ENV.nextPos=false
+    end
 
     P.newNext=coroutine.wrap(getSeqGen(P))
     P:newNext(P.gameEnv.seqData)
@@ -361,28 +394,6 @@ local function _applyGameEnv(P)--Finish gameEnv processing
     if ENV.center==0 then   ENV.center=false end
     if ENV.lineNum==0 then  ENV.lineNum=false end
 
-    --Apply events
-    ENV.mesDisp=_mergeFuncTable(ENV.mesDisp,{})
-    ENV.dropPiece=_mergeFuncTable(ENV.dropPiece,{})
-    ENV.task=_mergeFuncTable(ENV.task,{})
-
-    --Apply eventSet
-    if ENV.eventSet and ENV.eventSet~="X"then
-        if type(ENV.eventSet)=='string'then
-            local eventSet=require('parts.eventsets.'..ENV.eventSet)
-            if eventSet then
-                for k,v in next,eventSet do
-                    assert(type(ENV[k])=='table',"No eventSet method: "..k)
-                    _mergeFuncTable(v,ENV[k])
-                end
-            else
-                MES.new('warn',"No event set called: "..ENV.eventSet)
-            end
-        else
-            MES.new('warn',"Wrong event set type: "..type(ENV.eventSet))
-        end
-    end
-
     --Load tasks
     for i=1,#ENV.task do P:newTask(ENV.task[i])end
 end
@@ -402,7 +413,7 @@ local DemoEnv={
 function PLY.newDemoPlayer(id)
     local P=_newEmptyPlayer(id)
     P.type='computer'
-    P.sound=true
+    P.sound=false
     P.demo=true
 
     P.frameRun=180
@@ -443,9 +454,8 @@ function PLY.newAIPlayer(id,AIdata,mini)
     P.type='computer'
 
     _loadGameEnv(P)
-    local ENV=P.gameEnv
-    ENV.face={0,0,0,0,0,0,0}
-    ENV.skin={1,7,11,3,14,4,9}
+    P.gameEnv.face={0,0,0,0,0,0,0}
+    P.gameEnv.skin={1,7,11,3,14,4,9}
     _applyGameEnv(P)
     P:loadAI(AIdata)
 end

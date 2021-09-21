@@ -4,11 +4,12 @@ local setColor,rectangle=gc.setColor,gc.rectangle
 
 local int,rnd=math.floor,math.random
 local ins,rem=table.insert,table.remove
-local mStr=mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local scene={}
 
 local previewX={245,186,129,78,35}
+local previewY={435,442,449,456,463}
 local tileColor={
     {.39, 1.0, .39},
     {.39, .39, 1.0},
@@ -33,7 +34,7 @@ local fallingTimer
 local score
 
 local nexts
-local blind
+local invis
 local fast
 
 local function reset()
@@ -60,7 +61,7 @@ function scene.sceneInit()
     board={{},{},{},{},{}}
     cx,cy=3,3
     startTime=0
-    blind=false
+    invis=false
     nexts=true
     reset()
 end
@@ -149,7 +150,7 @@ function scene.keyDown(key,isRep)
         end
     elseif key=="w"then
         if state==0 then
-            blind=not blind
+            invis=not invis
         end
     elseif key=="e"then
         if state==0 then
@@ -161,7 +162,9 @@ function scene.keyDown(key,isRep)
 end
 function scene.mouseMove(x,y)
     cx,cy=int((x-192)/128),int((y+88)/128)
-    if cx<1 or cx>5 or cy<1 or cy>5 then cx,cy=false end
+    if cx<1 or cx>5 or cy<1 or cy>5 then
+        cx,cy=false
+    end
 end
 function scene.mouseDown(x,y)
     scene.mouseMove(x,y)
@@ -244,7 +247,7 @@ function scene.draw()
         for i=1,5 do
             setFont(85-10*i)
             gc.setColor(tileColor[preview[i]])
-            gc.print(preview[i],previewX[i],428+i*7)
+            gc.print(preview[i],previewX[i],previewY[i])
         end
     end
 
@@ -255,15 +258,15 @@ function scene.draw()
     end
     gc.setLineWidth(10)
     setColor(COLOR[
-        state==0 and'G'or
         state==1 and(fast and'R'or'W')or
+        state==0 and'G'or
         state==2 and'Y'
     ])
     rectangle('line',315,35,650,650)
 
     gc.setLineWidth(4)
     setFont(70)
-    local hide=blind and state==1
+    local hide=invis and state==1
     for i=1,5 do
         for j=1,5 do
             local N=board[i][j]
@@ -300,9 +303,9 @@ end
 
 scene.widgetList={
     WIDGET.newButton{name="reset",x=160,y=100,w=180,h=100,color='lG',font=40,code=pressKey"r"},
-    WIDGET.newSwitch{name="next", x=240,y=235,font=40,disp=function()return nexts end,code=pressKey"q",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name="blind",x=240,y=305,font=40,disp=function()return blind end,code=pressKey"w",hideF=function()return state==1 end},
-    WIDGET.newSwitch{name="fast", x=240,y=375,font=30,disp=function()return fast end,code=pressKey"e",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="next", x=240,y=235,lim=200,font=40,disp=function()return nexts end,code=pressKey"q",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="invis",x=240,y=305,lim=200,font=40,disp=function()return invis end,code=pressKey"w",hideF=function()return state==1 end},
+    WIDGET.newSwitch{name="fast", x=240,y=375,lim=200,font=30,disp=function()return fast end,code=pressKey"e",hideF=function()return state==1 end},
     WIDGET.newButton{name="back", x=1140,y=640,w=170,h=80,fText=TEXTURE.back,code=backScene},
 }
 

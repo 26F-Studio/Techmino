@@ -33,8 +33,8 @@ function scene.sceneInit(org)
     if org:find("setting")then
         TEXT.show(text.needRestart,640,410,50,'fly',.6)
     end
-    local P=PLAYERS[1]
-    local S=P.stat
+    local P1=PLAYERS[1]
+    local S=P1.stat
 
     timer1=org=='game'and 0 or 50
     timer2=timer1
@@ -73,8 +73,13 @@ function scene.sceneInit(org)
     end
     local f=1
     for i=1,6 do
-        if val[i]>.5 then f=2 end
-        if val[i]>1 then f=3 break end
+        if val[i]>.5 then
+        f=2
+        end
+        if val[i]>1 then
+            f=3
+            break
+        end
     end
     if f==1 then     chartColor,f={.4,.9,.5},1.25--Vegetable
     elseif f==2 then chartColor,f={.4,.7,.9},1   --Normal
@@ -93,8 +98,8 @@ function scene.sceneInit(org)
         val[2*i-1],val[2*i]=val[i]*standard[2*i-1],val[i]*standard[2*i]
     end
 
-    if P.result=='win'and P.stat.piece>4 then
-        local acc=P.stat.finesseRate*.2/P.stat.piece
+    if P1.result=='win'and P1.stat.piece>4 then
+        local acc=P1.stat.finesseRate*.2/P1.stat.piece
         rank=
             acc==1. and"Z"or
             acc>.97 and"S"or
@@ -107,7 +112,7 @@ function scene.sceneInit(org)
         if acc==1 then
             trophy=text.finesse_ap
             trophyColor=COLOR.Y
-        elseif P.stat.maxFinesseCombo==P.stat.piece then
+        elseif P1.stat.maxFinesseCombo==P1.stat.piece then
             trophy=text.finesse_fc
             trophyColor=COLOR.lC
         else
@@ -177,8 +182,12 @@ function scene.update(dt)
     if not(GAME.result or GAME.replaying)then
         GAME.pauseTime=GAME.pauseTime+dt
     end
-    if timer1<50 then timer1=timer1+1 end
-    if timer2<25 then timer2=timer2+1 end
+    if timer1<50 then
+        timer1=timer1+1
+    end
+    if timer2<25 then
+        timer2=timer2+1
+    end
 end
 
 local hexList={1,0,.5,1.732*.5,-.5,1.732*.5}
@@ -189,7 +198,9 @@ local tasText=gc.newText(getFont(100),"TAS")
 function scene.draw()
     local T=timer1*.02
     local T2=timer2*.04
-    if T<1 or GAME.result then SCN.scenes.game.draw()end
+    if T<1 or GAME.result then
+        SCN.scenes.game.draw()
+    end
 
     --Dark BG
     local _=T

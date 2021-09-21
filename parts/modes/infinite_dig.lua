@@ -45,10 +45,10 @@ return{
     },
     load=function()
         PLY.newPlayer(1)
-        local P=PLAYERS[1]
+        local P1=PLAYERS[1]
         for _=1,8 do
-            P:garbageRise(13,1,generateLine(P.holeRND:random(10)))
+            P1:garbageRise(13,1,generateLine(P1.holeRND:random(10)))
         end
-        P.fieldBeneath=0
+        P1.fieldBeneath=0
     end,
 }

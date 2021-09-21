@@ -125,7 +125,9 @@ function scene.mouseMove(x,y)
     local sx,sy=int((x-200)/30)+1,20-int((y-60)/30)
     if sx>=1 and sx<=10 and sy>=1 and sy<=20 then
         penX,penY=sx,sy
-        if curPen then _pTouch(sx,sy)end
+        if curPen then
+            _pTouch(sx,sy)
+        end
     else
         penX,penY=nil
     end
@@ -256,7 +258,9 @@ function scene.keyUp(key)
 end
 
 function scene.update(dt)
-    if sure>0 then sure=sure-dt end
+    if sure>0 then
+        sure=sure-dt
+    end
 end
 
 function scene.draw()
@@ -480,7 +484,7 @@ scene.widgetList={
     WIDGET.newButton{name="copy",   x=730, y=530,w=120,color='lR',      font=35,code=pressKey"cC"},
     WIDGET.newButton{name="paste",  x=860, y=530,w=120,color='lB',      font=35,code=pressKey"cV"},
     WIDGET.newButton{name="clear",  x=990, y=530,w=120,color='Z',       font=40,code=pressKey"delete"},
-    WIDGET.newSwitch{name="demo",   x=755, y=640,disp=function()return demo end,code=function()demo=not demo end},
+    WIDGET.newSwitch{name="demo",   x=755, y=640,lim=220,disp=function()return demo end,code=function()demo=not demo end},
 
     WIDGET.newButton{name="newPg",  x=100, y=110,w=160,h=110,color='N',font=20,code=pressKey"n"},
     WIDGET.newButton{name="delPg",  x=100, y=230,w=160,h=110,color='lR',font=20,code=pressKey"m"},

@@ -22,8 +22,8 @@ local loadingThread=coroutine.wrap(function()
         logoColor2={COLOR.rainbow_light(r)}
     end
     YIELD()
-    YIELD('loadSFX')SFX.loadAll()
-    YIELD('loadVoice')VOC.loadAll()
+    YIELD('loadSFX')SFX.load('media/effect/'..SETTING.sfxPack..'/')
+    YIELD('loadVoice')VOC.load('media/vocal/'..SETTING.vocPack..'/')
     YIELD('loadFont')for i=1,17 do getFont(15+5*i)end
 
     YIELD('loadModeIcon')
@@ -126,8 +126,8 @@ local loadingThread=coroutine.wrap(function()
     NET.wsconn_app()
 
     SFX.play('enter',.8)
-    SFX.play('welcome_sfx')
-    VOC.play('welcome_voc')
+    SFX.play('welcome')
+    VOC.play('welcome')
     THEME.fresh()
     LOADED=true
     return'finish'

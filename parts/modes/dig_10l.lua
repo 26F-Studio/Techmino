@@ -1,19 +1,8 @@
-local function check_rise(P)
-    if P.stat.dig==10 then
-        P:win('finish')
-    end
-end
-
 return{
     color=COLOR.cyan,
     env={
         pushSpeed=6,
-        dropPiece=check_rise,
-        mesDisp=function(P)
-            setFont(55)
-            mStr(10-P.stat.dig,63,265)
-        end,
-        eventSet='digBase',
+        eventSet='dig_10L',
         bg='bg1',bgm='way',
     },
     score=function(P)return{P.stat.time,P.stat.piece}end,

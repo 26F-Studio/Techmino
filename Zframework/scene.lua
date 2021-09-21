@@ -86,7 +86,9 @@ function SCN.init(s,org)
     SCN.socketRead=S.socketRead
     SCN.update=S.update
     SCN.draw=S.draw
-    if S.sceneInit then S.sceneInit(org)end
+    if S.sceneInit then
+        S.sceneInit(org)
+    end
 end
 function SCN.push(tar,style)
     if not SCN.swapping then
@@ -140,7 +142,7 @@ local swap={
 function SCN.swapTo(tar,style)--Parallel scene swapping, cannot back
     if scenes[tar]then
         if not SCN.swapping and tar~=SCN.cur then
-            if not style then style='fade'end
+            style=style or'fade'
             SCN.swapping=true
             local S=SCN.stat
             S.tar,S.style=tar,style
@@ -164,7 +166,9 @@ function SCN.back()
     if SCN.swapping then return end
 
     --Leave scene
-    if SCN.sceneBack then SCN.sceneBack()end
+    if SCN.sceneBack then
+        SCN.sceneBack()
+    end
 
     --Poll&Back to previous Scene
     local m=#SCN.stack

@@ -189,7 +189,9 @@ local commands={}do
         commands.del={
             code=function(name)
                 local recursive=name:sub(1,3)=="-s "
-                if recursive then name=name:sub(4)end
+                if recursive then
+                    name=name:sub(4)
+                end
 
                 if name~=""then
                     local info=love.filesystem.getInfo(name)
@@ -240,20 +242,35 @@ local commands={}do
             --Check file exist
             local info
             info=love.filesystem.getInfo(arg[1])
-            if not(info and info.type=='file')then log{C.R,("'%s' is not a file!"):format(arg[1])}return end
+            if not(info and info.type=='file')then
+                log{C.R,("'%s' is not a file!"):format(arg[1])}
+                return
+            end
             info=love.filesystem.getInfo(arg[2])
-            if info then log{C.R,("'%s' already exists!"):format(arg[2])}return end
+            if info then
+                log{C.R,("'%s' already exists!"):format(arg[2])}
+                return
+            end
 
             --Read file
             local data,err1=love.filesystem.read('data',arg[1])
-            if not data then log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or"Unknown error")}return end
+            if not data then
+                log{C.R,("Failed to read file '%s': "):format(arg[1],err1 or"Unknown error")}
+                return
+            end
 
             --Write file
             local res,err2=love.filesystem.write(arg[2],data)
-            if not res then log{C.R,("Failed to write file: "):format(err2 or"Unknown error")}return end
+            if not res then
+                log{C.R,("Failed to write file: "):format(err2 or"Unknown error")}
+                return
+            end
 
             --Delete file
-            if not love.filesystem.remove(arg[1])then log{C.R,("Failed to delete old file ''"):format(arg[1])}return end
+            if not love.filesystem.remove(arg[1])then
+                log{C.R,("Failed to delete old file ''"):format(arg[1])}
+                return
+            end
 
             log{C.Y,("Succesfully renamed file '%s' to '%s'"):format(arg[1],arg[2])}
         end,
@@ -570,6 +587,16 @@ local commands={}do
                 scene='app_polyforge',
                 description="Polyforge, original by ImpactBlue Studios"
             },
+            {
+                code="link",
+                scene='app_link',
+                description="Connect tiles, a.k.a. Shisen-Sho"
+            },
+            {
+                code="arm",
+                scene='app_arithmetic',
+                description="Arithmetic"
+            },
         }
         commands.app={
             code=function(name)
@@ -701,7 +728,9 @@ local commands={}do
             if bool=="sure"then
                 for name,M in next,MODES do
                     if type(name)=='string'and not RANKS[name]and M.x then
-                        if M.x then RANKS[name]=0 end
+                        if M.x then
+                            RANKS[name]=0
+                        end
                     end
                 end
                 saveProgress()
@@ -896,7 +925,10 @@ local fleg={
     second_box="Coming soon",
 }setmetatable(fleg,{__tostring=function()return"The fl\97g."end})
 function userG.the_box(k)
-    if k~=first_key then log"Usage:"log"*The box is locked*"return end
+    if k~=first_key then
+        log"Usage:"log"*The box is locked*"
+        return
+    end
     log"*Breaking sound*"
     userG.the_box,userG.the_key=nil,nil
     return fleg
@@ -923,7 +955,9 @@ function scene.keyDown(key)
 
         --Write History
         ins(history,input)
-        if history[27]then rem(history,1)end
+        if history[27]then
+            rem(history,1)
+        end
         hisPtr=nil
 
         --Execute
@@ -1026,7 +1060,9 @@ function scene.keyDown(key)
             SCN.back()
         end
     else
-        if not WIDGET.isFocus(inputBox)then WIDGET.focus(inputBox)end
+        if not WIDGET.isFocus(inputBox)then
+            WIDGET.focus(inputBox)
+        end
         WIDGET.keyPressed(key)
     end
 end

@@ -1,7 +1,6 @@
 return{
     color=COLOR.magenta,
     env={
-        noTele=true,
         das=6,minarr=1,minsdarr=1,
         keyCancel={6},
         eventSet='rhythm_u',

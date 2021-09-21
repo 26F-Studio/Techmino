@@ -1,7 +1,7 @@
 local gc=love.graphics
 local max=math.max
 local ins=table.insert
-local mStr=mStr
+local setFont,mStr=FONT.set,GC.mStr
 
 local scene={}
 
@@ -36,7 +36,9 @@ function scene.update()
     local v=0
     for i=2,40 do v=v+i*(i-1)*.075/(t-keyTime[i])end
     speed=speed*.99+v*.01
-    if speed>maxSpeed then maxSpeed=speed end
+    if speed>maxSpeed then
+        maxSpeed=speed
+    end
 end
 
 function scene.draw()

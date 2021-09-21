@@ -1,5 +1,5 @@
 return{
-    fallback=4,
+    fallback='en',
     sureQuit="Appuyez à nouveau pour sortir",
     newDay="[Anti-addiction] Nouveau jour, nouveau commencement !",
     playedLong="[Anti-addiction] Vous avez joué pendant un bon bout de temps aujourd'hui. Faites des pauses.",
@@ -15,7 +15,7 @@ return{
     replaying="[Replay]",
     -- tasUsing="[TAS]",
 
-    stage="Etape $1",
+    -- stage="Stage $1 completed",
     great="Bien !",
     awesome="Génial !",
     almost="Presque !",
@@ -157,16 +157,16 @@ return{
         "Author: MrZ  E-mail: 1046101471@qq.com",
         "Powered by LÖVE",
         "",
-        "Programme : MrZ, Particle_G, [FinnTenzor]",
-        "Art : MrZ, Gnyar, ScF, [旋律星萤, T0722]",
-        "Musique : MrZ, ERM, [T0722, Aether]",
-        "Voix & Sons: Miya, Xiaoya, Naki, MrZ",
+        "Programme : MrZ, Particle_G, [scdhh, FinnTenzor]",
+        "Art : MrZ, Gnyar, ScF, [C29H25N3O5, 旋律星萤, T0722]",
+        "Musique : MrZ, 柒栎流星, ERM, Trebor, [T0722, Aether]",
+        "Voix & Sons: Miya, Xiaoya, Mono, MrZ",
         "Performance: 模电, HBM",
         "Traduction: User670, MattMayuga, Mizu, Mr.Faq, ScF",
         "",
         "Merci à:",
-        "User670, Flyz, Big_True, Trebor, NOT-A-ROBOT, 思竣, scdhh",
-        "yuhao7370, Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
+        "Flyz, Big_True, NOT-A-ROBOT, 思竣, yuhao7370",
+        "Farter, Teatube, 蕴空之灵, T9972, [All test staff]",
     },
     used=[[
     Outils utilisés:
@@ -284,8 +284,9 @@ return{
             reTime="Délai de démarrage",
             RS="Système de rotation",
             layout="Disposition",
-            autoPause="Mettre en pause en cas de perte de focus",
             -- menuPos="Menu button pos.",
+            -- sysCursor="Use system cursur",
+            autoPause="Mettre en pause en cas de perte de focus",
             swap="Combinaison de touches (changer le mode d'attaque)",
             -- autoSave="Auto save new-best",
             -- simpMode="Simple mode",
@@ -339,6 +340,7 @@ return{
             game="←Jeu",
             graphic="Vidéo→",
 
+            -- mainVol="Main Volume",
             bgm="Musique",
             sfx="Sons",
             stereo="Stéréo",
@@ -347,8 +349,10 @@ return{
             vib="Vibration",
             voc="Voix",
 
+            -- autoMute="Mute while unfocused",
             fine="Son d'erreur de Finesse",
-            -- cv="Voice Pack",
+            -- sfxPack="SFX Pack",
+            -- vocPack="Voice Pack",
             -- apply="Apply",
         },
         setting_control={
@@ -574,7 +578,7 @@ return{
         app_15p={
             reset="Réinitialiser",
             color="Couleur",
-            blind="Aveugler",
+            invis="Aveugler",
             slide="Glisser",
             pathVis="Montrer le tracé",
             revKB="Inverser",
@@ -582,7 +586,7 @@ return{
         app_schulteG={
             reset="Réinitialiser",
             rank="Taille",
-            blind="Aveugler",
+            invis="Aveugler",
             disappear="Cacher",
             tapFX="Effet quand tapé",
         },
@@ -596,14 +600,14 @@ return{
         },
         app_2048={
             reset="Réinitialiser",
-            blind="Aveugler",
+            invis="Aveugler",
             tapControl="Contrôle par toucher",
             skip="Passer Round",
         },
         app_ten={
             reset="Réinitialiser",
             next="Prévisualisations",
-            blind="Aveugler",
+            invis="Aveugler",
             -- fast="Fast",
         },
         app_dtw={
@@ -617,6 +621,10 @@ return{
             staff="Staff",
             his="History",
             qq="QQ du créateur",
+        },
+        app_link={
+            reset="Réinitialiser",
+            invis="Aveugler",
         },
         savedata={
             -- export="Export to clipboard",
@@ -688,7 +696,9 @@ return{
         ['blind_l']=       {"Aveugle",         "SOUDAIN+",    "Pour les pros."},
         ['blind_u']=       {"Aveugle",          "?",          "Êtes-vous prêt ?"},
         ['blind_wtf']=     {"Aveugle",         "WTF",         "Vous n'êtes pas prêt."},
-        ['classic_fast']=  {"Classic",         "CTWC",        "Un mode classique rapide."},
+        ['classic_e']=     {"Classic",         "EASY",        "Un mode classique rapide."},
+        ['classic_h']=     {"Classic",         "DIFFICILE",   "Un mode classique rapide."},
+        ['classic_u']=     {"Classic",         "ULTIME",      "Un mode classique rapide."},
         ['survivor_e']=    {"Survivor",        "FACILE",      "Pendant combien de temps survivrez-vous ?"},
         ['survivor_n']=    {"Survivor",        "NORMAL",      "Pendant combien de temps survivrez-vous ?"},
         ['survivor_h']=    {"Survivor",        "DIFFICILE",   "Pendant combien de temps survivrez-vous ?"},

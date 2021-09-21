@@ -26,14 +26,16 @@ MODOPT={--Mod options
         func=function(P)P.gameEnv.infHold=true end,
         unranked=true,
     },
-    {no=4,id="HB",name="hideBlock",
+    {no=4,id="HB",name="block",
         key="y",x=680,y=230,color='lV',
-        func=function(P)P.gameEnv.block=false end,
+        list={'off','on'},
+        func=function(P,O)P.gameEnv.block=O=='on'end,
         unranked=true,
     },
-    {no=5,id="HG",name="hideGhost",
+    {no=5,id="HG",name="ghost",
         key="u",x=800,y=230,color='lV',
-        func=function(P)P.gameEnv.ghost=false end,
+        list={'off','on'},
+        func=function(P,O)P.gameEnv.ghost=O=='on'end,
         unranked=true,
     },
     {no=6,id="HD",name="hidden",
@@ -259,7 +261,8 @@ SETTING={--Settings
     fine=false,
     autoSave=false,
     simpMode=false,
-    lang=1,
+    sysCursor=true,
+    locale='zh',
     skinSet='crystal_scf',
     skin={
         1,7,11,3,14,4,9,
@@ -299,6 +302,10 @@ SETTING={--Settings
     warn=true,
 
     --Sound
+    autoMute=true,
+    sfxPack='chiptune',
+    vocPack='miya',
+    mainVol=1,
     sfx=1,
     sfx_spawn=0,
     sfx_warn=.4,
@@ -306,7 +313,6 @@ SETTING={--Settings
     stereo=.7,
     vib=0,
     voc=0,
-    cv='miya',
 
     --Virtualkey
     VKSFX=.2,--SFX volume

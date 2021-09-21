@@ -14,16 +14,16 @@ local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,draw
 
     setFont(30)
     gc_setColor(.8,.8,.8)
-    gc_print(id,10,-2)
+    gc_print(id,10,0)
     if rep.tasUsed then
         gc_setColor(COLOR.R)
-        gc_print("TAS",680,-2)
+        gc_print("TAS",680,1)
     end
 
     if rep.available then
         gc_setColor(.9,.9,1)
         local modeName=text.modes[rep.mode]
-        gc_print(modeName and modeName[1].."  "..modeName[2]or rep.mode,310,-2)
+        gc_print(modeName and modeName[1].."  "..modeName[2]or rep.mode,310,0)
         setFont(20)
         gc_setColor(1,1,.8)
         gc_print(rep.date,80,6)
@@ -33,7 +33,7 @@ local listBox=WIDGET.newListBox{name="list",x=50,y=50,w=1200,h=520,lineH=40,draw
         gc_printf(rep.player,0,6,960,'right')
     else
         gc_setColor(.6,.6,.6)
-        gc_print(rep.fileName,80,-2)
+        gc_print(rep.fileName,80,0)
     end
 end}
 
@@ -142,7 +142,9 @@ function scene.keyDown(key)
 end
 
 function scene.update(dt)
-    if sure>0 then sure=sure-dt end
+    if sure>0 then
+        sure=sure-dt
+    end
 end
 
 function scene.draw()

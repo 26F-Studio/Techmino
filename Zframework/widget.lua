@@ -177,7 +177,7 @@ function button:draw()
         gc_rectangle('line',x-ATV+2,y-ATV+2,w+2*ATV-4,h+2*ATV-4,3)
     end
 
-    --Object
+    --Drawable
     local obj=self.obj
     local y0=y+h*.5-ATV*.5
     gc_setColor(1,1,1,.2+ATV*.05)
@@ -220,7 +220,9 @@ function button:press(_,_,k)
         self.w+2*ATV,
         self.h+2*ATV
     )
-    if self.sound then SFX.play('button')end
+    if self.sound then
+        SFX.play('button')
+    end
 end
 function WIDGET.newButton(D)--name,x,y,w[,h][,fText][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
     if not D.h then D.h=D.w end
@@ -317,7 +319,7 @@ function key:draw()
         gc_rectangle('fill',x,y,w,h,3)
     end
 
-    --Object
+    --Drawable
     gc_setColor(r,g,b)
     if align=='M'then
         mDraw(self.obj,x+w*.5,y+h*.5)
@@ -332,7 +334,9 @@ function key:getInfo()
 end
 function key:press(_,_,k)
     self.code(k)
-    if self.sound then SFX.play('key')end
+    if self.sound then
+        SFX.play('key')
+    end
 end
 function WIDGET.newKey(D)--name,x,y,w[,h][,fText][,fShade][,noFrame][,color][,font=30][,sound=true][,align='M'][,edge=0],code[,hideF][,hide]
     if not D.h then D.h=D.w end
@@ -387,51 +391,59 @@ function switch:getCenter()
 end
 function switch:update()
     local atv=self.ATV
-    if WIDGET.sel==self then if atv<8 then self.ATV=atv+1 end
-    else if atv>0 then self.ATV=atv-.5 end
+    if WIDGET.sel==self then
+        if atv<8 then self.ATV=atv+1 end
+    else
+        if atv>0 then self.ATV=atv-.5 end
     end
     local chk=self.CHK
-    if self:disp()then if chk<6 then self.CHK=chk+1 end
-    else if chk>0 then self.CHK=chk-1 end
+    if self:disp()then
+        if chk<6 then self.CHK=chk+1 end
+    else
+        if chk>0 then self.CHK=chk-1 end
     end
 end
 function switch:draw()
-    local x,y=self.x,self.y-25
+    local x,y=self.x,self.y
     local ATV=self.ATV
 
     --Frame
     gc_setLineWidth(2)
     gc_setColor(1,1,1,.6+ATV*.1)
-    gc_rectangle('line',x,y,50,50,3)
+    gc_rectangle('line',x,y-25,50,50,3)
 
     --Checked
     if ATV>0 then
         gc_setColor(1,1,1,ATV*.06)
-        gc_rectangle('fill',x,y,50,50,3)
+        gc_rectangle('fill',x,y-25,50,50,3)
     end
     if self.CHK>0 then
         gc_setColor(.9,1,.9,self.CHK/6)
         gc_setLineWidth(5)
-        gc_line(x+5,y+25,x+18,y+38,x+45,y+11)
+        gc_line(x+5,y,x+18,y+13,x+45,y-14)
     end
 
     --Drawable
+    local obj=self.obj
     gc_setColor(self.color)
-    mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y+25)
+    gc_draw(obj,x-12-ATV,y,nil,min(self.lim/obj:getWidth(),1),1,obj:getWidth(),obj:getHeight()*.5)
 end
 function switch:getInfo()
     return("x=%d,y=%d,font=%d"):format(self.x,self.y,self.font)
 end
 function switch:press()
     self.code()
-    if self.sound then SFX.play('move')end
+    if self.sound then
+        SFX.play('move')
+    end
 end
-function WIDGET.newSwitch(D)--name,x,y[,fText][,color][,font=30][,sound=true][,disp],code[,hideF][,hide]
+function WIDGET.newSwitch(D)--name,x,y[,lim][,fText][,color][,font=30][,sound=true][,disp],code[,hideF][,hide]
     local _={
         name= D.name or"_",
 
         x=    D.x,
         y=    D.y,
+        lim=  D.lim or 1e99,
 
         resCtr={
             D.x+25,D.y,
@@ -542,9 +554,10 @@ function slider:draw()
     end
 
     --Drawable
-    if self.obj then
+    local obj=self.obj
+    if obj then
         gc_setColor(self.color)
-        mDraw_Y(self.obj,x-12-ATV-self.obj:getWidth(),y)
+        gc_draw(obj,x-12-ATV,y,nil,min(self.lim/obj:getWidth(),1),1,obj:getWidth(),obj:getHeight()*.5)
     end
 end
 function slider:getInfo()
@@ -587,13 +600,14 @@ end
 function slider:arrowKey(k)
     self:scroll((k=="left"or k=="up")and -1 or 1)
 end
-function WIDGET.newSlider(D)--name,x,y,w[,fText][,color][,unit][,smooth][,font=30][,change],disp[,show],code,hide
+function WIDGET.newSlider(D)--name,x,y,w[,lim][,fText][,color][,unit][,smooth][,font=30][,change],disp[,show],code,hide
     local _={
         name=  D.name or"_",
 
         x=     D.x,
         y=     D.y,
         w=     D.w,
+        lim=   D.lim or 1e99,
 
         resCtr={
             D.x,D.y,
@@ -642,7 +656,7 @@ local selector={
     type='selector',
     mustHaveText=true,
     ATV=8,--Activating time(0~4)
-    select=0,--Selected item ID
+    select=false,--Selected item ID
     selText=false,--Selected item name
 }
 function selector:reset()
@@ -653,7 +667,8 @@ function selector:reset()
         self.select=i
         self.selText=self.list[i]
     else
-        self.hide=true
+        self.select=0
+        self.selText=""
         MES.new('error',"Selector "..self.name.." dead, disp= "..tostring(V))
     end
 end
@@ -710,10 +725,10 @@ function selector:draw()
 
     --Drawable
     gc_setColor(self.color)
-    GC.simpX(self.obj,x+w*.5,y+17-21)
+    gc_draw(self.obj,x+w*.5,y-4,nil,min((w-20)/self.obj:getWidth(),1),1,self.obj:getWidth()*.5,0)
     gc_setColor(1,1,1)
     FONT.set(30)
-    mStr(self.selText,x+w*.5,y+43-21)
+    mStr(self.selText,x+w*.5,y+22)
 end
 function selector:getInfo()
     return("x=%d,y=%d,w=%d"):format(self.x+self.w*.5,self.y+30,self.w)
@@ -736,7 +751,9 @@ function selector:press(x)
             self.code(self.list[s])
             self.select=s
             self.selText=self.list[s]
-            if self.sound then SFX.play('prerotate')end
+            if self.sound then
+                SFX.play('prerotate')
+            end
         end
     end
 end
@@ -754,7 +771,9 @@ function selector:scroll(n)
     self.code(self.list[s])
     self.select=s
     self.selText=self.list[s]
-    if self.sound then SFX.play('prerotate')end
+    if self.sound then
+        SFX.play('prerotate')
+    end
 end
 function selector:arrowKey(k)
     self:scroll((k=="left"or k=="up")and -1 or 1)
@@ -1385,13 +1404,13 @@ function WIDGET.keyPressed(k,isRep)
                 local tar
                 local minDist=1e99
                 local swap_xy=k=="up"or k=="down"
-                if swap_xy then WX,WY=WY,WX end -- note that we do not swap them back later
+                if swap_xy then WX,WY=WY,WX end--note that we do not swap them back later
                 for _,W1 in ipairs(WIDGET.active)do
                     if W~=W1 and W1.resCtr and not W1.hide then
                         local L=W1.resCtr
                         for j=1,#L,2 do
                             local x,y=L[j],L[j+1]
-                            if swap_xy then x,y=y,x end -- note that we do not swap them back later
+                            if swap_xy then x,y=y,x end--note that we do not swap them back later
                             local dist=(x-WX)*dir
                             if dist>10 then
                                 dist=dist+abs(y-WY)*6.26

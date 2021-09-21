@@ -171,7 +171,7 @@ function scene.draw()
 
     if gameover then
         --Draw result
-        setFont(60)
+        FONT.get(60)
         if gameover==0 then
             gc.setColor(1,.6,.6)
             mStr("RED\nWON",1140,200)
@@ -233,7 +233,9 @@ end
 
 function scene.mouseDown(x,y)
     scene.mouseMove(x,y)
-    if curX then place(curX,curx)end
+    if curX then
+        place(curX,curx)
+    end
 end
 
 scene.widgetList={

@@ -38,8 +38,11 @@ local seqGenerators={
                     do break end
                     ::CONTINUE_rollAgain::
                 end
-                if history[1]~=0 then P:getNext(seq0[r])end
-                rem(history,1)ins(history,r)
+                if history[1]~=0 then
+                    P:getNext(seq0[r])
+                end
+                rem(history,1)
+                ins(history,r)
             end
             yield()
         end
@@ -63,7 +66,11 @@ local seqGenerators={
             for i=2,len do
                 if droughtTimes[i]>maxTime then
                     maxTime=droughtTimes[i]
-                    if #droughtList==1 then droughtList[1]=i else droughtList={i}end
+                    if #droughtList==1 then
+                        droughtList[1]=i
+                    else
+                        droughtList={i}
+                    end
                 elseif droughtTimes[i]==maxTime then
                     ins(droughtList,i)
                 end
@@ -91,13 +98,18 @@ local seqGenerators={
                 for i=1,len do
                     if r==history[i]then
                         tryTime=tryTime+1
-                        if tryTime<hisLen then goto REPEAT_pickAgain end
+                        if tryTime<hisLen then
+                            goto REPEAT_pickAgain
+                        end
                     end
                 end
 
                 --Give mino to player & update history
-                if history[1]~=0 then P:getNext(seq0[r])end
-                rem(history,1)ins(history,r)
+                if history[1]~=0 then
+                    P:getNext(seq0[r])
+                end
+                rem(history,1)
+                ins(history,r)
                     -- print("Player GET: "..r)
                     -- print("History: "..table.concat(history,","))
                     -- local L=TABLE.new("",len)
@@ -142,7 +154,9 @@ local seqGenerators={
             while true do
                 while #P.nextQueue<12 do
                     local r=rndGen:random(len-1)
-                    if r>=last then r=r+1 end
+                    if r>=last then
+                        r=r+1
+                    end
                     P:getNext(seq0[r])
                     last=r
                 end

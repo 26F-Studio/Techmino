@@ -1,7 +1,7 @@
 local VOC={
     getCount=function()return 0 end,
     getQueueCount=function()return 0 end,
-    loadAll=function()error("Cannot load before init!")end,
+    load=function()error("Cannot load before init!")end,
     getFreeChannel=NULL,
     play=NULL,
     update=NULL,
@@ -15,14 +15,15 @@ function VOC.init(list)
     local Source={}
 
     local count=#list function VOC.getCount()return count end
-    local function _loadVoiceFile(N,vocName)
-        local fileName='media/VOICE/'..SETTING.cv..'/'..vocName..'.ogg'
-        if love.filesystem.getInfo(fileName)then
-            bank[vocName]={love.audio.newSource(fileName,'stream')}
+    local function _loadVoiceFile(path,N,vocName)
+        local fullPath=path..vocName..'.ogg'
+        if love.filesystem.getInfo(fullPath)then
+            bank[vocName]={love.audio.newSource(fullPath,'stream')}
             table.insert(Source[N],vocName)
             return true
         end
     end
+    --Load voice with string
     local function _getVoice(str)
         local L=bank[str]
         local n=1
@@ -35,21 +36,21 @@ function VOC.init(list)
             end
         end
         return L[n]
-        --Load voice with string
     end
-    function VOC.loadAll()
+    function VOC.load(path)
         for i=1,count do
             Source[list[i]]={}
 
             local n=0
-            repeat n=n+1 until not _loadVoiceFile(list[i],list[i]..'_'..n)
+            repeat n=n+1 until not _loadVoiceFile(path,list[i],list[i]..'_'..n)
 
             if n==1 then
-                if not _loadVoiceFile(list[i],list[i])then
-                    MES.new('warn',"No VOICE file: "..list[i],.1)
-                end
+                _loadVoiceFile(path,list[i],list[i])
+                -- if not _loadVoiceFile(path,list[i],list[i])then MES.new('warn',"[]no VOC] "..list[i],.1)end
             end
-            if not Source[list[i]][1]then Source[list[i]]=nil end
+            if not Source[list[i]][1]then
+                Source[list[i]]=nil
+            end
         end
 
         function VOC.getQueueCount()

@@ -7,7 +7,9 @@ local function _modComp(a,b)
 end
 local function _remMod(M)
     local i=TABLE.find(GAME.mod,M)
-    if i then rem(GAME.mod,i)end
+    if i then
+        rem(GAME.mod,i)
+    end
 end
 local function _toggleMod(M,back)
     if M.sel==0 then
@@ -124,7 +126,7 @@ function scene.draw()
             gc.setColor(color)
             gc.circle('line',0,0,rad,side)
             gc.setColor(COLOR.Z)
-            mStr(M.id,0,-28)
+            mStr(M.id,0,-27)
             if M.sel>0 and M.list then
                 setFont(25)
                 gc.setColor(1,1,1,10*t)

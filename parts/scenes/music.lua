@@ -48,7 +48,9 @@ function scene.keyDown(key,isRep)
         if key=="return"or key=="space"then
             if BGM.nowPlay~=bgmList[S]then
                 BGM.play(bgmList[S])
-                if SETTING.bgm>0 then SFX.play('click')end
+                if SETTING.bgm>0 then
+                    SFX.play('click')
+                end
             else
                 BGM.stop()
             end
@@ -66,11 +68,19 @@ function scene.draw()
     setFont(50)
     gc.print(bgmList[selected],320,355)
     setFont(35)
-    if selected>1 then          gc.print(bgmList[selected-1],320,350-30)end
-    if selected<#bgmList then   gc.print(bgmList[selected+1],320,350+65)end
+    if selected>1 then
+        gc.print(bgmList[selected-1],320,350-30)
+    end
+    if selected<#bgmList then
+        gc.print(bgmList[selected+1],320,350+65)
+    end
     setFont(20)
-    if selected>2 then          gc.print(bgmList[selected-2],320,350-50)end
-    if selected<#bgmList-1 then gc.print(bgmList[selected+2],320,350+110)end
+    if selected>2 then
+        gc.print(bgmList[selected-2],320,350-50)
+    end
+    if selected<#bgmList-1 then
+        gc.print(bgmList[selected+2],320,350+110)
+    end
 
     gc.draw(TEXTURE.title,840,220,nil,.5,nil,580,118)
     if BGM.nowPlay then

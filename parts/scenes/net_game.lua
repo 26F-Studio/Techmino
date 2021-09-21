@@ -68,7 +68,9 @@ function scene.sceneInit(org)
     upstreamProgress=1
     newMessageTimer=0
 
-    if org=='setting_game'then NET.changeConfig()end
+    if org=='setting_game'then
+        NET.changeConfig()
+    end
     if GAME.prevBG then
         BG.set(GAME.prevBG)
         GAME.prevBG=false
@@ -311,8 +313,12 @@ function scene.draw()
         gc_printf(NET.roomState.roomInfo.name,0,685,1270,'right')
         setFont(40)
         gc_print(netPLY.getCount().."/"..NET.roomState.capacity,70,655)
-        if NET.roomState.private then gc_draw(IMG.lock,30,668)end
-        if NET.roomState.start then gc_setColor(0,1,0)gc_print(text.started,230,655)end
+        if NET.roomState.private then
+            gc_draw(IMG.lock,30,668)
+        end
+        if NET.roomState.start then
+            gc_setColor(0,1,0)gc_print(text.started,230,655)
+        end
 
         --Profile
         drawSelfProfile()
@@ -337,8 +343,8 @@ scene.widgetList={
     WIDGET.newKey{name="ready",   x=1060,y=510,w=360,h=90,color='lG',font=35,  code=_setReady,hideF=_hideF_ingame},
     WIDGET.newKey{name="spectate",x=1060,y=610,w=360,h=90,color='lO',font=35,  code=_setSpectate,hideF=_hideF_ingame},
     WIDGET.newKey{name="cancel",  x=1060,y=560,w=360,h=120,color='lH',font=40, code=_setCancel,hideF=_hideF_ingame2},
-    WIDGET.newKey{name="chat",    x=360,y=45,w=60,fText="...",font=35,         code=_switchChat},
-    WIDGET.newKey{name="quit",    x=860,y=45,w=60,fText=TEXTURE.quit_small,    code=_quit},
+    WIDGET.newKey{name="chat",    x=390,y=45,w=60,fText="...",font=35,         code=_switchChat},
+    WIDGET.newKey{name="quit",    x=890,y=45,w=60,fText=TEXTURE.quit_small,    code=_quit},
 }
 
 return scene

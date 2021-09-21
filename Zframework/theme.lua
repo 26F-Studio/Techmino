@@ -7,7 +7,9 @@ local themeColor={
 }
 
 function THEME.calculate(Y,M,D)
-    if not Y then Y,M,D=os.date('%Y'),os.date('%m'),os.date('%d')end
+    if not Y then
+        Y,M,D=os.date('%Y'),os.date('%m'),os.date('%d')
+    end
     --Festival calculate within one statement
     return
         --Christmas
@@ -64,7 +66,7 @@ function THEME.set(theme)
         MES.new('info',"★☆新年快乐☆★")
     elseif theme=='zday1'then
         BG.setDefault('lanterns')
-        BGM.setDefault('blank')
+        BGM.setDefault('null')
     elseif theme=='zday2'then
         BG.setDefault('lanterns')
         BGM.setDefault('overzero')
@@ -90,7 +92,9 @@ function THEME.set(theme)
 end
 
 function THEME.getThemeColor(theme)
-    if not theme then theme=THEME.cur end
+    if not theme then
+        theme=THEME.cur
+    end
     return themeColor[theme]
 end
 

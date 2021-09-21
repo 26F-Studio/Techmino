@@ -1,4 +1,8 @@
 return{
+    drop=0,
+    lock=12,
+    wait=10,
+    fall=10,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
@@ -19,7 +23,7 @@ return{
             s=D.target/100--range from 1 to 9
             local E=P.gameEnv
             if s<4 then
-                P:_showText(text.stage:gsub("$1",s),0,-120,80,'fly')
+                P:stageComplete(s)
                 --First 300
                 if s~=1 then E.lock=E.lock-1 end
                 if s~=2 then E.wait=E.wait-1 end
@@ -27,7 +31,7 @@ return{
                 D.target=D.target+100
             elseif s<10 then
                 if s==5 then BGM.play('distortion')end
-                P:_showText(text.stage:gsub("$1",s),0,-120,60,'fly',1.26)
+                P:stageComplete(s)
                 if s==4 or s==7 then E.das=E.das-1 end
                 if s%3==0 then E.lock=E.lock-1
                 elseif s%3==1 then E.wait=E.wait-1
@@ -42,12 +46,6 @@ return{
         end
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=12
-        P.gameEnv.lock=12
-        P.gameEnv.wait=10
-        P.gameEnv.fall=10
-
         P.modeData.pt=0
         P.modeData.target=100
     end,

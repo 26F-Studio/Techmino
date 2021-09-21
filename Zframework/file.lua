@@ -60,31 +60,33 @@ function FILE.save(data,name,mode)
     end
 end
 function FILE.clear(path)
-    if fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory'then return end
-    for _,name in next,fs.getDirectoryItems(path)do
-        name=path..'/'..name
-        if fs.getRealDirectory(name)==SAVEDIR then
-            local t=fs.getInfo(name).type
-            if t=='file'then
-                fs.remove(name)
+    if fs.getRealDirectory(path)==SAVEDIR and fs.getInfo(path).type=='directory'then
+        for _,name in next,fs.getDirectoryItems(path)do
+            name=path..'/'..name
+            if fs.getRealDirectory(name)==SAVEDIR then
+                local t=fs.getInfo(name).type
+                if t=='file'then
+                    fs.remove(name)
+                end
             end
         end
     end
 end
 function FILE.clear_s(path)
-    if path~=''and(fs.getRealDirectory(path)~=SAVEDIR or fs.getInfo(path).type~='directory')then return end
-    for _,name in next,fs.getDirectoryItems(path)do
-        name=path..'/'..name
-        if fs.getRealDirectory(name)==SAVEDIR then
-            local t=fs.getInfo(name).type
-            if t=='file'then
-                fs.remove(name)
-            elseif t=='directory'then
-                FILE.clear_s(name)
-                fs.remove(name)
+    if path==''or (fs.getRealDirectory(path)==SAVEDIR and fs.getInfo(path).type=='directory')then
+        for _,name in next,fs.getDirectoryItems(path)do
+            name=path..'/'..name
+            if fs.getRealDirectory(name)==SAVEDIR then
+                local t=fs.getInfo(name).type
+                if t=='file'then
+                    fs.remove(name)
+                elseif t=='directory'then
+                    FILE.clear_s(name)
+                    fs.remove(name)
+                end
             end
         end
+        fs.remove(path)
     end
-    fs.remove(path)
 end
 return FILE

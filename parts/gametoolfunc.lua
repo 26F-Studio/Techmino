@@ -8,6 +8,7 @@ local gc_draw,gc_rectangle,gc_line,gc_printf=gc.draw,gc.rectangle,gc.line,gc.pri
 local ins,rem=table.insert,table.remove
 
 local SETTING,GAME,SCR=SETTING,GAME,SCR
+local PLAYERS=PLAYERS
 
 
 
@@ -21,12 +22,27 @@ end
 function saveSettings()
     return FILE.save(SETTING,'conf/settings')
 end
+function applyLanguage()
+    text=LANG.get(SETTING.locale)
+    WIDGET.setLang(text.WidgetText)
+    for k,v in next,drawableText do
+        if text[k]then
+            v:set(text[k])
+        end
+    end
+end
 function applySettings()
     love.window.setFullscreen(SETTING.fullscreen)
-    LANG.set(SETTING.lang)
+    love.audio.setVolume(SETTING.mainVol)
+    love.mouse.setVisible(SETTING.sysCursor)
     VK.setShape(SETTING.VKSkin)
     applyBlockSatur(SETTING.blockSatur)
     applyFieldSatur(SETTING.fieldSatur)
+    applyLanguage()
+end
+function switchCursor()
+    SETTING.sysCursor=not SETTING.sysCursor
+    love.mouse.setVisible(SETTING.sysCursor)
 end
 function switchFullscreen()
     SETTING.fullscreen=not SETTING.fullscreen
@@ -116,7 +132,9 @@ function royaleLevelup()
         for _,P in next,PLY_ALIVE do
             P.gameEnv.garbageSpeed=.6
         end
-        if PLAYERS[1].alive then BGM.play('cruelty')end
+        if PLAYERS[1].alive then
+            BGM.play('cruelty')
+        end
     elseif GAME.stage==4 then
         spd=10
         for _,P in next,PLY_ALIVE do
@@ -129,7 +147,9 @@ function royaleLevelup()
         end
     elseif GAME.stage==6 then
         spd=3
-        if PLAYERS[1].alive then BGM.play('final')end
+        if PLAYERS[1].alive then
+            BGM.play('final')
+        end
     end
     for _,P in next,PLY_ALIVE do
         P.gameEnv.drop=spd
@@ -155,7 +175,9 @@ function generateLine(hole)
 end
 function solidLine(L)
     for i=1,10 do
-        if L[i]>0 then return true end
+        if L[i]>0 then
+            return true
+        end
     end
 end
 function setField(P,page)
@@ -181,7 +203,9 @@ function setField(P,page)
     end
 end
 function freshDate(mode)
-    if not mode then mode=""end
+    if not mode then
+        mode=""
+    end
     local date=os.date("%Y/%m/%d")
     if STAT.date~=date then
         STAT.date=date
@@ -194,13 +218,13 @@ function freshDate(mode)
 end
 function legalGameTime()--Check if today's playtime is legal
     if
-        (SETTING.lang==1 or SETTING.lang==2 or SETTING.lang==7)and
+        SETTING.locale:find'zh'and
         RANKS.sprint_10l<4 and
         (not RANKS.sprint_40l or RANKS.sprint_40l<3)
     then
-        if STAT.todayTime<14400 then
+        if STAT.todayTime<7200 then
             return true
-        elseif STAT.todayTime<21600 then
+        elseif STAT.todayTime<14400 then
             MES.new('warn',text.playedLong)
             return true
         else
@@ -238,7 +262,9 @@ end
 function destroyPlayers()--Destroy all player objects, restore freerows and free CCs
     for i=#PLAYERS,1,-1 do
         local P=PLAYERS[i]
-        if P.canvas then P.canvas:release()end
+        if P.canvas then
+            P.canvas:release()
+        end
         while P.field[1]do
             FREEROW.discard(rem(P.field))
             FREEROW.discard(rem(P.visTime))
@@ -258,6 +284,9 @@ function pauseGame()
                     end
                 end
             end
+        end
+        for i=1,20 do
+            VK.release(i)
         end
         if not(GAME.result or GAME.replaying)then
             GAME.pauseCount=GAME.pauseCount+1
@@ -283,7 +312,9 @@ end
 function loadGame(mode,ifQuickPlay,ifNet)--Load a mode and go to game scene
     freshDate()
     if legalGameTime()then
-        if MODES[mode].score then STAT.lastPlay=mode end
+        if MODES[mode].score then
+            STAT.lastPlay=mode
+        end
         GAME.playing=true
         GAME.init=true
         GAME.fromRepMenu=false
@@ -306,7 +337,9 @@ function gameOver()--Save record
         local R=GAME.curMode.getRank
         if R then
             R=R(PLAYERS[1])
-            if R and R>0 then GAME.rank=R end
+            if R and R>0 then
+                GAME.rank=R
+            end
         end
     end
     trySave()
@@ -333,7 +366,9 @@ function gameOver()--Save record
                                 local m=M.unlock[i]
                                 local n=MODES[m].name
                                 if not RANKS[n]then
-                                    if MODES[m].x then RANKS[n]=0 end
+                                    if MODES[m].x then
+                                        RANKS[n]=0
+                                    end
                                     needSave=true
                                 end
                             end

@@ -51,7 +51,9 @@ function bot_cc:thread()
             dest[1],dest[2]=dest[3][1],dest[3][2]
             dest[3],dest[4]=dest[4][1],dest[4][2]
             P.destFX=dest
-            if hold then keys[1]=8 end--Hold
+            if hold then--Hold
+                keys[1]=8
+            end
             while move[1]do
                 local m=rem(move,1)
                 if m<4 then

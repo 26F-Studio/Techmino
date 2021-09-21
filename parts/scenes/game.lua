@@ -2,13 +2,13 @@ local gc,tc=love.graphics,love.touch
 local sin=math.sin
 local SCR,VK=SCR,VK
 local GAME=GAME
+local PLAYERS=PLAYERS
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
 local floatGameRate,gameRate
 local modeTextPos
 
-local tasMode
 local replaying
 local repRateStrings={[0]="pause",[.125]="0.125x",[.5]="0.5x",[1]="1x",[2]="2x",[5]="5x"}
 
@@ -17,7 +17,7 @@ local scene={}
 local function _updateMenuButtons()
     WIDGET.active.restart.hide=replaying
 
-    local pos=(tasMode or replaying)and'right'or SETTING.menuPos
+    local pos=(GAME.tasUsed or replaying)and'right'or SETTING.menuPos
     if GAME.replaying or pos=='right'then
         WIDGET.active.restart.x=1125
         WIDGET.active.pause.x=1195
@@ -34,7 +34,7 @@ local function _updateMenuButtons()
 end
 local function _updateRepButtons()
     local L=scene.widgetList
-    if replaying or tasMode then
+    if replaying or GAME.tasUsed then
         for i=1,6 do L[i].hide=false end L[7].hide=true
         if gameRate==0 then
             L[1].hide=true
@@ -107,7 +107,6 @@ local function _restart()
     resetGameData(PLAYERS[1].frameRun<240 and'q')
     noKey=replaying
     noTouch=replaying
-    tasMode=false
     floatGameRate,gameRate=0,1
     _updateRepButtons()
 end
@@ -133,7 +132,6 @@ function scene.sceneInit(org)
         GAME.init=false
     end
 
-    tasMode=GAME.tasUsed
     replaying=GAME.replaying
     noKey=replaying
     noTouch=not SETTING.VKSwitch or replaying
@@ -141,7 +139,7 @@ function scene.sceneInit(org)
     if org~='depause'and org~='pause'then
         floatGameRate,gameRate=0,1
     elseif not replaying then
-        if tasMode then
+        if GAME.tasUsed then
             floatGameRate,gameRate=0,0
         else
             floatGameRate,gameRate=0,1
@@ -197,7 +195,9 @@ end
 function scene.keyDown(key,isRep)
     if replaying then
         if key=="space"then
-            if not isRep then gameRate=gameRate==0 and 1 or 0 end
+            if not isRep then
+                gameRate=gameRate==0 and 1 or 0
+            end
             _updateRepButtons()
         elseif key=="left"then
             if not isRep then
@@ -216,15 +216,17 @@ function scene.keyDown(key,isRep)
         if isRep then
             return
         elseif _checkGameKeyDown(key)then
-            if tasMode then
+            if GAME.tasUsed then
                 if key=="f1"then
-                    if not isRep then gameRate=gameRate==0 and .125 or 0 end
+                    if not isRep then
+                        gameRate=gameRate==0 and .125 or 0
+                    end
                     _updateRepButtons()
-                elseif key=='f2'then
+                elseif key=="f2"then
                     if not isRep then
                         _speedDown()
                     end
-                elseif key=='f3'then
+                elseif key=="f3"then
                     if gameRate==0 then
                         _step()
                     elseif not isRep then
@@ -310,7 +312,9 @@ function scene.update(dt)
     floatGameRate=floatGameRate+gameRate
     while floatGameRate>=1 do
         floatGameRate=floatGameRate-1
-        if GAME.replaying then _update_replay(GAME.replaying)end
+        if GAME.replaying then
+            _update_replay(GAME.replaying)
+        end
         _update_common(dt)
     end
 end
@@ -328,13 +332,14 @@ local function _drawAtkPointer(x,y)
     gc.circle('line',x,y,30*(1+a),6)
 end
 function scene.draw()
-    if tasMode then
+    local tas=GAME.tasUsed
+    if tas then
         setFont(100)
         gc.setColor(.4,.4,.4,.5)
         mDraw(tasText,640,360,nil,5)
     end
 
-    local repMode=GAME.replaying or tasMode
+    local repMode=GAME.replaying or tas
 
     --Players
     for p=1,#PLAYERS do
@@ -370,7 +375,7 @@ function scene.draw()
     gc.draw(drawableText.modeName,modeTextPos,10)
 
     --Replaying
-    if replaying or tasMode then
+    if replaying or tas then
         setFont(20)
         gc.setColor(1,1,TIME()%.8>.4 and 1 or 0)
         mStr(text[replaying and'replaying'or'tasUsing'],770,6)
@@ -383,15 +388,15 @@ function scene.draw()
 end
 
 scene.widgetList={
-    WIDGET.newKey{name="rep0",   x=40,y=50,w=60,code=_rep0,fText=TEXTURE.rep.rep0},
-    WIDGET.newKey{name="repP8",  x=105,y=50,w=60,code=_repP8,fText=TEXTURE.rep.repP8},
-    WIDGET.newKey{name="repP2",  x=170,y=50,w=60,code=_repP2,fText=TEXTURE.rep.repP2},
-    WIDGET.newKey{name="rep1",   x=235,y=50,w=60,code=_rep1,fText=TEXTURE.rep.rep1},
-    WIDGET.newKey{name="rep2",   x=300,y=50,w=60,code=_rep2,fText=TEXTURE.rep.rep2},
-    WIDGET.newKey{name="rep5",   x=365,y=50,w=60,code=_rep5,fText=TEXTURE.rep.rep5},
-    WIDGET.newKey{name="step",   x=430,y=50,w=60,code=_step,fText=TEXTURE.rep.step},
-    WIDGET.newKey{name="restart",x=0,y=45,w=60,code=_restart,fText=TEXTURE.game.restart},
-    WIDGET.newKey{name="pause",  x=0,y=45,w=60,code=pauseGame,fText=TEXTURE.game.pause},
+    WIDGET.newKey{name="rep0",   x=40,y=50,w=60, code=_rep0,    fText=TEXTURE.rep.rep0},
+    WIDGET.newKey{name="repP8",  x=105,y=50,w=60,code=_repP8,   fText=TEXTURE.rep.repP8},
+    WIDGET.newKey{name="repP2",  x=170,y=50,w=60,code=_repP2,   fText=TEXTURE.rep.repP2},
+    WIDGET.newKey{name="rep1",   x=235,y=50,w=60,code=_rep1,    fText=TEXTURE.rep.rep1},
+    WIDGET.newKey{name="rep2",   x=300,y=50,w=60,code=_rep2,    fText=TEXTURE.rep.rep2},
+    WIDGET.newKey{name="rep5",   x=365,y=50,w=60,code=_rep5,    fText=TEXTURE.rep.rep5},
+    WIDGET.newKey{name="step",   x=430,y=50,w=60,code=_step,    fText=TEXTURE.rep.step},
+    WIDGET.newKey{name="restart",x=0,y=45,w=60,  code=_restart, fText=TEXTURE.game.restart},
+    WIDGET.newKey{name="pause",  x=0,y=45,w=60,  code=pauseGame,fText=TEXTURE.game.pause},
 }
 
 return scene

@@ -1,5 +1,9 @@
 return
 {
+    drop=0,
+    lock=15,
+    wait=10,
+    fall=10,
     mesDisp=function(P)
         PLY.draw.drawProgress(P.modeData.pt,P.modeData.target)
     end,
@@ -10,6 +14,7 @@ return
             local T=P.modeData.target
             --Stage 1: clear 3 techrash
             if T==12 then--Stage 2: swap color of S/Z & J/L
+                P:stageComplete(2)
                 P.waiting=30
                 P.curMission=false
 
@@ -24,7 +29,10 @@ return
                 P.modeData.target=26
                 SFX.play('reach')
             elseif T==26 then--Stage 3: dig to bottom
-                if not P.holdQueue[1]then P.life=P.life+1 end--1 up if ban hold
+                P:stageComplete(3)
+                if not P.holdQueue[1]then--1 up if ban hold
+                    P.life=P.life+1
+                end
                 P.waiting=45
                 ENV.skin[1],ENV.skin[2]=ENV.skin[2],ENV.skin[1]
                 ENV.skin[3],ENV.skin[4]=ENV.skin[4],ENV.skin[3]
@@ -66,6 +74,7 @@ return
                 P.modeData.target=42
                 SFX.play('reach')
             elseif T==42 then--Stage 4: survive in high speed
+                P:stageComplete(4)
                 if P.garbageBeneath==0 then
                     P.waiting=30
                     ENV.lock=11
@@ -78,6 +87,7 @@ return
                     p=41
                 end
             elseif T==62 then--Stage 5: survive without easy-fresh rule
+                P:stageComplete(5)
                 P.life=P.life+1
                 ENV.lock=13
                 ENV.wait=5
@@ -88,6 +98,7 @@ return
                 P.modeData.target=126
                 SFX.play('reach')
             elseif T==126 then--Stage 6: speed up
+                P:stageComplete(6)
                 P.life=P.life+1
 
                 ENV.lock=11
@@ -96,6 +107,7 @@ return
 
                 P.modeData.target=162
             elseif T==162 then--Stage 7: speed up+++
+                P:stageComplete(7)
                 P.life=P.life+1
 
                 ENV.lock=10
@@ -106,6 +118,7 @@ return
                 P.modeData.target=226
                 SFX.play('reach')
             elseif T==226 then--Stage 8: final invisible
+                P:stageComplete(8)
                 P.life=P.life+1
 
                 ENV.bone=false
@@ -114,6 +127,7 @@ return
                 P.modeData.target=259
                 SFX.play('reach')
             elseif T==259 then--Stage 9: ending
+                P:stageComplete(9)
                 P.life=P.life+1
                 for i=1,7 do ENV.skin[i]=P.holeRND:random(16)end
 
@@ -133,11 +147,6 @@ return
         P.modeData.pt=p
     end,
     task=function(P)
-        P:set20G(true)
-        P.lockDelay=15
-        P.gameEnv.lock=15
-        P.gameEnv.wait=10
-        P.gameEnv.fall=10
         P.modeData.target=12
     end,
 }
