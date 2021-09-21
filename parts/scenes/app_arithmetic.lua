@@ -57,14 +57,19 @@ local levels={
         local a=rnd(11,int(s/2))
         return s.."-"..a,s-a
     end,nil,nil,
-    function()-- <*> [,100]
-        local a,b=rnd(16,62),rnd(16,62)
-        return a.."*"..b,a*b
-    end,nil,nil,
+    function()-- <-> [-10,]
+        local s=rnd(-8,-1)
+        local a=rnd(1,8)
+        return a.."-"..a-s,s
+    end,nil,nil,nil,nil,
     function()-- <*> [,100]
         local b=rnd(21,89)
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
+        return a.."*"..b,a*b
+    end,nil,nil,nil,nil,
+    function()-- <*> [,100]
+        local a,b=rnd(16,62),rnd(16,62)
         return a.."*"..b,a*b
     end,nil,nil,
     function()-- </> [,100]
@@ -72,11 +77,6 @@ local levels={
         local a=rnd(ceil(b/10),9)
         b=int(b/a)
         return a*b.."/"..a,b
-    end,nil,nil,nil,nil,
-    function()-- <-> [-10,]
-        local s=rnd(-8,-1)
-        local a=rnd(1,8)
-        return a.."-"..a-s,s
     end,nil,nil,nil,nil,
     function()-- <%3>
         local s=rnd(5,17)
