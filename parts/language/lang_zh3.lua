@@ -1,5 +1,6 @@
 local C=COLOR
 return{
+    fallback='zh',
     loadText={
         loadSFX="加载音效",
         loadVoice="加载语音包",
