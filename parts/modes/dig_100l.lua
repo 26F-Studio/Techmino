@@ -2,7 +2,7 @@ return{
     color=COLOR.green,
     env={
         pushSpeed=6,
-        eventSet='dig_100L',
+        eventSet='dig_100l',
         bg='bg2',bgm='way',
     },
     score=function(P)return{P.stat.time,P.stat.piece}end,
