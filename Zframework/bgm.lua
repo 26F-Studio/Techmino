@@ -62,16 +62,20 @@ function BGM.init(list)
                 Sources[name]:setLooping(true)
                 Sources[name]:setVolume(0)
                 return true
-            -- else
-                -- MES.new('warn',"[no BGM] "..Sources[name],5)
+            else
+                LOG("No BGM: "..Sources[name],5)
             end
         elseif Sources[name]then
             return true
-        -- elseif name then
-            -- MES.new('warn',"No BGM: "..name,5)
+        elseif name then
+            LOG("No BGM: "..name,5)
         end
     end
-    function BGM.loadAll()for name in next,Sources do _load(name)end end
+    function BGM.loadAll()--Not neccessary, unless you want avoid the lag when playing something for the first time
+        for name in next,Sources do
+            _load(name)
+        end
+    end
     function BGM.play(name)
         name=name or BGM.default
         if not _load(name)then return end

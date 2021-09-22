@@ -341,6 +341,20 @@ local commands={}do
             "Usage: mes <check|info|warn|error>",
         },
     }
+    commands.log={
+        code=function()
+            local l=LOG.logs
+            for i=1,#l do
+                log(l[i])
+            end
+        end,
+        description="Show the logs",
+        details={
+            "Show the logs",
+            "",
+            "Usage: log",
+        },
+    }
     commands.openurl={
         code=function(url)
             if url~=""then

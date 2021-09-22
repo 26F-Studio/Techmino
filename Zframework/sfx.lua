@@ -18,7 +18,7 @@ function SFX.init(list)
             if love.filesystem.getInfo(fullPath)then
                 Sources[list[i]]={love.audio.newSource(fullPath,'static')}
             else
-                MES.new('warn',"[no SFX] "..list[i]..'.ogg',.1)
+                LOG("No SFX: "..list[i]..'.ogg',.1)
             end
         end
 

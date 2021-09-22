@@ -33,6 +33,10 @@ function LANG.init(defaultLang,langList,publicText,pretreatFunc)
     end
 
     function LANG.get(l)
+        if not langList[l]then
+            LOG("Wrong language: "..tostring(l))
+            l=defaultLang
+        end
         return langList[l]
     end
 
