@@ -6,7 +6,7 @@ return{
         mText(drawableText.pc,63,410)
     end,
     dropPiece=function(P)
-        if P.lastPiece.pc then
+        if P.lastPiece.pc and P.stat.row%4==0 then
             P.gameEnv.heightLimit=4
             if P.stat.pc%5==0 then
                 P.gameEnv.drop=math.max(P.gameEnv.drop-1,1)
