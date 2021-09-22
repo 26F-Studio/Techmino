@@ -2,13 +2,9 @@ return{
     color=COLOR.cyan,
     env={
         drop=30,lock=45,
-        visible='easy',
         freshLimit=10,
-        mesDisp=function(P)
-            mText(drawableText.techrash,63,420)
-            setFont(75)
-            mStr(P.stat.clears[4],63,340)
-        end,
+        visible='easy',
+        mesDisp=require"parts.eventsets.blindMesDisp".mesDisp,
         eventSet='checkLine_200',
         bg='glow',bgm='push',
     },

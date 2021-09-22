@@ -87,7 +87,7 @@ end
 function scene.draw()
     gc.setColor(COLOR.Z)
     gc.setLineWidth(3)
-    gc.rectangle('line',490,65,300,610)
+    gc.draw(TEXTURE.playerBorder,473,63)
     VK.preview(selected)
     local x1,y1=SCR.xOy:inverseTransformPoint(0,0)
     local x2,y2=SCR.xOy:inverseTransformPoint(SCR.w,SCR.h)

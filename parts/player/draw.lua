@@ -31,37 +31,15 @@ local hideBoardStencil={
     down=function()gc_rectangle('fill',0,-300,300,300,6)end,
     all=function()gc_rectangle('fill',0,-600,300,600,6)end,
 }
-local dialFrame=GC.DO{80,80,
-    {'setLW',3},
-    {'dCirc',40,40,38},
-}
-local dialNeedle=GC.DO{32,3,
-    {'setLW',3},
-    {'fRect',0,0,32,3,2},
-    {'setCL',1,.3,.3},
-    {'fRect',0,0,12,3,2},
-}
-local multiple=GC.DO{15,15,
-    {'setLW',3},
-    {'line',2,2,12,12},
-    {'line',2,12,12,2},
-}
-local playerborder=GC.DO{334,620,
-    {'setLW',2},
-    {'setCL',.97,.97,.97},
-    {'dRect',16,1,302,618,5},
-    {'fRect',17,612,300,2},
-    {'dRect',318,10,15,604,3},
-    {'dRect',1,10,15,604,3},
-}
-local gridLines do
-    local L={300,640,{'setLW',2}}
-    for x=1,9 do table.insert(L,{'line',30*x,0,30*x,640})end
-    for y=0,20 do table.insert(L,{'line',0,10+30*y,300,10+30*y})end
-    gridLines=GC.DO(L)
-end
+local dialFrame=TEXTURE.dial.frame
+local dialNeedle=TEXTURE.dial.needle
+local multiple=TEXTURE.multiple
+local playerborder=TEXTURE.playerBorder
+gridLines=TEXTURE.gridLines
+
 local LDmarks=gc.newSpriteBatch(GC.DO{14,5,{'fRect',0,0,14,5,3}},15,'static')
 for i=0,14 do LDmarks:add(3+20*i,615)end
+
 local function _boardTransform(mode)
     if mode then
         if mode=="U-D"then
