@@ -2,7 +2,7 @@ local scene={}
 
 function scene.sceneInit()
     BG.set('cubes')
-    WIDGET.active.texts:setTexts(require("parts.language.manual_"..({'zh','zh','zh','en','en','en','en','en'})[SETTING.locale]))
+    WIDGET.active.texts:setTexts(require("parts.language.manual_"..(SETTING.locale:find'zh'and'zh'or'en')))
 end
 
 function scene.wheelMoved(_,y)
