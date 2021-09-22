@@ -83,7 +83,7 @@ local function _parseNotice(str)
         for i=1,#str do
             local m=str[i]
             if m:find("=")then
-                str[m:sub(1,m:find("=")-1)]=m:sub(1,m:find("=")+1)
+                str[m:sub(1,m:find("=")-1)]=m:sub(m:find("=")+1)
             end
         end
         return str[SETTING.locale]or str[1]
