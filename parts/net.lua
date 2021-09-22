@@ -78,8 +78,18 @@ end
 
 --Parse notice
 local function _parseNotice(str)
-    str=STRING.split(str,"///")
-    return str[SETTING.locale<=3 and 1 or 2]or str[1]
+    if str:find("///")then
+        str=STRING.split(str,"///")
+        for i=1,#str do
+            local m=str[i]
+            if m:find("=")then
+                str[m:sub(1,m:find("=")-1)]=m:sub(1,m:find("=")+1)
+            end
+        end
+        return str[SETTING.locale]or str[1]
+    else
+        return str
+    end
 end
 
 --WS close message
