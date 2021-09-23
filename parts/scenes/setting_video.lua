@@ -58,7 +58,7 @@ scene.widgetList={
     WIDGET.newSlider{name="atkFX",        x=330,y=820,lim=280,w=540,unit=5,disp=SETval('atkFX'),    code=SETsto('atkFX')},
 
     WIDGET.newSelector{name="frame",      x=400,y=890,lim=280,w=460,list={8,10,13,17,22,29,37,47,62,80,100},disp=SETval('frameMul'),code=SETsto('frameMul')},
-    WIDGET.newSwitch{name="FTlock",       x=950,y=890,lim=290,disp=SETval('FTLock'),                code=SETsto('FTLock')},
+    WIDGET.newSwitch{name="FTlock",       x=950,y=890,lim=290,disp=SETval('FTLock'),                code=SETrev('FTLock')},
 
     WIDGET.newSwitch{name="text",         x=450,y=980,lim=360,disp=SETval('text'),                  code=SETrev('text')},
     WIDGET.newSwitch{name="score",        x=450,y=1030,lim=360,disp=SETval('score'),                code=SETrev('score')},

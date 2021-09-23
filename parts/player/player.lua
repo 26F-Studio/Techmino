@@ -1816,7 +1816,7 @@ local function _updateFX(P,dt)
         end
     end
 end
-local function update_alive(P,dt)
+local function update_alive(P)
     local ENV=P.gameEnv
     local S=P.stat
 
@@ -1845,7 +1845,7 @@ local function update_alive(P,dt)
     end
 
     if P.timing then
-        S.time=S.time+dt
+        S.time=S.time+1/60
         S.frame=S.frame+1
     end
 
@@ -1866,10 +1866,6 @@ local function update_alive(P,dt)
                 P.swappingAtkMode=v+(v<tar and 1 or -1)
             end
         end
-    end
-
-    if P.type=='computer'then
-        P.bot:update(dt)
     end
 
     --Fresh visible time
@@ -2165,7 +2161,14 @@ function Player:update(dt)
     else
         self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
         while self.trigFrame>=1 do
-            (self.alive and update_alive or update_dead)(self,dt)
+            if self.alive then
+                update_alive(self)
+                if self.type=='computer'then
+                    self.bot:update(dt)
+                end
+            else
+                update_dead(self)
+            end
             self.trigFrame=self.trigFrame-1
         end
     end
