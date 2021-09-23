@@ -2135,15 +2135,7 @@ local function update_dead(P,dt)
     end
     _updateMisc(P,dt)
 end
-function Player:update(dt)
-    (
-        self.alive and(
-            self.type=='remote'and update_remote_alive
-            or update_alive
-        )or update_dead
-    )(self,dt)
-end
-function Player:die()--Called both when win/lose!
+function Player:_die()
     self.alive=false
     self.timing=false
     self.control=false
@@ -2166,6 +2158,18 @@ function Player:die()--Called both when win/lose!
             end
         end
     end
+end
+function Player:update(dt)
+    -- self.trigTime=self.trigTime+dt
+    -- while self.trigTime>.016666666666666666 do
+        (
+            self.alive and(
+                self.type=='remote'and update_remote_alive
+                or update_alive
+            )or update_dead
+        )(self,dt)
+        -- self.trigTime=self.trigTime-.016666666666666666
+    -- end
 end
 function Player:revive()
     self.waiting=62
@@ -2197,7 +2201,7 @@ function Player:revive()
 end
 function Player:win(result)
     if self.result then return end
-    self:die()
+    self:_die()
     self.result='win'
     if GAME.modeEnv.royaleMode then
         self.modeData.place=1
@@ -2236,12 +2240,9 @@ function Player:lose(force)
             return
         end
     end
-    self:die()
-    do
-        local p=TABLE.find(PLY_ALIVE,self)
-        if p then rem(PLY_ALIVE,p)end
-    end
+    self:_die()
     self.result='lose'
+    do local p=TABLE.find(PLY_ALIVE,self)if p then rem(PLY_ALIVE,p)end end
     if GAME.modeEnv.royaleMode then
         self:changeAtk()
         self.modeData.place=#PLY_ALIVE+1
