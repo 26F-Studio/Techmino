@@ -288,7 +288,7 @@ return{
             RS="Sistema de Rotación",
             layout="Diseño",
             menuPos="Pos. del Botón de Menú",
-            -- sysCursor="Use system cursur",
+            -- sysCursor="Use system cursor",
             autoPause="Pausar cuando la ventana no está enfocada",
             swap="Combinación de Teclas (Cambiar Modo de Ataque)",
             autoSave="Autograbar Récords",

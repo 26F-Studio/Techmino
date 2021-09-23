@@ -310,7 +310,7 @@ return{
             RS="Sistema de rotação",
             layout="Layout",
             -- menuPos="Menu button pos.",
-            -- sysCursor="Use system cursur",
+            -- sysCursor="Use system cursor",
             autoPause="Pausar quando foco for perco",
             swap="Combinação de tecla(Mudar modo de atk)",
             -- autoSave="Auto save new-best",

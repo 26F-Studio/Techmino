@@ -285,7 +285,7 @@ return{
             RS="Système de rotation",
             layout="Disposition",
             -- menuPos="Menu button pos.",
-            -- sysCursor="Use system cursur",
+            -- sysCursor="Use system cursor",
             autoPause="Mettre en pause en cas de perte de focus",
             swap="Combinaison de touches (changer le mode d'attaque)",
             -- autoSave="Auto save new-best",
