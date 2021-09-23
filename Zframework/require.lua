@@ -26,7 +26,7 @@ return function(libName)
 			MES.new('check',name.." lib loaded")
 			return a
 		else
-			MES.new('error',"Cannot load "..name.." in Mac OS X.")
+			MES.new('error',"Cannot load "..libName.." in Mac OS X.")
 		end
     end
     local r1,r2,r3=pcall(require,libName)
