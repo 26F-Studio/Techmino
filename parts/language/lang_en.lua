@@ -322,7 +322,7 @@ return{
             RS="Rotation System",
             layout="Layout",
             menuPos="Menu button pos.",
-            sysCursor="Use system cursur",
+            sysCursor="Use system cursor",
             autoPause="Pause while unfocused",
             swap="Key Combination (Change Atk. Mode)",
             autoSave="Auto save new-best",
