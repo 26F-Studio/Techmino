@@ -6,7 +6,7 @@ local PLAYERS=PLAYERS
 
 local noTouch,noKey=false,false
 local touchMoveLastFrame=false
-local floatGameRate,gameRate
+local trigGameRate,gameRate
 local modeTextPos
 
 local replaying
@@ -101,13 +101,13 @@ local function _rep5()
     gameRate=5
     _updateRepButtons()
 end
-local function _step()floatGameRate=floatGameRate+1 end
+local function _step()trigGameRate=trigGameRate+1 end
 
 local function _restart()
     resetGameData(PLAYERS[1].frameRun<240 and'q')
     noKey=replaying
     noTouch=replaying
-    floatGameRate,gameRate=0,1
+    trigGameRate,gameRate=0,1
     _updateRepButtons()
 end
 local function _checkGameKeyDown(key)
@@ -137,12 +137,12 @@ function scene.sceneInit(org)
     noTouch=not SETTING.VKSwitch or replaying
 
     if org~='depause'and org~='pause'then
-        floatGameRate,gameRate=0,1
+        trigGameRate,gameRate=0,1
     elseif not replaying then
         if GAME.tasUsed then
-            floatGameRate,gameRate=0,0
+            trigGameRate,gameRate=0,0
         else
-            floatGameRate,gameRate=0,1
+            trigGameRate,gameRate=0,1
         end
     end
 
@@ -309,9 +309,9 @@ local function _update_common(dt)
     checkWarning()
 end
 function scene.update(dt)
-    floatGameRate=floatGameRate+gameRate
-    while floatGameRate>=1 do
-        floatGameRate=floatGameRate-1
+    trigGameRate=trigGameRate+gameRate
+    while trigGameRate>=1 do
+        trigGameRate=trigGameRate-1
         if GAME.replaying then
             _update_replay(GAME.replaying)
         end
