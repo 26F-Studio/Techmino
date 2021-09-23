@@ -174,16 +174,19 @@ do
                 end
                 if P.gameEnv.ospin then
                     local x,y=P.curX,P.curY
+                    local C=P.cur
                     if y==P.ghoY and((P:solid(x-1,y)or P:solid(x-1,y+1)))and(P:solid(x+2,y)or P:solid(x+2,y+1))then
                         if P.sound then
                             SFX.play('rotatekick',nil,P:getCenterX()*.15)
                         end
-                        P.spinSeq=P.spinSeq%100*10+d
-                        if P.spinSeq<100 then
+
+                        --[Warning] field spinSeq is a dirty data, TRS put this var into the block.
+                        C.spinSeq=(C.spinSeq or 0)%100*10+d
+                        if C.spinSeq<100 then
                             return end
                         for i=1,#OspinList do
                             local L=OspinList[i]
-                            if P.spinSeq==L[1]then
+                            if C.spinSeq==L[1]then
                                 local id,dir=L[2],L[3]
                                 local bk=BLOCKS[id][dir]
                                 x,y=P.curX+L[4],P.curY+L[5]
@@ -194,15 +197,13 @@ do
                                         L[6]==2 or(P:ifoverlap(bk,x,y-1)and P:ifoverlap(bk,x,y+1))
                                     )
                                 then
-                                    local C=P.cur
                                     C.id=id
                                     C.bk=bk
                                     P.curX,P.curY=x,y
-                                    P.cur.dir=dir
+                                    C.dir=dir
                                     P.spinLast=2
                                     P.stat.rotate=P.stat.rotate+1
                                     P:freshBlock('move')
-                                    P.spinSeq=0
                                     return
                                 end
                             end
@@ -211,7 +212,7 @@ do
                         if P.sound then
                             SFX.play('rotate',nil,P:getCenterX()*.15)
                         end
-                        P.spinSeq=0
+                        C.spinSeq=nil
                     end
                 else
                     if P.sound then
