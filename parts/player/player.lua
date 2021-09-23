@@ -1,16 +1,16 @@
 -------------------------------------------------
 --Var P in other files represent Player object!--
 -------------------------------------------------
+
 local Player={}--Player class
 
 local int,ceil,rnd=math.floor,math.ceil,math.random
 local max,min,abs,modf=math.max,math.min,math.abs,math.modf
-local ins,rem=table.insert,table.remove
+local assert,ins,rem=assert,table.insert,table.remove
 local resume,yield,status=coroutine.resume,coroutine.yield,coroutine.status
-local assert=assert
 
 local SFX,BGM,VOC,VIB,SYSFX=SFX,BGM,VOC,VIB,SYSFX
-local FREEROW,TABLE,TEXT,NET,TASK=FREEROW,TABLE,TEXT,NET,TASK
+local FREEROW,TABLE,TEXT,TASK=FREEROW,TABLE,TEXT,TASK
 local PLAYERS,PLY_ALIVE,GAME=PLAYERS,PLY_ALIVE,GAME
 
 local ply_draw=require"parts.player.draw"
@@ -855,7 +855,6 @@ function Player:hold(ifpre)
                 ::BREAK_success::
 
                 self.spinLast=false
-                self.spinSeq=0
                 local hb=self:getBlock(C.id)
                 hb.name=C.name
                 hb.color=C.color
@@ -864,7 +863,6 @@ function Player:hold(ifpre)
                 self.curX,self.curY=x,y
             else--Normal hold
                 self.spinLast=false
-                self.spinSeq=0
 
                 if C then
                     local hb=self:getBlock(C.id)
@@ -922,7 +920,6 @@ function Player:popNext(ifhold)--Pop nextQueue to hand
         self.holdTime=min(self.holdTime+1,ENV.holdCount)
     end
     self.spinLast=false
-    self.spinSeq=0
     self.ctrlCount=0
 
     self.cur=rem(self.nextQueue,1)
@@ -2105,7 +2102,7 @@ local function update_remote_alive(P,dt)
                 end
                 P.streamProgress=P.streamProgress+2
             else--No event now, run one frame
-                update.alive(P,dt/frameRate)
+                update_alive(P,dt/frameRate)
                 P.stat.time=P.frameRun/60
             end
         else--Pause state, no actions, quit loop
@@ -2578,27 +2575,5 @@ function Player:act_zangiRight()
         self:act_hardDrop()
     end
 end
-Player.actList={
-    Player.act_moveLeft,  --1
-    Player.act_moveRight, --2
-    Player.act_rotRight,  --3
-    Player.act_rotLeft,   --4
-    Player.act_rot180,    --5
-    Player.act_hardDrop,  --6
-    Player.act_softDrop,  --7
-    Player.act_hold,      --8
-    Player.act_func1,     --9
-    Player.act_func2,     --10
-    Player.act_insLeft,   --11
-    Player.act_insRight,  --12
-    Player.act_insDown,   --13
-    Player.act_down1,     --14
-    Player.act_down4,     --15
-    Player.act_down10,    --16
-    Player.act_dropLeft,  --17
-    Player.act_dropRight, --18
-    Player.act_zangiLeft, --19
-    Player.act_zangiRight,--20
-}
 --------------------------</Action>--------------------------
 return Player
