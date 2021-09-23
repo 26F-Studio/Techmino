@@ -655,7 +655,6 @@ return{
         ['dig_40l']=        {"Queso",                   "40L",           "Limpia 40 líneas de queso."},
         ['dig_100l']=       {"Queso",                   "100L",          "Limpia 100 líneas de queso."},
         ['dig_400l']=       {"Queso",                   "400L",          "Limpia 400 líneas de queso."},
-        ['dig_1000l']=      {"Queso",                   "1000L",         "Limpia 1000 líneas de queso."},
         ['drought_n']=      {"Sequía",                  "100L",          "¡Sin piezas I!"},
         ['drought_l']=      {"Sequía+",                 "100L",          "Guat de foc..."},
         ['stack_e']=        {"Stack",                   "Fácil",         "¡Sin dejar huecos!"},

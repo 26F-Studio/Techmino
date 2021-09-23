@@ -739,7 +739,6 @@ return{
         ['dig_40l']=            {"Cave",             "40L",          "Cave 40 linhas de lixo."},
         ['dig_100l']=           {"Cave",             "100L",         "Cave 100 linhas de lixo."},
         ['dig_400l']=           {"Cave",             "400L",         "Cave 400 linhas de lixo."},
-        ['dig_1000l']=          {"Cave",             "1000L",        "Cave 1000 linhas de lixo."},
         ['drought_n']=          {"Drought",          "100L",         "Sem peça I !"},
         ['drought_l']=          {"Drought+",         "100L",         "WTF"},
         -- ['stack_e']=            {"Stack",            "FÁCIL",        "Pack them!"},

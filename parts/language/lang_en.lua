@@ -750,7 +750,6 @@ return{
         ['dig_40l']=       {"Dig",               "40L",        "Dig 40 garbage lines."},
         ['dig_100l']=      {"Dig",               "100L",       "Dig 100 garbage lines."},
         ['dig_400l']=      {"Dig",               "400L",       "Dig 400 garbage lines."},
-        ['dig_1000l']=     {"Dig",               "1000L",      "Dig 1000 garbage lines."},
         ['drought_n']=     {"Drought",           "100L",       "There are no I-pieces."},
         ['drought_l']=     {"Drought+",          "100L",       "W T F"},
         ['stack_e']=       {"Stack",             "EASY",       "Pack them!"},
