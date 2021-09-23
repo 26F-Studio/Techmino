@@ -67,7 +67,7 @@ jobs:
         python .\.github\workflows\updateVersion.py -T Windows -N ${{ env.Version }}
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action delete -mask ICONGROUP,,'
         cmd /c '.\ResourceHacker.exe -open .\Techmino.rc -save .\Techmino.res -action compile'
-        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
+        cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\.github\build\Windows\icon_snapshot.ico" -mask ICONGROUP,1,'
         cmd /c '.\ResourceHacker.exe -open .\love-11.3-win64\Techmino.exe -save .\love-11.3-win64\Techmino.exe -action addoverwrite -res ".\Techmino.res" -mask VERSIONINFO,1,'
     - name: Upload
       uses: actions/upload-artifact@v2
@@ -118,9 +118,9 @@ jobs:
     - name: Pack Techmino
       run: |
         rm -rf ./squashfs-root/love ./squashfs-root/love.desktop ./squashfs-root/love.svg ./squashfs-root/.DirIcon
-        mv ./build/Linux/love.template ./squashfs-root/love
-        mv ./build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
-        mv ./build/Linux/icon_snapshot.png ./squashfs-root/icon.png
+        mv ./.github/build/Linux/love.template ./squashfs-root/love
+        mv ./.github/build/Linux/Techmino.desktop.template ./squashfs-root/Techmino.desktop
+        mv ./.github/build/Linux/icon_snapshot.png ./squashfs-root/icon.png
         cp ./squashfs-root/icon.png ./squashfs-root/.DirIcon
         chmod 777 ./squashfs-root/love
         mkdir -p ./squashfs-root/usr/share/Techmino
