@@ -6,7 +6,6 @@ local rnd,max=math.random,math.max
 local ins=table.insert
 
 local ply_draw=require"parts.player.draw"
-local ply_update=require"parts.player.update"
 local PLY={draw=ply_draw}
 
 --------------------------<Libs>--------------------------
@@ -79,7 +78,6 @@ local function _newEmptyPlayer(id,mini)
         P.pressKey=_pressKey
         P.releaseKey=_releaseKey
     end
-    P.update=ply_update.alive
 
     --Field position
     P.fieldOff={--Shake FX
@@ -434,7 +432,6 @@ end
 function PLY.newRemotePlayer(id,mini,ply)
     local P=_newEmptyPlayer(id,mini)
     P.type='remote'
-    P.update=ply_update.remote_alive
 
     P.draw=ply_draw.norm
 
