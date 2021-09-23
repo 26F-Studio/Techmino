@@ -1844,11 +1844,6 @@ local function update_alive(P)
         return true
     end
 
-    if P.timing then
-        S.time=S.time+1/60
-        S.frame=S.frame+1
-    end
-
     --Calculate key speed
     do
         local v=0
@@ -2160,16 +2155,24 @@ function Player:update(dt)
         update_remote_alive(self,dt)
     else
         self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
-        while self.trigFrame>=1 do
-            if self.alive then
-                update_alive(self)
-                if self.type=='computer'then
-                    self.bot:update(dt)
-                end
-            else
-                update_dead(self)
+        if self.alive then
+            if self.timing then
+                local S=self.stat
+                S.frame=S.frame+1
+                S.time=S.time+dt
             end
-            self.trigFrame=self.trigFrame-1
+            while self.trigFrame>=1 do
+                update_alive(self)
+                self.trigFrame=self.trigFrame-1
+            end
+            if self.type=='computer'then
+                self.bot:update(dt)
+            end
+        else
+            while self.trigFrame>=1 do
+                update_dead(self)
+                self.trigFrame=self.trigFrame-1
+            end
         end
     end
     _updateFX(self,dt)
