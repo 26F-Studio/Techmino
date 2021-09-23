@@ -20,7 +20,7 @@ return function(libName)
             loaded[libName]=true
         end
     elseif SYSTEM=="OS X" then
-		local rtn = package.loadlib(libName, libName.libFunc)
+		local rtn = package.loadlib(libName, 'luaopen_'..libName)
 		if rtn then
 			local a = rtn()
 			MES.new('check',name.." lib loaded")
