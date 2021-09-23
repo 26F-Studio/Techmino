@@ -351,7 +351,9 @@ return{
             splashFX="溅射特效",
             shakeFX="晃动特效",
             atkFX="攻击特效",
+
             frame="绘制帧率(%)",
+            FTlock="逻辑追帧",
 
             text="消行文本",
             score="分数动画",

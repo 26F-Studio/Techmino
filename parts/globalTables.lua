@@ -201,6 +201,7 @@ ROOMENV={
     lock=60,
     wait=0,
     fall=0,
+    FTLock=true,
 
     --Control
     nextCount=6,
@@ -250,6 +251,7 @@ SETTING={--Settings
     ihs=true,irs=true,ims=true,
     RS='TRS',
     swap=true,
+    FTLock=true,
 
     --System
     reTime=4,

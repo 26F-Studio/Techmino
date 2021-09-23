@@ -1685,7 +1685,7 @@ end
 --------------------------</Tick>--------------------------
 
 --------------------------<Event>--------------------------
-local function _updateMisc(P,dt)
+local function _updateMisc(P)
     --Finesse combo animation
     if P.finesseComboTime>0 then
         P.finesseComboTime=P.finesseComboTime-1
@@ -1748,6 +1748,38 @@ local function _updateMisc(P,dt)
         end
     end
 
+    --Field shaking
+    if P.gameEnv.shakeFX then
+        local O=P.fieldOff
+        O.vx=O.vx*.7-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
+        O.x=O.x+O.vx
+
+        O.vy=O.vy*.7-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
+        O.y=O.y+O.vy
+
+        O.va=O.va*.7-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
+        O.a=O.a+O.va
+        if abs(O.a)<.0006 then
+            O.a,O.va=0,0
+        end
+    end
+
+    --Update texts
+    if P.bonus then
+        TEXT.update(P.bonus)
+    end
+
+    --Update tasks
+    local L=P.tasks
+    for i=#L,1,-1 do
+        local tr=L[i].thread
+        assert(resume(tr))
+        if status(tr)=='dead'then
+            rem(L,i)
+        end
+    end
+end
+local function _updateFX(P,dt)
     --Update lock FX
     for i=#P.lockFX,1,-1 do
         local S=P.lockFX[i]
@@ -1781,37 +1813,6 @@ local function _updateMisc(P,dt)
         S[2]=S[2]+S[3]*dt
         if S[2]>1 then
             rem(P.clearFX,i)
-        end
-    end
-
-    --Field shaking
-    if P.gameEnv.shakeFX then
-        local O=P.fieldOff
-        O.vx=O.vx*.7-abs(O.x)^1.3*(O.x>0 and .1 or -.1)
-        O.x=O.x+O.vx
-
-        O.vy=O.vy*.7-abs(O.y)^1.2*(O.y>0 and .1 or -.1)
-        O.y=O.y+O.vy
-
-        O.va=O.va*.7-abs(O.a)^1.4*(O.a>0 and .08 or -.08)
-        O.a=O.a+O.va
-        if abs(O.a)<.0006 then
-            O.a,O.va=0,0
-        end
-    end
-
-    --Update texts
-    if P.bonus then
-        TEXT.update(P.bonus)
-    end
-
-    --Update tasks
-    local L=P.tasks
-    for i=#L,1,-1 do
-        local tr=L[i].thread
-        assert(resume(tr))
-        if status(tr)=='dead'then
-            rem(L,i)
         end
     end
 end
@@ -2050,8 +2051,7 @@ local function update_alive(P,dt)
         P.b2b1=max(P.b2b1*.95+P.b2b*.05-.6,P.b2b)
     end
 
-    --Others
-    _updateMisc(P,dt)
+    _updateMisc(P)
     -- P:setPosition(640-150-(30*(P.curX+P.cur.sc[2])-15),30*(P.curY+P.cur.sc[1])+15-300+(ENV.smooth and P.ghoY~=P.curY and(P.dropDelay/ENV.drop-1)*30 or 0))
 end
 local function update_remote_alive(P,dt)
@@ -2110,7 +2110,7 @@ local function update_remote_alive(P,dt)
         end
     end
 end
-local function update_dead(P,dt)
+local function update_dead(P)
     local S=P.stat
 
     --Final average speed
@@ -2133,7 +2133,7 @@ local function update_dead(P,dt)
     if P.b2b1>0 then
         P.b2b1=max(0,P.b2b1*.92-1)
     end
-    _updateMisc(P,dt)
+    _updateMisc(P)
 end
 function Player:_die()
     self.alive=false
@@ -2160,16 +2160,16 @@ function Player:_die()
     end
 end
 function Player:update(dt)
-    -- self.trigTime=self.trigTime+dt
-    -- while self.trigTime>.016666666666666666 do
-        (
-            self.alive and(
-                self.type=='remote'and update_remote_alive
-                or update_alive
-            )or update_dead
-        )(self,dt)
-        -- self.trigTime=self.trigTime-.016666666666666666
-    -- end
+    if self.type=='remote'and self.alive then
+        update_remote_alive(self,dt)
+    else
+        self.trigFrame=self.trigFrame+(self.gameEnv.FTLock and dt*60 or 1)
+        while self.trigFrame>=1 do
+            (self.alive and update_alive or update_dead)(self,dt)
+            self.trigFrame=self.trigFrame-1
+        end
+    end
+    _updateFX(self,dt)
 end
 function Player:revive()
     self.waiting=62

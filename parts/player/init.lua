@@ -131,7 +131,7 @@ local function _newEmptyPlayer(id,mini)
     P.alive=true
     P.control=false
     P.timing=false
-    P.trigTime=0
+    P.trigFrame=0
     P.result=false--String: 'finish'|'win'|'lose'
     P.stat=_getNewStatTable()
     P.modeData=setmetatable({},modeDataMeta)--Data use by mode

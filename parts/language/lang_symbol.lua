@@ -233,7 +233,9 @@ return{
             splashFX="↑↑↑~",
             shakeFX="~|~|~",
             atkFX="→→~",
+
             frame="|=|%",
+            FTlock="||=|→→|=||",
 
             text="ABC",
             score="+123",

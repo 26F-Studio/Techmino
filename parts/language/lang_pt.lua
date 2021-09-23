@@ -339,7 +339,9 @@ return{
             splashFX="Nível FX Splash",
             shakeFX="Nível Tremida Tabuleiro",
             atkFX="Nível FX Atk.",
+
             frame="Render Frame Rate(%)",
+            -- FTlock="Frame-Time Lock",
 
             text="Texto de ação",
             score="Pop-up de pontos",

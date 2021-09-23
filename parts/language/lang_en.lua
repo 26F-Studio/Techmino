@@ -351,7 +351,9 @@ return{
             splashFX="Splash FX",
             shakeFX="Field Sway",
             atkFX="Atk. FX",
+
             frame="Render Frame Rate(%)",
+            FTlock="Frame-Time Lock",
 
             text="Line Clear Pop-up",
             score="Score Pop-up",

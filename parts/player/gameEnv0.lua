@@ -4,6 +4,7 @@ return{
     sddas=2,sdarr=2,
     ihs=true,irs=true,ims=true,
     swap=true,
+    FTLock=true,
 
     ghostType='gray',
     block=true,ghost=.3,center=1,

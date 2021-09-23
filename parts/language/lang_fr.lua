@@ -315,7 +315,9 @@ return{
             splashFX="Effets splash",
             shakeFX="Tremblements de l'écran",
             atkFX="Effets d'attaque",
+
             frame="Montrer les FPS(%)",
+            -- FTlock="Frame-Time Lock",
 
             text="Texte d'action",
             score="Pop-up de score",
