@@ -19,6 +19,15 @@ return function(libName)
             )
             loaded[libName]=true
         end
+    elseif SYSTEM=="OS X" then
+		local rtn = package.loadlib(libName, libName.libFunc)
+		if rtn then
+			local a = rtn()
+			MES.new('check',name.." lib loaded")
+			return a
+		else
+			MES.new('error',"Cannot load "..name.." in Mac OS X.")
+		end
     end
     local r1,r2,r3=pcall(require,libName)
     if r1 and r2 then
