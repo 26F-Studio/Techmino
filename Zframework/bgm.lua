@@ -103,6 +103,11 @@ function BGM.init(list)
             return true
         end
     end
+    function BGM.seek(t)
+        if BGM.playing then
+            BGM.playing:seek(t)
+        end
+    end
     function BGM.continue()
         if BGM.lastPlayed then
             BGM.nowPlay,BGM.playing=BGM.lastPlayed,Sources[BGM.lastPlayed]
